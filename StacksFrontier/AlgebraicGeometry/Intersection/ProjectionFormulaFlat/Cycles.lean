@@ -122,7 +122,7 @@ private theorem exists_apply_ne_zero_of_properPushforward_apply_ne_zero (K : Typ
   obtain rfl : f.base x = y := hxy
   refine ⟨x, rfl, left_ne_zero_of_mul hx, ?_⟩
   by_contra h
-  exact hx (by rw [if_neg h, mul_zero])
+  exact hx (by rw [ite_eq_right h, mul_zero])
 
 /-- Bilinearity of the intersection product of cycles over finite sums. -/
 private theorem cycleIntersectionProduct_sum_zsmul_sum_zsmul {X : Scheme.{u}} [CompactSpace X]
@@ -193,7 +193,7 @@ theorem exists_specializes_toNat_residueTrdeg_eq_of_relativeDimension {X Y : Sch
     rw [ringKrullDim_stalk_eq_coheight]
     exact_mod_cast Order.coheight_eq_zero.mpr hmax
   have hq : LocallyOfFiniteType (f.fiberToSpecResidueField (f.base x)) := by
-    show LocallyOfFiniteType (Limits.pullback.snd f (Y.fromSpecResidueField (f.base x)))
+    change LocallyOfFiniteType (Limits.pullback.snd f (Y.fromSpecResidueField (f.base x)))
     infer_instance
   have hrelx := hrel (f.base x) ⟨f.asFiber x⟩
   have hAt := @topologicalKrullDimAt_eq_of_equidimensional _ _ (f.fiber (f.base x))
@@ -749,7 +749,7 @@ theorem properPushforward_torFormulaCycleIntersectionProduct_eq (K : Type u) [Fi
           ∑ v ∈ hα.toFinset, ∑ w ∈ hβ.toFinset, (α.1 v * β.1 w) •
             torFormulaCycleIntersectionProduct (fieldChowSituation K) sX hX (n : ℤ) (P v).1
               (flatPullback (fieldChowSituation K) sX sY f hbase e hrel (s : ℤ) (Q w)).1 := by
-        show cycleIntersectionProduct
+        change cycleIntersectionProduct
           (torFormulaSubvarietyProductTotal (fieldChowSituation K) sX hX (n : ℤ)) _ _ = _
         conv_lhs => rw [hαsum, hpullβ]
         exact cycleIntersectionProduct_sum_zsmul_sum_zsmul _ _ _ _ _ _ _
@@ -758,7 +758,7 @@ theorem properPushforward_torFormulaCycleIntersectionProduct_eq (K : Type u) [Fi
           ∑ v ∈ hα.toFinset, ∑ w ∈ hβ.toFinset, (α.1 v * β.1 w) •
             torFormulaCycleIntersectionProduct (fieldChowSituation K) sY hY (n : ℤ)
               (properPushforward (fieldChowSituation K) sX sY f hbase (r : ℤ) (P v)).1 (Q w).1 := by
-        show cycleIntersectionProduct
+        change cycleIntersectionProduct
           (torFormulaSubvarietyProductTotal (fieldChowSituation K) sY hY (n : ℤ)) _ _ = _
         conv_lhs => rw [hpushα, hβsum]
         exact cycleIntersectionProduct_sum_zsmul_sum_zsmul _ _ _ _ _ _ _
@@ -776,7 +776,7 @@ theorem properPushforward_torFormulaCycleIntersectionProduct_eq (K : Type u) [Fi
         refine hexpX.trans ?_
         simp
       rw [hL, hexpY, ← properPushforwardHom_apply, map_sum]
-      simp only [map_sum, map_zsmul, properPushforwardHom_apply, AddSubmonoidClass.coe_finset_sum,
+      simp only [map_sum, map_zsmul, properPushforwardHom_apply, AddSubmonoidClass.coe_finsetSum,
         AddSubgroupClass.coe_zsmul]
       exact Finset.sum_congr rfl fun v hv => Finset.sum_congr rfl fun w hw => by
         rw [hpair v hv w hw]

@@ -149,7 +149,7 @@ public def bigSmallEtaleBaseChange
     B.smallPushforward f A ⋙ LS ⟶
       LT ⋙ (Over.pullback f).sheafPushforwardContinuous A
         (BigEtaleOver.topology B S.obj S.property) (BigEtaleOver.topology B T.obj T.property) :=
-  ((mateEquiv adjT adjS).symm (bigSmallEtaleDirectImageSquare B A f)).natTrans
+  ((mateEquiv adjT adjS).symm (bigSmallEtaleDirectImageSquare B A f))
 
 end BaseChange
 
@@ -210,8 +210,8 @@ public def bigEtaleRestrictionPullbackSquare :
 /-- The comparison `AlgebraicGeometry.bigEtaleRestrictionPullbackSquare` of inverse images is
 invertible: it is the forward map of the isomorphism `sheafPullbackIsoOfInitialValued`. -/
 public instance isIso_bigEtaleRestrictionPullbackSquare :
-    IsIso (bigEtaleRestrictionPullbackSquare B A S U adjS).natTrans := by
-  dsimp only [bigEtaleRestrictionPullbackSquare, TwoSquare.mk, TwoSquare.natTrans]
+    IsIso (bigEtaleRestrictionPullbackSquare B A S U adjS) := by
+  dsimp only [bigEtaleRestrictionPullbackSquare, TwoSquare.mk]
   infer_instance
 
 /-- **The mate of the comparison of inverse images is restriction along the counits.** Under the
@@ -227,7 +227,7 @@ public theorem mateEquiv_bigEtaleRestrictionPullbackSquare :
       (mateEquiv adjS (B.smallPullbackAdjunction U.hom A)).symm
         (bigEtaleRestrictionCounitSquare B A S U) by
     rw [h, Equiv.apply_symm_apply]
-  refine TwoSquare.ext _ _ fun F => ?_
+  refine NatTrans.ext (funext fun F => ?_)
   apply ((B.smallPullbackAdjunction U.hom A).homEquiv _ _).injective
   rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit]
   refine Eq.trans ?_ (unit_mateEquiv_symm adjS
@@ -371,7 +371,7 @@ public theorem bigSmallEtale_cube_eq :
       mateEquiv adjS (B.smallPullbackAdjunction U.hom A)
         (bigEtaleRestrictionPullbackSquare B A S U adjS) := by
   rw [mateEquiv_bigEtaleRestrictionPullbackSquare, mateEquiv_bigEtaleRestrictionPullbackSquare]
-  refine TwoSquare.ext _ _ fun H => ?_
+  refine NatTrans.ext (funext fun H => ?_)
   refine Sheaf.hom_ext (NatTrans.ext (funext fun V => ?_))
   rw [SmallEtale.ts_whiskerLeft_app, SmallEtale.ts_whiskerRight_app, SmallEtale.ts_vComp_app,
     SmallEtale.ts_vComp_app]
@@ -446,7 +446,7 @@ public theorem isIso_bigSmallEtaleBaseChange_of_forall_isIso_mateEquiv
         (B.smallPullbackAdjunction U.hom A)).symm
           (SmallEtale.boundedBaseChangeMate B A f U.hom ((Over.pullback f).obj U).hom
             (bigEtaleFibreFst B f U) (((Over.pullback f).obj U).hom ≫ f) rfl
-            pullback.condition)).natTrans) :
+            pullback.condition))) :
     IsIso (bigSmallEtaleBaseChange B A f adjT adjS) := by
   refine @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun c => ?_
   refine isIso_of_forall_isIso_bigEtaleRestriction_map B A _ fun U => ?_

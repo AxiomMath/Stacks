@@ -143,7 +143,7 @@ theorem contains_relativeProj_reesSituation (T : BigFppfOver B S hS)
     Scheme.size_lt_of_locallyOfFiniteType_of_quasiCompact
       (_root_.AlgebraicGeometry.blowUpToBase I)
       (BigFppfOver.contains_objScheme B S hS T)
-  show (Stacks.Blowup.reesSituation I).relativeProj.size < B.cutoff
+  change (Stacks.Blowup.reesSituation I).relativeProj.size < B.cutoff
   rw [Scheme.size_congr (Stacks.Blowup.reesSituationBlowUpIso I)]
   exact hb
 

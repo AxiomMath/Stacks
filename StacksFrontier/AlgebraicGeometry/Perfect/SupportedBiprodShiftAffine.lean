@@ -146,18 +146,18 @@ theorem range_ofRestrict_comp_eq :
         (X.ofRestrict U.isOpenEmbedding ≫ e.hom)).base =
       Set.range (SheafedSpace.forgetToPresheafedSpace.map
         (Y.ofRestrict (imageOpenOfIso e U).isOpenEmbedding)).base := by
-  show Set.range (X.ofRestrict U.isOpenEmbedding ≫ e.hom).hom.base =
+  change Set.range (X.ofRestrict U.isOpenEmbedding ≫ e.hom).hom.base =
     Set.range (Y.ofRestrict (imageOpenOfIso e U).isOpenEmbedding).hom.base
   ext y
   constructor
   · rintro ⟨x, rfl⟩
     refine ⟨⟨e.hom.hom.base x.1, ?_⟩, rfl⟩
-    show e.inv.hom.base (e.hom.hom.base x.1) ∈ U
+    change e.inv.hom.base (e.hom.hom.base x.1) ∈ U
     rw [inv_base_hom_base]
     exact x.2
   · rintro ⟨z, rfl⟩
     refine ⟨⟨e.inv.hom.base z.1, z.2⟩, ?_⟩
-    show e.hom.hom.base (e.inv.hom.base z.1) = z.1
+    change e.hom.hom.base (e.inv.hom.base z.1) = z.1
     rw [hom_base_inv_base]
 
 /-- **`X|_U ≅ Y|_{e(U)}`** for an isomorphism `e : X ≅ Y` of ringed spaces and an open `U` of
@@ -283,7 +283,7 @@ theorem exists_isPerfect_supported_biprod_shift_iso_restrict_of_isoSpec {A : Com
     exact hTc.image e.hom.hom.base.hom.continuous
   have hU' : IsCompact ((imageOpenOfIso e U : Opens (Spec A).toRingedSpace) :
       Set (Spec A).toRingedSpace) := by
-    show IsCompact (e.inv.hom.base ⁻¹' (U : Set X))
+    change IsCompact (e.inv.hom.base ⁻¹' (U : Set X))
     rw [preimage_inv_base_eq_image e (U : Set X)]
     exact hU.image e.hom.hom.base.hom.continuous
   have hG : Stacks.Cohomology.PerfectComplexes.IsPerfect
@@ -302,7 +302,7 @@ theorem exists_isPerfect_supported_biprod_shift_iso_restrict_of_isoSpec {A : Com
         (restrictIsoOfIso e U).inv (Subtype.val ⁻¹' T) =
         Subtype.val ⁻¹' (e.inv.hom.base ⁻¹' T) := by
       ext z
-      show Subtype.val ((restrictIsoOfIso e U).inv.hom.base z) ∈ T ↔
+      change Subtype.val ((restrictIsoOfIso e U).inv.hom.base z) ∈ T ↔
         e.inv.hom.base (Subtype.val z) ∈ T
       rw [restrictIsoOfIso_inv_base_val]
     exact hset ▸ h
@@ -317,7 +317,7 @@ theorem exists_isPerfect_supported_biprod_shift_iso_restrict_of_isoSpec {A : Com
     have hset : Stacks.Cohomology.SupportedComplexes.closedSubsetPreimage
         e.hom (e.inv.hom.base ⁻¹' T) = T := by
       ext x
-      show e.inv.hom.base (e.hom.hom.base x) ∈ T ↔ x ∈ T
+      change e.inv.hom.base (e.hom.hom.base x) ∈ T ↔ x ∈ T
       rw [inv_base_hom_base]
     exact hset ▸ h
   · exact ⟨(biprodShiftIsoOfObjIso (derivedPullback (restrictIsoOfIso e U).hom)

@@ -158,7 +158,7 @@ private theorem exists_away_factorization {A B P : Type u} [CommRing A] [CommRin
     have hr0 : algebraMap (Localization.Away (d : A)) B (θ₀ (r : MvPolynomial (Fin n) A))
         = algebraMap (Localization.Away (d : A)) B 0 := by
       rw [map_zero]
-      show μ₀ (θ₀ (r : MvPolynomial (Fin n) A)) = 0
+      change μ₀ (θ₀ (r : MvPolynomial (Fin n) A)) = 0
       rw [← AlgHom.comp_apply, hcomp, AlgHom.comp_apply,
         show ψ (r : MvPolynomial (Fin n) A) = 0 from RingHom.mem_ker.mp hmem, map_zero]
     obtain ⟨c, hc⟩ := IsLocalization.exists_of_eq
@@ -195,7 +195,7 @@ private theorem exists_away_factorization {A B P : Type u} [CommRing A] [CommRin
     rw [map_mul, map_zero, hνalg] at h0
     refine RingHom.mem_ker.mpr ((htunit ⟨y, hy⟩).mul_left_cancel ?_)
     rw [mul_zero]
-    show algebraMap A (Localization.Away ((d : A) * u)) (t ⟨y, hy⟩) * χ y = 0
+    change algebraMap A (Localization.Away ((d : A) * u)) (t ⟨y, hy⟩) * χ y = 0
     rwa [hχ, AlgHom.comp_apply]
   have hkerχ : ∀ x ∈ RingHom.ker ψ.toRingHom, χ x = 0 := fun x hx =>
     RingHom.mem_ker.mp (hsub (by rwa [hsset]))
@@ -208,7 +208,7 @@ private theorem exists_away_factorization {A B P : Type u} [CommRing A] [CommRin
         = Ideal.Quotient.mk (RingHom.ker ψ.toRingHom) x :=
       (AlgEquiv.symm_apply_eq _).mpr rfl
     rw [hθ, AlgHom.comp_apply]
-    show (Ideal.Quotient.liftₐ (RingHom.ker ψ.toRingHom) χ hkerχ)
+    change (Ideal.Quotient.liftₐ (RingHom.ker ψ.toRingHom) χ hkerχ)
       ((Ideal.quotientKerAlgEquivOfSurjective hψ).symm (ψ x)) = χ x
     rw [hsy]
     rfl
@@ -216,7 +216,7 @@ private theorem exists_away_factorization {A B P : Type u} [CommRing A] [CommRin
   have hμν : (μ.comp ν : Localization.Away (d : A) →+* B) = (μ₀ : _ →+* B) :=
     IsLocalization.ringHom_ext (Submonoid.powers (d : A))
       (RingHom.ext fun x => by
-        show μ (ν (algebraMap A (Localization.Away (d : A)) x)) = μ₀ (algebraMap _ _ x)
+        change μ (ν (algebraMap A (Localization.Away (d : A)) x)) = μ₀ (algebraMap _ _ x)
         rw [hνalg, hμalg, hμ₀alg])
   refine ⟨(d : A) * u, hgmem, θ, μ, AlgHom.ext fun y => ?_⟩
   obtain ⟨x, rfl⟩ := hψ y
@@ -388,7 +388,7 @@ private theorem strictHenselization_aux
     refine RingHom.ext fun x => ?_
     obtain ⟨y, rfl⟩ := residue_surjective x
     rw [RingHom.comp_apply, IsLocalRing.ResidueField.algebraMap_residue]
-    show e (residue Ssh (algebraMap Sq Ssh y)) = _
+    change e (residue Ssh (algebraMap Sq Ssh y)) = _
     rw [he, IsScalarTower.algebraMap_apply Sq T Ssh, hφ, ← RingHom.comp_apply, hπSq]
     rfl
   have heq : (e : ResidueField Ssh →+* κ₂).comp ((residue Ssh).comp (algebraMap T Ssh)) = π :=
@@ -433,7 +433,7 @@ private theorem strictHenselization_aux
   have towRshUT : IsScalarTower Rsh (TensorProduct R Rsh S) T :=
     .of_algebraMap_eq fun x => (ρ.commutes x).symm
   have towSUT : IsScalarTower S (TensorProduct R Rsh S) T := .of_algebraMap_eq fun x => by
-    show algebraMap S T x = ρ (1 ⊗ₜ x)
+    change algebraMap S T x = ρ (1 ⊗ₜ x)
     rw [Algebra.TensorProduct.lift_tmul]
     simp
   have towRUT : IsScalarTower R (TensorProduct R Rsh S) T :=
@@ -502,13 +502,13 @@ private theorem strictHenselization_aux
   let pp : Ssh →ₐ[Sq] κ₂ :=
     { (e : ResidueField Ssh →+* κ₂).comp (residue Ssh) with
       commutes' := fun x => by
-        show e (residue Ssh (algebraMap Sq Ssh x)) = algebraMap Sq κ₂ x
+        change e (residue Ssh (algebraMap Sq Ssh x)) = algebraMap Sq κ₂ x
         rw [halgSq, ← IsLocalRing.ResidueField.algebraMap_residue]
         exact RingHom.congr_fun hcompat (residue Sq x) }
   let pp' : Sqsh →ₐ[Sq] κ₂ :=
     { (e'.symm : ResidueField Sqsh →+* κ₂).comp (residue Sqsh) with
       commutes' := fun x => by
-        show e'.symm (residue Sqsh (algebraMap Sq Sqsh x)) = algebraMap Sq κ₂ x
+        change e'.symm (residue Sqsh (algebraMap Sq Sqsh x)) = algebraMap Sq κ₂ x
         rw [halgSq, ← he' x, e'.symm_apply_apply] }
   have hppsurj : Function.Surjective pp := fun z => by
     obtain ⟨y, hy⟩ := residue_surjective (e.symm z)

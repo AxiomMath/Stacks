@@ -273,7 +273,7 @@ theorem etaleOverRestrictionCompIso_hom_app (F : Sheaf (smallEtaleTopology T) Ab
           (Scheme.Etale.mk m.left)).counit.app ((smallEtaleBaseChange W.hom).obj Z.unop)) ≫
         (etaleOverCompositionAdj W).counit.app Z.unop := by
     apply MorphismProperty.Over.Hom.ext
-    show ((smallEtaleBaseChangeComp' m.left W.hom W'.hom
+    change ((smallEtaleBaseChangeComp' m.left W.hom W'.hom
         (MorphismProperty.Over.w m).symm).inv.app Z.unop).left ≫ pullback.fst Z.unop.hom W'.hom =
       𝟙 _ ≫ pullback.fst ((smallEtaleBaseChange W.hom).obj Z.unop).hom m.left ≫
         pullback.fst Z.unop.hom W.hom
@@ -281,7 +281,7 @@ theorem etaleOverRestrictionCompIso_hom_app (F : Sheaf (smallEtaleTopology T) Ab
     rfl
   have h2 := congrArg (fun x => F.obj.map x.op) h
   simp only [op_comp, Functor.map_comp] at h2
-  show F.obj.map ((etaleOverCompositionAdj W').counit.app Z.unop).op ≫
+  change F.obj.map ((etaleOverCompositionAdj W').counit.app Z.unop).op ≫
       F.obj.map ((etaleOverComposition W').map
         ((smallEtaleBaseChangeComp' m.left W.hom W'.hom
           (MorphismProperty.Over.w m).symm).inv.app Z.unop)).op =
@@ -372,7 +372,7 @@ theorem etaleOverRestrictionCompIso_hom_app_comp_map_overMapPullback
   rw [etaleOverRestrictionCompIso_hom_app, etaleOverRestrictionCompIso_hom_app]
   apply Sheaf.hom_ext
   ext P' : 2
-  show A.obj.map (etaleOverCompositionCompObjIso m P'.unop).hom.op ≫
+  change A.obj.map (etaleOverCompositionCompObjIso m P'.unop).hom.op ≫
       α.hom.app (op ((Over.map m).obj ((etaleOverEquivalence W').inverse.obj P'.unop))) =
     α.hom.app (op ((etaleOverEquivalence W).inverse.obj
         ((etaleOverComposition (Scheme.Etale.mk m.left)).obj P'.unop))) ≫

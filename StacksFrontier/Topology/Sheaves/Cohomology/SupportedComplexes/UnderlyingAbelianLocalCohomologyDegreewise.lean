@@ -57,7 +57,8 @@ The isomorphism is a composite of four steps and nothing else:
 The first and the last step are what makes this more than a restatement of 0G74 (2): that lemma
 compares total derived functors, whereas `ℋ ⁿ_Z` is in both definitions the classical derived
 functor computed from an injective resolution, and the two are only identified through the
-chosen-resolution argument of `StacksFrontier/Algebra/Homology/DerivedCategory/DerivedFunctorSingleRightDerived.lean`.
+chosen-resolution argument of
+`StacksFrontier/Algebra/Homology/DerivedCategory/DerivedFunctorSingleRightDerived.lean`.
 
 In degree zero this specialises to
 `Stacks.Cohomology.SupportedComplexes.localCohomologySheafFunctorZeroForgetIso`, which is proved

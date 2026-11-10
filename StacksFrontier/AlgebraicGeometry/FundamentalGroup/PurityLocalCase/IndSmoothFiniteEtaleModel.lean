@@ -104,11 +104,11 @@ private lemma exists_isIrreducible_nhds_of_isNormal (X : Scheme.{u}) [IsNoetheri
   let inclusion := Sigma.ι components point.1 ≫ iso.inv
   have : IsIntegral (components point.1) := hintegral point.1
   refine ⟨inclusion.opensRange, ⟨point.2, ?_⟩, ?_⟩
-  · show iso.inv (Sigma.ι components point.1 point.2) = x
+  · change iso.inv (Sigma.ι components point.1 point.2) = x
     rw [← sigmaMk_mk]
-    show iso.inv ((sigmaMk components) ((sigmaMk components).symm (iso.hom x))) = x
+    change iso.inv ((sigmaMk components) ((sigmaMk components).symm (iso.hom x))) = x
     simp
-  · show IsIrreducible (Set.range inclusion)
+  · change IsIrreducible (Set.range inclusion)
     rw [← Set.image_univ]
     exact (IrreducibleSpace.isIrreducible_univ _).image inclusion
       inclusion.continuous.continuousOn
@@ -121,7 +121,7 @@ private lemma exists_isAffineOpen_isPreirreducible_fiber_inter {X S : Scheme.{u}
     ∃ U : X.Opens, IsAffineOpen U ∧ x ∈ U ∧
       IsPreirreducible (f ⁻¹' {f x} ∩ (U : Set X)) := by
   have hsmooth : Smooth (f.fiberToSpecResidueField (f x)) := by
-    show Smooth (pullback.snd f (S.fromSpecResidueField (f x)))
+    change Smooth (pullback.snd f (S.fromSpecResidueField (f x)))
     infer_instance
   have : IsLocallyNoetherian (f.fiber (f x)) :=
     LocallyOfFiniteType.isLocallyNoetherian (f.fiberToSpecResidueField (f x))
@@ -141,7 +141,7 @@ private lemma exists_isAffineOpen_isPreirreducible_fiber_inter {X S : Scheme.{u}
   rw [himage]
   refine (hW.2.open_subset ((f.fiberι _).continuous.isOpen_preimage _ U.2) ?_).image _
     (f.fiberι _).continuous.continuousOn
-  show _ ⊆ W.carrier
+  change _ ⊆ W.carrier
   rw [← hOW]
   exact Set.preimage_mono hUO
 

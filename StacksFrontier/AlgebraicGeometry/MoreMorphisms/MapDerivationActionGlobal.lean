@@ -447,7 +447,7 @@ theorem apply_eq_of_comm (hsq : i.ker ^ 2 = ⊥) {b' : X' ⟶ Y'} (comm_a : i �
 theorem preimage_eq_of_comm (hsq : i.ker ^ 2 = ⊥) {b' : X' ⟶ Y'} (comm_a : i ≫ a' = a ≫ j)
     (comm_b : i ≫ b' = a ≫ j) (W : Y'.Opens) : b' ⁻¹ᵁ W = a' ⁻¹ᵁ W := by
   refine TopologicalSpace.Opens.ext (Set.ext fun x => ?_)
-  show x ∈ b' ⁻¹ᵁ W ↔ x ∈ a' ⁻¹ᵁ W
+  change x ∈ b' ⁻¹ᵁ W ↔ x ∈ a' ⁻¹ᵁ W
   rw [Scheme.Hom.mem_preimage, Scheme.Hom.mem_preimage, apply_eq_of_comm hsq comm_a comm_b x]
 
 /-- An open mapping into `W` under `a'` maps into `W` under any other lift of `a`. -/
@@ -583,7 +583,7 @@ theorem derivationActionGlobal_preimage (W : Y'.Opens) :
 theorem derivationActionGlobal_app (W : Y'.Opens) (g : Γ(Y', W)) :
     ((derivationActionGlobal hsq θ comm_a).app W).hom g = (a'.app W).hom g
       + derivationSection hsq θ W (a' ⁻¹ᵁ W) (preimage_le_of_comm comm_a le_rfl) g := by
-  show derivationActionApp hsq θ comm_a W g = _
+  change derivationActionApp hsq θ comm_a W g = _
   rw [derivationActionApp_apply, Scheme.Hom.appLE_eq_app]
 
 /-- **Equation [Stacks Project, Tag 04BV] for the modified lift**, over an arbitrary pair of

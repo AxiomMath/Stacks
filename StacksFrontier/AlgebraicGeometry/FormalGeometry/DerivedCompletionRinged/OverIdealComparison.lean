@@ -88,6 +88,7 @@ attribute [local instance] HasDerivedCategory.standard
 variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}] (U : X.C) {r : ℕ}
   (f : Fin r → Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The conclusion of [Stacks, Tag 099F] on the slice, at the restricted sheaf of ideals
 itself.** For `ℐ = (f_1, …, f_r)` the inclusion of the objects of `D(𝒪_U)` derived complete along
 `ℐ|_U` into `D(𝒪_U)` has a left adjoint.

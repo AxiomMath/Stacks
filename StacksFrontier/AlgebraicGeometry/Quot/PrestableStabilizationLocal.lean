@@ -229,7 +229,7 @@ private theorem exists_map_eq_of_mem_range_residueField {S U : BigFppfOver B int
   have hval : (homOfScheme lft : p.siteObject ⟶ W₁) ≫ j ≫ e = wp := by
     apply hom_ext_of_map_eq
     rw [Functor.map_comp, Functor.map_comp, ← Category.assoc]
-    show (lft ≫ O.ι) ≫ _ = _
+    change (lft ≫ O.ι) ≫ _ = _
     rw [hlft, ← Functor.map_comp, Category.assoc, hūw, hrS]
   exact exists_map_eq_of_comp_eq (j ≫ e) p (homOfScheme lft) (hval.trans hwp)
 
@@ -619,9 +619,9 @@ theorem exists_local_stabilization
     have := he
     exact Etale.etale_comp ((𝒯).map e) (f := U₁.ι)
   · refine ⟨⟨u, huU₁⟩, ?_⟩
-    show ((𝒯).map e).base u = s
+    change ((𝒯).map e).base u = s
     rw [← hu]
-    show (ū.left.1 ≫ e.left.1).base pt = s
+    change (ū.left.1 ≫ e.left.1).base pt = s
     rw [h𝒯]
     exact Scheme.fromSpecResidueField_apply _ _
   · -- field-valued points over `s` lift

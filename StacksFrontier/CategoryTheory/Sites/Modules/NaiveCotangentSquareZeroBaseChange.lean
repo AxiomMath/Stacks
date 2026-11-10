@@ -196,6 +196,7 @@ noncomputable def comparisonTensorMap :
   presentationTensorMap.{u, u, u, u} J A E (underlyingPresheaf J B) α B a α (𝟙 _)
     (Category.comp_id α)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The comparison of **Stacks 08TY** in degree `-1`, with its target read in `NL_{B/A}`. -/
 theorem naiveCotangentComplexComparison_f_negOne_eq_comparisonConormalMap :
     (naiveCotangentComplexComparison.{u, u, u, u} J A B a E α).f (-1) =
@@ -205,6 +206,7 @@ theorem naiveCotangentComplexComparison_f_negOne_eq_comparisonConormalMap :
   presentationNaiveCotangentComplexMap_f_negOne.{u, u, u, u} J A E (underlyingPresheaf J B) α B a
     α (𝟙 _) (Category.comp_id α)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The comparison of **Stacks 08TY** in degree `0`, with its target read in `NL_{B/A}`. -/
 theorem naiveCotangentComplexComparison_f_zero :
     (naiveCotangentComplexComparison.{u, u, u, u} J A B a E α).f 0 =

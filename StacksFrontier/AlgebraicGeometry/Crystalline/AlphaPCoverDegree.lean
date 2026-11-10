@@ -60,7 +60,8 @@ Frobenius of a smooth morphism directly from a chart rather than through the cov
 The degree is tracked through `AlgebraicGeometry.HasFiniteBasis`, the datum of a basis indexed by
 `Fin n`, rather than through `Module.rank` directly.  That apparatus is not new: it was written
 for `AlgebraicGeometry.hasConstantDegree_relativeFrobenius` and lived as a block of `private`
-declarations in `StacksFrontier/AlgebraicGeometry/Crystalline/FrobeniusAlphaPCover.lean`; this module
+declarations in
+`StacksFrontier/AlgebraicGeometry/Crystalline/FrobeniusAlphaPCover.lean`; this module
 uses it, so those declarations are no longer private.  They have nothing to do with the Frobenius
 and would be better placed in a module of their own, next to `AlphaPCover.lean`; that move is left
 alone here because it would rewrite a file of a thousand lines for no mathematical gain.

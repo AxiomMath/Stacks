@@ -191,7 +191,7 @@ theorem exists_chartIdeal_of_mem {U : Opens X} (hU : IsWeakAffineFormalOpen X U)
       (weakChartSections _ hU.chart.admissible hU.chart.iso).1 a = t := by
   set e := weakChartSectionsRingEquiv _ hU.chart.admissible hU.chart.iso
   refine ⟨e.symm t, ?_, e.apply_symm_apply t⟩
-  show (weakChartSections _ hU.chart.admissible hU.chart.iso).1 (e.symm t) ∈ I.ideal U
+  change (weakChartSections _ hU.chart.admissible hU.chart.iso).1 (e.symm t) ∈ I.ideal U
   exact (e.apply_symm_apply t).symm ▸ ht
 
 /-- A point landing in `U` kills `ℐ(U)` exactly when it kills the image of the chart ideal. -/
@@ -384,7 +384,7 @@ theorem isLocallySurjective_sigmaDesc_chartFamily (h𝔛 : IsMcQuillanFormalSche
   refine ⟨(Sigma.ι (fun i : ChartIndex 𝔛.obj => yoneda.obj (I.chartScheme hI i.2))
     ⟨_, hU (s.1.hom.toHom.base p)⟩).app _ l, ?_⟩
   have h := congrArg (fun η => η.app (op (W p).toScheme) l)
-    (Sigma.ι_desc (I.chartFamily hI hC) ⟨_, hU (s.1.hom.toHom.base p)⟩)
+    (Sigma.ι_comp_desc (I.chartFamily hI hC) ⟨_, hU (s.1.hom.toHom.base p)⟩)
   simp only [NatTrans.comp_app, types_comp_apply] at h
   exact h.trans (I.killingPoints_ext hl)
 

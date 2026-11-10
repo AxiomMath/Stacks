@@ -88,6 +88,7 @@ theorem extensionOfScalars_hom_ext
   exact ((extendRestrictAdjunction f).homEquiv_unit _ _ _).trans
     (hn.trans ((extendRestrictAdjunction f).homEquiv_unit _ _ _).symm)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The extension of scalars of a map `y` is the map whose transpose is `y` followed by the
 structure map. -/
 theorem extensionOfScalars_map_eq

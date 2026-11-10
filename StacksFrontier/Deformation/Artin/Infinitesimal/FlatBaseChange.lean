@@ -107,13 +107,11 @@ public theorem homBaseChangeComparison_bijective
   have key : ∀ t, homBaseChangeComparison A C Q M t =
       e₂ (e₁ (TensorProduct.rTensorHomToHomRTensor (RingHom.id A) Q M C t)) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul f c =>
       apply LinearMap.ext
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul a q =>
         rw [homBaseChangeComparison_tmul_apply]
         change _ = e₂ (e₁ _) (a ⊗ₜ[A] q)
@@ -226,13 +224,11 @@ public theorem existsUnique_infFlatBaseChange
       homBaseChangeComparison A C Q (M.obj : Type u)
         (TensorProduct.comm A C (Q →ₗ[A] (M.obj : Type u)) t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul c f =>
       apply LinearMap.ext
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul a q =>
         have h₁ : Φ (c ⊗ₜ[A] f) (a ⊗ₜ[A] q) = c • (a ⊗ₜ[A] f q) := by
           change (c • ρ f) (a ⊗ₜ[A] q) = _
@@ -273,16 +269,14 @@ public theorem existsUnique_infFlatBaseChange
     rw [LinearEquiv.symm_apply_apply, h₃, TensorProduct.smul_tmul', smul_eq_mul, mul_comm c a]
   refine ⟨e₀, hchar, fun e' he' => ?_⟩
   refine LinearEquiv.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul c θ =>
     refine (D.homRepY N).injective (LinearMap.ext fun v => ?_)
     have hspan : ∀ u : C ⊗[A] Q,
         D.homRepY N (e' (c ⊗ₜ[A] θ)) (D.baseChangeQ u) =
           D.homRepY N (e₀ (c ⊗ₜ[A] θ)) (D.baseChangeQ u) := by
       intro u
-      induction u using TensorProduct.induction_on with
-      | zero => simp
+      induction u using TensorProduct.inductionOn with
       | tmul a q => rw [he' c a θ q, hchar c a θ q]
       | add u u' hu hu' => simp [map_add, hu, hu']
     have := hspan (D.baseChangeQ.symm v)

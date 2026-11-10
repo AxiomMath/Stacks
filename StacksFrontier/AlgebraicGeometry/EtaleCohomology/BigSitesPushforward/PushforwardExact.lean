@@ -101,7 +101,7 @@ private theorem almostLift
     rwa [Sieve.functorPushforward_bot] at h
   · right
     change (S.functorPushforward eD.inverse) (v.map (eC.inverse.map f)) at hS1
-    show S (eD.functor.map (v.map (eC.inverse.map f)))
+    change S (eD.functor.map (v.map (eC.inverse.map f)))
     have hS2 : S (eD.functor.map (v.map (eC.inverse.map f)) ≫
         eD.counit.app (eD.functor.obj (v.obj (eC.inverse.obj U)))) :=
       (Sieve.mem_functorPushforward_inverse (e := eD)
@@ -155,7 +155,7 @@ private theorem exactSmallify
     (Iso.isoInverseComp (G := ED.symm) hpush₂).symm
   have : PreservesFiniteLimits P' := ((exactFunctor_iff P').mp hG).1
   have : PreservesFiniteColimits P' := ((exactFunctor_iff P').mp hG).2
-  show PreservesFiniteLimits P ∧ PreservesFiniteColimits P
+  change PreservesFiniteLimits P ∧ PreservesFiniteColimits P
   exact ⟨preservesFiniteLimits_of_natIso htransport,
     preservesFiniteColimits_of_natIso htransport⟩
 

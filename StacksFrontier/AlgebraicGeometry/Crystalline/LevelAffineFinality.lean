@@ -160,7 +160,7 @@ private noncomputable def intGen {M : AddCommGrpCat.{u}} (s : M) :
 /-- `intGen s` sends `ULift.up 1` to `s`. -/
 private theorem intGen_apply_one {M : AddCommGrpCat.{u}} (s : M) :
     intGen s (ULift.up (1 : ℤ)) = s := by
-  show uliftZMultiplesHom (M : Type u) s (ULift.up (1 : ℤ)) = s
+  change uliftZMultiplesHom (M : Type u) s (ULift.up (1 : ℤ)) = s
   rw [uliftZMultiplesHom_apply_apply]
   exact one_smul ℤ s
 
@@ -175,7 +175,7 @@ image. -/
 private theorem intGen_comp {M N : AddCommGrpCat.{u}} (g : M ⟶ N) (s : M) :
     intGen s ≫ g = intGen (g s) := by
   ext n
-  show g (uliftZMultiplesHom (M : Type u) s n) =
+  change g (uliftZMultiplesHom (M : Type u) s n) =
     uliftZMultiplesHom (N : Type u) (g s) n
   rw [uliftZMultiplesHom_apply_apply, uliftZMultiplesHom_apply_apply, map_zsmul]
 
@@ -201,7 +201,7 @@ theorem sheaf_ext_of_forall_affine_map_eq
   refine Functor.IsCoverDense.ext (affineι S)
     ⟨N ⋙ coyoneda.obj (op (AddCommGrpCat.of (ULift.{u} ℤ))),
       (isSheaf_iff_isSheaf_of_type _ _).2 (hN _)⟩ B fun {A} f ↦ ?_
-  show intGen s ≫ N.map f.op = intGen t ≫ N.map f.op
+  change intGen s ≫ N.map f.op = intGen t ≫ N.map f.op
   rw [intGen_comp, intGen_comp, h A f]
 
 /-- **Separatedness of a sheaf of `𝒪_{X/S}`-modules against the affine objects**, in the spelling

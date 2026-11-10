@@ -14,8 +14,7 @@ public import StacksFrontier.AlgebraicGeometry.NodalContraction.ExceptionalStalk
 public import StacksFrontier.AlgebraicGeometry.Properties.RegularCharacterization
 public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.ContractExceptionalCurve
 public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.Contraction.QuasiProjectiveContraction
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.DominateRationalMapNoetherian
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.DominateRationalMapNoetherian
 public import StacksFrontier.AlgebraicGeometry.Segre.ChartSurjective
 import StacksCore.Tactic.EgaSgaAttribute
 
@@ -98,7 +97,7 @@ theorem isQuasiProjective_of_isQuasiProjective_blowUpToBase_comp {W S : Scheme.{
   have hfib : ∀ x ∈ ((exceptionalIdeal M).support : Set (blowUp M)),
       (blowUpToBase M ≫ g).base x = g.base w := by
     intro x hx
-    show g.base ((blowUpToBase M).base x) = g.base w
+    change g.base ((blowUpToBase M).base x) = g.base w
     rw [IsContractionOfExceptionalCurve.eq_centre_of_mem_support (hx := hw) rfl hx]
   obtain ⟨X', b, g', hb', hbg, hg'⟩ :=
     exists_isContractionOfExceptionalCurve_isQuasiProjective (blowUpToBase M ≫ g) hEk (g.base w)
@@ -205,7 +204,7 @@ theorem isQuasiProjective_of_isRegular_of_topologicalKrullDim_le_two
   -- the inverse of `π` over `U`, as an `X`-rational map
   let φ : X.PartialMap X' := ⟨U, hU, inv (π ∣_ U) ≫ (π ⁻¹ᵁ U).ι⟩
   have : φ.IsOver X := Scheme.PartialMap.isOver_iff.mpr (by
-    show (inv (π ∣_ U) ≫ (π ⁻¹ᵁ U).ι) ≫ π = U.ι ≫ 𝟙 X
+    change (inv (π ∣_ U) ≫ (π ⁻¹ᵁ U).ι) ≫ π = U.ι ≫ 𝟙 X
     rw [Category.assoc, ← morphismRestrict_ι, IsIso.inv_hom_id_assoc, Category.comp_id])
   -- resolve it by a sequence of blowups at closed points ([Stacks, Tag 0C5H])
   obtain ⟨T, Z, p, h, -, hTdim, -, hchain, hS, -⟩ :=

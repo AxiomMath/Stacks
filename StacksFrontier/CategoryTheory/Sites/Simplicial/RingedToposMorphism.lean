@@ -247,34 +247,34 @@ variable {D₁ D₂ D₃ D₄ D₇ D₈ : Type*} [Category* D₁] [Category* D�
 
 /-- The component of the 2-square attached to a natural transformation. -/
 private theorem twoSquare_mk_app (α : T ⋙ R ⟶ L ⋙ Bo) (c : D₁) :
-    (TwoSquare.mk T L R Bo α).natTrans.app c = α.app c := rfl
+    (TwoSquare.mk T L R Bo α).app c = α.app c := rfl
 
 /-- The component of a vertical composition of 2-squares. -/
 private theorem twoSquare_vComp_app {L' : D₃ ⥤ D₇} {R'' : D₄ ⥤ D₈} {B'' : D₇ ⥤ D₈}
     (w : TwoSquare T L R Bo) (w' : TwoSquare Bo L' R'' B'') (c : D₁) :
-    (TwoSquare.vComp w w').natTrans.app c =
-      R''.map (w.natTrans.app c) ≫ w'.natTrans.app (L.obj c) := by
+    (TwoSquare.vComp w w').app c =
+      R''.map (w.app c) ≫ w'.app (L.obj c) := by
   simp [TwoSquare.vComp]
 
 /-- The component of a 2-square whiskered on the left. -/
 private theorem twoSquare_whiskerLeft_app {L' : D₁ ⥤ D₃} (w : TwoSquare T L R Bo) (α : L ⟶ L')
     (c : D₁) :
-    (TwoSquare.whiskerLeft w α).natTrans.app c = w.natTrans.app c ≫ Bo.map (α.app c) := rfl
+    (TwoSquare.whiskerLeft w α).app c = w.app c ≫ Bo.map (α.app c) := rfl
 
 /-- The component of a 2-square whiskered on the right. -/
 private theorem twoSquare_whiskerRight_app {R' : D₂ ⥤ D₄} (w : TwoSquare T L R' Bo)
     (α : R ⟶ R') (c : D₁) :
-    (TwoSquare.whiskerRight w α).natTrans.app c = α.app (T.obj c) ≫ w.natTrans.app c := rfl
+    (TwoSquare.whiskerRight w α).app c = α.app (T.obj c) ≫ w.app c := rfl
 
 /-- Whiskering a 2-square on the right by an identity changes nothing. -/
 private theorem twoSquare_whiskerRight_id (w : TwoSquare T L R Bo) :
     TwoSquare.whiskerRight w (𝟙 R) = w :=
-  TwoSquare.ext _ _ fun c => by simp
+  NatTrans.ext (funext fun c => by simp)
 
 /-- Whiskering a 2-square on the left by an identity changes nothing. -/
 private theorem twoSquare_whiskerLeft_id (w : TwoSquare T L R Bo) :
     TwoSquare.whiskerLeft w (𝟙 L) = w :=
-  TwoSquare.ext _ _ fun c => by simp
+  NatTrans.ext (funext fun c => by simp)
 
 end TwoSquares
 
@@ -503,7 +503,7 @@ theorem mateEquiv_pullbackUnderlyingIsoOfIsIso_inv :
             ((inverseImageModules f.toToposHom
               (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).obj M)) :=
       Category.id_comp _
-    show f.toToposHom.adj.unit.app
+    change f.toToposHom.adj.unit.app
       (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) M) ≫
           f.toToposHom.pushforward.map ((pullbackUnderlyingIsoOfIsIso f).inv.app M) =
         (Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).map
@@ -512,7 +512,7 @@ theorem mateEquiv_pullbackUnderlyingIsoOfIsIso_inv :
                   (fSharpAdjunction f)).ofNatIsoRight
               f.toModulesPushforwardIso).unit.app M) ≫ 𝟙 _
     rw [h0, h4, Functor.map_comp, Functor.map_comp, h1, h2]
-    show _ = (_ ≫ _ ≫ 𝟙 _) ≫ 𝟙 _
+    change _ = (_ ≫ _ ≫ 𝟙 _) ≫ 𝟙 _
     rw [Category.comp_id]
     exact congrArg (f.toToposHom.adj.unit.app
       (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) M) ≫ ·)
@@ -633,10 +633,10 @@ the underlying square of sheaves of sets is**, for a 2-isomorphism `l ∘ g ≅ 
 of ringed topoi in which `g` and `g'` have invertible structure maps. -/
 theorem isIso_mateEquiv_symm_pushforwardModules_of_isIso
     [IsIso ((mateEquiv g.toToposHom.adj g'.toToposHom.adj).symm
-      (TwoSquare.mk _ _ _ _ t.e.hom)).natTrans] :
+      (TwoSquare.mk _ _ _ _ t.e.hom))] :
     IsIso ((mateEquiv (pullbackAdjPushforwardModules g) (pullbackAdjPushforwardModules g')).symm
       (TwoSquare.mk _ _ _ _ ((pushforwardModulesCompIso g l).symm ≪≫ t.pushforwardModulesIso ≪≫
-        pushforwardModulesCompIso k g').hom)).natTrans := by
+        pushforwardModulesCompIso k g').hom)) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro M
   have hβ : ∀ Y, (Sheaf.moduleSheafFunctor
@@ -665,7 +665,7 @@ theorem isIso_mateEquiv_symm_pushforwardModules_of_isIso
     (pullbackUnderlyingIsoOfIsIso g) (pullbackUnderlyingIsoOfIsIso g')
     (unit_app_underlying_comp g) (unit_app_underlying_comp g') hβ M
   have := NatIso.isIso_app_of_isIso ((mateEquiv g.toToposHom.adj g'.toToposHom.adj).symm
-    (TwoSquare.mk _ _ _ _ t.e.hom)).natTrans
+    (TwoSquare.mk _ _ _ _ t.e.hom))
     ((Sheaf.moduleSheafFunctor ((Stacks.SheafOfModules.Tensor.ringSheaf (J := B.J)) B.O)).obj M)
   have := IsIso.of_isIso_fac_right key
   exact isIso_of_reflects_iso _
@@ -1347,14 +1347,14 @@ theorem componentPushforwardModulesCube
     RingedToposHom.pushforwardModulesUnderlyingIso_inv_eq_id
       ((h.componentRingedToposHom φ) n)]
   refine ((twoSquare_whiskerLeft_id _).trans (twoSquare_whiskerRight_id _)).trans ?_
-  refine TwoSquare.ext _ _ fun Z => ?_
+  refine NatTrans.ext (funext fun Z => ?_)
   refine (twoSquare_vComp_app _ _ Z).trans ?_
   simp only [twoSquare_vComp_app, twoSquare_mk_app, NatTrans.id_app, Functor.comp_obj]
   refine (congrArg (fun x => x ≫ _) (CategoryTheory.Functor.map_id _ _)).trans ?_
   refine (Category.id_comp _).trans ?_
   refine (twoSquare_mk_app _ _).trans ?_
   refine Eq.trans ?_ (Category.comp_id _).symm
-  show _ = (Sheaf.moduleSheafFunctor
+  change _ = (Sheaf.moduleSheafFunctor
     ((Stacks.SheafOfModules.Tensor.ringSheaf (J := (C'.situation.totalRingedTopos O').J)
       (C'.situation.totalRingedTopos O').O))).map
     ((RingedToposHom.pushforwardModulesCompIso (C.situation.componentRingedToposHom O n)
@@ -1397,7 +1397,7 @@ instance isIso_componentPushforwardModulesComparison
         ((h.componentRingedToposHom φ) n).toToposHom.pushforward
         (h.totalRingedToposHom φ).toToposHom.pushforward
         (C'.situation.componentRingedToposHom O' n).toToposHom.pushforward
-        (h.totalComponentPushforwardIso n).inv)).natTrans :=
+        (h.totalComponentPushforwardIso n).inv)) :=
     Morphism.isIso_totalComponentPushforward_mate h n
   exact Stacks.CategoryTheory.isIso_mateEquiv_symm_of_reflectsIsomorphisms
     (RingedToposHom.pullbackAdjPushforwardModules (C.situation.componentRingedToposHom O n))
@@ -1793,7 +1793,7 @@ theorem componentRingedToposHom_twoIso_e_hom
       ((Stacks.SheafOfModules.Tensor.ringSheaf (J := C'.situation.totalTopology)) O'))
     (n : SimplexCategory) :
     (componentRingedToposHom_twoIso h n).e.hom = (h.hom.totalComponentPushforwardIso n).inv := by
-  show (conjugateIsoEquiv (h.hom.viaComponentMorphism n).adj (h.hom.viaTotalMorphism n).adj
+  change (conjugateIsoEquiv (h.hom.viaComponentMorphism n).adj (h.hom.viaTotalMorphism n).adj
     (h.hom.componentInverseImageIso n)).inv = _
   rw [Morphism.componentInverseImageIso_conjugate]
 
@@ -1814,7 +1814,7 @@ instance isIso_componentPushforwardModulesComparison
     IsIso (componentPushforwardModulesComparison h n) := by
   have hmate : IsIso ((mateEquiv (C.situation.componentRingedToposHom O n).toToposHom.adj
       (C'.situation.componentRingedToposHom O' n).toToposHom.adj).symm
-      (TwoSquare.mk _ _ _ _ (componentRingedToposHom_twoIso h n).e.hom)).natTrans := by
+      (TwoSquare.mk _ _ _ _ (componentRingedToposHom_twoIso h n).e.hom)) := by
     rw [componentRingedToposHom_twoIso_e_hom]
     exact Morphism.isIso_totalComponentPushforwardMate h.hom n
   exact RingedToposHom.isIso_mateEquiv_symm_pushforwardModules_of_isIso

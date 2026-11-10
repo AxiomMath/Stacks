@@ -414,7 +414,7 @@ theorem pullback_fst_awayToLine_zero :
     exact (laurentToOverlap_comp_invert_comp_toLaurent R).symm
   simp only [awayToLine, lineChart, ← Category.assoc, spec_map_comp_spec_map]
   simp only [Fin.isValue, ↓reduceIte, one_ne_zero]
-  show Spec.map (CommRingCat.ofHom ((awayMapZero R).comp (chartPolyEquiv R 0).toRingHom)) ≫
+  change Spec.map (CommRingCat.ofHom ((awayMapZero R).comp (chartPolyEquiv R 0).toRingHom)) ≫
       projectiveLineXChart R =
     Spec.map (CommRingCat.ofHom ((awayMapOne R).comp (chartPolyEquiv R 1).toRingHom)) ≫
       projectiveLineYChart R
@@ -473,7 +473,7 @@ theorem lineToProj_projToLine : lineToProj R ≫ projToLine R = 𝟙 _ := by
 theorem projToLine_lineToProj : projToLine R ≫ lineToProj R = 𝟙 _ := by
   refine (affineChartCover R 1).openCover.hom_ext _ _ fun i => ?_
   change Fin 2 at i
-  show Proj.awayι (polyGrading R 1) (MvPolynomial.X i) (X_mem_one R 1 i) Nat.one_pos ≫ _ =
+  change Proj.awayι (polyGrading R 1) (MvPolynomial.X i) (X_mem_one R 1 i) Nat.one_pos ≫ _ =
     Proj.awayι (polyGrading R 1) (MvPolynomial.X i) (X_mem_one R 1 i) Nat.one_pos ≫ 𝟙 _
   rw [← Category.assoc, awayι_projToLine, awayToLine, Category.assoc, Category.comp_id]
   rcases Fin.exists_fin_two.mp ⟨i, rfl⟩ with rfl | rfl

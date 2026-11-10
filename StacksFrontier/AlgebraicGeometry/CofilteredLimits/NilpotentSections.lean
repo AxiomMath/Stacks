@@ -116,7 +116,7 @@ theorem exists_lift_of_isClosedImmersion_of_surjective_of_isLimit {T Z : Scheme.
     rw [← Scheme.IdealSheafData.vanishingIdeal_support,
       ← Scheme.IdealSheafData.vanishingIdeal_top]
     refine Scheme.IdealSheafData.vanishingIdeal_antimono fun x _ => ?_
-    show x ∈ (i.ker.support : Set c.pt)
+    change x ∈ (i.ker.support : Set c.pt)
     rw [Scheme.Hom.support_ker, i.surjective.range_eq, closure_univ]
     trivial
   have hnil : c.pt.nilradical ≤ g.ker := by

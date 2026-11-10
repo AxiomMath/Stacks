@@ -87,8 +87,8 @@ as an argument rather than writing `θ ... * ...` into its statement.
 
 Only the affine blowup is covered in this file, so no `@[stacks 02OS]` attribute is attached
 here; the unconditional statement is `AlgebraicGeometry.twistOneIsoExceptionalIdealModule` in
-`StacksFrontier/AlgebraicGeometry/Blowup/TwistOneExceptionalIdeal.lean`, and the rest of this section
-records how it was reached from here.
+`StacksFrontier/AlgebraicGeometry/Blowup/TwistOneExceptionalIdeal.lean`, and the rest of this
+section records how it was reached from here.
 
 **The obstruction was not Stacks tag 01NR.** The graded twists on a relative `Proj` exist with
 no carried hypothesis: `Stacks.RelativeProj.Situation.twistSheaf`, and for the blowup of an
@@ -236,7 +236,7 @@ theorem appTop_eq_appIso {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f] :
     Category.assoc, ← Functor.map_comp]
   refine Eq.trans ?_ (congrArg (fun g => Scheme.Hom.app f ⊤ ≫ X.presheaf.map g)
     (Subsingleton.elim (𝟙 (op (f ⁻¹ᵁ (⊤ : Y.Opens)))) _))
-  show Scheme.Hom.app f ⊤ = _
+  change Scheme.Hom.app f ⊤ = _
   exact (Category.comp_id _).symm.trans
     (congrArg (Scheme.Hom.app f ⊤ ≫ ·) (X.presheaf.map_id _).symm)
 
@@ -348,8 +348,8 @@ theorem baseSection_mul_trivializingFun_comm {a b : R} (ha : a ∈ I) (hb : b �
     ← Localization.mk_one_eq_algebraMap, ← Localization.mk_one_eq_algebraMap,
     Localization.mk_mul, Localization.mk_mul]
   refine Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq ?_)
-  simp only [Submonoid.coe_mul, OneMemClass.coe_one, Int.toNat_one, pow_one,
-    show ((-1 : ℤ)).toNat = 0 from rfl, pow_zero, one_mul, mul_one]
+  simp only [Int.toNat_one, pow_one,
+    show ((-1 : ℤ)).toNat = 0 from rfl, pow_zero, one_mul]
   rw [reesGradingZero_mul_reesDegOne_comm I ha hb]
 
 /-! ### The chartwise comparison of `𝒪(1)` with the exceptional ideal sheaf -/
@@ -401,7 +401,7 @@ theorem chartCoeff_mul_baseSectionRes_comm {a b : R} (ha : a ∈ I) (hb : b ∈ 
       = HomogeneousLocalization.val ((baseSectionRes I b W).1 x) *
         trivializingFun (reesGrading I) 1 hWa x :=
     baseSection_mul_trivializingFun_comm I ha hb hWa hWb x
-  show HomogeneousLocalization.val ((chartCoeff I ha hWa t).1 x * (baseSectionRes I a W).1 x)
+  change HomogeneousLocalization.val ((chartCoeff I ha hWa t).1 x * (baseSectionRes I a W).1 x)
       = HomogeneousLocalization.val ((chartCoeff I hb hWb t).1 x * (baseSectionRes I b W).1 x)
   rw [HomogeneousLocalization.val_mul, HomogeneousLocalization.val_mul]
   refine ((isUnit_trivializingFun (reesGrading I) 1 hWa x).mul

@@ -28,7 +28,8 @@ of `θ n` — and proves everything else the assertion needs.
   `span_coe_degree_one_eq_irrelevant`: the statement's generation hypothesis, at the two spellings
   the existing lemmas want.
 * `Stacks.AlgebraicGeometry.ProjTwistMono.range_coe_degree_one`: the coercion bridge between the
-  statement's generating set `(𝒜 1 : Set A)` and the existing lemma's `Set.range fun f : 𝒜 1 => (f : A)`.
+  statement's generating set `(𝒜 1 : Set A)` and the existing lemma's
+  `Set.range fun f : 𝒜 1 => (f : A)`.
 
 ## The route
 

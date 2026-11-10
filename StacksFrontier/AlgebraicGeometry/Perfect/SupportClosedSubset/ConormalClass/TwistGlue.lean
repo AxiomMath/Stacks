@@ -73,7 +73,7 @@ theorem chartEvalSec_natural (U : X.Opens) (hU : U ≤ W) (m : Γ(twistSource i 
   set ψ := (Scheme.Modules.pullback i).map φ
   have e := congrArg (fun χ => χ.app (i ⁻¹ᵁ U) m)
     (evalAt_natural (line i c) ((Scheme.Modules.pullback i).obj F) (i ⁻¹ᵁ W) (chartWedge hgen) ψ)
-  show ((Scheme.Modules.pullback i).obj F').presheaf.map
+  change ((Scheme.Modules.pullback i).obj F').presheaf.map
       (homOfLE (le_image_preimage (i.preimage_mono hU))).op
       ((evalAt (line i c) ((Scheme.Modules.pullback i).obj F') (i ⁻¹ᵁ W) (chartWedge hgen)).app
         (i ⁻¹ᵁ U) ((dualModule (line i c) ◁ ψ).app (i ⁻¹ᵁ U) m)) = _
@@ -106,7 +106,7 @@ theorem chartDescSec_natural (U : X.Opens) (hU : U ≤ W) (y : Γ(quotPull i F, 
         (chartDescSec F hgen U hU y) := by
   have e := congrArg (fun χ => χ.app U y)
     (chartDescent_natural φ hgen (isClosed_chartSupport W (chartEq W f)) subset_rfl)
-  show (supportCohomologySheaf (isClosed_chartSupport W (chartEq W f)) F' (c : ℤ)).presheaf.map
+  change (supportCohomologySheaf (isClosed_chartSupport W (chartEq W f)) F' (c : ℤ)).presheaf.map
       (homOfLE (le_image_preimage hU)).op ((chartDescent i W f F' hgen
         (isClosed_chartSupport W (chartEq W f)) subset_rfl).app U
           (((Scheme.Modules.pushforward i).map ((Scheme.Modules.pullback i).map φ)).app U y)) = _
@@ -123,7 +123,7 @@ theorem chartSec_natural (U : X.Opens) (hU : U ≤ W) (m : Γ(twistSource i c F,
     (supportChangeH_natural (isClosed_zeroLocus i) (isClosed_chartSupport W (chartEq W f))
       (zeroLocus_subset_chartSupport W f hgen) φ (c : ℤ))
   refine e.symm.trans ?_
-  show (supportCohomologySheafMap _ φ (c : ℤ)).app U ((chartTheta F hgen).app U
+  change (supportCohomologySheafMap _ φ (c : ℤ)).app U ((chartTheta F hgen).app U
     (chartSec F hgen U hU m)) = _
   rw [chartTheta_chartSec, chartEvalSec_natural, chartDescSec_natural]
 
@@ -155,7 +155,7 @@ variable (F : X.Modules)
 theorem subsingleton_twistSource {U : X.Opens} (hU : U ≤ offZero i) :
     Subsingleton Γ(twistSource i c F, U) := by
   have h : i ⁻¹ᵁ U = ⊥ := eq_bot_iff.2 fun z hz => hU hz ⟨z, rfl⟩
-  show Subsingleton Γ(dualModule (line i c) ⊗ (Scheme.Modules.pullback i).obj F, i ⁻¹ᵁ U)
+  change Subsingleton Γ(dualModule (line i c) ⊗ (Scheme.Modules.pullback i).obj F, i ⁻¹ᵁ U)
   rw [h]
   exact subsingleton_sections_bot _
 
@@ -248,7 +248,7 @@ theorem twistMap_natural {F F' : X.Modules} (φ : F ⟶ F') :
   refine Stacks.AlgebraicGeometry.ModuleLimits.hom_ext_of_app_eq_of_cover (coverOpen i c)
     (coverOpen_covers i c hcharts) fun a U h => ?_
   ext m
-  show (twistMap i c F' hcharts).app U (((twistFunctor i c).map φ).app U m) =
+  change (twistMap i c F' hcharts).app U (((twistFunctor i c).map φ).app U m) =
     (supportCohomologySheafMap (isClosed_zeroLocus i) φ (c : ℤ)).app U
       ((twistMap i c F hcharts).app U m)
   refine (twistMap_app i c F' hcharts a U h _).trans ?_

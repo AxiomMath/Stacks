@@ -132,7 +132,7 @@ public lemma tensorFlipIso_naturality {R : Type u} [CommRing R]
     intros
     rfl
   have ht := congrArg (fun g => HomologicalComplex₂.total.map g (ComplexShape.up ℤ)) h
-  show mapBifunctorMap (𝟙 K) f F _ ≫
+  change mapBifunctorMap (𝟙 K) f F _ ≫
       (HomologicalComplex₂.total.map (tensorBicomplexFlipIso K B).hom _ ≫
         (mapBifunctorFlipIso B K F _).hom) =
     (HomologicalComplex₂.total.map (tensorBicomplexFlipIso K A).hom _ ≫

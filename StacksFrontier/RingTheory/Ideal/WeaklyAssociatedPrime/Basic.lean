@@ -91,7 +91,7 @@ theorem weakAss_subset_image_comap
     ext r
     rw [Ideal.mem_comap, Submodule.mem_annihilator_span_singleton,
         Submodule.mem_annihilator_span_singleton]
-    show r • m = 0 ↔ φ r • m = 0
+    change r • m = 0 ↔ φ r • m = 0
     rfl
   rw [hann] at hm
   -- Find a minimal prime of the S-annihilator contracting to `p`.

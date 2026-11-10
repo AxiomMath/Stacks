@@ -80,9 +80,9 @@ theorem epi_of_isLocallySurjective_addCommGrpCat {C : Type*} [Category* C]
     have h₁ := ConcreteCategory.congr_hom (f₁.hom.naturality f.op) x
     have h₂ := ConcreteCategory.congr_hom (f₂.hom.naturality f.op) x
     simp only [ConcreteCategory.comp_apply] at h₁ h₂
-    show (Z.obj.map f.op) (f₁.hom.app X x) = (Z.obj.map f.op) (f₂.hom.app X x)
+    change (Z.obj.map f.op) (f₁.hom.app X x) = (Z.obj.map f.op) (f₂.hom.app X x)
     rw [← h₁, ← h₂]
-    show f₁.hom.app _ ((Q.obj.map f.op) x) = f₂.hom.app _ ((Q.obj.map f.op) x)
+    change f₁.hom.app _ ((Q.obj.map f.op) x) = f₂.hom.app _ ((Q.obj.map f.op) x)
     rw [← hs]
     exact ConcreteCategory.congr_hom (congr_app ((sheafToPresheaf J _).congr_map h) (op Y)) s
 
@@ -171,7 +171,7 @@ theorem isWeakSerreClass_locallyQuasicoherentSheafFlatBaseChangeFppf_of_epi
         refine (CokernelCofork.isColimitMapCoconeEquiv _ ε).symm ?_
         refine IsColimit.ofIsoColimit hcE ?_
         refine Cofork.ext (Iso.refl _) ?_
-        show cE.π ≫ 𝟙 _ = ε.map π'
+        change cE.π ≫ 𝟙 _ = ε.map π'
         rw [Category.comp_id, hπ']
       exact Pe.prop_of_iso (ε.mapIso (IsColimit.coconePointUniqueUpToIso hcol hk)) hc
     prop_X₂_of_shortExact := by

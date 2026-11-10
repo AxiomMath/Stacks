@@ -559,7 +559,7 @@ theorem val_appTop_toSpec (b : A) (x : ProjectiveSpectrum.top (Stacks.Blowup.ree
     (Stacks.Blowup.reesGrading I) (Stacks.Blowup.reesGradingZeroEquiv I b) x).trans ?_
   refine congrArg (algebraMap (reesAlgebra I)
       (Localization x.asHomogeneousIdeal.toIdeal.primeCompl)) ?_
-  show ((algebraMap A (Stacks.Blowup.reesGrading I 0) b :
+  change ((algebraMap A (Stacks.Blowup.reesGrading I 0) b :
     Stacks.Blowup.reesGrading I 0) : reesAlgebra I) = _
   rw [SetLike.GradeZero.coe_algebraMap]
 
@@ -727,7 +727,7 @@ theorem ambientTwistMap_comp_thickeningTwistProj_eq_zero (q : ℕ) :
     (thickeningSheaf I 1) (blowupTwist I q) U.unop _ _ (fun x hx =>
       exists_tensorObjTmul_app_one_eq_zero I q U.unop z x hx)) ?_
   refine Eq.symm ?_
-  show ((0 : (blowupTwist I (q + 1)).val ⟶ (thickeningTwist I 1 q).val).app U).hom z = 0
+  change ((0 : (blowupTwist I (q + 1)).val ⟶ (thickeningTwist I 1 q).val).app U).hom z = 0
   simp
 
 end AmbComp

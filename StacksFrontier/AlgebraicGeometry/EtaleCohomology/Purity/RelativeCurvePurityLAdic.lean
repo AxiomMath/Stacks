@@ -142,7 +142,7 @@ theorem relativeCurvePurityLAdicInput_of_isIsoStalksOver
       (congrArg _ (purityTowerMap_app j G hℓ₀ hℓ (B.inclusion.map i) hj.subset hcov fU n)).trans
         (etaleModuleForgetAb_map_purityTowerLevelMap j G hℓ₀ hℓ (B.inclusion.map i) hj.subset hcov
           fU n)
-    show IsIsoStalksOver _ ((etaleModuleForgetAb.{u, 0} ℤ_[ℓ] U.1).map (c.app (op n)))
+    change IsIsoStalksOver _ ((etaleModuleForgetAb.{u, 0} ℤ_[ℓ] U.1).map (c.app (op n)))
     rw [e1]
     exact @IsIsoStalksOver.comp_of_isIso _ _ _ _ _ _ h0 _ (Iso.isIso_hom
       (((smallEtalePushforwardAb j).rightDerived 1).mapIso ((smallEtalePullbackAb j).mapIso

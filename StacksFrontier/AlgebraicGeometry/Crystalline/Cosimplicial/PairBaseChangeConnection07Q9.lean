@@ -68,7 +68,7 @@ uncompleted ring (Mathlib's `AdicCompletion.congr` is linear over the completed 
 def adicCompletionCongr07Q9 {R : Type*} [CommRing R] {X Y : Type*} [AddCommGroup X]
     [Module R X] [AddCommGroup Y] [Module R Y] (I : Ideal R) (e : X ≃ₗ[R] Y) :
     AdicCompletion I X ≃ₗ[R] AdicCompletion I Y :=
-  LinearEquiv.ofLinear (adicCompletionMapLinear e.toLinearMap I)
+  LinearEquiv.ofLinearMap (adicCompletionMapLinear e.toLinearMap I)
     (adicCompletionMapLinear e.symm.toLinearMap I)
     (LinearMap.ext fun x =>
       (adicCompletionMapₛₗ_comp_apply e.symm.toLinearMap e.toLinearMap LinearMap.id
@@ -144,10 +144,9 @@ theorem comparisonValues_tensorMap07Q9 (g : E.Hom E')
     (TensorProduct.map (app m.len) (g.formsMap p m.len a))
     (TensorProduct.map (W'.map φ) (E'.formsMapCompleted p φ a)) l
     (map_pAdicIdeal_le p _) (map_pAdicIdeal_le p _) (map_pAdicIdeal_le p _) (fun y => by
-      induction y using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction y using TensorProduct.inductionOn with
       | tmul y ω =>
-        show app n.len (W.map φ y) ⊗ₜ[E'.completedRing p n.len]
+        change app n.len (W.map φ y) ⊗ₜ[E'.completedRing p n.len]
             g.formsMap p n.len a (E.formsMap p φ a ω) =
           W'.map φ (app m.len y) ⊗ₜ[E'.completedRing p n.len]
             E'.formsMap p φ a (g.formsMap p m.len a ω)
@@ -291,7 +290,7 @@ theorem pullbackBeta07Q9_inclusion_inclusion (b : ℕ) (m : V.carrier 0) :
       (E.completedRing p b) (V.carrier 0) m) =
       V.map (CosimplicialDPAlgebra.coprojection b) m := by
     rw [CompletedConnection.baseChangeInclusion_apply, hbeta, one_smul]
-  show adicCompletionCongr07Q9 (pAdicIdeal (A := E'.completedRing p b) p)
+  change adicCompletionCongr07Q9 (pAdicIdeal (A := E'.completedRing p b) p)
       (LinearEquiv.baseChange (E.completedRing p b) (E'.completedRing p b) _ _ (beta b))
       ((CompletedConnection.baseChangeCompositeEquiv p (E.completedRing p 0)
         (E.completedRing p b) (E'.completedRing p b) (V.carrier 0)).symm
@@ -327,7 +326,7 @@ theorem pullbackBeta07Q9_tmul (b : ℕ) (x : E'.completedRing p b)
           ((V.pullback07Q9 g).carrier 0)).toAddMonoidHom) -
       ((V.pullback07Q9 g).map (CosimplicialDPAlgebra.coprojection b)).toAddMonoidHom)
     (fun c y => ?_) (fun y => ?_) m
-  · show V.pullbackBeta07Q9 g beta b (CompletedConnection.baseChangeInclusion p _ _ _ (c • y)) -
+  · change V.pullbackBeta07Q9 g beta b (CompletedConnection.baseChangeInclusion p _ _ _ (c • y)) -
         (V.pullback07Q9 g).map (CosimplicialDPAlgebra.coprojection b) (c • y) =
       E'.completedRingMap p (CosimplicialDPAlgebra.coprojection b) c •
         (V.pullbackBeta07Q9 g beta b (CompletedConnection.baseChangeInclusion p _ _ _ y) -
@@ -337,7 +336,7 @@ theorem pullbackBeta07Q9_tmul (b : ℕ) (x : E'.completedRing p b)
     have e2 := ((V.pullback07Q9 g).map (CosimplicialDPAlgebra.coprojection b)).map_smulₛₗ c y
     exact (congrArg₂ (· - ·) ((congrArg (V.pullbackBeta07Q9 g beta b) e1).trans
       ((V.pullbackBeta07Q9 g beta b).map_smul _ _)) e2).trans (smul_sub _ _ _).symm
-  · show V.pullbackBeta07Q9 g beta b (CompletedConnection.baseChangeInclusion p _ _ _
+  · change V.pullbackBeta07Q9 g beta b (CompletedConnection.baseChangeInclusion p _ _ _
         (CompletedConnection.baseChangeInclusion p _ _ _ y)) -
         (V.pullback07Q9 g).map (CosimplicialDPAlgebra.coprojection b)
           (CompletedConnection.baseChangeInclusion p _ _ _ y) = 0
@@ -444,17 +443,17 @@ theorem baseChangeConnection_pullbackApp07Q9 (b : ℕ) (x : V.carrier b) :
         (V.pullbackApp07Q9 g b) (fun i => E.forms p i b) (fun i => E'.forms p i b)
         (fun i => g.formsMap p b i) 1 (V.baseChangeConnection nabla beta b x) := by
   rw [← sub_eq_zero]
-  show V.pullbackDefect07Q9 g nabla beta b x = 0
+  change V.pullbackDefect07Q9 g nabla beta b x = 0
   let := E.coprojectionAlgebra p b
   rw [← (beta b).apply_symm_apply x]
   exact eq_zero_of_baseChangeInclusion p (g.completedRingMap p b)
     ((V.pullbackDefect07Q9 g nabla beta b).comp (beta b).toLinearMap.toAddMonoidHom)
     (fun c z => by
-      show V.pullbackDefect07Q9 g nabla beta b (beta b (c • z)) =
+      change V.pullbackDefect07Q9 g nabla beta b (beta b (c • z)) =
         g.completedRingMap p b c • V.pullbackDefect07Q9 g nabla beta b (beta b z)
       rw [map_smul, pullbackDefect07Q9_smul])
     (fun m => by
-      show V.pullbackDefect07Q9 g nabla beta b
+      change V.pullbackDefect07Q9 g nabla beta b
         (beta b (CompletedConnection.baseChangeInclusion p _ _ _ m)) = 0
       rw [CompletedConnection.baseChangeInclusion_apply, hbeta, one_smul]
       exact V.pullbackDefect07Q9_coprojection g nabla beta hbeta b m) _

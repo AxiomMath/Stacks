@@ -109,13 +109,13 @@ private theorem stabilizerFiber_dim_eq_localDim
     infer_instance
   let : Z.Over (Spec (.of k)) := ⟨f.fiberToSpecResidueField x⟩
   let : GrpObj (Z.asOver (Spec (.of k))) := by
-    show GrpObj (Over.mk (f.fiberToSpecResidueField x))
+    change GrpObj (Over.mk (f.fiberToSpecResidueField x))
     let : GrpObj (Over.mk f) := by
-      show GrpObj (stabilizer G)
+      change GrpObj (stabilizer G)
       exact (AlgebraicGeometry.stabilizerGroupStructure G).1
     exact Over.grpObjMkPullbackSnd
   let : LocallyOfFiniteType (Z ↘ Spec (.of k)) := by
-    show LocallyOfFiniteType (pullback.snd f (G.objects.left.fromSpecResidueField x))
+    change LocallyOfFiniteType (pullback.snd f (G.objects.left.fromSpecResidueField x))
     infer_instance
   exact AlgebraicGeometry.topologicalKrullDim_eq_topologicalKrullDimAt_of_groupScheme k Z p
 
@@ -147,7 +147,7 @@ private theorem stabilizerFiberToSourceFiber_isEmbedding
       (stabilizerFiberToSourceFiber G x ≫ G.source.left.fiberι x) := by
     rw [stabilizerFiberToSourceFiber_comp]
     let : IsImmersion (stabilizerArrow G) := AlgebraicGeometry.stabilizerArrow_isImmersion G
-    show Topology.IsEmbedding
+    change Topology.IsEmbedding
       ((stabilizerArrow G) ∘ ((stabilizer G).hom.fiberι x))
     exact (show Topology.IsEmbedding (stabilizerArrow G) from
       (AlgebraicGeometry.stabilizerArrow_isImmersion G).isEmbedding).comp
@@ -203,13 +203,13 @@ private theorem stabilizerFiberToSourceFiber_maps_identity
   let q : G.source.left.fiber x := hs ▸ G.source.left.asFiber (G.identity.left x)
   have hq : G.source.left.fiberι x q = G.identity.left x := by
     exact fiberι_cast_asFiber _ (G.identity.left x) hs
-  show stabilizerFiberToSourceFiber G x p = q
+  change stabilizerFiberToSourceFiber G x p = q
   apply (G.source.left.fiberι x).isEmbedding.injective
-  show (stabilizerFiberToSourceFiber G x ≫ G.source.left.fiberι x) p =
+  change (stabilizerFiberToSourceFiber G x ≫ G.source.left.fiberι x) p =
     G.source.left.fiberι x q
   rw [stabilizerFiberToSourceFiber_comp]
   rw [Scheme.Hom.comp_apply, hp, hq]
-  show ((stabilizerOne G).left ≫ stabilizerArrow G) x = G.identity.left x
+  change ((stabilizerOne G).left ≫ stabilizerArrow G) x = G.identity.left x
   rw [stabilizerOne_arrow_eq_identity]
 
 private theorem stabilizerFiber_dim_le_sourceFiberIdentity_localDim
@@ -234,11 +234,11 @@ private theorem restrictionArrowsToArrows_isImmersion
     {S : Scheme.{u}} (G : GroupoidScheme S) {U' : Over S}
     (g : U' ⟶ G.objects) [IsImmersion g.left] :
     IsImmersion (restrictionArrowsToArrows G g).left := by
-  show IsImmersion
+  change IsImmersion
     ((pullback.fst (pullback.snd g G.target) (pullback.fst G.source g)).left ≫
       (pullback.snd g G.target).left)
   have hg : IsImmersion ((Over.forget S).map g) := by
-    show IsImmersion g.left
+    change IsImmersion g.left
     infer_instance
   have htarget : IsImmersion (pullback.snd g G.target).left := by
     exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
@@ -265,7 +265,7 @@ private theorem restrictedSourceFiberMap_isEmbedding
     rw [D.sliceIdentityPoints.sourceFiberMap_arrow]
     let : IsImmersion (restrictionArrowsToArrows D.groupoid D.g).left :=
       restrictionArrowsToArrows_isImmersion D.groupoid D.g
-    show Topology.IsEmbedding
+    change Topology.IsEmbedding
       ((restrictionArrowsToArrows D.groupoid D.g).left ∘
         (D.restrictedSource.fiberι D.u'))
     exact (show Topology.IsEmbedding
@@ -288,7 +288,7 @@ private theorem restrictionMapArrows_isImmersion
   rw [D.restriction.mapArrows_eq]
   have heq : IsIso ((eqToHom D.restriction.arrows_eq).left) := by
     have h : IsIso ((Over.forget D.S).map (eqToHom D.restriction.arrows_eq)) := inferInstance
-    show IsIso ((Over.forget D.S).map (eqToHom D.restriction.arrows_eq))
+    change IsIso ((Over.forget D.S).map (eqToHom D.restriction.arrows_eq))
     exact h
   let : IsIso ((eqToHom D.restriction.arrows_eq).left) := heq
   let : IsOpenImmersion (eqToHom D.restriction.arrows_eq).left := by
@@ -297,7 +297,7 @@ private theorem restrictionMapArrows_isImmersion
   let : IsImmersion
       (restrictionArrowsToArrows D.groupoid D.g).left :=
     restrictionArrowsToArrows_isImmersion D.groupoid D.g
-  show IsImmersion
+  change IsImmersion
     ((eqToHom D.restriction.arrows_eq).left ≫
       (restrictionArrowsToArrows D.groupoid D.g).left)
   exact IsImmersion.comp _ _
@@ -319,7 +319,7 @@ private theorem restrictedStabilizerFiberMap_isEmbedding
       (D.sliceIdentityPoints.stabilizerFiberMap ≫
         (stabilizer D.groupoid).hom.fiberι D.u ≫ stabilizerArrow D.groupoid) := by
     rw [D.sliceIdentityPoints.stabilizerFiberMap_arrow]
-    show Topology.IsEmbedding
+    change Topology.IsEmbedding
       (D.restriction.hom.mapArrows.left ∘
         (stabilizerArrow D.restrictedGroupoid ∘
           (stabilizer D.restrictedGroupoid).hom.fiberι D.restrictedObjectPoint))
@@ -360,7 +360,7 @@ private theorem sourceFiberIdentity_has_finite_dimension_bound
   let k := G.objects.left.residueField x
   let f := G.source.left.fiberToSpecResidueField x
   let : LocallyOfFiniteType f := by
-    show LocallyOfFiniteType
+    change LocallyOfFiniteType
       (pullback.snd G.source.left (G.objects.left.fromSpecResidueField x))
     infer_instance
   exact exists_topologicalKrullDimAt_le (G.source.left.fiber x) k f
@@ -409,10 +409,10 @@ private theorem openImmersion_cohenMacaulayAt {X Y : Scheme.{u}}
     Scheme.Hom.IsCohenMacaulayAt i hf x := by
   let hf : ∀ y : Y, IsLocallyNoetherian (i.fiber y) := fun y => by
     let : LocallyOfFiniteType (i.fiberToSpecResidueField y) := by
-      show LocallyOfFiniteType (pullback.snd i (Y.fromSpecResidueField y))
+      change LocallyOfFiniteType (pullback.snd i (Y.fromSpecResidueField y))
       infer_instance
     exact LocallyOfFiniteType.isLocallyNoetherian (i.fiberToSpecResidueField y)
-  show AlgebraicGeometry.IsFlatAt i.toLRSHom.toShHom x ∧
+  change AlgebraicGeometry.IsFlatAt i.toLRSHom.toShHom x ∧
     IsCohenMacaulayLocalRing ((i.fiber (i x)).presheaf.stalk (i.asFiber x))
   constructor
   · exact (Flat.iff_flat_stalkMap i).mp inferInstance x
@@ -423,7 +423,7 @@ private theorem openImmersion_cohenMacaulayAt {X Y : Scheme.{u}}
       dsimp [g]
       exact Subsingleton.elim _ _
     have : IsOpenImmersion g := by
-      show IsOpenImmersion (pullback.snd i (Y.fromSpecResidueField (i x)))
+      change IsOpenImmersion (pullback.snd i (Y.fromSpecResidueField (i x)))
       infer_instance
     have : Flat g := inferInstance
     have : Surjective g := (surjective_iff g).2 hsurj
@@ -457,8 +457,8 @@ private theorem openImmersion_cohenMacaulayAt {X Y : Scheme.{u}}
         at hmax
       rw [Module.depth, ite_eq_right hI, ← Module.depthSup_eq_iSup] at hmax
       exact hmax
-    show IsCohenMacaulayModule A A
-    show Module.depthSup A (IsLocalRing.maximalIdeal A) A =
+    change IsCohenMacaulayModule A A
+    change Module.depthSup A (IsLocalRing.maximalIdeal A) A =
       (Module.supportDim A A : WithBot ℕ∞)
     rw [Module.supportDim_self_eq_ringKrullDim]
     exact hdepthSup
@@ -529,7 +529,7 @@ private lemma flat_open_restriction {X Y : Scheme.{u}} (f : X ⟶ Y)
   rw [Flat.iff_flat_stalkMap]
   intro x
   rw [Scheme.Hom.stalkMap_comp]
-  show ((V.ι.stalkMap x).hom.comp (f.stalkMap (V.ι x)).hom).Flat
+  change ((V.ι.stalkMap x).hom.comp (f.stalkMap (V.ι x)).hom).Flat
   exact (hV (V.ι x) x.2).comp
     ((Flat.iff_flat_stalkMap V.ι).mp inferInstance x)
 
@@ -570,7 +570,7 @@ private theorem exists_open_cm_near_point
           (((pullback.fst D.g D.groupoid.target.left) ⁻¹ᵁ W).ι ≫ D.h) hfW := by
   let f := D.h
   let : LocallyOfFinitePresentation f := by
-    show LocallyOfFinitePresentation
+    change LocallyOfFinitePresentation
       (pullback.snd D.g D.groupoid.target.left ≫ D.groupoid.source.left)
     infer_instance
   let hf0 : ∀ y : D.groupoid.objects.left, IsLocallyNoetherian (f.fiber y) := hf
@@ -606,7 +606,7 @@ private theorem sourceMap_locallyOfFinitePresentation (D : SliceSituation.{u})
     MorphismProperty.IsStableUnderBaseChange.of_isPullback
       ((IsPullback.of_hasPullback D.g D.groupoid.target).map (Over.forget D.S))
       (inferInstance : LocallyOfFinitePresentation D.g.left)
-  show LocallyOfFinitePresentation
+  change LocallyOfFinitePresentation
     ((pullback.snd D.g D.groupoid.target).left ≫ D.groupoid.source.left)
   infer_instance
 
@@ -656,11 +656,11 @@ private theorem exists_open_cohenMacaulay_slice
   let e : D.arrowSource.left ≅ A.fiberProduct :=
     PreservesPullback.iso (Over.forget D.S) D.g D.groupoid.target
   let : LocallyOfFinitePresentation A.h := by
-    show LocallyOfFinitePresentation
+    change LocallyOfFinitePresentation
       (pullback.snd D.g.left D.groupoid.target.left ≫ D.groupoid.source.left)
     infer_instance
   have he : e.hom ≫ A.h = D.sourceMap.left := by
-    show e.hom ≫ pullback.snd D.g.left D.groupoid.target.left ≫
+    change e.hom ≫ pullback.snd D.g.left D.groupoid.target.left ≫
       D.groupoid.source.left = _
     have H := congrArg (fun k => k ≫ D.groupoid.source.left)
       (PreservesPullback.iso_hom_snd (Over.forget D.S) D.g D.groupoid.target)
@@ -685,7 +685,7 @@ private theorem exists_open_cohenMacaulay_slice
   let V₀ : A.fiberProduct.Opens := (pullback.fst A.g A.groupoid.target.left) ⁻¹ᵁ W
   have hV : V ≤ e.hom ⁻¹ᵁ V₀ := by
     intro z hz
-    show (e.hom ≫ pullback.fst D.g.left D.groupoid.target.left) z ∈ W
+    change (e.hom ≫ pullback.fst D.g.left D.groupoid.target.left) z ∈ W
     rwa [hep]
   let j := e.hom.resLE V₀ V hV
   let : IsOpenImmersion j := by
@@ -741,7 +741,7 @@ private theorem cohenMacaulay_sourceMap_open_refinement (D : SliceSituation.{u})
       (show (pullback.fst (j ≫ D.g) D.groupoid.target ≫ j) ≫ D.g =
         pullback.snd (j ≫ D.g) D.groupoid.target ≫ D.groupoid.target by
         simp [Category.assoc, pullback.condition]))
-    show (pullback.fst D.g D.groupoid.target).left (q.left z) ∈ W
+    change (pullback.fst D.g D.groupoid.target).left (q.left z) ∈ W
     exact hp.symm ▸ hjW ⟨_, rfl⟩
   have hqRange : Set.range q.left ⊆ Set.range V.ι := by
     simpa only [Scheme.Opens.range_ι] using hqV
@@ -798,7 +798,7 @@ private lemma fiber_localDim_le {X Y X' Y' : Scheme.{u}}
     topologicalKrullDimAt (f.fiber y) p ≤ topologicalKrullDimAt (f'.fiber y') q := by
   let F : f.fiber y → f' ⁻¹' {y'} := fun z =>
     ⟨a (f.fiberι y z), by
-      show (a ≫ f') (f.fiberι y z) = y'
+      change (a ≫ f') (f.fiberι y z) = y'
       rw [h, Scheme.Hom.comp_apply]
       exact (congrArg b (f.fiberHomeo y z).2).trans hy⟩
   have hF : Topology.IsEmbedding F := by
@@ -865,7 +865,7 @@ private lemma restrictionLift_arrow {S : Scheme.{u}} (G : GroupoidScheme S)
 
 private lemma restrictedObjectPoint_map (D : SliceSituation.{u}) :
     (eqToHom D.restriction.objects_eq).left D.restrictedObjectPoint = D.u' := by
-  show ((eqToHom D.restriction.objects_eq.symm ≫
+  change ((eqToHom D.restriction.objects_eq.symm ≫
     eqToHom D.restriction.objects_eq).left) D.u' = D.u'
   simp
 
@@ -893,11 +893,11 @@ private lemma restriction_fiber_dim_eq (D : SliceSituation.{u}) [IsImmersion D.g
       (sourceFiberIdentity D.restrictedGroupoid D.restrictedObjectPoint) =
       D.restrictedGroupoid.identity.left D.restrictedObjectPoint from
         fiberι_cast_asFiber _ _ _]
-  show ((D.restriction.groupoid.identity ≫ eqToHom D.restriction.arrows_eq ≫
+  change ((D.restriction.groupoid.identity ≫ eqToHom D.restriction.arrows_eq ≫
     restrictionArrowsToArrows D.groupoid D.g).left) D.restrictedObjectPoint = _
   rw [← D.restriction.mapArrows_eq]
   rw [← D.restriction.hom.map_identity, D.restriction.mapObjects_eq]
-  show D.groupoid.identity.left
+  change D.groupoid.identity.left
     (D.g.left ((eqToHom D.restriction.objects_eq).left D.restrictedObjectPoint)) = _
   rw [restrictedObjectPoint_map, D.mapsTo]
 
@@ -931,7 +931,7 @@ private lemma refinement_dim_le (D : SliceSituation.{u}) [IsImmersion D.g.left]
   have hem : Topology.IsEmbedding l.left := by
     have hl' := congrArg Over.Hom.left hl
     apply (restrictionArrowsToArrows_isImmersion D.groupoid D.g).isEmbedding.of_comp_iff.mp
-    show Topology.IsEmbedding (l ≫ restrictionArrowsToArrows D.groupoid D.g).left
+    change Topology.IsEmbedding (l ≫ restrictionArrowsToArrows D.groupoid D.g).left
     rw [hl]
     exact (restrictionArrowsToArrows_isImmersion D.groupoid (j ≫ D.g)).isEmbedding
   apply fiber_localDim_le E.restrictedSource D.restrictedSource l.left j.left
@@ -940,7 +940,7 @@ private lemma refinement_dim_le (D : SliceSituation.{u}) [IsImmersion D.g.left]
   rw [D.sliceIdentityPoints.restrictedSourceIdentity_fiberι,
     D.sliceIdentityPoints.restrictedIdentity_arrow,
     E.sliceIdentityPoints.restrictedSourceIdentity_fiberι]
-  show ((l ≫ restrictionArrowsToArrows D.groupoid D.g).left)
+  change ((l ≫ restrictionArrowsToArrows D.groupoid D.g).left)
     E.sliceIdentityPoints.restrictedIdentity = _
   rw [hl]
   exact E.sliceIdentityPoints.restrictedIdentity_arrow
@@ -962,7 +962,7 @@ private lemma exists_restriction_lift {S : Scheme.{u}} (G : GroupoidScheme S)
 private lemma restriction_mapObjects_point (D : SliceSituation.{u}) :
     D.restriction.hom.mapObjects.left D.restrictedObjectPoint = D.u := by
   rw [D.restriction.mapObjects_eq]
-  show D.g.left ((eqToHom D.restriction.objects_eq).left D.restrictedObjectPoint) = D.u
+  change D.g.left ((eqToHom D.restriction.objects_eq).left D.restrictedObjectPoint) = D.u
   rw [restrictedObjectPoint_map, D.mapsTo]
 
 /-- The map on objects of the restriction to an immersion `g` is again an immersion. -/
@@ -1019,30 +1019,30 @@ private lemma composite_restriction_dim_le (D : SliceSituation.{u})
       (restrictionArrowsToArrows_isImmersion D.restrictedGroupoid j).isEmbedding
   have hmEmb : Topology.IsEmbedding m.left := by
     apply htEmb.of_comp_iff.mp
-    show Topology.IsEmbedding
+    change Topology.IsEmbedding
       (m ≫ restrictionArrowsToArrows D.restrictedGroupoid j ≫
         D.restriction.hom.mapArrows).left
     rw [hma]
     exact (restrictionArrowsToArrows_isImmersion D.groupoid K.g).isEmbedding
   apply fiber_localDim_le K.restrictedSource E.restrictedSource m.left (𝟙 V.left)
     (by
-      show (m ≫ restrictionSource D.restrictedGroupoid j).left = s.left ≫ 𝟙 _
+      change (m ≫ restrictionSource D.restrictedGroupoid j).left = s.left ≫ 𝟙 _
       rw [hms, Category.comp_id]) hmEmb v v rfl
   apply htEmb.injective
   rw [K.sliceIdentityPoints.restrictedSourceIdentity_fiberι,
     E.sliceIdentityPoints.restrictedSourceIdentity_fiberι]
-  show ((m ≫ restrictionArrowsToArrows D.restrictedGroupoid j ≫
+  change ((m ≫ restrictionArrowsToArrows D.restrictedGroupoid j ≫
     D.restriction.hom.mapArrows).left) K.sliceIdentityPoints.restrictedIdentity = _
   rw [hma, K.sliceIdentityPoints.restrictedIdentity_arrow]
-  show D.groupoid.identity.left D.u = D.restriction.hom.mapArrows.left
+  change D.groupoid.identity.left D.u = D.restriction.hom.mapArrows.left
     ((restrictionArrowsToArrows D.restrictedGroupoid j).left
       E.sliceIdentityPoints.restrictedIdentity)
   rw [E.sliceIdentityPoints.restrictedIdentity_arrow]
-  show D.groupoid.identity.left D.u =
+  change D.groupoid.identity.left D.u =
     (D.restriction.groupoid.identity ≫ D.restriction.hom.mapArrows).left
       D.restrictedObjectPoint
   rw [← D.restriction.hom.map_identity]
-  show D.groupoid.identity.left D.u = D.groupoid.identity.left
+  change D.groupoid.identity.left D.u = D.groupoid.identity.left
     (D.restriction.hom.mapObjects.left D.restrictedObjectPoint)
   rw [restriction_mapObjects_point]
 
@@ -1144,7 +1144,7 @@ private lemma cohenMacaulay_sourceMap_comp (D : SliceSituation.{u})
     intro y
     obtain ⟨x, hx⟩ := y.2
     refine ⟨x, W.ι.isOpenEmbedding.injective ?_⟩
-    show (fW ≫ W.ι) x = _
+    change (fW ≫ W.ι) x = _
     rw [hfac]
     exact hx⟩
   obtain ⟨k, hk, hPk⟩ := AlgebraicGeometry.descent_to_open_image

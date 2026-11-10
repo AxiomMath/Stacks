@@ -125,7 +125,7 @@ theorem finiteDimensional_tangentModuleAt_of_isFiniteDimensional
   obtain ⟨hp', htan, -⟩ := h
   dsimp only at htan
   let : Fact (IsPredeformationCategory (BasedCategory.ofFunctor p).p) := ⟨hp.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Elements.π
     (isomorphismClasses (BasedCategory.ofFunctor p) hp.predeformation.cofibered))) :=
     ⟨tangentConditionS2.{u, w, w} hp⟩
   have := htan

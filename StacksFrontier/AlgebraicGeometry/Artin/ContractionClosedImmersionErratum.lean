@@ -141,7 +141,7 @@ theorem range_pointsMap_openToTerminal (O : S.Opens) :
   · rintro ⟨q, rfl⟩
     obtain ⟨x, rfl⟩ :=
       (Space.schemePointsHomeomorph B S hS (openSiteObject B S hS O)).symm.surjective q
-    show terminalPointsHomeomorph B S hS _ ∈ (O : Set S)
+    change terminalPointsHomeomorph B S hS _ ∈ (O : Set S)
     rw [terminalPointsHomeomorph_pointsMap_openToTerminal, Space.toScheme_map_openSubHom]
     exact x.2
   · intro hp
@@ -249,7 +249,7 @@ theorem openSituation_preimage (hSN : IsLocallyNoetherian S) (O : S.Opens) :
     Space.pointsMap B S hS (openSituation B S hS hSN O).X'
       (terminal.from (openSituation B S hS hSN O).X') ⁻¹' complPoints B S hS O =
       (openSituation B S hS hSN O).T' := by
-  show Space.pointsMap B S hS (yoneda.obj (openSiteObject B S hS O))
+  change Space.pointsMap B S hS (yoneda.obj (openSiteObject B S hS O))
     (terminal.from (yoneda.obj (openSiteObject B S hS O))) ⁻¹' complPoints B S hS O = ∅
   rw [terminal_from_yoneda_openSiteObject]
   refine Set.eq_empty_of_forall_notMem fun x hx => ?_

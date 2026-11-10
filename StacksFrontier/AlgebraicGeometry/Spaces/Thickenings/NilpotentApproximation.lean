@@ -135,7 +135,7 @@ theorem isClosedImmersion_toScheme_map_idealChartι
     (J : Ideal Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)) :
     AlgebraicGeometry.IsClosedImmersion
       ((BigFppfOver.toScheme B S hS).map (idealChartι B S hS J)) := by
-  show AlgebraicGeometry.IsClosedImmersion (idealSubobject B S hS J).arrow
+  change AlgebraicGeometry.IsClosedImmersion (idealSubobject B S hS J).arrow
   rw [← Subobject.underlyingIso_hom_comp_eq_mk]
   infer_instance
 

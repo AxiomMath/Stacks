@@ -394,7 +394,7 @@ theorem tautSpanOn_univ_eq_top (hN : IsColimit (Cofan.mk N ι)) {V : C}
         N.val.restrictₛₗ b.op (N.val.restrictₛₗ (g j).op x) := fun x ↦ by
       simp only [PresheafOfModules.restrictₛₗ_apply, op_comp]
       exact N.val.map_comp_apply _ _ x
-    show N.val.restrictₛₗ (b ≫ g j).op (tautTrunc ι hN F (op V) n) =
+    change N.val.restrictₛₗ (b ≫ g j).op (tautTrunc ι hN F (op V) n) =
       N.val.restrictₛₗ (b ≫ g j).op n
     rw [key, key, htrunc j]
   rw [← hfix]

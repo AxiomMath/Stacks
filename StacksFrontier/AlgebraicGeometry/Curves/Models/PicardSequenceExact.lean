@@ -170,7 +170,7 @@ private theorem supportSet_specialFiberComponentIdeal_subset_aux
   have hy' : y ∈ ((S.toRegularModelSituation.specialFiberComponentIdeal Z).support : Set S.X) := hy
   rw [S.toRegularModelSituation.coe_support_specialFiberComponentIdeal Z] at hy'
   obtain ⟨z, -, rfl⟩ := hy'
-  show S.specialFiberι.base z ∈ (S.specialFiberIdeal.support : Set S.X)
+  change S.specialFiberι.base z ∈ (S.specialFiberIdeal.support : Set S.X)
   rw [S.toRegularModelSituation.coe_support_specialFiberIdeal]
   exact ⟨z, rfl⟩
 
@@ -198,17 +198,17 @@ theorem genericFiberPicardRestriction_picardClass_specialFiberComponentIdeal
   set j := S.toRegularModelSituation.genericFiberToModel
   have hcomap : D.comap j = ⊤ := comap_specialFiberComponentIdeal_genericFiberToModel S Z
   have : Stacks.Divisors.IsPullbackDefined j D := by
-    show Stacks.Divisors.IsEffectiveCartierDivisor (D.comap j)
+    change Stacks.Divisors.IsEffectiveCartierDivisor (D.comap j)
     rw [hcomap]
     infer_instance
-  show schemePullbackClass j (Stacks.Divisors.picardClass D) = 0
+  change schemePullbackClass j (Stacks.Divisors.picardClass D) = 0
   refine (Stacks.Picard.pullbackClass_classOf j.toLRSHom.toShHom
     (Stacks.Divisors.invertibleSheaf' D)
     (Stacks.Divisors.isInvertible_invertibleSheaf_picard D)).trans ?_
   refine Eq.trans ((Stacks.SheafOfModules.picardClass_eq_iff _ _ _ _ _
     (Stacks.Divisors.isInvertible_invertibleSheaf_picard (D.comap j))).2
       ⟨Stacks.Divisors.invertibleSheafPullbackIso j D⟩) ?_
-  show Stacks.Divisors.picardClass (D.comap j) = 0
+  change Stacks.Divisors.picardClass (D.comap j) = 0
   rw [Stacks.Divisors.picardClass_congr hcomap]
   exact Stacks.Divisors.picardClass_top
 
@@ -230,7 +230,7 @@ theorem genericFiberPicardRestriction_componentPicardHom
 /-- A finitely supported product of powers over a finite index type is the product over the whole
 type: the omitted factors have exponent zero. -/
 private theorem finsuppProd_eq_univProd {X : Scheme.{u}} {ι : Type*} [Fintype ι]
-    [DecidableEq ι] (D : ι → X.IdealSheafData) (a : ι →₀ ℕ) :
+    (D : ι → X.IdealSheafData) (a : ι →₀ ℕ) :
     (a.prod fun i n => D i ^ n) = ∏ i, D i ^ a i :=
   Finsupp.prod_fintype a _ fun _ => pow_zero _
 
@@ -295,7 +295,7 @@ private theorem mem_range_componentPicardHom_of_schemePullbackClass_basicOpen_eq
     (fun Z => ⟨inferInstance, S.isEffectiveCartierDivisor_specialFiberComponent Z⟩)
     fun y hy => by
       refine S.exists_mem_supportSet_specialFiberComponentIdeal ?_
-      show y ∈ (S.specialFiberIdeal.support : Set S.X)
+      change y ∈ (S.specialFiberIdeal.support : Set S.X)
       rw [S.toRegularModelSituation.coe_support_specialFiberIdeal_eq_compl_basicOpen S.uniformizer]
       exact fun hyU => hD y hyU hy
   refine ⟨fun Z => (a Z : ℤ), ?_⟩
@@ -312,8 +312,7 @@ trivial on `X_π`; that module has a nonzerodivisor global section vanishing now
 therefore an effective Cartier divisor supported in the special fibre, and [Stacks, Tag 0BCP]
 writes that divisor as a nonnegative combination of the components. -/
 theorem exact_componentPicardHom_genericFiberPicardRestriction
-    [Fintype (irreducibleComponents S.specialFiber)]
-    [DecidableEq (irreducibleComponents S.specialFiber)] :
+    [Fintype (irreducibleComponents S.specialFiber)] :
     Function.Exact
       (componentPicardHom S S.toRegularModelSituation.specialFiberComponentIdeal)
       (genericFiberPicardRestriction S) := by
@@ -369,7 +368,7 @@ theorem mem_supportSet_specialFiberComponentIdeal_iff
     exact Subtype.ext (Z.2.eq_of_subset W.2.1
       ((Set.image_subset_image_iff S.specialFiberι.isClosedEmbedding.injective).mp hsub))
   · rintro rfl
-    show componentGenericPoint S Z ∈
+    change componentGenericPoint S Z ∈
       ((S.toRegularModelSituation.specialFiberComponentIdeal Z).support : Set S.X)
     rw [S.toRegularModelSituation.coe_support_specialFiberComponentIdeal Z,
       ← S.toRegularModelSituation.closure_singleton_genericPoint_specialFiberComponent Z]
@@ -391,7 +390,6 @@ private def stalkMonoidHom (X : Scheme.{u}) (x : X) :
 power of that component's stalk**: the other components do not pass through the point, so their
 stalks there are the unit ideal. -/
 theorem stalk_componentProduct [Fintype (irreducibleComponents S.specialFiber)]
-    [DecidableEq (irreducibleComponents S.specialFiber)]
     (Z : irreducibleComponents S.specialFiber)
     (k : irreducibleComponents S.specialFiber → ℕ) :
     AlgebraicGeometry.IdealSheafData.stalk
@@ -406,7 +404,7 @@ theorem stalk_componentProduct [Fintype (irreducibleComponents S.specialFiber)]
       ∏ W, AlgebraicGeometry.IdealSheafData.stalk
         (S.toRegularModelSituation.specialFiberComponentIdeal W)
         (componentGenericPoint S Z) ^ k W := by
-    show stalkMonoidHom S.X (componentGenericPoint S Z)
+    change stalkMonoidHom S.X (componentGenericPoint S Z)
       (∏ W, S.toRegularModelSituation.specialFiberComponentIdeal W ^ k W) = _
     rw [map_prod]
     exact Finset.prod_congr rfl fun W _ =>
@@ -478,8 +476,7 @@ private theorem span_singleton_pow_injective {A : Type*} [CommRing A] [IsDomain 
 /-- **The map sending an exponent vector to the corresponding combination of the components of
 the special fibre is injective.** The exponent at a component is recovered from the stalk at its
 generic point, where every other component contributes the unit ideal. -/
-theorem componentProduct_injective [Fintype (irreducibleComponents S.specialFiber)]
-    [DecidableEq (irreducibleComponents S.specialFiber)] :
+theorem componentProduct_injective [Fintype (irreducibleComponents S.specialFiber)] :
     Function.Injective fun k : irreducibleComponents S.specialFiber → ℕ =>
       ∏ Z, S.toRegularModelSituation.specialFiberComponentIdeal Z ^ k Z := by
   have : IsIntegral S.X := S.toRegularModelSituation.isIntegral_X
@@ -495,7 +492,6 @@ theorem componentProduct_injective [Fintype (irreducibleComponents S.specialFibe
 multiplicity.** If one had multiplicity zero, the stalk of the special fibre at its generic point
 would be the unit ideal, and the point would lie off the special fibre. -/
 theorem multiplicity_ne_zero [Fintype (irreducibleComponents S.specialFiber)]
-    [DecidableEq (irreducibleComponents S.specialFiber)]
     (m : irreducibleComponents S.specialFiber → ℕ)
     (hdec : S.specialFiberIdeal =
       ∏ Z, S.toRegularModelSituation.specialFiberComponentIdeal Z ^ m Z)
@@ -511,11 +507,12 @@ theorem multiplicity_ne_zero [Fintype (irreducibleComponents S.specialFiber)]
 
 /-- **An integer vector becomes nonnegative after adding a large multiple of the multiplicity
 vector**, the multiplicities being at least one. -/
-theorem exists_nat_shift_nonneg [Fintype (irreducibleComponents S.specialFiber)]
+theorem exists_nat_shift_nonneg [Finite (irreducibleComponents S.specialFiber)]
     (m : irreducibleComponents S.specialFiber → ℕ) (hm : ∀ Z, m Z ≠ 0)
     (a : irreducibleComponents S.specialFiber → ℤ) :
     ∃ n : ℕ, ∀ Z, 0 ≤ a Z + (n : ℤ) * (m Z : ℤ) := by
   classical
+  have := Fintype.ofFinite (irreducibleComponents S.specialFiber)
   set N := Finset.univ.sup fun W => (a W).natAbs
   refine ⟨N, fun Z => ?_⟩
   have h1 : (a Z).natAbs ≤ N := Finset.le_sup (f := fun W => (a W).natAbs) (Finset.mem_univ Z)
@@ -619,7 +616,6 @@ combination is that power of the special fibre, and the exponent vectors agree b
 components are independent. -/
 theorem exact_multiplicityHom_componentPicardHom
     [Fintype (irreducibleComponents S.specialFiber)]
-    [DecidableEq (irreducibleComponents S.specialFiber)]
     (m : irreducibleComponents S.specialFiber → ℕ)
     (hdec : S.specialFiberIdeal =
       ∏ Z, S.toRegularModelSituation.specialFiberComponentIdeal Z ^ m Z) :
@@ -655,7 +651,7 @@ theorem exact_multiplicityHom_componentPicardHom
       rw [← hk Z, congrFun (componentProduct_injective S hprodeq) Z]
       push_cast
       ring
-    show ((l : ℤ) - (n : ℤ)) * (m Z : ℤ) = a Z
+    change ((l : ℤ) - (n : ℤ)) * (m Z : ℤ) = a Z
     linarith
   · rintro ⟨c, rfl⟩
     exact componentPicardHom_multiplicityHom S

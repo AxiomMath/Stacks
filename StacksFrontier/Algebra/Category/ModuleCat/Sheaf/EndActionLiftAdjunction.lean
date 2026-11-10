@@ -184,7 +184,7 @@ public lemma sheafCompose_map_moduleLiftAdjunction_counit_app (adj : L ⊣ R)
         ((moduleLiftAdjunction Λ J₁ J₂ L R adj).counit.app G) =
       adj.counit.app ((sheafCompose J₂
         (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj G) := by
-  show (sheafCompose J₂ (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map
+  change (sheafCompose J₂ (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map
       ((moduleLiftHomEquiv Λ J₁ J₂ L R adj ((moduleLift Λ J₂ J₁ R).obj G) G).symm
         (𝟙 ((moduleLift Λ J₂ J₁ R).obj G))) = _
   rw [sheafCompose_map_moduleLiftHomEquiv_symm, CategoryTheory.Functor.map_id]
@@ -200,7 +200,7 @@ public lemma sheafCompose_map_moduleLiftAdjunction_unit_app (adj : L ⊣ R)
         ((moduleLiftAdjunction Λ J₁ J₂ L R adj).unit.app F) =
       adj.unit.app ((sheafCompose J₁
         (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F) := by
-  show (sheafCompose J₁ (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map
+  change (sheafCompose J₁ (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map
       (moduleLiftHomEquiv Λ J₁ J₂ L R adj F ((moduleLift Λ J₁ J₂ L).obj F)
         (𝟙 ((moduleLift Λ J₁ J₂ L).obj F))) = _
   rw [sheafCompose_map_moduleLiftHomEquiv, CategoryTheory.Functor.map_id]

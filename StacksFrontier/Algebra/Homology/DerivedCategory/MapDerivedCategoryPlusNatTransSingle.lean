@@ -71,7 +71,7 @@ private theorem mapHomotopyCategory_app_single_comp_mapHomotopyCategoryPlusObjSi
       (S.mapHomotopyCategoryPlusObjSingleIso n X).hom.hom =
       (T.mapHomotopyCategoryPlusObjSingleIso n X).hom.hom ≫
         ((HomotopyCategory.Plus.singleFunctor B n).map (τ.app X)).hom := by
-  show (HomotopyCategory.quotient B (ComplexShape.up ℤ)).map
+  change (HomotopyCategory.quotient B (ComplexShape.up ℤ)).map
         ((NatTrans.mapHomologicalComplex τ (ComplexShape.up ℤ)).app
           ((HomologicalComplex.single A (ComplexShape.up ℤ) n).obj X)) ≫
       (HomotopyCategory.Plus.ι B).map (S.mapHomotopyCategoryPlusObjSingleIso n X).hom =

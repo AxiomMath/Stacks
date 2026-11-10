@@ -80,8 +80,8 @@ library, as
 system of abelian sheaves on an `InverseSystemOfSites`, whose covering sieves are required to be
 finitely generated ([Stacks, Tag 00VH]). The small étale site of a scheme is not such a site —
 its coverings are arbitrary jointly surjective families of étale morphisms — so an
-`EtaleSheafSystem` is not an instance of that notion and the library's Tag 0EXZ does not apply to it.
-Carrying the construction of its proof across is a development in its own right, and it is a
+`EtaleSheafSystem` is not an instance of that notion and the library's Tag 0EXZ does not apply to
+it. Carrying the construction of its proof across is a development in its own right, and it is a
 hypothesis here rather than a hole in a proof.
 
 **What `Hdev` now costs is that levelwise statement and nothing else.**
@@ -98,8 +98,8 @@ exact sequence on the limit comes from
 `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.mono_of_pointwise_mono`, the exactness of
 filtered colimits. The device making the last two available is that a system, though not a
 functor, *is* a functor into the Karoubi envelope of the sheaf category on the limit — see
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleKaroubiColimit.lean`, which also
-shows that the identity law this structure omits costs nothing where the colimit is concerned.
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleKaroubiColimit.lean`, which
+also shows that the identity law this structure omits costs nothing where the colimit is concerned.
 
 *The cocone laws.* `PresentedSystem` carries two laws, `transition_comp` and `leg_transition`:
 the transition maps on cohomology compose, and the legs are compatible with them. These are what

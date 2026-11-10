@@ -70,7 +70,7 @@ theorem sliceMor_push_smulHom {p : ℕ} (c : CechCochains.Cochain U (abSections 
       π.hom ((sliceMor U hU F c).hom 1)) ?_
   · rfl
   · refine (map_smul π.hom _ _).symm.trans ?_
-    show π.hom _ = π.hom ((sliceMor U hU F c).hom ((toMor
+    change π.hom _ = π.hom ((sliceMor U hU F c).hom ((toMor
       (show SectionRing (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf) ⊤ from s)).hom 1))
     rw [toMor_apply_one, ← map_smul]
     exact congrArg (fun z => π.hom ((sliceMor U hU F c).hom z)) (mul_one _)

@@ -247,7 +247,7 @@ theorem exists_eq_Q_map_of_isKInjective {C : Type u} [CategoryTheory.Category.{v
   obtain ⟨f, rfl⟩ := q.map_surjective g'
   refine ⟨f, (cancel_epi (qiso.hom.app A)).1 ?_⟩
   rw [← qiso.hom.naturality f]
-  show DerivedCategory.Qh.map (q.map f) ≫ qiso.hom.app I = _
+  change DerivedCategory.Qh.map (q.map f) ≫ qiso.hom.app I = _
   rw [hg']
   simp
 

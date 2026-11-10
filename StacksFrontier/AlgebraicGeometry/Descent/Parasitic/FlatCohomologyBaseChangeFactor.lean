@@ -135,7 +135,7 @@ public theorem homEquiv_counit_eq (G : ℬ) :
     exact Category.id_comp _
   rw [Adjunction.homEquiv_apply, Functor.map_comp, ← Category.assoc,
     ← unit_conjugateEquiv (A.comp D) adj₂ α.hom (r.obj G), hβ, Category.assoc]
-  show (A.comp D).unit.app (r.obj G) ≫
+  change (A.comp D).unit.app (r.obj G) ≫
       (conjugateEquiv (A.comp D) adj₂ α.hom).app (ρ.obj (a.obj (r.obj G))) ≫
         R₂.map (ρ.map (A.counit.app G)) = _
   rw [hnat, ← Category.assoc, htri]

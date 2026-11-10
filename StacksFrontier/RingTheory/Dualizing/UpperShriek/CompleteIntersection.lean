@@ -427,7 +427,7 @@ theorem isInvertible_upperShriekFunctor_obj_unit_of_isKoszulRegular
     let : (q.comap p.toRingHom).IsPrime := Ideal.IsPrime.comap p.toRingHom
     have hle : RingHom.ker p.toRingHom ≤ q.comap p.toRingHom := by
       intro x hx
-      show p.toRingHom x ∈ q
+      change p.toRingHom x ∈ q
       rw [RingHom.mem_ker.mp hx]
       exact q.zero_mem
     obtain ⟨g, hg, c, xs, hreg, hspan⟩ :=
@@ -451,7 +451,7 @@ theorem isInvertible_upperShriekFunctor_obj_unit_of_isKoszulRegular
         (Localization.Away (p.toRingHom g)) p.toRingHom g) =
         Ideal.ofList (List.ofFn xs) := by
       rw [hlist]
-      show RingHom.ker (IsLocalization.map (Localization.Away (p.toRingHom g))
+      change RingHom.ker (IsLocalization.map (Localization.Away (p.toRingHom g))
         p.toRingHom _) = _
       rw [IsLocalization.ker_map (Localization.Away (p.toRingHom g)) p.toRingHom
         (Submonoid.map_powers p.toRingHom g)]

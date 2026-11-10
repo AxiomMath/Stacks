@@ -230,7 +230,7 @@ public theorem constantSheafIsoForgetTensorUnit_unit
       (constantToForgetTensorUnit.{u, v} B S Λ)
       ((forgetModuleSheaf.{u, v, max (u + 1) v} B S Λ).obj
         (𝟙_ (ModuleSheaf.{u, v, max (u + 1) v} B S Λ))).property)
-  show (sheafifyLift (SmallEtale.topology B S.obj S.property)
+  change (sheafifyLift (SmallEtale.topology B S.obj S.property)
       (constantToForgetTensorUnit.{u, v} B S Λ)
       ((forgetModuleSheaf.{u, v, max (u + 1) v} B S Λ).obj
         (𝟙_ (ModuleSheaf.{u, v, max (u + 1) v} B S Λ))).property).app T
@@ -271,7 +271,7 @@ public theorem forgetTensorUnitIsoLocallyConstantSheafAb_toSheafify
       (((sheafToPresheaf (SmallEtale.topology B S.obj S.property)
         AddCommGrpCat.{max (u + 1) v}).mapIso
           (constantSheafIsoForgetTensorUnit.{u, v} B S Λ)).app T) _
-  show (constantSheafIsoLocallyConstantMapsAb_smallEtale.{u, v}
+  change (constantSheafIsoLocallyConstantMapsAb_smallEtale.{u, v}
       B S.obj S.property Λ).hom.hom.app T
     (((constantSheafIsoForgetTensorUnit.{u, v} B S Λ).inv.hom.app T)
       ((toSheafify (SmallEtale.topology B S.obj S.property)
@@ -377,7 +377,7 @@ public theorem moduleEtaleStalkIso_inv_app_toPresheafFiber
     ConcreteCategory.congr_hom
       ((geometricPointSitePoint B S.obj S.property t).toPresheafFiber_presheafFiberCompIso_hom_app
         (F := forget₂ (ModuleCat.{max (u + 1) v} Λ) AddCommGrpCat.{max (u + 1) v}) W q G.obj) m
-  show ((geometricPointSitePoint B S.obj S.property t).presheafFiberCompIso
+  change ((geometricPointSitePoint B S.obj S.property t).presheafFiberCompIso
       (forget₂ (ModuleCat.{max (u + 1) v} Λ) AddCommGrpCat.{max (u + 1) v})).inv.app G.obj
       ((geometricPointSitePoint B S.obj S.property t).toPresheafFiber W q G.obj m) = _
   rw [← h]

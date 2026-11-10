@@ -179,7 +179,7 @@ theorem homComparison_constantUnitApp (X : Cᵒᵖ) (ψ : M ⟶ N) (m : M) :
   refine ((homComparison J M N E e X.unop).2 _ m).trans
     ((app_constantUnitApp_map J _ X _).trans ?_)
   refine congrArg (constantUnitApp J N X).hom ?_
-  show (e.symm (e (ModuleCat.homLinearEquiv (S := Λ) ψ))) m = ψ.hom m
+  change (e.symm (e (ModuleCat.homLinearEquiv (S := Λ) ψ))) m = ψ.hom m
   rw [e.symm_apply_apply]
   rfl
 

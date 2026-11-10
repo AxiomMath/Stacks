@@ -510,7 +510,7 @@ public theorem openSubHomOfLE_comp_openSubHom (T : BigFppfOver B S hS)
     openSubHomOfLE B S hS T hVW ≫ openSubHom B S hS T W = openSubHom B S hS T V := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show T.left.obj.homOfLE hVW ≫ W.ι = V.ι
+  change T.left.obj.homOfLE hVW ≫ W.ι = V.ι
   exact Scheme.homOfLE_ι _ hVW
 
 /-- **The covering of an object by its affine opens lying over affine opens of `S`.**  Its index
@@ -530,7 +530,7 @@ private theorem isFppfCovering_of_forall_exists (T : BigFppfOver B S hS)
     (hsurj : ∀ x : T.left.obj, ∃ i, x ∈ Set.range ⇑(E.f i).left.hom)
     (himm : ∀ i, IsOpenImmersion (E.f i).left.hom) :
     IsFppfCovering (κ := B.cutoff) ⟨T.left, E.map (Over.forget (B.obj hS))⟩ := by
-  show Presieve.map B.inclusion (E.map (Over.forget (B.obj hS))).presieve₀ ∈
+  change Presieve.map B.inclusion (E.map (Over.forget (B.obj hS))).presieve₀ ∈
       Scheme.fppfPrecoverage.coverings _
   rw [PreZeroHypercover.presieve₀, Presieve.map_ofArrows]
   refine Scheme.zariskiPrecoverage_le_fppfPrecoverage _ ?_

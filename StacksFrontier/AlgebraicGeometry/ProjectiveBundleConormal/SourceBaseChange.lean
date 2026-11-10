@@ -233,7 +233,8 @@ comparisons. So `hsrc` splits into exactly three pieces, and each was located:
    of `schemePullbackCompIso`, the pulled-back pairings being the shape
    `pullbackInvertibleEvaluation` is built in.
 
-   Two apparent obstacles are **not** among them. The crossing from `tensorProductIso` to `⊗ₘ` is free, being
+   Two apparent obstacles are **not** among them. The crossing from `tensorProductIso` to `⊗ₘ` is
+   free, being
    `Stacks.PullbackSheafTensor.tensorSheafMap_eq_tensorHom`; and the two localized monoidal
    structures — `Stacks.SheafInternalHom.monoidalCategory`, over which
    `Stacks.ProjBundleInverseBaseChange.negOneMulIso` and `negOneMulIso'` are stated, and
@@ -620,7 +621,7 @@ theorem pullbackTensorComparison_pullbackCongr_inv {X Y : Scheme.{u}} {f₁ f₂
         ((Scheme.Modules.pullbackCongr e).inv.app A ⊗ₘ
           (Scheme.Modules.pullbackCongr e).inv.app B) := by
   subst e
-  show 𝟙 _ ≫ pullbackTensorComparison f₁ A B =
+  change 𝟙 _ ≫ pullbackTensorComparison f₁ A B =
       pullbackTensorComparison f₁ A B ≫ (𝟙 _ ⊗ₘ 𝟙 _)
   rw [MonoidalCategory.tensorHom_id, MonoidalCategory.id_whiskerRight, Category.id_comp,
     Category.comp_id]

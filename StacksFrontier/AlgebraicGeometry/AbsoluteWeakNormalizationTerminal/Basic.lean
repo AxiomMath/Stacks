@@ -95,7 +95,7 @@ lemma awnStageMap_natural (A : Type u) [CommRing A]
   have hn := congrArg (ObjectProperty.ι Q).map (e.unitIso.hom.naturality f')
   change f'.hom ≫ (ObjectProperty.ι Q).map (e.unitIso.hom.app d) =
       (ObjectProperty.ι Q).map (e.unitIso.hom.app c) ≫ D.map (e.functor.map f') at hn
-  show f'.hom ≫ ((ObjectProperty.ι Q).map (e.unitIso.hom.app d) ≫
+  change f'.hom ≫ ((ObjectProperty.ι Q).map (e.unitIso.hom.app d) ≫
     colimit.ι D (e.functor.obj d)) = (ObjectProperty.ι Q).map
       (e.unitIso.hom.app c) ≫ colimit.ι D (e.functor.obj c)
   rw [← Category.assoc, hn, Category.assoc, colimit.w]
@@ -188,7 +188,7 @@ lemma awnCandidate_ind (A : Type u) [CommRing A]
     intro j
     let Xj := pres.diag.obj j
     let : Algebra A Xj.right := Xj.hom.hom.toAlgebra
-    show Algebra.FinitePresentation A Xj.right ∧
+    change Algebra.FinitePresentation A Xj.right ∧
       UniversalHomeomorphism
         (Scheme.Spec.map (CommRingCat.ofHom (algebraMap A Xj.right)).op)
     exact ⟨RingHom.finitePresentation_algebraMap.mp (hStages j).1, (hStages j).2⟩

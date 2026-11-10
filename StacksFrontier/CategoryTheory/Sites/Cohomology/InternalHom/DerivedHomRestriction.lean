@@ -206,7 +206,7 @@ private lemma sheafHom_smul_apply
     (r : ℤˣ) (f : F ⟶ G) (V : Cᵒᵖ) (x : F.val.obj V) :
     ((r • f).val.app V) x = r • (f.val.app V x) := by
   have : (SheafOfModules.evaluation R V).Additive := { map_add := rfl }
-  show ((SheafOfModules.evaluation R V).map ((r : ℤ) • f)) x = _
+  change ((SheafOfModules.evaluation R V).map ((r : ℤ) • f)) x = _
   rw [Functor.map_zsmul]
   rfl
 
@@ -222,7 +222,7 @@ private lemma restrictCochain_d
     rw [CochainComplex.HomComplex.δ_v i j h _ p q hpq _ _ rfl rfl, restrictCochain_apply,
       CochainComplex.HomComplex.δ_v i j h _ p q hpq _ _ rfl rfl]
     simp only [SheafOfModules.add_val, SheafOfModules.comp_val]
-    show (_ : (B.X q).val.obj (op W.unop.left.left)) + _ = _ + _
+    change (_ : (B.X q).val.obj (op W.unop.left.left)) + _ = _ + _
     congr 1
     · rw [sheafHom_smul_apply, sheafHom_smul_apply]
       apply congrArg (fun y : (B.X q).val.obj (op W.unop.left.left) => j.negOnePow • y)
@@ -362,7 +362,7 @@ lemma sheafHomRestrictionComplexIso_isRestriction
     IsInternalHomRestrictionMap X U A B (sheafHomRestrictionComplexIso X U A B).hom := by
   intro V n p q hpq s
   ext W x
-  show ((((sheafHomComplex (X.over U) (restrictComplex X A U)
+  change ((((sheafHomComplex (X.over U) (restrictComplex X A U)
     (restrictComplex X B U)).sectionsIso V.unop).hom.f n
       ((sheafHomRestrictionSectionIso X U A B V.unop).hom.f n s)).v p q hpq).val.app W x = _
   rw [sheafHomRestrictionSectionIso_apply]
@@ -389,7 +389,7 @@ lemma sheafHomRestrictionComplexIso_natural
     (sheafHomComplex (X.over U) (restrictComplex X A' U)
       (restrictComplex X B' U)) V.unop n
   intro p q hpq W x
-  show ((((sheafHomComplex (X.over U) (restrictComplex X A' U)
+  change ((((sheafHomComplex (X.over U) (restrictComplex X A' U)
     (restrictComplex X B' U)).sectionsIso V.unop).hom.f n
       ((sheafHomRestrictionSectionIso X U A' B' V.unop).hom.f n
         (((homMap X f g).f n).val.app (op V.unop.left) s))).v p q hpq).val.app W x =
@@ -403,7 +403,7 @@ lemma sheafHomRestrictionComplexIso_natural
     sectionsIso_homMap_v X f g V.unop.left n p q hpq s,
     sectionsIso_homMap_v (X.over U) (restrictComplexMap X U f) (restrictComplexMap X U g)
     V.unop n p q hpq ((sheafHomRestrictionSectionIso X U A B V.unop).hom.f n s)]
-  show _ = (g.f q).val.app (op W.unop.left.left)
+  change _ = (g.f q).val.app (op W.unop.left.left)
     (((((sheafHomComplex (X.over U) (restrictComplex X A U)
       (restrictComplex X B U)).sectionsIso V.unop).hom.f n
         ((sheafHomRestrictionSectionIso X U A B V.unop).hom.f n s)).v p q hpq).val.app W
@@ -600,7 +600,7 @@ private lemma restrictionSourceComparison_natural
     (restrictionSourceComparison X U A B).hom ≫ DerivedCategory.Q.map
       (((SheafOfModules.overFunctor (ringSheaf X.O) U).mapHomologicalComplex
         (ComplexShape.up ℤ)).map (homMap X f g)) := by
-  show ((SheafOfModules.overFunctor.{u} (ringSheaf X.O) U).mapDerivedCategory).map
+  change ((SheafOfModules.overFunctor.{u} (ringSheaf X.O) U).mapDerivedCategory).map
     (((derivedSheafHomBifunctor X).map (DerivedCategory.Q.map f).op).app (DerivedCategory.Q.obj B) ≫
       ((derivedSheafHomBifunctor X).obj (op (DerivedCategory.Q.obj A'))).map
         (DerivedCategory.Q.map g)) ≫

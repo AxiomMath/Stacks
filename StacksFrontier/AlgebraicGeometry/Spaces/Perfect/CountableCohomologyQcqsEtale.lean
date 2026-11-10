@@ -267,14 +267,12 @@ quasi-separated object.  This is the induction principle of Stacks 08GP, whose s
 Mayer–Vietoris triangle of Stacks 0CRS
 (`AlgebraicGeometry.Space.hasCountableCohomology_derivedGlobalSectionsAb_of_eds`). -/
 theorem hasCountableRestrictedCohomology_of_affine (hZ : B.Contains (⊤_ Scheme.{u}))
-    (hXqc : IsQuasiCompactSpace B S hS X.1)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X.1)
     (haff : ∀ V : SpacesEtale B S hS X, IsAffineSpace B S hS V.1.left.1 →
       HasCountableRestrictedCohomology B S hS X L V.1.left.1 V.1.hom.hom) :
     ∀ Y : SpacesEtale B S hS X, IsQuasiCompactSpace B S hS Y.1.left.1 →
       IsAbsolutelyQuasiSeparated B S hS hZ Y.1.left.1 →
       HasCountableRestrictedCohomology B S hS X L Y.1.left.1 Y.1.hom.hom := by
-  refine qcqs_induction_on B S hS hZ X hXqc hXqs (HasCountableRestrictedCohomology B S hS X L)
+  refine qcqs_induction_on B S hS hZ X (HasCountableRestrictedCohomology B S hS X L)
     haff ?_
   intro W V U f hcomm hsq _ _ _ _ hU hV hP hY hg
   let W' : AlgebraicSpaces B S hS := ⟨W.1.left.1, hY⟩
@@ -445,8 +443,7 @@ principle of Stacks 08GP, with the Mayer–Vietoris triangle of Stacks 0CRS as i
 it to every quasi-compact quasi-separated étale object
 (`AlgebraicGeometry.Space.hasCountableRestrictedCohomology_of_affine`). -/
 theorem hasCountableCohomology_derivedGlobalSectionsAb_restrict (hZ : B.Contains (⊤_ Scheme.{u}))
-    (X : AlgebraicSpaces B S hS) (hXqc : IsQuasiCompactSpace B S hS X.1)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X.1)
+    (X : AlgebraicSpaces B S hS)
     (L : DerivedCategory (Modules.{u, u} B S hS X.1 X.2))
     (hqc : ∀ q : ℤ, ((DerivedCategory.homologyFunctor
       (Modules.{u, u} B S hS X.1 X.2) q).obj L).IsQuasicoherentOnSite)
@@ -457,7 +454,7 @@ theorem hasCountableCohomology_derivedGlobalSectionsAb_restrict (hZ : B.Contains
     (hUqs : IsAbsolutelyQuasiSeparated B S hS hZ U.1.left.1) :
     HasCountableCohomology ((derivedGlobalSectionsAb B S hS U.1.left).obj
       ((etaleModulePullback.{u, u} B S hS U.1.hom U.2).mapDerivedCategory.obj L)) :=
-  hasCountableRestrictedCohomology_of_affine B S hS L hZ hXqc hXqs
+  hasCountableRestrictedCohomology_of_affine B S hS L hZ
     (hasCountableRestrictedCohomology_of_isAffineSpace B S hS L hqc hcount) U hUqc hUqs
     U.1.left.2 U.2
 

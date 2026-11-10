@@ -93,7 +93,7 @@ theorem smul_eq_zero_of_mem (m : Ideal A) (n : ℕ) (y : Fin n → (A ⧸ m)) (a
     a • y = 0 := by
   funext i
   obtain ⟨b, hb⟩ := Ideal.Quotient.mk_surjective (y i)
-  show a • y i = 0
+  change a • y i = 0
   rw [← hb, show a • (Ideal.Quotient.mk m b : A ⧸ m) = Ideal.Quotient.mk m (a * b) from rfl]
   exact Ideal.Quotient.eq_zero_iff_mem.2 (m.mul_mem_right b ha)
 

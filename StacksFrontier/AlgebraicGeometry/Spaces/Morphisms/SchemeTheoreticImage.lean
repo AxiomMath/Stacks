@@ -209,7 +209,7 @@ image of the scheme-theoretic image of the lower one. -/
 theorem range_le_preimage_schemeTheoreticImageSubfunctor (hsq : f₁ ≫ q = p ≫ f₂) :
     Subfunctor.range f₁ ≤ (schemeTheoreticImageSubfunctor B S hS f₂).preimage q := by
   rintro U x ⟨y, rfl⟩
-  show q.app U (f₁.app U y) ∈ (schemeTheoreticImageSubfunctor B S hS f₂).obj U
+  change q.app U (f₁.app U y) ∈ (schemeTheoreticImageSubfunctor B S hS f₂).obj U
   rw [show q.app U (f₁.app U y) = f₂.app U (p.app U y) by
     simpa using congrArg (fun k : X₁ ⟶ Y₂ => k.app U y) hsq]
   exact range_le_schemeTheoreticImageSubfunctor B S hS f₂ U ⟨_, rfl⟩

@@ -77,7 +77,7 @@ theorem isModulePseudoCoherent_ideal_iff_quotient {B : Type u} [CommRing B] (I :
     ShortComplex.mk (ModuleCat.ofHom I.subtype)
       (ModuleCat.ofHom (Ideal.Quotient.mkₐ B I).toLinearMap) (by
         ext x
-        show Ideal.Quotient.mk I (x : B) = 0
+        change Ideal.Quotient.mk I (x : B) = 0
         exact Ideal.Quotient.eq_zero_iff_mem.mpr x.property)
   have hS : S.ShortExact := by
     refine {

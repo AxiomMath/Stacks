@@ -452,8 +452,7 @@ public noncomputable def dividedPowerEnvelopeDifferentialsEquiv
   have hFG : F.comp g = LinearMap.id := by
     apply LinearMap.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
         simp only [map_add, hx, hy, LinearMap.id_apply]
     | tmul d w =>

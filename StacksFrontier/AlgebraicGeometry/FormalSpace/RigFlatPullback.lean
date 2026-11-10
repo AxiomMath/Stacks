@@ -76,7 +76,7 @@ theorem localFiniteTypeReadsOnAffineEtaleDiagrams :
     ⟨hR, Rig.countablyGenerated_nhds_of_isAdicRing hCR.1⟩ hA D E eU eV φ hφ
   obtain ⟨I, -, hI⟩ := hCA.1.1
   have : IsNoetherianRing A := hCA.2
-  exact ⟨@RingHom.isAdic_of_isTaut A R _ _ _ _ _ _ _ _ φ.toRingHom φ.continuous htaut
+  exact ⟨@RingHom.isAdic_of_isTaut A R _ _ _ _ _ _ _ _ φ.toRingHom htaut
     ⟨I, IsNoetherian.noetherian I, hI⟩ hR.2.1 hR.2.2, hft⟩
 
 /-- **Stacks 0GGZ.** Let `f : X ⟶ Y` and `g : Z ⟶ Y` be morphisms of locally Noetherian formal

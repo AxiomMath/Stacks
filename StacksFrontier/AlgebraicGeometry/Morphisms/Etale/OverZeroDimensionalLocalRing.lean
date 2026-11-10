@@ -136,7 +136,7 @@ theorem isFinite_of_isAffine_of_etale_over_krullDimLE_zero [IsLocalRing A] [Ring
       _ = (f ≫ (Spec (.of A)).isoSpec.hom) ≫ Spec.map (Scheme.ΓSpecIso (.of A)).inv := by
         rw [← Category.assoc, Scheme.isoSpec_hom_naturality f]
       _ = f := by
-        show (f ≫ (Spec (.of A)).toSpecΓ) ≫ Spec.map (Scheme.ΓSpecIso (.of A)).inv = f
+        change (f ≫ (Spec (.of A)).toSpecΓ) ≫ Spec.map (Scheme.ΓSpecIso (.of A)).inv = f
         rw [Category.assoc, toSpecΓ_SpecMap_ΓSpecIso_inv, Category.comp_id]
   have : IsFinite (X.isoSpec.hom ≫ Spec.map ((Scheme.ΓSpecIso (.of A)).inv ≫ f.appTop)) :=
     inferInstance

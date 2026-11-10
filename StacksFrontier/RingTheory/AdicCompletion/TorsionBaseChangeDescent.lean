@@ -103,7 +103,7 @@ theorem eq_zero_of_one_tmul_eq_zero_of_isIPowerTorsion (S : Type u) [CommRing S]
   have hb := IPowerTorsion.one_tmul_bijective
     ((IPowerTorsion.baseChange_bijective_iff_quotientMap_bijective R S I hflat).mpr hq Z hZ)
   refine hb.1 ?_
-  show (1 : S) ⊗ₜ[R] x = (1 : S) ⊗ₜ[R] (0 : Z)
+  change (1 : S) ⊗ₜ[R] x = (1 : S) ⊗ₜ[R] (0 : Z)
   rw [tmul_zero]
   exact h
 

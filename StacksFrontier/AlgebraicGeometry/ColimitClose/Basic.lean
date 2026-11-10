@@ -108,15 +108,16 @@ colimit assertion is usually consumed.
 The diagram, the cocone and the property are the library's
 `AlgebraicGeometry.finiteTypeQuasicoherentSubobjectCocone` and
 `AlgebraicGeometry.finiteTypeQuasicoherentSubobjectFunctor`, which transcribe the definitions of
-the Stacks statement verbatim, and are the same declarations the `directedness` label is registered against.
+the Stacks statement verbatim, and are the same declarations the `directedness` label is registered
+against.
 
 **Two docstrings elsewhere are superseded by this file**:
 `StacksFrontier/AlgebraicGeometry/Colimit/Basic.lean` says *"No stacks attribute for the `colimit`
 label of 01PG is attached, and none may be"*, and
 `StacksFrontier/AlgebraicGeometry/AffineSubsheaf/Directedness.lean` says *"The label
 `colimit` of the same tag is **not** registered and may not be"*. Both are superseded
-here: `AffineSections F` is proved for every quasi-compact quasi-separated scheme below, so the hypothesis the first of them
-calls ungranted is discharged.
+here: `AffineSections F` is proved for every quasi-compact quasi-separated scheme below, so the
+hypothesis the first of them calls ungranted is discharged.
 
 ## References
 

@@ -67,8 +67,7 @@ private theorem tensor_addMonoidHom_ext {P : Type*} [AddCommGroup P]
     (f g : TensorProduct R S M →+ P)
     (h : ∀ (s : S) (m : M), f (s ⊗ₜ[R] m) = g (s ⊗ₜ[R] m)) : f = g := by
   ext w
-  induction w using TensorProduct.induction_on with
-  | zero => exact (map_zero f).trans (map_zero g).symm
+  induction w using TensorProduct.inductionOn with
   | tmul s m => exact h s m
   | add a b ha hb =>
     exact (map_add f a b).trans ((congrArg₂ (· + ·) ha hb).trans (map_add g a b).symm)
@@ -137,7 +136,7 @@ theorem chartRestrictionSheaf_map_topEquiv (Z : AlgebraicSpaces B S hS)
     (chartRestrictionSheaf B S hS Z M A).val.map (homOfLE le_top : O ⟶ ⊤).op
         (chartRestrictionSheafTopEquiv B S hS Z M A y) =
       ULift.up (M.val.map (chartOpensHom B S hS Z A O).op y) := by
-  show ULift.up (M.val.map ((chartOpens B S hS A).map (homOfLE (le_top : O ≤ ⊤))).op
+  change ULift.up (M.val.map ((chartOpens B S hS A).map (homOfLE (le_top : O ≤ ⊤))).op
       (M.val.map (chartOpensTopHom B S hS Z A).op y)) = _
   refine congrArg ULift.up ?_
   have h1 := PresheafOfModules.map_comp_apply M.val (chartOpensTopHom B S hS Z A).op
@@ -247,6 +246,7 @@ abbrev chartCompletionTerm (n : ℕ) : (chartScheme ((smallBaseChange B S hS f h
     (chartBaseChangeIdeal B S hS f hf J V)).obj
     (chartRestrictionCoherent B S hS X F hF ((smallBaseChange B S hS f hf).obj V))).obj.obj (op n)
 
+omit hXloc in
 /-- The comparison of completions commutes with restricting global sections to an open. -/
 theorem chartBaseChangeCompletionIso_restrict (n : ℕ)
     (O : (chartScheme ((smallBaseChange B S hS f hf).obj V)).Opens)
@@ -378,7 +378,6 @@ theorem bijective_chartBetaTargetMap (n : ℕ)
         (β.app (op n)) _).comp hbc))
 
 omit hVN in
-include hJ in
 /-- The unit of `affineTilde ⊣ Γ` is bijective on the sections of `𝓖_n` over `V`. -/
 theorem bijective_chartTildeAdjunction_unit_app (n : ℕ) :
     Function.Bijective ((affineTildeChartGlobalSectionsAdjunction B S hS V).unit.app
@@ -397,7 +396,7 @@ def chartTildeUnitAddEquiv (n : ℕ) :
       (Γ((chartTildeSystem B S hS J hJ V G).obj.obj (op n), ⊤) : Type u) :=
   AddEquiv.ofBijective ((affineTildeChartGlobalSectionsAdjunction B S hS V).unit.app
     ((chartSectionsSystem B S hS Y.1 Y.2 G.obj V).obj (op n))).hom
-    (bijective_chartTildeAdjunction_unit_app B S hS J hJ V G n)
+    (bijective_chartTildeAdjunction_unit_app B S hS J V G n)
 
 /-- The source side of the comparison: the base change of the sections of `𝓖̃_n` along the
 functions on `O` is the base change of the sections of `𝓖_n` over `V` along the functions on the

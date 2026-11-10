@@ -102,7 +102,7 @@ public lemma relSymKoszulDifferential_naturality (f : A →ₗ[B] M) (uu : M →
       (symmetricAlgebraMap uu).toLinearMap (relSymKoszulAction f x z) =
         relSymKoszulAction (uu.comp f) x ((symmetricAlgebraMap uu).toLinearMap z) := by
     intro x z
-    show symmetricAlgebraMap uu (SymmetricAlgebra.ι B M (f x) * z) =
+    change symmetricAlgebraMap uu (SymmetricAlgebra.ι B M (f x) * z) =
       SymmetricAlgebra.ι B N (uu (f x)) * symmetricAlgebraMap uu z
     rw [map_mul, symmetricAlgebraMap_ι]
   simpa only [exteriorPower.map_id, relSymKoszulDifferential, LinearMap.lTensor_def] using
@@ -163,7 +163,7 @@ public lemma koszulDifferential_rTensor (a : M →ₗ[B] P →ₗ[B] Q) (L : Typ
   apply LinearMap.ext_on (exteriorPower.ιMulti_span B (p + 1) M)
   rintro _ ⟨v, rfl⟩
   ext z₁ z₂
-  show (TensorProduct.assoc B (⋀[B]^p M) Q L).symm
+  change (TensorProduct.assoc B (⋀[B]^p M) Q L).symm
       (koszulDifferential (rTensorAction a L) p
         (exteriorPower.ιMulti B (p + 1) v ⊗ₜ[B] (z₁ ⊗ₜ[B] z₂))) =
     LinearMap.rTensor L (koszulDifferential a p)
@@ -259,7 +259,7 @@ public lemma prodSymEquiv_mul_inl (a : A) (z : SymmetricAlgebra B (A × Q)) :
       (SymmetricAlgebra.ι B A a ⊗ₜ[B] (1 : SymmetricAlgebra B Q)) * prodSymEquiv B A Q z := by
   have h1 : prodSymEquiv B A Q (SymmetricAlgebra.ι B (A × Q) (LinearMap.inl B A Q a)) =
       SymmetricAlgebra.ι B A a ⊗ₜ[B] (1 : SymmetricAlgebra B Q) := by
-    show prodSymHom B A Q (SymmetricAlgebra.ι B (A × Q) (a, 0)) =
+    change prodSymHom B A Q (SymmetricAlgebra.ι B (A × Q) (a, 0)) =
       SymmetricAlgebra.ι B A a ⊗ₜ[B] (1 : SymmetricAlgebra B Q)
     rw [prodSymHom, SymmetricAlgebra.lift_ι_apply]
     simp [prodSymIota]
@@ -271,8 +271,7 @@ public lemma rTensor_symmetricKoszulAction (a : A)
     (w : SymmetricAlgebra B A ⊗[B] SymmetricAlgebra B Q) :
     LinearMap.rTensor (SymmetricAlgebra B Q) (symmetricKoszulAction B A a) w =
       (SymmetricAlgebra.ι B A a ⊗ₜ[B] (1 : SymmetricAlgebra B Q)) * w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x y =>
     rw [LinearMap.rTensor_tmul, Algebra.TensorProduct.tmul_mul_tmul, one_mul]
     rfl
@@ -403,8 +402,7 @@ public lemma symmetricAlgebraDirectLimit_lTensor (vH : (i j : ι) → i ≤ j �
         (((Module.DirectLimit.of B ι (fun i => SymmetricAlgebra B (H i))
           (fun i j h => (symmetricAlgebraMap (vH i j h)).toLinearMap) i).lTensor L) y) =
       ((symmetricAlgebraMap (Module.DirectLimit.of B ι H vH i)).toLinearMap.lTensor L) y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul a b => simp [symmetricAlgebraDirectLimitEquiv_of]
   | add a b ha hb => simp [ha, hb]
 
@@ -549,7 +547,7 @@ public lemma pullbackExact (f : A →ₗ[B] M) (hgf : ∀ a, g (f a) = 0)
     obtain ⟨a, ha⟩ := (hfg _).mp hg0
     refine ⟨a, ?_⟩
     apply Subtype.ext
-    show (f a, (0 : G i)) = (z : M × G i)
+    change (f a, (0 : G i)) = (z : M × G i)
     rw [ha, ← hz2]
   · rintro ⟨a, rfl⟩
     rfl
@@ -574,11 +572,11 @@ public lemma pullback_directedSystem [DirectedSystem G (fun i j h => fG i j h)] 
   constructor
   · intro i z
     apply Subtype.ext
-    show ((z : M × G i).1, fG i i le_rfl (z : M × G i).2) = (z : M × G i)
+    change ((z : M × G i).1, fG i i le_rfl (z : M × G i).2) = (z : M × G i)
     rw [DirectedSystem.map_self (f := fun i j h => fG i j h)]
   · intro k j i hij hjk z
     apply Subtype.ext
-    show ((z : M × G i).1, fG j k hjk (fG i j hij (z : M × G i).2)) =
+    change ((z : M × G i).1, fG j k hjk (fG i j hij (z : M × G i).2)) =
       ((z : M × G i).1, fG i k (hij.trans hjk) (z : M × G i).2)
     rw [DirectedSystem.map_map (f := fun i j h => fG i j h)]
 
@@ -626,7 +624,7 @@ public lemma relSymKoszul_exact_of_directLimit_quotient {B A M : Type u} [CommRi
     obtain ⟨j, hij, hj⟩ := Module.DirectLimit.of.zero_exact h2
     refine ⟨j, hij, ?_⟩
     apply Subtype.ext
-    show ((y : M × G i).1, fG i j hij (y : M × G i).2) = (0 : M × G j)
+    change ((y : M × G i).1, fG i j hij (y : M × G i).2) = (0 : M × G j)
     rw [h1, hj]
     rfl
   obtain ⟨E, hEof⟩ : ∃ E : Module.DirectLimit (fun i => pullbackSub fG g i)
@@ -686,7 +684,7 @@ public lemma relKoszul_comp (f : A →ₗ[B] M) (p q : ℕ) :
   apply koszulDifferential_comp
   intro x y z
   apply Subtype.ext
-  show SymmetricAlgebra.ι B M (f y) *
+  change SymmetricAlgebra.ι B M (f y) *
       (SymmetricAlgebra.ι B M (f x) * (z : SymmetricAlgebra B M)) =
     SymmetricAlgebra.ι B M (f x) * (SymmetricAlgebra.ι B M (f y) * (z : SymmetricAlgebra B M))
   exact mul_left_comm _ _ _
@@ -740,7 +738,7 @@ public lemma relKoszul_exact_of_relSymKoszul_exact (f : A →ₗ[B] M) (p q : �
   · intro hx
     obtain ⟨y, hy⟩ := (h _).mp (relSymKoszulDifferential_subtype_eq_zero f p _ x hx)
     refine ⟨(symmetricPowerProjection B M q).lTensor (⋀[B]^(p + 1 + 1) A) y, ?_⟩
-    show ((koszulDifferential (symMulMapBil q f) (p + 1)).comp
+    change ((koszulDifferential (symMulMapBil q f) (p + 1)).comp
       ((symmetricPowerProjection B M q).lTensor (⋀[B]^(p + 1 + 1) A))) y = x
     rw [← relKoszul_projection, LinearMap.comp_apply, hy, lTensor_projection_lTensor_subtype]
   · rintro ⟨y, rfl⟩
@@ -750,7 +748,7 @@ public lemma relKoszul_exact_of_relSymKoszul_exact (f : A →ₗ[B] M) (p q : �
 public lemma symmetricPowerProjection_zero_mul_ι (x : M) (z : SymmetricAlgebra B M) :
     symmetricPowerProjection B M 0 (SymmetricAlgebra.ι B M x * z) = 0 := by
   apply Subtype.ext
-  show (degreeMap (SymmetricAlgebra.ι B M x * z)).coeff 0 = 0
+  change (degreeMap (SymmetricAlgebra.ι B M x * z)).coeff 0 = 0
   rw [map_mul, degreeMap_ι]
   simp [Polynomial.mul_coeff_zero]
 
@@ -763,7 +761,7 @@ public lemma relSymKoszul_projection_zero (f : A →ₗ[B] M) (p : ℕ) :
   apply exteriorPower.linearMap_ext (R := B) (M := A)
     (N := SymmetricAlgebra B M →ₗ[B] ((⋀[B]^p A) ⊗[B] symmetricPower 0 B M))
   ext v z
-  show ((symmetricPowerProjection B M 0).lTensor (⋀[B]^p A))
+  change ((symmetricPowerProjection B M 0).lTensor (⋀[B]^p A))
     (relSymKoszulDifferential f p (exteriorPower.ιMulti B (p + 1) v ⊗ₜ[B] z)) = 0
   rw [relSymKoszulDifferential, koszulDifferential_tmul, map_sum]
   refine Finset.sum_eq_zero fun i _ => ?_
@@ -818,7 +816,7 @@ public lemma relKoszulZeroIso_differential (f : A →ₗ[B] M) (q : ℕ) :
   rintro _ ⟨v, rfl⟩
   apply LinearMap.ext
   intro z
-  show (relKoszulZeroIso B A M (q + 1))
+  change (relKoszulZeroIso B A M (q + 1))
       (koszulDifferential (symMulMapBil q f) 0
         (exteriorPower.ιMulti B (0 + 1) v ⊗ₜ[B] z)) =
     symMulMap q f ((TensorProduct.congr (exteriorPower.oneEquiv B A)
@@ -878,7 +876,7 @@ public theorem relativeKoszul_injective :
     ∀ p : ℕ, Function.Injective (koszulDifferential (symMulMapBil 0 f) p) :=
   fun p => relKoszul_injective_zero f p (relSymKoszul_exact f g hf hfg hg p)
 
-omit [Module.Flat B A] [Module.Flat B M] [Module.Flat B Q] in
+omit hf [Module.Flat B A] [Module.Flat B M] [Module.Flat B Q] in
 /-- **Exactness at the bottom of the relative Koszul complex.** The complex ends with
 `(⋀^1 A) ⊗ Symᵍ(M) → (⋀^0 A) ⊗ Sym^{q+1}(M) → Sym^{q+1}(Q) → 0`. -/
 public theorem relativeKoszul_exact_zero :

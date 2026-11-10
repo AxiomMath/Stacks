@@ -77,7 +77,7 @@ universe u w
 
 namespace Stacks.Duality
 
-variable {X : Scheme.{u}} [IsLocallyNoetherian X] [HasDerivedCategory.{w} X.Modules]
+variable {X : Scheme.{u}} [IsLocallyNoetherian X]
 
 /-- Let `X` be a locally Noetherian scheme, `U` an affine open and `x` a point of `U`. For every
 dualizing complex `ω` over `Γ(X, U)`, the local ring of `X` at `x` is Gorenstein exactly when the
@@ -121,6 +121,8 @@ public theorem isGorensteinLocalRing_stalk_iff_isInvertible_localizedDualizing
   intro ω hω
   exact hstalk.trans (Dualizing.isGorensteinLocalRing_iff_isInvertible_localization ω hω
     (hU.primeIdealOf x).asIdeal)
+
+variable [HasDerivedCategory.{w} X.Modules]
 
 /-- Let `K` be a dualizing complex on a locally Noetherian scheme `X`, and `x` a point of an
 affine open `U`. The local ring of `X` at `x` is Gorenstein exactly when `K` has a dualizing model

@@ -115,7 +115,7 @@ theorem includeLeftRingHom_surjective {A : Type u} {B : Type v} {C : Type w} [Co
   | tmul b c =>
       obtain ⟨a, rfl⟩ := h c
       refine ⟨a • b, ?_⟩
-      show (a • b) ⊗ₜ[A] (1 : C) = b ⊗ₜ[A] (algebraMap A C a)
+      change (a • b) ⊗ₜ[A] (1 : C) = b ⊗ₜ[A] (algebraMap A C a)
       rw [_root_.TensorProduct.smul_tmul, Algebra.algebraMap_eq_smul_one]
 
 /-- The two inclusions of `B ⊗[A] C` agree on the image of the base ring `A`. -/
@@ -123,7 +123,7 @@ theorem includeRight_algebraMap {A : Type u} {B : Type v} {C : Type w} [CommRing
     [CommRing C] [Algebra A B] [Algebra A C] (a : A) :
     (Algebra.TensorProduct.includeRight (R := A) (A := B) (B := C)) (algebraMap A C a) =
       (Algebra.TensorProduct.includeLeftRingHom : B →+* B ⊗[A] C) (algebraMap A B a) := by
-  show (1 : B) ⊗ₜ[A] (algebraMap A C a) = (algebraMap A B a) ⊗ₜ[A] (1 : C)
+  change (1 : B) ⊗ₜ[A] (algebraMap A C a) = (algebraMap A B a) ⊗ₜ[A] (1 : C)
   rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one,
     _root_.TensorProduct.smul_tmul]
 

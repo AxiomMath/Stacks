@@ -152,7 +152,7 @@ The same degree-zero law at the *ringed-topoi* reading of the inverse images is 
 generically, as `Stacks.Cohomology.ToposBaseChange.moduleBaseChange_horizontal` and its named
 form `moduleBaseChange_horizontal_of_eq`, in
 `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/`
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/FlatBaseChangePastingDegreeZero.lean`:  that is the shape the hypothesis `hτ` of
+`FlatBaseChangePastingDegreeZero.lean`:  that is the shape the hypothesis `hτ` of
 `Stacks.Cohomology.ToposBaseChange.baseChangeMap_horizontal` asks for, with the three squares'
 **Stacks 03D8** identifications and the cocycle condition of **Stacks 03LU** as its hypotheses.
 It too cannot be applied to a *geometric* rectangle, and there the one argument that fails is the

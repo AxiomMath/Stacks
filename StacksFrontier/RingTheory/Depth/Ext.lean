@@ -275,7 +275,7 @@ theorem kernel_maximalIdeal_notMem_assoc {R : Type u} [CommRing R] [IsNoetherian
   obtain ⟨b, -, hb⟩ := hcz
   have hcarb : c • a = r • b := by
     apply hx
-    show x • (c • a) = x • (r • b)
+    change x • (c • a) = x • (r • b)
     rw [smul_comm x c a, ha, smul_comm x r b, hb, smul_comm c r z, smul_comm r c z]
   have hb_in_cN : b ∈ c • (⊤ : Submodule R N) := by
     have hrb_quot : r • (Submodule.Quotient.mk b : QuotSMulTop c N) = 0 := by
@@ -291,7 +291,7 @@ theorem kernel_maximalIdeal_notMem_assoc {R : Type u} [CommRing R] [IsNoetherian
   rw [Submodule.mem_smul_pointwise_iff_exists]
   refine ⟨b', trivial, ?_⟩
   apply hc_N
-  show c • (x • b') = c • z
+  change c • (x • b') = c • z
   rw [smul_comm c x b', hb', hb]
 
 /-- Prime avoidance: `𝔪` contains an element outside a finite set of primes not containing `𝔪`. -/
@@ -723,11 +723,11 @@ theorem ext_residueField_smul_eq_zero {R : Type u} [CommRing R] [IsLocalRing R] 
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro y
-    show x • y = 0
+    change x • y = 0
     induction y using Submodule.Quotient.induction_on with
     | _ z =>
       rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
-      show x * z ∈ _
+      change x * z ∈ _
       exact Ideal.mul_mem_right z _ hx
   rw [← Ext.mk₀_id_comp α, ← Ext.smul_comp, ← Ext.mk₀_smul, hxid, Ext.mk₀_zero, Ext.zero_comp]
 
@@ -1018,7 +1018,7 @@ theorem depth_eq_least_nonzero_ext {R : Type u} [CommRing R] [IsNoetherianRing R
   -- The witness is `n := d`; show `IsLeast S d` and `depth = d`.
   refine ⟨d, ⟨?_, ?_⟩, hd⟩
   · -- (B) `d ∈ S`: `Ext^d(κ, M)` is nonzero.
-    show Nontrivial _
+    change Nontrivial _
     exact ext_nontrivial_of_depth_eq hM d hd
   · -- Lower bound: every `i ∈ S` satisfies `d ≤ i`.
     intro i hi

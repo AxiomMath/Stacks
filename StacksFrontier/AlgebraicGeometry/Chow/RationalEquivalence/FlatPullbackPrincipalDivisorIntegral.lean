@@ -93,7 +93,7 @@ theorem flatPullback_principalDivisorCycle (C : ChowSituation.{u}) {X Y : Scheme
   have hgen := relativeDimension_genericPoint_irreducibleComponent C sX sY f hbase r hf hY
   apply Function.locallyFinsuppWithin.ext
   intro x
-  show (flatPullback C sX sY f hbase r hf (n - 1) (principalDivisorCycle C sY hY g)).1 x =
+  change (flatPullback C sX sY f hbase r hf (n - 1) (principalDivisorCycle C sY hY g)).1 x =
     (principalDivisorCycle C sX (schemeDeltaDimension_eq_add_of_flat C sX sY f hbase r hf hY)
       (dominantFunctionFieldMap f g)).1 x
   by_cases hx : relativeDimension C.dimensionFunction sX x = n + (r : ℤ) - 1

@@ -46,8 +46,8 @@ Nothing below is a clause of a tag; these are steps of the proof of [Stacks, Tag
 `O` corepresent the sections over `W`, which is
 `Stacks.Sites.ExtensionByZero.extensionByZeroUnitIsoUnitOfTerminal`, and that is the identification
 used here. The subterminality obstruction recorded in the implementation notes of
-`StacksFrontier/CategoryTheory/Sites/Modules/ExtensionByZeroSubcomplexOnASite.lean` is therefore real
-at an arbitrary object and absent at a final one, which is the only case the induction of
+`StacksFrontier/CategoryTheory/Sites/Modules/ExtensionByZeroSubcomplexOnASite.lean` is therefore
+real at an arbitrary object and absent at a final one, which is the only case the induction of
 [Stacks, Tag 0FPV] needs.
 
 **Why only the epimorphism.** The second obstruction recorded there — that

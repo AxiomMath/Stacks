@@ -196,22 +196,23 @@ projection `Crystalline.levelTensorProj`. -/
         (LinearEquiv.refl (D : Type u) (firstOrderExtension D Omega)) eqv) z =
       LinearMap.lTensor (firstOrderExtension D Omega)
         (eqv : M₀ →ₗ[(D : Type u)] ↥(invLimit lev trans)) z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul a m => rw [TensorProduct.congr_tmul, LinearMap.lTensor_tmul]; rfl
     | add x y hx hy => rw [map_add, map_add, hx, hy]
-  show LinearMap.lTensor (firstOrderExtension D Omega) (invLimit.proj lev trans n)
+  change LinearMap.lTensor (firstOrderExtension D Omega) (invLimit.proj lev trans n)
       ((TensorProduct.congr
         (LinearEquiv.refl (D : Type u) (firstOrderExtension D Omega)) eqv) z) = _
   rw [hcongr, levelTensorProj_apply, LinearMap.lTensor_comp, LinearMap.comp_apply]
 
+omit [Fintype ι] in
 /-- **Two elements of the base change `(D ⊕ Ω) ⊗_D M` that agree at every level are equal.**  This
 is injectivity of the interchange `Crystalline.levelTensorEquiv`, and it is what lets the three
 clauses of a comparison datum on `M` be checked one level at a time. -/
-theorem eq_of_levelTensorProj_eq (b : Module.Basis ι (D : Type u) Omega)
+theorem eq_of_levelTensorProj_eq [Finite ι] (b : Module.Basis ι (D : Type u) Omega)
     {z w : firstOrderExtension D Omega ⊗[D] M₀}
     (h : ∀ n, levelTensorProj M₀ lev trans eqv n z = levelTensorProj M₀ lev trans eqv n w) :
     z = w :=
+  have := Fintype.ofFinite ι
   (levelTensorEquiv M₀ lev trans eqv b).injective
     (Subtype.ext (funext fun n ↦ by
       rw [levelTensorEquiv_val, levelTensorEquiv_val, h n]))

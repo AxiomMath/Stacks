@@ -133,11 +133,11 @@ lemma genericPoints_of_open
     congr 1
     ext z
     simp only [Set.mem_preimage, Set.mem_singleton_iff]
-    show z.1 = x ↔ z = y
+    change z.1 = x ↔ z = y
     exact ⟨fun h => Subtype.ext h, congrArg Subtype.val⟩
   have hirr : U.ι ⁻¹' closure ({x} : Set X) ∈ irreducibleComponents U.toScheme :=
     preimage_mem_irreducibleComponents hgen he ⟨x, subset_closure (Set.mem_singleton _), y, rfl⟩
-  show closure {y} ∈ irreducibleComponents U.toScheme
+  change closure {y} ∈ irreducibleComponents U.toScheme
   rw [← hpre]
   exact hirr
 

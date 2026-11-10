@@ -71,7 +71,7 @@ theorem chartIsoAffineSpace_hom_comp :
   have hring : CommRingCat.ofHom (MvPolynomial.C : A →+* MvPolynomial (Fin n) A) ≫
       (chartRingIso A n).hom = CommRingCat.ofHom (coeffToAway A n 0) := by
     refine CommRingCat.hom_ext (RingHom.ext fun r => ?_)
-    show chartEquiv A n 0 (MvPolynomial.rename _ (MvPolynomial.C r)) = coeffToAway A n 0 r
+    change chartEquiv A n 0 (MvPolynomial.rename _ (MvPolynomial.C r)) = coeffToAway A n 0 r
     rw [MvPolynomial.rename_C, chartEquiv_apply, chartHom_C]
   rw [hι, Category.assoc, Stacks.AlgebraicGeometry.ProjBaseChange.awayι_comp_projToSpecCoeff,
     ← hring, Spec.map_comp]

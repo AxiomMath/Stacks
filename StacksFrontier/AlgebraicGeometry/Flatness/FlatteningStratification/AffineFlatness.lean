@@ -91,7 +91,7 @@ public theorem Module.Flat.compHom_ringEquiv_iff (A B : Type*) [CommRing A] [Com
   refine ⟨fun h ↦ ?_, fun h ↦ ?_⟩
   · have := h
     exact Module.Flat.of_semilinearEquiv e.symm (AddEquiv.refl M) fun b m ↦ by
-      show b • m = e (e.symm b) • m
+      change b • m = e (e.symm b) • m
       rw [e.apply_symm_apply]
   · have := h
     exact Module.Flat.of_semilinearEquiv e (AddEquiv.refl M) fun _ _ ↦ rfl
@@ -191,7 +191,7 @@ public theorem isFlatOver_baseChange_iff_openCover {X S T : Scheme.{u}} (f : X �
   refine (isFlatOver_iff_forall_pullback (pullback.snd f g)
     ((Scheme.Modules.pullback (pullback.fst f g)).obj F) 𝒱.f 𝒱.exists_eq).trans ?_
   refine forall_congr' fun i ↦ ?_
-  show IsFlatOver
+  change IsFlatOver
     (pullback.snd (𝒰.f i) (pullback.fst f g) ≫ pullback.snd f g).toLRSHom.toShHom
     ((Scheme.Modules.pullback (pullback.snd (𝒰.f i) (pullback.fst f g))).obj
       ((Scheme.Modules.pullback (pullback.fst f g)).obj F)) ↔ _

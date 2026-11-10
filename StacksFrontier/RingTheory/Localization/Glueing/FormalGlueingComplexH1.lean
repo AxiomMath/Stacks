@@ -151,8 +151,7 @@ private lemma glueingTermTensorEquiv_differential
     (N : Type v) [AddCommGroup N] [Module R N] (p : ℕ) (z : GlueingTerm f M p ⊗[R] N) :
     glueingTermTensorEquiv f M N (p + 1) ((glueingDifferential f M p).rTensor N z) =
       glueingDifferential f (M ⊗[R] N) p (glueingTermTensorEquiv f M N p z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x n =>
     funext T
     rw [LinearMap.rTensor_tmul, glueingTermTensorEquiv_tmul, glueingDifferential_apply_component,
@@ -226,7 +225,7 @@ public lemma exists_cechι_eq_pow_smul (a : Fin r) (s : Finset (Fin r))
   have hmk : (∏ i ∈ s, f i) ^ e • LocalizedModule.mk (q ^ e • m) u =
       LocalizedModule.mkLinearMap (cechSub f s) M (q ^ e • m) := by
     rw [LocalizedModule.smul'_mk]
-    show LocalizedModule.mk (u • (q ^ e • m)) u = _
+    change LocalizedModule.mk (u • (q ^ e • m)) u = _
     rw [LocalizedModule.mk_cancel]
     rfl
   apply smul_injective_cechMod f (Finset.subset_insert a s) ((∏ i ∈ s, f i) ^ e) ⟨e, rfl⟩
@@ -368,7 +367,7 @@ private lemma cocycle_component_torsion_of_ne (b : GlueingTerm f M 2)
       rw [hT]
       exact Finset.singleton_subset_iff.mpr (Finset.mem_insert_of_mem hkm)
     refine ⟨u, hu, sa, sk, ?_⟩
-    rw [hy, dif_neg hk, map_zsmul, ← cechι_cechι f M (hu ▸ Finset.subset_insert a {k}) sa,
+    rw [hy, dite_eq_right hk, map_zsmul, ← cechι_cechι f M (hu ▸ Finset.subset_insert a {k}) sa,
       hz' (singletonIndex k) hk u hu, map_smul]
   obtain ⟨uaj, huaj, saj, sj, hzj⟩ := hk j (by simp) haj
   obtain ⟨uai, huai, sai, si, hzi⟩ := hk i (by simp) hai
@@ -396,14 +395,16 @@ private lemma cocycle_component_torsion (b : GlueingTerm f M 2)
   simp only at ht
   subst ht
   rw [glueingDifferential_apply_pair f y hij]
-  have hyi : a ∈ ({i} : Finset (Fin r)) → y (singletonIndex i) = 0 := fun h ↦ by rw [hy, dif_pos h]
-  have hyj : a ∈ ({j} : Finset (Fin r)) → y (singletonIndex j) = 0 := fun h ↦ by rw [hy, dif_pos h]
+  have hyi : a ∈ ({i} : Finset (Fin r)) → y (singletonIndex i) = 0 :=
+    fun h ↦ by rw [hy, dite_eq_left h]
+  have hyj : a ∈ ({j} : Finset (Fin r)) → y (singletonIndex j) = 0 :=
+    fun h ↦ by rw [hy, dite_eq_left h]
   by_cases hai : a = i
   · subst hai
     refine ⟨0, ?_⟩
     have hj : a ∉ ({j} : Finset (Fin r)) := by simpa using (ne_of_lt hij)
     have hyj' : y (singletonIndex j) = z' (singletonIndex j) hj := by
-      simp only [hy, dif_neg hj, cechSign_pair_of_lt hij, one_smul]
+      simp only [hy, dite_eq_right hj, cechSign_pair_of_lt hij, one_smul]
     rw [hyi (by simp), hyj', map_zero, sub_zero,
       hz' (singletonIndex j) hj ⟨{a, j}, ht2⟩ rfl, sub_self, smul_zero]
   by_cases haj : a = j
@@ -411,7 +412,7 @@ private lemma cocycle_component_torsion (b : GlueingTerm f M 2)
     refine ⟨0, ?_⟩
     have hi : a ∉ ({i} : Finset (Fin r)) := by simpa using (ne_of_lt hij).symm
     have hyi' : y (singletonIndex i) = -z' (singletonIndex i) hi := by
-      simp only [hy, dif_neg hi, cechSign_pair_of_gt hij, neg_smul, one_smul]
+      simp only [hy, dite_eq_right hi, cechSign_pair_of_gt hij, neg_smul, one_smul]
     rw [hyj (by simp), hyi', map_zero, map_neg, zero_sub, neg_neg,
       hz' (singletonIndex i) hi ⟨{i, a}, ht2⟩ (Finset.pair_comm _ _), sub_self, smul_zero]
   exact cocycle_component_torsion_of_ne f b hb a E z' hz' y hy hij ht2 hai haj _ _
@@ -429,7 +430,7 @@ public theorem exists_pow_smul_eq_glueingDifferential (b : GlueingTerm f M 2)
   let E : ℕ := ∑ s : {s : Finset (Fin r) // s.card = 1}, if h : a ∈ s.1 then 0 else e s h
   have heE : ∀ (s : {s : Finset (Fin r) // s.card = 1}) (h : a ∉ s.1), e s h ≤ E :=
     fun s h ↦ by
-      simpa only [dif_neg h] using Finset.single_le_sum
+      simpa only [dite_eq_right h] using Finset.single_le_sum
         (f := fun s : {s : Finset (Fin r) // s.card = 1} ↦ if h : a ∈ s.1 then 0 else e s h)
         (fun _ _ ↦ Nat.zero_le _) (Finset.mem_univ s)
   let z' : ∀ s : {s : Finset (Fin r) // s.card = 1}, a ∉ s.1 → cechMod f M s.1 :=
@@ -458,7 +459,7 @@ public theorem exists_pow_smul_eq_glueingDifferential (b : GlueingTerm f M 2)
   have hK : f a ^ K • (glueingDifferential f M 1 y - f a ^ E • b) = 0 := by
     funext t
     have hle : m t ≤ K := Finset.single_le_sum (fun _ _ ↦ Nat.zero_le _) (Finset.mem_univ t)
-    show f a ^ K • (glueingDifferential f M 1 y t - f a ^ E • b t) = 0
+    change f a ^ K • (glueingDifferential f M 1 y t - f a ^ E • b t) = 0
     rw [← Nat.sub_add_cancel hle, pow_add, mul_smul, hm t, smul_zero]
   refine ⟨K + E, f a ^ K • y, ?_⟩
   rw [smul_sub, sub_eq_zero] at hK
@@ -530,10 +531,10 @@ public theorem glueingComplex_exact_two
     abel
   refine ⟨(y₀, -(m + z.1)), Prod.ext ?_ ?_⟩
   · have ha : a = glueingTermTensorEquiv f M S 1 ã := by simp [ã]
-    show localizationDiagonal f (M ⊗[R] S) y₀ - localizationTensorMap S f M 1 (-(m + z.1)) = a
+    change localizationDiagonal f (M ⊗[R] S) y₀ - localizationTensorMap S f M 1 (-(m + z.1)) = a
     rw [ha, hã', map_add, glueingTermTensorEquiv_unitMap, glueingTermTensorEquiv_diagonal, map_neg]
     abel
-  · show -(glueingDifferential f M 1 (-(m + z.1))) = b
+  · change -(glueingDifferential f M 1 (-(m + z.1))) = b
     rw [map_neg, neg_neg, map_add, hm, LinearMap.mem_ker.mp z.2, add_zero]
 
 end Main

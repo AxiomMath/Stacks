@@ -8,9 +8,10 @@ public import StacksFrontier.RingTheory.Nagata.FiniteType
 `IsNagataRing R` tests `R` against the finite field extensions of the fraction fields of its
 prime quotients that live in **`R`'s own universe**. The transport lemmas that move the condition
 across a universe boundary are stated where the condition itself is: `IsJapaneseRing.of_ringEquiv`
-and `module_finite_integralClosure_of_isJapaneseRing` in `StacksFrontier.RingTheory.Nagata.Japanese`,
-`MonogenicN1.isNagataRing_of_ringEquiv` in `StacksFrontier.RingTheory.Nagata.MonogenicN1`, resting on
-`StacksFrontier.RingTheory.Nagata.Shrink`.
+and `module_finite_integralClosure_of_isJapaneseRing` in
+`StacksFrontier.RingTheory.Nagata.Japanese`,
+`MonogenicN1.isNagataRing_of_ringEquiv` in `StacksFrontier.RingTheory.Nagata.MonogenicN1`, resting
+on `StacksFrontier.RingTheory.Nagata.Shrink`.
 
 What is left for this module is the two consequences that genuinely live downstream, because they
 consume `isNagataRing_tfae` (Tag 0334) and `isNagata_of_isLocalization` (Tag 032U): a finite type,

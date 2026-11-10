@@ -447,11 +447,11 @@ theorem chartSwapNegation_comp_self (k : Type u) [Field k] (n : ℕ) :
   have h1 : chartInclusion k n 1 ≫ chartSwapNegation k n =
     negAffineSpace k n ≫ chartInclusion k n 0 := (chartSwapNegationData k n).property.2
   fin_cases b
-  · show chartInclusion k n 0 ≫ chartSwapNegation k n ≫ chartSwapNegation k n =
+  · change chartInclusion k n 0 ≫ chartSwapNegation k n ≫ chartSwapNegation k n =
       chartInclusion k n 0 ≫ 𝟙 _
     rw [← Category.assoc, h0, Category.assoc, h1, ← Category.assoc,
       negAffineSpace_comp_self, Category.id_comp, Category.comp_id]
-  · show chartInclusion k n 1 ≫ chartSwapNegation k n ≫ chartSwapNegation k n =
+  · change chartInclusion k n 1 ≫ chartSwapNegation k n ≫ chartSwapNegation k n =
       chartInclusion k n 1 ≫ 𝟙 _
     rw [← Category.assoc, h1, Category.assoc, h0, ← Category.assoc,
       negAffineSpace_comp_self, Category.id_comp, Category.comp_id]

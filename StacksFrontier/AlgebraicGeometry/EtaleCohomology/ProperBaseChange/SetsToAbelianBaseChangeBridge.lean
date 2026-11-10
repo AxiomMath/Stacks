@@ -194,7 +194,7 @@ private lemma coefficient_cube_eq :
           (smallEtaleSquarePushforwardIsoAt g' f' f g w AddCommGrpCat.{u + 1}).hom ≫ᵥ
         mateEquiv (abAdjAt g) (setsAdjAt g) (pullbackForgetAt g) := by
   rw [mateEquiv_coefficientPullbackTwoSquare, mateEquiv_coefficientPullbackTwoSquare]
-  refine TwoSquare.ext _ _ fun F => ?_
+  refine NatTrans.ext (funext fun F => ?_)
   rw [AlgebraicGeometry.SmallEtale.ts_whiskerLeft_app,
     AlgebraicGeometry.SmallEtale.ts_whiskerRight_app, AlgebraicGeometry.SmallEtale.ts_vComp_app,
     AlgebraicGeometry.SmallEtale.ts_vComp_app]
@@ -219,10 +219,10 @@ sheafification. -/
 private theorem isIso_mateEquiv_symm_smallEtaleSquarePushforwardIsoAt_ab
     (hsets : IsIso ((mateEquiv (setsAdjAt g') (setsAdjAt g)).symm
       (TwoSquare.mk _ _ _ _
-        (smallEtaleSquarePushforwardIsoAt g' f' f g w (Type (u + 1))).hom)).natTrans) :
+        (smallEtaleSquarePushforwardIsoAt g' f' f g w (Type (u + 1))).hom))) :
     IsIso ((mateEquiv (abAdjAt g') (abAdjAt g)).symm
       (TwoSquare.mk _ _ _ _
-        (smallEtaleSquarePushforwardIsoAt g' f' f g w AddCommGrpCat.{u + 1}).hom)).natTrans :=
+        (smallEtaleSquarePushforwardIsoAt g' f' f g w AddCommGrpCat.{u + 1}).hom)) :=
   Stacks.CategoryTheory.isIso_mateEquiv_symm_of_reflectsIsomorphisms
     (abAdjAt g') (abAdjAt g) (setsAdjAt g') (setsAdjAt g)
     (pullbackForgetAt g') (pullbackForgetAt g) (pushForgetAt f) (pushForgetAt' f')
@@ -259,7 +259,7 @@ public theorem isIso_smallEtaleBaseChangeAb_of_isIso_smallEtaleSetsBaseChange
   have hdef : smallEtaleBaseChangeAb g f f' g' w.symm =
       ((mateEquiv (smallEtaleAdjunctionAb g') (smallEtaleAdjunctionAb g)).symm
         (TwoSquare.mk _ _ _ _
-          (smallEtaleSquarePushforwardIsoAt g' f' f g w Ab.{u + 1}).hom)).natTrans := by
+          (smallEtaleSquarePushforwardIsoAt g' f' f g w Ab.{u + 1}).hom)) := by
     have hmate : smallEtaleBaseChangeAb g f f' g' w.symm =
         Stacks.Cohomology.BaseChange.mate (smallEtaleAdjunctionAb g) (smallEtaleAdjunctionAb g')
           (smallEtalePushforwardAb f) (smallEtalePushforwardAb f')
@@ -312,7 +312,7 @@ that transport, which is `smallEtalePushforwardComp'_eq`. -/
 public theorem unboundedBaseChangeMate_eq_smallEtaleSquarePushforwardIsoAt (A : Type uA)
     [Category.{vA} A]
     (w : B.inclusion.map g' ≫ B.inclusion.map f = B.inclusion.map f' ≫ B.inclusion.map g) :
-    (AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate B A f g g' f' P hP₁ hP₂).natTrans =
+    (AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate B A f g g' f' P hP₁ hP₂) =
       (smallEtaleSquarePushforwardIsoAt (B.inclusion.map g') (B.inclusion.map f')
         (B.inclusion.map f) (B.inclusion.map g) w A).hom := by
   have e : ∀ {V : B.Scheme} (a : X' ⟶ V) (b : V ⟶ Y) (hP : a ≫ b = P),
@@ -320,7 +320,7 @@ public theorem unboundedBaseChangeMate_eq_smallEtaleSquarePushforwardIsoAt (A : 
         smallEtalePushforwardComp' (B.inclusion.map a) (B.inclusion.map b) (B.inclusion.map P)
           ((congrArg B.inclusion.map hP.symm).trans (B.inclusion.map_comp a b)) A :=
     fun _ _ _ => rfl
-  show (AlgebraicGeometry.SmallEtale.unboundedPushforwardCompIso B A g' f P hP₁).hom ≫
+  change (AlgebraicGeometry.SmallEtale.unboundedPushforwardCompIso B A g' f P hP₁).hom ≫
       (AlgebraicGeometry.SmallEtale.unboundedPushforwardCompIso B A f' g P hP₂).inv = _
   rw [e g' f hP₁, e f' g hP₂, smallEtalePushforwardComp'_eq, smallEtalePushforwardComp'_eq,
     smallEtaleSquarePushforwardIsoAt]
@@ -345,7 +345,7 @@ public theorem isIso_mateEquiv_symm_unboundedBaseChangeMate_iff
     (adjUg' : LUg' ⊣ AlgebraicGeometry.SmallEtale.unboundedPushforward B (Type (u + 1)) g') :
     IsIso ((mateEquiv adjUg' adjUg).symm
         (AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate B (Type (u + 1)) f g g' f'
-          P hP₁ hP₂)).natTrans ↔
+          P hP₁ hP₂)) ↔
       IsIso (smallEtaleSetsBaseChange.{u, 0} (B.inclusion.map g') (B.inclusion.map f')
         (B.inclusion.map f) (B.inclusion.map g) w) := by
   have hcell : AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate B (Type (u + 1)) f g g' f'
@@ -378,7 +378,7 @@ private theorem hComp_natTrans_app {C₁ C₂ C₃ C₄ C₅ C₆ : Type*} [Cate
     {T : C₁ ⥤ C₂} {L : C₁ ⥤ C₃} {R : C₂ ⥤ C₄} {Bo : C₃ ⥤ C₄}
     {T' : C₂ ⥤ C₅} {R' : C₅ ⥤ C₆} {B' : C₄ ⥤ C₆}
     (w : TwoSquare T L R Bo) (w' : TwoSquare T' R R' B') (c : C₁) :
-    (w ≫ₕ w').natTrans.app c = w'.natTrans.app (T.obj c) ≫ B'.map (w.natTrans.app c) := by
+    (w ≫ₕ w').app c = w'.app (T.obj c) ≫ B'.map (w.app c) := by
   simp [TwoSquare.hComp]
 
 /-- A horizontal pasting of two invertible 2-squares is invertible; `private` in
@@ -388,7 +388,7 @@ private theorem isIso_hComp_natTrans {C₁ C₂ C₃ C₄ C₅ C₆ : Type*} [Ca
     {T : C₁ ⥤ C₂} {L : C₁ ⥤ C₃} {R : C₂ ⥤ C₄} {Bo : C₃ ⥤ C₄}
     {T' : C₂ ⥤ C₅} {R' : C₅ ⥤ C₆} {B' : C₄ ⥤ C₆}
     (w : TwoSquare T L R Bo) (w' : TwoSquare T' R R' B')
-    [IsIso w.natTrans] [IsIso w'.natTrans] : IsIso (w ≫ₕ w').natTrans := by
+    [IsIso w] [IsIso w'] : IsIso (w ≫ₕ w') := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro c
   rw [hComp_natTrans_app]
@@ -398,8 +398,8 @@ private theorem isIso_hComp_natTrans {C₁ C₂ C₃ C₄ C₅ C₆ : Type*} [Ca
 private theorem whiskerTop_whiskerBottom_natTrans {C₁ C₂ C₃ C₄ : Type*} [Category* C₁]
     [Category* C₂] [Category* C₃] [Category* C₄] {T T' : C₁ ⥤ C₂} {L : C₁ ⥤ C₃} {R : C₂ ⥤ C₄}
     {Bo Bo' : C₃ ⥤ C₄} (w : TwoSquare T' L R Bo) (φ : T ⟶ T') (ψ : Bo ⟶ Bo') :
-    ((w.whiskerTop φ).whiskerBottom ψ).natTrans =
-      (Functor.whiskerRight φ R ≫ w.natTrans) ≫ Functor.whiskerLeft L ψ :=
+    ((w.whiskerTop φ).whiskerBottom ψ) =
+      (Functor.whiskerRight φ R ≫ w) ≫ Functor.whiskerLeft L ψ :=
   rfl
 
 /-- **A natural transformation whose components are invertible at every object in the image of
@@ -444,24 +444,24 @@ invertible. Essential surjectivity of `ΦC` upgrades that to invertibility.
 The tree has only the forward transport; both directions are needed when the two squares are
 two presentations of one site, where the comparisons are halves of an equivalence. -/
 private theorem isIso_mateEquiv_symm_of_essSurj [ΦC.EssSurj]
-    [IsIso τ₁.natTrans] [IsIso τ₂.natTrans] [IsIso σG] [IsIso σH]
-    [IsIso ((mateEquiv adj₁ adj₂).symm β).natTrans]
+    [IsIso τ₁] [IsIso τ₂] [IsIso σG] [IsIso σH]
+    [IsIso ((mateEquiv adj₁ adj₂).symm β)]
     (h : ((mateEquiv adj₁ adj₁' τ₁ ≫ᵥ β').whiskerRight σG).whiskerLeft σH =
       β ≫ᵥ mateEquiv adj₂ adj₂' τ₂) :
-    IsIso ((mateEquiv adj₁' adj₂').symm β').natTrans := by
-  have hl : IsIso ((mateEquiv adj₁ adj₂).symm β ≫ₕ τ₂).natTrans :=
+    IsIso ((mateEquiv adj₁' adj₂').symm β') := by
+  have hl : IsIso ((mateEquiv adj₁ adj₂).symm β ≫ₕ τ₂) :=
     isIso_hComp_natTrans _ _
   rw [Stacks.CategoryTheory.mateEquiv_symm_hComp_eq adj₁ adj₂ adj₁' adj₂' τ₁ τ₂ σG σH β β' h,
     whiskerTop_whiskerBottom_natTrans] at hl
   have hmid : IsIso (Functor.whiskerRight σG L₂' ≫
-      (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β').natTrans) :=
+      (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β')) :=
     IsIso.of_isIso_comp_right _ (Functor.whiskerLeft L₁ σH)
-  have htop : IsIso (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β').natTrans :=
+  have htop : IsIso (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β') :=
     IsIso.of_isIso_comp_left (Functor.whiskerRight σG L₂') _
   refine isIso_natTrans_of_essSurj ΦC _ fun c => ?_
-  have hc : IsIso ((τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β').natTrans.app c) := inferInstance
+  have hc : IsIso ((τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β').app c) := inferInstance
   rw [hComp_natTrans_app] at hc
-  exact IsIso.of_isIso_comp_right _ (H'.map (τ₁.natTrans.app c))
+  exact IsIso.of_isIso_comp_right _ (H'.map (τ₁.app c))
 
 end ReverseCube
 
@@ -504,7 +504,7 @@ public theorem isIso_smallEtaleBaseChangeNatTrans_of_isIso_mateEquiv_symm
     (adjUg' : LUg' ⊣ AlgebraicGeometry.SmallEtale.unboundedPushforward B (Type (u + 1)) g')
     (hunb : IsIso ((mateEquiv adjUg' adjUg).symm
       (AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate B (Type (u + 1)) f g g' f'
-        P hP₁ hP₂)).natTrans) :
+        P hP₁ hP₂))) :
     IsIso (AlgebraicGeometry.smallEtaleBaseChangeNatTrans B g' f' f g h) := by
   have hEq : ((AlgebraicGeometry.SmallEtale.toEtaleSite B X.obj X.property
       ).sheafPushforwardContinuous (Type (u + 1))
@@ -515,7 +515,7 @@ public theorem isIso_smallEtaleBaseChangeNatTrans_of_isIso_mateEquiv_symm
   have key : IsIso ((mateEquiv (B.smallPullbackAdjunction g' (Type (u + 1)))
         (B.smallPullbackAdjunction g (Type (u + 1)))).symm
       (AlgebraicGeometry.SmallEtale.boundedBaseChangeMate B (Type (u + 1)) f g g' f'
-        P hP₁ hP₂)).natTrans :=
+        P hP₁ hP₂)) :=
     isIso_mateEquiv_symm_of_essSurj adjUg' adjUg
       (B.smallPullbackAdjunction g' (Type (u + 1))) (B.smallPullbackAdjunction g (Type (u + 1)))
       (AlgebraicGeometry.SmallEtale.restrictionPullbackBaseChange B (Type (u + 1)) g' adjUg' _)

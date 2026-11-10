@@ -96,8 +96,7 @@ def polyModuleMap :
   toFun := polyModuleAdd W f μ e hfe
   map_add' := map_add _
   map_smul' q z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul q' m =>
       rw [TensorProduct.smul_tmul', polyModuleAdd_tmul, polyModuleAdd_tmul, smul_eq_mul,
         map_mul, mul_smul]
@@ -120,7 +119,7 @@ theorem oneFormsMap_oneFormComparison
     induction hx using Submodule.span_induction with
     | mem y hy =>
       obtain ⟨b, rfl⟩ := hy
-      show mapDifferentialsOfDPMorphism (A := A) (J := (polyRing B W).ideal)
+      change mapDifferentialsOfDPMorphism (A := A) (J := (polyRing B W).ideal)
           (delta := (polyRing B W).dividedPowers) C.dividedPowers e he
           (mapDifferentialsOfDPMorphism (A := A) (J := B.ideal) (delta := B.dividedPowers)
             (setIndexedDividedPowerPolynomialDividedPowers B W) (coefficientAlgHom A B W)
@@ -148,8 +147,7 @@ theorem tensorMap_baseChangeValues
     tensorMap e (polyModuleMap W f μ e hfe) (oneFormsMap e he)
         (Connection.baseChangeValues (oneFormComparison A B W) y) =
       tensorMap f μ (oneFormsMap f hf) y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction y using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul m η =>
     rw [Connection.baseChangeValues_tmul, tensorMap_tmul, tensorMap_tmul, polyModuleMap_tmul,
@@ -162,14 +160,12 @@ theorem isHorizontal_polyModuleMap (hμ : IsHorizontal f hf μ nabla nabla') :
     IsHorizontal (B := polyRing B W) e he (polyModuleMap W f μ e hfe)
       (polyBaseChangeConnection A B W nabla) nabla' := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero, Connection.map_zero, Connection.map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy =>
     rw [map_add, Connection.map_add, Connection.map_add, hx, hy, map_add]
   | tmul q m =>
     rw [polyModuleMap_tmul, Connection.leibniz, hμ m]
-    show _ = tensorMap e (polyModuleMap W f μ e hfe) (oneFormsMap e he)
+    change _ = tensorMap e (polyModuleMap W f μ e hfe) (oneFormsMap e he)
       (Connection.baseChange (oneFormComparison A B W) nabla
         (oneFormComparison_compatible A B W) (q ⊗ₜ m))
     rw [Connection.baseChange_tmul, map_add, tensorMap_smul,
@@ -201,8 +197,7 @@ theorem addMonoidHom_ext_tmul_ιMulti {R : Type*} [CommRing R] {L Q : Type*} [Ad
     | add x z _ _ hx hz => intro m; simp only [TensorProduct.tmul_add, map_add, hx, hz]
     | smul b x _ hx => intro m; rw [← TensorProduct.smul_tmul, hx]
   ext z
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m y => exact key y m
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -227,7 +222,7 @@ theorem tensorMap_polyModuleMap_one_tmul (p : ℕ) (m : M)
     tensorMap (B := polyRing B W) e (polyModuleMap W f μ e hfe) (formsMap e he p)
         (((1 : (polyRing B W : Type u)) ⊗ₜ[(B : Type u)] m) ⊗ₜ[(polyRing B W : Type u)] ω) =
       μ m ⊗ₜ[(C : Type u)] formsMap (B := polyRing B W) e he p ω := by
-  show (e 1 • μ m) ⊗ₜ[(C : Type u)] _ = _
+  change (e 1 • μ m) ⊗ₜ[(C : Type u)] _ = _
   rw [map_one, one_smul]
   rfl
 
@@ -330,7 +325,7 @@ private theorem termMap_termMap_eq_self (g : (B' : Type u) →ₐ[A] C')
     { toFun := id
       map_add' := fun _ _ => rfl
       map_smul' := fun b m => by
-        show b • m = g' (g b) • m
+        change b • m = g' (g b) • m
         rw [hg'g] }
   rw [← termMap_comp g hg κ g' hg' (IsDPMorphism.comp _ hg' hg) κ' ι (fun m => (hκ'κ m).symm)]
   exact termMap_eq_self (g'.comp g) _ hg'g ι (fun _ => rfl) p x
@@ -371,7 +366,7 @@ theorem exists_polyModuleMap_inverse :
     rw [map_add (polyModuleMap W f μ e hfe), hE, hE, hE]
   · apply hbij.1
     rw [map_smulₛₗ (polyModuleMap W f μ e hfe), hE, hE]
-    show c • n = e (e' c) • n
+    change c • n = e (e' c) • n
     rw [hee']
 
 include hf he he' hee' he'e hbij in

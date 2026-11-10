@@ -44,7 +44,7 @@ def ofBaseAway (D : ChartBaseChange A B A' B') (a : A) [IsLocalization.Away a A�
       exact D.base_right x
     elt := ε.symm D.elt
     isLocalization := by
-      haveI := D.isLocalization
+      have := D.isLocalization
       have h := IsLocalization.isLocalization_of_base_ringEquiv (S := B')
         (Submonoid.powers D.elt) ε.symm.toRingEquiv
       rwa [Submonoid.map_powers] at h }

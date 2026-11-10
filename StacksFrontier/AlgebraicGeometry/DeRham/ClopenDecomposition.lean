@@ -108,7 +108,7 @@ theorem bijective_pushforward_map_inf {Y Z : TopCat.{u}} (f : Y ⟶ Z) (U : Open
       (((Stacks.Cohomology.LerayLowDegree.abelianPushforward.{u, u} f).obj M).obj.map
         (homOfLE (inf_le_left : W ⊓ U ≤ W)).op) := by
   have he : (Opens.map f).obj (W ⊓ U) = (Opens.map f).obj W := by
-    show (Opens.map f).obj W ⊓ (Opens.map f).obj U = _
+    change (Opens.map f).obj W ⊓ (Opens.map f).obj U = _
     rw [hU, inf_top_eq]
   have hiso : IsIso ((Opens.map f).map (homOfLE (inf_le_left : W ⊓ U ≤ W))) :=
     ⟨⟨homOfLE he.symm.le, Subsingleton.elim _ _, Subsingleton.elim _ _⟩⟩
@@ -285,7 +285,7 @@ theorem bijective_deRhamCohomologyPullback (m : ℤ) :
         (Scheme.Hom.deRhamAbelianPushforwardMapPlus
           (U i).ι p ((U i).ι ≫ p) (𝟙 B) (Category.comp_id _).symm) z) := by
     intro i z
-    show ((DerivedCategory.Plus.homologyFunctor AddCommGrpCat.{u} m).map (_ ≫ _)).hom z = _
+    change ((DerivedCategory.Plus.homologyFunctor AddCommGrpCat.{u} m).map (_ ≫ _)).hom z = _
     rw [Functor.map_comp]
     rfl
   have hc := (Function.Bijective.piMap hR).comp

@@ -62,7 +62,7 @@ theorem restrictionArrowsToArrows_comp_source (G : GroupoidInAlgebraicSpaces C S
     restrictionArrowsToArrows G g ≫ G.source = restrictionSource G g ≫ g := by
   apply ObjectProperty.hom_ext
   ext T x
-  show G.source.hom.app T ((pullback.snd g.hom G.target.hom).app T
+  change G.source.hom.app T ((pullback.snd g.hom G.target.hom).app T
       ((pullback.fst (pullback.snd g.hom G.target.hom)
         (pullback.fst G.source.hom g.hom)).app T x)) =
     g.hom.app T ((pullback.snd G.source.hom g.hom).app T

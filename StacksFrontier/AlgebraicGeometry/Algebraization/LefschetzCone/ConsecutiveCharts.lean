@@ -79,6 +79,7 @@ abbrev prod (ch : ConsecutiveChart L) : powSections L (ch.m + 1 + ch.m) := mul c
 /-- The open `X_{cb}` of a chart. -/
 abbrev nv (ch : ConsecutiveChart L) : X.Opens := nvOpen L ch.prod
 
+omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- The degree `2m + 1` of the product is positive. -/
 theorem deg_pos (ch : ConsecutiveChart L) : 0 < ch.m + 1 + ch.m := by omega
 
@@ -92,14 +93,17 @@ abbrev bR (ch : ConsecutiveChart L) : sectionRing L := DirectSum.of (powSections
 abbrev gR (ch : ConsecutiveChart L) : sectionRing L :=
   DirectSum.of (powSections L) (ch.m + 1 + ch.m) ch.prod
 
+omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- The element `c` of the section ring is homogeneous of degree `m + 1`. -/
 theorem cR_mem (ch : ConsecutiveChart L) : ch.cR ∈ grading L (ch.m + 1) :=
   Stacks.ExternalGrading.of_mem_summand _ _
 
+omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- The element `b` of the section ring is homogeneous of degree `m`. -/
 theorem bR_mem (ch : ConsecutiveChart L) : ch.bR ∈ grading L ch.m :=
   Stacks.ExternalGrading.of_mem_summand _ _
 
+omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- In the section ring, the product of `c` and `b` is the section `cb`. -/
 theorem cR_mul_bR (ch : ConsecutiveChart L) : ch.cR * ch.bR = ch.gR :=
   (of_mul_eq L ch.c ch.b).symm

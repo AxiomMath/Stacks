@@ -151,7 +151,7 @@ theorem eq_zsmul_toWeilDivisor_of_forall_eq_zero {Z : PrimeDivisor X} (D : WeilD
   · subst hW
     simp
   · rw [hD W hW]
-    show (0 : ℤ) = D.val Z * Z.toWeilDivisor.val W
+    change (0 : ℤ) = D.val Z * Z.toWeilDivisor.val W
     rw [PrimeDivisor.toWeilDivisor_val_of_ne hW, mul_zero]
 
 /-! ### The only prime divisor supported on an integral divisor is that divisor -/

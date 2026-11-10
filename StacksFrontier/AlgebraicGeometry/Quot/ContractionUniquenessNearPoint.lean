@@ -97,7 +97,7 @@ theorem localSchemeClosedPoint_localSchemeMap (S : BigFppfOver B integerBase hZ)
     localSchemeClosedPoint S s ≫ localSchemeMap S s = pointFieldMap S s := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (((𝒯).obj S).residue s) ≫ ((𝒯).obj S).fromSpecStalk s =
+  change Spec.map (((𝒯).obj S).residue s) ≫ ((𝒯).obj S).fromSpecStalk s =
     ((𝒯).obj S).fromSpecResidueField s
   rfl
 
@@ -425,7 +425,6 @@ theorem exists_iso_near_point_of_iso_fibre (S : BigFppfOver B integerBase hZ) (s
     (hd₁ : HasRelativeDimensionLE 1 B integerBase hZ g₁)
     (hfl₂ : IsFlat B integerBase hZ g₂) (hpr₂ : IsProper B integerBase hZ g₂)
     (hfp₂ : IsFinitePresentation B integerBase hZ g₂)
-    (hd₂ : HasRelativeDimensionLE 1 B integerBase hZ g₂)
     (c₁ : X ⟶ Y₁) (c₂ : X ⟶ Y₂) (hc₁ : c₁ ≫ g₁ = f) (hc₂ : c₂ ≫ g₂ = f)
     {FX F₁ : BigFppfOver B integerBase hZ}
     (eX : yoneda.obj FX ≅ pullback f (yoneda.map (pointFieldMap S s)))
@@ -463,7 +462,6 @@ theorem exists_iso_near_point_of_iso_fibre (S : BigFppfOver B integerBase hZ) (s
             φ.hom ≫ pullback.map g₂ (yoneda.map (pointFieldMap S s)) g₂ (yoneda.map j) (𝟙 _)
               (yoneda.map k) (𝟙 _) (by simp)
               (by rw [Category.comp_id, ← Functor.map_comp, hk]) := by
-  clear hd₂
   obtain ⟨ψst, hψs, hψc, hψf⟩ := exists_iso_stalk_of_iso_fibre S s hX hY₁ hY₂ f g₁ g₂ hfl hpr hfp
     hd hfl₁ hpr₁ hfp₁ hd₁ hfl₂ hpr₂ hfp₂ c₁ c₂ hc₁ hc₂ eX e₁ tX t₁ heX he₁ a₁ ha₁ h0 hR φ hφ hφc
   have hc := isLimitIntegerAffineNhdsCone (hZ := hZ) S s
@@ -572,9 +570,9 @@ theorem exists_iso_near_point_of_iso_fibre (S : BigFppfOver B integerBase hZ) (s
     (hmp q₂j hq₂r) (hmg q₁j hq₁g) (hmg q₂j hq₂g)
     (by rw [Category.assoc, ← hψq, reassoc_of% hψf])
   refine ⟨_, integerAffineNhdsMap S s j, ?_, ?_, ψ, _, h1, h2, hk, h3⟩
-  · show _root_.AlgebraicGeometry.IsOpenImmersion (Scheme.Opens.ι j.unop.opens)
+  · change _root_.AlgebraicGeometry.IsOpenImmersion (Scheme.Opens.ι j.unop.opens)
     infer_instance
-  · show s ∈ Set.range (Scheme.Opens.ι j.unop.opens)
+  · change s ∈ Set.range (Scheme.Opens.ι j.unop.opens)
     rw [Scheme.Opens.range_ι]
     exact j.unop.2.2
 

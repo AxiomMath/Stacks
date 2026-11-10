@@ -27,7 +27,8 @@ sections a `SheafOfModules.DifferentialGradedModule.DerivedPullbackSectionData`.
 Tag 0GZF itself, for the derived extension of scalars of Tag 0FTZ and the subcategories
 `QC(A, d)` of Tag 0GZ9, is
 `SheafOfModules.DifferentialGradedModule.Chaotic.isEquivalence_qcDerivedExtension` of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedChaoticQuasiCoherentQuasiIso.lean`.
+the file `DifferentialGradedChaoticQuasiCoherentQuasiIso.lean` in the directory
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/`.
 
 ## Main results
 
@@ -170,10 +171,10 @@ theorem isEquivalence_qcPullback_of_bijective_cohomologyMap
     (hLg : Lg.derived.IsEquivalence) : (qcPullback dp).IsEquivalence := by
   have := hLg
   have hc : (qcPullback dp ⋙ QCι sd').Faithful := by
-    show (QCι sd ⋙ Lg.derived).Faithful; infer_instance
+    change (QCι sd ⋙ Lg.derived).Faithful; infer_instance
   have : (qcPullback dp).Faithful := Functor.Faithful.of_comp _ (QCι sd')
   have : (qcPullback dp ⋙ QCι sd').Full := by
-    show (QCι sd ⋙ Lg.derived).Full; infer_instance
+    change (QCι sd ⋙ Lg.derived).Full; infer_instance
   have : (qcPullback dp).Full := Functor.Full.of_comp_faithful _ (QCι sd')
   have : (qcPullback dp).EssSurj := by
     refine ⟨fun N ↦ ?_⟩

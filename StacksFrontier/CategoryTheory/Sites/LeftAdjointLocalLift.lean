@@ -56,7 +56,7 @@ theorem sieveOfSection_range_mem {P : Cᵒᵖ ⥤ Type w} {F : Sheaf J (Type w)}
   let l : P ⟶ Gs.obj := Subfunctor.lift u fun U' x hx ↦ G₀.le_sheafify J U' hx
   have : Sheaf.IsLocallySurjective ιs := (Sheaf.isLocallySurjective_iff_epi ιs).mpr
     ⟨fun {E} a b hab ↦ h a b (by
-      show (l ≫ ιs.hom) ≫ a.hom = (l ≫ ιs.hom) ≫ b.hom
+      change (l ≫ ιs.hom) ≫ a.hom = (l ≫ ιs.hom) ≫ b.hom
       rw [Category.assoc, Category.assoc]
       exact congrArg (fun m ↦ l ≫ m.hom) hab)⟩
   refine J.transitive (Presheaf.imageSieve_mem J ιs.hom s) _ fun U' i hi ↦ ?_
@@ -65,7 +65,7 @@ theorem sieveOfSection_range_mem {P : Cᵒᵖ ⥤ Type w} {F : Sheaf J (Type w)}
     rw [← ht]
     exact t.2
   refine J.superset_covering (fun U'' k hk ↦ ?_) hmem
-  show F.obj.map (k ≫ i).op s ∈ G₀.obj (op U'')
+  change F.obj.map (k ≫ i).op s ∈ G₀.obj (op U'')
   rw [op_comp, Functor.map_comp_apply]
   exact hk
 
@@ -111,7 +111,7 @@ theorem exists_locally_lift_of_adjunction (adj : F ⊣ G) {Z : Sheaf K (Type w)}
     apply (adj.homEquiv _ _).injective
     apply Sheaf.hom_ext
     ext ⟨W⟩ z
-    show (adj.homEquiv _ _ a).hom.app (op W) z = (adj.homEquiv _ _ a').hom.app (op W) z
+    change (adj.homEquiv _ _ a).hom.app (op W) z = (adj.homEquiv _ _ a').hom.app (op W) z
     obtain ⟨T, hT, hTz⟩ := h W z
     refine (((isSheaf_iff_isSheaf_of_type _ _).mp (G.obj Y).property).isSeparated T hT).ext
       fun W' i hi ↦ ?_
@@ -120,7 +120,7 @@ theorem exists_locally_lift_of_adjunction (adj : F ⊣ G) {Z : Sheaf K (Type w)}
       apply Sheaf.hom_ext
       let l := Subfunctor.lift (G := G₀) (F.map (K.yonedaEquiv.symm (b k))).hom
         (by rintro U' _ ⟨s', rfl⟩; exact ⟨k, s', rfl⟩)
-      show (l ≫ G₀.ι) ≫ a.hom = (l ≫ G₀.ι) ≫ a'.hom
+      change (l ≫ G₀.ι) ≫ a.hom = (l ≫ G₀.ι) ≫ a'.hom
       rw [Category.assoc, Category.assoc, hab]
     have key : ∀ c : P ⟶ Y, (G.obj Y).obj.map i.op ((adj.homEquiv _ _ c).hom.app (op W) z) =
         (G.obj Y).obj.map φ.op

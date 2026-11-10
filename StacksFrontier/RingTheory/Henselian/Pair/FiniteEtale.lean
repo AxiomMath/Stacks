@@ -124,8 +124,7 @@ private lemma algHom_ext_one_tmul {R : Type*} [CommRing R] {B : Type*} [CommRing
     (f g : (B ⊗[R] S) →ₐ[B] T)
     (h : ∀ s, f ((1 : B) ⊗ₜ[R] s) = g ((1 : B) ⊗ₜ[R] s)) : f = g := by
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [hx, hy]
   | tmul b s =>
       rw [show b ⊗ₜ[R] s = b • ((1 : B) ⊗ₜ[R] s) by
@@ -158,7 +157,7 @@ private lemma exists_algHom_of_quotient
   have hs' := congrArg E hs
   change E (Ideal.Quotient.mk J (f s)) = E (hbar ((1 : T) ⊗ₜ[A] s)) at hs'
   have hh : hbar ((1 : T) ⊗ₜ[A] s) = E.symm (g ((1 : A ⧸ I) ⊗ₜ[A] s)) := by
-    show (Ideal.Quotient.mkₐ T J) 1 *
+    change (Ideal.Quotient.mkₐ T J) 1 *
       (((E.symm.toAlgHom.comp g).restrictScalars A).comp
         Algebra.TensorProduct.includeRight) s = _
     rw [map_one, one_mul]
@@ -193,7 +192,7 @@ private lemma full_baseChange
     apply CommAlgCat.hom_ext
     apply algHom_ext_one_tmul
     intro s
-    show (Algebra.TensorProduct.map (AlgHom.id (A ⧸ I) (A ⧸ I)) f)
+    change (Algebra.TensorProduct.map (AlgHom.id (A ⧸ I) (A ⧸ I)) f)
       ((1 : A ⧸ I) ⊗ₜ[A] s) = g.hom.hom ((1 : A ⧸ I) ⊗ₜ[A] s)
     rw [Algebra.TensorProduct.map_tmul]
     exact hf s
@@ -228,7 +227,7 @@ private lemma essSurj_baseChange
         (e.toRingHom.comp
           (Ideal.quotientMap J (algebraMap A S) Ideal.le_comap_map)) = algebraMap Q Y := by
       ext a
-      simp only [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_ringHom_trans,
+      simp only [RingEquiv.toRingHom_eq_coe, RingEquiv.toRingHom_trans,
         AlgEquiv.toRingEquiv_toRingHom, RingHom.coe_comp, RingHom.coe_fst, RingHom.coe_coe,
         RingEquiv.coe_mk, Equiv.coe_fn_mk, Function.comp_apply, Ideal.quotientMap_mk,
         Ideal.Quotient.mk_algebraMap, AlgEquiv.commutes, J, e, eY, Q]
@@ -298,7 +297,7 @@ private lemma essSurj_baseChange
       obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective z
       calc
         rK (Ideal.Quotient.mk K x) = eY (Ideal.Quotient.mk J (D₀.val x)) := by
-          show eY (τ (Ideal.Quotient.mk K x)) = _
+          change eY (τ (Ideal.Quotient.mk K x)) = _
           congr 1
         _ = (e' (Ideal.Quotient.mk K x)).1 := by
           have hc := congrArg Prod.fst (he'compat (Ideal.Quotient.mk K x))
@@ -307,7 +306,7 @@ private lemma essSurj_baseChange
           rwa [Ideal.quotientMap_mk] at hc
     let q₀ : D₀ →ₐ[A] Y := rK.comp (Ideal.Quotient.mkₐ A K)
     have hqd : q₀ d = 1 := by
-      show rK (Ideal.Quotient.mk K d) = 1
+      change rK (Ideal.Quotient.mk K d) = 1
       rw [hmkd, hrK]
       simp [v]
     have hkill : ∀ x : D₀, x ∈ Ideal.span {1 - d} → q₀ x = 0 := by
@@ -321,7 +320,7 @@ private lemma essSurj_baseChange
       obtain ⟨x, hx⟩ := Ideal.Quotient.mk_surjective (e'.symm (y, 0))
       refine ⟨p x, ?_⟩
       rw [hqmk]
-      show rK (Ideal.Quotient.mk K x) = y
+      change rK (Ideal.Quotient.mk K x) = y
       rw [hx, hrK, e'.apply_symm_apply]
     have hkerq : RingHom.ker (q : D₁ →+* Y) = I.map (algebraMap A D₁) := by
       apply le_antisymm
@@ -340,14 +339,14 @@ private lemma essSurj_baseChange
           simpa [map_mul, hdd, hfirst] using (show (1, 0) * e' (Ideal.Quotient.mk K a) =
             (0 : Y × D) by ext <;> simp [hfirst])
         have hpa : p a = p (d * a) := by simp [map_mul, hpd]
-        show p a ∈ I.map (algebraMap A D₁)
+        change p a ∈ I.map (algebraMap A D₁)
         rw [hpa]
         exact hpK _ hda
       · rw [Ideal.map_le_iff_le_comap]
         intro a ha
-        show q (algebraMap A D₁ a) = 0
+        change q (algebraMap A D₁ a) = 0
         rw [AlgHom.commutes]
-        show (algebraMap Q Y) (Ideal.Quotient.mk I a) = 0
+        change (algebraMap Q Y) (Ideal.Quotient.mk I a) = 0
         rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha, map_zero]
     let eA : (D₁ ⧸ I.map (algebraMap A D₁)) ≃ₐ[A] Y :=
       hkerq ▸ Ideal.quotientKerAlgEquivOfSurjective hqsurj

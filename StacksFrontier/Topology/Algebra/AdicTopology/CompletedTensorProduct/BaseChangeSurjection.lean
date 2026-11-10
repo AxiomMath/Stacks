@@ -59,6 +59,8 @@ variable {A B R C : Type u} [CommRing A] [CommRing B] [CommRing R] [CommRing C]
   [TopologicalSpace R] [IsTopologicalRing R] [IsLinearTopology R R]
   [TopologicalSpace C] [IsTopologicalRing C] [IsLinearTopology C C]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- the `T2Space` instance on the completed tensor product times out at the default limit
 /-- **`B ⊗̂[A] C` is the ordinary base change of `B ⊗̂[A] R` along `R ↠ C`.**  For a continuous
 open surjection `π : R ↠ C` of linearly topologized `A`-algebras with `B ⊗̂[A] R` Noetherian and
 adic,
@@ -88,7 +90,7 @@ public theorem exists_ringEquiv_tensorProduct_completedTensorProduct
   set B' := CompletedTensorProduct (R := A) (M := B) (N := R) with hB'def
   set K : Ideal R := RingHom.ker (π : R →+* C) with hKdef
   have : T2Space B' := by
-    set_option synthInstance.maxHeartbeats 200000 in infer_instance
+    infer_instance
   let : TopologicalSpace (B ⊗[A] R) := tensorProductTopology (R := A) (M := B) (N := R)
   let : UniformSpace (B ⊗[A] R) := tensorProductUniformSpace (R := A) (M := B) (N := R)
   have hcount : (nhds (0 : B ⊗[A] R)).IsCountablyGenerated :=

@@ -169,10 +169,7 @@ theorem isCartesianOnAffineCharts_modulePushforward_of_isAffineHom (f : X ⟶ Y)
       sectionsBaseChange G ((smallBaseChange B S hS f hrep).map k) (e.symm z) := by
     intro z
     set g := sectionsBaseChange G ((smallBaseChange B S hS f hrep).map k) with hg
-    induction z using TensorProduct.induction_on with
-    | zero =>
-        refine (map_zero _).trans ?_
-        exact ((congrArg (fun z => g z) (map_zero e.symm)).trans (map_zero g)).symm
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
         refine ((map_add _ x y).trans (congrArg₂ (· + ·) hx hy)).trans ?_
         exact ((congrArg (fun z => g z) (map_add e.symm x y)).trans (map_add g _ _)).symm

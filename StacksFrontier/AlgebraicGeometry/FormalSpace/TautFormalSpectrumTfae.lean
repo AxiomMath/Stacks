@@ -95,7 +95,7 @@ theorem transition_comp_stageToAffineLine (E : QuotientSystem B S hS C) (c : C)
       stageToAffineLine B S hS E c L := by
   refine (Space.affineLineChartPoints_natural B S hS _ _).symm.trans ?_
   refine congrArg (Space.affineLineChartPoints B S hS _) ?_
-  show ((Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h))).appTop).hom
+  change ((Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h))).appTop).hom
       ((Scheme.ΓSpecIso (CommRingCat.of (C ⧸ J.1))).inv.hom (Ideal.Quotient.mk J.1 c)) =
     (Scheme.ΓSpecIso (CommRingCat.of (C ⧸ L.1))).inv.hom (Ideal.Quotient.mk L.1 c)
   rw [← CommRingCat.comp_apply, ← Scheme.ΓSpecIso_inv_naturality, CommRingCat.comp_apply]

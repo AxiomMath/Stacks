@@ -160,7 +160,7 @@ theorem addTorsor_vadd_iff [Flat f] (D₀ : FlatDeformation t f)
     (fun P Q => CompatibleFirstOrderThickening.pairObstruction_eq_zero_iff
       (S := problem t f hst (refIdeal hst D₀)) P Q)
     (extIso f (pullbackConormalModule f t) 1)
-  show (classesEquiv hst D₀).symm (ξ +ᵥ classesEquiv hst D₀ (Quotient.mk (setoid t f) D₁)) =
+  change (classesEquiv hst D₀).symm (ξ +ᵥ classesEquiv hst D₀ (Quotient.mk (setoid t f) D₁)) =
     Quotient.mk (setoid t f) D₂ ↔ _
   rw [Equiv.symm_apply_eq, eq_comm, eq_vadd_iff_vsub_eq]
   refine (Iff.of_eq (congrArg (· = ξ)

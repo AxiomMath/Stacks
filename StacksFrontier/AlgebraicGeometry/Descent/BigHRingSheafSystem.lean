@@ -13,8 +13,8 @@ composition. Extension of scalars along these morphisms makes the categories of 
 `colim_F 𝒪_U` do for Stacks Tag 0EXE.
 
 The point of the abstraction is the Zariski stack condition of
-`StacksFrontier/AlgebraicGeometry/Descent/BigHRingSheafSystemZariski.lean`: it is proved once, for an
-arbitrary system, so that no statement of it has to elaborate the sequential colimit that defines
+`StacksFrontier/AlgebraicGeometry/Descent/BigHRingSheafSystemZariski.lean`: it is proved once, for
+an arbitrary system, so that no statement of it has to elaborate the sequential colimit that defines
 `colim_F 𝒪_U`. The pseudofunctor of all Frobenius-colimit modules of Stacks Tag 0EXE,
 `AlgebraicGeometry.frobeniusColimitModulePseudofunctor`, is the pseudofunctor of one such system,
 `AlgebraicGeometry.frobeniusRingSheafSystem`, **on the nose**

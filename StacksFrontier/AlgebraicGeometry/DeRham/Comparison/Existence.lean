@@ -61,7 +61,7 @@ theorem exists_refines_chartPresented (hf : Syntomic f) [LocallyQuasiFinite f]
     (R := Γ(X, c.1.1.1)) (hV.primeIdealOf ⟨y, hy⟩).asIdeal
   have hyr : y ∈ Y.basicOpen r := by
     have h : hV.fromSpec (hV.primeIdealOf ⟨y, hy⟩) ∈ Y.basicOpen r := by
-      show _ ∈ hV.fromSpec ⁻¹ᵁ Y.basicOpen r
+      change _ ∈ hV.fromSpec ⁻¹ᵁ Y.basicOpen r
       rw [hV.fromSpec_preimage_basicOpen r]
       exact (PrimeSpectrum.mem_basicOpen r _).mpr hr
     rwa [hV.fromSpec_primeIdealOf ⟨y, hy⟩] at h
@@ -270,8 +270,7 @@ theorem chartTwistedEquiv_restrict
     simpa only [LinearEquiv.symm_apply_apply] using
       H (f.twistedSectionsEquiv c.1.1.2.2 (f.detNL hf) p x)
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, hz, hz']
   | tmul a t => exact chartTwistedEquiv_restrict_tmul hf c c' h p a t
 
@@ -462,18 +461,7 @@ theorem chartTwistedEquiv_twistedPullbackFormsMul
     simpa only [LinearEquiv.symm_apply_apply] using
       H (f.twistedSectionsEquiv c.1.1.2.2 (f.detNL hf) p x)
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    refine (congrArg (fun y => f.chartTwistedEquiv hf c (q + p)
-        ((f.twistedPullbackFormsMul (f.detNL hf) q p).val.app (op c.1.1.2.1)
-          (tmul Y.toRingedSpace (f.pullbackForms q) (f.twistedPullbackForms (f.detNL hf) p)
-            (op c.1.1.2.1) ω y))) (map_zero _)).trans ?_
-    refine (congrArg (fun y => f.chartTwistedEquiv hf c (q + p)
-        ((f.twistedPullbackFormsMul (f.detNL hf) q p).val.app (op c.1.1.2.1) y))
-      (tmul_zero_right _ ω)).trans ?_
-    refine (congrArg (f.chartTwistedEquiv hf c (q + p)) (map_zero _)).trans ?_
-    refine (map_zero _).trans ?_
-    simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' =>
     refine (congrArg (fun y => f.chartTwistedEquiv hf c (q + p)
         ((f.twistedPullbackFormsMul (f.detNL hf) q p).val.app (op c.1.1.2.1)

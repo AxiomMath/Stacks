@@ -70,7 +70,7 @@ private theorem isPullback_yoneda_map_of_preimage_eq_range
     obtain ⟨w, hw⟩ := hz
     refine ⟨w, ?_⟩
     apply Subtype.ext
-    show (yoneda.map j).app t w = z.val
+    change (yoneda.map j).app t w = z.val
     simpa using hw
   have hmono : Mono k := by
     refine ⟨fun {_} f₁ f₂ h => ?_⟩

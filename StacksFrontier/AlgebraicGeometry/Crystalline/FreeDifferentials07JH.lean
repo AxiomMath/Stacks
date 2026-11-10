@@ -231,6 +231,16 @@ theorem equivalence07JH_of_isEquivalence_functor_dividedPowerDifferentials
   equivalence07JH_of_isEquivalence_functor Rd hR
     (forall_injective_toCompletedTensor_dividedPowerDifferentials A W d p dx) hlift
 
+omit [Module (↑(setIndexedDividedPowerPolynomialDividedPowerRing
+    (coefficientDividedPowerRing A) W))ᵐᵒᵖ
+    (dividedPowerDifferentials (A := A)
+      (setIndexedDividedPowerPolynomialDividedPowerRing
+        (coefficientDividedPowerRing A) W).dividedPowers)]
+  [IsCentralScalar (↑(setIndexedDividedPowerPolynomialDividedPowerRing
+    (coefficientDividedPowerRing A) W))
+    (dividedPowerDifferentials (A := A)
+      (setIndexedDividedPowerPolynomialDividedPowerRing
+        (coefficientDividedPowerRing A) W).dividedPowers)] in
 /-- **The hypothesis `hlift` of [Stacks, Tag 07JH] at the divided power polynomial algebra in
 finitely many variables, with nothing carried.**  For `P = A⟨x_w : w ∈ W⟩` with `W` finite and
 `Ω = Ω¹_{P/A,δ}` the connection of every pair factors through the uncompleted tensor product

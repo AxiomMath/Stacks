@@ -94,7 +94,8 @@ theorem idealPowerProduct_eq_top_of_isZero_extendScalars [IsNoetherianRing Λ]
       fun f => coefficientSectionsMap_restrict X Λ f.unop l⟩
   have hE : ∀ (l : Λ) (P' : Sheaf (Scheme.ProEt.topology X) (ModuleCat.{max (u + 1) w} Λ)),
       E.functor.map (l • 𝟙 P') =
-        (Stacks.SheafOfModules.globalSectionToEnd R (s l)).asHom.app (E.functor.obj P') := fun l P' => by
+        (Stacks.SheafOfModules.globalSectionToEnd R (s l)).asHom.app
+          (E.functor.obj P') := fun l P' => by
     ext W z
     exact constantCoefficientModuleEquiv_functor_map_smul_id_val_app X P' l W.unop z
   let : CompleteLattice (E.functor.obj P).Submodule :=

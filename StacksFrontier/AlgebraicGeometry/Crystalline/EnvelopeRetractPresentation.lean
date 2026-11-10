@@ -88,7 +88,7 @@ public theorem ideal_map_le_presentationKernel (f : P →ₐ[s.A] s.C) :
     s.A.ideal.map (algebraMap s.A P) ≤ presentationKernel s f := by
   rw [Ideal.map_le_iff_le_comap]
   intro x hx
-  show f (algebraMap s.A P x) = 0
+  change f (algebraMap s.A P x) = 0
   rw [f.commutes]
   have hx' : algebraMap s.A s.C x ∈ s.A.ideal.map (algebraMap s.A s.C) :=
     Ideal.mem_map_of_mem (algebraMap s.A s.C) hx

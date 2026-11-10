@@ -144,7 +144,7 @@ theorem exists_chart_affineOpenCoproduct {X : AlgebraicSpaces B S hS}
   refine ⟨⟨CostructuredArrow.mk (yoneda.map q ≫ V.obj.hom),
       isEtaleChart_comp_of_etale B S hS V V₀ q hqet⟩,
     fun W => ObjectProperty.homMk (CostructuredArrow.homMk (jj W) ?_), ?_, ?_, ?_⟩
-  · show yoneda.map (jj W) ≫ yoneda.map q ≫ V.obj.hom =
+  · change yoneda.map (jj W) ≫ yoneda.map q ≫ V.obj.hom =
       yoneda.map (chartOpenOverι B S hS V (W : (chartScheme V).Opens)) ≫ V.obj.hom
     rw [← Category.assoc, ← Functor.map_comp, hqfac W]
     rfl

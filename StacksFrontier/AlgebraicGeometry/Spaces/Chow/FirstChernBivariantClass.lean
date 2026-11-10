@@ -98,15 +98,15 @@ private theorem flatPullbackMap_id {Y : D.Ambient} (sY : Y ⟶ D.space) (hY : D.
   have hmult : ∀ W T : IntegralClosedSubspace D.site D.base D.base_mem Y,
       flatPullbackMult D sY hY sY hY (𝟙 Y) (Category.id_comp sY) 0 hfl hr W T =
         integralCycleCoeff D W T := fun W T => by
-    show cycleCoeffOfClosedSubspace D sY hY (W.subspace.preimage (𝟙 Y)) _ _
+    change cycleCoeffOfClosedSubspace D sY hY (W.subspace.preimage (𝟙 Y)) _ _
       (canonicalGeometricPoint D.site D.base D.base_mem _) T = _
     rw [cycleCoeffOfClosedSubspace_eq_of_subfunctor_eq D sY hY _ _ W.isClosedSubspace
         (Subfunctor.preimage_id _),
       cycleCoeffOfClosedSubspace_integralClosedSubspace D sY hY W _ (by simp)]
   refine Subtype.ext (funext fun T => ?_)
   rw [flatPullbackMap_apply, finsum_eq_single _ T fun W hW => by
-      rw [hmult, integralCycleCoeff, if_neg (Ne.symm hW), mul_zero],
-    hmult, integralCycleCoeff, if_pos rfl, mul_one]
+      rw [hmult, integralCycleCoeff, ite_eq_right (Ne.symm hW), mul_zero],
+    hmult, integralCycleCoeff, ite_eq_left rfl, mul_one]
 
 /-- **Stacks 0EQR at a representative, into an arbitrary degree.**  The form of
 `AlgebraicGeometry.Space.chowClassCanonical_flatPullbackMap_firstChernCapCycleMap` whose target

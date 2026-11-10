@@ -9,10 +9,10 @@ import StacksCore.Tactic.EgaSgaAttribute
 
 Clause (6) of Stacks 03M1 asserts that the internal Hom `𝓗om_{𝒪_F}(G, G')` of two quasi-coherent
 `𝒪_F`-modules on an algebraic space `F` is quasi-coherent when `G` is of finite presentation.
-`StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentInternalHom` supplies the **inductive step** of
-the source proof: the base change criterion of Descent, Proposition 03DX(2) for `𝓗om_{𝒪_F}(G, G')`
-follows, unconditionally, from the criterion for the internal Homs out of the two modules of a
-presentation `Q ⟶ P ⟶ G ⟶ 0`.
+`StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentInternalHom` supplies the **inductive step**
+of the source proof: the base change criterion of Descent, Proposition 03DX(2) for
+`𝓗om_{𝒪_F}(G, G')` follows, unconditionally, from the criterion for the internal Homs out of the
+two modules of a presentation `Q ⟶ P ⟶ G ⟶ 0`.
 
 This file supplies the **base case**, which is what that reduction leaves open: the internal Hom
 out of a *finite* coproduct of copies of the structure sheaf is cartesian on affine charts as
@@ -351,8 +351,7 @@ theorem isCartesianOnAffineCharts_of_bijective_pi {I : Type w} [Finite I]
     funext i
     rw [app_sectionsBaseChange (π i) f z]
     congr 1
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b x => rfl
     | add z z' hz hz' => rw [map_add, map_add, map_add, Pi.add_apply, hz, hz']
   refine ((hπ V hV).of_comp_iff' (sectionsBaseChange H f)).1 ?_

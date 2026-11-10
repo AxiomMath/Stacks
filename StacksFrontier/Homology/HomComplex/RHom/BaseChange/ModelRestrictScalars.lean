@@ -148,7 +148,7 @@ private theorem homComplex_precomp_postcomp_naturality
   intro z
   apply Cochain.ext
   intro p r hpr
-  show (((Cochain.ofHom a).comp z (zero_add n)).comp (Cochain.ofHom b)
+  change (((Cochain.ofHom a).comp z (zero_add n)).comp (Cochain.ofHom b)
       (add_zero n) |>.comp (Cochain.ofHom q') (add_zero n)).v p r hpr =
     (((Cochain.ofHom a).comp (z.comp (Cochain.ofHom q) (add_zero n)) (zero_add n)).comp
       (Cochain.ofHom c) (add_zero n)).v p r hpr
@@ -273,7 +273,7 @@ private lemma complexHomToDerived_inverts (R : Type u) [CommRing R] :
   apply (NatIso.isIso_map_iff
     (currying.counitIso.app
       (StacksDraft.DerivedHom.Model.homComplexFunctor R ⋙ DerivedCategory.Q)) (f, g)).2
-  show IsIso (DerivedCategory.Q.map
+  change IsIso (DerivedCategory.Q.map
     (Stacks.HomComplex.TensorHomMap.precomp R K'.unop K.unop I f.unop ≫
       Stacks.HomComplex.TensorHomMap.postcomp R K'.unop I I' g))
   infer_instance
@@ -358,7 +358,7 @@ private theorem homComplexChangeOfRingsMap_naturality_localized
     ← Category.assoc, hn, Category.assoc,
     DerivedCategory.Q.map_comp (homComplexExtendRestrictScalarsMap f K J) _]
   rw [← homComplexFunctor_map_id_left K' q', ← homComplexFunctor_map_id_left K q]
-  show DerivedCategory.Q.map (homComplexExtendRestrictScalarsMap f K J) ≫
+  change DerivedCategory.Q.map (homComplexExtendRestrictScalarsMap f K J) ≫
       DerivedCategory.Q.map (H.map
         (CategoryTheory.Prod.mkHom a.op ((CochainComplex.restrictScalarsLarge f).map b))) ≫
       DerivedCategory.Q.map (H.map (CategoryTheory.Prod.mkHom (𝟙 (Opposite.op K')) q')) =
@@ -530,13 +530,13 @@ private theorem homotopyModelsIso_naturality {X Y : HomotopyModels R A} (g : X �
           (DerivedCategory.Q.map g.1.unop.hom.out).op (DerivedCategory.Q.map g.2.hom.out)) := by
   apply Prod.ext
   · apply Quiver.Hom.unop_inj
-    show (DerivedCategory.quotientCompQhIso _).inv.app Y.1.unop.obj.as ≫
+    change (DerivedCategory.quotientCompQhIso _).inv.app Y.1.unop.obj.as ≫
         DerivedCategory.Qh.map g.1.unop.hom =
       DerivedCategory.Q.map g.1.unop.hom.out ≫
         (DerivedCategory.quotientCompQhIso _).inv.app X.1.unop.obj.as
     simpa only [Functor.comp_map, HomotopyCategory.quotient_map_out] using
       ((DerivedCategory.quotientCompQhIso (ModuleCat.{u} R)).inv.naturality g.1.unop.hom.out).symm
-  · show DerivedCategory.Qh.map g.2.hom ≫
+  · change DerivedCategory.Qh.map g.2.hom ≫
         (DerivedCategory.quotientCompQhIso _).hom.app Y.2.obj.as =
       (DerivedCategory.quotientCompQhIso _).hom.app X.2.obj.as ≫
         DerivedCategory.Q.map g.2.hom.out
@@ -609,6 +609,7 @@ public theorem derivedHomChangeOfRingsModelIso_hom_eq
 
 set_option backward.isDefEq.respectTransparency false in
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search in the localization and derived-category rewrites below exceeds the default
 /-- On a K-flat representative and a K-injective representative, the descended comparison is
 the canonical comparison of Hom complexes, for any K-injective resolution of the restriction. -/
 public theorem modelRestrictScalarsNatIso_hom_app

@@ -138,7 +138,7 @@ theorem clopen_refinement_iff_closedPoints_bijective
       obtain ⟨y, hyc, _⟩ := exists_closed_point_same_component X z
       obtain ⟨i, hi⟩ := hU.exists_mem y.1
       refine ⟨i, ?_⟩
-      show ((e.symm (ConnectedComponents.mk z) : closedPoints X) : X) ∈ (U i : Set X)
+      change ((e.symm (ConnectedComponents.mk z) : closedPoints X) : X) ∈ (U i : Set X)
       rwa [he z y hyc]
     obtain ⟨n, V, hVref, hVcov, hVdisj⟩ :=
       hAU.exists_finite_nonempty_disjoint_clopen_cover

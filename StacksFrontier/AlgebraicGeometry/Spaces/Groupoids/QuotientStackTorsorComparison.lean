@@ -492,7 +492,7 @@ private theorem rawUnitAction (x : yoneda.obj U ⟶ X.left) (x' : yoneda.obj U' 
     · rw [Category.assoc, pullback.lift_snd, ← Category.assoc, hzs, hAsnd]
   have hx : a₀ • x₁ = x₀ := by
     refine Over.OverMorphism.ext ?_
-    show (CartesianMonoidalCategory.lift a₀ x₁).left ≫ (γ[G.obj.X, X]).left = x
+    change (CartesianMonoidalCategory.lift a₀ x₁).left ≫ (γ[G.obj.X, X]).left = x
     rwa [← hlift, Category.assoc, ← hmap']
   have hBfst : (CartesianMonoidalCategory.lift a₀⁻¹ x₀).left ≫
       pullback.fst G.obj.X.hom X.hom =
@@ -507,7 +507,7 @@ private theorem rawUnitAction (x : yoneda.obj U ⟶ X.left) (x' : yoneda.obj U' 
     · rw [pullback.lift_fst, hBfst]
     · rw [pullback.lift_snd, hBsnd]
   rw [hliftg]
-  show (a₀⁻¹ • x₀ : UB ⟶ X).left = x₁.left
+  change (a₀⁻¹ • x₀ : UB ⟶ X).left = x₁.left
   rw [← hx, inv_smul_smul]
 
 /-- The data fullness produces, in the bare fibre-product spelling: from the value `E ≫ t` on the
@@ -836,7 +836,7 @@ theorem torsorWithMap_mem_essImage_of_isTrivial (A : TorsorWithMap hB G X)
       (TorsorWithMap.projection hB G X) (𝟙 A.U) n
   refine ⟨actionPointwiseObject hB G X hX A.U x, ⟨?_⟩⟩
   refine Iso.trans (eqToIso ?_) (asIso n)
-  show trivialTorsorWithMap hB G X A.U
+  change trivialTorsorWithMap hB G X A.U
     (actionPointwiseValue hB G X hX (actionPointwiseObject hB G X hX A.U x)) =
       trivialTorsorWithMap hB G X A.U x
   rw [actionPointwiseValue_actionPointwiseObject]

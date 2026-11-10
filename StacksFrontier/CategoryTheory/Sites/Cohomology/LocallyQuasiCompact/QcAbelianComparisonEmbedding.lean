@@ -19,7 +19,8 @@ The argument is the one of the set-valued file, with each step replaced by its a
 * `ε_{X,*}(a_X^{-1}G) = π_X^{-1}G`, because `π_X^{-1}G` already satisfies the sheaf condition
   for the quasi-compact topology. That is condition (0EZ6) of Situation 0EZ3 for this
   situation, and it is `zariskiPullbackClass_isSheaf_qc`.
-  `StacksFrontier/CategoryTheory/Sites/Cohomology/LocallyQuasiCompact/QcAbelianComparison.lean` states
+  `StacksFrontier/CategoryTheory/Sites/Cohomology/LocallyQuasiCompact/QcAbelianComparison.lean`
+  states
   this identification objectwise, as `qcAbelianDirectImageTopologicalInverseImageIso`, with the
   condition carried as a hypothesis `h0EZI`; here the hypothesis is discharged and the
   identification is assembled into a natural isomorphism of functors, which is the form in which

@@ -259,7 +259,7 @@ lemma det_dualRep (h : IsUniversalFixedDeterminantDeformation ℓ n π ρ₀ δ 
       (by rw [Matrix.mul_assoc, Units.mul_inv, Matrix.mul_one, AdZero.trace_val])]
   have := congrArg Units.val (h.delta_reduce g)
   rw [Matrix.GeneralLinearGroup.val_det_apply] at this
-  rw [Units.coe_map, MonoidHom.coe_coe, ← this]
+  rw [Units.coe_map, MonoidHom.coe_ofClass, ← this]
   rfl
 
 /-- If `a + ε b = a' + ε b'`, then `a = a'` and `b = b'`. -/
@@ -315,7 +315,7 @@ lemma algHom_ext_of_le (h : IsUniversalFixedDeterminantDeformation ℓ n π ρ�
     rw [TrivSqZeroExt.fst_sub, fst_comp_eq h, fst_comp_eq h, sub_self]
   have hℓ : ∀ φ : R →ₐ[ℤ_[ℓ]] D, φ (algebraMap ℤ_[ℓ] R ℓ) = 0 := fun φ => by
     rw [AlgHom.commutes]
-    show TrivSqZeroExt.inl (PadicInt.toZMod (ℓ : ℤ_[ℓ])) = 0
+    change TrivSqZeroExt.inl (PadicInt.toZMod (ℓ : ℤ_[ℓ])) = 0
     simp
   have hsq : ∀ φ : R →ₐ[ℤ_[ℓ]] D, ∀ a ∈ maximalIdeal R ^ 2, φ a = 0 := by
     intro φ a ha
@@ -417,7 +417,7 @@ lemma exists_dZero_eq_of_isConjugate (hirr : IsAbsolutelyIrreducible fun g => ρ
   have hAAi : A * Ai = 1 := Units.mul_inv _
   rw [hpc] at h2
   simp only [Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_one, Matrix.one_mul] at h2
-  show A * (c⁻¹ • (q - t • 1)) * Ai - c⁻¹ • (q - t • 1) = ((z.1 g).val - (z'.1 g).val)
+  change A * (c⁻¹ • (q - t • 1)) * Ai - c⁻¹ • (q - t • 1) = ((z.1 g).val - (z'.1 g).val)
   exact conj_sub_eq_of_mul_add_smul hAAi hc0 h2
 
 omit [IsTopologicalGroup π] in
@@ -448,7 +448,7 @@ theorem finiteDimensional_lcH1_and_finrank_le
     obtain ⟨P, hP⟩ := hψ z
     obtain ⟨Q, hQ⟩ := hψ z'
     refine exists_dZero_eq_of_isConjugate hirr hn z z' ⟨Q * P⁻¹, fun g => ?_⟩
-    show dualRep z' g = Q * P⁻¹ * dualRep z g * (Q * P⁻¹)⁻¹
+    change dualRep z' g = Q * P⁻¹ * dualRep z g * (Q * P⁻¹)⁻¹
     rw [show dualRep z' g = _ from hQ g, show dualRep z g = _ from hP g, hψeq]
     group
   let out := Function.surjInv (LcH1.mk_surjective (ZMod ℓ) (K := π) (M := AD))

@@ -722,7 +722,7 @@ public theorem secondOrderExt_restriction_isDPMorphism (q : Stacks.BilinearMap M
   refine ⟨Ideal.map_le_iff_le_comap.mpr fun x hx => hres x hx, ?_⟩
   intro n x hx
   have ha : secondOrderExtFst x ∈ IX := hx
-  show secondOrderExtDpow q Y γY n (secondOrderExtRingHom q i x) =
+  change secondOrderExtDpow q Y γY n (secondOrderExtRingHom q i x) =
     secondOrderExtRingHom q i (secondOrderExtDpow q X γX n x)
   match n with
   | 0 =>
@@ -773,7 +773,7 @@ public theorem isDPMorphism_secondOrderExt_of_graph_top (q : Stacks.BilinearMap 
     hfst.ideal_comp (Ideal.mem_map_of_mem _ ha)
   refine ⟨Ideal.map_le_iff_le_comap.mpr fun a ha => hmem a ha, ?_⟩
   intro n a ha
-  show secondOrderExtDpow q X γ n (g a) = g (γ'.dpow n a)
+  change secondOrderExtDpow q X γ n (g a) = g (γ'.dpow n a)
   match n with
   | 0 => rw [secondOrderExtDpow_zero q X γ (hmem a ha), γ'.dpow_zero ha, map_one]
   | 1 => rw [secondOrderExtDpow_one q X γ (hmem a ha), γ'.dpow_one ha]
@@ -1193,7 +1193,7 @@ public theorem dpWedge_self (W : (Opens ↑T.scheme)ᵒᵖ)
   have h : dpWedgePresheaf T Y f W x x = 0 :=
     dpFormVal_injective T Y f (by
       rw [dpFormVal_wedge, dpFormVal_zero, ExteriorAlgebra.ι_sq_zero])
-  show ((dpSecondExteriorToSheaf T Y f).app W).hom (dpWedgePresheaf T Y f W x x) = 0
+  change ((dpSecondExteriorToSheaf T Y f).app W).hom (dpWedgePresheaf T Y f W x x) = 0
   rw [h, map_zero]
 
 /-- **The exterior product is antisymmetric**: the two exterior products of a pair of divided
@@ -1209,7 +1209,7 @@ public theorem dpWedge_add_swap (W : (Opens ↑T.scheme)ᵒᵖ)
     rw [map_add, add_mul, mul_add, mul_add, ExteriorAlgebra.ι_sq_zero,
       ExteriorAlgebra.ι_sq_zero, zero_add, add_zero] at h0
     exact h0
-  show ((dpSecondExteriorToSheaf T Y f).app W).hom (dpWedgePresheaf T Y f W x y) +
+  change ((dpSecondExteriorToSheaf T Y f).app W).hom (dpWedgePresheaf T Y f W x y) +
     ((dpSecondExteriorToSheaf T Y f).app W).hom (dpWedgePresheaf T Y f W y x) = 0
   rw [← map_add, h, map_zero]
 

@@ -248,6 +248,7 @@ section Adic
 variable (A : Type u) [CommRing A] (I : Ideal A) {X : Scheme.{u}} (f : X ⟶ Spec (.of A))
   [IsLocallyNoetherian X] [LocallyOfFiniteType f]
 
+omit [IsLocallyNoetherian X] [LocallyOfFiniteType f] in
 /-- The comparison `Stacks.Descent.pullbackCompHom` at `iₙ ≫ vₙ₊₁ = vₙ` is the canonical
 transition of a completion. This is
 `AlgebraicGeometry.pullbackComp_pullbackCongr_app_eq_adicThickeningCompletionTransition`, whose
@@ -260,6 +261,7 @@ private theorem pullbackCompHom_eq_adicThickeningCompletionTransition (n : ℕ) 
       (adicThickeningCompletionTransition A I f G n).hom :=
   pullbackComp_pullbackCongr_app_eq_adicThickeningCompletionTransition A I f n G
 
+omit [LocallyOfFiniteType f] in
 /-- **The compatibility `hu` of `AlgebraicGeometry.adicThickeningUnitSystemHom`, from the
 compatibility in the thickening picture.** Let `u n : 𝒪_{Xₙ} ⟶ G|_{Xₙ}` be a family of units on
 the adic thickenings which is compatible with the canonical transitions

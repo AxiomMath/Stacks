@@ -74,7 +74,8 @@ Write `A = Γ(X, ⊤)`, `B = Γ(Y, ⊤)`.  The source's argument, after the step
    `C = B[x₁, …, xₙ]/(P₁, …, Pₙ)` whose Jacobian determinant is invertible, the representable
    sheaf `h_V` on `Y_étale` is the equalizer of two maps `∏ᵢ 𝒪_Y ⇉ ∏ⱼ 𝒪_Y`.  This is
    `Stacks.EtaleCohomology.homOverEquivSolutions` in
-   `StacksFrontier/AlgebraicGeometry/EtaleCohomology/RecoveringMorphisms/RepresentableEqualizer.lean`:
+   `StacksFrontier/AlgebraicGeometry/EtaleCohomology/RecoveringMorphisms/`
+   `RepresentableEqualizer.lean`:
    the `Y`-morphisms `U ⟶ V` are the tuples `a : Fin n → Γ(U, ⊤)` at which every `Pⱼ` vanishes,
    naturally in `U` (`Stacks.EtaleCohomology.homOverEquivSolutions_naturality`), and the
    vanishing condition is the equation between the two maps

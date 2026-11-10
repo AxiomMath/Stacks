@@ -122,7 +122,7 @@ theorem hasFibreImmersion_of_isLocalHom
     e.symm.toRingHom.comp (residue (completedStalk S s))
   have hρσ : ρ0.comp σ = IsLocalRing.residue (T.presheaf.stalk t) := by
     ext a
-    show e.symm (residue (completedStalk S s) (σ a)) = residue _ a
+    change e.symm (residue (completedStalk S s) (σ a)) = residue _ a
     rw [← ResidueField.map_residue, show (ResidueField.map σ) (residue (T.presheaf.stalk t) a)
       = e (residue (T.presheaf.stalk t) a) from rfl, e.symm_apply_apply]
   let ρ : CommRingCat.of (completedStalk S s) ⟶ T.residueField t := CommRingCat.ofHom ρ0
@@ -229,7 +229,7 @@ theorem base_eq_closedPoint_of_comp_eq_fromSpecResidueField [IsLocalRing A] (t :
     rw [Unique.eq_default x]
     exact Scheme.default_asIdeal
   refine PrimeSpectrum.ext ?_
-  show Ideal.comap ρ.hom x.asIdeal = IsLocalRing.maximalIdeal A
+  change Ideal.comap ρ.hom x.asIdeal = IsLocalRing.maximalIdeal A
   rw [hx, ← RingHom.ker_eq_comap_bot]
   exact ker_eq_maximalIdeal_of_comp_eq_fromSpecResidueField t σ ρ hr
 

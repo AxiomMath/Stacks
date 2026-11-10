@@ -131,7 +131,7 @@ lemma twistFiberIso_hom_naturality_left {N N' : FiniteFree.{max (u + 1) r} Λ} (
   intro X x
   have h₁ := Φ.toPresheafFiber_presheafFiberCompIso_hom_app (tensorAb D N.obj) X x G.obj
   have h₂ := Φ.toPresheafFiber_presheafFiberCompIso_hom_app (tensorAb D N'.obj) X x G.obj
-  show Φ.toPresheafFiber X x (G.obj ⋙ tensorAb D N.obj) ≫
+  change Φ.toPresheafFiber X x (G.obj ⋙ tensorAb D N.obj) ≫
       Φ.presheafFiber.map (Functor.whiskerLeft G.obj
         (Functor.whiskerRight (D.ordinary.map f.hom) (forget₂ (ModuleCat ℤ) AddCommGrpCat))) ≫
         (Φ.presheafFiberCompIso (tensorAb D N'.obj)).hom.app G.obj ≫ 𝟙 _ =
@@ -192,17 +192,17 @@ lemma preservesHomology_ordinary_flip_obj_of_projective (M : ModuleCat.{max (u +
   rw [ShortComplex.moduleCat_exact_iff] at hSL ⊢
   intro x hx
   have hx' : (S.map (D.ordinary.flip.obj L)).g (((D.ordinary.obj S.X₂).map s).hom x) = 0 := by
-    show ((D.ordinary.obj S.X₂).map s ≫ (D.ordinary.map S.g).app L).hom x = 0
+    change ((D.ordinary.obj S.X₂).map s ≫ (D.ordinary.map S.g).app L).hom x = 0
     rw [(D.ordinary.map S.g).naturality s]
-    show ((D.ordinary.obj S.X₃).map s).hom ((S.map (D.ordinary.flip.obj M)).g x) = 0
+    change ((D.ordinary.obj S.X₃).map s).hom ((S.map (D.ordinary.flip.obj M)).g x) = 0
     rw [hx, map_zero]
   obtain ⟨y, hy⟩ := hSL _ hx'
   refine ⟨((D.ordinary.obj S.X₁).map t).hom y, ?_⟩
-  show (((D.ordinary.obj S.X₁).map t ≫ (D.ordinary.map S.f).app M)).hom y = x
+  change (((D.ordinary.obj S.X₁).map t ≫ (D.ordinary.map S.f).app M)).hom y = x
   rw [(D.ordinary.map S.f).naturality t]
-  show ((D.ordinary.obj S.X₂).map t).hom ((S.map (D.ordinary.flip.obj L)).f y) = x
+  change ((D.ordinary.obj S.X₂).map t).hom ((S.map (D.ordinary.flip.obj L)).f y) = x
   rw [hy]
-  show ((D.ordinary.obj S.X₂).map s ≫ (D.ordinary.obj S.X₂).map t).hom x = x
+  change ((D.ordinary.obj S.X₂).map s ≫ (D.ordinary.obj S.X₂).map t).hom x = x
   rw [← Functor.map_comp, hst, CategoryTheory.Functor.map_id]
   rfl
 

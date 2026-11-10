@@ -601,7 +601,7 @@ theorem gysinAtInfinityClass_baseChange
   intro T g _ k α
   rw [bivariantTransport_cap, bivariantTransportCap_apply, bivariantRestrictionOfInvertible_cap,
     bivariantRestrictionCap_apply, ← baseChangeTestInfinityMap_cap C f b q g k α]
-  show _ = chowPushforwardOfIso C _ _ _ _ (k - 0) (chowPushforwardOfIso C _ _ _ _ (k - 0)
+  change _ = chowPushforwardOfIso C _ _ _ _ (k - 0) (chowPushforwardOfIso C _ _ _ _ (k - 0)
     (chowPushforwardOfIso C _ _ (baseChangeTestInfinityMap f b q g)
       (baseChangeTestInfinityMap_comp_structure C f b q g) (k - 0) _))
   rw [chowPushforwardOfIso_comp_apply, chowPushforwardOfIso_comp_apply,

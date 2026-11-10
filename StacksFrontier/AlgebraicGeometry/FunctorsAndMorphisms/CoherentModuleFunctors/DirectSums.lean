@@ -6,7 +6,7 @@ public import Mathlib.CategoryTheory.Preadditive.AdditiveFunctor
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.FunctorsAndMorphisms.CoherentModuleFunctors.Extension
 public import
- StacksFrontier.AlgebraicGeometry.FunctorsAndMorphisms.FunctorsModuleCategories.FiniteSubsetCoproduct
+StacksFrontier.AlgebraicGeometry.FunctorsAndMorphisms.FunctorsModuleCategories.FiniteSubsetCoproduct
 
 /-!
 # Direct sums and extensions of additive functors on coherent modules
@@ -133,7 +133,7 @@ private noncomputable def liftToFinsetObjCompIso [HasFiniteBiproducts C] [HasFin
           (PreservesCoproduct.iso G (fun y : S => K.obj y.val)).hom ≫
             Sigma.desc fun y : S =>
               Sigma.ι (fun z : T => G.obj (K.obj z.val)) ⟨y.val, h.down.down y.2⟩)
-      simp only [← Category.assoc, ← G.map_comp, Sigma.ι_desc,
+      simp only [← Category.assoc, ← G.map_comp, Sigma.ι_comp_desc,
         map_ι_comp_preservesCoproduct_iso_hom])
 
 /-- An additive functor commuting with filtered colimits preserves the coproduct of a family. -/
@@ -167,20 +167,20 @@ private lemma preservesColimit_discrete_functor_of_additive
     intro j
     have hleg : colimit.ι Dg' {j} ≫ e.inv = cD.ι.app {j} :=
       hcD.comp_coconePointUniqueUpToIso_inv (colimit.isColimit Dg') {j}
-    show (Sigma.ι (fun x : ({j} : Finset (Discrete J)) => K'.obj x.val)
+    change (Sigma.ι (fun x : ({j} : Finset (Discrete J)) => K'.obj x.val)
         ⟨j, Finset.mem_singleton_self j⟩ ≫ colimit.ι Dg' {j}) ≫ e.inv =
       G.map (Sigma.ι f j.as)
     refine (Category.assoc _ _ _).trans ?_
     refine (congrArg (fun z : Dg'.obj {j} ⟶ cD.pt =>
       Sigma.ι (fun x : ({j} : Finset (Discrete J)) => K'.obj x.val)
         ⟨j, Finset.mem_singleton_self j⟩ ≫ z) hleg).trans ?_
-    show @Eq (G.obj (f j.as) ⟶ G.obj (∐ f))
+    change @Eq (G.obj (f j.as) ⟶ G.obj (∐ f))
       (Sigma.ι (fun x : ({j} : Finset (Discrete J)) => G.obj (K.obj x.val))
           ⟨j, Finset.mem_singleton_self j⟩ ≫
         sigmaComparison G (fun x : ({j} : Finset (Discrete J)) => K.obj x.val) ≫
           G.map (Sigma.desc fun s : ({j} : Finset (Discrete J)) => Sigma.ι f s.val.as))
       (G.map (Sigma.ι f j.as))
-    rw [← Category.assoc, ι_comp_sigmaComparison, ← G.map_comp, Sigma.ι_desc]
+    rw [← Category.assoc, ι_comp_sigmaComparison, ← G.map_comp, Sigma.ι_comp_desc]
   exact Limits.preservesColimit_of_preserves_colimit_cocone (coproductIsCoproduct f) hmap
 
 /-- **An additive functor commuting with filtered colimits commutes with arbitrary direct

@@ -277,7 +277,7 @@ theorem exists_pullbackDifferentialsSectionsEquiv {W : S.Opens} (hW : IsAffineOp
   open Stacks.AlgebraicGeometry.AffineDifferentials in
   refine relativeDifferentialsMap_app_kaehlerToSections_eq_mapBaseChange
     f pX (f ≫ pX) (comp_eq_comp_id pX f) W U V hUW hVU hVW _ (fun x => ?_) t
-  show hbc.equiv ((1 : Γ(Y, V)) ⊗ₜ (kaehlerSectionsEquiv pX hW hU hUW) x) = _
+  change hbc.equiv ((1 : Γ(Y, V)) ⊗ₜ (kaehlerSectionsEquiv pX hW hU hUW) x) = _
   rw [hbc.equiv_tmul, one_smul]
   rfl
 

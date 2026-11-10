@@ -91,7 +91,7 @@ theorem exists_isAffineOpen_punctured_of_topologicalKrullDim_le_one {X : Scheme.
   have hbo : ∀ (a : Γ(X, U)) (p : PrimeSpectrum Γ(X, U)),
       hU.fromSpec.base p ∈ X.basicOpen a ↔ p ∈ PrimeSpectrum.basicOpen a := by
     intro a p
-    show p ∈ hU.fromSpec ⁻¹ᵁ X.basicOpen a ↔ _
+    change p ∈ hU.fromSpec ⁻¹ᵁ X.basicOpen a ↔ _
     rw [hU.fromSpec_preimage_basicOpen a]
     exact Iff.rfl
   -- the same, phrased at a point of `U` through `hU.primeIdealOf`
@@ -108,7 +108,7 @@ theorem exists_isAffineOpen_punctured_of_topologicalKrullDim_le_one {X : Scheme.
   have hTmem : ∀ (y : X) (hy : y ∈ (U : Set X)),
       (hU.primeIdealOf ⟨y, hy⟩ ∈ hU.fromSpec.base ⁻¹' (T \ {x}) ↔ y ∈ T \ {x}) := by
     intro y hy
-    show hU.fromSpec.base (hU.primeIdealOf ⟨y, hy⟩) ∈ T \ {x} ↔ _
+    change hU.fromSpec.base (hU.primeIdealOf ⟨y, hy⟩) ∈ T \ {x} ↔ _
     rw [hU.fromSpec_primeIdealOf ⟨y, hy⟩]
   -- singletons of `Spec Γ(X, U)` above closed points are closed
   have hsing : ∀ p : PrimeSpectrum Γ(X, U), IsClosed ({hU.fromSpec.base p} : Set X) →

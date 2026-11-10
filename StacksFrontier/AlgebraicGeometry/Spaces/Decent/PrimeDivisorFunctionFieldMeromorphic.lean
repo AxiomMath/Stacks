@@ -101,15 +101,13 @@ theorem genericStalkMeromorphicToGeneric_rationalToMeromorphic_eq_emb
     W.isLocallyNoetherian_genericChart B S hS hX hdec hN
   have : IsLocalRing ↥(W.genericHenselianLocalRing B S hS hX hdec) :=
     henselianLocalRing_isLocalRing B S hS X hX (W.genericPoint B S hS X) hdec
-  have hCof := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-    (W.genericPoint B S hS X) ⟨W.genericChart B S hS hX hdec⟩
   obtain ⟨p, q, hm, hA⟩ := exists_eq_mk'_rationalFunctionsToTotalFractionRing
     (X := (⟨X, hX⟩ : AlgebraicSpaces B S hS)) P hwa hfin (W.genericEtaleChart B S hS hX hdec) x
-  refine Eq.trans (W.genericChartMeromorphicToGeneric_eq_mk' B S hS hX hdec hInt hN hCof
+  refine Eq.trans (W.genericChartMeromorphicToGeneric_eq_mk' B S hS hX hdec hInt hN
     (meromorphicFunctionEval B S hS hX (W.genericEtaleChart B S hS hX hdec)
       (rationalToMeromorphic (X := (⟨X, hX⟩ : AlgebraicSpaces B S hS)) P hwa hfin x))
     p q hm) ?_
-  exact (congrArg (W.chartTotalFractionRingToGeneric B S hS hX hdec hCof) hA).symm
+  exact (congrArg (W.chartTotalFractionRingToGeneric B S hS hX hdec) hA).symm
 
 /-- The inputs of Stacks 0ENA on an integral, locally Noetherian, decent space. -/
 private theorem exists_inputs_codimensionZeroPresentation

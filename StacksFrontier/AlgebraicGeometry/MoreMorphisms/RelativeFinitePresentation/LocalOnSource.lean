@@ -76,12 +76,12 @@ theorem finitePresentationRel_sections_of_resLE
   let _ : Algebra Γ(S, V.ι ''ᵁ ⊤) Γ(Y, W.ι ''ᵁ ⊤) :=
     ((g.resLE V W hWV).appLE ⊤ ⊤ htop).hom.toAlgebra
   let _ : Module Γ(Y, W.ι ''ᵁ ⊤) Γ(G.restrict W.ι, (⊤ : W.toScheme.Opens)) := by
-    show Module Γ(W.toScheme, (⊤ : W.toScheme.Opens)) Γ(G.restrict W.ι, ⊤)
+    change Module Γ(W.toScheme, (⊤ : W.toScheme.Opens)) Γ(G.restrict W.ι, ⊤)
     infer_instance
   let e : Γ(G.restrict W.ι, (⊤ : W.toScheme.Opens)) ≃ₗ[Γ(Y, W.ι ''ᵁ ⊤)] Γ(G, W.ι ''ᵁ ⊤) :=
     { (G.restrictAppIso W.ι ⊤).addCommGroupIsoToAddEquiv with
       map_smul' := fun r m => by
-        show (G.restrictAppIso W.ι ⊤).hom (r • m) = r • (G.restrictAppIso W.ι ⊤).hom m
+        change (G.restrictAppIso W.ι ⊤).hom (r • m) = r • (G.restrictAppIso W.ι ⊤).hom m
         have hr : (W.ι.appIso ⊤).inv r = r := by
           rw [Scheme.Opens.ι_appIso]
           exact CategoryTheory.id_apply r

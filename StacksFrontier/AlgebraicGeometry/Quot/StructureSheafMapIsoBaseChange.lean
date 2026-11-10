@@ -83,7 +83,7 @@ theorem CoherentSituation.structureSheafMapIso_baseChange (D : CoherentSituation
     {Y' : AlgebraicSpaces B S hS} (g : Y' ⟶ D.Y)
     (hstr : D.toPicardSituation.StructureSheafMapIso) :
     (D.baseChange g).toPicardSituation.StructureSheafMapIso := fun T ↦ by
-  show IsIso (structureSharp B S hS (baseChangeInclusion (D.baseChange g).f T))
+  change IsIso (structureSharp B S hS (baseChangeInclusion (D.baseChange g).f T))
   rw [← D.baseChangeSpaceIso_hom_inclusion g T, isIso_structureSharp_comp_iff]
   exact hstr ((D.overBase g).obj T)
 

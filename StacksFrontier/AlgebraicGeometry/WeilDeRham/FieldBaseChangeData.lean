@@ -124,7 +124,7 @@ theorem twistEquiv_one_tmul (tateEquiv : F' ⊗[F] 𝔇.tate ≃ₗ[F'] 𝔇'.ta
         tateTwist F' 𝔇'.tate (𝔇'.H ((fieldBaseChange k k').obj X)) 1) := by
   apply (tateTwistCoordinates (inducedTateCoordinate 𝔇 𝔇' tateEquiv) 1).injective
   rw [tateTwistCoordinates_twistEquiv_tmul, tateTwistCoordinates_tmul, tateTwistCoordinates_tmul]
-  show cohEquiv X (1 ⊗ₜ (tensorPowerCoordinates _ 1 _ • a)) =
+  change cohEquiv X (1 ⊗ₜ (tensorPowerCoordinates _ 1 _ • a)) =
     tensorPowerCoordinates _ 1 _ • cohEquiv X (1 ⊗ₜ a)
   simp only [tensorPowerCoordinates, LinearEquiv.trans_apply, PiTensorProduct.congr_tprod,
     AlgEquiv.toLinearEquiv_apply, PiTensorProduct.constantBaseRingEquiv_tprod,

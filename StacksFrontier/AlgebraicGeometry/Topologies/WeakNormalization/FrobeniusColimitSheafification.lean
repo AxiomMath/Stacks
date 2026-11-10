@@ -119,7 +119,7 @@ public theorem exists_bijective_hom_frobeniusColimitSections_of_isSheafification
         ((absoluteWeakNormalizationSectionsMap (BigHOver.toScheme B S hS)).app (op X) a) =
         α.app (op X) a :=
       ConcreteCategory.congr_hom (congr_app hχ' (op X)) a
-    show χ'.app (op X) ((awnComparison B S hS p hSp).app (op X)
+    change χ'.app (op X) ((awnComparison B S hS p hSp).app (op X)
       (colimitStage B S hS p 0 X a)) = _
     rw [h0, h1]
   · intro X hc hq

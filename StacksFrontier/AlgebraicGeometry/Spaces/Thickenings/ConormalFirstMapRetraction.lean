@@ -106,7 +106,7 @@ private theorem comp_val_app_apply_eq_zero {C : Type*} [Category C] {J : Grothen
 private theorem comp_comp_app_eq_zero {C : Type*} [Category C] {J : GrothendieckTopology C}
     {A₁ A₂ A₃ A₄ : Sheaf J RingCat.{u}} (f : A₁ ⟶ A₂) (g : A₂ ⟶ A₃) (k : A₃ ⟶ A₄) {V : Cᵒᵖ}
     (a : A₁.obj.obj V) (ha : f.hom.app V a = 0) : ((f ≫ g) ≫ k).hom.app V a = 0 := by
-  show k.hom.app V (g.hom.app V (f.hom.app V a)) = 0
+  change k.hom.app V (g.hom.app V (f.hom.app V a)) = 0
   rw [ha, map_zero, map_zero]
 
 /-- A morphism of sheaves of rings equal to a composite of three kills what the first factor
@@ -244,7 +244,7 @@ private theorem app_eq_zero_of_comp_isIso {C : Type*} [Category C]
     f.hom.app V a = 0 := by
   have e : f = (f ≫ t) ≫ inv t := by simp
   rw [e]
-  show (inv t).hom.app V ((f ≫ t).hom.app V a) = 0
+  change (inv t).hom.app V ((f ≫ t).hom.app V a) = 0
   rw [ha, map_zero]
 
 include hZ in
@@ -304,7 +304,7 @@ theorem eq_zero_of_structureSharp_chartHom_app_eq_zero (A : SmallEtale B S hS W.
   have hsh : (structureSharpSet B S hS (etaleChartHom B S hS A)).hom.app (op A) b =
       (structureSharpSet B S hS (etaleChartHom B S hS A)).hom.app (op A)
         (0 : (structureRingSheaf B S hS W).obj.obj (op A)) := by
-    show (structureSharp B S hS (etaleChartHom B S hS A)).hom.app (op A) b =
+    change (structureSharp B S hS (etaleChartHom B S hS A)).hom.app (op A) b =
       (structureSharp B S hS (etaleChartHom B S hS A)).hom.app (op A) 0
     rw [hb, map_zero]
   have hpb : ∀ y, (chartDiagramPullback B S hS (etaleChartHom B S hS A)
@@ -513,7 +513,7 @@ theorem eq_zero_of_forall_affineChart_map_eq_zero (U : SmallEtale B S hS X.1)
   obtain ⟨I, Yc, a, haff, hcov, -⟩ := SmallEtale.exists_affine_etale_ofArrows B S hS X.1 U
   refine hsep U (Sieve.ofArrows Yc a) hcov s 0 ?_
   rintro K f ⟨K', g, m, ⟨j⟩, rfl⟩
-  show (structureRingSheaf B S hS X).obj.map (g ≫ a j).op s =
+  change (structureRingSheaf B S hS X).obj.map (g ≫ a j).op s =
     (structureRingSheaf B S hS X).obj.map (g ≫ a j).op 0
   rw [op_comp, Functor.map_comp, map_zero, ConcreteCategory.comp_apply, h _ (a j) (haff j),
     map_zero]
@@ -577,7 +577,7 @@ theorem mono_conormalSequenceIdealPullbackMap_of_retractions
         (comp_val_app_apply_of_eq h _ _ rfl V t).symm)
     rw [← sub_eq_zero]
     refine conormalSequenceIdealDifferential_injective B S hS Z hZ p hloc V.unop _ ?_
-    show ((conormalSequenceIdealDifferential B S hS Z p).val.app V).hom
+    change ((conormalSequenceIdealDifferential B S hS Z p).val.app V).hom
       ((g.val.app V).hom t - (h.val.app V).hom t) = 0
     rw [map_sub, sub_eq_zero]
     exact e

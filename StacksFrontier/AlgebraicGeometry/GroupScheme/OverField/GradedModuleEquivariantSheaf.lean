@@ -484,7 +484,7 @@ theorem gradedSectionAddHom_homogeneous (ℳ : ℤ → τ) [DirectSum.Decomposit
     gradedSectionAddHom ℳ g c (m : M) = c n • pullbackSection g (tilde (moduleOf A M))
       (tilde.toOpen (moduleOf A M) ⊤ (m : M)) := by
   simp only [gradedSectionAddHom, Functor.id_obj, Functor.comp_obj, AddEquiv.toAddMonoidHom_eq_coe,
-    AddMonoidHom.coe_comp, AddMonoidHom.coe_coe, Function.comp_apply,
+    AddMonoidHom.coe_comp, AddMonoidHom.coe_ofClass, Function.comp_apply,
     DirectSum.decomposeAddEquiv_apply, DirectSum.decompose_coe, DirectSum.toAddMonoid_of,
     AddMonoidHom.coe_mk, ZeroHom.coe_mk]
   rfl

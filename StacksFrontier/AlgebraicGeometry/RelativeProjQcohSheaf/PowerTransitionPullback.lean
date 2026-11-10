@@ -137,7 +137,7 @@ theorem mulSheaf_oneFamilyAt (γ : ScaledFamily L LY a 1) (hmul : IsMulScaledFam
   have hre := mulPairIso_reindex LY (show i * 1 = i by ring) (show j * 1 = j by ring)
     (show (i + j) * 1 = i + j by ring) (degMul (rfl : i + j = i + j) (1 : ℤ))
     (rfl : i + j = i + j)
-  show (mulPairIso L (degMul (rfl : i + j = i + j) a)).hom ≫
+  change (mulPairIso L (degMul (rfl : i + j = i + j) a)).hom ≫
       (familyAt γ (i + j)).hom ≫ (reindexIso LY (show (i + j) * 1 = i + j by ring)).hom =
     (((familyAt γ i).hom ≫ (reindexIso LY (show i * 1 = i by ring)).hom) ⊗ₘ
         ((familyAt γ j).hom ≫ (reindexIso LY (show j * 1 = j by ring)).hom)) ≫
@@ -210,7 +210,7 @@ private theorem app_comp_oneFamilyAt (X : Quadruple f A d) (Y : Quadruple f A e)
         Y.twisting.app n := by
   have h1 := hψ (n * a) (n * 1) ⟨n, rfl, rfl⟩
   have h2 := Y.twisting.app_reindex (show n * 1 = n by ring)
-  show X.twisting.app (n * a) ≫
+  change X.twisting.app (n * a) ≫
       (γ (n * a) (n * 1) ⟨n, rfl, rfl⟩).hom ≫
         (reindexIso Y.L (show n * 1 = n by ring)).hom = _
   rw [← Category.assoc, h1, Category.assoc, h2]
@@ -235,7 +235,7 @@ theorem strictlyEquivalent_of_compatibleAt_one {X : Quadruple f A d} {Y Z : Quad
   have hdeg : n * a * d = n * e := by rw [mul_assoc, hm, one_mul]
   refine (CategoryTheory.cancel_epi ((pullbackFunctor (ringedSpaceHom f)).map
     (eqToHom (congrArg A.piece hdeg)))).mp ?_
-  show (pullbackFunctor (ringedSpaceHom f)).map (eqToHom (congrArg A.piece hdeg)) ≫
+  change (pullbackFunctor (ringedSpaceHom f)).map (eqToHom (congrArg A.piece hdeg)) ≫
       Y.twisting.app n ≫ comparePairApp γ δ n = _
   rw [← Category.assoc, ← hY', Category.assoc]
   simp only [comparePairApp, Iso.hom_inv_id_assoc]

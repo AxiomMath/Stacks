@@ -124,12 +124,12 @@ theorem exists_iso_yoneda_of_relocalize_iso {F : (Over A)ᵒᵖ ⥤ Type v} {Y :
         rw [this, Iso.hom_inv_id_app_apply]
       right_inv := fun m => by
         apply Over.OverMorphism.ext
-        show (e.hom.app _ (z₀ W.unop (back W.unop _ (ht₀ W.unop m)))).left = m.left
+        change (e.hom.app _ (z₀ W.unop (back W.unop _ (ht₀ W.unop m)))).left = m.left
         rw [hz₀back W.unop _ (ht₀ W.unop m), Iso.inv_hom_id_app_apply]
         rfl }) (fun {W W'} f => by
       ext x
       apply Over.OverMorphism.ext
-      show (e.hom.app _ (z₀ W'.unop (F.map f x))).left =
+      change (e.hom.app _ (z₀ W'.unop (F.map f x))).left =
         f.unop.left ≫ (e.hom.app _ (z₀ W.unop x)).left
       have hz : z₀ W'.unop (F.map f x) =
           ((relocalizePresheafFunctor a).obj F).map ((Over.map a).map f.unop).op
@@ -180,7 +180,7 @@ theorem isPullback_relocalizeOfRestricted {P F : (Over A)ᵒᵖ ⥤ Type v}
   · ext x
     obtain ⟨⟨ψ₀, p⟩, h₀⟩ := x
     replace h₀ : ψ₀ ≫ a = W.unop.hom := h₀
-    show e.app W (Y'.map (m ψ₀ h₀).op (top.app _ p)) =
+    change e.app W (Y'.map (m ψ₀ h₀).op (top.app _ p)) =
       Y.map (m ψ₀ h₀).op (ψ.app _ (left.app _ p))
     rw [NatTrans.naturality_apply]
     congr 1
@@ -206,14 +206,14 @@ theorem isPullback_relocalizeOfRestricted {P F : (Over A)ᵒᵖ ⥤ Type v}
     change e.app W x₂ = Y.map (m ψ₀ h₀).op (ψ.app _ f) at hx
     obtain ⟨p, hp₁, hp₂⟩ := Types.exists_of_isPullback (hpt (Over.mk ψ₀))
       (Y'.map (m' ψ₀ h₀).op x₂) f (by
-        show e.app _ (Y'.map (m' ψ₀ h₀).op x₂) = ψ.app _ f
+        change e.app _ (Y'.map (m' ψ₀ h₀).op x₂) = ψ.app _ f
         rw [NatTrans.naturality_apply, hx, ← Functor.map_comp_apply, ← op_comp,
           hm'm ψ₀ h₀, op_id, Functor.map_id_apply])
     refine ⟨⟨⟨ψ₀, p⟩, h₀⟩, ?_, ?_⟩
-    · show Y'.map (m ψ₀ h₀).op (top.app _ p) = x₂
+    · change Y'.map (m ψ₀ h₀).op (top.app _ p) = x₂
       rw [hp₁, ← Functor.map_comp_apply, ← op_comp, hmm' ψ₀ h₀, op_id,
         Functor.map_id_apply]
-    · show (⟨⟨ψ₀, left.app _ p⟩, h₀⟩ : ((relocalizePresheafFunctor a).obj F).obj W) = _
+    · change (⟨⟨ψ₀, left.app _ p⟩, h₀⟩ : ((relocalizePresheafFunctor a).obj F).obj W) = _
       rw [hp₂]
 
 end CategoryTheory.OverShriek
@@ -274,7 +274,7 @@ theorem isAffineSpace_of_isPullback_relocalize {F : (BigFppfOver B S hS)ᵒᵖ �
   obtain ⟨T, hT, ⟨eT⟩⟩ := OverShriek.exists_iso_yoneda_of_relocalize_iso g
     ((asIso (hres.rep.fst (𝟙 (yoneda.obj a)) ≫ pullback.fst f (𝟙 _))).symm)
   refine ⟨T, ?_, ⟨eT⟩⟩
-  show IsAffine (B.inclusion.obj T.left)
+  change IsAffine (B.inclusion.obj T.left)
   rw [hT]
   exact hY
 

@@ -69,6 +69,7 @@ variable {X Y : RingedTopos.{w, w, w}}
   [HasSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   (f : RingedToposHom X Y)
 
+omit [HasSheafify Y.J AddCommGrpCat] [Y.J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- **Stacks 04JC for the pullback of modules of a morphism of ringed topoi**: along a flat
 morphism the pullback of sheaves of modules is left exact. -/
 theorem preservesFiniteLimits_pullbackModules

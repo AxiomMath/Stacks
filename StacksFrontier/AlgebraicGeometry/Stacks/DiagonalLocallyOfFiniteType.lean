@@ -276,7 +276,7 @@ theorem isLocallyOfFiniteType_diagonal
         { app := fun i => ObjectProperty.homMk ((Over.map U.hom).map (c.π.app i))
           naturality := fun i j f => by
             apply ObjectProperty.hom_ext
-            show 𝟙 _ ≫ (Over.map U.hom).map (c.π.app j) =
+            change 𝟙 _ ≫ (Over.map U.hom).map (c.π.app j) =
               (Over.map U.hom).map (c.π.app i) ≫ (Over.map U.hom).map (D.map f)
             rw [Category.id_comp, ← Functor.map_comp, c.w f] } } with hc'def
   have hc' : IsLimit ((BigAffineFppf.toScheme B S hS).mapCone c') := hc

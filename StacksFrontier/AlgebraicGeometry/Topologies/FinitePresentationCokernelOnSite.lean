@@ -101,7 +101,7 @@ theorem hasSectionsPresentation_cokernel_of_data {X₁ X₂ X₃ : SheafOfModule
           ∑ i, (∑ j, b j * R.obj.map (k ≫ g ≫ hV).op (c j i)) •
             X₂.val.restrictₛₗ (k ≫ g ≫ hV).op (s₂ i) := by
         rw [← restrict_restrict g k]
-        show X₂.val.restrictₛₗ k.op (X₂.val.map g.op _) = _
+        change X₂.val.restrictₛₗ k.op (X₂.val.map g.op _) = _
         rw [← hy, ← hom_app_restrictₛₗ φ.val k y, ← hb, hom_app_sum_smul φ.val (op B')]
         have hj : ∀ j, Hom.app φ.val (op B') (X₁.val.restrictₛₗ (k ≫ g ≫ hV).op (s₁ j)) =
             ∑ i, R.obj.map (k ≫ g ≫ hV).op (c j i) •

@@ -105,14 +105,14 @@ private theorem bijective_algebraMap_quotient_vertexIdeal (E : WeightedPolynomia
   rw [← hp]
   apply Ideal.Quotient.eq.mpr
   have hpV : p - MvPolynomial.C (MvPolynomial.constantCoeff p) ∈ V := by
-    show p - MvPolynomial.C (MvPolynomial.constantCoeff p) ∈
+    change p - MvPolynomial.C (MvPolynomial.constantCoeff p) ∈
       MvPolynomial.idealOfVars (Fin 3) E.k
     rw [idealOfVars_eq_ker_constantCoeff, RingHom.mem_ker]
     simp
   have hqV : Ideal.Quotient.mk I p -
       algebraMap E.k (MvPolynomial (Fin 3) E.k ⧸ I) (MvPolynomial.constantCoeff p) ∈
         Ideal.map (Ideal.Quotient.mk I) V := by
-    show Ideal.Quotient.mk I
+    change Ideal.Quotient.mk I
         (p - MvPolynomial.C (MvPolynomial.constantCoeff p)) ∈
       Ideal.map (Ideal.Quotient.mk I) V
     exact Ideal.mem_map_of_mem (Ideal.Quotient.mk I) hpV

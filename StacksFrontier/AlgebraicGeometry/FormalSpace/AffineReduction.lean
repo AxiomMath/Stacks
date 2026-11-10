@@ -197,7 +197,7 @@ private theorem hasSchemePropertyULift_of_isoSource
   have : IsIso ((uliftYoneda.{u + 1}).map snd) := hpb.isIso_snd_of_isIso
   have : IsIso snd :=
     Functor.FullyFaithful.isIso_of_isIso_map (ULiftYoneda.fullyFaithful _) snd
-  show Q ((BigFppfOver.toScheme B S hS).map snd)
+  change Q ((BigFppfOver.toScheme B S hS).map snd)
   exact hQ _ (Functor.map_isIso _ snd)
 
 /-- On the subcanonical big fppf site, the sheafified Yoneda embedding agrees with the

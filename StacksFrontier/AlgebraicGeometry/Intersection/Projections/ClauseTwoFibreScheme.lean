@@ -370,7 +370,7 @@ public def transitionSlice (X Y : Set (projectiveSpaceOfModule k V))
     (q : projectiveSpaceOfModule k (ParameterModule k V)) : Set (transitionProd k V) :=
   transitionLocusOver k V X Y ∩ (tpPar k V).base ⁻¹' {q}
 
-omit [Nontrivial (ParameterModule k V)] in
+omit [IsAlgClosed k] [Nontrivial V] [Nontrivial (ParameterModule k V)] in
 /-- The slice of the correspondence over a closed point `q` of the parameter space is closed. -/
 public theorem isClosed_transitionSlice {X Y : Set (projectiveSpaceOfModule k V)}
     (hXc : IsClosed X) (hYc : IsClosed Y)

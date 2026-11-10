@@ -59,13 +59,13 @@ topologically of finite type. -/
 private theorem adicAndFiniteType_iff_tautAndFiniteType
     {B A : Type u} [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsLinearTopology B B] [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
-    [IsLinearTopology A A] (φ : B →+* A) (hφ : Continuous φ)
+    [IsLinearTopology A A] (φ : B →+* A)
     (hB : ∃ I : Ideal B, I.FG ∧ _root_.IsAdic I)
     (hAcomplete : @CompleteSpace A (IsTopologicalAddGroup.rightUniformSpace A))
     (hAT2 : T2Space A) :
     (RingHom.IsAdic φ ∧ TopologicalRing.IsTopologicallyOfFiniteType φ) ↔
       (RingHom.IsTaut φ ∧ TopologicalRing.IsTopologicallyOfFiniteType φ) :=
-  and_congr (RingHom.isAdic_iff_isTaut φ hφ hB) Iff.rfl
+  and_congr (@RingHom.isAdic_iff_isTaut _ _ _ _ _ _ _ _ _ _ φ hB hAcomplete hAT2) Iff.rfl
 
 /-- Adic morphisms of topologically finite type form a local property on weakly admissible
 adic-star rings. -/
@@ -79,13 +79,13 @@ public theorem adicAndFiniteType_propertyIsLocal :
       ⟨TopologicalRing.completionOver_isWeaklyAdmissible D.toA' D.weaklyAdmissibleA,
         TopologicalRing.completionOver_isCountablyGenerated_nhds_zero
           D.toA' D.weaklyAdmissibleA D.countableA⟩
-    exact (adicAndFiniteType_iff_tautAndFiniteType D.completedMap D.continuousCompletedMap hB'
+    exact (adicAndFiniteType_iff_tautAndFiniteType D.completedMap hB'
       hA'w.1.2.1 hA'w.1.2.2).mpr <| tautAndFiniteType_localizationPreserves D
         ⟨D.weaklyAdmissibleA, D.countableA⟩ ⟨D.weaklyAdmissibleB, D.countableB⟩ hA'w
         ⟨TopologicalRing.completionOver_isWeaklyAdmissible D.toB' D.weaklyAdmissibleB,
           TopologicalRing.completionOver_isCountablyGenerated_nhds_zero
             D.toB' D.weaklyAdmissibleB D.countableB⟩
-        ((adicAndFiniteType_iff_tautAndFiniteType D.map D.continuousMap hB
+        ((adicAndFiniteType_iff_tautAndFiniteType D.map hB
           D.weaklyAdmissibleA.2.1 D.weaklyAdmissibleA.2.2).mp hMap)
   · intro A B A' B' _ _ _ _ _ _ _ _ _ _ D hA hB hA' hB' hFF hCompleted
     have hA'w : TopologicalRing.IsCountablyWeaklyAdmissible
@@ -93,14 +93,14 @@ public theorem adicAndFiniteType_propertyIsLocal :
       ⟨TopologicalRing.completionOver_isWeaklyAdmissible D.toA' D.weaklyAdmissibleA,
         TopologicalRing.completionOver_isCountablyGenerated_nhds_zero
           D.toA' D.weaklyAdmissibleA D.countableA⟩
-    exact (adicAndFiniteType_iff_tautAndFiniteType D.map D.continuousMap hB
+    exact (adicAndFiniteType_iff_tautAndFiniteType D.map hB
       D.weaklyAdmissibleA.2.1 D.weaklyAdmissibleA.2.2).mpr <|
         tautAndFiniteType_faithfullyFlatDescent D
           ⟨D.weaklyAdmissibleA, D.countableA⟩ ⟨D.weaklyAdmissibleB, D.countableB⟩ hA'w
           ⟨TopologicalRing.completionOver_isWeaklyAdmissible D.toB' D.weaklyAdmissibleB,
             TopologicalRing.completionOver_isCountablyGenerated_nhds_zero
               D.toB' D.weaklyAdmissibleB D.countableB⟩ hFF
-          ((adicAndFiniteType_iff_tautAndFiniteType D.completedMap D.continuousCompletedMap hB'
+          ((adicAndFiniteType_iff_tautAndFiniteType D.completedMap hB'
             hA'w.1.2.1 hA'w.1.2.2).mp hCompleted)
   · intro B _ _ _ _ hB hBcount ι _ A _ _ _ _ hAweak hAcount f hf hBstar _ hfProp
     let : ∀ i, UniformSpace (A i) := fun i => IsTopologicalAddGroup.rightUniformSpace (A i)
@@ -112,10 +112,10 @@ public theorem adicAndFiniteType_propertyIsLocal :
         @CompleteSpace (∀ i, A i) (IsTopologicalAddGroup.rightUniformSpace (∀ i, A i)) := by
       rw [IsUniformAddGroup.rightUniformSpace_eq]
       infer_instance
-    exact (adicAndFiniteType_iff_tautAndFiniteType (RingHom.pi f) (continuous_pi hf) hBstar
+    exact (adicAndFiniteType_iff_tautAndFiniteType (RingHom.pi f) hBstar
       hcomplete inferInstance).mpr <| tautAndFiniteType_finiteProductPreserves hB hBcount A hAweak
         hAcount f hf ⟨hB, hBcount⟩ (fun i => ⟨hAweak i, hAcount i⟩) fun i =>
-          (adicAndFiniteType_iff_tautAndFiniteType (f i) (hf i) hBstar (hAweak i).2.1
+          (adicAndFiniteType_iff_tautAndFiniteType (f i) hBstar (hAweak i).2.1
             (hAweak i).2.2).mp (hfProp i)
 
 /-- A local property of morphisms at the class of rings `TopologicalRing.AdicStarPropertyIsLocal`
@@ -162,8 +162,8 @@ public theorem adicAndFiniteType_propertyIsStableUnderComposition :
     TopologicalRing.AdicStarPropertyIsStableUnderComposition.{u}
       (fun φ => RingHom.IsAdic φ ∧ TopologicalRing.IsTopologicallyOfFiniteType φ) where
   isLocal := adicAndFiniteType_propertyIsLocal
-  comp := fun _ _ _ _ _ _ f g hf hg hPf hPg =>
-    TopologicalRing.isAdic_and_isTopologicallyOfFiniteType_comp f g hf hg hPf hPg
+  comp := fun _ _ _ _ _ _ f g hf _ hPf hPg =>
+    TopologicalRing.isAdic_and_isTopologicallyOfFiniteType_comp f g hf hPf hPg
 
 section
 

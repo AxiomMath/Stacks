@@ -86,7 +86,7 @@ theorem isomorphisms_isCompatibleWithShift (C : Type u₁) [Category.{v₁} C]
   constructor
   intro n
   ext X Y morphism
-  show IsIso ((shiftFunctor C n).map morphism) ↔ IsIso morphism
+  change IsIso ((shiftFunctor C n).map morphism) ↔ IsIso morphism
   constructor
   · intro h
     have := h

@@ -126,7 +126,7 @@ public theorem exists_comp_eq_of_Q_map_twoTermProjection_comp_eq_zero
       (twoTermProjection d ≫
         (CochainComplex.singleFunctor (ModuleCat.{u} A) (-1)).map φ) = 0 := by
     refine hbij.injective ?_
-    show TwoTermComplexExt.toHomD _ = TwoTermComplexExt.toHomD 0
+    change TwoTermComplexExt.toHomD _ = TwoTermComplexExt.toHomD 0
     rw [TwoTermComplexExt.toHomD_quotient_map, TwoTermComplexExt.toHomD_zero]
     exact hg
   obtain ⟨H⟩ := (HomotopyCategory.quotient_map_eq_zero_iff _).1 hq0
@@ -140,7 +140,7 @@ public theorem exists_comp_eq_of_Q_map_twoTermProjection_comp_eq_zero
       (doubleXIso₀ d upIntRelNegOneZero).hom ≫ φ ≫
         (singleObjXSelf (ComplexShape.up ℤ) (-1) G).inv := by
     simp only [HomologicalComplex.comp_f, twoTermProjection_f_neg_one,
-      CochainComplex.singleFunctor, CochainComplex.singleFunctors,
+      CochainComplex.singleFunctor,
       HomologicalComplex.single_map_f_self, Category.assoc, Iso.inv_hom_id_assoc]
   rw [hgf, show (double d upIntRelNegOneZero).d (-1) 0 =
       (doubleXIso₀ d upIntRelNegOneZero).hom ≫ d ≫
@@ -276,7 +276,7 @@ public theorem exists_algHom_section_of_cotangentComplex_comp_eq {ι : Type u}
   let b' : ι → A' := fun i => a' i - (δ (P.cotangentSpaceBasis i)).1
   have hb'spec : ∀ i, algebraMap A' A (b' i) = P.val i := by
     intro i
-    show algebraMap A' A (a' i - (δ (P.cotangentSpaceBasis i)).1) = P.val i
+    change algebraMap A' A (a' i - (δ (P.cotangentSpaceBasis i)).1) = P.val i
     rw [map_sub, RingHom.mem_ker.1 (δ (P.cotangentSpaceBasis i)).2, sub_zero, ha' i]
   let h₂ := generatorsLiftHom P hq b' hb'spec
   let δ' : P.toExtension.CotangentSpace →ₗ[A]
@@ -290,10 +290,10 @@ public theorem exists_algHom_section_of_cotangentComplex_comp_eq {ι : Type u}
     have hker : Algebra.Extension.Hom.subToKer h₂ h₁ (MvPolynomial.X i) =
         -(δ (P.cotangentSpaceBasis i)) := by
       refine Subtype.ext (hcoe.trans ?_)
-      show MvPolynomial.aeval b' (MvPolynomial.X i) -
+      change MvPolynomial.aeval b' (MvPolynomial.X i) -
         MvPolynomial.aeval a' (MvPolynomial.X i) = -(δ (P.cotangentSpaceBasis i)).1
       rw [MvPolynomial.aeval_X, MvPolynomial.aeval_X]
-      show a' i - (δ (P.cotangentSpaceBasis i)).1 - a' i =
+      change a' i - (δ (P.cotangentSpaceBasis i)).1 - a' i =
         -(δ (P.cotangentSpaceBasis i)).1
       ring
     have h1 : Algebra.Extension.Hom.sub h₂ h₁ (P.cotangentSpaceBasis i) =
@@ -309,7 +309,7 @@ public theorem exists_algHom_section_of_cotangentComplex_comp_eq {ι : Type u}
     obtain ⟨x, rfl⟩ := Algebra.Extension.Cotangent.mk_surjective z
     rw [Algebra.Extension.Cotangent.map_mk h₁ x, LinearMap.comp_apply, hδ'apply]
     refine congrArg Algebra.Extension.Cotangent.mk (Subtype.ext ?_)
-    show MvPolynomial.aeval a' (x.1 : MvPolynomial ι Λ) =
+    change MvPolynomial.aeval a' (x.1 : MvPolynomial ι Λ) =
       (δ (P.toExtension.cotangentComplex (Algebra.Extension.Cotangent.mk x))).1
     exact (hδ x).symm
   -- hence the corrected morphism induces zero
@@ -364,7 +364,7 @@ public theorem exists_algHom_section_of_cotangentComplex_comp_eq {ι : Type u}
       rw [h3] at h
       exact h
     have hval : σ (MvPolynomial.aeval P.val g) = MvPolynomial.aeval b' g := by
-      show τ ((Ideal.quotientKerAlgEquivOfSurjective hsurjP).symm
+      change τ ((Ideal.quotientKerAlgEquivOfSurjective hsurjP).symm
         (MvPolynomial.aeval P.val g)) = MvPolynomial.aeval b' g
       rw [hgo]
       exact hτ g
@@ -438,7 +438,7 @@ public theorem exists_algHom_section_of_surjective_derivedTensorFibre_neg_one
         = Algebra.Extension.Cotangent.map h₁ (Algebra.Extension.Cotangent.mk x) := by
       rw [Algebra.Extension.Cotangent.map_mk h₁ x]
       rfl
-    show (Φ.symm (Algebra.Extension.Cotangent.map h₁
+    change (Φ.symm (Algebra.Extension.Cotangent.map h₁
       (Algebra.Extension.Cotangent.mk x))).1 = _
     rw [← hΦz, LinearEquiv.symm_apply_apply]
   have hbridge := derivedNaiveCotangentComplexIso_hom_comp_cotangentExtensionClass

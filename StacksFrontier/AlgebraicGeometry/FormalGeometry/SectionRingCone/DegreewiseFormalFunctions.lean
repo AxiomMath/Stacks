@@ -146,6 +146,7 @@ theorem exists_sum_mem_kerDegree (x : LinearMap.ker (Cech.cechD fam (P : Type u)
   refine ⟨t, fun e => ⟨w e, hker e⟩, fun e => hw e, fun e he => Subtype.ext (hwzero e he), ?_⟩
   exact Subtype.ext (by rw [Submodule.coe_sum]; exact hwsum)
 
+omit [Decomposition 𝒢] in
 include hc in
 /-- **A homogeneous scalar shifts the degree of a Čech section.** -/
 theorem smul_mem_kerDegree {i : ℕ} {e : ℤ} {a : S} (ha : a ∈ 𝒜 i)

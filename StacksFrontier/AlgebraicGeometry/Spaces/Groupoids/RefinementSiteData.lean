@@ -148,7 +148,7 @@ theorem singleton_mem_bigFppfOver_topology_of_flat {X Y : BigFppfOver B S hS} (a
     (hflat : Flat ((BigFppfOver.toScheme B S hS).map a))
     (hlfp : LocallyOfFinitePresentation ((BigFppfOver.toScheme B S hS).map a)) :
     Sieve.generate (Presieve.singleton a) ∈ BigFppfOver.topology B S hS Y := by
-  show Sieve.generate (Presieve.singleton a) ∈ B.topology.over (B.obj hS) Y
+  change Sieve.generate (Presieve.singleton a) ∈ B.topology.over (B.obj hS) Y
   rw [B.topology.mem_over_iff, Sieve.overEquiv_generate,
     ← Sieve.arrows_generate_map_eq_functorPushforward, Sieve.generate_sieve,
     Presieve.map_singleton]

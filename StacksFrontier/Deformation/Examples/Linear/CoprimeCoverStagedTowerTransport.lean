@@ -273,9 +273,9 @@ theorem not_divisibleTransport : ¬ badTower.DivisibleTransport := by
   have hB : ∀ v : Stage 2, red (Φ 1 v) = Φ 0 (red v) := hΦ 0
   have hC : ∀ v : Stage 3, red (Φ 2 v) = Φ 1 (red v) := hΦ 1
   have eRed3 : ∀ v : Stage 3, (red v).1 0 = v.1 0 := fun v => by
-    rw [red_val, if_neg (show ¬((0 : ℕ) = 2) by omega)]
+    rw [red_val, ite_eq_right (show ¬((0 : ℕ) = 2) by omega)]
   have eRed2 : ∀ v : Stage 2, (red v).1 0 = v.1 0 := fun v => by
-    rw [red_val, if_neg (show ¬((0 : ℕ) = 1) by omega)]
+    rw [red_val, ite_eq_right (show ¬((0 : ℕ) = 1) by omega)]
   have hz1 : red (red (zeroStage 3)) = zeroStage 1 := by
     rw [red_zeroStage, red_zeroStage]
   have h1 : (Φ 1 (red (zeroStage 3))).1 0 = 0 :=
@@ -287,7 +287,7 @@ theorem not_divisibleTransport : ¬ badTower.DivisibleTransport := by
   have hR : (Φ 0 (red (red (zeroStage 3)))).1 0 = 0 :=
     (congrFun (congrArg Subtype.val (hB (red (zeroStage 3)))) 0).symm.trans hL
   have hRval : (Φ 0 (red (red (zeroStage 3)))).1 0 = (2 : ℤ) ^ 1 • (1 : ℤ) := by
-    rw [hA, hz1, trans_val, if_pos rfl, zeroStage_val, zero_add]
+    rw [hA, hz1, trans_val, ite_eq_left rfl, zeroStage_val, zero_add]
   have hc : ((2 : ℤ) ^ 1 • (1 : ℤ)) = 0 := hRval.symm.trans hR
   rw [two_pow_one_smul] at hc
   omega

@@ -248,8 +248,8 @@ theorem hom_ext_of_surjective
   let k : Y ⟶ pullback p p := pullback.lift f g hfg
   have hjk : j ≫ k = (j ≫ f) ≫ δ := by
     apply pullback.hom_ext
-    · simp [Category.assoc, k, δ, pullback.lift_fst, pullback.diagonal_fst]
-    · simp [Category.assoc, k, δ, h, pullback.lift_snd, pullback.diagonal_snd]
+    · simp [Category.assoc, k, δ, pullback.diagonal_fst]
+    · simp [Category.assoc, k, δ, h, pullback.diagonal_snd]
   have hkRange : Set.range k ⊆ Set.range δ := by
     rintro z ⟨y, rfl⟩
     obtain ⟨y₀, hy₀⟩ := hj y
@@ -355,11 +355,11 @@ theorem bijective_pullbackHom_of_etale
       calc
         pullback.fst Y.hom i ≫ f.left =
             ((Over.pullback i).map f).left ≫ pullback.fst X.hom i := by
-          simp [Over.pullback_map_left, pullback.lift_fst]
+          simp [Over.pullback_map_left]
         _ = ((Over.pullback i).map g).left ≫ pullback.fst X.hom i := by
           rw [congrArg Over.Hom.left h]
         _ = pullback.fst Y.hom i ≫ g.left := by
-          simp [Over.pullback_map_left, pullback.lift_fst]
+          simp [Over.pullback_map_left]
     exact hom_ext_of_surjective (pullback.fst Y.hom i) hj X.hom f.left g.left
       ((Over.w f).trans (Over.w g).symm) hrestrict
   · have gw : g.left ≫ pullback.snd X.hom i = pullback.snd Y.hom i := by

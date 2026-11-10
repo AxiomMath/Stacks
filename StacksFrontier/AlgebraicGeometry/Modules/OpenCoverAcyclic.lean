@@ -138,7 +138,7 @@ public theorem plus_subcategoryAcyclic_of_pullback (L : HomotopyCategory.Plus X.
           (((Scheme.Modules.pullback (U i).ι).mapHomologicalComplex
             (ComplexShape.up ℤ)).obj K.obj)) := h i
     rwa [HomotopyCategory.quotient_obj_mem_subcategoryAcyclic_iff_acyclic] at hi
-  show HomotopyCategory.subcategoryAcyclic X.Modules
+  change HomotopyCategory.subcategoryAcyclic X.Modules
     ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj K.obj)
   rw [HomotopyCategory.quotient_obj_mem_subcategoryAcyclic_iff_acyclic]
   exact acyclic_of_acyclic_pullback U hU K.obj key

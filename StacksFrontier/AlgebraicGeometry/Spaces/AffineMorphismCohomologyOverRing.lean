@@ -121,7 +121,7 @@ theorem globalSectionRingHomsCompatible_globalSectionsRingHom (f : X ⟶ Y)
       ((globalSectionsRingHom B S hS Y.1 Y.2 φ).comp α)
       ((globalSectionsRingHom B S hS X.1 X.2 (f.hom ≫ φ)).comp α) := by
   intro a W
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartToScheme B S hS X.1 (f.hom ≫ φ)
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartToScheme B S hS X.1 (f.hom ≫ φ)
       ((smallBaseChange B S hS f hf).obj W))).op).hom (α a) =
     (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (hf.snd W.1.hom)).op).hom
       ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map

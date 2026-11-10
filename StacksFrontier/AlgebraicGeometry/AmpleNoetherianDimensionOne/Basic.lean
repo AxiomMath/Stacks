@@ -40,8 +40,7 @@ here is `Stacks.TwistedThickeningLift.isAmple_of_isAmple_modulePullback`.
 * A Noetherian separated scheme of dimension at most one has an ample invertible sheaf:
   `Stacks.AmpleNoetherianDimensionOne.exists_isAmple_of_isNoetherian_of_topologicalKrullDim_le_one`
 * `Stacks.AmpleNoetherianDimensionOne.exists_isAmple_of_topologicalKrullDim_le_one`: the same
-  conclusion with an additional argument, the cohomological lift of [Stacks, Tag 09MS], which the
-  proof does not use.
+  statement, under a shorter name.
 
 The dimension hypothesis is `≤ 1` rather than `= 1`, so the statement also covers the
 zero-dimensional case and is stronger than the source's; this is the form in which
@@ -155,16 +154,11 @@ theorem exists_isAmple_of_isNoetherian_of_topologicalKrullDim_le_one
       (vanishingIdeal (⊤ : Closeds X)).subschemeι L hZ
   exact ⟨L, hL, (Stacks.AmpleBridge.isAmple_iff_isAmple X L).mp hX⟩
 
-/-- **An ample invertible module on a Noetherian separated scheme of dimension at most one**,
-with the cohomological lift of [Stacks, Tag 09MS] as an extra argument that the proof does not
-use: this is
+/-- **An ample invertible module on a Noetherian separated scheme of dimension at most one**:
+this is
 `Stacks.AmpleNoetherianDimensionOne.exists_isAmple_of_isNoetherian_of_topologicalKrullDim_le_one`,
-kept with its original interface. -/
+under a shorter name. -/
 theorem exists_isAmple_of_topologicalKrullDim_le_one
-    (hlift : ∀ (W Y : Scheme.{u}) (j : W ⟶ Y) [IsClosedImmersion j]
-      [AlgebraicGeometry.Surjective j] [AlgebraicGeometry.IsNoetherian Y] (N : Y.Modules)
-      [Stacks.Ample.IsInvertibleModule Y N],
-      Stacks.AmpleClosedImmersion.SectionsLiftAfterPower j N)
     (X : Scheme.{u}) [AlgebraicGeometry.IsNoetherian X] [X.IsSeparated]
     (hdim : topologicalKrullDim (X : Type u) ≤ 1) :
     ∃ (L : X.Modules)

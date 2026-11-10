@@ -329,7 +329,8 @@ then so does the restriction along `j` of any right derived direct image of `E` 
 
 The two restriction functors are supplied as functors `RW` and `RV` identified with the abstract
 pullbacks, so that the caller may use whichever spelling of restriction it has. -/
-alias isZero_derivedRestrict_derivedPushforward_of_isPullback := isZero_derivedRestrict_derivedPushforward
+alias isZero_derivedRestrict_derivedPushforward_of_isPullback :=
+  isZero_derivedRestrict_derivedPushforward
 
 /-! ### Closed support and derived direct image from an open -/
 

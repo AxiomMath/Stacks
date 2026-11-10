@@ -1,12 +1,10 @@
 module
 
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.PullbackToposTensorIsoCompositionModel
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.PullbackToposTensorIsoCompositionModel
 public import
   StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.PullbackComparisonQCompositionLaw
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.FlatKFlatDescent
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.PullbackToposTensorTotalCompositionLaw
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.PullbackToposTensorTotalCompositionLaw
 
 /-!
 # The Tag 07A4 comparison along a composite, on the whole derived category
@@ -53,7 +51,7 @@ and `htotal`, the composition law of **Stacks 03EL** for the comparison
 `f^*Tot(K ⊗ L) ≅ Tot(f^*K ⊗ f^*L)` carried along `CategoryTheory.DerivedCategory.Q` and read
 against `pullbackComplexCompIso`, is
 `Stacks.Sheaves.DerivedPullback.map_pullbackToposTensorTotalIso_comp` of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.PullbackToposTensorTotalCompositionLaw`
+the module `PullbackToposTensorTotalCompositionLaw`
 in this directory, where the Stacks 03EL composition law is **proved** — for arbitrary cochain
 complexes of `O''`-modules, with no K-flatness, no boundedness and no flatness of terms.  All
 three hold at arbitrary complexes.
@@ -69,7 +67,8 @@ functors are derived functors on categories of sheaves of modules.
 
 *No `stacks` attribute.*  Stacks 07A4 is claimed, bare, by
 `Stacks.Sheaves.DerivedPullback.derivedPullbackTensorIso`
-(in `StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.DerivedPullbackTensorComparison`)
+(in
+`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.DerivedPullbackTensorComparison`)
 and Stacks 0D6D by
 `Stacks.Cohomology.DerivedPullbackCompositionOnTopoi.derivedPullbackCompIso`
 (in `StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.CompositionOnRingedTopoi`).  A
@@ -156,7 +155,7 @@ further input the model identity consumes is the composition law of Stacks 03EL 
 comparison `f^*Tot(K ⊗ L) ≅ Tot(f^*K ⊗ f^*L)`, carried along `CategoryTheory.DerivedCategory.Q`
 and read against `CompositionLaw.pullbackComplexCompIso`; that law is proved, at arbitrary
 cochain complexes, as `Stacks.Sheaves.DerivedPullback.map_pullbackToposTensorTotalIso_comp` in
-`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.PullbackToposTensorTotalCompositionLaw`
+the module `PullbackToposTensorTotalCompositionLaw`
 of this directory, and is supplied from there. -/
 theorem derivedPullbackTensorIso_comp :
     Functor.whiskerLeft

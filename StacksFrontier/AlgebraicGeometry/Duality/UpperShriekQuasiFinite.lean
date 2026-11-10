@@ -121,7 +121,7 @@ theorem isFlatOverAt_of_flat_modulesStalk {X Y : Scheme.{u}} (f : X ⟶ Y) (F : 
           simp [s]
         have key := SemilinearStalk.comm_smul_eq X.presheaf x F.val s m
         rwa [hs] at key }
-  show Module.Flat (Y.presheaf.stalk (f x)) (F.presheaf.stalk x)
+  change Module.Flat (Y.presheaf.stalk (f x)) (F.presheaf.stalk x)
   exact Module.Flat.of_linearEquiv e
 
 end Flat

@@ -147,7 +147,7 @@ theorem isBirational_sigmaMap {ι : Type u} [Small.{u} ι] {S T : ι → Scheme.
   have key : ∀ (i : ι) (x : S i),
       (Sigma.desc fun i ↦ f i ≫ Sigma.ι T i) (Sigma.ι S i x) = Sigma.ι T i (f i x) := by
     intro i x
-    rw [← Scheme.Hom.comp_apply, Sigma.ι_desc, Scheme.Hom.comp_apply]
+    rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc, Scheme.Hom.comp_apply]
   refine isBirational_of_bijOn_of_isIso_stalkMap _ ⟨?_, ?_, ?_⟩ ?_
   · intro p hp
     obtain ⟨i, x, rfl⟩ := exists_sigmaι_eq S p
@@ -175,7 +175,7 @@ theorem isBirational_sigmaMap {ι : Type u} [Small.{u} ι] {S T : ι → Scheme.
     have : IsIso ((Sigma.desc fun i ↦ f i ≫ Sigma.ι T i).stalkMap (Sigma.ι S i x) ≫
         (Sigma.ι S i).stalkMap x) := by
       have hT : IsIso ((Sigma.ι T i).stalkMap ((f i) x)) := inferInstance
-      rw [← Scheme.Hom.stalkMap_comp, Scheme.Hom.stalkMap_congr_hom _ _ (Sigma.ι_desc _ _),
+      rw [← Scheme.Hom.stalkMap_comp, Scheme.Hom.stalkMap_congr_hom _ _ (Sigma.ι_comp_desc _ _),
         Scheme.Hom.stalkMap_comp]
       exact IsIso.comp_isIso' (Iso.isIso_hom _)
         (IsIso.comp_isIso' hT ((hf i).isIso_stalkMap x hp))

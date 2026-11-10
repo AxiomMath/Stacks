@@ -636,7 +636,7 @@ theorem tensorPowerSheafifyIso_add_two_unit (n : ℕ) (X : Cᵒᵖ) (z : (Q (n +
     (congrArg
       (fun z => PresheafOfModules.Hom.app
         (moduleSheafificationUnit J a (tensorObj (Q 1) (Q (n + 1)))) X z) hz)
-  show ((((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).map ((Iso.prod e1
+  change ((((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).map ((Iso.prod e1
       (tensorPowerSheafifyIso J a e0 e1 e2 (n + 1))).hom).1).app _ ≫
       ((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj _).map ((Iso.prod e1
           (tensorPowerSheafifyIso J a e0 e1 e2 (n + 1))).hom).2)).val.app X

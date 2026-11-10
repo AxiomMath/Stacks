@@ -101,7 +101,7 @@ theorem exists_etale_slice_cover_of_unramified_pair (B : BigFppfSite.{u}) {E W :
       infer_instance
   · have h : pZ ≫ pullback.fst s ιZ ≫ t = Sigma.desc fun e => p e ≫ pullback.fst s (ι e) ≫ t := by
       refine Sigma.hom_ext _ _ fun e => ?_
-      rw [Sigma.ι_desc, reassoc_of% (hpZ e), reassoc_of% (hmfst e)]
+      rw [Sigma.ι_comp_desc, reassoc_of% (hpZ e), reassoc_of% (hmfst e)]
     rw [h]
     exact IsZariskiLocalAtSource.sigmaDesc fun e => het e
   · intro z

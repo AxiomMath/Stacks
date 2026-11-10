@@ -68,12 +68,12 @@ theorem exists_homology_selfMapCohomology_addEquiv_sheafH {N : ℕ} (hN : IsUnit
             (baseConstantComplex Ω N)))).hom y) =
         etaleConstantCohomologyPullback φ (ZMod N) q (E y) := by
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hN
-  have hn0 := ne_zero_of_isUnit_natCast f hN
+  have hn0 := ne_zero_of_isUnit_natCast hN
   let R := selfMapCohomologyRootsOfUnityAddEquiv f hζ hn0 q
   let S := sheafHRootsOfUnityConstantAddEquiv f hζ hn0 q
   refine ⟨R.trans S.symm, fun y => ?_⟩
   apply S.injective
-  show S (S.symm (R _)) = S (etaleConstantCohomologyPullback φ (ZMod N) q (S.symm (R y)))
+  change S (S.symm (R _)) = S (etaleConstantCohomologyPullback φ (ZMod N) q (S.symm (R y)))
   rw [AddEquiv.apply_symm_apply]
   have h2 := sheafHMap_rootsOfUnityConstantHom_etaleCohomologyMapTo f f φ w hζ hn0 q (S.symm (R y))
   rw [← sheafHRootsOfUnityConstantAddEquiv_apply, ← sheafHRootsOfUnityConstantAddEquiv_apply,
@@ -96,7 +96,7 @@ theorem module_free_finite_homology_selfMapCohomology (ℓ m : ℕ) [Fact ℓ.Pr
           (selfMapCohomology.{u, 0} (ZMod (ℓ ^ m)) f (baseConstantComplex Ω (ℓ ^ m))))) := by
   have hN := isUnit_natCast_pow ℓ m hℓ
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hN
-  have hn0 := ne_zero_of_isUnit_natCast f hN
+  have hn0 := ne_zero_of_isUnit_natCast hN
   let E : (DerivedCategory.homologyFunctor (ModuleCat.{u + 1} (ZMod (ℓ ^ m))) q).obj
       (DerivedCategory.Plus.ι.obj (selfMapCohomology.{u, 0} (ZMod (ℓ ^ m)) f
         (baseConstantComplex Ω (ℓ ^ m)))) ≃+
@@ -132,7 +132,7 @@ theorem subsingleton_sheafH_etaleConstantSheaf_of_three_le {N : ℕ} (hN : IsUni
     Subsingleton (Sheaf.H.{u + 1} (etaleConstantSheaf.{u, 0} C (ZMod N)) q) := by
   obtain ⟨r, rfl⟩ : ∃ r, q = r + 3 := ⟨q - 3, by omega⟩
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hN
-  have hn0 := ne_zero_of_isUnit_natCast f hN
+  have hn0 := ne_zero_of_isUnit_natCast hN
   have : Subsingleton (Sheaf.H.{u + 1} (Stacks.Kummer.rootsOfUnitySheaf.{u, 0} C N) (r + 3)) :=
     Stacks.Kummer.subsingleton_sheafH_rootsOfUnitySheaf_of_isCurve f hN (r + 3) (by omega)
   exact (sheafHRootsOfUnityConstantAddEquiv f hζ hn0 (r + 3)).injective.subsingleton
@@ -163,7 +163,7 @@ theorem subsingleton_homology_selfMapCohomology_of_notMem {N : ℕ} (hN : IsUnit
       apply hi
       interval_cases q <;> simp
     obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hN
-    have hn0 := ne_zero_of_isUnit_natCast f hN
+    have hn0 := ne_zero_of_isUnit_natCast hN
     have := subsingleton_sheafH_etaleConstantSheaf_of_three_le f hN q h3
     exact ((selfMapCohomologyRootsOfUnityAddEquiv f hζ hn0 q).trans
       (sheafHRootsOfUnityConstantAddEquiv f hζ hn0 q).symm).injective.subsingleton

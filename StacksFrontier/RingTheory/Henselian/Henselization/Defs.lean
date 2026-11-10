@@ -326,7 +326,7 @@ public theorem _root_.CommAlgCat.flat_of_ind_etale_restrictScalars
   let φ : T →ₐ[R] A := (pres.ι.app j).hom
   let : Algebra T B := ((algebraMap A B).comp φ.toRingHom).toAlgebra
   have : IsScalarTower R T B := IsScalarTower.of_algebraMap_eq fun r => by
-    show algebraMap R B r = algebraMap A B (φ (algebraMap R T r))
+    change algebraMap R B r = algebraMap A B (φ (algebraMap R T r))
     rw [φ.commutes, ← IsScalarTower.algebraMap_apply R A B]
   have : Algebra.Etale R T := hpres j
   have : Module.Flat T B := Algebra.FormallyUnramified.flat_of_restrictScalars R T B
@@ -379,7 +379,7 @@ public theorem _root_.CommAlgCat.map_maximalIdeal_of_ind_etale {R : Type u} {S :
       exact ((SetLike.ext_iff.1 (maximalIdeal_comap (algebraMap R S))) r).symm⟩
     have : Algebra.Etale R (pres.diag.obj j : Type w) := hpres j
     have hyq : y ∈ q := by
-      show (pres.ι.app j).hom y ∈ maximalIdeal S
+      change (pres.ι.app j).hom y ∈ maximalIdeal S
       rwa [hy]
     obtain ⟨g, hg, hgy⟩ := exists_mul_mem_map_maximalIdeal (R := R) q hyq
     let gs : S := (pres.ι.app j).hom g

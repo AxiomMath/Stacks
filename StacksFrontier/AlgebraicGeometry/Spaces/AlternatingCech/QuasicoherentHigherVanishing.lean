@@ -281,7 +281,8 @@ def antiInvariantProjection (M : Modules.{u, u} B S hS X.1 X.2) :
     M.val.obj (op (diagonalComplementChart B S hS X W c hc hsep n)) →+
       M.val.obj (op (diagonalComplementChart B S hS X W c hc hsep n)) :=
   ∑ σ : Equiv.Perm (Fin (n + 1)), ((Equiv.Perm.sign σ : ℤˣ) : ℤ) •
-    (restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom).comp
+    (restrictSections B S hS X M
+      (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom).comp
       (AddMonoidHom.mk' (fun s => chartFunction B S hS X W c hc hsep n t • s)
         fun a b => smul_add _ a b)
 
@@ -326,7 +327,8 @@ theorem antiInvariantProjection_mem (M : Modules.{u, u} B S hS X.1 X.2)
       intro σ
       rw [map_zsmul]
       congr 1
-      show restrictSections B S hS X M (a τ).asIso.hom (restrictSections B S hS X M (a σ).asIso.hom _) = _
+      change restrictSections B S hS X M (a τ).asIso.hom
+        (restrictSections B S hS X M (a σ).asIso.hom _) = _
       rw [restrictSections_comp, ← diagonalComplementChartAut_mul_hom]
     rw [Finset.sum_congr rfl fun σ _ => h1 σ]
     have h2 : (∑ σ : Equiv.Perm (Fin (n + 1)), ((Equiv.Perm.sign σ : ℤˣ) : ℤ) • f (σ * τ)) =
@@ -355,15 +357,18 @@ theorem antiInvariantProjection_eq_self
         (chartFunction B S hS X W c hc hsep n t • s) =
       chartFunction B S hS X W c hc hsep n (autPullback B S hS X W c hc hsep n σ t) • s := by
     intro σ
-    have h1 : restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom
+    have h1 : restrictSections B S hS X M
+        (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom
         (chartFunction B S hS X W c hc hsep n t • s) =
         chartFunction B S hS X W c hc hsep n (autPullback B S hS X W c hc hsep n σ t) •
-          restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom s :=
+          restrictSections B S hS X M
+            (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom s :=
       M.val.map_smul (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom.op
         (chartFunction B S hS X W c hc hsep n t) s
     rw [h1]
-    have h2 : restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom
-        s = ((Equiv.Perm.sign σ : ℤˣ) : ℤ) • s := hs σ
+    have h2 : restrictSections B S hS X M
+        (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom s =
+          ((Equiv.Perm.sign σ : ℤˣ) : ℤ) • s := hs σ
     rw [h2, smul_comm, smul_smul, ← Units.val_mul, Int.units_mul_self, Units.val_one, one_smul]
   simp_rw [hterm]
   rw [← Finset.sum_smul]

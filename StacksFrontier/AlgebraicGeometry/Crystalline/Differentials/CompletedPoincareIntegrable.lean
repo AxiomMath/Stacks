@@ -228,7 +228,7 @@ end Exterior
 section Comparison
 
 variable (A : Type uA) [CommRing A] (B : DividedPowerRing.{uB}) [Algebra A B] (W : Type uW)
-  (p : ℕ) [LinearOrder W]
+  (p : ℕ)
 
 /-- **`ψ̂` respects the wedge product**: `ψ̂ (ω ∧ η) = ψ̂ ω ∧ ψ̂ η`, with the wedge of `Ω̂^*_{D'}`
 read `D`-bilinearly.
@@ -275,7 +275,7 @@ theorem completedFormsBidegreeProjectionₗ_eq_zero (n : ℕ) :
     rfl
   refine LinearMap.ext fun z ↦ ?_
   rw [LinearMap.zero_apply]
-  show PAdicCompletion.mapAddHom p (setIndexedDividedPowerPolynomialAlgebra B W)
+  change PAdicCompletion.mapAddHom p (setIndexedDividedPowerPolynomialAlgebra B W)
       (setIndexedDividedPowerPolynomialAlgebra B W)
       (formsBidegreeProjection A B W n (n + 1)).toAddMonoidHom z = 0
   rw [h0, PAdicCompletion.mapAddHom_zero, AddMonoidHom.zero_apply]
@@ -403,7 +403,7 @@ theorem isSquareZero_pushedConnection (M : Type uM) [AddCommGroup M]
     (nabla : CompletedConnection p (completedDividedPowerRing p (B := (B : Type uB)))
       (completedDividedPowerForms p A B.dividedPowers 1)
       (completedFormsDifferential p A B.dividedPowers) M)
-    {iota : Type uI} [Fintype iota]
+    {iota : Type uI} [Finite iota]
     (x : iota → completedDividedPowerRing p (B := (B : Type uB))) (theta : iota → (M → M))
     (hco : IsCoordinateExpansion p (completedDividedPowerRing p (B := (B : Type uB)))
       (completedDividedPowerForms p A B.dividedPowers 1)
@@ -415,8 +415,10 @@ theorem isSquareZero_pushedConnection (M : Type uM) [AddCommGroup M]
       (completedPolynomialForms A B W p) (completedPolynomialFormsWedge A B W p)
       (completedDividedPowerDeRham p A (setIndexedDividedPowerPolynomialDividedPowers B W)) M
       (pushedConnection A B W p M nabla)
-      (isGradedLeibniz_completedPolynomialForms A B W p) :=
-  CompletedDeRham.isSquareZero_of_commute p (completedDividedPowerRing p (B := (B : Type uB)))
+      (isGradedLeibniz_completedPolynomialForms A B W p) := by
+  have := Fintype.ofFinite iota
+  exact CompletedDeRham.isSquareZero_of_commute p
+    (completedDividedPowerRing p (B := (B : Type uB)))
     (completedPolynomialForms A B W p) (completedPolynomialFormsWedge A B W p)
     (completedDividedPowerDeRham p A (setIndexedDividedPowerPolynomialDividedPowers B W)) M
     (pushedConnection A B W p M nabla) (isGradedLeibniz_completedPolynomialForms A B W p)
@@ -451,7 +453,7 @@ theorem isSquareZero_completedDividedPowerForms (M : Type uM) [AddCommGroup M]
     (nabla : CompletedConnection p (completedDividedPowerRing p (B := (B : Type uB)))
       (completedDividedPowerForms p A B.dividedPowers 1)
       (completedFormsDifferential p A B.dividedPowers) M)
-    {iota : Type uI} [Fintype iota] (x : iota → (completedDividedPowerRing p (B := (B : Type uB))))
+    {iota : Type uI} [Finite iota] (x : iota → (completedDividedPowerRing p (B := (B : Type uB))))
     (theta : iota → (M → M))
     (hco : IsCoordinateExpansion p (completedDividedPowerRing p (B := (B : Type uB)))
       (completedDividedPowerForms p A B.dividedPowers 1)
@@ -463,8 +465,10 @@ theorem isSquareZero_completedDividedPowerForms (M : Type uM) [AddCommGroup M]
       (completedDividedPowerForms p A B.dividedPowers)
       (completedDividedPowerWedge p A B.dividedPowers)
       (completedDividedPowerDeRham p A B.dividedPowers) M nabla
-      (isGradedLeibniz_completedDividedPower p A B.dividedPowers) :=
-  CompletedDeRham.isSquareZero_of_commute p (completedDividedPowerRing p (B := (B : Type uB)))
+      (isGradedLeibniz_completedDividedPower p A B.dividedPowers) := by
+  have := Fintype.ofFinite iota
+  exact CompletedDeRham.isSquareZero_of_commute p
+    (completedDividedPowerRing p (B := (B : Type uB)))
     (completedDividedPowerForms p A B.dividedPowers)
     (completedDividedPowerWedge p A B.dividedPowers)
     (completedDividedPowerDeRham p A B.dividedPowers) M nabla
@@ -636,7 +640,7 @@ theorem exists_homotopyEquiv_isIntegrable (M : Type uM) [AddCommGroup M]
     (nabla : CompletedConnection p (completedDividedPowerRing p (B := (B : Type uB)))
       (completedDividedPowerForms p A B.dividedPowers 1)
       (completedFormsDifferential p A B.dividedPowers) M)
-    {iota : Type uI} [Fintype iota] (x : iota → (completedDividedPowerRing p (B := (B : Type uB))))
+    {iota : Type uI} [Finite iota] (x : iota → (completedDividedPowerRing p (B := (B : Type uB))))
     (hco : ∃ theta : iota → (M → M), IsCoordinateExpansion p
       (completedDividedPowerRing p (B := (B : Type uB)))
           (completedDividedPowerForms p A B.dividedPowers 1)

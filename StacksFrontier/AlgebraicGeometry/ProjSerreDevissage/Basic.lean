@@ -14,7 +14,8 @@ public import StacksCore.Algebra.Homology.ShortComplex.ShortExact
 to a single hypothesis `step`: a dévissage presenting each member of the class as the quotient
 term of a short exact sequence whose middle term is eventually acyclic and whose sub is again in
 the class. This file assembles that `step` out of Tag 0B5Q assertion (1) and Serre vanishing for
-the twisting sheaves, and composes the result with the proved bound `hbound` to obtain assertion (3).
+the twisting sheaves, and composes the result with the proved bound `hbound`
+to obtain assertion (3).
 
 ## Main definitions
 
@@ -107,7 +108,8 @@ presentation: `∀ n, (twistingSheaf 𝒜 n).IsCoherent`. It too is absent, and 
 **Which `IsCoherent`.** There are two distinct coherence constants in this repository: the root
 `SheafOfModules.IsCoherent`
 (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/CoherentFinitePresentation.lean`) and
-`Stacks.SheafOfModules.IsCoherent` (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/Coherent.lean`),
+`Stacks.SheafOfModules.IsCoherent`
+(`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/Coherent.lean`),
 with identical fields. Inside a namespace beginning with `Stacks.` the spelling
 `SheafOfModules.IsCoherent` resolves silently to the second, so the first is written here as
 `_root_.SheafOfModules.IsCoherent` throughout. The root one is the constant

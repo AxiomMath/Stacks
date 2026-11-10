@@ -386,7 +386,7 @@ theorem hilbertComparison_faithful
   apply FiniteHilbert.Hom.ext hf hg hb
   apply (sourceComparison B S hS 𝒳' 𝒴' 𝒳 𝒴 F' F G H γ).map_injective
   apply TwoFibreProductOver.Hom.ext' ha
-  show F'.map φ.a = F'.map ψ.a
+  change F'.map φ.a = F'.map ψ.a
   have := Q.α_over
   have := φ.a_over
   have : 𝒳'.toBasedCategory.p.IsHomLift φ.g ψ.a := hg.symm ▸ ψ.a_over
@@ -549,14 +549,14 @@ theorem hilbertComparison_essSurj
       a_over := hea
       compatible := by
         have hw : F.map e.inv.a ≫ c = squareComparison γ x ≫ H.map e.inv.b := e.inv.w
-        show F.map e.inv.a ≫ P.α =
+        change F.map e.inv.a ≫ P.α =
           (squareComparison γ x ≫ H.map (e.inv.b ≫ β)) ≫ t.iso.inv
         rw [H.map_comp, ← Category.assoc (squareComparison γ x), ← hw]
         simp only [Category.assoc, hcf, Iso.hom_inv_id, Category.comp_id] }
   have hφ : (finiteHilbertCategory (B := B) (S := S) (hS := hS)
       (𝒳 := 𝒳) (𝒴 := 𝒴) (F := F) (d := d)).p.IsHomLift (𝟙 P.U) φ :=
     IsHomLift.of_fac' _ _ _ rfl rfl (by
-      show (𝟙 P.U) = eqToHom (rfl : P.U = P.U) ≫ 𝟙 P.U ≫ eqToHom rfl
+      change (𝟙 P.U) = eqToHom (rfl : P.U = P.U) ≫ 𝟙 P.U ≫ eqToHom rfl
       simp)
   have hφiso : IsIso φ :=
     isIso_of_isHomLift_isIso (finiteHilbertCategory (B := B) (S := S) (hS := hS)

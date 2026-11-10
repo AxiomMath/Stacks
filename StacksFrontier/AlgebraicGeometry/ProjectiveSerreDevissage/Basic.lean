@@ -125,8 +125,8 @@ degree, and the dévissage induction itself.
 **Which `IsCoherent`.** As on the `Proj` side, there are two coherence constants in this
 repository, and inside a namespace beginning with `Stacks.` the spelling
 `SheafOfModules.IsCoherent` resolves silently to the second. The root
-`_root_.SheafOfModules.IsCoherent` is the one the statement of [Stacks, Tag 01YS] is made over — it is
-what `F.IsCoherent` means for `F : X.Modules` — and it is the one used throughout here.
+`_root_.SheafOfModules.IsCoherent` is the one the statement of [Stacks, Tag 01YS] is made over — it
+is what `F.IsCoherent` means for `F : X.Modules` — and it is the one used throughout here.
 
 **No attribute is attached.** The label `eventual_vanishing` of [Stacks, Tag 01YS] is not proved:
 Serre's theorem and the vanishing for `𝒪(k)` are hypotheses, so there is no covering set.
@@ -238,8 +238,8 @@ def HasProjectiveTwistQuotients : Prop :=
 
 /-- **Serre's theorem on `ℙⁿ_R`, packaged as the dévissage sequence.** The short exact sequence
 `0 ⟶ ℱ' ⟶ ⨁ⱼ 𝒪(dⱼ) ⟶ ℱ ⟶ 0` with `ℱ'` again coherent. This is the shape the dévissage
-consumes, and it is the hypothesis the library's proof of [Stacks, Tag 01YS] assumes — there with the
-redundant extra clause that every twist of the sequence is separately short exact. -/
+consumes, and it is the hypothesis the library's proof of [Stacks, Tag 01YS] assumes — there with
+the redundant extra clause that every twist of the sequence is separately short exact. -/
 def HasCoherentProjectiveTwistPresentation : Prop :=
   ∀ F : SheafOfModules.{u} (projectiveSpaceOverRing n (.of R)).ringCatSheaf,
     _root_.SheafOfModules.IsCoherent F →

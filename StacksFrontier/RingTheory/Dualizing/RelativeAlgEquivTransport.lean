@@ -80,8 +80,7 @@ private noncomputable def derivedHomTransportIso
   let f₂ := μC.comp d.toRingEquiv.toRingHom
   have hf : f₁ = f₂ := by
     refine RingHom.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp [f₁, f₂, μB, μC]
+    induction z using TensorProduct.inductionOn with
     | tmul b₁ b₂ =>
         change e (b₁ * b₂) = e b₁ * e b₂
         exact map_mul e b₁ b₂

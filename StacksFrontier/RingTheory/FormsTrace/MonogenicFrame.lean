@@ -127,7 +127,7 @@ theorem monoDet_ofBasis {R A : Type u} [CommRing R] [CommRing A] [Algebra R A]
   have hi : algEquivCarrierOfBasis b hb (b i) = Carrier.basisVector (ofBasis b hb) i :=
     Carrier.ext fun j => by
       rw [Carrier.basisVector_apply]
-      show b.repr (b i) j = _
+      change b.repr (b i) j = _
       rw [b.repr_self_apply]
       exact if_congr eq_comm rfl rfl
   rw [Matrix.of_apply, Matrix.of_apply, ← hi, ← map_pow]

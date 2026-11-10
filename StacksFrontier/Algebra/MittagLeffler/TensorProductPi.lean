@@ -83,8 +83,7 @@ private lemma piRightHom_rTensor {M : Type v} {M' : Type w} [AddCommGroup M] [Mo
     (x : M ⊗[R] (∀ α, Q α)) (α : A) :
     TensorProduct.piRightHom R R M' Q (f.rTensor _ x) α
       = f.rTensor (Q α) (TensorProduct.piRightHom R R M Q x α) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m q => simp
   | add x y hx hy => simp [hx, hy]
 

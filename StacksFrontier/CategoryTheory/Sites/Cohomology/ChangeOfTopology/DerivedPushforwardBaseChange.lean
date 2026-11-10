@@ -140,7 +140,7 @@ lemma LeftHomologyData.mapExpand_f' (h : S₂.LeftHomologyData) [h.IsPreservedBy
     (h.mapExpand (G := G)).f' = G.map h.f' := by
   have : Mono (h.mapExpand (G := G)).i := mono_of_isLimit_fork (h.mapExpand (G := G)).hi
   rw [← cancel_mono (h.mapExpand (G := G)).i, LeftHomologyData.f'_i]
-  show (S₂.map G).f = G.map h.f' ≫ G.map h.i
+  change (S₂.map G).f = G.map h.f' ≫ G.map h.i
   rw [← G.map_comp, LeftHomologyData.f'_i]
   rfl
 
@@ -230,7 +230,7 @@ lemma rightAcyclic_cycles_and_preservesLeftHomologyOf_of_isStrictlyGE [EnoughInj
       let k : K.cycles (n₀ + m) ⟶ (K.sc (n₀ + (m + 1 : ℕ))).X₁ :=
         K.iCycles (n₀ + m) ≫ (K.XIsoOfEq hp).inv
       have wk : k ≫ (K.sc (n₀ + (m + 1 : ℕ))).f = 0 := by
-        show (K.iCycles _ ≫ (K.XIsoOfEq hp).inv) ≫ K.d _ _ = 0
+        change (K.iCycles _ ≫ (K.XIsoOfEq hp).inv) ≫ K.d _ _ = 0
         rw [Category.assoc, K.XIsoOfEq_inv_comp_d, K.iCycles_d]
       have w : k ≫ (K.sc (n₀ + (m + 1 : ℕ))).toCycles = 0 := by
         rw [← cancel_mono (K.sc (n₀ + (m + 1 : ℕ))).iCycles, Category.assoc,
@@ -238,13 +238,13 @@ lemma rightAcyclic_cycles_and_preservesLeftHomologyOf_of_isStrictlyGE [EnoughInj
       have hk0 : IsLimit (KernelFork.ofι k wk) := by
         refine IsKernel.ofIso (K.d _ _) (K.cyclesIsKernel _ _ hnext)
           (KernelFork.ofι k wk) (K.XIsoOfEq hp).symm (Iso.refl _) (Iso.refl _) ?_ ?_
-        · show (K.XIsoOfEq hp).inv ≫ K.d _ _ = K.d _ _ ≫ 𝟙 _
+        · change (K.XIsoOfEq hp).inv ≫ K.d _ _ = K.d _ _ ≫ 𝟙 _
           simp
         · simp [k]
       have hk := isKernelOfComp (K.sc (n₀ + (m + 1 : ℕ))).iCycles
         (K.sc (n₀ + (m + 1 : ℕ))).f hk0 w (K.sc (n₀ + (m + 1 : ℕ))).toCycles_i
       refine G.rightAcyclic_cycles_and_preservesLeftHomologyOf _ k w hk ih.1 ?_ (hH _)
-      show G.rightAcyclic (K.X ((ComplexShape.up ℤ).prev (n₀ + (m + 1 : ℕ))))
+      change G.rightAcyclic (K.X ((ComplexShape.up ℤ).prev (n₀ + (m + 1 : ℕ))))
       rw [hp]
       exact hX _
 
@@ -301,7 +301,7 @@ lemma quasiIso_adjointCochainComplexMap [EnoughInjectives B]
     (by rw [← ShortComplex.LeftHomologyData.map_f' h₁ E]; exact d.commf') d.commπ
   rw [quasiIsoAt_iff]
   refine adjData.quasiIso_iff.mpr ?_
-  show IsIso (adj.unit.app h₁.H ≫ G.map d.φH)
+  change IsIso (adj.unit.app h₁.H ≫ G.map d.φH)
   have hGd : IsIso (G.map d.φH) := inferInstance
   exact IsIso.comp_isIso' (hunit n) hGd
 
@@ -415,7 +415,7 @@ theorem baseChange_mapHomologicalComplex_comp (S : CohomologyComparison C) {X Y 
             (ComplexShape.up ℤ)).obj J) := by
   apply HomologicalComplex.hom_ext
   intro n
-  show (abelianComparisonBaseChange S f).app (I.X n) ≫ 𝟙 _ ≫
+  change (abelianComparisonBaseChange S f).app (I.X n) ≫ 𝟙 _ ≫
     (overPushforward S.fineCoverage.toGrothendieck f).map (φ.f n) = _
   rw [Category.id_comp]
   exact abelianComparisonBaseChange_app_comp S f (φ.f n)
@@ -589,7 +589,7 @@ private lemma isIso_derivedComparisonBaseChangeOnHomotopy_app (S : CohomologyCom
   have hcore : IsIso (b ≫ c₂ ≫ dd) := isIso_homotopyBaseChangeCore S f I JP φ hψiso
   have hQphiH : IsIso (DerivedCategory.Plus.Qh.map φH) := by
     rw [← isIso_iff_of_reflects_iso _ DerivedCategory.Plus.ι]
-    show IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient
+    change IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient
       (AbelianSheaves S.fineCoverage.toGrothendieck X) (ComplexShape.up ℤ)).map φ))
     rw [DerivedCategory.isIso_Qh_map_iff, HomotopyCategory.quotient_map_mem_quasiIso_iff]
     exact hφ
@@ -597,7 +597,7 @@ private lemma isIso_derivedComparisonBaseChangeOnHomotopy_app (S : CohomologyCom
       DerivedCategory.Plus.Qh.map dd) := by
     rw [← Functor.map_comp, ← Functor.map_comp]
     infer_instance
-  show IsIso (_ ≫ _ ≫ DerivedCategory.Plus.Qh.map b ≫ DerivedCategory.Plus.Qh.map c₂ ≫
+  change IsIso (_ ≫ _ ≫ DerivedCategory.Plus.Qh.map b ≫ DerivedCategory.Plus.Qh.map c₂ ≫
     _ ≫ _)
   exact isIso_sixfold_of_isIso _ _ _ _ _ _
     ((overPushforward S.fineCoverage.toGrothendieck f).rightDerivedFunctorPlus.map

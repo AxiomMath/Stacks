@@ -27,7 +27,8 @@ and the identification of the [stacks 068I] morphism `Dualizing.tensorBaseChange
 are the *same* equation up to the choice of the morphism `g`, so a proof of either, in any model,
 discharges the other.  Those equivalences are the `Iff`s proved below.
 
-`Dualizing.TensorComparisonCompatibility` is **not** among them.  It is not the same statement: its second argument is fixed to
+`Dualizing.TensorComparisonCompatibility` is **not** among them.  It is not the same statement:
+its second argument is fixed to
 `Dualizing.derivedAlgebraSingle` rather than ranging over a second object, and it is phrased with
 `Dualizing.tensorComparisonOfIso` — two projection formulas, `derivedBaseChangeSquareIso` and
 [stacks 0661] — in place of the [stacks 068I] morphism.  Since
@@ -36,7 +37,8 @@ discharges the other.  Those equivalences are the `Iff`s proved below.
 to be written before the tags depending on `Dualizing.KFlatAlgebraActionEq` are released.
 
 That bridge is written, in
-`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.TensorComparisonBaseChangeMor`.  What the identification leaves is one equation and no more:
+`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.TensorComparisonBaseChangeMor`.  What
+the identification leaves is one equation and no more:
 `Dualizing.tensorComparisonCompatibility_iff_tensorBaseChangeMor` says that granted
 `Dualizing.tensorBaseChangeMor_eq_iff` at `(X, A[0])`, the obligation at `X` *is*
 

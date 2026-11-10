@@ -164,9 +164,9 @@ theorem algebraMapSubmonoid_quotient_primeCompl (P m : Ideal D) [m.IsPrime] (hPm
   obtain ⟨d, rfl⟩ := Ideal.Quotient.mk_surjective x
   constructor
   · rintro ⟨d', hd', hdd'⟩
-    show ¬ _ ∈ _
+    change ¬ _ ∈ _
     rw [← hdd']
-    show ¬ Ideal.Quotient.mk P d' ∈ _
+    change ¬ Ideal.Quotient.mk P d' ∈ _
     rw [SetLike.mem_coe, Ideal.mem_quotient_iff_mem hPm]
     exact hd'
   · exact fun hd => ⟨d, (Ideal.mem_quotient_iff_mem hPm).not.mp hd, rfl⟩
@@ -265,7 +265,7 @@ theorem quotientDegree_branch_eq [IsLocalRing O] (Q : Ideal O) [Q.IsPrime] (P : 
     ext x
     obtain ⟨o, rfl⟩ := Ideal.Quotient.mk_surjective x
     rw [Ideal.mem_comap, Ideal.mem_quotient_iff_mem hQm]
-    show Ideal.Quotient.mk P (algebraMap O D o) ∈ _ ↔ _
+    change Ideal.Quotient.mk P (algebraMap O D o) ∈ _ ↔ _
     rw [Ideal.mem_quotient_iff_mem hPm, ← Ideal.mem_comap, hm]
   rw [quotientDegree, dite_eq_left hc, quotientDegree, dite_eq_left hm]
   let := Ideal.Quotient.algebraQuotientOfLEComap hc.ge
@@ -316,7 +316,7 @@ theorem ordInt_localization_quotient_eq_minimalPrimeOrd [IsNoetherianRing D]
         (Ring.minimalPrimeFractionMap (K := FractionRing (Localization.AtPrime m))
           (localizedMinimalPrime P m hPm)).comp (localizedFraction m) := by
       refine IsLocalization.ringHom_ext D⁰ (RingHom.ext fun d => ?_)
-      show ψ₂ (Ring.minimalPrimeFractionMap P (algebraMap D (FractionRing D) d)) =
+      change ψ₂ (Ring.minimalPrimeFractionMap P (algebraMap D (FractionRing D) d)) =
         Ring.minimalPrimeFractionMap (localizedMinimalPrime P m hPm)
           (localizedFraction m (algebraMap D (FractionRing D) d))
       rw [Ring.minimalPrimeFractionMap, Ring.minimalPrimeFractionMap, localizedFraction,
@@ -785,7 +785,7 @@ theorem comap_eq_and_mem_minimalPrimes
       (Q.2.2 ⟨Ideal.IsPrime.comap _, bot_le⟩ ((Ideal.comap_mono hle₀).trans hle))
   rcases hle₀.lt_or_eq with hlt | heq
   · have : P₀.comap (algebraMap O D) < P.comap (algebraMap O D) :=
-      Ideal.IsIntegral.comap_lt_comap (R := O) hlt
+      Ideal.IsIntegral.under_lt_under (R := O) hlt
     rw [hc₀, hQ] at this
     exact absurd this (lt_irrefl _)
   · rw [← heq]
@@ -1025,10 +1025,10 @@ theorem branchNorm_eq_fibre (Q : minimalPrimes O) (P : minimalPrimes D)
     (Ideal.Quotient.ringHom_ext (RingHom.ext fun o => ?_))
   simp only [RingHom.comp_apply, RingHom.coe_coe]
   rw [fracQuotEquivFibreField_algebraMap]
-  show _ = fracQuotEquivFibreQuot htf Q P hP (branchFracMap Q.1 P.1 hP
+  change _ = fracQuotEquivFibreQuot htf Q P hP (branchFracMap Q.1 P.1 hP
     (algebraMap (O ⧸ Q.1) (FractionRing (O ⧸ Q.1)) (Ideal.Quotient.mk Q.1 o)))
   rw [branchFracMap, IsFractionRing.map, IsLocalization.map_eq]
-  show _ = fracQuotEquivFibreQuot htf Q P hP (algebraMap (D ⧸ P.1) (FractionRing (D ⧸ P.1))
+  change _ = fracQuotEquivFibreQuot htf Q P hP (algebraMap (D ⧸ P.1) (FractionRing (D ⧸ P.1))
     (Ideal.Quotient.mk P.1 (algebraMap O D o)))
   rw [fracQuotEquivFibreQuot_algebraMap, ← Ideal.Quotient.mk_algebraMap,
     ← IsScalarTower.algebraMap_apply O (fibreField Q) (fibreRing (D := D) Q),
@@ -1071,7 +1071,7 @@ theorem minimalPrimeFractionMap_eq_finprod_branchNormOf (Q : minimalPrimes O) (K
   have hcore := algebraMap_norm_eq_prod_norm_quotient K L (fibreField Q) (fibreRing (D := D) Q) t
   rw [← (fracQuotEquivFibreField Q).symm_apply_apply (Ring.minimalPrimeFractionMap Q σ),
     fracQuotEquivFibreField_minimalPrimeFractionMap, hσt]
-  show (fracQuotEquivFibreField Q).symm (algebraMap K (fibreField Q) (Algebra.norm K t)) = _
+  change (fracQuotEquivFibreField Q).symm (algebraMap K (fibreField Q) (Algebra.norm K t)) = _
   rw [hcore, map_prod, ← finprod_eq_prod_of_fintype,
     ← finprod_comp_equiv (maximalSpectrumFibreEquiv Q htf).symm, finprod_subtype_eq_finprod_dite]
   refine finprod_congr fun P => ?_

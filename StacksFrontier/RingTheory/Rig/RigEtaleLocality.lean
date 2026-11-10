@@ -103,11 +103,11 @@ algebra condition for every ideal of definition. -/
 private theorem finiteTypeAdicAlgebraForEveryIdeal_of_adic_and_finiteType {A B : Type u}
     [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
     [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
-    (φ : A →+* B) (hφ : Continuous φ) (hA : TopologicalRing.IsAdic A) (hAN : IsNoetherianRing A)
+    (φ : A →+* B) (hA : TopologicalRing.IsAdic A) (hAN : IsNoetherianRing A)
     (hB : TopologicalRing.IsAdic B) (hBN : IsNoetherianRing B)
     (h : RingHom.IsAdic φ ∧ TopologicalRing.IsTopologicallyOfFiniteType φ) :
     Rig.FiniteTypeAdicAlgebraForEveryIdeal φ :=
-  ((Rig.adicFiniteType_tfae φ hφ hA hB (exists_idealOfDefinition_fg hA hAN)
+  ((Rig.adicFiniteType_tfae φ hA hB (exists_idealOfDefinition_fg hA hAN)
     (exists_idealOfDefinition_fg hB hBN)).out 1 6).mp h
 
 /-- For Noetherian adic rings, the adic finite-type algebra condition for every ideal of
@@ -115,11 +115,11 @@ definition implies "adic of topologically finite type". -/
 private theorem adic_and_finiteType_of_finiteTypeAdicAlgebraForEveryIdeal {A B : Type u}
     [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
     [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
-    (φ : A →+* B) (hφ : Continuous φ) (hA : TopologicalRing.IsAdic A) (hAN : IsNoetherianRing A)
+    (φ : A →+* B) (hA : TopologicalRing.IsAdic A) (hAN : IsNoetherianRing A)
     (hB : TopologicalRing.IsAdic B) (hBN : IsNoetherianRing B)
     (h : Rig.FiniteTypeAdicAlgebraForEveryIdeal φ) :
     RingHom.IsAdic φ ∧ TopologicalRing.IsTopologicallyOfFiniteType φ :=
-  ((Rig.adicFiniteType_tfae φ hφ hA hB (exists_idealOfDefinition_fg hA hAN)
+  ((Rig.adicFiniteType_tfae φ hA hB (exists_idealOfDefinition_fg hA hAN)
     (exists_idealOfDefinition_fg hB hBN)).out 6 1).mp h
 
 /-- A rig-étale continuous homomorphism of adic rings satisfies `Rig.RigEtaleCondition`. -/
@@ -151,13 +151,13 @@ public theorem rigEtale_isLocalNoetherian
     let : IsNoetherianRing B := hB.2
     have hPmap : Continuous D.map ∧ RingHom.IsRigEtale D.map := hP
     obtain ⟨-, hft, hex⟩ := hPmap
-    have hone := adic_and_finiteType_of_finiteTypeAdicAlgebraForEveryIdeal D.map D.continuousMap
+    have hone := adic_and_finiteType_of_finiteTypeAdicAlgebraForEveryIdeal D.map
       hB.1 hB.2 hA.1 hA.2 hft
     have hcomp := TopologicalRing.adicTopologicallyFiniteType_isLocal.localizationPreserves
       D (exists_fg_isAdic hA.1 hA.2) (exists_fg_isAdic hB.1 hB.2)
       (exists_fg_isAdic hA'.1 hA'.2) (exists_fg_isAdic hB'.1 hB'.2) hone
     have hft' := finiteTypeAdicAlgebraForEveryIdeal_of_adic_and_finiteType D.completedMap
-      D.continuousCompletedMap hB'.1 hB'.2 hA'.1 hA'.2 hcomp
+      hB'.1 hB'.2 hA'.1 hA'.2 hcomp
     have hPc := rigEtaleCondition_of_isRigEtale_of_adic D.map D.continuousMap hB.1 hA.1 ⟨hft, hex⟩
     obtain ⟨I', hI', -⟩ := hB'.1.1
     exact ⟨D.continuousCompletedMap, hft', I', hI',
@@ -169,11 +169,11 @@ public theorem rigEtale_isLocalNoetherian
     have hPmap : Continuous D.completedMap ∧ RingHom.IsRigEtale D.completedMap := hP
     obtain ⟨-, hft', hex'⟩ := hPmap
     have hone' := adic_and_finiteType_of_finiteTypeAdicAlgebraForEveryIdeal D.completedMap
-      D.continuousCompletedMap hB'.1 hB'.2 hA'.1 hA'.2 hft'
+      hB'.1 hB'.2 hA'.1 hA'.2 hft'
     have hcomp := TopologicalRing.adicTopologicallyFiniteType_isLocal.faithfullyFlatDescent
       D (exists_fg_isAdic hA.1 hA.2) (exists_fg_isAdic hB.1 hB.2)
       (exists_fg_isAdic hA'.1 hA'.2) (exists_fg_isAdic hB'.1 hB'.2) hFF hone'
-    have hft := finiteTypeAdicAlgebraForEveryIdeal_of_adic_and_finiteType D.map D.continuousMap
+    have hft := finiteTypeAdicAlgebraForEveryIdeal_of_adic_and_finiteType D.map
       hB.1 hB.2 hA.1 hA.2 hcomp
     have hPc := rigEtaleCondition_of_isRigEtale_of_adic D.completedMap D.continuousCompletedMap
       hB'.1 hA'.1 ⟨hft', hex'⟩
@@ -185,13 +185,13 @@ public theorem rigEtale_isLocalNoetherian
     let : ∀ i, IsNoetherianRing (A i) := fun i ↦ (hCA i).2
     have hPi' : ∀ i, Continuous (f i) ∧ RingHom.IsRigEtale (f i) := fun i ↦ hPi i
     have hprodadic : TopologicalRing.IsAdic (∀ i, A i) := isAdic_pi A fun i ↦ (hCA i).1
-    have hone := fun i ↦ adic_and_finiteType_of_finiteTypeAdicAlgebraForEveryIdeal (f i) (hf i)
+    have hone := fun i ↦ adic_and_finiteType_of_finiteTypeAdicAlgebraForEveryIdeal (f i)
       hCB.1 hCB.2 (hCA i).1 (hCA i).2 (hPi' i).2.1
     have hcomp := TopologicalRing.adicTopologicallyFiniteType_isLocal.finiteProduct
       hBweak hBcount A hAweak hAcount f hf (exists_fg_isAdic hCB.1 hCB.2)
       (fun i ↦ exists_fg_isAdic (hCA i).1 (hCA i).2) hone
     have hft := finiteTypeAdicAlgebraForEveryIdeal_of_adic_and_finiteType (RingHom.pi f)
-      (continuous_pi hf) hCB.1 hCB.2 hprodadic inferInstance hcomp
+      hCB.1 hCB.2 hprodadic inferInstance hcomp
     have hPc : ∀ i, Rig.RigEtaleCondition (f i) := fun i ↦
       rigEtaleCondition_of_isRigEtale_of_adic (f i) (hf i) hCB.1 (hCA i).1 (hPi' i).2
     obtain ⟨I, hI, -⟩ := hCB.1.1

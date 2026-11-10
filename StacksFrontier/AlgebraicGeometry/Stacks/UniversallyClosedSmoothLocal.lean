@@ -310,7 +310,7 @@ private theorem isClosed_of_isClosed_smooth_cover
     fun i => Stack.twoFibreProductSquareAlgebraicStacks B S hS (g i) f
   let _ := Stack.pointTopology B S hS 𝒳.val
   let _ := Stack.pointTopology B S hS 𝒴.val
-  show IsClosedMap
+  change IsClosedMap
     (Stack.pointsMap B S hS 𝒳.val.val 𝒳.val.property 𝒴.val.property f.hom.hom)
   refine @isClosedMap_of_isClosedMap_family _ _ _ _ _ _ _
     (fun i => Stack.pointTopology B S hS (P i).pt.val)

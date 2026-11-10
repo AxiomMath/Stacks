@@ -55,7 +55,7 @@ private lemma etale_away_algebraMap
   let : Algebra.Etale A Bf := hf
   let : IsScalarTower A Bf T := IsScalarTower.of_algebraMap_eq' (by
     ext x
-    show algebraMap B T (algebraMap A B x) =
+    change algebraMap B T (algebraMap A B x) =
       algebraMap Bf T (algebraMap B Bf (algebraMap A B x))
     exact (IsLocalization.Away.awayToAwayRight_eq (S := Bf) (P := T) f g _).symm)
   exact Algebra.Etale.of_equiv <| (IsLocalization.algEquiv (Submonoid.powers (algebraMap B Bf g))

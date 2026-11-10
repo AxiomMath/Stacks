@@ -288,7 +288,7 @@ theorem exists_finiteTypeAffineModel_isCoherent_isFlatOver
   have htop : (⊤ : X.Opens) ≤ f ⁻¹ᵁ (⊤ : S.Opens) := by simp
   let : Module A Γ(F, ⊤) := Module.compHom _ (f.appLE ⊤ ⊤ htop).hom
   have : IsScalarTower A B Γ(F, ⊤) := IsScalarTower.of_algebraMap_smul fun r x => by
-    show (f.appTop.hom r) • x = (f.appLE ⊤ ⊤ htop).hom r • x
+    change (f.appTop.hom r) • x = (f.appLE ⊤ ⊤ htop).hom r • x
     rw [appLE_top_top f htop]
   have hflat : Module.Flat A Γ(F, ⊤) := by
     have h := ((isFlatOver_tfae f F).out 1 2).mp hF
@@ -318,7 +318,7 @@ theorem exists_finiteTypeAffineModel_isCoherent_isFlatOver
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower (Γ(S₀, ⊤) : Type u) R₀ M₀ :=
     IsScalarTower.of_algebraMap_smul fun r x => by
-      show (γR.hom.hom r) • x = (g.hom r) • x
+      change (γR.hom.hom r) • x = (g.hom r) • x
       exact (IsScalarTower.algebraMap_smul (R := R₀) (A := T₀) (M := M₀)
         (r := γR.hom.hom r) (x := x)).symm
   have : Module.Flat (Γ(S₀, ⊤) : Type u) R₀ :=
@@ -337,7 +337,7 @@ theorem exists_finiteTypeAffineModel_isCoherent_isFlatOver
     simp [γR, f₀]
   have : IsScalarTower (Γ(S₀, ⊤) : Type u) T₀ Γ(F₀, ⊤) :=
     IsScalarTower.of_algebraMap_smul fun r x => by
-      show (γT.inv.hom (g.hom r)) • x = (f₀.appLE ⊤ ⊤ htop₀).hom r • x
+      change (γT.inv.hom (g.hom r)) • x = (f₀.appLE ⊤ ⊤ htop₀).hom r • x
       exact congrArg (fun k : Γ(S₀, ⊤) →+* Γ(X₀, ⊤) => k r • x)
         (congrArg CommRingCat.Hom.hom hgT)
   have hsections : Module.Flat (Γ(S₀, ⊤) : Type u) Γ(F₀, ⊤) := by

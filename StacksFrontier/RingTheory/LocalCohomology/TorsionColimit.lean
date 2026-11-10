@@ -102,7 +102,7 @@ lemma quotientHom_ext (I : Ideal R) (M : ModuleCat.{u} R)
   intro x
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
   have hr : Ideal.Quotient.mk I r = r • (1 : R ⧸ I) := by
-    show Ideal.Quotient.mk I r = Ideal.Quotient.mk I r * 1
+    change Ideal.Quotient.mk I r = Ideal.Quotient.mk I r * 1
     exact (mul_one _).symm
   rw [hr, map_smul, map_smul, h]
 
@@ -136,10 +136,10 @@ lemma singleEval_mem (I : Ideal R)
     singleEval R I J q z ∈ Submodule.torsionBySet R (J.X q) I := by
   rw [Submodule.mem_torsionBySet_iff]
   intro a
-  show a.val • (Cochain.fromSingleEquiv (zero_add q) z) 1 = 0
+  change a.val • (Cochain.fromSingleEquiv (zero_add q) z) 1 = 0
   rw [← map_smul]
   have h : a.val • (1 : R ⧸ I) = 0 := by
-    show Ideal.Quotient.mk I a.val * 1 = 0
+    change Ideal.Quotient.mk I a.val * 1 = 0
     rw [mul_one, Ideal.Quotient.eq_zero_iff_mem.mpr a.property]
   rw [h, map_zero]
 
@@ -194,12 +194,12 @@ lemma homPowersToTorsion_naturality (I : Ideal R)
   intro z
   apply Subtype.ext
   obtain ⟨f, rfl⟩ := Cochain.fromSingleMk_surjective z q (zero_add q)
-  show singleEval R (I ^ (n + 1)) J q
+  change singleEval R (I ^ (n + 1)) J q
       ((Cochain.ofHom ((CochainComplex.singleFunctor _ 0).map
         (quotientPowerSucc R I n))).comp (Cochain.fromSingleMk f (zero_add q)) (zero_add q)) =
     singleEval R (I ^ n) J q (Cochain.fromSingleMk f (zero_add q))
   rw [← Cochain.fromSingleMk_precomp, singleEval_fromSingleMk, singleEval_fromSingleMk]
-  show f (Ideal.Quotient.factorPowSucc I n 1) = f 1
+  change f (Ideal.Quotient.factorPowSucc I n 1) = f 1
   rw [map_one]
 
 /-- The cocone on the system of Hom complexes with vertex the `I`-power-torsion subcomplex. -/
@@ -296,10 +296,10 @@ lemma cycleToDerived_ker (L J : CochainComplex (ModuleCat.{u} R) ℤ)
     (cycleToDerived R L J q).ker = LinearMap.range
       ((CochainComplex.HomComplexR R L J).sc' (q - 1) q (q + 1)).moduleCatToCycles := by
   ext z
-  show cycleToDerived R L J q z = 0 ↔ _
+  change cycleToDerived R L J q z = 0 ↔ _
   have hz : cycleToDerived R L J q z = 0 ↔
       cycleAsCocycle R L J q z ∈ coboundaries L J q := by
-    show (cohomologyClassRHomAddEquivOfIsKInjective L J q)
+    change (cohomologyClassRHomAddEquivOfIsKInjective L J q)
       (CohomologyClass.mk (cycleAsCocycle R L J q z)) = 0 ↔ _
     rw [map_eq_zero_iff _ (cohomologyClassRHomAddEquivOfIsKInjective L J q).injective,
       CohomologyClass.mk_eq_zero_iff]
@@ -332,7 +332,7 @@ lemma quotientToDerivedEquiv_mk
     (L J : CochainComplex (ModuleCat.{u} R) ℤ) [J.IsKInjective] (q : ℤ)
     (z : homCycles R L J q) :
     quotientToDerivedEquiv R L J q (Submodule.Quotient.mk z) = cycleToDerived R L J q z := by
-  show (cycleToDerived R L J q).quotKerEquivOfSurjective
+  change (cycleToDerived R L J q).quotKerEquivOfSurjective
     (cycleToDerived_surjective R L J q)
       ((Submodule.quotEquivOfEq _ _ (cycleToDerived_ker R L J q).symm)
         (Submodule.Quotient.mk z)) = _
@@ -355,7 +355,7 @@ lemma cycleToDerived_precomp {L L' : CochainComplex (ModuleCat.{u} R) ℤ}
     cycleToDerived R L' J q (cyclePrecomp R J f q z) =
       DerivedCategory.Qh.map ((HomotopyCategory.quotient _ _).map f) ≫
         cycleToDerived R L J q z := by
-  show DerivedCategory.Qh.map (CohomologyClass.toHom
+  change DerivedCategory.Qh.map (CohomologyClass.toHom
       (CohomologyClass.mk ((cycleAsCocycle R L J q z).precomp f))) = _
   rw [CohomologyClass.toHom_mk, Cocycle.equivHomShift_symm_precomp,
     Functor.map_comp, Functor.map_comp]
@@ -426,11 +426,11 @@ lemma homologyToDerivedEquiv_precomp
     ((H'.sc' (q - 1) q (q + 1)).moduleCatLeftHomologyData.homologyIso).hom) hn
   simp only [Category.assoc] at ht
   rw [hd] at ht
-  show quotientToDerivedEquiv R L' J q
+  change quotientToDerivedEquiv R L' J q
     ((homologyMap ψ q ≫ (H'.homologyIsoSc' _ q _ (by simp) (by simp)).hom ≫
       ((H'.sc' (q - 1) q (q + 1)).moduleCatLeftHomologyData.homologyIso).hom) x) = _
   rw [ht]
-  show quotientToDerivedEquiv R L' J q ((quotientToDerivedEquiv R L' J q).symm _) = _
+  change quotientToDerivedEquiv R L' J q ((quotientToDerivedEquiv R L' J q).symm _) = _
   exact LinearEquiv.apply_symm_apply _ _
 
 /-- The single complex on `R/I^n`, viewed in the derived category through the homotopy category,
@@ -499,7 +499,7 @@ lemma homologyExtPointIso_naturality (I : Ideal R)
   simp only [ConcreteCategory.comp_apply] at hx
   simp only [Functor.comp_map, derivedHomPowersOf, derivedHomPowers, extPowers,
     Functor.ofSequence_map_homOfLE_succ]
-  show ((quotientSourceIso R I (n + 1)).inv ≫
+  change ((quotientSourceIso R I (n + 1)).inv ≫
       homologyToDerivedEquiv R _ J q
         (((DerivedCategory.homologyFunctorFactors (ModuleCat.{u} R) q).app _).hom
           ((DerivedCategory.homologyFunctor (ModuleCat.{u} R) q).map
@@ -588,7 +588,7 @@ lemma ulift_preservesSequentialColimits :
   let : ReflectsColimitsOfShape.{0, 0} ℕ V :=
     reflectsColimitsOfShape_of_reflectsIsomorphisms
   let : PreservesColimitsOfShape.{0, 0} ℕ (U ⋙ V) := by
-    show PreservesColimitsOfShape.{0, 0} ℕ
+    change PreservesColimitsOfShape.{0, 0} ℕ
       (forget (ModuleCat.{u} R) ⋙ CategoryTheory.uliftFunctor.{u + 1})
     infer_instance
   exact preservesColimitsOfShape_of_reflects_of_preserves U V
@@ -641,7 +641,7 @@ theorem localCohomology_isHomotopyColimit_derivedHomPowers (I : Ideal R)
     (K : DerivedCategory (ModuleCat.{u} R)) :
     IsHomotopyColimit (derivedHomPowersOf R I K) (localCohomology R I K) := by
   let J := kInjectiveRepresentative R K
-  show IsHomotopyColimit (derivedHomPowers R I J)
+  change IsHomotopyColimit (derivedHomPowers R I J)
     (DerivedCategory.Q.obj (powerTorsionComplex R I J))
   let e := DerivedCategory.Q.mapIso (homPowersColimitIso R I J)
   let : HasExactColimitsOfShape ℕ (ModuleCat.{u} R) :=

@@ -63,6 +63,7 @@ namespace AlgebraicGeometry.Space.FormalGlueingSituation
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Discrete limits of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_HomSheafSizeBound
@@ -134,22 +135,22 @@ theorem hom_ext_of_restrictions (D : FormalGlueingSituation B S hS)
   have hR : (restrictionDiagram D).map a'.hom = (restrictionDiagram D).map b'.hom := by
     refine Comma.hom_ext _ _ (Over.OverMorphism.ext (pullback.hom_ext ?_ ?_))
       (Over.OverMorphism.ext (pullback.hom_ext ?_ ?_))
-    · show ((Over.pullback D.U.ι).map a'.hom).left ≫ _ =
+    · change ((Over.pullback D.U.ι).map a'.hom).left ≫ _ =
         ((Over.pullback D.U.ι).map b'.hom).left ≫ _
       rw [overPullback_map_left_comp_fst, overPullback_map_left_comp_fst]
       refine prod.hom_ext ?_ ?_
       · simpa [a', b', X₁, X₂] using hU
       · simp [a', b', X₁, X₂]
-    · show ((Over.pullback D.U.ι).map a'.hom).left ≫ _ =
+    · change ((Over.pullback D.U.ι).map a'.hom).left ≫ _ =
         ((Over.pullback D.U.ι).map b'.hom).left ≫ _
       rw [overPullback_map_left_comp_snd, overPullback_map_left_comp_snd]
-    · show ((Over.pullback D.f).map a'.hom).left ≫ _ =
+    · change ((Over.pullback D.f).map a'.hom).left ≫ _ =
         ((Over.pullback D.f).map b'.hom).left ≫ _
       rw [overPullback_map_left_comp_fst, overPullback_map_left_comp_fst]
       refine prod.hom_ext ?_ ?_
       · simpa [a', b', X₁, X₂] using hY
       · simp [a', b', X₁, X₂]
-    · show ((Over.pullback D.f).map a'.hom).left ≫ _ =
+    · change ((Over.pullback D.f).map a'.hom).left ≫ _ =
         ((Over.pullback D.f).map b'.hom).left ≫ _
       rw [overPullback_map_left_comp_snd, overPullback_map_left_comp_snd]
   have key : a' = b' := by

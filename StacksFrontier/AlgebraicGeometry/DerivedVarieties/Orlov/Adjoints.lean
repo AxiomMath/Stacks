@@ -197,7 +197,7 @@ theorem rightAdjointObjIsDefined_of_isRegular (hX : IsRegular X.left) (M : perfe
       H.map ((r • f.unop).op) = r • H.map f := by
     intro E E' f r
     ext g
-    show F.map (r • f.unop) ≫ g = r • (F.map f.unop ≫ g)
+    change F.map (r • f.unop) ≫ g = r • (F.map f.unop ≫ g)
     rw [Functor.map_smul]
     exact Linear.smul_comp _ _ _ _ _ _
   have hfin : ∀ E : perfectDerived X.left,
@@ -228,7 +228,7 @@ theorem leftAdjointObjIsDefined_of_isRegular (hX : IsRegular X.left) (M : perfec
   have hG : ∀ {E E' : perfectDerived X.left} (f : E ⟶ E') (r : k), G.map (r • f) = r • G.map f := by
     intro E E' f r
     ext g
-    show g ≫ F.map (r • f) = r • (g ≫ F.map f)
+    change g ≫ F.map (r • f) = r • (g ≫ F.map f)
     rw [Functor.map_smul]
     exact Linear.comp_smul _ _ _ _ _ _
   have hfin : ∀ E : perfectDerived X.left,

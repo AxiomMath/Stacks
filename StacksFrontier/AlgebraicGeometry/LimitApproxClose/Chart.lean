@@ -128,7 +128,7 @@ lemma HasAwayNumerators.surjective_awayMap {A : Subalgebra ℤ R} {r : R} (hr : 
   let rA : A := ⟨r, hr⟩
   let f : A →ₐ[ℤ] R := { toRingHom := A.val, commutes' := fun _ ↦ rfl }
   have : IsLocalization.Away (f rA) (Localization.Away r) := by
-    show IsLocalization.Away r (Localization.Away r)
+    change IsLocalization.Away r (Localization.Away r)
     infer_instance
   let g : Localization.Away rA →ₐ[ℤ] Localization.Away r :=
     IsLocalization.Away.mapₐ (Localization.Away rA) (Localization.Away r) f rA
@@ -138,7 +138,7 @@ lemma HasAwayNumerators.surjective_awayMap {A : Subalgebra ℤ R} {r : R} (hr : 
     apply Algebra.adjoin_le
     intro x hx
     obtain ⟨a, n, hax⟩ := hnum x hx
-    show x ∈ g.range
+    change x ∈ g.range
     refine ⟨algebraMap A (Localization.Away rA) a * IsLocalization.Away.invSelf rA ^ n, ?_⟩
     have hmap : g.toRingHom (algebraMap A (Localization.Away rA) a *
         IsLocalization.Away.invSelf rA ^ n) =
@@ -188,7 +188,7 @@ lemma basicOpen_ι_comp_SpecMap_eq (e : Localization.Away q ≃ₐ[ℤ] Localiza
   let kR : R' →+* Localization.Away (φ q) := algebraMap R' (Localization.Away (φ q))
   let kB : B' →+* Localization.Away q := algebraMap B' (Localization.Away q)
   rw [← basicOpenIsoSpecAway_hom_SpecMap (R := CommRingCat.of R')]
-  show eR.hom ≫ (Spec.map (CommRingCat.ofHom kR) ≫ Spec.map (CommRingCat.ofHom φ)) =
+  change eR.hom ≫ (Spec.map (CommRingCat.ofHom kR) ≫ Spec.map (CommRingCat.ofHom φ)) =
     eR.hom ≫ (Spec.map e.toRingEquiv.toCommRingCatIso.hom ≫ Spec.map (CommRingCat.ofHom kB))
   rw [cancel_epi, ← Spec.map_comp, ← Spec.map_comp, Spec.map_injective.eq_iff]
   ext x

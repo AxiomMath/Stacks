@@ -88,6 +88,7 @@ open Stacks.Sheaves.RingedToposModules Stacks.SheafOfModules.ChangeOfRings
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the small étale site needs a larger budget
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_RestrictedConormalGlobalSectionSets
@@ -117,7 +118,7 @@ local instance (priority := high) hasTerminal_sheaf_RestrictedConormalGlobalSect
 
 /-- **The unit of extension of scalars followed by Stacks 03LW is the comparison of Stacks 03LQ**,
 on underlying sheaves of sets. -/
-theorem moduleSheafFunctor_map_extendScalarsFSharpAdjunction_unit_comp_modulePullbackIsoEtaleModulePullback
+theorem moduleSheafFunctor_map_extendScalarsFSharpAdjunction_unit_comp_modulePullbackIsoEtale
     {U X : AlgebraicSpaces B S hS} (a : U ⟶ X) (ha : IsEtale B S hS a.hom)
     (N : Modules.{u, u} B S hS X.1 X.2) :
     (moduleSheafFunctor (inverseImageRingSheaf.{u, u, u, u + 1, u, u + 1}
@@ -158,7 +159,7 @@ theorem moduleSheafFunctor_map_modulePullbackIsoEtaleRestrictionModule_hom_app
 global section `w` of an `𝒪_X`-module `N`, the unit section followed by `a^*w` and
 `a^*N ≅ N|_U` (Stacks 03LW) is the image of `w` along `a⁻¹` followed by the comparison
 `a⁻¹ ≅ (restriction)` of Stacks 03LQ, on underlying sheaves of sets. -/
-theorem ringOneHom_comp_map_modulePullbackGlobalSection_comp_modulePullbackIsoEtaleRestrictionModule_hom_app
+theorem ringOneHom_comp_map_modulePullbackGlobalSection_comp_isoEtaleRestriction_hom_app
     {U X : AlgebraicSpaces B S hS} (a : U ⟶ X) (ha : IsEtale B S hS a.hom)
     {N : Modules.{u, u} B S hS X.1 X.2}
     (w : SheafOfModules.unit (structureRingSheaf B S hS X) ⟶ N) :
@@ -184,7 +185,7 @@ theorem ringOneHom_comp_map_modulePullbackGlobalSection_comp_modulePullbackIsoEt
       ((modulePullbackIsoEtaleModulePullback B S hS a ha).hom.app N))
     (ringOneHom_comp_map_modulePullbackGlobalSection B S hS a w)).trans ?_
   exact (Category.assoc _ _ _).trans (congrArg (_ ≫ ·)
-    (moduleSheafFunctor_map_extendScalarsFSharpAdjunction_unit_comp_modulePullbackIsoEtaleModulePullback
+    (moduleSheafFunctor_map_extendScalarsFSharpAdjunction_unit_comp_modulePullbackIsoEtale
       B S hS a ha N))
 
 /-- For `a : U ⟶ X` étale, a global section `w` of an `𝒪_X`-module `N` and a morphism `j` from
@@ -192,7 +193,7 @@ the underlying sheaf of sets of `N` to a sheaf of sets `T`, the pulled-back sect
 the étale restriction and followed by the restriction of `j` is the image along `a⁻¹` of any
 global section `y` of `T` equal to the unit section followed by `w` and `j`, followed by the
 comparison `a⁻¹ ≅ (restriction)` of Stacks 03LQ. -/
-theorem ringOneHom_comp_map_modulePullbackGlobalSection_comp_modulePullbackIsoEtaleRestrictionModule_hom_app_comp_map
+theorem ringOneHom_comp_map_modulePullbackGlobalSection_comp_isoEtaleRestriction_hom_app_comp_map
     {U X : AlgebraicSpaces B S hS} (a : U ⟶ X) (ha : IsEtale B S hS a.hom)
     {N : Modules.{u, u} B S hS X.1 X.2}
     (w : SheafOfModules.unit (structureRingSheaf B S hS X) ⟶ N)
@@ -209,7 +210,7 @@ theorem ringOneHom_comp_map_modulePullbackGlobalSection_comp_modulePullbackIsoEt
       (smallEtaleRingedToposModulesHom B S hS a).toToposHom.inverseImage.globalSectionMap y ≫
         (smallToposMorphismTypeU_inverseImageIso B S hS a ha).hom.app T :=
   CategoryTheory.Functor.comp_comp_map_eq_globalSectionMap_comp_app _ _
-    (ringOneHom_comp_map_modulePullbackGlobalSection_comp_modulePullbackIsoEtaleRestrictionModule_hom_app
+    (ringOneHom_comp_map_modulePullbackGlobalSection_comp_isoEtaleRestriction_hom_app
       B S hS a ha w) hy
 
 /-- The kernel inclusion of the extension of a first-order thickening is

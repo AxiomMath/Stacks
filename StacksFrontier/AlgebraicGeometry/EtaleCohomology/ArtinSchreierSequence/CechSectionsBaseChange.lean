@@ -118,7 +118,7 @@ theorem extendScalarsIsoOfIsPushout_hom_one_tmul (h : IsPushout a b c d) (x : al
   have : IsScalarTower R S' P :=
     IsScalarTower.of_algebraMap_eq' (congrArg CommRingCat.Hom.hom h.w)
   have hp : Algebra.IsPushout R R' S' P := CommRingCat.isPushout_iff_isPushout.mp h
-  show hp.symm.out.equiv ((1 : S') ⊗ₜ[R] (show R' from x)) = _
+  change hp.symm.out.equiv ((1 : S') ⊗ₜ[R] (show R' from x)) = _
   rw [IsBaseChange.equiv_tmul, one_smul]
   rfl
 

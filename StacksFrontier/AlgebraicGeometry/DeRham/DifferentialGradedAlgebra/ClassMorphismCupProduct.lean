@@ -110,7 +110,7 @@ theorem exists_derivedForgetShiftedHom_comp_eq (n : ℤ)
   refine (roof_paste (C := DerivedCategory (_root_.SheafOfModules.{u}
     (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) _ _ _ _ _ _
     (Iso.hom_inv_id_app (DerivedCategory.Q.commShiftIso n) (regularModule A).complex)).trans ?_
-  show (derivedForget A).map g' ≫ _ = _
+  change (derivedForget A).map g' ≫ _ = _
   rw [hF]
   exact (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) ((congrArg (_ ≫ ·) hhom.symm).trans
     (Iso.inv_hom_id _))).trans (Category.comp_id _))

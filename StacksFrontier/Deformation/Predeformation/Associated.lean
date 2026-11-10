@@ -46,7 +46,7 @@ public theorem isPredeformationFunctor_isomorphismClasses
     ⟨e.unitIso.app x ≪≫
       e.inverse.mapIso (eqToIso (Subsingleton.elim (e.functor.obj x) (e.functor.obj y))) ≪≫
       (e.unitIso.app y).symm⟩
-  show Nonempty (Unique ((isomorphismClassesData 𝓕 h𝓕.cofibered).classes.obj
+  change Nonempty (Unique ((isomorphismClassesData 𝓕 h𝓕.cofibered).classes.obj
     (residueFieldObject Λ k)))
   rw [(isomorphismClassesData 𝓕 h𝓕.cofibered).classes_eq (residueFieldObject Λ k)]
   exact ⟨⟨⟨Quotient.mk _ (e.inverse.obj (Discrete.mk PUnit.unit))⟩,

@@ -57,7 +57,7 @@ def SmallEtale.relocalizeFunctorIso (F : (BigFppfOver B W hW)ᵒᵖ ⥤ Type u)
         yonedaEquiv.symm (OverShriek.relocalizeChartSection h F V.obj)
       rw [relocalizeChart_eq, OverShriek.relocalizeChart_hom]
       congr 1
-      haveI : Mono ((OverShriek.relocalizeYonedaIso h).hom.app V.obj.left) :=
+      have : Mono ((OverShriek.relocalizeYonedaIso h).hom.app V.obj.left) :=
         IsIso.mono_of_iso _
       rw [← cancel_mono ((OverShriek.relocalizeYonedaIso h).hom.app V.obj.left), Iso.inv_hom_id_app,
         OverShriek.relocalizeYonedaIso_hom]

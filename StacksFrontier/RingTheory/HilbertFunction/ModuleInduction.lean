@@ -5,7 +5,7 @@ import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Data.Rat.Star
+import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.Order.Interval.Finset.Box
 import Mathlib.Analysis.SpecialFunctions.RegularizedHypergeometric
 import Mathlib.Analysis.Polynomial.Basic
@@ -660,7 +660,7 @@ theorem gradeZero_isNoetherianRing (hneg : ∀ d : ℤ, d < 0 → 𝒮 d = ⊥) 
     intro y
     refine ⟨(y : S), ?_⟩
     apply Subtype.ext
-    show (DirectSum.decompose 𝒮 (y : S) 0 : S) = (y : S)
+    change (DirectSum.decompose 𝒮 (y : S) 0 : S) = (y : S)
     exact DirectSum.decompose_of_mem_same 𝒮 y.property
   exact isNoetherianRing_of_surjective S ↥(𝒮 0) π hsurj
 

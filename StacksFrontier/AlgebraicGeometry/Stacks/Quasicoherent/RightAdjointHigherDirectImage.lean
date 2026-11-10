@@ -157,7 +157,7 @@ theorem isZero_moduleSheafHigherDirectImage_of_rightAdjoint (i : ℕ)
   have : (SheafOfModules.pushforward.{u + 1} ψ).Additive :=
     (modulePullbackAdjunctionOfRightAdjoint B S hS q f hp hq adj τ hτ).right_adjoint_additive
   have : (cohFunctor G O𝒳 O𝒴 ψ).Additive := ⟨fun {_ _ _ _} => rfl⟩
-  show IsZero (((moduleSheafPushforward.{u, u + 1, u, u, u + 1, u} B S hS (f ⋙ q) q hp hq f rfl
+  change IsZero (((moduleSheafPushforward.{u, u + 1, u, u, u + 1, u} B S hS (f ⋙ q) q hp hq f rfl
     τ hτ).rightDerived i).obj F)
   refine IsZero.of_iso ?_ ((Stacks.Cohomology.CompositeRightDerived.rightDerivedNatIso
     (moduleSheafPushforwardIsoOfRightAdjoint B S hS q f hp hq adj τ hτ) i).app F)
@@ -188,7 +188,7 @@ theorem isZero_moduleSheafHigherDirectImage_of_rightAdjoint (i : ℕ)
   obtain ⟨j, b, rfl⟩ := hg
   have hsub : Subsingleton (ToType (Pr.obj (op (z j)))) :=
     ModuleCat.isZero_iff_subsingleton.1 (hPzero (z j) (hz j))
-  show Pr.presheaf.map (b ≫ π j).op x = Pr.presheaf.map (b ≫ π j).op 0
+  change Pr.presheaf.map (b ≫ π j).op x = Pr.presheaf.map (b ≫ π j).op 0
   rw [op_comp, Pr.presheaf.map_comp]
   have hmid : Pr.presheaf.map (π j).op x = Pr.presheaf.map (π j).op 0 := hsub.elim _ _
   simp only [ConcreteCategory.comp_apply, hmid]
@@ -312,7 +312,7 @@ theorem isZero_moduleSheafHigherDirectImage_schemeStack_of_affine
     have hw : ((schemeStack.{u, t} B S hS Y).val.val.p.obj
           (f.hom.hom.obj ((Over.pullback c).obj y))) =
         ((Over.pullback c).obj y).left := f.hom.hom.w_obj _
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj
       ((schemeStack.{u, t} B S hS Y).val.val.p.obj (f.hom.hom.obj ((Over.pullback c).obj y))))
     rw [hw]
     exact isAffine_toScheme_pullback B S hS _ _ hy hX hY

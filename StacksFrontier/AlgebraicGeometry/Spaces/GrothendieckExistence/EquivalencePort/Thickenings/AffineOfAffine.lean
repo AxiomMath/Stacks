@@ -212,11 +212,11 @@ theorem C1573.exists_fg_invariant_ideal (hZ : B.Contains (⊤_ Scheme.{u}))
       rfl
     have h₁ := hside true
     have h₂ := hside false
-    simp only [if_true, Bool.false_eq_true, if_false] at h₁ h₂
+    simp only [ite_true, Bool.false_eq_true, ite_false] at h₁ h₂
     rw [h₁, h₂]
     have heq : yoneda.map (atlasRelationChartHom B S hS X hs he true).hom.left ≫ T.1.hom =
         yoneda.map (atlasRelationChartHom B S hS X hs he false).hom.left ≫ T.1.hom := by
-      show yoneda.map (atlasRelationTarget B S hS hs) ≫ φ =
+      change yoneda.map (atlasRelationTarget B S hS hs) ≫ φ =
         yoneda.map (atlasRelationSource B S hS hs) ≫ φ
       rw [Functor.map_preimage]
       exact (hs.rep.isPullback φ).w
@@ -316,13 +316,13 @@ theorem C1573.isAffineSpace_of_isThickening {X : AlgebraicSpaces B S hS} {G : Su
     le_of_etaleChartKer_le_of_chart B S hS X ZG (Zs i) Uc hw's (by
       rw [hZsK]
       refine (ofIdealTop_le_iff _ _).2 ?_
-      show i.1 ≤ jG.ker.ideal ⟨⊤, isAffineOpen_top _⟩
+      change i.1 ≤ jG.ker.ideal ⟨⊤, isAffineOpen_top _⟩
       rw [hJker]
       exact i.2.2.1)
   have hge : (⨅ i, (Zs i).1) ≤ G := by
     refine iInf_le_of_etaleChartKer_le_iSup_of_chart B S hS X Zs ZG Uc hw's ?_
     simp_rw [hZsK]
-    show jG.ker ≤ _
+    change jG.ker ≤ _
     rw [← (Scheme.IdealSheafData.equivOfIsAffine
         (X := (BigFppfOver.toScheme B S hS).obj W')).symm_apply_apply jG.ker,
       Scheme.IdealSheafData.equivOfIsAffine_symm_apply, Scheme.IdealSheafData.equivOfIsAffine_apply,
@@ -397,7 +397,7 @@ theorem C1573.isAffineSpace_of_isThickening {X : AlgebraicSpaces B S hS} {G : Su
       have h₂ := Scheme.Hom.ker_apply ((BigFppfOver.toScheme B S hS).map
         ((Zs i).2.2.rep.snd w')) ⟨⊤, isAffineOpen_top _⟩
       refine h₂.symm.trans ?_
-      show (etaleChartKer B S hS X (Zs i) Uc).ideal
+      change (etaleChartKer B S hS X (Zs i) Uc).ideal
         ⟨⊤, isAffineOpen_top ((BigFppfOver.toScheme B S hS).obj W')⟩ = _
       rw [hZsK]
       exact Stacks.Divisors.ideal_ofIdealTop_top _ i.1

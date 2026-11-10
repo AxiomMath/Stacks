@@ -110,8 +110,8 @@ variable {C D E F : Type*} [Category* C] [Category* D] [Category* E] [Category* 
 image of the unit, the 2-cell, and the counit. -/
 private lemma mateEquiv_symm_natTrans_app (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (β : TwoSquare R₁ H G R₂) (c : C) :
-    ((mateEquiv adj₁ adj₂).symm β).natTrans.app c =
-      L₂.map (G.map (adj₁.unit.app c)) ≫ L₂.map (β.natTrans.app (L₁.obj c)) ≫
+    ((mateEquiv adj₁ adj₂).symm β).app c =
+      L₂.map (G.map (adj₁.unit.app c)) ≫ L₂.map (β.app (L₁.obj c)) ≫
         adj₂.counit.app (H.obj (L₁.obj c)) := by
   simp [mateEquiv]
 
@@ -129,41 +129,41 @@ private lemma counit_comp_leftAdjointUniq (adj₂ : L₂ ⊣ R₂) (adj₂' : L�
 /-- The componentwise form of `Stacks.CategoryTheory.mateEquiv_symm_eq_leftAdjointUniq`. -/
 private lemma mateEquiv_symm_natTrans_app_eq (adj₁ : L₁ ⊣ R₁) (adj₁' : L₁' ⊣ R₁)
     (adj₂ : L₂ ⊣ R₂) (adj₂' : L₂' ⊣ R₂) (β : TwoSquare R₁ H G R₂) (c : C) :
-    L₂.map (G.map (adj₁.unit.app c)) ≫ L₂.map (β.natTrans.app (L₁.obj c)) ≫
+    L₂.map (G.map (adj₁.unit.app c)) ≫ L₂.map (β.app (L₁.obj c)) ≫
         adj₂.counit.app (H.obj (L₁.obj c)) =
       (Adjunction.leftAdjointUniq adj₂ adj₂').hom.app (G.obj c) ≫
-        (L₂'.map (G.map (adj₁'.unit.app c)) ≫ L₂'.map (β.natTrans.app (L₁'.obj c)) ≫
+        (L₂'.map (G.map (adj₁'.unit.app c)) ≫ L₂'.map (β.app (L₁'.obj c)) ≫
           adj₂'.counit.app (H.obj (L₁'.obj c))) ≫
         H.map ((Adjunction.leftAdjointUniq adj₁ adj₁').inv.app c) := by
   have hu : adj₁'.unit.app c ≫ R₁.map ((Adjunction.leftAdjointUniq adj₁ adj₁').inv.app c) =
       adj₁.unit.app c := by
     rw [Adjunction.leftAdjointUniq_inv_app]
     exact Adjunction.unit_leftAdjointUniq_hom_app adj₁' adj₁ c
-  have hβ := β.natTrans.naturality ((Adjunction.leftAdjointUniq adj₁ adj₁').inv.app c)
+  have hβ := β.naturality ((Adjunction.leftAdjointUniq adj₁ adj₁').inv.app c)
   simp only [Functor.comp_map] at hβ
-  have hinner : G.map (adj₁.unit.app c) ≫ β.natTrans.app (L₁.obj c) =
-      G.map (adj₁'.unit.app c) ≫ β.natTrans.app (L₁'.obj c) ≫
+  have hinner : G.map (adj₁.unit.app c) ≫ β.app (L₁.obj c) =
+      G.map (adj₁'.unit.app c) ≫ β.app (L₁'.obj c) ≫
         R₂.map (H.map ((Adjunction.leftAdjointUniq adj₁ adj₁').inv.app c)) := by
     rw [← hβ, ← hu, G.map_comp, Category.assoc]
   have hcn := adj₂.counit.naturality
     (H.map ((Adjunction.leftAdjointUniq adj₁ adj₁').inv.app c))
   simp only [Functor.comp_map, Functor.id_map] at hcn
-  have h₁ : L₂.map (G.map (adj₁.unit.app c)) ≫ L₂.map (β.natTrans.app (L₁.obj c)) ≫
+  have h₁ : L₂.map (G.map (adj₁.unit.app c)) ≫ L₂.map (β.app (L₁.obj c)) ≫
         adj₂.counit.app (H.obj (L₁.obj c)) =
-      L₂.map ((G.map (adj₁'.unit.app c) ≫ β.natTrans.app (L₁'.obj c)) ≫
+      L₂.map ((G.map (adj₁'.unit.app c) ≫ β.app (L₁'.obj c)) ≫
         R₂.map (H.map ((Adjunction.leftAdjointUniq adj₁ adj₁').inv.app c))) ≫
         adj₂.counit.app (H.obj (L₁.obj c)) := by
     rw [← Functor.map_comp_assoc, hinner, Category.assoc]
-  have h₂ : L₂.map ((G.map (adj₁'.unit.app c) ≫ β.natTrans.app (L₁'.obj c)) ≫
+  have h₂ : L₂.map ((G.map (adj₁'.unit.app c) ≫ β.app (L₁'.obj c)) ≫
         R₂.map (H.map ((Adjunction.leftAdjointUniq adj₁ adj₁').inv.app c))) ≫
         adj₂.counit.app (H.obj (L₁.obj c)) =
       (Adjunction.leftAdjointUniq adj₂ adj₂').hom.app (G.obj c) ≫
-        (L₂'.map (G.map (adj₁'.unit.app c)) ≫ L₂'.map (β.natTrans.app (L₁'.obj c)) ≫
+        (L₂'.map (G.map (adj₁'.unit.app c)) ≫ L₂'.map (β.app (L₁'.obj c)) ≫
           adj₂'.counit.app (H.obj (L₁'.obj c))) ≫
         H.map ((Adjunction.leftAdjointUniq adj₁ adj₁').inv.app c) := by
     rw [Functor.map_comp, Category.assoc, hcn, ← Category.assoc,
       counit_comp_leftAdjointUniq adj₂ adj₂'
-        (G.map (adj₁'.unit.app c) ≫ β.natTrans.app (L₁'.obj c))]
+        (G.map (adj₁'.unit.app c) ≫ β.app (L₁'.obj c))]
     simp only [Functor.map_comp, Category.assoc, Functor.id_obj]
   exact h₁.trans h₂
 
@@ -178,9 +178,9 @@ two mates are invertible together. -/
 public theorem mateEquiv_symm_eq_leftAdjointUniq
     (adj₁ : L₁ ⊣ R₁) (adj₁' : L₁' ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (adj₂' : L₂' ⊣ R₂)
     (β : TwoSquare R₁ H G R₂) :
-    ((mateEquiv adj₁ adj₂).symm β).natTrans =
+    ((mateEquiv adj₁ adj₂).symm β) =
       (Functor.isoWhiskerLeft G (Adjunction.leftAdjointUniq adj₂ adj₂')).hom ≫
-        ((mateEquiv adj₁' adj₂').symm β).natTrans ≫
+        ((mateEquiv adj₁' adj₂').symm β) ≫
         (Functor.isoWhiskerRight (Adjunction.leftAdjointUniq adj₁ adj₁').symm H).hom := by
   refine NatTrans.ext (funext fun c => ?_)
   simp only [NatTrans.comp_app, Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom,
@@ -192,8 +192,8 @@ public theorem mateEquiv_symm_eq_leftAdjointUniq
 public theorem isIso_mateEquiv_symm_of_leftAdjointUniq
     (adj₁ : L₁ ⊣ R₁) (adj₁' : L₁' ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (adj₂' : L₂' ⊣ R₂)
     (β : TwoSquare R₁ H G R₂)
-    (h : IsIso ((mateEquiv adj₁' adj₂').symm β).natTrans) :
-    IsIso ((mateEquiv adj₁ adj₂).symm β).natTrans := by
+    (h : IsIso ((mateEquiv adj₁' adj₂').symm β)) :
+    IsIso ((mateEquiv adj₁ adj₂).symm β) := by
   rw [mateEquiv_symm_eq_leftAdjointUniq adj₁ adj₁' adj₂ adj₂' β]
   infer_instance
 
@@ -253,7 +253,7 @@ private lemma smallEtaleBaseChangeAb_eq_mateEquiv_symm (w : h ≫ f' = e ≫ g) 
         (TwoSquare.mk _ _ _ _
           ((smallEtalePushforwardAbCompIso e g).trans
             ((eqToIso (congrArg smallEtalePushforwardAb w.symm)).trans
-              (smallEtalePushforwardAbCompIso h f').symm)).hom)).natTrans :=
+              (smallEtalePushforwardAbCompIso h f').symm)).hom)) :=
   Stacks.Cohomology.BaseChange.mate_eq_mateEquiv_symm _ _ _ _ _
 
 /-- **The bridge between the two abelian base change comparisons.** The comparison

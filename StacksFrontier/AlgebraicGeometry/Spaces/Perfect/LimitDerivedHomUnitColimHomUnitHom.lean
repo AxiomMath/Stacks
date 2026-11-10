@@ -12,7 +12,8 @@ Let `X` be an algebraic space with an isomorphism `g : X ≅ h_{Spec A}`, let
 `ψ : A ≅ Γ(X, 𝒪_X)` be the induced ring isomorphism and `T_ψ : M ↦ 𝒪_X ⊗_A M` the inverse image
 along `X ⟶ (pt, A)`, read on the spaces-étale model of `X`.
 
-`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/SpacesEtaleModelAffinePointTensorFullyFaithful.lean`
+The module
+`StacksFrontier.AlgebraicGeometry.Spaces.Perfect.SpacesEtaleModelAffinePointTensorFullyFaithful`
 makes `C ↦ Q(T_ψ(C))` fully faithful on maps out of a K-projective complex:
 `AlgebraicGeometry.Space.exists_pointTensor_Q_map_eq` lifts a morphism of the derived category to
 a map of complexes and `AlgebraicGeometry.Space.pointTensor_Q_map_eq_iff` decides when two such

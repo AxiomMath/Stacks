@@ -219,8 +219,7 @@ private theorem overlap_isImmersion
                 _ = a ≫ p ≫ U.ι ≫ g := by simp [Category.assoc]
         let l : A ⟶ T := pullback.lift (b ≫ pullback.fst h hV) a hEq
         have hl : l ≫ r = a := by
-          simpa [l, r] using
-            (pullback.lift_snd (b ≫ pullback.fst h hV) a hEq)
+          simp [l, r]
         have hl' : l ≫ pullback.snd h (p ≫ h) = a := by
           simpa [r] using hl
         refine ⟨l, ?_, ?_⟩
@@ -336,10 +335,8 @@ private theorem mapDesc_isClosedImmersion_of_mono
   have : IsIso δ := (pullback.isIso_diagonal_iff i).2 inferInstance
   have hdiag : δ ≫ pullback.mapDesc i i g = pullback.diagonal (i ≫ g) := by
     apply pullback.hom_ext
-    · simp [δ, Category.assoc,
-        pullback.lift_fst, pullback.diagonal_fst]
-    · simp [δ, Category.assoc,
-        pullback.lift_snd, pullback.diagonal_snd]
+    · simp [δ, Category.assoc, pullback.diagonal_fst]
+    · simp [δ, Category.assoc, pullback.diagonal_snd]
   have hcomp : IsClosedImmersion B S hS
       (δ ≫ pullback.mapDesc i i g) := by
     rw [hdiag]
@@ -418,7 +415,7 @@ private theorem etalePresheaf_of_iso
   let : Q.ContainsIdentities := by
     refine ⟨?_⟩
     intro A
-    show Etale (Tsch.map (𝟙 A))
+    change Etale (Tsch.map (𝟙 A))
     simpa using (show Etale (𝟙 (Tsch.obj A)) from inferInstance)
   let : Q.IsMultiplicative := ⟨⟩
   let : Qp.IsMultiplicative := MorphismProperty.relative_isMultiplicative Q
@@ -518,13 +515,12 @@ private theorem overlap_swap_closedImmersion
       Arrow.mk (pullback.mapDesc iU iV g) := by
     refine Arrow.isoMk (pullbackSymmetry iV iU)
       (pullbackSymmetry (iV ≫ g) (iU ≫ g)) ?_
-    show (pullbackSymmetry iV iU).hom ≫ pullback.mapDesc iU iV g =
+    change (pullbackSymmetry iV iU).hom ≫ pullback.mapDesc iU iV g =
       pullback.mapDesc iV iU g ≫
         (pullbackSymmetry (iV ≫ g) (iU ≫ g)).hom
     apply pullback.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd,
-        pullbackSymmetry_hom_comp_fst, pullbackSymmetry_hom_comp_snd]
-  show P (pullback.mapDesc iV iU g)
+      simp [pullbackSymmetry_hom_comp_fst, pullbackSymmetry_hom_comp_snd]
+  change P (pullback.mapDesc iV iU g)
   exact (MorphismProperty.arrow_mk_iso_iff (P := P) e).mpr hUV
 
 private theorem point_lift_of_equal_points
@@ -557,7 +553,7 @@ private theorem point_lift_of_equal_points
       toBase := r.toBase, value := G.map eG.op q.value }
   have hval : f.app (Opposite.op r.siteObject) p'.value =
       g.app (Opposite.op r.siteObject) q'.value := by
-    show f.app _ (F.map eF.op p.value) = g.app _ (G.map eG.op q.value)
+    change f.app _ (F.map eF.op p.value) = g.app _ (G.map eG.op q.value)
     calc
       f.app _ (F.map eF.op p.value) = H.map eF.op (f.app _ p.value) :=
         congrArg (fun k => k p.value) (f.naturality eF.op)
@@ -578,7 +574,7 @@ private theorem point_lift_of_equal_points
   · rw [pointsMap_class]
     have hv : (FieldValuedPoint.map B S hS (pullback f g)
         (pullback.fst f g) z).value = p'.value := by
-      show (pullback.fst f g).app _ (yonedaEquiv c) = p'.value
+      change (pullback.fst f g).app _ (yonedaEquiv c) = p'.value
       rw [← yonedaEquiv_comp]
       rw [← Equiv.apply_symm_apply yonedaEquiv p'.value]
       apply congrArg yonedaEquiv
@@ -597,7 +593,7 @@ private theorem point_lift_of_equal_points
   · rw [pointsMap_class]
     have hv : (FieldValuedPoint.map B S hS (pullback f g)
         (pullback.snd f g) z).value = q'.value := by
-      show (pullback.snd f g).app _ (yonedaEquiv c) = q'.value
+      change (pullback.snd f g).app _ (yonedaEquiv c) = q'.value
       rw [← yonedaEquiv_comp]
       rw [← Equiv.apply_symm_apply yonedaEquiv q'.value]
       apply congrArg yonedaEquiv
@@ -707,7 +703,7 @@ private theorem closedImmersion_of_etaleCovering
   let E : Precoverage.ZeroHypercover.{u} K G₀ :=
     ⟨{ I₀ := I, X := T₀, f := t₀ }, hmem⟩
   let : P.IsLocalAtTarget K := isClosedImmersion_isLocalAtTarget_fpqc B S hS
-  show P m₀
+  change P m₀
   rw [MorphismProperty.IsLocalAtTarget.iff_of_zeroHypercover (P := P) E]
   intro i
   have sq := AlgebraicGeometry.AlgebraicSpaces.isPullback_fiberProduct B S hS m₀ (t₀ i)
@@ -807,7 +803,7 @@ private theorem closedImmersion_of_closed_of_openCover
       obtain ⟨i, hx⟩ := hc x
       apply Set.mem_iUnion.mpr
       refine ⟨i, (hD i).symm ▸ ?_⟩
-      show q x ∉ q '' (a i)ᶜ
+      change q x ∉ q '' (a i)ᶜ
       rintro ⟨z, hz, he⟩
       exact hz (hqi he ▸ hx)
     · obtain ⟨i⟩ := ‹Nonempty I›
@@ -841,7 +837,7 @@ private theorem closedImmersion_of_closed_of_openCover
     · rw [← Category.assoc, hl, hpm]
     · intro Z x y hx hy
       apply pullback.hom_ext
-      · show x ≫ p = y ≫ p
+      · change x ≫ p = y ≫ p
         rw [← hl, ← Category.assoc, ← Category.assoc, hx]
       · exact hy
     · intro Z x y hxy
@@ -1013,7 +1009,7 @@ private theorem selfOverlap_isClosedImmersion
     · have he : pullback.diagonal f ≫ pullback.mapDesc f f g =
           pullback.diagonal (f ≫ g) := by
         apply pullback.hom_ext <;> simp []
-      show IsImmersion B S hS
+      change IsImmersion B S hS
         (pullback.diagonal f ≫ pullback.mapDesc f f g)
       rw [he]
       exact immersion_of_closedImmersion B S hS _ hV
@@ -1339,7 +1335,7 @@ public theorem isSeparated_of_elementaryDistinguishedSquare
     let sndCan : Pcan ⟶ Pobj ij :=
       ObjectProperty.homMk (pullback.snd (pullback.diagonal g) (e ij.1 ij.2))
     have hcanClosed : Closed sndCan := by
-      show IsClosedImmersion B S hS
+      change IsClosedImmersion B S hS
         (pullback.snd (pullback.diagonal g) (e ij.1 ij.2))
       exact hpiece
     have hcan := AlgebraicGeometry.AlgebraicSpaces.isPullback_fiberProduct B S hS d (E.f ijU)
@@ -1347,12 +1343,12 @@ public theorem isSeparated_of_elementaryDistinguishedSquare
       rw [hcan.isoPullback_hom_snd]
       exact hcanClosed
     let : Closed.RespectsIso := by
-      show (MorphismProperty.inverseImage
+      change (MorphismProperty.inverseImage
         (@IsClosedImmersion B S hS) ι).RespectsIso
       exact MorphismProperty.RespectsIso.inverseImage _ _
     exact (Closed.cancel_left_of_respectsIso hcan.isoPullback.hom
       (pullback.snd d (E.f ijU))).1 hcomp
-  show IsClosedImmersion B S hS (pullback.diagonal g)
+  change IsClosedImmersion B S hS (pullback.diagonal g)
   exact hClosed
 
 end AlgebraicGeometry.Space

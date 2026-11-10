@@ -130,14 +130,14 @@ theorem two_app (Y : (stack.{u, w}).val.val.obj)
 /-- `2 = 0` in the ring of functions on `Spec 𝔽₂`. -/
 theorem two_eq_zero_fiber :
     (1 + 1 : ringSheaf.{u, w}.obj.obj (op yF.{u, w})) = 0 := by
-  show (1 + 1 : Γ(Spec fieldTwo.{u}, ⊤)) = 0
+  change (1 + 1 : Γ(Spec fieldTwo.{u}, ⊤)) = 0
   apply (Scheme.ΓSpecIso fieldTwo.{u}).commRingCatIsoToRingEquiv.injective
   rw [map_add, map_one, map_zero]
   exact ULift.ext (by decide)
 
 /-- `Γ(Spec 𝔽₂)` is not the zero ring. -/
 theorem one_ne_zero_fiber : (1 : ringSheaf.{u, w}.obj.obj (op yF.{u, w})) ≠ 0 := by
-  show (1 : Γ(Spec fieldTwo.{u}, ⊤)) ≠ 0
+  change (1 : Γ(Spec fieldTwo.{u}, ⊤)) ≠ 0
   intro h
   have := congrArg (Scheme.ΓSpecIso fieldTwo.{u}).commRingCatIsoToRingEquiv h
   rw [map_one, map_zero] at this
@@ -202,10 +202,10 @@ theorem imageModule_fiber_eq_zero (s : (imageModule.{u, w}).val.obj (op yF.{u, w
   have key : imageι.val.app (op yF.{u, w}) s = 0 := by
     refine (hO _ hmem).isSeparatedFor.ext ?_
     rintro Z g ⟨t, ht⟩
-    show (SheafOfModules.unit ringSheaf.{u, w}).val.map g.op (imageι.val.app _ s) =
+    change (SheafOfModules.unit ringSheaf.{u, w}).val.map g.op (imageι.val.app _ s) =
       (SheafOfModules.unit ringSheaf.{u, w}).val.map g.op 0
     rw [map_zero, ← PresheafOfModules.naturality_apply]
-    show imageι.val.app (op Z) ((imageModule.{u, w}).val.map g.op s) = 0
+    change imageι.val.app (op Z) ((imageModule.{u, w}).val.map g.op s) = 0
     rw [← show imageπ.val.app (op Z) t = (imageModule.{u, w}).val.map g.op s from ht]
     refine (imageπ_imageι_app Z t).trans ?_
     have h2 : (1 + 1 : ringSheaf.{u, w}.obj.obj (op Z)) = 0 := by
@@ -224,7 +224,7 @@ theorem eq_zero_of_subsingleton_extendScalars {A B : CommRingCat.{u}} (f : A ⟶
   let adj := ModuleCat.extendRestrictScalarsAdj f.hom
   have h : ((adj.homEquiv _ _).symm ψ) ((1 : B) ⊗ₜ[A, f.hom] b) = ψ b := by
     rw [Adjunction.homEquiv_counit]
-    show (adj.counit.app _) ((ModuleCat.extendScalars f.hom).map ψ ((1 : B) ⊗ₜ[A, f.hom] b)) = _
+    change (adj.counit.app _) ((ModuleCat.extendScalars f.hom).map ψ ((1 : B) ⊗ₜ[A, f.hom] b)) = _
     rw [ModuleCat.ExtendScalars.map_tmul]
     exact ModuleCat.extendRestrictScalarsAdj_counit_app_apply_one_tmul f.hom _ _
   rw [← h, show ((1 : B) ⊗ₜ[A, f.hom] b : (ModuleCat.extendScalars f.hom).obj M) = 0 from

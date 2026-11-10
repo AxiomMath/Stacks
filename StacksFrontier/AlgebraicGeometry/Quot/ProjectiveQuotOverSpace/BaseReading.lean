@@ -109,7 +109,7 @@ theorem spaceIso_hom_sourceProjection_eq :
   · rw [Category.assoc, spaceIso_hom_sourceProjection_toProjective, Category.assoc,
       baseSpaceIso_hom_toProjective]
     refine ObjectProperty.hom_ext _ ?_
-    show yoneda.map _ = yoneda.map _ ≫ yoneda.map _
+    change yoneda.map _ = yoneda.map _ ≫ yoneda.map _
     rw [← Functor.map_comp, ← projectiveSiteMap_comp]
     exact congrArg (fun k => yoneda.map (projectiveSiteMap B n k))
       ((isTerminal_siteBase B).hom_ext _ _)
@@ -119,7 +119,7 @@ theorem spaceIso_hom_sourceProjection_eq :
     have key : schemeSpaceMap (projectiveSiteStructure B n T.left) ≫ schemeSpaceMap a =
         schemeSpaceMap (projectiveSiteMap B n a) ≫ schemeSpaceMap (projectiveSiteStructure B n W) :=
       ObjectProperty.hom_ext _ (by
-        show yoneda.map _ ≫ yoneda.map _ = yoneda.map _ ≫ yoneda.map _
+        change yoneda.map _ ≫ yoneda.map _ = yoneda.map _ ≫ yoneda.map _
         rw [← Functor.map_comp, ← Functor.map_comp, (isPullback_projectiveSite B n a).w])
     rw [Category.assoc, hw, spaceIso_hom_projection_assoc, ha, Category.assoc,
       baseSpaceIso_hom_f]

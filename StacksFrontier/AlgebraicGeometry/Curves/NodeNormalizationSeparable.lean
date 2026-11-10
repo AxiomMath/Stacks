@@ -125,7 +125,7 @@ theorem isSeparableExtension_residueField_normalization_of_isNodalAlgebra
   have hstep : ∀ c : k, algebraMap k (Xnorm.residueField x') c =
       (ν.residueFieldMap x').hom ((X.residue x).hom (algebraMap k A c)) := by
     intro c
-    show (Xnorm.Γevaluation x').hom ((Scheme.Hom.appTop (ν ≫ f)).hom
+    change (Xnorm.Γevaluation x').hom ((Scheme.Hom.appTop (ν ≫ f)).hom
       ((Scheme.ΓSpecIso (.of k)).inv.hom c)) = _
     rw [show Scheme.Hom.appTop (ν ≫ f) = f.appTop ≫ ν.appTop by simp]
     exact (Scheme.Γevaluation_naturality_apply ν x'

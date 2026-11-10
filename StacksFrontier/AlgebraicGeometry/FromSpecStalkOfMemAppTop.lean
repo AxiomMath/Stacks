@@ -77,7 +77,7 @@ theorem exists_le_forall_fromSpecStalkOfMem_appTop_eq {W : X.Opens} (hW : x ∈ 
     by_cases hij : i = j
     · subst hij
       simpa using hb
-    · simp only [if_neg hij, fromSpecStalkOfMem_appTop_homOfLE x hVV₀ hx]
+    · simp only [ite_eq_right hij, fromSpecStalkOfMem_appTop_homOfLE x hVV₀ hx]
       exact ha₀ i ((Finset.mem_insert.1 hi).resolve_left hij)
 
 end AlgebraicGeometry.Scheme

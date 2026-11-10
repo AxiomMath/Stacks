@@ -219,12 +219,12 @@ private lemma exists_site_cover_of_scheme_cocone
     rw [Functor.map_comp, Functor.map_comp, hq₀, hg₀map]
     exact (sq l).w
   let g' (l : L) : W l ⟶ Z' := Over.homMk (g₀ l) (by
-    show g₀ l ≫ (q₀ ≫ U.hom) = (W l).hom
+    change g₀ l ≫ (q₀ ≫ U.hom) = (W l).hom
     rw [← Category.assoc, hg₀, Category.assoc, Over.w, Over.w])
   have hq' : H.map q' = q := hq₀
   have hg' (l : L) : H.map (g' l) = g l := hg₀map l
   refine ⟨Z', q', g', ?_, ?_, ?_⟩
-  · show Stacks.Morphisms.IsFiniteLocallyFreeOfRank (H.map q') r
+  · change Stacks.Morphisms.IsFiniteLocallyFreeOfRank (H.map q') r
     rw [hq']
     exact hq
   · intro l
@@ -368,9 +368,9 @@ private lemma exists_descended_cover_of_fpqc_family {U : BigFppfOver B S hS} {R 
     (hfpqc : Presieve.ofArrows (fun l ↦ (BigFppfOver.toScheme B S hS).obj (V l))
       (fun l ↦ (BigFppfOver.toScheme B S hS).map (f l)) ∈
       Scheme.fpqcPrecoverage ((BigFppfOver.toScheme B S hS).obj U)) :
-    ∃ (cv : FiniteCover B S hS d)
-      (hcv : (finiteCoverProjection (B := B) (S := S) (hS := hS) (d := d)).obj cv = U)
-      (ζ : ∀ l, (D.obj (f l) (hR l)).1 ⟶ cv),
+    ∃ (cv : FiniteCover B S hS d),
+      (finiteCoverProjection (B := B) (S := S) (hS := hS) (d := d)).obj cv = U ∧
+      ∃ (ζ : ∀ l, (D.obj (f l) (hR l)).1 ⟶ cv),
       (∀ l, (finiteCoverProjection (B := B) (S := S) (hS := hS) (d := d)).IsHomLift
         (f l) (ζ l)) ∧
       ∀ {A : BigFppfOver B S hS} (l m : L) {b : A ⟶ U} (hb : R b)
@@ -467,7 +467,7 @@ private lemma exists_descended_cover_of_fpqc_family {U : BigFppfOver B S hS} {R 
   refine hom_ext_of_isHomLift b _ _ ?_ ?_ ?_
   · exact isHomLift_datumMap_comp D (hR l) hb a ha _ (hζlift l)
   · exact isHomLift_datumMap_comp D (hR m) hb a' ha' _ (hζlift m)
-  · show (datumMap D (hR l) hb a ha).g ≫ (ζ l).g =
+  · change (datumMap D (hR l) hb a ha).g ≫ (ζ l).g =
       (datumMap D (hR m) hb a' ha').g ≫ (ζ m).g
     rw [hζg, hζg]
     refine hgl l m _ _ ?_
@@ -540,7 +540,7 @@ private lemma sieveDescentDatum_isEffective_of_fpqc_family {U : BigFppfOver B S 
   · intro A A' h hh γ b hb hb'
     have habs : Functor.Fiber.fiberInclusion.map (D.contract hh γ hb' hb).hom ≫
         datumMap D hh hb' γ hb = IsPreFibered.pullbackMap (D.obj h hh).2 γ := by
-      show Functor.Fiber.fiberInclusion.map (D.contract hh γ hb' hb).hom ≫
+      change Functor.Fiber.fiberInclusion.map (D.contract hh γ hb' hb).hom ≫
         Functor.Fiber.fiberInclusion.map (D.contract hh γ hb' hb).inv ≫
           IsPreFibered.pullbackMap (D.obj h hh).2 γ = _
       rw [← Category.assoc, ← Functor.map_comp, Iso.hom_inv_id,

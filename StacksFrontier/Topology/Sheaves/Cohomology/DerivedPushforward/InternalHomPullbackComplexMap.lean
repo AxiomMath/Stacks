@@ -298,8 +298,8 @@ comparison without unfolding the abbreviation.  **It does not reach Tag 08DM.** 
 of Tag 0A8Z are `AlgebraicGeometry.RingedSite.sheafHomComplex`, a different complex; ascribing
 `pullbackSheafHomComplexMap` the corresponding type is a type mismatch.  See the implementation
 notes above, and `AlgebraicGeometry.RingedSite.curryHomEquivPair` of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.CurryingHomEquiv` for the datum that lets
-`Transpose.homComparison` be instantiated at the Tag 0A8Z/0A90 world instead. -/
+`StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.CurryingHomEquiv` for the datum that
+lets `Transpose.homComparison` be instantiated at the Tag 0A8Z/0A90 world instead. -/
 theorem pullbackSheafHomComplexMap_eq_curryingSpelling
     (E F : CochainComplex
       (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Y) ℤ) :

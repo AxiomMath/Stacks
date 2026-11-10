@@ -60,7 +60,7 @@ theorem tensorRightHomEquiv_whiskerRight_comp_comp (X Y : C) [ExactPairing X Y] 
     (a : Z₂' ⟶ Z₁') (f : Z₁' ⊗ X ⟶ Z₁) (b : Z₁ ⟶ Z₂) :
     tensorRightHomEquiv Z₂' X Y Z₂ (a ▷ X ≫ f ≫ b) =
       a ≫ tensorRightHomEquiv Z₁' X Y Z₁ f ≫ b ▷ Y := by
-  rw [Equiv.apply_eq_iff_eq_symm_apply, tensorRightHomEquiv_symm_naturality,
+  rw [← Equiv.eq_symm_apply, tensorRightHomEquiv_symm_naturality,
     ← tensorRightHomEquiv_naturality, Equiv.symm_apply_apply]
 
 /-- **Stacks Project, Tag 0FFQ**, second bijection. If `Y` is a left dual of `X` (in Mathlib,
@@ -72,7 +72,7 @@ theorem tensorLeftHomEquiv_whiskerLeft_comp_comp (X Y : C) [ExactPairing X Y] {Z
     (a : Z₂' ⟶ Z₁') (f : Y ⊗ Z₁' ⟶ Z₁) (b : Z₁ ⟶ Z₂) :
     tensorLeftHomEquiv Z₂' X Y Z₂ (Y ◁ a ≫ f ≫ b) =
       a ≫ tensorLeftHomEquiv Z₁' X Y Z₁ f ≫ X ◁ b := by
-  rw [Equiv.apply_eq_iff_eq_symm_apply, tensorLeftHomEquiv_symm_naturality,
+  rw [← Equiv.eq_symm_apply, tensorLeftHomEquiv_symm_naturality,
     ← tensorLeftHomEquiv_naturality, Equiv.symm_apply_apply]
 
 end CategoryTheory

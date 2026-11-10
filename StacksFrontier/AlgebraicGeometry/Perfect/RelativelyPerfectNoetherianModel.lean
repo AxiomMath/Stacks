@@ -154,7 +154,7 @@ theorem exists_isPerfectRelativeTo_noetherianModel {X S : Scheme.{u}} [IsAffine 
   let ψ : Scheme.Hom.ringedArrow R.structureMapLimit ≅ Scheme.Hom.ringedArrow f :=
     Arrow.isoMk (Scheme.forgetToRingedSpace.mapIso eX) (Scheme.forgetToRingedSpace.mapIso eS)
       (by
-        show Scheme.forgetToRingedSpace.map eX.hom ≫ Scheme.forgetToRingedSpace.map f =
+        change Scheme.forgetToRingedSpace.map eX.hom ≫ Scheme.forgetToRingedSpace.map f =
           Scheme.forgetToRingedSpace.map R.structureMapLimit ≫
             Scheme.forgetToRingedSpace.map eS.hom
         rw [← Functor.map_comp, ← Functor.map_comp, hw])

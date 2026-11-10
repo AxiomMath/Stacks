@@ -93,9 +93,9 @@ theorem derivedPullbackSquare_app_comp_pullDatum
     (K : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)))
     (K' : DerivedCategory (SheafOfModules.{u} (structureSheafRing X')))
     (φ : (derivedPullback g').obj K ⟶ K') :
-    (derivedPullbackSquare gZ j' j g' w).natTrans.app K ≫ pullDatum gZ j' j g' w K K' φ =
+    (derivedPullbackSquare gZ j' j g' w).app K ≫ pullDatum gZ j' j g' w K K' φ =
       (derivedPullback j').map φ := by
-  show ((derivedPullbackCompIsoLeft gZ j' j g' w).hom.app K ≫
+  change ((derivedPullbackCompIsoLeft gZ j' j g' w).hom.app K ≫
     (derivedPullbackCompIsoCanonical gZ j).inv.app K) ≫
       ((derivedPullbackCompIsoCanonical gZ j).hom.app K ≫
         (derivedPullbackCompIsoLeft gZ j' j g' w).inv.app K ≫ (derivedPullback j').map φ) = _
@@ -105,7 +105,7 @@ theorem derivedPullbackSquare_app_comp_pullDatum
 isomorphism at every object. -/
 instance isIso_derivedPullbackSquare_app
     (K : DerivedCategory (SheafOfModules.{u} (structureSheafRing X))) :
-    IsIso ((derivedPullbackSquare gZ j' j g' w).natTrans.app K) := by
+    IsIso ((derivedPullbackSquare gZ j' j g' w).app K) := by
   change IsIso ((derivedPullbackCompIsoLeft gZ j' j g' w).hom.app K ≫
     (derivedPullbackCompIsoCanonical gZ j).inv.app K)
   infer_instance
@@ -127,7 +127,7 @@ theorem pullDatum_comp (K : DerivedCategory (SheafOfModules.{u} (structureSheafR
       pullDatum gW e' e gZ w₁ ((derivedPullback j).obj K) ((derivedPullback j').obj K')
           (pullDatum gZ j' j g' w₂ K K' φ) ≫
         (derivedPullbackCompIsoCanonical e' j').hom.app K' := by
-  have hp := congrArg (fun t => TwoSquare.natTrans t |>.app K)
+  have hp := congrArg (fun t => NatTrans.app t K)
     (derivedPullbackSquare_paste gW e' e gZ j' j g' w₁ w₂ (comp_square gW e' e gZ j' j g' w₁ w₂))
   simp only [TwoSquare.whiskerRight, TwoSquare.whiskerLeft, TwoSquare.vComp, NatTrans.comp_app,
     Functor.whiskerLeft_app, Functor.whiskerRight_app, Functor.associator_hom_app,
@@ -138,9 +138,9 @@ theorem pullDatum_comp (K : DerivedCategory (SheafOfModules.{u} (structureSheafR
     (P := (derivedPullback gW).obj ((derivedPullback e).obj ((derivedPullback j).obj K)))
     ((derivedPullback gW).map ((derivedPullbackCompIsoCanonical e j).hom.app K))
     ((derivedPullbackSquare gW (e' ≫ j') (e ≫ j) g'
-      (comp_square gW e' e gZ j' j g' w₁ w₂)).natTrans.app K)
-    ((derivedPullbackSquare gW e' e gZ w₁).natTrans.app ((derivedPullback j).obj K))
-    ((derivedPullback e').map ((derivedPullbackSquare gZ j' j g' w₂).natTrans.app K))
+      (comp_square gW e' e gZ j' j g' w₁ w₂)).app K)
+    ((derivedPullbackSquare gW e' e gZ w₁).app ((derivedPullback j).obj K))
+    ((derivedPullback e').map ((derivedPullbackSquare gZ j' j g' w₂).app K))
     ((derivedPullbackCompIsoCanonical e' j').inv.app ((derivedPullback g').obj K)) hp
     (pullDatum gW (e' ≫ j') (e ≫ j) g' (comp_square gW e' e gZ j' j g' w₁ w₂) K K' φ)
     ((derivedPullback (e' ≫ j')).map φ)

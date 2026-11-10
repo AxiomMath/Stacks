@@ -59,7 +59,7 @@ public lemma comp {X Y Z : RingedSpace.{u}} (f : X ⟶ Y) (g : Y ⟶ Z)
   let _ : Module R N := Module.compHom _ τ
   have hmaps : τ = σ.comp ρ := congrArg (·.hom) (PresheafedSpace.stalkMap.comp f.hom g.hom x)
   let _ : IsScalarTower R S N := ⟨fun r s n => by
-    show σ (ρ r * s) • n = τ r • (σ s • n)
+    change σ (ρ r * s) • n = τ r • (σ s • n)
     simp [hmaps, map_mul, RingHom.comp_apply, mul_smul]⟩
   change Module.Flat S N at hF
   change Module.Flat R S at hY

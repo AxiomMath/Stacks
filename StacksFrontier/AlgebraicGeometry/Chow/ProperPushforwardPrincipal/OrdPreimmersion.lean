@@ -61,10 +61,10 @@ theorem dominantFunctionFieldMap_algebraMap (z : Z) (a : X.presheaf.stalk (i.bas
       dominantFunctionFieldMap i b =
         (i.stalkMap (genericPoint Z)).hom
           ((eqToHom (congrArg X.presheaf.stalk hη.symm)).hom b) := by
-    show (hη ▸ i.stalkMap (genericPoint Z)).hom b = _
+    change (hη ▸ i.stalkMap (genericPoint Z)).hom b = _
     rw [htransport, eqToHom_stalkCongr X.presheaf hη.symm, stalkCongr_inv_hom X.presheaf hη]
     rfl
-  show dominantFunctionFieldMap i ((X.presheaf.stalkSpecializes hgenX).hom a) =
+  change dominantFunctionFieldMap i ((X.presheaf.stalkSpecializes hgenX).hom a) =
     (Z.presheaf.stalkSpecializes hgen).hom ((i.stalkMap z).hom a)
   have hmap := i.base.hom.map_specializes hgen
   have hstalkHom :
@@ -136,7 +136,7 @@ theorem ord_dominantFunctionFieldMap_of_isPreimmersion [IsLocallyNoetherian X]
     [IsLocallyNoetherian Z] (f : X.functionField) (z : Z) :
     Z.ord (dominantFunctionFieldMap i f) z = X.ord f (i.base z) := by
   set E := functionFieldEquivOfIsDominantOfIsPreimmersion i with hE
-  show Z.ord (E f) z = X.ord f (i.base z)
+  change Z.ord (E f) z = X.ord f (i.base z)
   set e : X.presheaf.stalk (i.base z) ≃+* Z.presheaf.stalk z :=
     (asIso (i.stalkMap z)).commRingCatIsoToRingEquiv with he
   have hfield (a : X.presheaf.stalk (i.base z)) :

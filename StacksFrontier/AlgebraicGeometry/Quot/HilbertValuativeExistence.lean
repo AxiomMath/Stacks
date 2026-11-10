@@ -175,7 +175,7 @@ theorem isoOf_hom_comp_toBase (M N : HilbertPresheafModel f) :
     (M.isoOf N).hom ≫ N.toBase = M.toBase := by
   ext T z
   refine congrArg (fun x ↦ ((hilbertPresheafToBase f).app T x).down) ?_
-  show (M.iso.hom ≫ N.iso.inv ≫ N.iso.hom).app T ⟨z⟩ = M.iso.hom.app T ⟨z⟩
+  change (M.iso.hom ≫ N.iso.inv ≫ N.iso.hom).app T ⟨z⟩ = M.iso.hom.app T ⟨z⟩
   rw [N.iso.inv_hom_id, Category.comp_id]
 
 end HilbertPresheafModel

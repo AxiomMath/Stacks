@@ -114,7 +114,7 @@ theorem equalizerSieve_mem_of_presheafIso {P Q : Cᵒᵖ ⥤ AddCommGrpCat.{t}} 
   intro V g hg
   have hg' : Q.map g.op (e.hom.app (op U) x) = Q.map g.op (0 : ToType (Q.obj (op U))) := hg
   rw [map_zero] at hg'
-  show P.map g.op x = P.map g.op (0 : ToType (P.obj (op U)))
+  change P.map g.op x = P.map g.op (0 : ToType (P.obj (op U)))
   rw [map_zero]
   calc P.map g.op x
       = P.map g.op (e.inv.app (op U) (e.hom.app (op U) x)) := by simp

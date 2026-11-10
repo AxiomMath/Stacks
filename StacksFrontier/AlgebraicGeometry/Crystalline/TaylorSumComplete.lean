@@ -208,7 +208,7 @@ end Sum
 
 section Identities
 
-variable (p : ℕ) (D : DividedPowerRing.{u}) {ι : Type uI} [DecidableEq ι]
+variable (p : ℕ) (D : DividedPowerRing.{u}) {ι : Type uI}
   {M : Type u} [AddCommGroup M] [Module (D : Type u) M]
   {N : Type u} [AddCommGroup N] [Module (D : Type u) N]
   {theta : ι → (M → M)} {thetaPow : (ι →₀ ℕ) → (M → M)} (incl : M →+ N)
@@ -370,6 +370,7 @@ theorem map_taylorSum (incl : M →+ N) (zeta : ι → (D : Type u)) (φ : N →
     (taylorSum_sub_sum_mem p D thetaPow incl zeta hfin hN m n S hS)
   simpa [taylorSumTerm, map_sub, map_sum, map_smul] using h
 
+omit [DecidableEq ι] in
 /-- **The Taylor sum of the zero family is the inclusion**: only the multi-index `0` survives. -/
 theorem taylorSum_zero_family (hfamM : IsThetaMonomialFamily M theta thetaPow) (incl : M →+ N)
     (m : M) : completeTaylorSum p D thetaPow incl 0 hfin hN m = incl m := by
@@ -410,6 +411,7 @@ theorem mem_pPowSmul_of_notMem_taylorBox {n : ℕ} {m : M} {K : ι →₀ ℕ}
   refine mem_pPowSmul_of_notMem_toFinset p D thetaPow hfin n m K fun h ↦ hK ?_
   exact Finset.mem_biUnion.mpr ⟨K, h, Finset.mem_Iic.mpr le_rfl⟩
 
+omit [DecidableEq ι] in
 /-- **The cocycle of Taylor sums**: summing the `η`-series of `θ_K m` against the `ξ`-series is
 the `(ξ + η)`-series, `∑_K ξ^{[K]} • ∑_L η^{[L]} • ι(θ_L θ_K m) = ∑_Q (ξ + η)^{[Q]} • ι(θ_Q m)`.
 This is the identity `c_{g,h} ∘ c_{f,g} = c_{f,h}` of [Stacks, Tag 07JH] in a complete module,

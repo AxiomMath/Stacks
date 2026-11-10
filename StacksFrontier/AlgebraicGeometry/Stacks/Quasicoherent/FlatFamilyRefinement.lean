@@ -141,7 +141,7 @@ theorem exists_flat_refinement_smallEtaleOpen_at_point {w : 𝒳.val.val.obj}
   have h₁ : Flat ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map (φ₁ k₁))) := (hfppf₁.2 k₁).1
   have h₂ : Flat ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map (φ₂ k₂))) := (hfppf₂.2 k₂).1
   refine ⟨y₂ k₂, φ₂ k₂ ≫ φ₁ k₁ ≫ α, i, W, g, haff₂ k₂, ?_, ?_, t₂, ?_⟩
-  · show Flat ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map (φ₂ k₂ ≫ φ₁ k₁ ≫ α)))
+  · change Flat ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map (φ₂ k₂ ≫ φ₁ k₁ ≫ α)))
     simp only [Functor.map_comp]
     infer_instance
   · have := isOpenImmersion_toScheme_map_smallEtaleToStackArrow_open B E h S hS
@@ -152,7 +152,7 @@ theorem exists_flat_refinement_smallEtaleOpen_at_point {w : 𝒳.val.val.obj}
     rw [← Functor.map_comp, ← Functor.map_comp, ← hg]
     simp only [Functor.map_comp]
     infer_instance
-  · show (BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map (φ₂ k₂ ≫ φ₁ k₁ ≫ α)) t₂ = t
+  · change (BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map (φ₂ k₂ ≫ φ₁ k₁ ≫ α)) t₂ = t
     simpa only [Functor.map_comp, Scheme.Hom.comp_apply, ht₂, ht₁] using ht'
 
 include hflat hsurj in

@@ -90,7 +90,7 @@ theorem exists_resolutionData_isStrictlyGE (A : Type u₁) [Category.{v₁} A] [
     fun X => hα ((singlePlus A).obj X),
     fun X => hGE ((singlePlus A).obj X) 0
       (by
-        show CochainComplex.IsStrictlyGE ((single A (ComplexShape.up ℤ) 0).obj X) 0
+        change CochainComplex.IsStrictlyGE ((single A (ComplexShape.up ℤ) 0).obj X) 0
         infer_instance)⟩
 
 omit [HasCoproducts B] [HasDerivedCategory B] [HasDerivedCategory A] [EnoughInjectives A] in

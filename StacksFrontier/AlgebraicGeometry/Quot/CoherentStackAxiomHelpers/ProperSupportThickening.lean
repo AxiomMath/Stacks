@@ -148,7 +148,7 @@ theorem hasProperSupport_of_isPullback_of_isThickening
       rfl
   have hproperZ : IsProper B S hS ((Subfunctor.range j).ι ≫ f.hom) := by
     have hcomm : j ≫ f.hom = (R'.ι ≫ f'.hom) ≫ ((schemeSpaceFunctor B S hS).map h).hom := by
-      show (R'.ι ≫ g'.hom) ≫ f.hom = _
+      change (R'.ι ≫ g'.hom) ≫ f.hom = _
       rw [Category.assoc, sqp.w, Category.assoc]
     have hjf : IsProper B S hS (j ≫ f.hom) := by
       rw [hcomm]

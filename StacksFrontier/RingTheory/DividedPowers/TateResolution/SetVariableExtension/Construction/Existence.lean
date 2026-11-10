@@ -284,25 +284,25 @@ private theorem setVariableStage_realization {R : Type u} [CommRing R]
   obtain ⟨s,hs⟩ := setVariableStageInclusion_exists_retraction A deg hdeg S
   let q := s.comp r
   have hqi (x) : q.hom (i.hom x) = x := by
-    show s.hom (r.hom (f.hom ((setVariableStageInclusion A deg hdeg S).hom x))) = x
+    change s.hom (r.hom (f.hom ((setVariableStageInclusion A deg hdeg S).hom x))) = x
     rw [hr,hs]
   have hQ : Q ≤ i.hom.toRingHom.range := by
     apply Subring.closure_le.mpr
     rintro x (⟨a,rfl⟩ | ⟨j,hj,rfl | ⟨n,rfl⟩⟩)
     · refine ⟨(finiteVariableCoefficient A deg hdeg S).hom a, ?_⟩
-      show f.hom ((setVariableStageInclusion A deg hdeg S).hom
+      change f.hom ((setVariableStageInclusion A deg hdeg S).hom
         ((finiteVariableCoefficient A deg hdeg S).hom a)) = _
       rw [setVariableStageInclusion_coefficient]; rfl
     · refine ⟨finiteVariableGenerator A deg hdeg S ⟨j,hj⟩, ?_⟩
-      show f.hom ((setVariableStageInclusion A deg hdeg S).hom
+      change f.hom ((setVariableStageInclusion A deg hdeg S).hom
         (finiteVariableGenerator A deg hdeg S ⟨j,hj⟩)) = _
       rw [setVariableStageInclusion_generator]
     · refine ⟨(finiteVariableAlgebra A deg hdeg S).gamma.dpow n
         (finiteVariableGenerator A deg hdeg S ⟨j,hj⟩), ?_⟩
-      show i.hom ((finiteVariableAlgebra A deg hdeg S).gamma.dpow n
+      change i.hom ((finiteVariableAlgebra A deg hdeg S).gamma.dpow n
         (finiteVariableGenerator A deg hdeg S ⟨j,hj⟩)) = _
       rw [← i.map_dpow_of_inverse q hqi]
-      show C.gamma.dpow n (f.hom ((setVariableStageInclusion A deg hdeg S).hom
+      change C.gamma.dpow n (f.hom ((setVariableStageInclusion A deg hdeg S).hom
         (finiteVariableGenerator A deg hdeg S ⟨j,hj⟩))) = _
       rw [setVariableStageInclusion_generator]
   let k := i.hom.toRingHom.codRestrict Q hi
@@ -354,7 +354,7 @@ private theorem setVariable_successor_realization {R : Type u} [CommRing R]
   let q := transportBackward F a
   let inc := (f.comp (setVariableStageInclusion A deg hdeg S)).comp q
   have hinc (b : Q S) : inc.hom b = b := by
-    show f.hom ((setVariableStageInclusion A deg hdeg S).hom (eS.symm b)) = b
+    change f.hom ((setVariableStageInclusion A deg hdeg S).hom (eS.symm b)) = b
     rw [← heS,eS.apply_symm_apply]
   refine ⟨inferInstance,?_,B.grade,B.graded,B.strict,B.gamma,?_,?_⟩
   · intro r
@@ -369,10 +369,10 @@ private theorem setVariable_successor_realization {R : Type u} [CommRing R]
     let L := l.comp g
     let M := k.comp m
     have hML (x) : M.hom (L.hom x) = x := by
-      show k.hom (m.hom (l.hom (g.hom x))) = x
+      change k.hom (m.hom (l.hom (g.hom x))) = x
       rw [hml',hkg]
     have hLM (x) : L.hom (M.hom x) = x := by
-      show l.hom (g.hom (k.hom (m.hom x))) = x
+      change l.hom (g.hom (k.hom (m.hom x))) = x
       rw [hgk,hlm']
     let e : (oneVariableExtension B (deg j) (hdeg j)).algebra.carrier ≃+* Q (insert j S) :=
       (RingEquiv.ofBijective L.hom.toRingHom
@@ -382,18 +382,18 @@ private theorem setVariable_successor_realization {R : Type u} [CommRing R]
     obtain ⟨s,hs⟩ := setVariableStageInclusion_exists_retraction A deg hdeg (insert j S)
     let back := M.comp (s.comp r)
     have hback (x) : back.hom (i.hom x) = x := by
-      show M.hom (s.hom (r.hom (f.hom
+      change M.hom (s.hom (r.hom (f.hom
         ((setVariableStageInclusion A deg hdeg (insert j S)).hom (L.hom x))))) = x
       rw [hr,hs,hML]
     refine ⟨e,?_,?_,?_,?_⟩
     · intro b
       rw [hei]
-      show f.hom ((setVariableStageInclusion A deg hdeg (insert j S)).hom
+      change f.hom ((setVariableStageInclusion A deg hdeg (insert j S)).hom
         (l.hom (g.hom ((oneVariableExtension B (deg j) (hdeg j)).coefficient.hom b)))) = b
       rw [hg,hl,setVariableStageInclusion_map]
       exact hinc b
     · rw [hei]
-      show f.hom ((setVariableStageInclusion A deg hdeg (insert j S)).hom
+      change f.hom ((setVariableStageInclusion A deg hdeg (insert j S)).hom
         (l.hom (g.hom (oneVariableExtension B (deg j) (hdeg j)).generator))) = _
       rw [hgt,hlt,setVariableStageInclusion_generator]
     · intro m x
@@ -560,10 +560,10 @@ public theorem exists_setVariableDividedPowerExtension
     let G := g.comp K
     refine ⟨G.hom,⟨?_,?_,G.map_grade,G.map_dpow⟩,?_⟩
     · intro a
-      show g.hom (K.hom (F.hom ((setVariableCoefficient A₀ deg hdeg).hom a))) = f a
+      change g.hom (K.hom (F.hom ((setVariableCoefficient A₀ deg hdeg).hom a))) = f a
       rw [hKF,hg.1]
     · intro j
-      show g.hom (K.hom (F.hom (setVariableGenerator A₀ deg hdeg j))) = t j
+      change g.hom (K.hom (F.hom (setVariableGenerator A₀ deg hdeg j))) = t j
       rw [hKF,hg.2]
     · intro k hk
       let k₀ : GradedDPHom C D₀ := ⟨k,hk.2.2.1,hk.2.2.2⟩

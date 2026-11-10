@@ -1,7 +1,7 @@
 module
 
 public import
-    StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjTwistDescent.RepresentedC3TensorCompatAssembly
+  StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjTwistDescent.RepresentedC3TensorCompatAssembly
 public import
     StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjTwistDescent.RepresentedC3UnitCompatProof
 

@@ -189,7 +189,6 @@ are therefore stated here, before any properness hypothesis, so that the affine 
 variable (k : Type u) [Field k] (X : Scheme.{u}) (f : X ⟶ Spec (.of k))
   (B : BigEtaleSite.{u}) (hX : B.Contains X) (n : ℕ)
 
-include f in
 /-- A natural number invertible in a field is nonzero. -/
 theorem ne_zero_of_isUnit_natCast (hn : IsUnit (n : k)) : n ≠ 0 := by
   rintro rfl
@@ -310,6 +309,7 @@ variable (k : Type u) [Field k] [IsAlgClosed k] (X : Scheme.{u}) (f : X ⟶ Spec
   [IsCurve k f] [IsProjectiveVariety k f] (B : BigEtaleSite.{u}) (hX : B.Contains X) (n : ℕ)
 
 include f in
+omit [IsAlgClosed k] [IsProjectiveVariety k f] in
 /-- A curve has topological Krull dimension at most one. -/
 theorem topologicalKrullDim_le_one_of_isCurve : topologicalKrullDim X ≤ 1 :=
   (IsCurve.topologicalKrullDim_eq_one (k := k) (f := f)).le
@@ -325,6 +325,7 @@ def curvePicardDegreeZeroTorsion : AddSubgroup ↥(curvePicardDegreeZero k X f) 
   zero_mem' := by simp
   neg_mem' ha := by simp_all
 
+omit [IsAlgClosed k] in
 /-- A degree-zero class lies in `Pic⁰(X)[n]` exactly when `n` kills it. -/
 @[simp] theorem mem_curvePicardDegreeZeroTorsion_iff
     (x : ↥(curvePicardDegreeZero k X f)) :
@@ -341,12 +342,13 @@ def etaleH1RootsOfUnityToCurvePicardDegreeZeroTorsion (hn : IsUnit (n : k)) :
   ((etaleH1RootsOfUnityToPicard X B hX n).codRestrict (curvePicardDegreeZero k X f)
     (fun x => mem_picardDegreeZero_of_nsmul_eq_zero k f
       (topologicalKrullDim_le_one_of_isCurve k X f)
-      (ne_zero_of_isUnit_natCast k X f n hn) _
+      (ne_zero_of_isUnit_natCast k n hn) _
       ((mem_range_etaleH1RootsOfUnityToPicard_iff k X f B hX n hn _).1
         ⟨x, rfl⟩))).codRestrict (curvePicardDegreeZeroTorsion k X f n)
     (fun x => Subtype.ext (by
       simpa using (mem_range_etaleH1RootsOfUnityToPicard_iff k X f B hX n hn _).1 ⟨x, rfl⟩))
 
+omit [IsAlgClosed k] in
 /-- The class in `Pic(X)` of the image of `x` in `Pic⁰(X)[n]` is the image of `x` under
 `etaleH1RootsOfUnityToPicard`. -/
 @[simp] theorem etaleH1RootsOfUnityToCurvePicardDegreeZeroTorsion_coe
@@ -362,7 +364,7 @@ theorem bijective_etaleH1RootsOfUnityToCurvePicardDegreeZeroTorsion (hn : IsUnit
     Function.Bijective
       (etaleH1RootsOfUnityToCurvePicardDegreeZeroTorsion k X f B hX n hn) := by
   refine ⟨fun x y hxy => injective_etaleH1RootsOfUnityToPicard k X f B hX n hn
-    (ne_zero_of_isUnit_natCast k X f n hn)
+    (ne_zero_of_isUnit_natCast k n hn)
     (congrArg (fun z : ↥(curvePicardDegreeZeroTorsion k X f n) =>
       ((z : ↥(curvePicardDegreeZero k X f)) : schemePicard X)) hxy), ?_⟩
   rintro ⟨⟨y, hy0⟩, hytors⟩
@@ -430,12 +432,12 @@ theorem etaleH0RootsOfUnity_card (hn : IsUnit (n : k)) :
     _ = Nat.card ↥(_root_.rootsOfUnity n (Scheme.Γ.obj (Opposite.op (Spec (.of k))))) :=
       (Nat.card_eq_of_bijective ((rootsOfUnitySections n).map f.op)
         (rootsOfUnitySections_bijective_of_isIntegral k f n
-          (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast k X f n hn)))).symm
+          (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast k n hn)))).symm
     _ = Nat.card ↥(_root_.rootsOfUnity n k) :=
       Nat.card_congr ((Scheme.ΓSpecIso
         (.of k)).commRingCatIsoToRingEquiv.toMulEquiv.restrictRootsOfUnity n).toEquiv
     _ = n := by
-      have : NeZero n := ⟨ne_zero_of_isUnit_natCast k X f n hn⟩
+      have : NeZero n := ⟨ne_zero_of_isUnit_natCast k n hn⟩
       have : NeZero (n : k) := ⟨hn.ne_zero⟩
       exact HasEnoughRootsOfUnity.natCard_rootsOfUnity k n
 
@@ -448,7 +450,7 @@ theorem nonempty_etaleH0ConstantZModAddEquiv [Smooth f] (hn : IsUnit (n : k)) :
     Nonempty (Sheaf.H
       ((constantSheaf (SmallEtale.topology B X hX) AddCommGrpCat.{u}).obj
         (AddCommGrpCat.of (ULift.{u} (ZMod n)))) 0 ≃+ ZMod n) := by
-  have : NeZero n := ⟨ne_zero_of_isUnit_natCast k X f n hn⟩
+  have : NeZero n := ⟨ne_zero_of_isUnit_natCast k n hn⟩
   have : IsDomain (Scheme.Γ.obj (Opposite.op X)) := isDomain_globalSections k X f
   have : IsAddCyclic (Sheaf.H (smallEtaleRootsOfUnitySheaf B X hX n) 0) :=
     (etaleH0RootsOfUnityAddEquiv X B hX n).symm.isAddCyclic.mp inferInstance
@@ -457,7 +459,7 @@ theorem nonempty_etaleH0ConstantZModAddEquiv [Smooth f] (hn : IsUnit (n : k)) :
     rw [etaleH0RootsOfUnity_card k X f B hX n hn, Nat.card_zmod]
   exact ⟨(sheafHAddEquivOfIso (SmallEtale.topology B X hX)
     (constantZModSheafIsoRootsOfUnitySheaf B k f hX n
-      (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast k X f n hn)) hn) 0).trans
+      (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast k n hn)) hn) 0).trans
     (addEquivOfAddCyclicCardEq hc)⟩
 
 include f in
@@ -470,7 +472,7 @@ theorem nonempty_etaleH1ConstantZModAddEquiv [Smooth f] (hn : IsUnit (n : k)) :
       ↥(curvePicardDegreeZeroTorsion k X f n)) :=
   ⟨(sheafHAddEquivOfIso (SmallEtale.topology B X hX)
     (constantZModSheafIsoRootsOfUnitySheaf B k f hX n
-      (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast k X f n hn)) hn) 1).trans
+      (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast k n hn)) hn) 1).trans
     (AddEquiv.ofBijective _
       (bijective_etaleH1RootsOfUnityToCurvePicardDegreeZeroTorsion k X f B hX n hn))⟩
 

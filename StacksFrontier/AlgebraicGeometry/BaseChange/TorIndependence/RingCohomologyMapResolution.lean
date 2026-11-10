@@ -52,23 +52,20 @@ def restrictExtendScalarsTensorIso :
           (ModuleCat.of R' R')) M).toAddEquiv
       map_smul' := fun r x => by
         change TensorProduct.comm R _ M (r • x) = r • TensorProduct.comm R _ M x
-        induction x using TensorProduct.induction_on with
-        | zero =>
-          exact (congrArg (TensorProduct.comm R _ M) (smul_zero (A := (ModuleCat.restrictScalars.{u} g).obj
-            ((ModuleCat.extendScalars.{u, u, u} g).obj M)) r)).trans
-              ((map_zero _).trans ((smul_zero r).symm.trans (congrArg (r • ·) (map_zero _).symm)))
+        induction x using TensorProduct.inductionOn with
         | add x y hx hy =>
-          exact (congrArg (TensorProduct.comm R _ M) (smul_add (A := (ModuleCat.restrictScalars.{u} g).obj
-            ((ModuleCat.extendScalars.{u, u, u} g).obj M)) r x y)).trans
+          exact (congrArg (TensorProduct.comm R _ M)
+            (smul_add (A := (ModuleCat.restrictScalars.{u} g).obj
+              ((ModuleCat.extendScalars.{u, u, u} g).obj M)) r x y)).trans
               ((map_add _ _ _).trans ((congrArg₂ (· + ·) hx hy).trans
                 ((smul_add r _ _).symm.trans (congrArg (r • ·) (map_add _ _ _).symm))))
         | tmul s m =>
           change TensorProduct.comm R _ M ((r • s) ⊗ₜ[R] m) =
             r • TensorProduct.comm R _ M (s ⊗ₜ[R] m)
-          rw [TensorProduct.comm_tmul, TensorProduct.comm_tmul, TensorProduct.tmul_smul] })) fun {M N} φ => by
+          rw [TensorProduct.comm_tmul, TensorProduct.comm_tmul, TensorProduct.tmul_smul] }))
+    fun {M N} φ => by
     refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-    induction x using TensorProduct.induction_on with
-    | zero => exact (LinearMap.map_zero _).trans (LinearMap.map_zero _).symm
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
       exact (LinearMap.map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans
         (LinearMap.map_add _ x y).symm)
@@ -114,8 +111,9 @@ def resolutionTensorComparison
 /-- The counit of restriction after derived base change, a left derived functor of restriction
 after termwise base change. -/
 abbrev restrictDerivedExtensionComparison :
-    DerivedCategory.Q ⋙ (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
-        g).functor ⋙ (ModuleCat.restrictScalars.{u} g).mapDerivedCategory ⟶
+    DerivedCategory.Q ⋙
+        (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
+          g).functor ⋙ (ModuleCat.restrictScalars.{u} g).mapDerivedCategory ⟶
       (ModuleCat.extendScalars.{u, u, u} g).mapHomologicalComplex (ComplexShape.up ℤ) ⋙
         DerivedCategory.Q ⋙ (ModuleCat.restrictScalars.{u} g).mapDerivedCategory :=
   (Functor.associator _ _ _).inv ≫ Functor.whiskerRight
@@ -130,7 +128,7 @@ instance isLeftDerivedFunctor_restrictDerivedExtension :
   let D := CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u} g
   let cmp : DerivedCategory.Q ⋙ D.functor ⟶
       CochainComplex.extendScalarsLarge.{u, u, u} g ⋙ DerivedCategory.Q := D.comparison
-  haveI : D.functor.IsLeftDerivedFunctor cmp
+  have : D.functor.IsLeftDerivedFunctor cmp
       (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)) := D.isLeftDerived
   exact CochainComplex.DerivedTensor.KFlatDerived.isLeftDerivedFunctor_extension_postcomp.{u, u, u}
     g D.functor cmp (ModuleCat.restrictScalars.{u} g).mapDerivedCategory
@@ -167,10 +165,10 @@ instance isIso_resolutionTensorToDerived
     let cmp : DerivedCategory.Q ⋙ D.functor ⟶
         (ModuleCat.extendScalars.{u, u, u} g).mapHomologicalComplex (ComplexShape.up ℤ) ⋙
           DerivedCategory.Q := D.comparison
-    haveI : D.functor.IsLeftDerivedFunctor cmp
+    have : D.functor.IsLeftDerivedFunctor cmp
         (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)) := D.isLeftDerived
     have h1 : IsIso ((restrictDerivedExtensionComparison g).app X) := by
-      haveI : IsIso (cmp.app X) :=
+      have : IsIso (cmp.app X) :=
         CochainComplex.DerivedExtensionScalars.isIso_comparison_app_of_kFlat.{u, u, u}
           g D.functor cmp X hX
       change IsIso (𝟙 _ ≫ (ModuleCat.restrictScalars.{u} g).mapDerivedCategory.map (cmp.app X))
@@ -183,18 +181,20 @@ instance isIso_resolutionTensorToDerived
         Functor.whiskerLeft_app]
       exact IsIso.comp_isIso' inferInstance (IsIso.comp_isIso' this inferInstance)
     have h3 := resolutionTensorToDerived_fac g F hF q X
-    haveI : IsIso (γ.app (DerivedCategory.Q.obj X) ≫ (restrictDerivedExtensionComparison g).app X) := by
+    have : IsIso (γ.app (DerivedCategory.Q.obj X) ≫
+        (restrictDerivedExtensionComparison g).app X) := by
       rw [h3]
       exact h2
     exact IsIso.of_isIso_comp_right _ ((restrictDerivedExtensionComparison g).app X)
   refine @NatIso.isIso_of_isIso_app _ _ _ _ _ _ γ fun Y => ?_
   obtain ⟨X, hX, ⟨e⟩⟩ := CochainComplex.DerivedExtensionScalars.exists_kFlat_model.{u, u, u} Y
-  haveI := hQ X hX
+  have := hQ X hX
   have h := γ.naturality e.inv
   have h' : γ.app Y = (resolutionTensorLift F hF).map e.hom ≫ γ.app (DerivedCategory.Q.obj X) ≫
       ((CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
         g).functor ⋙ (ModuleCat.restrictScalars.{u} g).mapDerivedCategory).map e.inv := by
-    rw [← h, ← Category.assoc, ← Functor.map_comp, e.hom_inv_id, CategoryTheory.Functor.map_id, Category.id_comp]
+    rw [← h, ← Category.assoc, ← Functor.map_comp, e.hom_inv_id, CategoryTheory.Functor.map_id,
+      Category.id_comp]
   rw [h']
   infer_instance
 
@@ -204,8 +204,9 @@ def resolutionTensorIso
     (q : F ⟶ (CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj
       ((ModuleCat.restrictScalars.{u} g).obj (ModuleCat.of R' R'))) [QuasiIso q] :
     tensorRight F ⋙ DerivedCategory.Q ≅
-      DerivedCategory.Q ⋙ (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
-        g).functor ⋙ (ModuleCat.restrictScalars.{u} g).mapDerivedCategory :=
+      DerivedCategory.Q ⋙
+        (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
+          g).functor ⋙ (ModuleCat.restrictScalars.{u} g).mapDerivedCategory :=
   (Localization.fac (tensorRight F ⋙ DerivedCategory.Q) (tensorRight_inverts_of_kFlat F hF)
       DerivedCategory.Q).symm ≪≫
     Functor.isoWhiskerLeft DerivedCategory.Q (asIso (resolutionTensorToDerived g F hF q))
@@ -216,8 +217,9 @@ def resolutionHomologyIso
     (q : F ⟶ (CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj
       ((ModuleCat.restrictScalars.{u} g).obj (ModuleCat.of R' R'))) [QuasiIso q] (n : ℤ) :
     tensorRight F ⋙ HomologicalComplex.homologyFunctor (ModuleCat.{u} R) (ComplexShape.up ℤ) n ≅
-      DerivedCategory.Q ⋙ (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
-        g).functor ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} R') n ⋙
+      DerivedCategory.Q ⋙
+        (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
+          g).functor ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} R') n ⋙
           ModuleCat.restrictScalars.{u} g :=
   Functor.isoWhiskerLeft (tensorRight F)
       (DerivedCategory.homologyFunctorFactors (ModuleCat.{u} R) n).symm ≪≫

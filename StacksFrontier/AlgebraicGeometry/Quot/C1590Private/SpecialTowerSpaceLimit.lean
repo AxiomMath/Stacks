@@ -365,7 +365,7 @@ theorem IsEtaleLimitTower.algebraicSpace_existsUnique [IsAffine S] (hW : IsEtale
     obtain ⟨w, rfl⟩ := hW.isThickening_zero.2 v
     obtain ⟨i, a, ha⟩ := hcov w
     refine ⟨i, (𝒯).map (b i) a, ?_⟩
-    show ((𝒯).map (b i) ≫ (𝒯).map (q i)) a = _
+    change ((𝒯).map (b i) ≫ (𝒯).map (q i)) a = _
     rw [← Functor.map_comp, (hpb i).w, Functor.map_comp]
     exact congrArg (fun x => (𝒯).map (κ 0) x) ha
   have hsheaf := ((isSheaf_iff_isSheaf_of_type _ _).1 hF.isSheaf) _

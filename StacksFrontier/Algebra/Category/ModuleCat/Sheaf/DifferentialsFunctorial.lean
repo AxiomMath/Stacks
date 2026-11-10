@@ -243,7 +243,7 @@ theorem differentialMap_comp {O₁'' O₂'' : Sheaf J CommRingCat.{u}}
   symm
   refine differentialMap_unique ι ι'' (φ ≫ φ') (ψ ≫ ψ') hcomm'' _ ?_
   intro U a
-  show ((differentialMap ι' ι'' φ' ψ' hcomm').val.app U).hom
+  change ((differentialMap ι' ι'' φ' ψ' hcomm').val.app U).hom
       (((differentialMap ι ι' φ ψ hcomm).val.app U).hom
         ((Differentials.universalDerivation O₁ O₂ ι).d a)) = _
   rw [differentialMap_comp_d ι ι' φ ψ hcomm a,

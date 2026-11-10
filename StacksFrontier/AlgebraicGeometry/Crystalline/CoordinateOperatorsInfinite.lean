@@ -156,7 +156,7 @@ theorem sum_tensorCoordinate_tmul_of_subset (b : Module.Basis ι D Omega) (z : M
   refine (Finset.sum_subset hs fun i _ hi ↦ ?_).symm
   rw [Finsupp.notMem_support_iff] at hi
   have hzero : tensorCoordinate (M := M) b i z = 0 := hi
-  show (tensorCoordinate (M := M) b i z) ⊗ₜ[D] b i = 0
+  change (tensorCoordinate (M := M) b i z) ⊗ₜ[D] b i = 0
   rw [hzero, TensorProduct.zero_tmul]
 
 end Coordinates

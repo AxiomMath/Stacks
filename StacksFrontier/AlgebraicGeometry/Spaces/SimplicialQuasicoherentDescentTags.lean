@@ -28,14 +28,16 @@ records the tags.
 
 @[expose] public section
 
+open AlgebraicGeometry.Space.SimplicialSpacesEtaleSite
+
 add_to_stacks 0DHF
   AlgebraicGeometry.Space.SimplicialSpacesEtaleSite.isWeakSerreClass_and_derivedPullback_equivalence
 
 add_to_stacks 0DHE
-  AlgebraicGeometry.Space.SimplicialSpacesEtaleSite.isIso_unit_and_isZero_rightDerived_of_isHypercoveringAugmentation
+  isIso_unit_and_isZero_rightDerived_of_isHypercoveringAugmentation
 
 add_to_stacks 0DHD
-  AlgebraicGeometry.Space.SimplicialSpacesEtaleSite.descent_quasicoherent_of_isHypercoveringAugmentation
+  descent_quasicoherent_of_isHypercoveringAugmentation
 
 add_to_stacks 0DHC AlgebraicGeometry.Space.SimplicialSpacesEtaleSite.bigFppfAugmentationSquareTwoIso
 

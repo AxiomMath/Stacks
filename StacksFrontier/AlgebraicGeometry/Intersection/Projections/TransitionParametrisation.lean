@@ -227,7 +227,7 @@ variable {ι : Type*} [Fintype ι] (b : Module.Basis ι k V)
 private theorem smulRight_eq_sum_coord_vector (g : Module.Dual k V) (v : V) :
     LinearMap.smulRight g v = ∑ i, b.coord i v • LinearMap.smulRight g (b i) := by
   have hv : ∑ i, b.coord i v • b i = v := by
-    simpa [Module.Basis.coord_apply] using b.sum_repr v
+    simp [Module.Basis.coord_apply]
   refine LinearMap.ext fun z => ?_
   simp only [LinearMap.sum_apply, LinearMap.smul_apply, LinearMap.smulRight_apply]
   calc g z • v = g z • ∑ i, b.coord i v • b i := by rw [hv]

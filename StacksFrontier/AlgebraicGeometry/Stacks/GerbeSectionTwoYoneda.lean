@@ -263,7 +263,7 @@ theorem exists_single_cover_section_factorisation_of_isGerbeOver
   let θ := fibreObjectStackMapCompIso B S hS x a b z e
   refine ⟨V, Bicategory.InducedBicategory.mkHom (X := schemeStack.{u, w} B S hS V) (Y := 𝒰)
     (fibreObjectFibredMap B S hS 𝒰.val V z), ?_, ?_, ?_⟩
-  · show Function.Surjective (AlgebraicStacks.pointsMap B S hS
+  · change Function.Surjective (AlgebraicStacks.pointsMap B S hS
       (Bicategory.InducedBicategory.mkHom (X := schemeStack.{u, w} B S hS V) (Y := 𝒰)
         (fibreObjectFibredMap B S hS 𝒰.val V z) ≫ x))
     rw [AlgebraicStacks.pointsMap_eq_of_hom₂ B S hS θ.hom]

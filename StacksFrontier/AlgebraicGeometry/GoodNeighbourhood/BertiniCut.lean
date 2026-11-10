@@ -184,7 +184,7 @@ theorem exists_cutGood [IsAlgClosed k] [IsProper p] (I : X.IdealSheafData) (c : 
     exact (AlgebraicGeometry.IsImmersion.comp_iff g₁ O.ι).mp this
   set D₁ := cutFamily k p I L n g₁
   have hD₁base : D₁.toBase = Wo.ι ≫ fG := by
-    show g₁ ≫ O.ι ≫ p = Wo.ι ≫ ιG ≫ p
+    change g₁ ≫ O.ι ≫ p = Wo.ι ≫ ιG ≫ p
     rw [← Category.assoc, hg₁, Category.assoc]
   have : Smooth D₁.toBase := by
     rw [hD₁base]
@@ -239,7 +239,7 @@ theorem exists_cutGood [IsAlgClosed k] [IsProper p] (I : X.IdealSheafData) (c : 
   set ZG := zeroScheme G.toScheme M' t
   have hZG : ZG = (zeroScheme X M s).comap ιG := zeroScheme_pullback_eq_comap ιG M s
   have hZ1 : zeroScheme D₁.X D₁.L (D₁.sectionOf v) = ZG.comap Wo.ι := by
-    show zeroScheme _ _ (pullbackGlobalSections g₁ _ (pullbackGlobalSections O.ι M s)) = _
+    change zeroScheme _ _ (pullbackGlobalSections g₁ _ (pullbackGlobalSections O.ι M s)) = _
     rw [zeroScheme_pullback_eq_comap, zeroScheme_pullback_eq_comap,
       ← Scheme.IdealSheafData.comap_comp, hg₁, Scheme.IdealSheafData.comap_comp, hZG]
   have hsmW : Smooth ((ZG.comap Wo.ι).subschemeι ≫ Wo.ι ≫ fG) := by

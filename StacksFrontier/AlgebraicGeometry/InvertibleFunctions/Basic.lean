@@ -231,7 +231,7 @@ theorem fg_units_quotient_of_constant_globalUnits [NoetherianSpace X]
     obtain ⟨hjU, hjc⟩ := j.2
     have h2 : γ ((Units.map (((X.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op).hom.comp φ)
         ).toMonoidHom) c : Γ(X, U)) = X.presheaf.germ ⊤ (genericPoint X) trivial (φ (c : k)) := by
-      show X.presheaf.germ U (genericPoint X) hgen
+      change X.presheaf.germ U (genericPoint X) hgen
           (X.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op (φ (c : k))) = _
       rw [X.presheaf.germ_res_apply (homOfLE (le_top : U ≤ ⊤)) (genericPoint X) hgen]
     have h3 := Scheme.ord_of_isUnit (U := (⊤ : X.Opens))

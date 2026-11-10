@@ -172,7 +172,7 @@ public theorem bijective_restrictSection_of_fullyFaithful {X T Y : Scheme.{u}} (
             (MorphismProperty.Over.homMk σ₂.1 σ₂.2 : selfFiniteEtaleOver T ⟶ V) := by
         refine finiteEtaleOver_hom_ext j ?_
         rw [finiteEtaleBaseChangeProj_naturality, finiteEtaleBaseChangeProj_naturality]
-        show finiteEtaleBaseChangeProj j (selfFiniteEtaleOver T) ≫ σ₁.1
+        change finiteEtaleBaseChangeProj j (selfFiniteEtaleOver T) ≫ σ₁.1
           = finiteEtaleBaseChangeProj j (selfFiniteEtaleOver T) ≫ σ₂.1
         rw [selfFiniteEtaleOver_baseChange_proj_comp,
           selfFiniteEtaleOver_baseChange_proj_comp, hv]
@@ -182,7 +182,7 @@ public theorem bijective_restrictSection_of_fullyFaithful {X T Y : Scheme.{u}} (
         (MorphismProperty.Over.w (hj.preimage (baseChangeSelfHom j V τ.2))).trans
           (selfFiniteEtaleOver_hom T)⟩, ?_⟩
       refine Subtype.ext ?_
-      show j ≫ (hj.preimage (baseChangeSelfHom j V τ.2)).left = τ.1
+      change j ≫ (hj.preimage (baseChangeSelfHom j V τ.2)).left = τ.1
       have hkey : finiteEtaleBaseChangeProj j (selfFiniteEtaleOver T) ≫
             (hj.preimage (baseChangeSelfHom j V τ.2)).left
           = ((finiteEtaleBaseChange j).obj (selfFiniteEtaleOver T)).hom ≫ τ.1 := by
@@ -203,7 +203,7 @@ public theorem bijective_restrictSection_of_fullyFaithful {X T Y : Scheme.{u}} (
                 τ ≫ ((finiteEtaleBaseChange g).obj U).hom = j})) ∘
           (pullbackSectionEquiv U g (𝟙 T) g (Category.id_comp g)).symm := by
     refine funext fun s => Subtype.ext ?_
-    show j ≫ s.1 = (j ≫ baseChangeLift U g _) ≫ finiteEtaleBaseChangeProj g U
+    change j ≫ s.1 = (j ≫ baseChangeLift U g _) ≫ finiteEtaleBaseChangeProj g U
     rw [Category.assoc, baseChangeLift_proj]
   rw [key]
   exact (pullbackSectionEquiv U g j k hk).bijective.comp

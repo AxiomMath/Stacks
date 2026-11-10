@@ -178,7 +178,7 @@ private lemma dense_disjointComponentLocus :
     Dense (disjointComponentLocus C : Set C.X) := by
   apply dense_of_generic_points_mem_open C (disjointComponentLocus C)
   intro i
-  show C.genericPoint i ∈ (disjointComponentLocus C : Set C.X)
+  change C.genericPoint i ∈ (disjointComponentLocus C : Set C.X)
   rw [disjointComponentLocus_carrier]
   simp only [Set.mem_ofPred_eq]
   intro j k hjk h
@@ -257,7 +257,7 @@ private lemma iSup_componentOpenAux_eq_top :
   · intro _
     simp
   · intro _
-    show x ∈ ⋃ i : Fin C.numberOfComponents, (componentOpenAux C i : Set _)
+    change x ∈ ⋃ i : Fin C.numberOfComponents, (componentOpenAux C i : Set _)
     obtain ⟨i, hxi⟩ := exists_mem_component C x.1
     exact Set.mem_iUnion.mpr ⟨i, hxi⟩
 
@@ -286,7 +286,7 @@ private lemma componentOpenAux_preimage_dense
     (C.isGenericPoint i).mem_open_set_iff (e ''ᵁ A').2 |>.2 ⟨e x, hxcomp, ⟨x, hx, rfl⟩⟩
   obtain ⟨y, hy, hyeq⟩ := hηA
   refine ⟨y, hy, ?_⟩
-  show (e.base y) ∈ W
+  change (e.base y) ∈ W
   exact hyeq ▸ hη
 
 private noncomputable def pullbackComponentPartialMap
@@ -349,8 +349,8 @@ private lemma pullbackComponentPartialMap_equiv
   let ph := pullbackComponentPartialMap C i h
     (componentOpenAux_preimage_dense C i h.domain hh)
   refine ⟨W', hW', hW'g, hW'h, ?_⟩
-  show (pg.restrict W' hW' hW'g).hom = (ph.restrict W' hW' hW'h).hom
-  show ((componentOpenAux C i).toScheme.homOfLE hW'g ≫
+  change (pg.restrict W' hW' hW'g).hom = (ph.restrict W' hW' hW'h).hom
+  change ((componentOpenAux C i).toScheme.homOfLE hW'g ≫
       e.resLE g.domain (e ⁻¹ᵁ g.domain) le_rfl ≫ g.hom) =
     ((componentOpenAux C i).toScheme.homOfLE hW'h ≫
       e.resLE h.domain (e ⁻¹ᵁ h.domain) le_rfl ≫ h.hom)
@@ -376,7 +376,7 @@ private lemma componentGenericPoint_mem_componentOpen (R : IrreducibleComponentR
     (⟨C.genericPoint i, genericPoint_mem_dense_open C R.denseOpen R.dense_denseOpen i⟩ :
       R.denseOpen.toScheme) ∈ (R.componentOpen i : Set R.denseOpen.toScheme) := by
   rw [R.componentOpen_carrier]
-  show C.genericPoint i ∈ (C.components i : Set C.X)
+  change C.genericPoint i ∈ (C.components i : Set C.X)
   exact genericPoint_mem_component C i
 
 private lemma componentImage_pairwise_disjoint
@@ -645,7 +645,7 @@ private lemma componentGenericPointMapAux_point
   have hmap := gp.map_point gi g represents hover
     (fun k ↦ by fin_cases k; exact hmem) j
   have hxeq : x = xη := Subtype.ext (Subtype.ext (Subtype.ext hx))
-  show data.point = g.hom x
+  change data.point = g.hom x
   calc
     data.point = g.hom xη := by simpa [data, gp, gi, j] using hmap
     _ = g.hom x := congrArg g.hom hxeq.symm
@@ -756,13 +756,13 @@ private lemma componentGenericPointMapAux_stalk
             let b := (U.stalkIso ζ.1).hom
             let c := (U.stalkIso (V.ι ζ)).inv
             let d := (V.stalkIso ζ).inv
-            show ((a ≫ (b ≫ c)) ≫ d) = a ≫ (b ≫ (c ≫ d))
+            change ((a ≫ (b ≫ c)) ≫ d) = a ≫ (b ≫ (c ≫ d))
             exact (Category.assoc a (b ≫ c) d).trans
               (congrArg (fun q => a ≫ q) (Category.assoc b c d))
   have htotal := CategoryTheory.heq_comp
     (eq1 := congrArg C.Y.presheaf.stalk hpoint')
     (eq2 := rfl) (eq3 := rfl) hmap hstalk
-  show HEq (data.stalkMap ≫ eStalkIso.inv ≫ stalkTransport)
+  change HEq (data.stalkMap ≫ eStalkIso.inv ≫ stalkTransport)
     (g.hom.stalkMap xη ≫ (g.domain.stalkIso xη).hom ≫
       (V.stalkIso xη.1).hom ≫ (U.stalkIso xη.1.1).hom)
   exact htotal
@@ -780,7 +780,7 @@ private lemma iSupOpenCover_compat_of_disjoint {X Y : Scheme.{u}} {ι : Type*}
   by_cases hij : i = j
   · subst j
     have : Mono (cover.f i) := by
-      show Mono (X.homOfLE (le_iSup T i))
+      change Mono (X.homOfLE (le_iSup T i))
       infer_instance
     have hfst : Limits.pullback.fst (cover.f i) (cover.f i) =
         Limits.pullback.snd (cover.f i) (cover.f i) :=
@@ -795,11 +795,11 @@ private lemma iSupOpenCover_compat_of_disjoint {X Y : Scheme.{u}} {ι : Type*}
       have hab : a.1 = b.1 := by
         calc
           a.1 = (cover.f i a).1 := by
-            show a.1 = (X.homOfLE (le_iSup T i) a).1
+            change a.1 = (X.homOfLE (le_iSup T i) a).1
             exact (Scheme.homOfLE_apply _ _).symm
           _ = (cover.f j b).1 := congrArg Subtype.val (hxy.trans hb.symm)
           _ = b.1 := by
-            show (X.homOfLE (le_iSup T j) b).1 = b.1
+            change (X.homOfLE (le_iSup T j) b).1 = b.1
             exact Scheme.homOfLE_apply _ _
       exact (Set.disjoint_left.mp (TopologicalSpace.Opens.coe_disjoint.mpr
         (hdisj i j hij))) a.2 (hab ▸ b.2)
@@ -875,14 +875,14 @@ private lemma assembleComponentPartialMaps_local_equiv
       (fun j k hjk ↦ pairwise_disjoint_componentOpenAux C j k hjk) g i
   have hdomain : (g i).domain ≤ (e i) ⁻¹ᵁ D := hle
   have hqD : q.domain ≤ (e i) ⁻¹ᵁ D := by
-    show (e i) ⁻¹ᵁ D ≤ (e i) ⁻¹ᵁ D
+    change (e i) ⁻¹ᵁ D ≤ (e i) ⁻¹ᵁ D
     exact le_rfl
   let a : (g i).domain.toScheme ⟶ D.toScheme :=
     (e i).resLE D (g i).domain hdomain
   let b : (g i).domain.toScheme ⟶ D.toScheme :=
     ((e i).isoImage (g i).domain).hom ≫ cover.f i
   have hcover : cover.f i ≫ D.ι = (T i).ι := by
-    show C.X.homOfLE (le_iSup T i) ≫ D.ι = (T i).ι
+    change C.X.homOfLE (le_iSup T i) ≫ D.ι = (T i).ι
     exact C.X.homOfLE_ι (le_iSup T i)
   have hfactor : a = b := by
     apply (cancel_mono D.ι).mp
@@ -902,10 +902,10 @@ private lemma assembleComponentPartialMaps_local_equiv
     apply (cancel_mono D.ι).mp
     dsimp [a]
     simp only [Category.assoc, Scheme.Hom.resLE_comp_ι]
-    show ((V i).toScheme.homOfLE hle ≫ q.domain.ι) ≫ e i =
+    change ((V i).toScheme.homOfLE hle ≫ q.domain.ι) ≫ e i =
       (g i).domain.ι ≫ e i
     exact congrArg (fun f ↦ f ≫ e i) ((V i).toScheme.homOfLE_ι hle)
-  show ((V i).toScheme.homOfLE hle ≫ q.hom) =
+  change ((V i).toScheme.homOfLE hle ≫ q.hom) =
     ((V i).toScheme.homOfLE le_rfl ≫ (g i).hom)
   have hqhom : q.hom = (e i).resLE D q.domain hqD ≫ p.hom := rfl
   rw [hqhom, ← Category.assoc, hrestrict, hfactor]
@@ -1016,11 +1016,11 @@ private lemma assembleComponentPullbacks_equiv
     (fun i j hij ↦ pairwise_disjoint_componentOpenAux C i j hij) q
   let D : C.X.Opens := p.domain
   let cover : D.toScheme.OpenCover := Scheme.Opens.iSupOpenCover T
-  show p.equiv g
+  change p.equiv g
   have hTg (i : Fin C.numberOfComponents) : T i ≤ g.domain := by
     intro x hx
     obtain ⟨y, hy, rfl⟩ := hx
-    show ((componentOpenAux C i).ι ≫ (disjointComponentLocus C).ι) y ∈ g.domain
+    change ((componentOpenAux C i).ι ≫ (disjointComponentLocus C).ι) y ∈ g.domain
     change y ∈ ((componentOpenAux C i).ι ≫ (disjointComponentLocus C).ι) ⁻¹ᵁ
       g.domain at hy
     exact hy
@@ -1036,7 +1036,7 @@ private lemma assembleComponentPullbacks_equiv
       (fun i j hij ↦ pairwise_disjoint_componentOpenAux C i j hij) q i
   have hqdom (i : Fin C.numberOfComponents) :
       (q i).domain ≤ (e i) ⁻¹ᵁ g.domain := by
-    show (pullbackComponentPartialMap C i g
+    change (pullbackComponentPartialMap C i g
       (componentOpenAux_preimage_dense C i g.domain (hη i))).domain ≤ _
     rfl
   have hTfactor (i : Fin C.numberOfComponents) :
@@ -1062,7 +1062,7 @@ private lemma assembleComponentPullbacks_equiv
     rw [hDmap i, hqhom i]
     rw [← Category.assoc, ← hTfactor i]
     exact Category.assoc _ _ _
-  show C.X.homOfLE le_rfl ≫ p.hom = C.X.homOfLE hDg ≫ g.hom
+  change C.X.homOfLE le_rfl ≫ p.hom = C.X.homOfLE hDg ≫ g.hom
   simp only [Scheme.homOfLE_rfl, Category.id_comp]
   apply cover.hom_ext
   intro i
@@ -1108,12 +1108,12 @@ private lemma partialMaps_equiv_of_component_pullbacks_equiv
   have hTf (i : Fin C.numberOfComponents) : T i ≤ f.domain := by
     intro x hx
     obtain ⟨y, hy, rfl⟩ := hx
-    show y ∈ (e i) ⁻¹ᵁ f.domain
+    change y ∈ (e i) ⁻¹ᵁ f.domain
     exact hWif i hy
   have hTg (i : Fin C.numberOfComponents) : T i ≤ g.domain := by
     intro x hx
     obtain ⟨y, hy, rfl⟩ := hx
-    show y ∈ (e i) ⁻¹ᵁ g.domain
+    change y ∈ (e i) ⁻¹ᵁ g.domain
     exact hWig i hy
   have hTη (i : Fin C.numberOfComponents) : C.genericPoint i ∈ T i := by
     let ηU : U.toScheme := ⟨C.genericPoint i,
@@ -1176,7 +1176,7 @@ private lemma partialMaps_equiv_of_component_pullbacks_equiv
       (f.restrict D hD hDf).hom = (g.restrict D hD hDg).hom := by
     apply cover.hom_ext
     intro i
-    show cover.f i ≫ C.X.homOfLE hDf ≫ f.hom =
+    change cover.f i ≫ C.X.homOfLE hDf ≫ f.hom =
       cover.f i ≫ C.X.homOfLE hDg ≫ g.hom
     simpa [cover, Scheme.Opens.iSupOpenCover] using hlocal i
   exact ⟨D, hD, hDf, hDg, hrestrict⟩
@@ -1256,7 +1256,7 @@ private theorem irreducibleComponentReduction_package :
           ((Scheme.PartialMap.toRationalMap_eq_iff).mp hrep)
       have hpeq : p.equiv r :=
         partialMaps_equiv_of_component_pullbacks_equiv C p r hpη hrη hcomponent
-      show assembled.1 = f.1
+      change assembled.1 = f.1
       rw [hassembled]
       exact (Scheme.PartialMap.toRationalMap_eq_iff).mpr hpeq |>.trans
         (representativeOver_toRationalMap C f)
@@ -1287,7 +1287,7 @@ private theorem irreducibleComponentReduction_package :
       have hcomp : q.equiv (reps i) := hq.trans hlocal
       have hrestrict :
           (restrictRationalMapToComponent C i global).1 = q.toRationalMap := rfl
-      show (restrictRationalMapToComponent C i global).1 = (f i).1
+      change (restrictRationalMapToComponent C i global).1 = (f i).1
       rw [hrestrict]
       exact (Scheme.PartialMap.toRationalMap_eq_iff).mpr hcomp |>.trans
         (chooseComponentRepresentative C U V i (f i)).2.2
@@ -1345,7 +1345,7 @@ private theorem irreducibleComponentReduction_package :
         rfl (congrArg U.toScheme.presheaf.stalk hUpt)
         (congrArg C.X.presheaf.stalk (congrArg U.ι hUpt)) HEq.rfl hUhom)
     have hresPoint : x0.1 = e xq.1 := by
-      show (res xq).1 = e xq.1
+      change (res xq).1 = e xq.1
       rw [Scheme.Hom.coe_resLE_apply]
     let κ := C.X.presheaf.stalkCongr (.of_eq hresPoint)
     have hBpoint : B.point = r.hom x0' :=
@@ -1356,9 +1356,9 @@ private theorem irreducibleComponentReduction_package :
     have hqpoint : q.hom xq = r.hom x0 := rfl
     have hidx : x0 = x0' := by
       apply Subtype.ext
-      show (res xq).1 = C.genericPoint i
+      change (res xq).1 = C.genericPoint i
       rw [Scheme.Hom.coe_resLE_apply]
-      show (U.ι (V.ι ηV)) = _
+      change (U.ι (V.ι ηV)) = _
       rfl
     have hpoint : A.point = B.point :=
       hApoint.trans
@@ -1421,7 +1421,7 @@ private theorem irreducibleComponentReduction_package :
             (Category.comp_id κ.hom)
     have hqStalk : q.hom.stalkMap xq =
         r.hom.stalkMap x0 ≫ res.stalkMap xq := by
-      show (res ≫ r.hom).stalkMap xq = _
+      change (res ≫ r.hom).stalkMap xq = _
       simpa only [hqpoint] using Scheme.Hom.stalkMap_comp res r.hom xq
     cases hqpoint
     have hbridge0 : HEq

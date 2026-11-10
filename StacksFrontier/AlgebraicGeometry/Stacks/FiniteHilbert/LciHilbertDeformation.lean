@@ -303,7 +303,7 @@ theorem exists_object_hom_of_coverDeformation
           (d := d)).IsHomLift i φ ∧
         𝒴.toBasedCategory.p.IsHomLift (𝟙 U') κ ∧ φ.b ≫ κ = a := by
   have hZ' : (Over.map U'.hom).obj (Over.mk q'.left : BigFppfOver B U'.left.1 U'.left.2) = Z' := by
-    show Over.mk (q'.left ≫ U'.hom) = Z'
+    change Over.mk (q'.left ≫ U'.hom) = Z'
     exact PresheafOfCategories.over_mk_eq Z' (Over.w q')
   have hstruct : eqToHom hZ' ≫ q' ≫ eqToHom (rfl : U' = U').symm =
       Functor.structHom U' (Over.mk q'.left : BigFppfOver B U'.left.1 U'.left.2) := by
@@ -466,13 +466,13 @@ theorem exists_object_hom_of_coverDeformation
       Functor.toMkId U' (Over.mk q'.left : BigFppfOver B U'.left.1 U'.left.2) =
       Functor.toMkId U' ((Over.map i.left).obj P.coverOver) := by
     refine Over.OverMorphism.ext ?_
-    show g.left ≫ q'.left = P.q.left ≫ i.left
+    change g.left ≫ q'.left = P.q.left ≫ i.left
     simpa only [Over.comp_left] using congrArg Over.Hom.left hg.w
   have hterm2 : (Over.map i.left).map P.coverToBase ≫
       Functor.toMkId U' ((Over.map i.left).obj P.baseOver) =
       Functor.toMkId U' ((Over.map i.left).obj P.coverOver) := by
     refine Over.OverMorphism.ext ?_
-    show P.q.left ≫ 𝟙 P.U.left ≫ i.left = P.q.left ≫ i.left
+    change P.q.left ≫ 𝟙 P.U.left ≫ i.left = P.q.left ≫ i.left
     simp
   have hmerge1 : w.map (coverComparisonOfSquare hg.w) ≫
       w.map (Functor.toMkId U' (Over.mk q'.left : BigFppfOver B U'.left.1 U'.left.2)) =
@@ -523,7 +523,7 @@ theorem exists_object_hom_of_coverDeformation
       a_over := hgfinal
       compatible := hcompat }, 𝟙 z', ?_, IsHomLift.id hz', Category.comp_id a⟩
   refine IsHomLift.of_fac' _ i _ rfl rfl ?_
-  show i = eqToHom (rfl : P.U = P.U) ≫ i ≫ eqToHom (Eq.symm (rfl : U' = U'))
+  change i = eqToHom (rfl : P.U = P.U) ≫ i ≫ eqToHom (Eq.symm (rfl : U' = U'))
   simp
 
 end Lift

@@ -130,12 +130,12 @@ theorem isFormallySmoothOnObjects_of_exists_homLift
   simp only [Functor.map_comp, Category.assoc]
   rw [Functor.Fiber.fiberInclusion_map_mapOfComp_map]
   dsimp only [γ', asIso, c₀]
-  show _ ≫ F.map (Functor.Fiber.fiberInclusion.map β.hom) ≫ a = _ ≫ c
+  change _ ≫ F.map (Functor.Fiber.fiberInclusion.map β.hom) ≫ a = _ ≫ c
   rw [← he]
   have hβ : Functor.Fiber.fiberInclusion.map β.hom ≫ b =
       Functor.IsPreFibered.pullbackMap x'.2 i :=
     Functor.fiberIsoOfCartesian_hom_fac i _ b _ hb_cart
-  show _ ≫ F.map (Functor.Fiber.fiberInclusion.map β.hom) ≫ F.map b ≫ c = _
+  change _ ≫ F.map (Functor.Fiber.fiberInclusion.map β.hom) ≫ F.map b ≫ c = _
   rw [← Category.assoc (F.map (Functor.Fiber.fiberInclusion.map β.hom)) (F.map b) c,
     ← F.map_comp, hβ]
   refine Eq.trans (Category.assoc _ _ _).symm ?_
@@ -186,7 +186,7 @@ theorem homFunctor_map_comp_eq_of_pullbackFiberHom_eq
   let b : x.1 ⟶ x'.1 := Functor.Fiber.fiberInclusion.map β.inv ≫
     Functor.IsPreFibered.pullbackMap x'.2 i
   let c : F.obj x'.1 ⟶ y'.1 := Functor.Fiber.fiberInclusion.map γ'.hom
-  show F.map b ≫ c = _
+  change F.map b ≫ c = _
   rw [F.map_comp, Category.assoc, h₂, ← Category.assoc, ← F.map_comp,
     ← Functor.map_comp, β.inv_hom_id, CategoryTheory.Functor.map_id]
   exact (congrArg (fun f => f ≫ _) (F.map_id x.1)).trans (Category.id_comp _)
@@ -279,7 +279,7 @@ theorem isFormallySmoothOnObjects_comp_of_lifts_through
       Functor.isHomLift_map_of_comp_eq
         (CatFiberedInGroupoids.homFunctor_comp_p q) (𝟙 U') c'
     exact IsHomLift.comp_lift_id_right 𝒵.val.p (𝟙 U') (Q.map c') c
-  · show Q.map ((CatFiberedInGroupoids.homFunctor p).map b') ≫ Q.map c' ≫ c = a
+  · change Q.map ((CatFiberedInGroupoids.homFunctor p).map b') ≫ Q.map c' ≫ c = a
     rwa [← Category.assoc, ← Q.map_comp, hbc']
 
 end AlgebraicGeometry.Stack

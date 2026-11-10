@@ -49,8 +49,7 @@ namespace Stacks.EtaleCohomology
 variable {k : Type u} [Field k] [Fintype k] [PerfectField k] {U : Scheme.{u}} {H : Type} [Group H]
   [Fintype H] {pU : U ⟶ Spec (.of k)} [IsCurve k pU] [Smooth pU]
   (J : CompactificationOf (Over.mk pU))
-  (G : EtaleGaloisCovering U H) [IsFinite (G.cover.hom : G.cover.left ⟶ U)]
-  [ConnectedSpace G.cover.left] [ConnectedSpace ((𝟭 Scheme).obj G.cover.left)]
+  (G : EtaleGaloisCovering U H) [ConnectedSpace ((𝟭 Scheme).obj G.cover.left)]
   (C : CoverCompactification k (Over.mk J.toBase).hom J.immersion
     (G.cover.hom : G.cover.left ⟶ U))
   (kbar : Type u) [Field kbar] [IsAlgClosed kbar] [Algebra k kbar] (p q : ℕ)
@@ -63,10 +62,10 @@ private theorem comp_eq_of_comm_squares {D : Type*} [Category* D] {X Y : D} (E :
     (h₃ : r ≫ E = E ≫ π) : (θ ≫ r) ≫ E = E ≫ π ≫ Θ := by
   rw [h₁, Category.assoc, h₂, reassoc_of% h₃]
 
-omit [IsCurve k pU] [Smooth pU] in
+omit [Fintype H] [IsCurve k pU] [Smooth pU] in
 /-- **The conjugacy traces of `Tr_{A[H]}(π_U^* | RΓ_c(U_k̄, D(A[H])))` vanish**, for `A = ℤ/ℓⁿ`,
 `U(k) = ∅`, granted perfectness of the complexes involved. -/
-theorem conjugacyTrace_canonicalCompactSupportFrobenius_regularDescent_eq_zero
+theorem conjugacyTrace_canonicalCompactSupportFrobenius_regularDescent_eq_zero [Finite H]
     [Algebra.IsAlgebraic k kbar] (ℓ n : ℕ) [Fact ℓ.Prime] (hℓ : (ℓ : k) ≠ 0) (hn : 1 ≤ n)
     [IsEmpty (rationalPoints pU)]
     (hperf : StacksDraft.Perfect.IsPerfect.{0, u + 1, u + 2} (DerivedCategory.Plus.ι.obj

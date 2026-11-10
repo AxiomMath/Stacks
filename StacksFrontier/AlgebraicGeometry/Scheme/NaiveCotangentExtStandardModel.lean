@@ -16,8 +16,8 @@ in this development:
   `SheafOfModules (structureSheafRing X)`;
 * `AlgebraicGeometry.RingedSpace.naiveCotangentExt f 𝒢 1`, the group of the second display of
   **Stacks 0DY9** and of the `Ext⁰` identification of
-  `StacksFrontier/AlgebraicGeometry/Scheme/NaiveCotangentExtZero.lean`, computed in the locally small
-  model of Tag 079Q, the global instance `SheafOfModules.hasDerivedCategory`.
+  `StacksFrontier/AlgebraicGeometry/Scheme/NaiveCotangentExtZero.lean`, computed in the locally
+  small model of Tag 079Q, the global instance `SheafOfModules.hasDerivedCategory`.
 
 The complex is the same term (`AlgebraicGeometry.RingedSpace.naiveCotangentComplex f`), the
 category of coefficients is the same up to `rfl`, and the objects of the two derived categories are

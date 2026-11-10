@@ -174,7 +174,7 @@ theorem range_sourceHom_subset_range_ι
     Set.range f.sourceHom.base ⊆ Set.range (C.thickening.immersion ⁻¹ᵁ V).ι.base := by
   rintro _ ⟨y, rfl⟩
   refine ⟨⟨f.sourceHom.base y, ?_⟩, rfl⟩
-  show (f.sourceHom ≫ C.thickening.immersion).base y ∈ V
+  change (f.sourceHom ≫ C.thickening.immersion).base y ∈ V
   rw [← f.immersion_naturality]
   exact hf ⟨_, rfl⟩
 
@@ -359,10 +359,10 @@ theorem range_restrictOpenFanLift_subset (hc : IsLimit c)
       (restrictOpenProductOpen c U V : Set c.pt.thickening.target.scheme) := by
   rintro _ ⟨x, rfl⟩
   constructor
-  · show (restrictOpenFanLift c U V hc s ≫ c.fst).targetHom.hom.base x ∈ U
+  · change (restrictOpenFanLift c U V hc s ≫ c.fst).targetHom.hom.base x ∈ U
     rw [restrictOpenFanLift_fst]
     exact (s.fst.targetHom.hom.base x).2
-  · show (restrictOpenFanLift c U V hc s ≫ c.snd).targetHom.hom.base x ∈ V
+  · change (restrictOpenFanLift c U V hc s ≫ c.snd).targetHom.hom.base x ∈ V
     rw [restrictOpenFanLift_snd]
     exact (s.snd.targetHom.hom.base x).2
 

@@ -120,7 +120,7 @@ private theorem injective_map_shift_zero_of_isIso (F : C ⥤ C) [F.Additive] [F.
     [F.CommShift ℤ] {P : C} (eP : P ≅ F.obj P) (hP : ∀ f : P ⟶ P, f ≠ 0 → IsIso f) :
     Function.Injective
       (fun f : P ⟶ P⟦(0 : ℤ)⟧ => F.map f ≫ (F.commShiftIso (0 : ℤ)).hom.app P) := by
-  show Function.Injective (mapShiftLinearMap k F P P 0)
+  change Function.Injective (mapShiftLinearMap k F P P 0)
   rw [injective_iff_map_eq_zero]
   intro f hf
   by_contra hne
@@ -161,7 +161,7 @@ theorem mor₃_eq_zero_iff_finrank (T : Triangle C) (hT : T ∈ distTriang C)
       obtain ⟨g, hg⟩ := T.coyoneda_exact₂ hT f hf
       exact ⟨g, hg.symm⟩
     · rintro ⟨g, rfl⟩
-      show (g ≫ T.mor₁) ≫ T.mor₂ = 0
+      change (g ≫ T.mor₁) ≫ T.mor₂ = 0
       rw [Category.assoc, comp_distTriang_mor_zero₁₂ T hT, comp_zero]
   have hn := b.finrank_range_add_finrank_ker
   rw [hex] at hn
@@ -271,7 +271,7 @@ theorem surjective_shiftedHomMap_of_compGenerates {D : Type*} [Category* D] [Pre
     (hb : Function.Surjective (fun f : ShiftedHom A A b => f.map G))
     (hgen : CompGenerates (G.obj A) a b c h) :
     Function.Surjective (fun f : ShiftedHom A A c => f.map G) := by
-  show Function.Surjective (shiftedHomMapAddHom G A A c)
+  change Function.Surjective (shiftedHomMapAddHom G A A c)
   rw [← AddMonoidHom.range_eq_top, eq_top_iff, ← hgen, AddSubgroup.closure_le]
   rintro _ ⟨⟨f, g⟩, rfl⟩
   obtain ⟨f', rfl⟩ := ha f
@@ -306,7 +306,7 @@ theorem CompGenerates.of_iso {A B : C} (e : A ≅ B) {a b c : ℤ} {h : b + a = 
   have hE : ∀ (f : ShiftedHom A A a) (g : ShiftedHom A A b),
       E c (f.comp g h) = (E a f).comp (E b g) h := by
     intro f g
-    show (Iso.homCongr e ((shiftFunctor C c).mapIso e)) (f.comp g h) =
+    change (Iso.homCongr e ((shiftFunctor C c).mapIso e)) (f.comp g h) =
       ShiftedHom.comp (Iso.homCongr e ((shiftFunctor C a).mapIso e) f)
         (Iso.homCongr e ((shiftFunctor C b).mapIso e) g) h
     simp only [Iso.homCongr_apply, Functor.mapIso_hom, ShiftedHom.comp, Functor.map_comp,
@@ -367,11 +367,11 @@ theorem compGenerates_singleFunctor_of_closure_ext {C : Type*} [Category* C] [Ab
       Abelian.Ext M M a × Abelian.Ext M M b => p.1.comp p.2 rfl)) := by
     rw [hgen]
     trivial
-  show Abelian.Ext.homAddEquiv z ∈ S
+  change Abelian.Ext.homAddEquiv z ∈ S
   induction hz using AddSubgroup.closure_induction with
   | mem z hz =>
     obtain ⟨⟨f, g⟩, rfl⟩ := hz
-    show (f.comp g rfl).hom ∈ S
+    change (f.comp g rfl).hom ∈ S
     rw [Abelian.Ext.comp_hom]
     exact AddSubgroup.subset_closure ⟨⟨f.hom, g.hom⟩, rfl⟩
   | zero => simpa only [map_zero] using S.zero_mem
@@ -763,11 +763,11 @@ theorem bijective_map_shift_perfectPointSheaf_of_fixes_zeroDimensional (hX : IsR
       F.map f ≫ (F.commShiftIso (1 : ℤ)).hom.app P) := by
     have := hfin 1
     refine (bijective_map_shift_iff_injective_or_surjective k F eP eP 1).2 (Or.inl ?_)
-    show Function.Injective (mapShiftLinearMap k F P P 1)
+    change Function.Injective (mapShiftLinearMap k F P P 1)
     rw [injective_iff_map_eq_zero]
     exact eq_zero_of_map_shift_one_eq_zero hX F hlin hfix x hx
   have := hfin i
-  show Function.Bijective (fun f : P ⟶ P⟦i⟧ => F.map f ≫ (F.commShiftIso i).hom.app P)
+  change Function.Bijective (fun f : P ⟶ P⟦i⟧ => F.map f ≫ (F.commShiftIso i).hom.app P)
   rcases (show i = 0 ∨ i = 1 ∨ 1 < i by omega) with rfl | rfl | hi1
   · -- degree zero: nonzero endomorphisms are isomorphisms
     exact (bijective_map_shift_iff_injective_or_surjective k F eP eP 0).2 (Or.inl

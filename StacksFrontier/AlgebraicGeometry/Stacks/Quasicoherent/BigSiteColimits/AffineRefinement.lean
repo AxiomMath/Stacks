@@ -172,7 +172,7 @@ private theorem exists_affine_ofArrows_aux (hp : p.IsFiberedInGroupoids) (W : �
     obtain ⟨e, -⟩ := hβ j
     have : IsAffine
         ((B.inclusion.obj (p.obj W).left).affineOpenCover.openCover.X (β j)) := by
-      show IsAffine (Spec ((B.inclusion.obj (p.obj W).left).affineOpenCover.X (β j)))
+      change IsAffine (Spec ((B.inclusion.obj (p.obj W).left).affineOpenCover.X (β j)))
       exact isAffine_Spec _
     have hIso : IsIso e.hom := e.isIso_hom
     exact @IsAffine.of_isIso _ _ e.hom hIso inferInstance
@@ -180,9 +180,9 @@ private theorem exists_affine_ofArrows_aux (hp : p.IsFiberedInGroupoids) (W : �
   let vmap (j : V.I₀) : Vobj j ⟶ p.obj W := Over.homMk (V.f j)
   have hBcover : Sieve.ofArrows Vobj vmap ∈
       BigFppfOver.baseOverTopology B S hS .fppf (p.obj W) := by
-    show Sieve.ofArrows Vobj vmap ∈ (B.topology.over (B.obj hS)) (p.obj W)
+    change Sieve.ofArrows Vobj vmap ∈ (B.topology.over (B.obj hS)) (p.obj W)
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.ofArrows V.X V.f ∈ B.topology (p.obj W).left
+    change Sieve.ofArrows V.X V.f ∈ B.topology (p.obj W).left
     have hpre : V.presieve₀ ∈ B.precoverage (p.obj W).left := ⟨V, rfl, hV⟩
     simpa [PreZeroHypercover.presieve₀] using Precoverage.generate_mem_toGrothendieck hpre
   choose y φ hdom hmapφ using fun j => exists_lift_map_eq_eqToHom_comp B S hS p hp (vmap j)
@@ -193,7 +193,7 @@ private theorem exists_affine_ofArrows_aux (hp : p.IsFiberedInGroupoids) (W : �
   have hfib : p.IsFibered := hp.isFibered
   refine ⟨V.I₀, y, φ, fun j => ?_, ?_, Vobj, vmap, hdom, hmapφ,
     B.ofArrows_inclusion_mem_fppfPrecoverage hV⟩
-  · show IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (y j)))
+  · change IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (y j)))
     rw [hdom j]
     exact hVaff j
   · refine (Functor.isInheritedTopology_inheritedTopology p

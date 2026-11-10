@@ -79,7 +79,7 @@ enough objects: every open is covered by members of the basis contained in it. -
 lemma basis_hasEnoughObjects (X : RingedSpace.{u, u})
     (B : Set (Opens X.carrier)) (hB : Opens.IsBasis B) :
     (Opens.grothendieckTopology X.carrier).HasEnoughObjects (fun U => U ∈ B) := by
-  show ∀ U : Opens X.carrier, ∃ (I : Type u) (Ui : I → Opens X.carrier)
+  change ∀ U : Opens X.carrier, ∃ (I : Type u) (Ui : I → Opens X.carrier)
     (f : ∀ i, Ui i ⟶ U),
       Sieve.ofArrows Ui f ∈ Opens.grothendieckTopology X.carrier U ∧ ∀ i, Ui i ∈ B
   intro U

@@ -101,7 +101,7 @@ theorem deRhamShiftAbD_comp (n : ℕ) : deRhamShiftAbD f n ≫ deRhamShiftAbD f 
   cases n with
   | zero => exact zero_comp
   | succ p =>
-    show (-deRhamDifferentialAbHom f p) ≫ (-deRhamDifferentialAbHom f (p + 1)) = 0
+    change (-deRhamDifferentialAbHom f p) ≫ (-deRhamDifferentialAbHom f (p + 1)) = 0
     rw [Preadditive.neg_comp_neg]
     exact deRhamDifferentialAbHom_comp f p
 
@@ -167,7 +167,7 @@ theorem restrict_unit_mem (c c' : D.BaseChart) (h : c'.U.1 ≤ c.U.1) :
       (Units.map (D.laurentSpectrum.sheaf.obj.map (D.laurentPreimageHom h).op).hom.toMonoidHom
         c.unit)) : c'.Bˣ) : c'.B) ∈
       LaurentDeRham.transportGrading (R := c'.R) c'.model.equiv 1 := by
-  show (D.laurentSpectrum.sheaf.obj.map (D.laurentPreimageHom h).op).hom
+  change (D.laurentSpectrum.sheaf.obj.map (D.laurentPreimageHom h).op).hom
     (D.secR _ (c.unit : D.laurentSpectrum.sheaf.obj.obj (op (D.laurentSpectrumToBase ⁻¹ᵁ c.U.1))))
       ∈ c'.grading 1
   rw [c.unit_val]
@@ -359,7 +359,7 @@ theorem Situation.exists_residueHom (p : ℕ) :
   Stacks.AlgebraicGeometry.ModuleHomGlue.exists_hom_of_isBasis (fun c : D.BaseChart => c.U.1)
     D.isBasis_baseChart (fun c => c.residueAdd p)
     (fun c c' h x => by
-      show ((-1 : ℤ) ^ p) • c'.model.res p (D.weightZeroVal (p + 1)
+      change ((-1 : ℤ) ^ p) • c'.model.res p (D.weightZeroVal (p + 1)
           ((D.weightZero (p + 1)).presheaf.map (homOfLE h).op x)) =
         (Scheme.Hom.relativeDifferentialForms D.f (p : ℤ)).presheaf.map (homOfLE h).op
           (((-1 : ℤ) ^ p) • c.model.res p (D.weightZeroVal (p + 1) x))
@@ -477,11 +477,11 @@ theorem Situation.residueF_comm (n : ℕ) :
   | zero =>
     refine (zero_comp).trans ?_
     refine (D.abelianSheaf_hom_ext fun c s => ?_).symm
-    show (D.residueHom 0).app c.U.1 (D.weightZeroD 0 c.U.1 s) = 0
+    change (D.residueHom 0).app c.U.1 (D.weightZeroD 0 c.U.1 s) = 0
     exact (D.residueHom_app_eq_zero_iff 0 c _).2 (c.model.res_dF_zero (D.weightZeroVal_mem 0 s))
   | succ p =>
     refine D.abelianSheaf_hom_ext fun c s => ?_
-    show -D.dX p c.U.1 ((D.residueHom p).app c.U.1 s) =
+    change -D.dX p c.U.1 ((D.residueHom p).app c.U.1 s) =
       (D.residueHom (p + 1)).app c.U.1 (D.weightZeroD (p + 1) c.U.1 s)
     rw [D.residueHom_app, D.residueHom_app]
     exact (c.model.neg_one_pow_res_dF p (D.weightZeroVal_mem (p + 1) s)).symm
@@ -500,7 +500,7 @@ theorem Situation.inclusionMap_comp_residueMap : D.inclusionMap ≫ D.residueMap
   | zero => exact comp_zero
   | succ p =>
     refine D.abelianSheaf_hom_ext fun c α => ?_
-    show (D.residueHom p).app c.U.1 ((D.pullbackHom (p + 1)).app c.U.1 α) = 0
+    change (D.residueHom p).app c.U.1 ((D.pullbackHom (p + 1)).app c.U.1 α) = 0
     refine (D.residueHom_app_eq_zero_iff p c _).2 ?_
     exact (congrArg (c.model.res p) (D.pullbackHom_app (p + 1) c α)).trans
       (c.model.res_pull p α (c.isDlog_laurentDlog c.unit) c.unit_mem)

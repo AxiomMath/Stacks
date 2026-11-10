@@ -106,7 +106,7 @@ theorem bijective_baseChange_pi
   induction z with
   | tmul b m =>
       ext i
-      show algebraMap R A (g i) • cG (b ⊗ₜ[R] m) = eG (b ⊗ₜ[R] (g i • m))
+      change algebraMap R A (g i) • cG (b ⊗ₜ[R] m) = eG (b ⊗ₜ[R] (g i • m))
       rw [TensorProduct.tmul_smul, ← algebraMap_smul A (g i)]
       exact (map_smul cG _ _).symm
   | add x y hx hy => simp only [map_add, hx, hy]

@@ -221,7 +221,7 @@ theorem pullbackDegreeSection_eq_pullbackGlobalSection
     pullbackDegreeSection 𝒜 φ f
       = Stacks.NonvanishingPullback.pullbackGlobalSection (toProj 𝒜 φ)
           (twistingSheaf 𝒜 (d : ℤ)) (degreeSection 𝒜 d f) := by
-  show ((Scheme.Modules.pullback (toProj 𝒜 φ)).obj (twistingSheaf 𝒜 (d : ℤ))).presheaf.map
+  change ((Scheme.Modules.pullback (toProj 𝒜 φ)).obj (twistingSheaf 𝒜 (d : ℤ))).presheaf.map
       (eqToHom (show toProj 𝒜 φ ⁻¹ᵁ (⊤ : (AlgebraicGeometry.Proj 𝒜).Opens) = ⊤ from rfl)).op
       (Stacks.NonvanishingPullback.pullbackGlobalSection (toProj 𝒜 φ)
         (twistingSheaf 𝒜 (d : ℤ)) (degreeSection 𝒜 d f)) = _

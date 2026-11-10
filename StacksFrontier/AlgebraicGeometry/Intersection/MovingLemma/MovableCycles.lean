@@ -144,7 +144,7 @@ private theorem isMovableOff_of_forall_pointCycle_aux [CompactSpace X] (S : Set 
         have hy' : α.1 y - α.1 x * (if y = x then 1 else 0) ≠ 0 := by
           have : α₀.1 y = α.1 y - α.1 x * (if y = x then 1 else 0) := by
             rw [hα₀]
-            show α.1 y - (α.1 x • (pointCycle C sX k x hxd).1) y = _
+            change α.1 y - (α.1 x • (pointCycle C sX k x hxd).1) y = _
             rw [Function.locallyFinsuppWithin.coe_zsmul, Pi.smul_apply, pointCycle_apply,
               smul_eq_mul]
           rw [← this]; exact hy

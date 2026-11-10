@@ -61,7 +61,7 @@ theorem mem_cohomologyLocus_iff (T : Over S) (x : (functor f σ hσ ⋙ forget G
       HasDerivedPushforwardRank (bcProj f T) (Stacks.Picard.picardRepresentative _
         (smallEquiv _ ((Multiplicative.toAdd x : group f σ hσ T) :
           Stacks.Picard.smallOfScheme (bc f T)))).obj 0 1 := by
-  show IsCohomologyClass f 0 T _ ↔ _
+  change IsCohomologyClass f 0 T _ ↔ _
   rw [IsCohomologyClass, show Stacks.Picard.schemePullbackClass (pullback.fst f T.hom) 0 = 0 from
     map_zero (Stacks.Picard.schemePullbackClassHom _), add_zero]
 

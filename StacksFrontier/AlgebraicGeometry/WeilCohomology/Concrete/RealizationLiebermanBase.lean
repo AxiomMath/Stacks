@@ -39,10 +39,10 @@ def corrDz (X Y : (SmoothProjectiveScheme k).FullSubcategory) :
     Corr k X.obj.hom Y.obj.hom 0 →+ (dz X ⟶ dz Y) where
   toFun c := DegreeZero.homMk (ChowMotiveCat.homOf 0 ((SmoothProjectiveCorr.toCorr X Y 0).symm c))
     (ChowMotiveCat.homOf_mem_grade _)
-  map_zero' := DegreeZero.hom_ext (by rw [DegreeZero.homMk_val, LinearEquiv.map_zero, LinearMap.map_zero,
-    DegreeZero.zero_val])
-  map_add' c c' := DegreeZero.hom_ext (by rw [DegreeZero.homMk_val, LinearEquiv.map_add, LinearMap.map_add,
-    DegreeZero.add_val, DegreeZero.homMk_val, DegreeZero.homMk_val])
+  map_zero' := DegreeZero.hom_ext (by rw [DegreeZero.homMk_val, LinearEquiv.map_zero,
+    LinearMap.map_zero, DegreeZero.zero_val])
+  map_add' c c' := DegreeZero.hom_ext (by rw [DegreeZero.homMk_val, LinearEquiv.map_add,
+    LinearMap.map_add, DegreeZero.add_val, DegreeZero.homMk_val, DegreeZero.homMk_val])
 
 /-- The underlying morphism of motives of `corrDz X Y c` is `c`, read in degree zero. -/
 theorem corrDz_val {X Y : (SmoothProjectiveScheme k).FullSubcategory}
@@ -81,8 +81,7 @@ theorem CorrAction.ext_of_integral [CharZero F] (T T' : W.CorrAction)
       (corrEquivCorrespondence k X.obj.hom Y.obj.hom hX hY 0).symm.toLinearMap.toAddMonoidHom
   have key : Φ T = Φ T' := by
     refine AddMonoidHom.ext fun t ↦ ?_
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => rw [map_add, map_add, ht, ht']
     | tmul q α =>
       have hm : (q.den : ℤ) • (q ⊗ₜ[ℤ] α) = q.num • ((1 : ℚ) ⊗ₜ[ℤ] α) := by
@@ -279,7 +278,7 @@ theorem corrMapG_eq_blockAct_of_name (hP : G.toWeilData.PerfectPairing)
     exact G.map_inv_map_hom_apply K.symm _ _
   have h := map_eq_blockAct G hP hK hX hY (corrHom f) rfl _ hv n a
   rw [hκ] at h
-  show ((G.cohAlg Y).gradeEquiv n).symm ((G.functorTK.map (corrHom f) n).hom
+  change ((G.cohAlg Y).gradeEquiv n).symm ((G.functorTK.map (corrHom f) n).hom
     ((G.cohAlg X).gradeEquiv n a)) = _
   rw [h]
   exact LinearEquiv.symm_apply_apply _ _
@@ -352,7 +351,7 @@ theorem corrMapG_eq_corrHomMap_of_equidimensional {X Y : (SmoothProjectiveScheme
     (coevaluation_whiskerLeft_whiskerRight_eq hX.relativeDimension hY.relativeDimension α _
       (WeilData.corrDz_val _)) n a
   refine (congrArg Subtype.val h).trans ?_
-  show _ = (WeilData.corrHomMap hA hB hC (WeilData.corrDz X Y _) n a : G.toWeilData.H Y)
+  change _ = (WeilData.corrHomMap hA hB hC (WeilData.corrDz X Y _) n a : G.toWeilData.H Y)
   rw [WeilData.corrHomMap_corrDz, WeilData.corrMap_corrEquivCorrespondence_symm_tmul hA hB hC hX hY]
   exact congrArg (fun z ↦ (G.toWeilData.blockAct hA.perfectPairing hX hY z n a : G.toWeilData.H Y))
     ((congrArg (DirectSum.of (G.cohAlg (prod X Y)).piece (2 * d))

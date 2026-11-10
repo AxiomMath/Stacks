@@ -118,7 +118,7 @@ theorem smul_top_eq_bot_of_pow_two_eq_bot (h : I ^ 2 = ⊥) :
   intro r hr x _
   rw [Submodule.mem_bot]
   refine Subtype.ext ?_
-  show r * (x : R) = 0
+  change r * (x : R) = 0
   rw [← Submodule.mem_bot (R := R), ← h, pow_two]
   exact Ideal.mul_mem_mul hr x.2
 

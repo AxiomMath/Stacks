@@ -87,7 +87,7 @@ the structure sheaf. -/
 def stalkSetEquivPresheafFiber (x : GeometricPoint B S hS F)
     (P : (SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :
     stalkSet x P ≃ (etaleSitePoint B S hS F x hF).presheafFiber.obj P :=
-  letI D := (CategoryOfElements.π (etaleSitePoint B S hS F x hF).fiber).op ⋙ P
+  letI D := (Functor.Elements.π (etaleSitePoint B S hS F x hF).fiber).op ⋙ P
   (Equiv.ofBijective _ (Functor.bijective_colimitTypePrecomp
       (neighborhoodFiberElementsEquiv B S hS F x).functor.op D)).trans
     (Types.colimitEquivColimitType D).symm

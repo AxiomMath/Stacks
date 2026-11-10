@@ -147,7 +147,7 @@ theorem sepClosureFiberEval_map {U V : SmallEtale B (Spec (.of K)) hK} (f : U �
         sepClosureFiberEval B K hK sbar U q =
       sepClosureFiberEval B K hK sbar V
         ((sepClosureFiber B (Spec (.of K)) hK sbar).map f q) := by
-  show ((SmallEtale.toScheme B (Spec (.of K)) hK).map f).appTop ≫
+  change ((SmallEtale.toScheme B (Spec (.of K)) hK).map f).appTop ≫
       (q.1.appTop ≫ (Scheme.ΓSpecIso _).hom) =
     (q.1 ≫ (SmallEtale.toScheme B (Spec (.of K)) hK).map f).appTop ≫ (Scheme.ΓSpecIso _).hom
   rw [Scheme.Hom.comp_appTop, Category.assoc]
@@ -294,7 +294,7 @@ theorem sepClosureFiberEval_sepClosureFiberSmul (σ : GeometricPoint.absoluteGal
     sepClosureFiberEval B K hK sbar U
         (sepClosureFiberSmul B (Spec (.of K)) hK sbar σ q) =
       sepClosureFiberEval B K hK sbar U q ≫ CommRingCat.ofHom σ.toAlgHom.toRingHom := by
-  show (Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ q.1).appTop ≫
+  change (Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ q.1).appTop ≫
       (Scheme.ΓSpecIso _).hom =
     (q.1.appTop ≫ (Scheme.ΓSpecIso _).hom) ≫ CommRingCat.ofHom σ.toAlgHom.toRingHom
   rw [Scheme.Hom.comp_appTop, Category.assoc, Category.assoc, Scheme.ΓSpecIso_naturality]
@@ -485,7 +485,7 @@ theorem exists_refinement_appTop_eq_zero (U : SmallEtale B (Spec (.of K)) hK)
   refine ⟨V, f, geometricPointFiberSepClosureEquiv B K hK sbar V q', ?_, ?_⟩
   · rw [geometricPointFiberSepClosureEquiv_map, ← hpy]
     refine congrArg _ (Subtype.ext ?_)
-    show g ≫ (SmallEtale.toScheme B (Spec (.of K)) hK).map f = yq.1
+    change g ≫ (SmallEtale.toScheme B (Spec (.of K)) hK).map f = yq.1
     rw [hfj, hgy]
   · have h1 : ψ.hom ((Scheme.ΓSpecIso (CommRingCat.of E)).hom.hom
         (j.appTop.hom y)) = 0 := by

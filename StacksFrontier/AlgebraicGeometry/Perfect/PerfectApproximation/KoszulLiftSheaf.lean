@@ -323,8 +323,8 @@ This is `Stacks.AffineTilde.exists_koszulPowerTilde_lift` combined with
 `Stacks.AffineTilde.zeroLocus_range_pow`. The derived category of `𝒪_{Spec R}`-modules is pinned
 to `CategoryTheory.HasDerivedCategory.standard` by a `let` in the statement, because that is the
 model at which `AlgebraicGeometry.PerfectApproximation.IsAdmissible` is defined, and the locally
-small instance of `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean` — imported here through
-`AlgebraicGeometry.derivedTilde` — is a global instance, so a local attribute cannot select
+small instance of `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean` — imported here
+through `AlgebraicGeometry.derivedTilde` — is a global instance, so a local attribute cannot select
 another model. -/
 theorem exists_isAdmissible_koszulPowerTilde_lift [HasDerivedCategory.{w} (ModuleCat.{u} R)]
     (f : Fin r → R) :

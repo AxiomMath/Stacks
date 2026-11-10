@@ -68,7 +68,8 @@ consumer, not an equality transported by this file.
 
 It is the branch analogue of
 `Stacks.Chow.isRationallyEquivalentToZeroWithin_properPushforward_zeroSection` of
-`StacksFrontier.AlgebraicGeometry.Chow.AffineBundle.ZeroSectionPushforwardCycle`, and is the first of
+`StacksFrontier.AlgebraicGeometry.Chow.AffineBundle.ZeroSectionPushforwardCycle`, and is the first
+of
 the three steps that read clause (5) into the shape the case `W ⊆ D` of [Stacks, Tag 0F98]
 consumes. The declaration lives in the `Stacks.Chow.TensorZeroScheme` namespace, where
 `branchSituation` lives.

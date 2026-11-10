@@ -158,6 +158,7 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` instance search for presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_BlowupSecondCentreChart :
@@ -184,9 +185,9 @@ theorem exists_isClosedImmersion_ker_eq {V : BigFppfOver B S hS}
   have hqI : B.inclusion.map qI = K.subschemeι :=
     B.inclusion.map_preimage (X := B.obj hI) (Y := V.left) K.subschemeι
   refine ⟨Over.mk (qI ≫ V.hom), Over.homMk qI, ?_, ?_⟩
-  · show AlgebraicGeometry.IsClosedImmersion (B.inclusion.map qI)
+  · change AlgebraicGeometry.IsClosedImmersion (B.inclusion.map qI)
     rw [hqI]; infer_instance
-  · show (B.inclusion.map qI).ker = _
+  · change (B.inclusion.map qI).ker = _
     rw [hqI, Scheme.IdealSheafData.ker_subschemeι]
 
 /-- **Ranges of represented morphisms compare oppositely to kernels.** -/
@@ -309,7 +310,7 @@ theorem chartKer_exceptionalSum (b : X' ⟶ X) (Z : ClosedSubspaces B S hS X.1)
       chartKer B S hS X' (preimageClosedSubspace b Z) r ^ d * chartKer B S hS X' Z' r
   | 0 => by rw [pow_zero, one_mul]; rfl
   | d + 1 => by
-    show chartKer B S hS X' (sumClosedSubspaces B S hS X' (preimageClosedSubspace b Z)
+    change chartKer B S hS X' (sumClosedSubspaces B S hS X' (preimageClosedSubspace b Z)
       (exceptionalSum b Z Z' d)) r = _
     rw [chartKer_sumClosedSubspaces_eq_mul, chartKer_exceptionalSum b Z Z' r d, pow_succ',
       mul_assoc]
@@ -509,7 +510,7 @@ theorem exists_chart_secondCentre (hX : IsQuasiCompactSpace B S hS X.1)
   have hI : I₀ = chartKer B S hS X Z a := by
     rw [hI₀, ← ker_rep_snd_eq_reesChartIdeal B S hS (schemeSpace V) ZV
       (selfPresentation B S hS V)]
-    show chartKer B S hS (schemeSpace V) (preimageClosedSubspace aS Z) (𝟙 _) = _
+    change chartKer B S hS (schemeSpace V) (preimageClosedSubspace aS Z) (𝟙 _) = _
     rw [chartKer_preimageClosedSubspace aS Z a (𝟙 V) (𝟙 _) (selfPresentation B S hS V).etale
       (by rw [CategoryTheory.Functor.map_id, Category.id_comp]; exact (Category.id_comp _).symm),
       CategoryTheory.Functor.map_id, Scheme.IdealSheafData.comap_id]

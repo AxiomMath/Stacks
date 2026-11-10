@@ -174,7 +174,7 @@ lemma quasiIso_globalSectionsFilteredComplexMap_natTrans_app
     (hJ' : ∀ n, (CochainComplex.evalFil J' n).IsFilteredInjective)
     (φ : J ⟶ J') (hφ : ∀ p : ℤ, QuasiIso (φ.natTrans.app (op p))) (p : ℤ) :
     QuasiIso ((globalSectionsFilteredComplexMap X φ).natTrans.app (op p)) := by
-  show QuasiIso (globalSectionsFilteredComplexMapf X φ (op p))
+  change QuasiIso (globalSectionsFilteredComplexMapf X φ (op p))
   exact Stacks.Injectives.KInjectiveResolution.quasiIso_mapHomologicalComplex_map_of_isKInjective
     (SheafOfModules.evaluation (structureSheafRing X) (op ⊤)) (φ.natTrans.app (op p))
     (isKInjective_filtration_obj X J a hJge hJ (op p))

@@ -70,7 +70,7 @@ public lemma standardBasisVector_decomp (R : Type u) [Ring R]
   classical
   funext i
   simp only [Finset.sum_apply, Pi.smul_apply]
-  show x i = ∑ j, x j * standardBasisVector R ι j i
+  change x i = ∑ j, x j * standardBasisVector R ι j i
   rw [Finset.sum_eq_single i]
   · simp [standardBasisVector]
   · intro j hj hji
@@ -94,7 +94,7 @@ public lemma freeModuleTrace_cyclic (R : Type u) [Ring R]
     nth_rw 1 [standardBasisVector_decomp R ι x]
     simp [Finset.sum_apply]
   rw [freeModuleTrace_apply, freeModuleTrace_apply]
-  show additiveCommutatorQuotientMk R
+  change additiveCommutatorQuotientMk R
       (∑ i, f (g (standardBasisVector R ι i)) i) =
     additiveCommutatorQuotientMk R
       (∑ j, g (f (standardBasisVector R κ j)) j)
@@ -143,7 +143,7 @@ public lemma projectiveModuleTrace_eq_of_split (R : Type u) [Ring R]
   let i₀ := h.choose_spec.choose_spec.choose
   have hp₀i₀ : p₀.comp i₀ = LinearMap.id := h.choose_spec.choose_spec.choose_spec.2.2
   have hp₀i₀_apply (x : P) : p₀ (i₀ x) = x := LinearMap.congr_fun hp₀i₀ x
-  show freeModuleTrace R (Fin n₀) (i₀.comp (f.comp p₀)) = _
+  change freeModuleTrace R (Fin n₀) (i₀.comp (f.comp p₀)) = _
   let a : (ι → R) →ₗ[R] (Fin n₀ → R) := i₀.comp (f.comp p)
   let b : (Fin n₀ → R) →ₗ[R] (ι → R) := i.comp p₀
   have hpi_apply (x : P) : p (i x) = x := LinearMap.congr_fun hpi x
@@ -320,7 +320,7 @@ public lemma projectiveModuleTrace_blockTriangular (R : Type u) [Ring R]
     projectiveModuleTrace_eq_of_split R M a pM iM hpM,
     projectiveModuleTrace_eq_of_split R N b pN iN hpN]
   rw [freeModuleTrace_apply, freeModuleTrace_apply, freeModuleTrace_apply]
-  show additiveCommutatorQuotientMk R
+  change additiveCommutatorQuotientMk R
       (∑ x : Sum (Fin nM) (Fin nN), (i.comp ((blockTriangular a b c).comp p))
         (standardBasisVector R (Sum (Fin nM) (Fin nN)) x) x) =
     additiveCommutatorQuotientMk R
@@ -328,7 +328,7 @@ public lemma projectiveModuleTrace_blockTriangular (R : Type u) [Ring R]
     additiveCommutatorQuotientMk R
       (∑ x : Fin nN, (iN.comp (b.comp pN)) (standardBasisVector R (Fin nN) x) x)
   have hpNfun : pN (fun _ : Fin nN => 0) = 0 := by
-    show pN (0 : Fin nN → R) = 0
+    change pN (0 : Fin nN → R) = 0
     exact map_zero pN
   have hInl (x : Fin nM) :
       (fun i : Fin nM =>
@@ -371,7 +371,7 @@ public lemma projectiveModuleTrace_splitExact (R : Type u) [Ring R]
   have hsymm (x : A) : e.symm (f x) = LinearMap.inl R A C x := by
     rw [← he_apply x, e.symm_apply_apply]
   have hTinl (x : A) : T (LinearMap.inl R A C x) = LinearMap.inl R A C (α x) := by
-    show e.symm (β (e (LinearMap.inl R A C x))) = _
+    change e.symm (β (e (LinearMap.inl R A C x))) = _
     rw [he_apply x]
     have hx := congrArg (fun k : A →ₗ[R] B => k x) hα
     rw [LinearMap.comp_apply, LinearMap.comp_apply] at hx
@@ -393,10 +393,10 @@ public lemma projectiveModuleTrace_splitExact (R : Type u) [Ring R]
       ext <;> simp
     rw [hx, map_add]
     apply Prod.ext
-    · show (T (LinearMap.inl R A C x)).1 + (T (LinearMap.inr R A C y)).1 = _
+    · change (T (LinearMap.inl R A C x)).1 + (T (LinearMap.inr R A C y)).1 = _
       rw [hTinl]
       simp [blockTriangular, c, LinearMap.comp_apply]
-    · show (T (LinearMap.inl R A C x)).2 + (T (LinearMap.inr R A C y)).2 = _
+    · change (T (LinearMap.inl R A C x)).2 + (T (LinearMap.inr R A C y)).2 = _
       simp [blockTriangular, hTsnd]
   calc
     Stacks.Trace.projectiveModuleTrace R B β =

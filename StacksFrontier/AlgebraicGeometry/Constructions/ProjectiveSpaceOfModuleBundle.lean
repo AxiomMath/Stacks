@@ -165,7 +165,7 @@ abbrev specΓHom : ↥Γ(Spec (CommRingCat.of k), ⊤) →+* k :=
 
 /-- The two identifications of `k` with the global functions on `Spec k` are mutually inverse. -/
 theorem specΓHom_specΓInv (r : k) : specΓHom k (specΓInv k r) = r := by
-  show ((Scheme.ΓSpecIso (CommRingCat.of k)).inv ≫
+  change ((Scheme.ΓSpecIso (CommRingCat.of k)).inv ≫
     (Scheme.ΓSpecIso (CommRingCat.of k)).hom).hom r = r
   rw [Iso.inv_hom_id]
   rfl
@@ -173,7 +173,7 @@ theorem specΓHom_specΓInv (r : k) : specΓHom k (specΓInv k r) = r := by
 /-- The two identifications of `k` with the global functions on `Spec k` are mutually inverse. -/
 theorem specΓInv_specΓHom (r : ↥Γ(Spec (CommRingCat.of k), ⊤)) :
     specΓInv k (specΓHom k r) = r := by
-  show ((Scheme.ΓSpecIso (CommRingCat.of k)).hom ≫
+  change ((Scheme.ΓSpecIso (CommRingCat.of k)).hom ≫
     (Scheme.ΓSpecIso (CommRingCat.of k)).inv).hom r = r
   rw [Iso.hom_inv_id]
   rfl

@@ -94,7 +94,8 @@ open is `private` here.  It is a general fact about schemes with no crystalline 
 library states it twice already — `Stacks.LocalCohomology.ι_appTop_topIso_hom`, and a `private`
 copy in `StacksFrontier/AlgebraicGeometry/Variety/Defs/Dimension/Formula.lean` — so a third public
 copy would be a third name for one fact.  Keeping it private follows the precedent of
-`StacksFrontier/AlgebraicGeometry/Crystalline/ExplicitDividedPower/Formula.lean` and avoids importing the local cohomology tree into the crystalline tree for a
+`StacksFrontier/AlgebraicGeometry/Crystalline/ExplicitDividedPower/Formula.lean` and avoids
+importing the local cohomology tree into the crystalline tree for a
 single lemma.
 
 That the restriction of a *sheaf* to the ambient scheme of an object is a Zariski sheaf is
@@ -325,18 +326,18 @@ theorem isSheafFor_restrictOpenCover (A : CrystallineThickening S) {I : Type (u 
     have key := hx i j (A.restrictOpen W) (restrictOpenLE A hi) (restrictOpenLE A hj)
       ((restrictOpenLE_restrictOpenHom A hi).trans
         (restrictOpenLE_restrictOpenHom A hj).symm)
-    show (x i ≫ (sectionsIso A (V i)).hom) ≫ (ambientRingPresheaf A).map (homOfLE hi).op =
+    change (x i ≫ (sectionsIso A (V i)).hom) ≫ (ambientRingPresheaf A).map (homOfLE hi).op =
       (x j ≫ (sectionsIso A (V j)).hom) ≫ (ambientRingPresheaf A).map (homOfLE hj).op
     rw [Category.assoc, Category.assoc, ← sectionsIso_restrictOpenLE A hi,
       ← sectionsIso_restrictOpenLE A hj, ← Category.assoc, ← Category.assoc]
     exact congrArg (fun m ↦ m ≫ (sectionsIso A W).hom) key
   obtain ⟨t, ht, huniq⟩ := hzar _ hcompat
   refine ⟨t, fun i ↦ ?_, fun t' ht' ↦ huniq t' fun i ↦ ?_⟩
-  · show t ≫ (crisRing S).map (A.restrictOpenHom (V i)).op = x i
+  · change t ≫ (crisRing S).map (A.restrictOpenHom (V i)).op = x i
     refine (cancel_mono (sectionsIso A (V i)).hom).mp ?_
     exact ((Category.assoc _ _ _).trans (congrArg (fun m ↦ t ≫ m)
       (sectionsIso_restrictOpenHom A (V i)))).trans (ht i)
-  · show t' ≫ (ambientRingPresheaf A).map (homOfLE (le_top : V i ≤ ⊤)).op =
+  · change t' ≫ (ambientRingPresheaf A).map (homOfLE (le_top : V i ≤ ⊤)).op =
       x i ≫ (sectionsIso A (V i)).hom
     exact ((congrArg (fun m ↦ t' ≫ m) (sectionsIso_restrictOpenHom A (V i))).symm.trans
       (Category.assoc _ _ _).symm).trans
@@ -397,7 +398,7 @@ theorem restrictCoverage_toGrothendieck (S : GlobalCrystallineSituation.{u}) :
     (restrictCoverage S).toGrothendieck = smallTopology S := by
   refine le_antisymm (((Coverage.gi (CrystallineThickening S)).gc _ _).2 fun A R hR ↦
     generate_mem_smallTopology_of_mem_restrictCoverage S hR) ?_
-  show (smallPrecoverage S).toGrothendieck ≤ _
+  change (smallPrecoverage S).toGrothendieck ≤ _
   rw [Precoverage.toGrothendieck_eq_sInf]
   refine sInf_le ?_
   rintro A R ⟨E, rfl, hE⟩
@@ -465,7 +466,7 @@ theorem coverPreserving_restrictOpenFunctor (A : CrystallineThickening S) :
     CoverPreserving (Opens.grothendieckTopology A.obj.thickening.target.scheme)
       (smallTopology S) (restrictOpenFunctor A) where
   cover_preserve {W} {R} hR := by
-    show Sieve.functorPushforward (restrictOpenFunctor A) R ∈
+    change Sieve.functorPushforward (restrictOpenFunctor A) R ∈
       smallTopology S (A.restrictOpen W)
     have hcov : ∀ x : (A.restrictOpen W).obj.thickening.target.scheme,
         ∃ i : ULift.{u + 1} (Σ' (V : A.obj.thickening.target.scheme.Opens) (h : V ≤ W),

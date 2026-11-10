@@ -113,7 +113,8 @@ being quasi-separated; and
 `dimension_le_closedSubstackDimension_add_relativeStackDimensionAt_of_quasiCompactRestriction`
 concludes. -/
 @[stacks 0DS4 "the inequality clause, for every f (no quasi-compactness), under the hypotheses \
-of the statement in the Stacks Project other than quasi-compactness of f. The equality clause needs f \
+of the statement in the Stacks Project other than quasi-compactness of f. \
+The equality clause needs f \
 quasi-compact and is registered on \
 AlgebraicGeometry.Stack.dimension_le_add_and_exists_isOpen_dense_eq_add_\
 relativeStackDimensionAt_of_isQuasiCompactMorphism; \

@@ -186,6 +186,7 @@ theorem moduleSheafFunctor_map_etaleModuleInverseImageIsoRestrictionTransport_ho
       (smallToposMorphismTypeU_inverseImageIso B S hS f hf).hom.app
         (moduleSetSheaf B S hS Y M) := rfl
 
+omit hf in
 /-- The two names of the unit of extension of scalars along the inverse-image form of the
 structure map of Stacks 03G8 — `Stacks.Sheaves.GradedAlgebraEssentiallySmall.scalarAdjunction`,
 through which `Stacks.Sheaves.GradedAlgebraEssentiallySmall.pullbackScalarUnit` is defined, and
@@ -265,7 +266,7 @@ theorem pullbackScalarUnit_comp_modulePullbackIsoEtaleModulePullback
             (a ≫ (SheafOfModules.restrictScalars
               (smallEtaleRingedToposModulesHom B S hS f).fSharpInverseImage).map
                 ((modulePullbackIsoEtaleModulePullback B S hS f hf).hom.app M)))
-        (scalarAdjunction_unit_app_eq_extendScalarsFSharpAdjunction_unit_app B S hS f hf
+        (scalarAdjunction_unit_app_eq_extendScalarsFSharpAdjunction_unit_app B S hS f
           M))).trans
       (moduleSheafFunctor_map_extendScalarsFSharpAdjunction_unit_comp B S hS f hf M)).trans
     (moduleSheafFunctor_map_etaleModuleInverseImageIsoRestrictionTransport_hom_app B S hS f hf M)

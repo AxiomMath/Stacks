@@ -95,6 +95,7 @@ attribute [local instance] SheafOfModules.hasSheafify_commRingCat
 
 /-! ### The conservative family of lifted geometric points -/
 
+set_option linter.checkUnivs false in
 /-- **The universe lifts of the geometric points of `X` are a conservative family of points of
 its small étale site**, at the universe `max (u + 1) w r` containing the site, the coefficient
 ring and the module sections.

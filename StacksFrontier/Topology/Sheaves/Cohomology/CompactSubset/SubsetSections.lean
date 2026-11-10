@@ -139,7 +139,7 @@ theorem pullbackToGerm_neighborhoodSectionRestriction (F : X.Sheaf (Type u)) (Z 
       GermPullback.ofSection (g := ConcreteCategory.hom g) (W := W) (V := U.obj)
         (fun z ↦ z.2) s :=
     pullbackToGerm_unit g F U.obj s
-  show m.app (op ⊤) (H.obj.map (homOfLE hle).op t) = _
+  change m.app (op ⊤) (H.obj.map (homOfLE hle).op t) = _
   rw [hp, hu]
   exact GermPullback.ext fun _ ↦ rfl
 
@@ -152,7 +152,7 @@ theorem bijective_pullbackToGerm_app_top (F : X.Sheaf (Type u)) (Z : Set X) :
   have h₂ : IsIso ((TopCat.Sheaf.forget (Type u) (TopCat.of Z)).map
       (pullbackToGerm (Stacks.subsetInclusion X Z) F)) := inferInstance
   have h₃ : IsIso (pullbackToGerm (Stacks.subsetInclusion X Z) F).hom := by
-    show IsIso ((TopCat.Sheaf.forget (Type u) (TopCat.of Z)).map
+    change IsIso ((TopCat.Sheaf.forget (Type u) (TopCat.of Z)).map
       (pullbackToGerm (Stacks.subsetInclusion X Z) F))
     infer_instance
   have h₄ : IsIso ((pullbackToGerm (Stacks.subsetInclusion X Z) F).hom.app

@@ -181,7 +181,7 @@ theorem isIsomorphismAfterBaseChange_iff_fpqcCover (T : Over D.S)
     (𝒰 : Precoverage.ZeroHypercover.{w} Scheme.fpqcPrecoverage T.left) :
     D.IsIsomorphismAfterBaseChange T ↔
       ∀ i, D.IsIsomorphismAfterBaseChange (Over.mk (𝒰.f i ≫ T.hom)) := by
-  show IsIso (D.baseChangeMap T) ↔ ∀ i, IsIso (D.baseChangeMap (Over.mk (𝒰.f i ≫ T.hom)))
+  change IsIso (D.baseChangeMap T) ↔ ∀ i, IsIso (D.baseChangeMap (Over.mk (𝒰.f i ≫ T.hom)))
   simp only [isIso_iff_mono_and_epi, forall_and]
   exact and_congr (D.isInjectiveAfterBaseChange_iff_fpqcCover T 𝒰)
     (D.isSurjectiveAfterBaseChange_iff_fpqcCover T 𝒰)

@@ -179,7 +179,7 @@ theorem arrows_functorPullback_idealPresOver (P : IdealPres 𝓘) {V : Over P.ob
     (Sieve.functorPullback (idealPresOver P) S).arrows φ := by
   have e : (idealPresOver P).map φ = idealPresOverLift P φ g i hi ≫ g :=
     IdealPres.Hom.ext' hi.symm
-  show S.arrows ((idealPresOver P).map φ)
+  change S.arrows ((idealPresOver P).map φ)
   rw [e]
   exact S.downward_closed hg _
 

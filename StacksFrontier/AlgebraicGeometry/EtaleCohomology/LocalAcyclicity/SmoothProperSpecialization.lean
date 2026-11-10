@@ -89,8 +89,8 @@ the specialization map `sp : (Rf_*F)_s ⟶ (Rf_*F)_t` is an isomorphism; the sta
 at its image in `S`, as the source does.
 
 The hypotheses `h095T` and `h03Q9` are the statements of Stacks 095T and 03Q9, and `h0EYS`,
-`h0EZR`, `h0EZS`, `h0F08`, `h03SC2`, `h03SC6`, `h0BMA` and `h0EYD` are the inputs of the smooth
-base change theorem (Tag 0EYU). -/
+`h0EZR`, `h0EZS`, `h0F08`, `h03SC2`, `h03SC6` and `h0EYD` are the inputs of the smooth base
+change theorem (Tag 0EYU). -/
 @[sga "4 XVI 2.3" "special case"]
 theorem isIso_specializationMap_of_smooth_of_isProper
     (h095T : ∀ ⦃X S : Scheme.{u}⦄ (f : X ⟶ S) [IsProper f],
@@ -102,7 +102,6 @@ theorem isIso_specializationMap_of_smooth_of_isProper
     (h0F08 : SmoothBaseChange.FirstFailureNormalization.{u})
     (h03SC2 : SmoothBaseChange.AffineCurveCohomologyVanishing.{u})
     (h03SC6 : SmoothBaseChange.CurveCohomologyAlgClosedInvariance.{u})
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -120,7 +119,7 @@ theorem isIso_specializationMap_of_smooth_of_isProper
   have hla := isLocallyAcyclicRelative_of_isLocallyConstant_unconditional B hX hS f F hFlc hFtors
     (isLocallyAcyclic_of_isUniversallyLocallyAcyclic B hX hS f
       (SmoothBaseChange.isUniversallyLocallyAcyclic_of_smooth h0EYS h0EZR h0EZS h0F08 h03SC2
-        h03SC6 h0BMA h0EYD f))
+        h03SC6 h0EYD f))
   have hKt := Stacks.Torsion.torsionCohomologyProperty_singleFunctor _ F
     (torsionSheafProperty_of_forall_smallEtaleStalkAb F fun x g => by
       obtain ⟨n, hn, -, h⟩ := hFtors x g

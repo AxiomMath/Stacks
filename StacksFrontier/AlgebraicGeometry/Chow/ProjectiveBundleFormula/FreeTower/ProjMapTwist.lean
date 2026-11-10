@@ -60,7 +60,7 @@ theorem pullbackGlobalSections_eq_unitSection {X Y : Scheme.{u}} (f : X ⟶ Y) (
     (s : Γ(F, ⊤)) :
     pullbackGlobalSections f F s =
       Stacks.AlgebraicGeometry.RelativeProjDegreeOne.unitSection f F ⊤ s := by
-  show ((Scheme.Modules.pullback f).obj F).presheaf.map
+  change ((Scheme.Modules.pullback f).obj F).presheaf.map
       (eqToHom (by simp : (⊤ : X.Opens) = f ⁻¹ᵁ ⊤)).op
       (Scheme.Modules.Hom.app
         ((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app F) ⊤ s) = _
@@ -87,7 +87,7 @@ theorem twistMap_degreeSection (a : 𝒜 1) :
     (AlgebraicGeometry.Proj.map φ hφ)
     (Stacks.ProjTwistComparison.pushforwardTwistMap φ hφ ((1 : ℕ) : ℤ)) ⊤ _).trans ?_
   refine Subtype.ext (funext fun y => ?_)
-  show Stacks.ProjTwistComparison.fibreMap φ hφ y.1 ((degreeSection 𝒜 1 a).1 ⟨_, trivial⟩) = _
+  change Stacks.ProjTwistComparison.fibreMap φ hφ y.1 ((degreeSection 𝒜 1 a).1 ⟨_, trivial⟩) = _
   rw [degreeSection_apply]
   refine (Stacks.ProjTwistComparison.fibreMap_mk φ hφ y.1 (a : A) 1).trans ?_
   refine Eq.trans ?_ (degreeSection_apply ℬ 1 ⟨φ a, φ.map_mem a.2⟩ ⟨y.1, trivial⟩).symm
@@ -216,7 +216,7 @@ variable {L s g}
 theorem pullbackGlobalSections_eq_nonvanishingPullback {X Y : Scheme.{u}} (f : X ⟶ Y)
     (M : Y.Modules) (t : Γ(M, ⊤)) :
     pullbackGlobalSections f M t = Stacks.NonvanishingPullback.pullbackGlobalSection f M t := by
-  show ((Scheme.Modules.pullback f).obj M).presheaf.map
+  change ((Scheme.Modules.pullback f).obj M).presheaf.map
       (eqToHom (show f ⁻¹ᵁ (⊤ : Y.Opens) = ⊤ from rfl)).op
       (Stacks.NonvanishingPullback.pullbackGlobalSection f M t) = _
   exact Functor.map_id_apply _ _ _

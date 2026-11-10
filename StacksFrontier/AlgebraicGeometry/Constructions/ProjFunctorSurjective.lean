@@ -86,7 +86,8 @@ divisibility — which is what `F(Y)` is for quasi-compact `Y` — is in
 over the quasi-compact test objects, is in
 `StacksFrontier/AlgebraicGeometry/Constructions/ProjFunctorRepresentable.lean`. Those two files
 consume the surjectivity below together with the injectivity of
-`StacksFrontier/AlgebraicGeometry/Constructions/ProjFunctorInjective.lean`, and give the bijection of
+`StacksFrontier/AlgebraicGeometry/Constructions/ProjFunctorInjective.lean`,
+and give the bijection of
 [Stacks, Tag 01NC] as a single `Equiv` and a `CategoryTheory.Functor.RepresentableBy` datum for
 `Proj(A)`.
 
@@ -355,7 +356,7 @@ theorem Fd.classifyingMorphism_pullback (hd : 0 < d) (h : Y' ⟶ Y) (ξ : Fd �
   induction ξ using Quotient.ind with
   | _ t =>
       have := t.isInvertible
-      show toProj 𝒜 (ProjTripleClassifying.classifyingHom 𝒜 hd
+      change toProj 𝒜 (ProjTripleClassifying.classifyingHom 𝒜 hd
           (ProjTriplePullback.pullbackSections 𝒜 t.psi h) _)
         = h ≫ toProj 𝒜 (ProjTripleClassifying.classifyingHom 𝒜 hd t.psi t.generated)
       rw [ProjClassifyingPullback.classifyingHom_pullbackSections 𝒜 hd t.psi t.generated h]
@@ -382,7 +383,7 @@ def universalDegreeTriple (d : ℕ) : DegreeTriple 𝒮 d (degreeOpen 𝒮 d).to
 theorem Fd.classifyingMorphism_universalDegreeTriple (d : ℕ) (hd : 0 < d) :
     Fd.classifyingMorphism 𝒮 hd (Fd.mk 𝒮 (universalDegreeTriple 𝒮 d))
       = (degreeOpen 𝒮 d).ι := by
-  show toProj 𝒮 (ProjTripleClassifying.classifyingHom 𝒮 hd
+  change toProj 𝒮 (ProjTripleClassifying.classifyingHom 𝒮 hd
       (universalVeroneseSections 𝒮 d) _) = _
   rw [ProjClassifyingPullback.classifyingHom_universalVeroneseSections 𝒮 d hd]
   exact Category.id_comp _

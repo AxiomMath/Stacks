@@ -79,7 +79,8 @@ germ-level chain `germ_inverseImageStalkIso_inv` is therefore written in term mo
 abstract one; the stalk comparison needs the *presheaf*-level unit followed by sheafification.
 `CategoryTheory.Adjunction.unit_leftAdjointUniq_hom_app` bridges the two, and
 `inverseImageProjection_c_eq` records the resulting sections-level identity. This is the same
-bookkeeping as in `StacksFrontier/AlgebraicGeometry/ProEtale/WLocal/InverseImageStructureSheaf.lean`,
+bookkeeping as in
+`StacksFrontier/AlgebraicGeometry/ProEtale/WLocal/InverseImageStructureSheaf.lean`,
 where it is carried out for locally ringed spaces with a general adjoint structure map; here the
 adjoint structure map is the identity, so only the unit identity survives.
 
@@ -164,7 +165,7 @@ theorem stalkRingMap_comp_ringStalkCommIso :
         ((structureSheafHom f).hom.app (op V) r)) =
       (X.presheaf.germ ((opensMap f).obj V) x hV).hom ((f.hom.c.app (op V)).hom r) :=
     ringStalkCommIso_germ X x ((opensMap f).obj V) hV _
-  show (ringStalkCommIso X x).hom.hom
+  change (ringStalkCommIso X x).hom.hom
       ((stalkRingMap f x).hom
         ((TopCat.Presheaf.germ (C := RingCat.{u}) (structureSheafRing Y).obj V
           (f.hom.base x) hV).hom r)) =

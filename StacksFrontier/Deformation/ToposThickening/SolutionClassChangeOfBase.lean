@@ -71,6 +71,8 @@ variable {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
   [HasDerivedCategory.{t} (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O))]
   {M N : SheafOfModules.{u} (underlyingRingSheaf O)}
 
+omit [HasWeakSheafify J CommRingCat.{u}] [J.HasSheafCompose (forget CommRingCat.{u})]
+  [(forget CommRingCat.{u}).ReflectsIsomorphisms] in
 /-- **`(B3)`: the class of an extension of algebras along a morphism of extensions**, over two
 equal structure maps `a = a' : 𝒜 ⟶ 𝒪`. Let `P` be an extension of `𝒜`-algebras by `ℳ` over `a`,
 `R` one by `𝒩` over `a'`, and `h : 𝒪'_P ⟶ 𝒪'_R` a map over `𝒪`, under `𝒜`, inducing `φ` on the
@@ -88,7 +90,7 @@ theorem canonicalNaiveComparison_comp_extClass_of_hom {a a' : A ⟶ O} (ha : a =
           extOneMap φ (extClass P) := by
   subst ha
   rw [eqToHom_refl, CategoryTheory.Functor.map_id, Category.id_comp]
-  exact congrArg (_ ≫ ·) (extClass_mapAlong ⟨h, hred, halg, hker⟩)
+  exact congrArg (_ ≫ ·) (extClass_mapAlong.{t, u} ⟨h, hred, halg, hker⟩)
 
 end Deformation.AlgebraExtension
 
@@ -104,6 +106,8 @@ variable {X : RingedTopos.{u, u, u}} {B : RingedTopos.{v', u', w'}}
   [HasDerivedCategory.{t} (Sheaf.targetModules.{u, u, u} X.J X.O)]
   (S : RingedToposExtensionProblem X B)
 
+omit [X.J.HasSheafCompose (forget CommRingCat.{u})]
+  [(forget CommRingCat.{u}).ReflectsIsomorphisms] in
 /-- **`(h₂)`: the class of a solution against an extension over the reduced base.** Let `Q` be a
 solution of `S`, `E₁` an extension of `f⁻¹𝒪_B`-algebras by `𝒢₁`, and `h : 𝒪'_Q ⟶ 𝒪'_{E₁}` a map
 over `𝒪`, under `f⁻¹𝒪_{B'}` (through `f⁻¹𝒪_{B'} ⟶ f⁻¹𝒪_B`), inducing `π : 𝒢 ⟶ 𝒢₁` on the
@@ -126,7 +130,7 @@ theorem towerCotangentChangeOfBase_comp_neg_extClass (Q : S.CompatibleFirstOrder
     S.toThickenedBase_fSharpInverseImage (S.thickenedAlgebraExtension Q')
     (E₁.restrictAlong S.baseReductionInverseImage) π h hred
     (by
-      show Q.baseMap ≫ h = S.baseReductionInverseImage ≫ E₁.algebraMap
+      change Q.baseMap ≫ h = S.baseReductionInverseImage ≫ E₁.algebraMap
       exact halg)
     hker
   have hB1 := AlgebraExtension.extClass_restrictAlong S.baseReductionInverseImage E₁

@@ -8,7 +8,7 @@ public import
 public import
   StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.SectionsFunctionField
 public import
-  StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.StructureSheafObstruction
+StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.StructureSheafObstruction
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

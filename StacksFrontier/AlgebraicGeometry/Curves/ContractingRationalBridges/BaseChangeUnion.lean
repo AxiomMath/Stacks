@@ -155,7 +155,7 @@ theorem topologicalKrullDim_subscheme_vanishingIdeal_component_eq_one {F : Type 
     topologicalKrullDim (vanishingIdeal (Closeds.closure Z)).subscheme = 1 := by
   have hZclosed : IsClosed Z := isClosed_of_mem_irreducibleComponents Z hZ
   have hrange : Set.range (vanishingIdeal (Closeds.closure Z)).subschemeι.base = Z := by
-    simpa [hZclosed.closure_eq] using range_subschemeι_vanishingIdeal (Closeds.closure Z)
+    simp
   have hemb : Topology.IsEmbedding
       (vanishingIdeal (Closeds.closure Z)).subschemeι.base :=
     IsPreimmersion.isEmbedding (vanishingIdeal (Closeds.closure Z)).subschemeι
@@ -412,7 +412,7 @@ theorem finrank_sup_complementaryCurveIdeal_component_eq_two_of_isRationalBridge
   let s : Y ⟶ Spec (.of Ω) := pullback.snd (X ↘ Spec (.of k)) g
   let _ : Y.Over (Spec (.of Ω)) := ⟨s⟩
   have : IsProper (Y ↘ Spec (.of Ω)) := by
-    show IsProper (pullback.snd (X ↘ Spec (.of k)) g); infer_instance
+    change IsProper (pullback.snd (X ↘ Spec (.of k)) g); infer_instance
   have : LocallyOfFiniteType (Y ↘ Spec (.of Ω)) := inferInstance
   have hsq : IsPullback p s (X ↘ Spec (.of k)) g := IsPullback.of_hasPullback _ _
   have : IsNoetherian X := isNoetherian_of_isProper_field (X ↘ Spec (.of k))
@@ -620,7 +620,7 @@ theorem isRationalBridge_vanishingIdeal_component_baseChange
     have hmem := hW_subset hy
     rw [Scheme.IdealSheafData.support_comap] at hmem ⊢
     change pK.base (b.base y) ∈ (C.support : Set X) at hmem
-    show pΩ.base y ∈ (C.support : Set X)
+    change pΩ.base y ∈ (C.support : Set X)
     rwa [← hbp]
   have hΩsub : ((vanishingIdeal (Closeds.closure (b.base ⁻¹' W))).support : Set YΩ)
       ⊆ ((C.comap pΩ).support : Set YΩ) := by
@@ -856,7 +856,7 @@ theorem exists_finset_isRationalBridge_baseChange
   let sK : YK ⟶ Spec (.of K) := pullback.snd (X ↘ Spec (.of k)) gK
   let _ : YK.Over (Spec (.of K)) := ⟨sK⟩
   have : IsProper (YK ↘ Spec (.of K)) := by
-    show IsProper (pullback.snd (X ↘ Spec (.of k)) gK); infer_instance
+    change IsProper (pullback.snd (X ↘ Spec (.of k)) gK); infer_instance
   have : LocallyOfFiniteType (YK ↘ Spec (.of K)) := inferInstance
   have hsqK : IsPullback pK sK (X ↘ Spec (.of k)) gK := IsPullback.of_hasPullback _ _
   have hXeq : TopologicalSpace.Equidimensional X :=

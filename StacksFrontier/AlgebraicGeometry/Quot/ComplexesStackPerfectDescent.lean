@@ -127,7 +127,7 @@ theorem relativelyPerfectDescends : D.RelativelyPerfectDescends := by
   let b : ∀ x, U x ⟶ T := fun x => CostructuredArrow.homMk (q x) rfl
   let k : ∀ x, U x ⟶ Ti (i x) := fun x => CostructuredArrow.homMk (g x) (by
     have w := CostructuredArrow.w (a (i x))
-    show (schemeSpaceFunctor B S hS).map (g x) ≫ (Ti (i x)).hom =
+    change (schemeSpaceFunctor B S hS).map (g x) ≫ (Ti (i x)).hom =
       (schemeSpaceFunctor B S hS).map (q x) ≫ T.hom
     rw [hg x, Functor.map_comp, Category.assoc, w])
   have hk : ∀ x, k x ≫ a (i x) = b x := fun x =>

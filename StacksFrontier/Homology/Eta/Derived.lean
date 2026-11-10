@@ -162,7 +162,7 @@ theorem exists_flatTerms_resolution {R : Type ur} [CommRing R]
     intro i
     have ht : Module.Flat R (colimit (Dseq ⋙ HomologicalComplex.eval _ _ i) : ModuleCat R) :=
       CochainComplex.KFlat.flat_colimit.{ur, ux} _ (fun n => by
-        show Module.Flat R ((Q n).X i)
+        change Module.Flat R ((Q n).X i)
         have : Projective ((Q n).X i) := hflat n i
         infer_instance)
     exact @Module.Flat.of_linearEquiv R _ _ _ _ _ _ _ ht
@@ -324,7 +324,7 @@ theorem fLoc_mem_etaTerm (f : A)
   let C := (underlyingComplex f).obj M
   let D := (underlyingComplex f).obj N
   let a := (underlyingComplex f).map g
-  show fLoc f (a.f i).hom x.val ∈ fetaTerm f (D.d i (i + 1)).hom i
+  change fLoc f (a.f i).hom x.val ∈ fetaTerm f (D.d i (i + 1)).hom i
   obtain ⟨hpow, hd⟩ := (mem_fetaTerm).mp x.property
   apply (mem_fetaTerm).mpr
   constructor
@@ -413,7 +413,7 @@ theorem zpow_smul_mem_fpowSub (f : A) {X : Type*} [AddCommGroup X] [Module A X]
   · rintro ⟨m, hm⟩
     refine ⟨m, ?_⟩
     apply (Eta.zpowEquiv (Submonoid.powers f) X (Stacks.GradedLaurent.awayUnit f) n).injective
-    show (Stacks.GradedLaurent.awayUnit f ^ n) •
+    change (Stacks.GradedLaurent.awayUnit f ^ n) •
         ((Stacks.GradedLaurent.awayUnit f ^ i) • toLoc f X m) =
       (Stacks.GradedLaurent.awayUnit f ^ n) • x
     rwa [smul_smul, ← zpow_add, add_comm n i]
@@ -438,7 +438,7 @@ theorem etaShiftTerm_mem (f : A)
     (Stacks.GradedLaurent.awayUnit f ^ n) • x ∈
         fetaTerm f (M.d (i + n) (i + n + 1)).hom.hom (i + n) ↔
       x ∈ fetaTerm f ((M⟦n⟧).d i (i + 1)).hom.hom i := by
-  show _ ↔ x ∈ fetaTerm f
+  change _ ↔ x ∈ fetaTerm f
     (n.negOnePow • (M.d (i + n) (i + 1 + n)).hom.hom) i
   rw [show i + 1 + n = i + n + 1 by omega]
   simp only [mem_fetaTerm, fLoc_intUnit_smul, fLoc_zpow_smul,
@@ -549,7 +549,7 @@ theorem etaComplex_XIsoOfEq_hom_val (f : A)
     ((((etaComplex f M).XIsoOfEq h).hom).hom.hom x).val =
       fLoc f ((M.XIsoOfEq h).hom).hom.hom x.val := by
   subst j
-  show x.val = fLoc f LinearMap.id x.val
+  change x.val = fLoc f LinearMap.id x.val
   exact (fLoc_id_apply f x.val).symm
 
 /-- The localizations of `M.XIsoOfEq h` and `M.XIsoOfEq h.symm` are mutually inverse. -/
@@ -559,7 +559,7 @@ theorem fLoc_XIsoOfEq_symm (f : A)
     fLoc f ((M.XIsoOfEq h.symm).hom).hom.hom
       (fLoc f ((M.XIsoOfEq h).hom).hom.hom x) = x := by
   subst j
-  show fLoc f LinearMap.id (fLoc f LinearMap.id x) = x
+  change fLoc f LinearMap.id (fLoc f LinearMap.id x) = x
   rw [fLoc_id_apply, fLoc_id_apply]
 
 /-- The power maps defining the shift comparison are coherent under addition of shifts. -/
@@ -688,7 +688,7 @@ theorem etaShiftIso_one_hom_app_f_val (f : A)
     (M : CochainComplex (FTorsionFreeModule.{u, v} f) ℤ) (i : ℤ)
     (x : ((etaComplex f (M⟦(1 : ℤ)⟧)).X i).obj) :
     ((((etaShiftIso f 1).hom.app M).f i).hom.hom x).val = f • x.val := by
-  show (Stacks.GradedLaurent.awayUnit f ^ (1 : ℤ)) • x.val = f • x.val
+  change (Stacks.GradedLaurent.awayUnit f ^ (1 : ℤ)) • x.val = f • x.val
   rw [zpow_one, fUnit_units_smul]
 
 /-- Multiplication by `f` on the complex consisting of `A` in degree one. -/
@@ -714,7 +714,7 @@ private theorem eta_isZero_X (f : A)
   obtain ⟨m, hm⟩ := mem_fpowSub.mp (mem_fetaTerm.mp x.property).1
   have hz : m = 0 :=
     (ModuleCat.isZero_iff_subsingleton.mp ((isFTorsionFree f).ι.map_isZero hi)).elim _ _
-  show x.val = 0
+  change x.val = 0
   rw [← hm, hz, map_zero, smul_zero]
 
 private theorem eta_d_eq_zero (f : A)
@@ -724,7 +724,7 @@ private theorem eta_d_eq_zero (f : A)
   · ext x
     apply Subtype.ext
     rw [etaComplex_d_val f M i j hij, h]
-    show fLoc f 0 x.val = 0
+    change fLoc f 0 x.val = 0
     exact EtaComplex.localizedMap_zero_apply f x.val
   · exact (etaComplex f M).shape i j hij
 
@@ -817,7 +817,7 @@ private theorem etaCounterexampleMap_f_one (f : A) (hf : f ∈ nonZeroDivisors A
     (etaCounterexampleMap.{u, v} f hf).f 1 =
       f • 𝟙 (((CochainComplex.singleFunctor (FTorsionFreeModule f) 1).obj
         (torsionFreeSelf f hf)).X 1) := by
-  show ((CochainComplex.singleFunctor (FTorsionFreeModule f) 1).map
+  change ((CochainComplex.singleFunctor (FTorsionFreeModule f) 1).map
     (f • 𝟙 (torsionFreeSelf f hf))).f 1 = _
   simp
 
@@ -827,7 +827,7 @@ private theorem cone_d (f : A) (hf : f ∈ nonZeroDivisors A) :
   have hd : (CochainComplex.mappingCone (etaCounterexampleMap.{u, v} f hf)).d 0 1 =
       f • (coneTermIso f hf).hom := by
     apply homotopyCofiber.ext_from_X (etaCounterexampleMap f hf) 1 0 rfl
-    · show homotopyCofiber.inlX (etaCounterexampleMap f hf) 1 0 rfl ≫
+    · change homotopyCofiber.inlX (etaCounterexampleMap f hf) 1 0 rfl ≫
         homotopyCofiber.d (etaCounterexampleMap f hf) 0 1 = _
       rw [homotopyCofiber.inlX_d _ 0 1 2 rfl rfl]
       simp [CochainComplex.singleFunctor_obj_d, etaCounterexampleMap_f_one, coneTermIso]
@@ -879,7 +879,7 @@ private theorem isUnit_of_eta_map_isIso (f : A) (hf : f ∈ nonZeroDivisors A)
       fetaTerm f (S.d 1 2).hom.hom 1 := by
     apply mem_fetaTerm.mpr
     refine ⟨mem_fpowSub.mpr ⟨m, rfl⟩, ?_⟩
-    show fLoc f 0 _ ∈ _
+    change fLoc f 0 _ ∈ _
     rw [EtaComplex.localizedMap_zero_apply]
     exact Submodule.zero_mem _
   let x : (E.X 1).obj := ⟨(Stacks.GradedLaurent.awayUnit f ^ (1 : ℤ)) • toLoc f (S.X 1).obj m, hx⟩
@@ -956,7 +956,7 @@ private lemma cycleClass_eq_zero {R : Type*} [Ring R]
     (S : ShortComplex (ModuleCat.{v} R)) (z : LinearMap.ker S.g.hom) :
     cycleClass S z = 0 ↔ ∃ x : S.X₁, S.f.hom x = z.val := by
   rw [cycleClass_eq, LinearMap.comp_apply]
-  show S.moduleCatHomologyIso.symm.toLinearEquiv
+  change S.moduleCatHomologyIso.symm.toLinearEquiv
     ((LinearMap.range S.moduleCatToCycles).mkQ z) = 0 ↔ _
   rw [S.moduleCatHomologyIso.symm.toLinearEquiv.map_eq_zero_iff, Submodule.mkQ_apply,
     Submodule.Quotient.mk_eq_zero]
@@ -970,14 +970,14 @@ private lemma cycleClass_naturality {R : Type*} [Ring R]
   have hc : (ShortComplex.cyclesMap a).hom (S.moduleCatCyclesIso.inv.hom x) =
       T.moduleCatCyclesIso.inv.hom y := by
     apply (ModuleCat.mono_iff_injective T.iCycles).mp inferInstance
-    show (S.moduleCatCyclesIso.inv ≫ ShortComplex.cyclesMap a ≫ T.iCycles).hom x =
+    change (S.moduleCatCyclesIso.inv ≫ ShortComplex.cyclesMap a ≫ T.iCycles).hom x =
       (T.moduleCatCyclesIso.inv ≫ T.iCycles).hom y
     rw [ShortComplex.cyclesMap_i, ← Category.assoc, S.moduleCatCyclesIso_inv_iCycles,
       T.moduleCatCyclesIso_inv_iCycles]
     exact h
-  show (S.moduleCatCyclesIso.inv ≫ S.homologyπ ≫ ShortComplex.homologyMap a).hom x = _
+  change (S.moduleCatCyclesIso.inv ≫ S.homologyπ ≫ ShortComplex.homologyMap a).hom x = _
   rw [ShortComplex.homologyπ_naturality]
-  show T.homologyπ.hom ((ShortComplex.cyclesMap a).hom
+  change T.homologyπ.hom ((ShortComplex.cyclesMap a).hom
     (S.moduleCatCyclesIso.inv.hom x)) = T.homologyπ.hom (T.moduleCatCyclesIso.inv.hom y)
   rw [hc]
 
@@ -1168,7 +1168,7 @@ theorem quasiIso_etaPow_of_quasiIso
         refine ⟨(tN j).symm w', ?_⟩
         apply (tN (j + 1)).injective
         apply Subtype.ext
-        show (tN (j + 1) ((D'.d j (j + 1)).hom ((tN j).symm w'))).val =
+        change (tN (j + 1) ((D'.d j (j + 1)).hom ((tN j).symm w'))).val =
           (tN (j + 1) (y - (b.f (j + 1)).hom x')).val
         rw [hdN, LinearEquiv.apply_symm_apply, hw']
         simp only [map_sub, Submodule.coe_sub]
@@ -1253,7 +1253,7 @@ lemma isLocalization_homotopyInclusion {A : Type u} [CommRing A]
     let YP : P.FullSubcategory := ⟨I.obj Y, ⟨Y, ⟨Iso.refl _⟩⟩⟩
     let a : P.ι.obj YP ⟶ X := e.hom ≫ (HomotopyCategory.quotient _ _).map q
     have he : W e.hom := by
-      show W (𝟙 _)
+      change W (𝟙 _)
       exact W.id_mem _
     exact ⟨⟨a, by
       dsimp only [W, a]
@@ -1265,7 +1265,7 @@ lemma isLocalization_homotopyInclusion {A : Type u} [CommRing A]
       W hW).2.2
   let : Φ.IsLocalizedEquivalence := hΦ inferInstance
   let : (P.ι ⋙ DerivedCategory.Qh).IsLocalization (W.inverseImage P.ι) := by
-    show (Φ.functor ⋙ DerivedCategory.Qh).IsLocalization (W.inverseImage P.ι)
+    change (Φ.functor ⋙ DerivedCategory.Qh).IsLocalization (W.inverseImage P.ι)
     exact CategoryTheory.LocalizerMorphism.IsLocalizedEquivalence.isLocalization
       Φ DerivedCategory.Qh
   let E : (HomotopyCategory (FTorsionFreeModule.{u, v} f) (ComplexShape.up ℤ)) ≌
@@ -1285,7 +1285,7 @@ lemma isLocalization_homotopyInclusion {A : Type u} [CommRing A]
       exact (W.arrow_mk_iso_iff
         (((Functor.mapArrowFunctor _ _).mapIso J).app (Arrow.mk g))).2 hg
     · intro X Y g hg
-      show IsIso (DerivedCategory.Qh.map (I.map g))
+      change IsIso (DerivedCategory.Qh.map (I.map g))
       exact Localization.inverts DerivedCategory.Qh W _ hg
     · exact CategoryTheory.Functor.isoWhiskerRight J DerivedCategory.Qh
   exact hLoc
@@ -1326,7 +1326,7 @@ private lemma homotopyEquivalences_le_fTorsionFreeQuasiIso {A : Type u} [CommRin
     exact ((homotopyInclusion.{u, v} f).mapIso (@asIso _ _ _ _ _ h1)).isIso_hom
   have h3 := (HomologicalComplex.isIso_quotient_map_iff_homotopyEquivalences
     ((underlyingComplex.{u, v} f).map p)).1 h2
-  show QuasiIso ((underlyingComplex.{u, v} f).map p)
+  change QuasiIso ((underlyingComplex.{u, v} f).map p)
   exact _root_.homotopyEquivalences_le_quasiIso _ _ _ h3
 
 /-- **`D(A)` is the localization of the complexes of `f`-torsion-free modules.** For a
@@ -1350,7 +1350,7 @@ lemma isLocalization_underlyingComplexCompQ {A : Type u} [CommRing A]
     · rw [← MorphismProperty.IsInvertedBy.iff_of_iso _ (underlyingComplexFactors.{u, v, w} f)]
       intro Y Z p hp
       have hq : QuasiIso ((underlyingComplex.{u, v} f).map p) := hp
-      show IsIso (DerivedCategory.Q.map ((underlyingComplex.{u, v} f).map p))
+      change IsIso (DerivedCategory.Q.map ((underlyingComplex.{u, v} f).map p))
       infer_instance
     · intro Y Z p hp
       obtain ⟨q, rfl⟩ := (HomotopyCategory.quotient (FTorsionFreeModule.{u, v} f)
@@ -1373,7 +1373,7 @@ private lemma etaFunctor_additive {A : Type u} [CommRing A] (f : A) :
   intro X Y g h
   ext i x
   apply Subtype.ext
-  show EtaPow.fLoc f ((g.f i).hom.hom + (h.f i).hom.hom) x.val =
+  change EtaPow.fLoc f ((g.f i).hom.hom + (h.f i).hom.hom) x.val =
     EtaPow.fLoc f (g.f i).hom.hom x.val + EtaPow.fLoc f (h.f i).hom.hom x.val
   exact EtaComplex.localizedMap_add_apply _ _ _ _
 
@@ -1410,7 +1410,7 @@ theorem exists_additive_derived_eta
       (etaHomotopyFunctorFactors.{u, v} f) I
     apply (W.arrow_mk_iso_iff
       (((Functor.mapArrowFunctor _ _).mapIso N).app (Arrow.mk g))).2
-    show W ((HomotopyCategory.quotient (ModuleCat.{max u v} A)
+    change W ((HomotopyCategory.quotient (ModuleCat.{max u v} A)
       (ComplexShape.up ℤ)).map ((underlyingComplex f).map (Eη.functor.map g)))
     exact (HomotopyCategory.quotient_map_mem_quasiIso_iff
       ((underlyingComplex f).map (Eη.functor.map g))).2 heta

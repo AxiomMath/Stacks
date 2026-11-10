@@ -126,12 +126,12 @@ theorem exists_squareZeroExtensionArtinian_smul_generator (c : k) :
     rw [← hsnd_e t, ht, e.apply_symm_apply, DualNumber.snd_eps]
   refine ⟨t, e.symm (TrivSqZeroExt.inl c),
     maximalIdeal_eq_span_of_dualNumberRingEquiv e, ?_, ?_⟩
-  · show TrivSqZeroExt.fst (e.symm (TrivSqZeroExt.inl c)) = c
+  · change TrivSqZeroExt.fst (e.symm (TrivSqZeroExt.inl c)) = c
     rw [← hfst_e, e.apply_symm_apply, TrivSqZeroExt.fst_inl]
   · refine apply_eq_mul_of_fst_snd e c (e.apply_symm_apply _) ?_ ?_
     · rw [hfst_e, squareZeroExtensionArtinian_map_fst, hft]
     · rw [hsnd_e, squareZeroExtensionArtinian_map_snd]
-      show c * ULift.down (TrivSqZeroExt.snd t) = c
+      change c * ULift.down (TrivSqZeroExt.snd t) = c
       rw [hst, mul_one]
 
 /-! ### The base arrow of the re-based scaling self-arrow -/

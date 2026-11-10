@@ -299,8 +299,6 @@ lemma isTorsionHomAdapted_of_subsingleton (D : Type (u + 1)) [AddCommGroup D]
       ⟨fun φ ψ => SourceHom.ext fun d => by rw [Subsingleton.elim d 0, map_zero, map_zero]⟩
     exact ModuleCat.isZero_of_subsingleton _
 
-variable [Fact ℓ.Prime]
-
 /-- `Hom_{ℤ/ℓᴹ}(ℤ/N, -)` satisfies `IsTorsionHomAdapted` for `N = ℓᵃ` with `a ≤ M`. -/
 lemma isTorsionHomAdapted_zmodLift {N a : ℕ} [hN : Fact (N ∣ ℓ ^ M)] (ha : a ≤ M)
     (hNa : N = ℓ ^ a) : IsTorsionHomAdapted ℓ M (zmodHomFunctor ℓ M (ZModLift.{u} N)) := by
@@ -335,6 +333,8 @@ lemma isTorsionHomAdapted_pi (ι : Type) [Finite ι] :
     exact (isTorsionHomAdapted_prod (isTorsionHomAdapted_zmodLift ha hNa)
       (hα (fun a ↦ N (some a)) fun a ↦ hN (some a))).of_iso
       (zmodHomFunctorCongr (LinearEquiv.piOptionEquivProd (ZMod (ℓ ^ M))))
+
+variable [Fact ℓ.Prime]
 
 /-- **`Hom_{ℤ/ℓᴹ}(D, -)` for a finite `D`** is exact on short exact sequences of sheaves with
 flat first term and carries injective sheaves to sheaves acyclic everywhere. -/

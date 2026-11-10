@@ -51,7 +51,8 @@ equality of ideal sheaves that
   `{R S} [Algebra R S] (𝒮 : ℕ → Submodule R S) [GradedAlgebra 𝒮]`, and a chart of a relative Proj
   carries `…RelativeProjBridge.SheafGradedAlgebra.grading`, an `AddSubgroup`-valued `GradedRing`.
   The restatement is `Stacks.ProjQuotientFiniteCover.ker_eq_ker_projMap_quotientMk_of_cover` of
-  `StacksFrontier/AlgebraicGeometry/ProjQuotientFiniteCover/GradedRing.lean`. The `GradedAlgebra` hypothesis buys exactly one thing,
+  `StacksFrontier/AlgebraicGeometry/ProjQuotientFiniteCover/GradedRing.lean`. The `GradedAlgebra`
+  hypothesis buys exactly one thing,
   `Stacks.ProjQuotientChartIdeal.ambientHom_eq_projMap`, which identifies the glued
   `Stacks.AlgebraicGeometry.RelativeProj.mapHomOfTop` with Mathlib's `AlgebraicGeometry.Proj.map`,
   so stating the conclusion at `Proj.map` of `Stacks.HomogeneousIdeal.quotientMk` deletes it.

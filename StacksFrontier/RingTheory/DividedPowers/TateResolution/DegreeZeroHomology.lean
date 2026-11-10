@@ -225,7 +225,7 @@ public theorem exact_degreeZeroHomology_oddVariableExtension
     rw [LinearMap.mem_ker, Submodule.mkQ_apply, mulOnDegreeZeroHomology_mk,
       toExtensionOnDegreeZeroHomology_mk]
     apply (Submodule.Quotient.mk_eq_zero _).2
-    show OddVariableExtension.inclusion 𝒜 1 (f * (a : A)) ∈
+    change OddVariableExtension.inclusion 𝒜 1 (f * (a : A)) ∈
       LinearMap.range (dExt.comp (OddVariableExtension.grade 𝒜 1 1).subtype)
     let y : OddVariableExtension 𝒜 1 := TrivSqZeroExt.inr
       (show TwistedModule 𝒜 1 from (a : A))
@@ -254,10 +254,10 @@ public theorem exact_degreeZeroHomology_oddVariableExtension
     rw [mulOnDegreeZeroHomology_mk]
     apply (Submodule.Quotient.eq _).2
     rw [Submodule.mem_comap, Submodule.subtype_apply, Submodule.coe_sub]
-    show (f * (b : A) - (x : A)) ∈
+    change (f * (b : A) - (x : A)) ∈
       LinearMap.range (dA.comp (𝒜 1).subtype)
     refine ⟨⟨-y.val.fst, (𝒜 1).neg_mem hy'.1⟩, ?_⟩
-    show dA (-y.val.fst) = f * (b : A) - (x : A)
+    change dA (-y.val.fst) = f * (b : A) - (x : A)
     rw [map_neg, heq, ← hcomm b]
     abel
 

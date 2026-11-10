@@ -160,7 +160,7 @@ public lemma sectionsToCochain_naturality {F G : Cᵒᵖ ⥤ AddCommGrpCat.{a}} 
   ext s
   apply (productAddEquiv (cochainFactor E G 0)).injective
   ext k
-  show Pi.π (cochainFactor E G 0) k (sectionsToCochain E G (φ.app (op X) s)) =
+  change Pi.π (cochainFactor E G 0) k (sectionsToCochain E G (φ.app (op X) s)) =
     Pi.π (cochainFactor E G 0) k
       (((cechComplexFunctor E).map φ).f 0 (sectionsToCochain E F s))
   rw [cechComplexFunctor_map_f_π_apply, sectionsToCochain_π, sectionsToCochain_π,

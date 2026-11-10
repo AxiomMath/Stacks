@@ -114,7 +114,7 @@ private theorem finite_frobenius_of_finite_residueField
     have heq : algebraMap R (ResidueField S) =
         eκ.toRingHom.comp ((frobenius (ResidueField R) p).comp (residue R)) := by
       ext x
-      show residue S (e (x ^ p)) = eκ ((residue R x) ^ p)
+      change residue S (e (x ^ p)) = eκ ((residue R x) ^ p)
       simp [eκ, ResidueField.mapEquiv_apply, ResidueField.map_residue]
     rw [heq]
     exact eκ.finite.comp (hκ.comp (.of_surjective _ residue_surjective))
@@ -122,7 +122,7 @@ private theorem finite_frobenius_of_finite_residueField
   have hle : (maximalIdeal R).map f ≤ maximalIdeal S := by
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show e (x ^ p) ∈ maximalIdeal S
+    change e (x ^ p) ∈ maximalIdeal S
     rw [← IsLocalRing.map_ringEquiv_maximalIdeal e]
     exact Ideal.mem_map_of_mem e (Ideal.pow_mem_of_mem _ hx p (expChar_pos R p))
   have hrad : maximalIdeal S ≤ ((maximalIdeal R).map f).radical := by
@@ -187,7 +187,7 @@ private theorem finite_kaehlerDifferential_of_finite_frobenius_range
     simp [dpow]
   have hDx (x : S) : d x ∈ Q := by
     have hx : x ∈ Submodule.span T (s : Set S) := by
-      show x ∈ Submodule.span (frobenius S p).range (s : Set S)
+      change x ∈ Submodule.span (frobenius S p).range (s : Set S)
       rw [hs]
       trivial
     induction hx using Submodule.span_induction with
@@ -195,7 +195,7 @@ private theorem finite_kaehlerDifferential_of_finite_frobenius_range
     | zero => exact d.map_zero ▸ Q.zero_mem
     | add x y _ _ hx hy => simpa [d.map_add] using Q.add_mem hx hy
     | smul c x _ hx =>
-        show d ((c : S) * x) ∈ Q
+        change d ((c : S) * x) ∈ Q
         rw [dsmul]
         exact Q.smul_mem (c : S) hx
   have hQ : Q = ⊤ := by
@@ -215,7 +215,7 @@ private theorem adicCompletion_approximation
   let I := IsLocalRing.maximalIdeal A
   obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (x.val n)
   refine ⟨a, ?_⟩
-  show x - algebraMap A (AdicCompletion I A) a ∈
+  change x - algebraMap A (AdicCompletion I A) a ∈
     I ^ n • (⊤ : Submodule A (AdicCompletion I A))
   rw [AdicCompletion.pow_smul_top_eq_ker_eval I.fg_of_isNoetherianRing, LinearMap.mem_ker]
   have hv : AdicCompletion.eval I A n x =

@@ -41,6 +41,7 @@ variable (X : RingedSite.{u, u, u}) (U : X.C)
   [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   (L I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The section over `U` of the global section attached to `f` is the cochain of `f|_U`.** -/
 theorem sectionsIso_globalHomSection_val (f : L ⟶ I) :
     ((sheafHomComplex X L I).sectionsIso U).hom.f 0 ((globalHomSection X L I f).val (op U)) =

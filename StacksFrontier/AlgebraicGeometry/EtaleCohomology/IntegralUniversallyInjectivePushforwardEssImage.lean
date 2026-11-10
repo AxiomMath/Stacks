@@ -156,7 +156,7 @@ public theorem smallEtalePushforwardAb_essImage_iff_support_of_integral_universa
     (F : Sheaf (smallEtaleTopology Y) Ab.{u + 1}) :
     (smallEtalePushforwardAb f).essImage F ↔ smallEtaleSupportAb F ⊆ Set.range f.base := by
   have hcompl : (((openComplementRange f : Y.Opens) : Set Y))ᶜ = Set.range f.base := by
-    show ((Set.range f.base)ᶜ)ᶜ = Set.range f.base
+    change ((Set.range f.base)ᶜ)ᶜ = Set.range f.base
     exact compl_compl _
   rw [smallEtalePushforwardAb_essImage_iff_of_integral_universallyInjective' f F,
     isZero_smallEtalePullbackAb_iff_smallEtaleSupportAb_subset_compl, hcompl]

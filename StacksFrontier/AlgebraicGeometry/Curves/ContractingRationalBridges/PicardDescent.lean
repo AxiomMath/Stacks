@@ -137,7 +137,7 @@ theorem isIso_morphismRestrict_compl_contraction_bridge
     have hx : x.1 ∉ (C.support : Set X) := fun h => x.2 ⟨x.1, h, rfl⟩
     obtain ⟨z, hz⟩ := exists_complementaryCurveι_eq_of_notMem hx
     have hzV : z ∈ complementaryCurveι C ⁻¹ᵁ c ⁻¹ᵁ V := by
-      show (complementaryCurveι C).base z ∈ c ⁻¹ᵁ V
+      change (complementaryCurveι C).base z ∈ c ⁻¹ᵁ V
       rw [hz]; exact x.2
     exact ⟨⟨z, hzV⟩, Subtype.ext ((morphismRestrict_base_coe _ _ _).trans hz)⟩
   have : IsIso (complementaryCurveι C ∣_ c ⁻¹ᵁ V) :=
@@ -188,9 +188,9 @@ theorem mem_support_of_mem_image_contraction_bridge
   obtain ⟨z, rfl⟩ := hx₀
   have hab : pushoutInl s x' = pushoutInr s (C.subscheme.toSpecΓ z) := by
     apply e.hom.homeomorph.injective
-    show (pushoutInl s ≫ e.hom) x' = (pushoutInr s ≫ e.hom) (C.subscheme.toSpecΓ z)
+    change (pushoutInl s ≫ e.hom) x' = (pushoutInr s ≫ e.hom) (C.subscheme.toSpecΓ z)
     rw [hea, heb]
-    show c ((complementaryCurveι C) x') = (C.subscheme.toSpecΓ ≫ b) z
+    change c ((complementaryCurveι C) x') = (C.subscheme.toSpecΓ ≫ b) z
     rw [hx', ← hbc, Scheme.Hom.comp_apply, hcx]
   obtain ⟨q, hq, -⟩ := Scheme.Pullback.exists_preimage_pullback _ _ hab
   have hP := pushoutSquare_isPullback s
@@ -199,12 +199,12 @@ theorem mem_support_of_mem_image_contraction_bridge
     rw [← Scheme.Hom.comp_apply, hP.isoPullback_inv_fst]; exact hq
   have hii : s.i ≫ complementaryCurveι C = Scheme.IdealSheafData.inclusion (I := C)
       (J := intersectionWithComplementaryCurveIdeal C) le_sup_left ≫ C.subschemeι := by
-    show Scheme.IdealSheafData.inclusion (I := complementaryCurveIdeal C)
+    change Scheme.IdealSheafData.inclusion (I := complementaryCurveIdeal C)
       (J := intersectionWithComplementaryCurveIdeal C) le_sup_right ≫ complementaryCurveι C = _
     rw [Scheme.IdealSheafData.inclusion_subschemeι, Scheme.IdealSheafData.inclusion_subschemeι]
   apply hxC
   rw [← hx', ← hd]
-  show (s.i ≫ complementaryCurveι C) d ∈ (C.support : Set X)
+  change (s.i ≫ complementaryCurveι C) d ∈ (C.support : Set X)
   rw [hii, ← Scheme.IdealSheafData.range_subschemeι]
   exact ⟨Scheme.IdealSheafData.inclusion (I := C)
     (J := intersectionWithComplementaryCurveIdeal C) le_sup_left d, rfl⟩
@@ -245,11 +245,11 @@ theorem exists_pullback_iso_of_trivial_near_contraction_bridge
     refine ⟨Stacks.SheafOfModules.restrictIsoUnitOfLE L (A := P y₀) ?_ (ePmem y₀).some⟩
     rintro x ⟨w, ⟨w', hw', hww'⟩, hw⟩
     have hxV : x ∈ c ⁻¹ᵁ V := by
-      show c x ∈ V
+      change c x ∈ V
       rw [← hw]; exact w.2
     have hinj : (⟨x, hxV⟩ : c ⁻¹ᵁ V) = w' := by
       refine (c ∣_ V).homeomorph.injective (Subtype.ext ?_)
-      show ((c ∣_ V) ⟨x, hxV⟩).1 = ((c ∣_ V) w').1
+      change ((c ∣_ V) ⟨x, hxV⟩).1 = ((c ∣_ V) w').1
       calc ((c ∣_ V) ⟨x, hxV⟩).1 = c x := morphismRestrict_base_coe c V _
         _ = w.1 := hw.symm
         _ = ((c ∣_ V) w').1 := by rw [← hww']; rfl
@@ -373,7 +373,7 @@ theorem isPullback_subschemeι_contraction_bridge
     have hu : u ≫ ιX = T.subschemeι := Scheme.IdealSheafData.inclusion_subschemeι _
     have hea' : pushoutInl s ≫ e.hom = ιX ≫ c := hea
     have hH : (Y.fromSpecResidueField (c (C.subschemeι z))).ker ≤ (T.subschemeι ≫ c).ker := by
-      show _ ≤ T.map c
+      change _ ≤ T.map c
       rw [Scheme.IdealSheafData.le_map_iff_comap_le]
       exact le_sup_left
     let v : T.subscheme ⟶ Spec Γ(C.subscheme, ⊤) := IsClosedImmersion.lift _ _ hH ≫ ρ

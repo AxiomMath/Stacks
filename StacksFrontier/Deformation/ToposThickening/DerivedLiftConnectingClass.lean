@@ -59,7 +59,6 @@ universe d d₀ v' u u'
 namespace Deformation.ComplexLift
 
 variable {C : Type u'} [Category.{v'} C] {J : GrothendieckTopology C}
-variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 variable [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 variable {O O₀ : Sheaf J CommRingCat.{u}} {f : O ⟶ O₀}
 variable
@@ -89,7 +88,6 @@ def shiftedRestriction : (K₀.obj ⟶ (idealTensor.obj K₀.obj)⟦(1 : ℤ)⟧
   map_zero' := by rw [Functor.map_zero, Limits.zero_comp]
   map_add' ξ ξ' := by rw [Functor.map_add, Preadditive.add_comp]
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The restricted class of `ξ` is the restriction of `ξ` followed by the commutation of
 restriction with the shift. -/
 theorem shiftedRestriction_apply (ξ : K₀.obj ⟶ (idealTensor.obj K₀.obj)⟦(1 : ℤ)⟧) :
@@ -104,7 +102,6 @@ theorem unit_comp_connectingClass (L : DerivedLift T K₀) :
     ← CategoryTheory.Functor.map_comp, Iso.hom_inv_id, CategoryTheory.Functor.map_id,
     Category.id_comp, ← Category.assoc, R.unit_comp_connecting, Limits.zero_comp]
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The connecting morphism of the reduction triangle of the underlying object of a lift,
 recovered from its connecting class. -/
 theorem connecting_eq_connectingClass (L : DerivedLift T K₀) :
@@ -142,8 +139,6 @@ private theorem baseChange_map_comp_identification {L₁ L₂ : DerivedLift T K�
     (b : L₁.K.obj ⟶ L₂.K.obj)
     (hb : (liftTriangle R L₁).mor₂ = b ≫ (liftTriangle R L₂).mor₂) :
     T.baseChange.map b ≫ L₂.identification.hom = L₁.identification.hom := by
-  -- uses the section instance, which the statement alone does not need (no `omit` allowed)
-  have _ := liftTriangle_distinguished R L₁
   apply (R.adjunction.homEquiv L₁.K.obj K₀.obj).injective
   have hn : R.adjunction.unit.app L₁.K.obj ≫ R.restriction.map (T.baseChange.map b) =
       b ≫ R.adjunction.unit.app L₂.K.obj := (R.adjunction.unit.naturality b).symm
@@ -230,6 +225,7 @@ theorem liftDifference_add (L₁ L₂ L₃ : DerivedLift T K₀) :
   rw [map_add, ← connectingClass_sub_eq R hdiff, ← connectingClass_sub_eq R hdiff]
   abel
 
+omit hdiff in
 /-- The difference class of a lift relative to an isomorphic one vanishes. -/
 theorem liftDifference_eq_zero_of_isomorphic {L₁ L₂ : DerivedLift T K₀}
     (h : DerivedLift.Isomorphic L₁ L₂) : liftDifference R L₁ L₂ = 0 := by
@@ -240,7 +236,7 @@ theorem liftDifference_eq_zero_of_isomorphic {L₁ L₂ : DerivedLift T K₀}
 /-- Two lifts are isomorphic exactly when their difference class vanishes. -/
 theorem liftDifference_eq_zero_iff_isomorphic (L₁ L₂ : DerivedLift T K₀) :
     liftDifference R L₁ L₂ = 0 ↔ DerivedLift.Isomorphic L₁ L₂ := by
-  refine ⟨fun h => ?_, liftDifference_eq_zero_of_isomorphic R hdiff⟩
+  refine ⟨fun h => ?_, liftDifference_eq_zero_of_isomorphic R⟩
   have h' := connectingClass_sub_eq R hdiff L₂ L₁
   rw [h, map_zero, sub_eq_zero] at h'
   exact isomorphic_of_connectingClass_eq R h'.symm
@@ -248,7 +244,7 @@ theorem liftDifference_eq_zero_iff_isomorphic (L₁ L₂ : DerivedLift T K₀) :
 /-- The difference class depends on its second argument only through its isomorphism class. -/
 theorem liftDifference_congr_right {L₁ L₂ L₂' : DerivedLift T K₀}
     (h : DerivedLift.Isomorphic L₂ L₂') : liftDifference R L₁ L₂ = liftDifference R L₁ L₂' := by
-  rw [← liftDifference_add R hdiff L₁ L₂ L₂', liftDifference_eq_zero_of_isomorphic R hdiff h,
+  rw [← liftDifference_add R hdiff L₁ L₂ L₂', liftDifference_eq_zero_of_isomorphic R h,
     add_zero]
 
 /-- Isomorphism classes of lifts with the same difference class relative to `L` are equal. -/
@@ -268,6 +264,7 @@ variable (hreal : ∀ (L : DerivedLift T K₀) (ξ : K₀.obj ⟶ (idealTensor.o
   ∃ L' : DerivedLift T K₀, connectingClass R L - connectingClass R L' = shiftedRestriction R ξ)
 include hreal
 
+omit hdiff in
 /-- Every class of `Ext¹(K₀, K₀ ⊗^L I)` is the difference class of some lift relative to `L`. -/
 theorem liftClassMap_surjective (L : DerivedLift T K₀) :
     Function.Surjective (liftClassMap R L) := by
@@ -282,7 +279,7 @@ def liftClassEquiv (L : DerivedLift T K₀) :
     Quotient (DerivedLift.setoid (T := T) (K₀ := K₀)) ≃
       (K₀.obj ⟶ (idealTensor.obj K₀.obj)⟦(1 : ℤ)⟧) :=
   Equiv.ofBijective (liftClassMap R L)
-    ⟨liftClassMap_injective R hdiff L, liftClassMap_surjective R hdiff hreal L⟩
+    ⟨liftClassMap_injective R hdiff L, liftClassMap_surjective R hreal L⟩
 
 /-- The bijection sends the class of a lift `L'` to its difference class relative to `L`. -/
 theorem liftClassEquiv_mk (L L' : DerivedLift T K₀) :
@@ -310,7 +307,7 @@ theorem exists_addTorsor_liftClasses [Nonempty (DerivedLift T K₀)] :
       vsub_vadd' := fun x y => show e.symm ((e x - e y) + e y) = x by simp
       vadd_vsub' := fun ξ x => show e (e.symm (ξ + e x)) - e x = ξ by simp }
   refine ⟨τ, fun ξ L' L'' => ?_⟩
-  show e.symm (ξ + e ⟦L'⟧) = ⟦L''⟧ ↔ _
+  change e.symm (ξ + e ⟦L'⟧) = ⟦L''⟧ ↔ _
   rw [Equiv.symm_apply_eq, liftClassEquiv_mk, liftClassEquiv_mk,
     ← liftDifference_add R hdiff L'' L' L]
   constructor
@@ -337,7 +334,6 @@ variable
 
 include hnat₁ hnat₃
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- For a natural reduction triangle, a morphism whose derived base change is an isomorphism is
 an isomorphism: the morphism of reduction triangles it induces is an isomorphism on the two
 outer vertices. -/
@@ -354,7 +350,7 @@ theorem isIso_of_isIso_baseChange_map_of_naturality
     (inferInstanceAs (IsIso (R.restriction.map (idealTensor.map (T.baseChange.map φ)))))
     (inferInstanceAs (IsIso (R.restriction.map (T.baseChange.map φ))))
 
-omit hnat₁ [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+omit hnat₁ in
 /-- For a natural reduction triangle, isomorphic lifts have the same connecting class. -/
 theorem connectingClass_eq_of_isomorphic {L L' : DerivedLift T K₀}
     (h : DerivedLift.Isomorphic L L') : connectingClass R L = connectingClass R L' := by

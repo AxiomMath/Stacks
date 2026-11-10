@@ -67,6 +67,7 @@ def sectionMonomialBasis (k : ℕ) :
       Γ((Stacks.SymGraded.schemeSheafGradedAlgebra E hqc).piece (k : ℤ), V) :=
   (symPowMonomialBasis E b k).map (pieceSectionsLinearEquiv E hqc hV k)
 
+omit [E.IsQuasicoherent] in
 /-- The element of `symPowMonomialBasis` indexed by a monomial `α` is the preimage of the
 monomial `X^α` under the identification of `Sym^k_{Γ(S, V)}(Γ(E, V))` with the homogeneous
 polynomials of degree `k`. -/
@@ -77,7 +78,7 @@ theorem symPowMonomialBasis_apply {k : ℕ} (α : Monomials m k) :
   apply (SymPow.symmetricPowerEquivHomogeneousSubmodule b k).injective
   rw [LinearEquiv.apply_symm_apply]
   apply Subtype.ext
-  show ((SymPow.symmetricPowerEquivHomogeneousSubmodule b k
+  change ((SymPow.symmetricPowerEquivHomogeneousSubmodule b k
       ((SymPow.symmetricPowerEquivHomogeneousSubmodule b k).symm
         (LinearEquiv.ofEq _ _ (MvPolynomial.homogeneousSubmodule_eq_finsupp_supported _ Γ(S, V)
           k).symm ((AddMonoidAlgebra.supportedEquivFinsupp
@@ -88,6 +89,7 @@ theorem symPowMonomialBasis_apply {k : ℕ} (α : Monomials m k) :
     (R := Γ(S, V)) {d : Fin (m + 1 + 1) →₀ ℕ | d.degree = k} α (1 : Γ(S, V)))).trans
     (AddMonoidAlgebra.ofCoeff_single _ _)
 
+omit [E.IsQuasicoherent] in
 /-- In the symmetric algebra, the element of `symPowMonomialBasis` indexed by `α` is the preimage
 of the monomial `X^α` under `SymmetricAlgebra.equivMvPolynomial`. -/
 theorem coe_symPowMonomialBasis {k : ℕ} (α : Monomials m k) :
@@ -106,7 +108,7 @@ theorem of_sectionMonomialBasis {k : ℕ} (α : Monomials m k) :
       ofPolyGrading E hqc hV b (MvPolynomial.monomial α.1 1) := by
   apply (Stacks.SymGraded.AffinePieces.symSectionRingEquiv E hV hqc).injective
   refine (Stacks.SymGraded.AffinePieces.symSectionRingEquiv_of E hV hqc k _).trans ?_
-  show ((Stacks.SymGraded.AffinePieces.pieceSectionsEquiv E hV (k : ℤ)).symm
+  change ((Stacks.SymGraded.AffinePieces.pieceSectionsEquiv E hV (k : ℤ)).symm
       (Stacks.SymGraded.AffinePieces.pieceSectionsEquiv E hV (k : ℤ)
         (symPowMonomialBasis E b k α)) : SymmetricAlgebra Γ(S, V) Γ(E, V)) =
     Stacks.SymGraded.AffinePieces.symSectionRingEquiv E hV hqc

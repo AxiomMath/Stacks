@@ -71,8 +71,7 @@ public theorem LAdicSheaf.LevelTrivialization.rationalStalkEquiv_baseChange
     (w : LAdicSheaf.rationalStalkLeft B X ℓ F s) :
     T'.rationalStalkEquiv (LinearMap.baseChange ℚ_[ℓ] L w) =
       M.map ((↑) : ℤ_[ℓ] → ℚ_[ℓ]) *ᵥ T.rationalStalkEquiv w := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, Matrix.mulVec_zero]
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, ha, hb, map_add, Matrix.mulVec_add]
   | tmul c v =>
     change TensorProduct.piScalarRight ℤ_[ℓ] ℚ_[ℓ] ℚ_[ℓ] (Fin r')

@@ -485,6 +485,7 @@ variable {X : RingedTopos.{v, max u t, max w t s}} {Y : RingedTopos.{v', max u s
       (SheafOfModules.{max w t s} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))]
   (f : RingedToposHom X Y)
 
+set_option linter.checkUnivs false in
 /-- **The underived identity behind the global-sections clause of Stacks 0D6H:**
 `Γ(D, f_* M) = Γ(C, M)` as `Γ(𝒪_D)`-modules, naturally in the `𝒪_C`-module `M`, the right hand
 side read through restriction of scalars along `toposGlobalSectionsRingHom f`. It is
@@ -500,6 +501,7 @@ def pushforwardModulesCompGlobalSectionsIso :
 
 variable {R : Type r} [Ring R] [HasDerivedCategory (ModuleCat.{max u w t s} R)]
 
+set_option linter.checkUnivs false in
 /-- **Stacks 0D6H, the global-sections clause, for a morphism of ringed topoi.** Let
 `f : (Sh(C), 𝒪_C) ⟶ (Sh(D), 𝒪_D)` be a morphism of ringed topoi and `ψ : R ⟶ Γ(𝒪_D)` a ring
 map. Then `RΓ(D, -) ∘ Rf_* = RΓ(C, -)` as functors `D(𝒪_C) ⟶ D(R)`: derived global sections
@@ -540,6 +542,7 @@ variable {R' : Type r'} [Ring R'] [HasDerivedCategory (ModuleCat.{max u w t s} R
       ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O).obj) (ρ : R' →+* R)
   (h : (toposGlobalSectionsRingHom f).comp ψ' = ψ.comp ρ)
 
+set_option linter.checkUnivs false in
 /-- Derived global sections followed by restriction of scalars along `ρ`, read on the derived
 category: `RΓ(C, -)` over `R` followed by the exact functor `ρ_*`, is `RΓ(C, -)` over `R'` along
 the composite ring map `(toposGlobalSectionsRingHom f).comp ψ' = ψ.comp ρ`. -/
@@ -560,6 +563,7 @@ def derivedGlobalSectionsRestrictScalarsIso :
           ModuleCat.restrictScalars ψ)
       (ModuleCat.restrictScalars ρ)).symm
 
+set_option linter.checkUnivs false in
 /-- **The semilinear comparison on derived global sections along `f`**:
 `RΓ(D, K) ⟶ ρ_* RΓ(C, Lf^* K)` in `D(R')`, for `K ∈ D(𝒪_D)`. It is `RΓ(D, -)` of the unit
 `K ⟶ Rf_* Lf^* K` of the derived adjunction of Stacks 07A6, followed by the global-sections
@@ -589,6 +593,7 @@ variable {L : DerivedCategory (ModuleCat.{max u w t s} R') ⥤
     DerivedCategory (ModuleCat.{max u w t s} R)}
   (adj : L ⊣ (ModuleCat.restrictScalars ρ).mapDerivedCategory)
 
+set_option linter.checkUnivs false in
 /-- **The canonical base change map on global sections along a morphism of ringed topoi**:
 
 `RΓ(D, K) ⊗^L_{R'} R ⟶ RΓ(C, Lf^* K)`   in `D(R)`,

@@ -201,7 +201,7 @@ lemma exists_epi_isModuleFreeSum (G : PresheafOfModules.{max w uD vD uC vC} (s.p
   refine ⟨_, ⟨ι, x, ⟨Iso.refl _⟩⟩, PresheafOfModules.freeObjDesc φ,
     PresheafOfModules.epi_of_surjective fun y t => ⟨ModuleCat.freeMk ⟨⟨y.unop, t⟩, ⟨𝟙 _⟩⟩, ?_⟩⟩
   refine (ModuleCat.freeDesc_apply _ _).trans ?_
-  show G.map (𝟙 y.unop).op t = t
+  change G.map (𝟙 y.unop).op t = t
   rw [op_id, G.map_id]
   rfl
 

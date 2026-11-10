@@ -120,7 +120,7 @@ theorem exists_isAlgebraicSpace_qcqs_of_isFinitePresentation (U : BigFppfOver B 
       (relocalizeSpaceOverSmallerBaseIso B U.left.1 S U.left.2 hS U.hom H p.hom).hom p.hom).2 hp.2.1
     have hqs := (isQuasiSeparated_isIso_comp_iff B S hS
       (relocalizeSpaceOverSmallerBaseIso B U.left.1 S U.left.2 hS U.hom H p.hom).hom p.hom).2 hp.2.2
-    show IsQuasiCompact B S hS (OverShriek.relocalizeToYoneda U.hom Y.1) ∧
+    change IsQuasiCompact B S hS (OverShriek.relocalizeToYoneda U.hom Y.1) ∧
       IsQuasiSeparated B S hS (OverShriek.relocalizeToYoneda U.hom Y.1)
     rw [← hw]
     exact ⟨hqc, hqs⟩

@@ -171,13 +171,13 @@ public theorem existsUnique_extend_integralClosure_of_stable (D : Derivation k A
       map_add' := fun t s => Subtype.ext (map_add DK (t : L) (s : L))
       map_smul' := fun c t => by
         apply Subtype.ext
-        show DK (c • (t : L)) = c • DK (t : L)
+        change DK (c • (t : L)) = c • DK (t : L)
         rw [hsm c (t : L), hsm c (DK (t : L)), DK.leibniz, hDKk]
         simp only [smul_eq_mul, mul_zero, add_zero]
       map_one_eq_zero' := Subtype.ext DK.map_one_eq_zero
       leibniz' := fun t s => by
         apply Subtype.ext
-        show DK ((t : L) * (s : L)) = (t : L) * DK (s : L) + (s : L) * DK (t : L)
+        change DK ((t : L) * (s : L)) = (t : L) * DK (s : L) + (s : L) * DK (t : L)
         rw [DK.leibniz]
         simp only [smul_eq_mul] }
   have hD'ext : ∀ a : A, D' (algebraMap A ↥(integralClosure A L) a)

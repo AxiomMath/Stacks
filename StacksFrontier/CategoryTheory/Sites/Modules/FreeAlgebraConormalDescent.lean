@@ -137,7 +137,7 @@ theorem ker_mvPolynomialMap {R S : Type*} [CommRing R] [CommRing S] (f : R →+*
       (Ideal.subset_span ⟨_, RingHom.mem_ker.mpr (hcoeff s), rfl⟩)
   · rw [Ideal.span_le]
     rintro x ⟨r, hr, rfl⟩
-    show MvPolynomial.map f (MvPolynomial.C r) = 0
+    change MvPolynomial.map f (MvPolynomial.C r) = 0
     rw [MvPolynomial.map_C, show f r = 0 from RingHom.mem_ker.mp hr, map_zero]
 
 variable [HasWeakSheafify J CommRingCat.{w}]
@@ -318,7 +318,7 @@ theorem coefficientKernelSieve_mem {A₁ A₂ : Sheaf J CommRingCat.{w}} (u : A�
       (congrArg ((freeAlgebraSheaf J A₁ E).obj.map j.op) hp.symm)).trans
       (NatTrans.naturality_apply
         (CategoryTheory.toSheafify J (polynomialPresheaf J A₁ E)) j.op p).symm
-  show (freeAlgebraSheaf J A₁ E).obj.map (j ≫ i).op h ∈
+  change (freeAlgebraSheaf J A₁ E).obj.map (j ≫ i).op h ∈
     coefficientKernelIdeal J u E (op W)
   rw [hmap]
   exact Ideal.mem_comap.mp (hle _ hker)
@@ -413,7 +413,7 @@ lemma moduleVanishingSieve_add_mem {Y : C} {t t' : G.val.presheaf.obj (op Y)}
     moduleVanishingSieve G (t + t') ∈ J Y := by
   refine J.superset_covering ?_ (J.intersection_covering h h')
   rintro V i ⟨hi, hi'⟩
-  show G.val.presheaf.map i.op (t + t') = 0
+  change G.val.presheaf.map i.op (t + t') = 0
   rw [map_add, show G.val.presheaf.map i.op t = 0 from hi,
     show G.val.presheaf.map i.op t' = 0 from hi', add_zero]
 
@@ -426,7 +426,7 @@ lemma moduleVanishingSieve_mem_of_restrict {Y : C} (t : G.val.presheaf.obj (op Y
     moduleVanishingSieve G t ∈ J Y := by
   refine J.transitive hS _ (fun V i hi ↦ J.superset_covering ?_ (h i hi))
   intro W j hj
-  show G.val.presheaf.map (j ≫ i).op t = 0
+  change G.val.presheaf.map (j ≫ i).op t = 0
   rw [show ((j ≫ i).op : op Y ⟶ op W) = i.op ≫ j.op from rfl, G.val.presheaf.map_comp]
   exact hj
 
@@ -439,7 +439,7 @@ lemma eq_zero_of_moduleVanishingSieve_mem [J.HasSheafCompose (forget AddCommGrpC
     exact ((sheafCompose J (forget AddCommGrpCat.{max w u v z})).obj
       (⟨G.val.presheaf, G.isSheaf⟩ : Sheaf J AddCommGrpCat.{max w u v z})).2
   refine (hsep _ h).ext (fun V i hi ↦ ?_)
-  show G.val.presheaf.map i.op t = G.val.presheaf.map i.op 0
+  change G.val.presheaf.map i.op t = G.val.presheaf.map i.op 0
   rw [show G.val.presheaf.map i.op t = 0 from hi, map_zero]
 
 end LocallyZero
@@ -475,7 +475,8 @@ lemma conormalPresheaf_map_toCotangent {A' B' : Cᵒᵖ ⥤ CommRingCat.{t}} (φ
 variable (R A B : Sheaf J CommRingCat.{w}) (a : R ⟶ A) (φ : A ⟶ B)
   [Presheaf.IsLocallySurjective J φ.hom]
 
-omit [HasWeakSheafify J AddCommGrpCat.{max w u v z}]
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [HasWeakSheafify J AddCommGrpCat.{max w u v z}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{max w u v z}] in
 /-- The conormal class of a local section of the kernel ideal whose value is zero is zero. -/
 lemma conormalClass_eq_zero (X : Cᵒᵖ) (y : kernelIdeal φ.hom X) (hy : y.1 = 0) :
@@ -483,7 +484,8 @@ lemma conormalClass_eq_zero (X : Cᵒᵖ) (y : kernelIdeal φ.hom X) (hy : y.1 =
   obtain rfl : y = 0 := Subtype.ext hy
   exact conormalClass_zero J R A B a φ X
 
-omit [HasWeakSheafify J AddCommGrpCat.{max w u v z}]
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [HasWeakSheafify J AddCommGrpCat.{max w u v z}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{max w u v z}] in
 /-- **The conormal class is semilinear over the presentation.** Scaling a local section of the
 kernel ideal by a local section `r` of the source scales its conormal class by the image of `r`
@@ -509,7 +511,8 @@ lemma conormalClass_smul_quotientToRingSheaf (X : Cᵒᵖ) (r : A.obj.obj X)
     h1) ?_
   exact toAssociatedModule_smul.{v, u, w, z} J A B φ (conormalPresheaf φ.hom) X _ _
 
-omit [HasWeakSheafify J AddCommGrpCat.{max w u v z}]
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [HasWeakSheafify J AddCommGrpCat.{max w u v z}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{max w u v z}] in
 /-- **The conormal class commutes with the restriction maps**, stated at the canonical
 restriction of the section.
@@ -591,7 +594,7 @@ lemma mem_restrictedPresentationIdeal_of_baseChange_eq {U V : Cᵒᵖ} (i : U �
     (g : basePresentationIdeal J E a₂ e U) (h : (freeAlgebraSheaf J A₁ E).obj.obj V)
     (hh : (baseChange J u E).hom.app V h = (freeAlgebraSheaf J A₂ E).obj.map i g.1) :
     h ∈ restrictedPresentationIdeal J u E a₂ e V := by
-  show (restrictedPresentation J u E a₂ e).hom.app V h = 0
+  change (restrictedPresentation J u E a₂ e).hom.app V h = 0
   rw [restrictedPresentation_app_apply J u E a₂ e V h, hh, NatTrans.naturality_apply,
     show (basePresentation J E a₂ e).hom.app U g.1 = 0 from g.2, map_zero]
 
@@ -605,7 +608,7 @@ lemma mem_restrictedPresentationIdeal_of_baseChange_eq_zero (X : Cᵒᵖ)
     (h : (freeAlgebraSheaf J A₁ E).obj.obj X)
     (hh : (baseChange J u E).hom.app X h = 0) :
     h ∈ restrictedPresentationIdeal J u E a₂ e X := by
-  show (restrictedPresentation J u E a₂ e).hom.app X h = 0
+  change (restrictedPresentation J u E a₂ e).hom.app X h = 0
   rw [restrictedPresentation_app_apply J u E a₂ e X h, hh, map_zero]
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
@@ -618,10 +621,12 @@ lemma baseChange_coefficient_eq_zero (X : Cᵒᵖ) (j : A₁.obj.obj X)
     (baseChange J u E).hom.app X ((freeAlgebraSheafCoefficientMap J A₁ E).hom.app X j) = 0 := by
   refine Eq.trans (congrArg (fun k : A₁.obj ⟶ (freeAlgebraSheaf J A₂ E).obj ↦ (k.app X).hom j)
     (hom_of_comp_eq (freeAlgebraSheafCoefficientMap_comp_baseChange J u E))) ?_
-  show ((freeAlgebraSheafCoefficientMap J A₂ E).hom.app X).hom ((u.hom.app X).hom j) = 0
+  change ((freeAlgebraSheafCoefficientMap J A₂ E).hom.app X).hom ((u.hom.app X).hom j) = 0
   rw [hj, map_zero]
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [HasWeakSheafify J AddCommGrpCat.{max w u v z}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max w u v z}]
   [Presheaf.IsLocallySurjective J (restrictedPresentation J u E a₂ e).hom]
   [Presheaf.IsLocallySurjective J (basePresentation J E a₂ e).hom] in
 /-- **The ideal `𝒥·𝒜₁[ℰ]` is contained in `ℐ'`.** Base change kills a coefficient in `𝒥` and
@@ -644,7 +649,8 @@ private lemma imageSieve_toPresheaf_map_iff {R : Cᵒᵖ ⥤ RingCat.{t}}
       ∃ x : M.obj (op V), f.app (op V) x = N.map i.op s :=
   Iff.rfl
 
-omit [HasWeakSheafify J AddCommGrpCat.{max w u v z}]
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [HasWeakSheafify J AddCommGrpCat.{max w u v z}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{max w u v z}] in
 /-- The conormal class of a local section of `ℐ` is, locally on the site, the image under the
 conormal map of the conormal class of a local section of `ℐ'`. -/
@@ -728,7 +734,8 @@ instance epi_presentationConormalMap
 
 /-! ### The kernel of the conormal map -/
 
-omit [HasWeakSheafify J AddCommGrpCat.{max w u v z}]
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [HasWeakSheafify J AddCommGrpCat.{max w u v z}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{max w u v z}] in
 /-- The conormal class of a local section of `𝒥·𝒜₁[ℰ]`, where `𝒥 = Ker u`, is killed by the
 conormal map: base change sends a coefficient in `Ker u` to zero, so it sends such a section to
@@ -749,6 +756,7 @@ lemma presentationConormalMap_conormalClass_coefficient_mul (X : Cᵒᵖ) (j : A
   exact conormalClass_eq_zero.{v, u, w, z} J A₁ (freeAlgebraSheaf J A₂ E) B
     (u ≫ freeAlgebraSheafCoefficientMap J A₂ E) (basePresentation J E a₂ e) X _ hzero
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **Uniqueness of the descent along the conormal map.** A homomorphism out of `ℐ'/(ℐ')²`
 descends along `ℐ'/(ℐ')² ⟶ ℐ/ℐ²` in at most one way, because that map is an epimorphism. This
 is the uniqueness half of the descent Step 1 of the proof of [Stacks 08U8] performs; the
@@ -788,6 +796,9 @@ def KillsCoefficientKernel : Prop :=
 
 omit [Presheaf.IsLocallySurjective J u.hom] [J.WEqualsLocallyBijective CommRingCat.{w}]
   [J.HasSheafCompose (forget AddCommGrpCat.{max w u v z})]
+  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [HasWeakSheafify J AddCommGrpCat.{max w u v z}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max w u v z}]
   [Presheaf.IsLocallySurjective J (basePresentation J E a₂ e).hom] in
 /-- **A homomorphism killing the conormal classes of the generators of `𝒥·𝒜₁[ℰ]` kills the
 conormal class of every local section of that ideal.** The induction over the span needs only
@@ -873,11 +884,12 @@ lemma moduleVanishingSieve_mem_of_baseChange_eq_zero (hξ : KillsCoefficientKern
   have hmem : (freeAlgebraSheaf J A₁ E).obj.map i.op h.1 ∈
       restrictedPresentationIdeal J u E a₂ e (op V) :=
     map_kernel (restrictedPresentation J u E a₂ e).hom i.op h.2
-  show G.val.presheaf.map i.op ((ξ.val.app (op Y)) _) = 0
+  change G.val.presheaf.map i.op ((ξ.val.app (op Y)) _) = 0
   rw [restrict_apply_conormalClass J u E a₂ e G ξ i.op h]
   exact eq_zero_of_mem_coefficientKernelIdeal J u E a₂ e G ξ hξ (op V) _ hi hmem
 
 omit [J.HasSheafCompose (forget AddCommGrpCat.{max w u v z})]
+  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [HasWeakSheafify J AddCommGrpCat.{max w u v z}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{max w u v z}]
   [Presheaf.IsLocallySurjective J (basePresentation J E a₂ e).hom] in
@@ -908,7 +920,7 @@ lemma exists_sieve_lift_of_mem_sq (Y : C) (r : (freeAlgebraSheaf J A₂ E).obj.o
     have hk'mem : k' ∈ restrictedPresentationIdeal J u E a₂ e (op V) :=
       mem_restrictedPresentationIdeal_of_baseChange_eq J u E a₂ e i.op ⟨g', hg'⟩ k' hk'
     refine ⟨⟨k * k', Ideal.mul_mem_right _ _ hkmem⟩, ?_, ?_⟩
-    · show (baseChange J u E).hom.app (op V) (k * k') = _
+    · change (baseChange J u E).hom.app (op V) (k * k') = _
       rw [map_mul, hk, hk', ← map_mul]
     · refine conormalClass_eq_zero_of_mem_sq.{v, u, w, z} J A₁ (freeAlgebraSheaf J A₁ E) B
         (freeAlgebraSheafCoefficientMap J A₁ E) (restrictedPresentation J u E a₂ e)
@@ -921,7 +933,7 @@ lemma exists_sieve_lift_of_mem_sq (Y : C) (r : (freeAlgebraSheaf J A₂ E).obj.o
     obtain ⟨k, hk, hk0⟩ := hx i hiS
     obtain ⟨k', hk', hk'0⟩ := hy i hiT
     refine ⟨k + k', ?_, ?_⟩
-    · show (baseChange J u E).hom.app (op V) (k.1 + k'.1) = _
+    · change (baseChange J u E).hom.app (op V) (k.1 + k'.1) = _
       rw [map_add, hk, hk', ← map_add]
     · refine Eq.trans (conormalClass_add J A₁ (freeAlgebraSheaf J A₁ E) B
         (freeAlgebraSheafCoefficientMap J A₁ E) (restrictedPresentation J u E a₂ e) (op V)

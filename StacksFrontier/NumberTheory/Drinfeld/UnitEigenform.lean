@@ -275,7 +275,7 @@ theorem exists_isEigenform_of_cuspFormsCentralChar_ne_bot (hp : IsUnit (ringChar
     · subst hvw
       exact Commute.refl _
     refine LinearMap.ext fun f => Subtype.ext ?_
-    show heckeOperator _ _ (heckeOperator _ _ (f : GL (Fin 2) (AdeleRing K) → Ω)) = _
+    change heckeOperator _ _ (heckeOperator _ _ (f : GL (Fin 2) (AdeleRing K) → Ω)) = _
     exact heckeOperator_comm hvw (hd v) (hd w) _
   obtain ⟨f, hf0, hfe⟩ := exists_common_eigenvector T hT
   choose t ht using hfe
@@ -429,7 +429,7 @@ theorem isCuspFormCentralChar_unramifiedTwist (hp : IsUnit (ringChar k : Ω)) {c
   have hP : (P : Ω) ^ 2 * ((P⁻¹ ^ 2 : Ωˣ) : Ω) = 1 := by
     rw [← Units.val_pow_eq_pow_val, ← Units.val_mul, ← mul_pow, mul_inv_cancel, one_pow,
       Units.val_one]
-  show (Place.residueCard v : Ω) * ((detCharacter k (degreeCharacter k K c) (a * x) : Ω) *
+  change (Place.residueCard v : Ω) * ((detCharacter k (degreeCharacter k K c) (a * x) : Ω) *
     f (a * x)) = (detCharacter k (degreeCharacter k K c) x : Ω) * f x
   rw [map_mul, h0, Units.val_mul, hU, ← hq]
   linear_combination ((detCharacter k (degreeCharacter k K c) x : Ω) * f x) * hP

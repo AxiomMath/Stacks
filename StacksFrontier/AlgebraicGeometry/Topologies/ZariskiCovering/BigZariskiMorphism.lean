@@ -87,7 +87,7 @@ public theorem bigZariskiOver_topology_eq
     (B : BigZariskiSite.{u}) (S : B.Schemes) :
     BigZariskiOver.topology B S.1 S.property =
       B.grothendieckTopology.over (⟨S.1, S.property⟩ : B.Schemes) := by
-  show (BigZariskiOver.precoverage B S.1 S.property).toGrothendieck =
+  change (BigZariskiOver.precoverage B S.1 S.property).toGrothendieck =
     (B.precoverage.toGrothendieck).over (⟨S.1, S.property⟩ : B.Schemes)
   let : B.precoverage.IsStableUnderBaseChange := bigZariskiPrecoverage_stableUnderBaseChange B
   rw [bigZariskiOver_precoverage_eq_comap B S]

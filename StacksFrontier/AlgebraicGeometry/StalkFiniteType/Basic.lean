@@ -17,7 +17,8 @@ That statement is **already proved** in this repository, as `SheafOfModules.fini
 (`StacksFrontier/AlgebraicGeometry/Morphisms/Support/FiniteType.lean`), where it is used to prove
 Tag 056J. It is proved there by exhibiting generators — a finite type sheaf has local generators
 on some open neighbourhood of `x`, and their germs span the stalk — rather than by the route
-`StacksFrontier/AlgebraicGeometry/StalkFreeBridge/StalkFree.lean` sketched (transport the `StalkFreeBridge.Comparison` identification of
+`StacksFrontier/AlgebraicGeometry/StalkFreeBridge/StalkFree.lean` sketched (transport the
+`StalkFreeBridge.Comparison` identification of
 vocabularies for a structure map which is only an epimorphism, then compose with Tag 01C9's
 stalk comparisons). No such transport is needed.
 
@@ -29,7 +30,8 @@ This file supplies the one-line vocabulary match and closes the implication.
   the stalk `M_x` is a finite module over `𝒪_{X,x}`, in the `AlgebraicGeometry.Scheme.Modules`
   spelling of the stalk and with the module structure that
   `Stacks.StalkFreeBridge.instModuleStalk` provides. This is the statement
-  `StacksFrontier/AlgebraicGeometry/StalkFreeBridge/StalkFree.lean` records as the only step missing from Tag 05P2 (3) ⟹ (4).
+  `StacksFrontier/AlgebraicGeometry/StalkFreeBridge/StalkFree.lean` records as the only step missing
+  from Tag 05P2 (3) ⟹ (4).
 * `Stacks.StalkFiniteType.isFiniteLocallyFree_of_isLocallyFree_of_isFiniteType`: **Stacks Tag
   05P2, the implication (3) ⟹ (4).** A locally free sheaf of modules of finite type on a
   scheme is finite locally free, stated over the tagged class

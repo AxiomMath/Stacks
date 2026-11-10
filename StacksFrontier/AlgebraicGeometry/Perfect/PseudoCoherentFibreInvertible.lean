@@ -146,7 +146,7 @@ theorem fibreCohomologyVanishes_of_fibreBetti_eq_zero {R : Type u} [CommRing R]
     (ComplexShape.up ℤ)).obj F with hPκ
   have hbetti : StacksDraft.Perfect.fibreBetti.{u, u} K j q =
       Module.finrank q.asIdeal.ResidueField (Pκ.homology j) := by
-    show Module.finrank q.asIdeal.ResidueField
+    change Module.finrank q.asIdeal.ResidueField
       ((DerivedCategory.homologyFunctor (ModuleCat.{u} q.asIdeal.ResidueField) j).obj
         ((CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
           ψ).functor.obj K)) = _
@@ -165,7 +165,7 @@ theorem fibreCohomologyVanishes_of_fibreBetti_eq_zero {R : Type u} [CommRing R]
   have : Module.Finite q.asIdeal.ResidueField (Pκ.homology j) :=
     Module.Finite.of_surjective _ hepi
   have hzero : Module.finrank q.asIdeal.ResidueField (Pκ.homology j) = 0 := hbetti ▸ h
-  show IsZero (Pκ.homology j)
+  change IsZero (Pκ.homology j)
   have : Subsingleton (Pκ.homology j) := Module.finrank_zero_iff.mp hzero
   exact ModuleCat.isZero_of_subsingleton _
 
@@ -568,9 +568,9 @@ theorem singleDegreeRankOpen_eq_top_of_forall_derivedFiberBetti {X : Scheme.{u}}
     refine isPerfect_of_forall_derivedFiberBetti_eq_zero_affine Γ(X, U.1) _ hPCV i i
       fun y' j hj => ?_
     rw [congrFun (DerivedFibreBetti.derivedFiberBetti_derivedPullback U.2.fromSpec E hE j) y',
-      Function.comp_apply, h, if_neg (by omega)]
+      Function.comp_apply, h, ite_eq_right (by omega)]
   have := mem_singleDegreeRankOpen_of_isPerfect_derivedPullback E hE U.2.fromSpec hperf i r
-    (w := y) (fun j hj => by rw [h, if_neg hj]) (by rw [h, if_pos rfl])
+    (w := y) (fun j hj => by rw [h, ite_eq_right hj]) (by rw [h, ite_eq_left rfl])
   rwa [hy] at this
 
 /-! ### From the open subscheme to a trivialization -/
@@ -693,7 +693,7 @@ theorem exists_derivedPullback_iso_singleFunctor_unit_of_isGE {X : Scheme.{u}}
   let := HasDerivedCategory.standard (OXMod.{u, u} X.toRingedSpace)
   let := HasDerivedCategory.standard (V.toScheme.Modules)
   have hmem := mem_singleDegreeRankOpen_of_isGE E hE V c hc (-1) 1 hxV
-    (fun j hj => by rw [hx, if_neg hj]) (by rw [hx, if_pos rfl])
+    (fun j hj => by rw [hx, ite_eq_right hj]) (by rw [hx, ite_eq_left rfl])
   obtain ⟨U, hxU, ⟨e⟩⟩ := exists_restrict_iso_singleFunctor_unit_of_mem E (-1) hmem
   exact ⟨U, hxU, ⟨((derivedRestrictIsoDerivedPullback U.ι).app E).symm ≪≫ e⟩⟩
 

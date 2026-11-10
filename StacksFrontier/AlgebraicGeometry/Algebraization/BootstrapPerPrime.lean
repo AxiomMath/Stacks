@@ -405,7 +405,7 @@ theorem exists_perPrime_degree_succ (hcomplete : CompleteLocalConeHypothesis.{u}
   let R : ℕ → Submodule B (G.obj (op m)) := fun k =>
     if h : m ≤ k then LinearMap.range (G.map (homOfLE h).op).hom else ⊤
   have hR : ∀ k (h : m ≤ k), R k = LinearMap.range (G.map (homOfLE h).op).hom :=
-    fun k h => dif_pos h
+    fun k h => dite_eq_left h
   have hRanti : ∀ k k', m ≤ k → k ≤ k' → R k' ≤ R k := by
     intro k k' hk hkk'
     rw [hR k hk, hR k' (hk.trans hkk')]

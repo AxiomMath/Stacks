@@ -76,7 +76,7 @@ theorem existsUnique_irreducibleComponent_of_openEmbedding
   apply Subtype.ext
   have hsub' : (W' : Set Y) ⊆ (W : Set Y) := by
     intro z hz
-    show f z ∈ (Z : Set X)
+    change f z ∈ (Z : Set X)
     rw [← hCZ]
     exact hsub ⟨z, hz, rfl⟩
   exact hsub'.antisymm (W'.property.2 W.property.1 hsub')
@@ -193,7 +193,7 @@ theorem existsUnique_minimalPrime_stalk (k : Type u) [Field k]
     Limits.pullback.lift (G.X.left.fromSpecResidueField g) (𝟙 _) (by simp [b])
   let y : Y := t (IsLocalRing.closedPoint K)
   have hy : (Limits.pullback.fst f b) y = g := by
-    show (t ≫ Limits.pullback.fst f b) (IsLocalRing.closedPoint K) = g
+    change (t ≫ Limits.pullback.fst f b) (IsLocalRing.closedPoint K) = g
     rw [Limits.pullback.lift_fst]
     exact Scheme.fromSpecResidueField_apply g _
   let : GrpObj (Over.mk f) := G.grp
@@ -217,7 +217,7 @@ theorem existsUnique_minimalPrime_stalk (k : Type u) [Field k]
   let : GrpObj (Over.mk H.hom) := by dsimp [H]; infer_instance
   have hcomp : ∃! Z : irreducibleComponents Y, y ∈ (Z : Set Y) := by
     have : IsIso α.hom.left := by
-      show IsIso ((Over.forget _).map α.hom)
+      change IsIso ((Over.forget _).map α.hom)
       infer_instance
     have : IsOpenImmersion α.hom.left := inferInstance
     apply existsUnique_irreducibleComponent_of_openEmbedding α.hom.left.isOpenEmbedding y

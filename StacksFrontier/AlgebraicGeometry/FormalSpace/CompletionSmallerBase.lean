@@ -169,12 +169,12 @@ theorem completionSubfunctorSmallerBaseEquiv_naturality {W W' : (BigFppfOver B S
   obtain ⟨φ, ⟨x⟩, hx⟩ := p
   apply Subtype.ext
   apply ULift.ext
-  show X.left.map _ (X.left.map _ x.1) = X.left.map f (X.left.map _ x.1)
+  change X.left.map _ (X.left.map _ x.1) = X.left.map f (X.left.map _ x.1)
   refine (X.left.map_comp_apply _ _ x.1).symm.trans
     (Eq.trans ?_ (X.left.map_comp_apply _ f x.1))
   refine congrArg (fun k => X.left.map k x.1) (Quiver.Hom.unop_inj ?_)
   refine Over.OverMorphism.ext ?_
-  show 𝟙 _ ≫ f.unop.left = f.unop.left ≫ 𝟙 _
+  change 𝟙 _ ≫ f.unop.left = f.unop.left ≫ 𝟙 _
   rw [Category.id_comp, Category.comp_id]
 
 /-- The bijections `AlgebraicGeometry.Space.completionSubfunctorSmallerBaseEquiv` are compatible
@@ -192,9 +192,9 @@ theorem completionSubfunctorToSmallerBase_completionSubfunctorSmallerBaseEquiv
           (smallerBaseInverseSet B V S hV hS g X T)).toFunctor).hom.app W p := by
   obtain ⟨φ, ⟨x⟩, hx⟩ := p
   apply ULift.ext
-  show X.hom.app W (X.left.map _ x.1) = φ
+  change X.hom.app W (X.left.map _ x.1) = φ
   refine (NatTrans.naturality_apply X.hom _ x.1).trans (Over.OverMorphism.ext ?_)
-  show 𝟙 _ ≫ (X.hom.app _ x.1).left = φ.left
+  change 𝟙 _ ≫ (X.hom.app _ x.1).left = φ.left
   rw [Category.id_comp]
   exact congrArg Over.Hom.left x.2
 

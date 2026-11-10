@@ -76,7 +76,7 @@ theorem nonempty_pullback_fromSpecStalk_iso_unit {X : Scheme.{u}} (M : X.Modules
   obtain ⟨U, hxU, ⟨e⟩⟩ := hM x
   have hpre : (Opens.map (X.fromSpecStalk x).base).obj U = ⊤ := by
     refine (IsLocalRing.closedPoint_mem_iff _).mp ?_
-    show (X.fromSpecStalk x).base (IsLocalRing.closedPoint (X.presheaf.stalk x)) ∈ U
+    change (X.fromSpecStalk x).base (IsLocalRing.closedPoint (X.presheaf.stalk x)) ∈ U
     rw [Scheme.fromSpecStalk_closedPoint]
     exact hxU
   have hrange : Set.range (X.fromSpecStalk x).base ⊆ Set.range U.ι.base := by

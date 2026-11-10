@@ -75,6 +75,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))).Submodule)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasKernels` on the `𝒪_F`-module category is deep
 /-- Kernels of `𝒪_F`-modules, found once (instance search for them times out). -/
 noncomputable instance (priority := high) hasKernels_modules_CoherentCompletionExistence :
     HasKernels (Modules.{u, u} B S hS F hF) :=
@@ -349,7 +350,7 @@ theorem C1573.exists_algebraization (hI : 𝓘.toSheafOfModules.IsQuasicoherentO
     obtain ⟨n⟩ := n
     refine (cancel_epi (completionTermProjection B S hS F hF 𝓘 hI M n)).1 ?_
     rw [completionTermProjection_naturality]
-    show completionTermProjection B S hS F hF 𝓘 hI M n ≫
+    change completionTermProjection B S hS F hF 𝓘 hI M n ≫
         formalPullbackCompletionLevel B S hS F hF 𝓘 E.property G.obj α' n ≫ α'.app (op n) = _
     exact (Category.assoc (completionTermProjection B S hS F hF 𝓘 hI M n)
       (formalPullbackCompletionLevel B S hS F hF 𝓘 E.property G.obj α' n)

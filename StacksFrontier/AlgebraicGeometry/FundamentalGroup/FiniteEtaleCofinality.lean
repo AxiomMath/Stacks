@@ -150,7 +150,7 @@ theorem exists_hom_finiteEtaleBaseChange_of_dominatesFiniteEtale {X' X : Scheme.
     have hset : (MulAction.stabilizer (EtaleFundamentalGroup X x) e : Set _) =
         ⋂ s : S, {σ : EtaleFundamentalGroup X x | σ • s = s} := by
       ext σ
-      simp only [SetLike.mem_coe, MulAction.mem_stabilizer_iff, Set.mem_iInter, Set.mem_setOf_eq]
+      simp only [SetLike.mem_coe, MulAction.mem_stabilizer_iff, Set.mem_iInter, Set.mem_ofPred_eq]
       refine ⟨fun h s ↦ smul_eq_of_frame_smul_eq (e := (e : S ≃ S)) h s, fun h ↦ ?_⟩
       exact Equiv.ext fun s ↦ h ((show S ≃ S from e) s)
     rw [hset]

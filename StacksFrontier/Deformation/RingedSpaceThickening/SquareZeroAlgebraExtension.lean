@@ -157,9 +157,9 @@ theorem Hom.injective (φ : P ⟶ Q) (U : (Opens X.carrier)ᵒᵖ) :
   rw [injective_iff_map_eq_zero]
   intro x hx
   have hker : x ∈ kernelIdeal P.reduction.hom U := by
-    show (P.reduction.hom.app U).hom x = 0
+    change (P.reduction.hom.app U).hom x = 0
     rw [← φ.hom_reduction]
-    show (Q.reduction.hom.app U).hom ((φ.hom.hom.app U).hom x) = 0
+    change (Q.reduction.hom.app U).hom ((φ.hom.hom.app U).hom x) = 0
     rw [show (φ.hom.hom.app U).hom x = 0 from hx, map_zero]
   have h : P.ideal.app U ⟨x, hker⟩ = P.ideal.app U 0 := by
     rw [← φ.ideal_hom U ⟨x, hker⟩, map_zero]
@@ -177,7 +177,7 @@ theorem Hom.isLocallySurjective (φ : P ⟶ Q) :
     obtain ⟨x, hx⟩ := hg
     let y' := (Q.sheaf.obj.map g.op).hom y
     have hd : y' - (φ.hom.hom.app (op V)).hom x ∈ kernelIdeal Q.reduction.hom (op V) := by
-      show (Q.reduction.hom.app (op V)).hom (y' - (φ.hom.hom.app (op V)).hom x) = 0
+      change (Q.reduction.hom.app (op V)).hom (y' - (φ.hom.hom.app (op V)).hom x) = 0
       rw [map_sub]
       have e1 : (Q.reduction.hom.app (op V)).hom ((φ.hom.hom.app (op V)).hom x) =
           (P.reduction.hom.app (op V)).hom x := by
@@ -191,7 +191,7 @@ theorem Hom.isLocallySurjective (φ : P ⟶ Q) :
       have := (φ.ideal_hom (op V) k).trans hk
       exact Q.val_eq_of_ideal_app_eq this
     refine ⟨x + k.1, ?_⟩
-    show (φ.hom.hom.app (op V)).hom (x + k.1) = y'
+    change (φ.hom.hom.app (op V)).hom (x + k.1) = y'
     rw [map_add, hk', add_sub_cancel]
 
 /-- **Every morphism of extensions is an isomorphism of sheaves of rings.** -/

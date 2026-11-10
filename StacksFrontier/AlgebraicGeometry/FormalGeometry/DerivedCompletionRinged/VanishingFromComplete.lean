@@ -18,7 +18,7 @@ universe u
 
 namespace AlgebraicGeometry.RingedSite
 
-variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}]
+variable (X : RingedSite.{u, u, u})
   (h : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
 
 attribute [local instance] linearCatCenterRingSheaf
@@ -186,7 +186,7 @@ theorem ι_comp_awayTelescopeMap (n : ℕ) :
       Sigma.ι (fun n : ℕ => (awayTelescopeSequence X h).obj n) n -
         (awayTelescopeSequence X h).map (homOfLE n.le_succ) ≫
           Sigma.ι (fun n : ℕ => (awayTelescopeSequence X h).obj n) (n + 1) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The `n`-th inclusion followed by the telescope map, placed in degree zero. -/
 theorem singleFunctor_map_ι_comp_awayTelescopeMap (n : ℕ) :
@@ -290,14 +290,14 @@ theorem derivedSheafHom_awayTelescopeMap_comp_proj (n : ℕ) :
               (awayFamily X h) • (q ≫ e) :=
         congrArg (fun φ => p ≫ e - φ) ((congrArg (q ≫ ·) hs1).trans (Linear.comp_smul _ _ _ _ _ _))
 
-variable [HasSheafify X.J AddCommGrpCat.{u}]
-  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-
 /-- Countable products exist in `D(𝒪)`. -/
 theorem hasProductsOfShape_nat_derivedCategory :
     HasProductsOfShape ℕ
       (DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :=
   Stacks.KInjectiveProducts.hasProductsOfShape_derivedCategory_sheafOfModules _
+
+variable [HasSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
 attribute [local instance] hasProductsOfShape_nat_derivedCategory
 

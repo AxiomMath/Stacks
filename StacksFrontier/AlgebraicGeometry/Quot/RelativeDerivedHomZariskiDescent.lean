@@ -154,7 +154,7 @@ theorem existsUnique_amalgamation_of_isFppfSheafOver (hR : IsFppfSheafOver R)
   have hxf : xf.Compatible := by
     rw [Presieve.compatible_iff_sieveCompatible]
     intro Z Z' h g hh
-    show (⟨Y.1.map (g ≫ h).op y₀, R.map (restrictTestPointHom T (g ≫ h)).op
+    change (⟨Y.1.map (g ≫ h).op y₀, R.map (restrictTestPointHom T (g ≫ h)).op
         (r (g ≫ h) (𝒮.downward_closed hh g))⟩ :
           Σ y' : Y.1.obj (Opposite.op Z'), R.obj (Opposite.op (pointTestScheme Z' y'))) =
       ⟨Y.1.map g.op (Y.1.map h.op y₀), R.map (pointTestHom g rfl).op
@@ -162,7 +162,7 @@ theorem existsUnique_amalgamation_of_isFppfSheafOver (hR : IsFppfSheafOver R)
     rw [← hr h (g ≫ h) hh (𝒮.downward_closed hh g) g rfl]
     exact totalPresheaf_ext₂ R (r h hh) (by rw [op_comp, Functor.map_comp_apply]) _ _ _ _
       (by
-        show 𝟙 Z' ≫ g = g ≫ 𝟙 Z
+        change 𝟙 Z' ≫ g = g ≫ 𝟙 Z
         rw [Category.id_comp, Category.comp_id])
   obtain ⟨⟨y, g'⟩, ht, hu⟩ := hR' 𝒮 h𝒮 xf hxf
   have hy : y = y₀ := (hY 𝒮 h𝒮).isSeparatedFor.ext fun Z h hh =>
@@ -175,18 +175,18 @@ theorem existsUnique_amalgamation_of_isFppfSheafOver (hR : IsFppfSheafOver R)
   refine ⟨R.map (pointTestSchemeIso T).inv.op g', fun Z h hh => ?_, fun g₁ hg₁ => ?_⟩
   · rw [map_op_map_op_eq_of_comp_eq R (g₂ := pointTestHom h rfl) (f₂ := restrictTestPointInv T h)
       (CostructuredArrow.hom_ext _ _ (by
-        show h ≫ 𝟙 _ = 𝟙 Z ≫ h
+        change h ≫ 𝟙 _ = 𝟙 Z ≫ h
         rw [Category.comp_id, Category.id_comp])) g', ht' h hh]
     exact FunctorToTypes.map_map_eq_self_of_comp_eq_id R
       (by rw [← op_comp, restrictTestPointInv_hom, op_id]) _
   · have h₁ := hu ⟨y₀, R.map (pointTestSchemeIso T).hom.op g₁⟩ (fun Z h hh => by
-      show (⟨Y.1.map h.op y₀, R.map (pointTestHom h rfl).op
+      change (⟨Y.1.map h.op y₀, R.map (pointTestHom h rfl).op
           (R.map (pointTestSchemeIso T).hom.op g₁)⟩ :
             Σ y' : Y.1.obj (Opposite.op Z), R.obj (Opposite.op (pointTestScheme Z y'))) =
         ⟨Y.1.map h.op y₀, R.map (restrictTestPointHom T h).op (r h hh)⟩
       rw [← hg₁ h hh]
       exact totalPresheaf_ext₂ R g₁ rfl _ _ _ _ (by
-        show h ≫ 𝟙 _ = 𝟙 Z ≫ h
+        change h ≫ 𝟙 _ = 𝟙 Z ≫ h
         rw [Category.comp_id, Category.id_comp]))
     have h₂ : R.map (pointTestSchemeIso T).hom.op g₁ = g' :=
       eq_of_heq (Sigma.mk.inj_iff.1 h₁).2
@@ -360,7 +360,7 @@ theorem isFppfSheafOver_of_isZariskiSheafOver (hZ : IsZariskiSheafOver R)
         BigFppfOver.openSubObj B S hS T.left (V i) := fun i =>
       openSubObjLift B S hS T.left (V i) (BigFppfOver.openSubHom B S hS Z (U i) ≫ h) (by
         rintro _ ⟨x, rfl⟩
-        show f ((U i).ι x) ∈ V i
+        change f ((U i).ι x) ∈ V i
         exact x.2)
     have hn : ∀ i, n i ≫ BigFppfOver.openSubHom B S hS T.left (V i) =
         BigFppfOver.openSubHom B S hS Z (U i) ≫ h := fun i =>

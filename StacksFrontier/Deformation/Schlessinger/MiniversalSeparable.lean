@@ -76,17 +76,17 @@ public theorem derivation_eq_zero_of_residueImageField_separable
       one_mem' := D.map_one_eq_zero
       add_mem' := by
         intro x y hx hy
-        show D (x + y) = 0
+        change D (x + y) = 0
         rw [D.map_add, hx, hy]
         simp
       neg_mem' := by
         intro x hx
-        show D (-x) = 0
+        change D (-x) = 0
         rw [D.map_neg, hx]
         simp
       mul_mem' := by
         intro x y hx hy
-        show D (x * y) = 0
+        change D (x * y) = 0
         rw [D.leibniz, hx, hy]
         simp
       inv_mem' := by
@@ -118,11 +118,11 @@ public theorem derivation_eq_zero_of_residueImageField_separable
         { toFun := D
           map_add' := by
             intro s t
-            show D (s + t) = D s + D t
+            change D (s + t) = D s + D t
             exact D.map_add s t
           map_smul' := by
             intro a x
-            show D ((a : k) * x) = (a : k) * D x
+            change D ((a : k) * x) = (a : k) * D x
             rw [D.leibniz, hK a]
             simp }
       map_one_eq_zero' := D.map_one_eq_zero
@@ -177,7 +177,7 @@ public theorem finiteDimensional_tangentSpace_of_minimalVersal_hasBijectiveDiffe
       Deformation.IsMinimalVersal hpre.cofibered ξ ∧
         Deformation.HasBijectiveDifferential hpre.cofibered ξ) :
     letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
-    letI : Fact (Deformation.SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (Deformation.SchlessingerConditionS2 (Functor.Elements.π
         (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) :=
       ⟨Deformation.schlessingerConditionS2_of_isIsomorphismClasses 𝓕 hpre.cofibered
         (schlessingerConditionS2_of_minimalVersal_hasBijectiveDifferential 𝓕 hpre hξ)
@@ -212,12 +212,12 @@ public theorem derivationModuleStructs_eq
   apply Prod.ext
   · apply Module.ext'
     intro s x
-    show (Deformation.residueHom ξ.base s) * x =
+    change (Deformation.residueHom ξ.base s) * x =
       (algebraMap ξ.base k s) * x
     rfl
   · apply Module.ext'
     intro a x
-    show (algebraMap Λ k a) * x = a • x
+    change (algebraMap Λ k a) * x = a • x
     rw [Algebra.smul_def]
 
 /-- Equal module structures give an equal type of derivations. -/

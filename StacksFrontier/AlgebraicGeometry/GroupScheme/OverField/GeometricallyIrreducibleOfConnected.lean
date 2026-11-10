@@ -70,7 +70,7 @@ theorem geometricallyIrreducible_of_irreducibleSpace {k : Type u} [Field k]
   set I := Scheme.IdealSheafData.vanishingIdeal
     (⟨Z.1, isClosed_of_mem_irreducibleComponents Z.1 Z.2⟩ : TopologicalSpace.Closeds G.left)
   have : Surjective I.subschemeι := ⟨fun x => by
-    show x ∈ Set.range I.subschemeι
+    change x ∈ Set.range I.subschemeι
     rw [Scheme.IdealSheafData.range_subschemeι, Scheme.IdealSheafData.coe_support_vanishingIdeal]
     exact Set.mem_univ x⟩
   exact GeometricallyIrreducible.of_comp_surjective I.subschemeι G.hom

@@ -133,7 +133,7 @@ theorem zeroLocus_empty_of_isZero_localCohomologyModule (A : Type u) [CommRing A
   have hM : IsIPowerTorsion A (A ⧸ I) I := by
     intro x
     refine ⟨1, by omega, fun a ha => ?_⟩
-    show Ideal.Quotient.mk I a * x = 0
+    change Ideal.Quotient.mk I a * x = 0
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr (by simpa using ha), zero_mul]
   have hz := isZero_homology_localCohomology_of_isZero_homology_self.{0} I hI (-1) h
     (ModuleCat.of A (A ⧸ I)) 0 (by omega)

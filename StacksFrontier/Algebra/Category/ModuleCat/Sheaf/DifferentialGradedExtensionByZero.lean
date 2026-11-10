@@ -440,6 +440,7 @@ theorem extendSheaf_map_unit
   congrArg (fun s => s.val.app W w)
     ((extendSheafAdjunction.{m} O U).unit.naturality φ).symm
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The extended action obeys the signed Leibniz rule** for the differential `j_!d` of
 `j_!M`. -/
 theorem dgExtendedAction_leibniz (n i : ℤ) (V : Cᵒᵖ)
@@ -531,23 +532,27 @@ noncomputable def dgExtensionByZero :
     have h := dgExtendedAction_leibniz.{m} O U A M n i V x y
     rwa [castHom_apply, castHom_apply] at h
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The degree-`n` piece of `j_!M` is the extension by zero of the degree-`n` piece of `M`. -/
 @[simp]
 theorem dgExtensionByZero_complex_X (n : ℤ) :
     (dgExtensionByZero.{m} O U A M).complex.X n = (extendSheaf.{m} O U).obj (M.complex.X n) :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The differential of `j_!M` is the extension by zero of the differential of `M`. -/
 @[simp]
 theorem dgExtensionByZero_complex_d (n i : ℤ) :
     (dgExtensionByZero.{m} O U A M).complex.d n i =
       (extendSheaf.{m} O U).map (M.complex.d n i) := rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The action on `j_!M` is `SheafOfModules.dgExtendedAction`. -/
 @[simp]
 theorem dgExtensionByZero_mul (n i : ℤ) :
     (dgExtensionByZero.{m} O U A M).mul n i = dgExtendedAction.{m} O U A M n i := rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The right graded module underlying `j_!M` is the extension by zero `j_!` of Tag 0FRA of the
 right graded module underlying `M`. -/
 theorem dgExtensionByZero_ofDifferentialGraded :
@@ -566,6 +571,7 @@ noncomputable def dgExtensionByZeroMap
   map_mul := gradedExtendedAction_map.{m} O U A.toGradedAlgebra
     (GradedModule.ofDifferentialGradedMap f)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- In each degree, `j_!f` is the extension by zero of the component of `f`. -/
 @[simp]
 theorem dgExtensionByZeroMap_f
@@ -584,11 +590,13 @@ noncomputable def dgExtensionByZeroFunctor :
   map_comp _ _ := DifferentialGradedModule.Hom.ext fun _ =>
     (extendSheaf.{m} O U).map_comp _ _
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The functor `j_!` sends `M` to `j_!M`. -/
 @[simp]
 theorem dgExtensionByZeroFunctor_obj :
     (dgExtensionByZeroFunctor.{m} O U A).obj M = dgExtensionByZero.{m} O U A M := rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The functor `j_!` sends `f` to `SheafOfModules.dgExtensionByZeroMap f`. -/
 @[simp]
 theorem dgExtensionByZeroFunctor_map
@@ -648,6 +656,7 @@ noncomputable def dgExtendAdjoint (N : DifferentialGradedModule.{w, max u v m, m
     (GradedModule.ofDifferentialGraded M) (GradedModule.ofDifferentialGraded N)
     (GradedModule.ofDifferentialGradedMap f)).map_smul
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- In each degree, the adjoint `M ⟶ j^*N` of `f` is the adjoint of the component of `f` under
 `j_{U!} ⊣ j_U^*`. -/
 @[simp]
@@ -670,6 +679,7 @@ noncomputable def dgExtendAdjointInv (N : DifferentialGradedModule.{w, max u v m
     (GradedModule.ofDifferentialGraded M) (GradedModule.ofDifferentialGraded N)
     (GradedModule.ofDifferentialGradedMap f)).map_smul
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- In each degree, the adjoint `j_!M ⟶ N` of `f` is the adjoint of the component of `f` under
 `j_{U!} ⊣ j_U^*`. -/
 @[simp]
@@ -746,6 +756,7 @@ theorem homEquiv_hom_complex_differential
   rw [homEquiv_sub_zsmul, (extendSheafAdjunction.{m} O U).homEquiv_naturality_right,
     (extendSheafAdjunction.{m} O U).homEquiv_naturality_left]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **Tag 0FRW.** The identification of Tag 0FRA of the homogeneous homomorphisms of degree `d`
 out of `j_!M` with those into `j^*N` matches the differentials of the two hom-complexes. Read in
 every degree together with `SheafOfModules.gradedHomOfDegreeExtendEquiv` and its naturality, this

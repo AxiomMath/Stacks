@@ -143,7 +143,7 @@ theorem transposedSectionEquiv_natIso (U : Z.Cᵒᵖ) (M : Sheaf X.J (Type w))
       (pushforwardNatIsoConjugate F H e).app
           ((presheafToSheaf Z.J (Type w)).obj (smallYoneda.{w} U.unop)) ≫
         transposedSectionEquiv F U M z := by
-  show (H.toToposHom.adj.homEquiv _ M).symm
+  change (H.toToposHom.adj.homEquiv _ M).symm
       (sectionEquivSmall Z.J U (H.toToposHom.pushforward.obj M)
         ((e.hom.app M).hom.app U z)) = _
   rw [sectionEquivSmall_comp Z.J U (e.hom.app M) z]
@@ -193,7 +193,7 @@ theorem transposedMultiplicationAt_natIso
   apply (pushedSectionEquiv H (A.piece (i + j)) U).injective
   rw [pushedSectionEquiv_natIso F H e he (A.piece (i + j)) U
     (transposedMultiplicationAt F A i j U x y)]
-  show _ ≫ (pushedSectionEquiv F (A.piece (i + j)) U)
+  change _ ≫ (pushedSectionEquiv F (A.piece (i + j)) U)
       ((pushedSectionEquiv F (A.piece (i + j)) U).symm _) = _
   rw [Equiv.apply_symm_apply, transposedMultiplicationAt, Equiv.apply_symm_apply,
     pushedSectionEquiv_natIso F H e he (A.piece i) U x,

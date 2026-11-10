@@ -46,8 +46,7 @@ def rationalPointsFibreEquiv :
   toFun x' :=
     have hx : (x'.1 ≫ pullback.fst j' (pullback.fst gb y)) ≫ j' ≫ gb = y := by
       have h : x'.1 ≫ pullback.snd j' (pullback.fst gb y) ≫ pullback.snd gb y = 𝟙 _ := x'.2
-      simp only [Category.assoc, pullback.condition_assoc, pullback.condition, reassoc_of% h,
-        Category.id_comp]
+      simp only [Category.assoc, pullback.condition_assoc, pullback.condition, reassoc_of% h]
     ⟨⟨x'.1 ≫ pullback.fst _ _, by simp only [← hfU, Category.assoc, reassoc_of% hx, hy]⟩, hx⟩
   invFun x := ⟨pullback.lift x.1.1 (pullback.lift (x.1.1 ≫ j') (𝟙 _)
       (by rw [Category.id_comp, Category.assoc, x.2])) (by rw [pullback.lift_fst]), by

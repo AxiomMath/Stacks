@@ -57,13 +57,13 @@ theorem koszulIdealComplex_isZero_of_le (f : Fin r → A) (j : ℕ) (hj : r ≤ 
 /-- Every term of `I^•(f)` is a finite `A`-module: it is an exterior power of `Aʳ`. -/
 theorem finite_koszulIdealComplex_X (f : Fin r → A) (j : ℕ) :
     Module.Finite A ((koszulIdealComplex f).X j) := by
-  show Module.Finite A (⋀[A]^(j + 1) (Fin r → A))
+  change Module.Finite A (⋀[A]^(j + 1) (Fin r → A))
   infer_instance
 
 /-- Every term of `I^•(f)` is projective: it is an exterior power of a finite free module. -/
 theorem projective_koszulIdealComplex_X (f : Fin r → A) (j : ℕ) :
     Projective ((koszulIdealComplex f).X j) := by
-  show Projective (ModuleCat.of A (⋀[A]^(j + 1) (Fin r → A)))
+  change Projective (ModuleCat.of A (⋀[A]^(j + 1) (Fin r → A)))
   have : Module.Projective A (⋀[A]^(j + 1) (Fin r → A)) :=
     Module.Projective.of_basis (Module.Free.chooseBasis _ _)
   infer_instance

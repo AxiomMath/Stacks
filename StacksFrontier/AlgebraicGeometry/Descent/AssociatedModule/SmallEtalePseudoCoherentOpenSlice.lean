@@ -389,7 +389,7 @@ theorem objRestrictPhi_counit :
         (localizationEquivalence B S hS U).symm.inverse.op.whiskerLeft
           (objRestrictPhi B S hS U).hom := by
   ext A : 2
-  show (Stacks.SheafOfModules.Tensor.ringSheaf (objRingedSite B S hS U).O).obj.map _ = 𝟙 _ ≫ 𝟙 _
+  change (Stacks.SheafOfModules.Tensor.ringSheaf (objRingedSite B S hS U).O).obj.map _ = 𝟙 _ ≫ 𝟙 _
   rw [Category.comp_id,
     ← (Stacks.SheafOfModules.Tensor.ringSheaf (objRingedSite B S hS U).O).obj.map_id]
   congr 1

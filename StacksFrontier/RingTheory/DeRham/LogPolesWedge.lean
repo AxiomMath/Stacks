@@ -134,7 +134,7 @@ theorem mem_logRel_of_smul_mem {t : R}
     z ∈ logRel A t p := by
   rw [mem_logRel_iff] at hz ⊢
   refine ht (p + 1) ?_
-  show t • (t • z.1 + exteriorPower.wedgeLeft (KaehlerDifferential.D A R t) p z.2) =
+  change t • (t • z.1 + exteriorPower.wedgeLeft (KaehlerDifferential.D A R t) p z.2) =
     t • (0 : ⋀[R]^(p + 1) (Ω[R⁄A]))
   rw [smul_zero, smul_add, smul_smul]
   simpa only [Prod.smul_fst, Prod.smul_snd, map_smul, smul_smul] using hz
@@ -193,7 +193,7 @@ theorem logWedge_unique {t : R}
   have hreg : IsSMulRegular (logFormsR A t (p + q)) (t * t) :=
     (isSMulRegular_logFormsR ht (p + q)).mul (isSMulRegular_logFormsR ht (p + q))
   refine hreg ?_
-  show (t * t) • (w₁ p q) α β = (t * t) • (w₂ p q) α β
+  change (t * t) • (w₁ p q) α β = (t * t) • (w₂ p q) α β
   rw [smul_logWedge_eq w₁ h₁ p q α β, smul_logWedge_eq w₂ h₂ p q α β]
 
 end Stacks.LogPoles

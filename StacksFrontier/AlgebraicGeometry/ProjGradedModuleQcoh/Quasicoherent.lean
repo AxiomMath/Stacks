@@ -185,9 +185,9 @@ public lemma associatedModuleSheaf_chart_isLocalized_mk {f : S} {d : ℕ}
   have hψ : ψ = EV.symm.toLinearMap ∘ₗ maps.degreeZeroMap ∘ₗ Etop.toLinearMap := by
     ext x
     apply EV.injective
-    show EV (ψ x) = EV (EV.symm (maps.degreeZeroMap (Etop x)))
+    change EV (ψ x) = EV (EV.symm (maps.degreeZeroMap (Etop x)))
     rw [EV.apply_symm_apply]
-    show (associatedModuleSheafStandardOpenEquiv 𝒜 𝒨 hg he)
+    change (associatedModuleSheafStandardOpenEquiv 𝒜 𝒨 hg he)
         ((imageSectionsIso i N V (AlgebraicGeometry.Proj.basicOpen 𝒜 (a * f)) himage).hom
           ((N.restrict i).presheaf.map V.leTop.op x)) =
       maps.degreeZeroMap ((associatedModuleSheafStandardOpenEquiv 𝒜 𝒨 hf hd)
@@ -201,7 +201,7 @@ public lemma associatedModuleSheaf_chart_isLocalized_mk {f : S} {d : ℕ}
         ((imageSectionsIso i N ⊤ (AlgebraicGeometry.Proj.basicOpen 𝒜 f) htop).hom x) at hn
     rw [hn]
     exact standardOpenEquiv_restrict 𝒜 𝒨 hf hd hg he hfg _
-  show IsLocalizedModule.Away (HomogeneousLocalization.Away.mk 𝒜 hf n a ha) ψ
+  change IsLocalizedModule.Away (HomogeneousLocalization.Away.mk 𝒜 hf n a ha) ψ
   rw [hψ]
   let := hloc
   exact IsLocalizedModule.of_linearEquiv _ _ EV.symm

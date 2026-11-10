@@ -23,10 +23,10 @@ presheaves; the source states them for algebraic spaces. With the quasi-separate
 proved in `StacksFrontier.AlgebraicGeometry.Spaces.QuasiSeparatedComposition`, all three separation
 axioms of Stacks 03HL that this library states are stable under composition.
 
-The finite-type case of **Stacks 03XG** is then the locally-of-finite-type case, already proved, paired
-with **Stacks 03HG** for quasi-compactness, and **Stacks 04XY** is the triple of the separated
-case of Stacks 03KQ, the finite-type case of Stacks 03XG and the universally closed case of
-**Stacks 03IU**.
+The finite-type case of **Stacks 03XG** is then the locally-of-finite-type case, already proved,
+paired with **Stacks 03HG** for quasi-compactness, and **Stacks 04XY** is the triple of the
+separated case of Stacks 03KQ, the finite-type case of Stacks 03XG and the universally closed case
+of **Stacks 03IU**.
 
 Finally the four remaining `CategoryTheory.MorphismProperty.IsStableUnderComposition` instances
 on the six properties of

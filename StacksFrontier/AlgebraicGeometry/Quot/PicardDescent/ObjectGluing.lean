@@ -296,11 +296,11 @@ def descentDatumOfOverlaps :
   F i := (A i).lineBundle
   quasicoherent i := isQuasicoherentOnSite_of_isInvertibleModule _ _ (A i).invertible
   transition i j := pairTransition g i j (π i j) (ξ i j) (hQ i j)
-  cocycle i j k T vi vj vk vij vjk vik hij₀ hij₁ hjk₀ hjk₁ hik₀ hik₁ :=
+  cocycle i j k _ _ _ _ vij vjk vik hij₀ hij₁ hjk₀ hjk₁ hik₀ hik₁ :=
     readIso_theta_cocycle (π i j) (ξ i j) (π j k) (ξ j k) (π i k) (ξ i k) (σ₁ i j k)
       (σ₂ i j k) (σ₃ i j k) (ρ₁₂ i j k) (ρ₂₃ i j k) (ρ₁₃ i j k) (h12a i j k) (h12b i j k)
       (h23a i j k) (h23b i j k) (h13a i j k) (h13b i j k) (hR i j k)
-      (fun x y h₁ h₂ => (hQ i k).hom_ext h₁ h₂) _ _ _
+      (fun _ _ => (hQ i k).hom_ext) _ _ _
       (pairIso_hom_fst g i j _ _ (hQ i j)) (pairIso_hom_snd g i j _ _ (hQ i j))
       (pairIso_hom_fst g j k _ _ (hQ j k)) (pairIso_hom_snd g j k _ _ (hQ j k))
       (pairIso_hom_fst g i k _ _ (hQ i k)) (pairIso_hom_snd g i k _ _ (hQ i k))

@@ -56,8 +56,8 @@ of `id_Y × Spec σ`, so that the derived version is comparable with
 
 The hypotheses are those under which the action is continuous: for `Y` an infinite disjoint union
 of copies of `Spec k` the stabilizers need not be open (see the implementation notes of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Trace/GaloisModuleHigherDirectImageStalk.lean`), and
-for `K/k` inseparable the stages `Y_E` need not be étale over `Y`.
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Trace/GaloisModuleHigherDirectImageStalk.lean`),
+and for `K/k` inseparable the stages `Y_E` need not be étale over `Y`.
 
 ## References
 
@@ -482,16 +482,16 @@ theorem isOpen_stabilizer_fieldBaseChangeGlobalSectionsGaloisAction
   let S : Subgroup (K ≃ₐ[k] K) :=
     { carrier := {σ | a σ z = z}
       mul_mem' := fun {σ τ} hσ hτ => by
-        show a (σ * τ) z = z
+        change a (σ * τ) z = z
         rw [show a (σ * τ) = a τ ≫ a σ from
           fieldBaseChangeGlobalSectionsGaloisAction_mul Λ Y K σ τ G, ModuleCat.comp_apply]
         exact (congrArg (a σ) hτ).trans hσ
       one_mem' := by
-        show a 1 z = z
+        change a 1 z = z
         rw [show a 1 = 𝟙 _ from fieldBaseChangeGlobalSectionsGaloisAction_one Λ Y K G]
         rfl
       inv_mem' := fun {σ} hσ => by
-        show a σ⁻¹ z = z
+        change a σ⁻¹ z = z
         have h := congrArg (a σ⁻¹) hσ
         rw [← ModuleCat.comp_apply, show a σ ≫ a σ⁻¹ = a (σ⁻¹ * σ) from
           (fieldBaseChangeGlobalSectionsGaloisAction_mul Λ Y K σ⁻¹ σ G).symm, inv_mul_cancel,
@@ -499,7 +499,7 @@ theorem isOpen_stabilizer_fieldBaseChangeGlobalSectionsGaloisAction
         exact h.symm }
   refine Subgroup.isOpen_mono (H₁ := i.1.fixingSubgroup) (H₂ := S) (fun σ hσ => ?_)
     (IntermediateField.fixingSubgroup_isOpen i.1)
-  show fieldBaseChangeGlobalSectionsGaloisAction.{u, 0} Λ Y K σ G z = z
+  change fieldBaseChangeGlobalSectionsGaloisAction.{u, 0} Λ Y K σ G z = z
   apply ΓRes_etaleMkId_injective
   rw [ΓRes_fieldBaseChangeGlobalSectionsGaloisAction Λ Y K σ G x _ z hz, hz]
   exact map_smallEtaleBaseChangeLift_congr Λ Y K G x

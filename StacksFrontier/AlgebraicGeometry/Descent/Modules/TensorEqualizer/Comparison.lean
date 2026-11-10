@@ -49,8 +49,7 @@ private theorem liftedAlgebraLinearMap_universallyInjective
   have key : ∀ z, d₁ ((liftedAlgebraLinearMap R A).rTensor Q z) =
       (Algebra.linearMap R A).rTensor Q (d₀ z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp [d₀, d₁, liftedAlgebraLinearMap]
+    induction z using TensorProduct.inductionOn with
     | tmul x y => simp [d₀, d₁, liftedAlgebraLinearMap, eA, eR]
     | add x y hx hy => simp [hx, hy]
   exact fun x y hxy => d₀.injective (hQ (by simpa only [key] using congrArg d₁ hxy))
@@ -143,20 +142,19 @@ public theorem exists_unitBaseChange_characterSectionFamily
         sf.comp (CharacterModule.dual d₀.toLinearMap)
     have hcomm : d₁.toLinearMap.comp j = uP.comp d₀.toLinearMap := by
       refine LinearMap.ext fun z => ?_
-      induction z using TensorProduct.induction_on with
-      | zero => simp [d₀, d₁, j, uP]
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy => simp [map_add, hx, hy]
       | tmul p r =>
           cases r with
           | up r =>
-              show (algebraMap R A r) ⊗ₜ[R] eP p =
+              change (algebraMap R A r) ⊗ₜ[R] eP p =
                 (1 : A) ⊗ₜ[R] (r • eP p)
               simp [TensorProduct.smul_tmul', Algebra.algebraMap_eq_smul_one]
     have hkey : CharacterModule.dual uP ∘ₗ CharacterModule.dual d₁.symm.toLinearMap =
         CharacterModule.dual d₀.symm.toLinearMap ∘ₗ CharacterModule.dual j := by
       refine LinearMap.ext fun χ => ?_
       ext p
-      show χ (d₁.symm (uP p)) = χ (j (d₀.symm p))
+      change χ (d₁.symm (uP p)) = χ (j (d₀.symm p))
       have hp : d₁ (j (d₀.symm p)) = uP p := by
         simpa using DFunLike.congr_fun hcomm (d₀.symm p)
       exact congrArg χ (d₁.symm_apply_eq.mpr hp.symm)
@@ -226,14 +224,12 @@ public theorem exists_unitBaseChange_characterSectionFamily
       _root_.functorialCharacterModuleSection s₀ (ULift.{max (max u v) w} Q)
     have hdom : q₀.toLinearMap.comp kp = k.comp p₀.toLinearMap := by
       refine LinearMap.ext fun z => ?_
-      induction z using TensorProduct.induction_on with
-      | zero => simp [q₀, kp, k', p₀]
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy => simp [map_add, hx, hy]
       | tmul x r => cases r with | up r => simp [q₀, kp, k', p₀, eR, eP, eQ]
     have hcod : q₁.toLinearMap.comp kA' = kA.comp p₁.toLinearMap := by
       refine LinearMap.ext fun z => ?_
-      induction z using TensorProduct.induction_on with
-      | zero => simp [q₁, kA', k', kA, p₁]
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy => simp [map_add, hx, hy]
       | tmul x a => simp [q₁, kA', k', kA, p₁, eP, eQ]
     have hdualDom : CharacterModule.dual kp ∘ₗ CharacterModule.dual q₀.toLinearMap =
@@ -251,11 +247,11 @@ public theorem exists_unitBaseChange_characterSectionFamily
           CharacterModule.dual q₁.symm.toLinearMap := by
       refine LinearMap.ext fun χ => ?_
       ext z
-      show χ (kA' (p₁.symm z)) = χ (q₁.symm (kA z))
+      change χ (kA' (p₁.symm z)) = χ (q₁.symm (kA z))
       have hz : q₁ (kA' (p₁.symm z)) = kA z := by
         simpa using DFunLike.congr_fun hcod (p₁.symm z)
       exact congrArg χ (q₁.eq_symm_apply.mpr hz)
-    show sp ∘ₗ CharacterModule.dual k =
+    change sp ∘ₗ CharacterModule.dual k =
       CharacterModule.dual kA ∘ₗ sq
     dsimp [sp, sq, s]
     calc
@@ -305,7 +301,7 @@ public theorem tensorPushforwardComparison_tmul
     tensorPushforwardComparison R A D (a ⊗ₜ[R] m) =
       D.transitionRestrictScalars R A
         ((a • (m.1 : restrictModule R A D.module)) ⊗ₜ[R] (1 : A)) := by
-  show a ⊗ₜ[R] m.1 = D.transition ((a • m.1) ⊗ₜ[R] (1 : A))
+  change a ⊗ₜ[R] m.1 = D.transition ((a • m.1) ⊗ₜ[R] (1 : A))
   have hinv : D.transition (m.1 ⊗ₜ[R] (1 : A)) = (1 : A) ⊗ₜ[R] m.1 := m.2
   have h := D.transition.map_smul (a ⊗ₜ[R] (1 : A)) (m.1 ⊗ₜ[R] (1 : A))
   rw [sourceTensor_smul_tmul, hinv, targetTensor_smul_tmul] at h
@@ -325,12 +321,11 @@ public theorem tensorPushforwardComparison_condition
         ModuleCat.ofHom (DescentData.rightUnitBaseChangeHom R A D) := by
   apply ModuleCat.hom_ext
   refine LinearMap.ext fun x => ?_
-  show DescentData.transition12AfterUnitHom R A D
+  change DescentData.transition12AfterUnitHom R A D
       (tensorPushforwardComparison R A D x) =
     DescentData.rightUnitBaseChangeHom R A D
       (tensorPushforwardComparison R A D x)
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul a m =>
       have h : DescentData.transition12AfterUnit R A D

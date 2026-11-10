@@ -80,7 +80,7 @@ theorem projective_of_module_eq {A M : Type u} [CommRing A] [AddCommGroup M]
 theorem eq_of_comap_eq_of_isLocalization {A B : Type u} [CommRing A] [CommRing B]
     [Algebra A B] (U : Submonoid A) [IsLocalization U B] {I J : Ideal B}
     (h : I.comap (algebraMap A B) = J.comap (algebraMap A B)) : I = J := by
-  rw [← IsLocalization.map_comap U B I, ← IsLocalization.map_comap U B J]
+  rw [← IsLocalization.map_under U B I, ← IsLocalization.map_under U B J]
   exact congrArg (Ideal.map (algebraMap A B)) h
 
 /-- **The reduction of [Stacks, Tag 05IG], read off the diagram it is built from.**  Given the
@@ -272,12 +272,12 @@ theorem nonempty_reduction_of_square
   have : IsScalarTower R S E.S' := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower R (Localization.Away g) E.S' := by
     refine IsScalarTower.of_algebraMap_eq fun r => ?_
-    show algebraMap S E.S' (algebraMap R S r) = _
+    change algebraMap S E.S' (algebraMap R S r) = _
     rw [IsScalarTower.algebraMap_apply S (Localization.Away g) E.S',
       ← IsScalarTower.algebraMap_apply R S (Localization.Away g)]
   have htowRR'S' : IsScalarTower R E.R' E.S' := by
     refine IsScalarTower.of_algebraMap_eq fun r => ?_
-    show algebraMap (Localization.Away g) E.S'
+    change algebraMap (Localization.Away g) E.S'
       (algebraMap S (Localization.Away g) (algebraMap R S r)) = _
     rw [← IsScalarTower.algebraMap_apply R S (Localization.Away g)]
     exact RingHom.congr_fun E.commutes r
@@ -339,7 +339,7 @@ theorem nonempty_reduction_of_square
       (LocalizedModule (primeComplImage E.S' E.p')
         (E.S' ⊗[Localization.Away g] LocalizedModule (Submonoid.powers g) N)) := by
     refine IsScalarTower.of_algebraMap_smul fun r x => ?_
-    show algebraMap (Localization.AtPrime E.p') (Localization (primeComplImage E.S' E.p'))
+    change algebraMap (Localization.AtPrime E.p') (Localization (primeComplImage E.S' E.p'))
         (algebraMap E.R' (Localization.AtPrime E.p') r) • x = r • x
     rw [← IsScalarTower.algebraMap_apply E.R' (Localization.AtPrime E.p')
         (Localization (primeComplImage E.S' E.p')),
@@ -348,7 +348,7 @@ theorem nonempty_reduction_of_square
       (LocalizedModule (primeComplImage E.S' E.p')
         (E.S' ⊗[Localization.Away g] LocalizedModule (Submonoid.powers g) N)) := by
     refine IsScalarTower.of_algebraMap_smul fun r x => ?_
-    show algebraMap (Localization.AtPrime E.p') (Localization (primeComplImage E.S' E.p'))
+    change algebraMap (Localization.AtPrime E.p') (Localization (primeComplImage E.S' E.p'))
         (algebraMap R (Localization.AtPrime E.p') r) • x = r • x
     rw [← IsScalarTower.algebraMap_apply R (Localization.AtPrime E.p')
         (Localization (primeComplImage E.S' E.p')),

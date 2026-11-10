@@ -101,7 +101,7 @@ variable {C sZ sX f hf} in
 theorem localizedGradingPush_of_lt
     (a : localizedBivariantGrading C (gysinSystemOfInvertible C) sZ sX f hf p) {i : ℤ}
     (h : i < (p : ℤ)) : localizedGradingPush C sZ sX f hf a i = a.1 ⟨i, h⟩ :=
-  dif_pos h
+  dite_eq_left h
 
 variable {C sZ sX f hf} in
 /-- From the cutoff on the pushed component is the pushforward `f_* ∘ aᵢ` of the component. -/
@@ -110,7 +110,7 @@ theorem localizedGradingPush_of_le
     (h : (p : ℤ) ≤ i) :
     localizedGradingPush C sZ sX f hf a i =
       properPushforwardChowCohomology C sX sZ f hf (a.2 ⟨i, h⟩) :=
-  dif_neg (not_lt.mpr h)
+  dite_eq_right (not_lt.mpr h)
 
 /-- **A summand of a component of degree `n ≥ p + q - 1` of a product of Stacks 0FA0.** For
 `a ∈ A⁽ᵖ⁾(Z ⟶ X)`, `b ∈ A⁽ᑫ⁾(Z ⟶ X)` and `i ∈ ℤ`, with `j = n - i`, the product
@@ -147,7 +147,7 @@ theorem localizedGradingTerm_of_le_of_le
     (hn : ((p + q : ℕ) : ℤ) ≤ n + 1) {i : ℤ} (hi : (p : ℤ) ≤ i) (hj : (q : ℤ) ≤ n - i) :
     localizedGradingTerm C sZ sX f hf a b hn i =
       supportedMul C sZ sX f hf (a.2 ⟨i, hi⟩) (b.2 ⟨n - i, hj⟩) := by
-  rw [localizedGradingTerm, dif_pos hi, dif_pos hj]
+  rw [localizedGradingTerm, dite_eq_left hi, dite_eq_left hj]
 
 /-- The summand `(i, j)` with `i ≥ p` and `j < q` is `aᵢ ∘ bⱼ`. -/
 theorem localizedGradingTerm_of_le_of_lt
@@ -156,7 +156,7 @@ theorem localizedGradingTerm_of_le_of_lt
     (hn : ((p + q : ℕ) : ℤ) ≤ n + 1) {i : ℤ} (hi : (p : ℤ) ≤ i) (hj : n - i < (q : ℤ)) :
     localizedGradingTerm C sZ sX f hf a b hn i =
       supportedRightComp C sZ sX f hf (a.2 ⟨i, hi⟩) (b.1 ⟨n - i, hj⟩) := by
-  rw [localizedGradingTerm, dif_pos hi, dif_neg (not_le.mpr hj)]
+  rw [localizedGradingTerm, dite_eq_left hi, dite_eq_right (not_le.mpr hj)]
 
 /-- The summand `(i, j)` with `i < p` is `res(aᵢ) ∘ bⱼ`, restricting `aᵢ ∈ Aⁱ(X)` to `Z`. -/
 theorem localizedGradingTerm_of_lt
@@ -165,7 +165,7 @@ theorem localizedGradingTerm_of_lt
     (hn : ((p + q : ℕ) : ℤ) ≤ n + 1) {i : ℤ} (hi : i < (p : ℤ)) (hj : (q : ℤ) ≤ n - i) :
     localizedGradingTerm C sZ sX f hf a b hn i =
       ambientSupportedMul C sZ sX f hf (a.1 ⟨i, hi⟩) (b.2 ⟨n - i, hj⟩) := by
-  rw [localizedGradingTerm, dif_neg (not_le.mpr hi)]
+  rw [localizedGradingTerm, dite_eq_right (not_le.mpr hi)]
 
 /-- The summand `(i, j)` with `i ≥ p` and `j ≥ q` is `res(aᵢ) ∘ bⱼ`. -/
 theorem localizedGradingHighTerm_of_le_of_le

@@ -78,7 +78,7 @@ public theorem isIso_piComparison_extFunctorObj_zero
       (Pi.π (fun j ↦ (extFunctorObj.{w} X 0).obj (F j)) i e)), ?_⟩
     apply Concrete.limit_ext
     intro ⟨i⟩
-    show Pi.π (fun j ↦ (extFunctorObj.{w} X 0).obj (F j)) i
+    change Pi.π (fun j ↦ (extFunctorObj.{w} X 0).obj (F j)) i
       ((piComparison (extFunctorObj.{w} X 0) F) _) =
         Pi.π (fun j ↦ (extFunctorObj.{w} X 0).obj (F j)) i e
     rw [piComparison_extFunctorObj_apply F X 0 _ i, Ext.mk₀_comp_mk₀, Pi.lift_comp_π]

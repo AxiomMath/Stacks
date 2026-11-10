@@ -127,7 +127,7 @@ theorem frobMatrixMap_comp_proj (j : Fin r) :
   refine sheaf_hom_ext_apply fun T b => ULift.ext ?_
   refine Eq.trans ?_ (congrArg ULift.down (sheafHom_sum_app _ _ T b)).symm
   refine Eq.trans ?_ (ulift_down_sum (M := ↑((T.unop.left).presheaf.obj (op ⊤))) _ _).symm
-  show ∑ i, etaleFunction T.unop (a i j) * b.down i ^ p =
+  change ∑ i, etaleFunction T.unop (a i j) * b.down i ^ p =
     ∑ i, (((freeAdditiveProj S r i ≫ frobeniusMap.{u, 0} S hp hS ≫
       additiveSmul.{u, 0} S (a i j)).hom.app T) b).down
   exact Finset.sum_congr rfl fun i _ => rfl

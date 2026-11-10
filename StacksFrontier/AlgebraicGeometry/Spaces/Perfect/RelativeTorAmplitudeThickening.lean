@@ -173,7 +173,7 @@ theorem surjective_and_isNilpotent_ker_comp_ringEquiv {A B' C : Type*} [CommRing
     · intro ha
       exact ⟨e a, ha, e.symm_apply_apply a⟩
     · rintro ⟨b, hb, rfl⟩
-      show φ (e (e.symm b)) = 0
+      change φ (e (e.symm b)) = 0
       rw [e.apply_symm_apply]
       exact hb
   obtain ⟨n, hn⟩ := hn
@@ -240,7 +240,7 @@ theorem hasTorAmplitudeCanonical_geometricStalk_of_baseChange_of_isNilpotent
   let : Algebra R C := ((algebraMap A C).comp (algebraMap R A)).toAlgebra
   have : IsScalarTower R A C := IsScalarTower.of_algebraMap_eq' rfl
   have hsq : (algebraMap A C).comp (algebraMap R A) = (algebraMap B' C).comp (algebraMap R B') := by
-    show (stalkStructureMap B S hS g' x').hom.comp (algebraMap R A) =
+    change (stalkStructureMap B S hS g' x').hom.comp (algebraMap R A) =
       (stalkStructureMap B S hS f' x').hom.comp (algebraMap R B')
     rw [← hleft, ← hright, RingHom.comp_assoc, RingHom.comp_assoc,
       Algebra.TensorProduct.includeLeftRingHom_comp_algebraMap]
@@ -256,7 +256,7 @@ theorem hasTorAmplitudeCanonical_geometricStalk_of_baseChange_of_isNilpotent
       (geometricPointMap_square B S hS f g f' g' hpb.w x'))).commRingCatIsoToRingEquiv
   obtain ⟨hsR, hnR⟩ := surjective_and_isNilpotent_ker_comp_ringEquiv eR _ hsurj hnil
   have hsurjA : Function.Surjective (algebraMap A C) := by
-    show Function.Surjective (stalkStructureMap B S hS g' x').hom
+    change Function.Surjective (stalkStructureMap B S hS g' x').hom
     rw [stalkStructureMap_hom_eq_smallEtaleStalkPullbackRingMap]
     exact surjective_smallEtaleStalkPullbackRingMap_of_isClosedImmersion B S hS g' x' hg'
   have : Algebra.IsPushout R A B' C :=
@@ -290,7 +290,7 @@ theorem structurePresheaf_map_snd (h : V ⟶ U) (hh : yoneda.relativelyRepresent
       ((congrArg (fun m => (BigFppfOver.toScheme B S hS).map m)
         (smallBaseChange_map_snd B S hS h hh g)).trans
         ((BigFppfOver.toScheme B S hS).map_comp _ _))
-  show (Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map g.hom.left)) ≫
+  change (Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map g.hom.left)) ≫
       Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map (hh.snd W'.1.hom)))) s =
     (Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map (hh.snd W.1.hom))) ≫
       Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map
@@ -348,7 +348,7 @@ theorem exists_germ_eq_of_smallEtaleStalkPullbackRingMap_eq_zero (h : V ⟶ U)
     have hfz' : (structurePresheaf B S hS V.1).map f.op
         (Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map d.g)) s) = 0 := hfz
     rw [e1, ← hab']
-    show (structurePresheaf B S hS V.1).map ((smallBaseChange B S hS h hh.rep).map a.hom).op
+    change (structurePresheaf B S hS V.1).map ((smallBaseChange B S hS h hh.rep).map a.hom).op
         ((structurePresheaf B S hS V.1).map k.hom.op ((structurePresheaf B S hS V.1).map f.op
           (Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map d.g)) s))) = 0
     rw [hfz', map_zero]
@@ -421,7 +421,7 @@ theorem ker_smallEtaleStalkPullbackRingMap_pow_eq_bot (h : V ⟶ U) {n : ℕ}
     have hle : Ideal.map ((structurePresheaf B S hS U.1).map g.op).hom (J W) ≤ J W' := by
       rw [Ideal.map_le_iff_le_comap]
       intro t ht
-      show Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map (hci.rep.snd W'.1.hom)))
+      change Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map (hci.rep.snd W'.1.hom)))
         ((structurePresheaf B S hS U.1).map g.op t) = 0
       rw [structurePresheaf_map_snd B S hS h hci.rep g t]
       have ht' : Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map (hci.rep.snd W.1.hom))) t

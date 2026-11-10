@@ -105,6 +105,7 @@ theorem cardinal_mk_hom_over_lt
 /-! ### The restricted system -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the limits of presheaves on the big fppf site times out at the default limit
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_OpenSubspaceRestriction :

@@ -345,7 +345,7 @@ theorem chart_preimage_degreeOpen (U : S.Opens) (hU : IsAffineOpen U) (d : ℕ) 
     -- the two transitions pull the degree-`d` opens of `V` and of `U` back to that of `W`
     have hzW : z ∈ AlgebraicGeometry.Proj.degreeOpen (A.grading W) d := by
       rw [← projInclusionMap_preimage_degreeOpen A W V hWV hW hV d]
-      show projInclusionMap A W V hWV hW hV z ∈
+      change projInclusionMap A W V hWV hW hV z ∈
         AlgebraicGeometry.Proj.degreeOpen (A.grading V) d
       rw [hzy]
       exact hy

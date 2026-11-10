@@ -91,14 +91,14 @@ theorem twistScalar_eq_twistBaseScalar (r : k) (d : ℤ) :
   apply ModuleCat.hom_ext
   ext s
   refine Subtype.ext (funext fun x => ?_)
-  show LocalizedModule.map _ (LinearMap.mulLeft _ (MvPolynomial.C r)) (s.1 x) =
+  change LocalizedModule.map _ (LinearMap.mulLeft _ (MvPolynomial.C r)) (s.1 x) =
     HomogeneousLocalization.val (((projToSpecCoeff k n).appTop
           ((Scheme.ΓSpecIso (CommRingCat.of k)).inv r)).1 ⟨x.1, trivial⟩) * s.1 x
   rw [Stacks.AlgebraicGeometry.ProjEulerSequence.projToSpecCoeff_appTop_val,
     ← Localization.mk_one_eq_algebraMap]
   induction s.1 x using Localization.induction_on with
   | H y =>
-    show LocalizedModule.map _ (LinearMap.mulLeft _ (MvPolynomial.C r))
+    change LocalizedModule.map _ (LinearMap.mulLeft _ (MvPolynomial.C r))
       (LocalizedModule.mk y.1 y.2) = _
     rw [LocalizedModule.map_mk, Localization.mk_mul]
     simp only [LinearMap.mulLeft_apply, one_mul]

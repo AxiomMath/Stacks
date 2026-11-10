@@ -76,10 +76,11 @@ theorem isPullback_of_eq_preimage {X P : Scheme.{u}} (p : P ⟶ X) (U : X.Opens)
 /-- **Bijectivity passes to rational coefficients.** If `(α_i) ↦ ∑_i T_i α_i` is bijective for
 `ℤ`-linear maps `T_i : M_i ⟶ N` indexed by a finite type, so is
 `(x_i) ↦ ∑_i (ℚ ⊗ T_i)(x_i)`. -/
-theorem bijective_sum_baseChange {ι : Type*} [Fintype ι] [DecidableEq ι] {M : ι → Type*}
+theorem bijective_sum_baseChange {ι : Type*} [Fintype ι] {M : ι → Type*}
     [∀ i, AddCommGroup (M i)] {N : Type*} [AddCommGroup N] (T : ∀ i, M i →ₗ[ℤ] N)
     (hT : Function.Bijective fun α : (∀ i, M i) ↦ ∑ i, T i (α i)) :
     Function.Bijective fun x : (∀ i, TensorProduct ℤ ℚ (M i)) ↦ ∑ i, (T i).baseChange ℚ (x i) := by
+  classical
   set Tsum : (∀ i, M i) →ₗ[ℤ] N := ∑ i, (T i).comp (LinearMap.proj i) with hTsum
   have hTsum' : ∀ α, Tsum α = ∑ i, T i (α i) := fun α ↦ by simp [Tsum]
   have hbij : Function.Bijective Tsum := by
@@ -89,8 +90,7 @@ theorem bijective_sum_baseChange {ι : Type*} [Fintype ι] [DecidableEq ι] {M :
   have hbc : Function.Bijective (Tsum.baseChange ℚ) := by
     have : ⇑(Tsum.baseChange ℚ) = ⇑(e.baseChange ℤ ℚ _ _) := by
       funext x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add a b ha hb => rw [map_add, map_add, ha, hb]
       | tmul q m => rfl
     rw [this]
@@ -102,8 +102,7 @@ theorem bijective_sum_baseChange {ι : Type*} [Fintype ι] [DecidableEq ι] {M :
         (∀ i, TensorProduct ℤ ℚ (M i)) →ₗ[ℚ] TensorProduct ℤ ℚ N) =
         (Tsum.baseChange ℚ).comp (TensorProduct.piRight ℤ ℚ ℚ M).symm.toLinearMap := by
       refine LinearMap.pi_ext fun i x ↦ ?_
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add a b ha hb => rw [Pi.single_add, map_add, map_add, ha, hb]
       | tmul q m =>
         rw [LinearMap.sum_apply, LinearMap.comp_apply, LinearEquiv.coe_coe,
@@ -202,8 +201,7 @@ theorem bijective_projectiveBundleBlockSum (f d : ℕ) (r : Fin (n + 1) → ℤ)
         (partBase (projectiveBundle X E n).obj.hom (d + n)) (hrs i)
         (projectiveBundleBlockMap X E n f d i (r i) x) = (T i).baseChange ℚ x := by
     intro i x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add, map_add, ha, hb, map_add]
     | tmul q' y => rfl
   have hfun : (fun x : (∀ i : Fin (n + 1),
@@ -620,6 +618,7 @@ theorem homOf_corrCongr_comp_projectiveBundleCorr {Z : (SmoothProjectiveScheme k
   exact of_toCorr_symm_corrCongr h _
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search in the `map_sum`/`Finset.sum` rewrites over twisted-motive morphisms
 /-- **The key identity**: on correspondences, `(u_i) ↦ ∑_i c_i ∘ u_i` is
 `Stacks.WeilCohomology.projectiveBundleCompSum`. -/
 theorem homOf_projectiveBundleCompSum

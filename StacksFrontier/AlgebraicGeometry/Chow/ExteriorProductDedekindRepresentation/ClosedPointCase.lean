@@ -110,10 +110,10 @@ theorem gysinCycleMap_apply {Y : Scheme.{u}} (q : Y ⟶ C.S) [LocallyOfFiniteTyp
             ((integralComponentAt i.1).comap
               (Stacks.Divisors.zeroScheme Y L σ).subschemeι).subschemeι k d) := by
   classical
-  show ((gysinCycleMapRule C q k L σ).extendCycleGroup δ).1 d = _
+  change ((gysinCycleMapRule C q k L σ).extendCycleGroup δ).1 d = _
   rw [GysinChernCap.extendCycleGroup_eq_finsum_cycle]
   refine finsum_congr fun i ↦ ?_
-  show (δ.1 i.1 • gysinCycleMapComponent C q k L σ _ (isIntegral_integralComponentAt i.1)
+  change (δ.1 i.1 • gysinCycleMapComponent C q k L σ _ (isIntegral_integralComponentAt i.1)
     (schemeDeltaDimension_cycleSupportIndex δ i)).1 d = _
   split_ifs with hle
   · rw [gysinCycleMapComponent_of_le C q k L σ _ _ _ hle]
@@ -273,9 +273,9 @@ theorem gysinCycle_mul_flatPullbackWeight_eq_finsum (hS : IsDedekindChowBase C) 
   · have hs' : sX.base (j.base i) = s :=
       (hEsupp i).1 ((le_integralComponentAt_iff_mem_support E i).1 hiE)
     have hdom : ¬ DominatesBaseComponent C sX (j.base i) := fun h ↦ hs (hs' ▸ h)
-    rw [if_neg hdom, if_pos hiE]
+    rw [ite_eq_right hdom, ite_eq_left hiE]
     simp
-  · rw [if_neg hiE]
+  · rw [ite_eq_right hiE]
     by_cases ha : a.1 (j.base i) = 0
     · simp [ha]
     have hδi : δ.1 i ≠ 0 := by rwa [hδ]
@@ -504,7 +504,7 @@ theorem IsDedekindChowBase.exists_lift_zeroScheme_of_notMem_genericPoints
   have _ : LocallyOfFiniteType (h ≫ D.subschemeι ≫ V.ι) := by rw [hhfac]; infer_instance
   have _ : LocallyOfFiniteType h := locallyOfFiniteType_of_comp h (D.subschemeι ≫ V.ι)
   have hnn : 0 ≤ relativeDimension C.dimensionFunction t η := by
-    show 0 ≤ C.dimensionFunction s + (Cardinal.toNat (residueTrdeg t η) : ℤ)
+    change 0 ≤ C.dimensionFunction s + (Cardinal.toNat (residueTrdeg t η) : ℤ)
     omega
   set r := (relativeDimension C.dimensionFunction t η).toNat with hrdef
   have hr : AlgebraicGeometry.RelativeDimension h r := by
@@ -513,7 +513,7 @@ theorem IsDedekindChowBase.exists_lift_zeroScheme_of_notMem_genericPoints
       Order.coheight_eq_zero.mpr fun b _ ↦ le_of_eq (Subsingleton.elim _ _)
     rw [hmax, zero_add, hhfac, relativeDimension_comp_closedImmersion, ← Category.comp_id V.ι,
       relativeDimension_opensι_comp, relativeDimension_id, hDpt]
-    show (r : ℕ∞) = ((relativeDimension C.dimensionFunction t η -
+    change (r : ℕ∞) = ((relativeDimension C.dimensionFunction t η -
       C.dimensionFunction s).toNat : ℕ∞)
     rw [hδs, sub_zero]
   exact ⟨h, inferInstance, inferInstance, r, hr, hhfac, by rw [hrdef, Int.toNat_of_nonneg hnn]⟩
@@ -731,7 +731,7 @@ theorem cap_fundamentalCycle_heq_of_zeroScheme (hS : IsDedekindChowBase C) (p : 
       0)
   rw [flatPullbackChow_fundamentalChowClass C _ _ h _ r hr 0 _ hdimD, hY, flatPullbackChow_mk]
     at hnat
-  show c.cap _ r (chowGroupCongr C _ r (fundamentalChowClass C _ r)) ≍ _
+  change c.cap _ r (chowGroupCongr C _ r (fundamentalChowClass C _ r)) ≍ _
   rw [chowGroupCongr_fundamentalChowClass]
   refine ((heq_cap_of_heq C _ sX (𝟙 C.S) sX _ p c _ (by ring : (r : ℤ) = 0 + r)
     (fundamentalChowClass_heq C _ (by ring))).trans hnat).trans ?_

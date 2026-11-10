@@ -141,7 +141,7 @@ theorem isPerfect_of_iso {M M' : C} (e : M ≅ M') (hM : IsPerfect H D N τ M) :
     ⟨fun y₁ y₂ hy => (cancel_epi e.inv).1 hy,
       fun y => ⟨e.hom ≫ y, by simp [g, Preadditive.leftComp]⟩⟩
   refine (bijective_iff_of_comp _ _ a a.bijective g hg (fun x y => ?_)).1 (hM i j h)
-  show pairing H D N τ M' i j h ((H.map (e.hom⟦i⟧')).hom x) (e.inv ≫ y) = _
+  change pairing H D N τ M' i j h ((H.map (e.hom⟦i⟧')).hom x) (e.inv ≫ y) = _
   rw [pairing_map]
   simp
 
@@ -179,12 +179,12 @@ theorem isPerfect_shift {M : C} (n : ℤ) (hM : IsPerfect H D N τ M) :
       shiftFunctorAdd'_assoc_inv_app (j - n) n i j (n + i) N (by omega) rfl (by omega),
       ← Category.assoc ((y⟦n⟧')⟦i⟧'), nat]
     simp
-  show τ ((shiftHom H D N (g y) i h).hom
+  change τ ((shiftHom H D N (g y) i h).hom
       ((H.map ((shiftFunctorAdd' C n i (n + i) rfl).hom.app M)).hom x)) =
     τ ((shiftHom H D N y (n + i) (by omega)).hom x)
   rw [← AddCommGrpCat.comp_apply]
   simp only [shiftHom, ← H.map_comp]
-  show τ ((H.map ((shiftFunctorAdd' C n i (n + i) rfl).hom.app M ≫
+  change τ ((H.map ((shiftFunctorAdd' C n i (n + i) rfl).hom.app M ≫
       ((y⟦n⟧' ≫ (shiftFunctorAdd' C (j - n) n j (by omega)).inv.app D)⟦i⟧' ≫
         (shiftFunctorAdd' C j i N (by omega)).inv.app D))).hom x) = _
   rw [key]
@@ -226,7 +226,7 @@ lemma exact₃_homology (i : ℤ) (x : H.obj (T.obj₃⟦i⟧))
     rw [connectingHom, H.map_comp]
     rfl
   refine (ShortComplex.ab_exact_iff _).1 (H.homologySequence_exact₃ T hT i (i + 1) rfl) x ?_
-  show (H.homologySequenceδ T i (i + 1) rfl).hom x = 0
+  change (H.homologySequenceδ T i (i + 1) rfl).hom x = 0
   rwa [e]
 
 include hT in
@@ -327,7 +327,7 @@ theorem isPerfect_obj₂ (h₁ : IsPerfect H D N τ T.obj₁) (h₃ : IsPerfect 
       ext y₁
       rw [AddMonoidHom.zero_apply, pairing_connectingHom T (by omega) x₃ y₁, hx₃,
         AddMonoidHom.comp_apply]
-      show φ (T.mor₂ ≫ connectingYoneda T j' y₁) = 0
+      change φ (T.mor₂ ≫ connectingYoneda T j' y₁) = 0
       rw [connectingYoneda_mor₂ T hT, map_zero]
     obtain ⟨x₂, rfl⟩ := exact₃_homology T hT i x₃ hδ
     let α₁ : (T.obj₂ ⟶ D⟦j' + 1⟧) →+ (T.obj₁ ⟶ D⟦j' + 1⟧) := Preadditive.leftComp _ T.mor₁
@@ -428,7 +428,7 @@ theorem isPerfect_iff_of_transfer (M : C)
     intro i j h
     let a := (e.app (M⟦i⟧) ≪≫ H'.mapIso ((F.commShiftIso i).app M)).addCommGroupIsoToAddEquiv
     refine bijective_iff_of_comp _ _ a a.bijective _ (hΨ j) (fun x y => ?_)
-    show τ' ((shiftHom H' D' N' (transferMap F θ M j y) i _).hom
+    change τ' ((shiftHom H' D' N' (transferMap F θ M j y) i _).hom
         ((e.hom.app (M⟦i⟧) ≫ H'.map ((F.commShiftIso i).hom.app M)).hom x)) =
       τ' ((transferHom F e θ hN).hom ((shiftHom H D N y i h).hom x))
     congr 1

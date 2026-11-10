@@ -139,8 +139,8 @@ theorem exists_adicQuotient_iso (n : ℕ) {Q : SheafOfModules.{max s t r v} O} (
   have h1 : idealSmulHom O (mapIdealPow O φ I n) F ≫ q = 0 := by
     refine Sigma.hom_ext _ _ fun b => ?_
     rw [← Category.assoc, comp_zero]
-    show (Sigma.ι _ b ≫ Sigma.desc fun a => globalSmul O a.down.1 F) ≫ q = 0
-    rw [Sigma.ι_desc]
+    change (Sigma.ι _ b ≫ Sigma.desc fun a => globalSmul O a.down.1 F) ≫ q = 0
+    rw [Sigma.ι_comp_desc]
     exact globalSmul_comp_eq_zero_of_mem_map O φ q (I ^ n) hq b.down.2
   let k₁ : adicQuotient O φ I F n ⟶ Q := cokernel.desc _ q h1
   have hk₁ : adicProj O φ I F n ≫ k₁ = q := cokernel.π_desc _ _ _
@@ -252,7 +252,7 @@ theorem isAdicCohomologyBound_of_uliftForPresentation (p c : ℕ)
       ((ModuleCat.restrictScalars φ).map
         (((globalSectionsFunctor.{s, t, r, max t r} O).rightDerived p).map (π n))).hom (α x) := by
     intro n x
-    show ε (Q n) ((cohomologyResMap O φ p (ψ n).hom).hom
+    change ε (Q n) ((cohomologyResMap O φ p (ψ n).hom).hom
       ((cohomologyResMap O φ p (adicProj O φ I F n)).hom x)) = _
     rw [hmap, hψ, ← hmap]
     exact hε (π n) _
@@ -260,7 +260,7 @@ theorem isAdicCohomologyBound_of_uliftForPresentation (p c : ℕ)
       ((ModuleCat.restrictScalars φ).map
         (((globalSectionsFunctor.{s, t, r, max t r} O).rightDerived p).map (tr m n h))).hom
         (β n x) := fun m n h x => by
-    show ε (Q m) ((cohomologyResMap O φ p (ψ m).hom).hom
+    change ε (Q m) ((cohomologyResMap O φ p (ψ m).hom).hom
       ((cohomologyResMap O φ p (adicDrop O φ I F h)).hom x)) = _
     rw [hmap, hdrop, ← hmap]
     exact hε (tr m n h) _
@@ -346,7 +346,7 @@ theorem exists_moduleLiftFunctor_map_idealQuotientπ_comp
     have hc := isColimitOfPreserves L (coproductIsCoproduct fun _ : ↥J => M)
     refine hc.hom_ext fun j => ?_
     rcases j with ⟨a⟩
-    show L.map (Sigma.ι (fun _ : ↥J => M) a) ≫ L.map (idealMultipleHom φ M J) ≫ h =
+    change L.map (Sigma.ι (fun _ : ↥J => M) a) ≫ L.map (idealMultipleHom φ M J) ≫ h =
       L.map (Sigma.ι (fun _ : ↥J => M) a) ≫ 0
     rw [← Category.assoc, ← Functor.map_comp, ι_idealMultipleHom, moduleLiftFunctor_map_globalSmul,
       hh a.1 a.2, comp_zero]

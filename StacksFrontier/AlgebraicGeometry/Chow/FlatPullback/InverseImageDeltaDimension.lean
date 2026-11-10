@@ -59,8 +59,8 @@ closed subscheme depends only on its underlying closed set.
 
 The inverse image of the closed subscheme `i : Z ⟶ Y` is taken as the categorical pullback, with
 `pullback.fst f i : X ×_Y Z ⟶ X` the closed immersion into `X`; this is the same representation
-as in `StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.Cycles`. The support of a coherent sheaf is
-represented by the reduced closed subscheme `Stacks.Chow.reducedSupport` carried by it, so that
+as in `StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.Cycles`. The support of a coherent sheaf
+is represented by the reduced closed subscheme `Stacks.Chow.reducedSupport` carried by it, so that
 `Stacks.Chow.schemeDeltaDimension` applies; the delta-dimension of a whole scheme is valued in
 `EInt`, hence the coercions.
 

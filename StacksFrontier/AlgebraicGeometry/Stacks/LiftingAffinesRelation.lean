@@ -76,7 +76,7 @@ theorem isThickeningHom_prodMap {X Y : AlgebraicSpaces B S hS} {i : X ⟶ Y}
       hi
   have hc : (ObjectProperty.homMk (prod.map i.hom i.hom) : P₁ ⟶ P₃) = j₁ ≫ j₂ :=
     ObjectProperty.hom_ext _ (by
-      show prod.map i.hom i.hom = prod.map i.hom (𝟙 X.obj) ≫ prod.map (𝟙 Y.obj) i.hom
+      change prod.map i.hom i.hom = prod.map i.hom (𝟙 X.obj) ≫ prod.map (𝟙 Y.obj) i.hom
       refine prod.hom_ext ?_ ?_ <;> simp)
   rw [hc]
   obtain ⟨c₁, s₁⟩ := (Space.isThickeningHom_iff_isClosedImmersion_and_isSurjective B S hS j₁).1 h₁
@@ -149,7 +149,7 @@ theorem mono_lift_ambient (hpb : IsPullback (Hom.base σ₁) (Hom.base σ₂) ε
     Space.isLocallyOfFiniteType_of_comp B S hS η.base.obj.left.property
       (AlgebraicSpaces.product B S hS X X).property X.property f.hom prod.fst
       (by
-        show Space.IsLocallyOfFiniteType B S hS (prod.lift b₁.hom b₂.hom ≫ prod.fst)
+        change Space.IsLocallyOfFiniteType B S hS (prod.lift b₁.hom b₂.hom ≫ prod.fst)
         rw [prod.lift_fst]
         exact Space.isLocallyOfFiniteType_of_isEtale B S hS X.property hb₁)
   have hft' : Space.locallyOfFiniteTypeProperty B S hS f' :=
@@ -157,7 +157,7 @@ theorem mono_lift_ambient (hpb : IsPullback (Hom.base σ₁) (Hom.base σ₂) ε
       (AlgebraicSpaces.product B S hS ξ.ambient ξ.ambient).property ξ.ambient.property f'.hom
       prod.fst
       (by
-        show Space.IsLocallyOfFiniteType B S hS
+        change Space.IsLocallyOfFiniteType B S hS
           (prod.lift (Hom.ambient σ₁).hom (Hom.ambient σ₂).hom ≫ prod.fst)
         rw [prod.lift_fst]
         exact Space.isLocallyOfFiniteType_of_isEtale B S hS ξ.ambient.property hs)
@@ -215,7 +215,7 @@ theorem isEquivalenceRelation_ambient (hpb : IsPullback (Hom.base σ₁) (Hom.ba
   obtain ⟨ω, a, hω, ha⟩ := exists_hom_base_eq η (pullback.fst (Hom.base σ₂) (Hom.base σ₁))
   have hh : (eqToHom hω ≫ pullback.snd (Hom.base σ₂) (Hom.base σ₁)) ≫ Hom.base σ₁ =
       Hom.base (a ≫ σ₂) := by
-    show _ = Hom.base a ≫ Hom.base σ₂
+    change _ = Hom.base a ≫ Hom.base σ₂
     rw [ha, Category.assoc, Category.assoc, pullback.condition]
   let b : ω ⟶ η := fillIn σ₁ (a ≫ σ₂) _ hh
   have hab : a ≫ σ₂ = b ≫ σ₁ := (fillIn_comp σ₁ (a ≫ σ₂) _ hh).symm
@@ -223,7 +223,7 @@ theorem isEquivalenceRelation_ambient (hpb : IsPullback (Hom.base σ₁) (Hom.ba
     refine (IsPullback.of_hasPullback (Hom.base σ₂) (Hom.base σ₁)).of_iso (eqToIso hω.symm)
       (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ (by simp) (by simp)
     · simp [ha]
-    · show _ = _ ≫ (eqToHom hω ≫ pullback.snd _ _)
+    · change _ = _ ≫ (eqToHom hω ≫ pullback.snd _ _)
       simp
   obtain ⟨c, hc₁, hc₂⟩ := htrans ω a b hbase hab
   have hamb := (AlgebraicSpaces.isPullback_hom B S hS

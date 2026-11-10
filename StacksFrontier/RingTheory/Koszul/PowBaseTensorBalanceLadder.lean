@@ -259,7 +259,7 @@ theorem oppBaseBalanceIso_inv_pure (P : Bimodule (oppAlgebra A) B) (c : C.A)
         (((1 : (oppAlgebra A).A) ᵍ⊗ₜ[R] c : (oppAlgebra A).grading ᵍ⊗[R] C.grading)) y := rfl
   have h4 := tensorCompFunctor_map_pure' P (oppLeftBridgeHom A C)
     (((1 : (oppAlgebra A).A) ᵍ⊗ₜ[R] c : (oppAlgebra A).grading ᵍ⊗[R] C.grading)) y
-  show ((tensorCompFunctor P).map (oppLeftBridgeHom A C)).toFun
+  change ((tensorCompFunctor P).map (oppLeftBridgeHom A C)).toFun
       ((absLeftBalanceInverse (oppAlgebra A) B C P).toFun
         ((absBaseBalanceForward (oppAlgebra A) B C P).toFun
           (absBasePureBilinear (oppAlgebra A) B C P c y))) = _

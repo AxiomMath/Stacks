@@ -90,15 +90,14 @@ private lemma mul_mem_diagonalAnnihilator
     z * j.1 = (Algebra.TensorProduct.lmul' A z) • j.1 := by
   let d := z - (Algebra.TensorProduct.lmul' A z) ⊗ₜ[A] (1 : B)
   have hd : d ∈ RingHom.ker (Algebra.TensorProduct.lmul' A).toRingHom := by
-    show (Algebra.TensorProduct.lmul' A) d = 0
+    change (Algebra.TensorProduct.lmul' A) d = 0
     simp [d]
   have hz := Submodule.mem_annihilator.mp j.2 d hd
   have h : z * j.1 = ((Algebra.TensorProduct.lmul' A z) ⊗ₜ[A] (1 : B)) * j.1 := by
     apply sub_eq_zero.mp
     simpa [d, mul_sub, sub_mul, mul_comm] using hz
   rw [h]
-  induction j.1 using TensorProduct.induction_on with
-  | zero => simp
+  induction j.1 using TensorProduct.inductionOn with
   | add x y hx hy => simp [mul_add, smul_add, hx, hy]
   | tmul b c => simp [TensorProduct.smul_tmul', smul_eq_mul]
 
@@ -120,8 +119,7 @@ def diagonalAnnihilatorScalarExtension :
       map_smul' := fun b j => Subtype.ext ?_ }
   change envelopingBaseChange A B S (b • j.1) =
     (algebraMap B (S ⊗[A] B) b) • envelopingBaseChange A B S j.1
-  induction j.1 using TensorProduct.induction_on with
-  | zero => simp
+  induction j.1 using TensorProduct.inductionOn with
   | add x y hx hy => simp [smul_add, hx, hy]
   | tmul x y =>
       have hb : b • (x ⊗ₜ[A] y) = (b * x) ⊗ₜ[A] y := rfl
@@ -143,8 +141,7 @@ omit [Algebra.FiniteType A B] [Module.Flat A S] in
 lemma envelopingScalarExtensionEquiv_tmul (s : S) (z : B ⊗[A] B) :
     envelopingScalarExtensionEquiv A B S (s ⊗ₜ[A] z) =
       s • envelopingBaseChange A B S z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp [TensorProduct.tmul_add, hx, hy, smul_add]
   | tmul b c =>
       rw [envelopingBaseChange_tmul]
@@ -168,14 +165,11 @@ theorem diagonalAnnihilatorScalarExtension_isBaseChange :
       diagonalAnnihilatorScalarExtension, LinearMap.lTensor_tmul,
       LinearMap.coe_restrictScalars, Submodule.subtype_apply]
     exact IsScalarTower.algebraMap_smul (S ⊗[A] B) s _
-  have hz0 : e.symm 0 = 0 := map_zero e.symm
   have hzadd : ∀ x y, e.symm (x + y) = e.symm x + e.symm y := fun x y => map_add e.symm x y
-  have ht0 : t 0 = 0 := map_zero t
   have htadd : ∀ x y, t (x + y) = t x + t y := fun x y => map_add t x y
   have he' (z : S ⊗[A] ↑J) :
       (f (e.symm z)).1 = t ((J.subtype.restrictScalars A).lTensor S z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [hz0, map_zero, ZeroMemClass.coe_zero, map_zero, ht0]
+    induction z using TensorProduct.inductionOn with
     | tmul s j => exact he s j
     | add x y hx hy =>
         rw [hzadd, map_add, AddMemClass.coe_add, hx, hy, map_add, htadd]
@@ -298,7 +292,6 @@ theorem noetherPairing_flip_baseChange_bijective_iff_away
   let eJ := diagonalAnnihilatorBaseChangeEquiv F
   have headd : ∀ z t, eJ (z + t) = eJ z + eJ t := fun z t => eJ.map_add z t
   induction ω using dualizingModule.induction_on generalizing j₀ with
-  | zero => simp
   | add ω η hω hη => simp [hω, hη]
   | tmul f y₀ =>
       obtain ⟨z, rfl⟩ := eJ.surjective j₀
@@ -310,7 +303,7 @@ theorem noetherPairing_flip_baseChange_bijective_iff_away
             have h := localizedModule_dualizingModule_equiv_tmul g F G localizationMap
               (inferInstance : IsLocalizedModule (Submonoid.powers g) localizationMap)
               (AlgEquiv.refl : G.middle ≃ₐ[A] F.middle) (fun _ => rfl) f y₀
-            show eω (localizationMap (dualizingModule.tmul F f y₀)) = _
+            change eω (localizationMap (dualizingModule.tmul F f y₀)) = _
             convert h using 1
             congr 1
           have hF : (eJ (y ⊗ₜ[F.middle] j') : B ⊗[A] B) =
@@ -318,12 +311,12 @@ theorem noetherPairing_flip_baseChange_bijective_iff_away
           have hJ : (jmap (eJ (y ⊗ₜ[F.middle] j')) : C ⊗[A] C) =
               diagonalAnnihilatorBaseChange A F.middle C
                 ((algebraMap B C y) ⊗ₜ[F.middle] j') := by
-            show diagonalAnnihilatorBaseChange A B C
+            change diagonalAnnihilatorBaseChange A B C
               (1 ⊗ₜ[B] eJ (y ⊗ₜ[F.middle] j')) = _
             simp only [diagonalAnnihilatorBaseChange,
               TensorProduct.AlgebraTensorModule.lift_tmul,
               LinearMap.toSpanSingleton_apply, one_smul]
-            show Algebra.TensorProduct.map (IsScalarTower.toAlgHom A B C)
+            change Algebra.TensorProduct.map (IsScalarTower.toAlgHom A B C)
               (IsScalarTower.toAlgHom A B C) (eJ (y ⊗ₜ[F.middle] j') : B ⊗[A] B) = _
             rw [hF]
             simp only [diagonalAnnihilatorBaseChange,
@@ -338,8 +331,7 @@ theorem noetherPairing_flip_baseChange_bijective_iff_away
                     (IsScalarTower.toAlgHom A F.middle C)
                     (IsScalarTower.toAlgHom A F.middle C) z := by
               intro z
-              induction z using TensorProduct.induction_on with
-              | zero => simp
+              induction z using TensorProduct.inductionOn with
               | add z t hz ht => simpa only [map_add, smul_add] using congrArg₂ (· + ·) hz ht
               | tmul a b =>
                   simp [Algebra.TensorProduct.map_tmul, Algebra.smul_def]

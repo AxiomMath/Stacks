@@ -107,7 +107,7 @@ theorem exists_iso_yoneda_of_isPullback
   have hwp : tf ≫ pf = sf ≫ pf := by
     apply Sheaf.hom_ext
     ext V g
-    show p.app V ((yoneda.map t).app V g) = p.app V ((yoneda.map s).app V g)
+    change p.app V ((yoneda.map t).app V g) = p.app V ((yoneda.map s).app V g)
     obtain ⟨V⟩ := V
     rw [show ((yoneda.map t).app (op V) g) = g ≫ t from rfl,
       show ((yoneda.map s).app (op V) g) = g ≫ s from rfl, hpapp, hpapp,
@@ -119,11 +119,11 @@ theorem exists_iso_yoneda_of_isPullback
     have hxy' : (Over.post B.inclusion).map x ≫ π = (Over.post B.inclusion).map y ≫ π :=
       (hpapp V x).symm.trans (hxy.trans (hpapp V y))
     refine ⟨(Over.post B.inclusion).preimage (hπ.lift _ _ hxy'), ?_, ?_⟩
-    · show (Over.post B.inclusion).preimage (hπ.lift _ _ hxy') ≫ t = x
+    · change (Over.post B.inclusion).preimage (hπ.lift _ _ hxy') ≫ t = x
       refine (Over.post B.inclusion).map_injective ?_
       rw [Functor.map_comp, Functor.map_preimage]
       exact hπ.lift_fst _ _ hxy'
-    · show (Over.post B.inclusion).preimage (hπ.lift _ _ hxy') ≫ s = y
+    · change (Over.post B.inclusion).preimage (hπ.lift _ _ hxy') ≫ s = y
       refine (Over.post B.inclusion).map_injective ?_
       rw [Functor.map_comp, Functor.map_preimage]
       exact hπ.lift_snd _ _ hxy'
@@ -131,7 +131,7 @@ theorem exists_iso_yoneda_of_isPullback
       ((Over.post B.inclusion).op.whiskerLeft (yoneda.map π)) :=
     isLocallySurjective_pointsMap_of_flat_locallyOfFinitePresentation_surjective B S hS π
   have hlocsurj : Presheaf.IsLocallySurjective J pf.hom := by
-    show Presheaf.IsLocallySurjective J p
+    change Presheaf.IsLocallySurjective J p
     rw [hp]
     infer_instance
   obtain ⟨hcolimM⟩ := Sheaf.nonempty_isColimitCoforkOfKernelPair tf sf pf hwp hker hlocsurj

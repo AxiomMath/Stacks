@@ -71,16 +71,15 @@ private theorem trace_split_eq_contract {R : Type u} [CommRing R]
             simp [τ, LinearMap.comp_apply]
   rw [LinearMap.trace_eq_contract']
   simp only [LinearMap.comp_apply]
-  show contractLeft R F ((dualTensorHomEquiv R F F).symm (i.comp (f.comp p))) = _
+  change contractLeft R F ((dualTensorHomEquiv R F F).symm (i.comp (f.comp p))) = _
   rw [← h2]
-  show contractLeft R F ((dualTensorHomEquiv R F F).symm ((dualTensorHomEquiv R F F) τ')) = _
+  change contractLeft R F ((dualTensorHomEquiv R F F).symm ((dualTensorHomEquiv R F F) τ')) = _
   rw [LinearEquiv.symm_apply_apply]
   have hc : ∀ t : Module.Dual R P ⊗[R] P,
       contractLeft R F (i.lTensor (Module.Dual R F) (p.dualMap.rTensor P t)) =
         contractLeft R P t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul φ x =>
       have hx : p (i x) = x := by simpa using LinearMap.congr_fun hpi x
       simp [contractLeft_apply, hx]

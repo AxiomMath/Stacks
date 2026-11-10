@@ -151,7 +151,7 @@ def isInitialStructuredArrowOfIsTerminal {z : D} (hz : IsTerminal z) {t : C}
   IsInitial.ofUniqueHom
     (fun B => StructuredArrow.homMk (ht.from B.right.unop).op
       (Quiver.Hom.unop_inj (hz.hom_ext _ _)))
-    (fun B m => StructuredArrow.ext _ _ (Quiver.Hom.unop_inj (ht.hom_ext _ _)))
+    (fun _ _ => StructuredArrow.ext _ _ (Quiver.Hom.unop_inj (ht.hom_ext _ _)))
 
 end TerminalChart
 

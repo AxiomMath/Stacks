@@ -217,8 +217,8 @@ comparison each time -- the device
 for the same query. -/
 def derivedTensorComparisonHom
     (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
-    (hA : Stacks.SheafOfModules.KFlat.KFlat X.O A)
-    (hB : Stacks.SheafOfModules.KFlat.KFlat X.O B) :
+    (hA : Stacks.SheafOfModules.KFlat X.O A)
+    (hB : Stacks.SheafOfModules.KFlat X.O B) :
     ((Stacks.SheafOfModules.derivedTensorProductFunctor X).obj
           (DerivedCategory.Q.obj A)).obj (DerivedCategory.Q.obj B) ⟶
       DerivedCategory.Q.obj
@@ -241,8 +241,8 @@ inside the associativity clause below, exhausts that declaration's heartbeat bud
 here it is free. -/
 theorem reseatIso_comp_derivedTensorComparisonHom
     (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
-    (hA : Stacks.SheafOfModules.KFlat.KFlat X.O A)
-    (hB : Stacks.SheafOfModules.KFlat.KFlat X.O B) :
+    (hA : Stacks.SheafOfModules.KFlat X.O A)
+    (hB : Stacks.SheafOfModules.KFlat X.O B) :
     letI := Stacks.SheafOfModules.DerivedMonoidal.derivedMonoidal X.O
     (reseatIso (Stacks.SheafOfModules.DerivedMonoidal.derivedTensorMonoidalIso X.O
             (derivedTensorReseatDatum X))
@@ -262,9 +262,9 @@ concrete monoidal category, elaborating this equation and then the proof term in
 costs more than the heartbeat budget allows. -/
 def DerivedAssociatorComparison
     (A B D : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
-    (hA : Stacks.SheafOfModules.KFlat.KFlat X.O A)
-    (hB : Stacks.SheafOfModules.KFlat.KFlat X.O B)
-    (hD : Stacks.SheafOfModules.KFlat.KFlat X.O D) : Prop :=
+    (hA : Stacks.SheafOfModules.KFlat X.O A)
+    (hB : Stacks.SheafOfModules.KFlat X.O B)
+    (hD : Stacks.SheafOfModules.KFlat X.O D) : Prop :=
   derivedWhiskerRight X (derivedTensorComparisonHom X A B hA hB) (DerivedCategory.Q.obj D) ≫
       derivedTensorComparisonHom X (A ⊗ B) D
           (Stacks.SheafOfModules.DerivedMonoidal.kFlat_tensor_complexes X.O hA hB) hD ≫
@@ -291,9 +291,9 @@ through the re-seating isomorphism by `reseatIso_comp_derivedTensorComparisonHom
 ringed-space form is `Stacks.SheafOfModules.derivedAssociator_comparison`. -/
 theorem derivedAssociator_comparison
     (A B D : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
-    (hA : Stacks.SheafOfModules.KFlat.KFlat X.O A)
-    (hB : Stacks.SheafOfModules.KFlat.KFlat X.O B)
-    (hD : Stacks.SheafOfModules.KFlat.KFlat X.O D) :
+    (hA : Stacks.SheafOfModules.KFlat X.O A)
+    (hB : Stacks.SheafOfModules.KFlat X.O B)
+    (hD : Stacks.SheafOfModules.KFlat X.O D) :
     DerivedAssociatorComparison X A B D hA hB hD :=
   let := Stacks.SheafOfModules.DerivedMonoidal.derivedMonoidal X.O
   reseat_associator_comp_of_eq
@@ -325,8 +325,8 @@ def derivedToTensorHom
 /-- On two K-flat complexes the canonical map is the K-flat comparison. -/
 theorem derivedToTensorHom_eq_comparisonHom
     (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
-    (hA : Stacks.SheafOfModules.KFlat.KFlat X.O A)
-    (hB : Stacks.SheafOfModules.KFlat.KFlat X.O B) :
+    (hA : Stacks.SheafOfModules.KFlat X.O A)
+    (hB : Stacks.SheafOfModules.KFlat X.O B) :
     derivedToTensorHom X A B = derivedTensorComparisonHom X A B hA hB := by
   rw [derivedToTensorHom, derivedTensorComparisonHom,
     (Stacks.SheafOfModules.canonicalDerivedTensorProduct X).toTensor_eq_comparisonRight A B hB,
@@ -368,9 +368,9 @@ theorem complexAssociatorHom_naturality
 `AlgebraicGeometry.RingedSite.derivedToTensorHom`. -/
 theorem derivedAssociator_toTensor_of_kFlat
     (A B D : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
-    (hA : Stacks.SheafOfModules.KFlat.KFlat X.O A)
-    (hB : Stacks.SheafOfModules.KFlat.KFlat X.O B)
-    (hD : Stacks.SheafOfModules.KFlat.KFlat X.O D) :
+    (hA : Stacks.SheafOfModules.KFlat X.O A)
+    (hB : Stacks.SheafOfModules.KFlat X.O B)
+    (hD : Stacks.SheafOfModules.KFlat X.O D) :
     derivedWhiskerRight X (derivedToTensorHom X A B) (DerivedCategory.Q.obj D) ≫
         derivedToTensorHom X (A ⊗ B) D ≫
           Stacks.SheafOfModules.DerivedMonoidal.complexAssociatorHom X.O A B D =

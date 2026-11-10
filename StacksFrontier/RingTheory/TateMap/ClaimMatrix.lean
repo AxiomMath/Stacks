@@ -220,7 +220,7 @@ theorem presRel_matrix {n d : ℕ} [NeZero d] (k : MvPolynomial (Fin n) (univBas
     (graphRelations eV eV 1 (globalRelations H f) ψ 0) (M.det * M.det)
     (M.mulVec (graphRelations eV eV 1 (globalRelations H f) ψ 0)) hfa hfb hka (fun j ↦ ?_)
   rw [lciMatrixEquiv_symm_lciMk, classificationAlgebra_lciMk_X]
-  show _ = ((lciMatrixEquiv M.det _ M (isUnit_lciMk _ _)).symm.trans
+  change _ = ((lciMatrixEquiv M.det _ M (isUnit_lciMk _ _)).symm.trans
       ((lciDetEquiv M.det _ hD).trans
         ((globalGraphEquiv eV H f ψ).symm.trans e₂.symm))) (lciMk _ _ (X j))
   rw [AlgEquiv.trans_apply, lciMatrixEquiv_symm_lciMk]

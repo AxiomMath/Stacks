@@ -138,7 +138,7 @@ public theorem eq_sUnion_irreducibleComponents_preimage_of_generalizingMap {A B 
   refine (mem_genericPoints_iff_forall_specializes_eq (y : A)).2 fun z hz => ?_
   have hzW : z ∈ φ ⁻¹' W := by
     have hzy : φ z = φ (y : A) := eq_of_specializes_of_mem_genericPoints hambient (hz.map hφ)
-    show φ z ∈ W
+    change φ z ∈ W
     rw [hzy]
     exact y.2
   exact eq_of_specializes_of_mem_genericPoints_subtype hpreimage hy hzW hz
@@ -251,7 +251,7 @@ public theorem fiber_preimage_eq_sUnion_irreducibleComponents_of_openCharts {X S
         Set (Set.range (f.fiberMap i s).base)) =
       e.symm ⁻¹' ((i ≫ f).fiberι s ⁻¹' (i.base ⁻¹' (I.support : Set X))) := by
     ext z
-    show f.fiberι s z.1 ∈ I.support ↔ i ((i ≫ f).fiberι s (e.symm z)) ∈ I.support
+    change f.fiberι s z.1 ∈ I.support ↔ i ((i ≫ f).fiberι s (e.symm z)) ∈ I.support
     rw [← f.fiberι_fiberMap i s]
     have hequal : (f.fiberMap i s) (e.symm z) = z.1 :=
       congrArg Subtype.val (e.apply_symm_apply z)

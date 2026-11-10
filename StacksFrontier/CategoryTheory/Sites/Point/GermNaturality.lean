@@ -233,7 +233,7 @@ theorem isIso_pushout_codiagonal_of_isIso
   have h : (pushout.inl f f : Y ⟶ pushout f f) = pushout.inr f f :=
     (cancel_epi f).mp pushout.condition
   refine ⟨pushout.inl f f, ?_, pushout.inl_desc _ _ _⟩
-  apply pushout.hom_ext <;> simp [← h, pushout.inl_desc_assoc]
+  apply pushout.hom_ext <;> simp [← h]
 
 /-- Image of codiagonal under a pushout-preserving functor coincides with
 the codiagonal in the target. -/

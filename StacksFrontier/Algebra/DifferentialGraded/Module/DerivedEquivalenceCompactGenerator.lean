@@ -172,7 +172,7 @@ def regularMulLeft (A : DifferentialGradedAlgebra R) (a : A.Cocycle 0) :
 /-- Left multiplication by a degree-zero cocycle acts by multiplication. -/
 theorem regularMulLeft_toFun_apply (A : DifferentialGradedAlgebra R) (a : A.Cocycle 0) (x : A.A) :
     (regularMulLeft A a).toFun x = (a.1 : A.A) * x := by
-  show (shiftZeroHom A (regularModule A)).toFun ((regularCocycleHom A 0 a).toFun x) = _
+  change (shiftZeroHom A (regularModule A)).toFun ((regularCocycleHom A 0 a).toFun x) = _
   rw [regularCocycleHom_toFun]
   rfl
 
@@ -214,7 +214,8 @@ def regularEndAlgHom :
     exact (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map_comp _ _
   map_zero' := by
     ext1
-    change _ = (0 : ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A)) ⟶ ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A)))
+    change _ = (0 : ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A)) ⟶
+      ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A)))
     rw [show regularMulLeft A (degreeZeroCocycle A hA 0) = 0 from
       Hom.ext (LinearMap.ext fun x => by
         rw [regularMulLeft_toFun_apply]
@@ -224,7 +225,8 @@ def regularEndAlgHom :
     exact (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map_zero _ _
   map_add' a b := by
     ext1
-    change _ = (_ : ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A)) ⟶ ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A))) + _
+    change _ = (_ : ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A)) ⟶
+      ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A))) + _
     rw [show regularMulLeft A (degreeZeroCocycle A hA (a + b)) =
         regularMulLeft A (degreeZeroCocycle A hA a) +
           regularMulLeft A (degreeZeroCocycle A hA b) from

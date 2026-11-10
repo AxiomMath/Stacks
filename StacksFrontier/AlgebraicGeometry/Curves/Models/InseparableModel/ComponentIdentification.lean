@@ -96,10 +96,10 @@ private theorem range_specialFiberι_eq_union :
   ext x
   refine ⟨fun hx => mem_range_jC₁_or_mem_range_jE x hx, ?_⟩
   rintro (⟨y, rfl⟩ | ⟨y, rfl⟩)
-  · show (jC₁ ≫ X_to_R).base y = _
+  · change (jC₁ ≫ X_to_R).base y = _
     rw [jC₁_comp_X_to_R, Scheme.Hom.comp_apply]
     exact Spec_algebraMap_Rk_apply _
-  · show (jE ≫ X_to_R).base y = _
+  · change (jE ≫ X_to_R).base y = _
     rw [jE_comp_X_to_R, Scheme.Hom.comp_apply, Scheme.Hom.comp_apply]
     exact Spec_algebraMap_Rk_apply _
 

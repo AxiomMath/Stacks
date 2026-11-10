@@ -44,7 +44,8 @@ construction deserve comment:
 
 1. the lift itself. One might try `(Localization.Away g)[α]/(α² + α − Y)` modulo `x − t·α`,
    whose adjoined-root version is built in
-   `StacksFrontier.Deformation.Examples.Linear.NodalCubicLocalLift`. **Adjoining the root here is wrong**: `Y` is already a unit over `(P')_g`, so
+   `StacksFrontier.Deformation.Examples.Linear.NodalCubicLocalLift`. **Adjoining the root here is
+   wrong**: `Y` is already a unit over `(P')_g`, so
    the root `Z/Y` is already present and adjoining a second copy makes a rank-two module where
    `M_g` has rank one. The lift is `(P')_g ⧸ (Y·x − t·Z)`
    (`StacksFrontier.Deformation.Examples.Linear.NodalCubicLocalModule`), with `Y·x − t·Z` being

@@ -68,7 +68,7 @@ theorem ringSection_eq_zero_of_cover [J.HasSheafCompose (forget RingCat.{u})]
     (h : ∀ (V : C) (f : V ⟶ U), S f → R.obj.map f.op a = 0) : a = 0 := by
   have hA := (isSheaf_iff_isSheaf_of_type J _).1 (Sheaf.ringSheaf R).property S hS
   refine hA.isSeparatedFor.ext fun V f hf => ?_
-  show (R.obj.map f.op a : R.obj.obj (op V)) = R.obj.map f.op (0 : R.obj.obj (op U))
+  change (R.obj.map f.op a : R.obj.obj (op V)) = R.obj.map f.op (0 : R.obj.obj (op U))
   rw [h V f hf, map_zero]
 
 /-! ### Encoding: a finite free restriction gives presentation data with no relations -/

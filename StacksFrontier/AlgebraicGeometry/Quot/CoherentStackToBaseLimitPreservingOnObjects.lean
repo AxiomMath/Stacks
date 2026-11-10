@@ -113,18 +113,18 @@ theorem isLimitPreservingOnObjects_toBaseCFG (D : CoherentSituation B S hS) :
         (ULift.up γ' : ULiftHom.objUp ((D.stageTestSystem E g).obj j) ⟶
           ULiftHom.objUp (CostructuredArrow.mk g)) := by
       refine IsHomLift.of_fac' _ _ _ rfl rfl ?_
-      show γ'.left = 𝟙 _ ≫ incl.map (E.map j.hom) ≫ 𝟙 _
+      change γ'.left = 𝟙 _ ≫ incl.map (E.map j.hom) ≫ 𝟙 _
       rw [Category.id_comp, Category.comp_id]
       rfl
     exact @Functor.IsFiberedInGroupoids.isStronglyCartesian_homLift _ _ _ _ _
       (baseCFG D.Y).isFiberedInGroupoids _ _ _ _ _ _ this
   · have hδ' : δ.base.left = incl.map (c.π.app j.left) := by
       refine hδ.trans ?_
-      show 𝟙 _ ≫ incl.map (c.π.app j.left) ≫ 𝟙 _ = _
+      change 𝟙 _ ≫ incl.map (c.π.app j.left) ≫ 𝟙 _ = _
       rw [Category.id_comp, Category.comp_id]
     apply ULift.ext
     apply CostructuredArrow.hom_ext
-    show δ.base.left ≫ incl.map (E.map j.hom) = 𝟙 (incl.obj c.pt) ≫ γ.down.left
+    change δ.base.left ≫ incl.map (E.map j.hom) = 𝟙 (incl.obj c.pt) ≫ γ.down.left
     have key : incl.map (c.π.app j.left) ≫ incl.map (E.map j.hom) = incl.map (c.π.app i) := by
       rw [← Functor.map_comp, c.w]
     exact (congrArg (· ≫ incl.map (E.map j.hom)) hδ').trans

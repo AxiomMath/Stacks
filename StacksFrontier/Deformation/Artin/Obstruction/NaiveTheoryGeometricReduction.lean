@@ -139,10 +139,10 @@ public theorem isFiniteTypePoint_of_isOpenImmersion {T T' : Scheme.{u}} (f : T' 
   rw [T.finiteTypePoints_eq_iUnion_opens] at hmem
   obtain ⟨V, y, hyc, hyeq⟩ := Set.mem_iUnion.mp hmem
   have htV : t ∈ f ⁻¹ᵁ V := by
-    show f.base t ∈ V
+    change f.base t ∈ V
     rw [← hyeq]
     exact y.2
-  show t ∈ T'.finiteTypePoints
+  change t ∈ T'.finiteTypePoints
   rw [T'.finiteTypePoints_eq_iUnion_opens]
   refine Set.mem_iUnion.mpr ⟨f ⁻¹ᵁ V, ⟨t, htV⟩, ?_, rfl⟩
   refine isClosed_singleton_of_isOpenEmbedding (g := fun s : (f ⁻¹ᵁ V : T'.Opens) => f.base s.1)
@@ -234,7 +234,7 @@ public def restrictedSiteAlgebra : SiteAlgebra B S hS where
 public theorem toScheme_restrictedSiteAlgebra :
     (restrictedSiteAlgebra B S hS p x hA jA).toScheme =
       jA ≫ B.inclusion.map (p.obj x).hom := by
-  show B.inclusion.map (B.inclusion.preimage (X := B.obj hA) jA ≫ (p.obj x).hom) = _
+  change B.inclusion.map (B.inclusion.preimage (X := B.obj hA) jA ≫ (p.obj x).hom) = _
   rw [B.inclusion.map_comp, B.inclusion.map_preimage]
 
 variable (hmaps : MapsIntoAffineOpen S (jA ≫ B.inclusion.map (p.obj x).hom))
@@ -272,7 +272,7 @@ public theorem exists_restrictedLift (hp : p.IsFiberedInGroupoids) :
     (congrArg ((Over.post B.inclusion).obj)
       (IsHomLift.domain_eq p (restrictedSiteHom B S hS p x hA jA) φ)) rfl rfl rfl) ?_
   rw [toScheme_map_restrictedSiteHom]
-  show 𝟙 _ ≫ jA ≫ 𝟙 _ = jA
+  change 𝟙 _ ≫ jA ≫ 𝟙 _ = jA
   rw [Category.id_comp, Category.comp_id]
 
 variable (c : AffineChart S) [Algebra c.ring A]
@@ -344,7 +344,7 @@ public theorem exists_chartedData
             immersion := hW.fromSpec
             mapsIntoAffineOpen := ?_
             factorization := ?_ }, w₀, hw₀, hw₀c⟩
-  · show (Spec Γ(B.inclusion.obj (p.obj x).left, W)).size < B.cutoff
+  · change (Spec Γ(B.inclusion.obj (p.obj x).left, W)).size < B.cutoff
     rw [← Scheme.size_congr hW.isoSpec]
     exact (Scheme.size_coe_opens_le _ W).trans_lt hT
   · exact ⟨Λ, hΛ, fun y => hWΛ (fromSpec_base_mem hW y)⟩
@@ -360,7 +360,7 @@ public theorem range_residuePoint_subset {T : Scheme.{u}} (f : T ⟶ S) (t : T)
     Set.range (T.fromSpecResidueField t ≫ f).base ⊆ Set.range iΛ.base := by
   rintro _ ⟨s, rfl⟩
   have hs : (T.fromSpecResidueField t ≫ f).base s = f.base t := by
-    show f.base ((T.fromSpecResidueField t).base s) = f.base t
+    change f.base ((T.fromSpecResidueField t).base s) = f.base t
     rw [Scheme.fromSpecResidueField_apply]
   rw [hs]
   exact h

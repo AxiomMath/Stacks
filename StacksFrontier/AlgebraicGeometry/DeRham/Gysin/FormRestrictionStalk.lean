@@ -274,7 +274,7 @@ theorem isScalarTower_stalk_comp :
   let := algebraSub i π z
   let := algebraRestriction i z
   refine IsScalarTower.of_algebraMap_eq fun a => ?_
-  show ((i ≫ π).stalkMap z).hom a = (i.stalkMap z).hom ((π.stalkMap (i.base z)).hom a)
+  change ((i ≫ π).stalkMap z).hom a = (i.stalkMap z).hom ((π.stalkMap (i.base z)).hom a)
   rw [Scheme.Hom.stalkMap_comp]
   rfl
 

@@ -186,7 +186,7 @@ theorem totalChernElem_biproduct {ι : Type} [Fintype ι] (M : ι → Y.Modules)
       ← ih (fun j : {j // j ≠ i} ↦ M j) (fun j ↦ r j) (fun j ↦ hM j)
         (by have := card_subtype_ne i; omega)]
     refine Subtype.ext (Units.ext ?_)
-    show totalChern C sY _ _ = totalChern C sY _ _ * totalChern C sY _ _
+    change totalChern C sY _ _ = totalChern C sY _ _ * totalChern C sY _ _
     exact (totalChern_congr C sY (Iso.refl _) (Fintype.sum_eq_add_sum_subtype_ne r i)).trans
       (hW.trans (congrArg (_ * ·)
         (@totalChern_congr C _ sY _ _ _ _ _ h₃' h₃ (cokernelBiproductιIso M i) rfl)))
@@ -1044,7 +1044,7 @@ theorem res_perfectPowerSum_of_res_perfectChernClass {E' : DerivedCategory X.Mod
       fun i : ℕ+ ↦ TotalChowClass.homComponent (i : ℕ) (χ.left.res (perfectChernClass C sX hE')) :=
     funext fun i ↦ TotalChowClass.res_homComponent _ _ _ _
   rw [hcomp]
-  show TotalChowClass.newtonComponents (χ.left.res (perfectChernClass C sX hE')) p = _
+  change TotalChowClass.newtonComponents (χ.left.res (perfectChernClass C sX hE')) p = _
   rw [hc]
   exact TotalChowClass.newtonComponents_rootProd l hl hcomm p hp
 

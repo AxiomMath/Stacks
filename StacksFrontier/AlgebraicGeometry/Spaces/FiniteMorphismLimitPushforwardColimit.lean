@@ -117,7 +117,7 @@ theorem exists_affineOver_limit_pushforwardColimit_of_isFinite
   set cu : Cone DA := c0.extend eZ.hom with hcu
   have hculim : IsLimit cu :=
     IsLimit.ofIsoLimit hlim0 (Cone.ext eZ.symm (fun j => by
-      show c0.π.app j = eZ.inv ≫ eZ.hom ≫ c0.π.app j
+      change c0.π.app j = eZ.inv ≫ eZ.hom ≫ c0.π.app j
       rw [← Category.assoc, eZ.inv_hom_id, Category.id_comp]))
   have hDAfin : ∀ i : Iᵒᵖ, IsFinite B S hS (DA.obj i).obj.hom.hom := by
     rintro ⟨i⟩
@@ -182,7 +182,7 @@ theorem exists_affineOver_limit_pushforwardColimit_of_isFinite
       (DA.obj i).obj.hom.hom ?_ ?_
     · have h := congrArg (fun t => t.hom) (Over.w (cu.π.app i).hom)
       rw [ObjectProperty.FullSubcategory.comp_hom] at h
-      show IsFinite B S hS ((cu.π.app i).hom.left.hom ≫ (DA.obj i).obj.hom.hom)
+      change IsFinite B S hS ((cu.π.app i).hom.left.hom ≫ (DA.obj i).obj.hom.hom)
       rw [h]
       exact hZfin
     · exact isSeparated_of_isFinite B S hS (DA.obj i).obj.hom.hom

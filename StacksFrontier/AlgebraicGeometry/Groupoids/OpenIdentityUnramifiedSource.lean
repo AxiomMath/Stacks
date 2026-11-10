@@ -177,7 +177,7 @@ theorem unramified_h_of_section_of_unramified
     rw [← (pullback D.g D.groupoid.target.left).homOfLE_ι hlet, Category.assoc]
     exact MorphismProperty.comp_mem (@Unramified.{u}) _ _
       (unramified_of_etale ((pullback D.g D.groupoid.target.left).homOfLE hlet)) hmem
-  show Unramified (pullback.snd D.g D.groupoid.target.left ≫ D.groupoid.source.left)
+  change Unramified (pullback.snd D.g D.groupoid.target.left ≫ D.groupoid.source.left)
   have hdecomp : pullback.snd D.g D.groupoid.target.left ≫ D.groupoid.source.left
       = (pullback D.g D.groupoid.target.left).topIso.inv
         ≫ (⊤ : (pullback D.g D.groupoid.target.left).Opens).ι
@@ -207,7 +207,7 @@ theorem unramified_source_of_isOpenImmersion_identity
         ≫ pullback.snd (𝟙 G.objects.left) G.target.left ≫ G.source.left
         = 𝟙 G.objects.left := by
       rw [← Category.assoc, identitySection_comp_snd, identity_left_comp_source_left G]
-    show Unramified (identitySection G
+    change Unramified (identitySection G
       ≫ pullback.snd (𝟙 G.objects.left) G.target.left ≫ G.source.left)
     rw [hid]
     exact unramified_of_etale _

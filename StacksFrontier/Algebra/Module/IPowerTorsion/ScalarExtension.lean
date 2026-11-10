@@ -75,7 +75,7 @@ private theorem bounded_torsion_tensor_mk_bijective
   let : Module S N := Module.compHom N f
   have hf (r : R) : f (algebraMap R S r) = Ideal.Quotient.mk (I ^ n) r := by
     apply e.injective
-    show e (e.symm (Ideal.Quotient.mk J (algebraMap R S r))) =
+    change e (e.symm (Ideal.Quotient.mk J (algebraMap R S r))) =
       e (Ideal.Quotient.mk (I ^ n) r)
     rw [e.apply_symm_apply]
     calc
@@ -87,24 +87,24 @@ private theorem bounded_torsion_tensor_mk_bijective
         { toFun := fun s => f s • x
           map_add' := fun s t => by simp [add_smul]
           map_smul' := fun r s => by
-            show f (r • s) • x = r • (f s • x)
+            change f (r • s) • x = r • (f s • x)
             rw [Algebra.smul_def, map_mul, hf,
               show r • (f s • x) = (Ideal.Quotient.mk (I ^ n) r) • (f s • x) by rfl, mul_smul] }
       map_add' := fun x y => by ext; simp
       map_smul' := fun r x => LinearMap.ext fun s => by
-        show f s • ((algebraMap R (R ⧸ I ^ n) r) • x) =
+        change f s • ((algebraMap R (R ⧸ I ^ n) r) • x) =
           (algebraMap R (R ⧸ I ^ n) r) • (f s • x)
         exact smul_comm _ _ _ }
   let invMap : N ⊗[R] S →ₗ[R] N := TensorProduct.lift actionMap
   let can : N →ₗ[R] N ⊗[R] S := (TensorProduct.mk R N S).flip 1
   have hinv : Function.LeftInverse invMap can := fun x => by
-    show f 1 • x = x
+    change f 1 • x = x
     simp [f]
   have hsurj : ∀ z : N ⊗[R] S, can (invMap z) = z := by
     intro z
     refine TensorProduct.inductionOn z ?_ ?_
     · intro x s
-      show (f s • x) ⊗ₜ[R] (1 : S) = x ⊗ₜ[R] s
+      change (f s • x) ⊗ₜ[R] (1 : S) = x ⊗ₜ[R] s
       obtain ⟨r, hr⟩ := Ideal.Quotient.mk_surjective (e.symm (Ideal.Quotient.mk J s))
       have hquot : Ideal.Quotient.mk (I ^ n) r = e.symm (Ideal.Quotient.mk J s) := hr
       have hmk : Ideal.Quotient.mk J (algebraMap R S r) = Ideal.Quotient.mk J s := by
@@ -121,7 +121,7 @@ private theorem bounded_torsion_tensor_mk_bijective
           ((Submodule.mem_torsionBySet_iff ((I ^ n : Ideal R) : Set R) x.1).mp x.2 ⟨a, ha⟩))
         hdiff
       have hscalar : (f s) • x = r • x := by
-        show e.symm (Ideal.Quotient.mk J s) • x = r • x
+        change e.symm (Ideal.Quotient.mk J s) • x = r • x
         rw [← hquot]
         rfl
       rw [hscalar, TensorProduct.smul_tmul, Algebra.smul_def]
@@ -179,7 +179,7 @@ private theorem torsion_tensor_mk_bijective
       (Ideal.quotientMapₐ (Ideal.map (algebraMap R S) (I ^ n))
         (Algebra.ofId R S) Ideal.le_comap_map)
       (by
-        show Function.Bijective
+        change Function.Bijective
           (Ideal.quotientMap (Ideal.map (algebraMap R S) (I ^ n))
             (algebraMap R S) Ideal.le_comap_map)
         exact hQ n hn)
@@ -199,7 +199,7 @@ private theorem torsion_tensor_mk_bijective
       (eN j).toLinearMap.comp (f i j hij) = (fT i j hij).comp (eN i).toLinearMap := by
     intro i j hij
     ext x
-    show (f i j hij x) ⊗ₜ[R] (1 : S) =
+    change (f i j hij x) ⊗ₜ[R] (1 : S) =
       LinearMap.rTensor S (f i j hij) (x ⊗ₜ[R] (1 : S))
     simp
   let eStage : Module.DirectLimit G f ≃ₗ[R]
@@ -211,22 +211,22 @@ private theorem torsion_tensor_mk_bijective
     apply Module.DirectLimit.hom_ext
     intro i
     ext x
-    show (TensorProduct.directLimitLeft f S).symm
+    change (TensorProduct.directLimitLeft f S).symm
       (Module.DirectLimit.congr eN heN (Module.DirectLimit.of R ℕ G f i x)) =
       (Module.DirectLimit.of R ℕ G f i x) ⊗ₜ[R] 1
     rw [Module.DirectLimit.congr_apply_of]
-    show (TensorProduct.directLimitLeft f S).symm
+    change (TensorProduct.directLimitLeft f S).symm
       (Module.DirectLimit.of R ℕ (fun n => G n ⊗[R] S) fT i (eN i x)) = _
-    show (TensorProduct.directLimitLeft f S).symm
+    change (TensorProduct.directLimitLeft f S).symm
       (Module.DirectLimit.of R ℕ (fun n => G n ⊗[R] S) fT i (x ⊗ₜ[R] (1 : S))) = _
     exact TensorProduct.directLimitLeft_symm_of_tmul f S x 1
   let eTotal : M ≃ₗ[R] M ⊗[R] S :=
     eM.symm.trans (eD.trans (LinearEquiv.rTensor S eM))
   have heTotal : eTotal.toLinearMap = can M := by
     ext m
-    show LinearEquiv.rTensor S eM (eD.toLinearMap (eM.symm m)) = m ⊗ₜ[R] 1
+    change LinearEquiv.rTensor S eM (eD.toLinearMap (eM.symm m)) = m ⊗ₜ[R] 1
     rw [LinearMap.congr_fun heD (eM.symm m)]
-    show (eM (eM.symm m)) ⊗ₜ[R] (1 : S) = m ⊗ₜ[R] (1 : S)
+    change (eM (eM.symm m)) ⊗ₜ[R] (1 : S) = m ⊗ₜ[R] (1 : S)
     simp
   rw [show (fun m : M => TensorProduct.mk R M S m 1) = can M from rfl, ← heTotal]
   exact eTotal.bijective
@@ -266,11 +266,11 @@ private theorem adic_completion_quotient_map_bijective
       rw [hmap, hr]
       simp
     have hmem : x - algebraMap R C r ∈ J := by
-      show x - algebraMap R C r ∈
+      change x - algebraMap R C r ∈
         Ideal.map (algebraMap R (AdicCompletion I R)) (I ^ n)
       rw [← hker]
       exact (RingHom.mem_ker).mpr hzero
-    show Ideal.Quotient.mk J (algebraMap R C r) = Ideal.Quotient.mk J x
+    change Ideal.Quotient.mk J (algebraMap R C r) = Ideal.Quotient.mk J x
     exact (Ideal.Quotient.eq).mpr (by simpa using J.neg_mem hmem)
 
 /-- The canonical map from an ideal-power torsion module to its scalar extension is an

@@ -194,7 +194,7 @@ private theorem pairwise_disjoint_baseChangeRestrict_preimage {X Y S : Scheme.{u
       (V a).sectionOfIsIso (pullback.snd f g) v ∉ (V b).1) :
     Pairwise (Disjoint on fun a ↦ baseChangeRestrict f g Q ⁻¹ᵁ V a) := by
   intro a b hab
-  show Disjoint (baseChangeRestrict f g Q ⁻¹ᵁ V a) (baseChangeRestrict f g Q ⁻¹ᵁ V b)
+  change Disjoint (baseChangeRestrict f g Q ⁻¹ᵁ V a) (baseChangeRestrict f g Q ⁻¹ᵁ V b)
   rw [← TopologicalSpace.Opens.coe_disjoint]
   refine Set.disjoint_left.mpr fun z haz hbz ↦ ?_
   refine hQsep a b hab (Q.ι (pullback.snd f (Q.ι ≫ g) z)) (pullback.snd f (Q.ι ≫ g) z).property ?_

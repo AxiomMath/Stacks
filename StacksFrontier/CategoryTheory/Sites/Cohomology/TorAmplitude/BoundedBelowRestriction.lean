@@ -285,6 +285,8 @@ private theorem isKFlat_restrictComplex_kernelSequence (U : X.C)
     fun i => Stacks.SheafOfModules.FlatRestriction.isFlat_over X U _
       (isFlat_kernelSequence_πTruncGE_X A a hAflat hTruncFlat i)
 
+omit [∀ U : X.C, HasSheafify (X.J.over U) AddCommGrpCat.{u}]
+  [∀ U : X.C, (X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The two restricted maps of the kernel sequence of `A ⟶ τ_{≥a}A` compose to zero. -/
 private theorem restrictComplexMap_kernelSequence_comp_zero (U : X.C)
     (A : CochainComplex (RingedSite.Modules.{u, u, u} X) ℤ) (a : ℤ) :
@@ -333,8 +335,6 @@ private theorem isKFlat_restrictComplex_truncGE (U : X.C)
 variable [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 
 variable [HasDerivedCategory.{d} (RingedSite.Modules.{u, u, u} X)]
-  [hSliceDerived : ∀ U : X.C,
-    HasDerivedCategory.{d} (RingedSite.Modules.{u, u, u} (X.over U))]
 
 attribute [local instance] RingedSite.sliceHasDerivedCategory sliceDerived
 
@@ -393,6 +393,9 @@ theorem exists_kFlatRepresentative_restriction_of_hasTorAmplitudeGE
     hTruncFlat, fun i hi => (A.truncGE a).isZero_of_isStrictlyGE a i hi,
     fun U => isKFlat_restrictComplex_truncGE U A a hAflat (hArestr U) hTruncFlat,
     ⟨(asIso (DerivedCategory.Q.map (A.πTruncGE a))).symm ≪≫ eA⟩⟩
+
+variable [hSliceDerived : ∀ U : X.C,
+    HasDerivedCategory.{d} (RingedSite.Modules.{u, u, u} (X.over U))]
 
 /-- **Tor amplitude in `[a, ∞)` restricts to a slice.** If an object `E` of `D(O)` has Tor
 amplitude in `[a, ∞)` for a derived tensor product `T` on `D(O)`, then its restriction to the

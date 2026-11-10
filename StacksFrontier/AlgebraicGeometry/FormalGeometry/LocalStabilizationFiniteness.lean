@@ -90,7 +90,7 @@ public theorem LocalStabilizationHypotheses.mem_zeroLocus_of_neg {I : Ideal A} {
       {P : Ideal A | P.IsPrime ∧ ¬ I ≤ P}
       ⟨p.asIdeal, p.2, hp⟩
   have := hPp
-  obtain ⟨x, hxI, hxP⟩ := SetLike.not_le_iff_exists.mp hPI
+  obtain ⟨x, hxI, hxP⟩ := IsConcreteLE.not_le_iff_exists.mp hPI
   have hIq : ∀ q : Ideal A, q.IsPrime → P < q → I ≤ q := fun q hq hPq ↦ by
     by_contra h
     exact hPmax q ⟨hq, h⟩ hPq

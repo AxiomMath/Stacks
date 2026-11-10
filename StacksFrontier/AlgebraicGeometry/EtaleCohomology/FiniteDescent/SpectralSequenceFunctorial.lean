@@ -145,7 +145,7 @@ public lemma sheafHAddEquivZExt_naturality {Y : Scheme.{u}}
       sheafHAddEquivZExt F q α ≫
         ((DerivedCategory.singleFunctor (Sheaf (smallEtaleTopology Y) Ab.{u + 1}) 0).map
           φ)⟦(q : ℤ)⟧' := by
-  show (Abelian.Ext.comp α (Abelian.Ext.mk₀ φ) (add_zero q)).hom =
+  change (Abelian.Ext.comp α (Abelian.Ext.mk₀ φ) (add_zero q)).hom =
     Abelian.Ext.hom α ≫
       ((DerivedCategory.singleFunctor (Sheaf (smallEtaleTopology Y) Ab.{u + 1}) 0).map
         φ)⟦(q : ℤ)⟧'
@@ -284,7 +284,7 @@ public def cechSpectralSequenceFirstPageNatIso [IsFinite f] (p q : ℕ) :
 
 section Abutment
 
-variable [IsFinite f] [Surjective f]
+variable [Surjective f]
 
 /-- Inverse image along `f` reflects exactness of short complexes of abelian étale sheaves, for
 `f` surjective. This is the hypothesis `Stacks.Cobar.quasiIso_cobarAugmentation` asks for. -/
@@ -298,7 +298,7 @@ This is the other hypothesis `Stacks.Cobar.quasiIso_cobarAugmentation` asks for.
 public lemma cobar_hmono :
     ∀ {P Q : Sheaf (smallEtaleTopology Y) Ab.{u + 1}} (φ : P ⟶ Q),
       Mono ((smallEtalePullbackAb f).map φ) → Mono φ :=
-  fun {_ _} φ hφ => mono_of_mono_smallEtalePullbackAb_map f φ hφ
+  fun φ hφ => mono_of_mono_smallEtalePullbackAb_map f φ hφ
 
 /-- **The cobar resolution computes the coefficient sheaf in the derived category, naturally in
 the sheaf.** The augmentation `F[0] ⟶ cobar F` is a transformation of functors
@@ -318,7 +318,7 @@ public def cobarQNatIso :
       exact asIso (DerivedCategory.Q.map
         ((Stacks.Cobar.cobarAugmentation (smallEtaleAdjunctionAb f)).app F)))
     (fun {F G} φ => by
-      show DerivedCategory.Q.map ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map φ) ≫
+      change DerivedCategory.Q.map ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map φ) ≫
           DerivedCategory.Q.map
             ((Stacks.Cobar.cobarAugmentation (smallEtaleAdjunctionAb f)).app G) =
         DerivedCategory.Q.map

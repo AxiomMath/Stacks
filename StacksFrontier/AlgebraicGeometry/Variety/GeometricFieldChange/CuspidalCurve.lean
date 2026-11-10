@@ -114,19 +114,19 @@ private theorem mvPolynomialFinOneEquiv_C (K : Type*) [CommRing K] (a : K) :
     simp [MvPolynomial.finSuccEquiv_apply]
   rw [hfin, Polynomial.map_C]
   congr 1
-  show MvPolynomial.isEmptyRingEquiv K (Fin 0) (MvPolynomial.C a) = a
+  change MvPolynomial.isEmptyRingEquiv K (Fin 0) (MvPolynomial.C a) = a
   rw [MvPolynomial.isEmptyRingEquiv_eq_coeff_zero]
   simp [MvPolynomial.coeff_C]
 
 private theorem mvPolynomialFinTwoEquiv_X_zero (K : Type*) [CommRing K] :
     mvPolynomialFinTwoEquiv K (MvPolynomial.X (0 : Fin 2)) = Polynomial.X := by
-  show Polynomial.map ((mvPolynomialFinOneEquiv K : MvPolynomial (Fin 1) K →+* Polynomial K))
+  change Polynomial.map ((mvPolynomialFinOneEquiv K : MvPolynomial (Fin 1) K →+* Polynomial K))
     ((MvPolynomial.finSuccEquiv K 1) _) = _
   rw [MvPolynomial.finSuccEquiv_X_zero, Polynomial.map_X]
 
 private theorem mvPolynomialFinTwoEquiv_X_one (K : Type*) [CommRing K] :
     mvPolynomialFinTwoEquiv K (MvPolynomial.X (1 : Fin 2)) = Polynomial.C Polynomial.X := by
-  show Polynomial.map ((mvPolynomialFinOneEquiv K : MvPolynomial (Fin 1) K →+* Polynomial K))
+  change Polynomial.map ((mvPolynomialFinOneEquiv K : MvPolynomial (Fin 1) K →+* Polynomial K))
     ((MvPolynomial.finSuccEquiv K 1) _) = _
   have hy : (MvPolynomial.finSuccEquiv K 1) (MvPolynomial.X (1 : Fin 2)) =
       Polynomial.C (MvPolynomial.X (0 : Fin 1)) := by
@@ -136,7 +136,7 @@ private theorem mvPolynomialFinTwoEquiv_X_one (K : Type*) [CommRing K] :
 
 private theorem mvPolynomialFinTwoEquiv_C (K : Type*) [CommRing K] (a : K) :
     mvPolynomialFinTwoEquiv K (MvPolynomial.C a) = Polynomial.C (Polynomial.C a) := by
-  show Polynomial.map ((mvPolynomialFinOneEquiv K : MvPolynomial (Fin 1) K →+* Polynomial K))
+  change Polynomial.map ((mvPolynomialFinOneEquiv K : MvPolynomial (Fin 1) K →+* Polynomial K))
     ((MvPolynomial.finSuccEquiv K 1) _) = _
   have hc : (MvPolynomial.finSuccEquiv K 1) (MvPolynomial.C a) =
       Polynomial.C (MvPolynomial.C a) := by
@@ -150,7 +150,7 @@ private theorem curveRing_isRegularRing : IsRegularRing (curveRing p) := by
   let : CommRing B := inferInstance
   let : Algebra ℤ B := Ring.toIntAlgebra B
   let f : B := curveEquation p
-  show IsRegularRing (B ⧸ Ideal.span {f})
+  change IsRegularRing (B ⧸ Ideal.span {f})
   let e : B ≃+* Polynomial (Polynomial k) := mvPolynomialFinTwoEquiv k
   have hxvar : e (MvPolynomial.X (0 : Fin 2)) = Polynomial.X := mvPolynomialFinTwoEquiv_X_zero k
   have hyvar : e (MvPolynomial.X (1 : Fin 2)) = Polynomial.C Polynomial.X :=
@@ -186,7 +186,7 @@ private theorem curveRing_isRegularRing : IsRegularRing (curveRing p) := by
     rw [map_mul, Derivation.leibniz]
     simp only [smul_eq_mul, map_add, map_mul, RingEquiv.apply_symm_apply])
   have hD : D f = 1 := by
-    show RingEquiv.symm e (D2 (e f)) = 1
+    change RingEquiv.symm e (D2 (e f)) = 1
     rw [hrel]
     apply e.injective
     simpa using hDF
@@ -241,15 +241,15 @@ private theorem baseChangedEquation_isDomain (K : Type*) [Field K] (c : K)
     (MvPolynomial.renameEquiv K (Equiv.swap (0 : Fin 2) 1)).toRingEquiv.trans
       (mvPolynomialFinTwoEquiv K)
   have hX0 : e (MvPolynomial.X (0 : Fin 2)) = Polynomial.C Polynomial.X := by
-    show mvPolynomialFinTwoEquiv K (MvPolynomial.rename (Equiv.swap (0 : Fin 2) 1)
+    change mvPolynomialFinTwoEquiv K (MvPolynomial.rename (Equiv.swap (0 : Fin 2) 1)
       (MvPolynomial.X (0 : Fin 2))) = _
     rw [MvPolynomial.rename_X, Equiv.swap_apply_left, mvPolynomialFinTwoEquiv_X_one]
   have hX1 : e (MvPolynomial.X (1 : Fin 2)) = Polynomial.X := by
-    show mvPolynomialFinTwoEquiv K (MvPolynomial.rename (Equiv.swap (0 : Fin 2) 1)
+    change mvPolynomialFinTwoEquiv K (MvPolynomial.rename (Equiv.swap (0 : Fin 2) 1)
       (MvPolynomial.X (1 : Fin 2))) = _
     rw [MvPolynomial.rename_X, Equiv.swap_apply_right, mvPolynomialFinTwoEquiv_X_zero]
   have hC : e (MvPolynomial.C c) = Polynomial.C (Polynomial.C c) := by
-    show mvPolynomialFinTwoEquiv K (MvPolynomial.rename (Equiv.swap (0 : Fin 2) 1)
+    change mvPolynomialFinTwoEquiv K (MvPolynomial.rename (Equiv.swap (0 : Fin 2) 1)
       (MvPolynomial.C c)) = _
     rw [MvPolynomial.rename_C, mvPolynomialFinTwoEquiv_C]
   let g : Polynomial R := Polynomial.X ^ 2 -
@@ -266,7 +266,7 @@ private theorem baseChangedEquation_isDomain (K : Type*) [Field K] (c : K)
         MvPolynomial.C c}) = Ideal.span {g} := by
     rw [Ideal.map_span]
     simp only [Set.image_singleton]
-    show Ideal.span {e (MvPolynomial.X (1 : Fin 2) ^ 2 - MvPolynomial.X (0 : Fin 2) ^ p +
+    change Ideal.span {e (MvPolynomial.X (1 : Fin 2) ^ 2 - MvPolynomial.X (0 : Fin 2) ^ p +
       MvPolynomial.C c)} = _
     rw [hrel]
   have hEqI : Ideal.comap (e : B →+* Polynomial R) (Ideal.span {g}) =
@@ -324,7 +324,7 @@ theorem curve_isVariety (hp : 2 < p) :
   have : IsDomain (curveRing p) := curveRing_isDomain p hp
   have : Algebra.FiniteType (RatFunc (ZMod p)) (curveRing p) := inferInstance
   have : LocallyOfFiniteType (curveToBase p) := by
-    show LocallyOfFiniteType (Spec.map (CommRingCat.ofHom
+    change LocallyOfFiniteType (Spec.map (CommRingCat.ofHom
       (algebraMap (RatFunc (ZMod p)) (curveRing p))))
     rw [HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)]
     simpa [RingHom.finiteType_algebraMap]
@@ -353,7 +353,7 @@ theorem curve_geometricallyReduced (hp : 2 < p) :
   let : IsPerfectClosure (algebraMap k kperf) p := PerfectClosure.isPRadical k p
   let tfae := geometricallyReduced_tfae k p (curveToBase p) kperf (AlgebraicClosure k)
   apply (tfae.out 1 4).mpr
-  show IsReduced (Limits.pullback (curveToBase p)
+  change IsReduced (Limits.pullback (curveToBase p)
     (Spec.map (CommRingCat.ofHom (algebraMap k (AdjoinPthRoots k)))))
   let : Algebra k (AdjoinPthRoots k) := inferInstance
   have hr : _root_.IsReduced (AdjoinPthRoots k ⊗[k] curveRing p) :=
@@ -425,17 +425,17 @@ private theorem cusp_not_integrallyClosed (p : ℕ) [Fact p.Prime]
     simp
   let g : A →+* DualNumber K := Ideal.Quotient.lift I ev
     (by
-      show I ≤ RingHom.ker ev
+      change I ≤ RingHom.ker ev
       apply Ideal.span_le.mpr
       rintro a (rfl : a = f)
       exact hev)
   have hx : g x = 0 := by
     rw [show g x = g (q (MvPolynomial.X 0)) - g (q (MvPolynomial.C c)) from map_sub g _ _]
-    show ev (MvPolynomial.X (0 : Fin 2)) - ev (MvPolynomial.C c) = 0
+    change ev (MvPolynomial.X (0 : Fin 2)) - ev (MvPolynomial.C c) = 0
     rw [hevX, hevC]
     simp
   have hy : g y = DualNumber.eps := by
-    show ev (MvPolynomial.X (1 : Fin 2)) = _
+    change ev (MvPolynomial.X (1 : Fin 2)) = _
     rw [hevX]
     simp
   obtain ⟨z, hz⟩ := hdiv

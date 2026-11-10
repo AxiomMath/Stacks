@@ -77,7 +77,7 @@ theorem rightAcyclic_of_exact (X : A) : F.rightAcyclic X := by
     F.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso A) _
     ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
       DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))).1 inferInstance
-  show IsIso (((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+  change IsIso (((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
     DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app _)
   rw [← F.rightDerivedFunctorPlus.rightDerived_fac_app F.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A)]

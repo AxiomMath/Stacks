@@ -61,6 +61,7 @@ universe u
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the big fppf site
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut under Lean v4.35.0). -/
 private instance (priority := high) hasLimitsOfShape_discrete_pseudoTorsorProperties
@@ -69,6 +70,7 @@ private instance (priority := high) hasLimitsOfShape_discrete_pseudoTorsorProper
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut under Lean v4.35.0). -/
 private instance (priority := high) hasPullbacks_presheaf_pseudoTorsorProperties
@@ -186,13 +188,14 @@ private theorem isLocallyQuasiFinite_pullbackSnd_of_isPseudoTorsor (𝒞 : BigFp
     ObjectProperty.isoMk _ ((Over.forget B).mapIso (asIso (ModObj.leftSMul G.obj.X X)))
   have he : e.hom ≫ pC = pA := by
     apply ObjectProperty.hom_ext
-    show (ModObj.leftSMul G.obj.X X).left ≫ (snd X X).left = (snd G.obj.X X).left
+    change (ModObj.leftSMul G.obj.X X).left ≫ (snd X X).left = (snd G.obj.X X).left
     exact congrArg Over.Hom.left ModObj.leftSMul_snd
   exact (isLocallyQuasiFinite_isStableUnderBaseChange 𝒞 S hS).of_isPullback
     (IsPullback.of_horiz_isIso (fst := e.inv) (snd := pC) (f := pA) (g := 𝟙 X₀)
       ⟨by simp [← he]⟩) hpA
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site (`pullback.snd g g`)
 /-- **Local quasi-finiteness descends from the second projection of the self-fibre-product.**
 If `f : X ⟶ B` is a morphism of algebraic spaces over `S` which is locally of finite type, and
 the second projection `X ×_B X ⟶ X` is locally quasi-finite, then `f` itself is locally

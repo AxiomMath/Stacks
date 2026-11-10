@@ -96,7 +96,7 @@ public theorem sheafPullbackComp'_hom_app_sheafifiedYoneda (U : C) :
       rw [Adjunction.homEquiv_unit, ← hconj]
     rw [hcan]
     simp only [Φ, Equiv.trans_apply]
-    show uliftYonedaEquiv.{u₁} (((sheafificationAdjunction J (Type max u₁ v)).homEquiv _ _)
+    change uliftYonedaEquiv.{u₁} (((sheafificationAdjunction J (Type max u₁ v)).homEquiv _ _)
       (((adjF.comp adjG).homEquiv _ _)
         ((Functor.sheafPullbackComp' eFG (Type max u₁ v) J K L).hom.app hU))) = _
     rw [hcomp, Adjunction.homEquiv_naturality_right, uliftYonedaEquiv_comp]
@@ -108,14 +108,14 @@ public theorem sheafPullbackComp'_hom_app_sheafifiedYoneda (U : C) :
         (presheafToSheaf L (Type max u₁ v)).map (uliftYoneda.{u₁}.map (eFG.hom.app U)) ≫
         (sheafPullbackSheafifiedYonedaIso FG J L U).inv) =
       T.obj.map (eFG.hom.app U).op (pullbackSheafifiedYonedaEquiv FG J L U T (𝟙 T)) := by
-    show pushforwardSectionsEquiv F J K _ U (pullbackSheafifiedYonedaEquiv F J K U _
+    change pushforwardSectionsEquiv F J K _ U (pullbackSheafifiedYonedaEquiv F J K U _
       (adjG.homEquiv _ _ ((G.sheafPullback (Type max u₁ v) K L).map
         (sheafPullbackSheafifiedYonedaIso F J K U).hom ≫
         (sheafPullbackSheafifiedYonedaIso G K L (F.obj U)).hom ≫
         (presheafToSheaf L (Type max u₁ v)).map (uliftYoneda.{u₁}.map (eFG.hom.app U)) ≫
         (sheafPullbackSheafifiedYonedaIso FG J L U).inv))) = _
     rw [Adjunction.homEquiv_naturality_left, sheafPullbackSheafifiedYonedaIso_hom_comp]
-    show pushforwardSectionsEquiv G K L T (F.obj U) (pullbackSheafifiedYonedaEquiv G K L
+    change pushforwardSectionsEquiv G K L T (F.obj U) (pullbackSheafifiedYonedaEquiv G K L
       (F.obj U) T ((sheafPullbackSheafifiedYonedaIso G K L (F.obj U)).hom ≫
         (presheafToSheaf L (Type max u₁ v)).map (uliftYoneda.{u₁}.map (eFG.hom.app U)) ≫
         (sheafPullbackSheafifiedYonedaIso FG J L U).inv)) = _

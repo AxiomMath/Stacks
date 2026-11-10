@@ -185,7 +185,7 @@ theorem perfectRankClass_eq_glue_eulerLoci (hE : HasDefinedChernClasses E) :
   refine (eq_perfectRankClass C sX hE hE.some ?_).symm
   refine TotalChowClass.eq_of_res_eq (isClopenDecomposition_complexRankLoci
     hE.some.locallyBounded) fun ρ ↦ ?_
-  show TotalChowClass.res (complexRankLocus hE.some.locallyBounded ρ.down).ι rfl _ =
+  change TotalChowClass.res (complexRankLocus hE.some.locallyBounded ρ.down).ι rfl _ =
     TotalChowClass.res (complexRankLocus hE.some.locallyBounded ρ.down).ι rfl _
   rw [res_complexRankClass_complexRankLocus, TotalChowClass.res_res,
     res_glue_eulerLoci_of_range perfect C sX _ _
@@ -262,7 +262,7 @@ theorem chowCohomologyRestriction_perfectPowerSumComponent (p : ℕ) (H : Envelo
   rw [← res_perfectPowerSumComponent C sX hE H p, TotalChowClass.res_rfl_apply,
     perfectPowerSumComponent]
 
-include perfect hE in
+include hE in
 /-- **Uniqueness of the power sums.** Let `E` be a perfect object of `D(𝒪_X)` whose Chern
 classes are defined. For every `p` there is a unique class `P_p(E) ∈ A^p(X)` whose restriction
 along the envelope `f : Y ⟶ X` of every presentation `(f, 𝓔^•)` of `E` is the class `P_p(𝓔^•)`
@@ -328,7 +328,7 @@ theorem rationalChowCohomologyRestriction_perfectChernCharacterComponent (p : �
   rw [perfectChernCharacterComponent, complexChernCharacterComponent,
     rationalChowCohomologyRestriction_tmul, chowCohomologyRestriction_perfectPowerSumComponent]
 
-include perfect hE in
+include hE in
 /-- **Uniqueness of the Chern character.** Let `E` be a perfect object of `D(𝒪_X)` whose Chern
 classes are defined. For every `p` there is a unique class `ch_p(E) ∈ A^p(X) ⊗ 𝐐` whose rational
 restriction along the envelope `f : Y ⟶ X` of every presentation `(f, 𝓔^•)` of `E` is the

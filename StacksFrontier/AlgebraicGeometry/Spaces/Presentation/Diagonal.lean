@@ -69,7 +69,7 @@ theorem isPullback_yoneda_pullback_diag.{u₁, v₁} {C : Type u₁} [Category.{
     obtain ⟨w, hw₁, hw₂⟩ := hW.exists_lift t t (hα.symm.trans hβ)
     have hw : w ≫ yoneda.map f = t ≫ yoneda.map (Limits.diag U) := by
       ext V x
-      show w.app V x ≫ f = t.app V x ≫ Limits.diag U
+      change w.app V x ≫ f = t.app V x ≫ Limits.diag U
       apply Limits.prod.hom_ext
       · simpa using congrArg (fun φ => φ x) (congr_app hw₁ V)
       · simpa using congrArg (fun φ => φ x) (congr_app hw₂ V)

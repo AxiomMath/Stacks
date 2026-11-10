@@ -44,7 +44,8 @@ divided out is the `a`-power torsion, and the sections of the strict transform a
 
 The one-element torsion description of the supported sections is
 `AlgebraicGeometry.mem_supportedSectionsSubmodule_iff_exists_pow_smul_eq_zero`
-(`StacksFrontier/AlgebraicGeometry/Blowup/Transform/ShortExact.lean`), which was private there and is
+(`StacksFrontier/AlgebraicGeometry/Blowup/Transform/ShortExact.lean`), which was private there and
+is
 made public rather than copied; what is added here is the passage from its hypothesis — the
 complement of the subset inside the affine open is the basic open of `a` — to the zero-locus form
 that an ideal sheaf delivers, and the submodule (rather than membership) statement.

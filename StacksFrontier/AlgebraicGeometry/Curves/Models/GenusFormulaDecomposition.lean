@@ -452,8 +452,6 @@ theorem fibreEuler_reducedSpecialFibre_pow_succ
     isEffectiveCartierDivisor_reducedSpecialFibre s C m hC
   have hEr : IsEffectiveCartierDivisor (reducedSpecialFibre s C m ^ r) :=
     isEffectiveCartierDivisor_pow hE r
-  have hEr1 : IsEffectiveCartierDivisor (reducedSpecialFibre s C m ^ (r + 1)) :=
-    isEffectiveCartierDivisor_pow hE (r + 1)
   have hsfi := specialFiberIdeal_le_reducedSpecialFibre S s C m hdec
   have hsum : reducedSpecialFibre s C m ^ (r + 1) =
       reducedSpecialFibre s C m ^ r * reducedSpecialFibre s C m := pow_succ _ r
@@ -461,7 +459,7 @@ theorem fibreEuler_reducedSpecialFibre_pow_succ
     hsum ▸ Scheme.IdealSheafData.mul_le_left _ _
   obtain ⟨f, hz, hex⟩ := addEffectiveCartierDivisor_shortExact
     (reducedSpecialFibre s C m ^ r) (reducedSpecialFibre s C m ^ (r + 1))
-    (reducedSpecialFibre s C m) hEr hEr1 hE hsub hsum
+    (reducedSpecialFibre s C m) hEr hsub hsum
   -- the twist is an invertible, hence coherent, module on `D`
   have : IsLocallyNoetherian (reducedSpecialFibre s C m).subscheme :=
     Stacks.AlgebraicGeometry.CurveEulerBridge.isLocallyNoetherian_of_isProper_over_field
@@ -582,7 +580,8 @@ theorem one_sub_genus_eq_gcd_mul_finrank_mul_one_sub_genus_reducedSpecialFibre
   have := Stacks.AlgebraicGeometry.CurveEulerBridge.isCoherent_unit S.K S.C_to_K
   have := Stacks.AlgebraicGeometry.CurveEulerBridge.isCoherent_unit S.k
     (S.fibreSubschemeToSpec S.specialFiberIdeal le_rfl)
-  -- the Euler characteristic comparison, with its right-hand side read at `fibreEuler`, which `rw` needs
+  -- the Euler characteristic comparison, with its right-hand side read at `fibreEuler`, which `rw`
+  -- needs
   have hchifibre : eulerCharacteristic S.K S.C_to_K (SheafOfModules.unit S.C.ringCatSheaf) =
       fibreEuler S S.specialFiberIdeal le_rfl :=
     S.eulerCharacteristic_unit_eq_eulerCharacteristic_unit_specialFibre

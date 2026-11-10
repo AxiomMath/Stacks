@@ -70,7 +70,7 @@ public theorem isClosed_asFiber_of_isAlgebraic_residueField (f : X ⟶ S) (x : X
         rintro _ ⟨z, rfl⟩
         exact ⟨⟨y, hy⟩, (f.asFiberHom_apply x z).symm⟩)
     have : IsIntegralHom (l ≫ U.1.ι ≫ f.fiberToSpecResidueField (f x)) := by
-      show IsIntegralHom ((l ≫ U.1.ι) ≫ f.fiberToSpecResidueField (f x))
+      change IsIntegralHom ((l ≫ U.1.ι) ≫ f.fiberToSpecResidueField (f x))
       rw [show l ≫ U.1.ι = f.asFiberHom x from IsOpenImmersion.lift_fac _ _ _,
         f.asFiberHom_fiberToSpecResidueField]
       exact IsIntegralHom.SpecMap_iff.mpr (Algebra.isIntegral_def.mp inferInstance)

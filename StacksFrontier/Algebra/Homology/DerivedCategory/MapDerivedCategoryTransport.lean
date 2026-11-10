@@ -211,6 +211,7 @@ lemma transportQMap_isoWhiskerLeft_obj {C₀ : Type*} [Category C₀] [Abelian C
   rw [transportQMap, transportQMap]
   congr 2
 
+omit [HasDerivedCategory C₁] in
 /-- Transporting along the identity of `F ⋙ T` is restricting along `T`. -/
 lemma transportQMap_refl {P I : CochainComplex C₁ ℤ}
     (β : DerivedCategory.Q.obj ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj P) ⟶
@@ -262,6 +263,7 @@ lemma transportQMap_transportQMap {T' : C₃ ⥤ C₄} {F'' : C₁ ⥤ C₄} [F'
   simp only [Category.assoc, ← Functor.map_comp_assoc, ← Functor.map_comp]
   congr 3 <;> ext n <;> simp
 
+omit [HasDerivedCategory C₁] in
 /-- Restricting a transport along a further exact functor `H` is transporting along `T ⋙ H`. -/
 lemma restrictQMap_transportQMap {C₄' : Type*} [Category C₄'] [Abelian C₄']
     [HasDerivedCategory.{w₄} C₄'] (H : C₃ ⥤ C₄') [H.Additive] [PreservesFiniteLimits H]

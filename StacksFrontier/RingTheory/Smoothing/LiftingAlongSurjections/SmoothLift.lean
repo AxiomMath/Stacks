@@ -104,9 +104,9 @@ private lemma formallySmooth_specialFiber
     have hrp : r ∈ p := hp hr
     have hz : algebraMap R k r = 0 :=
       RingHom.mem_ker.1 (by rwa [Ideal.ker_algebraMap_residueField])
-    show algebraMap A B (algebraMap R A r) = 0
+    change algebraMap A B (algebraMap R A r) = 0
     rw [← IsScalarTower.algebraMap_apply R A B]
-    show (algebraMap R A r) ⊗ₜ[R] (1 : k) = 0
+    change (algebraMap R A r) ⊗ₜ[R] (1 : k) = 0
     rw [Algebra.TensorProduct.tmul_one_eq_one_tmul]
     simp [hz]
   let eQT := Algebra.TensorProduct.quotientTensorEquiv (R := R) A k A qA
@@ -177,7 +177,7 @@ theorem exists_smooth_lift_of_surjective
       eI.symm (algebraMap R₀ A₀ (algebraMap R R₀ r)) =
         Ideal.Quotient.mk (Ideal.map (algebraMap R A) I) (algebraMap R A r) := by
     intro r
-    show (Ideal.quotientEquivAlgOfEq A heq).symm
+    change (Ideal.quotientEquivAlgOfEq A heq).symm
       (e (algebraMap R₀ A₀ (algebraMap R R₀ r))) = _
     rw [he r, ← Ideal.quotientEquivAlgOfEq_mk A heq (algebraMap R A r)]
     exact (Ideal.quotientEquivAlgOfEq A heq).symm_apply_apply _
@@ -250,7 +250,7 @@ theorem exists_smooth_lift_of_surjective
     refine fun r => eAf.symm_apply_eq.mpr ?_
     have hmk : eAf (Ideal.Quotient.mk (Ideal.map (algebraMap R Af) I) (algebraMap R Af r)) =
         ψ (algebraMap R Af r) := by
-      show (RingHom.quotientKerEquivOfSurjective hsurjψ)
+      change (RingHom.quotientKerEquivOfSurjective hsurjψ)
         (Ideal.quotEquivOfEq hkerψ.symm
           (Ideal.quotEquivOfEq hKloc.symm
             (Ideal.Quotient.mk (Ideal.map (algebraMap R Af) I) (algebraMap R Af r)))) = _

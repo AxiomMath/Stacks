@@ -187,7 +187,7 @@ public lemma covering_has_representative (B : BigFppfSite.{u})
       (E'.2.map B.inclusion).presieve₀ ∈ Q (B.inclusion.obj E'.1) ∧
       Covering.CombEquiv E E' := by
   have hF : IsFppfCovering E := by
-    show E.2.presieve₀ ∈ Scheme.fppfPrecoverage.comap B.inclusion E.1
+    change E.2.presieve₀ ∈ Scheme.fppfPrecoverage.comap B.inclusion E.1
     rw [Precoverage.mem_comap_iff]
     simpa [PreZeroHypercover.map] using hQ _ hE
   obtain ⟨E', hB, hCE⟩ := B.fppf_has_representative E hF
@@ -270,7 +270,7 @@ public theorem chosenPrecoverage_eq_comap (B : BigFppfSite.{u}) (K : Precoverage
     chosenPrecoverage B P = K.comap B.inclusion := by
   ext X R
   rw [Precoverage.mem_comap_iff]
-  show (∃ E : PreZeroHypercover.{u + 1} X, R = E.presieve₀ ∧ P ⟨X, E⟩) ↔ _
+  change (∃ E : PreZeroHypercover.{u + 1} X, R = E.presieve₀ ∧ P ⟨X, E⟩) ↔ _
   constructor
   · rintro ⟨E, rfl, hE⟩
     rw [← PreZeroHypercover.presieve₀_map]

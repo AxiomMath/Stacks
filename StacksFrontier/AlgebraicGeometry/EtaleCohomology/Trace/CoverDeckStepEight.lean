@@ -131,7 +131,7 @@ def openDeckHom (M : ModuleCat.{u + 1} Λ) :
     (restrictionTwist Λ jV a σ.left sqσ (etaleModuleConstantSheaf Λ M Z.left)
       (constantSelfMapTwist Λ M σ.left))
 
-omit [Fintype k] [IsOpenImmersion jV] in
+omit [Fintype k] [IsOpenImmersion jV] [Mono jV] in
 /-- The deck transformation `a` acting on `f_* j^{-1} M_Z` is natural in `M`. -/
 lemma openDeckHom_naturality {M M' : ModuleCat.{u + 1} Λ} (x : M ⟶ M') :
     (etaleModuleDirectImage.{u, 0} Λ f).map ((etaleModuleRestriction.{u, 0} Λ jV).map
@@ -166,7 +166,7 @@ def openDeck : openComplex Λ jV f N ⟶ openComplex Λ jV f N :=
   ObjectProperty.homMk ((NatTrans.mapHomologicalComplex (openDeckNatTrans Λ σ jV f a ha sqσ) _).app
     N.obj)
 
-omit [Fintype k] [IsOpenImmersion jV] in
+omit [Fintype k] [IsOpenImmersion jV] [Mono jV] in
 /-- The components of the deck transformation. -/
 lemma openDeck_hom_f (n : ℤ) :
     (openDeck Λ σ jV f a ha sqσ N).hom.f n = openDeckHom Λ σ jV f a ha sqσ (N.obj.X n) := rfl
@@ -191,7 +191,7 @@ def openExtensionIso :
     (fun n => openExtensionIsoApp Λ i jU jV f sq (N.obj.X n))
     (fun _ _ _ => (extensionByZeroDirectImageMap_naturality Λ jU jV f i.left sq _).symm))
 
-omit [Fintype k] in
+omit [Fintype k] [Mono jU] in
 /-- The components of `Stacks.EtaleCohomology.openExtensionIso`. -/
 lemma openExtensionIso_hom_hom_f (n : ℤ) :
     (openExtensionIso Λ i jU jV f sq N).hom.hom.f n =
@@ -324,7 +324,7 @@ variable {k : Type u} [Field k] [Fintype k] [PerfectField k] {U V : Scheme.{u}}
   [Fact p.Prime] [CharP k p] [CharP kbar p] (hcard : Fintype.card k = p ^ q) (Λ : Type) [CommRing Λ]
   (N : CochainComplex.Plus (ModuleCat.{u + 1} Λ))
 
-omit [IsCurve k pU] [Smooth pU] in
+omit [IsCurve k pU] [Smooth pU] [IsFinite f] [Etale f] in
 include hjU in
 /-- **Steps 8 and 9 of [Stacks, Tag 03UG] for a Galois cover.**  Let `f : V ⟶ U` be a connected
 finite étale cover of an open `U` of a proper curve `Y` over the finite field `k`, smooth with

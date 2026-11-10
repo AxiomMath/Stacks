@@ -153,7 +153,7 @@ private lemma isPseudoCoherentFrom_restrictScalars_mvPolynomial_eval
       ext i
       · simpa only [RingHom.comp_apply, MvPolynomial.eval_C, MvPolynomial.algebraMap_eq,
           Algebra.algebraMap_self, RingHom.id_apply, RingEquiv.toRingHom_eq_coe,
-          RingEquiv.coe_toRingHom, AlgEquiv.coe_ringEquiv] using
+          RingEquiv.coe_toRingHom, AlgEquiv.coe_toRingEquiv] using
           ((MvPolynomial.isEmptyAlgEquiv R (Fin 0)).commutes i).symm
       · exact Fin.elim0 i
     rw [h]
@@ -346,7 +346,7 @@ private lemma augmentation_condition :
   apply LinearMap.ext
   intro a
   change S at a
-  show Ideal.Quotient.mk (Ideal.span {f}) (f * a) = 0
+  change Ideal.Quotient.mk (Ideal.span {f}) (f * a) = 0
   exact Ideal.Quotient.eq_zero_iff_mem.2 (Ideal.mem_span_singleton.2 (dvd_mul_right f a))
 
 private def pi : complex S f ⟶

@@ -177,14 +177,14 @@ private lemma exists_finiteType_cycle_subobject_epi
     { app := fun i => factorThruImage (α'.app i)
       naturality := by
         intro i j f
-        show D'.map f ≫ factorThruImage (α'.app j) =
+        change D'.map f ≫ factorThruImage (α'.app j) =
           factorThruImage (α'.app i) ≫ image.map (A'.map f)
         exact (image.factor_map (A'.map f)).symm }
   let μ : I ⟶ (Functor.const ι).obj H :=
     { app := fun i => image.ι (α'.app i)
       naturality := by
         intro i j f
-        show image.map (A'.map f) ≫ image.ι (α'.app j) =
+        change image.map (A'.map f) ≫ image.ι (α'.app j) =
           image.ι (α'.app i) ≫ 𝟙 H
         calc
           image.map (A'.map f) ≫ image.ι (α'.app j) =
@@ -198,7 +198,7 @@ private lemma exists_finiteType_cycle_subobject_epi
   have hιμ : ∀ i : ι, colimit.ι I i ≫ (colim (J := ι) (C := X.Modules)).map μ =
       μ.app i ≫ colimit.ι ((Functor.const ι).obj H) i := fun i => ι_colimMap μ i
   have hμapp : ∀ i : ι, Mono (μ.app i) := fun i => by
-    show Mono (image.ι (α'.app i)); infer_instance
+    change Mono (image.ι (α'.app i)); infer_instance
   have hμmono : Mono μ := NatTrans.mono_of_mono_app μ
   have hgmono : Mono g := by
     have : IsFiltered ι := isFiltered_of_directed_le_nonempty ι
@@ -385,10 +385,10 @@ private lemma exists_quasiIso_from_shifted_mappingCone
   let φ : T₁ ⟶ T₂ :=
     completeDistinguishedTriangleMorphism T₁ T₂ hT₁ hT₂ (q.map g) (𝟙 _) key
   have h₁ : IsIso (DerivedCategory.Qh.map φ.hom₁) := by
-    show IsIso (DerivedCategory.Qh.map (q.map g))
+    change IsIso (DerivedCategory.Qh.map (q.map g))
     exact (NatIso.isIso_map_iff (DerivedCategory.quotientCompQhIso C) g).mpr inferInstance
   have h₂ : IsIso (DerivedCategory.Qh.map φ.hom₂) := by
-    show IsIso (DerivedCategory.Qh.map (𝟙 _))
+    change IsIso (DerivedCategory.Qh.map (𝟙 _))
     infer_instance
   have h₃ : IsIso (DerivedCategory.Qh.map φ.hom₃) :=
     isIso₃_of_isIso₁₂ (DerivedCategory.Qh.mapTriangle.map φ)
@@ -399,7 +399,7 @@ private lemma exists_quasiIso_from_shifted_mappingCone
   have hf : QuasiIso f := by
     apply (DerivedCategory.isIso_Q_map_iff_quasiIso C f).mp
     apply (NatIso.isIso_map_iff (DerivedCategory.quotientCompQhIso C) f).mp
-    show IsIso (DerivedCategory.Qh.map (q.map f))
+    change IsIso (DerivedCategory.Qh.map (q.map f))
     rwa [hmap]
   have hfin : QuasiIso (f⟦(-1 : ℤ)⟧' ≫ (shiftShiftNeg F (1 : ℤ)).hom) := inferInstance
   exact ⟨f⟦(-1 : ℤ)⟧' ≫ (shiftShiftNeg F (1 : ℤ)).hom, hfin⟩
@@ -417,7 +417,7 @@ private lemma isZero_homology_mappingCone_of_epi
   have hT := DerivedCategory.mappingCone_triangle_distinguished α
   have hex := homologyMap_exact₃_of_distTriang T hT n (n + 1) rfl
   refine hex.isZero_X₂ ?_ (hA.eq_of_tgt _ _)
-  show HomologicalComplex.homologyMap (mappingCone.inr α) n = 0
+  change HomologicalComplex.homologyMap (mappingCone.inr α) n = 0
   rw [← cancel_epi (HomologicalComplex.homologyMap α n), comp_zero]
   exact homologyMap_comp_eq_zero_of_distTriang T hT n
 

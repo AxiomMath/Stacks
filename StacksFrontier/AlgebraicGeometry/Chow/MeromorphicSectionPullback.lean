@@ -182,7 +182,7 @@ theorem pullbackStalk_smul (p : X ⟶ Y) (L : Y.Modules) (x : X)
         ((1 : X.presheaf.stalk x) ⊗ₜ[Y.presheaf.stalk (p.base x)] m) := by
     rw [← TensorProduct.smul_tmul, ← TensorProduct.smul_tmul']
     congr 1
-  show (pullbackStalkBaseChange p L x).symm _ = _
+  change (pullbackStalkBaseChange p L x).symm _ = _
   rw [htmul, map_smul]
   rfl
 
@@ -194,7 +194,7 @@ theorem IsStalkBasis.pullbackStalk {p : X ⟶ Y} {L : Y.Modules} {x : X}
     IsStalkBasis ((Scheme.Modules.pullback p).obj L) x (Divisors.pullbackStalk p L x m) := by
   let : Algebra (Y.presheaf.stalk (p.base x)) (X.presheaf.stalk x) :=
     (p.stalkMap x).hom.toAlgebra
-  show Function.Bijective fun s : X.presheaf.stalk x => s • Divisors.pullbackStalk p L x m
+  change Function.Bijective fun s : X.presheaf.stalk x => s • Divisors.pullbackStalk p L x m
   convert (pullbackStalkBaseChange p L x).symm.bijective.comp (bijective_smul_one_tmul hm) using 1
   funext s
   exact ((pullbackStalkBaseChange p L x).symm.map_smul s _).symm

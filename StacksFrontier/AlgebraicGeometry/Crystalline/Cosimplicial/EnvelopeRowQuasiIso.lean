@@ -445,7 +445,6 @@ variable (nabla : CompletedConnection s.p ((envelopeDPAlgebra s f).completedRing
     ((envelopeDPAlgebra s f).forms s.p 1 0) ((envelopeDPAlgebra s f).differential s.p 0)
     (V.carrier 0))
 
-include hbeta in
 /-- **The identification of the row `b` commutes with the de Rham differentials**: that of
 `M(b) ⊗^∧_{D(b)} Ω^*_{D(b)}` for the base-change connection, and that of
 `M(0) ⊗^∧_{D(0)} Ω^*_{D(0)⟨ξ⟩^∧}` for `∇` pushed into the forms of `D(0)⟨ξ⟩^∧`. -/
@@ -535,7 +534,7 @@ def envelopeRowComplexIso (b : ℕ) :
         DividedPowerPolynomial.completedTargetDeRhamComplex_d s.A (envelopeZeroDPRing s f)
           (ι × Fin b) s.p (V.carrier 0) nabla hint i]
       exact AddCommGrpCat.ext fun x =>
-        (envelopeRowEquiv_differential s f V beta hbeta nabla b i x).symm)
+        (envelopeRowEquiv_differential s f V beta nabla b i x).symm)
 
 include hbeta in
 /-- **The row zero of the double complex is the source of [Stacks, Lemma 60.21.2, Tag 07LD]**:

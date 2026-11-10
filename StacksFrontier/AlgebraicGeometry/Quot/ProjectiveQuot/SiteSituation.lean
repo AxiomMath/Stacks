@@ -124,7 +124,7 @@ theorem hom_eq_schemeSpaceMap (T : Space.SchemesOver (quotSituation B n r).Y) :
   (subsingleton_hom_schemeSpace_siteBase B _).elim _ _
 
 /-- A morphism of the site represents the composite of the represented morphisms. -/
-@[deprecated AlgebraicGeometry.schemeSpaceMap_comp (since := "2026-10-27")]
+@[deprecated AlgebraicGeometry.schemeSpaceMap_comp +typeChanged (since := "2026-10-27")]
 theorem schemeSpaceMap_comp {T'' T' T : BigFppfOver B integerBase B.contains_integerBase}
     (a : T'' ⟶ T') (b : T' ⟶ T) :
     schemeSpaceMap (a ≫ b) = schemeSpaceMap a ≫ schemeSpaceMap b :=

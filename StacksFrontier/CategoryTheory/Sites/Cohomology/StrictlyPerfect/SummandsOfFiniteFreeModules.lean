@@ -119,7 +119,7 @@ lemma globalSectionsIsoCoyoneda_map_apply
     (f : M ⟶ N) (s : X.globalSectionsFunctor.obj M) :
     X.globalSectionsIsoCoyoneda.hom.app N (X.globalSectionsFunctor.map f s) =
       X.globalSectionsIsoCoyoneda.hom.app M s ≫ f := by
-  show N.unitHomEquiv.symm (SheafOfModules.sectionsMap f s) = _
+  change N.unitHomEquiv.symm (SheafOfModules.sectionsMap f s) = _
   exact (SheafOfModules.unitHomEquiv_symm_comp s f).symm
 
 /-- Under `globalSectionsIsoCoyoneda`, the unit global section of `O` corresponds to the identity
@@ -161,14 +161,14 @@ lemma sum_π_comp_finiteFreeι (n : ℕ) :
     (∑ i : Fin n, Pi.π (fun _ : Fin n =>
         SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) i ≫
       X.finiteFreeι n i) = 𝟙 (X.finiteFree n) := by
-  show (∑ i : Fin n, Pi.π (fun _ : Fin n =>
+  change (∑ i : Fin n, Pi.π (fun _ : Fin n =>
       SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) i ≫
     Pi.lift (fun j => if i = j then 𝟙 _ else 0)) =
       𝟙 (∏ᶜ fun _ : Fin n => SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
   apply Pi.hom_ext
   intro j
   classical
-  simp only [Preadditive.sum_comp, Category.assoc, Pi.lift_π]
+  simp only [Preadditive.sum_comp, Category.assoc]
   rw [Finset.sum_eq_single j]
   · simp
   · intro i hi hij
@@ -244,7 +244,7 @@ lemma finiteFreeSectionsCoords_apply (n : ℕ)
           Pi.π (fun _ : Fin n =>
             SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) i) := by
   change (X.finiteFree n).sections at x
-  show SheafOfModules.sectionsMap
+  change SheafOfModules.sectionsMap
       (Pi.π (fun _ : Fin n =>
         SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) i) x = _
   rw [SheafOfModules.unitHomEquiv_comp_apply]
@@ -367,7 +367,7 @@ lemma finiteFreeSectionsEquiv_finiteFreeι (n : ℕ) (i : Fin n) :
       Pi.single i (1 : X.globalSectionRing) := by
   classical
   funext j
-  show X.unitSectionsLinearEquiv
+  change X.unitSectionsLinearEquiv
       (X.finiteFreeSectionsCoords n
         (X.globalSectionsFunctor.map (X.finiteFreeι n i) X.globalUnitOne) j) = _
   rw [finiteFreeSectionsCoords_apply]
@@ -375,7 +375,7 @@ lemma finiteFreeSectionsEquiv_finiteFreeι (n : ℕ) (i : Fin n) :
       (X.globalSectionsFunctor.map (X.finiteFreeι n i) X.globalUnitOne) =
       X.finiteFreeι n i :=
     X.globalSectionsIsoCoyoneda_map_globalUnitOne (X.finiteFree n) (X.finiteFreeι n i)
-  show X.unitSectionsLinearEquiv
+  change X.unitSectionsLinearEquiv
       ((SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).unitHomEquiv
         (X.globalSectionsIsoCoyoneda.hom.app (X.finiteFree n)
           (X.globalSectionsFunctor.map (X.finiteFreeι n i) X.globalUnitOne) ≫
@@ -482,7 +482,7 @@ lemma globalSectionsFunctor_map_finiteFreeHomOfSectionsHom (n m : ℕ)
         _ = X.globalSectionsIsoCoyoneda.hom.app (X.finiteFree m)
             (f (X.globalSectionsFunctor.map (X.finiteFreeι n i) X.globalUnitOne)) := rfl
     rw [Pi.basisFun_apply]
-    show g₁ (Pi.single i (1 : X.globalSectionRing)) =
+    change g₁ (Pi.single i (1 : X.globalSectionRing)) =
       g₂ (Pi.single i (1 : X.globalSectionRing))
     calc
       g₁ (Pi.single i (1 : X.globalSectionRing)) =
@@ -510,7 +510,7 @@ lemma finiteProjective_of_isDirectSummandOfFiniteFree
   let := hf.1
   let := hf.2
   have hri (x : X.globalSectionsFunctor.obj M) : r'.r.hom (r'.i.hom x) = x := by
-    show (r'.i ≫ r'.r) x = x
+    change (r'.i ≫ r'.r) x = x
     rw [r'.retract]
     rfl
   refine ⟨?_, ?_⟩

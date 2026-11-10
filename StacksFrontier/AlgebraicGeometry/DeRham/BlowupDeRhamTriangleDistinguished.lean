@@ -6,7 +6,8 @@ public import StacksFrontier.Homology.Injectives.Sheaf.ModulesOnRingedSite
 /-!
 # The blowup triangle of de Rham complexes is distinguished
 
-In the situation of `StacksFrontier.AlgebraicGeometry.DeRham.BlowupDeRhamTriangle`, the four canonical
+In the situation of `StacksFrontier.AlgebraicGeometry.DeRham.BlowupDeRhamTriangle`, the four
+canonical
 maps
 
 `Ω^•_{X/S} ⟶ Rb_*Ω^•_{X'/S}`, `Ω^•_{X/S} ⟶ i_*Ω^•_{Z/S}`, `Rb_*Ω^•_{X'/S} ⟶ i_*Rp_*Ω^•_{E/S}`,
@@ -117,6 +118,8 @@ private lemma isStrictlyGE_pushforward_exceptional_deRham {S X Z : Scheme.{u}} (
     (RingedSpaceModuleAdjunction.modulePushforward (coefficientInclusion f i))
     ((isStrictlyGE_deRhamCochainComplex (exceptionalStructure f i)).isZero n hn)⟩
 
+omit [HasDerivedCategory (ModuleSheaves (inverseImageBase (i ≫ f)))]
+  [HasDerivedCategory (ModuleSheaves (inverseImageBase (exceptionalStructure f i)))] in
 /-- The derived unit square of the blowup along the canonical map `Ω^•_{X'/S} ⟶ j_*Ω^•_{E/S}` is
 homotopy cartesian as soon as `Rb_*` of that map is invertible on cohomology sheaves in positive
 degrees, termwise. -/
@@ -147,6 +150,10 @@ lemma isClosedEmbedding_relativeBase_base {Y Y' : Scheme.{u}} (g : Y' ⟶ Y) (s 
     [IsClosedImmersion g] : Topology.IsClosedEmbedding (relativeBase g s).hom.base :=
   g.isClosedEmbedding
 
+omit [HasDerivedCategory (ModuleSheaves (inverseImageBase f))]
+  [HasDerivedCategory (ModuleSheaves (inverseImageBase (blowupMap i ≫ f)))]
+  [HasDerivedCategory (ModuleSheaves (inverseImageBase (i ≫ f)))]
+  [HasDerivedCategory (ModuleSheaves (inverseImageBase (exceptionalStructure f i)))] in
 /-- The coefficient-space morphism of the inclusion of the exceptional divisor is a closed
 embedding. -/
 lemma isClosedEmbedding_coefficientInclusion_base :
@@ -182,7 +189,7 @@ invertible. -/
 instance isIso_exceptionalDerivedHom
     (L : CochainComplex (ModuleSheaves (inverseImageBase (exceptionalStructure f i))) ℤ) :
     IsIso (exceptionalDerivedHom f i L) := by
-  haveI := isIso_unit_of_isClosedEmbedding _ (isClosedEmbedding_coefficientInclusion_base f i) L
+  have := isIso_unit_of_isClosedEmbedding _ (isClosedEmbedding_coefficientInclusion_base f i) L
   unfold exceptionalDerivedHom
   infer_instance
 
@@ -251,7 +258,7 @@ theorem exists_distTriang_of_isIso (h₁ : IsIso (chain (blowupMap i) f))
     simp only [asIso_hom, exceptionalDerivedHom, Iso.trans_hom, Functor.mapIso_hom, Iso.symm_hom,
       asIso_inv, centreToExceptional, Functor.map_comp, Category.assoc, reassoc_of% hu1,
       Iso.hom_inv_id_app_assoc, reassoc_of% ht]
-    simp only [← reassoc_of% hn, IsIso.inv_hom_id_assoc, reassoc_of% hu2,
+    simp only [← reassoc_of% hn, IsIso.inv_hom_id_assoc,
       ← Functor.map_comp_assoc, mapHomologicalComplexCompIso_modulePushforwardComp_hom_app,
       exceptionalSquareIso_hom, eqToHom_trans]
     refine Eq.trans ?_ (congrArg (fun t => DerivedCategory.Q.map (eqToHom _) ≫ t) hu2).symm
@@ -271,6 +278,10 @@ def centreToExceptionalChain :
     (ComplexShape.up ℤ)).map (chain (exceptionalProjection i) (i ≫ f)) ≫
     (exceptionalSquareIso f i (deRhamCochainComplex (exceptionalStructure f i))).inv
 
+omit [HasDerivedCategory (ModuleSheaves (inverseImageBase f))]
+  [HasDerivedCategory (ModuleSheaves (inverseImageBase (blowupMap i ≫ f)))]
+  [HasDerivedCategory (ModuleSheaves (inverseImageBase (i ≫ f)))]
+  [HasDerivedCategory (ModuleSheaves (inverseImageBase (exceptionalStructure f i)))] in
 /-- The square of complexes `Ω^•_{X/S} ⟶ b_*Ω^•_{X'/S} ⟶ b_*j_*Ω^•_{E/S}`,
 `Ω^•_{X/S} ⟶ i_*Ω^•_{Z/S} ⟶ b_*j_*Ω^•_{E/S}` commutes. -/
 lemma chain_comp_inclusionChain :
@@ -347,7 +358,7 @@ theorem exists_distTriang_of_shortExact (hG : (blowupShortComplex f i).ShortExac
         eqToHom_trans, eqToHom_refl]
     simp only [asIso_hom, exceptionalDerivedHom, centreToExceptionalChain, centreToExceptional,
       Functor.map_comp, Category.assoc, reassoc_of% hu1, Iso.hom_inv_id_app_assoc, reassoc_of% ht,
-      ← reassoc_of% hn, reassoc_of% hu2]
+      ← reassoc_of% hn]
     congr 1
     refine Eq.trans ?_ hu2.symm
     simp only [hinv, mapHomologicalComplexCompIso_modulePushforwardComp_hom_app,

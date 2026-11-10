@@ -96,7 +96,7 @@ theorem exists_not_mem_and_mem_associatedPrimes_not_le_fiberIdeal
         rw [IsScalarTower.algebraMap_apply R p.ResidueField]
         exact (isUnit_iff_ne_zero.mpr (by simpa using hcp)).map _
       rwa [Algebra.smul_def, J.unit_mul_mem_iff_mem hcunit] at hca
-    · show (1 ⊗ₜ[R] x) ∈ r
+    · change (1 ⊗ₜ[R] x) ∈ r
       rw [← hx, Algebra.smul_def]
       exact Ideal.mul_mem_left (I := r) _ har
   obtain ⟨g, hgq, hg⟩ := exists_not_mem_and_map_mem_all_of_finset q ι.toRingHom hall

@@ -250,7 +250,7 @@ lemma exists_comp_openSubHom {Z : Over S} (hZ : P Z) {V : Z.left.Opens}
   refine ⟨ObjectProperty.homMk (X := B) (Y := A)
     (liftOverOpen (P.ι.map h) V hr ≫ e.hom), P.ι.map_injective ?_⟩
   rw [Functor.map_comp]
-  show (liftOverOpen (P.ι.map h) V hr ≫ e.hom) ≫ e.inv ≫ overOpenι Z V = P.ι.map h
+  change (liftOverOpen (P.ι.map h) V hr ≫ e.hom) ≫ e.inv ≫ overOpenι Z V = P.ι.map h
   rw [Category.assoc, Iso.hom_inv_id_assoc, liftOverOpen_comp_overOpenι]
 
 /-- **A section of `F` compatible with a section of the extension on a covering is compatible
@@ -645,7 +645,7 @@ theorem exists_unique_extension (hP1 : HasAffineOpens P)
     have hfac : α.app (op A.obj) (affineExtensionι P F A (𝟙 A.obj) y) = β'.app (op A) y := by
       have h := ConcreteCategory.congr_hom (Functor.descOfIsLeftKanExtension_fac_app
         (affineExtension P F) (affineExtensionUnit P F) F'' β' (op A)) y
-      show α.app (op A.obj) ((affineExtensionUnit P F).app (op A) y) = β'.app (op A) y
+      change α.app (op A.obj) ((affineExtensionUnit P F).app (op A) y) = β'.app (op A) y
       simpa [hα'] using h
     have h1 : affineExtensionι P F A f y
         = (affineExtension P F).map f.op (affineExtensionι P F A (𝟙 A.obj) y) := by

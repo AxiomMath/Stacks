@@ -101,16 +101,7 @@ theorem chartPullbackMeromorphicSectionsSheaf_meromorphicSectionModuleMap (φ : 
       ((meromorphicSectionModuleMap B S hS X.1 X.2
           ((modulePullback B S hS f).map φ)).app (op d.U)).hom
         (chartPullbackMeromorphicSectionsSheaf B S hS f M hf d t) := by
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg (chartPullbackMeromorphicSectionsSheaf B S hS f N hf d)
-        (map_zero ((meromorphicSectionModuleMap B S hS Y.1 Y.2 φ).app (op d.V)).hom)).trans
-      ((map_zero (chartPullbackMeromorphicSectionsSheaf B S hS f N hf d)).trans
-        ((congrArg ((meromorphicSectionModuleMap B S hS X.1 X.2
-              ((modulePullback B S hS f).map φ)).app (op d.U)).hom
-            (map_zero (chartPullbackMeromorphicSectionsSheaf B S hS f M hf d))).trans
-          (map_zero ((meromorphicSectionModuleMap B S hS X.1 X.2
-            ((modulePullback B S hS f).map φ)).app (op d.U)).hom)).symm)
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact ((congrArg (chartPullbackMeromorphicSectionsSheaf B S hS f N hf d)
           (map_add ((meromorphicSectionModuleMap B S hS Y.1 Y.2 φ).app (op d.V)).hom x y)).trans

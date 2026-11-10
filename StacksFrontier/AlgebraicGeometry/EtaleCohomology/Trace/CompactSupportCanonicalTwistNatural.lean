@@ -435,7 +435,7 @@ abbrev geometricNormalCoinvariantsMap
     (etaleFundamentalGroupMap (fieldBaseChangeObjProj B X f kbar
       (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y).toMonoidHom.range v
 
-omit [Fintype Λ] in
+omit [Smooth f] [Fintype Λ] in
 /-- `v_N` sends the class of `m` to the class of `v m`. -/
 theorem geometricNormalCoinvariantsMap_apply_mk
     {ρ ρ' : letI := connectedSpace_of_isCurve B X f
@@ -455,7 +455,7 @@ theorem geometricNormalCoinvariantsMap_apply_mk
         (v.hom.hom.hom.hom.hom m) :=
   rfl
 
-omit [Fintype Λ] in
+omit [Smooth f] [Fintype Λ] in
 /-- **`ρ ⟶ ρ_N` is natural**: `q ≫ v_N = v ≫ q'`. -/
 theorem geometricNormalCoinvariantsQuotient_comp_map
     {ρ ρ' : letI := connectedSpace_of_isCurve B X f
@@ -469,6 +469,9 @@ theorem geometricNormalCoinvariantsQuotient_comp_map
   let := connectedSpace_fieldBaseChange f kbar
   finiteTypeContinuousModuleNormalCoinvariantsQuotient_comp_map Λ _ v
 
+set_option maxHeartbeats 400000 in
+-- the kernel's check of the `Functor.map_comp` rewrites through the universe-mismatched category
+-- instances of `ℱ_ρ` exceeds the default limit
 /-- **`H²_c(X_k̄, ℱ_ρ) ≃ H²_c(X_k̄, ℱ_{ρ_N})` is natural in `ρ`.** -/
 theorem compactSupportNormalCoinvariantsEquiv_naturality
     {ρ ρ' : letI := connectedSpace_of_isCurve B X f
@@ -491,16 +494,12 @@ theorem compactSupportNormalCoinvariantsEquiv_naturality
               ((representationSheaf B X _ Λ).map
                 (geometricNormalCoinvariantsMap B X f kbar Λ y v))))).hom
         (compactSupportNormalCoinvariantsEquiv B X f kbar Λ y j hn ρ x) := by
-  letI := connectedSpace_of_isCurve B X f
-  rw [compactSupportNormalCoinvariantsEquiv_apply, compactSupportNormalCoinvariantsEquiv_apply]
-  have h := congrArg (fun w => ((DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ)
-      ((2 : ℕ) : ℤ)).map (galoisCompactSupportCohomologyMap Λ f j kbar
-        ((Stacks.DerivedIndexing.singlePlusFunctor _ 0).map
-          ((representationSheaf B X _ Λ).map w)))).hom x)
-    (geometricNormalCoinvariantsQuotient_comp_map B X f kbar Λ y v)
-  simp only [galoisCompactSupportCohomologyMap, Functor.map_comp, ModuleCat.hom_comp,
-    LinearMap.comp_apply] at h
-  exact h.symm
+  let := connectedSpace_of_isCurve B X f
+  rw [compactSupportNormalCoinvariantsEquiv_apply, compactSupportNormalCoinvariantsEquiv_apply,
+    ← LinearMap.comp_apply, ← LinearMap.comp_apply, ← ModuleCat.hom_comp, ← ModuleCat.hom_comp,
+    ← Functor.map_comp, ← Functor.map_comp]
+  simp only [galoisCompactSupportCohomologyMap, ← Functor.map_comp,
+    geometricNormalCoinvariantsQuotient_comp_map]
 
 /-- **`Ψ : H²_c(X_k̄, ℱ_ρ) ≅ Hom(μ_n(k̄), M_N)` is natural in `ρ`.** For a morphism
 `v : ρ ⟶ ρ'` of finite `Λ`-modules with continuous `π₁(X, η̄)`-action,

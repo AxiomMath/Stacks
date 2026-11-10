@@ -49,7 +49,7 @@ theorem map_closedSubspaceStalkIdeal_le {X Y : AlgebraicSpaces B S hS} (f : Y �
   rintro _ ⟨_, ⟨N, a, ha, rfl⟩, rfl⟩
   obtain ⟨N₀⟩ := nonempty_smallEtaleNeighborhood Y.2 y
   obtain ⟨U, -, g, hcomm, hpt⟩ := exists_smallEtaleNeighborhood_lift f.hom N₀ N
-  show etaleLocalRingMap Y.2 f.hom y (etaleLocalRingGerm B S hS X.1 _ (op N) a) ∈ _
+  change etaleLocalRingMap Y.2 f.hom y (etaleLocalRingGerm B S hS X.1 _ (op N) a) ∈ _
   rw [etaleLocalRingMap_germ Y.2 f.hom U N g hcomm hpt a]
   refine Ideal.subset_span ⟨U, _, ?_, rfl⟩
   have hsq : subspaceInclusion B S hS Y (preimageSubspace B S hS f Z) ≫ f =

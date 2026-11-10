@@ -87,7 +87,7 @@ private def chartRes {W Z : X.Opens} (h : Z ≤ W) :
 private lemma chartRes_comp {V W Z : X.Opens} (hWV : W ≤ V) (hZW : Z ≤ W) :
     chartRes (hZW.trans hWV) = (chartRes hZW).comp (chartRes hWV) := by
   ext x
-  show (X.ringCatSheaf.obj.map (homOfLE (hZW.trans hWV)).op).hom x = _
+  change (X.ringCatSheaf.obj.map (homOfLE (hZW.trans hWV)).op).hom x = _
   have hc : (homOfLE hWV).op ≫ (homOfLE hZW).op = (homOfLE (hZW.trans hWV)).op :=
     Subsingleton.elim _ _
   rw [← hc, Functor.map_comp]
@@ -360,7 +360,7 @@ private lemma cocycleSection_trivialization (c : UnitCocycle X V)
     (i : ι) {W : X.Opens} (hW : W ≤ V i) :
     cocycleSectionsLinearEquiv c i hW ((cocycleSection c t ht).eval (op W)) =
       chartRes hW (t i) := by
-  show chartRes (le_inf le_rfl hW) (chartRes inf_le_right (t i)) = _
+  change chartRes (le_inf le_rfl hW) (chartRes inf_le_right (t i)) = _
   rw [chartRes_chartRes]
 
 /-! ### The stalks of the glued module -/
@@ -441,7 +441,7 @@ private lemma cocycleStalkProjection_section (c : UnitCocycle X V)
       (TopCat.Presheaf.Γgerm (cocycleModule c).val.presheaf x
         ((cocycleSection c t ht).eval (op ⊤))) =
       X.presheaf.germ (V i) x hx (t i) := by
-  show cocycleStalkProjection c i x hx
+  change cocycleStalkProjection c i x hx
       (TopCat.Presheaf.germ (C := Ab.{u}) (cocycleModule c).val.presheaf ⊤ x (Opens.mem_top x)
         ((cocycleSection c t ht).eval (op ⊤))) = X.presheaf.germ (V i) x hx (t i)
   refine (cocycleStalkProjection_germ c i x hx ⊤ (Opens.mem_top x) _).trans ?_
@@ -588,7 +588,7 @@ private lemma ChartFamily.frame_res (F : ChartFamily X U) (i : F.ι) {W Z : X.Op
     chartResUnits hZW (F.frame i hWU hWi) =
       F.frame i (hZW.trans hWU) (hZW.trans hWi) := by
   apply Units.ext
-  show chartRes hZW (F.frame i hWU hWi : X.ringCatSheaf.obj.obj (op W)) = _
+  change chartRes hZW (F.frame i hWU hWi : X.ringCatSheaf.obj.obj (op W)) = _
   rw [F.frame_val, F.frame_val, chartRes_chartRes]
 
 open scoped Classical in
@@ -664,7 +664,7 @@ private lemma ChartFamily.equation_compatible (F : ChartFamily X U) (i j : F.ι)
     rw [F.cocycleUnit_self, Units.val_one, one_mul]
   · have hWU : W ≤ U := (le_inf hi hj).trans (F.inter_le i j hij)
     rw [F.cocycleUnit_of_le i j hi hj hWU, ← F.frame_val i hWU hi, ← F.frame_val j hWU hj]
-    show ((F.frame j hWU hj * (F.frame i hWU hi)⁻¹ * F.frame i hWU hi :
+    change ((F.frame j hWU hj * (F.frame i hWU hi)⁻¹ * F.frame i hWU hi :
       (X.ringCatSheaf.obj.obj (op W) : Type u)ˣ) : X.ringCatSheaf.obj.obj (op W)) = _
     rw [inv_mul_cancel_right]
 
@@ -881,7 +881,7 @@ theorem exists_isInvertible_nonvanishingOpen_eq
   let F := chartFamily X U hU h_noetherian h_dimension
   refine ⟨F.module, F.module_isInvertible, F.globalSection, ?_⟩
   ext x
-  show x ∈ U ↔ x ∈ Stacks.SheafOfModules.nonvanishingLocus (X := X.toRingedSpace)
+  change x ∈ U ↔ x ∈ Stacks.SheafOfModules.nonvanishingLocus (X := X.toRingedSpace)
     F.module F.globalSection
   obtain ⟨i, hx⟩ := TopologicalSpace.IsOpenCover.exists_mem F.cover x
   exact ((F.mem_nonvanishingLocus_iff i x hx).trans

@@ -126,7 +126,7 @@ public theorem idealPowerMultiple_cokernel_idealPowerQuotientMap_eq_bot
   let abar := idealPowerQuotientMap J J m m le_rfl a
   let πM := cokernel.π (C := X.Modules) (idealPowerMultiple J m M).ι
   let πN := cokernel.π (C := X.Modules) (idealPowerMultiple J m N).ι
-  show r • w = 0
+  change r • w = 0
   obtain ⟨v, hv⟩ : ∃ v : Γ(idealPowerQuotient J m N, U.1),
       (cokernel.π (C := X.Modules) abar).app U.1 v = w :=
     Stacks.SectionEpiAffine.surjective_app_of_isAffineOpen X
@@ -386,7 +386,7 @@ public theorem idealPowerMultiple_cokernel_eq_bot_of_reductions
     have h1 := congrArg (fun k : G ⟶ idealPowerQuotient I n P => k.app U.1 w)
       (idealPowerQuotientMap_π I I n n le_rfl a)
     refine Eq.symm (h1.symm.trans ?_)
-    show (idealPowerQuotientMap I I n n le_rfl a).app U.1
+    change (idealPowerQuotientMap I I n n le_rfl a).app U.1
       ((cokernel.π (C := X.Modules) (idealPowerMultiple I n G).ι).app U.1 w) = _
     rw [hw]
     exact hz

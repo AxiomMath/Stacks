@@ -69,8 +69,7 @@ private theorem ringHom_tensorProduct_ext {R M N S : Type*} [CommRing R] [CommRi
     [CommRing N] [CommRing S] [Algebra R M] [Algebra R N] {f g : (M ⊗[R] N) →+* S}
     (h : ∀ m n, f (m ⊗ₜ[R] n) = g (m ⊗ₜ[R] n)) : f = g :=
   RingHom.ext fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul m n => exact h m n
     | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -101,7 +100,7 @@ theorem tensorProduct_of_flat_lifts
     { Algebra.TensorProduct.lift fA (IsScalarTower.toAlgHom R₀ R' A')
         (fun _ _ => Commute.all _ _) with
       commutes' := fun r => by
-        show Algebra.TensorProduct.lift _ _ _ ((1 : A₀) ⊗ₜ[R₀] r) = _
+        change Algebra.TensorProduct.lift _ _ _ ((1 : A₀) ⊗ₜ[R₀] r) = _
         rw [Algebra.TensorProduct.lift_tmul]
         simp }
   let fC₁ : (R' ⊗[R₀] C₀) →ₐ[R'] C' :=
@@ -123,7 +122,7 @@ theorem tensorProduct_of_flat_lifts
         (IsScalarTower.toAlgHom R₀ R' C') fun _ _ => Commute.all _ _).toRingHom.comp
         (Algebra.TensorProduct.comm R₀ R' C₀).toRingHom := by
       refine ringHom_tensorProduct_ext fun r c => ?_
-      show (Algebra.ofId R' C') r * fC c = _
+      change (Algebra.ofId R' C') r * fC c = _
       simpa using (mul_comm (algebraMap R' C' r) (fC c))
     rw [he]
     exact RingHom.Flat.comp
@@ -138,15 +137,15 @@ theorem tensorProduct_of_flat_lifts
   have hcomp : φ = (m₃.toRingHom.comp e.toRingHom).comp m₁.toRingHom := by
     refine ringHom_tensorProduct_ext fun a c => ?_
     rw [hφ]
-    show _ = m₃ (e (m₁ (a ⊗ₜ[R₀] c)))
+    change _ = m₃ (e (m₁ (a ⊗ₜ[R₀] c)))
     rw [hm₁def, hm₃def, hedef]
     rw [Algebra.TensorProduct.map_tmul]
-    show _ = Algebra.TensorProduct.map fA₁ fC₁
+    change _ = Algebra.TensorProduct.map fA₁ fC₁
       ((Algebra.TensorProduct.cancelBaseChange R₀ R' R' (A₀ ⊗[R₀] R') C₀).symm
         ((a ⊗ₜ[R₀] (1 : R')) ⊗ₜ[R₀] c))
     rw [Algebra.TensorProduct.cancelBaseChange_symm_tmul,
       Algebra.TensorProduct.map_tmul]
-    show _ = (fA a * algebraMap R' A' 1) ⊗ₜ[R'] (algebraMap R' C' 1 * fC c)
+    change _ = (fA a * algebraMap R' A' 1) ⊗ₜ[R'] (algebraMap R' C' 1 * fC c)
     simp
   rw [hcomp]
   exact (RingHom.Flat.tensorProductMap hincl hid).comp

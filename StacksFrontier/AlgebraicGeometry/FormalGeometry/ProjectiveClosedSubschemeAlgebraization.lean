@@ -128,7 +128,7 @@ public theorem exists_closedImmersion_algebraization_of_isProjective
     fun n => ?_⟩
   apply (cancel_mono g).1
   rw [Category.assoc, hkg (n + 1), hkg n]
-  show t n ≫ j (n + 1) ≫ p (n + 1) = j n ≫ p n
+  change t n ≫ j (n + 1) ≫ p (n + 1) = j n ≫ p n
   rw [← Category.assoc, (hcart n).w, Category.assoc, adicBaseChangeSucc_fst]
 
 end AlgebraicGeometry

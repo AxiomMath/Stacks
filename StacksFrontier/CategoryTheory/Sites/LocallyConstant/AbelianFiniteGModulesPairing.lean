@@ -112,7 +112,8 @@ attribute [local instance] braidedGsetPresheaf
 def gsetPresheafPairing (M N L : ContinuousGAddCommGrp.{u', w} G)
     (P : M.obj.obj.V →+ N.obj.obj.V →+ L.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.V) (b : N.obj.obj.V),
-      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) = (L.obj.obj.ρ g).asHom.hom (P a b)) :
+      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.ρ g).asHom.hom (P a b)) :
     gsetPresheaf.obj (internalGModule M).X ⊗ gsetPresheaf.obj (internalGModule N).X ⟶
       gsetPresheaf.obj (internalGModule L).X where
   app _ := TypeCat.ofHom fun p => P p.1 p.2
@@ -125,7 +126,8 @@ open scoped Obj in
 theorem isBimultiplicative_gsetPresheafPairing (M N L : ContinuousGAddCommGrp.{u', w} G)
     (P : M.obj.obj.V →+ N.obj.obj.V →+ L.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.V) (b : N.obj.obj.V),
-      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) = (L.obj.obj.ρ g).asHom.hom (P a b)) :
+      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.ρ g).asHom.hom (P a b)) :
     IsBimultiplicative (gsetPresheafFullyFaithful.preimage
       (Functor.OplaxMonoidal.δ gsetPresheaf (internalGModule M).X (internalGModule N).X ≫
         gsetPresheafPairing M N L P hP)) :=
@@ -153,7 +155,8 @@ commutative group objects attached to the modules by
 def commGrpPairing (M N L : ContinuousGAddCommGrp.{u', w} G)
     (P : M.obj.obj.V →+ N.obj.obj.V →+ L.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.V) (b : N.obj.obj.V),
-      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) = (L.obj.obj.ρ g).asHom.hom (P a b)) :
+      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.ρ g).asHom.hom (P a b)) :
     ((commGrpContinuousGSetEquivalence.{u', w} (G := G)).inverse.obj M).X ⊗
         ((commGrpContinuousGSetEquivalence.{u', w} (G := G)).inverse.obj N).X ⟶
       ((commGrpContinuousGSetEquivalence.{u', w} (G := G)).inverse.obj L).X :=
@@ -168,7 +171,8 @@ def commGrpPairing (M N L : ContinuousGAddCommGrp.{u', w} G)
 theorem isBimultiplicative_commGrpPairing (M N L : ContinuousGAddCommGrp.{u', w} G)
     (P : M.obj.obj.V →+ N.obj.obj.V →+ L.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.V) (b : N.obj.obj.V),
-      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) = (L.obj.obj.ρ g).asHom.hom (P a b)) :
+      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.ρ g).asHom.hom (P a b)) :
     IsBimultiplicative (commGrpPairing M N L P hP) :=
   (isBimultiplicative_gsetPresheafPairing M N L P hP).comp _ _ _
 

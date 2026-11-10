@@ -75,7 +75,7 @@ theorem isPushout_tensorProduct_left [IsScalarTower B (B ⊗[k] D) (A ⊗[k] D)]
     Algebra.IsPushout B A (B ⊗[k] D) (A ⊗[k] D) := by
   refine Algebra.IsPushout.tensorProduct_tensorProduct k D B A ?_
   ext d
-  show algebraMap (B ⊗[k] D) (A ⊗[k] D) ((1 : B) ⊗ₜ d) = (1 : A) ⊗ₜ d
+  change algebraMap (B ⊗[k] D) (A ⊗[k] D) ((1 : B) ⊗ₜ d) = (1 : A) ⊗ₜ d
   rw [hmap, map_one]
 
 /-- **Ind-étaleness of a tensor product in the left factor.** If `A` is a filtered colimit of
@@ -114,14 +114,14 @@ theorem indEtale_tensorProduct_right
   have hL : ∀ (b : B) (d : D),
       algebraMap (B ⊗[k] D) (A ⊗[k] D) (b ⊗ₜ d) = algebraMap B A b ⊗ₜ d := by
     intro b d
-    show Algebra.TensorProduct.comm k D A
+    change Algebra.TensorProduct.comm k D A
       (algebraMap (D ⊗[k] B) (D ⊗[k] A) (Algebra.TensorProduct.comm k B D (b ⊗ₜ d))) = _
     rw [show Algebra.TensorProduct.comm k B D (b ⊗ₜ d) = d ⊗ₜ b from rfl, hmap]
     rfl
   refine indEtale_of_equiv (Algebra.TensorProduct.comm k B D).toRingEquiv
     (Algebra.TensorProduct.comm k A D).toRingEquiv (fun x => ?_)
     (indEtale_tensorProduct_left k B A D hL h)
-  show Algebra.TensorProduct.comm k A D
+  change Algebra.TensorProduct.comm k A D
     (Algebra.TensorProduct.comm k D A
       (algebraMap (D ⊗[k] B) (D ⊗[k] A) (Algebra.TensorProduct.comm k B D x))) = _
   exact comm_comm_apply k D A _

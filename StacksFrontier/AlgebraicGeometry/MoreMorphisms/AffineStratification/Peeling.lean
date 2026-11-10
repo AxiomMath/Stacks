@@ -127,7 +127,7 @@ theorem AffineStratification.nonempty_subscheme {X : Scheme.{u}} {m : ℕ}
       refine ⟨j.castPred hjne, ?_, ?_⟩
       · rw [Fin.le_def] at hji ⊢
         simpa only [Fin.val_castSucc, Fin.coe_castPred] using hji
-      · show g y ∈ s.strata ((j.castPred hjne).castSucc)
+      · change g y ∈ s.strata ((j.castPred hjne).castSucc)
         rw [Fin.castSucc_castPred]
         exact hgj
   have hAff : ∀ i : Fin (m + 1),
@@ -169,7 +169,7 @@ theorem AffineStratification.nonempty_subscheme {X : Scheme.{u}} {m : ℕ}
     have hhrange : Set.range h = T i := by
       refine Set.eq_of_subset_of_subset ?_ ?_
       · rintro y ⟨z, rfl⟩
-        show g (h z) ∈ s.strata i.castSucc
+        change g (h z) ∈ s.strata i.castSucc
         rw [hcomp z]
         exact (hf'range.le ⟨z, rfl⟩).2
       · intro y hy
@@ -213,7 +213,7 @@ theorem AffineStratification.nonempty_of_isAffineOpen_compl {Y : Scheme.{u}} {m 
     exact inferInstance
   have hfrange : ∀ i, Set.range (f i) = j '' t.strata i := by
     intro i
-    show Set.range (j.base ∘ (reducedInducedInclusion (t.strata i) (hlcV i)).base) = _
+    change Set.range (j.base ∘ (reducedInducedInclusion (t.strata i) (hlcV i)).base) = _
     rw [Set.range_comp, range_reducedInducedInclusion]
   set strata : Fin (m + 2) → Set Y :=
     Fin.snoc (fun i : Fin (m + 1) => j '' t.strata i) (U : Set Y) with hstratadef

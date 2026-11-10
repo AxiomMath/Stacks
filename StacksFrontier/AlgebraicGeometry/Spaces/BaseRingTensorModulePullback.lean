@@ -72,7 +72,7 @@ theorem unitHomEquiv_symm_smul (M : SheafOfModules.{u} R) (a : RingCat.sectionsS
   refine (SheafOfModules.unitHomEquiv M).injective ?_
   rw [Equiv.apply_symm_apply, SheafOfModules.unitHomEquiv_comp_apply, Equiv.apply_symm_apply]
   refine Subtype.ext (funext fun W => ?_)
-  show a.1 W • s.eval W = ((SheafOfModules.unitHomEquiv M).symm s).val.app W (a.1 W)
+  change a.1 W • s.eval W = ((SheafOfModules.unitHomEquiv M).symm s).val.app W (a.1 W)
   rw [unit_hom_val_app_eq_smul, CategoryTheory.Sheaf.unitHomEquiv_symm_val_app_one]
 
 end Stacks.Cohomology.SiteModules

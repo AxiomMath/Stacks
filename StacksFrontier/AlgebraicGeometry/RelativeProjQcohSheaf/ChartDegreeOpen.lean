@@ -153,15 +153,15 @@ public theorem mem_span_res_grading {U V : S.AffineZariskiSite} (h : U.toOpens �
   let Q : Ideal Γ(S, U.toOpens) :=
     { carrier := {x | b * 𝒜.str U x ∈ I}
       add_mem' := fun {x y} hx hy => by
-        show b * 𝒜.str U (x + y) ∈ I
+        change b * 𝒜.str U (x + y) ∈ I
         rw [map_add, mul_add]
         exact I.add_mem hx hy
       zero_mem' := by
-        show b * 𝒜.str U 0 ∈ I
+        change b * 𝒜.str U 0 ∈ I
         rw [map_zero, mul_zero]
         exact I.zero_mem
       smul_mem' := fun c x hx => by
-        show b * 𝒜.str U (c • x) ∈ I
+        change b * 𝒜.str U (c • x) ∈ I
         have h2 : b * 𝒜.str U (c • x) = 𝒜.str U c * (b * 𝒜.str U x) := by
           rw [smul_eq_mul, map_mul]; ring
         rw [h2]
@@ -174,7 +174,7 @@ public theorem mem_span_res_grading {U V : S.AffineZariskiSite} (h : U.toOpens �
       (W := U.basicOpen (S.presheaf.map (homOfLE h).op f)) (S.basicOpen_le _) f _
       (Subtype.ext (basicOpen_res_of_le h f hfU)) rfl (𝒜.res_str h f).symm hb
     refine ⟨N, ?_⟩
-    show b * 𝒜.str U (S.presheaf.map (homOfLE h).op f ^ N) ∈ I
+    change b * 𝒜.str U (S.presheaf.map (homOfLE h).op f ^ N) ∈ I
     rw [map_pow, heq]
     exact I.mul_mem_left c (Ideal.subset_span ⟨a, ha, rfl⟩)
   have h1 : (1 : Γ(S, U.toOpens)) ∈ Q := hQ ▸ Submodule.mem_top
@@ -245,7 +245,7 @@ public theorem exists_projInclusionMap_eq {W V : S.Opens} (hWV : W ≤ V)
     ∃ y, projInclusionMap A W V hWV hW hV y = z := by
   have hmem : z ∈ (projInclusionMap A W V hWV hW hV).opensRange := by
     rw [RelativeProjMapDomain.opensRange_projInclusionMap]
-    show V.ι (projInclusionToOpen A V hV z) ∈ W
+    change V.ι (projInclusionToOpen A V hV z) ∈ W
     rw [← P.toBase_chart_apply V hV z]
     exact hz
   exact hmem

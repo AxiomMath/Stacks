@@ -164,7 +164,7 @@ theorem ramificationIdx'_eq_finrank_of_totallyRamified_transport
       (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A') (hI := hm) m))
   have htr := Stacks.DiscreteValuationRing.EppLevelInduction.ramificationIdx'_eq_of_ringEquiv_square
     (RingEquiv.refl A') e.toRingEquiv hsq (IsLocalRing.maximalIdeal A') m₀
-  simp only [Ideal.map_id, RingEquiv.coe_ringHom_refl, hmap] at htr
+  simp only [Ideal.map_id, RingEquiv.toRingHom_refl, hmap] at htr
   have hm₀max : m₀.IsMaximal := Ideal.comap_isMaximal_of_surjective _ hsurj
   have hm₀lo : m₀.LiesOver (IsLocalRing.maximalIdeal A') :=
     ⟨(IsLocalRing.eq_maximalIdeal

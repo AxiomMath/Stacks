@@ -20,10 +20,8 @@ for `α ∈ CH_*(X)`, `β ∈ CH_*(Y)`, `γ ∈ CH_*(Z)`,
 where the left-hand side, which lives on `(X ×_k Y) ×_k Z`, is carried to `X ×_k (Y ×_k Z)` by
 pushforward along the associator `Stacks.Chow.tripleProductAssoc` of the fibre product.
 
-In each degree this is `Stacks.Chow.chowExteriorProduct_assoc`, whose hypothesis that flat
-pullback preserves rational equivalence (Stacks 02S1) is discharged by
-`Stacks.Chow.flatPullbackDescends`; the statement on `CH_*` follows by additivity in each of the
-three variables.
+In each degree this is `Stacks.Chow.chowExteriorProduct_assoc`; the statement on `CH_*` follows
+by additivity in each of the three variables.
 
 ## Main definitions
 
@@ -84,7 +82,7 @@ theorem chowExteriorProduct_assoc_of_field (k : Type u) [Field k] {X Y Z : Schem
         (TensorProduct.tmul ℤ a
           (chowExteriorProduct (fieldChowSituation k) (dimensionFunction_eq_zero_of_isClosed k)
             g h m l (TensorProduct.tmul ℤ b c))) :=
-  chowExteriorProduct_assoc k (flatPullbackDescends _) f g h n m l a b c
+  chowExteriorProduct_assoc k f g h n m l a b c
 
 section Total
 

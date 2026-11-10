@@ -194,11 +194,11 @@ noncomputable def pullbackFunctor
               simpa only [DescentData.comp_hom] using hconj.symm }
         objIso := objIso
         sourceMap := srcMap
-        sourceMap_fst := by intros; simp [srcMap, pullback.lift_fst]
-        sourceMap_snd := by intros; simp [srcMap, pullback.lift_snd]
+        sourceMap_fst := by intros; simp [srcMap]
+        sourceMap_snd := by intros; simp [srcMap]
         targetMap := tgtMap
-        targetMap_fst := by intros; simp [tgtMap, pullback.lift_fst]
-        targetMap_snd := by intros; simp [tgtMap, pullback.lift_snd]
+        targetMap_fst := by intros; simp [tgtMap]
+        targetMap_snd := by intros; simp [tgtMap]
         gluing := by
           intro D
           have hs : srcMap D = pulledBackDatumSourceMap G

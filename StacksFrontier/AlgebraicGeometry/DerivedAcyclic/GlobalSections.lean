@@ -236,7 +236,7 @@ theorem isIso_to_derivedGlobalSections_of_termwise_acyclic (X : Scheme.{u})
       ((H q).map ((G.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).map v) ≫
         (H q).map (α.app ((HomotopyCategory.quotient _ _).obj K))) := by
     rw [← Functor.map_comp, α.naturality v, Functor.map_comp]
-    show IsIso ((H q).map (α.app ((HomotopyCategory.quotient _ _).obj
+    change IsIso ((H q).map (α.app ((HomotopyCategory.quotient _ _).obj
       (K.stupidTrunc (ComplexShape.embeddingUpIntGE a)))) ≫
       (H q).map (RΓ.map (DerivedCategory.Qh.map v)))
     infer_instance

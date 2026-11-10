@@ -72,12 +72,10 @@ theorem baseTensorLinearEquiv_naturality {X Y : Type u} [AddCommGroup X] [Module
     baseTensorLinearEquiv (R := R) (R₀ := R₀) (R' := R') Y
         (LinearMap.rTensor R' (f.baseChange R₀) t) =
       f.baseChange R' (baseTensorLinearEquiv X t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, ha, hb, map_add, map_add]
   | tmul a s =>
-    induction a using TensorProduct.induction_on with
-    | zero => simp
+    induction a using TensorProduct.inductionOn with
     | add a b ha hb => rw [TensorProduct.add_tmul, map_add, map_add, ha, hb, map_add, map_add]
     | tmul r x => simp [baseTensorLinearEquiv_tmul]
 
@@ -250,7 +248,7 @@ theorem isIso_baseModelDerivedComparison_app [QuasiIso ε] (K : CochainComplex (
       ((((baseChangeFunctor R R₀).mapHomologicalComplex (ComplexShape.up ℤ)).obj K) ◁ ε)) :=
     (DerivedCategory.isIso_Q_map_iff_quasiIso _ _).2 this
   have hc : IsIso (DerivedCategory.Q.map ((baseModelComparison F ε).app K)) := by
-    show IsIso (DerivedCategory.Q.map
+    change IsIso (DerivedCategory.Q.map
       ((((baseChangeFunctor R R₀).mapHomologicalComplex (ComplexShape.up ℤ)).obj K) ◁ ε ≫
         (tensorSingleIso (ModuleCat.of R₀ R')).inv.app _ ≫
         (Functor.mapHomologicalComplexCompIso (baseTensorIso ≪≫
@@ -316,9 +314,9 @@ instance isIso_baseModelLift [QuasiIso ε] : IsIso (baseModelLift (R := R) ε hF
   have hQ : ∀ P : CochainComplex (ModuleCat.{u} R) ℤ, P.KFlat →
       IsIso ((baseModelLift (R := R) ε hF).app (DerivedCategory.Q.obj P)) := by
     intro P hP
-    haveI := (totalDerivedExtensionScalars.{u, u, u} (algebraMap R R')).comparison_isIso_of_kFlat
+    have := (totalDerivedExtensionScalars.{u, u, u} (algebraMap R R')).comparison_isIso_of_kFlat
       P hP
-    haveI := isIso_baseModelDerivedComparison_app (R := R) ε hF P hP
+    have := isIso_baseModelDerivedComparison_app (R := R) ε hF P hP
     have h := baseModelLift_fac (R := R) ε hF P
     have h' : IsIso ((baseModelLift (R := R) ε hF).app (DerivedCategory.Q.obj P) ≫
         (baseModelDerivedComparison ε hF).app P) := by rw [h]; infer_instance

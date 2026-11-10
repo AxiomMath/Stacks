@@ -368,7 +368,7 @@ theorem cechInter_map_le {T T' : TopCat.{u}} (k : T' ⟶ T) {J : Type u} (W : J 
   intro z hz
   have hz' : ∀ a, z ∈ (Opens.map k).obj (W (s a)) := fun a =>
     (iInf_le (fun a => (Opens.map k).obj (W (s a))) a) hz
-  show k z ∈ (⨅ a, W (s a) : Opens T)
+  change k z ∈ (⨅ a, W (s a) : Opens T)
   rw [← SetLike.mem_coe, Opens.coe_iInf, Set.mem_iInter]
   exact hz'
 
@@ -467,7 +467,7 @@ theorem cechComplexRefinementMap_sliceCochain
       ((StacksDraft.KFlat.modulePushforward h).obj G') d) x
   have hs := Stacks.Cech.Hypercohomology.mcomp_sliceCochain (O := Z.sheaf) U hU
     ((StacksDraft.KFlat.modulePushforward h).obj G') d x
-  show Stacks.Cohomology.Basis.res (abSections G')
+  change Stacks.Cohomology.Basis.res (abSections G')
     (Stacks.Cohomology.CechSheaf.inter_coverObject_left ⊤
       (fun i => (Opens.map h.hom.base).obj (U i)) hU' x).ge
     (Stacks.Cohomology.CechSheaf.rawcomp ⊤ (fun i => (Opens.map h.hom.base).obj (U i)) hU' G'
@@ -491,7 +491,7 @@ theorem cechComplexRefinementMap_sliceCochain
             (fun i => (Opens.map h.hom.base).obj (U i)) U hU' hU id (fun _ => le_rfl) q x).op)
       (sliceCochain (O := Z.sheaf) U hU
         ((StacksDraft.KFlat.modulePushforward h).obj G') d))) hsr).trans ?_
-  show Stacks.Cohomology.Basis.res (abSections G')
+  change Stacks.Cohomology.Basis.res (abSections G')
       (Stacks.Cohomology.CechSheaf.inter_coverObject_left ⊤
         (fun i => (Opens.map h.hom.base).obj (U i)) hU' x).ge
       (Stacks.Cohomology.Basis.res (abSections G')
@@ -501,7 +501,7 @@ theorem cechComplexRefinementMap_sliceCochain
           (sliceCochain (O := Z.sheaf) U hU
             ((StacksDraft.KFlat.modulePushforward h).obj G') d) x)) = _
   rw [← hm, hs]
-  show Stacks.Cohomology.Basis.res (abSections G')
+  change Stacks.Cohomology.Basis.res (abSections G')
       (Stacks.Cohomology.CechSheaf.inter_coverObject_left ⊤
         (fun i => (Opens.map h.hom.base).obj (U i)) hU' x).ge
       (Stacks.Cohomology.Basis.res (abSections G')
@@ -881,7 +881,7 @@ theorem cohomologyPullback_id_cechBaseClass
   let a : K' ⟶ J' := (Stacks.Cech.injectiveResolutionUnit Z'.carrier
     (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} Z'.sheaf)).app K'
   have hJ : ∀ m : ℤ, Injective (J'.obj.X m) := fun m => by
-    show Injective ((InjectiveObject.ι (SheafOfModules.{u}
+    change Injective ((InjectiveObject.ι (SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} Z'.sheaf))).obj _)
     infer_instance
   have hqa0 : IsIso (DerivedCategory.Q.map a.hom) :=
@@ -1213,7 +1213,7 @@ theorem pullbackCochain_cechD (p : ℕ) {q : ℕ}
   funext s
   let ℱ := abSections (deRhamTerm (formsAlgebras f) p)
   let ℱ' := abSections (deRhamTerm (formsAlgebras f') p)
-  show CechCochains.restr ℱ' (cechInter_map_le g'.base U s)
+  change CechCochains.restr ℱ' (cechInter_map_le g'.base U s)
       (formsPullbackAddHom g' f' f g w p (CechCochains.inter U s)
         (∑ j : Fin (q + 2), ((-1 : ℤ) ^ (j : ℕ)) •
           CechCochains.restr ℱ (CechCochains.inter_le_omit U s j) (c (s ∘ j.succAbove)))) =

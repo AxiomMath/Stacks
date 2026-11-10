@@ -64,7 +64,7 @@ lemma primePowerIterate_apply (R : Type u) [CommRing R] (p : ℕ) [Fact p.Prime]
   induction k with
   | zero => simp [primePowerIterate]
   | succ k ih =>
-      show (primePowerEndomorphism R p hp) (primePowerIterate R p hp k x) = _
+      change (primePowerEndomorphism R p hp) (primePowerIterate R p hp k x) = _
       rw [ih, primePowerEndomorphism_apply, ← pow_mul, ← pow_succ]
 
 /-- **Raising a finite sum to the `p ^ k`-th power raises each summand**, in a commutative ring
@@ -97,11 +97,12 @@ lemma sum_pow_prime_pow_sections (V : X.Opens) (k : ℕ) {ι : Type*} (s : Finse
 /-- **A finite family of sections of `colim_F 𝒪_X` over quasi-compact opens comes from one
 finite stage.** -/
 theorem exists_frobeniusStructureSheafι_app_eq_family [QuasiSeparatedSpace X] {T : Type*}
-    [Fintype T] (U : T → X.Opens) (hU : ∀ i, IsCompact (U i : Set X))
+    [Finite T] (U : T → X.Opens) (hU : ∀ i, IsCompact (U i : Set X))
     (s : ∀ i, ToType ((frobeniusColimitRingSheaf X p hX).obj.obj (op (U i)))) :
     ∃ (n : ℕ) (a : ∀ i, Γ(X, U i)),
       ∀ i, (frobeniusStructureSheafι X p hX n).hom.app (op (U i)) (a i) = s i := by
   classical
+  have := Fintype.ofFinite T
   choose nn aa haa using fun i =>
     exists_frobeniusStructureSheafι_app_eq X p hX (U i) (hU i) (s i)
   refine ⟨Finset.univ.sup nn, fun i => aa i ^ p ^ (Finset.univ.sup nn - nn i), fun i => ?_⟩
@@ -115,12 +116,13 @@ theorem exists_frobeniusStructureSheafι_app_eq_family [QuasiSeparatedSpace X] {
 
 /-- **A finite family of pairs of sections of `𝒪_X` over quasi-compact opens with equal images
 in `colim_F 𝒪_X` agrees after one common Frobenius twist.** -/
-theorem exists_pow_eq_of_frobeniusStructureSheafι_app_eq_family {T : Type*} [Fintype T]
+theorem exists_pow_eq_of_frobeniusStructureSheafι_app_eq_family {T : Type*} [Finite T]
     (U : T → X.Opens) (hU : ∀ i, IsCompact (U i : Set X)) (n : ℕ) (a b : ∀ i, Γ(X, U i))
     (h : ∀ i, (frobeniusStructureSheafι X p hX n).hom.app (op (U i)) (a i)
       = (frobeniusStructureSheafι X p hX n).hom.app (op (U i)) (b i)) :
     ∃ k : ℕ, ∀ i, a i ^ p ^ k = b i ^ p ^ k := by
   classical
+  have := Fintype.ofFinite T
   choose kk hkk using fun i =>
     exists_pow_eq_of_frobeniusStructureSheafι_app_eq X p hX (U i) (hU i) n (a i) (b i) (h i)
   exact ⟨Finset.univ.sup kk, fun i =>

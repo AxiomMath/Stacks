@@ -7,7 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.RelativeProjTwistChartBridge.Thet
 
 Let `r = r_{d, ℒ, ψ}` be the morphism of [Stacks, Tag 01O1] attached to a quadruple
 `(f : T → S, d, ℒ, ψ)` over an arbitrary base
-(`StacksFrontier.AlgebraicGeometry.RelativeProjTwistChartBridge.ThetaTagShape`). The `θ`-assertion of
+(`StacksFrontier.AlgebraicGeometry.RelativeProjTwistChartBridge.ThetaTagShape`).
+The `θ`-assertion of
 the tag is an isomorphism of `ℤ`-graded `𝒪_T`-algebras
 
 `θ : r^*(⨁_{n ∈ ℤ} 𝒪_{Proj_S(𝒜)}(nd)) ⟶ ⨁_{n ∈ ℤ} ℒ^{⊗ n}`

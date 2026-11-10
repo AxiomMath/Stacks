@@ -55,8 +55,9 @@ variable (V : BigFppfOver B S hS) [IsAffine ((BigFppfOver.toScheme B S hS).obj V
   [_root_.AlgebraicGeometry.IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj V)]
   (I : Ideal Γ((BigFppfOver.toScheme B S hS).obj V, ⊤))
 
-/-- An algebraic space locally of finite type over an affine locally Noetherian object of the
-site is étale-locally Noetherian. -/
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj V)] in
+/-- An algebraic space locally of finite type over a locally Noetherian object of the site is
+étale-locally Noetherian. -/
 theorem hasEtaleLocalProperty_isLocallyNoetherian_of_isLocallyOfFiniteType_schemeSpace
     {X : AlgebraicSpaces B S hS} (f : X ⟶ schemeSpace V)
     (hf : IsLocallyOfFiniteType B S hS f.hom) :

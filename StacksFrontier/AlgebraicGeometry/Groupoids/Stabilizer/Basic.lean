@@ -201,7 +201,7 @@ lemma stabilizerArrowHom_injective {S : Scheme.{u}} (G : GroupoidScheme S)
   let T' : Over S := Over.mk (T.hom ≫ G.objects.hom)
   let F (k : T ⟶ stabilizer G) : T' ⟶ pullback (sourceTarget G) (diagonal G) :=
     Over.homMk k.left (by
-      show k.left ≫ (pullback (sourceTarget G) (diagonal G)).hom =
+      change k.left ≫ (pullback (sourceTarget G) (diagonal G)).hom =
         T.hom ≫ G.objects.hom
       simpa [stabilizer, Category.assoc] using
         congrArg (fun k => k ≫ G.objects.hom) k.w)
@@ -327,12 +327,12 @@ private lemma stabilizerArrowHom_mul {S : Scheme.{u}} (G : GroupoidScheme S)
         pullback.lift_snd_assoc, Category.comp_id]
       exact stabilizerArrowHom_source G (snd (stabilizer G) (stabilizer G))
   apply Over.OverMorphism.ext
-  show (lift f g).left ≫ (stabilizerMul G).left ≫ stabilizerArrow G =
+  change (lift f g).left ≫ (stabilizerMul G).left ≫ stabilizerArrow G =
     (G.compose (stabilizerArrowHom G f) (stabilizerArrowHom G g) _).left
   dsimp only [stabilizerMul]
   have hc := congrArg Over.Hom.left (pullback.lift_fst c p cp)
   change (pullback.lift c p cp).left ≫ stabilizerArrow G = c.left at hc
-  show (lift f g).left ≫ (pullback.lift c p cp).left ≫ stabilizerArrow G = _
+  change (lift f g).left ≫ (pullback.lift c p cp).left ≫ stabilizerArrow G = _
   rw [hc]
   have e := groupoidCompose_pre G
     (k := (Over.map G.objects.hom).map (lift f g)) (f := a) (g := b) ab
@@ -352,7 +352,7 @@ lemma stabilizerArrowHom_stabilizerOne {S : Scheme.{u}} (G : GroupoidScheme S)
     stabilizerArrowHom G (k ≫ stabilizerOne G) =
       Over.homMk T.hom ≫ G.identity := by
   apply Over.OverMorphism.ext
-  show k.left ≫ (stabilizerOne G).left ≫ stabilizerArrow G =
+  change k.left ≫ (stabilizerOne G).left ≫ stabilizerArrow G =
     T.hom ≫ G.identity.left
   have h : (stabilizerOne G).left ≫ stabilizerArrow G = G.identity.left := by
     have hh : (stabilizerOne G).left ≫ stabilizerArrow G =
@@ -369,7 +369,7 @@ private lemma stabilizerArrowHom_inv {S : Scheme.{u}} (G : GroupoidScheme S)
     stabilizerArrowHom G (f ≫ stabilizerInv G) =
       stabilizerArrowHom G f ≫ G.inverse := by
   apply Over.OverMorphism.ext
-  show f.left ≫ (stabilizerInv G).left ≫ stabilizerArrow G =
+  change f.left ≫ (stabilizerInv G).left ≫ stabilizerArrow G =
     (f.left ≫ stabilizerArrow G) ≫ G.inverse.left
   have h : (stabilizerInv G).left ≫ stabilizerArrow G =
       stabilizerArrow G ≫ G.inverse.left := by
@@ -377,7 +377,7 @@ private lemma stabilizerArrowHom_inv {S : Scheme.{u}} (G : GroupoidScheme S)
         (stabilizerArrowHom G (𝟙 (stabilizer G)) ≫ G.inverse).left :=
       congrArg Over.Hom.left (pullback.lift_fst _ _ _)
     refine hh.trans ?_
-    show (𝟙 (stabilizer G).left ≫ stabilizerArrow G) ≫ G.inverse.left =
+    change (𝟙 (stabilizer G).left ≫ stabilizerArrow G) ≫ G.inverse.left =
       stabilizerArrow G ≫ G.inverse.left
     rw [Category.id_comp]
   rw [h]

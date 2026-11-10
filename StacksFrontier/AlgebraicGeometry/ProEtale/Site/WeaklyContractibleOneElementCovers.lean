@@ -80,7 +80,7 @@ theorem isWeaklyContractible_of_disjointCover {I : Type*} {X : C} (V : I → C)
     exact F.property.isSheafFor _ hcover
   obtain ⟨tX, htX, -⟩ := (Presieve.isSheafFor_arrows_iff F.obj f).mp hF t hcompat
   refine ⟨tX, ?_⟩
-  show φ.hom.app (op X) tX = s
+  change φ.hom.app (op X) tX = s
   apply (G.property.isSheafFor _ hcover).isSeparatedFor.ext
   intro Z a ha
   obtain ⟨Y, b, c, hc, rfl⟩ := ha
@@ -198,13 +198,13 @@ private theorem exists_singleton_cover_of_family (U : B.Scheme) {I : Type u}
   have hι (i : I) : B.inclusion.map (ι i) = Sigma.ι Y i := B.inclusion.map_preimage _
   let p : W ⟶ U := B.inclusion.preimage f₀
   have hp : B.inclusion.map p = f₀ := B.inclusion.map_preimage _
-  have hdesc (i : I) : Sigma.ι Y i ≫ f₀ = B.inclusion.map (f i) := Sigma.ι_desc _ i
+  have hdesc (i : I) : Sigma.ι Y i ≫ f₀ = B.inclusion.map (f i) := Sigma.ι_comp_desc _ i
   have _ : MorphismProperty.ContainsIdentities (@WeaklyEtale : MorphismProperty Scheme.{u}) :=
     MorphismProperty.IsMultiplicative.toContainsIdentities
   have hcover : Sieve.ofArrows V ι ∈ B.topology W := by
     apply Precoverage.generate_mem_toGrothendieck
     rw [B.precoverage_eq_comap, Precoverage.mem_comap_iff, Presieve.map_ofArrows]
-    show Presieve.ofArrows Y (fun i ↦ B.inclusion.map (ι i)) ∈ _
+    change Presieve.ofArrows Y (fun i ↦ B.inclusion.map (ι i)) ∈ _
     simp only [hι]
     refine zariskiPrecoverage_le_proetalePrecoverage _ ?_
     rw [Scheme.zariskiPrecoverage, Scheme.ofArrows_mem_precoverage_iff]
@@ -254,7 +254,7 @@ private theorem exists_singleton_cover_of_family (U : B.Scheme) {I : Type u}
       (Scheme.singleton_mem_precoverage_iff (P := @WeaklyEtale) f₀).2 ⟨hf₀surj, hf₀we⟩
   refine ⟨W, p, Iso.refl _, ⟨?_, (B.covering_isSite.1 (𝟙 U)).2⟩, hWwc, by rw [hp]; exact hf₀we⟩
   rw [B.isProetaleCovering_iff]
-  show (PreZeroHypercover.singleton.{u + 1} (B.inclusion.map p)).presieve₀ ∈ _
+  change (PreZeroHypercover.singleton.{u + 1} (B.inclusion.map p)).presieve₀ ∈ _
   rwa [hp]
 
 /-- **A family whose members surject onto the affine opens of the target is a quasi-compact

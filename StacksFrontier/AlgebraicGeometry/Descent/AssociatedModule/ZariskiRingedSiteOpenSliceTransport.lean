@@ -207,7 +207,7 @@ theorem psiOfIso_eq
       ψ.hom ≫ eqv.inverse.op.whiskerLeft φ.hom) :
     psiOfIso eqv φ = ψ := by
   refine Sheaf.hom_ext ?_
-  show Functor.whiskerRight (NatTrans.op eqv.counit)
+  change Functor.whiskerRight (NatTrans.op eqv.counit)
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj ≫
       Functor.whiskerLeft eqv.inverse.op (inv φ.hom) = ψ.hom
   rw [H₁, Category.assoc, ← Functor.whiskerLeft_comp, IsIso.hom_inv_id,

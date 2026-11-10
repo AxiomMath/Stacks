@@ -127,12 +127,12 @@ private theorem range_strictHenselizationBaseChangeToStrictHenselization_of_char
     Set.range (strictHenselizationBaseChangeToStrictHenselization B hS j s) =
       Set.range (Spec.map (CommRingCat.ofHom (algebraMap ↥(etaleLocalRing B Y hS s)
         (Localization.Away (chartToEtaleLocalRing B hS ιV s y' hy t))))) := by
-  show Set.range (pullback.snd j (strictHenselizationToBase B Y hS s)) = _
+  change Set.range (pullback.snd j (strictHenselizationToBase B Y hS s)) = _
   rw [Scheme.Pullback.range_snd]
   ext p
   simp only [Set.mem_preimage]
   rw [← spec_chartToEtaleLocalRing_comp B hS ιV s y' hy, Scheme.Hom.comp_apply, ht]
-  show t ∉ (PrimeSpectrum.comap (chartToEtaleLocalRing B hS ιV s y' hy) p).asIdeal ↔
+  change t ∉ (PrimeSpectrum.comap (chartToEtaleLocalRing B hS ιV s y' hy) p).asIdeal ↔
     p ∈ Set.range (PrimeSpectrum.comap (algebraMap ↥(etaleLocalRing B Y hS s)
       (Localization.Away (chartToEtaleLocalRing B hS ιV s y' hy t))))
   rw [PrimeSpectrum.localization_away_comap_range (Localization.Away _)

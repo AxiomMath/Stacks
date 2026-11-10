@@ -79,8 +79,8 @@ public theorem subsingleton_H_of_isDenseSubsite
     Subsingleton (Sheaf.H.{w} F q) := by
   let E := Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{a}
   have : HasBinaryProducts (Sheaf K AddCommGrpCat.{a}) := by
-    haveI := Abelian.hasFiniteBiproducts (C := Sheaf K AddCommGrpCat.{a})
-    haveI := hasBinaryBiproducts_of_finite_biproducts (Sheaf K AddCommGrpCat.{a})
+    have := Abelian.hasFiniteBiproducts (C := Sheaf K AddCommGrpCat.{a})
+    have := hasBinaryBiproducts_of_finite_biproducts (Sheaf K AddCommGrpCat.{a})
     exact hasBinaryProducts_of_hasBinaryBiproducts
   have : PreservesLimitsOfShape (Discrete WalkingPair) E.symm.functor :=
     have := E.toAdjunction.rightAdjoint_preservesLimits.{0, 0}; inferInstance
@@ -113,8 +113,8 @@ public theorem subsingleton_H_of_isDenseSubsite'
     Subsingleton (Sheaf.H.{w'} F q) := by
   let E := Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{a}
   have : HasBinaryProducts (Sheaf J AddCommGrpCat.{a}) := by
-    haveI := Abelian.hasFiniteBiproducts (C := Sheaf J AddCommGrpCat.{a})
-    haveI := hasBinaryBiproducts_of_finite_biproducts (Sheaf J AddCommGrpCat.{a})
+    have := Abelian.hasFiniteBiproducts (C := Sheaf J AddCommGrpCat.{a})
+    have := hasBinaryBiproducts_of_finite_biproducts (Sheaf J AddCommGrpCat.{a})
     exact hasBinaryProducts_of_hasBinaryBiproducts
   have : PreservesLimitsOfShape (Discrete WalkingPair) E.functor :=
     have := E.symm.toAdjunction.rightAdjoint_preservesLimits.{0, 0}; inferInstance

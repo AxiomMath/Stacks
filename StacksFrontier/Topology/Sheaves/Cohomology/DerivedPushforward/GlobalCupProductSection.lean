@@ -6,7 +6,8 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.Glob
 /-!
 # Section 0FKU in full: both displays of the global cup product
 
-`StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.GlobalCupProduct` constructs the global
+`StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.GlobalCupProduct`
+constructs the global
 cup product `μ : RΓ(S, K) ⊗^𝐋_A RΓ(S, M) ⟶ RΓ(S, K ⊗^𝐋_{𝒪_S} M)` from a one-point comparison and
 the pairings it induces on cohomology. This file conjoins the two displays of Section 20.31 with
 the source's definitions of them, as one statement.

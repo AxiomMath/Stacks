@@ -127,7 +127,7 @@ private theorem twoSquare_vcomp_of_iso
       ((TwoSquare.mk Tl Ll Rl Tu Sl.hom ≫ᵥ
         TwoSquare.mk Tu Lu Ru Bu Su.hom).whiskerLeft cL.hom).whiskerRight cR.inv := by
   subst h
-  refine TwoSquare.ext _ _ fun Xa => ?_
+  refine NatTrans.ext (funext fun Xa => ?_)
   simp [TwoSquare.vComp, TwoSquare.whiskerLeft, TwoSquare.whiskerRight]
 
 variable {T : A ⥤ B} {Lb : A ⥤ C} {R : B ⥤ D} {Bm : C ⥤ D} {T' : B ⥤ E} {R' : E ⥤ F}
@@ -139,10 +139,10 @@ and at the left. In the bodies of `CategoryTheory.TwoSquare.hComp` and
 `CategoryTheory.TwoSquare.vComp` the two composites are the same chain of associators and
 whiskerings read in opposite order, so the identity is componentwise immediate. First half. -/
 private theorem hComp_whiskered_hom_inv_id (w : TwoSquare T Lb R Bm) (w' : TwoSquare T' R R' B')
-    (dL : To ≅ T ⋙ T') (dR : Bm ⋙ B' ≅ Bo) [IsIso w.natTrans] [IsIso w'.natTrans] :
-    (((w ≫ₕ w').whiskerTop dL.hom).whiskerBottom dR.hom).natTrans ≫
-        ((TwoSquare.mk Lb T Bm R (inv w.natTrans) ≫ᵥ
-          TwoSquare.mk R T' B' R' (inv w'.natTrans)).whiskerRight dR.inv).whiskerLeft
+    (dL : To ≅ T ⋙ T') (dR : Bm ⋙ B' ≅ Bo) [IsIso w] [IsIso w'] :
+    (((w ≫ₕ w').whiskerTop dL.hom).whiskerBottom dR.hom) ≫
+        ((TwoSquare.mk Lb T Bm R (inv w) ≫ᵥ
+          TwoSquare.mk R T' B' R' (inv w')).whiskerRight dR.inv).whiskerLeft
             dL.inv = 𝟙 _ := by
   refine NatTrans.ext (funext fun Xa => ?_)
   simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.whiskerLeft,
@@ -150,10 +150,10 @@ private theorem hComp_whiskered_hom_inv_id (w : TwoSquare T Lb R Bm) (w' : TwoSq
 
 /-- The second half of `Stacks.Duality.hComp_whiskered_hom_inv_id`. -/
 private theorem hComp_whiskered_inv_hom_id (w : TwoSquare T Lb R Bm) (w' : TwoSquare T' R R' B')
-    (dL : To ≅ T ⋙ T') (dR : Bm ⋙ B' ≅ Bo) [IsIso w.natTrans] [IsIso w'.natTrans] :
-    ((TwoSquare.mk Lb T Bm R (inv w.natTrans) ≫ᵥ
-          TwoSquare.mk R T' B' R' (inv w'.natTrans)).whiskerRight dR.inv).whiskerLeft
-            dL.inv ≫ (((w ≫ₕ w').whiskerTop dL.hom).whiskerBottom dR.hom).natTrans = 𝟙 _ := by
+    (dL : To ≅ T ⋙ T') (dR : Bm ⋙ B' ≅ Bo) [IsIso w] [IsIso w'] :
+    ((TwoSquare.mk Lb T Bm R (inv w) ≫ᵥ
+          TwoSquare.mk R T' B' R' (inv w')).whiskerRight dR.inv).whiskerLeft
+            dL.inv ≫ (((w ≫ₕ w').whiskerTop dL.hom).whiskerBottom dR.hom) = 𝟙 _ := by
   refine NatTrans.ext (funext fun Xa => ?_)
   simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.whiskerLeft,
     TwoSquare.whiskerRight, TwoSquare.hComp, TwoSquare.vComp]

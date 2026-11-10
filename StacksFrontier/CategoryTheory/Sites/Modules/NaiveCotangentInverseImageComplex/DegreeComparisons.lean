@@ -367,7 +367,7 @@ theorem naiveCotangentComplex_d_zero_eq_zero (k : ℤ) :
   have : HasZeroObject
       (_root_.SheafOfModules.{max ww uu vv zz} (Stacks.SheafOfModules.Tensor.ringSheaf B)) :=
     hasZeroObject_of_hasTerminal_object
-  show (HomologicalComplex.double
+  change (HomologicalComplex.double
     (canonicalConormalSequence.{vv, uu, ww, zz} J A B a).f
     (show (ComplexShape.up ℤ).Rel (-1) 0 from by decide)).d 0 k = 0
   exact HomologicalComplex.double_d_eq_zero₀ _ _ 0 k (by decide)

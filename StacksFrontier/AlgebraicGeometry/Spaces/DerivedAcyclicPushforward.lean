@@ -286,7 +286,7 @@ theorem isIso_to_rightDerived_of_termwise_acyclic
       (Φ.map ((F.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).map v) ≫
         Φ.map (α.app ((HomotopyCategory.quotient _ _).obj K))) := by
     rw [← Functor.map_comp, α.naturality v, Functor.map_comp]
-    show IsIso (Φ.map (α.app ((HomotopyCategory.quotient _ _).obj
+    change IsIso (Φ.map (α.app ((HomotopyCategory.quotient _ _).obj
       (K.stupidTrunc (ComplexShape.embeddingUpIntGE a)))) ≫
       Φ.map (Rf.map (DerivedCategory.Qh.map v)))
     infer_instance

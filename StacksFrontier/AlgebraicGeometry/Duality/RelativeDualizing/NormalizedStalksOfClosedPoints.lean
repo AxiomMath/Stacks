@@ -267,7 +267,7 @@ theorem isMaximal_primeIdealOf_of_isClosed {X : Scheme.{u}} {U : X.Opens} (hU : 
   rw [← PrimeSpectrum.isClosed_singleton_iff_isMaximal]
   have heq : (hU.fromSpec : Spec Γ(X, U) → X) ⁻¹' {x} = {hU.primeIdealOf ⟨x, hx⟩} := by
     ext q
-    show hU.fromSpec q = x ↔ q = hU.primeIdealOf ⟨x, hx⟩
+    change hU.fromSpec q = x ↔ q = hU.primeIdealOf ⟨x, hx⟩
     refine ⟨fun h => hU.fromSpec.isOpenEmbedding.injective
       (by rw [h, hU.fromSpec_primeIdealOf]), ?_⟩
     rintro rfl
@@ -390,7 +390,7 @@ theorem exists_nontrivial_stalk_homology_iff_depth_le {X : Scheme.{u}} [IsNoethe
     have hm : (-j).toNat ∈ {i : ℕ | Nontrivial
         ((DerivedCategory.homologyFunctor (ModuleCat.{u} (X.presheaf.stalk x)) (-(i : ℤ))).obj
           L)} := by
-      show Nontrivial (standardHomology L _)
+      change Nontrivial (standardHomology L _)
       rw [Int.toNat_of_nonneg (by omega), neg_neg]
       exact (hnt j).mp hj
     have := hleast.2 hm

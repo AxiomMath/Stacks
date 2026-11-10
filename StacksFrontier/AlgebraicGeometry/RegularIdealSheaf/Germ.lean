@@ -280,7 +280,7 @@ theorem isWeaklyRegular_germFamily_of_isRegularSequenceOn (X : RingedSpace.{u}) 
   refine (AddEquiv.isWeaklyRegular_congr (e := e.toAddEquiv) ?_).mp hY
   rw [hmap, List.forall₂_map_right_iff]
   refine List.forall₂_same.mpr fun a _ x => ?_
-  show e.toAddEquiv (a * x) = e a * e.toAddEquiv x
+  change e.toAddEquiv (a * x) = e a * e.toAddEquiv x
   exact map_mul e a x
 
 end Germs

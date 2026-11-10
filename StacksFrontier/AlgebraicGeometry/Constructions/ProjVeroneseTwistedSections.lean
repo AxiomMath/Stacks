@@ -170,7 +170,7 @@ public theorem bijective_modulesPullbackUnit {X Y : Scheme.{u}} (g : X ⟶ Y) [I
   · have h : Scheme.Modules.Hom.app (η ≫ inv η) W s = Scheme.Modules.Hom.app (η ≫ inv η) W t :=
       congrArg (Scheme.Modules.Hom.app (inv η) W) hst
     rwa [IsIso.hom_inv_id] at h
-  · show Scheme.Modules.Hom.app (inv η ≫ η) W s = s
+  · change Scheme.Modules.Hom.app (inv η ≫ η) W s = s
     rw [IsIso.inv_hom_id]
     rfl
 

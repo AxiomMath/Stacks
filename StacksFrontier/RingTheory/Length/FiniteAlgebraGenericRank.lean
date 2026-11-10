@@ -103,7 +103,7 @@ theorem finsum_minimal_support_eq_finsum_minimalPrimes [IsReduced A] {M : Type*}
     q.asIdeal ∈ minimalPrimes A})]
   refine finsum_mem_congr ?_ (fun _ _ => rfl)
   ext q
-  simp only [Set.mem_inter_iff, Set.mem_setOf_eq, Function.mem_support]
+  simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, Function.mem_support]
   refine ⟨fun h => ⟨mem_minimalPrimes_of_minimal_mem_support hreg h.1, h.2⟩, fun h => ⟨?_, h.2⟩⟩
   refine minimal_mem_support_of_mem_minimalPrimes h.1 ?_
   by_contra hn
@@ -294,10 +294,10 @@ theorem map_mem_minimalPrimes_of_isLocalization (M : Submonoid R) (S : Type*) [C
   have hJp : J.IsPrime := hJ.1
   have hc : J.comap (algebraMap R S) ≤ P := by
     have := Ideal.comap_mono (f := algebraMap R S) hle
-    exact this.trans (le_of_eq (IsLocalization.comap_map_of_isPrime_disjoint M S hPp hdisj))
+    exact this.trans (le_of_eq (IsLocalization.under_map_of_isPrime_disjoint M S hPp hdisj))
   have heq : J.comap (algebraMap R S) = P :=
     le_antisymm hc (hP.2 ⟨Ideal.comap_isPrime _ _, bot_le⟩ hc)
-  rw [← heq, IsLocalization.map_comap M S J]
+  rw [← heq, IsLocalization.map_under M S J]
 
 /-- The contraction of a minimal prime of a localization is a minimal prime. -/
 theorem comap_mem_minimalPrimes_of_isLocalization (T : Submonoid R)
@@ -315,7 +315,7 @@ theorem comap_mem_minimalPrimes_of_isLocalization (T : Submonoid R)
   have hmap_le : J.map (algebraMap R S) ≤ Q' := Ideal.map_le_iff_le_comap.mpr hJle
   have := hQ'.2 ⟨hmapP, bot_le⟩ hmap_le
   have h2 := Ideal.comap_mono (f := algebraMap R S) this
-  exact h2.trans (le_of_eq (IsLocalization.comap_map_of_isPrime_disjoint T S hJp hdisj))
+  exact h2.trans (le_of_eq (IsLocalization.under_map_of_isPrime_disjoint T S hJp hdisj))
 
 end MinimalPrimes
 
@@ -517,9 +517,9 @@ theorem finsum_primeResidueDegree_mul_ord_eq_mul_ord [IsReduced B]
     have hJne : P.map (algebraMap A (Localization.AtPrime p)) ≠
         IsLocalRing.maximalIdeal (Localization.AtPrime p) := by
       intro h
-      have h1 := IsLocalization.comap_map_of_isPrime_disjoint p.primeCompl
+      have h1 := IsLocalization.under_map_of_isPrime_disjoint p.primeCompl
         (Localization.AtPrime p) hPp hdisj
-      rw [h, IsLocalization.AtPrime.comap_maximalIdeal (Localization.AtPrime p) p] at h1
+      rw [h, IsLocalization.AtPrime.under_maximalIdeal (Localization.AtPrime p) p] at h1
       exact hne h1.symm
     have hJmin := mem_minimalPrimes_of_ne_maximalIdeal hJne
     exact Set.disjoint_left.mp (Ideal.disjoint_nonZeroDivisors_of_mem_minimalPrimes hJmin)

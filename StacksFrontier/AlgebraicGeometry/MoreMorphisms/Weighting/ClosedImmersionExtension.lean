@@ -88,7 +88,7 @@ private lemma finSepDegree_residueFieldMap_comp_of_isIso
       e (algebraMap (V.residueField (π (i z))) (U.residueField (i z)) a) =
         algebraMap (V.residueField (π (i z))) (Z.residueField z) a := by
     intro a
-    show (i.residueFieldMap z).hom ((π.residueFieldMap (i z)).hom a) =
+    change (i.residueFieldMap z).hom ((π.residueFieldMap (i z)).hom a) =
       ((i ≫ π).residueFieldMap z).hom a
     rw [Scheme.residueFieldMap_comp]
     rfl
@@ -168,7 +168,7 @@ private lemma separableDegreeWeightedFiberSum_eq_of_extendByZero
   classical
   have hweight : wZ ∘ pullback.snd h j = (w ∘ h) ∘ pullback.fst h j := by
     funext x
-    show wZ (pullback.snd h j x) = w (h (pullback.fst h j x))
+    change wZ (pullback.snd h j x) = w (h (pullback.fst h j x))
     have hx : h (pullback.fst h j x) = j (pullback.snd h j x) := by
       simpa only [Scheme.Hom.comp_apply] using
         congrArg (fun q : (pullback h j : Scheme) ⟶ X => q x)

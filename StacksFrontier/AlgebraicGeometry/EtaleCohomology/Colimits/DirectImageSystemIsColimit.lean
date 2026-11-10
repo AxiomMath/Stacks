@@ -40,9 +40,10 @@ whose four site inputs are the bundle
 arbitrary coefficient category. The three crossings that carry it to Mathlib's small étale sites —
 the size cutoff of [Stacks, Tag 021B] at the limit, the identification of the levels with base
 changes along the projections, and the size cutoff at the levels — are the ones the abelian
-development carries out in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleLimitColimitMainstreamSite.lean`,
-`SmallEtaleLimitLevelBaseChangeColimit.lean`, `SmallEtaleLimitLevelCrossingAbelian.lean` and
+development carries out in the files of
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/`
+`SmallEtaleLimitColimitMainstreamSite.lean`, `SmallEtaleLimitLevelBaseChangeColimit.lean`,
+`SmallEtaleLimitLevelCrossingAbelian.lean` and
 `SmallEtaleLimitLevelTransitionCoherence.lean`; here they are done at sheaves of sets, the only
 coefficient-specific inputs being the full faithfulness of restriction along the crossings, which
 for sets is `Stacks.EtaleCohomology.AffineLimitCohomology.full_limitRestriction`,
@@ -106,7 +107,7 @@ end Stacks.EtaleCohomology
 
 namespace Stacks.EtaleCohomology.AffineLimitCohomology
 
-open AlgebraicGeometry CategoryTheory.Sites.InverseSystem
+open _root_.Stacks.AlgebraicGeometry CategoryTheory.Sites.InverseSystem
 open Stacks.EtaleCohomology.QcSeparatedColimit (levelIndex levelToSmallEtale)
 
 variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
@@ -348,7 +349,7 @@ end Stacks.EtaleCohomology.AffineLimitCohomology
 
 namespace Stacks.EtaleCohomology
 
-open AlgebraicGeometry
+open _root_.Stacks.AlgebraicGeometry
 
 variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
   (D : Iᵒᵖ ⥤ AlgebraicGeometry.Scheme.{max u v})

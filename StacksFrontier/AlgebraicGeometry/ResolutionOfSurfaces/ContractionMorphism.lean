@@ -132,7 +132,7 @@ theorem twistFamily_last : twistFamily D A m t s₀ (Fin.last _) = s₀ := by
 theorem nvCover_twistFamily_castSucc (j : Fin (N + 1)) :
     (nvCover (twistFamily D A m t s₀) j.castSucc : Set X) =
       (nvCover t j : Set X) ∩ (D.support : Set X)ᶜ := by
-  show Stacks.Ample.nonvanishingLocus _ _ = Stacks.Ample.nonvanishingLocus _ _ ∩ _
+  change Stacks.Ample.nonvanishingLocus _ _ = Stacks.Ample.nonvanishingLocus _ _ ∩ _
   rw [twistFamily_castSucc]
   exact Stacks.Surfaces.nonvanishingLocus_divisorTwistMap D A (t j) (m + 1) (by omega)
 
@@ -143,12 +143,12 @@ theorem generatesStalks_twistFamily (ht : GeneratesStalks t)
   refine Stacks.AmpleImmersionReduction.generatesStalks_of_forall_exists_mem _ fun x => ?_
   by_cases hx : x ∈ D.support
   · refine ⟨Fin.last _, ?_⟩
-    show x ∈ nvOpen _ (twistFamily D A m t s₀ (Fin.last _))
+    change x ∈ nvOpen _ (twistFamily D A m t s₀ (Fin.last _))
     rw [twistFamily_last]
     exact hs₀ x hx
   · obtain ⟨j, hj⟩ := exists_mem_nvCover_of_generatesStalks t ht x
     refine ⟨j.castSucc, ?_⟩
-    show x ∈ (nvCover (twistFamily D A m t s₀) j.castSucc : Set X)
+    change x ∈ (nvCover (twistFamily D A m t s₀) j.castSucc : Set X)
     rw [nvCover_twistFamily_castSucc]
     exact ⟨hj, hx⟩
 
@@ -223,7 +223,7 @@ include hs in
 theorem mem_nvCover_castSucc (j : Fin (N + 1)) {x : X}
     (hx : x ∈ nvCover (transportedCoords gψ βψ) j) (hxE : x ∉ D.support) :
     x ∈ nvCover (transportedCoords g β) j.castSucc := by
-  show x ∈ Stacks.Ample.nonvanishingLocus _ _
+  change x ∈ Stacks.Ample.nonvanishingLocus _ _
   rw [hs j, Stacks.Surfaces.nonvanishingLocus_divisorTwistMap D A _ (m + 1) (by omega)]
   exact ⟨hx, hxE⟩
 
@@ -298,7 +298,7 @@ theorem comp_chartProjection (j : Fin (N + 1))
   rw [h0, h1, appLE_congr_hom (hh'.trans (pin_transportedCoords g β j.castSucc)) _ _ _ e₂,
     appLE_top_coordFrac (chartRatio (transportedCoords g β) j.castSucc) _ _ _
       (chartRatio_self (transportedCoords g β) j.castSucc) e₂]
-  show (nvCover (transportedCoords g β) j.castSucc).topIso.inv
+  change (nvCover (transportedCoords g β) j.castSucc).topIso.inv
       (ratio (transportedCoords g β) j.castSucc k.castSucc) =
     (X.homOfLE hle).appTop ((nvCover (transportedCoords gψ βψ) j).topIso.inv
       (ratio (transportedCoords gψ βψ) j k))
@@ -362,7 +362,7 @@ private theorem exists_lift_liftOver_preimage {Z : Scheme.{u}} (u : Z ⟶ X)
         V).ι.base := by
     rintro _ ⟨z, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show (pullback.snd (terminal.from (Spec (.of R)))
+    change (pullback.snd (terminal.from (Spec (.of R)))
       (terminal.from (projectiveSpaceAtUniverse.{u} n))).base ((liftOver f g).base (u.base z)) ∈ V
     rw [← Scheme.Hom.comp_apply, liftOver_snd]
     exact hV z
@@ -720,7 +720,7 @@ theorem exists_contraction_of_immersion (hE : D.IsExceptionalCurveOfFirstKind k 
   -- `φ` and the hypotheses of Tag 0C2L
   have := isProper_liftOver f g
   obtain ⟨y, hy⟩ := exists_forall_liftOver_eq f D k e g β (Fin.last _) fun z => by
-    show D.subschemeι.base z ∈ nvOpen _ (transportedCoords g β (Fin.last _))
+    change D.subschemeι.base z ∈ nvOpen _ (transportedCoords g β (Fin.last _))
     rw [hsβ, twistFamily_last]
     exact hs₀ z
   have hqf : ∀ x ∉ (D.support : Set X), quasiFiniteAt (liftOver f g) x := fun x hx =>

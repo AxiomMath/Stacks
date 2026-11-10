@@ -138,7 +138,7 @@ theorem eq_zero_of_homologyFunctor_map_eq_zero (n : ℤ) (K : DerivedCategory A)
   have : ((DerivedCategory.singleFunctor A 0).obj X).IsLE 0 := inferInstance
   have h2 : w ≫ T.mor₂ = 0 := by
     apply (DerivedCategory.bijective_homologyFunctor_map_of_isLE_of_isGE _ T.obj₃ 0).1
-    show (DerivedCategory.homologyFunctor A 0).map (w ≫ T.mor₂) =
+    change (DerivedCategory.homologyFunctor A 0).map (w ≫ T.mor₂) =
       (DerivedCategory.homologyFunctor A 0).map 0
     have hc : (DerivedCategory.homologyFunctor A 0).map (w ≫ T.mor₂) =
         (DerivedCategory.homologyFunctor A 0).map w ≫

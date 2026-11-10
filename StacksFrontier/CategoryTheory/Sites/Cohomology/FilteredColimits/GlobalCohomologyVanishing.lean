@@ -145,11 +145,11 @@ public lemma exists_mem_coveringSet_ext_restriction_eq_zero (S : Set (Sheaf J (T
   have hm : m ≫ f = L.map (terminal.from K) := by
     apply (adj.homEquiv K (L.obj T)).injective
     rw [adj.homEquiv_naturality_right]
-    show adj.homEquiv K P ((adj.homEquiv K P).symm v) ≫ U.map f = _
+    change adj.homEquiv K P ((adj.homEquiv K P).symm v) ≫ U.map f = _
     rw [Equiv.apply_symm_apply, hv, adj.homEquiv_unit]
     exact adj.unit.naturality (terminal.from K)
   refine ⟨K, hK, hg, ?_⟩
-  show (Abelian.Ext.mk₀ (L.map (terminal.from K))).comp e' (zero_add _) = 0
+  change (Abelian.Ext.mk₀ (L.map (terminal.from K))).comp e' (zero_add _) = 0
   rw [← hm]
   exact ext_comp_eq_zero_of_comp m f e' he
 
@@ -251,7 +251,7 @@ private lemma isZero_rightDerived_globalSections_of_ext_eq_zero (M : Sheaf J Ab.
       ((constantSheaf J Ab.{u}).obj (AddCommGrpCat.of (ULift.{u} ℤ))) M (n + 1)) : e = 0 :=
     ext_eq_zero_of_iso_first (freeAbelianSheafTerminalIsoConstantSheaf J).symm (n + 1) h e
   have hExt : IsZero ((Sheaf.functorH J (n + 1)).obj M) := by
-    show IsZero (AddCommGrpCat.of (Abelian.Ext.{u}
+    change IsZero (AddCommGrpCat.of (Abelian.Ext.{u}
       ((constantSheaf J Ab.{u}).obj (AddCommGrpCat.of (ULift.{u} ℤ))) M (n + 1)))
     have : Subsingleton (Abelian.Ext.{u}
         ((constantSheaf J Ab.{u}).obj (AddCommGrpCat.of (ULift.{u} ℤ))) M (n + 1)) :=
@@ -424,7 +424,7 @@ public lemma isZero_rightDerived_globalSections_colimit_of_vanishesOnObjects
     (fun K hK r q hq j => ?_) (fun j => ?_) hlocal
   · obtain ⟨U, ⟨hU⟩⟩ := hpow K hK r
     have hsub := hG j U _ hU q hq
-    show IsZero (AddCommGrpCat.of (Abelian.Ext.{u}
+    change IsZero (AddCommGrpCat.of (Abelian.Ext.{u}
       ((Presheaf.freeAbelianSheaf J).obj (CoveringSet.sheafPower J K r).obj) (G.obj j) q))
     exact AddCommGrpCat.isZero_of_subsingleton _
   · obtain ⟨U, ⟨hU⟩⟩ := hterm

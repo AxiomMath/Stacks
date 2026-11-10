@@ -331,9 +331,9 @@ public lemma exists_stalk_smul_repr (hflat : IsFlatOver f.toLRSHom.toShHom F)
   have : IsScalarTower Γ(S, V) R N := by
     refine ⟨fun c b n => ?_⟩
     rw [hsmul]
-    show (f.stalkMap y).hom (_ * b) • n = _
+    change (f.stalkMap y).hom (_ * b) • n = _
     rw [map_mul]
-    show _ = stalkPullback f V y hy c • ((f.stalkMap y) b • n)
+    change _ = stalkPullback f V y hy c • ((f.stalkMap y) b • n)
     rw [← mul_smul]
     congr 2
     simp [← Scheme.Hom.germ_stalkMap_apply, stalkPullback]
@@ -379,7 +379,7 @@ public lemma exists_nbhd_germ_eq_zero_aux (hflat : IsFlatOver f.toLRSHom.toShHom
         map_zero (S.presheaf.germ V s hs).hom]
     have hzero : S.presheaf.germ V s hs (c j) = 0 := by
       apply hr
-      show S.presheaf.germ V s hs r • S.presheaf.germ V s hs (c j) =
+      change S.presheaf.germ V s hs r • S.presheaf.germ V s hs (c j) =
         S.presheaf.germ V s hs r • (0 : S.presheaf.stalk s)
       rw [smul_eq_mul, smul_eq_mul, mul_zero, hmul]
     obtain ⟨V', hsV', i₁, i₂, he⟩ := TopCat.Presheaf.germ_eq S.presheaf s hs hs (c j) 0

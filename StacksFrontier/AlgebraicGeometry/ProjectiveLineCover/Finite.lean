@@ -11,7 +11,8 @@ public import StacksFrontier.AlgebraicGeometry.ProjectiveLineCover.Glue
 The morphism `ℙ¹ × ℙⁿ ⟶ ℙⁿ⁺¹` of `Stacks.ProjectiveLineCover.multiplication` is proper, its
 source being proper over the integers and its target separated, and it is locally quasi-finite:
 on each piece of `ℙ¹ × ℙⁿ` it is `Proj` of a graded substitution whose maps of degree-zero
-localizations are quasi-finite by `StacksFrontier.AlgebraicGeometry.ProjectiveLineCover.ChartAlgebra`.
+localizations are quasi-finite by
+`StacksFrontier.AlgebraicGeometry.ProjectiveLineCover.ChartAlgebra`.
 A proper locally quasi-finite morphism is finite (Mathlib's
 `AlgebraicGeometry.IsFinite.of_isProper_of_locallyQuasiFinite`).
 
@@ -122,8 +123,8 @@ theorem locallyQuasiFinite_multiplication : LocallyQuasiFinite (multiplication.{
     intro i
     rw [pieceι_multiplication]
     fin_cases i
-    · show LocallyQuasiFinite (_ ≫ _ ≫ mulMapX.{u} n coordT); infer_instance
-    · show LocallyQuasiFinite (_ ≫ _ ≫ mulMapY.{u} n coordS); infer_instance
+    · change LocallyQuasiFinite (_ ≫ _ ≫ mulMapX.{u} n coordT); infer_instance
+    · change LocallyQuasiFinite (_ ≫ _ ≫ mulMapY.{u} n coordS); infer_instance
   exact key i
 
 /-- `ℙ¹ × ℙⁿ` is proper over `Spec ℤ`. -/

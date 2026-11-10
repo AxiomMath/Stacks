@@ -164,7 +164,7 @@ theorem awayMk_degreeOne_mul {f : S} (hf : f ∈ 𝒮 1) {l : S} (hl : l ∈ �
   rw [HomogeneousLocalization.val_mul, Away.val_mk, Away.val_mk, Away.val_mk,
     Localization.mk_mul, Localization.mk_eq_mk_iff]
   refine Localization.r_of_eq ?_
-  show f ^ n * (l * c) = f ^ 1 * f ^ (k + n) * a
+  change f ^ n * (l * c) = f ^ 1 * f ^ (k + n) * a
   rw [h]
   ring
 
@@ -359,13 +359,13 @@ theorem rangeIdeal_toSpanSingleton {V : Type u} [AddCommGroup V] [Module k V] (w
   refine le_antisymm (Ideal.span_le.mpr ?_) (Ideal.span_le.mpr ?_)
   · rintro _ ⟨a, rfl⟩
     rw [SetLike.mem_coe]
-    show SymmetricAlgebra.ι k V (LinearMap.toSpanSingleton k V w a)
+    change SymmetricAlgebra.ι k V (LinearMap.toSpanSingleton k V w a)
       ∈ Ideal.span {SymmetricAlgebra.ι k V w}
     rw [LinearMap.toSpanSingleton_apply, map_smul, Algebra.smul_def]
     exact Ideal.mul_mem_left _ _ (Ideal.mem_span_singleton_self _)
   · rintro _ rfl
     exact Ideal.subset_span ⟨1, by
-      show SymmetricAlgebra.ι k V (LinearMap.toSpanSingleton k V w 1)
+      change SymmetricAlgebra.ι k V (LinearMap.toSpanSingleton k V w 1)
         = SymmetricAlgebra.ι k V w
       rw [LinearMap.toSpanSingleton_apply, one_smul]⟩
 
@@ -403,7 +403,7 @@ theorem exists_gradedHom_ker_span_degreeOne
   obtain ⟨w, hw⟩ : ∃ w : V, SymmetricAlgebra.ι k V w = I (l : MvPolynomial (Fin (m + 2)) k) := by
     have hmem := I.map_mem l.2
     rwa [show SymPow.symmetricPower 1 k V = LinearMap.range (SymmetricAlgebra.ι k V) by
-      show LinearMap.range (SymmetricAlgebra.ι k V) ^ 1 = _
+      change LinearMap.range (SymmetricAlgebra.ι k V) ^ 1 = _
       rw [pow_one]] at hmem
   have hw0 : w ≠ 0 := fun h0 => hl (hIinj (by rw [← hw, h0, map_zero, map_zero]))
   let W : Submodule k V := k ∙ w
@@ -440,10 +440,10 @@ theorem exists_gradedHom_ker_span_degreeOne
     rw [rangeIdeal_toSpanSingleton (k := k) w] at hz
     obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.mp hz
     have hzero : Ψ (SymmetricAlgebra.ι k V w) = 0 := by
-      show SymPow.symAlgMap π (SymmetricAlgebra.ι k V w) = 0
+      change SymPow.symAlgMap π (SymmetricAlgebra.ι k V w) = 0
       rw [SymPow.symAlgMap_ι]
       have hπw : π w = 0 := by
-        show W.mkQ w = 0
+        change W.mkQ w = 0
         rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
         exact Submodule.mem_span_singleton_self w
       rw [hπw, map_zero]
@@ -457,12 +457,12 @@ theorem exists_gradedHom_ker_span_degreeOne
       obtain ⟨c', hc'⟩ := hIsurj c
       exact Ideal.mem_span_singleton'.mpr ⟨c', hIinj (by rwa [map_mul, hc', ← hw])⟩
     · obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.mp hx
-      show H (Ψ (I x)) = 0
+      change H (Ψ (I x)) = 0
       rw [← hc, map_mul, map_mul, ← hw,
         (hkerΨ (SymmetricAlgebra.ι k V w)).2 (Ideal.mem_span_singleton_self _), mul_zero,
         map_zero]
   · refine RingHom.ext fun r => Subtype.ext ?_
-    show SymmetricAlgebra.equivMvPolynomial b' (SymPow.symAlgMap π
+    change SymmetricAlgebra.equivMvPolynomial b' (SymPow.symAlgMap π
       ((SymmetricAlgebra.equivMvPolynomial b).symm (algebraMap k _ r))) = algebraMap k _ r
     rw [AlgEquiv.commutes, AlgHom.commutes, AlgEquiv.commutes]
 

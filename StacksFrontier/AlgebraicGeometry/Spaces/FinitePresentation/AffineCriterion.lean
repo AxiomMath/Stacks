@@ -422,7 +422,7 @@ private theorem relativelyLimitPreserving_iff_affineLimit_isPullback_ordinary
       rfl
     have hdF (i : Iᵒᵖ) (x : F.obj (Opposite.op (D.obj i.unop))) :
         dF (colimit.ι Q i x) = F.map (c.π.app i.unop).op x := by simp [dF, cF, Q]
-    show IsPullback dF (colimMap h) (a.app (Opposite.op c.pt)) dG
+    change IsPullback dF (colimMap h) (a.app (Opposite.op c.pt)) dG
     apply (Types.isPullback_iff dF (a.app (Opposite.op c.pt))
       (colimMap h) dG).2
     refine ⟨hComm, ?_, ?_⟩
@@ -481,7 +481,7 @@ private theorem relativelyLimitPreserving_iff_affineLimit_isPullback_ordinary
       have hPapex : cP.ι.app (Opposite.op t₀) p₁ =
           cP.ι.app (Opposite.op t₀) p₂ := by
         apply Subtype.ext
-        show F.map (c.π.app k₀).op x₁ = F.map (c.π.app k₀).op x₂
+        change F.map (c.π.app k₀).op x₁ = F.map (c.π.app k₀).op x₂
         exact hFapex
       let : HasColimit P := HasColimit.mk ⟨cP, hP⟩
       let eP := (colimit.isColimit P).coconePointUniqueUpToIso hP
@@ -532,7 +532,7 @@ private theorem relativelyLimitPreserving_iff_affineLimit_isPullback_ordinary
       let cP := (sectionFiber B S hS a (D.obj i.unop) yi).mapCocone ct.op
       let pA : (sectionFiber B S hS a (D.obj i.unop) yi).obj
           (Opposite.op ct.pt) := ⟨x, by
-            show a.app (Opposite.op c.pt) x = G.map (c.π.app i.unop).op yi
+            change a.app (Opposite.op c.pt) x = G.map (c.π.app i.unop).op yi
             exact hTarget⟩
       obtain ⟨t, p, hp⟩ := Types.jointly_surjective_of_isColimit hP pA
       let t₀ := t.unop

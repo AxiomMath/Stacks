@@ -124,7 +124,7 @@ theorem existenceObstructionClass_of_iso
       comparison := P'.comparison
       comparison_left := P'.comparison_left
       comparison_right := by
-        show P'.comparison ≫ (structureRestrict i).map (P'.descent.g ≫ α.inv) =
+        change P'.comparison ≫ (structureRestrict i).map (P'.descent.g ≫ α.inv) =
           E'.g ≫ (structureRestrict i).map α.inv
         rw [Functor.map_comp, ← Category.assoc, P'.comparison_right] }
   rw [existenceObstructionClass_eq_obstruction hi F K _ P,

@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Duality.AffineVanishing.UpperBounds
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.ConstantNoetherianCompletion
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.ConstantNoetherianCompletion
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.ConstantQuotient
 public import StacksFrontier.AlgebraicGeometry.ProEtale.AdicCompletionCriterion
 public import StacksFrontier.AlgebraicGeometry.ProEtale.DerivedCompleteInverseLimit
@@ -167,14 +166,14 @@ theorem fg_constantIdealSheaf_obj_of_isWeaklyContractible
     exact Submodule.fg_span (Set.finite_range _)
   refine le_antisymm (fun x hx => ?_) ((Submodule.span_le).2 ?_)
   · obtain ⟨z, hz⟩ := hSU (ε.inv.val.app (op U) x) (by
-      show (constantReduction J Λ I).val.app (op U) x = 0
+      change (constantReduction J Λ I).val.app (op U) x = 0
       exact Stacks.SheafOfModules.val_app_apply_eq_zero _ _
         (constantIdealSheaf_ι_comp_constantReduction J Λ I) (op U) ⟨x, hx⟩)
     have hx' : (F.map (idealGeneratorsMap Λ g) ≫ ε.hom).val.app (op U) z = x := by
-      show ε.hom.val.app (op U) ((F.map (idealGeneratorsMap Λ g)).val.app (op U) z) = x
+      change ε.hom.val.app (op U) ((F.map (idealGeneratorsMap Λ g)).val.app (op U) z) = x
       change (F.map (idealGeneratorsMap Λ g)).val.app (op U) z = _ at hz
       rw [hz]
-      show (ε.inv ≫ ε.hom).val.app (op U) x = x
+      change (ε.inv ≫ ε.hom).val.app (op U) x = x
       rw [ε.inv_hom_id]
       rfl
     exact hx' ▸ idealGeneratorsMap_val_app_mem J Λ g (op U) z

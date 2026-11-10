@@ -264,7 +264,7 @@ public lemma moduleToFiber_smul (f : S) (x : ProjectiveSpectrum.basicOpen 𝒜 f
   obtain ⟨r, rfl⟩ := HomogeneousLocalization.mk_surjective r
   induction a using LocalizedModule.induction_on with
   | h m s =>
-    show moduleToFiber 𝒜 f x (Localization.mk _ _ • LocalizedModule.mk m s) =
+    change moduleToFiber 𝒜 f x (Localization.mk _ _ • LocalizedModule.mk m s) =
       Localization.mk _ _ • moduleToFiber 𝒜 f x (LocalizedModule.mk m s)
     simp only [LocalizedModule.mk_smul_mk, moduleToFiber_mk]
     rfl
@@ -279,7 +279,7 @@ public lemma degreeZeroToSection_mem (f : S)
   let F : LocalizedModule.Away (R := S) f M →ₗ[S]
       (∀ x : ProjectiveSpectrum.basicOpen 𝒜 f, ModuleFiber (M := M) 𝒜 x.1) :=
     LinearMap.pi (fun x => moduleToFiber 𝒜 f x)
-  show F a ∈ _
+  change F a ∈ _
   induction ha using Submodule.span_induction with
   | mem a ha =>
     obtain ⟨d, n, hf, m, hm, rfl⟩ := ha
@@ -365,7 +365,7 @@ public theorem moduleSections_locally_degreeZeroToSection
     by omega, SetLike.mul_mem_graded hs hg, hW,
     degreeZeroFraction 𝒜 𝒨 (SetLike.mul_mem_graded hs hg) 1 (g • m) hgm, ?_⟩
   rintro ⟨y, hyV, hyg⟩
-  show a.1 (iV ⟨y, hyV⟩) = _
+  change a.1 (iV ⟨y, hyV⟩) = _
   rw [degreeZeroToSection_fraction]
   refine (ha ⟨y, hyV⟩).trans
     ((LocalizedModule.mk_cancel_common_right
@@ -408,7 +408,7 @@ public lemma moduleToFiber_restriction (f g : S)
           (LocalizedModule.mkLinearMap x.1.asHomogeneousIdeal.toIdeal.primeCompl M)
           ⟨s.1, (Submonoid.powers_le.mpr (hfg x.2)) s.2⟩)
     ext m
-    show moduleToFiber 𝒜 g x (maps.localizedMap (LocalizedModule.mkLinearMap _ M m)) = _
+    change moduleToFiber 𝒜 g x (maps.localizedMap (LocalizedModule.mkLinearMap _ M m)) = _
     rw [maps.map_mk]
     simp only [LinearMap.comp_apply, LocalizedModule.mkLinearMap_apply, moduleToFiber_mk]
     rfl
@@ -540,7 +540,7 @@ public theorem degreeZeroToSection_restriction (f g : S)
         ((ProjectiveSpectrum.moduleRestrictionMaps 𝒜 𝒨 f g hf hg hfg).degreeZeroMap a) := by
   apply Subtype.ext
   funext x
-  show moduleToFiber 𝒜 f ⟨x.1, hfg x.2⟩ a.1 =
+  change moduleToFiber 𝒜 f ⟨x.1, hfg x.2⟩ a.1 =
     moduleToFiber 𝒜 g x
       ((ProjectiveSpectrum.moduleRestrictionMaps 𝒜 𝒨 f g hf hg hfg).degreeZeroMap a).1
   exact (moduleToFiber_degreeZeroMap 𝒜 𝒨 f g hf hg hfg x a).symm
@@ -680,9 +680,9 @@ private lemma degreeZeroLocalization_eq_zero_of_fibers {f : S} {d : ℕ}
     have hq : ∀ z : HomogeneousLocalization.NumDenSameDeg 𝒜 (Submonoid.powers f),
         HomogeneousLocalization.mk z ∈ Q ↔ z.num.1 ∈ pOf Q := by
       intro z
-      show HomogeneousLocalization.mk z ∈ (qOf Q).asIdeal ↔ _
+      change HomogeneousLocalization.mk z ∈ (qOf Q).asIdeal ↔ _
       have hpt : (ProjectiveSpectrum.Proj.toSpec 𝒜 f).base (xOf Q) = qOf Q := by
-        show (ConcreteCategory.hom e.hom) ((ConcreteCategory.hom e.inv) (qOf Q)) = qOf Q
+        change (ConcreteCategory.hom e.hom) ((ConcreteCategory.hom e.inv) (qOf Q)) = qOf Q
         exact congrArg (fun g => (ConcreteCategory.hom g) (qOf Q)) e.inv_hom_id
       rw [← hpt]
       exact ProjectiveSpectrum.Proj.mk_mem_toSpec_base_apply 𝒜 (xOf Q) z
@@ -696,7 +696,7 @@ private lemma degreeZeroLocalization_eq_zero_of_fibers {f : S} {d : ℕ}
     exact (Classical.choose_spec (hloc Q)).2
   have hφzero (Q : Ideal R) [Q.IsMaximal] : φ Q a' = 0 := by
     apply Subtype.ext
-    show (φ Q a' : LocalizedModule (pOf Q).primeCompl M) = 0
+    change (φ Q a' : LocalizedModule (pOf Q).primeCompl M) = 0
     rw [(Classical.choose_spec (hloc Q)).1 a']
     simpa [moduleToFiber] using ha (xOf Q)
   have hNzero : a' = 0 :=
@@ -742,7 +742,7 @@ public theorem degreeZeroToSection_surjective {f : S} {d : ℕ}
     ProjectiveSpectrum.exists_finite_basicOpen_refinement 𝒜 hf hd V hcover
   choose x hxsub using hsub
   let hgf (i : Fin n) : ProjectiveSpectrum.basicOpen 𝒜 (g i) ≤ U := by
-    show ProjectiveSpectrum.basicOpen 𝒜 (g i) ≤ ProjectiveSpectrum.basicOpen 𝒜 f
+    change ProjectiveSpectrum.basicOpen 𝒜 (g i) ≤ ProjectiveSpectrum.basicOpen 𝒜 f
     rw [hUeq]
     exact le_iSup (fun i => ProjectiveSpectrum.basicOpen 𝒜 (g i)) i
   let fi (i : Fin n) := f' (x i)
@@ -797,7 +797,7 @@ public theorem degreeZeroToSection_surjective {f : S} {d : ℕ}
       (GradedModuleDegreeZeroLocalization 𝒜 𝒨 (g i)) φ₀.toRingHom
     (baseMaps i).degreeZeroMap
   have hq (i : Fin n) : IsLocalizedModule.Away (u i) (q i) := by
-    show IsLocalizedModule
+    change IsLocalizedModule
       (Submonoid.powers (HomogeneousLocalization.Away.mk 𝒜 hf (e i)
         ((g i) ^ d) (by simpa [mul_comm] using SetLike.pow_mem_graded d (hge i).2)))
       (baseMaps i).degreeZeroMap
@@ -844,7 +844,7 @@ public theorem degreeZeroToSection_surjective {f : S} {d : ℕ}
   let uprod (i j : Fin n) :=
     HomogeneousLocalization.Away.isLocalizationElem hf (hpe i j)
   have hqp (i j : Fin n) : IsLocalizedModule.Away (uprod i j) (qp i j) := by
-    show IsLocalizedModule
+    change IsLocalizedModule
       (Submonoid.powers (HomogeneousLocalization.Away.mk 𝒜 hf (pe i j)
         ((p i j) ^ d) (by simpa [mul_comm] using SetLike.pow_mem_graded d (hpe i j))))
       (prodMaps i j).degreeZeroMap
@@ -864,7 +864,7 @@ public theorem degreeZeroToSection_surjective {f : S} {d : ℕ}
         (q k) = qp i j := by
     apply LinearMap.ext
     intro z
-    show (ProjectiveSpectrum.moduleRestrictionMaps 𝒜 𝒨 (g k) (p i j) (hG k) (hP i j) hk
+    change (ProjectiveSpectrum.moduleRestrictionMaps 𝒜 𝒨 (g k) (p i j) (hG k) (hP i j) hk
         |>.degreeZeroMap ((baseMaps k).degreeZeroMap z)) = (prodMaps i j).degreeZeroMap z
     apply Subtype.ext
     rw [(ProjectiveSpectrum.moduleRestrictionMaps 𝒜 𝒨 (g k) (p i j) (hG k) (hP i j) hk
@@ -882,7 +882,7 @@ public theorem degreeZeroToSection_surjective {f : S} {d : ℕ}
       (moduleToFiber_degreeZeroMap 𝒜 𝒨 (g i) (p i j) (hG i) (hP i j) (hpi i j) y (bi i)).trans
         ((hlocal i y.1 (hpi i j y.2)).trans (hlocal j y.1 (hpj i j y.2)).symm) |>.trans
         (moduleToFiber_degreeZeroMap 𝒜 𝒨 (g j) (p i j) (hG j) (hP i j) (hpj i j) y (bi j)).symm
-    show moduleToFiber (M := M) 𝒜 (p i j) y
+    change moduleToFiber (M := M) 𝒜 (p i j) y
       ((l i j (bi i)).1 - (rmap i j (bi j)).1) = 0
     rw [map_sub]
     exact sub_eq_zero.mpr heval

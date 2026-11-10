@@ -91,10 +91,10 @@ theorem range_pullbackSnd_subset :
       Set.range (shrinkOpens UY a UY' a' i t).ι.base := by
   rintro _ ⟨y, rfl⟩
   rw [Scheme.Opens.range_ι]
-  show ((pullback.snd (pieceMap f UX UY a ha i) t ≫ t ≫ (UY (a i)).ι).base y) ∈ UY' (a' i)
+  change ((pullback.snd (pieceMap f UX UY a ha i) t ≫ t ≫ (UY (a i)).ι).base y) ∈ UY' (a' i)
   rw [← pullback.condition_assoc, pieceMap_comp_ι]
   have hmem : (UX i).ι.base ((pullback.fst (pieceMap f UX UY a ha i) t).base y) ∈ UX i := by
-    show _ ∈ (UX i : Set X)
+    change _ ∈ (UX i : Set X)
     rw [← Scheme.Opens.range_ι (UX i)]
     exact ⟨_, rfl⟩
   exact ha' i hmem
@@ -140,17 +140,19 @@ variable (C : ChowSituation.{u}) (G : GysinSystem C) {X Y : Scheme.{u}}
 /-- The test morphism `T' ⟶ V'` is locally of finite type. -/
 instance locallyOfFiniteType_shrinkTest :
     LocallyOfFiniteType (shrinkTest UY a UY' a' i t) := by
-  haveI : LocallyOfFiniteType (shrinkTest UY a UY' a' i t ≫ (UY' (a' i)).ι) := by
+  have : LocallyOfFiniteType (shrinkTest UY a UY' a' i t ≫ (UY' (a' i)).ι) := by
     rw [shrinkTest_comp_ι]
     infer_instance
   exact locallyOfFiniteType_of_comp _ (UY' (a' i)).ι
 
+omit [LocallyOfFiniteType sY] [LocallyOfFiniteType t] in
 /-- The structure morphisms of `T'` to the base through `V'` and through `T` coincide. -/
 theorem shrinkTest_comp_structure :
     shrinkTest UY a UY' a' i t ≫ ((UY' (a' i)).ι ≫ sY) =
       (shrinkOpens UY a UY' a' i t).ι ≫ (t ≫ ((UY (a i)).ι ≫ sY)) := by
   rw [shrinkTest_comp_ι_assoc]
 
+omit [LocallyOfFiniteType sX] [LocallyOfFiniteType f] [LocallyOfFiniteType t] in
 /-- `Stacks.Chow.shrinkComparison` is compatible with the structure morphisms to the base through
 `X_i`. -/
 theorem shrinkComparison_comp_structure :
@@ -330,11 +332,13 @@ variable (C : ChowSituation.{u}) (G : GysinSystem C) {X Y : Scheme.{u}}
   (ha' : ∀ i, UX i ≤ f ⁻¹ᵁ UY' (a' i)) (i : I) (hle : UY' (a' i) ≤ UY (a i)) {T : Scheme.{u}}
   (s : T ⟶ (UY' (a' i) : Scheme.{u})) [LocallyOfFiniteType s]
 
+omit [LocallyOfFiniteType sY] [LocallyOfFiniteType s] in
 /-- The structure morphisms of `T` to the base through `V'` and through `V` coincide. -/
 theorem homOfLE_comp_structure :
     s ≫ ((UY' (a' i)).ι ≫ sY) = (s ≫ Y.homOfLE hle) ≫ ((UY (a i)).ι ≫ sY) := by
   rw [Category.assoc, Scheme.homOfLE_ι_assoc]
 
+omit [LocallyOfFiniteType sX] [LocallyOfFiniteType f] [LocallyOfFiniteType s] in
 /-- `Stacks.Chow.growComparison` is compatible with the structure morphisms to the base through
 `X_i`. -/
 theorem growComparison_comp_structure :

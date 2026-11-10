@@ -2,8 +2,7 @@ module
 
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.FourierDeligne.LaumonFourierLevelIsogenyCore
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.FourierDeligne.EtaleModuleRestrictScalarsIsogenyLift
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FourierDeligne.EtaleModuleRestrictScalarsIsogenyLift
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.HigherDirectImageShriekLevelIsogeny
 
@@ -130,7 +129,7 @@ theorem etaleModuleRestrictScalars_map_etaleModuleSMul_natCast_mul (A : EtaleMod
       n • (etaleModuleRestrictScalars ρ X).map ((etaleModuleSMul X a).app A) := by
   apply Sheaf.hom_ext
   ext U x
-  show ((n : Λ') * a) • (show A.obj.obj U from x) = n • (a • (show A.obj.obj U from x))
+  change ((n : Λ') * a) • (show A.obj.obj U from x) = n • (a • (show A.obj.obj U from x))
   rw [mul_smul, Nat.cast_smul_eq_nsmul]
 
 /-- **The chain of comparisons lifts**: an `ℓ^{c_B}`-isogeny `ρ_* A ⇄ M₁`, an `ℓ^{c_S}`-isogeny
@@ -418,7 +417,8 @@ def LaumonFourierFamilyLevelIsogenyInput : Prop :=
                 (etaleModuleInverseImage.{u, 0} ℤ_[ℓ] (B.inclusion.map jV'))).app (op N')) ∧
             ℓ ^ t • ((Functor.whiskerRight (Functor.whiskerRight
               (LAdicSheaf.padicTowerMap ((laumonFourierFamilySheaf k' B hS b ψ' n a z p₀ σ₁ hσ₁).act
-              o).asHom) (lowerShriekHomology ℤ_[ℓ] (B.inclusion.map (laumonFamilyProjection k' B hS hL))
+              o).asHom)
+              (lowerShriekHomology ℤ_[ℓ] (B.inclusion.map (laumonFamilyProjection k' B hS hL))
               jg 1)) (etaleModuleInverseImage.{u, 0} ℤ_[ℓ] (B.inclusion.map jV'))).app (op N') ≫
               h') =
               ℓ ^ t • (h' ≫ (etaleModuleRestrictScalars

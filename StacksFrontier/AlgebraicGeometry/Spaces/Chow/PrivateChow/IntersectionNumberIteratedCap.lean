@@ -65,13 +65,13 @@ theorem map_cycle_eq_finsum_of_compactSpace {k : ℤ}
     if h : deltaDimension D sX Z = k then integralCycle D sX k Z h else 0
   have hα : α = ∑ Z ∈ s, α.1 Z • c Z := by
     refine Subtype.ext (funext fun W => ?_)
-    rw [AddSubgroup.val_finset_sum, Finset.sum_apply]
+    rw [AddSubgroup.val_finsetSum, Finset.sum_apply]
     have hterm : ∀ Z ∈ s, ((α.1 Z • c Z : CycleGroup D sX k) : _ → ℤ) W =
         if Z = W then α.1 W else 0 := by
       intro Z hZ
       have hZ' : α.1 Z ≠ 0 := (Set.Finite.mem_toFinset _).1 hZ
       have hδ := α.2.2 Z hZ'
-      simp only [c, dif_pos hδ, AddSubgroup.coe_zsmul, Pi.smul_apply, integralCycle_coe,
+      simp only [c, dite_eq_left hδ, AddSubgroup.coe_zsmul, Pi.smul_apply, integralCycle_coe,
         integralCycleCoeff, smul_eq_mul]
       split_ifs with h₁ h₂ h₂
       · subst h₁; ring
@@ -87,7 +87,7 @@ theorem map_cycle_eq_finsum_of_compactSpace {k : ℤ}
   · refine Finset.sum_congr rfl fun Z hZ => ?_
     have hZ' : α.1 Z ≠ 0 := (Set.Finite.mem_toFinset _).1 hZ
     rw [map_zsmul, smul_eq_mul]
-    simp only [c, dif_pos (α.2.2 Z hZ'), hψ]
+    simp only [c, dite_eq_left (α.2.2 Z hZ'), hψ]
   · intro Z hZ
     exact (Set.Finite.mem_toFinset _).2 (left_ne_zero_of_mul hZ)
 
@@ -117,7 +117,7 @@ theorem finsum_integralClosedSubspacePushforward_mul (hX : D.IsGood sX)
       cycleClosedPushforward_apply_of_forall_ne D hX.1 W.isClosedSubspace.1 hdecX
         W.isClosedSubspace.2 c.1 V fun V' hV' => hVr ⟨V', hV'⟩
     simp only [hF, h0, zero_mul]
-  show ∑ᶠ V, F V = _
+  change ∑ᶠ V, F V = _
   rw [show F = (Set.range push).indicator F from (Set.indicator_eq_self.2 hsupp).symm,
     ← finsum_mem_def, finsum_mem_range hinj]
   refine finsum_congr fun V => ?_
@@ -226,7 +226,7 @@ theorem intersectionNumber_baseObject_eq_one
     W (x C.1) (canonicalGeometricPoint_image _ _ _ _ _)).trans
     (geometricLength_structureSheafModule_eq_one_of_isIntegralSpace B (Spec (.of k)) hk P
       (isIntegralSpace_yoneda_baseObject k B hk) (x C.1) ?_).symm)
-  show closure {(x C.1).image} ∈ irreducibleComponents (points B (Spec (.of k)) hk P.1)
+  change closure {(x C.1).image} ∈ irreducibleComponents (points B (Spec (.of k)) hk P.1)
   have : IrreducibleSpace (points B (Spec (.of k)) hk P.1) :=
     (isIntegralSpace_yoneda_baseObject k B hk).2.2
   rw [irreducibleComponents_eq_singleton,
@@ -282,9 +282,10 @@ theorem integralClosedSubspaceIntersectionNumber_eq_iteratedFirstChernCapDegree_
       integralCycleCoeff (fieldSpaceSituation k B hk) W Z := fun Z =>
     congrFun (iteratedFirstChernCapCycle_zero (fieldSpaceSituation k B hk) f hX L hL 0 _) Z
   rw [finsum_eq_single _ W (fun Z hZ => by
-    rw [hcoe, show integralCycleCoeff (fieldSpaceSituation k B hk) W Z = 0 from if_neg hZ,
+    rw [hcoe, show integralCycleCoeff (fieldSpaceSituation k B hk) W Z = 0 from ite_eq_right hZ,
       zero_mul])]
-  rw [hcoe, show integralCycleCoeff (fieldSpaceSituation k B hk) W W = 1 from if_pos rfl, one_mul]
+  rw [hcoe, show integralCycleCoeff (fieldSpaceSituation k B hk) W W = 1 from ite_eq_left rfl,
+    one_mul]
   -- the left hand side through Stacks 0EDJ along `X ⟶ Spec k`
   let fm : X ⟶ P := ObjectProperty.homMk f
   let L₀ : Fin 0 → Modules.{u, u} B (Spec (.of k)) hk P.1 P.2 := fun j => j.elim0
@@ -435,7 +436,7 @@ theorem integralClosedSubspaceIntersectionNumber_eq_iteratedFirstChernCapDegree 
       unfold iteratedFirstChernCapDegree
       simp only [AddMonoidHom.comp_apply]
       congr 2
-      show iteratedFirstChernCapCycle (fieldSpaceSituation k B hk) f hX e (Fin.init L) hLinit 0
+      change iteratedFirstChernCapCycle (fieldSpaceSituation k B hk) f hX e (Fin.init L) hLinit 0
         (firstChernCapCycleMap (fieldSpaceSituation k B hk) f hX ((0 : ℤ) + (e : ℕ))
           (canonicalFirstChernRule (fieldSpaceSituation k B hk) f hX (L (Fin.last e)) (hL _)
             ((0 : ℤ) + (e : ℕ)))
@@ -450,7 +451,7 @@ theorem integralClosedSubspaceIntersectionNumber_eq_iteratedFirstChernCapDegree 
     refine finsum_congr fun V => ?_
     set c := canonicalFirstChernRule (fieldSpaceSituation k B hk) f hX (L (Fin.last e)) (hL _)
       ((0 : ℤ) + (e : ℕ)) W hW' with hcdef
-    show c.1 V * _ = c.1 V * _
+    change c.1 V * _ = c.1 V * _
     by_cases hc : c.1 V = 0
     · rw [hc, zero_mul, zero_mul]
     congr 1
@@ -552,7 +553,7 @@ theorem intersectionNumber_eq_iteratedFirstChernCapDegree_closedSubspaceCycle
     have hδ : deltaDimension (fieldSpaceSituation k B hk) f
         (closedSubspaceComponentImage (fieldSpaceSituation k B hk) f hX Z.1 Z.2 W') = d := by
       by_contra h
-      rw [← hW', closedSubspaceCycle_apply_closedSubspaceComponentImage, if_neg h] at hc
+      rw [← hW', closedSubspaceCycle_apply_closedSubspaceComponentImage, ite_eq_right h] at hc
       exact hc rfl
     obtain ⟨C, hC⟩ := exists_irreducibleComponents_closedSubspaceComponentImage
       (fieldSpaceSituation k B hk) f hX Z.1 Z.2 d hdim W' hδ
@@ -587,9 +588,9 @@ theorem intersectionNumber_eq_iteratedFirstChernCapDegree_closedSubspaceCycle
       (closedSubspaceCycle (fieldSpaceSituation k B hk) f hX Z.1 Z.2 d hdim)).1 (φ C) =
       ((geometricLength B (Spec (.of k)) hk X (x C.1) (structureSheafPushforward B (Spec (.of k)) hk
         (closedSubspaceInclusion B (Spec (.of k)) hk X Z))).toNat : ℤ) := by
-    show (closedSubspaceCycle (fieldSpaceSituation k B hk) f hX Z.1 Z.2 d hdim).1
+    change (closedSubspaceCycle (fieldSpaceSituation k B hk) f hX Z.1 Z.2 d hdim).1
       (closedSetComponent B (Spec (.of k)) hk X.2 hXdec T hTcl C.1) = _
-    rw [← hW', closedSubspaceCycle_apply_closedSubspaceComponentImage, if_pos hδ]
+    rw [← hW', closedSubspaceCycle_apply_closedSubspaceComponentImage, ite_eq_left hδ]
     set x' := canonicalGeometricPoint B (Spec (.of k)) hk Z.1.toFunctor
       (W'.ambientGenericPoint B (Spec (.of k)) hk)
     have himg : (x C.1).image = (geometricPointMap Z.1.ι x').image := by

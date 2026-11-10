@@ -91,6 +91,7 @@ private theorem isCtf_inverseImage {Λ : Type} [Ring Λ] {X Y : B.Scheme} (g : Y
   (IsCtf.pullback B Λ (ObjectProperty.homMk g : Y ⟶ X) hK).of_iso B _ Λ
     ((etaleModuleInverseImage.{u, 0} Λ g).mapDerivedCategoryFactors.app K.obj)
 
+omit [Finite Λ] in
 /-- **Restriction of `D_ctf` to an open subscheme (Tag 0963).** For an open immersion
 `j_U : U ⟶ X` with `U` in the big étale site, the restriction of a bounded below complex in
 `D_ctf(X, Λ)` lies in `D_ctf(U, Λ)`. -/

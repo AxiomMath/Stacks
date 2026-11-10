@@ -110,7 +110,7 @@ theorem isZero_uliftForPresentation {M : SheafOfModules.{m} R} (hM : IsZero M) :
     IsZero (uliftForPresentation.{u, v, r, m, t} M) := by
   rw [IsZero.iff_id_eq_zero]
   ext X x
-  show x = 0
+  change x = 0
   exact ULift.ext (eq_zero_of_isZero hM X x.down)
 
 /-- Restriction to a slice of the site carries a zero sheaf of modules to a zero sheaf of

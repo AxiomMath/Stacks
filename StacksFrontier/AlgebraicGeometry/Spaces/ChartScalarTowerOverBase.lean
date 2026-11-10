@@ -123,10 +123,10 @@ theorem isScalarTower_chartDiagram (f : X ⟶ Y) (d : ChartDiagram B S hS X.1 Y.
       chartToBaseRingHom B S hS X d.U r := by
     have h := chartToBase_comp_chartDiagram B S hS f d
     have h2 := congrArg (fun k : chartScheme d.U ⟶ S => k.appTop.hom r) h
-    show ((BigFppfOver.toScheme B S hS).map d.g).appTop.hom
+    change ((BigFppfOver.toScheme B S hS).map d.g).appTop.hom
       ((chartToBase B S hS Y d.V).appTop.hom r) = (chartToBase B S hS X d.U).appTop.hom r
     simpa only [Scheme.Hom.comp_appTop, CommRingCat.comp_apply] using h2
-  show chartDiagramRestrict B S hS f d (chartToBaseRingHom B S hS Y d.V r * a) * c =
+  change chartDiagramRestrict B S hS f d (chartToBaseRingHom B S hS Y d.V r * a) * c =
     chartToBaseRingHom B S hS X d.U r * (chartDiagramRestrict B S hS f d a * c)
   rw [map_mul, hcomp, mul_assoc]
 

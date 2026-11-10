@@ -226,7 +226,7 @@ theorem exists_saturated_step (hB : Module.Flat A B) (C : Subalgebra A B)
     intro i
     apply Subtype.ext
     push_cast
-    show ((x i : C) : B) = _
+    change ((x i : C) : B) = _
     rw [(hyy r).left i]
 
 /-- Key lemma: every `A`-subalgebra `E ⊆ B` with `#E ≤ κ` is contained in a flat

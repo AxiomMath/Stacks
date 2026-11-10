@@ -139,7 +139,7 @@ theorem preservesMonomorphisms_tensorRight_of_flat
     let Ψ := (geometricPointSitePoint B S hS s).sheafFiber (A := ModuleCat.{u + 1} Λ)
     have := hG s
     have := moduleCat_mono_whiskerRight_of_flat Λ (Ψ.map f) (Ψ.obj G)
-    show Mono (Ψ.map (f ▷ G))
+    change Mono (Ψ.map (f ▷ G))
     have e : Ψ.map (f ▷ G) = (Functor.Monoidal.μIso Ψ X G).inv ≫
         (Ψ.map f ▷ Ψ.obj G) ≫ (Functor.Monoidal.μIso Ψ Y G).hom :=
       Functor.Monoidal.map_whiskerRight Ψ f G

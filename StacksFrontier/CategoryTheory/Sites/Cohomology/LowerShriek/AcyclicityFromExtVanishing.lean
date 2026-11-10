@@ -101,7 +101,8 @@ abbrev LowerShriekAcyclic
     (∀ n, IsSumOfExtensionByZeroUnits (inverseImageRing J K f O) (L.X n)) → L.Acyclic →
     (((lowerShriekModules J K f O).mapHomologicalComplex (ComplexShape.up ℤ)).obj L).Acyclic
 
-omit [f.IsCocontinuous J K] in
+omit [f.IsCocontinuous J K] [HasWeakSheafify K AddCommGrpCat.{w}]
+  [K.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The acyclicity statement is automatic when lower shriek on modules is exact.** An exact
 functor preserves the homology of a complex, so it carries an acyclic complex to an acyclic
 complex whatever its terms. Lower shriek is always right exact, being a left adjoint; where it
@@ -131,6 +132,7 @@ local instance (priority := high) hasCoproducts_sheafOfModules_inverseImageRing 
   SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
     (inverseImageRing J K f O) (Discrete L)
 
+omit [f.IsCocontinuous J K] in
 /-- **The acyclicity statement of Stacks 07AC for modules follows from the vanishing of Stacks
 0D6X.** If `Ext^n(j_{U!} O_U, g^* I) = 0` for every object `U` of the source site, every
 injective `O_D`-module `I` and every `n ≥ 1`, then lower shriek carries every bounded above

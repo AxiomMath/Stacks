@@ -129,8 +129,8 @@ the only homomorphism of graded algebras that does: any `Θ` with `u_n ≫ Θ_n 
 --   The EXISTENCE of theta and the commutativity of the triangle are proved elsewhere and carry
 --   the attribute there: `Quadruple.exists_theta` and
 --   `RepresentingProjData.exists_theta_associatedMorphism` of
---   StacksFrontier.AlgebraicGeometry.RelativeProjQcohSheaf.Theta, where theta is the comparison of a
---   strict equivalence with the pullback of the universal quadruple of a representation of F_d
+--   StacksFrontier.AlgebraicGeometry.RelativeProjQcohSheaf.Theta, where theta is the comparison of
+--   a strict equivalence with the pullback of the universal quadruple of a representation of F_d
 --   (Tag 01NV, carried), and its source is the Laurent algebra of the pullback of the universal
 --   invertible module rather than r^*(⨁_n O_{Proj}(nd)) for the glued twists of Tag 01NR.
 theorem theta_eq_of_comm {θ : R ≅ laurent P.L} {Θ : R ⟶ laurent P.L}
@@ -143,7 +143,7 @@ theorem theta_eq_of_comm {θ : R ≅ laurent P.L} {Θ : R ⟶ laurent P.L}
     refine SheafOfModules.GradedAlgebra.Hom.ext fun n => ?_
     refine laurent_app_eq_of_app_one (γ := θ.inv ≫ Θ) (γ' := 𝟙 (laurent P.L))
       (e := Iso.refl P.L) ?_ ?_ n
-    · show (θ.inv.app 1 ≫ Θ.app 1) ≫ (oneIsoL P.L).hom = (oneIsoL P.L).hom ≫ 𝟙 _
+    · change (θ.inv.app 1 ≫ Θ.app 1) ≫ (oneIsoL P.L).hom = (oneIsoL P.L).hom ≫ 𝟙 _
       rw [h1, inv_app_comp_hom_app θ 1, Category.id_comp, Category.comp_id]
     · simp
   simpa using congrArg (θ.hom ≫ ·) hγ

@@ -37,8 +37,8 @@ standard model puts them in `Type (u + 1)`.
 The declarations below are the exception: neither mentions a derived category at all, so each is
 one declaration serving both developments rather than two. This module is therefore imported by
 both, and its own imports are confined to ones both files already had, so that
-`StacksFrontier.Homology.DerivedCategory.LocallySmall` stays out of its closure and the standard-model
-file can import it.
+`StacksFrontier.Homology.DerivedCategory.LocallySmall` stays out of its closure and the
+standard-model file can import it.
 
 ## Main definitions
 

@@ -397,7 +397,7 @@ theorem finitePresentation_sectionsAlg_of_isLocallyOfFinitePresentation
     Algebra.FinitePresentation.trans (ringOf B S hS T') P.obj (P.obj ⊗[ringOf B S hS T'] P.obj)
   have hbase : LocallyOfFinitePresentation
       ((BigFppfOver.toScheme B S hS).map (specOverToBase (pairAlg P))) := by
-    show LocallyOfFinitePresentation (specToBase (pairAlg P))
+    change LocallyOfFinitePresentation (specToBase (pairAlg P))
     rw [specToBase]
     have : LocallyOfFinitePresentation
         (Spec.map (CommRingCat.ofHom (algebraMap (ringOf B S hS T') (pairAlg P).obj))) :=
@@ -499,7 +499,7 @@ private theorem exists_arrowChart_finitePresentation_aux (h𝒳 : IsAlgebraicSta
     have hpt : (relPoints T' π).map (SmallAlg.homMk (sectionsMap m hmj).hom.hom) qQ =
         (relPoints T' π).map f₁ r₀ := by
       apply Subtype.ext
-      show X.map (specOverMap (sectionsMap m hmj)).op (X.map (sectionsHom U₁ j₁).op ξ) =
+      change X.map (specOverMap (sectionsMap m hmj)).op (X.map (sectionsHom U₁ j₁).op ξ) =
         X.map (specOverMap f₁).op r₀.1
       rw [← Functor.map_comp_apply, ← op_comp, specOverMap_sectionsMap, op_comp,
         Functor.map_comp_apply, hm, ← Functor.map_comp_apply, ← op_comp, hf₁]

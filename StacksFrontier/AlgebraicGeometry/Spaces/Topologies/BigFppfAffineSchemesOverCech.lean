@@ -84,7 +84,7 @@ theorem ofArrows_mem_topology {W : AffineSchemesOver T V} {I : Type*}
   have := hsc.1
   have := hsc.2
   rw [Functor.mem_inducedTopology_iff_of_isCoverDense]
-  show Sieve.overEquiv _ (Sieve.overEquiv _
+  change Sieve.overEquiv _ (Sieve.overEquiv _
     ((Sieve.ofArrows Y g).functorPushforward (toSlice T V))) ∈ T.topology (F.obj W.obj.left)
   refine T.topology.superset_covering ?_ ((Functor.functorPushforward_mem_iff
     (BigFppfOver.topology T.schemeSite S T.scheme_mem) T.topology (G := F)).2 hcov)
@@ -95,7 +95,7 @@ theorem ofArrows_mem_topology {W : AffineSchemesOver T V} {I : Type*}
   refine (Sieve.overEquiv_iff _ _).2 ((Sieve.overEquiv_iff _ _).2
     ⟨Y i, g i, Over.homMk (Over.homMk (𝟙 _) ?_) ?_, Sieve.ofArrows_mk Y g i, ?_⟩)
   · simp only [Category.id_comp]
-    show (Y i).obj.hom ≫ V.hom = (F.map (g i).hom.left ≫ W.obj.hom) ≫ V.hom
+    change (Y i).obj.hom ≫ V.hom = (F.map (g i).hom.left ≫ W.obj.hom) ≫ V.hom
     rw [hw]
   · exact Over.OverMorphism.ext (by simp)
   · exact Over.OverMorphism.ext (Over.OverMorphism.ext (Category.id_comp _).symm)
@@ -178,8 +178,8 @@ theorem faithfullyFlat_sigmaDesc {A : AffineSchemesOver T V} (E : PreZeroHyperco
   have : Surjective (G.map (Sigma.desc E.f)) := ⟨fun x => by
     obtain ⟨i, y, rfl⟩ := hfppf.1 x
     refine ⟨G.map (Sigma.ι E.X i) y, ?_⟩
-    show (G.map (Sigma.ι E.X i) ≫ G.map (Sigma.desc E.f)) y = _
-    rw [← G.map_comp, Sigma.ι_desc]
+    change (G.map (Sigma.ι E.X i) ≫ G.map (Sigma.desc E.f)) y = _
+    rw [← G.map_comp, Sigma.ι_comp_desc]
     rfl⟩
   have h0 : (G.map (Sigma.desc E.f)).appTop.hom.FaithfullyFlat :=
     faithfullyFlat_appTop_of_flat_of_surjective _
@@ -212,7 +212,6 @@ theorem faithfullyFlat_sigmaDesc {A : AffineSchemesOver T V} (E : PreZeroHyperco
     ext a
     refine (RingEquiv.eq_symm_apply (ringIso (∐ E.X)).commRingCatIsoToRingEquiv).2 ?_
     exact congrArg (fun φ => φ.hom a) (ringIso_hom_naturality (Sigma.desc E.f))
-  all_goals rfl
 
 include hV₀ in
 /-- **Stacks 03FJ on the affine schemes over an affine object `V`**: the base change presheaf

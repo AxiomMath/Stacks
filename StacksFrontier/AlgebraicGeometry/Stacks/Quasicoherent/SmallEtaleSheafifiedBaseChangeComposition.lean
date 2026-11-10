@@ -302,7 +302,7 @@ public theorem conjugateEquiv_sheafifiedPullbackComparisonIso_hom :
         (pullbackConstructionComparisonIso B E h S hS p hp τ hτ φ) from rfl,
     Stacks.CategoryTheory.conjugateEquiv_ofNatIsoLeft_right]
   refine Eq.trans (congrArg _ ?_) hcomp
-  show (pullbackConstructionComparisonIso B E h S hS p hp τ hτ φ).hom ≫
+  change (pullbackConstructionComparisonIso B E h S hS p hp τ hτ φ).hom ≫
       ((pullbackConstructionComparisonIso B E h S hS p hp τ hτ φ).symm ≪≫
         (SheafOfModules.pullbackIso.{u} (SmallEtale.smallEtaleStructureMapRing E
           (smallEtaleBaseMorphism B E h S hS p φ))).symm).hom =
@@ -448,7 +448,7 @@ public theorem associatedModuleObjSmallEtaleBaseChangeIso_comp
             ((Scheme.Modules.pullback (SmallEtale.schemeHom E
               (smallEtaleBaseMorphism B E h S hS p ψ))).obj 𝓖) := by
     rw [← Category.assoc, ← Category.assoc, ← nat]
-  show (sheafifiedPullbackComparison B E h S hS p hp τ hτ φ).map
+  change (sheafifiedPullbackComparison B E h S hS p hp τ hτ φ).map
           ((sheafifiedPullbackComparisonIso B E h S hS p hp τ hτ ψ).hom.app
               ((SmallEtale.associatedModule E (p.obj z).left.1
                 (contains_base B E h S hS p z)).obj 𝓖) ≫

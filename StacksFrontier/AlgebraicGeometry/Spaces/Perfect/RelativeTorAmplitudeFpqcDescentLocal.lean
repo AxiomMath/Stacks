@@ -419,7 +419,7 @@ theorem locallyHasFiniteTorDimension_derivedScalarRestriction_pullback_of_cartes
   · refine ⟨(BigFppfOver.toScheme B S hS).map
       (chartFiberProductLift B S hS g'.hom V V₂ x' q y).1 z', ?_⟩
     rw [← Scheme.Hom.comp_apply, ← Functor.map_comp]
-    show (BigFppfOver.toScheme B S hS).map ((chartFiberProductLift B S hS g'.hom V V₂ x' q y).1 ≫
+    change (BigFppfOver.toScheme B S hS).map ((chartFiberProductLift B S hS g'.hom V V₂ x' q y).1 ≫
       (V₂.property.rep).snd (V.obj.hom ≫ g'.hom)) z' = z
     exact (congrArg (fun t => (BigFppfOver.toScheme B S hS).map t z')
       (chartFiberProductLift_comp_snd B S hS g'.hom V V₂ x' q y)).trans hz
@@ -621,7 +621,7 @@ theorem exists_hasTorAmplitude_derivedRestriction_of_isAffine
     obtain ⟨j, w, hw⟩ := ((Scheme.ofArrows_mem_precoverage_iff _).1 hfpqc.2).1 v
     obtain ⟨x, ξ, hξ, ⟨ζ, hζ⟩, hP⟩ := hgood j w
     refine ⟨⟨j, x, ξ, hξ, hP⟩, ζ, ?_⟩
-    show (BigFppfOver.toScheme B S hS).map
+    change (BigFppfOver.toScheme B S hS).map
       (ξ ≫ (BigAffineFppf.inclusion B S hS).map (𝒰.f j)) ζ = v
     rwa [Functor.map_comp, Scheme.Hom.comp_apply, hζ]
   · rintro ⟨j, x, ξ, hξ, hP⟩

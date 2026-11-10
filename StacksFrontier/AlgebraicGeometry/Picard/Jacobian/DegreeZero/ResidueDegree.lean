@@ -78,7 +78,7 @@ theorem _root_.Stacks.Picard.ofSchemeDegree_comp_SpecMap_of_isIso (k κ : Type u
   let := Stacks.Picard.isInvertible_ringCatSheaf_of_isInvertible L hL
   have hc : (Scheme.ΓSpecIso (.of k)).inv ≫ (p ≫ Spec.map φ).appTop =
       φ ≫ (Scheme.ΓSpecIso (.of κ)).inv ≫ p.appTop := by
-    show (Scheme.ΓSpecIso (.of k)).inv ≫ (Spec.map φ).appTop ≫ p.appTop = _
+    change (Scheme.ΓSpecIso (.of k)).inv ≫ (Spec.map φ).appTop ≫ p.appTop = _
     rw [← Category.assoc, ← Scheme.ΓSpecIso_inv_naturality, Category.assoc]
   exact invertibleCurveDegree_eq_of_bijective_algebraMap k κ
     (ConcreteCategory.bijective_of_isIso φ) (p ≫ Spec.map φ) p
@@ -292,7 +292,7 @@ theorem residueDegree_ofSchemeAddEquivPicardFunctorOfCurve (hdim : topologicalKr
   have h2 : picardMap B hX hk g (residueTestι B hk (terminalTest B hk) t)
       (Stacks.Picard.schemePullbackClass (baseChangeTerminalIso B hX hk g).hom c) =
       Stacks.Picard.schemePullbackClass φ c := by
-    show Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _ c) = _
+    change Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _ c) = _
     rw [Stacks.Picard.schemePullbackClass_comp, hφ]
   rw [h2]
   have : Subsingleton ((BigFppfOver.toScheme B (Spec (.of k)) hk).obj (terminalTest B hk)) :=
@@ -301,7 +301,7 @@ theorem residueDegree_ofSchemeAddEquivPicardFunctorOfCurve (hdim : topologicalKr
     have : IsIso ((Spec (.of k)).fromSpecResidueField (IsLocalRing.closedPoint k)) :=
       isIso_fromSpecResidueField_closedPoint k
     obtain rfl : t = IsLocalRing.closedPoint k := Subsingleton.elim _ _
-    show IsIso ((Spec (.of k)).fromSpecResidueField (IsLocalRing.closedPoint k) ≫
+    change IsIso ((Spec (.of k)).fromSpecResidueField (IsLocalRing.closedPoint k) ≫
       B.inclusion.map (𝟙 (B.obj hk)))
     have : IsIso (B.inclusion.map (𝟙 (B.obj hk))) := Functor.map_isIso _ _
     infer_instance

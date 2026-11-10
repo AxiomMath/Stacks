@@ -569,7 +569,7 @@ public theorem Good.ext {X Y T : C} {d : SliceCokernelDatum S toOver K hSh hR M 
   refine PresheafOfModules.hom_ext (fun Z => ?_)
   obtain ⟨Z⟩ := Z
   refine ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
-  show ((Scheme.Modules.pullback (toOver.map Z.hom).left).map χ).app ⊤ m =
+  change ((Scheme.Modules.pullback (toOver.map Z.hom).left).map χ).app ⊤ m =
     ((Scheme.Modules.pullback (toOver.map Z.hom).left).map χ').app ⊤ m
   have ha := map_left_comp_eq (toOver := toOver) Z.hom a
   have hb := map_left_comp_eq (toOver := toOver) Z.hom b

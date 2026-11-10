@@ -140,10 +140,10 @@ public theorem exists_finite_flat_refinement_algebraSite
     refine (Scheme.presieve₀_mem_precoverage_iff _).mpr ⟨fun x => ?_, fun i => ?_⟩
     · obtain ⟨i, hx⟩ := hsurj x
       refine ⟨ULift.up i, ?_⟩
-      show x ∈ Set.range ((algebraSiteScheme B).map (g i))
+      change x ∈ Set.range ((algebraSiteScheme B).map (g i))
       rw [hmapL i]
       exact mem_range_comp_of_isIso _ _ hx
-    · show Flat ((algebraSiteScheme B).map (g i.down))
+    · change Flat ((algebraSiteScheme B).map (g i.down))
       rw [hmapL i.down]
       have hflat : Flat ((B.toOver ⋙ Over.forget (Spec A)).map (E'.1.f i.down)) :=
         (coveringMorphismProperty_le_flat_inf_locallyOfFinitePresentation τ _

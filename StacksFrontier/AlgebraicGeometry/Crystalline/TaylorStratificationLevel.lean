@@ -66,7 +66,7 @@ theorem taylorMap_add {m n : M} (hm : (Function.support (term q₀ ξ θ m)).Fin
 theorem term_eq_zero_of_smul {m : M} {K : ι →₀ ℕ} {d : D} (hd : q₀ d = 0) {y : M}
     (hy : θ K m = d • y) : term q₀ ξ θ m K = 0 := by
   rw [term, hy, ← TensorProduct.smul_tmul]
-  show (TwistedScalars.mk q₀ (q₀ d * ξ K)) ⊗ₜ[D] y = 0
+  change (TwistedScalars.mk q₀ (q₀ d * ξ K)) ⊗ₜ[D] y = 0
   rw [hd, zero_mul]
   exact TensorProduct.zero_tmul _ _
 
@@ -107,10 +107,10 @@ theorem taylorMap_smul (hξ : ∀ A B, ξ A * ξ B = (c A B : R) * ξ (A + B))
       (c A B • (δ A d • θ B m)) = F (A, B) := by
     intro A B
     rw [TensorProduct.tmul_smul, ← TensorProduct.smul_tmul]
-    show (c A B : ℕ) • (TwistedScalars.mk q₀ (q₀ (δ A d) * ξ (A + B)) ⊗ₜ[D] θ B m) = F (A, B)
+    change (c A B : ℕ) • (TwistedScalars.mk q₀ (q₀ (δ A d) * ξ (A + B)) ⊗ₜ[D] θ B m) = F (A, B)
     rw [← Nat.cast_smul_eq_nsmul R, TensorProduct.smul_tmul', hF]
     congr 1
-    show ((c A B : ℕ) : R) * (q₀ (δ A d) * ξ (A + B)) = q₀ (δ A d) * ξ A * ξ B
+    change ((c A B : ℕ) : R) * (q₀ (δ A d) * ξ (A + B)) = q₀ (δ A d) * ξ A * ξ B
     rw [mul_assoc, hξ]
     ring
   have hsmul : ∀ A B, F (A, B) = (q₀ (δ A d) * ξ A) • term q₀ ξ θ m B := fun A B ↦ by
@@ -171,8 +171,7 @@ noncomputable def push (σ : R →+* R') (r : D →+* R') (h : σ.comp q₀ = r)
         rfl }
   map_add' := map_add _
   map_smul' b z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul c m =>
         rw [TensorProduct.smul_tmul']
         change TwistedScalars.mk r (σ (b * c.val)) ⊗ₜ[D] m =
@@ -226,7 +225,7 @@ theorem tmul_nsmul_eq_zero {R' : Type*} [CommRing R'] (r : D →+* R') {p n : �
     b ⊗ₜ[D] ((p ^ n : ℕ) • z) = 0 := by
   rw [← Nat.cast_smul_eq_nsmul D, ← TensorProduct.smul_tmul]
   have : ((p ^ n : ℕ) : D) • b = 0 := by
-    show TwistedScalars.mk r (r ((p ^ n : ℕ) : D) * b.val) = 0
+    change TwistedScalars.mk r (r ((p ^ n : ℕ) : D) * b.val) = 0
     rw [map_natCast, Nat.cast_pow, hp, zero_mul]
     rfl
   rw [this, TensorProduct.zero_tmul]
@@ -284,7 +283,7 @@ theorem cocycle (σ₀₁ σ₁₂ σ₀₂ : R →+* R₂) (r₀ r₁ : D →+*
     rw [semilinearBaseChange_mk_tmul, hE₀₁, push_taylorMap σ₀₁ r₀ h₀₁ (θ K m) S, Finset.smul_sum]
     · refine Finset.sum_congr rfl fun L _ ↦ ?_
       rw [TensorProduct.smul_tmul', hG, hθ]
-      show TwistedScalars.mk r₀ (σ₁₂ (ξ K) * σ₀₁ (ξ L)) ⊗ₜ[D] _ = _
+      change TwistedScalars.mk r₀ (σ₁₂ (ξ K) * σ₀₁ (ξ L)) ⊗ₜ[D] _ = _
       rw [hη₁₂, hη₀₁, hηmul]
     · intro L hL
       refine tmul_eq_zero_of_nsmul q₀ hpR _ ?_
@@ -297,10 +296,10 @@ theorem cocycle (σ₀₁ σ₁₂ σ₀₂ : R →+* R₂) (r₀ r₁ : D →+*
           ⟨hmemS hxs le_self_add, hmemS hxs le_add_self⟩)) fun x _ ↦ hGvan x]
     refine Finset.sum_congr rfl fun N _ ↦ ?_
     rw [hη₀₂]
-    show (∑ x ∈ antidiagonal N, TwistedScalars.mk r₀ (η x)) ⊗ₜ[D] θ N m = _
+    change (∑ x ∈ antidiagonal N, TwistedScalars.mk r₀ (η x)) ⊗ₜ[D] θ N m = _
     rw [TensorProduct.sum_tmul]
     refine Finset.sum_congr rfl fun x hx ↦ ?_
-    show _ = TwistedScalars.mk r₀ (η x) ⊗ₜ[D] θ (x.1 + x.2) m
+    change _ = TwistedScalars.mk r₀ (η x) ⊗ₜ[D] θ (x.1 + x.2) m
     rw [mem_antidiagonal.mp hx]
   rw [hlhs, hrhs]
 

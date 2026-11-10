@@ -11,11 +11,11 @@ public import StacksFrontier.AlgebraicGeometry.SheafRankOne.Basic
 `StacksFrontier/AlgebraicGeometry/GradedSections/Monoidal.lean` makes
 `Γ_*(L) = ⨁_{n ≥ 0} (𝟙_ C ⟶ L ^⊗ n)` a graded ring in any monoidal category `C` with
 `[Preadditive C]` and `[(MonoidalCategory.tensorRight L).Additive]`, and
-`StacksFrontier/AlgebraicGeometry/GradedSections/Braided.lean` makes it **commutative** under the extra hypothesis
-`Stacks.GradedSections.HasTrivialSelfBraiding L`, namely `(β_ L L).hom = 𝟙 (L ⊗ L)`. Those files
-are abstract: no geometric statement can use them until the three hypotheses are discharged for an invertible
-sheaf of modules. This file discharges all three, and the last of them is the one with
-mathematical content.
+`StacksFrontier/AlgebraicGeometry/GradedSections/Braided.lean` makes it **commutative** under the
+extra hypothesis `Stacks.GradedSections.HasTrivialSelfBraiding L`, namely
+`(β_ L L).hom = 𝟙 (L ⊗ L)`. Those files are abstract: no geometric statement can use them until the
+three hypotheses are discharged for an invertible sheaf of modules. This file discharges all three,
+and the last of them is the one with mathematical content.
 
 **The self-braiding.** For a general object of a symmetric monoidal category the hypothesis is
 false — an invertible object may self-braid by `-1` — so something geometric must be used, and
@@ -160,7 +160,7 @@ theorem braiding_eq_id_of_cyclic {R : Type u₁} [CommRing R] (M : ModuleCat.{u�
   refine ModuleCat.hom_ext (TensorProduct.ext' fun m n ↦ ?_)
   obtain ⟨r, hr⟩ := he m
   obtain ⟨s, hs⟩ := he n
-  show (β_ M M).hom (m ⊗ₜ n) = m ⊗ₜ n
+  change (β_ M M).hom (m ⊗ₜ n) = m ⊗ₜ n
   rw [ModuleCat.MonoidalCategory.braiding_hom_apply, hr, hs, tmul_comm_smul]
 
 /-! ### Two transport lemmas -/

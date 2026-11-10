@@ -373,8 +373,7 @@ theorem chartRingEquiv_DtoC {W : (pushout i f).Opens} {U : V'.Opens} (hUW : U �
       Γ(pullback (i ≫ pushout.inl i f) g, commonRestriction i f g ⁻¹ᵁ U) ↦ k x) id2
     simpa only [CommRingCat.comp_apply] using h
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul d x =>
     have h1 : (s.toD d : s.D) = d ⊗ₜ[base.fibreProduct] (1 : Γ(Y, pushout.inr i f ⁻¹ᵁ W)) := rfl
     have h2 : (s.BtoD x : s.D) = (1 : Γ(V', U)) ⊗ₜ[base.fibreProduct] x := rfl
@@ -454,8 +453,7 @@ theorem chartRingEquiv_C'toC {W : (pushout i f).Opens} {U : V'.Opens} (hUW : U �
       Γ(pullback (i ≫ pushout.inl i f) g, commonRestriction i f g ⁻¹ᵁ U) ↦ k x) id4
     simpa only [CommRingCat.comp_apply] using h
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul d x =>
     have h1 : (s.toC' d : s.C') =
       d ⊗ₜ[base.fibreProduct] (1 : Γ(X', pushout.inl i f ⁻¹ᵁ W)) := rfl

@@ -599,7 +599,7 @@ private theorem exists_section_mod_agree
   have hqmem : ∀ w : Fbar, (etaF w, pbar w) ∈ T := by
     intro w
     rw [hT, LinearMap.mem_ker]
-    show (pbarG ∘ₗ (LinearMap.fst (R ⧸ J) G Pbar) - etaP ∘ₗ (LinearMap.snd (R ⧸ J) G Pbar))
+    change (pbarG ∘ₗ (LinearMap.fst (R ⧸ J) G Pbar) - etaP ∘ₗ (LinearMap.snd (R ⧸ J) G Pbar))
         (etaF w, pbar w) = 0
     simp only [LinearMap.sub_apply, LinearMap.comp_apply, LinearMap.fst_apply,
       LinearMap.snd_apply, sub_eq_zero]
@@ -623,7 +623,7 @@ private theorem exists_section_mod_agree
     have hpbarG_etaF : ∀ w : Fbar, pbarG (etaF w) = etaP (pbar w) := fun _ => rfl
     have hkereta : y - pbar w₀ ∈ NP := by
       rw [← Submodule.ker_mkQ NP, LinearMap.mem_ker]
-      show etaP (y - pbar w₀) = 0
+      change etaP (y - pbar w₀) = 0
       rw [map_sub, ← hpbarG_etaF, hw₀, hcy]
       simp
     -- Step 4: get n ∈ NF with pbar n = y - pbar w₀
@@ -631,11 +631,11 @@ private theorem exists_section_mod_agree
     obtain ⟨n, hn_mem, hn⟩ := hkereta
     refine ⟨w₀ + n, ?_⟩
     apply Subtype.ext
-    show ((etaF).prod pbar) (w₀ + n) = (c, y)
+    change ((etaF).prod pbar) (w₀ + n) = (c, y)
     rw [LinearMap.prod_apply]
     apply Prod.ext
     · -- etaF (w₀ + n) = c
-      show etaF (w₀ + n) = c
+      change etaF (w₀ + n) = c
       rw [map_add, hw₀]
       have hetaFn : etaF n = 0 := by
         rw [← LinearMap.mem_ker, Submodule.ker_mkQ]
@@ -643,7 +643,7 @@ private theorem exists_section_mod_agree
       simp only [etaF] at hetaFn ⊢
       rw [hetaFn, add_zero]
     · -- pbar (w₀ + n) = y
-      show pbar (w₀ + n) = y
+      change pbar (w₀ + n) = y
       rw [map_add, hn]
       abel
   -- Comparison map etaFI : F/IF →ₗ[R] G with etaFI ∘ mkQ_I = etaF ∘ mkQ_J.
@@ -655,7 +655,7 @@ private theorem exists_section_mod_agree
     refine Submodule.smul_le.mpr ?_
     intro a ha x _
     rw [LinearMap.mem_ker]
-    show Submodule.mkQ NF (Submodule.mkQ (J • (⊤ : Submodule R F)) (a • x)) = 0
+    change Submodule.mkQ NF (Submodule.mkQ (J • (⊤ : Submodule R F)) (a • x)) = 0
     rw [← LinearMap.mem_ker, Submodule.ker_mkQ]
     have hrho : (Ideal.Quotient.mk J a) ∈ Ibar := Ideal.mem_map_of_mem _ ha
     have hsmem : (Ideal.Quotient.mk J a) • Submodule.mkQ (J • (⊤ : Submodule R F)) x ∈ NF :=
@@ -685,7 +685,7 @@ private theorem exists_section_mod_agree
           have hzero : Submodule.mkQ (J • (⊤ : Submodule R F)) (a • w) = 0 := by
             rw [← LinearMap.mem_ker, Submodule.ker_mkQ]
             exact hJw
-          show a • (Submodule.mkQ NF (Submodule.mkQ (J • (⊤ : Submodule R F)) w))
+          change a • (Submodule.mkQ NF (Submodule.mkQ (J • (⊤ : Submodule R F)) w))
               = (0 : G)
           rw [← (Submodule.mkQ NF).map_smul_of_tower,
             ← (Submodule.mkQ (J • (⊤ : Submodule R F))).map_smul_of_tower, hzero]
@@ -703,7 +703,7 @@ private theorem exists_section_mod_agree
         induction c using Quotient.ind with
         | _ r => induction m using Quotient.ind with
           | _ z =>
-            show (Submodule.liftQ _ delta1comp hkerJ) (Submodule.mkQ _ (r • z))
+            change (Submodule.liftQ _ delta1comp hkerJ) (Submodule.mkQ _ (r • z))
                 = (Ideal.Quotient.mk J r) • (Submodule.liftQ _ delta1comp hkerJ) (Submodule.mkQ _ z)
             -- `R/J`-linearity of `delta1`: `liftQ _ _ _ (mkQ z) = delta1comp z`, then
             -- `delta1comp (r • z) = r • delta1comp z` by linearity, and the `R/J`-scalar
@@ -721,7 +721,7 @@ private theorem exists_section_mod_agree
     have hgoal : pbarG (delta1 y) = etaP y := by
       induction y using Quotient.ind with
       | _ m =>
-        show pbarG (delta1 (Submodule.mkQ _ m)) = etaP (Submodule.mkQ _ m)
+        change pbarG (delta1 (Submodule.mkQ _ m)) = etaP (Submodule.mkQ _ m)
         -- delta1 (mkQ_J m) = etaFI (σI m)
         have hd1 : delta1 (Submodule.mkQ (J • (⊤ : Submodule R P)) m) = etaFI (σI m) := rfl
         rw [hd1]
@@ -754,19 +754,19 @@ private theorem exists_section_mod_agree
           refine Submodule.smul_induction_on hmemIP ?_ ?_
           · intro r hr n _
             rw [hNP, hIbar, map_smul]
-            show (Ideal.Quotient.mk J r) • Submodule.mkQ (J • (⊤ : Submodule R P)) n
+            change (Ideal.Quotient.mk J r) • Submodule.mkQ (J • (⊤ : Submodule R P)) n
                 ∈ Ibar • (⊤ : Submodule (R ⧸ J) Pbar)
             exact Submodule.smul_mem_smul (Ideal.mem_map_of_mem _ hr) Submodule.mem_top
           · intro a b ha hb
             rw [map_add]
             exact Submodule.add_mem _ ha hb
         -- conclude etaP equality
-        show etaP (Submodule.mkQ (J • (⊤ : Submodule R P)) (p wI))
+        change etaP (Submodule.mkQ (J • (⊤ : Submodule R P)) (p wI))
             = etaP (Submodule.mkQ (J • (⊤ : Submodule R P)) m)
         rw [← sub_eq_zero, ← map_sub, ← map_sub]
         rw [← LinearMap.mem_ker, show LinearMap.ker etaP = NP from Submodule.ker_mkQ NP]
         exact hmemNP
-    show (pbarG ∘ₗ (LinearMap.fst (R ⧸ J) G Pbar) - etaP ∘ₗ (LinearMap.snd (R ⧸ J) G Pbar))
+    change (pbarG ∘ₗ (LinearMap.fst (R ⧸ J) G Pbar) - etaP ∘ₗ (LinearMap.snd (R ⧸ J) G Pbar))
         (delta1 y, y) = 0
     simp only [LinearMap.sub_apply, LinearMap.comp_apply, LinearMap.fst_apply, LinearMap.snd_apply,
       sub_eq_zero]
@@ -803,7 +803,7 @@ private theorem exists_section_mod_agree
     -- so mkQ_J (wI - wJ) ∈ NF
     have hmemNF : Submodule.mkQ (J • (⊤ : Submodule R F)) (wI - wJ) ∈ NF := by
       rw [← Submodule.ker_mkQ NF, LinearMap.mem_ker, map_sub]
-      show etaF (Submodule.mkQ (J • (⊤ : Submodule R F)) wI)
+      change etaF (Submodule.mkQ (J • (⊤ : Submodule R F)) wI)
           - etaF (Submodule.mkQ (J • (⊤ : Submodule R F)) wJ) = 0
       rw [← hGeq]; abel
     -- Now translate: mkQ_J (wI - wJ) ∈ Ī•⊤ ⟹ wI - wJ ∈ I•⊤ + J•⊤
@@ -820,7 +820,7 @@ private theorem exists_section_mod_agree
             rw [Ideal.mem_map_iff_of_surjective _ Ideal.Quotient.mk_surjective] at hc
             obtain ⟨i, hi, hir⟩ := hc
             rw [← hir]
-            show Submodule.mkQ (J • (⊤ : Submodule R F)) (i • w)
+            change Submodule.mkQ (J • (⊤ : Submodule R F)) (i • w)
                 ∈ Submodule.map (Submodule.mkQ (J • (⊤ : Submodule R F))) (I • (⊤ : Submodule R F))
             exact Submodule.mem_map_of_mem (Submodule.smul_mem_smul hi Submodule.mem_top)
       · intro a b ha hb
@@ -900,11 +900,11 @@ private theorem exists_lift_id_mod_I_and_J
       refine ⟨w, ?_⟩
       rw [hΦ, hg]
       apply Prod.ext
-      · show (Submodule.mkQ _) w = σI x
+      · change (Submodule.mkQ _) w = σI x
         refine Eq.trans ?_ hwI
         simp only [Submodule.mkQ_apply]
         exact (Submodule.Quotient.eq _).mpr hwwI
-      · show (Submodule.mkQ _) w = σJ x
+      · change (Submodule.mkQ _) w = σJ x
         refine Eq.trans ?_ hwJ
         simp only [Submodule.mkQ_apply]
         exact (Submodule.Quotient.eq _).mpr hwwJ
@@ -913,7 +913,7 @@ private theorem exists_lift_id_mod_I_and_J
       LinearMap.codRestrict (LinearMap.range Φ) g hsub with hg'
     set h : P →ₗ[R] F := e.symm.toLinearMap.comp g' with hh
     have hΦh : ∀ x, Φ (h x) = g x := fun x => by
-      show Φ (e.symm (g' x)) = g x
+      change Φ (e.symm (g' x)) = g x
       exact congrArg Subtype.val (e.apply_symm_apply (g' x))
     exact ⟨h, fun x => by simpa [hΦ, hg] using congrArg Prod.fst (hΦh x),
       fun x => by simpa [hΦ, hg] using congrArg Prod.snd (hΦh x)⟩

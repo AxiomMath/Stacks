@@ -101,7 +101,7 @@ private theorem exists_notMem_zeroLocus_inter_eq_closedPoint {I : Ideal A} (hI :
   obtain ⟨p₀, ⟨hp₀, hp₀I⟩, hmax⟩ := set_has_maximal_iff_noetherian.mpr
     (inferInstance : IsNoetherian A A) {J : Ideal A | J.IsPrime ∧ ¬ I ≤ J} ⟨p, hp, hpI⟩
   have hp₀' : Ideal.IsPrime p₀ := hp₀
-  obtain ⟨f, hfI, hfp₀⟩ := SetLike.not_le_iff_exists.mp hp₀I
+  obtain ⟨f, hfI, hfp₀⟩ := IsConcreteLE.not_le_iff_exists.mp hp₀I
   have hforall : ∀ q : Ideal A, q.IsPrime → p₀ < q → f ∈ q := by
     intro q hq hlt
     by_contra hfq
@@ -124,7 +124,7 @@ private theorem intCast_zero_le_krullDimToEInt {x : WithBot ℕ∞} (hx : x ≠ 
     induction n using ENat.recTopCoe with
     | top => exact le_top
     | coe m =>
-      show ((0 : ℤ) : EInt) ≤ ((m : ℤ) : EInt)
+      change ((0 : ℤ) : EInt) ≤ ((m : ℤ) : EInt)
       exact WithBotTop.coe_le_coe.mpr (by positivity)
 
 variable {M : Type u} [AddCommGroup M] [Module A M]

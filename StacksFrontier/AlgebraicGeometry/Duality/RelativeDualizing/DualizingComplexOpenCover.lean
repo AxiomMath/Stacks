@@ -55,10 +55,12 @@ theorem hasDualizingModelOn_opensRange_fromSpec_ι (K : DerivedCategory X.Module
     Scheme.Modules.restrictFunctorComp hV.fromSpec U.ι ≪≫
       Functor.isoWhiskerLeft _ (Scheme.Modules.restrictFunctorComp hV.isoSpec.inv V.ι)
   let i₁ := (Functor.mapDerivedCategoryCongr Φ).app K
-  let i₂ := ((Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl (Scheme.Modules.restrictFunctor U.ι ⋙
+  let i₂ := ((Functor.mapDerivedCategoryCompIsoOfCompIso
+      (Iso.refl (Scheme.Modules.restrictFunctor U.ι ⋙
       Scheme.Modules.restrictFunctor V.ι ⋙
         Scheme.Modules.restrictFunctor hV.isoSpec.inv))).app K).symm
-  let i₃ := ((Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl (Scheme.Modules.restrictFunctor V.ι ⋙
+  let i₃ := ((Functor.mapDerivedCategoryCompIsoOfCompIso
+      (Iso.refl (Scheme.Modules.restrictFunctor V.ι ⋙
         Scheme.Modules.restrictFunctor hV.isoSpec.inv))).app
       ((Scheme.Modules.restrictFunctor U.ι).mapDerivedCategory.obj K)).symm
   let i₄ := (Scheme.Modules.restrictFunctor hV.isoSpec.inv).mapDerivedCategory.mapIso e

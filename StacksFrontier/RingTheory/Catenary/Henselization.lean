@@ -138,7 +138,7 @@ private theorem residueFieldMap_surjective_of_equiv
   let : IsLocalHom eS.toRingHom := isLocalHom_of_leftInverse eS.symm eS.left_inv
   apply (ResidueField.map eS.toRingHom).injective
   simp only [ResidueField.map_residue]
-  show residue S (eS (algebraMap R' S' (eR.symm a))) = residue S (eS s)
+  change residue S (eS (algebraMap R' S' (eR.symm a))) = residue S (eS s)
   rw [he, eR.apply_symm_apply]
   simpa only [ResidueField.map_residue] using hr
 
@@ -375,9 +375,9 @@ private theorem isUniversallyCatenary_henselization_and_of_isUnibranch_sameUnive
   obtain ⟨Q, hQ⟩ := Set.encard_eq_one.mp hBcard
   have hnilBp : (nilradical B).IsPrime := by
     have hnilB : nilradical B = Q := by
-      show (⊥ : Ideal B).radical = Q
+      change (⊥ : Ideal B).radical = Q
       rw [← Ideal.sInf_minimalPrimes]
-      show sInf (minimalPrimes B) = Q
+      change sInf (minimalPrimes B) = Q
       rw [hQ, sInf_singleton]
     rw [hnilB]
     exact (show Q ∈ minimalPrimes B by rw [hQ]; exact Set.mem_singleton Q).isPrime

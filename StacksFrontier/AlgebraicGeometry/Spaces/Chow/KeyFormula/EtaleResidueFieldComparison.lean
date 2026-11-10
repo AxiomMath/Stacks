@@ -12,8 +12,8 @@ Let `X` be a decent algebraic space, `Z ⊂ X` a prime divisor with generic poin
 chosen elementary étale neighbourhood of `ξ` (so `κ(u) = R(Z)` through `θ_Z`), `V` an étale chart
 of `X`, `q'` a point of the base-change chart `W' = V ×_X Z` over `ξ` with image `q ∈ V`, and
 `x̄` the geometric point of `X` over `q` chosen in
-`StacksFrontier/AlgebraicGeometry/Spaces/Chow/KeyFormulaHub/EtaleLocalRingHub.lean`, with étale local
-ring `R = 𝒪_{X, x̄}` and residue field `κR`.
+`StacksFrontier/AlgebraicGeometry/Spaces/Chow/KeyFormulaHub/EtaleLocalRingHub.lean`, with étale
+local ring `R = 𝒪_{X, x̄}` and residue field `κR`.
 
 The proof of the key formula of Stacks 0EQV compares readings in `κ(q')` (on the chart of `Z`)
 with readings in `κ(𝒪^h_{X, ξ})` (through `θ_Z`).  Both land in `κR`, and this file shows that the

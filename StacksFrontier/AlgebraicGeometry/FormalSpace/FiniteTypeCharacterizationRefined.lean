@@ -166,7 +166,6 @@ theorem chartPropertyIsLocallyOfFiniteType :
         (isRepresentableEtale_of_isIso B S hS eU.hom))
       (IsLocallyOfFiniteType.comp B S hS (formalSpectrumMap hA g) eV.inv
         (isFiniteType_formalSpectrumMap_of_isTaut B S hS hA hR D E g
-          (isAffineFormalAlgebraicSpace_of_iso B S hS eV hVaff)
           (isAffineFormalAlgebraicSpace_of_iso B S hS eU hUaff) htaut hfin).isLocallyOfFiniteType
         (IsLocallyOfFiniteType.of_isRepresentableEtale B S hS eV.inv
           (isRepresentableEtale_of_isIso B S hS eV.inv)))

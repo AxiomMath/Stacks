@@ -83,11 +83,13 @@ abbrev blowUpOver : Over (Spec (CommRingCat.of A)) := Over.mk (toSpec I)
 
 /-- The `A`-linear structure on `𝒪_X`-modules induced by the structure morphism of the affine
 blowup. -/
+@[instance_reducible]
 def blowUpModulesLinear : Linear A (blowUpSpec I).Modules :=
   AlgebraicGeometry.modulesLinear A (blowUpOver I)
 
 /-- The `A`-algebra structure on the functions of the affine blowup induced by its structure
 morphism. -/
+@[instance_reducible]
 def blowUpSectionsAlgebra : Algebra A Γ(blowUpSpec I, ⊤) :=
   baseSectionsAlgebra A (blowUpOver I)
 

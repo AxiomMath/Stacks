@@ -128,7 +128,7 @@ private theorem quotientModule_idealPower_eq_bot (n : ℕ) :
   intro x _
   induction x using Submodule.Quotient.induction_on with
   | _ x =>
-    show (Submodule.Quotient.mk (a • x) : limitGlobalSections S F ⧸
+    change (Submodule.Quotient.mk (a • x) : limitGlobalSections S F ⧸
       (S.I ^ (n + 1) • (⊤ : Submodule S.A (limitGlobalSections S F)))) = 0
     exact (Submodule.Quotient.mk_eq_zero _).mpr (Submodule.smul_mem_smul ha trivial)
 
@@ -174,7 +174,7 @@ private theorem limitQuotientSystem_map {m n : ℕ} (hnm : n ≤ m) :
   let c : (Functor.const ℕᵒᵖ).obj (limitGlobalSections S F) ⟶ T :=
     NatTrans.ofOpSequence p (by
       intro k
-      show p k = p (k + 1) ≫ T.map (homOfLE (Nat.le_add_right k 1)).op
+      change p k = p (k + 1) ≫ T.map (homOfLE (Nat.le_add_right k 1)).op
       rw [limitQuotientSystem_map_succ]
       ext x
       rfl)

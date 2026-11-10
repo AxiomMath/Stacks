@@ -421,7 +421,7 @@ theorem derivedSupportedPushforwardPullbackIso_hom_comp_counit
   have htri := supportedPullbackMap_triangle f Z hZ
     (isClosed_closedSubsetPreimage f Z hZ) K
   rw [← supportedPullbackNatTrans_app] at htri
-  show ((derivedPullback f).map ((closedPushforwardComparison X Z).hom.app
+  change ((derivedPullback f).map ((closedPushforwardComparison X Z).hom.app
             ((derivedSupportedSectionsOnClosed X Z hZ).obj K)) ≫
           supportedPullbackBaseChangeMap f Z ((derivedSupportedSectionsOnClosed X Z hZ).obj K) ≫
           (closedPushforwardComparison X' (closedSubsetPreimage f Z)).inv.app

@@ -271,13 +271,13 @@ private theorem twoSquare_mapHomologicalComplex (adjf : Lf ⊣ Rf) (adjf' : Lf' 
     (eg : Lg ⋙ Lf' ≅ Lc) (ef : Lf ⋙ Lg' ≅ Lc) (c : ComplexShape ι) :
     (Functor.mapHomologicalComplexCompIso (Iso.refl (Rf ⋙ Lg)) c).hom ≫
         NatTrans.mapHomologicalComplex
-          (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans c ≫
+          (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef) c ≫
         (Functor.mapHomologicalComplexCompIso (Iso.refl (Lg' ⋙ Rf')) c).inv =
       (Stacks.CategoryTheory.BaseChange.twoSquare
         (Adjunction.mapHomologicalComplexAdjunction adjf c)
         (Adjunction.mapHomologicalComplexAdjunction adjf' c)
         (Functor.mapHomologicalComplexCompIso eg c)
-        (Functor.mapHomologicalComplexCompIso ef c)).natTrans := by
+        (Functor.mapHomologicalComplexCompIso ef c)) := by
   ext K n
   simp [Stacks.CategoryTheory.BaseChange.twoSquare,
     Stacks.CategoryTheory.BaseChange.pullbackComparison, mateEquiv,
@@ -290,13 +290,13 @@ private theorem twoSquare_mapHomotopyCategory (adjf : Lf ⊣ Rf) (adjf' : Lf' �
     (eg : Lg ⋙ Lf' ≅ Lc) (ef : Lf ⋙ Lg' ≅ Lc) (c : ComplexShape ι) :
     (Functor.mapHomotopyCategoryCompIso (Iso.refl (Rf ⋙ Lg)) c).hom ≫
         NatTrans.mapHomotopyCategory
-          (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans c ≫
+          (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef) c ≫
         (Functor.mapHomotopyCategoryCompIso (Iso.refl (Lg' ⋙ Rf')) c).inv =
       (Stacks.CategoryTheory.BaseChange.twoSquare
         (Adjunction.mapHomotopyCategoryAdjunction adjf c)
         (Adjunction.mapHomotopyCategoryAdjunction adjf' c)
         (Functor.mapHomotopyCategoryCompIso eg c)
-        (Functor.mapHomotopyCategoryCompIso ef c)).natTrans := by
+        (Functor.mapHomotopyCategoryCompIso ef c)) := by
   ext ⟨K⟩
   exact congrArg (HomotopyCategory.quotient A' c).map
     (NatTrans.congr_app (twoSquare_mapHomologicalComplex adjf adjf' eg ef c) K)
@@ -442,7 +442,7 @@ public theorem etaleAbelianHomotopyBaseChange_eq_mateEquiv :
           (Adjunction.mapHomotopyCategoryAdjunction
             (etaleAbelianInverseImageDirectImageAdj.{u, v} f') (ComplexShape.up ℤ))
           (TwoSquare.mk _ _ _ _
-            (etaleAbelianHomotopySquare.{u, v} f g g' f' P hP₁ hP₂))).natTrans := by
+            (etaleAbelianHomotopySquare.{u, v} f g g' f' P hP₁ hP₂))) := by
   subst hP₂
   have heg : (etaleAbelianInverseImageCompIso.{u, v} f' g).symm =
       (etaleAbelianInverseImageCompIso'.{u, v} f' g (f' ≫ g) rfl).symm :=
@@ -473,7 +473,7 @@ public theorem etaleAbelianDerivedBaseChange_eq_mateEquiv :
     etaleAbelianDerivedBaseChange.{u, v} f g g' f' (hP₁.symm.trans hP₂) =
       (mateEquiv (etaleAbelianDerivedAdjunction.{u, v} f)
         (etaleAbelianDerivedAdjunction.{u, v} f')
-        (etaleAbelianDerivedSquare.{u, v} f g g' f' P hP₁ hP₂)).natTrans := by
+        (etaleAbelianDerivedSquare.{u, v} f g g' f' P hP₁ hP₂)) := by
   refine Functor.rightDerived_ext
       (etaleAbelianDerivedDirectImage.{u, v} f ⋙ etaleAbelianDerivedInverseImage.{u, v} g)
       (derivedBaseChangeUnit.{u, v} f g)
@@ -579,7 +579,7 @@ public theorem etaleAbelianDerivedBaseChange_eq_mateEquiv :
     (DerivedCategory.Qh.map
       ((etaleAbelianHomotopyBaseChange.{u, v} f g g' f' (hP₁.symm.trans hP₂)).app K))
     (Iso.hom_inv_id_app _ _)
-    ((etaleAbelianDerivedSquare.{u, v} f g g' f' P hP₁ hP₂).natTrans.naturality
+    ((etaleAbelianDerivedSquare.{u, v} f g g' f' P hP₁ hP₂).naturality
       ((etaleAbelianDerivedDirectImageUnit.{u, v} f).app K))
     hcounit hunit hA hb hη
   have hfac := etaleAbelianDerivedBaseChange_fac.{u, v} f g g' f' (hP₁.symm.trans hP₂) K
@@ -716,7 +716,7 @@ private theorem compIso_lift_assoc_app (κf : L₀ ⋙ Gf ≅ Ff ⋙ L₁) (κi 
     rw [← Category.assoc, hnat, Category.assoc, ← Gq.map_comp, Iso.hom_inv_id_app]; simp
   rw [← key, hEij, hEfq, hEfi, hEaj]
   simp only [Functor.map_comp, Category.assoc]
-  erw [Iso.map_inv_hom_id_assoc (κf.app X) Gq, Iso.map_inv_hom_id_assoc (κa.app X) Gj]
+  erw [(κf.app X).inv_hom_id_map_assoc Gq, (κa.app X).inv_hom_id_map_assoc Gj]
   rw [Iso.inv_hom_id_app_assoc, reassoc_of% hκj, reassoc_of% hL₃]
 
 end Lifted

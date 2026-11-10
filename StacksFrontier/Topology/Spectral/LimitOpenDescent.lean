@@ -64,7 +64,7 @@ private lemma limit_preimage_compact_open_basis
         TopCat.limitCone_π_app_apply, TopCat.homeoOfIso_apply]
     obtain ⟨W, hWo, hWU'⟩ := Topology.IsInducing.subtypeVal.isOpen_iff.mp (e.isOpenMap U hUo)
     have hxW : (e x).val ∈ W := by
-      show e x ∈ Subtype.val ⁻¹' W
+      change e x ∈ Subtype.val ⁻¹' W
       rw [hWU']
       exact Set.mem_image_of_mem e hxU
     obtain ⟨I, u, hu, hpi⟩ := isOpen_pi_iff.mp hWo _ hxW

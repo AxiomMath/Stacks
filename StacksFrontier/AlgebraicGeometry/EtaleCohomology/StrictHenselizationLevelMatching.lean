@@ -112,7 +112,7 @@ theorem levelToBaseChange_naturality {i j : (etaleNeighborhoodDirectedIndex B S 
     (etaleNeighborhoodDirectedBaseChange B S hS s U hU f).map g ≫
         levelToBaseChange B S hS s U hU f j =
       levelToBaseChange B S hS s U hU f i ≫
-        ((Stacks.EtaleCohomology.smallEtaleBaseChange f).map ((CategoryOfElements.π _).map
+        ((Stacks.EtaleCohomology.smallEtaleBaseChange f).map ((Functor.Elements.π _).map
           ((etaleNeighborhoodDirectedNeighborhoods B S hS s U hU).map g))).left := by
   apply pullback.hom_ext
   · refine (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·)
@@ -158,7 +158,7 @@ theorem levelSectionsIso_comp_transition {i j : (etaleNeighborhoodDirectedIndex 
             (levelToSourceOverOpen B S hS s U hU f j) (levelToSourceOverOpen B S hS s U hU f i)
             (levelToSourceOverOpen_transition B S hS s U hU f g)).hom.app
               ((smallEtalePullbackAb (pullback.fst f U.ι)).obj F)) =
-      ((smallEtalePushforwardAb f).obj F).obj.map ((CategoryOfElements.π _).map
+      ((smallEtalePushforwardAb f).obj F).obj.map ((Functor.Elements.π _).map
           ((etaleNeighborhoodDirectedNeighborhoods B S hS s U hU).map g)).op ≫
         (levelSectionsIso B S hS s U hU f F i).hom := by
   let Γi := Sheaf.Γ (smallEtaleTopology ((etaleNeighborhoodDirectedBaseChange B S hS s U hU
@@ -168,7 +168,7 @@ theorem levelSectionsIso_comp_transition {i j : (etaleNeighborhoodDirectedIndex 
   have hq₂ : levelToSource B S hS s U hU f i =
       (etaleNeighborhoodDirectedBaseChange B S hS s U hU f).map g ≫
         levelToSource B S hS s U hU f j := by
-    show levelToSourceOverOpen B S hS s U hU f i ≫ pullback.fst f U.ι = _
+    change levelToSourceOverOpen B S hS s U hU f i ≫ pullback.fst f U.ι = _
     rw [levelToSourceOverOpen_transition B S hS s U hU f g, Category.assoc]
   have hr'' : ((etaleNeighborhoodDirectedBaseChange B S hS s U hU f).map g ≫
       levelToBaseChange B S hS s U hU f j) ≫
@@ -185,7 +185,7 @@ theorem levelSectionsIso_comp_transition {i j : (etaleNeighborhoodDirectedIndex 
     (levelToSource B S hS s U hU f i)
     ((Stacks.EtaleCohomology.smallEtaleBaseChange f).obj (directedNeighborhood B S hS s U hU i))
     (levelToBaseChange B S hS s U hU f i)
-    ((Stacks.EtaleCohomology.smallEtaleBaseChange f).map ((CategoryOfElements.π _).map
+    ((Stacks.EtaleCohomology.smallEtaleBaseChange f).map ((Functor.Elements.π _).map
       ((etaleNeighborhoodDirectedNeighborhoods B S hS s U hU).map g)))
     (levelToBaseChange_hom B S hS s U hU f i)
     (by rw [← levelToBaseChange_naturality]; exact hr''))
@@ -201,7 +201,7 @@ theorem levelSectionsIso_comp_transition {i j : (etaleNeighborhoodDirectedIndex 
     rw [← Functor.map_comp, Iso.inv_hom_id_app, CategoryTheory.Functor.map_id]
   refine h1.trans ?_
   refine (h3.symm.trans h2.symm).trans ?_
-  show _ = _ ≫ _ ≫ Γi.map (E.inv.app F) ≫ Γi.map (E.hom.app F)
+  change _ = _ ≫ _ ≫ Γi.map (E.inv.app F) ≫ Γi.map (E.hom.app F)
   rw [hc, Category.comp_id]
   rfl
 
@@ -209,7 +209,7 @@ theorem levelSectionsIso_comp_transition {i j : (etaleNeighborhoodDirectedIndex 
 abbrev levelSectionsDiagram :
     (etaleNeighborhoodDirectedIndex B S hS s U hU)ᵒᵖᵒᵖ ⥤ Ab.{u + 1} :=
   (etaleNeighborhoodDirectedNeighborhoods B S hS s U hU).op ⋙
-    (CategoryOfElements.π (Scheme.pointSmallEtale s.hom).fiber).op ⋙
+    (Functor.Elements.π (Scheme.pointSmallEtale s.hom).fiber).op ⋙
       ((smallEtalePushforwardAb f).obj F).obj
 
 /-- The transition map of the degree-zero diagram of the base-change system: restriction of global
@@ -293,7 +293,7 @@ theorem levelGammaCocone_ι_app (a : (etaleNeighborhoodDirectedIndex B S hS s U 
             (strictHenselizationToSourceOverOpen B S hS s U hU f)
             (strictHenselizationDirectedLimitCone_π_snd B S hS s U hU f a.unop).symm).hom.app
               ((smallEtalePullbackAb (pullback.fst f U.ι)).obj F)) := by
-  show (levelSectionsIso B S hS s U hU f F a.unop).inv ≫
+  change (levelSectionsIso B S hS s U hU f F a.unop).inv ≫
       (strictHenselizationSectionsCocone B S hS s U hU f F).ι.app a ≫
         (limitSectionsIso B S hS s U hU f F).inv = _
   rw [Iso.inv_comp_eq, Iso.comp_inv_eq, strictHenselizationSectionsCocone_ι_app,

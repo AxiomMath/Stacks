@@ -100,7 +100,7 @@ theorem path_comp_eq_edge_congr {T : Type*} (Lf : T → (E₀ ⥤ E₂)) (pf : T
       rw [← reassoc_of% hn₀, reassoc_of% (hg (A₀.obj K))]
       simp only [← P₂.map_comp, Iso.hom_inv_id_app, Functor.comp_obj,
         CategoryTheory.Functor.map_id, Category.comp_id]
-    show (L₂.map (β₁.hom.app (Q₀.obj K)) ≫ β₂.hom.app (X₁.obj (Q₀.obj K)) ≫
+    change (L₂.map (β₁.hom.app (Q₀.obj K)) ≫ β₂.hom.app (X₁.obj (Q₀.obj K)) ≫
         Φ₂.map (ε.app (Q₀.obj K))) ≫ Φ₂.map (κ.app K) =
       (g.hom.app (Φ₀.obj (Q₀.obj K)) ≫ β.hom.app (Q₀.obj K)) ≫ Φ₂.map (κ.app K)
     simp only [Category.assoc] at ha ⊢
@@ -118,7 +118,6 @@ variable {MR MR' MA' V₀ V₁ V₂ T : Type*} [Category MR] [Category MR'] [Cat
   {F₀ : MR ⥤ V₀} {F₁ : MR' ⥤ V₁} {F₂ : MA' ⥤ V₂} [F₀.Additive] [F₁.Additive] [F₂.Additive]
   {q₁ : V₀ ⥤ V₁} {q₂ : V₁ ⥤ V₂} [q₁.Additive] [q₂.Additive]
   {y₁ : MR ⥤ MR'} {y₂ : MR' ⥤ MA'} {yc : MR ⥤ MA'} [y₁.Additive] [y₂.Additive] [yc.Additive]
-  [(y₁ ⋙ F₁).Additive] [(y₂ ⋙ F₂).Additive] [(yc ⋙ F₂).Additive]
   {Ψ : T → (V₀ ⥤ V₂)} [∀ t, (Ψ t).Additive]
 
 /-- **A path of two degreewise isomorphisms against a single one, on complexes.** -/

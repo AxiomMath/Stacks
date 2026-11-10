@@ -177,7 +177,7 @@ theorem divisorComplement_graphTriple :
     @Eq (projectiveLineProduct f).Opens (graphTriple f E hE).divisorComplement
       (projectiveLineAffineChart f).opensRange := by
   ext x
-  show x ∉ ((infinitySection f).ker.support : Set (projectiveLineProduct f)) ↔
+  change x ∉ ((infinitySection f).ker.support : Set (projectiveLineProduct f)) ↔
     x ∈ Set.range (projectiveLineAffineChart f).base
   rw [Scheme.Hom.support_ker, (infinitySection f).isClosedEmbedding.isClosed_range.closure_eq,
     ← compl_range_projectiveLineAffineChart]

@@ -36,7 +36,7 @@ universe w v₁ u₁ u
 namespace Stacks.Sites
 
 variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] {O : Sheaf J CommRingCat.{u}}
+  {O : Sheaf J CommRingCat.{u}}
 
 /-! ### The product lies in both factors -/
 

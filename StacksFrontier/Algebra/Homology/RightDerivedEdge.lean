@@ -262,7 +262,7 @@ theorem edge_app_eq (n : ℕ) {X : A} (I : InjectiveResolution X)
       HomologicalComplex.homologyMap
         ((Q.mapHomologicalComplex (ComplexShape.up ℕ)).map φ) n ≫
       (I.isoRightDerivedObj (P ⋙ Q) n).inv := by
-  show (edge P Q n).app X = (J.isoRightDerivedObj Q n).hom ≫
+  change (edge P Q n).app X = (J.isoRightDerivedObj Q n).hom ≫
     (HomologicalComplex.homologyFunctor D (ComplexShape.up ℕ) n).map
       ((Q.mapHomologicalComplex (ComplexShape.up ℕ)).map φ) ≫
     (isoRightDerivedObjComp P Q I n).inv

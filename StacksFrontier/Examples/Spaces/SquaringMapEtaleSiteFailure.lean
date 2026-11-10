@@ -118,7 +118,7 @@ theorem exists_eq_chartTwist_comp_chartPairIncl (hchar : (2 : k) ≠ 0)
   -- the affine line is irreducible, so one piece is empty
   have _hirr : IrreducibleSpace
       ((BigFppfOver.toScheme B (Spec (.of k)) hk).obj (affineLineChart k B hk)) := by
-    show IrreducibleSpace (affineLine k).left
+    change IrreducibleSpace (affineLine k).left
     exact irreducibleSpace_affineLine k
   have hopen : ∀ b, IsOpen (Set.range
       ((BigFppfOver.toScheme B (Spec (.of k)) hk).map (p b))) := fun b =>
@@ -172,7 +172,7 @@ theorem chartNeg_comp_affineLineSquareChart :
     chartNeg k B hk ≫ affineLineSquareChart k B hk = affineLineSquareChart k B hk := by
   refine (Over.post (X := B.obj hk) B.inclusion).map_injective ?_
   rw [Functor.map_comp, post_chartNeg]
-  show affineLineNeg k ≫ affineLineSquareOver k B hk = affineLineSquareOver k B hk
+  change affineLineNeg k ≫ affineLineSquareOver k B hk = affineLineSquareOver k B hk
   rw [affineLineSquareOver_eq]
   exact affineLineNeg_comp_affineLineSquare k
 

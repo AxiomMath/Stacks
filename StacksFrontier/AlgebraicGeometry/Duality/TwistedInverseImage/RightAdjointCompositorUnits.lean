@@ -70,7 +70,7 @@ theorem leftAdjointIdIso_rightAdjointUniq_ofNatIsoLeft {L R : C₀ ⥤ C₀} (ad
     leftAdjointIdIso adj (rightAdjointUniq (adj.ofNatIsoLeft eL) Adjunction.id) = eL := by
   refine Iso.ext ((conjugateEquiv Adjunction.id adj).injective ?_)
   rw [conjugateEquiv_leftAdjointIdIso_hom]
-  show _ = conjugateEquiv Adjunction.id adj eL.hom
+  change _ = conjugateEquiv Adjunction.id adj eL.hom
   ext c
   simp [conjugateEquiv, Adjunction.ofNatIsoLeft, Adjunction.id, mateEquiv, rightAdjointUniq]
 

@@ -117,7 +117,7 @@ private theorem taut_of_presentation (φ : B →+* A) :
   have hLopen (J : idx) : IsOpen (L J : Set R) :=
     (L J).toAddSubgroup.isOpen_of_mem_nhds (g := (0 : R)) (by simpa using hLmem J)
   have hMset (J : idx) : (M J : Set Q) = q '' (L J : Set R) := by
-    show (Ideal.map q (L J) : Set Q) = q '' (L J : Set R)
+    change (Ideal.map q (L J) : Set Q) = q '' (L J : Set R)
     exact Ideal.map_eq_image_of_surjective q (fun x => Ideal.Quotient.mk_surjective x)
   have hMopen (J : idx) : IsOpen (M J : Set Q) := by
     rw [hMset J]
@@ -131,7 +131,7 @@ private theorem taut_of_presentation (φ : B →+* A) :
       have hCb : MvPolynomial.C b ∈ J.1.map (MvPolynomial.C : B →+* P) :=
         Ideal.mem_map_of_mem _ hb
       have hc : c b ∈ L J := subset_closure (Ideal.mem_map_of_mem p hCb)
-      show q (c b) ∈ M J
+      change q (c b) ∈ M J
       exact Ideal.mem_map_of_mem q hc
     have hmapIdeals : (J.1.map (MvPolynomial.C : B →+* P)).map (q.comp p) =
         J.1.map ψ := by
@@ -172,7 +172,7 @@ private theorem taut_of_presentation (φ : B →+* A) :
   have hABasis' : (nhds (0 : A)).HasBasis (fun J : idx => True)
       (fun J => eH '' (M J : Set Q)) := by
     have hz : eH (0 : Q) = (0 : A) := by
-      show e 0 = 0
+      change e 0 = 0
       simp
     rw [← hz, ← eH.map_nhds_eq (0 : Q)]
     exact hQbasis.map eH
@@ -270,7 +270,7 @@ theorem isTopologicallyOfFiniteType_of_finiteTypeModuloEveryWeakIdeal'
     -- surjectivity of `(R ⧸ I')[x] → S ⧸ J(I')` modulo the extended ideal
     have hext : _root_.extendedIdeal N (S ⧸ Ideal.closure (I'.map φ)) =
         (I.map φ).map (Ideal.Quotient.mk (Ideal.closure (I'.map φ))) := by
-      show Ideal.map (algebraMap (R ⧸ I') (S ⧸ Ideal.closure (I'.map φ)))
+      change Ideal.map (algebraMap (R ⧸ I') (S ⧸ Ideal.closure (I'.map φ)))
         (I.map (Ideal.Quotient.mk I')) = _
       rw [Ideal.map_map, Ideal.map_map]
       congr 1
@@ -324,7 +324,7 @@ theorem isTopologicallyOfFiniteType_of_finiteTypeModuloEveryWeakIdeal'
 
 omit [IsTopologicalRing B] [IsLinearTopology B B] [IsLinearTopology A A] in
 theorem finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType
-    (φ : B →+* A) (hφ : Continuous φ) (hTaut : RingHom.IsTaut φ) :
+    (φ : B →+* A) (hTaut : RingHom.IsTaut φ) :
     TopologicalRing.IsTopologicallyOfFiniteType φ → FiniteTypeModuloEveryWeakIdeal φ := by
   rintro ⟨n, f, hfcomp, hfdense⟩
   refine ⟨hTaut, fun J hJ => ?_⟩
@@ -335,7 +335,7 @@ theorem finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType
   let qB : B →+* B ⧸ J := Ideal.Quotient.mk J
   let qbar : B ⧸ J →+* A ⧸ I := Ideal.quotientMap I φ
     (Ideal.map_le_iff_le_comap.mp hJI)
-  show qbar.FiniteType
+  change qbar.FiniteType
   let : DiscreteTopology (A ⧸ I) := QuotientAddGroup.discreteTopology_iff.mpr hIopen
   let qP : Ideal (MvPolynomial (Fin n) B) :=
     J.map (MvPolynomial.C : B →+* MvPolynomial (Fin n) B)
@@ -350,11 +350,11 @@ theorem finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType
   have hqPker : qP ≤ RingHom.ker F := by
     apply Ideal.map_le_iff_le_comap.mpr
     intro b hb
-    show F (MvPolynomial.C b) = 0
+    change F (MvPolynomial.C b) = 0
     have hmem : φ b ∈ I := by
-      show φ b ∈ closure (J.map φ : Set A)
+      change φ b ∈ closure (J.map φ : Set A)
       exact subset_closure (Ideal.mem_map_of_mem φ hb)
-    show Ideal.Quotient.mk I (f (MvPolynomial.C b)) = 0
+    change Ideal.Quotient.mk I (f (MvPolynomial.C b)) = 0
     rw [show f (MvPolynomial.C b) = φ b by
       exact DFunLike.congr_fun hfcomp b]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr hmem
@@ -371,13 +371,13 @@ theorem finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType
     intro y
     obtain ⟨x, rfl⟩ := hFsurj y
     refine ⟨Ideal.Quotient.mk qP x, ?_⟩
-    show Ideal.Quotient.lift qP F hqPker' (Ideal.Quotient.mk qP x) = F x
+    change Ideal.Quotient.lift qP F hqPker' (Ideal.Quotient.mk qP x) = F x
     rw [Ideal.Quotient.lift_mk]
   have hfbar : Function.Surjective fbar := hlift.comp eqv.surjective
   have hfbarC : fbar.comp (MvPolynomial.C : B ⧸ J →+*
       MvPolynomial (Fin n) (B ⧸ J)) = qbar := by
     ext b
-    show lift (eqv (MvPolynomial.C (qB b))) = qA (φ b)
+    change lift (eqv (MvPolynomial.C (qB b))) = qA (φ b)
     have heqv : eqv (MvPolynomial.C (qB b)) =
         Ideal.Quotient.mk qP (MvPolynomial.C b) := by
       calc
@@ -388,17 +388,17 @@ theorem finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType
           rw [← Ideal.Quotient.mk_algebraMap (R₁ := B) qP b]
           simp [MvPolynomial.algebraMap_eq]
     rw [heqv]
-    show Ideal.Quotient.lift qP F hqPker'
+    change Ideal.Quotient.lift qP F hqPker'
       (Ideal.Quotient.mk qP (MvPolynomial.C b)) = qA (φ b)
     rw [Ideal.Quotient.lift_mk]
-    show qA (f (MvPolynomial.C b)) = qA (φ b)
+    change qA (f (MvPolynomial.C b)) = qA (φ b)
     have hconst : f (MvPolynomial.C b) = φ b := DFunLike.congr_fun hfcomp b
     rw [hconst]
   let : Algebra (B ⧸ J) (A ⧸ I) := qbar.toAlgebra
   let fbarAlg : MvPolynomial (Fin n) (B ⧸ J) →ₐ[B ⧸ J] A ⧸ I :=
     { toRingHom := fbar
       commutes' := fun b => DFunLike.congr_fun hfbarC b }
-  show Algebra.FiniteType (B ⧸ J) (A ⧸ I)
+  change Algebra.FiniteType (B ⧸ J) (A ⧸ I)
   exact Algebra.FiniteType.of_surjective fbarAlg hfbar
 
 omit [IsTopologicalRing B] [IsLinearTopology B B] [IsLinearTopology A A] in
@@ -410,7 +410,8 @@ No countability assumption is involved. The converse,
 `TopologicalRing.isTopologicallyOfFiniteType_of_finiteTypeModuloEveryWeakIdeal`, needs only
 that the source be weakly pre-admissible, so the two conditions are equivalent outright and
 `TopologicalRing.finiteType_tfae` is not the only route between them. -/
-alias finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType' := finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType
+alias finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType' :=
+  finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType
 
 omit [IsTopologicalRing B] [IsLinearTopology B B] [IsTopologicalRing A]
   [IsLinearTopology A A] in
@@ -427,7 +428,7 @@ private theorem topologicallyOfFiniteType_of_presentation (φ : B →+* A) :
   let g : R →+* A := e.toRingHom.comp q
   let f : P →+* A := g.comp p
   refine ⟨n, f, ?_, ?_⟩
-  · show (e.toRingHom.comp q).comp (p.comp MvPolynomial.C) = φ
+  · change (e.toRingHom.comp q).comp (p.comp MvPolynomial.C) = φ
     rw [RingHom.comp_assoc]
     simpa [q, p, coeffToRestrictedPowerSeries] using hcompat
   · have hqcont : Continuous q := continuous_quot_mk
@@ -436,12 +437,12 @@ private theorem topologicallyOfFiniteType_of_presentation (φ : B →+* A) :
       intro a
       obtain ⟨x, hx⟩ := Ideal.Quotient.mk_surjective (e.symm a)
       refine ⟨x, ?_⟩
-      show e (Ideal.Quotient.mk K x) = a
+      change e (Ideal.Quotient.mk K x) = a
       rw [hx, e.apply_symm_apply]
     have hp : DenseRange p := by
-      show DenseRange ((↑) : P → UniformSpace.Completion P)
+      change DenseRange ((↑) : P → UniformSpace.Completion P)
       exact UniformSpace.Completion.denseRange_coe
-    show DenseRange (fun x : P => g (p x))
+    change DenseRange (fun x : P => g (p x))
     exact hgsurj.denseRange.comp hp hgcont
 
 omit [IsLinearTopology A A] in
@@ -505,17 +506,16 @@ theorem exists_fundamental_weak_ideal_sequence
   exact ⟨J, hJweak, hJanti, hJbasis⟩
 
 theorem finiteTypeModuloEveryWeakIdeal_to_topologicallyOfFiniteType
-    (φ : B →+* A) (hφ : Continuous φ)
+    (φ : B →+* A)
     (hB : TopologicalRing.IsWeaklyAdmissible B) (hA : TopologicalRing.IsWeaklyAdmissible A)
     (hBcount : (nhds (0 : B)).IsCountablyGenerated)
-    (hAcount : (nhds (0 : A)).IsCountablyGenerated)
     (hFT : FiniteTypeModuloEveryWeakIdeal φ) :
     TopologicalRing.IsTopologicallyOfFiniteType φ := by
   classical
   obtain ⟨J, hJ⟩ := exists_fundamental_weak_ideal_sequence B hB hBcount
   have hdiag : RingHom.QuotientDiagram.HasQuotientDiagram φ J hJ.2.1 :=
     (RingHom.QuotientDiagram.isTaut_iff_hasQuotientDiagram
-      φ hφ hA hB J hJ).mp hFT.1
+      φ hA J hJ).mp hFT.1
   let I : ℕ → Ideal A := fun m =>
     RingHom.QuotientDiagram.targetIdeal φ J m
   let qA : (m : ℕ) → A →+* A ⧸ I m := fun m => Ideal.Quotient.mk (I m)
@@ -539,18 +539,18 @@ theorem finiteTypeModuloEveryWeakIdeal_to_topologicallyOfFiniteType
       { toRingHom := stage m
         commutes' := by
           intro r
-          show MvPolynomial.eval₂Hom (ψ m) (fun i => qA m (a i)) (MvPolynomial.C r) = ψ m r
+          change MvPolynomial.eval₂Hom (ψ m) (fun i => qA m (a i)) (MvPolynomial.C r) = ψ m r
           simp [MvPolynomial.eval₂Hom_C] }
   have hstage0 : stage 0 = f₀.toRingHom := by
     apply MvPolynomial.ringHom_ext
     · intro b
-      show MvPolynomial.eval₂Hom (ψ 0) (fun i => qA 0 (a i)) (MvPolynomial.C b) = _
+      change MvPolynomial.eval₂Hom (ψ 0) (fun i => qA 0 (a i)) (MvPolynomial.C b) = _
       rw [MvPolynomial.eval₂Hom_C]
-      show algebraMap (B ⧸ J 0) (A ⧸ I 0) b =
+      change algebraMap (B ⧸ J 0) (A ⧸ I 0) b =
         f₀ (algebraMap (B ⧸ J 0) (MvPolynomial (Fin n) (B ⧸ J 0)) b)
       exact (f₀.commutes b).symm
     · intro i
-      show MvPolynomial.eval₂Hom (ψ 0) (fun i => qA 0 (a i)) (MvPolynomial.X i) = _
+      change MvPolynomial.eval₂Hom (ψ 0) (fun i => qA 0 (a i)) (MvPolynomial.X i) = _
       rw [MvPolynomial.eval₂Hom_X']
       exact ha i
   have hstageSurj : ∀ m, Function.Surjective (stage m) := by
@@ -597,17 +597,17 @@ theorem finiteTypeModuloEveryWeakIdeal_to_topologicallyOfFiniteType
         · intro r
           simp only [RingHom.comp_apply]
           simp only [MvPolynomial.map_C]
-          show eS.toRingHom (Ideal.Quotient.mk M (stage (m + 1) (MvPolynomial.C r))) =
+          change eS.toRingHom (Ideal.Quotient.mk M (stage (m + 1) (MvPolynomial.C r))) =
             stage m (MvPolynomial.C (qB r))
           rw [MvPolynomial.eval₂Hom_C, heS_mk, MvPolynomial.eval₂Hom_C]
           exact DFunLike.congr_fun hcomm r
         · intro i
           simp only [RingHom.comp_apply]
           simp only [MvPolynomial.map_X]
-          show eS.toRingHom (Ideal.Quotient.mk M (stage (m + 1) (MvPolynomial.X i))) =
+          change eS.toRingHom (Ideal.Quotient.mk M (stage (m + 1) (MvPolynomial.X i))) =
             stage m (MvPolynomial.X i)
           rw [MvPolynomial.eval₂Hom_X', heS_mk, MvPolynomial.eval₂Hom_X']
-          show Ideal.Quotient.factor
+          change Ideal.Quotient.factor
               (show I (m + 1) ≤ I m from
                 closure_mono (Ideal.map_mono (hJ.2.1 (Nat.le_succ m))))
               (Ideal.Quotient.mk (I (m + 1)) (a i)) =
@@ -625,7 +625,7 @@ theorem finiteTypeModuloEveryWeakIdeal_to_topologicallyOfFiniteType
       have hftnext : Algebra.FiniteType R S := hftStage (m + 1)
       have hmodsurj' : Function.Surjective
           ((Ideal.Quotient.mk (extendedIdeal N S)).comp (stageAlg (m + 1)).toRingHom) := by
-        show Function.Surjective ((Ideal.Quotient.mk M).comp (stage (m + 1)))
+        change Function.Surjective ((Ideal.Quotient.mk M).comp (stage (m + 1)))
         exact hmodsurj
       exact surjective_of_surjective_mod_locallyNilpotent
         N hNnil (stageAlg (m + 1)) hmodsurj'
@@ -659,7 +659,7 @@ theorem finiteTypeModuloCofinal_to_every (φ : B →+* A) :
   let Im : Ideal A := Ideal.closure ((J m).map φ)
   let IK : Ideal A := Ideal.closure (K.map φ)
   have hImle : Im ≤ IK := by
-    show closure ((J m).map φ : Set A) ⊆ closure (K.map φ : Set A)
+    change closure ((J m).map φ : Set A) ⊆ closure (K.map φ : Set A)
     exact closure_mono (Ideal.map_mono hle)
   let qB : B ⧸ J m →+* B ⧸ K := Ideal.Quotient.factor hle
   let qA : A ⧸ Im →+* A ⧸ IK := Ideal.Quotient.factor hImle
@@ -678,11 +678,10 @@ theorem finiteTypeModuloCofinal_to_every (φ : B →+* A) :
 
 omit [IsTopologicalRing B] [IsLinearTopology B B] [IsLinearTopology A A] in
 @[ega "0 7.5.5" "(c), (c) ⇒ (a)"]
-theorem finiteTypeModuloEveryWeakIdeal_of_presentation (φ : B →+* A)
-    (hφ : Continuous φ) :
+theorem finiteTypeModuloEveryWeakIdeal_of_presentation (φ : B →+* A) :
     HasRestrictedPowerSeriesPresentation φ → FiniteTypeModuloEveryWeakIdeal φ := by
   intro hp
-  exact finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType φ hφ
+  exact finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType φ
     (taut_of_presentation φ hp) (topologicallyOfFiniteType_of_presentation φ hp)
 
 end

@@ -8,8 +8,9 @@ public import StacksFrontier.AlgebraicGeometry.RegularSequence.ExtVanishing
 /-!
 # The direct-sum decomposition of `Iⁿ F_(n+1)` over a Noetherian local base
 
-This file closes the hypothesis `hdec` of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/AlgebraizationCoherentFormal/FlatOverLocalBase.lean`:
+This file closes the hypothesis `hdec` of the file
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/AlgebraizationCoherentFormal/`
+`FlatOverLocalBase.lean`:
 in the situation of Stacks 0EJU — a Noetherian local ring `(R, 𝔪)` with `R → A`, `I = 𝔪 A`, and
 the formal stalks of a coherent `I`-adic system `(F_n)` on `U` flat over `R` — the subsheaf
 `Iⁿ⁺¹ F_(n+2)` of `Stacks.Algebraization.idealPowerSub` *is* a finite direct sum of copies of

@@ -106,7 +106,7 @@ theorem associatedModuleObjBaseChangeIso_coherence {W Y Z : B.Scheme} (a : W ⟶
   simp only [associatedModuleObjBaseChangeIso, Iso.app_hom] at hc
   rw [e₁]
   simp only [Iso.symm_hom, eqToIso_refl, Iso.trans_refl]
-  haveI hepi : Epi ((associatedModule B W.obj W.property).map
+  have hepi : Epi ((associatedModule B W.obj W.property).map
       ((Scheme.Modules.pullbackComp (schemeHom B a) (schemeHom B b)).hom.app 𝓖)) :=
     @IsIso.epi_of_iso _ _ _ _ _ ((associatedModule B W.obj W.property).mapIso
       ((Scheme.Modules.pullbackComp (schemeHom B a) (schemeHom B b)).app 𝓖)).isIso_hom

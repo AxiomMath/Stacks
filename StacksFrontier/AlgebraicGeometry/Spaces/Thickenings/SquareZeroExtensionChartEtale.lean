@@ -174,7 +174,7 @@ theorem SquareZeroExtension.algebraEtale_app_of_isBaseChange
   have htower₁ : IsScalarTower (E.A.obj.obj (op V)) (E.A.obj.obj (op U))
       ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U)) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show (E.π.hom.app (op U)).hom.comp (E.A.obj.map h.op).hom =
+      change (E.π.hom.app (op U)).hom.comp (E.A.obj.map h.op).hom =
         (E.π.hom.app (op U)).hom.comp
           (algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U)))
       rw [halg])

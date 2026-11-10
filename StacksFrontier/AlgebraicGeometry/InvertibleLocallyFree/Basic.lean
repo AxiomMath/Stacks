@@ -94,7 +94,8 @@ category of schemes, and only for the Zariski topology —
 `Stacks.Descent.isPrestack_qcohPseudofunctor`
 and `Stacks.Descent.isPrestack_modulePullbackPseudofunctor` in
 `StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherent/ZariskiGluing.lean`, and
-`Stacks.Descent.isStack_qcohPseudofunctor` in `StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherent/ZariskiStack.lean`. None of those transports
+`Stacks.Descent.isStack_qcohPseudofunctor` in
+`StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherent/ZariskiStack.lean`. None of those transports
 to a general site: there is no pseudofunctor `X ↦ SheafOfModules (𝒪.over X)` anywhere, and the
 transport machinery of `StacksFrontier/CategoryTheory/Sites/Stack/` needs a comparison that does
 not exist here. So that route is a dead end — which is why `InvertibleIsLocal` is proved by a

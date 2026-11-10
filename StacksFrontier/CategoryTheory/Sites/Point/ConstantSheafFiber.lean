@@ -74,7 +74,7 @@ variable {D : Type u₂} [Category.{v₂} D] [HasColimitsOfSize.{w, w} D]
 /-- The cocone, on a constant presheaf viewed over the neighbourhoods of a point of a site, all
 of whose legs are the identity. -/
 noncomputable def constPresheafCocone (Φ : J.Point.{w}) (A : D) :
-    Cocone ((CategoryOfElements.π Φ.fiber).op ⋙ (Functor.const Cᵒᵖ).obj A) :=
+    Cocone ((Functor.Elements.π Φ.fiber).op ⋙ (Functor.const Cᵒᵖ).obj A) :=
   Limits.constCocone Φ.fiber.Elementsᵒᵖ A
 
 /-- The all-identity cocone on a constant presheaf over the neighbourhoods of a point of a site

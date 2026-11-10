@@ -128,7 +128,7 @@ theorem restrictTot_cocycle (n : ℕ) (s : (p.sectionsDeRhamComplex.X n).obj (op
   have hc := ConcreteCategory.congr_hom ((augmentation p U hU).comm n (n + 1)) (globalExtend p n s)
   refine (restrictScalars_d_apply (baseRingHom p) (cechDeRham p U hU) n (n + 1) _).trans
     (hc.trans ?_)
-  show ((augmentation p U hU).f (n + 1)).hom (((globalSectionsComplex p).d n (n + 1)).hom
+  change ((augmentation p U hU).f (n + 1)).hom (((globalSectionsComplex p).d n (n + 1)).hom
     (globalExtend p n s)) = 0
   rw [hs, map_zero]
 

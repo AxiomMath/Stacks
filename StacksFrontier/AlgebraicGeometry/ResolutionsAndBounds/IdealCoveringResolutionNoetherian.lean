@@ -139,7 +139,7 @@ theorem exists_isFiniteLocallyFree_epi_hom_app_oneSection_of_epi [IsNoetherian X
     exists_isFiniteLocallyFree_epi_idealPow_of_epi I hE he (n := n + 1) (Nat.succ_ne_zero n)
   refine ⟨n + 1, P, hP, ε, hε, idealPowMap I (Nat.le_succ n) ≫ ψ, ?_⟩
   rw [Scheme.Modules.Hom.comp_app]
-  show ψ.app (I.support.compl : X.Opens)
+  change ψ.app (I.support.compl : X.Opens)
     ((idealPowMap I (Nat.le_succ n)).app (I.support.compl : X.Opens) (oneSection I (n + 1))) = s
   rw [idealPowMap_app_oneSection, hψ]
 

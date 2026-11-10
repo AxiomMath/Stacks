@@ -126,7 +126,7 @@ theorem isLocallyBijective_homEquiv_symm_of_comm (J : GrothendieckTopology D)
   have hc₁ : (adj.homEquiv _ _).symm d₁ =
       (pullback σ).map e.hom ≫ (adj.homEquiv _ _).symm d₂ ≫ e'.inv := by
     rw [← Category.assoc, hmate, Category.assoc, Iso.hom_inv_id, Category.comp_id]
-  show Presheaf.IsLocallyInjective J ((toPresheaf R').map ((adj.homEquiv _ _).symm d₁)) ∧
+  change Presheaf.IsLocallyInjective J ((toPresheaf R').map ((adj.homEquiv _ _).symm d₁)) ∧
     Presheaf.IsLocallySurjective J ((toPresheaf R').map ((adj.homEquiv _ _).symm d₁))
   rw [hc₁]
   obtain ⟨h₂i, h₂s⟩ := h₂

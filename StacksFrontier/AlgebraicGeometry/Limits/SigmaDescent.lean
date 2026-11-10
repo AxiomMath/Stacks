@@ -117,7 +117,7 @@ are. -/
 theorem etale_sigmaDesc {T : Scheme.{u}} (α : ∀ i, X i ⟶ T) (hα : ∀ i, Etale (α i)) :
     Etale (Sigma.desc α) := by
   refine IsZariskiLocalAtSource.of_openCover (P := @Etale) (𝒰 := sigmaOpenCover X) fun i ↦ ?_
-  have h : (sigmaOpenCover X).f i ≫ Sigma.desc α = α i := Sigma.ι_desc α i
+  have h : (sigmaOpenCover X).f i ≫ Sigma.desc α = α i := Sigma.ι_comp_desc α i
   rw [h]
   exact hα i
 

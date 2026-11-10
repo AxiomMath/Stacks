@@ -100,7 +100,7 @@ composites of right adjoints. -/
 theorem twoSquare_eq_mateEquiv_symm_conjugateEquiv {Rg : A' ⥤ A} {Rg' : B' ⥤ B}
     (ag : Lg ⊣ Rg) (ag' : Lg' ⊣ Rg') :
     twoSquare adjf adjf' eg ef = (mateEquiv ag' ag).symm (TwoSquare.mk _ _ _ _
-      (conjugateEquiv (adjf.comp ag') (ag.comp adjf') (pullbackComparison eg ef).natTrans)) :=
+      (conjugateEquiv (adjf.comp ag') (ag.comp adjf') (pullbackComparison eg ef))) :=
   (mateEquiv ag' ag).eq_symm_apply.2 <| by
     ext K
     exact congrArg (fun t => NatTrans.app t K)
@@ -114,7 +114,7 @@ theorem homEquiv_map_eq_unit_comp {Rg : A' ⥤ A} {Rg' : B' ⥤ B} (ag : Lg ⊣ 
     (ag' : Lg' ⊣ Rg') (K : B) :
     ag.homEquiv _ _ (map adjf adjf' eg ef K) =
       Rf.map (ag'.unit.app K) ≫ (conjugateEquiv (adjf.comp ag') (ag.comp adjf')
-        (pullbackComparison eg ef).natTrans).app (Lg'.obj K) := by
+        (pullbackComparison eg ef)).app (Lg'.obj K) := by
   rw [Adjunction.homEquiv_unit, map, twoSquare_eq_mateEquiv_symm_conjugateEquiv adjf adjf' eg ef
     ag ag']
   exact (unit_mateEquiv_symm ag' ag _ K).symm
@@ -123,7 +123,7 @@ theorem homEquiv_map_eq_unit_comp {Rg : A' ⥤ A} {Rg' : B' ⥤ B} (ag : Lg ⊣ 
 both directions: the base change map is the component of a natural transformation. -/
 theorem isIso_map_iff_of_iso {K K' : B} (e : K ≅ K') :
     IsIso (map adjf adjf' eg ef K) ↔ IsIso (map adjf adjf' eg ef K') :=
-  NatTrans.isIso_app_iff_of_iso (twoSquare adjf adjf' eg ef).natTrans e
+  NatTrans.isIso_app_iff_of_iso (twoSquare adjf adjf' eg ef) e
 
 /-- **The base change map is invertible where the counit and the unit are.**  If the counit of
 `Lf ⊣ Rf` is invertible at `K` and the unit of `Lf' ⊣ Rf'` at `Lg (Rf K)`, the base change map at
@@ -186,7 +186,7 @@ theorem map_comp_map_homComparison_counit (e : Lg ⋙ Lf' ≅ Lf ⋙ Lg') (L : B
       Lg.map (Rf.map (((conjugateIsoEquiv (ag'.comp a') (a.comp ag')) μ).inv.app L) ≫
           (conjugateEquiv (adjf.comp ag') (ag.comp adjf') e.hom).app (RM'.obj L)) ≫
         ag.counit.app _ := by
-  have hc : (pullbackComparison e (Iso.refl ((Lf ⋙ Lg')))).natTrans = e.hom := by
+  have hc : (pullbackComparison e (Iso.refl ((Lf ⋙ Lg')))) = e.hom := by
     ext X
     simp [pullbackComparison]
   refine Eq.trans ?_ (Adjunction.homEquiv_counit ag _ _ _)
@@ -240,7 +240,7 @@ theorem conjugateEquiv_pullbackComparison_leftAdjointUniq (ag : Lg ⊣ Rg) (ag' 
             Adjunction.leftAdjointUniq a₂ ((ak k₂).ofNatIsoRight tc.symm))
           (((Adjunction.leftAdjointUniq (a₅.ofNatIsoRight pc') (adjf.comp ag')).symm ≪≫
             Adjunction.leftAdjointUniq a₅ ((ak k₁).ofNatIsoRight tc'.symm)) ≪≫
-              eqToIso (congrArg Lk hk))).natTrans =
+              eqToIso (congrArg Lk hk))) =
       pc'.inv ≫ tc'.hom ≫ eqToHom (congrArg Rk hk) ≫ tc.inv ≫ pc.hom := by
   subst hk
   have e5 := conjugateEquiv_leftAdjointUniq_ofNatIsoRight_hom a₅ pc' (adjf.comp ag')
@@ -264,8 +264,8 @@ theorem isIso_mateEquiv_symm_app_of_eq {Mg : A ⥤ A'} {Sg : A' ⥤ A} {Mg' : B 
     (bg' : Mg' ⊣ Sg') (hg : Rg = Sg) (hg' : Rg' = Sg') (hf : Rf = Tf) (hf' : Rf' = Tf')
     (θ : Rg' ⋙ Rf ⟶ Rf' ⋙ Rg) (θ' : Sg' ⋙ Tf ⟶ Tf' ⋙ Sg) (h₁ : Sg' ⋙ Tf = Rg' ⋙ Rf)
     (h₂ : Rf' ⋙ Rg = Tf' ⋙ Sg) (hθ : θ' = eqToHom h₁ ≫ θ ≫ eqToHom h₂) (K : B)
-    (hK : IsIso (((mateEquiv bg' bg).symm (TwoSquare.mk _ _ _ _ θ')).natTrans.app K)) :
-    IsIso (((mateEquiv ag' ag).symm (TwoSquare.mk _ _ _ _ θ)).natTrans.app K) := by
+    (hK : IsIso (((mateEquiv bg' bg).symm (TwoSquare.mk _ _ _ _ θ')).app K)) :
+    IsIso (((mateEquiv ag' ag).symm (TwoSquare.mk _ _ _ _ θ)).app K) := by
   subst hg hg' hf hf'
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id] at hθ
   subst hθ
@@ -282,8 +282,8 @@ theorem isIso_mateEquiv_symm_of_eq {Mg : A ⥤ A'} {Sg : A' ⥤ A} {Mg' : B ⥤ 
     (bg' : Mg' ⊣ Sg') (hg : Rg = Sg) (hg' : Rg' = Sg') (hf : Rf = Tf) (hf' : Rf' = Tf')
     (θ : Rg' ⋙ Rf ⟶ Rf' ⋙ Rg) (θ' : Sg' ⋙ Tf ⟶ Tf' ⋙ Sg) (h₁ : Sg' ⋙ Tf = Rg' ⋙ Rf)
     (h₂ : Rf' ⋙ Rg = Tf' ⋙ Sg) (hθ : θ' = eqToHom h₁ ≫ θ ≫ eqToHom h₂)
-    (hK : IsIso ((mateEquiv bg' bg).symm (TwoSquare.mk _ _ _ _ θ')).natTrans) :
-    IsIso ((mateEquiv ag' ag).symm (TwoSquare.mk _ _ _ _ θ)).natTrans :=
+    (hK : IsIso ((mateEquiv bg' bg).symm (TwoSquare.mk _ _ _ _ θ'))) :
+    IsIso ((mateEquiv ag' ag).symm (TwoSquare.mk _ _ _ _ θ)) :=
   @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun K =>
     isIso_mateEquiv_symm_app_of_eq ag bg ag' bg' hg hg' hf hf' θ θ' h₁ h₂ hθ K inferInstance
 
@@ -308,7 +308,7 @@ theorem isIso_map_of_isIso_mateEquiv_symm_app (ag : Lg ⊣ Rg) (ag' : Lg' ⊣ Rg
     (hmc' : mc' = eqToIso h₄ ≪≫ pc'.symm ≪≫ tc' ≪≫ eqToIso (hk' k₁))
     (β : Tf ⋙ Mg ⟶ Mg' ⋙ Tf')
     (hβ : β = ((mateEquiv bg' bg).symm
-      (TwoSquare.mk _ _ _ _ (mc'.hom ≫ eqToHom (congrArg Nk hk) ≫ mc.inv))).natTrans)
+      (TwoSquare.mk _ _ _ _ (mc'.hom ≫ eqToHom (congrArg Nk hk) ≫ mc.inv))))
     (K : B) (hK : IsIso (β.app K)) :
     IsIso (map adjf adjf'
       ((Adjunction.leftAdjointUniq (a₂.ofNatIsoRight pc) (ag.comp adjf')).symm ≪≫
@@ -342,7 +342,7 @@ theorem isIso_map_of_isIso_mateEquiv_symm (ag : Lg ⊣ Rg) (ag' : Lg' ⊣ Rg')
     (hmc : mc = eqToIso h₃ ≪≫ pc.symm ≪≫ tc ≪≫ eqToIso (hk' k₂))
     (hmc' : mc' = eqToIso h₄ ≪≫ pc'.symm ≪≫ tc' ≪≫ eqToIso (hk' k₁))
     (hK : IsIso ((mateEquiv bg' bg).symm
-      (TwoSquare.mk _ _ _ _ (mc'.hom ≫ eqToHom (congrArg Nk hk) ≫ mc.inv))).natTrans) :
+      (TwoSquare.mk _ _ _ _ (mc'.hom ≫ eqToHom (congrArg Nk hk) ≫ mc.inv)))) :
     ∀ K, IsIso (map adjf adjf'
       ((Adjunction.leftAdjointUniq (a₂.ofNatIsoRight pc) (ag.comp adjf')).symm ≪≫
         Adjunction.leftAdjointUniq a₂ ((ak k₂).ofNatIsoRight tc.symm))

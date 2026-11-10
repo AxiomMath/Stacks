@@ -190,6 +190,7 @@ theorem
     B X ℓ f j kbar _ fun n ↦
       isFiniteTypeLocallyConstant_representationLevelSheaf B X x _ _ _ (n + 1)
 
+omit [Fintype k] in
 /-- **Stacks Project, Tag 03VL, last assertion: if `X` is not projective, then
 `H⁰_c(X_k̄, ℱ_ρ) = 0`.** Here `X` is a smooth geometrically connected curve over the finite field
 `k`, `ρ = τ : π₁(X, x̄) → GL_r(Q_ℓ)` is continuous, `H⁰_c(X_k̄, ℱ_ρ)` is the compactly supported
@@ -199,7 +200,7 @@ hypothesis). A connected smooth curve which is not proper is affine (Tag 0A28). 
 @[stacks 03VL "last assertion: H^0_c(X_kbar, F_rho) = 0 when X is not projective (here: not \
 proper over k)"]
 theorem LAdicSheaf.subsingleton_rationalGeometricCompactlySupportedCohomology_zero_of_not_isProper
-    [ConnectedSpace X.1] [SmoothOfRelativeDimension 1 f] [IsAlgClosure k kbar]
+    [Finite k] [ConnectedSpace X.1] [SmoothOfRelativeDimension 1 f] [IsAlgClosure k kbar]
     (hf : ¬ IsProper f) (x : GeometricPoint X.1) {r : ℕ}
     (τ : EtaleFundamentalGroup X.1 x →* GL (Fin r) ℚ_[ℓ]) (hτ : Continuous τ) :
     Subsingleton (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar

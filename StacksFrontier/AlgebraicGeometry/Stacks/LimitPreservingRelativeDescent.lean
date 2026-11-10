@@ -152,12 +152,12 @@ theorem relativeDescentHom_of_isLimitPreservingOnObjects_diagonal (f : 𝒳 ⟶ 
       (by
         have h₁ := IsHomLift.fac' 𝒳.val.p (inc.map (c.π.app i)) δ₁
         have h₂ := IsHomLift.fac' 𝒳.val.p (inc.map (c.π.app i)) (α ≫ δ₂)
-        show eqToHom rfl ≫ 𝒳.val.p.map (α ≫ δ₂) ≫ eqToHom a₂.2 =
+        change eqToHom rfl ≫ 𝒳.val.p.map (α ≫ δ₂) ≫ eqToHom a₂.2 =
           eqToHom rfl ≫ 𝒳.val.p.map δ₁ ≫ eqToHom a₁.2
         rw [h₁, h₂]
         simp)
       (by
-        show F.map δ₁ ≫ β = 𝟙 _ ≫ F.map (α ≫ δ₂)
+        change F.map δ₁ ≫ β = 𝟙 _ ≫ F.map (α ≫ δ₂)
         rw [Category.id_comp, F.map_comp, hw])
   have hγ : P.val.p.IsStronglyCartesian (inc.map (c.π.app i)) γ := by
     have : P.val.p.IsHomLift (inc.map (c.π.app i)) γ :=
@@ -225,11 +225,11 @@ theorem relativeDescentEq_of_isLimitPreservingOnObjects_diagonal_diagonal (f : �
   let φ : G.obj b₁.1 ⟶ G.obj b₂.1 :=
     TwoFibreProductOver.Hom.mk' m m'
       (by
-        show eqToHom rfl ≫ 𝒳.val.p.map m' ≫ eqToHom rfl =
+        change eqToHom rfl ≫ 𝒳.val.p.map m' ≫ eqToHom rfl =
           eqToHom rfl ≫ 𝒳.val.p.map m ≫ eqToHom rfl
         rw [hbase m hm, hbase m' hm'])
       (by
-        show F.map m ≫ 𝟙 _ = 𝟙 _ ≫ F.map m'
+        change F.map m ≫ 𝟙 _ = 𝟙 _ ≫ F.map m'
         rw [Category.comp_id, Category.id_comp, hfm])
   have hφ : P.val.p.IsHomLift (𝟙 (inc.obj (D.obj i))) φ :=
     TwoFibreProductOver.structureFunctor_isHomLift φ _ hm
@@ -253,17 +253,17 @@ theorem relativeDescentEq_of_isLimitPreservingOnObjects_diagonal_diagonal (f : �
       (by
         have h₁ := IsHomLift.fac' 𝒳.val.p (inc.map (c.π.app i)) δ
         have h₂ := IsHomLift.fac' 𝒳.val.p (inc.map (c.π.app i)) (δ ≫ m)
-        show eqToHom rfl ≫ 𝒳.val.p.map (δ ≫ m) ≫ eqToHom b₂.2 =
+        change eqToHom rfl ≫ 𝒳.val.p.map (δ ≫ m) ≫ eqToHom b₂.2 =
           eqToHom rfl ≫ 𝒳.val.p.map δ ≫ eqToHom b₁.2
         rw [h₁, h₂]
         simp)
       (by
-        show G.map δ ≫ φ = 𝟙 _ ≫ G.map (δ ≫ m)
+        change G.map δ ≫ φ = 𝟙 _ ≫ G.map (δ ≫ m)
         rw [Category.id_comp]
         refine TwoFibreProductOver.Hom.ext' ?_ ?_
-        · show δ ≫ m = δ ≫ m
+        · change δ ≫ m = δ ≫ m
           rfl
-        · show δ ≫ m' = δ ≫ m
+        · change δ ≫ m' = δ ≫ m
           exact hδm.symm)
   have hγ : Q.val.p.IsStronglyCartesian (inc.map (c.π.app i)) γ := by
     have : Q.val.p.IsHomLift (inc.map (c.π.app i)) γ :=

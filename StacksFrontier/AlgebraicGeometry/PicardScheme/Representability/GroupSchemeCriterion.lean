@@ -220,7 +220,7 @@ private theorem totalPresheaf_isSheaf (k : Type u) [Field k]
       simpa [xb, totalPresheafBase] using hfst
     have hff : f' = f := hfuniq f' hf'
     cases hff
-    show (⟨f, g'⟩ : (totalPresheaf k G).obj (op X)) = ⟨f, g⟩
+    change (⟨f, g'⟩ : (totalPresheaf k G).obj (op X)) = ⟨f, g⟩
     apply congrArg (fun z : G.obj (op Y) => (⟨f, z⟩ : (totalPresheaf k G).obj (op X)))
     apply hgunique g'
     intro Z q hq
@@ -256,7 +256,7 @@ private theorem totalPresheaf_isSheaf (k : Type u) [Field k]
         hleft.symm.trans (hsecEq.trans hright)
       have hinj : Function.Injective ((G.map (eqToHom eV).op).hom) :=
         (ConcreteCategory.bijective_of_isIso (G.map (eqToHom eV).op)).1
-      show (G.map q.op).hom g' = (G.map (eqToHom eU).op).hom s.2
+      change (G.map q.op).hom g' = (G.map (eqToHom eU).op).hom s.2
       exact hinj hcancel
 
 private noncomputable def totalChart (k : Type u) [Field k]
@@ -333,7 +333,7 @@ private theorem totalTranslation_inv_apply (k : Type u) [Field k]
     let h : Over.mk x.1 ⟶ Over.mk (𝟙 (Spec (.of k))) := Over.homMk x.1
     let φ := G.map h.op
     let z : ↑(G.obj (op (Over.mk x.1))) := x.2
-    show φ.hom' r * (φ.hom' r⁻¹ * z) = z
+    change φ.hom' r * (φ.hom' r⁻¹ * z) = z
     rw [φ.hom'.map_inv, mul_inv_cancel_left]
 
 private theorem totalChart_naturality_from_section (k : Type u) [Field k]
@@ -367,11 +367,11 @@ private theorem totalChart_pullback_lift (k : Type u) [Field k]
   let v : yoneda.obj W ⟶ yoneda.obj (Over.mk b) := yoneda.map j
   let f : yoneda.obj W ⟶ F.toFunctor := yonedaEquiv.symm ((e.hom.app (op W)).hom i)
   have hf0 : (f.app (op W)).hom (𝟙 W) = (e.hom.app (op W)).hom i := by
-    show (F.toFunctor.map (𝟙 W).op).hom ((e.hom.app (op W)).hom i) = _
+    change (F.toFunctor.map (𝟙 W).op).hom ((e.hom.app (op W)).hom i) = _
     exact F.toFunctor.map_id_apply (op W) ((e.hom.app (op W)).hom i)
   have hnat : f ≫ F.ι = v ≫ gOver := by
     apply totalChart_naturality_from_section k G F T b W f v x
-    show (F.ι.app (op W)).hom ((f.app (op W)).hom (𝟙 W)) = ((yonedaEquiv.symm x).app (op W)).hom j
+    change (F.ι.app (op W)).hom ((f.app (op W)).hom (𝟙 W)) = ((yonedaEquiv.symm x).app (op W)).hom j
     calc
       (F.ι.app (op W)).hom ((f.app (op W)).hom (𝟙 W)) =
           (F.ι.app (op W)).hom ((e.hom.app (op W)).hom i) :=
@@ -383,7 +383,7 @@ private theorem totalChart_pullback_lift (k : Type u) [Field k]
   let a : W ⟶ P := yonedaEquiv ℓ
   have hya : yoneda.map a = ℓ := by
     apply yonedaEquiv.injective
-    show yonedaEquiv (yoneda.map a) = yonedaEquiv ℓ
+    change yonedaEquiv (yoneda.map a) = yonedaEquiv ℓ
     rw [yonedaEquiv_yoneda_map]
   have haSnd : a ≫ snd = j := by
     apply yoneda.map_injective
@@ -394,9 +394,9 @@ private theorem totalChart_pullback_lift (k : Type u) [Field k]
     apply yoneda.map_injective
     have hui : f ≫ e.inv = yoneda.map i := by
       apply yonedaEquiv.injective
-      show yonedaEquiv (f ≫ e.inv) = yonedaEquiv (yoneda.map i)
+      change yonedaEquiv (f ≫ e.inv) = yonedaEquiv (yoneda.map i)
       rw [yonedaEquiv_yoneda_map]
-      show ((f ≫ e.inv).app (op W)).hom (𝟙 W) = i
+      change ((f ≫ e.inv).app (op W)).hom (𝟙 W) = i
       have hi' : (e.inv.app (op W)).hom ((e.hom.app (op W)).hom i) = i := by
         simpa only [ConcreteCategory.comp_apply, ConcreteCategory.id_apply] using
           ConcreteCategory.congr_hom (e.hom_inv_id_app (op W)) i
@@ -456,7 +456,7 @@ private theorem totalTranslatedChart_isOpenImmersion (k : Type u) [Field k]
     simp [Over.comp_left]
   have huYoneda : yoneda.map uOver = fst ≫ e.inv := by
     apply yonedaEquiv.injective
-    show yonedaEquiv (yoneda.map uOver) = yonedaEquiv (fst ≫ e.inv)
+    change yonedaEquiv (yoneda.map uOver) = yonedaEquiv (fst ≫ e.inv)
     rw [yonedaEquiv_yoneda_map]
   have huSection : (e.hom.app (op P)) uOver = (fst.app (op P)).hom (𝟙 P) := by
     have hcomp : yoneda.map uOver ≫ e.hom = fst := by
@@ -492,9 +492,7 @@ private theorem totalTranslatedChart_isOpenImmersion (k : Type u) [Field k]
           ((F.toFunctor.map (eqToHom eU.symm).op).hom
             ((e.hom.app (op (Over.mk (uOver.left ≫ Y.hom))))
               (Over.homMk ((eqToHom eU).left ≫ uOver.left)))) := by
-        simpa using (NatTrans.naturality_apply F.ι (eqToHom eU.symm).op
-          ((e.hom.app (op (Over.mk (uOver.left ≫ Y.hom))))
-            (Over.homMk ((eqToHom eU).left ≫ uOver.left)))).symm
+        simp
       _ = (F.ι.app (op P)).hom ((fst.app (op P)).hom (𝟙 P)) := by rw [hnatU]
   have hnVrev : eqToHom eV.symm ≫
       Over.homMk ((eqToHom eV).left ≫ snd.left) = snd := by
@@ -504,7 +502,7 @@ private theorem totalTranslatedChart_isOpenImmersion (k : Type u) [Field k]
       ((gOver.app (op (Over.mk (snd.left ≫ b))))
         (Over.homMk ((eqToHom eV).left ≫ snd.left))) =
       (gOver.app (op P)) snd := by
-    show ((G ⋙ forget GrpCat).map (eqToHom eV.symm).op).hom
+    change ((G ⋙ forget GrpCat).map (eqToHom eV.symm).op).hom
         (((G ⋙ forget GrpCat).map (Over.homMk ((eqToHom eV).left ≫ snd.left)).op).hom x) =
       ((G ⋙ forget GrpCat).map snd.op).hom x
     rw [← Functor.map_comp_apply, ← op_comp, hnVrev]
@@ -592,7 +590,7 @@ private theorem totalTranslatedChart_isOpenImmersion (k : Type u) [Field k]
               ⟨snd.left ≫ b,
                 ((G ⋙ forget GrpCat).map
                   (Over.homMk snd.left : Over.mk (snd.left ≫ b) ⟶ Over.mk b).op).hom x⟩ := by
-            show (⟨uOver.left ≫ Y.hom,
+            change (⟨uOver.left ≫ Y.hom,
               (F.ι.app (op (Over.mk (uOver.left ≫ Y.hom)))).hom
                 ((e.hom.app (op (Over.mk (uOver.left ≫ Y.hom))))
                   (Over.homMk uOver.left))⟩ :
@@ -617,7 +615,7 @@ private theorem totalTranslatedChart_isOpenImmersion (k : Type u) [Field k]
   rw [CategoryTheory.Limits.Types.isPullback_iff]
   refine ⟨?_, ?_, ?_⟩
   · ext f
-    show (totalTranslatedChart k G F Y e r).app Z ((chartMap.app Z) f) =
+    change (totalTranslatedChart k G F Y e r).app Z ((chartMap.app Z) f) =
       q.app Z ((baseMap.app Z) f)
     exact congrArg (fun η => η.app Z f) hcomm
   · intro f₁ f₂ h
@@ -653,9 +651,9 @@ private theorem totalTranslatedChart_isOpenImmersion (k : Type u) [Field k]
       totalChart_pullback_lift k G F Y e _ b x P snd fst hPB uOver huYoneda
         W i j hcompat
     refine ⟨a.left, ?_, ?_⟩
-    · show a.left ≫ uOver.left = fY
+    · change a.left ≫ uOver.left = fY
       simpa [i, Over.comp_left] using congrArg Over.Hom.left haY
-    · show a.left ≫ snd.left = fT
+    · change a.left ≫ snd.left = fT
       calc
         a.left ≫ snd.left = (a ≫ snd).left := rfl
         _ = j.left := congrArg Over.Hom.left haSnd
@@ -689,7 +687,7 @@ private theorem locallySurjective_of_residuePoint_lifts
     apply TopologicalSpace.IsOpenCover.mk
     apply TopologicalSpace.Opens.ext
     ext x
-    show x ∈ (⨆ i, O i) ↔ x ∈ (⊤ : U.Opens)
+    change x ∈ (⨆ i, O i) ↔ x ∈ (⊤ : U.Opens)
     rw [TopologicalSpace.Opens.mem_iSup]
     constructor
     · intro _
@@ -758,9 +756,9 @@ private theorem locallySurjective_of_residuePoint_lifts
     have hv := hv0.trans hqapp
     refine ⟨((Sigma.ι (fun j : I => yoneda.obj Y) i).app
       (op (O i).toScheme)) a, ?_⟩
-    show ((Sigma.ι (fun j : I => yoneda.obj Y) i ≫ Sigma.desc chart).app
+    change ((Sigma.ι (fun j : I => yoneda.obj Y) i ≫ Sigma.desc chart).app
       (op (O i).toScheme)) a = T.map (𝒰.f i).op s
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact hv
   intro V f hf
   obtain ⟨i, g, rfl⟩ := (Sieve.ofArrows.exists hf)
@@ -867,7 +865,7 @@ theorem exists_grp_iso_of_representable_openSubfunctor (k : Type u) [Field k]
       apply Spec.homEquiv.injective
       simp [V, fieldExtensionPoint, α, RingHom.algebraMap_toAlgebra]
     let m : V ⟶ Over.mk b := Over.homMk (U.fromSpecResidueField x) (by
-        show U.fromSpecResidueField x ≫ b = V.hom
+        change U.fromSpecResidueField x ≫ b = V.hom
         simpa [α] using hbase.symm)
     let gK := (G.map m.op).hom g
     obtain ⟨r, hr⟩ := hfield K gK
@@ -893,7 +891,7 @@ theorem exists_grp_iso_of_representable_openSubfunctor (k : Type u) [Field k]
             ((F.ι.app (op V)).hom zF) := rfl
         _ = (F.ι.app (op W)).hom
             ((F.toFunctor.map mEW.op).hom zF) := by
-          simpa using (NatTrans.naturality_apply F.ι mEW.op zF).symm
+          simp
         _ = _ := by rw [hsection.symm]
     have htleft : tW.left = tO.left := by simp [tW, mEW]
     have htOver : (Over.homMk tO.left : W ⟶ Y) = tW := by
@@ -919,7 +917,7 @@ theorem exists_grp_iso_of_representable_openSubfunctor (k : Type u) [Field k]
           ((e.hom.app (op W)).hom tW)⟩ :
           (totalPresheaf k (G ⋙ forget GrpCat)).obj
             (op (Spec (U.residueField x)))) := by
-      show (⟨tO.left ≫ Y.hom,
+      change (⟨tO.left ≫ Y.hom,
         (F.ι.app (op W)).hom
           ((e.hom.app (op W)).hom (Over.homMk tO.left))⟩ :
           (totalPresheaf k (G ⋙ forget GrpCat)).obj
@@ -930,7 +928,7 @@ theorem exists_grp_iso_of_representable_openSubfunctor (k : Type u) [Field k]
         (chart r).app (op (Spec (U.residueField x))) tO.left =
           ⟨W.hom, ((G ⋙ forget GrpCat).map nW.op).hom r⁻¹ *
             ((F.ι.app (op W)).hom ((e.hom.app (op W)).hom tW))⟩ := by
-      show (totalTranslation k G r⁻¹).app
+      change (totalTranslation k G r⁻¹).app
         (op (Spec (U.residueField x)))
         ((totalChart k G F Y e).app
           (op (Spec (U.residueField x))) tO.left) = _
@@ -946,7 +944,7 @@ theorem exists_grp_iso_of_representable_openSubfunctor (k : Type u) [Field k]
     · exact hbaseW
     · refine (heq_iff_eq_map_eqToHom (G ⋙ forget GrpCat) eBase _ _).2 ?_
       rw [← hinc]
-      show ((G ⋙ forget GrpCat).map nW.op).hom r⁻¹ *
+      change ((G ⋙ forget GrpCat).map nW.op).hom r⁻¹ *
           ((G ⋙ forget GrpCat).map (eqToHom eW).op).hom
             (((G ⋙ forget GrpCat).map nV.op).hom r *
               ((G ⋙ forget GrpCat).map m.op).hom g) =
@@ -956,7 +954,7 @@ theorem exists_grp_iso_of_representable_openSubfunctor (k : Type u) [Field k]
           ((G ⋙ forget GrpCat).map (eqToHom eW).op).hom (a * b) =
             ((G ⋙ forget GrpCat).map (eqToHom eW).op).hom a *
               ((G ⋙ forget GrpCat).map (eqToHom eW).op).hom b := by
-        show (G.map (eqToHom eW).op).hom (a * b) =
+        change (G.map (eqToHom eW).op).hom (a * b) =
           (G.map (eqToHom eW).op).hom a * (G.map (eqToHom eW).op).hom b
         exact (G.map (eqToHom eW).op).hom.map_mul a b
       rw [hmul]
@@ -973,7 +971,7 @@ theorem exists_grp_iso_of_representable_openSubfunctor (k : Type u) [Field k]
       rw [hnr, hmr]
       have hninv : ((G ⋙ forget GrpCat).map nW.op).hom (r⁻¹) =
           (((G ⋙ forget GrpCat).map nW.op).hom r)⁻¹ := by
-        show (G.map nW.op).hom (r⁻¹) = ((G.map nW.op).hom r)⁻¹
+        change (G.map nW.op).hom (r⁻¹) = ((G.map nW.op).hom r)⁻¹
         exact (G.map nW.op).hom.map_inv r
       rw [hninv]
       group

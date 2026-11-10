@@ -111,11 +111,11 @@ theorem mk_obj_le_of_atlas {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hY : IsA
       (V x).hom rfl
     have hPq : B.inclusion.map P.hom =
         (BigFppfOver.toScheme B S hS).map q ≫ B.inclusion.map U.hom := by
-      show B.inclusion.map P.hom = B.inclusion.map q.left ≫ B.inclusion.map U.hom
+      change B.inclusion.map P.hom = B.inclusion.map q.left ≫ B.inclusion.map U.hom
       rw [← Functor.map_comp, Over.w q]
     obtain ⟨et, het⟩ := BigFppfOver.exists_hom_of_comp_eq B S hS (X := W x hc) (Y := P)
       (e.hom ≫ Q.ι) (by
-        show (e.hom ≫ Q.ι) ≫ B.inclusion.map P.hom = (V x).hom ≫ B.inclusion.map U.hom
+        change (e.hom ≫ Q.ι) ≫ B.inclusion.map P.hom = (V x).hom ≫ B.inclusion.map U.hom
         rw [hPq, ← he]
         simp only [Category.assoc])
     have hπ : et ≫ q = πt := (BigFppfOver.toScheme B S hS).map_injective (by
@@ -127,7 +127,7 @@ theorem mk_obj_le_of_atlas {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hY : IsA
       exact ⟨fun u => ⟨e.inv.base ⟨x₀, hxQ⟩, Subsingleton.elim _ _⟩⟩
     · have h := congrArg (fun φ => φ.app (op (W x hc)) et) hw
       change a.app _ (et ≫ p) = yt.app _ (et ≫ q) at h
-      show Y.map πt.op y = a.app _ (et ≫ p)
+      change Y.map πt.op y = a.app _ (et ≫ p)
       rw [h, hπ]
       rfl
   choose Φ hΦ using key

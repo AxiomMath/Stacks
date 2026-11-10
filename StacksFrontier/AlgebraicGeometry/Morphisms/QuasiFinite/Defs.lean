@@ -141,7 +141,7 @@ public theorem forall_quasiFiniteAt_iff {X S : Scheme.{u}} (f : X ⟶ S) :
     intro y
     rw [isDiscrete_iff_discreteTopology, discreteTopology_iff_isOpen_singleton]
     rintro ⟨x, (rfl : f x = y)⟩
-    show IsOpen ({⟨x, by simp⟩} : Set (f ⁻¹' {f x}))
+    change IsOpen ({⟨x, by simp⟩} : Set (f ⁻¹' {f x}))
     simpa only [Set.image_singleton, Scheme.Hom.asFiber, Homeomorph.apply_symm_apply]
       using (f.fiberHomeo (f x)).isOpen_image.mpr
         (Scheme.Hom.quasiFiniteAt_iff_isOpen_singleton_asFiber.mp (h x).2)

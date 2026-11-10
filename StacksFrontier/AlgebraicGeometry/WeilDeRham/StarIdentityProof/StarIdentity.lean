@@ -214,6 +214,7 @@ theorem classTransport_fstSectionClass :
   have : Smooth f := SmoothOfRelativeDimension.smooth (e + 1) f
   exact classTransport_pullbackHgroup _ _ _ _ _ _ (by push_cast; ring) _ _ _ _
 
+omit [IsProper f] in
 include hσ in
 /-- `j^*p₂^*ξ = ξ`, `j = (σ ∘ f, id)` being a section of `p₂`. -/
 theorem pullbackHgroup_sectionFst_sndSectionClass :
@@ -236,6 +237,7 @@ theorem pullbackHgroup_sectionFst_sndSectionClass :
     (by simp) (e + 1)
   exact ConcreteCategory.congr_hom key (sectionClassNormalized f e σ)
 
+omit [IsProper f] in
 include hσ in
 /-- `j'^*p₁^*ξ = ξ`, `j' = (id, σ ∘ f)` being a section of `p₁`. -/
 theorem pullbackHgroup_sectionSnd_fstSectionClass :

@@ -97,7 +97,7 @@ theorem chartOpens_obj_hom_comp (N : SmallEtale B S hS X) (V : SmallEtale B S hS
     ((chartOpens B S hS N).obj (((BigFppfOver.toScheme B S hS).map g) ⁻¹ᵁ W)).obj.hom ≫ f =
       yoneda.map (chartOpenOverRestrict B S hS N V g W) ≫
         ((chartOpens B S hS V).obj W).obj.hom := by
-  show (yoneda.map (chartOpenOverι B S hS N _) ≫ N.obj.hom) ≫ f =
+  change (yoneda.map (chartOpenOverι B S hS N _) ≫ N.obj.hom) ≫ f =
     yoneda.map (chartOpenOverRestrict B S hS N V g W) ≫
       yoneda.map (chartOpenOverι B S hS V W) ≫ V.obj.hom
   rw [Category.assoc, hcomm, ← Category.assoc, ← yoneda.map_comp,
@@ -117,7 +117,7 @@ theorem chartOpenNeighborhood_point_comp_restrict
       (chartOpenNeighborhood B S hS (targetNeighborhood B S hS N Wc g hcomm) W hv).point := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show chartOpenLift B S hS N (((BigFppfOver.toScheme B S hS).map g) ⁻¹ᵁ W) hu ≫
+  change chartOpenLift B S hS N (((BigFppfOver.toScheme B S hS).map g) ⁻¹ᵁ W) hu ≫
       (((BigFppfOver.toScheme B S hS).map g) ∣_ W) =
     chartOpenLift B S hS (targetNeighborhood B S hS N Wc g hcomm) W hv
   refine (cancel_mono W.ι).1 ?_
@@ -188,7 +188,7 @@ theorem etaleLocalRingMap_comp_chartLocalRingToEtaleLocalRing :
           (targetNeighborhood B S hS N Wc g hcomm)) := by
   refine RingHom.ext fun c => ?_
   obtain ⟨W, hw, a, ha⟩ := TopCat.Presheaf.exists_germ_eq (chartScheme Wc).presheaf c
-  show chartLocalRingToEtaleLocalRing B S hS Xs.1 Xs.2 N
+  change chartLocalRingToEtaleLocalRing B S hS Xs.1 Xs.2 N
       ((((BigFppfOver.toScheme B S hS).map g).stalkMap
         (chartPoint B S hS Xs.1 N)).hom c) =
     etaleLocalRingMap Xs.2 f.hom xbar

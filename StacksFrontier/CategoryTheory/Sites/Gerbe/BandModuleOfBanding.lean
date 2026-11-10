@@ -99,7 +99,7 @@ theorem bandFrame_conj [∀ U : 𝒞, IsGroupoid (p.Fiber U)]
     (U : 𝒞) (x y : p.Fiber U) (φ : x ≅ y) (a : 𝒢.obj.obj (op U)) :
     bandFrame θ U y a = φ.inv ≫ bandFrame θ U x a ≫ φ.hom := by
   rw [bandFrame_apply, bandFrame_apply, h₂ U x y φ.hom (Over.mk (𝟙 U)) a]
-  show _ ≫ (pullbackFiberHom (CategoryTheory.inv φ.hom) (𝟙 U) ≫ _ ≫
+  change _ ≫ (pullbackFiberHom (CategoryTheory.inv φ.hom) (𝟙 U) ≫ _ ≫
     pullbackFiberHom φ.hom (𝟙 U)) ≫ _ = _
   rw [pullbackFiberHom_id_eq, pullbackFiberHom_id_eq, IsIso.Iso.inv_hom]
   simp only [Category.assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id, Category.comp_id]

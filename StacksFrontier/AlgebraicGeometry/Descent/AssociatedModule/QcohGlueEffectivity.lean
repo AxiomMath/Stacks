@@ -82,7 +82,8 @@ local isomorphisms that the effectivity of that datum produces, carried as the h
 `AlgebraicGeometry.BigFppfOver.essImage_associatedModuleQcoh_of_agree` — is now proved too: in the
 `objRestrict` spelling by
 `AlgebraicGeometry.BigFppfOver.restrictObjRestrictIso_effectiveGlueObjRestrictIso_eq`
-(`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/EffectiveGlueAgreement.lean:462`), and in
+(`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/EffectiveGlueAgreement.lean:462`), and
+in
 the `homRestr` spelling by `AlgebraicGeometry.BigFppfOver`
 `.homRestr_objRestrictPreimageIso_effectiveGlueObjRestrictIso_eq`
 (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/EffectiveGlueAgreementTransport.lean`).

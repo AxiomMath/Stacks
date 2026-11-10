@@ -155,12 +155,12 @@ theorem C1573.chartSectionsRingHom_appLE
       chartDiagramPullback B S hS f (baseChangeOpenChartDiagram B S hS f hf V W) r := by
   have e1 : chartDiagramPullback B S hS f (baseChangeOpenChartDiagram B S hS f hf V W) r =
       (W.ι ≫ chartBaseChangeSchemeHom B S hS f hf V).appTop r := by
-    show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+    change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
       (baseChangeOpenChartDiagram B S hS f hf V W).g).op) r = _
     rw [toScheme_map_openChartDiagram_g]
     rfl
   rw [e1, Scheme.Hom.comp_appTop, CommRingCat.comp_apply, Scheme.Opens.ι_appTop]
-  show (Scheme.Opens.topIso W).inv
+  change (Scheme.Opens.topIso W).inv
     ((chartBaseChangeSchemeHom B S hS f hf V).appLE ⊤ W le_top r) = _
   rw [Scheme.Opens.topIso_inv]
   exact ConcreteCategory.congr_hom (Stacks.Scheme.C1573.appLE_top_comp_map _ W _ _) r
@@ -320,7 +320,7 @@ theorem C1573.map_chartSectionsRingHom_ideal_comap [IsAffine (chartScheme V)]
       (chartBaseChangeSchemeHom B S hS f hf V)) hW (isAffineOpen_top W.toScheme)
   rw [← Scheme.IdealSheafData.comap_comp,
     Stacks.IdealSheaf.ideal_comap_top_of_isAffine, Stacks.Coherent.ofIdealTop_ideal_top] at h1
-  show Ideal.map W.topIso.inv.hom _ = _
+  change Ideal.map W.topIso.inv.hom _ = _
   rw [← h1]
   refine Eq.trans ?_ (pullbackIdealSubsheaf_obj_of_isAffine B S hS f hf J hJ V ‹_›
     (openChartOfComparison B S hS X ((smallBaseChange B S hS f hf).obj V) W)

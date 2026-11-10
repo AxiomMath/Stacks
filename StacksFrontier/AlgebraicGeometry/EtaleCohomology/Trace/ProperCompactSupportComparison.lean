@@ -87,7 +87,7 @@ public def extensionByZeroIsoDirectImagePlusOfIsProper
   ObjectProperty.isoMk _ ((NatIso.mapHomologicalComplex
     (etaleModuleExtensionByZeroIsoDirectImageOfIsProper Λ f j) _).app K.obj)
 
-variable (kbar : Type u) [Field kbar] [Algebra k kbar] [Fintype k]
+variable (kbar : Type u) [Field kbar] [Algebra k kbar]
 
 /-- **`RΓ_c(X_k̄, K) ≅ RΓ(X_k̄, K|_{X_k̄})` for `X` proper over `k`**, through any
 compactification of `X`. -/
@@ -132,7 +132,7 @@ public theorem compactSupportFrobeniusCohomologyIsoOfIsProper_hom_naturality
   exact comp_comp_eq_comp_comp_of_squares _ _ _ _ _ _ _ h₁'
     (comp_inv_eq_inv_comp_of_hom_comm _ _ _ _ h₂)
 
-variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
+variable [Fintype k] (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
 /-- **The identification `RΓ_c(X_k̄, K) ≅ RΓ(X_k̄, K|_{X_k̄})` commutes with the canonical
 geometric Frobenius.** -/

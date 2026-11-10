@@ -48,7 +48,7 @@ category.** -/
 theorem essentiallySmall_finiteTypeQuasicoherentSubobject (F : Modules.{u, u} B S hS X hX) :
     EssentiallySmall.{u} (FiniteTypeQuasicoherentSubobject B S hS X hX F) := by
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS X hX).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS X)
+    change EssentiallySmall.{u} (SmallEtale B S hS X)
     infer_instance
   have _ : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS X hX) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _

@@ -159,7 +159,7 @@ private lemma localization_isZero_localCohomologyFunctor
       ((derivedPowerTorsionProperty_iff_isZero_mapDerivedCategory J hJ s hs W.obj).mp
         W.property)).comp P.fullyFaithfulι.homEquiv.bijective)
   have he₀ (W : P.FullSubcategory) (g : W ⟶ W₀) : (e₀ W) g = g.hom ≫ adj.counit.app K := by
-    show (adj.homEquiv W K).symm g = _
+    change (adj.homEquiv W K).symm g = _
     rw [Adjunction.homEquiv_symm_apply]
     simp only [ObjectProperty.ι_map]
   have he₁ (W : P.FullSubcategory) (g : W ⟶ W₁) : (e₁ W) g = g.hom ≫ a := rfl
@@ -174,7 +174,7 @@ private lemma localization_isZero_localCohomologyFunctor
       ψ.hom ≫ adj.counit.app K = (e₀ W₁) ψ := (he₀ W₁ ψ).symm
       _ = P.ι.map (𝟙 W₁) ≫ a := (e₀ W₁).apply_symm_apply _
       _ = a := by
-        show 𝟙 W₁.obj ≫ a = a
+        change 𝟙 W₁.obj ≫ a = a
         exact Category.id_comp a
   have hφψ : φ ≫ ψ = 𝟙 W₀ := by
     apply (e₀ W₀).injective

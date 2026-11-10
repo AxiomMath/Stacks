@@ -57,7 +57,8 @@ universe of its sheaf of rings.
 `AlgebraicGeometry.Space.isIso_unit_moduleRestriction`, whose adjoint-triple argument runs
 against a direct image of sheaves of modules indexed by a comma category of the small étale site
 of `X` — would force it above `u + 1`.  Instead these statements take invertibility of the unit
-as a hypothesis, are stated at the module universe `max u m`, and so are available at `u`, where `AlgebraicGeometry.Space`
+as a hypothesis, are stated at the module universe `max u m`, and so are available at `u`, where
+`AlgebraicGeometry.Space`
 `.isIso_unit_moduleRestriction'` discharges it.  So the two sides meet, and the map-level
 consequence of 03DX on the slice,
 `AlgebraicGeometry.FibredSite.isIso_of_isIso_val_app_localizationOpens`, is usable here.

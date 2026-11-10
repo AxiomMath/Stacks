@@ -297,7 +297,7 @@ commute: the relative Frobenius is a morphism over `S₀`. -/
 theorem toClosedFiber_comp_closedFiberMap_id :
     T.global.toClosedFiber ≫ DividedPowerScheme.closedFiberMap (𝟙 T.global.S) =
       T.relativeFrobeniusToTwist ≫ (T.frobeniusTwistSituation).toClosedFiber := by
-  show _ = T.relativeFrobeniusToTwist ≫ T.frobeniusTwistOver.hom
+  change _ = T.relativeFrobeniusToTwist ≫ T.frobeniusTwistOver.hom
   rw [DividedPowerScheme.closedFiberMap_id, Category.comp_id,
     T.relativeFrobeniusToTwist_comp_toClosedFiber]
 
@@ -307,7 +307,7 @@ defining square of the fibre product `X^{(1)}`. -/
 theorem twistToClosedFiber_comp_closedFiberMap_specSigma :
     (T.frobeniusTwistSituation).toClosedFiber ≫ DividedPowerScheme.closedFiberMap T.specSigma =
       T.twistProjection ≫ T.global.toClosedFiber := by
-  show T.frobeniusTwistOver.hom ≫ DividedPowerScheme.closedFiberMap T.specSigma = _
+  change T.frobeniusTwistOver.hom ≫ DividedPowerScheme.closedFiberMap T.specSigma = _
   rw [T.closedFiberMap_specSigma]
   exact T.twistProjection_comp_toClosedFiber.symm
 

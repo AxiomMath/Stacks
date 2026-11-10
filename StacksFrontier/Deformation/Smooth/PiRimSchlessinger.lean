@@ -131,10 +131,10 @@ public theorem exists_pullbackCone_with_base
     (by simp only [Category.assoc, d.condition])
   have hcd : c ≅ d := PullbackCone.ext (asIso b).symm rfl rfl
   refine ⟨c, hy, ⟨IsLimit.ofIsoLimit hd hcd.symm⟩, ?_, ?_⟩
-  · show 𝓖.p.map (inv b ≫ d.fst) = _
+  · change 𝓖.p.map (inv b ≫ d.fst) = _
     rw [𝓖.p.map_comp, hbimap, Category.assoc]
     exact eqToHom hy ≫= hd₀.conePointUniqueUpToIso_inv_comp hc₀ WalkingCospan.left
-  · show 𝓖.p.map (inv b ≫ d.snd) = _
+  · change 𝓖.p.map (inv b ≫ d.snd) = _
     rw [𝓖.p.map_comp, hbimap, Category.assoc]
     exact eqToHom hy ≫= hd₀.conePointUniqueUpToIso_inv_comp hc₀ WalkingCospan.right
 
@@ -261,7 +261,7 @@ private theorem satisfiesRS_structureFunctor
         · exact (congrArg (fun q => PiOver.Hom.component q i) hm₂).trans
             (PullbackCone.IsLimit.lift_snd (hci i) _ _ _).symm
   refine ⟨PullbackCone.mk a b hcond, ⟨hlimit⟩, ⟨?_⟩⟩
-  show IsLimit (PullbackCone.mk c₀.fst c₀.snd ?_)
+  change IsLimit (PullbackCone.mk c₀.fst c₀.snd ?_)
   exact (IsPullback.of_isLimit hc₀).isLimit
 
 /-- **A product over the base of categories satisfying (RS) satisfies (RS).** A cospan in the

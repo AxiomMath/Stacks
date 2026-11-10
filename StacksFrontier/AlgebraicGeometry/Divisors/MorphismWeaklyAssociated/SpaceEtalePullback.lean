@@ -259,10 +259,10 @@ instance initial_geometricFiberPostcomp : (geometricFiberPostcomp B S hS f hf xb
 of `X` is the corresponding diagram for `Y`, read through postcomposition. -/
 theorem geometricFiberPostcomp_op_comp_structureSheaf :
     (geometricFiberPostcomp B S hS f hf xbar).op ⋙
-        ((CategoryOfElements.π
+        ((Functor.Elements.π
             (etaleSitePoint B S hS Y.1 (geometricPointMap f.hom xbar) Y.2).fiber).op ⋙
           (smallEtaleRingedTopos B S hS Y).O.obj) =
-      (CategoryOfElements.π (etaleSitePoint B S hS X.1 xbar X.2).fiber).op ⋙
+      (Functor.Elements.π (etaleSitePoint B S hS X.1 xbar X.2).fiber).op ⋙
         (smallEtaleRingedTopos B S hS X).O.obj :=
   rfl
 
@@ -299,10 +299,10 @@ variable (G : Modules.{u, m} B S hS Y.1 Y.2)
 `X` is the diagram of lifted sections of `G` over the lifts of the image point, read through
 postcomposition: the two agree on the nose, so this is the identity. -/
 noncomputable def liftedSectionDiagramIso :
-    (CategoryOfElements.π (etaleSitePoint B S hS X.1 xbar X.2).fiber).op ⋙
+    (Functor.Elements.π (etaleSitePoint B S hS X.1 xbar X.2).fiber).op ⋙
         liftedModuleSections B S hS X ((etaleModulePullback B S hS f hf).obj G) ≅
       (geometricFiberPostcomp B S hS f hf xbar).op ⋙
-        ((CategoryOfElements.π
+        ((Functor.Elements.π
             (etaleSitePoint B S hS Y.1 (geometricPointMap f.hom xbar) Y.2).fiber).op ⋙
           liftedModuleSections B S hS Y G) :=
   Iso.refl _
@@ -324,7 +324,7 @@ noncomputable def etaleLiftedSectionStalkIso :
         (liftedModuleSections B S hS Y G) :=
   HasColimit.isoOfNatIso (liftedSectionDiagramIso B S hS f hf xbar G) ≪≫
     Functor.Final.colimitIso (geometricFiberPostcomp B S hS f hf xbar).op
-      ((CategoryOfElements.π
+      ((Functor.Elements.π
           (etaleSitePoint B S hS Y.1 (geometricPointMap f.hom xbar) Y.2).fiber).op ⋙
         liftedModuleSections B S hS Y G)
 
@@ -339,25 +339,25 @@ theorem etaleLiftedSectionStalkIso_toPresheafFiber
         ((geometricFiberPostcomp B S hS f hf xbar).obj e).1
         ((geometricFiberPostcomp B S hS f hf xbar).obj e).2
         (liftedModuleSections B S hS Y G) := by
-  show colimit.ι ((CategoryOfElements.π (etaleSitePoint B S hS X.1 xbar X.2).fiber).op ⋙
+  change colimit.ι ((Functor.Elements.π (etaleSitePoint B S hS X.1 xbar X.2).fiber).op ⋙
         liftedModuleSections B S hS X ((etaleModulePullback B S hS f hf).obj G)) (op e) ≫
       ((HasColimit.isoOfNatIso (liftedSectionDiagramIso B S hS f hf xbar G)).hom ≫
         (Functor.Final.colimitIso (geometricFiberPostcomp B S hS f hf xbar).op
-          ((CategoryOfElements.π
+          ((Functor.Elements.π
               (etaleSitePoint B S hS Y.1 (geometricPointMap f.hom xbar) Y.2).fiber).op ⋙
             liftedModuleSections B S hS Y G)).hom) =
-    colimit.ι ((CategoryOfElements.π
+    colimit.ι ((Functor.Elements.π
         (etaleSitePoint B S hS Y.1 (geometricPointMap f.hom xbar) Y.2).fiber).op ⋙
       liftedModuleSections B S hS Y G)
       (op ((geometricFiberPostcomp B S hS f hf xbar).obj e))
-  rw [← Category.assoc, HasColimit.isoOfNatIso_ι_hom, liftedSectionDiagramIso_hom_app]
+  rw [← Category.assoc, HasColimit.ι_isoOfNatIso_hom, liftedSectionDiagramIso_hom_app]
   refine Eq.trans (congrArg (fun g => g ≫ (Functor.Final.colimitIso
       (geometricFiberPostcomp B S hS f hf xbar).op
-      ((CategoryOfElements.π
+      ((Functor.Elements.π
           (etaleSitePoint B S hS Y.1 (geometricPointMap f.hom xbar) Y.2).fiber).op ⋙
         liftedModuleSections B S hS Y G)).hom) (Category.id_comp _)) ?_
   exact Functor.Final.ι_colimitIso_hom (geometricFiberPostcomp B S hS f hf xbar).op
-    ((CategoryOfElements.π
+    ((Functor.Elements.π
         (etaleSitePoint B S hS Y.1 (geometricPointMap f.hom xbar) Y.2).fiber).op ⋙
       liftedModuleSections B S hS Y G) (op e)
 

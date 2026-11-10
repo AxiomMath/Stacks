@@ -80,7 +80,7 @@ theorem isPullback_of_comp_mono {U V : Scheme.{u}} (p : U ⟶ X) (ι : V ⟶ X) 
       ← Category.assoc, pullback.lift_fst, Category.id_comp]
   refine IsPullback.of_iso_pullback ⟨hc⟩ (asIso (pullback.fst p ι)).symm ?_ ?_
   · simp
-  · show inv (pullback.fst p ι) ≫ pullback.snd p ι = p'
+  · change inv (pullback.fst p ι) ≫ pullback.snd p ι = p'
     rw [← hinv, pullback.lift_snd]
 
 /-- A universal homeomorphism is a homeomorphism onto a closed subset of its target: it is a
@@ -148,7 +148,7 @@ theorem exists_isAffine_etale_dominating (f : X ⟶ Y) [UniversalHomeomorphism f
     obtain ⟨A, hAs, z, hzA, hzu⟩ := Set.mem_iUnion₂.1 (hs (Set.mem_univ u))
     have hci : Sigma.ι Xs ⟨A, hAs⟩ ≫ c = (A.1 : V₁.Opens).ι := by
       rw [hcdef]
-      exact Sigma.ι_desc _ _
+      exact Sigma.ι_comp_desc _ _
     have hcy : c.base ((Sigma.ι Xs ⟨A, hAs⟩).base ⟨(pullback.fst v₁ f).base z, hzA⟩)
         = (pullback.fst v₁ f).base z := by
       have hap := congrArg (fun m : Xs ⟨A, hAs⟩ ⟶ V₁ ↦
@@ -163,11 +163,11 @@ theorem exists_isAffine_etale_dominating (f : X ⟶ Y) [UniversalHomeomorphism f
         = pullback.snd c (pullback.fst v₁ f) ≫ h₁ := by
       rw [← Category.assoc, Iso.hom_inv_id, Category.id_comp]
     refine Eq.trans ?_ hzu
-    show ((pullbackRightPullbackFstIso v₁ f c).hom ≫
+    change ((pullbackRightPullbackFstIso v₁ f c).hom ≫
       (pullbackRightPullbackFstIso v₁ f c).inv ≫ pullback.snd c (pullback.fst v₁ f) ≫
         h₁).base r = h₁.base z
     rw [hcomp]
-    show h₁.base ((pullback.snd c (pullback.fst v₁ f)).base r) = h₁.base z
+    change h₁.base ((pullback.snd c (pullback.fst v₁ f)).base r) = h₁.base z
     rw [hr₂]
   · -- the morphism lies over `X`
     rw [Category.assoc, Category.assoc, hh₁, ← pullbackRightPullbackFstIso_hom_snd v₁ f c,

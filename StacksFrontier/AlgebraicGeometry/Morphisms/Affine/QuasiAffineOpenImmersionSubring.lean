@@ -91,7 +91,7 @@ theorem bijective_awayMap_of_adjoin {R C A : Type u} [CommRing R] [CommRing C] [
       { (Localization.awayMap φ c).range with
         algebraMap_mem' := fun r => by
           refine ⟨algebraMap C (Localization.Away c) (ψ r), ?_⟩
-          show Localization.awayMap φ c (algebraMap C _ (ψ r)) =
+          change Localization.awayMap φ c (algebraMap C _ (ψ r)) =
             algebraMap A (Localization.Away (φ c)) (θ r)
           rw [hθ, Localization.awayMap, IsLocalization.Away.map, IsLocalization.map_eq] }
     have hle : (⊤ : Subalgebra R (Localization.Away (φ c))) ≤ S' := by
@@ -101,7 +101,7 @@ theorem bijective_awayMap_of_adjoin {R C A : Type u} [CommRing R] [CommRing C] [
       obtain ⟨N, rfl⟩ := (Submonoid.mem_powers_iff _ _).1 hy
       refine ⟨IsLocalization.mk' (Localization.Away c) h
         ⟨c ^ N, (Submonoid.mem_powers_iff _ _).2 ⟨N, rfl⟩⟩, ?_⟩
-      show Localization.awayMap φ c _ = _
+      change Localization.awayMap φ c _ = _
       rw [Localization.awayMap, IsLocalization.Away.map, IsLocalization.map_mk']
       congr 1
       exact Subtype.ext (map_pow φ c N)

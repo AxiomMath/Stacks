@@ -132,7 +132,7 @@ theorem scalar_deg0frac {m : ℕ} {a : S} (hf : f ∈ 𝒜 d) (ha : a ∈ 𝒜 (
   rw [LocalizedModule.mk_smul_mk]
   congr 1
   apply Subtype.ext
-  show f ^ m * f ^ n = f ^ (m + n)
+  change f ^ m * f ^ n = f ^ (m + n)
   rw [pow_add]
 
 /-- A degree-`0` ring scalar `r : 𝒜 0` acting on the numerator equals the

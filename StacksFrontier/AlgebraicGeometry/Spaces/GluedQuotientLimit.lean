@@ -130,7 +130,7 @@ the ambient objects. -/
 theorem φ_comp (T₁ : Transition E E') (T₂ : Transition E' E'') (T₃ : Transition E E'')
     (h : T₁.v ≫ T₂.v = T₃.v) : T₁.φ ≫ T₂.φ = T₃.φ := by
   unfold φ
-  show (quotientSheafMap _ _ _ _ _ _ _ _ ≫ quotientSheafMap _ _ _ _ _ _ _ _).hom = _
+  change (quotientSheafMap _ _ _ _ _ _ _ _ ≫ quotientSheafMap _ _ _ _ _ _ _ _).hom = _
   rw [quotientSheafMap_comp]
   exact congrArg InducedCategory.Hom.hom (quotientSheafMap_eq_of_obj_eq _ _ _ _ _ _ _ _ _ _ _ _
     (by rw [← Functor.map_comp, h]))
@@ -257,7 +257,7 @@ theorem isPullback_πV [IsDirected I (· ≤ ·)] (i₀ : I) :
     refine ⟨yoneda.map z, ?_, ?_⟩
     · refine limit.hom_ext fun j ↦ ?_
       obtain ⟨k, hjk, hk⟩ := directed_of (· ≤ ·) j.unop i₀
-      show (yoneda.map z ≫ D.πV) ≫ limit.π D.diagram (op j.unop) = _
+      change (yoneda.map z ≫ D.πV) ≫ limit.π D.diagram (op j.unop) = _
       rw [Category.assoc, πV_π, ← D.comm_v hjk, Functor.map_comp, Category.assoc,
         ← stageπ_stageφ, ← Category.assoc, ← Functor.map_comp, hz k hk, ← Category.assoc, hy₁,
         Category.assoc, D.limit_π_stageφ]
@@ -295,7 +295,7 @@ theorem isPullback_kernelPair [Nonempty I] [IsDirected I (· ≤ ·)]
   refine isPullback_of_yoneda_lifts ?_ ?_ ?_
   · refine limit.hom_ext fun j ↦ ?_
     obtain ⟨ρ, hρt, hρs⟩ := (D.M j.unop).exists_lift_of_eq C.s C.t C.isPullback.w
-    show (yoneda.map C.s ≫ D.πV) ≫ limit.π D.diagram (op j.unop) =
+    change (yoneda.map C.s ≫ D.πV) ≫ limit.π D.diagram (op j.unop) =
       (yoneda.map C.t ≫ D.πV) ≫ limit.π D.diagram (op j.unop)
     rw [Category.assoc, Category.assoc, πV_π, ← Category.assoc, ← Category.assoc,
       ← Functor.map_comp, ← Functor.map_comp, ← hρt, ← hρs, Functor.map_comp, Functor.map_comp,

@@ -94,7 +94,7 @@ public theorem isCoherentAdicSystem_idealPowerQuotientSystem [IsLocallyNoetheria
       (idealPowerQuotientFunctor K e).mapIso (hF.quotientIso n), ?_⟩
     refine (cancel_epi (cokernel.π (C := X.Modules)
       (idealPowerMultiple K e (F.obj (op (n + 1)))).ι)).1 ?_
-    show cokernel.π (C := X.Modules) (idealPowerMultiple K e (F.obj (op (n + 1)))).ι ≫
+    change cokernel.π (C := X.Modules) (idealPowerMultiple K e (F.obj (op (n + 1)))).ι ≫
         cokernel.π (C := X.Modules) (idealPowerMultiple I (n + 1)
             (idealPowerQuotient K e (F.obj (op (n + 1))))).ι ≫
           (idealPowerQuotientCommMap I K (n + 1) e (F.obj (op (n + 1))) ≫

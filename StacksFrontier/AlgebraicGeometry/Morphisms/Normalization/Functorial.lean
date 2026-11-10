@@ -103,7 +103,7 @@ lemma normalizationMap_unique (h : f₂.normalization ⟶ f₁.normalization)
     · exact pullback.lift_fst _ _ _
     · exact f₂.normalizationDesc_comp _ _ _
   calc
-    h = k ≫ pullback.snd gX f₁.fromNormalization := by simp [k, pullback.lift_snd]
+    h = k ≫ pullback.snd gX f₁.fromNormalization := by simp [k]
     _ = normalizationMap f₁ f₂ gY gX sq := by rw [hk]; rfl
 
 end AlgebraicGeometry.Scheme.Hom

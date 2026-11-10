@@ -209,7 +209,7 @@ def freeLargeDesc {X : Type w} {M : ModuleCat.{max u w} A} (f : X → M) :
 @[simp]
 lemma freeLargeDesc_apply {X : Type w} {M : ModuleCat.{max u w} A} (f : X → M) (x : X) :
     freeLargeDesc f (freeLargeMk x) = f x := by
-  show Finsupp.lift (M : Type _) A X f (Finsupp.single x 1) = f x
+  change Finsupp.lift (M : Type _) A X f (Finsupp.single x 1) = f x
   simp
 
 /-- `Stacks.LargeModuleUniverse.freeLargeDesc` into a module whose scalars have been restricted

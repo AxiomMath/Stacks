@@ -155,7 +155,7 @@ theorem sheafH_one_multiplicativeSheaf_of_classGroup {ℓ : ℕ} (hℓ : ℓ ≠
         · exact ⟨genericPoint X, by
             rw [hz]
             exact ((tfae_isDominant_of_isIntegral j).out 1 2).mp
-              (isDominant_of_isOpenImmersion_of_isCurve g q j)⟩
+              (isDominant_of_isOpenImmersion_of_isCurve j)⟩
         · exact hne ⟨z,
             Stacks.AlgebraicGeometry.AmpleDimensionOne.isClosed_singleton_of_ne_genericPoint
               Y (IsCurve.topologicalKrullDim_eq_one q) hz⟩
@@ -196,7 +196,7 @@ theorem curveStatements_constantSheaf_of_smoothCurve_of_classGroup
           ((constantSheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}).obj E) q)) :
     CurveStatements.{u, 0, u + 1} g
       ((constantSheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}).obj E) := by
-  have hℓ : ℓ ≠ 0 := ne_zero_of_isUnit_natCast g hℓk
+  have hℓ : ℓ ≠ 0 := ne_zero_of_isUnit_natCast hℓk
   obtain ⟨hdiv, hfin1, hfin2⟩ := sheafH_one_multiplicativeSheaf_of_classGroup g hℓ hA hB
   exact curveStatements_constantSheaf_of_smoothCurve_of_multiplicative.{u, 0, u + 1} g hℓk E hE
     hdiv hfin1 hfin2 h6

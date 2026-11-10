@@ -63,8 +63,8 @@ That is precisely the case the source proves: "Let `W ⊆ X` be an integral clos
 dimension `k`. Let us prove the equality in case `α = [W]`", after which the general case follows
 by the component formula. The source's proof of that case uses Stacks 02SU, 02TJ and 02TM, none of
 which is available here in the form it needs — Stacks 02SU is carried as a hypothesis in
-`StacksFrontier.AlgebraicGeometry.Chow.ChernCapPushforward`, and Stacks 02TM and 02TJ rest on the key
-formula of Stacks 0AYC and on Stacks 02SJ. Granting the key formula, Stacks 02TM is available
+`StacksFrontier.AlgebraicGeometry.Chow.ChernCapPushforward`, and Stacks 02TM and 02TJ rest on the
+key formula of Stacks 0AYC and on Stacks 02SJ. Granting the key formula, Stacks 02TM is available
 after pushforward along the divisor, as
 `Stacks.Chow.effectiveCartierIntersection_eq_firstChernClassCap_of_keyFormula`, which is too weak
 for the component comparison here.
@@ -148,10 +148,10 @@ theorem extendCoeff_extendCycle_apply {X Y Z : Type*} [TopologicalSpace X] [Topo
   have hL : ∀ y : Y, G₁.extendCycle hi₁ α y * G₂.cycle y z =
       ∑ᶠ x : X, α x * (G₁.cycle x y * G₂.cycle y z) := by
     intro y
-    show (∑ᶠ x : X, α x * G₁.cycle x y) * G₂.cycle y z = _
+    change (∑ᶠ x : X, α x * G₁.cycle x y) * G₂.cycle y z = _
     rw [finsum_mul]
     exact finsum_congr fun x ↦ mul_assoc _ _ _
-  show (∑ᶠ y : Y, G₁.extendCycle hi₁ α y * G₂.cycle y z) = _
+  change (∑ᶠ y : Y, G₁.extendCycle hi₁ α y * G₂.cycle y z) = _
   rw [← finsum_mem_univ fun y : Y ↦ G₁.extendCycle hi₁ α y * G₂.cycle y z,
     finsum_mem_congr rfl fun y _ ↦ hL y, key]
   refine finsum_congr fun x ↦ ?_
@@ -267,7 +267,7 @@ theorem gysinHomomorphismOnChow_firstChernClassCapOnChow
         hchernD (gysinHomomorphismOnChow C p (k + 1) L s chernUp hgysinUp α) := by
   induction α using QuotientAddGroup.induction_on with
   | H β =>
-    show QuotientAddGroup.mk ((gysinRule C p k L s chern).extendCycleGroup
+    change QuotientAddGroup.mk ((gysinRule C p k L s chern).extendCycleGroup
       ((firstChernCapRule C p (k + 1) chernN).extendCycleGroup β)) = _
     rw [gysinRule_extendCycleGroup_firstChernCapRule_extendCycleGroup C p k L s chern chernUp
       chernN chernD hcomp β]

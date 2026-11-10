@@ -60,7 +60,7 @@ public theorem gradedZeroRingHom_gradeZeroLinearEquiv_baseChange (W : s.base.Ope
     (gradedBaseChange g Φ W W' h).gradedZeroRingHom (s.gradeZeroLinearEquiv W b)
       = s'.gradeZeroLinearEquiv W' (pieceSectionHom g Φ 0 W W' h b) := by
   refine Subtype.ext ?_
-  show gradedBaseChange g Φ W W' h
+  change gradedBaseChange g Φ W W' h
       ((s.gradeZeroLinearEquiv W b : ↥(s.sectionRingGrading W 0)) : s.sectionRing W) = _
   rw [coe_gradeZeroLinearEquiv, gradedBaseChange_apply]
   exact (sectionRingBaseChange_of g Φ W W' h 0 b).trans
@@ -100,7 +100,7 @@ public theorem baseHom_gradedBaseChange (W : s.base.Opens) (W' : s'.base.Opens)
   refine CommRingCat.hom_ext (RingHom.ext fun r ↦ Subtype.ext ?_)
   rw [CommRingCat.comp_apply, CommRingCat.comp_apply, baseHom_apply_coe,
     CommRingCat.ofHom_apply]
-  show _ = gradedBaseChange g Φ W W' h ((s.baseHom W) r : s.sectionRing W)
+  change _ = gradedBaseChange g Φ W W' h ((s.baseHom W) r : s.sectionRing W)
   rw [gradedBaseChange_apply, baseHom_apply_coe]
   exact (sectionRingBaseChange_baseMap g Φ W W' h r).symm
 

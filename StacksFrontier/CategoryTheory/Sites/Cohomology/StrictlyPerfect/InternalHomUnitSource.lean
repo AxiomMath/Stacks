@@ -219,7 +219,7 @@ theorem homUnitEvaluation_d (k n m : ℤ) (hnm : n + 1 = m)
     (congrArg (fun z => AddCommGrpCat.Hom.hom z s)
       (((sheafHomComplex X E F).sectionsIso U.unop).hom.comm n m)).symm
   have hdU : (restrictComplex X E U.unop).d k (k + 1) = 0 := by
-    show (SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U.unop).map
+    change (SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U.unop).map
       (E.d k (k + 1)) = 0
     rw [hd, Functor.map_zero]
   have key : ∀ z : CochainComplex.HomComplex.Cochain (restrictComplex X E U.unop)
@@ -247,7 +247,7 @@ theorem homUnitEvaluation_naturality
       homUnitEvaluation X (F := F) k n e ≫ f.f (k + n) := by
   ext U s
   have h := sectionsIso_homMap_v X (𝟙 E) f U.unop n k (k + n) rfl s
-  show (((AddCommGrpCat.Hom.hom
+  change (((AddCommGrpCat.Hom.hom
     (((sheafHomComplex X E G).sectionsIso U.unop).hom.f n)
       (((homMap X (𝟙 E) f).f n).val.app U s)).v k (k + n) rfl).val.app
         (op (Over.mk (𝟙 U.unop))))

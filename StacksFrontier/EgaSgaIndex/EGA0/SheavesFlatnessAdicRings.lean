@@ -195,8 +195,9 @@ add_to_ega "0 4.1.7" "more general" AlgebraicGeometry.PresheafedSpace.GlueData
 add_to_ega "0 4.1.7" "Overlap identification"
   AlgebraicGeometry.PresheafedSpace.GlueData.vPullbackConeIsLimit
 add_to_ega "0 4.1.7" "special case" AlgebraicGeometry.Scheme.GlueData.gluedScheme
+open AlgebraicGeometry.Scheme.GlueData in
 add_to_ega "0 4.1.7" "partial"
-  AlgebraicGeometry.Scheme.GlueData.instIsOpenImmersionιLocallyRingedSpaceToLocallyRingedSpaceGlueData
+  instIsOpenImmersionιLocallyRingedSpaceToLocallyRingedSpaceGlueData
 add_to_ega "0 4.1.7" "more general" AlgebraicGeometry.SheafedSpace.GlueData
 add_to_ega "0 4.1.7" "partial" AlgebraicGeometry.SheafedSpace.GlueData.ιIsOpenImmersion
 add_to_ega "0 4.1.7" "partial" TopCat.GlueData
@@ -478,19 +479,14 @@ add_to_ega "0 6.4.1" "a)" Module.FaithfullyFlat.lTensor_reflects_exact
 add_to_ega "0 6.4.1" "b)" Module.FaithfullyFlat.lTensor_reflects_triviality
 add_to_ega "0 6.4.1" "partial" Module.FaithfullyFlat.lTensor_surjective_iff_surjective
 add_to_ega "0 6.4.1" "b)" Module.FaithfullyFlat.nontrivial_tensorProduct_iff_left
-add_to_ega "0 6.4.1" "b)" Module.FaithfullyFlat.nontrivial_tensorProduct_iff_left._simp_1
 add_to_ega "0 6.4.1" "b)" Module.FaithfullyFlat.nontrivial_tensorProduct_iff_right
-add_to_ega "0 6.4.1" "b)" Module.FaithfullyFlat.nontrivial_tensorProduct_iff_right._simp_1
 add_to_ega "0 6.4.1" "faithful flatness ⇒ a)" Module.FaithfullyFlat.rTensor_exact_iff_exact
 add_to_ega "0 6.4.1" "b)" Module.FaithfullyFlat.rTensor_nontrivial
 add_to_ega "0 6.4.1" "a)" Module.FaithfullyFlat.rTensor_reflects_exact
 add_to_ega "0 6.4.1" "b)" Module.FaithfullyFlat.rTensor_reflects_triviality
 add_to_ega "0 6.4.1" "b)" Module.FaithfullyFlat.subsingleton_tensorProduct_iff_left
-add_to_ega "0 6.4.1" "b)" Module.FaithfullyFlat.subsingleton_tensorProduct_iff_left._simp_1
 add_to_ega "0 6.4.1" "b): M ⊗ N = 0 iff N = 0"
   Module.FaithfullyFlat.subsingleton_tensorProduct_iff_right
-add_to_ega "0 6.4.1" "b): M ⊗ N = 0 iff N = 0"
-  Module.FaithfullyFlat.subsingleton_tensorProduct_iff_right._simp_1
 add_to_ega "0 6.4.1" "c)" Module.FaithfullyFlat.zero_iff_lTensor_zero
 add_to_ega "0 6.4.1" "c)" Module.FaithfullyFlat.zero_iff_rTensor_zero
 add_to_ega "0 6.4.1" "partial" Module.Flat.lTensor_preserves_injective_linearMap

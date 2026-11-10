@@ -70,7 +70,7 @@ theorem bijective_sectionsPrecomp_of_isMorphismOfSites (a : C ⥤ D)
     have ht : adj.homEquiv T _ e.hom = 𝟙 T :=
       (Sheaf.isTerminalTerminal J Types.isTerminalPUnit).hom_ext _ _
     simp only [E, Equiv.trans_apply]
-    show adj.homEquiv T F (e.hom ≫ (sectionsEquivHomTerminal K F) s) = _
+    change adj.homEquiv T F (e.hom ≫ (sectionsEquivHomTerminal K F) s) = _
     rw [adj.homEquiv_naturality_right, ht]
     apply Sheaf.hom_ext
     ext V x

@@ -67,7 +67,7 @@ theorem exists_lift_of_isSmooth_of_isAlgebraicStack (h𝒳 : IsAlgebraicStack.{u
     simpa [Psm, spaceProperty] using Space.isSmooth_isStableUnderBaseChange B S hS
   let _ : (spaceProperty B S hS Psm).IsLocalAtTarget
       (Space.Topology.fppf.precoverage.{u, u + 1} B S hS) := by
-    show (Space.smoothMorphismProperty B S hS).IsLocalAtTarget
+    change (Space.smoothMorphismProperty B S hS).IsLocalAtTarget
       (Space.Topology.fppf.precoverage.{u, u + 1} B S hS)
     exact Space.smooth_isLocalAtTarget_fppf B S hS
   have ha : HasPropertyOnSomeSmoothDiagram B S hS Psm a :=

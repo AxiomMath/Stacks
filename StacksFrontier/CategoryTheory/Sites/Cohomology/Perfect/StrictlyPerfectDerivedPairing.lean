@@ -71,9 +71,6 @@ theorem isZero_of_exactPairing {X Y : Mod R}
   calc 𝟙 Y = (ρ_ Y).inv ≫ ((ρ_ Y).hom ≫ (λ_ Y).inv) ≫ (λ_ Y).hom := by simp
     _ = 0 := by rw [← h, zero_comp, comp_zero]
 
-variable [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{u}]
-  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
-
 /-- **A module paired with another is flat.** If `X ⊣ Y` is an exact pairing for the tensor
 product of Stacks 01CA, then `- ⊗ Y` is right adjoint to `- ⊗ X`, so it preserves limits, and a
 tensor product preserves colimits in each variable; so `- ⊗ Y` is exact. -/

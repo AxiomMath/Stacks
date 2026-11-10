@@ -45,8 +45,7 @@ private theorem finite_integralClosure_of_finite_tensor_integralClosure
   have hφ : Function.Injective φ := by
     have heq : ∀ x, ψ₀ (Algebra.TensorProduct.comm A K B x) = φ x := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul k b => simp [φ, ψ₀, mul_comm]
       | add x y hx hy => simp [hx, hy]
     intro x y hxy
@@ -58,7 +57,7 @@ private theorem finite_integralClosure_of_finite_tensor_integralClosure
   let μ : K₁ ⊗[K] (K ⊗[A] B) →ₗ[K₁] T :=
     LinearMap.baseChange K₁ φ.toLinearMap
   have hμ : Function.Injective μ := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap φ.toLinearMap hφ
   let : Algebra L T := Algebra.TensorProduct.rightAlgebra
   have : IsScalarTower A L T := IsScalarTower.to₁₃₄ A K L T
@@ -75,8 +74,7 @@ private theorem finite_integralClosure_of_finite_tensor_integralClosure
   have hθ₀ : Function.Injective θ₀ := by
     have heq : ∀ x, θ₀ x = μ (e (Algebra.TensorProduct.comm A B K₁ x)) := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul b k =>
           simp [θ₀, μ, e, φ, T, IsScalarTower.algebraMap_apply B L T,
             Algebra.TensorProduct.right_algebraMap_apply, mul_comm]
@@ -90,11 +88,10 @@ private theorem finite_integralClosure_of_finite_tensor_integralClosure
   let ν : B ⊗[A] A₁ →ₗ[B] B ⊗[A] K₁ :=
     LinearMap.baseChange B (Subalgebra.val A₁).toLinearMap
   have hν : Function.Injective ν := by
-    simp [ν, LinearMap.baseChange_eq_ltensor]
+    simp [ν, LinearMap.baseChange_eq_lTensor]
   have hmem : ∀ z : B ⊗[A] A₁, θ₀ (ν z) ∈ integralClosure B T := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b a =>
         have ha : IsIntegral B
             (Algebra.TensorProduct.includeLeft (R := K) (A := K₁) (B := L) (a : K₁)) :=
@@ -343,7 +340,7 @@ theorem exists_finite_isSeparable_quotient_adjoinRoot
   intro x
   obtain ⟨r, rfl⟩ := AdjoinRoot.mk_surjective x
   refine ⟨AdjoinRoot.mk P r, ?_⟩
-  show AdjoinRoot.map (RingHom.id F) P q (by simpa using hqP) (AdjoinRoot.mk P r) = AdjoinRoot.mk
+  change AdjoinRoot.map (RingHom.id F) P q (by simpa using hqP) (AdjoinRoot.mk P r) = AdjoinRoot.mk
     q r
   rw [AdjoinRoot.map, AdjoinRoot.lift_mk]
   exact AdjoinRoot.aeval_eq r
@@ -394,7 +391,7 @@ private theorem quotAdjoinRootPowMap_mk
     (r : R) (n : ℕ) (P p : R[X]) :
     quotAdjoinRootPowMap f r n P (Ideal.Quotient.mk _ (AdjoinRoot.mk P p)) =
       Ideal.Quotient.mk _ (AdjoinRoot.mk (P.map f) (p.map f)) := by
-  show Ideal.Quotient.mk _ (AdjoinRoot.map f P (P.map f) dvd_rfl (AdjoinRoot.mk P p)) = _
+  change Ideal.Quotient.mk _ (AdjoinRoot.map f P (P.map f) dvd_rfl (AdjoinRoot.mk P p)) = _
   rw [adjoinRoot_map_mk]
 
 private theorem quotAdjoinRootPowEquiv_naturality
@@ -411,7 +408,7 @@ private theorem quotAdjoinRootPowEquiv_naturality
   intro x
   obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
   obtain ⟨p, rfl⟩ := AdjoinRoot.mk_surjective x
-  show quotAdjoinRootPowEquiv (f r) n (P.map f) (Q.map f) hPQS
+  change quotAdjoinRootPowEquiv (f r) n (P.map f) (Q.map f) hPQS
       (quotAdjoinRootPowMap f r n P (Ideal.Quotient.mk _ (AdjoinRoot.mk P p))) =
     quotAdjoinRootPowMap f r n Q
       (quotAdjoinRootPowEquiv r n P Q hPQ (Ideal.Quotient.mk _ (AdjoinRoot.mk P p)))
@@ -571,9 +568,9 @@ theorem exists_compatible_finite_extensions_of_linear_perturbation
     obtain ⟨z, rfl⟩ := Ideal.Quotient.mk_surjective z
     obtain ⟨p, rfl⟩ := AdjoinRoot.mk_surjective z
     simp only [RingHom.comp_apply, Ideal.quotientMap_mk]
-    show eS (Ideal.Quotient.mk _ (a' (AdjoinRoot.mk P p))) = _
+    change eS (Ideal.Quotient.mk _ (a' (AdjoinRoot.mk P p))) = _
     rw [adjoinRoot_map_mk]
-    show quotAdjoinRootPowEquivOfEq (φ r) n (P.map φ) (Q.map φ) hPQS (a' f) (b' g)
+    change quotAdjoinRootPowEquivOfEq (φ r) n (P.map φ) (Q.map φ) hPQS (a' f) (b' g)
       (AdjoinRoot.map_of φ P (P.map φ) dvd_rfl r)
       (AdjoinRoot.map_of φ Q (Q.map φ) dvd_rfl r)
       (Ideal.Quotient.mk _ (AdjoinRoot.mk (P.map φ) (p.map φ))) = _
@@ -582,9 +579,9 @@ theorem exists_compatible_finite_extensions_of_linear_perturbation
         Ideal.Quotient.mk (Ideal.span {g ^ n}) (AdjoinRoot.mk Q p) :=
       quotAdjoinRootPowEquiv_mk r n P Q hPQ p
     rw [heR]
-    show _ = Ideal.Quotient.mk _ (b' (AdjoinRoot.mk Q p))
+    change _ = Ideal.Quotient.mk _ (b' (AdjoinRoot.mk Q p))
     rw [adjoinRoot_map_mk]
-  · show quotAdjoinRootPowEquiv r n P Q hPQ (Ideal.Quotient.mk _ (AdjoinRoot.mk P (Polynomial.C
+  · change quotAdjoinRootPowEquiv r n P Q hPQ (Ideal.Quotient.mk _ (AdjoinRoot.mk P (Polynomial.C
     r))) =
       Ideal.Quotient.mk _ (AdjoinRoot.mk Q (Polynomial.C r))
     rw [quotAdjoinRootPowEquiv_mk]

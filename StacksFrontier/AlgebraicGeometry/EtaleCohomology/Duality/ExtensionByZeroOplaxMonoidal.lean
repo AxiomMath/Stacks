@@ -136,7 +136,7 @@ comparison of `j⁻¹`; inverse images to `Z` and `U` jointly reflect isomorphis
 instance isIso_etaleModuleExtensionByZero_δ (A B : EtaleModules.{u, 0} Λ U) :
     letI := etaleModuleExtensionByZeroOplaxMonoidal Λ j
     IsIso (δ (etaleModuleExtensionByZero.{u, 0} Λ j) A B) := by
-  letI := etaleModuleExtensionByZeroOplaxMonoidal Λ j
+  let := etaleModuleExtensionByZeroOplaxMonoidal Λ j
   let L := etaleModuleExtensionByZero.{u, 0} Λ j
   let J := etaleModuleInverseImage.{u, 0} Λ j
   let adj := etaleModuleExtensionByZeroInverseImageAdj Λ j
@@ -147,7 +147,7 @@ instance isIso_etaleModuleExtensionByZero_δ (A B : EtaleModules.{u, 0} Λ U) :
     rw [Scheme.IdealSheafData.range_subschemeι_vanishingIdeal]
     exact (compl_compl _).symm
   let I := etaleModuleInverseImage.{u, 0} Λ i
-  haveI : IsIso (J.map (δ L A B)) := by
+  have : IsIso (J.map (δ L A B)) := by
     have h : J.map (δ L A B) = inv (adj.unit.app (A ⊗ B)) ≫
         ((adj.unit.app A ⊗ₘ adj.unit.app B) ≫ μ J (L.obj A) (L.obj B)) := by
       rw [← unit_comp_inverseImage_map_extensionByZero_δ Λ j A B, IsIso.inv_hom_id_assoc]
@@ -159,7 +159,7 @@ instance isIso_etaleModuleExtensionByZero_δ (A B : EtaleModules.{u, 0} Λ U) :
     (isZero_tensorObj_etaleModules_of_isZero_left Λ _
       (isZero_etaleModuleInverseImage_extensionByZero Λ i j hij A)).of_iso
       (Functor.Monoidal.μIso I (L.obj A) (L.obj B)).symm
-  haveI : IsIso (I.map (δ L A B)) :=
+  have : IsIso (I.map (δ L A B)) :=
     ⟨⟨h₂.to_ _, h₁.eq_of_src _ _, h₂.eq_of_src _ _⟩⟩
   exact isIso_of_isIso_etaleModuleInverseImage Λ i j hij _
 
@@ -169,7 +169,7 @@ instance isIso_inverseImage_map_extensionByZero_η_self :
     letI := etaleModuleExtensionByZeroOplaxMonoidal Λ j
     IsIso ((etaleModuleInverseImage.{u, 0} Λ j).map
       (η (etaleModuleExtensionByZero.{u, 0} Λ j))) := by
-  letI := etaleModuleExtensionByZeroOplaxMonoidal Λ j
+  let := etaleModuleExtensionByZeroOplaxMonoidal Λ j
   have h : (etaleModuleInverseImage.{u, 0} Λ j).map (η (etaleModuleExtensionByZero.{u, 0} Λ j)) =
       inv ((etaleModuleExtensionByZeroInverseImageAdj Λ j).unit.app (𝟙_ _)) ≫
         ε (etaleModuleInverseImage.{u, 0} Λ j) := by
@@ -186,7 +186,7 @@ theorem isIso_inverseImage_map_extensionByZero_η {T : Scheme.{u}} (h : T ⟶ U)
   let := etaleModuleExtensionByZeroOplaxMonoidal Λ j
   subst w
   refine (NatIso.isIso_map_iff (etaleModuleInverseImageCompIso.{u, 0} Λ h j) _).2 ?_
-  show IsIso ((etaleModuleInverseImage.{u, 0} Λ h).map ((etaleModuleInverseImage.{u, 0} Λ j).map
+  change IsIso ((etaleModuleInverseImage.{u, 0} Λ h).map ((etaleModuleInverseImage.{u, 0} Λ j).map
     (η (etaleModuleExtensionByZero.{u, 0} Λ j))))
   infer_instance
 
@@ -267,10 +267,10 @@ theorem bijective_sheafFiber_inverseImageConstantPairing_extensionByZeroPairing
   have : IsIso (I₁.map (I₂.map (η L))) :=
     isIso_inverseImage_inverseImage_map_extensionByZero_η (ZMod N) j g₂ g₁ h w
   have hη : IsIso (η G) := by
-    show IsIso (I₁.map (I₂.map (η L)) ≫ (I₁.map (η I₂) ≫ η I₁))
+    change IsIso (I₁.map (I₂.map (η L)) ≫ (I₁.map (η I₂) ≫ η I₁))
     infer_instance
   have hδ : ∀ P Q, IsIso (δ G P Q) := fun P Q => by
-    show IsIso ((I₂ ⋙ I₁).map (δ L P Q) ≫ (I₁.map (δ I₂ _ _) ≫ δ I₁ _ _))
+    change IsIso ((I₂ ⋙ I₁).map (δ L P Q) ≫ (I₁.map (δ I₂ _ _) ≫ δ I₁ _ _))
     infer_instance
   let : G.Monoidal := (Functor.CoreMonoidal.ofOplaxMonoidal G).toMonoidal
   let : ExactPairing (G.obj B) (G.obj A) := ExactPairing.map G B A
@@ -284,16 +284,16 @@ theorem bijective_sheafFiber_inverseImageConstantPairing_extensionByZeroPairing
       (inverseImageConstantPairing g₂ N (extensionByZeroPairing N j (ε_ B A))) =
       ε_ (G.obj B) (G.obj A) ≫ iT.hom := by
     have hμG : μ G A B = μ I₁ _ _ ≫ I₁.map (μ I₂ _ _ ≫ I₂.map (inv (δ L A B))) := by
-      show inv (δ G A B) = _
+      change inv (δ G A B) = _
       refine IsIso.inv_eq_of_hom_inv_id ?_
-      show (I₁.map (I₂.map (δ L A B)) ≫ I₁.map (δ I₂ _ _) ≫ δ I₁ _ _) ≫ _ = 𝟙 _
+      change (I₁.map (I₂.map (δ L A B)) ≫ I₁.map (δ I₂ _ _) ≫ δ I₁ _ _) ≫ _ = 𝟙 _
       rw [Category.assoc, Category.assoc, Functor.Monoidal.δ_μ_assoc, ← I₁.map_comp,
         ← I₁.map_comp, Functor.Monoidal.δ_μ_assoc, ← I₂.map_comp, IsIso.hom_inv_id, I₂.map_id,
         I₁.map_id]
     have hηG : @Functor.OplaxMonoidal.η _ _ _ _ _ _ G Functor.Monoidal.toOplaxMonoidal =
         I₁.map (I₂.map (η L)) ≫ I₁.map (η I₂) ≫ η I₁ := rfl
     rw [ExactPairing.map_evaluation, hμG, hηG]
-    show μ I₁ _ _ ≫ I₁.map (μ I₂ _ _ ≫ I₂.map (inv (δ L A B) ≫ L.map (ε_ B A) ≫ η L) ≫
+    change μ I₁ _ _ ≫ I₁.map (μ I₂ _ _ ≫ I₂.map (inv (δ L A B) ≫ L.map (ε_ B A) ≫ η L) ≫
         c₂.hom) ≫ c₁.hom =
       ((μ I₁ _ _ ≫ I₁.map (μ I₂ _ _ ≫ I₂.map (inv (δ L A B)))) ≫
         I₁.map (I₂.map (L.map (ε_ B A))) ≫ I₁.map (I₂.map (η L)) ≫ I₁.map (η I₂) ≫ η I₁) ≫
@@ -313,7 +313,7 @@ theorem bijective_sheafFiber_inverseImageConstantPairing_extensionByZeroPairing
     rw [key, ExactPairing.map_evaluation Ψ (G.obj B) (G.obj A)]
     simp only [iT', Iso.trans_hom, Functor.Monoidal.εIso_hom, Functor.mapIso_hom,
       Category.assoc, Functor.Monoidal.η_ε_assoc, Functor.map_comp]
-  show Function.Bijective (TensorProduct.curry (Functor.LaxMonoidal.μ Ψ (G.obj A) (G.obj B) ≫
+  change Function.Bijective (TensorProduct.curry (Functor.LaxMonoidal.μ Ψ (G.obj A) (G.obj B) ≫
       Ψ.map (inverseImageConstantPairing g₁ N
         (inverseImageConstantPairing g₂ N (extensionByZeroPairing N j (ε_ B A))))).hom)
   rw [key']

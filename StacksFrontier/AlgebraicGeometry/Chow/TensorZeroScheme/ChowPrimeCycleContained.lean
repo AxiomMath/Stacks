@@ -114,7 +114,7 @@ theorem leftRule_cycle_eq_add_of_le (hWint : IsIntegral W.subscheme)
       W (k + 1) (le_of_eq hDim)
   have hsplit := cycleAssociatedToClosedSubscheme_comap_proj_eq_add_of_le L₁ L₂ s R W C sY k hDim
     hW (k + 1 + 1) (by lia)
-  show (gysinRuleBranch₁ C Y L₁ L₂ s R sY k).extendCycleGroup _ = _
+  change (gysinRuleBranch₁ C Y L₁ L₂ s R sY k).extendCycleGroup _ = _
   rw [hflat, hsplit, map_add,
     (gysinRuleBranch₁ C Y L₁ L₂ s R sY k).extendCycleGroup_cycleAssociatedToClosedSubscheme
       _ hW₁int hW₁dim,
@@ -178,7 +178,7 @@ theorem rightRule_cycle_sub_flatPullback_isRationallyEquivalentToZeroWithin_of_l
         (proj₁_comp_zeroIdeal_subschemeι_comp C Y L₁ L₂ s R sY) 1
         ((Decomposition.relativeDimension_p₁ Y L₁ L₂ s R.normalize)) k
         ((gysinRuleZeroIdeal C Y L₁ L₂ s sY k).cycle W hWint hDim) := by
-    show Stacks.Chow.flatPullback C
+    change Stacks.Chow.flatPullback C
         (R.normalize.D₁.subschemeι ≫ R.normalize.p ≫ sY)
         ((zeroIdeal Y L₁ L₂ s).subschemeι ≫ sY) R.normalize.p₁
         (proj₁_comp_zeroIdeal_subschemeι_comp C Y L₁ L₂ s R sY) 1

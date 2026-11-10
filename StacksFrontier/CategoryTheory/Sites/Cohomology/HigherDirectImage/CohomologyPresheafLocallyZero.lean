@@ -472,7 +472,7 @@ theorem repIso_naturality {Y U : C} (g : Y ⟶ U) :
     preadditiveCoyoneda.map (Quiver.Hom.op (freeYonedaPshMap (C := C) g)) ≫ (repIso Y).hom
       = (repIso U).hom ≫ (evaluation Cᵒᵖ AddCommGrpCat.{u}).map g.op := by
   ext K (a : freeYonedaPsh U ⟶ K)
-  show repEquiv Y K (freeYonedaPshMap g ≫ a) = K.map g.op (repEquiv U K a)
+  change repEquiv Y K (freeYonedaPshMap g ≫ a) = K.map g.op (repEquiv U K a)
   simp only [repEquiv, Equiv.trans_apply, freeYonedaPshMap]
   rw [Adjunction.homEquiv_naturality_left]
   exact (yonedaEquiv_naturality (F := K ⋙ forget AddCommGrpCat) _ g).symm
@@ -486,7 +486,7 @@ theorem adjCoyonedaIso_naturality {A B : Type uA} [Category.{v} A] [Category.{v}
       = (adjCoyonedaIso adj X).hom ≫
           Functor.whiskerLeft Gf (preadditiveCoyoneda.map (Quiver.Hom.op φ)) := by
   ext H (a : F.obj X ⟶ H)
-  show adj.homEquiv X' H (F.map φ ≫ a) = φ ≫ adj.homEquiv X H a
+  change adj.homEquiv X' H (F.map φ ≫ a) = φ ≫ adj.homEquiv X H a
   rw [Adjunction.homEquiv_naturality_left]
 
 /-- **Naturality of `eFun` in `V` (`(†)` at the level of the corepresentability iso).** -/
@@ -730,7 +730,7 @@ lemma coboundaries_le_ker {C' : Type uC} [Category.{vC} C'] [Abelian C']
   intro α hα
   obtain ⟨m, hm, β, hβ⟩ := hα
   rw [AddMonoidHom.mem_ker]
-  show CochainComplex.HomComplex.CohomologyClass.mk (α.precomp φ) = 0
+  change CochainComplex.HomComplex.CohomologyClass.mk (α.precomp φ) = 0
   rw [CochainComplex.HomComplex.CohomologyClass.mk_eq_zero_iff,
     CochainComplex.HomComplex.mem_coboundaries_iff _ m hm]
   refine ⟨(CochainComplex.HomComplex.Cochain.ofHom φ).comp β (zero_add m), ?_⟩
@@ -746,7 +746,7 @@ lemma commi_helper {C' : Type uC} [Category.{vC} C'] [Abelian C']
         ((HomologicalComplex.shortComplexFunctor AddCommGrpCat (ComplexShape.up ℤ) n).map
           (precompCM (L := L) φ)).τ₂ := by
   ext (z : CochainComplex.HomComplex.Cocycle K L n)
-  show ((z.precomp φ : CochainComplex.HomComplex.Cocycle K' L n) :
+  change ((z.precomp φ : CochainComplex.HomComplex.Cocycle K' L n) :
       CochainComplex.HomComplex.Cochain K' L n)
       = (CochainComplex.HomComplex.Cochain.ofHom φ).comp (z : CochainComplex.HomComplex.Cochain K L
           n) (zero_add n)
@@ -805,18 +805,18 @@ lemma precompCM_homologyAddEquiv_symm {C' : Type uC} [Category.{vC} C'] [Abelian
   have hφH : (AddCommGrpCat.Hom.hom (precompLHMD φ n).φH)
       (CochainComplex.HomComplex.CohomologyClass.mk z)
       = CochainComplex.HomComplex.CohomologyClass.mk (z.precomp φ) := by
-    show (CochainComplex.HomComplex.CohomologyClass.descAddMonoidHom
+    change (CochainComplex.HomComplex.CohomologyClass.descAddMonoidHom
         ((CochainComplex.HomComplex.CohomologyClass.mkAddMonoidHom K' L n).comp (cocyclePrecomp φ
             n))
         (coboundaries_le_ker φ n)) (CochainComplex.HomComplex.CohomologyClass.mk z) = _
     rw [CochainComplex.HomComplex.CohomologyClass.descAddMonoidHom_cohomologyClass]; rfl
-  show (AddCommGrpCat.Hom.hom (HomologicalComplex.homologyMap (precompCM φ) n))
+  change (AddCommGrpCat.Hom.hom (HomologicalComplex.homologyMap (precompCM φ) n))
       ((CochainComplex.HomComplex.leftHomologyData K L n).homologyIso.addCommGroupIsoToAddEquiv.symm
         (CochainComplex.HomComplex.CohomologyClass.mk z))
     = (CochainComplex.HomComplex.leftHomologyData K' L n).homologyIso.addCommGroupIsoToAddEquiv.symm
         (CochainComplex.HomComplex.CohomologyClass.mk (z.precomp φ))
   rw [hmap]
-  show (AddCommGrpCat.Hom.hom ((CochainComplex.HomComplex.leftHomologyData K L n).homologyIso.hom
+  change (AddCommGrpCat.Hom.hom ((CochainComplex.HomComplex.leftHomologyData K L n).homologyIso.hom
         ≫ (precompLHMD φ n).φH ≫ (CochainComplex.HomComplex.leftHomologyData K' L
             n).homologyIso.inv))
       ((CochainComplex.HomComplex.leftHomologyData K L n).homologyIso.inv
@@ -848,7 +848,7 @@ lemma smallComp_mk₀_mk {C' : Type uC} [Category.{vC} C'] [Abelian C']
   rw [Localization.SmallShiftedHom.equiv_comp, Localization.SmallShiftedHom.equiv_mk₀,
     Localization.SmallShiftedHom.equiv_mk, Localization.SmallShiftedHom.equiv_mk,
     ShiftedHom.mk₀_comp]
-  show DerivedCategory.Q.map sg ≫ ShiftedHom.map s DerivedCategory.Q
+  change DerivedCategory.Q.map sg ≫ ShiftedHom.map s DerivedCategory.Q
     = ShiftedHom.map (sg ≫ s) DerivedCategory.Q
   simp only [ShiftedHom.map, Functor.map_comp, Category.assoc]
 
@@ -871,7 +871,7 @@ lemma factorD2 (G : Sheaf J AddCommGrpCat.{u}) (I : InjectiveResolution G) {Y U 
       HomologicalComplex.Hom.isoOfComponents_hom_f, AddCommGrpCat.hom_comp, AddMonoidHom.comp_apply,
       AddEquiv.toAddCommGrpIso_hom, AddEquiv.coe_toAddMonoidHom,
       NatTrans.mapHomologicalComplex_app_f, AddCommGrpCat.hom_ofHom]
-    show (CochainComplex.HomComplex.Cochain.fromSingleEquiv (by ring : (0:ℤ)+j=j))
+    change (CochainComplex.HomComplex.Cochain.fromSingleEquiv (by ring : (0:ℤ)+j=j))
         ((CochainComplex.HomComplex.Cochain.ofHom
             ((CochainComplex.singleFunctor (Sheaf J AddCommGrpCat.{u}) 0).map (freeYonedaMap (J :=
                 J) g))).comp
@@ -961,7 +961,7 @@ lemma mapExtendIso_naturality
   rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f]
   simp only [mapExtendIso, HomologicalComplex.Hom.isoOfComponents_hom_f,
     NatTrans.mapHomologicalComplex_app_f]
-  show τ.app (HomologicalComplex.extend.X X (ComplexShape.embeddingUpNat.r i')) ≫
+  change τ.app (HomologicalComplex.extend.X X (ComplexShape.embeddingUpNat.r i')) ≫
       (auxIso F' X (ComplexShape.embeddingUpNat.r i')).hom = _
   obtain (h | ⟨a, ha⟩) := (ComplexShape.embeddingUpNat.r i').eq_none_or_eq_some
   · exact (HomologicalComplex.extend.isZero_X
@@ -1251,7 +1251,7 @@ theorem injectiveResolution_homology_presheaf_locally_zero
       ((sectionComplex G I).homology n).map g.f.op η = 0 := by
   -- Abbreviate the homology presheaf `P = Hⁿ(I^•(-))`.
   let P : Cᵒᵖ ⥤ AddCommGrpCat.{max u v} := (sectionComplex G I).homology n
-  show ∃ S : J.Cover U, ∀ g : S.Arrow, P.map g.f.op η = 0
+  change ∃ S : J.Cover U, ∀ g : S.Arrow, P.map g.f.op η = 0
   -- The sheafification of `P` is the zero sheaf: applying the exact functor
   -- `presheafToSheaf` to `P` recovers the (degree `n>0`, hence zero) homology of the
   -- exact complex of sheaves `I.cocomplex`.
@@ -1319,7 +1319,7 @@ theorem ext_generator_locally_zero (G : Sheaf J AddCommGrpCat)
     injectiveResolution_homology_presheaf_locally_zero G I n hn U
       (extEquivSectionHomology G I n U ξ)
   refine ⟨S, fun g => ?_⟩
-  show extRestrict G n g.f ξ = 0
+  change extRestrict G n g.f ξ = 0
   -- The bridge at `g.Y` sends the goal class to the kernel value `0`; conclude by injectivity.
   refine (extEquivSectionHomology G I n g.Y).injective ?_
   simpa [extEquivSectionHomology_naturality G I n g.f ξ] using hS g

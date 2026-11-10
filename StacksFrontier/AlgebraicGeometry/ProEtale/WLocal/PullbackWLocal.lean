@@ -84,7 +84,7 @@ private theorem projection_preimage_isCompact (S : ProfiniteBaseChangeOfComponen
   have hpi : T2Space (ConnectedComponents S.X) :=
     (connectedComponents_isProfinite S.X).1
   have hclosed : IsClosed ({p : U × S.T | f p.1.1 = g p.2} : Set (U × S.T)) := by
-    show IsClosed (fibreProduct (fun x : U => f x.1) g)
+    change IsClosed (fibreProduct (fun x : U => f x.1) g)
     exact fibreProduct_isClosed
       (ConnectedComponents.continuous_coe.comp continuous_subtype_val)
       S.toConnectedComponents.hom.continuous
@@ -93,7 +93,7 @@ private theorem projection_preimage_isCompact (S : ProfiniteBaseChangeOfComponen
   let e : S.Y ≃ₜ {p : S.X × S.T // f p.1 = g p.2} :=
     TopCat.homeoOfIso (TopCat.pullbackIsoProdSubtype S.componentMap S.toConnectedComponents)
   have heq (y : S.Y) : S.toX y ∈ U ↔ (e y).1.1 ∈ U := by
-    show (pullback.fst S.componentMap S.toConnectedComponents) y ∈ U ↔
+    change (pullback.fst S.componentMap S.toConnectedComponents) y ∈ U ↔
       ((TopCat.pullbackIsoProdSubtype S.componentMap S.toConnectedComponents).hom y).1.1 ∈ U
     rw [TopCat.pullbackIsoProdSubtype_hom_apply]
   let eU := e.subtype (p := fun y => S.toX y ∈ U)

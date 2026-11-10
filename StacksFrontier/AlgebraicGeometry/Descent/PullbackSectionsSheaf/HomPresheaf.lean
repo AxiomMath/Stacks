@@ -75,7 +75,7 @@ lemma pullbackSectionsHomEquiv_apply (F : S.Modules) (T : Over S)
     (x : Γ((Scheme.Modules.pullback T.hom).obj F, ⊤)) :
     pullbackSectionsHomEquiv F x = (Scheme.Modules.pullbackUnitIso T.hom).hom ≫
       Scheme.Modules.unitHomEquivTop _ x := by
-  show (Scheme.Modules.pullbackUnitIso T.hom).hom ≫
+  change (Scheme.Modules.pullbackUnitIso T.hom).hom ≫
       Scheme.Modules.unitHomEquivTop _ x ≫ 𝟙 _ = _
   rw [Category.comp_id]
 
@@ -106,7 +106,7 @@ lemma pullbackSectionsHomEquiv_naturality (F : S.Modules) {T U : Over S} (g : U 
       (modulePullbackPseudofunctor.presheafHom (Scheme.unitModule S) F).map (op g)
         (pullbackSectionsHomEquiv F (T := T) sT) := by
   rw [pullbackSectionsHomEquiv_apply, pullbackSectionsHomEquiv_apply]
-  show _ = Pseudofunctor.LocallyDiscreteOpToCat.pullHom
+  change _ = Pseudofunctor.LocallyDiscreteOpToCat.pullHom
     (F := modulePullbackPseudofunctor) _ g.left U.hom U.hom (Over.w g) (Over.w g)
   rw [modulePullbackPseudofunctor_pullHom,
     ← Scheme.Modules.pullbackUnitIso_comp_eq g.left T.hom U.hom (Over.w g), Functor.map_comp]

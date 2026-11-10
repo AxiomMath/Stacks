@@ -143,7 +143,7 @@ theorem cechTransportTerm_comp_cechAugTerm {V W : Cᵒᵖ} (a : V ⟶ W) (S : F.
     cechTransportTerm F a 0 S ≫
         (ModuleCat.restrictScalars (R.map a).hom).map (cechAugTerm F W (GenSet.map a S)) =
       cechAugTerm F V S ≫ ringTransport a := by
-  show (cechTransport F a S).f 0 ≫
+  change (cechTransport F a S).f 0 ≫
       (ModuleCat.restrictScalars (R.map a).hom).map
         (LocalCohomology.cechZeroIso (fam (GenSet.map a S))
           (ModuleCat.of (R.obj W) (R.obj W))).hom =

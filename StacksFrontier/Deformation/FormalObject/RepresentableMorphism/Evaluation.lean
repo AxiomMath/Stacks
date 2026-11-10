@@ -184,7 +184,7 @@ public theorem canonicalQuotientPoint_transition
     (R : CompleteLocalAlgCat.{u, v, w} Λ k) (n : ℕ) :
     (restrictedCoyoneda R).map (AdicTruncation.transition R n)
       (canonicalQuotientPoint R (n + 1)) = canonicalQuotientPoint R n := by
-  show canonicalQuotientPoint R (n + 1) ≫
+  change canonicalQuotientPoint R (n + 1) ≫
       artinianToComplete.map (AdicTruncation.transition R n) =
         canonicalQuotientPoint R n
   exact CompleteLocalAlgCat.Hom.ext (AlgHom.ext fun _ => rfl)
@@ -414,7 +414,7 @@ public theorem evaluation_full
       isHomLift' := app_lift }
   refine ⟨ηb, ?_⟩
   apply Functor.Fiber.hom_ext
-  show ηb.toNatTrans.app α₀ = t₀
+  change ηb.toNatTrans.app α₀ = t₀
   have hfac := app_fac α₀
   have he : representedElementFromIdentity R α₀ = 𝟙 α₀ := by
     apply Functor.Elements.hom_ext
@@ -593,11 +593,11 @@ public theorem cofibered_fiber_isGroupoid
     refine ⟨⟨⟨@CategoryTheory.inv _ _ _ _ φ₀ hφ₀, hinv⟩, ?_, ?_⟩⟩
     · apply Functor.Fiber.fiberInclusion.map_injective
       simp only [Functor.map_comp]
-      show φ₀ ≫ @CategoryTheory.inv _ _ _ _ φ₀ hφ₀ = _
+      change φ₀ ≫ @CategoryTheory.inv _ _ _ _ φ₀ hφ₀ = _
       simp
     · apply Functor.Fiber.fiberInclusion.map_injective
       simp only [Functor.map_comp]
-      show @CategoryTheory.inv _ _ _ _ φ₀ hφ₀ ≫ φ₀ = _
+      change @CategoryTheory.inv _ _ _ _ φ₀ hφ₀ ≫ φ₀ = _
       simp
 
 /-- Evaluation at the identity point is essentially surjective when the target is cofibered in

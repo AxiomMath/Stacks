@@ -265,7 +265,7 @@ def kerCechDOneEquivCechCompatible :
   map_add' x y := Subtype.ext (map_add (cechTermOneEquiv f M) x.1 y.1)
   map_smul' c x := Subtype.ext (map_smul (cechTermOneEquiv f M) c x.1)
   invFun y := ⟨(cechTermOneEquiv f M).symm y.1,
-    (mem_ker_cechD_one_iff f M _).2 (by simpa using y.2)⟩
+    (mem_ker_cechD_one_iff f M _).2 (by simp)⟩
   left_inv x := Subtype.ext ((cechTermOneEquiv f M).symm_apply_apply x.1)
   right_inv y := Subtype.ext ((cechTermOneEquiv f M).apply_symm_apply y.1)
 

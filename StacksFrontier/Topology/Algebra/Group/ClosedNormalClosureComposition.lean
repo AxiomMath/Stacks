@@ -180,7 +180,7 @@ theorem ker_comp_eq_closedNormalClosure_of_image_eq (h₂ : G₂ →ₜ* G₁) (
     obtain ⟨y, hyN, hy⟩ := Subgroup.mem_map.1 (hker₁le (hx : h₂ x ∈ _))
     have hxy : x * y⁻¹ ∈ MonoidHom.ker h₂.toMonoidHom := by
       rw [MonoidHom.mem_ker]
-      show h₂ (x * y⁻¹) = 1
+      change h₂ (x * y⁻¹) = 1
       rw [map_mul, map_inv, show h₂ y = h₂ x from hy]
       exact mul_inv_cancel _
     rw [show x = x * y⁻¹ * y by group]
@@ -199,7 +199,7 @@ theorem ker_comp_eq_closedNormalClosure_of_image_eq (h₂ : G₂ →ₜ* G₁) (
         rw [hker₂]
         exact subset_topologicalClosure_normalClosure _ hx
       have hx1 : h₂ x = 1 := hmem
-      show h₂ x ∈ MonoidHom.ker h₁.toMonoidHom
+      change h₂ x ∈ MonoidHom.ker h₁.toMonoidHom
       rw [hx1]
       exact one_mem _
     · exact hS₁ker (himg ▸ Set.mem_image_of_mem _ hx)

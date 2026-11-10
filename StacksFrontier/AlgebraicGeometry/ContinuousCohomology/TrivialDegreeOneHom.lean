@@ -82,7 +82,7 @@ theorem exists_hom_of_trivial_of_degreeOne
     abel
   · have : {g | c g = 0} = {g | (S.X₂.obj.obj.ρ g).asHom.hom f = f} := by
       ext g
-      rw [Set.mem_setOf_eq, Set.mem_setOf_eq, ← sub_eq_zero (a := (S.X₂.obj.obj.ρ g).asHom.hom f),
+      rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq, ← sub_eq_zero (a := (S.X₂.obj.obj.ρ g).asHom.hom f),
         ← hcι, map_eq_zero_iff ι hι]
     rw [this]
     exact Stacks.GroupCohomology.isOpen_stabilizer R G _ f
@@ -96,7 +96,7 @@ theorem exists_hom_of_trivial_of_degreeOne
     let f0 : (continuousModuleRingInvariants.{u, v, max u v w} R G).obj S.X₂ := ⟨m • f, hinv⟩
     have hmap : (continuousModuleRingInvariants.{u, v, max u v w} R G).map S.g f0 = m • q0 := by
       apply Subtype.ext
-      show S.g.hom.hom.hom.hom (m • f) = m • q0.1
+      change S.g.hom.hom.hom.hom (m • f) = m • q0.1
       rw [map_nsmul, show S.g.hom.hom.hom.hom f = q0.1 from hf]
     have hq : m • q =
         ((invariantsDelta.{u, v, w} R (G := G)).functor 0).map S.g (e0.inv.app _ f0) := by
@@ -104,7 +104,7 @@ theorem exists_hom_of_trivial_of_degreeOne
       rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply] at n1
       rw [← n1, hmap, map_nsmul]
       congr 1
-      show q = (e0.hom ≫ e0.inv).app _ q
+      change q = (e0.hom ≫ e0.inv).app _ q
       rw [e0.hom_inv_id]
       rfl
     rw [← map_nsmul, hq, ← ConcreteCategory.comp_apply,

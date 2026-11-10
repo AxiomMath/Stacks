@@ -175,9 +175,9 @@ theorem hasFlatAlgebraLift_of_ringEquiv
     Algebra.TensorProduct.congr eA'.symm (AlgEquiv.refl (R := A') (A₁ := C))
   refine AlgEquiv.ofRingEquiv (f := (t.toRingEquiv.trans e.toRingEquiv).trans eB) fun a => ?_
   have h₁ : t (algebraMap A₂ (A₂ ⊗[A'] C) a) = algebraMap A (A ⊗[A'] C) (eA'.symm a) := by
-    show t (a ⊗ₜ[A'] (1 : C)) = _
+    change t (a ⊗ₜ[A'] (1 : C)) = _
     simp [t]
-  show eB (e (t (algebraMap A₂ (A₂ ⊗[A'] C) a))) = algebraMap A₂ B₂ a
+  change eB (e (t (algebraMap A₂ (A₂ ⊗[A'] C) a))) = algebraMap A₂ B₂ a
   rw [h₁, e.commutes, heB, show eA (eA'.symm a) = a from eA.apply_symm_apply a]
 
 end Transport
@@ -261,7 +261,7 @@ theorem exists_isHomLift_of_hasFlatAlgebraLift
   let mm : X' ⟶ X := Over.homMk m rfl
   refine ⟨X', mm, ?_⟩
   refine IsHomLift.of_fac' (ringDeformationProjection Λ k P) f mm rfl rfl ?_
-  show m.base = eqToHom rfl ≫ f ≫ eqToHom rfl
+  change m.base = eqToHom rfl ≫ f ≫ eqToHom rfl
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
   rfl
 

@@ -79,7 +79,7 @@ public theorem exists_list_sum_of_isColimit {J : Type*} [Category J]
   have hq : q = 0 := by
     refine hc.hom_ext fun j => ?_
     ext y
-    show (QuotientAddGroup.mk' S) (c.ι.app j y) = 0
+    change (QuotientAddGroup.mk' S) (c.ι.app j y) = 0
     exact (QuotientAddGroup.eq_zero_iff _).2 ⟨[⟨j, y⟩], by simp⟩
   exact (QuotientAddGroup.eq_zero_iff _).1
     (congrArg (fun f : c.pt ⟶ AddCommGrpCat.of (c.pt ⧸ S) => f x) hq)
@@ -181,7 +181,7 @@ public theorem sheafAdjunctionContinuous_unit_app_hom {A : Type*} [Category A]
     (fullyFaithfulSheafToPresheaf J A) (Functor.FullyFaithful.id (Sheaf K A))
     (Iso.refl _) (Iso.refl _)
     (𝟙 ((Functor.sheafPullbackConstruction.sheafPullback G A J K).obj F))
-  show (sheafToPresheaf J A).map
+  change (sheafToPresheaf J A).map
     ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous G A J K).unit.app F) = _
   rw [hunit, Functor.sheafPullbackConstruction.sheafAdjunctionContinuous, key,
     Functor.FullyFaithful.map_preimage, Adjunction.comp_unit_app,

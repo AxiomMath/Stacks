@@ -75,7 +75,7 @@ theorem pointHom_sheafFiber_app_constantSheaf {Φ : J.Point.{w}} (f : Φ ⟶ Φ)
       Category.id_comp]
   have hnat := f.presheafFiber.naturality (toSheafify J ((Functor.const Cᵒᵖ).obj A))
   rw [h1, Category.id_comp] at hnat
-  show f.presheafFiber.app (sheafify J ((Functor.const Cᵒᵖ).obj A)) = 𝟙 _
+  change f.presheafFiber.app (sheafify J ((Functor.const Cᵒᵖ).obj A)) = 𝟙 _
   rw [← cancel_epi (Φ.presheafFiber.map (toSheafify J ((Functor.const Cᵒᵖ).obj A))), hnat,
     Category.comp_id]
 
@@ -131,7 +131,8 @@ theorem perfectDerivedTrace_single_map (R : Type u₁) [Ring R] (A : ModuleCat.{
         ModuleCat.ofHom (e₀.symm.toLinearMap.comp (f.hom.comp e₀.toLinearMap)) := by
       rw [HomologicalComplex.single_map_f_self]
       rfl
-    simp only [if_pos (even_iff_two_dvd.mpr (dvd_zero 2) : Even (0 : ℤ)), hf, ModuleCat.hom_ofHom]
+    simp only [ite_eq_left (even_iff_two_dvd.mpr (dvd_zero 2) : Even (0 : ℤ)), hf,
+      ModuleCat.hom_ofHom]
     simpa only [LinearEquiv.symm_symm] using projectiveModuleTrace_conj R e₀.symm f.hom
   · have := subsingleton_single_obj_X R A hi
     have := (hP.2 i).1
@@ -190,6 +191,7 @@ theorem rationalPointStalkFrobenius_constant (hcard : Fintype.card k = p ^ q)
   ext n : 1
   exact geometricFrobeniusStalkFunctor_app_etaleModuleConstantSheaf Λ kbar p q hcard x (N.obj.X n)
 
+attribute [local instance] moduleCat_hasLimitsOfSize in
 /-- **The stalk of a complex of constant sheaves is the complex of values**, degreewise by the
 identification of the fibre of a constant sheaf with its value. -/
 def rationalPointStalkComplexConstantIso (x : Spec (.of k) ⟶ X)
@@ -197,14 +199,13 @@ def rationalPointStalkComplexConstantIso (x : Spec (.of k) ⟶ X)
     rationalPointStalkComplex.{u, r} Λ kbar x
         ((constantSheaf X.smallEtaleTopology
           (ModuleCat.{max (u + 1) r} Λ)).mapCochainComplexPlus.obj N) ≅ N.obj :=
-  have hL : HasLimitsOfSize.{u, u} (ModuleCat.{max (u + 1) r} Λ) :=
-    moduleCat_hasLimitsOfSize.{u, u, r, max (u + 1) r} Λ
   let e := CategoryTheory.Sites.constantSheafFiberNatIso
     (D := ModuleCat.{max (u + 1) r} Λ) (J := X.smallEtaleTopology)
     (Scheme.pointSmallEtale (Stacks.Frobenius.rationalGeometricPoint kbar x).hom)
   HomologicalComplex.Hom.isoOfComponents (fun n => e.app (N.obj.X n))
     (fun i j _ => (e.hom.naturality (N.obj.d i j)).symm)
 
+omit [Fintype k] in
 /-- The stalk of a complex of constant sheaves with perfect values is perfect. -/
 theorem isPerfect_rationalPointStalkComplex_constant (x : Spec (.of k) ⟶ X)
     (N : CochainComplex.Plus (ModuleCat.{max (u + 1) r} Λ))

@@ -75,8 +75,8 @@ def bigToSmallEtaleBaseChange {X Y : T.Spaces} (f : Y ⟶ X) :
       (bigToSmallEtaleMorphism T Y).inverseImage ⋙
         (Over.pullback f).sheafPushforwardContinuous (Type (u + 1)) (T.bigEtaleTopology X)
           (T.bigEtaleTopology Y) :=
-  ((mateEquiv (bigToSmallEtaleMorphism T Y).adj (bigToSmallEtaleMorphism T X).adj).symm
-    (bigSmallEtalePullbackSquare T f).hom).natTrans
+  (mateEquiv (bigToSmallEtaleMorphism T Y).adj (bigToSmallEtaleMorphism T X).adj).symm
+    (bigSmallEtalePullbackSquare T f).hom
 
 /-! ### The cube of mates -/
 
@@ -204,7 +204,7 @@ theorem isIso_map_bigToSmallEtaleBaseChange_app {X Y : T.Spaces} (f : Y ⟶ X)
       ((bigToSmallEtaleBaseChange T f).app K)) := by
   have := isIso_bigToSmallEtaleMorphism_unit T X
   have := isIso_bigToSmallEtaleMorphism_unit T Y
-  have : IsIso (TwoSquare.mk _ _ _ _ (bigSmallEtalePullbackSquare T f).hom).natTrans :=
+  have : IsIso (TwoSquare.mk _ _ _ _ (bigSmallEtalePullbackSquare T f).hom) :=
     inferInstanceAs (IsIso (bigSmallEtalePullbackSquare T f).hom)
   exact isIso_map_mateEquiv_symm_app_of_isIso_unit (bigToSmallEtaleMorphism T Y).adj
     (bigToSmallEtaleMorphism T X).adj _ K
@@ -240,14 +240,14 @@ theorem isIso_bigToSmallEtaleBaseChange {X Y : T.Spaces} (f : Y ⟶ X)
       ((Over.mapPullbackAdj V.hom).sheafPushforwardContinuous (E := Type (u + 1))
         (T.bigEtaleTopology V.left) (T.bigEtaleTopology X))).symm
       (TwoSquare.mk _ _ _ _ (bigEtalePullbackCompSquare T f V.hom (pullback.fst f V.hom)
-        (pullback.snd f V.hom) sq))).natTrans := by
+        (pullback.snd f V.hom) sq))) := by
     rw [mateEquiv_symm_bigEtalePullbackCompSquare]
     exact (Functor.sheafPushforwardContinuousIso (Over.beckChevalleyIso sq).symm (Type (u + 1))
       (T.bigEtaleTopology V.left) (T.bigEtaleTopology Y)).isIso_hom
   have hs : IsIso ((mateEquiv (smallEtaleMorphism T (pullback.fst f V.hom)).adj
       (smallEtaleMorphism T V.hom).adj).symm (TwoSquare.mk _ _ _ _
         (Space.spacesPushforwardCompSquare T.fppfSite S T.fppf_mem (pullback.fst f V.hom)
-          (pullback.snd f V.hom) f V.hom sq.w))).natTrans :=
+          (pullback.snd f V.hom) f V.hom sq.w))) :=
     Space.isIso_spacesToposBaseChangeSquare_of_isProper_of_properBaseChange T.fppfSite S T.fppf_mem
       h0A3U f hf V.hom (pullback.fst f V.hom) (pullback.snd f V.hom) sq
   have h := isIso_map_map_mateEquiv_symm_app_of_cube (bigToSmallEtaleMorphism T Y).adj

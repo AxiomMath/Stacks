@@ -186,7 +186,7 @@ theorem exists_canonicalCompactSupportLefschetzNumber_descentSheaf_eq_zero
       LinearMap.ext fun x => Subtype.ext ((mem_fixPart (e i) hc).1 x.2)
     have hkr : (killProj (e i) hc he).comp (killPart (M := M) (e i) hc).subtype = LinearMap.id :=
       LinearMap.ext fun x => Subtype.ext (by
-        show (x : M) - e i • (x : M) = x
+        change (x : M) - e i • (x : M) = x
         rw [(mem_killPart (e i) hc).1 x.2, sub_zero])
     obtain ⟨_, _⟩ := projective_finite_of_comp_eq_id hfr
     obtain ⟨_, _⟩ := projective_finite_of_comp_eq_id hkr

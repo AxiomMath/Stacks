@@ -72,7 +72,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
             (cyclotomicContinuousModule B X f kbar y (Fintype.card Λ))))))
   [K₀.cocomplex.IsStrictlyGE 0]
 
-omit [CompactSpace (kbar ≃ₐ[k] kbar)] [Algebra (ZMod (Fintype.card Λ)) Λ]
+omit [Smooth f] [CompactSpace (kbar ≃ₐ[k] kbar)] [Algebra (ZMod (Fintype.card Λ)) Λ]
   [K₀.cocomplex.IsStrictlyGE 0] in
 /-- **On sections, the morphism of complexes of a cocycle `β` is the pairing with `β`**, read
 in `res_ℤ(K₀|_{X̄_k̄})` through `(res_ℤ K₀)| ≅ res_ℤ(K₀|)`. -/
@@ -116,6 +116,7 @@ theorem globalSections_map_galoisHomOpCocycleAct_glue (i : letI := connectedSpac
     K₀.cocomplex).hom.f 2).hom.app
       (op (Scheme.Etale.mk (𝟙 (fieldBaseChange (Over.mk j.toBase) kbar)))) w) h
 
+omit [Smooth f] [CompactSpace (kbar ≃ₐ[k] kbar)] [Algebra (ZMod (Fintype.card Λ)) Λ] in
 /-- **The cocycle action lies over `θ_β`**, as morphisms of bounded below complexes: the restricted
 augmentation of `I` followed by the action of `β` is `θ_β[0]` followed by that of `K₀`. -/
 theorem compactSupportResolutionIntAugmentation_comp_poincareAct
@@ -148,6 +149,9 @@ theorem compactSupportResolutionIntAugmentation_comp_poincareAct
   exact ObjectProperty.hom_ext _ (augmentation_iso_chase _ _
     (galoisBaseChangeRestrictScalarsIso (Over.mk j.toBase) kbar K₀.cocomplex).symm _ _ h)
 
+set_option maxHeartbeats 400000 in
+-- The kernel check of the `convert` proof times out at the default limit.
+omit [Smooth f] [CompactSpace (kbar ≃ₐ[k] kbar)] in
 /-- **The class of the pairing with a cocycle, in `H²_c(X_k̄, ℱ_μ)`**: for a degree-two cycle `x`
 of `Γ^Gal(I)` and a degree-zero cycle `z` of `Γ^Gal(ℋom^•(I, K))`, the class of the cocycle
 `⟨x, z⟩` of `Γ(X̄_k̄, K₀|)` is the image of the class of `x` under the map induced by `θ_z`. -/
@@ -217,7 +221,7 @@ theorem galoisCompactSupportResolutionIso_homologyπ_pair_eq_restrictScalarsMapO
           (((etaleModuleInverseImage.{u, 0} Λ
             (fieldBaseChangeProj (Over.mk j.toBase) kbar)).mapHomologicalComplex _).obj
               i.I.cocomplex)) ((2 : ℕ) : ℤ)).hom xΛ)) := by
-  letI := connectedSpace_of_isCurve B X f
+  let := connectedSpace_of_isCurve B X f
   have hx' := hx
   have he : (fieldBaseChangeGlobalSectionsRestrictScalarsIso
         (Int.castRingHom (ZMod (Fintype.card Λ)))

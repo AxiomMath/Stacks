@@ -225,7 +225,7 @@ public theorem image_factorization {F G : LAdicSheaf.{u, u + 1} B X ℓ} (f : F 
       Epi a ∧ Mono i ∧ a ≫ i = f ∧ Nonempty (NormalMono i) := by
   let p := cokernelSystemπ f
   have : Epi p := (epi_iff_app_epi p).2 (fun n => by
-    show Epi (cokernel.π (f.app n))
+    change Epi (cokernel.π (f.app n))
     infer_instance)
   obtain ⟨E, i, w, ⟨hi⟩, hb, hp⟩ := normalized_epi_kernel_exists B X ℓ p
   let a := (KernelFork.IsLimit.lift' hi f (comp_cokernelSystemπ f)).1

@@ -353,7 +353,7 @@ public theorem picardDecompositionOfExactness_eq_iff
     (L' : Stacks.Picard.ofScheme X') (n : ℤ) :
     D.picardDecompositionOfExactness k e b hb hker hE L = (L', n) ↔
       L = Stacks.Picard.schemePullbackClassHom b L' + negativeExceptionalMultipleHom D n := by
-  rw [AddEquiv.apply_eq_iff_symm_apply, picardDecompositionOfExactness_symm_apply]
+  rw [← AddEquiv.eq_symm_apply, picardDecompositionOfExactness_symm_apply]
 
 /-- **The characterisation in the form `ℒ(nE) = b^*ℒ'`.** A class `ℒ` corresponds to the pair
 `(ℒ', n)` if and only if `ℒ(nE)` is the pullback of `ℒ'` along `b`. -/

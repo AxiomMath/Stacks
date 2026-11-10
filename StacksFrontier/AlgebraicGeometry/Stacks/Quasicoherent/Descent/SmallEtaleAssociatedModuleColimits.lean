@@ -61,7 +61,8 @@ is a separate statement about a functor that **is** in the library:
 `𝟭 S.Modules`, which would state a different theorem, `T/S ↦ Γ(T, 𝒪_T)` being *isomorphic* to
 `𝒪_S` and not equal to it — is not the only route open.  The clause of 06VE at
 `τ = Zariski` is not proved here, but the colimit preservation it rests on is:
-`AlgebraicGeometry.SmallZariski.preservesColimitsOfSize_associatedModule` (`ibid.:202`).  See the implementation notes of
+`AlgebraicGeometry.SmallZariski.preservesColimitsOfSize_associatedModule` (`ibid.:202`).  See the
+implementation notes of
 `StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleRingedSite`.
 
 `AlgebraicGeometry.SmallEtale.associatedModule` is stated on

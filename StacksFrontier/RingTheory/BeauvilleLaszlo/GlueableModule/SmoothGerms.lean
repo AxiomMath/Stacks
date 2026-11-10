@@ -78,7 +78,7 @@ private lemma ContinuousOn.intervalIntegral {X : Type*} [TopologicalSpace X] {μ
   · simp_rw [intervalIntegral.integral_symm b₀ a₀]
     exact (h (Set.uIcc_comm a₀ b₀ ▸ hf) (le_of_not_ge hab)).neg
   · rw [Set.uIcc_of_le hab] at hf
-    rw [continuousOn_iff_continuous_restrict] at hf ⊢
+    rw [continuousOn_iff_continuous_domRestrict] at hf ⊢
     replace hf :
         Continuous (Function.uncurry fun (x : u) (t : ℝ) ↦ f (x, Set.projIcc _ _ hab t)) :=
       (hf.comp (f := (Homeomorph.Set.prod u _).symm ∘ Prod.map id (Set.projIcc _ _ hab))
@@ -251,7 +251,7 @@ private lemma eqOn_add_sum_hadamardFun {x : E} {s : Set E} (hs : IsOpen s) (hs' 
       (hs.preimage <| by fun_prop) hn).mono fun t ht ↦ hs'' _ ht
   · unfold hadamardFun
     simp_rw [← integral_smul]
-    rw [← integral_finset_sum]
+    rw [← integral_finsetSum]
     · refine integral_congr fun t ht ↦ ?_
       rw [← fderiv_apply_one_eq_deriv, fderiv_comp]
       · simp_rw [DifferentiableAt.lineDeriv_eq_fderiv (hd t ht)]
@@ -338,7 +338,7 @@ theorem regular_germ_of_punctured_nonzero
       have hpoint := congrArg (fun s : smoothRingSheaf.presheaf.obj (op W) => s x) hWmul
       change (smoothRingSheaf.presheaf.map i1.op hU) x * gW x = 0 at hpoint
       have hhx : (smoothRingSheaf.presheaf.map i1.op hU) x ≠ 0 := by
-        show h ⟨x.1, Set.mem_univ x.1⟩ ≠ 0
+        change h ⟨x.1, Set.mem_univ x.1⟩ ≠ 0
         exact h_ne x.1 hx
       exact (mul_eq_zero.mp hpoint).resolve_left hhx
     have hgW : gW = 0 := by
@@ -390,7 +390,7 @@ private theorem section_of_contDiffOn (W : Opens ℝ) (F : ℝ → ℝ)
 
 theorem smooth_section_division_at_zero (U : Opens ℝ) (h0U : (0 : ℝ) ∈ U)
     (g : smoothRingSheaf.presheaf.obj (op U)) :
-    ∃ (W : Opens ℝ) (h0W : (0 : ℝ) ∈ W) (hWU : W ≤ U)
+    ∃ (W : Opens ℝ), (0 : ℝ) ∈ W ∧ ∃ (hWU : W ≤ U)
       (q : smoothRingSheaf.presheaf.obj (op W)),
       ∀ x : W, g ⟨x.1, hWU x.2⟩ = g ⟨0, h0U⟩ + x.1 * q x := by
   obtain ⟨F, hFU, hFg⟩ := smooth_section_contDiffOn U g

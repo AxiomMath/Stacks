@@ -105,7 +105,7 @@ theorem isIso_mulSheaf_zero (b : ℤ) :
 /-- `Ω^0_{X/S}` placed in degree zero is a K-flat complex: it is isomorphic to `𝒪_X` placed in
 degree zero. -/
 theorem kFlat_single_formsZero :
-    Stacks.SheafOfModules.KFlat.KFlat X.sheaf
+    Stacks.SheafOfModules.IsKFlat X.sheaf
       ((HomologicalComplex.single X.Modules (ComplexShape.up ℤ) 0).obj
         (relativeDifferentialForms f 0)) :=
   CochainComplex.KFlatBifunctor.KFlat.of_iso _ (Stacks.SheafOfModules.isKFlat_single_unit X.sheaf)

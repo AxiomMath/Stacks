@@ -281,7 +281,9 @@ affine case (0AN3 with 0GB4) is `affineChartFibreProductStable_isCountablyIndexe
 set-theoretic condition for X ×_Y Z is \
 `satisfiesSetTheoreticCondition_pullback_of_isFormalAlgebraicSpace'`, from 0AIP; the 0AIM covering \
 condition for the chart cover is `isLocallySurjective_sigmaDesc_chartPullbackMap`; Stacks 0AKX (2) \
-implies (1) is `AlgebraicGeometry.FormalSpace.hasAffineEtaleChartProperty_iff_hasAffineEtaleAtlasWithProperty_isCountablyIndexed`; and the étale case of \
+implies (1) is `AlgebraicGeometry.FormalSpace.\
+hasAffineEtaleChartProperty_iff_hasAffineEtaleAtlasWithProperty_isCountablyIndexed`; and the étale \
+case of \
 Stacks 0AJ3 is `isFormalAlgebraicSpace_pullback_of_isRepresentableEtale`"]
 theorem isLocallyCountablyIndexed_pullback_unconditional {X Y Z : FppfSheaf B S hS} (f : X ⟶ Y)
     (g : Z ⟶ Y)
@@ -303,11 +305,11 @@ so is `X ×_Y Z`. The hypotheses are exactly the source's. -/
 @[stacks 0GBB "clause (2), locally countably indexed and classical, in full under the source's \
 hypotheses. The affine case (0AN3 with 0GB4) is \
 `affineChartFibreProductStable_isCountablyIndexedAndClassical`; the 0AIS set-theoretic condition \
-for X ×_Y Z is `satisfiesSetTheoreticCondition_pullback_of_isFormalAlgebraicSpace'`, from 0AIP; the \
-0AIM covering condition for the chart cover is `isLocallySurjective_sigmaDesc_chartPullbackMap`; \
-Stacks 0AKX (2) implies (1) is \
-`hasAffineEtaleChartProperty_iff_atlas_isCountablyIndexedAndClassical_unconditional`; and the étale case of \
-Stacks 0AJ3 is `isFormalAlgebraicSpace_pullback_of_isRepresentableEtale`"]
+for X ×_Y Z is `satisfiesSetTheoreticCondition_pullback_of_isFormalAlgebraicSpace'`, from 0AIP; \
+the 0AIM covering condition for the chart cover is \
+`isLocallySurjective_sigmaDesc_chartPullbackMap`; Stacks 0AKX (2) implies (1) is \
+`hasAffineEtaleChartProperty_iff_atlas_isCountablyIndexedAndClassical_unconditional`; and the \
+étale case of Stacks 0AJ3 is `isFormalAlgebraicSpace_pullback_of_isRepresentableEtale`"]
 theorem isLocallyCountablyIndexedAndClassical_pullback_unconditional {X Y Z : FppfSheaf B S hS}
     (f : X ⟶ Y) (g : Z ⟶ Y) (hX : IsLocallyCountablyIndexedAndClassical B S hS X)
     (hY : IsFormalAlgebraicSpace B S hS Y)
@@ -327,11 +329,11 @@ theorem isLocallyCountablyIndexedAndClassical_pullback_unconditional {X Y Z : Fp
 hypotheses are exactly the source's. -/
 @[stacks 0GBB "clause (3), locally weakly adic, in full under the source's hypotheses. The affine \
 case (0AN3 with 0GXJ) is `affineChartFibreProductStable_isWeaklyAdic`; the 0AIS set-theoretic \
-condition for X ×_Y Z is `satisfiesSetTheoreticCondition_pullback_of_isFormalAlgebraicSpace'`, from \
-0AIP; the 0AIM covering condition for the chart cover is \
+condition for X ×_Y Z is `satisfiesSetTheoreticCondition_pullback_of_isFormalAlgebraicSpace'`, \
+from 0AIP; the 0AIM covering condition for the chart cover is \
 `isLocallySurjective_sigmaDesc_chartPullbackMap`; Stacks 0AKX (2) implies (1) is \
-`hasAffineEtaleChartProperty_iff_atlas_isWeaklyAdic_unconditional`; and the étale case of Stacks 0AJ3 is \
-`isFormalAlgebraicSpace_pullback_of_isRepresentableEtale`"]
+`hasAffineEtaleChartProperty_iff_atlas_isWeaklyAdic_unconditional`; and the étale case of Stacks \
+0AJ3 is `isFormalAlgebraicSpace_pullback_of_isRepresentableEtale`"]
 theorem isLocallyWeaklyAdic_pullback_unconditional {X Y Z : FppfSheaf B S hS} (f : X ⟶ Y)
     (g : Z ⟶ Y)
     (hX : IsLocallyWeaklyAdic B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y)
@@ -350,10 +352,11 @@ theorem isLocallyWeaklyAdic_pullback_unconditional {X Y Z : FppfSheaf B S hS} (f
 hypotheses are exactly the source's. -/
 @[stacks 0GBB "clause (4), locally adic*, in full under the source's hypotheses. The affine case \
 (0AN3 with 0GB4) is `affineChartFibreProductStable_isAdicStar`; the 0AIS set-theoretic condition \
-for X ×_Y Z is `satisfiesSetTheoreticCondition_pullback_of_isFormalAlgebraicSpace'`, from 0AIP; the \
-0AIM covering condition for the chart cover is `isLocallySurjective_sigmaDesc_chartPullbackMap`; \
-Stacks 0AKX (2) implies (1) is `hasAffineEtaleChartProperty_iff_atlas_isAdicStar_unconditional`; and the étale \
-case of Stacks 0AJ3 is `isFormalAlgebraicSpace_pullback_of_isRepresentableEtale`"]
+for X ×_Y Z is `satisfiesSetTheoreticCondition_pullback_of_isFormalAlgebraicSpace'`, from 0AIP; \
+the 0AIM covering condition for the chart cover is \
+`isLocallySurjective_sigmaDesc_chartPullbackMap`; Stacks 0AKX (2) implies (1) is \
+`hasAffineEtaleChartProperty_iff_atlas_isAdicStar_unconditional`; and the étale case of Stacks \
+0AJ3 is `isFormalAlgebraicSpace_pullback_of_isRepresentableEtale`"]
 theorem isLocallyAdicStar_pullback_unconditional {X Y Z : FppfSheaf B S hS} (f : X ⟶ Y) (g : Z ⟶ Y)
     (hX : IsLocallyAdicStar B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y)
     (hZ : IsLocallyAdicStar B S hS Z) :
@@ -395,18 +398,18 @@ nothing along the monomorphism of the shrink: reduction is not invariant along a
 monomorphism, `AlgebraicGeometry.FormalSpace.isReduction_completionSheaf` being a
 counterexample. -/
 @[stacks 0GBB "clause (5), locally Noetherian, in full under the source's hypotheses. The affine \
-case (0AN3 with 0GB4) is `affineChartFibreProductStable_isNoetherian`, the affine case RELATIVE \
-TO THE CHART MAP: the map-blind form is unsatisfiable at IsNoetherian -- it quantifies over all \
+case (0AN3 with 0GB4) is `affineChartFibreProductStable_isNoetherian`, the affine case RELATIVE TO \
+THE CHART MAP: the map-blind form is unsatisfiable at IsNoetherian -- it quantifies over all \
 affine U, V, W with no condition on the maps, which is false for Spec K over Spec k with K/k of \
-infinite transcendence degree, the presenting ring of the fibre product being the non-Noetherian \
-K tensor K -- so a registration on it would have been vacuous. The docstring gives that witness. \
-The source's finite type condition on the reductions, hfin, is carried to the chart maps by \
+infinite transcendence degree, the presenting ring of the fibre product being the non-Noetherian K \
+tensor K -- so a registration on it would have been vacuous. The docstring gives that witness. The \
+source's finite type condition on the reductions, hfin, is carried to the chart maps by \
 `hasLocallyOfFiniteTypeReduction_chart` and from there to `algebraMap C A` by the affine \
-dictionary `chartPropertyIsFiniteTypeOnReductions`. The 0AIS set-theoretic condition for \
-X ×_Y Z is `satisfiesSetTheoreticCondition_pullback_of_isFormalAlgebraicSpace'`, from 0AIP; the \
-0AIM covering condition for the chart cover is `isLocallySurjective_sigmaDesc_chartPullbackMap`; \
-Stacks 0AKX (2) implies (1) is `hasAffineEtaleChartProperty_iff_atlas_isNoetherian_unconditional`; and the \
-étale case of Stacks 0AJ3 is `isFormalAlgebraicSpace_pullback_of_isRepresentableEtale`"]
+dictionary `chartPropertyIsFiniteTypeOnReductions`. The 0AIS set-theoretic condition for X ×_Y Z \
+is `satisfiesSetTheoreticCondition_pullback_of_isFormalAlgebraicSpace'`, from 0AIP; the 0AIM \
+covering condition for the chart cover is `isLocallySurjective_sigmaDesc_chartPullbackMap`; Stacks \
+0AKX (2) implies (1) is `hasAffineEtaleChartProperty_iff_atlas_isNoetherian_unconditional`; and \
+the étale case of Stacks 0AJ3 is `isFormalAlgebraicSpace_pullback_of_isRepresentableEtale`"]
 theorem isLocallyNoetherian_pullback_unconditional {X Y Z : FppfSheaf B S hS} (f : X ⟶ Y)
     (g : Z ⟶ Y)
     (hX : IsLocallyNoetherian B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y)

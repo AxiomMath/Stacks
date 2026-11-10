@@ -213,7 +213,7 @@ functors of sites it compares are equal on the nose. -/
 theorem sliceMate_app_hom_app {V U : SpacesEtale B S hS X} (φ : V ⟶ U)
     (M : Sheaf (topology B S hS U.obj.left) (Type (u + 1))) (T : (Over V)ᵒᵖ) :
     ((sliceMate B S hS φ).app M).hom.app T = 𝟙 _ := by
-  show M.obj.map (𝟙 _) ≫ M.obj.map (𝟙 _) = 𝟙 _
+  change M.obj.map (𝟙 _) ≫ M.obj.map (𝟙 _) = 𝟙 _
   simp only [CategoryTheory.Functor.map_id, Category.comp_id]
 
 /-! ### The identity coherence -/

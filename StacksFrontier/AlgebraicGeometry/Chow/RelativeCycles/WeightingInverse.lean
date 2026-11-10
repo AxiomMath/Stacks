@@ -123,7 +123,7 @@ private lemma residueFinInsepDegree_pos_le {X Y : Scheme.{u}} (f : X ⟶ Y)
     rw [hmul]; exact Module.finrank_pos
   obtain ⟨hsep, hins⟩ := CanonicallyOrderedAdd.mul_pos.mp hprod
   refine ⟨hins, ?_⟩
-  show Field.finInsepDegree (Y.residueField (f x)) (X.residueField x) ≤
+  change Field.finInsepDegree (Y.residueField (f x)) (X.residueField x) ≤
     Module.finrank (Y.residueField (f x)) (X.residueField x)
   calc Field.finInsepDegree (Y.residueField (f x)) (X.residueField x)
       ≤ Field.finSepDegree (Y.residueField (f x)) (X.residueField x) *
@@ -337,7 +337,7 @@ theorem exists_primePow_forall_finInsepDegree_dvd {X S : Scheme.{u}}
   have hmdeg : residueFinInsepDegree f x = p ^ m := hm
   have hle : p ^ m ≤ N := hmdeg ▸ (hbound x).2
   have hmle : m ≤ N := le_of_lt (lt_of_lt_of_le (Nat.lt_pow_self hp.out.one_lt) hle)
-  show residueFinInsepDegree f x ∣ p ^ N
+  change residueFinInsepDegree f x ∣ p ^ N
   rw [hmdeg]
   exact pow_dvd_pow p hmle
 
@@ -368,7 +368,7 @@ theorem residueTrdeg_eq_zero_of_locallyQuasiFinite {X S : Scheme.{u}} (f : X ⟶
   let : Algebra (S.residueField (f x)) (X.residueField x) := (f.residueFieldMap x).hom.toAlgebra
   let : Module.Finite (S.residueField (f x)) (X.residueField x) :=
     module_finite_residueFieldMap f x
-  show Algebra.trdeg (S.residueField (f x)) (X.residueField x) = 0
+  change Algebra.trdeg (S.residueField (f x)) (X.residueField x) = 0
   exact trdeg_eq_zero_iff.mpr (Algebra.IsAlgebraic.of_finite _ _)
 
 /-- Every point of a scheme-theoretic fibre of a locally quasi-finite morphism has relative
@@ -400,7 +400,7 @@ theorem mem_cyclesOfDimension_zero_of_locallyQuasiFinite {X S : Scheme.{u}} (f :
     c ∈ cyclesOfDimension (fieldChowSituation (S.residueField s))
       (f.fiberToSpecResidueField s) ((0 : ℕ) : ℤ) := by
   have : LocallyOfFiniteType (f.fiberToSpecResidueField s) := by
-    show LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField s))
+    change LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField s))
     infer_instance
   rw [mem_cyclesOfDimension_iff_forall_point]
   intro y _
@@ -447,7 +447,7 @@ theorem relativeCycleWeight_cycleOfWeighting {X S : Scheme.{u}} (f : X ⟶ S)
   have hdZ : ((residueFinInsepDegree f x : ℤ)) ∣ (n : ℤ) * w x :=
     Dvd.dvd.mul_right (Int.natCast_dvd_natCast.mpr hd) _
   rw [relativeCycleWeight_apply, coe_cycleOfWeighting_apply, Scheme.Hom.fiberι_asFiber]
-  show weightingQuotient f w n x * (residueFinInsepDegree f x : ℤ) = (n : ℤ) * w x
+  change weightingQuotient f w n x * (residueFinInsepDegree f x : ℤ) = (n : ℤ) * w x
   exact Int.ediv_mul_cancel hdZ
 
 end Stacks.Chow

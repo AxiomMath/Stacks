@@ -159,7 +159,7 @@ theorem exists_clopen_scheme_coproduct
       rw [← J.yonedaEquiv_naturality
         (Cofan.IsColimit.desc hY (fun k => γ (t.inj k))) (j i), hγ t i,
         hHX_map t.pt (j i) _] at hfac'
-      show T.map (j i) ≫ desc t = t.inj i
+      change T.map (j i) ≫ desc t = t.inj i
       simpa [HX, desc] using hfac'
     · intro t m hm
       let mSheaf : J.yoneda.obj U ⟶ HX t.pt := γ m

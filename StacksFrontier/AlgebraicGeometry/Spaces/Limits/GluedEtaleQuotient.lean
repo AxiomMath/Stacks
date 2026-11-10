@@ -253,12 +253,12 @@ theorem contains_relationScheme : B.Contains (relationScheme w hw ι) := by
   · refine (ciSup_le' fun b => ?_).trans_lt
       (max_lt V.left.property (kernelObj w hw).left.property)
     rcases b with ⟨_ | _⟩
-    · show Scheme.size ((pushout.inr ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map ι)
+    · change Scheme.size ((pushout.inr ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map ι)
           ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map (diag w hw))).opensRange :
         Scheme.{u}) ≤ _
       rw [Scheme.size_opensRange]
       exact le_max_right _ _
-    · show Scheme.size ((pushout.inl ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map ι)
+    · change Scheme.size ((pushout.inl ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map ι)
           ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map (diag w hw))).opensRange :
         Scheme.{u}) ≤ _
       rw [Scheme.size_opensRange]
@@ -472,6 +472,7 @@ theorem w_baseMap : w ≫ baseMap w hw ι hU hws = yoneda.map ι ≫ qmap w hw �
 /-! ### Quasi-separatedness of the quotient -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `inferInstance` search for pullbacks of presheaves on the big fppf site times out
 /-- Pullbacks of presheaves on the big fppf site over `Spec ℤ` (instance search times out
 without this shortcut). -/
 instance hasPullbacks_presheaf_GluedEtaleQuotient :

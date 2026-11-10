@@ -66,7 +66,7 @@ sheaf vanishes because `Ω_{U/V}` does and both restrictions are étale, by Stac
   `AlgebraicGeometry.Space.SheafOfDifferentialsChartComparisonMp`, which is proved downstream
   as `AlgebraicGeometry.Space.sheafOfDifferentialsChartComparisonMp` — and
   `AlgebraicGeometry.Space.formallyUnramified_iff_isZero_sheafOfDifferentials_of_mp` is
-  Stacks 04G9 granted only that half.
+  Stacks 04G9, with no hypothesis.
 
 ## What is not proved here
 
@@ -422,17 +422,15 @@ theorem sheafOfDifferentialsChartComparison_of_mp (f : X ⟶ Y)
     ⟨hmp U V a b ψ ha hb hs hdiag,
       sheafOfDifferentialsChartComparison_mpr B S hS f U V a b ψ ha hb hdiag⟩
 
-/-- **Stacks 04G9, granted only the open half of the chart comparison.**  This is
-`AlgebraicGeometry.Space.formallyUnramified_iff_isZero_sheafOfDifferentials` with the `mpr` half
-of its hypothesis discharged by
-`AlgebraicGeometry.Space.sheafOfDifferentialsChartComparison_mpr`, so that what is assumed is
-exactly what remains open.  It carries no registration, the registered form of Stacks 04G9 being
-the one in `StacksFrontier/AlgebraicGeometry/Spaces/FormallyUnramifiedSheafOfDifferentials.lean`.
+/-- **Stacks 04G9.**  This is
+`AlgebraicGeometry.Space.formallyUnramified_iff_isZero_sheafOfDifferentials`, which needs no
+hypothesis, both halves of the chart comparison being proved.  It carries no registration, the
+registered form of Stacks 04G9 being the one in
+`StacksFrontier/AlgebraicGeometry/Spaces/FormallyUnramifiedSheafOfDifferentials.lean`.
 
 Its forward implication needs nothing at all and is
 `AlgebraicGeometry.Space.isZero_sheafOfDifferentials_of_formallyUnramified`. -/
-theorem formallyUnramified_iff_isZero_sheafOfDifferentials_of_mp (f : X ⟶ Y)
-    (hmp : SheafOfDifferentialsChartComparisonMp B S hS f) :
+theorem formallyUnramified_iff_isZero_sheafOfDifferentials_of_mp (f : X ⟶ Y) :
     FormallyUnramified f.hom ↔ IsZero (sheafOfDifferentials B S hS f) :=
   formallyUnramified_iff_isZero_sheafOfDifferentials B S hS f
 

@@ -115,7 +115,7 @@ theorem idealCoveringImpliesResolutionProperty_of_isNoetherian (X : Scheme.{u}) 
   refine hasResolutionProperty_of_epi_idealPow_of_isNoetherian U I hcov.isAffineOpen
     hcov.iSup_eq_top (fun j => ?_) E hE q hq
   refine TopologicalSpace.Opens.ext ?_
-  show ((I j).support : Set X)ᶜ = (U j : Set X)
+  change ((I j).support : Set X)ᶜ = (U j : Set X)
   rw [hcov.support_eq j, compl_compl]
 
 /-- **[Stacks, Tag 0F8A] for a Noetherian scheme, unconditionally.** A Noetherian regular scheme

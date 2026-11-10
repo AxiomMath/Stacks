@@ -54,7 +54,7 @@ attribute [local instance] HasDerivedCategory.standard
   preservesFiniteColimits_smallEtaleSheafPullback_moduleCat
   additive_smallEtaleSheafPullback_moduleCat
 
-variable (B : BigEtaleSite.{u}) (Λ : Type r) [CommRing Λ] [IsNoetherianRing Λ]
+variable (B : BigEtaleSite.{u}) (Λ : Type r) [CommRing Λ]
 
 /-- **Stacks 095Y.** Let `Λ` be a Noetherian ring and `f : X ⟶ Y` a morphism of schemes. If
 `K ∈ D_c(Y_étale, Λ)`, that is the cohomology sheaves of `K` are constructible in every degree,

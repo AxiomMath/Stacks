@@ -172,7 +172,7 @@ private lemma composeRightDifference {S : Scheme.{u}} (G : GroupoidScheme S)
     rw [groupoidCompose_source, Category.assoc, G.source_inverse, ht]
   have w₂ : f ≫ G.source = G.compose fi g wig ≫ G.target := by
     rw [groupoidCompose_target, Category.assoc, G.target_inverse]
-  show G.compose f (G.compose fi g wig) w₂ = g
+  change G.compose f (G.compose fi g wig) w₂ = g
   rw [← groupoidCompose_assoc G f fi g wfi wig w₁ w₂]
   calc
     G.compose (G.compose f fi wfi) g w₁ =
@@ -201,7 +201,7 @@ private lemma composeLeftDifference {S : Scheme.{u}} (G : GroupoidScheme S)
     rw [groupoidCompose_source, wfh]
   have w₂ : fi ≫ G.source = G.compose f h wfh ≫ G.target := by
     rw [groupoidCompose_target, Category.assoc, G.source_inverse]
-  show G.compose fi (G.compose f h wfh) w₂ = h
+  change G.compose fi (G.compose f h wfh) w₂ = h
   rw [← groupoidCompose_assoc G fi f h wfi wfh w₁ w₂]
   calc
     G.compose (G.compose fi f wfi) h w₁ =
@@ -482,7 +482,7 @@ lemma topComparison_isIso {S : Scheme.{u}} (G : GroupoidScheme S) :
   have h : topComparison G = inv (pullback.fst G.source (𝟙 G.objects)) := by
     apply (cancel_mono (pullback.fst G.source (𝟙 G.objects))).1
     rw [IsIso.inv_hom_id]
-    show pullback.lift (𝟙 G.arrows) G.source (by simp) ≫
+    change pullback.lift (𝟙 G.arrows) G.source (by simp) ≫
       pullback.fst G.source (𝟙 G.objects) = _
     rw [pullback.lift_fst]
   rw [h]
@@ -491,7 +491,7 @@ lemma topComparison_isIso {S : Scheme.{u}} (G : GroupoidScheme S) :
 private lemma bottomComparison_comp_bottomInverse {S : Scheme.{u}} (G : GroupoidScheme S) :
     bottomComparison G ≫ bottomInverse G = 𝟙 _ := by
   apply pullback.hom_ext
-  · show (bottomComparison G ≫ bottomInverse G) ≫
+  · change (bottomComparison G ≫ bottomInverse G) ≫
       pullback.fst (sourceTarget G) (sourceTarget G) = _
     rw [Category.assoc, bottomInverse_fst]
     dsimp [bottomComparison]
@@ -508,7 +508,7 @@ private lemma bottomComparison_comp_bottomInverse {S : Scheme.{u}} (G : Groupoid
         (bottomComparison G ≫ h) ≫ G.target := by
       rw [bottomComparison_fst, bottomComparison_differenceArrow]
       exact (differenceArrow_target G).symm
-    show bottomComparison G ≫ G.compose f h w =
+    change bottomComparison G ≫ G.compose f h w =
       pullback.snd (sourceTarget G) (sourceTarget G)
     calc
       bottomComparison G ≫ G.compose f h w =
@@ -559,7 +559,7 @@ private lemma bottomInverse_bottomComparison_differenceArrow {S : Scheme.{u}}
   have h2 : bottomInverse G ≫ pullback.snd (sourceTarget G) (sourceTarget G) =
       G.compose f h wfh := bottomInverse_snd G
   rw [bottomComparison_differenceArrow]
-  show bottomInverse G ≫ G.compose
+  change bottomInverse G ≫ G.compose
     (pullback.fst (sourceTarget G) (sourceTarget G) ≫ G.inverse)
     (pullback.snd (sourceTarget G) (sourceTarget G)) wdiff = _
   calc
@@ -581,7 +581,7 @@ private lemma bottomInverse_bottomComparison_differenceArrow {S : Scheme.{u}}
 private lemma bottomInverse_comp_bottomComparison {S : Scheme.{u}} (G : GroupoidScheme S) :
     bottomInverse G ≫ bottomComparison G = 𝟙 _ := by
   apply pullback.hom_ext
-  · show (bottomInverse G ≫ bottomComparison G) ≫
+  · change (bottomInverse G ≫ bottomComparison G) ≫
       pullback.fst G.source (pullback.snd (sourceTarget G) (diagonal G)) = _
     rw [Category.assoc]
     dsimp [bottomComparison]
@@ -658,7 +658,7 @@ lemma rightSquare_isPullback {S : Scheme.{u}} (G : GroupoidScheme S) :
   · intro s
     exact lift_snd s
   · intro s
-    show lift s ≫ rightVertical G = s.snd
+    change lift s ≫ rightVertical G = s.snd
     apply pullback.hom_ext
     · calc
         (lift s ≫ rightVertical G) ≫ b₁ = lift s ≫ (rightVertical G ≫ b₁) :=

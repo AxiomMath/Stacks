@@ -10,7 +10,8 @@ public import StacksFrontier.CategoryTheory.Sites.Modules.ConstantRingModulesDer
 
 Let `(C, J)` be a small site, `Λ` a commutative ring, `R` a sheaf of commutative rings on `C`
 and `α` a locally bijective morphism from the constant presheaf of rings on `Λ` to the sheaf of
-rings underlying `R`. `StacksFrontier.CategoryTheory.Sites.LocallyConstant.ConstantRingDerivedTensor`
+rings underlying `R`.
+`StacksFrontier.CategoryTheory.Sites.LocallyConstant.ConstantRingDerivedTensor`
 carries the derived tensor product of Stacks 06YU across the resulting identification of sheaves
 of modules over `R` with sheaves of `Λ`-modules, giving
 `Stacks.ConstantRingModules.derivedTensor` on `D(Sheaf J (ModuleCat Λ))`.
@@ -116,8 +117,8 @@ open Stacks.PresheafOfModules Stacks.ConstantSheaf
 -- Exactness of restriction of sheaves of modules to a slice, which
 -- `CategoryTheory.Functor.mapDerivedCategory` of that functor asks for. The two declarations are
 -- `local instance`s of
--- `StacksFrontier.CategoryTheory.Sites.Modules.ConstantRingModulesDerivedCompatibility`, so they are
--- not in instance scope here and have to be re-seated; re-declaring them would duplicate them.
+-- `StacksFrontier.CategoryTheory.Sites.Modules.ConstantRingModulesDerivedCompatibility`, so they
+-- are not in instance scope here and have to be re-seated; re-declaring them would duplicate them.
 attribute [local instance] preservesFiniteLimitsModuleSheafOverFunctor
   preservesFiniteColimitsModuleSheafOverFunctor
 

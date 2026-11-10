@@ -149,7 +149,7 @@ theorem pullback.map_id_eq_mapFst {W W' X Y : C} (t : W' ⟶ W) (a : W ⟶ Y) (z
     [HasPullback a z] [HasPullback (t ≫ a) z] (eq₁ : (t ≫ a) ≫ 𝟙 Y = t ≫ a)
     (eq₂ : z ≫ 𝟙 Y = 𝟙 X ≫ z) :
     pullback.map (t ≫ a) z a z t (𝟙 X) (𝟙 Y) eq₁ eq₂ = pullback.mapFst t a z := by
-  apply pullback.hom_ext <;> simp [pullback.map_fst, pullback.map_snd]
+  apply pullback.hom_ext <;> simp
 
 /-- Precomposing the first factor of a fibre product with `t : W' ⟶ W` produces a base change:
 `W' ×_Y X` is the fibre product of `W ×_Y X` with `W'` over `W`. The square is cartesian because it

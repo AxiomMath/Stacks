@@ -170,7 +170,7 @@ theorem Module.finitePresentationRel_comp {R A B : Type*} [CommRing R] [CommRing
     (MvPolynomial.map_surjective g.toRingHom hgsurj).comp iso.surjective
   have hαr_comm : ∀ r : R, β.toRingHom.comp α0 (algebraMap R _ r) = algebraMap R B r := by
     intro r
-    show β (MvPolynomial.map g.toRingHom (iso (algebraMap R _ r))) = _
+    change β (MvPolynomial.map g.toRingHom (iso (algebraMap R _ r))) = _
     rw [iso.commutes]
     simp [MvPolynomial.algebraMap_apply, IsScalarTower.algebraMap_apply R A B]
   refine ⟨m + n, { β.toRingHom.comp α0 with commutes' := hαr_comm }, hβsurj.comp hα0_surj, ?_⟩

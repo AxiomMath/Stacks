@@ -287,9 +287,7 @@ variable {X Y : RingedSite.{u, u, u}} (f : RingedSite.Hom X Y)
   (I' : SheafOfModules.Submodule
     (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
   [I.toSheafOfModules.IsFiniteType] [I'.toSheafOfModules.IsFiniteType]
-  (hI : PushforwardIdealCompatible f I I')
 
-include hI in
 /-- **[Stacks, Tags 0A0G and 0A0I] for an arbitrary object, at an arbitrary finite-type pair of
 sheaves of ideals; this carries no tag.** Let `f : (Sh(𝒟), 𝒪') ⟶ (Sh(𝒞), 𝒪)` be a morphism of
 ringed sites, let `ℐ ⊂ 𝒪` and `ℐ' ⊂ 𝒪'` be sheaves of ideals of finite type with `f^♯` carrying
@@ -575,8 +573,8 @@ This is `exists_shortExact_adicCompletion_cohomology` of
   (`Stacks.Cohomology.KoszulTowerSections.nonempty_iso_koszulTower_derivedSections`,
   [Stacks, Tag 0H3C]; and
   `Stacks.Cohomology.QuotientTowerFormalFunctions.nonempty_proIso_koszulTower_quotientTower`),
-  and [Stacks, Tag 0A0M] is registered at a principal ideal on that basis in
-  `StacksFrontier/AlgebraicGeometry/FormalGeometry/Completion/PrincipalCohomologyAdicCompletion.lean`.
+  and [Stacks, Tag 0A0M] is registered at a principal ideal on that basis in the module
+  `StacksFrontier.AlgebraicGeometry.FormalGeometry.Completion.PrincipalCohomologyAdicCompletion`.
 
 Then `Rlim.Pro.nonempty_iso_of_isDerivedLimit_of_natIso` identifies the two sides, and
 `CategoryTheory.Adjunction.leftAdjointUniq` moves the identification from the reflector

@@ -273,8 +273,7 @@ theorem coe_kerEquiv_map
     ((kerEquiv hretB hsqB hf' (LinearMap.rTensor N (kerMap φ hφ) t) :
         ↥(LinearMap.ker f')) : M') =
       g ((kerEquiv hretA hsqA hf t : ↥(LinearMap.ker f)) : M) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul i n =>
       obtain ⟨m, rfl⟩ := surjective_of_isBaseChange hretA hf n
       rw [coe_kerEquiv_tmul hretA hsqA hf i m, hg, LinearMap.rTensor_tmul, ← hcomm m,

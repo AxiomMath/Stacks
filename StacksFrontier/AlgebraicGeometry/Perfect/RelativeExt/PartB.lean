@@ -227,7 +227,7 @@ def pseudoCoherentRepresentativeExtEquiv (i : ℤ)
   relativeExtIsoOfOpen f (partBWitness f E hE G hG).V.ι
     (isBoundedFlatOver_of_flatProperSupportComplex hG) E (partBWitness f E hE G hG).D
     (partBWitness f E hE G hG).b (partBWitness f E hE G hG).hb
-    (partBWitness f E hE G hG).hocolim (partBWitness f E hE G hG).homologyColimit
+    (partBWitness f E hE G hG).homologyColimit
     (partBWitness f E hE G hG).res (partBWitness f E hE G hG).η
     (partBWitness f E hE G hG).hη i F hF
 
@@ -242,7 +242,7 @@ theorem pseudoCoherentRepresentativeExtEquiv_naturality (i : ℤ)
       relativeExtMap f G E i v (pseudoCoherentRepresentativeExtEquiv f E hE G hG i F hF z) :=
   let := (partBWitness f E hE G hG).hasCoproduct
   let := (partBWitness f E hE G hG).hasColimit
-  relativeExtIsoOfOpen_naturality _ _ _ _ _ _ _ _ _ _ _ _ i hF hF' v z
+  relativeExtIsoOfOpen_naturality _ _ _ _ _ _ _ _ _ _ _ i hF hF' v z
 
 /-- The isomorphisms `pseudoCoherentRepresentativeExtEquiv` commute with the boundary maps
 attached to a short exact sequence `0 → ℱ₁ → ℱ₂ → ℱ₃ → 0` of modules with `ℱ₁` and `ℱ₃`
@@ -257,7 +257,7 @@ theorem pseudoCoherentRepresentativeExtEquiv_boundary
         (pseudoCoherentRepresentativeExtEquiv f E hE G hG n A.X₃ h₃ z) :=
   let := (partBWitness f E hE G hG).hasCoproduct
   let := (partBWitness f E hE G hG).hasColimit
-  relativeExtIsoOfOpen_boundary _ _ _ _ _ _ _ _ _ _ _ _ hA h₁ h₃ n m h z
+  relativeExtIsoOfOpen_boundary _ _ _ _ _ _ _ _ _ _ _ hA h₁ h₃ n m h z
 
 /-- The restriction `D(j^*) : Hom(E, Φ N) ⟶ Hom(E|_V, D(j^*)(Φ N))` is bijective for the chosen
 `V`, `Φ N` being supported on `Z ⊆ V`. -/
@@ -287,7 +287,7 @@ def pseudoCoherentRepresentativeHomEquiv :
     (Equiv.ofBijective _ (bijective_partBHocolimUnit_comp (partBWitness f E hE G hG).D
       (isBoundedFlatOver_restrictComplex (f := f) (j := (partBWitness f E hE G hG).V.ι)
         (isBoundedFlatOver_of_flatProperSupportComplex hG))
-      (partBWitness f E hE G hG).hocolim (partBWitness f E hE G hG).b
+      (partBWitness f E hE G hG).b
       (isStrictlyGE_restrictComplex (j := (partBWitness f E hE G hG).V.ι)
         (partBWitness f E hE G hG).b (partBWitness f E hE G hG).hb)
       (partBWitness f E hE G hG).homologyColimit (partBWitness f E hE G hG).η
@@ -297,8 +297,8 @@ def pseudoCoherentRepresentativeHomEquiv :
       (Equiv.ofBijective _
         (bijective_restrictDerived_map_pseudoCoherentRepresentative f E hE G hG N)).symm)
   naturality {N N'} hN hN' k ψ := by
-    letI := (partBWitness f E hE G hG).hasCoproduct
-    letI := (partBWitness f E hE G hG).hasColimit
+    let := (partBWitness f E hE G hG).hasCoproduct
+    let := (partBWitness f E hE G hG).hasColimit
     apply (bijective_restrictDerived_map_pseudoCoherentRepresentative f E hE G hG N').1
     have e := fun (N₀ : DStd S) (y : (restrictDerived (partBWitness f E hE G hG).V.ι).obj E ⟶
         (restrictDerived (partBWitness f E hE G hG).V.ι).obj
@@ -343,14 +343,14 @@ theorem restrictRelativeExt_pseudoCoherentRepresentativeExtEquiv (i : ℤ)
       partBExtIso (partBWitness f E hE G hG).D
         (isBoundedFlatOver_restrictComplex (f := f) (j := (partBWitness f E hE G hG).V.ι)
           (isBoundedFlatOver_of_flatProperSupportComplex hG))
-        (partBWitness f E hE G hG).hocolim (partBWitness f E hE G hG).b
+        (partBWitness f E hE G hG).b
         (isStrictlyGE_restrictComplex (j := (partBWitness f E hE G hG).V.ι)
           (partBWitness f E hE G hG).b (partBWitness f E hE G hG).hb)
         (partBWitness f E hE G hG).homologyColimit (partBWitness f E hE G hG).η
         (partBWitness f E hE G hG).hη i F hF z :=
   let := (partBWitness f E hE G hG).hasCoproduct
   let := (partBWitness f E hE G hG).hasColimit
-  restrictRelativeExt_relativeExtIsoOfOpen _ _ _ _ _ _ _ _ _ _ _ _ i F hF z
+  restrictRelativeExt_relativeExtIsoOfOpen _ _ _ _ _ _ _ _ _ _ _ i F hF z
 
 end Representative
 

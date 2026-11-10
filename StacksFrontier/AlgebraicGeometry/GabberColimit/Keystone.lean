@@ -17,8 +17,8 @@ of the chosen ones. Its module docstring records what is then still owed: *the q
 This file makes that reduction a theorem rather than a remark. It assembles the closure
 construction, the subsheaf, the directedness proved in
 `StacksFrontier/AlgebraicGeometry/CardinalGeneration/Filtered.lean`, and the colimit criterion of
-`StacksFrontier/AlgebraicGeometry/Properties/GabberResult/Colimit.lean` into a proof of **both** open
-assertions of Stacks 077N from exactly those two properties — and from nothing else. So the
+`StacksFrontier/AlgebraicGeometry/Properties/GabberResult/Colimit.lean` into a proof of **both**
+open assertions of Stacks 077N from exactly those two properties — and from nothing else. So the
 remaining obligation is now a pair of Lean propositions that can be stated, discharged and gated
 independently, and the rest of the tag is mechanized.
 

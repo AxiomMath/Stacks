@@ -1034,8 +1034,7 @@ theorem pushforwardComputesDerivedOnQuasicoherentKInjectives_of_fullyFaithful
         ((quasicoherentSheavesι B S hS W).mapDerivedCategory).Faithful)
     (X : AlgebraicSpaces B S hS) (hX : IsQuasiCompactWithAffineDiagonal B S hS hZ X.1) :
     PushforwardComputesDerivedOnQuasicoherentKInjectives B S hS hZ X := by
-  have key := qcqs_induction_on_collection B S hS hZ X hX.1
-    (isAbsolutelyQuasiSeparated_of_isQuasiCompactWithAffineDiagonal B S hS hZ X hX)
+  have key := qcqs_induction_on_collection B S hS hZ X
     (fun Y _ => IsQuasiCompactWithAffineDiagonal B S hS hZ Y)
     (fun Y _ => ∀ hY : IsAlgebraicSpace B S hS Y,
       PushforwardComputesDerivedOnQuasicoherentKInjectives B S hS hZ ⟨Y, hY⟩)
@@ -1064,7 +1063,7 @@ theorem pushforwardComputesDerivedOnQuasicoherentKInjectives_of_fullyFaithful
             (BigFppfOver.toScheme B S hS)
         let _ : Q.presheaf.IsStableUnderBaseChange :=
           MorphismProperty.relative_isStableUnderBaseChange Q
-        show Q.presheaf (pullback.snd U.ι f)
+        change Q.presheaf (pullback.snd U.ι f)
         exact MorphismProperty.pullback_snd (P := Q.presheaf) U.ι f hsq.isOpenSubspace.2
       have hPq : IsQuasiCompactWithAffineDiagonal B S hS hZ (edsInter B S hS hsq).1 :=
         IsQuasiCompactWithAffineDiagonal.of_openImmersion B S hS hZ X V (pullback U.ι f)

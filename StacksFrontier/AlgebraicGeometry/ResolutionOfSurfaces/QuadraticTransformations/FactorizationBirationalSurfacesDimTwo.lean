@@ -147,7 +147,7 @@ public theorem preimage_singleton_subset_range_exceptionalIdeal {A : Scheme.{u}}
   intro z hz
   have hsupp : z ∈ ((exceptionalIdeal (Scheme.IdealSheafData.vanishingIdeal
       (⟨{a}, ha⟩ : Closeds A))).support : Set (pointBlowUp ha)) := by
-    show z ∈ (((Scheme.IdealSheafData.vanishingIdeal (⟨{a}, ha⟩ : Closeds A)).comap
+    change z ∈ (((Scheme.IdealSheafData.vanishingIdeal (⟨{a}, ha⟩ : Closeds A)).comap
       (pointBlowUpToBase ha)).support : Set (pointBlowUp ha))
     simp only [Scheme.IdealSheafData.support_comap, TopologicalSpace.Closeds.coe_preimage,
       Scheme.IdealSheafData.coe_support_vanishingIdeal]

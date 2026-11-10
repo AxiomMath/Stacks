@@ -125,7 +125,7 @@ local de Rham term in that bidegree does**, being their product. -/
 theorem isZero_ordCechTerm_of_isZero (K : OrdDeRhamSystem T F) {n m : ℕ}
     (h : ∀ β : OrdCechTuple Λ n, IsZero ((K.complex n β).X m)) :
     IsZero (ordCechTerm K n m) := by
-  show IsZero (∏ᶜ fun β : OrdCechTuple Λ n => (K.complex n β).X m)
+  change IsZero (∏ᶜ fun β : OrdCechTuple Λ n => (K.complex n β).X m)
   rw [IsZero.iff_id_eq_zero]
   exact Pi.hom_ext _ _ fun β => (h β).eq_of_tgt _ _
 
@@ -252,10 +252,10 @@ re-targeted.
 So this measures that step: what [Stacks, Tag 07LM] has to supply for it is exactly the family
 `e`, and nothing about the de Rham complexes themselves.  The vanishing clause of
 [Stacks, Tag 07LM] is `...SmallSite.Vanishing07LM` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/CrystalDeRhamComplex.lean`.  It is proved, as `...SmallSite.vanishing07LM` of
-`SmallSite/Vanishing07LMProof.lean`.  That does not yet give `e`, and nothing here supplies it:
-the assertion of [Stacks, Tag 07LM] that the two cohomologies agree is available only at
-`F = 𝒪_{X/S}`, where the de Rham complex exists, and only in the form
+`StacksFrontier/AlgebraicGeometry/Crystalline/CrystalDeRhamComplex.lean`.  It is proved, as
+`...SmallSite.vanishing07LM` of `SmallSite/Vanishing07LMProof.lean`.  That does not yet give `e`,
+and nothing here supplies it: the assertion of [Stacks, Tag 07LM] that the two cohomologies agree is
+available only at `F = 𝒪_{X/S}`, where the de Rham complex exists, and only in the form
 `...SmallSite.isIso_derivedZariskiDirectImageFunctor_map_crysDeRhamPlusTruncation` — an
 isomorphism after `Ru_{X/S, *}` rather than the degreewise isomorphism of the groups
 `H^j(Cris(X/S), −)` this theorem consumes. -/

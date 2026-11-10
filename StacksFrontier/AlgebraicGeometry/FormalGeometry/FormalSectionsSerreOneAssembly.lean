@@ -23,7 +23,8 @@ Stacks 0EIF: it identifies the tower `n ↦ H⁰(RΓ(V, (M/IⁿM)^~))` of `A`-mo
 ## The two seams, and that neither is where it was recorded to be
 
 The route note of
-`StacksFrontier.AlgebraicGeometry.FormalGeometry.FormalSectionsSerreOneRealization` records one seam:
+`StacksFrontier.AlgebraicGeometry.FormalGeometry.FormalSectionsSerreOneRealization` records one
+seam:
 `comparisonAt` and `Stacks.Algebraization.sectionsNearVanishing` are valued in `Ab` while
 `Stacks.Algebraization.sectionsOffVanishingIso` is an isomorphism of `A`-modules, with the
 `U`-side and `Spec A`-side `A`-module structures not identified by `rfl` because

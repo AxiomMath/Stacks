@@ -87,7 +87,7 @@ theorem exists_levelAddEquiv (n : ℕ) {ι : Type*} [Finite ι]
     constructor
     · exact exists_eq_smul_of_π_eq_zero hkill hsurj hker htors n x
     · rintro ⟨y, rfl⟩
-      show (limit.π F (op n)).hom ((p : ℤ_[p]) ^ (n + 1) • y) = 0
+      change (limit.π F (op n)).hom ((p : ℤ_[p]) ^ (n + 1) • y) = 0
       rw [map_smul, hkill]
   refine ⟨(QuotientAddGroup.quotientKerEquivOfSurjective πn hπ).symm.trans
     ((QuotientAddGroup.quotientAddEquivOfEq hk).trans
@@ -96,7 +96,7 @@ theorem exists_levelAddEquiv (n : ℕ) {ι : Type*} [Finite ι]
   have h1 : (QuotientAddGroup.quotientKerEquivOfSurjective πn hπ).symm (πn x) =
       (x : ↑(limit F) ⧸ πn.ker) :=
     (AddEquiv.symm_apply_eq _).2 rfl
-  show (QuotientAddGroup.quotientKerEquivOfSurjective _ (surjective_basisReduction b n))
+  change (QuotientAddGroup.quotientKerEquivOfSurjective _ (surjective_basisReduction b n))
     ((QuotientAddGroup.quotientAddEquivOfEq hk)
       ((QuotientAddGroup.quotientKerEquivOfSurjective πn hπ).symm (πn x))) = _
   rw [h1]
@@ -123,13 +123,13 @@ theorem trace_toZModLinearMap_eq_toZModPow_trace (φ : limit F ⟶ limit F) (n :
   have hT : ∀ x : ↑(limit F), T (basisReduction b n x) = basisReduction b n (φ.hom x) := by
     intro x
     funext i
-    show (A'.mulVec (basisReduction b n x)) i = PadicInt.toZModPow (n + 1) (b.repr (φ.hom x) i)
+    change (A'.mulVec (basisReduction b n x)) i = PadicInt.toZModPow (n + 1) (b.repr (φ.hom x) i)
     rw [← LinearMap.toMatrix_mulVec_repr b b φ.hom x, RingHom.map_mulVec]
     rfl
   have key := AddMonoidHom.trace_toZModLinearMap_eq_of_addEquiv (n := p ^ (n + 1))
     (e.symm.trans θ.symm) T.toAddMonoidHom σ (fun v => by
       obtain ⟨x, rfl⟩ := surjective_basisReduction b n v
-      show θ.symm (e.symm (T (basisReduction b n x))) = σ (θ.symm (e.symm (basisReduction b n x)))
+      change θ.symm (e.symm (T (basisReduction b n x))) = σ (θ.symm (e.symm (basisReduction b n x)))
       rw [hT, ← he, ← he, AddEquiv.symm_apply_apply, AddEquiv.symm_apply_apply,
         ← hσ, AddEquiv.symm_apply_apply])
   rw [← key]

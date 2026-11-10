@@ -216,7 +216,7 @@ private lemma scalar_of_residual_scalar
       residualCoordinate (reducedEnd endomorphism) =
         algebraMap R K (coordinate endomorphism) := by
     intro endomorphism
-    show residualBasis.repr (hbase.endHom endomorphism (residualBasis index)) index = _
+    change residualBasis.repr (hbase.endHom endomorphism (residualBasis index)) index = _
     simp only [coordinate, diagonalCoordinate, residualBasis,
       IsBaseChange.basis_apply, IsBaseChange.endHom_comp_apply,
       IsBaseChange.basis_repr_comp_apply]
@@ -227,7 +227,7 @@ private lemma scalar_of_residual_scalar
     intro group endomorphism
     apply hbase.algHom_ext
     intro vector
-    show (hbase.endHom endomorphism) (residual group (specialization vector)) -
+    change (hbase.endHom endomorphism) (residual group (specialization vector)) -
       residual group ((hbase.endHom endomorphism) (specialization vector)) =
         (hbase.endHom (endomorphism ∘ₗ action group - action group ∘ₗ endomorphism))
           (specialization vector)
@@ -315,7 +315,7 @@ private lemma scalar_of_deformation {V : Type m} [AddCommGroup V] [Module k V]
     { deformation.left.obj.base.residueEquiv.toRingEquiv.toAddEquiv with
       map_smul' := by
         intro scalar value
-        show deformation.left.obj.base.residueEquiv
+        change deformation.left.obj.base.residueEquiv
           (IsLocalRing.residue deformation.left.obj.base scalar * value) =
           ringMap scalar * deformation.left.obj.base.residueEquiv value
         rw [map_mul, hring] }
@@ -466,11 +466,11 @@ public theorem automorphismsLiftAlong_continuousDeformationCategory
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
   apply Hom.ext
-  · show (𝟙 _ ≫ arrow.left.hom.base) =
+  · change (𝟙 _ ≫ arrow.left.hom.base) =
       arrow.left.hom.base ≫ automorphism.hom.1.left.hom.base
     simp [hvertical]
   · ext vector
-    show arrow.left.hom.map (liftedScalar • vector) =
+    change arrow.left.hom.map (liftedScalar • vector) =
       automorphism.hom.1.left.hom.map (arrow.left.hom.map vector)
     rw [arrow.left.hom.map_smul, hlifted, hmap]
 
@@ -503,7 +503,7 @@ finite-dimensional continuous representation. -/
 public theorem schlessingerConditionS2_continuousIsomorphismClasses
     (V : Type m) [AddCommGroup V] [Module k V] [Module.Finite k V]
     (ρ₀ : Representation k Γ V) (hρ₀ : IsContinuousRepresentation ρ₀) :
-    SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
       (BasedCategory.ofFunctor (objectsOverFunctor
         (continuousProjection.{u, w, w, m} (Λ := Λ) (k := k) (Γ := Γ))
         (continuousSpecialFiber (Λ := Λ) V ρ₀ hρ₀)))
@@ -537,7 +537,7 @@ public theorem exists_hull_continuousIsomorphismClasses
     let hpre := (isDeformationCategory_continuousDeformationCategory
       (Λ := Λ) V ρ₀ hρ₀).predeformation
     let F := isomorphismClasses 𝓕 hpre.cofibered
-    ∃ ξ : FormalObject (CategoryOfElements.π F),
+    ∃ ξ : FormalObject (Functor.Elements.π F),
       IsVersal (categoryOfElements_projection_isCofibered F) ξ ∧
         HasBijectiveDifferential (categoryOfElements_projection_isCofibered F) ξ := by
   let hD := isDeformationCategory_continuousDeformationCategory (Λ := Λ) V ρ₀ hρ₀
@@ -550,7 +550,7 @@ public theorem exists_hull_continuousIsomorphismClasses
       (BasedCategory.ofFunctor (objectsOverFunctor
         (continuousProjection.{u, w, w, m} (Λ := Λ) (k := k) (Γ := Γ))
         (continuousSpecialFiber (Λ := Λ) V ρ₀ hρ₀))).p) := ⟨hpre⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π
     (isomorphismClasses (BasedCategory.ofFunctor (objectsOverFunctor
       (continuousProjection.{u, w, w, m} (Λ := Λ) (k := k) (Γ := Γ))
       (continuousSpecialFiber (Λ := Λ) V ρ₀ hρ₀))) hpre.cofibered))) := ⟨hS2⟩
@@ -600,7 +600,7 @@ public theorem isProrepresentableULift_continuousIsomorphismClasses
       (continuousProjection.{u, w, w, m} (Λ := Λ) (k := k) (Γ := Γ))
       (continuousSpecialFiber (Λ := Λ) V ρ₀ hρ₀))
     let F := isomorphismClasses 𝓕c hDcont.predeformation.cofibered
-    let 𝓖 := BasedCategory.ofFunctor (CategoryOfElements.π F)
+    let 𝓖 := BasedCategory.ofFunctor (Functor.Elements.π F)
     let hDel := (isDeformationCategory_iff F).2
       (isDeformationFunctor_continuousIsomorphismClasses V ρ₀ hρ₀ h)
     let hS2el :=

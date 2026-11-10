@@ -110,10 +110,10 @@ public theorem bijective_coefficientQuotientMap_adicCompletion (J : Ideal R) (hJ
   have hEc : ∀ z : R ⧸ J ^ n, E (coefficientQuotientMap (B := AdicCompletion J R) J n z) = z := by
     intro z
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective z
-    show E (Ideal.quotientMap _ (algebraMap R (AdicCompletion J R)) _
+    change E (Ideal.quotientMap _ (algebraMap R (AdicCompletion J R)) _
       (Ideal.Quotient.mk (J ^ n) x)) = _
     rw [Ideal.quotientMap_mk]
-    show AdicCompletion.evalₐ J n (algebraMap R (AdicCompletion J R) x) = _
+    change AdicCompletion.evalₐ J n (algebraMap R (AdicCompletion J R) x) = _
     rw [AdicCompletion.algebraMap_apply, AdicCompletion.evalₐ_of]
     rfl
   have hEinj : Function.Injective E := by

@@ -228,7 +228,7 @@ along `jU`. -/
 theorem glueingColimitMapRep_hom_left {X Y : StageColimit B S hS Z} (r : Rep X Y) :
     (glueingColimitMapRep B S hS w hjU hjM r).hom.left =
       evalCone B S hS jU hjU X Y r.toSrc r.toTgt r.hom := by
-  show ((glueingFunctorFactorIso B S hS (w X.idx) (w r.idx) (hjU r.toSrc)
+  change ((glueingFunctorFactorIso B S hS (w X.idx) (w r.idx) (hjU r.toSrc)
         (hjM r.toSrc)).hom.app X.obj).hom.left ≫
       ((glueingFunctor B S hS (w r.idx)).map r.hom).hom.left ≫
         ((glueingFunctorFactorIso B S hS (w Y.idx) (w r.idx) (hjU r.toTgt)
@@ -242,7 +242,7 @@ along `jM`. -/
 theorem glueingColimitMapRep_hom_right {X Y : StageColimit B S hS Z} (r : Rep X Y) :
     (glueingColimitMapRep B S hS w hjU hjM r).hom.right =
       evalCone B S hS jM hjM X Y r.toSrc r.toTgt r.hom := by
-  show ((glueingFunctorFactorIso B S hS (w X.idx) (w r.idx) (hjU r.toSrc)
+  change ((glueingFunctorFactorIso B S hS (w X.idx) (w r.idx) (hjU r.toSrc)
         (hjM r.toSrc)).hom.app X.obj).hom.right ≫
       ((glueingFunctor B S hS (w r.idx)).map r.hom).hom.right ≫
         ((glueingFunctorFactorIso B S hS (w Y.idx) (w r.idx) (hjU r.toTgt)
@@ -362,7 +362,7 @@ theorem faithful_glueingColimitFunctor
     intro P c hq hev
     refine baseChange_map_eq_of_shift_eq B S hS X.obj Y.obj (c n) (hq (p ≫ r.toSrc))
       (hq (p ≫ r.toTgt)) ?_
-    show evalCone B S hS c hq X Y (p ≫ r.toSrc) (p ≫ r.toTgt) _ =
+    change evalCone B S hS c hq X Y (p ≫ r.toSrc) (p ≫ r.toTgt) _ =
       evalCone B S hS c hq X Y (p ≫ r.toSrc) (p ≫ r.toTgt) _
     rw [evalCone_push B S hS c hq X Y r.toSrc r.toTgt p rfl rfl r.hom,
       evalCone_push B S hS c hq X Y r'.toSrc r'.toTgt q hs.symm ht.symm r'.hom, hev]
@@ -399,12 +399,12 @@ theorem glueingColimitMapRep_eq_of_full {k l : I}
         (⟨l, e, e, f⟩ : Rep (⟨k, Xo⟩ : StageColimit B S hS Z) ⟨k, Yo⟩) = m := by
   refine isoComma_hom_ext B S hS _ _ ?_ ?_
   · rw [glueingColimitMapRep_hom_left, hmL]
-    show (baseChangeFactorIso B S hS (hjU e)).hom.app Xo ≫
+    change (baseChangeFactorIso B S hS (hjU e)).hom.app Xo ≫
         (baseChange B S hS (jU l)).map f ≫
           (baseChangeFactorIso B S hS (hjU e)).inv.app Yo = mL
     rw [← Category.assoc, ← hLe, Category.assoc, Iso.hom_inv_id_app, Category.comp_id]
   · rw [glueingColimitMapRep_hom_right, hmR]
-    show (baseChangeFactorIso B S hS (hjM e)).hom.app Xo ≫
+    change (baseChangeFactorIso B S hS (hjM e)).hom.app Xo ≫
         (baseChange B S hS (jM l)).map f ≫
           (baseChangeFactorIso B S hS (hjM e)).inv.app Yo = mR
     rw [← Category.assoc, ← hRe, Category.assoc, Iso.hom_inv_id_app, Category.comp_id]
@@ -429,7 +429,7 @@ theorem full_glueingColimitFunctor
       Rep (⟨k, (baseChange B S hS (Z.map a)).obj X.obj⟩ : StageColimit B S hS Z)
         ⟨k, (baseChange B S hS (Z.map b)).obj Y.obj⟩) ≫ (stageIso Y b).inv, ?_⟩
   rw [Functor.map_comp, Functor.map_comp, hmid]
-  simp only [Category.assoc, Iso.map_hom_inv_id_assoc, Iso.map_hom_inv_id, Category.comp_id]
+  simp only [Category.assoc, Iso.hom_inv_id_map_assoc, Iso.hom_inv_id_map, Category.comp_id]
 
 /-- The comparison functor out of the filtered `2`-colimit of the categories of algebraic spaces of
 finite presentation over the stages is an equivalence of categories onto the `2`-fibre product

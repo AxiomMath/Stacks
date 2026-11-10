@@ -54,8 +54,8 @@ unramifiedness of that inclusion followed by the structure morphism.  These are 
 of `AlgebraicGeometry.IsAtWorstNodalOfRelativeDimensionOne` of Tag 0C5A, up to the fibre
 dimension, which the equidimensionality hypothesis supplies.
 
-Three of the four pieces are read off results in the library.  The point lies in `Z` exactly when the
-structure morphism is not smooth there, by Tag 0C3K; the local ring is one-dimensional because
+Three of the four pieces are read off results in the library.  The point lies in `Z` exactly when
+the structure morphism is not smooth there, by Tag 0C3K; the local ring is one-dimensional because
 at a closed point of a locally algebraic scheme the dimension of the local ring is the local
 dimension of the scheme (Tag 0A21), which equidimensionality makes constant; and the depth is
 the dimension because a local complete intersection over a field has complete-intersection
@@ -84,11 +84,13 @@ second disjunct of the theorem below is exactly what lets its cycle
 `1 → 2 → 3 → 4 → 5 → 6 → 1` be run; `(... ).out 5 1` is then the step that turns condition (5)
 into the node condition.  The two are composed in
 `Stacks.NodalEtaleLocalStructure.isNode_asFiber_of_mem_relativeSingular`
-(`StacksFrontier/AlgebraicGeometry/Curves/NodalEtaleLocalStructureAssembly.lean`), on which Tag 0CBY's existence statement
-rests.  Alternatives, if the closed-point hypothesis is inconvenient:
-`Stacks.Curves.isNode_of_isNodalAlgebra_stalk` (`StacksFrontier/AlgebraicGeometry/Curves/NodeNodalAlgebraAscent.lean`,
+(`StacksFrontier/AlgebraicGeometry/Curves/NodalEtaleLocalStructureAssembly.lean`), on which Tag
+0CBY's existence statement rests.  Alternatives, if the closed-point hypothesis is inconvenient:
+`Stacks.Curves.isNode_of_isNodalAlgebra_stalk`
+(`StacksFrontier/AlgebraicGeometry/Curves/NodeNodalAlgebraAscent.lean`,
 `@[stacks 0C4D "clause (2) implies clause (1), over an arbitrary base field"]`) and
-`Stacks.Curves.isNode_iff_isNodalAlgebra_stalk` (`StacksFrontier/AlgebraicGeometry/Curves/NodeResidueFieldSeparable.lean`).
+`Stacks.Curves.isNode_iff_isNodalAlgebra_stalk`
+(`StacksFrontier/AlgebraicGeometry/Curves/NodeResidueFieldSeparable.lean`).
 
 This paragraph previously said the implication "is not available" over an arbitrary base field,
 pointing at the unproved `h₁₄`/`h₄₅` of `Stacks.Curves.isNode_tfae_of_residual_equivalences`.
@@ -123,7 +125,7 @@ private theorem preimage_singleton_eq_univ_of_field (k : Type u) [Field k] {Z : 
     (g : Z ⟶ AlgebraicGeometry.Spec (.of k)) (s : AlgebraicGeometry.Spec (.of k)) :
     g.base ⁻¹' {s} = (Set.univ : Set Z) := by
   have : Subsingleton (AlgebraicGeometry.Spec (.of k)) := by
-    show Subsingleton (PrimeSpectrum k)
+    change Subsingleton (PrimeSpectrum k)
     infer_instance
   ext z
   simp [Subsingleton.elim (g.base z) s]
@@ -229,7 +231,7 @@ theorem isSeparable_residueField_of_unramified_comp {X Z S : Scheme.{u}} (f : X 
   have key : ∀ a, eiso ((f.residueFieldMap (i.base z)).hom a) =
       algebraMap (S.residueField (f.base (i.base z))) (Z.residueField z) a := by
     intro a
-    show eiso ((f.residueFieldMap (i.base z)).hom a) = ((i ≫ f).residueFieldMap z).hom a
+    change eiso ((f.residueFieldMap (i.base z)).hom a) = ((i ≫ f).residueFieldMap z).hom a
     rw [Scheme.residueFieldMap_comp]
     rfl
   refine Algebra.IsSeparable.of_equiv_equiv
@@ -262,15 +264,16 @@ supplies in its second disjunct is exactly what lets its cycle `1 → 2 → 3 �
 run, so `(... ).out 5 1` supplies the step.  (5) ⟹ (1) over an arbitrary base field is therefore
 in hand, and the two are composed in
 `Stacks.NodalEtaleLocalStructure.isNode_asFiber_of_mem_relativeSingular`
-(`StacksFrontier/AlgebraicGeometry/Curves/NodalEtaleLocalStructureAssembly.lean`), which is what Tag 0CBY's existence
-statement rests on.
+(`StacksFrontier/AlgebraicGeometry/Curves/NodalEtaleLocalStructureAssembly.lean`), which is what Tag
+0CBY's existence statement rests on.
 
 The step does not depend on the unproved `h₁₄`/`h₄₅` of
 `Stacks.Curves.isNode_tfae_of_residual_equivalences`; that route is only one of several, and
 Tag 0CBY is an assembly of proved results.  Alternatives, if the
 closed-point hypothesis of `isNode_tfae_of_isClosed` is inconvenient:
 `Stacks.Curves.isNode_of_isNodalAlgebra_stalk`
-(`StacksFrontier/AlgebraicGeometry/Curves/NodeNodalAlgebraAscent.lean`, `@[stacks 0C4D "clause (2) implies clause (1), over an
+(`StacksFrontier/AlgebraicGeometry/Curves/NodeNodalAlgebraAscent.lean`,
+`@[stacks 0C4D "clause (2) implies clause (1), over an
 arbitrary base field"]`) and `Stacks.Curves.isNode_iff_isNodalAlgebra_stalk`
 (`StacksFrontier/AlgebraicGeometry/Curves/NodeResidueFieldSeparable.lean`). -/
 @[stacks 0C4E "the implication (2) ⟹ (1), via condition (5) of Tag 0C4D at every closed point"]

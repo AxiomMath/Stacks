@@ -67,7 +67,7 @@ public theorem boundsFiberDegrees_compl_range_lift_of_isPullback {U X T P : Sche
   have hOG : O = e.hom ⁻¹ᵁ G := by
     ext x
     rw [hO]
-    show _ ↔ e.hom.base x ∈ (G : Set _)
+    change _ ↔ e.hom.base x ∈ (G : Set _)
     rw [coe_openImmersionGraphCompl]
     simp only [Set.mem_compl_iff, Set.mem_range, ← hlift, Scheme.Hom.comp_apply,
       (ConcreteCategory.bijective_of_isIso e.hom.base).1.eq_iff]

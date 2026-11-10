@@ -220,8 +220,8 @@ ill-typed, with `getLimitCone` named as the definition the module system does no
 case-(B) comparison is a genuine Kan-extension comparison and not an identity, and the
 identification has to go through the per-leg descriptions this file's companion already carries
 for exactly that purpose — `…fSharpB_leg`, `…ranπ_restrictTransition`,
-`…ringFsharpInverseImage_app_apply` and `…hcompatB` in
-`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/ModuleSumFormulaCaseBSummand.lean`.
+`…ringFsharpInverseImage_app_apply` and `…hcompatB` in the companion module
+`StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.ModuleSumFormulaCaseBSummand`.
 
 *The route, worked out and partly built.* The hypothesis of
 `…moduleSumFormulaLegEqB_of_comparison` is an equation between two morphisms

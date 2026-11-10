@@ -20,9 +20,8 @@ codimension one (the situation of [Stacks, Tag 0EYG]); let `π : Y' ⟶ X` be th
    open neighbourhood of `t(Spec R)`.
 
 The proofs are `AlgebraicGeometry.TameCovers.exists_lift_etaleAt_fromNormalization` and
-`AlgebraicGeometry.TameCovers.exists_opens_etale_fromNormalization`, whose two named arguments
-are supplied by proved theorems: purity for regular local rings ([Stacks, Tag 0BMA] (1),
-`AlgebraicGeometry.purityAtRegularLocalRings`) and the tame half of [Stacks, Tag 0EYD]
+`AlgebraicGeometry.TameCovers.exists_opens_etale_fromNormalization`, whose named argument is
+supplied by a proved theorem: the tame half of [Stacks, Tag 0EYD]
 (`Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne`).
 
 ## Main results
@@ -80,7 +79,7 @@ theorem exists_lift_etaleAt_fromNormalization_of_isTamelyRamified
         y ≫ (f ≫ Scheme.Opens.ι (D.support.compl : X.Opens)).toNormalization ∧
       ∀ r, EtaleAt (f ≫ Scheme.Opens.ι (D.support.compl : X.Opens)).fromNormalization (t' r) := by
   have hreg := (isRegular_tfae D.subscheme).out 1 2
-  exact exists_lift_etaleAt_fromNormalization purityAtRegularLocalRings
+  exact exists_lift_etaleAt_fromNormalization
     (fun S h ↦ Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne S h)
     D hD (hreg.mp hDreg).2 f hf R K t ht y hy
 
@@ -113,7 +112,7 @@ theorem exists_opens_etale_fromNormalization_of_isTamelyRamified
       IsFinite ((f ≫ Scheme.Opens.ι (D.support.compl : X.Opens)).fromNormalization ∣_ V) ∧
       Etale ((f ≫ Scheme.Opens.ι (D.support.compl : X.Opens)).fromNormalization ∣_ V) := by
   have hreg := (isRegular_tfae D.subscheme).out 1 2
-  exact exists_opens_etale_fromNormalization purityAtRegularLocalRings
+  exact exists_opens_etale_fromNormalization
     (fun S h ↦ Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne S h)
     D hD (hreg.mp hDreg).2 f hf R K t ht J eJ heJ
 

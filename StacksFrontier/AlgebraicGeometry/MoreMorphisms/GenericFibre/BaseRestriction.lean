@@ -149,7 +149,7 @@ theorem exists_open_geometricallyIrreducible_of_opensIsoSpec {R : CommRingCat.{u
     apply_genericPoint_of_isIso e
   -- The restricted source is a nonempty open of `X`, hence integral.
   have hmem : genericPoint X ∈ f ⁻¹ᵁ W := by
-    show f (genericPoint X) ∈ W
+    change f (genericPoint X) ∈ W
     rw [hgen, ← hgW]
     exact (genericPoint W.toScheme).2
   have : Nonempty (f ⁻¹ᵁ W).toScheme := ⟨⟨genericPoint X, hmem⟩⟩

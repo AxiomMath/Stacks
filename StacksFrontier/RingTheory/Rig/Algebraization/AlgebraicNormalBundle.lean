@@ -195,7 +195,7 @@ theorem completionEquiv_algebraMap_mk (p : Poly (A := A) Pres.variableCount) :
             (Pres.variableCount + Pres.variableCount)) p)) :=
     (completedPresentationMap_algebraMap (baseIdeal a Pres.variableCount) L.mkW p).symm
   rw [h]
-  show D.pres.quotientEquiv (Ideal.quotientEquivAlgOfEq _ L.ker_mkW_map
+  change D.pres.quotientEquiv (Ideal.quotientEquivAlgOfEq _ L.ker_mkW_map
     (L.completedQuotientEquiv.symm (L.completedQuotientEquiv _))) = _
   rw [AlgEquiv.symm_apply_apply, Ideal.quotientEquivAlgOfEq_mk]
   rfl
@@ -255,7 +255,7 @@ theorem exists_isEtaleOutside_away :
         algebraMap L.W _ w := by
       rw [AlgEquiv.symm_apply_eq]
       exact (hE w).symm
-    show L.completionEquiv ((E.restrictScalars _).symm (F.symm _)) = _
+    change L.completionEquiv ((E.restrictScalars _).symm (F.symm _)) = _
     rw [hF, hE']
     rfl
   exact ⟨g, hg, hgEt, e, he, fun p ↦ by rw [he, completionEquiv_algebraMap_mk]⟩

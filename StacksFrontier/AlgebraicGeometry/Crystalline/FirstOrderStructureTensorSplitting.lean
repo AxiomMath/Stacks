@@ -132,7 +132,7 @@ def isLimitKernelFork_firstOrderThickeningTensorInr :
 theorem isSplitMono_firstOrderThickeningTensorInl :
     IsSplitMono (M ◁ firstOrderThickeningInlSheaf T Y f) :=
   ⟨⟨⟨firstOrderThickeningTensorProj T Y f M, by
-    show (tensorLeft M).map (firstOrderThickeningInlSheaf T Y f) ≫
+    change (tensorLeft M).map (firstOrderThickeningInlSheaf T Y f) ≫
       (tensorLeft M).map (firstOrderThickeningProjSheaf T Y f) = _
     have h : firstOrderThickeningInlSheaf T Y f ≫ firstOrderThickeningProjSheaf T Y f = 𝟙 _ :=
       (firstOrderThickeningStructureSplitting T Y f).s_g
@@ -143,7 +143,7 @@ theorem isSplitMono_firstOrderThickeningTensorInl :
 theorem isSplitEpi_firstOrderThickeningTensorProj :
     IsSplitEpi (firstOrderThickeningTensorProj T Y f M) :=
   ⟨⟨⟨M ◁ firstOrderThickeningInlSheaf T Y f, by
-    show (tensorLeft M).map (firstOrderThickeningInlSheaf T Y f) ≫
+    change (tensorLeft M).map (firstOrderThickeningInlSheaf T Y f) ≫
       (tensorLeft M).map (firstOrderThickeningProjSheaf T Y f) = _
     have h : firstOrderThickeningInlSheaf T Y f ≫ firstOrderThickeningProjSheaf T Y f = 𝟙 _ :=
       (firstOrderThickeningStructureSplitting T Y f).s_g

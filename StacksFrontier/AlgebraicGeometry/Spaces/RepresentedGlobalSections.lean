@@ -97,7 +97,7 @@ theorem eval_representedUnitSection (s : Γ((BigFppfOver.toScheme B S hS).obj T,
   set m : V ⟶ idChart B S hS T := ObjectProperty.homMk (CostructuredArrow.homMk p hw)
   have hunique : (isTerminal_idChart B S hS T).from V = m :=
     (isTerminal_idChart B S hS T).hom_ext _ _
-  show ((structureRingSheaf B S hS ⟨yoneda.obj T, hT⟩).obj.map
+  change ((structureRingSheaf B S hS ⟨yoneda.obj T, hT⟩).obj.map
       ((isTerminal_idChart B S hS T).from V).op).hom s = _
   rw [hunique]
   rfl

@@ -94,7 +94,7 @@ private lemma isOpenImmersion_of_isImmersion_of_denseRange
   have : IsDominant f := ⟨hf⟩
   have : IsSchemeTheoreticallyDominant f := .of_isDominant f
   have : IsIso f.imageι := by
-    show IsIso f.ker.subschemeι
+    change IsIso f.ker.subschemeι
     rw [f.ker_eq_bot]
     infer_instance
   rw [← f.toImage_imageι]
@@ -249,8 +249,8 @@ private theorem isAffineOpen_of_finite_closed_cover
     obtain ⟨index, z, hz⟩ := hcover y.1
     obtain ⟨z', hz'⟩ := exists_morphismRestrict_apply_eq (j index) U y.2 hz
     refine ⟨Sigma.ι Z' index z', ?_⟩
-    show (Sigma.ι Z' index ≫ Sigma.desc j') _ = y
-    rw [Sigma.ι_desc]
+    change (Sigma.ι Z' index ≫ Sigma.desc j') _ = y
+    rw [Sigma.ι_comp_desc]
     exact hz'
   exact Stacks.AffineFromFiniteSurjective.isAffine_of_finite_surjective (Sigma.desc j')
 
@@ -343,9 +343,9 @@ private lemma isAffineOpen_maxLocus_of_finite_closed_cover
   have : IrreducibleSpace W.toScheme := W.ι.isOpenEmbedding.irreducibleSpace
   have hWU : W ≤ U := by
     intro other hother
-    show other ∈ (U : Set Y)
+    change other ∈ (U : Set Y)
     rw [hU]
-    show separableDegreeWeightedFiberSum f w other = d
+    change separableDegreeWeightedFiberSum f w other = d
     have heq := hconstant.apply_eq_of_preconnectedSpace
       ⟨other, hother⟩ ⟨point, hUW hpoint⟩
     rw [← hsum] at heq
@@ -380,7 +380,7 @@ private theorem isAffineOpen_maxLocus_of_section_envelope
     have hq (index : ι) : IsImmersion (q index) :=
       inferInstanceAs (IsImmersion (pullback.snd e (sections index)))
     have hqeq (index : ι) : j index ≫ f = q index := by
-      show pullback.fst e (sections index) ≫ f = pullback.snd e (sections index)
+      change pullback.fst e (sections index) ≫ f = pullback.snd e (sections index)
       rw [← hep, pullback.condition_assoc, (hsections index).2, Category.comp_id]
     let selected := {index : ι // genericPoint Y ∈ Set.range (q index)}
     have hopen (index : selected) : IsOpenImmersion (j index.1 ≫ f) := by
@@ -539,7 +539,7 @@ private lemma preimage_eq_levelSet_of_comp {Y Y' : Scheme.{u}} (g : Y' ⟶ Y) (U
     (hU : (U : Set Y) = {y | F y = d}) : ((g ⁻¹ᵁ U : Y'.Opens) : Set Y') = {y | F' y = d} := by
   subst hsum
   ext z
-  show g z ∈ (U : Set Y) ↔ _
+  change g z ∈ (U : Set Y) ↔ _
   rw [hU]
   rfl
 
@@ -595,9 +595,9 @@ private theorem isAffineOpen_maxLocus_of_noetherian_section_envelope
       exact h.symm.trans (hy.symm ▸ hs)
     refine ⟨sectionIndex, pullback.snd p (j index) point, ?_⟩
     apply (pullback.fst p (j index)).injective
-    show (sections' sectionIndex ≫ pullback.fst p (j index)) _ = _
+    change (sections' sectionIndex ≫ pullback.fst p (j index)) _ = _
     rw [pullback.lift_fst]
-    show sections sectionIndex (j index (pullback.snd p (j index) point)) = _
+    change sections sectionIndex (j index (pullback.snd p (j index) point)) = _
     rw [hy', hy]
   have hw' : IsWeighting f' (w ∘ pullback.fst f (j index)) :=
     IsWeighting.comp_of_isPullback hw (IsPullback.of_hasPullback f (j index))
@@ -682,7 +682,7 @@ private theorem exists_empty_preimage_of_isClosed_constructible
     have hcomp' := congrArg (fun morphism ↦ morphism point) hcomp
     have hmem : (htop.conePointUniqueUpToIso (limit.isLimit F)).inv point ∈
         (c.π.app (.op index)) ⁻¹' bad := by
-      show (Scheme.forgetToTop.mapCone c).π.app (.op index)
+      change (Scheme.forgetToTop.mapCone c).π.app (.op index)
         ((htop.conePointUniqueUpToIso (limit.isLimit F)).inv point) ∈ bad
       rw [show (Scheme.forgetToTop.mapCone c).π.app (.op index)
         ((htop.conePointUniqueUpToIso (limit.isLimit F)).inv point) =
@@ -863,7 +863,7 @@ private theorem exists_isAffineOpen_maxLocus_of_noetherian_approximation
     pullback.snd f₀ (D.map (homOfLE transition).op) with hfᵢ
   have hpositiveᵢ : ∀ x, 0 < wᵢ (sourceᵢ x) := by
     intro x
-    show 0 < (wᵢ ∘ sourceᵢ) x
+    change 0 < (wᵢ ∘ sourceᵢ) x
     rw [← hwi]
     exact hpositive x
   obtain ⟨later, laterTransition, hgood⟩ :=
@@ -899,7 +899,7 @@ private theorem exists_isAffineOpen_maxLocus_of_noetherian_approximation
   have hwcomp : w = wₗ ∘ sourceₗ := by
     rw [hwi]
     funext x
-    show wᵢ (sourceᵢ x) = wᵢ ((sourceₗ ≫ pullback.fst fᵢ base) x)
+    change wᵢ (sourceᵢ x) = wᵢ ((sourceₗ ≫ pullback.fst fᵢ base) x)
     rw [hsourceₗ, pullback.lift_fst]
   have hsum := separableDegreeWeightedFiberSum_comp_of_isPullback
     fₗ sourceₗ f (c.π.app (.op later)) squareₗ fₗ.finite_preimage_singleton wₗ
@@ -935,7 +935,7 @@ private theorem exists_noetherianModel
   obtain ⟨model, hdim⟩ :=
     exists_finiteTypeAffineModel_fiberDimension_le f hfp 0 (fun y ↦ by
       have := hdiscrete y
-      show topologicalKrullDim (f.fiber y) ≤ ((0 : ℕ) : WithBot ℕ∞)
+      change topologicalKrullDim (f.fiber y) ≤ ((0 : ℕ) : WithBot ℕ∞)
       simpa using topologicalKrullDim_zero_of_discreteTopology (f.fiber y))
   have := model.base_affine
   have := model.locallyOfFiniteType
@@ -1077,7 +1077,7 @@ private theorem exists_affine_noetherian_limit_over
     isLocallyNoetherian_affineSystem Γ(S, ⊤) Γ(Y, ⊤), ∅,
     Spec.map (CommRingCat.ofHom (algebraMap Γ(S, ⊤)
       (Algebra.adjoin Γ(S, ⊤) ((∅ : Finset Γ(Y, ⊤)) : Set Γ(Y, ⊤))))) ≫ S.isoSpec.inv, ?_⟩
-  show (subalgebraSchemeCone (Y := Y) Γ(S, ⊤)).π.app (.op (∅ : Finset Γ(Y, ⊤))) ≫ _ = t
+  change (subalgebraSchemeCone (Y := Y) Γ(S, ⊤)).π.app (.op (∅ : Finset Γ(Y, ⊤))) ≫ _ = t
   rw [subalgebraSchemeCone_π_app]
   exact isoSpec_comp_subalgebraVal_eq t (fun _ ↦ rfl)
     (Algebra.adjoin Γ(S, ⊤) ((∅ : Finset Γ(Y, ⊤)) : Set Γ(Y, ⊤)))

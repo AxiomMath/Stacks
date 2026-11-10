@@ -50,7 +50,7 @@ theorem QcExtension.equivObj_naturality (g : T' ⟶ T)
     (hT : CompactSpace T) (hT' : CompactSpace T') (s : QcExtension Φ T) :
     QcExtension.equivObj Φ T' hT' (QcExtension.pullback Φ g s)
       = Φ.map g.op (QcExtension.equivObj Φ T hT s) := by
-  show (QcExtension.pullback Φ g s).val T' hT' (𝟙 T') = Φ.map g.op (s.val T hT (𝟙 T))
+  change (QcExtension.pullback Φ g s).val T' hT' (𝟙 T') = Φ.map g.op (s.val T hT (𝟙 T))
   rw [s.compat T T' hT hT' g (𝟙 T), QcExtension.pullback_val, Category.id_comp,
     Category.comp_id]
 

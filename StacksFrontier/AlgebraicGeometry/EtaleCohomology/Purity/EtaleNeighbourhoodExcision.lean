@@ -65,6 +65,7 @@ theorem range_complementOpens_ι :
   rw [Scheme.Opens.range_ι]
   rfl
 
+omit [Etale ψ] [IsClosedImmersion k] in
 include sq in
 /-- For a pullback square with `k` the base change of `z` along `ψ`, the preimage under `ψ` of
 the open complement of `z` has image the complement of the image of `k`. -/
@@ -77,6 +78,7 @@ theorem range_preimage_complementOpens_ι :
 
 variable [IsIso ψT]
 
+omit [Etale ψ] [IsIso ψT] in
 include sq in
 /-- **`ψ⁻¹ z_* ≅ k_* ψ_T⁻¹`**: the inverse image of a sheaf supported on `Z` along an étale
 neighbourhood is the direct image of its inverse image. -/
@@ -115,6 +117,7 @@ theorem nonempty_directImage_comp_inverseImage_iso :
     Functor.isoWhiskerLeft zs c ≪≫ s4 ≪≫
     Functor.isoWhiskerRight e2 ks ≪≫ Functor.isoWhiskerRight e3 ks⟩
 
+omit [Etale ψ] in
 include sq in
 /-- `ψ⁻¹` is bijective on morphisms between sheaves supported on `Z`. -/
 theorem bijective_inverseImage_map_directImage (M G : EtaleModules.{u, 0} Λ Z) :
@@ -157,6 +160,7 @@ theorem bijective_restriction_map_directImage (M G : EtaleModules.{u, 0} Λ Z) :
   rw [he]
   exact (Equiv.bijective _).comp (bijective_inverseImage_map_directImage Λ ψ z k ψT sq M G)
 
+omit [IsIso ψT] in
 include sq in
 /-- On the complement of `Z`, the extension by zero of `ψ⁻¹ z_* M` vanishes. -/
 theorem isZero_inverseImage_complement_extensionByZero (M : EtaleModules.{u, 0} Λ Z) :
@@ -223,7 +227,7 @@ theorem isIso_extensionByZeroAdj_counit_app_directImage (M : EtaleModules.{u, 0}
     by_cases hx : x ∈ Set.range z.base
     · exact ⟨⟨true⟩, hx⟩
     · refine ⟨⟨false⟩, ?_⟩
-      show x ∈ Set.range n.base
+      change x ∈ Set.range n.base
       rwa [range_complementOpens_ι]
   · match a with
     | ⟨false⟩ =>
@@ -245,7 +249,7 @@ theorem isIso_extensionByZeroAdj_counit_app_directImage (M : EtaleModules.{u, 0}
         funext x
         simp only [Function.comp_apply]
         rw [h1, Adjunction.homEquiv_naturality_left_symm, Equiv.symm_apply_apply]
-      show Function.Bijective (fun x : (etaleModuleInverseImage.{u, 0} Λ z).obj F ⟶ G =>
+      change Function.Bijective (fun x : (etaleModuleInverseImage.{u, 0} Λ z).obj F ⟶ G =>
           (etaleModuleInverseImage.{u, 0} Λ z).map εF ≫ x)
       rw [key]
       exact (Equiv.bijective _).comp ((Equiv.bijective _).comp
@@ -289,7 +293,7 @@ theorem injective_mapExactFunctor_inverseImage_of_isPullback (M : EtaleModules.{
       y.mapExactFunctor (etaleModuleInverseImage.{u, 0} Λ ψ) := hxy
   apply injective_mapExactFunctor_restriction_of_isPullback Λ ψ z k ψT sq M A n
   apply (Stacks.ExtAdjunction.precomp_mk₀_bijective_of_isIso (e.hom.app F) n).1
-  show (Ext.mk₀ (e.hom.app F)).comp (x.mapExactFunctor (etaleModuleRestriction.{u, 0} Λ ψ))
+  change (Ext.mk₀ (e.hom.app F)).comp (x.mapExactFunctor (etaleModuleRestriction.{u, 0} Λ ψ))
       (zero_add n) =
     (Ext.mk₀ (e.hom.app F)).comp (y.mapExactFunctor (etaleModuleRestriction.{u, 0} Λ ψ))
       (zero_add n)

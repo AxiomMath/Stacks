@@ -26,8 +26,8 @@ element.
 ## Restatements of private results of the base
 
 * `Stacks.Chow.ordFrac_ringEquiv` restates `ordFrac_eq_of_ringEquiv` of
-  `StacksFrontier.AlgebraicGeometry.Chow.DivisorTransport.Order`, which is `private` and so cannot be
-  named from another module. That file's only public export,
+  `StacksFrontier.AlgebraicGeometry.Chow.DivisorTransport.Order`, which is `private` and so cannot
+  be named from another module. That file's only public export,
   `Stacks.Chow.ord_functionFieldRingEquivOfIso`, is for an isomorphism of *schemes* and does not
   apply to a bare pair of ring isomorphisms. The proof is the same, except that the `Ring.ord`
   half is taken from the public `Ring.ord_ringEquiv` of

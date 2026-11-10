@@ -5,7 +5,8 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Presheaf.PullbackColimit
 /-!
 # The sections of a pullback along an equivalence of sites are a base change
 
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackSectionsBaseChange` describes the sections of
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackSectionsBaseChange` describes the sections
+of
 `PresheafOfModules.pullback` as a base change for a change of rings along the **identity** functor
 of the site, and says that for a general functor of sites `F : C ⥤ D` there is "no candidate of the
 simple shape `R'(V) ⊗_{R(V)} M(V)` to compare the sections with", because the sections are then a
@@ -124,7 +125,8 @@ What is **not** proved:
 **Why the surjectivity transfer is proved through the unit and not through the generated
 submodule.** `PresheafOfModules.generatedSubmodule`, and with it the general-functor generation
 half `PresheafOfModules.range_homEquivSymm_app_eq_generatedSubmodule`, live in
-`StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.ComparisonSurjectivity`.  That module declares
+`StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.ComparisonSurjectivity`.  That module
+declares
 `PresheafOfModules.restrictₛₗ_comp_apply`, `restrictₛₗ_id_apply` and `map_id_apply`, and so does
 `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SheafificationTensor`, which
 `StacksFrontier.Algebra.Category.ModuleCat.Presheaf.PullbackColimit` imports; the two modules
@@ -230,11 +232,7 @@ This is the `ModuleCat.extendScalars` form of
 elements as `Stacks.NoncommChangeOfRings.exists_apply_eq_desc_apply` does. -/
 theorem exists_eq_tmul_one (hf : Function.Surjective f) (x : (ModuleCat.extendScalars f).obj M) :
     ∃ m : M, x = tmul f 1 m := by
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      refine ⟨0, ?_⟩
-      rw [← adj_unit_apply f (0 : M)]
-      exact (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | tmul b m =>
       obtain ⟨a, rfl⟩ := hf b
       exact ⟨a • m, (tmul_one_smul f a m).symm⟩

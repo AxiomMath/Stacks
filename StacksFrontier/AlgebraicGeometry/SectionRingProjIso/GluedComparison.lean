@@ -188,7 +188,7 @@ theorem ι_comp_projHomOfIsAmple_eq_chartToProj (hM : Stacks.Ample.IsAmple Y M) 
     ← Stacks.SectionRingChartOpen.chartHomOn_self M s he,
     Stacks.SectionRingChartOpen.homOfLE_chartHomOn M s he le_rfl hV' hV',
     Stacks.SectionRingChartOpen.chartHomOn_val M s he hV']
-  show _ = V.toSpecΓ ≫ Spec.map (CommRingCat.ofHom
+  change _ = V.toSpecΓ ≫ Spec.map (CommRingCat.ofHom
       (((canonicalSections M).homogeneousRatios hf hV).lift he)) ≫
     AlgebraicGeometry.Proj.awayι (grading M) _ hf he
   rw [lift_eq_chartRingMap M s he hf hV hV']

@@ -158,7 +158,7 @@ private theorem IsAnnihilatorSubsheaf.exists_stalk_eq_of_germ_smul_eq_zero
     (show Γ(N.toSheafOfModules, X.basicOpen f) from
       ⟨F.presheaf.map (homOfLE hDU₀).op t₀, hmem⟩)
   refine ⟨_, hstalk.trans ?_⟩
-  show F.presheaf.germ (X.basicOpen f) x hxf (F.presheaf.map (homOfLE hDU₀).op t₀) = s
+  change F.presheaf.germ (X.basicOpen f) x hxf (F.presheaf.map (homOfLE hDU₀).op t₀) = s
   exact (TopCat.Presheaf.germ_res_apply F.presheaf (homOfLE hDU₀) x hxf t₀).trans ht₀
 
 /-- **Part (3) of [Stacks, Tag 01PO].** A germ of `F` at `x` lies in the image of the stalk of

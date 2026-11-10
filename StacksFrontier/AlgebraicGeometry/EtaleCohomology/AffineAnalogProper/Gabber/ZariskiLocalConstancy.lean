@@ -52,14 +52,14 @@ def overSmallEtaleEquivalence {X : Scheme.{u}} (P : X.Etale) : Over P ≌ P.left
         (B := P) V.hom)
       map {V W} g := Over.homMk (MorphismProperty.Over.homMk g.left (by
         change g.left ≫ (W.hom ≫ P.hom) = V.hom ≫ P.hom
-        have h : g.left ≫ W.hom = V.hom := by simpa using g.w
+        have h : g.left ≫ W.hom = V.hom := by simp
         rw [← Category.assoc, h])) (MorphismProperty.Comma.Hom.ext g.w (Subsingleton.elim _ _))
       map_id _ := rfl
       map_comp _ _ := rfl }
   unitIso := NatIso.ofComponents (fun V ↦ Over.isoMk
     (MorphismProperty.Over.isoMk (Iso.refl _) (by
       change 𝟙 _ ≫ (V.hom.left ≫ P.hom) = V.left.hom
-      simpa using V.hom.w)) (by
+      simp)) (by
         apply MorphismProperty.Comma.Hom.ext
         · change 𝟙 _ ≫ V.hom.left = V.hom.left
           simp

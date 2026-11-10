@@ -213,7 +213,7 @@ private lemma finiteType_neronStage_blowup
     (Localization.Away (algebraMap S.R X.A π))
   let : Algebra.FiniteType X.A B :=
     finiteType_affineBlowupAlgebra I _ (IsNoetherian.noetherian I)
-  show Algebra.FiniteType S.R B
+  change Algebra.FiniteType S.R B
   exact Algebra.FiniteType.trans
     (inferInstance : Algebra.FiniteType S.R X.A) inferInstance
 
@@ -238,7 +238,7 @@ private lemma smoothAt_kernelIdeal_neronStage_blowup
   let φ : {f : B →+* S.Λ // f.comp (algebraMap X.A B) = algebraMap X.A S.Λ} :=
     canonicalNeronBlowupMap SX π hπ
   have : (RingHom.ker φ.1).IsPrime := RingHom.ker_isPrime _
-  show Algebra.SmoothAt S.R B (RingHom.ker φ.1)
+  change Algebra.SmoothAt S.R B (RingHom.ker φ.1)
   have hker : (RingHom.ker φ.1).comap (algebraMap X.A B) =
       RingHom.ker (algebraMap X.A S.Λ) := by
     rw [RingHom.comap_ker, φ.2]
@@ -322,18 +322,17 @@ private lemma exists_differential_section_of_exact
     eP'.toLinearMap.comp ((LinearMap.baseChange Λ f).comp eP.symm.toLinearMap)
   have huLoc_tmul (a : Λ) (x : Ω[P⁄R]) :
       uLoc (a ⊗ₜ[P] x) = a ⊗ₜ[P'] KaehlerDifferential.map R R P P' x := by
-    show eP' ((LinearMap.baseChange Λ f) (eP.symm (a ⊗ₜ[P] x))) = _
+    change eP' ((LinearMap.baseChange Λ f) (eP.symm (a ⊗ₜ[P] x))) = _
     rw [show eP.symm (a ⊗ₜ[P] x) = a ⊗ₜ[L] ((1 : L) ⊗ₜ[P] x) from
       TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul P L Λ a x]
-    show eP' (a ⊗ₜ[L] f ((1 : L) ⊗ₜ[P] x)) = _
+    change eP' (a ⊗ₜ[L] f ((1 : L) ⊗ₜ[P] x)) = _
     rw [hf 1 x]
-    show ((1 : L) • a) ⊗ₜ[P'] KaehlerDifferential.map R R P P' x = _
+    change ((1 : L) • a) ⊗ₜ[P'] KaehlerDifferential.map R R P P' x = _
     rw [one_smul]
   have huLoc : uLoc = differentialBaseChangeMap R P P' Λ := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul a x => rw [huLoc_tmul, differentialBaseChangeMap_tmul]
   refine ⟨?_, eP.toLinearMap.comp (vloc.comp eP'.symm.toLinearMap), ?_⟩
@@ -341,7 +340,7 @@ private lemma exists_differential_section_of_exact
     exact eP'.injective.comp (huloc.comp eP.symm.injective)
   · intro x
     rw [← huLoc]
-    show eP' ((LinearMap.baseChange Λ f) (eP.symm (eP (vloc (eP'.symm x))))) = _
+    change eP' ((LinearMap.baseChange Λ f) (eP.symm (eP (vloc (eP'.symm x))))) = _
     rw [eP.symm_apply_apply, huvloc, map_smul, eP'.apply_symm_apply,
       ← IsScalarTower.algebraMap_apply R L Λ]
 
@@ -360,9 +359,9 @@ private lemma smul_pi_quotient_span_singleton_eq_zero {L : Type*} [CommRing L] (
     (c : ℕ) (z : Fin c → L ⧸ Ideal.span ({a} : Set L)) : a • z = 0 := by
   funext i
   obtain ⟨b, hb⟩ := Ideal.Quotient.mk_surjective (z i)
-  show a • z i = 0
+  change a • z i = 0
   rw [← hb]
-  show Ideal.Quotient.mk _ (a * b) = 0
+  change Ideal.Quotient.mk _ (a * b) = 0
   exact Ideal.Quotient.eq_zero_iff_mem.mpr
     (Ideal.mul_mem_right _ _ (Ideal.subset_span (Set.mem_singleton _)))
 
@@ -516,7 +515,7 @@ private lemma exists_differential_section_affineBlowup
   let L := Localization.AtPrime q
   let : Algebra L S.Λ := ψloc.toAlgebra
   let : IsScalarTower A' L S.Λ := IsScalarTower.of_algebraMap_eq fun z => by
-    show algebraMap A' S.Λ z = ψloc (algebraMap A' L z)
+    change algebraMap A' S.Λ z = ψloc (algebraMap A' L z)
     rw [hψloc z, halg]
   exact @exists_differential_section_of_lift S π hπ hsep hsm _ _ _ _ q hq rfl L
     (inferInstance) (inferInstance) (inferInstance) (inferInstance) (inferInstance)
@@ -638,7 +637,7 @@ private lemma torsion_length_blowup_lt
   let : Algebra P S.Λ := ((algebraMap X.A S.Λ).comp f.toRingHom).toAlgebra
   let : IsScalarTower P X.A S.Λ := IsScalarTower.of_algebraMap_eq' rfl
   let : IsScalarTower S.R P S.Λ := IsScalarTower.of_algebraMap_eq fun r => by
-    show algebraMap S.R S.Λ r = algebraMap X.A S.Λ (f (algebraMap S.R P r))
+    change algebraMap S.R S.Λ r = algebraMap X.A S.Λ (f (algebraMap S.R P r))
     rw [f.commutes r]
     exact IsScalarTower.algebraMap_apply S.R X.A S.Λ r
   let SP : NeronSituation.{u, v, u} := S.withIntermediate P
@@ -647,7 +646,7 @@ private lemma torsion_length_blowup_lt
   let pP : Ideal P := SP.maximalIdealPreimage
   have hpP : pP = pX.comap f := by
     ext z
-    show algebraMap P S.Λ z ∈ IsLocalRing.maximalIdeal S.Λ ↔ f z ∈ pX
+    change algebraMap P S.Λ z ∈ IsLocalRing.maximalIdeal S.Λ ↔ f z ∈ pX
     rfl
   obtain ⟨F, hF, hFcomp, hkernelDivision, hclear⟩ :=
     exists_surjective_affineBlowup_map_kernel_division f hf pX pP hpP π hπ0
@@ -671,10 +670,10 @@ private lemma torsion_length_blowup_lt
   have hjΛ (z : X.A) : algebraMap Y.A S.Λ (j z) = algebraMap X.A S.Λ z :=
     congrArg (fun q : X.A →+* S.Λ => q z) φ.2
   let : IsScalarTower P P' S.Λ := IsScalarTower.of_algebraMap_eq fun z => by
-    show algebraMap X.A S.Λ (f z) = algebraMap Y.A S.Λ (F (algebraMap P P' z))
+    change algebraMap X.A S.Λ (f z) = algebraMap Y.A S.Λ (F (algebraMap P P' z))
     rw [show F (algebraMap P P' z) = j (f z) from hFcomp z, hjΛ]
   let : IsScalarTower S.R P' S.Λ := IsScalarTower.of_algebraMap_eq fun r => by
-    show algebraMap S.R S.Λ r = algebraMap Y.A S.Λ (F (algebraMap S.R P' r))
+    change algebraMap S.R S.Λ r = algebraMap Y.A S.Λ (F (algebraMap S.R P' r))
     rw [F.commutes r]
     exact IsScalarTower.algebraMap_apply S.R Y.A S.Λ r
   have hπΛ := algebraMap_uniformizer_ne_zero S hπ
@@ -717,7 +716,7 @@ private lemma torsion_length_blowup_lt
       RingHom.ker (algebraMap P S.Λ) := by
     intro z hz
     change f z = 0 at hz
-    show algebraMap X.A S.Λ (f z) = 0
+    change algebraMap X.A S.Λ (f z) = 0
     rw [hz, map_zero]
   have hpmap : Ideal.map (algebraMap P P') SP.maximalIdealPreimage ≤
       Ideal.span {algebraMap S.R P' π} := by
@@ -726,7 +725,7 @@ private lemma torsion_length_blowup_lt
   have hdiv := exists_relation_of_smul_mem_differentialRelations SP π hπ hsepSP hsmP
     F.toRingHom hFregular hpmap u v huinj hu huv (RingHom.ker (algebraMap P X.A))
     (fun z hz => hIΛ hz) (fun z hz => by
-      show F (algebraMap P P' z) = 0
+      change F (algebraMap P P' z) = 0
       rw [hFcomp, show f z = 0 from hz, map_zero]) hle
   exact torsion_length_differentials_lt_of_comparison hf hsurjF
     (algebraMap S.R S.Λ π) hπmax hπΛ u v huinj huv hle hgen hdiv hpos

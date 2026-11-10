@@ -108,13 +108,13 @@ theorem restrict_star₂ : (star₂ hf Z₁ Z₂).restrict h = star₂ hf (Z₁.
 `T' ⟶ T`. -/
 @[stacks 04PI "star_3_commutes_with_restriction"]
 theorem restrict_star₃ : (star₃ hf Z₁ Z₂).restrict h = star₃ hf (Z₁.restrict h) (Z₂.restrict h) :=
-  ext_pointSet (by simp only [pointSet_restrict, pointSet_star₃, Set.preimage_diff])
+  ext_pointSet (by simp only [pointSet_restrict, pointSet_star₃, Set.preimage_sdiff])
 
 /-- The operation `⋆₄`, the difference `Z₂ ∖ Z₁`, commutes with restriction along
 `T' ⟶ T`. -/
 @[stacks 04PI "star_4_commutes_with_restriction"]
 theorem restrict_star₄ : (star₄ hf Z₁ Z₂).restrict h = star₄ hf (Z₁.restrict h) (Z₂.restrict h) :=
-  ext_pointSet (by simp only [pointSet_restrict, pointSet_star₄, Set.preimage_diff])
+  ext_pointSet (by simp only [pointSet_restrict, pointSet_star₄, Set.preimage_sdiff])
 
 /-- The addition of the `F₂`-algebra, the symmetric difference of two sections, commutes with
 restriction along `T' ⟶ T`. -/

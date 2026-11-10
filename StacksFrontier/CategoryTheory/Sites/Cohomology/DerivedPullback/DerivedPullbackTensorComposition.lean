@@ -233,6 +233,7 @@ variable (TX : Stacks.SheafOfModules.DerivedTensorProduct.{c, u, u} X.toRingedSi
 open Stacks.Cohomology.DerivedPullbackCompositionOfToposHom
   Stacks.Sheaves.DerivedPullback.KFlatPullbackOfToposHom
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] [HasSheafify Z.J (Type u)] in
 /-- The compatibility of the comparison of total tensor complexes with the compositor,
 `pullbackTensorTotalComplexIso_comp`, read in the derived category. -/
 lemma Q_map_pullbackTensorTotalComplexIso_comp

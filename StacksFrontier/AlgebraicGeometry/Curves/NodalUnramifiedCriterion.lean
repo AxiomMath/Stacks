@@ -225,7 +225,7 @@ theorem isClosed_singleton_of_notMem_genericPoints {X : Scheme.{u}}
     refine ⟨hxC, fun h => hx ?_⟩
     have heq : closure ({x} : Set X) = C :=
       congrArg (fun A : IrreducibleCloseds X => (A : Set X)) (le_antisymm hxC h)
-    show closure ({x} : Set X) ∈ irreducibleComponents X
+    change closure ({x} : Set X) ∈ irreducibleComponents X
     rw [heq]
     exact hC
   let p : LTSeries (IrreducibleCloseds X) :=

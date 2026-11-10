@@ -124,13 +124,13 @@ theorem smallBaseChange_comp_inclusionIso_naturality
   let eu := (b.isPullback U).isoIsPullback _ _ (IsPullback.of_hasPullback U.1.hom f)
   let ev := (b.isPullback V).isoIsPullback _ _ (IsPullback.of_hasPullback V.1.hom f)
   apply Over.OverMorphism.ext
-  show (Space.SpacesEtale.toSpaces T.fppfSite S T.fppf_mem Y).map (b.functor.map g) ≫
+  change (Space.SpacesEtale.toSpaces T.fppfSite S T.fppf_mem Y).map (b.functor.map g) ≫
       ev.hom = eu.hom ≫ ((Over.pullback f).map
         ((Space.SpacesEtale.inclusion T.fppfSite S T.fppf_mem X).map g)).left
   apply (IsPullback.of_hasPullback V.1.hom f).hom_ext
   · have := b.projection.naturality g
-    simp_all [eu, ev, Over.pullback_map_left, pullback.lift_fst, Space.SpacesEtale.toSpaces]
-  · simp [eu, ev, Over.pullback_map_left, pullback.lift_snd, Space.SpacesEtale.toSpaces]
+    simp_all [eu, ev, Over.pullback_map_left, Space.SpacesEtale.toSpaces]
+  · simp [eu, ev, Over.pullback_map_left, Space.SpacesEtale.toSpaces]
 
 /-- **Stacks 0DF6, part (3).** The inclusion of the étale objects commutes with base change in
 the big slice site, up to the canonical isomorphism of cartesian squares. -/
@@ -244,7 +244,7 @@ theorem smallEtale_pushforwardIsoDirectFactorization_coherence
       (bigToSmallEtaleMorphism T X).pushforward.map
         ((smallToBig_comp_big_pushforwardIso T f).hom.app F) =
     (smallEtale_pushforwardIsoBigFactorization T f).hom.app F := by
-  show ((smallEtale_pushforwardIsoBigFactorization T f).hom.app F ≫
+  change ((smallEtale_pushforwardIsoBigFactorization T f).hom.app F ≫
       (Functor.associator (smallToBigEtaleMorphism T (𝟙 Y)).pushforward
         (bigEtaleMorphism T f).pushforward
         (bigToSmallEtaleMorphism T X).pushforward).hom.app F ≫

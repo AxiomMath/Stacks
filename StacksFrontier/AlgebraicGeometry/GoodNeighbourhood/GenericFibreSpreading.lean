@@ -56,7 +56,7 @@ theorem exists_open_forall_fiberDimensionAt_eq_of_mem_smoothLocus {X S : Scheme.
   have hsm : Smooth (f.smoothLocus.ι ≫ f) := by
     rw [← Scheme.Hom.smoothLocus_eq_top_iff, ← Scheme.Hom.preimage_smoothLocus_eq]
     refine eq_top_iff.2 fun y _ => ?_
-    show f.smoothLocus.ι y ∈ f.smoothLocus
+    change f.smoothLocus.ι y ∈ f.smoothLocus
     exact (Scheme.Opens.range_ι f.smoothLocus).le ⟨y, rfl⟩
   obtain ⟨V, hxV, n, hn⟩ := Smooth.exists_smoothOfRelativeDimension_nbhd (f.smoothLocus.ι ≫ f)
     ⟨x, hx⟩

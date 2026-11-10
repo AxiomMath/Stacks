@@ -119,8 +119,8 @@ clauses of 08R7, which compute `Lπ_!` of the sheaves built here. Two of the tag
 deduces from `Lπ_!` are available elsewhere: Tag 08QW, the identities `Lg_{i,!} ∘ g_i⁻¹ = id` and
 `Lπ_! ∘ g_i⁻¹ = Lπ_{i,!}` that those computations use, is
 `CommAlgCat.derivedLowerShriek_comp_inverseImage_polynomialTower` in
-`StacksFrontier/Cotangent/ThreefoldLowerShriekComparison.lean`; and Tag 08QX is proved by a different
-route, as `CommAlgCat.productFundamentalTriangle_distinguished` of
+`StacksFrontier/Cotangent/ThreefoldLowerShriekComparison.lean`; and Tag 08QX is proved by a
+different route, as `CommAlgCat.productFundamentalTriangle_distinguished` of
 `StacksFrontier/Cotangent/Triangle/ProductDescent.lean` — Remark 08SD's split injection followed by
 flat base change, which needs no `Lπ_!` at all. What is provided here is their input: the sheaf
 `Ω₁`, its sections, and the flatness of `Ω_{𝒪/A}` that lets `Li^*` be replaced by `i^*` in the
@@ -212,7 +212,7 @@ lemma uliftDown_uliftUp (w : Ω[P⁄A]) :
     uliftDown.{u, v} A P (uliftUp.{u, v} A P w) = w := by
   have h : (uliftDownRestrict.{u, v} A P).comp (uliftUp.{u, v} A P) = LinearMap.id := by
     ext p
-    show uliftDown.{u, v} A P (uliftUp.{u, v} A P (KaehlerDifferential.D A P p)) =
+    change uliftDown.{u, v} A P (uliftUp.{u, v} A P (KaehlerDifferential.D A P p)) =
       KaehlerDifferential.D A P p
     rw [uliftUp_d, uliftDown_d]
   exact LinearMap.congr_fun h w
@@ -222,7 +222,7 @@ lemma uliftUp_uliftDown (y : Ω[ULift.{v} P⁄ULift.{v} A]) :
     uliftUp.{u, v} A P (uliftDown.{u, v} A P y) = y := by
   have h : (uliftUpExtend.{u, v} A P).comp (uliftDown.{u, v} A P) = LinearMap.id := by
     ext q
-    show uliftUp.{u, v} A P (uliftDown.{u, v} A P
+    change uliftUp.{u, v} A P (uliftDown.{u, v} A P
         (KaehlerDifferential.D (ULift.{v} A) (ULift.{v} P) q)) =
       KaehlerDifferential.D (ULift.{v} A) (ULift.{v} P) q
     rw [show q = ULift.up.{v} q.down from rfl, uliftDown_d, uliftUp_d]
@@ -347,7 +347,8 @@ def polynomialRelativeDifferentials :
 def polynomialUniversalDerivation :
     PresheafOfModulesOfCommRing.Derivation' (polynomialRelativeDifferentials A B).val
       (polynomialBaseStructureHom A B).hom :=
-  PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' (polynomialBaseStructureHom A B).hom
+  PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation'
+    (polynomialBaseStructureHom A B).hom
 
 /-- The sections of `Ω_{𝒪/A}` over the object `(P, α)` of `C_{B/A}` are the Kähler
 differentials of the map of rings `A̲ ⟶ 𝒪` evaluated there, which by
@@ -508,7 +509,7 @@ theorem polynomialRelativeDifferentials_retract :
         polynomialRelativeDifferentialsFromSheafified A B =
       𝟙 (polynomialRelativeDifferentials A B) := by
   refine SheafOfModules.hom_ext ?_
-  show (PresheafOfModules.sheafificationHomEquiv (R := polynomialStructureRingSheaf A B)
+  change (PresheafOfModules.sheafificationHomEquiv (R := polynomialStructureRingSheaf A B)
     (polynomialRingUnit A B)) (polynomialRelativeDifferentialsFromSheafified A B) = _
   exact Equiv.apply_symm_apply _ _
 

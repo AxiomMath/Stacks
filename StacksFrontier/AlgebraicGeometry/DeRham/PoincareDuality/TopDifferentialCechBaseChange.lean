@@ -76,7 +76,7 @@ theorem formsCechBaseChangeIso_hom_one_tmul (p n : ℕ)
   have hbc := alternatingCechModuleObjBaseChangeIso_hom_one_tmul g U (fun i => g ⁻¹ᵁ U i)
     (Equiv.refl I) (f.relativeDifferentialForms (p : ℤ)) (fun _ => rfl) φ f f'
     (baseRingHom_comp_app φ f f' g hsq) hsq hUaff n t
-  show ((alternatingCechModuleObjMap f' (fun i => g ⁻¹ᵁ U i)
+  change ((alternatingCechModuleObjMap f' (fun i => g ⁻¹ᵁ U i)
       (Scheme.Hom.relativeDifferentialFormsMap g f f' (Spec.map (CommRingCat.ofHom φ)) hsq.w
         (p : ℤ)) n)
       ((alternatingCechModuleObjBaseChangeIso g U (fun i => g ⁻¹ᵁ U i) (Equiv.refl I)
@@ -137,7 +137,7 @@ theorem formsCechBaseChangeIso_comm (p : ℕ) :
     ((alternatingCechModulePush f U (Scheme.Hom.deRhamPresheafD f p)
       (Scheme.Hom.deRhamPresheafD_app_smul f p)).f n s) i
   have hR := formsCechBaseChangeIso_hom_one_tmul φ f f' g hsq U hUaff p n s i
-  show (((formsCechBaseChangeIso φ f f' g hsq U hUaff (p + 1)).hom.f n)
+  change (((formsCechBaseChangeIso φ f f' g hsq U hUaff (p + 1)).hom.f n)
       ((1 : A') ⊗ₜ[A] ((alternatingCechModulePush f U (Scheme.Hom.deRhamPresheafD f p)
         (Scheme.Hom.deRhamPresheafD_app_smul f p)).f n s))).1 i =
     (Scheme.Hom.deRhamPresheafD f' p).app (op (CechCochains.inter (fun i => g ⁻¹ᵁ U i) i))

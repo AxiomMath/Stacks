@@ -257,7 +257,7 @@ theorem exceptionalIdealPowSections_square (n : ℕ) :
           (exceptionalTwistedSequence S.A n).f ≫ exceptionalIdealPowSections S n =
       (exceptionalTwistedSequenceSectionsIsoOne S n).hom ≫
         exceptionalIdealMulPowSections S n := by
-  show (Stacks.Cohomology.AffineBase.moduleGlobalSections (blowUpScheme S.A)).map
+  change (Stacks.Cohomology.AffineBase.moduleGlobalSections (blowUpScheme S.A)).map
         (exceptionalTwistedSequence S.A n).f ≫
       (Stacks.Cohomology.AffineBase.moduleGlobalSections (blowUpScheme S.A)).map
         (Stacks.Divisors.idealInclusion (exceptionalIdeal (centre S.A) ^ n)) =
@@ -412,7 +412,7 @@ private theorem surjective_gradedPieceMap (hf : Function.Bijective f) :
 /-- `J ⟶ f(J)/f(K)` kills exactly the elements of `J` lying in `K`, when `f` is bijective. -/
 private theorem gradedPieceMap_eq_zero_iff (hf : Function.Bijective f) (x : (J : Ideal A)) :
     gradedPieceMap f J K x = 0 ↔ (x : A) ∈ K := by
-  show (Submodule.Quotient.mk (p := Submodule.comap
+  change (Submodule.Quotient.mk (p := Submodule.comap
     (Ideal.map f J : Ideal R).subtype (Ideal.map f K)) (toMapIdeal f J x) : _) = 0 ↔ _
   rw [Submodule.Quotient.mk_eq_zero, Submodule.mem_comap]
   exact mem_map_iff_of_bijective f hf K _

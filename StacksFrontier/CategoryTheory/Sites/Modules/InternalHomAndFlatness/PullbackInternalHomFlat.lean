@@ -927,7 +927,7 @@ private theorem isIso_app_of_finiteCofan (α : L ⟶ L') {A P : C} [IsIso (α.ap
     IsIso (α.app P) := by
   have : ∀ i, IsIso ((Functor.whiskerLeft (Discrete.functor (fun _ : I => A)) α).app i) := by
     intro _
-    show IsIso (α.app A)
+    change IsIso (α.app A)
     infer_instance
   have : IsIso (Functor.whiskerLeft (Discrete.functor (fun _ : I => A)) α) :=
     NatIso.isIso_of_isIso_app _
@@ -1219,7 +1219,7 @@ theorem isIso_pullbackInternalHomMap
   have happ : IsIso ((pullbackInternalHomNatTrans f G).app
       (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) := by
     have := hunit
-    show IsIso (pullbackInternalHomMap f
+    change IsIso (pullbackInternalHomMap f
       (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O)) G).op
     infer_instance
   have hpres := isIso_app_of_finitePresentation (pullbackInternalHomNatTrans f G)

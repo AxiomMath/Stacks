@@ -45,9 +45,9 @@ theorem exists_chart_factorization_isEtaleCovering {X X' : AlgebraicSpaces B S h
       IsEtaleCovering B S hS
         (fun _ : PUnit.{u + 1} => yoneda.obj ((SmallEtale.toOver B S hS X'.1).obj V))
         (fun _ => V.1.hom) := by
-  haveI : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+  have : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
   obtain ⟨T, a, ha_surj, ha_et⟩ := X.2.exists_atlas
-  haveI : HasPullback g.hom a := HasLimitsOfShape.has_limit _
+  have : HasPullback g.hom a := HasLimitsOfShape.has_limit _
   have hpb := isEtaleCovering_pullback B S hS g.hom X'.2 _ _
     (isEtaleCovering_atlas.{u, u} B S hS X.2 ha_surj ha_et)
   have hP := hpb.source_isAlgebraicSpace PUnit.unit
@@ -61,7 +61,7 @@ theorem exists_chart_factorization_isEtaleCovering {X X' : AlgebraicSpaces B S h
       (isEtale_iff_presheaf_of_yoneda B S hS _).1 (hcomp'.etale PUnit.unit)⟩,
     ⟨CostructuredArrow.mk a, ha_et⟩, Yoneda.fullyFaithful.preimage (b ≫ pullback.snd g.hom a),
     ?_, hcomp'⟩
-  show (b ≫ pullback.fst g.hom a) ≫ g.hom =
+  change (b ≫ pullback.fst g.hom a) ≫ g.hom =
     yoneda.map (Yoneda.fullyFaithful.preimage (b ≫ pullback.snd g.hom a)) ≫ a
   rw [Yoneda.fullyFaithful.map_preimage, Category.assoc, Category.assoc, pullback.condition]
 

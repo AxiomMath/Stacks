@@ -174,7 +174,7 @@ theorem comp_source_isPullback {S : Scheme.{u}} (G : GroupoidScheme S) :
           source_eq := hsource, target_eq := htarget }
       have hba : b ≫ a = b ≫ a' := by
         apply EvaluationHom.ext
-        show pullback.lift _ _ _ ≫ G.comp = pullback.lift _ _ _ ≫ G.comp
+        change pullback.lift _ _ _ ≫ G.comp = pullback.lift _ _ _ ≫ G.comp
         rw [pullback_lift_eq _ _ _ x rfl rfl, pullback_lift_eq _ _ _ y rfl hsnd]
         exact hcomp
       exact congrArg (fun q ↦ q.arrow) ((cancel_epi b).1 hba)
@@ -186,7 +186,7 @@ theorem comp_source_isPullback {S : Scheme.{u}} (G : GroupoidScheme S) :
     let α : (a ≫ G.source : T ⟶ G.objects) ⟶ (a ≫ G.target) :=
       { arrow := a, source_eq := rfl, target_eq := rfl }
     refine ⟨pullback.lift (gr.inv β ≫ α).arrow b (gr.inv β ≫ α).source_eq, ?_, ?_⟩
-    · show (β ≫ (gr.inv β ≫ α)).arrow = a
+    · change (β ≫ (gr.inv β ≫ α)).arrow = a
       rw [← gr.assoc, gr.comp_inv, gr.id_comp]
     · exact pullback.lift_snd _ _ _
 
@@ -224,7 +224,7 @@ theorem target_comp_isPullback {S : Scheme.{u}} (G : GroupoidScheme S) :
           source_eq := hsource, target_eq := htarget }
       have hba : b ≫ a = b' ≫ a := by
         apply EvaluationHom.ext
-        show pullback.lift _ _ _ ≫ G.comp = pullback.lift _ _ _ ≫ G.comp
+        change pullback.lift _ _ _ ≫ G.comp = pullback.lift _ _ _ ≫ G.comp
         rw [pullback_lift_eq _ _ _ x rfl rfl, pullback_lift_eq _ _ _ y hfst rfl]
         exact hcomp
       exact congrArg (fun q ↦ q.arrow) ((cancel_mono a).1 hba)
@@ -236,7 +236,7 @@ theorem target_comp_isPullback {S : Scheme.{u}} (G : GroupoidScheme S) :
       { arrow := b, source_eq := rfl, target_eq := hab.symm }
     refine ⟨pullback.lift a (β ≫ gr.inv α).arrow (β ≫ gr.inv α).target_eq.symm, ?_, ?_⟩
     · exact pullback.lift_fst _ _ _
-    · show ((β ≫ gr.inv α) ≫ α).arrow = b
+    · change ((β ≫ gr.inv α) ≫ α).arrow = b
       rw [gr.assoc, gr.inv_comp, gr.comp_id]
 
 end Stacks.Groupoids.GroupoidScheme

@@ -176,7 +176,7 @@ private theorem card_filter_append_append {p m n : ℕ} (r : L →ₗ[R] K) (a :
   classical
   rw [Finset.card_filter, Finset.card_filter, Fin.sum_univ_add, Fin.sum_univ_add,
     Fin.sum_univ_add]
-  simp only [Fin.append_left, Fin.append_right, ha, if_true, Finset.sum_const,
+  simp only [Fin.append_left, Fin.append_right, ha, ite_true, Finset.sum_const,
     Finset.card_univ, Fintype.card_fin, smul_eq_mul, mul_one]
   omega
 
@@ -345,8 +345,7 @@ theorem lTensor_twoTermDeterminantEval_funnyMapLift (p n : ℕ) (r : L →ₗ[R]
   rw [funnyMapLift_apply, hY, map_smul, map_smul]
   generalize topWedgeProjection p n r π
     (exteriorPower.wedgeMul (R := R) p n η (exteriorPower.ιMulti R n (d ∘ b))) = u
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | tmul ω z => simp [TensorProduct.tmul_smul]
   | add u v hu hv =>
       rw [TensorProduct.add_tmul, map_add, map_add, hu, hv, smul_add]
@@ -411,8 +410,7 @@ theorem lTensor_map_id_lTensor {P' P X X' W : Type*} [AddCommGroup P'] [Module R
     LinearMap.lTensor P E (TensorProduct.map f LinearMap.id (LinearMap.lTensor P' g U)) =
       TensorProduct.map f h U := by
   rw [← hEg]
-  induction U using TensorProduct.induction_on with
-  | zero => simp
+  induction U using TensorProduct.inductionOn with
   | tmul ω z => simp
   | add U₁ U₂ h₁ h₂ => simp only [map_add, h₁, h₂]
 
@@ -467,8 +465,7 @@ theorem eq_of_forall_lTensor_kernelDeterminantEquiv {P N' : Type*} [AddCommGroup
     (TensorProduct.rid R P).toLinearMap ∘ₗ LinearMap.lTensor P θ
   have hrec : ∀ W : P ⊗[R] (⋀[R]^n Mzero), W = ω W ⊗ₜ[R] exteriorPower.ιMulti R n c := by
     intro W
-    induction W using TensorProduct.induction_on with
-    | zero => simp
+    induction W using TensorProduct.inductionOn with
     | tmul a z =>
         have hz := eq_basisTopDual_smul c LinearMap.id z
         simp only [LinearMap.id_apply] at hz
@@ -485,8 +482,7 @@ theorem eq_of_forall_lTensor_kernelDeterminantEquiv {P N' : Type*} [AddCommGroup
       LinearMap.lTensor P (ρ ∘ₗ kz.toLinearMap ∘ₗ TensorProduct.mk R _ _ x ∘ₗ
         E₀.symm.toLinearMap) W = ω W ⊗ₜ[R] x := by
     intro x W
-    induction W using TensorProduct.induction_on with
-    | zero => simp
+    induction W using TensorProduct.inductionOn with
     | tmul a z =>
         simp [ρ, ω, θ, TensorProduct.smul_tmul]
     | add W₁ W₂ h₁ h₂ => rw [map_add, h₁, h₂, map_add, TensorProduct.add_tmul]
@@ -806,7 +802,7 @@ private theorem funnyMap_naturality_of_surjectiveQuasiIso_aux (m n p : ℕ)
     · rw [coe_determinantEquivExteriorPower_symm, exteriorPower.wedgeMul_apply_coe,
         exteriorPower.ιMulti_apply_coe]
       congr 1
-      show _ = ExteriorAlgebra.map (LinearMap.ker μ.zero).subtype
+      change _ = ExteriorAlgebra.map (LinearMap.ker μ.zero).subtype
         (ExteriorAlgebra.map μ.kernelDifferential (X0 : ExteriorAlgebra R _))
       rw [hX0coe, ExteriorAlgebra.map_apply_ιMulti, ExteriorAlgebra.map_apply_ιMulti]
       congr 1

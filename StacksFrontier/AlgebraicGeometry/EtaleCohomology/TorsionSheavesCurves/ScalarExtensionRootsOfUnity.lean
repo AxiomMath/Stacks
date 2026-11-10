@@ -52,13 +52,13 @@ theorem exists_nsmul_eq_sheafH_zero_multiplicativeSheaf_of_isProper {K : Type u}
     exact c.ne_zero (by rw [← ht, zero_pow hℓ])
   let s : (Γ(Y, ⊤))ˣ := Units.map ψ.toMonoidHom (Units.mk0 t ht0)
   have hs : s ^ ℓ = w := Units.ext (by
-    show ψ t ^ ℓ = (w : Γ(Y, ⊤))
+    change ψ t ^ ℓ = (w : Γ(Y, ⊤))
     rw [← map_pow, ht]
     exact ψ.apply_symm_apply _)
   refine ⟨e.symm (ofUnit.{u, u + 1} (U := Scheme.Etale.mk (𝟙 Y)) s), ?_⟩
   rw [← map_nsmul, ← e.symm_apply_apply a, ← hw]
   refine congrArg e.symm ?_
-  show ULift.up (ℓ • Additive.ofMul s) = ULift.up (Additive.ofMul w)
+  change ULift.up (ℓ • Additive.ofMul s) = ULift.up (Additive.ofMul w)
   rw [← ofMul_pow, hs]
 
 /-! ### The class group map -/
@@ -149,7 +149,7 @@ theorem bijective_rootsOfUnityRestriction_scalarExtension_one [IsProper g] {ℓ 
     (hℓ : IsUnit (ℓ : k)) :
     Function.Bijective
       (rootsOfUnityRestriction.{u, u + 1, u + 1} (scalarExtensionFst k k' g) ℓ 1) := by
-  have hℓ0 : ℓ ≠ 0 := ne_zero_of_isUnit_natCast g hℓ
+  have hℓ0 : ℓ ≠ 0 := ne_zero_of_isUnit_natCast hℓ
   set φ := curveClassGroupScalarExtensionMap g k'
   have hφ := curveClassGroupScalarExtensionMap_single g k'
   set e := sheafHOneMultiplicativeAddEquivClosedPointClassGroup g
@@ -198,7 +198,7 @@ theorem bijective_rootsOfUnityRestriction_scalarExtension_two [IsProper g] {ℓ 
   have h2X' := subsingleton_sheafH_multiplicativeSheaf_of_smoothCurve_univ.{u, u + 1, u + 1}
     (scalarExtensionSnd k k' g) 2 le_rfl
   refine bijective_rootsOfUnityRestriction.{u, u + 1, u + 1} (scalarExtensionFst k k' g)
-    (ne_zero_of_isUnit_natCast g hℓ) (isUnit_natCast_globalSections_of_isUnit g hℓ) 1
+    (ne_zero_of_isUnit_natCast hℓ) (isUnit_natCast_globalSections_of_isUnit g hℓ) 1
     (fun a z' h => ?_) (fun a' => ?_) (fun b _ _ => Subsingleton.elim _ _)
     (fun b' _ => ⟨0, Subsingleton.elim _ _, Subsingleton.elim _ _⟩)
   · obtain ⟨d, hd⟩ := hQ.1 (e a) (e' z') (by

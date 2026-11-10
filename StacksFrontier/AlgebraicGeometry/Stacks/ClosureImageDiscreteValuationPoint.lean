@@ -113,10 +113,10 @@ private theorem exists_small_discreteValuationSpecialization
       toSource := b ≫ X.fromSpecResidueField d.genericPoint
       toTarget := a ≫ X.fromSpecResidueField d.genericPoint ≫ f
       maps_genericPoint := by
-        show X.fromSpecResidueField d.genericPoint (b _) = d.genericPoint
+        change X.fromSpecResidueField d.genericPoint (b _) = d.genericPoint
         exact Scheme.fromSpecResidueField_apply _ _
       maps_closedPoint := by
-        show f (X.fromSpecResidueField d.genericPoint (a _)) = y
+        change f (X.fromSpecResidueField d.genericPoint (a _)) = y
         rw [Scheme.fromSpecResidueField_apply]
         exact heq
       commutes := by
@@ -127,7 +127,7 @@ private theorem exists_small_discreteValuationSpecialization
         (nonZeroDivisors A) K hA, hA⟩
   · obtain ⟨e, -⟩ := d.residueFieldEquiv heq
     have hK : B.Contains (Spec (.of d.fractionField)) := by
-      show (Spec (.of d.fractionField)).size < B.cutoff
+      change (Spec (.of d.fractionField)).size < B.cutoff
       change (Spec (.of (X.residueField d.genericPoint))).size < B.cutoff at hk
       rw [Scheme.size_Spec] at hk ⊢
       simpa only [Cardinal.mk_congr e.toEquiv] using hk
@@ -440,7 +440,7 @@ theorem exists_discreteValuationRing_of_mem_closure_range_pointsMap
   have hVy : AlgebraicStacks.pointsMap B S hS (jStack ≫ bStack) vaff = y := by
     rw [AlgebraicStacks.pointsMap_comp, Function.comp_apply, ← hv,
       hjpt vaff v (by rw [hvaff])]
-  show pointsMap B S hS (schemeFibredCategory B S hS Aobj).val
+  change pointsMap B S hS (schemeFibredCategory B S hS Aobj).val
     (schemeFibredCategory B S hS Aobj).property
     (Classical.choose 𝒴.property) (hCat ≫ bTotal.hom).hom special = y
   refine Eq.trans (pointsMap_comp B S hS (schemeFibredCategory B S hS Aobj).val

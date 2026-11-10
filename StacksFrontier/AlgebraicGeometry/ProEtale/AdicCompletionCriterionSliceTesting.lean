@@ -178,25 +178,25 @@ private lemma idealPowerProduct_eq_sheafify_ofSize
     dsimp only
     intro a ha m
     let : IsMulCommutative ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U) := by
-      show IsMulCommutative (X.O.obj.obj U)
+      change IsMulCommutative (X.O.obj.obj U)
       infer_instance
     let : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U) (F.val.obj U) :=
       (F.val.obj U).isModule
     apply le_submoduleSheafify_ofSize (idealPowerActionPresheafOfSize X I F n) U
     let J : Ideal ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U) := I.toSubmodule.obj U
-    show a • m ∈ J ^ n •
+    change a • m ∈ J ^ n •
       (⊤ : Submodule ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U) (F.val.obj U))
     exact Submodule.smul_mem_smul (show a ∈ J ^ n from ha) Submodule.mem_top
   · refine le_sInf fun N hN => ?_
     rw [submoduleSheafify_le_iff_ofSize]
     intro U
     let : IsMulCommutative ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U) := by
-      show IsMulCommutative (X.O.obj.obj U)
+      change IsMulCommutative (X.O.obj.obj U)
       infer_instance
     let : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U) (F.val.obj U) :=
       (F.val.obj U).isModule
     let J : Ideal ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U) := I.toSubmodule.obj U
-    show J ^ n •
+    change J ^ n •
       (⊤ : Submodule ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U) (F.val.obj U)) ≤ _
     exact Submodule.smul_le.mpr fun a ha m _ => hN U a ha m
 
@@ -216,7 +216,7 @@ private lemma exists_locallyFiniteSum_ofSize
     ∑ i ∈ Finset.range (b W f hf), F.obj.map f.op (x i)
   have ht : t.Compatible := by
     intro W₁ W₂ Z g₁ g₂ f₁ f₂ hf₁ hf₂ heq
-    show F.obj.map g₁.op (∑ i ∈ Finset.range (b W₁ f₁ hf₁), F.obj.map f₁.op (x i)) =
+    change F.obj.map g₁.op (∑ i ∈ Finset.range (b W₁ f₁ hf₁), F.obj.map f₁.op (x i)) =
       F.obj.map g₂.op (∑ i ∈ Finset.range (b W₂ f₂ hf₂), F.obj.map f₂.op (x i))
     simp only [map_sum, ← Functor.map_comp_apply, ← op_comp, heq]
     refine sum_range_eq_of_eventually_zero _ (fun i hi => ?_) fun i hi => ?_
@@ -266,11 +266,11 @@ theorem isDerivedComplete_sheaf_single_iff_sections_of_sliceTestingFamily
   all_goals
     let R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)
     let : IsMulCommutative R := by
-      show IsMulCommutative (X.O.obj.obj (op U))
+      change IsMulCommutative (X.O.obj.obj (op U))
       infer_instance
     let : CommRing R := inferInstance
     let J : Ideal R := by
-      show Submodule R R
+      change Submodule R R
       exact I.toSubmodule.obj (op U)
     let G := SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (op U)
   · obtain ⟨hAdd, hLim, hColim, hProd, hComplete⟩ := h U hU
@@ -278,7 +278,7 @@ theorem isDerivedComplete_sheaf_single_iff_sections_of_sliceTestingFamily
     let : PreservesFiniteLimits G := hLim
     let : PreservesFiniteColimits G := hColim
     let : HasProductsOfShape ℕ (DerivedCategory (ModuleCat.{max u v w} R)) := hProd
-    show ∀ f ∈ J, IsDerivedCompleteAt
+    change ∀ f ∈ J, IsDerivedCompleteAt
       ((DerivedCategory.singleFunctor (ModuleCat.{max u v w} R) 0).obj
         (G.obj F)) f
     intro f hf
@@ -300,7 +300,7 @@ theorem isDerivedComplete_sheaf_single_iff_sections_of_sliceTestingFamily
       Functor.PreservesHomology.preservesCokernel G f
     let : PreservesFiniteColimits G := Functor.preservesFiniteColimits_of_preservesCokernels G
     refine ⟨inferInstance, inferInstance, inferInstance, inferInstance, fun f hf => ?_⟩
-    show IsDerivedCompleteAt ((G.mapDerivedCategory).obj
+    change IsDerivedCompleteAt ((G.mapDerivedCategory).obj
       ((DerivedCategory.singleFunctor
         (SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).obj F)) f
     rw [isDerivedCompleteAt_iff_isIso]
@@ -326,10 +326,10 @@ private theorem evaluation_jointly_reflects_iso_of_sliceTestingFamily
   have hS₁ : S₁.Exact := by
     refine (Stacks.WeaklyContractible.SliceTestingFamily.exact_iff_exact_sections X.J B
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O) S₁).2 fun {U} hU => ?_
-    show ∀ x, (f.val.app (op U)) x = 0 ↔
+    change ∀ x, (f.val.app (op U)) x = 0 ↔
       x ∈ Set.range (fun _ : F.val.obj (op U) => (0 : F.val.obj (op U)))
     refine fun x => ⟨fun hx => ⟨0, ((hf U hU).1 (a₁ := x) (a₂ := 0) ?_).symm⟩, ?_⟩
-    · show f.val.app (op U) x = f.val.app (op U) 0
+    · change f.val.app (op U) x = f.val.app (op U) 0
       rw [hx, map_zero]
     · rintro ⟨y, rfl⟩
       simp
@@ -339,7 +339,7 @@ private theorem evaluation_jointly_reflects_iso_of_sliceTestingFamily
   have hS₂ : S₂.Exact := by
     refine (Stacks.WeaklyContractible.SliceTestingFamily.exact_iff_exact_sections X.J B
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O) S₂).2 fun {U} hU => ?_
-    show ∀ y, (0 : G.val.obj (op U)) = 0 ↔
+    change ∀ y, (0 : G.val.obj (op U)) = 0 ↔
       y ∈ Set.range (f.val.app (op U))
     exact fun y => ⟨fun _ => (hf U hU).2 y, fun _ => rfl⟩
   have hepi : Epi f := (ShortComplex.exact_iff_epi S₂ (by rfl)).mp hS₂
@@ -388,12 +388,12 @@ private lemma exists_sections_refinement_ofSize
       map_id W := by
         apply ConcreteCategory.hom_ext (CC := fun X => X)
         intro t
-        show (⟨t.1, 𝟙 _ ≫ t.2⟩ : Σ i, W.unop ⟶ V i) = t
+        change (⟨t.1, 𝟙 _ ≫ t.2⟩ : Σ i, W.unop ⟶ V i) = t
         simp
       map_comp g h := by
         apply ConcreteCategory.hom_ext (CC := fun X => X)
         intro t
-        show (⟨t.1, (h.unop ≫ g.unop) ≫ t.2⟩ : Σ i, _ ⟶ V i) =
+        change (⟨t.1, (h.unop ≫ g.unop) ≫ t.2⟩ : Σ i, _ ⟶ V i) =
           ⟨t.1, h.unop ≫ (g.unop ≫ t.2)⟩
         rw [Category.assoc] }
   let Y : Cᵒᵖ ⥤ Type (max u v w) := yoneda.obj U ⋙ uliftFunctor.{max u w}
@@ -408,7 +408,7 @@ private lemma exists_sections_refinement_ofSize
   let ε := toSheafify J Y
   let π' := (presheafToSheaf J (Type (max u v w))).map π
   have hπ' : Sheaf.IsLocallySurjective π' := by
-    show Presheaf.IsLocallySurjective J (sheafifyMap J π)
+    change Presheaf.IsLocallySurjective J (sheafifyMap J π)
     exact Presheaf.isLocallySurjective_of_isLocallySurjective_fac J
       (toSheafify_naturality J π).symm
   obtain ⟨s, hs⟩ := hU π' hπ' (ε.app (op U) (ULift.up (𝟙 U)))
@@ -418,7 +418,7 @@ private lemma exists_sections_refinement_ofSize
       naturality W Z g := by
         apply ConcreteCategory.hom_ext
         intro t
-        show (F k).obj.map (g.unop ≫ t.2).op (x k t.1) =
+        change (F k).obj.map (g.unop ≫ t.2).op (x k t.1) =
           (F k).obj.map g ((F k).obj.map t.2.op (x k t.1))
         simp only [op_comp, Functor.map_comp, types_comp_apply, Quiver.Hom.op_unop] }
   let β (k : κ) := sheafifyLift J (α k) (F k).property
@@ -446,7 +446,7 @@ private lemma exists_sections_refinement_ofSize
         _ = ε.app (op W) (ULift.up g) := by
           refine (NatTrans.naturality_apply ε g.op
             (show Y.obj (op U) from ULift.up (𝟙 U))).symm.trans ?_
-          show ε.app (op W) (ULift.up (g ≫ 𝟙 U)) = _
+          change ε.app (op W) (ULift.up (g ≫ 𝟙 U)) = _
           rw [Category.comp_id]
     refine J.superset_covering (fun Z a ha => ⟨P.map a.op t, ?_, ?_⟩)
       (Presheaf.equalizerSieve_mem J ε (π.app _ t) (show Y.obj (op W) from ULift.up g) heq)
@@ -474,7 +474,7 @@ private lemma idealPowerProduct_obj_of_weaklyContractible_of_sliceTestingFamily
       (idealPowerActionPresheafOfSize X I F n).obj (op U) := by
   classical
   let (W : X.Cᵒᵖ) : IsMulCommutative ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj W) := by
-    show IsMulCommutative (X.O.obj.obj W); infer_instance
+    change IsMulCommutative (X.O.obj.obj W); infer_instance
   let (W : X.Cᵒᵖ) : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj W)
       (F.val.obj W) := (F.val.obj W).isModule
   rw [idealPowerProduct_eq_sheafify_ofSize]
@@ -548,20 +548,20 @@ private lemma idealPowerProduct_obj_of_weaklyContractible_of_sliceTestingFamily
       F.val.restrictₛₗ q.op x = ∑ j ∈ Finset.range (b W q hq),
         F.val.restrictₛₗ q.op (c j • M j) := by
     conv_lhs => rw [← hg W q hq]
-    show F.val.presheaf.map (g W q hq ≫ f (d W q hq)).op x = _
+    change F.val.presheaf.map (g W q hq ≫ f (d W q hq)).op x = _
     rw [op_comp, Functor.map_comp]
-    show F.val.restrictₛₗ (g W q hq).op (F.val.restrictₛₗ (f (d W q hq)).op x) = _
+    change F.val.restrictₛₗ (g W q hq).op (F.val.restrictₛₗ (f (d W q hq)).op x) = _
     rw [← hl (d W q hq), powerExpressionValue_eq_sum_range (l (d W q hq)), map_sum]
     apply Finset.sum_congr rfl
     intro j hj
-    show F.val.restrictₛₗ (g W q hq).op
+    change F.val.restrictₛₗ (g W q hq).op
         ((∏ k, (a (d W q hq) j k).val) • m (d W q hq) j) =
       F.val.restrictₛₗ q.op (c j • M j)
     rw [(F.val.restrictₛₗ (g W q hq).op).map_smulₛₗ, (F.val.restrictₛₗ q.op).map_smulₛₗ]
     dsimp only [c]
     simp only [map_prod, hM W q hq j]
     congr 1
-    show (∏ k, ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map (g W q hq).op).hom
+    change (∏ k, ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map (g W q hq).op).hom
         (a (d W q hq) j k).val) =
       ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map q.op).hom
         (∏ k, (show R from (A j k).val))
@@ -575,13 +575,13 @@ private lemma idealPowerProduct_obj_of_weaklyContractible_of_sliceTestingFamily
         F.val.restrictₛₗ q.op (e j k • M j) := by
     refine exists_locallyFiniteSum_ofSize F' U S hS b (fun j => e j k • M j)
       fun W q hq j hj => ?_
-    show F.val.restrictₛₗ q.op (e j k • M j) = 0
+    change F.val.restrictₛₗ q.op (e j k • M j) = 0
     rw [(F.val.restrictₛₗ q.op).map_smulₛₗ, hzero W q hq j hj, smul_zero]
   choose t ht using hsum
   have hxsum : x = ∑ k, z k • t k := by
     apply (isSheaf_forget_obj_ofSize F' S hS).isSeparatedFor.ext
     intro W q hq
-    show F.val.restrictₛₗ q.op x = F.val.restrictₛₗ q.op (∑ k, z k • t k)
+    change F.val.restrictₛₗ q.op x = F.val.restrictₛₗ q.op (∑ k, z k • t k)
     have htk (k : Fin r) : F.val.restrictₛₗ q.op (z k • t k) =
         ∑ j ∈ Finset.range (b W q hq), F.val.restrictₛₗ q.op (z k • (e j k • M j)) := by
       rw [(F.val.restrictₛₗ q.op).map_smulₛₗ, ht k W q hq, Finset.smul_sum]
@@ -595,9 +595,9 @@ private lemma idealPowerProduct_obj_of_weaklyContractible_of_sliceTestingFamily
     apply congrArg (F.val.restrictₛₗ q.op)
     rw [← he j, Finset.sum_smul]
     refine Finset.sum_congr rfl fun k _ => ?_
-    show (e j k * z k) • M j = z k • (e j k • M j)
+    change (e j k * z k) • M j = z k • (e j k • M j)
     rw [mul_smul, smul_comm]
-  show x ∈ J ^ n • (⊤ : Submodule R (F.val.obj (op U)))
+  change x ∈ J ^ n • (⊤ : Submodule R (F.val.obj (op U)))
   rw [hxsum, ← hz]
   exact sum_mem fun k _ =>
     Submodule.smul_mem_smul (Submodule.subset_span (Set.mem_range_self k)) Submodule.mem_top
@@ -635,7 +635,7 @@ private lemma sheafSubmodule_eq_bot_iff_weaklyContractible_of_sliceTestingFamily
   intro U
   apply le_bot_iff.mp
   intro x hx
-  show x = 0
+  change x = 0
   obtain ⟨ι, V, f, hcov, hV⟩ := B.hasEnoughObjects U.unop
   apply (isSheaf_forget_obj_ofSize (J := X.J) ⟨F.val.presheaf, F.isSheaf⟩ _ hcov).isSeparatedFor.ext
   intro W g hg
@@ -644,7 +644,7 @@ private lemma sheafSubmodule_eq_bot_iff_weaklyContractible_of_sliceTestingFamily
   have hz : F.val.map (f i).op x = 0 := by
     have hm := N.toSubmodule.map (f i).op hx
     rwa [h _ (hV i)] at hm
-  show (F.val.presheaf.map (a ≫ f i).op) x = (F.val.presheaf.map (a ≫ f i).op) 0
+  change (F.val.presheaf.map (a ≫ f i).op) x = (F.val.presheaf.map (a ≫ f i).op) 0
   simp only [op_comp, Functor.map_comp, map_zero]
   exact congrArg (fun z => F.val.presheaf.map a.op z) hz |>.trans (map_zero _)
 
@@ -672,7 +672,7 @@ private lemma evaluation_cokernel_submodule_of_sliceTestingFamily
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
       (ShortComplex.cokernelSequence N.ι)).mp (ShortComplex.cokernelSequence_exact N.ι) hU
     ext x
-    show q x = 0 ↔ x ∈ N.toSubmodule.obj (op U)
+    change q x = 0 ↔ x ∈ N.toSubmodule.obj (op U)
     have he' : q x = 0 ↔ ∃ y : N.toSubmodule.obj (op U), (y : F.val.obj (op U)) = x := he x
     exact he'.trans ⟨fun ⟨y, hy⟩ => hy ▸ y.property, fun hx => ⟨⟨x, hx⟩, rfl⟩⟩
   let e := ((Submodule.quotEquivOfEq _ _ hker.symm).trans
@@ -701,7 +701,7 @@ private lemma evaluation_adicQuotientCone_isLimit_iff_of_sliceTestingFamily
       (Cone.mk F (adicQuotientSystemOfSize X I F).quotientMap))) ↔ IsAdicComplete J (G.obj F) := by
   let R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)
   let : IsMulCommutative R := by
-    show IsMulCommutative (X.O.obj.obj (op U)); infer_instance
+    change IsMulCommutative (X.O.obj.obj (op U)); infer_instance
   let J : Ideal R := I.toSubmodule.obj (op U)
   let G := SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (op U)
   let M := G.obj F
@@ -728,7 +728,7 @@ private lemma evaluation_adicQuotientCone_isLimit_iff_of_sliceTestingFamily
       G.mapCone (Cone.mk F (adicQuotientSystemOfSize X I F).quotientMap) :=
     Cone.ext (Iso.refl M) (by
       intro n
-      show (moduleAdicQuotientCone J M).π.app n ≫ (e n.unop).hom =
+      change (moduleAdicQuotientCone J M).π.app n ≫ (e n.unop).hom =
         𝟙 M ≫ G.map ((adicQuotientSystemOfSize X I F).quotientMap.app n)
       simpa only [Category.id_comp] using he n.unop)
   refine ⟨fun ⟨hc⟩ => (moduleAdicQuotientCone_isLimit_iff J M).mp
@@ -754,7 +754,7 @@ theorem isLimit_adicQuotientSystem_iff_of_sliceTestingFamily
           (SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).obj F) ∧
         (⨅ n : ℕ, idealPowerProductOfSize X I F n) = ⊥ := by
   let (W : X.Cᵒᵖ) : IsMulCommutative ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj W) := by
-    show IsMulCommutative (X.O.obj.obj W)
+    change IsMulCommutative (X.O.obj.obj W)
     infer_instance
   let (W : X.Cᵒᵖ) : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj W)
       (F.val.obj W) := (F.val.obj W).isModule
@@ -812,7 +812,7 @@ theorem isZero_of_isDerivedComplete_of_idealProduct_eq_top_of_sliceTestingFamily
       (⊤ : F.Submodule).toSubmodule.obj (op U) = ⊥ := by
     intro U hU
     let : IsMulCommutative ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)) := by
-      show IsMulCommutative (X.O.obj.obj (op U))
+      change IsMulCommutative (X.O.obj.obj (op U))
       infer_instance
     let : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)) (F.val.obj (op U)) :=
       (F.val.obj (op U)).isModule
@@ -839,7 +839,7 @@ theorem isZero_of_isDerivedComplete_of_idealProduct_eq_top_of_sliceTestingFamily
         (hI U hU) hcomplete
         (Submodule.Quotient.subsingleton_iff.mpr hsmul)
     refine le_bot_iff.mp fun x _ ↦ ?_
-    show x = 0
+    change x = 0
     exact Subsingleton.elim
       (α := (SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (op U)).obj F)
       x 0
@@ -849,7 +849,7 @@ theorem isZero_of_isDerivedComplete_of_idealProduct_eq_top_of_sliceTestingFamily
         (⊤ : F.Submodule)).mpr key)
   rw [IsZero.iff_id_eq_zero]
   ext U m
-  show m = 0
+  change m = 0
   have hm : m ∈ (⊤ : F.Submodule).toSubmodule.obj U := by
     rw [sheafSubmodule_top_obj]
     exact Submodule.mem_top

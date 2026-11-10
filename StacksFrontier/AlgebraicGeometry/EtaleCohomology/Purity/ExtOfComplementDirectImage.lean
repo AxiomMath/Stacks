@@ -51,7 +51,7 @@ namespace Stacks.EtaleCohomology
 
 section
 
-variable (Λ : Type) [Ring Λ] {Z U X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i]
+variable (Λ : Type) [Ring Λ] {Z U X : Scheme.{u}} (i : Z ⟶ X)
   (j : U ⟶ X) [IsOpenImmersion j] (hij : Set.range j.base = (Set.range i.base)ᶜ)
 
 include hij in
@@ -121,7 +121,7 @@ theorem bijective_comp_mk₀_iso {C : Type*} [Category C] [Abelian C] [HasExt.{u
     Function.Bijective (fun y : Ext P A n => y.comp (Ext.mk₀ e.hom) (add_zero n)) := by
   refine Function.bijective_iff_has_inverse.mpr ⟨fun y => y.comp (Ext.mk₀ e.inv) (add_zero n),
     fun y => ?_, fun y => ?_⟩ <;>
-  simp [Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀]
+  simp [Ext.mk₀_comp_mk₀]
 
 include hij in
 /-- **Cohomological purity in `Ext` form, from the higher direct images of the complement.** If

@@ -62,7 +62,7 @@ private theorem toPresheafFiber_comp_eqToHom {X : Scheme.{u}} {Ω : Type u} [Fie
         eqToHom (congrArg (fun z => (smallEtaleStalkAb z).obj F) e) =
       (Scheme.pointSmallEtale y').toPresheafFiber W (Over.homMk v.left hv) F.obj := by
   subst e
-  show _ ≫ 𝟙 _ = _
+  change _ ≫ 𝟙 _ = _
   rw [Category.comp_id]
   exact congrArg (fun w => (Scheme.pointSmallEtale y).toPresheafFiber W w F.obj)
     (Over.OverMorphism.ext rfl)
@@ -159,7 +159,7 @@ theorem etaleStalkSectionsStage_id_comp_strictHenselizationSectionsToStalkAb
     apply pullback.hom_ext
     · refine Eq.trans ?_ (pointSmallEtaleComapFiberIso_hom_app_left_fst _ _ W
         (Over.homMk v.left hv)).symm
-      show (geometricPointToStrictHenselization B X hX x ≫ pullback.lift
+      change (geometricPointToStrictHenselization B X hX x ≫ pullback.lift
           (𝟙 (strictHenselization B X hX x) ≫ strictHenselizationNeighborhoodLift B X hX x W v)
           (𝟙 _) (hr.trans (Category.id_comp _).symm)) ≫ pullback.fst W.hom _ = v.left
       rw [Category.assoc, pullback.lift_fst, Category.id_comp]
@@ -167,7 +167,7 @@ theorem etaleStalkSectionsStage_id_comp_strictHenselizationSectionsToStalkAb
     · refine Eq.trans ?_ (Over.w ((pointSmallEtaleComapFiberIso
           (𝟙 (strictHenselization B X hX x) ≫ strictHenselizationToBase B X hX x)
           (geometricPointToStrictHenselization B X hX x)).hom.app W (Over.homMk v.left hv))).symm
-      show (geometricPointToStrictHenselization B X hX x ≫ pullback.lift
+      change (geometricPointToStrictHenselization B X hX x ≫ pullback.lift
           (𝟙 (strictHenselization B X hX x) ≫ strictHenselizationNeighborhoodLift B X hX x W v)
           (𝟙 _) (hr.trans (Category.id_comp _).symm)) ≫ pullback.snd W.hom _ =
         geometricPointToStrictHenselization B X hX x

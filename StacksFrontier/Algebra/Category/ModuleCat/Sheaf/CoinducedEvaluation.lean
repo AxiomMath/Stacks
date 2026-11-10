@@ -143,7 +143,7 @@ lemma equiv_eq_comp_counit (M : _root_.SheafOfModules.{v} R) (g : M ⟶ E.obj) :
 /-- The zero morphism corresponds to the zero linear map. -/
 lemma equiv_zero (M : _root_.SheafOfModules.{v} R) : E.equiv M 0 = 0 := by
   rw [E.equiv_eq_comp_counit]
-  show (0 : M.val.obj X ⟶ E.obj.val.obj X) ≫ E.counit = 0
+  change (0 : M.val.obj X ⟶ E.obj.val.obj X) ≫ E.counit = 0
   exact zero_comp
 
 /-- A morphism into a coinduced object vanishes as soon as the corresponding linear map does. -/
@@ -168,7 +168,7 @@ private lemma exists_comp_ι_eq_zero_of_coinduced {M : _root_.SheafOfModules.{v}
       congrFun (congrArg (fun φ => (ModuleCat.Hom.hom φ).toFun) hg) x
     refine (Submodule.Quotient.mk_eq_zero _).1 (hmk.symm.trans ?_)
     rw [E.equiv_eq_comp_counit]
-    show E.counit (g.val.app X x) = 0
+    change E.counit (g.val.app X x) = 0
     rw [hx]
     exact map_zero (E.counit).hom
   · rw [E.equiv_comp, hg]
@@ -225,7 +225,7 @@ theorem mem_of_app_eq_zero_of_coinduced
   obtain ⟨σ, hσ⟩ := hdesc _ g hg
   refine hmem x ?_
   rw [← hσ]
-  show σ.val.app X (π.val.app X x) = 0
+  change σ.val.app X (π.val.app X x) = 0
   rw [hx]
   exact map_zero (σ.val.app X).hom
 

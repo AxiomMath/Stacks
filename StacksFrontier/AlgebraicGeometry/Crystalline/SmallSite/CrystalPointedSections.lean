@@ -184,7 +184,7 @@ theorem crystalPoint_tmul_eq_zero (b : TwistedScalars (ptRing hp h))
       have h0 : ptRing hp h a = 0 :=
         (congrArg (crysSheafRingMap h.hom)
           ((levelSectionsScalars_eq_zero_iff hp ⦋0⦌ e a).2 ha)).trans (map_zero _)
-      show ptRing hp h a * b.val = (0 : crysSheafRing S A.obj)
+      change ptRing hp h a * b.val = (0 : crysSheafRing S A.obj)
       rw [h0, zero_mul]
     rw [hab, TensorProduct.zero_tmul]
   · rw [TensorProduct.tmul_add, hx, hy, add_zero]
@@ -255,20 +255,18 @@ def crystalPointLift :
 /-- `...SmallSite.crystalPointLift` is a left inverse of the reduction. -/
 theorem crystalPointLift_reduce (z) :
     crystalPointLift hp F h (crystalPointReduce hp F h z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m => exact crystalPointLiftFun_reduce hp F h _ m
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
 /-- `...SmallSite.crystalPointLift` is a right inverse of the reduction. -/
 theorem crystalPointReduce_lift (w) :
     crystalPointReduce hp F h (crystalPointLift hp F h w) = w := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul b s =>
     obtain ⟨m, rfl⟩ := surjective_levelSectionsTopReduce hp e
       (isSurjectiveComparison_of_isSheafCrystal F.property.2) 0 s
-    show crystalPointReduce hp F h (crystalPointLiftFun hp F h b _) = _
+    change crystalPointReduce hp F h (crystalPointLiftFun hp F h b _) = _
     rw [crystalPointLiftFun_reduce, crystalPointReduce_tmul]
     rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy]
@@ -289,11 +287,7 @@ theorem crysSectionTop_crystalPointMap [IsAffine A.obj.thickening.target.scheme]
       ambientBaseChangeTensorFun h.hom (moduleRestrictionSheaf F.obj (levelObj hp 0 e))
         (moduleRestrictionSheaf F.obj A) (moduleFMapSheaf F.obj h)
         (crystalPointReduce hp F h z) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    show crysSectionTopHom F.obj A (crystalPointMap hp F h 0) =
-      ambientBaseChangeTensorHom h.hom _ _ (moduleFMapSheaf F.obj h) (crystalPointReduce hp F h 0)
-    simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
     rw [crystalPointMap_tmul, crystalPointReduce_tmul, ambientBaseChangeTensorFun_tmul,
       levelSectionsTopReduce_apply, fmapTopSection_crysSectionTop]
@@ -364,8 +358,7 @@ def ptPush :
 theorem crystalPointMap_comp (F : QuasiCoherentCrystal S) (z) :
     crystalPointMap hp F (k ≫ h) (LinearMap.rTensor _ (ptPush hp k h) z) =
       crysRestrict F.obj k (crystalPointMap hp F h z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
     rw [LinearMap.rTensor_tmul, crystalPointMap_tmul, crystalPointMap_tmul, ptPush_val,
       map_smulₛₗ, crysRestrict_comp]
@@ -403,8 +396,7 @@ theorem wholeSpaceSectionsVal_linearMap {F G : QuasiCoherentCrystal S} (ψ : F �
 theorem crystalPointMap_naturality {F G : QuasiCoherentCrystal S} (ψ : F ⟶ G) (z) :
     (((quasiCoherentCrystalι S).map ψ).val.app (op A)).hom (crystalPointMap hp F h z) =
       crystalPointMap hp G h (LinearMap.lTensor _ (wholeSpaceSectionsLinearMap hp ψ) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
     rw [LinearMap.lTensor_tmul, crystalPointMap_tmul, crystalPointMap_tmul,
       wholeSpaceSectionsVal_linearMap]

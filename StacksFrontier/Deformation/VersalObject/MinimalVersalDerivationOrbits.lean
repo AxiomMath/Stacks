@@ -72,7 +72,7 @@ public theorem exists_derivationDifferentialGraph_of_isVersal
     (BasedCategory.ofFunctor p) hp hS1 hS2 ξ P).mp hξ
   obtain ⟨z, hz⟩ := hsurj.1 y
   obtain ⟨x, hx⟩ := classOf_surjective
-    (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base)))
+    (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base)))
     (categoryOfElements_projection_isCofibered (restrictedCoyoneda ξ.base))
     (artinianDualNumbers.{u, w, v} Λ k) z
   rcases x with ⟨⟨α⟩, hA⟩
@@ -107,7 +107,7 @@ public theorem twist_squareZeroPoint_snd
   rw [show ((restrictedCoyoneda ξ.base).map (dualNumbersTwistHom.{u, v, w} p hp δ) α).hom r =
     (dualNumbersTwistHom.{u, v, w} p hp δ).hom (α.hom r) from rfl, key,
     restrictedCoyoneda_hom_fst ξ α r]
-  show ((TrivSqZeroExt.snd (TrivSqZeroExt.inl (residueHom ξ.base r) +
+  change ((TrivSqZeroExt.snd (TrivSqZeroExt.inl (residueHom ξ.base r) +
       TrivSqZeroExt.inr ((α.hom r).snd + ULift.up (δ (residueHom ξ.base r))) :
         TrivSqZeroExt k (ULift.{v} k))).down)
     = (α.hom r).snd.down + δ (residueHom ξ.base r)
@@ -136,7 +136,7 @@ public theorem exists_derivationDifferentialGraph_action
     exact standardToDerivation_apply_snd ξ α' r
   · exact fun r => (standardToDerivation_apply_snd ξ α' r).symm
   · let 𝓑 :=
-      BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base))
+      BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base))
     let h𝓑 := categoryOfElements_projection_isCofibered (restrictedCoyoneda ξ.base)
     let φ := (associatedMorphism hp.cofibered ξ P).toBasedFunctor
     let dual := artinianDualNumbers.{u, w, v} Λ k
@@ -208,7 +208,7 @@ public theorem derivationToTangent_sub_eq_zero_of_eq
     (artinianDualNumbers.{u, w, v} Λ k) => (eqToHom L.forget_comp.symm).app V z
   have hΦ : ∀ z, (eqToHom L.forget_comp).app V (Φ z) = z := by
     intro z
-    show ((eqToHom L.forget_comp.symm ≫ eqToHom L.forget_comp).app V) z = z
+    change ((eqToHom L.forget_comp.symm ≫ eqToHom L.forget_comp).app V) z = z
     simp
   have key : ∀ d' : Derivation Λ ξ.base k,
       f (E.symm d') = Φ (derivationToTangent hp.cofibered ξ P d') := by

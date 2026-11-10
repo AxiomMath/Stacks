@@ -54,10 +54,10 @@ noncomputable def associatedTangentSpaceLiftEquiv
     (𝓕 : BasedCategory (Deformation.ArtinianLocalAlgCat.{u, w, w} Λ k))
     (hpre : Deformation.IsPredeformationCategory 𝓕.p)
     (hS2 : Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) :
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) :
     letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
     letI : Fact (Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
     ((Deformation.associatedTangentSpaceModuleStructureUnlifted 𝓕 hpre hS2).functor.obj
       (FGModuleCat.of k k)) ≃ₗ[k]
       Deformation.artinianTangentSpace Λ k
@@ -88,10 +88,10 @@ private theorem associatedTangentSpace_map_cast
     (𝓕 : BasedCategory (Deformation.ArtinianLocalAlgCat.{u, w, w} Λ k))
     (hpre : Deformation.IsPredeformationCategory 𝓕.p)
     (hS2 : Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) :
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) :
     letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
     letI : Fact (Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
     let L := Deformation.associatedTangentSpaceModuleStructureUnlifted 𝓕 hpre hS2
     ∀ (W : FGModuleCat k) (f : W ⟶ FGModuleCat.of k k) (z : L.functor.obj W),
       (show Deformation.artinianTangentSpace Λ k
@@ -110,10 +110,10 @@ theorem associatedTangentSpace_smul_eq_map
     (𝓕 : BasedCategory (Deformation.ArtinianLocalAlgCat.{u, w, w} Λ k))
     (hpre : Deformation.IsPredeformationCategory 𝓕.p)
     (hS2 : Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) :
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) :
     letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
     letI : Fact (Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
     ∀ (a : k) (t : Deformation.artinianTangentSpace Λ k
       (Deformation.isomorphismClasses 𝓕 hpre.cofibered)),
       a • t = (Deformation.isomorphismClasses 𝓕 hpre.cofibered).map
@@ -121,7 +121,7 @@ theorem associatedTangentSpace_smul_eq_map
           (a • 𝟙 (FGModuleCat.of k k))) t := by
   let : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
   let : Fact (Deformation.SchlessingerConditionS2
-    (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
   intro a t
   let L := Deformation.associatedTangentSpaceModuleStructureUnlifted 𝓕 hpre hS2
   let F := Deformation.tangentSpaceSetFunctor Λ k
@@ -138,7 +138,7 @@ theorem associatedTangentSpace_smul_eq_map
   have hm : (L.functor.map (a • 𝟙 (FGModuleCat.of k k))).hom z = a • z := by
     rw [Functor.map_smul, L.functor.map_id]
     rfl
-  show e (a • z) = F.map (a • 𝟙 (FGModuleCat.of k k)) (e z)
+  change e (a • z) = F.map (a • 𝟙 (FGModuleCat.of k k)) (e z)
   rw [he z, ← hm]
   exact (associatedTangentSpace_map_cast 𝓕 hpre hS2 _ _ z).symm
 
@@ -148,10 +148,10 @@ theorem associatedTangentSpace_map_add
     (𝓕 : BasedCategory (Deformation.ArtinianLocalAlgCat.{u, w, w} Λ k))
     (hpre : Deformation.IsPredeformationCategory 𝓕.p)
     (hS2 : Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) :
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) :
     letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
     letI : Fact (Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
     let F := Deformation.artinianSquareZeroExtensionFunctor Λ k ⋙
       Deformation.isomorphismClasses 𝓕 hpre.cofibered
     ∀ (W : FGModuleCat k) (f g : W ⟶ FGModuleCat.of k k) (z : F.obj W),
@@ -162,7 +162,7 @@ theorem associatedTangentSpace_map_add
           (Deformation.isomorphismClasses 𝓕 hpre.cofibered) from F.map g z) := by
   let : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
   let : Fact (Deformation.SchlessingerConditionS2
-    (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
   dsimp only
   intro W f g z
   let L := Deformation.associatedTangentSpaceModuleStructureUnlifted 𝓕 hpre hS2
@@ -185,10 +185,10 @@ theorem associatedTangentSpace_joint
     (𝓕 : BasedCategory (Deformation.ArtinianLocalAlgCat.{u, w, w} Λ k))
     (hpre : Deformation.IsPredeformationCategory 𝓕.p)
     (hS2 : Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) :
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) :
     letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
     letI : Fact (Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
     let F := Deformation.artinianSquareZeroExtensionFunctor Λ k ⋙
       Deformation.isomorphismClasses 𝓕 hpre.cofibered
     let W := FGModuleCat.of k (k × k)
@@ -199,7 +199,7 @@ theorem associatedTangentSpace_joint
       ∃ z : F.obj W, F.map p₁ z = s ∧ F.map p₂ z = t := by
   let : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
   let : Fact (Deformation.SchlessingerConditionS2
-    (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
   let F := Deformation.artinianSquareZeroExtensionFunctor Λ k ⋙
     Deformation.isomorphismClasses 𝓕 hpre.cofibered
   let W := FGModuleCat.of k (k × k)
@@ -238,10 +238,10 @@ theorem associatedTangentSpace_joint_sum
     (𝓕 : BasedCategory (Deformation.ArtinianLocalAlgCat.{u, w, w} Λ k))
     (hpre : Deformation.IsPredeformationCategory 𝓕.p)
     (hS2 : Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) :
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) :
     letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
     letI : Fact (Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
     let F := Deformation.artinianSquareZeroExtensionFunctor Λ k ⋙
       Deformation.isomorphismClasses 𝓕 hpre.cofibered
     let W := FGModuleCat.of k (k × k)
@@ -253,7 +253,7 @@ theorem associatedTangentSpace_joint_sum
         F.map (p₁ + p₂) z = s + t := by
   let : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
   let : Fact (Deformation.SchlessingerConditionS2
-    (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
   dsimp only
   intro s t
   obtain ⟨z, hz₁, hz₂⟩ := associatedTangentSpace_joint 𝓕 hpre hS2 s t
@@ -378,10 +378,10 @@ theorem pairSquareZeroMap_apply
       ↑((forget₂ (FGModuleCat k) (ModuleCat k)).obj (FGModuleCat.of k k)) :=
     ⟨fun _ _ ↦ rfl⟩
   apply TrivSqZeroExt.ext
-  · show (TrivSqZeroExt.map (ModuleCat.Hom.hom
+  · change (TrivSqZeroExt.map (ModuleCat.Hom.hom
         ((forget₂ (FGModuleCat k) (ModuleCat k)).map f)) r).fst = r.fst
     exact TrivSqZeroExt.fst_map _ _
-  · show (TrivSqZeroExt.map (ModuleCat.Hom.hom
+  · change (TrivSqZeroExt.map (ModuleCat.Hom.hom
         ((forget₂ (FGModuleCat k) (ModuleCat k)).map f)) r).snd = f.hom r.snd
     exact TrivSqZeroExt.snd_map _ _
 
@@ -433,9 +433,9 @@ theorem associatedPairExtension_shortComplexHom_of_lift
     rw [pairSquareZeroMap_apply]
     simp only [TrivSqZeroExt.snd_inr]
     apply TrivSqZeroExt.ext
-    · show (0 : k) = ψ.hom v * 0
+    · change (0 : k) = ψ.hom v * 0
       simp
-    · show ψ.hom v = ψ.hom v * 1 + 0 * 0
+    · change ψ.hom v = ψ.hom v * 1 + 0 * 0
       simp
   apply associatedPairExtension_shortComplexHom V ρ₀ a c b
   · dsimp only
@@ -459,13 +459,13 @@ theorem tangentSelfExt_map_smul
     (hpre : Deformation.IsPredeformationCategory
       (deformationCategoryProjection (Λ := Λ) V ρ₀))
     (hS2 : Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses
+      (Functor.Elements.π (Deformation.isomorphismClasses
         (BasedCategory.ofFunctor (deformationCategoryProjection (Λ := Λ) V ρ₀))
         hpre.cofibered))) :
     let 𝓕 := BasedCategory.ofFunctor (deformationCategoryProjection (Λ := Λ) V ρ₀)
     letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
     letI : Fact (Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
     ∀ (a : k) (t : Deformation.artinianTangentSpace Λ k
       (Deformation.isomorphismClasses 𝓕 hpre.cofibered)),
       tangentSelfExt V ρ₀ hpre.cofibered (a • t) =
@@ -474,7 +474,7 @@ theorem tangentSelfExt_map_smul
   let 𝓕 := BasedCategory.ofFunctor p
   let : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
   let : Fact (Deformation.SchlessingerConditionS2
-    (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
   dsimp only
   intro a t
   obtain ⟨x, rfl⟩ := Deformation.classOf_surjective 𝓕 hpre.cofibered _ t
@@ -493,12 +493,12 @@ theorem tangentSelfExt_map_smul
   · dsimp only
     intro c
     exact representationHom_base_apply_of_fiber V ρ₀ δ b (TrivSqZeroExt.inl c) _ (by
-      show (TrivSqZeroExt.map (a • (LinearMap.id : k →ₗ[k] k))
+      change (TrivSqZeroExt.map (a • (LinearMap.id : k →ₗ[k] k))
           (TrivSqZeroExt.inl c) : DualNumber k) = TrivSqZeroExt.inl c
       simp)
   · have hd : δ.hom DualNumber.eps = (TrivSqZeroExt.inl a : DualNumber k) *
         DualNumber.eps := by
-      show (TrivSqZeroExt.map (a • (LinearMap.id : k →ₗ[k] k))
+      change (TrivSqZeroExt.map (a • (LinearMap.id : k →ₗ[k] k))
           DualNumber.eps : DualNumber k) = TrivSqZeroExt.inl a * DualNumber.eps
       rw [DualNumber.eps, TrivSqZeroExt.map_inr, TrivSqZeroExt.inl_mul_inr,
         LinearMap.smul_apply, LinearMap.id_apply]
@@ -523,11 +523,11 @@ public noncomputable def tangentSpaceEquivSelfExt
     let E := Abelian.Ext M₀ M₀ 1
     Σ' (hpre : Deformation.IsPredeformationCategory 𝓕.p)
       (hS2 : Deformation.SchlessingerConditionS2
-        (CategoryOfElements.π
+        (Functor.Elements.π
           (Deformation.isomorphismClasses 𝓕 hpre.cofibered))),
       letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
       letI : Fact (Deformation.SchlessingerConditionS2
-        (CategoryOfElements.π
+        (Functor.Elements.π
           (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
       letI : AddCommGroup
         (Deformation.artinianTangentSpace Λ k
@@ -573,13 +573,13 @@ public noncomputable def tangentSpaceEquivSelfExt
   let hS2base : Deformation.SchlessingerConditionS2 p :=
     Deformation.schlessingerConditionS2_of_satisfiesRS hRS
   let hS2 : Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered)) :=
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered)) :=
     Deformation.schlessingerConditionS2_of_isIsomorphismClasses
       𝓕 hpre.cofibered hS2base (Or.inl hpre)
   refine ⟨hpre, hS2, ?_⟩
   letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
   letI : Fact (Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
   letI : AddCommGroup
       (Deformation.artinianTangentSpace Λ k (Deformation.isomorphismClasses 𝓕 hpre.cofibered)) :=
     Deformation.associatedTangentSpaceAddCommGroupUnlifted 𝓕

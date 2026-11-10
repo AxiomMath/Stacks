@@ -427,8 +427,7 @@ theorem exists_finset_mem_range (x : K ⊗[k] L) :
       FL ⊆ FL' → x ∈ (Algebra.TensorProduct.map (adjoinFinset k FK').val
         (adjoinFinset k FL').val).range := by
   classical
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨∅, ∅, fun _ _ _ _ => Subalgebra.zero_mem _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     refine ⟨{a}, {b}, fun FK' FL' hK hL => ?_⟩
     have ha : a ∈ adjoinFinset k FK' :=

@@ -65,7 +65,7 @@ public theorem mem_closure_iff_forall_sup_open (N : Ideal R) (x : R) :
     exact (N ⊔ L).toAddSubgroup.isClosed_of_isOpen
       (Ideal.isOpen_of_isOpen_subideal le_sup_right hL)
   · intro h
-    show x ∈ closure (N : Set R)
+    change x ∈ closure (N : Set R)
     refine mem_closure_iff_nhds.mpr fun t ht ↦ ?_
     obtain ⟨L, hL, hLt⟩ := (IsLinearTopology.hasBasis_open_ideal.nhds_of_zero' x).mem_iff.mp ht
     obtain ⟨j, hj, l, hl, hsum⟩ := Submodule.mem_sup.mp (h L hL)
@@ -144,24 +144,24 @@ public theorem map_ringHom_pi [Finite ι] (f : ∀ i, B →+* A i) (J : Ideal B)
       let T : Ideal (A i) :=
         { carrier := {y | Pi.single i y ∈ J.map (RingHom.pi f)}
           zero_mem' := by
-            show Pi.single i (0 : A i) ∈ J.map (RingHom.pi f)
+            change Pi.single i (0 : A i) ∈ J.map (RingHom.pi f)
             rw [Pi.single_zero]
             exact Submodule.zero_mem _
           add_mem' := fun {y z} hy hz ↦ by
             have hy' : Pi.single i y ∈ J.map (RingHom.pi f) := hy
             have hz' : Pi.single i z ∈ J.map (RingHom.pi f) := hz
-            show Pi.single i (y + z) ∈ J.map (RingHom.pi f)
+            change Pi.single i (y + z) ∈ J.map (RingHom.pi f)
             rw [Pi.single_add]
             exact Submodule.add_mem _ hy' hz'
           smul_mem' := fun a {y} hy ↦ by
             have hy' : Pi.single i y ∈ J.map (RingHom.pi f) := hy
-            show Pi.single i (a • y) ∈ J.map (RingHom.pi f)
+            change Pi.single i (a • y) ∈ J.map (RingHom.pi f)
             rw [smul_eq_mul, Pi.single_mul]
             exact Ideal.mul_mem_left _ _ hy' }
       have hT : J.map (f i) ≤ T := by
         rw [Ideal.map_le_iff_le_comap]
         intro b hb
-        show Pi.single i (f i b) ∈ J.map (RingHom.pi f)
+        change Pi.single i (f i b) ∈ J.map (RingHom.pi f)
         have h1 : Pi.single i (f i b) =
             Pi.single i (1 : A i) * RingHom.pi f b := by
           ext j
@@ -204,7 +204,7 @@ public theorem isTaut_localizationPreserves :
         (f : B →+* A) ↦ RingHom.IsTaut f) := by
   intro A B A' B' _ _ _ _ _ _ _ _ _ _ D _ _ _ _ htaut
   have h := RingHom.isTaut_comp D.map (CompletionOver.canonicalMap D.toA')
-    D.continuousMap (continuous_canonicalMap D.toA') htaut
+    (continuous_canonicalMap D.toA') htaut
     (isTaut_canonicalMap D.toA' D.weaklyAdmissibleA.1)
   rw [D.commutes] at h
   exact RingHom.isTaut_of_comp (CompletionOver.canonicalMap D.toB') D.completedMap
@@ -220,7 +220,7 @@ public theorem isTaut_faithfullyFlatDescent :
         (f : B →+* A) ↦ RingHom.IsTaut f) := by
   intro A B A' B' _ _ _ _ _ _ _ _ _ _ D _ _ _ _ hff htaut
   have hψ := RingHom.isTaut_comp (CompletionOver.canonicalMap D.toB') D.completedMap
-    (continuous_canonicalMap D.toB') D.continuousCompletedMap
+    D.continuousCompletedMap
     (isTaut_canonicalMap D.toB' D.weaklyAdmissibleB.1) htaut
   rw [← D.commutes] at hψ
   have hkey := comap_closure_map_canonicalMap D.toA' D.weaklyAdmissibleA.1 hff

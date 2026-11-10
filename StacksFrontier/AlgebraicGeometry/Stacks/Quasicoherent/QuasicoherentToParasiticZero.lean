@@ -74,7 +74,7 @@ theorem uliftUnit_hom_eq_zero_of_isTerminal {T₀ : D} (hT : IsTerminal T₀)
     refine Eq.trans ?_ hn
     congr 1
     apply ULift.ext
-    show (1 : R'.obj.obj X) = R'.obj.map f 1
+    change (1 : R'.obj.obj X) = R'.obj.map f 1
     rw [map_one]
   have hs : ∀ a : R'.obj.obj X, g.val.app X (ULift.up a) = 0 := by
     intro a
@@ -126,7 +126,7 @@ theorem eq_zero_of_locally_presented_vanishing {T P : SheafOfModules.{m} R} (φ 
       ((SheafOfModules.toSheaf R).map 0).hom.app (op W) := by
     ext s
     exact congrArg (fun f => f s) (hz W y g hT hP)
-  show ((SheafOfModules.toSheaf R).map φ).hom.app V ≫
+  change ((SheafOfModules.toSheaf R).map φ).hom.app V ≫
       ((SheafOfModules.toSheaf R).obj P).obj.map k.op =
     ((SheafOfModules.toSheaf R).map 0).hom.app V ≫
       ((SheafOfModules.toSheaf R).obj P).obj.map k.op

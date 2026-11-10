@@ -66,7 +66,8 @@ The projective-resolution model of the derived tensor product is compared with t
 here as well, because Stacks 066P records Tor amplitude in that model while the base-change step
 needs the termwise one. The comparison is replayed untagged: the providers that own it
 (`StacksFrontier.Homology.TorAmplitude.ProjectiveResolutionModel` and
-`StacksFrontier.Homology.RelativelyPerfect.Representative`) keep it private, and it is a dedup target.
+`StacksFrontier.Homology.RelativelyPerfect.Representative`) keep it private, and it is a dedup
+target.
 
 The module structures over `R` obtained by restriction of scalars are recognized behind the
 `ModuleCat` wrapper only under a relaxed transparency during unification, so the file sets
@@ -317,12 +318,10 @@ private def tensorBaseChangeComplexIso
   · intro i j hij
     apply ModuleCat.hom_ext
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | add z t hz ht => simpa only [map_add] using congrArg₂ (· + ·) hz ht
     | tmul c y =>
-      induction c using TensorProduct.induction_on with
-      | zero => simp
+      induction c using TensorProduct.inductionOn with
       | add c d hc hd => simp only [TensorProduct.add_tmul, map_add, hc, hd]
       | tmul b t =>
         change (P.d i j).hom (b • y) ⊗ₜ[R] t =

@@ -99,12 +99,12 @@ theorem exists_generatingSections_of_localLinComb
     let g : Wo ⟶ Uo := Over.homMk (homOfLE hWU) (by cat_disch)
     refine ⟨W, homOfLE hWU, ?_, hyW⟩
     rw [Sieve.overEquiv_iff]
-    show Presheaf.imageSieve (((SheafOfModules.toSheaf (R.over V)).map π).hom) t g
+    change Presheaf.imageSieve (((SheafOfModules.toSheaf (R.over V)).map π).hom) t g
     let ar : I → (R.over V).obj.obj (op Wo) := fun j => a j
     let fs : I → (SheafOfModules.free (R := R.over V) I).val.obj (op Wo) :=
       fun j => (SheafOfModules.freeSection (R := R.over V) j).eval (op Wo)
     refine ⟨∑ j, ar j • fs j, ?_⟩
-    show π.val.app (op Wo) (∑ j, ar j • fs j) = (M.over V).val.map g.op t
+    change π.val.app (op Wo) (∑ j, ar j • fs j) = (M.over V).val.map g.op t
     rw [map_sum]
     have hsmul (j : I) : π.val.app (op Wo) (ar j • fs j) =
         ar j • π.val.app (op Wo) (fs j) :=
@@ -138,7 +138,7 @@ theorem localSpan_of_isFiniteType
   intro W hWV t y hyW
   obtain ⟨W', hW'W, hyW', a, ha⟩ := hs W hWV t y hyW
   refine ⟨W', hW'W, hyW', ?_⟩
-  show (M.val.presheaf.map (homOfLE hW'W).op) t ∈
+  change (M.val.presheaf.map (homOfLE hW'W).op) t ∈
     Submodule.span ((structureSheafRing X).obj.obj (op W'))
       (Set.range fun j : Fin (Fintype.card J) =>
         (M.val.presheaf.map (homOfLE (hW'W.trans hWV)).op) (s (e.symm j)))

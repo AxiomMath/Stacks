@@ -121,7 +121,7 @@ theorem sum_bundleFormulaCap_succ_bundleFormulaPull_eq_pushforward (N : ℤ)
   subst hb
   simp only [bundleFormulaMap, ProjectiveBundleRelation.bundleSum_apply, map_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
-  show chowClassCanonical.{u + 1} D sP hP N _ =
+  change chowClassCanonical.{u + 1} D sP hP N _ =
     chowGroupCanonicalProperPushforward.{u + 1} D _ hEg sP hP rfl _ N
       (chowClassCanonical.{u + 1} D _ hEg N _)
   rw [chowGroupCanonicalProperPushforward_chowClassCanonical,

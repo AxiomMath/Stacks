@@ -119,7 +119,7 @@ lemma hom_ext_of_le_compatibleOpens [IsCofiltered J] {s : Cone D} (d : ι)
     rintro γ hγ _ ⟨x, rfl⟩
     refine ⟨⟨_, ?_⟩, rfl⟩
     rw [← hU d j₀]
-    show (c.π.app j₀).base (γ.base x) ∈ V d j₀
+    change (c.π.app j₀).base (γ.base x) ∈ V d j₀
     rw [← Scheme.Hom.comp_apply, hγ j₀, Scheme.Hom.comp_apply]
     exact hWj x.2
   have hfac : ∀ (γ : W.toScheme ⟶ c.pt) (hγ : ∀ j, γ ≫ c.π.app j = W.ι ≫ s.π.app j),

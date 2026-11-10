@@ -206,7 +206,7 @@ variable {A : Type u} [CommRing A] (E : CosimplicialDPAlgebra.{u, v} A) (p : ℕ
 `Crystalline.completedFormsDifferential_one`. -/
 public theorem structureNabla_one (b : ℕ) :
     (E.structurePair p).nabla b (1 : E.completedRing p b) = 0 := by
-  show toCompletedTensor p (E.completedRing p b) (E.forms p 1 b) (E.completedRing p b)
+  change toCompletedTensor p (E.completedRing p b) (E.forms p 1 b) (E.completedRing p b)
     ((1 : E.completedRing p b) ⊗ₜ[E.completedRing p b]
       completedFormsDifferential p A (E.dividedPowers b) 1) = 0
   rw [completedFormsDifferential_one, TensorProduct.tmul_zero, map_zero]

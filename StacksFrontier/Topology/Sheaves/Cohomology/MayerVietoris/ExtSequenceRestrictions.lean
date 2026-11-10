@@ -267,7 +267,7 @@ theorem extensionRestrictionShiftedHomEquiv_canonicalCounit
         ((derivedExtensionRestrictionCanonicalCounit O U).app E ≫ x) =
       ShiftedHom.map x (derivedRestriction O U) := by
   rw [derivedExtensionRestrictionCanonicalCounit_eq]
-  show adjShiftedHomEquiv (jShriek U O).mapDerivedCategory (derivedRestriction O U)
+  change adjShiftedHomEquiv (jShriek U O).mapDerivedCategory (derivedRestriction O U)
       (derivedJShriekRestrictionAdjunction O U) E F n
       ((derivedJShriekRestrictionAdjunction O U).counit.app E ≫ x) =
     ShiftedHom.map x (derivedRestriction O U)
@@ -491,7 +491,8 @@ open subspaces `U` and `V` and objects `E`, `F` of `D(𝒪_X)`, the Mayer--Vieto
 is exact at each of its three kinds of spot and in every integer degree, its first map is
 the pair of the two restrictions and its second map is the difference of two further
 restrictions to the intersection. -/
-@[stacks 08BW "the long exact sequence, with its first map the pair of the restrictions to the two opens and its second map the difference of two restrictions to their intersection"]
+@[stacks 08BW "the long exact sequence, with its first map the pair of the restrictions to \
+  the two opens and its second map the difference of two restrictions to their intersection"]
 theorem exists_mayerVietoris_ext_longExactSequence_restrictions (hUV : U ⊔ V = ⊤) :
     ∃ (restriction : ∀ (E F : DerivedCategory (SheafOfModules.{u} O)) (n : ℤ),
           (E ⟶ F⟦n⟧) →+

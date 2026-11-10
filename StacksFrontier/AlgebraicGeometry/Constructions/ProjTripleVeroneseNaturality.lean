@@ -73,7 +73,7 @@ theorem compare_veronese_compare (S T : PowerSystem C) (β : S.gen ≅ T.gen) (k
     compare (S.veronese k) (T.veronese k) (compare S T β k) m = compare S T β (k * m)
   | 0 => rfl
   | m + 1 => by
-      show compare (S.veronese k) (T.veronese k) (compare S T β k) (m + 1)
+      change compare (S.veronese k) (T.veronese k) (compare S T β k) (m + 1)
         = compare S T β (k * m + k)
       rw [compare_succ, compare_veronese_compare S T β k m]
       refine Iso.ext ?_

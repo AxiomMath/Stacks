@@ -81,7 +81,7 @@ theorem universallyClosed_of_comp_of_isSeparated {X Y Z : (BigFppfOver B S hS)�
   have hcomp := IsClosedMorphism.comp B S hS (hfg T hT (t ≫ g)) hmc
   have hfactor : pullback.mapDesc t f g ≫ pullback.fst (t ≫ g) (f ≫ g) =
       pullback.fst t f := by
-    simp [pullback.mapDesc, pullback.map, pullback.lift_fst]
+    simp [pullback.mapDesc, pullback.map]
   rwa [hfactor] at hcomp
 
 /-- **Stacks 04NX, part (1).** Under the hypotheses of

@@ -170,7 +170,7 @@ theorem nonempty_equivalenceOver_restrictedChart_baseChange [P.IsClosedUnderIsom
       P.prop_of_iso Q.iso (y.obj Q.x).property
     obtain ⟨g, hg⟩ := (hmem _ Q.y.hom).1 hPy
     refine ⟨Over.mk g, rfl, Over.isoMk (Iso.refl _) ?_, ?_⟩
-    · show 𝟙 _ ≫ (g ≫ i) = Q.y.hom
+    · change 𝟙 _ ≫ (g ≫ i) = Q.y.hom
       rw [Category.id_comp]
       exact hg
     · exact IsHomLift.of_fac' _ _ _ rfl rfl rfl
@@ -255,7 +255,7 @@ theorem range_pointsMap_of_restrictedChart [P.IsClosedUnderIsomorphisms] (hi : M
       Set.range (AlgebraicStacks.chartPointMap B S hS _ 𝒳
         (schemeStackMap.{u, w} B S hS i ≫ a)) := by
     let _ := pointTopology B S hS (schemeFibredCategory B S hS V)
-    show _ = Set.range (AlgebraicStacks.pointsMap B S hS _ ∘ _)
+    change _ = Set.range (AlgebraicStacks.pointsMap B S hS _ ∘ _)
     rw [Set.range_comp, (pointsHomeomorphScheme B S hS _).symm.surjective.range_eq,
       Set.image_univ]
   rw [h1, pointsMap_restrictedChart_comp, h3, chartPointMap_schemeStackMap_comp, Set.range_comp]
@@ -387,7 +387,7 @@ theorem invariantSubschemeProperty_of_sieve (hZ : _root_.AlgebraicGeometry.IsImm
     ((BigFppfOver.topology B S hS).pullback_stable j hR)
   intro W₂ g hg
   obtain ⟨ζ, α, hα, hζ⟩ := hRy (g ≫ j) hg
-  show g ≫ h ∈ _
+  change g ≫ h ∈ _
   refine hζ W₂ (g ≫ h) ?_
   have hc : 𝒳.val.val.p.IsStronglyCartesian (g ≫ j) α :=
     𝒳.val.property.isStronglyCartesian_homLift _ α
@@ -568,7 +568,7 @@ theorem pointsWithin_obj_iff_range_subset {W : BigFppfOver B S hS} (h : W ⟶ U)
   constructor
   · rintro hz _ ⟨w, rfl⟩
     have h1 := hz ((pointsHomeomorphScheme B S hS W).symm w)
-    show AlgebraicStacks.chartPointMap B S hS U 𝒳 a
+    change AlgebraicStacks.chartPointMap B S hS U 𝒳 a
       (((BigFppfOver.toScheme B S hS).map h).base w) ∈ Ω
     rw [← Function.comp_apply (f := AlgebraicStacks.chartPointMap B S hS U 𝒳 a), ← hc]
     exact h1

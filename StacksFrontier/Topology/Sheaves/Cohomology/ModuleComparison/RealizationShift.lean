@@ -171,7 +171,7 @@ theorem mapHomologicalComplexHomologyIso_shift {C₁ C₂ : Type*} [Category* C�
     · exact (Category.id_comp _).trans (map_XIsoOfEq_hom F M _).symm
     · exact (Category.id_comp _).trans ((congrArg (_ • ·) (map_XIsoOfEq_hom F M _).symm).trans
         (map_intUnits_smul F _ _).symm)
-  show ShortComplex.homologyMap
+  change ShortComplex.homologyMap
         ((HomologicalComplex.shortComplexFunctor C₂ (ComplexShape.up ℤ) n).map
           (((F.mapHomologicalComplex (ComplexShape.up ℤ)).commShiftIso s).hom.app M)) ≫
       ShortComplex.homologyMap ((CochainComplex.shiftShortComplexFunctorIso C₂ s n n' h).hom.app

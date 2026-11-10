@@ -36,14 +36,6 @@ variable {B : Type u} {A : Type v} [CommRing B] [TopologicalSpace B] [CommRing A
 
 end Quotients
 
-add_to_stacks 0ANM "the relative completion of a ring map over a weakly admissible \
-topological ring is weakly admissible; no finite type hypothesis is needed"
-  completionOver_isWeaklyAdmissible
-
-add_to_stacks 0ANM "the relative completion along a finite type ring map is topologically of \
-finite type over the base, which is the ring-theoretic form of the finite type assertion"
-  isTopologicallyOfFiniteType_canonicalMap
-
 end TopologicalRing
 
 namespace AlgebraicGeometry.FormalSpace
@@ -129,7 +121,7 @@ theorem isFiniteType_formalSpectrumMap_completionOver'
   refine ⟨isRepresentableByAlgebraicSpacesULift_of_affine_pullback 𝔅 S hS
     (formalSpectrumMap hB g) hcpr, ?_⟩
   intro U ξ
-  show Space.IsFiniteTypeULift.{u + 1} 𝔅 S hS
+  change Space.IsFiniteTypeULift.{u + 1} 𝔅 S hS
     (pullback.fst ξ (formalSpectrumMap hB g).hom)
   refine ⟨isLocallyOfFiniteTypeULift_pullback_of_compact_pullback 𝔅 S hS
     (formalSpectrumMap hB g) hcpr U ξ, ?_⟩

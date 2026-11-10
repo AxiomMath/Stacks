@@ -147,7 +147,7 @@ variable {G} in
 /-- The canonical map `𝒢^• ⊗^L L ⟶ Tot(𝒢^• ⊗ L)` is invertible at a K-flat `L`. -/
 theorem isIso_smallEtaleToTensorNatTrans_app
     (L : CochainComplex (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X)) ℤ)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat (smallEtaleRingedTopos B S hS X).O L) :
+    (hL : Stacks.SheafOfModules.IsKFlat (smallEtaleRingedTopos B S hS X).O L) :
     IsIso ((smallEtaleToTensorNatTrans G).app L) :=
   Stacks.SheafOfModules.isIso_canonicalToTensorNatTrans_app_of_kFlat
     (smallEtaleRingedSite B S hS X.1 X.2) G L hL
@@ -337,7 +337,7 @@ theorem isIso_tensorPullbackComplexNatTrans_app_of_isStrictlyLE
   dsimp only [tensorPullbackComplexNatTrans, tensorPullbackComplexComparisonAssoc,
     tensorPullbackComplexComparison, NatTrans.comp_app, Functor.whiskerRight_app,
     Functor.whiskerLeft_app]
-  repeat' (first | exact h2 | exact hc | apply IsIso.comp_isIso' | apply Functor.map_isIso |
+  repeat' (first | exact h2 | apply IsIso.comp_isIso' | apply Functor.map_isIso |
     exact Iso.isIso_inv ((Functor.associator _ _ _).app _) | infer_instance)
 
 variable {f G} in

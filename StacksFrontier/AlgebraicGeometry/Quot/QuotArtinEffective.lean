@@ -59,15 +59,15 @@ theorem exists_pointsMap_truncation_mem (A : FormalBase S)
         (yoneda.map (restrictionToBase B S hS A hA contains 0)) y₀) =
       (closedPoint A.R : Spec (.of A.R)) := by
     rw [pointsToScheme_pointsMap_yoneda, restrictionToBase_toScheme, hy₀]
-    show PrimeSpectrum.comap (Ideal.Quotient.mk (I ^ (0 + 1))) q = closedPoint A.R
+    change PrimeSpectrum.comap (Ideal.Quotient.mk (I ^ (0 + 1))) q = closedPoint A.R
     ext1
     refine le_antisymm (IsLocalRing.le_maximalIdeal (PrimeSpectrum.comap _ q).isPrime.ne_top) ?_
     intro x hx
-    show Ideal.Quotient.mk (I ^ (0 + 1)) x ∈ q.asIdeal
+    change Ideal.Quotient.mk (I ^ (0 + 1)) x ∈ q.asIdeal
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr (by rwa [zero_add, pow_one])]
     exact q.asIdeal.zero_mem
   have := injective_pointsToScheme B S hS (baseOver B S hS A hA) (himg.trans hw'.symm)
-  show pointsMap B S hS (yoneda.obj (truncationOver B S hS A contains 0))
+  change pointsMap B S hS (yoneda.obj (truncationOver B S hS A contains 0))
     (yoneda.map (restrictionToBase B S hS A hA contains 0)) y₀ ∈ W
   rwa [this]
 
@@ -106,7 +106,7 @@ theorem exists_quotient_of_formal (hsep : IsSeparated B S hS D.f.hom)
   let t : ∀ n, CoherentHom (L n) (L (n + 1)) := fun n => D.towerCoherentStep ι (T := T) K hK' n
   let a : ∀ n, (L n).T ⟶ D.testOver ι c.pt := fun n => D.legHom ι c n
   have hta : ∀ n, (t n).base ≫ a (n + 1) = a n := fun n => by
-    show D.testHom ι _ ≫ D.testHom ι _ = D.testHom ι _
+    change D.testHom ι _ ≫ D.testHom ι _ = D.testHom ι _
     rw [← testHom_comp, c.w]
   obtain ⟨x, hx, r, hr, hrb⟩ := D'.exists_realization A contains hA L (fun _ => rfl) t
     (D.testOver ι c.pt) rfl a (fun n => (Category.comp_id _).trans (Category.id_comp _).symm)

@@ -54,8 +54,7 @@ theorem exists_eq_unitMap_of_torsion {A A' : Type*} [CommRing A] [CommRing A'] [
     have h1 : ∀ w : M ⊗[A] A', TensorProduct.piLeft A A' (fun _ : s ↦ M) (φ.rTensor A' w) i =
         c i • w := by
       intro w
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul x y => simp [φ, TensorProduct.smul_tmul']
       | add x y hx hy => simp only [map_add, Pi.add_apply, hx, hy, smul_add]
     rw [LinearEquiv.symm_symm, h1, hk _ hc]
@@ -171,8 +170,7 @@ theorem exists_Lam_eq (x : TT N hN f S H e L hL)
 theorem Lam_smul (a : S) (z : PS N S) (t : TT N hN f S H e L hL)
     (ht : prS N hN f S H e L hL t = a) :
     Lam N hN f S H e L hL hNS hflat (a • z) = t * Lam N hN f S H e L hL hNS hflat z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b n =>
     rw [TensorProduct.smul_tmul', smul_eq_mul]
     exact theta_mul N hN _ a b n t (by rw [mk_eq_qeT_symm N hN f S H e L hL hNS hflat, ht])

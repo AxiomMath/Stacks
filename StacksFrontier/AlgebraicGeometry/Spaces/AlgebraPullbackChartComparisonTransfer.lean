@@ -113,11 +113,7 @@ theorem algebraPullbackChartComparison_eq_val_app_comp (f : Y ⟶ X)
   let _ := chartSectionsAlgebra A d.V
   let _ := chartSectionsAlgebra ((algebraPullback B S hS f).obj A) d.U
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      exact (map_zero _).trans ((map_zero (Ψ.val.app (op d.U)).hom).symm.trans
-        (congrArg _ (map_zero (modulePullbackChartBaseChange B S hS f
-          (AlgebraSheaf.underlyingModule A) d)).symm))
+  induction z using TensorProduct.inductionOn with
   | tmul c a =>
       refine (Eq.trans (congrArg (fun y ↦ c • y) (hΨ a).symm) ?_ :)
       exact ((Ψ.val.app (op d.U)).hom.map_smul c _).symm.trans

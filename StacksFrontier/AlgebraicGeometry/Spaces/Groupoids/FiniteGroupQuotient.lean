@@ -126,15 +126,15 @@ theorem property_left_of_sigmaDesc {U W : Over S} (P : MorphismProperty Scheme.{
       Sigma.ι_reindex_inv (f := fun _ : G => U.left) (ε := eG.symm) (eG g)
   have hdescSmall : eSmall.hom ≫ Sigma.desc (fun i => f (eG.symm i)) = Sigma.desc f := by
     refine Sigma.hom_ext _ _ fun g => ?_
-    rw [← Category.assoc, hι g, Sigma.ι_desc, Sigma.ι_desc]
+    rw [← Category.assoc, hι g, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
     simp [hf]
   have hleft : j.left = (actionRelationUnderlyingIso U G).hom ≫ Sigma.desc f := by
     refine (isColimitOfPreserves (Over.forget S)
       (colimit.isColimit (Discrete.functor fun _ : G => U))).hom_ext fun g => ?_
-    show (Sigma.ι (fun _ : G => U) g.as).left ≫ j.left =
+    change (Sigma.ι (fun _ : G => U) g.as).left ≫ j.left =
       ((Sigma.ι (fun _ : G => U) g.as).left ≫ (actionRelationUnderlyingIso U G).hom) ≫
         Sigma.desc f
-    rw [left_ι_actionRelationUnderlyingIso, Sigma.ι_desc]
+    rw [left_ι_actionRelationUnderlyingIso, Sigma.ι_comp_desc]
     simp [hf]
   rw [hleft, ← hdescSmall]
   exact MorphismProperty.RespectsIso.precomp P _ _
@@ -146,7 +146,7 @@ theorem quasiCompact_sigmaDesc_of_finite {ι : Type u} [Finite ι] {Y : ι → S
     {T : Scheme.{u}} (f : ∀ i, Y i ⟶ T) (hf : ∀ i, QuasiCompact (f i)) :
     QuasiCompact (Sigma.desc f) := by
   refine quasiCompact_iff_forall_isAffineOpen.mpr fun W hW => ?_
-  show IsCompact ((Sigma.desc f).base ⁻¹' (W : Set T))
+  change IsCompact ((Sigma.desc f).base ⁻¹' (W : Set T))
   have hdecomp : ((Sigma.desc f).base ⁻¹' (W : Set T)) =
       ⋃ i, (Sigma.ι Y i).base '' ((f i).base ⁻¹' (W : Set T)) := by
     ext x
@@ -154,7 +154,7 @@ theorem quasiCompact_sigmaDesc_of_finite {ι : Type u} [Finite ι] {Y : ι → S
     · obtain ⟨⟨i, y⟩, rfl⟩ := (sigmaMk Y).surjective x
       rw [sigmaMk_mk]
       refine Set.mem_iUnion.mpr ⟨i, y, ?_, rfl⟩
-      show (f i).base y ∈ W
+      change (f i).base y ∈ W
       simpa [← Scheme.Hom.comp_apply] using hx
     · obtain ⟨i, y, hy, rfl⟩ := Set.mem_iUnion.mp hx
       change (f i).base y ∈ W at hy

@@ -170,7 +170,7 @@ private theorem genericPoint_specMap_algebraMap :
       (genericPoint (Spec (.of K))) = genericPoint (Spec (.of R)) := by
   apply PrimeSpectrum.ext
   rw [genericPoint_eq_bot_of_affine, genericPoint_eq_bot_of_affine]
-  show Ideal.comap (algebraMap R K) (⊥ : Ideal K) = ⊥
+  change Ideal.comap (algebraMap R K) (⊥ : Ideal K) = ⊥
   ext x
   simp only [Ideal.mem_comap, Ideal.mem_bot]
   exact map_eq_zero_iff _ (IsFractionRing.injective R K)
@@ -233,7 +233,7 @@ private theorem flat_of_genericPoint_map {Z : Scheme.{u}} (q : Z ⟶ Spec (.of R
     exact htf
   have hψ : ψ.Flat := hflat
   have he : e.toRingHom.Flat := RingHom.Flat.of_bijective e.bijective
-  show φ.Flat
+  change φ.Flat
   rw [show φ = ψ.comp e.toRingHom by ext a; simp [ψ]]
   exact RingHom.Flat.comp he hψ
 
@@ -374,7 +374,7 @@ theorem isModel_comp_of_isResolution {C X Y : Scheme.{u}} (c : C ⟶ Spec (.of K
     infer_instance
   · have : QuasiCompact p := hX.2.2.1
     infer_instance
-  · show eY.hom ≫ pullback.snd (f ≫ p) i = c
+  · change eY.hom ≫ pullback.snd (f ≫ p) i = c
     have hc : eX.hom ≫ pullback.snd p i = c := hX.2.2.2
     simp [eY, θ, q, Category.assoc, pullbackRightPullbackFstIso_hom_snd, hc]
 

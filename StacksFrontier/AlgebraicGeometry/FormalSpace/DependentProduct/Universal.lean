@@ -141,7 +141,7 @@ theorem comp_liftAlongMk (hw : c₀ ≫ ζ = p ≫ i)
     ConcreteCategory.hom_ext _ _ fun y ↦ ?_))
   have hbase : ζ.hom.app T (c₀.hom.app T y) = i.hom.app T (p.hom.app T y) :=
     congrArg (fun k : W ⟶ X ↦ k.hom.app T y) hw
-  show mkApp hex T.unop (c₀.hom.app T y) = liftAlongSectionApp B S hS hi p T.unop y
+  change mkApp hex T.unop (c₀.hom.app T y) = liftAlongSectionApp B S hS hi p T.unop y
   refine LiftAlong.ext _ _ hbase fun T' t w h h' ↦ ?_
   have hLh : i.hom.app (Opposite.op T') w
       = X.obj.map t.op (ζ.hom.app T (c₀.hom.app T y)) := h

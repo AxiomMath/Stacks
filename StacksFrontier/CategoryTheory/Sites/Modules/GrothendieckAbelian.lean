@@ -106,8 +106,7 @@ noncomputable def tensorPresheafRestrict (F : Dᵒᵖ ⥤ Ab.{max r u}) {X Y : D
     (F.map f).hom.toIntLinearMap
   map_add' := map_add _
   map_smul' a x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [smul_add, map_add, hx, hy]
     | tmul b x => simp [TensorProduct.smul_tmul', smul_eq_mul]
 
@@ -238,7 +237,7 @@ lemma exists_tensorPresheafLift_eval (U : C) (M : PresheafOfModules.{max u v r t
           (freeRepresentable.{u, v, max r t} U).obj (op U))) = m := by
   refine ⟨tensorPresheafLift.{u, v, max u v t, r} Rp
     (freeRepresentableToPresheaf.{u, v, max r t} U M.presheaf m), ?_⟩
-  show (1 : Rp.obj (op U)) •
+  change (1 : Rp.obj (op U)) •
     (freeRepresentableToPresheaf.{u, v, max r t} U M.presheaf m).app (op U)
       (FreeAbelianGroup.of (ULift.up (𝟙 U))) = m
   rw [one_smul]

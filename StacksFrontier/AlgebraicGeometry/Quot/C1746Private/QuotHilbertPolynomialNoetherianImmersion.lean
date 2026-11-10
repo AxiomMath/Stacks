@@ -227,7 +227,7 @@ theorem isRepresentedSeparatedFinitePresentation_hilbertPolynomialQuot_of_isNoet
       ((presheaf_yoneda_map_iff B integerBase ℤS inferInstance c).2 hcc)
       (isClosedImmersion_of_isIso B integerBase ℤS κ.hom.hom)
   have hcompπ : π' ≫ productSnd n (schemeSpace W) = schemeSpaceMap (c ≫ πW) := by
-    show (schemeSpaceMap c ≫ κ.hom) ≫ productSnd n (schemeSpace W) = schemeSpaceMap (c ≫ πW)
+    change (schemeSpaceMap c ≫ κ.hom) ≫ productSnd n (schemeSpace W) = schemeSpaceMap (c ≫ πW)
     rw [Category.assoc, projectiveSiteProductIso_hom_productSnd,
       AlgebraicGeometry.schemeSpaceMap_comp]
   let PS : QuotPushforwardSituation B integerBase ℤS :=
@@ -293,7 +293,7 @@ theorem isRepresentedSeparatedFinitePresentation_hilbertPolynomialQuot_of_isNoet
   -- transport to `F` (along `j^*G ≅ F`) and to `i^*𝒪(1)` (along `j^*π'^*M ≅ i^*M`)
   let D := schemeQuotSituation (i ≫ πW) hq F hF
   have hjπ : schemeSpaceMap j ≫ π' = schemeSpaceMap i ≫ κ.hom := by
-    show schemeSpaceMap j ≫ schemeSpaceMap c ≫ κ.hom = schemeSpaceMap i ≫ κ.hom
+    change schemeSpaceMap j ≫ schemeSpaceMap c ≫ κ.hom = schemeSpaceMap i ≫ κ.hom
     rw [← Category.assoc, ← AlgebraicGeometry.schemeSpaceMap_comp, hjc]
   have hL₁ := isInvertible_modulePullback B integerBase ℤS π' M
   let L := (modulePullback B integerBase ℤS (schemeSpaceMap j)).obj

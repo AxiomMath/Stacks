@@ -342,7 +342,7 @@ theorem exists_app_kernel_ι_eq {M N : Modules.{u, max (u + 1) m} B S hS F hF} (
   have h1 := ConcreteCategory.congr_hom (ModuleCat.kernelIsoKer_inv_kernel_ι (G.map f)) k
   have h2 := ConcreteCategory.congr_hom (PreservesKernel.iso_inv_ι G f)
     ((ModuleCat.kernelIsoKer (G.map f)).inv k)
-  show (G.map (kernel.ι f)) ((PreservesKernel.iso G f).inv _) = z
+  change (G.map (kernel.ι f)) ((PreservesKernel.iso G f).inv _) = z
   rw [show (G.map (kernel.ι f)) ((PreservesKernel.iso G f).inv
       ((ModuleCat.kernelIsoKer (G.map f)).inv k))
     = ((PreservesKernel.iso G f).inv ≫ G.map (kernel.ι f))
@@ -354,7 +354,7 @@ theorem exists_app_kernel_ι_eq {M N : Modules.{u, max (u + 1) m} B S hS F hF} (
 theorem app_kernel_ι_comp_eq_zero {M N : Modules.{u, max (u + 1) m} B S hS F hF} (f : M ⟶ N)
     (U : ((smallEtaleRingedSite B S hS F hF).C)ᵒᵖ) (x : (kernel f).val.obj U) :
     f.val.app U ((kernel.ι f).val.app U x) = 0 := by
-  show (kernel.ι f ≫ f).val.app U x = 0
+  change (kernel.ι f ≫ f).val.app U x = 0
   rw [kernel.condition f]
   rfl
 

@@ -163,8 +163,7 @@ theorem tensorUnitComparison_naturality {M N : ModuleCat.{u} A} (φ : M ⟶ N)
     (z : M ⊗[A] F.obj (ModuleCat.of A A)) :
     tensorUnitComparison F hF N (TensorProduct.map φ.hom LinearMap.id z) =
       F.map φ (tensorUnitComparison F hF M z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [_root_.map_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [_root_.map_add, _root_.map_add, _root_.map_add, hx, hy, _root_.map_add]
   | tmul m t =>
     rw [TensorProduct.map_tmul, tensorUnitComparison_tmul, tensorUnitComparison_tmul]
@@ -207,12 +206,11 @@ theorem bijective_tensorUnitComparison_of_free_finite (M : ModuleCat.{u} A) [Mod
         rw [F.map_sum, addCommGrp_sum_apply]
       _ = x := by rw [hsum, F.map_id]; rfl
   have hl (z : M ⊗[A] F.obj (ModuleCat.of A A)) : g (tensorUnitComparison F hF M z) = z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp [g]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [_root_.map_add, hgadd, hx, hy]
     | tmul m t =>
       rw [tensorUnitComparison_tmul]
-      show (∑ j, b j ⊗ₜ[A] (F.map (ModuleCat.ofHom (b.coord j)))
+      change (∑ j, b j ⊗ₜ[A] (F.map (ModuleCat.ofHom (b.coord j)))
         (F.map (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m)) t)) = m ⊗ₜ[A] t
       have he (j : Module.Free.ChooseBasisIndex A M) :
           ModuleCat.ofHom (LinearMap.toSpanSingleton A M m) ≫ ModuleCat.ofHom (b.coord j) =
@@ -261,8 +259,7 @@ theorem bijective_tensorUnitComparison_of_flat [PreservesFilteredColimitsOfSize.
   have hrep (w : c.pt ⊗[A] F.obj (ModuleCat.of A A)) :
       ∃ (i : ι) (z : D.obj i ⊗[A] F.obj (ModuleCat.of A A)),
         TensorProduct.map (c.ι.app i).hom LinearMap.id z = w := by
-    induction w using TensorProduct.induction_on with
-    | zero => exact ⟨Classical.arbitrary ι, 0, _root_.map_zero _⟩
+    induction w using TensorProduct.inductionOn with
     | tmul m t =>
       obtain ⟨i, g, rfl⟩ := Module.DirectLimit.exists_of m
       exact ⟨i, g ⊗ₜ[A] t, rfl⟩

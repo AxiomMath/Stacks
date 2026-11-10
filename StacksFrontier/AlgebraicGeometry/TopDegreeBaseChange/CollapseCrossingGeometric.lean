@@ -225,7 +225,8 @@ typechecks on the nose, so **no comparison of sections functors is owed** — wi
 *declared* as the square's ambient outer functor `(-|_V) ⋙ openSubschemeTopSections V`.
 
 The ascription is not cosmetic, for the reason given in the module documentation:
-`CategoryTheory.Functor.whiskerLeft` of the library spelling into the square's is a `whnf` timeout, the additivity instances
+`CategoryTheory.Functor.whiskerLeft` of the library spelling into the square's is a `whnf` timeout,
+the additivity instances
 `CategoryTheory.NatTrans.mapHomologicalComplex` needs not being synthesised at the
 `imageTopRestrictScalarsOf` spelling of the target. This is the same re-ascription
 `sectionsImageTopNatIsoOf` itself is of `…TopDegreeBaseChange.sectionsOnImageTopNatIso`. -/

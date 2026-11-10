@@ -110,9 +110,9 @@ theorem ker_map_le_ker_map (G : ℕ ⥤ ModuleCat.{max u v} A) {m k k' : ℕ}
     (h : m ≤ k) (h' : m ≤ k') (hkk' : k ≤ k') :
     LinearMap.ker (G.map (homOfLE h)).hom ≤ LinearMap.ker (G.map (homOfLE h')).hom := by
   intro x hx
-  show (G.map (homOfLE h')).hom x = 0
+  change (G.map (homOfLE h')).hom x = 0
   rw [map_homOfLE_eq_comp G h h' hkk']
-  show (G.map (homOfLE hkk')).hom ((G.map (homOfLE h)).hom x) = 0
+  change (G.map (homOfLE hkk')).hom ((G.map (homOfLE h)).hom x) = 0
   rw [show (G.map (homOfLE h)).hom x = 0 from hx, map_zero]
 
 /-- A transition map out of a fixed term stays zero after localization once it is zero: the map

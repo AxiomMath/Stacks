@@ -71,8 +71,6 @@ open CategoryTheory CategoryTheory.Limits
 
 universe u v w
 
-set_option synthInstance.maxHeartbeats 400000
-
 namespace AlgebraicGeometry.Space
 
 /- The global instance `Abelian (SheafOfModules.{max u v r w} O)` of the cohomology of modules
@@ -88,6 +86,8 @@ section Intersection
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : AlgebraicSpaces B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- **A morphism into `F` whose inverse image factors through `φ` factors through `F ∩ f_*G`.**
 For `k : H ⟶ F` and `l : f^*H ⟶ G` with `l ≫ φ = f^*k`, the composite of `k` with the unit
 `F ⟶ f_*f^*F` is the composite of the unit `H ⟶ f_*f^*H`, of `f_*l` and of `f_*φ`, by
@@ -102,6 +102,8 @@ def intersectionPushforwardLift (f : Y ⟶ X) {F : Modules.{u, u} B S hS X.1 X.2
     rw [Category.assoc, ← Functor.map_comp, hl]
     exact (modulePullbackAdjunction B S hS f).unit.naturality k)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- The lift `intersectionPushforwardLift` composed with the inclusion of `F ∩ f_*G` into `F`
 is `k`. -/
 @[reassoc (attr := simp)]
@@ -112,6 +114,8 @@ theorem intersectionPushforwardLift_ι (f : Y ⟶ X) {F : Modules.{u, u} B S hS 
     intersectionPushforwardLift B S hS f φ k l hl ≫ intersectionPushforwardι B S hS f φ = k :=
   pullback.lift_fst _ _ _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- **`F ∩ f_*G` is functorial in `G` over `f^*F`.**  A morphism `g : G ⟶ G'` with
 `g ≫ φ' = φ` induces `F ∩ f_*G ⟶ F ∩ f_*G'` over `F`. -/
 def intersectionPushforwardMap (f : Y ⟶ X) {F : Modules.{u, u} B S hS X.1 X.2}
@@ -123,6 +127,8 @@ def intersectionPushforwardMap (f : Y ⟶ X) {F : Modules.{u, u} B S hS X.1 X.2}
       rw [Category.assoc, ← Functor.map_comp, hg]
       exact pullback.condition)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- The morphism `intersectionPushforwardMap` lies over `F`: composed with the inclusion of
 `F ∩ f_*G'` into `F`, it is the inclusion of `F ∩ f_*G` into `F`. -/
 @[reassoc (attr := simp)]
@@ -142,6 +148,8 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 /-! ### Colimits detected on the underlying modules -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- The naturality of a cocone with constant vertex, read on the underlying morphisms of
 `𝒪_U`-modules. -/
 @[reassoc]
@@ -151,6 +159,8 @@ theorem cocone_naturality_hom {I : Type w} [Category.{v} I] {D : I ⥤ Quasicohe
       Hom.hom (M := D.obj i) (N := M) (φ.app i) :=
   (congrArg Hom.hom (φ.naturality g)).trans (Category.comp_id _)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- **A cocone of quasi-coherent modules on a groupoid in algebraic spaces is colimiting as soon
 as its underlying cocone of `𝒪_U`-modules is.**  The descended morphism of underlying modules is
 compatible with the transition morphisms because the inverse image along the target preserves the
@@ -182,6 +192,8 @@ def isColimitOfUnderlying {I : Type w} [Category.{v} I] {D : I ⥤ Quasicoherent
     ← Category.assoc,
     ← Functor.map_comp, hfac]
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- **A filtered diagram of submodules exhausting a quasi-coherent module on the groupoid has it
 as its colimit.**  Let `φ : D ⟶ M` be a cocone over an essentially small filtered category whose
 legs are monomorphisms of the underlying `𝒪_U`-modules and whose images have supremum `⊤`.  Then
@@ -238,6 +250,8 @@ def isColimit_of_iSup_eq_top {I : Type w} [Category.{v} I] [EssentiallySmall.{u}
 
 attribute [local instance] isIso_alpha
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- **Every coherent submodule `ℋ` of `ℱ` lies in `ℱ ∩ s_*t^*ℋ'` for some coherent submodule
 `ℋ'` of `ℱ`.**  Here `ℱ ∩ s_*t^*ℋ'` is formed for `t^*ℋ' ⟶ t^*ℱ ⟶ s^*ℱ`, the inverse image of
 the inclusion followed by the transition morphism `β`, and `U`, `R` are Noetherian and `t` is
@@ -317,6 +331,8 @@ theorem exists_le_intersectionPushforward (hZ : B.Contains (⊤_ Scheme.{u}))
 
 /-! ### `ℱ ∩ s_*t^*ℋ` as a fibre product over `s_*t^*ℱ` -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- **The fibre product of `ℱ ⟶ s_*t^*ℱ ⟵ s_*t^*ℋ` is `ℱ ∩ s_*t^*ℋ`.**  The left arrow is the
 composite `ℱ ⟶ s_*s^*ℱ ⟶ s_*t^*ℱ` of the unit and of `s_*β⁻¹`, and the right one is
 `s_*t^*` of a morphism `ι : ℋ ⟶ ℱ`.  Composing both arrows with the isomorphism `s_*β` turns the
@@ -341,6 +357,8 @@ theorem isPullback_unit_of_isPullback_sourceUnitInvAlpha (M : QuasicoherentModul
     exact (Category.comp_id _).trans (Category.id_comp _).symm
   · rw [Functor.mapIso_hom, asIso_hom, ← Functor.map_comp, Iso.refl_hom, Category.id_comp]
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- The comparison of a fibre product of `ℱ ⟶ s_*t^*ℱ ⟵ s_*t^*ℋ` with `ℱ ∩ s_*t^*ℋ`, given by
 `AlgebraicGeometry.Space.QuasicoherentModule.isPullback_unit_of_isPullback_sourceUnitInvAlpha`;
 it commutes with the two maps to `ℱ`. -/
@@ -360,6 +378,8 @@ theorem exists_iso_intersectionPushforward (M : QuasicoherentModule B S hS G)
 
 /-! ### Comparing submodules on the groupoid through their underlying modules -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- **Containment of submodules on the groupoid is detected on the underlying modules**, when the
 source is flat and the larger submodule is injective on underlying modules.  A factorization `k`
 of the underlying inclusions is compatible with the transition morphisms: after composing with the
@@ -382,6 +402,8 @@ theorem subobject_le_of_comm (hs : IsFlat B S hS G.source.hom) {M : Quasicoheren
     ← Functor.map_comp, hk]
   exact P.arrow.comm
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 variable (B S hS) in
 /-- The morphism `t^*ℋ ⟶ t^*ℱ ⟶ s^*ℱ` of a submodule `ℋ ⊆ ℱ`, for a quasi-coherent module
 `(ℱ, β)` on the groupoid: the inverse image along the target of the inclusion followed by the
@@ -391,6 +413,8 @@ abbrev transitionInclusion (M : QuasicoherentModule B S hS G)
     (modulePullback B S hS G.target).obj H ⟶ (modulePullback B S hS G.source).obj M.F.obj :=
   (modulePullback B S hS G.target).map ι ≫ M.alpha
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- For `t` flat, the inverse image along the target preserves monomorphisms. -/
 private theorem mono_modulePullback_target_map (ht : IsFlat B S hS G.target.hom)
     {F H : Modules.{u, u} B S hS G.objects.1 G.objects.2} (ι : H ⟶ F) [Mono ι] :
@@ -398,6 +422,8 @@ private theorem mono_modulePullback_target_map (ht : IsFlat B S hS G.target.hom)
   have := preservesFiniteLimits_modulePullback_of_isFlat_hom B S hS G.target ht
   (modulePullback B S hS G.target).map_mono _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- **`ℱ ∩ s_*t^*ℋ` is coherent** for a coherent submodule `ℋ` of `ℱ`, when `U` and `R` are
 locally Noetherian and `s` is flat, quasi-compact and quasi-separated and `t` is flat.  This is
 Stacks 0GPR for `f = s`, `𝒢 = t^*ℋ` and `φ : t^*ℋ ⟶ t^*ℱ ⟶ s^*ℱ`: the morphism `φ` is injective
@@ -416,13 +442,15 @@ theorem isCoherent_intersectionPushforward_transitionInclusion
     (fun V : Scheme.{u} => IsLocallyNoetherian V)) := ⟨hR⟩
   have : Mono ((modulePullback B S hS G.target).map H.obj.arrow) :=
     mono_modulePullback_target_map ht _
-  have : Mono M.alpha := by haveI := isIso_alpha M; exact IsIso.mono_of_iso _
+  have : Mono M.alpha := by have := isIso_alpha M; exact IsIso.mono_of_iso _
   exact isCoherent_intersectionPushforward B S hS G.source M.F.obj _ _ (mono_comp _ _) hsqc hsqs hs
     (Stack.QuotientAtlas.isSurjective_source G) hU hR M.F.property
     (isCoherent_modulePullback B S hS G.target _ H.property)
 
 /-! ### Fibre products on the groupoid -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 open GroupoidInAlgebraicSpaces in
 /-- **Fibre products of quasi-coherent modules on the groupoid, for `s` flat, are computed on the
 underlying modules.**  The fibre product of the underlying modules is quasi-coherent, and it
@@ -456,12 +484,16 @@ theorem exists_isPullback_of_isFlat (hs : IsFlat B S hS G.source.hom)
     show (L.π.app .right).hom = pullback.snd f.hom g.hom from Category.comp_id _]
   exact IsPullback.of_hasPullback f.hom g.hom
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- A morphism of quasi-coherent modules on the groupoid whose underlying morphism of
 `𝒪_U`-modules is a monomorphism is a monomorphism. -/
 theorem mono_of_mono_hom {X Y : QuasicoherentModule B S hS G} (f : X ⟶ Y) (hf : Mono f.hom) :
     Mono f :=
   ⟨fun _ _ hgh => Hom.ext ((cancel_mono f.hom).1 (congrArg Hom.hom hgh))⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- **A fibre product over `s_*t^*ℱ` on the groupoid is a submodule with underlying module
 `ℱ ∩ s_*t^*ℋ`.**  Let `p₁ : P ⟶ (ℱ, β)` be a morphism on the groupoid whose underlying morphism
 is the first projection of a fibre product of `ℱ ⟶ s_*t^*ℱ ⟵ s_*t^*ℋ`, the left arrow being the
@@ -493,6 +525,8 @@ theorem exists_subobject_of_isPullback (ht : IsFlat B S hS G.target.hom)
 
 /-! ### The colimit bookkeeping -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- A submodule of `(ℱ, β)` on the groupoid whose underlying submodule is `ℱ ∩ s_*t^*ℋ` is
 injective on underlying modules, for `t` flat and `ℋ ⊆ ℱ`. -/
 theorem mono_arrow_hom_of_iso_intersectionPushforward (ht : IsFlat B S hS G.target.hom)
@@ -505,13 +539,15 @@ theorem mono_arrow_hom_of_iso_intersectionPushforward (ht : IsFlat B S hS G.targ
     Mono (Hom.hom (M := (Q : QuasicoherentModule B S hS G)) (N := M) Q.arrow) := by
   have : Mono ((modulePullback B S hS G.target).map ι) :=
     mono_modulePullback_target_map ht _
-  have : Mono M.alpha := by haveI := isIso_alpha M; exact IsIso.mono_of_iso _
+  have : Mono M.alpha := by have := isIso_alpha M; exact IsIso.mono_of_iso _
   have : Mono (intersectionPushforwardι B S hS G.source (transitionInclusion B S hS M ι)) :=
     mono_intersectionPushforwardι B S hS G.source _ (mono_comp _ _)
   have hc := mono_comp e.hom
     (intersectionPushforwardι B S hS G.source (transitionInclusion B S hS M ι))
   rwa [he] at hc
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- **`ℋ ↦ ℱ ∩ s_*t^*ℋ` is monotone on submodules on the groupoid.**  If `Q` and `Q'` are
 submodules of `(ℱ, β)` on the groupoid with underlying submodules `ℱ ∩ s_*t^*ℋ` and
 `ℱ ∩ s_*t^*ℋ'`, and `ℋ ⊆ ℋ'`, then `Q ⊆ Q'`, for `s` and `t` flat. -/
@@ -536,6 +572,8 @@ theorem le_of_iso_intersectionPushforward (hs : IsFlat B S hS G.source.hom)
   · rw [Category.assoc, Category.assoc, ← he', Iso.inv_hom_id_assoc,
       intersectionPushforwardMap_ι, he]
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- **The submodules `ℱ ∩ s_*t^*ℋ` on the groupoid exhaust `(ℱ, β)`.**  Let `U` and `R` be
 Noetherian and `t` flat, and let `P ℋ` be a submodule of `(ℱ, β)` on the groupoid with
 underlying submodule `ℱ ∩ s_*t^*ℋ`, for every coherent submodule `ℋ` of `ℱ`.  Then the
@@ -578,6 +616,8 @@ theorem iSup_imageSubobject_eq_top_of_iso_intersectionPushforward
 
 /-! ### The right adjoint of the forgetful functor on underlying modules -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- The underlying morphism of a direct image along a morphism of groupoids, after a functor into
 the quasi-coherent modules on the source groupoid. -/
 theorem comp_groupoidQuasicoherentPushforward_map_hom {G₁ : GroupoidInAlgebraicSpaces B S hS A}
@@ -590,6 +630,8 @@ theorem comp_groupoidQuasicoherentPushforward_map_hom {G₁ : GroupoidInAlgebrai
       (modulePushforward B S hS φ.objectsMap).map (K.map ψ).hom :=
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- A fibre product over `ℱ ⟶ s_*t^*ℱ` read through any typing of the source and the target of
 the groupoid: the unit followed by `s_*β⁻¹`, and `s_*t^*` of a morphism into `ℱ`, in the typing in
 which they are given, are those of the groupoid. -/
@@ -611,6 +653,8 @@ theorem isPullback_sourceUnitInvAlpha_of_heq (M : QuasicoherentModule B S hS G)
   obtain rfl := eq_of_heq ha
   exact ⟨p₂, h⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in this file needs more than the default budget
 /-- **Stacks 0GPS.**  Let `(U, R, s, t, c)` be a groupoid in algebraic spaces over `B` such that
 `U` and `R` are Noetherian and `s` and `t` are flat, quasi-compact and quasi-separated.  Then every
 quasi-coherent module `(ℱ, β)` on `(U, R, s, t, c)` is a filtered colimit of coherent modules: it

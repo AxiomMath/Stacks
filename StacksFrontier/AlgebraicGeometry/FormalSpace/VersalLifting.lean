@@ -83,17 +83,17 @@ theorem isPullback_comparisonFunctor_map {C' C : Deformation.ArtinianLocalAlgCat
       right_inv := fun x => by
         apply Subtype.ext
         apply Prod.ext
-        · show fst' ((F.pullbackEquiv C').symm _) = x.val.1
+        · change fst' ((F.pullbackEquiv C').symm _) = x.val.1
           rw [Deformation.Artin.changeOfFieldMap_apply]
-          show ((F.pullbackEquiv C') ((F.pullbackEquiv C').symm _)).val.1 = _
+          change ((F.pullbackEquiv C') ((F.pullbackEquiv C').symm _)).val.1 = _
           rw [RingEquiv.apply_symm_apply]
         · apply (F.pullbackEquiv C).injective
           apply Subtype.ext
           apply Prod.ext
-          · show ((F.pullbackEquiv C) ((F.functor.map f).hom _)).val.1 = fstC x.val.2
+          · change ((F.pullbackEquiv C) ((F.functor.map f).hom _)).val.1 = fstC x.val.2
             rw [F.map_fst f, RingEquiv.apply_symm_apply]
             exact x.property
-          · show ((F.pullbackEquiv C) ((F.functor.map f).hom _)).val.2 = _
+          · change ((F.pullbackEquiv C) ((F.functor.map f).hom _)).val.2 = _
             rw [F.map_snd f, RingEquiv.apply_symm_apply]
       map_mul' := fun a b => Subtype.ext (Prod.ext (map_mul fst' a b)
         (map_mul (F.functor.map f).hom a b))
@@ -104,10 +104,10 @@ theorem isPullback_comparisonFunctor_map {C' C : Deformation.ArtinianLocalAlgCat
   refine h.of_iso e.toCommRingCatIso.symm (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_
     (Category.comp_id _) ((Category.comp_id _).trans (Category.id_comp _).symm)
   · ext x
-    show x.val.1 = fst' (e.symm x)
+    change x.val.1 = fst' (e.symm x)
     exact (congrArg (fun y => y.val.1) (e.apply_symm_apply x)).symm
   · ext x
-    show x.val.2 = (F.functor.map f).hom (e.symm x)
+    change x.val.2 = (F.functor.map f).hom (e.symm x)
     exact (congrArg (fun y => y.val.2) (e.apply_symm_apply x)).symm
 
 end Ring
@@ -239,7 +239,7 @@ theorem liftsAtCompletion_of_isVersalAtCompletion (V : BigFppfOver B S hS)
         commutes' := fun a => by
           rw [IsScalarTower.algebraMap_apply Λ E (IsLocalRing.ResidueField E),
             IsLocalRing.ResidueField.algebraMap_eq]
-          show IsLocalRing.ResidueField.lift r.hom (IsLocalRing.residue E _) = _
+          change IsLocalRing.ResidueField.lift r.hom (IsLocalRing.residue E _) = _
           rw [IsLocalRing.ResidueField.lift_residue_apply]
           exact hrΛ a }
       ⟨RingHom.injective _, fun y => by
@@ -258,7 +258,7 @@ theorem liftsAtCompletion_of_isVersalAtCompletion (V : BigFppfOver B S hS)
     { hom := φΛ
       isLocal := inferInstanceAs (IsLocalHom φ.hom)
       residue_comm := fun a => by
-        show IsLocalRing.ResidueField.lift ρ.hom (IsLocalRing.residue D (φ.hom a)) =
+        change IsLocalRing.ResidueField.lift ρ.hom (IsLocalRing.residue D (φ.hom a)) =
           IsLocalRing.ResidueField.lift (φ ≫ ρ).hom (IsLocalRing.residue D' a)
         rw [IsLocalRing.ResidueField.lift_residue_apply,
           IsLocalRing.ResidueField.lift_residue_apply]
@@ -324,7 +324,7 @@ theorem liftsAtCompletion_of_isVersalAtCompletion (V : BigFppfOver B S hS)
     · rw [← Category.assoc, hα₀l, hα]
       exact hj₁.symm
     · rw [← Category.assoc, hα₀r]
-      show _ = Spec.map (CommRingCat.ofHom (Deformation.Artin.residueMap A)) ≫
+      change _ = Spec.map (CommRingCat.ofHom (Deformation.Artin.residueMap A)) ≫
         Spec.map (CommRingCat.ofHom (algebraMap T.Λ A)) ≫ iΛ
       rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp,
         Deformation.Artin.residueMap_comp_algebraMap_self]
@@ -337,7 +337,7 @@ theorem liftsAtCompletion_of_isVersalAtCompletion (V : BigFppfOver B S hS)
     have ht : t = (Spec.map (CommRingCat.ofHom (Deformation.Artin.residueMap A)))
         (IsLocalRing.closedPoint k) :=
       (eq_closedPoint_of_isArtinianRing (.of A) t).trans Spec_closedPoint.symm
-    show α₀ t = _
+    change α₀ t = _
     rw [ht]
     exact (congrArg (fun f => f (IsLocalRing.closedPoint k)) hα₀r).trans
       (Scheme.fromSpecResidueField_apply _ _)
@@ -352,7 +352,7 @@ theorem liftsAtCompletion_of_isVersalAtCompletion (V : BigFppfOver B S hS)
   have hcomm : i₁ ≫ i'₁ = j₁ ≫ i := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show Spec.map φ ≫ Spec.map (CommRingCat.ofHom cof') =
+    change Spec.map φ ≫ Spec.map (CommRingCat.ofHom cof') =
       Spec.map (CommRingCat.ofHom cof) ≫ Spec.map (CommRingCat.ofHom fA.hom.toRingHom)
     rw [← Spec.map_comp, ← Spec.map_comp]
     exact congrArg Spec.map hsq.w
@@ -424,12 +424,12 @@ theorem liftsAtCompletion_of_isVersalAtCompletion (V : BigFppfOver B S hS)
     (hAL D hD _) (hAL D' hD' _) (hAL (.of A) hAc _) (hAL (.of A') hA'c _)
     (by
       have h := hFT T.l C hD hlft
-      show AlgebraicGeometry.LocallyOfFiniteType (Spec.map φ ≫ s) ∧ QuasiCompact (Spec.map φ ≫ s)
+      change AlgebraicGeometry.LocallyOfFiniteType (Spec.map φ ≫ s) ∧ QuasiCompact (Spec.map φ ≫ s)
       rw [eXD]
       exact h)
     (by
       have h := hFT T.l C' hD' hlft
-      show AlgebraicGeometry.LocallyOfFiniteType s ∧ QuasiCompact s
+      change AlgebraicGeometry.LocallyOfFiniteType s ∧ QuasiCompact s
       rw [← hsψ]
       exact h)
     (hFT T.k A hAc hkft) (hFT T.k A' hA'c hkft) hcl hpo _ z hab

@@ -185,7 +185,7 @@ public theorem degreeZeroLocalization_exists_fraction_of_degree (hf : f ∈ A d)
       refine ⟨n + m, f ^ m • x + f ^ n • y,
         add_mem (pow_smul_mem_degree A B hf rfl hx)
           (pow_smul_mem_degree A B hf (Nat.add_comm m n) hy), ?_⟩
-      show LocalizedModule.mk (S := Submonoid.powers f) x _ +
+      change LocalizedModule.mk (S := Submonoid.powers f) x _ +
         LocalizedModule.mk (S := Submonoid.powers f) y _ = _
       rw [LocalizedModule.mk_add_mk]
       congr 1
@@ -195,7 +195,7 @@ public theorem degreeZeroLocalization_exists_fraction_of_degree (hf : f ∈ A d)
       obtain ⟨m, r, hr, rfl⟩ := HomogeneousLocalization.Away.mk_surjective A hf a
       refine ⟨m + n, r • x,
         smul_mem_degree A B rfl hr hx, ?_⟩
-      show HomogeneousLocalization.val (HomogeneousLocalization.Away.mk A hf m r hr) •
+      change HomogeneousLocalization.val (HomogeneousLocalization.Away.mk A hf m r hr) •
         LocalizedModule.mk (S := Submonoid.powers f) x _ = _
       rw [HomogeneousLocalization.Away.val_mk, LocalizedModule.mk_smul_mk]
       congr 1
@@ -302,7 +302,7 @@ public theorem degreeZeroLocalizationLiftOfDegree_smul (hf : f ∈ A d) (e : ℕ
       GradedModuleDegreeZeroLocalization A B f) : LocalizedModule.Away f M) =
       LocalizedModule.mk (S := Submonoid.powers f) (r • x)
         ⟨f ^ (m + n), by exact ⟨m + n, rfl⟩⟩ := by
-    show HomogeneousLocalization.val (HomogeneousLocalization.Away.mk A hf m r hr) •
+    change HomogeneousLocalization.val (HomogeneousLocalization.Away.mk A hf m r hr) •
       (z : LocalizedModule.Away f M) = _
     rw [hz, HomogeneousLocalization.Away.val_mk, LocalizedModule.mk_smul_mk]
     congr 1

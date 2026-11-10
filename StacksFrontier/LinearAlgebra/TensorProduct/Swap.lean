@@ -12,7 +12,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Altitude
@@ -238,7 +238,7 @@ theorem alphaMap_apply (v w : V) : alphaMap ![v, w] = v ⊗ₜ[k] w - w ⊗ₜ[k
   have : (alphaMap : V [⋀^Fin 2]→ₗ[k] (V ⊗[k] V)) ![v, w]
       = muMap ![v,w] - muMap (fun x => ![v,w] (Equiv.swap (0:Fin 2) 1 x)) := rfl
   rw [this]
-  show (![v,w] 0) ⊗ₜ[k] (![v,w] 1)
+  change (![v,w] 0) ⊗ₜ[k] (![v,w] 1)
       - (![v,w] (Equiv.swap (0:Fin 2) 1 0)) ⊗ₜ[k] (![v,w] (Equiv.swap (0:Fin 2) 1 1)) = _
   simp
 
@@ -341,8 +341,7 @@ theorem range_AWedge (hk : (2 : k) ≠ 0) :
       rw [hx, sub_neg_eq_add, ← two_smul k x, smul_smul, inv_mul_cancel₀ hk, one_smul]
     have hP : ∀ y : V ⊗[k] V, y - swapMap k V y ∈ LinearMap.range (AWedge (k := k) (V := V)) := by
       intro y
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul v w =>
         rw [swapMap_tmul]
         exact ⟨exteriorPower.ιMulti k 2 ![v, w], by rw [AWedge_ιMulti]⟩

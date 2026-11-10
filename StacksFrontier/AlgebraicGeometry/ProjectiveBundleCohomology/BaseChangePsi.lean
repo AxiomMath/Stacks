@@ -91,7 +91,7 @@ public theorem chartPush_psi_apply (D : TwistData A) (U : S.Opens) (hU : IsAffin
     ((D.algebra.piece (n : ℤ)).val.map (eqToHom (D.chartData.chart_range U hU)).op
       ((D.ψ n).val.app (op U) b))
   have hψ := chartIso_hom_psi D U hU n b
-  show ((D.chartData.chartIso U hU (n : ℤ)).hom.val.app (op ((relativeProj A).chart U hU ⁻¹ᵁ V))
+  change ((D.chartData.chartIso U hU (n : ℤ)).hom.val.app (op ((relativeProj A).chart U hU ⁻¹ᵁ V))
       ((D.algebra.piece (n : ℤ)).val.map
         (homOfLE (((relativeProj A).chart U hU).image_preimage_le V)).op
         ((D.algebra.piece (n : ℤ)).val.map (homOfLE hV).op ((D.ψ n).val.app (op U) b)))).1 z = _
@@ -110,7 +110,7 @@ public theorem chartPush_mul_apply (D : TwistData A) (U : S.Opens) (hU : IsAffin
       ((chartPush D U hU i).val.app (op V) x).1 z *
         ((chartPush D U hU j).val.app (op V) y).1 z := by
   let := D.chartData.chart_isOpenImmersion U hU
-  show ((D.chartData.chartIso U hU (i + j)).hom.val.app (op ((relativeProj A).chart U hU ⁻¹ᵁ V))
+  change ((D.chartData.chartIso U hU (i + j)).hom.val.app (op ((relativeProj A).chart U hU ⁻¹ᵁ V))
       ((D.algebra.piece (i + j)).val.map
         (homOfLE (((relativeProj A).chart U hU).image_preimage_le V)).op
         ((D.algebra.mul i j).app (op V) x y))).1 z = _
@@ -363,7 +363,7 @@ public theorem psi_comp_thetaFlat (n : ℕ) :
   have hglue := eq_thetaGlue g E hqc E' hqc' hE D D' U hU (n : ℤ)
     ((relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc)).toBase ⁻¹ᵁ U) le_rfl
     ((D.ψ n).val.app (op U) z) y hy
-  show ((Stacks.AlgebraicGeometry.HigherDirectImageBaseChange.pushforwardSquareIso
+  change ((Stacks.AlgebraicGeometry.HigherDirectImageBaseChange.pushforwardSquareIso
         (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc)).toBase g
         (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E' hqc')).toBase
         (bundleBaseChange g E hqc E' hqc' hE)

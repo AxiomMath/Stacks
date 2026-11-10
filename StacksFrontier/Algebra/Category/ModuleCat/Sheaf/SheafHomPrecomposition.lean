@@ -118,7 +118,7 @@ lemma overSmul_app_top (r : (structureSheaf Rc).obj.obj (op U)) (x : G.val.obj (
   have hq : q = 𝟙 W := Quiver.Hom.unop_inj (Over.OverMorphism.ext (Subsingleton.elim _ _))
   let x₀ : (G.over U).val.obj W := x
   let r₀ : ((structureSheaf Rc).over U).obj.obj W := r
-  show (overSmul G U r).val.app W x₀ = r₀ • x₀
+  change (overSmul G U r).val.app W x₀ = r₀ • x₀
   calc (overSmul G U r).val.app W x₀ = (((structureSheaf Rc).over U).obj.map q r₀) • x₀ :=
         overSmul_app G U r W x₀
     _ = r₀ • x₀ := by
@@ -262,7 +262,7 @@ determines it. -/
 lemma isPrecomp_precomp (β : F₁ ⟶ F) (H : SheafHom Rc F G) (H' : SheafHom Rc F₁ G) :
     IsPrecomp Rc β H H' (precomp β H H') := by
   intro U s
-  show H'.sectionsEquiv U ((H'.sectionsEquiv U).symm (β.over U ≫ H.sectionsEquiv U s)) = _
+  change H'.sectionsEquiv U ((H'.sectionsEquiv U).symm (β.over U ≫ H.sectionsEquiv U s)) = _
   exact (H'.sectionsEquiv U).apply_symm_apply _
 
 /-- The identity induces the identity: precomposition with `𝟙` on the internal hom of one pair
@@ -271,7 +271,7 @@ lemma precomp_id (H : SheafHom Rc F G) : precomp (𝟙 F) H H = 𝟙 H.obj := by
   refine eq_of_isPrecomp (isPrecomp_precomp (𝟙 F) H H) (fun U s => ?_)
   have h : SheafOfModules.Hom.over (𝟙 F) U = 𝟙 (F.over U) :=
     (SheafOfModules.overFunctor (structureSheaf Rc) U).map_id F
-  show H.sectionsEquiv U s = SheafOfModules.Hom.over (𝟙 F) U ≫ H.sectionsEquiv U s
+  change H.sectionsEquiv U s = SheafOfModules.Hom.over (𝟙 F) U ≫ H.sectionsEquiv U s
   rw [h, Category.id_comp]
 
 /-- **Precomposition is contravariantly functorial.** -/

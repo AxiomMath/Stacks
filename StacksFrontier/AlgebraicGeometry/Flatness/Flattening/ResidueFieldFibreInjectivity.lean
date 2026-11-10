@@ -232,13 +232,11 @@ theorem fiberBaseChangeLinearEquiv_natural
     (fiberBaseChangeLinearEquiv (P := Q) e).toLinearMap ∘ₗ (f.baseChange S).rTensor K =
       f.rTensor L ∘ₗ (fiberBaseChangeLinearEquiv (P := P) e).toLinearMap := by
   ext z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z₁ z₂ hz₁ hz₂ =>
     simpa only [LinearMap.map_add] using congrArg₂ (· + ·) hz₁ hz₂
   | tmul w k =>
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | add w₁ w₂ hw₁ hw₂ =>
       simpa only [TensorProduct.add_tmul, LinearMap.map_add] using
         congrArg₂ (· + ·) hw₁ hw₂
@@ -267,13 +265,11 @@ private theorem cancelBaseChange_rTensorEquiv_natural
       f.rTensor Q ∘ₗ
         (cancelBaseChange_rTensorEquiv (R := R) (S := S) (P := P) (Q := Q)).toLinearMap := by
   ext z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z₁ z₂ hz₁ hz₂ =>
     simpa only [LinearMap.map_add] using congrArg₂ (· + ·) hz₁ hz₂
   | tmul w q =>
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | add w₁ w₂ hw₁ hw₂ =>
       simpa only [TensorProduct.add_tmul, LinearMap.map_add] using
         congrArg₂ (· + ·) hw₁ hw₂
@@ -322,10 +318,10 @@ private theorem rTensor_injective_of_ideal_power_annihilated
     have hkillK : ∀ (a : R), a ∈ I ^ n → ∀ x : K, a • x = 0 := by
       intro a ha x
       apply Subtype.ext
-      show a • (x : Q) = 0
+      change a • (x : Q) = 0
       refine Submodule.smul_induction_on x.2 ?_ ?_
       · intro b hb y hy
-        show a • (b • y) = 0
+        change a • (b • y) = 0
         rw [← mul_smul]
         apply hn (a * b) ?_ y
         rw [pow_succ]
@@ -336,7 +332,7 @@ private theorem rTensor_injective_of_ideal_power_annihilated
     have hkillQuot : ∀ (a : R), a ∈ I → ∀ x : Qquot, a • x = 0 := by
       intro a ha x
       obtain ⟨y, rfl⟩ := K.mkQ_surjective x
-      show K.mkQ (a • y) = 0
+      change K.mkQ (a • y) = 0
       rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
       exact Submodule.smul_mem_smul ha (Submodule.mem_top)
     exact rTensor_injective_of_shortExact f
@@ -396,7 +392,7 @@ theorem isBaseChange_localQuotient_moduleMap
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   let : IsScalarTower X.A Y.Bₛ Y.N :=
     IsScalarTower.of_algebraMap_smul fun a n => by
-      show (algebraMap X.A Y.Bₛ a) • n = (algebraMap X.A Y.A a) • n
+      change (algebraMap X.A Y.Bₛ a) • n = (algebraMap X.A Y.A a) • n
       rw [IsScalarTower.algebraMap_apply X.A Y.A Y.Bₛ]
       exact IsScalarTower.algebraMap_smul Y.Bₛ (algebraMap X.A Y.A a) n
   let : IsScalarTower X.A X.Bₛ Y.N :=
@@ -412,7 +408,7 @@ theorem isBaseChange_localQuotient_moduleMap
     e₁.symm.trans (e₂.restrictScalars Y.A)
   apply IsBaseChange.of_equiv e
   intro n
-  show e₂ (e₁.symm (1 ⊗ₜ[X.A] n)) = hbc.moduleMap n
+  change e₂ (e₁.symm (1 ⊗ₜ[X.A] n)) = hbc.moduleMap n
   rw [Algebra.IsPushout.cancelBaseChange_symm_tmul]
   calc
     e₂ ((algebraMap Y.A Y.Bₛ 1) ⊗ₜ[X.Bₛ] n) =
@@ -470,7 +466,7 @@ private theorem localQuotient_moduleMap_isBaseChange
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   let : IsScalarTower X.A Y.Bₛ Y.N :=
     IsScalarTower.of_algebraMap_smul fun a n => by
-      show (algebraMap X.A Y.Bₛ a) • n = (algebraMap X.A Y.A a) • n
+      change (algebraMap X.A Y.Bₛ a) • n = (algebraMap X.A Y.A a) • n
       rw [IsScalarTower.algebraMap_apply X.A Y.A Y.Bₛ]
       exact IsScalarTower.algebraMap_smul Y.Bₛ (algebraMap X.A Y.A a) n
   let : IsScalarTower X.A X.Bₛ Y.N :=
@@ -486,7 +482,7 @@ private theorem localQuotient_moduleMap_isBaseChange
     e₁.symm.trans (e₂.restrictScalars Y.A)
   apply IsBaseChange.of_equiv e
   intro n
-  show e₂ (e₁.symm (1 ⊗ₜ[X.A] n)) = hbc.moduleMap n
+  change e₂ (e₁.symm (1 ⊗ₜ[X.A] n)) = hbc.moduleMap n
   rw [Algebra.IsPushout.cancelBaseChange_symm_tmul]
   calc
     e₂ ((algebraMap Y.A Y.Bₛ 1) ⊗ₜ[X.Bₛ] n) =
@@ -604,7 +600,7 @@ private theorem localQuotientMapULift_residueField_injective
   have hAlg : (algebraMap Y.A p.ResidueField).comp (algebraMap X.A Y.A) =
       algebraMap X.A p.ResidueField := by
     ext a
-    show g₀ (hbc.baseEquiv (algebraMap X.A Y.A a)) = _
+    change g₀ (hbc.baseEquiv (algebraMap X.A Y.A a)) = _
     rw [hbc.baseEquiv_algebraMap]
     exact Ideal.Quotient.lift_mk _ _ _
   let : IsScalarTower X.A Y.A p.ResidueField :=
@@ -615,7 +611,7 @@ private theorem localQuotientMapULift_residueField_injective
   let eN := isBaseChange_localQuotient_moduleMap X p I Y hbc
   have hmap : (localQuotientMap X p I Y hbc u).comp eN.equiv.toLinearMap =
       u.baseChange Y.A := by
-    show ((u.baseChange Y.A).comp eN.equiv.symm.toLinearMap).comp
+    change ((u.baseChange Y.A).comp eN.equiv.symm.toLinearMap).comp
       eN.equiv.toLinearMap = u.baseChange Y.A
     rw [LinearMap.comp_assoc]
     simp
@@ -744,7 +740,7 @@ private theorem localQuotient_rTensor_injective
   have hcomp : (localQuotientMap X p I Y hbc u).rTensor Q ∘ₗ
       (eN.equiv.toLinearMap.rTensor Q) = (u.baseChange Y.A).rTensor Q := by
     rw [← LinearMap.rTensor_comp]
-    show (((u.baseChange Y.A).comp eN.equiv.symm.toLinearMap).comp
+    change (((u.baseChange Y.A).comp eN.equiv.symm.toLinearMap).comp
       eN.equiv.toLinearMap).rTensor Q = _
     simp [LinearMap.comp_assoc]
   have hbase : Function.Injective ((u.baseChange Y.A).rTensor Q) := by
@@ -817,16 +813,16 @@ private theorem localQuotient_localizedMapRp_rTensor_injective_of_annihilated
       intro a ha
       apply RingHom.mem_ker.mpr
       ext x
-      show a • x = 0
+      change a • x = 0
       exact hkill a ha x)
   let : Module (Rp ⧸ I) Q := Module.compHom Q qAct
   let : Module Y.A Q := Module.compHom Q (qAct.comp hbc.baseEquiv.toRingHom)
   let : Module X.A Q := Module.compHom Q (algebraMap X.A Y.A)
   have hcompat (a : X.A) (x : Q) :
       (algebraMap X.A Y.A a) • x = (algebraMap X.A Rp a) • x := by
-    show (qAct (hbc.baseEquiv (algebraMap X.A Y.A a))) x = _
+    change (qAct (hbc.baseEquiv (algebraMap X.A Y.A a))) x = _
     rw [hbc.baseEquiv_algebraMap]
-    show (qAct (Ideal.Quotient.mk I (algebraMap X.A Rp a))) x = _
+    change (qAct (Ideal.Quotient.mk I (algebraMap X.A Rp a))) x = _
     rfl
   let : IsScalarTower X.A Rp Q := IsScalarTower.of_algebraMap_smul fun a x =>
     (hcompat a x).symm
@@ -862,7 +858,7 @@ private theorem rTensor_eq_zero_of_annihilated
   have hk : ∀ a ∈ J, ∀ q : LinearMap.ker g, a • q = 0 := by
     intro a ha q
     apply Subtype.ext
-    show a • (q : Q) = 0
+    change a • (q : Q) = 0
     rw [← hs] at ha
     refine Submodule.span_induction (fun b hb => ?_) (by simp)
       (fun b c _ _ hb hc => by simp [add_smul, hb, hc])
@@ -894,7 +890,7 @@ private theorem localizedTensorEquiv_mk_tmul
     (n : N) (q : Q) :
     localizedTensorEquiv S N Q (LocalizedModule.mk (n ⊗ₜ[R] q) 1) =
       LocalizedModule.mk n 1 ⊗ₜ[Localization S] ((1 : Localization S) ⊗ₜ[R] q) := by
-  show (AlgebraTensorModule.cancelBaseChange R (Localization S) (Localization S)
+  change (AlgebraTensorModule.cancelBaseChange R (Localization S) (Localization S)
     (LocalizedModule S N) Q).symm
     (IsLocalizedModule.iso S
       (AlgebraTensorModule.rTensor R Q (LocalizedModule.mkLinearMap S N))
@@ -981,10 +977,10 @@ theorem universallyInjective_of_rTensor_residueField_injective_of_pureSpreadout
       have htker : LocalizedModule.map p.primeCompl (u.rTensor Q') (j t) = 0 := by
         induction t using LocalizedModule.induction_on with
         | _ k s =>
-          show LocalizedModule.map p.primeCompl (u.rTensor Q')
+          change LocalizedModule.map p.primeCompl (u.rTensor Q')
             (LocalizedModule.map p.primeCompl K.subtype (LocalizedModule.mk k s)) = 0
           rw [LocalizedModule.map_mk, LocalizedModule.map_mk]
-          show LocalizedModule.mk ((u.rTensor Q') k.val) s = 0
+          change LocalizedModule.mk ((u.rTensor Q') k.val) s = 0
           rw [show (u.rTensor Q') k.val = 0 from k.property, LocalizedModule.zero_mk]
       simpa only [LinearMap.comp_apply, LinearEquiv.coe_coe, htker, map_zero, e, f]
         using hnat.symm

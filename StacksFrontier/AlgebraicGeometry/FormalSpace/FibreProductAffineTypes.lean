@@ -134,11 +134,8 @@ theorem exists_isPresentingRing_completedTensorProduct {U V W : FppfSheaf B S hS
   let := iC2
   let := iC3
   let := iC4
-  have hDCaff : IsAffineFormalAlgebraicSpace B S hS
-      (formalSpectrum hC.2.some.quotientSystem') :=
-    isAffineFormalAlgebraicSpace_of_iso B S hS hC.2.some.isoFormalSpectrum hVaff
   obtain ⟨cToA, cToA', hf, hg⟩ :=
-    exists_continuousHom_formalSpectrumMap_eq B S hS hA.1 hA'.1 hC.1 hDCaff
+    exists_continuousHom_formalSpectrumMap_eq B S hS hA.1 hA'.1 hC.1
       hA.2.some.isoFormalSpectrum hA'.2.some.isoFormalSpectrum hC.2.some.isoFormalSpectrum t s
   obtain ⟨DT, -, -, e, hTwa, -, -, -, -⟩ :=
     exists_formalSpectrum_completedTensorProduct_compatible B S hS

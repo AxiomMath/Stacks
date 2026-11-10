@@ -95,7 +95,8 @@ is done:
   instances of `AlgebraicGeometry.Scheme.Modules.pullbackComp` that this file's law produces,
   together with the schemes-level transport along the square.  The composition comparison
   `modulePullbackCompUniq`, a comparison *of left adjoints by uniqueness*, is not known to agree
-  with these, but that question does **not** arise for this pair: `RingedSpaceModuleAdjunction.modulePullbackComp` is
+  with these, but that question does **not** arise for this pair:
+  `RingedSpaceModuleAdjunction.modulePullbackComp` is
   `CategoryTheory.SheafOfModules.pullbackComp` of the two structure-sheaf maps (read backwards)
   and `AlgebraicGeometry.Scheme.Modules.pullbackComp` is `CategoryTheory.SheafOfModules.
   pullbackComp` as well, so the two are the same Mathlib construction at two presentations of the

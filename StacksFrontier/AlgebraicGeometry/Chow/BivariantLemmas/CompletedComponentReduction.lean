@@ -446,7 +446,8 @@ variable (C : ChowSituation.{u}) {Z X Z' Y : Scheme.{u}} (sZ : Z ⟶ C.S) [Local
   (sq : IsPullback i' g' g i) (sZ' : Z' ⟶ C.S) [LocallyOfFiniteType sZ']
   (hi' : i' ≫ (g ≫ sX) = sZ') (a : _root_.ConnectedComponents Z)
 
-omit [LocallyOfFiniteType g] [IsClosedImmersion i'] [LocallyOfFiniteType sZ'] in
+omit [LocallyOfFiniteType sX] [LocallyOfFiniteType g] [IsClosedImmersion i']
+  [LocallyOfFiniteType sZ'] in
 include hi hi' in
 /-- The inclusion of the piece `Z'_a` of `Z' = Z ×_X Y` into the chosen fibre product is a
 morphism over the base. -/
@@ -468,7 +469,7 @@ variable (C : ChowSituation.{u}) {Z X Z' Y : Scheme.{u}} (sZ : Z ⟶ C.S) [Local
   [IsClosedImmersion i'] (g' : Z' ⟶ Z) (sq : IsPullback i' g' g i) (sZ' : Z' ⟶ C.S)
   [LocallyOfFiniteType sZ'] (hi' : i' ≫ (g ≫ sX) = sZ')
 
-omit [IsClosedImmersion i'] in
+omit [LocallyOfFiniteType sX] [IsClosedImmersion i'] in
 /-- **A class on `Z ×_X Y` is determined by its restrictions to the pieces over the connected
 components of `Z`.** The pieces `Z'_a = i'⁻¹(g⁻¹(U_a))` of `Z' ≅ Z ×_X Y` are the preimages of the
 connected components of `Z`, a decomposition into open and closed subschemes (Stacks 0FDZ). -/
@@ -510,6 +511,7 @@ theorem eq_of_chowGroupRestrict_piece_eq [IsLocallyNoetherian Z] [IsLocallyNoeth
     chowGroupRestrict_comp, chowGroupRestrict_comp]
   exact h a
 
+omit [IsClosedImmersion i'] in
 /-- **The degree parts of `c(Z ⟶ X, 𝒩)` on a piece of a base change.** For a cartesian square
 `Z' = Z ×_X Y` and a connected component `Z_a` of `Z` on which `𝒩` has rank `m`, the restriction
 of `c(Z ⟶ X, 𝒩)_m ∩ α` to the piece `Z'_a = Z_a ×_{U_a} g⁻¹(U_a)` is

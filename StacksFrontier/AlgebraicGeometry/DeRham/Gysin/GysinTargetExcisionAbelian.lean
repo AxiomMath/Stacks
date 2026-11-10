@@ -238,7 +238,7 @@ actions are then the actions of `Stacks.Perfect.SupportedFraction.supportCohomol
 theorem supportCohomologyRestrictAbNatural_abelianSheaf_map (n : ℕ) {F G : Y.Modules}
     (φ : F ⟶ G) :
     SupportCohomologyRestrictAbNatural W hT hTW n ((abelianSheaf Y).map φ) := by
-  show restrictAbHom W (supportCohomologySheafAbelianMap hT n ((abelianSheaf Y).map φ)) ≫ _ = _
+  change restrictAbHom W (supportCohomologySheafAbelianMap hT n ((abelianSheaf Y).map φ)) ≫ _ = _
   rw [Stacks.Perfect.GysinAbelianSquare.supportCohomologySheafAbelianMap_map,
     restrictAbHom_abelianSheaf_map, restrictAbHom_abelianSheaf_map,
     Stacks.Perfect.GysinAbelianSquare.supportCohomologySheafAbelianMap_map]

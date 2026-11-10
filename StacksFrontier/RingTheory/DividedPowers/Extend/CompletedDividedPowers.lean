@@ -421,7 +421,7 @@ public theorem completedDpowAux_of_rep
     rw [completedDpowAux_zero_of_mem I γ p hp hx]
     apply AdicCompletion.ext
     intro e
-    show (1 : A ⧸ (P ^ e • ⊤ : Ideal A)) =
+    change (1 : A ⧸ (P ^ e • ⊤ : Ideal A)) =
       Submodule.Quotient.mk (p := (P ^ e • ⊤ : Submodule A A))
         (γ.dpow 0 (c e : A))
     rw [γ.dpow_zero (c e).property]
@@ -574,7 +574,7 @@ public theorem completedDpowAux_mul_rep
   rw [completedDpowAux_eval_of_rep I γ p hp n e d,
     map_mul, map_pow, completedDpowAux_eval_of_rep I γ p hp n e c,
     AdicCompletion.evalₐ_mk]
-  show Ideal.Quotient.mk (P ^ e) (γ.dpow n (b e * (c e : A))) = _
+  change Ideal.Quotient.mk (P ^ e) (γ.dpow n (b e * (c e : A))) = _
   rw [γ.dpow_mul (c e).property, map_mul, map_pow]
 
 /-- Part (3), extension: the divided powers on `I` extend to its completed
@@ -704,7 +704,7 @@ public theorem evalₐ_tailLiftRingHom
   classical
   rw [tailLiftRingHom]
   ext b
-  show AdicCompletion.evalₐ (pAdicIdeal (A := A) p) e
+  change AdicCompletion.evalₐ (pAdicIdeal (A := A) p) e
     (AdicCompletion.liftRingHom (pAdicIdeal (A := A) p)
       (fun m => (Ideal.Quotient.factorPow (pAdicIdeal (A := A) p)
         (le_max_right N m)).comp (f (max N m) (le_max_left N m)))
@@ -724,8 +724,8 @@ public theorem mem_completionIdeal_of_eval_mem
   obtain ⟨a, ha, heq⟩ :=
     (Ideal.mem_map_iff_of_surjective (Ideal.Quotient.mk (P ^ e))
       Ideal.Quotient.mk_surjective).mp hx
-  show completionToQuotient I p hp x = 0
-  show (Ideal.Quotient.factor
+  change completionToQuotient I p hp x = 0
+  change (Ideal.Quotient.factor
     (pAdicIdeal_pow_nilpotencyExponent_le I p hp))
     (AdicCompletion.evalₐ P (nilpotencyExponent I p hp) x) = 0
   rw [← AdicCompletion.factorPow_evalₐ (pAdicIdeal (A := A) p) hte x,
@@ -748,7 +748,7 @@ public theorem eventually_isDividedPowerCompletionLimit [Fact p.Prime]
   classical
   obtain ⟨N, hlevel⟩ := exists_eventual_pAdicDPIdeal I γ p hp
   refine ⟨N, hlevel, ?_⟩
-  show (∀ e (he : N ≤ e),
+  change (∀ e (he : N ≤ e),
       ((completedDividedPowers I γ p hp).1).IsDPMorphism
         (quotientDividedPowers I γ p e (hlevel e he).1 (hlevel e he).2)
         (AdicCompletion.evalₐ (pAdicIdeal (A := A) p) e).toRingHom) ∧ _
@@ -778,7 +778,7 @@ public theorem eventually_isDividedPowerCompletionLimit [Fact p.Prime]
     have hgb : gRing b ∈ completionIdeal I p hp := hideal (Ideal.mem_map_of_mem gRing hb)
     apply ext_of_eval_ge (A := A) p N
     intro e he
-    show AdicCompletion.evalₐ P e (completedDpowAux I γ p hp n (gRing b)) =
+    change AdicCompletion.evalₐ P e (completedDpowAux I γ p hp n (gRing b)) =
       AdicCompletion.evalₐ P e (gRing (δ.dpow n b))
     rw [completedDpowAux_eval I γ p hp e n (hlevel e he).1 (hlevel e he).2 (gRing b) hgb,
       show AdicCompletion.evalₐ P e (gRing b) = F e he b from DFunLike.congr_fun (hproj e he) b,

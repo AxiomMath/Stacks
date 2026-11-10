@@ -189,7 +189,7 @@ theorem LocalLift.range_subset_baseChange {ξ : Triple c κ.pt.obj} {i j : I}
       pullback (pullback.snd L.e.hom (D.map f).hom) (κ.π.app j).hom :=
     pullback.lift (pullback.lift (pullback.fst _ _) (pullback.snd _ _ ≫ (κ.π.app j).hom) (by
       rw [Category.assoc, hw, pullback.condition])) (pullback.snd _ _) (pullback.lift_snd _ _ _)
-  show _ ⊆ Set.range ((BigFppfOver.toScheme B S hS).map
+  change _ ⊆ Set.range ((BigFppfOver.toScheme B S hS).map
     (pullback.snd (pullback.snd L.e.hom (D.map f).hom) (κ.π.app j).hom)).base
   rintro _ ⟨p, rfl⟩
   refine ⟨((BigFppfOver.toScheme B S hS).map m).base p, ?_⟩
@@ -374,7 +374,7 @@ theorem exists_stage_of_localLift (ξ : Triple c κ.pt.obj)
       x ∈ Set.range ((LocallyNoetherianOver.toScheme B S hS).map (L₂ v).e).base := fun x => by
     have hx : ((LocallyNoetherianOver.toScheme B S hS).map (D.map g)).base x ∈ Uk := by
       have hgm : g = m₁.left ≫ g₁ := (Over.w m₁).symm
-      show x ∈ X.map g ⁻¹ᵁ Uk
+      change x ∈ X.map g ⁻¹ᵁ Uk
       rw [hgm, Functor.map_comp, Scheme.Hom.comp_preimage, hg₁]
       simp
     obtain ⟨v, p, hp⟩ := Set.mem_iUnion.1 hx

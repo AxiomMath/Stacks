@@ -212,7 +212,7 @@ theorem torOnePresentationKerEquiv_smul (a : A) (y : TorChangeOfRings.torObj R 1
         (a • 𝟙 (((extA R A).leftDerived 1).obj (ModuleCat.of R B)))).hom
           ((leftDerivedTorIso R A B).inv.hom y))
     refine (Eq.trans ?_ hx.symm).trans (e2.trans rfl)
-    show _ = (leftDerivedTorIso R A B).inv.hom
+    change _ = (leftDerivedTorIso R A B).inv.hom
       ((((Tor (ModuleCat.{u} R) 1).map (mulByAlg (R := R) a)).app (ModuleCat.of R B)).hom
         ((leftDerivedTorIso R A B).hom.hom ((leftDerivedTorIso R A B).inv.hom y)))
     rw [e1]

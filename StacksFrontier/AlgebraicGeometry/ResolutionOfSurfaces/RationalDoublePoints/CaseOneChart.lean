@@ -83,9 +83,9 @@ theorem IsScalarSqLinear.map {k k' : Type*} [CommRing k] [CommRing k'] {n : ℕ}
     IsScalarSqLinear fun p q => f (a p q) := by
   obtain ⟨c, l, hdiag, hoff⟩ := h
   refine ⟨f c, fun p => f (l p), fun p => ?_, fun p q hpq => ?_⟩
-  · show f (a p p) = f c * f (l p) * f (l p)
+  · change f (a p p) = f c * f (l p) * f (l p)
     rw [hdiag p, map_mul, map_mul]
-  · show f (a p q) + f (a q p) = 2 * (f c * f (l p) * f (l q))
+  · change f (a p q) + f (a q p) = 2 * (f c * f (l p) * f (l q))
     rw [← map_add, hoff p q hpq]; simp only [map_mul, map_ofNat]
 
 /-- Along a ring isomorphism the condition of being a scalar times a square is reflected. -/
@@ -266,7 +266,11 @@ theorem isScalarSqLinear_restrict_of_chartPoint {k : Type*} [Field k]
       · simp [Fin.succAbove]
         linear_combination hconst - c 1 * hlin₃
       · simp [Fin.succAbove]
-    · fin_cases p <;> fin_cases q <;> simp [Fin.succAbove] at hpq ⊢
+    · fin_cases p <;> fin_cases q <;>
+      simp only [Fin.zero_eta, Fin.isValue, Fin.mk_one, zero_lt_one, Fin.succAbove, Nat.reduceAdd,
+        Fin.castSucc_zero, Fin.succ_zero_eq_one, ↓reduceIte, Fin.castSucc_one, lt_self_iff_false,
+        Fin.succ_one_eq_two, Matrix.cons_val_zero, mul_neg, Matrix.cons_val_one,
+        Matrix.cons_val_fin_one, mul_one, not_lt_zero] at hpq ⊢
       rw [h20]
       linear_combination hlin₃
   · -- the line `y₃ = 0`: the form in `t₁, t₂` is `a₂₂(t₂ - c₂t₁)²`
@@ -277,7 +281,11 @@ theorem isScalarSqLinear_restrict_of_chartPoint {k : Type*} [Field k]
       · simp [Fin.succAbove]
         linear_combination hconst - c 0 * hlin₂
       · simp [Fin.succAbove]
-    · fin_cases p <;> fin_cases q <;> simp [Fin.succAbove] at hpq ⊢
+    · fin_cases p <;> fin_cases q <;>
+      simp only [Fin.zero_eta, Fin.isValue, Fin.mk_one, zero_lt_one, Fin.succAbove, Nat.reduceAdd,
+        Fin.castSucc_zero, Fin.succ_one_eq_two, Fin.reduceLT, ↓reduceIte, Fin.castSucc_one,
+        Matrix.cons_val_zero, mul_neg, Matrix.cons_val_one, Matrix.cons_val_fin_one, mul_one,
+        lt_self_iff_false, not_lt_zero] at hpq ⊢
       rw [h10]
       linear_combination hlin₂
 
@@ -693,7 +701,6 @@ does, then it is not singular on `X`. Observe that this is equivalent to the sta
 image of `x₁` in `𝒪_{X,p}` cuts out the exceptional divisor `E`." -/
 theorem map_maximalIdeal_eq_span_of_isGoodCoordinateForm (x : Fin 3 → A)
     (hspan : Ideal.span (Set.range x) = maximalIdeal A) (a : Fin 3 → Fin 3 → A)
-    (hupper : ∀ p r, r < p → a p r = 0) (hunit : ∃ p r, p ≤ r ∧ a p r ∉ maximalIdeal A)
     (hgood : IsGoodCoordinateForm fun p r => residue A (a p r)) (σ : Equiv.Perm (Fin 3))
     (S : Type u) [CommRing S] [Algebra A S] [IsLocalization.Away ((x ∘ σ) 0) S]
     (hxσ : ∀ i, (x ∘ σ) i ∈ maximalIdeal A)
@@ -890,7 +897,6 @@ good coordinate of `A` and `𝔪'` is a maximal ideal containing `𝔪A'` of a c
 at which `A'_{𝔪'}` is Noetherian of dimension two and singular, then `𝔪A'_{𝔪'} = gA'_{𝔪'}`. -/
 theorem map_maximalIdeal_eq_span_of_isGoodCoordinate [IsNoetherianRing A] (x : Fin 3 → A)
     (hspan : Ideal.span (Set.range x) = maximalIdeal A) (a : Fin 3 → Fin 3 → A)
-    (hupper : ∀ p r, r < p → a p r = 0)
     (hrel : ∑ p, ∑ r, a p r * (x p * x r) ∈ maximalIdeal A ^ 3)
     (hgood : IsGoodCoordinateForm fun p r => residue A (a p r)) (σ : Equiv.Perm (Fin 3))
     (S : Type u) [CommRing S] [Algebra A S] [IsLocalization.Away ((x ∘ σ) 0) S]
@@ -911,8 +917,7 @@ theorem map_maximalIdeal_eq_span_of_isGoodCoordinate [IsNoetherianRing A] (x : F
   have hxσ : ∀ i, (x ∘ σ) i ∈ maximalIdeal A := fun i => hspanσ ▸ Ideal.subset_span ⟨i, rfl⟩
   have hrelσ : ∑ p, ∑ r, a (σ p) (σ r) * ((x ∘ σ) p * (x ∘ σ) r) ∈ maximalIdeal A ^ 3 := by
     rwa [sum_mul_mul_comp_perm]
-  exact map_maximalIdeal_eq_span_of_isGoodCoordinateForm x hspan a hupper
-    (exists_notMem_maximalIdeal_of_isGoodCoordinateForm hupper hgood) hgood σ S hxσ M hle
+  exact map_maximalIdeal_eq_span_of_isGoodCoordinateForm x hspan a hgood σ S hxσ M hle
     (dehomogenizeFirst_quadraticFormPoly_mem_sq_of_not_isRegularLocalRing S hxσ hspanσ _ hrelσ M
       hle hdim hsing)
 
@@ -945,7 +950,6 @@ the generator `xⱼ`, for any `j`): `AlgebraicGeometry.map_maximalIdeal_eq_span_
 with the chart `A[𝔪/xⱼ]` written with its own generator. -/
 theorem map_maximalIdeal_eq_span_of_isGoodCoordinate_chart [IsNoetherianRing A] (x : Fin 3 → A)
     (hspan : Ideal.span (Set.range x) = maximalIdeal A) (a : Fin 3 → Fin 3 → A)
-    (hupper : ∀ p r, r < p → a p r = 0)
     (hrel : ∑ p, ∑ r, a p r * (x p * x r) ∈ maximalIdeal A ^ 3)
     (hgood : IsGoodCoordinateForm fun p r => residue A (a p r)) (j : Fin 3)
     (S : Type u) [CommRing S] [Algebra A S] [IsLocalization.Away (x j) S]
@@ -975,7 +979,7 @@ theorem map_maximalIdeal_eq_span_of_isGoodCoordinate_chart [IsNoetherianRing A] 
                       (algebraMap A (affineBlowupAlgebra (maximalIdeal A) b S) (x 0))} := by
     intro b hb _ M _ hle _ hdim hsing
     subst hb
-    exact map_maximalIdeal_eq_span_of_isGoodCoordinate x hspan a hupper hrel hgood _ S M hle
+    exact map_maximalIdeal_eq_span_of_isGoodCoordinate x hspan a hrel hgood _ S M hle
       hdim hsing
   exact key (x j) (by simp) M hle hdim hsing
 
@@ -985,7 +989,6 @@ coordinate exists"): if the quadratic form of `x₁, x₂, x₃` is in case I an
 and singular, then `A` has a good coordinate. -/
 theorem exists_isGoodCoordinate_of_chart [IsNoetherianRing A] (x : Fin 3 → A)
     (hspan : Ideal.span (Set.range x) = maximalIdeal A) (a : Fin 3 → Fin 3 → A)
-    (hupper : ∀ p r, r < p → a p r = 0)
     (hrel : ∑ p, ∑ r, a p r * (x p * x r) ∈ maximalIdeal A ^ 3)
     (hcase : ¬ IsScalarSqLinear fun p r => residue A (a p r)) (j : Fin 3)
     (S : Type u) [CommRing S] [Algebra A S] [IsLocalization.Away (x j) S]

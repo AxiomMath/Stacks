@@ -232,7 +232,7 @@ theorem modulePullback_map_comp_inv_conormalAlgebraPieceSquareMapOfIso
       (modulePullback B S hS p).map a ≫ conormalAlgebraPieceSquareMap B S hS p iU i φ hsq n :=
   (congrArg (· ≫ conormalAlgebraPieceSquareMapOfIso B S hS p iU i φ hsq n κ)
     ((modulePullback B S hS p).map_comp a κ.inv)).trans ((Category.assoc _ _ _).trans
-      (congrArg (_ ≫ ·) (Iso.map_inv_hom_id_assoc κ (modulePullback B S hS p) _)))
+      (congrArg (_ ≫ ·) (Iso.inv_hom_id_map_assoc κ (modulePullback B S hS p) _)))
 
 /-- **Two stacked squares through identifications of the pieces**: `p₂^*` of the map of conormal
 algebras of the first square read through `κ` and `κ'`, followed by the map of the second square

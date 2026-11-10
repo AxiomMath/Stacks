@@ -92,7 +92,7 @@ private theorem exists_affine_smul_eq_zero_of_stalk
       (F.presheaf.germ_res_apply iW'W x hxW' b₀)).trans hb₀
   have haV_ne : aV ≠ 0 := fun hz => hr (by rw [← haV, hz, map_zero])
   have hkillW' : a' • b' = 0 := by
-    show (X.presheaf.map iW'W.op a₀) • (F.presheaf.map iW'W.op b₀) = 0
+    change (X.presheaf.map iW'W.op a₀) • (F.presheaf.map iW'W.op b₀) = 0
     rw [← F.map_smul]
     simpa using heq
   have hkillV : aV • bV = 0 := by
@@ -213,7 +213,7 @@ lemma isTorsionFree_middle_of_shortExact {X : Scheme.{u}} [IsIntegral X]
   have : Module.IsTorsionFree _ (Stacks.SheafOfModules.FlatShortExact.abStalk S.X₃ x) :=
     (isTorsionFree_iff_forall_stalk S.X₃).mp h₃ x
   obtain ⟨f, g, hf, hfg, _⟩ := Stacks.SheafOfModules.FlatShortExact.stalkShortExact S hS x
-  show Module.IsTorsionFree (X.presheaf.stalk x) (Stacks.SheafOfModules.FlatShortExact.abStalk
+  change Module.IsTorsionFree (X.presheaf.stalk x) (Stacks.SheafOfModules.FlatShortExact.abStalk
     S.X₂ x)
   exact isTorsionFree_of_injective_of_exact f g hf hfg
 

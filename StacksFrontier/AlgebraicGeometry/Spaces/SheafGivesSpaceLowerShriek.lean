@@ -206,9 +206,9 @@ theorem exists_epi_of_satisfiesSetTheoreticCondition {Y : AlgebraicSpaces B S hS
   have hfac : m ≫ Φ.functor.map e ≫ Φ.counitIso.hom.app F = e₀ := by
     apply (Sheaf.sectionEquiv J).injective
     rw [Sheaf.sectionEquiv_comp, Equiv.apply_symm_apply]
-    show (Φ.counitIso.hom.app F).hom.app (op V) (e.hom.app (op cV) τ) = s₀
+    change (Φ.counitIso.hom.app F).hom.app (op V) (e.hom.app (op cV) τ) = s₀
     rw [het]
-    show ((Φ.counitIso.inv.app F ≫ Φ.counitIso.hom.app F).hom.app (op V)) s₀ = s₀
+    change ((Φ.counitIso.inv.app F ≫ Φ.counitIso.hom.app F).hom.app (op V)) s₀ = s₀
     rw [Iso.inv_hom_id_app]
     rfl
   have h₁ : Epi (Φ.functor.map e ≫ Φ.counitIso.hom.app F) := epi_of_epi_fac hfac

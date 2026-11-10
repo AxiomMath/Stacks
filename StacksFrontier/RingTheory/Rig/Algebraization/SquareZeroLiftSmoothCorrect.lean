@@ -104,6 +104,7 @@ noncomputable def Efam : FamTerm (derV N f S) 3 := fun T ↦
   C.EV hN (srt T 0) (srt T 1) (srt T 2) (srt_lt T (by decide)) (srt_lt T (by decide)) T.1
     (srt_mem T 0) (srt_mem T 1) (srt_mem T 2)
 
+omit hW in
 /-- The value of `C.Dfam` on `T = {a, b}` with `a < b` is the defect `C.DH` at `a`, `b`. -/
 theorem Dfam_eq (T : {s : Finset (Fin k) // s.card = 2}) {a b : Fin k} (hab : a < b)
     (hT : T.1 = {a, b}) (ha : a ∈ T.1) (hb : b ∈ T.1) :
@@ -273,7 +274,7 @@ variable [hW : ∀ i, Module.Flat R (W i).carrier]
 /-- Restriction of derivations along `s ⊆ s` is the identity. -/
 theorem derιV_refl {s : Finset (Fin k)} (h : s ⊆ s) (D : derV N f S s) : derιV N f S h D = D := by
   have hid : locS f S h = AlgHom.id R (Sl f S s) :=
-    AlgHom.coe_ringHom_injective <| IsLocalization.ringHom_ext
+    AlgHom.toRingHom_injective <| IsLocalization.ringHom_ext
       (Submonoid.powers (algebraMap R S (rs f s))) (RingHom.ext fun a ↦ by simp)
   ext v
   rw [derιV_apply, hid, AlgHom.toLinearMap_id, LinearMap.rTensor_id, LinearMap.id_apply]

@@ -204,7 +204,7 @@ theorem exists_lfpPresentation_finitePresentation {P : ObjectProperty (Over S)}
     intro l
     have h1 : e.inv ≫ gX = c₀.π.app l ≫ b.app l := by
       rw [hfac l, ← Category.assoc, e.inv_hom_id, Category.id_comp]
-    show c₀.π.app l ≫ b.app l ≫ U.1.ι = e.inv ≫ X.hom
+    change c₀.π.app l ≫ b.app l ≫ U.1.ι = e.inv ≫ X.hom
     rw [← Category.assoc, ← h1, Category.assoc, hgX]
   have hfpb : ∀ l, FinitePresentation (b.app l) := by
     intro l
@@ -229,7 +229,7 @@ theorem exists_lfpPresentation_finitePresentation {P : ObjectProperty (Over S)}
   · have hl : IsAffine ((Over.lift D₀ t).obj l).left := hDaff l
     have eiso : (Y l).left ≅ ((Over.lift D₀ t).obj l).left :=
       ((Over.forget S).mapIso (ei l)).symm
-    show IsAffine (Y l).left
+    change IsAffine (Y l).left
     exact IsAffine.of_isIso eiso.hom
   · exact Over.w (ei l).inv
   · have hiso : IsIso (ei l).inv.left :=
@@ -401,7 +401,7 @@ lemma baseChangeToAffineOpen_comp_ι (E : Λᵒᵖ ⥤ Over S) {U : S.affineOpen
     (g : ∀ m, (E.obj m).left ⟶ U.1.toScheme) (hgU : ∀ m, g m ≫ U.1.ι = (E.obj m).hom)
     {T : Over S} (t : T ⟶ E.obj (op (⊥ : Λ))) (m : Λᵒᵖ) :
     baseChangeToAffineOpen E g t m ≫ U.1.ι = ((baseChange E t).obj m).hom := by
-  show ((Limits.pullback.fst ((toBottom E).app m) t).left ≫ g m) ≫ U.1.ι
+  change ((Limits.pullback.fst ((toBottom E).app m) t).left ≫ g m) ≫ U.1.ι
       = ((baseChange E t).obj m).hom
   rw [Category.assoc, hgU m]
   exact Over.w (Limits.pullback.fst ((toBottom E).app m) t)

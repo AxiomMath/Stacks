@@ -302,11 +302,11 @@ theorem pullbackToComposable_comp_composableSnd :
 theorem composableToPullback_comp_pullbackToComposable :
     composableToPullback s t ≫ pullbackToComposable s t = 𝟙 _ := by
   refine PullbackCone.IsLimit.hom_ext (isLimitComposablePullbackCone s t) ?_ ?_
-  · show (composableToPullback s t ≫ pullbackToComposable s t) ≫ composableFst s t =
+  · change (composableToPullback s t ≫ pullbackToComposable s t) ≫ composableFst s t =
       𝟙 _ ≫ composableFst s t
     rw [Category.assoc, pullbackToComposable_comp_composableFst,
       composableToPullback_comp_pullbackFst, Category.id_comp]
-  · show (composableToPullback s t ≫ pullbackToComposable s t) ≫ composableSnd s t =
+  · change (composableToPullback s t ≫ pullbackToComposable s t) ≫ composableSnd s t =
       𝟙 _ ≫ composableSnd s t
     rw [Category.assoc, pullbackToComposable_comp_composableSnd,
       composableToPullback_comp_pullbackSnd, Category.id_comp]

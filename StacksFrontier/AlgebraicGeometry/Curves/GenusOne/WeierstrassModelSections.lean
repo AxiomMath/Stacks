@@ -212,7 +212,7 @@ theorem fromOfGlobalSections_eq_toSpecΓ_comp {Y : Scheme.{u}} (κ : A →+* Γ(
     comp_fromOfGlobalSections 𝒜 Y.toSpecΓ _ hκ' (by rw [← Ideal.map_map, hκ', Ideal.map_top])]
   congr 1
   rw [Scheme.toSpecΓ_appTop, ← RingHom.comp_assoc, ← CommRingCat.hom_comp]
-  show κ = (CommRingCat.Hom.hom ((Scheme.ΓSpecIso Γ(Y, ⊤)).inv ≫
+  change κ = (CommRingCat.Hom.hom ((Scheme.ΓSpecIso Γ(Y, ⊤)).inv ≫
     (Scheme.ΓSpecIso Γ(Y, ⊤)).hom)).comp κ
   rw [Iso.inv_hom_id, CommRingCat.hom_id, RingHom.id_comp]
 
@@ -236,7 +236,7 @@ theorem chartFamily_zero_algebraMap (i : Fin 3) (c : k) :
           ⟨_, algebraMap_mem_grading_zero L k c⟩ := by
     apply HomogeneousLocalization.val_injective
     rw [HomogeneousLocalization.Away.val_mk]
-    show Localization.mk _ 1 = _
+    change Localization.mk _ 1 = _
     congr 1
   rw [hmk, ← Stacks.SectionRingChartOpen.map_chartRingMap L _ le_rfl _
       (nvOpen_secOf_twistOneSection L (s i)).ge,
@@ -352,7 +352,7 @@ theorem weierstrassModelHom_eq_cubicHomOfSections (hL : Stacks.Ample.IsAmple X L
     (hrel : SatisfiesCubic C (X ↘ Spec (.of k)) s) (hcov : IsOpenCover (nvCover s)) :
     weierstrassModelHom L k hL C _ hker hv hsurj = cubicHomOfSections hrel hcov := by
   refine (X.openCoverOfIsOpenCover (nvCover s) hcov).hom_ext _ _ fun (i : Fin 3) => ?_
-  show (nvCover s i).ι ≫ weierstrassModelHom L k hL C _ hker hv hsurj =
+  change (nvCover s i).ι ≫ weierstrassModelHom L k hL C _ hker hv hsurj =
     (nvCover s i).ι ≫ cubicHomOfSections hrel hcov
   rw [ι_cubicHomOfSections]
   have hV := (nvOpen_secOf_twistOneSection L (s i)).ge
@@ -361,7 +361,7 @@ theorem weierstrassModelHom_eq_cubicHomOfSections (hL : Stacks.Ample.IsAmple X L
         (algebraMap_mem_grading_zero L k) hv) (HomogeneousIdeal.irrelevant (gradingOf C)) :=
     Proj.irrelevant_le_map_of_surjective _ (bijective_weierstrassRingHom C _ hker hsurj).2
   have h1 : chartRingHom hrel i (coordOf C i) = 1 := by
-    show chartRingHom hrel i (Ideal.Quotient.mk _ (MvPolynomial.X i)) = 1
+    change chartRingHom hrel i (Ideal.Quotient.mk _ (MvPolynomial.X i)) = 1
     rw [chartRingHom_mk, chartPolyHom, MvPolynomial.coe_eval₂Hom, MvPolynomial.eval₂_X,
       Stacks.ProjectiveFromSections.chartRatio_self]
   have hab : weierstrassGradedHom (Stacks.AmpleFiniteAvoidance.grading L) C _ hker
@@ -396,7 +396,7 @@ theorem weierstrassModelHom_eq_cubicHomOfSections (hL : Stacks.Ample.IsAmple X L
     rw [CommRingCat.ofHom_comp, CommRingCat.ofHom_hom, Category.assoc, Iso.hom_inv_id,
       Category.comp_id]
     rfl
-  show (nvCover s i).ι ≫ Stacks.SectionRingProjMorphism.projHomOfIsAmple L hL ≫
+  change (nvCover s i).ι ≫ Stacks.SectionRingProjMorphism.projHomOfIsAmple L hL ≫
       Proj.map (weierstrassGradedHom (Stacks.AmpleFiniteAvoidance.grading L) C _ hker
         (algebraMap_mem_grading_zero L k) hv) hψ =
     Proj.fromOfGlobalSections (gradingOf C) (chartRingHom hrel i) (chartRingHom_irrelevant hrel i)

@@ -594,7 +594,7 @@ theorem exists_isIso_comparison_of_descentAction
       (generate_singleton_pullback_fst_mem_topology x t hts htf htp)
     rintro Z κ ⟨Z', u, bb, hbb, hfac⟩
     cases hbb
-    show κ ≫ x = κ ≫ y
+    change κ ≫ x = κ ≫ y
     rw [← hfac, Category.assoc, Category.assoc, hxy']
   -- two locally bijective sheaves are isomorphic, and `n` is affine
   have hosheaf : Presheaf.IsSheaf (BigFppfOver.topology B S hS) (yoneda.obj o) :=

@@ -105,7 +105,7 @@ theorem exists_shrink_isColimit_cofan {I : Type v} [Small.{u} I]
   have hGcolim : IsColimit (Cofan.mk Gsh ιsh) := by
     refine Cofan.IsColimit.mk _ desc (fun c i => ?_) (fun c m hm => ?_)
     · refine Sheaf.hom_ext ?_
-      show ι' i ≫ (desc c).hom = (c.inj i).hom
+      change ι' i ≫ (desc c).hom = (c.inj i).hom
       apply H.map_injective
       rw [Functor.map_comp, hmapι', hdescmap]
       simp only [Category.assoc, Iso.inv_hom_id_assoc]
@@ -117,7 +117,7 @@ theorem exists_shrink_isColimit_cofan {I : Type v} [Small.{u} I]
           = Cofan.IsColimit.desc hG (big c) := by
         refine Cofan.IsColimit.hom_ext hG _ _ fun i => ?_
         refine Sheaf.hom_ext ?_
-        show (ι i).hom ≫ eG.inv ≫ H.map m.hom =
+        change (ι i).hom ≫ eG.inv ≫ H.map m.hom =
           (ι i).hom ≫ (Cofan.IsColimit.desc hG (big c)).hom
         have h3 : (eF i).hom ≫ (ι i).hom ≫ eG.inv ≫ H.map m.hom =
             H.map (c.inj i).hom := by
@@ -126,10 +126,10 @@ theorem exists_shrink_isColimit_cofan {I : Type v} [Small.{u} I]
           simpa only [Category.assoc] using h4
         rw [hbig, ← h3, Iso.inv_hom_id_assoc]
       refine Sheaf.hom_ext ?_
-      show m.hom = (desc c).hom
+      change m.hom = (desc c).hom
       apply H.map_injective
       rw [hdescmap, ← congrArg (fun k : G ⟶ lift c.pt => k.hom) hψ]
-      show _ = eG.hom ≫ eG.inv ≫ H.map m.hom
+      change _ = eG.hom ≫ eG.inv ≫ H.map m.hom
       rw [Iso.hom_inv_id_assoc]
   exact ⟨F', hF'alg, Gsh, ιsh, eF, eG, ⟨hGcolim⟩, hmapι'⟩
 

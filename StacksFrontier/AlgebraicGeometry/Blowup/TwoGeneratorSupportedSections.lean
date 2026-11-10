@@ -568,7 +568,7 @@ theorem nonempty_over_iso_supportedSectionsIdeal :
   let := (twoGeneratorSquare A f₁ f₂).modificationGraded
   rw [supportedSectionsIdeal_eq_ker_blowUpSpecToModification A f₁ f₂]
   refine ⟨Over.isoMk (asIso (blowUpSpecToModification A f₁ f₂).toImage).symm ?_⟩
-  show inv (blowUpSpecToModification A f₁ f₂).toImage ≫
+  change inv (blowUpSpecToModification A f₁ f₂).toImage ≫
       Stacks.Blowup.toSpec (centerIdeal A f₁ f₂) =
     (blowUpSpecToModification A f₁ f₂).ker.subschemeι ≫ modificationToBase A f₁ f₂
   rw [IsIso.inv_comp_eq, ← blowUpSpecToModification_comp_modificationToBase A f₁ f₂,

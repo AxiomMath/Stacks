@@ -66,7 +66,7 @@ theorem surjective_curveDivisorPicardHom : Function.Surjective (curveDivisorPica
 /-- The divisors with trivial class are the principal ones. -/
 theorem curveDivisorPicardHom_eq_zero_iff (D : closedPoints C →₀ ℤ) :
     curveDivisorPicardHom g D = 0 ↔ D ∈ (closedPointDivisorOfUnit C).range := by
-  show closedPointClassGroupAddEquivPicard g (QuotientAddGroup.mk D) = 0 ↔ _
+  change closedPointClassGroupAddEquivPicard g (QuotientAddGroup.mk D) = 0 ↔ _
   rw [AddEquiv.map_eq_zero_iff, QuotientAddGroup.eq_zero_iff]
 
 /-- **The class of a closed point** is the class of the reduced closed point. -/
@@ -75,7 +75,7 @@ theorem curveDivisorPicardHom_single (x : closedPoints C) :
     curveDivisorPicardHom g (Finsupp.single x 1) = Stacks.Divisors.picardClass
       (Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({x.1} : Set C))) := by
   have := isEffectiveCartierDivisor_closedPoint g x
-  show (Stacks.GluePicard.picardModelAddEquiv C.toRingedSpace).symm
+  change (Stacks.GluePicard.picardModelAddEquiv C.toRingedSpace).symm
     (closedPointClassGroupAddEquivSchemePicard g (QuotientAddGroup.mk (Finsupp.single x 1))) = _
   rw [closedPointClassGroupAddEquivSchemePicard_single, ← picardModelAddEquiv_picardClass,
     AddEquiv.symm_apply_apply]
@@ -166,7 +166,7 @@ theorem schemePullbackClassHom_curveDivisorPicardHom (D : closedPoints C →₀ 
       Stacks.Divisors.isPullbackDefined_of_flat j _ inferInstance
     have : Stacks.Divisors.IsEffectiveCartierDivisor
         ((Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({x.1} : Set C))).comap j) := hD
-    show Stacks.Picard.schemePullbackClass j (curveDivisorPicardHom g (Finsupp.single x 1)) = _
+    change Stacks.Picard.schemePullbackClass j (curveDivisorPicardHom g (Finsupp.single x 1)) = _
     rw [curveDivisorPicardHom_single, Stacks.Zeta.schemePullbackClass_picardClass_comap j _ hD]
     by_cases hx : x ∈ Set.range (closedPointOfOpenImmersion g gS j)
     · obtain ⟨x', rfl⟩ := hx
@@ -193,7 +193,7 @@ theorem schemePullbackClassHom_curveDivisorPicardHom (D : closedPoints C →₀ 
         exact hx ((mem_range_closedPointOfOpenImmersion_iff g gS j x).2 ⟨y, hy⟩)
       rw [Stacks.Divisors.picardClass_congr hcomap, Stacks.Divisors.picardClass_top,
         restrictCurveDivisor, Finsupp.comapDomain.addMonoidHom_apply,
-        Finsupp.comapDomain_single_of_not_mem_range hx, map_zero]
+        Finsupp.comapDomain_single_of_notMem_range hx, map_zero]
 
 include g gS in
 /-- **`Pic(C) → Pic(S)` is surjective** for an open subcurve `S ⊆ C`: a divisor on `S` extends
@@ -225,7 +225,7 @@ theorem exists_curveDivisorPicardHom_eq_of_schemePullbackClassHom_eq_zero
       (Additive.toMul f')) = f := by
     apply Additive.toMul.injective
     apply Units.ext
-    show dominantFunctionFieldMap j (e.symm _) = _
+    change dominantFunctionFieldMap j (e.symm _) = _
     rw [← Stacks.Chow.functionFieldEquiv_openImmersion_eq_dominantFunctionFieldMap,
       RingEquiv.apply_symm_apply]
   have hres : restrictCurveDivisor g gS j (D - closedPointDivisorOfUnit C f') = 0 := by
@@ -247,7 +247,7 @@ theorem schemePullbackClass_eq_self_of_schemePullbackClassHom_eq_zero (σ : C �
   classical
   obtain ⟨D, hD, rfl⟩ :=
     exists_curveDivisorPicardHom_eq_of_schemePullbackClassHom_eq_zero g gS j l hl
-  show Stacks.Picard.schemePullbackClassHom σ (curveDivisorPicardHom g D) = _
+  change Stacks.Picard.schemePullbackClassHom σ (curveDivisorPicardHom g D) = _
   conv_lhs => rw [← Finsupp.sum_single D]
   conv_rhs => rw [← Finsupp.sum_single D]
   rw [map_finsuppSum, map_finsuppSum]
@@ -268,7 +268,7 @@ theorem schemePullbackClass_eq_self_of_schemePullbackClassHom_eq_zero (σ : C �
     simp only [Set.mem_singleton_iff, Set.mem_preimage]
     refine ⟨fun h => h ▸ hσ b (hD b hb), fun h => σ.isOpenEmbedding.injective ?_⟩
     rw [h, hσ b (hD b hb)]
-  show Stacks.Picard.schemePullbackClass σ (curveDivisorPicardHom g (Finsupp.single b 1)) = _
+  change Stacks.Picard.schemePullbackClass σ (curveDivisorPicardHom g (Finsupp.single b 1)) = _
   rw [curveDivisorPicardHom_single, Stacks.Zeta.schemePullbackClass_picardClass_comap σ _ hpd,
     Stacks.Divisors.picardClass_congr hcomap]
 
@@ -297,7 +297,7 @@ theorem encard_torsion_eigen_le_of_isOpenImmersion (σ : C ⟶ C) [IsIso σ] (σ
     (Stacks.Picard.schemePullbackClassHom σ) (Stacks.Picard.schemePullbackClassHom σS)
     (Stacks.Picard.schemePullbackClassHom j) hsurj ?_ ?_ N Q).trans (mul_le_mul' le_rfl ?_)
   · intro w
-    show Stacks.Picard.schemePullbackClass j (Stacks.Picard.schemePullbackClass σ w) =
+    change Stacks.Picard.schemePullbackClass j (Stacks.Picard.schemePullbackClass σ w) =
       Stacks.Picard.schemePullbackClass σS (Stacks.Picard.schemePullbackClass j w)
     rw [Stacks.Picard.schemePullbackClass_comp, Stacks.Picard.schemePullbackClass_comp, hcomm]
   · exact schemePullbackClass_eq_self_of_schemePullbackClassHom_eq_zero g gS j σ
@@ -306,7 +306,7 @@ theorem encard_torsion_eigen_le_of_isOpenImmersion (σ : C ⟶ C) [IsIso σ] (σ
     (curveDivisorPicardHom g).comp (Finsupp.mapDomain.addMonoidHom Subtype.val)
   have hrψ : ∀ D, Stacks.Picard.schemePullbackClassHom j (ψ D) = 0 := by
     intro D
-    show Stacks.Picard.schemePullbackClassHom j (curveDivisorPicardHom g
+    change Stacks.Picard.schemePullbackClassHom j (curveDivisorPicardHom g
       (Finsupp.mapDomain Subtype.val D)) = 0
     rw [schemePullbackClassHom_curveDivisorPicardHom g gS]
     convert map_zero (curveDivisorPicardHom gS)
@@ -320,7 +320,7 @@ theorem encard_torsion_eigen_le_of_isOpenImmersion (σ : C ⟶ C) [IsIso σ] (σ
     obtain ⟨D, hD, rfl⟩ :=
       exists_curveDivisorPicardHom_eq_of_schemePullbackClassHom_eq_zero g gS j l hl
     refine ⟨Finsupp.comapDomain Subtype.val D Subtype.val_injective.injOn, ?_⟩
-    show curveDivisorPicardHom g (Finsupp.mapDomain Subtype.val _) = _
+    change curveDivisorPicardHom g (Finsupp.mapDomain Subtype.val _) = _
     rw [Finsupp.mapDomain_comapDomain _ Subtype.val_injective]
     intro b hb
     exact ⟨⟨b, (hBiff b).1 (hD b hb)⟩, rfl⟩

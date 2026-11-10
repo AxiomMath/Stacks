@@ -173,6 +173,7 @@ variable {C : Type u} [SmallCategory C] [HasEqualizers C] [HasPullbacks C] (J : 
   (OC : Sheaf J.toGrothendieck CommRingCat.{u})
   (T : LocalSerreFamily.{u} (pretopologyRingedSite J OC))
 
+omit [HasEqualizers C] in
 /-- **Cohomology over `V_i` of a module of `A` vanishes above `d_V`.** For `V` in the set `B`
 of condition 0DC4 and a member `V_i` of a distinguished covering of `V`, `H^p(V_i, F)` is
 `H^p(V_i → V, F|_V)` (Stacks 03F3), which vanishes for `p > d_V` because `F|_V` lies in `A_V`. -/

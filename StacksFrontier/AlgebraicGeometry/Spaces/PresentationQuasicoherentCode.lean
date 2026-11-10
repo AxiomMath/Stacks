@@ -134,7 +134,7 @@ theorem exists_code_of_presentation
   let Y : FinitePresentationModules F hF → QuasicoherentModule B S hS G :=
     fun M => Φ.obj ⟨M.1, M.2.1⟩
   have hYfp : ∀ M, SheafOfModules.IsFinitePresentationOnSite (Y M).F.obj := fun M => by
-    show SheafOfModules.IsFinitePresentationOnSite
+    change SheafOfModules.IsFinitePresentationOnSite
       (spaceBaseObj B S hS G (presentationAtlas P) (presentationAtlas_comm P) ⟨M.1, M.2.1⟩).F.obj
     rw [spaceBaseObj_F_obj]
     exact FinitePresentationModules.isFinitePresentationOnSite_modulePullback

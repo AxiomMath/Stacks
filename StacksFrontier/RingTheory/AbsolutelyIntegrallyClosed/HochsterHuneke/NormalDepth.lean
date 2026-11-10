@@ -68,7 +68,7 @@ theorem mem_span_singleton_of_two_le_height {R T : Type*} [CommRing R] [IsDomain
   have hvP : algebraMap R T v ∈ P := by
     refine hle ?_
     rw [Submodule.mem_colon_singleton, Submodule.mem_bot]
-    show Ideal.Quotient.mk _ (algebraMap R T v) * Ideal.Quotient.mk _ c = 0
+    change Ideal.Quotient.mk _ (algebraMap R T v) * Ideal.Quotient.mk _ c = 0
     rwa [← map_mul, Ideal.Quotient.eq_zero_iff_mem]
   -- by going down, the contraction of `P` has height at most one
   set p := P.under R
@@ -154,7 +154,7 @@ theorem IsRegularLocalRing.two_le_height_of_mem {R : Type*} [CommRing R] [IsRegu
     IsRegularLocalRing.notMem_span_singleton_of_ofList_eq hxs hlen (h ▸ hyP2)
   have hle2q : Ideal.ofList [x, y] ≤ q :=
     Ideal.span_le.mpr fun r hr => by
-      simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hr
+      simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hr
       rcases hr with rfl | rfl <;> assumption
   have : (⊥ : Ideal R).IsPrime := Ideal.isPrime_bot
   have e1 := Ideal.height_add_one_le_of_lt_of_isPrime hlt1

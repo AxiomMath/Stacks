@@ -45,8 +45,8 @@ supply, is `Stacks.Duality.isBoundedBelow_twistedInverseImage_obj_and_exists_bou
 
 *Why the right adjoint is a parameter.* [Stacks, Tag 0A9E] is available as
 `AlgebraicGeometry.isLeftAdjoint_qcqsQuasiCoherentDerivedPushforward` of
-`StacksFrontier/AlgebraicGeometry/DerivedQCoh/AffineOpensChaoticQuasicoherentEquality.lean`, but only
-at the locally small model and for a quasi-compact target. Tag 0A9I is a statement *about* that
+`StacksFrontier/AlgebraicGeometry/DerivedQCoh/AffineOpensChaoticQuasicoherentEquality.lean`, but
+only at the locally small model and for a quasi-compact target. Tag 0A9I is a statement *about* that
 adjoint and is proved here from the adjunction alone, at a free model and with no hypothesis on
 the target, so the functor `a` and the adjunction are taken as parameters. Nothing else about `a`
 is used; in particular the two statements below are not weakened by it, they are exactly Tag
@@ -64,8 +64,8 @@ is proved only at `HasDerivedCategory.standard`, so at a free model its bound ha
 `isQuasicoherent_homology_truncLE`. `AlgebraicGeometry.isQuasicoherent_homology_truncLE` is the
 same statement with the model fixed at `HasDerivedCategory.standard`, and its proof — the private
 `homology_truncLE_property` of
-`StacksFrontier/AlgebraicGeometry/Duality/DerivedAmplitude/UpperBounds.lean` — is already model-free;
-only the three-line specialisation is repeated.
+`StacksFrontier/AlgebraicGeometry/Duality/DerivedAmplitude/UpperBounds.lean` — is already
+model-free; only the three-line specialisation is repeated.
 
 ## References
 
@@ -113,8 +113,9 @@ variable (hpush : ∀ (K : quasiCoherentDerivedCategory X) (i : ℤ),
 /-- **The argument of [Stacks, Tag 0A9I], for an arbitrary right adjoint of `Rf_*`.** Let
 `f : X ⟶ Y` be a morphism of schemes along which derived direct image preserves quasi-coherent
 cohomology, and let `a` be a right adjoint of the restriction
-`Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)`. Suppose `N : ℤ` is a uniform bound for `Rf_*`, that is, `Rf_*E` lives in degrees `≤ b + N` for every `E` of `D_QCoh(𝒪_X)` in degrees `≤ b`.
-Then `a` carries an object living in degrees `≥ c` to one living in degrees `≥ c - N`.
+`Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)`. Suppose `N : ℤ` is a uniform bound for `Rf_*`, that is, `Rf_*E`
+lives in degrees `≤ b + N` for every `E` of `D_QCoh(𝒪_X)` in degrees `≤ b`. Then `a` carries an
+object living in degrees `≥ c` to one living in degrees `≥ c - N`.
 
 In particular `a` carries `D^+_QCoh(𝒪_Y)` into `D^+_QCoh(𝒪_X)`. The case of the twisted inverse
 image, which is [Stacks, Tag 0A9I], is

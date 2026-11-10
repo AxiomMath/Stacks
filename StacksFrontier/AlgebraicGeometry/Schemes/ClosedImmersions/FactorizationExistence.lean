@@ -51,7 +51,7 @@ theorem stalkMap_surjective_of_isClosedImmersion {X Z : LocallyRingedSpace.{u}} 
   obtain ⟨b, hb⟩ := hs (ConcreteCategory.hom
     (inv (Z.presheaf.stalkPushforward CommRingCat i.toHom.base z)) a)
   refine ⟨b, ?_⟩
-  show ConcreteCategory.hom (Z.presheaf.stalkPushforward CommRingCat i.toHom.base z)
+  change ConcreteCategory.hom (Z.presheaf.stalkPushforward CommRingCat i.toHom.base z)
     (ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor CommRingCat
       (i.toHom.base z)).map i.toHom.c) b) = a
   rw [hb]
@@ -276,24 +276,24 @@ private theorem factorPresheafedSpaceHom_comp [Mono j] (D : ClosedSubspaceData X
   have hindex : (eqToHom hOpMap).app (op U) = (eqToHom hOpen.symm).op := Subsingleton.elim _ _
   have hBapp : (eqToHom (pushforwardSourceSheaf_eq D f hb)).hom.app (op U) =
       eqToHom hsectionEq := by
-    show ((TopCat.Sheaf.forget CommRingCat X.toTopCat).map
+    change ((TopCat.Sheaf.forget CommRingCat X.toTopCat).map
       (eqToHom (pushforwardSourceSheaf_eq D f hb))).app (op U) = _
     rw [eqToHom_map, CategoryTheory.eqToHom_app]
     rfl
   have hrestriction : Y.presheaf.map ((eqToHom hOpen.symm).op) = eqToHom hsectionEq.symm := by
     rw [eqToHom_op, eqToHom_map]
-  show ConcreteCategory.hom (Y.presheaf.map ((eqToHom hOpMap).app (op U)))
+  change ConcreteCategory.hom (Y.presheaf.map ((eqToHom hOpMap).app (op U)))
       (ConcreteCategory.hom ((descendedRingMap D hf hb).hom.app
           (op ((Opens.map D.inclusion.base).obj U)))
         (ConcreteCategory.hom (D.inclusion.c.app (op U)) z)) =
     ConcreteCategory.hom (f.c.app (op U)) z
   rw [show (descendedRingMap D hf hb).hom.app (op ((Opens.map D.inclusion.base).obj U)) =
       (quotientRingMap D hf ≫ eqToHom (pushforwardSourceSheaf_eq D f hb)).hom.app (op U) from by
-    show ((TopCat.Presheaf.pushforward CommRingCat D.inclusion.base).map
+    change ((TopCat.Presheaf.pushforward CommRingCat D.inclusion.base).map
       (descendedRingMap D hf hb).hom).app (op U) = _
     rw [TopCat.Presheaf.pushforward_map_app']
     exact congrArg (fun k => k.hom.app (op U)) (descendedRingMap_spec D hf hb)]
-  show ConcreteCategory.hom (Y.presheaf.map ((eqToHom hOpMap).app (op U)))
+  change ConcreteCategory.hom (Y.presheaf.map ((eqToHom hOpMap).app (op U)))
       (ConcreteCategory.hom ((eqToHom (pushforwardSourceSheaf_eq D f hb)).hom.app (op U))
         (ConcreteCategory.hom ((quotientRingMap D hf).hom.app (op U))
           (ConcreteCategory.hom (D.inclusion.c.app (op U)) z))) =

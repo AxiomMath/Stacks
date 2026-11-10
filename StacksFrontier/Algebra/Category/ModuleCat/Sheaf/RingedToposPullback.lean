@@ -207,13 +207,15 @@ def toModulesSections (f : RingedToposHom X Y)
       (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
         ((Stacks.Sheaves.RingedToposModules.pushforwardModules f.toModulesHom).obj F))) :
     (Sheaf.sectionsFunctor Y.J Z).obj
-      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ((pushforwardModules f).obj F)) := x
+      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
+        ((pushforwardModules f).obj F)) := x
 
 /-- The inverse reading of `AlgebraicGeometry.RingedToposHom.toModulesSections`. -/
 def ofModulesSections (f : RingedToposHom X Y)
     (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (Z : Y.Cᵒᵖ)
     (x : (Sheaf.sectionsFunctor Y.J Z).obj
-      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ((pushforwardModules f).obj F))) :
+      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
+        ((pushforwardModules f).obj F))) :
     (Sheaf.sectionsFunctor Y.J Z).obj
       (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
         ((Stacks.Sheaves.RingedToposModules.pushforwardModules f.toModulesHom).obj F)) := x
@@ -224,7 +226,8 @@ addition of Stacks 03D1: the restriction of scalars along `f♯` does not change
 lemma pushforwardModules_add (f : RingedToposHom X Y)
     (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (Z : Y.Cᵒᵖ)
     (x y : (Sheaf.sectionsFunctor Y.J Z).obj
-      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ((pushforwardModules f).obj F))) :
+      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
+        ((pushforwardModules f).obj F))) :
     x + y =
       Sheaf.moduleAddObj (Stacks.SheafOfModules.Tensor.ringSheaf X.O) F
         (f.toToposHom.pushforward ⋙ Sheaf.sectionsFunctor Y.J Z) x y :=
@@ -261,7 +264,8 @@ the other direction. -/
 lemma ofModulesSections_add (f : RingedToposHom X Y)
     (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (Z : Y.Cᵒᵖ)
     (x y : (Sheaf.sectionsFunctor Y.J Z).obj
-      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ((pushforwardModules f).obj F))) :
+      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
+        ((pushforwardModules f).obj F))) :
     f.ofModulesSections F Z (x + y) =
       f.ofModulesSections F Z x + f.ofModulesSections F Z y :=
   rfl
@@ -272,9 +276,11 @@ direct-image action `f_*O_C × f_*F ⟶ f_*F` of Stacks 03D1. This is the module
 prescribed by Stacks 03D6 part (1). -/
 lemma pushforwardModules_smul (f : RingedToposHom X Y)
     (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (Z : Y.Cᵒᵖ)
-    (r : (Sheaf.sectionsFunctor Y.J Z).obj (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))
+    (r : (Sheaf.sectionsFunctor Y.J Z).obj
+      (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))
     (x : (Sheaf.sectionsFunctor Y.J Z).obj
-      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ((pushforwardModules f).obj F))) :
+      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
+        ((pushforwardModules f).obj F))) :
     r • x =
       Sheaf.moduleSMulObj (Stacks.SheafOfModules.Tensor.ringSheaf X.O) F
         (f.toToposHom.pushforward ⋙ Sheaf.sectionsFunctor Y.J Z)
@@ -283,7 +289,8 @@ lemma pushforwardModules_smul (f : RingedToposHom X Y)
   (Sheaf.sectionsFunctor_map_moduleSMulHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
       ((pushforwardModules f).obj F) Z r x).symm.trans
     ((moduleSMulObj_restrictScalars f.fSharpRing
-          (pullbackModuleObj Y.J f.toToposHom.pushforward (Stacks.SheafOfModules.Tensor.ringSheaf X.O) F)
+          (pullbackModuleObj Y.J f.toToposHom.pushforward
+            (Stacks.SheafOfModules.Tensor.ringSheaf X.O) F)
           (Sheaf.sectionsFunctor Y.J Z) r x).trans
       (moduleSMulHom_pullback_apply Y.J f.toToposHom.pushforward
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O) F Z _ x))
@@ -295,7 +302,8 @@ which is exactly `fSharpInverseImageRing_adjunct`, through
 `Stacks.Sheaves.RingedToposModules.fSharp_sections`. -/
 lemma toModulesSections_smul (f : RingedToposHom X Y)
     (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (Z : Y.Cᵒᵖ)
-    (r : (Sheaf.sectionsFunctor Y.J Z).obj (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))
+    (r : (Sheaf.sectionsFunctor Y.J Z).obj
+      (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))
     (x : (Sheaf.sectionsFunctor Y.J Z).obj
       (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
         ((Stacks.Sheaves.RingedToposModules.pushforwardModules f.toModulesHom).obj F))) :
@@ -307,9 +315,11 @@ lemma toModulesSections_smul (f : RingedToposHom X Y)
 in the other direction. -/
 lemma ofModulesSections_smul (f : RingedToposHom X Y)
     (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (Z : Y.Cᵒᵖ)
-    (r : (Sheaf.sectionsFunctor Y.J Z).obj (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))
+    (r : (Sheaf.sectionsFunctor Y.J Z).obj
+      (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))
     (x : (Sheaf.sectionsFunctor Y.J Z).obj
-      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ((pushforwardModules f).obj F))) :
+      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
+        ((pushforwardModules f).obj F))) :
     f.ofModulesSections F Z (r • x) = r • f.ofModulesSections F Z x :=
   (f.toModulesSections_smul F Z r (f.ofModulesSections F Z x)).symm
 
@@ -362,10 +372,10 @@ complexes, which is how the total pullback `Lf^*` of Stacks 06YY and the derived
 Stacks 07A6 are formed. -/
 theorem pullbackModules_additive (f : RingedToposHom X Y) :
     (f.toModulesHom.pullbackModules).Additive := by
-  letI : HasBinaryBiproducts
+  let : HasBinaryBiproducts
       (SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf.{u', v', w'} Y.O)) :=
     HasBinaryBiproducts.of_hasBinaryProducts
-  letI : HasBinaryBiproducts
+  let : HasBinaryBiproducts
       (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} X.O)) :=
     HasBinaryBiproducts.of_hasBinaryProducts
   have := (pullbackAdjPushforwardModules f).isLeftAdjoint

@@ -84,7 +84,7 @@ theorem projIsoBlowUp_hom_eq :
     (projIsoBlowUp J).hom =
       Stacks.Blowup.blowUpChart J (wholeSpace X) ≫ (AlgebraicGeometry.blowUpIso J).inv := by
   rw [Iso.eq_comp_inv]
-  show (((AlgebraicGeometry.reesDataIso J).projIso (wholeSpace X)).inv ≫
+  change (((AlgebraicGeometry.reesDataIso J).projIso (wholeSpace X)).inv ≫
     relativeProjChart (AlgebraicGeometry.reesSituation J) (wholeSpace X)) ≫
       (AlgebraicGeometry.blowUpIso J).hom = _
   rw [Category.assoc, AlgebraicGeometry.relativeProjChart_blowUpIso_hom, Iso.inv_hom_id_assoc]
@@ -267,7 +267,7 @@ theorem specProjIso_hom_blowUpToBase :
         (wholeSpace (Spec (CommRingCat.of A)))).isoSpec.inv ≫
       (wholeSpace (Spec (CommRingCat.of A))).1.ι =
         Spec.map (Scheme.ΓSpecIso (CommRingCat.of A)).inv := by
-    show (isAffineOpen_top (Spec (CommRingCat.of A))).fromSpec =
+    change (isAffineOpen_top (Spec (CommRingCat.of A))).fromSpec =
       Spec.map (Scheme.ΓSpecIso (CommRingCat.of A)).inv
     rw [IsAffineOpen.fromSpec_top, Scheme.isoSpec_Spec_inv]
   have hw : (projIsoBlowUp (specIdealSheaf m)).hom ≫

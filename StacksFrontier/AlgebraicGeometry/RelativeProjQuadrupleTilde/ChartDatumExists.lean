@@ -49,7 +49,7 @@ attribute [local instance] Quadruple.isInvertibleModule_situation
 /-- A global section restricted to the whole scheme is itself. -/
 theorem resTop_top {X : Scheme.{u}} (M : X.Modules) (u : Γ(M, ⊤)) :
     Stacks.TensorPowerTrivialize.resTop M u ⊤ = u := by
-  show M.presheaf.map (homOfLE (le_top : (⊤ : X.Opens) ≤ ⊤)).op u = u
+  change M.presheaf.map (homOfLE (le_top : (⊤ : X.Opens) ≤ ⊤)).op u = u
   rw [show (homOfLE (le_top : (⊤ : X.Opens) ≤ ⊤)).op = 𝟙 _ from Subsingleton.elim _ _,
     M.presheaf.map_id]
   rfl

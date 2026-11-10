@@ -75,7 +75,7 @@ lemma tensorRealizeIso_hom_naturality_right (X : C) {M N : Mat_ (SingleObj A)} (
   classical
   refine biproduct.hom_ext _ _ fun j => ?_
   rw [Category.assoc, tensorRealizeIso_hom_π, ← Functor.map_comp_assoc, Category.assoc]
-  show _ = _ ≫ realizeMap A X f ≫ _
+  change _ = _ ≫ realizeMap A X f ≫ _
   simp only [realizeMap, biproduct.matrix_π, biproduct.desc_eq, Functor.map_sum,
     Preadditive.sum_comp, Preadditive.comp_sum, Linear.comp_smul, Category.comp_id]
   refine Finset.sum_congr rfl fun i _ => ?_

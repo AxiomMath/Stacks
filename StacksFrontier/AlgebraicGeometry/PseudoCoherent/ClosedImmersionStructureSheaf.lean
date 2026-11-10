@@ -75,7 +75,7 @@ theorem cohomologySupportedOn_singleFunctor_pushforward_unit [IsClosedImmersion 
   · let _ : HasZeroMorphisms (TopCat.Presheaf AddCommGrpCat.{u} T.toTopCat) :=
       inferInstanceAs (HasZeroMorphisms ((Opens T.toTopCat)ᵒᵖ ⥤ AddCommGrpCat.{u}))
     have hpres : (toAb T.ringCatSheaf).PreservesZeroMorphisms := by
-      show (SheafOfModules.forget T.ringCatSheaf ⋙
+      change (SheafOfModules.forget T.ringCatSheaf ⋙
         PresheafOfModules.toPresheaf T.ringCatSheaf.obj).PreservesZeroMorphisms
       infer_instance
     let _ := hpres

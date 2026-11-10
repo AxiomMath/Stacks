@@ -686,7 +686,7 @@ private theorem exists_genericPointResidueSpectrum_iso {X X' : Scheme.{u}} (α :
     rw [Limits.Sigma.ι_mapIso_hom_assoc componentIso ξ
       (eReindexCoproduct.hom ≫ eReindex.hom ≫
         Limits.Sigma.desc (fun η : genericPoints X => X.fromSpecResidueField η.1))]
-    rw [Limits.HasColimit.isoOfNatIso_ι_hom_assoc reindexNatIso (Discrete.mk ξ)
+    rw [Limits.HasColimit.ι_isoOfNatIso_hom_assoc reindexNatIso (Discrete.mk ξ)
       (eReindex.hom ≫
         Limits.Sigma.desc (fun η : genericPoints X => X.fromSpecResidueField η.1))]
     rw [Functor.Final.ι_colimitIso_hom_assoc reindex targetDiagram (Discrete.mk ξ)
@@ -694,10 +694,10 @@ private theorem exists_genericPointResidueSpectrum_iso {X X' : Scheme.{u}} (α :
     have hreindex : reindexNatIso.hom.app (Discrete.mk ξ) = 𝟙 _ := by
       dsimp [reindexNatIso]
       rfl
-    rw [hreindex, Category.id_comp, Limits.Sigma.ι_desc_assoc]
+    rw [hreindex, Category.id_comp, Limits.Sigma.ι_comp_desc_assoc]
     simp only [componentIso, Functor.mapIso_hom, Scheme.Spec_map, Iso.op_hom, Opposite.unop_op]
     dsimp [targetDiagram]
-    rw [Limits.Sigma.ι_desc, residueIso_fromSpec]
+    rw [Limits.Sigma.ι_comp_desc, residueIso_fromSpec]
     exact Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField α ξ.1
   exact ⟨E, hcomm⟩
 

@@ -617,8 +617,7 @@ private theorem tensorComparison_compLifted
   let b := Module.finBasis K V
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x v =>
       change (∑ i, e ((L.map (FGModuleCat.ofHom
           (ULift.moduleEquiv.symm.toLinearMap.comp (b.coord i)))).hom
@@ -1391,8 +1390,7 @@ private noncomputable def scalarExtensionEquiv
   have ht (c : l) (t : T) : f (c ⊗ₜ[k] t) =
       eV (L.map (tensorFromUnitLifted k V (ULift.up c)) (eK.symm t)) := rfl
   have hs (c : l) (t : TensorProduct k l T) : f (c • t) = c • f t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy => simp only [smul_add, map_add, hx, hy]
     | tmul r t =>
       rw [TensorProduct.smul_tmul', smul_eq_mul, ht, ht]
@@ -1535,8 +1533,7 @@ private theorem unique_infinitesimalAutomorphismsChangeOfFields
   apply LinearMap.ext
   intro t
   change E₁ t = E₂ t
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a t =>
     have h := congrArg (fun x => a • x) (ht t)
     simpa only [← map_smul, TensorProduct.smul_tmul', smul_eq_mul, mul_one] using h

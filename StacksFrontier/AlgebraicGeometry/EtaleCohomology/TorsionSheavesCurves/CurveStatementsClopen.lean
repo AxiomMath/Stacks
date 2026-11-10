@@ -169,7 +169,7 @@ theorem range_ι_eq_compl_of_isCompl : Set.range V.ι.base = (Set.range U.ι.bas
       hUV.inf_eq_bot, TopologicalSpace.Opens.coe_bot]
   have hc : Codisjoint (V : Set X) U := by
     rw [codisjoint_iff]
-    show ((V ⊔ U : X.Opens) : Set X) = Set.univ
+    change ((V ⊔ U : X.Opens) : Set X) = Set.univ
     rw [sup_comm, hUV.sup_eq_top]
     rfl
   exact IsCompl.eq_compl ⟨hd, hc⟩

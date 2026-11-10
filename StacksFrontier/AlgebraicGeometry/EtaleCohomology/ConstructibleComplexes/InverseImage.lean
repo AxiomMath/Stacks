@@ -101,6 +101,7 @@ attribute [local instance] HasDerivedCategory.standard
 
 variable (B : BigEtaleSite.{u}) (Λ : Type r) [CommRing Λ] [IsNoetherianRing Λ]
 
+omit [IsNoetherianRing Λ] in
 /-- **Stacks 095Y.** Let `Λ` be a Noetherian ring and `f : X ⟶ Y` a morphism of schemes. If a
 complex of étale sheaves of `Λ`-modules on `Y` lies in `D_c(Y_étale, Λ)`, that is has
 constructible cohomology sheaves in every degree, then its derived inverse image `Lf^*K` lies in

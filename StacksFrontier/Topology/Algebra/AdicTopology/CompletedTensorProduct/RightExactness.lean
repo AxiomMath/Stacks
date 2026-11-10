@@ -112,7 +112,7 @@ private theorem isOpen_map_of_isOpen_submodule (g : N →ₗ[R] N')
   let j : TensorProductSubmoduleIndex (R := R) (M := M) (N := N') :=
     (i.1, ⟨i.2.1.map g, by simpa [Submodule.map_coe] using hgopen _ i.2.2⟩)
   have hle : tensorProductSubmoduleBasis j ≤ L.map (TensorProduct.map LinearMap.id g) := by
-    show tensorProductSubmodule i.1.1 (i.2.1.map g) ≤ _
+    change tensorProductSubmodule i.1.1 (i.2.1.map g) ≤ _
     rw [← tensorProductSubmodule_map_lTensor g hg]
     exact Submodule.map_mono (show tensorProductSubmoduleBasis i ≤ L from fun y hy => hi hy)
   exact AddSubgroup.isOpen_mono

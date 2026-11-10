@@ -161,7 +161,7 @@ theorem exists_hom_appLE (hW : IsAffineOpen W) (φ : Γ(X, W) ⟶ Γ(T', (⊤ : 
   have hcapp : c.appTop = W.topIso.hom ≫ φ := homEquivOfIsAffine.apply_symm_apply _
   have hran : (⊤ : T'.Opens) ≤ (c ≫ W.ι) ⁻¹ᵁ W := by
     intro x _
-    show (c ≫ W.ι).base x ∈ W
+    change (c ≫ W.ι).base x ∈ W
     rw [Scheme.Hom.comp_apply]
     exact (c.base x).2
   exact ⟨c ≫ W.ι, hran, by rw [appLE_top_eq c hran, hcapp, Iso.inv_hom_id_assoc]⟩
@@ -508,7 +508,7 @@ theorem moduleOfAppLEBase_smul_ker (hcomm : a ≫ f = i ≫ h) (r : Γ(S, V))
     r • y = (h.appLE V ⊤ hV').hom r • y := by
   let := thickeningKerModule hi
   let := moduleOfAppLEBase f a hWV hUW (RingHom.ker i.appTop.hom)
-  show ((f.appLE V W hWV ≫ a.appLE W ⊤ hUW).hom r) • y = _
+  change ((f.appLE V W hWV ≫ a.appLE W ⊤ hUW).hom r) • y = _
   rw [CommRingCat.comp_apply, appLE_base_comm f hWV hUW hV' hcomm r,
     thickeningKerModule_smul hi]
 
@@ -521,7 +521,7 @@ theorem moduleOfAppLE_smul_ker {b : T' ⟶ X} (hba : i ≫ b = a)
     x • y = (b.appLE W ⊤ hb).hom x • y := by
   let := thickeningKerModule hi
   let := moduleOfAppLE a hUW (RingHom.ker i.appTop.hom)
-  show ((a.appLE W ⊤ hUW).hom x) • y = _
+  change ((a.appLE W ⊤ hUW).hom x) • y = _
   rw [← congr($(appLE_appTop_of_lift hba hb hUW).hom x), CommRingCat.comp_apply,
     thickeningKerModule_smul hi]
 

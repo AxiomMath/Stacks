@@ -136,7 +136,7 @@ public theorem bijective_differential_ofAlgEquiv [IsNoetherianRing A]
     rw [(completedNaiveCotangentComplex X Q).differential_mk] at hi
     have hi' : Q.toAlgHom ((completedNaiveCotangentComplex X Q).partialDeriv i g₀.1) =
         e.symm (v i) := hi
-    show e (Q.toAlgHom ((completedNaiveCotangentComplex X Q).partialDeriv i g₀.1)) = v i
+    change e (Q.toAlgHom ((completedNaiveCotangentComplex X Q).partialDeriv i g₀.1)) = v i
     rw [hi', e.apply_symm_apply]
 
 end Transport
@@ -202,7 +202,7 @@ public theorem isRigSmoothArrow_canonicalMap (hf : f.Etale) (hB : TopologicalRin
       TopologicalRing.IsTopologicallyOfFiniteType (CompletionOver.canonicalMap f) :=
     ⟨hadic, htft⟩
   have hft : FiniteTypeAdicAlgebraForEveryIdeal (CompletionOver.canonicalMap f) :=
-    ((adicFiniteType_tfae _ hcont hB hC.1 (exists_idealOfDefinition_fg hB inferInstance)
+    ((adicFiniteType_tfae _ hB hC.1 (exists_idealOfDefinition_fg hB inferInstance)
       (exists_idealOfDefinition_fg hC.1 hC.2)).out 1 6).mp hone
   obtain ⟨I, hI, hIadic⟩ := hB.1
   obtain ⟨Q, hQ⟩ := exists_presentation_bijective_canonicalMap f hf hft hI hIadic
@@ -382,15 +382,6 @@ public theorem exists_factor_innerBaseChange_of_bijective_outer
     (F : Fin s → Derivation base.carrier
       (AdicCompletion.completedMvPolynomial base.adicIdeal (Fin s))
       (AdicCompletion.completedMvPolynomial base.adicIdeal (Fin s)))
-    (hFc : ∀ j, @Continuous _ _
-      (RestrictedPowerSeries.polynomialCompletionLimitTopology base.adicIdeal (Fin s))
-      (RestrictedPowerSeries.polynomialCompletionLimitTopology base.adicIdeal (Fin s)) (F j))
-    (hFp : ∀ (j : Fin s) (q : MvPolynomial (Fin s) base.carrier),
-      F j (algebraMap (MvPolynomial (Fin s) base.carrier)
-          (AdicCompletion.completedMvPolynomial base.adicIdeal (Fin s)) q) =
-        algebraMap (MvPolynomial (Fin s) base.carrier)
-          (AdicCompletion.completedMvPolynomial base.adicIdeal (Fin s))
-          (MvPolynomial.pderiv j q))
     (hbij : Function.Bijective (outerDifferential s ψ hψ F))
     (hlci : ∀ n : ℕ, RingHom.IsLocalCompleteIntersection (reductionMap base total (n + 1)))
     (htotal : IsRigSmooth total) :
@@ -412,12 +403,9 @@ public theorem exists_factor_innerBaseChange_of_bijective_outer
     ((Algebra.Extension.Cotangent.map (P.innerExtensionHom s ψ hψ)).liftBaseChange
       total.carrier)
     (Algebra.Extension.Cotangent.map (P.outerExtensionHom s ψ hψ))
-    (NaiveCotangent.finInl total.carrier P.variableCount s)
-    (NaiveCotangent.finProj total.carrier P.variableCount s) hbij
+    (NaiveCotangent.finInl total.carrier P.variableCount s) hbij
     (P.injective_cotangentMap_innerExtensionHom_of_lci s ψ hψ hlci)
     (fun z => LinearMap.congr_fun (P.combinedDifferential_comp_innerCotangentMap s ψ hψ KB KC) z)
-    (fun z => LinearMap.congr_fun
-      (P.outerDifferential_comp_outerCotangentMap s ψ hψ KC F hFc hFp) z)
     (P.exact_cotangentMap_combined s ψ hψ) (P.surjective_cotangentMap_combined s ψ hψ) _
     ⟨h, hh⟩
 
@@ -455,15 +443,6 @@ public theorem isRigSmooth_of_faithfullyFlat_of_bijective_outer
     (F : Fin s → Derivation base.carrier
       (AdicCompletion.completedMvPolynomial base.adicIdeal (Fin s))
       (AdicCompletion.completedMvPolynomial base.adicIdeal (Fin s)))
-    (hFc : ∀ j, @Continuous _ _
-      (RestrictedPowerSeries.polynomialCompletionLimitTopology base.adicIdeal (Fin s))
-      (RestrictedPowerSeries.polynomialCompletionLimitTopology base.adicIdeal (Fin s)) (F j))
-    (hFp : ∀ (j : Fin s) (q : MvPolynomial (Fin s) base.carrier),
-      F j (algebraMap (MvPolynomial (Fin s) base.carrier)
-          (AdicCompletion.completedMvPolynomial base.adicIdeal (Fin s)) q) =
-        algebraMap (MvPolynomial (Fin s) base.carrier)
-          (AdicCompletion.completedMvPolynomial base.adicIdeal (Fin s))
-          (MvPolynomial.pderiv j q))
     (hbij : Function.Bijective (outerDifferential s ψ hψ F))
     (hlci : ∀ n : ℕ, RingHom.IsLocalCompleteIntersection (reductionMap base total (n + 1)))
     (htotal : IsRigSmooth total) :
@@ -472,14 +451,14 @@ public theorem isRigSmooth_of_faithfullyFlat_of_bijective_outer
   have : Module.FinitePresentation base.carrier P.extension.Cotangent := by
     let : IsNoetherianRing P.completedPolynomialRing := AdicCompletion.isNoetherianRing _
     let : IsNoetherianRing P.extension.Ring := by
-      show IsNoetherianRing P.completedPolynomialRing
+      change IsNoetherianRing P.completedPolynomialRing
       infer_instance
     have hfinite : Module.Finite base.carrier P.extension.Cotangent :=
       Algebra.Extension.Cotangent.finite (Ideal.fg_of_isNoetherianRing _)
     let : IsNoetherianRing base.carrier := Rig.isNoetherianRing base
     exact Module.finitePresentation_of_finite base.carrier P.extension.Cotangent
-  obtain ⟨c, hc⟩ := exists_factor_innerBaseChange_of_bijective_outer P s ψ hψ F hFc hFp hbij
-    hlci htotal
+  obtain ⟨c, hc⟩ := exists_factor_innerBaseChange_of_bijective_outer P s ψ hψ F hbij hlci
+    htotal
   refine (isRigSmooth_iff_cotangentFactorization base P).mpr ?_
   unfold HasCotangentFactorization
   refine ⟨c, fun a ha => ?_⟩

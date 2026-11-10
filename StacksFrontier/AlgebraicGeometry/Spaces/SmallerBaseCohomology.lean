@@ -231,7 +231,7 @@ theorem reindexGlobalSectionRingHom_comp_smallerBaseRingHom :
     baseRingHom A B hA (spaceOverSmallerBase B _ S hA hS g Y φA).1
       (spaceOverSmallerBase B _ S hA hS g Y φA).2 := by
   ext a U
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartToScheme B S hS Y.1 φA
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartToScheme B S hS Y.1 φA
       ((smallerBaseSmallEtaleEquivalence B _ S hA hS g Y φA).functor.obj U.unop))).op).hom
         ((Scheme.ΓSpecIso (.of A)).inv.hom a) = _
   refine (congrArg (fun (k : _ ⟶ Over.mk g) =>

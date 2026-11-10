@@ -181,7 +181,7 @@ lemma coindRestrict_smul {X Y : Cᵒᵖ} (f : X ⟶ Y) (r : R₀.obj X) (θ : co
   ext Z : 2
   rw [coindRestrict_app, coindSMul_app, coindSMul_app, coindRestrict_app]
   congr 2
-  show (R₀.map ((Over.map f.unop).obj Z.unop).hom.op) r = _
+  change (R₀.map ((Over.map f.unop).obj Z.unop).hom.op) r = _
   rw [← CategoryTheory.comp_apply, ← R₀.map_comp]
   rfl
 
@@ -384,7 +384,7 @@ set_option backward.isDefEq.respectTransparency false in
 lemma isLinearSection_curryApp (α : M ⊗ L ⟶ N) {X : Cᵒᵖ} (l : L.obj X) :
     IsLinearSection M N (curryApp α l) := fun Y r ↦ by
   ext (m : M.obj (op Y.unop.left))
-  show α.app (op Y.unop.left) ((r • m) ⊗ₜ (L.restrictₛₗ Y.unop.hom.op l))
+  change α.app (op Y.unop.left) ((r • m) ⊗ₜ (L.restrictₛₗ Y.unop.hom.op l))
     = r • α.app (op Y.unop.left) (m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op l))
   have h2 : α.app (op Y.unop.left)
         (r • (show (M ⊗ L).obj (op Y.unop.left) from m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op l)))
@@ -398,7 +398,7 @@ lemma isLinearSection_curryApp (α : M ⊗ L ⟶ N) {X : Cᵒᵖ} (l : L.obj X) 
 lemma curryApp_add (α : M ⊗ L ⟶ N) {X : Cᵒᵖ} (l₁ l₂ : L.obj X) :
     curryApp α (l₁ + l₂) = curryApp α l₁ + curryApp α l₂ := by
   ext Y (m : M.obj (op Y.unop.left))
-  show α.app (op Y.unop.left) (m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op (l₁ + l₂)))
+  change α.app (op Y.unop.left) (m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op (l₁ + l₂)))
     = α.app (op Y.unop.left) (m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op l₁))
       + α.app (op Y.unop.left) (m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op l₂))
   have h2 : α.app (op Y.unop.left) ((m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op l₁))
@@ -414,7 +414,7 @@ set_option backward.isDefEq.respectTransparency false in
 lemma curryApp_smul (α : M ⊗ L ⟶ N) {X : Cᵒᵖ} (r : R₀.obj X) (l : L.obj X) :
     curryApp α (r • l) = r • curryApp α l := by
   ext Y (m : M.obj (op Y.unop.left))
-  show α.app (op Y.unop.left) (m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op (r • l)))
+  change α.app (op Y.unop.left) (m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op (r • l)))
     = α.app (op Y.unop.left)
         (((R₀ ⋙ forget₂ CommRingCat RingCat).map Y.unop.hom.op r • m) ⊗ₜ
           (L.restrictₛₗ Y.unop.hom.op l))
@@ -434,7 +434,7 @@ lemma curryApp_restrict (α : M ⊗ L ⟶ N) {X Y : Cᵒᵖ} (f : X ⟶ Y) (l : 
       = (L.restrictₛₗ ((Over.map f.unop).obj Z.unop).hom.op) l := by
     rw [restrictₛₗ_apply, restrictₛₗ_apply, restrictₛₗ_apply, ← L.map_comp_apply]
     exact L.congr_map_apply (by simp) l
-  show α.app (op Z.unop.left) (m ⊗ₜ (L.restrictₛₗ Z.unop.hom.op ((L.restrictₛₗ f) l))) = _
+  change α.app (op Z.unop.left) (m ⊗ₜ (L.restrictₛₗ Z.unop.hom.op ((L.restrictₛₗ f) l))) = _
   exact congrArg _ (congrArg (fun x ↦ m ⊗ₜ x) hl)
 
 /-- The bijection `(M ⊗ L ⟶ N) ≃ (L ⟶ ihom M N)`, forward direction. -/
@@ -489,7 +489,7 @@ lemma ihomEval_add_right {X : Cᵒᵖ} (θ₁ θ₂ : (ihom M N).obj X) (m : M.o
 lemma ihomEval_smul_right {X : Cᵒᵖ} (c : (R₀ ⋙ forget₂ CommRingCat RingCat).obj X)
     (θ : (ihom M N).obj X) (m : M.obj X) :
     ihomEval (c • θ) m = c • ihomEval θ m := by
-  show θ.1.app (op (Over.mk (𝟙 X.unop)))
+  change θ.1.app (op (Over.mk (𝟙 X.unop)))
       (((R₀ ⋙ forget₂ CommRingCat RingCat).map (𝟙 X.unop).op c) • m) = _
   have hc : (R₀ ⋙ forget₂ CommRingCat RingCat).map (𝟙 X.unop).op c = c :=
     ConcreteCategory.congr_hom ((R₀ ⋙ forget₂ CommRingCat RingCat).map_id X) c
@@ -526,7 +526,7 @@ noncomputable def uncurry (β : L ⟶ ihom M N) : M ⊗ L ⟶ N where
 lemma uncurry_curry (α : M ⊗ L ⟶ N) : uncurry (curry α) = α := by
   ext X : 1
   refine ModuleCat.MonoidalCategory.tensor_ext (fun m l ↦ ?_)
-  show α.app X (m ⊗ₜ (L.restrictₛₗ (𝟙 X.unop).op l)) = α.app X (m ⊗ₜ l)
+  change α.app X (m ⊗ₜ (L.restrictₛₗ (𝟙 X.unop).op l)) = α.app X (m ⊗ₜ l)
   exact congrArg _ (congrArg (fun x ↦ m ⊗ₜ x)
     ((restrictₛₗ_apply L (𝟙 X) l).trans (ConcreteCategory.congr_hom (L.map_id X) l)))
 
@@ -534,13 +534,13 @@ lemma uncurry_curry (α : M ⊗ L ⟶ N) : uncurry (curry α) = α := by
 lemma curry_uncurry (β : L ⟶ ihom M N) : curry (uncurry β) = β := by
   ext X (l : L.obj X)
   refine Subtype.ext ?_
-  show (_ : coindSections M N.presheaf X) = _
+  change (_ : coindSections M N.presheaf X) = _
   ext Y (m : M.obj (op Y.unop.left))
   have hβ : ihomVal (β.app (op Y.unop.left) (L.restrictₛₗ Y.unop.hom.op l))
       = coindRestrict M N.presheaf Y.unop.hom.op (ihomVal (β.app X l)) :=
     (congrArg _ (naturality_apply β Y.unop.hom.op l)).trans
       (ihomVal_map Y.unop.hom.op (β.app X l))
-  show ihomEval (β.app (op Y.unop.left) (L.restrictₛₗ Y.unop.hom.op l)) m
+  change ihomEval (β.app (op Y.unop.left) (L.restrictₛₗ Y.unop.hom.op l)) m
     = (ihomVal (β.app X l)).app Y m
   rw [ihomEval_def, hβ]
   exact ConcreteCategory.congr_hom (coindRestrict_app_mk M N.presheaf Y.unop.hom.op
@@ -557,9 +557,9 @@ lemma curry_naturality_left
     (g : L' ⟶ L) (α : M ⊗ L ⟶ N) : curry ((M ◁ g) ≫ α) = g ≫ curry α := by
   ext X (l : L'.obj X)
   refine Subtype.ext ?_
-  show (_ : coindSections M N.presheaf X) = _
+  change (_ : coindSections M N.presheaf X) = _
   ext Y (m : M.obj (op Y.unop.left))
-  show α.app (op Y.unop.left) ((M ◁ g).app (op Y.unop.left)
+  change α.app (op Y.unop.left) ((M ◁ g).app (op Y.unop.left)
       (m ⊗ₜ (L'.restrictₛₗ Y.unop.hom.op l)))
     = α.app (op Y.unop.left) (m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op (g.app X l)))
   exact congrArg _ ((whiskerLeft_app_tmul g (op Y.unop.left) m

@@ -37,8 +37,8 @@ restriction functor's preservation of cokernels available for the pullback.
 
 The invariance of the quotient under an isomorphism of the ambient module is
 `Stacks.SupportedQuotient.supportedSectionsCokernelIso`
-(`StacksFrontier/AlgebraicGeometry/Flatness/Flattening/SupportedSectionsFlatPullback.lean`), which is
-imported rather than restated here, along with the submodule transport
+(`StacksFrontier/AlgebraicGeometry/Flatness/Flattening/SupportedSectionsFlatPullback.lean`), which
+is imported rather than restated here, along with the submodule transport
 `Stacks.SupportedQuotient.submoduleIso` it is built from.
 
 ## References

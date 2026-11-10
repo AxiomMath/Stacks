@@ -253,7 +253,7 @@ theorem preservesColimitsOfShape_discrete_restrictedDerivedPushforward (α : Typ
     PreservesColimitsOfShape (Discrete α)
       (Stacks.Duality.quasiCoherentDerivedPushforward j
         (Stacks.Duality.isQuasicoherent_homology_derivedPushforward_of_qcqs j)) :=
-  Stacks.Duality.DerivedPushforward.LocallySmall.preservesColimitsOfShape_discrete_quasiCoherentDerivedPushforward
+  DerivedPushforward.LocallySmall.preservesColimitsOfShape_discrete_quasiCoherentDerivedPushforward
     j _ α
 
 /-- Local instance form of the commutation of `Rj_*` with direct sums. -/
@@ -322,15 +322,16 @@ degree zero, which is `𝒪_X` in degree zero — the source's own generator. -/
   Stacks.Duality.AffineGeneration.exists_isCompactObject_isWeakTriangulatedGenerator_of_isAffine \
   but does NOT reach the tag's quasi-compact quasi-separated statement. The route is the reverse \
   of the source's: compact generation passes DOWN from a scheme to a quasi-compact open of it, by \
-  Stacks.Duality.OpenImmersion.isCompactlyGenerated_quasiCoherentDerivedCategory_of_isOpenImmersion, \
+  Stacks.Duality.OpenImmersion.\
+  isCompactlyGenerated_quasiCoherentDerivedCategory_of_isOpenImmersion, \
   so from the affine case it reaches exactly the schemes with a quasi-compact open immersion into \
   an affine scheme, the quasi-affine ones. The source's own induction over the quasi-compact \
   opens, Tag 08DR, goes the other way and still needs Tag 09IQ at a quasi-compact \
   quasi-separated scheme and the implication perfect implies compact of Tag 09M1, neither of \
   which is in the library; see the implementation notes of \
-  StacksFrontier/AlgebraicGeometry/Duality/CompactGeneration/AffineQuasiCoherent.lean. Nothing here \
-  needs either: the generator is compact by construction and compactness is what the consumers \
-  of the tag ask for"]
+  StacksFrontier/AlgebraicGeometry/Duality/CompactGeneration/AffineQuasiCoherent.lean. Nothing \
+  here needs either: the generator is compact by construction and compactness is what the \
+  consumers of the tag ask for"]
 theorem exists_isCompactObject_isWeakTriangulatedGenerator_of_isQuasiAffine (X : Scheme.{u})
     [X.IsQuasiAffine] :
     ∃ P : Stacks.Duality.quasiCoherentDerivedCategory X,
@@ -345,7 +346,8 @@ Brown representability consumes**, at the spelling of `D_QCoh(𝒪_X)` over
 `AlgebraicGeometry.Scheme.Modules X` — the one the statement of [Stacks, Tag 0A9E] uses. -/
 @[stacks 09IS "FOR A QUASI-AFFINE SCHEME, in the IsCompactlyGenerated form of Tag 09SQ at the \
   Scheme.Modules spelling of the category, which is the one Tag 0A9E's statement uses; see \
-  Stacks.Duality.QuasiAffineGeneration.exists_isCompactObject_isWeakTriangulatedGenerator_of_isQuasiAffine \
+  Stacks.Duality.QuasiAffineGeneration.\
+  exists_isCompactObject_isWeakTriangulatedGenerator_of_isQuasiAffine \
   for the full caveat"]
 theorem isCompactlyGenerated_quasiCoherentDerivedCategory_of_isQuasiAffine (X : Scheme.{u})
     [X.IsQuasiAffine] :
@@ -361,7 +363,8 @@ uses. The two spellings are the same type with separately declared `HasDerivedCa
 instances. -/
 @[stacks 09IS "FOR A QUASI-AFFINE SCHEME, in the IsCompactlyGenerated form of Tag 09SQ at the \
   SheafOfModules spelling of the category, which is the one Tag 0CR0's hypothesis uses; see \
-  Stacks.Duality.QuasiAffineGeneration.exists_isCompactObject_isWeakTriangulatedGenerator_of_isQuasiAffine \
+  Stacks.Duality.QuasiAffineGeneration.\
+  exists_isCompactObject_isWeakTriangulatedGenerator_of_isQuasiAffine \
   for the full caveat"]
 theorem isCompactlyGenerated_derivedQuasiCoherent_of_isQuasiAffine (X : Scheme.{u})
     [X.IsQuasiAffine] :
@@ -387,14 +390,16 @@ quasi-compact quasi-separated schemes, is
 `Stacks.Duality.DerivedPushforward.isLeftAdjoint_qcqsRestrictedDerivedPushforward_of_qcqs`. -/
 theorem isLeftAdjoint_qcqsRestrictedDerivedPushforward_of_isQuasiAffine :
     (Stacks.Duality.DerivedPushforward.qcqsRestrictedDerivedPushforward f).IsLeftAdjoint :=
-  Stacks.Duality.DerivedPushforward.isLeftAdjoint_qcqsRestrictedDerivedPushforward_of_isCompactlyGenerated
+  open DerivedPushforward in
+  isLeftAdjoint_qcqsRestrictedDerivedPushforward_of_isCompactlyGenerated
     f (isCompactlyGenerated_quasiCoherentDerivedCategory_of_isQuasiAffine X)
 
 /-- **`Rf_*` has an exact right adjoint for a morphism out of a quasi-affine scheme.** -/
 theorem exists_isTriangulated_rightAdjoint_qcqsRestrictedDerivedPushforward_of_isQuasiAffine :
     ∃ (a : _) (adj : Stacks.Duality.DerivedPushforward.qcqsRestrictedDerivedPushforward f ⊣ a)
       (_ : a.CommShift ℤ), adj.IsTriangulated :=
-  Stacks.Duality.DerivedPushforward.exists_isTriangulated_rightAdjoint_qcqsRestrictedDerivedPushforward_of_isCompactlyGenerated
+  open DerivedPushforward in
+  exists_isTriangulated_rightAdjoint_qcqsRestrictedDerivedPushforward_of_isCompactlyGenerated
     f (isCompactlyGenerated_quasiCoherentDerivedCategory_of_isQuasiAffine X)
 
 end Consequences
@@ -455,13 +460,13 @@ produced for every object of `FTS S` and no affineness or quasi-affineness hypot
 theorem exists_isDerivedSheafHomRightAdjoint_of_fts_of_isQuasiAffine
     {S : Scheme.{u}} [IsNoetherian S] {X Y : FTS S} (i : X ⟶ Y)
     [IsClosedImmersion i.left] [X.left.IsQuasiAffine] :
-    ∃ (a : quasiCoherentDerivedCategory Y.left ⥤ quasiCoherentDerivedCategory X.left)
-      (adj : affineHomQuasiCoherentDerivedPushforward i.left ⊣ a),
+    ∃ (a : quasiCoherentDerivedCategory Y.left ⥤ quasiCoherentDerivedCategory X.left),
+      Nonempty (affineHomQuasiCoherentDerivedPushforward i.left ⊣ a) ∧
       IsDerivedSheafHomRightAdjoint i.left a := by
   obtain ⟨a, ⟨adj⟩⟩ :=
-    Stacks.Duality.QuasiAffineGeneration.isLeftAdjoint_qcqsRestrictedDerivedPushforward_of_isQuasiAffine
+    QuasiAffineGeneration.isLeftAdjoint_qcqsRestrictedDerivedPushforward_of_isQuasiAffine
       (f := i.left)
-  exact ⟨a, adj, isDerivedSheafHomRightAdjoint_of_fts tag0A9XHypothesis.{u} i a adj⟩
+  exact ⟨a, ⟨adj⟩, isDerivedSheafHomRightAdjoint_of_fts tag0A9XHypothesis.{u} i a adj⟩
 
 end Stacks.Duality.LocallySmall
 

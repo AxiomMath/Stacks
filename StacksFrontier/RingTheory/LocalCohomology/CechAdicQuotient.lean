@@ -94,7 +94,7 @@ theorem cechTermMap_eq_lmap {M N : ModuleCat.{u} A} (q : M ⟶ N) (p : ℕ) :
         (fun s => cechModMap g q s.1) := by
   classical
   refine DirectSum.linearMap_ext A fun s => LinearMap.ext fun x => ?_
-  show cechTermMap g q p (DirectSum.lof A _ (fun s => _root_.Cech.cechMod g M s.1) s x) =
+  change cechTermMap g q p (DirectSum.lof A _ (fun s => _root_.Cech.cechMod g M s.1) s x) =
     DirectSum.lmap _ (DirectSum.lof A _ (fun s => _root_.Cech.cechMod g M s.1) s x)
   rw [cechTermMap_lof, DirectSum.lmap_lof]
 

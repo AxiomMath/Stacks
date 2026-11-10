@@ -114,7 +114,7 @@ def fibreIndexDown (X : SimplexCategory × C) (V : C) :
   app j := Sigma.desc fun α => ↾ fun g => ULift.up (α.down, g.down)
   naturality j k f := by
     refine Sigma.hom_ext _ _ fun α => ?_
-    rw [Functor.copower_map, Sigma.ι_comp_map'_assoc, Sigma.ι_desc, Sigma.ι_desc_assoc]
+    rw [Functor.copower_map, Sigma.ι_comp_map'_assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc_assoc]
     refine ConcreteCategory.hom_ext _ _ fun g => ?_
     refine congrArg ULift.up (CategoryTheory.Prod.hom_ext ?_ ?_)
     · rfl
@@ -127,7 +127,7 @@ lemma ι_fibreIndexDown_app (X : SimplexCategory × C) (V : C) (j : SimplexCateg
     (α : ((SSet.stdSimplex.{u}).obj X.1).obj j) :
     Sigma.ι (fibreIndexFamily X V j) α ≫ (fibreIndexDown X V).app j =
       ↾ fun g => ULift.up (α.down, g.down) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- **In each degree, `fibreIndexDown` is a bijection**: a morphism `(⦋m⦌, V) ⟶ X` of `Δ × C` is
 the same thing as a `Δ`-simplex `α : ⦋m⦌ ⟶ X₁` together with a point `g : V ⟶ X₂` of the summand
@@ -217,7 +217,7 @@ lemma fibreIndexIso_inv_comp_prodProjIndex (X : SimplexCategory × C) (V : C) :
           ((SSet.stdSimplex.{u}).obj X.1) ≫ (prodSectionSndIsoConst V X.2).inv := by
   refine NatTrans.ext (funext fun j => Sigma.hom_ext _ _ fun α => ?_)
   rw [NatTrans.comp_app, NatTrans.comp_app, fibreIndexIso_inv, ι_fibreIndexDown_app_assoc]
-  simp only [Functor.copowerProj, Sigma.ι_desc_assoc]
+  simp only [Functor.copowerProj, Sigma.ι_comp_desc_assoc]
   refine ConcreteCategory.hom_ext _ _ fun g => ?_
   rfl
 

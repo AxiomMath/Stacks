@@ -200,20 +200,20 @@ public def specializationMapOnStalks (σ : GeometricSpecialization B S hS s)
     {A : Type v} [Category.{w} A] [HasColimitsOfSize.{u, u} A]
     (F : (SmallEtale B S hS)ᵒᵖ ⥤ A) :
     etaleStalk B S hS s F ⟶ etaleStalk B S hS σ.target F :=
-  colimit.pre ((CategoryOfElements.π (geometricPointFiber B S hS σ.target)).op ⋙ F)
-    (CategoryOfElements.map (specializationFiberHom σ)).op
+  colimit.pre ((Functor.Elements.π (geometricPointFiber B S hS σ.target)).op ⋙ F)
+    (NatTrans.mapElements (specializationFiberHom σ)).op
 
 /-- The colimit insertion at an étale neighborhood of `s`, followed by the specialization map,
 is the colimit insertion at the specialized étale neighborhood. -/
 public theorem ι_comp_specializationMapOnStalks (σ : GeometricSpecialization B S hS s)
     {A : Type v} [Category.{w} A] [HasColimitsOfSize.{u, u} A]
     (F : (SmallEtale B S hS)ᵒᵖ ⥤ A) (e : (geometricPointFiber B S hS s).Elements) :
-    colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F) (op e) ≫
+    colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F) (op e) ≫
         specializationMapOnStalks σ F =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS σ.target)).op ⋙ F)
-        (op ((CategoryOfElements.map (specializationFiberHom σ)).obj e)) :=
-  colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B S hS σ.target)).op ⋙ F)
-    (CategoryOfElements.map (specializationFiberHom σ)).op (op e)
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS σ.target)).op ⋙ F)
+        (op ((NatTrans.mapElements (specializationFiberHom σ)).obj e)) :=
+  colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B S hS σ.target)).op ⋙ F)
+    (NatTrans.mapElements (specializationFiberHom σ)).op (op e)
 
 /-- For sheaves of sets the specialization map sends the germ of a section at an étale
 neighborhood of `s` to the germ of the same section at the specialized neighborhood. -/
@@ -221,9 +221,9 @@ public theorem specializationMapOnStalks_ι (σ : GeometricSpecialization B S hS
     (F : (SmallEtale B S hS)ᵒᵖ ⥤ Type (u + 1))
     (e : (geometricPointFiber B S hS s).Elements) (z : F.obj (op e.1)) :
     specializationMapOnStalks σ F
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F) (op e) z) =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS σ.target)).op ⋙ F)
-        (op ((CategoryOfElements.map (specializationFiberHom σ)).obj e)) z :=
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F) (op e) z) =
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS σ.target)).op ⋙ F)
+        (op ((NatTrans.mapElements (specializationFiberHom σ)).obj e)) z :=
   congrArg (fun k => k z) (ι_comp_specializationMapOnStalks σ F e)
 
 namespace GeometricSpecialization
@@ -335,25 +335,25 @@ public theorem specializationMapOnStalks_smallEtalePullback (B : BigEtaleSite.{u
       B.inclusion.map (pullback.fst W.obj.obj.hom g) = W.val.1 := by
     simpa only [CategoryTheory.Functor.map_id, Category.id_comp] using hu
   have hsource := smallEtalePullbackStalkIso_germ B g s' F U W (𝟙 _) hU t
-  let z' := colimit.ι ((CategoryOfElements.π (geometricPointFiber B S'.1 S'.property s')).op ⋙ P)
+  let z' := colimit.ι ((Functor.Elements.π (geometricPointFiber B S'.1 S'.property s')).op ⋙ P)
     (op U) (pullbackSectionAlong B g F W.obj U.obj (𝟙 _) t)
   obtain rfl : z = z' := I.toEquiv.injective (ht.symm.trans hsource.symm)
-  let Uσ := (CategoryOfElements.map (specializationFiberHom σ)).obj U
-  let Wσ := (CategoryOfElements.map (specializationFiberHom (σ.map g h hbase))).obj W
+  let Uσ := (NatTrans.mapElements (specializationFiberHom σ)).obj U
+  let Wσ := (NatTrans.mapElements (specializationFiberHom (σ.map g h hbase))).obj W
   have hσ : Uσ.val.1 ≫ (SmallEtale.toScheme B S'.1 S'.property).map (𝟙 Uσ.obj) ≫
       B.inclusion.map (pullback.fst Wσ.obj.obj.hom g) = Wσ.val.1 := by
-    show ((specializationFiberHom σ).app ((smallEtaleBaseChange B g).obj V) u).1 ≫
+    change ((specializationFiberHom σ).app ((smallEtaleBaseChange B g).obj V) u).1 ≫
       (SmallEtale.toScheme B S'.1 S'.property).map
         (𝟙 ((smallEtaleBaseChange B g).obj V)) ≫
         B.inclusion.map (pullback.fst V.obj.hom g) = _
     rw [CategoryTheory.Functor.map_id, Category.id_comp]
     exact specializationFiberHom_baseChange_val g s' σ h hbase hpoint V v u hu
-  show (smallEtalePullbackStalkIso B g σ.target).hom.app F
+  change (smallEtalePullbackStalkIso B g σ.target).hom.app F
       (specializationMapOnStalks σ P z') =
     specializationMapOnStalks (σ.map g h hbase) F.obj (I.hom z')
   rw [specializationMapOnStalks_ι σ P U
     (pullbackSectionAlong B g F W.obj U.obj (𝟙 _) t),
-    show I.hom z' = colimit.ι ((CategoryOfElements.π (geometricPointFiber B S.1 S.property
+    show I.hom z' = colimit.ι ((Functor.Elements.π (geometricPointFiber B S.1 S.property
       (s'.map (B.inclusion.map g)))).op ⋙ F.obj) (op W) t from hsource,
     specializationMapOnStalks_ι (σ.map g h hbase) F.obj W t]
   exact smallEtalePullbackStalkIso_germ B g σ.target F Uσ Wσ (𝟙 _) hσ t

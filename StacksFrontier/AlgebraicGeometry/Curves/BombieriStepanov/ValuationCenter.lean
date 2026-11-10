@@ -93,7 +93,7 @@ theorem algebraMap_stalk_genericPoint (a : X.presheaf.stalk (genericPoint X)) :
       (stalkFunctionFieldAlgebra X (genericPoint X)) a = a := by
   have h : X.presheaf.stalkSpecializes ((genericPoint_spec X).specializes trivial) = 𝟙 _ :=
     TopCat.Presheaf.stalkSpecializes_refl _ _
-  simp only [stalkFunctionFieldAlgebra, RingHom.algebraMap_toAlgebra, h]
+  simp only [RingHom.algebraMap_toAlgebra, h]
   rfl
 
 /-- **A proper valuation subring of the function field of a curve is the local ring at a place.**
@@ -180,8 +180,9 @@ def stalkEquivValuationSubring (x : X) [ValuationRing (X.presheaf.stalk x)] :
   RingEquiv.ofBijective
     ((algebraMap (X.presheaf.stalk x) X.functionField).codRestrict
       (stalkValuationSubring x).toSubring fun a => ⟨a, rfl⟩)
-    ⟨fun a b h => IsFractionRing.injective (X.presheaf.stalk x) X.functionField
-      (congrArg Subtype.val h), fun ⟨f, a, ha⟩ => ⟨a, Subtype.ext ha⟩⟩
+    ⟨Function.Injective.of_comp (f := Subtype.val)
+      (IsFractionRing.injective (X.presheaf.stalk x) X.functionField),
+      fun y => let ⟨a, ha⟩ := y.2; ⟨a, Subtype.ext ha⟩⟩
 
 /-- The isomorphism of the local ring with its image is the inclusion. -/
 theorem coe_stalkEquivValuationSubring (x : X) [ValuationRing (X.presheaf.stalk x)]
@@ -252,7 +253,7 @@ theorem eq_of_forall_algebraMap_iff [IsSeparated p] {x y : X} [ValuationRing (X.
   have := hU S
   let hlx : S.commSq.LiftStruct := ⟨lx, hgen x ex hx', rfl⟩
   let hly : S.commSq.LiftStruct := ⟨ly, hgen y ey hey, hepi _ _ (by
-    show Spec.map _ ≫ (Spec.map _ ≫ X.fromSpecStalk y) ≫ p =
+    change Spec.map _ ≫ (Spec.map _ ≫ X.fromSpecStalk y) ≫ p =
       Spec.map _ ≫ (Spec.map _ ≫ X.fromSpecStalk x) ≫ p
     simp only [Category.assoc]
     rw [reassoc_of% (hgen y ey hey), reassoc_of% (hgen x ex hx')])⟩

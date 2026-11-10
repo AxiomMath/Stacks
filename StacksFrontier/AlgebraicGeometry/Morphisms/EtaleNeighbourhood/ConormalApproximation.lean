@@ -225,7 +225,7 @@ theorem congruentModPow_relationMapOfHom {C : Type u} {D : Type w} [CommRing C] 
     (h : ∀ y : C, σ y - σ' y ∈ I ^ k) :
     CongruentModPow (I.map (MvPolynomial.C : D →+* MvPolynomial (Fin n) D))
       (relationMapOfHom σ r) (relationMapOfHom σ' r) k := by
-  show LinearMap.range (relationMapOfHom σ r - relationMapOfHom σ' r) ≤ _
+  change LinearMap.range (relationMapOfHom σ r - relationMapOfHom σ' r) ≤ _
   rintro _ ⟨v, rfl⟩
   have hval : (relationMapOfHom σ r - relationMapOfHom σ' r) v =
       ∑ j, v j * (MvPolynomial.map σ (r j) - MvPolynomial.map σ' (r j)) := by
@@ -242,7 +242,7 @@ theorem congruentModPow_syzygyMap {C' : Type u} {D : Type w} [CommRing C'] [Comm
     CongruentModPow (I.map (MvPolynomial.C : D →+* MvPolynomial (Fin n) D))
       (SyzygyCoefficients.syzygyMap fun k j => MvPolynomial.map τ (t k j))
       (SyzygyCoefficients.syzygyMap fun k j => MvPolynomial.map τ' (t k j)) k := by
-  show LinearMap.range (_ - _) ≤ _
+  change LinearMap.range (_ - _) ≤ _
   rintro _ ⟨w, rfl⟩
   refine mem_pow_smul_top_pi _ fun j => ?_
   have hval : ((SyzygyCoefficients.syzygyMap fun k j => MvPolynomial.map τ (t k j)) -

@@ -158,7 +158,7 @@ theorem exists_small_isColimit_finite_mono [CompactSpace S] [QuasiSeparatedSpace
       obtain ⟨i, hi⟩ := hgen ⟨⟨U, hU⟩, x⟩
       have h1 : (e i).1 = (gen ⟨⟨U, hU⟩, x⟩).obj := congrArg Subtype.val hi
       refine ⟨i, ?_⟩
-      show ∃ y : ((e i).1 : AlgebraSheaf S).right.obj.obj (op U),
+      change ∃ y : ((e i).1 : AlgebraSheaf S).right.obj.obj (op U),
         (e i).1.arrow.right.hom.app (op U) y = x
       rw [h1]
       exact ⟨sec ⟨⟨U, hU⟩, x⟩, hsec ⟨⟨U, hU⟩, x⟩⟩)

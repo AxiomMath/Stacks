@@ -214,7 +214,7 @@ multiplication by that function. -/
 private lemma sectionScalar_app_top (Z : Scheme.{u}) (c : Γ(Z, ⊤)) (M : Z.Modules)
     (x : Γ(M, ⊤)) :
     (sectionScalar Z c M).val.app (op ⊤) x = c • x := by
-  show (Z.presheaf.map (⊤ : Z.Opens).leTop.op) c • x = c • x
+  change (Z.presheaf.map (⊤ : Z.Opens).leTop.op) c • x = c • x
   congr 1
   rw [show ((⊤ : Z.Opens).leTop).op = 𝟙 (op (⊤ : Z.Opens)) from Subsingleton.elim _ _,
     Z.presheaf.map_id]
@@ -287,7 +287,7 @@ private lemma transformUnitQcohIso_sectionScalar (s : Γ(X.left, ⊤)) :
   have h1 := (quasicoherentIntegralTransformData R X Y K).comparison.hom.naturality
     (unitScalarHom X.left s)
   have h2 := integralTransformUnitIso_sectionScalar R X Y K.obj s
-  show ((quasicoherentIntegralTransformData R X Y K).functor ⋙
+  change ((quasicoherentIntegralTransformData R X Y K).functor ⋙
         (SheafOfModules.isQuasicoherent Y.left.ringCatSheaf).ι).map (unitScalarHom X.left s) ≫
       ((quasicoherentIntegralTransformData R X Y K).comparison.hom.app (unitQcoh X.left) ≫
         (integralTransformUnitIso R X Y K.obj).hom) =
@@ -364,7 +364,7 @@ private lemma generatorUnitor_sectionScalar (s : Γ(X.left, ⊤)) :
         (tensorSections R X Y K).map (unitScalarHom X.left s) := by
   apply AddCommGrpCat.hom_ext
   ext y
-  show (generatorUnitor R X Y K).hom
+  change (generatorUnitor R X Y K).hom
       ((sectionScalar (pullback X.hom Y.hom)
         ((pullback.fst X.hom Y.hom).appTop s) K.obj).val.app (op ⊤) y) =
     ((MonoidalCategory.tensorRight (kernelSourceModule R X Y K)).map
@@ -414,7 +414,7 @@ private lemma generatorIso_sectionScalar (s : Γ(X.left, ⊤)) :
       (qcohSectionsAddFunctor Y.left).map (transformUnitQcohIso R X Y K).hom ≫
         (qcohSectionsAddFunctor Y.left).map (kernelScalarHom R X Y K s) := by
     rw [← Functor.map_comp, ← Functor.map_comp, transformUnitQcohIso_sectionScalar]
-  show (qcohSectionsAddFunctor Y.left).map
+  change (qcohSectionsAddFunctor Y.left).map
         ((quasicoherentIntegralTransform R X Y K).map (unitScalarHom X.left s)) ≫
       ((qcohSectionsAddFunctor Y.left).map (transformUnitQcohIso R X Y K).hom ≫
         (forget₂ (ModuleCat.{u} Γ(X.left, ⊤)) AddCommGrpCat.{u}).map

@@ -229,7 +229,7 @@ theorem canonicalCompactSupportLefschetzNumber_fibre_eq
     (J : CochainComplex.Plus (EtaleModules.{u, 0} Λ W.left))
     (ψ : (etaleModuleExtensionByZero.{u, 0} Λ j').mapCochainComplexPlus.obj K ⟶ J)
     [QuasiIso ψ.hom] :
-    ∃ (hiff : StacksDraft.Perfect.IsPerfect (DerivedCategory.Plus.ι.obj
+    (StacksDraft.Perfect.IsPerfect (DerivedCategory.Plus.ι.obj
         (compactSupportFrobeniusCohomology.{u, 0} Λ (fibreStructure j' gb.left y)
           (fibreCompactification j' gb.left y) kbar
           ((etaleModuleInverseImage.{u, 0} Λ
@@ -240,7 +240,7 @@ theorem canonicalCompactSupportLefschetzNumber_fibre_eq
               (pullback.snd (fibreOver gb y).hom (specAlgebraMap k kbar))).obj
             (fieldBaseChangeRestriction.{u, 0} Λ (fibreOver gb y) kbar
               ((etaleModuleInverseImage.{u, 0} Λ (pullback.fst gb.left y)).mapCochainComplexPlus.obj
-                J)))))),
+                J)))))) ∧
       ∀ h₁ h₂, canonicalCompactSupportLefschetzNumber.{u, 0} Λ (fibreStructure j' gb.left y)
           (fibreCompactification j' gb.left y) kbar p q hcard
           ((etaleModuleInverseImage.{u, 0} Λ

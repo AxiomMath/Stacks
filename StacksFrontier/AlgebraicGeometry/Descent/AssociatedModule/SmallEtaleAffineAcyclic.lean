@@ -194,7 +194,7 @@ public theorem affineStandardCoverings_cofinal :
     obtain ⟨Z, g', k, hg', hfac⟩ := hle _ (Sieve.ofArrows_mk _ _ i)
     have : f i = u.preimage (show u.obj (X i) ⟶ u.obj Z from k) ≫ g' :=
       u.map_injective (by rw [hmap, Functor.map_comp, Functor.map_preimage]; exact hfac)
-    show R.arrows (f i)
+    change R.arrows (f i)
     rw [this]
     exact R.downward_closed hg' _
   have hcov : E.sieve₀ ∈ topology B S hS U := by

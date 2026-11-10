@@ -448,7 +448,7 @@ theorem powIdeal_le (f : Fin r → R) {n m : ℕ} (h : n ≤ m) : powIdeal f m �
     rw [← pow_add]
     congr 1
     omega
-  show f i ^ m ∈ powIdeal f n
+  change f i ^ m ∈ powIdeal f n
   rw [hp]
   exact Ideal.mul_mem_right _ _ (Ideal.subset_span ⟨i, rfl⟩)
 
@@ -461,7 +461,7 @@ theorem powTransition_self_toAlgebraHom (f : Fin r → R) {n : ℕ} (hn : 1 ≤ 
     refine LinearMap.ext fun v => funext fun i => ?_
     simp
   refine AlgHom.ext fun x => ?_
-  show ExteriorAlgebra.map (LinearMap.mulLeft R fun i => f i ^ (n - n)) x = x
+  change ExteriorAlgebra.map (LinearMap.mulLeft R fun i => f i ^ (n - n)) x = x
   rw [h, ExteriorAlgebra.map_id]
   rfl
 

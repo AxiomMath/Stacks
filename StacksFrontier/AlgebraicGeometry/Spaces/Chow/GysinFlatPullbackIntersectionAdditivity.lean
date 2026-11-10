@@ -360,7 +360,7 @@ theorem cycleCoeffOfClosedSubspace_gysinPreimageIntersection_eq_finsum
         flatPullbackMult D p' hp' p hp f.hom hfbase r hflat hr W W' := by
     intro W'
     rw [closedSubspaceCycle_coe]
-    show cycleCoeffOfClosedSubspace D p' hp' (W.subspace.preimage f.hom) hcl (k + (r : ℤ) + 1)
+    change cycleCoeffOfClosedSubspace D p' hp' (W.subspace.preimage f.hom) hcl (k + (r : ℤ) + 1)
         (canonicalGeometricPoint D.site D.base D.base_mem
           (W.subspace.preimage f.hom).toFunctor) W' =
       (closedSubspaceCycle D p' hp' (W.subspace.preimage f.hom) _

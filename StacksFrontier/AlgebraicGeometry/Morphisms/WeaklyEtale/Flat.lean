@@ -97,7 +97,7 @@ theorem isFlatOver_self_of_flat_diagonal
   let N := TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) M.presheaf
     ((pullback.fst f f) z)
   have hpt (g : pullback f f ⟶ X) (hg : pullback.diagonal f ≫ g = 𝟙 X) : g z = x := by
-    show (pullback.diagonal f ≫ g) x = x
+    change (pullback.diagonal f ≫ g) x = x
     rw [hg]
     rfl
   have hx₁ : (pullback.fst f f) z = x := hpt _ (pullback.diagonal_fst f)
@@ -123,14 +123,14 @@ theorem isFlatOver_self_of_flat_diagonal
   let : Algebra R (A ⊗[R] B) := Algebra.TensorProduct.leftAlgebra
   let : IsLocalization W C := by simpa [C] using hW
   have hφ : φ.Flat := by
-    show Module.Flat (A ⊗[R] B) C
+    change Module.Flat (A ⊗[R] B) C
     exact IsLocalization.flat C W
   let eIso := X.presheaf.stalkCongr (.of_eq hx₂₁)
   let e : B ≃ₐ[R] A :=
     { toRingEquiv := eIso.commRingCatIsoToRingEquiv
       commutes' := by
         intro r
-        show ((eIso.hom.hom.comp
+        change ((eIso.hom.hom.comp
           ((f.stalkMap ((pullback.snd f f) z)).hom.comp
             (eqToHom (congrArg Y.presheaf.stalk h)).hom)) r) =
           (f.stalkMap ((pullback.fst f f) z)).hom r
@@ -156,7 +156,7 @@ theorem isFlatOver_self_of_flat_diagonal
   let eX := X.presheaf.stalkCongr (.of_eq hx₁)
   let ψ : C →+* A := ((pullback.diagonal f).stalkMap x ≫ eX.inv).hom
   have hψ : ψ.Flat := by
-    show RingHom.Flat (eX.inv.hom.comp ((pullback.diagonal f).stalkMap x).hom)
+    change RingHom.Flat (eX.inv.hom.comp ((pullback.diagonal f).stalkMap x).hom)
     exact RingHom.Flat.comp
       (Flat.stalkMap (pullback.diagonal f) x)
       (RingHom.Flat.of_bijective (ConcreteCategory.bijective_of_isIso eX.inv))
@@ -167,14 +167,14 @@ theorem isFlatOver_self_of_flat_diagonal
       Scheme.Hom.stalkMap_id]
     rfl
   have hleft : ψ.comp ((pullback.fst f f).stalkMap z).hom = RingHom.id A := by
-    show CommRingCat.Hom.hom
+    change CommRingCat.Hom.hom
       (((pullback.fst f f).stalkMap z ≫
         (pullback.diagonal f).stalkMap x) ≫ eX.inv) = RingHom.id A
     rw [hdiag _ (pullback.diagonal_fst f) hx₁]
     change CommRingCat.Hom.hom (eX.hom ≫ eX.inv) = _
     simp [A]
   have hright : ψ.comp ((pullback.snd f f).stalkMap z).hom = e.toRingHom := by
-    show CommRingCat.Hom.hom
+    change CommRingCat.Hom.hom
       (((pullback.snd f f).stalkMap z ≫
         (pullback.diagonal f).stalkMap x) ≫ eX.inv) = eIso.hom.hom
     rw [hdiag _ (pullback.diagonal_snd f) hx₂, stalkCongr_inv_hom X.presheaf hx₁]
@@ -186,21 +186,21 @@ theorem isFlatOver_self_of_flat_diagonal
   have hφleft_apply (a : A) :
       φ (Algebra.TensorProduct.includeLeftRingHom a) =
         ((pullback.fst f f).stalkMap z).hom a := by
-    show (φ.comp Algebra.TensorProduct.includeLeftRingHom) a = _
+    change (φ.comp Algebra.TensorProduct.includeLeftRingHom) a = _
     exact DFunLike.congr_fun hφleft a
   have hφright_apply (b : B) :
       φ (Algebra.TensorProduct.includeRight.toRingHom b) =
         ((pullback.snd f f).stalkMap z).hom b := by
-    show (φ.comp Algebra.TensorProduct.includeRight.toRingHom) b = _
+    change (φ.comp Algebra.TensorProduct.includeRight.toRingHom) b = _
     exact DFunLike.congr_fun hφright b
   have hleft_apply (a : A) :
       ψ (((pullback.fst f f).stalkMap z).hom a) = a := by
-    show (ψ.comp ((pullback.fst f f).stalkMap z).hom) a = RingHom.id A a
+    change (ψ.comp ((pullback.fst f f).stalkMap z).hom) a = RingHom.id A a
     exact DFunLike.congr_fun hleft a
   have hright_apply (b : B) :
       ψ (((pullback.snd f f).stalkMap z).hom b) =
         e.toRingEquiv.toRingHom b := by
-    show (ψ.comp ((pullback.snd f f).stalkMap z).hom) b =
+    change (ψ.comp ((pullback.snd f f).stalkMap z).hom) b =
       e.toRingEquiv.toRingHom b
     exact DFunLike.congr_fun hright b
   have hlmulLeft (a : A) :
@@ -216,7 +216,7 @@ theorem isFlatOver_self_of_flat_diagonal
       (Algebra.TensorProduct.lmul' R (S := A)).toRingHom := by
     apply Algebra.TensorProduct.ringHom_ext
     · ext a
-      show ψ (φ (θ (Algebra.TensorProduct.includeLeftRingHom a))) =
+      change ψ (φ (θ (Algebra.TensorProduct.includeLeftRingHom a))) =
         (Algebra.TensorProduct.lmul' R (S := A)).toRingHom
           (Algebra.TensorProduct.includeLeftRingHom a)
       rw [show θ (Algebra.TensorProduct.includeLeftRingHom a) =
@@ -225,7 +225,7 @@ theorem isFlatOver_self_of_flat_diagonal
       rw [hφleft_apply]
       exact (hleft_apply a).trans (hlmulLeft a).symm
     · ext a
-      show ψ (φ (θ (Algebra.TensorProduct.includeRight.toRingHom a))) =
+      change ψ (φ (θ (Algebra.TensorProduct.includeRight.toRingHom a))) =
         (Algebra.TensorProduct.lmul' R (S := A)).toRingHom
           (Algebra.TensorProduct.includeRight.toRingHom a)
       rw [show θ (Algebra.TensorProduct.includeRight.toRingHom a) =
@@ -234,13 +234,13 @@ theorem isFlatOver_self_of_flat_diagonal
       rw [hφright_apply, hright_apply]
       exact (show e (e.symm a) = a by simp).trans (hlmulRight a).symm
   have hMulFlat : Algebra.MulFlat R A := by
-    show (Algebra.TensorProduct.lmul' R (S := A)).toRingHom.Flat
+    change (Algebra.TensorProduct.lmul' R (S := A)).toRingHom.Flat
     rw [← hmul]
     have hθ : θ.toRingEquiv.toRingHom.Flat :=
       RingHom.Flat.of_bijective θ.bijective
     exact RingHom.Flat.comp hθ (RingHom.Flat.comp hφ hψ)
   have hresult := flat_of_flat_of_mul_flat R A hMulFlat N hN
-  show IsFlatOverAt ((Scheme.Hom.toLRSHom (𝟙 X)).toShHom) F x
+  change IsFlatOverAt ((Scheme.Hom.toLRSHom (𝟙 X)).toShHom) F x
   have hid : (𝟙 X : X ⟶ X).toLRSHom.toShHom = 𝟙 (X.toSheafedSpace) := by rfl
   rw [hid]
   simp only [IsFlatOverAt, SheafedSpace.id_hom, PresheafedSpace.id_base, TopCat.hom_id,

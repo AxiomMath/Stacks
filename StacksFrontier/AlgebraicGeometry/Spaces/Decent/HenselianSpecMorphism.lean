@@ -170,9 +170,9 @@ theorem specToScheme_closedPoint :
         (algebraMap (U.scheme.left.1.presheaf.stalk U.point) R)))
           (IsLocalRing.closedPoint R) =
       IsLocalRing.closedPoint (U.scheme.left.1.presheaf.stalk U.point) := by
-    show PrimeSpectrum.comap _ (IsLocalRing.closedPoint R) = _
+    change PrimeSpectrum.comap _ (IsLocalRing.closedPoint R) = _
     exact IsLocalRing.comap_closedPoint _
-  show U.scheme.left.1.fromSpecStalk U.point
+  change U.scheme.left.1.fromSpecStalk U.point
       ((Spec.map (CommRingCat.ofHom
         (algebraMap (U.scheme.left.1.presheaf.stalk U.point) R)))
           (IsLocalRing.closedPoint R)) = U.point

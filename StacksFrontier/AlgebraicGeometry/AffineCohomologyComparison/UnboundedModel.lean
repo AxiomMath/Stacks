@@ -37,16 +37,16 @@ needs.
 their directions decide the shape: `Stacks.DerivedIndexing.ι_map_mapSingleFunctorCompQhIso_inv_app`
 (`Homology/DerivedIndexing/Composite.lean:915`) is available for `inv` and has no `hom`
 counterpart, and `Stacks.DerivedIndexing.ι_map_singleFunctorPlusIsoCompQh_inv_app`
-(`StacksFrontier/Homology/DerivedIndexing/Composite.lean`) likewise. Inverting the statement is free —
-both sides are isomorphisms — and it lets both apply as they stand, rather than forcing a `hom`
-sibling that belongs beside them and not here.
+(`StacksFrontier/Homology/DerivedIndexing/Composite.lean`) likewise. Inverting the statement is
+free — both sides are isomorphisms — and it lets both apply as they stand, rather than forcing a
+`hom` sibling that belongs beside them and not here.
 
 *The third factor is the only one proved anywhere new.* `Stacks.DerivedFunctor`'s
 `comp_boundedDerivedIso_inv_app` supplies the middle factor, the unit of `R⁺F` read through the
 crossing; the first and last are the two coherences above. What this file adds is the chase, and
 the bridge `Stacks.DerivedIndexing.mapHomotopyCategorySingleFunctor_inv_app` between the two
-spellings of the inner coherence — `StacksFrontier/Homology/DerivedIndexing/Composite.lean` writes its
-right-hand side through `HomologicalComplex.singleMapHomologicalComplex`, while
+spellings of the inner coherence — `StacksFrontier/Homology/DerivedIndexing/Composite.lean` writes
+its right-hand side through `HomologicalComplex.singleMapHomologicalComplex`, while
 `CategoryTheory.Functor.singleCollapse` is built on
 `CategoryTheory.Functor.mapHomotopyCategorySingleFunctor`.
 

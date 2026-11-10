@@ -50,12 +50,12 @@ theorem mateEquiv_symm_sheafAdjunctionCocontinuous_app_hom
       (V.sheafPushforwardCocontinuous (Type u) K K')
       (i'.sheafPushforwardCocontinuous (Type u) Jn' K'))
     (βp : TwoSquare (i.op.ran (H := Type u)) v.op.ran V.op.ran i'.op.ran)
-    (hβ : ∀ Z : Sheaf Jn (Type u), (β.natTrans.app Z).hom = βp.natTrans.app Z.obj)
+    (hβ : ∀ Z : Sheaf Jn (Type u), (β.app Z).hom = βp.app Z.obj)
     (Y : Sheaf K (Type u)) :
     (((mateEquiv (i.sheafAdjunctionCocontinuous (Type u) Jn K)
-          (i'.sheafAdjunctionCocontinuous (Type u) Jn' K')).symm β).natTrans.app Y).hom =
+          (i'.sheafAdjunctionCocontinuous (Type u) Jn' K')).symm β).app Y).hom =
       ((mateEquiv (i.op.ranAdjunction (Type u))
-        (i'.op.ranAdjunction (Type u))).symm βp).natTrans.app Y.obj := by
+        (i'.op.ranAdjunction (Type u))).symm βp).app Y.obj := by
   have hres : ∀ {X Z : Sheaf K' (Type u)} (f : X ⟶ Z),
       ((i'.sheafPushforwardContinuous (Type u) Jn' K').map f).hom =
         ((whiskeringLeft Cn'ᵒᵖ Ct'ᵒᵖ (Type u)).obj i'.op).map f.hom := fun _ => rfl

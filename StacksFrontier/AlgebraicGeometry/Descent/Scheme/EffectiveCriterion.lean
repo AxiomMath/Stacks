@@ -318,7 +318,7 @@ lemma canonicalFunctor_gluingPullbackIso_hom_snd_projection :
         (Over.map (𝟙 S)).obj (((trivialFunctor S).obj U).obj ())).left := by
     rw [← Over.comp_left]
     refine congrArg Over.Hom.left ?_
-    show (prod.braiding ((Over.map (𝟙 S)).obj (((trivialFunctor S).obj U).obj ()))
+    change (prod.braiding ((Over.map (𝟙 S)).obj (((trivialFunctor S).obj U).obj ()))
         (Over.mk (𝟙 S))).hom ≫ prod.snd = prod.fst
     simp
   have h3 : (Over.prodLeftIsoPullback

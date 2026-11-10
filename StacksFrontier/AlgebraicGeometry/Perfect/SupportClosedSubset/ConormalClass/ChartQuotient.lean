@@ -201,7 +201,7 @@ theorem globalSmul_eqQuot (j : Fin c) : globalSmul (chartEq W f j) (eqQuot W f F
     ← Stacks.Perfect.SupportedFraction.globalSmul_naturality]
   have h : globalSmul (chartEq W f j) ((res W).obj F) =
       Sigma.ι (fun _ : Fin c => (res W).obj F) j ≫ eqMap W f F :=
-    (Sigma.ι_desc (fun j => globalSmul (chartEq W f j) ((res W).obj F)) j).symm
+    (Sigma.ι_comp_desc (fun j => globalSmul (chartEq W f j) ((res W).obj F)) j).symm
   rw [h, Category.assoc, cokernel.condition, comp_zero]
 
 variable (hgen : IsGeneratedByOn X.toRingedSpace (definingIdealOfHom i) W f)
@@ -244,7 +244,7 @@ variable {T : Set X} (hT : IsClosed T) (hfT : chartSupport W (chartEq W f) ⊆ T
 theorem eqMap_comp_res_topClass :
     eqMap W f F ≫ (res W).map (topClass W F hT (chartEq W f) hfT) = 0 := by
   refine Sigma.hom_ext _ _ fun j => ?_
-  rw [eqMap, Sigma.ι_desc_assoc, comp_zero]
+  rw [eqMap, Sigma.ι_comp_desc_assoc, comp_zero]
   refine Scheme.Modules.hom_ext _ _ fun P => ?_
   refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun s => ?_)
   refine (congrArg ((topClass W F hT (chartEq W f) hfT).app (W.ι ''ᵁ P))

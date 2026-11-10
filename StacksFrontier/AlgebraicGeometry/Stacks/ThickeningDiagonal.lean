@@ -743,7 +743,7 @@ noncomputable def isTwoFibreProduct_selfProductSndSquare :
       (TwoFibreProductOver.isoMkVertical (U := P.base) P.y.iso P.iso vx P.vertical ?_) vid1
       (TwoFibreProductOver.structureFunctor_isHomLift _ (𝟙 P.base) vx) ?_, vid2,
     TwoFibreProductOver.structureFunctor_isHomLift _ (𝟙 P.base) vid1, ?_⟩
-  · show (CatFiberedInGroupoids.homFunctor m.outer.hom).map P.y.iso.hom ≫ P.y.y.iso.hom =
+  · change (CatFiberedInGroupoids.homFunctor m.outer.hom).map P.y.iso.hom ≫ P.y.y.iso.hom =
         ((restrictionNatIso B S hS m).inv.app P.y.x ≫
           (CatFiberedInGroupoids.homFunctor j.hom).map φ.hom ≫
             (restrictionNatIso B S hS m).hom.app P.x) ≫
@@ -771,11 +771,11 @@ noncomputable def isTwoFibreProduct_selfProductSndSquare :
       ((restrictionNatIso B S hS m).inv.app P.x)
       ((restrictionNatIso B S hS m).hom.app P.x)
       ((CatFiberedInGroupoids.homFunctor m.outer.hom).map P.iso.hom)
-      (Iso.inv_hom_id_app _ _) (Iso.inv_hom_id_app _ _) (Iso.map_inv_hom_id _ _)).symm
-  · show (CatFiberedInGroupoids.homFunctor i.hom).map (𝟙 P.y.x) ≫ P.y.iso.hom =
+      (Iso.inv_hom_id_app _ _) (Iso.inv_hom_id_app _ _) (Iso.inv_hom_id_map _ _)).symm
+  · change (CatFiberedInGroupoids.homFunctor i.hom).map (𝟙 P.y.x) ≫ P.y.iso.hom =
         𝟙 _ ≫ P.y.iso.hom
     simp
-  · show (CatFiberedInGroupoids.homFunctor i.hom).map (𝟙 P.x) ≫ P.iso.hom = 𝟙 _ ≫ P.iso.hom
+  · change (CatFiberedInGroupoids.homFunctor i.hom).map (𝟙 P.x) ≫ P.iso.hom = 𝟙 _ ≫ P.iso.hom
     simp
 
 /-- **Stacks 0BPU, the first assertion, for the comparison with an explicit body.** For a morphism

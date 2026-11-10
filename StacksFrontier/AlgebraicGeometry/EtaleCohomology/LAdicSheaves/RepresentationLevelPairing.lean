@@ -22,7 +22,7 @@ open Matrix
 
 namespace Stacks.EtaleCohomology
 
-variable {ℓ : ℕ} [Fact ℓ.Prime] {r : ℕ} {G : Type*} [Group G] [TopologicalSpace G]
+variable {ℓ : ℕ} [Fact ℓ.Prime] {r : ℕ} {G : Type*} [Group G]
   (ρ : G →* GL (Fin r) ℤ_[ℓ])
 
 /-- **The evaluation pairing is invariant**: `⟨ρ(g) x, ρ^∨(g) y⟩ = ⟨x, y⟩` at every level. -/

@@ -51,8 +51,9 @@ hypothesis at every use of either. The shifts on `tensorComplex` are likewise th
 proofs compare them with the shifts of Mathlib's `CategoryTheory.Functor.map₂HomologicalComplex`
 that `Stacks.SheafOfModules.Tensor.Reduction.bifunctorPhiFactors` and `bifunctorPhiRFactors`
 carry, through `Stacks.SheafOfModules.Tensor.Reduction.bifunctorPhiFactors_commShift_reg` and
-`bifunctorPhiRFactors_commShift_reg` of `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedTensor/BifunctorCommShiftTwo.lean`, which are
-stated for an arbitrary bifunctor, where the kernel has no tensor product to unfold.
+`bifunctorPhiRFactors_commShift_reg` of
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedTensor/BifunctorCommShiftTwo.lean`, which
+are stated for an arbitrary bifunctor, where the kernel has no tensor product to unfold.
 
 ## References
 

@@ -40,11 +40,10 @@ public theorem isBaseChange_of_isPushout
   let e := Algebra.IsPushout.cancelBaseChange R S C D M
   let l := LinearMap.liftBaseChange D f
   have he (x : S ⊗[R] M) : l (e.symm x) = hf.equiv x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul s m =>
-      show l ((Algebra.IsPushout.cancelBaseChange R S C D M).symm (s ⊗ₜ[R] m)) = _
+      change l ((Algebra.IsPushout.cancelBaseChange R S C D M).symm (s ⊗ₜ[R] m)) = _
       rw [Algebra.IsPushout.cancelBaseChange_symm_tmul, LinearMap.liftBaseChange_tmul,
         IsBaseChange.equiv_tmul, IsScalarTower.algebraMap_smul]
       rfl

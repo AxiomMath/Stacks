@@ -145,7 +145,7 @@ theorem pointsMap_fibrePointOfFieldPoint
   rw [fibrePointOfFieldPoint, pointsMap_class]
   congr 1
   refine congrArg (fun w => (⟨k, hk, b, w⟩ : FieldValuedPoint B S hS X)) ?_
-  show pr.app _ (yonedaEquiv (hpb.lift _ _ _)) = z
+  change pr.app _ (yonedaEquiv (hpb.lift _ _ _)) = z
   rw [← yonedaEquiv_comp, hpb.lift_fst, Equiv.apply_symm_apply]
 
 /-- **Stacks 0488, part (3).** For any geometric point `s̄ : Spec k → S` whose field has

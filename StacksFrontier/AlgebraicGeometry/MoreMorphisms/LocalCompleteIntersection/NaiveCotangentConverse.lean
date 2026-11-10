@@ -113,7 +113,8 @@ product.
 Tor amplitude restricts to the open subspace `V`, where `NL_{X/Y}|_V` is the derived pullback
 along `V ≅ Spec Γ(X, V)` of the derived sheafification of `NL_{Γ(X, V)/Γ(Y, U)}` by Stacks 0D0I;
 Stacks 08E9 is an equivalence, so the condition descends. -/
-alias hasTorAmplitudeCanonical_naiveCotangentObject_of_hasTorAmplitude := hasTorAmplitudeCanonical_of_hasTorAmplitude
+alias hasTorAmplitudeCanonical_naiveCotangentObject_of_hasTorAmplitude :=
+  hasTorAmplitudeCanonical_of_hasTorAmplitude
 
 /-- **Stacks 0FJT at `Γ(Y, U) → Γ(X, V)`.** For `V` an affine open of `X` lying over an affine
 open `U` of `Y`, Tor amplitude in `[-1, 0]` of `NL_{X/Y}` makes `Γ(Y, U) → Γ(X, V)` a local

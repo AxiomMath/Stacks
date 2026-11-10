@@ -305,8 +305,7 @@ private theorem lmul_one_tmul (F : Type u) [Field F] (A : Type v) [CommRing A] [
     (B : Type w) [CommRing B] [Algebra F B] (a : A) :
     Algebra.lmul B (B ⊗[F] A) (1 ⊗ₜ[F] a) = LinearMap.baseChange B (Algebra.lmul F A a) := by
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b x => simp [Algebra.TensorProduct.tmul_mul_tmul]
   | add x y hx hy =>
     simp only [map_add, hx, hy]
@@ -394,13 +393,7 @@ theorem isSeparable_cohomology_zero : Algebra.IsSeparable F A := by
   have hmem : ∀ z : B ⊗[F] A, (fun σ => π ((e z) σ)) ∈
       Submodule.span L (Set.range fun a => χ a) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      have hz : (fun σ => π ((e 0) σ)) = (0 : Fin n → L) := by
-        funext σ
-        simp
-      rw [hz]
-      exact Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul b x =>
       have hb : (b : B) ⊗ₜ[F] x = b • (1 ⊗ₜ[F] x) := by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -434,7 +427,7 @@ theorem isSeparable_cohomology_zero : Algebra.IsSeparable F A := by
   have hspan' : ⊤ ≤ Submodule.span L (Set.range fun i => χ (bA i)) := by
     refine le_trans (le_of_eq hspan.symm) (Submodule.span_le.mpr ?_)
     rintro - ⟨a, rfl⟩
-    show χ a ∈ Submodule.span L (Set.range fun i => χ (bA i))
+    change χ a ∈ Submodule.span L (Set.range fun i => χ (bA i))
     rw [hreprχ a]
     exact Submodule.sum_mem _ fun i _ =>
       Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)

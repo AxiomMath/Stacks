@@ -169,7 +169,7 @@ public structure LiftTangentSpaceData
   associatedS2 :
     let q := objectsOverFunctor p x₀.1
     SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses
+      (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor q)
         (isPredeformationCategory_objectsOverFunctor p hp x₀).cofibered))
   /-- Addition on isomorphism classes of lifts. -/
@@ -183,7 +183,7 @@ public structure LiftTangentSpaceData
     let hpq := isPredeformationCategory_objectsOverFunctor p hp x₀
     letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor q).p) := ⟨hpq⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses
+      (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor q) hpq.cofibered))) := ⟨associatedS2⟩
     letI : AddCommGroup
       (artinianTangentSpace Λ k
@@ -207,7 +207,7 @@ public structure LiftTangentSpaceData
     let 𝓕 := BasedCategory.ofFunctor q
     let H := isomorphismClasses 𝓕 hpq.cofibered
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hpq⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π H)) :=
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π H)) :=
       ⟨associatedS2⟩
     letI : AddCommGroup (artinianTangentSpace Λ k H) :=
       associatedTangentSpaceAddCommGroupUnlifted 𝓕
@@ -248,7 +248,7 @@ public noncomputable def liftClassesTangentSpace
       moduleStructure.forget_comp
   let hcarrierEquiv := Equiv.cast hcarrier
   letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hpq⟩
-  letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π H)) := ⟨associatedS2⟩
+  letI : Fact (SchlessingerConditionS2 (Functor.Elements.π H)) := ⟨associatedS2⟩
   letI : AddCommGroup (artinianTangentSpace Λ k H) :=
     associatedTangentSpaceAddCommGroupUnlifted 𝓕
   letI : Module k (artinianTangentSpace Λ k H) :=
@@ -299,7 +299,7 @@ public theorem liftClassesTangentSpace_naturality
     let DV := liftClassesTangentSpace p hp hS2 x₀ V eV
     let DW := liftClassesTangentSpace p hp hS2 x₀ W eW
     letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor q).p) := ⟨hpq⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π H)) := ⟨DV.associatedS2⟩
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π H)) := ⟨DV.associatedS2⟩
     letI : AddCommGroup (artinianTangentSpace Λ k H) :=
       associatedTangentSpaceAddCommGroupUnlifted (BasedCategory.ofFunctor q)
     letI : Module k (artinianTangentSpace Λ k H) :=
@@ -333,7 +333,7 @@ public theorem liftClassesTangentSpace_naturality
   let forgetIso : (L ⋙ CategoryTheory.forget (ModuleCat.{max u₁ v₁} k)) ≅ Fset :=
     eqToIso hfun
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨hpq⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π H)) := ⟨associatedS2⟩
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π H)) := ⟨associatedS2⟩
   let : AddCommGroup (artinianTangentSpace Λ k H) :=
     associatedTangentSpaceAddCommGroupUnlifted 𝓕
   let : Module k (artinianTangentSpace Λ k H) :=

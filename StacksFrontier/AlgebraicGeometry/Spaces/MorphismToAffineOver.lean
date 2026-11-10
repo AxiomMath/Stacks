@@ -107,13 +107,13 @@ lemma chartMapOfGlobalHom_appTop (X : AlgebraicSpaces B S hS) (T : BigFppfOver B
       CommRingCat.ofHom ((globalFunctionsChartRestriction B S hS X V).comp φ) := by
   let U := (BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj V)
   let R := (BigFppfOver.toScheme B S hS).obj T
-  show Scheme.Hom.appTop
+  change Scheme.Hom.appTop
     (ΓSpec.adjunction.homEquiv U (op (CommRingCat.of Γ(R, ⊤)))
       (CommRingCat.ofHom ((globalFunctionsChartRestriction B S hS X V).comp φ)).op ≫
       (Scheme.isoSpec R).inv) = _
   rw [Scheme.Hom.comp_appTop, Stacks.RelativeSpec.isoSpec_inv_appTop,
     ΓSpec_adjunction_homEquiv_eq]
-  show (Scheme.ΓSpecIso Γ(R, ⊤)).inv ≫ (Scheme.ΓSpecIso Γ(R, ⊤)).hom ≫ _ = _
+  change (Scheme.ΓSpecIso Γ(R, ⊤)).inv ≫ (Scheme.ΓSpecIso Γ(R, ⊤)).hom ≫ _ = _
   rw [Iso.inv_hom_id_assoc]
 
 /-- The chart morphisms are compatible with morphisms of charts. -/
@@ -238,7 +238,7 @@ theorem exists_map_of_chartMapsOver (X : AlgebraicSpaces B S hS) (T : BigFppfOve
         (chart_preimage_etale B S hS X D.f D.etale D.t D.tEtale)
     let tC : AC ⟶ A := ObjectProperty.homMk (CostructuredArrow.homMk D.t rfl)
     let sC : AC ⟶ A := ObjectProperty.homMk (CostructuredArrow.homMk D.s (by
-      show yoneda.map D.s ≫ D.f = yoneda.map D.t ≫ D.f
+      change yoneda.map D.s ≫ D.f = yoneda.map D.t ≫ D.f
       exact D.pullback.w.symm))
     apply Functor.map_injective (BigFppfOver.toScheme B S hS)
     rw [Functor.map_comp, Functor.map_comp, toScheme_map_atlasOverMap]
@@ -255,7 +255,7 @@ theorem exists_map_of_chartMapsOver (X : AlgebraicSpaces B S hS) (T : BigFppfOve
   let k : UF ⟶ TF := ⟨yoneda.map (atlasOverMap B S hS X T φ h D)⟩
   have hw : sf ≫ k = tf ≫ k := by
     apply Sheaf.hom_ext
-    show yoneda.map D.t ≫ yoneda.map (atlasOverMap B S hS X T φ h D) =
+    change yoneda.map D.t ≫ yoneda.map (atlasOverMap B S hS X T φ h D) =
       yoneda.map D.s ≫ yoneda.map (atlasOverMap B S hS X T φ h D)
     rw [← Functor.map_comp, ← Functor.map_comp, hcoc]
   let c : Cofork sf tf := Cofork.ofπ k hw
@@ -289,7 +289,7 @@ lemma toScheme_map_preimage_of_chartMapsOver (X : AlgebraicSpaces B S hS)
   have hlocal : j ≫ vMap = i ≫ atlasOverMap B S hS X T φ h D := by
     apply yoneda.map_injective
     rw [Functor.map_comp, Functor.map_comp, yoneda.map_preimage]
-    show yoneda.map j ≫ V.1.hom ≫ m.hom = yoneda.map i ≫ yoneda.map _
+    change yoneda.map j ≫ V.1.hom ≫ m.hom = yoneda.map i ≫ yoneda.map _
     have h1 : yoneda.map j ≫ V.1.hom ≫ m.hom = (yoneda.map i ≫ D.f) ≫ m.hom := by
       rw [← Category.assoc, ← hp.w, Category.assoc]
     exact h1.trans ((Category.assoc _ _ _).trans (congrArg (fun q => yoneda.map i ≫ q) hm))
@@ -390,7 +390,7 @@ lemma pullbackToGlobalFunctions_comp_schemeSpaceMap_eq_comp (X : AlgebraicSpaces
     apply yoneda.map_injective
     rw [Functor.map_comp, yoneda.map_preimage, yoneda.map_preimage]
     exact (Category.assoc _ _ _).symm
-  show Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map
+  change Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map
       (yoneda.preimage (U.unop.1.hom ≫ f.hom ≫ yoneda.map w)))) s =
     Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map
       (yoneda.preimage (U.unop.1.hom ≫ f.hom))))
@@ -452,7 +452,7 @@ lemma chartFunctionsMap_chartPullbackFunctions {F G : (BigFppfOver B S hS)ᵒᵖ
       chartPullbackFunctions B S hS G T (g ≫ f) s := by
   refine Subtype.ext (funext fun j => ?_)
   have h : (j.unop.hom ≫ g) ≫ f = j.unop.hom ≫ g ≫ f := Category.assoc _ _ _
-  show (Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map
+  change (Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map
       (yoneda.preimage ((j.unop.hom ≫ g) ≫ f))))).hom s = _
   rw [h]
   rfl

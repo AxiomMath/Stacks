@@ -64,8 +64,7 @@ the left factor is generated over `R` by `1`. -/
 private lemma exists_one_tmul {R : Type u} [CommRing R] (I : Ideal R) [IsAdicComplete I R]
     {M : Type u} [AddCommGroup M] [Module R M] (s : AdicCompletion I R ⊗[R] M) :
     ∃ x : M, s = (1 : AdicCompletion I R) ⊗ₜ[R] x := by
-  induction s using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction s using TensorProduct.inductionOn with
   | tmul r x =>
       obtain ⟨a, rfl⟩ := (of_bijective I R).surjective r
       exact ⟨a • x, by rw [of_eq_smul_one I a, TensorProduct.smul_tmul]⟩

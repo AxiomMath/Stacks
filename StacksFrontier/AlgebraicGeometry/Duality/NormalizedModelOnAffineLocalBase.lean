@@ -17,7 +17,8 @@ local, and suppose `A` has a dualizing complex ([Stacks, Tag 0A7I]). Then there 
 `Stacks.Duality.IsTildeModelOnAnyModel`.
 
 This is the input the statements of
-`StacksFrontier/AlgebraicGeometry/Duality/SurfaceDualizingDegree/NormalizedUpperShriek.lean` ask for.
+`StacksFrontier/AlgebraicGeometry/Duality/SurfaceDualizingDegree/NormalizedUpperShriek.lean` ask
+for.
 They take the *normalized* complex over the global sections of the base together with its sheaf
 model, whereas [Stacks, Tag 0AXD] and its neighbours hypothesise only that the local ring `A`
 itself has a dualizing complex. The two are joined here, so that no consumer has to carry a

@@ -143,7 +143,7 @@ theorem cechComputesSheaf_deRhamComplexInt_X [IsAffineHom (pullback.diagonal (te
         (SheafOfModules.deRhamDifferential (deRhamAlgebras p))).X q) := by
   by_cases hq : 0 ≤ q
   · obtain ⟨n, rfl⟩ := Int.eq_ofNat_of_zero_le hq
-    haveI := isQuasicoherent_relativeDifferentialForms p n
+    have := isQuasicoherent_relativeDifferentialForms p n
     rw [SheafOfModules.deRhamComplexInt_X_of_nonneg _ _ _ (Int.natCast_nonneg n)]
     exact cechComputesSheaf_restrictScalars_of_isQuasicoherent X
       (SheafOfModules.underlyingRingHom (φ := inverseImageStructureMap p))

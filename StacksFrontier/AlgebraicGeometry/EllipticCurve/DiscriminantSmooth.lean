@@ -190,7 +190,7 @@ theorem Δ_ne_zero_of_forall_isMaximal {W : WeierstrassCurve k}
     rw [hcomp]
     exact fun a => Algebra.IsIntegral.isIntegral (R := k) a
   have hm : (RingHom.ker φ).IsMaximal :=
-    RingHom.ker_eq_comap_bot φ ▸ Ideal.isMaximal_comap_of_isIntegral_of_isMaximal' φ hφ ⊥
+    RingHom.ker_eq_comap_bot φ ▸ Ideal.isMaximal_comap_of_isIntegral_of_isMaximal φ hφ ⊥
   obtain ⟨i, hi⟩ := h _ hm (by simpa [φ, affineEquation_eq] using hE)
   apply hi
   rw [RingHom.mem_ker]

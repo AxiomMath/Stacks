@@ -297,7 +297,7 @@ theorem projectionDerivedUnit_isIso :
     (F.mapHomologicalComplex (.up ℤ) ⋙
       DerivedCategory.Q (C := smallSheaves.{u, v} B S hS))
     (𝟭 (DerivedCategory (smallSheaves.{u, v} B S hS))) F.mapDerivedCategory eQ
-  show IsIso e.hom
+  change IsIso e.hom
   infer_instance
 
 

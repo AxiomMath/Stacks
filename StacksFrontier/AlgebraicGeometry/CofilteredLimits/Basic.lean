@@ -564,7 +564,7 @@ lemma coneDesc_unique (s : Cone F) (m : s.pt ⟶ (gluingData p hp).glued)
     rw [← gluedπ_comp p hp (Nonempty.some (IsCofiltered.nonempty (C := K))), ← Category.assoc,
       hm, cone_π_comp p hp s]
   refine Scheme.Cover.hom_ext (coneCover p s) _ _ fun (U : S.affineOpens) ↦ ?_
-  show coneCoverFst p s U ≫ m = coneCoverFst p s U ≫ coneDesc p hp s
+  change coneCoverFst p s U ≫ m = coneCoverFst p s U ≫ coneDesc p hp s
   rw [coneCoverFst_coneDesc]
   have hsq := isPullback_gluedι p hp U
   have hw : coneCoverSnd p s U ≫ U.1.ι
@@ -609,7 +609,7 @@ theorem hasLimit_of_isCofiltered_of_isAffineHom
   have : HasLimit (Over.forget i₀ ⋙ D) :=
     hasLimit_of_isAffineHom_of_isCofiltered (F := Over.forget i₀ ⋙ D)
       (fun j ↦ D.map j.hom) (fun {k l} f ↦ by
-        show D.map f.left ≫ D.map l.hom = D.map k.hom
+        change D.map f.left ≫ D.map l.hom = D.map k.hom
         rw [← D.map_comp, Over.w f])
   exact Functor.Initial.hasLimit_of_comp (Over.forget i₀)
 

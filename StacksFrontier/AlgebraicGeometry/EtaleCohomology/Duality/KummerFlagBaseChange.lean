@@ -67,12 +67,12 @@ theorem unitH0Class_restriction {X Y : Scheme.{u}} (π : X ⟶ Y) (a : (Γ(Y, �
         pullback.snd (Scheme.Etale.mk (𝟙 Y)).hom π ≫ π :=
       (Category.comp_id _).symm.trans pullback.condition
     refine (congrArg (fun h => b.left ≫ h) hc).trans ?_
-    show (b.left ≫ pullback.snd (Scheme.Etale.mk (𝟙 Y)).hom π) ≫ π = π
+    change (b.left ≫ pullback.snd (Scheme.Etale.mk (𝟙 Y)).hom π) ≫ π = π
     rw [hw]
     exact Category.id_comp π
   congr 1
   ext
-  show b.left.appTop.hom ((pullback.fst (Scheme.Etale.mk (𝟙 Y)).hom π).appTop.hom _) =
+  change b.left.appTop.hom ((pullback.fst (Scheme.Etale.mk (𝟙 Y)).hom π).appTop.hom _) =
     π.appTop.hom _
   exact congrArg (fun f : X ⟶ Y => f.appTop.hom (a : Γ(Y, ⊤))) hb
 

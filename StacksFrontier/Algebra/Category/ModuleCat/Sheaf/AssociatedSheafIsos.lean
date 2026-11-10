@@ -298,8 +298,7 @@ private theorem tensor_addMonoidHom_ext {S A M P : Type*} [CommSemiring S] [AddC
     [AddCommMonoid M] [AddCommMonoid P] [Module S A] [Module S M] {F G : A ⊗[S] M →+ P}
     (h : ∀ (a : A) (m : M), F (a ⊗ₜ[S] m) = G (a ⊗ₜ[S] m)) : F = G :=
   AddMonoidHom.ext fun x ↦ by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add a b ha hb => simp [ha, hb]
     | tmul a m => exact h a m
 

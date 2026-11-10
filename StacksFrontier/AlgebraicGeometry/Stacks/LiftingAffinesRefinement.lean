@@ -76,7 +76,7 @@ theorem exists_affine_member (U : SpacesEtale B S hS W) (T₀ : BigFppfOver B S 
         ((isEtale_iff_presheaf_of_yoneda B S hS _).1 (hs₀ ▸ hs))
     have := hAaff
     exact Scheme.size_le_of_locallyOfFiniteType ((BigFppfOver.toScheme B S hS).map s₀)
-  · show pointsMap B S hS _ (a ≫ (pullback.fst g tU).hom.left.hom ≫ g.hom.left.hom) z = _
+  · change pointsMap B S hS _ (a ≫ (pullback.fst g tU).hom.left.hom ≫ g.hom.left.hom) z = _
     rwa [pointsMap_comp_apply, pointsMap_comp_apply, hz, hy'₁]
 
 /-- **Stacks 0CJU, the refinement.** Every covering sieve of an object `U` of the spaces-étale

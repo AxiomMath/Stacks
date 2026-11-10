@@ -111,11 +111,11 @@ lemma image_eq_preimage_of_isIso {X Y : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ X)
   apply TopologicalSpace.Opens.ext
   refine Set.eq_of_subset_of_subset ?_ ?_
   · rintro _ ⟨x, hx, rfl⟩
-    show g.base (f.base x) ∈ U
+    change g.base (f.base x) ∈ U
     rwa [← Scheme.Hom.comp_apply, hfg]
   · intro y hy
     refine ⟨g.base y, hy, ?_⟩
-    show f.base (g.base y) = y
+    change f.base (g.base y) = y
     rw [← Scheme.Hom.comp_apply, hgf]
     rfl
 

@@ -131,8 +131,7 @@ theorem span_gammaTmul_eq_top (F G : (Spec R).Modules)
   have key : ∀ y : Γ(F, ⊤) ⊗[R] Γ(G, ⊤), gammaTensorEquiv F G y ∈
       Submodule.span R (Set.range fun p : Γ(F, ⊤) × Γ(G, ⊤) => gammaTmul F G p.1 p.2) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul s t => exact Submodule.subset_span ⟨(s, t), rfl⟩
     | add a b ha hb => simpa only [map_add] using Submodule.add_mem _ ha hb
   refine le_antisymm le_top fun x _ => ?_

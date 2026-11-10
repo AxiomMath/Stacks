@@ -83,7 +83,7 @@ theorem isRepresentable_quotientSheaf_of_isFiniteLocallyFree
     infer_instance
   have _ := hk
   have _ : IsIso (pullback.lift j.target j.source hf).left := by
-    show IsIso ((Over.forget S).map (pullback.lift j.target j.source hf))
+    change IsIso ((Over.forget S).map (pullback.lift j.target j.source hf))
     infer_instance
   have hiso : IsIso (quotientSheafToPoints (BigFppfOver.topology B S hS)
       (Over.post B.inclusion) j π hf hM) :=

@@ -191,7 +191,7 @@ private theorem kFlat_truncGE (E : CochainComplex (ModuleCat.{u} R) ℤ)
   have hL : ∀ i : ℤ, Module.Flat R (S.X₁.X i) := by
     intro i
     have : Module.Flat R ((S.map (HomologicalComplex.eval _ _ i)).X₂) := by
-      show Module.Flat R (E.X i)
+      change Module.Flat R (E.X i)
       infer_instance
     have : Module.Flat R ((S.map (HomologicalComplex.eval _ _ i)).X₃) := hf i
     exact flat_of_shortExact_left (S.map (HomologicalComplex.eval _ _ i)) (hS.map_of_exact _)

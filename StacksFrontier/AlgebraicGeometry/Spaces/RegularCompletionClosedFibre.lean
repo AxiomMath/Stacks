@@ -54,7 +54,7 @@ private theorem presheaf_etale_id_terminal :
   refine presheaf_id_of_iso B (Spec (.of A)) hA _ (fun {_ _} g hg ↦ ?_) _
   have : IsIso ((BigFppfOver.toScheme B (Spec (.of A)) hA).map g) := by
     let _ := hg; infer_instance
-  show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B (Spec (.of A)) hA).map g)
+  change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B (Spec (.of A)) hA).map g)
   infer_instance
 
 /-- Regularity at a point of the closed fibre is unchanged by base change of the base ring to

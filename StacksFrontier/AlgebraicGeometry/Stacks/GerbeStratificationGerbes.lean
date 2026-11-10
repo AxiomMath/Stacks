@@ -118,7 +118,7 @@ theorem map_mem_stratumUnits (p : ℕ) (a : WithTop ℕ) {A B : Type u} [CommRin
   induction a using WithTop.recTopCoe with
   | top => exact Subgroup.mem_top _
   | coe i =>
-    show Units.map f.toMonoidHom t ^ p ^ i = 1
+    change Units.map f.toMonoidHom t ^ p ^ i = 1
     rw [← map_pow, show t ^ p ^ i = 1 from ht, map_one]
 
 /-- Every power of a nonzero natural number is positive. -/
@@ -355,7 +355,7 @@ theorem existsUnique_coarse {ξ : (weightedQuotientStack.{u, w} 𝒞 k p hU).val
     rw [Category.id_comp] at e1 e2
     exact e1.symm.trans e2
   · intro V W g c z hz W' c' h hh φ hφ
-    show coarseMap p a ⟨h, hh⟩ = c' ≫ c ≫ z
+    change coarseMap p a ⟨h, hh⟩ = c' ≫ c ≫ z
     rw [← Category.assoc]
     exact hz (c' ≫ c) h hh φ (by rwa [Category.assoc])
   · intro V g hg
@@ -557,7 +557,7 @@ theorem isGerbeOver_coarse [NeZero p]
     let s := coarseSection a (f ≫ y.hom)
     refine ⟨⟨chartObj.{u, w} p s.1, (hPchart s.1).2 s.2⟩,
       Over.homMk (eqToHom (obj_chartObj.{u, w} p s.1) ≫ f) ?_, ?_⟩
-    · show _ = coarseOf.{u, w} a hPmor hPchart ((hPchart s.1).2 s.2)
+    · change _ = coarseOf.{u, w} a hPmor hPchart ((hPchart s.1).2 s.2)
       rw [coarseOf_chartObj.{u, w} a hPmor hPchart s.1 s.2]
       exact (Category.assoc _ _ _).trans
         (congrArg _ (coarseMap_coarseSection p a (f ≫ y.hom)).symm)
@@ -733,7 +733,7 @@ theorem chartVerticalEquiv_chartAct {W : BigFppfOver 𝒞 𝒵 (Space.contains_s
     (t : (Γ((BigFppfOver.toScheme 𝒞 𝒵 (Space.contains_specULiftZ 𝒞)).obj W, ⊤))ˣ)
     (ht : actMap p t h = h) :
     (chartVerticalEquiv.{u, w} p h h ⟨chartAct.{u, w} h t ht, inferInstance⟩).1 = t := by
-  show (chartVerticalEquiv.{u, w} p h h ((chartVerticalEquiv.{u, w} p h h).symm ⟨t, ht⟩)).1 = t
+  change (chartVerticalEquiv.{u, w} p h h ((chartVerticalEquiv.{u, w} p h h).symm ⟨t, ht⟩)).1 = t
   rw [Equiv.apply_symm_apply]
 
 /-- A vertical endomorphism of a chart object is the action of its unit. -/
@@ -742,7 +742,7 @@ theorem eq_chartAct {W : BigFppfOver 𝒞 𝒵 (Space.contains_specULiftZ 𝒞)}
     (hθ : (weightedQuotientStack.{u, w} 𝒞 k p hU).val.val.p.IsHomLift (𝟙 W) θ) :
     θ = chartAct.{u, w} h (chartVerticalEquiv.{u, w} p h h ⟨θ, hθ⟩).1
       (chartVerticalEquiv.{u, w} p h h ⟨θ, hθ⟩).2 := by
-  show θ = ((chartVerticalEquiv.{u, w} p h h).symm (chartVerticalEquiv.{u, w} p h h ⟨θ, hθ⟩)).1
+  change θ = ((chartVerticalEquiv.{u, w} p h h).symm (chartVerticalEquiv.{u, w} p h h ⟨θ, hθ⟩)).1
   rw [Equiv.symm_apply_apply]
 
 /-- The action of units on a chart object is injective. -/
@@ -1106,9 +1106,9 @@ theorem mem_stratumUnits_of_locally {T : BigFppfOver 𝒞 𝒵 (Space.contains_s
   induction a using WithTop.recTopCoe with
   | top => exact Subgroup.mem_top t
   | coe i =>
-    show t ^ p ^ i = 1
+    change t ^ p ^ i = 1
     refine units_ext_of_locally hR (fun V g hg => ?_)
-    show Units.map _ (t ^ p ^ i) = Units.map _ 1
+    change Units.map _ (t ^ p ^ i) = Units.map _ 1
     rw [map_pow, map_one]
     exact h g hg
 

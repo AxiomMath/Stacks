@@ -408,7 +408,7 @@ theorem exists_eq_pow_sub_self_add_of_forall_inertia [IsSepClosure K L]
   apply Subtype.ext
   have hc := AlgEquiv.restrictNormal_commutes σ F z
   rw [hres] at hc
-  show algebraMap F L (τ z) = algebraMap F L z
+  change algebraMap F L (τ z) = algebraMap F L z
   rw [hc]
   exact hI' σ hσ
 
@@ -446,7 +446,7 @@ private theorem inv_mul_mem_fixingSubgroup_of_restrictNormal_eq {E : Intermediat
   have h2 := AlgEquiv.restrictNormal_commutes σ' E ⟨e, he⟩
   rw [h] at h1
   have h3 : σ e = σ' e := h1.symm.trans h2
-  show σ'.symm (σ e) = e
+  change σ'.symm (σ e) = e
   rw [h3]
   exact σ'.symm_apply_apply e
 

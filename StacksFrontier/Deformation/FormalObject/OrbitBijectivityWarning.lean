@@ -183,7 +183,7 @@ noncomputable abbrev auxBase : CompleteLocalAlgCat.{0, 0, 0} Lam Kay :=
 
 /-- The category of elements of the functor represented by the residue field: an auxiliary
 predeformation category, used only to name the twisting automorphisms. -/
-noncomputable abbrev auxCat := CategoryOfElements.π (restrictedCoyoneda auxBase)
+noncomputable abbrev auxCat := Functor.Elements.π (restrictedCoyoneda auxBase)
 
 /-- The category `auxCat` is a predeformation category. -/
 theorem auxCat_isPredeformationCategory : IsPredeformationCategory.{0, 0, 0} auxCat :=
@@ -271,7 +271,7 @@ noncomputable def quotFun : ArtinianLocalAlgCat.{0, 0, 0} Lam Kay ⥤ Type 0 whe
         (by rw [artinianToComplete.map_comp]; exact (Category.assoc a _ _).symm)
 
 /-- The predeformation category of the quotient functor. -/
-noncomputable abbrev quotCat := CategoryOfElements.π quotFun
+noncomputable abbrev quotCat := Functor.Elements.π quotFun
 
 /-- The quotient functor `quotFun` is a predeformation functor. -/
 theorem quotFun_isPredeformationFunctor : IsPredeformationFunctor.{0, 0, 0} quotFun := by
@@ -515,7 +515,7 @@ theorem associatedMorphism_eq (P : ChosenPushforwards quotCat) :
   intro X Y h
   apply Functor.Elements.hom_ext
   have hlift : (BasedCategory.ofFunctor
-      (CategoryOfElements.π (restrictedCoyoneda xi.base))).p.IsHomLift h.hom h :=
+      (Functor.Elements.π (restrictedCoyoneda xi.base))).p.IsHomLift h.hom h :=
     IsHomLift.of_fac _ h.hom h rfl rfl rfl
   have hfac := IsHomLift.fac' (BasedCategory.ofFunctor quotCat).p h.hom
     ((associatedMorphism quotCat_isPredeformationCategory.cofibered xi P).toBasedFunctor.map h)
@@ -573,13 +573,13 @@ theorem map_classOf_point (P : ChosenPushforwards quotCat)
         (categoryOfElements_projection_isCofibered (restrictedCoyoneda xi.base))
         hpre.cofibered
         (associatedMorphism hpre.cofibered xi P).toBasedFunctor dualPt
-        (classOf (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda xi.base)))
+        (classOf (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda xi.base)))
           (categoryOfElements_projection_isCofibered (restrictedCoyoneda xi.base))
           ⟨(restrictedCoyoneda xi.base).elementsMk dualPt alpha, rfl⟩) =
       classOf (BasedCategory.ofFunctor quotCat) hpre.cofibered
         ⟨quotFun.elementsMk dualPt (Quotient.mk (orbitSetoid dualPt) alpha), rfl⟩ := by
   refine (mapIsomorphismClasses_classOf
-    (𝓕 := BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda xi.base)))
+    (𝓕 := BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda xi.base)))
     (categoryOfElements_projection_isCofibered (restrictedCoyoneda xi.base))
     (𝓖 := BasedCategory.ofFunctor quotCat) hpre.cofibered
     (associatedMorphism hpre.cofibered xi P).toBasedFunctor

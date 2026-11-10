@@ -157,7 +157,7 @@ theorem openRestrictionProperSupportIso_unit (V : SmallEtale B X.obj X.property)
       properSupportSection B j F V s := by
   have h1 := openRestrictionIso_unit_app.{u, v} B j
     ((properSupportFunctor.{u, max (u + 1) v} B j).obj F) V s
-  show ((openRestrictionProperSupportMap B j F).hom.app (op ((smallEtaleBaseChange B j).obj V)))
+  change ((openRestrictionProperSupportMap B j F).hom.app (op ((smallEtaleBaseChange B j).obj V)))
       (((openRestrictionIso.{u, v} B j).inv.app ((properSupportFunctor.{u, max (u + 1) v} B j).obj
           F)).hom.app (op ((smallEtaleBaseChange B j).obj V))
         (abPullbackUnit.{u, v} B j ((properSupportFunctor.{u, max (u + 1) v} B j).obj F) V s)) = _
@@ -174,7 +174,7 @@ theorem openRestrictionProperSupportIso_unit (V : SmallEtale B X.obj X.property)
       (op ((smallEtaleBaseChange B j).obj V))) ((openRestrictionIso.{u, v} B j).hom_inv_id_app
         ((properSupportFunctor.{u, max (u + 1) v} B j).obj F))) _
   rw [h2]
-  show F.obj.map ((openPostcomposeAdjunction B j).unit.app
+  change F.obj.map ((openPostcomposeAdjunction B j).unit.app
       ((smallEtaleBaseChange B j).obj V)).op
     (F.obj.map ((smallEtaleBaseChange B j).map ((openPostcomposeAdjunction B j).counit.app V)).op
       (properSupportSection B j F V s)) = _
@@ -232,7 +232,7 @@ theorem restrictGlobal_openInclusion (g : Z.obj ⟶ Spec (.of k)) [IsSeparated g
       ((abPullback.{u, v} B m).obj H)) :
     restrictGlobal B m H ((compactlySupportedSections_openInclusion k B m g H).1 s).1 = s.1 := by
   have hc := ((compactlySupportedSections_openInclusion k B m g H).2.2 s).1
-  show ((abPullback.{u, v} B m).obj H).obj.map (baseChangeFinalIso B m).inv.op
+  change ((abPullback.{u, v} B m).obj H).obj.map (baseChangeFinalIso B m).inv.op
       (abPullbackUnit.{u, v} B m H (SmallEtale.final B _ _)
         ((compactlySupportedSections_openInclusion k B m g H).1 s).1) = s.1
   refine (congrArg _ hc.symm).trans ?_
@@ -626,7 +626,7 @@ theorem fibreComparisonF_restrict (M : (geometricPointFiber B Y.obj Y.property y
   rw [pullbackSectionAlongHom_id] at h2
   simp only [CategoryTheory.Functor.map_id, Category.id_comp, Category.assoc,
     Iso.inv_hom_id_app, Category.comp_id] at h2
-  show ((smallEtaleSheafPullbackFactoredCompIso B _ X' X
+  change ((smallEtaleSheafPullbackFactoredCompIso B _ X' X
       (geometricFibreProj B f' (liftedGeometricPoint B y y₀) hy) j'
       (geometricFibreProj B f' (liftedGeometricPoint B y y₀) hy ≫ j') rfl
       AddCommGrpCat.{max (u + 1) v}).inv.app F).hom.app _
@@ -683,7 +683,7 @@ theorem fibreComparisonG_pullback (W : SmallEtale B Xb.obj Xb.property)
     (geometricFibreProj B f' (liftedGeometricPoint B y y₀) hy) jb
     (geometricFibreProj B f' (liftedGeometricPoint B y y₀) hy ≫ jb) rfl
     (compactificationSheaf B j' jb F) W _ (𝟙 _) (SmallEtale.final B _ _) γ s
-  show ((smallEtaleSheafPullbackFactoredCompIso B _ _ Xb (compFibreMap B y hy f' jb fb hfb y₀)
+  change ((smallEtaleSheafPullbackFactoredCompIso B _ _ Xb (compFibreMap B y hy f' jb fb hfb y₀)
       (geometricFibreProj B fb (liftedGeometricPoint B y y₀) hy)
       (geometricFibreProj B f' (liftedGeometricPoint B y y₀) hy ≫ jb)
       (compFibreMap_proj B y hy f' jb fb hfb y₀) AddCommGrpCat.{max (u + 1) v}).inv.app
@@ -1026,7 +1026,7 @@ theorem properSupportSections_compactification [IsProper (B.inclusion.map fb)]
         ((smallEtaleBaseChange B fb).obj Nw)) s.1).compl).subschemeι ≫ P₁) := s.2
   have hZ : IsProperOver (P₁ ≫ P₂) (zeroOpen B X'.obj X'.property H
       ((smallEtaleBaseChange B jb).obj ((smallEtaleBaseChange B fb).obj Nw)) s.1).compl := by
-    show IsProper (_ ≫ P₁ ≫ P₂)
+    change IsProper (_ ≫ P₁ ≫ P₂)
     rw [← Category.assoc]
     infer_instance
   have hφ : φ.hom.hom.left ≫ baseChangeObjProjection B jb ((smallEtaleBaseChange B fb).obj Nw) ≫
@@ -1050,7 +1050,7 @@ theorem properSupportSections_compactification [IsProper (B.inclusion.map fb)]
     exact supportSection_map B X'.obj X'.property H _ _ φ.hom s.1
   have : LocallyOfFiniteType (B.inclusion.map (pullback.fst ((openPostcompose B i₀).obj Nw).obj.hom
       (j' ≫ f))) := locallyOfFiniteType_baseChangeProjection B (j' ≫ f) _
-  show IsProperOver (B.inclusion.map (pullback.fst ((openPostcompose B i₀).obj Nw).obj.hom
+  change IsProperOver (B.inclusion.map (pullback.fst ((openPostcompose B i₀).obj Nw).obj.hom
     (j' ≫ f))) _
   rw [hZeq]
   exact hT
@@ -1112,7 +1112,7 @@ theorem exists_fShriekStalkToCompactSections_eq_of_compactification
         zeroOpen B _ _ ((abPullback.{u, v} B mO).obj Fy) (SmallEtale.final B _ _) t₁.1 :=
       zeroOpen_sheafIso B _ _ (asIso Ψ) _ t₁.1
     rw [hs]
-    show IsProper (_ ≫ _)
+    change IsProper (_ ≫ _)
     rw [← hstr]
     exact h
   let t₂ : compactlySupportedSections k (geometricFibreObj B f' y' hy).obj
@@ -1187,7 +1187,7 @@ theorem exists_fShriekStalkToCompactSections_eq_of_compactification
             hy)).map c)
         s.1 := by
       rw [hu, pullbackSectionAlongHom_map]
-    show (fibreComparisonG B y hy j' f' jb fb hfb y₀ F).hom.hom.app _
+    change (fibreComparisonG B y hy j' f' jb fb hfb y₀ F).hom.hom.app _
       ((fibreComparisonF B f y hy i₀ j' f' hf' y₀ hy₀ F).hom.hom.app _
         (restrictGlobal B mO Fy (geometricFibreRestriction B f y hy F N' σa))) = _
     refine (congrArg _ (h1.trans hstep)).trans ?_
@@ -1212,7 +1212,7 @@ theorem exists_fShriekStalkToCompactSections_eq_of_compactification
       ((isPullback_openFibreMap B f y hy i₀ j' f' hf' y₀ hy₀).map B.inclusion)
     intro z hz
     have hz' := hsub hz
-    show z ∈ Set.range (B.inclusion.map mO).base
+    change z ∈ Set.range (B.inclusion.map mO).base
     rw [hrange]
     rw [Set.mem_preimage] at hz'
     obtain ⟨u, -, hu⟩ := (Set.ext_iff.1 hchar2 _).1 hz'
@@ -1299,7 +1299,7 @@ theorem fShriekStalkToCompactSections_surjective_of_properBaseChange (B : BigEta
     have hc := congrArg (fun m => m.base z) (congrArg B.inclusion.map
       (pullback.condition : p ≫ f = st ≫ geometricPointHom B y hy))
     simp only [Functor.map_comp, Scheme.Hom.comp_base, TopCat.comp_app] at hc
-    show (B.inclusion.map f).base ((B.inclusion.map p).base z) ∈ (Y0 : Set Y.obj)
+    change (B.inclusion.map f).base ((B.inclusion.map p).base z) ∈ (Y0 : Set Y.obj)
     rw [hc]
     exact (hpt _).symm ▸ hy0
   -- a quasi-compact open of `X` containing the image of the support, lying over `Y₀`
@@ -1357,7 +1357,7 @@ theorem fShriekStalkToCompactSections_surjective_of_properBaseChange (B : BigEta
   have hr := range_eq_preimage_range_of_isPullback
     ((isPullback_openFibreMap B f y hy i₀ j' f' hf' y₀ hy₀).map B.inclusion)
   have hzU : (B.inclusion.map p).base z ∈ Set.range (B.inclusion.map j').base := by
-    show (B.inclusion.map p).base z ∈ Set.range U.ι.base
+    change (B.inclusion.map p).base z ∈ Set.range U.ι.base
     rw [Scheme.Opens.range_ι]
     exact hKW ⟨z, hz, rfl⟩
   exact (Set.ext_iff.1 hr z).2 hzU

@@ -238,7 +238,7 @@ theorem constantIntegerSectionsEquiv_natural {G G' : Dᵒᵖ ⥤ AddCommGrpCat.{
   apply ConcreteCategory.hom_ext
   intro x
   dsimp [constantIntegerSectionsEquiv]
-  show (AddCommGrpCat.coyonedaObjIsoForget.hom.app (G'.obj X)) (α.app X ≫ q.app X) = _
+  change (AddCommGrpCat.coyonedaObjIsoForget.hom.app (G'.obj X)) (α.app X ≫ q.app X) = _
   simpa using congrArg (fun k ↦ k (α.app X))
     (AddCommGrpCat.coyonedaObjIsoForget.hom.naturality (q.app X))
 

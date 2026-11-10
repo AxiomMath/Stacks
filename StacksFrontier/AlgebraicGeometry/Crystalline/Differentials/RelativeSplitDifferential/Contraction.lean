@@ -11,12 +11,12 @@ public import
 /-!
 # Base-linearity and the relative contraction identity
 
-Part of `StacksFrontier.AlgebraicGeometry.Crystalline.Differentials.RelativeSplitDifferential`, whose
-module docstring explains the construction.  This file contains the `B`-linearity of the relative
-homotopy and of the coefficient retraction, their behaviour on coefficient degrees, the fact that
-wedging with a coefficient one-form raises the coefficient degree, the relative contraction
-identity `d_rel h + h d_rel + ψ ε = id`, and the `D`-module structure on the completed forms of
-`D'` (`Crystalline.DividedPowerPolynomial.moduleCompletedPolynomialForms`).
+Part of `StacksFrontier.AlgebraicGeometry.Crystalline.Differentials.RelativeSplitDifferential`,
+whose module docstring explains the construction. This file contains the `B`-linearity of the
+relative homotopy and of the coefficient retraction, their behaviour on coefficient degrees, the
+fact that wedging with a coefficient one-form raises the coefficient degree, the relative
+contraction identity `d_rel h + h d_rel + ψ ε = id`, and the `D`-module structure on the completed
+forms of `D'` (`Crystalline.DividedPowerPolynomial.moduleCompletedPolynomialForms`).
 -/
 
 @[expose] public noncomputable section
@@ -167,12 +167,12 @@ theorem relativeFormsRetraction_formsBidegreeProjection_of_ne (n i : ℕ) (hi : 
     simp only [LinearMap.comp_apply, LinearMap.coe_restrictScalars, LinearMap.zero_apply]
     rw [formsBidegreeProjection_decompositionGenerator A B W n i i' j hij L J omega]
     by_cases hii : i = i'
-    · rw [if_pos hii]
+    · rw [ite_eq_left hii]
       cases j with
       | zero => exact absurd (by omega : i = n) hi
       | succ j =>
         exact relativeFormsRetraction_decompositionGenerator_succ A B W i' j n hij L J omega
-    · rw [if_neg hii, map_zero]
+    · rw [ite_eq_right hii, map_zero]
   simpa only [LinearMap.comp_apply, LinearMap.coe_restrictScalars, LinearMap.zero_apply] using
     DFunLike.congr_fun key x
 
@@ -232,6 +232,7 @@ theorem eq_self_of_formsBidegreeProjection_split (n : ℕ)
 
 /-! ### Wedging with a coefficient one-form raises the coefficient degree -/
 
+omit [LinearOrder W] in
 /-- The bidegree projection is linear over the base ring `B`, being linear over `P`. -/
 theorem formsBidegreeProjection_smul (n i : ℕ) (b : (B : Type uB))
     (x : dividedPowerPolynomialForms A B W n) :
@@ -271,6 +272,7 @@ theorem dividedPowerOneForm_span :
   rw [hrange, ← Submodule.map_span, dividedPowerDifferentials_span, Submodule.map_top,
     LinearEquiv.range]
 
+omit [LinearOrder W] in
 /-- **The comparison `ψ` carries the one-form of a base scalar to the one-form of its image**:
 `ψ (d b) = d (b)` read in `Ω¹_{P/A,δ'}`.  It is
 `Crystalline.mapDifferentialFormsOfDPMorphism_oneEquiv` together with
@@ -413,7 +415,7 @@ theorem formsBidegreeProjection_wedge_formsBidegreeProjection_eq_zero (n l i : �
       obtain rfl : j' = 0 := by omega
       refine Eq.trans (hPhi
         (((formsBidegreeProjection_decompositionGenerator A B W 1 1 1 0 hij L J omega).trans
-            (if_pos rfl)).trans
+            (ite_eq_left rfl)).trans
           (decompositionGenerator_one_zero A B W L hij J omega))) ?_
       refine Eq.trans (congrArg (fun z : dividedPowerPolynomialForms A B W (n + 1) ↦
           formsBidegreeProjection A B W (n + 1) l z)
@@ -428,7 +430,7 @@ theorem formsBidegreeProjection_wedge_formsBidegreeProjection_eq_zero (n l i : �
       exact smul_zero _
     · refine Eq.trans (hPhi
         ((formsBidegreeProjection_decompositionGenerator A B W 1 1 i' j' hij L J omega).trans
-          (if_neg hi'))) ?_
+          (ite_eq_right hi'))) ?_
       exact Eq.trans (congrArg (fun z : dividedPowerPolynomialForms A B W (n + 1) ↦
           formsBidegreeProjection A B W (n + 1) l z)
           (map_zero (dividedPowerWedge (setIndexedDividedPowerPolynomialDividedPowers B W) n
@@ -484,7 +486,7 @@ theorem formsBidegreeProjection_coefficient_retraction_eq_zero (n l i : ℕ) (hl
   by_cases hin : i = n
   · refine (formsBidegreeProjection_coefficientFormsMap A B W n l
       (relativeFormsRetraction A B W n (formsBidegreeProjection A B W n i y))).trans ?_
-    exact if_neg (hin ▸ hl)
+    exact ite_eq_right (hin ▸ hl)
   · exact (congrArg (fun w : dividedPowerDifferentialForms (A := A) B.dividedPowers n ↦
           formsBidegreeProjection A B W n l (coefficientFormsMap A B W n w))
         (relativeFormsRetraction_formsBidegreeProjection_of_ne A B W n i hin y)).trans

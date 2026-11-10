@@ -79,7 +79,7 @@ theorem isEtale_of_forall_isEtaleAt (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS :
     isEtale_isLocalAtSource_etale.{u, u + 1} B S hS
   have hR : Presieve.ofArrows US ιS ∈ Topology.precoverage.{u, u + 1} .etale B S hS XS :=
     ⟨points B S hS X, US, ιS, rfl, hX, fun x => (hU x).1, hcov⟩
-  show Q (ObjectProperty.homMk f : XS ⟶ YS)
+  change Q (ObjectProperty.homMk f : XS ⟶ YS)
   refine MorphismProperty.IsLocalAtSource.of_forall_comp (P := Q) hR ?_
   rintro _ _ ⟨x⟩
   exact hUf x

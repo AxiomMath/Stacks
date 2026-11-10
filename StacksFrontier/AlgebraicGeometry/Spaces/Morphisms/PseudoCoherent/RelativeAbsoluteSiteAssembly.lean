@@ -144,8 +144,8 @@ namespace AlgebraicGeometry.Space
 
 -- The sheafification data of the small étale ringed site of an algebraic space, of its slices
 -- and of the iterated slices of a slice, together with the two standard derived-category models;
--- all of them in the library, their declarations public and their `instance` attribute file-local, so
--- they are re-enabled here rather than restated.
+-- all of them in the library, their declarations public and their `instance` attribute file-local,
+-- so they are re-enabled here rather than restated.
 attribute [local instance] smallEtaleRingedSite_essentiallySmall
   hasSheafifyAddCommGrp_smallEtaleRingedSite
   wEqualsLocallyBijectiveAddCommGrp_smallEtaleRingedSite

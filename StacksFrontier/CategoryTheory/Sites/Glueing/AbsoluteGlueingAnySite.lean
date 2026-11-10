@@ -789,7 +789,7 @@ This is the cocycle condition read on the tautological objects. -/
 lemma rho_comp_apply {W V U : C} (f : V ⟶ U) (g : W ⟶ V)
     (x : (D.sheaf U).val.obj (op (top U))) :
     D.rho g (D.rho f x) = D.rho (g ≫ f) x := by
-  show D.isoApp g (top W) ((D.sheaf V).val.map (topHom g).op
+  change D.isoApp g (top W) ((D.sheaf V).val.map (topHom g).op
         (D.isoApp f (top V) ((D.sheaf U).val.map (topHom f).op x))) =
       D.isoApp (g ≫ f) (top W) ((D.sheaf U).val.map (topHom (g ≫ f)).op x)
   refine (D.isoApp_map_isoApp_apply f g (topHom g) _).trans (ConcreteCategory.congr_arg _ ?_)
@@ -864,7 +864,7 @@ lemma thetaInvApp_naturality_apply {V : C} {b b' : Over V} (k : b' ⟶ b)
     (x : (D.sheaf V).val.obj (op b)) :
     ConcreteCategory.hom (D.thetaInvApp b') ((D.sheaf V).val.map k.op x) =
       D.gluedPresheaf.map k.left.op (ConcreteCategory.hom (D.thetaInvApp b) x) := by
-  show D.isoApp b'.hom (top b'.left) ((D.sheaf V).val.map (sliceHom b').op
+  change D.isoApp b'.hom (top b'.left) ((D.sheaf V).val.map (sliceHom b').op
         ((D.sheaf V).val.map k.op x)) =
       D.rho k.left (D.isoApp b.hom (top b.left) ((D.sheaf V).val.map (sliceHom b).op x))
   have hL : D.isoApp b'.hom (top b'.left) ((D.sheaf V).val.map (sliceHom b').op
@@ -965,7 +965,7 @@ lemma thetaInvApp_map_apply {V U : C} (f : V ⟶ U) (b : Over V)
     (x : ((SheafOfModules.overMap R f).obj (D.sheaf U)).val.obj (op b)) :
     ConcreteCategory.hom (D.thetaInvApp ((Over.map f).obj b)) x =
       ConcreteCategory.hom (D.thetaInvApp b) (D.isoApp f b x) := by
-  show D.isoApp (b.hom ≫ f) (top b.left)
+  change D.isoApp (b.hom ≫ f) (top b.left)
         ((D.sheaf U).val.map (sliceHom ((Over.map f).obj b)).op x) =
       D.isoApp b.hom (top b.left)
         ((D.sheaf V).val.map (sliceHom b).op (D.isoApp f b x))

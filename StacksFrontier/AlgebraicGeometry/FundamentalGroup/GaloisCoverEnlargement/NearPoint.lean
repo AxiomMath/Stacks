@@ -174,10 +174,9 @@ theorem exists_affineOpenNhds_finiteEtale_model_of_stalk [IsLocallyNoetherian X]
   have h2 : κ kk = Dop.map (g ≫ e) ≫ κ j₀ := by
     apply (cancel_mono (f ⁻¹ᵁ U).ι).1
     exact (hκ kk).trans (hκ₀ _ _ _ _ (preimageAffineOpenNhdsDiagram_map_ι f s kk.hom) h1).symm
-
   refine ⟨kk.left, Ω, κ kk, (finiteEtaleBaseChange (D.map kk.hom)).obj F₁, ?_, hκ kk, ⟨?_⟩⟩
   · ext x
-    show (D.map kk.hom ≫ (f ⁻¹ᵁ W₁.opens).ι) x ∈ f ⁻¹ᵁ U ↔ _
+    change (D.map kk.hom ≫ (f ⁻¹ᵁ W₁.opens).ι) x ∈ f ⁻¹ᵁ U ↔ _
     rw [preimageAffineOpenNhdsDiagram_map_ι]
     rfl
   · exact (finiteEtaleBaseChangeComp Ω.ι (D.map kk.hom) _ h1).symm.app F₁ ≪≫
@@ -225,7 +224,7 @@ theorem exists_finiteEtale_extension_of_stalk [IsIntegral S] [IsLocallyNoetheria
     have h2 : (⟨⟨x', hx'U'⟩, hx'W'⟩ : W'.toScheme) ⤳ w :=
       (Topology.IsInducing.subtypeVal.specializes_iff).mp h1
     refine h2.mem_closed isClosed_closure (subset_closure ?_)
-    show f x' ∈ U
+    change f x' ∈ U
     rw [hfx']
     exact hη
   -- every point has a neighbourhood over which `E` extends
@@ -238,9 +237,9 @@ theorem exists_finiteEtale_extension_of_stalk [IsIntegral S] [IsLocallyNoetheria
     let P := FiniteEtaleGluing.part OU OW
     have hPΩ : P ≤ ρ ⁻¹ᵁ Ω := by
       intro v hv
-      show ρ v ∈ (Ω : Set (f ⁻¹ᵁ W.opens).toScheme)
+      change ρ v ∈ (Ω : Set (f ⁻¹ᵁ W.opens).toScheme)
       rw [hΩ]
-      show (ρ ≫ (f ⁻¹ᵁ W.opens).ι) v ∈ f ⁻¹ᵁ U
+      change (ρ ≫ (f ⁻¹ᵁ W.opens).ι) v ∈ f ⁻¹ᵁ U
       rw [morphismRestrict_ι]
       exact hv
     let τ : P.toScheme ⟶ Ω.toScheme := ρ.resLE Ω P hPΩ
@@ -284,7 +283,7 @@ theorem exists_finiteEtale_extension_of_stalk [IsIntegral S] [IsLocallyNoetheria
   have hj : Set.range j ⊆ Set.range OU.ι := by
     rintro _ ⟨x, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show ((X.homOfLE _) ≫ (f ⁻¹ᵁ U').ι) x ∈ f ⁻¹ᵁ U
+    change ((X.homOfLE _) ≫ (f ⁻¹ᵁ U').ι) x ∈ f ⁻¹ᵁ U
     rw [Scheme.homOfLE_ι]
     exact x.2
   let rinv : (f ⁻¹ᵁ U).toScheme ⟶ OU.toScheme := IsOpenImmersion.lift OU.ι j hj

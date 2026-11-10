@@ -249,7 +249,7 @@ theorem leftCoeff_singleComponent {x : X} (hx : Order.coheight x = 1)
     (g : (rationalFunctions (integralComponentAt x).subscheme)ˣ) (y : X) :
     (singleComponent hx g).leftCoeff C p y = 0 := by
   have hdiff : ∀ i, (singleComponent hx g).componentDifference i = 0 := fun _ ↦ sub_self _
-  show (∑ᶠ i, closedSubschemeCyclePushforward C p
+  change (∑ᶠ i, closedSubschemeCyclePushforward C p
     ((singleComponent hx g).component i) ((singleComponent hx g).componentDifference i) y) = 0
   simp only [hdiff, closedSubschemeCyclePushforward_zero_apply, finsum_zero]
 

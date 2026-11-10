@@ -387,7 +387,7 @@ theorem affineTensorFreeIso_step₂ (a : schemeGlobalRing U) :
   refine ModuleCat.hom_ext (LinearMap.ext fun c => ?_)
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply, Iso.symm_hom, Functor.mapIso_hom,
     Functor.comp_map]
-  show Stacks.PullbackModel.tmul (M := ModuleCat.of _ (schemeGlobalRing U))
+  change Stacks.PullbackModel.tmul (M := ModuleCat.of _ (schemeGlobalRing U))
       (affineTensorRingHom g hg F)
       (@id (affineTensorAlgebra g hg F) ((F.map (affineGlobalMul g hg a)).hom c)) 1 =
     Stacks.PullbackModel.tmul (M := ModuleCat.of _ (schemeGlobalRing U))

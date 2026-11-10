@@ -230,7 +230,7 @@ lemma precoverage_eq_comap (B : BigProetaleSite.{u}) :
     let E : PreZeroHypercover.{u + 1} X := R.preZeroHypercover
     have hE : E.presieve₀ = R := R.presieve₀_preZeroHypercover
     have hcov : B.IsProetaleCovering ⟨X, E⟩ := by
-      show (E.map B.inclusion).presieve₀ ∈ _; rwa [PreZeroHypercover.presieve₀_map, hE]
+      change (E.map B.inclusion).presieve₀ ∈ _; rwa [PreZeroHypercover.presieve₀_map, hE]
     obtain ⟨⟨Y, F⟩, hF, hXY, hEF⟩ := B.covering_representatives ⟨X, E⟩ hcov
     obtain rfl : X = Y := hXY
     exact ⟨F, (PreZeroHypercover.presieve₀_eq_of_combinatoriallyEquivalent hEF).symm.trans hE, hF⟩

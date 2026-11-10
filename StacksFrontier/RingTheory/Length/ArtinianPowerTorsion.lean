@@ -78,7 +78,7 @@ theorem isFiniteLength_of_isArtinian_of_pow_maximalIdeal_smul_eq_bot
     rw [← IsLocalRing.map_maximalIdeal_of_surjective
       (Ideal.Quotient.mk (IsLocalRing.maximalIdeal A ^ (k + 1)))
       Ideal.Quotient.mk_surjective, ← Ideal.map_pow]
-    show Ideal.map (Ideal.Quotient.mk (IsLocalRing.maximalIdeal A ^ (k + 1)))
+    change Ideal.map (Ideal.Quotient.mk (IsLocalRing.maximalIdeal A ^ (k + 1)))
         (IsLocalRing.maximalIdeal A ^ (k + 1)) = ⊥
     rw [Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker]
   have : IsArtinianRing (A ⧸ IsLocalRing.maximalIdeal A ^ (k + 1)) :=

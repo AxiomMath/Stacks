@@ -88,7 +88,7 @@ theorem eq_zero_of_chart (hsm : AlgebraicStacks.IsSmooth B S hS a)
     (BigFppfOver.associatedTopology_le_fppf B S hS 𝒳.val.val.p .etale z
       (mem_etale_of_forall_isAffine B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids z T
         fun {V} k' hV => ?_)) fun _ _ h => h
-  show N.val.restrictₛₗ k'.op (N.val.restrictₛₗ k.op t) = 0
+  change N.val.restrictₛₗ k'.op (N.val.restrictₛₗ k.op t) = 0
   rw [← restrictₛₗ_comp_apply]
   exact ht (k' ≫ k) hV ⟨k' ≫ d⟩
 

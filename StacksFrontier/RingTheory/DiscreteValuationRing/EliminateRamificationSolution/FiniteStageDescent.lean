@@ -71,12 +71,12 @@ private theorem bijective_liftEquiv_reduction_of_nilradical_map_eq
         (Algebra.TensorProduct.includeRight : T →ₐ[R] S ⊗[R] T))) = e.toAlgHom := by
     ext t
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective t
-    show (AlgHom.liftEquiv R S _ _
+    change (AlgHom.liftEquiv R S _ _
       (ReducedTensorTower.reductionMap
         (Algebra.TensorProduct.includeRight : T →ₐ[R] S ⊗[R] T)))
           (1 ⊗ₜ[R] Ideal.Quotient.mk _ x) = e (1 ⊗ₜ[R] Ideal.Quotient.mk _ x)
     rw [AlgHom.liftEquiv_tmul, one_smul, ReducedTensorTower.reductionMap_mk]
-    show Ideal.Quotient.mk _ (1 ⊗ₜ[R] x) =
+    change Ideal.Quotient.mk _ (1 ⊗ₜ[R] x) =
       Ideal.quotientEquivAlgOfEq S hn
         (Algebra.TensorProduct.tensorQuotientEquiv (R := R) S T S (nilradical T)
           (1 ⊗ₜ[R] Ideal.Quotient.mk _ x))
@@ -109,8 +109,7 @@ theorem injective_tensorProduct_lift_of_injective_generic
   have he : f = (g.toRingHom.comp e.symm.toRingHom).comp i.toRingHom := by
     apply DFunLike.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul s c => exact hfg s c
   rw [he]
@@ -218,7 +217,7 @@ theorem finite_integralClosure_tensorProduct_of_isGeometricallyReduced
   have : IsScalarTower R S C := IsScalarTower.of_algebraMap_eq fun r =>
     (f.commutes r).symm
   have : IsScalarTower B S C := IsScalarTower.of_algebraMap_eq fun b => by
-    show algebraMap B C b = f (1 ⊗ₜ[A] b)
+    change algebraMap B C b = f (1 ⊗ₜ[A] b)
     simp [f]
   let : Algebra S T := ((algebraMap C T).comp f.toRingHom).toAlgebra
   have : IsScalarTower S C T := IsScalarTower.of_algebraMap_eq fun _ => rfl
@@ -266,11 +265,10 @@ theorem exists_reducedTensorProductScalarExtensionEquiv
         (Algebra.TensorProduct.map (AlgHom.id A A) (IsScalarTower.toAlgHom K F E)).toRingHom := by
     apply RingHom.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul a f =>
-      show e (1 ⊗ₜ[F] (a ⊗ₜ[K] f)) = a ⊗ₜ[K] algebraMap F E f
+      change e (1 ⊗ₜ[F] (a ⊗ₜ[K] f)) = a ⊗ₜ[K] algebraMap F E f
       simp only [e, AlgEquiv.trans_apply, Algebra.TensorProduct.congr_apply,
         Algebra.TensorProduct.map_tmul, AlgEquiv.coe_refl, AlgEquiv.coe_toAlgHom,
         Algebra.TensorProduct.commRight_symm_tmul, Algebra.TensorProduct.cancelBaseChange_tmul,
@@ -281,7 +279,7 @@ theorem exists_reducedTensorProductScalarExtensionEquiv
     apply Function.LeftInverse.injective
       (fun I => Ideal.comap_map_of_bijective e.toRingHom e.bijective (I := I))
     rw [Ideal.map_map, he, hn]
-    show nilradical (A ⊗[K] E) = (Ideal.map e.toRingHom (⊥ : Ideal _).radical)
+    change nilradical (A ⊗[K] E) = (Ideal.map e.toRingHom (⊥ : Ideal _).radical)
     rw [Ideal.map_radical_of_surjective e.surjective
       (le_of_eq ((RingHom.injective_iff_ker_eq_bot _).mp e.injective)), Ideal.map_bot]
     rfl
@@ -291,12 +289,12 @@ theorem exists_reducedTensorProductScalarExtensionEquiv
   refine ⟨e₁.trans e₂, ?_⟩
   intro x
   obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective x
-  show e₂ (AlgHom.liftEquiv F E _ _
+  change e₂ (AlgHom.liftEquiv F E _ _
       (ReducedTensorTower.reductionMap
         (Algebra.TensorProduct.includeRight : A ⊗[K] F →ₐ[F] E ⊗[F] (A ⊗[K] F)))
       (1 ⊗ₜ[F] Ideal.Quotient.mk _ y)) = _
   rw [AlgHom.liftEquiv_tmul, one_smul, ReducedTensorTower.reductionMap_mk]
-  show Ideal.Quotient.mk _ (e (1 ⊗ₜ[F] y)) =
+  change Ideal.Quotient.mk _ (e (1 ⊗ₜ[F] y)) =
     Ideal.Quotient.mk _ (Algebra.TensorProduct.map (AlgHom.id A A)
       (IsScalarTower.toAlgHom K F E) y)
   exact congrArg (Ideal.Quotient.mk _) (DFunLike.congr_fun he y)
@@ -354,13 +352,13 @@ private theorem bijective_liftEquiv_of_bijective_of_ker_eq_map
   have hkerP : RingHom.ker P = (RingHom.ker q).comap F := by
     have hkp : RingHom.ker P = (RingHom.ker p).map
         (Algebra.TensorProduct.includeRight : A →ₐ[R] S ⊗[R] A) := by
-      show RingHom.ker (Algebra.TensorProduct.map (AlgHom.id R S) p) = _
+      change RingHom.ker (Algebra.TensorProduct.map (AlgHom.id R S) p) = _
       exact Algebra.TensorProduct.lTensor_ker p hp
     rw [hkp, hker]
     have he : (RingHom.ker p).map f =
         ((RingHom.ker p).map
           (Algebra.TensorProduct.includeRight : A →ₐ[R] S ⊗[R] A)).map F := by
-      show (RingHom.ker p).map f.toRingHom =
+      change (RingHom.ker p).map f.toRingHom =
         ((RingHom.ker p).map
           (Algebra.TensorProduct.includeRight : A →ₐ[R] S ⊗[R] A).toRingHom).map F.toRingHom
       rw [Ideal.map_map]
@@ -374,12 +372,12 @@ private theorem bijective_liftEquiv_of_bijective_of_ker_eq_map
     obtain ⟨x, rfl⟩ := hP y
     have hx : x ∈ RingHom.ker P := by
       rw [hkerP]
-      show q (F x) = 0
+      change q (F x) = 0
       exact (DFunLike.congr_fun hcomp x).symm.trans hy
     exact hx
   · exact Function.Surjective.of_comp (f := G) (g := P)
       (show Function.Surjective (G ∘ P) from by
-        show Function.Surjective (G.comp P)
+        change Function.Surjective (G.comp P)
         rw [hcomp]
         exact hq.comp hf.surjective)
 theorem surjective_of_adjoin_eq_top
@@ -419,7 +417,7 @@ private theorem map_maximalIdeal_eq_of_faithfullyFlat_square
   let := b.toAlgebra
   have := hflat
   apply Ideal.map_injective_of_faithfullyFlat (B := S')
-  show ((maximalIdeal R).map f).map b = (maximalIdeal S).map b
+  change ((maximalIdeal R).map f).map b = (maximalIdeal S).map b
   rw [Ideal.map_map, hcomm, ← Ideal.map_map, ha, hb, hf]
 
 private theorem localRingHom_injective_of_comp_injective
@@ -487,11 +485,11 @@ private theorem isSeparableExtension_residueField_of_bijective_tensorProduct
   let π' := IsScalarTower.toAlgHom R' S' q'.ResidueField
   have hfg : g.comp π = (π'.restrictScalars R).comp b := by
     ext x
-    show Ideal.ResidueField.map q q' b hqq' (algebraMap S q.ResidueField x) =
+    change Ideal.ResidueField.map q q' b hqq' (algebraMap S q.ResidueField x) =
       algebraMap S' q'.ResidueField (b x)
     exact Ideal.ResidueField.map_algebraMap q q' b hqq' x
   have hker : RingHom.ker π' = (RingHom.ker π).map b := by
-    show RingHom.ker (algebraMap S' q'.ResidueField) =
+    change RingHom.ker (algebraMap S' q'.ResidueField) =
       (RingHom.ker (algebraMap S q.ResidueField)).map b.toRingHom
     rw [Ideal.ker_algebraMap_residueField, Ideal.ker_algebraMap_residueField, hquot]
   have hbij := bijective_liftEquiv_of_bijective_of_ker_eq_map R R' S S'
@@ -656,7 +654,7 @@ theorem integralClosure_localRingHom_isDiscreteValuationRing_and_injective
     faithfulSMul_of_isIntegral_tower A R (Localization.AtPrime q)
   refine ⟨hpmax, hqdom, hqdvr, inferInstance, ?_⟩
   apply localRingHom_injective_of_comp_injective
-  show Function.Injective ((algebraMap (integralClosure B T) (Localization.AtPrime q)).comp
+  change Function.Injective ((algebraMap (integralClosure B T) (Localization.AtPrime q)).comp
     (algebraMap R (integralClosure B T)))
   rw [← IsScalarTower.algebraMap_eq R (integralClosure B T) (Localization.AtPrime q)]
   exact FaithfulSMul.algebraMap_injective R _
@@ -671,7 +669,7 @@ private theorem isSeparableExtension_of_ringEquiv
   let : Algebra k K' := (e'.symm.toRingHom.comp (algebraMap k K)).toAlgebra
   have : IsScalarTower k' k K' := IsScalarTower.of_algebraMap_eq fun x => by
     apply e'.injective
-    show e' (algebraMap k' K' x) = e' (e'.symm (algebraMap k K (e x)))
+    change e' (algebraMap k' K' x) = e' (e'.symm (algebraMap k K (e x)))
     rw [e'.apply_symm_apply]
     exact DFunLike.congr_fun he x
   have : TensorProduct.CompatibleSMul k' k k K' :=
@@ -721,7 +719,7 @@ private theorem formallySmoothNAdic_of_weaklyUnramified_and_isSeparableExtension
         apply RingHom.ext
         intro x
         obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
-        show eRB (Ideal.Quotient.mk _ (φ a)) =
+        change eRB (Ideal.Quotient.mk _ (φ a)) =
           Ideal.Quotient.mk _ (algebraMap A B (eA a))
         exact Ideal.quotientEquiv_mk _ _ _ _ _)
   have hφ : IsDiscreteValuationRing.IsWeaklyUnramified A' B' := by
@@ -730,7 +728,7 @@ private theorem formallySmoothNAdic_of_weaklyUnramified_and_isSeparableExtension
     have he : φ.comp eA.symm.toRingHom = eB.symm.toRingHom.comp (algebraMap A B) := by
       ext a
       rfl
-    show (IsLocalRing.maximalIdeal A).map (φ.comp eA.symm.toRingHom) = _
+    change (IsLocalRing.maximalIdeal A).map (φ.comp eA.symm.toRingHom) = _
     rw [he, ← Ideal.map_map,
       (IsDiscreteValuationRing.weaklyUnramified_iff_map_maximalIdeal A B).1 h, hB]
   have hs := (IsDiscreteValuationRing.formallySmooth_iff_weaklyUnramified_and_isSeparableExtension

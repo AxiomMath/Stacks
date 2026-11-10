@@ -208,7 +208,7 @@ theorem degreeZeroModuleAt_toAddSubgroup (x : ProjectiveSpectrum.top 𝒮) :
     | add z₁ z₂ _ _ ih₁ ih₂ => simpa only [smul_add] using add_mem ih₁ ih₂
     | neg z _ ih => simpa only [smul_neg] using neg_mem ih
   refine le_antisymm ?_ ?_
-  · show (degreeZeroModuleAt 𝒮 𝒨 x) ≤ Submodule.mk
+  · change (degreeZeroModuleAt 𝒮 𝒨 x) ≤ Submodule.mk
       ⟨⟨AddSubgroup.closure (degreeZeroFractions 𝒮 𝒨 x), fun {_ _} => add_mem⟩, zero_mem _⟩
       (fun r _ hz => hscalar r hz)
     exact Submodule.span_le.2 fun z hz => AddSubgroup.subset_closure hz
@@ -240,7 +240,7 @@ theorem reesDegOne_mul_reesShift (t : ℤ) {b : A} (hb : b ∈ I) (m : reesTrunc
     (reesDegOne I hb) * (reesShift I t m : reesAlgebra I) =
       reesConst I b * (m : reesAlgebra I) := by
   apply Subtype.ext
-  show (monomial 1 b : A[X]) * divX (((m : reesAlgebra I) : A[X])) =
+  change (monomial 1 b : A[X]) * divX (((m : reesAlgebra I) : A[X])) =
     C b * ((m : reesAlgebra I) : A[X])
   rw [← C_mul_X_eq_monomial, mul_assoc,
     X_mul_divX_of_coeff_zero (coeff_zero_eq_zero_of_mem_reesTruncation I t m.2)]
@@ -333,6 +333,7 @@ theorem exists_mem_degreeZeroModuleAt_map_reesShift_mk (t : ℤ)
       mem_twistGrading_succ_of_mem_reesTruncationGrading I t hd m hm, hden, rfl⟩
 
 set_option maxHeartbeats 400000 in
+-- the proof elaborates `LocalizedModule.map` and graded-submodule closures over the Rees algebra
 /-- **[Stacks, Tag 02OS] part (3) in the degree-zero localization at a point.**
 
 At a point `x` of the blowup at which the degree-one element `b⁽¹⁾` is invertible, the map

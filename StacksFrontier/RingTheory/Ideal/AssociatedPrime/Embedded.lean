@@ -125,7 +125,7 @@ of `Supp(M)`. -/
 private lemma le_vanishingAtMinimalSupport_iff (N : Submodule R M) :
     N ≤ vanishingAtMinimalSupport R M ↔ ∀ q : PrimeSpectrum R,
       Minimal (· ∈ Module.support R M) q → q ∉ Module.support R ↥N := by
-  simp only [SetLike.le_def, mem_vanishingAtMinimalSupport_iff, notMem_support_submodule_iff]
+  simp only [IsConcreteLE.le_iff, mem_vanishingAtMinimalSupport_iff, notMem_support_submodule_iff]
   exact ⟨fun h q hq x hx ↦ h hx q hq, fun h x hx q hq ↦ h q hq x hx⟩
 
 /-- The support of `K` misses every minimal point of `Supp(M)`. -/

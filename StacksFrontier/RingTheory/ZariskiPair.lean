@@ -113,7 +113,7 @@ theorem bijective_algebraMap_of_bijective_quotientMap
     (by
       intro x hx
       have hx' : x ∈ K * K := by rwa [hKid.eq]
-      show x ∈ I * K
+      change x ∈ I * K
       exact Ideal.mul_mono hKI le_rfl hx')
     hI
   exact ⟨(RingHom.injective_iff_ker_eq_bot (algebraMap A B)).2 hKbot, hsurj⟩
@@ -159,7 +159,7 @@ theorem exists_monic_isRoot_map_eq_X_sub_one_mul_X_pow
     have heq : s i = a • t 0 + t i.succ := by
       apply e.injective
       simp only [map_add, map_smul]
-      show e (s i) = a • e (e.symm (1, 0)) + e (e.symm (0, (e (s i)).2))
+      change e (s i) = a • e (e.symm (1, 0)) + e (e.symm (0, (e (s i)).2))
       ext <;> simp [Algebra.smul_def, ha]
     rw [heq]
     exact Submodule.add_mem _
@@ -200,21 +200,21 @@ theorem exists_monic_isRoot_map_eq_X_sub_one_mul_X_pow
   have hr (j : Fin (n + 1)) :
       b * v j - (if j = 0 then v 0 else 0) ∈ I • (⊤ : Submodule A B) := by
     rw [Ideal.smul_top_eq_map]
-    show b * v j - (if j = 0 then v 0 else 0) ∈ I.map (algebraMap A B)
+    change b * v j - (if j = 0 then v 0 else 0) ∈ I.map (algebraMap A B)
     rw [← Ideal.Quotient.eq_zero_iff_mem]
     apply e.injective
     have hbq : e (q b) = (1, 0) := hb
     rcases Fin.eq_zero_or_eq_succ j with rfl | ⟨i, rfl⟩
     · have he0 : e (q (v 0)) = (1, 0) := by
         simpa [t] using congrArg e (hv 0)
-      show e (q (b * v 0 - v 0)) = e 0
+      change e (q (b * v 0 - v 0)) = e 0
       simp only [map_sub, map_mul, he0, map_zero]
       rw [hbq]
       simp
     · have hei : e (q (v i.succ)) = (0, (e (s i)).2) := by
         simpa [t] using congrArg e (hv i.succ)
       simp only [Fin.succ_ne_zero, ite_false, sub_zero]
-      show e (q (b * v i.succ)) = e 0
+      change e (q (b * v i.succ)) = e 0
       simp only [map_mul, hei, map_zero]
       rw [hbq]
       simp
@@ -233,7 +233,7 @@ theorem exists_monic_isRoot_map_eq_X_sub_one_mul_X_pow
     have hδ : ∑ i, δ i j • v i = if j = 0 then v 0 else 0 := by
       rcases Fin.eq_zero_or_eq_succ j with rfl | ⟨j, rfl⟩ <;> simp [δ]
     rw [hδ, ← Ideal.finsuppTotal_apply_eq_of_fintype I (c j), hc j]
-    show (if j = 0 then v 0 else 0) + (b * v j - if j = 0 then v 0 else 0) = b * v j
+    change (if j = 0 then v 0 else 0) + (b * v j - if j = 0 then v 0 else 0) = b * v j
     abel
   let MR : Matrix.isRepresentation A v := ⟨M, Algebra.lmul A B b, hrep⟩
   let f : A[X] := M.charpoly
@@ -255,7 +255,7 @@ theorem exists_monic_isRoot_map_eq_X_sub_one_mul_X_pow
     have hmap : M.map (Ideal.Quotient.mk I) = Matrix.diagonal
         (fun j : Fin (n + 1) ↦ if j = 0 then 1 else 0) := by
       ext i j
-      show (Ideal.Quotient.mk I) (M i j) = _
+      change (Ideal.Quotient.mk I) (M i j) = _
       have hc0 : (Ideal.Quotient.mk I) (c j i : A) = 0 :=
         Ideal.Quotient.eq_zero_iff_mem.mpr (c j i).property
       simp only [M, map_add, hc0, add_zero, δ, Matrix.diagonal_apply]
@@ -282,7 +282,7 @@ private lemma infinite_primes_over_of_not_isMaximal
     (IsLocalization.isPrime_iff_isPrime_disjoint (.powers f) Af q).mp hqmax.isPrime |>.1
   have hPQ : P < Q := by
     let e := IsLocalization.orderIsoOfPrime (.powers f) Af
-    show (e ⟨p, hp⟩).1 < (e ⟨q, hqmax.isPrime⟩).1
+    change (e ⟨p, hp⟩).1 < (e ⟨q, hqmax.isPrime⟩).1
     exact e.lt_iff_lt.mpr hpq'
   obtain ⟨m, hm, hQm⟩ := Q.exists_le_maximal hQ.ne_top
   let hmI : m.IsMaximal := hm
@@ -356,7 +356,7 @@ private lemma infinite_primes_over_of_not_isMaximal
       constructor
       · rw [show p = P.map (algebraMap A Af) from (IsLocalization.map_under (.powers f) Af p).symm]
         exact Ideal.map_mono fun a ha => by
-          show Ideal.Quotient.mk P a ∈ r.1.asIdeal.under B
+          change Ideal.Quotient.mk P a ∈ r.1.asIdeal.under B
           rw [Ideal.Quotient.eq_zero_iff_mem.mpr (show a ∈ P from ha)]
           exact Ideal.zero_mem _
       · exact IsLocalization.isPrime_of_isPrime_disjoint (.powers f) Af _ (hrA r).1 (hrA r).2⟩

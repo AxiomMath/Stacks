@@ -150,9 +150,9 @@ unfolding a composite of forgetful functors, so `rw` and `simp` do not reassocia
 composite in place; `comp_assoc_of_comp_eq` is therefore stated for abstract
 morphisms of `H`.
 
-Stacks 05SU is not formalized as a statement in this project, and only its definedness half for `n = 1` is used
-here; it is obtained from Stacks 05SC and the contractible triangle rather than by transporting
-essential constancy along the shift of index categories, which is the source's argument
+Stacks 05SU is not formalized as a statement in this project, and only its definedness half for
+`n = 1` is used here; it is obtained from Stacks 05SC and the contractible triangle rather than by
+transporting essential constancy along the shift of index categories, which is the source's argument
 (`mem_shift_iff`).
 
 ## References
@@ -611,7 +611,7 @@ private lemma inverseImage_isCompatibleWithShift (hW : W.IsSaturated) :
     have h : W ((shiftFunctor E.FullSubcategory a ⋙ E.ι).map f) ↔
         W ((E.ι ⋙ shiftFunctor C a).map f) :=
       W.arrow_mk_iso_iff (Arrow.isoOfNatIso (E.ι.commShiftIso a) (Arrow.mk f))
-    show W (E.ι.map ((shiftFunctor E.FullSubcategory a).map f)) ↔ W (E.ι.map f)
+    change W (E.ι.map ((shiftFunctor E.FullSubcategory a).map f)) ↔ W (E.ι.map f)
     exact h.trans (MorphismProperty.IsCompatibleWithShift.iff W (E.ι.map f) a)
 
 /-- **Stacks 05SE(5)**, second half: `S_ℰ` is compatible with the triangulated structure of `ℰ`.
@@ -674,9 +674,9 @@ private lemma full_and_faithful_of_lifting
     refine ⟨g.map LE (Localization.inverts LE (W.inverseImage E.ι)), ?_⟩
     rw [← cancel_mono (Φ.map (LE.map g.s)), ← Functor.map_comp,
       MorphismProperty.LeftFraction.map_comp_map_s, hmap, hmap]
-    show e.hom.app X₁ ≫ L.map ψ.f ≫ _ = _
+    change e.hom.app X₁ ≫ L.map ψ.f ≫ _ = _
     rw [← MorphismProperty.LeftFraction.map_comp_map_s ψ L (Localization.inverts L W), ← hψ]
-    show _ = φ ≫ e.hom.app X₂ ≫ L.map ψ.s ≫ _
+    change _ = φ ≫ e.hom.app X₂ ≫ L.map ψ.s ≫ _
     simp
   · refine Functor.faithful_of_comp_of_hasLeftCalculusOfFractions (L := LE)
       (W := W.inverseImage E.ι) (F := Φ) fun {X₁ X₂} f g hfg => ?_

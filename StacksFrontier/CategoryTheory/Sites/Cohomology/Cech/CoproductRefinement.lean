@@ -64,7 +64,7 @@ noncomputable def coproductRefinement {C : Type u} [Category.{v} C]
   h₀ i := Sigma.ι E.X i
   w₀ i := by
     simp only [PreZeroHypercover.singleton_f, Category.comp_id]
-    exact Sigma.ι_desc E.f i
+    exact Sigma.ι_comp_desc E.f i
 
 section CechComparison
 
@@ -120,7 +120,7 @@ private theorem nonempty_isColimit_powerCofan [FinitaryPreExtensive C]
     refine ⟨Cofan.IsColimit.mk _ (fun s ↦ (e default).inv ≫ s.inj default) ?_ ?_⟩
     · intro s i
       obtain rfl : i = default := Subsingleton.elim _ _
-      show (e default).hom ≫ (e default).inv ≫ s.inj default = _
+      change (e default).hom ≫ (e default).inv ≫ s.inj default = _
       simp
     · intro s m hm
       have h := hm default
@@ -172,7 +172,7 @@ private theorem nonempty_isColimit_powerCofan [FinitaryPreExtensive C]
 and whose vertex is the induced morphism from their coproduct. -/
 private noncomputable def coproductOverCofan {T : C} (E : PreZeroHypercover.{w} T)
     [HasCoproduct E.X] : Cofan (fun i ↦ Over.mk (E.f i)) :=
-  Cofan.mk (Over.mk (Sigma.desc E.f)) (fun i ↦ Over.homMk (Sigma.ι E.X i) (Sigma.ι_desc E.f i))
+  Cofan.mk (Over.mk (Sigma.desc E.f)) (fun i ↦ Over.homMk (Sigma.ι E.X i) (Sigma.ι_comp_desc E.f i))
 
 attribute [local implicit_reducible] coproductOverCofan
 
@@ -198,11 +198,11 @@ private theorem cechProductMap_coproduct {T : C} (E : PreZeroHypercover.{w} T)
       ∏ᶜ (fun _ : Fin (n + 1) ↦ Over.mk (Sigma.desc E.f)) :=
     Pi.lift (fun a ↦ Over.homMk
       ((Pi.π (fun b ↦ Over.mk (E.f (i b))) a).left ≫ Sigma.ι E.X (i a)) (by
-        show ((Pi.π (fun b ↦ Over.mk (E.f (i b))) a).left ≫
+        change ((Pi.π (fun b ↦ Over.mk (E.f (i b))) a).left ≫
           Sigma.ι E.X (i a)) ≫ Sigma.desc E.f = Q.hom ≫ 𝟙 T
-        rw [Category.assoc, Sigma.ι_desc, Category.comp_id]
+        rw [Category.assoc, Sigma.ι_comp_desc, Category.comp_id]
         exact Over.w (Pi.π (fun b ↦ Over.mk (E.f (i b))) a)))
-  show m.left = _
+  change m.left = _
   have hm : e.inv ≫ m = Limits.Pi.map (fun a ↦ (coproductOverCofan E).inj (i a)) := by
     apply Pi.hom_ext
     intro a
@@ -309,7 +309,7 @@ private theorem nonempty_isColimit_powerCofan'
     refine ⟨Cofan.IsColimit.mk _ (fun s ↦ (e default).inv ≫ s.inj default) ?_ ?_⟩
     · intro s i
       obtain rfl : i = default := Subsingleton.elim _ _
-      show (e default).hom ≫ (e default).inv ≫ s.inj default = _
+      change (e default).hom ≫ (e default).inv ≫ s.inj default = _
       simp
     · intro s m hm
       have h := hm default

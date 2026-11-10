@@ -350,8 +350,8 @@ why.
    left exactness of `f_*` applies to — and `closedSectionMap` its functoriality in the module.
    The universal property restated as
    `(A[S] ⟶ Q) ≃ ∀ i, (degree-i sections of S) ⟶ (closed degree-i sections of Q)` is
-   `SheafOfModules.freeDGModuleHomEquiv` of
-   `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/FreeDifferentialGradedModuleClosedSections.lean`,
+   `SheafOfModules.freeDGModuleHomEquiv` of the module
+   `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.FreeDifferentialGradedModuleClosedSections`,
    and its naturality in `Q` is `freeDGModuleHomToClosed_comp` and
    `freeDGModuleHomEquiv_symm_comp`; `SheafOfModules.isoFreeDGModuleOfNatEquiv` turns such a
    natural bijection into the isomorphism `X ≅ A₁[S₁]` that

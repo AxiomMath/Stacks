@@ -560,7 +560,7 @@ theorem diff_two_defect (E : N (hI := hI) sV tV εbar 2)
     (hE : D.infH sV tV εbar hsV htV hε hb hu (vₗ A' C' 2) E.2 =
       defectH (I := I) (hI := hI) r hrs hrt) :
     (D.infDecalage sV tV εbar hsV htV ε₀ hε₀ hε hb hu hrs hrt hrq).diff 2 E = 0 := by
-  rw [Stacks.Decalage.Decalage.diff_two_apply]
+  rw [Stacks.Decalage.diff_two_apply]
   have h0 : (D.infDecalage sV tV εbar hsV htV ε₀ hε₀ hε hb hu hrs hrt hrq).face 2 0 E =
       infFacePlain sV tV εbar 2 0 E :=
     congrArg (· E) (D.infFace_castSucc sV tV εbar hsV htV hε hb hu hrs hrt 2 0)
@@ -674,7 +674,7 @@ theorem exists_cocycle_of_lift (hcoc : D.IsCocycle) :
       defectH (I := I) (hI := hI) r hrs hrt := Subtype.ext hEq
   obtain ⟨y, hy⟩ := T.exists_diff_eq 1 x
     (D.diff_two_defect sV tV εbar hsV htV hε hb hu ε₀ hε₀ hrs hrt hrq x hx)
-  rw [Stacks.Decalage.Decalage.diff_one_apply] at hy
+  rw [Stacks.Decalage.diff_one_apply] at hy
   refine ⟨_, (liftH hrs hrt ≫ D.infH sV tV εbar hsV htV hε hb hu (vₗ A' C' 1) (neg_mem y.2)).2.1,
     (liftH hrs hrt ≫ D.infH sV tV εbar hsV htV hε hb hu (vₗ A' C' 1) (neg_mem y.2)).2.2,
     D.map_q_comp_infH sV tV εbar hsV htV hε hb hu hrs hrt hrq (neg_mem y.2), ?_⟩

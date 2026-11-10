@@ -75,7 +75,7 @@ abbrev rationalGeometricPoint (x : Spec (.of k) ⟶ X) : GeometricPoint X where
 /-- The geometric point attached to a rational point lies over it. -/
 lemma rationalGeometricPoint_liesOver (x : Spec (.of k) ⟶ X) :
     (rationalGeometricPoint K x).LiesOver (x default) := by
-  show x (Spec.map (CommRingCat.ofHom (algebraMap k K)) default) = x default
+  change x (Spec.map (CommRingCat.ofHom (algebraMap k K)) default) = x default
   exact congrArg _ (Subsingleton.elim _ _)
 
 /-- An automorphism of `K` over `k`, viewed as an endomorphism of the geometric point over a
@@ -113,7 +113,7 @@ lemma smallEtalePointHom_id {s : GeometricPoint X}
   apply GrothendieckTopology.Point.hom_ext
   ext U p
   apply Over.OverMorphism.ext
-  show a.hom ≫ _ = _
+  change a.hom ≫ _ = _
   rw [ha, Category.id_comp]
   rfl
 
@@ -125,7 +125,7 @@ lemma smallEtalePointHom_comp {s t r : GeometricPoint X} (a : GeometricPoint.Hom
   apply GrothendieckTopology.Point.hom_ext
   ext U p
   apply Over.OverMorphism.ext
-  show c.hom ≫ _ = a.hom ≫ b.hom ≫ _
+  change c.hom ≫ _ = a.hom ≫ b.hom ≫ _
   rw [hc, Category.assoc]
 
 end SmallEtalePoint

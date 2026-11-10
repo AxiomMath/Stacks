@@ -146,7 +146,7 @@ def liftBrutal (L : CochainComplex C ℕ) (k : ℕ) {N : CochainComplex C ℕ} (
   HomologicalComplex.subcomplexOfSubobjectsLift L (brutalStep L k) (brutalStep_factors L k) g
     fun n => by
       by_cases hn : k ≤ n
-      · simpa only [brutalStep, if_pos hn] using Subobject.top_factors (g.f n)
+      · simpa only [brutalStep, ite_eq_left hn] using Subobject.top_factors (g.f n)
       · rw [show brutalStep L k n = ⊥ from by simp [brutalStep, hn]]
         exact (Subobject.bot_factors_iff_zero _).2 (hg n (Nat.lt_of_not_le hn))
 
@@ -245,11 +245,11 @@ such pair has `p < i` or `q < j`, so one of the two tensor factors is the zero s
 summand vanishes. -/
 lemma isZero_truncatedTensorSquare_X (i j n : ℕ) (hn : n < i + j) :
     IsZero ((truncatedTensorSquare B D i j).X n) := by
-  show IsZero ((HomologicalComplex.mapBifunctor (deRhamBrutal B D i) (deRhamBrutal B D j)
+  change IsZero ((HomologicalComplex.mapBifunctor (deRhamBrutal B D i) (deRhamBrutal B D j)
     (sheafTensor.{u, u, u, u, u} A) (ComplexShape.up ℕ)).X n)
   refine HomologicalComplex₂.isZero_total_X_of_isZero _ _ n fun p q hpq => ?_
   have hpq' : p + q = n := hpq
-  show IsZero (((sheafTensor.{u, u, u, u, u} A).obj ((deRhamBrutal B D i).X p)).obj
+  change IsZero (((sheafTensor.{u, u, u, u, u} A).obj ((deRhamBrutal B D i).X p)).obj
     ((deRhamBrutal B D j).X q))
   rcases Nat.lt_or_ge p i with hp | hp
   · exact isZero_tensorFunctor_obj_obj_of_left

@@ -697,7 +697,7 @@ theorem isCaseOne_or_of_cubic_chart [IsDomain C] [IsNoetherianRing C] [IsIntegra
     have hloc' := exists_polynomial_of_mvPolynomial φ ev hs hloc
     have hHeval : (cubicChartPoly b ev).eval₂ φ v =
         MvPolynomial.eval₂ φ (fun i => (ev i).eval₂ φ v) P := by
-      simp only [cubicChartPoly, hP, Polynomial.eval₂_finset_sum, Polynomial.eval₂_mul,
+      simp only [cubicChartPoly, hP, Polynomial.eval₂_finsetSum, Polynomial.eval₂_mul,
         Polynomial.eval₂_C, MvPolynomial.eval₂_sum, MvPolynomial.eval₂_mul, MvPolynomial.eval₂_C,
         MvPolynomial.eval₂_X]
     have hG : G - (cubicChartPoly b ev).eval₂ φ v ∈ Ideal.span {t, Y 2} := by
@@ -932,7 +932,7 @@ theorem isUnitSpecialCoordinate_of_isSpecialCoordinate (S : RationalDoublePointS
     algebraMap_mul_affineBlowupFraction _ _ _ (hxm i)
   have hfr0 : fr 0 = 1 := by
     apply Subtype.ext
-    show IsLocalization.mk' (Localization.Away (x 0)) (x 0)
+    change IsLocalization.mk' (Localization.Away (x 0)) (x 0)
       ⟨x 0, Submonoid.mem_powers (x 0)⟩ = 1
     exact IsLocalization.mk'_self' (M := Submonoid.powers (x 0)) (Localization.Away (x 0))
       (x := ⟨x 0, Submonoid.mem_powers (x 0)⟩)
@@ -949,7 +949,7 @@ theorem isUnitSpecialCoordinate_of_isSpecialCoordinate (S : RationalDoublePointS
       ι c * (fr 2 * fr 2)) = t ^ 2 * r' := by
     refine (hreg.left.pow 2) ?_
     simp only [map_add, map_mul, ← hfr', ← ha', hfr0, mul_one] at hr'
-    show t ^ 2 * _ = t ^ 2 * _
+    change t ^ 2 * _ = t ^ 2 * _
     linear_combination hr'
   set u := 1 + t * ι c
   have hW : u * fr 2 ∈ Ideal.span {t} := by
@@ -964,7 +964,7 @@ theorem isUnitSpecialCoordinate_of_isSpecialCoordinate (S : RationalDoublePointS
   have hfrac : affineBlowupAlgebra.fraction (S := Localization.Away (x 0))
       (IsLocalRing.maximalIdeal S.A) (x 0) 1 ⟨x 2, by rw [pow_one]; exact hxm 2⟩ = fr 2 := by
     refine (hreg.left.pow 1) ?_
-    show t ^ 1 * _ = t ^ 1 * _
+    change t ^ 1 * _ = t ^ 1 * _
     rw [affineBlowupAlgebra.algebraMap_pow_mul_fraction]
     simp only [pow_one]
     exact (hfr' 2).symm

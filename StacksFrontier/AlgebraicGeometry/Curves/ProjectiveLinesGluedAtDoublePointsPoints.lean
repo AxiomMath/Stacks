@@ -70,11 +70,11 @@ theorem isMaximal_span_X_sub_C (a : k) : (Ideal.span {X - C a} : Ideal k[X]).IsM
 /-- The image of the `k`-point `x = a` is the point `(x - a)` of the first chart. -/
 theorem projectiveLineXChartPoint_apply (a : k) (z : Spec (.of k)) :
     (projectiveLineXChartPoint a).base z = (projectiveLineXChart k).base (affineLinePointOf a) := by
-  show (projectiveLineXChart k).base
+  change (projectiveLineXChart k).base
     ((Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom a))).base z) = _
   congr 1
   refine PrimeSpectrum.ext ?_
-  show Ideal.comap (Polynomial.evalRingHom a) z.asIdeal = Ideal.span {X - C a}
+  change Ideal.comap (Polynomial.evalRingHom a) z.asIdeal = Ideal.span {X - C a}
   have := z.isPrime
   rw [Ideal.eq_bot_of_prime z.asIdeal, ← RingHom.ker_eq_comap_bot, Polynomial.ker_evalRingHom]
 
@@ -103,7 +103,7 @@ theorem exists_doublePointsToAffineLine_eq (τ : doublePointsScheme k pts) :
     ∃ i, (doublePointsToAffineLine k pts).base τ = affineLinePointOf (pts i) := by
   have hmem : (∏ i, (X - C (pts i)) ^ 2 : k[X]) ∈
       ((doublePointsToAffineLine k pts).base τ).asIdeal := by
-    show doublePointsMk pts _ ∈ τ.asIdeal
+    change doublePointsMk pts _ ∈ τ.asIdeal
     have : doublePointsMk pts (∏ i, (X - C (pts i)) ^ 2) = 0 := by
       funext i
       rw [doublePointsMk_apply, Pi.zero_apply, Ideal.Quotient.eq_zero_iff_mem, doublePointIdeal,
@@ -177,7 +177,7 @@ theorem gluedCurve_jointly_surjective (p : gluedCurve k pts hpts) :
     ((gluedCurveIsoPushoutScheme k pts hpts).inv.base p)
   have hp : p = (gluedCurveIsoPushoutScheme k pts hpts).hom.base
       ((gluedCurveIsoPushoutScheme k pts hpts).inv.base p) := by
-    show p = ((gluedCurveIsoPushoutScheme k pts hpts).inv ≫
+    change p = ((gluedCurveIsoPushoutScheme k pts hpts).inv ≫
       (gluedCurveIsoPushoutScheme k pts hpts).hom).base p
     rw [Iso.inv_hom_id]
     rfl

@@ -103,7 +103,7 @@ arrow scheme do. -/
 theorem contains_reachSource (B : BigFppfSite.{u}) {S : Scheme.{u}} {G : GroupoidScheme S}
     {U' : Over S} (g : U' ⟶ G.objects) (hU' : B.Contains U'.left)
     (hR : B.Contains G.arrows.left) : B.Contains (pullback g G.target).left := by
-  show (pullback g G.target).left.size < B.cutoff
+  change (pullback g G.target).left.size < B.cutoff
   rw [Scheme.size_congr (reachSourceIso g)]
   exact Scheme.size_pullback_lt _ _ hU' hR
 

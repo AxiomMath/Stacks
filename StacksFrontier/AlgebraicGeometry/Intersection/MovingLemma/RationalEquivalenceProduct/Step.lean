@@ -227,7 +227,7 @@ theorem exists_step (r s : ℕ) {ι : Type*} [Fintype ι]
         rw [C.isIrreducible.closure_genericPoint C.isClosed'] at hm
         exact hne ⟨y, hm.1.1⟩
       rw [hγ0]
-      show cycleIntersectionProduct _ _ 0 ∈ _
+      change cycleIntersectionProduct _ _ 0 ∈ _
       rw [cycleIntersectionProduct_zero_right]
       exact AddSubgroup.zero_mem _
     obtain ⟨y₀, hy₀⟩ := hne
@@ -291,7 +291,7 @@ theorem exists_step (r s : ℕ) {ι : Type*} [Fintype ι]
       (projectiveSpaceOfModuleToSpec k (Fin (N + 1) → k)) (isRegular_projectiveSpaceOfModule k _)
       hPd iX hn j₀ p hp hY C hCprop hrdC y₀ hy₀ Cfam hzero hfam hrdfam
     rw [hγeq]
-    show cycleIntersectionProductRightHom (torFormulaSubvarietyProductTotal
+    change cycleIntersectionProductRightHom (torFormulaSubvarietyProductTotal
       (fieldChowSituation k) p hY ((r : ℤ) + s - n)) α _ ∈ _
     rw [map_sum]
     refine AddSubgroup.sum_mem _ fun e he => ?_

@@ -181,7 +181,7 @@ theorem exists_mk_lt_cutoff_isLimit_closedSubspaces (Y : AlgebraicSpaces B S hS)
   have hκZ' : ∀ J : I', κ J.2.choose = J.1 := fun J => J.2.choose_spec
   have hZ' : ∀ ⦃J J' : I'⦄, J ≤ J' → (Z' J').1 ≤ (Z' J).1 := fun J J' hJJ' =>
     le_of_chartKer_le_of_atlas B S hS Y p hpS hpE _ _ (by
-      show κ J.2.choose ≤ κ J'.2.choose
+      change κ J.2.choose ≤ κ J'.2.choose
       rw [hκZ', hκZ']
       exact hJJ')
   have hZ'eq : ∀ i, Z' ⟨κ i, i, rfl⟩ = Z i := fun i =>
@@ -202,7 +202,7 @@ theorem exists_mk_lt_cutoff_isLimit_closedSubspaces (Y : AlgebraicSpaces B S hS)
     (Cardinal.mk_subtype_le _).trans_lt hcard,
     fun _ _ g => isClosedImmersion_closedSubspaceDiagram_map B S hS Z' hZ' g,
     fun J => hfp _, fun J => ?_, ⟨IsLimit.extendIso (Subfunctor.toRange f) hlim'⟩⟩
-  show (Subfunctor.toRange f ≫ Subfunctor.homOfLe (hle' J)) ≫ (Z' J).1.ι = f
+  change (Subfunctor.toRange f ≫ Subfunctor.homOfLe (hle' J)) ≫ (Z' J).1.ι = f
   rw [Category.assoc, Subfunctor.homOfLe_ι, Subfunctor.toRange_ι]
 
 end AlgebraicGeometry.Space

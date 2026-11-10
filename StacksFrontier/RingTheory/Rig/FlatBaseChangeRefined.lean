@@ -178,7 +178,7 @@ public theorem flatAdicFiniteType_isStableUnderBaseChange' :
   have hBweak := isCountablyWeaklyAdmissible_of_isAdic hB
   have hred : Rig.IsFiniteTypeOnReductions (algebraMap B A) hBA :=
     Rig.isFiniteTypeOnReductions_of_isTaut_of_isTopologicallyOfFiniteType (algebraMap B A) hBA
-      hBweak.1.1 (RingHom.isTaut_of_isAdic (algebraMap B A) hBA hR.1) hR.2
+      hBweak.1.1 (RingHom.isTaut_of_isAdic (algebraMap B A) hR.1) hR.2
   have hstage (J : Ideal C) (_ : IsIdealOfDefinition J) (hJ : _root_.IsAdic J) (n : ℕ) :
       IsNoetherianRing (A ⊗[B] (C ⧸ J ^ n)) :=
     isNoetherianRing_tensor_quotient_of_isAdic_of_isTopologicallyOfFiniteType hBC hR.1 hR.2

@@ -103,7 +103,7 @@ public lemma δ₀_toOrderHom_apply (n : SimplexCategory) (i : Fin (n.len + 1)) 
 public lemma δ₀_comp_shift_map {n m : SimplexCategory} (f : n ⟶ m) :
     δ₀ n ≫ shift.map f = f ≫ δ₀ m := by
   ext i : 3
-  show (shift.map f).toOrderHom ((δ₀ n).toOrderHom i) = (δ₀ m).toOrderHom (f.toOrderHom i)
+  change (shift.map f).toOrderHom ((δ₀ n).toOrderHom i) = (δ₀ m).toOrderHom (f.toOrderHom i)
   rw [δ₀_toOrderHom_apply, shift_map_apply_succ, δ₀_toOrderHom_apply]
 
 /-- The new initial vertex is a natural transformation from the constant functor `⦋0⦌`
@@ -140,13 +140,13 @@ public lemma dec_map (X : SimplicialObject C) {n m : SimplexCategoryᵒᵖ} (f :
 
 public lemma dec_δ (X : SimplicialObject C) {n : ℕ} (i : Fin (n + 2)) :
     (dec X).δ i = X.δ i.succ := by
-  show X.map (SimplexCategory.shift.map (SimplexCategory.δ i)).op = _
+  change X.map (SimplexCategory.shift.map (SimplexCategory.δ i)).op = _
   rw [SimplexCategory.shift_map_δ]
   rfl
 
 public lemma dec_σ (X : SimplicialObject C) {n : ℕ} (i : Fin (n + 1)) :
     (dec X).σ i = X.σ i.succ := by
-  show X.map (SimplexCategory.shift.map (SimplexCategory.σ i)).op = _
+  change X.map (SimplexCategory.shift.map (SimplexCategory.σ i)).op = _
   rw [SimplexCategory.shift_map_σ]
   rfl
 

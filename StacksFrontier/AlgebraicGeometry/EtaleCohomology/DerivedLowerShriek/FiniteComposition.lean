@@ -86,9 +86,11 @@ to `etaleModuleDirectImageToRestrictionDirectImageExtensionByZero`. -/
 def etaleModuleExtensionByZeroDirectImageMap :
     etaleModuleDirectImage.{u, 0} Λ f ⋙ etaleModuleExtensionByZero.{u, 0} Λ j ⟶
       etaleModuleExtensionByZero.{u, 0} Λ j' ⋙ etaleModuleDirectImage.{u, 0} Λ fb :=
-  Functor.whiskerRight (etaleModuleDirectImageToRestrictionDirectImageExtensionByZero Λ j j' f fb sq)
+  Functor.whiskerRight
+      (etaleModuleDirectImageToRestrictionDirectImageExtensionByZero Λ j j' f fb sq)
       (etaleModuleExtensionByZero.{u, 0} Λ j) ≫
-    Functor.whiskerLeft (etaleModuleExtensionByZero.{u, 0} Λ j' ⋙ etaleModuleDirectImage.{u, 0} Λ fb)
+    Functor.whiskerLeft
+      (etaleModuleExtensionByZero.{u, 0} Λ j' ⋙ etaleModuleDirectImage.{u, 0} Λ fb)
       (etaleModuleExtensionByZeroAdj.{u, 0} Λ j).counit
 
 /-- The components of `etaleModuleExtensionByZeroDirectImageMap` are the adjoints of those of
@@ -330,7 +332,8 @@ def derivedLowerShriekCompIsoOfIsFinite [IsFinite f] [IsSeparated g] [LocallyOfF
   haveI : IsFinite (CompactificationOf.exists_isFinite_toBase (f := f) jg).choose.toBase :=
     (CompactificationOf.exists_isFinite_toBase (f := f) jg).choose_spec
   derivedLowerShriekCompactificationIso (f ≫ g) j
-      (CompactificationOf.compOver jg (CompactificationOf.exists_isFinite_toBase (f := f) jg).choose)
+      (CompactificationOf.compOver jg
+        (CompactificationOf.exists_isFinite_toBase (f := f) jg).choose)
       Λ ≪≫
     derivedLowerShriekCompOverIsoOfIsFinite Λ f g jg _
 

@@ -161,7 +161,7 @@ morphism of the presenting scheme. -/
 theorem chartSchemeMap_relationHom_comp_toBase (Q : Presentation B S hS Y.1 Y.2) :
     chartSchemeMap (presentationRelationTargetHom Q) ≫ B.inclusion.map Q.U.hom =
       chartSchemeMap (presentationRelationSourceHom Q) ≫ B.inclusion.map Q.U.hom := by
-  show B.inclusion.map Q.target.left ≫ B.inclusion.map Q.U.hom =
+  change B.inclusion.map Q.target.left ≫ B.inclusion.map Q.U.hom =
     B.inclusion.map Q.source.left ≫ B.inclusion.map Q.U.hom
   rw [← Functor.map_comp, ← Functor.map_comp, Over.w Q.target, Over.w Q.source]
 
@@ -201,7 +201,7 @@ theorem chartImmersion_comp_presentationThickeningToBase :
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (· ≫ B.inclusion.map C.Q.U.hom)
     (chartImmersion_comp_chartMapGen B S hS E C.diagram)).trans ?_
-  show B.inclusion.map C.α.left ≫ B.inclusion.map C.Q.U.hom = _
+  change B.inclusion.map C.α.left ≫ B.inclusion.map C.Q.U.hom = _
   rw [← Functor.map_comp, Over.w C.α]
 
 /-- The structure morphism of the thickened relation chart extends that of the relation
@@ -211,7 +211,7 @@ theorem chartImmersion_comp_relationThickeningToBase :
       B.inclusion.map C.P.R.hom := by
   rw [relationThickeningToBase, ← Category.assoc, chartImmersion_comp_chartThickeningMap,
     Category.assoc, chartImmersion_comp_presentationThickeningToBase]
-  show B.inclusion.map C.P.source.left ≫ B.inclusion.map C.P.U.hom = _
+  change B.inclusion.map C.P.source.left ≫ B.inclusion.map C.P.U.hom = _
   rw [← Functor.map_comp, Over.w C.P.source]
 
 end SquareZeroExtension

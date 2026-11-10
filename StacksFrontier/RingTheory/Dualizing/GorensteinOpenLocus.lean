@@ -157,7 +157,7 @@ private theorem gorenstein_on_basicOpen_of_trivialization
     (algebraMap A S) ψ).app K'
   have hcomp : ψ.comp (algebraMap A S) = algebraMap A B := by
     ext a
-    show ψ (algebraMap A S a) = algebraMap A (Localization.AtPrime q.asIdeal) a
+    change ψ (algebraMap A S a) = algebraMap A (Localization.AtPrime q.asIdeal) a
     simp [ψ, localizationAwayToAtPrime]
   rw [hcomp] at ecomp
   let DB := CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, v}

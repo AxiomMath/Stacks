@@ -29,7 +29,8 @@ point where its comparison morphism is available: once `𝒪_U`-module map
 
 ## Implementation notes
 
-`W_x` is taken as in `StacksFrontier.AlgebraicGeometry.CoherentPushforwardCriteria.ClosureSubscheme`:
+`W_x` is taken as in
+`StacksFrontier.AlgebraicGeometry.CoherentPushforwardCriteria.ClosureSubscheme`:
 the closed subscheme cut out by the vanishing ideal of `closure {x}`. That file's
 `Scheme.IdealSheafData.isIntegral_subscheme_vanishingIdeal_closure` and
 `Scheme.IdealSheafData.subschemeι_genericPoint_vanishingIdeal_closure` are what identify it as

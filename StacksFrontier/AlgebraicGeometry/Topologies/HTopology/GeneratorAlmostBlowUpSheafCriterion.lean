@@ -103,8 +103,8 @@ prescribing a shape for the upper-left corner as well.
 **What the characterization below still assumes.**  The sufficiency direction of Stacks 0EVF is
 available: it is
 `AlgebraicGeometry.BigHOver.isSheaf_of_zariski_and_affineFlatProperFP_and_affineAlmostBlowUp` in
-`StacksFrontier.AlgebraicGeometry.Topologies.HTopology.AlmostBlowUpSheafInduction`, proved there from
-`AlgebraicGeometry.finitePresentationHasAlmostBlowUpFlattening`, and it is restated here as the
+`StacksFrontier.AlgebraicGeometry.Topologies.HTopology.AlmostBlowUpSheafInduction`, proved there
+from `AlgebraicGeometry.finitePresentationHasAlmostBlowUpFlattening`, and it is restated here as the
 `Prop` `AlgebraicGeometry.AffineAlmostBlowUpHSheafCriterion` with
 `AlgebraicGeometry.affineAlmostBlowUpHSheafCriterion` proving it.  What the characterization below
 still assumes is the reduction of condition (3) of Stacks 0EVF to the two shapes — the induction

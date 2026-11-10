@@ -190,6 +190,12 @@ public def derivedRationalPointFrobenius (hcard : Fintype.card k = p ^ q)
   derivedEtaleModuleStalkEndo B X Λ (Stacks.Frobenius.rationalGeometricPoint kbar x)
     (rationalPointFrobeniusStalkFunctor.{u, w, r} B X Λ kbar p q hcard x)
 
+omit [∀ (S T : B.Scheme) (g : T ⟶ S),
+    ((AlgebraicGeometry.smallEtaleBaseChange B g).sheafPushforwardContinuous (ModuleCat.{w} Λ)
+      (SmallEtale.topology B S.obj S.property)
+      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
+  [∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V) (ModuleCat.{w} Λ)] in
 /-- On the class of a cochain complex of coefficient sheaves the Frobenius action on the derived
 stalk is the degreewise geometric Frobenius of the stalk complex. -/
 public theorem derivedRationalPointFrobenius_app_Q (hcard : Fintype.card k = p ^ q)

@@ -312,7 +312,7 @@ theorem isClosedImmersion_app_mapToSchemeOfWeakIdealColimitPresentation
       ((BigAffineFppf.inclusion B S hS).map c) (weakIdealStagePoint B S hS A P K)
     rw [hfac] at h
     rw [h]
-    show _ ≫ (Sheaf.sectionEquiv (BigFppfOver.topology B S hS)
+    change _ ≫ (Sheaf.sectionEquiv (BigFppfOver.topology B S hS)
       (weakIdealStagePoint B S hS A P K ≫ weakIdealToSpecPoints B S hS A P)).down = _
     rw [weakIdealToSpecPoints_comp_stage]
     rfl

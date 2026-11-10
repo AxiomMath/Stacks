@@ -97,7 +97,7 @@ theorem isoSymmTrans_of_trans_eq {𝒞 : Type*} [Category 𝒞] {W X Y Z Z' : �
     e₂.symm ≪≫ e₁.symm ≪≫ e₄ = e₃ ≪≫ e₅.symm := by
   have hh : e₁.hom ≫ e₂.hom ≫ e₃.hom = e₄.hom ≫ e₅.hom := congrArg Iso.hom h
   refine Iso.ext ?_
-  show e₂.inv ≫ e₁.inv ≫ e₄.hom = e₃.hom ≫ e₅.inv
+  change e₂.inv ≫ e₁.inv ≫ e₄.hom = e₃.hom ≫ e₅.inv
   rw [Iso.eq_comp_inv, Category.assoc, Category.assoc, ← hh]
   simp
 

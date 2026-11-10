@@ -90,10 +90,10 @@ theorem weierstrassSections_fibre (k : Fin 3) :
     rfl
   rw [← hres]
   fin_cases k
-  · show mulSections _ _ _ = E.restrictSection _ (1 + 2) (mulSections _ _ _)
+  · change mulSections _ _ _ = E.restrictSection _ (1 + 2) (mulSections _ _ _)
     rw [E.restrictSection_mulSections, E.restrictSection_zeroSection]
   · rfl
-  · show PointedFamily.cube _ _ = E.restrictSection _ 3 (PointedFamily.cube _ _)
+  · change PointedFamily.cube _ _ = E.restrictSection _ 3 (PointedFamily.cube _ _)
     rw [E.restrictSection_cube, E.restrictSection_zeroSection]
 
 variable {E C x y}

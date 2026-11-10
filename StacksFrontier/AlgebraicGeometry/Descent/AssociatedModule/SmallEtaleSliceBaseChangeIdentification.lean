@@ -108,8 +108,8 @@ def pullbackFstCompMapSndIso :
       apply Over.OverMorphism.ext
       dsimp
       refine pullback.hom_ext ?_ ?_
-      · simp [pullback.lift_fst]
-      · simp [pullback.lift_snd, pullback.lift_snd_assoc])
+      · simp
+      · simp)
 
 /-- The component of `CategoryTheory.Over.pullbackFstCompMapSndIso` at `T`, on underlying objects,
 is the pasting comparison `CategoryTheory.Limits.pullbackRightPullbackFstIso`. -/

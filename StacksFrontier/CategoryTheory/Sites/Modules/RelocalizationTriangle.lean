@@ -64,7 +64,7 @@ theorem relocalizationRingedToposHom_fSharpInverseImage :
     (X.relocalizationRingedToposHom f).fSharpInverseImage =
       (restrictionCommRingIso (X.J.over V) (X.J.over U) (Over.map f) (X.O.over U)).hom ≫
         (X.O.pushforwardOverMapIso f).hom := by
-  show ((commRingImageAdjunction (X.overMapMorphismOfTopoi f)).homEquiv _ _).symm
+  change ((commRingImageAdjunction (X.overMapMorphismOfTopoi f)).homEquiv _ _).symm
       ((commRingImageAdjunction (X.overMapMorphismOfTopoi f)).homEquiv _ _
         (X.overMapInverseImageCommRingIso f).hom) = _
   rw [Equiv.symm_apply_apply]

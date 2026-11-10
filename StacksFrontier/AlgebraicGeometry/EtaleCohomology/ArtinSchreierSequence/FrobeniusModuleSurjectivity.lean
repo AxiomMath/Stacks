@@ -107,7 +107,7 @@ theorem generatingSections_eq_sum
   have hx := congrArg (fun z => σ.π.val.app U z) hy
   rw [map_sum] at hx
   rw [show σ.π.val.app U y = x by
-    show ((inv σ.π ≫ σ.π).val.app U) x = x
+    change ((inv σ.π ≫ σ.π).val.app U) x = x
     simp] at hx
   exact hx.symm
 
@@ -139,7 +139,7 @@ private theorem finite_generatingSections_span
       (a (e i)) (1 : R.obj.obj U)
     rw [← h]
     congr 1
-    show a (e i) = a (e i) * (1 : R.obj.obj U)
+    change a (e i) = a (e i) * (1 : R.obj.obj U)
     rw [mul_one]
   exact key
 
@@ -189,7 +189,7 @@ private theorem etale_family_mem
   obtain ⟨i⟩ := h
   let g : G.X i ⟶ E.X (β i) := ObjectProperty.homMk
     (Over.homMk (eqToHom (hX i)) (by
-      show eqToHom (hX i) ≫ (E.X (β i)).obj.hom = R.f i ≫ X.obj.hom
+      change eqToHom (hX i) ≫ (E.X (β i)).obj.hom = R.f i ≫ X.obj.hom
       rw [hf i]
       simp only [Category.assoc]
       congr 1
@@ -277,7 +277,7 @@ private theorem frobeniusEquationAlgebra_spec_surjective
   let q : PrimeSpectrum Q := ⟨RingHom.ker φ, RingHom.ker_isPrime φ⟩
   refine ⟨q, ?_⟩
   apply PrimeSpectrum.ext
-  show (RingHom.ker φ).comap (algebraMap A Q) = P.asIdeal
+  change (RingHom.ker φ).comap (algebraMap A Q) = P.asIdeal
   ext z
   simp only [Ideal.mem_comap, RingHom.mem_ker]
   rw [show φ (algebraMap A Q z) = f z from ?_]
@@ -310,12 +310,12 @@ private theorem exists_etale_roots
   let q : Q →+* Γ(Y, ⊤) :=
     ((Scheme.ΓSpecIso (.of Q)).inv ≫ (pullback.fst g X.toSpecΓ).appTop).hom
   have hc : (CommRingCat.ofHom (algebraMap A Q)) ≫ CommRingCat.ofHom q = f.appTop := by
-    show CommRingCat.ofHom (algebraMap A Q) ≫ (Scheme.ΓSpecIso (.of Q)).inv ≫
+    change CommRingCat.ofHom (algebraMap A Q) ≫ (Scheme.ΓSpecIso (.of Q)).inv ≫
       (pullback.fst g X.toSpecΓ).appTop = f.appTop
     rw [← Category.assoc, Scheme.ΓSpecIso_inv_naturality, Category.assoc,
       ← Scheme.Hom.comp_appTop, pullback.condition, Scheme.Hom.comp_appTop,
       Scheme.toSpecΓ_appTop]
-    show (Scheme.ΓSpecIso A).inv ≫ (Scheme.ΓSpecIso A).hom ≫ f.appTop = _
+    change (Scheme.ΓSpecIso A).inv ≫ (Scheme.ΓSpecIso A).hom ≫ f.appTop = _
     rw [Iso.inv_hom_id_assoc]
   have hq (c : A) : q (algebraMap A Q c) = f.appTop c := ConcreteCategory.congr_hom hc c
   let x (i : Fin n) : Γ(Y, ⊤) := q (Ideal.Quotient.mk _ (MvPolynomial.X i))
@@ -394,7 +394,7 @@ private theorem imageSieve_mem_of_span
   have hD : Sieve.generate D.presieve₀ ∈ SmallEtale.topology B S hS U := by
     apply etale_family_mem B S hS D
     let P : MorphismProperty Scheme := fun {X Y} f => Etale f
-    show Presieve.ofArrows (fun _ : PUnit.{u + 2} => Y) (fun _ => f) ∈
+    change Presieve.ofArrows (fun _ : PUnit.{u + 2} => Y) (fun _ => f) ∈
       Scheme.precoverage P X
     rw [Scheme.ofArrows_mem_precoverage_iff]
     exact ⟨fun x => ⟨PUnit.unit, f.surjective x⟩, fun _ => hf⟩
@@ -402,7 +402,7 @@ private theorem imageSieve_mem_of_span
   apply (Sieve.generate_le_iff _ _).2
   intro W g' hg'
   obtain ⟨i⟩ := hg'
-  show ∃ y : E.val.obj (op V), (F - 𝟙 _).hom.app (op V) y = E.val.map g.op z
+  change ∃ y : E.val.obj (op V), (F - 𝟙 _).hom.app (op V) y = E.val.map g.op z
   let s' (j : Fin n) : E.val.obj (op V) := E.val.map g.op (s j)
   have hn (x : E.val.obj (op U)) :
       SheafOfModules.sectionsAddHom F (op V) (E.val.map g.op x) =
@@ -415,7 +415,7 @@ private theorem imageSieve_mem_of_span
     simp only [E.val.map_smul]
     rfl
   refine ⟨∑ j, t j • s' j, ?_⟩
-  show G (∑ j, t j • s' j) - (∑ j, t j • s' j) = E.val.map g.op z
+  change G (∑ j, t j • s' j) - (∑ j, t j • s' j) = E.val.map g.op z
   rw [frobenius_sub_id_sum (A := AY) p n G (hF V) s'
     (fun j i => f.appTop (a j i)) (fun i => f.appTop (b i)) t ha' ht, hb, map_sum]
   simp only [E.val.map_smul]

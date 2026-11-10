@@ -103,7 +103,7 @@ private theorem exists_finite_extension_isSolution_of_formallySmooth_algebraicEx
   have : IsScalarTower R C T := IsScalarTower.of_algebraMap_eq fun x => (hcomm x).symm
   have : IsScalarTower A R C := IsScalarTower.of_algebraMap_eq fun a => by
     apply Subtype.val_injective
-    show algebraMap A T a = (fE (algebraMap A R a)).val
+    change algebraMap A T a = (fE (algebraMap A R a)).val
     rw [hcomm]
     exact algebraMap_reduction_eq_includeRight A K L E a
   have : FaithfulSMul A E := faithfulSMul_of_isFractionRing_tower A K E
@@ -175,9 +175,9 @@ private theorem exists_finite_extension_isSolution_of_formallySmooth_algebraicEx
     apply RingHom.ext
     intro x
     apply Subtype.ext
-    show (fE (a x)).val = (b (fF x)).val
+    change (fE (a x)).val = (b (fF x)).val
     rw [hcomm]
-    show _ = (ReducedTensorTower.reductionMap
+    change _ = (ReducedTensorTower.reductionMap
       (Algebra.TensorProduct.map (.id L L) F.val)) (fF x).val
     have hx := hcommF x
     change (fF x).val = _ at hx
@@ -229,7 +229,7 @@ private theorem exists_finite_extension_isSolution_of_formallySmooth_algebraicEx
         (nonZeroDivisors RF) j Subtype.val_injective Subtype.val_injective
         (e.toAlgHom.restrictScalars F) e.injective (jE.comp ψ.toRingHom) (by
           intro r c
-          show (fE r).val * (b c).val = e ((r : E) ⊗ₜ[F] c.val)
+          change (fE r).val * (b c).val = e ((r : E) ⊗ₜ[F] c.val)
           rw [hcomm]
           have ht : (r : E) ⊗ₜ[F] c.val = (r : E) • (1 ⊗ₜ[F] c.val) := by
             simp [TensorProduct.smul_tmul']
@@ -241,12 +241,11 @@ private theorem exists_finite_extension_isSolution_of_formallySmooth_algebraicEx
   have hsurjψ : Function.Surjective ψ := by
     apply surjective_of_adjoin_eq_top S C (R ⊗[RF] CF) ψ.toRingHom (Set.range b) hgenF
     · intro s
-      induction s using TensorProduct.induction_on with
-      | zero => exact ⟨0, map_zero ψ⟩
+      induction s using TensorProduct.inductionOn with
       | add x y hx hy => simpa only [map_add] using ψ.toRingHom.range.add_mem hx hy
       | tmul r c =>
         refine ⟨r ⊗ₜ[RF] algebraMap B CF c, ?_⟩
-        show r • b (algebraMap B CF c) = r • algebraMap B C c
+        change r • b (algebraMap B CF c) = r • algebraMap B C c
         rw [b.commutes]
     · rintro _ ⟨c, rfl⟩
       exact ⟨1 ⊗ₜ[RF] c, by change (1 : R) • b c = b c; rw [one_smul]⟩
@@ -254,7 +253,7 @@ private theorem exists_finite_extension_isSolution_of_formallySmooth_algebraicEx
   have : FaithfulSMul A F := faithfulSMul_of_isFractionRing_tower A K F
   have : IsScalarTower A RF CF := IsScalarTower.of_algebraMap_eq fun x => by
     apply Subtype.val_injective
-    show algebraMap A TF x = (fF (algebraMap A RF x)).val
+    change algebraMap A TF x = (fF (algebraMap A RF x)).val
     have hx := hcommF (algebraMap A RF x)
     change (fF (algebraMap A RF x)).val = _ at hx
     rw [hx]
@@ -387,7 +386,7 @@ theorem exists_finite_extension_isSolution_of_eppTheorem
     let : SMul A' C := algA'C.toSMul
     have : IsScalarTower A A' C := IsScalarTower.of_algebraMap_eq fun a => by
       apply Subtype.val_injective
-      show algebraMap A T a = C.val (f (algebraMap A A' a))
+      change algebraMap A T a = C.val (f (algebraMap A A' a))
       rw [hcomm]
       exact algebraMap_reduction_eq_includeRight A K L E a
     have hpull (q : Ideal C) [q.IsMaximal] :
@@ -484,10 +483,10 @@ theorem exists_finite_extension_isSolution_of_eppTheorem
       let g₀ : T →ₐ[A'] FractionRing (Localization.AtPrime q.asIdeal) :=
         { toRingHom := algebraMap T (FractionRing (Localization.AtPrime q.asIdeal))
           commutes' := fun a => by
-            show algebraMap T (FractionRing (Localization.AtPrime q.asIdeal))
+            change algebraMap T (FractionRing (Localization.AtPrime q.asIdeal))
               (algebraMap A' T a) = _
             rw [IsScalarTower.algebraMap_apply A' C T]
-            show algebraMap T (FractionRing (Localization.AtPrime q.asIdeal))
+            change algebraMap T (FractionRing (Localization.AtPrime q.asIdeal))
               (algebraMap A' C a).val = _
             rw [hTFcomm]
             congr 1 }
@@ -535,7 +534,7 @@ theorem exists_finite_extension_isSolution_of_eppTheorem
     have : IsScalarTower A E E₁ := IsScalarTower.of_algebraMap_eq fun _ => rfl
     have : IsScalarTower A K E₁ := IsScalarTower.to₁₂₄ A K E E₁
     have : IsScalarTower A A' E₁ := IsScalarTower.of_algebraMap_eq fun a => by
-      show algebraMap E E₁ (algebraMap A E a) = algebraMap A' E₁ (algebraMap A A' a)
+      change algebraMap E E₁ (algebraMap A E a) = algebraMap A' E₁ (algebraMap A A' a)
       exact (IsScalarTower.algebraMap_apply A' E E₁ (algebraMap A A' a)).symm
     let T₁ := (L ⊗[K] E₁) ⧸ nilradical (L ⊗[K] E₁)
     let i : T →ₐ[L] T₁ := ReducedTensorTower.reductionMap
@@ -573,7 +572,7 @@ theorem exists_finite_extension_isSolution_of_eppTheorem
           (FractionRing (Localization.AtPrime q.asIdeal)) g₀
           (Algebra.algebraMapSubmonoid T q.asIdeal.primeCompl) hloc₀
         convert! hloc using 1
-        show q.asIdeal.primeCompl.map (i.toMonoidHom.comp C.val.toMonoidHom) =
+        change q.asIdeal.primeCompl.map (i.toMonoidHom.comp C.val.toMonoidHom) =
           (q.asIdeal.primeCompl.map C.val.toMonoidHom).map i.toMonoidHom
         exact (Submonoid.map_map _ _ _).symm
     have : Algebra.IsAlgebraic K E₁ := Algebra.IsAlgebraic.trans K E E₁
@@ -600,7 +599,8 @@ theorem exists_finite_extension_isSolution_of_eppTheorem
           (Localization.localRingHom (m.comap f₁) m f₁ rfl)
           (IsLocalRing.maximalIdeal (Localization.AtPrime m)) := by
       obtain ⟨q, hq⟩ : ∃ q : P, q.asIdeal = m.comap (algebraMap C C₁) :=
-        ⟨⟨m.comap (algebraMap C C₁), Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := _) m⟩, rfl⟩
+        ⟨⟨m.comap (algebraMap C C₁),
+          Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := _) m⟩, rfl⟩
       let : Algebra E (FractionRing (Localization.AtPrime q.asIdeal)) := hEM q
       have : IsScalarTower A' E (FractionRing (Localization.AtPrime q.asIdeal)) := hA'EM q
       obtain ⟨D, hD⟩ := hcommon q
@@ -636,7 +636,7 @@ theorem exists_finite_extension_isSolution_of_eppTheorem
         apply Set.disjoint_left.mpr
         rintro _ ⟨x, hx, rfl⟩ hxm
         apply hx
-        show x ∈ q.asIdeal
+        change x ∈ q.asIdeal
         rw [hq]
         exact hxm
       apply formallySmoothNAdic_localRingHom_of_isLocalization

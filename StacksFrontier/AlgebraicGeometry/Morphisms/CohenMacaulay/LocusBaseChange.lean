@@ -202,7 +202,7 @@ private theorem isCohenMacaulayLocalRing_stalk_fieldBaseChange {X X' : Scheme.{u
   let _ : Algebra.IsPushout R K₀ A B :=
     (CommRingCat.isPushout_iff_isPushout).mp hPO.flip
   let _ : LocallyOfFiniteType fV := by
-    show LocallyOfFiniteType (f.resLE ⊤ V _)
+    change LocallyOfFiniteType (f.resLE ⊤ V _)
     delta Scheme.Hom.resLE
     let hAffine := HasRingHomProperty.HasAffineProperty @LocallyOfFiniteType
     let _ : IsZariskiLocalAtTarget @LocallyOfFiniteType :=
@@ -213,7 +213,7 @@ private theorem isCohenMacaulayLocalRing_stalk_fieldBaseChange {X X' : Scheme.{u
       locallyOfFiniteType_of_isOpenImmersion _
     exact locallyOfFiniteType_comp _ _
   let _ : LocallyOfFiniteType gV := by
-    show LocallyOfFiniteType (g.resLE ⊤ V' _)
+    change LocallyOfFiniteType (g.resLE ⊤ V' _)
     delta Scheme.Hom.resLE
     let hAffine := HasRingHomProperty.HasAffineProperty @LocallyOfFiniteType
     let _ : IsZariskiLocalAtTarget @LocallyOfFiniteType :=
@@ -240,7 +240,7 @@ private theorem isCohenMacaulayLocalRing_stalk_fieldBaseChange {X X' : Scheme.{u
     apply Subtype.ext
     rw [Scheme.Hom.coe_resLE_apply]
   have hq : q = V.toScheme.isoSpec.hom xV := by
-    show Spec.map (uV.appTop) q' = V.toScheme.isoSpec.hom xV
+    change Spec.map (uV.appTop) q' = V.toScheme.isoSpec.hom xV
     have hnat := congrArg (fun F => F xV') (Scheme.isoSpec_hom_naturality uV)
     change Spec.map (uV.appTop) q' = V.toScheme.isoSpec.hom (uV xV') at hnat
     rwa [hxmap] at hnat
@@ -318,7 +318,7 @@ public theorem isCohenMacaulayAt_pullback_locus {X S S' : Scheme.{u}}
   let _ : Algebra (S.residueField (g s')) (S'.residueField s') :=
     (g.residueFieldMap s').hom.toAlgebra
   let _ : LocallyOfFiniteType (f.fiberToSpecResidueField s) := by
-    show LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField s))
+    change LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField s))
     infer_instance
   have hCM := isCohenMacaulayLocalRing_stalk_fieldBaseChange
     (k := S.residueField (g s')) (K := S'.residueField s')
@@ -339,7 +339,7 @@ public theorem isCohenMacaulayAt_pullback_locus {X S S' : Scheme.{u}}
     @asIso Scheme _ _ _ eFiberHom hIsoFiber
   have hmapFiber : eFiber.hom ≫ f.fiberι (f (pullback.fst f g x')) =
       f.fiberι (g s') := by
-    show eFiberHom ≫ pullback.fst f (S.fromSpecResidueField
+    change eFiberHom ≫ pullback.fst f (S.fromSpecResidueField
       (f (pullback.fst f g x'))) = pullback.fst f (S.fromSpecResidueField (g s'))
     dsimp [eFiberHom, pullback.map]
     rw [pullback.lift_fst]

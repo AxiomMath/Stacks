@@ -108,7 +108,7 @@ theorem Fd.heq_snd
 theorem Fd.chartClassInv_chartClass (gV : T ⟶ V.toScheme)
     (q : Quotient (Quadruple.setoid (gV ≫ V.ι) (situationAlgebra A) k)) :
     Fd.chartClassInv A V (Fd.chartClass A V gV q) = ⟨gV ≫ V.ι, q⟩ := by
-  show Fd.baseChangeUp V.ι (situationAlgebra A) k
+  change Fd.baseChangeUp V.ι (situationAlgebra A) k
       (Fd.restrictPullbackEquiv A V.ι k T
         ((Fd.restrictPullbackEquiv A V.ι k T).symm
           (Fd.baseChangeDownQ V.ι (situationAlgebra A) k gV q))) = _
@@ -125,7 +125,7 @@ theorem Fd.chartClass_chartClassInv (η : Fd (situationAlgebra (A.restrict V.ι)
       = Fd.restrictPullbackEquiv A V.ι k T η :=
     Fd.baseChangeDownQ_baseChangeUp V.ι (situationAlgebra A) k
       (Fd.restrictPullbackEquiv A V.ι k T η)
-  show (Fd.restrictPullbackEquiv A V.ι k T).symm
+  change (Fd.restrictPullbackEquiv A V.ι k T).symm
       (Fd.baseChangeDownQ V.ι (situationAlgebra A) k η.1 (Fd.chartClassInv A V η).2) = η
   rw [h]
   exact (Fd.restrictPullbackEquiv A V.ι k T).symm_apply_apply η

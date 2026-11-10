@@ -131,12 +131,12 @@ variable {A B : Type*} [Category* A] [Category* B] (Φ : A ⥤ B) [JS.HasSheafCo
 omit [JT.HasSheafCompose Φ] [JX.HasSheafCompose Φ] in
 /-- **The identification of composite direct images commutes with a change of coefficients.** -/
 theorem compositeDirectImageCell_app_sheafCompose (P : Sheaf JY A) :
-    (compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi B).natTrans.app
+    (compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi B).app
         ((sheafCompose JY Φ).obj P) =
       (sheafCompose JS Φ).map
-        ((compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi A).natTrans.app P) := by
+        ((compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi A).app P) := by
   subst hi
-  simp only [compositeDirectImageCell, TwoSquare.natTrans, TwoSquare.mk, eqToHom_refl,
+  simp only [compositeDirectImageCell, TwoSquare.mk, eqToHom_refl,
     Category.id_comp, NatTrans.comp_app, Functor.map_comp]
   rw [sheafPushforwardContinuousComp'_hom_app_sheafCompose,
     sheafPushforwardContinuousComp'_inv_app_sheafCompose]
@@ -172,10 +172,10 @@ coefficients in `B`, it is invertible at coefficients in `A`; the inverse images
 theorem isIso_mateEquiv_symm_compositeDirectImageCell_of_sheafCompose
     (h : IsIso ((mateEquiv (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous ue B JT JY)
       (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous uf B JS JX)).symm
-      (compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi B)).natTrans) :
+      (compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi B))) :
     IsIso ((mateEquiv (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous ue A JT JY)
       (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous uf A JS JX)).symm
-      (compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi A)).natTrans := by
+      (compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi A)) := by
   refine Stacks.CategoryTheory.isIso_mateEquiv_symm_of_reflectsIsomorphisms
     (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous ue A JT JY)
     (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous uf A JS JX)
@@ -186,7 +186,7 @@ theorem isIso_mateEquiv_symm_compositeDirectImageCell_of_sheafCompose
     (compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi A)
     (compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi B) ?_
   simp only [mateEquiv_coefficientPullbackTwoSquare]
-  refine TwoSquare.ext _ _ fun P => ?_
+  refine NatTrans.ext (funext fun P => ?_)
   rw [AlgebraicGeometry.SmallEtale.ts_whiskerLeft_app,
     AlgebraicGeometry.SmallEtale.ts_whiskerRight_app,
     AlgebraicGeometry.SmallEtale.ts_vComp_app, AlgebraicGeometry.SmallEtale.ts_vComp_app]
@@ -194,9 +194,9 @@ theorem isIso_mateEquiv_symm_compositeDirectImageCell_of_sheafCompose
   have E := congrArg (fun φ ↦ φ.hom.app U)
     (compositeDirectImageCell_app_sheafCompose JS JT JX JY ug uf ue uh uk αeg αhf hi Φ P)
   have E' : (𝟙 _ ≫ 𝟙 _ ≫
-      ((compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi B).natTrans.app
+      ((compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi B).app
         ((sheafCompose JY Φ).obj P)).hom.app U) ≫ 𝟙 _ =
-      Φ.map (((compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi A).natTrans.app
+      Φ.map (((compositeDirectImageCell JS JT JX JY ug uf ue uh uk αeg αhf hi A).app
         P).hom.app U) ≫ 𝟙 _ := by
     simpa using E
   rw [IsIso.inv_eq_of_hom_inv_id (Category.comp_id (pushforwardSheafCompose Φ uh JX JY))]
@@ -248,9 +248,9 @@ private abbrev cellSet (w : h ≫ f' = e ≫ g) :=
 private theorem isIso_smallEtaleSetMate (w : h ≫ f' = e ≫ g)
     (hsets : ∀ F, IsIso ((smallEtaleSetBaseChange.{u, 0} e h g f' w.symm).app F)) :
     IsIso ((mateEquiv (smallEtaleInverseImageAdjunction.{u, 0} e)
-      (smallEtaleInverseImageAdjunction.{u, 0} f')).symm (cellSet f' g h e w)).natTrans := by
+      (smallEtaleInverseImageAdjunction.{u, 0} f')).symm (cellSet f' g h e w)) := by
   rw [show ((mateEquiv (smallEtaleInverseImageAdjunction.{u, 0} e)
-      (smallEtaleInverseImageAdjunction.{u, 0} f')).symm (cellSet f' g h e w)).natTrans =
+      (smallEtaleInverseImageAdjunction.{u, 0} f')).symm (cellSet f' g h e w)) =
       smallEtaleSetBaseChange.{u, 0} e h g f' w.symm from rfl]
   exact NatIso.isIso_of_isIso_app _
 
@@ -259,7 +259,7 @@ explicit inverse images, is invertible as soon as the base change map of sheaves
 private theorem isIso_constructionSet (w : h ≫ f' = e ≫ g)
     (hsets : ∀ F, IsIso ((smallEtaleSetBaseChange.{u, 0} e h g f' w.symm).app F)) :
     IsIso ((mateEquiv (constructionAdjSet e) (constructionAdjSet f')).symm
-      (cellSet f' g h e w)).natTrans :=
+      (cellSet f' g h e w)) :=
   Stacks.CategoryTheory.isIso_mateEquiv_symm_of_leftAdjointUniq (constructionAdjSet e)
     (smallEtaleInverseImageAdjunction.{u, 0} e) (constructionAdjSet f')
     (smallEtaleInverseImageAdjunction.{u, 0} f') _ (isIso_smallEtaleSetMate f' g h e w hsets)
@@ -272,7 +272,7 @@ public theorem isIso_smallEtaleBaseChangeAb_of_isIso_smallEtaleSetBaseChange
     IsIso (smallEtaleBaseChangeAb f' g h e w) := by
   rw [show smallEtaleBaseChangeAb f' g h e w =
       ((mateEquiv (smallEtaleAdjunctionAb e) (smallEtaleAdjunctionAb f')).symm
-        (cellAb f' g h e w)).natTrans from
+        (cellAb f' g h e w)) from
     Stacks.Cohomology.BaseChange.mate_eq_mateEquiv_symm _ _ _ _ _]
   exact Stacks.CategoryTheory.isIso_mateEquiv_symm_of_leftAdjointUniq
     (smallEtaleAdjunctionAb e) (constructionAdjAb e) (smallEtaleAdjunctionAb f')

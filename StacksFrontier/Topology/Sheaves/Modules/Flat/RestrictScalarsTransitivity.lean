@@ -230,7 +230,7 @@ public theorem flat_commStalk_of_flat_unit
     (e := LinearEquiv.symm
       { unitStalkAddEquiv (R' := R') x with
         map_smul' := fun r m => ?_ })
-  show unitStalkAddEquiv (R' := R') x (r • m) =
+  change unitStalkAddEquiv (R' := R') x (r • m) =
     (commStalkMap φ x).hom r * unitStalkAddEquiv (R' := R') x m
   refine Eq.trans (congrArg (unitStalkAddEquiv (R' := R') x)
     (restrictScalars_stalk_smul φ

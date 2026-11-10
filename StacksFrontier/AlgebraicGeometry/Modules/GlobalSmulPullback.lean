@@ -36,7 +36,7 @@ theorem pushforward_map_globalSmulCenter (N : X.Modules) :
   ext m
   rw [Scheme.Modules.pushforward_map_app]
   revert m
-  show ∀ m : Γ(N, σ ⁻¹ᵁ U), X.presheaf.map (σ ⁻¹ᵁ U).leTop.op (σ.appTop r) • m =
+  change ∀ m : Γ(N, σ ⁻¹ᵁ U), X.presheaf.map (σ ⁻¹ᵁ U).leTop.op (σ.appTop r) • m =
     ((globalSmulCenter Y r).app ((Scheme.Modules.pushforward σ).obj N)).app U m
   intro m
   have hr : X.presheaf.map (σ ⁻¹ᵁ U).leTop.op (σ.appTop r) =

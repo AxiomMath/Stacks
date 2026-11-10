@@ -34,7 +34,8 @@ factorization chosen. This is **Stacks 069G**.
   Stacks 069G relative to `AlgebraicGeometry.KoszulRegularCompSmooth`. Untagged; the
   unconditional statement that carries `@[stacks 069G]` is
   `AlgebraicGeometry.isKoszulRegularImmersion_of_koszul` in
-  `StacksFrontier.AlgebraicGeometry.Descent.LocalOnSourceTopologies.LocalCompleteIntersectionAffine`.
+  the module `LocalCompleteIntersectionAffine` under
+  `StacksFrontier.AlgebraicGeometry.Descent.LocalOnSourceTopologies`.
 
 ## Implementation notes
 
@@ -212,10 +213,12 @@ This is the form of Stacks 069G relative to `KoszulRegularCompSmooth`, and it is
 untagged: a declaration taking a stand-in for part of a tag's content must not carry that tag.
 The hypothesis is discharged by
 `AlgebraicGeometry.koszulRegularCompSmooth` in
-`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.LocalCompleteIntersection.ImmersionIntoSmooth`,
+the module `LocalCompleteIntersection.ImmersionIntoSmooth` under
+`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent`,
 and the resulting unconditional statement, which is where `@[stacks 069G]` sits, is
 `AlgebraicGeometry.isKoszulRegularImmersion_of_koszul` in
-`StacksFrontier/AlgebraicGeometry/Descent/LocalOnSourceTopologies/LocalCompleteIntersectionAffine.lean:122`.
+`LocalCompleteIntersectionAffine.lean:122` in the directory
+`StacksFrontier/AlgebraicGeometry/Descent/LocalOnSourceTopologies/`.
 Both live downstream of this module, which is why the tag cannot be here: the proof of the Koszul
 case of Stacks 0693,
 `Stacks.AlgebraicGeometry.RegularIdealSheaf.isKoszulRegularImmersion_comp_of_smooth` in

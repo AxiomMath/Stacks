@@ -140,13 +140,12 @@ theorem diagonalAnnihilatorBaseChangeEquiv_apply
 /-- Induction on the diagonal annihilator along the surjection from the scalar extension of the
 diagonal annihilator of the intermediate algebra. -/
 private theorem diagonalAnnihilator_induction_on (F : FiniteOpenFactorization.{u, v, w} A B)
-    {P : ↑(diagonalAnnihilator A B) → Prop} (j : ↑(diagonalAnnihilator A B)) (zero : P 0)
+    {P : ↑(diagonalAnnihilator A B) → Prop} (j : ↑(diagonalAnnihilator A B))
     (add : ∀ x y, P x → P y → P (x + y))
     (tmul : ∀ (y : B) (j' : ↑(diagonalAnnihilator A F.middle)),
       P (diagonalAnnihilatorBaseChangeEquiv F (y ⊗ₜ[F.middle] j'))) : P j := by
   obtain ⟨z, rfl⟩ := (diagonalAnnihilatorBaseChangeEquiv F).surjective j
-  induction z using TensorProduct.induction_on with
-  | zero => rw [LinearEquiv.map_zero]; exact zero
+  induction z using TensorProduct.inductionOn with
   | add z t hz ht => rw [LinearEquiv.map_add]; exact add _ _ hz ht
   | tmul y j' => exact tmul y j'
 
@@ -157,13 +156,11 @@ theorem isNoetherPairing_unique
     (hp : IsNoetherPairing F p) (hq : IsNoetherPairing F q) : p = q := by
   refine LinearMap.ext fun ω => ?_
   induction ω using dualizingModule.induction_on with
-  | zero => exact (map_zero p).trans (map_zero q).symm
   | add ω η hω hη =>
       exact (map_add p ω η).trans ((congrArg₂ (· + ·) hω hη).trans (map_add q ω η).symm)
   | tmul f b =>
       refine LinearMap.ext fun j => ?_
       induction j using diagonalAnnihilator_induction_on F with
-      | zero => rw [map_zero, map_zero]
       | add z t hz ht => rw [map_add, map_add, hz, ht]
       | tmul y j' =>
           exact (hp f b y j' _ rfl).trans (hq f b y j' _ rfl).symm
@@ -196,8 +193,7 @@ private theorem tensorContract_diagonalAnnihilatorBaseChange
         algebraMap F.middle B
           (tensorContract A F.middle (φ.comp ι.toLinearMap) z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp [tensorContract]
+    induction z using TensorProduct.inductionOn with
     | tmul c d =>
         simp [tensorContract, TensorProduct.lift.tmul, Algebra.TensorProduct.map_tmul,
           Algebra.smul_def, hι, IsScalarTower.algebraMap_apply A F.middle B]
@@ -228,7 +224,7 @@ theorem noetherPairing_selfFactorization_tmul
       b * tensorContract A B φ j.1 := by
   refine (noetherPairing_apply_of_eq_baseChange (selfFactorization A B) φ b 1 j j
     (diagonalAnnihilatorBaseChange_self j)).trans ?_
-  show b * 1 * algebraMap B B (tensorContract A B φ (j : B ⊗[A] B)) = _
+  change b * 1 * algebraMap B B (tensorContract A B φ (j : B ⊗[A] B)) = _
   simp
 
 /-- The canonical comparison out of the self factorization restricts a functional on the target
@@ -252,7 +248,6 @@ private theorem noetherPairing_naturality_selfFactorization_tmul [IsNoetherianRi
       noetherPairing (selfFactorization A B)
         (dualizingModule.tmul (selfFactorization A B) φ b) j := by
   induction j using diagonalAnnihilator_induction_on F with
-  | zero => rw [map_zero, map_zero]
   | add z t hz ht => rw [map_add, map_add, hz, ht]
   | tmul y j' =>
       have h1 : dualizingModuleEquiv (selfFactorization A B) F
@@ -284,7 +279,6 @@ private theorem noetherPairing_naturality_selfFactorization [IsNoetherianRing A]
     noetherPairing F (dualizingModuleEquiv (selfFactorization A B) F ξ) j =
       noetherPairing (selfFactorization A B) ξ j := by
   induction ξ using dualizingModule.induction_on generalizing j with
-  | zero => simp
   | add ξ η hξ hη => simp [hξ, hη]
   | tmul φ b => exact noetherPairing_naturality_selfFactorization_tmul F φ b j
 
@@ -305,7 +299,7 @@ theorem noetherPairing_flip_bijective_of_factorization [IsNoetherianRing A]
   have hcompare (j : ↑(diagonalAnnihilator A B)) :
       eHom ((noetherPairing F).flip j) = (noetherPairing G).flip j := by
     refine LinearMap.ext fun ψ => ?_
-    show noetherPairing F (eω.symm ψ) j = noetherPairing G ψ j
+    change noetherPairing F (eω.symm ψ) j = noetherPairing G ψ j
     simpa [eω] using (noetherPairing_naturality F G (eω.symm ψ) j).symm
   refine ⟨fun j k hjk => hG.1 ?_, fun φ => ?_⟩
   · calc

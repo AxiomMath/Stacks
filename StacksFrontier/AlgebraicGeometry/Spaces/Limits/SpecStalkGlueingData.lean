@@ -66,7 +66,7 @@ category over `S`, is that open.** With `P` the complement of a closed point thi
 hypothesis of Stacks 0E90 and Stacks 0E91. -/
 theorem range_opensObj_hom (P : S.Opens) :
     Set.range (B.inclusion.map (opensObj B S hS P).hom) = (P : Set S) := by
-  show Set.range ⇑(Scheme.Opens.ι (X := S) P) = _
+  change Set.range ⇑(Scheme.Opens.ι (X := S) P) = _
   exact Scheme.Opens.range_ι P
 
 /-- The range of the structure morphism of the complement of a point, read as an object of the

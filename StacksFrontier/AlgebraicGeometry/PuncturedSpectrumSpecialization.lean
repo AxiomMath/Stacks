@@ -54,7 +54,7 @@ theorem exists_isImmediateSpecialization_mem_of_isLocallyClosed
     (hE.preimage f.continuous).preimage continuous_subtype_val
   have hVne : V.Nonempty := by
     refine ⟨⟨t, htm⟩, ?_⟩
-    show f t ∈ E
+    change f t ∈ E
     exact ht ▸ hw
   obtain ⟨z, hzV, hzclosed⟩ := nonempty_inter_closedPoints (X := ↥S) hVne hVlc
   let z₀ : PrimeSpectrum R := z.1

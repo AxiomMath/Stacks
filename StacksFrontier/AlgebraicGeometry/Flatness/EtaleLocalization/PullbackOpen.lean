@@ -71,7 +71,7 @@ private theorem IsWeaklyAssociatedPrime.map_of_semilinearEquiv {R S M N : Type*}
   have hann : (S ∙ f m).annihilator.comap e.toRingHom = (R ∙ m).annihilator := by
     ext r
     simp only [Ideal.mem_comap, Submodule.mem_annihilator_span_singleton]
-    show e r • f m = 0 ↔ r • m = 0
+    change e r • f m = 0 ↔ r • m = 0
     rw [← hf]
     simpa only [map_zero] using (f.injective.eq_iff (a := r • m) (b := 0))
   rw [← hann] at hm
@@ -103,7 +103,7 @@ theorem isWeaklyAssociatedPoint_iff_of_iso {X : Scheme.{u}} {F G : X.Modules} (e
     have hfmono : Mono f := ⟨fun a b h => by
       simpa only [Category.assoc, hfg, Category.comp_id] using congrArg (· ≫ g) h⟩
     change IsWeaklyAssociatedPrime _ (OXModule.stalk F x) _ at hx
-    show IsWeaklyAssociatedPrime _ (OXModule.stalk G x) _
+    change IsWeaklyAssociatedPrime _ (OXModule.stalk G x) _
     exact Module.weaklyAssociatedPrimes_subset_of_injective
       (f := OXModule.stalkLinearMap F G f x)
       (@OXModule.stalkMapAdd_injective_of_mono _ F G f hfmono x) hx
@@ -117,7 +117,7 @@ private theorem commRingCatIsoToRingEquiv_asIso_stalkMap_symm_germ {X Y : Scheme
       Y.presheaf.germ (j ''ᵁ U) (j.base x) (by simpa) ((j.appIso U).inv a) := by
   apply (asIso (j.stalkMap x)).symm.commRingCatIsoToRingEquiv.symm.injective
   simp only [RingEquiv.symm_apply_apply]
-  show X.presheaf.germ U x hx a =
+  change X.presheaf.germ U x hx a =
     j.stalkMap x (Y.presheaf.germ (j ''ᵁ U) (j.base x) (by simpa) ((j.appIso U).inv a))
   rw [j.germ_stalkMap_apply, Scheme.Hom.appIso_inv_app_apply]
   exact (X.presheaf.germ_res_apply _ _ _ _).symm
@@ -163,14 +163,14 @@ theorem isWeaklyAssociatedPoint_restrict_iff {X Y : Scheme.{u}} (j : X ⟶ Y)
     change a' • t' = (G.smul ((j.appIso U).inv a')).asHom.hom t' at hs
     rw [hs]
     let z : Γ(G, j ''ᵁ U) := t'
-    show G.presheaf.germ (j ''ᵁ U) (j.base x) (by simpa)
+    change G.presheaf.germ (j ''ᵁ U) (j.base x) (by simpa)
       ((G.smul ((j.appIso U).inv a')).asHom.hom z) = _
     rw [G.smul_apply ((j.appIso U).inv a') z]
-    show TopCat.Presheaf.germ G.val.presheaf (j ''ᵁ U) (j.base x) (by simpa)
+    change TopCat.Presheaf.germ G.val.presheaf (j ''ᵁ U) (j.base x) (by simpa)
       (((j.appIso U).inv a') • z) = _
     exact PresheafOfModules.germ_smul G.val (j.base x) (j ''ᵁ U) (by simpa)
       ((j.appIso U).inv a') z
-  show IsWeaklyAssociatedPrime _ (OXModule.stalk (Scheme.Modules.restrict G j) x) _ ↔
+  change IsWeaklyAssociatedPrime _ (OXModule.stalk (Scheme.Modules.restrict G j) x) _ ↔
     IsWeaklyAssociatedPrime _ (OXModule.stalk G (j.base x)) _
   rw [← IsLocalRing.map_ringEquiv_maximalIdeal e]
   exact isWeaklyAssociatedPrime_iff_of_semilinearEquiv e f hf _
@@ -198,12 +198,12 @@ theorem isWeaklyAssociatedPoint_Spec_iff (R : Type u) [CommRing R]
   have hf : ∀ r m, f (r • m) = e r • f m := by
     intro r m
     have he : (Scheme.ΓSpecIso (.of R)).inv.hom (e r) = r := e.symm_apply_apply r
-    show r • m = (Scheme.ΓSpecIso (.of R)).inv.hom (e r) • m
+    change r • m = (Scheme.ΓSpecIso (.of R)).inv.hom (e r) • m
     rw [he]
   have hqeq : q = PrimeSpectrum.comap e.toRingHom x := by
     dsimp [q]
     apply congrArg PrimeSpectrum.asIdeal
-    show hU.isoSpec.hom ⟨x, trivial⟩ = PrimeSpectrum.comap e.toRingHom x
+    change hU.isoSpec.hom ⟨x, trivial⟩ = PrimeSpectrum.comap e.toRingHom x
     rw [IsAffineOpen.isoSpec_hom, Scheme.Opens.toSpecΓ_top, ← SpecMap_ΓSpecIso_hom]
     rfl
   have hmap : q.map e.toRingHom = x.asIdeal := by

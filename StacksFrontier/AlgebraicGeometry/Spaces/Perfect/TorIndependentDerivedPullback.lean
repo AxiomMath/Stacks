@@ -168,7 +168,7 @@ theorem pointStalkRingEquiv_relativeStalkMap (r : relativeStalkRing f x) :
       etaleLocalRingMap X.2 f.hom x (relativeStalkRingEquiv f x r) := by
   rw [← stalkStructureMapAsEtaleLocalRingMap_eq]
   let e := (smallEtaleInverseImageFiberRingIso B S hS f x).app (smallEtaleRingedTopos B S hS Y).O
-  show _ = pointStalkRingEquiv B S hS X x ((stalkStructureMap B S hS f x).hom
+  change _ = pointStalkRingEquiv B S hS X x ((stalkStructureMap B S hS f x).hom
     ((pointStalkRingEquiv B S hS Y _).symm (pointStalkRingEquiv B S hS Y _ (e.inv.hom r))))
   have h1 : (pointStalkRingEquiv B S hS Y _).symm
       (pointStalkRingEquiv B S hS Y _ (e.inv.hom r)) = e.inv.hom r :=
@@ -488,7 +488,7 @@ theorem flat_relativeStalk_of_isFlatOverAtGeometricPoint (x : GeometricPoint B S
   let instR : Module (relativeStalkRing f x) N := Module.compHom N (γ.comp eR.toRingHom)
   have : IsScalarTower (relativeStalkRing f x) Ret N :=
     ⟨fun r s n => by
-      show (γ (eR r * s)) • n = (γ (eR r)) • ((γ s) • n)
+      change (γ (eR r * s)) • n = (γ (eR r)) • ((γ s) • n)
       rw [map_mul, mul_smul]⟩
   have : Module.Flat (relativeStalkRing f x) Ret :=
     RingHom.Flat.of_bijective (f := eR.toRingHom) eR.bijective
@@ -691,7 +691,7 @@ theorem isIso_smallEtaleDerivedModulePullbackComparison_of_quasiIso
     (NatIso.isIso_map_iff (DerivedCategory.quotientCompQhIso _) q).mpr
       ((DerivedCategory.isIso_Q_map_iff_quasiIso _ q).mpr hq)
   have hq₂ : IsIso ((smallEtaleModulePullbackOnHomotopy B S hS g').map qh) := by
-    show IsIso ((HomotopyCategory.quotient _ (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).map
+    change IsIso ((HomotopyCategory.quotient _ (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).map
       (((smallEtaleRingedToposHom B S hS g').toModulesHom.pullbackModules.mapHomologicalComplex
         (ComplexShape.up ℤ)).map q))
     exact (NatIso.isIso_map_iff (DerivedCategory.quotientCompQhIso _) _).mpr

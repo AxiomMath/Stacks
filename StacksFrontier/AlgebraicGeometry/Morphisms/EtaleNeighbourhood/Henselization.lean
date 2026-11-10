@@ -108,7 +108,7 @@ theorem indEtale_stalkMap_of_etale {Y X : Scheme.{u}} (f : Y ⟶ X)
   let localMap : K →+* L := Localization.localRingHom p q m hpq
   let : Algebra K L := localMap.toAlgebra
   have hmap (a : A) : (algebraMap A L) a = localMap (algebraMap A K a) := by
-    show (algebraMap B L) (m a) =
+    change (algebraMap B L) (m a) =
       Localization.localRingHom p q m hpq (algebraMap A K a)
     exact (Localization.localRingHom_to_map p q m hpq a).symm
   let : IsScalarTower A K L := IsScalarTower.of_algebraMap_eq hmap
@@ -195,10 +195,10 @@ private lemma affine_elementary_refinement_over_open {S : Scheme.{u}} {s : S}
       map_point := U.map_point }
   have hW : W.IsElementary := by
     let : IsIso ((S.residueFieldCongr U.map_point).inv) := inferInstance
-    show IsIso ((S.residueFieldCongr W.map_point).inv ≫
+    change IsIso ((S.residueFieldCongr W.map_point).inv ≫
       W.toBase.residueFieldMap W.point)
     rw [Scheme.residueFieldMap_comp]
-    show IsIso (((S.residueFieldCongr U.map_point).inv ≫
+    change IsIso (((S.residueFieldCongr U.map_point).inv ≫
       U.toBase.residueFieldMap U.point) ≫ O.ι.residueFieldMap W.point)
     exact IsIso.comp_isIso' hU (inferInstance : IsIso (O.ι.residueFieldMap W.point))
   exact ⟨W, hW, hO, ⟨⟨O.ι, rfl, rfl⟩⟩, fun x => hsub x.2⟩
@@ -347,8 +347,8 @@ theorem indEtale_elementaryStalkMap (S : Scheme.{u}) (s : S)
         (U.obj.scheme.presheaf.stalk U.obj.point)) a =
         (algebraMap (S.presheaf.stalk s)
         (U.obj.scheme.presheaf.stalk U.obj.point)) (e.symm a) := by
-    show (f.stalkMap U.obj.point).hom a = stalkMap S s U (e.symm a)
-    show (f.stalkMap U.obj.point).hom a =
+    change (f.stalkMap U.obj.point).hom a = stalkMap S s U (e.symm a)
+    change (f.stalkMap U.obj.point).hom a =
       (f.stalkMap U.obj.point).hom (eIso.hom.hom (eIso.inv.hom a))
     simp
   exact StacksDraft.indEtale_of_equiv
@@ -364,7 +364,7 @@ private theorem residueFieldMap_stalkCongr_eq (S : Scheme.{u}) {x y : S} (h : x 
   apply CommRingCat.hom_ext
   ext z
   obtain ⟨a, rfl⟩ := IsLocalRing.residue_surjective z
-  show IsLocalRing.ResidueField.map
+  change IsLocalRing.ResidueField.map
       (S.presheaf.stalkCongr (.of_eq h)).hom.hom
       (IsLocalRing.residue (S.presheaf.stalk x) a) =
     (S.residueFieldCongr h).hom (IsLocalRing.residue (S.presheaf.stalk x) a)
@@ -637,7 +637,7 @@ private theorem sectionLeg_naturality (S : Scheme.{u}) (s : S)
     have htransport : U.obj.scheme.presheaf.germ ⊤ U.obj.point (Set.mem_univ _) ≫
         i.hom = U.obj.scheme.presheaf.germ ⊤ (h₀.hom V.obj.point)
           (Set.mem_univ _) := by
-      show _ ≫ U.obj.scheme.presheaf.stalkSpecializes e.specializes' = _
+      change _ ≫ U.obj.scheme.presheaf.stalkSpecializes e.specializes' = _
       exact TopCat.Presheaf.germ_stalkSpecializes
         (F := U.obj.scheme.presheaf) (U := ⊤) (y := U.obj.point)
         (hy := Set.mem_univ _) (x := h₀.hom V.obj.point) e.specializes'
@@ -657,7 +657,7 @@ private theorem sectionLeg_naturality (S : Scheme.{u}) (s : S)
   have h' := congrArg (fun f : _ →+* _ =>
     (stalkLift S s Rh V).comp f) hgerm
   have hx' := congrArg (fun f : _ →+* Rh => f x) (hstalk'.symm.trans h')
-  show ((stalkLift S s Rh U).comp
+  change ((stalkLift S s Rh U).comp
     (U.obj.scheme.presheaf.germ ⊤ U.obj.point (Set.mem_univ _)).hom) x =
     ((stalkLift S s Rh V).comp
       ((V.obj.scheme.presheaf.germ ⊤ V.obj.point (Set.mem_univ _)).hom.comp
@@ -787,13 +787,13 @@ private lemma exists_elementary_equalizing_refinement {S : Scheme.{u}} {s : S}
   let W : EtaleNeighborhood S s :=
     ⟨P, z, Limits.pullback.fst q (Limits.pullback.diagonal V.toBase) ≫ U.toBase,
       by
-        show U.toBase ((Limits.pullback.fst q (Limits.pullback.diagonal V.toBase)) z) = s
+        change U.toBase ((Limits.pullback.fst q (Limits.pullback.diagonal V.toBase)) z) = s
         rw [hzU]
         exact U.map_point⟩
   let h : W ⟶ U := ⟨Limits.pullback.fst q (Limits.pullback.diagonal V.toBase), rfl, hzU⟩
   have hfg' : h ≫ f = h ≫ g := by
     apply EtaleNeighborhood.Hom.ext
-    show Limits.pullback.fst q (Limits.pullback.diagonal V.toBase) ≫ f.hom =
+    change Limits.pullback.fst q (Limits.pullback.diagonal V.toBase) ≫ f.hom =
       Limits.pullback.fst q (Limits.pullback.diagonal V.toBase) ≫ g.hom
     simp only [← hqfst, ← hqsnd, ← Category.assoc]
     rw [Limits.pullback.condition]
@@ -816,10 +816,10 @@ private lemma spec_stalkMap_fromSpecStalk (S : Scheme.{u}) (s : S)
     (U : ElementaryEtaleNeighborhood S s) :
     Spec.map (CommRingCat.ofHom (stalkMap S s U)) ≫ S.fromSpecStalk s =
       U.obj.scheme.fromSpecStalk U.obj.point ≫ U.obj.toBase := by
-  show Spec.map ((S.presheaf.stalkCongr (.of_eq U.obj.map_point.symm)).hom ≫
+  change Spec.map ((S.presheaf.stalkCongr (.of_eq U.obj.map_point.symm)).hom ≫
     U.obj.toBase.stalkMap U.obj.point) ≫ _ = _
   rw [Spec.map_comp, Category.assoc]
-  show Spec.map (U.obj.toBase.stalkMap U.obj.point) ≫
+  change Spec.map (U.obj.toBase.stalkMap U.obj.point) ≫
     (Spec.map (S.presheaf.stalkSpecializes
       (Inseparable.of_eq U.obj.map_point.symm).specializes') ≫ _) = _
   rw [Scheme.SpecMap_stalkSpecializes_fromSpecStalk]
@@ -906,7 +906,7 @@ private lemma neighborhoodLift_unique (S : Scheme.{u}) (s : S)
     apply Spec.map_injective
     exact (cancel_mono (S.fromSpecStalk s)).mp hf
   have he' := stalkLift_unique S s Rh U g.hom he
-  show Spec.map g ≫ _ = Spec.map (CommRingCat.ofHom (stalkLift S s Rh U)) ≫ _
+  change Spec.map g ≫ _ = Spec.map (CommRingCat.ofHom (stalkLift S s Rh U)) ≫ _
   rw [← he']
   rfl
 
@@ -1052,7 +1052,7 @@ private lemma isColimit_of_neighborhood_presentation
         exact t.w g.op } }
   refine ⟨{ desc t := hc.desc (d t), fac t U := ?_, uniq t m hm' := ?_ }⟩
   · obtain ⟨j, ⟨f⟩⟩ := hcover U.unop
-    show ι.app U ≫ hc.desc (d t) = t.ι.app U
+    change ι.app U ≫ hc.desc (d t) = t.ι.app U
     have hi : (globalSections S s).map f.op ≫ ι.app (op (obj j)) = ι.app U := by
       simp
     rw [← hi, Category.assoc, ← he j]
@@ -1101,7 +1101,7 @@ private lemma isColimit_sectionLeg (S : Scheme.{u}) (s : S)
           Spec.map (S.presheaf.germ V s hs) := by
       rw [h1]; exact Spec.map_comp _ _
     rw [h2, Category.assoc]
-    show Spec.map _ ≫ hV.fromSpecStalk hs = _
+    change Spec.map _ ≫ hV.fromSpecStalk hs = _
     rw [hV.fromSpecStalk_eq_fromSpecStalk]
     rfl
   have : IsLocalization.AtPrime (S.presheaf.stalk s)
@@ -1144,7 +1144,7 @@ private lemma isColimit_sectionLeg (S : Scheme.{u}) (s : S)
     have hh := neighborhoodLift_toSpecΓ S s Rh (obj j)
     rw [← hl] at hh
     apply Spec.map_injective
-    show Spec.map ((Scheme.ΓSpecIso (.of (pres.diag.obj j))).hom ≫
+    change Spec.map ((Scheme.ΓSpecIso (.of (pres.diag.obj j))).hom ≫
       CommRingCat.ofHom (pres.ι.app j).hom.toRingHom) = _
     rw [Spec.map_comp]
     change liftj j ≫ (Spec (.of (pres.diag.obj j))).toSpecΓ = _ at hh
@@ -1155,13 +1155,13 @@ private lemma isColimit_sectionLeg (S : Scheme.{u}) (s : S)
     let g : obj j ⟶ obj i := ⟨{
       hom := Spec.map (CommRingCat.ofHom (pres.diag.map f).hom.toRingHom)
       over := by
-        show Spec.map _ ≫ (Spec.map _ ≫ a) = Spec.map _ ≫ a
+        change Spec.map _ ≫ (Spec.map _ ≫ a) = Spec.map _ ≫ a
         rw [← Spec.map_comp_assoc, ← CommRingCat.ofHom_comp]
         congr 2
         apply CommRingCat.hom_ext
         exact (pres.diag.map f).hom.comp_algebraMap
       map_point := by
-        show (liftj j ≫ Spec.map (CommRingCat.ofHom
+        change (liftj j ≫ Spec.map (CommRingCat.ofHom
           (pres.diag.map f).hom.toRingHom)) (IsLocalRing.closedPoint Rh) = _
         have hh : liftj j ≫ Spec.map (CommRingCat.ofHom
             (pres.diag.map f).hom.toRingHom) = liftj i := by
@@ -1225,15 +1225,15 @@ private lemma isColimit_sectionLeg (S : Scheme.{u}) (s : S)
     let k : obj j ⟶ W := ⟨{
       hom := Spec.map (CommRingCat.ofHom g.hom.toRingHom) ≫ W.obj.scheme.isoSpec.inv
       over := by
-        show (Spec.map _ ≫ W.obj.scheme.isoSpec.inv) ≫ W.obj.toBase = toS j
+        change (Spec.map _ ≫ W.obj.scheme.isoSpec.inv) ≫ W.obj.toBase = toS j
         rw [← hw, Category.assoc, ← Category.assoc W.obj.scheme.isoSpec.inv,
           ← ht', ← Spec.map_comp_assoc]
-        show Spec.map (CommRingCat.ofHom (g.hom.toRingHom.comp t.hom)) ≫ a = _
+        change Spec.map (CommRingCat.ofHom (g.hom.toRingHom.comp t.hom)) ≫ a = _
         have hgA : g.hom.toRingHom.comp t.hom = algebraMap A (pres.diag.obj j) :=
           g.hom.comp_algebraMap
         rw [hgA]
       map_point := by
-        show (liftj j ≫ (Spec.map (CommRingCat.ofHom g.hom.toRingHom) ≫
+        change (liftj j ≫ (Spec.map (CommRingCat.ofHom g.hom.toRingHom) ≫
           W.obj.scheme.isoSpec.inv)) (IsLocalRing.closedPoint Rh) = _
         have hh : liftj j ≫ Spec.map (CommRingCat.ofHom g.hom.toRingHom) =
             Spec.map (CommRingCat.ofHom (sectionLeg S s Rh W)) := by

@@ -298,7 +298,7 @@ noncomputable abbrev sigmaFamily : PreZeroHypercover.{0} T :=
 /-- A family of morphisms with fixed target refines the one-element family given by the
 coproduct of its members, by the inclusions of the summands. -/
 noncomputable def toSigmaFamily : 𝒱.HomOver (sigmaFamily 𝒱) (𝟙 T) :=
-  toSingletonFamily 𝒱 (Sigma.desc 𝒱.f) (fun i ↦ Sigma.ι 𝒱.X i) fun i ↦ Sigma.ι_desc 𝒱.f i
+  toSingletonFamily 𝒱 (Sigma.desc 𝒱.f) (fun i ↦ Sigma.ι 𝒱.X i) fun i ↦ Sigma.ι_comp_desc 𝒱.f i
 
 /-- **A standard fpqc covering collapses to a one-element fpqc covering.**  For a finite jointly
 surjective family of flat morphisms from affine schemes to an affine scheme, Stacks 022F, the

@@ -841,7 +841,7 @@ theorem isQuasiregularIdeal_fg {I : Ideal R} (hI : IsQuasiregularIdeal' I) : I.F
       refine ⟨g, ?_, hg⟩
       rw [hspan]
       exact Submodule.fg_span (Set.finite_range fg)
-    · rw [SetLike.not_le_iff_exists] at hIp
+    · rw [IsConcreteLE.not_le_iff_exists] at hIp
       obtain ⟨g, hgI, hgp⟩ := hIp
       refine ⟨g, ?_, hgp⟩
       rw [Ideal.eq_top_of_isUnit_mem _ (Ideal.mem_map_of_mem _ hgI)

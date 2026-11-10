@@ -58,6 +58,7 @@ theorem exists_formallyEtale_away [Algebra.FinitePresentation R B] [Algebra.IsSe
   obtain ⟨f, hf, H⟩ := exists_etale_of_isEtaleAt (R := R) (⊥ : Ideal B)
   exact ⟨f, fun h => hf (h ▸ Submodule.zero_mem _), H.1⟩
 
+omit [FaithfulSMul R B] in
 include K L in
 /-- **Generic finite étaleness.** Let `R ⊆ B` be domains, `B` of finite presentation over `R`,
 with separable algebraic extension of fraction fields `L / K`. Then for some nonzero `g ∈ R`

@@ -97,7 +97,7 @@ private lemma finitePresentation_sections_of_retract {M N : X.Modules} (h : Retr
   refine Module.FinitePresentation.of_retract (sectionsLinearMap h.i U)
     (sectionsLinearMap h.r U) ?_
   ext x
-  show (Scheme.Modules.Hom.app h.r U) ((Scheme.Modules.Hom.app h.i U) x) = x
+  change (Scheme.Modules.Hom.app h.r U) ((Scheme.Modules.Hom.app h.i U) x) = x
   rw [← ConcreteCategory.comp_apply, ← Scheme.Modules.Hom.comp_app, h.retract,
     Scheme.Modules.Hom.id_app, ConcreteCategory.id_apply]
 

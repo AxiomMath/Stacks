@@ -185,7 +185,7 @@ theorem residuePairing_mapDomain_add (a : Fin (n + 1) → ℤ) (g h : (Fin (n + 
   have hkey : (fun i => -b i - 1)
       = (fun k : Fin (n + 1) → ℤ => a + k) (fun i => -(a + b) i - 1) := by
     funext i
-    show -b i - 1 = a i + (-(a i + b i) - 1)
+    change -b i - 1 = a i + (-(a i + b i) - 1)
     ring
   rw [hkey]
   exact (Finsupp.mapDomain_apply_of_injective (injective_add_left a) h _).symm

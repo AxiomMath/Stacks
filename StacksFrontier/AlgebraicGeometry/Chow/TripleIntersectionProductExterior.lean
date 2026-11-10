@@ -648,6 +648,8 @@ variable (C : ChowSituation.{u}) (hpp : ProperPushforwardDescends C)
   (n m l : ℤ)
 
 set_option maxHeartbeats 1000000 in
+-- long proof transporting Chow classes along isomorphisms of iterated pullbacks of the triple
+-- fibre product, with many `pullback.hom_ext`, `simp` and `chowGroupCongr` steps
 /-- **Stacks 0FBP on the triple product, from Stacks 0FBP for the restricted class.** Let `Δ^!` be
 a bivariant class of the diagonal of `X ⟶ S`, over any base `S`. If its restriction `Δ₁₂^!`
 (Stacks 0F9Z) along the test morphism `Δ₁₂` of the triple product `(Y ×_S Z) ×_S W` commutes
@@ -976,7 +978,7 @@ theorem isAssociativeIntersectionProduct_of_field
     IsAssociativeIntersectionProduct (fieldChowSituation k) (fun _ _ ↦ rfl)
       (gysinSystemOfInvertible (fieldChowSituation k)) sX a b g d Dc n m l hpp :=
   isAssociativeIntersectionProduct k (gysinSystemOfInvertible (fieldChowSituation k))
-    (flatPullbackDescends _) hpp sX a b g d Dc n m l
+    hpp sX a b g d Dc n m l
     (commutesDiagonalCapExteriorFirst_of_field k hpp sX a b g d Dc n m l)
     (commutesDiagonalCapExteriorSecond_of_field k hpp sX a b g d Dc n m l) hcommute
 

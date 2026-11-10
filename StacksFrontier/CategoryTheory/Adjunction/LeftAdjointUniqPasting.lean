@@ -168,7 +168,7 @@ theorem twoSquare_eq_mateEquiv_symm (adjf : Lf ⊣ Rf) (adjf' : Lf' ⊣ Rf') (ad
       (mateEquiv adjg' adjg).symm (TwoSquare.mk _ _ _ _ (df.hom ≫ dg.inv)) := by
   refine (Equiv.eq_symm_apply _).2 ?_
   refine (iterated_mateEquiv_conjugateEquiv adjf adjf' adjg adjg' _).trans ?_
-  show conjugateEquiv (adjf.comp adjg') (adjg.comp adjf') (eg.hom ≫ ef.inv) = df.hom ≫ dg.inv
+  change conjugateEquiv (adjf.comp adjg') (adjg.comp adjf') (eg.hom ≫ ef.inv) = df.hom ≫ dg.inv
   rw [← conjugateEquiv_comp _ adjc, hf, hg]
 
 end Mate

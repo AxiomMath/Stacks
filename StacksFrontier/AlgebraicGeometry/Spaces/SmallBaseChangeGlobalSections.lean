@@ -91,7 +91,7 @@ theorem bijective_sectionsRestrictSmallBaseChange_comparison
         H.map (spacesBaseChangeIdObjIso B S hS f).hom.op := by
     funext x
     apply Subtype.ext; funext V
-    show H.map _ x = H.map (c.hom.app V.unop).op (H.map _ (H.map _ x))
+    change H.map _ x = H.map (c.hom.app V.unop).op (H.map _ (H.map _ x))
     simp only [← Functor.map_comp_apply]
     exact congrArg (fun g => H.map g x) (Quiver.Hom.unop_inj
       ((SpacesEtale.isTerminal_idObj B S hS X').hom_ext _ _))

@@ -43,10 +43,12 @@ variable {C : Type u} [Category.{v} C] [Abelian C] [HasDerivedCategory.{w'} C]
 
 /-- In a biproduct whose summands other than `j` have no cohomology in degree `i`, the inclusion
 of the `j`-th summand is an isomorphism on `H^i`. -/
-theorem isIso_homologyMap_biproduct_ι {J : Type} [Fintype J] [DecidableEq J]
+theorem isIso_homologyMap_biproduct_ι {J : Type} [Finite J]
     (X : J → DerivedCategory C) (j : J) (i : ℤ)
     (hX : ∀ k, k ≠ j → IsZero ((homologyFunctor C i).obj (X k))) :
     IsIso ((homologyFunctor C i).map (biproduct.ι X j)) := by
+  classical
+  have := Fintype.ofFinite J
   refine ⟨⟨(homologyFunctor C i).map (biproduct.π X j), ?_, ?_⟩⟩
   · rw [← Functor.map_comp, biproduct.ι_π_self, CategoryTheory.Functor.map_id]
   · have hsplit : ∑ k, biproduct.π X k ≫ biproduct.ι X k =
@@ -138,7 +140,7 @@ theorem nonempty_iso_sigma_singleFunctor_of_isGE_of_forall_ext_two_eq_zero
       (homologyFunctor C (b + m)).map (Sigma.ι X n₀), ?_, ?_⟩⟩
     · refine hcol.hom_ext fun n => ?_
       dsimp
-      rw [Category.comp_id, ← Functor.map_comp_assoc, Sigma.ι_desc]
+      rw [Category.comp_id, ← Functor.map_comp_assoc, Sigma.ι_comp_desc]
       by_cases hn : n.as = n₀
       · obtain ⟨n⟩ := n
         dsimp at hn
@@ -147,6 +149,6 @@ theorem nonempty_iso_sigma_singleFunctor_of_isGE_of_forall_ext_two_eq_zero
       · have hn' : b + n.as.down ≠ b + m := fun h' =>
           hn (ULift.ext (show n.as.down = m by omega))
         exact (isZero_homologyFunctor_obj_singleFunctor_obj _ hn').eq_of_src _ _
-    · rw [Category.assoc, ← Functor.map_comp, Sigma.ι_desc, IsIso.inv_hom_id]
+    · rw [Category.assoc, ← Functor.map_comp, Sigma.ι_comp_desc, IsIso.inv_hom_id]
 
 end DerivedCategory

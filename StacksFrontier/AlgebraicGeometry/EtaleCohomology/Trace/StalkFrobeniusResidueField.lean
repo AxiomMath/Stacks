@@ -62,7 +62,7 @@ theorem residueDegree_id_spec (κ : Type u) [Field κ] (x : Spec (.of κ)) :
   have hx := isClosed_singleton_spec κ x
   have hsurj : Function.Surjective (algebraMap κ ((Spec (.of κ)).residueField x)) := by
     have h := fieldToResidue_eq_appLE_comp_evaluation (𝟙 (Spec (.of κ))) (U := ⊤) le_top x trivial
-    show Function.Surjective (fieldToResidue (𝟙 (Spec (.of κ))) x).hom
+    change Function.Surjective (fieldToResidue (𝟙 (Spec (.of κ))) x).hom
     have hid : Function.Bijective (Scheme.Hom.appLE (𝟙 (Spec (.of κ))) ⊤ ⊤ le_top).hom := by
       have : Scheme.Hom.appLE (𝟙 (Spec (.of κ))) ⊤ ⊤ le_top = 𝟙 _ := by
         simp [Scheme.Hom.appLE]

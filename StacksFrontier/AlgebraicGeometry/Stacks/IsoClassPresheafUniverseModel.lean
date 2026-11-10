@@ -96,7 +96,7 @@ theorem isoClassPresheafModelEquiv_naturality {U V : 𝒞ᵒᵖ} (f : U ⟶ V)
     (x : p.isoClassPresheaf.obj U) :
     isoClassPresheafModelEquiv.{w} p V (p.isoClassPresheaf.map f x) =
       (isoClassPresheafModel.{w} p).map f (isoClassPresheafModelEquiv.{w} p U x) := by
-  show (equivShrink _) ((ConcreteCategory.hom (p.isoClassPresheaf.map f)) x)
+  change (equivShrink _) ((ConcreteCategory.hom (p.isoClassPresheaf.map f)) x)
       = (equivShrink _) ((ConcreteCategory.hom (p.isoClassPresheaf.map f))
           ((equivShrink _).symm ((equivShrink _) x)))
   rw [Equiv.symm_apply_apply]

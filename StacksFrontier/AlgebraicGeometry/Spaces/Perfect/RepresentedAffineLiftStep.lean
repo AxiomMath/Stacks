@@ -168,10 +168,10 @@ theorem exists_representedDerivedAssociatedModule_map_eq
   have hnat := c.hom.naturality g.hom
   rw [← Iso.cancel_iso_hom_left (c.app ω)]
   refine (hnat.symm.trans ?_)
-  show (representedDerivedModuleEquivalence B S hS T).functor.map
+  change (representedDerivedModuleEquivalence B S hS T).functor.map
     (A.mapDerivedCategory.map g.hom) ≫ c.hom.app ω' = c.hom.app ω ≫ f'
   rw [h₂, h₁]
-  show (c.hom.app ω ≫ f' ≫ c.inv.app ω') ≫ c.hom.app ω' = c.hom.app ω ≫ f'
+  change (c.hom.app ω ≫ f' ≫ c.inv.app ω') ≫ c.hom.app ω' = c.hom.app ω ≫ f'
   calc (c.hom.app ω ≫ f' ≫ c.inv.app ω') ≫ c.hom.app ω'
       = c.hom.app ω ≫ f' ≫ c.inv.app ω' ≫ c.hom.app ω' := by simp only [Category.assoc]
     _ = c.hom.app ω ≫ f' := by rw [Iso.inv_hom_id_app, Category.comp_id]
@@ -296,7 +296,7 @@ theorem exists_represented_supported_lift_biprod_shift_hom
     have := hPZ i ((supportOfSheaf_eq_of_iso B S hS
       ⟨yoneda.obj (openObj B S hS V₀ O), isAlgebraicSpace_yoneda B S hS _⟩
       ((DerivedCategory.homologyFunctor _ i).mapIso eP)).le hp)
-    show (BigFppfOver.toScheme B S hS).map (openIncl B S hS V₀ O)
+    change (BigFppfOver.toScheme B S hS).map (openIncl B S hS V₀ O)
       (pointsEquivScheme B S hS _ p) ∈ Z
     rwa [← pointsEquivScheme_pointsMap_yoneda_map]
   let ε := representedDerivedAssociatedModule B S hS V₀

@@ -103,7 +103,7 @@ def homTotalDifferential (L M : DifferentialGradedModule A) :
     (f : HomogeneousMap A L M n) :
     homTotalDifferential L M (DirectSum.of (fun n => HomogeneousMap A L M n) n f) =
       DirectSum.of (fun n => HomogeneousMap A L M n) (n + 1) (homogeneousMapDifferential A f) := by
-  show (DirectSum.toModule R ℤ (HomTotal A L M) fun i =>
+  change (DirectSum.toModule R ℤ (HomTotal A L M) fun i =>
       (DirectSum.lof R ℤ (fun j => HomogeneousMap A L M j) (i + 1)).comp
         (homogeneousMapDifferentialₗ A i))
       (DirectSum.lof R ℤ (fun i => HomogeneousMap A L M i) n f) = _
@@ -125,7 +125,7 @@ theorem homTotalDifferential_mem {L M : DifferentialGradedModule A} (n : ℤ)
 theorem homTotalDifferential_comp_self (L M : DifferentialGradedModule A) :
     (homTotalDifferential L M).comp (homTotalDifferential L M) = 0 := by
   ext n f : 2
-  show homTotalDifferential L M (homTotalDifferential L M (DirectSum.of _ n f)) = 0
+  change homTotalDifferential L M (homTotalDifferential L M (DirectSum.of _ n f)) = 0
   rw [homTotalDifferential_of, homTotalDifferential_of,
     show homogeneousMapDifferential A (homogeneousMapDifferential A f) = 0 from
       (dgCategory A).d_d f]
@@ -213,7 +213,7 @@ theorem homogeneousMapShiftEquiv_differential {L M : DifferentialGradedModule A}
         (DifferentialGraded.gradedSign R k •
           homogeneousMapDifferential A (homogeneousMapShiftEquiv k n f)) := by
   apply Subtype.ext
-  show (homogeneousMapDifferential A f).1 =
+  change (homogeneousMapDifferential A f).1 =
     DifferentialGraded.gradedSign R k •
       (homogeneousMapDifferential A (homogeneousMapShiftEquiv k n f)).1
   ext x

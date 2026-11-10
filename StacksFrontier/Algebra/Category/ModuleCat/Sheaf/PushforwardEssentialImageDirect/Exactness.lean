@@ -97,7 +97,7 @@ This duplicates `PresheafOfModules.restrictₛₗ_id_apply`, which the library h
 tensor-sheafification development and is the wrong thing to depend on for a one-line lemma. See
 the implementation notes. -/
 theorem restrictₛₗ_id_apply (X : Cᵒᵖ) (m : M.val.obj X) : M.val.restrictₛₗ (𝟙 X) m = m := by
-  show M.val.presheaf.map (𝟙 X) m = m
+  change M.val.presheaf.map (𝟙 X) m = m
   rw [CategoryTheory.Functor.map_id]
   rfl
 
@@ -154,7 +154,7 @@ theorem mem_annihilatorSubmodule_obj (X : Cᵒᵖ) (m : M.val.obj X) :
 theorem smul_annihilatorSubmodule_eq_zero (X : Cᵒᵖ) (a : R.obj.obj X) (ha : a ∈ I.obj X)
     (m : (annihilatorSubmodule M hcomm I).toSheafOfModules.val.obj X) : a • m = 0 := by
   apply Subtype.ext
-  show a • m.val = (0 : M.val.obj X)
+  change a • m.val = (0 : M.val.obj X)
   have h := (mem_annihilatorSubmodule_obj M hcomm I X m.val).mp m.property X (𝟙 X) a ha
   rwa [restrictₛₗ_id_apply] at h
 

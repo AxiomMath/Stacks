@@ -297,7 +297,7 @@ both crosses that boundary and respells `derivedTensorDualToSheafHom Rc L M ▷ 
 `(α_ M (derivedDual Rc L) L).hom`, `𝟙_` and `(ρ_ M).hom` spends far more than the two
 definitional crossings a declaration affords.  Applied at this shape instead, the fit costs
 nothing. -/
-theorem derivedSheafHomComposition_structureSheafMiddle_whiskerRight_comp_derivedSheafHomCounit_of_transpose
+theorem derivedSheafHomComposition_structureSheafMiddle_whiskerRight_comp_counit_of_transpose
     (L M : DerivedCategory (StructureSheafModules Rc))
     (htr : derivedSheafHomTensorEquiv Rc
           (((derivedTensor Rc).obj (((derivedSheafHom Rc).obj

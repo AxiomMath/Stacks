@@ -352,7 +352,7 @@ theorem localDescent_transport {Z₀ : Z.Opens} {W₀ : Z₂.Opens} (hW : W₀ �
   intro U W hW2 hWZ V hV hV' a
   obtain ⟨U₁, hU₁g, hU₁Z, hWU₁⟩ : ∃ T : Z.Opens, T ≤ g ⁻¹ᵁ U ∧ T ≤ Z₀ ∧ W ≤ γ ⁻¹ᵁ T := by
     refine ⟨(g ⁻¹ᵁ U) ⊓ Z₀, inf_le_left, inf_le_right, ?_⟩
-    show W ≤ (γ ⁻¹ᵁ (g ⁻¹ᵁ U)) ⊓ (γ ⁻¹ᵁ Z₀)
+    change W ≤ (γ ⁻¹ᵁ (g ⁻¹ᵁ U)) ⊓ (γ ⁻¹ᵁ Z₀)
     exact le_inf (by rw [← Scheme.Hom.comp_preimage, hγ]; exact hW2) (hWZ.trans hW)
   have hVq : V ≤ q ⁻¹ᵁ U₁ := by
     rw [← hq, Scheme.Hom.comp_preimage]

@@ -148,7 +148,7 @@ theorem modelTermSourceEquiv_tmul (a : A) (r : R₀) (x : X) (a₂ : A) (r₂ : 
         (tensorBaseChangeAddEquiv X (ModuleCat.of R₀ R')
           (((a ⊗ₜ[R] r) ⊗ₜ[A] x) ⊗ₜ[B₀] ((a₂ ⊗ₜ[R] r₂) ⊗ₜ[R₀] s)))) = t :=
     (AddEquiv.symm_apply_eq _).2 (h2.trans h1.symm)
-  show TensorProduct.congr (LinearEquiv.refl A (A ⊗[R] R'))
+  change TensorProduct.congr (LinearEquiv.refl A (A ⊗[R] R'))
       (restrictScalarsAlgebraMapEquiv (R := R) X) ((baseChangeSwapAddEquiv (R := R) (A := A)
         (R₀ := R') X').symm (baseTensorLinearEquiv (R := R) (R₀ := R₀) (R' := R') X'
           (tensorBaseChangeAddEquiv X (ModuleCat.of R₀ R')
@@ -165,24 +165,19 @@ theorem modelSource_addHom_ext {Y : Type*} [AddCommGroup Y]
       φ (((a ⊗ₜ[R] r) ⊗ₜ[A] x) ⊗ₜ[B₀] ((a₂ ⊗ₜ[R] r₂) ⊗ₜ[R₀] s)) =
         ψ (((a ⊗ₜ[R] r) ⊗ₜ[A] x) ⊗ₜ[B₀] ((a₂ ⊗ₜ[R] r₂) ⊗ₜ[R₀] s))) : φ = ψ := by
   ext t
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => simp only [map_add, ht, ht']
   | tmul m w =>
-    induction m using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.zero_tmul, map_zero]
+    induction m using TensorProduct.inductionOn with
     | add m m' hm hm' => simp only [TensorProduct.add_tmul, map_add, hm, hm']
     | tmul b x =>
-      induction b using TensorProduct.induction_on with
-      | zero => simp only [TensorProduct.zero_tmul, map_zero]
+      induction b using TensorProduct.inductionOn with
       | add b b' hb hb' => simp only [TensorProduct.add_tmul, map_add, hb, hb']
       | tmul a r =>
-        induction w using TensorProduct.induction_on with
-        | zero => simp only [TensorProduct.tmul_zero, map_zero]
+        induction w using TensorProduct.inductionOn with
         | add w w' hw hw' => simp only [TensorProduct.tmul_add, map_add, hw, hw']
         | tmul b₂ s =>
-          induction b₂ using TensorProduct.induction_on with
-          | zero => simp only [TensorProduct.zero_tmul, TensorProduct.tmul_zero, map_zero]
+          induction b₂ using TensorProduct.inductionOn with
           | add b₂ b₂' h₂ h₂' =>
             simp only [TensorProduct.add_tmul, TensorProduct.tmul_add, map_add, h₂, h₂']
           | tmul a₂ r₂ => exact h a r x a₂ r₂ s
@@ -192,8 +187,7 @@ theorem modelSource_addHom_ext {Y : Type*} [AddCommGroup Y]
 theorem modelTermSourceEquiv_smul (c : B₀) (t : (B₀ ⊗[A] X) ⊗[B₀] (B₀ ⊗[R₀] R')) :
     modelTermSourceEquiv X (c • t) =
       modelBaseRingMap R A R' R₀ c • modelTermSourceEquiv X t := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp only [zero_smul, map_zero]
+  induction c using TensorProduct.inductionOn with
   | add c c' hc hc' => simp only [add_smul, map_add, hc, hc']
   | tmul a₃ r₃ =>
     let φ : (B₀ ⊗[A] X) ⊗[B₀] (B₀ ⊗[R₀] R') →+ (A ⊗[R] R') ⊗[A] X :=
@@ -231,7 +225,7 @@ theorem isLocalizedModule_modelTermMap (S : Submonoid (A ⊗[R] R'))
       ((modelTermMap (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀)).app X).hom := by
   let := (baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := A')).toAlgebra
   have : IsScalarTower A (A ⊗[R] R') A' := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A A' a = baseChangeTensorRingMap (a ⊗ₜ[R] 1)
+    change algebraMap A A' a = baseChangeTensorRingMap (a ⊗ₜ[R] 1)
     rw [baseChangeTensorRingMap_tmul, map_one, mul_one]
   have hσ : Function.Surjective (modelBaseRingMap R A R' R₀) :=
     TensorProduct.map_surjective Function.surjective_id hsurj
@@ -241,10 +235,10 @@ theorem isLocalizedModule_modelTermMap (S : Submonoid (A ⊗[R] R'))
   have hfac : ∀ t, h t = gX (Φ t) := by
     have key : h.toAddMonoidHom = gX.toAddMonoidHom.comp Φ.toAddMonoidHom := by
       refine modelSource_addHom_ext X fun a r x a₂ r₂ s => ?_
-      show modelTermAdd (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) X
+      change modelTermAdd (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) X
           (((a ⊗ₜ[R] r) ⊗ₜ[A] x) ⊗ₜ[B₀] ((a₂ ⊗ₜ[R] r₂) ⊗ₜ[R₀] s)) = gX (Φ _)
       rw [modelTermAdd_tmul, modelUnitAddHom_tmul, modelRingMap_tmul, modelRingMap_tmul]
-      show _ = gX (modelTermSourceEquiv X _)
+      change _ = gX (modelTermSourceEquiv X _)
       rw [modelTermSourceEquiv_tmul, TensorProduct.AlgebraTensorModule.rTensor_tmul,
         Algebra.linearMap_apply, ← TensorProduct.smul_tmul, Algebra.smul_def,
         RingHom.algebraMap_toAlgebra, baseChangeTensorRingMap_tmul, Algebra.smul_def, map_one,

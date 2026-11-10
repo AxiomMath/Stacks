@@ -236,7 +236,7 @@ private theorem app_eq_of_app_eq_of_invariant {bb v : BigFppfOver B S hS} {k : v
     intro z
     rw [Functor.map_comp, Functor.map_comp, key z, ← he]
     simp only [Category.assoc]
-  show e.hom.app (op W) z₁ ≫ k = e.hom.app (op W) z₂ ≫ k
+  change e.hom.app (op W) z₁ ≫ k = e.hom.app (op W) z₂ ≫ k
   exact hinv _ _ (by rwa [key1 z₁, key1 z₂])
     (yoneda.map_injective (by rwa [key2 z₁, key2 z₂]))
 

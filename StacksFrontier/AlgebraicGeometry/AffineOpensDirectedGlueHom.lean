@@ -429,7 +429,7 @@ theorem localApp_localHom_eq {α : ∀ V : X.affineOpens, D.mod V ⟶ D'.mod V}
     (hW : O ≤ (W.1 : X.Opens)) :
     localApp (D.localHom D' α V) O hV = localApp (D.localHom D' α W) O hW := by
   refine ConcreteCategory.ext_apply fun x => ?_
-  show localAppFun (D.localHom D' α V) O hV x = localAppFun (D.localHom D' α W) O hW x
+  change localAppFun (D.localHom D' α V) O hV x = localAppFun (D.localHom D' α W) O hW x
   refine D'.glued.isSheaf.section_ext (U := op O) ?_
   intro p hp
   have hpVW : p ∈ (chart X V).opensRange ⊓ (chart X W).opensRange := by

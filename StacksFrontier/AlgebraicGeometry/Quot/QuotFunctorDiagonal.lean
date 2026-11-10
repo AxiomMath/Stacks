@@ -399,7 +399,7 @@ theorem exists_equalizerLocus_quotSitePresheaf (Q : MorphismProperty (BigFppfOve
   obtain ⟨V, s, hs, hloc⟩ := D.exists_quotientPullback_eq_iff_of_presheaf Q xM yM (hQ a)
   refine ⟨V, s, hQmono s hs, hs, fun c t => ?_⟩
   rw [← hloc c t]
-  show QuotFamilyOver.baseChange t ⟨xb, xK, xM⟩ = QuotFamilyOver.baseChange t ⟨xb, yK, yM⟩ ↔ _
+  change QuotFamilyOver.baseChange t ⟨xb, xK, xM⟩ = QuotFamilyOver.baseChange t ⟨xb, yK, yM⟩ ↔ _
   exact ⟨fun h => by injection h, fun h => QuotFamilyOver.ext rfl (heq_of_eq h)⟩
 
 /-- **The diagonal of `Quot_{F/X/B} ⟶ B` through equalizer loci**, for a property `Q` as in

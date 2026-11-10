@@ -430,6 +430,7 @@ variable {C : Type u₁} [Category.{v₁} C] [HasPullbacks C] {𝒳 : Type u₂}
   {p : 𝒳 ⥤ C} [p.IsFibered] (hp : p.IsFiberedInGroupoids) (K : Kernel p)
   {V' U' : C} (σ : V' ⟶ K.V) (v' : V' ⟶ U') (t : U' ⟶ K.U) (hσ : σ ≫ K.v = v' ≫ t)
 
+omit [p.IsFibered] in
 include hσ in
 /-- Morphisms `f₁, f₂ : Y ⟶ V'` agreeing over `U'` give morphisms `f₁ ≫ σ, f₂ ≫ σ : Y ⟶ V`
 agreeing over `U`. -/
@@ -613,6 +614,7 @@ variable {C : Type u₁} [Category.{v₁} C] [HasPullbacks C] {𝒳 : Type u₂}
   (hp : p.IsFiberedInGroupoids) (hq : q.IsFiberedInGroupoids) (F : 𝒳 ⥤ 𝒴) (hFq : F ⋙ q = p)
   {J : GrothendieckTopology C}
 
+omit [q.IsFibered] in
 include hFq hp hq in
 /-- **The glued object descends the given one.** Given a gluing kernel and its restriction to
 the limit, compatible with a morphism `γ₀ : F X₀ ⟶ Y` and with `γ : F x ⟶ Y`, and an object `x'`
@@ -681,13 +683,14 @@ theorem exists_descent_of_stageGlue (hpS : p.IsStack J) (hqS : q.IsStack J) (K :
           F.map (IsPreFibered.pullbackMap K.X₀.2 (σ ≫ K.τ)) ≫ γ₀ =
           F.map (stageMap K σ e₁) ≫ γ₀ := by
       rw [← F.map_comp_assoc, Category.assoc]
-      show F.map (Fiber.fiberInclusion.map (stageHom hp K σ v' t hσ e₁ e₂ he) ≫
+      change F.map (Fiber.fiberInclusion.map (stageHom hp K σ v' t hσ e₁ e₂ he) ≫
         stageMap K σ e₂) ≫ γ₀ = _
       rw [F.map_comp_assoc, map_stageHom hp K σ v' t hσ F γ₀ hKF e₁ e₂ he]
     rw [ha₂, ← hι₁, Category.assoc, Category.assoc, e₁', e₂']
   let x'' : q.Fiber U' := ⟨F.obj x'.1, (Functor.congr_obj hFq x'.1).trans x'.2⟩
   have := iFζ
   have := iψ
+  have := hqS.isFibered
   obtain ⟨γ', iγ', hγ'⟩ := exists_comp_eq_of_singleCover q hq hvU (x := x'')
     (fun y => hqS.isMorSheaf U' x'' y) (F.map ζ) g' hYB _ hψ
   -- the pullback of the glued object to the limit, and its comparison with `x`
@@ -995,6 +998,7 @@ theorem exists_kernelData
   · simp only [Functor.map_comp, Category.assoc]
     rw [reassoc_of% hFm, hβ]
 
+omit [q.IsFibered] in
 /-- **Descent of an object along a single-member covering descended to a stage.** Let
 `T = lim Tᵢ` be a cofiltered limit of affine schemes over `S`, let `w : W₀ ⟶ T_{i₀}` be a morphism
 from an affine scheme whose base changes are single-member fppf coverings, and let `x` be an object
@@ -1219,11 +1223,11 @@ theorem exists_descent_of_singleCover
   obtain ⟨e₂, he₂⟩ : ∃ e : V₃.obj k₃ ⟶ K.V, e = P₁₂ ≫ g₂ ≫ V.map s₃ := ⟨_, rfl⟩
   obtain ⟨e₃, he₃⟩ : ∃ e : V₃.obj k₃ ⟶ K.V, e = P₂₃ ≫ g₂ ≫ V.map s₃ := ⟨_, rfl⟩
   have h₁₂ : e₁ ≫ K.v = e₂ ≫ K.v := by
-    show e₁ ≫ Vs.app k = e₂ ≫ Vs.app k
+    change e₁ ≫ Vs.app k = e₂ ≫ Vs.app k
     rw [he₁, he₂, Category.assoc, Category.assoc, Category.assoc, Category.assoc, hVsn,
       reassoc_of% hfg]
   have h₂₃ : e₂ ≫ K.v = e₃ ≫ K.v := by
-    show e₂ ≫ Vs.app k = e₃ ≫ Vs.app k
+    change e₂ ≫ Vs.app k = e₃ ≫ Vs.app k
     rw [he₂, he₃, reassoc_of% hr₂, Category.assoc, Category.assoc, Category.assoc, hVsn,
       reassoc_of% hfg, Category.assoc g₂, hVsn]
   have h₁₃ : e₁ ≫ K.v = e₃ ≫ K.v := h₁₂.trans h₂₃
@@ -1292,7 +1296,7 @@ theorem exists_descent_of_singleCover
       (isHomLift_comp_of_eq (Category.comp_id ℓ₃) iδ₃
         (transition hp K e₁ e₂ h₁₂ ≫ transition hp K e₂ e₃ h₂₃).2)
       (isHomLift_comp_of_eq (Category.comp_id ℓ₃) iδ₃ iT₁₃) ?_
-    show (δ₃ ≫ (Fiber.fiberInclusion.map (transition hp K e₁ e₂ h₁₂) ≫
+    change (δ₃ ≫ (Fiber.fiberInclusion.map (transition hp K e₁ e₂ h₁₂) ≫
         Fiber.fiberInclusion.map (transition hp K e₂ e₃ h₂₃))) ≫
           IsPreFibered.pullbackMap K.X₀.2 (e₃ ≫ K.τ) =
       (δ₃ ≫ Fiber.fiberInclusion.map (transition hp K e₁ e₃ h₁₃)) ≫
@@ -1304,7 +1308,7 @@ theorem exists_descent_of_singleCover
         transition hp K e₂ e₃ h₂₃)) = F.map (Fiber.fiberInclusion.map
           (transition hp K e₁ e₃ h₁₃)) := by
     refine hFv _ _ ?_
-    show F.map (Fiber.fiberInclusion.map (transition hp K e₁ e₂ h₁₂) ≫
+    change F.map (Fiber.fiberInclusion.map (transition hp K e₁ e₂ h₁₂) ≫
         Fiber.fiberInclusion.map (transition hp K e₂ e₃ h₂₃)) ≫ _ = _
     rw [F.map_comp]
     refine (Category.assoc _ _ _).trans ?_
@@ -1377,12 +1381,12 @@ theorem exists_descent_of_singleCover
   let tk₄ := ι.map (D.map (k₄.hom ≫ s₀))
   have hbase : (σ ≫ K.τ) ≫ Vs.app j₁ ≫ tj₁ = Vs.app k₄ ≫ tk₄ := by
     have h₁ : σ ≫ K.τ = V.map (s₄ ≫ s₃ ≫ s₁) := by
-      show σ ≫ V.map s₁ = _
+      change σ ≫ V.map s₁ = _
       rw [hσdef, ← Functor.map_comp, Category.assoc]
     have h₂ : V.map (s₄ ≫ s₃ ≫ s₁) ≫ Vs.app j₁ =
         Vs.app k₄ ≫ (overSystem D i₀).map (s₄ ≫ s₃ ≫ s₁) := Vs.naturality _
     rw [h₁, reassoc_of% h₂]
-    show Vs.app k₄ ≫ ι.map (D.map (s₄ ≫ s₃ ≫ s₁).left) ≫
+    change Vs.app k₄ ≫ ι.map (D.map (s₄ ≫ s₃ ≫ s₁).left) ≫
       ι.map (D.map (j₁.hom ≫ s₀)) = Vs.app k₄ ≫ ι.map (D.map (k₄.hom ≫ s₀))
     rw [← ι.map_comp, ← D.map_comp, ← Category.assoc, Over.w]
   obtain ⟨ℓ₄, hℓ₄⟩ : ∃ ℓ : pullback w (ι.map (c.π.app i₀)) ⟶ V.obj k₄, ℓ = Vc.π.app k₄ :=
@@ -1390,7 +1394,7 @@ theorem exists_descent_of_singleCover
   have hℓ₄σ : ℓ₄ ≫ σ = ℓk := by rw [hℓ₄, hσdef, hℓk]; exact Vc.w (s₄ ≫ s₃)
   have hℓ₄v : ℓ₄ ≫ Vs.app k₄ = vT ≫ ι.map (c.π.app k₄.left) := by rw [hℓ₄]; exact hVsc k₄
   have hπg : ι.map (c.π.app k₄.left) ≫ tk₄ = ι.map (c.π.app i) := by
-    show ι.map (c.π.app k₄.left) ≫ ι.map (D.map (k₄.hom ≫ s₀)) = _
+    change ι.map (c.π.app k₄.left) ≫ ι.map (D.map (k₄.hom ≫ s₀)) = _
     rw [← ι.map_comp, c.w]
   obtain ⟨xU, δx, β, γ', iδx, iβ, iγ', heq⟩ := exists_descent_of_stageGlue hp hq F hFq h𝒳 h𝒴
     K L (Vs.app j₁ ≫ tj₁) γ₀ iγ₀' hKF (ι.map (c.π.app i)) γ hγ hγ₀ σ (Vs.app k₄)

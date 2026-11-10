@@ -74,7 +74,7 @@ theorem C1573.idealSheafDataOfChart_baseIdealSheaf (X : AlgebraicSpaces B (Spec 
     (B.inclusion.map ((SmallEtale.toOver B (Spec (.of A)) hA X.1).obj C).hom)
   have h4 := congrArg (fun k => k.hom ((Scheme.ΓSpecIso (.of A)).inv.hom a)) h3
   refine Eq.trans ?_ h4
-  show W.1.topIso.hom.hom ((B.inclusion.map ((SmallEtale.toOver B (Spec (.of A)) hA X.1).obj
+  change W.1.topIso.hom.hom ((B.inclusion.map ((SmallEtale.toOver B (Spec (.of A)) hA X.1).obj
     (openChart B (Spec (.of A)) hA X.1 C W.1)).hom).appTop.hom
       ((Scheme.ΓSpecIso (.of A)).inv.hom a)) = _
   exact congrArg (fun k => W.1.topIso.hom.hom (k.appTop.hom ((Scheme.ΓSpecIso (.of A)).inv.hom a)))

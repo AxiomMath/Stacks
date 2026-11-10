@@ -211,7 +211,7 @@ theorem rightDerivedCompIsoOfPreservesLeftHomology_eq_rightDerivedCompIso (P : D
     rightDerivedCompIsoOfPreservesLeftHomology P F E n hE =
       Functor.isoWhiskerLeft P (F.rightDerivedCompIso E n).symm := by
   refine Iso.ext (NatTrans.ext (funext fun X ↦ ?_))
-  show _ = (F.rightDerivedCompIso E n).inv.app (P.obj X)
+  change _ = (F.rightDerivedCompIso E n).inv.app (P.obj X)
   rw [rightDerivedCompIso_inv_app]
   with_unfolding_all
     exact (idGlue E (HomotopyCategory.homologyFunctor B' (ComplexShape.up ℕ) n) _ _ _ _ _

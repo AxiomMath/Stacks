@@ -77,7 +77,7 @@ declaration.
 
 ## What this leaves owed
 
-This is the dictionary, not the kernel step of clause (2) of `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/Conormal.lean` in
+This is the dictionary, not the kernel step of clause (2) of `Conormal.lean` in
 `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/`.
 `AlgebraicGeometry.Space.definingIdealSheafIsoKernel` presents the defining ideal sheaf of `Z` as
 the kernel of `AlgebraicGeometry.Space.structureProjection`, which is

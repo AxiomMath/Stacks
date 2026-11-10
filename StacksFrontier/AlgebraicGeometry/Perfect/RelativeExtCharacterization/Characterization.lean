@@ -161,9 +161,10 @@ theorem exists_iso_of_naturalHomIdentification {K : DStd X} {L L' : DStd S}
     (hL' : ∀ q : ℤ, ((hStd S q).obj L').IsQuasicoherent) :
     ∃ φ : L' ≅ L, ∀ (N : DStd S) (hN : boundedBelowQCoh S N) (x : L ⟶ N),
       θ'.equiv N hN (φ.hom ≫ x) = θ.equiv N hN x :=
-  exists_iso_of_representing (tensorPull f E) K (boundedBelowQCoh S) (fun N hN ↦ hN.1) L L'
-    hL hL' (fun n ↦ boundedBelowQuasicoherent_truncGE L hL _)
-    (fun n ↦ boundedBelowQuasicoherent_truncGE L' hL' _)
+  exists_iso_of_representing (tensorPull f E) K (boundedBelowQCoh S)
+    (fun N hN ↦ (hN : boundedBelowQCoh S N).1) L L' hL hL'
+    (fun n ↦ boundedBelowQuasicoherent_truncGE L hL (-(n : ℤ)))
+    (fun n ↦ boundedBelowQuasicoherent_truncGE L' hL' (-(n : ℤ)))
     (fun N hN ↦ (θ.equiv N hN).toEquiv) (fun hN hN' g x ↦ θ.naturality hN hN' g x)
     (fun N hN ↦ (θ'.equiv N hN).toEquiv) (fun hN hN' g x ↦ θ'.naturality hN hN' g x)
 

@@ -140,7 +140,7 @@ private lemma exists_section_extending_finite_nonvanishing
   refine ⟨g, hmap, fun x hxT => ?_⟩
   by_cases hxj : x ∈ Set.range j
   · obtain ⟨y, rfl⟩ := hxj
-    show y ∈ j ⁻¹ᵁ U.basicOpen g
+    change y ∈ j ⁻¹ᵁ U.basicOpen g
     rw [j.preimage_basicOpen_top, hmap]
     exact hOn (j y) hxT y rfl
   · exact hgAvoid ⟨hxT, hxj⟩
@@ -191,7 +191,7 @@ private theorem isAffine_of_isClosedImmersion_of_forall_exists
     (hq : ∀ x, ∃ i y, q i y = x) : IsAffine W := by
   have : Surjective (Sigma.desc q) := ⟨fun x => by
     obtain ⟨i, y, rfl⟩ := hq x
-    exact ⟨Sigma.ι Z i y, congrArg (fun k : Z i ⟶ W => k y) (Sigma.ι_desc q i)⟩⟩
+    exact ⟨Sigma.ι Z i y, congrArg (fun k : Z i ⟶ W => k y) (Sigma.ι_comp_desc q i)⟩⟩
   exact isAffine_of_surjective_sigmaDesc_of_isClosedImmersion q
 
 /-- A finite set of points of an affine scheme whose images avoid a closed set lies in a standard
@@ -396,7 +396,7 @@ private lemma range_inclusion_eq_preimage {X : Scheme.{u}} {I J : X.IdealSheafDa
     Set.range (Scheme.IdealSheafData.inclusion h) =
       I.subschemeι ⁻¹' Set.range J.subschemeι := by
   rw [← Scheme.IdealSheafData.inclusion_subschemeι h]
-  show _ = I.subschemeι ⁻¹' Set.range (I.subschemeι ∘ Scheme.IdealSheafData.inclusion h)
+  change _ = I.subschemeι ⁻¹' Set.range (I.subschemeι ∘ Scheme.IdealSheafData.inclusion h)
   rw [Set.range_comp, Set.preimage_image_eq _ I.subschemeι.injective]
 
 /-- The inductive step: affine opens of the reduced induced subschemes on `Z₁` and `Z₂`
@@ -513,7 +513,7 @@ public theorem exists_isAffineOpen_containing_of_components
     exact Finset.le_sup (f := cset) (Finset.mem_univ ⟨Z, hZ⟩) hxZ
   have hsurj : Function.Surjective (q Finset.univ) := by
     intro x
-    show x ∈ Set.range (Scheme.IdealSheafData.vanishingIdeal (support Finset.univ)).subschemeι
+    change x ∈ Set.range (Scheme.IdealSheafData.vanishingIdeal (support Finset.univ)).subschemeι
     rw [range_subschemeι_vanishingIdeal, hfull]
     exact Set.mem_univ x
   obtain ⟨O, hO, hOU⟩ := exists_isAffineOpen_image_of_surjective (q Finset.univ) hsurj U hU

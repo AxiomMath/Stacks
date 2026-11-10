@@ -16,7 +16,7 @@ projective `Λ`-modules representing `Λ/I`.
 ## Main results
 
 * `AlgebraicGeometry.ProEtale.isIso_proetaleCompletedBaseChangeMap_of_isIso_baseChange`: the
-  completed base change map at a derived complete `K` is invertible once the base change map is
+  completed base change map at `K` is invertible once the base change map is
   invertible at `K ⊗^L_Λ P`.
 -/
 
@@ -61,9 +61,9 @@ variable {X Y X' Y' : Scheme.{u}} (f : X ⟶ Y) (g : Y' ⟶ Y) (f' : X' ⟶ Y') 
 /-- **The completed base change map is an isomorphism once the base change map is one modulo
 `I`**: if, for a K-injective complex `K'` representing `K`, the base change map is invertible at
 `K' ⊗_Λ P` for a bounded complex `P` of finitely generated projective modules representing
-`Λ/I`, then the completed base change map at the derived complete `K` is invertible. -/
+`Λ/I`, then the completed base change map at `K` is invertible. -/
 theorem isIso_proetaleCompletedBaseChangeMap_of_isIso_baseChange
-    (K : ProetaleDerivedCategory Λ X) (hK : IsDerivedComplete I K)
+    (K : ProetaleDerivedCategory Λ X)
     (P : CochainComplex (ModuleCat.{u + 1} Λ) ℤ) (a b : ℤ) [P.IsStrictlyLE b] [P.IsStrictlyGE a]
     [∀ q, Module.Finite Λ (P.X q)] [∀ q, Module.Projective Λ (P.X q)]
     (eP : (DerivedCategory.singleFunctor (ModuleCat.{u + 1} Λ) 0).obj (ModuleCat.of Λ (Λ ⧸ I)) ≅
@@ -104,7 +104,7 @@ theorem isIso_proetaleCompletedBaseChangeMap_of_isIso_baseChange
     (proetaleModuleDerivedDirectImageUnit.{u, u + 1, 0} f')
     P a b K' hK'
   have hnat := (proetaleModuleDerivedBaseChange.{u, u + 1, 0} f g f' g' w).naturality eK.hom
-  show IsIso ((Stacks.DerivedTensor.derivedTensor (Stacks.ConstantModuleTensor.sheafTensor
+  change IsIso ((Stacks.DerivedTensor.derivedTensor (Stacks.ConstantModuleTensor.sheafTensor
     (Scheme.ProEt.topology Y') Λ) P).map
       ((proetaleModuleDerivedBaseChange.{u, u + 1, 0} f g f' g' w).app K))
   rw [← isIso_comp_left_iff ((Stacks.DerivedTensor.derivedTensor

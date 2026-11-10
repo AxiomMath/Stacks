@@ -210,7 +210,7 @@ private theorem dataSectionMap_isIso (D : BigZariskiSheafData.{u, v} B S hS)
     rw [Adjunction.homEquiv_counit]
     rfl
   rw [he]
-  show IsIso (((sheafToPresheaf _ _ ⋙ (evaluation _ _).obj (op U)).map a))
+  change IsIso (((sheafToPresheaf _ _ ⋙ (evaluation _ _).obj (op U)).map a))
   infer_instance
 
 /-- Restricting on the target before applying the comparison is the same as applying the
@@ -286,7 +286,7 @@ private theorem dataSmallSectionsMap_naturality
   have hXY : ⊤ ≤ (Opens.map (B.inclusion.map
       (smallStructureArrow B S hS T X).left).base).obj (E.obj Y) :=
     fun x hx => (E.map k).le (hX hx)
-  show (D.sheaf T).obj.map (E.map k).op ≫
+  change (D.sheaf T).obj.map (E.map k).op ≫
     dataSectionMap B S hS D _ ⊤ (E.obj X) hX =
     dataSectionMap B S hS D _ ⊤ (E.obj Y) hY ≫ dataGlobalSectionsMap B S hS D (j.map k)
   rw [dataSectionMap_restrict B S hS D _ _ _ hXY hX, ← dataSectionMap_top]
@@ -334,7 +334,7 @@ private theorem isSheafFor_bigCover
     ((SmallZariski.mem_precoverage_iff _ _ _).mpr ⟨E', rfl, hE'⟩)
   have : CategoryTheory.Limits.PreservesLimitsOfShape CategoryTheory.Limits.WalkingCospan
       (j ⋙ BigZariskiOver.toScheme B S hS) := by
-    show CategoryTheory.Limits.PreservesLimitsOfShape CategoryTheory.Limits.WalkingCospan
+    change CategoryTheory.Limits.PreservesLimitsOfShape CategoryTheory.Limits.WalkingCospan
       (SmallZariski.toScheme B T.left.obj T.left.property)
     infer_instance
   have : CategoryTheory.Limits.PreservesLimitsOfShape CategoryTheory.Limits.WalkingCospan j :=
@@ -369,7 +369,7 @@ private theorem isSheaf_of_small_restrictions
   let a (i : E.I₀) : Z i ⟶ E.X i := Over.homMk (p i) (by
     have hi := (hpq i).w
     change p i ≫ (E.f i).left = q i ≫ f.left at hi
-    show p i ≫ (E.X i).hom = q i ≫ Y.hom
+    change p i ≫ (E.X i).hom = q i ≫ Y.hom
     rw [← Over.w (E.f i), ← Over.w f]
     exact (Category.assoc _ _ _).symm.trans ((hi =≫ X.hom).trans (Category.assoc _ _ _)))
   let b (i : E.I₀) : Z i ⟶ Y := Over.homMk (q i)
@@ -588,7 +588,7 @@ private theorem dataRecoveryIso_sections_naturality
   have hfam : dataSectionMap B S hS ((bigZariskiSheafRestriction B S hS).obj F) f U V h =
       canonicalSmallPairMap B S hS F f U V X Y hX hY hXY := by
     ext s
-    show (TopCat.Sheaf.inverseImageSectionFamily (B.inclusion.map f.left).base _ _
+    change (TopCat.Sheaf.inverseImageSectionFamily (B.inclusion.map f.left).base _ _
       (TopCat.Sheaf.inverseImageSectionFamilyHom _ _ _
         (canonicalSmallPullbackFamily B S hS F f))).app
         U V h s = _
@@ -598,7 +598,7 @@ private theorem dataRecoveryIso_sections_naturality
   have hd := dataRepresentativeSectionsIso_pullback B S hS D f U V X Y hX hY h
   have haX := dataRecoveryIso_app_representative B S hS D T' U X hX
   have haY := dataRecoveryIso_app_representative B S hS D T V Y hY
-  show (_ ≫ _) ≫ (dataRepresentativeSectionsIso B S hS D T' U X hX).hom = _
+  change (_ ≫ _) ≫ (dataRepresentativeSectionsIso B S hS D T' U X hX).hom = _
   simp only [Category.assoc]
   rw [hd, reassoc_of% haY, hfam]
   refine Eq.trans ?_ (Category.assoc _ _ _).symm

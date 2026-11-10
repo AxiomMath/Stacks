@@ -209,7 +209,7 @@ theorem subspaceInclusion_comp_eq_iff (i : T ⟶ T')
       liftingProblemRestriction B S hS hF i hi x ↔ F.map i.op z = x := by
   have hι := squareZeroRangeIso_hom_ι B S hS i hi
   rw [ObjectProperty.hom_ext_iff]
-  show (liftingProblemThickening B S hS i hi).1.ι ≫ yonedaEquiv.symm z =
+  change (liftingProblemThickening B S hS i hi).1.ι ≫ yonedaEquiv.symm z =
       (squareZeroRangeIso B S hS i hi).inv ≫ yonedaEquiv.symm x ↔ _
   refine ⟨fun hh => yonedaEquiv.symm.injective ?_, fun hh => ?_⟩
   · rw [← yonedaEquiv_symm_naturality_left, ← hι, Category.assoc, hh, Iso.hom_inv_id_assoc]
@@ -228,7 +228,7 @@ theorem comp_liftingProblemMap_eq_iff (f : F ⟶ G) (y : G.obj (op T')) (z : F.o
         liftingProblemMap B S hS hF hG f =
       liftingProblemBase B S hS hG y ↔ f.app (op T') z = y := by
   rw [ObjectProperty.hom_ext_iff]
-  show yonedaEquiv.symm z ≫ f = yonedaEquiv.symm y ↔ _
+  change yonedaEquiv.symm z ≫ f = yonedaEquiv.symm y ↔ _
   rw [yonedaEquiv_symm_naturality_right]
   exact yonedaEquiv.symm.apply_eq_iff_eq
 

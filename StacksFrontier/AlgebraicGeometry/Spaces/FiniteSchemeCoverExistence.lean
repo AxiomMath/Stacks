@@ -94,7 +94,7 @@ theorem exists_isFinitePresentationOnSite_hom_forall_mem_range (hZ : B.Contains 
   obtain ⟨y, hy⟩ := surjective_val_app_of_epi_of_isQuasicoherentOnSite p hp hGqc hNqc (T x) (hT x)
     ⟨σ x, (ChartSubmodule.mem_toSubmodule D (T x) (σ x)).2 (hD x hx)⟩
   refine ⟨y, ?_⟩
-  show (N.ι.val.app (op (T x))) ((p.val.app (op (T x))) y) = σ x
+  change (N.ι.val.app (op (T x))) ((p.val.app (op (T x))) y) = σ x
   rw [hy]
   rfl
 
@@ -172,7 +172,7 @@ theorem exists_finiteSchemeCover_finiteEtaleOverDenseOpen_and_refining
     have hc : IsSurjective B S hS c := isSurjective_of_presheafSurjective B S hS c hcsurj
     have hce : IsEtale B S hS c := isEtale_of_presheaf_etale B S hS hcet
     have hcp : IsSurjective B S hS (c ≫ p) := by
-      show Function.Surjective (pointsMap B S hS (yoneda.obj V₀) (c ≫ p))
+      change Function.Surjective (pointsMap B S hS (yoneda.obj V₀) (c ≫ p))
       rw [pointsMap_comp B S hS (yoneda.obj V₀) c p]
       exact hp.comp hc
     obtain ⟨A, a, b, hAaff, hasurj, haet, hba⟩ := exists_affine_chart_through B S hS hX hXqc V₀

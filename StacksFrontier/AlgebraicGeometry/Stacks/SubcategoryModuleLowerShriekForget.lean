@@ -110,7 +110,7 @@ theorem exists_represent_affineSpace (x : X) (n : Type u) [Finite n] :
   let e : (BigFppfOver.toScheme B Y hY).obj (E.obj A) ≅ 𝔸(n; Y) :=
     (BigFppfOver.toScheme B Y hY).mapIso iA
   have he : e.hom ≫ (𝔸(n; Y) ↘ Y) = BigFppfOver.str B Y hY (E.obj A) := by
-    show B.inclusion.map iA.hom.left ≫ B.inclusion.map L.hom = B.inclusion.map (E.obj A).hom
+    change B.inclusion.map iA.hom.left ≫ B.inclusion.map L.hom = B.inclusion.map (E.obj A).hom
     rw [← B.inclusion.map_comp, Over.w iA.hom]
   refine ⟨A, fun i => e.hom.appTop (AffineSpace.coord Y i), ?_, fun V => ?_⟩
   · have hc : B.inclusion.map (p.map A.hom).left = e.hom ≫ (𝔸(n; Y) ↘ Y) := he.symm

@@ -451,7 +451,7 @@ theorem pushforwardDescent_cocycle (M : QuasicoherentModule G) :
   have hcoc := congrArg (Scheme.Modules.pushforward q).map M.cocycle
   unfold successiveDescent at hcoc
   simp only [Functor.map_comp] at hcoc
-  haveI := IsIso.mono_of_iso ((baseChangeNatTrans
+  have := IsIso.mono_of_iso ((baseChangeNatTrans
     (pasteBase f.map_source_left.symm hqc)).app M.module)
   rw [← cancel_mono ((baseChangeNatTrans
     (pasteBase f.map_source_left.symm hqc)).app M.module)]
@@ -494,7 +494,7 @@ theorem pushforwardDescent_identity (M : QuasicoherentModule G) :
   have hr : reindexHom H.identity.left (pushforwardDescent f h M) =
       (Scheme.Modules.pullbackCongr (hp H)).hom.app
         ((Scheme.Modules.pushforward f.mapObjects.left).obj M.module) := by
-    haveI := IsIso.mono_of_iso ((baseChangeNatTrans
+    have := IsIso.mono_of_iso ((baseChangeNatTrans
       (pasteBase f.map_source_left.symm he)).app M.module)
     rw [← cancel_mono ((baseChangeNatTrans
       (pasteBase f.map_source_left.symm he)).app M.module), hbridge, hcongr, hrG]
@@ -611,7 +611,7 @@ theorem pushforwardDescent_comm_iff (M : QuasicoherentModule G) (N : Quasicohere
     rw [Category.assoc, hdesc, ← Category.assoc,
       pullback_map_homEquiv_comp_baseChangeNatTrans,
       ← Adjunction.homEquiv_naturality_right, Category.assoc]
-  haveI := IsIso.mono_of_iso ((baseChangeNatTrans f.map_source_left.symm).app M.module)
+  have := IsIso.mono_of_iso ((baseChangeNatTrans f.map_source_left.symm).app M.module)
   rw [← cancel_mono ((baseChangeNatTrans f.map_source_left.symm).app M.module), EQ, EQ2,
     Equiv.apply_eq_iff_eq, reassoc_of% pullbackSquareIso_hom_comp_pullbackDescent]
   exact cancel_epi _

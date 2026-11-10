@@ -102,35 +102,35 @@ theorem not_exists_singular_point_at_infinity {k : Type*} [Field k] (a : Fin 3 �
   · have e2 : (Equiv.swap (0 : Fin 3) 1) 2 = 2 := by decide
     simp only [permuteRelation, Fin.succ_zero_eq_one] at h1 h2 h3
     simp (config := {decide := true}) only [Equiv.swap_apply_left, Equiv.swap_apply_right, e2,
-      if_true, if_false] at h1 h2 h3
+      ite_true, ite_false] at h1 h2 h3
     rw [hcj] at h1 h3
     refine ⟨a 2 2, ![-c 1, 1], fun p => ?_, fun p q hpq => ?_⟩
     · fin_cases p
       · simp only [restrictFirstVar_apply]
-        show a 1 1 = a 2 2 * -c 1 * -c 1
+        change a 1 1 = a 2 2 * -c 1 * -c 1
         linear_combination h1 - c 1 * h3
       · simp [restrictFirstVar_apply]
     · fin_cases p <;> fin_cases q
-      all_goals first | exact absurd hpq (by decide) | skip
+      all_goals try exact absurd hpq (by decide)
       simp only [restrictFirstVar_apply]
-      show a 1 2 + a 2 1 = 2 * (a 2 2 * -c 1 * 1)
+      change a 1 2 + a 2 1 = 2 * (a 2 2 * -c 1 * 1)
       linear_combination h3
   · have e1 : (Equiv.swap (0 : Fin 3) 2) 1 = 1 := by decide
     have es : (1 : Fin 2).succ = (2 : Fin 3) := by decide
     simp only [permuteRelation, es] at h1 h2 h3
     simp (config := {decide := true}) only [Equiv.swap_apply_left, Equiv.swap_apply_right, e1,
-      if_true, if_false] at h1 h2 h3
+      ite_true, ite_false] at h1 h2 h3
     rw [hcj] at h1 h2
     refine ⟨a 1 1, ![1, -c 0], fun p => ?_, fun p q hpq => ?_⟩
     · fin_cases p
       · simp [restrictFirstVar_apply]
       · simp only [restrictFirstVar_apply]
-        show a 2 2 = a 1 1 * -c 0 * -c 0
+        change a 2 2 = a 1 1 * -c 0 * -c 0
         linear_combination h1 - c 0 * h2
     · fin_cases p <;> fin_cases q
-      all_goals first | exact absurd hpq (by decide) | skip
+      all_goals try exact absurd hpq (by decide)
       simp only [restrictFirstVar_apply]
-      show a 1 2 + a 2 1 = 2 * (a 1 1 * 1 * -c 0)
+      change a 1 2 + a 2 1 = 2 * (a 1 1 * 1 * -c 0)
       linear_combination h2
 
 end AlgebraicGeometry

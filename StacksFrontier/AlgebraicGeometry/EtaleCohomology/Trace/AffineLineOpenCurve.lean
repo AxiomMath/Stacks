@@ -58,7 +58,7 @@ public theorem isCurve_of_isOpenImmersion_affineLine [Nonempty W] [LocallyOfFini
 
 /-- **A nonempty open of `𝔸¹_k` smooth of relative dimension one is affine**: it is not proper
 over `k`, since a proper open of `𝔸¹_k` is all of `𝔸¹_k`, which is affine. -/
-public theorem isAffine_of_isOpenImmersion_affineLine [Fintype k] [Nonempty W]
+public theorem isAffine_of_isOpenImmersion_affineLine [Nonempty W]
     [LocallyOfFiniteType fW] [QuasiCompact fW] [IsSeparated fW] [SmoothOfRelativeDimension 1 fW]
     (heW : eW ≫ Spec.map (CommRingCat.ofHom (algebraMap k (Polynomial k))) = fW) :
     IsAffine W := by

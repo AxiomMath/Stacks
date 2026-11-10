@@ -103,7 +103,7 @@ of `A` over `Spec R`, and let `Ω` be an affine open of `Spec R`. If the induced
 This is `AlgebraicGeometry.isIso_morphismRestrict_iff_isIso_app` together with the fact that the
 preimage of an affine open under an affine morphism is affine. -/
 theorem isIso_restrict_of_isIso_app (a : A ⟶ Spec R)
-    [IsAffine A] (ψ : A ⟶ A) (hψ : ψ ≫ a = a) (Ω : (Spec R).Opens) (hΩ : IsAffineOpen Ω)
+    [IsAffine A] (ψ : A ⟶ A) (Ω : (Spec R).Opens) (hΩ : IsAffineOpen Ω)
     (h : IsIso (ψ.app (a ⁻¹ᵁ Ω))) : IsIso (ψ ∣_ a ⁻¹ᵁ Ω) :=
   (isIso_morphismRestrict_iff_isIso_app ψ (hΩ.preimage a)).mpr h
 
@@ -111,10 +111,10 @@ theorem isIso_restrict_of_isIso_app (a : A ⟶ Spec R)
 `Stacks.RestrictIso.isIso_restrict_of_isIso_app` to `Ω = PrimeSpectrum.basicOpen g`, which is an
 affine open of `Spec R` for every `g : R`. -/
 theorem isIso_restrict_basicOpen_of_isIso_app (a : A ⟶ Spec R)
-    [IsAffine A] (ψ : A ⟶ A) (hψ : ψ ≫ a = a) (g : R)
+    [IsAffine A] (ψ : A ⟶ A) (g : R)
     (h : IsIso (ψ.app (a ⁻¹ᵁ (PrimeSpectrum.basicOpen g : (Spec R).Opens)))) :
     IsIso (ψ ∣_ a ⁻¹ᵁ (PrimeSpectrum.basicOpen g : (Spec R).Opens)) :=
-  isIso_restrict_of_isIso_app a ψ hψ _ (IsAffineOpen.Spec_basicOpen g) h
+  isIso_restrict_of_isIso_app a ψ _ (IsAffineOpen.Spec_basicOpen g) h
 
 /-! ### The combined statement -/
 
@@ -123,13 +123,13 @@ let `ψ` be a self-map of `A` over `Spec R`, and let `Ω` be an arbitrary open o
 affine nor quasi-compact — covered by a family `V` of affine opens. If `ψ.app (a ⁻¹ᵁ V i)` is an
 isomorphism for every `i`, then `ψ` restricts to an isomorphism over `a ⁻¹ᵁ Ω`. -/
 theorem isIso_morphismRestrict_preimage_of_cover (a : A ⟶ Spec R)
-    [IsAffine A] (ψ : A ⟶ A) (hψ : ψ ≫ a = a)
+    [IsAffine A] (ψ : A ⟶ A)
     {ι : Type*} (Ω : (Spec R).Opens) (V : ι → (Spec R).Opens) (hV : ⨆ i, V i = Ω)
     (haff : ∀ i, IsAffineOpen (V i))
     (h : ∀ i, IsIso (ψ.app (a ⁻¹ᵁ V i))) : IsIso (ψ ∣_ a ⁻¹ᵁ Ω) :=
   isIso_morphismRestrict_of_iSup ψ _ (fun i ↦ a ⁻¹ᵁ V i)
     (by rw [← Scheme.Hom.preimage_iSup, hV])
-    fun i ↦ isIso_restrict_of_isIso_app a ψ hψ (V i) (haff i) (h i)
+    fun i ↦ isIso_restrict_of_isIso_app a ψ (V i) (haff i) (h i)
 
 end
 

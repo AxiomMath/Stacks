@@ -329,7 +329,7 @@ private lemma affine_mem_topology_iff {S : Scheme.{u}} {X : AffineProetale S} (R
       (F.coverPreserving_restrictedTopology K)
   rw [Scheme.ProEt.topology_eq_inducedTopology,
     ← Functor.restrictedTopology_eq_inducedTopology, Functor.mem_restrictedTopology_iff]
-  show ((R.functorPushforward (AffineProetale.inclusion S)).functorPushforward
+  change ((R.functorPushforward (AffineProetale.inclusion S)).functorPushforward
       (Scheme.ProEt.forget S)).functorPushforward (Over.forget S) ∈ Scheme.proetaleTopology _ ↔ _
   simp only [← Sieve.functorPushforward_comp, affineToScheme]
   rfl
@@ -471,7 +471,7 @@ private theorem bigAffineProetale_hasEnoughPoints
   let F := E.reindex e
   have hReindex : F.sieve₀ = E.sieve₀ := congrArg Sieve.generate (E.presieve₀_reindex e)
   refine ⟨F.I₀, ?_, F.X, F.f, ?_, ?_⟩
-  · show Finite (Fin (Fintype.card E.I₀)); infer_instance
+  · change Finite (Fin (Fintype.card E.I₀)); infer_instance
   · simpa [hReindex] using hLe
   · simpa [hReindex] using hCover
 

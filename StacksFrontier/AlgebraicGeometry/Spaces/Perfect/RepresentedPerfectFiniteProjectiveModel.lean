@@ -86,7 +86,7 @@ theorem exists_finiteProjective_representedTilde_iso_of_isPerfect
   obtain ⟨C, a, b, ha, hb, hfin, hproj, ⟨eC⟩⟩ := hM
   have hbd : {i : ℤ | ¬ IsZero (C.X i)}.Finite := by
     refine Set.Finite.subset (Set.finite_Icc a b) fun i hi => ?_
-    simp only [Set.mem_setOf_eq] at hi
+    simp only [Set.mem_ofPred_eq] at hi
     refine Set.mem_Icc.2 ⟨?_, ?_⟩ <;> by_contra hcon
     · exact hi (C.isZero_of_isStrictlyGE a i (by lia))
     · exact hi (C.isZero_of_isStrictlyLE b i (by lia))

@@ -314,7 +314,7 @@ private lemma X_sub_C_ne_zero (a : k) :
   have hcoeff := congrArg (fun q : baseRing k => q.coeff (Finsupp.single () 1)) h
   have hsingle : Finsupp.single () 1 ≠ (0 : Unit →₀ ℕ) := Finsupp.single_ne_zero.mpr one_ne_zero
   have : (1 : k) = 0 := by
-    simp [MvPolynomial.coeff_sub, MvPolynomial.coeff_C_of_ne_zero hsingle] at hcoeff
+    simp [MvPolynomial.coeff_C_of_ne_zero hsingle] at hcoeff
   exact one_ne_zero this
 
 /-- Each square-zero variable `y_a` vanishes in the prime localization, being killed by the
@@ -337,7 +337,7 @@ private lemma algebraMap_mk_X_inr_eq_zero (a : k) :
       (S := Localization.AtPrime (projectionKernel k))
       (I := projectionKernel k) d).2 hd
   have hrel : d * Ideal.Quotient.mk (relationIdeal k) (MvPolynomial.X (Sum.inr a)) = 0 := by
-    show Ideal.Quotient.mk (relationIdeal k)
+    change Ideal.Quotient.mk (relationIdeal k)
       ((MvPolynomial.X (Sum.inl ()) - MvPolynomial.C a) * MvPolynomial.X (Sum.inr a)) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (Or.inl ⟨a, rfl⟩))
   have hloc := congrArg (algebraMap (extensionRing k)
@@ -356,13 +356,13 @@ private lemma algebraMap_mk_eq_zero_of_mem_nilVariableIdeal {q : MvPolynomial (U
       exact algebraMap_mk_X_inr_eq_zero k a
   | zero => simp
   | add x y _ _ hx hy =>
-      show algebraMap (extensionRing k) (Localization.AtPrime (projectionKernel k))
+      change algebraMap (extensionRing k) (Localization.AtPrime (projectionKernel k))
         ((Ideal.Quotient.mk (relationIdeal k) x) +
           (Ideal.Quotient.mk (relationIdeal k) y)) = 0
       rw [map_add, hx, hy]
       simp
   | smul c x _ hx =>
-      show algebraMap (extensionRing k) (Localization.AtPrime (projectionKernel k))
+      change algebraMap (extensionRing k) (Localization.AtPrime (projectionKernel k))
         ((Ideal.Quotient.mk (relationIdeal k) c) *
           (Ideal.Quotient.mk (relationIdeal k) x)) = 0
       rw [map_mul, hx]
@@ -392,13 +392,13 @@ lemma localization_section_retraction_comp :
   apply IsLocalization.ringHom_ext (M := (projectionKernel k).primeCompl)
   apply RingHom.ext
   intro b
-  show fractionToLocalization k
+  change fractionToLocalization k
       (localizationToFraction k (algebraMap (extensionRing k)
         (Localization.AtPrime (projectionKernel k)) b)) =
         algebraMap (extensionRing k) (Localization.AtPrime (projectionKernel k)) b
   simp only [localizationToFraction, fractionToLocalization, IsLocalization.map_eq]
   have hd : b - inclusionMap k (retractionMap k b) ∈ projectionKernel k := by
-    show retractionMap k (b - inclusionMap k (retractionMap k b)) = 0
+    change retractionMap k (b - inclusionMap k (retractionMap k b)) = 0
     rw [map_sub, retractionMap_inclusionMap, sub_self]
   have hz := localization_algebraMap_sub_retraction_zero (k := k)
     (b - inclusionMap k (retractionMap k b)) hd

@@ -154,7 +154,7 @@ theorem exists_covering_mem_ker_sq_polynomialUnit {X : C}
   have hcomp : (polynomialPresheaf J A E).map (k ≫ g).op p =
       (polynomialPresheaf J A E).map k.op ((polynomialPresheaf J A E).map g.op p) := by
     rw [op_comp]; exact (polynomialPresheaf J A E).map_comp_apply g.op k.op p
-  show (polynomialPresheaf J A E).map (k ≫ g).op p ∈ _
+  change (polynomialPresheaf J A E).map (k ≫ g).op p ∈ _
   rw [hcomp, ← hk]
   exact hmem
 

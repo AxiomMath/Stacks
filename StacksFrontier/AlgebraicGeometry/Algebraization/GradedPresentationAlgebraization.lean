@@ -111,7 +111,7 @@ public theorem isCompletionOfCoherent_of_gradedPresentation
     · intro n d y hy
       obtain ⟨x, hx, hxz⟩ := hε' n d _ (hLg n d y hy)
       refine ⟨x, hx, ?_⟩
-      show Submodule.Quotient.mk x = (ε n).symm ((L.g n).hom y)
+      change Submodule.Quotient.mk x = (ε n).symm ((L.g n).hom y)
       rw [← hxz, LinearEquiv.symm_apply_apply]
   -- the restriction maps `(Mₙ) → (Γ(U, ℱₙ))` are inverted by `Φ`
   let ρg : M ⟶ Hg :=

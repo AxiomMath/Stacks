@@ -137,7 +137,7 @@ theorem ker_eq_span_singleton_map_of_isPushout {S R S₁ R₁ : CommRingCat.{u}}
     exact (Ideal.Quotient.eq_zero_iff_mem).mp hz0
   · refine Ideal.span_le.mpr ?_
     rintro x ⟨rfl⟩
-    show τ₁.hom (φ.hom e) = 0
+    change τ₁.hom (φ.hom e) = 0
     rw [← CommRingCat.comp_apply, hc, CommRingCat.comp_apply, heτ, map_zero]
 
 /-- **The generator of the kernel of a map read through identifications of its source and its
@@ -152,7 +152,7 @@ theorem ker_eq_span_singleton_of_iso_comp {R R' S S' : CommRingCat.{u}} (i : R �
     have h2 := congrArg j.inv.hom hab
     rwa [← CommRingCat.comp_apply, ← CommRingCat.comp_apply, j.hom_inv_id] at h2
   have hkey : ∀ z : R, (i.inv ≫ T ≫ j.hom).hom (i.hom.hom z) = j.hom.hom (T.hom z) := fun z => by
-    show j.hom.hom (T.hom (i.inv.hom (i.hom.hom z))) = j.hom.hom (T.hom z)
+    change j.hom.hom (T.hom (i.inv.hom (i.hom.hom z))) = j.hom.hom (T.hom z)
     rw [hinv]
   have hεker : T.hom (i.inv.hom ε) = 0 := by
     have hmem : ε ∈ RingHom.ker (i.inv ≫ T ≫ j.hom).hom := by
@@ -162,14 +162,14 @@ theorem ker_eq_span_singleton_of_iso_comp {R R' S S' : CommRingCat.{u}} (i : R �
   refine Ideal.ext fun z => ?_
   refine ⟨fun hz => ?_, fun hz => ?_⟩
   · have h1 : i.hom.hom z ∈ RingHom.ker (i.inv ≫ T ≫ j.hom).hom := by
-      show (i.inv ≫ T ≫ j.hom).hom (i.hom.hom z) = 0
+      change (i.inv ≫ T ≫ j.hom).hom (i.hom.hom z) = 0
       rw [hkey z, show T.hom z = 0 from hz, map_zero]
     rw [h] at h1
     obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.mp h1
     refine Ideal.mem_span_singleton'.mpr ⟨i.inv.hom a, ?_⟩
     rw [← map_mul, ha, hinv]
   · obtain ⟨b, hb⟩ := Ideal.mem_span_singleton'.mp hz
-    show T.hom z = 0
+    change T.hom z = 0
     rw [← hb, map_mul, hεker, mul_zero]
 
 end CommRingCat

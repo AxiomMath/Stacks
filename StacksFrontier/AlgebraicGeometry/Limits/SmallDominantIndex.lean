@@ -125,7 +125,7 @@ lemma jointlyReflectIsomorphisms_overPullback {S : Scheme.{u}} (U : S.OpenCover)
     have _ : IsIso ((Over.pullback (U.f i)).map f) := hf i
     have : IsIso ((Over.pullback (U.f i)).map f).left :=
       (Over.forget (U.X i)).map_isIso ((Over.pullback (U.f i)).map f)
-    show IsIso (pullback.snd f.left (pullback.fst Y.hom (U.f i)))
+    change IsIso (pullback.snd f.left (pullback.fst Y.hom (U.f i)))
     let h := overPullback_map_isPullback (U.f i) f
     have hcomp : pullback.snd f.left (pullback.fst Y.hom (U.f i)) =
         h.isoPullback.inv ≫ ((Over.pullback (U.f i)).map f).left := by
@@ -251,7 +251,7 @@ private lemma exists_small_isColimit_whisker_of_injective
     apply Types.FilteredColimit.isColimitOf'
     · intro y
       refine ⟨a (some ⟨k, y⟩), ?_⟩
-      show ∃ z : (A k).obj (e (a (some ⟨k, y⟩))),
+      change ∃ z : (A k).obj (e (a (some ⟨k, y⟩))),
         y = ((c k).ι.app (e (a (some ⟨k, y⟩)))).hom z
       rw [show e (a (some ⟨k, y⟩)) = s k y from congrFun ha (some ⟨k, y⟩)]
       exact ⟨x k y, (hx k y).symm⟩
@@ -287,10 +287,10 @@ lemma exists_small_isLimit_whisker_of_isSchemeTheoreticallyDominant
   let cU (k : U.I₀) := (B k).mapCone c
   have hU (k : U.I₀) : IsLimit (cU k) := isLimitOfPreserves (B k) hc
   have _ (k : U.I₀) (i : Iᵒᵖ) : IsAffine ((D ⋙ B k).obj i) := by
-    show IsAffine (pullback (D.obj i).hom (U.f k))
+    change IsAffine (pullback (D.obj i).hom (U.f k))
     infer_instance
   have _ (k : U.I₀) : IsAffine (cU k).pt := by
-    show IsAffine (pullback c.pt.hom (U.f k))
+    change IsAffine (pullback c.pt.hom (U.f k))
     infer_instance
   let A (k : U.I₀) := (opOpEquivalence I).inverse ⋙
     ((D ⋙ B k) ⋙ Scheme.Γ.rightOp).leftOp
@@ -312,7 +312,7 @@ lemma exists_small_isLimit_whisker_of_isSchemeTheoreticallyDominant
   let E := e.monotone.functor.op
   have _ (i : Jᵒᵖ) (j : Jᵒᵖ) (a : i ⟶ j) :
       IsAffineHom (((E ⋙ D) ⋙ Over.forget S).map a) := by
-    show IsAffineHom ((D.map (E.map a)).left)
+    change IsAffineHom ((D.map (E.map a)).left)
     have : IsAffineHom ((D.map (E.map a)).left ≫ (D.obj (E.obj j)).hom) := by
       rw [(D.map (E.map a)).w]
       infer_instance
@@ -326,11 +326,11 @@ lemma exists_small_isLimit_whisker_of_isSchemeTheoreticallyDominant
   apply isLimitOfReflects (Over.forget _)
   have _ : IsAffine ((Over.forget (U.X k)).mapCone
       ((Over.pullback (U.f k)).mapCone (c.whisker E))).pt := by
-    show IsAffine (pullback c.pt.hom (U.f k))
+    change IsAffine (pullback c.pt.hom (U.f k))
     infer_instance
   have _ (j : Jᵒᵖ) :
       IsAffine ((((E ⋙ D) ⋙ Over.pullback (U.f k)) ⋙ Over.forget (U.X k)).obj j) := by
-    show IsAffine (pullback (D.obj (E.obj j)).hom (U.f k))
+    change IsAffine (pullback (D.obj (E.obj j)).hom (U.f k))
     infer_instance
   apply isLimit_of_isLimit_globalSections
   apply isLimitOfCoconeLeftOpOfCone
@@ -398,7 +398,7 @@ private lemma exists_small_isLimit_whisker_tail
     inferInstanceAs (IsAffineHom (D.map (E.obj j).hom))
   have _ : IsAffineHom cP.pt.hom := EventualLimit.isAffineHom_π_app D c hc (op i₀)
   have _ (j : (Set.Ici i₀)ᵒᵖ) : QuasiCompact (cP.π.app j).left := by
-    show QuasiCompact (c.π.app (E.obj j).left)
+    change QuasiCompact (c.π.app (E.obj j).left)
     have _ := EventualLimit.isAffineHom_π_app D c hc (E.obj j).left
     infer_instance
   have _ (j : (Set.Ici i₀)ᵒᵖ) : IsSchemeTheoreticallyDominant (cP.π.app j).left :=
@@ -480,15 +480,15 @@ theorem Scheme.exists_hom_comp_eq_comp_of_locallyOfFiniteType_of_dominant
       ({ app x := τ.app (F.obj x), naturality := fun x y g ↦ τ.naturality (F.map g) })
       f (c.whisker F) hlim
       (i := j₀) (D.map d ≫ a) (by
-        show τ.app (F.obj j₀) = _
+        change τ.app (F.obj j₀) = _
         rw [Category.assoc, ← ha]
         exact (τ.naturality d).symm)
       (j := j₀) (D.map d ≫ b) (by
-        show τ.app (F.obj j₀) = _
+        change τ.app (F.obj j₀) = _
         rw [Category.assoc, ← hb]
         exact (τ.naturality d).symm)
       (by
-        show c.π.app (F.obj j₀) ≫ _ = c.π.app (F.obj j₀) ≫ _
+        change c.π.app (F.obj j₀) ≫ _ = c.π.app (F.obj j₀) ≫ _
         rwa [← Category.assoc, ← Category.assoc, c.w d])
   refine ⟨e (unop k), he _, ?_⟩
   rw [Subsingleton.elim hik hjk] at hk
@@ -573,7 +573,7 @@ theorem Scheme.exists_hom_hom_comp_eq_comp_of_locallyOfFiniteType_of_dominant_sl
       (by rw [Category.assoc, ← ha]; exact hτ di)
       (by rw [Category.assoc, ← hb]; exact hτ dj)
       (by
-        show c.π.app (G.obj (op ⟨m, le_rfl⟩)) ≫ _ = c.π.app (G.obj (op ⟨m, le_rfl⟩)) ≫ _
+        change c.π.app (G.obj (op ⟨m, le_rfl⟩)) ≫ _ = c.π.app (G.obj (op ⟨m, le_rfl⟩)) ≫ _
         rwa [← Category.assoc, ← Category.assoc, c.w di, c.w dj])
   refine ⟨G.obj (op k), G.map (homOfLE hk).op ≫ di, G.map (homOfLE hk).op ≫ dj, ?_⟩
   rwa [A.map_comp, A.map_comp, Category.assoc, Category.assoc]

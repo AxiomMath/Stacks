@@ -229,13 +229,13 @@ theorem δ_comp_mapHomologyIso_hom (hS' : (S.map (F.mapHomologicalComplex c)).Sh
   have key := hS'.δ_eq' i j hij (F.map p₂ ≫ (S.X₃.mapHomologyIso F i).inv)
     (F.map p₁ ≫ (S.X₂.mapOpcyclesIso F i).inv) (F.map q ≫ (S.X₁.mapCyclesIso F j).inv)
     (by
-      show _ ≫ HomologicalComplex.opcyclesMap ((F.mapHomologicalComplex c).map S.g) i = _
+      change _ ≫ HomologicalComplex.opcyclesMap ((F.mapHomologicalComplex c).map S.g) i = _
       rw [Category.assoc, ← HomologicalComplex.map_opcyclesMap_comp_mapOpcyclesIso_inv,
         ← F.map_comp_assoc, hp, F.map_comp_assoc,
         HomologicalComplex.map_homologyι_comp_mapOpcyclesIso_inv, Category.assoc]
       rfl)
     (by
-      show _ ≫ HomologicalComplex.cyclesMap ((F.mapHomologicalComplex c).map S.f) j = _
+      change _ ≫ HomologicalComplex.cyclesMap ((F.mapHomologicalComplex c).map S.f) j = _
       rw [Category.assoc, ← HomologicalComplex.map_cyclesMap_comp_mapCyclesIso_inv,
         ← F.map_comp_assoc, hq, F.map_comp_assoc,
         HomologicalComplex.map_opcyclesToCycles_comp_mapCyclesIso_inv, Category.assoc]

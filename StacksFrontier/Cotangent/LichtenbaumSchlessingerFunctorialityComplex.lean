@@ -130,8 +130,7 @@ theorem freeTensorMap_relationBoundary (s : B ⊗[P.Ring] relationQuotient P) :
     f.freeTensorMap (relationBoundary P s) = relationBoundary P' (f.relationTensorMap s) := by
   let := relationModule P
   let := relationModule P'
-  induction s using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction s using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul b q =>
     rw [show b ⊗ₜ[P.Ring] q = b • ((1 : B) ⊗ₜ[P.Ring] q) by rw [smul_tmul', smul_eq_mul, mul_one],
@@ -202,7 +201,7 @@ theorem complexMap_square_zero :
   refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
   apply (ModuleCat.mono_iff_injective
     (lichtenbaumSchlessingerComplex P').differentialIso.hom).1 inferInstance
-  show (lichtenbaumSchlessingerComplex P').differentialIso.hom
+  change (lichtenbaumSchlessingerComplex P').differentialIso.hom
       ((lichtenbaumSchlessingerComplex P').complex.d (-1) 0
         ((lichtenbaumSchlessingerComplex P').freeIso.inv
           (f.freeTensorMap ((lichtenbaumSchlessingerComplex P).freeIso.hom z)))) =
@@ -225,7 +224,7 @@ theorem complexMap_square_one :
   refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
   apply (ModuleCat.mono_iff_injective
     (lichtenbaumSchlessingerComplex P').freeIso.hom).1 inferInstance
-  show (lichtenbaumSchlessingerComplex P').freeIso.hom
+  change (lichtenbaumSchlessingerComplex P').freeIso.hom
       ((lichtenbaumSchlessingerComplex P').complex.d (-2) (-1)
         ((lichtenbaumSchlessingerComplex P').relationIso.inv
           (f.relationTensorMap ((lichtenbaumSchlessingerComplex P).relationIso.hom z)))) =
@@ -260,7 +259,7 @@ theorem complexMapComponent_negTwo : f.complexMapComponent (-2) = f.complexMapTw
 /-- The component of `L → L'` in a degree `i ∉ {0, -1, -2}` is zero. -/
 theorem complexMapComponent_eq_zero (i : ℤ) (h0 : i ≠ 0) (h1 : i ≠ -1) (h2 : i ≠ -2) :
     f.complexMapComponent i = 0 := by
-  rw [complexMapComponent, dif_neg h0, dif_neg h1, dif_neg h2]
+  simp [complexMapComponent, h0, h1, h2]
 
 /-- The canonical map of Lichtenbaum–Schlessinger complexes `L → L'` attached to compatible
 presentations of a commutative square of rings: the arrows `Rel/TrivRel → Rel'/TrivRel'`,

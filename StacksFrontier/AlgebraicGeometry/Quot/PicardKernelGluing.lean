@@ -180,7 +180,7 @@ theorem exists_tripleLift (i j k : I) {Z : AlgebraicSpaces B S hS}
   have zij₂ : zij ≫ spaceMap (s.overlapSituation.overlapTestSnd (g i) (g j)) =
       vj ≫ baseChangeInclusion s.f (U j) := P.lift_snd _ _ _
   let z₃ := P'.lift zij (vk ≫ baseChangeInclusion s.f (U k)) (by
-    show zij ≫ spaceMap (s.overlapSituation.overlapTestFst (g i) (g j) ≫ g i) = _
+    change zij ≫ spaceMap (s.overlapSituation.overlapTestFst (g i) (g j) ≫ g i) = _
     rw [spaceMap_comp, ← Category.assoc, zij₁, incl i vi, incl k vk, eik])
   have z₃₁ : z₃ ≫ spaceMap (tripleToPair₁₂ g i j k) = zij := P'.lift_fst _ _ _
   have z₃₂ : z₃ ≫ spaceMap (tripleProj₃ g i j k) = vk ≫ baseChangeInclusion s.f (U k) :=
@@ -188,7 +188,7 @@ theorem exists_tripleLift (i j k : I) {Z : AlgebraicSpaces B S hS}
   let w : Z ⟶ s.baseChange (tripleTest g i j k) :=
     (AlgebraicSpaces.isPullback_fiberProduct B S hS s.f (tripleTest g i j k).hom).lift
     (vi ≫ baseChangeProjection s.f (U i)) z₃ (by
-      show _ = z₃ ≫ (spaceMap (tripleToPair₁₂ g i j k) ≫
+      change _ = z₃ ≫ (spaceMap (tripleToPair₁₂ g i j k) ≫
         (spaceMap (s.overlapSituation.overlapTestFst (g i) (g j)) ≫ (U i).hom))
       rw [← Category.assoc, z₃₁, ← Category.assoc, zij₁, Category.assoc, Category.assoc,
         baseChangeProjection_comp])
@@ -242,11 +242,11 @@ theorem exists_tripleLift (i j k : I) {Z : AlgebraicSpaces B S hS}
     rw [Category.assoc, s.overlapSituation.overlapTestComparison_comp_inclusion,
       Category.assoc, baseChangeMap_comp_inclusion, ← Category.assoc, w₂]
     refine (HomSituation.isPullback_schemeSpaceFunctor (g a).left (g b).left).hom_ext ?_ ?_
-    · show (v ≫ _) ≫ spaceMap (s.overlapSituation.overlapTestFst (g a) (g b)) =
+    · change (v ≫ _) ≫ spaceMap (s.overlapSituation.overlapTestFst (g a) (g b)) =
         (z₃ ≫ spaceMap h) ≫ spaceMap (s.overlapSituation.overlapTestFst (g a) (g b))
       rw [Category.assoc, hlf, ← Category.assoc, hva,
         Category.assoc, ← spaceMap_comp, ha]
-    · show (v ≫ _) ≫ spaceMap (s.overlapSituation.overlapTestSnd (g a) (g b)) =
+    · change (v ≫ _) ≫ spaceMap (s.overlapSituation.overlapTestSnd (g a) (g b)) =
         (z₃ ≫ spaceMap h) ≫ spaceMap (s.overlapSituation.overlapTestSnd (g a) (g b))
       rw [Category.assoc, hls, ← Category.assoc, hvb,
         Category.assoc, ← spaceMap_comp, hb]

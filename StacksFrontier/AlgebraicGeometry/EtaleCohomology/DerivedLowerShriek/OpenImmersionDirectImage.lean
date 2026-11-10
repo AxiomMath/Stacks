@@ -123,7 +123,7 @@ theorem isIso_etaleModuleInverseImage_map_homology_of_isIso_univ {V X : Scheme.{
       ((DerivedCategory.Plus.homologyFunctor _ q).map γ)) := by
   have h1 : IsIso (((etaleModuleInverseImage.{u, w} Λ e).mapDerivedCategory ⋙
       DerivedCategory.homologyFunctor _ q).map (DerivedCategory.Plus.ι.map γ)) := by
-    show IsIso ((DerivedCategory.Plus.homologyFunctor _ q).map
+    change IsIso ((DerivedCategory.Plus.homologyFunctor _ q).map
       ((etaleModuleDerivedInverseImagePlus.{u, w} Λ e).map γ))
     infer_instance
   exact (NatIso.isIso_map_iff

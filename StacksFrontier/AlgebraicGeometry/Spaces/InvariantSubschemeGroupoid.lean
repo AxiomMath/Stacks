@@ -110,7 +110,7 @@ theorem pullback_obj_eq_iff {j : PreRelation R U} {G : GroupoidScheme S}
     IsInvariantMonomorphism G (Z.arrow ≫ eqToHom hobj.symm) ↔
       ((Subobject.pullback j.target.left).obj Z =
         (Subobject.pullback j.source.left).obj Z) := by
-  show ((Subobject.pullback G.target.left).obj
+  change ((Subobject.pullback G.target.left).obj
         (Subobject.mk (Z.arrow ≫ eqToHom hobj.symm)) =
       (Subobject.pullback G.source.left).obj
         (Subobject.mk (Z.arrow ≫ eqToHom hobj.symm))) ↔ _

@@ -67,6 +67,7 @@ namespace AlgebraicGeometry.Space
 attribute [local instance] pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site goes deep
 /-- Pullbacks of presheaves on a big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_PurelyInseparableSchemeDescent

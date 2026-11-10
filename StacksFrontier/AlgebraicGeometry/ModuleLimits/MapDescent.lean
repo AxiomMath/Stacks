@@ -140,14 +140,14 @@ private theorem key (hd : IsColimit d) (P : Type*) [AddCommGroup P] [Module A P]
   have hds : DirectedSystem (fun j : J => (G.obj (GJ.obj j) : Type u))
       (fun i j h => (f i j h : G.obj (GJ.obj i) → G.obj (GJ.obj j))) := by
     refine ⟨fun i x => ?_, fun {i j k} hij hjk x => ?_⟩
-    · show G.map (GJ.map (homOfLE (le_refl i))) x = x
+    · change G.map (GJ.map (homOfLE (le_refl i))) x = x
       rw [Subsingleton.elim (homOfLE (le_refl i)) (𝟙 i), GJ.map_id, G.map_id]; rfl
-    · show G.map (GJ.map (homOfLE hjk)) (G.map (GJ.map (homOfLE hij)) x) = _
+    · change G.map (GJ.map (homOfLE hjk)) (G.map (GJ.map (homOfLE hij)) x) = _
       rw [← ConcreteCategory.comp_apply, ← G.map_comp, ← GJ.map_comp]; rfl
   have hf : ∀ (i j : J) (h : i ≤ j) (x : G.obj (GJ.obj i)),
       algebraMap (G.obj (GJ.obj j)) d.pt (f i j h x) = algebraMap (G.obj (GJ.obj i)) d.pt x := by
     intro i j h x
-    show d.ι.app (GJ.obj j) (G.map (GJ.map (homOfLE h)) x) = d.ι.app (GJ.obj i) x
+    change d.ι.app (GJ.obj j) (G.map (GJ.map (homOfLE h)) x) = d.ι.app (GJ.obj i) x
     rw [← ConcreteCategory.comp_apply, d.w]
   have hdJ : IsColimit (d.whisker GJ) := (Functor.Final.isColimitWhiskerEquiv GJ d).symm hd
   have hsurj : ∀ r : d.pt, ∃ (j : J) (s : G.obj (GJ.obj j)),
@@ -159,14 +159,14 @@ private theorem key (hd : IsColimit d) (P : Type*) [AddCommGroup P] [Module A P]
       ∃ (k : J) (hjk : j ≤ k), f j k hjk s = 0 := by
     intro j s hs
     have h0 : (d.whisker GJ).ι.app j s = (d.whisker GJ).ι.app j 0 := by
-      show d.ι.app (GJ.obj j) s = d.ι.app (GJ.obj j) 0
+      change d.ι.app (GJ.obj j) s = d.ι.app (GJ.obj j) 0
       rw [map_zero]
       exact hs
     obtain ⟨k, g₁, g₂, hg⟩ := Concrete.isColimit_exists_of_rep_eq (GJ ⋙ G) hdJ s 0 h0
     refine ⟨k, leOfHom g₁, ?_⟩
     have hg₁ : homOfLE (leOfHom g₁) = g₁ := Subsingleton.elim _ _
     have hg' : G.map (GJ.map g₁) s = G.map (GJ.map g₂) (0 : G.obj (GJ.obj j)) := hg
-    show G.map (GJ.map (homOfLE (leOfHom g₁))) s = 0
+    change G.map (GJ.map (homOfLE (leOfHom g₁))) s = 0
     rw [hg₁, hg', map_zero]
   exact ⟨J, ‹_›, ‹_›, ‹_›, GJ, alg, fun {i j} h => f i j h,
     fun j => IsScalarTower.toAlgHom A (G.obj (GJ.obj j)) d.pt, fun j x => rfl,

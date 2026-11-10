@@ -270,7 +270,7 @@ theorem isIso_coherator_map_tensorHom_counit
       (isIso_app_of_isParasitic_kernel_cokernel B S hS _
         (isParasitic_kernel_tensorHom B S hS 𝒳 _ _ hF.1 hF.2 hG.1 hG.2)
         (isParasitic_cokernel_tensorHom B S hS 𝒳 _ _ hF.1 hF.2 hG.1 hG.2))
-  show IsIso ((coherator B S hS 𝒳).map (L.ι.map _))
+  change IsIso ((coherator B S hS 𝒳).map (L.ι.map _))
   rw [hι]
   exact isIso_map_of_isIso_modulePullback_map B S hS 𝒳 (coheratorAdjunction B S hS 𝒳) _
     (hrqc _ (lqcohSheafFbcFppfModules_sheafTensor B E h S hS 𝒳 _ _
@@ -340,6 +340,7 @@ section Stacks0GQL
 variable (E : BigEtaleSite.{u}) (h : E.cutoff = B.cutoff)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the `kernel` of a map in `Mod(𝒪_𝒳)` in the statement
 /-- **Stacks 0GQL, part (3), the kernel in `Mod(𝒪_𝒳)`.** For a map `φ : 𝓕 ⟶ 𝓖` of quasi-coherent
 modules on an algebraic stack, the kernel of `φ` computed in `Mod(𝒪_𝒳)` lies in
 `LQCoh^fbc(𝒪_𝒳)`, `LQCoh^fbc(𝒪_𝒳)` being a weak Serre subcategory containing `QCoh(𝒪_𝒳)`

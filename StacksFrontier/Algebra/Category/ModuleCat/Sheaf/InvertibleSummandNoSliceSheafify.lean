@@ -141,7 +141,7 @@ theorem localValues_compatible {U : C} (s : ToType (Y.obj (op U))) :
       (P := N ⋙ forget AddCommGrpCat.{w})
       (fun W p hp => ψ.app (op W) (Presheaf.localPreimage f s p hp)) := by
   intro W₁ W₂ T g₁ g₂ p₁ p₂ h₁ h₂ hcomm
-  show N.map g₁.op (ψ.app (op W₁) (Presheaf.localPreimage f s p₁ h₁))
+  change N.map g₁.op (ψ.app (op W₁) (Presheaf.localPreimage f s p₁ h₁))
       = N.map g₂.op (ψ.app (op W₂) (Presheaf.localPreimage f s p₂ h₂))
   rw [← NatTrans.naturality_apply ψ g₁.op, ← NatTrans.naturality_apply ψ g₂.op]
   refine app_congr_of_app_eq f hN ψ _ _ ?_
@@ -195,7 +195,7 @@ theorem exists_comp_eq [Presheaf.IsLocallySurjective J f] : ∃ g : Y ⟶ N, f �
     have hRHS : N.map p.op (N.map g (val Z s)) = ψ.app (op W) t := by
       rw [← Functor.map_comp_apply]
       exact hval Z s W (p ≫ g.unop) t ht
-    show N.map p.op (val Z' (Y.map g s)) = N.map p.op (N.map g (val Z s))
+    change N.map p.op (val Z' (Y.map g s)) = N.map p.op (N.map g (val Z s))
     rw [hLHS, hRHS]
   · ext Z t
     have h := hval Z (f.app Z (t : ToType (X.obj Z))) Z.unop (𝟙 Z.unop) t (by simp)
@@ -317,7 +317,7 @@ theorem isSplitMono_of_dualBasis'
       ModuleCat.hom_ext (LinearMap.ext fun v ↦ ?_))
     have hj : ∀ j : Fin n, (α j ≫ ρ j).val.app W v = c W j • v := fun j ↦ by
       have e1 : (α j ≫ ρ j).val = coev Lp Np (y j) ≫ proj Lp Np ψ (x j) := by
-        show (coev Lp Np (y j) ≫ ψ) ≫ (ρ j).val = _
+        change (coev Lp Np (y j) ≫ ψ) ≫ (ρ j).val = _
         rw [Category.assoc, hρ]
       rw [e1]
       exact coev_proj_app Lp Np ψ (x j) (y j) W v (c W j) (hc W j)

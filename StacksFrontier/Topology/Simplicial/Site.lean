@@ -177,7 +177,7 @@ private lemma hasPullback_of_isLevelwise {A B C : SimplicialOpen X}
   have hc : p₁ ≫ (⟨𝟙 _, gle⟩ : (⟨Bd, Bo⟩ : SimplicialOpen X) ⟶
       (⟨Bd, Co⟩ : SimplicialOpen X)) = p₂ ≫ f := by
     apply Hom.ext
-    show f.base ≫ 𝟙 _ = 𝟙 _ ≫ f.base
+    change f.base ≫ 𝟙 _ = 𝟙 _ ≫ f.base
     simp
   let c : PullbackCone (⟨𝟙 _, gle⟩ : (⟨Bd, Bo⟩ : SimplicialOpen X) ⟶
       (⟨Bd, Co⟩ : SimplicialOpen X)) f := PullbackCone.mk p₁ p₂ hc
@@ -192,10 +192,10 @@ private lemma hasPullback_of_isLevelwise {A B C : SimplicialOpen X}
   · apply Hom.ext
     have q := congrArg Hom.base s.condition
     change s.fst.base ≫ 𝟙 _ = s.snd.base ≫ f.base at q
-    show s.snd.base ≫ f.base = s.fst.base
+    change s.snd.base ≫ f.base = s.fst.base
     simpa using q.symm
   · apply Hom.ext
-    show s.snd.base ≫ 𝟙 _ = s.snd.base
+    change s.snd.base ≫ 𝟙 _ = s.snd.base
     simp
   · apply Hom.ext
     have q := congrArg Hom.base hm₂
@@ -207,7 +207,7 @@ private lemma isLevelwise_comp {A B C : SimplicialOpen X} (f : A ⟶ B) (g : B �
   rcases hf with ⟨e, he⟩
   rcases hg with ⟨e', he'⟩
   refine ⟨e.trans e', ?_⟩
-  show f.base ≫ g.base = _
+  change f.base ≫ g.base = _
   rw [he, he']
   simp
 
@@ -238,7 +238,7 @@ private lemma isLevelwise_of_isPullback {P Y Z S : SimplicialOpen X}
   have hab : a ≫ g = b ≫ (⟨𝟙 _, fle⟩ : (⟨Zd, Zo⟩ : SimplicialOpen X) ⟶
       (⟨Zd, So⟩ : SimplicialOpen X)) := by
     apply Hom.ext
-    show 𝟙 _ ≫ g.base = g.base ≫ 𝟙 _
+    change 𝟙 _ ≫ g.base = g.base ≫ 𝟙 _
     simp
   let l : Q ⟶ P := h.lift a b hab
   have hl₁ : l ≫ p₁ = a := h.lift_fst a b hab
@@ -251,7 +251,7 @@ private lemma isLevelwise_of_isPullback {P Y Z S : SimplicialOpen X}
       apply Hom.ext
       have q := congrArg Hom.base hl₁
       change l.base ≫ p₁.base = 𝟙 _ at q
-      show p₁.base ≫ l.base ≫ p₁.base = 𝟙 _ ≫ p₁.base
+      change p₁.base ≫ l.base ≫ p₁.base = 𝟙 _ ≫ p₁.base
       calc
         _ = p₁.base ≫ 𝟙 _ := congrArg (fun k ↦ p₁.base ≫ k) q
         _ = p₁.base := Category.comp_id _
@@ -262,7 +262,7 @@ private lemma isLevelwise_of_isPullback {P Y Z S : SimplicialOpen X}
       have hl := congrArg Hom.base hl₂
       change l.base ≫ p₂.base = g.base at hl
       change p₁.base ≫ g.base = p₂.base ≫ 𝟙 _ at hs
-      show p₁.base ≫ l.base ≫ p₂.base = 𝟙 _ ≫ p₂.base
+      change p₁.base ≫ l.base ≫ p₂.base = 𝟙 _ ≫ p₂.base
       rw [hl]
       simp only [hs]
       simp)
@@ -293,11 +293,11 @@ theorem precoverage_isStableUnderBaseChange (X : SimplicialObject TopCat.{u}) :
     let b : W ⟶ Z i := ⟨g₀.base ≫ inv (f i).base, fun _ hw ↦ hw.2⟩
     have hab : a ≫ g₀ = b ≫ f i := by
       apply Hom.ext
-      show 𝟙 _ ≫ g₀.base = (g₀.base ≫ inv (f i).base) ≫ (f i).base
+      change 𝟙 _ ≫ g₀.base = (g₀.base ≫ inv (f i).base) ≫ (f i).base
       simp
     let l : W ⟶ P i := (h i).lift a b hab
     have hxW : x ∈ W.toOpens := ⟨hx, by
-      show X.map (g₀.base ≫ inv (f i).base) x ∈ (Z i).toOpens
+      change X.map (g₀.base ≫ inv (f i).base) x ∈ (Z i).toOpens
       rw [Functor.map_comp_apply]
       rw [← hzmap, map_map_eq_of_comp_eq_id _ _ (by simp)]
       exact hz⟩

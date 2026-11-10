@@ -292,7 +292,7 @@ public theorem projectiveLine_fixedPointNumber (d : ℤ) :
     projectiveLineJacobianCorrespondence.fixedPointNumber
       (projectiveLineEndomorphismData d) = 1 + d := by
   rw [projectiveLineJacobianCorrespondence.fixedPointNumber_eq]
-  show 1 - (0 : ℤ) + d = 1 + d
+  change 1 - (0 : ℤ) + d = 1 + d
   ring
 
 end Stacks.EtaleCohomology

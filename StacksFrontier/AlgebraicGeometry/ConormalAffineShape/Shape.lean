@@ -39,7 +39,8 @@ hypotheses of Tag 01R3 part (2) verbatim.
   closed-immersion factorization `(U, i')` of `i` and an open `V ≤ U` of `X`, the restriction of
   `Stacks.Conormal.conormalSheaf i` to `i ⁻¹ᵁ V` is the module pullback along `i ∣_ V` of the
   ideal sheaf of `i ∣_ V`. The factorization has disappeared from the statement.
-* `Stacks.Conormal.AffineShape.morphismRestrict_isoSpec_eq`: the presentation square of part (2) with
+* `Stacks.Conormal.AffineShape.morphismRestrict_isoSpec_eq`: the presentation square of part (2)
+  with
   the fibre product replaced by `i ⁻¹ᵁ V`.
 * `Stacks.Conormal.AffineShape.conormalSheafRestrictIsoAffineModel`: **the junction.** From the
   data `hV, I, e, he` of part (2) and nothing else, the restriction of the conormal sheaf to
@@ -94,7 +95,8 @@ quasi-compact, and the only closed-immersion hypothesis used is the one carried 
 
 ## Universe situation
 
-A single universe `u`, as in the statements of Tag 01R3: `Scheme.{u}` and `SheafOfModules.{u}`, forced by
+A single universe `u`, as in the statements of Tag 01R3: `Scheme.{u}` and `SheafOfModules.{u}`,
+forced by
 `RingedSpaceModuleAdjunction`.
 
 ## Transparency gotchas
@@ -143,7 +145,8 @@ below is phrased at `⊤` of `i ⁻¹ᵁ V` rather than at `V` of `X`; see the n
   type of part (2); what the statement of part (2) adds beyond it is the generator formula,
   the next item.
 * **No generator formula.** Nothing here says where a named *section of a module* goes, so the
-  generator lemma `pushforwardConormalIsoCotangent_apply` and the `WithQuotient` subtype are untouched.
+  generator lemma `pushforwardConormalIsoCotangent_apply` and the `WithQuotient` subtype are
+  untouched.
   What `appLE_eq_ΓSpecIso_inv` supplies is only the ring-map half: the hypothesis of part (2)'s
   generator formula, re-expressed so that the element of `Γ(X, V)` naming the generator reaches
   `W` through the same `(Scheme.ΓSpecIso Γ(X, V)).inv` the affine model uses. The formula itself

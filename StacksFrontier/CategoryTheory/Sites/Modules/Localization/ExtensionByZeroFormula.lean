@@ -172,7 +172,7 @@ noncomputable def sumFamilyMap (G : PresheafOfModules.{u} (localizedRingSheaf X 
 lemma sumFamilyMap_id (G : PresheafOfModules.{u} (localizedRingSheaf X F).obj)
     (V : X.Cᵒᵖ) (s : F.obj.obj V) (h : F.obj.map (𝟙 V) s = s)
     (x : sumFamily X F G V s) : sumFamilyMap X F G (𝟙 V) s s h x = x := by
-  show G.map (elementMap X F (𝟙 V) s s h) x = _
+  change G.map (elementMap X F (𝟙 V) s s h) x = _
   rw [elementMap_id, G.map_id]
   rfl
 
@@ -185,7 +185,7 @@ lemma sumFamilyMap_comp (G : PresheafOfModules.{u} (localizedRingSheaf X F).obj)
     sumFamilyMap X F G (f ≫ g) s r l x =
       sumFamilyMap X F G g t r k (sumFamilyMap X F G f s t h x) := by
   subst h k
-  show G.map (elementMap X F (f ≫ g) s _ l) x = _
+  change G.map (elementMap X F (f ≫ g) s _ l) x = _
   rw [elementMap_comp X F f g s (F.obj.map f s) _ rfl rfl, G.map_comp_apply]
   rfl
 
@@ -210,7 +210,7 @@ lemma sumMap_ι (G : PresheafOfModules.{u} (localizedRingSheaf X F).obj)
       Sigma.ι (sumFamily X F G W) t (sumFamilyMap X F G f s t h x) := by
   subst t
   dsimp only [sumMap]
-  rw [← ModuleCat.comp_apply, Sigma.ι_desc]
+  rw [← ModuleCat.comp_apply, Sigma.ι_comp_desc]
   rfl
 
 /-- **The direct-sum presheaf of modules** `V ↦ ⨁_{s ∈ F(V)} G(V, s)`, whose sheafification is
@@ -301,7 +301,7 @@ lemma sumDesc_ι (G : PresheafOfModules.{u} (localizedRingSheaf X F).obj)
     (V : X.Cᵒᵖ) (s : F.obj.obj V) (x : sumFamily X F G V s) :
     Sigma.desc (sumDescApp X F G N α V) (Sigma.ι (sumFamily X F G V) s x) =
       sumDescApp X F G N α V s x := by
-  rw [← ModuleCat.comp_apply, Sigma.ι_desc]
+  rw [← ModuleCat.comp_apply, Sigma.ι_comp_desc]
 
 /-- The map out of the direct-sum presheaf determined by a map `G ⟶ j_*N`: on the summand
 indexed by `s` it is the given map at the element `(V, s)`. -/
@@ -330,9 +330,9 @@ lemma sumUnit_desc (G : PresheafOfModules.{u} (localizedRingSheaf X F).obj)
   intro A
   induction A using elementObj_induction X F
   rename_i V s
-  show sumUnitApp X F G (elementObj X F V s) ≫ _ = _
+  change sumUnitApp X F G (elementObj X F V s) ≫ _ = _
   rw [sumUnitApp_elementObj]
-  exact Sigma.ι_desc (sumDescApp X F G N α V) s
+  exact Sigma.ι_comp_desc (sumDescApp X F G N α V) s
 
 /-- Two maps out of the direct-sum presheaf agree once they agree after `sumUnit`. -/
 lemma sum_hom_ext (G : PresheafOfModules.{u} (localizedRingSheaf X F).obj)
@@ -407,7 +407,7 @@ theorem extensionByZeroPresheafSectionIso_inv_ι
         (elementModuleRingPresheafHom X F)).unit.app G.val).app
           (Opposite.op
             (CostructuredArrow.mk (yonedaEquiv.symm s) : elementSite X F))) :=
-  heq_of_eq <| Sigma.ι_desc (sumDescApp X F G.val
+  heq_of_eq <| Sigma.ι_comp_desc (sumDescApp X F G.val
     ((PresheafOfModules.pullback.{u} (elementModuleRingPresheafHom X F)).obj G.val)
     ((PresheafOfModules.pullbackPushforwardAdjunction.{u}
       (elementModuleRingPresheafHom X F)).unit.app G.val) (Opposite.op V)) s

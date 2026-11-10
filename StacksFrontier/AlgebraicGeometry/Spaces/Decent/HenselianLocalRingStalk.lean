@@ -537,7 +537,7 @@ theorem openRestrictionSectionHom_map (hDecent : IsDecentSpace B S hS X)
       openRestrictionSectionHom B S hS X hX x hDecent U W hW s := by
   let Wv : V.scheme.left.1.Opens := f.hom.left.1 ⁻¹ᵁ W
   have hWv : V.point ∈ Wv := by
-    show f.hom.left.1 V.point ∈ W
+    change f.hom.left.1 V.point ∈ W
     rw [f.map_point]
     exact hW
   let fr : Wv.toScheme ⟶ W.toScheme := f.hom.left.1 ∣_ W
@@ -693,7 +693,7 @@ theorem stalkToHenselianLocalRing_naturality (hDecent : IsDecentSpace B S hS X)
   obtain ⟨W, hW, s, rfl⟩ := U.scheme.left.1.presheaf.exists_germ_eq z
   let Wv := f.hom.left.1 ⁻¹ᵁ W
   have hWv : V.point ∈ Wv := by
-    show f.hom.left.1 V.point ∈ W
+    change f.hom.left.1 V.point ∈ W
     rw [f.map_point]
     exact hW
   have hstalk : neighborhoodStalkMap B S hS X hX x f
@@ -845,12 +845,12 @@ theorem neighborhood_etale {V U : ElementaryEtaleNeighborhood B S hS X hX x} (f 
   let : P.RespectsIso := by
     apply MorphismProperty.RespectsIso.mk
     · intro A C D e g hg
-      show Etale ((BigFppfOver.toScheme B S hS).map (e.hom ≫ g))
+      change Etale ((BigFppfOver.toScheme B S hS).map (e.hom ≫ g))
       rw [Functor.map_comp]
       let : Etale ((BigFppfOver.toScheme B S hS).map g) := hg
       infer_instance
     · intro A C D e g hg
-      show Etale ((BigFppfOver.toScheme B S hS).map (g ≫ e.hom))
+      change Etale ((BigFppfOver.toScheme B S hS).map (g ≫ e.hom))
       rw [Functor.map_comp]
       let : Etale ((BigFppfOver.toScheme B S hS).map g) := hg
       infer_instance
@@ -859,7 +859,7 @@ theorem neighborhood_etale {V U : ElementaryEtaleNeighborhood B S hS X hX x} (f 
     intro Y g
     refine ⟨Y, g, 𝟙 Y, ?_, ?_⟩
     · simpa using IsPullback.of_id_snd (f := g)
-    · show Etale ((BigFppfOver.toScheme B S hS).map (𝟙 Y))
+    · change Etale ((BigFppfOver.toScheme B S hS).map (𝟙 Y))
       infer_instance
   exact etale_of_etale_charts B S hS V.toSpace U.toSpace
     (by simpa using V.etale_toSpace V.scheme (𝟙 _) (hid V.scheme))
@@ -1017,10 +1017,10 @@ theorem isHenselization_of_algEquiv {R : Type u} {A : Type v} {C : Type w}
   obtain ⟨q, hq⟩ := IsLocalRing.IsHenselization.exists_residueFieldEquiv
     (R := R) (L := IsLocalRing.ResidueField R) (Rh := A)
   refine ⟨q.trans (IsLocalRing.ResidueField.mapEquiv e.toRingEquiv), fun r ↦ ?_⟩
-  show IsLocalRing.ResidueField.mapEquiv e.toRingEquiv
+  change IsLocalRing.ResidueField.mapEquiv e.toRingEquiv
     (q (algebraMap _ _ (IsLocalRing.residue R r))) = _
   rw [hq]
-  show IsLocalRing.ResidueField.map e.toRingHom
+  change IsLocalRing.ResidueField.map e.toRingHom
     (IsLocalRing.residue A (algebraMap R A r)) = _
   rw [IsLocalRing.ResidueField.map_residue]
   exact congrArg (IsLocalRing.residue C) (e.commutes r)
@@ -1123,7 +1123,7 @@ theorem henselianLocalRing_isHenselization (hDecent : IsDecentSpace B S hS X)
       (U.scheme.left.1.presheaf.germ W U.point hW s) = (ι.app (op N)).hom a := by
     rw [← hg, RingHom.comp_apply, hstalk, hleg]
     rfl
-  show e (algebraMap _ Rh _) = stalkToHenselianLocalRing B S hS X hX x hDecent U _
+  change e (algebraMap _ Rh _) = stalkToHenselianLocalRing B S hS X hX x hDecent U _
   rw [halg]
   exact (he (Over.mk f) a).trans
     (stalkToHenselianLocalRing_openGerm B S hS X hX x hDecent U W hW s).symm

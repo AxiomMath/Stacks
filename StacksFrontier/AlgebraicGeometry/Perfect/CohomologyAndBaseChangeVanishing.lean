@@ -60,7 +60,7 @@ attribute [local instance 10000] HasDerivedCategory.standard
 section Model
 
 variable {A : Type u} [CommRing A] {X : Scheme.{u}} (f : X ⟶ Spec (.of A))
-  {I : Type u} [Fintype I] [LinearOrder I] (U : I → X.Opens) (hU : (⊤ : X.Opens) = ⨆ i, U i)
+  {I : Type u} [Finite I] [LinearOrder I] (U : I → X.Opens) (hU : (⊤ : X.Opens) = ⨆ i, U i)
   (F : X.Modules) [F.IsQuasicoherent]
 
 /-- The Čech model is perfect. -/
@@ -81,6 +81,7 @@ def totalDerivedExtensionScalarsModelIso [IsSeparated f] {B : Type u} [CommRing 
         (DerivedCategory.Q.obj (baseAlternatingCechComplex f U hU F)) ≅
       DerivedCategory.Q.obj (((ModuleCat.extendScalars.{u, u, u} φ).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj (baseAlternatingCechComplex f U hU F)) := by
+  let _ : Fintype I := Fintype.ofFinite I
   have : ∀ i, Module.Flat A ((baseAlternatingCechComplex f U hU F).X i) :=
     flat_baseAlternatingCechComplex_X f U hU F hUaff hflat
   have := (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
@@ -265,7 +266,7 @@ theorem flat_restrictScalars_localization (g : A) :
       invFun := fun c => c
       map_add' := fun _ _ => rfl
       map_smul' := fun a c => by
-        show a • c = algebraMap A (Localization.Away g) a * c
+        change a • c = algebraMap A (Localization.Away g) a * c
         rw [Algebra.smul_def]
       left_inv := fun _ => rfl
       right_inv := fun _ => rfl }
@@ -315,7 +316,7 @@ theorem baseChange_exact_of_exactAt_localization (L : CochainComplex (ModuleCat.
   have hnat : ∀ {M N : ModuleCat.{u} A} (h : M ⟶ N) (x : (ModuleCat.extendScalars.{u, u, u}
       (ψ.comp α)).obj M), (((ModuleCat.extendScalars.{u, u, u} α).map h).hom.lTensor B)
         (eL M x) = eL N ((h.hom.baseChange B) x) := fun h x => by
-    rw [← LinearMap.baseChange_eq_ltensor]
+    rw [← LinearMap.baseChange_eq_lTensor]
     exact (extendScalarsComp_naturality α ψ h x).symm
   have key : ∀ {M N P : ModuleCat.{u} A} (h₁ : M ⟶ N) (h₂ : N ⟶ P),
       Function.Exact (((ModuleCat.extendScalars.{u, u, u} α).map h₁).hom.lTensor B)
@@ -352,7 +353,7 @@ theorem ker_d_zero_one_eq {R : Type u} [CommRing R] (K : CochainComplex (ModuleC
   have h : (ComplexShape.up ℕ).next 0 = 1 := CochainComplex.next ℕ 0
   have hinj : Function.Injective (K.XIsoOfEq h.symm).hom.hom :=
     (K.XIsoOfEq h.symm).toLinearEquiv.injective
-  show LinearMap.ker (K.d 0 1).hom = LinearMap.ker (K.d 0 ((ComplexShape.up ℕ).next 0)).hom
+  change LinearMap.ker (K.d 0 1).hom = LinearMap.ker (K.d 0 ((ComplexShape.up ℕ).next 0)).hom
   rw [← K.d_comp_XIsoOfEq_hom h.symm 0, ModuleCat.hom_comp, LinearMap.ker_comp,
     LinearMap.ker_eq_bot.2 hinj, Submodule.comap_bot]
 

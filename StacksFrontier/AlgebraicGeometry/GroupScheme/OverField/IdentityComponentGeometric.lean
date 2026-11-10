@@ -61,7 +61,7 @@ private theorem identityPoint_fixed_galoisAction
     dsimp [unit]
     rw [CategoryTheory.Over.grpObjMkPullbackSnd_one, CategoryTheory.Over.comp_left,
       CategoryTheory.Over.ε_pullback_left]
-    show (inv (pullback.snd (𝟙 (Spec (.of k))) g) ≫
+    change (inv (pullback.snd (𝟙 (Spec (.of k))) g) ≫
         ((Over.pullback g).map (η[G.X])).left) ≫ pullback.fst G.X.hom g = _
     dsimp [CategoryTheory.Over.pullback]
     have hproj : inv (pullback.snd (𝟙 (Spec (.of k))) g) ≫
@@ -69,7 +69,7 @@ private theorem identityPoint_fixed_galoisAction
       rw [show pullback.fst (𝟙 (Spec (.of k))) g = pullback.snd (𝟙 (Spec (.of k))) g ≫ g by
         simpa using pullback.condition (f := 𝟙 (Spec (.of k))) (g := g)]
       simp
-    show (inv (pullback.snd (𝟙 (Spec (.of k))) g) ≫
+    change (inv (pullback.snd (𝟙 (Spec (.of k))) g) ≫
       pullback.lift (pullback.fst (𝟙 (Spec (.of k))) g ≫ η[G.X].left)
         (pullback.snd (𝟙 (Spec (.of k))) g) _ ≫ pullback.fst G.X.hom g) = _
     rw [pullback.lift_fst, ← Category.assoc, hproj]
@@ -94,7 +94,7 @@ private theorem identityPoint_fixed_galoisAction
   let e := (Over.tensorUnit_left (C := Scheme) (X := Spec (.of K))).symm ▸
     (default : Spec (.of K))
   have hpt := congrArg (fun q => (Scheme.forget.map q) e) hcomp
-  show (Scheme.forget.map a) ((Scheme.forget.map unit) e) =
+  change (Scheme.forget.map a) ((Scheme.forget.map unit) e) =
     (Scheme.forget.map unit) e
   have hpt' : (Scheme.forget.map a) ((Scheme.forget.map unit) e) =
       (Scheme.forget.map unit) ((Scheme.forget.map s) e) := by
@@ -146,7 +146,7 @@ theorem geometricallyIrreducible_irreducibleComponent_of_identity
     intro σ
     let Y : irreducibleComponents Gₖ.X.left := ConcreteCategory.hom (Act.ρ σ).asHom Cbar
     have hY : identityPoint K Gₖ ∈ (Y : Set Gₖ.X.left) := by
-      show identityPoint K Gₖ ∈ (ConcreteCategory.hom (Act.ρ σ).asHom Cbar).1
+      change identityPoint K Gₖ ∈ (ConcreteCategory.hom (Act.ρ σ).asHom Cbar).1
       rw [galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe]
       exact ⟨identityPoint K Gₖ, hCₖ, by
         simpa [G₀, Gₖ, Act] using identityPoint_fixed_galoisAction k K G₀ σ.unop⟩

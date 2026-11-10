@@ -112,6 +112,7 @@ instance preservesFiniteLimits_pushforwardModules :
     (pullbackAdjPushforwardModules f).rightAdjoint_preservesLimits
   PreservesLimitsOfSize.preservesFiniteLimits _
 
+omit [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The direct image of an injective module has no higher cohomology** (Stacks 072Z): for an
 injective sheaf of `O_C`-modules `Z`, `H^n(D, f_*Z) = 0` for `n > 0`. -/
 theorem isZero_rightDerived_moduleGlobalSections_pushforwardModules_of_injective

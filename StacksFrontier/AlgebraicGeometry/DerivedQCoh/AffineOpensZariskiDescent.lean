@@ -135,7 +135,7 @@ theorem isPushout_presheaf_map_basicOpen (hU : IsAffineOpen U) (a b : Γ(X, U))
     (X.presheaf.map (homOfLE (X.basicOpen_le b)).op).hom
     (X.presheaf.map (homOfLE h1).op).hom ?_ (Submonoid.powers a)).flip
   ext x
-  show (X.presheaf.map (homOfLE (X.basicOpen_le a)).op ≫ X.presheaf.map (homOfLE h1).op).hom x =
+  change (X.presheaf.map (homOfLE (X.basicOpen_le a)).op ≫ X.presheaf.map (homOfLE h1).op).hom x =
     (X.presheaf.map (homOfLE (X.basicOpen_le b)).op ≫
       X.presheaf.map (homOfLE (X.basicOpen_le ab)).op).hom x
   rw [← X.presheaf.map_comp, ← X.presheaf.map_comp]
@@ -315,7 +315,7 @@ theorem Scheme.isSheaf_affineOpensTopology_of_cartesian (X : Scheme.{u})
           (fun i ↦ homOfLE (X.affineBasicOpen_le (g i))))).arrows (j ≫ k) from rfl,
         X.mem_generate_ofArrows_affineOpens_iff, X.mem_generate_ofArrows_affineOpens_iff]
       refine exists_congr fun i ↦ ?_
-      show (W : X.Opens) ≤ X.basicOpen (g i) ↔ (W : X.Opens) ≤ X.basicOpen (g' i)
+      change (W : X.Opens) ≤ X.basicOpen (g i) ↔ (W : X.Opens) ≤ X.basicOpen (g' i)
       rw [hbo i]
       exact ⟨fun hw ↦ le_inf (leOfHom j) hw, fun hw ↦ hw.trans inf_le_right⟩
     rw [heq]

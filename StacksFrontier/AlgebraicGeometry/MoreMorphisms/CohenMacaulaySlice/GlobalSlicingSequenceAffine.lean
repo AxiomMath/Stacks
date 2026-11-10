@@ -86,7 +86,7 @@ theorem exists_global_isRegular_ofList_eq_maximalIdeal_stalk_of_unramifiedAt
         (Ideal.comap (U.presheaf.germ ⊤ (q v) trivial).hom
           (maximalIdeal (U.presheaf.stalk (q v))) : Set Γ(U, ⊤))) =
       maximalIdeal (V.presheaf.stalk v) := by
-    show Ideal.map ((q.stalkMap v).hom.comp (U.presheaf.germ ⊤ (q v) trivial).hom) _ = _
+    change Ideal.map ((q.stalkMap v).hom.comp (U.presheaf.germ ⊤ (q v) trivial).hom) _ = _
     rw [← Ideal.map_map, span_image_preimage_germ_top_eq_maximalIdeal U (q v), hmap]
   obtain ⟨y, hys, hyspan⟩ := IsLocalRing.exists_fn_mem_ofList_eq_maximalIdeal_of_span_eq hspan
   choose g hgmem hgy using fun i => (Set.mem_image _ _ _).mp (hys i)

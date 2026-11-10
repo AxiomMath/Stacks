@@ -299,7 +299,7 @@ theorem essSurj_coverComparison (hh : h ⋙ p𝒴 = p𝒳) (hs : s ⋙ p𝒴 = p
       (isoMkVertical (U := P.base) P.iso (Iso.refl P.y.y) hPv (IsHomLift.id hPy) ?_)
       ?_ ?_ rfl
     · simp
-    · show h.map P.iso.hom ≫ P.y.iso.hom
+    · change h.map P.iso.hom ≫ P.y.iso.hom
         = (h.mapIso P.iso ≪≫ P.y.iso).hom ≫ s.map (𝟙 P.y.y)
       simp
     · exact structureFunctor_isHomLift _ (𝟙 P.base) (IsHomLift.id hPx)

@@ -340,7 +340,7 @@ private theorem exists_regular_kernel_comp_of_surjective_regular_kernels
     exact hysbar
   have hcomp : RingHom.ker (g.comp q) = K ⊔ L := by
     rw [RingHom.ker_eq_comap_bot, ← Ideal.comap_comap]
-    show Ideal.comap q (RingHom.ker g) = K ⊔ L
+    change Ideal.comap q (RingHom.ker g) = K ⊔ L
     rw [← hLmap, Ideal.comap_map_of_surjective q hq L]
     exact sup_comm L K
   have happend : Ideal.ofList (xs ++ zs) = K ⊔ L := by
@@ -483,7 +483,7 @@ private theorem regular_kernel_of_equiv
   obtain ⟨rs, hrs, hgen⟩ := h
   refine ⟨rs.map e.symm, ?_, ?_⟩
   · exact (isRegular_map_ringEquiv_iff e.symm rs).mpr hrs
-  · show Ideal.ofList (rs.map e.symm.toRingHom) = _
+  · change Ideal.ofList (rs.map e.symm.toRingHom) = _
     rw [← Ideal.map_ofList, hgen]
     ext x
     rw [Ideal.mem_map_iff_of_surjective e.symm.toRingHom e.symm.surjective]
@@ -540,9 +540,9 @@ private theorem exists_complete_goodFactorization
   let p : T →+* B := eC.toRingHom.comp (adicCompletionMapQuotient K)
   have hp : Function.Surjective p := eC.surjective.comp (adicCompletionMapQuotient_surjective K)
   have hpc (s : S) : p (algebraMap S T s) = g s := by
-    show eC (adicCompletionMapQuotient K (algebraMap S T s)) = g s
+    change eC (adicCompletionMapQuotient K (algebraMap S T s)) = g s
     rw [completionQuotientMap_algebraMap]
-    show e ((AdicCompletion.ofAlgEquiv (maximalIdeal (S ⧸ K))).symm
+    change e ((AdicCompletion.ofAlgEquiv (maximalIdeal (S ⧸ K))).symm
       (AdicCompletion.of (maximalIdeal (S ⧸ K)) (S ⧸ K) (Ideal.Quotient.mk K s))) = g s
     rw [AdicCompletion.ofAlgEquiv_symm_of]
     exact RingHom.quotientKerEquivOfSurjective_apply_mk hsurj s
@@ -590,7 +590,7 @@ private theorem exists_goodFactorization_of_presentation
   have hIK : I ≤ RingHom.ker qB := by
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show qB (g x) = 0
+    change qB (g x) = 0
     rw [← RingHom.comp_apply, ← hcomm, RingHom.comp_apply]
     exact (congrArg h hx).trans (map_zero h)
   let p : T →+* B := Ideal.Quotient.lift I qB hIK
@@ -608,13 +608,13 @@ private theorem exists_goodFactorization_of_presentation
   let f : A →+* T := f₀.comp e.symm.toRingHom
   have hfq : f.comp qA = (Ideal.Quotient.mk I).comp g := by
     ext x
-    show f₀ (e.symm (qA x)) = _
+    change f₀ (e.symm (qA x)) = _
     rw [RingHom.quotientKerEquivOfSurjective_symm_apply]
     rfl
   have hpf : p.comp f = h := by
     refine RingHom.ext fun a => ?_
     obtain ⟨r, rfl⟩ := hqA a
-    show p ((f.comp qA) r) = h (qA r)
+    change p ((f.comp qA) r) = h (qA r)
     rw [hfq]
     exact (RingHom.congr_fun hcomm r).symm
   have : IsLocalHom f := by
@@ -622,7 +622,7 @@ private theorem exists_goodFactorization_of_presentation
     exact isLocalHom_of_comp f p
   have : Module.Flat R S := hflat
   have hflat₀ : f₀.Flat := by
-    show (algebraMap (R ⧸ K) T).Flat
+    change (algebraMap (R ⧸ K) T).Flat
     rw [RingHom.flat_algebraMap_iff]
     exact Module.Flat.of_linearEquiv
       (Algebra.TensorProduct.quotIdealMapEquivQuotTensor S K).toLinearEquiv
@@ -735,10 +735,10 @@ private theorem linearIndependent_mkQ_of_local_semilinear
     (maximalIdeal F)
   have hle : MR ≤ NF.comap f := by
     intro z hz
-    show f z ∈ NF
+    change f z ∈ NF
     refine Submodule.smul_induction_on hz ?_ ?_
     · intro r hr n hn
-      show f (r • n) ∈ NF
+      change f (r • n) ∈ NF
       rw [map_smulₛₗ]
       exact Submodule.smul_mem_smul
         ((map_maximalIdeal_le p) (Ideal.mem_map_of_mem p hr)) Submodule.mem_top
@@ -833,7 +833,7 @@ private theorem exists_minimal_generators_append_of_regular_fibre
   have hbound : xs.length ≤ bs.length := hlen ▸ hc
   have hfx (i : Fin xs.length) : f (x i) = b (Fin.castLE hbound i) := by
     apply Subtype.ext
-    show p (xs[i.val]) = bs[i.val]
+    change p (xs[i.val]) = bs[i.val]
     have he := congrArg (fun l : List (R ⧸ I) => l[i.val]?) hxsmap
     simpa only [List.getElem?_map, List.getElem?_eq_getElem i.isLt, Option.map_some,
       List.getElem?_take, show i.val < c from hlen ▸ i.isLt, ↓reduceIte,
@@ -887,7 +887,7 @@ private theorem regular_kernel_comp_iff_of_goodFactorization
       exact IsRegularLocalRing.of_ringEquiv (RingHom.quotientKerEquivOfSurjective hψsurj).symm
     have hKL : K ≤ RingHom.ker (g.comp q) := by
       intro x hx
-      show g (q x) = 0
+      change g (q x) = 0
       rw [show q x = 0 from hx, map_zero]
     obtain ⟨xs, ys, hx, hxy, hlen⟩ :=
       exists_minimal_generators_append_of_regular_fibre I K (RingHom.ker (g.comp q)) hquot
@@ -933,10 +933,10 @@ private theorem exists_common_goodFactorization
   have hqT : Function.Surjective qT :=
     (RingHom.surjective_pullbackSnd_of_surjective gS gT hS.2.2.2.1).comp hp.2.2.2.1
   have hqSf : qS.comp f = fS := by
-    show (gS.pullbackFst gT).comp (p.comp f) = fS
+    change (gS.pullbackFst gT).comp (p.comp f) = fS
     rw [hp.1, hHS]
   have hqTf : qT.comp f = fT := by
-    show (gS.pullbackSnd gT).comp (p.comp f) = fT
+    change (gS.pullbackSnd gT).comp (p.comp f) = fT
     rw [hp.1, hHT]
   have hc : gS.comp qS = gT.comp qT := by
     ext x
@@ -944,7 +944,7 @@ private theorem exists_common_goodFactorization
   refine ⟨P, inferInstance, inferInstance, inferInstance, f, qS, qT,
     ⟨?_, hp.2.1, IsLocalHom.of_surjective _ (hS.2.2.2.1.comp hqS),
       hS.2.2.2.1.comp hqS, hp.2.2.2.2⟩, hqS, hqT, hqSf, hqTf, hc⟩
-  show gS.comp (qS.comp f) = h
+  change gS.comp (qS.comp f) = h
   rw [hqSf, hS.1]
 
 /-- For a local homomorphism of Noetherian complete local rings, the kernel is generated by a

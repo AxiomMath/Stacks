@@ -121,7 +121,7 @@ theorem isLocalCompleteIntersectionRing_iff_localizationsAtMaximal
     ext
     simp [hunder]
   have : IsLocalization.AtPrime (Localization.AtPrime q) p := by
-    show IsLocalization p.primeCompl (Localization.AtPrime q)
+    change IsLocalization p.primeCompl (Localization.AtPrime q)
     rwa [hcompl]
   exact isCompleteIntersectionRing_of_ringEquiv
     (IsLocalization.algEquiv p.primeCompl

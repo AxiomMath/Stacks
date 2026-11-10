@@ -182,7 +182,7 @@ theorem IsAdmissible.lam_X_mul (hv : IsAdmissible f v) (i : ι) (g : MvPolynomia
   induction g using MvPolynomial.induction_on' with
   | monomial u c =>
     funext k
-    rw [X, monomial_mul, one_mul, lam_monomial, lam_monomial, Pi.smul_apply, smul_eq_mul,
+    rw [X, monomial_mul_monomial, one_mul, lam_monomial, lam_monomial, Pi.smul_apply, smul_eq_mul,
       hv.ideal, Finset.mul_sum, Finset.sum_apply]
     refine Finset.sum_congr rfl fun l _ ↦ ?_
     rw [← mul_assoc]
@@ -197,7 +197,7 @@ theorem IsAdmissible.lam_sum_smul (hv : IsAdmissible f v) (c : Fin d → A) :
     lam v (∑ l, c l • fA f A l) = c := by
   funext k
   simp only [map_sum, map_smul, Finset.sum_apply, Pi.smul_apply, smul_eq_mul, hv.basis,
-    mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 /-- The kernel of an admissible coordinate map, as an ideal. -/
 def kerIdeal (hv : IsAdmissible f v) : Ideal (MvPolynomial ι A) where
@@ -205,7 +205,7 @@ def kerIdeal (hv : IsAdmissible f v) : Ideal (MvPolynomial ι A) where
   zero_mem' := map_zero _
   add_mem' {a b} ha hb := by simp_all
   smul_mem' h g hg := by
-    simp only [Set.mem_setOf_eq, smul_eq_mul] at hg ⊢
+    simp only [Set.mem_ofPred_eq, smul_eq_mul] at hg ⊢
     induction h using MvPolynomial.induction_on generalizing g with
     | C a => rw [C_mul', map_smul, hg, smul_zero]
     | add p q hp hq => rw [add_mul, map_add, hp g hg, hq g hg, add_zero]
@@ -290,7 +290,7 @@ theorem isAdmissible_coordOf (hJ : IsBasisIdeal f J) : IsAdmissible f (coordOf f
       ((basisOf f hJ).sum_equivFun _).symm
     have : Ideal.Quotient.mk J (monomial (Finsupp.single i 1 + u) (1 : A)) =
         ∑ l, coordOf f hJ u l • Ideal.Quotient.mk J (X i * fA f A l) := by
-      rw [← one_mul (1 : A), ← monomial_mul, map_mul, ← X, hu, Finset.mul_sum]
+      rw [← one_mul (1 : A), ← monomial_mul_monomial, map_mul, ← X, hu, Finset.mul_sum]
       refine Finset.sum_congr rfl fun l _ ↦ ?_
       rw [basisOf_apply, mul_smul_comm, map_mul]
     change (basisOf f hJ).equivFun _ k = _

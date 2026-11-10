@@ -286,7 +286,7 @@ public theorem isInjectiveOnDerivations_of_injective (φ : S.G ⟶ N)
     (hφ : ∀ U : X.Cᵒᵖ, Function.Injective (φ.val.app U)) :
     IsInjectiveOnDerivations φ := fun _ δ h =>
   Derivation.ext_apply fun U x => by
-    show δ.toFun U x = 0
+    change δ.toFun U x = 0
     refine hφ U ?_
     rw [h U x]
     exact (map_zero (φ.val.app U).hom).symm
@@ -529,7 +529,7 @@ public theorem surjective_map_of_nonempty_hom (φ : S.G ⟶ N)
   rw [KernelChangeHom.precomp_hom, sheafComp_apply, sheafComp_apply, translate_apply, map_add,
     (j Q).kernel_comm, hδ U x, KernelChangeHom.compDerivation_toFun, derivationOfHoms_toFun,
     incl_diff, ← hu₀]
-  show k.hom.hom.hom.app U ((j P).hom.hom.app U x) =
+  change k.hom.hom.hom.app U ((j P).hom.hom.app U x) =
     (Iso.toHom (F.map u₀)).hom.hom.app U ((j P).hom.hom.app U x) +
       (k.hom.hom.hom.app U ((j P).hom.hom.app U x) -
         (Iso.toHom (F.map u₀)).hom.hom.app U ((j P).hom.hom.app U x))

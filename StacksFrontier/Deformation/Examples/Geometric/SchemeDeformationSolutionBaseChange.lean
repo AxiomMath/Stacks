@@ -108,7 +108,7 @@ space. -/
 theorem spaceMapOfMap_base : (spaceMapOfMap φ).hom.base = 𝟙 X.carrier := by
   have h : Q₂.baseIso.hom ≫ φ.hom.base = Q₁.baseIso.hom :=
     congrArg (fun k : X ⟶ Q₁.X' => k.hom.base) th
-  show Q₂.baseIso.hom ≫ φ.hom.base ≫ Q₁.baseIso.inv = 𝟙 X.carrier
+  change Q₂.baseIso.hom ≫ φ.hom.base ≫ Q₁.baseIso.inv = 𝟙 X.carrier
   rw [← Category.assoc, h, Iso.hom_inv_id]
 
 include th in

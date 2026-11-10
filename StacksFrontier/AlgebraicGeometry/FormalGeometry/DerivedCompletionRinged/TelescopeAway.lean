@@ -81,6 +81,7 @@ def awayTelescopeSumMap : awayTelescopeSum X a ⟶ awayTelescopeSum X a :=
     (awaySequence X a).map (homOfLE n.le_succ) ≫
       Sigma.ι (fun n : ℕ => (awaySequence X a).obj n) (n + 1)
 
+omit [HasWeakSheafify X.J CommRingCat] in
 /-- The telescope map sends the `n`-th summand inclusion `e_n` to `e_n - f e_{n+1}`. -/
 @[reassoc]
 theorem awayTelescopeι_comp_awayTelescopeSumMap (n : ℕ) :
@@ -88,7 +89,7 @@ theorem awayTelescopeι_comp_awayTelescopeSumMap (n : ℕ) :
       Sigma.ι (fun n : ℕ => (awaySequence X a).obj n) n -
         (awaySequence X a).map (homOfLE n.le_succ) ≫
           Sigma.ι (fun n : ℕ => (awaySequence X a).obj n) (n + 1) :=
-  Sigma.ι_desc _ n
+  Sigma.ι_comp_desc _ n
 
 /-- **The augmentation `⊕_{n ∈ ℕ} 𝒪 ⟶ 𝒪_f`**, sending `e_n` to the canonical map `𝒪 ⟶ 𝒪_f`
 divided by `f^n`. -/
@@ -101,7 +102,7 @@ by `f^n`. -/
 theorem awayTelescopeι_comp_awayTelescopeAugmentation (n : ℕ) :
     Sigma.ι (fun n : ℕ => (awaySequence X a).obj n) n ≫ awayTelescopeAugmentation X h a =
       awayModuleCoconeι X h n :=
-  Sigma.ι_desc _ n
+  Sigma.ι_comp_desc _ n
 
 variable (ha : ∀ (U : X.Cᵒᵖ)
     (x : (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))).val.obj U),
@@ -152,7 +153,7 @@ theorem awayTelescopeShortExact :
     rfl
   · simp only [Iso.refl_hom, Category.id_comp]
     refine Sigma.hom_ext _ _ fun n => ?_
-    rw [awayTelescopeι_comp_awayTelescopeAugmentation, Sigma.ι_desc_assoc,
+    rw [awayTelescopeι_comp_awayTelescopeAugmentation, Sigma.ι_comp_desc_assoc,
       colimit_ι_comp_colimitIsoAwayModule]
 
 section Derived

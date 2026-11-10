@@ -64,7 +64,7 @@ theorem etaleModuleBaseChange_eq_etaleModuleMateBaseChange :
     have h1 := conjugateEquiv_comp adjA adjC adjA ef.inv ef.hom
     rw [Iso.hom_inv_id, conjugateEquiv_id adjA, hA'] at h1
     exact (Iso.comp_inv_eq_id _).1 h1
-  show conjugateEquiv adjA adjB ((etaleModuleInverseImageCompIso.{u, r} Λ h' g).inv ≫ ef.inv) = _
+  change conjugateEquiv adjA adjB ((etaleModuleInverseImageCompIso.{u, r} Λ h' g).inv ≫ ef.inv) = _
   rw [← conjugateEquiv_comp adjA adjC adjB, hA, hB]
   have key : ∀ (c : Z' ⟶ Y) (e₁ : c = g' ≫ h) (e₂ : c = h' ≫ g),
       (etaleModuleDirectImageComp.{u, r} Λ g' h c e₁).hom ≫

@@ -328,7 +328,7 @@ private lemma exists_pow_ideal_annihilates_hom_on_affine
     rw [idealPowerMultiple_unit_toSubmodule_obj_affine I n U]
     exact hI.pow (n := n)
   have : Module.Finite A P := by
-    show Module.Finite A ↥N
+    change Module.Finite A ↥N
     exact Module.Finite.of_fg hN
   obtain ⟨k, hk⟩ := Stacks.LocalCohomology.exists_pow_le_annihilator_of_fg
     (I.ideal U) hI (⊤ : Submodule A P) (Module.Finite.fg_top) (φ.val.app (op U.1)).hom
@@ -349,7 +349,7 @@ private lemma restrict_hom_eq_zero_fromSpec {X : Scheme.{u}}
   have h' : g.val.app (op (U.2.fromSpec ''ᵁ (⊤ : (Spec Γ(X, U.1)).Opens))) = 0 := hImage ▸ h
   have htop : ((Scheme.Modules.restrictFunctor U.2.fromSpec).map g).val.app (op ⊤) = 0 := by
     ext x
-    show (g.val.app (op (U.2.fromSpec ''ᵁ ⊤))).hom x = 0
+    change (g.val.app (op (U.2.fromSpec ''ᵁ ⊤))).hom x = 0
     exact congrArg (fun q => q.hom x) h'
   exact Stacks.LocalCohomology.hom_eq_zero_of_app_top
     ((Scheme.Modules.restrictFunctor U.2.fromSpec).map g) htop
@@ -491,7 +491,7 @@ private lemma exists_eventual_eq_of_canonicalMap_eq {X : Scheme.{u}}
         Γ((idealPowerMultiple I q (SheafOfModules.unit X.ringCatSheaf)).toSheafOfModules, V) :=
       sectionsModule
         ((idealPowerMultiple I q (SheafOfModules.unit X.ringCatSheaf)).toSheafOfModules) V
-    show ((φq.val.app (op V)).hom - (ψq.val.app (op V)).hom) s = 0
+    change ((φq.val.app (op V)).hom - (ψq.val.app (op V)).hom) s = 0
     exact (LinearMap.sub_apply _ _ s).trans (sub_eq_zero.mpr hres)
   obtain ⟨t, Ua, hcover⟩ :=
     AlgebraicGeometry.Scheme.exists_finite_affineOpens_sup_eq_top X (⊥ : X.Opens)
@@ -518,7 +518,7 @@ private lemma exists_eventual_eq_of_canonicalMap_eq {X : Scheme.{u}}
     let _ : Module Γ(X, (Ua i).1) (F.val.obj (op (Ua i).1)) :=
       inferInstanceAs (Module Γ(X, (Ua i).1) Γ(F, (Ua i).1))
     ext x
-    show LinearMap.comp (δ.val.app (op (Ua i))).hom
+    change LinearMap.comp (δ.val.app (op (Ua i))).hom
       ((S.map γ.op).val.app (op (Ua i))).hom x = 0
     exact congrArg (fun f : _ →ₗ[Γ(X, Ua i)] _ => f x)
       (transition_comp_hom_app_zero_on_affine I F q K δ (Ua i) (hkill i))
@@ -538,7 +538,7 @@ private lemma exists_eventual_eq_of_canonicalMap_eq {X : Scheme.{u}}
   have hstage : D.map γ φq = D.map γ ψq := by
     rw [idealPowerHom_map_apply I F (by omega) φq,
       idealPowerHom_map_apply I F (by omega) ψq]
-    show S.map γ.op ≫ φq = S.map γ.op ≫ ψq
+    change S.map γ.op ≫ φq = S.map γ.op ≫ ψq
     rw [← sub_eq_zero, ← Preadditive.comp_sub]
     exact hτ
   refine ⟨r, α ≫ γ, β ≫ γ, ?_⟩

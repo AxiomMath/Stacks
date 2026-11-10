@@ -604,7 +604,7 @@ theorem exists_stage_factor (hY : IsLocallyOfFinitePresentation B S hS (terminal
   refine ⟨j.unop, ObjectProperty.homMk (yonedaEquiv.symm v), hom_ext_yonedaEquiv ?_⟩
   rw [yonedaEquiv_map_comp, eqToHom_refl]
   refine hv.symm.trans ?_
-  show D.Y.1.map ((BigAffineFppf.inclusion B S hS).map (c.π.app j.unop)).op v =
+  change D.Y.1.map ((BigAffineFppf.inclusion B S hS).map (c.π.app j.unop)).op v =
     D.Y.1.map (𝟙 _ ≫ (BigAffineFppf.inclusion B S hS).map (c.π.app j.unop)).op
       (yonedaEquiv (yonedaEquiv.symm v))
   rw [Equiv.apply_symm_apply, Category.id_comp]
@@ -699,7 +699,7 @@ theorem exists_opens_mem_iff {A : BigFppfOver B S hS} (W : OpenSubspaces B S hS 
     have hw : w ≫ W.1.ι = yoneda.map a := by
       apply yonedaEquiv.injective
       rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
-      show W.1.ι.app _ (yonedaEquiv (yonedaEquiv.symm x)) = a
+      change W.1.ι.app _ (yonedaEquiv (yonedaEquiv.symm x)) = a
       rw [Equiv.apply_symm_apply]
       rfl
     let l := hpb.lift w (yoneda.map a) (by rw [hw, Category.comp_id])
@@ -719,7 +719,7 @@ theorem exists_opens_mem_iff {A : BigFppfOver B S hS} (W : OpenSubspaces B S hS 
         have h₁ := congrArg B.inclusion.map (Over.w j)
         have h₂ := congrArg B.inclusion.map (Over.w a)
         simp only [Functor.map_comp] at h₁ h₂ ⊢
-        show lift ≫ _ = _
+        change lift ≫ _ = _
         rw [← h₁, ← Category.assoc]
         exact (congrArg (· ≫ _) hlift).trans h₂)
     have hl' : l' ≫ j = a := (BigFppfOver.toScheme B S hS).map_injective hlift
@@ -810,10 +810,10 @@ theorem descentObj (hY : IsLocallyOfFinitePresentation B S hS (terminal.from D.Y
     have e₁ : (BigFppfOver.toScheme B S hS).map (y ≫ d.π.app k).left =
         (BigFppfOver.toScheme B S hS).map y.left ≫
           ((BigAffineFppf.toScheme B S hS).mapCone c).π.app k.left := by
-      show (BigFppfOver.toScheme B S hS).map (y.left ≫ eqToHom rfl ≫ _) = _
+      change (BigFppfOver.toScheme B S hS).map (y.left ≫ eqToHom rfl ≫ _) = _
       simp only [eqToHom_refl, Functor.map_comp]
       rfl
-    show ((BigFppfOver.toScheme B S hS).map y.left ≫
+    change ((BigFppfOver.toScheme B S hS).map y.left ≫
       ((BigAffineFppf.toScheme B S hS).mapCone c).π.app k.left) t₀ ∈ W
     rw [← e₁]
     exact hsub ⟨t₀, rfl⟩
@@ -838,7 +838,7 @@ theorem descentObj (hY : IsLocallyOfFinitePresentation B S hS (terminal.from D.Y
   let δ : ComplexesHom A xj :=
     ⟨d.π.app j', (D.coneStageComparison d s' Ek ≪≫ e).hom, Iso.isIso_hom _⟩
   refine ⟨j, ⟨xj, rfl⟩, (δ : A ⟶ xj), IsHomLift.of_fac' _ _ _ rfl rfl ?_⟩
-  show eqToHom rfl ≫ _ = eqToHom rfl ≫ _ ≫ eqToHom rfl
+  change eqToHom rfl ≫ _ = eqToHom rfl ≫ _ ≫ eqToHom rfl
   simp only [eqToHom_refl]
   exact (Category.id_comp _).trans (Category.comp_id _).symm
 
@@ -871,7 +871,7 @@ theorem comp_eq_of_pull_map_eq {A A' A'' : ComplexesObject D} (m : ComplexesHom 
       ((smallEtaleDerivedPullbackData B S hS).pull (D.relativeMap m.base)).map f') :
     m.comp ⟨b, f, hf⟩ = m.comp ⟨b, f', hf'⟩ := by
   refine complexesHom_eq_of_heq (rfl : m.base ≫ b = m.base ≫ b) (heq_of_eq ?_)
-  show Functor.fibreComp (D.compComparison m.base b) m.fibre f =
+  change Functor.fibreComp (D.compComparison m.base b) m.fibre f =
     Functor.fibreComp (D.compComparison m.base b) m.fibre f'
   rw [Functor.fibreComp, Functor.fibreComp, h]
 
@@ -887,7 +887,7 @@ theorem comp_eq_of_fibre {X A A' : ComplexesObject D} (m : ComplexesHom X A) (b 
   change m.base ≫ b = nb at hb
   subst hb
   refine complexesHom_eq_of_heq (rfl : m.base ≫ b = m.base ≫ b) (heq_of_eq ?_)
-  show Functor.fibreComp (D.compComparison m.base b) m.fibre c = nf
+  change Functor.fibreComp (D.compComparison m.base b) m.fibre c = nf
   rw [tri_rfl] at hf
   exact hf
 
@@ -935,14 +935,14 @@ theorem descentEq (h0DKW : D.RelativelyPerfectColimit)
   have hd := D.isLimitStageCone Dg hc i gx ⟨_, xr, xh⟩ rfl hg
   let o : Over i := Over.mk (𝟙 i)
   let mx : F.obj o ⟶ ⟨_, xir, gx⟩ := CostructuredArrow.homMk (𝟙 _) (by
-    show (schemeSpaceFunctor B S hS).map (𝟙 _) ≫ gx = (schemeSpaceFunctor B S hS).map
+    change (schemeSpaceFunctor B S hS).map (𝟙 _) ≫ gx = (schemeSpaceFunctor B S hS).map
       ((BigAffineFppf.inclusion B S hS).map (Dg.map (𝟙 i))) ≫ gx
     simp only [CategoryTheory.Functor.map_id]
     rfl)
   have hδm : d.π.app o ≫ mx = (δ : ComplexesHom _ _).base := by
     refine CostructuredArrow.hom_ext _ _ ?_
     rw [CostructuredArrow.comp_left, hδb]
-    show (eqToHom rfl ≫ _) ≫ 𝟙 _ = _
+    change (eqToHom rfl ≫ _) ≫ 𝟙 _ = _
     rw [eqToHom_refl]
     exact (Category.comp_id _).trans (Category.id_comp _)
   obtain ⟨-, -, heq⟩ := h0DKW (Over i) F d hd (fun j => (Dg.obj j.left).2) c.pt.2
@@ -960,7 +960,7 @@ theorem descentEq (h0DKW : D.RelativelyPerfectColimit)
   let dx := pullbackHom (⟨⟨_, xir, gx⟩, xiE, xiP, xiN⟩ : ComplexesObject D) hx'
     (D.relativelyPerfectBaseChange hx' xiE xiP)
   refine ⟨k.left, t.left, ⟨xk, rfl⟩, (dx : xk ⟶ _), IsHomLift.of_fac' _ _ _ rfl rfl ?_, ?_⟩
-  · show (BigAffineFppf.inclusion B S hS).map (Dg.map t.left) ≫ 𝟙 _ =
+  · change (BigAffineFppf.inclusion B S hS).map (Dg.map t.left) ≫ 𝟙 _ =
         𝟙 _ ≫ (BigAffineFppf.inclusion B S hS).map (Dg.map t.left) ≫ 𝟙 _
     exact (Category.comp_id _).trans ((Category.id_comp _).trans (Category.comp_id _)).symm
   · exact comp_eq_of_pull_map_eq dx f f' hf hf' (D.pull_map_eq_of_tri'' rfl hkt)
@@ -1014,7 +1014,8 @@ theorem descentHom (hY : IsLocallyOfFinitePresentation B S hS (terminal.from D.Y
   have hφε : φε.base = (φ : ComplexesHom _ _).base ≫ (ε : ComplexesHom _ _).base := rfl
   have hεm : d.π.app o ≫ my = φε.base :=
     CostructuredArrow.hom_ext _ _ (by
-      rw [hφε, CostructuredArrow.comp_left, CostructuredArrow.comp_left, hφb, hεb, Category.id_comp]; exact hπ)
+      rw [hφε, CostructuredArrow.comp_left, CostructuredArrow.comp_left, hφb, hεb,
+        Category.id_comp]; exact hπ)
   let eδ := @asIso _ _ _ _ (δ : ComplexesHom _ _).fibre (δ : ComplexesHom _ _).isIso_fibre
   let eφε := @asIso _ _ _ _ φε.fibre φε.isIso_fibre
   let Φ := (D.triApp hεm yiE).symm ≪≫ eφε ≪≫ eδ.symm ≪≫ D.triApp hδm xiE
@@ -1061,15 +1062,15 @@ theorem descentHom (hY : IsLocallyOfFinitePresentation B S hS (terminal.from D.Y
   · exact IsHomLift.of_fac' _ _ _ rfl rfl hfac
   · exact IsHomLift.of_fac' _ _ _ rfl rfl hfac
   · refine IsHomLift.of_fac' _ _ _ rfl rfl ?_
-    show eqToHom rfl ≫ _ = eqToHom rfl ≫ _ ≫ eqToHom rfl
+    change eqToHom rfl ≫ _ = eqToHom rfl ≫ _ ≫ eqToHom rfl
     simp only [eqToHom_refl]
     exact (Category.id_comp _).trans (Category.comp_id _).symm
   · refine IsHomLift.of_fac' _ _ _ rfl rfl ?_
-    show ψc.base.left = 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _
+    change ψc.base.left = 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _
     rw [hψcb]
     exact ((Category.id_comp _).trans (Category.id_comp _)).symm
   · exact D.comp_eq_of_fibre δk _ _ _ _ hb₁ (D.fibre_identity₁' (d.w t) rfl hb₁ hδm xiE _)
-  · show δk.comp (ψc.comp dy) = φε
+  · change δk.comp (ψc.comp dy) = φε
     rw [hψc]
     refine D.comp_eq_of_fibre δk _ _ _ _ hb₂ (D.fibre_identity₂' (d.w t) hδm hεm hq' hb₂
       (δ : ComplexesHom _ _).fibre eδ.inv eδ.inv_hom_id φε.fibre ψ.hom ?_)

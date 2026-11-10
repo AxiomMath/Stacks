@@ -24,8 +24,8 @@ statement `H0`) and `Stacks.EtaleCohomology.opensSectionsLeg` (for the surjectiv
 `Stacks.EtaleCohomology.sectionsDifference_of_isCompact_surjective_opensLeg`), both built out of
 `Stacks.EtaleCohomology.etaleTransposeSection`, the transpose read on sections over an object.
 Nothing in the tree related the two: the module docstring of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleLevelObjectSections.lean` records
-that comparison as the whole of what those two statements still owe.
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleLevelObjectSections.lean`
+records that comparison as the whole of what those two statements still owe.
 
 **This file is that comparison.** It is one level at a time and there is no colimit anywhere in
 it.

@@ -375,7 +375,7 @@ theorem CartesianMap.commaHomEquiv_naturality {A₁ A₂ : Over D'.X} (h : A₁ 
   refine Comma.hom_ext _ _ (Over.OverMorphism.ext ?_) (Over.OverMorphism.ext ?_)
   · rw [c.commaHomEquiv_left, Comma.comp_left, Comma.comp_left, Over.comp_left, Over.comp_left,
       c.commaHomEquiv_left]
-    show (c.isoU A₁).inv ≫ (((Over.pullback D'.U.ι).map h).left ≫ φ'.left.left) ≫
+    change (c.isoU A₁).inv ≫ (((Over.pullback D'.U.ι).map h).left ≫ φ'.left.left) ≫
         pullback.fst G.obj.left.hom c.gU =
       ((Over.pullback D.U.ι).map (c.overHom h)).left ≫ (c.isoU A₂).inv ≫ φ'.left.left ≫
         pullback.fst G.obj.left.hom c.gU
@@ -385,7 +385,7 @@ theorem CartesianMap.commaHomEquiv_naturality {A₁ A₂ : Over D'.X} (h : A₁ 
     exact Category.assoc _ _ _
   · rw [c.commaHomEquiv_right, Comma.comp_right, Comma.comp_right, Over.comp_left,
       Over.comp_left, c.commaHomEquiv_right]
-    show (c.isoY A₁).inv ≫ (((Over.pullback D'.f).map h).left ≫ φ'.right.left) ≫
+    change (c.isoY A₁).inv ≫ (((Over.pullback D'.f).map h).left ≫ φ'.right.left) ≫
         pullback.fst G.obj.right.hom c.gY =
       ((Over.pullback D.f).map (c.overHom h)).left ≫ (c.isoY A₂).inv ≫ φ'.right.left ≫
         pullback.fst G.obj.right.hom c.gY
@@ -406,7 +406,7 @@ theorem CartesianMap.glueSectionsMap_restrict {W W' : BigFppfOver B S hS} (g : W
     (s : glueSections D' (glueingBaseChange c G) W) :
     (c.glueSectionsMap G s).restrict g = c.glueSectionsMap G (s.restrict g) := by
   refine glueSections.ext' (Category.assoc _ _ _) ?_
-  show (restrictionDiagram D).map _ ≫ c.commaHomEquiv G (Over.mk s.1) s.2 =
+  change (restrictionDiagram D).map _ ≫ c.commaHomEquiv G (Over.mk s.1) s.2 =
     _ ≫ c.commaHomEquiv G (Over.mk (yoneda.map g ≫ s.1)) ((restrictionDiagram D').map _ ≫ s.2)
   rw [c.commaHomEquiv_naturality]
   have h : (restrictionDiagram D).map (Over.homMk (yoneda.map g) (by simp) :
@@ -440,7 +440,7 @@ theorem CartesianMap.homPresheafBaseChange_projection :
     c.homPresheafBaseChange G ≫ homPresheafProjection D G =
       homPresheafProjection D' (glueingBaseChange c G) ≫ c.q := by
   refine NatTrans.ext (funext fun W => ConcreteCategory.hom_ext _ _ fun s => ?_)
-  show yonedaEquiv ((equivShrink _).symm (equivShrink _
+  change yonedaEquiv ((equivShrink _).symm (equivShrink _
     (c.glueSectionsMap G ((equivShrink _).symm s)))).1 =
       c.q.app W (yonedaEquiv ((equivShrink _).symm s).1)
   rw [Equiv.symm_apply_apply]
@@ -452,14 +452,14 @@ theorem CartesianMap.homPresheafBaseChange_app {W : BigFppfOver B S hS}
     (s : glueSections D' (glueingBaseChange c G) W) :
     (c.homPresheafBaseChange G).app (op W) (equivShrink _ s) =
       equivShrink _ (c.glueSectionsMap G s) := by
-  show equivShrink _ (c.glueSectionsMap G ((equivShrink _).symm (equivShrink _ s))) = _
+  change equivShrink _ (c.glueSectionsMap G ((equivShrink _).symm (equivShrink _ s))) = _
   rw [Equiv.symm_apply_apply]
 
 /-- The projection sends the section corresponding to a pair `(a, φ)` to `a`. -/
 theorem homPresheafProjection_app {D : FormalGlueingSituation B S hS} {G : glueingData D}
     {W : BigFppfOver B S hS} (s : glueSections D G W) :
     (homPresheafProjection D G).app (op W) (equivShrink _ s) = yonedaEquiv s.1 := by
-  show yonedaEquiv ((equivShrink _).symm (equivShrink _ s)).1 = _
+  change yonedaEquiv ((equivShrink _).symm (equivShrink _ s)).1 = _
   rw [Equiv.symm_apply_apply]
 
 /-- **The sheaf of glueing-data morphisms base changes along a cartesian morphism of
@@ -494,7 +494,7 @@ theorem CartesianMap.isPullback_homPresheafBaseChange :
     · rw [c.homPresheafBaseChange_app]
       congr 1
       refine glueSections.ext' hw ?_
-      show c.commaHomEquiv G _ ((c.commaHomEquiv G _).symm _) = _
+      change c.commaHomEquiv G _ ((c.commaHomEquiv G _).symm _) = _
       rw [Equiv.apply_symm_apply]
     · rw [homPresheafProjection_app]
       exact Equiv.apply_symm_apply _ _

@@ -79,7 +79,7 @@ private lemma commStalkRingEquiv_smul {Z : TopCat.{u}}
   rw [← hr', ← hm', SemilinearStalk.commStalkRingEquiv_germ]
   let rr : R.obj (op (U₁ ⊓ U₂)) := R.map (homOfLE inf_le_left).op r₀
   let mm : M.obj (op (U₁ ⊓ U₂)) := M.map (homOfLE inf_le_right).op m₀
-  show R.germ (U₁ ⊓ U₂) z hmem rr •
+  change R.germ (U₁ ⊓ U₂) z hmem rr •
     TopCat.Presheaf.germ M.presheaf (U₁ ⊓ U₂) z hmem mm =
     TopCat.Presheaf.germ (C := RingCat.{u})
       (R ⋙ forget₂ CommRingCat.{u} RingCat.{u}) (U₁ ⊓ U₂) z hmem rr •
@@ -286,14 +286,14 @@ private theorem exists_nbhd_linear_combination_of_mem_span
   have hq₀ : q₀ = ∑ i, a₀ i • s₀ i := rfl
   have hqsum := congrArg (fun q : M.val.obj (op W₀) => M.val.map hWW₀.op q) hq₀
   simp only [map_sum] at hqsum
-  show M.val.map hWW₀.op q₀ = _
+  change M.val.map hWW₀.op q₀ = _
   rw [hqsum]
   apply Finset.sum_congr rfl
   intro i hi
   rw [M.val.map_smul]
   dsimp [a, s₀]
   congr 1
-  show M.val.map hWW₀.op (M.val.map (homOfLE hW₀U).op (s i)) =
+  change M.val.map hWW₀.op (M.val.map (homOfLE hW₀U).op (s i)) =
     M.val.map (homOfLE hWU).op (s i)
   calc
     _ = M.val.map ((homOfLE hW₀U).op ≫ hWW₀.op) (s i) :=
@@ -371,7 +371,7 @@ private theorem exists_generatingSections_of_localLinComb
     let g : Wo ⟶ Uo := Over.homMk (homOfLE hWU) (by cat_disch)
     refine ⟨W, homOfLE hWU, ?_, hyW⟩
     rw [Sieve.overEquiv_iff]
-    show Presheaf.imageSieve
+    change Presheaf.imageSieve
       (((SheafOfModules.toSheaf (R.over V)).map π).hom) t g
     let ar : I → (R.over V).obj.obj (op Wo) := fun i => a i
     let fs : I → (SheafOfModules.free (R := R.over V) I).val.obj (op Wo) :=
@@ -379,7 +379,7 @@ private theorem exists_generatingSections_of_localLinComb
     let q : (SheafOfModules.free (R := R.over V) I).val.obj (op Wo) :=
       ∑ i, ar i • fs i
     refine ⟨q, ?_⟩
-    show π.val.app (op Wo) q = (M.over V).val.map g.op t
+    change π.val.app (op Wo) q = (M.over V).val.map g.op t
     dsimp [q]
     rw [map_sum]
     have hsmul (i : I) : π.val.app (op Wo) (ar i • fs i) =
@@ -455,7 +455,7 @@ private theorem exists_nbhd_span_of_finite_type
         TopCat.Presheaf.germ M.val.presheaf (W j) y hyW q) (ha j)).trans
       (germ_sum_smul R M (W j) y hyW (a j)
         (fun i => M.val.map (homOfLE (hWU j)).op (s i))))
-    show TopCat.Presheaf.germ M.val.presheaf V y hyV (t j) ∈ _
+    change TopCat.Presheaf.germ M.val.presheaf V y hyV (t j) ∈ _
     rw [hres]
     refine Submodule.sum_mem _ fun i _ => ?_
     have hsi := TopCat.Presheaf.germ_res_apply M.val.presheaf (homOfLE (hWU j)) y hyW (s i)
@@ -738,7 +738,7 @@ private theorem exists_open_stalk_generators_of_pullback_finite_type
       Set.range (fun i => TopCat.Presheaf.germ F'.presheaf V
         (f.base u) huV (s i)) :=
     congrArg Set.range (funext htgerm)
-  show Submodule.span (ToType (Y.presheaf.stalk (f.base u)))
+  change Submodule.span (ToType (Y.presheaf.stalk (f.base u)))
     (Set.range (fun i : Fin n => TopCat.Presheaf.germ F'.presheaf T
       (f.base u) ⟨u, huW, rfl⟩ (t i))) = ⊤
   rwa [hset]
@@ -798,7 +798,7 @@ public theorem isFiniteType_of_isFiniteType_modulePullback
   have hdata : data.IsFiniteType := by
     constructor
     intro y
-    show ((hgen y).choose).IsFiniteType
+    change ((hgen y).choose).IsFiniteType
     exact (hgen y).choose_spec
   exact SheafOfModules.IsFiniteType.mk.{u, u, u} ⟨data, hdata⟩
 

@@ -103,7 +103,7 @@ theorem contraction_exact_of_basis {r : ℕ} (ψ : Module.Dual R M) (b : Module.
     refine b.ext fun j => ?_
     simp [g, f, Koszul.seqDual_apply, Module.Basis.equivFun_apply, Finsupp.single_apply]
   let e : ∀ p : ℕ, ⋀[R]^p M ≃ₗ[R] ⋀[R]^p (Fin r → R) := fun p =>
-    LinearEquiv.ofLinear (map p g.toLinearMap) (map p g.symm.toLinearMap)
+    LinearEquiv.ofLinearMap (map p g.toLinearMap) (map p g.symm.toLinearMap)
       (by rw [← map_comp]; simp) (by rw [← map_comp]; simp)
   have hnat : ∀ p : ℕ, Koszul.d (Koszul.seqDual f) p ∘ₗ (e (p + 1)).toLinearMap =
       (e p).toLinearMap ∘ₗ contraction ψ p := fun p => by
@@ -196,7 +196,7 @@ theorem exteriorGenerator_comp_koszulDifferential_zero :
     (eq_of_heq ((exteriorAlgebra ℰ).toPresheafGradedAlgebra.one_mul 1 U _))).symm
   have h2 := SheafOfModules.extPowCmp_app_exteriorContraction_one (Osharp := Y.sheaf) ℰ
     (exteriorAlgebra ℰ) (exteriorGenerator ℰ) (isExteriorAlgebra_exteriorAlgebra ℰ) φ U s
-  show (SheafOfModules.algebras _ ℰ).exteriorPieceZeroIsoUnit.hom.val.app U
+  change (SheafOfModules.algebras _ ℰ).exteriorPieceZeroIsoUnit.hom.val.app U
     ((koszulDifferential ℰ φ 0).val.app U ((exteriorGenerator ℰ).val.app U s)) = _
   rw [h1]
   refine (congrArg _ h2).trans ?_
@@ -258,7 +258,7 @@ theorem koszulChainComplex_exactAt_succ (n : ℕ)
     (koszulChainComplex ℰ φ) (n + 1)).2 fun x => ?_
   rw [HomologicalComplex.exactAt_iff' _ (n + 1 + 1) (n + 1) n (by simp) (by simp),
     ShortComplex.ab_exact_iff_function_exact]
-  show Function.Exact
+  change Function.Exact
     (PresheafOfModules.stalkMapL x ((koszulChainComplex ℰ φ).d (n + 1 + 1) (n + 1)).val)
     (PresheafOfModules.stalkMapL x ((koszulChainComplex ℰ φ).d (n + 1) n).val)
   rw [koszulChainComplex_d, koszulChainComplex_d]

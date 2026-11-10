@@ -386,7 +386,7 @@ theorem trivialKanFibrations_mvPolynomialWhiskerRight
     (Discrete.natTrans fun _ => Functor.whiskerRight φ (forget (CommAlgCat.{u} A)))
     (fun _ => hφ) _ (fun i => ?_)
   refine NatTrans.ext (funext fun m => ConcreteCategory.ext_apply fun p => ?_)
-  show (MvPolynomial.map (CommAlgCat.Hom.hom (φ.app m)).toRingHom p.1).coeff (i.as : E →₀ ℕ) =
+  change (MvPolynomial.map (CommAlgCat.Hom.hom (φ.app m)).toRingHom p.1).coeff (i.as : E →₀ ℕ) =
     (CommAlgCat.Hom.hom (φ.app m)) (p.1.coeff (i.as : E →₀ ℕ))
   exact MvPolynomial.coeff_map _ _ _
 

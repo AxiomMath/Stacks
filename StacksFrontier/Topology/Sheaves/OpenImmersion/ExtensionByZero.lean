@@ -19,8 +19,8 @@ sheaf `G` on `X` lies in its essential image exactly when the stalk `G_x` is zer
 `x ∈ X ∖ U`. Both clauses are proved here, as `jExt_full`/`jExt_faithful` and `jExt_essImage`.
 
 The extension by zero itself is the extension by an initial object of
-`StacksFrontier.Topology.Sheaves.OpenImmersion.ExtensionByInitial`, instantiated at the value category
-`AddCommGrpCat`, whose initial object is the zero group: `jExt` is
+`StacksFrontier.Topology.Sheaves.OpenImmersion.ExtensionByInitial`, instantiated at the value
+category `AddCommGrpCat`, whose initial object is the zero group: `jExt` is
 `TopCat.Presheaf.extendByInitialSheaf` and `restrict` is Mathlib's naive restriction
 `TopologicalSpace.Opens.sheafRestrict`. Everything that file provides — the adjunction
 `j_! ⊣ j^{-1}` (Stacks 00A5 (2)), the isomorphism `j^{-1} j_! ≅ id` (Stacks 00A5 (5)), the

@@ -113,8 +113,7 @@ simple tensor and so is everything. -/
 theorem kaehlerReductionMap_surjective :
     Function.Surjective (kaehlerReductionMap R S I n) := by
   intro y
-  induction y using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction y using TensorProduct.inductionOn with
   | tmul η q =>
     obtain ⟨ω, rfl⟩ :=
       KaehlerDifferential.map_surjective_of_surjective R R S (S ⧸ I ^ (n + 1))
@@ -285,8 +284,7 @@ round-trip proofs over the `S'`-tensor elaborate very slowly with
 lemma e2fwd_injective : Function.Injective (e2fwd R S I n) := by
   apply Function.LeftInverse.injective (g := e2bwd R S I n)
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul η q => rw [e2fwd_tmul, e2bwd_tmul]
   | add a b ha hb => rw [map_add, map_add, ha, hb]
 
@@ -381,7 +379,7 @@ theorem kaehlerReductionMap_injective :
     intro ω q
     simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe]
     rw [kaehlerReductionMap_tmul]
-    show _ = e2fwd R S I n (rTg (e1 R S I n (ω ⊗ₜ q)))
+    change _ = e2fwd R S I n (rTg (e1 R S I n (ω ⊗ₜ q)))
     have he1 : e1 R S I n (ω ⊗ₜ q) = ((1 : S ⧸ I^(n+1)) ⊗ₜ[S] ω) ⊗ₜ[S] q := by
       simp only [e1, LinearEquiv.coe_ofLinearMap, fwd1_tmul]
     rw [he1, hrTg, LinearMap.rTensor_tmul, hg, LinearMap.restrictScalars_apply,

@@ -124,17 +124,17 @@ public theorem directImageLevelStalkLift_comp_transition (y : GeometricPoint Y.1
   intro U
   let R := ModuleCat.restrictScalars (finiteLevelRingHom ℓ n)
   let L := op (liftedEtaleNeighborhood B π y x U.unop)
-  let E := (CategoryOfElements.π (geometricPointFiber B X.1 X.property
+  let E := (Functor.Elements.π (geometricPointFiber B X.1 X.property
     (geometricPointLift (B.inclusion.map π) y x))).op ⋙ (F.level n).obj
-  let E' := (CategoryOfElements.π (geometricPointFiber B X.1 X.property
+  let E' := (Functor.Elements.π (geometricPointFiber B X.1 X.property
     (geometricPointLift (B.inclusion.map π) y x))).op ⋙ (F.level (n + 1)).obj
-  let D := (CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+  let D := (Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
     ((SmallEtale.LAdicSheaf.directImage π F hF).level n).obj
-  let D' := (CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+  let D' := (Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
     ((SmallEtale.LAdicSheaf.directImage π F hF).level (n + 1)).obj
-  let w := Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B X.1 X.property
+  let w := Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B X.1 X.property
     (geometricPointLift (B.inclusion.map π) y x))).op (F.transition n).hom
-  let wP := Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op
+  let wP := Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op
     ((SmallEtale.LAdicSheaf.directImage π F hF).transition n).hom
   have hl : colimit.ι D' U ≫ directImageLevelStalkLift π F hF y (n + 1) x = colimit.ι E' L :=
     ι_finitePushforwardStalkLiftHom B π y (ZMod (ℓ ^ (n + 1 + 1))) (F.level (n + 1)) x U
@@ -196,7 +196,7 @@ public theorem LAdicSheaf.bijective_directImageStalkLift (y : GeometricPoint Y.1
   · choose v hv using fun n => (hb n).2 (fun x => (t x).1 n)
     refine ⟨⟨v, fun n => (hb n).1 (funext fun x => ?_)⟩, funext fun x => Subtype.ext
       (funext fun n => congrFun (hv n) x)⟩
-    show (directImageLevelStalkLift π F hF y n x).hom
+    change (directImageLevelStalkLift π F hF y n x).hom
         (LAdicSheaf.stalkTransition B Y ℓ _ y n (v (n + 1))) =
       (directImageLevelStalkLift π F hF y n x).hom (v n)
     refine (stalkTransition_directImageLevelStalkLift π F hF y n x (v (n + 1))).symm.trans ?_
@@ -242,10 +242,10 @@ public theorem LAdicSheaf.directImageStalkLift_comap_stalkEnd_eq_zero (x : Geome
       (F.level n) x)
   have hv' : (directImageLevelStalkLift π F hF y n x).hom (v.1 n) = 0 :=
     congrArg (fun z : LAdicSheaf.stalk B X ℓ F _ => z.1 n) hv
-  show (directImageLevelStalkLift π F hF y n (GeometricLifts.comap B π a x)).hom
+  change (directImageLevelStalkLift π F hF y n (GeometricLifts.comap B π a x)).hom
       ((finiteLevelStalkEnd B Y ℓ (SmallEtale.LAdicSheaf.directImage π F hF) a n).hom (v.1 n)) = 0
   refine h.trans ?_
-  show ((geometricPointStalkMap B X.1 X.property (GeometricLifts.liftHom B π a x)
+  change ((geometricPointStalkMap B X.1 X.property (GeometricLifts.liftHom B π a x)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))).app (F.level n).obj).hom
       ((directImageLevelStalkLift π F hF y n x).hom (v.1 n)) = 0
   rw [hv']
@@ -329,6 +329,7 @@ theorem LAdicSheaf.directImageStalkLift_comp_inc_of_ne {x x' : GeometricLifts B 
     rfl
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- module instances on the stalks of `π_* F` and their finite products take a deep search
 /-- The integral inclusions and components decompose the stalk of `π_* F`:
 `∑ x̄, inc x̄ ∘ lift x̄ = id`. -/
 theorem LAdicSheaf.sum_directImageStalkInc_comp_lift [Fintype (GeometricLifts B π y)] :
@@ -353,7 +354,7 @@ public theorem LAdicSheaf.directImageRational_sum [Fintype (GeometricLifts B π 
   refine (map_sum (LinearMap.baseChangeHom (PadicInt ℓ) (Padic ℓ) _ _)
     (fun x => LAdicSheaf.directImageStalkInc π F hF y x ∘ₗ
       LAdicSheaf.directImageStalkLift π F hF y x) Finset.univ).symm.trans ?_
-  show (∑ x, LAdicSheaf.directImageStalkInc π F hF y x ∘ₗ
+  change (∑ x, LAdicSheaf.directImageStalkInc π F hF y x ∘ₗ
     LAdicSheaf.directImageStalkLift π F hF y x).baseChange (Padic ℓ) = _
   rw [LAdicSheaf.sum_directImageStalkInc_comp_lift]
   exact LinearMap.baseChange_id

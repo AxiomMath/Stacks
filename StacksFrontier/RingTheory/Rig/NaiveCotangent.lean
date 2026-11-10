@@ -253,9 +253,9 @@ public theorem continuous_restrictedPartialDeriv (I : Ideal A) {σ : Type*} (i :
   let _ : TopologicalSpace R := RestrictedPowerSeries.limitTopology I _
   let _ : ∀ n : ℕ, TopologicalSpace (MvPolynomial σ (A ⧸ I ^ n)) := fun _ => ⊥
   let _ : ∀ n : ℕ, DiscreteTopology (MvPolynomial σ (A ⧸ I ^ n)) := fun _ => ⟨rfl⟩
-  show Continuous (partialDerivative I i)
+  change Continuous (partialDerivative I i)
   refine continuous_induced_rng.mpr (continuous_pi fun n => ?_)
-  show Continuous (fun f : R => MvPolynomial.pderiv i (f.val n))
+  change Continuous (fun f : R => MvPolynomial.pderiv i (f.val n))
   exact (continuous_of_discreteTopology :
     Continuous (MvPolynomial.pderiv i :
       MvPolynomial σ (A ⧸ I ^ n) → MvPolynomial σ (A ⧸ I ^ n))).comp
@@ -293,7 +293,7 @@ public theorem continuous_completedPartialDeriv {I : Ideal A}
       (Fin P.variableCount)
   let h := RestrictedPowerSeries.adicCompletionHomeomorph I
     (Fin P.variableCount)
-  show Continuous (fun x => h (restrictedPartialDeriv I i (h.symm x)))
+  change Continuous (fun x => h (restrictedPartialDeriv I i (h.symm x)))
   exact h.continuous_toFun.comp ((continuous_restrictedPartialDeriv I i).comp h.continuous_invFun)
 
 /-- The polynomials are dense in the restricted power series for the inverse-limit topology. -/
@@ -306,7 +306,7 @@ public theorem denseRange_restrictedPolynomials {I : Ideal A} (σ : Type v) :
   let T := ∀ n : ℕ, MvPolynomial σ (A ⧸ I ^ n)
   let polynomialFamily : MvPolynomial σ A → T := fun p n =>
     MvPolynomial.map (Ideal.Quotient.mk (I ^ n)) p
-  show Dense (Set.range (RestrictedPowerSeries.polynomialAlgHom I σ))
+  change Dense (Set.range (RestrictedPowerSeries.polynomialAlgHom I σ))
   apply (Topology.IsInducing.subtypeVal
     (t := (RestrictedPowerSeries.inverseLimitSubring I σ : Set T))).dense_iff.mpr
   intro f
@@ -323,7 +323,7 @@ public theorem denseRange_restrictedPolynomials {I : Ideal A} (σ : Type v) :
     obtain ⟨p, hp⟩ := MvPolynomial.map_surjective
       (Ideal.Quotient.mk (I ^ N)) Ideal.Quotient.mk_surjective (f.val N)
     refine ⟨polynomialFamily p, ?_, ⟨p, rfl⟩⟩
-    show ∀ m ∈ F, polynomialFamily p m ∈ g m
+    change ∀ m ∈ F, polynomialFamily p m ∈ g m
     intro m hm
     have hmN : m ≤ N := Finset.le_sup (f := id) hm
     have hcoord : MvPolynomial.map (Ideal.Quotient.mk (I ^ m)) p = f.val m := by
@@ -337,7 +337,7 @@ public theorem denseRange_restrictedPolynomials {I : Ideal A} (σ : Type v) :
         _ = RestrictedPowerSeries.coefficientTransition I σ hmN (f.val N) := by
               rw [hp]
         _ = f.val m := f.property hmN
-    show MvPolynomial.map (Ideal.Quotient.mk (I ^ m)) p ∈ g m
+    change MvPolynomial.map (Ideal.Quotient.mk (I ^ m)) p ∈ g m
     rw [hcoord]
     exact hfU m hm
   rwa [hrange] at hclose
@@ -350,7 +350,7 @@ private theorem adicCompletionAlgEquiv_polynomialAlgHom {I : Ideal A}
     RestrictedPowerSeries.adicCompletionAlgEquiv I (Fin P.variableCount)
         (RestrictedPowerSeries.polynomialAlgHom I (Fin P.variableCount) g) =
       algebraMap (MvPolynomial (Fin P.variableCount) A) P.completedPolynomialRing g := by
-  show RestrictedPowerSeries.adicCompletionEquiv I (Fin P.variableCount)
+  change RestrictedPowerSeries.adicCompletionEquiv I (Fin P.variableCount)
     (RestrictedPowerSeries.polynomialRingHom I (Fin P.variableCount) g) = _
   rw [RestrictedPowerSeries.adicCompletionEquiv_polynomialRingHom]
   rfl
@@ -385,7 +385,7 @@ public theorem completedPartialDeriv_polynomial {I : Ideal A}
       congr 1
       apply Subtype.ext
       funext n
-      show MvPolynomial.pderiv i
+      change MvPolynomial.pderiv i
           (MvPolynomial.map (Ideal.Quotient.mk (I ^ n)) f) =
         MvPolynomial.map (Ideal.Quotient.mk (I ^ n)) (MvPolynomial.pderiv i f)
       exact MvPolynomial.pderiv_map

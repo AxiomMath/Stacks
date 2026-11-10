@@ -127,8 +127,8 @@ private theorem exists_factor_sigmaDesc {I : Type u} (V : I → Cᵒᵖ ⥤ Type
         (congrArg (fun q ↦ q zi) (ι_comp_sigmaObjIso_hom V (op W) i)).symm
   refine ⟨i, (yonedaEquiv (F := V i)).symm zi, ?_⟩
   rw [hz]
-  show ((Sigma.ι V i ≫ Sigma.desc g).app (op W)) zi = _
-  rw [Sigma.ι_desc]
+  change ((Sigma.ι V i ≫ Sigma.desc g).app (op W)) zi = _
+  rw [Sigma.ι_comp_desc]
   simp
 
 private theorem isLocallyInjective_of_isLocallySurjective_sigmaDesc (J : GrothendieckTopology C)
@@ -154,7 +154,7 @@ private theorem isLocallyInjective_of_isLocallySurjective_sigmaDesc (J : Grothen
     (cancel_mono (pullback.snd f (g i))).1 (by rw [pullback.lift_snd, pullback.lift_snd])
   have hαβ : α = β := (pullback.lift_fst α γ hα).symm.trans
     ((congrArg (· ≫ pullback.fst f (g i)) heq).trans (pullback.lift_fst β γ hβ))
-  show X.map a.op x = X.map a.op y
+  change X.map a.op x = X.map a.op y
   simpa [α, β] using congrArg (yonedaEquiv (F := X)) hαβ
 
 /-- **Monomorphy is local on the target.** Let `f : X ⟶ Y` be a morphism of presheaves on a
@@ -191,9 +191,9 @@ private theorem isLocallySurjective_sigmaDesc_yoneda_map (J : GrothendieckTopolo
   rw [Sieve.pullback_apply] at ha
   obtain ⟨i, b, hb⟩ := (Sieve.mem_ofArrows_iff V m (a ≫ (z : W ⟶ T))).mp ha
   refine ⟨(Sigma.ι (fun i ↦ yoneda.obj (V i)) i).app (op W') b, ?_⟩
-  show ((Sigma.ι (fun i ↦ yoneda.obj (V i)) i ≫
+  change ((Sigma.ι (fun i ↦ yoneda.obj (V i)) i ≫
     Sigma.desc fun i ↦ yoneda.map (m i)).app (op W')) b = _
-  rw [Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
   exact hb.symm
 
 end Site
@@ -258,7 +258,7 @@ theorem mono_tfae {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
         ((presheafSurjective_iff_isSurjective_yoneda B S hS Y hY V g).2 hsurj)
         ((isEtale_iff_presheaf_of_yoneda B S hS g).1 hetale)
     exact Presheaf.isLocallySurjective_of_isLocallySurjective_fac _
-      (Sigma.ι_desc (fun _ : PUnit.{u + 1} ↦ g) PUnit.unit)
+      (Sigma.ι_comp_desc (fun _ : PUnit.{u + 1} ↦ g) PUnit.unit)
   tfae_have 1 → 5 := by
     intro hf
     refine ⟨PUnit.{u + 1}, fun _ ↦ ⊤, isZariskiCover_top hY, fun _ ↦ ?_⟩
@@ -326,7 +326,7 @@ theorem isSeparated_of_isImmersion {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
       (@_root_.AlgebraicGeometry.IsClosedImmersion.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).ContainsIdentities := by
     refine ⟨fun T ↦ ?_⟩
-    show _root_.AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map (𝟙 T))
+    change _root_.AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map (𝟙 T))
     rw [CategoryTheory.Functor.map_id]
     infer_instance
   have : (MorphismProperty.inverseImage

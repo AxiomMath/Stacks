@@ -84,7 +84,7 @@ theorem exists_addEquiv_compactSupportSheafCohomology_two_constant (m : ℕ) [Ne
         Λ (fieldBaseChange (Over.mk j.toBase) kbar).smallEtaleTopology) δ 2
   have hN0 : m ≠ 0 := NeZero.ne m
   have : NeZero (m : kbar) := ⟨hm.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot kbar m
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot kbar m
   let fY := pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)
   let e₅ : Ext (Stacks.Cohomology.GlobalSections.constantModuleSheaf Λ
         (fieldBaseChange (Over.mk j.toBase) kbar).smallEtaleTopology)

@@ -76,7 +76,7 @@ theorem hasTorAmplitudeAt_of_hasTorAmplitudeAt_closedFibre
   let p := q₀.under R
   let p' := q₀'.under (R ⧸ I)
   have : p'.LiesOver p := ⟨by
-    show (q₀'.under A).under R = (q₀'.under (R ⧸ I)).under R
+    change (q₀'.under A).under R = (q₀'.under (R ⧸ I)).under R
     rw [Ideal.under_under, Ideal.under_under]⟩
   let Rp := Localization.AtPrime p
   let Aq := Localization.AtPrime q₀

@@ -129,10 +129,10 @@ theorem polyRingMap_polyRingMap {f : DPMorphism C.dividedPowers C'.dividedPowers
   have h : (polyRingMap W f).comp (polyRingMap W g) = DPMorphism.id _ :=
     polyRing_dpMorphism_ext W
       (fun c ↦ by
-        show polyRingMap W f (polyRingMap W g (algebraMap C' _ c)) = algebraMap C' _ c
+        change polyRingMap W f (polyRingMap W g (algebraMap C' _ c)) = algebraMap C' _ c
         rw [polyRingMap_algebraMap, polyRingMap_algebraMap, hfg])
       (fun w ↦ by
-        show polyRingMap W f (polyRingMap W g (dividedPowerPolynomialVariable C' w)) = _
+        change polyRingMap W f (polyRingMap W g (dividedPowerPolynomialVariable C' w)) = _
         rw [polyRingMap_variable, polyRingMap_variable]
         rfl)
   exact congrArg (fun φ : DPMorphism _ _ ↦ φ q) h
@@ -223,20 +223,20 @@ theorem quasiIso_map_affineProj_zero (n : ℕ) {d : ℕ} (t : Fin d → (L defau
   have hfe : ∀ c : C, eR (algebraMap C (setIndexedDividedPowerPolynomialAlgebra C W) c) =
       sectionsDPRingMap (affineProj hp L (fun _ : Fin (n + 1) ↦ (default : ι)) 0).hom.hom c := by
     intro c
-    show (Scheme.ΓSpecIso (CommRingCat.of D₀)).inv.hom (e₀ (γ (algebraMap C _ c))) =
+    change (Scheme.ΓSpecIso (CommRingCat.of D₀)).inv.hom (e₀ (γ (algebraMap C _ c))) =
       (proj hp (fun _ : Fin (n + 1) ↦ L default) 0).targetHom.hom.appTop.hom c
     refine Eq.trans ?_ (proj_targetHom_appTop hp (fun _ : Fin (n + 1) ↦ L default) 0 c).symm
     exact (congrArg (fun z ↦ (Scheme.ΓSpecIso (CommRingCat.of D₀)).inv.hom (e₀ z))
       (polyRingMap_algebraMap W β c)).trans (congrArg _ (h1 (β c)))
   have he'e : ∀ q, e'R (eR q) = q := fun q ↦ by
-    show γ' (e₀' ((Scheme.ΓSpecIso (CommRingCat.of D₀)).hom.hom
+    change γ' (e₀' ((Scheme.ΓSpecIso (CommRingCat.of D₀)).hom.hom
       ((Scheme.ΓSpecIso (CommRingCat.of D₀)).inv.hom (e₀ (γ q))))) = q
     refine (congrArg (fun z ↦ γ' (e₀' z))
       (ConcreteCategory.congr_hom (Scheme.ΓSpecIso (CommRingCat.of D₀)).inv_hom_id _)).trans ?_
     exact (congrArg γ' (h4 (γ q))).trans
       (polyRingMap_polyRingMap W (fun c ↦ ΓSpecIso_inv_hom_apply _ c) q)
   have hee' : ∀ r, eR (e'R r) = r := fun r ↦ by
-    show (Scheme.ΓSpecIso (CommRingCat.of D₀)).inv.hom (e₀ (γ (γ' (e₀'
+    change (Scheme.ΓSpecIso (CommRingCat.of D₀)).inv.hom (e₀ (γ (γ' (e₀'
       ((Scheme.ΓSpecIso (CommRingCat.of D₀)).hom.hom r))))) = r
     refine (congrArg (fun z ↦ (Scheme.ΓSpecIso (CommRingCat.of D₀)).inv.hom (e₀ z))
       (polyRingMap_polyRingMap W (fun b ↦
@@ -246,13 +246,13 @@ theorem quasiIso_map_affineProj_zero (n : ℕ) {d : ℕ} (t : Fin d → (L defau
   let e : (DeRhamPair.polyRing C W : Type u) →ₐ[Γ(S.S.scheme, ⊤)] (R : Type u) :=
     { eR with
       commutes' := fun a ↦ by
-        show eR (algebraMap Γ(S.S.scheme, ⊤) _ a) = _
+        change eR (algebraMap Γ(S.S.scheme, ⊤) _ a) = _
         rw [IsScalarTower.algebraMap_apply Γ(S.S.scheme, ⊤) C, hfe]
         exact (sectionsDPRingMap _).commutes a }
   let e' : (R : Type u) →ₐ[Γ(S.S.scheme, ⊤)] (DeRhamPair.polyRing C W : Type u) :=
     { e'R with
       commutes' := fun a ↦ by
-        show e'R (algebraMap Γ(S.S.scheme, ⊤) _ a) = _
+        change e'R (algebraMap Γ(S.S.scheme, ⊤) _ a) = _
         rw [← e.commutes a]
         exact he'e _ }
   exact quasiIso_crystalDeRhamPresheaf_map (isQuasicoherentOnSite_restrictSheafOfModules hN)
@@ -424,7 +424,7 @@ theorem etale_aeval_sections {d : ℕ} (t : Fin d → (L default).ring)
         algebraMap Γ(S.S.scheme, ⊤) (sectionsDPRing S (affineObject hp L default).obj.obj) a := by
     intro a
     refine (toBase_appTop_object hp (fun _ : Fin 1 ↦ L default) 0 a).symm.trans ?_
-    show _ = (crysBaseAppLE S (affineObject hp L default).obj.obj).hom a
+    change _ = (crysBaseAppLE S (affineObject hp L default).obj.obj).hom a
     rw [crysBaseAppLE, baseAppLE, appLE_top_top]
     rfl
   have heq : (MvPolynomial.aeval (R := Γ(S.S.scheme, ⊤))

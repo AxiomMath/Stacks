@@ -134,7 +134,7 @@ private theorem isIso_unitToRestrictUnit_of_isIso {C : Type u} [Category.{v, u} 
       rw [hlin]
       dsimp [s, _root_.PresheafOfModules.sectionsMk, F,
         _root_.PresheafOfModules.restrictScalarsObj]
-      show (α.hom.app V r) * 1 = (α.hom.app V r)
+      change (α.hom.app V r) * 1 = (α.hom.app V r)
       simp
     have heq : (forget₂ RingCat AddCommGrpCat).map (α.hom.app V) =
         ((_root_.PresheafOfModules.toPresheaf R.obj).map
@@ -204,17 +204,17 @@ theorem isFlatMap_of_isIso {C : Type u} [Category.{v, u} C]
   let F := restrictUnit α
   let e := unitToRestrictUnit α
   have he : IsIso e := isIso_unitToRestrictUnit_of_isIso α
-  show IsFlat (O := O) F
+  change IsFlat (O := O) F
   unfold IsFlat
   let T : _root_.PresheafOfModules R.obj ⥤ _root_.PresheafOfModules R.obj :=
     PresheafOfModules.tensorRight (O := O.obj) F.val
   let S := _root_.PresheafOfModules.sheafification (𝟙 R.obj)
-  show exactFunctor _ _ (_root_.SheafOfModules.forget R ⋙ T ⋙ S)
+  change exactFunctor _ _ (_root_.SheafOfModules.forget R ⋙ T ⋙ S)
   let : MonoidalCategory (_root_.PresheafOfModules R.obj) := by
-    show MonoidalCategory (_root_.PresheafOfModules (ringPresheaf O.obj))
+    change MonoidalCategory (_root_.PresheafOfModules (ringPresheaf O.obj))
     infer_instance
   have hT : T ≅ _root_.PresheafOfModules.restrictScalars (𝟙 R.obj) := by
-    show MonoidalCategory.tensorRight F.val ≅
+    change MonoidalCategory.tensorRight F.val ≅
       _root_.PresheafOfModules.restrictScalars (𝟙 R.obj)
     let e' : _root_.PresheafOfModules.unit R.obj ≅ F.val :=
       (_root_.SheafOfModules.forget R).mapIso (asIso e)
@@ -225,7 +225,7 @@ theorem isFlatMap_of_isIso {C : Type u} [Category.{v, u} C]
         (fun a => (MonoidalCategory.whisker_exchange a e'.inv).symm)
     have hU : MonoidalCategory.tensorRight
         (_root_.PresheafOfModules.unit R.obj) ≅ 𝟭 (_root_.PresheafOfModules R.obj) := by
-      show MonoidalCategory.tensorUnitRight (_root_.PresheafOfModules R.obj) ≅ _
+      change MonoidalCategory.tensorUnitRight (_root_.PresheafOfModules R.obj) ≅ _
       exact MonoidalCategory.rightUnitorNatIso (_root_.PresheafOfModules R.obj)
     exact hTF.trans (hU.trans (presheafRestrictScalarsIdIso R.obj).symm)
   have hid : _root_.SheafOfModules.forget R ⋙ T ⋙ S ≅ 𝟭 _ := forgetCompSheafificationIso hT

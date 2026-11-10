@@ -79,14 +79,14 @@ private theorem exists_valuationSubring_of_specializes {V W : Scheme.{u}} (m : W
             V.fromSpecStalk v := by rw [hvAdef, ← Spec.map_comp_assoc]
       _ = Spec.map φ ≫ V.fromSpecStalk v := by rw [← CommRingCat.ofHom_comp, hring]
       _ = W.fromSpecResidueField w ≫ m := by
-            show Spec.map (V.presheaf.stalkSpecializes hsp ≫
+            change Spec.map (V.presheaf.stalkSpecializes hsp ≫
               V.residue (m w) ≫ m.residueFieldMap w) ≫ V.fromSpecStalk v = _
             rw [Spec.map_comp, Spec.map_comp, Category.assoc, Category.assoc,
               Scheme.SpecMap_stalkSpecializes_fromSpecStalk hsp]
             exact Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField m w
   refine ⟨A, vA, hfac, ?_, ?_⟩
   · rw [hvAdef]
-    show V.fromSpecStalk v (Spec.map localMap (closedPoint A)) = v
+    change V.fromSpecStalk v (Spec.map localMap (closedPoint A)) = v
     rw [show Spec.map localMap (closedPoint A) = closedPoint (V.presheaf.stalk v) from
       IsLocalRing.comap_closedPoint localMap.hom]
     exact Scheme.fromSpecStalk_closedPoint
@@ -96,7 +96,7 @@ private theorem exists_valuationSubring_of_specializes {V W : Scheme.{u}} (m : W
         genericPoint (Spec (CommRingCat.of A)) := by
       have : t.asIdeal.IsPrime := t.isPrime
       apply PrimeSpectrum.ext
-      show Ideal.comap (algebraMap A (W.residueField w)) t.asIdeal = _
+      change Ideal.comap (algebraMap A (W.residueField w)) t.asIdeal = _
       rw [genericPoint_eq_bot_of_affine, Ideal.eq_bot_of_prime t.asIdeal]
       ext x
       simp
@@ -116,7 +116,7 @@ private theorem exists_image_point_of_mem_closure {T U : Scheme.{u}} (m : T ⟶ 
     [QuasiCompact m] {x : U} (hx : x ∈ closure (Set.range (m : T → U))) :
     ∃ p : m.image, m.imageι p = x := by
   have hrange : Set.range (m.imageι : m.image → U) = closure (Set.range (m : T → U)) := by
-    show Set.range (m.ker.subschemeι : _ → U) = _
+    change Set.range (m.ker.subschemeι : _ → U) = _
     rw [Scheme.IdealSheafData.range_subschemeι, Scheme.Hom.support_ker]
   exact Set.mem_range.mp (hrange ▸ hx)
 
@@ -167,6 +167,7 @@ private theorem pointsToScheme_mem_closure_range_iff {U V : BigFppfOver B S hS} 
 /-! ### Stacks 089B -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_SchemeTheoreticImageValuativePoint :
@@ -248,7 +249,7 @@ theorem exists_valuativeSquare_toSchemeTheoreticImage (f : X ⟶ Y)
   have hKmem : B.Contains (Spec (.of ((G.obj W).residueField w₀))) :=
     B.residueField_spec_contains W.left.property w₀
   have hAmem : B.Contains (Spec (.of A)) := by
-    show (Spec (.of A)).size < B.cutoff
+    change (Spec (.of A)).size < B.cutoff
     rw [Scheme.size_Spec]
     refine max_lt B.aleph0_lt_cutoff ?_
     have hK : Cardinal.mk ((G.obj W).residueField w₀) < B.cutoff := by
@@ -267,7 +268,7 @@ theorem exists_valuativeSquare_toSchemeTheoreticImage (f : X ⟶ Y)
     B.inclusion.map_preimage (X := B.obj hAmem) (Y := V.left) vA
   set specialV : OA ⟶ V := Over.homMk vV (by
     apply ObjectProperty.hom_ext
-    show B.inclusion.map vV ≫ B.inclusion.map V.hom = baseA
+    change B.inclusion.map vV ≫ B.inclusion.map V.hom = baseA
     rw [hvV]) with hspecialVdef
   have hGspecialV : G.map specialV = vA := hvV
   set vK : B.obj hKmem ⟶ W.left :=
@@ -277,12 +278,12 @@ theorem exists_valuativeSquare_toSchemeTheoreticImage (f : X ⟶ Y)
       ((G.obj W).fromSpecResidueField w₀)
   have hjWbase : mW ≫ B.inclusion.map V.hom = B.inclusion.map W.hom := by
     rw [hmWdef]
-    show B.inclusion.map jW.left ≫ B.inclusion.map V.hom = B.inclusion.map W.hom
+    change B.inclusion.map jW.left ≫ B.inclusion.map V.hom = B.inclusion.map W.hom
     rw [← B.inclusion.map_comp]
     exact congrArg (fun t => B.inclusion.map t) (Over.w jW)
   set cK : OK ⟶ W := Over.homMk vK (by
     apply ObjectProperty.hom_ext
-    show B.inclusion.map vK ≫ B.inclusion.map W.hom = baseK
+    change B.inclusion.map vK ≫ B.inclusion.map W.hom = baseK
     calc B.inclusion.map vK ≫ B.inclusion.map W.hom
         = (G.obj W).fromSpecResidueField w₀ ≫ mW ≫ B.inclusion.map V.hom := by
             rw [hvK, hjWbase]
@@ -361,7 +362,7 @@ theorem exists_valuativeSquare_toSchemeTheoreticImage (f : X ⟶ Y)
   · have hsite : cK ≫ jW = fracHom ≫ specialV := by
       apply Over.OverMorphism.ext
       apply ObjectProperty.hom_ext
-      show B.inclusion.map vK ≫ B.inclusion.map jW.left =
+      change B.inclusion.map vK ≫ B.inclusion.map jW.left =
         Spec.map (CommRingCat.ofHom (algebraMap A ((G.obj W).residueField w₀))) ≫
           B.inclusion.map vV
       rw [hvK, hvV]

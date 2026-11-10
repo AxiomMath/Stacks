@@ -111,8 +111,7 @@ theorem isPullback_cofanGraph (ι : ∀ i, F i ⟶ P) (f : P.obj ⟶ Y) (i : I) 
     rw [h, pullback.diagonal_fst]
     exact IsPullback.of_vert_isIso ⟨by simp⟩
   · refine pullback.hom_ext ?_ ?_ <;>
-      simp [cofanGraph, cofanSelfProdInj, pullback.lift_fst, pullback.lift_snd,
-        pullback.lift_fst_assoc]
+      simp [cofanGraph, cofanSelfProdInj]
 
 /-- **The `i`-th diagonal piece is the base change of the `i`-th leg along the second
 projection.** -/
@@ -131,7 +130,7 @@ theorem cofanGraph_eq (ι : ∀ i, F i ⟶ P) (f : P.obj ⟶ Y) (i : I) :
     cofanGraph B S hS ι f i
       = pullback.diagonal ((ι i).hom ≫ f) ≫ cofanDiagonalPiece B S hS ι f i := by
   refine pullback.hom_ext ?_ ?_ <;>
-    simp [cofanGraph, cofanDiagonalPiece, pullback.lift_fst, pullback.lift_snd]
+    simp [cofanGraph, cofanDiagonalPiece]
 
 /-- **The graph of the `i`-th leg is a closed immersion** as soon as `ι i ≫ f` is separated and
 the leg `ι i` is a closed immersion. -/

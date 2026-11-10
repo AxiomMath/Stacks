@@ -62,7 +62,7 @@ public theorem smallZariskiToOpens_baseChange_obj
   let Yover := (Over.pullback (B.inclusion.map f)).obj
     ((smallSiteInSchemesOver B S).obj X)
   have : IsOpenImmersion j := by
-    show IsOpenImmersion (B.inclusion.map X.obj.hom)
+    change IsOpenImmersion (B.inclusion.map X.obj.hom)
     exact X.property
   have htri :
       (e.hom.app X).left ≫ Yover.hom =
@@ -71,10 +71,10 @@ public theorem smallZariskiToOpens_baseChange_obj
   have : IsIso (e.hom.app X) := (e.app X).isIso_hom
   have : IsIso (e.hom.app X).left :=
     (Over.forget T.1).map_isIso (e.hom.app X)
-  show (B.inclusion.map
+  change (B.inclusion.map
       ((smallZariskiBaseChange B f).obj X).obj.hom).opensRange = _
   apply Opens.ext
-  show Set.range (B.inclusion.map
+  change Set.range (B.inclusion.map
       ((smallZariskiBaseChange B f).obj X).obj.hom) = _
   have hsurj : Function.Surjective (e.hom.app X).left := by
     have : IsIso ((e.hom.app X).left.base) :=
@@ -84,7 +84,7 @@ public theorem smallZariskiToOpens_baseChange_obj
     _ = Set.range ((e.hom.app X).left ≫ Yover.hom) := by
       rw [htri]
     _ = Set.range Yover.hom := by
-      show Set.range (Yover.hom ∘ (e.hom.app X).left) = _
+      change Set.range (Yover.hom ∘ (e.hom.app X).left) = _
       rw [Set.range_comp, Set.range_eq_univ.mpr hsurj, Set.image_univ]
     _ = (B.inclusion.map f) ⁻¹ᵁ j.opensRange := by
       simpa only [Yover, Over.pullback_obj_hom, Over.pullback_obj_left] using

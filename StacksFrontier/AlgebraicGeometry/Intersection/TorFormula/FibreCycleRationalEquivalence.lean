@@ -420,6 +420,7 @@ section IntegralComponentDimension
 
 variable (x : projectiveLineProduct p)
 
+omit [LocallyOfFiniteType p] in
 /-- The delta-dimension hypothesis of Tag 0AZG for `closure {x}`, read off the relative
 dimension of `x`: the only generic point of an irreducible component of `closure {x}` is `x`
 itself. -/

@@ -76,7 +76,7 @@ theorem isQuasiCompactObject_of_finite_refinements {C : Type u} [Category.{v} C]
         (fun i ↦ f i.down) = Sieve.ofArrows V f := Sieve.ext fun W g ↦ by
       rw [Sieve.mem_ofArrows_iff, Sieve.mem_ofArrows_iff]
       exact ⟨fun ⟨i, b, hb⟩ ↦ ⟨i.down, b, hb⟩, fun ⟨i, b, hb⟩ ↦ ⟨ULift.up i, b, hb⟩⟩
-    show Sieve.ofArrows (fun i : ULift.{max u v} (Fin n) ↦ V i.down) (fun i ↦ f i.down) ∈ J U
+    change Sieve.ofArrows (fun i : ULift.{max u v} (Fin n) ↦ V i.down) (fun i ↦ f i.down) ∈ J U
     rwa [heq]
   · exact Set.finite_range _
 
@@ -228,7 +228,7 @@ theorem exists_clopenRefinement_of_isWContractible (U : SmallProetale B S hS)
   let F : PreZeroHypercover.{u + 1} U :=
     ⟨ULift.{u + 1} (Fin n), fun i ↦ X i.down, fun i ↦ f i.down⟩
   have hF : B.IsProetaleCovering ⟨Q.obj U, F.map Q⟩ := by
-    show ((F.map Q).map B.inclusion).presieve₀ ∈ _
+    change ((F.map Q).map B.inclusion).presieve₀ ∈ _
     apply Scheme.zariskiPrecoverage_le_propQCPrecoverage
     rw [Scheme.zariskiPrecoverage, Scheme.presieve₀_mem_precoverage_iff]
     refine ⟨fun x ↦ ?_, fun i ↦ ?_⟩
@@ -236,9 +236,9 @@ theorem exists_clopenRefinement_of_isWContractible (U : SmallProetale B S hS)
         (Set.ext_iff.mp hdec.cover x).mpr (Set.mem_univ x)
       obtain ⟨i, y, hy⟩ := Set.mem_iUnion.mp hx
       refine ⟨ULift.up i, y, ?_⟩
-      show (B.inclusion.map (Q.map (f i))).base y = x
+      change (B.inclusion.map (Q.map (f i))).base y = x
       rwa [hQf]
-    · show IsOpenImmersion (B.inclusion.map (Q.map (f i.down)))
+    · change IsOpenImmersion (B.inclusion.map (Q.map (f i.down)))
       rw [hQf]; exact hdec.openImmersion i.down
   have hFQfin : Finite (F.map Q).I₀ := inferInstanceAs (Finite (ULift.{u + 1} (Fin n)))
   obtain ⟨ι, hfin, a, ha, -⟩ := B.exists_finite_restrictIndex_covering (F.map Q) hF
@@ -251,17 +251,17 @@ theorem exists_clopenRefinement_of_isWContractible (U : SmallProetale B S hS)
     obtain ⟨i, c, hc⟩ := (Sieve.mem_ofArrows_iff _ _ _).mp hb
     exact (Sieve.mem_ofArrows_iff _ _ _).mpr ⟨i.down, c, hc⟩
   refine ⟨n, X, f, ?_, hcover, fun i ↦ ?_⟩
-  · show IsClopenDecompositionCover (fun i ↦ (V i).obj)
+  · change IsClopenDecompositionCover (fun i ↦ (V i).obj)
       (fun i ↦ B.inclusion.map (Q.map (f i)))
     simpa only [hQf] using hdec
   · obtain ⟨Z, c₁, c₂, hc₁, hc₂⟩ := href i
     let c : X i ⟶ Z := I.preimage (Over.homMk c₂ (by
       have hw : Q.map c₁ ≫ U.obj.hom = Z.obj.hom := Over.w (I.map c₁)
-      show c₂ ≫ Z.obj.hom = g i ≫ U.obj.hom
+      change c₂ ≫ Z.obj.hom = g i ≫ U.obj.hom
       rw [← hw, ← Category.assoc, ← hc₂]))
     have hc : c ≫ c₁ = f i := by
       refine I.map_injective (q.map_injective ?_)
-      show Q.map c ≫ Q.map c₁ = Q.map (f i)
+      change Q.map c ≫ Q.map c₁ = Q.map (f i)
       rw [hQf, hQp]
       exact hc₂.symm
     exact hc ▸ Sv.downward_closed hc₁ c

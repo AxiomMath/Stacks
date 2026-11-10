@@ -79,7 +79,7 @@ lemma map_comparisonMap_comp_counit (K L : C) :
 lemma comparisonMap_naturality_right (K : C) {L L' : C} (g : L ⟶ L') :
     F.obj K ◁ a.map g ≫ adj.comparisonMap adj₂ K L' =
       adj.comparisonMap adj₂ K L ≫ a.map (K ◁ g) := by
-  have h := (adj.comparisonTwoSquare adj₂ K).natTrans.naturality g
+  have h := (adj.comparisonTwoSquare adj₂ K).naturality g
   simp only [Functor.comp_map, comparisonTwoSquare_natTrans_app] at h
   exact h
 
@@ -211,10 +211,10 @@ theorem projectionMap_baseChange (K : S) (E : T) :
 variable {a : S ⥤ T} {a' : S' ⥤ T'} (adja : Rf ⊣ a) (adja' : Rf' ⊣ a')
   [∀ (K : S) (M : T), IsIso (adjf.projectionMap K M)]
   [∀ (K : S') (M : T'), IsIso (adjf'.projectionMap K M)]
-  [IsIso (twoSquare adjf adjf' eg ef).natTrans]
+  [IsIso (twoSquare adjf adjf' eg ef)]
 
 /-- `ξ` is invertible when `β` is. -/
-instance : IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans :=
+instance : IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja') :=
   isIso_rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja'
 
 include hsq in
@@ -226,29 +226,29 @@ composites around the square at `K` tensored with `α` at `L`, and the compariso
 `(Lf' ⊣ Rf', Rf' ⊣ a')` at `(Lg K, Lg L)`. -/
 theorem comparisonMap_baseChange (K L : S) :
     Lg'.map (adjf.comparisonMap adja K L) ≫
-        (rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').natTrans.app (K ⊗ L) ≫
+        (rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app (K ⊗ L) ≫
           a'.map (δ Lg K L) =
       δ Lg' (Lf.obj K) (a.obj L) ≫
         ((squareCompositeIso eg ef).inv.app K ⊗ₘ
-          (rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').natTrans.app L) ≫
+          (rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app L) ≫
         adjf'.comparisonMap adja' (Lg.obj K) (Lg.obj L) := by
   set sq := squareCompositeIso eg ef
   set α := rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja'
   set βt := twoSquare adjf adjf' eg ef
   have hβ : ∀ W : T, Stacks.CategoryTheory.BaseChange.map adjf adjf' eg ef W =
-      βt.natTrans.app W := fun _ => rfl
+      βt.app W := fun _ => rfl
   apply Stacks.Adjunction.hom_ext_of_map_comp_counit adja'
   have l₁ : Rf'.map (a'.map (δ Lg K L)) ≫ adja'.counit.app (Lg.obj K ⊗ Lg.obj L) =
       adja'.counit.app (Lg.obj (K ⊗ L)) ≫ δ Lg K L :=
     adja'.counit.naturality _
-  have l₂ : Rf'.map (α.natTrans.app (K ⊗ L)) ≫ adja'.counit.app (Lg.obj (K ⊗ L)) =
-      (inv βt.natTrans).app (a.obj (K ⊗ L)) ≫ Lg.map (adja.counit.app (K ⊗ L)) :=
+  have l₂ : Rf'.map (α.app (K ⊗ L)) ≫ adja'.counit.app (Lg.obj (K ⊗ L)) =
+      (inv βt).app (a.obj (K ⊗ L)) ≫ Lg.map (adja.counit.app (K ⊗ L)) :=
     map_rightAdjointBaseChange_comp_counit adjf adjf' adjg adjg' eg ef adja adja' (K ⊗ L)
   have l₃ : Rf'.map (Lg'.map (adjf.comparisonMap adja K L)) ≫
-      (inv βt.natTrans).app (a.obj (K ⊗ L)) =
-      (inv βt.natTrans).app (Lf.obj K ⊗ a.obj L) ≫
+      (inv βt).app (a.obj (K ⊗ L)) =
+      (inv βt).app (Lf.obj K ⊗ a.obj L) ≫
         Lg.map (Rf.map (adjf.comparisonMap adja K L)) :=
-    (inv βt.natTrans).naturality _
+    (inv βt).naturality _
   have l₄ : Lg.map (Rf.map (adjf.comparisonMap adja K L)) ≫ Lg.map (adja.counit.app (K ⊗ L)) =
       Lg.map (inv (adjf.projectionMap K (a.obj L))) ≫ Lg.map (K ◁ adja.counit.app L) := by
     rw [← Lg.map_comp, ← Lg.map_comp, Adjunction.map_comparisonMap_comp_counit]
@@ -258,12 +258,12 @@ theorem comparisonMap_baseChange (K L : S) :
         Lg.obj K ◁ adja'.counit.app (Lg.obj L) :=
     Adjunction.map_comparisonMap_comp_counit adjf' adja' _ _
   have r₂ : adjf'.projectionMap (Lg.obj K) (Lg'.obj (a.obj L)) ≫
-      Rf'.map (Lf'.obj (Lg.obj K) ◁ α.natTrans.app L) ≫
+      Rf'.map (Lf'.obj (Lg.obj K) ◁ α.app L) ≫
         inv (adjf'.projectionMap (Lg.obj K) (a'.obj (Lg.obj L))) =
-      Lg.obj K ◁ Rf'.map (α.natTrans.app L) := by
+      Lg.obj K ◁ Rf'.map (α.app L) := by
     rw [← Adjunction.whiskerLeft_projectionMap_assoc]
     simp only [Functor.comp_obj, IsIso.hom_inv_id, Category.comp_id]
-  have r₃ : Lg.obj K ◁ βt.natTrans.app (a.obj L) ≫ Lg.obj K ◁ Rf'.map (α.natTrans.app L) ≫
+  have r₃ : Lg.obj K ◁ βt.app (a.obj L) ≫ Lg.obj K ◁ Rf'.map (α.app L) ≫
       Lg.obj K ◁ adja'.counit.app (Lg.obj L) = Lg.obj K ◁ Lg.map (adja.counit.app L) := by
     rw [← MonoidalCategory.whiskerLeft_comp, ← MonoidalCategory.whiskerLeft_comp,
       ← map_counit_eq_twoSquare_comp_map_rightAdjointBaseChange]
@@ -272,13 +272,13 @@ theorem comparisonMap_baseChange (K L : S) :
     δ_natural_right Lg _ _
   have hpb := projectionMap_baseChange adjf adjf' eg ef hsq K (a.obj L)
   rw [hβ, hβ] at hpb
-  have hsplit : (sq.inv.app K ⊗ₘ α.natTrans.app L) =
-      sq.inv.app K ▷ Lg'.obj (a.obj L) ≫ Lf'.obj (Lg.obj K) ◁ α.natTrans.app L :=
+  have hsplit : (sq.inv.app K ⊗ₘ α.app L) =
+      sq.inv.app K ▷ Lg'.obj (a.obj L) ≫ Lf'.obj (Lg.obj K) ◁ α.app L :=
     MonoidalCategory.tensorHom_def _ _
   have key : Rf'.map (δ Lg' (Lf.obj K) (a.obj L)) ≫ Rf'.map (sq.inv.app K ▷ Lg'.obj (a.obj L)) =
-      (inv βt.natTrans).app (Lf.obj K ⊗ a.obj L) ≫
+      (inv βt).app (Lf.obj K ⊗ a.obj L) ≫
         Lg.map (inv (adjf.projectionMap K (a.obj L))) ≫
-          δ Lg K (Rf.obj (a.obj L)) ≫ Lg.obj K ◁ βt.natTrans.app (a.obj L) ≫
+          δ Lg K (Rf.obj (a.obj L)) ≫ Lg.obj K ◁ βt.app (a.obj L) ≫
             adjf'.projectionMap (Lg.obj K) (Lg'.obj (a.obj L)) := by
     rw [hpb, ← Lg.map_comp_assoc, IsIso.inv_hom_id, Lg.map_id, Category.id_comp,
       ← NatTrans.comp_app_assoc, IsIso.inv_hom_id, NatTrans.id_app, Category.id_comp,
@@ -298,24 +298,24 @@ comparison map `Lf' (Lg K) ⊗ a' U' ⟶ a' (Lg K)`. -/
 theorem comparisonMap_unit_baseChange {U : S} {U' : S'} (hU : 𝟙_ S = U) (hU' : 𝟙_ S' = U')
     (K : S) :
     Lg'.map (adjf.comparisonMap adja K U ≫ a.map (K ◁ eqToHom hU.symm ≫ (ρ_ K).hom)) ≫
-        (rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').natTrans.app K =
+        (rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app K =
       δ Lg' (Lf.obj K) (a.obj U) ≫
         ((squareCompositeIso eg ef).inv.app K ⊗ₘ
-          ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').natTrans.app U ≫
+          ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app U ≫
             a'.map (Lg.map (eqToHom hU.symm) ≫ η Lg ≫ eqToHom hU'))) ≫
         adjf'.comparisonMap adja' (Lg.obj K) U' ≫
           a'.map (Lg.obj K ◁ eqToHom hU'.symm ≫ (ρ_ (Lg.obj K)).hom) := by
   subst hU hU'
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id, MonoidalCategory.whiskerLeft_id]
   set α := rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja'
-  have n : Lg'.map (a.map (ρ_ K).hom) ≫ α.natTrans.app K =
-      α.natTrans.app (K ⊗ 𝟙_ S) ≫ a'.map (Lg.map (ρ_ K).hom) :=
-    α.natTrans.naturality _
+  have n : Lg'.map (a.map (ρ_ K).hom) ≫ α.app K =
+      α.app (K ⊗ 𝟙_ S) ≫ a'.map (Lg.map (ρ_ K).hom) :=
+    α.naturality _
   have hb := comparisonMap_baseChange adjf adjf' adjg adjg' eg ef hsq adja adja' K (𝟙_ S)
   have hn := Adjunction.comparisonMap_naturality_right adjf' adja' (Lg.obj K) (η Lg)
-  have ht : ((squareCompositeIso eg ef).inv.app K ⊗ₘ α.natTrans.app (𝟙_ S)) ≫
+  have ht : ((squareCompositeIso eg ef).inv.app K ⊗ₘ α.app (𝟙_ S)) ≫
       Lf'.obj (Lg.obj K) ◁ a'.map (η Lg) =
-      ((squareCompositeIso eg ef).inv.app K ⊗ₘ (α.natTrans.app (𝟙_ S) ≫ a'.map (η Lg))) := by
+      ((squareCompositeIso eg ef).inv.app K ⊗ₘ (α.app (𝟙_ S) ≫ a'.map (η Lg))) := by
     rw [MonoidalCategory.tensorHom_def, MonoidalCategory.tensorHom_def,
       MonoidalCategory.whiskerLeft_comp, Category.assoc]
     rfl
@@ -332,8 +332,8 @@ inverts the comparison map of `f'` at `(Lg K, Lg L)`. -/
 theorem isIso_map_comparisonMap_iff [∀ K N : S, IsIso (δ Lg K N)]
     [∀ M N : T, IsIso (δ Lg' M N)] {E : Type*} [Category E]
     (H : T' ⥤ E) (K L : S)
-    [IsIso ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').natTrans.app L)]
-    [IsIso ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').natTrans.app
+    [IsIso ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app L)]
+    [IsIso ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app
       (K ⊗ L))] :
     IsIso (H.map (Lg'.map (adjf.comparisonMap adja K L))) ↔
       IsIso (H.map (adjf'.comparisonMap adja' (Lg.obj K) (Lg.obj L))) := by
@@ -341,7 +341,7 @@ theorem isIso_map_comparisonMap_iff [∀ K N : S, IsIso (δ Lg K N)]
   have h := congrArg H.map (comparisonMap_baseChange adjf adjf' adjg adjg' eg ef hsq adja adja' K L)
   simp only [Functor.map_comp] at h
   rw [← isIso_comp_right_iff (H.map (Lg'.map (adjf.comparisonMap adja K L)))
-      (H.map (α.natTrans.app (K ⊗ L)) ≫ H.map (a'.map (δ Lg K L))), h,
+      (H.map (α.app (K ⊗ L)) ≫ H.map (a'.map (δ Lg K L))), h,
     isIso_comp_left_iff, isIso_comp_left_iff]
 
 end Stacks.CategoryTheory.BaseChange

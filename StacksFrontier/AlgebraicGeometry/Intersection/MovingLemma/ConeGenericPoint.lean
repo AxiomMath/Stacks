@@ -99,7 +99,7 @@ public theorem comap_map_gradedSymAlgMap_subtype (W : Submodule k V)
   have hsub : Ideal.map (SymPow.gradedSymAlgMap W.subtype) p.toIdeal
       ≤ Ideal.comap (SymPow.gradedSymAlgMap (W.projectionOnto U hU)) p.toIdeal := by
     refine Ideal.map_le_iff_le_comap.mpr fun x hx => ?_
-    show (SymPow.gradedSymAlgMap (W.projectionOnto U hU))
+    change (SymPow.gradedSymAlgMap (W.projectionOnto U hU))
       ((SymPow.gradedSymAlgMap W.subtype) x) ∈ p.toIdeal
     rwa [hfun x]
   refine HomogeneousIdeal.toIdeal_injective

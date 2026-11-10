@@ -54,8 +54,9 @@ asks only for bijectivity.
 **Restriction along an open embedding, not along an open immersion of schemes.** The
 restriction functor is `Stacks.SheafOfModules.restrictSheafOfModules`, restriction along an
 open embedding of topological spaces, which is what the stalk comparison of
-`StacksFrontier/Topology/Sheaves/Modules/StalkRestrictOpen.lean` is stated for and what applies to a sheaf of modules over a bare
-sheaf of rings. The two `isIso_of_isIso_restrict`-style statements already in the repository
+`StacksFrontier/Topology/Sheaves/Modules/StalkRestrictOpen.lean` is stated for and what applies
+to a sheaf of modules over a bare sheaf of rings. The two
+`isIso_of_isIso_restrict`-style statements already in the repository
 (`AlgebraicGeometry.InvertibleLocal.isIso_of_isIso_restrict_openCover` for morphisms of
 schemes, and the residue-field statements of the tagged lemmas) are about other categories
 entirely.

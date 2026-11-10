@@ -68,7 +68,10 @@ def modulesPseudofunctor :
       have key := congrArg Iso.hom (modulePullbackCompIso_assoc B S hS h.unop g.unop f.unop)
       simp only [Iso.trans_hom, Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom,
         Iso.symm_hom] at key
-      simp
+      simp only [Cat.of_α, unop_comp, Functor.toCatHom_toFunctor, Cat.Hom.isoMk_hom, Iso.symm_hom,
+        Cat.Hom.isoMk_inv, Iso.symm_inv, Cat.Hom.toNatTrans_comp, Cat.Hom.comp_toFunctor,
+        NatTrans.toCatHom₂_toNatTrans, Cat.whiskerRight_toNatTrans, Cat.associator_hom_toNatTrans,
+        Cat.whiskerLeft_toNatTrans, eqToHom_refl, Cat.Hom.toNatTrans_id]
       rw [key]
       simp [← Functor.whiskerRight_comp_assoc])
     (fun {_ _} f => by

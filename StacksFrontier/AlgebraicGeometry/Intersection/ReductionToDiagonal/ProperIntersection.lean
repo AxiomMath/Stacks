@@ -185,10 +185,10 @@ theorem intersectProperly_exteriorProduct_diagonalCycle (k : Type u) [Field k] {
   have hemb : Topology.IsEmbedding ⇑(pullback.diagonal f) :=
     (pullback.diagonal f).isClosedEmbedding.isEmbedding
   have hfst : ∀ x : X, (pullback.fst f f) ((pullback.diagonal f) x) = x := fun x => by
-    show (pullback.diagonal f ≫ pullback.fst f f) x = x
+    change (pullback.diagonal f ≫ pullback.fst f f) x = x
     rw [pullback.diagonal_fst]; rfl
   have hsnd : ∀ x : X, (pullback.snd f f) ((pullback.diagonal f) x) = x := fun x => by
-    show (pullback.diagonal f ≫ pullback.snd f f) x = x
+    change (pullback.diagonal f ≫ pullback.snd f f) x = x
     rw [pullback.diagonal_snd]; rfl
   intro W V hW hV
   set z := W.isIrreducible.genericPoint

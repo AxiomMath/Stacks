@@ -389,19 +389,19 @@ theorem nonempty_powCoherence (F : D ⥤ D) [F.IsEquivalence]
       (mul_zero_left L n (Int.zero_add n))
   · exact (mul_reindex L n 0 (n + 0) n rfl (Int.add_zero n) (Int.add_zero n)).trans
       (mul_zero_right L n (Int.add_zero n))
-  · show mul L n 1 (n + 1) rfl =
+  · change mul L n 1 (n + 1) rfl =
       whiskerLeftIso (pow L n) (powOneIso L) ≪≫
         Stacks.Equivalence.powSuccIso (tensorRightEquiv L) n (𝟙_ D)
     rw [mul_one_right L n (n + 1) rfl, powSuccIso, powSuccFunctorIso]
     exact congrArg (fun z => whiskerLeftIso (pow L n) (powOneIso L) ≪≫ z)
       (Stacks.Equivalence.powSucc_app (tensorRightEquiv L) n (𝟙_ D))
-  · show whiskerRightIso (mul L n m (n + m) rfl) (pow L k) ≪≫ mul L (n + m) k (n + m + k) rfl =
+  · change whiskerRightIso (mul L n m (n + m) rfl) (pow L k) ≪≫ mul L (n + m) k (n + m + k) rfl =
       α_ (pow L n) (pow L m) (pow L k) ≪≫ whiskerLeftIso (pow L n) (mul L m k (m + k) rfl) ≪≫
         mul L n (m + k) (n + (m + k)) rfl ≪≫ powReindex L (Int.add_assoc n m k).symm
     rw [mul_reindex L n (m + k) (n + (m + k)) (n + m + k) rfl (Int.add_assoc n m k).symm
       (by omega)]
     exact Iso.ext (mul_assoc L n m k (n + m) (m + k) (n + m + k) rfl rfl rfl)
-  · show mul L n m (n + m) rfl =
+  · change mul L n m (n + m) rfl =
       β_ (pow L n) (pow L m) ≪≫ mul L m n (m + n) rfl ≪≫ powReindex L (Int.add_comm m n)
     rw [mul_reindex L m n (m + n) (n + m) rfl (Int.add_comm m n) (by omega)]
     exact mul_comm L hsym hβ n m (n + m) rfl (by omega)
@@ -497,7 +497,7 @@ theorem tensorPowerOneIso_eq_powOneIso
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj
         L).IsEquivalence] :
     tensorPowerOneIso O hO L = powOneIso L := by
-  show tensorPowerOneIso O hO L = λ_ L
+  change tensorPowerOneIso O hO L = λ_ L
   rw [Stacks.SheafOfModules.leftUnitor_eq_tensorSheafLeftUnitor]
   exact rfl
 

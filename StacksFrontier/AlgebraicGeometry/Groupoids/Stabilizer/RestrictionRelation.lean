@@ -138,7 +138,7 @@ theorem restrictionIso_relation {S : Scheme.{u}} (G : GroupoidScheme S) {U' : Ov
     (restrictionIso G g).hom ≫
         PreRelation.restrict (groupoidPreRelation G) g =
       prod.lift (restrictionTarget G g) (restrictionSource G g) := by
-  show restrictionIsoHom G g ≫ _ = _
+  change restrictionIsoHom G g ≫ _ = _
   exact pullback.lift_fst _ _ _
 
 /-- Under the canonical comparison, the projection to the original arrow scheme is the map from
@@ -148,7 +148,7 @@ theorem restrictionIso_arrows {S : Scheme.{u}} (G : GroupoidScheme S) {U' : Over
     (restrictionIso G g).hom ≫
         pullback.snd (prod.map g g) (groupoidPreRelation G) =
       restrictionArrowsToArrows G g := by
-  show restrictionIsoHom G g ≫ _ = _
+  change restrictionIsoHom G g ≫ _ = _
   exact pullback.lift_snd _ _ _
 
 /-- The canonical comparison is the unique isomorphism commuting with the relation map and the
@@ -333,7 +333,7 @@ theorem mono_groupoidPreRelation_of_extendsRelation {S : Scheme.{u}} {R U : Over
   subst hAo hAa
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id] at hAs hAt
   subst hAs hAt
-  show Mono (prod.lift (k ≫ prod.fst) (k ≫ prod.snd))
+  change Mono (prod.lift (k ≫ prod.fst) (k ≫ prod.snd))
   rw [← prod.comp_lift, prod.lift_fst_snd, Category.comp_id]
   infer_instance
 

@@ -16,7 +16,8 @@ the small Zariski site and is pinned to module sections in the universe `u` of t
 file proves the same at the module universe `max (u + 1) m`, with nothing assumed.
 
 The route is the one of
-`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleQuasicoherentLargeSections`: the
+`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleQuasicoherentLargeSections`:
+the
 small étale site of a scheme `T` is the small étale site of the algebraic space it represents
 (`AlgebraicGeometry.Space.representedSmallEtaleEquivalence`, the structure sheaves agreeing by
 `rfl`), quasi-coherence is invariant under that equivalence at every module universe

@@ -66,7 +66,7 @@ private lemma isSheafOnBasis_of_iso {X : TopCat.{u}} {B : Set (Opens X)}
         ((le_iSup (fun j => ((𝒰 j).obj : Opens X)) i).trans_eq hcov)
         (e.hom.app (op U) t) := by
       intro i
-      show G.map ((basisHom B ((le_iSup (fun j => ((𝒰 j).obj : Opens X)) i).trans_eq hcov)).op)
+      change G.map ((basisHom B ((le_iSup (fun j => ((𝒰 j).obj : Opens X)) i).trans_eq hcov)).op)
           (e.hom.app (op U) s) =
         G.map ((basisHom B ((le_iSup (fun j => ((𝒰 j).obj : Opens X)) i).trans_eq hcov)).op)
           (e.hom.app (op U) t)
@@ -84,7 +84,7 @@ private lemma isSheafOnBasis_of_iso {X : TopCat.{u}} {B : Set (Opens X)}
         G.restrictMap B hVi (e.hom.app (op (𝒰 i)) (s i)) =
           G.restrictMap B hVj (e.hom.app (op (𝒰 j)) (s j)) := by
       intro i j V hVi hVj
-      show G.map (basisHom B hVi).op (e.hom.app (op (𝒰 i)) (s i)) =
+      change G.map (basisHom B hVi).op (e.hom.app (op (𝒰 i)) (s i)) =
         G.map (basisHom B hVj).op (e.hom.app (op (𝒰 j)) (s j))
       rw [← NatTrans.naturality_apply e.hom (basisHom B hVi).op (s i)]
       rw [← NatTrans.naturality_apply e.hom (basisHom B hVj).op (s j)]
@@ -135,7 +135,7 @@ private lemma basicOpen_le_iSup_of_mem_span {X : Scheme.{u}} {U : X.Opens}
   have hfrom : hU.fromSpec p = x := by
     simpa [p] using hU.fromSpec_primeIdealOf ⟨x, hxU⟩
   have hpre : p ∈ hU.fromSpec ⁻¹ᵁ X.basicOpen f := by
-    show hU.fromSpec p ∈ X.basicOpen f
+    change hU.fromSpec p ∈ X.basicOpen f
     simpa [hfrom] using hx
   have hp : p ∈ PrimeSpectrum.basicOpen f := by
     rw [hU.fromSpec_preimage_basicOpen'] at hpre
@@ -164,7 +164,7 @@ lemma basisRestrictMap_comp {X : Scheme.{u}} (F : (BasisCat X.affineOpens)ᵒᵖ
     (s : F.obj (op A)) :
     basisRestrictMap X.affineOpens F hBC (basisRestrictMap X.affineOpens F hAB s) =
       basisRestrictMap X.affineOpens F (hBC.trans hAB) s := by
-  show (F.map (basisHom X.affineOpens hAB).op ≫
+  change (F.map (basisHom X.affineOpens hAB).op ≫
       F.map (basisHom X.affineOpens hBC).op) s =
     F.map (basisHom X.affineOpens (hBC.trans hAB)).op s
   rw [← F.map_comp]
@@ -303,20 +303,20 @@ private lemma isSheafOnBasis_imp_emptyAndPairs (X : Scheme.{u})
         | up b =>
           cases b
           · change x ∈ X.basicOpen f at hb
-            show x ∈ U.1
+            change x ∈ U.1
             exact (X.affineBasicOpen_le f) hb
           · change x ∈ X.basicOpen g at hb
-            show x ∈ U.1
+            change x ∈ U.1
             exact (X.affineBasicOpen_le g) hb
       · intro x hx
         change x ∈ U.1 at hx
         rw [hcov] at hx
         rcases Opens.mem_sup.mp hx with hx | hx
         · refine Opens.mem_iSup.mpr ⟨ULift.up false, ?_⟩
-          show x ∈ X.basicOpen f
+          change x ∈ X.basicOpen f
           exact hx
         · refine Opens.mem_iSup.mpr ⟨ULift.up true, ?_⟩
-          show x ∈ X.basicOpen g
+          change x ∈ X.basicOpen g
           exact hx
     have key : ∀ (V : BasisCat X.affineOpens) (hVi : V.obj ≤ A.obj) (hVj : V.obj ≤ B.obj),
         F.restrictMap X.affineOpens hVi s = F.restrictMap X.affineOpens hVj t := by
@@ -428,7 +428,7 @@ lemma finite_basicOpen_glue (X : Scheme.{u})
         have hc' : (∑ i : Fin (n + 1), c i * f i) = 1 := hc
         simpa [g, Fin.sum_univ_succ] using hc'
       have hgspan : g ∈ Ideal.span (Set.range (fun i : Fin n => f i.succ)) := by
-        show (∑ i : Fin n, c i.succ * f i.succ) ∈
+        change (∑ i : Fin n, c i.succ * f i.succ) ∈
           Ideal.span (Set.range (fun i : Fin n => f i.succ))
         apply Submodule.sum_mem
         intro i hi
@@ -564,7 +564,7 @@ private lemma affine_fromSpec_reflect_le {X : Scheme.{u}} {U : X.Opens}
   have hfrom : hU.fromSpec p = x := by
     simpa [p] using hU.fromSpec_primeIdealOf ⟨x, hxU⟩
   have hpreA : p ∈ hU.fromSpec ⁻¹ᵁ A := by
-    show hU.fromSpec p ∈ A
+    change hU.fromSpec p ∈ A
     simpa [hfrom] using hx
   have hpreB : p ∈ hU.fromSpec ⁻¹ᵁ B := hpre hpreA
   change hU.fromSpec p ∈ B at hpreB
@@ -679,7 +679,7 @@ theorem isSheafOnAffineBasis_iff_standardPairs (X : Scheme.{u})
     · intro U ι 𝒰 hcov x y hagree
       let U' : X.affineOpens := ⟨U.obj, U.2⟩
       have hcover : U'.1 ≤ ⨆ i, (𝒰 i).obj := by
-        show U.obj ≤ _
+        change U.obj ≤ _
         rw [← hcov]
       obtain ⟨n, f, a, hfcov, hfsub⟩ :=
         exists_finite_basicOpen_refinement_affine U'.2 (fun i => (𝒰 i).obj) hcover
@@ -687,7 +687,7 @@ theorem isSheafOnAffineBasis_iff_standardPairs (X : Scheme.{u})
           (affineBasisOpen X (X.affineBasicOpen (f j))).obj ≤ (𝒰 (a j)).obj := fun j =>
         hfsub j
       let hCiU : ∀ j : ι, (𝒰 j).obj ≤ (affineBasisOpen X U').obj := fun j => by
-        show (𝒰 j).obj ≤ U.obj
+        change (𝒰 j).obj ≤ U.obj
         rw [← hcov]
         exact le_iSup (fun k => (𝒰 k).obj) j
       let hfU : ∀ j : Fin n,
@@ -713,7 +713,7 @@ theorem isSheafOnAffineBasis_iff_standardPairs (X : Scheme.{u})
       classical
       let U' : X.affineOpens := ⟨U.obj, U.2⟩
       have hcover : U'.1 ≤ ⨆ i, (𝒰 i).obj := by
-        show U.obj ≤ _
+        change U.obj ≤ _
         rw [← hcov]
       obtain ⟨n, f, a, hfcov, hfsub⟩ :=
         exists_finite_basicOpen_refinement_affine U'.2 (fun i => (𝒰 i).obj) hcover
@@ -762,7 +762,7 @@ theorem isSheafOnAffineBasis_iff_standardPairs (X : Scheme.{u})
         simp only [sUi, t, q, e, basisRestrictMap_comp] at h1 ⊢
         exact h1.trans (hcompat i (a j) (affineBasisOpen X (X.affineBasicOpen (g j)))
           (X.affineBasicOpen_le (V := Ui) (g j)) (hVf.trans (hfsub j))).symm
-      show sUi = s i
+      change sUi = s i
       exact (hqunique sUi hsUi).trans (hqunique (s i) (fun _ => rfl)).symm
 
 end AlgebraicGeometry.Scheme

@@ -250,7 +250,7 @@ private lemma gluedInclusion_isPullback {Z X : Scheme.{u}} (𝒰 : Z.OpenCover)
       (gluedInclusion 𝒰 h A hA) := by
   let D := thickeningGlueData 𝒰 h A hA
   let g := gluedInclusion 𝒰 h A hA
-  show IsPullback (A i).inclusion (𝒰.f i) (D.ι i) g
+  change IsPullback (A i).inclusion (𝒰.f i) (D.ι i) g
   refine @IsOpenImmersion.isPullback _ _ _ _ (A i).inclusion (𝒰.f i) (D.ι i) g
     inferInstance (D.ι_isOpenImmersion i) (gluedInclusion_fac 𝒰 h A hA i) ?_
   ext z
@@ -291,7 +291,7 @@ private lemma isFirstOrderThickening_of_openCover {Z Y : Scheme.{u}} (g : Z ⟶ 
     apply IsZariskiLocalAtTarget.of_openCover (P := @IsClosedImmersion) 𝒱
     intro i
     have : IsClosedImmersion (q i) := (hq i).1
-    show IsClosedImmersion (pullback.snd g (𝒱.f i))
+    change IsClosedImmersion (pullback.snd g (𝒱.f i))
     rw [← (hpb i).flip.isoPullback_inv_snd]
     infer_instance
   have := hc
@@ -315,7 +315,7 @@ private lemma isFirstOrderThickening_of_openCover {Z Y : Scheme.{u}} (g : Z ⟶ 
     simpa using congrArg (fun J : Scheme.IdealSheafData (𝒱.X i) => J.ideal U) (hq i).2
   rw [he] at hs
   have hh := congrArg (Ideal.map ((𝒱.f i).appIso U).inv.hom) hs
-  show (g.ker.ideal (V ⟨i, U⟩)) ^ 2 = ⊥
+  change (g.ker.ideal (V ⟨i, U⟩)) ^ 2 = ⊥
   simpa only [Ideal.map_pow, Ideal.map_comap_of_surjective _
     (ConcreteCategory.bijective_of_isIso ((𝒱.f i).appIso U).inv).2, Ideal.map_bot] using hh
 
@@ -366,9 +366,9 @@ private lemma existsUnique_lift_of_openCover {T T' Y X : Scheme.{u}}
     apply Scheme.Cover.hom_ext (𝒱.pullback₁ j)
     intro i
     change 𝒱.I₀ at i
-    show pullback.fst j (𝒱.f i) ≫ j ≫ F = pullback.fst j (𝒱.f i) ≫ a
+    change pullback.fst j (𝒱.f i) ≫ j ≫ F = pullback.fst j (𝒱.f i) ≫ a
     rw [pullback.condition_assoc]
-    show pullback.snd j (𝒱.f i) ≫ 𝒱.f i ≫ 𝒱.glueMorphisms f compat = _
+    change pullback.snd j (𝒱.f i) ≫ 𝒱.f i ≫ 𝒱.glueMorphisms f compat = _
     rw [𝒱.ι_glueMorphisms]
     have hi := congrArg (fun g => (pullbackSymmetry j (𝒱.f i)).hom ≫ g) (hf i)
     simpa only [Category.assoc, pullbackSymmetry_hom_comp_fst_assoc,
@@ -376,7 +376,7 @@ private lemma existsUnique_lift_of_openCover {T T' Y X : Scheme.{u}}
   have hB : F ≫ p = b := by
     apply 𝒱.hom_ext
     intro i
-    show 𝒱.f i ≫ 𝒱.glueMorphisms f compat ≫ p = _
+    change 𝒱.f i ≫ 𝒱.glueMorphisms f compat ≫ p = _
     rw [𝒱.ι_glueMorphisms_assoc]
     exact hb i
   refine ⟨F, ⟨hF, hB⟩, ?_⟩
@@ -402,8 +402,8 @@ private lemma formallyUnramified_gluedToBase {Z X : Scheme.{u}} (𝒰 : Z.OpenCo
   apply IsZariskiLocalAtSource.of_openCover (P := @FormallyUnramified) D.openCover
   intro i
   change 𝒰.I₀ at i
-  show FormallyUnramified (D.ι i ≫ p)
-  show FormallyUnramified
+  change FormallyUnramified (D.ι i ≫ p)
+  change FormallyUnramified
     ((thickeningGlueData 𝒰 h A hA).ι i ≫ gluedToBase 𝒰 h A hA)
   rw [gluedToBase_fac]
   exact hA i
@@ -427,7 +427,7 @@ private lemma isUniversalFirstOrderThickening_gluedInclusion {Z X : Scheme.{u}} 
     (fun i => (A i).isUniversal.isFirstOrderThickening), ?_, ?_⟩
   · apply 𝒰.hom_ext
     intro i
-    show 𝒰.f i ≫ g ≫ p = _
+    change 𝒰.f i ≫ g ≫ p = _
     rw [← Category.assoc, gluedInclusion_fac]
     exact (congrArg (fun f => (A i).inclusion ≫ f)
       (gluedToBase_fac 𝒰 h A hA i)).trans (A i).isUniversal.inclusion_toBase
@@ -442,14 +442,14 @@ private lemma isUniversalFirstOrderThickening_gluedInclusion {Z X : Scheme.{u}} 
         obtain ⟨i, x, hx⟩ := 𝒰.exists_eq (a t)
         refine ⟨i, ⟨t', ?_⟩, rfl⟩
         rw [← ht]
-        show t ∈ j ⁻¹ᵁ W i
+        change t ∈ j ⁻¹ᵁ W i
         rw [hW]
         exact ⟨x, hx⟩)
     apply existsUnique_lift_of_openCover j hj p (a ≫ g) b 𝒱
     intro i
     change 𝒰.I₀ at i
     have : IsOpenImmersion (𝒱.f i) := by
-      show IsOpenImmersion (W i).ι
+      change IsOpenImmersion (W i).ι
       infer_instance
     let q := pullback.fst (𝒱.f i) j
     let r := pullback.snd (𝒱.f i) j
@@ -472,7 +472,7 @@ private lemma isUniversalFirstOrderThickening_gluedInclusion {Z X : Scheme.{u}} 
     obtain ⟨f, hf, _⟩ := (A i).isUniversal.existsUnique_lift q
       (isFirstOrderThickening_pullbackFst j hj (𝒱.f i)) ai (𝒱.f i ≫ b) hc
     refine ⟨f ≫ D.ι i, ?_, ?_⟩
-    · show q ≫ (f ≫ D.ι i) = r ≫ a ≫ g
+    · change q ≫ (f ≫ D.ι i) = r ≫ a ≫ g
       calc
         q ≫ (f ≫ D.ι i) = (q ≫ f) ≫ D.ι i := (Category.assoc _ _ _).symm
         _ = (ai ≫ (A i).inclusion) ≫ D.ι i := eq_whisker hf.1 _

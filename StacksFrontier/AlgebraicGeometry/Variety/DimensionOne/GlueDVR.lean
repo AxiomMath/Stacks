@@ -170,7 +170,7 @@ private lemma integral_A_over_intersection (h_units : ∀ u : S.Aˣ, (((u : S.A)
   have hyrA : algebraMap S.R S.A yr = y := Subtype.ext rfl
   have hdrA : algebraMap S.R S.A dr = d := Subtype.ext rfl
   refine ⟨X ^ 2 - (C yr * X + C dr), monic_X_pow_sub degree_linear_lt, ?_⟩
-  show eval₂ (algebraMap S.R S.A) x (X ^ 2 - (C yr * X + C dr)) = 0
+  change eval₂ (algebraMap S.R S.A) x (X ^ 2 - (C yr * X + C dr)) = 0
   simp [hyrA, hdrA]
   dsimp [d]
   ring
@@ -250,7 +250,7 @@ private lemma ofPrime_comap_maximalIdeal_le (hAB : S.A ≤ S.B) :
       simp [gB]
     have hfKcomp : fK.comp (algebraMap S.A (Localization.AtPrime pI)) = S.A.subtype :=
       IsLocalization.lift_comp _
-    show (algebraMap S.B S.K) (gB (algebraMap S.A (Localization.AtPrime pI) a)) =
+    change (algebraMap S.B S.K) (gB (algebraMap S.A (Localization.AtPrime pI) a)) =
       (fK.comp (algebraMap S.A (Localization.AtPrime pI))) a
     rw [hleft, hfKcomp]
     rfl
@@ -322,7 +322,7 @@ theorem not_surjective_tensorProduct_of_units_mem_inf
     intro t
     refine TensorProduct.inductionOn t ?_ ?_
     · intro a b
-      show ((a : S.K) * (b : S.K)) ∈ S.B
+      change ((a : S.K) * (b : S.K)) ∈ S.B
       exact S.B.mul_mem (Subring.inclusion hAB a).property b.property
     · intro x y hx hy
       simpa only [map_add] using S.B.add_mem hx hy
@@ -361,7 +361,7 @@ private theorem inverse_mem_dvr_of_not_mem (z : S.K) (hz : z ≠ 0)
       field_simp [hyB]
       have hxyMap : (algebraMap (S.B) S.K x) * (algebraMap (S.B) S.K c) =
           algebraMap (S.B) S.K y := by
-        show (x : S.K) * (c : S.K) = (y : S.K)
+        change (x : S.K) * (c : S.K) = (y : S.K)
         exact hxy'
       exact hxyMap
     have hinv : z⁻¹ = (c : S.K) := by
@@ -376,7 +376,7 @@ private theorem inverse_mem_dvr_of_not_mem (z : S.K) (hz : z ≠ 0)
         _ = ((y : S.K) * (c : S.K)) / (y : S.K) := by
           have hmulMap : (algebraMap (S.B) S.K y) * (algebraMap (S.B) S.K c) =
               algebraMap (S.B) S.K x := congrArg (algebraMap (S.B) S.K) h
-          show (algebraMap (S.B) S.K x) / (algebraMap (S.B) S.K y) =
+          change (algebraMap (S.B) S.K x) / (algebraMap (S.B) S.K y) =
             ((algebraMap (S.B) S.K y) * (algebraMap (S.B) S.K c)) /
               (algebraMap (S.B) S.K y)
           rw [hmulMap]
@@ -404,7 +404,7 @@ private theorem dvr_pow_clears_denominator (u : S.B)
   obtain ⟨c, hc⟩ := hm.dvd.trans (pow_dvd_pow_of_dvd ((dvd_pow_self π hk.ne').mul_left _) m)
   refine ⟨m, ?_⟩
   have hcK : (b.1 : S.K) * (c : S.K) = ((↑v * π ^ k : S.B) ^ m : S.K) := by
-    show (algebraMap (S.B) S.K b.1) * (algebraMap (S.B) S.K c) =
+    change (algebraMap (S.B) S.K b.1) * (algebraMap (S.B) S.K c) =
       algebraMap (S.B) S.K ((↑v * π ^ k : S.B) ^ m)
     simpa only [map_mul] using (congrArg (algebraMap (S.B) S.K) hc).symm
   change z * (b.1 : S.K) = (a : S.K) at hz
@@ -445,7 +445,7 @@ private theorem exists_away_A_of_unit_outside_B
     let t : S.R := ⟨(rB : S.K) ^ n * (y : S.K), (Subring.mem_inf).2 ⟨hA, hn⟩⟩
     refine ⟨n, t, ?_⟩
     apply IsFractionRing.injective (S.A) S.K
-    show (y : S.K) * (z⁻¹) ^ n = (rB : S.K) ^ n * (y : S.K)
+    change (y : S.K) * (z⁻¹) ^ n = (rB : S.K) ^ n * (y : S.K)
     simp [rB, z, mul_comm]
 
 private lemma isLocalization_away_B (x : S.R) (xA : S.A) (xB : S.Bˣ)
@@ -473,7 +473,7 @@ private lemma isLocalization_away_B (x : S.R) (xA : S.A) (xB : S.Bˣ)
     let t : S.R := ⟨(xA : S.K) ^ n * (b : S.K), (Subring.mem_inf).2 ⟨hclears, hclearsB⟩⟩
     refine ⟨n, t, ?_⟩
     apply IsFractionRing.injective (S.B) S.K
-    show (b : S.K) * (x : S.K) ^ n = (xA : S.K) ^ n * (b : S.K)
+    change (b : S.K) * (x : S.K) ^ n = (xA : S.K) ^ n * (b : S.K)
     rw [← hxA]
     ring
 
@@ -514,7 +514,7 @@ private theorem exists_away_B_of_unit_outside_B (a : S.Aˣ)
   have hπK : (algebraMap S.B S.K) π ≠ 0 := fun h =>
     hπ.ne_zero (IsFractionRing.injective (S.B) S.K h)
   have hxK : (xA : S.K) = ((xB : S.B) : S.K) := by
-    show (y : S.K) ^ k * ((uA ^ (-m) : S.Aˣ) : S.K) = ((xB : S.B) : S.K)
+    change (y : S.K) ^ k * ((uA ^ (-m) : S.Aˣ) : S.K) = ((xB : S.B) : S.K)
     rw [hyformK, huAzpow, hrformK, hxBval]
     exact mul_zpow_mul_pow_cancel _ _ _ hπK m k
   have hxAJac : xA ∈ Ring.jacobson S.A :=
@@ -584,7 +584,7 @@ public theorem range_specMap_R_A_union_R_B_of_unit_not_mem_R
     Subring.mem_inf.2 ⟨inv_mem_of_isUnit hsumA, inv_mem_of_isUnit hsumB⟩
   have hsumR : IsUnit (r + x) := isUnit_iff_exists.mpr
     ⟨⟨_, hq⟩, Subtype.ext (mul_inv_cancel₀ hne), Subtype.ext (inv_mul_cancel₀ hne)⟩
-  show Set.range (PrimeSpectrum.comap (algebraMap S.R S.A)) ∪
+  change Set.range (PrimeSpectrum.comap (algebraMap S.R S.A)) ∪
       Set.range (PrimeSpectrum.comap (algebraMap S.R S.B)) = Set.univ
   rw [PrimeSpectrum.localization_away_comap_range S.A r,
     PrimeSpectrum.localization_away_comap_range S.B x]
@@ -612,7 +612,7 @@ public theorem tensorProductTo_bijective_of_unit_not_mem_R
       obtain ⟨n, hn⟩ := dvr_pow_clears_denominator S rB hrBmax hrB0 z
       let b : S.B := ⟨(rB : S.K) ^ n * z, hn⟩
       refine ⟨n, b, ?_⟩
-      show z * (rB : S.K) ^ n = (b : S.K)
+      change z * (rB : S.K) ^ n = (b : S.K)
       simp [b, mul_comm]
   have hrmapB : algebraMap S.R S.B r = rB := Subtype.ext hrRval
   let T : Type _ := TensorProduct S.R S.A S.B
@@ -626,9 +626,9 @@ public theorem tensorProductTo_bijective_of_unit_not_mem_R
   have he : eTotal.toRingHom = tensorProductTo S := by
     apply IsLocalization.ringHom_ext (Submonoid.powers rB)
     ext b
-    show eTotal (algebraMap S.B T b) = tensorProductTo S (algebraMap S.B T b)
+    change eTotal (algebraMap S.B T b) = tensorProductTo S (algebraMap S.B T b)
     rw [eTotal.commutes]
-    show algebraMap S.B S.K b =
+    change algebraMap S.B S.K b =
       Algebra.TensorProduct.productMap
         (IsScalarTower.toAlgHom S.R S.A S.K)
         (IsScalarTower.toAlgHom S.R S.B S.K) ((1 : S.A) ⊗ₜ[S.R] b)

@@ -168,7 +168,7 @@ theorem absoluteFrobeniusPow_appTop_apply (X : Scheme.{u}) (p : ℕ) [Fact p.Pri
 /-- The spectrum of a ring in which `p` vanishes is a scheme in characteristic `p`. -/
 theorem isInCharacteristic_spec (R : Type u) [CommRing R] (p : ℕ) (hp : (p : R) = 0) :
     IsInCharacteristic (Spec (.of R)) p := by
-  show (p : Γ(Spec (.of R), ⊤)) = 0
+  change (p : Γ(Spec (.of R), ⊤)) = 0
   rw [← map_natCast (Scheme.ΓSpecIso (.of R)).inv.hom p, hp, map_zero]
 
 /-- A ring endomorphism that raises every element to its `p ^ m`-th power induces the `m`-fold
@@ -184,7 +184,7 @@ theorem specMap_eq_absoluteFrobeniusPow {R : Type u} [CommRing R] (w : R →+* R
     rw [← Scheme.ΓSpecIso_inv_naturality]
     ext a
     rw [CommRingCat.comp_apply, CommRingCat.comp_apply, absoluteFrobeniusPow_appTop_apply]
-    show (Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom (w a) = _
+    change (Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom (w a) = _
     rw [hw, map_pow]
   exact ext_to_Spec key
 
@@ -268,10 +268,10 @@ theorem bijOn_schemePullbackClass_zsmulTorsion_of_frobenius
   bijOn_zsmulTorsion_of_comp_eq_prime_pow_zsmul (A := ofScheme X) (B := ofScheme Y)
     (schemePullbackClassHom pr) (schemePullbackClassHom φ) hn
     (fun x => by
-      show schemePullbackClass φ (schemePullbackClass pr x) = _
+      change schemePullbackClass φ (schemePullbackClass pr x) = _
       rw [schemePullbackClass_comp, hXcomp, schemePullbackClass_absoluteFrobeniusPow_eq_zsmul])
     (fun y => by
-      show schemePullbackClass pr (schemePullbackClass φ y) = _
+      change schemePullbackClass pr (schemePullbackClass φ y) = _
       rw [schemePullbackClass_comp, hYcomp, schemePullbackClass_absoluteFrobeniusPow_eq_zsmul])
 
 /-- **Prime-to-`p` torsion in the Picard group is unchanged by a base field extension of

@@ -89,6 +89,7 @@ theorem extensionByZeroTwist_comp_counit (G : EtaleModules.{u, 0} Λ Vb)
     Category.assoc, Iso.inv_hom_id_app]
   exact Category.comp_id _
 
+omit [Mono j] in
 /-- **Naturality of the canonical map `j_!(f_* M) ⟶ f̄_*(j'_! M)`** in `M`. -/
 theorem extensionByZeroDirectImageMap_naturality {V' Vb' : Scheme.{u}} (j' : V' ⟶ Vb') [Etale j']
     [Mono j'] (f : V' ⟶ V) (fb : Vb' ⟶ Vb) [IsIntegralHom fb] (sq' : IsPullback f j' j fb)

@@ -243,7 +243,7 @@ private theorem derivedSquare_compDirectImage
             (etaleAbelianDerivedSquare.{u, v} f d e f' P₂ hP₂e hP₂f')).whiskerRight
           (etaleAbelianDerivedInverseImageCompIso'.{u, v} f' g' q hq).hom).whiskerLeft
         (etaleAbelianDerivedInverseImageCompIso'.{u, v} f g gf hgf).inv := by
-  refine TwoSquare.ext _ _ fun W => ?_
+  refine NatTrans.ext (funext fun W => ?_)
   exact NatTrans.congr_app
     (derivedSquare_compDirectImage_natTrans.{u, v} f g gf hgf c d g' e f' q hq P₁ hP₁d hP₁g'
       P₂ hP₂e hP₂f' P hPe hPq hPf' hPg) W

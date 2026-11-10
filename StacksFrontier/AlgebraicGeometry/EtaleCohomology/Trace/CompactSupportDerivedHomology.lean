@@ -173,6 +173,7 @@ def geometricGaloisCompactSupportDerived :
     DerivedCategory.Plus.ι ⋙
     (discreteToCompletedGroupAlgebra.{0, u, u + 1} Λ (K ≃ₐ[k] K)).mapDerivedCategory
 
+omit [Smooth f] [GeometricallyConnected f] in
 /-- The left-hand side at `ρ` is `RΓ^{Gal}_c(X_k̄, ℱ_ρ)`, by definition. -/
 theorem geometricGaloisCompactSupportDerived_obj
     (M : letI := connectedSpace_of_isCurve B X f

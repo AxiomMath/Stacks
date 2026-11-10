@@ -240,6 +240,8 @@ namespace FirstOrderThickeningComplex
 
 variable (S : FirstOrderThickeningComplex i)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [Y.J.HasSheafCompose (forget AddCommGrpCat.{w})] [HasSheafify Y.J AddCommGrpCat.{w}] in
 /-- The two maps `I₃ ⊗_O ℱ ⟶ I₂ ⊗_O ℱ ⟶ I₁ ⊗_O ℱ` of a complex of first order thickenings
 compose to zero: the two maps of defining ideals do, and `· ⊗_O ℱ` preserves zero morphisms. -/
 theorem idealTensor_comp_eq_zero (hS : S.IsComplex)

@@ -66,7 +66,7 @@ theorem cechComparisonInv_eq :
     ((DerivedCategory.singleFunctor (ModuleCat.{max u v} R) 0).obj M)
     (extendedCechObject f M)
     (derivedPowerTorsionProperty_extendedCechObject f M I hI hIf)).injective ?_
-  show cechComparisonInv.{v} f I hI hIf M ≫ (localCohomologyCounit.{v} I hI).app M =
+  change cechComparisonInv.{v} f I hI hIf M ≫ (localCohomologyCounit.{v} I hI).app M =
     extendedCechObjectToLocalCohomology f M I hI hIf ≫
       (Dualizing.localCohomologyAdjunction R I hI).counit.app
         ((DerivedCategory.singleFunctor (ModuleCat.{max u v} R) 0).obj M)

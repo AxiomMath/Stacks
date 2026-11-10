@@ -252,7 +252,7 @@ abbrev underivedBaseChangeComplexMap
         (((RingedSpaceModuleAdjunction.modulePullback g').mapHomologicalComplex
           (ComplexShape.up ℤ)).obj A) :=
   (NatTrans.mapHomologicalComplex
-    (Stacks.AlgebraicGeometry.FlatSourceBaseChange.moduleBaseChangeSquare g' f' f g sq).natTrans
+    (Stacks.AlgebraicGeometry.FlatSourceBaseChange.moduleBaseChangeSquare g' f' f g sq)
     (ComplexShape.up ℤ)).app A
 
 /-- **The derived base change map at the class of a complex, against the degreewise one.** -/
@@ -280,7 +280,7 @@ theorem derivedBaseChangeMap_Q_comparison
     g' f' f g sq A
   have hQ := DerivedCategory.quotientCompQhIso_hom_naturality
     (C := SheafOfModules.{u} (structureSheafRing S')) ((NatTrans.mapHomologicalComplex
-      (Stacks.AlgebraicGeometry.FlatSourceBaseChange.moduleBaseChangeSquare g' f' f g sq).natTrans
+      (Stacks.AlgebraicGeometry.FlatSourceBaseChange.moduleBaseChangeSquare g' f' f g sq)
       (ComplexShape.up ℤ)).app A)
   have H3 := (congrArg (fun t => DerivedCategory.Qh.map t) hq).trans
     (eq_comp_comp_inv _ ((DerivedCategory.quotientCompQhIso

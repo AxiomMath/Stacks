@@ -114,7 +114,6 @@ variable {Λ : Type w} [Field Λ]
 
 omit [Field k] [Finite k] [Algebra k K] [Algebra (RatFunc k) K] [IsScalarTower k (RatFunc k) K]
   [FunctionField k K] in
-include k in
 /-- An idele which is integral with integral inverse comes from `Oˣ`. -/
 public theorem exists_integralUnit_of_mem {z : (AdeleRing K)ˣ}
     (h₁ : (z : AdeleRing K) ∈ integralAdeles K) (h₂ : ((z⁻¹ : (AdeleRing K)ˣ) : AdeleRing K) ∈
@@ -136,7 +135,7 @@ private theorem idelDiv_eq_of_integral
     {α α' : (AdeleRing K)ˣ} (h₁ : ((α' * α⁻¹ : (AdeleRing K)ˣ) : AdeleRing K) ∈ integralAdeles K)
     (h₂ : ((α * α'⁻¹ : (AdeleRing K)ˣ) : AdeleRing K) ∈ integralAdeles K) :
     idelDiv k K α' = idelDiv k K α ∧ ω α' = ω α := by
-  obtain ⟨o, ho⟩ := exists_integralUnit_of_mem k h₁ (by rwa [_root_.mul_inv_rev, inv_inv])
+  obtain ⟨o, ho⟩ := exists_integralUnit_of_mem h₁ (by rwa [_root_.mul_inv_rev, inv_inv])
   have := idelDiv_units_map_integralAdeles k o
   have h := hω o
   rw [ho, idelDiv_mul, idelDiv_inv, add_neg_eq_zero] at this
@@ -207,7 +206,7 @@ public theorem whittakerModel_mapO_mul
     (x : GL (Fin 2) (AdeleRing K)) :
     whittakerModel k K ψ ω c (mapO κ * x) = whittakerModel k K ψ ω c x := by
   obtain ⟨κ₀, α, δ, β, rfl⟩ := exists_iwasawa x
-  show whittakerModel k K ψ ω c (mapO κ * (mapO κ₀ * upperGL α δ β)) =
+  change whittakerModel k K ψ ω c (mapO κ * (mapO κ₀ * upperGL α δ β)) =
     whittakerModel k K ψ ω c (mapO κ₀ * upperGL α δ β)
   rw [← mul_assoc, ← map_mul, whittakerModel_mapO_mul_upperGL k hω hc,
     whittakerModel_mapO_mul_upperGL k hω hc]
@@ -220,7 +219,7 @@ public theorem whittakerModel_mul_upperRightHom
     whittakerModel k K ψ ω c (x * GeneralLinearGroup.upperRightHom z) =
       ψ z * whittakerModel k K ψ ω c x := by
   obtain ⟨κ₀, α, δ, β, rfl⟩ := exists_iwasawa x
-  show whittakerModel k K ψ ω c (mapO κ₀ * upperGL α δ β * GeneralLinearGroup.upperRightHom z) =
+  change whittakerModel k K ψ ω c (mapO κ₀ * upperGL α δ β * GeneralLinearGroup.upperRightHom z) =
     ψ z * whittakerModel k K ψ ω c (mapO κ₀ * upperGL α δ β)
   rw [mul_assoc, upperGL_mul_upperRightHom_eq, whittakerModel_mapO_mul_upperGL k hω hc,
     whittakerModel_mapO_mul_upperGL k hω hc]
@@ -238,7 +237,7 @@ public theorem whittakerModel_scalarGL_mul
     (x : GL (Fin 2) (AdeleRing K)) :
     whittakerModel k K ψ ω c (scalarGL a * x) = ω a * whittakerModel k K ψ ω c x := by
   obtain ⟨κ₀, α, δ, β, rfl⟩ := exists_iwasawa x
-  show whittakerModel k K ψ ω c (scalarGL a * (mapO κ₀ * upperGL α δ β)) =
+  change whittakerModel k K ψ ω c (scalarGL a * (mapO κ₀ * upperGL α δ β)) =
     ω a * whittakerModel k K ψ ω c (mapO κ₀ * upperGL α δ β)
   rw [← mul_assoc, scalarGL_mul_comm, mul_assoc, scalarGL_mul_upperGL,
     whittakerModel_mapO_mul_upperGL k hω hc, whittakerModel_mapO_mul_upperGL k hω hc]

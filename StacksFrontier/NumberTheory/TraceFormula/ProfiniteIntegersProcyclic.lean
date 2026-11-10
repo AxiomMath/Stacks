@@ -47,7 +47,7 @@ public theorem isOpen_ker_toZModPow (p : ℕ) [Fact p.Prime] (e : ℕ) :
   have : {y : ℤ_[p] | PadicInt.toZModPow e y = 0} =
       Metric.closedBall (0 : ℤ_[p]) ((p : ℝ) ^ (-e : ℤ)) := by
     ext y
-    rw [Set.mem_setOf_eq, toZModPow_eq_zero_iff_norm_le, Metric.mem_closedBall, dist_zero_right]
+    rw [Set.mem_ofPred_eq, toZModPow_eq_zero_iff_norm_le, Metric.mem_closedBall, dist_zero_right]
   rw [this]
   exact IsUltrametricDist.isOpen_closedBall _
     (zpow_pos (by exact_mod_cast (Fact.out : p.Prime).pos) _).ne'
@@ -96,7 +96,7 @@ public theorem denseRange_natCast_restrictedProfiniteIntegers (q : ℕ) :
     exact Nat.coprime_pow_primes _ _ i.2.1 j.2.1 fun h => hij (Subtype.ext h)
   obtain ⟨n, hn⟩ := Nat.chineseRemainderOfFinset a s I hs pp
   refine ⟨(n : RestrictedProfiniteIntegers q), hsub fun i hi => he i ?_, n, rfl⟩
-  simp only [Set.mem_setOf_eq, Pi.natCast_apply, map_natCast]
+  simp only [Set.mem_ofPred_eq, Pi.natCast_apply, map_natCast]
   have := (ZMod.natCast_eq_natCast_iff _ _ _).2 (hn i hi)
   rw [this]
   exact ZMod.natCast_zmod_val _

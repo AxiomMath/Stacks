@@ -44,9 +44,8 @@ regularity of every local ring of the closed subscheme cut out by the radical of
 
 Abhyankar's lemma itself is
 `AlgebraicGeometry.exists_etale_standardTamelyRamified_of_isTamelyRamifiedInCodimensionOne`
-([Stacks, Tag 0EYG]), which takes the named arguments `h0BMA` (purity for regular local rings,
-[Stacks, Tag 0BMA] (1)) and `h0EYD` (tameness pulls back, [Stacks, Tag 0EYD]). These are
-threaded through as hypotheses.
+([Stacks, Tag 0EYG]), which takes the named argument `h0EYD` (tameness pulls back,
+[Stacks, Tag 0EYD]). It is threaded through as a hypothesis.
 
 ## References
 
@@ -84,14 +83,14 @@ theorem exists_piMap_eq_of_isIntegralElem {ι : Type u} {A : CommRingCat.{u}}
 /-- The standard tamely ramified morphism `Spec(A[x]/(x^e - φ)) ⟶ Spec(A)` is flat. -/
 theorem flat_standardTamelyRamifiedMorphism (A : Type u) [CommRing A] (φ : A) (e : ℕ)
     [NeZero e] : Flat (standardTamelyRamifiedMorphism A φ e) := by
-  show Flat (Spec.map (CommRingCat.ofHom (algebraMap A (standardTamelyRamifiedAlgebra A φ e))))
+  change Flat (Spec.map (CommRingCat.ofHom (algebraMap A (standardTamelyRamifiedAlgebra A φ e))))
   rw [Flat.SpecMap_iff, CommRingCat.hom_ofHom, RingHom.flat_algebraMap_iff]
   infer_instance
 
 /-- The standard tamely ramified morphism is locally of finite presentation. -/
 theorem locallyOfFinitePresentation_standardTamelyRamifiedMorphism (A : Type u) [CommRing A]
     (φ : A) (e : ℕ) : LocallyOfFinitePresentation (standardTamelyRamifiedMorphism A φ e) := by
-  show LocallyOfFinitePresentation
+  change LocallyOfFinitePresentation
     (Spec.map (CommRingCat.ofHom (algebraMap A (standardTamelyRamifiedAlgebra A φ e))))
   rw [HasRingHomProperty.Spec_iff (P := @LocallyOfFinitePresentation), CommRingCat.hom_ofHom,
     RingHom.finitePresentation_algebraMap]
@@ -130,7 +129,7 @@ theorem preimage_zeroLocus_standardTamelyRamifiedMorphism (A : Type u) [CommRing
     (e : ℕ) [NeZero e] :
     standardTamelyRamifiedMorphism A φ e ⁻¹' PrimeSpectrum.zeroLocus {φ} =
       PrimeSpectrum.zeroLocus {Abhyankar.root A φ e} := by
-  show PrimeSpectrum.comap (algebraMap A (standardTamelyRamifiedAlgebra A φ e)) ⁻¹'
+  change PrimeSpectrum.comap (algebraMap A (standardTamelyRamifiedAlgebra A φ e)) ⁻¹'
     PrimeSpectrum.zeroLocus {φ} = _
   rw [PrimeSpectrum.preimage_comap_zeroLocus, Set.image_singleton, algebraMap_eq_root_pow,
     PrimeSpectrum.zeroLocus_singleton_pow _ _ (Nat.pos_of_ne_zero (NeZero.ne e))]
@@ -145,7 +144,7 @@ theorem ker_appTop_specMap_quotient (R : CommRingCat.{u}) (r : R) :
     rw [Scheme.ΓSpecIso_inv_naturality, Iso.hom_inv_id_assoc]
   let σ := (Scheme.ΓSpecIso R).commRingCatIsoToRingEquiv
   have hσ : ∀ a, σ a = (Scheme.ΓSpecIso R).hom a := fun _ ↦ rfl
-  show RingHom.ker κ.appTop.hom = Ideal.span {σ.symm r}
+  change RingHom.ker κ.appTop.hom = Ideal.span {σ.symm r}
   ext a
   rw [RingHom.mem_ker, h, Ideal.mem_span_singleton]
   simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom]
@@ -182,7 +181,7 @@ theorem coe_support_ker_specMap_quotient (R : CommRingCat.{u}) (r : R) :
       Set (Spec R)) = PrimeSpectrum.zeroLocus {r} := by
   have := isClosedImmersion_specMap_quotient R r
   rw [Scheme.Hom.support_ker, (Spec.map _).isClosedEmbedding.isClosed_range.closure_eq]
-  show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk (Ideal.span {r}))) = _
+  change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk (Ideal.span {r}))) = _
   rw [range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective, Ideal.mk_ker,
     PrimeSpectrum.zeroLocus_span]
 
@@ -262,13 +261,12 @@ theorem exists_iso_pullback_fromNormalization_ι {X : Scheme.{u}} [IsLocallyNoet
 
 section Chart
 
-variable (h0BMA : PurityAtRegularLocalRings.{u})
-    (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
+variable (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
         S.pulledBackCover)
 
-include h0BMA h0EYD in
+include h0EYD in
 /-- **The étale local structure of the normalization.** In the situation of [Stacks, Tag 0EYG],
 étale locally on `X` the normalization of `X` in `Y` is a finite disjoint union of standard
 morphisms `Spec(A[x]/(x^e - φ)) ⟶ Spec(A)`. The chart is the one supplied by Tag 0EYG; the
@@ -292,7 +290,7 @@ theorem exists_etale_chart_normalization {X : Scheme.{u}} [IsLocallyNoetherian X
         ι.hom ≫ Sigma.desc (fun i ↦ standardTamelyRamifiedMorphism A φ (e i)) =
           pullback.snd _ g := by
   obtain ⟨A, g, hg, a, hga, φ, hA, hφ, hreg, gU, -, hpb, n, e, he, ι, hι⟩ :=
-    exists_etale_standardTamelyRamified_of_isTamelyRamifiedInCodimensionOne h0BMA h0EYD
+    exists_etale_standardTamelyRamified_of_isTamelyRamifiedInCodimensionOne h0EYD
       D hD hDreg f hf x
   have hne : ∀ i, NeZero (e i) := fun i ↦ ⟨(he i).1.ne'⟩
   let F := f ≫ Scheme.Opens.ι (D.support.compl : X.Opens)
@@ -324,8 +322,8 @@ theorem exists_etale_chart_normalization {X : Scheme.{u}} [IsLocallyNoetherian X
     obtain ⟨j, rfl⟩ := ε.surjective i
     simp only [vC, Iso.trans_hom, Iso.symm_hom, asIso_hom, Category.assoc,
       Sigma.ι_reindex_inv_assoc]
-    show Sigma.ι (fun j ↦ Spec (Ci' j)) j ≫ sigmaSpec Ci' ≫ Spec.map Ψ = _
-    rw [ι_sigmaSpec_assoc, ← Spec.map_comp, Sigma.ι_desc]
+    change Sigma.ι (fun j ↦ Spec (Ci' j)) j ≫ sigmaSpec Ci' ≫ Spec.map Ψ = _
+    rw [ι_sigmaSpec_assoc, ← Spec.map_comp, Sigma.ι_comp_desc]
     rfl
   have hh : h ≫ vC.hom = (ι ≪≫ vB).hom ≫ Spec.map Χ := by
     simp only [h, vC, vB, Iso.trans_hom, Iso.symm_hom, asIso_hom, Category.assoc]
@@ -333,7 +331,7 @@ theorem exists_etale_chart_normalization {X : Scheme.{u}} [IsLocallyNoetherian X
     refine Sigma.hom_ext _ _ fun i ↦ ?_
     obtain ⟨j, rfl⟩ := ε.surjective i
     rw [Limits.Sigma.ι_map_assoc, Sigma.ι_reindex_inv_assoc, Sigma.ι_reindex_inv_assoc]
-    show Spec.map (χi (ε j)) ≫ Sigma.ι (fun j ↦ Spec (Ci' j)) j ≫ sigmaSpec Ci' =
+    change Spec.map (χi (ε j)) ≫ Sigma.ι (fun j ↦ Spec (Ci' j)) j ≫ sigmaSpec Ci' =
       (Sigma.ι (fun j ↦ Spec (Bi' j)) j ≫ sigmaSpec Bi') ≫ Spec.map Χ
     rw [ι_sigmaSpec, ι_sigmaSpec, ← Spec.map_comp, ← Spec.map_comp]
     rfl
@@ -341,7 +339,7 @@ theorem exists_etale_chart_normalization {X : Scheme.{u}} [IsLocallyNoetherian X
     simp only [p, h, q, Category.assoc, ← hι]
     congr 1
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [Sigma.ι_desc_assoc, Limits.Sigma.ι_map_assoc, Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc_assoc, Limits.Sigma.ι_map_assoc, Sigma.ι_comp_desc]
     simp only [loc, standardTamelyRamifiedCover, Scheme.Spec_map, Quiver.Hom.unop_op,
       ← Spec.map_comp]
     congr 1
@@ -354,10 +352,10 @@ theorem exists_etale_chart_normalization {X : Scheme.{u}} [IsLocallyNoetherian X
     exact isIntegrallyClosedIn_localizationAway hφ
   have hfin : ∀ j, Module.Finite A (Ci' j) := fun j ↦ by
     have := hne (ε j)
-    show Module.Finite A (standardTamelyRamifiedAlgebra A φ (e (ε j)))
+    change Module.Finite A (standardTamelyRamifiedAlgebra A φ (e (ε j)))
     infer_instance
   have hΨ : Ψ.hom.IsIntegral := by
-    show (algebraMap A (Π j, Ci' j)).IsIntegral
+    change (algebraMap A (Π j, Ci' j)).IsIntegral
     exact (RingHom.finite_algebraMap.mpr inferInstance).to_isIntegral
   have : IsIntegralHom (Spec.map Ψ) := IsIntegralHom.SpecMap_iff.mpr hΨ
   have : IsIntegralHom q := by rw [← hq]; infer_instance
@@ -377,7 +375,7 @@ theorem exists_etale_chart_normalization {X : Scheme.{u}} [IsLocallyNoetherian X
     isIso_normalizationDesc_of_iso_specMap Ψ Χ hinj hcl (ι ≪≫ vB) vC h q p hh hq hH
   refine ⟨A, g, hg, a, hga, φ, hA, hφ, hreg, gU, hpb, n, e, he,
     sq'.isoPullback.symm ≪≫ asIso N, ?_⟩
-  show (sq'.isoPullback.inv ≫ N) ≫ q = _
+  change (sq'.isoPullback.inv ≫ N) ≫ q = _
   rw [Category.assoc, Scheme.Hom.normalizationDesc_comp, IsPullback.isoPullback_inv_snd]
 
 /-- A morphism whose base change to each member of an étale cover is a disjoint union of
@@ -393,7 +391,7 @@ private theorem of_etale_chart_sigmaDesc {X Y : Scheme.{u}} (π : Y ⟶ X)
   rw [← hι x, P.cancel_left_of_respectsIso]
   exact IsZariskiLocalAtSource.sigmaDesc (hF x)
 
-include h0BMA h0EYD in
+include h0EYD in
 /-- **[Stacks, Tag 0EYH], first assertion.** The normalization of `X` in `Y` is finite locally
 free: étale locally on `X` it is a finite disjoint union of the standard finite free morphisms,
 and flatness and local finite presentation are étale local on the target, while integrality
@@ -408,7 +406,7 @@ theorem isFiniteLocallyFree_fromNormalization {X : Scheme.{u}} [IsLocallyNoether
       (f ≫ Scheme.Opens.ι (D.support.compl : X.Opens)).fromNormalization := by
   set π := (f ≫ Scheme.Opens.ι (D.support.compl : X.Opens)).fromNormalization
   choose A g hg a hga φ hA hφ hreg gU hpb n e he ι hι using
-    fun x ↦ exists_etale_chart_normalization h0BMA h0EYD
+    fun x ↦ exists_etale_chart_normalization h0EYD
       D hD hDreg f hf x
   let 𝒰 : X.Cover Scheme.etalePrecoverage :=
     Scheme.Cover.mkOfCovers X (fun x ↦ Spec (A x)) g (fun x ↦ ⟨x, a x, hga x⟩) hg
@@ -426,7 +424,7 @@ theorem isFiniteLocallyFree_fromNormalization {X : Scheme.{u}} [IsLocallyNoether
     π).mpr ⟨(IsFinite.iff_isIntegralHom_and_locallyOfFiniteType π).mpr
       ⟨inferInstance, inferInstance⟩, hflat, hlfp⟩
 
-include h0BMA h0EYD in
+include h0EYD in
 /-- **Étale charts for the reduced preimage of `D`.** Every point of the normalization `Y'` of
 `X` in `Y` has an étale neighbourhood `Spec(A[x]/(x^e - φ)) ⟶ Y'` along which
 `D' = π⁻¹(D)_red` pulls back to the zero scheme of the root `x`, a nonzerodivisor with regular
@@ -446,7 +444,7 @@ theorem exists_etale_chart_radical_comap {X : Scheme.{u}} [IsLocallyNoetherian X
         (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {r})))).ker := by
   set π := (f ≫ Scheme.Opens.ι (D.support.compl : X.Opens)).fromNormalization
   obtain ⟨A, g, hg, a, hga, φ, hA, hφ, hreg, gU, hpb, n, e, he, ι, hι⟩ :=
-    exists_etale_chart_normalization h0BMA h0EYD D hD hDreg f hf (π y)
+    exists_etale_chart_normalization h0EYD D hD hDreg f hf (π y)
   obtain ⟨z, hz⟩ : y ∈ Set.range (pullback.fst π g) := by
     rw [Scheme.Pullback.range_fst]; exact ⟨a, hga⟩
   obtain ⟨i, w, hw⟩ := (sigmaOpenCover
@@ -456,7 +454,7 @@ theorem exists_etale_chart_radical_comap {X : Scheme.{u}} [IsLocallyNoetherian X
   let q := Sigma.ι (fun i ↦ Spec (.of (standardTamelyRamifiedAlgebra A φ (e i)))) i ≫ ι.inv ≫
     pullback.fst π g
   have hqw : q w = y := by
-    show pullback.fst π g (ι.inv (Sigma.ι
+    change pullback.fst π g (ι.inv (Sigma.ι
       (fun i ↦ Spec (.of (standardTamelyRamifiedAlgebra A φ (e i)))) i w)) = y
     have hinv : ι.inv (ι.hom z) = z := by
       rw [← Scheme.Hom.comp_apply, Iso.hom_inv_id]; rfl
@@ -473,8 +471,8 @@ theorem exists_etale_chart_radical_comap {X : Scheme.{u}} [IsLocallyNoetherian X
       rw [← hι', Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply ι.inv ι.hom, Iso.inv_hom_id]; rfl
     have h3 : Sigma.desc std' (Sigma.ι
         (fun i ↦ Spec (.of (standardTamelyRamifiedAlgebra A φ (e i)))) i t) = std' i t :=
-      (Scheme.Hom.comp_apply _ _ t).symm.trans (congrArg (fun k ↦ k t) (Sigma.ι_desc std' i))
-    show π (pullback.fst π g (ι.inv (Sigma.ι
+      (Scheme.Hom.comp_apply _ _ t).symm.trans (congrArg (fun k ↦ k t) (Sigma.ι_comp_desc std' i))
+    change π (pullback.fst π g (ι.inv (Sigma.ι
       (fun i ↦ Spec (.of (standardTamelyRamifiedAlgebra A φ (e i)))) i t))) = _
     rw [h1, h2, h3]
   let r := Abhyankar.root A φ (e i)
@@ -500,7 +498,7 @@ theorem exists_etale_chart_radical_comap {X : Scheme.{u}} [IsLocallyNoetherian X
   change std' i ⁻¹' PrimeSpectrum.zeroLocus {φ} = _ at hstd
   rw [hstd]
 
-include h0BMA h0EYD in
+include h0EYD in
 /-- **[Stacks, Tag 0EYH] (2).** `D' = π⁻¹(D)_red` is an effective Cartier divisor on the
 normalization `Y'` of `X` in `Y`. -/
 theorem isEffectiveCartierDivisor_radical_comap_fromNormalization {X : Scheme.{u}}
@@ -514,10 +512,10 @@ theorem isEffectiveCartierDivisor_radical_comap_fromNormalization {X : Scheme.{u
       (D.comap (f ≫ Scheme.Opens.ι (D.support.compl : X.Opens)).fromNormalization).radical :=
   isEffectiveCartierDivisor_of_etale_charts _ fun y ↦ by
     obtain ⟨R, q, hq, w, hw, r, hr, -, hI⟩ :=
-      exists_etale_chart_radical_comap h0BMA h0EYD D hD hDreg f hf y
+      exists_etale_chart_radical_comap h0EYD D hD hDreg f hf y
     exact ⟨R, q, hq, w, hw, r, hr, hI⟩
 
-include h0BMA h0EYD in
+include h0EYD in
 /-- **[Stacks, Tag 0EYH] (3).** `D' = π⁻¹(D)_red` is a regular scheme: every local ring of the
 closed subscheme `D'` of the normalization `Y'` is regular. -/
 theorem isRegularLocalRing_stalk_radical_comap_fromNormalization {X : Scheme.{u}}
@@ -534,10 +532,10 @@ theorem isRegularLocalRing_stalk_radical_comap_fromNormalization {X : Scheme.{u}
         (D.support.compl : X.Opens)).fromNormalization).radical.subscheme.presheaf.stalk z) :=
   isRegularLocalRing_stalk_of_etale_charts _ (fun y ↦ by
     obtain ⟨R, q, hq, w, hw, r, -, hreg, hI⟩ :=
-      exists_etale_chart_radical_comap h0BMA h0EYD D hD hDreg f hf y
+      exists_etale_chart_radical_comap h0EYD D hD hDreg f hf y
     exact ⟨R, q, hq, w, hw, r, hreg, hI⟩) z
 
-include h0BMA h0EYD in
+include h0EYD in
 /-- **Stacks Project, Tag 0EYH.** In the situation of Abhyankar's lemma for a regular divisor
 ([Stacks, Tag 0EYG]: `X` locally Noetherian, `D ⊆ X` an effective Cartier divisor which is a
 regular scheme, `Y ⟶ X ∖ D` finite étale and tamely ramified over `X` in codimension one), the
@@ -549,8 +547,7 @@ Moreover, étale locally on `X` the morphism `Y' ⟶ X` is a finite disjoint uni
 `Spec(A[x]/(x^e - φ)) ⟶ Spec(A)` with `A` Noetherian, `φ ∈ A` a nonzerodivisor with `A/φA`
 regular and `e ≥ 1` invertible in `A`.
 
-The arguments `h0BMA` ([Stacks, Tag 0BMA] (1)) and `h0EYD` ([Stacks, Tag 0EYD]) are those of
-Abhyankar's lemma, [Stacks, Tag 0EYG]. -/
+The argument `h0EYD` ([Stacks, Tag 0EYD]) is that of Abhyankar's lemma, [Stacks, Tag 0EYG]. -/
 theorem normalization_of_isTamelyRamifiedInCodimensionOne {X : Scheme.{u}}
     [IsLocallyNoetherian X] (D : X.IdealSheafData)
     (hD : Stacks.Divisors.IsEffectiveCartierDivisor D)
@@ -577,13 +574,13 @@ theorem normalization_of_isTamelyRamifiedInCodimensionOne {X : Scheme.{u}}
             ∐ fun i ↦ Spec (.of (standardTamelyRamifiedAlgebra A φ (e i))),
           ι.hom ≫ Sigma.desc (fun i ↦ standardTamelyRamifiedMorphism A φ (e i)) =
             pullback.snd _ g :=
-  ⟨isFiniteLocallyFree_fromNormalization h0BMA h0EYD D hD hDreg f hf,
+  ⟨isFiniteLocallyFree_fromNormalization h0EYD D hD hDreg f hf,
     exists_iso_pullback_fromNormalization_ι D f,
-    isEffectiveCartierDivisor_radical_comap_fromNormalization h0BMA h0EYD D hD hDreg f hf,
-    isRegularLocalRing_stalk_radical_comap_fromNormalization h0BMA h0EYD D hD hDreg f hf,
+    isEffectiveCartierDivisor_radical_comap_fromNormalization h0EYD D hD hDreg f hf,
+    isRegularLocalRing_stalk_radical_comap_fromNormalization h0EYD D hD hDreg f hf,
     fun x ↦ by
       obtain ⟨A, g, hg, a, hga, φ, hA, hφ, hreg, -, -, n, e, he, ι, hι⟩ :=
-        exists_etale_chart_normalization h0BMA h0EYD D hD hDreg f hf x
+        exists_etale_chart_normalization h0EYD D hD hDreg f hf x
       exact ⟨A, g, hg, a, hga, φ, hA, hφ, hreg, n, e, he, ι, hι⟩⟩
 
 end Chart

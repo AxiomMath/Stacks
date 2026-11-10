@@ -72,7 +72,8 @@ attribute [local implicit_reducible] CategoryTheory.sheafCompose Tensor.ringShea
 
 variable {X : TopCat.{u}} (Rc : TopCat.Sheaf CommRingCat.{u} X)
 
-attribute [local instance] Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorAdditive Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorObjAdditive
+attribute [local instance] Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorAdditive
+  Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorObjAdditive
   Stacks.Topology.SheafTensorAdditiveOnOpens.hasMapBifunctorSheafTensor
 
 /-! ### The paste, over an arbitrary monoidal category -/
@@ -182,7 +183,7 @@ theorem derivedTensorDualToSheafHom_whiskerRight_comp_derivedSheafHomCounit_of_l
     letI := derivedMonoidalStructure Rc
     derivedTensorDualToSheafHom Rc L M ▷ L ≫ derivedSheafHomCounit Rc L M =
       (α_ M (derivedDual Rc L) L).hom ≫ (M ◁ ev) ≫ (ρ_ M).hom := by
-  letI := derivedMonoidalStructure Rc
+  let := derivedMonoidalStructure Rc
   rw [derivedTensorDualToSheafHom_eq_whiskerRight_composition Rc L M]
   exact paste_composition_unit _ _ _ _ _ hcomp hunit
 

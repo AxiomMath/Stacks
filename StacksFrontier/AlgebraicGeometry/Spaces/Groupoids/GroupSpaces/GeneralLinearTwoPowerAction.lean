@@ -93,7 +93,7 @@ theorem contains_projectiveSpacePowerOver :
     (Over.forget (Spec (CommRingCat.of k))).mapIso
       (PreservesProduct.iso (Over.post (X := B.obj hk) B.inclusion)
         (fun _ : Fin m => projectiveLineSiteObject k B hk))
-  show (projectiveSpacePowerOver k 1 m).left.size < B.cutoff
+  change (projectiveSpacePowerOver k 1 m).left.size < B.cutoff
   rw [← Scheme.size_congr e]
   exact (∏ᶜ fun _ : Fin m => projectiveLineSiteObject k B hk).left.property
 

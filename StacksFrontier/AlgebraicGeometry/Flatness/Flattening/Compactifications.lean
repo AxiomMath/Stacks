@@ -158,7 +158,7 @@ lemma preimage_range_immersion_eq
     refine ⟨x, ?_⟩
     simpa using (happ hcomp x).symm
   have hq : (⊤ : D.X.left.Opens) ≤ j'.immersion ⁻¹ᵁ V := by
-    show (Set.univ : Set D.X.left) ⊆ (j'.immersion ⁻¹ᵁ V : Set D.X.left)
+    change (Set.univ : Set D.X.left) ⊆ (j'.immersion ⁻¹ᵁ V : Set D.X.left)
     intro x _; exact hVmem ⟨x, rfl⟩
   let q : D.X.left ⟶ V.toScheme :=
     (Scheme.topIso D.X.left).inv ≫ j'.immersion.resLE V ⊤ hq
@@ -168,7 +168,7 @@ lemma preimage_range_immersion_eq
     funext x
     exact happ hqι x
   have hqdense : DenseRange q.base := by
-    show Dense (Set.range q)
+    change Dense (Set.range q)
     apply (Scheme.Hom.isOpenEmbedding V.ι).isInducing.dense_iff.mpr
     intro y; rw [← Set.range_comp, hqbase]
     exact hdense.closure_range ▸ Set.mem_univ _
@@ -184,14 +184,14 @@ lemma preimage_range_immersion_eq
     rw [← Category.assoc, Scheme.Hom.resLE_comp_ι, Category.assoc, hbaseF]
   let Vobj : Over D.S := Over.mk (V.ι ≫ j'.toBase)
   let qO : D.X ⟶ Vobj := Over.homMk q (by
-    show q ≫ (V.ι ≫ j'.toBase) = D.X.hom
+    change q ≫ (V.ι ≫ j'.toBase) = D.X.hom
     rw [← Category.assoc, hqι, hbase j'])
   let sO : Vobj ⟶ D.X := Over.homMk s hs
   let inc : Vobj ⟶ j'.obj.right := Over.homMk V.ι rfl
   let g : Vobj ⟶ j'.obj.right := sO ≫ j'.obj.hom
   have hqf : q ≫ F.resLE U V le_rfl = j.immersion.isoOpensRange.hom := by
     apply (cancel_mono U.ι).1
-    show (q ≫ F.resLE U V le_rfl) ≫ U.ι =
+    change (q ≫ F.resLE U V le_rfl) ≫ U.ι =
       j.immersion.isoOpensRange.hom ≫ U.ι
     rw [Category.assoc, Scheme.Hom.resLE_comp_ι, ← Category.assoc,
       hqι, hcomp, Scheme.Hom.isoOpensRange_hom_ι]

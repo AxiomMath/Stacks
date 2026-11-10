@@ -113,7 +113,7 @@ private theorem exists_faithfullyFlat_localization_of_isNormalRing
     intro x hx
     by_contra hx'
     have hxq : algebraMap R S x ∈ q := by
-      show x ∈ q.under R
+      change x ∈ q.under R
       rwa [hqR]
     have hxunit : IsUnit (algebraMap S (Localization.AtPrime q) (algebraMap R S x)) := hx
     exact (IsLocalization.AtPrime.isUnit_to_map_iff _ q _).mp hxunit hxq
@@ -158,12 +158,12 @@ private theorem isNormalRing_tensorProduct_localization
   let _ : Algebra (D ⊗[R] C) (D' ⊗[R] C) := f.toRingHom.toAlgebra
   have : IsScalarTower D (D ⊗[R] C) (D' ⊗[R] C) :=
     IsScalarTower.of_algebraMap_eq fun x => by
-      show algebraMap D D' x ⊗ₜ[R] (1 : C) = f (x ⊗ₜ[R] (1 : C))
+      change algebraMap D D' x ⊗ₜ[R] (1 : C) = f (x ⊗ₜ[R] (1 : C))
       simp [f]
   have : IsLocalization (Algebra.algebraMapSubmonoid (D ⊗[R] C) M) (D' ⊗[R] C) :=
     IsLocalization.tensorProduct_tensorProduct R C M D' (by
       ext x
-      show f ((1 : D) ⊗ₜ[R] x) = (1 : D') ⊗ₜ[R] x
+      change f ((1 : D) ⊗ₜ[R] x) = (1 : D') ⊗ₜ[R] x
       simp [f])
   exact h.isLocalization (Algebra.algebraMapSubmonoid (D ⊗[R] C) M) (D' ⊗[R] C)
 

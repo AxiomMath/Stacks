@@ -67,7 +67,7 @@ theorem flat_structureSheaf_map_of_flat {𝒳 : Type v} [Category.{w} 𝒳]
     (hx : IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj x)))
     (hy : IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj y))) :
     ((structureSheaf B S hS p hp τ hτ).obj.map φ.op).hom.Flat := by
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (p.map φ)).op).hom.Flat
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (p.map φ)).op).hom.Flat
   rw [Scheme.Γ_map_op]
   have : Flat ((BigFppfOver.toScheme B S hS).map (p.map φ)) := hφ
   exact (HasRingHomProperty.iff_of_isAffine (P := @Flat)

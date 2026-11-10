@@ -126,7 +126,7 @@ variable {T T' : BigFppfOver B S hS}
 theorem representedMap_idEtaleChart_comm (h : T' ⟶ T) :
     yoneda.map h ≫ (idEtaleChart B S hS T).obj.hom =
       (idEtaleChart B S hS T').obj.hom ≫ (representedMap B S hS h).hom := by
-  show yoneda.map h ≫ 𝟙 _ = 𝟙 _ ≫ yoneda.map h
+  change yoneda.map h ≫ 𝟙 _ = 𝟙 _ ≫ yoneda.map h
   rw [Category.comp_id, Category.id_comp]
 
 /-- The diagram of identity charts over a morphism of the site. -/
@@ -170,7 +170,7 @@ theorem isIso_pointModuleComparison (hM : M.IsQuasicoherentOnSite) (h : T' ⟶ T
 theorem pullbackGlobalSections_eq_pullbackSection {Y Z : Scheme.{u}} (f : Y ⟶ Z)
     (F : Z.Modules) (x : Γ(F, ⊤)) :
     pullbackGlobalSections f F x = Scheme.Modules.pullbackSection f F ⊤ ⊤ le_top x := by
-  show ((Scheme.Modules.pullback f).obj F).presheaf.map (eqToHom (by simp)).op
+  change ((Scheme.Modules.pullback f).obj F).presheaf.map (eqToHom (by simp)).op
       (((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app F).app ⊤ x) =
     ((Scheme.Modules.pullback f).obj F).val.map (homOfLE le_top).op
       (((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app F).val.app (op ⊤) x)
@@ -223,7 +223,7 @@ theorem pointModuleComparison_pullbackGlobalSections (h : T' ⟶ T)
   rw [pointModuleComparison, eqToHom_refl, Category.comp_id,
     pullbackGlobalSections_eq_pullbackSection]
   refine ULift.ext ?_
-  show ((modulePullbackCompIso B S hS (representedMap B S hS h) k).hom.app M).val.app
+  change ((modulePullbackCompIso B S hS (representedMap B S hS h) k).hom.app M).val.app
       (op ((chartOpens B S hS (idEtaleChart B S hS T')).obj ⊤))
       ((chartRestrictionPullbackComparison B S hS (representedMap B S hS h) (idEtaleChart B S hS T)
         (idEtaleChart B S hS T') h (representedMap_idEtaleChart_comm B S hS h)

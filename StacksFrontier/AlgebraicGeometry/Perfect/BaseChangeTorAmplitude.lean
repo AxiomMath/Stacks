@@ -104,7 +104,7 @@ public theorem hasTorAmplitudeCanonical_moduleLift
     HasTorAmplitudeCanonicalLift.{u, u, u} E a b := by
   refine hasTorAmplitudeCanonical_map_of_preservesFlat (moduleLift.{u, u, u} R) ?_ E a b hE
   intro M hM
-  show Module.Flat (ULift.{u} R) (ULift.{u} M)
+  change Module.Flat (ULift.{u} R) (ULift.{u} M)
   exact Module.Flat.ulift_left_iff.mpr (Module.Flat.ulift_right_iff.mpr hM)
 
 /-- Let `T` be a pushout of `A` and `B` over `R` with `A` and `B` Tor independent over `R`. If an

@@ -36,7 +36,7 @@ namespace Stacks.EtaleCohomology
 
 attribute [local instance] HasDerivedCategory.standard
 
-variable (Λ : Type r) [CommRing Λ] {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}}
+variable (Λ : Type r) [CommRing Λ] {k : Type u} [Field k] {X : Scheme.{u}}
   (f : X ⟶ Spec (.of k)) [QuasiCompact f] (j : CompactificationOf (Over.mk f)) {Z : Scheme.{u}}
   (i : Z ⟶ X) [IsClosedImmersion i] (kbar : Type u) [Field kbar] [Algebra k kbar]
 
@@ -52,7 +52,7 @@ theorem isPerfect_compactSupportFrobeniusCohomology_restrictClosed_iff
     (compactSupportFrobeniusCohomologyClosedImmersionIso Λ f j i kbar L)
   ⟨StacksDraft.Perfect.isPerfect_of_iso e.symm, StacksDraft.Perfect.isPerfect_of_iso e⟩
 
-variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
+variable [Fintype k] (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
 /-- **`det(1 - π_Z^* T | RΓ_c(Z_k̄, L)) = det(1 - π_X^* T | RΓ_c(X_k̄, i_* L))`**, for the
 compactification of `Z` induced by one of `X`. -/

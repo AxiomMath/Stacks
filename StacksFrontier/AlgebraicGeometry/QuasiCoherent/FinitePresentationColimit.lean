@@ -182,7 +182,7 @@ lemma homFromUnit_app_one (M : X.Modules) (s : Γ(M, ⊤)) :
 /-- Taking the stalk at a point commutes with all colimits of `𝒪_X`-modules. -/
 lemma preservesColimits_stalkAbelianFunctor (x : X) :
     PreservesColimits (stalkAbelianFunctor x) := by
-  show PreservesColimits
+  change PreservesColimits
     (AlgebraicGeometry.SheafOfModules.stalkFunctor X.ringCatSheaf x ⋙
       forget₂ (ModuleCat (TopCat.Presheaf.stalk (C := RingCat) X.ringCatSheaf.obj x))
         AddCommGrpCat)
@@ -230,10 +230,10 @@ lemma exists_isFinitePresentation_stalk_preimage [CompactSpace X] [QuasiSeparate
       (1 : U.toScheme.ringCatSheaf.obj.obj (op ⊤))
   let t := (stalkAbelianFunctor y).map e.inv one
   refine ⟨G, hG, p, (restrictStalkNatIso U.ι y).hom.app G t, ?_⟩
-  show (stalkAbelianFunctor (U.ι y)).map p
+  change (stalkAbelianFunctor (U.ι y)).map p
     ((restrictStalkNatIso U.ι y).hom.app G t) = s
   rw [← ConcreteCategory.comp_apply, ← NatTrans.naturality]
-  show (restrictStalkNatIso U.ι y).hom.app F
+  change (restrictStalkNatIso U.ι y).hom.app F
     ((stalkAbelianFunctor y).map ((restrictFunctor U.ι).map p) t) = s
   have hcomp : e.inv ≫ (restrictFunctor U.ι).map p = homFromUnit N b :=
     (congrArg (fun m => e.inv ≫ m) he.symm).trans (e.inv_hom_id_assoc (homFromUnit N b))
@@ -301,7 +301,7 @@ lemma exists_hom_stalkAbelianFunctor_map_eq_zero [CompactSpace X] [QuasiSeparate
   have hds : (stalkAbelianFunctor x).map d v = s := by
     rwa [Functor.map_comp, ConcreteCategory.comp_apply, hv]
   rw [← hds]
-  show (stalkAbelianFunctor x).map (cokernel.π d) ((stalkAbelianFunctor x).map d v) = 0
+  change (stalkAbelianFunctor x).map (cokernel.π d) ((stalkAbelianFunctor x).map d v) = 0
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp, cokernel.condition, Functor.map_zero]
   rfl
 

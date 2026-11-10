@@ -103,7 +103,7 @@ lemma ι_comp_presheafRestriction (G : PresheafOfModules.{u} ((proj K).op ⋙ S)
       summandRestriction K S G f t ≫
         (ModuleCat.restrictScalars (S.map f).hom).map
           (Sigma.ι (presheafSummands K S G Y) (K.map f t)) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `presheafRestriction` applied to an element of the summand indexed by `t`. -/
 @[simp]
@@ -180,7 +180,8 @@ lemma presheafRestriction_comp_desc
         (ModuleCat.restrictScalars (S.map f).hom).map (Sigma.desc (descComponent K S α Y)) =
       Sigma.desc (descComponent K S α X) ≫ H.map f := by
   apply Sigma.hom_ext; intro t
-  rw [ι_comp_presheafRestriction_assoc, ← Functor.map_comp, Sigma.ι_desc, Sigma.ι_desc_assoc]
+  rw [ι_comp_presheafRestriction_assoc, ← Functor.map_comp, Sigma.ι_comp_desc,
+    Sigma.ι_comp_desc_assoc]
   exact α.naturality _
 
 /-- The map out of `directSumPresheaf G` determined by a map `G ⟶ j_K^* H`. -/
@@ -232,7 +233,7 @@ noncomputable def directSumPresheafIso (G : PresheafOfModules.{u} ((proj K).op �
       Sigma.desc (descComponent K S ((restrictionAdjunction K S).unit.app G) X) ≫
         (directSumComparisonInv K S G).app X =
       Sigma.ι (presheafSummands K S G X) t ≫ 𝟙 _
-    rw [Sigma.ι_desc_assoc, Category.comp_id]
+    rw [Sigma.ι_comp_desc_assoc, Category.comp_id]
     exact congrArg (fun β => β.app (op (elt K X t)))
       (((restrictionAdjunction K S).homEquiv_unit G _
           (directSumComparisonInv K S G)).symm.trans
@@ -250,7 +251,7 @@ noncomputable def directSumPresheafIso (G : PresheafOfModules.{u} ((proj K).op �
     change Sigma.ι (presheafSummands K S G X) t ≫
       Sigma.desc (descComponent K S ((restrictionAdjunction K S).unit.app G) X) =
       ((restrictionAdjunction K S).unit.app G).app (op (elt K X t))
-    exact Sigma.ι_desc (descComponent K S ((restrictionAdjunction K S).unit.app G) X) t
+    exact Sigma.ι_comp_desc (descComponent K S ((restrictionAdjunction K S).unit.app G) X) t
 
 section Sheaves
 
@@ -319,9 +320,9 @@ theorem extensionByZeroPresheafSectionIso_inv_ι
         (restrictedRingSheaf K J JD R) ⟶ (restrictedRingSheaf K J JD R)).hom).unit.app
           G.val).app (op (elt K (op V) t))) := by
   apply heq_of_eq
-  show Sigma.ι (extensionByZeroSummands K J JD R G V) t ≫
+  change Sigma.ι (extensionByZeroSummands K J JD R G V) t ≫
     (directSumComparison K R.obj G.val).app (op V) = _
-  exact Sigma.ι_desc (f := extensionByZeroSummands K J JD R G V)
+  exact Sigma.ι_comp_desc (f := extensionByZeroSummands K J JD R G V)
     (P := ((PresheafOfModules.pullback (F := proj K)
       (𝟙 ((proj K).op ⋙ R.obj))).obj G.val).obj (op V))
     (fun s => ((restrictionAdjunction K R.obj).unit.app G.val).app
@@ -360,7 +361,7 @@ lemma extensionByZeroSummandsMap_mono
     {G H : SheafOfModules.{u} (restrictedRingSheaf K J JD R)} (f : G ⟶ H) (V : C) [Mono f] :
     Mono (extensionByZeroSummandsMap K J JD R f V) := by
   have hval : Mono f.val := by
-    show Mono ((SheafOfModules.forget (restrictedRingSheaf K J JD R)).map f)
+    change Mono ((SheafOfModules.forget (restrictedRingSheaf K J JD R)).map f)
     infer_instance
   refine Stacks.Sites.ExtensionByZero.mono_sigmaMap _ fun t => ?_
   exact (ModuleCat.mono_iff_injective _).2
@@ -465,7 +466,7 @@ lemma extensionByZero_preservesMonomorphisms :
         (𝟙 (restrictedRingSheaf K J JD R) :
           (restrictedRingSheaf K J JD R) ⟶ (restrictedRingSheaf K J JD R)).hom ⋙
       PresheafOfModules.sheafification (𝟙 R.obj)).map f) := by
-    show Mono ((PresheafOfModules.sheafification (𝟙 R.obj)).map
+    change Mono ((PresheafOfModules.sheafification (𝟙 R.obj)).map
       ((PresheafOfModules.pullback.{u} (F := proj K)
         (R := R.obj) (S := (restrictedRingSheaf K J JD R).obj)
         (𝟙 (restrictedRingSheaf K J JD R) :

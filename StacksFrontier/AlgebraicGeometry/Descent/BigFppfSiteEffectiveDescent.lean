@@ -194,7 +194,7 @@ lemma pullback_fst_comp_eq_of_isGluingInvariant {W : Over S} {Y : Scheme.{u}}
       (component W (f i)).hom =
       (pullback.snd (pullback.fst W.hom (f i)) (pullback.fst W.hom (f j)) ≫
         pullback.snd W.hom (f j)) ≫ (Over.mk (f j)).hom := by
-    show pullback.fst _ _ ≫ pullback.snd W.hom (f i) ≫ f i =
+    change pullback.fst _ _ ≫ pullback.snd W.hom (f i) ≫ f i =
       (pullback.snd _ _ ≫ pullback.snd W.hom (f j)) ≫ f j
     rw [← pullback.condition (f := W.hom) (g := f i), Category.assoc,
       ← pullback.condition (f := W.hom) (g := f j), ← Category.assoc, ← Category.assoc, hcond]
@@ -353,7 +353,7 @@ theorem exists_iso_pullback_of_iso_pullback_toScheme
         B.inclusion.map (pullback f w).hom := by
       have hw := congrArg B.inclusion.map (Over.w (pullback.fst f w))
       rwa [B.inclusion.map_comp] at hw
-    show (hsq.isoPullback ≪≫ γ).hom ≫ B.inclusion.map V.hom =
+    change (hsq.isoPullback ≪≫ γ).hom ≫ B.inclusion.map V.hom =
       B.inclusion.map (pullback f w).hom
     rw [← hp, ← hfw, ← Category.assoc, hdp]
   have hamap : (toScheme B S hS).map (Over.isoMk

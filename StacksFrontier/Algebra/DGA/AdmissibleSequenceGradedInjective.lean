@@ -218,7 +218,7 @@ def GradedInjective (I : DGModule A) : Prop :=
 differential graded `A`-modules is an *admissible monomorphism* if there is a
 **graded** `A`-module map `pi : L -> K` (not required to commute with the
 differentials) with `pi . f = id_K`. -/
-def AdmissibleMono {K L : DGModule A} (f : Hom K L) : Prop :=
+def IsAdmissibleMono {K L : DGModule A} (f : Hom K L) : Prop :=
   ∃ π : GradedModule.Hom L.toGradedModule K.toGradedModule,
     π.comp f.toGradedHom = GradedModule.Hom.id K.toGradedModule
 
@@ -237,7 +237,7 @@ axioms, `A`, `I`, `M` are genuine objects and no extra hypotheses are needed. -/
 theorem admissibleMono_of_gradedInjective {A : DGAlgebra R}
     {I M : DGModule A} (f : DGModule.Hom I M)
     (hf : f.Injective) (hI : I.GradedInjective) :
-    DGModule.AdmissibleMono f := by
+    DGModule.IsAdmissibleMono f := by
   obtain ⟨ψ, hψ⟩ :=
     hI I.toGradedModule M.toGradedModule f.toGradedHom hf
       (GradedModule.Hom.id I.toGradedModule)

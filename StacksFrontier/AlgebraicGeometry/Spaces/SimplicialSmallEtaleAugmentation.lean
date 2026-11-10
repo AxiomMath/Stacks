@@ -79,6 +79,7 @@ instance constForget_isContinuous :
         ((SpacesEtale.mem_precoverage_iff B S hS Z).2 ⟨E, rfl, hE⟩)))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the sheaf categories in `morphismOfTopoiOfCocontinuous` is deep
 /-- The morphism of topoi `ε : Sh(const(Z)_{spaces,étale}) ⟶ Sh(Z_{spaces,étale})` of the
 functor forgetting the simplicial degree: its inverse image is restriction. -/
 noncomputable def constToposHom :

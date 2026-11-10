@@ -96,7 +96,8 @@ theorem derivationDirectImageEquiv_d (i : W ⟶ X) (b : X ⟶ Bb)
   refine Eq.trans ?_ (congrArg (fun m ↦ (((modulePushforward B S hS i).map θ).val.app U).hom m)
     (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply (universalDerivation B S hS b)
       ((modulePullbackAdjunction B S hS i).unit.app (sheafOfDifferentials B S hS b)).val a).symm)
-  refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply (universalDerivation B S hS b)
+  refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply
+    (universalDerivation B S hS b)
     (((modulePullbackAdjunction B S hS i).homEquiv _ _) θ).val a) ?_
   exact congrArg (fun m ↦ (ModuleCat.Hom.hom ((SheafOfModules.Hom.val m).app U))
     ((universalDerivation B S hS b).d a)) hu

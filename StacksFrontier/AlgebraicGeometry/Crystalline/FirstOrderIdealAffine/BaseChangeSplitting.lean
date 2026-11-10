@@ -363,7 +363,7 @@ theorem restrictScalarsAdjunctionOfIso_homEquiv_val_app {C : Type u₁} [Categor
     (y : N.val.obj W) :
     (((restrictScalarsAdjunctionOfIso e).homEquiv N N') φ).val.app W y = φ.val.app W y := by
   rw [Adjunction.homEquiv_unit]
-  show ((_root_.SheafOfModules.restrictScalars e.inv).map φ).val.app W
+  change ((_root_.SheafOfModules.restrictScalars e.inv).map φ).val.app W
       (((restrictScalarsAdjunctionOfIso e).unit.app N).val.app W y) = _
   rw [restrictScalarsAdjunctionOfIso_unit_app_val_app]
   rfl
@@ -603,10 +603,7 @@ theorem crysDiffPart_one (A : Thickening S) :
 theorem firstOrderSplitTensorInv_firstOrderDiffTensorMap (A : Thickening S)
     (z : crysDiffSections A ⊗[crysSheafRing S A] M.val.obj (op A)) :
     firstOrderSplitTensorInv M A (firstOrderDiffTensorMap M A z) = (0, z) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero, map_zero]
-      rfl
+  induction z using TensorProduct.inductionOn with
   | tmul ω s =>
       rw [firstOrderDiffTensorMap_tmul, firstOrderSplitTensorInv_tmul,
         crysSheafRingMap_siteι_diffSection, crysDiffPart_diffSection, zero_smul]
@@ -625,8 +622,7 @@ def firstOrderSplitTensorEquiv (A : Thickening S) :
       firstOrderSplitTensorInv_firstOrderDiffTensorMap, map_one, crysDiffPart_one, one_smul,
       TensorProduct.zero_tmul, Prod.mk_add_mk, add_zero, zero_add]
   right_inv t := by
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul t s =>
         rw [firstOrderSplitTensorInv_tmul, firstOrderSplitTensor_apply,
           firstOrderDiffTensorMap_tmul, ← TensorProduct.smul_tmul, crysSheafRing_smul_def,
@@ -640,8 +636,7 @@ def firstOrderSplitTensorEquiv (A : Thickening S) :
 theorem extensionSectionsMap_firstOrderDiffTensorMap (A : Thickening S)
     (z : crysDiffSections A ⊗[crysSheafRing S A] M.val.obj (op A)) :
     extensionSectionsMap M A (firstOrderDiffTensorMap M A z) = diffAction M A z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul ω s => rw [firstOrderDiffTensorMap_tmul, extensionSectionsMap_tmul, diffAction_tmul]
   | add z z' hz hz' => rw [map_add, map_add, map_add, hz, hz']
 
@@ -653,7 +648,7 @@ theorem extensionSectionsMap_firstOrderSplitTensorEquiv (A : Thickening S)
     (x : M.val.obj (op A) × (crysDiffSections A ⊗[crysSheafRing S A] M.val.obj (op A))) :
     extensionSectionsMap M A (firstOrderSplitTensorEquiv M A x) = firstOrderSectionsMap M A x := by
   obtain ⟨s, z⟩ := x
-  show extensionSectionsMap M A (firstOrderSplitTensor M A (s, z)) = _
+  change extensionSectionsMap M A (firstOrderSplitTensor M A (s, z)) = _
   rw [firstOrderSplitTensor_apply, map_add, extensionSectionsMap_tmul,
     extensionSectionsMap_firstOrderDiffTensorMap, one_smul, firstOrderSectionsMap_apply]
 

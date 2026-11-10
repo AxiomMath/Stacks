@@ -110,7 +110,7 @@ theorem Scheme.toSpecΓ_comp_Spec_map {X : Scheme.{u}} {T : Type u} [CommRing T]
     (X.toSpecΓ ≫ Spec.map (CommRingCat.ofHom b)) ≫ Spec.map (CommRingCat.ofHom k) = p := by
   have h' : CommRingCat.ofHom k ≫ CommRingCat.ofHom b =
       (Scheme.ΓSpecIso (CommRingCat.of T)).inv ≫ p.appTop := by
-    show CommRingCat.ofHom (b.comp k) = _
+    change CommRingCat.ofHom (b.comp k) = _
     rw [h]
     rfl
   rw [Category.assoc, ← Spec.map_comp, h', Spec.map_comp, ← Category.assoc,
@@ -128,7 +128,7 @@ theorem Scheme.toSpecΓ_Spec_map_naturality {X Y : Scheme.{u}} (m : X ⟶ Y)
       (X.toSpecΓ ≫ Spec.map (CommRingCat.ofHom b)) ≫ Spec.map (CommRingCat.ofHom k) := by
   have h' : CommRingCat.ofHom a ≫ m.appTop =
       CommRingCat.ofHom k ≫ CommRingCat.ofHom b := by
-    show CommRingCat.ofHom (m.appTop.hom.comp a) = CommRingCat.ofHom (b.comp k)
+    change CommRingCat.ofHom (m.appTop.hom.comp a) = CommRingCat.ofHom (b.comp k)
     rw [h]
   rw [← Category.assoc, Scheme.toSpecΓ_naturality, Category.assoc, ← Spec.map_comp, h',
     Spec.map_comp, Category.assoc]
@@ -179,7 +179,7 @@ theorem stageCompletionRingEquiv_naturality {J K : WeakIdealsBelow R J₀} (g : 
           (algebraMap R (stageLiftAlgebra D v hY hV hv J₀))
           (le_of_weakIdealsBelowHom g))) := by
   refine Ideal.Quotient.ringHom_ext (RingHom.ext fun x => ?_)
-  show stageBaseChangeRingMap D v hY hV hv J₀ g
+  change stageBaseChangeRingMap D v hY hV hv J₀ g
       (stageCompletionRingEquiv D v hY hV hv J₀ K (Ideal.Quotient.mk _ x)) =
     stageCompletionRingEquiv D v hY hV hv J₀ J
       (Ideal.Quotient.factor _ (Ideal.Quotient.mk _ x))
@@ -208,7 +208,7 @@ theorem stageCompletionRingEquiv_comp_quotientMap (J : WeakIdealsBelow R J₀) :
               (algebraMap R (stageLiftAlgebra D v hY hV hv J₀)) c hc (OrderDual.ofDual J.1))) =
       stageBaseChangeRingHom D v hY hV hv J.1 := by
   refine Ideal.Quotient.ringHom_ext (RingHom.ext fun r => ?_)
-  show stageCompletionRingEquiv D v hY hV hv J₀ J
+  change stageCompletionRingEquiv D v hY hV hv J₀ J
       (Ideal.quotientMap _ c.toRingHom _ (Ideal.Quotient.mk _ r)) = _
   rw [Ideal.quotientMap_mk, stageCompletionRingEquiv_mk, hc,
     TopologicalRing.CompletionOver.projection_canonicalMap]

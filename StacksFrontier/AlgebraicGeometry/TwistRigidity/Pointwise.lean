@@ -64,7 +64,7 @@ attribute [local instance_reducible] ProjectiveSpectrum.top
 public theorem isUnit_mkOne (P : Submonoid S) {c : S} (hc : c ∈ P) :
     IsUnit (LocalizedModule.mk c (1 : P)) := by
   refine IsUnit.of_mul_eq_one (b := Localization.mk 1 ⟨c, hc⟩) ?_
-  show Localization.mk c (1 : P) * Localization.mk 1 ⟨c, hc⟩ = 1
+  change Localization.mk c (1 : P) * Localization.mk 1 ⟨c, hc⟩ = 1
   rw [Localization.mk_mul, ← Localization.mk_one]
   exact Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq (by simp))
 
@@ -78,7 +78,7 @@ public theorem eq_of_mkOne_mul_eq (P : Submonoid S) {c : S} (hc : c ∈ P)
 public theorem mkOne_mul_mk (P : Submonoid S) (β : S) {c : S} (hc : c ∈ P) :
     LocalizedModule.mk c (1 : P) * LocalizedModule.mk β ⟨c, hc⟩
       = LocalizedModule.mk β (1 : P) := by
-  show Localization.mk c (1 : P) * Localization.mk β ⟨c, hc⟩ = Localization.mk β (1 : P)
+  change Localization.mk c (1 : P) * Localization.mk β ⟨c, hc⟩ = Localization.mk β (1 : P)
   rw [Localization.mk_mul]
   exact Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq (by simp [mul_comm]))
 

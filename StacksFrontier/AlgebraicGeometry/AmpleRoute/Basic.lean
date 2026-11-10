@@ -126,7 +126,8 @@ part of the definition, which is also what makes it line up with the source's st
 ## What is not done, and no tag is attached
 
 **Neither label of Stacks Tag 087S is closed and no 087S attribute is attached anywhere in this
-file.** Stacks Tag 087S has two labels with one assertion each, and `Stacks.Tag087SAmpleRoute.isHQuasiProjective_of_isQuasiProjective_of_isAmple` carries
+file.** Stacks Tag 087S has two labels with one assertion each, and
+`Stacks.Tag087SAmpleRoute.isHQuasiProjective_of_isQuasiProjective_of_isAmple` carries
 two hypotheses the tag lacks — `Stacks.Tag087SAmpleRoute.EventualAffineDatumUniform` and
 `Stacks.VeryAmplePowersUniformDegree.ImmersionTwistGapUniform` — so it does not
 establish part (2). Nothing

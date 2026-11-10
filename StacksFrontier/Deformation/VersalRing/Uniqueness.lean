@@ -138,11 +138,11 @@ private lemma hom_eq_constantCoeff {R S : Type*} [CommRing R] [CommRing S]
     let e := MvPowerSeries.finSuccEquiv R n
     let h' := h.comp e.symm.toRingHom
     have hx : h' PowerSeries.X = 0 := by
-      show h (e.symm PowerSeries.X) = 0
+      change h (e.symm PowerSeries.X) = 0
       rw [← MvPowerSeries.finSuccEquiv_X_zero, AlgEquiv.symm_apply_apply]
       exact hX 0
     have hc (i : Fin n) : (h'.comp PowerSeries.C) (MvPowerSeries.X i) = 0 := by
-      show h (e.symm (PowerSeries.C (MvPowerSeries.X i))) = 0
+      change h (e.symm (PowerSeries.C (MvPowerSeries.X i))) = 0
       rw [← MvPowerSeries.finSuccEquiv_X_succ, AlgEquiv.symm_apply_apply]
       exact hX i.succ
     have hcc : MvPowerSeries.constantCoeff (PowerSeries.constantCoeff (e f)) =
@@ -160,7 +160,7 @@ private lemma hom_eq_constantCoeff {R S : Type*} [CommRing R] [CommRing S]
         simpa only [RingHom.comp_apply, hcc] using
           ih (h'.comp PowerSeries.C) hc (PowerSeries.constantCoeff (e f))
       _ = h (MvPowerSeries.C (MvPowerSeries.constantCoeff f)) := by
-        show h (e.symm _) = _
+        change h (e.symm _) = _
         rw [← MvPowerSeries.finSuccEquiv_C, AlgEquiv.symm_apply_apply]
 
 /-- **Coordinates on a power series ring can be centred at an augmentation.**  Let `A` be an
@@ -205,9 +205,9 @@ lemma exists_centered_coordinates {R A : Type*}
   have hq (f : MvPowerSeries (Fin n) R) :
       q (negShift f) = MvPowerSeries.constantCoeff f := by
     have hx (i : Fin n) : (q.comp negShift) (MvPowerSeries.X i) = 0 := by
-      show q (negShift (MvPowerSeries.X i)) = 0
+      change q (negShift (MvPowerSeries.X i)) = 0
       rw [ShiftConstr.shiftAlgHom_X, map_add]
-      show d i + q (MvPowerSeries.C (-d i)) = 0
+      change d i + q (MvPowerSeries.C (-d i)) = 0
       rw [show q (MvPowerSeries.C (-d i)) = -d i from q.commutes _]
       exact add_neg_cancel _
     exact (hom_eq_constantCoeff n (q.comp negShift).toRingHom hx f).trans
@@ -259,7 +259,7 @@ theorem formallyHomotopic_of_powerSeriesArrow
   refine ⟨n, h, l, hlocal, llocal, hconst, ?_, ?_⟩
   · intro a
     rw [← hf]
-    show (s ≫ arrow).hom a = l (MvPowerSeries.C a)
+    change (s ≫ arrow).hom a = l (MvPowerSeries.C a)
     dsimp [l]
     rw [← show e (s.hom a) = MvPowerSeries.C a from e.commutes a, AlgEquiv.symm_apply_apply]
   · intro a
@@ -349,7 +349,7 @@ theorem smooth_of_representing_iso
   refine ⟨e.inv.app B₀ zB, ?_, ?_⟩
   · rw [← NatTrans.naturality_apply e.inv q zB, hzmap]
     exact (e.app A₀).hom_inv_id_apply xA
-  · show (π.app B₀ (e.hom.app B₀ (e.inv.app B₀ zB))).down = yB
+  · change (π.app B₀ (e.hom.app B₀ (e.inv.app B₀ zB))).down = yB
     have hid : e.hom.app B₀ (e.inv.app B₀ zB) = zB := (e.app B₀).inv_hom_id_apply zB
     rw [hid]
     exact ULift.up_injective hzπ
@@ -397,10 +397,10 @@ private theorem comp_representableSectionEquiv_symm
   apply (representableSectionEquiv R S).injective
   apply AdicSection.ext
   intro n
-  show (restrictedCoyonedaMap m).app (AdicTruncation.obj S n)
+  change (restrictedCoyonedaMap m).app (AdicTruncation.obj S n)
     ((restrictedCoyonedaMap arrow).app (AdicTruncation.obj S n) (quotientProjection S n)) = _
   rw [hval, hm]
-  show (ψ.app (AdicTruncation.obj S n)
+  change (ψ.app (AdicTruncation.obj S n)
     (e.hom.app (AdicTruncation.obj S n) (e.inv.app (AdicTruncation.obj S n) (σ.value n)))).down = _
   rw [hcancel]
   exact hz n
@@ -459,7 +459,7 @@ lemma presentationPoint_naturality (P : PresentationGroupoid p U f hOver)
     dsimp [kq, kr]
     rw [Category.assoc, ← hn, ho]
     apply eqToHom_cancel_mid (A := C)
-  show P.arrows.map a.hbase (P.arrows.map kq (E.inverse.obj q).2) =
+  change P.arrows.map a.hbase (P.arrows.map kq (E.inverse.obj q).2) =
     P.arrows.map kr (E.inverse.obj r).2
   calc
     _ = P.arrows.map (kq ≫ a.hbase) (E.inverse.obj q).2 :=
@@ -659,7 +659,7 @@ private theorem exists_adicSection_presentationGroupoid
     have han : Y.map (αstep n) ≫ τa.inv.app (α n) =
         τa.inv.app (α (n + 1)) ≫ X.toFunctor.map (fa.toFunctor.map (αstep n)) :=
       τa.inv.toNatTrans.naturality (αstep n)
-    show X.toFunctor.map (fb.toFunctor.map (αstep n)) ≫
+    change X.toFunctor.map (fb.toFunctor.map (αstep n)) ≫
         (τb.hom.app (α n) ≫ τa.inv.app (α n)) =
       (τb.hom.app (α (n + 1)) ≫ τa.inv.app (α (n + 1))) ≫
         X.toFunctor.map (fa.toFunctor.map (αstep n))
@@ -717,7 +717,8 @@ theorem formallyHomotopic_of_isVersal
     isSmooth_presentationGroupoid p U associated.toBasedFunctor hp.predeformation.cofibered
       hassociated
   have hU : IsProrepresentable U := ⟨ξ.base, ⟨Iso.refl _⟩⟩
-  let y₀ : U.Elements := U.elementsMk (residueFieldObject.{u, max v v₃, w} Λ k) (residuePoint ξ.base)
+  let y₀ : U.Elements :=
+    U.elementsMk (residueFieldObject.{u, max v v₃, w} Λ k) (residuePoint ξ.base)
   let PF := chosenPushforwardsAtOfCofibered hp.predeformation.cofibered
     (associated.toBasedFunctor.toFunctor.obj y₀)
   have hGprorepresentable : GroupoidInFunctors.IsProrepresentable G :=

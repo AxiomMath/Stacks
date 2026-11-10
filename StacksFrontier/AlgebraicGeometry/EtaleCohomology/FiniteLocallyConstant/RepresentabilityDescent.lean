@@ -253,7 +253,7 @@ public lemma localSection_localLift {W : C} (f : W ⟶ V)
   change e.inv.hom.app (Opposite.op (Over.mk f)) ⟨g ≫ 𝟙 A⟩ =
     F.obj.map g.left.op (localSection e) at h
   rw [Category.comp_id] at h
-  show F.obj.map g.left.op (localSection e) = s
+  change F.obj.map g.left.op (localSection e) = s
   rw [← h]
   exact congrArg (fun t : F.over V ⟶ F.over V ↦
     t.hom.app (Opposite.op (Over.mk f)) s) e.hom_inv_id
@@ -679,7 +679,7 @@ public theorem exists_smallSiteObject_of_finiteEtale
     exact hfinite
   · refine ⟨Over.isoMk (Iso.refl U.left) ?_⟩
     rw [smallEtaleOfFiniteEtale_hom]
-    show 𝟙 U.left ≫ U.hom = U.hom
+    change 𝟙 U.left ≫ U.hom = U.hom
     simp
 
 /-- **A descent datum of finite étale schemes along an fpqc covering descends to one.** The
@@ -714,7 +714,7 @@ public theorem exists_finiteEtale_of_descentData
       (AlgebraicGeometry.DescentData.evaluation j).map_isIso e.hom
     have : IsIso (e.hom.hom j).left :=
       (Over.forget (X j)).map_isIso (e.hom.hom j)
-    show P ((Over.pullback (f j)).obj U).hom
+    change P ((Over.pullback (f j)).obj U).hom
     rw [← (canonicalFamilyDescentFunctor f).obj U j, ← Over.w (e.hom.hom j)]
     exact P.comp_mem _ _ (P.of_isIso _) (hD j)
   refine ⟨U, ⟨e⟩, ?_, ?_⟩
@@ -733,7 +733,7 @@ public theorem smallEtaleToOver_preservesBinaryProducts
     PreservesLimitsOfShape (Discrete WalkingPair) (smallEtaleToOver B X) := by
   let H := smallEtaleToOver B X
   have : PreservesLimitsOfShape WalkingCospan (H ⋙ Over.forget X.1) := by
-    show PreservesLimitsOfShape WalkingCospan (SmallEtale.toScheme B X.1 X.2)
+    change PreservesLimitsOfShape WalkingCospan (SmallEtale.toScheme B X.1 X.2)
     infer_instance
   have : PreservesLimitsOfShape WalkingCospan H :=
     preservesLimitsOfShape_of_reflects_of_preserves H (Over.forget X.1)
@@ -771,7 +771,7 @@ public theorem isFinite_etale_left_map_prodFst
     inferInstanceAs (IsIso ((Over.forget X.1).map (prodComparison H W U)))
   have hisoc : IsIso ((prodComparison H W U).left ≫
       (Over.prodLeftIsoPullback (H.obj W) (H.obj U)).hom) := inferInstance
-  show IsFinite (H.map (prod.fst : W ⨯ U ⟶ W)).left ∧
+  change IsFinite (H.map (prod.fst : W ⨯ U ⟶ W)).left ∧
     Etale (H.map (prod.fst : W ⨯ U ⟶ W)).left
   rw [hfac]
   exact ⟨inferInstance, inferInstance⟩
@@ -922,7 +922,7 @@ public lemma chartProj_gluing (C : D.Chart) (i j : I) :
   have h2 := congrArg (fun k ↦ (Over.prodLeftIsoPullback
     ((Over.map (f i)).obj (D.obj i)) (Over.mk (f j))).hom ≫ k) h
   simp only [Iso.hom_inv_id_assoc] at h2
-  show (D.gluing i j).hom.left.left ≫
+  change (D.gluing i j).hom.left.left ≫
     (prod.snd : Over.mk (f i) ⨯ (Over.map (f j)).obj (D.obj j) ⟶ _).left ≫ C.proj j =
       (prod.fst : (Over.map (f i)).obj (D.obj i) ⨯ Over.mk (f j) ⟶ _).left ≫ C.proj i
   rw [← e₂, ← e₁]
@@ -1018,7 +1018,7 @@ public lemma localRepresentativeProjection_transition
   have hf : prodComparison H (A i).left (V j) ≫
       (prod.fst : H.obj (A i).left ⨯ H.obj (V j) ⟶ _) = H.map prod.fst :=
     prodComparison_fst H (A i).left (V j)
-  show H.map (localTransition (e i) (e j)) ≫ H.map prod.snd ≫
+  change H.map (localTransition (e i) (e j)) ≫ H.map prod.snd ≫
       (componentTotalIso (H.map (A j).hom)).inv ≫ chartProj C j =
     H.map prod.fst ≫ (componentTotalIso (H.map (A i).hom)).inv ≫ chartProj C i
   calc H.map (localTransition (e i) (e j)) ≫ H.map prod.snd ≫
@@ -1121,7 +1121,11 @@ public theorem isIso_lift_representingHomOfChart (i : I) :
       (by simp only [Iso.refl_hom, Category.id_comp]; rfl)
       (by simp only [Iso.refl_hom, Category.id_comp]; rfl)
       (by simp only [Iso.refl_hom, Category.comp_id]; rfl)
-      (by simp; exact (Over.w w.inv).symm)
+      (by
+        simp only [ObjectProperty.ι_obj, ObjectProperty.ι_map, Iso.refl_hom, Category.comp_id,
+          Functor.comp_obj, Over.post_obj, Over.mk_left, Over.forget_obj, Iso.symm_hom,
+          Functor.mapIso_inv, Over.forget_map, Over.mk_hom]
+        exact (Over.w w.inv).symm)
   have hcmp : IsIso (prodComparison (smallEtaleToOver B X) (V i) W) := inferInstance
   have hfst : (prod.lift ((smallEtaleToOver B X).map (A i).hom)
         ((smallEtaleToOver B X).map (representingHomOfChart B X F V A e C W w i))).left ≫
@@ -1207,7 +1211,7 @@ public lemma localSheafIso_apply (i : I) (Z : Over (V i))
     (s : F.obj.obj (Opposite.op Z.left)) :
     ((localSheafIso B X F V A e C W w i).hom.hom.app (Opposite.op Z) s).down =
       localLift (e i) Z.hom s ≫ representingHomOfChart B X F V A e C W w i := by
-  show (localLift (e i) Z.hom s ≫
+  change (localLift (e i) Z.hom s ≫
       (representingProdIso B X F V A e C W w i).hom.left) ≫ prod.snd = _
   rw [representingProdIso_hom_left, Category.assoc, prod.lift_snd]
 
@@ -1226,7 +1230,7 @@ public lemma localSheafIso_compat (Z : SmallEtale B X.1 X.2) (i j : I)
   refine Iso.ext ?_
   ext T s
   refine ULift.ext ?_
-  show ((localSheafIso B X F V A e C W w i).hom.hom.app
+  change ((localSheafIso B X F V A e C W w i).hom.hom.app
       (Opposite.op ((Over.map a).obj T.unop)) s).down =
     ((localSheafIso B X F V A e C W w j).hom.hom.app
       (Opposite.op ((Over.map b).obj T.unop)) s).down

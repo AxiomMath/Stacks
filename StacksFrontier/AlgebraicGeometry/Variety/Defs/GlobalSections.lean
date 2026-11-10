@@ -82,9 +82,9 @@ public lemma integralClosure_globalSections_isField
         congrArg (fun h : CommRingCat.of A ⟶ CommRingCat.of Γ(X, ⊤) ↦ h a)
           (ΓSpecIso_inv_ΓSpec_adjunction_homEquiv (CommRingCat.ofHom φ))
       rw [← happ, ← g.preimage_basicOpen_top]
-      show g x ∈ (Spec (.of A)).basicOpen ((Scheme.ΓSpecIso (.of A)).inv a)
+      change g x ∈ (Spec (.of A)).basicOpen ((Scheme.ΓSpecIso (.of A)).inv a)
       rw [basicOpen_eq_of_affine]
-      show a ∉ (g x).asIdeal
+      change a ∉ (g x).asIdeal
       simpa [hp x] using ha
     exact IsArtinianRing.isUnit_of_nonZeroDivisor_of_isIntegral' (R := k)
       (mem_nonZeroDivisors_of_injective Subtype.val_injective

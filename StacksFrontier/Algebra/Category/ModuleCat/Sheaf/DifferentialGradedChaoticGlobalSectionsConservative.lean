@@ -372,7 +372,7 @@ theorem qc_cone {I I' : DifferentialGradedModule.{u, u, u} ℬ} (f : I ⟶ I')
   have hT := (toDerivedCategory.{u, u, u} ℬ).map_distinguished _
     (coneRotatedTriangle_distinguished (X := constRingedSite C R) f)
   refine ObjectProperty.ext_of_isTriangulatedClosed₂ (Chaotic.QC ℬ) _ hT hI' ?_
-  show Chaotic.QC ℬ ((toDerivedCategory.{u, u, u} ℬ).obj
+  change Chaotic.QC ℬ ((toDerivedCategory.{u, u, u} ℬ).obj
     ((DifferentialGradedModule.HomotopyCategory.quotient ℬ).obj (shift I)))
   refine ObjectProperty.prop_of_iso _
     ((((toDerivedCategory.{u, u, u} ℬ).commShiftIso (1 : ℤ)).app

@@ -197,7 +197,7 @@ theorem isReflexive_of_forall_isReflexive_stalk (F : X.Modules) [F.IsFinitePrese
     [(dualSheaf F).IsFinitePresentation]
     (h : ∀ x : X, Module.IsReflexive (ToType (ringStalk X.sheaf x)) (ToType (modStalk F x))) :
     IsReflexive F := by
-  show IsIso (toDoubleDual F)
+  change IsIso (toDoubleDual F)
   refine NormalizationQuotient.module_isIso_of_stalk_map_isIso (toDoubleDual F) fun x => ?_
   exact (ConcreteCategory.isIso_iff_bijective _).2
     (bijective_stalkLinearMap_toDoubleDual F x (h x))

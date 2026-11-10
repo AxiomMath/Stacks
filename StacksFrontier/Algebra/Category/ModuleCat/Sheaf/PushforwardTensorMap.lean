@@ -306,7 +306,7 @@ theorem isLocallySurjective_structureRingMap (hφ : Sheaf.IsLocallySurjective f.
     Sheaf.IsLocallySurjective f.structureRingMap := by
   have h : Presheaf.IsLocallySurjective Y.J f.fSharp.hom := hφ
   rw [Presheaf.isLocallySurjective_iff_whisker_forget] at h
-  show Presheaf.IsLocallySurjective _ _
+  change Presheaf.IsLocallySurjective _ _
   rw [Presheaf.isLocallySurjective_iff_whisker_forget]
   exact h
 

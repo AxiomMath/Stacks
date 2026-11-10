@@ -77,7 +77,7 @@ private theorem isIso_homology_map_truncGEπ_of_le
   have hπfactor : κ n ≫ tower.map (homOfLE hmn).op = κ m := by
     let π : (Functor.const ℕᵒᵖ).obj K ⟶ tower := NatTrans.ofOpSequence κ (by
       intro k
-      show 𝟙 K ≫ κ k = κ (k + 1) ≫ tower.map (homOfLE (Nat.le_succ k)).op
+      change 𝟙 K ≫ κ k = κ (k + 1) ≫ tower.map (homOfLE (Nat.le_succ k)).op
       rw [Category.id_comp]
       dsimp only [κ, tower]
       rw [Stacks.DerivedLimit.truncGETower_map_homOfLE_succ]
@@ -336,7 +336,7 @@ private theorem derivedCategoryB_map_obj_and_isIso_homology_map_truncGEπ_of_isR
       S' towerR hT (R.obj L) p' ⟨δ', htriangle'⟩ ℋ heventual j
     have hidxComp : H.map (R.map c) ≫ d =
         H.map (R.map (κ (idx j))) ≫ (heventual j).iso.hom := by
-      show H.map (R.map c) ≫
+      change H.map (R.map c) ≫
         (H.map (p' ≫ Pi.π (fun k : ℕ ↦ R.obj (tower.obj ⟨k⟩)) (idx j)) ≫
           (heventual j).iso.hom) = _
       rw [← CategoryTheory.Functor.map_comp_assoc]
@@ -450,7 +450,8 @@ theorem isGE_derivedPushforward_obj_rightAdjointBoundedCohomologicalDimension
       pullbackInvertsQuasiIso_isKFlat f hmos)
     (isLE_derivedPullback_obj_of_isMorphismOfSites f hmos) K n hK
 
-omit hA in
+omit hA [EnoughInjectives (SheafOfModules (SheafOfModules.Tensor.ringSheaf X.O))]
+  [EnoughInjectives (SheafOfModules (SheafOfModules.Tensor.ringSheaf Y.O))] in
 include hA' in
 /-- **Stacks 0D6U, the bounded below case.** The derived direct image carries `D⁺_A(O)` into
 `D⁺_{A'}(O')`. -/

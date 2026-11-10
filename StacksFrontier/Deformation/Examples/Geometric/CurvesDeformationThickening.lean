@@ -304,8 +304,6 @@ theorem isSmooth_baseProjection_schemeDeformation_iff_curves :
     isSmooth_comp _ _ (isSmooth_schemeDeformationToCurvesBased B hZ X hk hdim iΛ)⟩
   have : (schemeDeformationToCurvesBased B hZ X hk hdim iΛ).toFunctor.EssSurj :=
     inferInstanceAs (schemeDeformationToCurves B hZ X hk hdim iΛ).EssSurj
-  exact isSmooth_of_essSurj_comp
-    (isDeformationCategory_schemeDeformationCategoryProjection X).predeformation.cofibered
-    (schemeDeformationToCurvesBased B hZ X hk hdim iΛ) _ h
+  exact isSmooth_of_essSurj_comp (schemeDeformationToCurvesBased B hZ X hk hdim iΛ) _ h
 
 end Deformation.Examples

@@ -676,9 +676,11 @@ structure PushoutDescentData {i : X ⟶ X'} (S : SecondThickening i) where
   /-- The kernel module for the second thickening. -/
   K₂ : SheafOfModules.{u} (structureSheafRing X)
   /-- The prescribed canonical map `c₁ : i^* ℐ₁ ⊗_{𝒪_X} ℱ ⟶ 𝒦₁`. -/
-  c₁ : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K₁
+  c₁ : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+      ((idealSheafPullback i))).obj (F)) ⟶ K₁
   /-- The prescribed canonical map `c₂ : i₂^* ℐ₂ ⊗_{𝒪_X} ℱ ⟶ 𝒦₂`. -/
-  c₂ : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback S.hom))).obj (F)) ⟶ K₂
+  c₂ : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+      ((idealSheafPullback S.hom))).obj (F)) ⟶ K₂
   /-- The map `κ : 𝒦₂ ⟶ 𝒦₁` of kernel modules. -/
   kernelMap : K₂ ⟶ K₁
   /-- The square formed by the two canonical maps, the map of kernel modules and the induced map
@@ -793,7 +795,9 @@ theorem quotSection_inclSection (V : Opens X'.carrier)
 noncomputable def tensorMk (V : Opens X'.carrier)
     (m : (Stacks.ClosedImmersion.idealSheaf i).val.obj (op V))
     (y : ((modulePushforward i).obj dat.F).val.obj (op V)) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj ((Stacks.ClosedImmersion.idealSheaf i))).obj (((modulePushforward i).obj dat.F)))).val.obj (op V) :=
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj
+      ((Stacks.ClosedImmersion.idealSheaf i))).obj (((modulePushforward i).obj dat.F)))).val.obj
+        (op V) :=
   toTensorSheafSection X' (Stacks.ClosedImmersion.idealSheaf i)
     ((modulePushforward i).obj dat.F) (op V) (m ⊗ₜ[X'.presheaf.obj (op V)] y)
 
@@ -805,7 +809,9 @@ theorem tensorMk_add_left (V : Opens X'.carrier)
   (congrArg (toTensorSheafSection X' (Stacks.ClosedImmersion.idealSheaf i)
         ((modulePushforward i).obj dat.F) (op V))
       (TensorProduct.add_tmul (R := X'.presheaf.obj (op V)) m m' y)).trans
-    (map_add ((sheafifyUnit X' ((PresheafOfModules.tensorObj (O := (X').presheaf) ((Stacks.ClosedImmersion.idealSheaf i).val) (((modulePushforward i).obj dat.F).val)))).app (op V)).hom _ _)
+    (map_add ((sheafifyUnit X' ((PresheafOfModules.tensorObj (O := (X').presheaf)
+      ((Stacks.ClosedImmersion.idealSheaf i).val) (((modulePushforward i).obj dat.F).val)))).app
+        (op V)).hom _ _)
 
 /-- A pure tensor is additive in its module factor. -/
 theorem tensorMk_add_right (V : Opens X'.carrier)
@@ -815,7 +821,9 @@ theorem tensorMk_add_right (V : Opens X'.carrier)
   (congrArg (toTensorSheafSection X' (Stacks.ClosedImmersion.idealSheaf i)
         ((modulePushforward i).obj dat.F) (op V))
       (TensorProduct.tmul_add (R := X'.presheaf.obj (op V)) m y y')).trans
-    (map_add ((sheafifyUnit X' ((PresheafOfModules.tensorObj (O := (X').presheaf) ((Stacks.ClosedImmersion.idealSheaf i).val) (((modulePushforward i).obj dat.F).val)))).app (op V)).hom _ _)
+    (map_add ((sheafifyUnit X' ((PresheafOfModules.tensorObj (O := (X').presheaf)
+      ((Stacks.ClosedImmersion.idealSheaf i).val) (((modulePushforward i).obj dat.F).val)))).app
+        (op V)).hom _ _)
 
 /-- A pure tensor respects differences in its module factor. -/
 theorem tensorMk_sub_right (V : Opens X'.carrier)
@@ -825,7 +833,9 @@ theorem tensorMk_sub_right (V : Opens X'.carrier)
   (congrArg (toTensorSheafSection X' (Stacks.ClosedImmersion.idealSheaf i)
         ((modulePushforward i).obj dat.F) (op V))
       (TensorProduct.tmul_sub (R := X'.presheaf.obj (op V)) m y y')).trans
-    (map_sub ((sheafifyUnit X' ((PresheafOfModules.tensorObj (O := (X').presheaf) ((Stacks.ClosedImmersion.idealSheaf i).val) (((modulePushforward i).obj dat.F).val)))).app (op V)).hom _ _)
+    (map_sub ((sheafifyUnit X' ((PresheafOfModules.tensorObj (O := (X').presheaf)
+      ((Stacks.ClosedImmersion.idealSheaf i).val) (((modulePushforward i).obj dat.F).val)))).app
+        (op V)).hom _ _)
 
 /-- A pure tensor with zero ideal factor vanishes. -/
 theorem tensorMk_zero_left (V : Opens X'.carrier)
@@ -835,7 +845,9 @@ theorem tensorMk_zero_left (V : Opens X'.carrier)
         ((modulePushforward i).obj dat.F) (op V))
       (TensorProduct.zero_tmul (R := X'.presheaf.obj (op V))
         ((Stacks.ClosedImmersion.idealSheaf i).val.obj (op V)) y)).trans
-    (map_zero ((sheafifyUnit X' ((PresheafOfModules.tensorObj (O := (X').presheaf) ((Stacks.ClosedImmersion.idealSheaf i).val) (((modulePushforward i).obj dat.F).val)))).app (op V)).hom)
+    (map_zero ((sheafifyUnit X' ((PresheafOfModules.tensorObj (O := (X').presheaf)
+      ((Stacks.ClosedImmersion.idealSheaf i).val) (((modulePushforward i).obj dat.F).val)))).app
+        (op V)).hom)
 
 /-- A pure tensor with zero module factor vanishes. -/
 theorem tensorMk_zero_right (V : Opens X'.carrier)
@@ -845,7 +857,9 @@ theorem tensorMk_zero_right (V : Opens X'.carrier)
         ((modulePushforward i).obj dat.F) (op V))
       (TensorProduct.tmul_zero (R := X'.presheaf.obj (op V))
         (((modulePushforward i).obj dat.F).val.obj (op V)) m)).trans
-    (map_zero ((sheafifyUnit X' ((PresheafOfModules.tensorObj (O := (X').presheaf) ((Stacks.ClosedImmersion.idealSheaf i).val) (((modulePushforward i).obj dat.F).val)))).app (op V)).hom)
+    (map_zero ((sheafifyUnit X' ((PresheafOfModules.tensorObj (O := (X').presheaf)
+      ((Stacks.ClosedImmersion.idealSheaf i).val) (((modulePushforward i).obj dat.F).val)))).app
+        (op V)).hom)
 
 /-- A scalar on the ideal factor of a pure tensor comes out. -/
 theorem tensorMk_smul_left (V : Opens X'.carrier) (r : X'.presheaf.obj (op V))
@@ -867,7 +881,10 @@ theorem tensorMk_smul_right (V : Opens X'.carrier) (r : X'.presheaf.obj (op V))
 theorem tensorMk_restrict {V W : Opens X'.carrier} (g : W ⟶ V)
     (m : (Stacks.ClosedImmersion.idealSheaf i).val.obj (op V))
     (y : ((modulePushforward i).obj dat.F).val.obj (op V)) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj ((Stacks.ClosedImmersion.idealSheaf i))).obj (((modulePushforward i).obj dat.F)))).val.map g.op (dat.tensorMk V m y) =
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj
+          ((Stacks.ClosedImmersion.idealSheaf i))).obj (((modulePushforward i).obj dat.F)))).val.map
+          g.op
+        (dat.tensorMk V m y) =
       dat.tensorMk W ((Stacks.ClosedImmersion.idealSheaf i).val.map g.op m)
         (((modulePushforward i).obj dat.F).val.map g.op y) :=
   toTensorSheafSection_restrict X' (Stacks.ClosedImmersion.idealSheaf i)
@@ -1249,8 +1266,11 @@ theorem twisted_shortExact (hi : IsFirstOrderThickening i) :
 formula of Tag 08L4 produces it. -/
 theorem descendedActionOfMap_app {Y : RingedSpace.{u, u}} (j : X ⟶ Y)
     (N P : SheafOfModules.{u} (structureSheafRing X))
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback j))).obj (N)) ⟶ P) (V : Opens Y.carrier)
-    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf, ((Y)).IsSheaf⟩).obj ((Stacks.ClosedImmersion.idealSheaf j))).obj (((modulePushforward j).obj N)))).val.obj (op V)) :
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+      ((idealSheafPullback j))).obj (N)) ⟶ P) (V : Opens Y.carrier)
+    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf, ((Y)).IsSheaf⟩).obj
+      ((Stacks.ClosedImmersion.idealSheaf j))).obj (((modulePushforward j).obj N)))).val.obj
+        (op V)) :
     (descendedActionOfMap j N P c).val.app (op V) t =
       ((modulePushforward j).map c).val.app (op V)
         ((extensionTensorComparison j N).val.app (op V) t) := rfl
@@ -1477,7 +1497,10 @@ theorem extensionOne_action :
     (Stacks.ClosedImmersion.idealSheaf i) (dat.extensionOne E₂ hi hE₂).Z.left
     (Stacks.ClosedImmersion.idealSheaf i) ((modulePushforward i).obj dat.F)
     (𝟙 (Stacks.ClosedImmersion.idealSheaf i)) (dat.extensionOne E₂ hi hE₂).g V m x).trans rfl
-  calc ((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (Stacks.ClosedImmersion.idealSheaf i)), (dat.extensionOne E₂ hi hE₂).g) : (_, _) ⟶ (_, _))) ≫
+  calc ((((Functor.uncurry.obj
+            (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map
+            (((𝟙 (Stacks.ClosedImmersion.idealSheaf i)), (dat.extensionOne E₂ hi hE₂).g) :
+              (_, _) ⟶ (_, _))) ≫
           (extensionTensorComparison i dat.F ≫
             (modulePushforward i).map dat.c₁) ≫
           (dat.extensionOne E₂ hi hE₂).f).val.app (op V))

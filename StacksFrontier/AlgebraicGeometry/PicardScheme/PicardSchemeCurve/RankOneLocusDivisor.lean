@@ -25,7 +25,7 @@ locally free over `T` when `f` is proper.
   ([Stacks, Tag 0CDW], [Stacks, Tag 020H] (3)).
 * `AlgebraicGeometry.RigidifiedPicard.isRelativeEffectiveCartierDivisor_zeroScheme_of_isGenerator`:
   the zero scheme of a generator is a relative effective Cartier divisor, and finite locally free
-  over `T` ([Stacks, Tag 0B9D]), with [Stacks, Tag 0A1H] as an argument.
+  over `T` ([Stacks, Tag 0B9D]).
 
 ## References
 
@@ -71,21 +71,8 @@ theorem isIntegral_fiber_pullbackSnd [IsVariety k f] [Smooth f] {T : Scheme.{u}}
 include σ hσ in
 /-- **The claim of [Stacks, Tag 0B9X], for `𝒩 = 𝒪_T`**: the zero scheme `D` of a generator
 `s : 𝒪_{X_T} ⟶ ℒ` relative to `f_T : X_T ⟶ T` is a relative effective Cartier divisor on
-`X_T / T`, and `D ⟶ T` is finite locally free ([Stacks, Tag 0B9D], `f` proper), with
-[Stacks, Tag 0A1H] as an argument (`hPerfBC`, typed as in
-`rankOneLocus_isSubfunctor_and_representable`). -/
+`X_T / T`, and `D ⟶ T` is finite locally free ([Stacks, Tag 0B9D], `f` proper). -/
 theorem isRelativeEffectiveCartierDivisor_zeroScheme_of_isGenerator
-    (hPerfBC : ∀ {X S : Scheme.{u}} (f : X ⟶ S) (hf : FinitePresentation f)
-      (E : DerivedCategory X.Modules) (_hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E)
-      (G : CochainComplex X.Modules ℤ)
-      (_hG : letI : LocallyOfFinitePresentation f := hf.locallyOfFinitePresentation
-        FlatProperSupportFinitelyPresented f G),
-      RingedSpace.IsPerfect (X := S.toRingedSpace)
-          ((derivedPushforward f.toLRSHom.toShHom).obj
-            (((derivedTensorProductFunctor X.sheaf).obj E).obj (DerivedCategory.Q.obj G))) ∧
-        ∀ {X' S' : Scheme.{u}} (g : S' ⟶ S) (f' : X' ⟶ S') (g' : X' ⟶ X)
-          (hsq : IsPullback g' f' f g),
-          IsIso (tensorFlatBaseChangeMap f g f' g' (comp_toShHom_of_comm hsq.w) E G))
     [IsCurve k f] [Smooth f] [IsProper f] {T : Scheme.{u}} (q : T ⟶ Spec (.of k))
     (L : (pullback f q).Modules)
     [SheafOfModules.IsInvertible (pullback f q).sheaf.obj (pullback f q).ringCatSheaf.property L]
@@ -97,7 +84,7 @@ theorem isRelativeEffectiveCartierDivisor_zeroScheme_of_isGenerator
         ((zeroScheme (pullback f q) L ((L.unitHomEquiv s).eval (op ⊤))).subschemeι ≫
           pullback.snd f q) := by
   have hrel := PushforwardGenerator.isRelativeEffectiveCartierDivisor_zeroScheme_of_isGenerator L
-    hPerfBC (pullback.snd f q) s hs (isIntegral_fiber_pullbackSnd f σ hσ q)
+    (pullback.snd f q) s hs (isIntegral_fiber_pullbackSnd f σ hσ q)
   refine ⟨hrel, ?_⟩
   have : SmoothOfRelativeDimension 1 (pullback.snd f q) :=
     (smoothOfRelativeDimension_isStableUnderBaseChange 1).of_isPullback

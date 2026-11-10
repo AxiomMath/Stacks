@@ -135,7 +135,7 @@ private theorem presheaf_surjective_of_point_lifting
   have := hasBinaryProducts_of_hasTerminal_and_pullbacks (BigFppfOver B S hS)
   refine ⟨Functor.relativelyRepresentable.diag_iff.mp hF p, ?_⟩
   intro T V a i b sq
-  show Surjective (q.map b)
+  change Surjective (q.map b)
   refine ⟨fun t ↦ ?_⟩
   obtain ⟨W, b', c, w, hw, hcomm⟩ := hlift T a t
   let l : W ⟶ V := yoneda.preimage (sq.lift (yoneda.map c) (yoneda.map b') hcomm)
@@ -143,7 +143,7 @@ private theorem presheaf_surjective_of_point_lifting
     apply yoneda.map_injective
     simp only [Functor.map_comp, l, Functor.map_preimage, IsPullback.lift_snd]
   refine ⟨q.map l w, ?_⟩
-  show (q.map l ≫ q.map b) w = t
+  change (q.map l ≫ q.map b) w = t
   rwa [← q.map_comp, hl]
 
 private theorem separated_and_locallyQuasiFinite_pullback
@@ -297,7 +297,7 @@ private theorem exists_finitePart_cover_of_scheme_case
   have hf₀ : yoneda.map f₀ = eX.hom ≫ f.hom ≫ eY.inv := yoneda.map_preimage _
   let P := (MorphismProperty.inverseImage (@IsClosedImmersion.{u}) q).presheaf
   have hsep₀ : Space.IsSeparated B S hS (yoneda.map f₀) := by
-    show P.diagonal (yoneda.map f₀)
+    change P.diagonal (yoneda.map f₀)
     rw [hf₀, P.diagonal.cancel_left_of_respectsIso,
       P.diagonal.cancel_right_of_respectsIso]
     exact hsep
@@ -312,7 +312,7 @@ private theorem exists_finitePart_cover_of_scheme_case
     apply IsPullback.of_horiz_isIso
     constructor
     apply ObjectProperty.hom_ext
-    show eX.hom ≫ f.hom = yoneda.map f₀ ≫ eY.hom
+    change eX.hom ≫ f.hom = yoneda.map f₀ ≫ eY.hom
     rw [hf₀]
     simp
   obtain ⟨φ, hφ⟩ := exists_isPullback_finitePart B S hS
@@ -394,7 +394,7 @@ private theorem exists_open_representation_of_finite_part
   have hjopen : IsOpenImmersion (q.map j) := by
     apply MorphismProperty.of_relative_map (F := yoneda)
       (P := MorphismProperty.inverseImage (@IsOpenImmersion.{u}) q)
-    show (MorphismProperty.inverseImage (@IsOpenImmersion.{u}) q).presheaf
+    change (MorphismProperty.inverseImage (@IsOpenImmersion.{u}) q).presheaf
       (yoneda.map j)
     rw [← MorphismProperty.cancel_right_of_respectsIso
       (P := (MorphismProperty.inverseImage (@IsOpenImmersion.{u}) q).presheaf)
@@ -403,7 +403,7 @@ private theorem exists_open_representation_of_finite_part
   refine ⟨W, j, hjopen, ?_, ?_⟩
   · rwa [hjfst]
   · have hr : Subfunctor.range (e.hom ≫ z.subspace.ι) = z.subspace := by
-      haveI : Epi e.hom := IsIso.epi_of_iso _
+      have : Epi e.hom := IsIso.epi_of_iso _
       rw [Subfunctor.range_comp, Subfunctor.range_eq_top,
         Subfunctor.image_top, Subfunctor.range_ι]
     rw [hj]
@@ -473,7 +473,7 @@ private theorem exists_isPullback_of_preimage_opensRange
   · exact q.map_injective hm₀
   exact IsOpenImmersion.isPullback (q.map m) (q.map j') (q.map j) (q.map L)
     (by
-      show q.map j' ≫ q.map L = m₀ ≫ q.map j
+      change q.map j' ≫ q.map L = m₀ ≫ q.map j
       simpa only [Functor.map_comp] using hm₀.symm) hr
 
 attribute [local implicit_reducible] AlgebraicGeometry.schemeSpaceMap
@@ -509,9 +509,9 @@ private theorem isBaseChange_of_represented_open_pullback
   cases hz'
   let e := ((IsPullback.of_hasPullback b f).map yoneda).isoPullback
   let e' := ((IsPullback.of_hasPullback b' f).map yoneda).isoPullback
-  haveI : Mono (yoneda.map j ≫ e.hom) :=
+  have : Mono (yoneda.map j ≫ e.hom) :=
     @mono_comp _ _ _ _ _ _ (yoneda.map_mono j) _ (IsIso.mono_of_iso _)
-  haveI : Mono (yoneda.map j' ≫ e'.hom) :=
+  have : Mono (yoneda.map j' ≫ e'.hom) :=
     @mono_comp _ _ _ _ _ _ (yoneda.map_mono j') _ (IsIso.mono_of_iso _)
   obtain ⟨i, hi⟩ := exists_iso_subfunctor_of_range (yoneda.map j ≫ e.hom) Z
     (eq_of_heq hr)
@@ -526,15 +526,15 @@ private theorem isBaseChange_of_represented_open_pullback
     rw [hLsnd, hl]
     exact (IsPullback.of_hasPullback b' f).flip
   refine ⟨?_, n, ?_, ?_⟩
-  · show yoneda.map b' = yoneda.map l ≫ yoneda.map b
+  · change yoneda.map b' = yoneda.map l ≫ yoneda.map b
     rw [← yoneda.map_comp, hl]
-  · show IsPullback
+  · change IsPullback
       (Z'.ι ≫ pullback.fst (yoneda.map b') (yoneda.map f)) n
       (yoneda.map l) (Z.ι ≫ pullback.fst (yoneda.map b) (yoneda.map f))
     exact ((sq.flip.paste_horiz sqL.flip).map yoneda).of_iso i'
       (Iso.refl _) i (Iso.refl _) (by simpa using hi'p.symm)
       (by simpa using hnf.symm) (by simp) (by simpa using hip.symm)
-  · show n ≫ Z.ι ≫ pullback.snd (yoneda.map b) (yoneda.map f) =
+  · change n ≫ Z.ι ≫ pullback.snd (yoneda.map b) (yoneda.map f) =
       Z'.ι ≫ pullback.snd (yoneda.map b') (yoneda.map f)
     apply (cancel_epi i'.hom).1
     rw [← Category.assoc, hnf, Category.assoc, hip₂, hi'p₂, ← yoneda.map_comp,
@@ -574,7 +574,7 @@ private theorem exists_chart_of_site_coproduct
   have hbV (i : I) : ι i ≫ bV = b i := by
     apply yoneda.map_injective
     rw [Functor.map_comp, yoneda.map_preimage]
-    show (yoneda.map (ι i) ≫ pV) ≫
+    change (yoneda.map (ι i) ≫ pV) ≫
       (Space.finiteOpenSubspacePresheaf B S hS (schemeSpaceMap f)).baseMap = yoneda.map (b i)
     rw [hpV]
     exact hp i
@@ -673,7 +673,7 @@ private theorem preimage_iSup_preimage_of_comp_eq {P P' Q R : Scheme.{u}}
   funext i
   congr 1
   funext hi
-  show L ⁻¹ᵁ (k ⁻¹ᵁ D i) = e ⁻¹ᵁ (k' ⁻¹ᵁ D i)
+  change L ⁻¹ᵁ (k ⁻¹ᵁ D i) = e ⁻¹ᵁ (k' ⁻¹ᵁ D i)
   rw [← Scheme.Hom.comp_preimage, h, Scheme.Hom.comp_preimage]
 
 /-- The finite-part sheaf of a separated, locally quasi-finite morphism of
@@ -752,7 +752,7 @@ theorem _root_.AlgebraicGeometry.Space.exists_surjective_etale_chart_finiteOpenS
   let zΩ := (Space.finiteOpenSubspacePresheaf B S hS
     (schemeSpaceMap f')).sections RΩ (yonedaEquiv aΩ)
   have hr₀ : r₀ default = t := by
-    show (q.obj R).fromSpecResidueField t
+    change (q.obj R).fromSpecResidueField t
       ((Spec.map (CommRingCat.ofHom (algebraMap K Ω))) default) = t
     exact Scheme.fromSpecResidueField_apply t _
   let bΩ : RΩ ⟶ Y' := yoneda.preimage zΩ.toBase.hom
@@ -794,7 +794,7 @@ theorem _root_.AlgebraicGeometry.Space.exists_surjective_etale_chart_finiteOpenS
     rw [opensRange_of_iso_sigma_opens Dc hDc _ (ep c) (he c)]
     refine (preimage_iSup_preimage_of_comp_eq _ _ _ _ hLk (D a₀) J).trans ?_
     rw [← hJ]
-    show eΩ.hom ⁻¹ᵁ (eΩ.inv ⁻¹ᵁ ZΩ) = ZΩ
+    change eΩ.hom ⁻¹ᵁ (eΩ.inv ⁻¹ᵁ ZΩ) = ZΩ
     rw [← Scheme.Hom.comp_preimage, eΩ.hom_inv_id]
     rfl
   obtain ⟨m, sqm⟩ := exists_isPullback_of_preimage_opensRange
@@ -812,7 +812,7 @@ theorem _root_.AlgebraicGeometry.Space.exists_surjective_etale_chart_finiteOpenS
   refine ⟨RΩ, ρ, lV' ≫ ι c, (default : Spec (.of Ω)), hr₀, ?_⟩
   rw [Functor.map_comp, Category.assoc, hpT]
   apply yonedaEquiv.injective
-  show yonedaEquiv (yoneda.map lV' ≫ p c) = yonedaEquiv aΩ
+  change yonedaEquiv (yoneda.map lV' ≫ p c) = yonedaEquiv aΩ
   rw [← yonedaEquiv_naturality]
   exact hsections
 

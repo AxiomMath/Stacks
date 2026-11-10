@@ -70,7 +70,7 @@ variable {A C : Type u}
     [IsNoetherianRing C]
 
 /-- **A taut homomorphism of adic Noetherian rings which is étale on all quotient stages is
-rig-étale.** Let `φ : A → C` be a continuous taut homomorphism of adic Noetherian topological
+rig-étale.** Let `φ : A → C` be a taut homomorphism of adic Noetherian topological
 rings such that for every weak ideal of definition `I` of `A` the induced ring map
 `A ⧸ I → C ⧸ J(I)` is étale, `J(I)` being the closure of `IC`. Then `φ` is rig-étale.
 
@@ -80,7 +80,7 @@ topologically finite type by Stacks 0GBW. Condition (4) of Stacks 0AJU then hold
 `0`: for an ideal of definition `I` the maps `A ⧸ Iⁿ → C ⧸ IⁿC` are étale, so their naive
 cotangent complexes have no homology. -/
 theorem isRigEtale_of_etale_quotientMap (hA : TopologicalRing.IsAdic A)
-    (hC : TopologicalRing.IsAdic C) (φ : A →+* C) (hφ : Continuous φ)
+    (hC : TopologicalRing.IsAdic C) (φ : A →+* C)
     (htaut : RingHom.IsTaut φ)
     (het : ∀ I : Ideal A, TopologicalRing.IsWeakIdealOfDefinition I →
       (Ideal.quotientMap (Ideal.closure (I.map φ)) φ
@@ -102,7 +102,7 @@ theorem isRigEtale_of_etale_quotientMap (hA : TopologicalRing.IsAdic A)
   have hft : FiniteTypeAdicAlgebraForEveryIdeal φ := by
     have hT2 : T2Space C := hC.2.1
     have hCompl : @CompleteSpace C (IsTopologicalAddGroup.rightUniformSpace C) := hC.2.2
-    obtain ⟨I, hIadic, hImap⟩ := RingHom.isAdic_of_isTaut φ hφ htaut ⟨IA, hIAfg, hIAadic⟩
+    obtain ⟨I, hIadic, hImap⟩ := RingHom.isAdic_of_isTaut φ htaut ⟨IA, hIAfg, hIAadic⟩
     have hI : TopologicalRing.IsIdealOfDefinition I :=
       TopologicalRing.isIdealOfDefinition_of_isAdic hIadic
     have hIw : TopologicalRing.IsWeakIdealOfDefinition I := by
@@ -112,7 +112,7 @@ theorem isRigEtale_of_etale_quotientMap (hA : TopologicalRing.IsAdic A)
       let := (Ideal.quotientMap (I.map φ) φ Ideal.le_comap_map).toAlgebra
       have : Algebra.Etale (A ⧸ I) (C ⧸ I.map φ) := het' I hIw
       exact (inferInstance : Algebra.FiniteType (A ⧸ I) (C ⧸ I.map φ))
-    exact ((adicFiniteType_tfae φ hφ hA hC ⟨IA, hIA, hIAfg⟩
+    exact ((adicFiniteType_tfae φ hA hC ⟨IA, hIA, hIAfg⟩
       (exists_idealOfDefinition_fg hC inferInstance)).out 3 6).mp h3
   refine RingHom.isRigEtale_of_isRigEtaleOver hft IA hIA
     (isRigEtaleOver_of_isRigEtale φ hft IA hIA ?_)

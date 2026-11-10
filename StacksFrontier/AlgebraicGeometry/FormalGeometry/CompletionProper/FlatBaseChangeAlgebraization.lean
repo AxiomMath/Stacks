@@ -212,7 +212,7 @@ public theorem includeRight_eq_quotientMap (B : Type u) [CommRing B] (J : Ideal 
           (algebraMap B (AdicCompletion J B)) Ideal.le_comap_map x) := by
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
   rw [Ideal.quotientMap_mk, Algebra.TensorProduct.quotIdealMapEquivTensorQuot_mk]
-  show (1 : AdicCompletion J B) ⊗ₜ[B] (algebraMap B (B ⧸ J) a) = _
+  change (1 : AdicCompletion J B) ⊗ₜ[B] (algebraMap B (B ⧸ J) a) = _
   rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, TensorProduct.smul_tmul]
 
 /-- **The closed fibre of `Spec B ^∧ ⟶ Spec B` over `V(J)` is `V(J)`.** The inclusion of
@@ -301,7 +301,7 @@ public def coherentIdealPowerTorsionPullback {X Y : Scheme.{u}} [IsLocallyNoethe
   ObjectProperty.lift _ (ObjectProperty.ι _ ⋙ Scheme.Modules.pullback f)
     (fun M => by
       obtain ⟨n, hcoh, hann⟩ := M.property
-      haveI : M.obj.IsCoherent := hcoh
+      have : M.obj.IsCoherent := hcoh
       exact ⟨n, AlgebraicGeometry.isCoherent_pullback f M.obj,
         Stacks.Coherent.idealPowerMultiple_eq_bot_pullback f J (n + 1) M.obj hann⟩)
 

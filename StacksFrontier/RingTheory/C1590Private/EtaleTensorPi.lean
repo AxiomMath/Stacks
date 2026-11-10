@@ -106,7 +106,7 @@ theorem isLocalizedModule_pi (ℓ : ∀ i, W i →ₗ[A] W' i)
     obtain ⟨⟨_, k, rfl⟩, hc⟩ := IsLocalizedModule.exists_of_eq (S := .powers g) (f := ℓ i)
       (congrFun h i)
     simp only [Submonoid.smul_def, LinearMap.proj_apply] at hc
-    show g ^ d • x₁ i = g ^ d • x₂ i
+    change g ^ d • x₁ i = g ^ d • x₂ i
     have e : ∀ w : W i, g ^ d • w = (g ^ d * a i ^ k) • (g ^ k • w) := fun w => by
       rw [pow_smul_eq_of_mem_annihilator g (ha i) k w, smul_smul, pow_add]
       congr 1
@@ -123,8 +123,7 @@ variable {R : Type*} [CommRing R] (𝔫 : Ideal R) {B : Type*} [CommRing B] [Alg
 /-- An ideal killing `V` kills `B ⊗[R] V`. -/
 theorem smul_tensor_eq_zero (h𝔫 : ∀ r ∈ 𝔫, ∀ v : V, r • v = 0) {r : R} (hr : r ∈ 𝔫)
     (t : B ⊗[R] V) : r • t = 0 := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul b v => rw [← TensorProduct.tmul_smul, h𝔫 r hr v, TensorProduct.tmul_zero]
   | add x y hx hy => rw [smul_add, hx, hy, add_zero]
 
@@ -201,8 +200,7 @@ theorem coe_piRightHom (S N : Type*) [CommRing S] [Algebra R S] [AddCommGroup N]
     [Module S N] [IsScalarTower R S N] :
     ⇑(piRightHom R S N V) = ⇑(piRightHom R R N V) := by
   funext x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul n v => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -220,10 +218,7 @@ theorem bijective_piRightHom_of_free (N : Type*) [AddCommGroup N] [Module R N] [
       TensorProduct.piScalarRight R R (V i) κ
   have key : ∀ x, Φ₂ (piRightHom R R N V x) = Equiv.piComm _ (Φ₁ x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      simp
-      rfl
+    induction x using TensorProduct.inductionOn with
     | tmul n v =>
       funext i k
       simp [Φ₁, Φ₂, Equiv.piComm, Function.swap]
@@ -243,8 +238,7 @@ theorem bijective_piRightHom_of_linearEquiv {N N' : Type*} [AddCommGroup N] [Mod
     LinearEquiv.piCongrRight fun i => e.rTensor _
   have key : ∀ x, piRightHom R R N' V (e.rTensor _ x) = Ψ (piRightHom R R N V x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul n v =>
       funext i
       simp [Ψ]
@@ -271,8 +265,7 @@ theorem piRightHom_comp_rTensor :
       (LinearMap.pi fun i => AlgebraTensorModule.rTensor R (V i) (Algebra.linearMap A A') ∘ₗ
         LinearMap.proj i) ∘ₗ piRightHom R A A V := by
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a v => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 

@@ -35,7 +35,7 @@ theorem toPresheafFiber_presheafFiberOverIso_hom (P : Cᵒᵖ ⥤ A) (Y : Over X
     (Φ.over x).toPresheafFiber Y y ((Over.forget X).op ⋙ P) ≫
         (presheafFiberOverIso Φ x A).hom.app P =
       Φ.toPresheafFiber Y.left y.1 P := by
-  show colimit.ι _ (op ((Φ.over x).fiber.elementsMk Y y)) ≫
+  change colimit.ι _ (op ((Φ.over x).fiber.elementsMk Y y)) ≫
     (Functor.Final.colimitIso (overElements Φ x).op ((Functor.Elements.π Φ.fiber).op ⋙ P)).hom = _
   rw [Functor.Final.colimitIso_hom]
   exact colimit.ι_pre ((Functor.Elements.π Φ.fiber).op ⋙ P) (overElements Φ x).op

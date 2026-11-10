@@ -318,7 +318,7 @@ theorem higherTrace_mem_range_mapExteriorPowerTower (hp : p.Prime) [CharP Λ' p]
         (algebraMap B L b) • exteriorPower.ιMulti L (t + 1)
           (fun j => map Λ' Λ' K L (map Λ Λ' A K (η j))) := by
       rw [hbasefun η, algebraMap_smul]
-    show T _ ∈ _
+    change T _ ∈ _
     rw [hsmul, hT, higherTrace_smul_baseForm]
     exact Submodule.zero_mem _
   · -- a wedge with `d x` appended: expand the scalar in the powers of `x`
@@ -337,7 +337,7 @@ theorem higherTrace_mem_range_mapExteriorPowerTower (hp : p.Prime) [CharP Λ' p]
       rw [hbasefun η, hξ, ← algebraMap_smul L b, hbL, Finset.sum_smul]
       refine Finset.sum_congr rfl fun i _ => ?_
       rw [mul_smul, exterior_snoc_smul]
-    show T _ ∈ _
+    change T _ ∈ _
     rw [hsnoc, map_sum]
     refine Submodule.sum_mem _ fun i _ => ?_
     rw [IsScalarTower.algebraMap_apply A K L (c i), algebraMap_smul, map_smul, hxL]

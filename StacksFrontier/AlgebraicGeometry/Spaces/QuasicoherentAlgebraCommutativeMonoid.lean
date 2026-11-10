@@ -182,8 +182,7 @@ noncomputable def quasicoherentMonObj :
 
 /-- The monoid object of `AlgebraicGeometry.Space.AlgebraSheaf.quasicoherentMonObj` is
 commutative. -/
-@[instance_reducible]
-noncomputable def quasicoherentIsCommMonObj :
+theorem quasicoherentIsCommMonObj :
     @IsCommMonObj (QuasicoherentSheaves.{u, u} B S hS F hF) _
       (quasicoherentSheavesMonoidalCategory B S hS F hF)
       (quasicoherentSheavesBraidedCategory B S hS F hF) (A.quasicoherentObj hA)

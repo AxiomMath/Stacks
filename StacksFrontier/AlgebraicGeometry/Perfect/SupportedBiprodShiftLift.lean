@@ -169,7 +169,7 @@ theorem restrictNestedIsoRestrict_hom_comp_ofRestrict (hUW : U ≤ W) :
       (nestedOpenInclusion W (nestedOpenOfLE U W))).obj ⊤ = U :=
     (opensFunctor_nestedOpenInclusion_obj_top W (nestedOpenOfLE U W)).trans
       (image_nestedOpenOfLE U W hUW)
-  show ((nestedOpenToAmbientIso W (nestedOpenOfLE U W)).hom ≫
+  change ((nestedOpenToAmbientIso W (nestedOpenOfLE U W)).hom ≫
       eqToHom (congrArg (fun O : Opens X => X.restrict O.isOpenEmbedding) hO)) ≫
         X.ofRestrict U.isOpenEmbedding = _
   rw [Category.assoc, eqToHom_restrict_comp_ofRestrict hO]
@@ -241,7 +241,7 @@ theorem exists_isPerfect_supported_restrictNested (hUW : U ≤ W) (T : Set X) (h
         Subtype.val ⁻¹' (Subtype.val ⁻¹' T :
           Set (X.restrict W.isOpenEmbedding).carrier) := by
       ext z
-      show Subtype.val ((restrictNestedIsoRestrict U W hUW).hom.hom.base z) ∈ T ↔
+      change Subtype.val ((restrictNestedIsoRestrict U W hUW).hom.hom.base z) ∈ T ↔
         Subtype.val (Subtype.val z) ∈ T
       rw [restrictNestedIsoRestrict_base_val]
     exact hset ▸ h

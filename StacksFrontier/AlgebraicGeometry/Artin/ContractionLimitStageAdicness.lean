@@ -45,6 +45,7 @@ variable {I : Type u} [Category.{u} I] [IsCofiltered I]
   [hpt : IsAffine ((BigFppfOver.toScheme B S hS).obj κ.pt.obj)]
   (I₀ : Ideal Γ((BigFppfOver.toScheme B S hS).obj (D.obj k₀).obj, ⊤))
 
+omit hpt in
 include hκ in
 /-- If the image of `e ∈ A_k` in `A` lies in `I^m`, then its image in `A_{k'}` lies in `I_{k'}^m`
 for some later stage `k' ⟶ k`. -/
@@ -82,6 +83,7 @@ theorem exists_stage_res_mem_pow {k : Over k₀}
   rw [← stageIdeal_map I₀ (f₂ ≫ f₁), ← Ideal.map_pow]
   exact Ideal.mem_map_of_mem _ (hy i)
 
+omit [IsCofiltered I] hD in
 /-- For `φ : B → A_k^∧`, an ideal `J ⊆ B` and stages `k'' ⟶ k' ⟶ k`, the transition map
 `A_{k'}^∧ → A_{k''}^∧` sends `J A_{k'}^∧` into `J A_{k''}^∧`. -/
 theorem mem_map_comp_cres {Bt : Type u} [CommRing Bt] {k k' k'' : Over k₀}

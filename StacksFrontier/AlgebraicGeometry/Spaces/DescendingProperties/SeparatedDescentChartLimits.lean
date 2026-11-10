@@ -43,6 +43,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out otherwise
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf_separatedDescentChartLimits :
@@ -113,7 +114,6 @@ the stages. A closed immersion into `U ×_S U`, where `U` is the limit of the ch
 composite with the first projection is locally of finite type, is already a closed immersion
 into `U ×_S U_k` for all sufficiently late stages `k`. -/
 theorem exists_isClosedImmersion_comp_prodMap_π_of_isLimit_toScheme {c : Cone V}
-    (hc : IsLimit c)
     (hcS : IsLimit ((BigFppfOver.toScheme B S hS).mapCone c))
     (hcaff : IsAffine ((BigFppfOver.toScheme B S hS).obj c.pt))
     {R : Scheme.{u}} (g : R ⟶ (BigFppfOver.toScheme B S hS).obj (c.pt ⨯ c.pt))
@@ -156,7 +156,6 @@ locally of finite type becomes a closed immersion after base change to `U_j ×_S
 `j`, as soon as it is one after base change to `U ×_S U_k`, where `U` is the limit of the
 charts. -/
 theorem exists_isClosedImmersion_pullback_snd_prodMap_of_isLimit_toScheme {c : Cone V}
-    (hc : IsLimit c)
     (hcS : IsLimit ((BigFppfOver.toScheme B S hS).mapCone c)) (k : K)
     {T : BigFppfOver B S hS} (m : T ⟶ V.obj k ⨯ V.obj k)
     (hmft : LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map m))
@@ -321,7 +320,7 @@ theorem exists_isAbsolutelySeparated_system_obj_of_isAffine_of_hasContainedChart
     exact hfstLim
   -- Stacks 081B: the closed immersion already lands in a product with a stage
   obtain ⟨k₁, hk₁⟩ := exists_isClosedImmersion_comp_prodMap_π_of_isLimit_toScheme B S hS hSaff
-    C.siteDiagram hUaff L.isLimit L.schemeIsLimit L.isAffine_pt _ hkpLim j₀ hftLim
+    C.siteDiagram hUaff L.schemeIsLimit L.isAffine_pt _ hkpLim j₀ hftLim
   have hRespects : MorphismProperty.RespectsIso
       (@_root_.AlgebraicGeometry.IsClosedImmersion.{u}) :=
     MorphismProperty.IsStableUnderBaseChange.respectsIso
@@ -356,7 +355,7 @@ theorem exists_isAbsolutelySeparated_system_obj_of_isAffine_of_hasContainedChart
   -- Stacks 01ZP: the closed immersion descends to a stage
   obtain ⟨i, hi, hires⟩ :=
     exists_isClosedImmersion_pullback_snd_prodMap_of_isLimit_toScheme B S hS hSaff
-      C.siteDiagram hUaff L.isLimit L.schemeIsLimit k₁
+      C.siteDiagram hUaff L.schemeIsLimit k₁
       (kernelPairToProd B S hS (hq k₁)) hmft hmqc hmqs hlimci
   obtain ⟨ρ', hρ'⟩ := exists_isPullback_kernelPairToProd_prodMap B S hS
     (D.system.map hi.left) (hq k₁) (hq i) (C.siteDiagram.map hi)

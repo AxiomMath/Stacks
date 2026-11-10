@@ -43,6 +43,7 @@ namespace Stacks.Models
 variable {R K : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
   [Field K] [Algebra R K] [IsFractionRing R K]
 
+omit [IsDiscreteValuationRing R] in
 /-- **The uniqueness half of [Stacks, Tag 0E97].** Let `R` be a discrete valuation ring with
 fraction field `K` and `C` a smooth proper curve over `K` with `K = H⁰(C, 𝒪_C)` and genus `g`. If
 `X` and `X'` are models of `C` which are stable families of genus `g` curves over `R`, there is at

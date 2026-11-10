@@ -157,7 +157,7 @@ theorem relocalizeChartBaseChangeIso_inv_projection (V : SmallEtale B T hT Y.1) 
         (SpacesEtale.toSpaces B S hS (relocalizeSpace B hT hS g Y)).map
           ((relocalizeComparisonIso B hT hS g Y).inv.app V) := hnat
   rw [hinv, Functor.map_comp]
-  show ((SpacesEtale.toSpaces B S hS (relocalizeSpace B hT hS g X)).map _ ≫
+  change ((SpacesEtale.toSpaces B S hS (relocalizeSpace B hT hS g X)).map _ ≫
     ((spacesBaseChange B S hS (relocalizeHom B hT hS g f)).functor ⋙
       SpacesEtale.toSpaces B S hS (relocalizeSpace B hT hS g X)).map _ ≫ _).hom = _
   rw [h₂, ← Category.assoc, relocalizeSpacesEtaleBaseChangeIso_hom_projection]
@@ -178,7 +178,7 @@ theorem chartBaseChangeMap_relocalizeChartIndex (V : SmallEtale B T hT Y.1)
   rw [Functor.comp_map, Functor.comp_map, yoneda_map_chartBaseChangeMap] at hY
   refine (yoneda_map_chartBaseChangeMap _ _ _ _ _ _).trans (Eq.trans ?_ hY.symm)
   have h₁ := relocalizeChartBaseChangeIso_inv_projection B hT hS g f V
-  show (OverShriek.relocalizeYonedaIso g).inv.app j.right.unop.obj.left ≫
+  change (OverShriek.relocalizeYonedaIso g).inv.app j.right.unop.obj.left ≫
       (OverShriek.relocalizePresheafFunctor g).map
         ((SpacesEtale.toSpaces B T hT X).map j.hom.unop).hom ≫
       ((SpacesEtale.toSpaces B S hS (relocalizeSpace B hT hS g X)).map
@@ -305,7 +305,7 @@ theorem squareRingMapLeft_structureSharp :
   apply (sheafCompose (SmallEtale.topology B T hT Y.1) (forget RingCat.{u})).map_injective
   rw [Functor.map_comp, ringSheafMap_squareRingMapLeft, ringSheafMap_squareRingMapRight,
     ringSheafMap_pullbackRingSheafMapOfNatTrans]
-  show (relocalizeSheafRestriction B hT hS g Y).map
+  change (relocalizeSheafRestriction B hT hS g Y).map
       ((sheafCompose (SmallEtale.topology B S hS (relocalizeSpace B hT hS g Y).1)
         (forget RingCat.{u})).map (structureSharpRan B S hS (relocalizeHom B hT hS g f))) ≫
       (relocalizeSheafRestriction B hT hS g Y).map

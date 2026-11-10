@@ -115,17 +115,17 @@ private lemma normalFormModelEval_relationIdeal_le_ker :
     relationIdeal ≤ RingHom.ker normalFormModelEval := by
   apply Ideal.span_le.mpr
   rintro _p (⟨α, rfl⟩ | ⟨⟨α, β⟩, rfl⟩)
-  · show normalFormModelEval
+  · change normalFormModelEval
       ((MvPolynomial.X none - MvPolynomial.C α) * MvPolynomial.X (some α)) = 0
     simp only [normalFormModelEval, map_mul, map_sub, MvPolynomial.eval₂Hom_X',
       MvPolynomial.eval₂Hom_C, RingHom.comp_apply, TrivSqZeroExt.inlHom_apply]
     rw [← TrivSqZeroExt.inl_sub, TrivSqZeroExt.inl_mul_inr]
     apply congrArg TrivSqZeroExt.inr
     ext γ
-    show (evalPolynomialAtPoints (Polynomial.X - Polynomial.C α)) γ *
+    change (evalPolynomialAtPoints (Polynomial.X - Polynomial.C α)) γ *
       (if γ = α then (1 : ℂ) else 0) = 0
     by_cases h : γ = α <;> simp [h, evalPolynomialAtPoints]
-  · show normalFormModelEval
+  · change normalFormModelEval
       (MvPolynomial.X (some α) * MvPolynomial.X (some β)) = 0
     simp only [normalFormModelEval, map_mul, MvPolynomial.eval₂Hom_X']
     rw [TrivSqZeroExt.inr_mul_inr]
@@ -137,18 +137,18 @@ private noncomputable def normalFormModelMap : noChangeRing →+* normalFormMode
 private lemma normalFormModelMap_coeff (c : ℂ) :
     normalFormModelMap (algebraMap ℂ noChangeRing c) =
       TrivSqZeroExt.inl (Polynomial.C c) := by
-  show normalFormModelEval (MvPolynomial.C c) = _
+  change normalFormModelEval (MvPolynomial.C c) = _
   simp [normalFormModelEval]
 
 private lemma normalFormModelMap_x : normalFormModelMap x =
     TrivSqZeroExt.inl Polynomial.X := by
-  show normalFormModelEval (MvPolynomial.X none) = _
+  change normalFormModelEval (MvPolynomial.X none) = _
   simp [normalFormModelEval]
 
 private lemma normalFormModelMap_y_gen (α : ℂ) :
     normalFormModelMap (y α) =
       TrivSqZeroExt.inr (fun β => if β = α then (1 : ℂ) else 0) := by
-  show normalFormModelEval (MvPolynomial.X (some α)) = _
+  change normalFormModelEval (MvPolynomial.X (some α)) = _
   simp [normalFormModelEval]
 
 private lemma normalFormModelMap_poly (p : Polynomial ℂ) :
@@ -160,11 +160,11 @@ private lemma normalFormModelMap_poly (p : Polynomial ℂ) :
   have hfg : f = g := by
     apply Polynomial.ringHom_ext
     · intro c
-      show normalFormModelMap
+      change normalFormModelMap
         (Polynomial.eval₂ (algebraMap ℂ noChangeRing) x (Polynomial.C c)) = _
       rw [Polynomial.eval₂_C]
       exact normalFormModelMap_coeff c
-    · show normalFormModelMap
+    · change normalFormModelMap
         (Polynomial.eval₂ (algebraMap ℂ noChangeRing) x Polynomial.X) = _
       rw [Polynomial.eval₂_X]
       exact normalFormModelMap_x
@@ -177,7 +177,7 @@ private lemma normalFormModelMap_y (c α : ℂ) :
   rw [map_mul, normalFormModelMap_coeff, normalFormModelMap_y_gen, TrivSqZeroExt.inl_mul_inr]
   apply congrArg TrivSqZeroExt.inr
   ext β
-  show (evalPolynomialAtPoints (Polynomial.C c)) β *
+  change (evalPolynomialAtPoints (Polynomial.C c)) β *
     (if β = α then (1 : ℂ) else 0) = (if β = α then c else 0)
   by_cases h : β = α <;> simp [h, evalPolynomialAtPoints]
 
@@ -185,7 +185,7 @@ private lemma normalFormModelMap_nil_sum (s : ℂ →₀ ℂ) :
     normalFormModelMap (s.sum fun α c => algebraMap ℂ noChangeRing c * y α) =
       TrivSqZeroExt.inr (fun α => s α) := by
   classical
-  show normalFormModelMap
+  change normalFormModelMap
     (∑ α ∈ s.support, algebraMap ℂ noChangeRing (s α) * y α) = _
   rw [map_sum]
   apply TrivSqZeroExt.ext
@@ -288,7 +288,7 @@ private lemma normalForm_mul_x (v : Polynomial ℂ × (ℂ →₀ ℂ)) :
   have hs : (s.sum fun α c => algebraMap ℂ noChangeRing c * y α) * x =
       (xShift s).sum (fun α c => algebraMap ℂ noChangeRing c * y α) := by
     classical
-    show (∑ α ∈ s.support, algebraMap ℂ noChangeRing (s α) * y α) * x = _
+    change (∑ α ∈ s.support, algebraMap ℂ noChangeRing (s α) * y α) * x = _
     rw [Finset.sum_mul]
     rw [Finsupp.sum_of_support_subset (f := xShift s) (xShift_support_subset s)
       (fun α c => algebraMap ℂ noChangeRing c * y α) (by simp)]
@@ -322,12 +322,12 @@ private lemma exists_normalForm_for_polynomial (p : MvPolynomial (Option ℂ) �
       | none =>
           refine ⟨(v.1 * Polynomial.X, xShift v.2), ?_⟩
           rw [map_mul, hv]
-          show normalForm v * x = _
+          change normalForm v * x = _
           exact normalForm_mul_x v
       | some α =>
           refine ⟨(0, Finsupp.single α (v.1.eval α)), ?_⟩
           rw [map_mul, hv]
-          show normalForm v * y α = _
+          change normalForm v * y α = _
           exact normalForm_mul_y v α
 
 private lemma polynomial_dvd_pow_of_root_subset {p q : Polynomial ℂ}
@@ -370,19 +370,19 @@ private noncomputable def pointEval (α : ℂ) :
 
 private lemma pointEval_y (α β : ℂ) :
     pointEval α (y β) = TrivSqZeroExt.inr (if β = α then 1 else 0) := by
-  show (MvPolynomial.eval₂Hom (TrivSqZeroExt.inlHom ℂ ℂ) _)
+  change (MvPolynomial.eval₂Hom (TrivSqZeroExt.inlHom ℂ ℂ) _)
     (MvPolynomial.X (some β)) = _
   simp
 
 private lemma pointEval_x (α : ℂ) :
     pointEval α x = TrivSqZeroExt.inl α := by
-  show (MvPolynomial.eval₂Hom (TrivSqZeroExt.inlHom ℂ ℂ) _)
+  change (MvPolynomial.eval₂Hom (TrivSqZeroExt.inlHom ℂ ℂ) _)
     (MvPolynomial.X none) = _
   simp
 
 private lemma pointEval_coeff (α c : ℂ) :
     pointEval α (algebraMap ℂ noChangeRing c) = TrivSqZeroExt.inl c := by
-  show (MvPolynomial.eval₂Hom (TrivSqZeroExt.inlHom ℂ ℂ) _)
+  change (MvPolynomial.eval₂Hom (TrivSqZeroExt.inlHom ℂ ℂ) _)
     (MvPolynomial.C c) = _
   simp
 
@@ -395,7 +395,7 @@ private lemma pointEval_poly (α : ℂ) (p : Polynomial ℂ) :
     · exact congrArg TrivSqZeroExt.fst (pointEval_coeff α c)
     · exact congrArg TrivSqZeroExt.snd (pointEval_coeff α c)
   rw [Polynomial.hom_eval₂, pointEval_x, hcomp]
-  show Polynomial.eval₂ (TrivSqZeroExt.inlHom ℂ ℂ)
+  change Polynomial.eval₂ (TrivSqZeroExt.inlHom ℂ ℂ)
     ((TrivSqZeroExt.inlHom ℂ ℂ) α) p = _
   rw [Polynomial.eval₂_at_apply]
   rfl
@@ -408,7 +408,7 @@ private lemma pointEval_normalForm_fst (α : ℂ)
   unfold normalForm
   rw [map_add, TrivSqZeroExt.fst_add, pointEval_poly]
   have hs : (pointEval α (s.sum fun β c => algebraMap ℂ noChangeRing c * y β)).fst = 0 := by
-    show (pointEval α (∑ β ∈ s.support, algebraMap ℂ noChangeRing (s β) * y β)).fst = 0
+    change (pointEval α (∑ β ∈ s.support, algebraMap ℂ noChangeRing (s β) * y β)).fst = 0
     rw [map_sum, TrivSqZeroExt.fst_sum]
     simp [pointEval_coeff, pointEval_y, TrivSqZeroExt.inl_mul_inr]
   rw [hs]
@@ -612,7 +612,7 @@ private lemma nonZeroDivisors_le_units_basicOpen
     (Localization.Away f) Γ(X, U)
   let e : Localization.Away r ≃+* Γ(X, U) := eAway.trans e1.toRingEquiv
   intro s hs
-  show IsUnit s
+  change IsUnit s
   have hsreg : IsRegular s := isRegular_iff_mem_nonZeroDivisors.mpr hs
   have hreg : IsRegular (e.symm s) := isRegular_symm_ringEquiv e hsreg
   simpa using (isUnit_of_isRegular_localizationAway r (e.symm s) hreg).map e.toRingHom
@@ -636,14 +636,14 @@ private lemma totalQuotientMap_app_isIso_basicOpen
     (X.presheaf.toTotalQuotientPresheaf.app (Opposite.op U)).hom.toAlgebra
   have : IsLocalization (nonZeroDivisors Γ(X, U))
       (S.localizationPresheaf.obj (Opposite.op U)) := by
-    show @IsLocalization (Γ(X, U)) _ (nonZeroDivisors Γ(X, U))
+    change @IsLocalization (Γ(X, U)) _ (nonZeroDivisors Γ(X, U))
       (S.localizationPresheaf.obj (Opposite.op U)) _
       ((X.presheaf.toTotalQuotientPresheaf.app (Opposite.op U)).hom.toAlgebra)
     rw [← hS]
     exact hAlg.symm ▸ (inferInstance : @IsLocalization (Γ(X, U)) _
       (S.obj (Opposite.op U)) (S.localizationPresheaf.obj (Opposite.op U)) _ Astd)
   apply (ConcreteCategory.isIso_iff_bijective _).2
-  show Function.Bijective
+  change Function.Bijective
     (algebraMap Γ(X, U) (S.localizationPresheaf.obj (Opposite.op U)))
   exact (IsLocalization.atUnits Γ(X, U) (nonZeroDivisors Γ(X, U))
     (nonZeroDivisors_le_units_basicOpen f)).toEquiv.bijective
@@ -687,7 +687,7 @@ theorem isIso_toTotalQuotientSheaf :
   let : ∀ z : X, IsIso ((TopCat.Presheaf.stalkFunctor CommRingCat z).map
       ((Scheme.toTotalQuotientSheaf X).hom)) := by
     intro z
-    show IsIso ((TopCat.Presheaf.stalkFunctor CommRingCat z).map
+    change IsIso ((TopCat.Presheaf.stalkFunctor CommRingCat z).map
       (X.presheaf.toTotalQuotientPresheaf ≫
         CategoryTheory.toSheafify (Opens.grothendieckTopology X)
           X.presheaf.totalQuotientPresheaf))

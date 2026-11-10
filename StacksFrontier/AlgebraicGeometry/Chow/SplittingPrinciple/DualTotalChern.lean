@@ -95,7 +95,7 @@ theorem homPart_signScale (i : ℕ) (c : TotalChowClass C sX) :
     TotalChowClass.homComponent i (signScale c) =
       ((-1 : ℤ) ^ i) • TotalChowClass.homComponent i c :=
   ext fun p ↦ by
-    show TotalChowClass.homComponent i (signScale c) p =
+    change TotalChowClass.homComponent i (signScale c) p =
       ((-1 : ℤ) ^ i) • TotalChowClass.homComponent i c p
     rw [TotalChowClass.homComponent_apply, TotalChowClass.homComponent_apply]
     split_ifs with hp
@@ -167,12 +167,12 @@ theorem firstChernTotal_dualSheaf (L : Y.Modules)
   refine AddMonoidHom.ext fun α ↦ ?_
   by_cases hj : j = 1
   · subst hj
-    show _ = -((firstChernTotal C sY L).op g k 1 α)
+    change _ = -((firstChernTotal C sY L).op g k 1 α)
     rw [eq_of_heq (op_firstChernTotal_one_heq C sY (dualSheaf L) g k α),
       eq_of_heq (op_firstChernTotal_one_heq C sY L g k α),
       invCap_capOnChow_congr C (g ≫ sY) _ _ (dualPullbackIso g L),
       invCap_capOnChow_dualSheaf]
-  · show _ = -((firstChernTotal C sY L).op g k j α)
+  · change _ = -((firstChernTotal C sY L).op g k j α)
     rw [(isHomogeneous_firstChernTotal C sY _).op g k j hj,
       (isHomogeneous_firstChernTotal C sY L).op g k j hj]
     simp
@@ -230,7 +230,7 @@ theorem totalChern_dualSheaf_of_hasInvertibleFiltration {T : Scheme.{u}} (sT : T
   induction h with
   | nil E hE =>
       let := AlgebraicGeometry.isFiniteLocallyFreeOfRank_zero_of_isZero hE
-      show totalChern C sT (dualSheaf E) 0 = signScale (totalChern C sT E 0)
+      change totalChern C sT (dualSheaf E) 0 = signScale (totalChern C sT E 0)
       rw [totalChern_of_rank_zero, totalChern_of_rank_zero, signScale_one]
   | @step E F L r f g w hS hL hE hF ih =>
       have : AlgebraicGeometry.SheafOfModules.IsInvertible T.sheaf.obj T.ringCatSheaf.property
@@ -240,7 +240,7 @@ theorem totalChern_dualSheaf_of_hasInvertibleFiltration {T : Scheme.{u}} (sT : T
       have := (Stacks.WeilCohomology.HasInvertibleFiltration.step f g w hS hL hE
         hF).isFiniteLocallyFreeOfRank
       have ih' : totalChern C sT (dualSheaf F) r = signScale (totalChern C sT F r) := ih
-      show totalChern C sT (dualSheaf E) (r + 1) = signScale (totalChern C sT E (r + 1))
+      change totalChern C sT (dualSheaf E) (r + 1) = signScale (totalChern C sT E (r + 1))
       have hfl : ∀ (M : T.Modules) (s : ℕ)
           [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} M s],
           Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := T.ringCatSheaf) M :=
@@ -276,7 +276,8 @@ in `A^i(X)`, for every `i`, where `c_i(-)` is the degree-`i` part of the total C
 bivariant Chern class of Stacks 0B7H, and `ℰ^∨` is the dual sheaf `SheafHom(ℰ, 𝒪_X)`. -/
 @[stacks 0FA5 "constant rank: for every X locally of finite type over S, every finite locally \
 free E of rank r and every i, with no further hypothesis.  c_i(E) is the degree-i part \
-TotalChowClass.homComponent i (totalChern C sX E r) of the total Chern class in the ring TotalChowClass C sX of total \
+TotalChowClass.homComponent i (totalChern C sX E r) of the total Chern class in the ring \
+TotalChowClass C sX of total \
 Chow cohomology classes, the bivariant Chern class of Stacks 0B7H, and E^dual is the dual sheaf \
 Stacks.AlgebraicGeometry.ReflexiveModules.dualSheaf E = SheafHom(E, O_X)"]
 theorem homPart_totalChern_dualSheaf (E : X.Modules) (r : ℕ)

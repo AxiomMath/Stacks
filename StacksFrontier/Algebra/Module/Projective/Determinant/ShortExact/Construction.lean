@@ -353,7 +353,7 @@ private theorem naturality_of_detData
     congrArg (fun z : ExteriorAlgebra R K => z * qb) hmapf
   have step4 : ExteriorAlgebra.map fK (y' : ExteriorAlgebra R K') * qb = zk :=
     htopK.symm
-  show F zm = zk
+  change F zm = zk
   exact ((step1.trans step2).trans step3).trans step4
 
 set_option maxHeartbeats 100000 in

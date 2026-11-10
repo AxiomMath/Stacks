@@ -134,6 +134,7 @@ attribute [local instance] SmallEtale.isRightAdjoint_overPost_addCommGrp
 variable (B : BigEtaleSite.{u}) (X : B.Scheme)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for this right adjoint exceeds the default heartbeat budget
 /-- Pushforward of abelian sheaves along small étale base change, with coefficients in
 `AddCommGrpCat.{max (u + 1) w}`, is a right adjoint. Supplied locally because instance search
 for it exceeds the default heartbeat budget. -/
@@ -184,7 +185,7 @@ public theorem SmallEtale.isWeakSerreClass_isConstructibleAbelianSheaf :
   apply (ObjectProperty.isWeakSerreClass_iff_prop_obj₂_of_exact _).2
   refine ⟨⟨0, isConstructibleAbelianSheaf_zero' B X⟩, ?_⟩
   intro S hS h₀ h₁ h₃ h₄
-  show IsConstructibleAbelianSheaf B X (S.obj' 2)
+  change IsConstructibleAbelianSheaf B X (S.obj' 2)
   intro V
   obtain ⟨r, hr⟩ := exists_stratification_isFiniteLocallyConstant_forall B X
     (F := ![S.obj' 0, S.obj' 1, S.obj' 3, S.obj' 4])

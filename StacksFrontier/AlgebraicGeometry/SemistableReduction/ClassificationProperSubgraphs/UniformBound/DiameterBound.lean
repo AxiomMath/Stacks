@@ -163,7 +163,7 @@ private theorem e8_forward_aux (n : ℕ) :
         · have hsucc : c.val + 1 = b.val := by rw [hcval, hbval]
           have hclt : c.val < 7 := by rw [hcval]; omega
           have hblt : b.val < 7 := by rw [hbval]; omega
-          show ((c.val + 1 = b.val ∨ b.val + 1 = c.val) ∧
+          change ((c.val + 1 = b.val ∨ b.val + 1 = c.val) ∧
               c.val < 7 ∧ b.val < 7) ∨
             (c.val = 4 ∧ b.val = 7) ∨ (b.val = 4 ∧ c.val = 7)
           exact Or.inl ⟨Or.inl hsucc, hclt, hblt⟩

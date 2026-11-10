@@ -179,7 +179,7 @@ theorem lift_comp_formalPullbackDiff (G : Modules.{u, u} B S hS F hF)
     (u : T ⟶ G) (v : T ⟶ limit E)
     (h : u ≫ completionToLimit B S hS F hF 𝓘 G = v ≫ limMap α) :
     biprod.lift u v ≫ formalPullbackDiff B S hS F hF 𝓘 G α = 0 := by
-  show biprod.lift u v ≫ (biprod.fst ≫ completionToLimit B S hS F hF 𝓘 G -
+  change biprod.lift u v ≫ (biprod.fst ≫ completionToLimit B S hS F hF 𝓘 G -
       biprod.snd ≫ limMap α) = 0
   rw [Preadditive.comp_sub, ← Category.assoc, ← Category.assoc, biprod.lift_fst, biprod.lift_snd,
     h, sub_self]

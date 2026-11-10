@@ -82,7 +82,7 @@ theorem dvd_of_mem_support_of_mem_veroneseSubmodule (d : ℕ)
     have ha' : a ∈ 𝒨 (n * (d : ℤ)) := ha
     have hdn : (d : ℤ) ∣ n * (d : ℤ) := ⟨n, by ring⟩
     have hne : k ≠ n * (d : ℤ) := fun h => hk (h ▸ hdn)
-    show ((DirectSum.decompose 𝒨 a k : 𝒨 k) : M) = 0
+    change ((DirectSum.decompose 𝒨 a k : 𝒨 k) : M) = 0
     rw [DirectSum.decompose_of_mem_ne 𝒨 ha' (Ne.symm hne)]
   exact AddSubgroup.closure_le T |>.mpr hgen
     ((Stacks.Veronese.mem_veroneseSubmodule_iff 𝒜 _ d).mp hx)
@@ -143,7 +143,7 @@ theorem forall_eq_zero_of_isZero_of_lcm_dvd [IsNoetherianRing S] [Module.Finite 
     obtain ⟨q, rfl⟩ := hdn
     refine (Stacks.Veronese.mem_veroneseSubmodule_iff 𝒜 ℳ d).mpr
       (AddSubgroup.subset_closure ((Stacks.Veronese.mem_veroneseModuleSet_iff ℳ).mpr ⟨q, ?_⟩))
-    show x ∈ 𝒨 (q * (d : ℤ))
+    change x ∈ 𝒨 (q * (d : ℤ))
     rwa [mul_comm]
   have hspanS : ∀ z ∈ Stacks.Veronese.veroneseSubmodule 𝒜 ℳ d,
       z ∈ Submodule.span S (Set.range y) := by

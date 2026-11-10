@@ -52,8 +52,7 @@ theorem ringKrullDim_tensorProduct_le_one {R S : Type*} [CommRing R] [CommRing S
   let c' : A := ⟨c, Algebra.self_mem_adjoin_singleton K c⟩
   have hint : Algebra.IsIntegral A (K ⊗[R] S) := by
     refine ⟨fun t => ?_⟩
-    induction t using TensorProduct.induction_on with
-    | zero => exact isIntegral_zero
+    induction t using TensorProduct.inductionOn with
     | tmul x s =>
       have h1 : IsIntegral A ((1 : K) ⊗ₜ[R] s) := by
         obtain ⟨F, hFm, hF⟩ := hb s
@@ -79,7 +78,7 @@ theorem ringKrullDim_tensorProduct_le_one {R S : Type*} [CommRing R] [CommRing S
     | add _ _ h₁ h₂ => exact h₁.add h₂
   have h1 : ringKrullDim (K ⊗[R] S) ≤ ringKrullDim A :=
     Order.krullDim_le_of_strictMono (PrimeSpectrum.comap (algebraMap A (K ⊗[R] S)))
-      fun _ _ h ↦ Ideal.IsIntegral.comap_lt_comap h
+      fun _ _ h ↦ Ideal.IsIntegral.under_lt_under h
   have hsurj : Function.Surjective (Polynomial.aeval (R := K) c') := by
     rintro ⟨t, ht⟩
     have ht' : t ∈ (Polynomial.aeval (R := K) c).range := by
@@ -197,7 +196,7 @@ theorem exists_dense_isOpenImmersion_fiber_le_one {k : Type u} [Field k] {X : Sc
     refine (IsHomeomorph.topologicalKrullDim_eq _
       (Arrow.leftFunc.mapIso e).hom.homeomorph.isHomeomorph).le.trans ?_
     have := y.isPrime
-    show topologicalKrullDim (PrimeSpectrum (y.asIdeal.Fiber A)) ≤ 1
+    change topologicalKrullDim (PrimeSpectrum (y.asIdeal.Fiber A)) ≤ 1
     rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim]
     exact Stacks.NoetherFibration.ringKrullDim_tensorProduct_le_one b hb _
 

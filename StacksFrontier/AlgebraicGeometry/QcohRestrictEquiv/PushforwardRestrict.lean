@@ -200,7 +200,7 @@ public instance isIso_pushRestrict_app (M : SheafOfModules.{u} X.ringCatSheaf) :
 
 /-- **The square of direct images in the restriction direction is invertible**: direct image
 commutes with restriction to an open of the base and its preimage. -/
-public instance isIso_pushRestrict : IsIso (pushRestrict f V).natTrans := by
+public instance isIso_pushRestrict : IsIso (pushRestrict f V) := by
   rw [NatTrans.isIso_iff_isIso_app]
   exact fun _ => isIso_pushRestrict_app f V _
 

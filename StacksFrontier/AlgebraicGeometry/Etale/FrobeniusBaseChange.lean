@@ -86,7 +86,7 @@ theorem specMap_frobeniusOfNatCastEqZero (A : Type u) [CommRing A] (p : ℕ) [Fa
       absoluteFrobenius (Spec (.of A)) p (isInCharacteristic_spec A p hp0) := by
   refine (specMap_eq_absoluteFrobeniusPow _ p 1 (isInCharacteristic_spec A p hp0)
     (fun a => by simp)).trans ?_
-  show End.asHom ((End.of (absoluteFrobenius (Spec (.of A)) p _)) ^ 1) = _
+  change End.asHom ((End.of (absoluteFrobenius (Spec (.of A)) p _)) ^ 1) = _
   rw [pow_one]
 
 /-- The absolute Frobenius of a scheme over `Spec A` lies over the spectrum of the Frobenius

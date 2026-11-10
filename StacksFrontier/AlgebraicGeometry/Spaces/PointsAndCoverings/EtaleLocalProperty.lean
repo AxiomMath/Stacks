@@ -69,7 +69,7 @@ private theorem property_of_etale_map {P : ObjectProperty Scheme.{u}}
   let Z : Bool → Scheme.{u} := fun | true => X | false => Y
   let g : ∀ i, Z i ⟶ Y := fun | true => f | false => 𝟙 Y
   have hcover : Presieve.ofArrows Z g ∈ Scheme.etalePrecoverage Y := by
-    show Presieve.ofArrows Z g ∈ Scheme.precoverage (fun X Y f => Etale f) Y
+    change Presieve.ofArrows Z g ∈ Scheme.precoverage (fun X Y f => Etale f) Y
     rw [Scheme.ofArrows_mem_precoverage_iff (P := fun X Y f => Etale f)]
     refine ⟨fun y => ⟨false, y, rfl⟩, ?_⟩
     rintro (_ | _)
@@ -83,7 +83,7 @@ private theorem property_of_surjective_etale_map {P : ObjectProperty Scheme.{u}}
     [P.IsLocal Scheme.etalePrecoverage] {X Y : Scheme.{u}}
     (f : X ⟶ Y) (hs : Surjective f) (he : Etale f) (hX : P X) : P Y := by
   have hcover : Presieve.singleton f ∈ Scheme.etalePrecoverage Y := by
-    show Presieve.singleton f ∈ Scheme.precoverage (fun X Y f => Etale f) Y
+    change Presieve.singleton f ∈ Scheme.precoverage (fun X Y f => Etale f) Y
     rw [Scheme.singleton_mem_precoverage_iff (P := fun X Y f => Etale f)]
     exact ⟨hs.surj, he⟩
   apply ObjectProperty.of_presieve (P := P) hcover

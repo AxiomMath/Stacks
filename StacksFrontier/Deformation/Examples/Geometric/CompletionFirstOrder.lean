@@ -143,7 +143,7 @@ private theorem exists_homAdicCompletionEquiv (I : Ideal A) :
     simp [AdicCompletion.congr, AdicCompletion.map_of]
   rw [h2]
   congr 1
-  show eN (eN.symm (f (eM (eM.symm m)))) = f m
+  change eN (eN.symm (f (eM (eM.symm m)))) = f m
   rw [LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
 
 /-- Every `A`-linear map into the completion of `N` agrees, to any prescribed `I`-adic order,
@@ -160,7 +160,7 @@ private theorem exists_sub_mem_pow_smul_top {I : Ideal A} (hI : I.FG) (n : ℕ)
   have hker : c - AdicCompletion.of I (M →ₗ[A] N) f ∈
       I ^ n • (⊤ : Submodule A (AdicCompletion I (M →ₗ[A] N))) := by
     rw [AdicCompletion.pow_smul_top_eq_ker_eval hI]
-    show AdicCompletion.eval I (M →ₗ[A] N) n (c - AdicCompletion.of I (M →ₗ[A] N) f) = 0
+    change AdicCompletion.eval I (M →ₗ[A] N) n (c - AdicCompletion.of I (M →ₗ[A] N) f) = 0
     rw [map_sub, AdicCompletion.eval_of, ← hf, Submodule.mkQ_apply, sub_self]
   have hmem := Submodule.smul_top_le_comap_smul_top (I ^ n) e.toLinearMap hker
   rwa [Submodule.mem_comap, LinearEquiv.coe_coe, map_sub, hc, he f] at hmem
@@ -372,11 +372,11 @@ private theorem isomorphic_split_of_section
   let f : P.B' →ₐ[A] Y.B' :=
     { toFun := fun z => s (TrivSqZeroExt.fst z) + incl (TrivSqZeroExt.snd z)
       map_one' := by
-        show s (TrivSqZeroExt.fst (1 : P.B')) + incl (TrivSqZeroExt.snd (1 : P.B')) = 1
+        change s (TrivSqZeroExt.fst (1 : P.B')) + incl (TrivSqZeroExt.snd (1 : P.B')) = 1
         rw [show TrivSqZeroExt.fst (1 : P.B') = 1 from rfl,
           show TrivSqZeroExt.snd (1 : P.B') = (0 : M) from rfl, hz, map_one, add_zero]
       map_mul' := fun z w => by
-        show s (TrivSqZeroExt.fst (z * w)) + incl (TrivSqZeroExt.snd (z * w))
+        change s (TrivSqZeroExt.fst (z * w)) + incl (TrivSqZeroExt.snd (z * w))
           = (s (TrivSqZeroExt.fst z) + incl (TrivSqZeroExt.snd z)) *
             (s (TrivSqZeroExt.fst w) + incl (TrivSqZeroExt.snd w))
         have key : (s (TrivSqZeroExt.fst z) + incl (TrivSqZeroExt.snd z)) *
@@ -393,11 +393,11 @@ private theorem isomorphic_split_of_section
                 + TrivSqZeroExt.fst w • TrivSqZeroExt.snd z from rfl,
           map_mul, ha, hsm, hsm, key]
       map_zero' := by
-        show s (TrivSqZeroExt.fst (0 : P.B')) + incl (TrivSqZeroExt.snd (0 : P.B')) = 0
+        change s (TrivSqZeroExt.fst (0 : P.B')) + incl (TrivSqZeroExt.snd (0 : P.B')) = 0
         rw [show TrivSqZeroExt.fst (0 : P.B') = (0 : C) from rfl,
           show TrivSqZeroExt.snd (0 : P.B') = (0 : M) from rfl, hz, map_zero, add_zero]
       map_add' := fun z w => by
-        show s (TrivSqZeroExt.fst (z + w)) + incl (TrivSqZeroExt.snd (z + w))
+        change s (TrivSqZeroExt.fst (z + w)) + incl (TrivSqZeroExt.snd (z + w))
           = (s (TrivSqZeroExt.fst z) + incl (TrivSqZeroExt.snd z)) +
             (s (TrivSqZeroExt.fst w) + incl (TrivSqZeroExt.snd w))
         rw [show TrivSqZeroExt.fst (z + w)
@@ -406,19 +406,19 @@ private theorem isomorphic_split_of_section
               = TrivSqZeroExt.snd z + TrivSqZeroExt.snd w from rfl, map_add, ha]
         ring
       commutes' := fun a => by
-        show s (TrivSqZeroExt.fst (algebraMap A P.B' a))
+        change s (TrivSqZeroExt.fst (algebraMap A P.B' a))
             + incl (TrivSqZeroExt.snd (algebraMap A P.B' a)) = algebraMap A Y.B' a
         rw [show TrivSqZeroExt.fst (algebraMap A P.B' a) = algebraMap A C a from rfl,
           show TrivSqZeroExt.snd (algebraMap A P.B' a) = (0 : M) from rfl, hz, add_zero,
           AlgHom.commutes] }
   refine isomorphic_of_compatibleAlgHom P Y f ?_ ?_
   · refine AlgHom.ext fun z => ?_
-    show Y.toB (s (TrivSqZeroExt.fst z) + incl (TrivSqZeroExt.snd z)) = P.toB z
+    change Y.toB (s (TrivSqZeroExt.fst z) + incl (TrivSqZeroExt.snd z)) = P.toB z
     rw [map_add, hs, hk]
     exact add_zero _
   · intro n
     refine Eq.trans ?_ (rfl : incl n = (Y.kernelEquiv n : Y.B'))
-    show s (0 : C) + incl n = incl n
+    change s (0 : C) + incl n = incl n
     rw [map_zero, zero_add]
 
 
@@ -551,7 +551,7 @@ public theorem injective_naiveCotangentExtOneTowerMap_adicCompletion
       (J.map (algebraMap B (AdicCompletion J B))).comap Y.toB.toRingHom := by
     rw [Ideal.map_le_iff_le_comap]
     intro j hj
-    show Y.toB (σ j) ∈ J.map (algebraMap B (AdicCompletion J B))
+    change Y.toB (σ j) ∈ J.map (algebraMap B (AdicCompletion J B))
     rw [hσ]
     exact Ideal.mem_map_of_mem _ hj
   obtain ⟨σ', hσ'⟩ := exists_algHom_adicCompletion_of_map_le J
@@ -570,7 +570,7 @@ public theorem injective_naiveCotangentExtOneTowerMap_adicCompletion
     refine AdicCompletion.algHom_ext_of_of k J (IsNoetherian.noetherian J) J
       (AlgHom.id k B) hid _ _ ?_ ?_
     · intro p
-      show Y.toB (σ' (AdicCompletion.of J B p)) = AdicCompletion.of J B p
+      change Y.toB (σ' (AdicCompletion.of J B p)) = AdicCompletion.of J B p
       rw [hofalg, hσ' p, hσ p]
     · intro p
       rfl

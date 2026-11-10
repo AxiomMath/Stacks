@@ -47,7 +47,7 @@ private theorem isOpen_annihilator_localization
     IsOpen {q : PrimeSpectrum A |
       J ≤ Module.annihilator A (LocalizedModule q.asIdeal.primeCompl M)} := by
   simp_rw [annihilator_localization_iff_notMem_support_smul]
-  show IsOpen (Module.support A ↥(J • (⊤ : Submodule A M)))ᶜ
+  change IsOpen (Module.support A ↥(J • (⊤ : Submodule A M)))ᶜ
   rw [Module.support_eq_zeroLocus]
   exact (PrimeSpectrum.isClosed_zeroLocus _).isOpen_compl
 
@@ -140,11 +140,11 @@ theorem exists_annihilator_localization_iff
     have hc : PrimeSpectrum.comap (algebraMap A B) p' = p := PrimeSpectrum.ext he
     have hp'N : p' ∈ Module.support B N := by
       rw [hbase.support_eq_preimage_comap]
-      show PrimeSpectrum.comap (algebraMap A B) p' ∈ Module.support A M
+      change PrimeSpectrum.comap (algebraMap A B) p' ∈ Module.support A M
       rw [hc]
       exact hpM
     apply hJ
-    show J ≤ p.asIdeal
+    change J ≤ p.asIdeal
     intro a ha
     rw [← he]
     apply Module.annihilator_le_of_mem_support hp'N

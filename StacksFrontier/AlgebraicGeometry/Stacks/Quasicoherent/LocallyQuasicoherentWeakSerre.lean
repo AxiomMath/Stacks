@@ -254,6 +254,13 @@ theorem isLocallyQuasicoherent_of_isZero
     SheafOfModules.IsQuasicoherentOnSite.of_isZero
       ((restrictModuleToSmallEtaleSheafFunctor B E h S hS p hp x).map_isZero hM)
 
+/-- The category `LQCoh(𝒪_𝒳)` of **Stacks 06WJ** is the full subcategory cut out by the object
+property `AlgebraicGeometry.Stack.locallyQuasicoherent`. -/
+theorem locallyQuasicoherentModules_eq :
+    locallyQuasicoherentModules.{u, v, w, u} B E h S hS p hp =
+      (locallyQuasicoherent B E h S hS p hp).FullSubcategory :=
+  rfl
+
 section WeakSerre
 
 variable [HasSheafify (associatedTopology B S hS p (etaleTopology B)) AddCommGrpCat.{u}]
@@ -279,7 +286,7 @@ instance isClosedUnderKernels_locallyQuasicoherent :
   kernels_le := by
     rintro _ ⟨f, k, hk, hM, hN⟩
     refine (isLocallyQuasicoherent_iff_restrictModule B E h S hS p hp _).2 fun x => ?_
-    haveI := preservesFiniteLimits_restrictModuleToSmallEtaleSheafFunctor B E h S hS p hp x
+    have := preservesFiniteLimits_restrictModuleToSmallEtaleSheafFunctor B E h S hS p hp x
     exact (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u} _).prop_of_isLimit_kernelFork
       (k.mapIsLimit hk (restrictModuleToSmallEtaleSheafFunctor B E h S hS p hp x))
       ((isLocallyQuasicoherent_iff_restrictModule B E h S hS p hp _).1 hM x)
@@ -297,7 +304,7 @@ instance isClosedUnderCokernels_locallyQuasicoherent :
   cokernels_le := by
     rintro _ ⟨f, k, hk, hM, hN⟩
     refine (isLocallyQuasicoherent_iff_restrictModule B E h S hS p hp _).2 fun x => ?_
-    haveI := preservesFiniteColimits_restrictModuleToSmallEtaleSheafFunctor B E h S hS p hp x
+    have := preservesFiniteColimits_restrictModuleToSmallEtaleSheafFunctor B E h S hS p hp x
     exact (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u} _)
       |>.prop_of_isColimit_cokernelCofork
       (k.mapIsColimit hk (restrictModuleToSmallEtaleSheafFunctor B E h S hS p hp x))
@@ -314,10 +321,10 @@ instance isClosedUnderExtensions_locallyQuasicoherent :
     (locallyQuasicoherent B E h S hS p hp).IsClosedUnderExtensions where
   prop_X₂_of_shortExact {T} hT h₁ h₃ := by
     refine (isLocallyQuasicoherent_iff_restrictModule B E h S hS p hp _).2 fun x => ?_
-    haveI := preservesFiniteLimits_restrictModuleToSmallEtaleSheafFunctor B E h S hS p hp x
-    haveI := preservesFiniteColimits_restrictModuleToSmallEtaleSheafFunctor B E h S hS p hp x
-    haveI := hT.mono_f
-    haveI := hT.epi_g
+    have := preservesFiniteLimits_restrictModuleToSmallEtaleSheafFunctor B E h S hS p hp x
+    have := preservesFiniteColimits_restrictModuleToSmallEtaleSheafFunctor B E h S hS p hp x
+    have := hT.mono_f
+    have := hT.epi_g
     exact (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u} _).prop_X₂_of_shortExact
       (hT.map (restrictModuleToSmallEtaleSheafFunctor B E h S hS p hp x))
       ((isLocallyQuasicoherent_iff_restrictModule B E h S hS p hp _).1 h₁ x)
@@ -329,13 +336,6 @@ instance isWeakSerreClass_locallyQuasicoherent :
     (locallyQuasicoherent B E h S hS p hp).IsWeakSerreClass where
 
 /-! ### Stacks 06WM, parts (2) and (3) -/
-
-/-- The category `LQCoh(𝒪_𝒳)` of **Stacks 06WJ** is the full subcategory cut out by the object
-property `AlgebraicGeometry.Stack.locallyQuasicoherent`. -/
-theorem locallyQuasicoherentModules_eq :
-    locallyQuasicoherentModules.{u, v, w, u} B E h S hS p hp =
-      (locallyQuasicoherent B E h S hS p hp).FullSubcategory :=
-  rfl
 
 /-- `LQCoh(𝒪_𝒳)` is abelian with exact inclusion.  The category `LQCoh(𝒪_𝒳)` of locally
 quasi-coherent sheaves of modules is abelian, and its inclusion into `Mod(𝒳_ét, 𝒪_𝒳)` is exact;

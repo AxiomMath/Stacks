@@ -289,12 +289,12 @@ theorem tensorAlgebraTotalLift_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y)
       (tensorAlgebraTotalLift F D lam Y).comp
         (TensorAlgebra.mapₛₗ ((O ⋙ forget₂ _ RingCat).map f).hom (F.restrictₛₗ f)) := by
     refine TensorAlgebra.ringHom_ext (fun r => ?_) (fun m => ?_)
-    · show D.totalRestrict f (tensorAlgebraTotalLift F D lam X (algebraMap _ _ r)) =
+    · change D.totalRestrict f (tensorAlgebraTotalLift F D lam X (algebraMap _ _ r)) =
         tensorAlgebraTotalLift F D lam Y (TensorAlgebra.mapₛₗ _ (F.restrictₛₗ f)
           (algebraMap _ _ r))
       rw [tensorAlgebraTotalLift_algebraMap, TensorAlgebra.mapₛₗ_algebraMap,
         tensorAlgebraTotalLift_algebraMap, D.structureMap_naturality]
-    · show D.totalRestrict f (tensorAlgebraTotalLift F D lam X (TensorAlgebra.ι _ m)) =
+    · change D.totalRestrict f (tensorAlgebraTotalLift F D lam X (TensorAlgebra.ι _ m)) =
         tensorAlgebraTotalLift F D lam Y (TensorAlgebra.mapₛₗ _ (F.restrictₛₗ f)
           (TensorAlgebra.ι _ m))
       rw [tensorAlgebraTotalLift_ι, TensorAlgebra.mapₛₗ_ι, tensorAlgebraTotalLift_ι,
@@ -386,7 +386,7 @@ theorem tensorAlgebraDesc_gen (X : Cᵒᵖ) (m : F.obj X) :
         (PresheafOfModules.Hom.app (tensorAlgebraGen F) X m) =
       PresheafOfModules.Hom.app lam X m := by
   refine D.incl_injective 1 X ?_
-  show D.incl 1 (PresheafOfModules.Hom.app (tensorAlgebraDescApp F D lam 1) X _) = _
+  change D.incl 1 (PresheafOfModules.Hom.app (tensorAlgebraDescApp F D lam 1) X _) = _
   rw [incl_tensorAlgebraDescApp, tensorAlgebraPieceVal_gen, tensorAlgebraTotalLift_ι]
 
 /-- Degree-zero case of the uniqueness argument shared by the three sectionwise algebras: degree
@@ -622,12 +622,12 @@ theorem exteriorAlgebraTotalLift_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y)
       (exteriorAlgebraTotalLift F D lam hsq Y).comp
         (ExteriorAlgebra.mapₛₗ ((O ⋙ forget₂ _ RingCat).map f).hom (F.restrictₛₗ f)) := by
     refine ExteriorAlgebra.ringHom_ext (fun r => ?_) (fun m => ?_)
-    · show D.totalRestrict f (exteriorAlgebraTotalLift F D lam hsq X (algebraMap _ _ r)) =
+    · change D.totalRestrict f (exteriorAlgebraTotalLift F D lam hsq X (algebraMap _ _ r)) =
         exteriorAlgebraTotalLift F D lam hsq Y (ExteriorAlgebra.mapₛₗ _ (F.restrictₛₗ f)
           (algebraMap _ _ r))
       rw [exteriorAlgebraTotalLift_algebraMap, ExteriorAlgebra.mapₛₗ_algebraMap,
         exteriorAlgebraTotalLift_algebraMap, D.structureMap_naturality]
-    · show D.totalRestrict f (exteriorAlgebraTotalLift F D lam hsq X (ExteriorAlgebra.ι _ m)) =
+    · change D.totalRestrict f (exteriorAlgebraTotalLift F D lam hsq X (ExteriorAlgebra.ι _ m)) =
         exteriorAlgebraTotalLift F D lam hsq Y (ExteriorAlgebra.mapₛₗ _ (F.restrictₛₗ f)
           (ExteriorAlgebra.ι _ m))
       rw [exteriorAlgebraTotalLift_ι, ExteriorAlgebra.mapₛₗ_ι, exteriorAlgebraTotalLift_ι,
@@ -707,7 +707,7 @@ theorem exteriorAlgebraDesc_gen (X : Cᵒᵖ) (m : F.obj X) :
         (PresheafOfModules.Hom.app (exteriorAlgebraGen F) X m) =
       PresheafOfModules.Hom.app lam X m := by
   refine D.incl_injective 1 X ?_
-  show D.incl 1 (PresheafOfModules.Hom.app (exteriorAlgebraDescApp F D lam hsq 1) X _) = _
+  change D.incl 1 (PresheafOfModules.Hom.app (exteriorAlgebraDescApp F D lam hsq 1) X _) = _
   rw [incl_exteriorAlgebraDescApp, exteriorAlgebraPieceVal_gen, exteriorAlgebraTotalLift_ι]
 
 variable (g : Stacks.GradedAlgebra.UnitalHom (exteriorAlgebraGradedAlgebra F) D)
@@ -874,12 +874,12 @@ theorem symmetricAlgebraTotalLift_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y)
       (symmetricAlgebraTotalLift F D lam hcomm Y).comp
         (SymmetricAlgebra.mapₛₗ ((O ⋙ forget₂ _ RingCat).map f).hom (F.restrictₛₗ f)) := by
     refine SymmetricAlgebra.ringHom_ext (fun r => ?_) (fun m => ?_)
-    · show D.totalRestrict f (symmetricAlgebraTotalLift F D lam hcomm X (algebraMap _ _ r)) =
+    · change D.totalRestrict f (symmetricAlgebraTotalLift F D lam hcomm X (algebraMap _ _ r)) =
         symmetricAlgebraTotalLift F D lam hcomm Y (SymmetricAlgebra.mapₛₗ _ (F.restrictₛₗ f)
           (algebraMap _ _ r))
       rw [symmetricAlgebraTotalLift_algebraMap, SymmetricAlgebra.mapₛₗ_algebraMap,
         symmetricAlgebraTotalLift_algebraMap, D.structureMap_naturality]
-    · show D.totalRestrict f
+    · change D.totalRestrict f
           (symmetricAlgebraTotalLift F D lam hcomm X (SymmetricAlgebra.ι _ _ m)) =
         symmetricAlgebraTotalLift F D lam hcomm Y (SymmetricAlgebra.mapₛₗ _ (F.restrictₛₗ f)
           (SymmetricAlgebra.ι _ _ m))
@@ -960,7 +960,7 @@ theorem symmetricAlgebraDesc_gen (X : Cᵒᵖ) (m : F.obj X) :
         (PresheafOfModules.Hom.app (symPowIntGen F) X m) =
       PresheafOfModules.Hom.app lam X m := by
   refine D.incl_injective 1 X ?_
-  show D.incl 1
+  change D.incl 1
     (PresheafOfModules.Hom.app (symmetricAlgebraDescApp F D lam hcomm 1) X _) = _
   rw [incl_symmetricAlgebraDescApp, symPowIntVal_gen,
     symmetricAlgebraTotalLift_ι]

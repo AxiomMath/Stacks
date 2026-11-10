@@ -116,13 +116,13 @@ theorem pullbackToResidueField_surjective_of_surjective (f₁ : A₁ ⟶ A) (f�
     obtain ⟨a₁, ha₁⟩ := h₁ (f₂.hom a₂)
     refine ⟨⟨(a₁, a₂), ha₁⟩, ?_⟩
     rw [pullbackToResidueField_apply_snd]
-    show A₂.residueEquiv (residue A₂ a₂) = y
+    change A₂.residueEquiv (residue A₂ a₂) = y
     rw [ha₂, A₂.residueEquiv.apply_symm_apply]
   · obtain ⟨a₁, ha₁⟩ := residue_surjective (A₁.residueEquiv.symm y)
     obtain ⟨a₂, ha₂⟩ := h₂ (f₁.hom a₁)
     refine ⟨⟨(a₁, a₂), ha₂.symm⟩, ?_⟩
     rw [pullbackToResidueField_apply_fst]
-    show A₁.residueEquiv (residue A₁ a₁) = y
+    change A₁.residueEquiv (residue A₁ a₁) = y
     rw [ha₁, A₁.residueEquiv.apply_symm_apply]
 
 /-- If either morphism in `𝒞_Λ` is surjective, its ring-theoretic fibre product is Artinian. -/
@@ -174,7 +174,7 @@ private theorem isFiniteLength_of_moduleFinite (Λ : Type u) (k : Type w) [CommR
   let f : @LinearMap Λ Λ _ _ (RingHom.id Λ) B B _ _ old comp :=
     @LinearMap.mk Λ Λ _ _ (RingHom.id Λ) B B _ _ old comp (AddHom.id B) (by
       intro r x
-      show old.toSMul.smul r x = comp.toSMul.smul r x
+      change old.toSMul.smul r x = comp.toSMul.smul r x
       exact Algebra.smul_def r x)
   exact @IsFiniteLength.of_injective Λ _ B B _ old _ comp f hcomp fun _ _ h ↦ by
     simpa [f] using h
@@ -215,7 +215,7 @@ theorem maximalIdeal_pullback (f₁ : A₁ ⟶ A) (f₂ : A₂ ⟶ A) :
     AlgHom.isLocalRing_pullback f₁.hom f₂.hom
   ext x
   rw [mem_maximalIdeal]
-  show (¬ IsUnit x) ↔ x.1.1 ∈ maximalIdeal A₁ ∧ x.1.2 ∈ maximalIdeal A₂
+  change (¬ IsUnit x) ↔ x.1.1 ∈ maximalIdeal A₁ ∧ x.1.2 ∈ maximalIdeal A₂
   rw [AlgHom.isUnit_pullback_mk_iff f₁.hom f₂.hom x.property]
   simp only [not_and_or, mem_maximalIdeal]
   have hx : f₁.hom x.1.1 = f₂.hom x.1.2 := x.property
@@ -236,7 +236,7 @@ theorem ker_pullbackToResidueField (f₁ : A₁ ⟶ A) (f₂ : A₂ ⟶ A) :
         (AlgHom.pullback f₁.hom f₂.hom).val.toRingHom =
       RingHom.ker (pullbackToResidueField f₁ f₂) := by
   ext x
-  show (x.1.1 ∈ maximalIdeal A₁ ∧ x.1.2 ∈ maximalIdeal A₂) ↔
+  change (x.1.1 ∈ maximalIdeal A₁ ∧ x.1.2 ∈ maximalIdeal A₂) ↔
     pullbackToResidueField f₁ f₂ x = 0
   rw [← residue_eq_zero_iff (R := A₁), ← residue_eq_zero_iff (R := A₂),
     pullbackToResidueField_apply_fst, map_eq_zero_iff _ A₁.residueEquiv.injective]
@@ -295,7 +295,7 @@ theorem pullback_has_fixed_residueField_iff (f₁ : A₁ ⟶ A) (f₂ : A₂ ⟶
       { er with
         commutes' := by
           intro r
-          show q (algebraMap Λ (ResidueField (AlgHom.pullback f₁.hom f₂.hom)) r) = _
+          change q (algebraMap Λ (ResidueField (AlgHom.pullback f₁.hom f₂.hom)) r) = _
           rw [show algebraMap Λ (ResidueField (AlgHom.pullback f₁.hom f₂.hom)) r =
               residue (AlgHom.pullback f₁.hom f₂.hom)
                 (algebraMap Λ (AlgHom.pullback f₁.hom f₂.hom) r) from rfl,
@@ -391,7 +391,7 @@ theorem isConcretePullback_of_pullbackToResidueField_surjective
   let p₁ : P ⟶ A₁ :=
     { hom := AlgHom.pullbackFst f₁.hom f₂.hom
       isLocal := by
-        show IsLocalHom (RingHom.pullbackFst f₁.hom.toRingHom f₂.hom.toRingHom)
+        change IsLocalHom (RingHom.pullbackFst f₁.hom.toRingHom f₂.hom.toRingHom)
         infer_instance
       residue_comm x :=
         (pullbackToResidueField_apply_fst f₁ f₂ x).symm.trans (DFunLike.congr_fun he x).symm }
@@ -399,7 +399,7 @@ theorem isConcretePullback_of_pullbackToResidueField_surjective
   let p₂ : P ⟶ A₂ :=
     { hom := AlgHom.pullbackSnd f₁.hom f₂.hom
       isLocal := by
-        show IsLocalHom (RingHom.pullbackSnd f₁.hom.toRingHom f₂.hom.toRingHom)
+        change IsLocalHom (RingHom.pullbackSnd f₁.hom.toRingHom f₂.hom.toRingHom)
         infer_instance
       residue_comm x :=
         (pullbackToResidueField_apply_snd f₁ f₂ x).symm.trans (DFunLike.congr_fun he x).symm }
@@ -411,7 +411,7 @@ theorem isConcretePullback_of_pullbackToResidueField_surjective
       let g : s.pt →ₐ[Λ] R :=
         AlgHom.codRestrict (AlgHom.prod s.fst.hom s.snd.hom) R (by
           intro x
-          show f₁.hom (s.fst.hom x) = f₂.hom (s.snd.hom x)
+          change f₁.hom (s.fst.hom x) = f₂.hom (s.snd.hom x)
           exact congrArg (fun q : s.pt ⟶ A ↦ q.hom x) s.condition)
       exact
         { hom := g

@@ -108,7 +108,7 @@ theorem C1573.isBlowupAlong_comp_of_centreSheaf {T V : BigFppfOver B S hS}
   have hZT : (preimageClosedSubspace (schemeSpaceMap t) Z).1 =
       subschemePoints B S hS
         (Subobject.mk (J.comap ((BigFppfOver.toScheme B S hS).map t)).subschemeι) := by
-    show Z.1.preimage (yoneda.map t) = _
+    change Z.1.preimage (yoneda.map t) = _
     rw [hZ]
     exact preimage_subschemePoints_comap t J
   obtain ⟨W₁, p₁, e₁, he₁, hb₁⟩ :=

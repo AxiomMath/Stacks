@@ -152,7 +152,7 @@ theorem bijective_classMapGermMap_constantSheaf
         hn0).ne' (Nat.div_dvd_of_dvd hn)
       rwa [Nat.div_div_self hn (NeZero.ne N)] at h
     rw [ConcreteCategory.isIso_iff_bijective]
-    show Function.Bijective (classMapGermMap g q N s (Scheme.pointSmallEtale x) v κ hζ
+    change Function.Bijective (classMapGermMap g q N s (Scheme.pointSmallEtale x) v κ hζ
       ((constantSheaf U.smallEtaleTopology (ModuleCat.{u + 1} (ZMod N))).obj
         ((zmodRestrict.{u, 0} (N / n) n N hℓ).obj
           (ModuleCat.of (ZMod n) (ULift.{u + 1} (ZMod n))))))

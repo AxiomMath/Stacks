@@ -135,7 +135,7 @@ private lemma isIso_mapHomotopyCategoryPlusIdComparison_app
     CategoryTheory.Quotient.natIsoLift _
       (Functor.isoWhiskerRight (Functor.mapHomologicalComplexIdIso A (ComplexShape.up ℤ))
         (HomotopyCategory.quotient A (ComplexShape.up ℤ)))
-  show IsIso (e.inv.app K.obj)
+  change IsIso (e.inv.app K.obj)
   infer_instance
 
 /-- **The degreewise change-of-topology unit is invertible on a single sheaf of `𝒜'_X`.** The
@@ -172,7 +172,7 @@ theorem isIso_abelianComparisonHomotopyUnit_single (S : CohomologyComparison C) 
       ((abelianComparisonHomotopyUnit S X).app
         ((HomotopyCategory.Plus.singleFunctor _ 0).obj M))) from
     isIso_of_reflects_iso _ (HomotopyCategory.Plus.ι _)
-  show IsIso ((HomotopyCategory.quotient
+  change IsIso ((HomotopyCategory.quotient
     (AbelianSheaves S.coarseCoverage.toGrothendieck X) (ComplexShape.up ℤ)).map
     ((NatTrans.mapHomologicalComplex η (ComplexShape.up ℤ)).app K))
   infer_instance
@@ -233,7 +233,7 @@ theorem isIso_homology_derivedComparisonUnit_single (S : CohomologyComparison C)
     (NatTrans.isIso_app_iff_of_iso
       (Functor.whiskerRight push.rightDerivedFunctorPlusUnith
         (DerivedCategory.Plus.homologyFunctor _ i)) (mapHomotopySingleIso pull M 0)).2 hunit
-  show IsIso ((Functor.whiskerRight (derivedComparisonUnit S X)
+  change IsIso ((Functor.whiskerRight (derivedComparisonUnit S X)
     (DerivedCategory.Plus.homologyFunctor _ i)).app
     ((DerivedCategory.Plus.singleFunctor _ 0).obj M))
   rw [NatTrans.isIso_app_iff_of_iso
@@ -241,7 +241,7 @@ theorem isIso_homology_derivedComparisonUnit_single (S : CohomologyComparison C)
       (DerivedCategory.Plus.homologyFunctor _ i))
     ((Functor.singleFunctorPlusIsoCompQh 0).app M)]
   have eqn := NatTrans.congr_app (derivedComparisonUnit_fac S X) H
-  show IsIso ((DerivedCategory.Plus.homologyFunctor _ i).map
+  change IsIso ((DerivedCategory.Plus.homologyFunctor _ i).map
     ((derivedComparisonUnit S X).app (DerivedCategory.Plus.Qh.obj H)))
   change (derivedComparisonUnit S X).app (DerivedCategory.Plus.Qh.obj H) = _ at eqn
   rw [eqn]
@@ -270,13 +270,13 @@ theorem isIso_homology_derivedComparisonUnit_single_shift (S : CohomologyCompari
         (AbelianSheaves S.coarseCoverage.toGrothendieck X) 0).shiftIso (-a) i (i - a)
           (by omega))
       (α.app K)).2 hzero
-  show IsIso ((Functor.whiskerRight α (DerivedCategory.Plus.homologyFunctor _ i)).app
+  change IsIso ((Functor.whiskerRight α (DerivedCategory.Plus.homologyFunctor _ i)).app
     ((DerivedCategory.Plus.singleFunctor _ a).obj M))
   rw [← NatTrans.isIso_app_iff_of_iso
     (Functor.whiskerRight α (DerivedCategory.Plus.homologyFunctor _ i))
     (((DerivedCategory.Plus.singleFunctors
       (AbelianSheaves S.coarseCoverage.toGrothendieck X)).shiftIso (-a) a 0 (by simp)).app M)]
-  show IsIso ((DerivedCategory.Plus.homologyFunctor _ i).map (α.app (K⟦-a⟧)))
+  change IsIso ((DerivedCategory.Plus.homologyFunctor _ i).map (α.app (K⟦-a⟧)))
   rw [NatTrans.app_shift]
   simp only [Functor.map_comp]
   infer_instance

@@ -190,10 +190,10 @@ theorem mem_idealOfVars_sq_of_aeval_mem_ker_sq
     intro x hx
     rcases hdeg x hx with rfl | ⟨j, rfl⟩
     · have h0 : p.coeff 0 = 0 := (constantCoeff_eq p).symm.trans hp0
-      simp [q, coeff_sum, coeff_X', h0]
-    · simp only [q, coeff_sub, coeff_sum, coeff_smul, coeff_X', smul_eq_mul, mul_ite, mul_one,
+      simp [q, coeff_X, h0]
+    · simp only [q, coeff_sub, coeff_sum, coeff_smul, coeff_X, smul_eq_mul, mul_ite, mul_one,
         mul_zero, Finsupp.single_left_inj one_ne_zero, Finset.sum_ite_eq', Finset.mem_univ,
-        if_true, c, sub_self]
+        ite_true, c, sub_self]
   have hlin : aeval t (∑ i, c i • (X i : MvPolynomial ι R)) ∈ I ^ 2 := by
     have hq2 : aeval t q ∈ I ^ 2 :=
       MvPolynomial.map_aeval_pow_idealOfVars_le I t hti 2 (Ideal.mem_map_of_mem _ hq)
@@ -247,17 +247,17 @@ theorem exists_algHom_quotient_pow_idealOfVars [Algebra.FormallySmooth R S]
     let e := AlgEquiv.ofBijective Ψ ⟨hinj, hsurj⟩
     refine ⟨e.symm.toAlgHom.comp (Ideal.Quotient.mkₐ R (RingHom.ker σ ^ 2)), fun i => ?_,
       fun s hs => ?_⟩
-    · show e.symm (Ideal.Quotient.mk _ (t i)) = _
+    · change e.symm (Ideal.Quotient.mk _ (t i)) = _
       rw [AlgEquiv.symm_apply_eq]
-      show _ = Ψ (Ideal.Quotient.mk _ (X i))
+      change _ = Ψ (Ideal.Quotient.mk _ (X i))
       rw [hΨ, aeval_X]
     · obtain ⟨q, hq, hsq⟩ := exists_mem_idealOfVars_sub_aeval_mem_ker_sq σ b t ht s hs
       have : e.symm (Ideal.Quotient.mk _ s) = Ideal.Quotient.mk _ q := by
         rw [AlgEquiv.symm_apply_eq]
-        show _ = Ψ (Ideal.Quotient.mk _ q)
+        change _ = Ψ (Ideal.Quotient.mk _ q)
         rw [hΨ]
         exact Ideal.Quotient.eq.mpr hsq
-      show e.symm (Ideal.Quotient.mk _ s) ∈ _
+      change e.symm (Ideal.Quotient.mk _ s) ∈ _
       rw [this]
       exact Ideal.mem_map_of_mem _ hq
   | succ n ih =>
@@ -268,10 +268,10 @@ theorem exists_algHom_quotient_pow_idealOfVars [Algebra.FormallySmooth R S]
       (idealOfVars ι R ^ (n + 2)).map (Ideal.Quotient.mkₐ R (idealOfVars ι R ^ (n + 2 + 1)))
     have hK : IsNilpotent K := by
       refine ⟨2, ?_⟩
-      show K ^ 2 = ⊥
+      change K ^ 2 = ⊥
       rw [← Ideal.map_pow, ← pow_mul, Ideal.map_eq_bot_iff_le_ker]
       intro x hx
-      show Ideal.Quotient.mkₐ R (idealOfVars ι R ^ (n + 2 + 1)) x = 0
+      change Ideal.Quotient.mkₐ R (idealOfVars ι R ^ (n + 2 + 1)) x = 0
       rw [Ideal.Quotient.mkₐ_eq_mk, Ideal.Quotient.eq_zero_iff_mem]
       exact Ideal.pow_le_pow_right (by omega) hx
     let δ := DoubleQuot.quotQuotEquivQuotOfLEₐ R hle
@@ -369,7 +369,7 @@ theorem exists_algEquiv_quotient_pow_idealOfVars_mk_eq [Algebra.FormallySmooth R
         exact Ideal.pow_right_mono (Ideal.map_le_iff_le_comap.mpr hhI) n
       obtain ⟨p, hpJ, hp⟩ := (Ideal.mem_map_iff_of_surjective _
         Ideal.Quotient.mk_surjective).mp (hmap (Ideal.mem_map_of_mem h hs))
-      show Ideal.Quotient.factor hle (h s) = 0
+      change Ideal.Quotient.factor hle (h s) = 0
       rw [← hp, Ideal.Quotient.factor_mk, Ideal.Quotient.eq_zero_iff_mem]
       exact hpJ
     let hbar : S ⧸ RingHom.ker σ ^ n →ₐ[R] MvPolynomial ι R ⧸ idealOfVars ι R ^ n :=
@@ -378,9 +378,9 @@ theorem exists_algEquiv_quotient_pow_idealOfVars_mk_eq [Algebra.FormallySmooth R
       apply Ideal.Quotient.algHom_ext R
       apply MvPolynomial.algHom_ext
       intro i
-      show hbar (Ψ (Ideal.Quotient.mk _ (X i))) = Ideal.Quotient.mk _ (X i)
+      change hbar (Ψ (Ideal.Quotient.mk _ (X i))) = Ideal.Quotient.mk _ (X i)
       rw [hΨ, aeval_X]
-      show Ideal.Quotient.factor hle (h (t i)) = _
+      change Ideal.Quotient.factor hle (h (t i)) = _
       rw [hht, Ideal.Quotient.factor_mk]
     exact Function.LeftInverse.injective (g := hbar) fun a => AlgHom.congr_fun hleft a
   have hsurj : Function.Surjective Ψ := by
@@ -409,7 +409,7 @@ theorem AdicCompletion.exists_algEquiv_evalₐ_eq_of_quotientPow
     intro m n hmn x
     obtain ⟨a, rfl⟩ := AdicCompletion.mk_surjective J P x
     rw [AdicCompletion.evalₐ_mk, AdicCompletion.evalₐ_mk]
-    show (Ideal.Quotient.factor (Ideal.pow_le_pow_right hmn)) _ = _
+    change (Ideal.Quotient.factor (Ideal.pow_le_pow_right hmn)) _ = _
     rw [Ideal.Quotient.factor_mk]
     exact AdicCompletion.Ideal.mk_eq_mk J hmn a
   have hevI : ∀ {m n : ℕ} (hmn : m ≤ n) (x : AdicCompletion I S),
@@ -419,7 +419,7 @@ theorem AdicCompletion.exists_algEquiv_evalₐ_eq_of_quotientPow
     intro m n hmn x
     obtain ⟨a, rfl⟩ := AdicCompletion.mk_surjective I S x
     rw [AdicCompletion.evalₐ_mk, AdicCompletion.evalₐ_mk]
-    show (Ideal.Quotient.factor (Ideal.pow_le_pow_right hmn)) _ = _
+    change (Ideal.Quotient.factor (Ideal.pow_le_pow_right hmn)) _ = _
     rw [Ideal.Quotient.factor_mk]
     exact AdicCompletion.Ideal.mk_eq_mk I hmn a
   have hF : ∀ {m n : ℕ} (hmn : m ≤ n),
@@ -508,7 +508,7 @@ theorem exists_adicCompletion_algEquiv_mvPowerSeries_constantCoeff (h : Algebra.
     apply Ideal.Quotient.algHom_ext R
     apply MvPolynomial.algHom_ext
     intro i
-    show Ideal.Quotient.factor (Ideal.pow_le_pow_right hmn)
+    change Ideal.Quotient.factor (Ideal.pow_le_pow_right hmn)
         (e n (Ideal.Quotient.mk (idealOfVars (Fin d) R ^ n) (X i))) =
       e m (Ideal.Quotient.factor (Ideal.pow_le_pow_right hmn)
         (Ideal.Quotient.mk (idealOfVars (Fin d) R ^ n) (X i)))
@@ -531,7 +531,7 @@ theorem exists_adicCompletion_algEquiv_mvPowerSeries_constantCoeff (h : Algebra.
       exact hy
     have h2 : AdicCompletion.evalₐ (idealOfVars (Fin d) R) 1 (eMv p) =
         Ideal.Quotient.mk _ (MvPowerSeries.truncTotal 1 p) := by
-      show AdicCompletion.evalₐ _ 1 (MvPowerSeries.toAdicCompletion (Fin d) R p) = _
+      change AdicCompletion.evalₐ _ 1 (MvPowerSeries.toAdicCompletion (Fin d) R p) = _
       exact AdicCompletion.evalₐ_liftAlgHom _ _ (fun h ↦ AlgHom.ext fun _ ↦ by
         simpa [Ideal.Quotient.mk_eq_mk_iff_sub_mem] using
           MvPowerSeries.truncTotal_sub_truncTotal_mem_pow_idealOfVars h (le_refl _) _) 1 p

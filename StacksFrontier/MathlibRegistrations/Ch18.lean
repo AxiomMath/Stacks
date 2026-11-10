@@ -24,7 +24,8 @@ several parts, each registration names its part.
 This file records Stacks Project tags from Chapter 18 (Modules on Sites) whose statements are
 already available in Mathlib, by attaching each tag to the Mathlib declarations that state it.
 When a tag is covered by several declarations, each registration names the part it covers.
-A derivation of sheaves of rings into a sheaf of modules is a `PresheafOfModulesOfCommRing.Derivation'` of
+A derivation of sheaves of rings into a sheaf of modules is a
+`PresheafOfModulesOfCommRing.Derivation'` of
 the underlying presheaves: morphisms of sheaves are morphisms of the underlying presheaves, and
 additivity, the Leibniz rule and the vanishing on the image of `O₁` are conditions on sections.
 Tag 04EP (exactness of stalk functors at a point of a site) is not registered: Mathlib's points

@@ -227,7 +227,7 @@ theorem chartIso_glued (τ : Hom D E) (i : ι) :
     (Scheme.Modules.restrictFunctor (f i)).map τ.glued ≫ (E.chartIso i).hom =
       (D.chartIso i).hom ≫ τ.chart i := by
   ext V x
-  show (E.mod i).val.presheaf.map (eqToHom ((f i).preimage_image_eq V).symm).op
+  change (E.mod i).val.presheaf.map (eqToHom ((f i).preimage_image_eq V).symm).op
       ((E.chartSectionsIso i ((f i).image_le_opensRange V)).hom
         ((τ.glued.val.app (op (f i ''ᵁ V))).hom x))
     = ((τ.chart i).val.app (op V)).hom

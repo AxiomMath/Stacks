@@ -164,7 +164,7 @@ theorem mem_iSup_range_rightDerived_one_of_generatingSections {X : Scheme.{u}}
   rw [Submodule.map_iSup] at hmap
   change z ∈ ⨆ i : σ.I, LinearMap.range (H.map (F.unitHomEquiv.symm (σ.s i))).hom
   rw [← hw0]
-  refine (SetLike.le_def.mp (iSup_mono fun i => ?_)) hmap
+  refine (IsConcreteLE.le_iff.mp (iSup_mono fun i => ?_)) hmap
   rintro _ ⟨_, ⟨v, rfl⟩, rfl⟩
   refine ⟨v, ?_⟩
   have key : SheafOfModules.ιFree i ≫ σ.π = F.unitHomEquiv.symm (σ.s i) := by

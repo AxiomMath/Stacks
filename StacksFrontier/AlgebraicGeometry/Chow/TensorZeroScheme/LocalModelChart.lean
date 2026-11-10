@@ -209,7 +209,7 @@ theorem isLocalModelBundle_proj_of_hasLocalModelChart
             Set (MvPolynomial (Fin 2) Γ(Y, V)))) χ hmap).trans
       (Stacks.AffineBundle.localModelEquivOfCoordSpanEq (χ h₀) (χ h₁) hsp₀ hsp₁ f).toRingEquiv,
     fun c ↦ ?_⟩
-  show (Stacks.AffineBundle.localModelEquivOfCoordSpanEq (χ h₀) (χ h₁) hsp₀ hsp₁ f)
+  change (Stacks.AffineBundle.localModelEquivOfCoordSpanEq (χ h₀) (χ h₁) hsp₀ hsp₁ f)
       (Ideal.Quotient.mk _ (χ (((totalProj Y L₁ L₂).appLE V
         (totalProj Y L₁ L₂ ⁻¹ᵁ V) le_rfl).hom c))) = _
   rw [hχC c]

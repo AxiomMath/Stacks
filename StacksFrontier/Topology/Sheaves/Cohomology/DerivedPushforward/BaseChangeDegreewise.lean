@@ -158,7 +158,7 @@ theorem NatTrans.mapDerivedCategory_app_Qh (η : F ⟶ G)
         DerivedCategory.Qh.map
           ((NatTrans.mapHomotopyCategory η (ComplexShape.up ℤ)).app M) := by
   obtain ⟨K⟩ := M
-  show (NatTrans.mapDerivedCategory η).app
+  change (NatTrans.mapDerivedCategory η).app
         (DerivedCategory.Qh.obj ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).obj K)) ≫
       G.mapDerivedCategoryFactorsh.hom.app
         ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).obj K) =
@@ -174,7 +174,7 @@ theorem NatTrans.mapDerivedCategory_app_Qh (η : F ⟶ G)
       (HomotopyCategory.quotient D (ComplexShape.up ℤ)).map
           ((NatTrans.mapHomologicalComplex η (ComplexShape.up ℤ)).app K) ≫
         (G.mapHomotopyCategoryFactors (ComplexShape.up ℤ)).inv.app K := by
-    show 𝟙 _ ≫ (HomotopyCategory.quotient D (ComplexShape.up ℤ)).map
+    change 𝟙 _ ≫ (HomotopyCategory.quotient D (ComplexShape.up ℤ)).map
           ((NatTrans.mapHomologicalComplex η (ComplexShape.up ℤ)).app K) =
       (HomotopyCategory.quotient D (ComplexShape.up ℤ)).map
           ((NatTrans.mapHomologicalComplex η (ComplexShape.up ℤ)).app K) ≫ 𝟙 _
@@ -247,24 +247,24 @@ theorem mateEquiv_conj (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (α : TwoSquare G L₁ L₂ H) (α' : TwoSquare G' L₁' L₂' H')
     (hα : ∀ a : A, α'.app a = L₂'.map (eG.inv.app a) ≫ e₂.inv.app (G.obj a) ≫ α.app a ≫
       H.map (e₁.hom.app a) ≫ eH.hom.app (L₁'.obj a)) :
-    (mateEquiv adj₁ adj₂ α).natTrans ≫ Functor.whiskerRight eH.hom R₂ ≫
+    (mateEquiv adj₁ adj₂ α) ≫ Functor.whiskerRight eH.hom R₂ ≫
         Functor.whiskerLeft H' d₂.inv =
       Functor.whiskerRight d₁.inv G ≫ Functor.whiskerLeft R₁' eG.hom ≫
         (mateEquiv ((adj₁.ofNatIsoLeft e₁).ofNatIsoRight d₁.symm)
-          ((adj₂.ofNatIsoLeft e₂).ofNatIsoRight d₂.symm) α').natTrans := by
+          ((adj₂.ofNatIsoLeft e₂).ofNatIsoRight d₂.symm) α') := by
   have hstep1 := mateEquiv_ofNatIsoLeft adj₁ adj₂ e₁ e₂ α
-    (TwoSquare.mk _ _ _ _ (Functor.whiskerLeft G e₂.inv ≫ α.natTrans ≫
+    (TwoSquare.mk _ _ _ _ (Functor.whiskerLeft G e₂.inv ≫ α ≫
       Functor.whiskerRight e₁.hom H)) (fun a => rfl)
   have hstep2 := mateEquiv_conj_vertical (adj₁.ofNatIsoLeft e₁) (adj₂.ofNatIsoLeft e₂) eG eH
-    (TwoSquare.mk _ _ _ _ (Functor.whiskerLeft G e₂.inv ≫ α.natTrans ≫
+    (TwoSquare.mk _ _ _ _ (Functor.whiskerLeft G e₂.inv ≫ α ≫
       Functor.whiskerRight e₁.hom H)) α'
     (fun a => (hα a).trans (assoc5 _ _ _ _ _))
-    (TwoSquare.mk _ _ _ _ (Functor.whiskerLeft R₁ eG.inv ≫ (mateEquiv adj₁ adj₂ α).natTrans ≫
+    (TwoSquare.mk _ _ _ _ (Functor.whiskerLeft R₁ eG.inv ≫ (mateEquiv adj₁ adj₂ α) ≫
       Functor.whiskerRight eH.hom R₂)) (fun Y => by rw [hstep1]; rfl)
   have hstep3 := mateEquiv_ofNatIsoRight (adj₁.ofNatIsoLeft e₁) (adj₂.ofNatIsoLeft e₂)
     d₁.symm d₂.symm α'
     (TwoSquare.mk _ _ _ _ (Functor.whiskerRight d₁.symm.inv G' ≫
-      (Functor.whiskerLeft R₁ eG.inv ≫ (mateEquiv adj₁ adj₂ α).natTrans ≫
+      (Functor.whiskerLeft R₁ eG.inv ≫ (mateEquiv adj₁ adj₂ α) ≫
         Functor.whiskerRight eH.hom R₂) ≫ Functor.whiskerLeft H' d₂.symm.hom))
     (fun Y => by rw [← hstep2]; rfl)
   rw [← hstep3]
@@ -369,8 +369,7 @@ by `Stacks.Homology.mapDerivedCategoryIsoOfIso_hom`. -/
 theorem mapDerivedCategoryTwoSquareOfIso_eq_mapDerivedCategory (α : T ⋙ R ≅ L ⋙ Bo) :
     mapDerivedCategoryTwoSquareOfIso T L R Bo α =
       (TwoSquare.mk T L R Bo α.hom).mapDerivedCategory := by
-  dsimp only [mapDerivedCategoryTwoSquareOfIso, TwoSquare.mapDerivedCategory, TwoSquare.mk,
-    TwoSquare.natTrans]
+  dsimp only [mapDerivedCategoryTwoSquareOfIso, TwoSquare.mapDerivedCategory, TwoSquare.mk]
   rw [mapDerivedCategoryCompIso_refl_eq T R, mapDerivedCategoryCompIso_refl_eq L Bo,
     mapDerivedCategoryIsoOfIso_hom, Iso.symm_hom, Iso.symm_inv]
 
@@ -426,7 +425,6 @@ private theorem conj_derivedPullbackSquare (w : i ≫ f = g ≫ j)
                 ((modulePullback f).mapDerivedCategory.obj a) := by
   have hsq := NatTrans.congr_app (derivedPullbackSquare_eq_mapDerivedCategory f i j g w) a
   dsimp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app] at hsq
-  dsimp only [TwoSquare.natTrans] at hsq
   rw [hsq]
   refine (CategoryTheory.conj_chase
     ((modulePullback g).mapDerivedCategory.map
@@ -494,7 +492,7 @@ the derived adjunctions to the degreewise ones is `CategoryTheory.mateEquiv_conj
 Only the commutativity of the square is used: it need not be Cartesian and no arrow need be an
 open immersion. -/
 theorem derivedBaseChangeSquare_eq_mapDerivedCategory (w : i ≫ f = g ≫ j) :
-    (DerivedBaseChange.derivedBaseChangeSquare i g f j w).natTrans ≫
+    (DerivedBaseChange.derivedBaseChangeSquare i g f j w) ≫
         Functor.whiskerRight
             (DerivedOpenImmersion.derivedPullbackIsoMapDerivedCategory i).hom
             (derivedPushforward g) ≫
@@ -505,7 +503,7 @@ theorem derivedBaseChangeSquare_eq_mapDerivedCategory (w : i ≫ f = g ≫ j) :
             (DerivedOpenImmersion.derivedPullbackIsoMapDerivedCategory j).hom ≫
         ((TwoSquare.mk (modulePushforward f) (modulePullback i) (modulePullback j)
           (modulePushforward g)
-          (pushforwardRestrictMap f i j g w)).mapDerivedCategory).natTrans := by
+          (pushforwardRestrictMap f i j g w)).mapDerivedCategory) := by
   rw [DerivedBaseChange.derivedBaseChangeSquare_eq_mateEquiv]
   refine (mateEquiv_conj (derivedAdjunction f) (derivedAdjunction g)
     (DerivedOpenImmersion.derivedPullbackIsoMapDerivedCategory f)
@@ -536,7 +534,6 @@ theorem derivedBaseChangeMap_eq_mapDerivedCategory (w : i ≫ f = g ≫ j)
               (pushforwardRestrictMap f i j g w)).mapDerivedCategory).app K := by
   have h := NatTrans.congr_app (derivedBaseChangeSquare_eq_mapDerivedCategory f i j g w) K
   dsimp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app] at h
-  dsimp only [TwoSquare.natTrans] at h
   exact h
 
 end Degreewise

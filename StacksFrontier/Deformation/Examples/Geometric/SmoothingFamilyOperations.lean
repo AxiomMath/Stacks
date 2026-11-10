@@ -65,9 +65,9 @@ theorem coprodDesc_of_isZariskiLocalAtSource (P : MorphismProperty Scheme.{u})
     [IsZariskiLocalAtSource P] (h₁ : P g₁) (h₂ : P g₂) : P (coprod.desc g₁ g₂) := by
   rw [IsZariskiLocalAtSource.iff_of_openCover (P := P) (coprodOpenCover.{u, 0} Y₁ Y₂)]
   rintro (i | i)
-  · show P (coprod.inl ≫ coprod.desc g₁ g₂)
+  · change P (coprod.inl ≫ coprod.desc g₁ g₂)
     rwa [coprod.inl_desc]
-  · show P (coprod.inr ≫ coprod.desc g₁ g₂)
+  · change P (coprod.inr ≫ coprod.desc g₁ g₂)
     rwa [coprod.inr_desc]
 
 /-- `coprod.desc g₁ g₂` factors as `coprod.map g₁ g₂` followed by the codiagonal of `S`. -/
@@ -336,7 +336,7 @@ theorem exists_smoothing_of_opens {Xb Yb : Scheme.{u}} (fb : Xb ⟶ Spec (.of k)
       obtain rfl := eb.hom.isOpenEmbedding.injective hx'
       have hxX := Set.mem_range_self (f := X.ι) x'
       rw [Scheme.Opens.range_ι] at hxX
-      show j (X.ι x') ∈ W
+      change j (X.ι x') ∈ W
       rintro ⟨y, hy, hjy⟩
       exact hy ((j.isClosedEmbedding.injective hjy) ▸ hxX)
     · intro hz

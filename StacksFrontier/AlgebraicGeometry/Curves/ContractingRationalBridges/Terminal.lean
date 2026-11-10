@@ -153,7 +153,7 @@ theorem forall_not_isRationalTail_of_pullback_dualizingSheafOverField_iso
   have hker : D.subschemeι.ker ≤ (C.subschemeι ≫ f).ker := by
     rw [Scheme.IdealSheafData.ker_subschemeι, Scheme.Hom.ker_eq_vanishingIdeal_closure_range,
       ← Scheme.IdealSheafData.le_support_iff_le_vanishingIdeal]
-    show closure (Set.range (C.subschemeι ≫ f).base) ⊆ (D.support : Set Y)
+    change closure (Set.range (C.subschemeι ≫ f).base) ⊆ (D.support : Set Y)
     rw [hrange]
     exact D.support.isClosed.closure_subset
   let h : C.subscheme ⟶ D.subscheme := IsClosedImmersion.lift D.subschemeι (C.subschemeι ≫ f) hker

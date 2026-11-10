@@ -90,7 +90,7 @@ because instance search and `rw` both look at the syntactic spelling:
   formed at the first spelling is not the one a statement about the second expects. Hence
   `Stacks.restrAddHom`.
 * the carrier of `(Stacks.tensorObj A F).obj (op X)` is the bare tensor product, but not
-  syntactically, so `map_add`, `map_zero` and `TensorProduct.induction_on` are unusable on an
+  syntactically, so `map_add`, `map_zero` and `TensorProduct.inductionOn` are unusable on an
   argument of the germ map as it stands — the goal stops being type-correct at `implicit`
   transparency. Hence `Stacks.tensorObjGerm` and `Stacks.tensorObjRestr`.
 * the germ-restriction compatibility is stated with the neighbourhood equality as an explicit
@@ -172,7 +172,7 @@ lemma moduleFiberGerm_smul {M : PresheafOfModules.{w} (ringPresheaf O)} (U : C)
     (x : Φ.fiber.obj U) (r : (ringPresheaf O).obj (op U)) (m : M.obj (op U)) :
     moduleFiberGerm Φ O M U x (r • m) =
       ringFiberGerm Φ O U x r • moduleFiberGerm Φ O M U x m := by
-  show toPresheafModuleFiber Φ M U x (r • m) = _
+  change toPresheafModuleFiber Φ M U x (r • m) = _
   rw [toPresheafModuleFiber_smul]
   exact congrArg (fun t => t • toPresheafModuleFiber Φ M U x m)
     ((commRingPresheafFiberIso Φ O).hom_inv_id_apply _).symm
@@ -272,7 +272,7 @@ lemma tensorFiberLeg_tmul (X : C) (x : Φ.fiber.obj X) (a : A.obj (op X)) (s : F
   TensorProduct.liftAddHom_tmul _ _ a s
 
 /-- The restriction map of the objectwise tensor product, as an additive map between the bare
-tensor products. The ascribed result type is what lets `TensorProduct.induction_on` be used on
+tensor products. The ascribed result type is what lets `TensorProduct.inductionOn` be used on
 its argument: the carrier of `(Stacks.tensorObj A F).obj (op Y)` is the same type, but not
 syntactically, and `rw` then strands the goal at `implicit` transparency. -/
 noncomputable def tensorObjRestr {X Y : C} (f : X ⟶ Y) :
@@ -292,7 +292,7 @@ lemma tensorObjRestr_tmul {X Y : C} (f : X ⟶ Y) (a : A.obj (op Y)) (s : F.obj 
 /-- The germ map of the objectwise tensor product `Stacks.tensorObj A F`, with its domain
 ascribed as the bare tensor product. Without this the germ map's domain is spelled
 `(tensorObj A F).obj (op X)`, which is the same type but makes `map_add`, `map_zero` and
-`TensorProduct.induction_on` unusable on its argument: the goal stops being type-correct at
+`TensorProduct.inductionOn` unusable on its argument: the goal stops being type-correct at
 `implicit` transparency.
 
 `Stacks.tensorGerm` is the same retyping for Mathlib's monoidal product `A ⊗ F` instead of
@@ -320,8 +320,7 @@ lemma tensorFiberLeg_comp_restr {X Y : C} (f : X ⟶ Y) (x : Φ.fiber.obj X)
     (t : A.obj (op Y) ⊗[(ringPresheaf O).obj (op Y)] F.obj (op Y)) :
     tensorFiberLeg A F X x (tensorObjRestr A F f t) =
       tensorFiberLeg A F Y (Φ.fiber.map f x) t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul a s =>
     rw [tensorObjRestr_tmul, tensorFiberLeg_tmul, tensorFiberLeg_tmul,
       moduleFiberGerm_w f x a, moduleFiberGerm_w f x s]
@@ -389,7 +388,7 @@ lemma exists_germ_families {l k j : ℕ} (m : Fin l → moduleFiber Φ O A)
     fun i => ?_, fun i => ?_, fun i => ?_⟩
   · exact (moduleFiberGerm_w' (g ≫ g₂) u x₁ hgg (a i)).symm.trans (ha i)
   · exact (moduleFiberGerm_w' g u x₂ hg (s i)).symm.trans (hs i)
-  · show (commRingPresheafFiberIso Φ O).hom.hom _ = _
+  · change (commRingPresheafFiberIso Φ O).hom.hom _ = _
     rw [hr i]
     exact (commRingPresheafFiberIso Φ O).inv_hom_id_apply _
 
@@ -553,8 +552,7 @@ lemma tensorFiberCompareInv_compare_germ (X : C) (u : Φ.fiber.obj X)
     (τ : A.obj (op X) ⊗[(ringPresheaf O).obj (op X)] F.obj (op X)) :
     tensorFiberCompareInv A F (tensorFiberCompare A F (tensorObjGerm A F X u τ)) =
       tensorObjGerm A F X u τ := by
-  induction τ using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction τ using TensorProduct.inductionOn with
   | tmul a s =>
     rw [tensorFiberCompare_germ_tmul, tensorFiberCompareInv_tmul, tensorFiberBack_germ]
   | add τ τ' h h' => rw [map_add, map_add, map_add, h, h']
@@ -569,8 +567,7 @@ lemma tensorFiberCompareInv_compare (z : moduleFiber Φ O (tensorObj A F)) :
 lemma tensorFiberCompare_compareInv
     (z : moduleFiber Φ O A ⊗[commRingFiber Φ O] moduleFiber Φ O F) :
     tensorFiberCompare A F (tensorFiberCompareInv A F z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul x y =>
     obtain ⟨⟨@⟨X, u⟩, a, s⟩, rfl, rfl⟩ := exists_tensorFiberRep A F x y
     rw [tensorFiberCompareInv_tmul, tensorFiberBack_germ, tensorFiberCompare_germ_tmul]
@@ -584,8 +581,7 @@ lemma tensorFiberCompare_smul_germ (X : C) (u : Φ.fiber.obj X)
     (τ : A.obj (op X) ⊗[(ringPresheaf O).obj (op X)] F.obj (op X)) :
     tensorFiberCompare A F (tensorObjGerm A F X u (r • τ)) =
       ringFiberGerm Φ O X u r • tensorFiberCompare A F (tensorObjGerm A F X u τ) := by
-  induction τ using TensorProduct.induction_on with
-  | zero => simp only [smul_zero, map_zero]
+  induction τ using TensorProduct.inductionOn with
   | tmul a s =>
     rw [TensorProduct.smul_tmul', tensorFiberCompare_germ_tmul, tensorFiberCompare_germ_tmul,
       moduleFiberGerm_smul]
@@ -655,8 +651,7 @@ lemma tensorFiberCompare_naturality_germ {A' : PresheafOfModules.{w} (ringPreshe
     tensorFiberCompare A' F (moduleFiberMap ((tensorRight F).map g) (tensorObjGerm A F X u τ)) =
       LinearMap.rTensor (moduleFiber Φ O F) (moduleFiberMap g)
         (tensorFiberCompare A F (tensorObjGerm A F X u τ)) := by
-  induction τ using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction τ using TensorProduct.inductionOn with
   | tmul a s =>
     have h1 : moduleFiberMap ((tensorRight F).map g)
           (tensorObjGerm A F X u (a ⊗ₜ[(ringPresheaf O).obj (op X)] s)) =

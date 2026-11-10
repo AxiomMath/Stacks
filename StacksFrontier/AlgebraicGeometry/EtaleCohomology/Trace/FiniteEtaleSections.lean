@@ -123,7 +123,7 @@ lemma toPresheafFiber_comp_presheafFiberSelfIso_inv (P : S.Etaleᵒᵖ ⥤ A) (U
   have hu : (pointSmallEtale s).fiber.map (pointSmallEtaleSelfHom s u)
       (pointSmallEtaleSelfElement s) = u := by
     apply CategoryTheory.Over.OverMorphism.ext
-    show (𝟙 (Spec (.of Ω))) ≫ u.left = u.left
+    change (𝟙 (Spec (.of Ω))) ≫ u.left = u.left
     exact Category.id_comp _
   have h := (pointSmallEtale s).toPresheafFiber_w (pointSmallEtaleSelfHom s u)
     (pointSmallEtaleSelfElement s) P
@@ -289,7 +289,7 @@ lemma etaleSectionsRestriction_inclusion
     (G : Sheaf (smallEtaleTopology Y) (ModuleCat.{max (u + 1) v} Λ)) (y : EtaleSections f)
     (a : G.obj.obj (op (etaleSectionObj f y))) :
     etaleSectionsPiRestriction Λ f G ((etaleSectionsInclusion Λ f G y).hom a) = Pi.single y a := by
-  show etaleSectionsLinearEquiv Λ f G ((etaleSectionsLinearEquiv Λ f G).symm _) = _
+  change etaleSectionsLinearEquiv Λ f G ((etaleSectionsLinearEquiv Λ f G).symm _) = _
   rw [LinearEquiv.apply_symm_apply]
   rfl
 

@@ -66,7 +66,7 @@ theorem AlgebraicStacks.smallModelHom_toFunctor_comp_shrinkHoms_inverse
       ShrinkHoms.inverse.{u} 𝒳.obj ⋙ f.toFunctor := by
   let := locallySmall_of_isAlgebraicStack B S hS h𝒳
   let := locallySmall_of_isAlgebraicStack B S hS h𝒴
-  show ShrinkHoms.inverse.{u} 𝒳.obj ⋙ f.toFunctor ⋙
+  change ShrinkHoms.inverse.{u} 𝒳.obj ⋙ f.toFunctor ⋙
     (ShrinkHoms.functor.{u} 𝒴.obj ⋙ ShrinkHoms.inverse.{u} 𝒴.obj) = _
   rw [BasedCategory.shrinkHoms_functor_comp_inverse 𝒴, Functor.comp_id]
 

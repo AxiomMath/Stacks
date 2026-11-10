@@ -268,7 +268,7 @@ private lemma ringKrullDim_quotient_comap_le_one
       rw [← IsLocalization.map_under (Submonoid.powers f) F p]
       refine Ideal.map_mono ?_
       intro a ha
-      show Ideal.Quotient.mk q a ∈ r.asIdeal
+      change Ideal.Quotient.mk q a ∈ r.asIdeal
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha]
       exact r.asIdeal.zero_mem
     have htq : t = q := by
@@ -336,7 +336,7 @@ private lemma hasPurity_localization_quotient
   have hts : RingTheory.Sequence.IsRegular Rp ts :=
     hrs.1.isRegular_of_isLocalization_of_mem Rp p (by
       intro x hx
-      show Ideal.Quotient.mk (Ideal.ofList rs) x ∈ q
+      change Ideal.Quotient.mk (Ideal.ofList rs) x ∈ q
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (s := {r : R | r ∈ rs}) hx)]
       exact q.zero_mem)
   have hmap : Ideal.ofList ts = (Ideal.ofList rs).map (algebraMap R Rp) :=

@@ -177,7 +177,8 @@ connecting morphisms. -/
 compatibility with the boundary maps of every short exact sequence of quasi-coherent modules; \
 H^i(S, -) = H^i of unbounded RΓ(S, -), H^i(X, -) as a Γ(S, O_S)-module along f^♯, boundary maps \
 the connecting morphisms of H^0 at the image under RΓ(S, -) of K ⊗^L (triangle of the sequence) \
-and at the image under RΓ(X, E ⊗^L -) of the triangle of 0 → G ⊗ f^*F₁ → G ⊗ f^*F₂ → G ⊗ f^*F₃ → 0; \
+and at the image under RΓ(X, E ⊗^L -) of the triangle of 0 → G ⊗ f^*F₁ → G ⊗ f^*F₂ → G ⊗ f^*F₃ \
+→ 0; \
 no hypothesis beyond those of Tag 0DJQ"]
 theorem extCohomologyIso_qcoh_boundary [IsNoetherian S] [LocallyOfFiniteType f]
     (hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E)

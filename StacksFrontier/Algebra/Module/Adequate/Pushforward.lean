@@ -181,8 +181,7 @@ public lemma isAdequate_pushforward
               eX.inv ≫ (E.obj ((AdequateFunctor.moduleExtensionFunctor A').obj P')).map t := by
           apply ModuleCat.hom_ext
           ext z
-          induction z using TensorProduct.induction_on with
-          | zero => rfl
+          induction z using TensorProduct.inductionOn with
           | tmul b m =>
             rw [ModuleCat.comp_apply]
             change (Algebra.IsPushout.cancelBaseChange A (↑BY) A' ↑B'Y P).symm
@@ -274,8 +273,7 @@ public lemma isAdequate_pushforward
       rw [Algebra.IsPushout.cancelBaseChange_symm_tmul]
     apply ModuleCat.hom_ext
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | tmul b m =>
       change (eN.inv.app X)
           (((AdequateFunctor.moduleExtensionFunctor A).map g).app X (b ⊗ₜ[A] m)) =

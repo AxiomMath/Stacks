@@ -303,7 +303,7 @@ theorem opensFunctor_homOfLE (X : Scheme.{u}) {W V : X.Opens} (h : W ≤ V) :
     (X.homOfLE h).opensFunctor = (Stacks.SheafOfModules.isOpenEmbedding_inclusionOfLE h).functor :=
   CategoryTheory.Functor.ext (fun U => by
       apply TopologicalSpace.Opens.ext
-      show (X.homOfLE h).base.hom '' U.carrier = _
+      change (X.homOfLE h).base.hom '' U.carrier = _
       rw [Scheme.homOfLE_base]
       rfl)
     (fun _ _ _ => Subsingleton.elim _ _)

@@ -288,7 +288,7 @@ theorem finsum_exteriorProductDedekindTerm_eq_zero {X' Y' : Scheme.{u}} (f : X' 
     ∑ᶠ y : Y', exteriorProductDedekindTerm C f g n m α β z (x, y) = 0 := by
   by_cases hz : z ∈ Set.range (dedekindPointFibre f g x).subschemeι.base
   · obtain ⟨w, rfl⟩ := hz
-    rw [finsum_exteriorProductDedekindTerm_of_flat C f g n m α β x hdom r hr w, if_neg hdeg]
+    rw [finsum_exteriorProductDedekindTerm_of_flat C f g n m α β x hdom r hr w, ite_eq_right hdeg]
   · exact finsum_eq_zero_of_forall_eq_zero fun y ↦
       exteriorProductDedekindTerm_eq_zero_of_notMem_range C f g n m α β x y hz
 

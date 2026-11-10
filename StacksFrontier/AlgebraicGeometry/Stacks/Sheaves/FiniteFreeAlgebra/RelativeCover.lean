@@ -75,7 +75,7 @@ theorem map_ringHom_id (m : FiniteFreeAlgebra R d) : m.map (RingHom.id R) = m :=
 theorem StructureIso.toAlgEquiv_refl (m : FiniteFreeAlgebra R d) :
     (StructureIso.refl m).toAlgEquiv = AlgEquiv.refl := by
   refine AlgEquiv.ext fun x => Carrier.ext fun k => ?_
-  show (∑ i, ((1 : Matrix.GeneralLinearGroup (Fin d) R) :
+  change (∑ i, ((1 : Matrix.GeneralLinearGroup (Fin d) R) :
       Matrix (Fin d) (Fin d) R) k i * x i) = x k
   rw [Finset.sum_eq_single k (fun i _ hi => by simp [Ne.symm hi])
     (fun h => absurd (Finset.mem_univ k) h)]
@@ -87,7 +87,7 @@ theorem StructureIso.toAlgEquiv_comp {m n p : FiniteFreeAlgebra R d} (e : Struct
     (f : StructureIso n p) :
     (e.comp f).toAlgEquiv = e.toAlgEquiv.trans f.toAlgEquiv := by
   refine AlgEquiv.ext fun x => Carrier.ext fun k => ?_
-  show (∑ i, ((f.matrix * e.matrix : Matrix.GeneralLinearGroup (Fin d) R) :
+  change (∑ i, ((f.matrix * e.matrix : Matrix.GeneralLinearGroup (Fin d) R) :
       Matrix (Fin d) (Fin d) R) k i * x i) =
     ∑ t, (f.matrix : Matrix (Fin d) (Fin d) R) k t *
       ∑ i, (e.matrix : Matrix (Fin d) (Fin d) R) t i * x i
@@ -103,7 +103,7 @@ theorem StructureIso.toAlgEquiv_map (φ : R →+* S) {m n : FiniteFreeAlgebra R 
       ((e.map φ).toAlgEquiv : Carrier (m.map φ) →+* Carrier (n.map φ)).comp
         (Carrier.mapRingHom φ m) :=
   RingHom.ext fun x => Carrier.ext fun k => by
-    show φ (∑ i, (e.matrix : Matrix (Fin d) (Fin d) R) k i * x i) =
+    change φ (∑ i, (e.matrix : Matrix (Fin d) (Fin d) R) k i * x i) =
       ∑ i, (Matrix.GeneralLinearGroup.map φ e.matrix : Matrix (Fin d) (Fin d) S) k i * φ (x i)
     rw [map_sum]
     exact Finset.sum_congr rfl fun i _ => by rw [_root_.map_mul]; rfl
@@ -156,7 +156,7 @@ theorem specCoverIso_mapRingHom (φ : R →+* S) {m n : FiniteFreeAlgebra R d}
         ofHom (e.toAlgEquiv.symm : Carrier n →+* Carrier m) ≫
           ofHom (Carrier.mapRingHom φ m) := by
     refine CommRingCat.hom_ext (RingHom.ext fun y => ?_)
-    show (e.map φ).toAlgEquiv.symm (Carrier.mapRingHom φ n y) =
+    change (e.map φ).toAlgEquiv.symm (Carrier.mapRingHom φ n y) =
       Carrier.mapRingHom φ m (e.toAlgEquiv.symm y)
     refine (e.map φ).toAlgEquiv.injective ?_
     rw [AlgEquiv.apply_symm_apply]

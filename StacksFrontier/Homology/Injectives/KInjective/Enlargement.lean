@@ -194,7 +194,7 @@ lemma mappingCocone_snd_v (φ : K ⟶ L) (n : ℤ) :
       ((mappingCone φ).shiftFunctorObjXIso (-1) n (n - 1) (by omega)).hom ≫
         (mappingCone.snd φ).v (n - 1) (n - 1) (by omega) := by
   dsimp [mappingCocone.snd]
-  show ((mappingCone.snd φ).leftShift (-1) (-1) (by omega)).v n (n - 1) (by omega) = _
+  change ((mappingCone.snd φ).leftShift (-1) (-1) (by omega)).v n (n - 1) (by omega) = _
   rw [(mappingCone.snd φ).leftShift_v (-1) (-1) (by omega) n (n - 1) (by omega) (n - 1) (by omega)]
   simp [CochainComplex.shiftFunctorObjXIso, HomologicalComplex.XIsoOfEq_rfl,
     Iso.refl_hom, Int.negOnePow_even 2 ⟨1, rfl⟩]

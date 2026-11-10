@@ -88,11 +88,13 @@ def torsionSections (M : PresheafOfModules.{w} R₀) (U : Cᵒᵖ) : Submodule (
     change n • M.map f.op x = 0 at h
     rw [PresheafOfModules.map_smul, smul_comm, h, smul_zero]
 
+omit [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- A section lies in `torsionSections J M U` exactly when its torsion sieve covers `U`. -/
 theorem mem_torsionSections_iff (M : PresheafOfModules.{w} R₀) (U : Cᵒᵖ) (x : M.obj U) :
     x ∈ torsionSections J M U ↔ torsionSieve M.presheaf x ∈ J U.unop :=
   Iff.rfl
 
+omit [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- A presheaf of modules is locally torsion exactly when all its sections are locally torsion. -/
 theorem isLocallyTorsion_toPresheaf_iff (M : PresheafOfModules.{w} R₀) :
     IsLocallyTorsion J ((PresheafOfModules.toPresheaf R₀).obj M) ↔
@@ -124,6 +126,7 @@ def torsionSubmodule (M : SheafOfModules.{w} R) : M.Submodule where
     change n • M.val.map g.op (M.val.map f.op s) = 0 at h
     rwa [op_comp, M.val.map_comp, ModuleCat.comp_apply]
 
+omit [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **A map out of a torsion sheaf of modules lands in the locally torsion sections.** -/
 theorem mem_torsionSubmodule_of_torsionModules {N M : SheafOfModules.{w} R} (g : N ⟶ M)
     (hN : torsionModules R N) (U : Cᵒᵖ) (y : N.val.obj U) :
@@ -134,12 +137,13 @@ theorem mem_torsionSubmodule_of_torsionModules {N M : SheafOfModules.{w} R} (g :
   refine J.superset_covering ?_ ((isLocallyTorsion_iff_torsionSieve_mem J _).1 hN U y)
   rintro V f ⟨n, hn, h⟩
   refine ⟨n, hn, ?_⟩
-  show n • ((PresheafOfModules.toPresheaf R.obj).obj M.val).map f.op
+  change n • ((PresheafOfModules.toPresheaf R.obj).obj M.val).map f.op
     (((PresheafOfModules.toPresheaf R.obj).map g.val).app (op (unop (op U))) y) = 0
   change n • ((PresheafOfModules.toPresheaf R.obj).obj N.val).map f.op y = 0 at h
   rw [← NatTrans.naturality_apply ((PresheafOfModules.toPresheaf R.obj).map g.val) f.op y,
     ← map_nsmul, h, map_zero]
 
+omit [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The subsheaf of locally torsion sections is a torsion sheaf of modules. -/
 theorem torsionModules_torsionSubmodule (M : SheafOfModules.{w} R) :
     torsionModules R (torsionSubmodule M).toSheafOfModules := by

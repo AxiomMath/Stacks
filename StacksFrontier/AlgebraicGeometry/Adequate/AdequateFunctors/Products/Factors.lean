@@ -148,7 +148,7 @@ lemma piAlgFactorAlgEquiv_apply (n : ℕ) (A : Fin n → Type u)
   let : Algebra (∀ i, A i) (∀ i, A i) := Algebra.id _
   let : CommRing (B : Type (max u v)) := B.commRing
   let : Algebra (∀ i, A i) (B : Type (max u v)) := B.algebra
-  show Algebra.TensorProduct.piRight (∀ i, A i) (∀ i, A i)
+  change Algebra.TensorProduct.piRight (∀ i, A i) (∀ i, A i)
       (B : Type (max u v)) A (b ⊗ₜ[∀ i, A i] (1 : ∀ i, A i)) i = _
   rw [Algebra.TensorProduct.piRight_tmul]
   rfl
@@ -189,8 +189,7 @@ def factorAlgFunctor (n : ℕ) (A : Fin n → Type u) [∀ i, CommRing (A i)] :
     apply CommAlgCat.hom_ext
     apply AlgHom.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp [factorAlgMap]
+    induction x using TensorProduct.inductionOn with
     | tmul b a => simp [factorAlgMap]
     | add x y hx hy => simp [hx, hy]
   map_comp {B C D} f g := by
@@ -207,8 +206,7 @@ def factorAlgFunctor (n : ℕ) (A : Fin n → Type u) [∀ i, CommRing (A i)] :
     apply CommAlgCat.hom_ext
     apply AlgHom.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp [factorAlgMap]
+    induction x using TensorProduct.inductionOn with
     | tmul b a => simp [factorAlgMap]
     | add x y hx hy => simp [hx, hy]
 
@@ -309,6 +307,7 @@ def adequateRestrictionFunctor (n : ℕ) (A : Fin n → Type u)
     apply ObjectProperty.hom_ext
     exact (restrictModuleFunctor n A i).map_comp _ _
 
+set_option linter.checkUnivs false in
 /-- A module over the product ring is the product of its base changes to the factors. -/
 private noncomputable def piModuleFactorEquiv (n : ℕ) (A : Fin n → Type u)
     [∀ i, CommRing (A i)] (M : ModuleCat.{max u v w} (∀ i, A i)) :
@@ -327,7 +326,7 @@ private lemma piModuleFactorEquiv_apply (n : ℕ) (A : Fin n → Type u)
     [∀ i, CommRing (A i)] (M : ModuleCat.{max u v w} (∀ i, A i))
     (m : M) (i : Fin n) :
     piModuleFactorEquiv.{w, v, u} n A M m i = m ⊗ₜ[∀ i, A i] (1 : A i) := by
-  show TensorProduct.piRight (∀ i, A i) (∀ i, A i) (M : Type (max u v w)) A
+  change TensorProduct.piRight (∀ i, A i) (∀ i, A i) (M : Type (max u v w)) A
       (m ⊗ₜ[∀ i, A i] (1 : ∀ i, A i)) i = _
   rfl
 
@@ -341,6 +340,7 @@ private lemma piModuleFactorEquiv_natural (n : ℕ) (A : Fin n → Type u)
   rw [piModuleFactorEquiv_apply, piModuleFactorEquiv_apply]
   simp
 
+set_option linter.checkUnivs false in
 /-- The product of a family of modules over the factors, as a module over the product ring. -/
 abbrev piModuleFamily (n : ℕ) (A : Fin n → Type u)
     [∀ i, CommRing (A i)] (M : ∀ i, ModuleCat.{max u v w} (A i)) :
@@ -374,6 +374,7 @@ private def piModuleFamilyMap (n : ℕ) (A : Fin n → Type u)
       funext i
       exact map_smul (f i).hom (r i) (x i) }
 
+set_option linter.checkUnivs false in
 /-- Taking the product of a family of factor modules, as a functor. -/
 private def piModuleFamilyFunctor (n : ℕ) (A : Fin n → Type u)
     [∀ i, CommRing (A i)] :
@@ -389,6 +390,7 @@ private def piModuleFamilyFunctor (n : ℕ) (A : Fin n → Type u)
     ext i x
     rfl
 
+set_option linter.checkUnivs false in
 /-- The base change to the `i`-th factor of a module over the product ring. -/
 private abbrev factorModule (n : ℕ) (A : Fin n → Type u)
     [∀ i, CommRing (A i)] (M : ModuleCat.{max u v w} (∀ i, A i)) (i : Fin n) :
@@ -408,6 +410,7 @@ private def factorModuleMap (n : ℕ) (A : Fin n → Type u)
   letI : Algebra R (A i) := (Pi.evalRingHom A i).toAlgebra
   exact ModuleCat.ofHom (f.hom.baseChange (A i))
 
+set_option linter.checkUnivs false in
 /-- Base changing a module to each factor, as a functor to the product of the factor
 categories. -/
 private def factorModuleFunctor (n : ℕ) (A : Fin n → Type u)
@@ -425,6 +428,7 @@ private def factorModuleFunctor (n : ℕ) (A : Fin n → Type u)
     rw [LinearMap.baseChange_comp]
     rfl
 
+set_option linter.checkUnivs false in
 /-- The product-of-factors identification of a module, with the factor written on the left of
 the tensor product. -/
 private noncomputable def piModuleFactorEquiv' (n : ℕ) (A : Fin n → Type u)
@@ -454,7 +458,7 @@ private lemma piModuleFactorEquiv'_apply (n : ℕ) (A : Fin n → Type u)
     (m : M) (i : Fin n) :
     piModuleFactorEquiv'.{w, v, u} n A M m i =
       (1 : A i) ⊗ₜ[∀ j, A j] m := by
-  show TensorProduct.comm (∀ j, A j) (M : Type (max u v w)) (A i)
+  change TensorProduct.comm (∀ j, A j) (M : Type (max u v w)) (A i)
       (piModuleFactorEquiv.{w, v, u} n A M m i) = _
   rw [piModuleFactorEquiv_apply, TensorProduct.comm_tmul]
 
@@ -495,12 +499,13 @@ private lemma piModuleFactorIso_natural (n : ℕ) (A : Fin n → Type u)
       f ≫ (piModuleFactorIso.{w, v, u} n A N).hom := by
   apply ModuleCat.hom_ext
   ext m
-  show (fun i : Fin n => f.hom.baseChange (A i)
+  change (fun i : Fin n => f.hom.baseChange (A i)
       (piModuleFactorEquiv'.{w, v, u} n A M m i)) =
     fun i : Fin n => piModuleFactorEquiv'.{w, v, u} n A N (f.hom m) i
   funext i
   exact piModuleFactorEquiv'_natural.{w, v, u} n A M N f m i
 
+set_option linter.checkUnivs false in
 /-- The `i`-th factor of a product of factor modules is the `i`-th member of the family. -/
 noncomputable def piModuleFamilyFactorEquiv (n : ℕ) (A : Fin n → Type u)
     [∀ i, CommRing (A i)] (M : ∀ i, ModuleCat.{max u v w} (A i)) (i : Fin n) :
@@ -569,10 +574,7 @@ noncomputable def piModuleFamilyFactorEquiv (n : ℕ) (A : Fin n → Type u)
     map_add' := e.map_add
     map_smul' := e.map_smul }
   · intro x
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      change g (e (0 : TensorProduct R (A i) (∀ j, (M j : Type (max u v w))))) = 0
-      simp [e, g]
+    induction x using TensorProduct.inductionOn with
     | tmul a y =>
       simp only [e, g, LinearMap.coe_mk,
         AddHom.coe_mk]
@@ -623,7 +625,7 @@ lemma piModuleFamilyFactorEquiv_tmul (n : ℕ) (A : Fin n → Type u)
     ⟨fun r a x => Quotient.sound' <| AddConGen.Rel.of _ _ <|
       TensorProduct.Eqv.of_smul _ _ _⟩
   unfold piModuleFamilyFactorEquiv
-  show (TensorProduct.AlgebraTensorModule.lift _) (a ⊗ₜ[∀ j, A j] x) = _
+  change (TensorProduct.AlgebraTensorModule.lift _) (a ⊗ₜ[∀ j, A j] x) = _
   rw [TensorProduct.AlgebraTensorModule.lift_tmul]
   rfl
 
@@ -657,16 +659,9 @@ private lemma piModuleFamilyFactorIso_natural (n : ℕ) (A : Fin n → Type u)
       (piModuleFamilyFactorIso.{w, v, u} n A M i).hom ≫ f i := by
   apply ModuleCat.hom_ext
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    exact (map_zero (ModuleCat.Hom.hom
-      ((factorModuleFunctor.{w, v, u} n A).map
-        ((piModuleFamilyFunctor.{w, v, u} n A).map f) i ≫
-        (piModuleFamilyFactorIso.{w, v, u} n A N i).hom))).trans
-      (map_zero (ModuleCat.Hom.hom
-        ((piModuleFamilyFactorIso.{w, v, u} n A M i).hom ≫ f i))).symm
+  induction x using TensorProduct.inductionOn with
   | tmul a y =>
-    show piModuleFamilyFactorEquiv.{w, v, u} n A N i
+    change piModuleFamilyFactorEquiv.{w, v, u} n A N i
         ((a ⊗ₜ[∀ j, A j] fun j => (f j).hom (y j))) = _
     exact piModuleFamilyFactorEquiv_map_tmul.{w, v, u} n A M N f i a y
   | add x y hx hy =>
@@ -681,6 +676,7 @@ private lemma piModuleFamilyFactorIso_natural (n : ℕ) (A : Fin n → Type u)
       _ = R x + R y := by rw [hx, hy]
       _ = R (x + y) := (map_add R x y).symm
 
+set_option linter.checkUnivs false in
 /-- Modules over a finite product of rings are the product of the categories of modules over
 the factors. -/
 private noncomputable def moduleProductEquivalence (n : ℕ) (A : Fin n → Type u)

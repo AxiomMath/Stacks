@@ -201,7 +201,7 @@ theorem classOf_eq_classOf_iff (L N : SheafOfModules.{w}
   (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
     (hL : IsInvertible O hO L) (hN : IsInvertible O hO N) :
     classOf O hO L hL = classOf O hO N hN ↔ Nonempty (L ≅ N) := by
-  show (picardGroupData O hO).classEquiv _ = (picardGroupData O hO).classEquiv _ ↔ _
+  change (picardGroupData O hO).classEquiv _ = (picardGroupData O hO).classEquiv _ ↔ _
   rw [Equiv.apply_eq_iff_eq, toSkeleton_eq_toSkeleton_iff]
   exact ⟨fun ⟨e⟩ => ⟨(ObjectProperty.ι _).mapIso e⟩, fun ⟨e⟩ => ⟨ObjectProperty.isoMk _ e⟩⟩
 

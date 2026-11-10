@@ -122,7 +122,7 @@ theorem sheafFlatBaseChangeModuleRule_of_fppfLocal_image
         IsIso (B.inclusion.map (p.map i).left) := fun i _ =>
       inferInstanceAs (IsIso ((p ⋙ Over.forget (B.obj hS) ⋙ B.inclusion).map i))
     have hflatδ : Flat (B.inclusion.map ((G ⋙ p).map δ).left) := by
-      show Flat (B.inclusion.map (p.map (G.map δ)).left)
+      change Flat (B.inclusion.map (p.map (G.map δ)).left)
       rw [hGδ, p.map_comp, p.map_comp, Over.comp_left, Over.comp_left, Functor.map_comp,
         Functor.map_comp]
       have := hiso ι₁.inv
@@ -228,7 +228,7 @@ theorem sheafFlatBaseChangeModuleRule_of_flatLfp_cover_of_atlas
   have hdown : Sieve.ofArrows (fun j => p.obj (y j)) (fun j => p.map (g j)) ∈
       B.topology.over (B.obj hS) (p.obj x₀) := by
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.generate (Presieve.ofArrows (fun j => (p.obj (y j)).left)
+    change Sieve.generate (Presieve.ofArrows (fun j => (p.obj (y j)).left)
       (fun j => (p.map (g j)).left)) ∈ B.topology (p.obj x₀).left
     refine Precoverage.generate_mem_toGrothendieck ?_
     rw [bigFppfPrecoverage_eq_comap B, Precoverage.mem_comap_iff, Presieve.map_ofArrows]

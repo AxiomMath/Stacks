@@ -21,7 +21,7 @@ public import Mathlib.CategoryTheory.Monoidal.Mon
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Altitude
@@ -464,7 +464,7 @@ theorem exists_compatible_homotopy_family
   -- The underlying cochain of `homot n` is exactly `H n`.
   have hHomot : ∀ n, (Cochain.equivHomotopy (fc n) 0 (homot n)).1 = H n := by
     intro n
-    show (Cochain.equivHomotopy (fc n) 0 ((Cochain.equivHomotopy (fc n) 0).symm _)).1 = H n
+    change (Cochain.equivHomotopy (fc n) 0 ((Cochain.equivHomotopy (fc n) 0).symm _)).1 = H n
     rw [Equiv.apply_symm_apply]
   -- The cone identity `f_{n+1} ≫ pₙ = fₙ` (`limit.w`).
   have hcone : ∀ n, fc (n + 1) ≫ F.map (homOfLE (Nat.le_succ n)).op = fc n := by
@@ -506,15 +506,15 @@ theorem exists_cylinder_extension_limit
     apply limit.hom_ext
     rintro ⟨n⟩
     simp only [Category.assoc, limit.lift_π]
-    show cylinder.ι₀ M ≫ c.π.app (op n) = _
-    simp only [c, NatTrans.ofOpSequence_app, unop_op]
+    change cylinder.ι₀ M ≫ c.π.app (op n) = _
+    simp only [c, NatTrans.ofOpSequence_app]
     rw [hg0]
   · -- `ι₁ ≫ G = 0`: check after composing with each `limit.π`.
     apply limit.hom_ext
     rintro ⟨n⟩
     simp only [Category.assoc, limit.lift_π, zero_comp]
-    show cylinder.ι₁ M ≫ c.π.app (op n) = _
-    simp only [c, NatTrans.ofOpSequence_app, unop_op]
+    change cylinder.ι₁ M ≫ c.π.app (op n) = _
+    simp only [c, NatTrans.ofOpSequence_app]
     rw [hg1]
 
 /-- **Stacks Tag 070L (Lemma 13.31.8).** Let `A` be an abelian category and let

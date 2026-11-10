@@ -221,7 +221,7 @@ public theorem exteriorDividedPowerStructure_dpow_map_mulLeft :
       (mem_positiveEvenPart_equiv_iff (exteriorGrade R ((Fin r → R) × R))
         (exteriorGrade R (Fin (r + 1) → R)) e hgr x).mp hx
     rw [exteriorDividedPowerStructure_succ R r]
-    show e ((exteriorProdDividedPowerStructure (exteriorDividedPowerStructure R r)).dpow k
+    change e ((exteriorProdDividedPowerStructure (exteriorDividedPowerStructure R r)).dpow k
         (e.symm (ExteriorAlgebra.map D x))) =
       ExteriorAlgebra.map D (e ((exteriorProdDividedPowerStructure
         (exteriorDividedPowerStructure R r)).dpow k (e.symm x)))

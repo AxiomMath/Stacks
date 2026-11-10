@@ -108,7 +108,7 @@ theorem homologySequenceδ_leftComp (T : Triangle C) (n₀ n₁ : ℤ) (h : n₀
     (π ⋙ H).homologySequenceδ T n₀ n₁ h =
       H.homologySequenceδ (π.mapTriangle.obj T) n₀ n₁ h := by
   simp only [homologySequenceδ, shiftMap]
-  show (H.shift n₀).map (π.map T.mor₃) ≫ (𝟙 _ ≫ (H.shift n₀).map ((π.commShiftIso 1).hom.app _) ≫
+  change (H.shift n₀).map (π.map T.mor₃) ≫ (𝟙 _ ≫ (H.shift n₀).map ((π.commShiftIso 1).hom.app _) ≫
       𝟙 _ ≫ (H.shiftIso 1 n₀ n₁ _).hom.app _) = _
   simp only [Category.id_comp]
   rw [← Category.assoc, ← Functor.map_comp]

@@ -140,7 +140,7 @@ theorem isPullback_pullback_map
   apply IsPullback.of_right (h₁₂ := pullback.snd B.hom f) (h₂₂ := B.hom) (v₁₃ := f)
   · simpa [Over.pullback, pullback.lift_snd, Over.w g] using
       (IsPullback.of_hasPullback A.hom f).flip
-  · simp [Over.pullback, pullback.lift_fst]
+  · simp [Over.pullback]
   · exact (IsPullback.of_hasPullback B.hom f).flip
 
 /-- Base changing a cofiltered limit cone of objects over a stage along a morphism to that
@@ -266,7 +266,7 @@ private theorem exists_standardFppf_refinement_local (B : BigFppfSite.{u})
     ⟨E.map B.inclusion, hEfp'⟩
   have hUfp := (Scheme.presieve₀_mem_precoverage_iff U.toPreZeroHypercover).mp U.mem₀
   let : Scheme.JointlySurjective Scheme.fppfPrecoverage := by
-    show Scheme.JointlySurjective (Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation))
+    change Scheme.JointlySurjective (Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation))
     infer_instance
   let : MorphismProperty.IsStableUnderComposition
       (@Flat ⊓ @LocallyOfFinitePresentation) :=
@@ -284,7 +284,7 @@ private theorem exists_standardFppf_refinement_local (B : BigFppfSite.{u})
     let : LocallyOfFinitePresentation (U.f i) := hf.2
     exact Scheme.Hom.isOpenMap (U.f i)
   let : IsAffine T₀ := by
-    show IsAffine (B.inclusion.obj T)
+    change IsAffine (B.inclusion.obj T)
     infer_instance
   let : CompactSpace (Spec Γ(T₀, ⊤)) := inferInstance
   let : CompactSpace T₀ :=
@@ -295,7 +295,7 @@ private theorem exists_standardFppf_refinement_local (B : BigFppfSite.{u})
   let : Finite P.I₀ := hVfinite
   let hPaff : ∀ i, IsAffine (P.X i) := by
     intro i
-    show IsAffine (Spec (V.X i))
+    change IsAffine (Spec (V.X i))
     exact isAffine_Spec _
   have hPstandard : IsStandardFppfCovering P.X P.f := by
     refine ⟨hVfinite, inferInstance, hPaff, ?_, ?_, ?_⟩
@@ -349,7 +349,7 @@ private theorem exists_standardFppf_refinement_local (B : BigFppfSite.{u})
       obtain ⟨e, he⟩ := hα' i
       let j : I := ⟨α' i, ⟨i, rfl⟩⟩
       refine Set.mem_iUnion.mpr ⟨j, Set.mem_range.mpr ⟨e.hom y, ?_⟩⟩
-      show (B.inclusion.map (W.f j.1)) (e.hom y) = x
+      change (B.inclusion.map (W.f j.1)) (e.hom y) = x
       rw [← Scheme.Hom.comp_apply, he]
       exact hy
   have hQfp : IsFppfCovering ⟨T, Q⟩ := by
@@ -394,7 +394,7 @@ private theorem exists_standard_refinement_over
     ∀ i : V.I₀,
         U (Over.homMk (V.f i) : Over.mk (V.f i ≫ X.hom) ⟶ X) := by
   let : IsAffine (B.inclusion.obj X.left) := by
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj X)
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj X)
     infer_instance
   have hU : (Sieve.overEquiv X) U.1 ∈ B.topology X.left :=
     (CategoryTheory.GrothendieckTopology.mem_over_iff _ U.1).mp U.2
@@ -506,11 +506,11 @@ private theorem finite_cover_descends
     ⟨Q.I₀, fun k ↦ Over.mk (fB k ≫ (D.obj i).hom), fun k ↦ Over.homMk (fB k)⟩
   have hE : B.IsCovering ⟨(D.obj i).left, E.map (Over.forget (B.obj hS))⟩ := by
     refine ⟨?_, hQ.2⟩
-    show (E.map (Over.forget (B.obj hS))).presieve₀ ∈
+    change (E.map (Over.forget (B.obj hS))).presieve₀ ∈
       Scheme.fppfPrecoverage.comap B.inclusion (D.obj i).left
     rw [Precoverage.mem_comap_iff, ← PreZeroHypercover.presieve₀_map]
     apply (Scheme.presieve₀_mem_precoverage_iff _).2
-    show (∀ x, ∃ k y, B.inclusion.map (fB k) y = x) ∧
+    change (∀ x, ∃ k y, B.inclusion.map (fB k) y = x) ∧
       ∀ k, Flat (B.inclusion.map (fB k)) ∧ LocallyOfFinitePresentation (B.inclusion.map (fB k))
     simp only [hfB]
     exact ⟨fun x ↦ Set.mem_iUnion.mp (Set.eq_univ_iff_forall.mp hstd.jointly_surjective x),
@@ -541,7 +541,7 @@ private theorem finite_cover_descends
     exact hg)
   let a : pullback (c.π.app i) (E.f k) ⟶ Over.mk (Q.f k ≫ c.pt.hom) :=
     Over.homMk gB (by
-      show gB ≫ (Q.f k ≫ c.pt.hom) = _
+      change gB ≫ (Q.f k ≫ c.pt.hom) = _
       rw [← Category.assoc, hgB]
       exact Over.w p)
   have ha : a ≫ (Over.homMk (Q.f k) : Over.mk (Q.f k ≫ c.pt.hom) ⟶ c.pt) = p :=
@@ -634,7 +634,7 @@ theorem images_eventually_equal_pullback
     (F.map a.op x) (F.map a.op y) (by
       let b : pullback (c.π.app i) f ⟶ pullback (D.map j₀.hom) f :=
         ((Over.pullback f).map ((c.overPost i).π.app j₀)).left
-      show G.map b.op (η.app _ (F.map a.op x)) = G.map b.op (η.app _ (F.map a.op y))
+      change G.map b.op (η.app _ (F.map a.op x)) = G.map b.op (η.app _ (F.map a.op y))
       rw [η.naturality_apply a.op, η.naturality_apply a.op]
       simp only [← Functor.map_comp_apply, ← op_comp]
       have hh : b ≫ a = pullback.snd (c.π.app i) f := pullback.lift_snd _ _ _
@@ -696,7 +696,7 @@ theorem images_eventually_equal_of_locally_injective
       F.map (pullback.snd (D.map l.hom) (E.f k)).op
         (F.map (E.f k).op (F.map (D.map j.hom).op y)) := by
     apply eventually_eq_pullback_sections T F hF D c hc hD hC j.left (E.f k) (haff k)
-    show F.map (pullback.snd (c.π.app j.left) (E.f k)).op _ = _
+    change F.map (pullback.snd (c.π.app j.left) (E.f k)).op _ = _
     have hr : F.map (pullback.fst (c.π.app j.left) (E.f k)).op
         (F.map (c.π.app i).op x) = F.map (pullback.fst (c.π.app j.left) (E.f k)).op
         (F.map (c.π.app i).op y) := hER k
@@ -713,7 +713,7 @@ theorem images_eventually_equal_of_locally_injective
   change E.I₀ at k
   have h'' := congrArg (η.app _) (pullback_snd_eq_of_factor F (E.f k) (D.map g)
     (D.map (l k).hom) (D.map (a k)) (by rw [← D.map_comp, ha k]) (hl k))
-  show G.map (pullback.fst (D.map g) (E.f k)).op
+  change G.map (pullback.fst (D.map g) (E.f k)).op
     (G.map (D.map (g ≫ j.hom)).op (η.app _ x)) =
     G.map (pullback.fst (D.map g) (E.f k)).op
       (G.map (D.map (g ≫ j.hom)).op (η.app _ y))
@@ -783,11 +783,11 @@ theorem images_eventually_equal_of_locally_surjective
       simpa only [← Functor.map_comp_apply, ← op_comp, ← pullback.condition]
         using congrArg (G.map (pullback.fst (c.π.app i) (E.f k)).op) hxy)
   refine ⟨j.left, j.hom, ?_⟩
-  show G.map (D.map j.hom).op x = G.map (D.map j.hom).op y
+  change G.map (D.map j.hom).op x = G.map (D.map j.hom).op y
   apply sheaf_eq_of_cover J G hG (E.pullback₁ (D.map j.hom)) (pullback_cover_mem J E hE _)
   intro k
   change E.I₀ at k
-  show G.map (pullback.fst (D.map j.hom) (E.f k)).op
+  change G.map (pullback.fst (D.map j.hom) (E.f k)).op
     (G.map (D.map j.hom).op x) = G.map (pullback.fst (D.map j.hom) (E.f k)).op
     (G.map (D.map j.hom).op y)
   have h := hj k
@@ -874,7 +874,7 @@ theorem pullback_family_compatible
     dsimp [p, q]
     rw [pullback.lift_fst_assoc, Category.assoc, Category.assoc, pullback.condition]
   have hh := congrArg (G.map (pullback.lift p q hpq).op) (h k l)
-  show G.map a.op (G.map (pullback.snd f (E.f k)).op (y k)) =
+  change G.map a.op (G.map (pullback.snd f (E.f k)).op (y k)) =
     G.map b.op (G.map (pullback.snd f (E.f l)).op (y l))
   simpa only [← Functor.map_comp_apply, ← op_comp, pullback.lift_snd_assoc,
     q, pullback.lift_fst, pullback.lift_snd] using hh
@@ -955,12 +955,12 @@ theorem exists_sheaf_section_at_stage
     (isPullback_pullback_map (Ej.f k) ((c.overPost j.left).π.app m)).w
   have hb' : b ≫ pullback.snd (D.map m.hom) (Ej.f k) =
       pullback.snd (c.π.app j.left) (Ej.f k) := pullback.lift_snd _ _ _
-  show G.map (pullback.fst (c.π.app j.left) (Ej.f k)).op
+  change G.map (pullback.fst (c.π.app j.left) (Ej.f k)).op
     (G.map (c.π.app m.left).op s) = G.map (pullback.fst (c.π.app j.left) (Ej.f k)).op x
   have hs' : G.map (pullback.fst (D.map m.hom) (Ej.f k)).op s =
       G.map (pullback.snd (D.map m.hom) (Ej.f k)).op (z k) := hs k
   rw [← G.map_comp_apply, ← op_comp, ← hb, op_comp, G.map_comp_apply, hs']
-  show G.map b.op (G.map (pullback.snd (D.map m.hom) (Ej.f k)).op (z k)) = _
+  change G.map b.op (G.map (pullback.snd (D.map m.hom) (Ej.f k)).op (z k)) = _
   rw [← G.map_comp_apply, ← op_comp, hb']
   exact (hz k).symm
 

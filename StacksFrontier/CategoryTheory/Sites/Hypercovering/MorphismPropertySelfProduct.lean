@@ -72,7 +72,7 @@ theorem hom_ext_of_isLimit_fan {n : ℕ} {Q : C} {g h : Q ⟶ A.left.obj (op ⦋
       A.over.obj (op ⦋n⦌)))
     (f' := Over.homMk h hb.symm) fun j => by
       refine Over.OverMorphism.ext ?_
-      show g ≫ π n j.as = h ≫ π n j.as
+      change g ≫ π n j.as = h ≫ π n j.as
       exact hi j.as
   exact congrArg CommaMorphism.left this
 
@@ -183,8 +183,8 @@ theorem Arrow.augmentedCechNerve_vertexMap_π (n : ℕ) (i : Fin (n + 1)) :
     f.augmentedCechNerve.vertexMap n i ≫
         WidePullback.π (fun _ : Fin 1 => f.hom) 0 =
       WidePullback.π (fun _ : Fin (n + 1) => f.hom) i := by
-  show f.cechNerve.map _ ≫ _ = _
-  simp [Arrow.cechNerve_map, WidePullback.lift_π, SimplexCategory.const_apply]
+  change f.cechNerve.map _ ≫ _ = _
+  simp [Arrow.cechNerve_map, SimplexCategory.const_apply]
 
 /-- **The terms of the Čech nerve of `f : U ⟶ X` are, over `X`, the self-products of its
 degree-zero term**, through the vertex maps. -/
@@ -209,7 +209,7 @@ def Arrow.isLimitVertexFanAugmentedCechNerve (n : ℕ) :
   have hℓπ : ∀ s i, ℓ s ≫ WidePullback.π (fun _ : Fin (n + 1) => f.hom) i =
       (s.proj i).left ≫ WidePullback.π (fun _ : Fin 1 => f.hom) 0 :=
     fun s i => WidePullback.lift_π _ _ _ _ _
-  refine mkFanLimit _ (fun s => Over.homMk (ℓ s) (hℓb s)) (fun s i => ?_) (fun s m hm => ?_)
+  refine Fan.IsLimit.mk _ (fun s => Over.homMk (ℓ s) (hℓb s)) (fun s i => ?_) (fun s m hm => ?_)
   · refine Over.OverMorphism.ext ?_
     change ℓ s ≫ f.augmentedCechNerve.vertexMap n i = (s.proj i).left
     apply WidePullback.hom_ext
@@ -304,7 +304,7 @@ theorem MorphismProperty.isHypercovering_of_isLimit_fan (h₀ : P (A.hom.app (Op
         (Nat.zero_le n)).2.2 _ ((SimplicialObject.isCoskeletal_iff_isIso _ 0).mp
           (A.isCoskeletal_over_of_isLimit_fan π hπa hU hπ))
     have : IsIso (SimplicialObject.Augmented.matchingArrow A n).hom := by
-      show IsIso ((Over.forget A.right).map
+      change IsIso ((Over.forget A.right).map
         (((SimplicialObject.coskAdj n).unit.app A.over).app (Opposite.op ⦋n + 1⦌)))
       infer_instance
     exact P.of_isIso _

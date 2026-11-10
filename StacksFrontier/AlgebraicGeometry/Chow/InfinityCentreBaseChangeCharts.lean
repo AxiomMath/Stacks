@@ -46,7 +46,7 @@ variable {X X' : Scheme.{u}} (f : X' ⟶ X)
 theorem affineYChart_comp_projectiveLineBaseChange :
     affineYChart X' ≫ projectiveLineBaseChange f = affineLineOverMap f ≫ affineYChart X := by
   refine pullback.hom_ext ?_ ?_
-  · show (affineYChart X' ≫ projectiveLineBaseChange f) ≫ (relativeProjectiveLine X ↘ X) =
+  · change (affineYChart X' ≫ projectiveLineBaseChange f) ≫ (relativeProjectiveLine X ↘ X) =
       affineLineOverMap f ≫ affineYChart X ≫ (relativeProjectiveLine X ↘ X)
     rw [Category.assoc, projectiveLineBaseChange_over, ← Category.assoc, affineYChart_comp,
       affineYChart_comp, affineLineOverMap_fst]
@@ -106,12 +106,12 @@ theorem map_ideal_ker_le {Z Z' : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i]
     rintro p hp rfl
     rw [← Scheme.Hom.appLE_comp_appLE g i U.1 (i ⁻¹ᵁ U.1) _ le_rfl
       (fun x hx => hp hx), CommRingCat.comp_apply, Scheme.Hom.appLE_eq_app]
-    show g.appLE _ _ _ ((i.app U.1).hom a) = 0
+    change g.appLE _ _ _ ((i.app U.1).hom a) = 0
     rw [RingHom.mem_ker.mp ha, map_zero]
   have hsplit : f.appLE U.1 U'.1 hUU' ≫ i'.app U'.1 =
       (i' ≫ f).appLE U.1 (i' ⁻¹ᵁ U'.1) (by rw [hcomm]; exact hle) := by
     rw [Scheme.Hom.app_eq_appLE, Scheme.Hom.appLE_comp_appLE]
-  show (i'.app U'.1).hom ((f.appLE U.1 U'.1 hUU').hom a) = 0
+  change (i'.app U'.1).hom ((f.appLE U.1 U'.1 hUU').hom a) = 0
   rw [← CommRingCat.comp_apply, hsplit]
   exact key _ _ hcomm
 
@@ -128,7 +128,7 @@ theorem specMap_infinityChartAlgebraMap_blowupAtInfinityChartS_baseChange :
   have hg : Stacks.Blowup.IsCartierOver (infinityCentreIdeal ℐ)
       (Over.mk (blowupAtInfinityChartS ℐ' U' ≫ blowupAtInfinityToLine ℐ' ≫
         projectiveLineBaseChange f)) := by
-    show Stacks.Divisors.IsEffectiveCartierDivisor
+    change Stacks.Divisors.IsEffectiveCartierDivisor
       ((infinityCentreIdeal ℐ).comap
         (blowupAtInfinityChartS ℐ' U' ≫ blowupAtInfinityToLine ℐ' ≫ projectiveLineBaseChange f))
     rw [Scheme.IdealSheafData.comap_comp, Scheme.IdealSheafData.comap_comp,
@@ -137,7 +137,7 @@ theorem specMap_infinityChartAlgebraMap_blowupAtInfinityChartS_baseChange :
   have h1 : (Spec.map (CommRingCat.ofHom (infinityChartAlgebraMap (affineBaseChangeMap f hUU')
         hI)) ≫ blowupAtInfinityChartS ℐ U) ≫ blowUpToBase (infinityCentreIdeal ℐ) =
       blowupAtInfinityChartS ℐ' U' ≫ blowupAtInfinityToLine ℐ' ≫ projectiveLineBaseChange f := by
-    show _ ≫ blowupAtInfinityToLine ℐ = _
+    change _ ≫ blowupAtInfinityToLine ℐ = _
     rw [Category.assoc, blowupAtInfinityChartS, blowupAtInfinityChartS,
       blowupAtInfinityPolyChart_comp, blowupAtInfinityPolyChart_comp_assoc,
       ← specMap_map_infinityChartOver_baseChange f hUU', ← Category.assoc, ← Spec.map_comp,
@@ -148,7 +148,7 @@ theorem specMap_infinityChartAlgebraMap_blowupAtInfinityChartS_baseChange :
   have h2 : (blowupAtInfinityChartS ℐ' U' ≫ blowupAtInfinityComap f ℐ ℐ' h) ≫
       blowUpToBase (infinityCentreIdeal ℐ) =
       blowupAtInfinityChartS ℐ' U' ≫ blowupAtInfinityToLine ℐ' ≫ projectiveLineBaseChange f := by
-    show _ ≫ blowupAtInfinityToLine ℐ = _
+    change _ ≫ blowupAtInfinityToLine ℐ = _
     rw [Category.assoc, blowupAtInfinityComap_comp]
   exact (blowUpLift_unique _ _ hg _ h1).trans (blowUpLift_unique _ _ hg _ h2).symm
 

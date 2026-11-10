@@ -127,7 +127,7 @@ theorem quotientHomPoints_app_eq_zero_of_le {I : s.GradedIdeal}
     I.quotientSituation.isQuasicoherent I.quotientSituation.sections_hasCardinalLT
     J.quotientMap (I.toIdeal.quotientMapOfLE h) T f n
   rw [I.toIdeal.quotientMap_comp_quotientMapOfLE h, SheafGradedAlgebraHom.comp_app] at key
-  show ((restrictHom s.mul_comm s.negative_isZero s.isQuasicoherent s.sections_hasCardinalLT
+  change ((restrictHom s.mul_comm s.negative_isZero s.isQuasicoherent s.sections_hasCardinalLT
     I.quotientSituation.mul_comm I.quotientSituation.negative_isZero
     I.quotientSituation.isQuasicoherent I.quotientSituation.sections_hasCardinalLT
     I.quotientMap T f).app n).app W a = 0
@@ -276,7 +276,7 @@ theorem exists_iso_quotientProjHom_of_chart_ker (T : BigFppfOver s.site s.base s
       (Stacks.AlgebraicGeometry.Tag07ZGMorphism.relativeMapHom ψ ≫
         (s.relativeProjPoints.fibreIso T f).inv).ker := by
     refine ker_snd_eq_of_mem_iff _ _ _ s.Proj Z₂ W _ fun {a} k => ?_
-    show g.app (op a) k ∈ (Subfunctor.range J.quotientProjHom.hom).obj (op a) ↔ _
+    change g.app (op a) k ∈ (Subfunctor.range J.quotientProjHom.hom).obj (op a) ↔ _
     rw [J.range_quotientProjHom]
     refine (J.quotientHomPoints.mem_range_relativeMapSpaceHom_iff T f k).trans
       (exists_congr fun τ => ?_)

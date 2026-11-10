@@ -43,7 +43,7 @@ theorem finite_fieldValuedPoints {k : Type u} [Field k] [Finite k] {X : Scheme.{
     intro x σ
     obtain ⟨hc, hd⟩ := isClosed_and_dvd_of_residueEmbeddings f K x σ
     refine ⟨hc, Finset.mem_filter.2 ⟨?_, hd⟩⟩
-    simp only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+    simp only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
     exact Nat.le_of_dvd hpos hd
   let e : (Σ x : X, residueEmbeddings f K x) ≃ Σ y : S, residueEmbeddings f K y.1.1 :=
     { toFun := fun c => ⟨⟨⟨c.1, (hmem c.1 c.2).1⟩, (hmem c.1 c.2).2⟩, c.2⟩
@@ -54,7 +54,7 @@ theorem finite_fieldValuedPoints {k : Type u} [Field k] [Finite k] {X : Scheme.{
     intro y
     refine Nat.finite_of_card_ne_zero ?_
     have hd := (Finset.mem_filter.1 y.2).2
-    rw [natCard_residueEmbeddings, if_pos hd]
+    rw [natCard_residueEmbeddings, ite_eq_left hd]
     intro h0
     rw [h0, zero_dvd_iff] at hd
     omega
@@ -62,7 +62,7 @@ theorem finite_fieldValuedPoints {k : Type u} [Field k] [Finite k] {X : Scheme.{
 
 section Residue
 
-variable {M : Scheme.{u}} [IsIntegral M] {A : Type u} [CommRing A] [IsDedekindDomain A]
+variable {M : Scheme.{u}} [IsIntegral M] {A : Type u} [CommRing A]
   [Algebra A M.functionField] [IsFractionRing A M.functionField]
 
 /-- A homomorphism with kernel `P` factors through the residue field at the place of `P`. -/
@@ -82,7 +82,7 @@ theorem exists_residueField_ringHom {Ω : Type*} [Field Ω] (φ : A →+* Ω)
   refine ⟨ψ₀.comp (RingHom.quotientKerEquivOfSurjective hθs).symm.toRingHom, fun a => ?_⟩
   have h1 : (RingHom.quotientKerEquivOfSurjective hθs).symm (θ a) = Ideal.Quotient.mk _ a := by
     rw [RingEquiv.symm_apply_eq, RingHom.quotientKerEquivOfSurjective_apply_mk]
-  show ψ₀ ((RingHom.quotientKerEquivOfSurjective hθs).symm (θ a)) = φ a
+  change ψ₀ ((RingHom.quotientKerEquivOfSurjective hθs).symm (θ a)) = φ a
   rw [h1]
   rfl
 
@@ -184,7 +184,7 @@ private theorem exists_residueEmbeddings_apply_eq {k : Type u} [Field k] {X : Sc
     exact hψ a
   refine ⟨⟨CommRingCat.ofHom (ψb.codRestrict K hval), ?_⟩, hψb⟩
   ext c
-  show ψb (IsLocalRing.residue _ ((fieldToStalk p x).hom c)) = ι₀ c
+  change ψb (IsLocalRing.residue _ ((fieldToStalk p x).hom c)) = ι₀ c
   rw [← toStalk_algebraMap p hkA x (forall_exists_algebraMap_eq hx), hψb]
   exact congrArg (fun F : k →+* Ω => F c) ψ.2
 

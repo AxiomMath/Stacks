@@ -103,7 +103,7 @@ private theorem stalkMap_ker_localized
     constructor
     · rintro ⟨a, ha, rfl⟩
       rw [RingHom.mem_ker] at ha ⊢
-      show loc (e₁ a) = 0
+      change loc (e₁ a) = 0
       rw [hcomm a, ha]
       exact map_zero _
     · intro hw
@@ -273,15 +273,15 @@ private theorem pullback_stalk_quotient_equiv
   let : IsLocalization M C := hM
   let : IsScalarTower A T C := IsScalarTower.of_algebraMap_eq' (by
     ext a
-    show (pZ.stalkMap t).hom a = φ (Algebra.TensorProduct.includeLeftRingHom a)
+    change (pZ.stalkMap t).hom a = φ (Algebra.TensorProduct.includeLeftRingHom a)
     exact (DFunLike.congr_fun hφA a).symm)
   let : IsScalarTower B T C := IsScalarTower.of_algebraMap_eq' (by
     ext b
-    show (pW.stalkMap t).hom b = φ (Algebra.TensorProduct.includeRight.toRingHom b)
+    change (pW.stalkMap t).hom b = φ (Algebra.TensorProduct.includeRight.toRingHom b)
     exact (DFunLike.congr_fun hφB b).symm)
   let I : Ideal R := RingHom.ker (algebraMap R B)
   have hBsurj : Function.Surjective (algebraMap R B) := by
-    show Function.Surjective
+    change Function.Surjective
       (((eqToHom (congrArg W'.presheaf.stalk h)) ≫ g.stalkMap (pW.base t)).hom)
     exact (g.stalkMap_surjective (pW.base t)).comp
       (ConcreteCategory.bijective_of_isIso (eqToHom (congrArg W'.presheaf.stalk h))).2
@@ -306,20 +306,20 @@ private theorem pullback_stalk_quotient_equiv
     Algebra.TensorProduct.quotIdealMapEquivTensorQuot A I
   refine ⟨eQuot.trans (eTensor.trans eT), ?_⟩
   intro a
-  show eT (eTensor (eQuot (Ideal.Quotient.mk _ a))) = (pZ.stalkMap t).hom a
+  change eT (eTensor (eQuot (Ideal.Quotient.mk _ a))) = (pZ.stalkMap t).hom a
   unfold eQuot
   rw [Algebra.TensorProduct.quotIdealMapEquivTensorQuot_mk]
   have ht : eTensor (a ⊗ₜ[R] (1 : R ⧸ I)) =
       Algebra.TensorProduct.includeLeftRingHom a := by
-    show Algebra.TensorProduct.map
+    change Algebra.TensorProduct.map
       (AlgEquiv.refl : (↑A) ≃ₐ[(↑A)] (↑A)).toAlgHom q.toAlgHom
         (a ⊗ₜ[R] (1 : R ⧸ I)) = Algebra.TensorProduct.includeLeftRingHom a
     rw [Algebra.TensorProduct.map_tmul]
     simp [Algebra.TensorProduct.includeLeftRingHom_apply]
-  show (algebraMap T C) (eTensor (a ⊗ₜ[R] (1 : R ⧸ I))) =
+  change (algebraMap T C) (eTensor (a ⊗ₜ[R] (1 : R ⧸ I))) =
     (pZ.stalkMap t).hom a
   rw [ht]
-  show φ (Algebra.TensorProduct.includeLeftRingHom a) = (pZ.stalkMap t).hom a
+  change φ (Algebra.TensorProduct.includeLeftRingHom a) = (pZ.stalkMap t).hom a
   rw [← hφA]
   rfl
 
@@ -355,7 +355,7 @@ private theorem pullback_square_stalk_quotient_equiv
   let z := pA.base t
   let w := pB.base t
   have hpa : z = iA a := by
-    show (h.isoPullback.hom ≫ pA).base a = iA a
+    change (h.isoPullback.hom ≫ pA).base a = iA a
     rw [h.isoPullback_hom_fst]
   have hpt : (pA ≫ g).base t = (pB ≫ iB).base t :=
     congrArg (fun k : pullback g iB ⟶ B' => k.base t) pullback.condition
@@ -375,7 +375,7 @@ private theorem pullback_square_stalk_quotient_equiv
   let eIso := (asIso (u.stalkMap a)).commRingCatIsoToRingEquiv
   refine ⟨ePB.toRingEquiv.trans eIso, ?_⟩
   intro d
-  show eIso (ePB (Ideal.Quotient.mk _ d)) =
+  change eIso (ePB (Ideal.Quotient.mk _ d)) =
     (iA.stalkMap a).hom ((eqToHom (congrArg A'.presheaf.stalk hpa)) d)
   rw [hePB]
   have hu : u ≫ pA = iA := h.isoPullback_hom_fst
@@ -490,7 +490,7 @@ private theorem flat_stalk_map_of_flat_reduction
   have hcomp := stalkMap_comp_eq_eqToHom_comp f' pY' hf'base x' hR
   let : IsScalarTower R T M := IsScalarTower.of_algebraMap_eq' (by
     ext r
-    show (((eqToHom (congrArg S'.presheaf.stalk hR) ≫ pX'.stalkMap x').hom) r) =
+    change (((eqToHom (congrArg S'.presheaf.stalk hR) ≫ pX'.stalkMap x').hom) r) =
       ((f'.stalkMap x').hom ((pY'.stalkMap (f' x')).hom r))
     exact (DFunLike.congr_fun
       (congrArg (fun q : CommRingCat.Hom _ _ => q.hom) hcomp).symm r))
@@ -510,7 +510,7 @@ private theorem flat_stalk_map_of_flat_reduction
     let eRed := (asIso (eqToHom (congrArg S'.presheaf.stalk hred)))
       |>.commRingCatIsoToRingEquiv
     have hker := stalkMap_ker_isNilpotent_of_finiteOrder hiS s
-    show IsNilpotent (RingHom.ker ((iS.stalkMap s).hom.comp eRed.toRingHom))
+    change IsNilpotent (RingHom.ker ((iS.stalkMap s).hom.comp eRed.toRingHom))
     exact nilpotent_ker_precomp_equiv eRed (iS.stalkMap s).hom hker
   have hflatRM : Module.Flat R M :=
     RingHom.flat_algebraMap_iff.mp (flat_eqToHom_stalkMap pX' hflatX' x' hR)
@@ -535,16 +535,16 @@ private theorem flat_stalk_map_of_flat_reduction
     change pY (f x) = pX x at h
     exact h.symm
   have hpx : (pullback.fst pX' iS) (hX.isoPullback.hom x) = iX x := by
-    show (hX.isoPullback.hom ≫ pullback.fst pX' iS) x = iX x
+    change (hX.isoPullback.hom ≫ pullback.fst pX' iS) x = iX x
     rw [hX.isoPullback_hom_fst]
   have hpxB : (pullback.snd pX' iS) (hX.isoPullback.hom x) = pX x := by
-    show (hX.isoPullback.hom ≫ pullback.snd pX' iS) x = pX x
+    change (hX.isoPullback.hom ≫ pullback.snd pX' iS) x = pX x
     rw [hX.isoPullback_hom_snd]
   have hpy : (pullback.fst pY' iS) (hY.isoPullback.hom (f x)) = iY (f x) := by
-    show (hY.isoPullback.hom ≫ pullback.fst pY' iS) (f x) = iY (f x)
+    change (hY.isoPullback.hom ≫ pullback.fst pY' iS) (f x) = iY (f x)
     rw [hY.isoPullback_hom_fst]
   have hpyB : (pullback.snd pY' iS) (hY.isoPullback.hom (f x)) = pY (f x) := by
-    show (hY.isoPullback.hom ≫ pullback.snd pY' iS) (f x) = pY (f x)
+    change (hY.isoPullback.hom ≫ pullback.snd pY' iS) (f x) = pY (f x)
     rw [hY.isoPullback_hom_snd]
   obtain ⟨eX, heX⟩ := pullback_square_stalk_quotient_equiv hX x
   obtain ⟨eY, heY⟩ := pullback_square_stalk_quotient_equiv hY (f x)
@@ -554,7 +554,7 @@ private theorem flat_stalk_map_of_flat_reduction
   let zX := pAX.base tX
   let wX := pBX.base tX
   let hptX : pX' zX = iS wX := by
-    show (pAX ≫ pX').base tX = (pBX ≫ iS).base tX
+    change (pAX ≫ pX').base tX = (pBX ≫ iS).base tX
     exact congrArg (fun k : pullback pX' iS ⟶ S' => k.base tX) pullback.condition
   let RX := S'.presheaf.stalk (pX' zX)
   let DX := X'.presheaf.stalk zX
@@ -571,7 +571,7 @@ private theorem flat_stalk_map_of_flat_reduction
   let zY := pAY.base tY
   let wY := pBY.base tY
   let hptY : pY' zY = iS wY := by
-    show (pAY ≫ pY').base tY = (pBY ≫ iS).base tY
+    change (pAY ≫ pY').base tY = (pBY ≫ iS).base tY
     exact congrArg (fun k : pullback pY' iS ⟶ S' => k.base tY) pullback.condition
   let RY := S'.presheaf.stalk (pY' zY)
   let DY := Y'.presheaf.stalk zY
@@ -594,11 +594,11 @@ private theorem flat_stalk_map_of_flat_reduction
       pY' zY = pY' (iY (f x)) := congrArg pY' hpy
       _ = pY' (f' x') := congrArg pY' hxy
   have hEX : wX = s := by
-    show (pullback.snd pX' iS) (hX.isoPullback.hom x) = pY (f x)
+    change (pullback.snd pX' iS) (hX.isoPullback.hom x) = pY (f x)
     rw [hpxB]
     exact hS
   have hEY : wY = s := by
-    show (pullback.snd pY' iS) (hY.isoPullback.hom (f x)) = pY (f x)
+    change (pullback.snd pY' iS) (hY.isoPullback.hom (f x)) = pY (f x)
     rw [hpyB]
   let eDX := (asIso (eqToHom (congrArg X'.presheaf.stalk hDX))).commRingCatIsoToRingEquiv
   let eDY := (asIso (eqToHom (congrArg Y'.presheaf.stalk hDY))).commRingCatIsoToRingEquiv
@@ -694,10 +694,10 @@ private theorem flat_stalk_map_of_flat_reduction
       (f.stalkMap x).hom.comp eYq.toRingHom := by
     apply Ideal.Quotient.ringHom_ext
     ext t
-    show eXq (Ideal.Quotient.mk J_M ((algebraMap T M) t)) =
+    change eXq (Ideal.Quotient.mk J_M ((algebraMap T M) t)) =
       (f.stalkMap x).hom (eYq (Ideal.Quotient.mk J_T t))
     rw [heXq, heYq]
-    show ((iX.stalkMap x).hom.comp
+    change ((iX.stalkMap x).hom.comp
         ((eqToHom (congrArg X'.presheaf.stalk hpx)).hom.comp eDX.symm.toRingHom))
         ((f'.stalkMap x').hom t) =
       ((f.stalkMap x).hom.comp
@@ -731,7 +731,7 @@ private theorem flat_stalk_map_of_flat_reduction
           obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective c
           obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective
             (J_T • (⊤ : Submodule T M)) z
-          show (algebraMap (T ⧸ J_T) (M ⧸ J_M) (Ideal.Quotient.mk J_T r)) •
+          change (algebraMap (T ⧸ J_T) (M ⧸ J_M) (Ideal.Quotient.mk J_T r)) •
               (Ideal.Quotient.mk J_M m) =
             (Ideal.Quotient.mk J_T r) • (Ideal.Quotient.mk J_M m)
           rfl }
@@ -789,7 +789,7 @@ public theorem flatAt_target_of_flat_reduction
   have hcomp := stalkMap_comp_eq_eqToHom_comp f' pY' hf'base x' hR
   let : IsScalarTower R T M := IsScalarTower.of_algebraMap_eq' (by
     ext r
-    show (((eqToHom (congrArg S'.presheaf.stalk hR) ≫ pX'.stalkMap x').hom) r) =
+    change (((eqToHom (congrArg S'.presheaf.stalk hR) ≫ pX'.stalkMap x').hom) r) =
       (g (h r))
     exact (DFunLike.congr_fun
       (congrArg (fun q : CommRingCat.Hom _ _ => q.hom) hcomp).symm r))
@@ -799,7 +799,7 @@ public theorem flatAt_target_of_flat_reduction
     Flat.faithfullyFlat_stalkMap f' x'
   have hflatT : Module.Flat R T :=
     Stacks.Flatness.NilpotentFibreCriterion.flat_of_flat_of_faithfullyFlat M
-  show h.Flat
+  change h.Flat
   exact RingHom.flat_algebraMap_iff.mpr hflatT
 
 end AlgebraicGeometry

@@ -112,7 +112,7 @@ theorem surj_and_evInj (m : ℕ) :
     dsimp only at hx
     -- `α x` vanishes in the limit, hence at a later stage
     obtain ⟨i₁, h₁, h₁x⟩ := hQi m p i (α i m p x) (by
-      show lQ i m p (α i m p x) = 0
+      change lQ i m p (α i m p x) = 0
       rw [hlα, hx, map_zero])
     dsimp only at h₁x
     rw [← htα] at h₁x
@@ -128,7 +128,7 @@ theorem surj_and_evInj (m : ℕ) :
       obtain ⟨i₃, h₁₃, h₂₃⟩ := directed_of (· ≤ ·) i₁ i₂
       have hd : lE i₃ m (p + 1) (tE h₁₃ m (p + 1) y - β i₃ m p (tQ h₂₃ m p w)) = 0 := by
         rw [map_sub, hlE, hlβ, hlQ]
-        show lE i₁ m (p + 1) y - β' m p (lQ i₂ m p w) = 0
+        change lE i₁ m (p + 1) y - β' m p (lQ i₂ m p w) = 0
         rw [hw, hz, sub_self]
       obtain ⟨i₄, h₃₄, h₄⟩ := (ih m (Nat.lt_succ_self m) (p + 1)).2 i₃ _ hd
       dsimp only at h₄
@@ -145,7 +145,7 @@ theorem surj_and_evInj (m : ℕ) :
     obtain ⟨i, w, hw⟩ := hQs m p (α' m p y)
     dsimp only at hw
     obtain ⟨i₁, h₁, h₁w⟩ := hinj m ih (p + 1) i (β i m p w) (by
-      show lE i m (p + 1) (β i m p w) = 0
+      change lE i m (p + 1) (β i m p w) = 0
       rw [hlβ, hw, hβα'])
     dsimp only at h₁w
     rw [← htβ] at h₁w
@@ -160,7 +160,7 @@ theorem surj_and_evInj (m : ℕ) :
       dsimp only at hv'
       obtain ⟨i₃, h₁₃, h₂₃⟩ := directed_of (· ≤ ·) i₁ i₂
       refine ⟨i₃, tE h₁₃ (m + 1) p x' + δ i₃ m p (tE h₂₃ m (p + 1) v'), ?_⟩
-      show lE i₃ (m + 1) p _ = y
+      change lE i₃ (m + 1) p _ = y
       rw [map_add, hlE, hlδ, hlE, hv', hv, add_sub_cancel]
 
 section ShortExact
@@ -215,7 +215,7 @@ theorem surj_and_evInj_of_shortExact (m : ℕ) :
     intro m i x hx
     dsimp only at hx
     obtain ⟨i₁, h₁, h₁x⟩ := hBi m i (a i m x) (by
-      show lB i m (a i m x) = 0
+      change lB i m (a i m x) = 0
       rw [hla, hx, map_zero])
     dsimp only at h₁x
     rw [← hta] at h₁x
@@ -243,7 +243,7 @@ theorem surj_and_evInj_of_shortExact (m : ℕ) :
   obtain ⟨i, w, hw⟩ := hBs m (a' m y)
   dsimp only at hw
   obtain ⟨i₁, h₁, h₁w⟩ := hAi m i (b i m w) (by
-    show lA i m (b i m w) = 0
+    change lA i m (b i m w) = 0
     rw [hlb, hw, hba'])
   dsimp only at h₁w
   rw [← htb] at h₁w
@@ -258,7 +258,7 @@ theorem surj_and_evInj_of_shortExact (m : ℕ) :
     dsimp only at hv'
     obtain ⟨i₃, h₁₃, h₂₃⟩ := directed_of (· ≤ ·) i₁ i₂
     refine ⟨i₃, tC h₁₃ (m + 1) x' + d i₃ m (tA h₂₃ m v'), ?_⟩
-    show lC i₃ (m + 1) _ = y
+    change lC i₃ (m + 1) _ = y
     rw [map_add, hlC, hld, hlA, hv', hv, add_sub_cancel]
 
 end ShortExact

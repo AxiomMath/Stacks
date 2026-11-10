@@ -99,7 +99,8 @@ The other half of this implication, (1) ⇒ (2)(b) — that a quasi-coherent mod
 `Crystalline.GlobalCrystallineSituation.isSheafCrystal_of_isQuasicoherentOnSite` of
 `StacksFrontier.AlgebraicGeometry.Crystalline.CrystalsModules.QuasicoherentCrystal` for this site,
 and `Crystalline.GlobalCrystallineSituation.SmallSite.isSheafCrystal_of_isQuasicoherentOnSite` of
-`StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.QuasicoherentCrystal` for the small one.  The
+`StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.QuasicoherentCrystal` for the small one.
+The
 converse implication (2) ⇒ (1) is a separate statement.
 
 ## References
@@ -240,7 +241,7 @@ theorem hasGlobalPresentation_pushforward {G : D ⥤ C} [G.IsContinuous K J]
   have hunit : IsIso (SheafOfModules.unitToPushforwardObjUnit φ) := by
     have : IsIso ((sheafToPresheaf K AddCommGrpCat.{r}).map
         ((SheafOfModules.toSheaf R').map (SheafOfModules.unitToPushforwardObjUnit φ))) := by
-      show IsIso (Functor.whiskerRight φ.hom (forget₂ RingCat.{r} AddCommGrpCat.{r}))
+      change IsIso (Functor.whiskerRight φ.hom (forget₂ RingCat.{r} AddCommGrpCat.{r}))
       infer_instance
     have : IsIso ((SheafOfModules.toSheaf R').map
         (SheafOfModules.unitToPushforwardObjUnit φ)) :=

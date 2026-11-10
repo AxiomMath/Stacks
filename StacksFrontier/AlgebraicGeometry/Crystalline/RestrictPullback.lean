@@ -73,8 +73,8 @@ monomorphism of schemes.
 `Crystalline.GlobalCrystallineSituation.mono_restrictι` of
 `StacksFrontier/AlgebraicGeometry/Crystalline/BigSite/SituationRestrict.lean` is this instance for
 the divided power base of a crystalline situation; it is `DividedPowerScheme.mono_of_mono_hom` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Functoriality.lean`, which this file does not
-import, applied there.  The two overlap and should be merged once the import graph allows it. -/
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Functoriality.lean`, which this file does
+not import, applied there.  The two overlap and should be merged once the import graph allows it. -/
 instance mono_restrictι (V : Y.scheme.Opens) : Mono (Y.restrictι V) where
   right_cancellation {_} _ _ h :=
     Hom.ext ((cancel_mono V.ι).1 (congrArg Hom.hom h))
@@ -111,7 +111,7 @@ theorem range_subset_preimage_of_restrictι_comp {a : Z ⟶ Y.restrict V} {b : Z
   rintro _ ⟨z, rfl⟩
   have hz : g.hom.base (b.hom.base z) = (a.hom.base z).1 :=
     congrArg (fun k : Z ⟶ Y ↦ k.hom.base z) h.symm
-  show g.hom.base (b.hom.base z) ∈ V
+  change g.hom.base (b.hom.base z) ∈ V
   rw [hz]
   exact (a.hom.base z).2
 

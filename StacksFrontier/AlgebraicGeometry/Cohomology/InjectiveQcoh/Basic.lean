@@ -127,7 +127,7 @@ public lemma one_mem_idealPowerMultiple_unit_of_subset_compl_support (I : X.Idea
       rw [ideal_eq_top_of_le_compl_support I Wa hWS, Ideal.top_pow])
   have hle := le_idealPowerMultiple_obj I n (SheafOfModules.unit X.ringCatSheaf) Wa
   rw [ideal_smul_top_unit Wa.1 (I.ideal Wa ^ n)] at hle
-  show ((SheafOfModules.unit X.ringCatSheaf).val.map (homOfLE hWU).op).hom
+  change ((SheafOfModules.unit X.ringCatSheaf).val.map (homOfLE hWU).op).hom
       (1 : Γ(X, U)) ∈
     (idealPowerMultiple I n (SheafOfModules.unit X.ringCatSheaf)).toSubmodule.obj (op Wa.1)
   rw [unit_map_one_of_le hWU]
@@ -151,7 +151,7 @@ public lemma subset_compl_support_openComplementIdeal (U : X.Opens) :
 public lemma idealComplement_openComplementIdeal (U : X.Opens) :
     Stacks.LocalCohomology.idealComplement (Scheme.IdealSheafData.complementIdeal U) = U := by
   refine TopologicalSpace.Opens.ext ?_
-  show (((Scheme.IdealSheafData.complementIdeal U).support : Set X))ᶜ = (U : Set X)
+  change (((Scheme.IdealSheafData.complementIdeal U).support : Set X))ᶜ = (U : Set X)
   rw [coe_support_openComplementIdeal, compl_compl]
 
 /-- The section `1` of the subsheaf `I ^ n • 𝒪_X` over an open `U` disjoint from the support of
@@ -193,7 +193,7 @@ public theorem exists_sectionOverTop_of_quasicoherentIdealHom
   let incl : A ⟶ O := ObjectProperty.homMk K.ι
   have hmono : Mono incl := by
     refine (ObjectProperty.ι _).mono_of_mono_map (f := incl) ?_
-    show Mono K.ι
+    change Mono K.ι
     infer_instance
   let φA : A ⟶ J := ObjectProperty.homMk φ
   let ex := Injective.factorThru φA incl
@@ -229,7 +229,7 @@ public theorem isFlasque_of_injective_quasicoherent_of_forall_exists_idealHom
     refine ⟨(J.obj.val.map (homOfLE (le_top : V.unop ≤ ⊤)).op).hom t, ?_⟩
     have hcomp : (homOfLE (le_top : W.unop ≤ ⊤)).op =
         (homOfLE (le_top : V.unop ≤ ⊤)).op ≫ i.unop.op := Subsingleton.elim _ _
-    show (J.obj.val.map i.unop.op).hom
+    change (J.obj.val.map i.unop.op).hom
       ((J.obj.val.map (homOfLE (le_top : V.unop ≤ ⊤)).op).hom t) = s
     rw [← PresheafOfModules.map_comp_apply J.obj.val
       (homOfLE (le_top : V.unop ≤ ⊤)).op i.unop.op t, ← hcomp, ht, hs]

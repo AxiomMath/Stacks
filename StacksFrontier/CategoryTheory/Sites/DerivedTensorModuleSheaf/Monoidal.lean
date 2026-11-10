@@ -165,7 +165,7 @@ is a coproduct indexed by a type in `Type 0`. -/
 instance hasMapBifunctor_curriedTensor {ι₁ ι₂ ι : Type} {c₁ : ComplexShape ι₁}
     {c₂ : ComplexShape ι₂} (K₁ : HomologicalComplex (Sheaf J (ModuleCat.{w} Λ)) c₁)
     (K₂ : HomologicalComplex (Sheaf J (ModuleCat.{w} Λ)) c₂) (c : ComplexShape ι)
-    [TotalComplexShape c₁ c₂ c] [DecidableEq ι] :
+    [TotalComplexShape c₁ c₂ c] :
     K₁.HasMapBifunctor K₂ (curriedTensor (Sheaf J (ModuleCat.{w} Λ))) c := fun _ =>
   have := (hasColimitsOfSize_zero J Λ).has_colimits_of_shape
   inferInstance
@@ -173,7 +173,7 @@ instance hasMapBifunctor_curriedTensor {ι₁ ι₂ ι : Type} {c₁ : ComplexSh
 /-- The total complex of a double complex of sheaves of modules exists. -/
 instance hasTotal {ι₁ ι₂ ι : Type} {c₁ : ComplexShape ι₁} {c₂ : ComplexShape ι₂}
     (K : HomologicalComplex₂ (Sheaf J (ModuleCat.{w} Λ)) c₁ c₂) (c : ComplexShape ι)
-    [TotalComplexShape c₁ c₂ c] [DecidableEq ι] : K.HasTotal c := fun _ =>
+    [TotalComplexShape c₁ c₂ c] : K.HasTotal c := fun _ =>
   have := (hasColimitsOfSize_zero J Λ).has_colimits_of_shape
   inferInstance
 

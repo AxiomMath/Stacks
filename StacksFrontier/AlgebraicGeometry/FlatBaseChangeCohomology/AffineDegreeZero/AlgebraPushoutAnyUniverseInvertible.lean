@@ -165,11 +165,11 @@ public theorem w_presheafPushoutCompare : J.W (presheafPushoutCompare φ B) := b
   · have hcomm : B.hom ≫ (ObjectProperty.homMk (pushout.inl B.hom.hom φ.hom ≫ h) : B.right ⟶ Zs) =
         φ ≫ ObjectProperty.homMk (pushout.inr B.hom.hom φ.hom ≫ h) := by
       refine Sheaf.hom_ext ?_
-      show B.hom.hom ≫ pushout.inl B.hom.hom φ.hom ≫ h =
+      change B.hom.hom ≫ pushout.inl B.hom.hom φ.hom ≫ h =
         φ.hom ≫ pushout.inr B.hom.hom φ.hom ≫ h
       rw [← Category.assoc, ← Category.assoc, pushout.condition]
     refine ⟨(pushout.desc _ _ hcomm).hom, ?_⟩
-    show presheafPushoutCompare φ B ≫ (pushout.desc _ _ hcomm).hom = h
+    change presheafPushoutCompare φ B ≫ (pushout.desc _ _ hcomm).hom = h
     refine pushout.hom_ext ?_ ?_
     · rw [← Category.assoc, inl_presheafPushoutCompare]
       exact congrArg (fun t : (B.right ⟶ Zs) => t.hom) (pushout.inl_desc _ _ hcomm)
@@ -265,11 +265,7 @@ public theorem exists_objectwiseFactorisation :
       ((presheafExtendScalarsComparison φ B).app U).hom t =
         ((presheafPushoutCompare φ B).app U).hom (e U t) := by
     intro U t
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      have h2 : ((presheafPushoutCompare φ B).app U).hom (e U 0) = 0 :=
-        (congrArg _ (map_zero (e U))).trans (map_zero _)
-      exact (map_zero _).trans h2.symm
+    induction t using TensorProduct.inductionOn with
     | add s t hs ht =>
       have h2 : ((presheafPushoutCompare φ B).app U).hom (e U (s + t)) =
           ((presheafPushoutCompare φ B).app U).hom (e U s) +
@@ -290,13 +286,7 @@ public theorem exists_objectwiseFactorisation :
       ((presheafPushout φ B).map f).hom (e U t) =
         e V ((((presheafExtendScalars φ).obj (underlyingModule B).val).map f).hom t) := by
     intro U V f t
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      have h1 : ((presheafPushout φ B).map f).hom (e U 0) = 0 :=
-        (congrArg _ (map_zero (e U))).trans (map_zero _)
-      have h2 : e V ((((presheafExtendScalars φ).obj (underlyingModule B).val).map f).hom 0)
-          = 0 := (congrArg _ (map_zero _)).trans (map_zero (e V))
-      exact h1.trans h2.symm
+    induction t using TensorProduct.inductionOn with
     | add s t hs ht =>
       have h1 : ((presheafPushout φ B).map f).hom (e U (s + t)) =
           ((presheafPushout φ B).map f).hom (e U s) +

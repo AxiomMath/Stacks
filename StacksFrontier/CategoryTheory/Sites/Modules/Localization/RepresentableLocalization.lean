@@ -526,7 +526,7 @@ structure sheaves. -/
 theorem representableLocalizationRingedMorphism_fSharpInverseImage :
     (representableLocalizationRingedMorphism X U).fSharpInverseImage =
       (representableLocalizationStructureSheafIso X U).hom := by
-  show ((commRingImageAdjunction (representableLocalizationToposMorphism X U)).homEquiv
+  change ((commRingImageAdjunction (representableLocalizationToposMorphism X U)).homEquiv
       _ _).symm ((commRingImageAdjunction (representableLocalizationToposMorphism X U)).homEquiv
         _ _ (representableLocalizationStructureSheafIso X U).hom) = _
   rw [Equiv.symm_apply_apply]

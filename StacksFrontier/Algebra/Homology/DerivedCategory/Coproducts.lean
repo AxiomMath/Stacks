@@ -200,7 +200,7 @@ lemma descTo_fac {J : Type t} (K : J → CochainComplex A ℤ) [HasCoproduct K]
     (inj : ∀ j, (HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj (K j) ⟶ P) (j : J) :
     (HomotopyCategory.quotient A (ComplexShape.up ℤ)).map (Sigma.ι K j) ≫ descTo A K P inj
       = inj j := by
-  rw [descTo, ← Functor.map_comp, Sigma.ι_desc, Functor.map_preimage]
+  rw [descTo, ← Functor.map_comp, Sigma.ι_comp_desc, Functor.map_preimage]
 
 /-- The clean cofan `IsColimit` for the image under `quotient`. -/
 noncomputable def cleanColimit {J : Type t} [HasCoproductsOfShape J A]

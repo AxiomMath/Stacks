@@ -361,7 +361,7 @@ public theorem homotopy_of_same_augmentation
   let z1 : P.X 1 ⟶ C.X 2 := ModuleCat.ofHom h1
   have hone : γ.f 1 = P.d 1 0 ≫ z + z1 ≫ C.d 2 1 := by
     apply ModuleCat.hom_ext
-    show (γ.f 1).hom = h0.comp (P.d 1 0).hom + (C.d 2 1).hom.comp h1
+    change (γ.f 1).hom = h0.comp (P.d 1 0).hom + (C.d 2 1).hom.comp h1
     rw [hh1]
     dsimp [r1]
     abel
@@ -378,7 +378,7 @@ public theorem homotopy_of_same_augmentation
   have hhn := Classical.choose_spec witness
   refine ⟨ModuleCat.ofHom hn, ?_⟩
   apply ModuleCat.hom_ext
-  show (γ.f (n + 2)).hom = p.2.1.hom.comp (P.d (n + 2) (n + 1)).hom +
+  change (γ.f (n + 2)).hom = p.2.1.hom.comp (P.d (n + 2) (n + 1)).hom +
     (C.d (n + 3) (n + 2)).hom.comp hn
   rw [hhn]
   dsimp [r]

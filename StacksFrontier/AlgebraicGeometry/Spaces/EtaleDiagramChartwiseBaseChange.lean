@@ -290,7 +290,7 @@ theorem isIso_affineQuadrupleChart_comparison_iff_forall_isIso_geometricStalkBas
   have hKa := derivedQuasicoherent_smallEtaleDerivedModulePullback _ _ _ a K hK
   have hKa' := derivedQuasicoherent_smallEtaleDerivedModulePullback _ _ _ a' K' hK'
   exact (isIso_affineQuadrupleChart_comparison_iff f₀ g₀ f₀' g₀' w₀ hpb _ hKa _ hKa' _).trans
-    ((forall_isIso_geometricStalkBaseChangeCohomologyMap_iff_isIso_representedAffineSectionsBaseChangeComp
+    ((forall_isIso_geometricStalkBaseChangeCohomologyMap_iff_isIso_affineSectionsBaseChangeComp
       B S hS f₀ g₀ f₀' g₀' w₀ hpb _ hKa _ hKa' _).symm.trans
       (forall_congr' fun x => forall_congr' fun n =>
         (isIso_geometricStalkBaseChangeCohomologyMap_iff_affineQuadruple sq K K' φ U V V' U' a b c

@@ -757,7 +757,7 @@ private lemma plusFiltration_isBot (K : DerivedCategory.Plus A) (n p : ℤ)
     ((plusFiltration F G n).obj K).filtration.subobject (op p) = ⊥ := by
   have hη : (spectralObjectInclusion (plusSpectralObject F G) n (n - p + 1)).app K = 0 :=
     hz.eq_of_src _ _
-  show Subobject.mk ((imageSubobject
+  change Subobject.mk ((imageSubobject
     (spectralObjectInclusion (plusSpectralObject F G) n (n - p + 1))).arrow.app K) = ⊥
   rw [Subobject.mk_eq_bot_iff_zero]
   have : Epi ((factorThruImageSubobject

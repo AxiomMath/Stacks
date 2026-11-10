@@ -351,7 +351,7 @@ noncomputable instance shortComplexHomologyFunctor_preservesColimitsOfShape
           (colim (J := ι) (C := ModuleCat.{u} R))).symm) ?_)
   intro j
   simp only [Functor.mapCocone_ι_app, colimit.cocone_ι, Iso.trans_hom,
-    HasColimit.isoOfNatIso_ι_hom_assoc, shortComplexHomologyFunctorIso,
+    HasColimit.ι_isoOfNatIso_hom_assoc, shortComplexHomologyFunctorIso,
     NatIso.ofComponents_hom_app]
   set S := (ShortComplex.functorEquivalence ι (ModuleCat.{u} R)).inverse.obj K
   let α : ((evaluation ι (ModuleCat.{u} R)).obj j) ⟶ (colim (J := ι) (C := ModuleCat.{u} R)) :=

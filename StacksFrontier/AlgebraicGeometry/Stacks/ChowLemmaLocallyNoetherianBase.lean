@@ -114,7 +114,7 @@ private theorem isGerbeOver_fst_fullSubcategory_of_isGerbeOver
     refine hPV _ ?_
     have h : (Q.fst.hom.hom.obj y).fiber.as = Y'.1.map e.inv.base.op x.fiber.as.1 :=
       Discrete.eq_of_hom e.inv.fiber
-    show (Q.fst.hom.hom.obj y).fiber.as ∈ V'.obj (op (Q.fst.hom.hom.obj y).base)
+    change (Q.fst.hom.hom.obj y).fiber.as ∈ V'.obj (op (Q.fst.hom.hom.obj y).base)
     rw [h]
     exact V'.map e.inv.base.op x.fiber.as.2
   let R := twoFibreProductSquare B S hS (algebraicSpaceStackMap.{u, w} B S hS hV'.1 Y'.2 V'.ι)
@@ -198,7 +198,7 @@ theorem hasProperCompactifiableCover_of_flat_case_of_noetherian
     refine Space.isIso_fromPreimage_of_le b.hom (Space.le_of_range_pointsMap_ι_subset B S hS
       (Space.openComplementOfClosedSubspace B S hS ⟨Y, hY⟩ Z).2 ?_)
       (Space.isIso_fromPreimage_openComplement hbl)
-    show Space.subspacePointSet B S hS Y V ⊆ Space.subspacePointSet B S hS Y _
+    change Space.subspacePointSet B S hS Y V ⊆ Space.subspacePointSet B S hS Y _
     rw [Space.subspacePointSet_openComplement]
     exact hdisj.subset_compl_right
   have hVV' := Space.range_pointsMap_subset_image_of_isAdmissibleBlowup (X := ⟨Y, hY⟩) _ hb

@@ -149,7 +149,7 @@ theorem exists_finiteTypeModification_completion_iso_of_isNoetherian
   refine ⟨⟨Over.mk p, ⟨hX'', hpU⟩, hp⟩, ⟨?_⟩⟩
   let a : Over.mk (yoneda.map f) ⟶ Over.mk p := Over.homMk g' hgp
   have : IsIso ((Over.forget _).map ((Space.completionOverFunctor B S hS T).map a)) := by
-    show IsIso (Space.completionOverMap B S hS T a)
+    change IsIso (Space.completionOverMap B S hS T a)
     unfold Space.completionOverMap
     have : IsIso (Space.completionSheafMap B S hS a.left
         (Space.pointsMap B S hS (Over.mk p).left (Over.mk p).hom ⁻¹' T)) := hiso

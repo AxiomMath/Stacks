@@ -204,7 +204,7 @@ public lemma pushforwardCompletionComponent_π {X Y : Scheme.{u}}
       pushforwardCompletionComponent f J F n =
         (Scheme.Modules.pushforward f).map
           (Stacks.Algebraization.completionProjection X (J.comap f) ⟨F, inferInstance⟩ n) := by
-  show (cokernel.π (C := Y.Modules) (Stacks.Algebraization.idealPowerMultiple J (n + 1)
+  change (cokernel.π (C := Y.Modules) (Stacks.Algebraization.idealPowerMultiple J (n + 1)
           ((Scheme.Modules.pushforward f).obj F)).ι ≫
         eqToHom (Stacks.Algebraization.completionFunctor_obj Y J
           ⟨(Scheme.Modules.pushforward f).obj F, inferInstance⟩ n).symm) ≫
@@ -237,7 +237,7 @@ public def pushforwardCompletionComparison {X Y : Scheme.{u}}
       ⟨(Scheme.Modules.pushforward f).obj F, inferInstance⟩
     let Q : AlgebraicGeometry.SheafOfModules.CoherentModules X.ringCatSheaf :=
       ⟨F, inferInstance⟩
-    haveI := epi_completionProjection J P i.unop
+    have := epi_completionProjection J P i.unop
     refine (cancel_epi (C := Y.Modules)
       (Stacks.Algebraization.completionProjection Y J P i.unop)).mp ?_
     have hY := Stacks.Algebraization.completionProjection_naturality J P a

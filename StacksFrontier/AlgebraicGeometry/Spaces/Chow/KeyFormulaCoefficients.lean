@@ -144,7 +144,7 @@ theorem canonicalPrincipalDivisorCycleAt_apply_of_codimension_eq_one
         (P.toPrimeDivisor D.site D.base D.base_mem hY.1 hP) := by
   unfold canonicalPrincipalDivisorCycleAt
   simp only
-  rw [principalDivisorCycleCoefficients, dif_pos hP]
+  rw [principalDivisorCycleCoefficients, dite_eq_left hP]
   rfl
 
 end Divisors

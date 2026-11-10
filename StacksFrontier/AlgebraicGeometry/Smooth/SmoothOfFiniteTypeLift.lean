@@ -56,7 +56,7 @@ theorem formallySmooth_of_forall_section {A B : CommRingCat.{u}} (β : A ⟶ B)
   let α : A ⟶ C := CommRingCat.ofHom (algebraMap A (MvPolynomial (Fin n) A ⧸ J ^ 2))
   let φ : C ⟶ B := CommRingCat.ofHom p.kerSquareLift.toRingHom
   have hαft : α.hom.FiniteType := by
-    show (algebraMap A (MvPolynomial (Fin n) A ⧸ J ^ 2)).FiniteType
+    change (algebraMap A (MvPolynomial (Fin n) A ⧸ J ^ 2)).FiniteType
     rw [RingHom.finiteType_algebraMap]
     infer_instance
   have hφ : Function.Surjective φ.hom := by
@@ -64,12 +64,12 @@ theorem formallySmooth_of_forall_section {A B : CommRingCat.{u}} (β : A ⟶ B)
     obtain ⟨x, rfl⟩ := hp b
     exact ⟨Ideal.Quotient.mk _ x, p.kerSquareLift_mk x⟩
   have hφ2 : RingHom.ker φ.hom ^ 2 = ⊥ := by
-    show RingHom.ker p.kerSquareLift.toRingHom ^ 2 = ⊥
+    change RingHom.ker p.kerSquareLift.toRingHom ^ 2 = ⊥
     rw [p.ker_kerSquareLift]
     exact Ideal.cotangentIdeal_square _
   have hαφ : α ≫ φ = β := by
     ext a
-    show p.kerSquareLift (algebraMap A _ a) = algebraMap A B a
+    change p.kerSquareLift (algebraMap A _ a) = algebraMap A B a
     exact p.kerSquareLift.commutes a
   obtain ⟨ψ, hψφ, hβψ⟩ := H C α hαft φ hφ hφ2 hαφ
   let g : B →ₐ[A] MvPolynomial (Fin n) A ⧸ J ^ 2 :=

@@ -327,7 +327,7 @@ theorem forall_eq_of_normCount_eq (s : ℝ) (hs : 1 < s) (u : Fin n → ℝ) (hu
       simp only [v, ite_eq_right (hQadm j hj)] at hj'
       exact (one_lt_inv₀ (lt_of_le_of_ne (hu j) (hQadm j hj).symm)).1 hj'
     have : ρmin < 1 := by
-      show ∏ x ∈ Q, u x < 1
+      change ∏ x ∈ Q, u x < 1
       rw [← Finset.mul_prod_erase Q u hj]
       have hle : ∏ x ∈ Q.erase j, u x ≤ 1 := Finset.prod_le_one₀ (fun x _ => hu x) fun x hx => by
         have hx' := Finset.mem_of_mem_erase hx
@@ -454,7 +454,7 @@ theorem forall_eq_of_normCount_eq (s : ℝ) (hs : 1 < s) (u : Fin n → ℝ) (hu
       · rintro ⟨j, ⟨hjP, hjμ⟩, rfl⟩
         have := Finset.mul_prod_erase P u hjP
         rw [hjμ] at this
-        show ∏ x ∈ P.erase j, u x = ρmax / μ
+        change ∏ x ∈ P.erase j, u x = ρmax / μ
         rw [eq_div_iff hμpos.ne', mul_comm, this]
     rw [hF, Finset.sum_image fun j hj _ _ e => (Finset.erase_inj P (Finset.mem_filter.1 hj).1).1 e]
     rw [Finset.sum_congr rfl fun j hj => by
@@ -697,7 +697,7 @@ theorem multiset_eq_of_prod_one_sub_pow_eq (s : ℝ) (hs : 1 < s) (α b : Fin n 
   -- the multiplicities agree
   ext w
   rw [Multiset.count_map, Multiset.count_map]
-  show (univ.filter fun j => w = b j).card = (univ.filter fun j => w = α j).card
+  change (univ.filter fun j => w = b j).card = (univ.filter fun j => w = α j).card
   by_cases hw : ‖w‖ = s
   · rcases Nat.eq_zero_or_pos n with rfl | hn
     · rfl

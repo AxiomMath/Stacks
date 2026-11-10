@@ -82,7 +82,7 @@ theorem shortComplexHomologyFunctor_preservesColimitsOfShape {J : Type*} [Catego
   have key : ι.app T.homology = (T.mapHomologyIso ((evaluation J 𝒜).obj j)).inv ≫
       ShortComplex.homologyMap (T.mapNatTrans ι) ≫ (T.mapHomologyIso colim).hom :=
     NatTrans.app_homology ι T
-  show ((T.mapHomologyIso ((evaluation J 𝒜).obj j)).hom ≫ ι.app T.homology) ≫
+  change ((T.mapHomologyIso ((evaluation J 𝒜).obj j)).hom ≫ ι.app T.homology) ≫
       (T.mapHomologyIso (colim : (J ⥤ 𝒜) ⥤ 𝒜)).inv
     = ShortComplex.homologyMap (T.mapNatTrans ι)
   rw [key]
@@ -132,7 +132,7 @@ theorem tensorComplexRight_preservesColimitsOfShape (J : Type u)
     (P : CochainComplex (ModuleCat.{u} A) ℤ) :
     PreservesColimitsOfShape (Discrete J) (tensorComplexRight A P) :=
   HomologicalComplex.preservesColimitsOfShape_of_eval _ (fun n => by
-    show PreservesColimitsOfShape (Discrete J) (tensorLeft (P.X n))
+    change PreservesColimitsOfShape (Discrete J) (tensorLeft (P.X n))
     infer_instance)
 
 /-! ### The vanishing statement -/

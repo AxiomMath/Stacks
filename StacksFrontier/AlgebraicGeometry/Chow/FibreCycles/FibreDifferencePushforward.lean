@@ -350,7 +350,7 @@ theorem isRationallyEquivalentToZeroWithin_of_eq_principalDivisorPushforward {k 
     IsRationallyEquivalentToZeroWithin C sY k α T := by
   refine ⟨PUnit.{u + 1}, fun _ ↦ V, fun _ ↦ hV, fun _ ↦ hdim,
     fun y ↦ ⟨Set.univ, Filter.univ_mem, Set.toFinite _⟩, fun _ ↦ hT, fun _ ↦ g, fun y ↦ ?_⟩
-  show (α : AlgebraicCycle Y ℤ) y = ∑ᶠ _ : PUnit.{u + 1}, _
+  change (α : AlgebraicCycle Y ℤ) y = ∑ᶠ _ : PUnit.{u + 1}, _
   rw [finsum_unique, hα]
 
 /-- **The Stacks 02RT branch of Stacks 02S2 for a single principal divisor.** Let `A` be integral
@@ -400,7 +400,7 @@ theorem isRationallyEquivalentToZeroWithin_properPushforward_principalCycle
       hdim hdimT p.toImage hπs g hg)
   refine isRationallyEquivalentToZeroWithin_of_eq_principalDivisorPushforward C sY p.ker hT
     hdimT h (by rw [Scheme.Hom.support_ker]) _ ?_
-  show AlgebraicCycle.map p (relativeDimension C.dimensionFunction sA)
+  change AlgebraicCycle.map p (relativeDimension C.dimensionFunction sA)
     (relativeDimension C.dimensionFunction sY) (α : AlgebraicCycle A ℤ) =
       principalDivisorPushforward C sY p.ker hT h
   rw [hα]

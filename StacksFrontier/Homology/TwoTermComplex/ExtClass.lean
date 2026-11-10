@@ -77,6 +77,7 @@ section Construction
 
 variable (L : CochainComplex (ModuleCat.{v} R) ℤ) (N : ModuleCat.{v} R)
 
+omit [Small.{v} R] [HasDerivedCategory (ModuleCat.{v} R)] in
 /-- Every term of `N[1]` in degree at most `-2` vanishes, `N[1]` being concentrated in degree
 `-1`. -/
 public theorem isZero_shiftSingle_one_X_of_le (i : ℤ) (hi : i ≤ -2) :
@@ -99,23 +100,25 @@ public noncomputable def toShiftSingle (hL : ∀ i ≤ (-2 : ℤ), IsZero (L.X i
         simp only [ComplexShape.up_Rel] at hij
         omega
       rw [(hL i (by omega)).eq_zero_of_src (L.d i j), zero_comp]
-    · rw [dif_neg hj, comp_zero]
+    · rw [dite_eq_right hj, comp_zero]
 
+omit [Small.{v} R] [HasDerivedCategory (ModuleCat.{v} R)] in
 @[simp]
 public theorem toShiftSingle_f_neg_one (hL : ∀ i ≤ (-2 : ℤ), IsZero (L.X i))
     (a : L.X (-1) ⟶ N) :
     (toShiftSingle L N hL a).f (-1) = a ≫ (shiftSingleXSelf N 1).inv := by
-  show (if hi : (-1 : ℤ) = -1 then
+  change (if hi : (-1 : ℤ) = -1 then
       eqToHom (show L.X (-1) = L.X (-1) by rw [hi]) ≫ a ≫ (shiftSingleXSelf N 1).inv ≫
         eqToHom (show (shiftSingle N 1).X (-1) = (shiftSingle N 1).X (-1) by rw [hi])
     else 0) = _
-  rw [dif_pos rfl]
+  rw [dite_eq_left rfl]
   simp
 
+omit [Small.{v} R] [HasDerivedCategory (ModuleCat.{v} R)] in
 @[simp]
 public theorem toShiftSingle_f_of_ne (hL : ∀ i ≤ (-2 : ℤ), IsZero (L.X i))
     (a : L.X (-1) ⟶ N) (i : ℤ) (hi : i ≠ -1) : (toShiftSingle L N hL a).f i = 0 :=
-  dif_neg hi
+  dite_eq_right hi
 
 /-- The class in `Ext¹_R(L, N) = Hom_{D(R)}(L, N[1])` of a map `a : L^{-1} ⟶ N`. -/
 public noncomputable def extClass (hL : ∀ i ≤ (-2 : ℤ), IsZero (L.X i)) (a : L.X (-1) ⟶ N) :
@@ -139,15 +142,18 @@ private noncomputable def nullHomotopyHom (h : L.X 0 ⟶ N) :
       eqToHom (show (shiftSingle N 1).X (-1) = (shiftSingle N 1).X j by rw [hij.2])
   else 0
 
+omit [Small.{v} R] [HasDerivedCategory (ModuleCat.{v} R)] in
 private theorem nullHomotopyHom_zero_neg_one (h : L.X 0 ⟶ N) :
     nullHomotopyHom L N h 0 (-1) = h ≫ (shiftSingleXSelf N 1).inv := by
-  rw [nullHomotopyHom, dif_pos ⟨rfl, rfl⟩]
+  rw [nullHomotopyHom, dite_eq_left ⟨rfl, rfl⟩]
   simp
 
+omit [Small.{v} R] [HasDerivedCategory (ModuleCat.{v} R)] in
 private theorem nullHomotopyHom_eq_zero (h : L.X 0 ⟶ N) (i j : ℤ) (hi : i ≠ 0) :
     nullHomotopyHom L N h i j = 0 := by
-  rw [nullHomotopyHom, dif_neg (fun hij : i = 0 ∧ j = -1 => hi hij.1)]
+  rw [nullHomotopyHom, dite_eq_right (fun hij : i = 0 ∧ j = -1 => hi hij.1)]
 
+omit [Small.{v} R] [HasDerivedCategory (ModuleCat.{v} R)] in
 private theorem nullHomotopyHom_eq_zero' (h : L.X 0 ⟶ N) (i j : ℤ)
     (hij : ¬ (ComplexShape.up ℤ).Rel j i) : nullHomotopyHom L N h i j = 0 := by
   have hc : ¬ (i = 0 ∧ j = -1) := by
@@ -155,8 +161,9 @@ private theorem nullHomotopyHom_eq_zero' (h : L.X 0 ⟶ N) (i j : ℤ)
     subst hi
     subst hj
     exact hij (by norm_num [ComplexShape.up_Rel])
-  rw [nullHomotopyHom, dif_neg hc]
+  rw [nullHomotopyHom, dite_eq_right hc]
 
+omit [Small.{v} R] in
 /-- A map out of `L^{-1}` which factors through the differential has vanishing class: the
 factorisation is a null-homotopy of the corresponding chain map `L → N[1]`. -/
 public theorem extClass_eq_zero_of_factors (a : L.X (-1) ⟶ N) (h : L.X 0 ⟶ N)
@@ -187,6 +194,7 @@ public theorem extClass_eq_zero_of_factors (a : L.X (-1) ⟶ N) (h : L.X 0 ⟶ N
   rw [extClass, HomotopyCategory.eq_of_homotopy _ _ H, Functor.map_zero, toHomD_zero]
 
 
+omit [Small.{v} R] [HasDerivedCategory (ModuleCat.{v} R)] in
 /-- Every term of `N[1]` outside degree `-1` vanishes. -/
 public theorem isZero_shiftSingle_one_X_of_ne (i : ℤ) (hi : i ≠ -1) :
     IsZero ((shiftSingle N 1).X i) :=
@@ -209,7 +217,7 @@ public theorem exists_factors_of_extClass_eq_zero
   have hzero : (HomotopyCategory.quotient (ModuleCat.{v} R) (ComplexShape.up ℤ)).map
       (toShiftSingle L N hL a) = 0 := by
     refine (toHomD_shiftSingle_bijective L N hLpos hL0).injective ?_
-    show toHomD _ = toHomD (0 : HomK L (shiftSingle N 1))
+    change toHomD _ = toHomD (0 : HomK L (shiftSingle N 1))
     rw [toHomD_zero]
     exact ha
   obtain ⟨H⟩ : Nonempty (Homotopy (toShiftSingle L N hL a) 0) :=
@@ -235,6 +243,7 @@ public theorem extClass_eq_zero_iff
   ⟨exists_factors_of_extClass_eq_zero L N hL hLpos hL0 a,
    fun ⟨h, hh⟩ => extClass_eq_zero_of_factors L N hL a h hh⟩
 
+omit [Small.{v} R] [HasDerivedCategory (ModuleCat.{v} R)] in
 /-- Two chain maps `L → N[1]` are equal when their degree `-1` components are. -/
 private theorem hom_ext_shiftSingle_one {f g : L ⟶ shiftSingle N 1}
     (h : f.f (-1) = g.f (-1)) : f = g := by
@@ -258,14 +267,17 @@ public theorem extClass_surjective
       rw [toShiftSingle_f_neg_one, Category.assoc, Iso.hom_inv_id, Category.comp_id])
   exact ⟨f.f (-1) ≫ (shiftSingleXSelf N 1).hom, by rw [extClass, heq, hf]; exact hc⟩
 
+omit [Small.{v} R] [HasDerivedCategory (ModuleCat.{v} R)] in
 public theorem toShiftSingle_add (a b : L.X (-1) ⟶ N) :
     toShiftSingle L N hL (a + b) = toShiftSingle L N hL a + toShiftSingle L N hL b := by
   exact hom_ext_shiftSingle_one L N (by simp [Preadditive.add_comp])
 
+omit [Small.{v} R] in
 public theorem toHomD_add {M K : CochainComplex (ModuleCat.{v} R) ℤ} (f g : HomK M K) :
     (toHomD (f + g) : HomD M K) = toHomD f + toHomD g := by
   simp only [toHomD_eq, Functor.map_add, Preadditive.comp_add, Preadditive.add_comp]
 
+omit [Small.{v} R] in
 /-- `extClass` is additive. With `extClass_eq_zero_iff` and `extClass_surjective` this exhibits
 `Ext¹_R(L, N)` as the cokernel of `Hom_R(L⁰, N) → Hom_R(L^{-1}, N)`, the identification Stacks
 0GAP invokes. -/
@@ -295,6 +307,7 @@ public noncomputable def extClassShifted (a : L.X (-1) ⟶ N) :
       ((DerivedCategory.singleFunctor (ModuleCat.{v} R) 0).obj N) 1 :=
   extClass L N hL a ≫ (shiftSingleTargetIso N).hom
 
+omit [Small.{v} R] in
 public theorem extClassShifted_eq (a : L.X (-1) ⟶ N) :
     extClassShifted L N hL a = extClass L N hL a ≫ (shiftSingleTargetIso N).hom := rfl
 
@@ -318,6 +331,7 @@ public theorem extClassShifted_surjective
   obtain ⟨a, ha⟩ := extClass_surjective L N hL hLpos hL0 (ξ ≫ (shiftSingleTargetIso N).inv)
   exact ⟨a, by rw [extClassShifted_eq, ha, Category.assoc, Iso.inv_hom_id, Category.comp_id]⟩
 
+omit [Small.{v} R] in
 public theorem extClassShifted_add (a b : L.X (-1) ⟶ N) :
     extClassShifted L N hL (a + b) = extClassShifted L N hL a + extClassShifted L N hL b := by
   rw [extClassShifted_eq, extClassShifted_eq, extClassShifted_eq, extClass_add,

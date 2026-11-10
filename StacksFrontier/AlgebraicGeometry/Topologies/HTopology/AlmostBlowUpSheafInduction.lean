@@ -485,7 +485,7 @@ public theorem isSheafFor_singleton_of_isFlatStratification
           (Category.id_comp _) hflat0) ?_
       intro Zc hdisj
       have hbot : (I 0).comap (I 0).subschemeι = ⊥ := by
-        show (pullback.fst (I 0).subschemeι (I 0).subschemeι).ker = ⊥
+        change (pullback.fst (I 0).subschemeι (I 0).subschemeι).ker = ⊥
         exact Scheme.Hom.ker_eq_bot_of_isIso _
       have hcomapK : IsFlatStratification
           (pullback.snd ((BigHOver.toScheme B S hS).map f) (I 0).subschemeι) (t' + 2)

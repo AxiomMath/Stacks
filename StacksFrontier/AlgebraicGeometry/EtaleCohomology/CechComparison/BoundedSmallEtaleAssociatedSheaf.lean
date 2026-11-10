@@ -2,8 +2,7 @@ module
 
 public import
   StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleAssociatedModuleSectionsUnit
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison.SmallEtaleAssociatedSheafRestriction
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison.SmallEtaleAssociatedSheafRestriction
 public import StacksFrontier.AlgebraicGeometry.Topologies.CechAmitsurSmallSites
 public import StacksFrontier.AlgebraicGeometry.Topologies.SmallEtaleDenseSubsite
 

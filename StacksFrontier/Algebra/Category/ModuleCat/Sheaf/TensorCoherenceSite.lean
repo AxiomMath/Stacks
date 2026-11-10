@@ -133,11 +133,13 @@ variable {C : Type u} [Category.{v} C] [HasFiniteWidePullbacks C]
 /-- **Stacks Project, Tag 03L6 (7), over an arbitrary site.** The tensor product of a sheaf of
 modules of finite presentation with a coherent sheaf of modules is coherent. -/
 theorem isCoherent_tensorSheafSite [F.IsFinitePresentation] (hG : IsCoherent G) :
-    IsCoherent ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj G)).obj F) := by
+    IsCoherent ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+        O).flip.obj G)).obj F) := by
   obtain ⟨q, hq⟩ := SheafOfModules.IsFinitePresentation.exists_quasicoherentData F
   refine isCoherent_of_coversTop _ q.X q.coversTop fun i => ?_
   have hGi : IsCoherent (G.over (q.X i)) := have := hG; isCoherent_over (q.X i)
-  have key : IsCoherent ((((Stacks.SheafOfModules.Tensor.sheafTensor.{max u v, v, w, w, w} (O.over (q.X i))).flip.obj (G.over (q.X i)))).obj (F.over (q.X i))) :=
+  have key : IsCoherent ((((Stacks.SheafOfModules.Tensor.sheafTensor.{max u v, v, w, w, w}
+      (O.over (q.X i))).flip.obj (G.over (q.X i)))).obj (F.over (q.X i))) :=
     isCoherent_tensor_of_presentation (O := O.over (q.X i)) (G.over (q.X i)) (F.over (q.X i))
       hGi (q.presentation i) (hq.isFinite_presentation i)
   exact isCoherent_of_iso' (O := O.over (q.X i)) (tensorSheafOverIso F G (q.X i)) key

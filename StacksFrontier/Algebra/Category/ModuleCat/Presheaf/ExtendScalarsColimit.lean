@@ -84,10 +84,10 @@ lemma ptmul_neg_left (b : B.obj V) (m : M.obj V) : ptmul γ M V (-b) m = -ptmul 
 
 /-- Induction on pure tensors in the sections of `restrictExtendObj`. -/
 lemma ptmul_induction_on {motive : ↑((restrictExtendObj γ M).obj V) → Prop}
-    (x : ↑((restrictExtendObj γ M).obj V)) (zero : motive 0)
+    (x : ↑((restrictExtendObj γ M).obj V))
     (pure : ∀ (b : B.obj V) (m : M.obj V), motive (ptmul γ M V b m))
     (add : ∀ u v, motive u → motive v → motive (u + v)) : motive x :=
-  induction_on (γ.app V).hom (motive := motive) x zero pure add
+  induction_on (γ.app V).hom (motive := motive) x pure add
 
 /-- Two `A(V)`-linear maps out of the sections of `restrictExtendObj γ M` agree as soon as they
 agree on pure tensors. -/
@@ -95,10 +95,9 @@ lemma ptmul_hom_ext {P : ModuleCat.{u} (A.obj V)}
     {x y : (restrictExtendObj γ M).obj V ⟶ P}
     (H : ∀ (b : B.obj V) (m : M.obj V), x (ptmul γ M V b m) = y (ptmul γ M V b m)) : x = y := by
   refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
-  refine ptmul_induction_on γ M V (motive := fun z => x z = y z) z ?_ H ?_
-  · rw [map_zero, map_zero]
-  · intro u v hu hv
-    rw [map_add, map_add, hu, hv]
+  refine ptmul_induction_on γ M V (motive := fun z => x z = y z) z H ?_
+  intro u v hu hv
+  rw [map_add, map_add, hu, hv]
 
 /-- The identity morphism of a presheaf of modules, read on a section. -/
 lemma hom_app_id_apply {M : PresheafOfModules.{u} A} (V : Cᵒᵖ) (z : M.obj V) :

@@ -94,7 +94,7 @@ theorem equalizerSieve_mem_smallEtaleTopology_of_isAffine {F : X.Etaleᵒᵖ ⥤
   refine X.smallEtaleTopology.superset_covering ?_
     (X.smallEtaleTopology.pullback_stable c (H (W k) (F.map (a k).op ξ)))
   intro Z' g hg
-  show F.map (g ≫ c ≫ a k).op ξ = F.map (g ≫ c ≫ a k).op 0
+  change F.map (g ≫ c ≫ a k).op ξ = F.map (g ≫ c ≫ a k).op 0
   have hg' : F.map (g ≫ c).op (F.map (a k).op ξ) = F.map (g ≫ c).op 0 := hg
   rw [map_zero] at hg' ⊢
   rwa [← Category.assoc, op_comp, Functor.map_comp, ConcreteCategory.comp_apply]
@@ -151,7 +151,7 @@ theorem isZero_rightDerived_smallEtalePushforwardAb_colimit {Y : Scheme.{u}} (h 
     obtain ⟨i, ξ', rfl⟩ := hstage V ξ
     refine X.smallEtaleTopology.superset_covering ?_ (hloc i V ξ')
     intro Z f hf
-    show (P.obj (colimit G)).map f.op ((P.map (colimit.ι G i)).app (op V) ξ') =
+    change (P.obj (colimit G)).map f.op ((P.map (colimit.ι G i)).app (op V) ξ') =
       (P.obj (colimit G)).map f.op 0
     have hf' : (P.obj (G.obj i)).map f.op ξ' = (P.obj (G.obj i)).map f.op 0 := hf
     rw [map_zero] at hf' ⊢

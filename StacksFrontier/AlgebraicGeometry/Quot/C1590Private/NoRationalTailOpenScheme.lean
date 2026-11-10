@@ -149,7 +149,7 @@ theorem ker_residueRingHom (u : Spec (.of A)) :
   refine Eq.trans ?_ (h.trans (congrArg (fun x : Spec (.of A) =>
     (show PrimeSpectrum A from x).asIdeal)
       (Scheme.fromSpecResidueField_apply u (IsLocalRing.closedPoint _))))
-  show RingHom.ker (residueRingHom u) =
+  change RingHom.ker (residueRingHom u) =
     Ideal.comap (residueRingHom u) (IsLocalRing.maximalIdeal _)
   rw [IsLocalRing.maximalIdeal_eq_bot, ← RingHom.ker_eq_comap_bot]
 

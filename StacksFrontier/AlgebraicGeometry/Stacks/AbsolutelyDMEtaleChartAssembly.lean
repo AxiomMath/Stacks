@@ -669,8 +669,8 @@ reads, in exists_representedUnitSection_isRegular_etaleLocalRing_of_isAffine of 
 FibreGlobalSlicingSequenceAffine, and that the 06FX chart is affine is recorded in the \
 conclusion of exists_isClosed_smoothChart_size_le_of_isFiniteTypePoint. The PLUMBING of that \
 body into existsEtalePresentationOfIsAbsolutelyDM_of_forall_exists_chart is PROVED, in \
-exists_isRelativelyEtale_chart_size_le_of_isFiniteTypePoint of this file, from the following three inputs. \
-The 06FX chart \
+exists_isRelativelyEtale_chart_size_le_of_isFiniteTypePoint of this file, from the following \
+three inputs. The 06FX chart \
 schemeStack U -> X is read as the 1-morphism algebraicSpaceStack (yoneda U) -> X that 06MD \
 slices by algebraicSpaceStackChart of SchemeChartAsAlgebraicSpaceChart. The vanishing \
 hypothesis of unramifiedAt_comp_of_ofList_eq_maximalIdeal_stalk_over_field, which asks for the \

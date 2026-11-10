@@ -292,7 +292,7 @@ theorem derivedExtensionScalarsRestrictIso_comp_compIso (ψ : R₂ →+* R') (χ
   have key := totalDerivedExtensionScalars_hom_ext_app (χ.comp (ψ.comp ε)) A B (fun P => by
     dsimp [A, B]
     simp only [Category.id_comp, Category.assoc]
-    show (totalDerivedExtensionScalars.{u, u, u} χ).functor.map
+    change (totalDerivedExtensionScalars.{u, u, u} χ).functor.map
             (restrictIsoApp ε ε' h₁ h₂ ψ (DerivedCategory.Q.obj P)) ≫
           compIsoApp (ψ.comp ε) χ (DerivedCategory.Q.obj P) ≫
             comparisonApp (χ.comp (ψ.comp ε)) P =
@@ -403,7 +403,7 @@ theorem restrictIsoApp_of_eq_id (σ : R →+* R) (hσ : σ = RingHom.id R)
   have key := totalDerivedExtensionScalars_hom_ext_app (ψ.comp σ) A B (fun P => by
     dsimp [A, B]
     simp only [Category.id_comp, Category.assoc, eqToHom_app]
-    show restrictIsoApp σ σ k₁ k₂ ψ (DerivedCategory.Q.obj P) ≫
+    change restrictIsoApp σ σ k₁ k₂ ψ (DerivedCategory.Q.obj P) ≫
           comparisonApp (ψ.comp σ) P =
         (totalDerivedExtensionScalars.{u, u, u} ψ).functor.map
             ((restrictScalarsIdDerivedIso.{u} σ hσ).hom.app (DerivedCategory.Q.obj P)) ≫

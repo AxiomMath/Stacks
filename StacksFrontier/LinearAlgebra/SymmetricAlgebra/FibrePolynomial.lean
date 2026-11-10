@@ -96,8 +96,7 @@ theorem SymmetricAlgebra.bijective_baseChange_of_comparison
   have key : (resA.toLinearMap.liftBaseChange R') ∘ₗ θ.toLinearMap.baseChange R' =
       θ'.toLinearMap ∘ₗ (Sγ.toLinearMap ∘ₗ E₀.symm.toLinearMap) := by
     refine LinearMap.ext fun t => ?_
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy]
     | tmul r s =>
       simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.baseChange_tmul,
@@ -134,11 +133,11 @@ theorem LinearMap.bijective_baseChange_of_bijective_baseChange_tower
     (f : N →ₗ[R] P) (h : Function.Bijective (f.baseChange R')) :
     Function.Bijective (f.baseChange K) := by
   have hL : Function.Bijective (f.baseChange L) := by
-    rw [← bijective_baseChange_baseChange_iff (B := R'), LinearMap.baseChange_eq_ltensor]
+    rw [← bijective_baseChange_baseChange_iff (B := R'), LinearMap.baseChange_eq_lTensor]
     exact ((LinearEquiv.ofBijective _ h).lTensor L).bijective
   have hb : Function.Bijective ((f.baseChange K).baseChange L) :=
     (bijective_baseChange_baseChange_iff (B := K) f).2 hL
-  rw [LinearMap.baseChange_eq_ltensor] at hb
+  rw [LinearMap.baseChange_eq_lTensor] at hb
   exact (Module.FaithfullyFlat.lTensor_bijective_iff_bijective K L _).1 hb
 
 /-- **The fibre of a symmetric algebra is a polynomial ring.** Let `θ : Sym_R(M) ⟶ A` be a

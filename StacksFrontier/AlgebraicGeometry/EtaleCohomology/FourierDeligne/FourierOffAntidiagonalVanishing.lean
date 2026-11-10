@@ -79,7 +79,7 @@ theorem fourierOffAntidiagonalBaseU_comp_structureMap :
   rw [← Spec.map_comp]
   congr 1
   refine CommRingCat.hom_ext (RingHom.ext fun c => ?_)
-  show Polynomial.aeval _ (algebraMap k (Polynomial k) c) = _
+  change Polynomial.aeval _ (algebraMap k (Polynomial k) c) = _
   rw [AlgHom.commutes]
   rfl
 

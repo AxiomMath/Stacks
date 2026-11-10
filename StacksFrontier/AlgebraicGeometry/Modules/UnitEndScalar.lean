@@ -81,7 +81,7 @@ lemma unitScalar_surjective : Function.Surjective (unitScalar (T := T)) := by
   intro a
   let s : (Scheme.unitModule T).sections := ⟨fun U ↦ T.presheaf.map (homOfLE le_top).op a, by
     intro U V i
-    show T.presheaf.map i (T.presheaf.map _ a) = T.presheaf.map _ a
+    change T.presheaf.map i (T.presheaf.map _ a) = T.presheaf.map _ a
     rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
     rfl⟩
   refine ⟨(Scheme.unitModule T).unitHomEquiv.symm s, ?_⟩
@@ -89,7 +89,7 @@ lemma unitScalar_surjective : Function.Surjective (unitScalar (T := T)) := by
     ((Scheme.unitModule T).unitHomEquiv.symm s) (op ⊤)
   rw [Equiv.apply_symm_apply] at h
   refine h.symm.trans ?_
-  show T.presheaf.map _ a = a
+  change T.presheaf.map _ a = a
   rw [show (homOfLE (le_top : (⊤ : T.Opens) ≤ ⊤)).op = 𝟙 _ from Subsingleton.elim _ _,
     T.presheaf.map_id]
   rfl

@@ -145,7 +145,7 @@ theorem unit_endomorphisms_commute (g h : SheafOfModules.unit (Spec R).ringCatSh
     refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
     have key (φ : ModuleCat.of R R ⟶ ModuleCat.of R R) (y : R) : φ.hom y = y * φ.hom 1 := by
       simpa using φ.hom.map_smul y (1 : R)
-    show h'.hom (g'.hom x) = g'.hom (h'.hom x)
+    change h'.hom (g'.hom x) = g'.hom (h'.hom x)
     rw [key h' (g'.hom x), key g' x, key g' (h'.hom x), key h' x]
     ring
   exact ((tilde.functor R).map_comp g' h').symm.trans

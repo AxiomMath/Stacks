@@ -206,7 +206,7 @@ theorem isIso_stalk_of_forall_ne {F G : X.Modules} [F.IsQuasicoherent] [G.IsQuas
       (IsLocalizedModule.of_linearEquiv_right _ _ _)
       (IsLocalizedModule.of_linearEquiv_right _ _ _)
       (stalkSpecializesMapₗ φ hspec) (fun a ↦ ?_) ?_
-    · show AlgebraicGeometry.stalkMapLinear F.val G.val φ.val _
+    · change AlgebraicGeometry.stalkMapLinear F.val G.val φ.val _
           ((F.presheaf.stalkSpecializes hspec).hom (d.symm a))
         = (G.presheaf.stalkSpecializes hspec).hom (e.symm (a * e (ψ 1)))
       rw [show e.symm (a * e (ψ 1)) = ψ a from by rw [← hψapp a, e.symm_apply_apply]]

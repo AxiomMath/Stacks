@@ -139,7 +139,7 @@ theorem structureRingMap_comp_pullbackRingSheafMapOfNatTrans
   refine ((sheafCompose Y₁.J (forget RingCat.{w})).map_comp _ _).trans ?_
   refine (congrArg (_ ≫ ·) (Stacks.Sheaves.ToposPullback.ringSheafMap_pullbackRingSheafMapOfNatTrans
     Y₁.J (Stacks.SheafOfModules.Tensor.ringSheaf (reshape X X.O).O) θ.hom)).trans ?_
-  show (sheafCompose Y₁.J (forget CommRingCat.{w})).map
+  change (sheafCompose Y₁.J (forget CommRingCat.{w})).map
       (D.ρ ≫ (Stacks.Sheaves.ToposPushforward.pushforwardCommRingFunctor D.j.toToposHom).map
           (𝟙 _) ≫
         (Stacks.Sheaves.ToposPushforward.pushforwardCommRingCompIso i₂.toToposHom

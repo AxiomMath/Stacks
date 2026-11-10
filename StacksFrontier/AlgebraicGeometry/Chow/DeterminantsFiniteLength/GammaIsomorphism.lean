@@ -131,7 +131,7 @@ public theorem determinantExactSequenceMap_bijective
     have houtne := symbol_ne_zero_of_span_eq_top hL eout houtgen
     apply houtne
     rw [← hvalue]
-    show γ (symbol eK ⊗ₜ[κ] symbol eM) = 0
+    change γ (symbol eK ⊗ₜ[κ] symbol eM) = 0
     rw [hγzero]
     simp
   exact LinearMap.bijective_of_ne_zero hγ

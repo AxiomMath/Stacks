@@ -196,12 +196,10 @@ theorem rTensor_baseChange_smul_raw (X : Type u) [AddCommGroup X] [Module A X]
     (t : (B₀ ⊗[A] X) ⊗[B₀] (B₀ ⊗[R₀] W)) :
     LinearMap.rTensor _ ((a • LinearMap.id : X →ₗ[A] X).baseChange B₀) t =
       (a ⊗ₜ[R] (1 : R₀)) • t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, smul_zero]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => rw [map_add, ht, ht', smul_add]
   | tmul m w =>
-    induction m using TensorProduct.induction_on with
-    | zero => rw [TensorProduct.zero_tmul, map_zero, smul_zero]
+    induction m using TensorProduct.inductionOn with
     | add m m' hm hm' =>
       rw [TensorProduct.add_tmul, map_add, hm, hm', smul_add]
     | tmul c x =>
@@ -227,7 +225,7 @@ theorem modelComplex_smul (M : CochainComplex (ModuleCat.{u} A) ℤ) (a : A) :
     ((a ⊗ₜ[R] (1 : R₀) : B₀)) • 𝟙 (modelComplex A F M) =
       modelComplexMap (R := R) (R₀ := R₀) (F := F) (a • 𝟙 M) := by
   ext n : 1
-  show (((a ⊗ₜ[R] (1 : R₀) : B₀)) • 𝟙 (HomologicalComplex.mapBifunctor M F
+  change (((a ⊗ₜ[R] (1 : R₀) : B₀)) • 𝟙 (HomologicalComplex.mapBifunctor M F
     (modelBifunctor (R := R) (A := A) (R₀ := R₀)) (ComplexShape.up ℤ))).f n = _
   apply HomologicalComplex.mapBifunctor.hom_ext
   intro p q hpq
@@ -297,13 +295,9 @@ def modelHomologyLinearEquiv (M : CochainComplex (ModuleCat.{u} A) ℤ) :
             ((ModuleCat.restrictScalars (algebraMap R A)).mapDerivedCategory.map
               (DerivedCategory.Q.map (a • 𝟙 M))))).hom (E z) = _
       rw [Functor.map_smul, CategoryTheory.Functor.map_id]
-    have hE0 : E 0 = 0 := (modelHomologyIso (R := R) ε hF n M).hom.hom.map_zero
     have hEadd : ∀ z z' : HB, E (z + z') = E z + E z' :=
       (modelHomologyIso (R := R) ε hF n M).hom.hom.map_add
-    induction b using TensorProduct.induction_on with
-    | zero =>
-      rw [zero_smul, hE0, map_zero]
-      exact (zero_smul _ _).symm
+    induction b using TensorProduct.inductionOn with
     | add b b' hb hb' =>
       rw [add_smul, hEadd, hb, hb', map_add]
       exact (add_smul _ _ _).symm
@@ -854,7 +848,7 @@ theorem modelHomology_comparison (M : CochainComplex (ModuleCat.{u} A) ℤ) :
       (DerivedCategory.Q.obj M) ≫
         (ModuleCat.restrictScalars (algebraMap R' A')).mapDerivedCategory.map (alphaH A A' M) =
       g at nπ ⊢
-  simp only [Functor.map_comp, Category.assoc, Iso.hom_inv_id_app_assoc, Iso.map_inv_hom_id_assoc]
+  simp only [Functor.map_comp, Category.assoc, Iso.hom_inv_id_app_assoc, Iso.inv_hom_id_map_assoc]
   rw [reassoc_of% nπ]
 
 end Homology

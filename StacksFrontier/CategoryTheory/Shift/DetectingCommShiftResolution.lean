@@ -76,7 +76,7 @@ universe v u v' u' v'' u''
 
 namespace CategoryTheory.NatTrans
 
-open Category Functor
+open Category _root_.CategoryTheory.Functor
 
 section OneVariable
 

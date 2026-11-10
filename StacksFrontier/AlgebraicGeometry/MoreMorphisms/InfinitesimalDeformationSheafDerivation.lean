@@ -27,10 +27,11 @@ f_*𝒪_{X₂} ---f_*D₂---> f_*a_{2,*}𝒞_{T₂/T₂'}
 ```
 commute.
 
-Unlike `StacksFrontier/AlgebraicGeometry/MoreMorphisms/InfinitesimalDeformationGivenDerivation.lean`,
-which proves this on global sections over affine ambient schemes, this file proves it for
-arbitrary schemes: no scheme in either diagram is assumed affine and `θ₁`, `θ₂` are honest
-morphisms of sheaves of modules.
+Unlike
+`StacksFrontier/AlgebraicGeometry/MoreMorphisms/InfinitesimalDeformationGivenDerivation.lean`, which
+proves this on global sections over affine ambient schemes, this file proves it for arbitrary
+schemes: no scheme in either diagram is assumed affine and `θ₁`, `θ₂` are honest morphisms of
+sheaves of modules.
 
 ## Main definitions
 
@@ -269,6 +270,7 @@ theorem conormalSectionι_add (V : Y'.Opens)
       conormalSectionι hi ca V m + conormalSectionι hi ca V n :=
   map_add (conormalSectionιHom hi ca V) m n
 
+omit [IsClosedImmersion i] in
 /-- **The two routes around the square `i ≫ a' = a ≫ j`, on sections over `V`.** The image of a
 section of `𝒪_{Y'}` under `(a')^♯` and then `i^♯` is its image under `j^♯` and then `a^♯`, read
 across the identification of `i⁻¹a'⁻¹V` with `a⁻¹j⁻¹V`. -/
@@ -300,7 +302,7 @@ theorem conormalSectionι_smul (V : Y'.Opens) (ρ : Γ(T', a' ⁻¹ᵁ V))
       (T.presheaf.map (eqToHom (preimage_square ca V)).op).hom c •
         (Stacks.Conormal.conormalSheaf i).val.map (eqToHom (preimage_square ca V)).op m :=
     PresheafOfModules.map_smul _ _ _ _
-  show (firstOrderImmersionConormalSheafι i hi).val.app (op (a' ⁻¹ᵁ V))
+  change (firstOrderImmersionConormalSheafι i hi).val.app (op (a' ⁻¹ᵁ V))
       ((Stacks.Conormal.conormalSheaf i).val.map
         (eqToHom (preimage_square ca V)).op (c • m)) = _
   rw [h1, hc]

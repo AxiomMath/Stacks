@@ -167,7 +167,7 @@ public lemma isPullback_totalCoproduct (D : DescentData f hT hX) (E₁ : Descent
     have h : C'.ι i ≫ e.hom = psh i :=
       IsColimit.comp_coconePointUniqueUpToIso_hom C'.isColimit hcol.some
         (j := (⟨i⟩ : Discrete ι'))
-    show (C'.ι i ≫ e.hom).hom = p i
+    change (C'.ι i ≫ e.hom).hom = p i
     rw [h]
   refine IsPullback.of_iso_pullback ⟨?_⟩
     ((sheafToPresheaf (BigFppfOver.topology B S hS) (Type u)).mapIso e) ?_ ?_
@@ -177,11 +177,11 @@ public lemma isPullback_totalCoproduct (D : DescentData f hT hX) (E₁ : Descent
       ← Category.assoc, ← Category.assoc, (hm i).w]
   · refine C'.desc_ext C.sheaf (fun i ↦ ?_)
     rw [← Category.assoc]
-    show ((C'.ι i).hom ≫ e.hom.hom) ≫ pullback.fst v gt = _
+    change ((C'.ι i).hom ≫ e.hom.hom) ≫ pullback.fst v gt = _
     rw [he i, hpfst i, AlgebraicSheafCoproduct.ι_desc]
   · refine C'.desc_ext Y'cop.sheaf (fun i ↦ ?_)
     rw [← Category.assoc]
-    show ((C'.ι i).hom ≫ e.hom.hom) ≫ pullback.snd v gt = _
+    change ((C'.ι i).hom ≫ e.hom.hom) ≫ pullback.snd v gt = _
     rw [he i, hpsnd i, AlgebraicSheafCoproduct.ι_map]
 
 /-- The underlying isomorphism of algebraic spaces of a component of an isomorphism of descent
@@ -208,11 +208,11 @@ public def PulledBackDatum.ofIso {D : DescentData f hT hX}
   datum := E₂
   objMap i := (e.hom.hom i).left ≫ Q.objMap i
   obj_isPullback i := by
-    haveI : IsIso ((e.hom.hom i).left) := (descentIsoLeft f' hT' hX' e i).isIso_hom
+    have : IsIso ((e.hom.hom i).left) := (descentIsoLeft f' hT' hX' e i).isIso_hom
     have hsq : IsPullback (E₂.obj i).hom ((e.hom.hom i).left) (𝟙 (X' i))
         ((Q.datum.obj i).hom) := by
       refine IsPullback.of_vert_isIso ⟨?_⟩
-      simpa using (Over.w (e.hom.hom i)).symm
+      simp
     simpa using hsq.paste_vert (Q.obj_isPullback i)
   source_eq_new _ _ := rfl
   source_eq_old i j := Q.source_eq_old i j
@@ -230,7 +230,7 @@ public def PulledBackDatum.ofIso {D : DescentData f hT hX}
   gluingSource_snd i j := by
     have h := congrArg Over.Hom.left
       (prod.map_snd ((Over.map (f' i)).map (e.hom.hom i)) (𝟙 (Over.mk (f' j))))
-    simp only [Over.comp_left, Over.id_left, Category.comp_id] at h
+    simp only [Over.comp_left, Category.comp_id] at h
     rw [Category.assoc, Q.gluingSource_snd, ← Category.assoc, h]
   gluingTargetMap i j :=
     (prod.map (𝟙 (Over.mk (f' i))) ((Over.map (f' j)).map (e.hom.hom j))).left ≫
@@ -238,7 +238,7 @@ public def PulledBackDatum.ofIso {D : DescentData f hT hX}
   gluingTarget_fst i j := by
     have h := congrArg Over.Hom.left
       (prod.map_fst (𝟙 (Over.mk (f' i))) ((Over.map (f' j)).map (e.hom.hom j)))
-    simp only [Over.comp_left, Over.id_left, Category.comp_id] at h
+    simp only [Over.comp_left, Category.comp_id] at h
     rw [Category.assoc, Q.gluingTarget_fst, ← Category.assoc, h]
   gluingTarget_snd i j := by
     have h := congrArg Over.Hom.left
@@ -1016,7 +1016,7 @@ private def coproductComparisonIso (P : PullbackFunctor f f' hT hX hT' hX' α g 
           (pullbackDatum f f' hT hX hT' hX' α gᵢ D₂ g comm) (P.functor.obj D₂)
           (eqToIso (P.obj_eq D₂)))
         φ (P.functor.map φ) (fun i ↦ by
-          simp only [PulledBackDatum.ofIso_objMap, eqToIso.hom, Category.assoc]
+          simp only [PulledBackDatum.ofIso_objMap, eqToIso.hom]
           exact (P.map D D₂ φ i).symm))
 
 include comm in

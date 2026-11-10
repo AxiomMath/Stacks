@@ -60,6 +60,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 /-! ### Effective descent along a represented morphism of schemes -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through the descent-data pseudofunctors and chosen pullbacks over the big
+-- fppf site is heavy
 /-- **Effective descent along the morphism of algebraic spaces represented by a morphism of
 schemes.** For a morphism `m : W ⟶ V` of the big fppf site of `S`, if small étale sheaves descend
 effectively along the underlying morphism of schemes, then spaces-étale sheaves descend
@@ -153,7 +155,7 @@ theorem spacesEtaleDescentOverRepresentable_of_smallEtale (Q : MorphismProperty 
     ((schemeSpaceFunctor B S hS).map m) f' eX eY ?_
     (isEquivalence_toDescentData_schemeSpaceFunctor_map B S hS m (hdesc _ hm))
   apply ObjectProperty.hom_ext
-  show hrep.fst a.hom ≫ f'.hom ≫ a.inv = yoneda.map m
+  change hrep.fst a.hom ≫ f'.hom ≫ a.inv = yoneda.map m
   rw [← Category.assoc, hsq.w, Category.assoc, Iso.hom_inv_id, Category.comp_id]
 
 /-- Effective descent of small étale sheaves along a surjective flat morphism locally of finite

@@ -8,7 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.FormalGeometry.FormalSectionsSupp
 
 Let `I ⊆ 𝔞` be ideals of a Noetherian ring `A`, `U = Spec(A) ∖ V(𝔞)` and `F` a coherent module
 on `U`. `StacksFrontier.AlgebraicGeometry.FormalGeometry.FormalSectionsSerreOneRealization` and
-`StacksFrontier.AlgebraicGeometry.FormalGeometry.FormalSectionsSerreOneClosure` carry out the source's
+`StacksFrontier.AlgebraicGeometry.FormalGeometry.FormalSectionsSerreOneClosure` carry out the
+source's
 proof of Stacks 0EIF when condition (3) holds in the form (3)(a). This file runs the same proof
 under the bundled conditions `Stacks.Algebraization.FormalSectionsHypotheses`, whose third clause
 is the disjunction (3)(a) or (3)(b) of the source.
@@ -23,7 +24,8 @@ is the disjunction (3)(a) or (3)(b) of the source.
   — the assembly: the comparison map is an isomorphism, granting
   `Stacks.Algebraization.CompletedComplementIsFormalSections` (Stacks 0BLX, 0A0K and 0D60 in the
   affine shape the source's last step consumes). That input is proved, and this declaration
-  consumed, in `StacksFrontier.AlgebraicGeometry.FormalGeometry.FormalSectionsAlgebraizationTheorem`.
+  consumed, in
+  `StacksFrontier.AlgebraicGeometry.FormalGeometry.FormalSectionsAlgebraizationTheorem`.
 
 ## Implementation notes
 

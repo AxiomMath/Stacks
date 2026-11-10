@@ -26,9 +26,12 @@ for the étale direct and inverse images, fed with the characterization
 
 ## Implementation notes
 
-As in `StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/AbelianBaseChangeQuasiIso.lean`, the statement carries
+As in
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/AbelianBaseChangeQuasiIso.lean`,
+the statement carries
 `CategoryTheory.Abelian.toPreadditive` as preferred `Preadditive` structure, the spelling of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/BaseChangeMap.lean`, and the module has few imports.
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/BaseChangeMap.lean`, and the
+module has few imports.
 
 ## Main results
 

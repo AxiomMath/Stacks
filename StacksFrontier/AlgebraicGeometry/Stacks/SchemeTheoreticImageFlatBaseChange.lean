@@ -152,7 +152,7 @@ public theorem schemeTheoreticImageCandidate_le_inverseImage (f : 𝒳 ⟶ 𝒴)
     schemeTheoreticImageCandidate sq.fst ≤
       (schemeTheoreticImageCandidate f).inverseImage b.hom.hom.toFunctor := by
   intro X hX
-  show schemeTheoreticImageCandidate f (b.hom.hom.toFunctor.obj X)
+  change schemeTheoreticImageCandidate f (b.hom.hom.toFunctor.obj X)
   rw [schemeTheoreticImageCandidate_apply_iff]
   intro Q hQ hfac
   have := hQ.1
@@ -414,7 +414,7 @@ theorem preimage_chartImageSubfunctor_le (f : 𝒳 ⟶ 𝒴) (hf : IsQuasiCompac
     have hc : (w ≫ pullback.snd g q) ≫ q = a₀ ≫ g := by
       simp [a₀, pullback.condition]
     let ξ := ρ.hom.hom.obj (Over.mk a₀)
-    show f.hom.hom.toFunctor.essImage (v.hom.hom.obj (Over.mk ((w ≫ pullback.snd g q) ≫ q)))
+    change f.hom.hom.toFunctor.essImage (v.hom.hom.obj (Over.mk ((w ≫ pullback.snd g q) ≫ q)))
     refine essImage_of_hom f (eqToHom (by rw [hc]; rfl) ≫ v.hom.hom.map (e₁.inv.hom.hom.app _))
       ⟨ξ.y, ⟨ξ.iso.symm⟩⟩
   rw [h₂] at h₃
@@ -577,7 +577,7 @@ theorem chartImageSubfunctor_le_chartSubfunctor_flatLocalImage (f : 𝒳 ⟶ �
     (v : schemeStack.{u, w} B S hS V ⟶ 𝒴) (hV : IsAffine ((BigFppfOver.toScheme B S hS).obj V)) :
     chartImageSubfunctor f v ≤ chartSubfunctor (fun φ hb => flatLocalImage_of_hom f φ hb) v := by
   rintro ⟨T⟩ s hs
-  show flatLocalImage f (v.hom.hom.obj (Over.mk s))
+  change flatLocalImage f (v.hom.hom.obj (Over.mk s))
   intro V₁ v₁ hV₁ hv₁ T₁ s₁ ⟨β⟩
   have hT₁ : 𝒴.val.val.p.obj (v₁.hom.hom.obj (Over.mk s₁)) = T₁ := v₁.hom.hom.w_obj _
   have hT : 𝒴.val.val.p.obj (v.hom.hom.obj (Over.mk s)) = T := v.hom.hom.w_obj _
@@ -614,13 +614,13 @@ theorem chartImageSubfunctor_le_chartSubfunctor_flatLocalImage (f : 𝒳 ⟶ �
   have e₀ := comp_eq_siteMap_of_isHomLift c sq₂.snd (s := g ≫ s) (ξ := ξ) rfl ε k α hα
   have e₁ := comp_eq_siteMap_of_isHomLift c sq₂.fst (s := s₁) (ξ := ξ) rfl ε k α hα
   have h₀ : ε.hom ∈ ((chartImageSubfunctor f v).preimage (yoneda.map q₀)).obj (op ε.left) := by
-    show ε.hom ≫ q₀ ∈ (chartImageSubfunctor f v).obj (op ε.left)
+    change ε.hom ≫ q₀ ∈ (chartImageSubfunctor f v).obj (op ε.left)
     rw [← e₀, ← Category.assoc]
     exact (chartImageSubfunctor f v).map (k ≫ g).op hs
   have h₁ := preimage_chartImageSubfunctor_le f hf hV v q₀ hq₀ _ h₀
   rw [chartImageSubfunctor_congr f e] at h₁
   have h₂ := chartImageSubfunctor_comp_le f q₁ v₁ _ h₁
-  show k ≫ s₁ ∈ (chartImageSubfunctor f v₁).obj (op ε.left)
+  change k ≫ s₁ ∈ (chartImageSubfunctor f v₁).obj (op ε.left)
   rwa [e₁]
 
 /-- Along a smooth chart by an affine object, the chart subfunctor of the flat-local image of a
@@ -708,7 +708,7 @@ theorem inverseImage_flatLocalImage_le (f : 𝒳 ⟶ 𝒴) (b : 𝒴' ⟶ 𝒴)
       z ξ hz
     obtain ⟨t, rfl⟩ := hcs j p
     refine Set.mem_iUnion.2 ⟨j, t, ?_⟩
-    show AlgebraicStacks.pointsMap B S hS (c j ≫ (sqJ j).snd) t = _
+    change AlgebraicStacks.pointsMap B S hS (c j ≫ (sqJ j).snd) t = _
     rw [AlgebraicStacks.pointsMap_comp, Function.comp_apply]
     exact hp
   -- along each chart, the flat-local image lies in the scheme theoretic image of `f'`
@@ -753,7 +753,7 @@ theorem inverseImage_flatLocalImage_le (f : 𝒳 ⟶ 𝒴) (b : 𝒴' ⟶ 𝒴)
     hcl.1.isSheaf _ _ hR ?_
   rintro T k ⟨_, g, _, ⟨i⟩, rfl⟩
   obtain ⟨x, α, hα⟩ := hlift i
-  show (g ≫ _) ≫ 𝟙 _ ∈ _
+  change (g ≫ _) ≫ 𝟙 _ ∈ _
   rw [Category.comp_id]
   refine (objSubfunctor hP'i ⟨y', rfl⟩).map g.op ?_
   rw [mem_objSubfunctor_iff hP'i _ _ α]

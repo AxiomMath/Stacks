@@ -240,7 +240,7 @@ lemma eq_of_mem_over (J : GrothendieckTopology C) [J.Subcanonical] {U : Over W} 
   rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows] at hf
   refine (hsh _ hf).isSeparatedFor.ext ?_
   rintro Y h ⟨Y', u, v, ⟨i⟩, rfl⟩
-  show (u ≫ (f i).left) ≫ a = (u ≫ (f i).left) ≫ b
+  change (u ≫ (f i).left) ≫ a = (u ≫ (f i).left) ≫ b
   rw [Category.assoc, Category.assoc, hab i]
 
 /-- **A compatible family of factorizations through `g` over a covering family glues.** For a
@@ -663,7 +663,7 @@ theorem isStackInGroupoids_of_comp_overMap (J : GrothendieckTopology C) [J.Subca
       Over.eq_of_mem_over J Z f hcov _ U.hom hstr
     obtain rfl : p.obj xx = U := by
       refine CostructuredArrow.obj_ext _ _ hleft.symm ?_
-      show eqToHom hleft.symm ≫ U.hom = (p.obj xx).hom
+      change eqToHom hleft.symm ≫ U.hom = (p.obj xx).hom
       rw [← key]
       simp
     refine ⟨xx, rfl, fun i => Restriction.ofOverMap p g (f i) rfl (xr i), ψ, ?_, hψiso, ?_⟩
@@ -794,7 +794,7 @@ lemma compTo_descend [p.IsFibered]
     (Restriction.compTo p k₀ f₀ hm₀ (xr.descend p g hA hB hfm) (xrA.descend p g hD hB hmm))
   have h3 : p.map (Restriction.compTo p k₀ f₀ hm₀ (xr.descend p g hA hB hfm)
       (xrA.descend p g hD hB hmm)) = eqToHom hD ≫ k₀ ≫ eqToHom hA.symm := h2
-  show (Over.map g).map (p.map _) = _
+  change (Over.map g).map (p.map _) = _
   rw [h3, hk]
 
 /-- **The canonical-restriction relation is unchanged by descending the four restrictions.** -/

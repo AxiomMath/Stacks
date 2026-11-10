@@ -144,7 +144,7 @@ theorem exists_parameterPoint_mem [Infinite D.k] (hr : 0 < Module.finrank D.k D.
   rw [map_mul, MvPolynomial.eval_X] at ha
   refine ⟨fun i => a ⟨i⟩, fun h0 => ?_, fun p => hfU ?_⟩
   · exact ha (by rw [show a i₀ = 0 from congrFun h0 ⟨0, hr⟩, mul_zero])
-  · show p ∈ D.parameterPoint (fun i => a ⟨i⟩) ⁻¹ᵁ D.parameterBase.basicOpen f
+  · change p ∈ D.parameterPoint (fun i => a ⟨i⟩) ⁻¹ᵁ D.parameterBase.basicOpen f
     rw [Scheme.preimage_basicOpen_top, hfF, parameterPoint_appTop_parameterBaseΓEquiv,
       Scheme.basicOpen_of_isUnit]
     · trivial
@@ -174,10 +174,10 @@ def toSections : R ≃+* Γ(Spec (CommRingCat.of R), ⊤) :=
 theorem smul_sections (c : k) (x : sections k R) :
     (show Γ(Spec (CommRingCat.of R), ⊤) from c • x) =
       toSections R (algebraMap k R c) * (show Γ(Spec (CommRingCat.of R), ⊤) from x) := by
-  show (show Γ(Spec (CommRingCat.of R), ⊤) from baseRingHom k (structureMap k R) c) *
+  change (show Γ(Spec (CommRingCat.of R), ⊤) from baseRingHom k (structureMap k R) c) *
     (show Γ(Spec (CommRingCat.of R), ⊤) from x) = _
   congr 1
-  show ((Scheme.ΓSpecIso (CommRingCat.of k)).inv ≫ (structureMap k R).appTop) c =
+  change ((Scheme.ΓSpecIso (CommRingCat.of k)).inv ≫ (structureMap k R).appTop) c =
     (Scheme.ΓSpecIso (CommRingCat.of R)).inv (algebraMap k R c)
   rw [← Scheme.ΓSpecIso_inv_naturality]
   rfl
@@ -185,7 +185,7 @@ theorem smul_sections (c : k) (x : sections k R) :
 /-- The identification `Γ(Spec R, ⊤) ≅ R` is semilinear over `k → R`. -/
 theorem toSections_symm_smul (c : k) (x : sections k R) :
     (toSections R).symm (c • x) = algebraMap k R c * (toSections R).symm x := by
-  show (toSections R).symm (show Γ(Spec (CommRingCat.of R), ⊤) from c • x) = _
+  change (toSections R).symm (show Γ(Spec (CommRingCat.of R), ⊤) from c • x) = _
   rw [smul_sections, map_mul, RingEquiv.symm_apply_apply]
 
 /-- `𝒪_{Spec R}` is an invertible module over itself, in the spelling of
@@ -228,7 +228,7 @@ theorem divisorSet_family (V : Submodule k (sections k R)) [FiniteDimensional k 
     (family V).divisorSet w =
       PrimeSpectrum.zeroLocus {(toSections R).symm (w : sections k R)} := by
   ext x
-  show x ∈ (zeroScheme _ _ _).supportSet ↔ _
+  change x ∈ (zeroScheme _ _ _).supportSet ↔ _
   rw [Scheme.IdealSheafData.mem_supportSet_iff_of_mem
       (U := ⟨⊤, isAffineOpen_top (Spec (CommRingCat.of R))⟩) trivial,
     zeroScheme_ideal_of_trivialization _ _ _ _ (LinearEquiv.refl _ _) _ rfl,
@@ -395,7 +395,7 @@ theorem exists_isPrime_ne_bot_le_of_isMaximal_of_isAlgClosed {k R : Type u} [Fie
       y ∈ D.divisorSet (vec x hx) ↔ x ∈ y.asIdeal := by
     intro x hx y
     refine (mem_divisorSet_family V (vec x hx) y).trans ?_
-    show (toSections R).symm (toSections R x) ∈ y.asIdeal ↔ _
+    change (toSections R).symm (toSections R x) ∈ y.asIdeal ↔ _
     rw [RingEquiv.symm_apply_apply]
   have heS : e ∈ S := Or.inr (Set.mem_insert _ _)
   have haeS : a * e ∈ S := Or.inr (Set.mem_insert_of_mem _ (Set.mem_insert _ _))
@@ -426,7 +426,7 @@ theorem exists_isPrime_ne_bot_le_of_isMaximal_of_isAlgClosed {k R : Type u} [Fie
         hr.2 ⟨hqprime, Ideal.span_le.mpr (Set.insert_subset (key a hae)
           (Set.singleton_subset_iff.mpr (key b hbe)))⟩ hqr
       intro x hx
-      show (r : Set R) ⊆ (x : PrimeSpectrum R).asIdeal
+      change (r : Set R) ⊆ (x : PrimeSpectrum R).asIdeal
       intro f hf
       exact (PrimeSpectrum.mem_vanishingIdeal _ _).mp (hrq hf) x hx
   have hZnot : ¬ (Z : Set D.X) ⊆ D.divisorSet (vec e heS) :=
@@ -511,8 +511,7 @@ theorem exists_integral_extension_algebraicClosure (k R : Type u) [Field k] [Com
     Algebra.TensorProduct.includeRight_injective (algebraMap k K).injective
   have : Algebra.IsIntegral R T := by
     refine ⟨fun x => ?_⟩
-    induction x using TensorProduct.induction_on with
-    | zero => exact isIntegral_zero
+    induction x using TensorProduct.inductionOn with
     | tmul a r =>
       have h1 : IsIntegral k (a ⊗ₜ[k] (1 : R) : T) :=
         (Algebra.IsIntegral.isIntegral (R := k) a).map
@@ -571,7 +570,7 @@ public theorem exists_isPrime_ne_bot_le_of_isMaximal {k R : Type u} [Field k] [C
         obtain ⟨m, -, rfl⟩ := Finset.mem_image.mp hQ
         exact (hlift_spec m).1)
   refine ⟨P''.comap (algebraMap R R''), Ideal.comap_isPrime _ _, fun h => hP''ne
-    (Ideal.eq_bot_of_comap_eq_bot h), fun m hm => ?_⟩
+    (Ideal.eq_bot_of_under_eq_bot h), fun m hm => ?_⟩
   exact (Ideal.comap_mono (hP''le _ (Finset.mem_image_of_mem lift
     (Finset.mem_attach s ⟨m, hm⟩)))).trans_eq (hlift_spec ⟨m, hm⟩).2
 

@@ -126,7 +126,7 @@ theorem C1573.essSurj_completionFunctorProperOver_of_isClosedImmersion [IsNoethe
       have hle : T' ≤ T := by
         rintro _ ⟨w, rfl⟩
         refine hT ⟨pointsMap B (Spec (.of A)) hA _ j.hom w, ?_⟩
-        show _ = pointsMap B (Spec (.of A)) hA _ (j.hom ≫ i.hom) w
+        change _ = pointsMap B (Spec (.of A)) hA _ (j.hom ≫ i.hom) w
         rw [pointsMap_comp]
         rfl
       have hlt : T' < T := by

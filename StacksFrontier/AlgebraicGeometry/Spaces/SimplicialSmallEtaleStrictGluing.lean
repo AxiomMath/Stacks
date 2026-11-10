@@ -199,7 +199,8 @@ theorem derivedCategoryB_isQuasicoherentOnSite_of_strictComponent_iso (n : Simpl
       (SheafOfModules.isQuasicoherentOnSite.{u + 1, u + 1, u + 1, u + 1}
         (Stacks.SheafOfModules.Tensor.ringSheaf
           ((strictSituation X).componentRingedTopos (strictStructureSheaf X) n).O)) M :=
-  Stacks.Cohomology.CohomologicalDescent.OfRingedToposHom.derivedCategoryB_isQuasicoherentOnSite_of_derivedPullback
+  open Stacks.Cohomology.CohomologicalDescent in
+  OfRingedToposHom.derivedCategoryB_isQuasicoherentOnSite_of_derivedPullback
     (strictComponentRingedToposHom X n) M (fun q ↦ SheafOfModules.IsQuasicoherentOnSite.of_iso
       ((DerivedCategory.homologyFunctor _ q).mapIso ι).symm (hN q))
 
@@ -255,7 +256,8 @@ theorem derivedCategoryB_isQuasicoherentOnSite_of_pairDerivedModuleSystem_iso
       (SheafOfModules.isQuasicoherentOnSite.{u + 1, u + 1, u + 1, u + 1}
         (Stacks.SheafOfModules.Tensor.ringSheaf
           ((strictSituation X).totalRingedTopos (strictStructureSheaf X)).O)) K' := fun q ↦
-  (SimplicialSiteSituation.isQuasicoherentOnSite_iff_isCartesianModule_and_isQuasicoherentOnSite_componentModule
+  open SimplicialSiteSituation in
+  (isQuasicoherentOnSite_iff_isCartesianModule_and_isQuasicoherentOnSite_componentModule
     (strictSituation X) (strictStructureSheaf X) _).2
     ⟨isCartesianModule_homology_of_isCartesianDerivedModule X hface K' hK' q,
       fun n ↦ isQuasicoherentOnSite_componentModule_homology X Pr K₀ e hK K' eT n q⟩

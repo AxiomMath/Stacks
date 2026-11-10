@@ -48,7 +48,8 @@ in the universe `u` of the coefficient rings has its sections in `max u' v' u`, 
 algebraic stack those are `u + 1`, so `𝓗om_{𝒪_𝒳}(ℱ, 𝒢)` has its sections one universe above
 `ℱ` and `𝒢`.  Both `QCoh(𝒪_𝒳)` and `LQCoh^{fbc}(𝒪_𝒳)`, hence the quasi-coherator between them,
 are pinned to module universe `u` in this library — see the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/Coherator.lean` — so `𝓗om_{𝒪_𝒳}(ℱ, 𝒢)` is not an object either category can receive.  Where
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/Coherator.lean` — so `𝓗om_{𝒪_𝒳}(ℱ, 𝒢)` is not
+an object either category can receive.  Where
 the internal Hom *is* quasi-coherent, which is what the conclusion below asserts, the source's
 `hom(ℱ, 𝒢)` is it; but saying so in Lean needs both Stacks 0GQN and a descent of the internal
 Hom to module universe `u`.

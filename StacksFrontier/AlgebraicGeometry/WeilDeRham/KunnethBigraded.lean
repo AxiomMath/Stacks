@@ -49,8 +49,7 @@ theorem exists_bigraded_sum (z : 𝔇.H X ⊗[F] 𝔇.H Y) :
     ∃ (S : Finset (ℤ × ℤ)) (f : ℤ × ℤ → 𝔇.H X ⊗[F] 𝔇.H Y),
       (∀ s, f s ∈ bigradedPiece (𝔇 := 𝔇) X Y s.1 s.2) ∧ z = ∑ s ∈ S, f s := by
   classical
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨∅, fun _ => 0, fun _ => zero_mem _, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul a b =>
     refine ⟨(DFinsupp.support (decompose (𝔇.grade X) a)) ×ˢ
         (DFinsupp.support (decompose (𝔇.grade Y) b)),
@@ -81,8 +80,7 @@ theorem kunnethEquiv_mem_grade_of_mem_bigradedPiece {i j : ℤ} {w : 𝔇.H X �
     (hw : w ∈ bigradedPiece (𝔇 := 𝔇) X Y i j) :
     kunnethEquivOfIsPullback p q hP hA5 w ∈ 𝔇.grade P (i + j) := by
   obtain ⟨t, rfl⟩ := hw
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     rw [TensorProduct.map_tmul, kunnethEquivOfIsPullback_tmul]
     exact SetLike.GradedMul.mul_mem (𝔇.pull_grade p i _ a.2) (𝔇.pull_grade q j _ b.2)

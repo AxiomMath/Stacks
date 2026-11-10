@@ -53,7 +53,7 @@ universe u
 
 namespace Stacks.Drinfeld.Shtuka
 
-variable {k : Type u} [Field k] [Fintype k] {X S S' : Over (Spec (.of k))}
+variable {k : Type u} [Field k] {X S S' : Over (Spec (.of k))}
 
 /-- **The graph of a leg is a closed immersion when `X` is separated.** -/
 theorem isClosedImmersion_graph [IsSeparated X.hom] (x : S ⟶ X) : IsClosedImmersion (graph x) := by

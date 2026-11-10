@@ -228,13 +228,13 @@ theorem isPullback_limit_π_limMap {I C : Type*} [Category* I] [Category* C]
     have hk : hc.lift (cs s) ≫ limit.π F k = x s (Over.mk b) := hfac s (Over.mk b)
     rw [Category.assoc, limMap_π, ← limit.w F a, Category.assoc, q.naturality,
       ← Category.assoc, hk, ← Category.assoc]
-    show ((hq b).lift s.fst (s.snd ≫ limit.π G k) _ ≫ q.app k) ≫ G.map a =
+    change ((hq b).lift s.fst (s.snd ≫ limit.π G k) _ ≫ q.app k) ≫ G.map a =
       s.snd ≫ limit.π G i
     rw [IsPullback.lift_snd, Category.assoc, limit.w]
   · intro s m hm₁ hm₂
     apply hc.hom_ext
     intro k
-    show m ≫ limit.π F k.left = hc.lift (cs s) ≫ limit.π F k.left
+    change m ≫ limit.π F k.left = hc.lift (cs s) ≫ limit.π F k.left
     rw [hfac s k]
     apply (hq k.hom).hom_ext
     · rw [Category.assoc, limit.w, hm₁, IsPullback.lift_fst]
@@ -250,6 +250,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (hZ : B.Contains (⊤_ Scheme.{u}))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_SpacesQuotientSystem :

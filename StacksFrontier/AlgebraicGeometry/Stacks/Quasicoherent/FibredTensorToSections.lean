@@ -237,8 +237,7 @@ theorem isIso_tensorToSectionsApp_of_isIso_restrictionBaseChange (Z : Over x)
         (Stacks.PresheafOfModules.restrictionBaseChange_tmul
           (R := (structureSheaf B S hS p hp τ).obj) F.val Z.hom.op a s).symm)
   have hdsurj : Function.Surjective d := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, d.map_zero⟩
+    induction z using TensorProduct.inductionOn with
     | tmul a s => exact ⟨(show Rr.obj (op Z.left) from a) ⊗ₜ[Rr.obj (op x),
         (Rr.map Z.hom.op).hom] (show N.obj (op x) from s), rfl⟩
     | add z w hz hw =>

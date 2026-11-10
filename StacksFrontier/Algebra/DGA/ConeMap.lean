@@ -98,7 +98,7 @@ the target it was built from. -/
     coneIncl f ≫ coneDesc f g H = g := by
   apply Hom.ext
   refine LinearMap.ext fun x => ?_
-  show g.toFun x + H.toLinearMap 0 = g.toFun x
+  change g.toFun x + H.toLinearMap 0 = g.toFun x
   rw [map_zero, add_zero]
 
 end Desc
@@ -157,9 +157,9 @@ theorem coneIncl_coneMapOfHomotopy (H : Homotopy (f₁ ≫ b) (a ≫ f₂)) :
   apply Hom.ext
   refine LinearMap.ext fun x => ?_
   refine Prod.ext ?_ ?_
-  · show b.toFun x + H.toLinearMap 0 = b.toFun x
+  · change b.toFun x + H.toLinearMap 0 = b.toFun x
     rw [map_zero, add_zero]
-  · show a.toFun 0 = 0
+  · change a.toFun 0 = 0
     rw [map_zero]
 
 /-- The homomorphism of cones induced by a homotopy commutative square agrees with the shift of

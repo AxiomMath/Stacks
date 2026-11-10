@@ -54,14 +54,14 @@ private theorem exists_section_of_isAlgebraicSpaceULift {T : BigFppfOver B S hS}
   let x : ∀ n, F'.obj (op (Wn n)) := fun n => (e.inv.app _ (s n)).down
   have hx : ∀ n, F'.map (τ n).op (x (n + 1)) = x n := fun n => by
     refine (congrArg ULift.down (e.inv.naturality_apply (τ n).op (s (n + 1)))).symm.trans ?_
-    show (e.inv.app _ (P.map (τ n).op (s (n + 1)))).down = _
+    change (e.inv.app _ (P.map (τ n).op (s (n + 1)))).down = _
     rw [hs n]
   obtain ⟨y', hy', -⟩ := hT F' hF' x hx
   refine ⟨e.hom.app _ (ULift.up y'), fun n => ?_⟩
   rw [← e.hom.naturality_apply (ι n).op (ULift.up y' : ULift.{u + 1} (F'.obj _))]
-  show e.hom.app _ (ULift.up (F'.map (ι n).op y')) = s n
+  change e.hom.app _ (ULift.up (F'.map (ι n).op y')) = s n
   rw [hy' n]
-  show (e.inv ≫ e.hom).app _ (s n) = s n
+  change (e.inv ≫ e.hom).app _ (s n) = s n
   rw [Iso.inv_hom_id]
   rfl
 
@@ -114,7 +114,7 @@ theorem hasImageIn_of_isAdicMorphism_of_truncations {V : BigFppfOver B S hS}
   have ha : ∀ n, C.map (τ n).op (a (n + 1)) = a n := fun n => by
     have h' : Space.HasImageIn B S hS (yoneda.obj V) Z (Wn n)
         ((yoneda.obj V).map (τ n).op (ι (n + 1) ≫ φ)) := by
-      show Space.HasImageIn B S hS (yoneda.obj V) Z (Wn n) (τ n ≫ ι (n + 1) ≫ φ)
+      change Space.HasImageIn B S hS (yoneda.obj V) Z (Wn n) (τ n ≫ ι (n + 1) ≫ φ)
       rw [hφτ n]
       exact hφ n
     refine (presheafSection_map B S hS (F := yoneda.obj V) (τ n) (ι (n + 1) ≫ φ) (hφ (n + 1))
@@ -145,7 +145,7 @@ theorem hasImageIn_of_isAdicMorphism_of_truncations {V : BigFppfOver B S hS}
     (fun ψ hψ => (huniq ψ hψ).trans (huniq φ fun _ => rfl).symm)
     ((pullback.snd ωm xhat.hom).app (op T) sT) fun n => ?_
   rw [← (pullback.snd ωm xhat.hom).naturality_apply (ι n).op sT, hsT n]
-  show uliftYonedaEquiv (l n ≫ pullback.snd ωm xhat.hom) = a n
+  change uliftYonedaEquiv (l n ≫ pullback.snd ωm xhat.hom) = a n
   rw [pullback.lift_snd, Equiv.apply_symm_apply]
 
 end AlgebraicGeometry.FormalSpace

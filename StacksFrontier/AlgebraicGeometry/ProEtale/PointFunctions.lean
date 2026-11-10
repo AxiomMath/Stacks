@@ -151,7 +151,7 @@ private theorem weaklyEtale_residueFieldMap_bijective
     have hmk : ∀ {R : Type u} [CommRing R] (P : Ideal R) [P.IsMaximal] (b : R),
         IsLocalization.AtPrime.equivQuotMaximalIdeal P (Localization.AtPrime P)
           (Ideal.Quotient.mk P b) = algebraMap R P.ResidueField b := fun _ _ _ => rfl
-    show eX (IsLocalRing.ResidueField.map g.hom (IsLocalRing.residue A a)) =
+    change eX (IsLocalRing.ResidueField.map g.hom (IsLocalRing.residue A a)) =
       r (eY (IsLocalRing.residue A a))
     rw [IsLocalRing.ResidueField.map_residue]
     exact (hmk q _).trans <|
@@ -430,7 +430,7 @@ private theorem isIso_push_fiberContinuousInclusion (X : Scheme.{u}) (x : X)
   have : ∀ U, IsIso (((sheafToPresheaf _ _).map m).app U) := by
     intro U
     apply (ConcreteCategory.isIso_iff_bijective _).2
-    show Function.Bijective (fun f : C(U.unop.hom.fiber x, A) =>
+    change Function.Bijective (fun f : C(U.unop.hom.fiber x, A) =>
       @ContinuousMap.mk _ A _ ⊤ (fun t => f t)
         (@continuous_of_indiscreteTopology _ _ _ ⊤ inferInstance _))
     constructor
@@ -477,7 +477,7 @@ private def pointFunctionsToFiber (X : Scheme.{u}) (x : X) (A : Type v)
     congr 1
     have heq : pullback.map V.unop.hom (X.fromSpecResidueField x)
         U.unop.hom (X.fromSpecResidueField x) g.unop.left (𝟙 _) (𝟙 X)
-        (by simpa using (MorphismProperty.Over.w g.unop).symm) (by simp) ≫
+        (by simp) (by simp) ≫
         pullback.fst U.unop.hom (X.fromSpecResidueField x) =
         pullback.fst V.unop.hom (X.fromSpecResidueField x) ≫ g.unop.left := by
       dsimp only [pullback.map]
@@ -558,7 +558,7 @@ private theorem exists_proetale_profinite_section (X : Scheme.{u}) (hX : Nonempt
   let U : X.ProEt := Scheme.ProEt.mk (f ≫ hV.fromSpec)
   refine ⟨U, hV.fromSpec p, g, s, ?_, hgs⟩
   intro t
-  show hV.fromSpec (PrimeSpectrum.comap (algebraMap Γ(X, V) S) (s t)) = _
+  change hV.fromSpec (PrimeSpectrum.comap (algebraMap Γ(X, V) S) (s t)) = _
   rw [hs]
 
 private theorem finite_of_continuous_functions (T A : Type*) [TopologicalSpace T]
@@ -618,7 +618,7 @@ theorem not_etalePullback_pointFunctionsSheaf (X : Scheme.{u}) (A : Type v)
     have hc := (continuous_on_fiber_of_essImage X A h U x (f ∘ g)).comp sf.continuous
     convert hc using 1
     funext t
-    show f t = f (g (U.hom.fiberι x ((U.hom.fiberHomeo x).symm ⟨s t, hs t⟩)))
+    change f t = f (g (U.hom.fiberι x ((U.hom.fiberHomeo x).symm ⟨s t, hs t⟩)))
     rw [Scheme.Hom.fiberι_fiberHomeo_symm, hgs]
   have : Finite T := finite_of_continuous_functions T (ULift.{max (u + 1) v} A) hall
   exact not_finite T
@@ -687,7 +687,7 @@ theorem isClosed_singleton_of_proetale (X : Scheme.{u})
   have hspecV : (⟨y, hyV⟩ : V.toScheme) ⤳ (⟨z, hzV⟩ : V.toScheme) :=
     (subtype_specializes_iff ⟨y, hyV⟩ ⟨z, hzV⟩).2 hyz
   have heqV := (specializes_iff_eq (X := V.toScheme)).mp hspecV
-  show z = y
+  change z = y
   simpa using (congrArg Subtype.val heqV).symm
 
 /-- **Separably closed residue fields pass to weakly étale `X`-schemes.** If all residue fields
@@ -776,7 +776,7 @@ private theorem isCocontinuous_proetalePostcompose {S X : Scheme.{u}}
   let e := localizationEquivalence (Scheme.ProEt.mk j)
   let : e.functor.IsCocontinuous (Scheme.ProEt.topology S)
       ((Scheme.ProEt.topology X).over (Scheme.ProEt.mk j)) := by
-    show (localizationEquivalence (Scheme.ProEt.mk j)).functor.IsCocontinuous
+    change (localizationEquivalence (Scheme.ProEt.mk j)).functor.IsCocontinuous
       (Scheme.ProEt.topology (Scheme.ProEt.mk j).left) _
     rw [localizationEquivalence_inducedTopology]
     infer_instance
@@ -847,7 +847,7 @@ theorem surjective_pointFunctionsQuotientProjApp (X : Scheme.{u})
   have hV : IsTerminal V :=
     MorphismProperty.Over.mkIdTerminal (@WeaklyEtale : MorphismProperty Scheme.{u}) U.left
   let i : g.obj V ≅ U := MorphismProperty.Over.isoMk (Iso.refl _) (by
-    show U.hom = 𝟙 U.left ≫ U.hom
+    change U.hom = 𝟙 U.left ≫ U.hom
     exact (Category.id_comp _).symm)
   intro s
   obtain ⟨t, ht⟩ := surjective_app_of_subsingleton_H_one J hV T hT
@@ -855,10 +855,10 @@ theorem surjective_pointFunctionsQuotientProjApp (X : Scheme.{u})
   refine ⟨(pointFunctionsSheaf X A).obj.map i.inv.op t, ?_⟩
   have hnat := congrArg (fun k => k t)
     (congrArg AddCommGrpCat.Hom.hom ((pointFunctionsQuotientProj X A).hom.naturality i.inv.op))
-  show (pointFunctionsQuotientProj X A).hom.app (op U)
+  change (pointFunctionsQuotientProj X A).hom.app (op U)
     ((pointFunctionsSheaf X A).obj.map i.inv.op t) = s
   refine (hnat.trans ?_)
-  show (pointFunctionsQuotient X A).obj.map i.inv.op
+  change (pointFunctionsQuotient X A).obj.map i.inv.op
     ((pointFunctionsQuotientProj X A).hom.app (op (g.obj V)) t) = s
   rw [show (pointFunctionsQuotientProj X A).hom.app (op (g.obj V)) t =
     (pointFunctionsQuotient X A).obj.map i.hom.op s from ht]

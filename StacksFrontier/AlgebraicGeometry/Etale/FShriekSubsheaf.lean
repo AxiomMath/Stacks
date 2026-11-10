@@ -98,7 +98,7 @@ public theorem zeroOpen_neg (U : SmallEtale B S hS) (s : F.obj.obj (op U)) :
     zeroOpen B S hS F U (-s) = zeroOpen B S hS F U s := by
   refine congrArg sSup ?_
   ext W
-  show IsZeroOpen B S hS F U (-s) W ↔ IsZeroOpen B S hS F U s W
+  change IsZeroOpen B S hS F U (-s) W ↔ IsZeroOpen B S hS F U s W
   constructor <;> rintro ⟨V, g, hg, hW, hz⟩ <;>
     exact ⟨V, g, hg, hW, by simpa only [map_neg, neg_eq_zero] using hz⟩
 
@@ -106,7 +106,7 @@ public theorem zeroOpen_neg (U : SmallEtale B S hS) (s : F.obj.obj (op U)) :
 public theorem zeroOpen_zero (U : SmallEtale B S hS) :
     zeroOpen B S hS F U (0 : F.obj.obj (op U)) = ⊤ := by
   refine top_unique (le_sSup ?_)
-  show IsZeroOpen B S hS F U 0 ⊤
+  change IsZeroOpen B S hS F U 0 ⊤
   refine ⟨U, 𝟙 U, ?_, by simp, by simp⟩
   simpa using (inferInstance : IsOpenImmersion (𝟙 ((SmallEtale.toScheme B S hS).obj U)))
 
@@ -241,7 +241,7 @@ public theorem mem_fpqcPrecoverage_of_isCovering (U : SmallEtale B Y.obj Y.prope
       E.map (SmallEtale.inclusion B Y.obj Y.property ⋙
         BigEtaleOver.forget B Y.obj Y.property)⟩) hE
   refine Scheme.etalePrecoverage_le_fpqcPrecoverage _ ?_
-  show (E.map (SmallEtale.toScheme B Y.obj Y.property)).presieve₀ ∈
+  change (E.map (SmallEtale.toScheme B Y.obj Y.property)).presieve₀ ∈
     Scheme.etalePrecoverage ((SmallEtale.toScheme B Y.obj Y.property).obj U)
   exact hEtale
 

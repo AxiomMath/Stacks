@@ -90,7 +90,7 @@ theorem moduleSectionsRestrict_comp {V V' V'' : SmallEtale B S hS X.obj} (g : V'
     (h : V'' ⟶ V') (m : moduleSections B S hS X G V) :
     moduleSectionsRestrict B S hS X G h (moduleSectionsRestrict B S hS X G g m) =
       moduleSectionsRestrict B S hS X G (h ≫ g) m := by
-  show ((moduleCoefficients B S hS X G).map g.op ≫
+  change ((moduleCoefficients B S hS X G).map g.op ≫
     (moduleCoefficients B S hS X G).map h.op) m = _
   rw [← (moduleCoefficients B S hS X G).map_comp, ← op_comp]
   rfl

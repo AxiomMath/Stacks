@@ -70,7 +70,8 @@ change of `V₀` at every level below and at the limit. It is stated for the amb
 `...limitToSmallEtale`, `...QcSeparatedColimit.levelToSmallEtale`, which are exactly the `w₀` and
 `wn` the one-hypercover step quantifies over, so it is used as it stands at abelian coefficients.
 
-**The restriction isomorphisms `e₀` and `en` of that step are `CategoryTheory.Iso.refl`.** With `w₀ := limitToSmallEtale D c B hX` and
+**The restriction isomorphisms `e₀` and `en` of that step are `CategoryTheory.Iso.refl`.** With
+`w₀ := limitToSmallEtale D c B hX` and
 `G' := (AlgebraicGeometry.SmallEtale.etaleSiteRestriction B c.pt hX AddCommGrpCat).obj 𝓕`,
 the presheaf `w₀ᵒᵖ ⋙ G'` *is* the presheaf of
 `(AffineEtaleModel.modelRestrict B c.pt hX).obj ((MayerVietoris.mayerVietorisRestrict c.pt).obj 𝓕)`

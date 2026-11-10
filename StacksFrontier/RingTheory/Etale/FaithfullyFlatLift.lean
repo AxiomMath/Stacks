@@ -50,7 +50,7 @@ theorem exists_etale_faithfullyFlat_lift (A' A B₀ : Type u) [CommRing A'] [Com
     refine ⟨PrimeSpectrum.comap (ψ : C →+* B₀) Q, PrimeSpectrum.ext ?_⟩
     have hQ' : Q.asIdeal.comap (algebraMap A B₀) = p.asIdeal.map (algebraMap A' A) :=
       congrArg PrimeSpectrum.asIdeal hQ
-    show (Q.asIdeal.comap (ψ : C →+* B₀)).comap (algebraMap A' C) = p.asIdeal
+    change (Q.asIdeal.comap (ψ : C →+* B₀)).comap (algebraMap A' C) = p.asIdeal
     rw [Ideal.comap_comap, show (ψ : C →+* B₀).comp (algebraMap A' C) = algebraMap A' B₀ from
       ψ.comp_algebraMap, IsScalarTower.algebraMap_eq A' A B₀, ← Ideal.comap_comap, hQ', hq]
   · obtain ⟨n, f, hf⟩ := Algebra.FiniteType.iff_quotient_mvPolynomial''.mp

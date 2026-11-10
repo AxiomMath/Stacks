@@ -205,11 +205,11 @@ private theorem module_finite_integralClosure_of_mem_lift_range
     have h2 : IsIntegral C (algebraMap L Ω (z : L)) :=
       (z.2.map (IsScalarTower.toAlgHom A L Ω)).tower_top
     have h3 : IsIntegral C β := (isIntegral_algHom_iff Λ hΛinj).mp (by
-      show IsIntegral C (IsFractionRing.lift hC β)
+      change IsIntegral C (IsFractionRing.lift hC β)
       rwa [hβ])
     obtain ⟨c, hc⟩ := IsIntegrallyClosed.isIntegral_iff.mp h3
     refine LinearMap.mem_range.mpr ⟨c, ?_⟩
-    show algebraMap C Ω c = algebraMap L Ω (z : L)
+    change algebraMap C Ω c = algebraMap L Ω (z : L)
     rw [← IsFractionRing.lift_algebraMap (K := FractionRing C) hC c, hc, hβ]
   have hginj : Function.Injective
       ((IsScalarTower.toAlgHom A L Ω).toLinearMap.comp (integralClosure A L).val.toLinearMap) :=
@@ -314,7 +314,7 @@ private theorem module_finite_integralClosure_of_isPurelyInseparable
   -- `q`-th roots in the perfect field `Ω`
   obtain ⟨τ, hτ⟩ : ∃ τ : Ω →+* Ω, ∀ z : Ω, (τ z) ^ q = z := by
     refine ⟨(iterateFrobeniusEquiv Ω p e).symm.toRingHom, fun z => ?_⟩
-    show ((iterateFrobeniusEquiv Ω p e).symm z) ^ q = z
+    change ((iterateFrobeniusEquiv Ω p e).symm z) ^ q = z
     rw [← hfrob, ← iterateFrobeniusEquiv_apply]
     exact (iterateFrobeniusEquiv Ω p e).apply_symm_apply z
   set x : Ω := algebraMap R[X] Ω X
@@ -393,9 +393,9 @@ private theorem module_finite_integralClosure_of_isPurelyInseparable
   have hσR : ((algebraMap ↥L' Ω).comp v).comp (algebraMap R ↥(integralClosure R ↥L'))
       = algebraMap R Ω := by
     ext r
-    show algebraMap ↥L' Ω (v (algebraMap R ↥(integralClosure R ↥L') r)) = algebraMap R Ω r
+    change algebraMap ↥L' Ω (v (algebraMap R ↥(integralClosure R ↥L') r)) = algebraMap R Ω r
     rw [hvdef]
-    show algebraMap ↥L' Ω
+    change algebraMap ↥L' Ω
       ((integralClosure R ↥L').val (algebraMap R ↥(integralClosure R ↥L') r)) = algebraMap R Ω r
     rw [AlgHom.commutes, ← IsScalarTower.algebraMap_apply R ↥L' Ω]
   have hcommR : ∀ g : R[X],
@@ -403,7 +403,7 @@ private theorem module_finite_integralClosure_of_isPurelyInseparable
         = algebraMap R[X] Ω g := by
     intro g
     rw [hΨ]
-    show Polynomial.eval₂ ((algebraMap ↥L' Ω).comp v) y
+    change Polynomial.eval₂ ((algebraMap ↥L' Ω).comp v) y
       (Polynomial.expand _ q (Polynomial.map (algebraMap R ↥(integralClosure R ↥L')) g)) = _
     rw [Polynomial.expand_eq_comp_X_pow, Polynomial.eval₂_comp]
     simp only [Polynomial.eval₂_X_pow]
@@ -513,7 +513,7 @@ private theorem isN1_polynomial (R : Type u) [CommRing R] [IsDomain R] (h : IsN1
   have hR'Kinj : Function.Injective (algebraMap R' K) := Subtype.coe_injective
   have towR'L : IsScalarTower (Polynomial R) (Polynomial R') L := by
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
-    show algebraMap (Polynomial R) L x = Φ (Polynomial.map (algebraMap R' K)
+    change algebraMap (Polynomial R) L x = Φ (Polynomial.map (algebraMap R' K)
       (Polynomial.map (algebraMap R R') x))
     rw [Polynomial.map_map]
     have hc : (algebraMap R' K).comp (algebraMap R R') = algebraMap R K :=

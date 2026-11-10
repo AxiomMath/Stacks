@@ -34,7 +34,8 @@ that no consumer has to.
 type: the standard model is baked into the term. The equivalence therefore has to come from
 `AlgebraicGeometry.StandardModel.derivedTilde_isEquivalence` and not from
 `AlgebraicGeometry.derivedTilde_isEquivalence` of
-`StacksFrontier/AlgebraicGeometry/DerivedQCoh/AffineDerivedEquivalence.lean`, which is at the locally
+`StacksFrontier/AlgebraicGeometry/DerivedQCoh/AffineDerivedEquivalence.lean`, which is at the
+locally
 small model. For the same reason a file importing this one must write
 `attribute [local instance 10000] HasDerivedCategory.standard`, not the plain attribute: the
 import closure makes the locally small `HasDerivedCategory` declarations *global* instances, and a

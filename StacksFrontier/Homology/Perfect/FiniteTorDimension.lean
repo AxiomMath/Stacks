@@ -332,7 +332,7 @@ private lemma finite_homology_of_finite_term
     Module.Finite Λ
       ((HomologicalComplex.homologyFunctor (ModuleCat.{v} Λ)
         (ComplexShape.up ℤ) i).obj P) := by
-  show Module.Finite Λ (P.homology i)
+  change Module.Finite Λ (P.homology i)
   have : IsNoetherian Λ (P.X i) := inferInstance
   have : Module.Finite Λ (P.cycles i) :=
     Module.Finite.of_injective (P.iCycles i).hom
@@ -511,7 +511,7 @@ private lemma homology_isZero_of_tor_bound {Λ : Type u} [Ring Λ] [Small.{v} Λ
   let _ : PreservesFiniteLimits (G ⋙ U) :=
     inferInstanceAs (PreservesFiniteLimits (forget₂ (ModuleCat.{v} Λ) AddCommGrpCat.{v}))
   let _ : PreservesColimitsOfSize.{0, 0} (G ⋙ U) := by
-    show PreservesColimitsOfSize.{0, 0} (forget₂ (ModuleCat.{v} Λ) AddCommGrpCat.{v})
+    change PreservesColimitsOfSize.{0, 0} (forget₂ (ModuleCat.{v} Λ) AddCommGrpCat.{v})
     exact ModuleCat.forget₂PreservesColimitsOfSize.{v, u, 0, 0} Λ
   let _ : PreservesFiniteColimits (G ⋙ U) := PreservesColimitsOfSize0.preservesFiniteColimits _
   let _ : PreservesFiniteLimits G := preservesFiniteLimits_of_reflects_of_preserves G U
@@ -527,7 +527,7 @@ private lemma homology_isZero_of_tor_bound {Λ : Type u} [Ring Λ] [Small.{v} Λ
       (by
         intro X Y f hf
         let _ : QuasiIso f := hf
-        show IsIso (DerivedCategory.Q.map
+        change IsIso (DerivedCategory.Q.map
           ((F.mapHomologicalComplex (ComplexShape.up ℤ)).map f))
         infer_instance)
   let P := DerivedCategory.Q.objPreimage K
@@ -567,7 +567,7 @@ private lemma exists_tensor_coordinates {Λ : Type u} [Ring Λ]
     map_add' := by intros; ext m i; simp [intLinearMap, smul_add] }
   have hβ (n : N) (a : Λ) (m : M) : β (MulOpposite.op a • n) m = β n (a • m) := by
     ext i
-    show MulOpposite.op (b.repr m i) • (MulOpposite.op a • n) =
+    change MulOpposite.op (b.repr m i) • (MulOpposite.op a • n) =
       MulOpposite.op (b.repr (a • m) i) • n
     simp [← mul_smul, MulOpposite.op_mul]
   obtain ⟨c, hc, -⟩ := D.universal N M (ModuleCat.of ℤ (ι → N)) β hβ
@@ -582,7 +582,7 @@ private lemma exists_tensor_coordinates {Λ : Type u} [Ring Λ]
   have hcr : c ≫ r = 𝟙 _ := by
     apply tensor_hom_ext D N M
     intro n m
-    show (∑ i, D.pure N M (c (D.pure N M n m) i) (b i)) = D.pure N M n m
+    change (∑ i, D.pure N M (c (D.pure N M n m) i) (b i)) = D.pure N M n m
     simp only [hc', D.balanced]
     rw [← _root_.map_sum, b.sum_repr]
   exact ⟨c.hom, hc', fun t => congrArg (fun f => f t) hcr⟩
@@ -621,7 +621,7 @@ private lemma projective_cokernel_of_tensor_exact {Λ : Type u} [Ring Λ] [Small
   have hq_zero (φ : S.X₃ →ₗ[Λ] Λ) : q (φ.comp S.g.hom) = 0 := by
     have hv : V.mkQ (φ.comp S.g.hom) = 0 :=
       (Submodule.Quotient.mk_eq_zero V).2 ⟨φ, rfl⟩
-    show (Shrink.linearEquiv.{v} Λᵐᵒᵖ ((S.X₂ →ₗ[Λ] Λ) ⧸ V)).symm
+    change (Shrink.linearEquiv.{v} Λᵐᵒᵖ ((S.X₂ →ₗ[Λ] Λ) ⧸ V)).symm
       (V.mkQ (φ.comp S.g.hom)) = 0
     rw [hv, map_zero]
   obtain ⟨cA, hcA, hrA⟩ := exists_tensor_coordinates D N S.X₂ bA
@@ -631,13 +631,13 @@ private lemma projective_cokernel_of_tensor_exact {Λ : Type u} [Ring Λ] [Small
   have hx : (D.ordinary.obj N).map S.g x = 0 := by
     have hz : cB ((D.ordinary.obj N).map S.g x) = 0 := by
       funext j
-      show cB ((D.ordinary.obj N).map S.g (∑ i, _)) j = 0
+      change cB ((D.ordinary.obj N).map S.g (∑ i, _)) j = 0
       simp +instances only [_root_.map_sum, Finset.sum_apply, D.natural_right, hcB]
       calc
         _ = q (∑ i, MulOpposite.op (bB.repr (S.g (bA i)) j) • bA.coord i) := by
           simp +instances
         _ = 0 := by
-          show q (∑ i, MulOpposite.op (((bB.coord j).comp S.g.hom) (bA i)) •
+          change q (∑ i, MulOpposite.op (((bB.coord j).comp S.g.hom) (bA i)) •
             bA.coord i) = 0
           rw [sum_dual_basis]
           exact hq_zero _
@@ -674,7 +674,7 @@ private lemma projective_cokernel_of_tensor_exact {Λ : Type u} [Ring Λ] [Small
   choose ψ hψ using hmem
   let s : S.X₃ →ₗ[Λ] S.X₂ := ∑ i, (ψ i).smulRight (bA i)
   have hs (a : S.X₂) : s (S.g a) = a - S.f (h a) := by
-    show (∑ i, (ψ i).smulRight (bA i)) (S.g a) = _
+    change (∑ i, (ψ i).smulRight (bA i)) (S.g a) = _
     simp +instances only [LinearMap.sum_apply, LinearMap.smulRight_apply]
     have hψ' (i : Module.Free.ChooseBasisIndex Λ S.X₂) :
         ψ i (S.g a) = bA.repr a i - bA.repr (S.f (h a)) i :=
@@ -683,7 +683,7 @@ private lemma projective_cokernel_of_tensor_exact {Λ : Type u} [Ring Λ] [Small
   let s' : S.X₃ ⟶ S.X₂ := ModuleCat.ofHom s
   have hgs : S.g ≫ s' ≫ S.g = S.g := by
     ext a
-    show S.g (s (S.g a)) = S.g a
+    change S.g (s (S.g a)) = S.g a
     rw [hs, _root_.map_sub]
     have hz : S.g (S.f (h a)) = 0 :=
       congrArg (fun f : S.X₁ ⟶ S.X₃ => f (h a)) S.zero

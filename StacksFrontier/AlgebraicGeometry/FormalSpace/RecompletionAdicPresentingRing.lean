@@ -115,7 +115,7 @@ theorem adicCompletionProj_comp_factor (J : Ideal A) {L L' : Ideal A} {p p' : �
   obtain ⟨c, hc⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ J (max p p') x)
   have hp := evalₐ_eq_mk_of_le J (le_max_left p p') x hc.symm
   have hp' := evalₐ_eq_mk_of_le J (le_max_right p p') x hc.symm
-  show Ideal.Quotient.factor hLL' (adicCompletionProj J h x) = adicCompletionProj J h' x
+  change Ideal.Quotient.factor hLL' (adicCompletionProj J h x) = adicCompletionProj J h' x
   rw [adicCompletionProj_apply, adicCompletionProj_apply, hp, hp']
   rw [Ideal.Quotient.factor_mk, Ideal.Quotient.factor_mk, Ideal.Quotient.factor_mk]
 
@@ -149,7 +149,7 @@ theorem ker_adicCompletionProj_le_adicCompletionKernel (J : Ideal A) {L : Ideal 
   intro x hx
   obtain ⟨c, hcL, hc⟩ := exists_mem_of_mem_ker_adicCompletionProj J h hx q
   rw [adicCompletionKernel, RingHom.mem_ker]
-  show AdicCompletion.evalₐ J q x = 0
+  change AdicCompletion.evalₐ J q x = 0
   rw [hc]
   exact Ideal.Quotient.eq_zero_iff_mem.mpr (hq hcL)
 
@@ -195,7 +195,7 @@ theorem isWeakIdealOfDefinition_ker_adicCompletionProj (J : Ideal A) (hJ : J.FG)
         rw [← Nat.add_sub_of_le hn, pow_add, pow_mul]
         exact Ideal.mul_mem_right _ _ (Ideal.pow_mem_pow he m)
       rw [adicCompletionKernel, RingHom.mem_ker]
-      show AdicCompletion.evalₐ J m (x ^ n) = 0
+      change AdicCompletion.evalₐ J m (x ^ n) = 0
       rw [map_pow, hc, ← map_pow]
       exact Ideal.Quotient.eq_zero_iff_mem.mpr hcn
     filter_upwards [Filter.eventually_atTop.2 ⟨e * m, fun n hn ↦ hm (hmem n hn)⟩] with n hn
@@ -215,7 +215,7 @@ def adicCompletionProjOfSurj {R : Type u} [CommRing R] (J : Ideal A) (σ : A →
 theorem adicCompletionProjOfSurj_algebraMap {R : Type u} [CommRing R] (J : Ideal A) (σ : A →+* R)
     {p : ℕ} (h : J ^ p ≤ RingHom.ker σ) (a : A) :
     adicCompletionProjOfSurj J σ h (algebraMap A (AdicCompletion J A) a) = σ a := by
-  show Ideal.Quotient.lift (J ^ p) σ h
+  change Ideal.Quotient.lift (J ^ p) σ h
     (AdicCompletion.evalₐ J p (algebraMap A (AdicCompletion J A) a)) = σ a
   rw [AlgHom.commutes]
   rfl
@@ -236,7 +236,7 @@ theorem ker_adicCompletionProjOfSurj {R : Type u} [CommRing R] (J : Ideal A) (σ
   ext x
   obtain ⟨c, hc⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ J p x)
   have h1 : adicCompletionProjOfSurj J σ h x = σ c := by
-    show Ideal.Quotient.lift (J ^ p) σ h (AdicCompletion.evalₐ J p x) = σ c
+    change Ideal.Quotient.lift (J ^ p) σ h (AdicCompletion.evalₐ J p x) = σ c
     rw [← hc]
     rfl
   have h2 : adicCompletionProj J h x = Ideal.Quotient.mk (RingHom.ker σ) c := by
@@ -254,14 +254,14 @@ theorem adicCompletionProjOfSurj_comp {R R' : Type u} [CommRing R] [CommRing R']
   have hp := evalₐ_eq_mk_of_le J (le_max_left p p') x hc.symm
   have hp' := evalₐ_eq_mk_of_le J (le_max_right p p') x hc.symm
   have h1 : adicCompletionProjOfSurj J σ h x = σ c := by
-    show Ideal.Quotient.lift (J ^ p) σ h (AdicCompletion.evalₐ J p x) = σ c
+    change Ideal.Quotient.lift (J ^ p) σ h (AdicCompletion.evalₐ J p x) = σ c
     rw [hp]
     rfl
   have h2 : adicCompletionProjOfSurj J σ' h' x = σ' c := by
-    show Ideal.Quotient.lift (J ^ p') σ' h' (AdicCompletion.evalₐ J p' x) = σ' c
+    change Ideal.Quotient.lift (J ^ p') σ' h' (AdicCompletion.evalₐ J p' x) = σ' c
     rw [hp']
     rfl
-  show τ (adicCompletionProjOfSurj J σ h x) = adicCompletionProjOfSurj J σ' h' x
+  change τ (adicCompletionProjOfSurj J σ h x) = adicCompletionProjOfSurj J σ' h' x
   rw [h1, h2, ← hτ]
   rfl
 
@@ -316,7 +316,7 @@ theorem pointRingMap_comp {T' T : BigFppfOver B S hS} (b : T' ⟶ T)
       (((BigFppfOver.toScheme B S hS).map b).appTop).hom
         (pointRingMap B S hS A P T g a) := by
   have h := (mapToSchemeOfWeakIdealColimitPresentation B S hS A P).app_naturality T T' b g
-  show (((Scheme.ΓSpecIso (CommRingCat.of A)).inv ≫
+  change (((Scheme.ΓSpecIso (CommRingCat.of A)).inv ≫
     ((mapToSchemeOfWeakIdealColimitPresentation B S hS A P).app T'
       ((Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).map b ≫ g)).appTop).hom) a = _
   rw [h, Scheme.Hom.comp_appTop]
@@ -366,12 +366,12 @@ theorem surjective_pointRingMap (hA : TopologicalRing.IsWeaklyAdmissible A)
   intro y
   obtain ⟨z, hz⟩ := hsurj y
   refine ⟨(Scheme.ΓSpecIso (CommRingCat.of A)).hom z, ?_⟩
-  show (((Scheme.ΓSpecIso (CommRingCat.of A)).inv ≫ _).hom)
+  change (((Scheme.ΓSpecIso (CommRingCat.of A)).inv ≫ _).hom)
     ((Scheme.ΓSpecIso (CommRingCat.of A)).hom z) = y
   rw [CommRingCat.comp_apply]
   rw [show (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom
       ((Scheme.ΓSpecIso (CommRingCat.of A)).hom z) = z from by
-    show ((Scheme.ΓSpecIso (CommRingCat.of A)).hom ≫
+    change ((Scheme.ΓSpecIso (CommRingCat.of A)).hom ≫
       (Scheme.ΓSpecIso (CommRingCat.of A)).inv).hom z = z
     rw [Iso.hom_inv_id]
     rfl]

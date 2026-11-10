@@ -422,11 +422,12 @@ theorem localizedGradingMulLocalizedTerm_of_le (p q : ℕ)
         (localizedMulBivariantChow C G sX f hgys hgysc i (n - i) (a.2 ⟨i, hi⟩)
           (localizedGradingComponentOnAmbient C G sX f hRG hgysP hgysc q b (n - i))) := by
   unfold localizedGradingMulLocalizedTerm localizedGradingComponentOnAmbient
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   by_cases hj : (q : ℤ) ≤ n - i
-  · rw [dif_pos hj, dif_pos hj, localizedMulBivariant_eq_localizedMulBivariantChow C G sX f hRG
-      hgysP hgys hgysc i (n - i) (a.2 ⟨i, hi⟩) (b.2 ⟨n - i, hj⟩)]
-  · rw [dif_neg hj, dif_neg hj]
+  · rw [dite_eq_left hj, dite_eq_left hj,
+      localizedMulBivariant_eq_localizedMulBivariantChow C G sX f hRG
+        hgysP hgys hgysc i (n - i) (a.2 ⟨i, hi⟩) (b.2 ⟨n - i, hj⟩)]
+  · rw [dite_eq_right hj, dite_eq_right hj]
 
 /-- A term of the localized branch whose first factor is ambient and whose second factor is
 localized is the second pairing. In the degrees `n ≥ r` of an admissible target `p + q ≤ r + 1`
@@ -441,7 +442,7 @@ theorem localizedGradingMulLocalizedTerm_of_lt (p q : ℕ)
         (localizedMulChowBivariant C G sX f hgys hgysc i (n - i) (a.1 ⟨i, hi⟩)
           (b.2 ⟨n - i, hj⟩)) := by
   unfold localizedGradingMulLocalizedTerm
-  rw [dif_neg (not_le.2 hi), dif_pos hj]
+  rw [dite_eq_right (not_le.2 hi), dite_eq_left hj]
 
 /-! ### The reindexing of a double convolution -/
 
@@ -518,7 +519,7 @@ theorem localizedGradingComponentOnAmbient_of_le (p : ℕ)
     localizedGradingComponentOnAmbient C G sX f hRG hgysP hgysc p a i =
       localizedGradingPushforward C G sX f hRG hgysP hgysc i (a.2 ⟨i, hi⟩) := by
   unfold localizedGradingComponentOnAmbient
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
 
 end RestrictionPushforward
 

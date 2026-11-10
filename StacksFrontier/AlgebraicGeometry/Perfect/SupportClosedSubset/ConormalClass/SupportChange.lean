@@ -276,7 +276,7 @@ theorem isIso_res_homology_supportChange_of_isKInjective (hT : IsClosed T) (hT' 
       G.map ((supportChange X.toRingedSpace hT hT' hTT').app (DerivedCategory.Qh.obj Jh))) := by
     rw [supportChange, h1]
     exact IsIso.comp_isIso' hm inferInstance
-  show IsIso
+  change IsIso
     (G.map ((supportChange X.toRingedSpace hT hT' hTT').app (DerivedCategory.Qh.obj Jh)))
   exact IsIso.of_isIso_comp_left
     (G.map ((derivedSupportedPushforwardUnit X.toRingedSpace T hT).app Jh)) _
@@ -308,7 +308,7 @@ theorem isIso_res_homology_supportChange (hT : IsClosed T) (hT' : IsClosed T')
     rw [← Category.assoc, (supportChange X.toRingedSpace hT hT' hTT').naturality e.hom,
       Category.assoc, ← Functor.map_comp, e.hom_inv_id,
       CategoryTheory.Functor.map_id, Category.comp_id]
-  show IsIso (G.map ((supportChange X.toRingedSpace hT hT' hTT').app K))
+  change IsIso (G.map ((supportChange X.toRingedSpace hT hT' hTT').app K))
   rw [heq, G.map_comp, G.map_comp]
   exact IsIso.comp_isIso' inferInstance (IsIso.comp_isIso'
     (isIso_res_homology_supportChange_of_isKInjective hTT' U hU hT hT' J p) inferInstance)

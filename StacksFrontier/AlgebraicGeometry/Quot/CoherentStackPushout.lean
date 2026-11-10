@@ -546,7 +546,7 @@ theorem properSupport_of_thickening {T T' : SchemesOver D.Y} (γ : T ⟶ T')
   have hTp : IsProperOver B S hS (D.space T).2 ((schemeSpaceFunctor B S hS).obj T'.left).2
       ((D.relativeMap γ).hom ≫ (D.projection T').hom) hft'
       (D.support T ((modulePullback B S hS (D.relativeMap γ)).obj G)) hU := by
-    show IsProper B S hS (_ ≫ _)
+    change IsProper B S hS (_ ≫ _)
     rw [hcomm, ← Category.assoc]
     exact isProper_comp B S hS (isAlgebraicSpace_reducedClosedSubspace B S hS _ _ _ _)
       ((schemeSpaceFunctor B S hS).obj T.left).2 ((schemeSpaceFunctor B S hS).obj T'.left).2
@@ -873,12 +873,12 @@ theorem objectsGlue (hmod : D.ModulesGlueOver i f a b) (w : f ≫ b = i ≫ a)
   have htl : t.T.left = Y' := (congrArg CostructuredArrow.left ht).trans hT'
   refine ⟨⟨t, htl⟩, γ', δ', ?_, ?_, hcomp⟩
   · refine IsHomLift.of_fac' _ b γ' y.2 htl ?_
-    show γ'.base.left = _
+    change γ'.base.left = _
     rw [hγ', CostructuredArrow.comp_left, hmb, CostructuredArrow.eqToHom_left]
     simp only [Category.assoc, eqToHom_trans]
     rfl
   · refine IsHomLift.of_fac' _ a δ' z.2 htl ?_
-    show δ'.base.left = _
+    change δ'.base.left = _
     rw [hδ', CostructuredArrow.comp_left, hma, CostructuredArrow.eqToHom_left]
     simp only [Category.assoc, eqToHom_trans]
     rfl
@@ -948,7 +948,7 @@ theorem morphismsGlue (hmod : D.ModulesGlueOver i f a b) (w : f ≫ b = i ≫ a)
     IsHomLift.fac' (coherentSiteProjection D.categoryData) a mZ
   obtain ⟨uZ, huZl, huZ⟩ := D.exists_fillIn (X := t.1) (Y := z.1) (Z := x.1) s (uY.comp r)
     (eqToHom hxT ≫ i ≫ eqToHom hzT.symm) (by
-      show _ = (uY.base ≫ r.base).left
+      change _ = (uY.base ≫ r.base).left
       rw [CostructuredArrow.comp_left, huYl, hrl, hsl]
       simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
       rw [reassoc_of% w])
@@ -971,7 +971,7 @@ theorem morphismsGlue (hmod : D.ModulesGlueOver i f a b) (w : f ≫ b = i ≫ a)
     D.existsUnique_coherentHom_of_modulesGlue uY uZ r s mY mZ e hrb hsb huZ hxy hw0 hmod'
   have hml : (coherentSiteProjection D.categoryData).IsHomLift (𝟙 Y') (show t.1 ⟶ t'.1 from m) :=
     IsHomLift.of_fac' _ _ _ htT ht'T (by
-      show m.base.left = _
+      change m.base.left = _
       rw [hmb, he, Category.id_comp]
       exact (eqToHom_trans htT ht'T.symm).symm)
   refine ⟨⟨m, hml⟩, ⟨hm₁, hm₂⟩, ?_⟩

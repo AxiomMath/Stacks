@@ -74,7 +74,6 @@ theorem isFiniteTypeOnSite_chartSmallEtaleRestriction_iff
     (SmallEtale.topology B S hS (chartSpace B S hS X U).1)
     (SmallEtale.chartLocalizationEquivalence B S hS X.1 U)
     (isContinuous_chartLocalization_chartSpace B S hS X U)
-    inferInstance
     ((structureRingSheaf B S hS X).over U)
     (isDenseSubsite_chartLocalizationEquivalence_inverse B S hS X U)
     (isDenseSubsite_chartLocalization_chartSpace B S hS X U)

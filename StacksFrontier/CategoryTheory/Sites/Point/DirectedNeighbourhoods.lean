@@ -53,7 +53,7 @@ universe w w' v u
 `F` and the legs of `c` satisfy the elementwise criterion `IsDirectedColimitOfTypes`. -/
 theorem IsDirectedColimitOfTypes.of_isColimit {α : Type w} [Preorder α]
     [IsDirected α (· ≤ ·)] [Nonempty α] {F : α ⥤ Type w'} {c : Cocone F} (hc : IsColimit c) :
-    IsDirectedColimitOfTypes (fun i j h a => F.map (homOfLE h) a) (fun i a => c.ι.app i a) where
+    IsDirectedColimitOfTypes (fun _ _ h a => F.map (homOfLE h) a) (fun i a => c.ι.app i a) where
   map_id i a := by
     rw [show homOfLE (le_refl i) = 𝟙 i from Subsingleton.elim _ _, F.map_id]
     rfl
@@ -90,7 +90,7 @@ theorem isDirectedColimitOfTypes_toPresheafFiber {α : Type w} [Preorder α]
     [IsDirected α (· ≤ ·)] [Nonempty α] (F : α ⥤ (Φ.fiber.Elements)ᵒᵖ) [F.Final]
     (P : Cᵒᵖ ⥤ Type w) :
     IsDirectedColimitOfTypes
-      (fun i j h a => P.map (F.map (homOfLE h)).unop.1.op a)
+      (fun _ _ h a => P.map (F.map (homOfLE h)).unop.1.op a)
       (fun i a => Φ.toPresheafFiber (F.obj i).unop.1 (F.obj i).unop.2 P a) :=
   IsDirectedColimitOfTypes.of_isColimit
     ((Functor.Final.isColimitWhiskerEquiv F _).symm (Φ.isColimitPresheafFiberCocone P))
@@ -104,9 +104,9 @@ theorem isDirectedColimitOfTypes_toPresheafFiber_commRingCat {α : Type w} [Preo
     [IsDirected α (· ≤ ·)] [Nonempty α] (F : α ⥤ (Φ.fiber.Elements)ᵒᵖ) [F.Final]
     (R : Cᵒᵖ ⥤ CommRingCat.{w}) :
     IsDirectedColimitOfTypes
-      (fun i j h a => (R.map (F.map (homOfLE h)).unop.1.op).hom a)
+      (fun _ _ h a => (R.map (F.map (homOfLE h)).unop.1.op).hom a)
       (fun i a => (Φ.toPresheafFiber (F.obj i).unop.1 (F.obj i).unop.2 R).hom a) :=
-  CommRingCat.isDirectedColimitOfTypes_of_isColimit (F ⋙ (CategoryOfElements.π Φ.fiber).op ⋙ R) _
+  CommRingCat.isDirectedColimitOfTypes_of_isColimit (F ⋙ (Functor.Elements.π Φ.fiber).op ⋙ R) _
     ((Functor.Final.isColimitWhiskerEquiv F _).symm (Φ.isColimitPresheafFiberCocone R))
 
 end CategoryTheory.GrothendieckTopology.Point

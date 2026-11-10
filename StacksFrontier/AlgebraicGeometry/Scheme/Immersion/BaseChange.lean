@@ -127,7 +127,7 @@ private theorem pullbackIdealIsoOfCompat_hom_inclusion {W P : LocallyRingedSpace
     (e : I ≅ J) (he : e.hom ≫ j = i) :
     (pullbackIdealIsoOfCompat h I J i j e he).hom ≫ pullbackIdealInclusion h J j =
       pullbackIdealInclusion h I i := by
-  show Abelian.im.map (pullbackIdealArrowIso h I J i j e he).hom ≫
+  change Abelian.im.map (pullbackIdealArrowIso h I J i j e he).hom ≫
     Abelian.image.ι (pullbackIdealMap h J j) = Abelian.image.ι (pullbackIdealMap h I i)
   rw [Abelian.im_map]
   simp [pullbackIdealArrowIso, Abelian.im]

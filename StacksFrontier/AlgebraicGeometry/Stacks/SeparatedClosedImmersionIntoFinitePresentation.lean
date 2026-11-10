@@ -882,7 +882,7 @@ theorem eventually_isProper_relationTail
   have hlamc : Space.IsClosedImmersion B S hS lam := by
     refine @isClosedImmersion_of_comp_mono B S hS _ _ _ lam _ hμ ?_
     convert hκR using 1
-    all_goals first | rfl | skip
+    all_goals try rfl
     apply heq_of_eq
     apply pullback.hom_ext
     · erw [Category.assoc, pullback.lift_fst, pullback.lift_fst, ← Category.assoc, hlam]

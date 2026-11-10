@@ -168,11 +168,7 @@ noncomputable def dualizingModule_retargetEquiv
   exact eAdd.toLinearEquiv (by
     intro b z
     change eTensor ((algebraMap B D b) • z) = b • eTensor z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      calc
-        eTensor ((algebraMap B D b) • (0 : M ⊗[C] D)) = eTensor 0 := by rw [smul_zero]
-        _ = 0 := map_zero eTensor
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' =>
       calc
         eTensor ((algebraMap B D b) • (z + z')) =
@@ -323,7 +319,7 @@ theorem dualizingTensorLocalizationEquiv_tmul
   let M := Module.Dual A C
   let : Module C M := algebraDualModule A C
   let : AddCommGroup (M ⊗[C] B) := by
-    show AddCommGroup (dualizingModule F)
+    change AddCommGroup (dualizingModule F)
     exact dualizingModule.instAddCommGroup F
   let : Module B (M ⊗[C] B) := dualizingModule.instModule F
   let : Module B (B ⊗[C] M) := TensorProduct.leftModule
@@ -338,19 +334,19 @@ theorem dualizingTensorLocalizationEquiv_tmul
   let eComm' : Bg ⊗[C] M ≃ₗ[Bg] dualizingModule FLoc :=
     eComm.toAddEquiv.toLinearEquiv fun b z =>
       congrArg eComm (congrArg (b • ·) (eComm.symm_apply_apply z).symm)
-  show ((eBase.trans eCancel).trans eComm')
+  change ((eBase.trans eCancel).trans eComm')
     (1 ⊗ₜ[B] (dualizingModule.tmul F φ b)) =
       dualizingModule.tmul FLoc φ (algebraMap B Bg b)
   rw [LinearEquiv.trans_apply, LinearEquiv.trans_apply, LinearEquiv.baseChange_tmul]
   have hSwap : eSwap (dualizingModule.tmul F φ b) = b ⊗ₜ[C] φ := by
-    show (TensorProduct.comm C M B) ((dualizingModuleTensorEquiv F).toFun
+    change (TensorProduct.comm C M B) ((dualizingModuleTensorEquiv F).toFun
       (dualizingModule.tmul F φ b)) = _
     rw [dualizingModuleTensorEquiv_tmul]
     exact TensorProduct.comm_tmul C M B φ b
   rw [hSwap]
-  show eComm' (eCancel (1 ⊗ₜ[B] (b ⊗ₜ[C] φ))) = _
+  change eComm' (eCancel (1 ⊗ₜ[B] (b ⊗ₜ[C] φ))) = _
   rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
-  show eComm ((b • (1 : Bg)) ⊗ₜ[C] φ) = _
+  change eComm ((b • (1 : Bg)) ⊗ₜ[C] φ) = _
   rw [TensorProduct.comm_tmul]
   congr 1
   simp [Algebra.smul_def]

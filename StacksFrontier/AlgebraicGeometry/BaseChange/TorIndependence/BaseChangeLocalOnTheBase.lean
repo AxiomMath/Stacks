@@ -338,7 +338,7 @@ theorem preimage_le_preimage_of_comm (g' : X' ⟶ X) (f' : X' ⟶ S') (f : X ⟶
   intro x hx
   have hb : f.base (g'.base x) = g.base (f'.base x) := by
     simpa using congrArg (fun k : X' ⟶ S => k.base x) w
-  show f.base (g'.base x) ∈ V
+  change f.base (g'.base x) ∈ V
   rw [hb]
   exact hle hx
 

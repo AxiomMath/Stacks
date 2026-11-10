@@ -78,7 +78,7 @@ private theorem isCohenMacaulay_of_smooth_over_field {k : Type u} [Field k] {X :
     rw [localRingDepth, Module.depth, ite_eq_right hne]
     exact le_antisymm (iSup_le fun s => le_iSup₂_of_le s.val s.property le_rfl)
       (iSup_le fun rs => iSup_le fun hrs => le_iSup_of_le ⟨rs, hrs⟩ le_rfl)
-  show (localRingDepth R : WithBot ℕ∞) = ringKrullDim R
+  change (localRingDepth R : WithBot ℕ∞) = ringKrullDim R
   rw [hd]
   exact_mod_cast
     (IsRegularLocalRing.isRegular_and_isRegularLocalRing_quotient_and_isMaximalCohenMacaulay R).2

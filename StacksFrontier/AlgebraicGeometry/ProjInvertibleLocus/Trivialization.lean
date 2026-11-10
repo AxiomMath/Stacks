@@ -265,7 +265,7 @@ lemma ratioFun_mem (hp : p ∈ 𝒮 (e + d)) (hq : q ∈ 𝒮 e) {n : ℤ} {c : 
   refine ⟨W, x.2, 𝟙 _, denDeg e d n, p ^ n.toNat * q ^ (-n).toNat,
     q ^ n.toNat * p ^ (-n).toNat, ?_, ratioDen_mem 𝒮 hp hq n,
     fun y => denMonomial_mem_primeCompl 𝒮 (hW y.2) n.toNat (-n).toNat, fun y => rfl⟩
-  show p ^ n.toNat * q ^ (-n).toNat ∈ integerGrading 𝒮 ((denDeg e d n : ℤ) + c)
+  change p ^ n.toNat * q ^ (-n).toNat ∈ integerGrading 𝒮 ((denDeg e d n : ℤ) + c)
   rw [show (denDeg e d n : ℤ) + c = ((numDeg e d n : ℕ) : ℤ) from by
     rw [← hc]; exact denDeg_add_mul e d n]
   exact ProjTrivialization.mem_integerGrading_natCast 𝒮 (ratioNum_mem 𝒮 hp hq n)

@@ -65,7 +65,7 @@ theorem exists_hom_projInclusionToOpen (s : Situation.{u}) {U : s.base.Opens}
         s.sectionRingBaseMap U x :=
       congrArg Subtype.val (GradedRing.projZeroRingHom'_apply_coe _
         ⟨_, sectionRingBaseMap_mem_zero s U x⟩)
-    show ψ ((GradedRing.projZeroRingHom' (s.sectionRingGrading U)
+    change ψ ((GradedRing.projZeroRingHom' (s.sectionRingGrading U)
         (s.sectionRingBaseMap U x) : ↥(s.sectionRingGrading U 0)) : s.sectionRing U) = _
     rw [hcoe]
     exact hψ0 x

@@ -71,7 +71,8 @@ public theorem mem_standardLattice_iff {v : Fin r → ℚ_[ℓ]} :
     | smul a x _ hx =>
       intro i
       rw [Pi.smul_apply, Algebra.smul_def, PadicInt.algebraMap_apply, norm_mul]
-      exact mul_le_one₀ a.norm_le_one (norm_nonneg _) (hx i)
+      exact (mul_le_mul_of_nonneg_right a.norm_le_one (norm_nonneg _)).trans
+        ((one_mul _).trans_le (hx i))
   · obtain ⟨a, ha⟩ : ∃ a : Fin r → ℤ_[ℓ], ∀ i, (a i : ℚ_[ℓ]) = v i :=
       ⟨fun i => ⟨v i, hv i⟩, fun i => rfl⟩
     have : v = ∑ i, a i • Pi.basisFun ℚ_[ℓ] (Fin r) i := by
@@ -97,7 +98,7 @@ public theorem isIntegralMatrix_iff_mulVec {A : Matrix (Fin r) (Fin r) ℚ_[ℓ]
     rw [Matrix.mulVec, dotProduct]
     refine IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg zero_le_one fun j _ => ?_
     rw [norm_mul]
-    exact mul_le_one₀ (hA i j) (norm_nonneg _) (hv j)
+    exact (mul_le_mul_of_nonneg_right (hA i j) (norm_nonneg _)).trans ((one_mul _).trans_le (hv j))
   · have hj := h (Pi.single j 1) (mem_standardLattice_iff.2 fun k => by
       by_cases hk : k = j <;> simp [hk])
     rw [mem_standardLattice_iff] at hj

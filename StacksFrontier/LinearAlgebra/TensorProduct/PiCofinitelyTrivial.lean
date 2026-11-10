@@ -44,8 +44,7 @@ theorem subsingleton_tensorProduct_of_subsingleton_left {P : Type w} [AddCommGro
     [Module A P] [Subsingleton P] : Subsingleton (P ⊗[A] M) := by
   have h : ∀ z : P ⊗[A] M, z = 0 := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | tmul p m => rw [Subsingleton.elim p 0, TensorProduct.zero_tmul]
     | add a b ha hb => rw [ha, hb, add_zero]
   exact ⟨fun x y => (h x).trans (h y).symm⟩
@@ -61,8 +60,8 @@ theorem bijective_restrict_of_subsingleton_notMem (s : Finset ι)
     · exact congrFun h ⟨i, hi⟩
     · exact (hs i hi).elim _ _
   · refine ⟨fun i => if hi : i ∈ s then g ⟨i, hi⟩ else 0, funext fun j => ?_⟩
-    show (if hi : j.1 ∈ s then g ⟨j.1, hi⟩ else 0) = g j
-    rw [dif_pos j.2]
+    change (if hi : j.1 ∈ s then g ⟨j.1, hi⟩ else 0) = g j
+    rw [dite_eq_left j.2]
 
 /-- The restriction of a product of modules to a finite set of indices, as a linear map. -/
 def piRestrict (s : Finset ι) : (∀ i, N i) →ₗ[A] ∀ j : {x : ι // x ∈ s}, N j.1 :=
@@ -96,7 +95,7 @@ theorem bijective_pi_rTensor_proj (s : Finset ι) (hs : ∀ i ∉ s, Subsingleto
         LinearMap.rTensor M (LinearMap.proj j.1 : (∀ i, N i) →ₗ[A] N j.1)) =
       e₂.toLinearMap ∘ₗ (LinearEquiv.rTensor M e₁).toLinearMap := by
     refine TensorProduct.ext' fun n m => funext fun j => ?_
-    show LinearMap.rTensor M (LinearMap.proj j.1) (n ⊗ₜ[A] m) =
+    change LinearMap.rTensor M (LinearMap.proj j.1) (n ⊗ₜ[A] m) =
       e₂ (LinearEquiv.rTensor M e₁ (n ⊗ₜ[A] m)) j
     rfl
   have hcomp : Function.Bijective
@@ -127,8 +126,7 @@ theorem bijective_pi_rTensor_of_bijective_pi {K : Type*} [AddCommGroup K] [Modul
   have hfac : ∀ (i : ι) (z : K ⊗[A] M), LinearMap.rTensor M (cp i) z =
       LinearMap.rTensor M (LinearMap.proj i) (LinearMap.rTensor M c z) := by
     intro i z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul a m => rfl
     | add y w hy hw => rw [map_add, map_add, map_add, hy, hw]
   have hcomp : (fun z : K ⊗[A] M => fun i => LinearMap.rTensor M (cp i) z) =

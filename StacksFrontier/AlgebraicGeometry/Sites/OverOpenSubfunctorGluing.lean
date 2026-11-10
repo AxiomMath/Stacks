@@ -329,7 +329,7 @@ theorem isRepresentable_of_openSubfunctors (G : (Over S)ᵒᵖ ⥤ Type u)
           fun y ↦ y.2)
     exact ⟨(Sigma.ι (fun i ↦ yoneda.obj (Wo i).left) i).app _ k,
       (congrArg (fun n : yoneda.obj (Wo i).left ⟶ P ↦ n.app (op (O i).toScheme) k)
-        (Sigma.ι_desc c i)).trans hk⟩
+        (Sigma.ι_comp_desc c i)).trans hk⟩
   have : P.IsRepresentable :=
     Scheme.LocalRepresentability.isRepresentable (F := Psh) (f := c) hopen
   exact representable_of_totalRepresentable P.representableBy

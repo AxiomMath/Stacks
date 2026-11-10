@@ -112,29 +112,18 @@ complex `P` of `𝒪_Y`-modules, the projection-formula morphism
 
 `Rf_*E ⊗^L_{𝒪_Y} P ⟶ Rf_*(E ⊗^L_{𝒪_X} Lf^*P)`
 
-is invertible, granted that the morphism commutes with the shift (`hcs`). -/
+is invertible. -/
 theorem isIso_projectionFormulaMap_of_isStrictlyPerfect_of_commShift
-    (hcs :
-      letI := projectionFormulaSourceCommShift f E
-      letI := projectionFormulaTargetCommShift f E
-      NatTrans.CommShift (projectionFormulaTransformation f E) ℤ)
     (P : CochainComplex (OXMod.{u, u} Y) ℤ) (hP : IsStrictlyPerfect P) :
     IsIso (projectionFormulaMap f E (DerivedCategory.Q.obj P)) :=
-  isIso_projectionFormulaMap_of_isStrictlyPerfect_of_singleUnit f E
-    (isIso_projectionFormulaMap_singleUnit_of_commShift f E hcs) P hP
+  isIso_projectionFormulaMap_of_isStrictlyPerfect_of_singleUnit f E P hP
 
 attribute [local instance] hasSheafifyOpens wEqualsLocallyBijectiveOpens
 
 /-- For a morphism of ringed spaces `f`, an arbitrary `E ∈ D(𝒪_X)` and a perfect complex `K` of
 `𝒪_Y`-modules, the projection-formula morphism `Rf_*E ⊗^L_{𝒪_Y} K ⟶ Rf_*(E ⊗^L_{𝒪_X} Lf^*K)`
-is invertible. It takes as hypothesis `_hcs` the shift compatibility of the projection-formula
-morphism at every morphism of ringed spaces and every `E`. -/
+is invertible. -/
 theorem isIso_projectionFormulaMap_of_isPerfect_of_commShift
-    (_hcs : ∀ (X₀ Y₀ : RingedSpace.{u, u}) (f₀ : X₀ ⟶ Y₀)
-      (E₀ : DerivedCategory (SheafOfModules.{u} (structureSheafRing X₀))),
-      letI := projectionFormulaSourceCommShift f₀ E₀
-      letI := projectionFormulaTargetCommShift f₀ E₀
-      NatTrans.CommShift (projectionFormulaTransformation f₀ E₀) ℤ)
     (K : DerivedCategory (SheafOfModules.{u} (structureSheafRing Y)))
     (hK : AlgebraicGeometry.RingedSpace.IsPerfect K) :
     IsIso (projectionFormulaMap f E K) :=

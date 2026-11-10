@@ -95,7 +95,7 @@ private theorem false_of_finite_fibres_of_infinite_opens {Z : Type*} [Topologica
       have hmem : w₀ ∈ O := hw₀OC.1
       rw [← hGO] at hmem
       exact hmem
-    show map (lift q₀) ∈ G
+    change map (lift q₀) ∈ G
     simpa [hq₀, hw₀] using hwG
   have hInfinite := hInf ((map ∘ lift) ⁻¹' G) (hG.preimage hcont) ⟨q₀, hq₀G⟩
   refine hInfinite.not_finite (Set.Finite.subset
@@ -115,7 +115,7 @@ private theorem false_of_finite_fibres_of_infinite_opens {Z : Type*} [Topologica
     have hwC : (⟨map (lift q), hqx.2, hq₁⟩ : {q : P // q ⤳ x₁ ∧ q ≠ x₁}) ∈ C :=
       hC.closure_subset (closure_mono (Set.singleton_subset_iff.mpr hw₀OC.2) hcl)
     exact Set.mem_singleton_iff.mp (hEq ▸ ⟨hwO, hwC⟩)
-  show map (lift q) = x₀
+  change map (lift q) = x₀
   exact (congrArg Subtype.val hwEq).trans hw₀
 
 /-- The contradiction behind the Jacobson property of Stacks 0ED2, isolated at the level of a
@@ -157,7 +157,7 @@ private theorem false_of_specializes_chain_of_finite_fibres {Y : Scheme.{u}}
   have hcomapBot : PrimeSpectrum.comap (Ideal.Quotient.mk qa.asIdeal)
       (⊥ : PrimeSpectrum (Y.presheaf.stalk c ⧸ qa.asIdeal)) = qa := by
     apply PrimeSpectrum.ext
-    show Ideal.comap (Ideal.Quotient.mk qa.asIdeal)
+    change Ideal.comap (Ideal.Quotient.mk qa.asIdeal)
       (⊥ : Ideal (Y.presheaf.stalk c ⧸ qa.asIdeal)) = qa.asIdeal
     rw [← RingHom.ker_eq_comap_bot, Ideal.mk_ker]
   have hcomapMax : PrimeSpectrum.comap (Ideal.Quotient.mk qa.asIdeal)
@@ -198,7 +198,7 @@ private theorem false_of_specializes_chain_of_finite_fibres {Y : Scheme.{u}}
     map (fun s t hst ↦ PrimeSpectrum.comap_injective_of_surjective _
       Ideal.Quotient.mk_surjective ((Y.fromSpecStalk c).isEmbedding.injective hst))
     hcontg ⊥ ?_ (fun q ↦ ⟨?_, ?_⟩) hfin₀ hfin₁
-  · show map (Y.fromSpecStalk c (PrimeSpectrum.comap _ ⊥)) = x₀
+  · change map (Y.fromSpecStalk c (PrimeSpectrum.comap _ ⊥)) = x₀
     rw [hcomapBot, hqa]; exact ha
   · have h := ((PrimeSpectrum.le_iff_specializes
       (⊥ : PrimeSpectrum (Y.presheaf.stalk c ⧸ qa.asIdeal)) q).mp bot_le).map hcontg

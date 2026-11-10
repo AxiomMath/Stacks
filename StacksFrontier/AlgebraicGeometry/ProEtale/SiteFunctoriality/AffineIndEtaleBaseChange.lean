@@ -113,7 +113,7 @@ theorem appPullback_indEtale {X Z : B.Scheme} (i : Z ⟶ X)
   have hU : (CommAlgCat.etale A).ind (CommAlgCat.of A S) := by
     rw [CommAlgCat.ind_etale_iff_ind_algebraMap, MorphismProperty.ind_iff_ind_underMk]
     exact U.property.2
-  show (CommRingCat.etale).underObj.ind (Under.mk (CommRingCat.ofHom (algebraMap R T)))
+  change (CommRingCat.etale).underObj.ind (Under.mk (CommRingCat.ofHom (algebraMap R T)))
   exact (MorphismProperty.ind_iff_ind_underMk (P := CommRingCat.etale)
     (f := CommRingCat.ofHom (algebraMap R T))).mp
       (CommAlgCat.ind_etale_iff_ind_algebraMap.mp (CommAlgCat.ind_etale_of_isPushout A R S T hU))

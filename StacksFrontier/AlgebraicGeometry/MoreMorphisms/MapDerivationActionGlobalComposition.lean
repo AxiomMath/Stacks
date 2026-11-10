@@ -100,7 +100,7 @@ theorem id_appLE_apply_map (Z : Scheme.{u}) (W V : Z.Opens) (h : V ≤ (𝟙 Z :
     (h' : V ≤ W) (g : Γ(Z, W)) :
     ((𝟙 Z : Z ⟶ Z).appLE W V h).hom g = (Z.presheaf.map (homOfLE h').op).hom g := by
   have e : (𝟙 Z : Z ⟶ Z).appLE W V h = Z.presheaf.map (homOfLE h').op := by
-    show 𝟙 Γ(Z, W) ≫ Z.presheaf.map (homOfLE h').op = Z.presheaf.map (homOfLE h').op
+    change 𝟙 Γ(Z, W) ≫ Z.presheaf.map (homOfLE h').op = Z.presheaf.map (homOfLE h').op
     rw [Category.id_comp]
   exact congrArg (fun z : Γ(Z, W) ⟶ Γ(Z, V) => z.hom g) e
 
@@ -108,7 +108,7 @@ theorem id_appLE_apply_map (Z : Scheme.{u}) (W V : Z.Opens) (h : V ≤ (𝟙 Z :
 theorem id_appLE_apply_self (Z : Scheme.{u}) (V : Z.Opens) (h : V ≤ (𝟙 Z : Z ⟶ Z) ⁻¹ᵁ V)
     (x : Γ(Z, V)) : ((𝟙 Z : Z ⟶ Z).appLE V V h).hom x = x := by
   rw [id_appLE_apply_map Z V V h le_rfl x]
-  show (Z.presheaf.map (𝟙 (Opposite.op V))).hom x = x
+  change (Z.presheaf.map (𝟙 (Opposite.op V))).hom x = x
   rw [CategoryTheory.Functor.map_id]
   rfl
 

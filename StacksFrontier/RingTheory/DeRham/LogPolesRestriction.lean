@@ -180,8 +180,7 @@ theorem map_reduceForms_logSubmodule (I : Ideal R) (k : ℕ) :
       exact hz
     obtain ⟨w, rfl⟩ := hker
     clear hz
-    induction w using TensorProduct.induction_on with
-    | zero => simp only [map_zero]; exact Submodule.zero_mem _
+    induction w using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add]; exact Submodule.add_mem _ ha hb
     | tmul u ξ =>
         obtain ⟨c, hc⟩ : ∃ c, KaehlerDifferential.kerCotangentToTensor A R (R ⧸ I) c =

@@ -160,7 +160,7 @@ public theorem eq_of_asHomogeneousIdeal_le {p q : projectiveSpaceOfModule k V}
     let A : ℕ → Submodule k (SymmetricAlgebra k V) := fun n => SymPow.symmetricPower n k V
     let pp : ProjectiveSpectrum A := p
     let qq : ProjectiveSpectrum A := q
-    show qq ∈ closure ({pp} : Set (ProjectiveSpectrum A))
+    change qq ∈ closure ({pp} : Set (ProjectiveSpectrum A))
     rw [← ProjectiveSpectrum.zeroLocus_vanishingIdeal_eq_closure,
       ProjectiveSpectrum.mem_zeroLocus]
     intro z hz

@@ -289,7 +289,7 @@ noncomputable def baseChangeMap :
 theorem baseChangeMap_hom_comp_fst :
     (c.baseChangeMap T q).hom ≫ pullback.fst q P.f =
       pullback.fst q (c.g.hom ≫ P.f) := by
-  show ((pullbackLeftPullbackSndIso q P.f c.g.hom).inv ≫
+  change ((pullbackLeftPullbackSndIso q P.f c.g.hom).inv ≫
     pullback.fst (pullback.snd q P.f) c.g.hom) ≫ pullback.fst q P.f = _
   rw [Category.assoc]
   exact pullbackLeftPullbackSndIso_inv_fst q P.f c.g.hom
@@ -299,7 +299,7 @@ the situation and the étale morphism. -/
 theorem baseChangeMap_hom_comp_snd :
     (c.baseChangeMap T q).hom ≫ pullback.snd q P.f =
       pullback.snd q (c.g.hom ≫ P.f) ≫ c.g.hom := by
-  show ((pullbackLeftPullbackSndIso q P.f c.g.hom).inv ≫
+  change ((pullbackLeftPullbackSndIso q P.f c.g.hom).inv ≫
     pullback.fst (pullback.snd q P.f) c.g.hom) ≫ pullback.snd q P.f = _
   rw [Category.assoc]
   exact pullbackLeftPullbackSndIso_inv_fst_snd q P.f c.g.hom

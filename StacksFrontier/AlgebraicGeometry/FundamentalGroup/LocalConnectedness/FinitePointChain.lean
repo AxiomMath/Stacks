@@ -143,7 +143,7 @@ theorem range_homOfLE {U V : X.Opens} (e : U ≤ V) :
     Set.range (X.homOfLE e).base = V.ι.base ⁻¹' (U : Set X) := by
   apply Set.eq_of_subset_of_subset
   · rintro _ ⟨p, rfl⟩
-    show V.ι.base ((X.homOfLE e).base p) ∈ (U : Set X)
+    change V.ι.base ((X.homOfLE e).base p) ∈ (U : Set X)
     rw [← ι_base_eq_homOfLE_base e p, ← Scheme.Opens.range_ι U]
     exact Set.mem_range_self p
   · intro q hq
@@ -211,7 +211,7 @@ theorem chainPoint_eq_map_chainIncl (d : ∀ j, B j ⟶ B (j + 1)) (u : Geometri
   induction j with
   | zero => cases u; rfl
   | succ j ih =>
-    show (chainPoint d u j).map (d j) = u.map (chainIncl d j ≫ d j)
+    change (chainPoint d u j).map (d j) = u.map (chainIncl d j ≫ d j)
     rw [ih, GeometricPoint.map_map]
 
 variable [∀ j, ConnectedSpace (B j)]
@@ -358,7 +358,7 @@ theorem ker_chainGroupMap_eq_closedNormalClosure_biUnion_range
   | succ n ih =>
     have himg : chainGroupMap d u n '' Set.range (m n) =
         Set.range ((chainGroupMap d u n).comp (m n)) := by
-      show chainGroupMap d u n '' Set.range (m n) = Set.range (chainGroupMap d u n ∘ m n)
+      change chainGroupMap d u n '' Set.range (m n) = Set.range (chainGroupMap d u n ∘ m n)
       exact (Set.range_comp _ _).symm
     rw [biUnion_range_succ_eq_union fun j => Set.range (m j)]
     exact ker_comp_eq_closedNormalClosure_of_image_eq (chainGroupMap d u n)
@@ -485,8 +485,8 @@ theorem isRetrocompact_coe_chainOpen (j : ℕ) :
     IsRetrocompact ((chainOpen x hclosed j : X.Opens) : Set X) := by
   have hsplit : ((chainOpen x hclosed j : X.Opens) : Set X) =
       ((chainOpen x hclosed 0 : X.Opens) : Set X) ∪ ((chainRemoved x j)ᶜ ∩ Set.range x) := by
-    rw [coe_chainOpen, coe_chainOpen_zero, ← Set.diff_compl,
-      Set.union_diff_cancel (Set.compl_subset_compl.mpr (chainRemoved_subset_range x j))]
+    rw [coe_chainOpen, coe_chainOpen_zero, ← Set.sdiff_compl,
+      Set.union_sdiff_cancel (Set.compl_subset_compl.mpr (chainRemoved_subset_range x j))]
   rw [hsplit]
   exact ((quasiCompact_ι_iff_isRetrocompact _).mp inferInstance).union
     (isRetrocompact_of_finite ((Set.finite_range x).inter_of_right _))

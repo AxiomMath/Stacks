@@ -89,7 +89,7 @@ theorem isFlat_twistOver (d : ℤ) :
 
 /-- The single complex of a twist is K-flat. -/
 theorem kFlat_single_twistOver (d : ℤ) :
-    Stacks.SheafOfModules.KFlat.KFlat (projSpaceSite k n).O
+    Stacks.SheafOfModules.KFlat (projSpaceSite k n).O
       ((CochainComplex.singleFunctor _ 0).obj (twistOver n (Spec (CommRingCat.of k)) d)) :=
   Stacks.DerivedTensor.RingedSite.DerivedTensorProduct.kFlat_single _ _ (isFlat_twistOver k n d)
 

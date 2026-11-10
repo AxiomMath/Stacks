@@ -180,7 +180,7 @@ def complementRestrictHom : (AlgebraicGeometry.Proj (grading k)).picardGroup →
 theorem complementRestrictHom_twistPicardHom (m : ℤ) :
     complementRestrictHom f (Stacks.PicardUFD.twistPicardHom k 1 m) =
       complementTwistClass f m := by
-  show complementTwistHom f ((Stacks.PicardUFD.twistPicardAddEquiv k 1 Nat.one_pos).symm
+  change complementTwistHom f ((Stacks.PicardUFD.twistPicardAddEquiv k 1 Nat.one_pos).symm
     (Stacks.PicardUFD.twistPicardHom k 1 m)) = _
   rw [← Stacks.PicardUFD.twistPicardAddEquiv_apply k 1 Nat.one_pos m, AddEquiv.symm_apply_apply]
   rfl
@@ -215,7 +215,7 @@ theorem nsmul_degree_eq_zero {d : ℕ} (hf : f ∈ grading k d)
     (c : (Proj.basicOpen (grading k) f).toScheme.picardGroup) : d • c = 0 := by
   obtain ⟨m, rfl⟩ := surjective_complementTwistClass f c
   have h2 : d • complementTwistClass f m = complementTwistClass f (m * d) := by
-    show d • complementTwistHom f m = complementTwistHom f (m * d)
+    change d • complementTwistHom f m = complementTwistHom f (m * d)
     rw [← map_nsmul]
     congr 1
     ring

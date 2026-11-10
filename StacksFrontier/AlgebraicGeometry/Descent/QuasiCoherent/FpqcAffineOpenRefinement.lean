@@ -190,14 +190,14 @@ public theorem presieve₀_sigmaFamily_mem_fpqcPrecoverage_of_mem {T : Scheme.{u
   have hQC : QuasiCompactCover 𝒱 := Scheme.presieve₀_mem_qcPrecoverage_iff.mp hqc
   have hQCs : QuasiCompactCover (sigmaFamily 𝒱) :=
     QuasiCompactCover.of_hom (PreZeroHypercover.homOverIdEquivHom 𝒱 _ (toSigmaFamily 𝒱))
-  show _ ∈ Scheme.qcPrecoverage T ∧ _ ∈ Scheme.precoverage (@Flat.{u}) T
+  change _ ∈ Scheme.qcPrecoverage T ∧ _ ∈ Scheme.precoverage (@Flat.{u}) T
   have hFlat : ∀ i, Flat (𝒱.f i) := fun i ↦ hflat.2 i
   have hdesc : Flat (Sigma.desc 𝒱.f) := inferInstance
   have hs : ∀ x : T, x ∈ Set.range (Sigma.desc 𝒱.f) := by
     intro x
     obtain ⟨i, y, hy⟩ := hflat.1 x
     refine ⟨Sigma.ι 𝒱.X i y, ?_⟩
-    rwa [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    rwa [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
   exact ⟨Scheme.presieve₀_mem_qcPrecoverage_iff.mpr hQCs,
     (Scheme.presieve₀_mem_precoverage_iff _).mpr
       ⟨fun x ↦ ⟨PUnit.unit, hs x⟩, fun _ ↦ hdesc⟩⟩

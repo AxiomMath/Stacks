@@ -311,7 +311,7 @@ private theorem modulePullbackComparison_unit_germ {X Y : RingedSpace.{u, u}}
       (𝟙 (structureSheafRing X).obj) := inferInstance
   let : Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier)
       (𝟙 (structureSheafRing X).obj) := inferInstance
-  show (ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+  change (ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
       ((PresheafOfModules.toPresheaf _).map (modulePullbackComparison f G).hom.val)))
     (TopCat.Presheaf.germ ((modulePullback f).obj G).val.presheaf
       ((opensMap f).obj V) x hx
@@ -362,7 +362,7 @@ private theorem presheafPullbackUnitStalkMap_germ
     (PresheafOfModules.pullback (structureSheafHom f).hom).obj G.val
   let η := (PresheafOfModules.pullbackPushforwardAdjunction
       (structureSheafHom f).hom).unit.app G.val
-  show (TopCat.Presheaf.stalkPushforward AddCommGrpCat.{u} f.hom.base M.presheaf x)
+  change (TopCat.Presheaf.stalkPushforward AddCommGrpCat.{u} f.hom.base M.presheaf x)
       ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} (f.hom.base x)).map
         ((PresheafOfModules.toPresheaf _).map η)
           (TopCat.Presheaf.germ G.val.presheaf V (f.hom.base x) hx s)) = _
@@ -713,7 +713,7 @@ theorem moduleSkyscraperMapToStalk_underlying (X : RingedSpace.{u, u}) (x : X)
   intro U hx
   apply AddCommGrpCat.hom_ext
   ext m
-  show (OXModule.sheafify_skyscraperPOM_stalkIso_skyscraper_addEquiv x N)
+  change (OXModule.sheafify_skyscraperPOM_stalkIso_skyscraper_addEquiv x N)
     (moduleStalkMap X.presheaf g x
       (TopCat.Presheaf.germ P.presheaf U x hx m)) = _
   refine Eq.trans (skyscraper_stalkIso_moduleStalkMap_germ X x P N g U hx m) ?_
@@ -1007,7 +1007,7 @@ private theorem presheafPullbackStalkHomEquiv_one_tmul
                 ((PresheafOfModules.pullback (structureSheafHom f).hom).obj G.val) N g)))) := by
     rfl
   rw [hq]
-  show (((ModuleCat.ExtendRestrictScalarsAdj.homEquiv
+  change (((ModuleCat.ExtendRestrictScalarsAdj.homEquiv
       (f.hom.stalkMap x).hom) ((ModuleCat.ExtendRestrictScalarsAdj.homEquiv
       (f.hom.stalkMap x).hom).symm
         ((moduleStalkSkyscraperHomEquiv Y (f.hom.base x) G.val
@@ -1027,9 +1027,9 @@ private theorem presheafPullbackStalkHomEquiv_one_tmul
   let k := ((PresheafOfModules.pullbackPushforwardAdjunction
     (structureSheafHom f).hom).homEquiv G.val (OXModule.skyscraperPOM x N)) h
   let l := (skyscraperPushforwardIso f x N).homToEquiv k
-  show (moduleSkyscraperMapToStalk Y (f.hom.base x) G.val N' l)
+  change (moduleSkyscraperMapToStalk Y (f.hom.base x) G.val N' l)
     (TopCat.Presheaf.germ G.val.presheaf V (f.hom.base x) hx s) = _
-  show (OXModule.sheafify_skyscraperPOM_stalkIso_skyscraper_addEquiv
+  change (OXModule.sheafify_skyscraperPOM_stalkIso_skyscraper_addEquiv
     (f.hom.base x) N')
     (moduleStalkMap Y.presheaf l (f.hom.base x)
       (TopCat.Presheaf.germ G.val.presheaf V (f.hom.base x) hx s)) = _
@@ -1040,7 +1040,7 @@ private theorem presheafPullbackStalkHomEquiv_one_tmul
   let eS := eqToHom (OXModule.skyscraperPOM_presheaf_obj_eq x N (op U) hxU)
   let eT := eqToHom (OXModule.skyscraperPOM_presheaf_obj_eq
     (f.hom.base x) N' (op V) hx)
-  show eT (l.app (op V) s) = _
+  change eT (l.app (op V) s) = _
   have hl : eT (l.app (op V) s) = eS (k.app (op V) s) :=
     skyscraperPushforwardUnderlyingIso_hom_app_apply f x N (op V) hx (k.app (op V) s)
   rw [hl]
@@ -1142,7 +1142,7 @@ private theorem exists_modulePullbackStalkLinearEquiv_of_bridge
   refine ⟨((modulePullbackComparison_stalk f G x).trans
       (sheafificationStalkEquiv M' x).symm).trans e, ?_⟩
   intro V hx s
-  show e ((sheafificationStalkEquiv M' x).symm
+  change e ((sheafificationStalkEquiv M' x).symm
     ((modulePullbackComparison_stalk f G x)
       (TopCat.Presheaf.germ ((modulePullback f).obj G).val.presheaf
         ((opensMap f).obj V) x hx
@@ -1226,7 +1226,7 @@ lemma exists_modulePullbackStalkLinearEquiv {X Y : RingedSpace.{u, u}} (f : X �
             TopCat.Presheaf.germ G'.presheaf V (f.hom.base x) hx s) := by
         rw [← map_smul, TensorProduct.smul_tmul']
         simp
-      show ((presheafPullbackStalkHomEquiv f G x N g).hom)
+      change ((presheafPullbackStalkHomEquiv f G x N g).hom)
         (a ⊗ₜ[Y.presheaf.stalk (f.hom.base x)]
           TopCat.Presheaf.germ G'.presheaf V (f.hom.base x) hx s) =
         g.hom ((presheafPullbackTensorToStalk f G x)
@@ -1265,7 +1265,7 @@ lemma exists_modulePullbackStalkLinearEquiv {X Y : RingedSpace.{u, u}} (f : X �
     let e := (asIso k).symm.toLinearEquiv
     refine ⟨e, ?_⟩
     intro V hx s
-    show (asIso k).inv
+    change (asIso k).inv
       (TopCat.Presheaf.germ M'.presheaf ((opensMap f).obj V) x hx
         (((PresheafOfModules.pullbackPushforwardAdjunction
           (structureSheafHom f).hom).unit.app G.val).app (op V) s)) = _

@@ -88,7 +88,7 @@ theorem isIso_of_forall_exists_mem_isIso_app [J.HasSheafCompose (forget RingCat.
   · refine J.superset_covering (fun W a ha => ?_) (hR X.unop)
     have := hRa _ a ha
     apply (ConcreteCategory.bijective_of_isIso (φ.hom.app (op W))).1
-    show φ.hom.app (op W) (F.obj.map a.op x) = φ.hom.app (op W) (F.obj.map a.op y)
+    change φ.hom.app (op W) (F.obj.map a.op x) = φ.hom.app (op W) (F.obj.map a.op y)
     rw [NatTrans.naturality_apply φ.hom a.op x, NatTrans.naturality_apply φ.hom a.op y, hxy]
   · refine J.superset_covering (fun W a ha => ?_) (hR U)
     have := hRa _ a ha
@@ -136,7 +136,7 @@ theorem exists_mem_forall_smallEtalePostcomp_iso {Z Y : AlgebraicSpaces B S hS} 
     ⟨CostructuredArrow.mk (yoneda.map φ.hom.left ≫ t),
       (isEtale_iff_presheaf_of_yoneda B S hS _).1 hW''⟩
   exact ⟨W'', ⟨ObjectProperty.isoMk _ (CostructuredArrow.isoMk (Iso.refl _) (by
-      show 𝟙 _ ≫ W'.1.hom = (yoneda.map φ.hom.left ≫ t) ≫ c.hom
+      change 𝟙 _ ≫ W'.1.hom = (yoneda.map φ.hom.left ≫ t) ≫ c.hom
       rw [Category.id_comp, Category.assoc, ← CostructuredArrow.w φ.hom]
       rfl))⟩⟩
 

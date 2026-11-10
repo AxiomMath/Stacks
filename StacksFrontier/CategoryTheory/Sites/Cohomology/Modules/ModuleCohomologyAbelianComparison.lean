@@ -154,7 +154,7 @@ def unitCoyonedaIsoOfIsTerminal :
 lemma constantZ_isTorsionFree (X : Cᵒᵖ) :
     Module.IsTorsionFree ℤ ((constantZ.{w} J).obj.obj X) :=
   ModuleSheafCohomology.isTorsionFree_sheafify.{u, v, max u v w} J _ (fun _ => by
-      show Module.IsTorsionFree ℤ (ULift ℤ)
+      change Module.IsTorsionFree ℤ (ULift ℤ)
       exact Module.Flat.isTorsionFree) X
 
 /-- **Stacks 03FD, global cohomology, at a terminal object.** On a site with a terminal object,

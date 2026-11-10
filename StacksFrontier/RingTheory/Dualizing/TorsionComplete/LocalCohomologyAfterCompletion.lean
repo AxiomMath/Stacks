@@ -167,7 +167,7 @@ private theorem exists_singleIso_extendedCechAugmentation (f : Fin r → A) :
         asIso (b.f 0) ≪≫ HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 _
   refine ⟨(CochainComplex.singleFunctor (ModuleCat.{u} A) 0).mapIso e₀, ?_⟩
   apply HomologicalComplex.to_single_hom_ext
-  show a.f 0 ≫ ((HomologicalComplex.single (ModuleCat A) (.up ℤ) 0).map e₀.hom).f 0 =
+  change a.f 0 ≫ ((HomologicalComplex.single (ModuleCat A) (.up ℤ) 0).map e₀.hom).f 0 =
     c.hom.f 0 ≫ b.f 0
   rw [HomologicalComplex.single_map_f_self]
   simp only [e₀, Iso.trans_hom, Iso.symm_hom, Iso.hom_inv_id_assoc, asIso_inv, asIso_hom,
@@ -272,7 +272,7 @@ private theorem bijective_postcomp_cechCompletionUnit_of_powerTorsion (I : Ideal
   have : IsIso a := isIso_tensor_cechAugmentation_of_powerTorsion A I hI f hf X hX
   apply CechCompletion.bijective_postcomp_homUnitOfAugmentation d c
   simp only [← Category.assoc]
-  show Function.Bijective (fun g : X ⟶ K => a ≫ g)
+  change Function.Bijective (fun g : X ⟶ K => a ≫ g)
   exact ⟨fun _ _ hgg' => (cancel_epi a).mp hgg', fun g => ⟨inv a ≫ g, by simp⟩⟩
 
 /-- **Local cohomology inverts the Čech completion unit.** Local cohomology is a coreflection onto
@@ -343,7 +343,7 @@ theorem isIso_localCohomology_map_derivedCompletionUnit (I : Ideal A) (hI : I.FG
     (hε.2 K _ (hε.1 K)) (hη.2 K _ (hε.1 K))
   have hR : IsIso (R.map (ε.app K)) :=
     isIso_localCohomology_map_cechCompletionUnit A I hI f hf K
-  show IsIso ((R ⋙ j).map (η.app K))
+  change IsIso ((R ⋙ j).map (η.app K))
   rw [← he, Functor.map_comp]
   exact IsIso.comp_isIso' (j.map_isIso (R.map (ε.app K))) (by infer_instance)
 

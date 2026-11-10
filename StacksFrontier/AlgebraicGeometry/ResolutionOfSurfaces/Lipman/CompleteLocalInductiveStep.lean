@@ -110,7 +110,7 @@ theorem exists_isResolution_of_intermediate_step (B A : Type u) [CommRing B] [Co
     refine isDominant_of_map_genericPoint q ?_
     rw [genericPoint_eq_bot_of_affine, genericPoint_eq_bot_of_affine]
     refine PrimeSpectrum.ext (Ideal.ext fun b => ?_)
-    show b ∈ Ideal.comap (algebraMap B A) ⊥ ↔ b ∈ (⊥ : Ideal B)
+    change b ∈ Ideal.comap (algebraMap B A) ⊥ ↔ b ∈ (⊥ : Ideal B)
     rw [Ideal.mem_comap, Ideal.mem_bot, Ideal.mem_bot,
       map_eq_zero_iff _ (FaithfulSMul.algebraMap_injective B A)]
   have : IsDominant π := by

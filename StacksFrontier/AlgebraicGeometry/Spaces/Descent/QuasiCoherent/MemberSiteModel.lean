@@ -117,6 +117,8 @@ instance essSurj_memberRestriction :
     (memberRestriction B S hS Yi f hf).EssSurj :=
   inferInstance
 
+end CoverDense
+
 /-- **Restriction to the charts of an étale covering is an equivalence**, with the cover density
 supplied by the covering rather than assumed. -/
 theorem isEquivalence_memberRestriction_of_isEtaleCovering
@@ -125,8 +127,6 @@ theorem isEquivalence_memberRestriction_of_isEtaleCovering
     (memberRestriction B S hS Yi f hf).IsEquivalence :=
   have := isCoverDense_memberFunctor B S hS Yi f hf hcov
   isEquivalence_memberRestriction B S hS Yi f hf
-
-end CoverDense
 
 end AlgebraicGeometry.Space.QuasiCoherentDescent
 

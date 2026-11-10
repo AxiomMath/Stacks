@@ -82,6 +82,7 @@ theorem etaleLocalRingGerm_eval_eq (X : AlgebraicSpaces B S hS)
 /-! ### Transporting the fibre hypothesis of Stacks 06LW -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on presheaves over the big fppf site
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FibreRegularSequenceBaseChange :

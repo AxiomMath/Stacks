@@ -72,11 +72,11 @@ public theorem isIso_homologyMap_mkHomFromDouble_zero {C : Type u} [Category.{v}
     rw [CochainComplex.prev]
     simp [ComplexShape.up]
   have hne : c.prev 0 ≠ 0 := by
-    show (ComplexShape.up ℤ).prev 0 ≠ 0
+    change (ComplexShape.up ℤ).prev 0 ≠ 0
     rw [CochainComplex.prev]
     omega
   have hnxt : c.next 0 ≠ 0 := by
-    show (ComplexShape.up ℤ).next 0 ≠ 0
+    change (ComplexShape.up ℤ).next 0 ≠ 0
     rw [CochainComplex.next]
     omega
   let K := double (c := c) (i₀ := c.prev 0) (i₁ := 0) f hrel
@@ -86,7 +86,7 @@ public theorem isIso_homologyMap_mkHomFromDouble_zero {C : Type u} [Category.{v}
     (by simp only [zero_comp]; rw [← Category.assoc, hfg, zero_comp])
     (by
       intro k _hk
-      show (g ≫ (singleObjXSelf c 0 M).inv) ≫ L.d 0 k = 0
+      change (g ≫ (singleObjXSelf c 0 M).inv) ≫ L.d 0 k = 0
       simp [L])
   let e₀ := doubleXIso₀ (c := c) (i₀ := c.prev 0) (i₁ := 0) f hrel
   let e₁ := doubleXIso₁ (c := c) (i₀ := c.prev 0) (i₁ := 0) f hrel hne
@@ -112,11 +112,11 @@ public theorem isIso_homologyMap_mkHomFromDouble_zero {C : Type u} [Category.{v}
   have hc₂ := CokernelCofork.IsColimit.ofId (L.d (c.prev 0) 0) hdL
   have hcomm : ((shortComplexFunctor C c 0).map α).τ₂ ≫ 𝟙 (L.X 0) =
       (e₁.hom ≫ g ≫ s₀.inv) ≫ 𝟙 (L.X 0) := by
-    show α.f 0 ≫ 𝟙 (L.X 0) = (e₁.hom ≫ g ≫ s₀.inv) ≫ 𝟙 (L.X 0)
+    change α.f 0 ≫ 𝟙 (L.X 0) = (e₁.hom ≫ g ≫ s₀.inv) ≫ 𝟙 (L.X 0)
     rw [mkHomFromDouble_f₁]
   let γ := ShortComplex.HomologyMapData.ofIsColimitCokernelCofork
     ((shortComplexFunctor C c 0).map α) hgS _ hc₁ hgT _ hc₂ (𝟙 (L.X 0)) hcomm
-  show IsIso (ShortComplex.homologyMap ((shortComplexFunctor C c 0).map α))
+  change IsIso (ShortComplex.homologyMap ((shortComplexFunctor C c 0).map α))
   rw [γ.left.homologyMap_eq]
   have : IsIso γ.left.φH := inferInstanceAs (IsIso (𝟙 (L.X 0)))
   infer_instance

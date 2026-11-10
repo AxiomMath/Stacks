@@ -365,7 +365,7 @@ theorem jSharp_equiv_X :
     exact LinearMap.mem_range_self _ _
   have h1 : c.equiv Polynomial.X = D.totalFunction 1 c.U.1
       (Stacks.SymAlgSections.pieceUnit D.L c.U.2 1 ⟨_, hmem⟩) := by
-    show D.symSectionsRingEquiv c.U ((D.polynomialAlgEquiv c.U c.basis).symm Polynomial.X) = _
+    change D.symSectionsRingEquiv c.U ((D.polynomialAlgEquiv c.U c.basis).symm Polynomial.X) = _
     rw [hX]
     exact D.symSectionsRingEquiv_coe c.U 1 ⟨_, hmem⟩
   have h2 : Stacks.SymAlgSections.pieceUnit D.L c.U.2 1 ⟨_, hmem⟩ =
@@ -415,7 +415,7 @@ theorem isScalarTower_ABBs : IsScalarTower c.A c.B c.baseChart.B :=
 /-- The scalar tower `Γ(S, V) → Γ(𝕃, π⁻¹U) → Γ(L^⋆, π⁻¹U)`. -/
 theorem isScalarTower_RBBs : IsScalarTower c.R c.B c.baseChart.B :=
   IsScalarTower.of_algebraMap_eq fun r => by
-    show ((D.laurentSpectrumToBase ≫ D.f).appLE c.V.1 _ c.baseChart.preimage_le).hom r =
+    change ((D.laurentSpectrumToBase ≫ D.f).appLE c.V.1 _ c.baseChart.preimage_le).hom r =
       (D.jSharp c.U.1).hom ((D.totalToBase.appLE c.V.1 _ c.preimage_le).hom r)
     rw [Situation.jSharp, ← CommRingCat.comp_apply, Scheme.Hom.appLE_comp_appLE]
     exact congrArg (fun k => (CommRingCat.Hom.hom k) r)
@@ -432,12 +432,12 @@ theorem jSharp_equiv (q : c.A[X]) :
   have h : (algebraMap c.B c.baseChart.B).comp c.equiv.toRingHom =
       c.baseChart.equiv.toRingHom.comp (Polynomial.toLaurent (R := c.A)) := by
     refine Polynomial.ringHom_ext (fun a => ?_) ?_
-    · show (D.jSharp c.U.1).hom (c.equiv (Polynomial.C a)) =
+    · change (D.jSharp c.U.1).hom (c.equiv (Polynomial.C a)) =
         c.laurentChart.sectionsRingEquiv (Polynomial.toLaurent (Polynomial.C a))
       rw [Polynomial.toLaurent_C, Situation.LaurentChart.sectionsRingEquiv_C]
-      show (D.jSharp c.U.1).hom (D.polynomialSectionsRingEquiv c.U c.basis (Polynomial.C a)) = _
+      change (D.jSharp c.U.1).hom (D.polynomialSectionsRingEquiv c.U c.basis (Polynomial.C a)) = _
       rw [D.polynomialSectionsRingEquiv_C, D.jSharp_app]
-    · show (D.jSharp c.U.1).hom (c.equiv Polynomial.X) =
+    · change (D.jSharp c.U.1).hom (c.equiv Polynomial.X) =
         c.laurentChart.sectionsRingEquiv (Polynomial.toLaurent Polynomial.X)
       rw [c.jSharp_equiv_X, Polynomial.toLaurent_X, Situation.LaurentChart.sectionsRingEquiv_T_one]
   exact congrArg (fun k => k q) h

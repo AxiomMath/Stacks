@@ -324,7 +324,7 @@ theorem taylorSum_smul_eq_of_taylorFormula_mem (hfamM : IsThetaMonomialFamily M 
     obtain ⟨-, hPn⟩ := Finset.mem_sdiff.mp hP
     by_cases h1 : P.1 ∈ t
     · exact hdrop _ (hs P.2 fun h ↦ hPn (Finset.mem_product.mpr ⟨h1, h⟩))
-    · show (algebraMap (D : Type u) (B : Type u) (deltaPow P.1 a) * taylorMonomial B xi P.1 *
+    · change (algebraMap (D : Type u) (B : Type u) (deltaPow P.1 a) * taylorMonomial B xi P.1 *
         taylorMonomial B xi P.2) ⊗ₜ[(D : Type u)] thetaPow P.2 m ∈ Filt
       rw [htvan P.1 h1, zero_mul, TensorProduct.zero_tmul]
       exact Submodule.zero_mem _
@@ -416,7 +416,7 @@ theorem exists_isTwistedTaylorComparison_of_taylorFormula
       hterm y L (hvan y L hL)
   · have hpt : ∀ L : ι →₀ ℕ, G (y + y') L = G y L + G y' L := by
       intro L
-      show taylorMonomial B xi L ⊗ₜ[(D : Type u)] thetaPow L (y + y') = _
+      change taylorMonomial B xi L ⊗ₜ[(D : Type u)] thetaPow L (y + y') = _
       rw [hfamM.map_add hthAdd L y y', TensorProduct.tmul_add]
     rw [finsum_congr hpt, finsum_add_distrib (hfs y) (hfs y')]
   · obtain ⟨t, htaylor, htvan⟩ := htay a
@@ -433,7 +433,7 @@ theorem exists_isTwistedTaylorComparison_of_taylorFormula
 
 /-- **Taylor's formula in `B` at the datum `f = g`** of `Crystalline.SecondDividedPowerMap.refl`,
 where the coordinate differences `ξ_i` vanish: it holds with `t = {0}`. -/
-theorem taylorFormula_refl (D : DividedPowerRing.{u}) {ι : Type uI} [DecidableEq ι]
+theorem taylorFormula_refl (D : DividedPowerRing.{u}) {ι : Type uI}
     {delta : ι → (D.carrier → D.carrier)} {deltaPow : (ι →₀ ℕ) → (D.carrier → D.carrier)}
     (hfamD : IsThetaMonomialFamily D.carrier delta deltaPow) (a : D.carrier) :
     ∃ t : Finset (ι →₀ ℕ),

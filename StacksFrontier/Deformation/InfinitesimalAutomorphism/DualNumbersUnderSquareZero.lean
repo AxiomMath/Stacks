@@ -53,7 +53,7 @@ theorem algebrasUnder_artinianDualNumbers_right_eq (A : ArtinianLocalAlgCat.{u, 
       (squareZeroExtensionArtinian.{u, u, u} Λ k).obj (FGModuleCat.of k (ULift.{u} k)) := by
   let := residueAlgebra A
   refine ArtinianLocalAlgCat.mk_eq_mk _ _ (Algebra.algebra_ext _ _ fun t => ?_) _ _ fun x => rfl
-  show TrivSqZeroExt.inl (A.residueEquiv (IsLocalRing.residue A (algebraMap Λ A t))) =
+  change TrivSqZeroExt.inl (A.residueEquiv (IsLocalRing.residue A (algebraMap Λ A t))) =
     TrivSqZeroExt.inl (algebraMap Λ k t)
   exact congrArg TrivSqZeroExt.inl (A.residueEquiv.commutes t)
 

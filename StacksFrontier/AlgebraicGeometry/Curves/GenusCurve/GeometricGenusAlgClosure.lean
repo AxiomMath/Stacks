@@ -103,7 +103,7 @@ public theorem geometricGenus_eq_ite_genus_normalizationOverField (K : Type u) [
         genus (normalizationOverField K c ≫ c)
       else 0 := by
   by_cases h : topologicalKrullDim (Z : Type u) = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have := isIso_pullback_fst_algebraicClosure K c
     set a := Spec.map (CommRingCat.ofHom (algebraMap K (AlgebraicClosure K))) with ha
     have hirr : IrreducibleSpace (pullback (C := Scheme.{u}) c a) :=
@@ -115,7 +115,7 @@ public theorem geometricGenus_eq_ite_genus_normalizationOverField (K : Type u) [
         (Scheme.homeoOfIso (asIso (pullback.fst c a))).isHomeomorph]
     rw [geometricGenus_eq_genus_normalizationOverField K c hirr hred hdim, ← ha]
     exact genus_normalizationOverField_pullback_snd_eq K c
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact geometricGenus_eq_zero_of_dim_lt_one c (lt_of_le_of_ne hle h)
 
 /-- **The geometric genus is computed by the base change to an algebraic closure.**  For a proper
@@ -136,7 +136,7 @@ public theorem geometricGenus_eq_geometricGenus_pullback_snd (k : Type u) [Field
   have hdimY : topologicalKrullDim (pullback (C := Scheme.{u}) g a : Type u) ≤ 1 := by
     rwa [topologicalKrullDim_baseChange k (AlgebraicClosure k) _ _ g (.of_hasPullback _ _)]
   rw [geometricGenus_eq_sum_all_components (pullback.snd g a)]
-  show ∑ Z : irreducibleComponents (pullback (C := Scheme.{u}) g a),
+  change ∑ Z : irreducibleComponents (pullback (C := Scheme.{u}) g a),
       (if topologicalKrullDim (irreducibleComponentIdeal Z).subscheme = 1 then
         genus (normalizationOverField (AlgebraicClosure k)
             ((irreducibleComponentIdeal Z).subschemeι ≫ pullback.snd g a) ≫

@@ -123,8 +123,7 @@ theorem map_leftWedge_transport (p : ℕ) (ω : ⋀[B]^p Omega) (z : M ⊗[B] Om
         (TensorProduct.map LinearMap.id e.toLinearMap z) =
       TensorProduct.map LinearMap.id (exteriorPower.map (p + 1) e.toLinearMap)
         (TensorProduct.map LinearMap.id ((leftWedge p).flip ω) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [_root_.map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul n η =>
     simp only [TensorProduct.map_tmul, LinearMap.id_apply, LinearMap.flip_apply,
       LinearEquiv.coe_coe]
@@ -142,15 +141,14 @@ theorem extendedConnection_transport (p : ℕ) (y : M ⊗[B] ⋀[B]^p Omega) :
         (RestrictScalars.addEquiv A B _
           ((extendedConnection S pi hpi hgen nabla).toLinearMap p
             ((RestrictScalars.addEquiv A B _).symm y))) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [_root_.map_zero]
+  induction y using TensorProduct.inductionOn with
   | add x y hx hy => simp only [_root_.map_add, hx, hy]
   | tmul m ω =>
     have h1 := (extendedConnection S pi hpi hgen nabla).map_tmul p m ω
     have h2 := (extendedConnection S pi' hpi' hgen' (nabla.transport e he)).map_tmul p m
       (exteriorPower.map p e.toLinearMap ω)
     rw [TensorProduct.map_tmul, LinearMap.id_apply]
-    show RestrictScalars.addEquiv A B _
+    change RestrictScalars.addEquiv A B _
         ((extendedConnection S pi' hpi' hgen' (nabla.transport e he)).toLinearMap p
           (m ⊗ₜ[B] exteriorPower.map p e.toLinearMap ω)) =
       TensorProduct.map LinearMap.id (exteriorPower.map (p + 1) e.toLinearMap)
@@ -168,8 +166,7 @@ theorem map_oneEquiv_symm_transport (z : M ⊗[B] Omega) :
         (TensorProduct.map LinearMap.id e.toLinearMap z) =
       TensorProduct.map LinearMap.id (exteriorPower.map 1 e.toLinearMap)
         (TensorProduct.map LinearMap.id (exteriorPower.oneEquiv B Omega).symm.toLinearMap z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [_root_.map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul n η =>
     simp only [TensorProduct.map_tmul, LinearMap.id_apply, LinearEquiv.coe_coe,
       exteriorPower.oneEquiv_symm_apply, exteriorPower.map_apply_ιMulti]

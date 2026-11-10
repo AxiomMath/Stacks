@@ -417,7 +417,7 @@ public theorem finrank_dvd_specialFiberComponentWeight (Z : irreducibleComponent
     g.appTop.hom.toAlgebra
   have : IsScalarTower S.k Γ(C', ⊤) Γ((S.specialFiberComponentIdeal Z).subscheme, ⊤) :=
     IsScalarTower.of_algebraMap_eq fun x => by
-      show ((Scheme.ΓSpecIso (.of S.k)).inv ≫ (S.specialFiberComponentToSpec Z).appTop).hom x =
+      change ((Scheme.ΓSpecIso (.of S.k)).inv ≫ (S.specialFiberComponentToSpec Z).appTop).hom x =
         g.appTop.hom (((Scheme.ΓSpecIso (.of S.k)).inv ≫ p'.appTop).hom x)
       rw [← hg, Scheme.Hom.comp_appTop]
       rfl

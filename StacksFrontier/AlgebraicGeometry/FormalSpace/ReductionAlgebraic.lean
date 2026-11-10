@@ -222,14 +222,14 @@ theorem relative_etale_of_openCover {I : Type u} {W : BigFppfOver B S hS}
           (pb i).isoPullback_inv_snd).trans hy }
   have _ : IsZariskiLocalAtSource (@Etale.{u}) :=
     HasRingHomProperty.instIsZariskiLocalAtSource (P := @Etale.{u})
-  show Etale (H.map p)
+  change Etale (H.map p)
   refine IsZariskiLocalAtSource.of_openCover (P := @Etale.{u}) E (fun i ↦ ?_)
   have hp' : IsPullback a (Y.map p) q g := hp
   have hs := (IsPullback.of_hasPullback (kk i) l).map Y
   rw [hl] at hs
   have hc := hs.paste_vert hp'
   rw [← Y.map_comp] at hc
-  show Etale (H.map (pullback.snd (kk i) l) ≫ H.map p)
+  change Etale (H.map (pullback.snd (kk i) l) ≫ H.map p)
   rw [← Functor.map_comp]
   exact (hf i).property g (Y.map (pullback.fst (kk i) l)) (pullback.snd (kk i) l ≫ p) hc
 
@@ -366,7 +366,7 @@ theorem isAlgebraicSpaceULift_of_reduced_etale_cover_of_mono_sheafHom
       Sigma.desc fun x ↦ Y.map (kk x)
     have hafac : aa ≫ q = Sigma.desc fun x : H.obj UR ↦ gi (idx x) := by
       refine Sigma.hom_ext _ _ (fun x ↦ ?_)
-      rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc]
+      rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
       exact hkq x
     have _ := hdesc
     have _ : Presheaf.IsLocallySurjective J (aa ≫ q) := by rw [hafac]; infer_instance

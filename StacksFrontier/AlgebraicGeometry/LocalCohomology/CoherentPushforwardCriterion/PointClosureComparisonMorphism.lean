@@ -8,8 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.Cohomology.LocallyNoetherian.Stru
 public import StacksFrontier.AlgebraicGeometry.Divisors.AssociatedPoints.StructureSheafStalk
 public import StacksFrontier.AlgebraicGeometry.LocalCohomology.CoherentPushforwardCriterion.AssociatedPointResidueField
 public import StacksFrontier.AlgebraicGeometry.LocalCohomology.CoherentPushforwardCriterion.PointClosureAssociatedPoints
-public import
-  StacksFrontier.AlgebraicGeometry.LocalCohomology.CoherentPushforwardCriterion.PrincipalIdealExtension
+public import StacksFrontier.AlgebraicGeometry.LocalCohomology.CoherentPushforwardCriterion.PrincipalIdealExtension
 public import StacksFrontier.AlgebraicGeometry.Scheme.Points.ModuleStalkSpecialization
 
 /-!
@@ -93,8 +92,9 @@ Consequently `isCoherent_pushforward_pointClosure_of_isAssociatedPoint` is not y
 clause (2) ⇒ (1), which is stated for an arbitrary open immersion of locally Noetherian schemes,
 and so carries no tag — the same convention as
 `AlgebraicGeometry.isCoherent_pushforward_pointClosure_of_injective_stalk_at`. The source's
-reduction of the *coherence statement* to an affine base is carried out in
-`StacksFrontier.AlgebraicGeometry.LocalCohomology.CoherentPushforwardCriterion.CoherenceEquivalence`,
+reduction of the *coherence statement* to an affine base is carried out in the sibling module
+`CoherenceEquivalence` of
+`StacksFrontier.AlgebraicGeometry.LocalCohomology.CoherentPushforwardCriterion`,
 which turns this into the unconditional clause.
 
 ## References
@@ -314,7 +314,7 @@ private theorem injective_stalk_of_germ_app_eq_smul_pow {U : Scheme.{u}} {G F : 
         TopCat.Presheaf.germ (C := Ab.{u}) G.val.presheaf (W ⊓ U.basicOpen f) x hxV g') :=
     (TopCat.Presheaf.stalkFunctor_map_germ_apply _ _ _ _ _).trans
       (h (W ⊓ U.basicOpen f) inf_le_right hxV g')
-  show TopCat.Presheaf.germ (C := Ab.{u}) G.val.presheaf (W ⊓ U.basicOpen f) x hxV g' = 0
+  change TopCat.Presheaf.germ (C := Ab.{u}) G.val.presheaf (W ⊓ U.basicOpen f) x hxV g' = 0
   exact (hu.pow k).smul_eq_zero.mp (hψ ((hchain.symm.trans hm).trans (map_zero ψ).symm))
 
 /-- **The comparison morphism of [Stacks, Tag 0BJZ]**, for a coherent `G` with simple stalk at

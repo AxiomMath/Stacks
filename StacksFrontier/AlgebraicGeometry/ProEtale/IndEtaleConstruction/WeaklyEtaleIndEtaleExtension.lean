@@ -135,16 +135,16 @@ private theorem bijective_localRingHom_comap_of_le {C D : Type u} [CommRing C] [
       Localization.localRingHom p q f rfl := by
     symm
     refine Localization.localRingHom_unique p q f rfl fun y => ?_
-    show eD (ePQ (eC (algebraMap C (Localization.AtPrime p) y))) = _
+    change eD (ePQ (eC (algebraMap C (Localization.AtPrime p) y))) = _
     rw [eC.commutes]
-    show eD (Localization.localRingHom p' q' e rfl
+    change eD (Localization.localRingHom p' q' e rfl
       (algebraMap Cn (Localization.AtPrime p') (algebraMap C Cn y))) = _
     rw [Localization.localRingHom_to_map p' q' e rfl]
-    show eD (algebraMap Dm (Localization.AtPrime q') (e.toRingHom (algebraMap C Cn y))) = _
+    change eD (algebraMap Dm (Localization.AtPrime q') (e.toRingHom (algebraMap C Cn y))) = _
     rw [show e.toRingHom (algebraMap C Cn y) = algebraMap D Dm (f y) from
       congrArg (fun g : C →+* Dm => g y) hecomp]
     exact eD.commutes (f y)
-  show Function.Bijective (Localization.localRingHom p q f rfl)
+  change Function.Bijective (Localization.localRingHom p q f rfl)
   rw [← hk]
   exact eD.bijective.comp (ePQ.bijective.comp eC.bijective)
 
@@ -235,15 +235,15 @@ theorem exists_faithfullyFlat_indEtale_extension
   let : IsScalarTower C D D' := IsScalarTower.of_algebraMap_eq' rfl
   let : Algebra A D' := ((g'.comp (algebraMap B D)).comp f).toAlgebra
   let : IsScalarTower A C D' := IsScalarTower.of_algebraMap_eq' (RingHom.ext fun a => by
-    show g' (algebraMap B D (algebraMap A B a)) = g' (algebraMap C D (algebraMap A C a))
+    change g' (algebraMap B D (algebraMap A B a)) = g' (algebraMap C D (algebraMap A C a))
     rw [← IsScalarTower.algebraMap_apply A B D, ← IsScalarTower.algebraMap_apply A C D])
   refine ⟨D', hD'R, g'.comp (algebraMap B D),
     RingHom.FaithfullyFlat.stableUnderComposition _ _ hBDff hgff, ?_, ?_⟩
-  · show ObjectProperty.ind.{u} (fun C : Under (CommRingCat.of B) ↦ C.hom.hom.Etale)
+  · change ObjectProperty.ind.{u} (fun C : Under (CommRingCat.of B) ↦ C.hom.hom.Etale)
       (Under.mk (CommRingCat.ofHom (algebraMap B D) ≫ CommRingCat.ofHom g'))
     exact indEtaleUnder_of_indEtale B D'
       (StacksDraft.indEtale_comp hBDindEtale (indEtale_of_isIndZariski D D' hgInd))
-  · show ObjectProperty.ind.{u} (fun C : Under (CommRingCat.of A) ↦ C.hom.hom.Etale)
+  · change ObjectProperty.ind.{u} (fun C : Under (CommRingCat.of A) ↦ C.hom.hom.Etale)
       (Under.mk (CommRingCat.ofHom f ≫ CommRingCat.ofHom (algebraMap B D) ≫
         CommRingCat.ofHom g'))
     exact indEtaleUnder_of_indEtale A D'

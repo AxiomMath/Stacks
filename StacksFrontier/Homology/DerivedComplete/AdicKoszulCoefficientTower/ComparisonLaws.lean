@@ -26,6 +26,7 @@ variable {A : Type u} [CommRing A]
 
 set_option backward.isDefEq.respectTransparency false in
 set_option maxHeartbeats 800000 in
+-- the proof unfolds the bifunctor tensor complex and `ULift` modules by `change` and `erw`
 private theorem comparison_transition {r : ℕ} {f : Fin r → A}
     (h : FormulaLaws.{u, v} f) (p : Option ℤ) (m n : ℕ) (hmn : n ≤ m)
     (K : CochainComplex (ModuleCat.{v} A) ℤ) :
@@ -36,18 +37,18 @@ private theorem comparison_transition {r : ℕ} {f : Fin r → A}
   classical
   apply HomologicalComplex.hom_ext
   intro t
-  show (AdicKoszul.moduleUniverseLift A).map (filteredTransitionTerm f p m n K t) ≫
+  change (AdicKoszul.moduleUniverseLift A).map (filteredTransitionTerm f p m n K t) ≫
     comparisonTerm f p n K t = comparisonTerm f p m K t ≫ _
   simp only [comparisonTerm, Preadditive.comp_sum, Preadditive.sum_comp, Category.assoc]
   apply Finset.sum_congr rfl
   intro S _
-  show _ = _ ≫ _ ≫ (HomologicalComplex.ιMapBifunctor _ _ _ _ _ _ _ _) ≫
+  change _ = _ ≫ _ ≫ (HomologicalComplex.ιMapBifunctor _ _ _ _ _ _ _ _) ≫
     (HomologicalComplex.mapBifunctorMap (𝟙 _) (standardKoszulTransition _ p m n hmn) _ _).f t
   rw [HomologicalComplex.ι_mapBifunctorMap]
   simp only [HomologicalComplex.id_f]
   rw [CategoryTheory.Functor.map_id]
   simp only [NatTrans.id_app, Category.id_comp]
-  show _ = _ ≫ _ ≫
+  change _ = _ ≫ _ ≫
     (((complexUniverseLift (A := A)).obj K).X (t + S.card) ◁
       (standardKoszulTransition (fun a ↦ (ULift.up (f a) : ULift.{v} A)) p m n hmn).f
         (-(S.card : ℤ))) ≫ _
@@ -73,10 +74,10 @@ private theorem comparison_transition {r : ℕ} {f : Fin r → A}
     apply LinearMap.ext
     intro x
     apply ULift.ext
-    show (∏ i ∈ S, f i ^ (m - n)) • x.down =
+    change (∏ i ∈ S, f i ^ (m - n)) • x.down =
       (∏ i ∈ S, (ULift.up (f i) : ULift.{v} A) ^ (m - n)).down • x.down
     congr 1
-    show (∏ i ∈ S, f i ^ (m - n)) =
+    change (∏ i ∈ S, f i ^ (m - n)) =
       (ULift.ringEquiv : ULift.{v} A ≃+* A)
         (∏ i ∈ S, (ULift.up (f i) : ULift.{v} A) ^ (m - n))
     simp only [map_prod, map_pow]
@@ -103,7 +104,7 @@ private theorem tensor_mk_unit {R : Type u} [CommRing R]
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show TensorProduct.map LinearMap.id g.hom (TensorProduct.rid R M |>.symm x) = _
+  change TensorProduct.map LinearMap.id g.hom (TensorProduct.rid R M |>.symm x) = _
   simp [hg]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -117,15 +118,15 @@ public theorem comparison_augmentation {r : ℕ} {f : Fin r → A}
   classical
   apply HomologicalComplex.hom_ext
   intro t
-  show (AdicKoszul.moduleUniverseLift A).map (filteredUnitTerm (r := r) none K t) ≫
+  change (AdicKoszul.moduleUniverseLift A).map (filteredUnitTerm (r := r) none K t) ≫
       comparisonTerm f none n K t = _
   rw [comparisonTerm, Preadditive.comp_sum]
   rw [Finset.sum_eq_single ∅]
-  · show _ = (HomologicalComplex.rightUnitor' ((complexUniverseLift (A := A)).obj K)).inv t ≫ _
+  · change _ = (HomologicalComplex.rightUnitor' ((complexUniverseLift (A := A)).obj K)).inv t ≫ _
     rw [HomologicalComplex.rightUnitor'_inv]
     simp only [Category.assoc]
     erw [HomologicalComplex.ι_mapBifunctorMap]
-    show _ = (ρ_ (((complexUniverseLift (A := A)).obj K).X t)).inv ≫
+    change _ = (ρ_ (((complexUniverseLift (A := A)).obj K).X t)).inv ≫
       (((complexUniverseLift (A := A)).obj K).X t ◁ _) ≫
       (((complexUniverseLift (A := A)).obj K).X t ◁
         (AdicKoszul.koszulPowerUnit (fun a ↦ (ULift.up (f a) : ULift.{v} A)) n).f 0) ≫ _
@@ -154,7 +155,7 @@ public theorem comparison_augmentation {r : ℕ} {f : Fin r → A}
       rw [hu]
       cases t <;> rfl
     · intro a
-      show ((AdicKoszul.koszulPowerUnitChain
+      change ((AdicKoszul.koszulPowerUnitChain
         (fun a ↦ (ULift.up (f a) : ULift.{v} A)) n).f 0 ≫
         (HomologicalComplex.extendXIso _ ComplexShape.embeddingDownNat (i := 0) rfl).inv) a = _
       simp only [ModuleCat.comp_apply, koszulPowerUnitChain_apply, map_smul]
@@ -195,10 +196,10 @@ private theorem standardKoszul_d_exteriorBasis
     (i := degree) rfl
   have differential := HomologicalComplex.extend_d_eq complex ComplexShape.embeddingDownNat
     (i := degree + 1) (j := degree) rfl rfl
-  show (complex.extend ComplexShape.embeddingDownNat).d _ _
+  change (complex.extend ComplexShape.embeddingDownNat).d _ _
     (sourceIso.inv ((Pi.basisFun A (Fin rank)).exteriorPower (degree + 1) subset)) = _
   erw [differential]
-  show targetIso.inv (complex.d (degree + 1) degree
+  change targetIso.inv (complex.d (degree + 1) degree
     (sourceIso.hom (sourceIso.inv ((Pi.basisFun A (Fin rank)).exteriorPower (degree + 1) subset))))
       = _
   have cancel := ConcreteCategory.congr_hom sourceIso.inv_hom_id
@@ -206,10 +207,10 @@ private theorem standardKoszul_d_exteriorBasis
   change sourceIso.hom (sourceIso.inv _) = _ at cancel
   rw [cancel]
   rw [Koszul.seqComplex_d]
-  show targetIso.inv (Koszul.d (Koszul.seqDual (fun index => family index ^ (power + 1))) degree
+  change targetIso.inv (Koszul.d (Koszul.seqDual (fun index => family index ^ (power + 1))) degree
     ((Pi.basisFun A (Fin rank)).exteriorPower (degree + 1) subset)) = _
   rw [koszul_d_basis]
-  show targetIso.inv.hom _ = _
+  change targetIso.inv.hom _ = _
   erw [map_sum]
   apply Finset.sum_congr rfl
   intro index _
@@ -223,7 +224,7 @@ private theorem stupidTruncSection_comm_of_le
       complex.d source target ≫ stupidTruncSection complex cutoff target := by
   have index (i : ℤ) (hi : cutoff ≤ i) :
       (ComplexShape.embeddingUpIntGE cutoff).f (i - cutoff).toNat = i := by
-    show cutoff + ((i - cutoff).toNat : ℤ) = i
+    change cutoff + ((i - cutoff).toNat : ℤ) = i
     omega
   rw [stupidTrunc_d_eq complex _ (index source sourceSurvives) (index target targetSurvives)]
   simp only [stupidTruncSection, dite_eq_left sourceSurvives, dite_eq_left targetSurvives,
@@ -267,14 +268,14 @@ private theorem standardKoszul_d_exteriorBasis_cutoff
     | none => trivial
     | some cutoff => dsimp only [CutoffLE] at sourceSurvives ⊢; omega
   dsimp only
-  show (standardKoszulSectionTerm family cutoff power (-((degree + 1 : ℕ) : ℤ)) ≫
+  change (standardKoszulSectionTerm family cutoff power (-((degree + 1 : ℕ) : ℤ)) ≫
     (standardKoszulStage family cutoff power).d _ _) _ = _
   rw [standardKoszulSectionTerm_comm_of_survives family cutoff power _ _
     sourceSurvives targetSurvives]
-  show standardKoszulSectionTerm family cutoff power (-(degree : ℤ))
+  change standardKoszulSectionTerm family cutoff power (-(degree : ℤ))
     ((standardKoszulStage family none power).d _ _ _) = _
   rw [standardKoszul_d_exteriorBasis]
-  show (standardKoszulSectionTerm family cutoff power (-(degree : ℤ))).hom _ = _
+  change (standardKoszulSectionTerm family cutoff power (-(degree : ℤ))).hom _ = _
   erw [map_sum]
   apply Finset.sum_congr rfl
   intro index _
@@ -314,7 +315,7 @@ private theorem tensor_summand_differential
       coefficientDegree (coefficientDegree + 1) from rfl) _ _ (by change _ + _ = _; omega),
     HomologicalComplex.mapBifunctor.d₂_eq _ _ _ _ _ (show (ComplexShape.up ℤ).Rel
       factorDegree (factorDegree + 1) from rfl) _ (by change _ + _ = _; omega)]
-  show (1 : ℤˣ) • _ + _ = _
+  change (1 : ℤˣ) • _ + _ = _
   rw [one_smul]
   rfl
 
@@ -378,7 +379,7 @@ private theorem tensor_koszul_basis_differential
     coefficientDegree (-((degree + 1 : ℕ) : ℤ)) totalDegree totalIndex (-(degree : ℤ)) (by omega)]
   congr 1
   rw [standardKoszul_d_exteriorBasis_cutoff family cutoff power degree subset sourceSurvives]
-  show (-1 : A) ^ coefficientDegree.natAbs •
+  change (-1 : A) ^ coefficientDegree.natAbs •
     (HomologicalComplex.ιTensorObj coefficient (standardKoszulStage family cutoff power)
       coefficientDegree (-(degree : ℤ)) (totalDegree + 1) (by omega)).hom _ = _
   simp only [TensorProduct.tmul_sum, TensorProduct.tmul_smul, map_sum, map_smul,
@@ -464,7 +465,7 @@ private theorem standardKoszulStage_isZero_X_pos
   have untruncated : IsZero ((standardKoszulStage family none power).X degree) := by
     apply HomologicalComplex.isZero_extend_X
     intro index
-    show -(index : ℤ) ≠ degree
+    change -(index : ℤ) ≠ degree
     omega
   cases cutoff with
   | none => exact untruncated
@@ -472,11 +473,11 @@ private theorem standardKoszulStage_isZero_X_pos
     by_cases survives : cutoff ≤ degree
     · exact untruncated.of_iso ((standardKoszulStage family none power).stupidTruncXIso
         (ComplexShape.embeddingUpIntGE cutoff) (i := (degree - cutoff).toNat) (by
-          show cutoff + ((degree - cutoff).toNat : ℤ) = degree
+          change cutoff + ((degree - cutoff).toNat : ℤ) = degree
           rw [Int.toNat_of_nonneg (by omega)]; omega))
     · apply HomologicalComplex.isZero_stupidTrunc_X
       intro index
-      show cutoff + (index : ℤ) ≠ degree
+      change cutoff + (index : ℤ) ≠ degree
       omega
 
 private theorem tensor_koszul_degree_zero_differential
@@ -693,7 +694,7 @@ private theorem summedComparison_differential
     · simp only [payload, movedCoefficient, dite_eq_left (erasedDegree _), supported subset
       survives,
         koszulTensorBasisValue_eq_map, map_zero, smul_zero, Finset.sum_const_zero, add_zero]
-  show ((HomologicalComplex.tensorObj coefficient (standardKoszulStage family cutoff power)).d
+  change ((HomologicalComplex.tensorObj coefficient (standardKoszulStage family cutoff power)).d
     degree (degree + 1)).hom _ = _
   rw [map_sum]
   simp_rw [summand]
@@ -701,7 +702,7 @@ private theorem summedComparison_differential
     ← Finset.sum_add_distrib]
   apply Finset.sum_congr rfl
   intro subset _
-  show _ = koszulTensorBasisValue family cutoff power coefficient (degree + 1) subset
+  change _ = koszulTensorBasisValue family cutoff power coefficient (degree + 1) subset
     ((coefficient.d (degree + subset.card) ((degree + 1) + subset.card)).hom (elements subset) + _)
   simp only [koszulTensorBasisValue_eq_map, map_add]
   congr 1
@@ -732,13 +733,13 @@ private theorem liftedCoefficientDifferential_apply
         := by
   dsimp only [coefficientKoszulDifferential, ModuleCat.hom_ofHom, LinearMap.coe_mk, AddHom.coe_mk]
   apply ULift.ext
-  show (ULift.moduleEquiv : ULift.{u} (coefficient.X ((degree + 1) + subset.card)) ≃ₗ[A]
+  change (ULift.moduleEquiv : ULift.{u} (coefficient.X ((degree + 1) + subset.card)) ≃ₗ[A]
     coefficient.X ((degree + 1) + subset.card)) (_ + _) = _
   erw [map_add, map_sum]
   congr 1
   apply Finset.sum_congr rfl
   intro index _
-  show ((-1 : ULift.{v} A) ^ (degree + subset.card + 1).natAbs *
+  change ((-1 : ULift.{v} A) ^ (degree + subset.card + 1).natAbs *
       (-1 : ULift.{v} A) ^ (subset.filter (· < index.1)).card *
         (ULift.up (family index.1) : ULift.{v} A) ^ (power + 1)).down •
           (_ : coefficient.X ((degree + 1) + subset.card)) =
@@ -776,20 +777,20 @@ private theorem comparison_comm_succ
   have supported : ∀ subset, ¬ CutoffLE cutoff (some (-(subset.card : ℤ))) → elements subset = 0 :=
     by
     intro subset removed
-    show ULift.up ((termProjection cutoff coefficient degree).hom element subset) = 0
+    change ULift.up ((termProjection cutoff coefficient degree).hom element subset) = 0
     rw [termProjection_apply_eq_zero cutoff coefficient degree subset removed element]
     rfl
   have differential := summedComparison_differential
     (fun index => (ULift.up (family index) : ULift.{v} A)) cutoff power lifted degree elements
       supported
-  show ((standardCoefficientKoszulStage family cutoff power).obj coefficient).d degree (degree +
+  change ((standardCoefficientKoszulStage family cutoff power).obj coefficient).d degree (degree +
     1)
       (comparisonTerm family cutoff power coefficient degree (ULift.up element)) =
     comparisonTerm family cutoff power coefficient (degree + 1)
       (ULift.up ((filteredDifferential family cutoff power coefficient degree (degree + 1)).hom
         element))
   rw [comparisonTerm_apply_up, comparisonTerm_apply_up]
-  show _ = ∑ subset : Finset (Fin rank),
+  change _ = ∑ subset : Finset (Fin rank),
     koszulTensorBasisValue (fun index => (ULift.up (family index) : ULift.{v} A)) cutoff power
       lifted
       (degree + 1) subset (ULift.up ((termProjection cutoff coefficient (degree + 1)).hom

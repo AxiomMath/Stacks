@@ -83,15 +83,16 @@ variable (B : BigEtaleSite.{u}) (U : B.Scheme) [ConnectedSpace U.1] (y : Geometr
   (hn : IsUnit ((Fintype.card Λ : ℕ) : K)) {ζ : K} (hζ : IsPrimitiveRoot ζ (Fintype.card Λ))
   (jC : U.1 ⟶ C) [IsOpenImmersion jC] (hfin : ((Set.range jC.base)ᶜ).Finite)
 
+omit [Fintype Λ] in
 /-- The universe lift of the coinvariants `N_π` of a finite `Λ`-module `N` is finite. -/
-instance finite_ulift_coinvariants
+instance finite_ulift_coinvariants [Finite Λ]
     (N : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup U.1 y)) :
     Finite ((ModuleCat.uliftFunctor.{0, u + 1} Λ).obj
       ((ModuleCat.isFG Λ).ι.obj (finiteTypeContinuousModuleCoinvariantsModule Λ _ N))) := by
-  haveI : Module.Finite Λ ((ModuleCat.isFG Λ).ι.obj
+  have : Module.Finite Λ ((ModuleCat.isFG Λ).ι.obj
       (finiteTypeContinuousModuleCoinvariantsModule Λ _ N)) :=
     (finiteTypeContinuousModuleCoinvariantsModule Λ _ N).property
-  haveI : Finite ((ModuleCat.isFG Λ).ι.obj (finiteTypeContinuousModuleCoinvariantsModule Λ _ N)) :=
+  have : Finite ((ModuleCat.isFG Λ).ι.obj (finiteTypeContinuousModuleCoinvariantsModule Λ _ N)) :=
     Module.finite_of_finite Λ
   exact Finite.of_equiv _ Equiv.ulift.symm
 

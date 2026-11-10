@@ -222,12 +222,12 @@ theorem specZpow_hom_left {R : Type u} [CommRing R] (p : Spec (.of R) ⟶ S)
   induction n using Int.induction_on with
   | zero =>
       rw [zpow_zero]
-      show (𝟙 (Spec (.of R))) = _
+      change (𝟙 (Spec (.of R))) = _
       rw [← Spec.map_id, Spec.map_inj]
       rfl
   | succ i ih =>
       rw [add_comm (i : ℤ) 1, zpow_add, zpow_one, Aut.mul_asIso]
-      show (a ^ (i : ℤ)).asIso.hom.left ≫ a.asIso.hom.left = _
+      change (a ^ (i : ℤ)).asIso.hom.left ≫ a.asIso.hom.left = _
       rw [ih, ha, ← Spec.map_comp, Spec.map_inj]
       apply CommRingCat.hom_ext
       ext x
@@ -236,7 +236,7 @@ theorem specZpow_hom_left {R : Type u} [CommRing R] (p : Spec (.of R) ⟶ S)
   | pred i ih =>
       rw [show -(i : ℤ) - 1 = -1 + (-(i : ℤ)) by omega, zpow_add, zpow_neg_one,
         Aut.mul_asIso]
-      show (a ^ (-(i : ℤ))).asIso.hom.left ≫ a.asIso.inv.left = _
+      change (a ^ (-(i : ℤ))).asIso.hom.left ≫ a.asIso.inv.left = _
       rw [ih, hai, ← Spec.map_comp, Spec.map_inj]
       apply CommRingCat.hom_ext
       ext x
@@ -247,7 +247,7 @@ theorem specZpow_hom_left {R : Type u} [CommRing R] (p : Spec (.of R) ⟶ S)
             simpa only [zpow_neg_one] using (zpow_add e (-(i : ℤ)) (-1)).symm
           _ = _ := by rw [add_comm]
       rw [hinv]
-      show (e ^ (-(i : ℤ)) * e⁻¹) x = _
+      change (e ^ (-(i : ℤ)) * e⁻¹) x = _
       rw [hpow]
       rfl
 
@@ -371,7 +371,7 @@ theorem twistedLineToBase_comp_twistedBaseAction
       twistedLineToBase s ≫ (twistedBaseAction s σ hs g).asIso.hom := by
   apply Over.OverMorphism.ext
   have hg : Multiplicative.ofAdd g.toAdd = g := by simp
-  show (twistedLineAction s σ hs g).asIso.hom.left ≫ (twistedLineToBase s).left =
+  change (twistedLineAction s σ hs g).asIso.hom.left ≫ (twistedLineToBase s).left =
     (twistedLineToBase s).left ≫ (twistedBaseAction s σ hs g).asIso.hom.left
   rw [← hg, twistedBaseAction_hom_left, twistedLineAction_hom_left, twistedLineToBase_left]
   exact specMap_twistedTranslationEquiv_zpow_comp σ g.toAdd
@@ -596,8 +596,8 @@ theorem siteActionHom_comp_actionProjection (g : G) :
       ((F.map f ≫ Sigma.ι (fun _ : G ↦ F.obj V) g) ≫ j.target) at h'
   simp only [j, Stacks.Groupoids.PreRelation.source, Stacks.Groupoids.PreRelation.target,
     actionRelation, prod.lift_snd, prod.lift_fst, actionRelationSource, actionRelationTarget,
-    Category.assoc, Sigma.ι_desc] at h'
-  show (Stacks.Groupoids.toQuotientSheaf _ F j).app T
+    Category.assoc, Sigma.ι_comp_desc] at h'
+  change (Stacks.Groupoids.toQuotientSheaf _ F j).app T
       (F.map (f ≫ siteActionHom G B hS V a g)) = _
   rw [F.map_comp, post_map_siteActionHom]
   exact h'.symm
@@ -657,10 +657,10 @@ theorem exists_smul_of_actionProjection_app_eq
   have htgt0 : (actionRelation (underlyingOver B hS V) G a).target =
       actionRelationTarget (underlyingOver B hS V) G a := prod.lift_fst _ _
   have hsrc : v = (Over.post B.inclusion).map y := by
-    rw [← hrs, hv, hsrc0, actionRelationSource, Category.assoc, Sigma.ι_desc, Category.comp_id]
+    rw [← hrs, hv, hsrc0, actionRelationSource, Category.assoc, Sigma.ι_comp_desc, Category.comp_id]
   refine ⟨g, (Over.post (X := B.obj hS) B.inclusion).map_injective ?_⟩
   rw [Functor.map_comp, post_map_siteActionHom, ← hsrc, ← hrt, hv, htgt0,
-    actionRelationTarget, Category.assoc, Sigma.ι_desc]
+    actionRelationTarget, Category.assoc, Sigma.ι_comp_desc]
 
 omit [HasSheafify (BigFppfOver.topology B S hS) (Type u)] in
 /-- A criterion on field-valued points, stated for an arbitrary morphism of presheaves out of
@@ -694,7 +694,7 @@ theorem exists_eq_pointsMap_of_pointsMap_eq {X : (BigFppfOver B S hS)ᵒᵖ ⥤ 
   rw [Space.pointsMap_class]
   apply Space.FieldValuedPoint.class_eq_class_of_hasCommonExtension
   refine ⟨⟨c.carrier, c.contained, c.toBase, i ≫ w₀.value⟩, ⟨i, rfl⟩, ⟨j, ?_⟩⟩
-  show j ≫ (z₀.value ≫ τ n) = i ≫ w₀.value
+  change j ≫ (z₀.value ≫ τ n) = i ≫ w₀.value
   rw [hn]
   exact (Category.assoc _ _ _).symm
 

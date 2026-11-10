@@ -116,7 +116,7 @@ private theorem isIso_localCohomologyZeroToModule_bot
   have h0 : IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{v} A) 0).map
       (localCohomologyAugmentation A ⊥ Submodule.fg_bot M)) := by
     infer_instance
-  show IsIso (_ ≫ _)
+  change IsIso (_ ≫ _)
   infer_instance
 
 /-- `H⁰_{V(⊥)}(M) ⟶ M` is injective. -/
@@ -176,7 +176,7 @@ theorem localCohomologyComparison_self_eq_id
     ((DerivedCategory.singleFunctor (ModuleCat.{v} A) 0).obj M)
     (localCohomologyObject A I hI M)
     (restrictLocalCohomologySupport A I I hI hI le_rfl M).property).injective
-  show mapOfLE A I I hI hI le_rfl M ≫ localCohomologyAugmentation A I hI M =
+  change mapOfLE A I I hI hI le_rfl M ≫ localCohomologyAugmentation A I hI M =
     𝟙 _ ≫ localCohomologyAugmentation A I hI M
   rw [Category.id_comp, localCohomologyMapOfLE_comp_augmentation I I hI hI le_rfl M]
 
@@ -198,7 +198,7 @@ theorem localCohomologyComparison_comp'
     ((DerivedCategory.singleFunctor (ModuleCat.{v} A) 0).obj M)
     (localCohomologyObject A J₀ h₀ M)
     (restrictLocalCohomologySupport A J₂ J₀ h₂ h₀ (h₂₁.trans h₁₀) M).property).injective
-  show (mapOfLE A J₁ J₀ h₁ h₀ h₁₀ M ≫ mapOfLE A J₂ J₁ h₂ h₁ h₂₁ M) ≫
+  change (mapOfLE A J₁ J₀ h₁ h₀ h₁₀ M ≫ mapOfLE A J₂ J₁ h₂ h₁ h₂₁ M) ≫
       localCohomologyAugmentation A J₂ h₂ M =
     mapOfLE A J₂ J₀ h₂ h₀ (h₂₁.trans h₁₀) M ≫ localCohomologyAugmentation A J₂ h₂ M
   rw [Category.assoc, localCohomologyMapOfLE_comp_augmentation J₂ J₁ h₂ h₁ h₂₁ M,
@@ -211,7 +211,7 @@ private theorem localCohomologyModuleMapOfLE_comp_zeroToModule
     (M : ModuleCat.{v} A) :
     localCohomologyModuleMapOfLE A I J hI hJ hIJ M 0 ≫ localCohomologyZeroToModule A I hI M =
       localCohomologyZeroToModule A J hJ M := by
-  show (DerivedCategory.homologyFunctor (ModuleCat.{v} A) 0).map (mapOfLE A I J hI hJ hIJ M) ≫
+  change (DerivedCategory.homologyFunctor (ModuleCat.{v} A) 0).map (mapOfLE A I J hI hJ hIJ M) ≫
       ((DerivedCategory.homologyFunctor (ModuleCat.{v} A) 0).map
         (localCohomologyAugmentation A I hI M) ≫
       (DerivedCategory.singleFunctorCompHomologyFunctorIso (ModuleCat.{v} A) 0).hom.app M) = _
@@ -475,11 +475,11 @@ private theorem isIso_colimit_desc_of_injective_of_exists
   refine ⟨⟨G, ?_, ?_⟩⟩
   · refine colimit.hom_ext fun j => ?_
     ext z
-    show G ((colimit.ι D j ≫ colimit.desc D c) z) = colimit.ι D j z
+    change G ((colimit.ι D j ≫ colimit.desc D c) z) = colimit.ι D j z
     rw [colimit.ι_desc]
     exact hg j z
   · ext y
-    show (colimit.ι D (i y) ≫ colimit.desc D c) (x y) = y
+    change (colimit.ι D (i y) ≫ colimit.desc D c) (x y) = y
     rw [colimit.ι_desc]
     exact hx y
 

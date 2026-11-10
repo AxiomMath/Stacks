@@ -241,7 +241,7 @@ lemma mapDerivedCategoryPlusCompIsoh_inv_compatible {M₀ M₁ M₂ : Type*} [Ca
   have hi : (Functor.mapHomotopyCategoryPlusNatTrans e.hom).app L ≫
       (Functor.mapHomotopyCategoryPlusNatTrans e.inv).app L = 𝟙 _ := by
     ext
-    show (NatTrans.mapHomotopyCategory e.hom _).app L.obj ≫
+    change (NatTrans.mapHomotopyCategory e.hom _).app L.obj ≫
       (NatTrans.mapHomotopyCategory e.inv _).app L.obj = 𝟙 _
     rw [← NatTrans.comp_app, ← NatTrans.mapHomotopyCategory_comp, e.hom_inv_id,
       NatTrans.mapHomotopyCategory_id]

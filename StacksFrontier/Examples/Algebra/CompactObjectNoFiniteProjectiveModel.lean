@@ -169,7 +169,8 @@ spelling by `Stacks.Examples.moduleOppositeDualNumber`.
 `DifferentialGradedModule.cohomologyFunctorIso` identifies it on a module with the explicit
 cocycles-modulo-coboundaries description. Both pre-triangulated structures on `K(A, d)` are in
 scope; the cone-triangle one is given priority, as in
-`StacksFrontier/Algebra/DifferentialGraded/Module/DerivedCohomology.lean`, while the statement of the
+`StacksFrontier/Algebra/DifferentialGraded/Module/DerivedCohomology.lean`, while the statement of
+the
 tagged result is phrased in the primed derived category of
 `StacksFrontier/Algebra/DifferentialGraded/Module/DerivedCategory.lean`, matching Tag 09RB.
 
@@ -531,8 +532,7 @@ theorem baseChangeDifferential_comp_self {R B M : Type*} [CommRing R] [CommRing 
     baseChangeDifferential d δ hδ hd ∘ₗ baseChangeDifferential d δ hδ hd = 0 := by
   refine LinearMap.ext fun z => ?_
   change baseChangeDifferential d δ hδ hd (baseChangeDifferential d δ hδ hd z) = 0
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy, add_zero]
   | tmul b x => rw [baseChangeDifferential_tmul, baseChangeDifferential_tmul, hdd,
       TensorProduct.tmul_zero]
@@ -595,8 +595,7 @@ theorem tensor_one_surjective_of_surjective {R B M : Type*} [CommRing R] [CommRi
     [Algebra R B] [AddCommGroup M] [Module R M] (h : Function.Surjective (algebraMap R B)) :
     Function.Surjective fun x : M => (1 : B) ⊗ₜ[R] x := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
     obtain ⟨a, rfl⟩ := h b
     exact ⟨a • m, one_tmul_smul_eq_algebraMap_tmul a m⟩

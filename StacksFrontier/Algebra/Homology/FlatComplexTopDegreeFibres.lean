@@ -70,8 +70,7 @@ theorem extendScalars_smul_tmul {S : Type u} [CommRing S] (ψ : R →+* S) {M : 
 theorem extendScalars_map_apply {S : Type u} [CommRing S] (ψ : R →+* S) {M M' : ModuleCat.{u} R}
     (g : M ⟶ M') (x : (extendScalars ψ).obj M) :
     (extendScalars ψ).map g x = (g.hom.lTensor (ringModule ψ)) x := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | tmul s m => rfl
   | add x y hx hy => exact (map_add _ x y).trans ((congrArg₂ _ hx hy).trans (map_add _ x y).symm)
 
@@ -79,8 +78,7 @@ theorem extendScalars_map_apply {S : Type u} [CommRing S] (ψ : R →+* S) {M M'
 theorem exists_one_tmul_eq {S : Type u} [CommRing S] (ψ : R →+* S) (hψ : Function.Surjective ψ)
     {M : ModuleCat.{u} R} (w : TensorProduct R (ringModule ψ) M) :
     ∃ v : M, toRingModule ψ 1 ⊗ₜ[R] v = w := by
-  induction w using TensorProduct.induction_on with
-  | zero => exact ⟨0, TensorProduct.tmul_zero _ _⟩
+  induction w using TensorProduct.inductionOn with
   | tmul s m =>
     obtain ⟨a, ha⟩ := hψ s
     exact ⟨a • m, by rw [← TensorProduct.smul_tmul, smul_toRingModule, mul_one, ha]⟩
@@ -98,7 +96,7 @@ theorem mem_smul_top_of_one_tmul_eq_zero (m : Ideal R) {M : Type u} [AddCommGrou
       invFun := fun s => s
       map_add' := fun _ _ => rfl
       map_smul' := fun r s => by
-        show Ideal.Quotient.mk m r * (show R ⧸ m from s) = r • (show R ⧸ m from s)
+        change Ideal.Quotient.mk m r * (show R ⧸ m from s) = r • (show R ⧸ m from s)
         rw [Algebra.smul_def]
         rfl
       left_inv := fun _ => rfl
@@ -164,7 +162,7 @@ theorem homologyMap_extendScalars_eq_zero_of_forall_isMaximal [IsDomain R] [IsNo
         (ringModule (Ideal.Quotient.mk m))
       have h1 : toRingModule (Ideal.Quotient.mk m) 1 ⊗ₜ[R] (c - S.moduleCatToCycles v) = 0 := by
         refine hinj (((LinearMap.lTensor_tmul _ _ _ _).trans ?_).trans (map_zero _).symm)
-        show toRingModule (Ideal.Quotient.mk m) 1 ⊗ₜ[R] (φ.f (q + 1) z - L.d q (q + 1) v) = 0
+        change toRingModule (Ideal.Quotient.mk m) 1 ⊗ₜ[R] (φ.f (q + 1) z - L.d q (q + 1) v) = 0
         exact (TensorProduct.tmul_sub _ _ _).trans (sub_eq_zero.2 hw.symm)
       have h3 : (Submodule.Quotient.mk c : LinearMap.ker S.g.hom ⧸
           LinearMap.range S.moduleCatToCycles) =
@@ -194,14 +192,13 @@ theorem homologyMap_extendScalars_eq_zero_of_forall_isMaximal [IsDomain R] [IsNo
   rw [CochainComplex.moduleCat_homologyMap_succ_eq_zero_iff]
   intro x hx
   change (extendScalars ι).map (K.d (q + 1) (q + 1 + 1)) x = 0 at hx
-  show ∃ y : (extendScalars ι).obj (L.X q),
+  change ∃ y : (extendScalars ι).obj (L.X q),
     (extendScalars ι).map (L.d q (q + 1)) y = (extendScalars ι).map (φ.f (q + 1)) x
   rw [extendScalars_map_apply] at hx
   obtain ⟨w, rfl⟩ := (congrArg (fun P => x ∈ P) (range_lTensor_ker_subtype (C := fun i => K.X i)
     (fun i => (K.d i (i + 1)).hom) (q + 1) n hKn (hex K hK) (ringModule ι))).mpr hx
   clear hx
-  induction w using TensorProduct.induction_on with
-  | zero => exact ⟨0, (map_zero _).trans (((congrArg _ (map_zero _)).trans (map_zero _)).symm)⟩
+  induction w using TensorProduct.inductionOn with
   | tmul s z =>
     obtain ⟨y, hy⟩ := key z.1 z.2
     refine ⟨(show k from s) • y, ?_⟩

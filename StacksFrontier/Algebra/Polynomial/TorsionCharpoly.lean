@@ -269,7 +269,7 @@ private theorem comap_range_mulVecMod_eq {r N : ℕ} (B : Matrix (Fin r) (Fin r)
     obtain ⟨y, hy⟩ := (QuotientAddGroup.eq_zero_iff _).1 this
     refine ⟨π y, ?_⟩
     rw [← hπB]
-    show π (B.mulVecLin y) = π x
+    change π (B.mulVecLin y) = π x
     rw [hy, map_sub, map_nsmul]
     have hz0 : (ℓ ^ N : ℕ) • π z = 0 := by
       funext i
@@ -579,7 +579,7 @@ theorem exists_map_toZModPow_eq (c : ∀ N : ℕ, (ZMod (ℓ ^ N))[X]) (d : ℕ)
     refine (natDegree_C_mul_X_pow_le _ _).trans ?_
     exact Nat.lt_succ_iff.1 (Finset.mem_range.1 hk)
   · ext k
-    rw [coeff_map, finset_sum_coeff]
+    rw [coeff_map, finsetSum_coeff]
     simp only [coeff_C_mul, coeff_X_pow, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq,
       Finset.mem_range]
     split_ifs with hk

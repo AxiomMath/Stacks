@@ -181,10 +181,10 @@ public theorem affineKernelImages_eventuallyConstant (Y : Scheme.{u}) [IsAffine 
           affineLevelProjection Y J F m := by
         simp [affineLevelProjection, Category.assoc]
       exact congrArg ModuleCat.Hom.hom heq
-    show Submodule.map t (LinearMap.ker a) = _
+    change Submodule.map t (LinearMap.ker a) = _
     rw [Stacks.AdicCompletion.map_ker_eq_map_comap_ker (f.restrictScalars Γ(Y, ⊤)) p q a t
       (affineLevelProjection_surjective Y J F l) hsquare, hproj]
-    show Submodule.map _ (Submodule.comap (f.restrictScalars Γ(Y, ⊤))
+    change Submodule.map _ (Submodule.comap (f.restrictScalars Γ(Y, ⊤))
       (LinearMap.ker (affineLevelProjection Y J G l).hom)) = _
     rw [affineLevelProjection_ker]
     exact hc (m + 1) (l + 1) (by omega) _ (affineLevelProjection_ker Y J F m).ge

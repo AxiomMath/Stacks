@@ -62,7 +62,7 @@ theorem presheafOfGroupoids_typeToGrpd_isFiberedInSetoids {C : Type*} [Category*
     intro x y
     refine ⟨fun a b => ?_⟩
     have hdis : Subsingleton (e.symm.functor.obj x ⟶ e.symm.functor.obj y) := by
-      show Subsingleton (Discrete.mk _ ⟶ Discrete.mk _)
+      change Subsingleton (Discrete.mk _ ⟶ Discrete.mk _)
       infer_instance
     exact (Functor.map_injective e.symm.functor) (hdis.allEq _ _)
   exact ⟨isFiberedInGroupoids_presheafOfGroupoids (F ⋙ typeToGrpd), hthin⟩
@@ -159,7 +159,7 @@ theorem fibreCls_map {V' U : BigFppfOver B S hS} (f : V' ⟶ U)
     D.fibreCls y p c V' x' =
       (D.fibreSurjLocus y p c).toFunctor.map f.op (D.fibreCls y p c U x) := by
   apply Subtype.ext
-  show H.1.map (eqToHom x'.2.symm).op (D.fibreClassValue y p c x'.1) =
+  change H.1.map (eqToHom x'.2.symm).op (D.fibreClassValue y p c x'.1) =
     H.1.map f.op (H.1.map (eqToHom x.2.symm).op (D.fibreClassValue y p c x.1))
   have hmor : eqToHom x'.2.symm ≫ φ.hbase = f ≫ eqToHom x.2.symm :=
     eqToHom_comp_eq_comp_eqToHom_of_fac f ((D.fibreProduct y).val.p.map φ) x'.2 x.2
@@ -246,7 +246,7 @@ theorem fibreCls_injective (U : BigFppfOver B S hS) (x z : (D.fibreProduct y).va
     (D.fibreClassMap_eq_of_fibrePoint y p c a h₁)
   have hlift : (D.fibreProduct y).val.p.IsHomLift (𝟙 U) m := by
     refine IsHomLift.of_fac' _ (𝟙 U) m x.2 z.2 ?_
-    show m.hbase = _
+    change m.hbase = _
     rw [TwoFibreProductOver.Hom.hbase_eq m, hm]
     exact eqToHom_comp_eqToHom_comp_eqToHom_eq_id x.1.hx.symm hxz z.1.hx x.2 z.2
   have hgpd : IsGroupoid ((D.fibreProduct y).val.p.Fiber U) :=
@@ -285,7 +285,7 @@ theorem fibreCls_surjective (U : BigFppfOver B S hS)
     (D.fibreSurjLocus y p c).map (eqToHom cx).op hh
   have hfa : (D.fibreArrow y x).base.left = eqToHom cx ≫ t := by
     rw [D.fibreArrow_base_left y x]
-    show eqToHom (Functor.congr_obj y.w x) ≫ (t ≫ eqToHom cA) ≫
+    change eqToHom (Functor.congr_obj y.w x) ≫ (t ≫ eqToHom cA) ≫
       eqToHom (Functor.congr_obj y.w (Over.mk (𝟙 V))).symm = _
     exact eqToHom_comp_comp_eqToHom_eqToHom _ _ _ _ _
   let Z : Over (D.fibreBase y).T := Over.mk (D.fibreArrow y x).base
@@ -376,7 +376,7 @@ theorem fibreCls_surjective (U : BigFppfOver B S hS)
   have hpt : (D.fibrePoint y p c P₀).1 = h' :=
     congrArg (fun w => w.down.1) ((congrArg ((D.fibrePointIso y p c).hom.app (op Z)) hch).trans hpu)
   refine ⟨⟨P₀, rfl⟩, Subtype.ext ?_⟩
-  show H.1.map (eqToHom rfl).op (H.1.map (eqToHom (D.fibreBaseEq y P₀).symm).op
+  change H.1.map (eqToHom rfl).op (H.1.map (eqToHom (D.fibreBaseEq y P₀).symm).op
     (D.fibrePoint y p c P₀).1) = h
   rw [hpt]
   exact presheaf_map_eqToHom_three H.1 (A := (y.obj x).T.left) rfl (D.fibreBaseEq y P₀).symm cx h

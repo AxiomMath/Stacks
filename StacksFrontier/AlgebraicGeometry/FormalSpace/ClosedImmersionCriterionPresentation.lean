@@ -107,7 +107,7 @@ theorem exists_isPresentingRing_of_hasAffineClosedImmersionCriterion
     exact (IsClosedImmersion.isAffine_surjective_of_isAffine (q i)).2
   have hρcompat : ∀ ⦃i j : I⦄ (h : i ≤ j) (x : Γ(Spec A, ⊤)), τ h (ρ j x) = ρ i x := by
     intro i j h x
-    show (((BigAffineFppf.toScheme B S hS).map (D.map (homOfLE h))).appTop).hom
+    change (((BigAffineFppf.toScheme B S hS).map (D.map (homOfLE h))).appTop).hom
         (((q j).appTop).hom x) = ((q i).appTop).hom x
     rw [hqcomp (homOfLE h), Scheme.Hom.comp_appTop]
     exact (CommRingCat.comp_apply _ _ x).symm

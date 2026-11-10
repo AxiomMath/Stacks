@@ -32,8 +32,8 @@ built from the comparison `Lf^*(K ⊗^L L) ≅ Lf^*K ⊗^L Lf^*L` of Stacks 07A4
 Both of those are available only for an `AlgebraicGeometry.RingedToposSiteHom` between ringed
 topoi at `AlgebraicGeometry.RingedTopos.{u, u, u}` whose underlying functor is a morphism of
 sites — a narrowing that comes down from the K-flat resolutions of Stacks 06YS through the
-derived tensor product of Stacks 06YU, as the implementation notes of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackTensorComparison.lean`
+derived tensor product of Stacks 06YU, as the implementation notes of the module
+`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.DerivedPullbackTensorComparison`
 record. The small étale ringed topos of an algebraic space is
 `AlgebraicGeometry.RingedTopos.{u, u + 1, u}`
 (`AlgebraicGeometry.Space.smallEtaleRingedToposOfRings`, whose site has objects in `Type (u + 1)`

@@ -156,7 +156,7 @@ theorem exists_affineChartDiagram_common_chartHom
       Functor.relativelyRepresentable.lift'_snd _ _ _ _⟩
   have hPt : yoneda.map t ≫ (SmallEtale.prodObj B S hS W.1 V₁ V₂).1.hom =
       K.1.hom ≫ c.hom := by
-    show yoneda.map t ≫ yoneda.map ((SmallEtale.toOver B S hS W.1).map
+    change yoneda.map t ≫ yoneda.map ((SmallEtale.toOver B S hS W.1).map
       (SmallEtale.prodSnd B S hS W.1 V₁ V₂)) ≫ V₂.1.hom = K.1.hom ≫ c.hom
     exact (Category.assoc _ _ _).symm.trans
       ((congrArg (fun k ↦ k ≫ V₂.1.hom)
@@ -208,7 +208,7 @@ theorem eq_of_pointwise_agreement {X W : AlgebraicSpaces B S hS} (K : SmallEtale
   refine yonedaEquiv.injective ?_
   refine hsep K (sectionAgreementSieve B S hS K s₁ s₂) hR _ _ ?_
   intro K' n hn
-  show W.1.map ((SmallEtale.toOver B S hS X.1).map n).op (yonedaEquiv s₁) =
+  change W.1.map ((SmallEtale.toOver B S hS X.1).map n).op (yonedaEquiv s₁) =
     W.1.map ((SmallEtale.toOver B S hS X.1).map n).op (yonedaEquiv s₂)
   rw [yonedaEquiv_naturality, yonedaEquiv_naturality]
   exact congrArg yonedaEquiv hn

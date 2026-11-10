@@ -171,7 +171,7 @@ theorem prodClosure_mul_grading_zero {d : ℕ} {z w : A.sectionRing U}
       have hle : prodClosure A U (d + 1) ≤
           (prodClosure A U (d + 1)).comap (AddMonoidHom.mulRight w) := by
         refine prodClosure_succ_le A U fun y hy x hx => ?_
-        show y * x * w ∈ prodClosure A U (d + 1)
+        change y * x * w ∈ prodClosure A U (d + 1)
         rw [_root_.mul_assoc]
         exact mul_mem_prodClosure_succ A U hy
           (mul_mem_grading' A U (show 1 + 0 = 1 from rfl) hx hw)
@@ -188,7 +188,7 @@ theorem prodClosure_mul_prodClosure {d₁ d₂ : ℕ} {z w : A.sectionRing U}
       have hle : prodClosure A U (d₂ + 1) ≤
           (prodClosure A U (d₁ + (d₂ + 1))).comap (AddMonoidHom.mulLeft z) := by
         refine prodClosure_succ_le A U fun y hy x hx => ?_
-        show z * (y * x) ∈ prodClosure A U (d₁ + (d₂ + 1))
+        change z * (y * x) ∈ prodClosure A U (d₁ + (d₂ + 1))
         rw [← _root_.mul_assoc]
         exact mul_mem_prodClosure_succ A U (ih hy) hx
       exact hle hw

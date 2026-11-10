@@ -346,7 +346,9 @@ elementwise form `AlgebraicGeometry.Space.LimitSituation.IsSectionsColimit`.
 The size condition, an index set below the cutoff with uniformly bounded base changes, is how the
 bounded site reads the size conventions of the source (Tag 07SD); with no size condition the
 statement is false, by `AlgebraicGeometry.Space.Refute07SI.not_forall_isSectionsColimit`. -/
-@[stacks 07SI "Situation 084R on the bounded site, with the size conventions of Tag 07SD read as an index set below the cutoff with uniformly bounded base changes of the stages; with no size condition the statement is false, Refute07SI.not_forall_isSectionsColimit"]
+@[stacks 07SI "Situation 084R on the bounded site, with the size conventions of Tag 07SD read \
+  as an index set below the cutoff with uniformly bounded base changes of the stages; with no \
+  size condition the statement is false, Refute07SI.not_forall_isSectionsColimit"]
 theorem isSectionsColimit_of_baseChangeSizeBounded (hI : #A.I < B.cutoff)
     (hB : BaseChangeSizeBounded B S hS A.system) (hF₀ : F₀.IsQuasicoherentOnSite) :
     A.IsSectionsColimit F₀ (A.isAlgebraicSpace_of_baseChangeSizeBounded hI hB) :=

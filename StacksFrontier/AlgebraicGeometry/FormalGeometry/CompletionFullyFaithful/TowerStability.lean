@@ -194,7 +194,7 @@ public theorem exists_kernel_section {Z : Scheme.{u}} {M N : Z.Modules} (β : M 
   refine ⟨(PreservesKernel.iso (sectionsFunctor W) β).inv
     ((AddCommGrpCat.kernelIsoKer ((sectionsFunctor W).map β)).inv
       ⟨t, AddMonoidHom.mem_ker.mpr ht⟩), ?_⟩
-  show (sectionsFunctor W).map (kernel.ι β) _ = t
+  change (sectionsFunctor W).map (kernel.ι β) _ = t
   rw [← ConcreteCategory.comp_apply, PreservesKernel.iso_inv_ι, ← ConcreteCategory.comp_apply,
     AddCommGrpCat.kernelIsoKer_inv_comp_ι]
   rfl
@@ -243,12 +243,13 @@ private theorem sectionsAt_app_eq_of_eq {E F : Z.Modules} (φ : E ⟶ F) {W W' :
 an isomorphism at each of finitely many modules `M j`, then it is an isomorphism at the vertex of
 any bilimit bicone over them.
 
-`Stacks.Algebraization.InfinitesimalTower.IsSectionsComplete.bicone` is the same statement for a
-merely `Finite` index type and with the bicone an explicit argument. -/
-public theorem IsSectionsComplete.bicone_of_fintype {ι : Type*} [Fintype ι] {M : ι → Z.Modules}
+`Stacks.Algebraization.InfinitesimalTower.IsSectionsComplete.bicone` is the same statement with
+the bicone an explicit argument. -/
+public theorem IsSectionsComplete.bicone_of_fintype {ι : Type*} [Finite ι] {M : ι → Z.Modules}
     {b : Limits.Bicone M} (hb : b.IsBilimit) (hM : ∀ j, T.IsSectionsComplete (M j)) :
     T.IsSectionsComplete b.pt where
   exists_section s hs := by
+    have : Fintype ι := Fintype.ofFinite ι
     choose V hV t ht using fun j : ι =>
       (hM j).exists_section
         (fun n => ((Scheme.Modules.pullback (T.obj n).hom).map (b.π j)).app ⊤ (s n))
@@ -273,6 +274,7 @@ public theorem IsSectionsComplete.bicone_of_fintype {ι : Type*} [Fintype ι] {M
       (Finset.sum_congr rfl fun j _ => key j)).trans
         (pullback_bicone_app_total (T.obj n).hom hb ⊤ (s n))
   eq_of_sectionsAt_eq W W' hW hW' x y hxy := by
+    have : Fintype ι := Fintype.ofFinite ι
     choose V hV k₁ k₂ hres using fun j : ι =>
       (hM j).eq_of_sectionsAt_eq W W' hW hW' ((b.π j).app W x) ((b.π j).app W' y)
         (sectionsAt_app_eq_of_eq T (b.π j) hW hW' hxy)
@@ -309,11 +311,10 @@ instance a caller needs to state `α ≫ β = 0` against the bicone's summands. 
 public theorem IsSectionsComplete.bicone {κ : Type u} [Finite κ] (M : κ → Z.Modules)
     (b : Limits.Bicone (C := AlgebraicGeometry.Scheme.Modules Z) M) (hb : b.IsBilimit)
     (hM : ∀ j, T.IsSectionsComplete (M j)) : T.IsSectionsComplete b.pt :=
-  have : Fintype κ := Fintype.ofFinite κ
   IsSectionsComplete.bicone_of_fintype T hb hM
 
 /-- **The comparison is stable under a finite biproduct.** -/
-public theorem IsSectionsComplete.biproduct {ι : Type*} [Fintype ι] (M : ι → Z.Modules)
+public theorem IsSectionsComplete.biproduct {ι : Type*} [Finite ι] (M : ι → Z.Modules)
     [HasBiproduct M] (hM : ∀ j, T.IsSectionsComplete (M j)) : T.IsSectionsComplete (⨁ M) :=
   IsSectionsComplete.bicone_of_fintype T (Limits.biproduct.isBilimit M) hM
 

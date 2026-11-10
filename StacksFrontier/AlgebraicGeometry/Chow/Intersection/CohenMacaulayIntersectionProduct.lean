@@ -273,7 +273,7 @@ theorem relativeDimension_toNat_of_forall_deltaDimension_eq {T : Scheme.{u}}
   have hequi : TopologicalSpace.Equidimensional T := fun V hV V' hV' => by
     rw [hcomp V hV, hcomp V' hV']
   have : Subsingleton (Spec (.of k)) := by
-    show Subsingleton (PrimeSpectrum k)
+    change Subsingleton (PrimeSpectrum k)
     infer_instance
   intro s hs
   have hpre : q.base ⁻¹' {s} = (Set.univ : Set T) := by
@@ -324,7 +324,7 @@ theorem deltaDimension_irreducibleComponent_pullback {Y Z : Scheme.{u}}
       ⟨T, T.2.1, isClosed_of_mem_irreducibleComponents _ T.2⟩ =
       deltaDimension (fieldChowSituation k) (pullback.snd p q ≫ q)
       ⟨T, T.2.1, isClosed_of_mem_irreducibleComponents _ T.2⟩ := by
-    show relativeDimension _ _ _ = relativeDimension _ _ _
+    change relativeDimension _ _ _ = relativeDimension _ _ _
     rw [pullback.condition]
   rw [hswap, h, hZ V, Int.toNat_of_nonneg hn, add_comm]
 
@@ -451,7 +451,7 @@ theorem exteriorProduct_cycleAssociatedToClosedSubscheme_subschemeι {X Y : Sche
   apply Function.locallyFinsuppWithin.ext
   intro z
   rw [exteriorProduct_apply]
-  show closedSubschemeCycleCoeff _ sX I.subschemeι r ((pullback.fst sX sY).base z) *
+  change closedSubschemeCycleCoeff _ sX I.subschemeι r ((pullback.fst sX sY).base z) *
       closedSubschemeCycleCoeff _ sY J.subschemeι m ((pullback.snd sX sY).base z) *
       exteriorProductWeight _ sX sY (r + m) ((pullback.fst sX sY).base z)
         ((pullback.snd sX sY).base z) z =
@@ -691,7 +691,7 @@ theorem cap_fundamentalChowClass_exteriorToSelfProduct {N : ℕ}
       (diagonalPullbackIso_hom_fst_comp_assoc sW i₁ i₂ sW) ξ).symm
   refine hD _ ?_ ?_ ?_
   · intro T
-    show relativeDimension _ _ _ = _
+    change relativeDimension _ _ _ = _
     rw [exteriorToSelfProduct_comp_selfProductStructure]
     exact deltaDimension_irreducibleComponent_pullback k (i₁ ≫ sW) (i₂ ≫ sW) h₁ h₂ T
   · have hpt : ∀ ξ, relativeDimension (fieldChowSituation k).dimensionFunction
@@ -911,7 +911,7 @@ theorem deltaDimension_eq_of_isIntegral {T : Scheme.{u}} [IsIntegral T] (q : T �
   have hgen : V.2.1.genericPoint = genericPoint T :=
     (V.2.1.isGenericPoint_genericPoint (isClosed_of_mem_irreducibleComponents _ V.2)).eq
       (by rw [hV]; exact genericPoint_spec T)
-  show relativeDimension _ q V.2.1.genericPoint = _
+  change relativeDimension _ q V.2.1.genericPoint = _
   rw [hgen]
   exact relativeDimension_genericPoint_eq_of_topologicalKrullDim_eq k q hT
 
@@ -940,7 +940,6 @@ theorem selfIntersectionProduct_mk_of_cohenMacaulayAtIntersection
     (p : X ⟶ (fieldChowSituation k).S) [LocallyOfFiniteType p] [Smooth p]
     [IsIntegral X] (i : Y ⟶ X) [IsClosedImmersion i] [IsIntegral Y] (j : Z ⟶ X)
     [IsClosedImmersion j] [IsIntegral Z] (dX dY dZ : ℕ) (d : ℤ)
-    (hXdim : topologicalKrullDim X = (dX : WithBot ℕ∞))
     (hYdim : topologicalKrullDim Y = (dY : WithBot ℕ∞))
     (hZdim : topologicalKrullDim Z = (dZ : WithBot ℕ∞)) (hd : (dY : ℤ) + dZ - dX = d)
     (D : BivariantClass (fieldChowSituation k) G p (selfProductStructure _ p)
@@ -973,7 +972,7 @@ theorem selfIntersectionProduct_mk_of_cohenMacaulayAtIntersection
     exact (add_le_add hle le_rfl).trans hIntDim
   have h0 := relativeDimension_fieldChowSituation_nonneg k (pullback.fst i j ≫ i ≫ p)
     V.2.1.genericPoint
-  show relativeDimension _ _ V.2.1.genericPoint ≤ d
+  change relativeDimension _ _ V.2.1.genericPoint ≤ d
   have : (relativeDimension (fieldChowSituation k).dimensionFunction (pullback.fst i j ≫ i ≫ p)
       V.2.1.genericPoint).toNat + dX ≤ dY + dZ := by exact_mod_cast hsum
   omega
@@ -1054,7 +1053,7 @@ theorem selfIntersectionProduct_diagonalGysinClass_mk_of_cohenMacaulayAtIntersec
             (cycleAssociatedToClosedSubscheme (fieldChowSituation k) p j dZ))) =
       QuotientAddGroup.mk (cycleAssociatedToClosedSubscheme (fieldChowSituation k) p
         (pullback.fst i j ≫ i) d) :=
-  selfIntersectionProduct_mk_of_cohenMacaulayAtIntersection k _ p i j dX dY dZ d hXdim hYdim
+  selfIntersectionProduct_mk_of_cohenMacaulayAtIntersection k _ p i j dX dY dZ d hYdim
     hZdim hd _ (diagonalGysinClassOverField_capCohenMacaulayFormula k p _ _) hIntDim hCM
 
 end Source

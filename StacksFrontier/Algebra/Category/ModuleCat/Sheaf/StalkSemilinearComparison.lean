@@ -126,7 +126,7 @@ def presheafFiberForget₂Iso :
       (Φ.presheafFiber (A := AddCommGrpCat.{z})).obj
         (P ⋙ forget₂ (ModuleCat.{z} R) AddCommGrpCat.{z}) :=
   preservesColimitIso (forget₂ (ModuleCat.{z} R) AddCommGrpCat.{z})
-    ((CategoryOfElements.π Φ.fiber).op ⋙ P)
+    ((Functor.Elements.π Φ.fiber).op ⋙ P)
 
 omit [LocallySmall.{z} C] [J.HasSheafCompose (forget₂ CommRingCat.{z} RingCat.{z})] in
 /-- `Stacks.presheafFiberForget₂Iso` takes the germ of a section of `P` to its germ in the fibre
@@ -138,7 +138,7 @@ lemma presheafFiberForget₂Iso_hom_toPresheafFiber (U : C) (x : Φ.fiber.obj U)
       Φ.toPresheafFiber U x (P ⋙ forget₂ (ModuleCat.{z} R) AddCommGrpCat.{z}) m :=
   ConcreteCategory.congr_hom
     (ι_preservesColimitIso_hom (forget₂ (ModuleCat.{z} R) AddCommGrpCat.{z})
-      ((CategoryOfElements.π Φ.fiber).op ⋙ P) (op (Φ.fiber.elementsMk U x))) m
+      ((Functor.Elements.π Φ.fiber).op ⋙ P) (op (Φ.fiber.elementsMk U x))) m
 
 variable (M : SheafOfModules.{z} (commRingSheafToRingSheaf O))
   (τ : P ⋙ forget₂ (ModuleCat.{z} R) AddCommGrpCat.{z} ⟶ M.val.presheaf)
@@ -157,7 +157,7 @@ lemma moduleStalkForget₂Iso_hom_toPresheafFiber [IsIso (Φ.presheafFiber.map �
     (U : C) (x : Φ.fiber.obj U) (m : P.obj (op U)) :
     (moduleStalkForget₂Iso Φ O P M τ).hom (Φ.toPresheafFiber U x P m) =
       moduleStalkGerm Φ O M U x (τ.app (op U) m) := by
-  show (Φ.presheafFiber.map τ) ((presheafFiberForget₂Iso Φ P).hom
+  change (Φ.presheafFiber.map τ) ((presheafFiberForget₂Iso Φ P).hom
     ((forget₂ (ModuleCat.{z} R) AddCommGrpCat.{z}).map (Φ.toPresheafFiber U x P) m)) = _
   rw [presheafFiberForget₂Iso_hom_toPresheafFiber Φ P U x m,
     Φ.toPresheafFiber_naturality_apply τ U x m]
@@ -190,7 +190,7 @@ def moduleStalkIso [IsIso (Φ.presheafFiber.map τ)]
     let : Module ((Φ.presheafFiber (A := CommRingCat.{z})).obj O.obj)
         ↑((Φ.presheafFiber (A := AddCommGrpCat.{z})).obj M.val.presheaf) :=
       (moduleStalk Φ O M).isModule
-    have hpres : PreservesColimit ((CategoryOfElements.π Φ.fiber).op ⋙ P)
+    have hpres : PreservesColimit ((Functor.Elements.π Φ.fiber).op ⋙ P)
         (forget (ModuleCat.{z} R)) := by
       change PreservesColimit _
         (forget₂ (ModuleCat.{z} R) AddCommGrpCat.{z} ⋙ forget AddCommGrpCat.{z})
@@ -200,7 +200,7 @@ def moduleStalkIso [IsIso (Φ.presheafFiber.map τ)]
           e r • (moduleStalkForget₂Iso Φ O P M τ).hom n := by
       intro r n
       obtain ⟨j, m, rfl⟩ :=
-        Concrete.colimit_exists_rep ((CategoryOfElements.π Φ.fiber).op ⋙ P) n
+        Concrete.colimit_exists_rep ((Functor.Elements.π Φ.fiber).op ⋙ P) n
       obtain ⟨@⟨U, x⟩⟩ := j
       change ↑(P.obj (op U)) at m
       change (moduleStalkForget₂Iso Φ O P M τ).hom (r • Φ.toPresheafFiber U x P m) =
@@ -263,7 +263,7 @@ lemma moduleStalkIso_naturality
   intro U x
   apply ConcreteCategory.ext_apply
   intro m
-  show (moduleStalkIso Φ O P' M' τ' e a ha hτ').hom
+  change (moduleStalkIso Φ O P' M' τ' e a ha hτ').hom
       ((Φ.presheafFiber (A := ModuleCat.{z} R)).map φ (Φ.toPresheafFiber U x P m)) =
     (ModuleCat.restrictScalars e.toRingHom).map ((sheafModuleFiberOfCommRing Φ O).map g)
       ((moduleStalkIso Φ O P M τ e a ha hτ).hom (Φ.toPresheafFiber U x P m))

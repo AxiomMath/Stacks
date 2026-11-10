@@ -94,6 +94,7 @@ private theorem inv_mul_mem_of_inv_mul_mem {G : Type*} [Group G] (H : Subgroup G
     (ha : a⁻¹ * u ∈ H) (hb : b⁻¹ * u ∈ H) : a⁻¹ * b ∈ H := by
   simpa [mul_assoc] using H.mul_mem ha (H.inv_mem hb)
 
+omit [CompactSpace U] [TotallyDisconnectedSpace U] in
 /-- A function invariant under right multiplication by an open subgroup is locally constant. -/
 theorem isLocallyConstant_of_mul_right_eq {B : Type*} {x : U → B} (N : OpenSubgroup U)
     (hx : ∀ u n, n ∈ N → x (u * n) = x u) : IsLocallyConstant x := by
@@ -202,6 +203,7 @@ section Procyclic
 variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
   [TotallyDisconnectedSpace G]
 
+omit [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- A subgroup of a commutative group is normal. -/
 theorem normal_of_forall_mul_comm (hcomm : ∀ a b : G, a * b = b * a) (H : Subgroup G) :
     H.Normal :=
@@ -218,6 +220,7 @@ noncomputable def levelOrder (hcomm : ∀ a b : G, a * b = b * a) (H : OpenSubgr
   letI := normal_of_forall_mul_comm hcomm H.toSubgroup
   orderOf (x : G ⧸ H.toSubgroup)
 
+omit [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- `x ^ j ∈ H` if and only if `levelOrder hcomm H x` divides `j`. -/
 theorem pow_mem_iff_levelOrder_dvd (hcomm : ∀ a b : G, a * b = b * a) (H : OpenSubgroup G)
     (x : G) (j : ℕ) : x ^ j ∈ H ↔ levelOrder hcomm H x ∣ j := by
@@ -225,6 +228,7 @@ theorem pow_mem_iff_levelOrder_dvd (hcomm : ∀ a b : G, a * b = b * a) (H : Ope
   rw [levelOrder, orderOf_dvd_iff_pow_eq_one, ← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
   rfl
 
+omit [TotallyDisconnectedSpace G] in
 /-- The order of the class of `x` in `G / H` is positive. -/
 theorem levelOrder_pos (hcomm : ∀ a b : G, a * b = b * a) (H : OpenSubgroup G) (x : G) :
     0 < levelOrder hcomm H x := by
@@ -234,6 +238,7 @@ theorem levelOrder_pos (hcomm : ∀ a b : G, a * b = b * a) (H : OpenSubgroup G)
 variable (hcomm : ∀ a b : G, a * b = b * a) {σ : G} (hgen : GeneratesQuotients σ)
 include hcomm hgen
 
+omit [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- Every element is a power of `σ` modulo every open subgroup. -/
 theorem exists_pow_inv_mul_mem (N : OpenSubgroup G) (g : G) : ∃ j : ℕ, (σ ^ j)⁻¹ * g ∈ N := by
   obtain ⟨j, hj⟩ := hgen (openNormalOfComm hcomm N) g

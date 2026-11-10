@@ -167,10 +167,10 @@ noncomputable def BigEtaleSpaceSite.quasicoherentPullbackEquivalence
         G).2)
     (fun F _ ↦ inferInstance)
     (fun {G G'} g hG hG' _ ↦ by
-      haveI := hG; haveI := hG'
-      haveI :=
+      have := hG; have := hG'
+      have :=
         (BigEtaleSpaceSite.isIso_spacesEtaleRestriction_counit_app_of_isQuasicoherentOnSite E X G).1
-      haveI :=
+      have :=
         (BigEtaleSpaceSite.isIso_spacesEtaleRestriction_counit_app_of_isQuasicoherentOnSite E X
           G').1
       rw [(IsIso.eq_inv_comp _).2 (adj.counit_naturality g).symm]
@@ -185,6 +185,7 @@ theorem BigEtaleSpaceSite.quasicoherentPullbackEquivalence_functor_comp_ι
   rfl
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for the module categories of the ringed-site pullback is heavy
 /-- **The pullback along `a_X` of a quasi-coherent module is quasi-coherent** (Stacks 03DO):
 every object of `(Spaces/X)_fppf` maps to `X`, which is an object of the spaces-étale site. -/
 theorem BigFppfSpaceSite.isQuasicoherentOnSite_pullbackTopos_of_isQuasicoherentOnSite
@@ -226,9 +227,9 @@ noncomputable def BigFppfSpaceSite.quasicoherentPullbackEquivalence
     (fun H hH ↦ haveI := hH; isQuasicoherentOnSite_pushforward_of_isQuasicoherentOnSite H)
     (fun F hF ↦ haveI := hF; isIso_unit_app_of_isQuasicoherentOnSite F)
     (fun {H H'} g hH hH' _ ↦ by
-      haveI := hH; haveI := hH'
-      haveI := isIso_counit_app_of_isQuasicoherentOnSite H
-      haveI := isIso_counit_app_of_isQuasicoherentOnSite H'
+      have := hH; have := hH'
+      have := isIso_counit_app_of_isQuasicoherentOnSite H
+      have := isIso_counit_app_of_isQuasicoherentOnSite H'
       rw [(IsIso.eq_inv_comp _).2 (adj.counit_naturality g).symm]
       infer_instance)
 
@@ -284,7 +285,7 @@ noncomputable def BigEtaleSpaceSite.associatedPresheafIsoPullback {S : Scheme.{u
       X).toRingedToposSiteHom.pullbackTopos.obj
         ((Space.toSpacesEtaleModules T.fppfSite S T.fppf_mem X).obj F)).val.presheaf :=
   NatIso.ofComponents (fun Y ↦ (associatedSectionsAddEquiv T F Y.unop).toAddCommGrpIso)
-    (fun {_ Y₂} m ↦ (eq_whisker (associatedPresheaf_map_eq T X F m.unop) _).trans
+    (fun m ↦ (eq_whisker (associatedPresheaf_map_eq T X F m.unop) _).trans
       (AddCommGrpCat.comp_toAddCommGrpIso_hom _ _ _ _ fun α ↦
         associatedSectionsAddEquiv_naturality T F m.unop α))
 

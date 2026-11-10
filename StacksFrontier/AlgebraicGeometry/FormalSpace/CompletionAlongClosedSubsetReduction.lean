@@ -259,7 +259,7 @@ theorem range_pointsMap_subset_of_whiskerRight_eq
     ⟨(schemePointRepresentative B S hS V w).value ≫ h, by simp⟩
   have hvalue := hfV (schemePointRepresentative B S hS V w)
   simp only [← NatTrans.naturality_apply] at hvalue
-  show pointsMap B S hS (yoneda.obj a) gs
+  change pointsMap B S hS (yoneda.obj a) gs
     (FieldValuedPoint.class B S hS (yoneda.obj a) p) ∈ T
   rw [← FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS (yoneda.obj a)
     ⟨_, FieldValuedPoint.dominates_refl B S hS (yoneda.obj a) _, hdom⟩,

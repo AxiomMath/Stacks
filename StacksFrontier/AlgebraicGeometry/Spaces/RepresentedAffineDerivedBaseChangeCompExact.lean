@@ -64,7 +64,7 @@ theorem pushforwardTerminalHomEquiv_comp_app
       Category.assoc, conjugateEquiv_counit, NatTrans.naturality_assoc]
   have hT : IsTerminal (g₁.inverseImage.obj (⊤_ (Sheaf K (Type w')))) :=
     terminalIsTerminal.ofIso (inverseImageTerminalIso g₁).symm
-  show (inverseImageTerminalIso g₂).inv ≫ (g₂.adj.homEquiv _ E).symm (c ≫ _) =
+  change (inverseImageTerminalIso g₂).inv ≫ (g₂.adj.homEquiv _ E).symm (c ≫ _) =
     (inverseImageTerminalIso g₁).inv ≫ (g₁.adj.homEquiv _ E).symm c
   rw [h, ← Category.assoc, hT.hom_ext ((inverseImageTerminalIso g₂).inv ≫ σ.app _)
     (inverseImageTerminalIso g₁).inv]
@@ -80,7 +80,7 @@ theorem comp_pushforwardTerminalHomEquiv
   have hT : IsTerminal (f.inverseImage.obj (g.inverseImage.obj (⊤_ (Sheaf K' (Type w''))))) :=
     terminalIsTerminal.ofIso (f.inverseImage.mapIso (inverseImageTerminalIso g) ≪≫
       inverseImageTerminalIso f).symm
-  show (inverseImageTerminalIso (g.comp f)).inv ≫ ((g.adj.comp f.adj).homEquiv _ E).symm c =
+  change (inverseImageTerminalIso (g.comp f)).inv ≫ ((g.adj.comp f.adj).homEquiv _ E).symm c =
     (inverseImageTerminalIso f).inv ≫ (f.adj.homEquiv _ E).symm
       ((inverseImageTerminalIso g).inv ≫ (g.adj.homEquiv _ _).symm c)
   rw [Adjunction.comp_homEquiv, Equiv.symm_trans_apply,
@@ -292,7 +292,7 @@ theorem objSelfIso_inv_comp_extendScalarsCompInvOfEq (φ₁ : A₀ →+* A₁) (
       (((StacksDraft.DerivedExtensionScalarsModelComp.extendScalarsComp.{u, u, u, u}
         φ₁ φ₂).app (ModuleCat.of A₀ A₀)).hom_inv_id_apply _)
   ext
-  show (ModuleCat.ExtendScalars.objSelfIso (φ₂.comp φ₁)).hom
+  change (ModuleCat.ExtendScalars.objSelfIso (φ₂.comp φ₁)).hom
     ((StacksDraft.DerivedExtensionScalarsModelComp.extendScalarsComp.{u, u, u, u}
       φ₁ φ₂).inv.app (ModuleCat.of A₀ A₀) ((ModuleCat.extendScalars φ₂).map
         (ModuleCat.ExtendScalars.objSelfIso φ₁).inv
@@ -627,6 +627,7 @@ variable {U V U' V' : BigFppfOver B S hS} [IsAffine ((BigFppfOver.toScheme B S h
   [IsAffine ((BigFppfOver.toScheme B S hS).obj V')]
   (f₀ : U ⟶ V) (g₀ : V' ⟶ V) (f₀' : U' ⟶ V') (g₀' : U' ⟶ U) (w₀ : g₀' ≫ f₀ = f₀' ≫ g₀)
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj V')] in
 /-- **The path through `U` at the ring of `V` is the trivialization**, through `𝒪 ≅ h^*𝒪` for
 the composite `h` of the path through `V'`. -/
 theorem representedAffinePathRight_app_self :
@@ -788,7 +789,7 @@ theorem representedAffineToposDerivedBaseChange_compat
     exact representedAffinePathLeft_eq_pathRight B S hS f₀ g₀ f₀' g₀' w₀
   have h₁ : (unitCentralIso (1 : Γ((BigFppfOver.toScheme B S hS).obj U', ⊤)) isUnit_one).hom.app
       ((representedAffineDerivedExtension B S hS (f₀' ≫ g₀)).functor.obj N) = 𝟙 _ := by
-    show (1 : Γ((BigFppfOver.toScheme B S hS).obj U', ⊤)) • 𝟙 _ = _
+    change (1 : Γ((BigFppfOver.toScheme B S hS).obj U', ⊤)) • 𝟙 _ = _
     exact one_smul _ _
   have h₂ : (representedAffineToposDerivedAssociated B S hS U').map
       ((unitCentralIso (1 : Γ((BigFppfOver.toScheme B S hS).obj U', ⊤)) isUnit_one).hom.app

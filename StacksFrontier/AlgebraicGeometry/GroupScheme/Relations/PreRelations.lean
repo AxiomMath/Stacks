@@ -212,11 +212,11 @@ private lemma point_rel_of_rel {R U X : Over S} (j : Stacks.Groupoids.PreRelatio
   let c : (pointOver p).left := IsLocalRing.closedPoint p.carrier
   change Spec (.of p.carrier) at c
   refine ⟨r.left.base c, ?_, ?_⟩
-  · show j.target.left.base (r.left.base c) = a.left.base c
-    show (r.left ≫ j.target.left) c = a.left.base c
+  · change j.target.left.base (r.left.base c) = a.left.base c
+    change (r.left ≫ j.target.left) c = a.left.base c
     exact congrArg (fun f : _ => f c) (congrArg (fun f : pointOver p ⟶ U => f.left) hrt)
-  · show j.source.left.base (r.left.base c) = b.left.base c
-    show (r.left ≫ j.source.left) c = b.left.base c
+  · change j.source.left.base (r.left.base c) = b.left.base c
+    change (r.left ≫ j.source.left) c = b.left.base c
     exact congrArg (fun f : _ => f c) (congrArg (fun f : pointOver p ⟶ U => f.left) hrs)
 
 /-- **Stacks Project, Tag 022Q.** A pre-equivalence relation induces an equivalence relation on

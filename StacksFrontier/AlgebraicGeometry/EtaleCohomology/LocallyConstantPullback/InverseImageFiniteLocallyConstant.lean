@@ -92,7 +92,8 @@ the restriction. The localization square, which is what the proof turns on, is a
 morphism of sites because the slice `Over.post G` of the functor is again a functor of sites. For a
 bare morphism of topoi between the topoi of sheaves of *sets* on two small sites the tag is proved
 in
-`StacksFrontier.CategoryTheory.Sites.LocallyConstant.MorphismOfTopoiSectionRelocalization`, where the
+`StacksFrontier.CategoryTheory.Sites.LocallyConstant.MorphismOfTopoiSectionRelocalization`, where
+the
 square is replaced by the relocalization of `f` along a section `h_V^# ⟶ f⁻¹h_Y^#`; the arbitrary
 coefficient categories of this file are outside the reach of that argument, which is about
 represented sheaves of sets.

@@ -298,7 +298,7 @@ theorem mem_zeroSchemeIdealAt_of_sieve (U : (SmallEtale B S hS X.1)ᵒᵖ)
     (T := Sieve.pullback g.unop T)
     ((SmallEtale.topology B S hS X.1).pullback_stable g.unop hT) _ ?_
   intro W k hk hWaff
-  show chartRestrict (hF := X.2) k (((structureRingSheaf B S hS X).obj.map g).hom a) ∈
+  change chartRestrict (hF := X.2) k (((structureRingSheaf B S hS X).obj.map g).hom a) ∈
     sectionEvaluationIdealAt B S hS X L s W
   have hcomp : chartRestrict (hF := X.2) k (((structureRingSheaf B S hS X).obj.map g).hom a) =
       ((structureRingSheaf B S hS X).obj.map (g ≫ k.op)).hom a :=

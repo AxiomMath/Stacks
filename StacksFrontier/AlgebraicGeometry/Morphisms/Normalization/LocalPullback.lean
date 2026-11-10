@@ -145,7 +145,7 @@ public lemma exists_iso_pullback_normalization_fromSpecStalk (X : Scheme.{u})
         (Eq.trans (congrArg Spec.map h₂) (Spec.map_id _))
       inv_hom_id := Eq.trans (Spec.map_comp g g').symm
         (Eq.trans (congrArg Spec.map h₁) (Spec.map_id _)) }, ?_⟩
-  show e₀.hom ≫ Spec.map g ≫
+  change e₀.hom ≫ Spec.map g ≫
     Spec.map (CommRingCat.ofHom (algebraMap (X.presheaf.stalk x) _)) = _
   refine Eq.trans (congrArg (fun k ↦ e₀.hom ≫ k) ?_) he₀
   refine Eq.trans (Spec.map_comp _ _).symm (congrArg Spec.map ?_)

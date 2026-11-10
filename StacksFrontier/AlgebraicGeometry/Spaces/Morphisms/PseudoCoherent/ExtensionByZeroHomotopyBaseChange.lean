@@ -112,7 +112,7 @@ theorem extensionByZeroBaseChangeHomotopy_eq {T T' U W : AlgebraicSpaces B S hS}
         (etaleLowerShriekMapHomotopyCategoryAdjunction u' hu')).symm
         (TwoSquare.mk _ _ _ _
           ((smallEtalePullbackMapHomotopyCategoryFactorIso t' u (u' ≫ t) h.symm).hom ≫
-            (smallEtalePullbackMapHomotopyCategoryFactorIso u' t (u' ≫ t) rfl).inv))).natTrans :=
+            (smallEtalePullbackMapHomotopyCategoryFactorIso u' t (u' ≫ t) rfl).inv))) :=
   rfl
 
 /-- **Extension by zero commutes with degreewise base change** on homotopy categories: for a

@@ -113,7 +113,7 @@ theorem Scheme.Hom.smoothLocus_eq_preimage_of_isPullback {f : X ⟶ S} {g : S' �
     (sq : IsPullback g' f' f g) (hflat : Flat f ∨ Flat g) :
     f'.smoothLocus = g' ⁻¹ᵁ f.smoothLocus := by
   ext x'
-  show x' ∈ f'.smoothLocus ↔ g' x' ∈ f.smoothLocus
+  change x' ∈ f'.smoothLocus ↔ g' x' ∈ f.smoothLocus
   have hbase : g (f' x') = f (g' x') := by
     simpa only [Scheme.Hom.comp_apply] using (congrArg (fun k : X' ⟶ S ↦ k x') sq.w).symm
   -- affine charts: `V ∋ f (g' x')` in `S`, `U ∋ g' x'` in `X` over `V`, `V' ∋ f' x'` in `S'`

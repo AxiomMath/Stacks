@@ -133,9 +133,9 @@ theorem existsUnique_periodicDeterminant
   have hs : s ≠ 0 := pow_ne_zero _ (neg_ne_zero.mpr (one_ne_zero : (1 : K) ≠ 0))
   let su : Kˣ := Units.mk0 s hs
   refine ⟨su⁻¹ * cu, ?_, ?_⟩
-  · show f = (s * ((su⁻¹ * cu : Kˣ) : K)) • g
+  · change f = (s * ((su⁻¹ * cu : Kˣ) : K)) • g
     have hscalar : c = s * ((su⁻¹ * cu : Kˣ) : K) := by
-      show c = s * (s⁻¹ * c)
+      change c = s * (s⁻¹ * c)
       rw [← mul_assoc, mul_inv_cancel₀ hs, one_mul]
     calc
       f = e.comp g := by ext x; simp [e, ge]

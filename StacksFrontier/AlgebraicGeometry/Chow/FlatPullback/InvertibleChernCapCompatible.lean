@@ -117,13 +117,13 @@ private theorem hasFiniteSupport_componentCoeff (C : ChowSituation.{u}) {Z : Sch
       (properPushforward C ((integralComponentAt V.2.1.genericPoint).subschemeι ≫ q) q
         (integralComponentAt V.2.1.genericPoint).subschemeι rfl j (c V)).1 z := by
   refine (finite_irreducibleComponents_mem z).subset fun V hV ↦ ?_
-  show z ∈ (V : Set Z)
+  change z ∈ (V : Set Z)
   by_contra hcon
   refine hV ?_
   have h0 : z ∉ Set.range (integralComponentAt V.2.1.genericPoint).subschemeι.base := by
     rw [Scheme.IdealSheafData.range_subschemeι, coe_support_integralComponentAt_genericPoint]
     exact hcon
-  show m V * _ = 0
+  change m V * _ = 0
   rw [properPushforward_apply_of_notMem_range C _ q _ rfl _ (c V) h0, mul_zero]
 
 /-! ### The generic points of the components of an inverse image -/

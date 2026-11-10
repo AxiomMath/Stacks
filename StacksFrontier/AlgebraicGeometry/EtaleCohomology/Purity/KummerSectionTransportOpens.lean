@@ -67,7 +67,7 @@ theorem map_homEquiv_kummerBaseChangeMap_localKummerClass (O : S.Opens) (t : Γ(
   refine (NatTrans.naturality_apply (kummerDirectImageδ h hN0 hNY).hom m.op _).symm.trans ?_
   refine congrArg (ConcreteCategory.hom ((kummerDirectImageδ h hN0 hNY).hom.app
     (op ((opensToEtale X').obj O')))) ?_
-  show ofUnit.{u, 0} (X := Y) (U := (smallEtaleBaseChange h).obj ((opensToEtale X').obj O'))
+  change ofUnit.{u, 0} (X := Y) (U := (smallEtaleBaseChange h).obj ((opensToEtale X').obj O'))
       (Units.map ((smallEtaleBaseChange h).map m).left.appTop.hom.toMonoidHom
         (Units.map ((smallEtaleBaseChangeComp' h f' (h ≫ f') rfl).inv.app
             ((opensToEtale S).obj O)).left.appTop.hom.toMonoidHom

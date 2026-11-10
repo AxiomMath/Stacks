@@ -239,7 +239,7 @@ private lemma productStructureSquare (R : Type u) [CommRing R]
       constantToStructure Y.hom ≫ (pullback.snd X.hom Y.hom).c := by
   apply NatTrans.ext
   funext U
-  show X.hom.appTop ≫ (pullback.fst X.hom Y.hom).appLE ⊤
+  change X.hom.appTop ≫ (pullback.fst X.hom Y.hom).appLE ⊤
       ((pullback.snd X.hom Y.hom) ⁻¹ᵁ U.unop) _ =
     Y.hom.appLE ⊤ U.unop _ ≫ (pullback.snd X.hom Y.hom).app U.unop
   rw [Scheme.Hom.app_eq_appLE (pullback.snd X.hom Y.hom), Scheme.Hom.appLE_comp_appLE,
@@ -356,7 +356,7 @@ private lemma restrictScalars_preservesColimits
     PreservesColimitsOfSize.{u, u} (SheafOfModules.restrictScalars.{u} α) := by
   have : PreservesColimitsOfSize.{u, u}
       (SheafOfModules.restrictScalars.{u} α ⋙ SheafOfModules.toSheaf.{u} R) := by
-    show PreservesColimitsOfSize.{u, u} (SheafOfModules.toSheaf.{u} R')
+    change PreservesColimitsOfSize.{u, u} (SheafOfModules.toSheaf.{u} R')
     exact AlgebraicGeometry.SheafOfModules.toSheaf_preservesColimits R'
   constructor
   intro J _
@@ -394,7 +394,7 @@ private lemma affinePushforward_preservesColimits {X Y : Scheme.{u}}
     rw [hP]
     exact @ObjectProperty.IsClosedUnderColimitsOfShape.inverseImage _ _ _ _ J _ Q G
       ‹Q.IsClosedUnderColimitsOfShape J› ‹PreservesColimitsOfShape J G›
-  show PreservesColimitsOfShape J (F ⋙ P.ι ⋙ G)
+  change PreservesColimitsOfShape J (F ⋙ P.ι ⋙ G)
   have : HasColimitsOfShape J (SheafOfModules.{u}
     (Stacks.AlgebraicGeometry.AffineQcohPushforward.pushforwardRing
       f.base X.ringCatSheaf)) := inferInstance
@@ -466,7 +466,7 @@ private lemma integralTransformFormula_preservesColimits
         (@comp_preservesColimitsOfShape _ _ _ _ _ _ _ _ _ _ h2 h3)
     exact @preservesColimitsOfShape_of_reflects_of_preserves _ _ _ _ J _ _ _
       T' Q.ι hTJ inferInstance
-  show PreservesColimitsOfSize.{u, u}
+  change PreservesColimitsOfSize.{u, u}
     (T' ⋙ Q.ι ⋙ Scheme.Modules.pushforward (pullback.snd X.hom Y.hom))
   infer_instance
 
@@ -482,9 +482,9 @@ private lemma moduleNatTrans_ext
       α.app (ModuleCat.of A (I →₀ A)) = β.app (ModuleCat.of A (I →₀ A)) := by
     apply (isColimitOfPreserves F (ModuleCat.finsuppCoconeIsColimit A A I)).hom_ext
     intro i
-    show F.map _ ≫ α.app _ = F.map _ ≫ β.app _
+    change F.map _ ≫ α.app _ = F.map _ ≫ β.app _
     rw [α.naturality, β.naturality]
-    show α.app (ModuleCat.of A A) ≫ _ = β.app (ModuleCat.of A A) ≫ _
+    change α.app (ModuleCat.of A A) ≫ _ = β.app (ModuleCat.of A A) ≫ _
     rw [h]
   ext M
   let p : ModuleCat.of A (M →₀ A) ⟶ M :=
@@ -551,13 +551,13 @@ private lemma functorIsoOfGeneratorIso
   let i : T.obj F' ≅ T.obj G' := ObjectProperty.isoMk _
     (NatIso.ofComponents (fun _ => t') (by
       intro i j a
-      show F.map (E.functor.map (ModuleCat.regularModuleLeftMul A a)) ≫ t'.hom =
+      change F.map (E.functor.map (ModuleCat.regularModuleLeftMul A a)) ≫ t'.hom =
         t'.hom ≫ G.map (E.functor.map (ModuleCat.regularModuleLeftMul A a))
       have h := ht (e.inv ≫ E.functor.map (ModuleCat.regularModuleLeftMul A a) ≫ e.hom)
       dsimp [t']
       simpa only [Functor.map_comp, Category.assoc, Iso.trans_hom, Functor.mapIso_hom,
-        Iso.symm_hom, Functor.mapIso_inv, Iso.hom_inv_id_assoc, Iso.map_inv_hom_id_assoc,
-        Iso.map_hom_inv_id_assoc, Iso.map_hom_inv_id, Category.comp_id] using
+        Iso.symm_hom, Functor.mapIso_inv, Iso.hom_inv_id_assoc, Iso.inv_hom_id_map_assoc,
+        Iso.hom_inv_id_map_assoc, Iso.hom_inv_id_map, Category.comp_id] using
         congrArg (fun k => F.map e.hom ≫ k ≫ G.map e.inv) h))
   let j : E.functor ⋙ F ≅ E.functor ⋙ G :=
     (ObjectProperty.ι _).mapIso (T.preimageIso i)
@@ -877,7 +877,7 @@ private lemma map_smul_of_affineOpen
   apply TopCat.Sheaf.eq_of_locally_eq' (X := Y.toTopCat) ((SheafOfModules.toSheaf T).obj N) V U
     (fun i => homOfLE i.property.2) hc
   intro i
-  show N.val.map (homOfLE i.property.2).op (φ.val.app (.op U) (r • x)) =
+  change N.val.map (homOfLE i.property.2).op (φ.val.app (.op U) (r • x)) =
     N.val.map (homOfLE i.property.2).op
       (r • (show N.val.obj (.op U) from φ.val.app (.op U) x))
   have hn (z : M.val.obj (.op U)) :=
@@ -1089,7 +1089,7 @@ lemma sectionScalar_unit_surjective (X : Scheme.{u})
   change f.val.app U (X.presheaf.map U.unop.leTop.op 1) =
     X.presheaf.map U.unop.leTop.op (f.val.app (.op ⊤) (1 : Γ(X, ⊤))) at h
   rw [map_one] at h
-  show X.presheaf.map U.unop.leTop.op (f.val.app (.op ⊤) (1 : Γ(X, ⊤))) * x = f.val.app U x
+  change X.presheaf.map U.unop.leTop.op (f.val.app (.op ⊤) (1 : Γ(X, ⊤))) * x = f.val.app U x
   exact (congrArg (fun r => r * x) h.symm).trans
     ((mul_comm _ _).trans
       (((f.val.app U).hom.map_smul x (1 : X.presheaf.obj U)).symm.trans
@@ -1118,7 +1118,7 @@ lemma sectionScalar_base (R : Type u) [CommRing R]
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show (show X.left.ringCatSheaf.obj.obj U from X.left.presheaf.map U.unop.leTop.op
+  change (show X.left.ringCatSheaf.obj.obj U from X.left.presheaf.map U.unop.leTop.op
       (X.hom.appTop ((Scheme.ΓSpecIso (.of R)).inv r))) • x =
     ((AlgebraicGeometry.baseScalar R X r).app M).val.app U x
   rfl
@@ -1178,7 +1178,7 @@ lemma pullbackUnitIso_sectionScalar {X Y : Scheme.{u}} (f : X ⟶ Y)
     apply LinearMap.ext
     intro x
     change ↑(Y.presheaf.obj U) at x
-    show f.app U.unop (Y.presheaf.map U.unop.leTop.op a * x) =
+    change f.app U.unop (Y.presheaf.map U.unop.leTop.op a * x) =
       X.presheaf.map (f ⁻¹ᵁ U.unop).leTop.op (f.appTop a) * f.app U.unop x
     rw [map_mul]
     congr 1
@@ -1254,12 +1254,12 @@ lemma tensorRightUnitor_sectionScalar (X : Scheme.{u}) (a : Γ(X, ⊤))
       (M := M.val.obj U) (N := X.presheaf.obj U)
       (R₂ := X.presheaf.obj U) (σ₁₂ := RingHom.id _) (P₂ := M.val.obj U) ?_
     intro m r
-    show (show X.ringCatSheaf.obj.obj U from X.presheaf.map U.unop.leTop.op a * r) • m =
+    change (show X.ringCatSheaf.obj.obj U from X.presheaf.map U.unop.leTop.op a * r) • m =
       (show X.ringCatSheaf.obj.obj U from X.presheaf.map U.unop.leTop.op a) • (r • m)
     exact mul_smul _ _ _
   have hn := ε.naturality (sectionScalar X a M)
   change L.map (sectionScalar X a M).val ≫ ε.app M = ε.app M ≫ sectionScalar X a M at hn
-  show L.map (M.val ◁ (sectionScalar X a (SheafOfModules.unit X.ringCatSheaf)).val) ≫
+  change L.map (M.val ◁ (sectionScalar X a (SheafOfModules.unit X.ringCatSheaf)).val) ≫
     (L.map (ρ_ M.val).hom ≫ ε.app M) =
       (L.map (ρ_ M.val).hom ≫ ε.app M) ≫ sectionScalar X a M
   exact comp_commutes_of_commutes ((L.map_comp _ _).symm.trans
@@ -1336,7 +1336,7 @@ private lemma exists_pushforwardModule_of_sectionAction
       exact ((ρ a).asHom.val.app U).hom.map_smul b x
     agree U := by
       ext r x
-      show (ρ (X.hom.appTop r)).asHom.val.app U x =
+      change (ρ (X.hom.appTop r)).asHom.val.app U x =
         (show Y.left.ringCatSheaf.obj.obj U from
           (Y.hom.appLE ⊤ U.unop
             (le_top.trans (le_of_eq Y.hom.preimage_top.symm))) r) •
@@ -1435,7 +1435,7 @@ private lemma formulaFunctor_faithful
   apply pushforward_map_injective (pullback.snd X.hom Y.hom)
   let e := formulaFunctorUnitIso R X Y
   apply (cancel_mono (e.app L.obj).inv).1
-  show _ ≫ e.inv.app L.obj = _ ≫ e.inv.app L.obj
+  change _ ≫ e.inv.app L.obj = _ ≫ e.inv.app L.obj
   rw [e.inv.naturality f.hom, e.inv.naturality g.hom]
   congr 1
   exact congrArg (fun t => t.app
@@ -1500,7 +1500,7 @@ private lemma affineNatTrans_ext (X : Scheme.{u}) [IsAffine X]
     apply moduleNatTrans_ext Γ(X, ⊤)
     let e := affineQuasicoherentEquivalenceUnitIso X
     apply (cancel_mono (G.map e.hom)).1
-    show α.app _ ≫ G.map e.hom = β.app _ ≫ G.map e.hom
+    change α.app _ ≫ G.map e.hom = β.app _ ≫ G.map e.hom
     rw [← α.naturality, ← β.naturality, h]
   exact (Functor.whiskeringLeft _ _ B).obj E.functor |>.map_injective he
 
@@ -1634,7 +1634,7 @@ private lemma pushforward_sectionScalar_intertwine
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show e.hom.val.app U (d.hom.val.app U
+  change e.hom.val.app U (d.hom.val.app U
     (sectionToProduct R X Y U a •
       (show ((pushforwardModules (pullback.snd X.hom Y.hom).base
         (pullback X.hom Y.hom).ringCatSheaf).obj K.obj).val.obj U from x))) =
@@ -1701,7 +1701,7 @@ private lemma formulaFunctor_full
       (formulaFunctorUnitIso R X Y).hom.app L.obj =
     (formulaFunctorUnitIso R X Y).hom.app K.obj ≫
       (Scheme.Modules.pushforward (pullback.snd X.hom Y.hom)).map k.hom at hn
-  show ((formulaFunctor R X Y).map k.hom).app (unitQcoh X.left) ≫
+  change ((formulaFunctor R X Y).map k.hom).app (unitQcoh X.left) ≫
       (formulaFunctorUnitIso R X Y).hom.app L.obj =
     α.app (unitQcoh X.left) ≫ (formulaFunctorUnitIso R X Y).hom.app L.obj
   refine hn.trans ?_
@@ -1737,7 +1737,7 @@ private lemma valueAction_base
   have hlin : F.obj.Linear R := F.property.1.2
   let F0 := F.obj ⋙ (SheafOfModules.isQuasicoherent Y.left.ringCatSheaf).ι
   obtain ⟨r, rfl⟩ := (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (.of R)).inv).2 r
-  show F0.map (quasicoherentSectionScalarRingHom X.left (unitQcoh X.left)
+  change F0.map (quasicoherentSectionScalarRingHom X.left (unitQcoh X.left)
     (X.hom.appTop ((Scheme.ΓSpecIso (.of R)).inv r))).asHom = _
   refine (congrArg F0.map (quasicoherentSectionScalar_base R X r (unitQcoh X.left))).trans ?_
   refine (F0.map_smul r (𝟙 (unitQcoh X.left))).trans ?_
@@ -1873,7 +1873,7 @@ private lemma integralTransformUnitIso_trans_intertwine
   have hb' : ObjectProperty.homMk (sectionScalar X.left b (unitQcoh X.left).obj) = a :=
     ObjectProperty.hom_ext _ hb
   subst a
-  show (AlgebraicGeometry.integralTransformFormula R X Y K.obj).map
+  change (AlgebraicGeometry.integralTransformFormula R X Y K.obj).map
         (ObjectProperty.homMk
           (sectionScalar X.left b (SheafOfModules.unit X.left.ringCatSheaf))) ≫
       ((integralTransformUnitIso R X Y K.obj).hom ≫ e.hom) =

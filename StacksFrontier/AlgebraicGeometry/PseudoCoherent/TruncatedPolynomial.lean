@@ -169,13 +169,13 @@ public theorem exists_surjective_truncatedPolynomialMap {A B : Type u} [CommRing
       (aeval b : MvPolynomial σ A →ₐ[A] B).toRingHom.comp (map (algebraMap R A)) := by
     ext r <;> simp [hφdef, ← IsScalarTower.algebraMap_apply R A B]
   have hφ : Function.Surjective φ := by
-    show Function.Surjective φ.toRingHom
+    change Function.Surjective φ.toRingHom
     rw [heq]
     exact (surjective_aeval_sub_algebraMap Q a).comp (map_surjective _ hA)
   have hker : variablePowerIdeal R N ≤ RingHom.ker φ.toRingHom := by
     refine Ideal.span_le.2 ?_
     rintro x ⟨i, rfl⟩
-    show φ (X i ^ N i) = 0
+    change φ (X i ^ N i) = 0
     simpa [hφdef, hb] using hN i
   refine ⟨Ideal.Quotient.liftₐ (variablePowerIdeal R N) φ fun x hx => hker hx, fun x => ?_⟩
   obtain ⟨p, hp⟩ := hφ x

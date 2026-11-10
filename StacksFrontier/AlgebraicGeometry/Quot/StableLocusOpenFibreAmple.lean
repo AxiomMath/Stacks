@@ -169,15 +169,14 @@ theorem invertibleCurveDegree_pos_of_isAmple_of_isConnected (k : Type u) [Field 
     rwa [invertibleCurveDegree_eq_curveDegree_one] at this
 
 /-- **An ample dualizing sheaf forces genus at least two.** Let `X` be proper over `k` of
-dimension one with `H⁰(X, 𝒪_X) = k` and at-worst-nodal singularities, and suppose `ω_X` is
-ample. Then `X` is Gorenstein (Stacks 0E37), so `deg ω_X = 2g - 2` (Stacks 0C19), and
+dimension one with `H⁰(X, 𝒪_X) = k`, and suppose `ω_X` is invertible and ample. Then
+`deg ω_X = 2g - 2` (Stacks 0C19), and
 `deg ω_X > 0` because `ω_X` is ample
 (`AlgebraicGeometry.invertibleCurveDegree_pos_of_isAmple_of_isConnected`); hence `g ≥ 2`. -/
 theorem two_le_genus_of_isAmple_dualizingSheafOverField
     (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
     [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
     [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-    (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
     (hω : ∃ _ : SheafOfModules.IsInvertible X.toRingedSpace.presheaf
           (structureSheafRing X.toRingedSpace).property
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))),
@@ -221,7 +220,7 @@ theorem hasGenusTwoNoRationalTailNoRationalBridge_iff_isAmple_dualizingSheafOver
   · intro hω
     obtain ⟨htail, hbridge⟩ :=
       forall_not_isRationalTail_and_not_isRationalBridge_of_isAmple k X hdim hnodal hω
-    exact ⟨two_le_genus_of_isAmple_dualizingSheafOverField k X hdim hnodal hω, htail,
+    exact ⟨two_le_genus_of_isAmple_dualizingSheafOverField k X hdim hω, htail,
       ⟨inferInstance, fun C => hbridge C⟩⟩
 
 end AlgebraicGeometry

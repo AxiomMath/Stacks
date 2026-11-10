@@ -210,15 +210,15 @@ theorem actsOnHomology_glueIdempotents :
         (op U) m) = if k = n then (K.homology k).val.map f.op m else 0 := by
     intro U m V f A
     rw [smulHom_app, (K.homology k).val.map_smul]
-    show ringSec (X.O.obj.map f.op (((glueIdempotents hK).e n).val (op U))) • _ = _
+    change ringSec (X.O.obj.map f.op (((glueIdempotents hK).e n).val (op U))) • _ = _
     rw [((glueIdempotents hK).e n).map_val, glueIdempotents_val hK n A]
     have := A.smul n k (𝟙 V) ((K.homology k).val.map f.op m)
     rwa [map_id_op_apply] at this
   split_ifs with hkn <;> (ext U m; induction U with | op U => ?_)
   all_goals refine mod_eq_of_locally_eq _ (hK U) _ _ fun V f ⟨A⟩ => (key U m f A).trans ?_
-  · rw [if_pos hkn]
+  · rw [ite_eq_left hkn]
     rfl
-  · exact (if_neg hkn).trans (map_zero _).symm
+  · exact (ite_eq_right hkn).trans (map_zero _).symm
 
 end Glue
 

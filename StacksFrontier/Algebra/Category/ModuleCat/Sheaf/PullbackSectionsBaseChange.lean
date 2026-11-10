@@ -235,9 +235,8 @@ it descends.** Every value of `desc f ψ` is a value of `ψ`; the converse inclu
 `desc_ι`. This is the whole content of the surjectivity transfer below. -/
 theorem exists_apply_eq_desc_apply (hf : Function.Surjective f) (ψ : M →ₛₗ[f] N)
     (x : BaseChange f M) : ∃ m : M, desc f ψ x = ψ m := by
-  refine induction_on f (motive := fun x => ∃ m : M, desc f ψ x = ψ m) x ⟨0, ?_⟩
+  refine induction_on f (motive := fun x => ∃ m : M, desc f ψ x = ψ m) x
     (fun b m => ?_) (fun x y ⟨m, hm⟩ ⟨m', hm'⟩ => ⟨m + m', ?_⟩)
-  · rw [map_zero, map_zero]
   · obtain ⟨m', hm'⟩ := objTmul_eq_of_surjective hf b m
     exact ⟨m', by rw [hm', desc_tmul, one_smul]⟩
   · rw [map_add, hm, hm', map_add]

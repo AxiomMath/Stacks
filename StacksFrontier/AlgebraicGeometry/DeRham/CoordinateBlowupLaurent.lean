@@ -81,7 +81,7 @@ theorem laurent_toFrac (a : Γ(coordinateAmbient R m n, ⊤)) :
 /-- The embedding of the functions on `D(y₁ ⋯ y_n)` into Laurent polynomials is injective. -/
 theorem laurent_injective : Function.Injective (laurent R m n) := by
   refine (IsLocalization.lift_injective_iff _).2 fun a b => ?_
-  show toFrac R m n a = toFrac R m n b ↔ _
+  change toFrac R m n a = toFrac R m n b ↔ _
   exact ⟨fun h => by rw [toFrac_injective R m n h], fun h =>
     by rw [polyLaurent_injective R m n h]⟩
 
@@ -174,9 +174,9 @@ theorem tupleExp_nonneg {p : ℕ} (x : Fin (p + 1) → Fin n) (v : Fin m ⊕ Fin
 in the `y`'s. -/
 theorem yDegree_tupleExp {p : ℕ} (x : Fin (p + 1) → Fin n) :
     yDegree m n (tupleExp m n x) = p + 1 := by
-  show yDegreeHom m n (tupleExp m n x) = _
+  change yDegreeHom m n (tupleExp m n x) = _
   rw [tupleExp, map_sum]
-  show ∑ k, yDegree m n (yExp m n (x k)) = _
+  change ∑ k, yDegree m n (yExp m n (x k)) = _
   simp [yDegree_yExp]
 
 /-- The restriction of the product of the coordinates selected by a tuple is the Laurent monomial
@@ -261,7 +261,7 @@ theorem coeff_laurent_mem_supported (i : ℕ) {p : ℕ} (x : Fin (p + 1) → Fin
   intro w hw
   rw [hh', Finsupp.mem_support_iff, AddMonoidAlgebra.coeff_mul_single_apply, mul_one] at hw
   obtain ⟨β, hβ, hβw⟩ := exists_eq_natToInt_of_mem_support _ (Finsupp.mem_support_iff.2 hw)
-  have hβN := le_partialDegree_of_mem_pow (Sum.inr : Fin n → Fin m ⊕ Fin n) Sum.inr_injective
+  have hβN := le_partialDegree_of_mem_pow (Sum.inr : Fin n → Fin m ⊕ Fin n)
     ((mem_pow_iff R m n a).1 ha) β hβ
   have hw' : w = natToInt β + (v - u) := by rw [← hβw]; abel
   refine ⟨⟨fun s => ?_, ?_⟩, fun k hk => ?_⟩
@@ -366,7 +366,7 @@ theorem exists_laurent_eq (i : ℕ) {p : ℕ} (x : Fin (p + 1) → Fin n)
       AddMonoidAlgebra.coeff_ofCoeff, ← Finsupp.sum_single g, Finsupp.sum,
       AddMonoidAlgebra.ofCoeff_sum, Finset.sum_mul]
     refine Finset.sum_congr rfl fun w _ => ?_
-    show _ = AddMonoidAlgebra.single w (g w) * _
+    change _ = AddMonoidAlgebra.single w (g w) * _
     rw [AddMonoidAlgebra.single_mul_single, mul_one]
   have ha : a ∈ (Stacks.MoreMorphisms.coordinateIdeal R m n).ideal
       (Stacks.MoreMorphisms.topAffineOpen R m n) ^ N := by

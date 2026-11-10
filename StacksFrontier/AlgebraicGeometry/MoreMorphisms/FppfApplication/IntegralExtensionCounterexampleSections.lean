@@ -161,7 +161,7 @@ lemma isLocalization_gl (g : Base.{u}) :
 /-- The `n`-th standard idempotent of the base ring is idempotent. -/
 lemma isIdempotentElem_idem (n : ℕ) : IsIdempotentElem (idem.{u} n) := by
   funext m
-  show idem.{u} n m * idem.{u} n m = idem.{u} n m
+  change idem.{u} n m * idem.{u} n m = idem.{u} n m
   by_cases h : m = n <;> simp [idem, h]
 
 /-- The image of the `n`-th standard idempotent in the square-zero extension is idempotent. -/

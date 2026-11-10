@@ -151,9 +151,7 @@ theorem mem_genericPoints_genericPointProjection (U : SmallEtale B S hS X.1)
 /-- **The points of the base-changed charts are exactly the generic points of the chart.**  Over
 each `η ∈ X⁰` the points of `U ×_X Spec(𝒪_{X, η})` are the points of `U` lying over `η`, and every
 generic point of `U` lies over a codimension-zero point of `X`. -/
-theorem bijective_sigma_genericPointProjection
-    (hfin : HasLocallyFiniteIrreducibleComponents B S hS X.1) (U : SmallEtale B S hS X.1)
-    (hU : IsAffine (smallEtaleScheme B S hS X.1 U)) :
+theorem bijective_sigma_genericPointProjection (U : SmallEtale B S hS X.1) :
     Function.Bijective (fun z : Σ η : CodimensionZeroPoints B S hS X.1,
           (BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS
             (P.specStalkSpace η.2).1).obj (P.genericPointChart η.2 U)) =>
@@ -228,7 +226,7 @@ theorem isLocalization_pi_genericPointSections
       ((SmallEtale.toOver B S hS (P.specStalkSpace η.2).1).obj (P.genericPointChart η.2 U)))
     (fun η => (BigFppfOver.toScheme B S hS).map (P.genericPointProjection η.2 U))
     (fun η z => P.mem_genericPoints_genericPointProjection U η.1 η.2 z)
-    (P.bijective_sigma_genericPointProjection hfin U hU)
+    (P.bijective_sigma_genericPointProjection U)
     (schemeWeaklyAssociatedPoints_chartScheme_subset_genericPoints B S hS X hwa U)
     (fun W hW => finite_irreducibleComponents_chartScheme B S hS hfin U W hW)
 
@@ -265,7 +263,7 @@ theorem bijective_pi_genericPointComparison_app
       ((P.genericPointComparison η.2).hom.app (op U)).hom)
     (by
       refine RingHom.ext fun r => funext fun η => ?_
-      show ((P.genericPointComparison η.2).hom.app (op U)).hom
+      change ((P.genericPointComparison η.2).hom.app (op U)).hom
           (((toMeromorphicFunctionSheaf B S hS X.1 X.2).hom.app (op U)).hom r) = _
       rw [P.genericPointComparison_app_toMeromorphicFunctionSheaf η.2 U r]
       rfl)

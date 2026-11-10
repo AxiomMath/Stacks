@@ -42,8 +42,8 @@ itself is its `K`-dimension, which is `[L : F] = [L : k]_i`.
 
 Tag `0F3D` is formalized as `AlgebraicGeometry.flatQuasiFiniteWeight_isWeighting`; it
 computes the weighting of a flat locally quasi-finite morphism and does not supply this
-field-theoretic length, so the results here are independent of it and can be cited directly. The first
-paragraph of the proof of Stacks tag `0H5P` is exactly such a consumer: the equality
+field-theoretic length, so the results here are independent of it and can be cited directly.
+The first paragraph of the proof of Stacks tag `0H5P` is exactly such a consumer: the equality
 `[\kappa(x) : \kappa(s)]_i = \text{length}((k \otimes_{\kappa(s)} \kappa(x))_\mathfrak p)`
 for `k` an algebraic closure is the one step that proof reduces its base-change compatibility
 to.
@@ -158,7 +158,7 @@ private theorem length_tensor_eq_finrank_of_isPurelyInseparable
       · exact h.isUnit⟩
   have hχK : ∀ a : K, χ (algebraMap K (K ⊗[F] L) a) = a := by
     intro a
-    show χ (a ⊗ₜ[F] (1 : L)) = a
+    change χ (a ⊗ₜ[F] (1 : L)) = a
     rw [Algebra.TensorProduct.lift_tmul]
     simp
   have hsurj : Function.Surjective
@@ -168,7 +168,7 @@ private theorem length_tensor_eq_finrank_of_isPurelyInseparable
     refine ⟨IsLocalRing.residue K (χ x), ?_⟩
     rw [IsLocalRing.ResidueField.algebraMap_residue, ← sub_eq_zero, ← map_sub,
       IsLocalRing.residue_eq_zero_iff, ← hχker]
-    show χ _ = 0
+    change χ _ = 0
     rw [map_sub, hχK]
     simp
   have hresone : Module.length (IsLocalRing.ResidueField K)
@@ -204,7 +204,7 @@ theorem length_atPrime_algClosedTensor_eq_finInsepDegree
   have : Module.Finite F L := Module.Finite.of_restrictScalars_finite k F L
   let algFK : Algebra F K := (ψ.comp F.val).toRingHom.toAlgebra
   have : IsScalarTower k F K := IsScalarTower.of_algebraMap_eq (fun a => by
-    show algebraMap k K a = ψ (F.val (algebraMap k F a))
+    change algebraMap k K a = ψ (F.val (algebraMap k F a))
     rw [show F.val (algebraMap k F a) = algebraMap k L a from rfl, ψ.commutes])
   have : IsLocalRing (K ⊗[F] L) :=
     isLocalRing_of_existsUnique_isPrime (tensorField_isPurelyInseparable_unique_prime (Or.inl hpi))
@@ -229,7 +229,7 @@ theorem length_atPrime_algClosedTensor_eq_finInsepDegree
       (IsLocalRing.maximalIdeal (K ⊗[F] L)) = t := by
     rw [← hχker, ← hτker]
     ext r
-    show χ (Algebra.TensorProduct.mapOfCompatibleSMul F k F K L r) = 0 ↔ τ r = 0
+    change χ (Algebra.TensorProduct.mapOfCompatibleSMul F k F K L r) = 0 ↔ τ r = 0
     rw [hcomp]
   rw [length_atPrime_eq_length_tensor_of_isSeparable t ht,
     length_tensor_eq_finrank_of_isPurelyInseparable ψF]

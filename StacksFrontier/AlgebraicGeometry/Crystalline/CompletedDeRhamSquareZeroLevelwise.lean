@@ -208,7 +208,7 @@ of a `D`-linear map, hence computed level by level by `AdicCompletion.map_val_ap
 theorem wedgeMap_val_congr (i n : ℕ) (ω : Om i) (x y : CompletedTensor p D (Om 1) M)
     (h : x.val n = y.val n) :
     (wedgeMap p D Om wedge M i ω x).val n = (wedgeMap p D Om wedge M i ω y).val n := by
-  show (AdicCompletion.map (pAdicIdeal (A := D) p) (LinearMap.lTensor M (wedge i ω)) x).val n =
+  change (AdicCompletion.map (pAdicIdeal (A := D) p) (LinearMap.lTensor M (wedge i ω)) x).val n =
     (AdicCompletion.map (pAdicIdeal (A := D) p) (LinearMap.lTensor M (wedge i ω)) y).val n
   rw [AdicCompletion.map_val_apply, AdicCompletion.map_val_apply, h]
 
@@ -358,8 +358,7 @@ theorem differential_differential_toCompletedTensor_val
     (differential p D Om wedge deRham M nabla hleib (i + 1)
       (differential p D Om wedge deRham M nabla hleib i
         (toCompletedTensor p D (Om i) M y))).val n = 0 := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul m ω =>
     obtain ⟨s, h0, h1⟩ := hexp m n
     exact differential_differential_tmul_val p D Om wedge deRham M nabla hleib dx theta hext hdx
@@ -380,8 +379,8 @@ The hypotheses are, exhaustively: the data of `Crystalline.CompletedDeRham.compl
 * `hcomm`, that the coordinate operators of `hexp` commute.
 
 This is `Crystalline.CompletedDeRham.isSquareZero_of_commute` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/Differentials/CompletedPoincareIntegrable.lean` with the
-finite expansion over a fixed finset replaced by the levelwise one. -/
+`StacksFrontier/AlgebraicGeometry/Crystalline/Differentials/CompletedPoincareIntegrable.lean` with
+the finite expansion over a fixed finset replaced by the levelwise one. -/
 theorem isSquareZero_of_commute_of_isLevelwiseCoordinateExpansion
     (hext : IsGradedExterior D Om wedge deRham)
     (hexp : IsLevelwiseCoordinateExpansion p D (Om 1) dx nabla theta)

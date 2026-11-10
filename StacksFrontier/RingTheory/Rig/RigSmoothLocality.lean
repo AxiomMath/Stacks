@@ -173,12 +173,12 @@ public alias isAdic_pow_succ' := isAdic_pow_succ
 /-- Condition (1) of Stacks 0GBW is equivalent to condition (6) for Noetherian adic rings. -/
 private theorem adicFiniteType_iff {A B : Type*} [CommRing A] [TopologicalSpace A]
     [IsTopologicalRing A] [IsLinearTopology A A] [CommRing B] [TopologicalSpace B]
-    [IsTopologicalRing B] [IsLinearTopology B B] (φ : A →+* B) (hφ : Continuous φ)
+    [IsTopologicalRing B] [IsLinearTopology B B] (φ : A →+* B)
     (hA : TopologicalRing.IsAdic A) (hAn : IsNoetherianRing A)
     (hB : TopologicalRing.IsAdic B) (hBn : IsNoetherianRing B) :
     (RingHom.IsAdic φ ∧ TopologicalRing.IsTopologicallyOfFiniteType φ) ↔
       Rig.FiniteTypeAdicAlgebraForEveryIdeal φ :=
-  (Rig.adicFiniteType_tfae φ hφ hA hB (exists_idealOfDefinition_fg hA hAn)
+  (Rig.adicFiniteType_tfae φ hA hB (exists_idealOfDefinition_fg hA hAn)
     (exists_idealOfDefinition_fg hB hBn)).out 1 6
 
 /-- **Rig-smoothness ascends along a localization diagram** (axiom (1) of Situation 0CBA).
@@ -200,12 +200,12 @@ public theorem rigSmooth_localizationPreserves :
   have hPmap : Continuous D.map ∧ RingHom.IsRigSmooth D.map := hP
   obtain ⟨-, hft, -⟩ := hPmap
   have hone : RingHom.IsAdic D.map ∧ TopologicalRing.IsTopologicallyOfFiniteType D.map :=
-    (adicFiniteType_iff D.map D.continuousMap hB.1 hB.2 hA.1 hA.2).mpr hft
+    (adicFiniteType_iff D.map hB.1 hB.2 hA.1 hA.2).mpr hft
   have hcomp := TopologicalRing.adicTopologicallyFiniteType_isLocal.localizationPreserves
     D (exists_fg_isAdic hA.1 hA.2) (exists_fg_isAdic hB.1 hB.2)
     (exists_fg_isAdic hA'.1 hA'.2) (exists_fg_isAdic hB'.1 hB'.2) hone
   have hft' : Rig.FiniteTypeAdicAlgebraForEveryIdeal D.completedMap :=
-    (adicFiniteType_iff D.completedMap D.continuousCompletedMap hB'.1 hB'.2 hA'.1 hA'.2).mp hcomp
+    (adicFiniteType_iff D.completedMap hB'.1 hB'.2 hA'.1 hA'.2).mp hcomp
   obtain ⟨-, hβcont, -, -, -⟩ := canonicalMap_facts D.toA' hA.1 hA'.1 D.etaleA
   obtain ⟨-, hαcont, hαadic, hαft, -⟩ := canonicalMap_facts D.toB' hB.1 hB'.1 D.etaleB
   have hcomp' := rigSmooth_comp hA' hA hB (CompletionOver.canonicalMap D.toA') D.map hβcont
@@ -213,7 +213,7 @@ public theorem rigSmooth_localizationPreserves :
   rw [D.commutes] at hcomp'
   obtain ⟨hcont', hrig'⟩ := hcomp'
   have hftα : Rig.FiniteTypeAdicAlgebraForEveryIdeal (CompletionOver.canonicalMap D.toB') :=
-    (adicFiniteType_iff _ hαcont hB.1 hB.2 hB'.1 hB'.2).mp ⟨hαadic, hαft⟩
+    (adicFiniteType_iff _ hB.1 hB.2 hB'.1 hB'.2).mp ⟨hαadic, hαft⟩
   obtain ⟨I, hI, hIadic⟩ := hB.1.1
   obtain ⟨P, hPbij⟩ := exists_presentation_bijective_canonicalMap D.toB' D.etaleB hftα hI hIadic
   exact ⟨D.continuousCompletedMap, isRigSmooth_of_comp_of_bijective hA'.1 hB.1 D.completedMap
@@ -239,12 +239,12 @@ public theorem rigSmooth_faithfullyFlatDescent :
   obtain ⟨-, hft', -⟩ := hPmap
   have hone' : RingHom.IsAdic D.completedMap ∧
       TopologicalRing.IsTopologicallyOfFiniteType D.completedMap :=
-    (adicFiniteType_iff D.completedMap D.continuousCompletedMap hB'.1 hB'.2 hA'.1 hA'.2).mpr hft'
+    (adicFiniteType_iff D.completedMap hB'.1 hB'.2 hA'.1 hA'.2).mpr hft'
   have hcomp := TopologicalRing.adicTopologicallyFiniteType_isLocal.faithfullyFlatDescent
     D (exists_fg_isAdic hA.1 hA.2) (exists_fg_isAdic hB.1 hB.2)
     (exists_fg_isAdic hA'.1 hA'.2) (exists_fg_isAdic hB'.1 hB'.2) hFF hone'
   have hft : Rig.FiniteTypeAdicAlgebraForEveryIdeal D.map :=
-    (adicFiniteType_iff D.map D.continuousMap hB.1 hB.2 hA.1 hA.2).mp hcomp
+    (adicFiniteType_iff D.map hB.1 hB.2 hA.1 hA.2).mp hcomp
   obtain ⟨-, hαcont, -, -, -⟩ := canonicalMap_facts D.toB' hB.1 hB'.1 D.etaleB
   obtain ⟨hA'noeth, hβcont, hβadic, hβft, -⟩ := canonicalMap_facts D.toA' hA.1 hA'.1 D.etaleA
   let : IsNoetherianRing A' := hA'noeth
@@ -257,7 +257,7 @@ public theorem rigSmooth_faithfullyFlatDescent :
     (weaklyAdmissible_of_isAdicRing hB.1) (weaklyAdmissible_of_isAdicRing hA'.1) _ hcontc
     hftc).mp ⟨I₀, hI₀, hrig₀⟩ I hI
   have hftβ : Rig.FiniteTypeAdicAlgebraForEveryIdeal (CompletionOver.canonicalMap D.toA') :=
-    (adicFiniteType_iff _ hβcont hA.1 hA.2 hA'.1 hA'.2).mp ⟨hβadic, hβft⟩
+    (adicFiniteType_iff _ hA.1 hA.2 hA'.1 hA'.2).mp ⟨hβadic, hβft⟩
   have hJadic : _root_.IsAdic (I.map D.map) := (hft I hI).1
   have hJ : TopologicalRing.IsIdealOfDefinition (I.map D.map) :=
     Rig.isIdealOfDefinition_of_isAdic hJadic
@@ -292,8 +292,8 @@ public theorem rigSmooth_faithfullyFlatDescent :
       (Rig.isIdealOfDefinition_of_isAdic (isAdic_pow_succ hJadic n))
       (isAdic_pow_succ hJadic n) D.etaleA
   exact ⟨D.continuousMap, hft, I, hI, isRigSmooth_of_faithfullyFlat_of_bijective_outer
-    Q.variableCount ψ hψ (fun j => KF.partialDeriv j) (fun j => KF.partialDeriv_continuous j)
-    (fun j => KF.partialDeriv_polynomial j) (houter ▸ hQ) hlci hrigI⟩
+    Q.variableCount ψ hψ (fun j => KF.partialDeriv j)
+    (houter ▸ hQ) hlci hrigI⟩
 
 /-- **Rig-smoothness is preserved by finite products of targets** (axiom (3) of Situation
 0CBA).  Each projection `∏ Aⱼ → Aᵢ` is the localization at an idempotent, hence étale and flat,
@@ -317,12 +317,12 @@ public theorem rigSmooth_finiteProductPreserves :
       TopologicalRing.IsTopologicallyOfFiniteType (f i) := by
     intro i
     obtain ⟨-, hfti, -⟩ := hPi' i
-    exact (adicFiniteType_iff (f i) (hf i) hCB.1 hCB.2 (hCA i).1 (hCA i).2).mpr hfti
+    exact (adicFiniteType_iff (f i) hCB.1 hCB.2 (hCA i).1 (hCA i).2).mpr hfti
   have hcomp := TopologicalRing.adicTopologicallyFiniteType_isLocal.finiteProduct
     hBweak hBcount A hAweak hAcount f hf (exists_fg_isAdic hCB.1 hCB.2)
     (fun i ↦ exists_fg_isAdic (hCA i).1 (hCA i).2) hone
   have hft : Rig.FiniteTypeAdicAlgebraForEveryIdeal (RingHom.pi f) :=
-    (adicFiniteType_iff (RingHom.pi f) (continuous_pi hf) hCB.1 hCB.2 hprodadic inferInstance).mp
+    (adicFiniteType_iff (RingHom.pi f) hCB.1 hCB.2 hprodadic inferInstance).mp
       hcomp
   obtain ⟨I, hI, -⟩ := hCB.1.1
   have hfti : ∀ i, Rig.FiniteTypeAdicAlgebraForEveryIdeal (f i) := fun i ↦ (hPi' i).2.1
@@ -349,7 +349,7 @@ public theorem rigSmooth_finiteProductPreserves :
       · subst hj
         simp
       · simp [Pi.single_eq_of_ne hj]
-    · show x i = y i ↔ _
+    · change x i = y i ↔ _
       constructor
       · intro hxy
         funext j
@@ -409,13 +409,13 @@ public theorem rigSmooth_finiteProductPreserves :
         RingHom.Etale.isStableUnderBaseChange RingHom.Etale.respectsIso
         (algebraMap base.carrier (total i).carrier) (hétale i) (base.adicIdeal ^ (n + 1))
     exact exists_factor_innerBaseChange_of_bijective_outer P Q.variableCount ψ hψ
-      (fun j => KF.partialDeriv j) (fun j => KF.partialDeriv_continuous j)
-      (fun j => KF.partialDeriv_polynomial j) (houter ▸ hQ) hlci (hrigi i)
+      (fun j => KF.partialDeriv j)
+      (houter ▸ hQ) hlci (hrigi i)
   choose c hc using key
   have : Module.FinitePresentation base.carrier P.extension.Cotangent := by
     let : IsNoetherianRing P.completedPolynomialRing := AdicCompletion.isNoetherianRing _
     let : IsNoetherianRing P.extension.Ring := by
-      show IsNoetherianRing P.completedPolynomialRing
+      change IsNoetherianRing P.completedPolynomialRing
       infer_instance
     have hfinite : Module.Finite base.carrier P.extension.Cotangent :=
       Algebra.Extension.Cotangent.finite (Ideal.fg_of_isNoetherianRing _)

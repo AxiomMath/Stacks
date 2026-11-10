@@ -71,7 +71,7 @@ theorem mono_unitHomEquiv_symm_of_injective_smul_germ {P : Scheme.{u}} (L : P.Mo
     have h1 := TopCat.Presheaf.stalkFunctor_map_germ_apply U ξ hξ
       ((SheafOfModules.toSheaf P.ringCatSheaf).map (L.unitHomEquiv.symm σ)).hom a
     refine h1.trans ?_
-    show L.presheaf.germ U ξ hξ (((L.unitHomEquiv.symm σ).val.app (op U)).hom a) = _
+    change L.presheaf.germ U ξ hξ (((L.unitHomEquiv.symm σ).val.app (op U)).hom a) = _
     rw [hlin, Scheme.Modules.germ_smul L hξ]
     exact congrArg (fun m => P.presheaf.germ U ξ hξ a • m)
       (L.presheaf.germ_res_apply (homOfLE le_top) ξ hξ (σ.val (op ⊤) : Γ(L, ⊤)))
@@ -227,7 +227,7 @@ theorem mono_pullbackUnitIso_inv_comp_tautologicalMap
   -- the global section of `g` is the hyperplane section of `σ(1)`
   have hval : ((Stacks.ProjectiveBundleSplitting.tautologicalTwist E hqc).unitHomEquiv g).val
       (op ⊤) = bundleSectionOf E hqc (σ.app ⊤ (1 : Γ(X, ⊤))) := by
-    show ((Stacks.ProjectiveBundleSplitting.tautologicalMap E hqc).app ⊤
+    change ((Stacks.ProjectiveBundleSplitting.tautologicalMap E hqc).app ⊤
       (((Scheme.Modules.pullback
         (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase).map σ).app ⊤
         ((Scheme.Modules.pullbackUnitIso

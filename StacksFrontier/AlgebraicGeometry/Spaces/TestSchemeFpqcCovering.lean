@@ -107,14 +107,14 @@ private theorem exists_mem_arrows_of_saturate {Y : AlgebraicSpaces B S hS}
       ((schemeSpaceFunctor B S hS).map (pullback.snd g.left f.left) ≫ T'.hom)
     let q₂ : P ⟶ T' := CostructuredArrow.homMk (pullback.snd g.left f.left) rfl
     let q₁ : P ⟶ A := CostructuredArrow.homMk (pullback.fst g.left f.left) (by
-      show (schemeSpaceFunctor B S hS).map (pullback.fst g.left f.left) ≫ A.hom =
+      change (schemeSpaceFunctor B S hS).map (pullback.fst g.left f.left) ≫ A.hom =
         (schemeSpaceFunctor B S hS).map (pullback.snd g.left f.left) ≫ T'.hom
       rw [← CostructuredArrow.w g, ← CostructuredArrow.w f, ← Category.assoc,
         ← Category.assoc, ← Functor.map_comp, ← Functor.map_comp, hcond])
     have hfac : q₂ ≫ f = q₁ ≫ g := CostructuredArrow.hom_ext _ _ hcond.symm
     refine ⟨P, q₂, ?_, exists_preimage_snd_of_isPullback
       ((IsPullback.of_hasPullback g.left f.left).map (BigFppfOver.toScheme B S hS)) t x ht⟩
-    show V.arrows (q₂ ≫ f)
+    change V.arrows (q₂ ≫ f)
     rw [hfac]
     exact V.downward_closed hg q₁
   | transitive X V W _ _ ihV ihW =>

@@ -58,8 +58,7 @@ variable {R : Type*} [CommRing R] (I : Ideal R) (n : ℕ) (N X : Type*) [AddComm
 /-- An element of `Iⁿ` kills `(N / Iⁿ N) ⊗_R X`. -/
 theorem smul_levelTensor_eq_zero {r : R} (hr : r ∈ I ^ n)
     (z : (N ⧸ (I ^ n • ⊤ : Submodule R N)) ⊗[R] X) : r • z = 0 := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul a x =>
     obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective _ a
     rw [TensorProduct.smul_tmul', ← Submodule.Quotient.mk_smul,
@@ -124,7 +123,7 @@ only sees its first factor modulo `Iⁿ`. -/
 def levelTensorEquiv (hI : I.FG) :
     ((N ⊗[R] AdicCompletion I X) ⧸ (I ^ n • ⊤ : Submodule R (N ⊗[R] AdicCompletion I X))) ≃ₗ[R]
       (N ⧸ (I ^ n • ⊤ : Submodule R N)) ⊗[R] X :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (Submodule.liftQ _ (levelTensorFwdAux I n N X) (fun y hy ↦ by
       rw [LinearMap.mem_ker]
       exact map_eq_zero_of_mem_pow_smul_top I n _
@@ -158,7 +157,7 @@ def levelTensorEquiv (hI : I.FG) :
 @[simp] theorem levelTensorEquiv_mk_tmul_of (hI : I.FG) (m : N) (x : X) :
     levelTensorEquiv I n N X hI (Submodule.Quotient.mk (m ⊗ₜ AdicCompletion.of I X x)) =
       Submodule.Quotient.mk m ⊗ₜ x := by
-  show levelTensorPairing I n N X (Submodule.Quotient.mk m)
+  change levelTensorPairing I n N X (Submodule.Quotient.mk m)
     (AdicCompletion.eval I X n (AdicCompletion.of I X x)) = _
   rw [AdicCompletion.eval_of]
   rfl
@@ -174,7 +173,7 @@ theorem levelTensorEquiv_mk_tmul (hI : I.FG) (m : N) (xh : AdicCompletion I X) (
     (hx : xh.val n = Submodule.Quotient.mk x) :
     levelTensorEquiv I n N X hI (Submodule.Quotient.mk (m ⊗ₜ xh)) =
       Submodule.Quotient.mk m ⊗ₜ x := by
-  show levelTensorPairing I n N X (Submodule.Quotient.mk m) (AdicCompletion.eval I X n xh) = _
+  change levelTensorPairing I n N X (Submodule.Quotient.mk m) (AdicCompletion.eval I X n xh) = _
   rw [AdicCompletion.eval_apply, hx]
   rfl
 
@@ -194,8 +193,7 @@ theorem levelTensor_addMonoidHom_ext (hI : I.FG) {Z : Type*} [AddCommGroup Z]
   refine AddMonoidHom.ext fun y ↦ ?_
   rw [← (levelTensorEquiv I n N X hI).symm_apply_apply y]
   generalize levelTensorEquiv I n N X hI y = z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul a x =>
     obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective _ a
     rw [levelTensorEquiv_symm_mk_tmul]
@@ -232,7 +230,7 @@ theorem levelTensorEquiv_lTensor (hI : I.FG) {Y : Type*} [AddCommGroup Y] [Modul
       ((LinearMap.lTensor N g).reduceModIdeal (I ^ n)).toAddMonoidHom)
     (G := ((LinearMap.lTensor _ g0).comp (levelTensorEquiv I n N X hI).toLinearMap).toAddMonoidHom)
     (fun m x ↦ by
-      show levelTensorEquiv I n N Y hI
+      change levelTensorEquiv I n N Y hI
           (Submodule.Quotient.mk (m ⊗ₜ g (AdicCompletion.of I X x))) =
         LinearMap.lTensor _ g0 (levelTensorEquiv I n N X hI
           (Submodule.Quotient.mk (m ⊗ₜ AdicCompletion.of I X x)))
@@ -307,7 +305,7 @@ theorem levelOneForms_differential (n : ℕ) (m : N) (b : R) :
       Submodule.Quotient.mk m ⊗ₜ[R]
         (dividedPowerDifferentialRelations (A := A) δ).mkQ (KaehlerDifferential.D A R b) := by
   rw [completedDividedPowerDifferentialOnRing_eq]
-  show LinearMap.lTensor (levelModule p R N n)
+  change LinearMap.lTensor (levelModule p R N n)
       (exteriorPower.oneEquiv R (dividedPowerDifferentials (A := A) δ)).toLinearMap
       (formsLevelEquiv p A R δ N 1 n (Submodule.Quotient.mk (m ⊗ₜ[R]
         AdicCompletion.of (pAdicIdeal (A := R) p) _
@@ -328,7 +326,7 @@ def levelConnectionHom (n : ℕ) :
     levelModule p R N n →+ levelModule p R N n ⊗[R] dividedPowerDifferentials (A := A) δ :=
   QuotientAddGroup.lift _ (levelConnectionAux p A R δ N nabla n) (fun y hy ↦ by
     rw [AddMonoidHom.mem_ker]
-    show levelOneForms p A R δ N n (nabla y) = 0
+    change levelOneForms p A R δ N n (nabla y) = 0
     rw [levelOneForms_apply,
       show (nabla y).val n = 0 from CompletedDeRham.val_eq_zero_of_mem p R
         (CompletedDeRham.nablaHom p R (completedDividedPowerForms p A δ)
@@ -440,8 +438,7 @@ theorem formsLevelEquiv_wedgeMap (q n : ℕ) (w : ⋀[R]^q (dividedPowerDifferen
           (exteriorPower.oneEquiv R (dividedPowerDifferentials (A := A) δ)).toLinearMap t))
     (formsLevelEquiv p A R δ N 1 n (z.val n))
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul a e =>
     simp only [LinearMap.lTensor_tmul, TensorProduct.map_tmul, LinearMap.id_apply,
       LinearEquiv.coe_coe, LinearMap.flip_apply, dividedPowerWedge_apply]
@@ -589,8 +586,7 @@ theorem extendedConnection_map (S : SourceDeRham A B) (pi : Ω[B⁄A] →ₗ[B] 
       TensorProduct.map f LinearMap.id
         (RestrictScalars.addEquiv A B _ ((extendedConnection S pi hpi hgen nab).toLinearMap q
           ((RestrictScalars.addEquiv A B _).symm x))) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul m w =>
     have h1 := (extendedConnection S pi hpi hgen nab').map_tmul q (f m) w

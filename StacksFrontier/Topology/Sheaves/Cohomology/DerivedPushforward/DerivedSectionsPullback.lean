@@ -694,7 +694,7 @@ theorem unit_comp_baseChange_of_adjunctions {Lf : DS ⥤ DX} {Rf : DX ⥤ DS} (a
   have hv : af.homEquiv (Rf.obj E) (Rg'.obj (Lg'.obj E)) (af.counit.app E ≫ ag'.unit.app E) =
       Rf.map (ag'.unit.app E) := by
     rw [Adjunction.homEquiv_naturality_right]
-    show (af.unit.app (Rf.obj E) ≫ Rf.map (af.counit.app E)) ≫ _ = _
+    change (af.unit.app (Rf.obj E) ≫ Rf.map (af.counit.app E)) ≫ _ = _
     simp
   rw [show ag'.homEquiv (Lf.obj (Rf.obj E)) (Lg'.obj E) (Lg'.map (af.counit.app E)) =
       ag'.unit.app (Lf.obj (Rf.obj E)) ≫ Rg'.map (Lg'.map (af.counit.app E)) from rfl, hn, hv]
@@ -993,7 +993,7 @@ theorem homotopyScalarsIsoOfEq_hom_app_rfl (Z : RingedSpace.{u, u})
       (Iso.refl (scalarSections Z σ' ⋙ ModuleCat.restrictScalars.{u} φ))
         (ComplexShape.up ℤ)).inv.app ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj M) =
       𝟙 _ := (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map_id _
-  show 𝟙 _ ≫ (DerivedCategory.Qh.map ((Functor.mapHomotopyCategoryCompIso
+  change 𝟙 _ ≫ (DerivedCategory.Qh.map ((Functor.mapHomotopyCategoryCompIso
       (Iso.refl (scalarSections Z σ' ⋙ ModuleCat.restrictScalars.{u} φ))
         (ComplexShape.up ℤ)).inv.app ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj M)) ≫
       𝟙 _ ≫ (ModuleCat.restrictScalars.{u} φ).mapDerivedCategoryFactorsh.inv.app

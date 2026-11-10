@@ -60,7 +60,7 @@ lemma homMk_mapHomologicalComplex_app_single_comp_mapCochainComplexPlusSinglePlu
   refine ObjectProperty.hom_ext _ (HomologicalComplex.hom_ext _ _ fun n => ?_)
   by_cases hn : n = 0
   · subst hn
-    show θ.app _ ≫
+    change θ.app _ ≫
         ((HomologicalComplex.singleMapHomologicalComplex F (ComplexShape.up ℤ) 0).hom.app X).f 0 =
       ((HomologicalComplex.singleMapHomologicalComplex F (ComplexShape.up ℤ) 0).hom.app X).f 0 ≫
         ((HomologicalComplex.single B (ComplexShape.up ℤ) 0).map (θ.app X)).f 0
@@ -195,7 +195,7 @@ theorem openDeck_comp_coverDescentComplexIso_hom :
 variable (kbar : Type u) [Field kbar] [IsAlgClosed kbar] [Algebra k kbar] (p q : ℕ)
   [Fact p.Prime] [CharP k p] [CharP kbar p] (hcard : Fintype.card k = p ^ q)
 
-omit hconn [Fintype H] [IsCurve k pU] [Smooth pU] in
+omit hconn [Fintype H] [IsCurve k pU] [Smooth pU] [IsFinite (G.cover.hom : G.cover.left ⟶ U)] in
 include hjU in
 /-- For `A = ℤ/ℓⁿ`, granted perfectness, the twisted Frobenius trace with multiplication by
 `g⁻¹` on `RΓ(Y_k̄, j_!((D(A[H])|_A)[0]))` vanishes. -/

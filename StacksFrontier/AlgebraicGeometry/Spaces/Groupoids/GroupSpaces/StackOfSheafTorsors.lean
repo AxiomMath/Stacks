@@ -190,7 +190,7 @@ private theorem isIso_leftSMul_ofIso {E : Type u₁} [Category.{v₁} E]
   have h : ModObj.leftSMul R' M = (e.inv ▷ M) ≫ ModObj.leftSMul R M := by
     apply CartesianMonoidalCategory.hom_ext
     · simp only [ModObj.leftSMul_fst, Category.assoc]
-      show (e.inv ⊗ₘ 𝟙 M) ≫ γ[R, M] ≫ 𝟙 M = (e.inv ▷ M) ≫ γ[R, M]
+      change (e.inv ⊗ₘ 𝟙 M) ≫ γ[R, M] ≫ 𝟙 M = (e.inv ▷ M) ≫ γ[R, M]
       simp
     · simp
   rw [h]
@@ -360,7 +360,7 @@ private theorem familyImageSieve_comp_iso
     exact ⟨i, (e i).hom.app _ t, ht⟩
   · rintro ⟨i, t, ht⟩
     refine ⟨i, (e i).inv.app _ t, ?_⟩
-    show (π i).app _ ((e i).hom.app _ ((e i).inv.app _ t)) = _
+    change (π i).app _ ((e i).hom.app _ ((e i).inv.app _ t)) = _
     simpa using ht
 
 variable {𝒞 : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 𝒞.Contains S}
@@ -449,8 +449,8 @@ private theorem pullbackComp_hom_app_fst_fst {D : Type u₁} [Category.{v₁} D]
   have h := congrArg Over.Hom.left (conjugateEquiv_counit
     (Over.mapPullbackAdj (f ≫ g)) ((Over.mapPullbackAdj f).comp (Over.mapPullbackAdj g))
       (Over.mapComp f g).inv A)
-  simpa [Over.pullbackComp, conjugateIsoEquiv, Adjunction.comp_counit_app,
-    Over.mapPullbackAdj_counit_app, Over.mapComp] using h
+  simp [Over.pullbackComp, conjugateIsoEquiv,
+    Over.mapPullbackAdj_counit_app, Over.mapComp]
 
 /-- The underlying map of the comparison isomorphism identifying the group of the composite
 section with the pullback of the group. -/
@@ -465,7 +465,7 @@ private theorem pullbackGroupComparison_eq (T : SheafTorsors G) {V : BigFppfOver
     (f : V ⟶ T.base) :
     pullbackGroupComparison T f =
       ((Over.pullbackComp (yoneda.map f) T.sec).hom.app G.X).left := by
-  show (((Over.pullbackComp (yoneda.map f) T.sec).hom.app G.X) ≫ 𝟙 _).left = _
+  change (((Over.pullbackComp (yoneda.map f) T.sec).hom.app G.X) ≫ 𝟙 _).left = _
   rw [Category.comp_id]
 
 /-- Composing the comparison map of the groups with the projection to the group of the base
@@ -1031,7 +1031,7 @@ theorem projection_isomIsSheaf
   have hmap : eqToHom hx ≫ eqToHom hy.symm = (projection G).map g :=
     (eqToHom_trans hx hy.symm).trans hgf.symm
   have hgLift : Functor.FibreHom (projection G) x y hx hy g := by
-    show (projection G).IsHomLift (eqToHom hx ≫ eqToHom hy.symm) g
+    change (projection G).IsHomLift (eqToHom hx ≫ eqToHom hy.symm) g
     rw [hmap]
     exact CategoryTheory.IsHomLift.map _ _
   have hgi : IsIso g := by

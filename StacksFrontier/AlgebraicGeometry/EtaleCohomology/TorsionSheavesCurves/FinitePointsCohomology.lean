@@ -106,7 +106,7 @@ theorem NoetherianSpace.isClosed_singleton_of_not_mem_of_dense [NoetherianSpace 
     (isIrreducible_singleton (x := x)).closure
   obtain ⟨η, hη⟩ := QuasiSober.sober hC.prop (isClosed_of_mem_irreducibleComponents C hC)
   have hηgen : η ∈ genericPoints T := by
-    show closure {η} ∈ irreducibleComponents T
+    change closure {η} ∈ irreducibleComponents T
     rw [hη.def]
     exact hC
   have hηx : η ⤳ x := by

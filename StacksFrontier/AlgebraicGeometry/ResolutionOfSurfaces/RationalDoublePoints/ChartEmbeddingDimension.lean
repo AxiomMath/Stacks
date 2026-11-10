@@ -59,7 +59,7 @@ theorem exists_span_eq_of_isMaximal_chart (hx : ∀ i, x i ∈ maximalIdeal A)
   choose g hg using fun i => Ideal.Quotient.mk_surjective (I := J) (chartPresentation S hx (f i))
   have hzbar : zbar = Ideal.map (Ideal.Quotient.mk J) (Ideal.span (Set.range g)) := by
     rw [← Ideal.map_comap_of_surjective _ hπ zbar]
-    show Ideal.map (chartPresentation S hx) 𝔫 = _
+    change Ideal.map (chartPresentation S hx) 𝔫 = _
     rw [← hf, Ideal.map_span, Ideal.map_span, ← Set.range_comp, ← Set.range_comp]
     congr 2
     exact funext fun i => (hg i).symm
@@ -73,7 +73,7 @@ theorem exists_span_eq_of_isMaximal_chart (hx : ∀ i, x i ∈ maximalIdeal A)
     rintro _ (rfl | ⟨i, rfl⟩)
     · exact hx0
     · rw [← hcomapz]
-      show Ideal.Quotient.mk J (g i) ∈ zbar
+      change Ideal.Quotient.mk J (g i) ∈ zbar
       rw [hzbar]
       exact Ideal.mem_map_of_mem _ (Ideal.subset_span ⟨i, rfl⟩)
 

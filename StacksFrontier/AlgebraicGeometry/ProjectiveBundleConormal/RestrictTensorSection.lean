@@ -75,10 +75,10 @@ Nothing is rewritten, and no composite is split inside a larger term:
 `restrictConormalSourceIsoTilde_inv` names the split of the chart identification as an equation of
 *morphisms*, which is a `rfl`, whereas the same split stated on a section is a
 `maximum recursion depth` error. See the implementation notes of
-`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartRatio` for why no `rw` occurs on this
-layer and those of
-`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartSourceGenerator` for the discipline of
-naming splits.
+`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartRatio` for why no `rw` occurs on
+this layer and those of
+`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartSourceGenerator` for the discipline
+of naming splits.
 
 The opens are not transported. Each formula carries the inequality it needs as a hypothesis
 (`h : V ≤ W.ι ⁻¹ᵁ (W.ι ''ᵁ V)`), in the style of

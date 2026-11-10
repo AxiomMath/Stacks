@@ -105,7 +105,7 @@ private theorem free_localizedModule_of_free_tilde_stalk {A : CommRingCat.{u}}
       right_inv := fun _ => rfl
       map_add' := fun _ _ => rfl
       map_smul' a z := by
-        show a • z = eR.symm (eR a) • z
+        change a • z = eR.symm (eR a) • z
         simp }
   have hTloc : Module.Free (Localization.AtPrime p.asIdeal) ((tilde N).presheaf.stalk p) := by
     have _hfree : Module.Free ((Spec A).presheaf.stalk p) ((tilde N).presheaf.stalk p) := h
@@ -113,7 +113,7 @@ private theorem free_localizedModule_of_free_tilde_stalk {A : CommRingCat.{u}}
   have _htower : IsScalarTower A (Localization.AtPrime p.asIdeal)
       ((tilde N).presheaf.stalk p) :=
     .of_algebraMap_smul fun r m => by
-      show eR.symm (algebraMap A _ r) • m = r • m
+      change eR.symm (algebraMap A _ r) • m = r • m
       rw [show eR.symm (algebraMap A _ r) = (StructureSheaf.toStalk A p).hom r from
         (StructureSheaf.stalkIso A p).commutes r]
       rfl

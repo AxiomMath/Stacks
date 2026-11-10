@@ -72,7 +72,8 @@ given by reading the stalk action through the identification
 public noncomputable abbrev moduleSinfStalk :
     Module (Stacks.KaehlerDifferential.Colimit.Sinf (trans O₂ (x := x)))
       (ToType (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u})
-        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ).presheaf x)) :=
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ).presheaf
+          x)) :=
   Module.compHom _ (stalkRingEquiv O₂ x).toRingHom
 
 /-- The composite of the two identifications, as a linear equivalence over the colimit ring. -/
@@ -92,7 +93,8 @@ public noncomputable def stalkSinfLinearEquiv :
   letI := moduleSinfOmegaStalk φ x
   have h : ∀ (s : Stacks.KaehlerDifferential.Colimit.Sinf (trans O₂ (x := x)))
       (m : ToType (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u})
-        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ).presheaf x)),
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ).presheaf
+          x)),
       (omegaColimStalkAddEquiv φ x).symm (s • m) =
         s • (omegaColimStalkAddEquiv φ x).symm m := by
     intro s m
@@ -134,8 +136,8 @@ public theorem stalkLinearEquiv_germ_D (i : OrderDual (TopologicalSpace.OpenNhds
     letI := algebraStalk φ x
     stalkLinearEquiv φ x
         (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
-          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ).presheaf (nhdOpen i) x
-          (mem_nhdOpen i)
+          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ).presheaf
+          (nhdOpen i) x (mem_nhdOpen i)
           (CommRingCat.KaehlerDifferential.d (f := φ.app (op (nhdOpen i))) a)) =
       KaehlerDifferential.D (ToType (O₁.stalk x)) (ToType (O₂.stalk x))
         (O₂.germ (nhdOpen i) x (mem_nhdOpen i) a) := by
@@ -144,16 +146,16 @@ public theorem stalkLinearEquiv_germ_D (i : OrderDual (TopologicalSpace.OpenNhds
   let := moduleSinfOmegaColim φ x
   let := moduleSinfStalk φ x
   let := moduleSinfOmegaStalk φ x
-  show omegaColimStalkEquiv φ x
+  change omegaColimStalkEquiv φ x
       ((omegaColimStalkAddEquiv φ x).symm
         (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
-          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ).presheaf (nhdOpen i) x
-          (mem_nhdOpen i)
+          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ).presheaf
+          (nhdOpen i) x (mem_nhdOpen i)
           (KaehlerDifferential.D (nhdRing O₁ i) (nhdRing O₂ i) a))) = _
   rw [show (omegaColimStalkAddEquiv φ x).symm
         (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
-          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ).presheaf (nhdOpen i) x
-          (mem_nhdOpen i) (KaehlerDifferential.D (nhdRing O₁ i) (nhdRing O₂ i) a)) =
+          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ).presheaf
+          (nhdOpen i) x (mem_nhdOpen i) (KaehlerDifferential.D (nhdRing O₁ i) (nhdRing O₂ i) a)) =
       Stacks.KaehlerDifferential.Colimit.ofΩ (trans O₁) (trans O₂) (isCompatible φ x) i
         (KaehlerDifferential.D (nhdRing O₁ i) (nhdRing O₂ i) a) from
     (AddEquiv.symm_apply_eq _).mpr (omegaColimStalkAddEquiv_ofΩ φ x i _).symm]

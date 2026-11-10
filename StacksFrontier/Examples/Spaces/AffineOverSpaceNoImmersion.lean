@@ -149,14 +149,14 @@ theorem not_specializes_relationScheme
       (Over.forget (Spec (.of k))).map
         (coprod.inr : puncturedAffineLine k ⟶ relationScheme k) := by
     rw [he, overCoprodIso_hom]
-    exact Limits.coprodComparison_inr (Over.forget (Spec (.of k)))
+    exact Limits.inr_coprodComparison (Over.forget (Spec (.of k)))
       (A := affineLine k) (B := puncturedAffineLine k)
   have hL : (coprod.inl : (affineLine k).left ⟶
         (affineLine k).left ⨿ (puncturedAffineLine k).left) ≫ e.hom =
       (Over.forget (Spec (.of k))).map
         (coprod.inl : affineLine k ⟶ relationScheme k) := by
     rw [he, overCoprodIso_hom]
-    exact Limits.coprodComparison_inl (Over.forget (Spec (.of k)))
+    exact Limits.inl_coprodComparison (Over.forget (Spec (.of k)))
       (A := affineLine k) (B := puncturedAffineLine k)
   refine not_specializes_coprod_inr_inl (X := (affineLine k).left)
     (Y := (puncturedAffineLine k).left) x y ?_
@@ -180,7 +180,7 @@ theorem originSection_comp_affineLineNeg :
     have hneg : ((affineLineNeg k).left).appTop (AffineSpace.coord (Spec (.of k)) i) =
         -AffineSpace.coord (Spec (.of k)) i := by
       rw [affineLineNeg_left, AffineSpace.homOfVector_appTop_coord]
-    show (originSection k).appTop
+    change (originSection k).appTop
       (((affineLineNeg k).left).appTop (AffineSpace.coord (Spec (.of k)) i)) =
       (originSection k).appTop (AffineSpace.coord (Spec (.of k)) i)
     rw [hneg, map_neg, AffineSpace.homOfVector_appTop_coord]
@@ -200,7 +200,7 @@ theorem exists_genericPoint_affineLine :
   have hspec (x : (affineLine k).left) : η ⤳ x := by
     have hs := (genericPoint_specializes (e.hom.base x)).map e.inv.continuous
     have hcomp : e.inv.base (e.hom.base x) = x := by
-      show (e.hom ≫ e.inv).base x = x
+      change (e.hom ≫ e.inv).base x = x
       simp
     simpa [hη, Scheme.homeoOfIso_symm, Scheme.coe_homeoOfIso_symm, hcomp] using hs
   refine ⟨η, ?_, hspec⟩
@@ -225,7 +225,7 @@ theorem contains_affineSpace (hS : B.Contains (Spec (.of k))) (n : ℕ) :
   have hSpec : (Spec (.of (MvPolynomial (ULift.{u} (Fin n)) k))).size < B.cutoff :=
     Scheme.size_Spec_lt_of_finiteType B.aleph0_lt_cutoff B.cutoff_isStrongPrelimit
       k (MvPolynomial (ULift.{u} (Fin n)) k) hS
-  show (AffineSpace (ULift.{u} (Fin n)) (Spec (.of k))).size < B.cutoff
+  change (AffineSpace (ULift.{u} (Fin n)) (Spec (.of k))).size < B.cutoff
   rw [Scheme.size_congr (AffineSpace.SpecIso (ULift.{u} (Fin n)) (.of k))]
   exact hSpec
 
@@ -357,7 +357,7 @@ theorem post_chartOrigin : (Over.post B.inclusion).map (chartOrigin k B hS) =
 theorem toScheme_map_chartPunctured :
     (BigFppfOver.toScheme B (Spec (.of k)) hS).map (chartPunctured k B hS) =
       (puncturedAffineLineOpen k).ι := by
-  show ((Over.post B.inclusion).map (chartPunctured k B hS)).left = _
+  change ((Over.post B.inclusion).map (chartPunctured k B hS)).left = _
   rw [post_chartPunctured]
   rfl
 
@@ -517,7 +517,7 @@ include hS in
 omit [NeZero (2 : k)] in
 /-- The quotient sheaf `quotientSpace` is the involution quotient of the affine line. -/
 theorem quotientSpace_eq : quotientSpace k B hS = (involutionQuotient k B hS).obj := by
-  show (quotientSheaf (BigFppfOver.topology B (Spec (.of k)) hS) (Over.post B.inclusion)
+  change (quotientSheaf (BigFppfOver.topology B (Spec (.of k)) hS) (Over.post B.inclusion)
     (Space.relation B (Spec (.of k)) hS (chartSource k B hS) (chartTarget k B hS))).obj = _
   rw [relation_eq_involutionRelation]
   rfl
@@ -700,10 +700,10 @@ theorem not_isImmersion_affineSpaceOver_quotientSpaceMap (n : ℕ)
   have hcomm : j ≫ (prod.mapIso (Iso.refl (quotientSpace k B hS)) eW).hom =
       prod.lift (quotientSpaceMap k B hS) (yoneda.map a) := by
     refine Limits.prod.hom_ext ?_ ?_
-    · show (j ≫ prod.map (𝟙 _) eW.hom) ≫ prod.fst = _
+    · change (j ≫ prod.map (𝟙 _) eW.hom) ≫ prod.fst = _
       rw [Category.assoc, prod.map_fst, Category.comp_id, prod.lift_fst]
       exact hj
-    · show (j ≫ prod.map (𝟙 _) eW.hom) ≫ prod.snd = _
+    · change (j ≫ prod.map (𝟙 _) eW.hom) ≫ prod.snd = _
       rw [Category.assoc, prod.map_snd, prod.lift_snd]
       exact hamap.symm
   have him' := (MorphismProperty.cancel_right_of_respectsIso (MorphismProperty.presheaf _) j

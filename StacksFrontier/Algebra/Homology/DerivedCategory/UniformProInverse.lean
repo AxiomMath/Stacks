@@ -365,7 +365,7 @@ theorem hasUniformInverses_whiskerRight_Q (a b e : ℤ) (hea : e < a)
       ∀ g : W ⟶ Z.obj (op (n + c₀)), g ≫ tr Z (Nat.le_add_right n c₀) = 0 := by
     intro n _ W hW g
     let g₀ : W ⟶ (T.obj (op (n + c₀))).obj₃ := g
-    show g₀ ≫ (tr T (Nat.le_add_right n c₀)).hom₃ = 0
+    change g₀ ≫ (tr T (Nat.le_add_right n c₀)).hom₃ = 0
     have h₃ : (g₀ ≫ (tr T (Nat.le_add_right n c₀)).hom₃) ≫ (T.obj (op n)).mor₃ = 0 := by
       rw [Category.assoc, ← (tr T (Nat.le_add_right n c₀)).comm₃, ← Category.assoc]
       exact comp_shift_map_eq_zero _ e (fun W hW g => hc₀ n (n + c₀) _ le_rfl W hW g) W hW _

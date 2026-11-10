@@ -110,14 +110,14 @@ lemma objShiftIso_hom_naturality (F : C ⥤ C) (n : ℕ) :
       stageHomOf F (n + k) ((F.endoIter k).map g) ≫ (objShiftIso F n k G).hom =
         (objShiftIso F n k E).hom ≫ stageHomOf F n g
   | 0, E, G, g => by
-      show stageHomOf F n g ≫ 𝟙 _ = 𝟙 _ ≫ stageHomOf F n g
+      change stageHomOf F n g ≫ 𝟙 _ = 𝟙 _ ≫ stageHomOf F n g
       rw [Category.comp_id, Category.id_comp]
   | k + 1, E, G, g => by
       have ih := objShiftIso_hom_naturality F n k g
       have hstep := shiftStepHom_naturality' F (n + k) ((F.endoIter k).map g)
       rw [objShiftIso_succ, Iso.trans_hom, shiftStepIso_hom, objShiftIso_succ, Iso.trans_hom,
         shiftStepIso_hom]
-      show stageHomOf F (n + k + 1) (F.map ((F.endoIter k).map g)) ≫
+      change stageHomOf F (n + k + 1) (F.map ((F.endoIter k).map g)) ≫
             shiftStepHom F (n + k) ((F.endoIter k).obj G) ≫ (objShiftIso F n k G).hom =
           (shiftStepHom F (n + k) ((F.endoIter k).obj E) ≫ (objShiftIso F n k E).hom) ≫
             stageHomOf F n g

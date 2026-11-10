@@ -18,8 +18,8 @@ on an object `E` of the source:
 
 This file proves both implications, for `E` with quasi-coherent cohomology sheaves:
 (2) at `a` implies (1) at `a`, and (1) at `a` implies (2) at `a + r`. The companion
-`StacksFrontier/AlgebraicGeometry/Duality/KoszulTruncatedOrthogonality.lean` treats `τ_{≤a}` in place
-of `τ_{≥a}`, where the shifts come out the other way round.
+`StacksFrontier/AlgebraicGeometry/Duality/KoszulTruncatedOrthogonality.lean` treats `τ_{≤a}` in
+place of `τ_{≥a}`, where the shifts come out the other way round.
 
 ## The two routes
 

@@ -169,10 +169,10 @@ lemma bijective_piToStalkSpecPushforwardAppHom
     refine IsLocalization.ringHom_ext (nonZeroDivisors Γ(X, U)) ?_
     apply RingHom.ext
     intro a
-    show piToStalkSpecPushforwardAppHom X U (algebraMap _ _ a) = e (algebraMap _ _ a)
+    change piToStalkSpecPushforwardAppHom X U (algebraMap _ _ a) = e (algebraMap _ _ a)
     rw [e.commutes]
     funext η
-    show toStalkSpecPushforwardAppHom η (Opposite.op U) (algebraMap _ _ a) = _
+    change toStalkSpecPushforwardAppHom η (Opposite.op U) (algebraMap _ _ a) = _
     rw [toStalkSpecPushforwardAppHom, IsLocalization.lift_eq]
     rfl
   rw [hΦ]

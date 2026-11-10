@@ -26,7 +26,8 @@ Sites, Remark 0E47, that their composite is the usual base change map
   composition clause of Stacks 0GIX for the maps as this library constructs them (the registered
   form, for the maps as the source defines them, is
   `AlgebraicGeometry.derivedPushforwardStalkToStrictHenselizationSectionsViaBaseChange_comp` in
-  `StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedStalkFibreBaseChangeMaps.lean`). The composite of the two canonical
+  `StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedStalkFibreBaseChangeMaps.lean`). The
+  composite of the two canonical
   maps is the identification of the stalk at `s` with derived global sections on `s` of the inverse
   image (`AlgebraicGeometry.derivedGeometricStalkToPullbackSections`), followed by derived global
   sections on `s` of the derived base change map of Stacks 0A2A for the cartesian square defining
@@ -113,7 +114,7 @@ public theorem mapHomotopyCategoryOfComp_conj (P : A₁ ⥤ A₂) [P.Additive] (
         (Q.mapHomotopyCategory (ComplexShape.up ℤ)).map
           ((NatTrans.mapHomotopyCategory b.inv (ComplexShape.up ℤ)).app J) := by
   subst hβ
-  simp only [mapHomotopyCategoryOfComp_app, NatTrans.mapHomotopyCategory_app]
+  simp only [mapHomotopyCategoryOfComp_app]
   congr 1
 
 /-- The rearrangement carrying the derived base change map of the geometric fibre, precomposed
@@ -238,7 +239,7 @@ private theorem compIso_comp_eq_ofComp (F : A₁ ⥤ A₂) [F.Additive] (G : A�
         (Functor.mapHomotopyCategoryCompIso (Iso.refl (G' ⋙ F')) (ComplexShape.up ℤ)).inv.app J =
       (mapHomotopyCategoryOfComp (F ⋙ G) G' F' τ).app J := by
   rw [mapHomotopyCategoryOfComp_app]
-  show (HomotopyCategory.quotient A₃ (ComplexShape.up ℤ)).map (𝟙 _) ≫
+  change (HomotopyCategory.quotient A₃ (ComplexShape.up ℤ)).map (𝟙 _) ≫
       (HomotopyCategory.quotient A₃ (ComplexShape.up ℤ)).map _ ≫
       (HomotopyCategory.quotient A₃ (ComplexShape.up ℤ)).map (𝟙 _) = _
   simp only [CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id]

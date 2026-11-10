@@ -308,7 +308,7 @@ theorem Scheme.IdealSheafData.exists_isFiniteType_le_forall_ideal_eq_top
     rw [hφapp]
     have : G.arrow.app V.1 (inv (G.arrow.app V.1) ⟨(1 : Γ(X, V.1)), hNtop⟩)
         = ⟨(1 : Γ(X, V.1)), hNtop⟩ := by
-      show (inv (G.arrow.app V.1) ≫ G.arrow.app V.1) _ = _
+      change (inv (G.arrow.app V.1) ≫ G.arrow.app V.1) _ = _
       rw [IsIso.inv_hom_id]
       rfl
     rw [this]

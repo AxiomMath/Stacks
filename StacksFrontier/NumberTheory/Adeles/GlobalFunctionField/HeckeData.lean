@@ -130,7 +130,7 @@ public theorem finite_residueField_integers (v : Place K) :
     Finite (IsLocalRing.ResidueField v.integers) := by
   have := finite_residueField k v
   refine Nat.finite_of_card_ne_zero ?_
-  show v.residueCard ≠ 0
+  change v.residueCard ≠ 0
   rw [Place.residueCard_eq_resCard]
   exact Nat.card_pos.ne'
 

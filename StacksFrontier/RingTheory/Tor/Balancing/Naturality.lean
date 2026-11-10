@@ -191,10 +191,10 @@ theorem Tor_iso_Tor'.hsTau_rel (M : ModuleCat.{u} R) (n : ℕ) :
           ≫ Tor_iso_Tor'.hsTau R M n) := by
   cases n with
   | zero =>
-    show (Tor_iso_Tor'.hsTauAux R M 0).fst ≫ _ = _
+    change (Tor_iso_Tor'.hsTauAux R M 0).fst ≫ _ = _
     exact (Tor_iso_Tor'.hsSC0_exact R M).liftFromProjective_comp _ _
   | succ m =>
-    show (Tor_iso_Tor'.hsTauAux R M (m + 1)).fst ≫ _ = _
+    change (Tor_iso_Tor'.hsTauAux R M (m + 1)).fst ≫ _ = _
     exact (Tor_iso_Tor'.hsSCsucc_exact R M m).liftFromProjective_comp _ _
 
 /-- Recursion data for the off-diagonal `t`: at level `n` it carries `t_n`, `t_{n+1}`, and the
@@ -275,7 +275,7 @@ theorem Tor_iso_Tor'.hsbAux_fst {M M' : ModuleCat.{u} R} (f : M ⟶ M') (n : ℕ
 theorem Tor_iso_Tor'.hsbT_rel {M M' : ModuleCat.{u} R} (f : M ⟶ M') (n : ℕ) :
     Tor_iso_Tor'.hsbT R f (n + 1) ≫ (Tor_iso_Tor'.hsResK R M').complex.d (n + 1) n
       = Tor_iso_Tor'.hsbRHS R f n (Tor_iso_Tor'.hsbT R f n) := by
-  show (Tor_iso_Tor'.hsbAux R f n).snd.fst ≫ _ = _
+  change (Tor_iso_Tor'.hsbAux R f n).snd.fst ≫ _ = _
   rw [← Tor_iso_Tor'.hsbAux_fst R f n]
   exact (Tor_iso_Tor'.hsbAux R f n).snd.snd
 
@@ -685,7 +685,7 @@ theorem Tor_iso_Tor'.naturality_succ (j : ℕ) {M M' : ModuleCat.{u} R} (f : M �
             ≫ (Tor' (ModuleCat.{u} R) (j + 1)).map (Tor_iso_Tor'.syzygyMap R f)) :
      (Tor (ModuleCat.{u} R) (j + 2)).map f ≫ (Tor_iso_Tor'.app R (j + 2) M').hom
       = (Tor_iso_Tor'.app R (j + 2) M).hom ≫ (Tor' (ModuleCat.{u} R) (j + 2)).map f := by
-  show (Tor (ModuleCat.{u} R) (j + 2)).map f
+  change (Tor (ModuleCat.{u} R) (j + 2)).map f
       ≫ ((Tor_iso_Tor'.torShift R j M').hom ≫ (Tor_iso_Tor'.app R (j+1) (Tor_iso_Tor'.syzygy R
           M')).hom
           ≫ (Tor_iso_Tor'.tor'Shift R j M').inv)

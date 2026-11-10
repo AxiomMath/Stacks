@@ -68,7 +68,7 @@ theorem exists_sieve_of_isLocallySurjective_sigmaDesc [HasCoproduct G] (c : ∀ 
   let u : ∀ i, G i ⟶ Y := fun i ↦ ObjectProperty.homMk (Subfunctor.lift (c i).hom (hle i))
   have hfac : Sigma.desc u ≫ j = Sigma.desc c := by
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
     exact Sheaf.hom_ext (Subfunctor.lift_ι (c i).hom (hle i))
   have hfac' : (Sigma.desc u).hom ≫ j.hom = (Sigma.desc c).hom := congrArg (fun φ ↦ φ.hom) hfac
   have hj : Presheaf.IsLocallySurjective J j.hom :=

@@ -215,6 +215,7 @@ def baseRingMap : thickenedBaseRing t f ⟶ sheaf D :=
   ((sheafAdjunction (f.toLRSHom.toShHom ≫ t.toLRSHom.toShHom)).homEquiv _ _).symm
     (transportedBase D.i D.isPullback.w)
 
+omit [IsClosedImmersion t] in
 /-- The map from the thickened base ring followed by the reduction is the structure map
 `(t ∘ f)⁻¹𝒪_{S'} ⟶ 𝒪_X`. -/
 theorem baseRingMap_comp_reduction :
@@ -230,6 +231,7 @@ theorem baseRingMap_comp_reduction :
 abbrev baseMap : rebuilt f (thickenedBaseRing t f) ⟶ sheaf D :=
   (idIso f (thickenedBaseRing t f)).hom ≫ baseRingMap D
 
+omit [IsClosedImmersion t] in
 /-- The base map followed by the reduction is the reduction of the thickened base followed by
 the structure map of `f`. -/
 theorem baseMap_comp_reduction : baseMap D ≫ reduction D =
@@ -270,16 +272,18 @@ theorem exists_kernelIncl_eq (U : X.Opens) (a : (sheaf D).presheaf.obj (op U))
     ∃ m, (kernelIncl hst D).val.app (op U) m = a :=
   exists_kernelSection_eq D.i (D.ker_sq hst) D.conormalIso U a ha
 
+omit [IsClosedImmersion t] in
 /-- The base map on the ideal of the thickened base lands in the ideal of `X` in the
 deformation. -/
 theorem reduction_baseMap_of_mem (U : X.Opensᵒᵖ) (a : (idealKernel t f).val.obj U) :
     (reduction D).hom.app U ((baseMap D).hom.app U a.1) = 0 := by
   have h := congrArg (fun φ => φ.hom.app U a.1) (baseMap_comp_reduction D)
   refine h.trans ?_
-  show (structureHom f).fSharpInverseImage.hom.app U ((rebuiltReduction t f).hom.app U a.1) = 0
+  change (structureHom f).fSharpInverseImage.hom.app U ((rebuiltReduction t f).hom.app U a.1) = 0
   rw [show (rebuiltReduction t f).hom.app U a.1 = 0 from a.2]
   exact map_zero _
 
+omit [IsClosedImmersion t] in
 /-- `baseMap_comp_reduction` on the underlying sheaves of rings. -/
 theorem forget₂_baseMap_comp_reduction :
     (sheafCompose (Opens.grothendieckTopology X) (forget₂ CommRingCat.{u} RingCat.{u})).map
@@ -451,13 +455,14 @@ theorem kernelIncl_canonicalSection (W : S'.Opens) (j : Γ(S', W)) (hj : (t.app 
     ((kernelIncl hst D).val.app (op ((Opens.map (f.base ≫ t.base)).obj W))).hom
         (canonicalSection W j hj) =
       ((transportedBase D.i D.isPullback.w).hom.app (op W)).hom j := by
-  show kernelSection D.i (D.ker_sq hst) D.conormalIso _ _ = _
+  change kernelSection D.i (D.ker_sq hst) D.conormalIso _ _ = _
   rw [transportedBase_app]
   refine (kernelSection_eq_of_conormalClass D.i (D.ker_sq hst) D.conormalIso _ _ (D.f' ⁻¹ᵁ W)
     (toAmbient_comm D.i D.isPullback.w W).le _ _ (conormalIso_canonicalSection D W j hj)).trans ?_
   exact congrArg (fun g => (D.X'.presheaf.map g).hom ((D.f'.app W).hom j))
     (Subsingleton.elim _ _)
 
+omit [IsClosedImmersion t] in
 /-- The map from the thickened base ring sends the image of `j` under the unit to the image of
 `j` under `transportedBase`. -/
 theorem baseRingMap_pullbackUnitApp (W : S'.Opens) (j : Γ(S', W)) :
@@ -475,6 +480,7 @@ abbrev unitSection (W : S'.Opens) (j : Γ(S', W)) :
     (rebuilt f (thickenedBaseRing t f)).obj.obj (op ((Opens.map (f.base ≫ t.base)).obj W)) :=
   (pullbackUnitApp (f.base ≫ t.base) S'.sheaf W).hom j
 
+omit [IsClosedImmersion t] in
 /-- The base map sends `unitSection W j` to the image of `j` under `transportedBase`. -/
 theorem baseMap_unitSection (W : S'.Opens) (j : Γ(S', W)) :
     ((baseMap D).hom.app (op ((Opens.map (f.base ≫ t.base)).obj W))).hom (unitSection W j) =
@@ -489,7 +495,7 @@ theorem rebuiltReduction_unitSection (W : S'.Opens) (j : Γ(S', W)) (hj : (t.app
       (unitSection W j) = 0 := by
   refine (rebuiltReduction_app_apply t f _ _).trans ?_
   refine (baseStructureMap_pullbackUnitApp t.toLRSHom.toShHom f.toLRSHom.toShHom W j).trans ?_
-  show ((pullbackUnitApp f.base S.sheaf (t ⁻¹ᵁ W)).hom ((t.app W).hom j)) = 0
+  change ((pullbackUnitApp f.base S.sheaf (t ⁻¹ᵁ W)).hom ((t.app W).hom j)) = 0
   rw [hj]
   exact map_zero _
 

@@ -156,7 +156,7 @@ theorem toModuleOfDifferentials_d (U : (Opens X.carrier)ᵒᵖ) (b : X.sheaf.obj
   have h := moduleOfDifferentialsIsoSectionwise_hom_app_d.{u, u} φ U b
   have h2 := _root_.SheafOfModules.iso_inv_hom_app_apply
     (moduleOfDifferentialsIsoSectionwise.{u, u} φ) U ((universalDerivation.{u, u, u} φ).d b)
-  show (moduleOfDifferentialsIsoSectionwise.{u, u} φ).inv.val.app U
+  change (moduleOfDifferentialsIsoSectionwise.{u, u} φ).inv.val.app U
     ((toSectionwiseDifferentialsSheaf.{u, u} φ).app U
       ((DifferentialsConstruction.derivation' φ.hom).d b)) = _
   rw [← h]

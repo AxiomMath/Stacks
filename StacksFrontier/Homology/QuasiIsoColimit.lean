@@ -68,7 +68,7 @@ lemma isStableUnderColimitsOfShape_quasiIso {J : Type*} [Category J]
       (isColimitOfPreserves Φ h₁) (isColimitOfPreserves Φ h₂)
       (Functor.whiskerRight f Φ) hiso (Φ.map φ)
       (fun j => by
-        show Φ.map (c₁.ι.app j) ≫ Φ.map φ = Φ.map (f.app j) ≫ Φ.map (c₂.ι.app j)
+        change Φ.map (c₁.ι.app j) ≫ Φ.map φ = Φ.map (f.app j) ≫ Φ.map (c₂.ι.app j)
         rw [← Φ.map_comp, ← Φ.map_comp, hφ j])
 
 /-- **A colimit of quasi-isomorphisms is a quasi-isomorphism**, in the form of the map induced on

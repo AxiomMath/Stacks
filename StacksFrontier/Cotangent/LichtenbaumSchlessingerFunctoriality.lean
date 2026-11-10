@@ -331,8 +331,7 @@ arrow in degree `-1` followed by `F' ⊗_{P'} B' → Ω_{P'/A'} ⊗_{P'} B'`. -/
 lemma differentialTensorMap_relationDifferentialB (z : B ⊗[P.Ring] (T →₀ P.Ring)) :
     f.differentialTensorMap (relationDifferentialB P z) =
       relationDifferentialB P' (f.freeTensorMap z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul b x =>
       rw [relationDifferentialB_tmul, f.freeTensorMap_tmul, relationDifferentialB_tmul,

@@ -75,7 +75,8 @@ this file.
 
 **What is not proved.**  The Leibniz rule for `Stacks.LogPoles.logWedge` is not proved, so the
 existence delivered here is the existence of the `𝒪_X`-bilinear extension, not yet of a
-differential graded algebra; the uniqueness statement it is matched against is the one in the library,
+differential graded algebra; the uniqueness statement it is matched against is the one in the
+library,
 which has the Leibniz hypothesis dropped and is therefore exactly what this construction
 discharges.  Stating the Leibniz rule for the descended product needs a transport
 `Ω^{(p+1)+q}(log Y) ≅ Ω^{(p+q)+1}(log Y)` of the quotients, and proving it needs the four degree

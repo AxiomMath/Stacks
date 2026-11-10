@@ -113,23 +113,23 @@ theorem finiteDimensional_artinianTangentSpace_of_isSmooth
     (φ : BasedFunctor 𝓕 𝓖) (hφ : IsSmooth φ)
     (h : letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
       letI : Fact (SchlessingerConditionS2
-        (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) :=
+        (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) :=
         ⟨tangentConditionS2 h𝓕⟩
       FiniteDimensional k
         (artinianTangentSpace Λ k (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) :
     letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖.predeformation⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) :=
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) :=
       ⟨tangentConditionS2 h𝓖⟩
     FiniteDimensional k
       (artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered)) := by
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) :=
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) :=
     ⟨tangentConditionS2 h𝓕⟩
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖.predeformation⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) :=
+    (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) :=
     ⟨tangentConditionS2 h𝓖⟩
   exact Module.Finite.of_surjective
     (IsLinearMap.mk' _ (differential_isLinearMap 𝓕 𝓖 h𝓕.predeformation h𝓖.predeformation
@@ -149,11 +149,11 @@ theorem finiteDimensional_artinianTangentSpace_of_full_changeOfFields
     (𝓕 : BasedCategory.{z, y} (ArtinianLocalAlgCat.{u, v, v} T.Λ T.k))
     (hp : IsPredeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered)))
     (𝓗 : BasedCategory.{z₂, y₂} (ArtinianLocalAlgCat.{u, v, v} T.Λ T.l))
     (h𝓗 : IsPredeformationCategory 𝓗.p)
     (hS2𝓗 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓗 h𝓗.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓗 h𝓗.cofibered)))
     (G : BasedFunctor (⟨ChangeOfFieldsCategory T 𝓕.p, inferInstance,
       changeOfFieldsProjection T 𝓕.p⟩ :
         BasedCategory.{max v z, max (max u (v + 1)) y} (ArtinianLocalAlgCat.{u, v, v} T.Λ T.l))
@@ -161,11 +161,11 @@ theorem finiteDimensional_artinianTangentSpace_of_full_changeOfFields
     [G.toFunctor.Full]
     (h : letI : Fact (IsPredeformationCategory 𝓗.p) := ⟨h𝓗⟩
       letI : Fact (SchlessingerConditionS2
-        (CategoryOfElements.π (isomorphismClasses 𝓗 h𝓗.cofibered))) := ⟨hS2𝓗⟩
+        (Functor.Elements.π (isomorphismClasses 𝓗 h𝓗.cofibered))) := ⟨hS2𝓗⟩
       FiniteDimensional T.l (artinianTangentSpace T.Λ T.l (isomorphismClasses 𝓗 h𝓗.cofibered))) :
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hp⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
     FiniteDimensional T.k (artinianTangentSpace T.Λ T.k (isomorphismClasses 𝓕 hp.cofibered)) := by
   let 𝓖 : BasedCategory.{max v z, max (max u (v + 1)) y}
       (ArtinianLocalAlgCat.{u, v, v} T.Λ T.l) :=
@@ -175,13 +175,13 @@ theorem finiteDimensional_artinianTangentSpace_of_full_changeOfFields
   have hS2' := associatedSchlessingerConditionS2_changeOfFields T 𝓕 hp hS2
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨hp⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨hq⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 hq.cofibered))) := ⟨hS2'⟩
+    (Functor.Elements.π (isomorphismClasses 𝓖 hq.cofibered))) := ⟨hS2'⟩
   let : Fact (IsPredeformationCategory 𝓗.p) := ⟨h𝓗⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓗 h𝓗.cofibered))) := ⟨hS2𝓗⟩
+    (Functor.Elements.π (isomorphismClasses 𝓗 h𝓗.cofibered))) := ⟨hS2𝓗⟩
   let e := tangentSpaceChangeOfFields T 𝓕 hp hS2
   let L := (IsLinearMap.mk' _ (differential_isLinearMap 𝓖 𝓗 hq h𝓗 hS2' hS2𝓗 G)).comp e.toLinearMap
   have : Module.Finite T.l (TensorProduct T.k T.l
@@ -289,7 +289,7 @@ theorem finiteDimensional_artinianTangentSpace_of_chartPoint [IsLocallyNoetheria
         hfinite hqc
     letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor D.projection).p) :=
       ⟨hD.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor D.projection) hD.predeformation.cofibered))) :=
       ⟨tangentConditionS2 hD⟩
     FiniteDimensional T.k (artinianTangentSpace T.Λ T.k (isomorphismClasses
@@ -431,9 +431,9 @@ theorem exists_chartPoint (𝒳 : Stack.AlgebraicStacks.{u, w} B S hS) (U : BigF
     over_hom_of_eq hx₀
   have hu₀ : (Over.forget U ⋙ Over.post B.inclusion).obj u₀ =
       Over.mk (Spec.map (CommRingCat.ofHom ((algebraMap k l).comp (algebraMap Λ k))) ≫ iΛ) := by
-    show Over.mk (B.inclusion.map L.hom) = _
+    change Over.mk (B.inclusion.map L.hom) = _
     congr 1
-    show pt ≫ B.inclusion.map m ≫ B.inclusion.map Xk.hom = _
+    change pt ≫ B.inclusion.map m ≫ B.inclusion.map Xk.hom = _
     rw [← Category.assoc, hptm, Category.assoc, hXk, ← Category.assoc, ← Spec.map_comp]
     rfl
   have hxₗ : (p ⋙ Over.post B.inclusion).obj (F.obj u₀) =
@@ -448,7 +448,7 @@ theorem exists_chartPoint (𝒳 : Stack.AlgebraicStacks.{u, w} B S hS) (U : BigF
     inferInstance
   rw [postInclusion_map_left_eq_of_isHomLift B S hS 𝒳.val.val.p
     (gL ≫ (Over.homMk m rfl : Tobj ⟶ Xk)) (F.map hu ≫ α) hxₗ hx₀]
-  show eqToHom _ ≫ (pt ≫ B.inclusion.map m) ≫ eqToHom _ = _
+  change eqToHom _ ≫ (pt ≫ B.inclusion.map m) ≫ eqToHom _ = _
   rw [hptm]
   simp
 
@@ -474,7 +474,7 @@ theorem finiteDimensional_artinianTangentSpace_of_isAlgebraicStack [IsLocallyNoe
         hfinite hqc
     letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor D.projection).p) :=
       ⟨hD.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor D.projection) hD.predeformation.cofibered))) :=
       ⟨tangentConditionS2 hD⟩
     FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses

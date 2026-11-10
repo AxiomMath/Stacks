@@ -44,13 +44,13 @@ theorem exact_of_locally_exists_preimage (S : ShortComplex (SheafOfModules.{t} R
     exact (ModuleCat.mono_iff_injective _).1 h2
   refine Stacks.SheafOfModules.EpiMono.epi_of_isLocallySurjective _ ⟨fun {T} s => ?_⟩
   obtain ⟨U, hU, hloc⟩ := h T (S.iCycles.val.app (op T) s) (by
-    show (S.iCycles ≫ S.g).val.app (op T) s = 0
+    change (S.iCycles ≫ S.g).val.app (op T) s = 0
     rw [S.iCycles_g]
     rfl)
   refine J.superset_covering (fun V a ha => ?_) hU
   obtain ⟨y, hy⟩ := hloc a ha
   refine ⟨y, hmono (op V) ?_⟩
-  show (S.toCycles ≫ S.iCycles).val.app (op V) y = _
+  change (S.toCycles ≫ S.iCycles).val.app (op V) y = _
   rw [S.toCycles_i, hy]
   exact (ConcreteCategory.congr_hom (S.iCycles.val.naturality a.op) s).symm
 

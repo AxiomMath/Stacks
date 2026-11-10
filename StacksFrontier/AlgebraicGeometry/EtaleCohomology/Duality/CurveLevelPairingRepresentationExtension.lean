@@ -79,6 +79,7 @@ local instance neZero_prime_pow_curveLevelPairingExtension (n : ℕ) : NeZero (�
   ⟨pow_ne_zero _ (Fact.out : ℓ.Prime).ne_zero⟩
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis on the étale sheaf categories of `ZMod (ℓ ^ (n + 1))`-modules used here
 /-- **The pairing of the levels is the evaluation of an exact pairing on `X`**: the lisse sheaves
 of the level modules of `ρ₀^∨` and `ρ₀` form an exact pairing whose evaluation is
 `Stacks.EtaleCohomology.levelTensorHom` (`Stacks.SheafDuality.exactPairingOfPerfect` at the
@@ -172,7 +173,7 @@ theorem representationLevelEtaleExactPairing_evaluation :
       representationLevelEtalePairing B X x ρ₀ hρ₀ n :=
   rfl
 
-variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
+variable {k : Type u} [Field k] (f : X.1 ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f))
   (kbar : Type u) [Field kbar] [Algebra k kbar]
 

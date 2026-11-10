@@ -74,8 +74,8 @@ it is the existence of a `g ∉ q` with `R → S_g` étale (`Algebra.exists_etal
 `Algebra.basicOpen_subset_etaleLocus_iff_etale`). In
 `Algebra.IsEtaleAt.of_flat_of_map_eq_maximalIdeal` the local homomorphism `R_p → S_q` is the
 `algebraMap` of the instances `[Algebra (Localization.AtPrime p) (Localization.AtPrime q)]` and
-`[Localization.AtPrime.IsLiesOverAlgebra p q]`, and flatness is assumed of `R_p → S_q` only. The
-finiteness of `κ(q)/κ(p)` follows from the remaining hypotheses.
+`[IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q)]`, and flatness is assumed of
+`R_p → S_q` only. The finiteness of `κ(q)/κ(p)` follows from the remaining hypotheses.
 
 `Algebra.etaleLocus_eq_of_isPushout` is stated for `Algebra.etaleLocus R S`, the set of primes `q`
 with `Localization.AtPrime q` formally étale over `R`, and needs no finite presentation
@@ -239,7 +239,7 @@ theorem Algebra.exists_isIdempotentElem_isLocalizationAway_of_surjective
     exact hsx.symm
   have h1e : 1 - e ∈ RingHom.ker (algebraMap R S) := by simp [RingHom.mem_ker, hme]
   have hidem : IsIdempotentElem e := by
-    show e * e = e
+    change e * e = e
     linear_combination -key (1 - e) h1e
   have hker : RingHom.ker (algebraMap R S) = Ideal.span {1 - e} :=
     le_antisymm (fun x hx => Ideal.mem_span_singleton.mpr ⟨x, by linear_combination key x hx⟩)
@@ -278,7 +278,7 @@ section LocalCriterion
 variable {R S : Type*} [CommRing R] [CommRing S] [Algebra R S] [Algebra.FinitePresentation R S]
   (p : Ideal R) [p.IsPrime] (q : Ideal S) [q.IsPrime] [q.LiesOver p]
   [Algebra (Localization.AtPrime p) (Localization.AtPrime q)]
-  [Localization.AtPrime.IsLiesOverAlgebra p q]
+  [IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q)]
   [Module.Flat (Localization.AtPrime p) (Localization.AtPrime q)]
 
 /-- Let `R → S` be of finite presentation and let `q` be a prime of `S` lying over `p`. If
@@ -348,7 +348,7 @@ theorem Algebra.IsEtaleAt.of_flat_of_map_eq_maximalIdeal
     {R S : Type*} [CommRing R] [CommRing S] [Algebra R S] [Algebra.FinitePresentation R S]
     (p : Ideal R) [p.IsPrime] (q : Ideal S) [q.IsPrime] [q.LiesOver p]
     [Algebra (Localization.AtPrime p) (Localization.AtPrime q)]
-    [Localization.AtPrime.IsLiesOverAlgebra p q]
+    [IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q)]
     [Module.Flat (Localization.AtPrime p) (Localization.AtPrime q)]
     [Module.Finite p.ResidueField q.ResidueField]
     [Algebra.IsSeparable p.ResidueField q.ResidueField]
@@ -451,8 +451,7 @@ private lemma exists_subtypeBaseChange_eq {R : Type*} [CommSemiring R] {M : Type
 private lemma map_subtypeBaseChange {R C M : Type*} [CommSemiring R] [CommSemiring C]
     [CommSemiring M] [Algebra R C] [Algebra R M] (I : Ideal R) (φ : C →ₐ[R] M) (s : C ⊗[R] ↥I) :
     φ (subtypeBaseChange C I s) = subtypeBaseChange M I (LinearMap.rTensor ↥I φ.toLinearMap s) := by
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | tmul c x => simp [subtypeBaseChange_tmul, AlgHom.commutes]
   | add s t hs ht => simp [hs, ht]
 
@@ -470,8 +469,7 @@ private lemma tmul_eq_zero_of_mem_map {A' C : Type*} [CommRing A'] [CommRing C] 
     (y ⊗ₜ[A'] x : C ⊗[A'] ↥I) = 0 := by
   obtain ⟨s, rfl⟩ := exists_subtypeBaseChange_eq hy
   clear hy
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | tmul c a =>
       have h0 : (a : A') • x = 0 :=
         Subtype.ext (by simpa using mul_eq_zero_of_sq_eq_bot hI a.2 x.2)
@@ -489,8 +487,7 @@ private theorem surjective_of_sub_mem_of_sq_eq_bot {A' C B' : Type*} [CommRing A
     (h2 : I.map (algebraMap A' B') ^ 2 = ⊥) : Function.Surjective φ := by
   have key : ∀ s : B' ⊗[A'] ↥I, ∃ c, φ c = subtypeBaseChange B' I s := by
     intro s
-    induction s using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction s using TensorProduct.inductionOn with
     | tmul b x =>
         obtain ⟨c, hc⟩ := hmod b
         have h0 : algebraMap A' B' (x : A') * (φ c - b) = 0 :=
@@ -519,8 +516,7 @@ private lemma rTensor_injective_of_tmul_eq_zero {R C M N : Type*} [CommRing R] [
   rw [← LinearMap.ker_eq_bot, (rTensor_exact N (LinearMap.exact_subtype_ker_map φ)
     (by simpa using hφ)).linearMap_ker_eq, LinearMap.range_eq_bot]
   refine LinearMap.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul y x => rw [LinearMap.rTensor_tmul]; exact h _ y.2 x
   | add s t hs ht => simp [hs, ht]
 
@@ -581,7 +577,7 @@ private theorem etale_of_sq_eq_bot_of_isBaseChange
     exact ⟨c, by rw [← hgker, RingHom.mem_ker, map_sub, hφ c, hc, sub_self]⟩
   have hker : ∀ c, φ c = 0 → c ∈ I.map (algebraMap A' C) := fun c hc => by
     rw [hIdef, ← hψk, RingHom.mem_ker]
-    show ψ c = 0
+    change ψ c = 0
     rw [← hφ c, hc, map_zero]
   have hsurj : Function.Surjective φ := surjective_of_sub_mem_of_sq_eq_bot I φ hmod hJ2
   exact Algebra.Etale.of_equiv (AlgEquiv.ofBijective φ

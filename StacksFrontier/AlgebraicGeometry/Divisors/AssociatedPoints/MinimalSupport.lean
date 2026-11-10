@@ -64,7 +64,7 @@ theorem mem_supp_structureSheaf (X : Scheme.{u}) (x : X) :
     P.germ_eq (U := ⊤) (V := ⊤) x trivial trivial
       (1 : X.ringCatSheaf.obj.obj (Opposite.op ⊤)) 0 (by simpa using hg)
   have hsecComm : X.presheaf.map iWtop.op (1 : X.presheaf.obj (Opposite.op ⊤)) = 0 := by
-    show P.map iWtop.op (1 : X.ringCatSheaf.obj.obj (Opposite.op ⊤)) = 0
+    change P.map iWtop.op (1 : X.ringCatSheaf.obj.obj (Opposite.op ⊤)) = 0
     simpa using hsec
   have hzero : (X.presheaf.germ ⊤ x trivial) 1 = 0 := by
     rw [← X.presheaf.germ_res iWtop x hxW]
@@ -88,7 +88,7 @@ private theorem exists_affineOpen_minimal_mem_support_sections {X : Scheme.{u}} 
   let z : U.1 := U.2.isoSpec.inv q
   have hyU : (z : X) ∈ U.1 := z.2
   have hpy : U.2.primeIdealOf z = q := by
-    show (U.2.isoSpec.inv ≫ U.2.isoSpec.hom) q = q
+    change (U.2.isoSpec.inv ≫ U.2.isoSpec.hom) q = q
     rw [U.2.isoSpec.inv_hom_id]
     rfl
   have hy' : (z : X) ∈ SheafOfModules.supp F :=
@@ -140,7 +140,7 @@ theorem mem_associatedPoints_of_mem_supp_of_specialization (X : Scheme.{u})
   have hnoeth : IsNoetherianRing Γ(X, W) := IsLocallyNoetherian.component_noetherian ⟨W, hW⟩
   have hstack : IsAssociatedPrimeStacks Γ(X, W) Γ(F, W)
       (hW.primeIdealOf ⟨x, hxW⟩).asIdeal := by
-    show (hW.primeIdealOf ⟨x, hxW⟩).asIdeal.IsPrime ∧ ∃ m : Γ(F, W),
+    change (hW.primeIdealOf ⟨x, hxW⟩).asIdeal.IsPrime ∧ ∃ m : Γ(F, W),
       (⊥ : Submodule Γ(X, W) Γ(F, W)).colon (Submodule.span Γ(X, W) {m}) =
         (hW.primeIdealOf ⟨x, hxW⟩).asIdeal
     obtain ⟨hprime, m, hm⟩ := isAssociatedPrime_iff.mp

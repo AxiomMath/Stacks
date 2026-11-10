@@ -123,7 +123,7 @@ theorem unramifiedAt_comp_of_generators_of_field {Z V : Scheme.{u}} {K : Type u}
     rw [← map_maximalIdeal_of_surjective _ hψsurj, ← hmax, Ideal.map_ofList, List.map_ofFn,
       eq_bot_iff, Ideal.ofList, Ideal.span_le]
     intro y hy
-    simp only [Set.mem_setOf_eq, List.mem_ofFn] at hy
+    simp only [Set.mem_ofPred_eq, List.mem_ofFn] at hy
     obtain ⟨i, rfl⟩ := hy
     simp only [Function.comp_apply, SetLike.mem_coe, Ideal.mem_bot]
     exact (Scheme.Hom.germ_stalkMap_apply ψ ⊤ z trivial (F i)).trans <|
@@ -281,7 +281,7 @@ theorem exists_etale_slice_of_regular_fieldPoint
         (maximalIdeal (U.presheaf.stalk (φV v))).comap (U.presheaf.germ ⊤ (φV v) trivial).hom := by
       rw [Ideal.ofList, Ideal.span_le]
       intro c hc
-      simp only [Set.mem_setOf_eq, List.mem_ofFn] at hc
+      simp only [Set.mem_ofPred_eq, List.mem_ofFn] at hc
       obtain ⟨i, rfl⟩ := hc
       simp only [SetLike.mem_coe, Ideal.mem_comap, f, ← hab]
       exact Ideal.mul_mem_right _ _ (hxm _ (List.get_mem _ _))
@@ -308,7 +308,7 @@ theorem exists_etale_slice_of_regular_fieldPoint
   have hvan : ∀ i, (pullback.fst φV I.subschemeι).appTop (φV.appTop (f i)) = 0 := by
     intro i
     have h0 : I.subschemeι.appTop (f i) = 0 := by
-      show f i ∈ RingHom.ker (I.subschemeι.app ⊤).hom
+      change f i ∈ RingHom.ker (I.subschemeι.app ⊤).hom
       rw [I.ker_subschemeι_app ⟨⊤, isAffineOpen_top U⟩, hI,
         Scheme.IdealSheafData.ofIdealTop_ideal]
       convert Ideal.mem_map_of_mem _
@@ -453,7 +453,7 @@ theorem exists_isOpenImmersion_surjective_pullback_opens {E U Y P : Scheme.{u}} 
   refine ⟨O, p', IsOpenImmersion.of_comp p' m, fun o => ?_, hp'⟩
   obtain ⟨x, hx⟩ := o.2
   refine ⟨x, O.ι.isOpenEmbedding.injective ?_⟩
-  show (p' ≫ pullback.snd s (O.ι ≫ ι) ≫ O.ι) x = O.ι o
+  change (p' ≫ pullback.snd s (O.ι ≫ ι) ≫ O.ι) x = O.ι o
   rwa [pullback.lift_snd_assoc, hq]
 
 end Stacks.AlgebraicGeometry

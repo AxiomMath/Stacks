@@ -48,10 +48,14 @@ abbrev boundary : Scheme.{u} := (Scheme.IdealSheafData.vanishingIdeal C.boundary
 abbrev boundaryι : C.boundary ⟶ C.Vb :=
   (Scheme.IdealSheafData.vanishingIdeal C.boundaryCloseds).subschemeι
 
+omit [PerfectField k] [IsProper pUb] [IsOpenImmersion jU] [IsFinite f] [Etale f]
+  [ConnectedSpace V] in
 /-- The image of `W ⟶ V̄` is the complement of the image of `j : V ⟶ V̄`. -/
 lemma range_boundaryι : Set.range C.boundaryι.base = (Set.range C.j.base)ᶜ :=
   Scheme.IdealSheafData.range_subschemeι_vanishingIdeal _
 
+omit [PerfectField k] [IsProper pUb] [IsOpenImmersion jU] [IsFinite f] [Etale f]
+  [ConnectedSpace V] in
 /-- `V` and `W` are complementary. -/
 lemma range_j_eq_compl : Set.range C.j.base = (Set.range C.boundaryι.base)ᶜ := by
   rw [range_boundaryι, compl_compl]
@@ -60,12 +64,12 @@ lemma range_j_eq_compl : Set.range C.j.base = (Set.range C.boundaryι.base)ᶜ :
 instance : Finite C.boundary := by
   have h : Set.Finite (Set.range C.boundaryι.base) := by
     rw [range_boundaryι]; exact C.finite_compl
-  haveI := h.to_subtype
+  have := h.to_subtype
   exact Finite.of_injective_finite_range C.boundaryι.isClosedEmbedding.injective
 
 /-- The boundary is finite over `k`. -/
 instance : IsFinite (C.boundaryι ≫ C.q) := by
-  haveI : LocallyQuasiFinite (C.boundaryι ≫ C.q) :=
+  have : LocallyQuasiFinite (C.boundaryι ≫ C.q) :=
     (locallyQuasiFinite_iff_finite_preimage_singleton).2 fun _ => Set.toFinite _
   exact IsFinite.of_isProper_of_locallyQuasiFinite _
 
@@ -86,14 +90,14 @@ lemma extend_mem_boundary (a : V ≅ V) (ha : a.hom ≫ f = f) (w : C.Vb)
     ← Scheme.Hom.comp_apply, hinv]
   rfl
 
-omit [IsCurve k pU] [Smooth pU] in
+omit [PerfectField k] [IsCurve k pU] [Smooth pU] [IsOpenImmersion jU] [IsFinite f] [Etale f] in
 include hjU in
 /-- The kernel of `W ⟶ V̄` is contained in the kernel of its composite with `σ_a : V̄ ⟶ V̄`. -/
 lemma ker_boundaryι_le_ker (a : V ≅ V) (ha : a.hom ≫ f = f) :
     C.boundaryι.ker ≤ (C.boundaryι ≫ C.extend pU hjU a.hom ha).ker := by
   rw [Scheme.IdealSheafData.ker_subschemeι, Scheme.Hom.ker_eq_vanishingIdeal_closure_range]
   refine Scheme.IdealSheafData.vanishingIdeal_antimono ?_
-  show closure (Set.range (C.boundaryι ≫ C.extend pU hjU a.hom ha).base) ⊆ _
+  change closure (Set.range (C.boundaryι ≫ C.extend pU hjU a.hom ha).base) ⊆ _
   refine closure_minimal ?_ C.boundaryCloseds.isClosed
   rintro _ ⟨w, rfl⟩
   exact C.extend_mem_boundary hjU a ha _
@@ -104,7 +108,7 @@ def boundaryExtend (a : V ≅ V) (ha : a.hom ≫ f = f) : C.boundary ⟶ C.bound
   IsClosedImmersion.lift C.boundaryι (C.boundaryι ≫ C.extend pU hjU a.hom ha)
     (C.ker_boundaryι_le_ker hjU a ha)
 
-omit [IsCurve k pU] [Smooth pU] in
+omit [PerfectField k] [IsCurve k pU] [Smooth pU] [IsOpenImmersion jU] [IsFinite f] [Etale f] in
 /-- `σ_a|_W` is compatible with `σ_a` along the closed immersion `W ⟶ V̄`. -/
 @[reassoc (attr := simp)]
 lemma boundaryExtend_comp_ι (a : V ≅ V) (ha : a.hom ≫ f = f) :

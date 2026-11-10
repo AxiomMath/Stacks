@@ -758,7 +758,7 @@ public theorem isAdequate_higherDirectImage
   let e : directImagePresheaf B C Φ ν ⋙ PresheafOfModules.pushforward.{u} (affineRingMap B A a) ≅
       sectionsAlong C (baseChangeFamily B C Φ A a) (baseChangeFamilyRingMap B C Φ ν A a) :=
     Iso.refl _
-  show AdequateFunctor.IsAdequate _ (((directImagePresheaf B C Φ ν).rightDerived i ⋙
+  change AdequateFunctor.IsAdequate _ (((directImagePresheaf B C Φ ν).rightDerived i ⋙
     PresheafOfModules.pushforward.{u} (affineRingMap B A a)).obj F)
   exact AdequateFunctor.IsAdequate.of_iso
     (isAdequate_rightDerived_sectionsAlong_baseChangeFamily hbc hqc hqs F hF A a hA i)

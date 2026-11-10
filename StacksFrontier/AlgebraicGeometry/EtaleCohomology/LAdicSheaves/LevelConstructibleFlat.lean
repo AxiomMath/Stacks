@@ -46,8 +46,6 @@ section Local
 attribute [local instance] Stacks.EtaleCohomology.moduleCat_hasLimitsOfSize
 
 variable (B : BigEtaleSite.{u}) (Y : B.Scheme) (R : Type) [CommRing R]
-  [∀ V : SmallEtale B Y.obj Y.property,
-    HasWeakSheafify ((SmallEtale.topology B Y.obj Y.property).over V) (ModuleCat.{u + 1} R)]
 
 /-- Over an object of the small étale site with empty underlying scheme, every sheaf on the slice
 site is zero: every object of the slice is covered by the empty sieve. -/
@@ -63,6 +61,10 @@ theorem isZero_of_isEmpty_toScheme {V : SmallEtale B Y.obj Y.property}
     simpa using Stacks.EtaleCohomology.bot_mem_topology B Y.property hW
   refine (IsZero.iff_id_eq_zero _).2 (Sheaf.hom_ext (NatTrans.ext (funext fun W => ?_)))
   exact (Sheaf.isTerminalOfBotCover H (unop W) (hbot (unop W))).hom_ext _ _
+
+variable
+  [∀ V : SmallEtale B Y.obj Y.property,
+    HasWeakSheafify ((SmallEtale.topology B Y.obj Y.property).over V) (ModuleCat.{u + 1} R)]
 
 /-- **A locally constant sheaf of finite type with projective stalks is locally constant with
 finite projective values.** -/

@@ -49,8 +49,10 @@ There is deliberately no `example ... := inferInstance` certifying the specialis
 general instance is NOT in this module's import closure. Elaborating the `example` fails with
     error(lean.synthInstanceFailed): failed to synthesize
       ((sheafSections J Ab).obj (Opposite.op U)).Additive
-and this module has a single import while `StacksFrontier/CategoryTheory/Sites/Cohomology/MayerVietoris/CanonicalMapOfASquare.lean` has thirteen and does not
-import this one. Making the general form usable everywhere therefore means relocating it to a
+and this module has a single import while
+`StacksFrontier/CategoryTheory/Sites/Cohomology/MayerVietoris/CanonicalMapOfASquare.lean` has
+thirteen and does not import this one. Making the general form usable everywhere therefore means
+relocating it to a
 module both can see, which changes the global instance set for every module that gains it. -/
 
 /-- The direct image of abelian sheaves along a continuous functor is additive: it does not

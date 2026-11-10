@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionFullyFaithful.NeighbourhoodQuotientSections
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionFullyFaithful.NeighbourhoodQuotientSections
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.TwoIdealAdicQuotient
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.Completion.AdicQuotientMap
 
@@ -184,7 +183,7 @@ theorem isInfinitesimalSectionsComplete_iff_quotientSections {Z : Scheme.{u}} (i
 theorem pow_mul_le_pow_of_pow_le {I J : X.IdealSheafData} {e : ℕ} (h : I ^ e ≤ J) (n : ℕ) :
     I ^ (e * n) ≤ J ^ n := by
   intro U
-  show I.ideal U ^ (e * n) ≤ J.ideal U ^ n
+  change I.ideal U ^ (e * n) ≤ J.ideal U ^ n
   rw [pow_mul]
   exact Ideal.pow_right_mono (h U) n
 

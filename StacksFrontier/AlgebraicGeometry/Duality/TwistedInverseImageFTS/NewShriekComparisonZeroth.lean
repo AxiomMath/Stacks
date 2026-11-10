@@ -153,10 +153,10 @@ theorem newShriekStructureSheafZerothIso_eq :
     haveI := hq.source_noetherian
     newShriekStructureSheafZerothIso c hpe hωS hf 𝒦X 𝒦Y =
       upperShriekStructureSheafZerothIsoOfIso (ftsHomSelf hf) (c f hf)
-        (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y)
+        (isDualizing_stdComplex c hωS 𝒦Y)
         ((comparison X).inverse.mapIso
           ((ObjectProperty.ι _).mapIso ((upperShriek (ftsHomSelf hf) (c f hf)).mapIso
-              (dualizingQCohIso c 𝒦Y (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y))) ≪≫
+              (dualizingQCohIso c 𝒦Y (isDualizing_stdComplex c hωS 𝒦Y))) ≪≫
             (ObjectProperty.ι _).mapIso ((ObjectProperty.ι _).mapIso
               (upperShriekObjIso c hpe hωS hf 𝒦X 𝒦Y).symm))) :=
   rfl

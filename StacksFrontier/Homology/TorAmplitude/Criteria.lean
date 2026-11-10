@@ -252,7 +252,7 @@ private lemma isIso_homology_truncLT (R : Type) [CommRing R]
       ((DerivedCategory.TStructure.t.truncLTι c).app X)) := by
   have : Epi ((DerivedCategory.homologyFunctor (ModuleCat R) i).map
       ((DerivedCategory.TStructure.t.truncLTι c).app X)) := by
-    show Epi ((DerivedCategory.homologyFunctor (ModuleCat R) i).map
+    change Epi ((DerivedCategory.homologyFunctor (ModuleCat R) i).map
       ((DerivedCategory.TStructure.t.triangleLTGE c).obj X).mor₁)
     rw [DerivedCategory.HomologySequence.epi_homologyMap_mor₁_iff
       ((DerivedCategory.TStructure.t.triangleLTGE c).obj X)
@@ -260,7 +260,7 @@ private lemma isIso_homology_truncLT (R : Type) [CommRing R]
     exact (DerivedCategory.isZero_of_isGE _ c i hi).eq_of_tgt _ _
   have : Mono ((DerivedCategory.homologyFunctor (ModuleCat R) i).map
       ((DerivedCategory.TStructure.t.truncLTι c).app X)) := by
-    show Mono ((DerivedCategory.homologyFunctor (ModuleCat R) i).map
+    change Mono ((DerivedCategory.homologyFunctor (ModuleCat R) i).map
       ((DerivedCategory.TStructure.t.triangleLTGE c).obj X).mor₁)
     rw [DerivedCategory.HomologySequence.mono_homologyMap_mor₁_iff
       ((DerivedCategory.TStructure.t.triangleLTGE c).obj X)
@@ -282,7 +282,7 @@ private lemma isIso_homology_truncGE (R : Type) [CommRing R]
   have : Mono ((DerivedCategory.homologyFunctor (ModuleCat R) c).map T.mor₂) := by
     rw [DerivedCategory.HomologySequence.mono_homologyMap_mor₂_iff T hT c]
     exact (DerivedCategory.isZero_of_isLE T.obj₁ (c - 1) c (by omega)).eq_of_src _ _
-  show IsIso ((DerivedCategory.homologyFunctor (ModuleCat R) c).map T.mor₂)
+  change IsIso ((DerivedCategory.homologyFunctor (ModuleCat R) c).map T.mor₂)
   exact isIso_of_mono_of_epi _
 
 /-- The Tor-amplitude bound of Stacks 066I for an object with cohomological support in

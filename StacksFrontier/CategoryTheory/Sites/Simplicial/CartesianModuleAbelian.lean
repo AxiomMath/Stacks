@@ -552,7 +552,11 @@ The kernel of a morphism of pairs carries the restricted comparison isomorphism,
 condition lives on the degree-two component; it can be cancelled against the pullback of the
 kernel inclusion to the vertex `2` (through `δ²₁` or `δ²₀`) or to the vertex `0` (through `δ²₁`
 or `δ²₂`), which is a monomorphism as soon as one degree-two face is flat. -/
-@[stacks 0D7K "corrected form of the positive assertion, which is false as written (the source's hypothesis, flatness of f_{δ¹₁} and f_{δ¹₀} alone, does not suffice: see CategoryTheory.PointSimplicialSite.RatioCounterexample.exists_not_abelian_cartesianModuleSheaf); with one of f_{δ²₀}, f_{δ²₁}, f_{δ²₂} flat as well the cartesian O-modules form an abelian category, with the additive structure of Mod(O)"]
+@[stacks 0D7K "corrected form of the positive assertion, which is false as written (the \
+  source's hypothesis, flatness of f_{δ¹₁} and f_{δ¹₀} alone, does not suffice: see \
+  CategoryTheory.PointSimplicialSite.RatioCounterexample.exists_not_abelian_cartesianModuleSheaf\
+  ); with one of f_{δ²₀}, f_{δ²₁}, f_{δ²₂} flat as well the cartesian O-modules form an abelian \
+  category, with the additive structure of Mod(O)"]
 abbrev cartesianModuleSheafAbelian
     (h₁ : (S.transitionRingedToposHom O (SimplexCategory.δ (1 : Fin 2))).IsFlat)
     (h₀ : (S.transitionRingedToposHom O (SimplexCategory.δ (0 : Fin 2))).IsFlat)

@@ -67,8 +67,8 @@ remaining factor, the comparison of the two iterated derived pushforwards, is
 ## Implementation notes
 
 *Nothing is re-derived.* The invertibility criterion is proved once, for an arbitrary right
-derived functor on an unbounded derived category, in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/BoundedBelowEdgeIsomorphism.lean`:
+derived functor on an unbounded derived category, in the file `BoundedBelowEdgeIsomorphism.lean`
+of `StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/`:
 a bounded below object is represented by a complex of injectives concentrated in degrees `≥ n`,
 which is K-injective, and there the edge morphism is the complex-level comparison, invertible
 because each cohomology object is acyclic.
@@ -84,8 +84,8 @@ affine case, the exact case and the closed-immersion case alike, and a consumer 
 vanishing statement it holds. Specialising to affine morphisms of schemes would force the
 statement across the two spellings of the modules on a scheme —
 `AlgebraicGeometry.Scheme.Modules` and `SheafOfModules _`, equal types with different `Abelian`
-instances, as `StacksFrontier/AlgebraicGeometry/TopDegreeBaseChange/DerivedModelCrossing.lean` records — and `Functor.rightAcyclic` at the two
-instances is not the same term.
+instances, as `StacksFrontier/AlgebraicGeometry/TopDegreeBaseChange/DerivedModelCrossing.lean`
+records — and `Functor.rightAcyclic` at the two instances is not the same term.
 
 ## References
 

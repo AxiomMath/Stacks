@@ -21,10 +21,11 @@ attached to an isomorphism `e : F ⋙ G ≅ H` of exact functors is built over `
 by lifting through that localization. A proof that identifies a transformation of derived
 categories with a right derived functor of a functor on the *homotopy* category — the situation of
 `Stacks.DerivedFunctor.exactDerivedDesc`, whose defining factorization is stated at an object
-`DerivedCategory.Qh.obj J` — therefore cannot use `mapDerivedCategoryCompIsoOfCompIso` directly: the two
-constructions live over different localization functors, and nothing relates them.
+`DerivedCategory.Qh.obj J` — therefore cannot use `mapDerivedCategoryCompIsoOfCompIso` directly: the
+two constructions live over different localization functors, and nothing relates them.
 
-This file relates them. It evaluates `mapDerivedCategoryCompIsoOfCompIso` at an object of the derived
+This file relates them. It evaluates `mapDerivedCategoryCompIsoOfCompIso` at an object of the
+derived
 category coming from the homotopy category, in the vocabulary of `mapDerivedCategoryFactorsh` and
 of `CategoryTheory.Functor.mapHomotopyCategoryCompIso`, and it records the companion statement for
 the degreewise transformation `Stacks.DerivedFunctor.mapHomotopyCategoryOfComp`: the degreewise
@@ -138,7 +139,7 @@ theorem mapDerivedCategoryCompIso_hom_app_Q (e : F ⋙ G ≅ H) (K : CochainComp
           DerivedCategory.Q.map
               ((Functor.mapHomologicalComplexCompIso e (ComplexShape.up ℤ)).hom.app K) ≫
             H.mapDerivedCategoryFactors.inv.app K := by
-  show ((Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso F G).inv ≫
+  change ((Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso F G).inv ≫
     (Stacks.DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso (F ⋙ G) H e).hom).app
       (DerivedCategory.Q.obj K) = _
   rw [NatTrans.comp_app,
@@ -279,7 +280,7 @@ private lemma mapHomotopyCategoryCompIso_refl_inv_app (G : A₂ ⥤ A₃) (H : A
     [H.Additive] (X : HomotopyCategory A₂ (ComplexShape.up ℤ)) :
     (Functor.mapHomotopyCategoryCompIso (Iso.refl (G ⋙ H)) (ComplexShape.up ℤ)).inv.app X =
       𝟙 _ := by
-  show (HomotopyCategory.quotient A₄ (ComplexShape.up ℤ)).map (𝟙 _) = 𝟙 _
+  change (HomotopyCategory.quotient A₄ (ComplexShape.up ℤ)).map (𝟙 _) = 𝟙 _
   exact CategoryTheory.Functor.map_id _ _
 
 /-- The degreewise action of a transformation `τ : F ⟶ G ⋙ H` is, at an object of the homotopy
@@ -328,7 +329,7 @@ theorem mapHomotopyCategoryOfComp_comp_whiskerLeft (F : A₁ ⥤ A₄) [F.Additi
               (𝟙 ((G.mapHomologicalComplex (ComplexShape.up ℤ)).obj
                 ((P.mapHomologicalComplex (ComplexShape.up ℤ)).obj X.as)))) :=
     HomologicalComplex.hom_ext _ _ fun i => by
-      show σ.app (X.as.X i) ≫ τ.app (P.obj (X.as.X i)) =
+      change σ.app (X.as.X i) ≫ τ.app (P.obj (X.as.X i)) =
         σ.app (X.as.X i) ≫ τ.app (P.obj (X.as.X i)) ≫ H.map (𝟙 (G.obj (P.obj (X.as.X i))))
       simp
   have whisker : (H.mapHomotopyCategory (ComplexShape.up ℤ)).map

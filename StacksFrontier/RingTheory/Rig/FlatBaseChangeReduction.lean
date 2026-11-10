@@ -195,7 +195,7 @@ theorem bijective_completedAwayMap_of_quotientMap_bijective {T D : Type*} [CommR
     bijective_quotientMap_pow_awayMap φ K f n (h n)
   have hJ : (K.map (algebraMap T TL)).map φloc = (K.map φ).map (algebraMap D DL) := by
     rw [Ideal.map_map, awayMap_comp_algebraMap, ← Ideal.map_map]
-  show Function.Bijective (Stacks.Nagata.PthRootDescent.mapAdicCompletion
+  change Function.Bijective (Stacks.Nagata.PthRootDescent.mapAdicCompletion
     (K.map (algebraMap T TL)) ((K.map φ).map (algebraMap D DL)) (le_of_eq hJ))
   rw [mapAdicCompletion_eq_adicCompletionMap]
   exact adicCompletionMap_bijective_of_quotientMap_bijective_of_eq φloc _ _ hJ hloc
@@ -273,7 +273,7 @@ theorem bijective_completedAwayMap_coe_completion {T : Type u} [CommRing T] [Uni
   have hcomp : ε.toRingHom.comp (UniformSpace.Completion.coeRingHom : T →+* _) =
       algebraMap T (AdicCompletion K T) :=
     RingHom.ext fun x ↦ by
-      show ε (x : UniformSpace.Completion T) = _
+      change ε (x : UniformSpace.Completion T) = _
       rw [AdicCompletionBridge.adicCompletionRingEquiv_coe]
       exact (AdicCompletion.algebraMap_apply K x).symm
   refine bijective_completedAwayMap_of_quotientMap_bijective _ K f (fun n ↦ ?_)
@@ -364,8 +364,7 @@ theorem bijective_quotientMap_tensorProduct_map {A B M N : Type u} [CommRing A] 
       (eN.toRingEquiv.toRingHom.comp Φ.toRingEquiv.toRingHom).comp
         eM.symm.toRingEquiv.toRingHom := by
     refine Ideal.Quotient.ringHom_ext (RingHom.ext fun t ↦ ?_)
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b m => rfl
     | add x y hx hy => simp only [map_add, hx, hy]
   rw [heq]
@@ -464,8 +463,7 @@ theorem tensorProductEquivAway_comp_map (f : C) :
           (IsScalarTower.toAlgHom A C (Localization.Away f))).toRingHom =
       algebraMap (B ⊗[A] C) (Localization.Away ((1 : B) ⊗ₜ[A] f)) := by
   refine RingHom.ext fun t ↦ ?_
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b c => simp
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -538,7 +536,7 @@ theorem completedAway_adicFiniteType_comp {A C : Type u} [CommRing A] [Topologic
   let : IsTopologicalRing target := targetIdeal.nonarchimedean.toIsTopologicalRing
   let : IsLinearTopology target target := targetIdeal.isLinearTopology
   obtain ⟨hcont, hadic, hft, -, -⟩ := completedAway_canonical_properties I f hI
-  exact ⟨hcont.comp hφ, _root_.RingHom.isAdic_comp φ (algebraMap C target) hφ hcont hP.1 hadic,
+  exact ⟨hcont.comp hφ, _root_.RingHom.isAdic_comp φ (algebraMap C target) hP.1 hadic,
     TopologicalRing.isTopologicallyOfFiniteType_comp (algebraMap C target) φ hcont hft hP.2⟩
 
 /-! ### The comparisons on the images of the uncompleted rings -/

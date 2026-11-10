@@ -53,7 +53,7 @@ theorem idealPowerKernel_ι_comp_eq_zero {n m : ℕ} (h : n ≤ m) :
   have hx := congrArg (fun φ => φ.val.app U x)
     (kernel.condition (SheafOfModules.unitToPushforwardObjUnit
       (I ^ m).subschemeι.toRingCatSheafHom))
-  show ((I ^ n).subschemeι.app U.unop).hom
+  change ((I ^ n).subschemeι.app U.unop).hom
       ((kernel.ι (SheafOfModules.unitToPushforwardObjUnit
         (I ^ m).subschemeι.toRingCatSheafHom)).val.app U x) = 0
   change ((I ^ m).subschemeι.app U.unop).hom

@@ -124,6 +124,7 @@ local instance : (_root_.SheafOfModules.evaluation.{u} R Y).Additive where
   map_add := rfl
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis through evaluation of free sheaves of modules and `ModuleCat` coproducts
 /-- The sections of a free sheaf of modules over an object of the site form a free module on
 the same index set, because evaluation preserves finite coproducts. -/
 noncomputable def freeEvaluationBasis :
@@ -141,6 +142,7 @@ noncomputable def freeEvaluationBasis :
     ((e.toLinearEquiv.trans DFinsupp.linearEquivFunOnFintype).symm)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis through evaluation of free sheaves of modules and `ModuleCat` coproducts
 /-- The basis of `freeEvaluationBasis` consists of the images of `1` under the coprojections
 of the free sheaf. -/
 lemma freeEvaluationBasis_apply (i : I) :
@@ -156,13 +158,13 @@ lemma freeEvaluationBasis_apply (i : I) :
     (fun _ : I => ev.obj (_root_.SheafOfModules.unit R))
   have h := hd.comp_coconePointUniqueUpToIso_hom hc (Discrete.mk i)
   have h' := congrArg (fun k => k (1 : R.obj.obj Y)) h
-  show (hc.coconePointUniqueUpToIso hd).inv
+  change (hc.coconePointUniqueUpToIso hd).inv
     ((DFinsupp.linearEquivFunOnFintype (R := R.obj.obj Y)).symm (Pi.basisFun (R.obj.obj Y) I i)) = _
   have hb : (DFinsupp.linearEquivFunOnFintype (R := R.obj.obj Y)).symm
       (Pi.basisFun (R.obj.obj Y) I i) =
       DirectSum.lof (R.obj.obj Y) I (fun _ => R.obj.obj Y) i 1 := by
     ext j
-    show (Pi.basisFun (R.obj.obj Y) I i) j =
+    change (Pi.basisFun (R.obj.obj Y) I i) j =
       (DFinsupp.single (β := fun _ : I => R.obj.obj Y) i (1 : R.obj.obj Y)) j
     by_cases hij : i = j <;> simp [Pi.basisFun_apply, hij]
   exact (congrArg (ConcreteCategory.hom (hc.coconePointUniqueUpToIso hd).inv) hb).trans h'
@@ -179,7 +181,7 @@ noncomputable def generatingSectionsBasis (M : _root_.SheafOfModules.{u} R)
 lemma generatingSectionsBasis_apply (M : _root_.SheafOfModules.{u} R)
     (s : M.GeneratingSections) [Finite s.I] [IsIso s.π] (Y : Cᵒᵖ) (i : s.I) :
     generatingSectionsBasis R M s Y i = (s.s i).val Y := by
-  show s.π.val.app Y (freeEvaluationBasis R s.I Y i) = _
+  change s.π.val.app Y (freeEvaluationBasis R s.I Y i) = _
   rw [freeEvaluationBasis_apply]
   have h := congrArg M.unitHomEquiv
     (_root_.SheafOfModules.unitHomEquiv_symm_freeHomEquiv_apply s.π i)
@@ -262,23 +264,23 @@ theorem isIso_iff_epi_of_isFiniteLocallyFreeOfRank
       infer_instance
     let e : Over U ≌ Opens X.carrier := G₀.asEquivalence
     have : e.functor.IsCocontinuous (J.over U) J := by
-      show G₀.IsCocontinuous (J.over U) J
+      change G₀.IsCocontinuous (J.over U) J
       infer_instance
     have : e.inverse.IsCocontinuous J (J.over U) := by
       have h : CoverPreserving (J.over U) J e.functor := by
-        show CoverPreserving (J.over U) J G₀
+        change CoverPreserving (J.over U) J G₀
         exact GrothendieckTopology.over_forget_coverPreserving J U
       exact (e.symm.toAdjunction.isCocontinuous_iff_coverPreserving
         J (J.over U)).2 h
     have : e.symm.inverse.IsDenseSubsite (J.over U) J := by
-      show G₀.IsDenseSubsite (J.over U) J
+      change G₀.IsDenseSubsite (J.over U) J
       infer_instance
     have : e.inverse.IsDenseSubsite J (J.over U) := by
       exact e.isDenseSubsite_inverse_of_isCocontinuous (J.over U) J
     have : HasWeakSheafify J AddCommGrpCat.{u} :=
       weakSheafify_of_siteEquivalence e (J.over U) J AddCommGrpCat.{u}
     have : (G₀.sheafPushforwardContinuous AddCommGrpCat.{u} (J.over U) J).EssSurj := by
-      show (e.symm.sheafCongr J (J.over U) AddCommGrpCat.{u}).functor.EssSurj
+      change (e.symm.sheafCongr J (J.over U) AddCommGrpCat.{u}).functor.EssSurj
       infer_instance
     have : J.WEqualsLocallyBijective AddCommGrpCat.{u} :=
       GrothendieckTopology.WEqualsLocallyBijective.transport J (J.over U) G₀
@@ -334,7 +336,7 @@ theorem isIso_iff_epi_of_isFiniteLocallyFreeOfRank
       obtain ⟨V, i, hxV, hi⟩ := hnear T.unop x hx
       refine ⟨V, i, ?_, hxV⟩
       apply hi
-      show φ.app (op V) (F.val.presheaf.map i.op a) =
+      change φ.app (op V) (F.val.presheaf.map i.op a) =
         φ.app (op V) (F.val.presheaf.map i.op b)
       exact (NatTrans.naturality_apply φ i.op a).trans
         ((congrArg (G.val.presheaf.map i.op) hab).trans

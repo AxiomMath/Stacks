@@ -255,10 +255,10 @@ theorem not_fg_yIdeal : ¬ (yIdeal g).FG := by
       refine Submodule.span_le.2 fun t ht => ?_
       have htT' : t ∈ T' := Finset.mem_biUnion.2 ⟨⟨x, hx⟩, Finset.mem_attach _ _, ht⟩
       have hb : idx t ≠ a := fun h => ha₁ (Finset.mem_image.2 ⟨t, htT', h⟩)
-      rw [SetLike.mem_coe, RingHom.mem_ker, ← hidx t htT', pointAt, lift_y, if_neg hb]
+      rw [SetLike.mem_coe, RingHom.mem_ker, ← hidx t htT', pointAt, lift_y, ite_eq_right hb]
     exact hsub (hxT x hx)
   have h1 := hker (Ideal.subset_span ⟨a, rfl⟩ : y g a ∈ yIdeal g)
-  rw [RingHom.mem_ker, pointAt, lift_y, if_pos rfl] at h1
+  rw [RingHom.mem_ker, pointAt, lift_y, ite_eq_left rfl] at h1
   exact one_ne_zero h1
 
 include hg in

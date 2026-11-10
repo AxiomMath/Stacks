@@ -329,7 +329,7 @@ lemma sectionPairingPushforwardFun_naturality {U V : Z.Etale} (φ : V ⟶ U) (a 
       N.obj.map ((smallEtaleBaseChange p).map φ).op (N.obj.map (etaleFiberLift U p hr).op x) := by
     intro x
     rw [map_op_map_op_apply, map_op_map_op_apply, etaleFiberLift_naturality]
-  show N.obj.map (etaleFiberLift V p hr).op (moduleUnitSection Λ₃ p G₃
+  change N.obj.map (etaleFiberLift V p hr).op (moduleUnitSection Λ₃ p G₃
       (b.app (op (etaleFiberObj V W)) (G₁.obj.map (etaleFiberFst V W).op (G₁.obj.map φ.op a))
         (G₂.obj.map (etaleFiberSnd V W).op s))) =
     N.obj.map ((smallEtaleBaseChange p).map φ).op (N.obj.map (etaleFiberLift U p hr).op
@@ -380,7 +380,7 @@ lemma sectionPairingAct_moduleUnitSection {U : Z.Etale} (a : G₁.obj.obj (op U)
         (moduleUnitSection Λ₁ p G₁ a) =
       sectionPairingPushforwardFun p b hr s (op U) a := by
   rw [← moduleUnitSection_restrictScalars p G₁ a]
-  show ((((etaleModuleInverseImageRestrictScalars (Int.castRingHom Λ₁) p).hom.app G₁ ≫
+  change ((((etaleModuleInverseImageRestrictScalars (Int.castRingHom Λ₁) p).hom.app G₁ ≫
       (etaleModuleInverseImageRestrictScalars (Int.castRingHom Λ₁) p).inv.app G₁) ≫
       ((etaleModuleInverseImageAdj.{u, 0} ℤ p).homEquiv _ _).symm
         (sectionPairingPushforwardMap p b hr s)).hom.app _)
@@ -428,7 +428,7 @@ lemma sectionPairingAct_smallEtaleBaseChangeLift {U : Z.Etale} (t : U ⟶ W) {r'
     ((sectionPairingAct p b hr s).hom.naturality (smallEtaleBaseChangeLift p U r' hr').op)
     (moduleUnitSection Λ₁ p G₁ a)
   refine hnat.trans ?_
-  show N.obj.map (smallEtaleBaseChangeLift p U r' hr').op
+  change N.obj.map (smallEtaleBaseChangeLift p U r' hr').op
       ((sectionPairingAct p b hr s).hom.app (op ((smallEtaleBaseChange p).obj U))
         (moduleUnitSection Λ₁ p G₁ a)) = _
   rw [sectionPairingAct_moduleUnitSection, sectionPairingPushforwardFun_apply,
@@ -454,7 +454,7 @@ lemma sectionPairingAct_ext {f g : (etaleModuleRestrictScalars (Int.castRingHom 
   rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit]
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U =>
     ModuleCat.hom_ext (LinearMap.ext fun a => ?_)))
-  show f.hom.app (op ((smallEtaleBaseChange p).obj U.unop))
+  change f.hom.app (op ((smallEtaleBaseChange p).obj U.unop))
       (e.hom.hom.app _ (moduleUnitSection ℤ p _ a)) =
     g.hom.app (op ((smallEtaleBaseChange p).obj U.unop))
       (e.hom.hom.app _ (moduleUnitSection ℤ p _ a))
@@ -485,7 +485,7 @@ lemma sectionPairingAct_add (s' : G₂.obj.obj (op W)) :
       sectionPairingAct p b hr s + sectionPairingAct p b hr s' := by
   refine sectionPairingAct_ext p fun U a => ?_
   rw [Sheaf.Hom.add_app]
-  show _ = (sectionPairingAct p b hr s).hom.app _ (moduleUnitSection Λ₁ p G₁ a) +
+  change _ = (sectionPairingAct p b hr s).hom.app _ (moduleUnitSection Λ₁ p G₁ a) +
     (sectionPairingAct p b hr s').hom.app _ (moduleUnitSection Λ₁ p G₁ a)
   rw [sectionPairingAct_moduleUnitSection, sectionPairingAct_moduleUnitSection,
     sectionPairingAct_moduleUnitSection, sectionPairingPushforwardFun_apply,
@@ -515,7 +515,7 @@ lemma sectionPairingAct_comm {G₁' : EtaleModules.{u, 0} Λ₁ Z} {G₃' : Etal
       sectionPairingAct p b hr s ≫ (etaleModuleRestrictScalars (Int.castRingHom Λ₃) T).map
         ((etaleModuleInverseImage.{u, 0} Λ₃ p).map v₃) := by
   refine sectionPairingAct_ext p fun U a => ?_
-  show (sectionPairingAct p b' hr s).hom.app _
+  change (sectionPairingAct p b' hr s).hom.app _
       (((etaleModuleInverseImage.{u, 0} Λ₁ p).map v₁).hom.app _ (moduleUnitSection Λ₁ p G₁ a)) =
     ((etaleModuleInverseImage.{u, 0} Λ₃ p).map v₃).hom.app _
       ((sectionPairingAct p b hr s).hom.app _ (moduleUnitSection Λ₁ p G₁ a))
@@ -557,7 +557,7 @@ omit [Ring Λ₂] in
 lemma fieldStageRes_refl {Λ : Type} [Ring Λ] (G : EtaleModules.{u, 0} Λ Y.left) (i : FExt k K)
     (c : G.obj.obj (op ((fieldStageSystem Y K).obj (op i)))) :
     fieldStageRes Λ Y K G (le_refl i) c = c := by
-  show G.obj.map ((fieldStageSystem Y K).map (homOfLE (le_refl i)).op).op c = c
+  change G.obj.map ((fieldStageSystem Y K).map (homOfLE (le_refl i)).op).op c = c
   rw [show homOfLE (le_refl i) = 𝟙 i from Subsingleton.elim _ _, op_id,
     CategoryTheory.Functor.map_id, op_id, CategoryTheory.Functor.map_id]
   rfl

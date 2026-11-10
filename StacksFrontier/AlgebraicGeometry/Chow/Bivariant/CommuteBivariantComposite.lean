@@ -84,7 +84,7 @@ theorem bivariantCommute_bivariantComposite
           (bivariantComposite C G (j ≫ (i ≫ sX)) (i ≫ sX) sX j i rfl rfl p q a b hgys hgysc)))
       c₂ := by
   subst e
-  show BivariantCommute C G sX (j ≫ i) f₂ (p + q) p₂
+  change BivariantCommute C G sX (j ≫ i) f₂ (p + q) p₂
     (bivariantClassCongrBase C G (j ≫ i) (Category.assoc j i sX).symm rfl (hv' := rfl) (p + q)
       (bivariantComposite C G (j ≫ (i ≫ sX)) (i ≫ sX) sX j i rfl rfl p q a b hgys hgysc)) c₂
   set c₁ := bivariantClassCongrBase C G (j ≫ i) (Category.assoc j i sX).symm rfl (hv' := rfl)

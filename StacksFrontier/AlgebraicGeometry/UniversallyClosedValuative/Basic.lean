@@ -79,7 +79,7 @@ private theorem specializingMap_of_discreteValuativeCriterion
             (genericPoint (Spec (.of K'))) = η := by
       apply PrimeSpectrum.ext
       rw [genericPoint_eq_bot_of_affine (.of K')]
-      show Ideal.comap (algebraMap A K') (⊥ : Ideal K') =
+      change Ideal.comap (algebraMap A K') (⊥ : Ideal K') =
         (genericPoint (Spec (.of A))).asIdeal
       rw [genericPoint_eq_bot_of_affine (.of A)]
       ext a
@@ -93,7 +93,7 @@ private theorem specializingMap_of_discreteValuativeCriterion
       ext a
       simp only [eSpecIso, Iso.trans_hom, ConcreteCategory.comp_apply,
         Iso.inv_hom_id_apply]
-      show algebraMap A K' a = eFrac (algebraMap A _ a)
+      change algebraMap A K' a = eFrac (algebraMap A _ a)
       rw [← Ideal.algebraMap_quotient_residueField_mk,
         IsFractionRing.ringEquivOfRingEquiv_algebraMap]
       simp [baseEquiv]
@@ -102,7 +102,7 @@ private theorem specializingMap_of_discreteValuativeCriterion
           (Y.residueFieldCongr hη.symm).hom ≫ q.residueFieldMap η ≫ eSpecIso.hom := by
       apply CommRingCat.hom_ext
       ext a
-      show α.symm ((algebraMap (Y.residueField (f x')) K) a) =
+      change α.symm ((algebraMap (Y.residueField (f x')) K) a) =
         eSpec (q.residueFieldMap η ((Y.residueFieldCongr hη.symm).hom a))
       rw [← he a]
       simp [α, η]
@@ -145,12 +145,12 @@ private theorem specializingMap_of_discreteValuativeCriterion
     · have hgen : l η = x' := by
         have heval := congrArg (fun k : Spec (.of K') ⟶ X => k (genericPoint _)) hl₁
         have hsource : i₁ (genericPoint (Spec (.of K'))) = x' := by
-          show X.fromSpecResidueField x'
+          change X.fromSpecResidueField x'
             ((Spec.map (CommRingCat.ofHom α.symm.toRingHom))
               (genericPoint (Spec (.of K')))) = x'
           simp
         simpa only [Scheme.Hom.comp_apply, hgenFrac, hsource] using heval
-      show x' ⤳ l pA
+      change x' ⤳ l pA
       rw [← hgen]
       exact (IsLocalRing.specializes_closedPoint (R := A) η).map l.continuous
     · have heval := congrArg (fun k : Spec (.of A) ⟶ Y => k pA) hl₂

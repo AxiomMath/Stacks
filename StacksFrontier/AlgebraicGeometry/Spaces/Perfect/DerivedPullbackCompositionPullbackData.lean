@@ -110,7 +110,7 @@ theorem isCoherent_toPullbackData : P.toPullbackData.IsCoherent where
     ext M
     have key := congrArg Iso.inv (P.iso_assoc f g p q k r hq hk hkr hr M)
     simp only [Iso.trans_inv, Iso.app_inv, Functor.mapIso_inv] at key
-    show (P.iso k p r hkr).inv.app M ≫
+    change (P.iso k p r hkr).inv.app M ≫
         (P.iso f g k hk).inv.app ((smallEtaleDerivedModulePullback B S hS p).obj M) =
       (P.iso f q r hr).inv.app M ≫
         (smallEtaleDerivedModulePullback B S hS f).map ((P.iso g p q hq).inv.app M) ≫ 𝟙 _

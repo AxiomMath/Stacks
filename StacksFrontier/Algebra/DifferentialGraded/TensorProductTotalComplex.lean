@@ -207,7 +207,7 @@ lemma totToTensor_comm (n : ℤ) :
   simp only [DifferentialGradedModule.toCochainComplex_d]
   have hA : A.d (a : A.A) ∈ A.grading (p + 1) := A.d_mem p a a.property
   have hB : B.d (b : B.A) ∈ B.grading (q + 1) := B.d_mem q b b.property
-  show (totSummandMap A B (p + 1) q (n + 1) h1
+  change (totSummandMap A B (p + 1) q (n + 1) h1
           ((⟨A.d (a : A.A), hA⟩ : A.grading (p + 1)) ⊗ₜ[R] b)
         + p.negOnePow • totSummandMap A B p (q + 1) (n + 1) h2
           (a ⊗ₜ[R] (⟨B.d (b : B.A), hB⟩ : B.grading (q + 1))))

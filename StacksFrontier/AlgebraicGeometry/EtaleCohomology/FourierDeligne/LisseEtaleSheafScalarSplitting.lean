@@ -112,7 +112,7 @@ theorem etaleModuleScalarSplitting_lisseEtaleSheaf :
         Iso.eq_comp_inv]
       exact hnat
     rw [Category.assoc, hinv, ← Category.assoc, ← L.map_comp,
-      matrixContinuousModuleBasisHom_comp_mulHom ρ β π h₁ hσ hσ'' h₃ o i, L.map_sum,
+      matrixContinuousModuleBasisHom_comp_mulHom ρ β π hσ hσ'' h₃ o i, L.map_sum,
       Preadditive.sum_comp]
     refine Finset.sum_congr rfl fun k _ => ?_
     rw [L.map_comp, etaleModuleSMul_app_lisseEtaleSheaf, Category.assoc]

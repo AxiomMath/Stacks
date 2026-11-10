@@ -83,7 +83,7 @@ private theorem local_equivalentClosure_fractionRing
   have : IsScalarTower A B L :=
     IsScalarTower.of_algebraMap_eq' (by
       ext x
-      show algebraMap A L x =
+      change algebraMap A L x =
         algebraMap (integralClosure A L) L (e (algebraMap A B x))
       rw [e.commutes x]
       exact (IsScalarTower.algebraMap_apply A (integralClosure A L) L x).symm)
@@ -96,7 +96,7 @@ private theorem local_equivalentClosure_fractionRing
   let : Algebra (Localization.AtPrime q) L := g.toAlgebra
   have : IsScalarTower B (Localization.AtPrime q) L :=
     IsScalarTower.of_algebraMap_eq' (by
-      show algebraMap B L = g.comp (algebraMap B (Localization.AtPrime q))
+      change algebraMap B L = g.comp (algebraMap B (Localization.AtPrime q))
       simp only [g, IsLocalization.map_comp, RingHom.comp_id])
   have : IsScalarTower A (Localization.AtPrime q) L :=
     IsScalarTower.of_algebraMap_eq' (by
@@ -168,7 +168,7 @@ private theorem finite_residue_equivalentClosure
       (algebraMap A (Localization.AtPrime q)) = IsLocalRing.maximalIdeal A := by
     rw [IsScalarTower.algebraMap_eq A B (Localization.AtPrime q),
       ← Ideal.comap_comap]
-    show ((IsLocalRing.maximalIdeal (Localization.AtPrime q)).under B).comap
+    change ((IsLocalRing.maximalIdeal (Localization.AtPrime q)).under B).comap
       (algebraMap A B) = IsLocalRing.maximalIdeal A
     rw [Localization.AtPrime.under_maximalIdeal]
     exact IsLocalRing.eq_maximalIdeal hqA
@@ -335,7 +335,7 @@ private theorem reduced_prime_over
     simpa [f, Ideal.mk_ker] using (nilradical_le_prime q)
   refine ⟨q.map f, Ideal.map_isPrime_of_surjective
     Ideal.Quotient.mk_surjective hker, ?_⟩
-  show (q.map f).comap f = q
+  change (q.map f).comap f = q
   rw [Ideal.comap_map_of_surjective f Ideal.Quotient.mk_surjective q]
   exact sup_of_le_left (by simpa only [RingHom.ker_eq_comap_bot] using hker)
 
@@ -388,7 +388,7 @@ private theorem reduced_branch_ideal_map_compatibility
         (Ideal.Quotient.mk (nilradical S)) := by
     ext x
     exact e.commutes (Ideal.Quotient.mk (nilradical S) x)
-  show ((I.map (algebraMap S U)).map (Ideal.Quotient.mk J)).map
+  change ((I.map (algebraMap S U)).map (Ideal.Quotient.mk J)).map
       e.toRingHom = _
   rw [Ideal.map_map, Ideal.map_map]
   have hassoc : (e.toRingHom.comp (Ideal.Quotient.mk J)).comp (algebraMap S U) =
@@ -442,7 +442,7 @@ private theorem local_base_ideal_square_for_uniformizer
   let : IsScalarTower C R T := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have hlie : p.LiesOver m := by
     apply Ideal.LiesOver.mk
-    show m = p.comap f
+    change m = p.comap f
     calc
       m = q.comap ι := hqm.symm
       _ = (p.comap (Ideal.Quotient.mk (nilradical S))).comap ι := by rw [hpq]
@@ -450,10 +450,9 @@ private theorem local_base_ideal_square_for_uniformizer
   let : p.LiesOver m := hlie
   let : Algebra (Localization.AtPrime m) T :=
     Localization.AtPrime.algebraOfLiesOver m p
-  let : Localization.AtPrime.IsLiesOverAlgebra m p := inferInstance
   let : IsScalarTower C (Localization.AtPrime m) T :=
     IsScalarTower.of_algebraMap_eq fun c => by
-      show algebraMap C T c =
+      change algebraMap C T c =
         (Localization.localRingHom m p f hlie.over)
           (algebraMap C (Localization.AtPrime m) c)
       simp only [Localization.localRingHom_to_map]
@@ -730,7 +729,7 @@ theorem actual_09EM_reduced_branch_specialFiber_isField
   have hI : I = m.map ι := rfl
   have hqm : (q.comap g).comap ι = m := by
     ext x
-    show g ((Algebra.TensorProduct.includeRight : A₁ →ₐ[A] S) x) ∈ q ↔
+    change g ((Algebra.TensorProduct.includeRight : A₁ →ₐ[A] S) x) ∈ q ↔
       algebraMap A₁ B₁ x ∈ q
     rw [hright x]
   let : IsDomain (Localization.AtPrime m) := hDomain

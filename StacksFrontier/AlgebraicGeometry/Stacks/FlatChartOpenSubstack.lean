@@ -128,7 +128,7 @@ theorem exists_openSubstack
   refine ⟨(OpenSubstack.equivIsSubstackWith 𝒳).symm ⟨_, hsub⟩, fun z => ?_, fun y =>
     Iff.of_eq (congrArg (fun Y : Subfunctor (yoneda.obj W) => y.fiber.as ∈ Y.obj (op y.base)) hkey)⟩
   have hstrict := hsub.1
-  show presentationProperty (presentationProjection (groupoid eU eR) (canonical eU eR)
+  change presentationProperty (presentationProjection (groupoid eU eR) (canonical eU eR)
       (canonical_comp_p eU eR)) Z (f.hom.hom.obj z) ↔ _
   rw [← (presentationProperty (presentationProjection (groupoid eU eR) (canonical eU eR)
       (canonical_comp_p eU eR)) Z).prop_iff_of_iso ((presentation eU eR).extends_f.1.app z)]

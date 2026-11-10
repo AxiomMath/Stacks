@@ -133,16 +133,24 @@ def formsShiftSMul (n : ℤ) (g : Γ(X, ⊤)) :
 
 end Scheme.Hom
 
+end AlgebraicGeometry
+
+namespace Stacks.Cohomology.ProjectionFormulaInternalHomOnRingedTopoi.TensorHomAdjunction
+
 /-- **The tensor–internal-Hom bijection is natural in the source**, in the direction of the
 inverse bijection: precomposing a pairing with `v ⊗ 1` precomposes the map it determines with
 `v`. -/
-theorem _root_.Stacks.Cohomology.ProjectionFormulaInternalHomOnRingedTopoi.TensorHomAdjunction.homEquiv_symm_map_app_comp
+theorem homEquiv_symm_map_app_comp
     {C : Type*} [Category* C] {T : C ⥤ C ⥤ C} {H : Cᵒᵖ ⥤ C ⥤ C}
     (DY : Stacks.Cohomology.ProjectionFormulaInternalHomOnRingedTopoi.TensorHomAdjunction T H)
     {A' A B M : C} (v : A' ⟶ A) (φ : (T.obj A).obj B ⟶ M) :
     (DY.homEquiv A' B M).symm ((T.map v).app B ≫ φ) = v ≫ (DY.homEquiv A B M).symm φ :=
   (Equiv.symm_apply_eq _).2 ((DY.homEquiv_naturality_source v _).trans
     (congrArg _ (Equiv.apply_symm_apply _ _))).symm
+
+end Stacks.Cohomology.ProjectionFormulaInternalHomOnRingedTopoi.TensorHomAdjunction
+
+namespace AlgebraicGeometry
 
 /-- The type of tensor–internal-Hom adjunctions `− ⊗^L_{𝒪_S} L ⊣ R𝓗om_{𝒪_S}(L, −)` on `D(𝒪_S)`
 for the derived tensor product of [Stacks, Tag 06YU]. -/

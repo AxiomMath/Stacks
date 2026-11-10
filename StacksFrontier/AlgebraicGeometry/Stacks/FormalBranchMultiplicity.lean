@@ -210,7 +210,7 @@ theorem isGRing_stalk_of_schemeMap_eq (D : VersalSituation.{u, w})
   have hu : ((D.𝒳.val.val.p ⋙ Over.post D.B.inclusion).obj x).hom u₀ = s := by
     rw [← hs]
     refine Eq.trans ?_ h1
-    show _ = ((D.𝒳.val.val.p ⋙ Over.post D.B.inclusion).obj x).hom
+    change _ = ((D.𝒳.val.val.p ⋙ Over.post D.B.inclusion).obj x).hom
       (((D.𝒳.val.val.p ⋙ Over.post D.B.inclusion).obj x).left.fromSpecResidueField u₀ _)
     rw [Scheme.fromSpecResidueField_apply]
   subst hu

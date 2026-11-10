@@ -143,8 +143,8 @@ theorem pullbackComp_compatible {U V₁ V₂ W Y : Scheme.{u}} (a₁ : U ⟶ V�
     rw [← @cancel_epi _ _ _ _ _ ((Scheme.Modules.pullbackComp a₂ b₂).hom.app
       ((Scheme.Modules.pullback t).obj L))
       (@IsIso.epi_of_iso _ _ _ _ _ ((Scheme.Modules.pullbackComp a₂ b₂).app
-        ((Scheme.Modules.pullback t).obj L)).isIso_hom), Iso.hom_inv_id_app_assoc, ← reassoc_of% hA₂,
-      Iso.hom_inv_id_app]
+        ((Scheme.Modules.pullback t).obj L)).isIso_hom), Iso.hom_inv_id_app_assoc,
+      ← reassoc_of% hA₂, Iso.hom_inv_id_app]
     simp only [Functor.comp_obj, Category.comp_id]
   rw [Functor.map_comp, Category.assoc, reassoc_of% h', Iso.app_hom, Iso.hom_inv_id_app]
   simp only [Functor.comp_obj, Category.comp_id]
@@ -182,7 +182,7 @@ theorem overlapComparison_hom_app_comp_pullbackComp_hom_app (M : V'.Modules) :
           M =
       (Scheme.Modules.pullbackComp (commonToTarget i f g) (targetRestriction i f g)).hom.app M ≫
         (Scheme.Modules.pullbackCongr (commonToTarget_comp_targetRestriction i f g)).hom.app M := by
-  show ((Scheme.Modules.pullbackComp (commonToTarget i f g) (targetRestriction i f g)).hom.app M
+  change ((Scheme.Modules.pullbackComp (commonToTarget i f g) (targetRestriction i f g)).hom.app M
     ≫ (Scheme.Modules.pullbackCongr (commonToTarget_comp_targetRestriction i f g)).hom.app M ≫
       (Scheme.Modules.pullbackComp (commonToAmbient i f g) (ambientRestriction i f g)).inv.app M) ≫
       _ = _
@@ -257,7 +257,7 @@ theorem pullbackComp_inv_comp_eq_of_compatible (M : V'.Modules)
     rw [← reassoc_of% hcomm, Iso.trans_hom, Iso.symm_hom, Category.assoc, Iso.inv_hom_id,
       Category.comp_id]
   rw [h₁, ← pullbackCongr_hom_app_eq_eqToHom (commonToTarget_comp_targetRestriction i f g) M]
-  show _ ≫
+  change _ ≫
       ((Scheme.Modules.pullbackComp (commonToTarget i f g) (targetRestriction i f g)).hom.app M ≫
         (Scheme.Modules.pullbackCongr (commonToTarget_comp_targetRestriction i f g)).hom.app M ≫
         (Scheme.Modules.pullbackComp (commonToAmbient i f g)
@@ -295,7 +295,7 @@ theorem existsUnique_hom_of_compatible {M N : V'.Modules} (hM : FlatQuasicoheren
   · rintro φ ⟨h₁, h₂⟩
     have hφ : F.map (ObjectProperty.homMk φ : M' ⟶ N') = θ := by
       ext1
-      show (⟨_, _, _⟩ : GluingTripleHom _ _) = θ0
+      change (⟨_, _, _⟩ : GluingTripleHom _ _) = θ0
       congr
     exact congrArg (fun k : M' ⟶ N' ↦ k.hom) (F.map_injective (hφ.trans (F.map_preimage θ).symm))
 

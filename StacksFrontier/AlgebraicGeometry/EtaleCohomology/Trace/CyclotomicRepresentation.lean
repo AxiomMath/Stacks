@@ -114,7 +114,7 @@ theorem isOpen_setOf_rootsOfUnityGaloisRepresentation_eq (z : Additive (rootsOfU
   have hset : {σ : K ≃ₐ[k] K | rootsOfUnityGaloisRepresentation k K n σ z = z} =
       (MulAction.stabilizer (K ≃ₐ[k] K) α : Set (K ≃ₐ[k] K)) := by
     ext σ
-    rw [Set.mem_setOf_eq, rootsOfUnityGaloisRepresentation_eq_iff, SetLike.mem_coe,
+    rw [Set.mem_ofPred_eq, rootsOfUnityGaloisRepresentation_eq_iff, SetLike.mem_coe,
       MulAction.mem_stabilizer_iff, AlgEquiv.smul_def]
   rw [hset]
   refine Subgroup.isOpen_mono (fun σ hσ ↦ ?_) k⟮α⟯.fixingSubgroup_isOpen
@@ -160,7 +160,7 @@ theorem rootsOfUnityHomRepresentation_rootsOfUnityZModRepresentation (σ : K ≃
   refine congrArg (c • ·) ?_
   rw [rootsOfUnityZModRepresentation_apply]
   refine additive_rootsOfUnity_ext ?_
-  show ((galoisRootsOfUnity k K n σ (galoisRootsOfUnity k K n σ⁻¹ z.toMul) : Kˣ) : K) = _
+  change ((galoisRootsOfUnity k K n σ (galoisRootsOfUnity k K n σ⁻¹ z.toMul) : Kˣ) : K) = _
   rw [galoisRootsOfUnity_coe, galoisRootsOfUnity_coe, ← AlgEquiv.mul_apply, mul_inv_cancel,
     AlgEquiv.one_apply]
 
@@ -256,6 +256,7 @@ def cyclotomicContinuousModule :
   rootsOfUnityFiniteTypeContinuousModule.{u, u + 1, u + 1} n
     (geometricGaloisProjection B X f kbar y)
 
+omit [Smooth f] in
 /-- `γ ∈ π₁(X, x̄)` acts on `ζ ∈ μ_n(k̄)` by its image in `Aut(k̄/k)`. -/
 lemma cyclotomicContinuousModule_ρ_apply
     (γ : letI := connectedSpace_of_isCurve B X f
@@ -268,6 +269,7 @@ lemma cyclotomicContinuousModule_ρ_apply
         (galoisRootsOfUnity k kbar n (geometricGaloisProjection B X f kbar y γ) z.down.toMul)) :=
   rfl
 
+omit [Smooth f] in
 /-- **The image of `π₁(X_k̄, η̄)` acts trivially on `μ_n(k̄)`**: it is the kernel of
 `π₁(X, x̄) ⟶ Aut(k̄/k)` (`AlgebraicGeometry.ker_geometricGaloisProjection`). -/
 lemma cyclotomicContinuousModule_ρ_eq_one_of_mem_range
@@ -284,11 +286,11 @@ lemma cyclotomicContinuousModule_ρ_eq_one_of_mem_range
   have h1 : geometricGaloisProjection B X f kbar y γ = 1 :=
     MonoidHom.mem_ker.mp ((ker_geometricGaloisProjection B X f kbar y).symm ▸ hγ)
   refine End.ext (ModuleCat.hom_ext (LinearMap.ext fun z ↦ ?_))
-  show ULift.up (Additive.ofMul
+  change ULift.up (Additive.ofMul
     (galoisRootsOfUnity k kbar n (geometricGaloisProjection B X f kbar y γ) z.down.toMul)) = z
   rw [h1]
   refine ULift.ext (additive_rootsOfUnity_ext ?_)
-  show ((galoisRootsOfUnity k kbar n 1 z.down.toMul : kbarˣ) : kbar) = _
+  change ((galoisRootsOfUnity k kbar n 1 z.down.toMul : kbarˣ) : kbar) = _
   rw [galoisRootsOfUnity_coe, AlgEquiv.one_apply]
 
 /-- **`μ_n(k̄)` as a discrete `ℤ`-module with the action of `π₁(X, x̄)` through `Aut(k̄/k)`**: the
@@ -310,6 +312,7 @@ instance finite_cyclotomicIntContinuousModule :
     Finite (cyclotomicIntContinuousModule B X f kbar y n).obj.obj.V :=
   inferInstanceAs (Finite (ULift.{u + 1} (Additive (_root_.rootsOfUnity n kbar))))
 
+omit [Smooth f] in
 /-- `γ ∈ π₁(X, x̄)` acts on `ζ ∈ μ_n(k̄)`, in `AlgebraicGeometry.cyclotomicIntContinuousModule`, by
 its image in `Aut(k̄/k)`. -/
 lemma cyclotomicIntContinuousModule_ρ_apply

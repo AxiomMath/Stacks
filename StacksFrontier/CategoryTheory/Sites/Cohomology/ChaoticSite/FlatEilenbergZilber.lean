@@ -114,7 +114,7 @@ public lemma simpKerι_app_comp_decKerRetract (q : ℕ) :
   refine ModuleCat.hom_ext (LinearMap.ext fun w => ?_)
   refine Subtype.ext ?_
   have hw : (((decδ₀ N).app (op ⦋q⦌)).hom) w.1 = 0 := w.2
-  show (decKerRetractAux N q).hom w.1 = w.1
+  change (decKerRetractAux N q).hom w.1 = w.1
   rw [decKerRetractAux]
   simp only [ModuleCat.hom_sub, ModuleCat.hom_id, ModuleCat.hom_comp, LinearMap.sub_apply,
     LinearMap.id_coe, id_eq, LinearMap.coe_comp, Function.comp_apply, hw, map_zero, sub_zero]

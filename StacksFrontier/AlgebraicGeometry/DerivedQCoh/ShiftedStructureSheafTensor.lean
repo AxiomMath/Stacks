@@ -92,7 +92,7 @@ abbrev shiftedUnitComplex (a : ℤ) :
 
 /-- The structure sheaf placed in a single degree is a K-flat complex. -/
 theorem kFlat_shiftedUnitComplex (a : ℤ) :
-    Stacks.SheafOfModules.KFlat.KFlat Z.sheaf (shiftedUnitComplex Z a) :=
+    Stacks.SheafOfModules.KFlat Z.sheaf (shiftedUnitComplex Z a) :=
   Stacks.SheafOfModules.isKFlat_single_obj_unit (toRingedSite Z).O a
 
 /-- The unit constraint `𝒪_Z ⊗_{𝒪_Z} 𝒪_Z ≅ 𝒪_Z` of the tensor product of sheaves of modules. -/

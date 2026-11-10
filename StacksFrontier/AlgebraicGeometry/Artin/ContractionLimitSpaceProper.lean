@@ -178,7 +178,7 @@ theorem exists_stage_isProper_of_isLimit
   -- properness at the limit
   have hlim : _root_.AlgebraicGeometry.IsProper ((Over.pullback (c'.π.app k)).map f₀).left := by
     rw [hprop]
-    show _root_.AlgebraicGeometry.IsProper (pullback.snd (T.map ψ) (T.map (c.π.app k)))
+    change _root_.AlgebraicGeometry.IsProper (pullback.snd (T.map ψ) (T.map (c.π.app k)))
     rw [← key, ← chowBaseChangeMap_snd hπ (c.π.app k)]
     have hP := isAlgebraicSpace_pullback_yoneda_map hYk pk (c.π.app k)
     refine isProper_comp B S hS (isAlgebraicSpace_yoneda B S hS _) hP

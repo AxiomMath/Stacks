@@ -471,7 +471,7 @@ private theorem boundedFiniteFree_extendScalars
   refine ⟨⟨a, inferInstance⟩, ⟨b, inferInstance⟩, fun i => ?_⟩
   have := (hfin i).1
   have := (hfin i).2
-  show Module.Finite S (TensorProduct R S (E.X i)) ∧
+  change Module.Finite S (TensorProduct R S (E.X i)) ∧
     Module.Free S (TensorProduct R S (E.X i))
   exact ⟨inferInstance, inferInstance⟩
 
@@ -1001,10 +1001,10 @@ private lemma pseudoCoherent_totalDerived {R A : Type u} [CommRing R] [CommRing 
   have hc : IsIso (D.comparison.app P) := D.comparison_isIso_of_projective P b
   refine ⟨PA, ?_, ⟨(@asIso _ _ _ _ (D.comparison.app P) hc).symm ≪≫ D.functor.mapIso e⟩⟩
   refine ⟨⟨b, by dsimp only [PA]; infer_instance⟩, fun i => ⟨?_, ?_⟩⟩
-  · show Module.Finite A (TensorProduct R A (P.X i))
+  · change Module.Finite A (TensorProduct R A (P.X i))
     have : Module.Finite R (P.X i) := (hP.finiteFree i).1
     infer_instance
-  · show Module.Free A (TensorProduct R A (P.X i))
+  · change Module.Free A (TensorProduct R A (P.X i))
     infer_instance
 
 open CochainComplex.DerivedExtensionScalars in
@@ -1030,7 +1030,7 @@ private lemma totalDerived_comp_obj_of_pseudoCoherent {R A B : Type u} [CommRing
   let _ : Algebra R A := f.toAlgebra
   have : ∀ i, Projective (PA.X i) := fun i => by
     have hproj : Module.Projective A ((PA.X i : Type (max u v))) := by
-      show Module.Projective A (TensorProduct R A (P.X i))
+      change Module.Projective A (TensorProduct R A (P.X i))
       infer_instance
     exact ModuleCat.projective_of_categoryTheory_projective (PA.X i)
   let Df := totalDerivedExtensionScalars.{u, u, v} f

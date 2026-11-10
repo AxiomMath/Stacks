@@ -119,6 +119,7 @@ theorem injective_specFieldStalkEmbedding_app (G : EtaleModules.{u, 0} ℤ_[ℓ]
       ((specFieldClosedPartIso ℓ κ).hom.app G))).1
   exact hi.comp h
 
+omit [IsAlgClosure κ kbar] in
 /-- A map of stalks carrying the geometric Frobenius to `π^{dy}`, where `#κ(x₀) = (p ^ n)^{dy}`,
 carries it to `π`. -/
 theorem frobeniusStalk_comp_eq_of_pow (dy : ℕ)

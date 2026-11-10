@@ -147,6 +147,7 @@ section Collapse
 variable {C D E : Type*} [Category* C] [Category* D] [Category* E] [Abelian C] [Abelian D]
   [Abelian E] [HasInjectiveResolutions C] [EnoughInjectives D]
 
+omit [HasInjectiveResolutions C] [EnoughInjectives D] in
 /-- The augmentation of `G` applied to an injective resolution is natural in `G`. -/
 theorem mapι_comp_mapHomologicalComplex_app {G G' : C ⥤ D} [G.Additive] [G'.Additive]
     (μ : G ⟶ G') {A : C} (I : InjectiveResolution A) :

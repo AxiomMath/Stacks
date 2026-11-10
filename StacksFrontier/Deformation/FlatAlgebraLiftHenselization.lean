@@ -122,10 +122,10 @@ private theorem exists_ringEquiv_tensorHenselization
       ((Algebra.TensorProduct.comm P' B Q').toRingEquiv.trans
         (RingEquiv.ofBijective _ hbij))), fun p => ?_⟩
   rw [RingEquiv.trans_apply, RingEquiv.trans_apply, RingEquiv.trans_apply]
-  simp only [AlgEquiv.coe_ringEquiv, Algebra.TensorProduct.comm_tmul,
+  simp only [AlgEquiv.coe_toRingEquiv, Algebra.TensorProduct.comm_tmul,
     Algebra.TensorProduct.cancelBaseChange_tmul]
   rw [Algebra.smul_def, mul_one]
-  show Algebra.TensorProduct.lift g (IsScalarTower.toAlgHom P' B Bh)
+  change Algebra.TensorProduct.lift g (IsScalarTower.toAlgHom P' B Bh)
     (fun _ _ => Commute.all _ _) ((1 : Q') ⊗ₜ[P'] (algebraMap P B p)) = _
   rw [Algebra.TensorProduct.lift_tmul, map_one, one_mul]
   rfl
@@ -172,7 +172,7 @@ private theorem exists_algHom_henselization_of_algebraLift
     intro x hx
     rw [hc'def, Ideal.mem_comap]
     have hx0 : rho x = 0 := hx
-    show rho x ∈ c
+    change rho x ∈ c
     rw [hx0]
     exact Ideal.zero_mem c
   set eρ : (C' ⧸ RingHom.ker rho) ≃ₐ[A'] C :=
@@ -196,12 +196,12 @@ private theorem exists_algHom_henselization_of_algebraLift
     rw [h1, Ideal.map_comap_of_surjective _ Ideal.Quotient.mk_surjective]
     refine le_antisymm (Ideal.map_le_iff_le_comap.mpr fun x hx => ?_) fun y hy => ?_
     · rw [Ideal.mem_comap]
-      show eρ (eρ.symm x) ∈ c
+      change eρ (eρ.symm x) ∈ c
       rw [eρ.apply_symm_apply]
       exact hx
     · rw [Ideal.mem_comap] at hy
       have hyval : y = algebraMap C (C' ⧸ RingHom.ker rho) (eρ y) := by
-        show y = eρ.symm (eρ y)
+        change y = eρ.symm (eρ y)
         rw [eρ.symm_apply_apply]
       rw [hyval]
       exact Ideal.mem_map_of_mem _ hy
@@ -217,7 +217,7 @@ private theorem exists_algHom_henselization_of_algebraLift
   have hJc' : J' ≤ c'.comap η₀.toRingHom := by
     intro x hx
     rw [Ideal.mem_comap, hc'def, Ideal.mem_comap]
-    show rho (η₀ x) ∈ c
+    change rho (η₀ x) ∈ c
     rw [hη₀ x]
     exact hJc x hx
   obtain ⟨η, ⟨hη1, hη2⟩, -⟩ :=
@@ -227,19 +227,19 @@ private theorem exists_algHom_henselization_of_algebraLift
     { η with
       commutes' := fun a => by
         rw [IsScalarTower.algebraMap_apply A' P' Q']
-        show η (algebraMap P' Q' (algebraMap A' P' a)) = algebraMap A' C' a
+        change η (algebraMap P' Q' (algebraMap A' P' a)) = algebraMap A' C' a
         rw [hηP (algebraMap A' P' a)]
         exact η₀.commutes a }
   -- the extension agrees with the structure map of `C`, by uniqueness
   have hJcC : J' ≤ c.comap (algebraMap P' C) := fun x hx => hJc x hx
   have hcond1 : (rho.toRingHom.comp η).comp (algebraMap P' Q') = algebraMap P' C := by
     refine RingHom.ext fun p => ?_
-    show rho (η (algebraMap P' Q' p)) = algebraMap P' C p
+    change rho (η (algebraMap P' Q' p)) = algebraMap P' C p
     rw [hηP p, hη₀ p]
   have hcond2 : J'.map (algebraMap P' Q') ≤ c.comap (rho.toRingHom.comp η) := by
     intro x hx
     rw [Ideal.mem_comap]
-    show rho (η x) ∈ c
+    change rho (η x) ∈ c
     exact hη2 hx
   have hcond1' : (algebraMap Q' C).comp (algebraMap P' Q') = algebraMap P' C :=
     (IsScalarTower.algebraMap_eq P' Q' C).symm
@@ -412,7 +412,7 @@ public theorem hasFlatAlgebraLift_henselization_iff
     MvPolynomial.ker_map (algebraMap A' A)
   have : IsScalarTower A' (MvPolynomial (Fin n) A') (MvPolynomial (Fin n) A) := by
     refine IsScalarTower.of_algebraMap_eq fun a' => ?_
-    show MvPolynomial.C (algebraMap A' A a') =
+    change MvPolynomial.C (algebraMap A' A a') =
       MvPolynomial.map (algebraMap A' A) (MvPolynomial.C a')
     rw [MvPolynomial.map_C]
   let : Algebra (MvPolynomial (Fin n) A) B := f.toRingHom.toAlgebra
@@ -503,7 +503,7 @@ public theorem hasFlatAlgebraLift_henselization_iff
       (MvPolynomial (Fin n) A') (MvPolynomial (Fin n) A) B hsurjA hnilA hsurjP hkerP b hsyn
       g hg)
     (b.map (algebraMap B Bh)) hhens e (fun a => ?_) hJc
-  show algebraMap A Bh a = e (((algebraMap A (MvPolynomial (Fin n) A) a)
+  change algebraMap A Bh a = e (((algebraMap A (MvPolynomial (Fin n) A) a)
     ⊗ₜ[MvPolynomial (Fin n) A'] (1 : Q')) ⊗ₜ[MvPolynomial (Fin n) A] (1 : B))
   rw [he (algebraMap A (MvPolynomial (Fin n) A) a),
     ← IsScalarTower.algebraMap_apply A (MvPolynomial (Fin n) A) B,

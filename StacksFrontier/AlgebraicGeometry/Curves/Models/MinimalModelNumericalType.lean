@@ -259,7 +259,7 @@ theorem range_subschemeι_subset_range_specialFiberι_of_iso_projectiveLineProj
     (Spec.map (CommRingCat.ofHom (algebraMap S.R S.k))).isClosedEmbedding.isClosedMap pt
     fun z => congrArg _ (Subsingleton.elim z pt)
   rintro _ ⟨a, rfl⟩
-  show D.subschemeι.base a ∈ Set.range (pullback.fst S.X_to_R _).base
+  change D.subschemeι.base a ∈ Set.range (pullback.fst S.X_to_R _).base
   rw [Scheme.Pullback.range_fst S.X_to_R (Spec.map (CommRingCat.ofHom (algebraMap S.R S.k))),
     Set.mem_preimage, hrange₀]
   exact (hconst a _).trans (eq_of_isClosed_singleton_of_isLocalRing hpcl hq₀cl)
@@ -308,7 +308,7 @@ private theorem coe_support_specialFiberComponentIdeal_subset_of_iso_projectiveL
       exact ⟨z, show CZ.subschemeι.base z ∈ (D.support : Set S.X) from hz ▸ hc, hz⟩
     obtain ⟨za, hzaT, hza⟩ := hmem a
     obtain ⟨zb, hzbT, hzb⟩ := hmem b
-    show D.subschemeι.base (e.hom.base a) = D.subschemeι.base (e.hom.base b)
+    change D.subschemeι.base (e.hom.base a) = D.subschemeι.base (e.hom.base b)
     rw [← hza, ← hzb, hss hzaT hzbT]
 
 /-- **A closed subscheme of the model presented as a projective line over a field is an

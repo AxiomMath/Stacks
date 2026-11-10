@@ -47,7 +47,8 @@ each surjection onto that degree, and the maps into and out of it — is
 `StacksFrontier/Cotangent/CellAttachment.lean`, which states it for generators indexed by a `Type v`
 over `CommAlgCat.{max u v} A`. It is used here at `v = 0`, generators indexed by `Type`, which is
 all that Stacks 08PX needs; Stacks 09D4 in
-`StacksFrontier/AlgebraicGeometry/Simplicial/Degeneracies/Degeneracies.lean` uses it at `v = max u v'`.
+`StacksFrontier/AlgebraicGeometry/Simplicial/Degeneracies/Degeneracies.lean` uses it at
+`v = max u v'`.
 The private `Cells` section below is the stagewise extension argument on top of it, in the finite
 type form: each stage is a polynomial algebra in finitely many variables.
 
@@ -145,7 +146,7 @@ private lemma exists_polynomial_extension {Q : SimplicialObject (CommAlgCat.{u} 
   have h : (q.app (op ⦋n + 1⦌)).hom.comp l = π := by
     apply MvPolynomial.algHom_ext
     intro i
-    show cellDescApp b f (fun j => π (MvPolynomial.X j)) (op ⦋n + 1⦌)
+    change cellDescApp b f (fun j => π (MvPolynomial.X j)) (op ⦋n + 1⦌)
       (l (MvPolynomial.X i)) = π (MvPolynomial.X i)
     rw [show l (MvPolynomial.X i) = MvPolynomial.X (v i) from MvPolynomial.aeval_X _ _,
       cellDescApp_X]
@@ -229,7 +230,7 @@ private lemma exists_polynomial_extension_over {B : Type u} [CommRing B] [Algebr
   let X' := toOverAugmentation ε
   let q' : X' ⟶ Y := overHom q fun _ => rfl
   have hiw (Δ : SimplexCategoryᵒᵖ) : i.app Δ ≫ (X'.obj Δ).hom = (X.obj Δ).hom := by
-    show i.app Δ ≫ q.app Δ ≫ (Y.obj Δ).hom = _
+    change i.app Δ ≫ q.app Δ ≫ (Y.obj Δ).hom = _
     rw [← Category.assoc, ← NatTrans.comp_app, hfac]
     exact Over.w (f.app Δ)
   let i' : X ⟶ X' := overHom i hiw

@@ -78,7 +78,7 @@ theorem thickeningBase_comp_thickeningBase {X₀ X₁ X₂ : RingedSpace.{u, u}}
   have h4 := congrArg (TopCat.Sheaf.pushforward CommRingCat.{u} h₂.hom.base).map h3
   rw [Functor.map_comp] at h4
   refine (congrArg (_ ≫ ·) h4).trans ?_
-  show _ = ((ObjectProperty.homMk h₂.hom.c : X₂.sheaf ⟶
+  change _ = ((ObjectProperty.homMk h₂.hom.c : X₂.sheaf ⟶
       (TopCat.Sheaf.pushforward CommRingCat.{u} h₂.hom.base).obj X₁.sheaf) ≫
       (TopCat.Sheaf.pushforward CommRingCat.{u} h₂.hom.base).map
         (ObjectProperty.homMk h₁.hom.c : X₁.sheaf ⟶

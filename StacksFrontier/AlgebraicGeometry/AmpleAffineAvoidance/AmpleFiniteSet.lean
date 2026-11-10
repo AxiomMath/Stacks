@@ -67,8 +67,8 @@ shrinks it around `E`.
 `Stacks.Ample.tensorPowModule`. There are two definitions in the repository carrying the Tag 01PS
 attribute; the other, `AlgebraicGeometry.Scheme.Modules.IsAmple` of
 `StacksFrontier/AlgebraicGeometry/Ample/Defs.lean`, is stated over a different construction of the
-tensor powers and is not connected to this one by any comparison in the library. The choice is forced:
-every ample result in the library — Tag 01QE, the clauses of Tag 01Q3 in
+tensor powers and is not connected to this one by any comparison in the library. The choice is
+forced: every ample result in the library — Tag 01QE, the clauses of Tag 01Q3 in
 `StacksFrontier/AlgebraicGeometry/AmpleTheory/Basic.lean`, the graded avoidance of
 `Stacks.AmpleFiniteAvoidance` — is stated with this one.
 `Stacks.Ample.isAmple_iff_isAmpleForPowers` proves that the predicate does not depend on which

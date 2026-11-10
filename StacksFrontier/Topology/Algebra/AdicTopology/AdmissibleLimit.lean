@@ -313,7 +313,7 @@ public theorem toIdealLimit_surjective [IsTopologicalRing A] (h : IsFundamentalI
       Filter.prod_mem_prod (hbasisF.mem_of_mem trivial) (hbasisF.mem_of_mem trivial)
     refine Filter.mem_of_superset hmem ?_
     rintro ⟨y, z⟩ ⟨hy, hz⟩
-    show y - z ∈ I
+    change y - z ∈ I
     rw [show y - z = (y - a ⟨I, hI⟩) - (z - a ⟨I, hI⟩) by ring]
     exact I.sub_mem ((hmemc _ y).mp hy) ((hmemc _ z).mp hz)
   obtain ⟨b, hb⟩ := CompleteSpace.complete hCauchy

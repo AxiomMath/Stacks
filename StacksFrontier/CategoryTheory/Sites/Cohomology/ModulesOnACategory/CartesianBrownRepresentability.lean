@@ -98,6 +98,7 @@ attribute [local instance] qcι_preservesColimitsOfShape_discrete
 /-! ### Stacks 0GYZ with the direct sums formed in `QC(O)` -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the coproducts in `QC bc` and their preservation by `QCι` is deep
 /-- **Stacks 0GYZ, with the direct sums of conclusion (2) formed in `QC(O)`.** There is a cardinal
 `κ` such that every nonzero cartesian object receives a nonzero morphism from a cartesian object
 of size at most `κ`, and every morphism `E ⟶ ⨁_n K_n` of `QC(O)` with `|E| ≤ κ` factors through a
@@ -215,6 +216,7 @@ variable {D : Type*} [Category.{max u v r w} D]
   [∀ n : ℤ, (shiftFunctor D n).Additive] [Pretriangulated D]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the triangulated and coproduct structures on `QC bc` is deep
 /-- **Stacks 0GZ0, assertion (3).** Let `C` be a category, regarded as a site with the chaotic
 topology, and let `O` be a presheaf of commutative rings on `C`. Every exact functor
 `F : QC(O) ⥤ D` of triangulated categories which transforms direct sums into direct sums has a

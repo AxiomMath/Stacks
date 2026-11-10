@@ -78,7 +78,7 @@ theorem freeMat_id (O : C) (n : ℕ) :
   rw [ι_freeMat_π, Category.id_comp]
   by_cases h : k = j
   · subst h; simp
-  · rw [if_neg h, biproduct.ι_π_ne _ h]
+  · rw [ite_eq_right h, biproduct.ι_π_ne _ h]
 
 /-- Matrices with equal entries give equal morphisms of free objects. -/
 private theorem freeMat_congr (O : C) {n m : ℕ} {M N : Fin n → Fin m → (O ⟶ O)}
@@ -207,7 +207,7 @@ theorem pullEnd_funEnd {T' T : BigFppfOver B S hS}
   let d : ChartDiagram B S hS ((schemeSpaceFunctor B S hS).obj T').1
       ((schemeSpaceFunctor B S hS).obj T).1 f.hom :=
     ⟨yonedaEtaleChart B S hS T', yonedaEtaleChart B S hS T, g, by
-      show 𝟙 _ ≫ f.hom = yoneda.map g ≫ 𝟙 _
+      change 𝟙 _ ≫ f.hom = yoneda.map g ≫ 𝟙 _
       rw [Category.id_comp, Category.comp_id, hf]⟩
   refine (unitEndValue_pullEnd f (funEnd T a) d).trans ?_
   exact congrArg (chartDiagramRestrict B S hS _ d) (unitEndValueHom_funEnd T a)
@@ -281,7 +281,7 @@ theorem freePointEquiv_comp_matMap (T : BigFppfOver B S hS) {n m : ℕ}
     (x : unitT T ⟶ freeObj (unitT T) n) (M : Matrix (Fin n) (Fin m) (Gam T)) :
     freePointEquiv T m (x ≫ matMap T M) = Matrix.vecMul (freePointEquiv T n x) M := by
   funext k
-  show unitEndValueHom T ((x ≫ matMap T M) ≫ biproduct.π _ k) = _
+  change unitEndValueHom T ((x ≫ matMap T M) ≫ biproduct.π _ k) = _
   have hx : x = biproduct.lift (fun j => x ≫ biproduct.π _ j) :=
     biproduct.hom_ext _ _ fun j => (biproduct.lift_π (fun j => x ≫ biproduct.π _ j) j).symm
   conv_lhs => rw [Category.assoc, biproduct.matrix_π, hx, biproduct.lift_desc, map_sum]

@@ -59,6 +59,7 @@ abbrev geometricPointMorphism (x : GeometricPoint B S hS X.obj) :
   ObjectProperty.homMk (fieldMorphism B S hS X.obj x.val)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the pullbacks and sheaf categories in this composite of functors
 /-- **The canonical map of Stacks 0DG1.** For a morphism `f : Y ⟶ X` of algebraic spaces over
 `S` and a geometric point `x̄` of `X`, with geometric fibre `Y_x̄ = Y ×_{X, x̄} Spec(k)` and
 projection `p : Y_x̄ ⟶ Y`, the map

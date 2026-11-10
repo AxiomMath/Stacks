@@ -171,7 +171,7 @@ theorem dimensionLayerCycleHom_finsum_integralComponentLayerClass (α : CycleGro
     rw [Set.Finite.coe_toFinset]
     exact support_zsmul_integralComponentLayerClass_subset C f k α
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun y ↦ ?_)
-  show (cycleCoeffHom C f k y).comp (dimensionLayerCycleHom C f k)
+  change (cycleCoeffHom C f k y).comp (dimensionLayerCycleHom C f k)
       (∑ᶠ x : X, α.1 x • integralComponentLayerClass C f k x) = α.1 y
   have hzero : ∀ x : X, x ≠ y → (cycleCoeffHom C f k y).comp (dimensionLayerCycleHom C f k)
       (α.1 x • integralComponentLayerClass C f k x) = 0 := fun x hx ↦ by

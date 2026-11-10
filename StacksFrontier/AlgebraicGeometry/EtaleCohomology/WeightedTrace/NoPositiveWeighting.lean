@@ -71,7 +71,7 @@ private theorem isClosedImmersion_specZModTwoToSpecInt :
 /-- Every point of the source is carried to a prime ideal of `ℤ` containing `2`. -/
 private theorem two_mem_specZModTwoToSpecInt (x : Spec (CommRingCat.of (ZMod 2))) :
     (2 : ℤ) ∈ (specZModTwoToSpecInt x).asIdeal := by
-  show ((2 : ℤ) : ZMod 2) ∈ x.asIdeal
+  change ((2 : ℤ) : ZMod 2) ∈ x.asIdeal
   rw [show ((2 : ℤ) : ZMod 2) = 0 by decide]
   exact x.asIdeal.zero_mem
 

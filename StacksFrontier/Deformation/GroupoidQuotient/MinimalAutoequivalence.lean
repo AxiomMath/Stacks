@@ -345,20 +345,20 @@ private theorem mapObjects_app_eq_of_mem_derivationRange
       (ArtinianLocalAlgCat.{u, max v w, w} Λ k))
     (hpro : IsProrepresentable G) (f : G ⟶ G)
     (x : G.objects.obj (artinianDualNumbers.{u, w, v} Λ k))
-    (hx : classOf (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
+    (hx : classOf (BasedCategory.ofFunctor (Functor.Elements.π G.objects))
         (categoryOfElements_projection_isCofibered G.objects)
         (objectFiber (artinianDualNumbers.{u, w, v} Λ k) x) ∈
-      Set.range (derivationToTangentSpace (CategoryOfElements.π G.objects)
+      Set.range (derivationToTangentSpace (Functor.Elements.π G.objects)
         (objects_isPredeformationCategory_of_isProrepresentable G hpro))) :
     (Hom.mapObjects f).app (artinianDualNumbers.{u, w, v} Λ k) x = x := by
   obtain ⟨D, hD⟩ := hx
   refine classOf_objectFiber_injective G.objects _ ?_
   refine Eq.trans (congrArg _ (Subtype.ext rfl) :
-    classOf (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
+    classOf (BasedCategory.ofFunctor (Functor.Elements.π G.objects))
         (categoryOfElements_projection_isCofibered G.objects)
         (objectFiber (artinianDualNumbers.{u, w, v} Λ k)
           ((Hom.mapObjects f).app (artinianDualNumbers.{u, w, v} Λ k) x))
-    = classOf (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
+    = classOf (BasedCategory.ofFunctor (Functor.Elements.π G.objects))
         (categoryOfElements_projection_isCofibered G.objects)
         ((fiberFunctor (elementsBasedFunctor (Hom.mapObjects f))
           (artinianDualNumbers.{u, w, v} Λ k)).obj
@@ -368,9 +368,9 @@ private theorem mapObjects_app_eq_of_mem_derivationRange
       (categoryOfElements_projection_isCofibered G.objects)
       (elementsBasedFunctor (Hom.mapObjects f)) (artinianDualNumbers.{u, w, v} Λ k))
         hD.symm).trans <|
-    (derivationToTangentSpace_naturality (CategoryOfElements.π G.objects)
+    (derivationToTangentSpace_naturality (Functor.Elements.π G.objects)
       (objects_isPredeformationCategory_of_isProrepresentable G hpro)
-      (CategoryOfElements.π G.objects)
+      (Functor.Elements.π G.objects)
       (objects_isPredeformationCategory_of_isProrepresentable G hpro)
       (elementsBasedFunctor (Hom.mapObjects f)) D).trans hD
 
@@ -409,9 +409,9 @@ private theorem bijective_mapObjects_app_dualNumbers [IsNoetherianRing Λ] [Modu
   have _ : FiniteDimensional k (tangentSpaceArtinian Λ k (restrictedCoyoneda R)) :=
     tangentSpace_finiteDimensional R
   obtain ⟨X₀, hX₀⟩ := classOf_surjective
-    (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
+    (BasedCategory.ofFunctor (Functor.Elements.π G.objects))
     (categoryOfElements_projection_isCofibered G.objects) (artinianDualNumbers.{u, w, v} Λ k)
-    (derivationToTangentSpace (CategoryOfElements.π G.objects)
+    (derivationToTangentSpace (Functor.Elements.π G.objects)
       (objects_isPredeformationCategory_of_isProrepresentable G hpro) 0)
   obtain ⟨u₀, rfl⟩ := objectFiber_surjective (artinianDualNumbers.{u, w, v} Λ k) X₀
   have hu₀ : (Hom.mapObjects f).app (artinianDualNumbers.{u, w, v} Λ k) u₀ = u₀ :=
@@ -428,12 +428,12 @@ private theorem bijective_mapObjects_app_dualNumbers [IsNoetherianRing Λ] [Modu
         (e.inv.app (artinianDualNumbers.{u, w, v} Λ k) (y - y' + z)) = u₀ := by
       rw [← hL, hw, hz, hei]
     have hker : quotientDifferential.{u, v, w} G
-          (classOf (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
+          (classOf (BasedCategory.ofFunctor (Functor.Elements.π G.objects))
             (categoryOfElements_projection_isCofibered G.objects)
             (objectFiber (artinianDualNumbers.{u, w, v} Λ k)
               (e.inv.app (artinianDualNumbers.{u, w, v} Λ k) (y - y' + z)))) =
         quotientDifferential.{u, v, w} G
-          (derivationToTangentSpace (CategoryOfElements.π G.objects)
+          (derivationToTangentSpace (Functor.Elements.π G.objects)
             (objects_isPredeformationCategory_of_isProrepresentable G hpro) 0) := by
       rw [← hX₀, quotientDifferential_classOf, quotientDifferential_classOf]
       exact classOf_quotientFiberObject_of_full f (artinianDualNumbers.{u, w, v} Λ k) _ u₀

@@ -1015,7 +1015,7 @@ private lemma derivedTensorComparison_braiding {R : Type u} [CommRing R]
     ⟨(HomotopyCategory.quotient _ _).obj L, hL⟩]
   rw [homotopyTensorBraiding_app]
   simp only [Functor.map_comp, Category.assoc, Iso.inv_hom_id_app_app_assoc,
-    Iso.map_inv_hom_id_assoc, DerivedCategory.quotientCompQhIso_hom_naturality]
+    Iso.inv_hom_id_map_assoc, DerivedCategory.quotientCompQhIso_hom_naturality]
   rfl
 
 /-- The K-injective objects of the homotopy category of complexes of `R`-modules. -/
@@ -2319,8 +2319,7 @@ private lemma chain_internalCurry {R : Type u} [CommRing R] (P K T L M : C R)
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro pk z
-  induction pk using TensorProduct.induction_on with
-  | zero => simp
+  induction pk using TensorProduct.inductionOn with
   | add a b ha hb =>
     simpa only [TensorProduct.add_tmul, _root_.map_add] using congrArg₂ (· + ·) ha hb
   | tmul p k =>

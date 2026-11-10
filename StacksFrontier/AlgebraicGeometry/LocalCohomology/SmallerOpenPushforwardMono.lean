@@ -96,7 +96,7 @@ theorem isIso_over_structureSheafToPushforward {W : V.Opens} (hW : W ≤ j.opens
   refine Stacks.AlgebraicGeometry.QcohRestrictEquiv.isIso_of_isIso_val_app _ fun Wop => ?_
   have hle : Wop.unop.left ≤ W := leOfHom Wop.unop.hom
   have hring : IsIso (j.app Wop.unop.left) := j.isIso_app _ (hle.trans hW)
-  show IsIso ((structureSheafToPushforward j).val.app (op Wop.unop.left))
+  change IsIso ((structureSheafToPushforward j).val.app (op Wop.unop.left))
   rw [ConcreteCategory.isIso_iff_bijective]
   have hcoe : (ConcreteCategory.hom
         ((structureSheafToPushforward j).val.app (op Wop.unop.left)) :
@@ -172,17 +172,17 @@ theorem exists_mono_pushforward_structureSheaf_of_basicOpen_le
       hTne hbas
     obtain ⟨w, hw⟩ := hf hxf
     have hwmem : w ∈ j ⁻¹ᵁ (T ⊓ V.basicOpen f) := by
-      show j.base w ∈ (T ⊓ V.basicOpen f : V.Opens)
+      change j.base w ∈ (T ⊓ V.basicOpen f : V.Opens)
       rw [hw]
       exact ⟨hxT, hxf⟩
     have : Nonempty (j ⁻¹ᵁ (T ⊓ V.basicOpen f)) := ⟨⟨w, hwmem⟩⟩
     have hres : G.val.map (homOfLE (inf_le_left : T ⊓ V.basicOpen f ≤ T)).op y = 0 := by
       refine key _ inf_le_right _ ?_
-      show ψ.val.app (op (T ⊓ V.basicOpen f))
+      change ψ.val.app (op (T ⊓ V.basicOpen f))
         (G.val.map (homOfLE (inf_le_left : T ⊓ V.basicOpen f ≤ T)).op y) = 0
       rw [PresheafOfModules.naturality_apply ψ.val
         (homOfLE (inf_le_left : T ⊓ V.basicOpen f ≤ T)).op y]
-      show (SheafOfModules.unit.{u} V.ringCatSheaf).val.map
+      change (SheafOfModules.unit.{u} V.ringCatSheaf).val.map
         (homOfLE (inf_le_left : T ⊓ V.basicOpen f ≤ T)).op (ψ.val.app (op T) y) = 0
       rw [hy, map_zero]
     have hinj : Function.Injective ((SheafOfModules.unit.{u} U.ringCatSheaf).val.map

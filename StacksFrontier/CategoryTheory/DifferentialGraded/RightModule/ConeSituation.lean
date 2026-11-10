@@ -58,11 +58,11 @@ theorem coneConnecting (f : (rightModuleCategory.{w} C).Cocycle M N) :
   refine hom_ext fun x i j e a => ?_
   have hr : app ((((rightModuleShiftAxiomB.{w} C).shiftFunctor 1).mapCocycle f).1) e a =
       app f.1 (show i + 1 + 0 = j + 1 by omega) a := by
-    show app (shiftMap f.1 1) e a = _
+    change app (shiftMap f.1 1) e a = _
     rw [app_shiftMap]
     norm_num
   refine Eq.trans ?_ hr.symm
-  show app (coneFst f.1 f.2) (show i + (0 + 1) + 0 = j + 1 by omega)
+  change app (coneFst f.1 f.2) (show i + (0 + 1) + 0 = j + 1 by omega)
       (app (homD (coneInr f.1 f.2)) (rfl : i + (0 + 1) = i + (0 + 1)) a) = _
   simp only [app_homD, app_coneInr, coneOf_d, coneD_mk, Int.natAbs_zero, pow_zero, one_smul,
     d_zero, zero_add, app_sub, app_coneFst, map_zero, sub_zero]

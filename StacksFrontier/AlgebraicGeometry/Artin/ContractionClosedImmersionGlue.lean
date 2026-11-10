@@ -72,7 +72,7 @@ theorem chartRing_comp_chartRestrict (U : S.affineOpens) (f : Γ(S, U)) {V : Big
       FormalSpace.chartRing v ((S.presheaf.map (homOfLE (S.basicOpen_le f)).op).hom a) := by
   have key := (congrArg (fun g => g.hom a)
     (Scheme.ΓSpecIso_inv_naturality (S.presheaf.map (homOfLE (S.basicOpen_le f)).op))).symm
-  show ((BigFppfOver.toScheme B S hS).map v).appTop
+  change ((BigFppfOver.toScheme B S hS).map v).appTop
     ((Spec.map (S.presheaf.map (homOfLE (S.basicOpen_le f)).op)).appTop
       ((Scheme.ΓSpecIso Γ(S, U)).inv a)) = _
   rw [show (Spec.map (S.presheaf.map (homOfLE (S.basicOpen_le f)).op)).appTop
@@ -133,7 +133,8 @@ namespace ClosedImmersionData
 
 variable {c : ContractionSituation B S hS} (h : ClosedImmersionData c)
 
-include h in
+variable (c) in
+include c in
 /-- The ring of sections of `S` over an affine open is Noetherian. -/
 theorem isNoetherianRing_section (U : S.affineOpens) : IsNoetherianRing Γ(S, U) :=
   have := c.isLocallyNoetherian_base
@@ -184,7 +185,7 @@ def ChartProps (U : S.affineOpens) (J : Ideal Γ(S, U)) : Prop :=
 
 /-- Some ideal of `Γ(S, U)` satisfies `ChartProps U`. -/
 theorem exists_chartProps (U : S.affineOpens) : ∃ J, h.ChartProps U J :=
-  have := h.isNoetherianRing_section U
+  have := isNoetherianRing_section c U
   exists_chartIdeal c h.hproper h.Z h.hZ h.hT' h.u h.hu h.w h.hw (h.zIdeal U) (h.zIdeal_spec U)
 
 /-- The ideal `J_U` of the proof of Stacks 0GHE over the affine open `U`. -/
@@ -209,7 +210,7 @@ theorem range_subset_of_pow_le (U : S.affineOpens) {V : BigFppfOver B S hS}
     (v : V ⟶ chartOf (hS := hS) U) (n : ℕ)
     (hv : h.zIdeal U ^ (n + 1) ≤ RingHom.ker (FormalSpace.chartRing v)) :
     Set.range (Space.pointsMap B S hS (yoneda.obj V) (terminal.from (yoneda.obj V))) ⊆ h.Z := by
-  have := h.isNoetherianRing_section U
+  have := isNoetherianRing_section c U
   have hvI := (Space.hasImageIn_iff_range_subset B S hS
     (X := yoneda.obj (chartOf (hS := hS) U)) _ V (v : (yoneda.obj _).obj (Opposite.op V))).1
     (hasImageIn_zeroLocusPoints_of_pow (h.zIdeal U) v n fun a ha => RingHom.mem_ker.1 (hv ha))
@@ -224,12 +225,12 @@ theorem exists_pow_le_of_range_subset (U : S.affineOpens) {V : BigFppfOver B S h
     (hV : Set.range (Space.pointsMap B S hS (yoneda.obj V) (terminal.from (yoneda.obj V))) ⊆
       h.Z) :
     ∃ n : ℕ, h.zIdeal U ^ (n + 1) ≤ RingHom.ker (FormalSpace.chartRing v) := by
-  have := h.isNoetherianRing_section U
+  have := isNoetherianRing_section c U
   refine exists_pow_le_ker_of_mem_zeroLocus (h.zIdeal U) v fun y => ?_
   obtain ⟨p, rfl⟩ := Space.surjective_pointsToScheme B S hS V y
   rw [← Space.pointsToScheme_pointsMap_yoneda, ← FormalSpace.mem_zeroLocusPoints_iff,
     h.zIdeal_spec U]
-  show Space.pointsMap B S hS _ _ (Space.pointsMap B S hS _ (yoneda.map v) p) ∈ h.Z
+  change Space.pointsMap B S hS _ _ (Space.pointsMap B S hS _ (yoneda.map v) p) ∈ h.Z
   rw [← pointsMap_terminal_from_yoneda_map v]
   exact hV ⟨p, rfl⟩
 
@@ -251,8 +252,8 @@ chart of `D(f)` for the ideals `J_U Γ(D(f))` and `I_U Γ(D(f))`. -/
 theorem map_intrinsicIdeal (U : S.affineOpens) (f : Γ(S, U)) :
     (c.intrinsicIdeal h.Z U).map (S.presheaf.map (homOfLE (S.basicOpen_le f)).op).hom =
       c.intrinsicIdeal h.Z (S.affineBasicOpen f) := by
-  have := h.isNoetherianRing_section U
-  have : IsNoetherianRing Γ(S, S.basicOpen f) := h.isNoetherianRing_section (S.affineBasicOpen f)
+  have := isNoetherianRing_section c U
+  have : IsNoetherianRing Γ(S, S.basicOpen f) := isNoetherianRing_section c (S.affineBasicOpen f)
   let res := (S.presheaf.map (homOfLE (S.basicOpen_le f)).op).hom
   have hcomp : ∀ {V : BigFppfOver B S hS} (v : V ⟶ chartOf (hS := hS) (S.affineBasicOpen f)),
       (FormalSpace.chartRing (v ≫ chartRestrict U f)) =
@@ -265,7 +266,7 @@ theorem map_intrinsicIdeal (U : S.affineOpens) (f : Γ(S, U)) :
     (congrArg (fun φ => K.map φ) (hcomp v)).trans (Ideal.map_map _ _).symm
   apply le_antisymm
   · refine Ideal.map_le_iff_le_comap.2 fun a ha => ?_
-    show res a ∈ c.intrinsicIdeal h.Z (S.affineBasicOpen f)
+    change res a ∈ c.intrinsicIdeal h.Z (S.affineBasicOpen f)
     refine (mem_intrinsicIdeal_iff c h.Z _ _).2 ?_
     intro V _ v hgood
     rw [← chartRing_comp_chartRestrict]

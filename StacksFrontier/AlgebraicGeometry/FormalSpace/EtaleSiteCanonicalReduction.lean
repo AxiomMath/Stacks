@@ -127,6 +127,8 @@ instance canonicalSmallEtalePostcomp_isContinuous (hX : IsFormalAlgebraicSpace B
     (canonicalReduction hY) f hrep het
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search on the small étale sites of the two canonical reductions in this statement
+-- needs more than the default limit
 /-- **Stacks 0DED.** The morphism of topoi `f_small` of Stacks 0DEC, part (3), is the morphism
 of topoi that Sites 00XO attaches to the cocontinuous functor `j`: its direct image is the
 direct image of `j`. -/

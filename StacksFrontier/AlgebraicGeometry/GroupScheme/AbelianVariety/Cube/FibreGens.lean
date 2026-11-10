@@ -66,7 +66,7 @@ theorem exists_const_smul_eq {M : A.left.Modules} {γ₁ γ₂ : Γ(M, ⊤)} (h�
   obtain ⟨c, hc⟩ := hAc u
   have hc' : (Stacks.Cech.baseRingHom A.hom ⊤).hom c = u := by
     rw [← hc, Stacks.Cech.baseRingHom_eq_appLE A.hom ⊤ (Stacks.AffineProduct.le_preimage_top _ _)]
-    show (A.hom.appLE ⊤ ⊤ _) ((Scheme.ΓSpecIso (.of k)).inv c) =
+    change (A.hom.appLE ⊤ ⊤ _) ((Scheme.ΓSpecIso (.of k)).inv c) =
       A.hom.appTop ((Scheme.ΓSpecIso (.of k)).inv c)
     rw [Scheme.Hom.appTop, Scheme.Hom.app_eq_appLE]
     rfl

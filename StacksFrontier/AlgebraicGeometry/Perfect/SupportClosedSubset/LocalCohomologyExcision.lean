@@ -156,7 +156,7 @@ theorem restrictFunctor_eq_jStar :
   unfold Scheme.Modules.restrictFunctor ExtensionByZeroModules.jStar
   congr 1
   ext V : 3
-  show (forget₂ CommRingCat RingCat).map (U.ι.appIso V.unop).inv = _
+  change (forget₂ CommRingCat RingCat).map (U.ι.appIso V.unop).inv = _
   rw [U.ι_appIso]
   exact (forget₂ CommRingCat RingCat).map_id _
 
@@ -306,7 +306,7 @@ range of the inclusion of `U`. -/
 @[simp]
 theorem ι_image_chartOpen {V : X.Opens} (hV : V ≤ U) : U.ι ''ᵁ chartOpen U hV = V := by
   refine TopologicalSpace.Opens.ext ?_
-  show U.ι.base '' (U.ι.base ⁻¹' (V : Set X)) = (V : Set X)
+  change U.ι.base '' (U.ι.base ⁻¹' (V : Set X)) = (V : Set X)
   rw [Set.image_preimage_eq_inter_range]
   exact Set.inter_eq_self_of_subset_left (by simpa [Scheme.Opens.range_ι] using hV)
 

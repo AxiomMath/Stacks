@@ -315,7 +315,7 @@ theorem centralTotalChernClassModule_mem_restrictionSubgroup (E : X.Modules) :
     centralTotalChernClassModule C G sX hiso D hcentral E
       ∈ centralUnitalSeriesRestrictionSubgroup C G sX hiso f hgys := by
   intro i
-  show IsCentralComponent C G (f ≫ sX) hiso
+  change IsCentralComponent C G (f ≫ sX) hiso
     (chowCohomologyRestriction C G sX f (i : ℤ) hgys (D.ch E i))
   by_cases hE : Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) E
   · rw [pbCh E hE i]

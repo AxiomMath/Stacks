@@ -113,6 +113,7 @@ section Exactness
 variable {Z : T.Spaces} (z : Space.GeometricPoint T.fppfSite S T.fppf_mem Z.1)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through the sheaf categories of the spaces-étale site and the universe lift
 /-- The stalk functor at a geometric point on abelian sheaves on the spaces-étale site is left
 exact: it is the fibre functor of the universe lift of the point, a filtered colimit at the
 universe of the coefficients. -/

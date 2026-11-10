@@ -142,14 +142,14 @@ theorem mono_push_zero_map {X Y : (projectiveSpaceOver (m + 1) S).Modules} (g : 
     rw [← Category.assoc, ← hnat, Category.assoc, ← NatTrans.comp_app, Iso.hom_inv_id,
       NatTrans.id_app, Category.comp_id]
   rw [h]
-  haveI : Mono ((Scheme.Modules.pushforward (projectiveSpaceOver (m + 1) S ↘ S)).map g) :=
+  have : Mono ((Scheme.Modules.pushforward (projectiveSpaceOver (m + 1) S ↘ S)).map g) :=
     Functor.map_mono _ g
-  haveI : Mono ((Stacks.AlgebraicGeometry.DerivedPushforward.pushforwardRightDerivedZeroIso
+  have : Mono ((Stacks.AlgebraicGeometry.DerivedPushforward.pushforwardRightDerivedZeroIso
       (projectiveSpaceOver (m + 1) S ↘ S)).hom.app X) :=
     inferInstanceAs
       (Mono ((Stacks.AlgebraicGeometry.DerivedPushforward.pushforwardRightDerivedZeroIso
         (projectiveSpaceOver (m + 1) S ↘ S)).app X).hom)
-  haveI : Mono ((Stacks.AlgebraicGeometry.DerivedPushforward.pushforwardRightDerivedZeroIso
+  have : Mono ((Stacks.AlgebraicGeometry.DerivedPushforward.pushforwardRightDerivedZeroIso
       (projectiveSpaceOver (m + 1) S ↘ S)).inv.app Y) :=
     inferInstanceAs
       (Mono ((Stacks.AlgebraicGeometry.DerivedPushforward.pushforwardRightDerivedZeroIso

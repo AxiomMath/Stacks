@@ -228,7 +228,7 @@ theorem goodGenerator_comp {Ω Ω' : Type u} [AddCommGroup Ω] [Module B Ω]
   obtain ⟨h1, h2⟩ := h
   refine ⟨by simp [h1], ?_⟩
   rw [exteriorPower.map_comp π q]
-  show exteriorPower.map 2 q (exteriorPower.map 2 π
+  change exteriorPower.map 2 q (exteriorPower.map 2 π
     ((canonicalSourceDeRham A B).d 1 ((exteriorPower.oneEquiv B (Ω[B⁄A])).symm ω))) = 0
   rw [h2, map_zero]
 
@@ -246,7 +246,7 @@ theorem goodGenerator_D {Ω : Type u} [AddCommGroup Ω] [Module B Ω]
   have hz : (canonicalSourceDeRham A B).d 1
       ((exteriorPower.oneEquiv B (Ω[B⁄A])).symm (KaehlerDifferential.D A B s)) = 0 := by
     rw [h0]
-    show KaehlerDifferential.deRhamDifferential (A := A) 1 _ = 0
+    change KaehlerDifferential.deRhamDifferential (A := A) 1 _ = 0
     rw [hgen]
     exact (exteriorPower.ιMulti B 2).map_coord_zero (i := 0) (by simp)
   rw [hz]
@@ -532,7 +532,7 @@ theorem crysFormsOneApp_symm_val (A : Thickening S) (x : (crysDifferentials S).o
       ((crysDifferentials S).obj (op A))).symm x =
       exteriorPower.ιMulti (crysFormRing S A) 1 (fun _ ↦ x) :=
     exteriorPower.oneEquiv_symm_apply _ _ x
-  show ((exteriorPower.oneEquiv (crysFormRing S A)
+  change ((exteriorPower.oneEquiv (crysFormRing S A)
     ((crysDifferentials S).obj (op A))).symm x : crysFormAmbient S A) = _
   rw [h, exteriorPower.ιMulti_apply_coe, ExteriorAlgebra.ιMulti_apply, List.ofFn_succ,
     List.ofFn_zero, List.prod_cons, List.prod_nil, mul_one]

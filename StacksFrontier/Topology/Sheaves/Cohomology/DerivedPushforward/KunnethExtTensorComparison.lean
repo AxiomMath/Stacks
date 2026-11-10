@@ -91,8 +91,8 @@ Z.sheaf)` against `Stacks.DerivedTensor.ResolutionByExtensionsByZero.instAbelian
 `CategoryTheory.DerivedCategory` takes that instance as an argument.  A goal naming both is
 therefore not type-correct at `implicit` transparency, which is what `rw` checks, so the site's own
 name is the one that keeps the instance arguments agreeing syntactically.  This is the discipline
-recorded in the implementation notes of
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/InternalHomPullbackInvertibility.lean`;
+recorded in the implementation notes of the module
+`StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.InternalHomPullbackInvertibility`;
 no reducibility attribute is put on `Stacks.SheafOfModules.Tensor.ringSheaf`.
 
 *Why the proofs below are `conv`-scoped and term-shaped rather than one `rw` list.*  One crossing

@@ -218,12 +218,12 @@ theorem isLocallySurjective_edgesToFiberProduct_prodConst (J : GrothendieckTopol
     refine Limits.pullback.hom_ext ?_ ?_
     · rw [edgesToFiberProduct, Limits.pullback.lift_fst, Category.assoc,
         hP.isoPullback_hom_fst]
-      show Limits.prod.map (𝟙 T) (A.left.δ 0) = _
+      change Limits.prod.map (𝟙 T) (A.left.δ 0) = _
       rw [← h0]
       simp
     · rw [edgesToFiberProduct, Limits.pullback.lift_snd, Category.assoc,
         hP.isoPullback_hom_snd]
-      show Limits.prod.map (𝟙 T) (A.left.δ 1) = _
+      change Limits.prod.map (𝟙 T) (A.left.δ 1) = _
       rw [← h1]
       simp
   rw [key]

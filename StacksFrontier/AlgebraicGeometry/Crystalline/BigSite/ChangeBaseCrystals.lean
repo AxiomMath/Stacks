@@ -68,7 +68,7 @@ theorem isIso_unitToPushforwardObjUnit_of_isIso {G : D ⥤ C} [G.IsContinuous K 
     IsIso (SheafOfModules.unitToPushforwardObjUnit φ) := by
   have : IsIso ((sheafToPresheaf K AddCommGrpCat.{w}).map
       ((SheafOfModules.toSheaf S).map (SheafOfModules.unitToPushforwardObjUnit φ))) := by
-    show IsIso (Functor.whiskerRight φ.hom (forget₂ RingCat.{w} AddCommGrpCat.{w}))
+    change IsIso (Functor.whiskerRight φ.hom (forget₂ RingCat.{w} AddCommGrpCat.{w}))
     infer_instance
   have : IsIso ((SheafOfModules.toSheaf S).map (SheafOfModules.unitToPushforwardObjUnit φ)) :=
     isIso_of_reflects_iso _ (sheafToPresheaf K AddCommGrpCat.{w})
@@ -91,14 +91,14 @@ theorem isFiniteFree_pushforward {G : D ⥤ C} [G.IsContinuous K J]
   refine (isFiniteFree_iff_exists_isColimit _ _).mpr ⟨n, fun i ↦ e.hom ≫ H.map (ι i), ⟨?_⟩⟩
   refine Cofan.IsColimit.mk _ (fun s ↦ Cofan.IsColimit.desc hH (fun i ↦ e.inv ≫ s.inj i))
     (fun s i ↦ ?_) (fun s m hm ↦ ?_)
-  · show (e.hom ≫ H.map (ι i)) ≫ _ = _
+  · change (e.hom ≫ H.map (ι i)) ≫ _ = _
     have hi := Cofan.IsColimit.fac hH (fun i ↦ e.inv ≫ s.inj i) i
     change H.map (ι i) ≫ _ = _ at hi
     rw [Category.assoc, hi, Iso.hom_inv_id_assoc]
   · refine Cofan.IsColimit.hom_ext hH _ _ fun i ↦ ?_
     have hi : (e.hom ≫ H.map (ι i)) ≫ m = s.inj i := hm i
     rw [Cofan.IsColimit.fac]
-    show H.map (ι i) ≫ m = _
+    change H.map (ι i) ≫ m = _
     simpa only [Category.assoc, Iso.inv_hom_id_assoc] using congrArg (fun k ↦ e.inv ≫ k) hi
 
 /-- **Finite local freeness is carried by restriction along a continuous cocontinuous functor of

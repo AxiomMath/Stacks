@@ -125,7 +125,7 @@ theorem IsJointlyRigSurjective.comp_of_isRigSurjective (B : BigFppfSite.{u}) (S 
     inferInstance, hR''adic, hR''complete, D'',
     ContinuousHom.comp hR'weak hRweak e' e, j, y, ?_, hyrep, ?_⟩
   · rw [ContinuousHom.comp_toRingHom, he', he, halg]
-  · show y ≫ u j ≫ p = _
+  · change y ≫ u j ≫ p = _
     rw [← Category.assoc, hy, Category.assoc, hx, ← Category.assoc,
       formalSpectrumMap_comp_eq hR'weak hRweak e' e]
 

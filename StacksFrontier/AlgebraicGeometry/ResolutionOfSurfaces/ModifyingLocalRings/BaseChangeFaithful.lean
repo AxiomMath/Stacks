@@ -88,7 +88,7 @@ situation. -/
 private theorem complementOfClosedPoints_indexedPoints :
     complementOfClosedPoints D.indexedPoints D.indexedPoints_mem_closedPoints = D.complement := by
   ext x
-  show x ∈ (⋂ i : D.Index, ({D.points i.down} : Set D.S)ᶜ) ↔ x ∈ (Set.range D.points)ᶜ
+  change x ∈ (⋂ i : D.Index, ({D.points i.down} : Set D.S)ᶜ) ↔ x ∈ (Set.range D.points)ᶜ
   simp only [Set.mem_iInter, Set.mem_compl_iff, Set.mem_singleton_iff, Set.mem_range]
   exact ⟨fun h ⟨i, hi⟩ ↦ h ⟨i⟩ hi.symm, fun h i hi ↦ h ⟨i.down, hi.symm⟩⟩
 
@@ -137,7 +137,7 @@ theorem BaseChangeFunctor.faithful {D : FinitePresentationAwayPointsSituation.{u
         exact over_hom_ext_of_isIso_hom Y.property.2 _ _
       exact key _ D.complementOfClosedPoints_indexedPoints _ _
     · -- Over the `i`th local scheme the base change is the `i`th component of the image.
-      show (ObjectProperty.ι (IsFinitePresentationAway D.complement) ⋙
+      change (ObjectProperty.ι (IsFinitePresentationAway D.complement) ⋙
           Over.pullback (D.S.fromSpecStalk (D.points i.down))).map f₁ =
         (ObjectProperty.ι (IsFinitePresentationAway D.complement) ⋙
           Over.pullback (D.S.fromSpecStalk (D.points i.down))).map f₂

@@ -148,7 +148,7 @@ theorem inverseImageDegreeStep_apply (Z : Sheaf J (Type w)) (i : ℤ)
     inverseImageDegreeStep f S Z i F =
       f.adj.homEquiv (degreeFiberSheaf S i) Z
         ((inverseImageDegreeFiberIso f S i).hom ≫ F) := by
-  show f.adj.homEquiv (degreeFiberSheaf S i) Z
+  change f.adj.homEquiv (degreeFiberSheaf S i) Z
       ((inverseImageDegreeFiberIso f S i).hom ≫ F ≫ (Iso.refl Z).inv) = _
   rw [Iso.refl_inv, Category.comp_id]
 
@@ -200,7 +200,7 @@ theorem toposDegreeStepSections_apply (Q : DifferentialGradedModule.{w, w, w} B)
       inverseImageDegreeStep f S ((toSetSheaf (toRingCat J Osharp)).obj
           (Q.complex.X (i - 1))) i F ≫
         (toposPushforwardPieceIso G f ν ψ hψ Q (i - 1)).hom := by
-  show (Iso.refl (degreeFiberSheaf S i)).inv ≫
+  change (Iso.refl (degreeFiberSheaf S i)).inv ≫
       inverseImageDegreeStep f S _ i F ≫
         (toposPushforwardPieceIso G f ν ψ hψ Q (i - 1)).hom = _
   rw [Iso.refl_inv, Category.id_comp]

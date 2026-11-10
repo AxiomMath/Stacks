@@ -237,7 +237,7 @@ theorem tensorRightTensorRightMap_comp_tensorRightAssoc_mapHomologicalComplex (u
       (tensorRightAssocMapHomologicalComplex R S P' T).hom ≫
         NatTrans.mapHomologicalComplex (tensorRightTensorProductMap R S P T u)
           (ComplexShape.up ℤ) := by
-  show NatTrans.mapHomologicalComplex (tensorRightTensorRightMap R S P T u) (ComplexShape.up ℤ) ≫
+  change NatTrans.mapHomologicalComplex (tensorRightTensorRightMap R S P T u) (ComplexShape.up ℤ) ≫
       NatTrans.mapHomologicalComplex (tensorRightAssoc R S P T).hom (ComplexShape.up ℤ) =
     NatTrans.mapHomologicalComplex (tensorRightAssoc R S P' T).hom (ComplexShape.up ℤ) ≫
       NatTrans.mapHomologicalComplex (tensorRightTensorProductMap R S P T u) (ComplexShape.up ℤ)

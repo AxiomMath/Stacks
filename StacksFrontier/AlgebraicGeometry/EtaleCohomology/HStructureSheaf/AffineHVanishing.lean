@@ -144,8 +144,8 @@ theorem isZero_rightDerived_modulePushforward_awnModule (n : ℕ) (hn : 0 < n) :
     IsZero (((modulePushforward.{u + 1, u + 1, u, u} (fppfTopology_le_topology B S hS)
       (awnRing B S hS)).rightDerived n).obj (awnModule B S hS)) := by
   -- Stacks 0EWT, `AlgebraicGeometry.BigHOver.essImage_singleFunctor_perfectionModule`
-  -- (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/HStructureSheaf/EssentialImage.lean:119`), is
-  -- stated over the standard model of the derived category.
+  -- (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/HStructureSheaf/EssentialImage.lean:119`),
+  -- is stated over the standard model of the derived category.
   let := HasDerivedCategory.standard (SheafOfModules.{u + 1} (awnRing B S hS))
   let := HasDerivedCategory.standard (SheafOfModules.{u + 1}
     (ringSheafOfLe (fppfTopology_le_topology B S hS) (awnRing B S hS)))

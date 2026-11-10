@@ -127,7 +127,7 @@ theorem exists_comp_eq_of_isSeminormal {T S S' : Scheme.{u}} (g : S' ⟶ S)
     (hT : IsSeminormal T) : ∃ h' : T ⟶ S', h' ≫ g = h := by
   let C := SeminormalizationCategory T
   let idObj : C := ⟨Over.mk (𝟙 T), universalHomeomorphism_of_isIso (𝟙 T), fun x => by
-    show IsIso ((𝟙 T : T ⟶ T).residueFieldMap x)
+    change IsIso ((𝟙 T : T ⟶ T).residueFieldMap x)
     rw [Scheme.residueFieldMap_id]
     exact CategoryTheory.IsIso.id _⟩
   let pObj : C := ⟨Over.mk (pullback.snd g h),

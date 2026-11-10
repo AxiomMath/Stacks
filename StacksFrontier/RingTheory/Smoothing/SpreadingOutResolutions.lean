@@ -145,7 +145,8 @@ private theorem exists_mem_and_C_mul_eq_sum {R Rp : Type*} [CommRing R] [CommRin
     obtain ⟨m, hm, hr⟩ := MvPolynomial.mem_coeffs_iff.mp r.property
     have hcoeff := congrArg (fun z : MvPolynomial σ Rp => z.coeff m) hmapW
     rw [hr]
-    simpa only [MvPolynomial.coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] using hcoeff
+    simpa only [MvPolynomial.coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
+      using hcoeff
   obtain ⟨e, he, hecoeff⟩ := exists_mem_forall_mul_eq_zero (R := R) (T := Rp) M _ hcoeffzero
   have hW : C e * ((∑ j, b j * f j) - C d * p) = 0 := by
     ext m
@@ -236,7 +237,7 @@ private theorem jacobianDet_map_eq_C_pow_mul {R Rp : Type*} [CommRing R] [CommRi
       MvPolynomial.pderiv (Fin.castLE hcn i) (fR j)
     have hmapMatrix : J0.map (MvPolynomial.map (algebraMap R Rp)) = Jg :=
       Matrix.ext fun i j => by
-        show MvPolynomial.map (algebraMap R Rp)
+        change MvPolynomial.map (algebraMap R Rp)
             (MvPolynomial.pderiv (Fin.castLE hcn i) (fR j)) =
           MvPolynomial.pderiv (Fin.castLE hcn i) (MvPolynomial.map (algebraMap R Rp) (fR j))
         rw [← MvPolynomial.pderiv_map]
@@ -288,7 +289,7 @@ theorem isStandardSmoothRingMap_of_isStandardSmooth (R A : Type*) [CommRing R] [
     simp [e, eFin, eFirst, eRange, eσ, Equiv.ofInjective, E, Equiv.trans_apply]
   let P' := P.reindex e eσ
   have hmap (i : Fin n) : P'.map i = Fin.castAdd m i := by
-    show e.symm (P.map (eσ i)) = Fin.castAdd m i
+    change e.symm (P.map (eσ i)) = Fin.castAdd m i
     simpa using (congrArg e.symm (hefirst i)).symm
   let frel : Fin n → MvPolynomial (Fin (n + m)) R := P'.relation
   let π : MvPolynomial (Fin (n + m)) R →ₐ[R] A := aeval P'.toPresentation.val
@@ -315,7 +316,7 @@ theorem isStandardSmoothRingMap_of_isStandardSmooth (R A : Type*) [CommRing R] [
           (jacobianDet (Nat.le_add_right n m) frel) := by
       refine eQuot.injective ?_
       rw [eQuot.apply_symm_apply]
-      show π (jacobianDet (Nat.le_add_right n m) frel) =
+      change π (jacobianDet (Nat.le_add_right n m) frel) =
         ((Ideal.quotientEquivAlgOfEq R hker.symm).trans
           (Ideal.quotientKerAlgEquivOfSurjective hsurj))
           (Ideal.Quotient.mk (Ideal.span (Set.range frel))
@@ -351,7 +352,7 @@ theorem smooth_localization_away_jacobianDet (R : Type*) [CommRing R] {n c : ℕ
       simp [P, Ppres, Algebra.PreSubmersivePresentation.jacobiMatrix_apply,
         Algebra.Presentation.naive_relation_apply]
     rw [hmatrix]
-    show Ideal.Quotient.mk _
+    change Ideal.Quotient.mk _
         (Matrix.det (fun i j : Fin c => MvPolynomial.pderiv (Fin.castLE hcn i) (f j))) = Δ
     rfl
   let _ : IsLocalization.Away P.jacobian T :=
@@ -484,7 +485,7 @@ private theorem exists_spreadOut_of_isResolvableAfterLocalizing
       _ = algebraMap BL Λq (algebraMap B BL (algebraMap Rp B (algebraMap S.R Rp r))) := by
           rw [IsScalarTower.algebraMap_apply S.R Rp BL r, IsScalarTower.algebraMap_apply Rp B BL]
       _ = algebraMap B Λq (algebraMap Rp B (algebraMap S.R Rp r)) := by
-          show fBLΛq (algebraMap B BL (algebraMap Rp B (algebraMap S.R Rp r))) = _
+          change fBLΛq (algebraMap B BL (algebraMap Rp B (algebraMap S.R Rp r))) = _
           rw [AlgHom.map_algebraMap fBLΛq]
       _ = algebraMap Rp Λq (algebraMap S.R Rp r) := by
           rw [← IsScalarTower.algebraMap_apply Rp B Λq]
@@ -502,7 +503,7 @@ private theorem exists_spreadOut_of_isResolvableAfterLocalizing
   let fDQ : D →ₐ[S.R] Λq :=
     { toRingHom := fDΛq.toRingHom
       commutes' r := by
-        show fDΛq (algebraMap S.R D r) = algebraMap S.R Λq r
+        change fDΛq (algebraMap S.R D r) = algebraMap S.R Λq r
         rw [show algebraMap S.R D r = algebraMap BL D (algebraMap S.R BL r) from rfl,
           AlgHom.map_algebraMap fDΛq]
         rfl }
@@ -513,7 +514,7 @@ private theorem exists_spreadOut_of_isResolvableAfterLocalizing
   let fADR : S.A →ₐ[S.R] D :=
     { toRingHom := fAD
       commutes' r := by
-        show algebraMap BL D (algebraMap B BL
+        change algebraMap BL D (algebraMap B BL
           (algebraMap Ap B (algebraMap S.A Ap (algebraMap S.R S.A r)))) = _
         calc _ = algebraMap BL D (algebraMap B BL
                 (algebraMap Rp B (algebraMap S.R Rp r))) := by
@@ -530,7 +531,7 @@ private theorem exists_spreadOut_of_isResolvableAfterLocalizing
       _ = algebraMap BL Λq (algebraMap B BL (algebraMap Ap B (algebraMap S.A Ap x))) := by
           rw [AlgHom.map_algebraMap fDΛq]
       _ = algebraMap B Λq (algebraMap Ap B (algebraMap S.A Ap x)) := by
-          show fBLΛq (algebraMap B BL (algebraMap Ap B (algebraMap S.A Ap x))) = _
+          change fBLΛq (algebraMap B BL (algebraMap Ap B (algebraMap S.A Ap x))) = _
           rw [AlgHom.map_algebraMap fBLΛq]
       _ = algebraMap Ap Λq (algebraMap S.A Ap x) := by
           rw [← IsScalarTower.algebraMap_apply Ap B Λq]
@@ -561,7 +562,7 @@ private theorem exists_spreadOut_of_isResolvableAfterLocalizing
       MvPolynomial.map (algebraMap S.R Rp) (fR j)) = Ideal.span (Set.range f) := by
     refine le_antisymm (Ideal.span_le.mpr ?_) (Ideal.span_le.mpr ?_)
     · rintro _ ⟨j, rfl⟩
-      show MvPolynomial.map (algebraMap S.R Rp) (fR j) ∈ Ideal.span (Set.range f)
+      change MvPolynomial.map (algebraMap S.R Rp) (fR j) ∈ Ideal.span (Set.range f)
       rw [← hmapfR j]
       exact Ideal.mul_mem_right _ _ (Ideal.subset_span ⟨j, rfl⟩)
     · rintro _ ⟨j, rfl⟩
@@ -576,7 +577,7 @@ private theorem exists_spreadOut_of_isResolvableAfterLocalizing
       rw [hscale]
       exact Ideal.mul_mem_right _ _ (Ideal.subset_span ⟨j, rfl⟩)
   have hFRzero (j : Fin c) : πSR (fR j) = 0 := by
-    show π (MvPolynomial.map (algebraMap S.R Rp) (fR j)) = 0
+    change π (MvPolynomial.map (algebraMap S.R Rp) (fR j)) = 0
     have hfmem : f j ∈ RingHom.ker π.toRingHom := by
       rw [hπker]
       exact Ideal.subset_span ⟨j, rfl⟩
@@ -594,7 +595,7 @@ private theorem exists_spreadOut_of_isResolvableAfterLocalizing
   have hqmem (i : ιA) : MvPolynomial.map (algebraMap S.R Rp) (rename repCoord (relA0 i)) ∈
       Ideal.span (Set.range fun j : Fin c => MvPolynomial.map (algebraMap S.R Rp) (fR j)) := by
     have hzero : π (MvPolynomial.map (algebraMap S.R Rp) (rename repCoord (relA0 i))) = 0 := by
-      show πSR (rename repCoord (relA0 i)) = 0
+      change πSR (rename repCoord (relA0 i)) = 0
       rw [hπSR, aeval_rename]
       have hcoords : coordD ∘ repCoord = fun i => fADR (a i) := funext fun j => hrepGen j
       rw [hcoords, ← MvPolynomial.comp_aeval_apply (f := a) fADR (relA0 i)]
@@ -662,10 +663,10 @@ private theorem exists_spreadOut_of_isResolvableAfterLocalizing
         (fun i => algebraMap S.Λ Λq t * fDΛq (coordD i)) (algebraMap S.Λ Λq t) := by
     funext i
     refine Fin.lastCases ?_ (fun l => ?_) i
-    · show algebraMap S.Λ Λq
+    · change algebraMap S.Λ Λq
         ((Fin.snoc nums t : Fin (E.card + m + 1) → S.Λ) (Fin.last _)) = _
       rw [Fin.snoc_last, Fin.snoc_last]
-    · show algebraMap S.Λ Λq
+    · change algebraMap S.Λ Λq
         ((Fin.snoc nums t : Fin (E.card + m + 1) → S.Λ) (Fin.castSucc l)) = _
       rw [Fin.snoc_castSucc, Fin.snoc_castSucc, ← hnums l]
       ring
@@ -688,7 +689,7 @@ private theorem exists_spreadOut_of_isResolvableAfterLocalizing
     · rw [Fin.addCases_right, map_sub, map_mul]
       have hgen : fDΛq (coordD (repCoord i)) =
           algebraMap S.Λ Λq (algebraMap S.A S.Λ (a i)) := by
-        show fDΛq (π (X (Fin.castAdd m (repGen i)))) = _
+        change fDΛq (π (X (Fin.castAdd m (repGen i)))) = _
         rw [hrepGen i]
         exact hfADΛq (a i)
       rw [← hnums (repCoord i), ← hgen]
@@ -783,7 +784,7 @@ private theorem exists_smooth_model
     rw [hcoordMap]
     rfl
   have hsEmUnit : IsUnit (algebraMap S.R Em s) := by
-    show IsUnit (algebraMap Eδ Em (algebraMap S.R Eδ s))
+    change IsUnit (algebraMap Eδ Em (algebraMap S.R Eδ s))
     exact IsLocalization.Away.algebraMap_isUnit _
   have hjacEmUnit :
       IsUnit ((aeval coordE : MvPolynomial (Fin n) S.R →ₐ[S.R] Em) (jacobianDet hcn fR)) := by
@@ -817,7 +818,7 @@ private theorem exists_smooth_model
     Lα.comp (Ideal.quotientKerAlgEquivOfSurjective ha).symm.toAlgHom
   have hgenAE (i : Fin nA) : fAE (a i) = coordE (rep i) := by
     have hai : a i = (aeval a : MvPolynomial (Fin nA) S.R →ₐ[S.R] S.A) (X i) := by simp
-    show Lα ((Ideal.quotientKerAlgEquivOfSurjective ha).symm (a i)) = _
+    change Lα ((Ideal.quotientKerAlgEquivOfSurjective ha).symm (a i)) = _
     rw [hai, Ideal.quotientKerAlgEquivOfSurjective_symm_apply]
     have h := AlgHom.congr_fun hLαcomp (X i)
     rwa [aeval_X] at h
@@ -835,7 +836,7 @@ private theorem exists_smooth_model
   have hφQmk (y : MvPolynomial (Fin n) S.R) : φQ (Ideal.Quotient.mkₐ S.R If y) = φpoly y :=
     AlgHom.congr_fun hφQcomp y
   have hδWUnit : IsUnit (φQ δf) := by
-    show IsUnit (φQ (Ideal.Quotient.mkₐ S.R If (jacobianDet hcn fR)))
+    change IsUnit (φQ (Ideal.Quotient.mkₐ S.R If (jacobianDet hcn fR)))
     rw [hφQmk]
     exact hwJac
   let : Algebra Qf W := φQ.toRingHom.toAlgebra
@@ -847,7 +848,7 @@ private theorem exists_smooth_model
       AlgHom.map_algebraMap]
     exact φQ.commutes r
   have hsEδUnit : IsUnit ((Algebra.ofId Eδ W) (algebraMap S.R Eδ s)) := by
-    show IsUnit (φEδ (algebraMap S.R Eδ s))
+    change IsUnit (φEδ (algebraMap S.R Eδ s))
     rw [hbaseEδ]
     exact hwS
   let φEm : Em →ₐ[Eδ] W :=
@@ -858,13 +859,13 @@ private theorem exists_smooth_model
       AlgHom.map_algebraMap]
     exact hbaseEδ r
   refine ⟨{ toRingHom := φEm.toRingHom, commutes' := hbaseEm }, fun i => ?_⟩
-  show φEm (algebraMap Eδ Em (algebraMap Qf Eδ (Ideal.Quotient.mkₐ S.R If (X i)))) = ww i
+  change φEm (algebraMap Eδ Em (algebraMap Qf Eδ (Ideal.Quotient.mkₐ S.R If (X i)))) = ww i
   rw [AlgHom.map_algebraMap]
-  show φEδ (algebraMap Qf Eδ (Ideal.Quotient.mkₐ S.R If (X i))) = ww i
+  change φEδ (algebraMap Qf Eδ (Ideal.Quotient.mkₐ S.R If (X i))) = ww i
   rw [AlgHom.map_algebraMap]
-  show φQ (Ideal.Quotient.mkₐ S.R If (X i)) = ww i
+  change φQ (Ideal.Quotient.mkₐ S.R If (X i)) = ww i
   rw [hφQmk]
-  show (aeval ww : MvPolynomial (Fin n) S.R →ₐ[S.R] W) (X i) = ww i
+  change (aeval ww : MvPolynomial (Fin n) S.R →ₐ[S.R] W) (X i) = ww i
   rw [aeval_X]
 
 /-- **The construction step.** From the data produced by the spreading-out step and a smooth
@@ -927,15 +928,15 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
     Fin.snoc (α := fun _ => S.Λ) (Fin.snoc (α := fun _ => S.Λ) nums t) x0
   let η : P →ₐ[S.A] S.Λ := aeval rawVals
   have hηX0 : η (X x0Var) = x0 := by
-    show aeval rawVals (X x0Var) = x0
+    change aeval rawVals (X x0Var) = x0
     rw [aeval_X]
     simp [rawVals, x0Var]
   have hηT : η (X tVar) = t := by
-    show aeval rawVals (X tVar) = t
+    change aeval rawVals (X tVar) = t
     rw [aeval_X]
     simp [rawVals, tVar]
   have hηCof (y : S.A) : η (C y) = algebraMap S.A S.Λ y := by
-    show aeval rawVals (C y) = _
+    change aeval rawVals (C y) = _
     rw [aeval_C]
   have hmapEvalΛ (h : MvPolynomial (Fin (n + 1)) S.R) :
       η (rename Fin.castSucc (MvPolynomial.map (algebraMap S.R S.A) h)) =
@@ -945,15 +946,15 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
     intro k
     refine Fin.addCases (fun j => ?_) (fun i => ?_) k
     · rw [show rel (Fin.castAdd nA j) = relF j from by simp [rel]]
-      show η (X x0Var * rename Fin.castSucc
+      change η (X x0Var * rename Fin.castSucc
         (MvPolynomial.map (algebraMap S.R S.A) (homogenizeLast (fR j)))) = 0
       rw [map_mul, hηX0, hmapEvalΛ]
       exact hbadF j
     · rw [show rel (Fin.natAdd c i) = relA i from by simp [rel]]
-      show η (X x0Var * (X (coordVar (rep i)) - C (a i) * X tVar)) = 0
+      change η (X x0Var * (X (coordVar (rep i)) - C (a i) * X tVar)) = 0
       rw [map_mul, map_sub, map_mul, hηX0, hηT, hηCof (a i),
         show η (X (coordVar (rep i))) = nums (rep i) from by
-          show aeval rawVals (X (coordVar (rep i))) = _
+          change aeval rawVals (X (coordVar (rep i))) = _
           rw [aeval_X]
           simp [rawVals, coordVar]]
       exact hbadA i
@@ -977,7 +978,7 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
   let mkPC : P →ₐ[S.A] Cr := eUL.toAlgHom.comp (Ideal.Quotient.mkₐ S.A J)
   have hηmkPC : ηC.comp mkPC = η := by
     refine MvPolynomial.algHom_ext fun i => ?_
-    show ηC0 (Ideal.Quotient.mkₐ S.A J (X i)) = η (X i)
+    change ηC0 (Ideal.Quotient.mkₐ S.A J (X i)) = η (X i)
     exact congrArg (fun φ : P →ₐ[S.A] S.Λ => φ (X i))
       (Ideal.Quotient.liftₐ_comp J η fun x hx => RingHom.mem_ker.mp (hJker hx))
   have hηCmk (p : P) : ηC (mkPC p) = η p :=
@@ -991,7 +992,7 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
     obtain ⟨y, hy⟩ := eUL.surjective x
     obtain ⟨q, hq⟩ := Ideal.Quotient.mk_surjective y
     refine ⟨q, ?_⟩
-    show eUL (Ideal.Quotient.mkₐ S.A J q) = x
+    change eUL (Ideal.Quotient.mkₐ S.A J q) = x
     rw [← hy]
     exact congrArg eUL hq
   let b : Cr := mkPC (X x0Var) * mkPC (X tVar) * algebraMap S.R Cr s * mkPC jacHomA
@@ -1006,19 +1007,19 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
     Fin.snoc (α := fun _ => V) (Fin.snoc (α := fun _ => V) (fun i => tV * coordV i) tV) x0V
   let ηV : P →ₐ[S.A] V := aeval rawV
   have hηVX0 : ηV (X x0Var) = x0V := by
-    show aeval rawV (X x0Var) = x0V
+    change aeval rawV (X x0Var) = x0V
     rw [aeval_X]
     simp [rawV, x0Var]
   have hηVT : ηV (X tVar) = tV := by
-    show aeval rawV (X tVar) = tV
+    change aeval rawV (X tVar) = tV
     rw [aeval_X]
     simp [rawV, tVar]
   have hηVcoord (i : Fin n) : ηV (X (coordVar i)) = tV * coordV i := by
-    show aeval rawV (X (coordVar i)) = _
+    change aeval rawV (X (coordVar i)) = _
     rw [aeval_X]
     simp [rawV, coordVar]
   have hηVcof (y : S.A) : ηV (C y) = algebraMap S.A V y := by
-    show aeval rawV (C y) = _
+    change aeval rawV (C y) = _
     rw [aeval_C]
   have hmapEvalV (h : MvPolynomial (Fin (n + 1)) S.R) :
       ηV (rename Fin.castSucc (MvPolynomial.map (algebraMap S.R S.A) h)) =
@@ -1035,14 +1036,14 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
     intro k
     refine Fin.addCases (fun j => ?_) (fun i => ?_) k
     · rw [show rel (Fin.castAdd nA j) = relF j from by simp [rel]]
-      show ηV (X x0Var * rename Fin.castSucc
+      change ηV (X x0Var * rename Fin.castSucc
         (MvPolynomial.map (algebraMap S.R S.A) (homogenizeLast (fR j)))) = 0
       rw [map_mul, hmapEvalV, aeval_homogenizeLast, hfRV j, mul_zero, mul_zero]
     · rw [show rel (Fin.natAdd c i) = relA i from by simp [rel]]
-      show ηV (X x0Var * (X (coordVar (rep i)) - C (a i) * X tVar)) = 0
+      change ηV (X x0Var * (X (coordVar (rep i)) - C (a i) * X tVar)) = 0
       rw [map_mul, map_sub, map_mul, hηVT, hηVcoord, hηVcof (a i),
         show algebraMap S.A V (a i) = algebraMap E V (fAE (a i)) from rfl, hgenAE]
-      show _ * (tV * coordV (rep i) - coordV (rep i) * tV) = 0
+      change _ * (tV * coordV (rep i) - coordV (rep i) * tV) = 0
       ring
   have hkerηV : J ≤ RingHom.ker ηV.toRingHom :=
     Ideal.span_le.mpr (by
@@ -1058,7 +1059,7 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
     rw [IsScalarTower.algebraMap_apply S.R S.A Cr r, AlgHom.commutes,
       ← IsScalarTower.algebraMap_apply S.R S.A V r]
   have hxtVUnit : IsUnit (x0V * tV) := by
-    show IsUnit (algebraMap T V (X 0) * algebraMap T V (X 1))
+    change IsUnit (algebraMap T V (X 0) * algebraMap T V (X 1))
     rw [← map_mul]
     exact IsLocalization.Away.algebraMap_isUnit _
   obtain ⟨hx0VUnit, htVUnit⟩ := IsUnit.mul_iff.mp hxtVUnit
@@ -1068,14 +1069,14 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
   have hjacHomVUnit : IsUnit (ηV jacHomA) := by
     have hval : ηV jacHomA = tV ^ (jacobianDet hcn fR).totalDegree *
         aeval coordV (jacobianDet hcn fR) := by
-      show ηV (rename Fin.castSucc (MvPolynomial.map (algebraMap S.R S.A) jacHom)) = _
+      change ηV (rename Fin.castSucc (MvPolynomial.map (algebraMap S.R S.A) jacHom)) = _
       rw [hmapEvalV]
       exact aeval_homogenizeLast (jacobianDet hcn fR) coordV tV
     rw [hval, hpushV]
     exact (htVUnit.pow _).mul (hjacE.map (algebraMap E V))
   have hbV : IsUnit (fCV b) := by
     have hbval : fCV b = x0V * tV * algebraMap S.R V s * ηV jacHomA := by
-      show fCV (mkPC (X x0Var) * mkPC (X tVar) * algebraMap S.R Cr s * mkPC jacHomA) = _
+      change fCV (mkPC (X x0Var) * mkPC (X tVar) * algebraMap S.R Cr s * mkPC jacHomA) = _
       rw [map_mul, map_mul, map_mul, hfCVmk, hfCVmk, hfCVmk, hfCVbase, hηVX0, hηVT]
     rw [hbval]
     exact ((hx0VUnit.mul htVUnit).mul hsVUnit).mul hjacHomVUnit
@@ -1092,7 +1093,7 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
   let : SMul S.A Cr := Algebra.toSMul
   let : IsScalarTower S.R Cr Cb := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have hcoeffCb (r : S.R) : algebraMap S.A Cb (algebraMap S.R S.A r) = algebraMap S.R Cb r := by
-    show algebraMap Cr Cb (algebraMap S.A Cr (algebraMap S.R S.A r)) =
+    change algebraMap Cr Cb (algebraMap S.A Cr (algebraMap S.R S.A r)) =
       algebraMap Cr Cb (algebraMap S.R Cr r)
     rw [IsScalarTower.algebraMap_apply S.R S.A Cr r]
   let : IsScalarTower S.R S.A Cb := IsScalarTower.of_algebraMap_eq fun r => (hcoeffCb r).symm
@@ -1110,7 +1111,7 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
   let coordCb : Fin n → Cb := fun i =>
     algebraMap Cr Cb (mkPC (X (coordVar i))) * ↑htCbUnit.unit⁻¹
   have hmkRel (k : Fin (c + nA)) : mkPC (rel k) = 0 := by
-    show eUL (Ideal.Quotient.mkₐ S.A J (rel k)) = 0
+    change eUL (Ideal.Quotient.mkₐ S.A J (rel k)) = 0
     rw [show Ideal.Quotient.mkₐ S.A J (rel k) = 0 from
       Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span ⟨k, rfl⟩), map_zero]
   let ηCb : P →ₐ[S.A] Cb :=
@@ -1120,7 +1121,7 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
   have hηCbcof (y : S.A) : ηCb (C y) = algebraMap S.A Cb y := ηCb.commutes y
   have hηCbcoord (i : Fin n) : ηCb (X (coordVar i)) = tCb * coordCb i := by
     rw [hηCbX]
-    show algebraMap Cr Cb (mkPC (X (coordVar i))) =
+    change algebraMap Cr Cb (mkPC (X (coordVar i))) =
       tCb * (algebraMap Cr Cb (mkPC (X (coordVar i))) * ↑htCbUnit.unit⁻¹)
     rw [mul_comm tCb, mul_assoc, htCbUnit.val_inv_mul, mul_one]
   have hηCbeq : ηCb = aeval (Fin.snoc (α := fun _ => Cb)
@@ -1145,7 +1146,7 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
       have hm : mkPC (relF j) = 0 := by
         have h := hmkRel (Fin.castAdd nA j)
         rwa [show rel (Fin.castAdd nA j) = relF j from by simp [rel]] at h
-      show algebraMap Cr Cb (mkPC (relF j)) = 0
+      change algebraMap Cr Cb (mkPC (relF j)) = 0
       rw [hm, map_zero]
     rw [map_mul, hmapEvalCb, aeval_homogenizeLast, hηCbX] at hz
     refine (hx0CbUnit.mul (htCbUnit.pow (fR j).totalDegree)).mul_left_cancel ?_
@@ -1155,7 +1156,7 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
       IsUnit ((aeval coordCb : MvPolynomial (Fin n) S.R →ₐ[S.R] Cb) (jacobianDet hcn fR)) := by
     have hval : ηCb jacHomA = tCb ^ (jacobianDet hcn fR).totalDegree *
         aeval coordCb (jacobianDet hcn fR) := by
-      show ηCb (rename Fin.castSucc (MvPolynomial.map (algebraMap S.R S.A) jacHom)) = _
+      change ηCb (rename Fin.castSucc (MvPolynomial.map (algebraMap S.R S.A) jacHom)) = _
       rw [hmapEvalCb]
       exact aeval_homogenizeLast (jacobianDet hcn fR) coordCb tCb
     have hunit : IsUnit (ηCb jacHomA) := hjacHomCbUnit
@@ -1166,7 +1167,7 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
       have hm : mkPC (relA i) = 0 := by
         have h := hmkRel (Fin.natAdd c i)
         rwa [show rel (Fin.natAdd c i) = relA i from by simp [rel]] at h
-      show algebraMap Cr Cb (mkPC (relA i)) = 0
+      change algebraMap Cr Cb (mkPC (relA i)) = 0
       rw [hm, map_zero]
     rw [map_mul, map_sub, map_mul, hηCbcoord, hηCbcof (a i), hηCbX x0Var, hηCbX tVar] at hz
     refine htCbUnit.mul_left_cancel ?_
@@ -1183,7 +1184,7 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
   let : Algebra E Cb := ρ.toRingHom.toAlgebra
   let φT : T →ₐ[E] Cb := aeval varsCb
   have hlocT : IsUnit (φT ((X 0 : T) * X 1)) := by
-    show IsUnit (aeval varsCb ((X 0 : T) * X 1))
+    change IsUnit (aeval varsCb ((X 0 : T) * X 1))
     rw [map_mul, aeval_X, aeval_X, hvars0, hvars1]
     exact hxtCbUnit
   let : Algebra T Cb := φT.toRingHom.toAlgebra
@@ -1202,31 +1203,31 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
           _ = algebraMap E Cb (algebraMap S.R E r) := by rw [AlgHom.map_algebraMap]
           _ = algebraMap S.R Cb r := ρ.commutes r }
   have hx0R : rVCb x0V = x0Cb := by
-    show φV (algebraMap T V (X 0)) = x0Cb
+    change φV (algebraMap T V (X 0)) = x0Cb
     rw [AlgHom.map_algebraMap]
-    show aeval varsCb (X 0) = x0Cb
+    change aeval varsCb (X 0) = x0Cb
     rw [aeval_X, hvars0]
   have htR : rVCb tV = tCb := by
-    show φV (algebraMap T V (X 1)) = tCb
+    change φV (algebraMap T V (X 1)) = tCb
     rw [AlgHom.map_algebraMap]
-    show aeval varsCb (X 1) = tCb
+    change aeval varsCb (X 1) = tCb
     rw [aeval_X, hvars1]
   have hcoordR (i : Fin n) : rVCb (coordV i) = coordCb i := by
-    show φV (algebraMap E V (coordE i)) = coordCb i
+    change φV (algebraMap E V (coordE i)) = coordCb i
     calc φV (algebraMap E V (coordE i))
         = algebraMap T Cb (algebraMap E T (coordE i)) := by
           rw [IsScalarTower.algebraMap_apply E T V (coordE i), AlgHom.map_algebraMap]
       _ = φT (C (coordE i)) := rfl
       _ = ρ (coordE i) := by
-          show aeval varsCb (C (coordE i)) = _
+          change aeval varsCb (C (coordE i)) = _
           rw [aeval_C]
           rfl
       _ = coordCb i := hρ i
   have hAmap : ∀ x : S.A, rVCb (fAtoV x) = algebraMap S.A Cb x := by
     have hgen (i : Fin nA) : rVCb (fAtoV (a i)) = algebraMap S.A Cb (a i) := by
-      show rVCb (algebraMap E V (fAE (a i))) = _
+      change rVCb (algebraMap E V (fAE (a i))) = _
       rw [hgenAE i]
-      show rVCb (coordV (rep i)) = _
+      change rVCb (coordV (rep i)) = _
       rw [hcoordR, hcoordRep]
     let aMapCb : S.A →ₐ[S.R] Cb :=
       { toRingHom := algebraMap S.A Cb
@@ -1243,12 +1244,12 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
     let gP : P →ₐ[S.A] Cb :=
       { toRingHom := rVCb.toRingHom.comp (fCV.toRingHom.comp mkPC.toRingHom)
         commutes' y := by
-          show rVCb (fCV (mkPC (algebraMap S.A P y))) = algebraMap S.A Cb y
+          change rVCb (fCV (mkPC (algebraMap S.A P y))) = algebraMap S.A Cb y
           rw [AlgHom.commutes, AlgHom.commutes]
           exact hAmap y }
     have hgP : gP = ηCb := by
       refine MvPolynomial.algHom_ext fun i => ?_
-      show rVCb (fCV (mkPC (X i))) = ηCb (X i)
+      change rVCb (fCV (mkPC (X i))) = ηCb (X i)
       rw [hfCVmk]
       refine Fin.lastCases ?_ (fun j => ?_) i
       · rw [hηVX0, hx0R, hηCbX]
@@ -1266,13 +1267,13 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
   let iCbV : Cb →ₐ[S.R] V :=
     { toRingHom := fCVb.toRingHom
       commutes' r := by
-        show fCVb (algebraMap Cr Cb (algebraMap S.R Cr r)) = algebraMap S.R V r
+        change fCVb (algebraMap Cr Cb (algebraMap S.R Cr r)) = algebraMap S.R V r
         rw [AlgHom.map_algebraMap]
         exact hfCVbase r }
   have hri : rVCb.comp iCbV = AlgHom.id S.R Cb := by
-    refine AlgHom.coe_ringHom_injective ?_
+    refine AlgHom.toRingHom_injective ?_
     refine IsLocalization.ringHom_ext (Submonoid.powers b) (RingHom.ext fun x => ?_)
-    show rVCb (fCVb (algebraMap Cr Cb x)) = algebraMap Cr Cb x
+    change rVCb (fCVb (algebraMap Cr Cb x)) = algebraMap Cr Cb x
     rw [AlgHom.map_algebraMap]
     exact hcompC x
   have hFormalCb : Algebra.FormallySmooth S.R Cb :=
@@ -1287,7 +1288,7 @@ private theorem exists_finitePresentation_not_le_of_smoothModel
   -- The image of `b` in `Λ` avoids `q`.
   have hbΛ : ηC b = x0 * t * algebraMap S.R S.Λ s *
       aeval (Fin.snoc nums t) (homogenizeLast (jacobianDet hcn fR)) := by
-    show ηC (mkPC (X x0Var) * mkPC (X tVar) * algebraMap S.R Cr s * mkPC jacHomA) = _
+    change ηC (mkPC (X x0Var) * mkPC (X tVar) * algebraMap S.R Cr s * mkPC jacHomA) = _
     rw [map_mul, map_mul, map_mul, hηCmk, hηCmk, hηCmk, hηCcoeff, hηX0, hηT, hmapEvalΛ]
   refine ⟨Cr, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
     IsScalarTower.of_algHom ηC, IsScalarTower.of_algHom (ηC.restrictScalars S.R), hCfp, ?_⟩

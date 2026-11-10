@@ -169,7 +169,7 @@ lemma exists_coprod_isOpenImmersion_isFinite_etale_and_isEmpty_closedFiber
   have hePfst : eP.hom ≫ Spec.map
       (CommRingCat.ofHom (algebraMap B (TensorProduct A B (A ⧸ I)))) =
       pullback.fst (Spec.map (CommRingCat.ofHom α)) z := by
-    show (pullbackSpecIso A B (A ⧸ I)).hom ≫ Spec.map
+    change (pullbackSpecIso A B (A ⧸ I)).hom ≫ Spec.map
         (CommRingCat.ofHom (algebraMap B (TensorProduct A B (A ⧸ I)))) =
       pullback.fst (Spec.map (CommRingCat.ofHom (algebraMap A B)))
         (Spec.map (CommRingCat.ofHom (algebraMap A (A ⧸ I))))
@@ -180,7 +180,7 @@ lemma exists_coprod_isOpenImmersion_isFinite_etale_and_isEmpty_closedFiber
       (CommRingCat.ofHom (algebraMap B (TensorProduct A B (A ⧸ I)))) ⁻¹ᵁ D_b = D₀ := by
     apply TopologicalSpace.Opens.ext
     ext p
-    show b ∉ Ideal.comap (algebraMap B (TensorProduct A B (A ⧸ I))) p.asIdeal ↔
+    change b ∉ Ideal.comap (algebraMap B (TensorProduct A B (A ⧸ I))) p.asIdeal ↔
       e₀ ∉ p.asIdeal
     simp [he₀b]
   have hqOpen : (jZ ≫ eP.hom).opensRange = D₀ := TopologicalSpace.Opens.ext hq
@@ -201,7 +201,7 @@ lemma exists_coprod_isOpenImmersion_isFinite_etale_and_isEmpty_closedFiber
   have hk : IsOpenImmersion k := inferInstance
   have hjZfst : jZ ≫ pullback.fst (Spec.map (CommRingCat.ofHom α)) z = pullback.fst f z ≫ k := by
     dsimp [jZ, k]
-    simp [pullback.lift_fst]
+    simp
   have hkfst : ∀ xZ, k (pullback.fst f z xZ) =
       pullback.fst (Spec.map (CommRingCat.ofHom α)) z (jZ xZ) := fun xZ ↦ by
     simpa only [Scheme.Hom.comp_apply] using (congrArg (fun g => g xZ) hjZfst).symm
@@ -240,11 +240,11 @@ lemma exists_coprod_isOpenImmersion_isFinite_etale_and_isEmpty_closedFiber
       PrimeSpectrum.comap qEquiv.symm.toRingHom qbar
     let q : Spec (.of (TensorProduct A B (A ⧸ I))) := ⟨qRaw.asIdeal, qRaw.2⟩
     have hqD₀ : q ∈ D₀ := by
-      show e₀ ∉ q.asIdeal
-      show eMod ∉ qbar.asIdeal
-      show ρ eMod ∉ (⊥ : Ideal (B ⧸ m))
+      change e₀ ∉ q.asIdeal
+      change eMod ∉ qbar.asIdeal
+      change ρ eMod ∉ (⊥ : Ideal (B ⧸ m))
       rw [← hred]
-      show Ideal.Quotient.mk m b ≠ 0
+      change Ideal.Quotient.mk m b ≠ 0
       intro hz
       exact hbp (Ideal.Quotient.eq_zero_iff_mem.mp hz)
     have hmap : q ∈ Spec.map
@@ -254,29 +254,29 @@ lemma exists_coprod_isOpenImmersion_isFinite_etale_and_isEmpty_closedFiber
     have hproj : (pullback.fst (Spec.map (CommRingCat.ofHom α)) z) y =
         Spec.map (CommRingCat.ofHom (algebraMap B (TensorProduct A B (A ⧸ I)))) q := by
       rw [← hePfst]
-      show (eP.inv ≫ eP.hom ≫ Spec.map (CommRingCat.ofHom
+      change (eP.inv ≫ eP.hom ≫ Spec.map (CommRingCat.ofHom
         (algebraMap B (TensorProduct A B (A ⧸ I))))) q = _
       rw [Iso.inv_hom_id_assoc]
     have hy : y ∈ (pullback.fst (Spec.map (CommRingCat.ofHom α)) z) ⁻¹ᵁ D_b := by
-      show (pullback.fst (Spec.map (CommRingCat.ofHom α)) z) y ∈ D_b
+      change (pullback.fst (Spec.map (CommRingCat.ofHom α)) z) y ∈ D_b
       rw [hproj]
       exact hmap
     obtain ⟨xZ, hxZ⟩ := Scheme.Hom.mem_opensRange.mp (hFiber ▸ hy)
     have hxbase : (pullback.fst (Spec.map (CommRingCat.ofHom α)) z) y = p := by
       rw [hproj]
       apply PrimeSpectrum.ext
-      show Ideal.comap (algebraMap B (TensorProduct A B (A ⧸ I))) q.asIdeal = m
+      change Ideal.comap (algebraMap B (TensorProduct A B (A ⧸ I))) q.asIdeal = m
       ext a
-      show (algebraMap B (TensorProduct A B (A ⧸ I)) a) ∈ q.asIdeal ↔ a ∈ m
-      show (qEquiv.symm (algebraMap B (TensorProduct A B (A ⧸ I)) a)) ∈ qbar.asIdeal ↔ a ∈ m
+      change (algebraMap B (TensorProduct A B (A ⧸ I)) a) ∈ q.asIdeal ↔ a ∈ m
+      change (qEquiv.symm (algebraMap B (TensorProduct A B (A ⧸ I)) a)) ∈ qbar.asIdeal ↔ a ∈ m
       dsimp only [qbar, PrimeSpectrum.comap]
-      show ρ (qEquiv.symm (algebraMap B (TensorProduct A B (A ⧸ I)) a)) ∈
+      change ρ (qEquiv.symm (algebraMap B (TensorProduct A B (A ⧸ I)) a)) ∈
           (⊥ : Ideal (B ⧸ m)) ↔ a ∈ m
       rw [show algebraMap B (TensorProduct A B (A ⧸ I)) a = a ⊗ₜ[A] (1 : A ⧸ I) by simp]
       have hone : (1 : A ⧸ I) = Ideal.Quotient.mk I 1 := rfl
       rw [hone, Algebra.TensorProduct.quotIdealMapEquivTensorQuot_symm_tmul]
       simp only [ρ, one_smul, Ideal.mem_bot]
-      show Ideal.Quotient.mk m a = 0 ↔ a ∈ m
+      change Ideal.Quotient.mk m a = 0 ↔ a ∈ m
       exact Ideal.Quotient.eq_zero_iff_mem
     have hxrange : p ∈ Set.range k.base := by
       refine ⟨(pullback.fst f z) xZ, ?_⟩
@@ -305,7 +305,7 @@ lemma exists_coprod_isOpenImmersion_isFinite_etale_and_isEmpty_closedFiber
     · rintro ⟨u, rfl⟩
       refine ⟨⟨j u.1, ?_⟩, rfl⟩
       have huD : k u.1 ∈ D_b := u.2
-      show T.isoSpec.hom (j u.1) ∈ D_b
+      change T.isoSpec.hom (j u.1) ∈ D_b
       simpa only [k, Scheme.Hom.comp_apply] using huD
     · rintro ⟨x, rfl⟩
       have hxD : T.isoSpec.hom x.1 ∈ D_b := x.2
@@ -313,7 +313,7 @@ lemma exists_coprod_isOpenImmersion_isFinite_etale_and_isEmpty_closedFiber
       have hu' : k u = T.isoSpec.hom x.1 := by simpa using hu
       have hju : j u = x.1 := T.isoSpec.hom.injective hu'
       refine ⟨⟨u, ?_⟩, hju⟩
-      show k u ∈ D_b
+      change k u ∈ D_b
       rw [hu']
       exact hxD
   have hTfinClosedImmersion : IsClosedImmersion Tfin.ι :=
@@ -348,17 +348,17 @@ lemma exists_coprod_isOpenImmersion_isFinite_etale_and_isEmpty_closedFiber
       { hom := coprod.desc iFin iAway
         w := by
           rintro ⟨_ | _⟩
-          · show coprod.inl ≫ coprod.desc iFin iAway = iFin
+          · change coprod.inl ≫ coprod.desc iFin iAway = iFin
             exact coprod.inl_desc iFin iAway
-          · show coprod.inr ≫ coprod.desc iFin iAway = iAway
+          · change coprod.inr ≫ coprod.desc iFin iAway = iAway
             exact coprod.inr_desc iFin iAway }
     have : IsIso φ := IsColimit.hom_isIso (coprodIsCoprod _ _) hc φ
     exact (inferInstance : IsIso ((Cocone.forget _).map φ))
   have hfibreSub : Set.range (pullback.fst f z) ⊆ (UfinO : Set U) := by
     rintro x ⟨xZ, rfl⟩
-    show k (pullback.fst f z xZ) ∈ D_b
+    change k (pullback.fst f z xZ) ∈ D_b
     have hxD : pullback.fst (Spec.map (CommRingCat.ofHom α)) z (jZ xZ) ∈ D_b := by
-      show jZ xZ ∈ (pullback.fst (Spec.map (CommRingCat.ofHom α)) z) ⁻¹ᵁ D_b
+      change jZ xZ ∈ (pullback.fst (Spec.map (CommRingCat.ofHom α)) z) ⁻¹ᵁ D_b
       rw [hFiber]
       exact ⟨xZ, rfl⟩
     rw [hkfst]

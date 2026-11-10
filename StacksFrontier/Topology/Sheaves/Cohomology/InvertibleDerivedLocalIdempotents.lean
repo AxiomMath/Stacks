@@ -179,16 +179,16 @@ public theorem actsOnHomology_glueIdempotents :
   split_ifs with hkn
   · ext W m
     exact globalRes_glueSplitting_smul_eq V hxV A n _ W.unop m m fun x =>
-      (A x).smul n k inf_le_right _ |>.trans (if_pos hkn)
+      (A x).smul n k inf_le_right _ |>.trans (ite_eq_left hkn)
   · ext W m
     exact globalRes_glueSplitting_smul_eq V hxV A n _ W.unop m 0 fun x =>
-      (A x).smul n k inf_le_right _ |>.trans ((if_neg hkn).trans (map_zero _).symm)
+      (A x).smul n k inf_le_right _ |>.trans ((ite_eq_right hkn).trans (map_zero _).symm)
 
 /-- `e_n` acts as the identity on `H^{-n}(K')`. -/
 public theorem actsAsOne_glueIdempotents_neg (n : ℤ) :
     (glueIdempotents V hxV A).ActsAsOne n (K'.homology (-n)) := fun W m =>
   globalRes_glueSplitting_smul_eq V hxV A n _ W.unop m m fun x =>
-    (A x).smul' n (-n) inf_le_right _ |>.trans (if_pos rfl)
+    (A x).smul' n (-n) inf_le_right _ |>.trans (ite_eq_left rfl)
 
 include hxV A in
 /-- **Clause (2) of Stacks 0FPG from local splittings.** -/

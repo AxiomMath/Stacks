@@ -156,7 +156,7 @@ theorem IsFiniteSchemeCoverFiniteEtaleOverDenseOpen.isFiniteLocallyFree_blowUp
         yonedaEquiv.symm x ≫ pullback.fst f U'.ι := by
       apply yonedaEquiv.injective
       rw [yonedaEquiv_comp, Equiv.apply_symm_apply, Equiv.apply_symm_apply]
-    show pointsToScheme B S hS Y (pointsMap B S hS _
+    change pointsToScheme B S hS Y (pointsMap B S hS _
       (yonedaEquiv.symm ((pullback.fst f U'.ι).app Z x)) p) ∈ V
     rw [hy, pointsMap_comp_apply]
     exact hpts _
@@ -205,7 +205,7 @@ theorem IsFiniteSchemeCoverFiniteEtaleOverDenseOpen.isFiniteLocallyFree_blowUp
   have hcomp : pullback.snd (β ≫ f) U'.ι = φ ≫ pullback.snd f U'.ι :=
     (pullback.lift_snd _ _ _).symm
   refine (isFiniteLocallyFree_presheaf_iff_isFiniteLocallyFree B S hS _).1 ?_
-  show (MorphismProperty.inverseImage _ _).presheaf (pullback.snd (β ≫ f) U'.ι)
+  change (MorphismProperty.inverseImage _ _).presheaf (pullback.snd (β ≫ f) U'.ι)
   rw [hcomp]
   exact MorphismProperty.RespectsIso.precomp _ φ _ hflf'
 
@@ -243,7 +243,7 @@ theorem IsFiniteSchemeCoverFiniteEtaleOverDenseOpen.subset_range_blowUp
     (_root_.AlgebraicGeometry.blowUpToBase I ⁻¹ᵁ V).ι z
   have hw : (BigFppfOver.toScheme B S hS).map (blowUpObjHom Y I) w = e p := hbz
   refine ⟨(schemePointsHomeomorph B S hS (blowUpObj Y I)).symm w, ?_⟩
-  show pointsMap B S hS _ (yoneda.map (blowUpObjHom Y I) ≫ f) _ = _
+  change pointsMap B S hS _ (yoneda.map (blowUpObjHom Y I) ≫ f) _ = _
   rw [pointsMap_comp_apply, schemePointsHomeomorph_symm_naturality, hw, e.symm_apply_apply]
 
 end AlgebraicGeometry.Space

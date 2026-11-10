@@ -193,8 +193,10 @@ theorem tensorHom_eq_monoidalTensorHom
 variable [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
   (F G : SheafOfModules.{w} (toRingCat J Osharp))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The tensor product sheaf of Tag 05NA is the value of the tensor product bifunctor.** -/
-theorem tensorSheafBifunctor_obj_eq :
+theorem tensorSheafBifunctor_obj_eq [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+    (F G : SheafOfModules.{w} (toRingCat J Osharp)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj F).obj G =
       (((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj F).obj G) := rfl
 

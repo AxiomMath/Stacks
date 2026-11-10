@@ -54,6 +54,7 @@ universe w v u
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is expensive
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 instance hasPullbacks_presheaf_LocallyQuasiFiniteFromScheme (B : BigFppfSite.{u})
@@ -67,6 +68,7 @@ instance (priority := high) hasPullback_presheaf_LocallyQuasiFiniteFromScheme
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for binary products of presheaves on the big fppf site is expensive
 /-- Binary products of presheaves on the big fppf site (instance search times out without
 this shortcut). -/
 instance (priority := high) hasBinaryProducts_presheaf_LocallyQuasiFiniteFromScheme

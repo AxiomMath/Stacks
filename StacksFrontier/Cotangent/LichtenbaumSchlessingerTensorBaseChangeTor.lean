@@ -71,8 +71,7 @@ theorem tensorExtEquiv_tmul (M : Type u) [AddCommGroup M] [Module R M] (a : A) (
 /-- `tensorExtEquiv` is `A`-linear. -/
 theorem tensorExtEquiv_smul (M : Type u) [AddCommGroup M] [Module R M] (a : A)
     (w : A ⊗[R] M) : tensorExtEquiv A M (a • w) = a • tensorExtEquiv A M w := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul a' m =>
     rw [TensorProduct.smul_tmul', tensorExtEquiv_tmul, tensorExtEquiv_tmul]
     exact (ModuleCat.ExtendScalars.smul_tmul (algebraMap R A) a a' (M := ModuleCat.of R M) m).symm
@@ -83,8 +82,7 @@ theorem extA_map_tensorExtEquiv {M N : Type u} [AddCommGroup M] [Module R M] [Ad
     [Module R N] (g : M →ₗ[R] N) (w : A ⊗[R] M) :
     ((extA R A).map (ModuleCat.ofHom g)).hom (tensorExtEquiv A M w) =
       tensorExtEquiv A N (g.baseChange A w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul a m => rfl
   | add w w' hw hw' => rw [map_add, map_add, hw, hw', map_add, map_add]
 
@@ -161,7 +159,7 @@ theorem mu_single_inl (t : T) (q : (P.tensorBaseChange A).Ring) :
 theorem muComponent_map (t : T) (p : P.Ring) :
     P.muComponent A t (MvPolynomial.map (algebraMap R A) p) =
       tensorExtEquiv A _ ((1 : A) ⊗ₜ[R] P.mulRelation t p) := by
-  show tensorExtEquiv A _ ((P.mulRelation t).baseChange A
+  change tensorExtEquiv A _ ((P.mulRelation t).baseChange A
     ((MvPolynomial.algebraTensorAlgEquiv R A).symm (MvPolynomial.map (algebraMap R A) p))) = _
   rw [MvPolynomial.algebraTensorAlgEquiv_symm_map, LinearMap.baseChange_tmul]
 
@@ -181,8 +179,7 @@ theorem mu_freeMap (y : T →₀ P.Ring) :
 /-- Base change of multiplication by `x` is multiplication by `1 ⊗ x`. -/
 private theorem baseChange_mulLeft_apply {S : Type u} [CommRing S] [Algebra R S] (x : S)
     (w : A ⊗[R] S) : (LinearMap.mulLeft R x).baseChange A w = ((1 : A) ⊗ₜ[R] x) * w := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [mul_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul a p => rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, LinearMap.baseChange_tmul]; rfl
   | add w w' hw hw' => rw [mul_add, map_add, hw, hw']
 
@@ -196,7 +193,7 @@ theorem mu_X_smul (i : X) (x : (T ⊕ PEmpty.{u + 1}) →₀ (P.tensorBaseChange
   | single t' q =>
     rcases t' with t | e
     · rw [Finsupp.smul_single, mu_single_inl, mu_single_inl, smul_eq_mul]
-      show tensorExtEquiv A _ ((P.mulRelation t).baseChange A
+      change tensorExtEquiv A _ ((P.mulRelation t).baseChange A
           ((MvPolynomial.algebraTensorAlgEquiv R A).symm (MvPolynomial.X i * q))) =
         ((extA R A).map (ModuleCat.ofHom _)).hom (tensorExtEquiv A _ ((P.mulRelation t).baseChange A
           ((MvPolynomial.algebraTensorAlgEquiv R A).symm q)))
@@ -231,7 +228,7 @@ theorem extA_map_mu (x : (T ⊕ PEmpty.{u + 1}) →₀ (P.tensorBaseChange A).Ri
     rcases t' with t | e
     · rw [mu_single_inl, relationMap_single, tensorBaseChange_relation, map_mul,
         MvPolynomial.algebraTensorAlgEquiv_symm_map]
-      show (kerInclusion A P).hom
+      change (kerInclusion A P).hom
           (tensorExtEquiv A _ ((P.mulRelation t).baseChange A
             ((MvPolynomial.algebraTensorAlgEquiv R A).symm q))) = _
       rw [kerInclusion, extA_map_tensorExtEquiv]
@@ -251,8 +248,7 @@ theorem mem_relations_iff_mu (x : (T ⊕ PEmpty.{u + 1}) →₀ (P.tensorBaseCha
 /-- `μ` is onto. -/
 theorem mu_surjective : Function.Surjective (P.mu A) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul a i =>
     obtain ⟨y, rfl⟩ := P.relationToKer_surjective i
     refine ⟨(show A from a) • (P.tensorBaseChangeHom A).freeMap y, ?_⟩
@@ -282,11 +278,10 @@ def tensorFreeMap : A ⊗[R] (T →₀ P.Ring) →ₗ[A]
 /-- `μ` composed with `A ⊗_R F → F_A` is the base change of `F → I`. -/
 theorem mu_tensorFreeMap (w : A ⊗[R] (T →₀ P.Ring)) :
     P.mu A (P.tensorFreeMap A w) = tensorExtEquiv A _ (P.relationToKer.baseChange A w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul a y =>
     rw [tensorFreeMap, LinearMap.liftBaseChange_tmul, map_smul]
-    show a • P.mu A ((P.tensorBaseChangeHom A).freeMap y) = _
+    change a • P.mu A ((P.tensorBaseChangeHom A).freeMap y) = _
     rw [mu_freeMap, ← tensorExtEquiv_smul, TensorProduct.smul_tmul', smul_eq_mul, mul_one,
       LinearMap.baseChange_tmul]
   | add w w' hw hw' => rw [map_add, map_add, hw, hw', map_add, map_add]
@@ -303,13 +298,12 @@ theorem tensorFreeMap_surjective : Function.Surjective (P.tensorFreeMap A) := by
   | single t' q =>
     rcases t' with t | e
     · obtain ⟨w, rfl⟩ := (MvPolynomial.algebraTensorAlgEquiv R A).surjective q
-      induction w using TensorProduct.induction_on with
-      | zero => exact ⟨0, by rw [map_zero, map_zero, Finsupp.single_zero]⟩
+      induction w using TensorProduct.inductionOn with
       | tmul a p =>
         refine ⟨a ⊗ₜ Finsupp.single t p, ?_⟩
         rw [tensorFreeMap, LinearMap.liftBaseChange_tmul, MvPolynomial.algebraTensorAlgEquiv_tmul,
           ← Finsupp.smul_single]
-        show a • (P.tensorBaseChangeHom A).freeMap (Finsupp.single t p) = _
+        change a • (P.tensorBaseChangeHom A).freeMap (Finsupp.single t p) = _
         rw [LichtenbaumSchlessingerHom.freeMap_single, tensorBaseChangeHom_ringHom]
       | add w w' hw hw' =>
         obtain ⟨v, hv⟩ := hw
@@ -329,13 +323,12 @@ theorem mem_relationsImage_of_mu_eq_zero
     (x : (T ⊕ PEmpty.{u + 1}) →₀ (P.tensorBaseChange A).Ring) (hx : P.mu A x = 0) :
     x ∈ P.relationsImage A := by
   obtain ⟨w, rfl⟩ := P.tensorFreeMap_surjective A x
-  rw [mu_tensorFreeMap, (tensorExtEquiv A _).map_eq_zero_iff, LinearMap.baseChange_eq_ltensor]
+  rw [mu_tensorFreeMap, (tensorExtEquiv A _).map_eq_zero_iff, LinearMap.baseChange_eq_lTensor]
     at hx
   obtain ⟨z, rfl⟩ := ((lTensor_exact A P.relationToKer_exact
     P.relationToKer_surjective) w).1 hx
   clear hx
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]; exact zero_mem _
+  induction z using TensorProduct.inductionOn with
   | tmul a r =>
     rw [LinearMap.lTensor_tmul, tensorFreeMap, LinearMap.liftBaseChange_tmul,
       ← IsScalarTower.algebraMap_smul (P.tensorBaseChange A).Ring a]
@@ -375,7 +368,7 @@ theorem mu_eq_zero_iff (x : (T ⊕ PEmpty.{u + 1}) →₀ (P.tensorBaseChange A)
   have h : P.relationsImage A ≤ P.muKer A := by
     rw [Submodule.span_le]
     rintro _ ⟨r, rfl⟩
-    show P.mu A _ = 0
+    change P.mu A _ = 0
     rw [mu_freeMap, ((relationToKer_exact P) (r : T →₀ P.Ring)).2 ⟨r, rfl⟩,
       TensorProduct.tmul_zero, map_zero]
   exact h hx
@@ -486,13 +479,12 @@ theorem relationRead_tensorBaseChangeComplexMap_mem
     intro z
     rw [LichtenbaumSchlessingerHom.complexMap_f,
       LichtenbaumSchlessingerHom.complexMapComponent_negTwo]
-    show (lichtenbaumSchlessingerComplex (P.tensorBaseChange A)).relationBaseChangeEquiv
+    change (lichtenbaumSchlessingerComplex (P.tensorBaseChange A)).relationBaseChangeEquiv
       ((lichtenbaumSchlessingerComplex (P.tensorBaseChange A)).relationIso.hom
         ((P.tensorBaseChangeHom A).complexMapTwo z)) ∈ _
     rw [LichtenbaumSchlessingerHom.complexMapTwo_apply]
     generalize (lichtenbaumSchlessingerComplex P).relationIso.hom z = w
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]; exact zero_mem _
+    induction w using TensorProduct.inductionOn with
     | tmul b n =>
       rw [LichtenbaumSchlessingerHom.relationTensorMap_tmul,
         show algebraMap B (A ⊗[R] B) b ⊗ₜ[(P.tensorBaseChange A).Ring]
@@ -514,8 +506,7 @@ theorem relationRead_tensorBaseChangeComplexMap_mem
         rw [map_add, relationRead, relationRead, relationRead, map_add, map_add] }
   suffices hΘ : ∀ v : E, v ∈ (P.relationQuotientImage A).toAddSubgroup.comap Θ from hΘ x
   intro v
-  induction v using TensorProduct.induction_on with
-  | zero => exact zero_mem _
+  induction v using TensorProduct.inductionOn with
   | add v v' hv hv' => exact add_mem hv hv'
   | tmul c z =>
     have e : (c ⊗ₜ[B] z : E) = (show A ⊗[R] B from c) •
@@ -529,7 +520,7 @@ theorem relationRead_tensorBaseChangeComplexMap_mem
         ((LinearMap.map_smul ((P.tensorBaseChangeComplexMap A).f (-2)).hom _ _).trans
           (congrArg _ (P.tensorBaseChangeComplexMap_f_one_tmul A (-2) z)))).trans
         (P.relationRead_smul A _ _))
-    show Θ (c ⊗ₜ[B] z) ∈ P.relationQuotientImage A
+    change Θ (c ⊗ₜ[B] z) ∈ P.relationQuotientImage A
     rw [h1]
     exact P.smul_mem_relationQuotientImage A _ _ (key z)
 
@@ -620,7 +611,7 @@ def relationsToCokernel : relations (P.tensorBaseChange A) →+ P.cokernelNegTwo
 theorem relationsToCokernel_smul (q : (P.tensorBaseChange A).Ring)
     (r : relations (P.tensorBaseChange A)) :
     P.relationsToCokernel A (q • r) = algebraMap _ (A ⊗[R] B) q • P.relationsToCokernel A r := by
-  show (cokernel.π ((P.tensorBaseChangeComplexMap A).f (-2))).hom
+  change (cokernel.π ((P.tensorBaseChangeComplexMap A).f (-2))).hom
       (P.relationOneTmul A (Submodule.Quotient.mk (q • r))) = _
   rw [Submodule.Quotient.mk_smul, relationOneTmul_smul, map_smul]
   rfl
@@ -632,7 +623,7 @@ theorem relationsToCokernel_eq_zero_iff (r : relations (P.tensorBaseChange A)) :
   rw [← P.mk_mem_relationQuotientImage_iff A, ← P.relationOneTmul_mem_range_iff A]
   let f := (P.tensorBaseChangeComplexMap A).f (-2)
   have h := ModuleCat.cokernel_π_cokernelIsoRangeQuotient_hom f
-  show (cokernel.π f).hom _ = 0 ↔ _
+  change (cokernel.π f).hom _ = 0 ↔ _
   have key := congrArg (fun φ => φ.hom (P.relationOneTmul A (Submodule.Quotient.mk r))) h
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply, ModuleCat.hom_ofHom,
     Submodule.mkQ_apply] at key
@@ -654,8 +645,7 @@ theorem relationsToCokernel_surjective : Function.Surjective (P.relationsToCoker
       relationQuotient (P.tensorBaseChange A),
       ∃ n, w = (1 : A ⊗[R] B) ⊗ₜ[(P.tensorBaseChange A).Ring] n := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => exact ⟨0, (TensorProduct.tmul_zero _ _).symm⟩
+    induction w using TensorProduct.inductionOn with
     | tmul c n =>
       obtain ⟨q, rfl⟩ := (P.tensorBaseChange A).algebraMap_surjective c
       refine ⟨q • n, ?_⟩
@@ -668,7 +658,7 @@ theorem relationsToCokernel_surjective : Function.Surjective (P.relationsToCoker
     hw ((lichtenbaumSchlessingerComplex (P.tensorBaseChange A)).relationIso.hom.hom v)
   obtain ⟨r, rfl⟩ := Submodule.mkQ_surjective _ n
   refine ⟨r, ?_⟩
-  show (cokernel.π ((P.tensorBaseChangeComplexMap A).f (-2))).hom
+  change (cokernel.π ((P.tensorBaseChangeComplexMap A).f (-2))).hom
     ((lichtenbaumSchlessingerComplex (P.tensorBaseChange A)).relationIso.inv.hom
       ((1 : A ⊗[R] B) ⊗ₜ[(P.tensorBaseChange A).Ring] Submodule.Quotient.mk r)) = _
   rw [Submodule.mkQ_apply] at hn
@@ -699,7 +689,7 @@ def relationsToTor : relations (P.tensorBaseChange A) →+ TorChangeOfRings.torO
 /-- The image of `relationsToTor r` in `Ker(A ⊗_R I → A ⊗_R P)` is `μ r`. -/
 theorem torOnePresentationKerEquiv_relationsToTor (r : relations (P.tensorBaseChange A)) :
     (torOnePresentationKerEquiv A P (P.relationsToTor A r)).1 = P.mu A r := by
-  show (torOnePresentationKerEquiv A P ((torOnePresentationKerEquiv A P).symm _)).1 = _
+  change (torOnePresentationKerEquiv A P ((torOnePresentationKerEquiv A P).symm _)).1 = _
   rw [AddEquiv.apply_symm_apply]
 
 /-- The kernel of `Rel_A → Tor_1^R(A, B)` is `P_A · Rel`. -/

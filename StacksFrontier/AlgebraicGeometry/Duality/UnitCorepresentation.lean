@@ -62,7 +62,7 @@ def unitPoint : ModuleCat.of k k ⟶ (globalSectionsOver f).obj (Stacks.Ample.un
 theorem unitPoint_comp_map {M : X.Modules} (a : Stacks.Ample.unitModule X ⟶ M) :
     (unitPoint f ≫ (globalSectionsOver f).map a).hom 1 =
       unitHomLinearEquivGlobalSections f M a := by
-  show (globalSectionsOver f).map a (unitHomLinearEquivGlobalSections f _ ((1 : k) • 𝟙 _)) = _
+  change (globalSectionsOver f).map a (unitHomLinearEquivGlobalSections f _ ((1 : k) • 𝟙 _)) = _
   rw [one_smul, ← unitHomLinearEquivGlobalSections_naturality, Category.id_comp]
 
 /-- The class in `H^0(Γ(X, I))` of the global section `a(1)` of `I^0`, for a map

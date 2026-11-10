@@ -160,7 +160,7 @@ theorem tensorRegularIso_naturality {N N' : Bimodule A B} (g : N ⟶ N') :
     (tensorModuleNatTrans g).app (regularModule A) ≫ (tensorRegularIso N').1.hom =
       (tensorRegularIso N).1.hom ≫ g.rightHom := by
   refine tensorObj_hom_ext' N (regularModule A) _ _ fun x y => ?_
-  show (tensorRegularIso N').1.hom.toFun
+  change (tensorRegularIso N').1.hom.toFun
       ((tensorHomOfBimoduleHom g (regularModule A)).toFun _) =
     g.rightHom.toFun ((tensorRegularIso N).1.hom.toFun _)
   rw [tensorHomOfBimoduleHom_pure, (tensorRegularIso N').2, (tensorRegularIso N).2,
@@ -268,7 +268,7 @@ theorem powBaseDegreeZeroDerivedTensorTower_plainMap (k : ℕ) :
       (tensorModuleNatTrans (powBaseBimodMap f hb bimod bimodTrans k)).app
         (baseModule (seqDual fun i => f i ^ t)) := by
   refine tensorObj_hom_ext' _ _ _ _ fun x y => ?_
-  show ((tensorCompNatTransOfSemilinear _ _ _ _).app _).toFun
+  change ((tensorCompNatTransOfSemilinear _ _ _ _).app _).toFun
       (((tensorCompFunctor _).map _).toFun _) =
     (tensorHomOfBimoduleHom _ _).toFun _
   refine (congrArg _ (tensorCompFunctor_map_pure' _ _ x y)).trans ?_

@@ -156,7 +156,7 @@ components of `e`. -/
 theorem mapHomotopyCategoryPlusIdIsoOf_hom_app (K : HomotopyCategory.Plus A) :
     (mapHomotopyCategoryPlusIdIsoOf F e).hom.app K =
       (Stacks.Cohomology.BaseChange.mapPlus e.hom).app K := by
-  show (mapHomotopyCategoryPlusNatIso e).hom.app K ≫
+  change (mapHomotopyCategoryPlusNatIso e).hom.app K ≫
     (mapHomotopyCategoryPlusIdIso A).hom.app K = _
   rw [mapHomotopyCategoryPlusNatIso_hom]
   exact mapHomotopyCategoryPlusIdIso_comp_hom _
@@ -165,7 +165,7 @@ theorem mapHomotopyCategoryPlusIdIsoOf_hom_app (K : HomotopyCategory.Plus A) :
 theorem mapHomotopyCategoryPlusIdIsoOf_inv_app (K : HomotopyCategory.Plus A) :
     (mapHomotopyCategoryPlusIdIsoOf F e).inv.app K =
       (Stacks.Cohomology.BaseChange.mapPlus e.inv).app K := by
-  show (mapHomotopyCategoryPlusIdIso A).inv.app K ≫
+  change (mapHomotopyCategoryPlusIdIso A).inv.app K ≫
     (mapHomotopyCategoryPlusNatIso e).inv.app K = _
   rw [mapHomotopyCategoryPlusNatIso_inv]
   exact mapHomotopyCategoryPlusIdIso_inv_comp _

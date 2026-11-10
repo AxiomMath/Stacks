@@ -162,11 +162,13 @@ def completionModificationFunctorFullyFaithful {X : (BigFppfOver B S hS)ᵒᵖ �
 
 /-! ### Base change along an étale chart -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- the default `synthInstance.maxHeartbeats` is not enough to find these pullbacks
 /-- Pullbacks of fppf sheaves (in `Type (u + 1)`, where completions live), found once: instance
 search for them times out under Lean v4.35.0. -/
 local instance (priority := high) hasPullbacks_sheaf_CompletionModificationFunctor :
     HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))) := by
-  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+  infer_instance
 
 /-- The pullback of two morphisms of fppf sheaves in `Type (u + 1)`. -/
 local instance (priority := high) hasLimit_cospan_sheaf_CompletionModificationFunctor

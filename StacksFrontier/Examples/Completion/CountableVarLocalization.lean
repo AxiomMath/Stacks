@@ -95,7 +95,7 @@ private theorem ker_constantCoeff_eq_m (T : CountableVarLocalization) :
     RingHom.ker (MvPolynomial.constantCoeff : T.P →+* T.k) = T.m := by
   ext p
   rw [RingHom.mem_ker]
-  show p.coeff 0 = 0 ↔ p ∈ MvPolynomial.idealOfVars ℕ T.k
+  change p.coeff 0 = 0 ↔ p ∈ MvPolynomial.idealOfVars ℕ T.k
   rw [← pow_one (MvPolynomial.idealOfVars ℕ T.k), MvPolynomial.mem_pow_idealOfVars_iff' 1 p]
   simp [Finsupp.degree_eq_zero_iff]
 
@@ -145,7 +145,7 @@ private lemma localStageEquiv_symm_apply_mk (T : CountableVarLocalization) (j : 
     (localStageEquiv T j).symm (Ideal.Quotient.mk (T.m ^ j • ⊤) p) =
       Ideal.Quotient.mk (T.n ^ j • ⊤) (algebraMap T.P T.A p) := by
   have : T.m.IsMaximal := T.m_isMaximal
-  show Ideal.quotEquivOfEq (show IsLocalRing.maximalIdeal T.A ^ j = T.n ^ j • ⊤ by
+  change Ideal.quotEquivOfEq (show IsLocalRing.maximalIdeal T.A ^ j = T.n ^ j • ⊤ by
       rw [T.n_eq_maximalIdeal]
       simp only [smul_eq_mul, Ideal.mul_top])
       ((IsLocalization.AtPrime.equivQuotMaximalIdealPow T.m T.A j)
@@ -170,7 +170,7 @@ private lemma localStageEquiv_transition (T : CountableVarLocalization)
       AdicCompletion.transitionMap T.m T.P hij (localStageEquiv T j x) := by
   obtain ⟨y, rfl⟩ := (localStageEquiv T j).symm.surjective x
   refine Quotient.inductionOn' y fun p => ?_
-  show localStageEquiv T i
+  change localStageEquiv T i
       (AdicCompletion.transitionMap T.n T.A hij
         ((localStageEquiv T j).symm (Ideal.Quotient.mk (T.m ^ j • ⊤) p))) =
     AdicCompletion.transitionMap T.m T.P hij
@@ -225,7 +225,7 @@ theorem exists_completionEquiv (T : CountableVarLocalization) :
       ∀ p : T.P, e (AdicCompletion.of T.n T.A (algebraMap T.P T.A p)) =
         AdicCompletion.of T.m T.P p } := by
   refine ⟨⟨completionRingEquiv T, fun p => Subtype.ext <| funext fun j => ?_⟩⟩
-  show localStageEquiv T j
+  change localStageEquiv T j
       ((AdicCompletion.of T.n T.A (algebraMap T.P T.A p)).val j) =
     (AdicCompletion.of T.m T.P p).val j
   simp only [AdicCompletion.of_apply, Submodule.mkQ_apply]
@@ -250,7 +250,7 @@ theorem finite_coefficients_of_degree (T : CountableVarLocalization)
   classical
   let q := Quotient.out ((T.completionEquiv.val s).val (d + 1))
   refine q.support.finite_toSet.subset fun I hI => MvPolynomial.mem_support_iff.2 ?_
-  show (Quotient.out ((T.completionEquiv.val s).val (d + 1))).coeff I ≠ 0
+  change (Quotient.out ((T.completionEquiv.val s).val (d + 1))).coeff I ≠ 0
   rw [← hI.1]
   simpa [series, MvPowerSeries.coeff_toAdicCompletionInv] using hI.2
 
@@ -286,7 +286,7 @@ private lemma coeff_seriesTruncation (T : CountableVarLocalization)
   classical
   by_cases hd : Finsupp.degree I < n <;>
     by_cases hc : MvPowerSeries.coeff I f = 0 <;>
-    simp [seriesTruncation, seriesSupportBelow, hd, hc, MvPolynomial.coeff_sum,
+    simp [seriesTruncation, seriesSupportBelow, hd, hc,
       MvPolynomial.coeff_monomial, Finset.sum_ite_eq']
 
 private lemma seriesTruncation_sub_mem_pow (T : CountableVarLocalization)
@@ -357,10 +357,10 @@ theorem existsUnique_series_of_degreewise_finite (T : CountableVarLocalization)
   let s := (T.completionEquiv.val).symm y
   have hsf : T.series s = f := by
     ext I
-    show (Quotient.out ((T.completionEquiv.val s).val (Finsupp.degree I + 1))).coeff I =
+    change (Quotient.out ((T.completionEquiv.val s).val (Finsupp.degree I + 1))).coeff I =
         MvPowerSeries.coeff I f
     rw [show T.completionEquiv.val s = y from RingEquiv.apply_symm_apply _ _]
-    show (Quotient.out (Ideal.Quotient.mk (T.m ^ (Finsupp.degree I + 1) • ⊤)
+    change (Quotient.out (Ideal.Quotient.mk (T.m ^ (Finsupp.degree I + 1) • ⊤)
         (seriesTruncation T f (Finsupp.degree I + 1) hf))).coeff I = _
     rw [coeff_out_mk T _ _ I (by omega), coeff_seriesTruncation]
     simp
@@ -396,7 +396,7 @@ private lemma polynomialResidueEquiv_apply_mk (T : CountableVarLocalization) (p 
   have hs : Function.Surjective (MvPolynomial.constantCoeff : T.P →+* T.k) := fun x =>
     ⟨MvPolynomial.C x, MvPolynomial.constantCoeff_C _ _⟩
   rw [polynomialResidueEquiv, RingEquiv.trans_apply, Ideal.quotEquivOfEq_mk]
-  show RingHom.quotientKerEquivOfSurjective
+  change RingHom.quotientKerEquivOfSurjective
       (f := (MvPolynomial.constantCoeff : T.P →+* T.k)) hs
       (Ideal.Quotient.mk (RingHom.ker (MvPolynomial.constantCoeff : T.P →+* T.k)) p) = _
   exact RingHom.quotientKerEquivOfSurjective_apply_mk
@@ -422,7 +422,7 @@ private lemma completionConstantTerm_eq_coeff_zero (T : CountableVarLocalization
   let p := Quotient.out ((T.completionEquiv.val s).val 1)
   have hpow : T.m ^ 1 = T.m := by simp
   let e : T.P ⧸ T.m ^ 1 ≃+* T.P ⧸ T.m := Ideal.quotEquivOfEq hpow
-  show polynomialResidueEquiv T
+  change polynomialResidueEquiv T
       (e (AdicCompletion.evalₐ T.m 1 (T.completionEquiv.val s))) =
     MvPowerSeries.coeff 0 (T.series s)
   have heval : AdicCompletion.evalₐ T.m 1 (T.completionEquiv.val s) =
@@ -430,7 +430,7 @@ private lemma completionConstantTerm_eq_coeff_zero (T : CountableVarLocalization
     dsimp [AdicCompletion.evalₐ, AdicCompletion.eval]
     have h : (T.m ^ 1 • ⊤ : Ideal T.P) = T.m ^ 1 := by
       simp [smul_eq_mul, Ideal.mul_top]
-    show Ideal.quotientEquivAlgOfEq T.P h
+    change Ideal.quotientEquivAlgOfEq T.P h
         ((T.completionEquiv.val s).val 1) = _
     have hq : Ideal.Quotient.mk (T.m ^ 1 • ⊤ : Ideal T.P) p =
         (T.completionEquiv.val s).val 1 := Ideal.Quotient.mk_out _
@@ -506,7 +506,7 @@ private lemma isUnit_adicCompletion_of_constantCoeff_ne_zero (T : CountableVarLo
         (T.P ⧸ (T.m ^ i • ⊤ : Ideal T.P)) :=
       (AdicCompletion.transitionMapₐ (I := T.m) (R := T.P) hij).toRingHom
     have hxmap : φ (x.val j) = x.val i := x.property hij
-    show φ ↑((hstage j).unit⁻¹) = ↑((hstage i).unit⁻¹)
+    change φ ↑((hstage j).unit⁻¹) = ↑((hstage i).unit⁻¹)
     have hright : x.val i * φ ↑((hstage j).unit⁻¹) = 1 := by
       calc
         _ = φ (x.val j * ↑((hstage j).unit⁻¹)) := by
@@ -564,9 +564,9 @@ theorem series_add (T : CountableVarLocalization) (s t : T.S) :
       (Quotient.out ((T.completionEquiv.val s).val (Finsupp.degree I + 1)) +
         Quotient.out ((T.completionEquiv.val t).val (Finsupp.degree I + 1))) I
       (by simp only [map_add, AdicCompletion.val_add_apply, Ideal.Quotient.mk_out]),
-    MvPolynomial.coeff_add,
-    ← coeff_series_eq_coeff_out T s (Finsupp.degree I + 1) I (by omega),
-    ← coeff_series_eq_coeff_out T t (Finsupp.degree I + 1) I (by omega)]
+    coeff_series_eq_coeff_out T s (Finsupp.degree I + 1) I (by omega),
+    coeff_series_eq_coeff_out T t (Finsupp.degree I + 1) I (by omega)]
+  exact DFunLike.congr_fun (AddMonoidAlgebra.coeff_add _ _) I
 
 /-- The series of a product is the product of the series. -/
 theorem series_mul (T : CountableVarLocalization) (s t : T.S) :

@@ -197,8 +197,7 @@ theorem diffAction_naturality (ψ : M ⟶ N) (A : Thickening S)
     (z : crysDiffSections A ⊗[crysSheafRing S A] M.val.obj (op A)) :
     diffAction N A (LinearMap.lTensor (crysDiffSections A) (moduleSiteMap ψ A) z) =
       moduleSiteMap ψ (firstOrderThickeningObject S A) (diffAction M A z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul ω s =>
       rw [LinearMap.lTensor_tmul, diffAction_tmul, diffAction_tmul,
         map_smul (moduleSiteMap ψ (firstOrderThickeningObject S A)), moduleSiteMap_naturality]

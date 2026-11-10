@@ -241,6 +241,7 @@ def proIso_tensor_adicReductionTower
       (adicReductionTower X I K) :=
   a.whiskerRight ((Stacks.SheafOfModules.derivedTensorProductFunctor X).obj K)
 
+omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})] in
 /-- **The formula of [Stacks, Tag 099M], from the pro-isomorphism of the two towers.** Let
 `(𝒞, 𝒪)` be a ringed site, let `f_1, …, f_r` be global sections of `𝒪` and let
 `ℐ = (f_1, …, f_r)`. Suppose the inverse system `n ↦ Kₙ^∨` of the duals of the Koszul complexes
@@ -269,6 +270,7 @@ theorem isDerivedLimit_adicReductionTower_completionFunctor_of_proIso
     (proIso_tensor_adicReductionTower X f (idealOfGlobalSections X f) K a)
   exact isDerivedLimit_of_objIso e hM
 
+omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})] in
 /-- **The criterion of [Stacks, Tag 099M], from the pro-isomorphism of the two towers.** Under the
 same hypothesis as
 `AlgebraicGeometry.RingedSite.isDerivedLimit_adicReductionTower_completionFunctor_of_proIso`, an

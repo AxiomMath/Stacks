@@ -66,7 +66,7 @@ theorem Scheme.eq_zero_of_appTop_mul_eq_zero {U V : Scheme.{u}} [IsReduced U] [I
   have hgenZ : IsGenericPoint hZ.1.genericPoint Z := by
     simpa only [hZcl.closure_eq] using hZ.1.isGenericPoint_genericPoint_closure
   have hz : hZ.1.genericPoint ∈ genericPoints U := by
-    show closure {hZ.1.genericPoint} ∈ irreducibleComponents U
+    change closure {hZ.1.genericPoint} ∈ irreducibleComponents U
     rwa [hgenZ.def]
   have hzt : hZ.1.genericPoint ∈ U.basicOpen t :=
     (hgenZ.specializes (hxZ rfl)).mem_open (U.basicOpen t).isOpen hx
@@ -77,7 +77,7 @@ theorem Scheme.eq_zero_of_appTop_mul_eq_zero {U V : Scheme.{u}} [IsReduced U] [I
       ⟨y, Set.mem_univ y, hy⟩
   have hza : hZ.1.genericPoint ∈ U.basicOpen (g.appTop a) := by
     rw [← Scheme.preimage_basicOpen_top]
-    show g hZ.1.genericPoint ∈ V.basicOpen a
+    change g hZ.1.genericPoint ∈ V.basicOpen a
     rwa [hg _ hz]
   have hmem : hZ.1.genericPoint ∈ U.basicOpen (g.appTop a * t) := by
     rw [Scheme.basicOpen_mul]
@@ -187,7 +187,7 @@ theorem chartBaseChange_map_genericPoint_eq (f : X ⟶ Y) (hXdec : IsDecentSpace
           Category.assoc _ _ _
       _ = _ := congrArg (c.obj.hom ≫ ·) (isPullback_chartBaseChangeProjection B S hS f V).w
   have hξgen : ξ ∈ genericPoints (points B S hS Y.1) := by
-    show closure {ξ} ∈ irreducibleComponents (points B S hS Y.1)
+    change closure {ξ} ∈ irreducibleComponents (points B S hS Y.1)
     rwa [irreducibleComponents_eq_singleton]
   have hξdim := localRingDimension_eq_zero_of_mem_genericPoints B S hS Y.2 hYdec hξgen
   have hch := chartPoint_pointsToScheme B S hS V.obj.left V.obj.hom

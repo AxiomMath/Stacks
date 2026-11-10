@@ -55,7 +55,7 @@ private lemma exists_residue_independent_generators
   refine ⟨ι, inferInstance, a, ha, ?_⟩
   intro x
   have hx : f x ∈ Submodule.span p.ResidueField (Set.range (fun i => f (a i))) := by
-    show f x ∈ Submodule.span p.ResidueField (Set.range (f ∘ a))
+    change f x ∈ Submodule.span p.ResidueField (Set.range (f ∘ a))
     rw [hspan]
     exact Submodule.subset_span (Set.mem_range_self x)
   obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun _).mp hx
@@ -71,7 +71,7 @@ private lemma exists_residue_independent_generators
     dsimp only [d]
     rw [IsScalarTower.algebraMap_apply B C p.ResidueField,
       IsLocalization.map_integerMultiple]
-    show algebraMap C p.ResidueField ((s : B) • b i) = _
+    change algebraMap C p.ResidueField ((s : B) • b i) = _
     rw [Algebra.smul_def, map_mul, hb, ← IsScalarTower.algebraMap_apply]
   refine ⟨s, s.property, d, ?_⟩
   rw [map_sub, sub_eq_zero, map_smulₛₗ, map_sum]
@@ -92,7 +92,7 @@ private lemma span_saturated_of_linearIndependent
   intro x hx
   obtain ⟨a, ha⟩ := (Submodule.mem_span_range_iff_exists_fun R).mp hx
   have hπ0 : ρ π = 0 := by
-    show π ∈ RingHom.ker ρ
+    change π ∈ RingHom.ker ρ
     rw [hker]
     exact Ideal.subset_span (Set.mem_singleton _)
   have hsum : ∑ i, ρ (a i) • q (g i) = 0 := by
@@ -107,7 +107,7 @@ private lemma span_saturated_of_linearIndependent
   choose b hb using hdiv
   apply (Submodule.mem_span_range_iff_exists_fun R).mpr
   refine ⟨b, hπ ?_⟩
-  show π • (∑ i, b i • g i) = π • x
+  change π • (∑ i, b i • g i) = π • x
   rw [Finset.smul_sum]
   simpa only [hb, mul_smul] using ha
 
@@ -187,7 +187,7 @@ private lemma mem_sq_of_derivation_eq_zero
   let : Fintype ι := Fintype.ofFinite ι
   have hzmem : z ∈ p := by
     rw [hp]
-    show algebraMap B Λ z ∈ Ideal.span {algebraMap R Λ π}
+    change algebraMap B Λ z ∈ Ideal.span {algebraMap R Λ π}
     rw [hz]
     exact Ideal.zero_mem _
   rw [hgen, Submodule.mem_sup] at hzmem
@@ -258,7 +258,7 @@ private lemma mem_sq_of_tensor_differential_eq_zero
     (TensorProduct.mk B k Ω[B⁄R] 1).compDer (KaehlerDifferential.D R B)
   have hg : LinearIndependent k (fun i => D (g i)) := by
     have h := (b.baseChange k).linearIndependent.comp e he
-    show LinearIndependent k
+    change LinearIndependent k
       (fun i => (1 : k) ⊗ₜ[B] KaehlerDifferential.D R B (g i))
     simpa only [Module.Basis.baseChange_apply, Function.comp_def, hb] using h
   exact mem_sq_of_derivation_eq_zero π hπ p hp hk g hgen D hg hz hdz
@@ -312,7 +312,7 @@ private lemma exists_mul_mem_sq_of_residue_differential_eq_zero
   have hfΛ : IsUnit (algebraMap B Λ f) := by
     apply IsLocalRing.notMem_maximalIdeal.mp
     rw [hπmax]
-    show f ∉ Ideal.comap (algebraMap B Λ) (Ideal.span {algebraMap R Λ π})
+    change f ∉ Ideal.comap (algebraMap B Λ) (Ideal.span {algebraMap R Λ π})
     rwa [← hp]
   let : Algebra C k := (IsLocalization.Away.lift f hfk).toAlgebra
   let : IsScalarTower B C k := IsScalarTower.of_algebraMap_eq'
@@ -335,7 +335,7 @@ private lemma exists_mul_mem_sq_of_residue_differential_eq_zero
     have hcomp : Ideal.comap (algebraMap B C)
         (Ideal.comap (algebraMap C Λ) (Ideal.span {algebraMap R Λ π})) = p := by
       ext x
-      show algebraMap C Λ (algebraMap B C x) ∈ Ideal.span {algebraMap R Λ π} ↔ x ∈ p
+      change algebraMap C Λ (algebraMap B C x) ∈ Ideal.span {algebraMap R Λ π} ↔ x ∈ p
       rw [← IsScalarTower.algebraMap_apply B C Λ, hp]
       rfl
     dsimp only [pC]
@@ -344,9 +344,9 @@ private lemma exists_mul_mem_sq_of_residue_differential_eq_zero
   have hk : RingHom.ker (algebraMap C k) = pC := by
     have hcomp : Ideal.comap (algebraMap B C) (RingHom.ker (algebraMap C k)) = p := by
       ext x
-      show algebraMap C k (algebraMap B C x) = 0 ↔ x ∈ p
+      change algebraMap C k (algebraMap B C x) = 0 ↔ x ∈ p
       rw [← IsScalarTower.algebraMap_apply B C k]
-      show x ∈ RingHom.ker (algebraMap B k) ↔ x ∈ p
+      change x ∈ RingHom.ker (algebraMap B k) ↔ x ∈ p
       rw [Ideal.ker_algebraMap_residueField p]
     exact (IsLocalization.map_under (Submonoid.powers f) C _).symm.trans
       (congrArg (Ideal.map (algebraMap B C)) hcomp)
@@ -414,16 +414,16 @@ private lemma differentialRelations_saturated_of_residue_kernel
   let Dk : Derivation R B (k ⊗[B] Ω[B⁄R]) :=
     (TensorProduct.mk B k Ω[B⁄R] 1).compDer (KaehlerDifferential.D R B)
   have hkI {z : B} (hz : z ∈ I) : algebraMap B k z = 0 := by
-    show z ∈ RingHom.ker (algebraMap B k)
+    change z ∈ RingHom.ker (algebraMap B k)
     rw [Ideal.ker_algebraMap_residueField, hp]
-    show algebraMap B Λ z ∈ IsLocalRing.maximalIdeal Λ
+    change algebraMap B Λ z ∈ IsLocalRing.maximalIdeal Λ
     rw [show algebraMap B Λ z = 0 from hI hz]
     exact Ideal.zero_mem _
   let D : I →ₗ[B] (Λ ⊗[B] Ω[B⁄R]) := {
     toFun := fun x => DΛ x
     map_add' := fun x y => DΛ.map_add x y
     map_smul' := fun r x => by
-      show DΛ (r * (x : B)) = r • DΛ x
+      change DΛ (r * (x : B)) = r • DΛ x
       rw [Derivation.leibniz, ← algebraMap_smul Λ (x : B),
         show algebraMap B Λ (x : B) = 0 from hI x.property,
         zero_smul, add_zero] }
@@ -431,14 +431,14 @@ private lemma differentialRelations_saturated_of_residue_kernel
     toFun := fun x => Dk x
     map_add' := fun x y => Dk.map_add x y
     map_smul' := fun r x => by
-      show Dk (r * (x : B)) = algebraMap B k r • Dk x
+      change Dk (r * (x : B)) = algebraMap B k r • Dk x
       rw [Derivation.leibniz, ← algebraMap_smul k (x : B), hkI x.property,
         zero_smul, add_zero, algebraMap_smul] }
   let q : (Λ ⊗[B] Ω[B⁄R]) →ₛₗ[algebraMap Λ K] (K ⊗[Λ] (Λ ⊗[B] Ω[B⁄R])) := {
     toFun := fun x => (1 : K) ⊗ₜ[Λ] x
     map_add' := fun x y => TensorProduct.tmul_add _ _ _
     map_smul' := fun r x => by
-      show (1 : K) ⊗ₜ[Λ] (r • x) = (algebraMap Λ K r) • ((1 : K) ⊗ₜ[Λ] x)
+      change (1 : K) ⊗ₜ[Λ] (r • x) = (algebraMap Λ K r) • ((1 : K) ⊗ₜ[Λ] x)
       rw [TensorProduct.tmul_smul, TensorProduct.smul_tmul']
       congr 1
       exact (algebraMap_smul K r (1 : K)).symm }
@@ -447,7 +447,7 @@ private lemma differentialRelations_saturated_of_residue_kernel
     (TensorProduct.AlgebraTensorModule.cancelBaseChange B k K K Ω[B⁄R]).trans
     (TensorProduct.AlgebraTensorModule.cancelBaseChange B Λ K K Ω[B⁄R]).symm
   have he (x : I) : q (D x) = e ((1 : K) ⊗ₜ[k] D₀ x) := by
-    show (1 : K) ⊗ₜ[Λ] ((1 : Λ) ⊗ₜ[B] KaehlerDifferential.D R B x) =
+    change (1 : K) ⊗ₜ[Λ] ((1 : Λ) ⊗ₜ[B] KaehlerDifferential.D R B x) =
       e ((1 : K) ⊗ₜ[k] ((1 : k) ⊗ₜ[B] KaehlerDifferential.D R B x))
     simp only [e, LinearEquiv.trans_apply,
       TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul,
@@ -489,14 +489,14 @@ private lemma differential_mem_smul_relations_of_mul_mem_sq
     (TensorProduct.mk B Λ Ω[B⁄R] 1).compDer (KaehlerDifferential.D R B)
   have hmul : (1 : Λ) ⊗ₜ[B] KaehlerDifferential.D R B (s * z) =
       algebraMap B Λ s • ((1 : Λ) ⊗ₜ[B] KaehlerDifferential.D R B z) := by
-    show D (s * z) = algebraMap B Λ s • D z
+    change D (s * z) = algebraMap B Λ s • D z
     rw [Derivation.leibniz, ← algebraMap_smul Λ z, hz, zero_smul, add_zero,
       algebraMap_smul]
   apply (Submodule.smul_mem_iff_of_isUnit _ hsunit).mp
   let dy := (1 : Λ) ⊗ₜ[B'] KaehlerDifferential.D R B' y
   refine ⟨v dy, ⟨dy, ?_, rfl⟩, ?_⟩
   · exact Submodule.subset_span (Set.mem_range_self (⟨y, hy⟩ : RingHom.ker φ))
-  · show algebraMap R Λ π • v dy = _
+  · change algebraMap R Λ π • v dy = _
     apply hinj
     rw [map_smul, huv, ← hmul, hu, he, pow_two, mul_smul]
 
@@ -509,8 +509,7 @@ private lemma range_baseChange_eq_span
       Submodule.span Λ (Set.range fun i => (1 : Λ) ⊗ₜ[A] f (g i)) := by
   apply le_antisymm
   · rintro _ ⟨x, rfl⟩
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero, Submodule.zero_mem]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using Submodule.add_mem _ hx hy
     | tmul r m =>
       obtain ⟨i, rfl⟩ := hg m

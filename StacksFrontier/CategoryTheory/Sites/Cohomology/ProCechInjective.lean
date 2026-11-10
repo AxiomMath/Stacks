@@ -796,7 +796,7 @@ def augmentation (hT : ∀ n e, P ((T.obj (op ⦋n⦌)).obj e)) (F : Cᵒᵖ ⥤
     { pt := sectionsOver P F
       π :=
         { app e := sectionsOverπ P F ((T.obj (op ⦋0⦌)).obj e.unop) (hT 0 e.unop)
-          naturality e e' g :=
+          naturality _ _ _ :=
             (Category.id_comp _).trans (sectionsOverπ_map P F _ _ _).symm } }
 
 /-- The augmentation followed by a projection. -/

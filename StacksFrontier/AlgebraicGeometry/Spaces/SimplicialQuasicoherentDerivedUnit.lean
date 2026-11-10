@@ -78,7 +78,7 @@ omit [EnoughInjectives (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringShe
     (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))] in
 /-- **The direct image of an injective module is acyclic for a further direct image** (Stacks
 072Z with Stacks 0731 (4)), in Mathlib's `ℕ`-indexed right derived functors. -/
-theorem isZero_rightDerived_pushforwardModules_obj_pushforwardModules_of_injective_simplicialQuasicoherentDerivedUnit
+theorem isZero_rightDerived_pushforwardModules_obj_pushforwardModules_of_injective
     (f : RingedToposHom X Y) (g : RingedToposHom Y Z)
     (I : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (hI : Injective I)
     (n : ℕ) (hn : 0 < n) :
@@ -293,10 +293,10 @@ theorem isZero_rightDerived_augmentationRingedToposHom_pushforwardModules_pullba
       RingedToposHom.pushforwardModulesCompIso (bigFppfAugmentationRingedHom a)
         (BigFppfSpaceSite.fppfToSpacesEtaleRingedHom T X))
     (fun Z hZ ↦
-      RingedToposHom.isZero_rightDerived_pushforwardModules_obj_pushforwardModules_of_injective_simplicialQuasicoherentDerivedUnit
+      RingedToposHom.isZero_rightDerived_pushforwardModules_obj_pushforwardModules_of_injective
         _ _ Z hZ)
     (fun Z hZ ↦
-      RingedToposHom.isZero_rightDerived_pushforwardModules_obj_pushforwardModules_of_injective_simplicialQuasicoherentDerivedUnit
+      RingedToposHom.isZero_rightDerived_pushforwardModules_obj_pushforwardModules_of_injective
         _ _ Z hZ)
     (fun m hm ↦ (@isZero_rightDerived_bigFppfTotal_pushforward_pullbackModules _ _ _ _ a _ hA m
       hm).of_iso

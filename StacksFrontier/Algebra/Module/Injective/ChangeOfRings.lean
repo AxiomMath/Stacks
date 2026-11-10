@@ -50,7 +50,7 @@ theorem restrictScalars_of_flat (R : Type*) {S : Type*} {E : Type v} [CommRing R
   out X Y _ _ _ _ f hf g := by
     have := h
     have hinj : Function.Injective (f.baseChange S) := by
-      simpa only [LinearMap.baseChange_eq_ltensor] using
+      simpa only [LinearMap.baseChange_eq_lTensor] using
         Module.Flat.lTensor_preserves_injective_linearMap (R := R) (M := S) f hf
     obtain ⟨φ, hφ⟩ := Module.Injective.extension_property S E (S ⊗[R] X) (S ⊗[R] Y)
       (f.baseChange S) hinj (g.liftBaseChange S)

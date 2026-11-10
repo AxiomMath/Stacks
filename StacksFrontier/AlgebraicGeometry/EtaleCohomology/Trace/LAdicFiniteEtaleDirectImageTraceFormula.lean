@@ -68,7 +68,7 @@ theorem fromSpecResidueField_comp_eq_geometricPointAt_iff (x : X.1)
       Category.assoc]
     rfl
   rw [key]
-  show _ = (Scheme.SpecToEquivOfField _ Y.1).symm
+  change _ = (Scheme.SpecToEquivOfField _ Y.1).symm
       ⟨_, CommRingCat.ofHom (algebraMap (Y.1.residueField ((B.inclusion.map π).base x))
         (AlgebraicClosure (Y.1.residueField ((B.inclusion.map π).base x))))⟩ ↔ _
   rw [show Spec.map ((B.inclusion.map π).residueFieldMap x ≫ τ) ≫
@@ -183,7 +183,7 @@ public theorem geometricLiftsPerm_pow_fixed_iff [IsNoetherian X.1] [IsNoetherian
     ⟨_, (Scheme.SpecToEquivOfField _ X.1).symm_apply_apply _⟩
   have hx' : x' = x := by
     rw [← hl]
-    show x' = (Scheme.SpecToEquivOfField _ X.1 l.1).1
+    change x' = (Scheme.SpecToEquivOfField _ X.1 l.1).1
     rw [← hx, Equiv.apply_symm_apply]
   subst hx'
   have hlφ : l.1 = Spec.map τ ≫ X.1.fromSpecResidueField x' := hx.symm
@@ -197,7 +197,7 @@ public theorem geometricLiftsPerm_pow_fixed_iff [IsNoetherian X.1] [IsNoetherian
   have : Module.Finite (Y.1.residueField (g.base x')) (X.1.residueField x') :=
     finite_residueFieldMap_hom B π x'
   rw [Subtype.ext_iff, geometricLiftsPerm_pow_succ_apply]
-  show ((frobeniusPointHom Y.1 ((B.inclusion.map π).base x')).iterate e).hom ≫ l.1 = l.1 ↔ _
+  change ((frobeniusPointHom Y.1 ((B.inclusion.map π).base x')).iterate e).hom ≫ l.1 = l.1 ↔ _
   rw [frobeniusPointHom, galoisPointHom_iterate_hom, hlφ, ← Category.assoc, ← Spec.map_comp]
   unfold liftResidueDegree
   have : Finite ((B.inclusion.obj Y).residueField ((B.inclusion.map π).base x')) :=
@@ -225,7 +225,7 @@ public theorem geometricLiftsPerm_pow_fixed_iff [IsNoetherian X.1] [IsNoetherian
   · intro h
     congr 2
     ext c
-    show ψ (τ.hom c) = τ.hom c
+    change ψ (τ.hom c) = τ.hom c
     apply ψ.symm.injective
     rw [AlgEquiv.symm_apply_apply]
     have h3 := residueGeometricFrobenius_pow_pow_card Y.1 ((B.inclusion.map π).base x') (e + 1)
@@ -256,8 +256,8 @@ variable {B : BigEtaleSite.{u}} {X Y : B.Scheme} (π : X ⟶ Y) [IsFinite (B.inc
       (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   [∀ (n : ℕ) (T : B.Scheme), HasWeakSheafify (SmallEtale.topology B T.obj T.property)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
-  [IsNoetherian X.obj] [IsNoetherian Y.obj]
 
+omit [IsFinite (B.inclusion.map π)] in
 /-- The residue field at a point over a point with finite residue field is finite. -/
 public theorem finite_residueField_of_base_eq {v : Y.1} [Finite (Y.1.residueField v)] (x : X.1)
     (hx : (B.inclusion.map π).base x = v) : Finite (X.1.residueField x) := by
@@ -310,7 +310,7 @@ public theorem mem_geometricLiftPoints_iff (x : X.1) :
     simp only [geometricLiftPoints, Finset.mem_image, Finset.mem_univ, true_and]
     exact ⟨l, hl⟩
 
-variable (F : LAdicSheaf.{u, u + 1} B X ℓ)
+variable [IsNoetherian X.obj] [IsNoetherian Y.obj] (F : LAdicSheaf.{u, u + 1} B X ℓ)
   (hF : ∀ n, Stacks.ConstantSheaf.IsFiniteTypeLocallyConstant (ZMod (ℓ ^ (n + 1)))
     (SmallEtale.topology B X.1 X.property) (F.level n))
 

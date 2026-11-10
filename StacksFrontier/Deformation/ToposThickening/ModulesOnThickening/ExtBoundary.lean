@@ -250,14 +250,14 @@ lemma boundary_eq_zero_iff_exists_action [HasExt.{e} 𝒜] {ℬ : Type u'} [Cate
     calc
       a S.X₁ z ≫ S.f = a S.X₂ δ := (ha z S.f).symm.trans (congrArg (a S.X₂) hz)
       _ = c ≫ S.f := by
-        show a S.X₂ (xP - R.mapExtAddHom F S.X₂ 1 η) = _
+        change a S.X₂ (xP - R.mapExtAddHom F S.X₂ 1 η) = _
         rw [map_sub, (hker S.X₂ _).2 ⟨η, rfl⟩, sub_zero, ha]
         exact hc
   · rintro ⟨z, hz⟩
     let zP := z.comp (Abelian.Ext.mk₀ (R.map S.f)) (add_zero 1)
     let δ := xP - zP
     have hδ : a S.X₂ δ = 0 := by
-      show a S.X₂ (xP - zP) = 0
+      change a S.X₂ (xP - zP) = 0
       rw [map_sub, ha, ha, hz, hc, sub_self]
     obtain ⟨η, hη⟩ := (hker S.X₂ δ).1 hδ
     have hzP : zP.comp (Abelian.Ext.mk₀ (R.map S.g)) (add_zero 1) = 0 := by

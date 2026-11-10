@@ -50,7 +50,7 @@ theorem of_retract {Q : Type w} {P : Type v} [AddCommGroup Q] [Module R Q] [AddC
   obtain ⟨h, hh⟩ := hQ I (s ∘ₗ g)
   refine ⟨r ∘ₗ h, fun x hx => ?_⟩
   rw [LinearMap.comp_apply, hh x hx]
-  show (r ∘ₗ s) (g ⟨x, hx⟩) = _
+  change (r ∘ₗ s) (g ⟨x, hx⟩) = _
   rw [hrs, LinearMap.id_apply]
 
 /-- **A finite projective module over a self-injective ring satisfies Baer's criterion.** -/

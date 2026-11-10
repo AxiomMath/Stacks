@@ -110,7 +110,7 @@ theorem isReducedStack_openSubstack (𝒳 : AlgebraicStacks.{u, w} B S hS)
       rw [hfun, Set.range_comp, Set.range_comp,
         (pointsHomeomorphScheme B S hS (Space.openSiteObject B S hS V Wo)).surjective.range_eq,
         Set.image_univ, Space.map_openSiteObjectHom]
-      show e.symm '' Set.range Wo.ι = A
+      change e.symm '' Set.range Wo.ι = A
       rw [Scheme.Opens.range_ι]
       exact e.symm.image_preimage A
     rw [AlgebraicStacks.pointsMap_comp, Set.range_comp, hι]
@@ -137,7 +137,7 @@ theorem AlgebraicStacks.isGerbe_of_equivalenceOver {𝒳 𝒳' : AlgebraicStacks
   obtain ⟨𝒴, h𝒴, g, hg⟩ := h
   let F : 𝒳'.val.val ⥤ᵇ 𝒴.val.val := BasedFunctor.comp ⟨e.hom.functor, e.hom.w⟩ g.hom.hom
   refine ⟨𝒴, h𝒴, Bicategory.InducedBicategory.mkHom (Bicategory.InducedBicategory.mkHom F), ?_⟩
-  show CategoryTheory.IsGerbeOver (BigFppfOver.topology B S hS) 𝒴.val.val.p
+  change CategoryTheory.IsGerbeOver (BigFppfOver.topology B S hS) 𝒴.val.val.p
     (e.hom.functor ⋙ CatFiberedInGroupoids.homFunctor g.hom)
   refine CategoryTheory.IsGerbeOver.comp ?_ hg
   exact (congrArg (fun q => CategoryTheory.IsGerbeOver (BigFppfOver.topology B S hS) q
@@ -337,7 +337,7 @@ theorem exists_openSubstack_isGerbe_isQuasiCompact (𝒳' : AlgebraicStacks.{u, 
     (AlgebraicStacks.isImmersion_of_isOpenImmersion B S hS _ 𝒱.isOpenImmersion)
   refine ⟨?_⟩
   rw [hembV.isCompact_iff, Set.image_univ]
-  show IsCompact (𝒱.pointSet B S hS)
+  change IsCompact (𝒱.pointSet B S hS)
   rw [hVpts]
   exact hVc
 

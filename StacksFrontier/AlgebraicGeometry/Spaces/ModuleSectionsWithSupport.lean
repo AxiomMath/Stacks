@@ -205,7 +205,7 @@ theorem epi_globalSectionsAbRestriction_app_of_injective (I : Modules.{u, u} B S
     (etaleModuleLowerShriekAdjunction B S hS (edsOpenHom B S hS hsq)
       (isEtale_edsOpenHom B S hS hsq)) I ((SheafOfModules.unitHomEquiv _).symm t)
   refine ⟨SheafOfModules.unitHomEquiv _ b, ?_⟩
-  show SheafOfModules.sectionsMap _ (SheafOfModules.unitHomEquiv _ b) = t
+  change SheafOfModules.sectionsMap _ (SheafOfModules.unitHomEquiv _ b) = t
   rw [← SheafOfModules.unitHomEquiv_comp_apply, hb]
   exact (SheafOfModules.unitHomEquiv _).apply_symm_apply t
 

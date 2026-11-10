@@ -135,10 +135,10 @@ theorem finrank_restrictScalars_restrictScalars_self {K : Type u} [Field K] {A B
       ((ModuleCat.restrictScalars φ₂).obj (ModuleCat.of B B))) :=
     { toFun := fun a => φ₂ (φ₁ a)
       map_add' := fun a b => by
-        show φ₂ (φ₁ (a + b)) = φ₂ (φ₁ a) + φ₂ (φ₁ b)
+        change φ₂ (φ₁ (a + b)) = φ₂ (φ₁ a) + φ₂ (φ₁ b)
         simp
       map_smul' := fun a b => by
-        show φ₂ (φ₁ (a * b)) = φ₂ (φ₁ a) * φ₂ (φ₁ b)
+        change φ₂ (φ₁ (a * b)) = φ₂ (φ₁ a) * φ₂ (φ₁ b)
         simp }
   rw [← (LinearEquiv.ofBijective f h).finrank_eq, Module.finrank_self]
 
@@ -402,7 +402,7 @@ theorem exists_unit_hom_modulePullback_ne_zero_of_injective_H1
         bS.map ((derivedPullback g).map (φ k)) ≫ Y := by
       intro k
       let α := (Stacks.Cohomology.DerivedBaseChange.derivedPullbackSquare (gX k) (is₀ k) (i₀ k) gP
-        (sqC k)).natTrans.app 𝓛
+        (sqC k)).app 𝓛
       have hα : IsIso α := by
         dsimp only [α, Stacks.Cohomology.DerivedBaseChange.derivedPullbackSquare,
           Stacks.Cohomology.DerivedBaseChange.Mate.derivedPullbackSquare]

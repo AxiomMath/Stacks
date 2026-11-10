@@ -221,7 +221,7 @@ public theorem isColimit_of_fpqc {J : Type v} [Category.{w} J]
       dsimp [E', E]
       have eI : E'.I₀ = I := rfl
       let i₀ : I := eI ▸ i
-      show pullback.fst d.hom (f i₀) ≫ d.hom ≫ glued s =
+      change pullback.fst d.hom (f i₀) ≫ d.hom ≫ glued s =
         pullback.fst d.hom (f i₀) ≫ eqToHom e ≫ s.ι.app (c.toCostructuredArrow.obj j).left
       calc
         _ = pullback.snd d.hom (f i₀) ≫ f i₀ ≫ glued s :=

@@ -111,9 +111,9 @@ theorem exists_geometricFiber_lift_of_chartHom {F : (BigFppfOver B S hS)ᵒᵖ �
           rw [CostructuredArrow.w g.hom]
       _ = V.obj.hom.app (Opposite.op x.val.siteObject) (qSite ≫ g.hom.left) := rfl
       _ = x.val.value := by rw [hqg]; exact p.2
-  · show G.map qSite ζ₀ = z
+  · change G.map qSite ζ₀ = z
     rw [hqMap]
-    show (l ≫ pullback.fst γ P) ζ₀ = z
+    change (l ≫ pullback.fst γ P) ζ₀ = z
     rw [Scheme.Hom.comp_apply, hls]
     exact hw₁
 

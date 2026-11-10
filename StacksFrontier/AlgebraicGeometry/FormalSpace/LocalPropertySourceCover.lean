@@ -70,7 +70,7 @@ theorem mk_lt_cutoff_of_isWeaklyAdmissible {A : Type u} [CommRing A] [Topologica
   have hsup : (⨆ n, Cardinal.mk (Q n)) < B.cutoff :=
     Cardinal.lift_iSup_lt_of_lt_cof_ord (by simpa using B.aleph0_lt_cutoff_cof) hQ
   have hinj :
-      Function.Injective (Pi.ringHom fun n ↦ Ideal.Quotient.mk (J n).1 : A →+* ∀ n, Q n) := by
+      Function.Injective (RingHom.pi fun n ↦ Ideal.Quotient.mk (J n).1 : A →+* ∀ n, Q n) := by
     rw [injective_iff_map_eq_zero]
     intro a ha
     by_contra hne
@@ -210,7 +210,7 @@ theorem hasPropertyOnAffineChartMap_sigmaDesc
       Iso.inv_hom_id_assoc]
   have hk : h (e k) = (eW (e k)).hom ≫ formalSpectrumMap hAw gk ≫ eV.inv := by
     rw [← formalSpectrumMap_comp_eq hpiw hAw (piProjContinuousHom B S hS R' hR'w E' k) g,
-      ← ι_sigmaFormalSpectrumIso_hom B S hS R' hR'w E' k, ← Sigma.ι_desc h (e k), hgt]
+      ← ι_sigmaFormalSpectrumIso_hom B S hS R' hR'w E' k, ← Sigma.ι_comp_desc h (e k), hgt]
     simp only [Ψ, Iso.trans_hom, Iso.symm_hom, Category.assoc, reassoc_of% hι, Θ]
   exact hh (e k) A (R' k) hCA (hCR (e k)) hAw D (E' k) (eW (e k)) eV gk hk
 

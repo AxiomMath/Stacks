@@ -124,7 +124,7 @@ theorem isPushout_ofHom_pullback (f : B →+* C) (g : A →+* C) (hg : Function.
     exact ⟨CommRingCat.ofHom (g.liftOfSurjective hg ⟨s.inr.hom, hker⟩), by
       refine CommRingCat.hom_ext (RingHom.ext fun b ↦ ?_)
       obtain ⟨a, ha⟩ := hg (f b)
-      show (g.liftOfSurjective hg ⟨s.inr.hom, hker⟩) (f b) = s.inl.hom b
+      change (g.liftOfSurjective hg ⟨s.inr.hom, hker⟩) (f b) = s.inl.hom b
       rw [show f b = g a from ha.symm, RingHom.liftOfSurjective_comp_apply]
       exact (apply_eq_of_comp_eq hcomp ha.symm).symm, by
       exact CommRingCat.hom_ext (g.liftOfSurjective_comp hg ⟨s.inr.hom, hker⟩), by

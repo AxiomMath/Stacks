@@ -194,7 +194,7 @@ public theorem TopCat.Sheaf.inverseImageSectionFamilyHom_sectionFamily {X Y : To
   have happ : (e (e.symm (TopCat.Sheaf.inverseImageSectionFamilyAdjoint f F G ξ))).hom.app (op V) =
       (TopCat.Sheaf.inverseImageSectionFamilyAdjoint f F G ξ).hom.app (op V) :=
     congrArg (fun α => α.hom.app (op V)) (e.apply_symm_apply _)
-  show G.obj.map (homOfLE hUV).op
+  change G.obj.map (homOfLE hUV).op
       ((e (TopCat.Sheaf.inverseImageSectionFamilyHom f F G ξ)).hom.app (op V) s) = _
   dsimp [TopCat.Sheaf.inverseImageSectionFamilyHom]
   rw [happ]
@@ -255,7 +255,7 @@ public theorem TopCat.Sheaf.inverseImageSectionFamily_ext {X Y : TopCat.{u}}
   apply NatTrans.ext
   funext V
   ext s
-  show ((TopCat.Sheaf.inverseImagePushforwardAdjunction.{u, v} f).homEquiv F G α).hom.app V s =
+  change ((TopCat.Sheaf.inverseImagePushforwardAdjunction.{u, v} f).homEquiv F G α).hom.app V s =
     ((TopCat.Sheaf.inverseImagePushforwardAdjunction.{u, v} f).homEquiv F G β).hom.app V s
   exact ((TopCat.Sheaf.inverseImageSectionFamily_app_preimage f F G α V.unop s).symm.trans
     (h _ V.unop le_rfl s)).trans
@@ -280,7 +280,7 @@ public theorem TopCat.Sheaf.inverseImage_hom_comp
       (TopCat.Sheaf.inverseImageCompIso.{u, v} f g).inv.app F ≫ c := by
   let adj := TopCat.Sheaf.inverseImageCompAdjunction.{u, v} f g
   apply (adj.homEquiv F H).injective
-  show adj.homEquiv F H ((TopCat.Sheaf.inverseImage f).map a ≫ b) =
+  change adj.homEquiv F H ((TopCat.Sheaf.inverseImage f).map a ≫ b) =
     adj.homEquiv F H ((TopCat.Sheaf.inverseImageCompIso f g).inv.app F ≫ c)
   have hr : adj.homEquiv F H ((TopCat.Sheaf.inverseImageCompIso f g).inv.app F ≫ c) =
       (TopCat.Sheaf.inverseImagePushforwardAdjunction (f ≫ g)).homEquiv F H c := by
@@ -291,7 +291,7 @@ public theorem TopCat.Sheaf.inverseImage_hom_comp
       ← Adjunction.homEquiv_unit]
   rw [hr]
   simp only [adj, TopCat.Sheaf.inverseImageCompAdjunction, sheafPushforwardCompIso]
-  show (TopCat.Sheaf.inverseImagePushforwardAdjunction g).homEquiv F _
+  change (TopCat.Sheaf.inverseImagePushforwardAdjunction g).homEquiv F _
     ((TopCat.Sheaf.inverseImagePushforwardAdjunction f).homEquiv _ H
       ((TopCat.Sheaf.inverseImage f).map a ≫ b)) = _
   rw [Adjunction.homEquiv_naturality_left, Adjunction.homEquiv_naturality_right]

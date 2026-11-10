@@ -217,7 +217,7 @@ private theorem universallyOpen_of_precomp_universalHomeomorphism
     (hpb₂.paste_horiz (IsPullback.of_hasPullback t f))
   have hhomeo := hi.universally_isHomeomorph _ _ _ hpb₂
   change IsOpenMap ((pullback.fst t f) ∘ (pullback.fst (pullback.snd t f) i)) at hopen
-  show IsOpenMap (pullback.fst t f)
+  change IsOpenMap (pullback.fst t f)
   exact IsOpenMap.of_comp hhomeo.continuous hhomeo.surjective hopen
 
 /-- Universal openness may be cancelled against a universal homeomorphism on the right. -/
@@ -230,7 +230,7 @@ private theorem universallyOpen_of_postcomp_universalHomeomorphism
     MorphismProperty.universally (topologically @IsHomeomorph)
   have hle : Q ≤ P.diagonal := by
     intro _ _ g hg
-    show UniversallyOpen (pullback.diagonal g)
+    change UniversallyOpen (pullback.diagonal g)
     exact universallyOpen_of_universalHomeomorphism _
       (universalHomeomorphism_diagonal g ((universalHomeomorphism_iff g).2 hg))
   have _ : P.IsStableUnderBaseChange := inferInstance

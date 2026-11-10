@@ -198,7 +198,7 @@ def componentDifference (i : D.Index) : AlgebraicCycle (D.component i).subscheme
 theorem componentDifference_apply (i : D.Index) (z : (D.component i).subscheme) :
     D.componentDifference i z =
       D.orderL i * D.restrictedDivisorN i z - D.orderN i * D.restrictedDivisorL i z := by
-  show D.orderL i • D.restrictedDivisorN i z - D.orderN i • D.restrictedDivisorL i z = _
+  change D.orderL i • D.restrictedDivisorN i z - D.orderN i • D.restrictedDivisorL i z = _
   simp
 
 variable (C : ChowSituation.{u}) (p : X ⟶ C.S)

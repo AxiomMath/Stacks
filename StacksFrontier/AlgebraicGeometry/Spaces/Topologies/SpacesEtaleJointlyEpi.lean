@@ -113,7 +113,7 @@ theorem exists_isCovering_le_of_mem_topology {U : SpacesEtale B S hS X} {R : Sie
         ?_⟩
       rw [Presieve.ofArrows_le_iff]
       rintro ⟨i, j⟩
-      show Q ((G i).f j ≫ E.f i)
+      change Q ((G i).f j ≫ E.f i)
       exact hGle i _ _ ⟨j⟩
 
 /-- **Through every point of the target of a covering sieve of the spaces-étale site passes a

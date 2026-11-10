@@ -264,7 +264,7 @@ theorem pointClassesGenerate_of_separablePointsDetectH0 [CharZero F] (hA : W.Poi
   apply hf0
   have ha : a = 0 := by
     have := hinj (a₁ := ⟨a.1, a.2⟩) (a₂ := 0) (funext fun i ↦ Subtype.ext (by
-      show W.pull _ a.1 = W.pull _ 0
+      change W.pull _ a.1 = W.pull _ 0
       rw [map_zero]
       exact congrArg Subtype.val (hpt i)))
     exact Subtype.ext (congrArg Subtype.val this)
@@ -327,7 +327,7 @@ theorem separablePointsDetectH0_of_pointClassesGenerate [CharZero F] (hA : W.Poi
   set b : W.H0 X := ⟨(a - a').1, (a - a').2⟩
   have hb : ∀ i, H0.pullHom W (closedPointHom (hx (e.symm i)) (hs (e.symm i))) b = 0 := fun i ↦ by
     apply Subtype.ext
-    show W.pull _ (a - a').1 = 0
+    change W.pull _ (a - a').1 = 0
     rw [Submodule.coe_sub, map_sub, sub_eq_zero]
     exact congrArg Subtype.val (congrFun haa i)
   have hzero : W.h0Pairing X d hX b = 0 := by

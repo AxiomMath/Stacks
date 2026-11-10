@@ -100,7 +100,7 @@ theorem exists_reduce_eq (h : IsUniversalFixedDeterminantDeformation ℓ n π ρ
   let ρu : π →ₜ* Matrix.GeneralLinearGroup (Fin n) R :=
     { toMonoidHom := (MulAut.conj Q).toMonoidHom.comp ρuniv.toMonoidHom
       continuous_toFun := by
-        show Continuous fun g => Q * ρuniv g * Q⁻¹
+        change Continuous fun g => Q * ρuniv g * Q⁻¹
         exact (continuous_const.mul ρuniv.continuous).mul continuous_const }
   have hρu : ∀ g, ρu g = Q * ρuniv g * Q⁻¹ := fun g => rfl
   have hred : ∀ g, Matrix.GeneralLinearGroup.map reduce (ρu g) = ρ₀ g := by
@@ -338,7 +338,7 @@ lemma exists_lift_isLocallyConstant
     hlc.isOpen_fiber _, rfl, fun g hg => Units.ext ?_⟩
   simp only [Set.mem_ofPred_eq] at hg
   ext i j
-  show Ideal.Quotient.mk Q ((U g : Matrix (Fin n) (Fin n) P) i j) =
+  change Ideal.Quotient.mk Q ((U g : Matrix (Fin n) (Fin n) P) i j) =
     Ideal.Quotient.mk Q ((U g₀ : Matrix (Fin n) (Fin n) P) i j)
   rw [hUlift, hUlift]
   refine Ideal.Quotient.eq.mpr (hQ (hlift _ _ ?_))

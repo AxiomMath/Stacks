@@ -70,7 +70,7 @@ theorem mem_locallyClosedPoints_stratum_iff
       (∀ a ∈ i.val, a ∉ q.asIdeal) ∧
         ∀ a ∈ ((E : Set A) \ (i.val : Set A)), a ∈ q.asIdeal := by
   classical
-  show Ideal.span (↑(E \ i.val) : Set A) ≤ q.asIdeal ∧
+  change Ideal.span (↑(E \ i.val) : Set A) ≤ q.asIdeal ∧
       i.val.prod id ∉ q.asIdeal ↔ _
   constructor
   · rintro ⟨hspan, hprod⟩
@@ -108,7 +108,7 @@ theorem isUnit_algebraMap_stratumLocalization
     simpa [f, stratumOpenElement] using
       (Finset.dvd_prod_of_mem (fun x : A => Ideal.Quotient.mk I x) ha)
   have hcoord : IsUnit (locallyClosedCoordinateMap I f a) := by
-    show IsUnit (algebraMap (A ⧸ I) L (Ideal.Quotient.mk I a))
+    change IsUnit (algebraMap (A ⧸ I) L (Ideal.Quotient.mk I a))
     exact IsLocalization.Away.isUnit_of_dvd
       (R := A ⧸ I) (S := L) (x := Ideal.Quotient.mk I f) hdiv
   have hmem : a ∈ localizationSubmonoid I f :=
@@ -308,7 +308,7 @@ theorem completeOrthogonalIdempotents_stratumIdempotent
       rw [PrimeSpectrum.basicOpen_mul, hbot, PrimeSpectrum.basicOpen_zero]
     have hid : IsIdempotentElem
         (stratumIdempotent f E i * stratumIdempotent f E j) := by
-      show (stratumIdempotent f E i * stratumIdempotent f E j) *
+      change (stratumIdempotent f E i * stratumIdempotent f E j) *
         (stratumIdempotent f E i * stratumIdempotent f E j) = _
       calc
         _ = stratumIdempotent f E i * stratumIdempotent f E i *
@@ -424,7 +424,7 @@ theorem stratumQuotientPiEquiv_symm_single_one
         _ = 0 := by rw [horth]; simp
   have heval : e (stratumIdempotent f E i) = Pi.single i 1 := by
     ext j
-    show Ideal.Quotient.mk _ (stratumIdempotent f E i) =
+    change Ideal.Quotient.mk _ (stratumIdempotent f E i) =
       ((Pi.single i (1 : B ⧸ Ideal.span {1 - stratumIdempotent f E i}) :
         ∀ j : {E' : Finset A // E' ⊆ E},
           B ⧸ Ideal.span {1 - stratumIdempotent f E j}) j)

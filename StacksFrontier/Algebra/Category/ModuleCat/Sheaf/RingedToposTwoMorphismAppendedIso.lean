@@ -65,7 +65,6 @@ theorem whiskerRight_pushforwardModulesMap_eq_pushforwardModulesIso :
 
 variable [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify Y.J AddCommGrpCat.{w'}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}]
-  [HasWeakSheafify Z.J AddCommGrpCat.{w''}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{w''}]
 
 /-- **A 2-morphism invertible after appending `k` induces, after `k^*`, the pullback isomorphism
 of the whiskered 2-isomorphism.** With `s = (t ∘ k) : k ∘ f ≅ k ∘ g`,

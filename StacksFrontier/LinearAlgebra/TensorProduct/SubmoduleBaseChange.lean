@@ -50,8 +50,7 @@ theorem range_baseChange {A B M N : Type*} [CommRing A] [CommRing B] [Algebra A 
 theorem smul_mem_baseChange {A B N : Type*} [CommRing A] [CommRing B] [Algebra A B]
     [AddCommGroup N] [Module A N] (J : Ideal A) (a : A) (ha : a ∈ J) (z : B ⊗[A] N) :
     a • z ∈ Submodule.baseChange B (J • (⊤ : Submodule A N)) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b n =>
       rw [← TensorProduct.tmul_smul]
       exact Submodule.tmul_mem_baseChange_of_mem b (Submodule.smul_mem_smul ha Submodule.mem_top)
@@ -88,7 +87,7 @@ theorem ideal_smul_top {A B N : Type*} [CommRing A] [CommRing B] [Algebra A B]
     obtain ⟨y, hy, rfl⟩ := hw
     refine Submodule.smul_induction_on hy ?_ ?_
     · intro r hr n _
-      show (TensorProduct.mk A B N 1) (r • n) ∈ _
+      change (TensorProduct.mk A B N 1) (r • n) ∈ _
       rw [map_smul, ← algebraMap_smul B r ((TensorProduct.mk A B N 1) n)]
       exact Submodule.smul_mem_smul (Ideal.mem_map_of_mem _ hr) Submodule.mem_top
     · intro x y hx hy
@@ -117,8 +116,7 @@ theorem baseChange_smul_id {A B M : Type*} [CommRing A] [CommRing B] [Algebra A 
     LinearMap.baseChange B (a • (LinearMap.id : M →ₗ[A] M)) =
       (algebraMap A B a) • (LinearMap.id : B ⊗[A] M →ₗ[B] B ⊗[A] M) := by
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b y =>
       simp only [LinearMap.baseChange_tmul, LinearMap.smul_apply, LinearMap.id_apply,
         TensorProduct.smul_tmul', smul_eq_mul, ← Algebra.smul_def]
@@ -130,7 +128,7 @@ private theorem baseChange_exact {A B M N P : Type*} [CommRing A] [CommRing B] [
     [Module.Flat A B] [AddCommGroup M] [AddCommGroup N] [AddCommGroup P] [Module A M]
     [Module A N] [Module A P] {f : M →ₗ[A] N} {g : N →ₗ[A] P} (h : Function.Exact f g) :
     Function.Exact (LinearMap.baseChange B f) (LinearMap.baseChange B g) := by
-  simpa only [LinearMap.baseChange_eq_ltensor] using Module.Flat.lTensor_exact B h
+  simpa only [LinearMap.baseChange_eq_lTensor] using Module.Flat.lTensor_exact B h
 
 /-- For a flat `A`-algebra `B`, base change commutes with intersections of submodules. -/
 @[ega "0 6.1.3" "special case"]

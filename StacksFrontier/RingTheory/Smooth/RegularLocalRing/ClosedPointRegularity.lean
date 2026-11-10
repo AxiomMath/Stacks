@@ -136,7 +136,7 @@ private theorem finrank_eq_of_semilinear {κ κ' : Type*} [Ring κ] [StrongRankC
           simp only [Set.mem_ofPred_eq, map_add]; exact P.add_mem ha hb
         zero_mem' := by simp
         smul_mem' := fun c n hn => by
-          show e.symm (c • n) ∈ P
+          change e.symm (c • n) ∈ P
           rw [hsymm]; exact P.smul_mem _ hn }
     have hQ : (⊤ : Submodule κ' N) ≤ Q := by
       rw [← b.span_eq]
@@ -175,7 +175,7 @@ private theorem finrank_cotangent_eq_finrank_cotangentSpace {S : Type*} [CommRin
     Ideal.Cotangent.lift (((maximalIdeal Sₘ).toCotangent.restrictScalars S).comp ι) (by
       intro x y
       simp only [LinearMap.comp_apply, LinearMap.coe_restrictScalars, Ideal.toCotangent_eq_zero]
-      show algebraMap S Sₘ ((x : S) * y) ∈ (maximalIdeal Sₘ) ^ 2
+      change algebraMap S Sₘ ((x : S) * y) ∈ (maximalIdeal Sₘ) ^ 2
       rw [map_mul, pow_two]
       exact Ideal.mul_mem_mul (hmem _ x.2) (hmem _ y.2))
   have hfapp : ∀ x : 𝔪, f (𝔪.toCotangent x) =
@@ -229,7 +229,7 @@ private theorem finrank_cotangent_eq_finrank_cotangentSpace {S : Type*} [CommRin
     have hcalc : algebraMap S Sₘ (t * a) - y = -(y * algebraMap S Sₘ (1 - t * s)) := by
       rw [map_mul, ← key, map_sub, map_one, map_mul]
       ring
-    show algebraMap S Sₘ (t * a) - y ∈ (maximalIdeal Sₘ) ^ 2
+    change algebraMap S Sₘ (t * a) - y ∈ (maximalIdeal Sₘ) ^ 2
     rw [hcalc, pow_two]
     exact neg_mem (Ideal.mul_mem_mul hy (hmem _ ht))
   let e : 𝔪.Cotangent ≃ₗ[S] CotangentSpace Sₘ := LinearEquiv.ofBijective f ⟨hinj, hsurj⟩
@@ -246,7 +246,7 @@ private theorem finrank_cotangent_eq_finrank_cotangentSpace {S : Type*} [CommRin
       = Ideal.Quotient.mk (maximalIdeal Sₘ) (algebraMap S Sₘ x) := by
     rfl
   rw [hact, hφ]
-  show e (x • m) = Ideal.Quotient.mk (maximalIdeal Sₘ) (algebraMap S Sₘ x) • e m
+  change e (x • m) = Ideal.Quotient.mk (maximalIdeal Sₘ) (algebraMap S Sₘ x) • e m
   rw [map_smul, ← algebraMap_smul (R := S) Sₘ x (e m)]
   exact (algebraMap_smul (ResidueField Sₘ) (algebraMap S Sₘ x) (e m)).symm
 
@@ -298,11 +298,11 @@ private theorem finrank_baseChange_eq_of_ringEquiv {A : Type*} [CommRing A] {κ 
   induction m with
   | add x y hx hy => simp only [smul_add, map_add, hx, hy]
   | tmul x n =>
-    show e (c • (x ⊗ₜ n)) = ψ c • e (x ⊗ₜ n)
+    change e (c • (x ⊗ₜ n)) = ψ c • e (x ⊗ₜ n)
     rw [TensorProduct.smul_tmul']
-    show ψA (c * x) ⊗ₜ n = ψ c • (ψA x ⊗ₜ n)
+    change ψA (c * x) ⊗ₜ n = ψ c • (ψA x ⊗ₜ n)
     rw [TensorProduct.smul_tmul']
-    show ψ (c * x) ⊗ₜ n = (ψ c * ψ x) ⊗ₜ n
+    change ψ (c * x) ⊗ₜ n = (ψ c * ψ x) ⊗ₜ n
     rw [map_mul]
 
 /-- **Stacks 00TR for the local ring.** Over an algebraically closed field `k`, for a finite type
@@ -390,14 +390,14 @@ private theorem finrank_quotient_range_cotangentComplexBaseChange
   let G : ResidueField B ⊗[B] P.CotangentSpace →ₗ[ResidueField B]
       ResidueField B ⊗[B] Ω[B⁄k] := LinearMap.baseChange (ResidueField B) P.toKaehler
   have hGsurj : Function.Surjective G := by
-    show Function.Surjective (LinearMap.baseChange (ResidueField B) P.toKaehler)
-    rw [LinearMap.baseChange_eq_ltensor]
+    change Function.Surjective (LinearMap.baseChange (ResidueField B) P.toKaehler)
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective _ Algebra.Extension.toKaehler_surjective
   have hexact : Function.Exact
       (LinearMap.baseChange (ResidueField B) P.cotangentComplex) G := by
-    show Function.Exact (LinearMap.baseChange (ResidueField B) P.cotangentComplex)
+    change Function.Exact (LinearMap.baseChange (ResidueField B) P.cotangentComplex)
       (LinearMap.baseChange (ResidueField B) P.toKaehler)
-    simp only [LinearMap.baseChange_eq_ltensor]
+    simp only [LinearMap.baseChange_eq_lTensor]
     exact lTensor_exact _ Algebra.Extension.exact_cotangentComplex_toKaehler
       Algebra.Extension.toKaehler_surjective
   have hker : LinearMap.ker G
@@ -416,7 +416,7 @@ private theorem finrank_quotient_range_cotangentComplexBaseChange
   have hkerg : LinearMap.ker g
       = LinearMap.range
         (KaehlerDifferential.cotangentComplexBaseChange k B A (ResidueField B)) := by
-    show LinearMap.ker (G ∘ₗ Φ.symm.toLinearMap) = _
+    change LinearMap.ker (G ∘ₗ Φ.symm.toLinearMap) = _
     rw [LinearMap.ker_comp, hker, hrange, Submodule.map_equiv_eq_comap_symm]
   rw [← hkerg]
   exact (LinearMap.quotKerEquivOfSurjective g hgsurj).finrank_eq

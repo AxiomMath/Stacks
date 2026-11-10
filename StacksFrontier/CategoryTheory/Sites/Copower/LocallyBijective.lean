@@ -172,7 +172,7 @@ lemma isLocallySurjective_finsuppMap {M M' : Cᵒᵖ ⥤ AddCommGrpCat.{u}} (η 
     simp only [Finsupp.mapRange.addMonoidHom_apply, Finsupp.mapRange_single,
       Finsupp.mapDomain_single]
     congr 1
-    simp only [m, dif_pos ht]
+    simp only [m, dite_eq_left ht]
     exact (hm t ht).choose_spec
 
 variable [J.WEqualsLocallyBijective AddCommGrpCat.{u}]

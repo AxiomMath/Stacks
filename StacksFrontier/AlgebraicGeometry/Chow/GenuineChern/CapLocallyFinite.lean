@@ -72,13 +72,13 @@ theorem properPushforward_sigmaDesc_apply {J : Type u} (T : J → Scheme.{u})
     (properPushforward C (Sigma.desc v ≫ q) q (Sigma.desc v) rfl k γ).1 y =
       ∑ᶠ t, (properPushforward C (v t ≫ q) q (v t) rfl k
         (cycleGroupRestrict C (Sigma.desc v ≫ q) (v t ≫ q) (Sigma.ι T t)
-          (Sigma.ι_desc_assoc _ _ _) k γ)).1 y := by
+          (Sigma.ι_comp_desc_assoc _ _ _) k γ)).1 y := by
   classical
   have : SurjectiveOnStalks (Sigma.desc v) := surjectiveOnStalks_sigmaDesc T v
   rw [properPushforward_apply_of_surjectiveOnStalks]
   simp_rw [properPushforward_apply_of_surjectiveOnStalks C q (v _), cycleGroupRestrict_apply]
   have hbase : ∀ (t : J) (z : T t), (Sigma.desc v).base (Sigma.ι T t z) = (v t).base z :=
-    fun t z ↦ by rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    fun t z ↦ by rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
   let e := (sigmaMk T).toEquiv
   have he : ∀ s : (t : J) × T t, e s = Sigma.ι T s.1 s.2 := fun s ↦ sigmaMk_mk T s.1 s.2
   set F : ((t : J) × T t) → ℤ := fun s ↦ if (v s.1).base s.2 = y then γ.1 (e s) else 0
@@ -89,7 +89,7 @@ theorem properPushforward_sigmaDesc_apply {J : Type u} (T : J → Scheme.{u})
     refine (h1.preimage e.injective.injOn).subset fun s hs ↦ ?_
     simp only [F, Function.mem_support, ne_eq, ite_eq_right_iff, Classical.not_imp] at hs
     refine ⟨?_, hs.2⟩
-    show (Sigma.desc v).base (e s) ∈ ({y} : Set M)
+    change (Sigma.desc v).base (e s) ∈ ({y} : Set M)
     rw [he, hbase]
     exact hs.1
   calc ∑ᶠ x ∈ (Sigma.desc v).base ⁻¹' {y}, γ.1 x
@@ -156,7 +156,7 @@ private theorem chernCap_mk_eq_mk_of_restrict_sigmaDesc (F : M.Modules) (r : ℕ
   let eE : (Scheme.Modules.pullback (v t)).obj F ≅
       (Scheme.Modules.pullback (Sigma.ι T t)).obj
         ((Scheme.Modules.pullback (Sigma.desc v)).obj F) :=
-    eqToIso (congrArg (fun g ↦ (Scheme.Modules.pullback g).obj F) (Sigma.ι_desc v t).symm) ≪≫
+    eqToIso (congrArg (fun g ↦ (Scheme.Modules.pullback g).obj F) (Sigma.ι_comp_desc v t).symm) ≪≫
       ((Scheme.Modules.pullbackComp (Sigma.ι T t) (Sigma.desc v)).app F).symm
   have h02U8 := chernCap_flatPullback_heq_general C (Sigma.desc v ≫ q) (v t ≫ q) (Sigma.ι T t)
     (hι t) 0 hr ((Scheme.Modules.pullback (Sigma.desc v)).obj F) r
@@ -201,7 +201,7 @@ theorem chernCap_mk_eq_mk_of_locallyFinite (F : M.Modules) (r : ℕ)
       QuotientAddGroup.mk' (rationalEquivalences C q (k - (j : ℤ))) b := by
   classical
   have hproper : IsProper (Sigma.desc v) := isProper_sigmaDesc_of_locallyFinite T v hlf
-  have hι : ∀ t, Sigma.ι T t ≫ (Sigma.desc v ≫ q) = v t ≫ q := fun t ↦ Sigma.ι_desc_assoc _ _ _
+  have hι : ∀ t, Sigma.ι T t ≫ (Sigma.desc v ≫ q) = v t ≫ q := fun t ↦ Sigma.ι_comp_desc_assoc _ _ _
   obtain ⟨γ, hγ⟩ := exists_cycleGroup_of_sigma C T (Sigma.desc v ≫ q) (fun t ↦ v t ≫ q) hι k
     (fun t ↦ n t • fundamentalCycle C (v t ≫ q) k)
   obtain ⟨δ, hδ⟩ := exists_cycleGroup_of_sigma C T (Sigma.desc v ≫ q) (fun t ↦ v t ≫ q) hι

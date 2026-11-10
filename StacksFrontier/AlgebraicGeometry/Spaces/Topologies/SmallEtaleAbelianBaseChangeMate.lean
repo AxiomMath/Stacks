@@ -104,7 +104,7 @@ theorem mateEquiv_abelianInverseImage_forgetIso_inv :
     mateEquiv (abelianInverseImageAdjPushforward J f) f.adj
         (TwoSquare.mk _ _ _ _ (Sites.abelianInverseImage_forgetIso f).inv) =
       TwoSquare.mk _ _ _ _ (abelianPushforward_forgetIso J f).hom := by
-  refine (Equiv.eq_symm_apply _).mp (TwoSquare.ext _ _ fun c => ?_)
+  refine (Equiv.eq_symm_apply _).mp (NatTrans.ext (funext fun c => ?_))
   have hu := abelianInverseImageAdjPushforward_unit_forget J f c
   simp only [Sites.abelianInverseImage_forgetIso, abelianPushforward_forgetIso, Iso.refl_inv,
     Iso.refl_hom, NatTrans.id_app, mateEquiv, Equiv.coe_fn_symm_mk, NatTrans.comp_app,
@@ -160,7 +160,7 @@ theorem abelianPushforward_coefficientCube_eq
         (mateEquiv (abelianInverseImageAdjPushforward J₄ s) s.adj
           (TwoSquare.mk _ _ _ _ (Sites.abelianInverseImage_forgetIso s).inv)) := by
   rw [mateEquiv_abelianInverseImage_forgetIso_inv, mateEquiv_abelianInverseImage_forgetIso_inv]
-  refine TwoSquare.ext _ _ fun F => ?_
+  refine NatTrans.ext (funext fun F => ?_)
   refine Eq.trans (rfl : _ = q.pushforward.map (𝟙 _) ≫
       α.hom.app ((sheafCompose J₁ (forget AddCommGrpCat.{w})).obj F) ≫
       s.pushforward.map (𝟙 _)) ?_
@@ -218,7 +218,7 @@ theorem isIso_rightDerivedBaseChangeMap [HasInjectiveResolutions A]
   let : R'.PreservesHomology := Functor.preservesHomologyOfExact R'
   have : IsIso (NatTrans.rightDerived α n) :=
     inferInstanceAs (IsIso (Functor.rightDerivedIsoOfNatIso (asIso α) n).hom)
-  show IsIso ((Functor.rightDerivedCompIso F R' n).inv ≫ NatTrans.rightDerived α n ≫
+  change IsIso ((Functor.rightDerivedCompIso F R' n).inv ≫ NatTrans.rightDerived α n ≫
     (Stacks.Cohomology.CompositeRightDerived.compRightDerivedNatIso R F' n).hom)
   infer_instance
 
@@ -290,7 +290,7 @@ theorem isIso_smallEtaleAbelianBaseChangeMap (sq : IsPullback i f' f g)
   have : IsIso ((mateEquiv (smallToposMorphism B S hS i).adj
       (smallToposMorphism B S hS g).adj).symm
       (TwoSquare.mk _ _ _ _
-        (smallEtalePushforwardCommSquareIso B S hS i f' f g sq.w).hom)).natTrans :=
+        (smallEtalePushforwardCommSquareIso B S hS i f' f g sq.w).hom)) :=
     isIso_properBaseChangeMap B S hS i f' f g sq hg
   exact Stacks.CategoryTheory.isIso_mateEquiv_symm_of_reflectsIsomorphisms
     (abelianInverseImageAdjPushforward _ (smallToposMorphism B S hS i))
@@ -375,7 +375,8 @@ abelian sheaves is invertible.
 The second conjunct is stated as `Nonempty` of an isomorphism of functors; the canonical one is
 `AlgebraicGeometry.Space.smallEtaleInverseImageSquareIso`. -/
 @[stacks 03LR "the whole statement as one conjunction, in the source's order: part (1), that the \
-canonical base-change 2-cell of sheaves of sets is an isomorphism, i.e. f'_* (F|_X') = (f_* F)|_Y'; \
+canonical base-change 2-cell of sheaves of sets is an isomorphism, \
+i.e. f'_* (F|_X') = (f_* F)|_Y'; \
 its inverse-image footnote, (f')^{-1}(G|_Y') = (f^{-1} G)|_X'; and part (2), that for every degree \
 n the canonical comparison (R^n f_* F)|_Y' -> R^n f'_* (F|_X') of higher direct images of abelian \
 sheaves is an isomorphism"]

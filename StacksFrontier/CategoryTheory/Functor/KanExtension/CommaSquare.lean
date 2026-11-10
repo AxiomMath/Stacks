@@ -78,7 +78,7 @@ def commaSquare : TwoSquare (Comma.fst R B) (Comma.snd R B) R B :=
 /-- The component of the `2`-cell of `commaSquare R B` at an object `X` of the comma category is
 the structure morphism `X.hom`. -/
 @[simp]
-theorem commaSquare_app (X : Comma R B) : (commaSquare R B).natTrans.app X = X.hom :=
+theorem commaSquare_app (X : Comma R B) : (commaSquare R B).app X = X.hom :=
   rfl
 
 variable {R B} {X₂ : C₂} {X₃ : C₃} (g : R.obj X₂ ⟶ B.obj X₃)
@@ -89,7 +89,7 @@ abbrev commaDownwardsSelf : (commaSquare R B).CostructuredArrowDownwards g :=
   CostructuredArrowDownwards.mk _ g ⟨X₂, X₃, g⟩ (𝟙 X₂) (𝟙 X₃) (by simp)
 
 variable (X₁ : Comma R B) (a : X₂ ⟶ X₁.left) (b : X₁.right ⟶ X₃)
-  (comm : R.map a ≫ (commaSquare R B).natTrans.app X₁ ≫ B.map b = g)
+  (comm : R.map a ≫ (commaSquare R B).app X₁ ≫ B.map b = g)
 
 /-- **The middle term of the zigzag joining a factorization of `g` to the tautological one.**  A
 factorization of `g` through `X₁` with legs `a` and `b` is refined by the one through

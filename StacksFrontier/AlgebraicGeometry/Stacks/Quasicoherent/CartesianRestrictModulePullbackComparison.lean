@@ -20,8 +20,9 @@ schemes**, that is, `𝒪(x₁) ⊗_{𝒪(x₂)} F(x₂) ⟶ F(x₁)` is bijecti
 over a morphism of affine schemes. No flatness of `f` is needed, and the module universe is free.
 A quasi-coherent module on `(𝒳_{fppf}, 𝒪_𝒳)` is cartesian in this sense
 (`AlgebraicGeometry.Stack.AffineCategory.isIso_restrictionBaseChange_of_isQuasicoherentOnSite`),
-which is how `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.QuasicoherentSheafFlatBaseChange`
-obtains clause (b) of the forward direction of Stacks 06WK.
+which is how
+`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.QuasicoherentSheafFlatBaseChange` obtains
+clause (b) of the forward direction of Stacks 06WK.
 
 ## The argument
 
@@ -234,7 +235,7 @@ private theorem localStructurePresheafIso_inv_smul_aux (z : 𝒳)
     @Eq ((restrictModuleToSmallEtale B E h S hS p hp z τ hτ F).obj (op W))
       (((localStructurePresheafIso B E h S hS p hp z τ hτ).inv.app (op W)).hom r •
         @id ((restrictModuleToSmallEtale B E h S hS p hp z τ hτ F).obj (op W)) n) (r • n) := by
-  show (((localStructurePresheafIso B E h S hS p hp z τ hτ).hom.app (op W)).hom
+  change (((localStructurePresheafIso B E h S hS p hp z τ hτ).hom.app (op W)).hom
       (((localStructurePresheafIso B E h S hS p hp z τ hτ).inv.app (op W)).hom r)) •
     @id (F.obj (op ((etaleIndex B E h S hS p hp z).obj W))) n = _
   have key : ((localStructurePresheafIso B E h S hS p hp z τ hτ).hom.app (op W)).hom
@@ -414,8 +415,7 @@ theorem restrictModulePullbackComparisonUnivLE_app_pullbackUnitTensorMap
       ((structureSheaf B S hS p hp τ hτ).obj.obj (op ((etaleIndex B E h S hS p hp x).obj W))) :=
     Module.compHom _ ((structureSheaf B S hS p hp τ hτ).obj.map
       ((etaleIndex B E h S hS p hp x).map a ≫ φ').op).hom
-  induction ζ using TensorProduct.induction_on with
-  | zero => exact (congrArg _ (map_zero _)).trans ((map_zero _).trans (map_zero _).symm)
+  induction ζ using TensorProduct.inductionOn with
   | tmul r n =>
     refine (congrArg _ (pullbackUnitTensorMap_tmul B E h S hS p hp τ hτ φ F T a φ' hR r n)).trans ?_
     refine (((restrictModulePullbackComparisonUnivLE B E h S hS p hp φ τ hτ F).app
@@ -526,9 +526,7 @@ theorem exists_pullbackUnitTensorMap_eq_smul
       ((structureSheaf B S hS p hp τ hτ).obj.obj (op ((etaleIndex B E h S hS p hp x).obj W))) :=
     Module.compHom _ ((structureSheaf B S hS p hp τ hτ).obj.map
       ((etaleIndex B E h S hS p hp x).map a ≫ φ').op).hom
-  induction ζ using TensorProduct.induction_on with
-  | zero => exact ⟨0, (map_zero _).trans ((smul_zero s).symm.trans
-      (congrArg (s • ·) (map_zero _).symm))⟩
+  induction ζ using TensorProduct.inductionOn with
   | tmul r n =>
     refine ⟨(@id ((structureSheaf B S hS p hp τ hτ).obj.obj
         (op ((etaleIndex B E h S hS p hp x).obj W)))
@@ -887,7 +885,7 @@ theorem isLocallyBijectiveRestrictModulePullbackComparisonUnivLE_of_cartesian :
         (SmallEtale.isAffine_affineImageCover_X E _ _ W'' i) _ hm hc
       rw [(P.map ((SmallEtale.affineImageCover E _ _ W'').f i ≫ g).op).hom.map_sub] at h0
       exact sub_eq_zero.1 h0
-    show P.map ((j ≫ (SmallEtale.affineImageCover E _ _ W'').f i) ≫ g).op y₁ =
+    change P.map ((j ≫ (SmallEtale.affineImageCover E _ _ W'').f i) ≫ g).op y₁ =
       P.map ((j ≫ (SmallEtale.affineImageCover E _ _ W'').f i) ≫ g).op y₂
     rw [Category.assoc, op_comp, PresheafOfModules.map_comp_apply,
       PresheafOfModules.map_comp_apply, key]
@@ -909,7 +907,7 @@ theorem isLocallyBijectiveRestrictModulePullbackComparisonUnivLE_of_cartesian :
       ((SmallEtale.affineImageCover E _ _ W'').f i ≫ a)
       (Q.map ((SmallEtale.affineImageCover E _ _ W'').f i ≫ g).op s')
     refine ⟨P.map j.op t, ?_⟩
-    show (restrictModulePullbackComparisonUnivLE B E h S hS p hp φ τ hτ F).app (op Z)
+    change (restrictModulePullbackComparisonUnivLE B E h S hS p hp φ τ hτ F).app (op Z)
       (P.map j.op t) = Q.map ((j ≫ (SmallEtale.affineImageCover E _ _ W'').f i) ≫ g).op s'
     rw [PresheafOfModules.naturality_apply, ht, Category.assoc]
     exact (PresheafOfModules.map_comp_apply Q

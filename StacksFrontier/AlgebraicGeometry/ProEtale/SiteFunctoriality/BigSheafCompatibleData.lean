@@ -309,7 +309,7 @@ private theorem systemPullbackAdjoint_naturality
       systemPullbackAdjoint B S hS D f ≫
         (smallProetalePushforward.{u, v} B f.left).map (φ.app T') := by
   let adj := smallProetalePullbackAdjunction B f.left
-  show φ.app T ≫ adj.homEquiv _ _ (E.pullback f) =
+  change φ.app T ≫ adj.homEquiv _ _ (E.pullback f) =
     adj.homEquiv _ _ (D.pullback f) ≫ (smallProetalePushforward B f.left).map (φ.app T')
   calc
     φ.app T ≫ adj.homEquiv (E.sheaf T) (E.sheaf T') (E.pullback f) =
@@ -506,7 +506,7 @@ private theorem systemRestrictionAtIdentity_id
     (T : BigProetaleOver B S hS) :
     systemRestrictionAtIdentity B S hS D (𝟙 T) = 𝟙 _ := by
   have hw : WeaklyEtale (B.inclusion.map (𝟙 T : T ⟶ T).left) := by
-    show WeaklyEtale (B.inclusion.map (𝟙 T.left))
+    change WeaklyEtale (B.inclusion.map (𝟙 T.left))
     rw [CategoryTheory.Functor.map_id]
     infer_instance
   have hp := D.isIso_pullback (𝟙 T)
@@ -516,7 +516,7 @@ private theorem systemRestrictionAtIdentity_id
   have heR : (smallProetalePushforward.{u, v} B (𝟙 T.left)).IsEquivalence :=
     (Functor.isEquivalence_iff_of_iso eR).mpr inferInstance
   have hα : IsIso (systemPullbackAdjoint B S hS D (𝟙 T)) := by
-    show IsIso ((smallProetalePullbackAdjunction B (𝟙 T.left)).unit.app (D.sheaf T) ≫
+    change IsIso ((smallProetalePullbackAdjunction B (𝟙 T.left)).unit.app (D.sheaf T) ≫
       (smallProetalePushforward B (𝟙 T.left)).map (D.pullback (𝟙 T)))
     infer_instance
   have hr : IsIso (systemRestrictionAtIdentity B S hS D (𝟙 T)) := by
@@ -658,10 +658,10 @@ private theorem systemSmallRestriction_eq_adjoint
     (E := Type (max (u + 1) v))
     (SmallProetale.topology B T'.left.obj T'.left.property)
     (SmallProetale.topology B T.left.obj T.left.property)
-  show _ = (adj'.homEquiv _ _).symm _
+  change _ = (adj'.homEquiv _ _).symm _
   apply (adj'.homEquiv _ _).injective
   rw [Equiv.apply_symm_apply]
-  show adj'.unit.app (D.sheaf T) ≫
+  change adj'.unit.app (D.sheaf T) ≫
     (smallProetalePushforward B f.left).map
       ((adj.leftAdjointUniq adj').inv.app (D.sheaf T) ≫ D.pullback f) =
     adj.unit.app (D.sheaf T) ≫ (smallProetalePushforward B f.left).map (D.pullback f)
@@ -679,10 +679,10 @@ private theorem systemSmallRestriction_app
         (by simp [smallProetaleMap]) := by
   rw [systemSmallRestriction_eq_adjoint, Adjunction.homEquiv_counit]
   simp only [ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app]
-  show (systemPullbackAdjoint B S hS D f).hom.app
+  change (systemPullbackAdjoint B S hS D f).hom.app
       (op ((smallProetaleMap B f.left).obj V)) ≫ _ = _
   congr 1
-  show (D.sheaf T').obj.map ((smallProetaleMapPullbackAdjunction B f.left).unit.app V).op = _
+  change (D.sheaf T').obj.map ((smallProetaleMapPullbackAdjunction B f.left).unit.app V).op = _
   apply congrArg (fun q : V ⟶
     (smallProetaleBaseChange B T'.left T.left f.left).obj
       ((smallProetaleMap B f.left).obj V) => (D.sheaf T').obj.map q.op)
@@ -742,7 +742,7 @@ private theorem systemTransport_isIso
     let e : (smallProetaleMap B f.left).obj V ≅ U :=
       (IsWeaklyEtaleOver B T.left.obj T.left.property).isoMk
         (Over.isoMk (asIso k) hk)
-    show IsIso e.hom
+    change IsIso e.hom
     infer_instance
   have := systemSmallRestriction_isIso B S hS D f
   rw [systemTransport_eq_restriction]
@@ -754,7 +754,7 @@ private theorem systemTransport_id
     (U : SmallProetale B T.left.obj T.left.property) :
     systemTransport B S hS D (𝟙 T) U U (𝟙 U.obj.left) (by simp) = 𝟙 _ := by
   have hw : WeaklyEtale (B.inclusion.map (𝟙 T : T ⟶ T).left) := by
-    show WeaklyEtale (B.inclusion.map (𝟙 T.left))
+    change WeaklyEtale (B.inclusion.map (𝟙 T.left))
     rw [CategoryTheory.Functor.map_id]
     infer_instance
   have := systemTransport_isIso B S hS D (𝟙 T) U U (𝟙 U.obj.left) (by simp)
@@ -845,7 +845,7 @@ private theorem systemComparisonApp_naturality
     U V (smallProetaleIdentity B V.obj.left) h.hom.left (by simp)
     (𝟙 V.obj.left) (by simp [smallIdentity, smallObjectStructure])
   simp only [hf, Category.comp_id, systemTransport_vertical] at h₁ h₂
-  show (D.sheaf T).obj.map h.op ≫ systemComparisonApp B S hS D T V =
+  change (D.sheaf T).obj.map h.op ≫ systemComparisonApp B S hS D T V =
     systemComparisonApp B S hS D T U ≫ systemRestrictionAtIdentity B S hS D (i.map h)
   rw [systemRestrictionAtIdentity_eq_transport]
   exact h₂.symm.trans h₁
@@ -883,7 +883,7 @@ private theorem systemPresheaf_isSheaf (D : BigProetaleSheafData.{u, v} B S hS) 
       rw [← i.toSheafify_pullbackSheafificationCompatibility (Type (max (u + 1) v)) K J P]
       infer_instance
     have hI : i.obj (smallProetaleIdentity B T.unop.left) = T.unop := by
-      show Over.mk (𝟙 T.unop.left ≫ T.unop.hom) = T.unop
+      change Over.mk (𝟙 T.unop.left ≫ T.unop.hom) = T.unop
       rw [Category.id_comp]
       rfl
     have h := NatIso.isIso_app_of_isIso (Functor.whiskerLeft i.op η)
@@ -926,7 +926,7 @@ private theorem restrictionTransitionAdjoint_comp
   apply Sheaf.hom_ext
   apply NatTrans.ext
   funext U
-  show F.obj.map _ = F.obj.map _ ≫ F.obj.map _ ≫ F.obj.map _
+  change F.obj.map _ = F.obj.map _ ≫ F.obj.map _ ≫ F.obj.map _
   simp only [Functor.op_map, NatTrans.op_app]
   rw [← F.obj.map_comp, ← F.obj.map_comp, ← op_comp, ← op_comp]
   exact congrArg (fun q => F.obj.map q.op)
@@ -974,10 +974,10 @@ private theorem restrictionTransition_isIso
   let β := (adj'.homEquiv _ _).symm (restrictionTransitionAdjoint B S hS F f)
   have hβapp : ∀ V, IsIso (β.hom.app V) := by
     intro V
-    show IsIso (((adj'.homEquiv _ _).symm
+    change IsIso (((adj'.homEquiv _ _).symm
       (restrictionTransitionAdjoint B S hS F f)).hom.app V)
     rw [Adjunction.homEquiv_counit]
-    show IsIso (F.obj.map _ ≫ F.obj.map _)
+    change IsIso (F.obj.map _ ≫ F.obj.map _)
     simp only [Functor.op_map]
     rw [← F.obj.map_comp, ← op_comp]
     let k := (smallProetaleToBigProetaleFunctor B T'.left
@@ -985,7 +985,7 @@ private theorem restrictionTransition_isIso
         ((smallProetaleMapPullbackAdjunction B f.left).unit.app V.unop) ≫
       smallProetaleBaseChangeProjection B S hS f ((smallProetaleMap B f.left).obj V.unop)
     have hkleft : IsIso ((Over.forget _).map k) := by
-      show IsIso (((SmallProetale.inclusion B T'.left.obj T'.left.property).map
+      change IsIso (((SmallProetale.inclusion B T'.left.obj T'.left.property).map
         ((smallProetaleMapPullbackAdjunction B f.left).unit.app V.unop)).left ≫ _)
       unfold smallProetaleMapPullbackAdjunction
       rw [Adjunction.map_restrictFullyFaithful_unit_app]
@@ -1003,7 +1003,7 @@ private theorem restrictionTransition_isIso
       (adj.leftAdjointUniq adj').hom.app ((smallRestriction B S hS T).obj F) ≫ β := by
     apply (adj.homEquiv _ _).injective
     rw [adj.homEquiv_naturality_right, adj.homEquiv_leftAdjointUniq_hom_app]
-    show (adj.homEquiv _ _) ((adj.homEquiv _ _).symm _) =
+    change (adj.homEquiv _ _) ((adj.homEquiv _ _).symm _) =
       (adj'.homEquiv _ _) β
     simp only [β, Equiv.apply_symm_apply]
   rw [he]
@@ -1120,7 +1120,7 @@ private theorem systemComponentIso_adjoint
     (pullback.fst U.unop.obj.hom f.left) (pullback.condition)
     (𝟙 V.obj.left) (by simp [smallIdentity, smallObjectStructure])
   simp only [hp] at h₁ h₂
-  show systemComparisonApp B S hS D T U.unop ≫
+  change systemComparisonApp B S hS D T U.unop ≫
       systemRestrictionAtIdentity B S hS D p =
     (systemPullbackAdjoint B S hS D f).hom.app U ≫ systemComparisonApp B S hS D T' V
   rw [systemRestrictionAtIdentity_eq_transport]
@@ -1222,7 +1222,7 @@ public theorem characterizeSheafBigProetale :
   refine ⟨bigProetaleSheafEquivalence B S hS,
     bigProetaleSheafEquivalenceComponent B S hS, ?_⟩
   intro F T T' f U
-  show (((smallProetalePullbackAdjunction B f.left).homEquiv _ _
+  change (((smallProetalePullbackAdjunction B f.left).homEquiv _ _
     (restrictionTransition B S hS F f)).hom.app (op U)) ≫ 𝟙 _ =
       𝟙 _ ≫ F.obj.map (smallProetaleBaseChangeProjection B S hS f U).op
   simp only [restrictionTransition, Equiv.apply_symm_apply,

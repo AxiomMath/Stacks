@@ -195,7 +195,7 @@ theorem exists_isCompl_of_normal (Γ N : Subgroup (Module.End K V)ˣ) (hNΓ : N 
     refine sSup_le fun Z ⟨γ, hγ, hZ⟩ => ?_
     subst hZ
     rintro _ ⟨x, hx, rfl⟩
-    show (γ' : Module.End K V) ((γ : Module.End K V) x) ∈ Y
+    change (γ' : Module.End K V) ((γ : Module.End K V) x) ∈ Y
     have hmem : X₀.map ((γ' * γ : (Module.End K V)ˣ) : Module.End K V) ≤ Y :=
       le_sSup ⟨γ' * γ, mul_mem hγ' hγ, rfl⟩
     exact hmem ⟨x, hx, by rw [Units.val_mul, Module.End.mul_apply]⟩

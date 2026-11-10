@@ -198,7 +198,7 @@ theorem exists_affineOpen_sectionRatio_sheafMultiplicity_sub_eq_finsum_component
     DenominatorStalk.exists_affineOpen_sectionRatio_length_eq L F s hL hs hF hSupp ξ
   obtain ⟨hfin, ha', hb', hdim1, hemb, hsupp, -⟩ :=
     StalkLocalSituation.lengthFormula_hypotheses C f F hdim hF hSupp
-      (denominatorBadLocus_isClosed X L s hL hs)
+      (denominatorBadLocus_isClosed X L s hL)
       (denominatorBadLocus_isNowhereDense X L s hL hs) hVaff hξV hξ hδ ha hb
   refine ⟨V, hξV, hVaff, a, b, e, hm, hbt, ha', hb', ?_⟩
   have : Module.Finite (X.presheaf.stalk ξ) (F.presheaf.stalk ξ) := hfin
@@ -207,7 +207,7 @@ theorem exists_affineOpen_sectionRatio_sheafMultiplicity_sub_eq_finsum_component
   refine Eq.trans (Ideal.length_fractionalProduct_quotient_sub_length_denominator_quotient
     (X.presheaf.germ V ξ hξV a) (X.presheaf.germ V ξ hξV b) ha' hb' hdim1 hemb hsupp) ?_
   refine Eq.trans ?_ (finsum_minimalPrimes_eq_finsum_componentOrd C f hdim
-    (denominatorBadLocus_isClosed X L s hL hs)
+    (denominatorBadLocus_isClosed X L s hL)
     (denominatorBadLocus_isNowhereDense X L s hL hs) hξ hδ (sheafMultiplicity F) hξV ha' hb')
   refine finsum_mem_congr rfl fun q _ => ?_
   exact congrArg

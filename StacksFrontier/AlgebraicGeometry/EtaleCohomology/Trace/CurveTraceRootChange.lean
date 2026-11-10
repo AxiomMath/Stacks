@@ -56,7 +56,7 @@ theorem rootOn_of_pow_eq (U : X.Etale) : rootOn f hζ' hn U = rootOn f hζ hn U 
 /-- The section of `𝐆_m` of a power is the multiple of the section. -/
 theorem ofUnit_pow {U : X.Etale} (x : (Γ(U.left, ⊤))ˣ) (b : ℕ) :
     ofUnit.{u, 0} (x ^ b) = b • ofUnit.{u, 0} x := by
-  show ULift.up (Additive.ofMul (x ^ b)) = ULift.up (b • Additive.ofMul x)
+  change ULift.up (Additive.ofMul (x ^ b)) = ULift.up (b • Additive.ofMul x)
   rw [ofMul_pow]
 
 include hb in
@@ -110,7 +110,7 @@ include hb in
 theorem curveConstantTrace_of_pow_eq
     (x : Sheaf.H.{u + 1} (etaleConstantSheaf.{u, 0} C (ZMod n)) 2) :
     curveConstantTrace q hn hζ' x = b • curveConstantTrace q hn hζ x := by
-  show Stacks.Kummer.smoothProperCurveTrace q hn
+  change Stacks.Kummer.smoothProperCurveTrace q hn
       (sheafHRootsOfUnityConstantAddEquiv q hζ' (Stacks.Kummer.neZero_of_isUnit hn) 2 x) =
     b • Stacks.Kummer.smoothProperCurveTrace q hn
       (sheafHRootsOfUnityConstantAddEquiv q hζ (Stacks.Kummer.neZero_of_isUnit hn) 2 x)
@@ -131,7 +131,7 @@ include hb in
 /-- **`Θ_A` for `ζ` is `Θ_A` for `ζ^b` precomposed with multiplication by `b`.** -/
 theorem curveConstantClass_of_pow_eq (A : Type) [AddCommGroup A] (φ : ZMod n →+ A) :
     curveConstantClass q hn hζ A φ = curveConstantClass q hn hζ' A (b • φ) := by
-  show Sheaf.H.map _ 2 _ = Sheaf.H.map _ 2 _
+  change Sheaf.H.map _ 2 _ = Sheaf.H.map _ 2 _
   rw [curveFundamentalClass_of_pow_eq q hn hζ hζ' hb, map_nsmul, etaleConstantSheafMap_nsmul,
     sheafH_map_nsmul]
 
@@ -156,7 +156,7 @@ theorem curveConstantModuleTrace_of_pow_eq (E : ModuleCat.{u + 1} Λ) [Finite E]
     (bijective_curveConstantClass q hn hζ (shrink_card_nsmul_eq_zero Λ E))
   let Θ' := AddEquiv.ofBijective (curveConstantClass q hn hζ' (Shrink.{0} E))
     (bijective_curveConstantClass q hn hζ' (shrink_card_nsmul_eq_zero Λ E))
-  show curveConstantModuleTraceAddEquiv q Λ hn hζ' E x =
+  change curveConstantModuleTraceAddEquiv q Λ hn hζ' E x =
     b • curveConstantModuleTraceAddEquiv q Λ hn hζ E x
   simp only [curveConstantModuleTraceAddEquiv, AddEquiv.trans_apply]
   generalize (sheafHAddEquivOfIso (underlyingConstantSheafIso C E Shrink.addEquiv.symm) 2)
@@ -165,7 +165,7 @@ theorem curveConstantModuleTrace_of_pow_eq (E : ModuleCat.{u + 1} Λ) [Finite E]
   have hΘ : Θ φ = Θ' (b • φ) := curveConstantClass_of_pow_eq q hn hζ hζ' hb _ φ
   have h1 : Θ.symm (Θ φ) = φ := Θ.symm_apply_apply φ
   have h2 : Θ'.symm (Θ φ) = b • φ := by rw [hΘ]; exact Θ'.symm_apply_apply _
-  show Shrink.addEquiv (zmodEvalAddEquiv (shrink_card_nsmul_eq_zero Λ E) (Θ'.symm (Θ φ))) =
+  change Shrink.addEquiv (zmodEvalAddEquiv (shrink_card_nsmul_eq_zero Λ E) (Θ'.symm (Θ φ))) =
     b • Shrink.addEquiv (zmodEvalAddEquiv (shrink_card_nsmul_eq_zero Λ E) (Θ.symm (Θ φ)))
   rw [h1, h2, map_nsmul, map_nsmul]
 

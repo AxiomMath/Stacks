@@ -50,7 +50,7 @@ theorem topologicalKrullDim_fiber_pullbackSnd_le {X S W : Scheme.{u}} (f : X ⟶
     (w : W) : topologicalKrullDim ((pullback.snd f ι).fiber w) ≤ n := by
   let φ : (pullback.snd f ι).base ⁻¹' {w} → f.base ⁻¹' {ι.base w} := fun x =>
     ⟨(pullback.fst f ι).base x.1, by
-      show (pullback.fst f ι ≫ f).base x.1 = ι.base w
+      change (pullback.fst f ι ≫ f).base x.1 = ι.base w
       rw [pullback.condition, Scheme.Hom.comp_apply, x.2]⟩
   have hφ : IsHomeomorph φ := by
     rw [isHomeomorph_iff_isEmbedding_surjective]
@@ -58,7 +58,7 @@ theorem topologicalKrullDim_fiber_pullbackSnd_le {X S W : Scheme.{u}} (f : X ⟶
       (fun x hx => (φ ⟨x, hx⟩).2), fun y => ?_⟩
     obtain ⟨x, hx⟩ : y.1 ∈ Set.range (pullback.fst f ι).base := by
       rw [IsOpenImmersion.range_pullbackFst]
-      show f.base y.1 ∈ Set.range ι.base
+      change f.base y.1 ∈ Set.range ι.base
       rw [show f.base y.1 = ι.base w from y.2]
       exact Set.mem_range_self _
     have hxw : (pullback.snd f ι).base x = w := by
@@ -152,7 +152,7 @@ theorem exists_isOpenImmersion_isConstructibleEtaleModule_rightDerivedConstantUn
   let tA : Spec (.of (Localization.Away g)) ⟶ Spec ↑(S.obj.presheaf.obj (op W)) :=
     Spec.map (CommRingCat.ofHom φ)
   obtain ⟨sT, hsT⟩ : sW ∈ Set.range tA := by
-    show sW ∈ (tA.opensRange : Set _)
+    change sW ∈ (tA.opensRange : Set _)
     rwa [Scheme.Hom.opensRange_localizationAway g]
   have hsq := IsPullback.of_hasPullback fW tA
   have hT : B.Contains (Spec (.of (Localization.Away g))) :=
@@ -160,7 +160,7 @@ theorem exists_isOpenImmersion_isConstructibleEtaleModule_rightDerivedConstantUn
   let TB := B.obj (Spec (.of (Localization.Away g))) hT
   let j : TB ⟶ S := ObjectProperty.homMk (tA ≫ ιW)
   refine ⟨TB, j, inferInstanceAs (IsOpenImmersion (tA ≫ ιW)), ⟨sT, ?_⟩, ?_⟩
-  · show ιW (tA sT) = s
+  · change ιW (tA sT) = s
     rw [hsT, hsW']
   let gT := pullback.fst fW tA
   let fT := pullback.snd fW tA

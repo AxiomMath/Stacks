@@ -71,7 +71,9 @@ What was genuinely missing is this file: the assembly of those pieces into `X'`,
 `ε` **for an arbitrary graded algebra sheaf**. It existed only for the Rees algebra `⨁ₙ ℐⁿ` of an
 ideal sheaf, spread over
 `StacksFrontier/AlgebraicGeometry/FormalFunctions/CohomologyGradedReesBaseChange.lean`,
-`StacksFrontier/AlgebraicGeometry/FormalFunctions/ReesBaseChangeCoherent.lean` and `StacksFrontier/AlgebraicGeometry/FormalFunctions/ReesCmpAssembly.lean`, and the Rees algebra is the one case
+`StacksFrontier/AlgebraicGeometry/FormalFunctions/ReesBaseChangeCoherent.lean` and
+`StacksFrontier/AlgebraicGeometry/FormalFunctions/ReesCmpAssembly.lean`, and the Rees algebra is the
+one case
 the fibre-side instance of [Stacks, Tag 0897] needed by [Stacks, Tag 0D2M] cannot use. Those Rees
 declarations are now the instantiations of the ones here, so there is one copy of each statement
 and not two.
@@ -192,7 +194,7 @@ theorem restrictScalars_relativeSpecQcohEquivalence_functor_obj_obj
   have hmap : AlgebraSheaf.structureMap 𝒜 ≫ (pushforwardRingIso 𝒜).inv =
       (relativeSpecToBase 𝒜).toRingCatSheafHom :=
     (Iso.comp_inv_eq _).2 (structureMap_comp_pushforwardRingIso 𝒜).symm
-  show (SheafOfModules.restrictScalars
+  change (SheafOfModules.restrictScalars
       (AlgebraSheaf.structureMap 𝒜 ≫ (pushforwardRingIso 𝒜).inv)).obj
     ((Stacks.AlgebraicGeometry.AffineQcohPushforward.pushforwardModules
       (relativeSpecToBase 𝒜).base (relativeSpec 𝒜).ringCatSheaf).obj G.obj) = _

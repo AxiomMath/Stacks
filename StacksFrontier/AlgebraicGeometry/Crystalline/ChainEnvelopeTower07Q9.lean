@@ -108,7 +108,7 @@ theorem primeDP_ext07Q9 {T : DividedPowerRing.{u}}
     refine ⟨?_, fun _ => ?_⟩
     · apply DPMorphism.ext
       funext b
-      show (q₂.comp (xiToPrimeDP07Q9 p hp))
+      change (q₂.comp (xiToPrimeDP07Q9 p hp))
           (setIndexedDividedPowerPolynomialCoefficientDPMorphism B Unit b) =
         (q₁.comp (xiToPrimeDP07Q9 p hp))
           (setIndexedDividedPowerPolynomialCoefficientDPMorphism B Unit b)
@@ -165,7 +165,7 @@ theorem xiPrimeMap07Q9_eval₂_primePoly :
     (primePoly B p lam).eval₂ (xiPrimeMap07Q9 p hp θ).toRingHom (zElt B' p lam') = 0 := by
   rw [primePoly_eq B p lam, Polynomial.eval₂_sub, Polynomial.eval₂_X_pow, Polynomial.eval₂_C,
     map_add]
-  show _ - (xiPrimeMap07Q9 p hp θ (xi B) + xiPrimeMap07Q9 p hp θ (algebraMap _ _ lam)) = 0
+  change _ - (xiPrimeMap07Q9 p hp θ (xi B) + xiPrimeMap07Q9 p hp θ (algebraMap _ _ lam)) = 0
   rw [xi, (xiPrimeMap07Q9_spec p hp θ).2, xiPrimeMap07Q9_algebraMap, hθ, xiElt_one_zero_eq]
   ring
 
@@ -217,10 +217,10 @@ theorem primeMapDP07Q9_comp (θ' : DPMorphism B'.dividedPowers B.dividedPowers)
     (hθ' : θ' lam' = lam) (h : ∀ b, θ' (θ b) = b) :
     (primeMapDP07Q9 p hp θ' hθ').comp (primeMapDP07Q9 p hp θ hθ) = DPMorphism.id _ := by
   refine primeDP_ext07Q9 (T := primeDPRing B p lam hp) p hp _ _ (fun b => ?_) ?_
-  · show primeMap07Q9 p hp θ' hθ' (primeMap07Q9 p hp θ hθ (algebraMap _ _ b)) = _
+  · change primeMap07Q9 p hp θ' hθ' (primeMap07Q9 p hp θ hθ (algebraMap _ _ b)) = _
     rw [primeMap07Q9_algebraMap, primeMap07Q9_algebraMap, h]
     rfl
-  · show primeMap07Q9 p hp θ' hθ' (primeMap07Q9 p hp θ hθ (zElt _ p lam)) = _
+  · change primeMap07Q9 p hp θ' hθ' (primeMap07Q9 p hp θ hθ (zElt _ p lam)) = _
     rw [primeMap07Q9_zElt, primeMap07Q9_zElt]
     rfl
 
@@ -449,7 +449,7 @@ theorem chainStepQuotient07Q9_algebraMap (r : R) :
     chainStepQuotient07Q9 hp B hB φ c (algebraMap R (alphaPAlgebra p R c) r) =
       DividedPowerRing.quotientRingHom
         (completedPrimeStepι07Q9 B p hp hB (chainLift07Q9 B φ c)) (φ r) := by
-  show Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ (Polynomial.C r)) = _
+  change Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ (Polynomial.C r)) = _
   rw [Ideal.Quotient.lift_mk, Polynomial.coe_eval₂RingHom, Polynomial.eval₂_C]
   rfl
 
@@ -457,7 +457,7 @@ theorem chainStepQuotient07Q9_algebraMap (r : R) :
 theorem chainStepQuotient07Q9_root :
     chainStepQuotient07Q9 hp B hB φ c (Ideal.Quotient.mk _ Polynomial.X) =
       Ideal.Quotient.mk _ (completedPrimeStepRoot07Q9 hp B hB (chainLift07Q9 B φ c)) := by
-  show Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ Polynomial.X) = _
+  change Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ Polynomial.X) = _
   rw [Ideal.Quotient.lift_mk, Polynomial.coe_eval₂RingHom, Polynomial.eval₂_X]
 
 /-- **The tower of completed extensions of a chain of `α_p`-extensions**: over a divided power ring
@@ -557,7 +557,7 @@ private theorem variableEnvelopeMap07Q9_comp_eq_id
     (variableEnvelopeMap07Q9 τ g' g hvar').comp (variableEnvelopeMap07Q9 σ g g' hvar) =
       DPMorphism.id _ := by
   refine (polynomialDividedPowerEnvelope s g).dpMorphism_ext _ _ fun x => ?_
-  show variableEnvelopeMap07Q9 τ g' g hvar' (variableEnvelopeMap07Q9 σ g g' hvar
+  change variableEnvelopeMap07Q9 τ g' g hvar' (variableEnvelopeMap07Q9 σ g g' hvar
     ((polynomialDividedPowerEnvelope s g).algebraMap.toRingHom x)) = _
   rw [variableEnvelopeMap07Q9_algebraMap, variableEnvelopeMap07Q9_algebraMap]
   have hr : (variableMapRingHom07Q9 τ e').comp (variableMapRingHom07Q9 σ e) = RingHom.id _ := by
@@ -772,7 +772,7 @@ theorem chainStageIso07Q9_quotient (x : MvPolynomial (Option κ) s.A) :
       | none =>
         refine (congrArg (Ideal.Quotient.mk _)
           (chainStageIso07Q9_hom_root hg hp0 ψ c hct hB φ θ hφ)).trans ?_
-        show _ = chainStepQuotient07Q9 hp0 B hB φ c (alphaPAlgebraEquiv07Q9 rfl ψ c
+        change _ = chainStepQuotient07Q9 hp0 B hB φ c (alphaPAlgebraEquiv07Q9 rfl ψ c
           (alphaPPresentation s (ψ.symm c) g (X none)))
         rw [alphaPPresentation_X_none, alphaPAlgebraEquiv07Q9_root, chainStepQuotient07Q9_root]
       | some k =>
@@ -839,9 +839,9 @@ theorem exists_chainTowerIso07Q9 {p : ℕ} (hp0 : p ≠ 0) : ∀ {R : CommRingCa
       ε.symm.toRingHom.comp (rest.toTop.hom.comp (alphaPAlgebraEquiv07Q9 rfl ψ c).toRingHom)
     have hT : ∀ y, T₁ (algebraMap s.C (alphaPSituation s (ψ.symm c)).C y) = σ.target y := by
       intro y
-      show ε.symm (rest.toTop.hom (alphaPAlgebraEquiv07Q9 rfl ψ c (algebraMap s.C _ y))) = _
+      change ε.symm (rest.toTop.hom (alphaPAlgebraEquiv07Q9 rfl ψ c (algebraMap s.C _ y))) = _
       rw [alphaPAlgebraEquiv07Q9_algebraMap]
-      show ε.symm ((AlphaPChain.cons c rest).toTop.hom (ψ y)) = _
+      change ε.symm ((AlphaPChain.cons c rest).toTop.hom (ψ y)) = _
       rw [← hε, RingEquiv.symm_apply_apply]
     have hj₁ : ∀ o, g' (X (((optionSumFinEquiv07Q9 κ n).trans e) (Sum.inl o))) =
         (alphaPStepHom07Q9 σ (ψ.symm c) T₁ hT).target
@@ -850,7 +850,7 @@ theorem exists_chainTowerIso07Q9 {p : ℕ} (hp0 : p ≠ 0) : ∀ {R : CommRingCa
       cases o with
       | none =>
         rw [alphaPPresentation_X_none]
-        show g' (X (e (Sum.inr 0))) = ε.symm (rest.toTop.hom (alphaPAlgebraEquiv07Q9 rfl ψ c
+        change g' (X (e (Sum.inr 0))) = ε.symm (rest.toTop.hom (alphaPAlgebraEquiv07Q9 rfl ψ c
           (Ideal.Quotient.mk _ Polynomial.X)))
         rw [hroot, alphaPAlgebraEquiv07Q9_root]
         rfl
@@ -924,7 +924,6 @@ theorem exists_chainEnvelopeTowerIso07Q9 :
           (canonicalPresentation_surjective _) (chainPresentation07Q9 S hW hVW f hW₂ ch e)
           (surjective_chainPresentation07Q9 S hW hVW f hW₂ ch e he)
           (chainPresentationRename07Q9 S hW hVW f hW₂)
-          (chainPresentationRename07Q9_C S hW hVW f hW₂)
           (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e) 0 a) =
         (chainEnvelopeTower07Q9 S hW hVW ch hp).toTop a := by
   obtain ⟨Θ, hΘ⟩ := exists_chainTowerIso07Q9 (chain_p_ne_zero07Q9 S hp) ch
@@ -971,7 +970,6 @@ theorem chainEnvelopeTowerIso07Q9_hom_completedEnvelopeMap
           (canonicalPresentation_surjective _) (chainPresentation07Q9 S hW hVW f hW₂ ch e)
           (surjective_chainPresentation07Q9 S hW hVW f hW₂ ch e he)
           (chainPresentationRename07Q9 S hW hVW f hW₂)
-          (chainPresentationRename07Q9_C S hW hVW f hW₂)
           (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e) 0 a) =
       (chainEnvelopeTower07Q9 S hW hVW ch hp).toTop a :=
   (exists_chainEnvelopeTowerIso07Q9 S hW hVW f hW₂ ch e he hp).choose_spec a
@@ -982,7 +980,6 @@ theorem completedEnvelopeMap07Q9_comp_chainEnvelopeTowerIso07Q9 :
         (canonicalPresentation_surjective _) (chainPresentation07Q9 S hW hVW f hW₂ ch e)
         (surjective_chainPresentation07Q9 S hW hVW f hW₂ ch e he)
         (chainPresentationRename07Q9 S hW hVW f hW₂)
-        (chainPresentationRename07Q9_C S hW hVW f hW₂)
         (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e) 0 ≫
       (chainEnvelopeTowerIso07Q9 S hW hVW f hW₂ ch e he hp).hom =
       (chainEnvelopeTower07Q9 S hW hVW ch hp).toTop :=
@@ -1017,7 +1014,6 @@ theorem envelopeRingMap07Q9_comp_chainEnvelopeTowerThickeningIso07Q9 :
         (canonicalPresentation_surjective _) (chainPresentation07Q9 S hW hVW f hW₂ ch e)
         (surjective_chainPresentation07Q9 S hW hVW f hW₂ ch e he)
         (chainPresentationRename07Q9 S hW hVW f hW₂)
-        (chainPresentationRename07Q9_C S hW hVW f hW₂)
         (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e) 0 ≫
       (chainEnvelopeTowerThickeningIso07Q9 S hW hVW f hW₂ ch e he hp).hom =
       eqToHom (tensorPowerEnvelopeThickening_ring_eq _ _ _ 0) ≫

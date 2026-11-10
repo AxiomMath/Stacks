@@ -69,7 +69,8 @@ once below, to reach the local frames of
 are mentioned in gets them the wrong way round: `Stacks.SheafOfModules.IsInvertible` is declared in
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorInvertible.lean`, and
 `AlgebraicGeometry.SheafOfModules.IsInvertible` in
-`StacksFrontier/Topology/Sheaves/Modules/Invertible.lean`.  Neither the path nor the single field name
+`StacksFrontier/Topology/Sheaves/Modules/Invertible.lean`.  Neither the path nor the single field
+name
 distinguishes them; only the namespace does.
 
 Powers of sections are taken through `sectionMulOver` rather than through the monoidal
@@ -113,7 +114,7 @@ theorem eval_eq_zero_of_iSup_eq_top {M : _root_.SheafOfModules.{u} (structureShe
       fun y hy => ?_
     obtain ⟨i, hyi⟩ : ∃ i, y ∈ U i :=
       Opens.mem_iSup.1 (hcov ▸ (Opens.mem_top y : y ∈ (⊤ : Opens X.carrier)))
-    show grpGerm X M.val y ⊤ hy (m.eval (op ⊤)) = grpGerm X M.val y ⊤ hy 0
+    change grpGerm X M.val y ⊤ hy (m.eval (op ⊤)) = grpGerm X M.val y ⊤ hy 0
     rw [map_zero]
     have e1 : grpGerm X M.val y (U i) hyi
         (M.val.map (homOfLE (le_top (a := U i))).op (m.eval (op ⊤)))

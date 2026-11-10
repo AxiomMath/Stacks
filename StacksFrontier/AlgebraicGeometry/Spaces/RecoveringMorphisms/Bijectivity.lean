@@ -94,7 +94,7 @@ composite of the induced maps. -/
 theorem chartStalkMap_comp (f : X ⟶ Y) {V V' V'' : SmallEtale B S hS Y.1} (j : V'' ⟶ V')
     (k : V' ⟶ V) (t : chartStalk f x V'') :
     chartStalkMap f x (j ≫ k) t = chartStalkMap f x k (chartStalkMap f x j t) := by
-  show (sitePt x).presheafFiber.map (chartFiberMap f (j ≫ k)) t = _
+  change (sitePt x).presheafFiber.map (chartFiberMap f (j ≫ k)) t = _
   rw [chartFiberMap_comp, Functor.map_comp]
   rfl
 
@@ -152,7 +152,7 @@ theorem stalkComparison_map' {V V' : SmallEtale B S hS Y.1} [IsAffine (chartSch 
     (σ : (invStalk g x).obj ((SmallEtale.topology B S hS Y.1).yoneda.obj V')) :
     stalkComparison' x hf V ((invStalk g x).map ((SmallEtale.topology B S hS Y.1).yoneda.map j) σ) =
       chartStalkMap f x j (stalkComparison' x hf V' σ) := by
-  show ((sitePt x).presheafFiber.map
+  change ((sitePt x).presheafFiber.map
       (g.toToposHom.inverseImage.map ((SmallEtale.topology B S hS Y.1).yoneda.map j)).hom ≫
     (sitePt x).presheafFiber.map (OverBase.invRepComparison hf V)) σ = _
   rw [← Functor.map_comp, invRepComparison_naturality', Functor.map_comp]
@@ -266,7 +266,7 @@ theorem stalkComparison_injective' (V : SmallEtale B S hS Y.1) [IsAffine (chartS
   let Oab := ((BigFppfOver.toScheme B S hS).map ιa.hom.left) ⁻¹ᵁ Ob.1
   have hrange : ∀ z, ((BigFppfOver.toScheme B S hS).map ca.1).base z ∈ Oab := by
     intro z
-    show ((BigFppfOver.toScheme B S hS).map ca.1 ≫
+    change ((BigFppfOver.toScheme B S hS).map ca.1 ≫
       (BigFppfOver.toScheme B S hS).map ιa.hom.left).base z ∈ Ob.1
     rw [← Functor.map_comp, hcab, Functor.map_comp, Scheme.Hom.comp_apply]
     exact base_map_chartOpenRestrictionHom_mem P Ob.1 _
@@ -283,7 +283,7 @@ theorem stalkComparison_injective' (V : SmallEtale B S hS Y.1) [IsAffine (chartS
   obtain ⟨σD, hσD, hcD⟩ := hRS ιD σa tD htD
   have hDrange : Set.range ((BigFppfOver.toScheme B S hS).map (ιD ≫ ιa).hom.left) ⊆ Ob.1 := by
     rintro _ ⟨w, rfl⟩
-    show ((BigFppfOver.toScheme B S hS).map ιD.hom.left ≫
+    change ((BigFppfOver.toScheme B S hS).map ιD.hom.left ≫
       (BigFppfOver.toScheme B S hS).map ιa.hom.left).base w ∈ Ob.1
     rw [Scheme.Hom.comp_apply]
     exact e.2 (base_map_chartOpenRestrictionHom_mem Wa _ w)
@@ -291,9 +291,9 @@ theorem stalkComparison_injective' (V : SmallEtale B S hS Y.1) [IsAffine (chartS
   have hkb : kb ≫ ιb = ιD ≫ ιa := chartHomToOpen_comp P Ob.1 (ιD ≫ ιa) hDrange
   let σa' := Q.map (J.yoneda.map kb) σD
   have hτ : Q.map (J.yoneda.map ιb) σa' = τ₁ := by
-    show (Q.map (J.yoneda.map kb) ≫ Q.map (J.yoneda.map ιb)) σD = τ₁
+    change (Q.map (J.yoneda.map kb) ≫ Q.map (J.yoneda.map ιb)) σD = τ₁
     rw [← Functor.map_comp, ← Functor.map_comp, hkb, Functor.map_comp, Functor.map_comp]
-    show Q.map (J.yoneda.map ιa) (Q.map (J.yoneda.map ιD) σD) = τ₁
+    change Q.map (J.yoneda.map ιa) (Q.map (J.yoneda.map ιD) σD) = τ₁
     rw [hσD, hσa]
   have hc : stalkComparison' x hf Wb σa' = stalkComparison' x hf Wb σb := by
     apply chartStalkMap_injective f x ιb
@@ -301,7 +301,7 @@ theorem stalkComparison_injective' (V : SmallEtale B S hS Y.1) [IsAffine (chartS
     exact hab
   have hσ : σa' = σb := hRI (ιb ≫ p₂) σa' σb (by
     rw [Functor.map_comp, Functor.map_comp]
-    show Q.map (J.yoneda.map p₂) (Q.map (J.yoneda.map ιb) σa') =
+    change Q.map (J.yoneda.map p₂) (Q.map (J.yoneda.map ιb) σa') =
       Q.map (J.yoneda.map p₂) (Q.map (J.yoneda.map ιb) σb)
     rw [hτ, hσb, hτ₁₂, hτ₂₂]) hc
   rw [← hτ₁₁, ← hτ₂₁, ← hτ, ← hσb, hσ]

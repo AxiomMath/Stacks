@@ -218,7 +218,7 @@ public theorem projHom_preimage_projBasicOpen {d : ℕ} (a : powSections L d) (h
       = (nvUnion L).ι ⁻¹ᵁ nvOpen L a := by
   refine opens_ext_of_preimage_homOfLE fun c ↦ ?_
   rw [← Scheme.Hom.comp_preimage, ← Scheme.Hom.comp_preimage, Scheme.homOfLE_ι]
-  show (X.homOfLE (nvOpen_le_nvUnion L c.val c.deg_pos) ≫ projHom L) ⁻¹ᵁ _ = _
+  change (X.homOfLE (nvOpen_le_nvUnion L c.val c.deg_pos) ≫ projHom L) ⁻¹ᵁ _ = _
   rw [homOfLE_projHom L c.val c.deg_pos,
     ← Stacks.SectionRingChartOpen.chartHomOn_self L c.val c.deg_pos,
     Stacks.SectionRingChartOpen.chartHomOn_preimage_projBasicOpen L c.val c.deg_pos

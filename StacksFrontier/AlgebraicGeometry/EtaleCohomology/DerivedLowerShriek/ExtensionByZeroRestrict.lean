@@ -340,7 +340,7 @@ theorem etaleModuleDerivedExtensionByZeroRestrictIso_hom_of
           ((Functor.mapHomotopyCategoryPlusNatIso
             (etaleModuleInverseImageIdIso.{u, 0} Λ X)).hom.app K : _ ⟶ K) := by
     apply (HomotopyCategory.Plus.ι _).map_injective
-    show ((etaleModuleInverseImage.{u, 0} Λ b).mapHomotopyCategory (ComplexShape.up ℤ)).map
+    change ((etaleModuleInverseImage.{u, 0} Λ b).mapHomotopyCategory (ComplexShape.up ℤ)).map
         ((Functor.mapHomotopyCategoryCompIso (etaleModuleExtensionByZeroCompIso.{u, 0} Λ a b).symm
           (ComplexShape.up ℤ)).inv.app K.obj) ≫
         (NatTrans.mapHomotopyCategory (etaleModuleExtensionByZeroInverseImageIso Λ b).hom
@@ -353,7 +353,7 @@ theorem etaleModuleDerivedExtensionByZeroRestrictIso_hom_of
           ((NatTrans.mapHomotopyCategory (etaleModuleInverseImageIdIso.{u, 0} Λ X).hom
             (ComplexShape.up ℤ)).app K.obj)
     obtain ⟨K₀⟩ := K.obj
-    show (HomotopyCategory.quotient _ _).map
+    change (HomotopyCategory.quotient _ _).map
         (((etaleModuleInverseImage.{u, 0} Λ b).mapHomologicalComplex (ComplexShape.up ℤ)).map
           ((Functor.mapHomologicalComplexCompIso
             (etaleModuleExtensionByZeroCompIso.{u, 0} Λ a b).symm

@@ -151,7 +151,8 @@ lifted fibre functor is that of the original one (`CategoryTheory.Functor.Elemen
 where the identity lift is initial (`Stacks.EtaleCohomology.isInitialPointSmallEtaleIdElement`). -/
 def isInitialPointSmallEtaleUliftIdElement :
     IsInitial (show ((pointSmallEtale (𝟙 (Spec (.of Ω)))).ulift.{max (u + 1) v}).fiber.Elements from
-      (Functor.elementsMk _ (Scheme.Etale.mk (𝟙 (Spec (.of Ω)))) (pointSmallEtaleUliftIdElement.{u, v} Ω))) :=
+      (Functor.elementsMk _ (Scheme.Etale.mk (𝟙 (Spec (.of Ω))))
+        (pointSmallEtaleUliftIdElement.{u, v} Ω))) :=
   (isInitialPointSmallEtaleIdElement Ω).isInitialObj
     (Functor.Elements.uliftEquiv.{max (u + 1) v} (pointSmallEtale (𝟙 (Spec (.of Ω)))).fiber).functor
 
@@ -169,7 +170,8 @@ def presheafFiberUliftIdIsoSections :
     (pointSmallEtaleUliftIdElement.{u, v} Ω)
   letI : ∀ P, IsIso (τ.app P) := fun P ↦
     (Φ.isColimitPresheafFiberCocone P).isIso_ι_app_of_isTerminal
-      (op (Functor.elementsMk _ (Scheme.Etale.mk (𝟙 (Spec (.of Ω)))) (pointSmallEtaleUliftIdElement.{u, v} Ω)))
+      (op (Functor.elementsMk _ (Scheme.Etale.mk (𝟙 (Spec (.of Ω))))
+        (pointSmallEtaleUliftIdElement.{u, v} Ω)))
       (isInitialPointSmallEtaleUliftIdElement.{u, v} Ω).op
   letI := NatIso.isIso_of_isIso_app τ
   exact asIso τ

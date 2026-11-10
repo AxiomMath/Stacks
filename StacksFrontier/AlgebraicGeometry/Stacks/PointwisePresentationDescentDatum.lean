@@ -142,7 +142,7 @@ theorem spaceNestedRingHom_comp_twoMorphism {Y' : AlgebraicSpaces C S hS} {k₁ 
     (spaceCompTwoMorphism h) (isHomLift_spaceCompTwoMorphism_source h) C.topology
     (topology_le_self C)
   apply Sheaf.hom_ext
-  show (eqToHom (ringStructureSheafCore_obj_eq C S hS (spaceProj X) (spaceProj Y)
+  change (eqToHom (ringStructureSheafCore_obj_eq C S hS (spaceProj X) (spaceProj Y)
         (isFiberedInGroupoids_spaceProj X) (isFiberedInGroupoids_spaceProj Y) (spaceFunctor k₁)
         (spaceFunctor_comp_spaceProj k₁) C.topology (topology_le_self C)) ≫
       Functor.whiskerLeft (spaceFunctor k₁).op

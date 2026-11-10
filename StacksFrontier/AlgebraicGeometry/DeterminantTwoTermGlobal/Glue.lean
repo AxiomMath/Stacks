@@ -98,14 +98,14 @@ theorem IsBaseChangeAlong.of_ringEquiv_target {σ : R →+* S} {φ : M →ₛₗ
           apply ψ.injective
           rw [hψ, AddEquiv.apply_symm_apply, AddEquiv.apply_symm_apply, RingEquiv.apply_symm_apply]
         rw [this, k.map_smul]
-        show (e (e.symm s')) • k (ψ.symm n') = _
+        change (e (e.symm s')) • k (ψ.symm n') = _
         rw [RingEquiv.apply_symm_apply]
         rfl }
   refine ⟨k', ?_, fun k'' hk'' => ?_⟩
   · ext m
     have := LinearMap.congr_fun hk m
     simp only [LinearMap.comp_apply] at this ⊢
-    show k (ψ.symm (φ' m)) = g m
+    change k (ψ.symm (φ' m)) = g m
     rw [hφ', AddEquiv.symm_apply_apply]
     exact this
   · let k₀ : N →ₗ[S] P :=
@@ -118,13 +118,13 @@ theorem IsBaseChangeAlong.of_ringEquiv_target {σ : R →+* S} {φ : M →ₛₗ
       ext m
       have := LinearMap.congr_fun hk'' m
       simp only [LinearMap.comp_apply] at this ⊢
-      show k'' (ψ (φ m)) = g m
+      change k'' (ψ (φ m)) = g m
       rw [← hφ']
       exact this)
     ext n'
-    show k'' n' = k (ψ.symm n')
+    change k'' n' = k (ψ.symm n')
     rw [← h0]
-    show k'' n' = k'' (ψ (ψ.symm n'))
+    change k'' n' = k'' (ψ (ψ.symm n'))
     rw [AddEquiv.apply_symm_apply]
 
 /-- **A base change transports along a ring isomorphism on the source.** -/
@@ -148,7 +148,7 @@ theorem IsBaseChangeAlong.of_ringEquiv_source {R' M' : Type u} [CommRing R'] [Ad
     have := LinearMap.congr_fun hk (ψ m)
     simp only [LinearMap.comp_apply] at this ⊢
     rw [hφ', this]
-    show g (ψ.symm (ψ m)) = g m
+    change g (ψ.symm (ψ m)) = g m
     rw [AddEquiv.symm_apply_apply]
   · ext m
     have := LinearMap.congr_fun hk' (ψ.symm m)
@@ -196,7 +196,7 @@ theorem IsBaseChangeAlong.isBaseChange [Algebra R S] {σ : R →+* S}
     have := LinearMap.congr_fun hh₀ m
     simp only [LinearMap.comp_apply] at this ⊢
     rw [this]
-    show ψ ((1 : S) ⊗ₜ[R] m) = φ m
+    change ψ ((1 : S) ⊗ₜ[R] m) = φ m
     simp [ψ, h]
   have e2 : h₀.comp ψ = LinearMap.id := by
     apply TensorProduct.AlgebraTensorModule.curry_injective
@@ -208,7 +208,7 @@ theorem IsBaseChangeAlong.isBaseChange [Algebra R S] {σ : R →+* S}
     simp only [LinearMap.comp_apply] at this
     simp only [ψ, LinearMap.liftBaseChange_tmul, one_smul, h]
     exact this
-  refine IsBaseChange.of_equiv (LinearEquiv.ofLinear ψ h₀ e1 e2) fun m => ?_
+  refine IsBaseChange.of_equiv (LinearEquiv.ofLinearMap ψ h₀ e1 e2) fun m => ?_
   simp [ψ]
 
 end TwoTermDeterminant
@@ -425,7 +425,7 @@ theorem restrictFun_apply {U U' : X.Opens} (h : U' ≤ U) (s : D.Sections U) (V 
 theorem restrictFun_smul {U U' : X.Opens} (h : U' ≤ U) (r : Γ(X, U)) (s : D.Sections U) :
     D.restrictFun h (r • s) = (X.presheaf.map (homOfLE h).op r) • D.restrictFun h s := by
   refine Subtype.ext (funext fun V => ?_)
-  show X.presheaf.map (homOfLE (V.2.trans h)).op r • s.1 ⟨V.1, V.2.trans h⟩ =
+  change X.presheaf.map (homOfLE (V.2.trans h)).op r • s.1 ⟨V.1, V.2.trans h⟩ =
     X.presheaf.map (homOfLE V.2).op (X.presheaf.map (homOfLE h).op r) • s.1 ⟨V.1, V.2.trans h⟩
   rw [map_comp_presheaf]
   rfl
@@ -644,7 +644,7 @@ theorem isQuasicoherent_toModules : D.toModules.IsQuasicoherent := by
   have hρ : IsBaseChangeAlong _ ρ :=
     ((D.isBaseChange hWV).comp_linearEquiv _).comp_linearEquiv_right _
   refine hρ.isBaseChange (fun _ => rfl) _ fun x => ?_
-  show D.toModules.presheaf.map (homOfLE hWV).op x = (D.sectionsEquiv W).symm
+  change D.toModules.presheaf.map (homOfLE hWV).op x = (D.sectionsEquiv W).symm
     (D.map hWV (D.sectionsEquiv V x))
   rw [LinearEquiv.eq_symm_apply, sectionsEquiv_restrict]
 

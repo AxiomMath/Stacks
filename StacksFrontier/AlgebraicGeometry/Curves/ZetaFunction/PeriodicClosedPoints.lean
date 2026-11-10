@@ -79,7 +79,7 @@ omit [IsAlgClosed Ω] in
 theorem pow_mem_frobFixed_iff {M : ℕ} (n : ℕ) {d : Ω} :
     d ^ p ^ n ∈ frobFixed p M ↔ d ∈ frobFixed p M := by
   rw [mem_frobFixed, mem_frobFixed, ← pow_mul, mul_comm, pow_mul]
-  show iterateFrobenius Ω p n (d ^ p ^ M) = iterateFrobenius Ω p n d ↔ _
+  change iterateFrobenius Ω p n (d ^ p ^ M) = iterateFrobenius Ω p n d ↔ _
   exact (iterateFrobenius Ω p n).injective.eq_iff
 
 omit [IsAlgClosed Ω] in
@@ -362,7 +362,7 @@ theorem finite_setOf_vanishesAt {t : C.functionField} (ht : t ≠ 0) :
   (finite_setOf_ord_ne_zero g ht).subset fun y hy => by
     rcases hy with h | h
     · exact absurd h ht
-    · show C.ord t y.1 ≠ 0; omega
+    · change C.ord t y.1 ≠ 0; omega
 
 omit [IsAlgClosed Ω] in
 include g in
@@ -372,7 +372,7 @@ theorem finite_setOf_ord_neg (a : C.functionField) :
   by_cases ha : a = 0
   · subst ha; simp
   exact (finite_setOf_ord_ne_zero g ha).subset fun y hy => by
-    show C.ord a y.1 ≠ 0; exact (Set.mem_setOf.1 hy).ne
+    change C.ord a y.1 ≠ 0; exact (Set.mem_ofPred.1 hy).ne
 
 variable (p : ℕ) [hp : Fact p.Prime] [CharP Ω p] (n : ℕ) (Ψ : C ≅ C)
   (hΨ : Ψ.hom ≫ g = g ≫ Spec.map (CommRingCat.ofHom (iterateFrobenius Ω p n)))
@@ -472,7 +472,7 @@ theorem exists_iterate_closedPointPerm_eq
   let y₀ := (⇑σ)^[k₀ + 1] x
   have hout : ∀ k, (⇑σ)^[k] y₀ ∉ Z := fun k h => by
     have := hk₀ (show k + (k₀ + 1) ∈ {k : ℕ | (⇑σ)^[k] x ∈ Z} by
-      rw [Set.mem_setOf, Function.iterate_add_apply]; exact h)
+      rw [Set.mem_ofPred, Function.iterate_add_apply]; exact h)
     omega
   -- values of the generators at `y₀` and the coefficients lie in one finite field
   have hval : ∀ a ∈ G, ∃ c : Ω, VanishesAt y₀ (a - algebraMap Ω C.functionField c) := fun a ha => by

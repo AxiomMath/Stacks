@@ -230,12 +230,24 @@ public theorem comp_eq_of_unitor_square_right {C : Type*} [Category C]
 
 /-- The middle square of the degree-zero identification: the naturality of the right unitor,
 `Stacks.Algebraization.rightUnitor_whiskerLeft_square`, read against
-`Stacks.Algebraization.alphaPow_zero`. Split off into its own declaration, in pure term mode with
-no ascribed type, so that this application gets a heartbeat budget of its own; see the
-implementation notes of this file. -/
-private noncomputable def alpha_twistZ_zero_rightUnitor_hmid {A : Type u} [CommRing A]
+`Stacks.Algebraization.alphaPow_zero`. Split off into its own declaration, proved in term
+mode, so that this application gets a heartbeat budget of its own; see the implementation notes
+of this file. -/
+private theorem alpha_twistZ_zero_rightUnitor_hmid {A : Type u} [CommRing A]
     [IsLocalRing A] {f : A} (T : CoherentTriple A f) {L : CoherentTriple A f}
-    (hL : IsInvertibleTriple L) :=
+    (hL : IsInvertibleTriple L) :
+    letI := hL.invertible_F
+    letI := hL.invertible_F₀
+    (Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+        (Stacks.Divisors.puncturedSpectrum A))).obj T.F ◁
+        (Scheme.Modules.pullbackUnitIso (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A))).hom ≫
+      (ρ_ ((Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A))).obj T.F)).hom ≫ T.alpha.hom =
+    (T.alpha.hom ⊗ₘ (hL.alphaPow 0).hom) ≫
+      (Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj T.F₀ ◁
+          (Scheme.Modules.pullbackUnitIso (puncturedClosedFibre A f).ι).hom ≫
+        (ρ_ ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj T.F₀)).hom :=
   have := hL.invertible_F
   have := hL.invertible_F₀
   rightUnitor_whiskerLeft_square T.alpha.hom
@@ -248,9 +260,20 @@ private noncomputable def alpha_twistZ_zero_rightUnitor_hmid {A : Type u} [CommR
 `Stacks.Algebraization.alpha_twistZ_zero_rightUnitor`: the middle square pasted against the
 right-unitor factorisation on the punctured-spectrum side. Split off for the same reason as
 `alpha_twistZ_zero_rightUnitor_hmid`. -/
-private noncomputable def alpha_twistZ_zero_rightUnitor_left {A : Type u} [CommRing A]
+private theorem alpha_twistZ_zero_rightUnitor_left {A : Type u} [CommRing A]
     [IsLocalRing A] {f : A} (T : CoherentTriple A f) {L : CoherentTriple A f}
-    (hL : IsInvertibleTriple L) :=
+    (hL : IsInvertibleTriple L) :
+    letI := hL.invertible_F
+    letI := hL.invertible_F₀
+    (Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+        (Stacks.Divisors.puncturedSpectrum A))).map (ρ_ T.F).hom ≫ T.alpha.hom =
+    (pullbackTensorModulesIso (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A)) T.F
+          (𝟙_ (Stacks.Divisors.puncturedSpectrum A).toScheme.Modules)).hom ≫
+      (T.alpha.hom ⊗ₘ (hL.alphaPow 0).hom) ≫
+        (Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj T.F₀ ◁
+            (Scheme.Modules.pullbackUnitIso (puncturedClosedFibre A f).ι).hom ≫
+          (ρ_ ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj T.F₀)).hom :=
   have := hL.invertible_F
   have := hL.invertible_F₀
   comp_eq_of_unitor_square_left _ _ _ _ _ _ _ _
@@ -262,9 +285,20 @@ private noncomputable def alpha_twistZ_zero_rightUnitor_left {A : Type u} [CommR
 half pasted against the right-unitor factorisation on the closed-fibre side. Split from
 `alpha_twistZ_zero_rightUnitor_left` so that each of the two sides of the square gets a heartbeat
 budget of its own; see the implementation notes of this file. -/
-private noncomputable def alpha_twistZ_zero_rightUnitor_aux {A : Type u} [CommRing A]
+private theorem alpha_twistZ_zero_rightUnitor_aux {A : Type u} [CommRing A]
     [IsLocalRing A] {f : A} (T : CoherentTriple A f) {L : CoherentTriple A f}
-    (hL : IsInvertibleTriple L) :=
+    (hL : IsInvertibleTriple L) :
+    letI := hL.invertible_F
+    letI := hL.invertible_F₀
+    (Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+        (Stacks.Divisors.puncturedSpectrum A))).map (ρ_ T.F).hom ≫ T.alpha.hom =
+    (pullbackTensorModulesIso (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A)) T.F
+          (𝟙_ (Stacks.Divisors.puncturedSpectrum A).toScheme.Modules)).hom ≫
+      (T.alpha.hom ⊗ₘ (hL.alphaPow 0).hom) ≫
+        (pullbackTensorModulesIso (puncturedClosedFibre A f).ι T.F₀
+          (𝟙_ (closedFibre A f).Modules)).inv ≫
+          (Scheme.Modules.pullback (puncturedClosedFibre A f).ι).map (ρ_ T.F₀).hom :=
   have := hL.invertible_F
   have := hL.invertible_F₀
   comp_eq_of_unitor_square_right _ _ _ _ _ _ _

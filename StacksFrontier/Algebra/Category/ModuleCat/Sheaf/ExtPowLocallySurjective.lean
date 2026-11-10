@@ -226,7 +226,7 @@ theorem mem_imageSieve_comp
   obtain ⟨t, ht⟩ := exists_app_eq_of_mem_imageSieve α z g hg
   refine mem_imageSieve_of_app_eq (α ≫ β) y (g ≫ f) t ?_
   rw [comp_app]
-  show Hom.app β (op W) (Hom.app α (op W) t) = _
+  change Hom.app β (op W) (Hom.app α (op W) t) = _
   rw [ht, naturality_apply, hz, ← map_comp_apply]
   rfl
 

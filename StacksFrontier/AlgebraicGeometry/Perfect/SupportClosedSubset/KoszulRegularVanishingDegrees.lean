@@ -137,8 +137,8 @@ three are omitted.
 Together with `isZero_homology_derivedSupportedSections_of_locallyKoszulRegular` this covers every
 degree outside `0 ≤ i < c`, and that range is
 `LocalCohomologyDegrees.isZero_homology_derivedSupportedSections_of_locallyKoszulRegular_of_lt`
-in `StacksFrontier.AlgebraicGeometry.Perfect.SupportClosedSubset.KoszulFlatVanishingLocal`, where the
-whole of Stacks 0G7P is
+in `StacksFrontier.AlgebraicGeometry.Perfect.SupportClosedSubset.KoszulFlatVanishingLocal`, where
+the whole of Stacks 0G7P is
 `LocalCohomologyDegrees.isZero_homology_derivedSupportedSections_of_locallyKoszulRegular_of_ne`. -/
 public theorem isZero_homology_derivedSupportedSections_of_neg {X : Scheme.{u}}
     (Z : Set X) (hZ : IsClosed Z) (F : X.Modules) (i : ℤ) (hi : i < 0) :

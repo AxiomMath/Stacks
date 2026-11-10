@@ -61,7 +61,7 @@ theorem SquareZeroThickening.Hom.arrow_comp_overMap (h : SquareZeroThickening.Ho
     D₂.arrow ≫ h.overMap = D₁.arrow := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show B.inclusion.map D₂.arrow.left ≫ Spec.map (CommRingCat.ofHom h.ringHom) =
+  change B.inclusion.map D₂.arrow.left ≫ Spec.map (CommRingCat.ofHom h.ringHom) =
     B.inclusion.map D₁.arrow.left
   rw [D₂.arrow_spec, D₁.arrow_spec]
   exact (Spec.map_comp _ _).symm.trans

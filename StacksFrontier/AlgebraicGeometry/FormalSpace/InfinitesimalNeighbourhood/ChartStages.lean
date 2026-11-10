@@ -52,7 +52,7 @@ theorem exists_siteHom_ker_appTop_eq (T : BigFppfOver B S hS)
     (ι ≫ T.hom.hom))
   refine ⟨T', Over.homMk (ObjectProperty.homMk ι) rfl,
     inferInstanceAs (_root_.AlgebraicGeometry.IsClosedImmersion ι), ?_⟩
-  show RingHom.ker ι.appTop.hom = K
+  change RingHom.ker ι.appTop.hom = K
   have h1 : ι.ker = I := Scheme.IdealSheafData.ker_subschemeι I
   rw [Scheme.ker_of_isAffine ι] at h1
   exact (Scheme.IdealSheafData.equivOfIsAffine (X := X)).symm.injective h1
@@ -96,6 +96,7 @@ theorem mem_range_stageIncl_of_eq (D : QuotientSystem B S hS A)
     ?_⟩
   rw [← Sheaf.sectionEquiv_comp, ← hg, Equiv.apply_symm_apply]
 
+omit [IsTopologicalRing A] [IsLinearTopology A A] in
 /-- A morphism `T' ⟶ Spec(A/J) ⟶ Spec A` factors through `Spec(A/L)` exactly when its ring map
 kills `L`. -/
 theorem exists_factor_stageQuotientSpecMap_iff (D : QuotientSystem B S hS A)
@@ -172,19 +173,19 @@ theorem mem_range_powStage_of_eq_of_isAffine
     intro ξ hξ
     have := ((exists_factor_stageQuotientSpecMap_iff D' _ _).1 ⟨l', hl'⟩) ξ hξ
     rw [q.map_comp, Category.assoc, Scheme.Hom.comp_appTop] at this
-    show ψ' ξ ∈ K
+    change ψ' ξ ∈ K
     rw [← hker]
     exact this
   -- and `K ^ (k + 1) = 0` because `ψ` kills `𝔞 ^ (k + 1)`
   have hK : K ^ (k + 1) = ⊥ := by
-    show (Ideal.map ψ.hom c) ^ (k + 1) = ⊥
+    change (Ideal.map ψ.hom c) ^ (k + 1) = ⊥
     rw [← Ideal.map_pow, eq_bot_iff, Ideal.map_le_iff_le_comap]
     intro ξ hξ
     have hξ' : ξ ∈ Ideal.comap (Scheme.ΓSpecIso (.of A)).hom.hom (a ^ (k + 1)) :=
       Ideal.le_comap_pow _ (k + 1) hξ
     have := ((exists_factor_stageQuotientSpecMap_iff D (powNilWeakIdeal hopen k)
       (stageQuotientSpecMap D (powNilWeakIdeal hopen k))).1 ⟨𝟙 _, Category.id_comp _⟩) ξ hξ'
-    show ψ ξ ∈ (⊥ : Ideal Γ((BigFppfOver.toScheme B S hS).obj T, ⊤))
+    change ψ ξ ∈ (⊥ : Ideal Γ((BigFppfOver.toScheme B S hS).obj T, ⊤))
     simp only [ψ, Scheme.Hom.comp_appTop, CommRingCat.hom_comp, RingHom.comp_apply, this,
       map_zero, Submodule.zero_mem]
   -- conclude
@@ -194,7 +195,7 @@ theorem mem_range_powStage_of_eq_of_isAffine
         let e := (Scheme.ΓSpecIso (.of A')).commRingCatIsoToRingEquiv
         have h1 : Ideal.comap (Scheme.ΓSpecIso (.of A')).hom.hom (a' ^ (k + 1)) =
             (Ideal.comap (Scheme.ΓSpecIso (.of A')).hom.hom a') ^ (k + 1) := by
-          show Ideal.comap e _ = (Ideal.comap e _) ^ (k + 1)
+          change Ideal.comap e _ = (Ideal.comap e _) ^ (k + 1)
           rw [← Ideal.map_symm, ← Ideal.map_symm, Ideal.map_pow]
         rw [← h1]
         exact hξ
@@ -248,7 +249,7 @@ theorem mem_range_powStage_of_eq
     ((Subfunctor.range (stageIncl D (powNilWeakIdeal hopen k)).hom).map (kk j).op hx)
     ((formalSpectrum D').obj.map (kk j).op y)
     (by rw [NatTrans.naturality_apply, hxy, ← NatTrans.naturality_apply])
-  show (formalSpectrum D').obj.map (g ≫ kk j).op y ∈ Rg.obj (op T')
+  change (formalSpectrum D').obj.map (g ≫ kk j).op y ∈ Rg.obj (op T')
   rw [op_comp, Functor.map_comp_apply]
   exact Rg.map g.op hj
 

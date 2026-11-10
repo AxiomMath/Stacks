@@ -48,8 +48,8 @@ representing morphism of the projection. This file carries that dictionary.
 ## Implementation notes
 
 No `@[stacks]` attribute is claimed here. The two weak-association statements are transports of
-results in the library — Stacks 0CUU along the identification of the fibre, which is an isomorphism and
-hence étale, and the comparison of the weak assassin of a represented algebraic space with the
+results in the library — Stacks 0CUU along the identification of the fibre, which is an isomorphism
+and hence étale, and the comparison of the weak assassin of a represented algebraic space with the
 Zariski weak assassin of the representing scheme — and the quasi-coherence statements are
 instances of Stacks 03GA through an affine chart of the target.
 

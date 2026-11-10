@@ -60,8 +60,9 @@ the small étale site of `X` read back as a morphism of charts of `Y i`: the str
 the induced chart is the inducing morphism followed by the structure morphism of the target chart,
 on the nose (`.memberTransitionChart_obj_hom`), so dividing the triangle over `X` by `f i` costs
 nothing.  As in
-`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtalePostcompSlice.lean`, that triangle is checked by an
-`exact` of `AlgebraicGeometry.Space.SmallEtale.map_comp_comp_eq_of_comp_eq`, a `rewrite` inside it
+`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtalePostcompSlice.lean`, that triangle is checked by
+an `exact` of `AlgebraicGeometry.Space.SmallEtale.map_comp_comp_eq_of_comp_eq`, a `rewrite` inside
+it
 failing while building its motive: the source of the structure morphism of the induced chart is the
 object of the big fppf site underlying the source chart only after unfolding, so the goal is not
 type-correct at the transparency a motive is built at.

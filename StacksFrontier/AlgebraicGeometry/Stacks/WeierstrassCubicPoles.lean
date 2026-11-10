@@ -483,7 +483,7 @@ theorem exists_mem_weightFiltration (p : W.toAffine.CoordinateRing) :
   refine ⟨2 * (a.natDegree + b.natDegree) + 3, add_mem ?_ ?_⟩
   · rw [smul_one_eq_eval₂]
     exact weightFiltration_mono W (by omega) (eval₂_mem_weightFiltration W a le_rfl)
-  · show b • affY W ∈ _
+  · change b • affY W ∈ _
     rw [← smul_one_mul, smul_one_eq_eval₂]
     exact weightFiltration_mono W (by omega) (eval₂_mul_affY_mem_weightFiltration W b le_rfl)
 

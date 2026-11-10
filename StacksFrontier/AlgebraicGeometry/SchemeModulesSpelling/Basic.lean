@@ -322,8 +322,12 @@ variable (A B : SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
 /-- The tensor product sheaf of Stacks Tag 05NA, over the section site of a scheme, is the one of
 Stacks Tag 01CB over the underlying ringed space. -/
 theorem tensorSheaf_eq :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Stacks.SheafOfModules.sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((Stacks.SheafOfModules.sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((Stacks.SheafOfModules.sectionSiteSheaf X))⟩).obj (A)).obj (B)) =
-      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (A)).obj (B)) := rfl
+    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Stacks.SheafOfModules.sectionSiteRing X),
+          Presheaf.isSheaf_of_isSheaf_comp _ ((Stacks.SheafOfModules.sectionSiteRing X))
+            (forget₂ CommRingCat RingCat) ((Stacks.SheafOfModules.sectionSiteSheaf X))⟩).obj
+          (A)).obj (B)) =
+      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf,
+          ((X.toRingedSpace)).IsSheaf⟩).obj (A)).obj (B)) := rfl
 
 attribute [local instance] Stacks.SheafInternalHom.schemeMonoidalCategory
 
@@ -331,7 +335,10 @@ attribute [local instance] Stacks.SheafInternalHom.schemeMonoidalCategory
 graded section calculus of Stacks Tags 0B5L and 0B5M uses. -/
 def tensorSheafIsoMonoidal :
     toModules X A ⊗ toModules X B ≅
-      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Stacks.SheafOfModules.sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((Stacks.SheafOfModules.sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((Stacks.SheafOfModules.sectionSiteSheaf X))⟩).obj (A)).obj (B)) :=
+      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Stacks.SheafOfModules.sectionSiteRing X),
+          Presheaf.isSheaf_of_isSheaf_comp _ ((Stacks.SheafOfModules.sectionSiteRing X))
+            (forget₂ CommRingCat RingCat) ((Stacks.SheafOfModules.sectionSiteSheaf X))⟩).obj
+          (A)).obj (B)) :=
   Stacks.TensorSheafSpellingIso.monoidalTensorIso X A B
 
 end Tensor

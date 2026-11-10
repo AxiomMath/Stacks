@@ -137,7 +137,7 @@ lemma link_comp_link {A B D : EndoColim F} (h₁ : Linked A B) (h₂ : Linked B 
   obtain ⟨k, hk⟩ := id h₁
   obtain ⟨l, hl⟩ := id h₂
   rw [link_eq_of h₁ k hk, link_eq_of h₂ l hl]
-  show Hom.of (B.stage + k + l) (compHom k (eqToHom hk) l (eqToHom hl)) = _
+  change Hom.of (B.stage + k + l) (compHom k (eqToHom hk) l (eqToHom hl)) = _
   simp only [compHom, endoRaise_eqToHom, endoHomCast_eqToHom, eqToHom_trans]
   exact (link_eq_of _ _ _).symm
 
@@ -210,7 +210,7 @@ lemma Hom.of_eq_link_comp_stageHomOf {A B : EndoColim F} (k : ℕ)
     Hom.of k f = link (linked_decompSource A B k) ≫
       stageHomOf F (A.stage + B.stage + k) f ≫ link (linked_decompTarget A B k) := by
   rw [link_eq_of _ 0 (decompSource_eq A B k), link_eq_of _ 0 (decompTarget_eq A B k), stageHomOf]
-  show _ = Hom.of ((A.stage + B.stage + k) + 0 + ((A.stage + B.stage + k) + 0 + 0)) _
+  change _ = Hom.of ((A.stage + B.stage + k) + 0 + ((A.stage + B.stage + k) + 0 + 0)) _
   refine (Hom.of_eq_of _ _ 0 (2 * A.stage + 2 * B.stage + k) (by omega) ?_).symm
   simp only [compHom, endoRaise_zero, endoRaise_comp, endoRaise_endoHomCast,
     endoRaise_eqToHom, endoRaise_endoIter_map, endoHomCast_comp_rfl, endoHomCast_endoHomCast,
@@ -401,7 +401,7 @@ lemma strictStage_compat (n : ℕ) : F ⋙ strictStage F (n + 1) = strictStage F
   have key : stageHomOf F (n + 1) (F.map g) =
       link (linked_shift E n).symm ≫ stageHomOf F n g ≫ link (linked_shift G n) := by
     rw [← Category.assoc, ← hnat, Category.assoc, link_comp_link, link_self, Category.comp_id]
-  show (toStrict F).map (stageHomOf F (n + 1) (F.map g)) =
+  change (toStrict F).map (stageHomOf F (n + 1) (F.map g)) =
     _ ≫ (toStrict F).map (stageHomOf F n g) ≫ _
   rw [key, Functor.map_comp, Functor.map_comp, toStrict_map_link, toStrict_map_link]
   rfl
@@ -561,7 +561,7 @@ lemma catColimitToStrict_comp_strictToCatColimit :
   have h : (catColimitToStrict.{w} F ⋙ strictToCatColimit.{w} F).toCatHom = 𝟙 _ :=
     endoColimit_hom_ext (Cat.asSmallFunctor.{w, v, u}.map F.toCatHom) (fun n ↦ by
       refine Cat.ext ?_
-      show AsSmall.down ⋙ (catStage.{w} F n ⋙ catColimitToStrict.{w} F) ⋙
+      change AsSmall.down ⋙ (catStage.{w} F n ⋙ catColimitToStrict.{w} F) ⋙
           strictToCatColimit.{w} F = AsSmall.down ⋙ catStage.{w} F n
       rw [catStage_comp_catColimitToStrict, strictStage_comp_strictToCatColimit])
   exact congrArg Cat.Hom.toFunctor h

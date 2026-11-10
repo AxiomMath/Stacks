@@ -38,15 +38,16 @@ namespace Stacks.EtaleCohomology
 namespace TorsionCurveAssertions
 
 variable {k : Type u} [Field k] {X Y : Scheme.{u}} (fY : Y ⟶ Spec (.of k)) (π : X ⟶ Y)
-  [IsFinite π]
-  [HasExt.{u + 1} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})]
-  [HasExt.{u + 1} (Sheaf Y.smallEtaleTopology AddCommGrpCat.{u + 1})]
 
 /-- The base change of `π` to the scalar extensions is a pullback of `π`. -/
 theorem isPullback_scalarExtensionMap' (k' : Type u) [Field k'] [Algebra k k'] :
     IsPullback (scalarExtensionMap fY π k') (scalarExtensionFst k k' (π ≫ fY))
       (scalarExtensionFst k k' fY) π :=
   (isPullback_scalarExtension k' π fY).flip
+
+variable [IsFinite π]
+  [HasExt.{u + 1} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})]
+  [HasExt.{u + 1} (Sheaf Y.smallEtaleTopology AddCommGrpCat.{u + 1})]
 
 /-- Bijectivity of restriction to a scalar extension transfers across a finite direct image. -/
 theorem bijective_scalarExtension_directImage_iff

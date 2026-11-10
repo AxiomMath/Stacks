@@ -104,7 +104,7 @@ of `β` is used. -/
 theorem mateEquiv_whiskerTop_whiskerBottom (w : TwoSquare G L₁ L₂ H) (α : G₀ ⟶ G) (β : H ⟶ H₀) :
     mateEquiv adj₁ adj₂ ((w.whiskerTop α).whiskerBottom β) =
       ((mateEquiv adj₁ adj₂ w).whiskerRight α).whiskerLeft β := by
-  refine TwoSquare.ext _ _ fun d => ?_
+  refine NatTrans.ext (funext fun d => ?_)
   have h₁ : adj₂.unit.app (G₀.obj (R₁.obj d)) ≫ R₂.map (L₂.map (α.app (R₁.obj d))) =
       α.app (R₁.obj d) ≫ adj₂.unit.app (G.obj (R₁.obj d)) := by
     simp
@@ -187,7 +187,7 @@ theorem smallEtaleBaseChangeAb_vpaste :
     mateEquiv_smallEtaleBaseChangeAb, mateEquiv_smallEtaleBaseChangeAb,
     mateEquiv_smallEtaleBaseChangeAb, ← smallEtalePushforwardAbComp'_rfl g' π,
     ← smallEtalePushforwardAbComp'_rfl h' π']
-  refine TwoSquare.ext _ _ fun 𝓖 => ?_
+  refine NatTrans.ext (funext fun 𝓖 => ?_)
   simpa using smallEtaleSquarePushforwardIso_vpaste_app f' π π' f'' g' h' e w₂ w₃ 𝓖
 
 include w₂ w₃ in

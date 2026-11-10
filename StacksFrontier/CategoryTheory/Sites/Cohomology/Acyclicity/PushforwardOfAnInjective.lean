@@ -133,7 +133,7 @@ private lemma isTorsionFree_freeAbelianSheaf {C : Type u} [Category.{v} C]
     (U : Cᵒᵖ) :
     Module.IsTorsionFree ℤ (((Presheaf.freeAbelianSheaf J).obj K.obj).obj.obj U) :=
   ModuleSheafCohomology.isTorsionFree_sheafify J (K.obj ⋙ AddCommGrpCat.free) (fun V ↦ by
-    show Module.IsTorsionFree ℤ (FreeAbelianGroup (K.obj.obj V))
+    change Module.IsTorsionFree ℤ (FreeAbelianGroup (K.obj.obj V))
     exact Module.Flat.isTorsionFree) U
 
 /-! ### Lifting an isomorphism of underlying sheaves of sets to abelian sheaves -/

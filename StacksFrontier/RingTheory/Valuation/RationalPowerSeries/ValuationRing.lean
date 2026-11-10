@@ -102,10 +102,10 @@ theorem isComplete (k : Type*) [Field k] :
   let R := rationalPolynomial k
   let I := polynomialTIdeal k
   have hfg : I.FG := by
-    show (Submodule.span R ({polynomialT k} : Set R)).FG
+    change (Submodule.span R ({polynomialT k} : Set R)).FG
     exact Submodule.fg_span (Set.finite_singleton (polynomialT k))
   have heq : tIdeal k = I.map (algebraMap R (AdicCompletion I R)) := by
-    show Ideal.span {AdicCompletion.of I R (polynomialT k)} =
+    change Ideal.span {AdicCompletion.of I R (polynomialT k)} =
       Ideal.map (algebraMap R (AdicCompletion I R)) (Ideal.span {polynomialT k})
     rw [Ideal.map_span, Set.image_singleton, AdicCompletion.algebraMap_apply]
     simp [R]
@@ -175,7 +175,7 @@ theorem radical_span_t (k : Type*) [Field k] :
   let yS : coefficientRing k := ⟨y, (mem_coefficientRing_iff k y).2 hyLF⟩
   have hmiddle : (e x) ^ n = e (t k) * e (e.symm yS) := by
     apply Subtype.ext
-    show (e x).1 ^ n = (e (t k)).1 * (e (e.symm yS)).1
+    change (e x).1 ^ n = (e (t k)).1 * (e (e.symm yS)).1
     rw [RingEquiv.apply_symm_apply, ht]
     exact hfactor.symm
   have hpow : x ^ n = t k * e.symm yS := by
@@ -243,7 +243,7 @@ theorem not_fg_maximalIdeal (k : Type*) [Field k] :
     let a : ℚ≥0 := s.min' hs
     have ha : 0 < a := by
       obtain ⟨i, _, hi⟩ := Finset.mem_image.mp (Finset.min'_mem s hs)
-      show 0 < s.min' hs
+      change 0 < s.min' hs
       rw [← hi]
       exact hdpos i
     have hamin (i : Fin n) : a ≤ d i :=
@@ -260,7 +260,7 @@ theorem not_fg_maximalIdeal (k : Type*) [Field k] :
   have hmap : Ideal.map e.toRingHom
       (IsLocalRing.maximalIdeal (rationalPowerSeries k)) = T := by
     rw [← hspan, Ideal.map_span]
-    show Ideal.span (e '' Set.range F) = Ideal.span (Set.range g)
+    change Ideal.span (e '' Set.range F) = Ideal.span (Set.range g)
     rw [← Set.range_comp]
     rfl
   let m : coefficientRing k :=

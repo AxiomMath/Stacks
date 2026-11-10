@@ -132,8 +132,7 @@ private theorem finiteProjectiveEvaluationEquiv_tmul
         ((dualTensorHom R (Module.Dual R K) (J →ₗ[R] I))
           ((Module.Dual.eval R K) k ⊗ₜ[R] f))) x =
         f ((dualTensorHom R K J x) k) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul φ j =>
       rw [TensorProduct.lift.equiv_apply, dualTensorHom_apply,
         dualTensorHom_apply, Module.Dual.eval_apply]
@@ -963,16 +962,14 @@ private theorem evaluation_bijective_of_support
   let I (s : ℤ) := (ιTensorObj (HomComplexR R L M) K (n - s) s n (by omega)).hom
   let P (s : ℤ) := (E s).symm.toLinearMap.comp (restrictEvaluation K L M n s)
   have hself (s : ℤ) (x : Cochain L M (n - s) ⊗[R] K.X s) : P s (F (I s x)) = x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul φ k =>
       change (E s).symm (restrictEvaluation K L M n s (F (I s (φ ⊗ₜ[R] k)))) = _
       rw [restrictEvaluation_tmul_self, LinearEquiv.symm_apply_apply]
     | add x y hx hy => simp only [map_add, hx, hy]
   have hne (s r : ℤ) (h : r ≠ s) (x : Cochain L M (n - r) ⊗[R] K.X r) :
       P s (F (I r x)) = 0 := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul φ k =>
       change (E s).symm (restrictEvaluation K L M n s (F (I r (φ ⊗ₜ[R] k)))) = 0
       rw [restrictEvaluation_tmul_ne K L M n s r h, map_zero]

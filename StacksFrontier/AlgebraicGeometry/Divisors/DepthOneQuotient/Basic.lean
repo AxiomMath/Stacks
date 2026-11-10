@@ -166,7 +166,7 @@ private lemma depthOneQuotientCandidateMap_epi {X : Scheme.{u}} [IsNoetherian X]
     (T : Set X) (F : X.Modules) [F.IsCoherent] :
     Epi (depthOneQuotientCandidateMap T F) := by
   let f := torsionModuleι T F
-  show Epi (cokernel.π f)
+  change Epi (cokernel.π f)
   exact Cofork.IsColimit.epi
     (s := CokernelCofork.ofπ (cokernel.π f) (cokernel.condition f))
     (cokernelIsCokernel f)
@@ -239,7 +239,7 @@ private lemma exists_associatedPoint_of_nonempty_support
       z ∈ C.sup (fun E : TopologicalSpace.Closeds X => (E : Set X)) ↔
         ∃ E ∈ C, z ∈ (E : Set X) := by
     rw [Finset.sup_eq_iSup]
-    show z ∈ (⋃ E : TopologicalSpace.Closeds X, ⋃ (_ : E ∈ C), (E : Set X)) ↔ _
+    change z ∈ (⋃ E : TopologicalSpace.Closeds X, ⋃ (_ : E ∈ C), (E : Set X)) ↔ _
     simp only [Set.mem_iUnion, exists_prop]
   have hS_eq_set : S = C.sup (fun E : TopologicalSpace.Closeds X => (E : Set X)) := by
     have h := congrArg (fun Z : TopologicalSpace.Closeds X => (Z : Set X)) hCeq
@@ -266,7 +266,7 @@ private lemma exists_associatedPoint_of_nonempty_support
     rw [hEqDE]
     exact hEsub
   have hygen : IsGenericPoint y (D : Set X) := by
-    show closure ({y} : Set X) = (D : Set X)
+    change closure ({y} : Set X) = (D : Set X)
     exact Set.Subset.antisymm hYsubsetD hDsubsetY
   exact hDgen.eq hygen |>.symm
 
@@ -317,7 +317,7 @@ private lemma supportedSections_stalk_isZero {X : Scheme.{u}} (T : Set X)
     have hs := (Scheme.Modules.mem_supportedSectionsSubmodule_iff T F U s.1).mp
       s.2 x hxU hxT
     rw [TopCat.Presheaf.stalkFunctor_map_germ_apply]
-    show TopCat.Presheaf.germ F.val.presheaf U x hxU s.1 = _
+    change TopCat.Presheaf.germ F.val.presheaf U x hxU s.1 = _
     rw [hs]
     exact (((TopCat.Presheaf.stalkFunctor Ab.{u} x).map jf).hom.map_zero).symm
   exact AddCommGrpCat.isZero_iff_subsingleton.mpr
@@ -749,7 +749,7 @@ private lemma factors_through_torsionModule {X : Scheme.{u}} [IsNoetherian X]
   have h3 : (l ≫ (maximalQCSupportedSubobject T F).1.arrow) ≫
       (supportedSectionsObject T F).arrow = f := by
     rw [hl]
-    show (g ≫ (Subobject.underlyingIso N.ι).inv) ≫ (Subobject.mk N.ι).arrow = f
+    change (g ≫ (Subobject.underlyingIso N.ι).inv) ≫ (Subobject.mk N.ι).arrow = f
     exact (Category.assoc _ _ _).trans
       ((congrArg (fun m => g ≫ m) (Subobject.underlyingIso_arrow N.ι)).trans hg)
   exact (Category.assoc _ _ _).symm.trans h3
@@ -803,7 +803,7 @@ private lemma depthOneQuotientCandidate_not_associated {X : Scheme.{u}} [IsNoeth
   obtain ⟨l, hl⟩ := factors_through_torsionModule T F P f hP
   have hf : f ≫ q = 0 := by
     rw [← hl, Category.assoc]
-    show l ≫ (torsionModuleι T F ≫ cokernel.π (torsionModuleι T F)) = 0
+    change l ≫ (torsionModuleι T F ≫ cokernel.π (torsionModuleι T F)) = 0
     rw [cokernel.condition, comp_zero]
   let N' : X.Modules := N.toSheafOfModules
   let g' : P ⟶ N' := g
@@ -998,7 +998,7 @@ public theorem depthOneQuotient_unique (X : Scheme.{u}) [IsNoetherian X]
       exact congrArg S.map hl
     have he' : S.map l = inv (S.map q) ≫ S.map g := by
       rw [← he, IsIso.inv_hom_id_assoc]
-    show IsIso (S.map l)
+    change IsIso (S.map l)
     rw [he']
     infer_instance)
   have : IsIso l := isIso_of_mono_of_epi l

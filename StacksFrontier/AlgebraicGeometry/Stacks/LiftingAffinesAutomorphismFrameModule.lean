@@ -85,7 +85,7 @@ theorem isHomLift_homOfLift {U : Space.SpacesEtale B S hS W}
     (ζ : (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).Fiber U) (s : Lifts hι₁ ζ.1) :
     (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).IsHomLift (𝟙 U) (homOfLift hι₁ ζ.1 s) :=
   IsHomLift.of_fac _ (𝟙 U) (homOfLift hι₁ ζ.1 s) ζ.2 ζ.2 (by
-    show 𝟙 U = eqToHom _ ≫ 𝟙 ζ.1.base ≫ eqToHom _
+    change 𝟙 U = eqToHom _ ≫ 𝟙 ζ.1.base ≫ eqToHom _
     exact ((congrArg (_ ≫ ·) (Category.id_comp _)).trans
       ((eqToHom_trans _ _).trans (eqToHom_refl _ _))).symm)
 

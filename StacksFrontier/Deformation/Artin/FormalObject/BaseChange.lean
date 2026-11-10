@@ -74,7 +74,7 @@ theorem truncationOverSucc_truncationOverMap (n : ℕ) :
       truncationOverMap A A' φ hφ c c' n ≫ truncationOverSucc B S hS A c n := by
   apply (BigFppfOver.toScheme B S hS).map_injective
   simp only [Functor.map_comp, toScheme_map_truncationOverMap]
-  show A'.truncationSucc n ≫ _ = _ ≫ A.truncationSucc n
+  change A'.truncationSucc n ≫ _ = _ ≫ A.truncationSucc n
   simp only [FormalBase.truncationSucc, adicThickeningSucc, ← Spec.map_comp,
     ← CommRingCat.ofHom_comp]
   congr 2

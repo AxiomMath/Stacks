@@ -174,7 +174,7 @@ end Degrees
 
 section GradedShift
 
-variable {C : Type u} [Category.{v} C] [Category.{v} C] {J : GrothendieckTopology C}
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   {R : Sheaf J RingCat.{t}}
 
 namespace GradedModule

@@ -205,6 +205,7 @@ section OpenBaseChange
 variable {T Ub P Y : Scheme.{u}} (fb : T ⟶ Ub) [IsProper fb] (i : Y ⟶ Ub) [IsOpenImmersion i]
   (b : P ⟶ T) [IsOpenImmersion b] (f' : P ⟶ Y) (sq : IsPullback b f' fb i)
 
+omit [IsProper fb] in
 /-- The inverse of `Rf'_* ≅ i^{-1} Rf̄_* Rb_!` at an object: the comparison of derived restriction
 with inverse image, the base change map along `i` and `Rf'_*` of `b^{-1} Rb_! ≅ 𝟭`. -/
 lemma etaleModuleDerivedDirectImageIsoRestriction_inv_app
@@ -223,6 +224,7 @@ lemma etaleModuleDerivedDirectImageIsoRestriction_inv_app
     Functor.whiskerRight_app, Functor.leftUnitor_hom_app, Category.comp_id]
   rfl
 
+omit [IsProper fb] in
 /-- **The open immersion case of [Stacks, Tag 0F7B] is compatible with `Rj_! ⟶ Rj_*`.** For a
 cartesian square `b ≫ f̄ = f' ≫ i` with `b`, `i` open immersions, the map
 `φ : i_! Rf'_* K ⟶ Rf̄_* Rb_! K` followed by `Rf̄_*` of `Rb_! K ⟶ Rb_* K` and by

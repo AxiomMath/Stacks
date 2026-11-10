@@ -326,10 +326,10 @@ theorem conclusion_colim
   intro A
   ext x
   -- LHS: liftS (colimφ (of A x)) ; RHS: φ (liftR (of A x))
-  show liftS ((sys φ gen).colimφ (Ring.DirectLimit.of _ _ A x))
+  change liftS ((sys φ gen).colimφ (Ring.DirectLimit.of _ _ A x))
     = φ (liftR (Ring.DirectLimit.of _ _ A x))
   rw [RingHomDirectedSystem.colimφ, Ring.DirectLimit.lift_of]
-  show liftS (Ring.DirectLimit.of _ _ A ((phiA φ gen A).toRingHom x))
+  change liftS (Ring.DirectLimit.of _ _ A ((phiA φ gen A).toRingHom x))
     = φ (liftR (Ring.DirectLimit.of _ _ A x))
   rw [hLS, hLR]
   rw [AlgHom.toRingHom_eq_coe, RingHom.coe_coe, Subalgebra.val_apply,
@@ -401,14 +401,14 @@ theorem conclusion_surj ⦃A B : Finset R⦄ (h : A ≤ B) :
   · rintro z (hz | hz)
     · obtain ⟨b, hbB, rfl⟩ := hz
       have hbRB : b ∈ RAsub B := Algebra.subset_adjoin (by exact_mod_cast hbB)
-      apply SetLike.le_def.mp le_sup_right
+      apply IsConcreteLE.le_iff.mp le_sup_right
       refine ⟨⟨b, hbRB⟩, ?_⟩
       apply Subtype.ext
       rw [AlgHom.toRingHom_eq_coe, RingHom.coe_coe, IsScalarTower.coe_toAlgHom',
           RingHom.algebraMap_toAlgebra]
       exact phiA_coe φ gen B ⟨b, hbRB⟩
     · have hzSA : z ∈ SAsub φ gen A := Algebra.subset_adjoin (Or.inr hz)
-      apply SetLike.le_def.mp le_sup_left
+      apply IsConcreteLE.le_iff.mp le_sup_left
       exact ⟨⟨z, hzSA⟩, Subtype.ext rfl⟩
   · exact fun r => intCast_mem _ r
   · exact fun _ _ _ _ => add_mem

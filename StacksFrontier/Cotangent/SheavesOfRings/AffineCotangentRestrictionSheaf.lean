@@ -208,7 +208,7 @@ theorem restrictionUnit_app_app (M : X.Modules) (W : (Spec Γ(X, U)).Opens)
     Scheme.Modules.restrictFunctorComp_inv_app_app,
     Scheme.Modules.restrictFunctorCongr_hom_app_app, Scheme.Modules.Hom.comp_app,
     Scheme.Modules.restrict_map]
-  show M.presheaf.map _ ≫ M.presheaf.map _ ≫ M.presheaf.map _ = M.presheaf.map _
+  change M.presheaf.map _ ≫ M.presheaf.map _ ≫ M.presheaf.map _ = M.presheaf.map _
   rw [← Functor.map_comp, ← Functor.map_comp]
   exact congrArg M.presheaf.map (Subsingleton.elim _ _)
 
@@ -243,7 +243,7 @@ theorem gammaCotangentComparison_restriction (e : U ≤ f ⁻¹ᵁ V) (e' : U' �
           ((CommAlgCat.squareCotangentComplexMap.{u, u, u}
             (affineRestrictionSquare f e e' hUle hVle)).f j x)) := by
   have himg : hU'.fromSpec ''ᵁ (specRestriction hUle ⁻¹ᵁ (⊤ : (Spec Γ(X, U)).Opens)) = U' := by
-    show hU'.fromSpec ''ᵁ (⊤ : (Spec Γ(X, U')).Opens) = U'
+    change hU'.fromSpec ''ᵁ (⊤ : (Spec Γ(X, U')).Opens) = U'
     exact hU'.fromSpec_image_top
   have h₁ : hU'.fromSpec ''ᵁ (specRestriction hUle ⁻¹ᵁ (⊤ : (Spec Γ(X, U)).Opens)) ≤
       hU.fromSpec ''ᵁ (⊤ : (Spec Γ(X, U)).Opens) := by

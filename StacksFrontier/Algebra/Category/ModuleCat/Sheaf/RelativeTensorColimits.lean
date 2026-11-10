@@ -219,7 +219,7 @@ noncomputable def gradedTensorProjection : tensorSumFunctor N n ⟶ gradedTensor
 /-- The balance map composed with the canonical surjection vanishes. -/
 theorem balanceNatTrans_comp_gradedTensorProjection (P : GradedModule.{t, m, m} A) :
     (balanceNatTrans N n).app P ≫ (gradedTensorProjection N n).app P = 0 := by
-  show moduleSheafify.map (balanceMap P N n) ≫ moduleSheafify.map (gradedTensorπ P N n) = 0
+  change moduleSheafify.map (balanceMap P N n) ≫ moduleSheafify.map (gradedTensorπ P N n) = 0
   rw [← moduleSheafify.map_comp, cokernel.condition, moduleSheafify.map_zero]
 
 /-- The inclusions of the summands remain a colimiting cofan after sheafification. -/

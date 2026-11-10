@@ -80,7 +80,7 @@ theorem bijective_map_app_comp_mulSheaf [IsIso (wedgeHom E i j)]
         E.mulSheaf i j) = (φ T).symm ∘ (fun g => g ≫ w.hom) := by
     funext g
     refine ((φ T).eq_symm_apply).2 ?_
-    show _ = g ≫ wedgeHom E i j
+    change _ = g ≫ wedgeHom E i j
     rw [← sheafTensorHomEquiv_mulSheaf]
     exact (Stacks.SheafOfModules.InternalHom.sheafTensorRightHomAdjunction Osharp
       (E.piece j)).homEquiv_naturality_left g (E.mulSheaf i j)

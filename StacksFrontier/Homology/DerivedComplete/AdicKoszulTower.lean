@@ -85,7 +85,7 @@ private lemma tensorComplex_map_smul_id (P Q : CochainComplex (ModuleCat.{u} A) 
   have hs : ((moduleTensor A).obj (P.X i)).map (a • 𝟙 (Q.X j)) =
       a • 𝟙 (((moduleTensor A).obj (P.X i)).obj (Q.X j)) := by
     apply ModuleCat.hom_ext
-    show LinearMap.lTensor (P.X i) (a • (LinearMap.id : (Q.X j) →ₗ[A] (Q.X j))) =
+    change LinearMap.lTensor (P.X i) (a • (LinearMap.id : (Q.X j) →ₗ[A] (Q.X j))) =
       a • LinearMap.id
     rw [LinearMap.lTensor_smul, LinearMap.lTensor_id]
   rw [hs, Linear.smul_comp, Category.id_comp]
@@ -118,7 +118,7 @@ lemma tensor_map_smul_id (T : DerivedTensorProductGeneral.{u, u} A)
       a • 𝟙 ((T.tensor.obj (DerivedCategory.Q.obj P)).obj L) := by
     let F := T.tensor.obj (DerivedCategory.Q.obj P)
     apply (cancel_mono (F.map eQ.inv)).mp
-    show F.map (a • 𝟙 L) ≫ F.map eQ.inv = (a • 𝟙 (F.obj L)) ≫ F.map eQ.inv
+    change F.map (a • 𝟙 L) ≫ F.map eQ.inv = (a • 𝟙 (F.obj L)) ≫ F.map eQ.inv
     rw [← F.map_comp]
     rw [smul_id_comp_comm eQ.inv a, F.map_comp, tensor_map_smul_id_representatives T P Q hP hQ]
     exact (smul_id_comp_comm (F.map eQ.inv) a).symm
@@ -204,7 +204,7 @@ private lemma koszulPower_generator_smul_id_eq_zero {r n : ℕ} (f : Fin r → A
     · exact ((Koszul.seqComplex (fun i ↦ f i ^ (n + 1))).isZero_extend_X
         ComplexShape.embeddingDownNat j (fun k hk ↦ hj ⟨k, hk⟩)).eq_of_src _ _
   rw [← DerivedCategory.Q.map_id, ← DerivedCategory.Q.map_smul]
-  show DerivedCategory.Q.map
+  change DerivedCategory.Q.map
     (f i ^ (n + 1) • 𝟙 ((Koszul.seqComplex (fun i ↦ f i ^ (n + 1))).extend
       ComplexShape.embeddingDownNat)) = 0
   rw [← hs]

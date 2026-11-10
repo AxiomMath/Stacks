@@ -68,7 +68,7 @@ public lemma preservesColimitsOfShape_shortComplex_homologyFunctor
   have key : ι.app T.homology = (T.mapHomologyIso ((evaluation J A).obj j)).inv ≫
       ShortComplex.homologyMap (T.mapNatTrans ι) ≫ (T.mapHomologyIso colim).hom :=
     NatTrans.app_homology ι T
-  show ((T.mapHomologyIso ((evaluation J A).obj j)).hom ≫ ι.app T.homology) ≫
+  change ((T.mapHomologyIso ((evaluation J A).obj j)).hom ≫ ι.app T.homology) ≫
       (T.mapHomologyIso (colim : (J ⥤ A) ⥤ A)).inv
     = ShortComplex.homologyMap (T.mapNatTrans ι)
   rw [key]
@@ -104,21 +104,21 @@ public noncomputable def coproductSumIso {C : Type*} [Category C] [HasZeroMorphi
       cases j with
       | inl a =>
           change (Sigma.ι F a ≫ biprod.inl) ≫ _ = _
-          rw [Category.assoc, biprod.inl_desc, Sigma.ι_desc]
+          rw [Category.assoc, biprod.inl_desc, Sigma.ι_comp_desc]
       | inr b =>
           change (Sigma.ι G b ≫ biprod.inr) ≫ _ = _
-          rw [Category.assoc, biprod.inr_desc, Sigma.ι_desc]
+          rw [Category.assoc, biprod.inr_desc, Sigma.ι_comp_desc]
     · intro s m hm
       refine biprod.hom_ext' _ _ (colimit.hom_ext fun a ↦ ?_) (colimit.hom_ext fun b ↦ ?_)
       · have h := hm (Sum.inl a.as)
         change (Sigma.ι F a.as ≫ biprod.inl) ≫ m = s.inj (Sum.inl a.as) at h
         change Sigma.ι F a.as ≫ biprod.inl ≫ m = _
-        rw [biprod.inl_desc, Sigma.ι_desc]
+        rw [biprod.inl_desc, Sigma.ι_comp_desc]
         simpa only [Category.assoc] using h
       · have h := hm (Sum.inr b.as)
         change (Sigma.ι G b.as ≫ biprod.inr) ≫ m = s.inj (Sum.inr b.as) at h
         change Sigma.ι G b.as ≫ biprod.inr ≫ m = _
-        rw [biprod.inr_desc, Sigma.ι_desc]
+        rw [biprod.inr_desc, Sigma.ι_comp_desc]
         simpa only [Category.assoc] using h
   exact IsColimit.coconePointUniqueUpToIso (colimit.isColimit _) hc
 

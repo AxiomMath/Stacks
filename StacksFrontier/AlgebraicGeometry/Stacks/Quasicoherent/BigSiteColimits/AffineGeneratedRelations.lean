@@ -175,7 +175,7 @@ theorem mem_range_of_forall_mem_range_of_liftBaseChange
   have heP : Function.Surjective eP := fun q => by
     choose z hz using fun i => hP i (q i)
     refine ⟨EP.symm z, funext fun i => ?_⟩
-    show (rP i).liftBaseChange (Bi i) (EP (EP.symm z) i) = q i
+    change (rP i).liftBaseChange (Bi i) (EP (EP.symm z) i) = q i
     rw [EP.apply_symm_apply]
     exact hz i
   have heN : Function.Injective eN := fun z z' hzz' =>
@@ -187,7 +187,7 @@ theorem mem_range_of_forall_mem_range_of_liftBaseChange
         map_add eN]
     | tmul s q =>
       refine funext fun i => ?_
-      show bW i ((rP i).liftBaseChange (Bi i) (EP (s ⊗ₜ[A] q) i)) =
+      change bW i ((rP i).liftBaseChange (Bi i) (EP (s ⊗ₜ[A] q) i)) =
         (rN i).liftBaseChange (Bi i) (EN (LinearMap.lTensor (∀ i, Bi i) bT (s ⊗ₜ[A] q)) i)
       rw [hEP' s q i, LinearMap.lTensor_tmul, hEN' s (bT q) i, LinearMap.liftBaseChange_tmul,
         LinearMap.liftBaseChange_tmul, map_smul, hsq i q]
@@ -195,7 +195,7 @@ theorem mem_range_of_forall_mem_range_of_liftBaseChange
     hsqS ?_
   choose q hq using hn
   refine ⟨fun i => q i, funext fun i => ?_⟩
-  show bW i (q i) = (rN i).liftBaseChange (Bi i) (EN ((1 : ∀ i, Bi i) ⊗ₜ[A] n) i)
+  change bW i (q i) = (rN i).liftBaseChange (Bi i) (EN ((1 : ∀ i, Bi i) ⊗ₜ[A] n) i)
   rw [hEN' (1 : ∀ i, Bi i) n i, LinearMap.liftBaseChange_tmul, Pi.one_apply, one_smul, hq i]
 
 end Module.BaseChange

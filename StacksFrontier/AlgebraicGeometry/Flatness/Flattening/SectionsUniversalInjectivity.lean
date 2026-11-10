@@ -148,8 +148,7 @@ theorem universallyInjective_of_linearEquiv
   have hsq : ∀ t : TensorProduct R M Q,
       (g'.rTensor Q) ((eM.rTensor Q) t) = (eN.rTensor Q) ((g.rTensor Q) t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb => simp only [map_add, ha, hb]
     | tmul m q =>
       simp only [LinearEquiv.rTensor, TensorProduct.congr_tmul, LinearEquiv.refl_apply,
@@ -311,11 +310,11 @@ theorem sectionsStalkModule_compHom_eq
   apply Module.ext'
   intro a m
   have hfx : f x ∈ V := hUV hx
-  show (X.presheaf.germ U x hx) ((f.appLE V U hUV) a) • m =
+  change (X.presheaf.germ U x hx) ((f.appLE V U hUV) a) • m =
     (f.stalkMap x) ((S.presheaf.germ V (f x) hfx) a) • m
   congr 1
   rw [Scheme.Hom.germ_stalkMap_apply]
-  show (X.presheaf.germ U x hx) ((X.presheaf.map (homOfLE hUV).op) ((f.app V) a)) = _
+  change (X.presheaf.germ U x hx) ((X.presheaf.map (homOfLE hUV).op) ((f.app V) a)) = _
   exact X.presheaf.germ_res_apply (homOfLE hUV) x hx ((f.app V) a)
 
 /-- **Flatness of the cokernel at a point, from universal injectivity of the sections map on an
@@ -417,7 +416,7 @@ theorem isFlatOverAt_iff_cokernel_of_universallyInjective_sections
     Module.compHom _ (f.stalkMap x).hom
   have : Module.Flat (S.presheaf.stalk (f x)) (G.presheaf.stalk x) := hG
   have : Module.Flat (S.presheaf.stalk (f x)) ((cokernel α).presheaf.stalk x) := hC
-  show Module.Flat (S.presheaf.stalk (f x)) (F.presheaf.stalk x)
+  change Module.Flat (S.presheaf.stalk (f x)) (F.presheaf.stalk x)
   exact _root_.flat_of_flat_of_flat (baseStalkLinearMap f α x)
     (baseStalkLinearMap f (cokernel.π α) x) hinj (exact_schemeStalkMap_cokernel α x)
     (surjective_schemeStalkMap_cokernelπ α x)
@@ -591,7 +590,7 @@ theorem universallyInjective_moduleSpecΓ_of_sections
   intro m
   have hnat := pullbackFromSpecSectionsIso_naturality α U hU
   apply eF.injective
-  show eF (eF.symm (schemeAppLinearMap α U m)) = _
+  change eF (eF.symm (schemeAppLinearMap α U m)) = _
   rw [eF.apply_symm_apply]
   have := congrArg (fun z : moduleSpecΓFunctor.obj
       ((Scheme.Modules.pullback hU.fromSpec).obj G) ⟶

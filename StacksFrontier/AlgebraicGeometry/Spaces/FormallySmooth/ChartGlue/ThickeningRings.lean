@@ -33,7 +33,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (T' : BigFpp
 
 /-- The spectrum of `A' = Γ(T', ⊤)` is contained in the site `B`. -/
 lemma contains_specRingOf : B.Contains (Spec (CommRingCat.of (ringOf B S hS T'))) := by
-  show (Spec Γ((BigFppfOver.toScheme B S hS).obj T', ⊤)).size < B.cutoff
+  change (Spec Γ((BigFppfOver.toScheme B S hS).obj T', ⊤)).size < B.cutoff
   rw [← Scheme.size_congr ((BigFppfOver.toScheme B S hS).obj T').isoSpec]
   exact T'.left.property
 

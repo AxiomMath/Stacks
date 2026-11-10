@@ -204,7 +204,7 @@ theorem levelSectionsScalars_restriction {n m : SimplexCategory} (φ : n ⟶ m) 
   refine (wholeSpaceEnvelopeRingLevelEquiv hp m.len e).injective ?_
   refine Eq.trans (wholeSpaceEnvelopeRingLevelEquiv_map hp (n := n.len) (m := m.len) φ e
     (levelSectionsScalars hp n e r)) ?_
-  show Ideal.quotientMap _ _ _ (wholeSpaceEnvelopeRingLevelEquiv hp n.len e
+  change Ideal.quotientMap _ _ _ (wholeSpaceEnvelopeRingLevelEquiv hp n.len e
       ((wholeSpaceEnvelopeRingLevelEquiv hp n.len e).symm (Ideal.Quotient.mk _ r))) =
     wholeSpaceEnvelopeRingLevelEquiv hp m.len e
       ((wholeSpaceEnvelopeRingLevelEquiv hp m.len e).symm

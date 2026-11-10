@@ -205,7 +205,7 @@ theorem Sheaf.exists_isOpenImmersion_piece_of_isColimit_cofan {I : Type w}
           refine ⟨fun y => ?_⟩
           have h1 : χ.hom.app (op T) (P.obj.map t.op (P.obj.map p.op x))
               = terminal.from T ≫ (coprod.inr : ⊤_ (BigFppfOver B S hS) ⟶ _) := by
-            rw [← hz, key i T z, if_neg hi]
+            rw [← hz, key i T z, ite_eq_right hi]
           have h2 : χ.hom.app (op T) (P.obj.map t.op (P.obj.map p.op x))
               = (t ≫ Limits.pullback.snd c (coprod.inl : ⊤_ (BigFppfOver B S hS) ⟶ _)) ≫
                 coprod.inl := by
@@ -241,7 +241,7 @@ theorem Sheaf.exists_isOpenImmersion_piece_of_isColimit_cofan {I : Type w}
     exact hzz T t ht
   · rintro T t ⟨z, hz⟩
     refine ⟨Limits.pullback.lift t (terminal.from T) ?_, Limits.pullback.lift_fst _ _ _⟩
-    rw [← hnat T W t x, ← hz, key i₀ T z, if_pos rfl]
+    rw [← hnat T W t x, ← hz, key i₀ T z, ite_eq_left rfl]
 
 /-- A section `x` of a coproduct `P = ∐ F i` of sheaves over an object `W` of the big fppf site
 over `S` decomposes `W` into pairwise disjoint open subobjects `W' i` covering `W`, such that

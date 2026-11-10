@@ -65,7 +65,7 @@ private theorem quotientFiber_hom_subsingleton
   refine quotientFiber_induction G fun x => quotientFiber_induction G fun y => ?_
   intro f g
   apply Functor.Fiber.hom_ext
-  show f.1 = g.1
+  change f.1 = g.1
   let _ : (Grothendieck.forget (evaluationFunctor G)).IsHomLift (𝟙 A) f.1 := f.2
   let _ : (Grothendieck.forget (evaluationFunctor G)).IsHomLift (𝟙 A) g.1 := g.2
   have hfbase := IsHomLift.fac' (Grothendieck.forget (evaluationFunctor G)) (𝟙 A) f.1

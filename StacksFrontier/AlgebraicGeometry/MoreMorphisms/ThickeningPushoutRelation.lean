@@ -140,21 +140,21 @@ section relation
 variable {U U' V P : Scheme.{u}} {k : U ⟶ U'} {g : U ⟶ V} {a : U' ⟶ P} {b : V ⟶ P}
   (hP : IsPushout k g a b) (hk : IsThickening k) [IsAffineHom g]
   {R₀ R' T Rel : Scheme.{u}} {kR : R₀ ⟶ R'} {gR : R₀ ⟶ T} {aR : R' ⟶ Rel} {bR : T ⟶ Rel}
-  (hR : IsPushout kR gR aR bR) (hkR : IsThickening kR) [IsAffineHom gR]
+  (hR : IsPushout kR gR aR bR)
   {s' t' : R' ⟶ U'} {sY tY : T ⟶ V} {s₀ t₀ : R₀ ⟶ U}
   (hsi : IsPullback kR s₀ s' k) (hsf : IsPullback gR s₀ sY g)
   (hti : IsPullback kR t₀ t' k) (htf : IsPullback gR t₀ tY g)
   {s t : Rel ⟶ P} (hsa : aR ≫ s = s' ≫ a) (hsb : bR ≫ s = sY ≫ b)
   (hta : aR ≫ t = t' ≫ a) (htb : bR ≫ t = tY ≫ b)
 
-include hP hk hR hkR hsi hsf hsa hsb in
+include hP hk hR hsi hsf hsa hsb in
 /-- The morphism `s : R' ⨿_{R₀} T ⟶ U' ⨿_U V` induced by étale morphisms `s' : R' ⟶ U'` and
 `sY : T ⟶ V` is étale: the étale clause of [Stacks Project, Tag 07RX] on prescribed squares. -/
 theorem etale_of_isPushout_relation [Etale s'] [Etale sY] : Etale s :=
   (AlgebraicGeometry.ThickeningAffineGluing.etale_induced_iff_of_isPushout hk hP hR hsi hsf
     hsa hsb).2 ⟨inferInstance, inferInstance⟩
 
-include hP hk hR hkR hsi hsf hti htf hsa hsb hta htb in
+include hP hk hR hsi hsf hti htf hsa hsb hta htb in
 /-- **The pushed-out relation is an equivalence relation.**  Let `P = U' ⨿_U V` be the pushout
 of a thickening `k` and an affine morphism `g`, let `t', s' : R' ⇉ U'` and `tY, sY : T ⇉ V` be
 equivalence relations with étale projections, and let `Rel = R' ⨿_{R₀} T` be the pushout of a
@@ -167,17 +167,17 @@ theorem nonempty_equivalenceRelation_of_isPushout [Etale s'] [Etale t'] [Etale s
   have : IsClosedImmersion b := (isThickening_of_isPushout_of_isThickening hP hk).1
   have : Mono k := inferInstance
   have hbmono : Mono b := inferInstance
-  have : Etale s := etale_of_isPushout_relation hP hk hR hkR hsi hsf hsa hsb
-  have : Etale t := etale_of_isPushout_relation hP hk hR hkR hti htf hta htb
+  have : Etale s := etale_of_isPushout_relation hP hk hR hsi hsf hsa hsb
+  have : Etale t := etale_of_isPushout_relation hP hk hR hti htf hta htb
   have hjY : ∀ {W : Scheme.{u}} (x y : W ⟶ T), x ≫ tY = y ≫ tY → x ≫ sY = y ≫ sY → x = y :=
     fun x y h₁ h₂ => eY.right_cancellation x y h₁ h₂
   -- the two cartesian squares of the `V`-side and of the `U'`-side
   obtain ⟨hsbY, hsaX⟩ :=
     AlgebraicGeometry.ThickeningAffinePushoutSituation.isPullback_of_isPushout_of_isPullback
-      hP hk hR hkR hsi hsf hsa hsb
+      hP hk hR hsi hsf hsa hsb
   obtain ⟨htbY, htaX⟩ :=
     AlgebraicGeometry.ThickeningAffinePushoutSituation.isPullback_of_isPushout_of_isPullback
-      hP hk hR hkR hti htf hta htb
+      hP hk hR hti htf hta htb
   -- joint monicity, tested on the thickening `Z ×_P V` of a test scheme
   have hmono : ∀ {Z : Scheme.{u}} (x y : Z ⟶ Rel), x ≫ t = y ≫ t → x ≫ s = y ≫ s → x = y := by
     intro Z x y h₁ h₂
@@ -211,7 +211,7 @@ theorem nonempty_equivalenceRelation_of_isPushout [Etale s'] [Etale t'] [Etale s
         simp
     rw [← Category.assoc, ← hsi.lift_fst (k ≫ e'.r) (𝟙 U) (by simp), Category.assoc, hR.w,
       ← Category.assoc]
-    show (r₀ ≫ gR) ≫ bR = _
+    change (r₀ ≫ gR) ≫ bR = _
     rw [h1, Category.assoc]
   let r : P ⟶ Rel := hP.desc (e'.r ≫ aR) (eY.r ≫ bR) hr₀
   have hr₁ : r ≫ t = 𝟙 P := by
@@ -240,7 +240,7 @@ theorem nonempty_equivalenceRelation_of_isPushout [Etale s'] [Etale t'] [Etale s
           eY.symmetry₂, htf.w]
     rw [← Category.assoc, ← hsi.lift_fst (kR ≫ e'.s) t₀
       (by rw [Category.assoc, e'.symmetry₂, hti.w]), Category.assoc, hR.w, ← Category.assoc]
-    show (σ₀ ≫ gR) ≫ bR = _
+    change (σ₀ ≫ gR) ≫ bR = _
     rw [h1, Category.assoc]
   let σ : Rel ⟶ Rel := hR.desc (e'.s ≫ aR) (eY.s ≫ bR) hσ
   have hσ₁ : σ ≫ t = s := by
@@ -282,7 +282,7 @@ theorem nonempty_equivalenceRelation_of_isPushout [Etale s'] [Etale t'] [Etale s
         PullbackCone.IsLimit.lift_snd, Category.assoc, Category.assoc, hR.w]
   have hflat : Flat (c.fst ≫ s) := by
     have : Etale (pullback.fst s t) := inferInstance
-    show Flat (pullback.fst s t ≫ s)
+    change Flat (pullback.fst s t ≫ s)
     infer_instance
   have hpush : IsPushout jV jU' cV cU' :=
     isPushout_of_flat_of_isPullback_of_isPushout hk hP (c.fst ≫ s) hflat hV hU' hjV hjU' hcomm

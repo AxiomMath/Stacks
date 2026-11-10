@@ -65,7 +65,7 @@ theorem cochainPullback_cochainMap {F G : X.Modules} (t : F ⟶ G) (p : ℕ)
       cochainMap W ((Scheme.Modules.pullback g).map t).mapPresheaf p
         (cochainPullback g U W π hW F p s) := by
   funext k
-  show CechCochains.restr _ _ (pullbackSections g G _ (t.app _ (s (π ∘ k)))) =
+  change CechCochains.restr _ _ (pullbackSections g G _ (t.app _ (s (π ∘ k)))) =
     ((Scheme.Modules.pullback g).map t).app _ (CechCochains.restr _ _ _)
   rw [pullbackSections_naturality]
   exact restr_app ((Scheme.Modules.pullback g).map t).mapPresheaf _ _
@@ -79,7 +79,7 @@ theorem pullbackUnitIso_cochainPullback (p : ℕ)
         (cochainPullback g U W π hW (Kunneth.OM X) p s k) =
       g.appLE (CechCochains.inter U (π ∘ k)) (CechCochains.inter W k)
         (inter_le_preimage_inter g U W π hW k) (s (π ∘ k)) := by
-  show (Scheme.Modules.pullbackUnitIso g).hom.mapPresheaf.app _ (CechCochains.restr _ _ _) = _
+  change (Scheme.Modules.pullbackUnitIso g).hom.mapPresheaf.app _ (CechCochains.restr _ _ _) = _
   refine (restr_app (Scheme.Modules.pullbackUnitIso g).hom.mapPresheaf
     (inter_le_preimage_inter g U W π hW k) _).symm.trans ?_
   refine (congrArg (CechCochains.restr (Kunneth.OM X').presheaf
@@ -100,7 +100,7 @@ private theorem cochainMap_iso_inv_hom {T : Scheme.{u}} {K : Type u} (W : K → 
     {F G : T.Modules} (ε : F ≅ G) (p : ℕ) (z : CechCochains.Cochain W F.presheaf p) :
     cochainMap W ε.inv.mapPresheaf p (cochainMap W ε.hom.mapPresheaf p z) = z := by
   funext i
-  show (ε.inv.app _) ((ε.hom.app _) (z i)) = z i
+  change (ε.inv.app _) ((ε.hom.app _) (z i)) = z i
   rw [← ConcreteCategory.comp_apply, ← Scheme.Modules.Hom.comp_app, ε.hom_inv_id]
   rfl
 

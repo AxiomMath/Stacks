@@ -342,7 +342,7 @@ lemma pushforward_cmp_square (p n : ℤ) :
       higherDirectImageMap Rf (K.filtration.ι.app (op p)) n ≫
         higherDirectImageMap Rf R.map.hom n := by
     rw [← higherDirectImageMap_comp, ← higherDirectImageMap_comp, hcomm]
-  show (higherDirectImageMap Rf (R.map.natTrans.app (op p)) n ≫
+  change (higherDirectImageMap Rf (R.map.natTrans.app (op p)) n ≫
         (higherDirectImageIsoPushforwardHomology f Rf η
           (R.obj.filtration.obj (op p)) n).hom) ≫
       HomologicalComplex.homologyMap
@@ -394,7 +394,7 @@ lemma nonempty_pushforwardFirstPageIso (p q : ℤ) :
   have : QuasiIso ((FilteredObject.gr p).map R.map) := R.quasiIso_gr p
   let egr : (FilteredObject.gr p).obj (pushforwardFilteredComplex f R.obj) ≅
       (pushforwardComplexFunctor f).obj ((FilteredObject.gr p).obj R.obj) := by
-    show cokernel ((pushforwardComplexFunctor f).map
+    change cokernel ((pushforwardComplexFunctor f).map
         (R.obj.filtration.step (FilteredObject.succHom p))) ≅
       (pushforwardComplexFunctor f).obj
         (cokernel (R.obj.filtration.step (FilteredObject.succHom p)))
@@ -482,7 +482,7 @@ private lemma mapIsoToOrderIso_inducedFiltrationStep (n s : ℤ) :
         congr 1
         exact (pushforward_cmp_square f Rf η R s n).symm
       _ = _ := imageSubobject_iso_comp (pushforwardCmpStep f Rf η R s n).hom _
-  show (Subobject.map (pushforwardCmpTotal f Rf η R n).inv).obj
+  change (Subobject.map (pushforwardCmpTotal f Rf η R n).inv).obj
       ((pushforwardFilteredComplex f R.obj).inducedFiltrationStep n s) =
     imageSubobject (higherDirectImageMap Rf (K.filtration.ι.app (op s)) n)
   rw [← hImage]

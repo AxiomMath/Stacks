@@ -678,7 +678,7 @@ theorem descendedHom_map (ξ : FMap B S hS X.1 Y.1 f.hom F.obj G.obj)
   funext s
   obtain ⟨V⟩ := V
   refine comparisonSections_ext B S hS X H' _ (fun U k ↦ ?_)
-  show H'.obj.map k.op
+  change H'.obj.map k.op
     (α.hom.app _ (fMapDescendedSection B S hS f F G.obj H i ξ V s)) =
       H'.obj.map k.op (fMapDescendedSection B S hS f F G.obj H' i' ξ V s)
   have hn := ConcreteCategory.congr_hom (α.hom.naturality k.op)
@@ -746,7 +746,7 @@ theorem fMapEquivPushforwardHom_comparison
           ((comparisonRestriction B S hS X).preimage
             (((comparisonRestriction B S hS X).objObjPreimageIso F).symm.inv ≫ i.hom)) :=
     (smallToposMorphism_comparison B S hS f).hom.naturality _
-  show (𝟙 G ≫ descendedHom B S hS f F G
+  change (𝟙 G ≫ descendedHom B S hS f F G
         ((comparisonRestriction B S hS X).objPreimage F)
         ((comparisonRestriction B S hS X).objObjPreimageIso F).symm ξ ≫
       ((smallToposMorphism_comparison B S hS f).inv.app
@@ -822,12 +822,12 @@ theorem fMapEquivPushforwardHom_chart
         (((sheafToPresheaf (SmallEtale.topology B S hS Y.1)
           (Type (u + 1))).map ψ).app (op d.V) s) := by
   dsimp only
-  show i.hom.hom.app (op d.U) (ξ.app d s) = H.obj.map h.op
+  change i.hom.hom.app (op d.U) (ξ.app d s) = H.obj.map h.op
     ((fMapEquivPushforwardHom B S hS f F G ξ ≫
       (smallToposMorphism B S hS f).pushforward.map i.hom ≫
       (smallToposMorphism_comparison B S hS f).hom.app H).hom.app (op d.V) s)
   rw [fMapEquivPushforwardHom_comparison]
-  show i.hom.hom.app (op d.U) (ξ.app d s) = H.obj.map h.op
+  change i.hom.hom.app (op d.U) (ξ.app d s) = H.obj.map h.op
     (fMapDescendedSection B S hS f F G.obj H i ξ d.V s)
   rw [descendedSection_restrict]
   congr 1

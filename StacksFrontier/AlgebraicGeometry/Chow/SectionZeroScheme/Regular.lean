@@ -124,7 +124,7 @@ theorem isRegularZeroSchemeSequence_liftSection (C : ChowSituation.{u}) {X P : S
   have hb : relativeDimension C.dimensionFunction q (π y) =
       relativeDimension C.dimensionFunction q x := rfl
   have hδx : relativeDimension C.dimensionFunction q (I.subschemeι ⟨x, hx⟩) = k - d := by
-    show relativeDimension C.dimensionFunction q x = k - d
+    change relativeDimension C.dimensionFunction q x = k - d
     change relativeDimension C.dimensionFunction q x ≤ k - d at hδx₂
     omega
   have hgen := mem_genericPoints_of_relativeDimension_eq C q I hZ ⟨x, hx⟩ hδx
@@ -152,7 +152,7 @@ theorem isRegularZeroSchemeSequence_liftSection (C : ChowSituation.{u}) {X P : S
     have hle := stalk_mono (hyperplane_le_zeroSchemeOfSection τ σ (r + 2)) y
     rw [hJdef, stalkIdeal_eq_stalk]
     refine hle ?_
-    show g 0 ∈ IdealSheafData.stalk (zeroSchemeOfSection P L (τ.app ⊤ σ)) y
+    change g 0 ∈ IdealSheafData.stalk (zeroSchemeOfSection P L (τ.app ⊤ σ)) y
     rw [hg]
     exact Ideal.subset_span ⟨0, rfl⟩
   obtain ⟨h, hh⟩ := exists_stalk_eq_span (liftModule τ σ) (r + 1) (liftSection τ σ) z
@@ -163,7 +163,7 @@ theorem isRegularZeroSchemeSequence_liftSection (C : ChowSituation.{u}) {X P : S
     (rs.map (π.stalkMap y).hom) hrs' hJ (List.ofFn h)
     (by rwa [List.length_map, List.length_ofFn]) hmapJ
   refine ⟨List.ofFn h, List.length_ofFn, hreg', ?_⟩
-  show Ideal.ofList (List.ofFn h) = _
+  change Ideal.ofList (List.ofFn h) = _
   rw [Ideal.ofList_ofFn, ← hh, IdealSheafData.ker_subschemeι_stalkMap_eq I' ξ'.1]
 
 end Stacks.Chow.SectionZeroScheme

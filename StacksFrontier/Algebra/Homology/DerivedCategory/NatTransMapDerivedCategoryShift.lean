@@ -74,7 +74,7 @@ theorem NatTrans.mapHomologicalComplex_app_single (η : F ⟶ G) (A : C) :
       mapHomologicalComplex_app_f, HomologicalComplex.singleMapHomologicalComplex_hom_app_self,
       Category.assoc]
     rw [← η.naturality_assoc]
-    simp [CochainComplex.singleFunctor, CochainComplex.singleFunctors,
+    simp [CochainComplex.singleFunctor,
       HomologicalComplex.single_map_f_self]
   · exact (HomologicalComplex.isZero_single_obj_X _ _ _ _ hj).eq_of_tgt _ _
 

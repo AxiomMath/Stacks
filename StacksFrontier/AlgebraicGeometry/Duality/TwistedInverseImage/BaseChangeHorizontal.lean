@@ -101,7 +101,7 @@ theorem twoSquare_hcomp_of_symm
         cT.inv).whiskerBottom cB.hom := by
   have h' : So = (So.symm).symm := (Iso.symm_symm_eq So).symm
   rw [h', h]
-  refine TwoSquare.ext _ _ fun Xa => ?_
+  refine NatTrans.ext (funext fun Xa => ?_)
   simp [TwoSquare.hComp, TwoSquare.whiskerTop, TwoSquare.whiskerBottom]
 
 variable {T : A ⥤ B} {L : A ⥤ C} {R : B ⥤ D} {Bm : C ⥤ D} {L' : C ⥤ E} {R' : D ⥤ F}
@@ -113,7 +113,7 @@ and at the bottom. First half. -/
 theorem vComp_whiskered_hom_inv_id (w : T ⋙ R ⟶ L ⋙ Bm) (w' : Bm ⋙ R' ⟶ L' ⋙ B')
     (cL : L ⋙ L' ≅ Lo) (cR : R ⋙ R' ≅ Ro) [IsIso w] [IsIso w'] :
     (((TwoSquare.mk _ _ _ _ w ≫ᵥ TwoSquare.mk _ _ _ _ w').whiskerRight cR.inv).whiskerLeft
-        cL.hom).natTrans ≫
+        cL.hom) ≫
         ((TwoSquare.mk L T Bm R (inv w) ≫ₕ
           TwoSquare.mk L' Bm B' R' (inv w')).whiskerTop cL.inv).whiskerBottom
             cR.hom = 𝟙 _ := by
@@ -127,7 +127,7 @@ theorem vComp_whiskered_inv_hom_id (w : T ⋙ R ⟶ L ⋙ Bm) (w' : Bm ⋙ R' �
     ((TwoSquare.mk L T Bm R (inv w) ≫ₕ
           TwoSquare.mk L' Bm B' R' (inv w')).whiskerTop cL.inv).whiskerBottom
             cR.hom ≫ (((TwoSquare.mk _ _ _ _ w ≫ᵥ TwoSquare.mk _ _ _ _ w').whiskerRight
-              cR.inv).whiskerLeft cL.hom).natTrans = 𝟙 _ := by
+              cR.inv).whiskerLeft cL.hom) = 𝟙 _ := by
   refine NatTrans.ext (funext fun Xa => ?_)
   simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.whiskerLeft,
     TwoSquare.whiskerRight, TwoSquare.hComp, TwoSquare.vComp]
@@ -418,7 +418,7 @@ theorem twistedInverseImageBaseChangeMap_hcomp (sq₁ : IsPullback k' f'' f' l')
         (quasiCoherentDerivedPullbackCompIsoConj k' k hpushk' hpushk hpushkk
           (isQuasicoherent_homology_derivedPullback' k')
           (isQuasicoherent_homology_derivedPullback' k)
-          (isQuasicoherent_homology_derivedPullback' (k' ≫ k))).inv).natTrans := by
+          (isQuasicoherent_homology_derivedPullback' (k' ≫ k))).inv) := by
   let := isIso_twistedInverseImagePushforwardBaseChange_hcomp k' k f'' f' f l' l hpushk'
     hpushk hpushkk hpushf'' hpushf' hpushf hpushl' hpushl hpushll sq₁ sq₂
   have hinv : TwoSquare.mk _ _ _ _

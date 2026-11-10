@@ -329,7 +329,8 @@ restriction of scalars of the free presheaf of modules that
 `Stacks.NoncommChangeOfRings.Presheaf.tensorObjIsoRestrictExtend` starts from.  The tensor
 product sheaf on a morphism is first read as the sheafified objectwise tensor product by
 `Stacks.SheafOfModules.Tensor.sheafTensor_obj_map`, and the square is then the image under
-sheafification of `Stacks.NoncommChangeOfRings.Presheaf.tensorObjIsoRestrictExtend_hom_naturality`. -/
+sheafification of
+`Stacks.NoncommChangeOfRings.Presheaf.tensorObjIsoRestrictExtend_hom_naturality`. -/
 theorem tensorNatIsoFactorisation_naturality (π : Y ⟶ X)
     {G G' : Modules.{u, u} B S hS X.1 X.2} (g : G ⟶ G') :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}

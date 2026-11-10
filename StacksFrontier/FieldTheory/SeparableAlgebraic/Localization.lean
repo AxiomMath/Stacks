@@ -148,6 +148,6 @@ theorem exists_localizationRingEquiv_lmul'_of_isSeparable_isAlgebraic
   -- the unique `(k' ⊗ k')`-algebra isomorphism between the two localizations
   refine ⟨S, (IsLocalization.algEquiv S (Localization S) k').toRingEquiv, ?_⟩
   intro x
-  simp only [AlgEquiv.coe_ringEquiv]
+  simp only [AlgEquiv.coe_toRingEquiv]
   -- `algEquiv` commutes with the structure maps, and `algebraMap` here is `lmul'`
   exact (IsLocalization.algEquiv S (Localization S) k').commutes x

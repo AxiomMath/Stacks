@@ -84,13 +84,13 @@ theorem map_polynomialModelIdeal_le :
   apply sup_le
   · apply Ideal.map_le_iff_le_comap.mpr
     intro a ha
-    show polynomialModelMap A x hx (algebraMap A Q a) ∈ dividedPowerPolynomialIdeal A.ideal W
+    change polynomialModelMap A x hx (algebraMap A Q a) ∈ dividedPowerPolynomialIdeal A.ideal W
     rw [AlgHom.commutes]
     exact Ideal.mem_sup_left (Ideal.mem_map_of_mem _ ha)
   · rw [Ideal.map_span]
     apply Ideal.span_le.mpr
     rintro _ ⟨_, ⟨w, rfl⟩, rfl⟩
-    show polynomialModelMap A x hx (x w) ∈ dividedPowerPolynomialIdeal A.ideal W
+    change polynomialModelMap A x hx (x w) ∈ dividedPowerPolynomialIdeal A.ideal W
     rw [polynomialModelMap_apply_x]
     exact variable_mem_polynomialIdeal A w
 

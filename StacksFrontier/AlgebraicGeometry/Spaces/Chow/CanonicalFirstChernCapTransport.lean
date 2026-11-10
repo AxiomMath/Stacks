@@ -149,7 +149,7 @@ theorem
     ObjectProperty.isoMk _ e
   have hcomp : ψ.hom ≫ iW ≫ eA.hom = iW' := by
     ext1
-    show φ.inv ≫ W.subspace.ι ≫ e.hom = W'.subspace.ι
+    change φ.inv ≫ W.subspace.ι ≫ e.hom = W'.subspace.ι
     rw [← hφ]
     exact Iso.inv_hom_id_assoc φ _
   obtain ⟨β⟩ : Nonempty ((modulePullback D.site D.base D.base_mem ψ.hom).obj NW ≅ NW') :=
@@ -293,9 +293,9 @@ theorem isRationallyEquivalentToZero_firstChernCapCycleMap_canonicalFirstChernRu
     (fun W => β.1 W • (firstChernComponentCycle D sX' hX' k chern' (E W) -
       push k (firstChernComponentCycle D sX hX k chern W))) (fun W => ?_) (fun Z => ?_)
   · by_cases hW : β.1 W = 0
-    · simp only [hW, if_true, zero_smul]
+    · simp only [hW, ite_true, zero_smul]
       exact isRationallyEquivalentToZeroWithin_zero D sX' hX' k _
-    · simp only [hW, if_false]
+    · simp only [hW, ite_false]
       exact IsCycleFamilySumWithin.isRationallyEquivalentToZeroWithin <|
         (hrat W).isCycleFamilySumWithin.zsmul neg_mem_principalDivisors _
   · obtain ⟨Z₀, rfl⟩ := E.surjective Z
@@ -305,14 +305,14 @@ theorem isRationallyEquivalentToZero_firstChernCapCycleMap_canonicalFirstChernRu
         D.base_mem X => β.1 W * (firstChernComponentCycle D sX' hX' k chern' (E W)).1 (E Z₀) := by
       refine (hfin₂.preimage E.injective.injOn).subset fun W hW => ?_
       simpa only [Function.mem_support, Set.mem_preimage, hpush] using hW
-    show (firstChernCapCycleMap D sX' hX' k chern' (push (k + 1) β)).1 (E Z₀) -
+    change (firstChernCapCycleMap D sX' hX' k chern' (push (k + 1) β)).1 (E Z₀) -
         (push k (firstChernCapCycleMap D sX hX k chern β)).1 (E Z₀) = _
     rw [hpush, firstChernCapCycleMap_apply, firstChernCapCycleMap_apply,
       ← finsum_comp_equiv E]
     simp only [hpush]
     rw [← finsum_sub_distrib hfin₂' hfin₁]
     refine finsum_congr fun W => ?_
-    show _ = β.1 W * ((firstChernComponentCycle D sX' hX' k chern' (E W)).1 (E Z₀) -
+    change _ = β.1 W * ((firstChernComponentCycle D sX' hX' k chern' (E W)).1 (E Z₀) -
       (push k (firstChernComponentCycle D sX hX k chern W)).1 (E Z₀))
     rw [hpush, mul_sub]
 

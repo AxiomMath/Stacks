@@ -563,7 +563,7 @@ theorem kernelAug_surjective_of_mem_maximalIdeal :
     rw [mem_kernelSubalgebra, map_sub, hD, hs, hqt, hDt]
     ring
   refine ⟨⟨x - s * t, hmem⟩, ?_⟩
-  show q (x - s * t) = c
+  change q (x - s * t) = c
   rw [map_sub, map_mul, hqt, hx]
   ring
 
@@ -702,7 +702,7 @@ theorem not_isEssentialSurjection_of_derivation (f : B ⟶ A) (hf : Function.Sur
         (Submodule.sub_mem _ hb (Ideal.mul_mem_left _ _ ht))
     · have hmap : (derivationKerHom q hq D hD ht hDt ≫ f).hom ⟨b - (u : B) * t, hx⟩ - a =
           f.hom b - a - f.hom (u : B) * f.hom t := by
-        show f.hom (b - (u : B) * t) - a = _
+        change f.hom (b - (u : B) * t) - a = _
         rw [map_sub, map_mul]
         ring
       rw [hmap]
@@ -980,8 +980,7 @@ theorem mem_relative_of_cotangentComplex_mk_eq_zero
     intro z
     obtain ⟨ζ, rfl⟩ :=
       (conormalToH1Cotangent_baseChange_bijective (Λ := Λ) (S := S) (k := k) hS).2 z
-    induction ζ using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]; exact Submodule.zero_mem _
+    induction ζ using TensorProduct.inductionOn with
     | tmul c x =>
       obtain ⟨b, hb⟩ := algebraMap_residue_surjective A c
       rw [LinearMap.liftBaseChange_tmul, ← hb, IsScalarTower.algebraMap_smul k b,

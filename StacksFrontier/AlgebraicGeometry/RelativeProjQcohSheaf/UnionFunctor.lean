@@ -134,7 +134,7 @@ private abbrev PieceIsoEq (n : ℤ) : Prop :=
 private theorem pieceIsoEq_succ {n : ℤ} (h : PieceIsoEq k L n) : PieceIsoEq k L (n + 1) := by
   refine (Iso.cancel_iso_hom_left
     ((pullbackFunctor (ringedSpaceHom k)).mapIso (succIso L n)) _ _).mp ?_
-  show (pullbackFunctor (ringedSpaceHom k)).map (succIso L n).hom ≫ _ =
+  change (pullbackFunctor (ringedSpaceHom k)).map (succIso L n).hom ≫ _ =
     (pullbackFunctor (ringedSpaceHom k)).map (succIso L n).hom ≫ _
   rw [pieceIso_succIso, laurentPullback_succIso, h]
 

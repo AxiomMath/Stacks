@@ -126,7 +126,7 @@ public lemma generate_mem_topology_of_standardCover {U : SmallAffineZariski B S 
     apply le_antisymm
     · rintro T a ⟨i⟩
       obtain ⟨i', hi'⟩ := i.property
-      show representative.presieve₀ (K.map (E.f i.val))
+      change representative.presieve₀ (K.map (E.f i.val))
       rw [← hi']
       refine representative.presieve₀_of_eq i' _ (sourceeq i').symm ?_
       have harrow := (eqToHom (sourceeq i').symm ≫= arroweq i').symm
@@ -237,7 +237,7 @@ public lemma ofTwoArrows_mem_topology (hsq : IsStandardOpenCoverSquare B S hS sq
     intro X V φ _ e h
     subst h
     apply TopologicalSpace.Opens.ext
-    show Set.range (V.ι ∘ e.hom) = _
+    change Set.range (V.ι ∘ e.hom) = _
     rw [Set.range_comp, Set.range_eq_univ.mpr e.hom.surjective, Set.image_univ]
     exact congrArg (fun W : ((toScheme B S hS).obj sq.X₄).Opens => W.carrier)
       (Scheme.Opens.opensRange_ι V)

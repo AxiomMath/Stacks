@@ -62,8 +62,9 @@ taken at.
 **The one non-formal input, and how it crosses.** Part (1) of [Stacks, Tag 0A78] —
 `AlgebraicGeometry.Scheme.derivedSheafHomExactSupport_mem_derivedCategoryBPlus` — rests on
 part (1) of [Stacks, Tag 0A6H] and so on [Stacks, Tag 06Z0], a spine of a dozen files, one of
-which (`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/ExactSupportQuasicoherent.lean`) would have to be split because its part (2) genuinely
-uses the standard model. None of that is re-pinned. Instead
+which (`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/ExactSupportQuasicoherent.lean`)
+would have to be split because its part (2) genuinely uses the standard model. None of that is
+re-pinned. Instead
 `StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/ExactSupportQuasicoherentAnyModel.lean`
 restates part (1) **with no derived category in it at all** — for `s : K ⟶ J` a K-injective
 resolution, the complex `ℰom(𝒪_Z, J)` has quasi-coherent cohomology vanishing in low degrees —
@@ -405,8 +406,8 @@ produced for every object of `FTS S` and no affineness or quasi-affineness hypot
 theorem exists_isDerivedSheafHomRightAdjoint_of_fts_of_isAffine_unconditional
     {S : Scheme.{u}} [IsNoetherian S] {X Y : FTS S} (i : X ⟶ Y)
     [IsClosedImmersion i.left] [IsAffine X.left] :
-    ∃ (a : quasiCoherentDerivedCategory Y.left ⥤ quasiCoherentDerivedCategory X.left)
-      (adj : affineHomQuasiCoherentDerivedPushforward i.left ⊣ a),
+    ∃ (a : quasiCoherentDerivedCategory Y.left ⥤ quasiCoherentDerivedCategory X.left),
+      Nonempty (affineHomQuasiCoherentDerivedPushforward i.left ⊣ a) ∧
       IsDerivedSheafHomRightAdjoint i.left a :=
   exists_isDerivedSheafHomRightAdjoint_of_fts_of_isAffine tag0A9XHypothesis.{u} i
 

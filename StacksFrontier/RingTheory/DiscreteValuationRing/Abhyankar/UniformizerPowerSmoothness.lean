@@ -40,7 +40,7 @@ theorem isMaximal_comap_of_integral_square
     (h : g.comp (algebraMap A C) = (algebraMap B D).comp (algebraMap A B))
     (q : Ideal D) [q.IsMaximal] : (q.comap g).IsMaximal := by
   have hp : (q.comap g).under A = IsLocalRing.maximalIdeal A := by
-    show (q.comap g).comap (algebraMap A C) = _
+    change (q.comap g).comap (algebraMap A C) = _
     rw [Ideal.comap_comap, h, ← Ideal.comap_comap,
       IsLocalRing.eq_maximalIdeal (show (q.comap (algebraMap B D)).IsMaximal from
         Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := B) q),
@@ -66,9 +66,9 @@ private theorem exists_tensorProduct_adjoinRoot_fieldFactor
   have hxF : (f.map (algebraMap K L)).eval₂ (algebraMap L F) xF = 0 := by
     apply (algebraMap F E).injective
     rw [map_zero]
-    show (IsScalarTower.toAlgHom L F E) (aeval xF (f.map (algebraMap K L))) = 0
+    change (IsScalarTower.toAlgHom L F E) (aeval xF (f.map (algebraMap K L))) = 0
     rw [← aeval_algHom_apply]
-    show aeval x (f.map (algebraMap K L)) = 0
+    change aeval x (f.map (algebraMap K L)) = 0
     rw [aeval_def, eval₂_map, ← IsScalarTower.algebraMap_eq K L E]
     exact hx
   have hgen : Algebra.adjoin L {xF} = ⊤ := by
@@ -80,7 +80,7 @@ private theorem exists_tensorProduct_adjoinRoot_fieldFactor
     surjective_adjoinRoot_liftAlgHom_of_adjoin_eq_top _ xF hxF hgen
   refine ⟨F, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
     g.comp e.toAlgHom, hg.comp e.surjective, ?_⟩
-  show algebraMap F E (g (e (1 ⊗ₜ[K] AdjoinRoot.root f))) = x
+  change algebraMap F E (g (e (1 ⊗ₜ[K] AdjoinRoot.root f))) = x
   rw [he]
   exact congrArg (algebraMap F E) (AdjoinRoot.liftAlgHom_root _ _ _ _)
 
@@ -208,7 +208,7 @@ private theorem comap_maximalIdeal_ne_bot_of_algHom
     (f : C →ₐ[A] S) : (IsLocalRing.maximalIdeal S).comap f.toRingHom ≠ ⊥ := by
   obtain ⟨π, hπ⟩ := IsDiscreteValuationRing.exists_irreducible A
   have hm : algebraMap A C π ∈ (IsLocalRing.maximalIdeal S).comap f.toRingHom := by
-    show f (algebraMap A C π) ∈ IsLocalRing.maximalIdeal S
+    change f (algebraMap A C π) ∈ IsLocalRing.maximalIdeal S
     rw [f.commutes]
     exact map_nonunit _ π hπ.not_isUnit
   intro hp
@@ -243,7 +243,7 @@ private theorem exists_localizationAtPrime_equiv_of_fractionRing
     have heq : (algebraMap S K).comp f = algebraMap T K := by
       apply IsLocalization.ringHom_ext p.primeCompl
       ext r
-      show algebraMap S K (f (algebraMap R T r)) =
+      change algebraMap S K (f (algebraMap R T r)) =
         algebraMap T K (algebraMap R T r)
       rw [hf, ← IsScalarTower.algebraMap_apply, ← IsScalarTower.algebraMap_apply]
     exact (RingHom.congr_fun heq t).symm
@@ -329,7 +329,7 @@ private theorem formallySmoothNAdic_of_fractionRing_baseChange
   have hdiag : fT.toRingHom.comp g = (algebraMap S T).comp fS.toRingHom := by
     ext a
     apply IsFractionRing.injective T E
-    show algebraMap T E (fT (g a)) = algebraMap T E (algebraMap S T (fS a))
+    change algebraMap T E (fT (g a)) = algebraMap T E (algebraMap S T (fS a))
     rw [hfT, hg, ← IsScalarTower.algebraMap_apply S T E,
       IsScalarTower.algebraMap_apply S K₁ E, hfS]
   have hpq : q.comap g = p := by
@@ -348,7 +348,7 @@ private theorem formallySmoothNAdic_of_fractionRing_baseChange
   have hcomm : eT.toRingHom.comp ψ = (algebraMap S T).comp eS.toRingHom := by
     apply IsLocalization.ringHom_ext p.primeCompl
     ext a
-    show eT (ψ (algebraMap (integralClosure A K₁) _ a)) =
+    change eT (ψ (algebraMap (integralClosure A K₁) _ a)) =
       algebraMap S T (eS (algebraMap (integralClosure A K₁) _ a))
     rw [hψ, heT, heS]
     exact RingHom.congr_fun hdiag a
@@ -363,7 +363,7 @@ private theorem formallySmoothNAdic_of_fractionRing_baseChange
     eS.symm eT.symm
   · ext s
     apply eT.injective
-    show eT (eT.symm (algebraMap S T s)) = eT (ψ (eS.symm s))
+    change eT (eT.symm (algebraMap S T s)) = eT (ψ (eS.symm s))
     rw [eT.apply_symm_apply]
     have hc := RingHom.congr_fun hcomm (eS.symm s)
     change eT (ψ (eS.symm s)) = algebraMap S T (eS (eS.symm s)) at hc
@@ -383,8 +383,7 @@ theorem mem_of_surjective_tensorProduct
     ∀ e, g e ∈ P := by
   intro e
   obtain ⟨t, rfl⟩ := hf e
-  induction t using TensorProduct.induction_on with
-  | zero => simpa only [map_zero] using P.zero_mem
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => simpa only [map_add] using P.add_mem hx hy
   | tmul l m =>
     have heq : l ⊗ₜ[K] m = algebraMap L (L ⊗[K] M) l *
@@ -499,11 +498,11 @@ theorem formallySmoothNAdic_of_uniformizer_pow_eq
   have hFroot : (algebraMap F E).comp (algebraMap K₀ F) = algebraMap K₀ E := by
     apply AdjoinRoot.ringHom_ext
     · ext k
-      show algebraMap F E (algebraMap K₀ F (algebraMap K K₀ k)) =
+      change algebraMap F E (algebraMap K₀ F (algebraMap K K₀ k)) =
         algebraMap K₀ E (algebraMap K K₀ k)
       rw [← IsScalarTower.algebraMap_apply K K₀ F,
         ← IsScalarTower.algebraMap_apply K F E, ← IsScalarTower.algebraMap_apply K K₀ E]
-    · show algebraMap F E (f₀ (1 ⊗ₜ[K] AdjoinRoot.root P)) =
+    · change algebraMap F E (f₀ (1 ⊗ₜ[K] AdjoinRoot.root P)) =
         algebraMap K₁ E (algebraMap K₀ K₁ (AdjoinRoot.root P))
       rw [hrootF, hroot]
   let : IsScalarTower K₀ F E := .of_algebraMap_eq fun k ↦ (RingHom.congr_fun hFroot k).symm
@@ -516,7 +515,7 @@ theorem formallySmoothNAdic_of_uniformizer_pow_eq
     apply mem_of_surjective_tensorProduct f hf (RingHom.id E) f₁.range.toSubring
     · intro l
       exact ⟨algebraMap F (F ⊗[K₀] K₁) (algebraMap L F l), by
-        show f₁ (algebraMap F _ (algebraMap L F l)) = algebraMap L E l
+        change f₁ (algebraMap F _ (algebraMap L F l)) = algebraMap L E l
         rw [f₁.commutes, ← IsScalarTower.algebraMap_apply L F E]⟩
     · intro a
       exact ⟨Algebra.TensorProduct.includeRight a, (hf₁K₁ a).trans (hfK₁ a).symm⟩
@@ -559,7 +558,7 @@ theorem formallySmoothNAdic_of_uniformizer_pow_eq
     have hd : (algebraMap T E).comp jloc = (algebraMap F E).comp (algebraMap D₀ F) := by
       apply IsLocalization.ringHom_ext q₀.primeCompl
       ext c
-      show algebraMap T E (jloc (algebraMap C₀ D₀ c)) =
+      change algebraMap T E (jloc (algebraMap C₀ D₀ c)) =
         algebraMap F E (algebraMap D₀ F (algebraMap C₀ D₀ c))
       rw [hjloc, ← IsScalarTower.algebraMap_apply C₀ D₀ F]
       exact hj c
@@ -590,7 +589,7 @@ theorem formallySmoothNAdic_of_uniformizer_pow_eq
   let : IsScalarTower A B D₀ := inferInstance
   let : IsScalarTower A A₀ D₀ := .of_algebraMap_eq fun a ↦ by
     rw [IsScalarTower.algebraMap_apply A B D₀]
-    show algebraMap B D₀ (algebraMap A B a) = algebraMap C₀ D₀ (g₀ (algebraMap A A₀ a))
+    change algebraMap B D₀ (algebraMap A B a) = algebraMap C₀ D₀ (g₀ (algebraMap A A₀ a))
     rw [hg₀A, ← IsScalarTower.algebraMap_apply B C₀ D₀]
   let : IsLocalHom (algebraMap A D₀) := by
     rw [IsScalarTower.algebraMap_eq A B D₀]
@@ -600,7 +599,7 @@ theorem formallySmoothNAdic_of_uniformizer_pow_eq
     exact (FaithfulSMul.algebraMap_injective B D₀).comp (FaithfulSMul.algebraMap_injective A B))
   let : IsExtension A D₀ := ⟨⟩
   let : IsScalarTower A₀ D₀ F := .of_algebraMap_eq fun a ↦ by
-    show algebraMap K₀ F (a : K₀) = algebraMap D₀ F (algebraMap C₀ D₀ (g₀ a))
+    change algebraMap K₀ F (a : K₀) = algebraMap D₀ F (algebraMap C₀ D₀ (g₀ a))
     rw [← IsScalarTower.algebraMap_apply C₀ D₀ F]
     exact (hg₀ a).symm
   let : IsLocalHom (algebraMap A₀ D₀) :=
@@ -615,7 +614,7 @@ theorem formallySmoothNAdic_of_uniformizer_pow_eq
     intro a b h
     apply Subtype.ext
     apply (algebraMap K₀ F).injective
-    show algebraMap A₀ F a = algebraMap A₀ F b
+    change algebraMap A₀ F a = algebraMap A₀ F b
     rw [IsScalarTower.algebraMap_apply A₀ D₀ F, IsScalarTower.algebraMap_apply A₀ D₀ F]
     exact congrArg (algebraMap D₀ F) h)
   let : IsExtension A₀ D₀ := ⟨⟩

@@ -443,7 +443,7 @@ theorem formallySmooth_stalkMap_liftsAgainstSquareZero
       S.presheaf.stalk (f.base (α.base (IsLocalRing.closedPoint B)))] B :=
     { a.hom with
       commutes' := fun r => by
-        show a.hom ((f.stalkMap (α.base (IsLocalRing.closedPoint B))).hom r) = (b ≫ φ).hom r
+        change a.hom ((f.stalkMap (α.base (IsLocalRing.closedPoint B))).hom r) = (b ≫ φ).hom r
         simpa using congrArg (fun (g : _ ⟶ B) => g.hom r) hcompat }
   let φA : (B' : CommRingCat) →ₐ[
       S.presheaf.stalk (f.base (α.base (IsLocalRing.closedPoint B)))] B :=
@@ -894,9 +894,9 @@ theorem phiMap_commutes (r : R) :
       = Ideal.Quotient.mk (Kideal R A P f hf m o)
           (TrivSqZeroExt.inl ((algebraMap R (Pbar R A P f m)) r)) := rfl
   rw [hbo]
-  show (PbarToAbar R A P f m) ((algebraMap R (Pbar R A P f m)) r)
+  change (PbarToAbar R A P f m) ((algebraMap R (Pbar R A P f m)) r)
     = (algebraMap R (Abar A m)) r
-  show (Ideal.Quotient.mk _) (f.toRingHom ((algebraMap R (P)) r))
+  change (Ideal.Quotient.mk _) (f.toRingHom ((algebraMap R (P)) r))
     = (algebraMap R (Abar A m)) r
   rw [show f.toRingHom ((algebraMap R (P)) r)
         = algebraMap R A r from f.commutes r]
@@ -913,7 +913,7 @@ noncomputable def q0Alg : P →ₐ[R] Bo R A P f hf m o :=
 omit [IsNoetherianRing R] [IsLocalRing R] [IsNoetherianRing A] [IsNoetherianRing P] [Algebra P A] in
 /-- **(III) surjectivity** of `φ`. -/
 theorem phiAlg_surjective : Function.Surjective (phiAlg R A P f hf m o) := by
-  show Function.Surjective (phiMap R A P f hf m o)
+  change Function.Surjective (phiMap R A P f hf m o)
   apply Ideal.Quotient.lift_surjective_of_surjective
   rw [TtoAbar, RingHom.coe_comp]
   apply Function.Surjective.comp
@@ -1046,7 +1046,7 @@ omit [IsNoetherianRing R] [IsLocalRing R] [IsNoetherianRing A] [IsNoetherianRing
 theorem otilde_zero : otilde R A P f hf o 0 = 0 := by
   unfold otilde
   rw [map_zero]
-  show o 0 = 0
+  change o 0 = 0
   rw [map_zero]
 
 omit [IsNoetherianRing R] [IsLocalRing R] [IsNoetherianRing A] [IsNoetherianRing P] [Algebra P A] in
@@ -1106,7 +1106,7 @@ omit [IsNoetherianRing R] [IsLocalRing R] [IsNoetherianRing A] [IsNoetherianRing
 /-- ibar p • c = residue (f p) • c  (κ-action of Pbar via PbarToKappa). -/
 theorem ibar_smul_kappa (p : P) (c : IsLocalRing.ResidueField A) :
     (ibar R A P f m p) • c = (IsLocalRing.residue A (f.toRingHom p)) • c := by
-  show (PbarToKappa R A P f m) (ibar R A P f m p) • c = _
+  change (PbarToKappa R A P f m) (ibar R A P f m p) • c = _
   rw [ibar, PbarToKappa, Ideal.Quotient.lift_mk, RingHom.comp_apply]
 
 omit [IsNoetherianRing R] [IsLocalRing R] [IsNoetherianRing A] [IsNoetherianRing P] [Algebra P A] in
@@ -1136,7 +1136,7 @@ theorem Kgen_smul_closed
       TrivSqZeroExt.fst_inr, sub_zero]
     -- t.fst * ibar i = ibar (p • i)
     rw [show TrivSqZeroExt.fst t = ibar R A P f m p from hp.symm]
-    show (Ideal.Quotient.mk _) p * (Ideal.Quotient.mk _) (i : P)
+    change (Ideal.Quotient.mk _) p * (Ideal.Quotient.mk _) (i : P)
       = (Ideal.Quotient.mk _) ((p • i : (RingHom.ker f.toRingHom)) : P)
     rw [← map_mul]
     rfl
@@ -1227,7 +1227,7 @@ theorem inr_mem_ker_phi (c : IsLocalRing.ResidueField A) :
     Ideal.Quotient.mk (Kideal R A P f hf m o) (TrivSqZeroExt.inr c)
       ∈ RingHom.ker (phiMap R A P f hf m o) := by
   rw [RingHom.mem_ker]
-  show phiMap R A P f hf m o (Ideal.Quotient.mk _ (TrivSqZeroExt.inr c)) = 0
+  change phiMap R A P f hf m o (Ideal.Quotient.mk _ (TrivSqZeroExt.inr c)) = 0
   rw [phiMap, Ideal.Quotient.lift_mk, TtoAbar, RingHom.comp_apply]
   rw [show (TrivSqZeroExt.fstHom (Pbar R A P f m) (Pbar R A P f m)
       (IsLocalRing.ResidueField A)).toRingHom (TrivSqZeroExt.inr c) = (0 : Pbar R A P f m) from rfl]
@@ -1303,11 +1303,11 @@ theorem kappaToKer_surjective :
   -- ibar i = fst t  (since s ∈ 𝔪_P^{m+1})
   have hibar : ibar R A P f m (i : P) = TrivSqZeroExt.fst t := by
     rw [hidef]
-    show (Ideal.Quotient.mk _) (p - s) = TrivSqZeroExt.fst t
+    change (Ideal.Quotient.mk _) (p - s) = TrivSqZeroExt.fst t
     rw [map_sub, Ideal.Quotient.eq_zero_iff_mem.mpr hs, sub_zero, hp]
   refine ⟨otilde R A P f hf o i + TrivSqZeroExt.snd t, ?_⟩
   apply Subtype.ext
-  show Ideal.Quotient.mk (Kideal R A P f hf m o) (TrivSqZeroExt.inr (otilde R A P f hf o i +
+  change Ideal.Quotient.mk (Kideal R A P f hf m o) (TrivSqZeroExt.inr (otilde R A P f hf o i +
       TrivSqZeroExt.snd t))
     = Ideal.Quotient.mk _ t
   rw [← sub_eq_zero, ← map_sub, Ideal.Quotient.eq_zero_iff_mem]
@@ -1336,7 +1336,7 @@ theorem bo_smul_kappaToKer (p : P) (c : IsLocalRing.ResidueField A) :
       = kappaToKer R A P f hf m o ((IsLocalRing.residue A (f.toRingHom p)) • c) := by
   apply Subtype.ext
   rw [SetLike.val_smul]
-  show Ideal.Quotient.mk _ (TrivSqZeroExt.inl (ibar R A P f m p)) *
+  change Ideal.Quotient.mk _ (TrivSqZeroExt.inl (ibar R A P f m p)) *
       Ideal.Quotient.mk (Kideal R A P f hf m o) (TrivSqZeroExt.inr c)
     = Ideal.Quotient.mk _ (TrivSqZeroExt.inr ((IsLocalRing.residue A (f.toRingHom p)) • c))
   rw [← map_mul]
@@ -1377,7 +1377,7 @@ theorem phiAlg_ker_length
         obtain ⟨a, ha⟩ := IsLocalRing.residue_surjective z
         obtain ⟨p, hp⟩ := hf a
         refine ⟨p, ?_⟩
-        show IsLocalRing.residue A (f.toRingHom p) = z
+        change IsLocalRing.residue A (f.toRingHom p) = z
         rw [show f.toRingHom p = f p from rfl, hp, ha]
       obtain ⟨p, hp⟩ := hsurj (d * c⁻¹)
       simp only at hp
@@ -1458,7 +1458,7 @@ theorem isArtinianRing_Bo : IsArtinianRing (Bo R A P f hf m o) := by
     obtain ⟨p, hp⟩ := hPKsurj x
     rw [Finset.coe_singleton, Submodule.mem_span_singleton]
     refine ⟨p, ?_⟩
-    show (PbarToKappa R A P f m) p • (1 : IsLocalRing.ResidueField A) = x
+    change (PbarToKappa R A P f m) p • (1 : IsLocalRing.ResidueField A) = x
     rw [smul_eq_mul, mul_one, hp]
   -- Step 4: T is module-finite over Pbar
   have hfinT : Module.Finite (Pbar R A P f m) (T R A P f m) := by
@@ -1495,7 +1495,7 @@ theorem phi_comp_q0 :
   apply RingHom.ext
   intro g
   rw [RingHom.comp_apply, RingHom.comp_apply]
-  show phiMap R A P f hf m o (q0Map R A P f hf m o g)
+  change phiMap R A P f hf m o (q0Map R A P f hf m o g)
     = (aMap R A m).toRingHom (f.toRingHom g)
   rw [q0Map, RingHom.comp_apply, RingHom.comp_apply, phiMap, Ideal.Quotient.lift_mk,
     TtoAbar, RingHom.comp_apply]
@@ -1519,7 +1519,7 @@ theorem defect_link
       = otilde R A P f hf o g := by
   rw [thetaIso, LinearEquiv.symm_apply_eq, LinearEquiv.ofBijective_apply]
   apply Subtype.ext
-  show Ideal.Quotient.mk (Kideal R A P f hf m o)
+  change Ideal.Quotient.mk (Kideal R A P f hf m o)
       (TrivSqZeroExt.inl (ibar R A P f m (g : P)))
     = Ideal.Quotient.mk (Kideal R A P f hf m o)
       (TrivSqZeroExt.inr (otilde R A P f hf o g))
@@ -1717,7 +1717,7 @@ theorem algLifts_classifying_derivation
     apply AlgHom.ext
     intro p
     simp only [AlgHom.comp_apply, IsScalarTower.coe_toAlgHom']
-    show Ideal.Quotient.mk _ (c (f p)) = _
+    change Ideal.Quotient.mk _ (c (f p)) = _
     have hrhs : (algebraMap (P) (B' ⧸ RingHom.ker φ.toRingHom)) p
         = Ideal.Quotient.mk _ (q₀ p) := by
       rw [IsScalarTower.algebraMap_apply (P) B' (B' ⧸ RingHom.ker φ.toRingHom)]
@@ -1728,7 +1728,7 @@ theorem algLifts_classifying_derivation
       simpa using AlgHom.congr_fun hc (f p)
     have h2 : φ (q₀ p) = a (f p) := by
       simpa using RingHom.congr_fun hq₀ p
-    show φ.toRingHom (c (f p)) = φ.toRingHom (q₀ p)
+    change φ.toRingHom (c (f p)) = φ.toRingHom (q₀ p)
     rw [show φ.toRingHom (c (f p)) = φ (c (f p)) from rfl,
         show φ.toRingHom (q₀ p) = φ (q₀ p) from rfl, h1, h2]
   -- A-module structure on B' via c
@@ -1782,7 +1782,7 @@ theorem algLifts_classifying_derivation
       intro p x
       obtain ⟨g, hg⟩ := hsurj x
       have hpg : ((p • x : ↥(RingHom.ker φ.toRingHom)) : B') = q₀ (p * (g : P)) := by
-        show algebraMap (P) B' p * (x : B') = _
+        change algebraMap (P) B' p * (x : B') = _
         rw [show algebraMap (P) B' p = q₀ p from rfl, ← hg, ← map_mul]
       have hpgker : p * (g : P) ∈ RingHom.ker f.toRingHom := by
         rw [RingHom.mem_ker]
@@ -1803,7 +1803,7 @@ theorem algLifts_classifying_derivation
         have hxval : x = ⟨q₀ (g:_), hmemg⟩ := Subtype.ext hg.symm
         rw [hxval, hstar g hmemg]
       rw [hθpx, hθx]
-      show o (Algebra.Extension.Cotangent.mk pg) = (algebraMap (P) A p) •
+      change o (Algebra.Extension.Cotangent.mk pg) = (algebraMap (P) A p) •
         o (Algebra.Extension.Cotangent.mk g)
       have hmkpg : (Algebra.Extension.Cotangent.mk pg : (Algebra.Extension.ofSurjective f
           hf).Cotangent)
@@ -1833,7 +1833,7 @@ theorem algLifts_classifying_derivation
     apply LinearMap.ext
     intro z
     obtain ⟨g0, rfl⟩ := Algebra.Extension.Cotangent.mk_surjective z
-    show o (Algebra.Extension.Cotangent.mk g0)
+    change o (Algebra.Extension.Cotangent.mk g0)
         = (D.liftKaehlerDifferential).liftBaseChange A
             ((Algebra.Extension.ofSurjective f hf).cotangentComplex
               (Algebra.Extension.Cotangent.mk g0))
@@ -1843,21 +1843,21 @@ theorem algLifts_classifying_derivation
     erw [Derivation.liftKaehlerDifferential_comp_D]
     set y : P := g0.val with hy
     symm
-    show (-(Θ.compDer Δ)) y = o (Algebra.Extension.Cotangent.mk g0)
+    change (-(Θ.compDer Δ)) y = o (Algebra.Extension.Cotangent.mk g0)
     rw [Derivation.neg_apply]
-    show -(Θ (Δ y)) = o (Algebra.Extension.Cotangent.mk g0)
+    change -(Θ (Δ y)) = o (Algebra.Extension.Cotangent.mk g0)
     have hfy : f y = 0 := g0.property
     have hΔ : (Δ y : B') = - q₀ y := by
-      show ((derivationToSquareZeroOfLift (RingHom.ker φ.toRingHom) hsq (c.comp f) e) y : B') = _
+      change ((derivationToSquareZeroOfLift (RingHom.ker φ.toRingHom) hsq (c.comp f) e) y : B') = _
       rw [derivationToSquareZeroOfLift_apply]
-      show (c.comp f) y - q₀ y = _
+      change (c.comp f) y - q₀ y = _
       simp only [AlgHom.comp_apply, hfy, map_zero, zero_sub]
     have hg0mem : q₀ y ∈ RingHom.ker φ.toRingHom := hmem0 ⟨y, g0.property⟩
     have hΔeq : Δ y = - ⟨q₀ y, hg0mem⟩ := by
       apply Subtype.ext
       rw [hΔ]; rfl
     rw [hΔeq, map_neg, neg_neg]
-    show θ ⟨q₀ y, hg0mem⟩ = o (Algebra.Extension.Cotangent.mk g0)
+    change θ ⟨q₀ y, hg0mem⟩ = o (Algebra.Extension.Cotangent.mk g0)
     exact hstar ⟨y, g0.property⟩ hg0mem
 
 /-- **Stacks 02HT obstruction-in-image (assembly).** Every `A`-linear functional `o` on the
@@ -1905,8 +1905,7 @@ private theorem lTensor_residueField_injective_of_forall_factor {A : Type u} [Co
   have hμ : μ = LinearMap.liftBaseChange κ o := by
     apply LinearMap.ext
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul a m =>
       have hsm : (TensorProduct.tmul A a m : TensorProduct A κ M)
           = a • TensorProduct.tmul A (1 : κ) m := by
@@ -1978,11 +1977,11 @@ private theorem split_iff_lTensor_cotangentComplex_injective
   have hfin : Module.Finite A P.Cotangent :=
     Algebra.Extension.Cotangent.finite (P := P) hker
   have hfreeCS : Module.Free A P.CotangentSpace := by
-    show Module.Free A (TensorProduct (MvPolynomial (Fin n) R) A
+    change Module.Free A (TensorProduct (MvPolynomial (Fin n) R) A
       (KaehlerDifferential R (MvPolynomial (Fin n) R)))
     infer_instance
   have hfinCS : Module.Finite A P.CotangentSpace := by
-    show Module.Finite A (TensorProduct (MvPolynomial (Fin n) R) A
+    change Module.Finite A (TensorProduct (MvPolynomial (Fin n) R) A
       (KaehlerDifferential R (MvPolynomial (Fin n) R)))
     infer_instance
   exact IsLocalRing.split_injective_iff_lTensor_residueField_injective P.cotangentComplex
@@ -2069,7 +2068,7 @@ theorem residueField_cotangentComplexBaseChange_injective_of_algLifts
   have : IsScalarTower R (MvPolynomial (Fin n) R) A :=
     IsScalarTower.of_algebraMap_eq (fun r => (f.commutes r).symm)
   have core := conormal_baseChange_residueField_injective_of_algLifts R A h n f hf hker
-  show Function.Injective ⇑(KaehlerDifferential.cotangentComplexBaseChange R A
+  change Function.Injective ⇑(KaehlerDifferential.cotangentComplexBaseChange R A
       (Algebra.Extension.ofSurjective f hf).Ring (IsLocalRing.ResidueField A))
   rw [Algebra.Extension.cotangentComplexBaseChange_eq_lTensor_cotangentComplex
       (R := R) (S := A) (P := Algebra.Extension.ofSurjective f hf) (A := IsLocalRing.ResidueField
@@ -2178,9 +2177,9 @@ theorem exists_finFSPresentation (R A : Type u) [CommRing R] [CommRing A] [Algeb
     refine IsScalarTower.of_algebraMap_eq' (R := R) (S := P) (A := A) ?_
     have hcomp : (algebraMap P A).comp (algebraMap R P) = algebraMap R A := by
       ext r
-      show f (algebraMap R P r) = algebraMap R A r
+      change f (algebraMap R P r) = algebraMap R A r
       rw [IsScalarTower.algebraMap_apply R B P r, hf, IsLocalization.map_eq]
-      show (algebraMap A₀ A) (g (algebraMap R B r)) = algebraMap R A r
+      change (algebraMap A₀ A) (g (algebraMap R B r)) = algebraMap R A r
       rw [g.commutes r, ← IsScalarTower.algebraMap_apply R A₀ A r]
     exact hcomp.symm
   have fsP : Algebra.FormallySmooth R P := Algebra.FormallySmooth.instLocalization W
@@ -2464,7 +2463,7 @@ theorem LiftsAgainstResiduallyTrivialSmallExtension.algLiftsResTrivSmall_of_lift
   let β : Spec (CommRingCat.of B') ⟶ S := Spec.map bR ≫ S.fromSpecStalk (f.base x)
   -- α sends the closed point to x
   have hclosed : α.base (IsLocalRing.closedPoint (CommRingCat.of B)) = x := by
-    show (X.fromSpecStalk x).base ((Spec.map aR).base (IsLocalRing.closedPoint (CommRingCat.of
+    change (X.fromSpecStalk x).base ((Spec.map aR).base (IsLocalRing.closedPoint (CommRingCat.of
         B))) = x
     rw [AlgebraicGeometry.Spec_closedPoint (f := aR)]
     exact Scheme.fromSpecStalk_closedPoint
@@ -2472,7 +2471,7 @@ theorem LiftsAgainstResiduallyTrivialSmallExtension.algLiftsResTrivSmall_of_lift
   have hring : f.stalkMap x ≫ aR = bR ≫ Φ := by
     apply CommRingCat.hom_ext
     ext r
-    show a.toRingHom ((f.stalkMap x).hom r) = φ.toRingHom (algebraMap (S.presheaf.stalk (f.base
+    change a.toRingHom ((f.stalkMap x).hom r) = φ.toRingHom (algebraMap (S.presheaf.stalk (f.base
         x)) B' r)
     have hA : a.toRingHom ((f.stalkMap x).hom r)
         = algebraMap (S.presheaf.stalk (f.base x)) B r := by
@@ -2483,7 +2482,7 @@ theorem LiftsAgainstResiduallyTrivialSmallExtension.algLiftsResTrivSmall_of_lift
     rfl
   -- the scheme-level compatibility square: α ≫ f = Spec.map Φ ≫ β
   have hcomm : α ≫ f = Spec.map Φ ≫ β := by
-    show (Spec.map aR ≫ X.fromSpecStalk x) ≫ f = Spec.map Φ ≫ Spec.map bR ≫ S.fromSpecStalk
+    change (Spec.map aR ≫ X.fromSpecStalk x) ≫ f = Spec.map Φ ≫ Spec.map bR ≫ S.fromSpecStalk
         (f.base x)
     rw [Category.assoc, ← Scheme.SpecMap_stalkMap_fromSpecStalk f, ← Spec.map_comp_assoc,
       ← Spec.map_comp_assoc, hring]
@@ -2494,7 +2493,7 @@ theorem LiftsAgainstResiduallyTrivialSmallExtension.algLiftsResTrivSmall_of_lift
   have hSmall : IsSmallExtension Φ := by
     refine ⟨‹_›, ‹_›, ‹_›, ‹_›, ?_, ?_⟩
     · exact hφsurj
-    · show Module.length B' (RingHom.ker φ.toRingHom) = 1
+    · change Module.length B' (RingHom.ker φ.toRingHom) = 1
       exact hlen
   -- apply h
   obtain ⟨γ, hγ1, hγ2⟩ := h Φ hSmall α β hcomm hclosed hresIso
@@ -2510,7 +2509,7 @@ theorem LiftsAgainstResiduallyTrivialSmallExtension.algLiftsResTrivSmall_of_lift
     X.presheaf.stalkSpecializes (Specializes.of_eq hgammaPt) ≫ Scheme.stalkClosedPointTo γ
   -- γ = Spec.map cRing ≫ fromSpecStalk x
   have hgeq : Spec.map cRing ≫ X.fromSpecStalk x = γ := by
-    show Spec.map (X.presheaf.stalkSpecializes (Specializes.of_eq hgammaPt) ≫
+    change Spec.map (X.presheaf.stalkSpecializes (Specializes.of_eq hgammaPt) ≫
         Scheme.stalkClosedPointTo γ) ≫ X.fromSpecStalk x = γ
     rw [Spec.map_comp, Category.assoc, Scheme.SpecMap_stalkSpecializes_fromSpecStalk]
     exact Scheme.Spec_stalkClosedPointTo_fromSpecStalk γ

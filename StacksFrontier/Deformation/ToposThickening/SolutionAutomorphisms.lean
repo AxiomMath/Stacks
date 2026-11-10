@@ -365,7 +365,7 @@ public theorem derivationOfHoms_toFun (p q : Hom P Q) (U : X.Cᵒᵖ)
 public theorem translate_derivationOfHoms (p q : Hom P Q) :
     translate p (derivationOfHoms p q) = q := by
   refine Hom.ext' (sheafHom_ext X.J fun U x => ?_)
-  show p.hom.hom.app U x + Q.incl (diff p q U x) = q.hom.hom.app U x
+  change p.hom.hom.app U x + Q.incl (diff p q U x) = q.hom.hom.app U x
   rw [incl_diff]
   abel
 

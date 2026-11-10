@@ -39,8 +39,8 @@ All in the namespace `AlgebraicGeometry.ProperFlatFibreEulerCharacteristic`.
 
 The two reductions are `isPerfect_derivedPushforward_singleFunctor_of_isAffine_of_baseChange` and
 `isPerfect_derivedPushforward_singleFunctor_of_baseChange` in
-`StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatModuleDirectImage.lean`, stated there without the
-abbreviation `derivedPushforwardModule`; this file restates them with it.
+`StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatModuleDirectImage.lean`, stated there without
+the abbreviation `derivedPushforwardModule`; this file restates them with it.
 
 The reduction takes the base-change half `BaseChangeDerivedPushforward` as an explicit argument;
 the unconditional statement supplies it with `baseChangeDerivedPushforward`.

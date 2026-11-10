@@ -8,7 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.Morphisms.Unramified.Sections
 
 Let `g : X ⟶ S` be a separated morphism of schemes admitting a section `s : S ⟶ X`. The open
 subscheme of `X` complementary to the image of `s` is `AlgebraicGeometry.sectionComplement` of
-`StacksFrontier.AlgebraicGeometry.Morphisms.FibreDimension.EtaleSectionComplement`, which also proves,
+`StacksFrontier.AlgebraicGeometry.Morphisms.FibreDimension.EtaleSectionComplement`, which also
+proves,
 for an étale separated `g`, that the complement is affine when `X` is and that passing to it drops
 a bound on the fibre degrees by one (`AlgebraicGeometry.boundsFiberDegrees_sectionComplement`), the
 splitting step of the second proof of Stacks Project, Tag 04DZ.
@@ -51,9 +52,9 @@ theorem isCompl_opensRange_sectionComplement [IsSeparated g] [IsOpenImmersion s]
     IsCompl s.opensRange (sectionComplement g s hs) := by
   refine ⟨disjoint_iff.mpr (TopologicalSpace.Opens.ext ?_),
     codisjoint_iff.mpr (TopologicalSpace.Opens.ext ?_)⟩
-  · show Set.range s.base ∩ (Set.range s.base)ᶜ = (∅ : Set X)
+  · change Set.range s.base ∩ (Set.range s.base)ᶜ = (∅ : Set X)
     exact Set.inter_compl_self _
-  · show Set.range s.base ∪ (Set.range s.base)ᶜ = (Set.univ : Set X)
+  · change Set.range s.base ∪ (Set.range s.base)ᶜ = (Set.univ : Set X)
     exact Set.union_compl_self _
 
 /-- The complement of a section of a separated unramified morphism is open and closed, hence

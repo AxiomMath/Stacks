@@ -98,7 +98,7 @@ trivial. -/
 theorem residueDegree_eq_one_of_isClosedImmersion {X Z : Scheme.{u}} (i : Z ⟶ X)
     [IsClosedImmersion i] (z : Z) : i.residueDegree z = 1 := by
   let _ := (i.residueFieldMap z).hom.toAlgebra
-  show Module.finrank (X.residueField (i.base z)) (Z.residueField z) = 1
+  change Module.finrank (X.residueField (i.base z)) (Z.residueField z) = 1
   exact Module.finrank_of_bijective_algebraMap
     (bijective_residueFieldMap_of_isClosedImmersion i z)
 
@@ -117,7 +117,7 @@ theorem relativeDimension_comp_closedImmersion {X Z S : Scheme.{u}} (δ : Dimens
       (algebraMap (S.residueField (p.base (i.base z))) (X.residueField (i.base z)) r) =
       algebraMap (S.residueField (p.base (i.base z))) (Z.residueField z) r := by
     intro r
-    show (i.residueFieldMap z).hom ((p.residueFieldMap (i.base z)).hom r) =
+    change (i.residueFieldMap z).hom ((p.residueFieldMap (i.base z)).hom r) =
       ((i ≫ p).residueFieldMap z).hom r
     rw [Scheme.residueFieldMap_comp]
     rfl
@@ -125,7 +125,7 @@ theorem relativeDimension_comp_closedImmersion {X Z S : Scheme.{u}} (δ : Dimens
     { __ := RingEquiv.ofBijective (i.residueFieldMap z).hom
         (bijective_residueFieldMap_of_isClosedImmersion i z)
       commutes' := hcm }
-  show δ (p.base (i.base z)) +
+  change δ (p.base (i.base z)) +
       (Cardinal.toNat (Algebra.trdeg (S.residueField (p.base (i.base z)))
         (Z.residueField z)) : ℤ) =
     δ (p.base (i.base z)) +
@@ -153,7 +153,7 @@ theorem componentMultiplicity_eq_one {X Z : Scheme.{u}} (i : Z ⟶ X) [IsClosedI
       (Z.presheaf.stalk (genericPoint Z)) :=
     isSimpleModule_of_surjective_toField (i.stalkMap (genericPoint Z)).hom
       (SurjectiveOnStalks.stalkMap_surjective i _)
-  show ((Module.length (X.presheaf.stalk (i (genericPoint Z)))
+  change ((Module.length (X.presheaf.stalk (i (genericPoint Z)))
     (Z.presheaf.stalk (genericPoint Z))).toNat : ℤ) = 1
   rw [Module.length_eq_one_iff.2 hsimple]
   rfl

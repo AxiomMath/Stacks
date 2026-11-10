@@ -173,8 +173,7 @@ lemma srcEquiv_smul (a b : A)
     (z : ↑(ModuleCat.restrictModule R A (ModuleCat.of A B)) ⊗[R] A) :
     srcEquiv R A B ((a ⊗ₜ[R] b) • z) =
       (algebraMap A B a ⊗ₜ[R] (1 : A)) * srcEquiv R A B z * ((1 : B) ⊗ₜ[R] b) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => rw [smul_add, map_add, map_add, hz, hw, mul_add, add_mul]
   | tmul x c =>
     rw [ModuleCat.sourceTensor_smul_tmul, srcEquiv_tmul, srcEquiv_tmul,
@@ -185,8 +184,7 @@ lemma tgtEquiv_smul (a b : A)
     (w : A ⊗[R] ↑(ModuleCat.restrictModule R A (ModuleCat.of A B))) :
     tgtEquiv R A B ((a ⊗ₜ[R] b) • w) =
       (a ⊗ₜ[R] (1 : B)) * tgtEquiv R A B w * ((1 : A) ⊗ₜ[R] algebraMap A B b) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add z w hz hw => rw [smul_add, map_add, map_add, hz, hw, mul_add, add_mul]
   | tmul c x =>
     rw [ModuleCat.targetTensor_smul_tmul, tgtEquiv_tmul, tgtEquiv_tmul,
@@ -213,8 +211,7 @@ lemma transitionLinearEquiv_smul (θ : (B ⊗[R] A) ≃ₐ[R] (A ⊗[R] B))
     (s : A ⊗[R] A)
     (z : ↑(ModuleCat.restrictModule R A (ModuleCat.of A B)) ⊗[R] A) :
     transitionLinearEquiv R A B θ (s • z) = s • transitionLinearEquiv R A B θ z := by
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | add s t hs ht => rw [add_smul, map_add, hs, ht, add_smul]
   | tmul a b =>
     apply (tgtEquiv R A B).injective
@@ -265,8 +262,7 @@ lemma rightComm_tgtEquiv (v : A ⊗[R] B) (b : A) :
         (↑(ModuleCat.restrictModule R A (ModuleCat.of A B))) A)
       (((tgtEquiv R A B).symm v) ⊗ₜ[R] b) =
       (tripleEquiv R A B).symm ((TensorProduct.rightComm R A B A) (v ⊗ₜ[R] b)) := by
-  induction v using TensorProduct.induction_on with
-  | zero => simp
+  induction v using TensorProduct.inductionOn with
   | add v w hv hw =>
     rw [map_add, add_tmul, map_add, hv, hw, add_tmul, map_add, map_add]
   | tmul a y => rfl
@@ -278,8 +274,7 @@ lemma assoc_tgtEquiv (a : A) (v : A ⊗[R] B) :
       (a ⊗ₜ[R] ((tgtEquiv R A B).symm v)) =
       (tripleEquiv R A B).symm
         ((TensorProduct.assoc R A A B).symm (a ⊗ₜ[R] v)) := by
-  induction v using TensorProduct.induction_on with
-  | zero => simp
+  induction v using TensorProduct.inductionOn with
   | add v w hv hw =>
     rw [map_add, tmul_add, map_add, hv, hw, tmul_add, map_add, map_add]
   | tmul a' y => rfl
@@ -294,8 +289,7 @@ lemma transition12_apply (v : A ⊗[R] B) (c : A) :
     ModuleCat.transition12 R A (ModuleCat.of A B)
         (moduleTransition R A B θ hleft hright) (((tgtEquiv R A B).symm v) ⊗ₜ[R] c) =
       (tripleEquiv R A B).symm (cocycle12 R A B θ.toLinearMap (v ⊗ₜ[R] c)) := by
-  induction v using TensorProduct.induction_on with
-  | zero => simp
+  induction v using TensorProduct.inductionOn with
   | add v w hv hw =>
     rw [map_add, add_tmul, map_add, hv, hw, add_tmul, map_add, map_add]
   | tmul a y =>
@@ -340,8 +334,7 @@ def moduleDescentDatum
   cocycle := by
     apply TensorProduct.ext'
     intro p c
-    induction p using TensorProduct.induction_on with
-    | zero => simp
+    induction p using TensorProduct.inductionOn with
     | add p q hp hq => rw [add_tmul, map_add, map_add, hp, hq]
     | tmul x b =>
       rw [LinearMap.comp_apply, transition01_apply R A B θ hleft hright,
@@ -423,7 +416,7 @@ lemma mem_invariantSubmodule_iff
     x ∈ ModuleCat.invariantSubmodule R A (moduleDescentDatum R A B θ hleft hright hcoc) ↔
       restrictEquiv R A B x ∈ invariantSubalgebra R A B θ hleft := by
   rw [mem_invariantSubalgebra]
-  show (moduleDescentDatum R A B θ hleft hright hcoc).transitionRestrictScalars R A
+  change (moduleDescentDatum R A B θ hleft hright hcoc).transitionRestrictScalars R A
       (x ⊗ₜ[R] (1 : A)) = (1 : A) ⊗ₜ[R] x ↔ _
   rw [show (moduleDescentDatum R A B θ hleft hright hcoc).transitionRestrictScalars R A
       (x ⊗ₜ[R] (1 : A)) = (tgtEquiv R A B).symm (θ (restrictEquiv R A B x ⊗ₜ[R] (1 : A)))
@@ -472,8 +465,7 @@ theorem exists_subalgebra_tensorEquiv
     rw [Algebra.smul_def]
     exact Algebra.TensorProduct.lift_tmul _ _ _ a c
   have hg : ∀ z, g z = counit (full z) := fun z ↦ by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]; rfl
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => rw [map_add, map_add, map_add, hz, hw]; rfl
     | tmul a c =>
       rw [hgtmul, show full (a ⊗ₜ[R] c) = a ⊗ₜ[R] sub c from
@@ -483,7 +475,7 @@ theorem exists_subalgebra_tensorEquiv
   have hbij : Function.Bijective g := funext hg ▸
     (counit.bijective.comp full.bijective : Function.Bijective (fun z ↦ counit (full z)))
   refine ⟨AlgEquiv.ofBijective g hbij, hgtmul, fun a b c ↦ ?_⟩
-  show θ (g (a ⊗ₜ[R] c) ⊗ₜ[R] b) = a ⊗ₜ[R] g (b ⊗ₜ[R] c)
+  change θ (g (a ⊗ₜ[R] c) ⊗ₜ[R] b) = a ⊗ₜ[R] g (b ⊗ₜ[R] c)
   rw [hgtmul, hgtmul]
   exact transition_smul_tmul_of_mem R A B θ hleft hright c.2 a b
 

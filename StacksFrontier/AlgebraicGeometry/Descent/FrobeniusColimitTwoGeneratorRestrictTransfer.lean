@@ -66,11 +66,12 @@ variable {X' Z E V' W D : Scheme.{u}} (q : E ⟶ X') (e : E ⟶ Z) (qV : D ⟶ V
   (hV' : IsInCharacteristic V' p) (hW : IsInCharacteristic W p) (hD : IsInCharacteristic D p)
   (sq : qV ≫ ιV' = ιD ≫ q) (se : eV ≫ ιW = ιD ≫ e)
 
+omit [IsIso ιD] in
 /-- **Restriction of the categorical fibre products along a cube of isomorphisms is faithful.** -/
 theorem faithful_frobeniusColimitVectorBundlesCatPullbackLoc_of_isIso :
     (frobeniusColimitVectorBundlesCatPullbackLoc p q e qV eV ιV' ιW ιD
       hX' hZ hE hV' hW hD sq se).Faithful where
-  map_injective {T T'} f g h := CategoricalPullback.hom_ext
+  map_injective h := CategoricalPullback.hom_ext
     ((frobeniusColimitVectorBundlesPullback p ιW hW hZ).map_injective
       (congrArg CategoricalPullback.Hom.fst h))
     ((frobeniusColimitVectorBundlesPullback p ιV' hV' hX').map_injective

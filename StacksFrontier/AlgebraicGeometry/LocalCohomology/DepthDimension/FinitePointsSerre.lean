@@ -94,7 +94,7 @@ private lemma depth_and_supportDim_stalk_eq_localization [IsLocallyNoetherian X]
   let : Module Γ(X, U) N := affineStalkModule F U x hx
   let : Algebra Γ(X, U) T := (X.presheaf.germ U x hx).hom.toAlgebra
   let : IsScalarTower Γ(X, U) T N := IsScalarTower.of_algebraMap_smul fun r z => by
-    show (X.presheaf.germ U x hx).hom r • z = r • z
+    change (X.presheaf.germ U x hx).hom r • z = r • z
     rfl
   let : IsLocalization.AtPrime T p := hU.isLocalization_stalk ⟨x, hx⟩
   let : IsLocalRing T := IsLocalization.AtPrime.isLocalRing T p
@@ -120,7 +120,7 @@ private lemma depth_and_supportDim_stalk_eq_localization [IsLocallyNoetherian X]
       Module.supportDim S N := Module.supportDim_eq_of_equiv eM'
   have hmax : Ideal.map (algebraMap S T) (IsLocalRing.maximalIdeal S) =
       IsLocalRing.maximalIdeal T := by
-    show Ideal.map e.toRingHom (IsLocalRing.maximalIdeal S) = IsLocalRing.maximalIdeal T
+    change Ideal.map e.toRingHom (IsLocalRing.maximalIdeal S) = IsLocalRing.maximalIdeal T
     exact IsLocalRing.map_ringEquiv_maximalIdeal e.toRingEquiv
   have hdepthST := Module.depth_eq_depth_map_algebraMap
     (A := S) (B := T) e.surjective (IsLocalRing.maximalIdeal S) N
@@ -133,10 +133,10 @@ private lemma depth_and_supportDim_stalk_eq_localization [IsLocallyNoetherian X]
   have hdimST : Module.supportDim S N = Module.supportDim T N :=
     Module.supportDim_eq_of_ringEquiv e.toRingEquiv N rfl
   refine ⟨?_, ?_⟩
-  · show Module.depth T (IsLocalRing.maximalIdeal T) N =
+  · change Module.depth T (IsLocalRing.maximalIdeal T) N =
       Module.depth S (IsLocalRing.maximalIdeal S) (LocalizedModule p.primeCompl Γ(F, U))
     rw [← hdepthST, ← hdepthM]
-  · show Module.supportDim T N =
+  · change Module.supportDim T N =
       Module.supportDim S (LocalizedModule p.primeCompl Γ(F, U))
     rw [← hdimST, ← hdimM]
 

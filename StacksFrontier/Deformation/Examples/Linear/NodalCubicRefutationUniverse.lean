@@ -10,8 +10,8 @@ public import StacksFrontier.RingTheory.ULiftRingModules
 `Deformation.FlatModuleLiftBaseChangeStatement.{0}`: its counterexample rings are built from
 `ZMod 2` and so live in `Type`. This file removes the restriction to universe zero. The six rings
 of the counterexample are replaced by their `ULift`s, every hypothesis of Stacks 0DZ2 is
-transported with the toolkit of `StacksFrontier.RingTheory.ULiftRingModules`, and the contradiction is
-derived at universe `u`.
+transported with the toolkit of `StacksFrontier.RingTheory.ULiftRingModules`, and the contradiction
+is derived at universe `u`.
 
 ## What makes this work, and what does not
 
@@ -150,17 +150,17 @@ theorem exists_local_lift_ulift (g : ULift.{u} PBase)
     refine IsLocalization.ringHom_ext (Submonoid.powers g) ?_
     ext p
     simp only [RingHom.coe_comp, Function.comp_apply]
-    show algebraMap R₁ R₂ (γ₁ (algebraMap (ULift.{u} PBase) (PAwayU g) p)) = _
+    change algebraMap R₁ R₂ (γ₁ (algebraMap (ULift.{u} PBase) (PAwayU g) p)) = _
     rw [γ₁.commutes, ← IsScalarTower.algebraMap_apply (ULift.{u} PBase) R₁ R₂,
       ← IsScalarTower.algebraMap_apply (ULift.{u} PBase) (PAwayU g) (PRedAwayU g),
       IsScalarTower.algebraMap_apply (ULift.{u} PBase) (ULift.{u} PRed) (PRedAwayU g)]
-    show _ = γ₂ (algebraMap (ULift.{u} PRed) (PRedAwayU g) _)
+    change _ = γ₂ (algebraMap (ULift.{u} PRed) (PRedAwayU g) _)
     rw [γ₂.commutes, ← IsScalarTower.algebraMap_apply (ULift.{u} PBase) (ULift.{u} PRed) R₂]
   have tS12 : IsScalarTower (PAwayU g) (PRedAwayU g) R₂ :=
     IsScalarTower.of_algebraMap_eq fun s => RingHom.congr_fun hext s
   have tAR1L : IsScalarTower (ULift.{u} ABase) R₁ (ULift.{u} L₀) :=
     IsScalarTower.of_algebraMap_smul fun a x => by
-      show γ₁.symm (algebraMap (ULift.{u} ABase) R₁ a) • x = a • x
+      change γ₁.symm (algebraMap (ULift.{u} ABase) R₁ a) • x = a • x
       rw [IsScalarTower.algebraMap_apply (ULift.{u} ABase) (ULift.{u} PBase) R₁ a,
         γ₁.symm.commutes, ← IsScalarTower.algebraMap_apply (ULift.{u} ABase)
           (ULift.{u} PBase) (PAwayU g), algebraMap_ulift_apply]
@@ -168,7 +168,7 @@ theorem exists_local_lift_ulift (g : ULift.{u} PBase)
   exact ⟨ULift.{u} L₀, inferInstance, inferInstance, inferInstance, inferInstance,
     flat_ulift.{u} hflat₀,
     ⟨tensorUliftCongrOfRingEquiv γ₁.toRingEquiv (fun _ => rfl) (fun t x => by
-      show t • x = γ₁.symm (γ₁ t) • x
+      change t • x = γ₁.symm (γ₁ t) • x
       rw [AlgEquiv.symm_apply_apply]) E₀⟩⟩
 
 /-- The structure map `P' → (P)_ḡ` factors through `(P')_g`, after `ULift`. This is the
@@ -257,7 +257,7 @@ theorem not_lift_of_tensorEquiv_ulift {P : Type u} [CommRing P]
   · intro n
     obtain ⟨y, hy⟩ := htmul (e.symm (ULift.up.{u} n))
     refine ⟨y, ?_⟩
-    show (e ((1 : P) ⊗ₜ[ULift.{u} PBase] y)).down = n
+    change (e ((1 : P) ⊗ₜ[ULift.{u} PBase] y)).down = n
     rw [← hy, e.apply_symm_apply]
   · intro y hy
     have hy' : (e ((1 : P) ⊗ₜ[ULift.{u} PBase] y)).down = 0 := hy

@@ -97,8 +97,7 @@ theorem dual_lTensor_surjective_of_postcomp
         = CharacterModule.homEquiv (CharacterModule.dual a ∘ₗ η) := by
     intro η
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul g m => rfl
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   intro χ

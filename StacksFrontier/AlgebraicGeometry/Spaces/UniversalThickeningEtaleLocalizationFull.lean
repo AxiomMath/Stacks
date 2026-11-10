@@ -180,7 +180,7 @@ theorem IsUniversalFirstOrderThickening.exists_etaleLocalization
   -- Composing the two gives the identification of `g⁻¹(Z)` with the given `V` over `Z`.
   let e : (Z.preimage D.1.hom.hom).toFunctor ≅ V₀.obj := hk.symm ≪≫ eP
   have hev : e.hom ≫ v = Z.fromPreimage D.1.hom.hom := by
-    show (hk.inv ≫ eP.hom) ≫ v = Z.fromPreimage D.1.hom.hom
+    change (hk.inv ≫ eP.hom) ≫ v = Z.fromPreimage D.1.hom.hom
     rw [Category.assoc, hov, ← hksnd, ← Category.assoc, hk.inv_hom_id, Category.id_comp]
   -- `g⁻¹(Z) ⊂ V'` is a first-order thickening, the extension being étale.
   have hVfo : IsFirstOrderThickening B S hS D.1.left (Z.preimage D.1.hom.hom) :=
@@ -289,7 +289,7 @@ theorem etaleLocalization_commutes_universalFirstOrderThickening
       W q hW (eW ≪≫ e.symm) he
   refine ⟨m, hmE, ?_, hmover⟩
   rw [hmres]
-  show (eW.hom ≫ e.inv) ≫ V.ι ≫ g.hom = eW.hom ≫ v ≫ Z.ι
+  change (eW.hom ≫ e.inv) ≫ V.ι ≫ g.hom = eW.hom ≫ v ≫ Z.ι
   simp only [Category.assoc]
   rw [← hsqV.w, ← hc]
   simp only [Category.assoc]

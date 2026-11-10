@@ -113,7 +113,7 @@ theorem functor_isCocontinuous : h.functor.IsCocontinuous B.topology B'.topology
     (show B'.inclusion.obj (h.functor.obj (E.X j)) ⟶ B'.inclusion.obj (E'.X i) from q)
   have hfac : q' ≫ E'.f i = h.functor.map (E.f j) :=
     B'.inclusion.map_injective (by rw [Functor.map_comp, B'.inclusion.map_preimage]; exact hq)
-  show R.arrows (h.functor.map (E.f j))
+  change R.arrows (h.functor.map (E.f j))
   exact hfac ▸ R.downward_closed (hE'R _ _ (Presieve.ofArrows.mk i)) q'
 
 /-- Hypotheses (d) and (e) of Stacks 00XU for the big sites: fibre products exist in the smaller

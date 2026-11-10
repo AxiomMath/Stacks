@@ -5,8 +5,8 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.LiftingAffinesBandChartRea
 /-!
 # The reading of the band on the charts of a frame is additive, bijective and linear
 
-Continuation of `StacksFrontier.AlgebraicGeometry.Stacks.LiftingAffinesBandChartReading`: the reading
-of the band of the gerbe of smooth lifts (Stacks 0CJY) on the étale charts of the base of an
+Continuation of `StacksFrontier.AlgebraicGeometry.Stacks.LiftingAffinesBandChartReading`: the
+reading of the band of the gerbe of smooth lifts (Stacks 0CJY) on the étale charts of the base of an
 object `ξ`, through the datum of Stacks 0CK6, is an additive bijection onto the morphisms of the
 pullbacks of `Δ^*Ω_{I/U'}` and `𝒞_{U/U'}`, linear over the functions on the chart. With the
 naturality of the reading this identifies the band module with an internal Hom, which proves that
@@ -642,7 +642,7 @@ theorem chartScalar_postcomp (T : Space.SmallEtale B S hS ξ.base.obj.left.1)
   apply (Space.globalFunctionsYonedaRingEquiv B S hS _).injective
   refine ((Space.globalFunctionsYonedaRingEquiv B S hS _).apply_symm_apply _).trans ?_
   symm
-  show ((Oforget (Space.smallEtaleStructurePresheaf B S hS ξ.base.obj.left.1
+  change ((Oforget (Space.smallEtaleStructurePresheaf B S hS ξ.base.obj.left.1
       ξ.base.obj.left.2)).map
     (𝟙 (op T))).hom r = r
   rw [CategoryTheory.Functor.map_id]

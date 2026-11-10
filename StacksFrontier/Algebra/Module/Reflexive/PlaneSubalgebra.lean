@@ -264,14 +264,14 @@ private theorem sub_constantCoeff_mem (r : adjoinGenerators k) :
     have ht' : t = 1 ∨ t ∈ generators k := by
       simpa only [generators, Set.mem_insert_iff, Set.mem_singleton_iff] using ht
     rcases ht' with rfl | ht'
-    · show (1 : adjoinGenerators k) -
+    · change (1 : adjoinGenerators k) -
         algebraMap k (adjoinGenerators k)
           (MvPolynomial.constantCoeff (1 : plane k)) ∈ generatorIdeal k
       simp
     · rw [constantCoeff_eq_zero_of_mem_generators k ht', map_zero, sub_zero]
       exact Ideal.subset_span ht'
   · intro a
-    show algebraMap k (adjoinGenerators k) a -
+    change algebraMap k (adjoinGenerators k) a -
       algebraMap k (adjoinGenerators k)
         (MvPolynomial.constantCoeff (MvPolynomial.C a)) ∈ generatorIdeal k
     rw [MvPolynomial.constantCoeff_C, sub_self]
@@ -294,7 +294,7 @@ private theorem sub_constantCoeff_mem (r : adjoinGenerators k) :
 private theorem generatorIdeal_le_ker : generatorIdeal k ≤
     RingHom.ker (MvPolynomial.constantCoeff.comp (adjoinGenerators k).subtype) := by
   refine Ideal.span_le.mpr fun r hr => ?_
-  show MvPolynomial.constantCoeff (r : plane k) = 0
+  change MvPolynomial.constantCoeff (r : plane k) = 0
   exact constantCoeff_eq_zero_of_mem_generators k hr
 
 /-- An element of `R = k[y, x², xy, x³]` lies in `m = (y, x², xy, x³)` exactly when its constant
@@ -329,7 +329,7 @@ private theorem span_one_x_eq_top :
   classical
   let S : Submodule (adjoinGenerators k) (plane k) :=
     Submodule.span (adjoinGenerators k) {1, MvPolynomial.X 0}
-  show S = ⊤
+  change S = ⊤
   have hmulx (q : plane k) (hq : q ∈ S) : q * MvPolynomial.X 0 ∈ S := by
     obtain ⟨a, b, hab⟩ := (mem_span_one_x_iff k q).mp hq
     refine (mem_span_one_x_iff k _).mpr ⟨b * ⟨MvPolynomial.X 0 ^ 2, x_sq_mem k⟩, a, ?_⟩
@@ -338,7 +338,7 @@ private theorem span_one_x_eq_top :
     ring
   have hmuly (q : plane k) (hq : q ∈ S) : q * MvPolynomial.X 1 ∈ S := by
     convert S.smul_mem ⟨MvPolynomial.X 1, y_mem k⟩ hq using 1
-    show q * MvPolynomial.X 1 = MvPolynomial.X 1 * q
+    change q * MvPolynomial.X 1 = MvPolynomial.X 1 * q
     ring
   suffices h : ∀ q : plane k, q ∈ S from top_unique fun q _ => h q
   intro q

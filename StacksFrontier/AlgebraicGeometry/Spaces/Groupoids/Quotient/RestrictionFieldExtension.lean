@@ -289,7 +289,7 @@ private theorem universallyOpen_fiberProductSnd
     isAlgebraicSpace_pullback C S hS g.hom f.hom Z.property X.property Y.property
   have hfirst : UniversallyOpen C S hS (pullback.fst g.hom f.hom) :=
     universallyOpen_pullback C S hS X.property Y.property Z.property f.hom g.hom hf
-  show UniversallyOpen C S hS (pullback.snd f.hom g.hom)
+  change UniversallyOpen C S hS (pullback.snd f.hom g.hom)
   rw [← hproj]
   exact universallyOpen_comp C S hS hP hP' Z.property _ _
     (universallyOpen_of_isIso C hS (pullbackSymmetry f.hom g.hom).hom) hfirst
@@ -316,10 +316,10 @@ private theorem isSurjective_of_pointwise_lift
       toBase := p.toBase
       value := a }
   refine ⟨q.class C S hS X, ?_⟩
-  show (FieldValuedPoint.map C S hS X f q).class C S hS Y = p.class C S hS Y
+  change (FieldValuedPoint.map C S hS X f q).class C S hS Y = p.class C S hS Y
   apply Quot.sound
   refine ⟨p, ⟨𝟙 p.siteObject, ?_⟩, FieldValuedPoint.dominates_refl C S hS Y p⟩
-  show Y.map (𝟙 p.siteObject).op (f.app (Opposite.op p.siteObject) a) = p.value
+  change Y.map (𝟙 p.siteObject).op (f.app (Opposite.op p.siteObject) a) = p.value
   simpa only [op_id, Functor.map_id_apply] using ha
 
 /-- Every field-valued point of the object space of a groupoid in algebraic spaces is the
@@ -362,8 +362,8 @@ private theorem isSurjective_fieldSpaceMap :
   have : P.IsStableUnderBaseChange := BigFppfOver.isStableUnderBaseChange_inverseImage C S hS _
   have hrel : P.presheaf (yoneda.map a) :=
     (MorphismProperty.relative_map_iff (F := yoneda) (P := P)).2 (by
-      show Surjective (T.map a)
-      show Surjective (Scheme.Spec.map (CommRingCat.ofHom i).op)
+      change Surjective (T.map a)
+      change Surjective (Scheme.Spec.map (CommRingCat.ofHom i).op)
       let φ : CommRingCat.of k ⟶ CommRingCat.of k' := CommRingCat.ofHom i
       have hFaithfullyFlat : (CommRingCat.Hom.hom φ).FaithfullyFlat := by
         let : Algebra k k' := (CommRingCat.Hom.hom φ).toAlgebra
@@ -371,7 +371,7 @@ private theorem isSurjective_fieldSpaceMap :
       have hFlatSurj : Flat (Spec.map φ) ∧ Surjective (Spec.map φ) :=
         (AlgebraicGeometry.flat_and_surjective_SpecMap_iff φ).2 hFaithfullyFlat
       simpa [φ] using hFlatSurj.2)
-  show IsSurjective C S hS (yoneda.map a)
+  change IsSurjective C S hS (yoneda.map a)
   exact (presheafSurjective_iff_isSurjective_yoneda C S hS (yoneda.obj V)
     (isAlgebraicSpace_yoneda C S hS V) V' (yoneda.map a)).mp hrel
 
@@ -380,7 +380,7 @@ private theorem isSurjective_restrictionObjectMap :
   have : IsIso (eqToHom hU.symm :
       fieldSpace C hS hk structureMap ⟶ G.objects).hom :=
     (ObjectProperty.isIso_hom_iff _).2 inferInstance
-  show IsSurjective C S hS
+  change IsSurjective C S hS
     ((fieldSpaceMap C hS hk hk' structureMap i ≫ eqToHom hU.symm).hom)
   exact isSurjective_comp C S hS
     (isSurjective_fieldSpaceMap C hS hk hk' structureMap i)
@@ -419,7 +419,7 @@ private theorem isFlat_to_fieldSpace
     (@Flat : MorphismProperty Scheme.{u}) Flat.isEtaleLocalOnSourceAndTarget
     X.property (isAlgebraicSpace_yoneda C S hS V) f.hom).2
   refine ⟨U, V, p, q, α, hp_etale, hq_etale, hp_surj, hcomm.symm, ?_⟩
-  show Flat (T.map α)
+  change Flat (T.map α)
   have : Subsingleton (T.obj V) := inferInstanceAs (Subsingleton (Spec (.of k)))
   have : IsIntegral (T.obj V) := inferInstanceAs (IsIntegral (Spec (.of k)))
   infer_instance
@@ -472,7 +472,7 @@ private theorem isAffineHom_fieldSpaceMap :
       C.obj hk' ⟶ C.obj hS) : BigFppfOver C S hS) ⟶
       Over.mk (⟨structureMap⟩ : C.obj hk ⟶ C.obj hS) :=
     Over.homMk (⟨Scheme.Spec.map (CommRingCat.ofHom i).op⟩ : C.obj hk' ⟶ C.obj hk) rfl
-  show IsAffineHom C S hS (yoneda.map a)
+  change IsAffineHom C S hS (yoneda.map a)
   exact isAffineHom_yonedaMap C hS a (inferInstanceAs
     (_root_.AlgebraicGeometry.IsAffineHom (Scheme.Spec.map (CommRingCat.ofHom i).op)))
 
@@ -481,7 +481,7 @@ private theorem isAffineHom_restrictionObjectMap :
   have : IsIso (eqToHom hU.symm :
       fieldSpace C hS hk structureMap ⟶ G.objects).hom :=
     (ObjectProperty.isIso_hom_iff _).2 inferInstance
-  show IsAffineHom C S hS
+  change IsAffineHom C S hS
     ((fieldSpaceMap C hS hk hk' structureMap i ≫ eqToHom hU.symm).hom)
   exact isAffineHom_comp C S hS _ _
     (isAffineHom_fieldSpaceMap C hS hk hk' structureMap i)

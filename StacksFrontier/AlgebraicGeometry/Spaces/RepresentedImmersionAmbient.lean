@@ -64,8 +64,8 @@ universe u
 set-theoretic operations in `coborder s = (closure s \ s)ᶜ` are preserved. -/
 theorem Homeomorph.preimage_coborder {α β : Type*} [TopologicalSpace α] [TopologicalSpace β]
     (h : α ≃ₜ β) (s : Set β) : h ⁻¹' coborder s = coborder (h ⁻¹' s) := by
-  show h ⁻¹' (closure s \ s)ᶜ = (closure (h ⁻¹' s) \ h ⁻¹' s)ᶜ
-  rw [Set.preimage_compl, Set.preimage_diff, h.preimage_closure]
+  change h ⁻¹' (closure s \ s)ᶜ = (closure (h ⁻¹' s) \ h ⁻¹' s)ᶜ
+  rw [Set.preimage_compl, Set.preimage_sdiff, h.preimage_closure]
 
 namespace AlgebraicGeometry.Space
 

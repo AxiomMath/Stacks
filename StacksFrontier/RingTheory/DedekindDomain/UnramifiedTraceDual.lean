@@ -40,7 +40,7 @@ theorem differentIdeal_eq_top_of_forall_isUnramifiedAt
     apply IsLocalization.ringHom_ext (nonZeroDivisors A)
     ext
     simp only [RingHom.coe_comp, RingHom.coe_coe,
-      AlgEquiv.coe_ringEquiv, Function.comp_apply, AlgEquiv.commutes,
+      AlgEquiv.coe_toRingEquiv, Function.comp_apply, AlgEquiv.commutes,
       ← IsScalarTower.algebraMap_apply]
     rw [IsScalarTower.algebraMap_apply A B L, AlgEquiv.commutes, ← IsScalarTower.algebraMap_apply]
   have : Algebra.IsSeparable (FractionRing A) (FractionRing B) :=

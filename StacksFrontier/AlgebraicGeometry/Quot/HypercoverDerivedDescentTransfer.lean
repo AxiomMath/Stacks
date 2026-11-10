@@ -195,7 +195,7 @@ theorem HypercoverComparisonCompCompatible.isHypercoverDescentCompatible
     rw [← cancel_epi ((Φ U₀).map β.hom), ← Functor.map_comp, β.hom_inv_id, Functor.map_id, hβ]
     simp
   apply hinj
-  show (Φ U₁).map (_ ≫ _ ≫ _ ≫ _) = (Φ U₁).map α.hom
+  change (Φ U₁).map (_ ≫ _ ≫ _ ≫ _) = (Φ U₁).map α.hom
   have hαΦ : (Φ U₁).map α.hom = (ε s hs).hom.app K₀ ≫
       (((ε s hs).app K₀).symm ≪≫ (Φ U₁).mapIso α ≪≫ (ε t ht).app K₀).hom ≫
         (ε t ht).inv.app K₀ := by

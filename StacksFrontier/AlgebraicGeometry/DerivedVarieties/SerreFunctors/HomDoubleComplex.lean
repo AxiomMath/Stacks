@@ -94,7 +94,7 @@ private lemma triangleMap_comp_zero_of_mod_eq_zero (T : Triangle C) (hT : T ∈ 
     simp [h1, S₁]
   have hmid : eqToHom hB₀.symm ≫ eqToHom hB₁ = e.hom.hom₂ := by
     rw [eqToHom_trans]
-    show eqToHom (hB₀.symm.trans hB₁) = (eqToHom heq).hom₂
+    change eqToHom (hB₀.symm.trans hB₁) = (eqToHom heq).hom₂
     rw [Triangle.eqToHom_hom₂]
   have hzero : S₀.mor₁ ≫ e.hom.hom₂ ≫ S₁.mor₂ = 0 := by
     rw [← e.hom.comm₂, ← Category.assoc,
@@ -138,7 +138,7 @@ private lemma triangleMap_comp_zero_of_mod_eq_one (T : Triangle C) (hT : T ∈ d
     simp [h2, S₁, b]
   have hmid : eqToHom hB₀.symm ≫ eqToHom hB₁ = e.hom.hom₃ := by
     rw [eqToHom_trans]
-    show eqToHom (hB₀.symm.trans hB₁) = (eqToHom heq).hom₃
+    change eqToHom (hB₀.symm.trans hB₁) = (eqToHom heq).hom₃
     rw [Triangle.eqToHom_hom₃]
   have hzero : S₀.mor₂ ≫ e.hom.hom₃ ≫ S₁.mor₃ = 0 := by
     rw [← e.hom.comm₃, ← Category.assoc,
@@ -199,7 +199,7 @@ private lemma triangleMap_comp_zero_of_mod_eq_two (T : Triangle C) (hT : T ∈ d
     simp [h3, S₁]
   have hmid : eqToHom hEnd.symm ≫ eqToHom hB = j.hom.hom₁ := by
     rw [eqToHom_trans]
-    show eqToHom (hEnd.symm.trans hB) = (eqToHom heq).hom₁
+    change eqToHom (hEnd.symm.trans hB) = (eqToHom heq).hom₁
     rw [Triangle.eqToHom_hom₁]
   -- The remaining identities are assembled as terms rather than by `rewrite`: each of them
   -- composes across the definitional identification of `R.obj₁` with `S.obj₁⟦1⟧`, which
@@ -245,7 +245,7 @@ private lemma triangleMap_transport (T : Triangle C) {i j k : ℤ}
 lemma d₁_comp_d₁ (K : HomDoubleComplexSetup (C := C)) (p q : ℤ) :
     AddCommGrpCat.ofHom (K.d₁ p q) ≫ AddCommGrpCat.ofHom (K.d₁ (p + 1) q) = 0 := by
   ext f
-  show K.d₁ (p + 1) q (K.d₁ p q f) = 0
+  change K.d₁ (p + 1) q (K.d₁ p q f) = 0
   simp only [HomDoubleComplexSetup.d₁, Preadditive.leftComp,
     AddMonoidHom.mk'_apply]
   have hidx : -(p + 1 + 1) + 1 = -(p + 1) := by omega
@@ -262,7 +262,7 @@ lemma d₁_comp_d₁ (K : HomDoubleComplexSetup (C := C)) (p q : ℤ) :
 lemma d₂_comp_d₂ (K : HomDoubleComplexSetup (C := C)) (p q : ℤ) :
     AddCommGrpCat.ofHom (K.d₂ p q) ≫ AddCommGrpCat.ofHom (K.d₂ p (q + 1)) = 0 := by
   ext f
-  show K.d₂ p (q + 1) (K.d₂ p q f) = 0
+  change K.d₂ p (q + 1) (K.d₂ p q f) = 0
   simp only [HomDoubleComplexSetup.d₂, Preadditive.rightComp,
     AddMonoidHom.mk'_apply, Category.assoc]
   simpa using congrArg (fun g => f ≫ g) (triangleMap_comp_zero K.Y K.Y_distinguished q)
@@ -273,7 +273,7 @@ lemma d₂_comp_d₁ (K : HomDoubleComplexSetup (C := C)) (p q : ℤ) :
     AddCommGrpCat.ofHom (K.d₂ p q) ≫ AddCommGrpCat.ofHom (K.d₁ p (q + 1)) =
       AddCommGrpCat.ofHom (K.d₁ p q) ≫ AddCommGrpCat.ofHom (K.d₂ (p + 1) q) := by
   ext f
-  show K.d₁ p (q + 1) (K.d₂ p q f) = K.d₂ (p + 1) q (K.d₁ p q f)
+  change K.d₁ p (q + 1) (K.d₂ p q f) = K.d₂ (p + 1) q (K.d₁ p q f)
   simp only [HomDoubleComplexSetup.d₁, HomDoubleComplexSetup.d₂,
     Preadditive.leftComp, Preadditive.rightComp,
     AddMonoidHom.mk'_apply, Category.assoc]

@@ -147,7 +147,7 @@ theorem mulMap_unit (L : C) (e : powSections L 0) : ∀ j : ℕ,
     mulMap e j = unitAct e (natTensorPow L j) ≫ powCongr L (Nat.zero_add j).symm
   | 0 => by
       rw [Stacks.GradedSections.mulMap_zero]
-      show e = unitAct e (𝟙_ C) ≫ 𝟙 _
+      change e = unitAct e (𝟙_ C) ≫ 𝟙 _
       exact (unitAct_unit e).symm.trans (Category.comp_id _).symm
   | j + 1 => by
       have hw : unitAct e (natTensorPow L j) ▷ L = unitAct e (natTensorPow L (j + 1)) :=
@@ -173,6 +173,7 @@ variable {C : Type u} [Category.{v} C] [MonoidalCategory C] {F L : C}
   [Preadditive C] [(_root_.CategoryTheory.MonoidalCategory.tensorRight L).Additive]
 
 
+omit [Preadditive C] [(_root_.CategoryTheory.MonoidalCategory.tensorRight L).Additive] in
 /-- Reindexing the degree commutes with composing by an endomorphism of the monoidal unit:
 both are compositions, so this is associativity. -/
 theorem twistCongr_unitComp {m m' : ℕ} (h : m = m') (e : powSections L 0)
@@ -181,6 +182,7 @@ theorem twistCongr_unitComp {m m' : ℕ} (h : m = m') (e : powSections L 0)
   rw [twistCongr, twistCongr]
   exact Category.assoc _ _ _
 
+omit [Preadditive C] [(_root_.CategoryTheory.MonoidalCategory.tensorRight L).Additive] in
 /-- **Multiplication by `s` commutes with composing by a degree-zero section.** The iterated
 whiskering of `e ≫ y` splits as the iterated whiskering of `e` — which is
 `Stacks.GradedSections.mulMap e` — followed by that of `y`, and the first factor is then moved
@@ -199,6 +201,7 @@ theorem shiftBySection_unitComp {d : ℕ} (s : powSections L d) (e : powSections
   simp only [eqToHom_trans, eqToHom_refl, Category.comp_id]
   rfl
 
+omit [Preadditive C] [(_root_.CategoryTheory.MonoidalCategory.tensorRight L).Additive] in
 /-- **The `k`-fold multiplication by `s` commutes with composing by a degree-zero section.** -/
 theorem shiftPow_unitComp {d : ℕ} (s : powSections L d) (e : powSections L 0) (k : ℕ)
     (u : twistSections F L 0) :
@@ -270,6 +273,9 @@ variable {C : Type u} [Category.{v} C] [MonoidalCategory C]
   [(_root_.CategoryTheory.MonoidalCategory.tensorRight (G.obj L)).Additive]
 
 
+omit [Preadditive C] [(_root_.CategoryTheory.MonoidalCategory.tensorRight L).Additive]
+  [Preadditive D] [G.Additive]
+  [(_root_.CategoryTheory.MonoidalCategory.tensorRight (G.obj L)).Additive] in
 /-- **Carrying a twisted section along `G` commutes with composing by a degree-zero section.**
 The lax unit of `G` and its oplax counit cancel against each other, which is
 `CategoryTheory.Functor.Monoidal.η_ε`. -/
@@ -363,7 +369,7 @@ theorem openDivision_gsmul_unitComp (F L : X.Modules)
         (twistCongr (mul_add_degree d n m) (gsmul (e ≫ sectionPowOfDegree s m) t))
       = sliceUnitScalar L V e • openDivision F L s V hV n t := by
   have := isIso_mapPowSections_openRestriction L s hV
-  show schemeOpenUnitHomAddEquiv V F
+  change schemeOpenUnitHomAddEquiv V F
       (monoidalDivision (schemeOpenRestriction X V) s (n + m) _) = _
   rw [monoidalDivision_gsmul_unitComp (schemeOpenRestriction X V) s n m e t]
   exact Stacks.SectionRingGeometric.globalSection_unitComp_onSite (sliceRingPresheaf X.presheaf V)

@@ -207,7 +207,7 @@ theorem coeffPresAddHom_exists (g : ∀ k : ℤ, X k ⟶ Y k) (h : ∀ k : ℤ, 
 theorem coeffPresMap_eq_zero (g : ∀ k : ℤ, X k ⟶ Y k) (hg : ∀ k : ℤ, g k = 0) (n : ℤ) :
     coeffPresMap S g n = 0 := by
   refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
-  show coeffPresAddHom S g n U m = 0
+  change coeffPresAddHom S g n U m = 0
   induction m using _root_.DirectSum.induction_on with
   | zero => exact map_zero _
   | of p x =>
@@ -220,7 +220,7 @@ theorem coeffPresMap_eq_zero (g : ∀ k : ℤ, X k ⟶ Y k) (hg : ∀ k : ℤ, g
 theorem coeffPresMap_add {X Y : ℤ → SheafOfModules.{a} R} (g h : ∀ k : ℤ, X k ⟶ Y k) (n : ℤ) :
     coeffPresMap S (fun k => g k + h k) n = coeffPresMap S g n + coeffPresMap S h n := by
   refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
-  show coeffPresAddHom S (fun k => g k + h k) n U m =
+  change coeffPresAddHom S (fun k => g k + h k) n U m =
     coeffPresAddHom S g n U m + coeffPresAddHom S h n U m
   induction m using _root_.DirectSum.induction_on with
   | zero => rw [map_zero, map_zero, map_zero, add_zero]
@@ -315,7 +315,7 @@ omit [HasSheafify J AddCommGrpCat.{a}] [J.WEqualsLocallyBijective AddCommGrpCat.
 theorem coeffPieceMap_mono (g : ∀ k : ℤ, X k ⟶ Y k) (hg : ∀ k : ℤ, Mono (g k)) (n : ℤ) :
     Mono (coeffPieceMap S g n) := by
   have := coeffPresMap_mono S g hg n
-  show Mono ((PresheafOfModules.sheafification (𝟙 R.obj)).map (coeffPresMap S g n))
+  change Mono ((PresheafOfModules.sheafification (𝟙 R.obj)).map (coeffPresMap S g n))
   infer_instance
 
 /-- `X[S]` turns a degreewise short exact sequence of coefficients into an exact short

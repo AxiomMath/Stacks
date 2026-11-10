@@ -49,6 +49,7 @@ def zSheafRestrictIso {W : Scheme.{u}} (ι : W ⟶ E.obj (op ⊥)) [Etale ι] :
     (etaleAbelianInverseImage.{u, 0} (rsnd E ι ⊥)).mapIso
       ((etaleAbelianInverseImageRestrictionIso.{u, 0} ι).app (zSheaf (E.obj (op ⊥))))
 
+omit [IsDirected J (· ≤ ·)] in
 /-- **The comparison for an extension by zero from an open.** -/
 theorem good_extensionByZero {W : Scheme.{u}} (ι : W ⟶ E.obj (op ⊥)) [IsOpenImmersion ι]
     (hW : GoodZ (restrictSystem E ι) (restrictCone E ι c))
@@ -57,7 +58,7 @@ theorem good_extensionByZero {W : Scheme.{u}} (ι : W ⟶ E.obj (op ⊥)) [IsOpe
   let A := (etaleRestriction.{u, 0} ι).obj (zSheaf (E.obj (op ⊥)))
   refine good_of_restrict ι ((extAdj ι).unit.app A) ?_ ?_
   · rw [Adjunction.homEquiv_counit]
-    show IsIso ((extensionByZero.{u, 0} ι).map ((extAdj ι).unit.app A) ≫
+    change IsIso ((extensionByZero.{u, 0} ι).map ((extAdj ι).unit.app A) ≫
       (extAdj ι).counit.app ((extensionByZero.{u, 0} ι).obj A))
     rw [(extAdj ι).left_triangle_components A]
     exact IsIso.id _
@@ -100,7 +101,7 @@ theorem goodZ_of_isAffine [IsAffine (E.obj (op ⊥))]
       (toH (c.π.app (op ⊥)) G m y)
     obtain ⟨w, hw⟩ := (toH_bijective (toBot E i) G m).2 z
     refine ⟨i, w, (toH_bijective (c.π.app (op ⊥)) G m).1 ?_⟩
-    show toH (c.π.app (op ⊥)) G m (resK (c.π.app (op i)) (toBot E i) (c.π.app (op ⊥))
+    change toH (c.π.app (op ⊥)) G m (resK (c.π.app (op i)) (toBot E i) (c.π.app (op ⊥))
       (cone_toBot E c i) (zSheaf _) G m w) = _
     rwa [toH_resK, hw]
   · have hx' := (toH_resK_eq_zero_iff (c.π.app (op i)) (toBot E i) (c.π.app (op ⊥))
@@ -117,7 +118,7 @@ section Induction
 theorem isIso_toBot_bot {J : Type u} [Preorder J] [OrderBot J] (E : Jᵒᵖ ⥤ Scheme.{u}) :
     IsIso (toBot E (⊥ : J)) := by
   have h : ((homOfLE bot_le).op : op (⊥ : J) ⟶ op ⊥) = 𝟙 _ := Subsingleton.elim _ _
-  show IsIso (E.map ((homOfLE bot_le).op : op (⊥ : J) ⟶ op ⊥))
+  change IsIso (E.map ((homOfLE bot_le).op : op (⊥ : J) ⟶ op ⊥))
   rw [h, E.map_id]
   infer_instance
 

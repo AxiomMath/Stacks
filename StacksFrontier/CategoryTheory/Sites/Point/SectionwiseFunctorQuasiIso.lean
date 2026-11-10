@@ -48,7 +48,7 @@ namespace CategoryTheory.ObjectProperty.IsConservativeFamilyOfPoints
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} {R S : Type u'} [Ring R]
   [Ring S] {P : ObjectProperty (GrothendieckTopology.Point.{max u' w} J)}
   (hP : P.IsConservativeFamilyOfPoints) [LocallySmall.{max u' w} C]
-  [J.HasSheafCompose (forget (ModuleCat.{max u' w} S))] [HasSheafify J (ModuleCat.{max u' w} S)]
+  [J.HasSheafCompose (forget (ModuleCat.{max u' w} S))]
   [CategoryWithHomology (Sheaf J (ModuleCat.{max u' w} S))]
   [CategoryWithHomology (Sheaf J (ModuleCat.{max u' w} R))]
   (H : ModuleCat.{max u' w} R ⥤ ModuleCat.{max u' w} S) [H.Additive] [J.HasSheafCompose H]

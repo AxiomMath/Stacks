@@ -122,7 +122,7 @@ private theorem quotSMulTopMap_comp_eq_zero {A : Type v} [CommRing A] (I : Ideal
     quotSMulTopMap I f ≫ quotSMulTopMap I g = 0 := by
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
   obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-  show Submodule.Quotient.mk (g (f x)) = 0
+  change Submodule.Quotient.mk (g (f x)) = 0
   rw [← LinearMap.comp_apply, h, LinearMap.zero_apply, Submodule.Quotient.mk_zero]
 
 private theorem shortExact_quotSMulTop {R : Type*} {A M : Type v} [CommRing R] [CommRing A]
@@ -143,7 +143,7 @@ private theorem shortExact_quotSMulTop {R : Type*} {A M : Type v} [CommRing R] [
     rw [← hmap] at hy
     obtain ⟨z, hz, hzy⟩ := hy
     refine ⟨Submodule.Quotient.mk ⟨y - z, by simp [hzy]⟩, ?_⟩
-    show Submodule.Quotient.mk (y - z) = Submodule.Quotient.mk y
+    change Submodule.Quotient.mk (y - z) = Submodule.Quotient.mk y
     rw [Submodule.Quotient.eq]
     simpa using Submodule.neg_mem _ hz
   · rw [ModuleCat.mono_iff_injective, injective_iff_map_eq_zero]
@@ -328,7 +328,7 @@ public theorem subsingleton_pic_genericFibre_of_isRegular_specialFibre
   let _ : Module R L := Module.compHom L (algebraMap R T)
   have : IsScalarTower R T L := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower R A L := IsScalarTower.of_algebraMap_smul fun r x => by
-    show algebraMap R T r • x = algebraMap A T (algebraMap R A r) • x
+    change algebraMap R T r • x = algebraMap A T (algebraMap R A r) • x
     rw [← IsScalarTower.algebraMap_apply]
   have : Module.IsTorsionFree R L := by
     refine ⟨fun r hr => ?_⟩
@@ -349,7 +349,7 @@ public theorem subsingleton_pic_genericFibre_of_isRegular_specialFibre
   have hloc : IsLocalizedModule S' ψ := by
     refine isLocalizedModule_of_injective_of_span_eq_top (A' := T) S' ψ hψ gens hgens fun i => ?_
     refine ⟨Submodule.Quotient.mk (Pi.single i 1), ?_⟩
-    show φ (Pi.single i 1) = gens i
+    change φ (Pi.single i 1) = gens i
     simp [φ, Fintype.linearCombination_apply, Pi.single_apply]
   let e : T ⊗[A] M ≃ₗ[T] L :=
     ((isLocalizedModule_iff_isBaseChange S' T ψ).mp hloc).equiv

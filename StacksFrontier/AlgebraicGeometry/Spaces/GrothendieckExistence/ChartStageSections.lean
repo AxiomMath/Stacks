@@ -100,7 +100,7 @@ theorem surjective_baseObjectProjection_ringHom :
   have := congrFun h a
   simp only [RingHom.coe_comp, Function.comp_apply] at this
   refine this.trans ?_
-  show (Scheme.ΓSpecIso (D.system.obj (op n))).inv ((limit.π D.system (op n)) a) = y
+  change (Scheme.ΓSpecIso (D.system.obj (op n))).inv ((limit.π D.system (op n)) a) = y
   rw [ha]
   exact (Scheme.ΓSpecIso (D.system.obj (op n))).hom_inv_id_apply y
 

@@ -216,7 +216,7 @@ private lemma sliceD_id_fiber_g (X : Grothendieck (sliceΦ G Fib)) :
 private lemma sliceD_comp_fiber_g {X Y Z : Grothendieck (sliceΦ G Fib)} (f : X ⟶ Y) (g : Y ⟶ Z) :
     ((f ≫ g : X ⟶ Z).fiber).g = f.fiber.g ≫ g.fiber.g := by
   rw [Grothendieck.comp_fiber, sliceFib_comp_g, sliceFib_comp_g, sliceFib_eqToHom_g]
-  show (eqToHom _ : stageObj Fib X.fiber.s ⟶ stageObj Fib X.fiber.s) ≫ _ ≫ g.fiber.g
+  change (eqToHom _ : stageObj Fib X.fiber.s ⟶ stageObj Fib X.fiber.s) ≫ _ ≫ g.fiber.g
     = f.fiber.g ≫ g.fiber.g
   rw [show (eqToHom rfl : stageObj Fib X.fiber.s ⟶ stageObj Fib X.fiber.s) = 𝟙 _ from rfl,
       Category.id_comp]
@@ -262,7 +262,7 @@ private lemma sliceEmb_final [∀ j, IsFiltered (Idx j)] (cFib : ∀ j, Limits.C
     obtain ⟨c, h, hc⟩ :=
       IsFinitelyPresentable.exists_hom_of_isColimit hcFib (d.p ≫ (e j).inv)
     refine ⟨c, ⟨⟨h, ?_⟩⟩⟩
-    show d.p = h ≫ ((cFib j).ι.app c ≫ (e j).hom)
+    change d.p = h ≫ ((cFib j).ι.app c ≫ (e j).hom)
     rw [← Category.assoc, hc, Category.assoc]
     simp
   · intro d c s s'
@@ -310,7 +310,7 @@ private lemma sliceEmb_compFib (cFib : ∀ j, Limits.Cocone (Fib j))
     sliceEmb cFib e j ⋙ (Grothendieck.ι (sliceΦ G Fib) j ⋙ sliceD G Fib) = Fib j := by
   apply CategoryTheory.Functor.ext
   · intro x y φ
-    show ((((Grothendieck.ι (sliceΦ G Fib) j).map ((sliceEmb cFib e j).map φ)).fiber).g) = _
+    change ((((Grothendieck.ι (sliceΦ G Fib) j).map ((sliceEmb cFib e j).map φ)).fiber).g) = _
     rw [Grothendieck.ι_map, sliceFib_comp_g, sliceFib_eqToHom_g]
     simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
     rfl
@@ -344,7 +344,7 @@ private lemma slicePsi_nat (G : J ⥤ Under (CommRingCat.of R))
         (colimit.desc _ (fwdCocone G Fib j) ≫ G.map f) := by
   rw [fiberwiseColimit_map, Category.assoc, ι_colimMap_assoc, colimit.ι_pre_assoc, colimit.ι_desc,
     ← Category.assoc, colimit.ι_desc]
-  show _ ≫ (fwdCocone G Fib j').ι.app ((sliceFibMap f).obj a) = (fwdCocone G Fib j).ι.app a ≫
+  change _ ≫ (fwdCocone G Fib j').ι.app ((sliceFibMap f).obj a) = (fwdCocone G Fib j).ι.app a ≫
       G.map f
   simp only [fwdCocone]
   simp [Grothendieck.ιNatTrans, sliceD_map, sliceΦ, sliceFibMap]
@@ -393,7 +393,7 @@ lemma IsFilteredColimitOfEtaleUnder.trans_colimit (R : Type) [CommRing R]
   refine ⟨Grothendieck (sliceΦ G Fib), inferInstance, inferInstance, sliceD G Fib,
     Limits.colimit.cocone _, ?_, ⟨Limits.colimit.isColimit _⟩, ⟨?_⟩⟩
   · rintro ⟨j, a⟩
-    show RingHom.Etale (stageObj Fib a.s).hom.hom
+    change RingHom.Etale (stageObj Fib a.s).hom.hom
     exact hEt a.s.fst a.s.snd
   · exact (Limits.colimitFiberwiseColimitIso (sliceD G Fib)).symm ≪≫
       Limits.HasColimit.isoOfNatIso ε ≪≫
@@ -602,8 +602,7 @@ private noncomputable def directLimitTensorProductAlgEquiv
       rw [hΨ_of i w]
       change Φ (Algebra.TensorProduct.map (AlgHom.id R' R') (ofAlg i) w)
           = Ring.DirectLimit.of G' f'₀ i w
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul r' y =>
         rw [Algebra.TensorProduct.map_tmul]
         simp only [AlgHom.id_apply]
@@ -612,8 +611,7 @@ private noncomputable def directLimitTensorProductAlgEquiv
         exact hmul i r' y
       | add w₁ w₂ hw₁ hw₂ => rw [map_add, map_add, map_add, hw₁, hw₂]
   · change Ψ (Φ z) = z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul r' x =>
       rw [hΦ_tmul]
       induction x using Ring.DirectLimit.induction_on with
@@ -648,7 +646,7 @@ theorem filteredColimitEtale_baseChange
   have hsys' : DirectedSystem G' f'₀ := by
     constructor
     · intro i x
-      show Algebra.TensorProduct.map (AlgHom.id R' R') (f i i (le_refl i)) x = x
+      change Algebra.TensorProduct.map (AlgHom.id R' R') (f i i (le_refl i)) x = x
       rw [show f i i (le_refl i) = AlgHom.id R (G i) from AlgHom.ext fun b => hsys.map_self b,
         Algebra.TensorProduct.map_id]
       rfl
@@ -680,7 +678,7 @@ theorem filteredColimitEtale_baseChange
   have hof' : ∀ (i : ι) (r : R'),
       Ring.DirectLimit.of G' f'₀ i (algebraMap R' (G' i) r) = algebraMap R' L' r := by
     intro i r
-    show Ring.DirectLimit.of G' f'₀ i (algebraMap R' (G' i) r) = algR'L' r
+    change Ring.DirectLimit.of G' f'₀ i (algebraMap R' (G' i) r) = algR'L' r
     exact hof_eq i i₀ r
   have hetale' : ∀ i, Algebra.Etale R' (G' i) := by
     intro i
@@ -818,7 +816,7 @@ theorem ind_etale_of_comp {R A B : CommRingCat.{u}} (f : R ⟶ A) (g : A ⟶ B)
   have hlift : ∀ x : R, Ideal.Quotient.lift I φB hφB (q (X.hom.hom x)) = g.hom (f.hom x) := by
     intro x
     rw [hqdef]
-    show φB (MvPolynomial.C (X.hom.hom x)) = g.hom (f.hom x)
+    change φB (MvPolynomial.C (X.hom.hom x)) = g.hom (f.hom x)
     rw [hφBdef]
     simp [hbX x]
   obtain ⟨Y, u, v, huv, hY⟩ := hfg (Under.mk (X.hom ≫ CommRingCat.ofHom q))
@@ -860,7 +858,7 @@ theorem ind_etale_of_comp {R A B : CommRingCat.{u}} (f : R ⟶ A) (g : A ⟶ B)
         (Algebra.TensorProduct.includeRight :
           Y.right →ₐ[X.right] A ⊗[X.right] Y.right).toRingHom.comp j := by
       refine RingHom.ext fun x ↦ ?_
-      show algebraMap A (A ⊗[X.right] Y.right) (algebraMap X.right A x) =
+      change algebraMap A (A ⊗[X.right] Y.right) (algebraMap X.right A x) =
         Algebra.TensorProduct.includeRight (algebraMap X.right Y.right x)
       rw [← IsScalarTower.algebraMap_apply X.right A (A ⊗[X.right] Y.right)]
       exact ((Algebra.TensorProduct.includeRight
@@ -930,7 +928,7 @@ theorem ind_etale_of_comp {R A B : CommRingCat.{u}} (f : R ⟶ A) (g : A ⟶ B)
     simp only [RingHom.coe_comp, Function.comp_apply, AlgHom.toRingHom_eq_coe,
       RingHom.coe_coe] at h7
     simpa [huDπ y] using h7
-  · show (algebraMap A (A ⊗[X.right] Y.right)).Etale
+  · change (algebraMap A (A ⊗[X.right] Y.right)).Etale
     exact RingHom.etale_algebraMap.2 (Algebra.Etale.baseChange X.right Y.right A)
 
 end CommRingCat
@@ -1279,14 +1277,14 @@ private lemma ind_comp {X Y Z : CommRingCat.{u}} (f : X ⟶ Y) (g : Y ⟶ Z)
     simp [c', s', hcomp, reassoc_of% (h₁ k.right).right]
   refine ⟨Under.mk (A.hom ≫ v), Under.homMk v rfl,
     Under.homMk (c'.ι.app j₃ ≫ t₂.app j₂) ?_, ?_, ?_⟩
-  · show (A.hom ≫ v) ≫ c'.ι.app j₃ ≫ t₂.app j₂ = f ≫ g
+  · change (A.hom ≫ v) ≫ c'.ι.app j₃ ≫ t₂.app j₂ = f ≫ g
     rw [← hpu, ← hu, ← hq]
     simp
   · refine Under.UnderMorphism.ext ?_
-    show v ≫ c'.ι.app j₃ ≫ t₂.app j₂ = φ.right
+    change v ≫ c'.ι.app j₃ ≫ t₂.app j₂ = φ.right
     rw [← hu, ← hq]
     simp
-  · show CommRingCat.etale.{u} (A.hom ≫ v)
+  · change CommRingCat.etale.{u} (A.hom ≫ v)
     rw [hcomp']
     exact CommRingCat.etale.comp_mem _ _ (h₁ _).left
       (CommRingCat.etale.pushout_inl _ _ hf')
@@ -1303,7 +1301,7 @@ theorem ind_etale_iff_ind_algebraMap {R Λ : Type u} [CommRing R] [CommRing Λ] 
   have hinv : (CommAlgCat.etale.{u} R) = (CommRingCat.etale.{u}).underObj.inverseImage
       (commAlgCatEquivUnder (CommRingCat.of R)).functor := by
     ext S
-    show Algebra.Etale R S ↔ RingHom.Etale (algebraMap R S)
+    change Algebra.Etale R S ↔ RingHom.Etale (algebraMap R S)
     rw [RingHom.etale_algebraMap]
   rw [MorphismProperty.ind_iff_ind_underMk,
     ← ObjectProperty.ind_iff_of_equivalence (CommRingCat.etale.{u}).underObj

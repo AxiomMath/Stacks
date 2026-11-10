@@ -127,7 +127,7 @@ theorem IntegralClosedSubspace.injective_schemeGenericPoint :
   intro Z W h
   apply injective_integralClosedSubspaceSupport B S hS (isAlgebraicSpace_yoneda B S hS U)
   apply IrreducibleCloseds.ext
-  show subspacePointSet B S hS (yoneda.obj U) Z.subspace =
+  change subspacePointSet B S hS (yoneda.obj U) Z.subspace =
     subspacePointSet B S hS (yoneda.obj U) W.subspace
   apply (Set.image_injective.2 (injective_pointsToScheme B S hS U))
   rw [Z.image_subspacePointSet B S hS U, W.image_subspacePointSet B S hS U, h]
@@ -221,9 +221,9 @@ theorem locallyFinite_iff_locallyFiniteSupport
     · rintro x ⟨⟨q, hqt, rfl⟩, hx⟩
       have hx' : α (e.symm (h q)) ≠ 0 := hx
       refine ⟨e.symm (h q), ⟨q, ?_, hqt⟩, e.apply_symm_apply _⟩
-      show q ∈ (if α (e.symm (h q)) = 0 then ∅ else
+      change q ∈ (if α (e.symm (h q)) = 0 then ∅ else
         subspacePointSet B S hS (yoneda.obj U) (e.symm (h q)).subspace)
-      rw [if_neg hx', IntegralClosedSubspace.mem_subspacePointSet_iff,
+      rw [ite_eq_right hx', IntegralClosedSubspace.mem_subspacePointSet_iff,
         IntegralClosedSubspace.schemeGenericPoint_equivSchemePoints_symm]
       exact subset_closure rfl
   · intro hβ p
@@ -232,12 +232,12 @@ theorem locallyFinite_iff_locallyFiniteSupport
       (interior_mem_nhds.2 ht), (hfin.image e.symm).subset ?_⟩
     rintro Z ⟨q, hqZ, hqt⟩
     change q ∈ (if α Z = 0 then ∅ else subspacePointSet B S hS (yoneda.obj U) Z.subspace) at hqZ
-    have hZ : α Z ≠ 0 := fun h0 => by rwa [if_pos h0] at hqZ
-    rw [if_neg hZ, IntegralClosedSubspace.mem_subspacePointSet_iff] at hqZ
+    have hZ : α Z ≠ 0 := fun h0 => by rwa [ite_eq_left h0] at hqZ
+    rw [ite_eq_right hZ, IntegralClosedSubspace.mem_subspacePointSet_iff] at hqZ
     have hgen : Z.schemeGenericPoint B S hS U ∈ interior t :=
       (specializes_iff_mem_closure.2 hqZ).mem_open isOpen_interior hqt
     refine ⟨Z.schemeGenericPoint B S hS U, ⟨interior_subset hgen, ?_⟩, e.symm_apply_apply Z⟩
-    show α (e.symm (e Z)) ≠ 0
+    change α (e.symm (e Z)) ≠ 0
     rwa [e.symm_apply_apply]
 
 end LocallyFinite
@@ -342,7 +342,7 @@ theorem mem_cyclesOfDimension_iff_mem_scheme (h : IsDeltaCompatible D U sX C s�
   · rw [Stacks.Chow.mem_cyclesOfDimension_iff_forall_point] at hdim
     intro Z hZ
     have := hdim (e Z) (by
-      show α (e.symm (e Z)) ≠ 0
+      change α (e.symm (e Z)) ≠ 0
       rwa [e.symm_apply_apply])
     rwa [h.deltaDimension_eq]
 

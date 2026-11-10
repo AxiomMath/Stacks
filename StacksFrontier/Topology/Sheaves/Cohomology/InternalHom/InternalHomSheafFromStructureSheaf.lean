@@ -80,7 +80,7 @@ theorem unitOverAddEquiv_symm_app_one (U : Opens ↥X) (b : G.val.obj (op U)) (V
   congrFun (congrArg Subtype.val ((G.over U).unitHomEquiv.apply_symm_apply
     ((G.over U).val.sectionsMk (fun V => G.val.map V.unop.hom.op b) (by
       intro V W f
-      show G.val.map f.unop.left.op (G.val.map V.unop.hom.op b) = G.val.map W.unop.hom.op b
+      change G.val.map f.unop.left.op (G.val.map V.unop.hom.op b) = G.val.map W.unop.hom.op b
       rw [← G.val.map_comp_apply]
       congr 1)))) V
 

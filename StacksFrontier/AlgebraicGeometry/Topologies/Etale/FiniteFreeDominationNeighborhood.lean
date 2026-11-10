@@ -169,7 +169,7 @@ private lemma exists_finite_faithfullyFlat_local_maps
 at `f x`. -/
 private lemma comap_isoSpec_hom_apply {X Y : Scheme.{u}} [IsAffine X] [IsAffine Y] (f : X ⟶ Y)
     (x : X) : (X.isoSpec.hom x).asIdeal.comap f.appTop.hom = (Y.isoSpec.hom (f x)).asIdeal := by
-  show (Spec.map f.appTop (X.isoSpec.hom x)).asIdeal = _
+  change (Spec.map f.appTop (X.isoSpec.hom x)).asIdeal = _
   rw [← Scheme.Hom.comp_apply, Scheme.isoSpec_hom_naturality, Scheme.Hom.comp_apply]
 
 /-- Under `basicOpenIsoSpecAway`, a point `t` of `D(g) ⊆ Spec R` corresponds to the prime
@@ -226,7 +226,7 @@ private lemma basicOpenIsoSpecAway_comp_apply_eq {X : Scheme.{u}} [IsAffine X] {
   have h : Spec.map (CommRingCat.ofHom φ) ((basicOpenIsoSpecAway (R := CommRingCat.of C) g).hom t) =
       X.isoSpec.hom x := by
     apply PrimeSpectrum.ext
-    show ((basicOpenIsoSpecAway (R := CommRingCat.of C) g).hom t).asIdeal.comap φ = _
+    change ((basicOpenIsoSpecAway (R := CommRingCat.of C) g).hom t).asIdeal.comap φ = _
     rwa [basicOpenIsoSpecAway_hom_apply_asIdeal]
   rw [Scheme.Hom.comp_apply, Scheme.Hom.comp_apply, h]
   simp
@@ -267,7 +267,7 @@ theorem exists_isFiniteLocallyFree_surjective_locally_lift_etaleNeighborhood
   let : q'.IsPrime := t.isPrime
   have hqR : q.under Γ(V.1, ⊤) = q'.under Γ(V.1, ⊤) := by
     refine (comap_isoSpec_hom_apply f x).trans ?_
-    show _ = ((Spec.map (CommRingCat.ofHom (algebraMap Γ(V.1, ⊤) C))) t).asIdeal
+    change _ = ((Spec.map (CommRingCat.ofHom (algebraMap Γ(V.1, ⊤) C))) t).asIdeal
     congr 1
     calc
       _ = (π ≫ (V.1 : Scheme.{u}).isoSpec.hom) t := by
@@ -286,7 +286,7 @@ theorem exists_isFiniteLocallyFree_surjective_locally_lift_etaleNeighborhood
   · calc W.ι ≫ π ≫ V.1.ι = hA ≫ f ≫ V.1.ι := congrArg (· ≫ V.1.ι) (basicOpen_ι_comp_eq f g' φ hφ)
       _ = hA ≫ A.1.ι ≫ U.toBase := by simp [f, Scheme.Hom.resLE_comp_ι]
       _ = (hA ≫ A.1.ι) ≫ U.toBase := rfl
-  · show (A.1.ι) (hA ⟨t, htW⟩) = U.point
+  · change (A.1.ι) (hA ⟨t, htW⟩) = U.point
     rw [basicOpenIsoSpecAway_comp_apply_eq g' φ x ⟨t, htW⟩ hqφ, Scheme.Opens.ι_apply]
 
 end Stacks.Topologies.Etale

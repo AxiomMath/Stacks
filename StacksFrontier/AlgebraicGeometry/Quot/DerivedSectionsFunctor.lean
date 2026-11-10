@@ -177,14 +177,14 @@ def relHomFunctorIso (hP : P.IsCoherent) (κ : ConeTo π a₀) {M M' N N' : D a�
     ext i α
     change (P.pull (κ.leg i.unop)).map a.hom ≫ ((P.pull (κ.leg i.unop)).map a.inv ≫ α ≫
       (P.pull (κ.leg i.unop)).map b.hom) ≫ (P.pull (κ.leg i.unop)).map b.inv = α
-    simp only [Category.assoc, Iso.map_hom_inv_id_assoc]
+    simp only [Category.assoc, Iso.hom_inv_id_map_assoc]
     exact (Category.assoc _ _ _).trans ((congrArg (α ≫ ·)
       ((P.pull (κ.leg i.unop)).mapIso b).hom_inv_id).trans (Category.comp_id α))
   inv_hom_id := by
     ext i α
     change (P.pull (κ.leg i.unop)).map a.inv ≫ ((P.pull (κ.leg i.unop)).map a.hom ≫ α ≫
       (P.pull (κ.leg i.unop)).map b.inv) ≫ (P.pull (κ.leg i.unop)).map b.hom = α
-    simp only [Category.assoc, Iso.map_inv_hom_id_assoc]
+    simp only [Category.assoc, Iso.inv_hom_id_map_assoc]
     exact (Category.assoc _ _ _).trans ((congrArg (α ≫ ·)
       ((P.pull (κ.leg i.unop)).mapIso b).inv_hom_id).trans (Category.comp_id α))
 

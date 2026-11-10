@@ -290,7 +290,7 @@ theorem exists_mem_nhds_isPolynomialOfDegreeLE_twistedEuler
     A h
   let m := CoherentSituation.pullbackHom' (modulePullbackStabilityOfFinitePresentation B S hS) A h
   have hm : ∀ s : A'.testScheme, m.baseScheme s = hW.fromSpec s := fun s => by
-    show (BigFppfOver.toScheme B S hS).map j s = hW.fromSpec s
+    change (BigFppfOver.toScheme B S hS).map j s = hW.fromSpec s
     rw [map_affineOpenSpecSiteHom]
   have hA' : IsAffine A'.testScheme :=
     inferInstanceAs (IsAffine (Spec Γ((BigFppfOver.toScheme B S hS).obj A.T.left, W)))

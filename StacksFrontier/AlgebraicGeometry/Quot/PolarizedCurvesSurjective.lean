@@ -183,7 +183,7 @@ theorem CurveFamily.exists_polarizedCurve_hom (Vs : B.Schemes) {K : Type u} [Fie
       rw [show schemeSpaceMap (𝟙 ((schemeOverIntegers B).obj Vs)) = 𝟙 _ from
         ObjectProperty.hom_ext _ (yoneda.map_id _)]
       infer_instance
-    show IsPullback _ _ _ (schemeSpaceMap (𝟙 ((schemeOverIntegers B).obj Vs)))
+    change IsPullback _ _ _ (schemeSpaceMap (𝟙 ((schemeOverIntegers B).obj Vs)))
     exact IsPullback.of_horiz_isIso ⟨ObjectProperty.hom_ext _ hcomm⟩
   · exact IsHomLift.of_fac' _ _ _ rfl rfl (by simp; rfl)
 

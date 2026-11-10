@@ -40,11 +40,12 @@ variable {ι : Type*} [Fintype ι]
 /-- **A negative definite matrix with nonnegative off-diagonal entries has a nonnegative solution
 of `Q v = -d` for every `d ≥ 0`.** Negative definiteness is phrased as: `∑ᵢ ∑ⱼ vᵢ vⱼ Q_{ij} ≥ 0`
 only for `v = 0`. -/
-theorem exists_nonneg_mulVec_eq_neg_of_negDef [DecidableEq ι] (Q : Matrix ι ι ℚ)
+theorem exists_nonneg_mulVec_eq_neg_of_negDef (Q : Matrix ι ι ℚ)
     (hoff : ∀ i j, i ≠ j → 0 ≤ Q i j)
     (hdef : ∀ v : ι → ℚ, 0 ≤ ∑ i, ∑ j, v i * v j * Q i j → v = 0)
     (d : ι → ℚ) (hd : ∀ i, 0 ≤ d i) :
     ∃ v : ι → ℚ, (∀ i, 0 ≤ v i) ∧ ∀ i, ∑ j, Q i j * v j = -d i := by
+  classical
   have hform : ∀ v : ι → ℚ, ∑ i, ∑ j, v i * v j * Q i j = ∑ i, v i * (Q *ᵥ v) i := by
     intro v
     refine Finset.sum_congr rfl fun i _ => ?_
@@ -90,11 +91,12 @@ theorem exists_nonneg_mulVec_eq_neg_of_negDef [DecidableEq ι] (Q : Matrix ι ι
 off-diagonal entries and negative definite quadratic form, and a nonnegative integer vector `d`,
 there are a positive integer `a` and a natural vector `n` with `∑ⱼ nⱼ Q_{ij} = -a dᵢ` for all
 `i`. -/
-theorem exists_pos_nat_sum_mul_eq_neg_of_negDef [DecidableEq ι] (Q : ι → ι → ℤ)
+theorem exists_pos_nat_sum_mul_eq_neg_of_negDef (Q : ι → ι → ℤ)
     (hoff : ∀ i j, i ≠ j → 0 ≤ Q i j)
     (hdef : ∀ v : ι → ℚ, 0 ≤ ∑ i, ∑ j, v i * v j * (Q i j : ℚ) → v = 0)
     (d : ι → ℤ) (hd : ∀ i, 0 ≤ d i) :
     ∃ a : ℕ, 0 < a ∧ ∃ n : ι → ℕ, ∀ i, ∑ j, (n j : ℤ) * Q i j = -((a : ℤ) * d i) := by
+  classical
   obtain ⟨v, hv0, hv⟩ := exists_nonneg_mulVec_eq_neg_of_negDef (Matrix.of fun i j => (Q i j : ℚ))
     (fun i j h => by simpa using hoff i j h) (fun v h => hdef v (by simpa using h))
     (fun i => (d i : ℚ)) (fun i => by exact_mod_cast hd i)
@@ -128,7 +130,7 @@ on `ι` with nonnegative off-diagonal entries, negative semidefinite, whose quad
 on a vector supported in `s` only when the vector is zero. For every `d` nonnegative on `s` there
 are a positive integer `a` and a natural vector `n` vanishing off `s` with
 `∑_{j ∈ s} nⱼ Q_{ij} = -a dᵢ` for every `i ∈ s`. -/
-theorem exists_pos_nat_finsetSum_mul_eq_neg_of_negDef [DecidableEq ι] (Q : ι → ι → ℤ)
+theorem exists_pos_nat_finsetSum_mul_eq_neg_of_negDef (Q : ι → ι → ℤ)
     (s : Finset ι) (hoff : ∀ i j, i ≠ j → 0 ≤ Q i j)
     (hnonpos : ∀ v : ι → ℚ, ∑ i, ∑ j, v i * v j * (Q i j : ℚ) ≤ 0)
     (hzero : ∀ v : ι → ℚ, (∀ i ∉ s, v i = 0) →
@@ -136,12 +138,13 @@ theorem exists_pos_nat_finsetSum_mul_eq_neg_of_negDef [DecidableEq ι] (Q : ι �
     (d : ι → ℤ) (hd : ∀ i ∈ s, 0 ≤ d i) :
     ∃ a : ℕ, 0 < a ∧ ∃ n : ι → ℕ, (∀ i ∉ s, n i = 0) ∧
       ∀ i ∈ s, ∑ j ∈ s, (n j : ℤ) * Q i j = -((a : ℤ) * d i) := by
+  classical
   -- extension by zero of a vector on `s`
   let ext : (s → ℚ) → ι → ℚ := fun v i => if h : i ∈ s then v ⟨i, h⟩ else 0
   have hext : ∀ v : s → ℚ, ∑ i, ∑ j, ext v i * ext v j * (Q i j : ℚ) =
       ∑ i : s, ∑ j : s, v i * v j * (Q i j : ℚ) := by
     intro v
-    have hsupp : ∀ i ∉ s, ext v i = 0 := fun i hi => dif_neg hi
+    have hsupp : ∀ i ∉ s, ext v i = 0 := fun i hi => dite_eq_right hi
     rw [← Finset.sum_subset (Finset.subset_univ s) fun i _ hi => by simp [hsupp i hi],
       ← Finset.sum_coe_sort s]
     refine Finset.sum_congr rfl fun i _ => ?_
@@ -154,12 +157,12 @@ theorem exists_pos_nat_finsetSum_mul_eq_neg_of_negDef [DecidableEq ι] (Q : ι �
     (fun v hv => by
       have hle := hnonpos (ext v)
       rw [hext] at hle
-      have h0 := hzero (ext v) (fun i hi => dif_neg hi) (by rw [hext]; linarith)
+      have h0 := hzero (ext v) (fun i hi => dite_eq_right hi) (by rw [hext]; linarith)
       funext i
       have := congrFun h0 i
       simpa [ext, i.2] using this)
     (fun i : s => d i) (fun i => hd i i.2)
-  refine ⟨a, hapos, fun i => if h : i ∈ s then n ⟨i, h⟩ else 0, fun i hi => dif_neg hi,
+  refine ⟨a, hapos, fun i => if h : i ∈ s then n ⟨i, h⟩ else 0, fun i hi => dite_eq_right hi,
     fun i hi => ?_⟩
   have := hn ⟨i, hi⟩
   rw [← Finset.sum_coe_sort s]

@@ -172,7 +172,7 @@ theorem god_map_apply {V V' : (Opens Y)ᵒᵖ} (f : V ⟶ V') (x : (god R M).obj
 /-- Restriction along the identity inclusion is the identity on sections. -/
 theorem map_le_rfl_apply {V : Opens Y} (x : M.obj (op V)) :
     M.map (homOfLE (le_refl V)).op x = x := by
-  show M.map (𝟙 (op V)) x = x
+  change M.map (𝟙 (op V)) x = x
   rw [M.map_id]
   rfl
 
@@ -339,7 +339,7 @@ theorem cechTerm_god_smul_apply {p : ℕ} (σ : Fin (p + 1) → 𝒰.ι) (r : R.
     (y : (cechTermFunctor R 𝒰 p σ).obj (god R M))
     (W : {W : Opens Y // W ≤ cechInter 𝒰 p σ}) :
     (r • y) W = resRing R (W.2.trans (cechInter_le_U 𝒰 p σ)) r • y W := by
-  show resRing R W.2 ((cechRestMap R 𝒰 p σ).hom r) • y W = _
+  change resRing R W.2 ((cechRestMap R 𝒰 p σ).hom r) • y W = _
   rw [show (cechRestMap R 𝒰 p σ).hom = resRing R (cechInter_le_U 𝒰 p σ) from rfl,
     resRing_resRing]
 
@@ -579,7 +579,7 @@ theorem homotopyMap_id (p : ℕ) :
     cechVal_d R 𝒰 M (p + 1) z W (Fin.cons (coverIdx 𝒰 W hex) τ)
       (le_cechInter_cons 𝒰 _ τ hWt hW),
     e1, hsplit, Finset.sum_neg_distrib]
-  show _ = cechVal R 𝒰 M z W τ
+  change _ = cechVal R 𝒰 M z W τ
   abel
 
 /-- **The Čech complex of the Godement presheaf is exact in every positive degree.** -/

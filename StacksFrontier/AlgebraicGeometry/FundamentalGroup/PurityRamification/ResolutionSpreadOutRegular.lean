@@ -114,7 +114,7 @@ private theorem mem_regularLocus_of_map_eq_closedPoint (X : Scheme.{u}) (x : X) 
       ((isRegular_iff_regular_stalks W).mp hW).2 (e.inv.left z)
     exact IsRegularLocalRing.of_ringEquiv
       (asIso (e.inv.left.stalkMap z)).commRingCatIsoToRingEquiv
-  show IsRegularLocalRing (Z.left.presheaf.stalk y)
+  change IsRegularLocalRing (Z.left.presheaf.stalk y)
   rw [← hz]
   exact IsRegularLocalRing.of_ringEquiv
     (asIso ((pullback.fst Z.hom (c.π.app j)).stalkMap z)).commRingCatIsoToRingEquiv.symm
@@ -145,7 +145,7 @@ theorem exists_hom_isRegular_model (X : Scheme.{u}) [IsLocallyNoetherian X] (hJ 
     exact hy (mem_regularLocus_of_map_eq_closedPoint X x g hW Z e hyx)
   have hxU : x ∈ ιj ''ᵁ O := by
     refine ⟨_, hxO, ?_⟩
-    show (c.π.app j ≫ ιj) _ = x
+    change (c.π.app j ≫ ιj) _ = x
     rw [show c.π.app j ≫ ιj = X.fromSpecStalk x from Scheme.Opens.fromSpecStalkOfMem_ι _ _ _]
     exact Scheme.fromSpecStalk_closedPoint
   obtain ⟨k, hk⟩ := exists_affineOpenNhds_le (X := X) (x := x) ⟨ιj ''ᵁ O, hxU⟩
@@ -168,7 +168,7 @@ theorem exists_hom_isRegular_model (X : Scheme.{u}) [IsLocallyNoetherian X] (hJ 
   have : D.map h (pullback.snd Z.hom (D.map h) p) = q := by
     apply ιj.isOpenEmbedding.injective
     refine Eq.trans ?_ hq.symm
-    show (D.map h ≫ ιj) _ = _
+    change (D.map h ≫ ιj) _ = _
     rw [show D.map h ≫ ιj = ιk from Scheme.homOfLE_ι X hkj]
     rfl
   rwa [this]

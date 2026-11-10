@@ -341,7 +341,7 @@ theorem exists_kaehlerMapOfSquare_eq_zero_of_isColimit (i : I)
       algebraMap cR.pt cS.pt (eR r) := by
     intro r
     obtain ⟨b, x, rfl⟩ := Ring.DirectLimit.exists_of r
-    show eS (sys.gInf (sys.toRinf b x)) = gInf.hom (eR (sys.toRinf b x))
+    change eS (sys.gInf (sys.toRinf b x)) = gInf.hom (eR (sys.toRinf b x))
     rw [← sys.toSinf_g b x]
     exact (heS b _).trans ((ConcreteCategory.congr_hom (hg (F.obj b)) x).symm.trans
       (congrArg gInf.hom (heR b x).symm))
@@ -436,8 +436,7 @@ theorem bijective_kaehlerMapOfSquare_liftBaseChange_of_ind_etale
   have heq : ⇑(kaehlerBaseChangeOfSquare fR fA h) =
       ⇑((KaehlerDifferential.map R R' A A').liftBaseChange A') := by
     funext t
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul a' ω => rw [kaehlerBaseChangeOfSquare_tmul, LinearMap.liftBaseChange_tmul, hmap]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   have heq₂ : (KaehlerDifferential.map R R' A A').liftBaseChange A' =

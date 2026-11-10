@@ -66,7 +66,7 @@ public theorem isIso_pullback_snd_residueFieldMap_of_isIso
   let : IsIso (f.residueFieldMap T.x) := hfx
   let : IsIso ((Y.residueFieldCongr T.hx).inv ≫ f.residueFieldMap T.x) := inferInstance
   let : IsIso T.tensorInr := by
-    show IsIso (pushout.inr
+    change IsIso (pushout.inr
       ((Y.residueFieldCongr T.hx).inv ≫ f.residueFieldMap T.x)
       ((Y.residueFieldCongr T.hy).inv ≫ g.residueFieldMap T.y))
     apply CategoryTheory.Limits.pushout_inr_iso_of_left_iso
@@ -84,7 +84,7 @@ public theorem isIso_pullback_snd_residueFieldMap_of_isIso
   have hcomp : IsIso ((pullback.snd f g).residueFieldMap (q p) ≫ q.residueFieldMap p) := by
     rw [← Scheme.residueFieldMap_comp, Scheme.Hom.residueFieldMap_congr T.specTensorTo_snd p]
     simp only [Scheme.residueFieldMap_comp]
-    show IsIso ((Y'.residueFieldCongr hptComp).hom ≫
+    change IsIso ((Y'.residueFieldCongr hptComp).hom ≫
       (Y'.fromSpecResidueField T.y).residueFieldMap ((Spec.map T.tensorInr) p) ≫
       (Spec.map T.tensorInr).residueFieldMap p)
     exact IsIso.comp_isIso' (Y'.residueFieldCongr hptComp).isIso_hom

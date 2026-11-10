@@ -77,7 +77,8 @@ proved.
 The second is the comparison of the two readings of a chart restriction: for a morphism
 `g : W ⟶ U` of étale charts, the pullback of `M|_U` along `chartScheme W ⟶ chartScheme U` is
 `M|_W`.  As the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/ChartModuleRestrictionComparison.lean` record, the canonical
+`StacksFrontier/AlgebraicGeometry/Spaces/ChartModuleRestrictionComparison.lean` record, the
+canonical
 comparison `AlgebraicGeometry.Space.restrictToChartSchemePullbackComparison` exists for every
 `𝒪_F`-module and is an isomorphism exactly for the quasi-coherent ones.  The proofs below use it
 only to transport local projectivity, so what they consume is the existence of *some* such

@@ -85,7 +85,7 @@ private lemma isIso_homology_truncLT
     rw [DerivedCategory.HomologySequence.mono_homologyMap_mor₁_iff
       T hT (i - 1) i (by omega)]
     exact (DerivedCategory.isZero_of_isGE _ c (i - 1) (by omega)).eq_of_src _ _
-  show IsIso ((DerivedCategory.homologyFunctor C i).map T.mor₁)
+  change IsIso ((DerivedCategory.homologyFunctor C i).map T.mor₁)
   exact isIso_of_mono_of_epi _
 
 private lemma isIso_homology_truncGE
@@ -101,7 +101,7 @@ private lemma isIso_homology_truncGE
   have : Mono ((DerivedCategory.homologyFunctor C i).map T.mor₂) := by
     rw [DerivedCategory.HomologySequence.mono_homologyMap_mor₂_iff T hT i]
     exact (DerivedCategory.isZero_of_isLE T.obj₁ (c - 1) i (by omega)).eq_of_src _ _
-  show IsIso ((DerivedCategory.homologyFunctor C i).map T.mor₂)
+  change IsIso ((DerivedCategory.homologyFunctor C i).map T.mor₂)
   exact isIso_of_mono_of_epi _
 
 private lemma isLE_map_of_single_homology
@@ -280,7 +280,7 @@ private lemma isLE_derivedTensor_single {R : Type u} [CommRing R]
   obtain ⟨P, hP, ⟨e⟩⟩ := K.exists_iso_Q_obj_of_isLE b
   have := hP
   have : (StacksDraft.TorAmplitude.FaithfullyFlat.projResComplex N).IsStrictlyLE 0 := by
-    show CochainComplex.IsStrictlyLE
+    change CochainComplex.IsStrictlyLE
       ((ProjectiveResolution.of N).complex.extend ComplexShape.embeddingDownNat) 0
     infer_instance
   have : CochainComplex.IsStrictlyLE
@@ -436,8 +436,7 @@ private lemma exists_rTensor_subtype_eq
     (S : ℕ → Submodule R N) (hS : Monotone S) (hN : ∀ x : N, ∃ n, x ∈ S n)
     (x : TensorProduct R N M) :
     ∃ (n : ℕ) (y : TensorProduct R (S n) M), (S n).subtype.rTensor M y = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, 0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul y z =>
       obtain ⟨n, hn⟩ := hN y
       exact ⟨n, TensorProduct.tmul R ⟨y, hn⟩ z, rfl⟩
@@ -592,11 +591,11 @@ private lemma isLE_derivedTensor_single_of_isTorsionBySet_pow {R : Type u} [Comm
       · apply ih
         intro x a
         apply Subtype.ext
-        show (a : R) • (x : M) = 0
+        change (a : R) • (x : M) = 0
         refine Submodule.smul_induction_on x.property ?_ ?_
         · intro r hr y _
           have hz := @hM y ⟨a * r, by
-            show (a : R) * r ∈ (I ^ (n + 1) : Ideal R)
+            change (a : R) * r ∈ (I ^ (n + 1) : Ideal R)
             rw [pow_succ]
             exact Ideal.mul_mem_mul a.property hr⟩
           simpa only [mul_smul] using hz
@@ -704,7 +703,7 @@ public theorem positive_homology_derivedTensorProduct_isZero_of_mod_ideal
     apply (DerivedCategory.isLE_iff _ 0).1 (hModules _ ?_)
     intro x
     refine ⟨n, hn, fun a ha => ?_⟩
-    show (Ideal.Quotient.mk (I ^ n) a) * x = 0
+    change (Ideal.Quotient.mk (I ^ n) a) * x = 0
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha, zero_mul]
   · intro M hM hMpos
     apply (DerivedCategory.isLE_iff _ 0).1

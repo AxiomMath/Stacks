@@ -98,7 +98,7 @@ theorem shortExact_descentSheafMap {N₁ N₂ N₃ : Type (max (u + 1) r)} [AddC
   let e : N₂ → N₁ := Function.invFun φ
   have he : ∀ z, φ (e (f.1 z)) = f.1 z := fun z ↦ Function.invFun_eq (hval z)
   refine ⟨⟨f.1.map e, fun h z ↦ hinj ?_⟩, Subtype.ext (LocallyConstant.ext fun z ↦ he z)⟩
-  show φ (e (f.1 _)) = φ (ρ₁ h (e (f.1 z)))
+  change φ (e (f.1 _)) = φ (ρ₁ h (e (f.1 z)))
   rw [he, hφ, he]
   exact f.2 h z
 
@@ -138,9 +138,9 @@ theorem nonempty_iso_of_iso_app_cover
   obtain ⟨φ, hφ⟩ := G.exists_hom_app_cover_eq e f.hom hf
   obtain ⟨ψ, hψ⟩ := G.exists_hom_app_cover_eq e' f.inv hf'
   refine ⟨⟨φ, ψ, G.hom_ext e ?_, G.hom_ext e' ?_⟩⟩
-  · show φ.hom.app _ ≫ ψ.hom.app _ = 𝟙 _
+  · change φ.hom.app _ ≫ ψ.hom.app _ = 𝟙 _
     rw [hφ, hψ, f.hom_inv_id]
-  · show ψ.hom.app _ ≫ φ.hom.app _ = 𝟙 _
+  · change ψ.hom.app _ ≫ φ.hom.app _ = 𝟙 _
     rw [hφ, hψ, f.inv_hom_id]
 
 /-- The action of `H` on the sections over the covering of a sheaf, through the restriction maps
@@ -175,7 +175,7 @@ theorem nonempty_iso_descentSheaf_coverRep [ConnectedSpace G.cover.left]
     fun h ↦ ?_
   ext n
   apply ε.injective
-  show ε (ε.symm ((F.obj.map (G.actHom h).op).hom n)) =
+  change ε (ε.symm ((F.obj.map (G.actHom h).op).hom n)) =
     ε (((G.descentPresheaf Λ N (G.coverRep F)).map (G.actHom h).op).hom (ε.symm n))
   rw [G.descentSectionsEquiv_map_actHom, LinearEquiv.apply_symm_apply,
     LinearEquiv.apply_symm_apply, coverRep_apply, inv_inv]
@@ -201,7 +201,7 @@ theorem nonempty_iso_constantSheaf_descentSheaf_one [ConnectedSpace G.cover.left
     ((Stacks.ConstantSheaf.overPullbackConstantSheafIso J (ModuleCat.{max (u + 1) r} Λ)
       G.cover).app (ModuleCat.of Λ N)) (ε.trans τ).toModuleIso fun h ↦ ?_
   ext d
-  show τ (ε (((G.descentPresheaf Λ N 1).map (G.actHom h).op).hom d)) =
+  change τ (ε (((G.descentPresheaf Λ N 1).map (G.actHom h).op).hom d)) =
     (((constantSheaf J (ModuleCat.{max (u + 1) r} Λ)).obj (ModuleCat.of Λ N)).obj.map
       (G.actHom h).op).hom (τ (ε d))
   rw [hnat, G.descentSectionsEquiv_map_actHom]

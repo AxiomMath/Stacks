@@ -236,7 +236,7 @@ theorem definingIdealAt_preimage_zeroScheme_eq_of_isAffine (f : X ⟶ Y)
     intro Wa m hWa
     have hWaaff : IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj Wa) :=
       hWa.1
-    show chartRestrict (hF := X.2) m a ∈ _
+    change chartRestrict (hF := X.2) m a ∈ _
     rw [hgood Wa hWa]
     exact sectionEvaluationIdealAt_map_le_of_bijective_sectionsBaseChange B S hS X _ _ m
       (hcart' U Wa hUaff hWaaff m) (Ideal.mem_map_of_mem _ ha)

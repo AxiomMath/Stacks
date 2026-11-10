@@ -56,7 +56,7 @@ theorem isClosed_singleton_of_isClosed_singleton_snd {K : Type u} [Field K] {T X
   obtain ⟨t, htw⟩ : w ∈ Set.range m := by
     rw [Scheme.Pullback.range_map]
     refine ⟨⟨pullback.fst φ sX w, rfl⟩, ?_⟩
-    show x ∈ Set.range ix
+    change x ∈ Set.range ix
     rw [Scheme.range_fromSpecResidueField]
     rfl
   rw [← htw]

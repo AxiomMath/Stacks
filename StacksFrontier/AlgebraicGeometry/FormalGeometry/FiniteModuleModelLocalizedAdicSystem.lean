@@ -186,7 +186,7 @@ public theorem isAdicModuleSystem_localizedModuleFunctor_of_isFiniteModuleModel
     refine ⟨hsurj, hker.trans ?_⟩
     rw [Submodule.localized₀_smul, Submodule.localized₀_top]
   refine ⟨fun n => (main n).1, fun n => ?_⟩
-  show LinearMap.ker ((ModuleCat.localizedModuleMap (Submonoid.powers f)
+  change LinearMap.ker ((ModuleCat.localizedModuleMap (Submonoid.powers f)
       (M.map (homOfLE (Nat.le_succ n)).op)).hom) =
     (S.I.map (algebraMap S.A (Localization (Submonoid.powers f)))) ^ (n + 1) •
       (⊤ : Submodule (Localization (Submonoid.powers f))

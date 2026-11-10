@@ -154,7 +154,7 @@ theorem map_norm_factorizationValue_pow_eq_prod
     simp only [map_mul, map_pow, map_inv, hneg]
   refine Units.ext ?_
   simp only [factorizationValue_eq_units_map_residue, hright]
-  simp only [Units.coe_prod, Units.val_pow_eq_pow_val, Units.coe_map, MonoidHom.coe_coe,
+  simp only [Units.coe_prod, Units.val_pow_eq_pow_val, Units.coe_map, MonoidHom.coe_ofClass,
     RingHom.toMonoidHom_eq_coe, map_pow, Ring.ord, baseChangeLocalizationHom_apply]
   simp only [map_pow] at hkey
   exact hkey.trans (Finset.prod_congr rfl fun i _ => rfl)
@@ -177,6 +177,7 @@ variable {A : Type u} [CommRing A] [IsNoetherianRing A] [IsLocalRing A] [Ring.Kr
   [∀ (q : MaximalSpectrum B) (p : MaximalSpectrum (A' ⊗[A] Localization.AtPrime q.asIdeal)),
     Module.Finite (ResidueField A') (ResidueField (Localization.AtPrime p.asIdeal))]
 
+omit [IsNoetherianRing A] [Ring.KrullDimLE 1 A] in
 /-- Let `(A, 𝔪, κ) → (A', 𝔪', κ')` be a flat local homomorphism of one-dimensional Noetherian
 local rings and let `m = length_{A'}(A' / 𝔪A')`. Let `A ⊆ B` be a finite extension carrying a
 tame-symbol preparation of a family `a` of elements of `A` (by Stacks 0EAG one exists for every

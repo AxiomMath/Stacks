@@ -92,8 +92,7 @@ variable {M : Type*} [AddCommGroup M] [Module D M] {B B' : Type u} [CommRing B] 
 theorem push_eq_twistMap (q₀ : D →+* B) (σ : B →+* B') (r : D →+* B') (h : σ.comp q₀ = r)
     (z : TwistedScalars q₀ ⊗[D] M) :
     TaylorStratification.push σ r h z = twistMap σ h z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -131,7 +130,7 @@ theorem exists_finset_term_eq_zero (e : ℕ) (m : P.carrier) :
     ∃ s : Finset (ι →₀ ℕ), ∀ K ∉ s,
       TaylorStratification.term (S.ptRing (S.v e 0)) (T.xi e) (P.taylorThetaPowHom hc) m K = 0 := by
   refine ⟨(P.finite_taylorThetaPow_notMem hc (T.nil e) m).toFinset, fun K hK ↦ ?_⟩
-  rw [Set.Finite.mem_toFinset, Set.mem_setOf_eq, not_not] at hK
+  rw [Set.Finite.mem_toFinset, Set.mem_ofPred_eq, not_not] at hK
   obtain ⟨y, hy⟩ := exists_eq_pow_smul_of_mem_pPowSmul hK
   refine TaylorStratification.term_eq_zero_of_smul (d := (T.p : D) ^ T.nil e) ?_ hy
   rw [map_pow, map_natCast]
@@ -191,17 +190,17 @@ theorem isUnital_pairStr : S.IsUnital (pairStr T P hc hfamD hdelta) := by
   rw [S.pullStrat_apply, twistMap_pairStr T P hc hfamD hdelta e _ _ _ m (insert 0 s)
     (fun K hK ↦ hs K fun h' ↦ hK (Finset.mem_insert_of_mem h')),
     Finset.sum_eq_single_of_mem 0 (Finset.mem_insert_self _ _)]
-  · rw [T.xi_diag, if_pos rfl, (P.isThetaMonomialFamily_taylorThetaPow hc).apply_zero]
+  · rw [T.xi_diag, ite_eq_left rfl, (P.isThetaMonomialFamily_taylorThetaPow hc).apply_zero]
     rfl
-  · intro K _ hK0
-    rw [T.xi_diag, if_neg hK0]
+  · rintro K - hK0
+    rw [T.xi_diag, ite_eq_right hK0]
     exact TensorProduct.zero_tmul _ _
 
 /-- The composite Taylor operators of a pair are `p^n`-divisible off a finite set. -/
 theorem exists_finset_nsmul (n : ℕ) (m : P.carrier) :
     ∃ s : Finset (ι →₀ ℕ), ∀ K ∉ s, ∃ z, P.taylorThetaPowHom hc K m = (T.p ^ n : ℕ) • z := by
   refine ⟨(P.finite_taylorThetaPow_notMem hc n m).toFinset, fun K hK ↦ ?_⟩
-  rw [Set.Finite.mem_toFinset, Set.mem_setOf_eq, not_not] at hK
+  rw [Set.Finite.mem_toFinset, Set.mem_ofPred_eq, not_not] at hK
   obtain ⟨y, hy⟩ := exists_eq_pow_smul_of_mem_pPowSmul hK
   refine ⟨y, ?_⟩
   rw [P.taylorThetaPowHom_apply, hy, ← Nat.cast_smul_eq_nsmul D, Nat.cast_pow]
@@ -222,7 +221,7 @@ theorem isCocycle_pairStr : S.IsCocycle (pairStr T P hc hfamD hdelta) := by
     (S.pullStrat (pairStr T P hc hfamD hdelta) (S.face01 e) _ _
       (S.map_comp_ptRing (S.face01_v_zero e)) (S.map_comp_ptRing (S.face01_v_one e))) ?_ m
   · intro K L m
-    show P.taylorThetaPow hc L (P.taylorThetaPow hc K m) = P.taylorThetaPow hc (K + L) m
+    change P.taylorThetaPow hc L (P.taylorThetaPow hc K m) = P.taylorThetaPow hc (K + L) m
     rw [(P.isThetaMonomialFamily_taylorThetaPow hc).add]
     rfl
   · intro m

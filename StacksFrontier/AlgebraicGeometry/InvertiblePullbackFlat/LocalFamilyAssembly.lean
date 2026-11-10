@@ -139,7 +139,7 @@ theorem isPullMeromorphicFamilyOn_preimage
         (homOfLE (le_refl ((f ⁻¹ᵁ A i : X.Opens) : Opens X.toRingedSpace.carrier))).op
         ((pullbackMeromorphicMul f L s).val.app (op (A i)) (g i))
       = (pullbackMeromorphicMul f L s).val.app (op (A i)) (g i) := by
-    show (meromorphicSectionSheafAsModule X L).val.presheaf.map
+    change (meromorphicSectionSheafAsModule X L).val.presheaf.map
       (𝟙 (op ((f ⁻¹ᵁ A i : X.Opens) : Opens X.toRingedSpace.carrier))) _ = _
     rw [CategoryTheory.Functor.map_id]
     rfl
@@ -179,10 +179,10 @@ theorem exists_isPullMeromorphicFamily_of_isPullMeromorphicFamilyOn
     intro y y' hy'
     obtain ⟨z, hz⟩ := hsurj y'
     have hzc : z ∈ ((f ⁻¹ᵁ chart y : X.Opens) : Opens X.toRingedSpace.carrier) := by
-      show f.base z ∈ chart y
+      change f.base z ∈ chart y
       rw [hz]; exact hy'
     have hzA := hVA (idx y) (hcV y hzc)
-    show y' ∈ A (idx y)
+    change y' ∈ A (idx y)
     rw [← hz]; exact hzA
   refine ⟨chart,
     fun y => (totalQuotientSheafAsModule Y).val.restrictₛₗ (homOfLE (hcA y)).op (g (idx y)),

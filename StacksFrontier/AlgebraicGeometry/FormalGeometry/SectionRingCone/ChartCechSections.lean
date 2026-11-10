@@ -60,7 +60,7 @@ theorem kerCechDOne_powerQuotient_zero_eq_zero {R : Type u} [CommRing R] {r : �
     (z : LinearMap.ker (Cech.cechD fam ((powerQuotientShortComplex f M 0).X₃ : Type u) 1)) :
     z = 0 := by
   have : Subsingleton ((powerQuotientShortComplex f M 0).X₃ : Type u) := by
-    show Subsingleton ((M : Type u) ⧸ Stacks.LocalCohomology.powerSmulTop f M 0)
+    change Subsingleton ((M : Type u) ⧸ Stacks.LocalCohomology.powerSmulTop f M 0)
     rw [Submodule.Quotient.subsingleton_iff, Stacks.LocalCohomology.powerSmulTop,
       pow_zero, Ideal.one_eq_top, Submodule.top_smul]
   have hloc : ∀ (t : Finset (Fin r))

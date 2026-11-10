@@ -149,7 +149,7 @@ variable (F : Sheaf J (Type max u v))
 category of elements of `F`, whose objects are the pairs `(U, s)` with `s ∈ F(U)` and whose
 morphisms `(U, s) ⟶ (U', s')` are the maps `f : U ⟶ U'` with `f^* s' = s`, and the diagram
 sends `(U, s)` to `U`. -/
-def indexingDiagram : F.obj.Elementsᵒᵖ ⥤ C := (CategoryOfElements.π F.obj).leftOp
+def indexingDiagram : F.obj.Elementsᵒᵖ ⥤ C := (Functor.Elements.π F.obj).leftOp
 
 /-- The cocone on the sheafified representables `h_{U_i}^#` with point `F`: the sheafification
 of the tautological cocone on the representables, with `F^#` identified with `F`. -/
@@ -187,7 +187,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 lemma mono_sheafifiedYoneda_map {U V : C} (f : U ⟶ V) [Mono f] :
     Mono ((Sheaf.sheafifiedYoneda J).map f) := by
   have hloc : Sheaf.IsLocallyInjective ((Sheaf.sheafifiedYoneda J).map f) := by
-    show Sheaf.IsLocallyInjective
+    change Sheaf.IsLocallyInjective
       ((presheafToSheaf J (Type max u v)).map (uliftYoneda.map f))
     rw [Presheaf.isLocallyInjective_presheafToSheaf_map_iff]
     apply Presheaf.isLocallyInjective_of_injective

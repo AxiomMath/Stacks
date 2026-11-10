@@ -63,7 +63,7 @@ lemma desc_map_objShiftIso_hom (P : Pseudococone F D) (n : ℕ) : ∀ (k : ℕ) 
     P.desc.map (objShiftIso F n k E).hom = (P.iterObjIso n k E).hom
   | 0, E => P.desc.map_id (⟨E, n⟩ : EndoColim F)
   | k + 1, E => by
-      show P.desc.map ((shiftStepIso F (n + k) ((F.endoIter k).obj E)).hom ≫
+      change P.desc.map ((shiftStepIso F (n + k) ((F.endoIter k).obj E)).hom ≫
           (objShiftIso F n k E).hom) = (P.compatIter n k E).hom ≫ (P.iterObjIso n k E).hom
       rw [Functor.map_comp, shiftStepIso_hom, desc_map_shiftStepHom,
         desc_map_objShiftIso_hom P n k E]

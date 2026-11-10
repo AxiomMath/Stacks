@@ -148,7 +148,8 @@ First, **the tower is no longer the obstacle.** `hequiv` is now reduced to the *
 the comparison isomorphisms `cₙ : Xₙ ≅ X ×_{Spec A} Sₙ` that the universal property of the fibre
 product provides; its mathematical content is the coherence identity
 `Stacks.AmpleFormalSystemTowerComparison.pullbackCoherence`
-(`StacksFrontier/AlgebraicGeometry/Spaces/AdicFiniteAlgebraization/TowerComparison.lean:178`), Mathlib's
+(`StacksFrontier/AlgebraicGeometry/Spaces/AdicFiniteAlgebraization/TowerComparison.lean:178`),
+Mathlib's
 `AlgebraicGeometry.Scheme.Modules.pseudofunctor_associativity` applied twice.
 
 Second, **the mathematics behind the canonical statement is all in place.** Because the geometric

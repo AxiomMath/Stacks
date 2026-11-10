@@ -89,7 +89,7 @@ one with the full-subcategory inclusion's `preimage` and one with `ObjectPropert
 public theorem overSiteObj_eq_algebraOver {A : Type u} [CommRing A]
     (toS : Spec (CommRingCat.of A) ⟶ S) (hA : B.Contains (Spec (CommRingCat.of A))) :
     overSiteObj B S hS (Over.mk toS) hA = algebraOver A B S hS toS hA := by
-  show Over.mk _ = Over.mk _
+  change Over.mk _ = Over.mk _
   congr 1
   apply B.inclusion.map_injective
   rw [B.inclusion.map_preimage]
@@ -103,7 +103,7 @@ public theorem algebraOver_post {A : Type u} [CommRing A]
     (toS : Spec (CommRingCat.of A) ⟶ S) (hA : B.Contains (Spec (CommRingCat.of A)))
     {Xf : F} (hX : p.obj Xf = algebraOver A B S hS toS hA) :
     (p ⋙ Over.post B.inclusion).obj Xf = Over.mk toS := by
-  show (Over.post B.inclusion).obj (p.obj Xf) = _
+  change (Over.post B.inclusion).obj (p.obj Xf) = _
   rw [hX]
   rfl
 
@@ -111,7 +111,7 @@ public theorem algebraOver_post {A : Type u} [CommRing A]
 public theorem overSiteObj_post_of_eq {Z : Over S} {hZ' : B.Contains Z.left} {Zf : F}
     (hZ : p.obj Zf = overSiteObj B S hS Z hZ') :
     (p ⋙ Over.post B.inclusion).obj Zf = Z := by
-  show (Over.post B.inclusion).obj (p.obj Zf) = Z
+  change (Over.post B.inclusion).obj (p.obj Zf) = Z
   rw [hZ]
   exact overSiteObj_post B S hS Z hZ'
 
@@ -132,7 +132,7 @@ public theorem isHomLift_affineSiteHom_of_schemeMap
       (affineSiteHom B S hS (hA := hZ') (hT := hX') f)) α := by
   apply IsHomLift.of_fac p _ α hZ hX
   apply (BigFppfOver.toScheme B S hS).map_injective
-  show (BigAffineFppf.toScheme B S hS).map (affineSiteHom B S hS f) = _
+  change (BigAffineFppf.toScheme B S hS).map (affineSiteHom B S hS f) = _
   rw [affineSiteHom_toScheme, ← hα]
   simp only [Functor.map_comp, eqToHom_map]
   rfl
@@ -156,7 +156,7 @@ public theorem nonempty_underFiber_of_isHomLift (p : X ⥤ C) {U W : C} {x x' : 
     Nonempty ((Under.post p).Fiber (Under.mk (eqToHom hx ≫ ν))) := by
   refine ⟨⟨Under.mk w, ?_⟩⟩
   apply StructuredArrow.obj_ext _ _ hx'
-  show p.map w ≫ eqToHom hx' = eqToHom hx ≫ ν
+  change p.map w ≫ eqToHom hx' = eqToHom hx ≫ ν
   rw [IsHomLift.fac' p ν w]
   simp
 
@@ -258,7 +258,7 @@ public theorem exists_squareZeroThickening_underFiber_of_satisfiesRSStar
       (hcomm (AlgHom.pullbackSnd φ fC))
   have hsquare : fm ≫ im = gm ≫ jm := by
     apply Over.OverMorphism.ext
-    show Spec.map (CommRingCat.ofHom (φ : A →+* C)) ≫
+    change Spec.map (CommRingCat.ofHom (φ : A →+* C)) ≫
         Spec.map (CommRingCat.ofHom (algebraMap (AlgHom.pullback φ fC) A)) =
       Spec.map (CommRingCat.ofHom (fC : C' →+* C)) ≫
         Spec.map (CommRingCat.ofHom
@@ -294,7 +294,7 @@ public theorem exists_squareZeroThickening_underFiber_of_satisfiesRSStar
                 (affineSiteHom B S hS (hA := hVV) (hT := hPP) im)
             arrow_spec := ?_ }, rfl, ?_, ?_⟩
   · simp only [Over.comp_left, Over.eqToHom_left, Functor.map_comp, eqToHom_map]
-    show eqToHom _ ≫ (BigAffineFppf.toScheme B S hS).map
+    change eqToHom _ ≫ (BigAffineFppf.toScheme B S hS).map
         (affineSiteHom B S hS (hA := hVV) (hT := hPP) im) = _
     rw [affineSiteHom_toScheme]
     exact Category.id_comp _

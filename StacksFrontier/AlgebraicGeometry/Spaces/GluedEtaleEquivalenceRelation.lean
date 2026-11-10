@@ -317,9 +317,9 @@ theorem src_of_isZariskiLocalAtSource (P : MorphismProperty Scheme.{u}) [IsZaris
     (h₁ : P (𝟙 V)) (h₂ : P (p₁ ≫ j)) : P (src hd₁ hR) :=
   IsZariskiLocalAtSource.of_openCover (openCover hR) fun i => by
     cases i
-    · show P (b ≫ src hd₁ hR)
+    · change P (b ≫ src hd₁ hR)
       rwa [b_src]
-    · show P (a ≫ src hd₁ hR)
+    · change P (a ≫ src hd₁ hR)
       rwa [a_src]
 
 /-- A property local at the source holds for the second projection of the glued relation if it

@@ -136,7 +136,7 @@ theorem endAlgebraToEnd_one : endAlgebraToEnd A n 1 = 1 := by
     (RingedSite.Rep.{u, u, u, u, u, 0} (site A n) ℤ (generator A n)).algebra_one
   rw [endAlgebraToEnd_eq_of_val_eq A n 1 e he1, he]
   apply End.ext
-  show _ ≫ (Cochain.ofHom (𝟙 (liftedGenerator A n))).v 0 0 (add_zero 0) ≫ _ = 𝟙 _
+  change _ ≫ (Cochain.ofHom (𝟙 (liftedGenerator A n))).v 0 0 (add_zero 0) ≫ _ = 𝟙 _
   rw [Cochain.ofHom_v, HomologicalComplex.id_f, Category.id_comp]
   exact (liftedGeneratorXZeroIso A n).hom_inv_id
 
@@ -150,7 +150,7 @@ theorem endAlgebraToEnd_mul (a b : (endAlgebra A n).A) :
   rw [endAlgebraToEnd_eq_of_val_eq A n _ c hc1, hc]
   apply End.ext
   rw [End.mul_asHom, endAlgebraToEnd, endAlgebraToEnd]
-  show _ ≫ (Cochain.comp
+  change _ ≫ (Cochain.comp
     (((RingedSite.Rep.{u, u, u, u, u, 0} (site A n) ℤ (generator A n)).algebraHom 0)
       ⟨b, endAlgebra_mem_grading_zero A n b⟩ :
         Cochain (liftedGenerator A n) (liftedGenerator A n) 0)
@@ -167,7 +167,8 @@ theorem endAlgebraToEnd_add (a b : (endAlgebra A n).A) :
   have h : (⟨a + b, endAlgebra_mem_grading_zero A n (a + b)⟩ : (endAlgebra A n).grading 0) =
       ⟨a, endAlgebra_mem_grading_zero A n a⟩ + ⟨b, endAlgebra_mem_grading_zero A n b⟩ := rfl
   apply End.ext
-  rw [End.add_asHom, endAlgebraToEnd, h, map_add, Cochain.add_v, Preadditive.add_comp, Preadditive.comp_add]
+  rw [End.add_asHom, endAlgebraToEnd, h, map_add, Cochain.add_v,
+    Preadditive.add_comp, Preadditive.comp_add]
   rfl
 
 /-- `endAlgebraToEnd` is a bijection from `Hom^dg(P, P)` onto the endomorphisms of `P`. -/
@@ -185,7 +186,7 @@ theorem endAlgebraToEnd_bijective : Function.Bijective (endAlgebraToEnd A n) := 
       α.symm z := rfl
     rw [endAlgebraToEnd, h, LinearEquiv.apply_symm_apply]
     apply End.ext
-    show ι.hom ≫ z.v 0 0 (add_zero 0) ≫ ι.inv = f.asHom
+    change ι.hom ≫ z.v 0 0 (add_zero 0) ≫ ι.inv = f.asHom
     rw [show z.v 0 0 (add_zero 0) = ι.inv ≫ f.asHom ≫ ι.hom from Cochain.single_v _ _ _]
     simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id, Iso.hom_inv_id_assoc]
 

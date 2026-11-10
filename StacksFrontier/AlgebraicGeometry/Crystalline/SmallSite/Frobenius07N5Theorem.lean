@@ -185,7 +185,7 @@ theorem relativeFrobeniusArrow07N6_homology_annihilation (hproper : IsProper T.g
   have hG := E.isQuasiCoherentCrystal_restrictSheafOfModules_sigmaModulePullback
   have hb' := hD (restrictSheafOfModules (T.sigmaModulePullback.obj E.crystal)) hG
   exact @relativeFrobeniusArrow07N6_annihilation_of_crisModuleCohomologyMap T _ _ _ _ _
-    i1 i2 i3 i4 i5 E (fun i => ⟨D * (i + 1), hb' i⟩) n
+    i1 i2 i5 E (fun i => ⟨D * (i + 1), hb' i⟩) n
 
 /-- **Arrow 2 of the proof of [Stacks, Tag 07N5] becomes an isomorphism after inverting `p`**,
 for `X ⟶ S₀` proper and smooth.

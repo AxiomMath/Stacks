@@ -337,7 +337,7 @@ theorem cechCochainsMap_add {P Q : PresheafModules.{u} C R} (f g : P ⟶ Q) (p :
     cechCochainsMap W R (f + g) p = cechCochainsMap W R f p + cechCochainsMap W R g p := by
   refine hom_ext W Q fun t => ?_
   simp only [cechCochainsMap_comp_π, Preadditive.add_comp]
-  show _ ≫ (f.app _ + g.app _) = _
+  change _ ≫ (f.app _ + g.app _) = _
   rw [Preadditive.comp_add]
 
 /-- Čech cochains of an integer multiple. -/
@@ -703,13 +703,13 @@ theorem ιTotalCechTo_d (K : CochainComplex (PresheafModules.{u} C R) ℤ)
   simp only [Units.smul_def]
   rw [Preadditive.comp_add, Preadditive.comp_zsmul]
   congr 1
-  · show _ ≫ (((CategoryTheory.cechComplexFunctor W).obj (K.X a)).extend
+  · change _ ≫ (((CategoryTheory.cechComplexFunctor W).obj (K.X a)).extend
       embeddingUpNat).d (p : ℤ) (p + 1) ≫ _ = _
     rw [cechExtend_d_eq W R (K.X a) p rfl (q' := (p : ℤ) + 1) (by push_cast; ring)]
     simp only [Iso.inv_hom_id_assoc, Category.assoc]
     congr 1
   · congr 1
-    show _ ≫ (HomologicalComplex.extendMap
+    change _ ≫ (HomologicalComplex.extendMap
         ((CategoryTheory.cechComplexFunctor W).map (K.d a (a + 1))) embeddingUpNat).f (p : ℤ) ≫
       _ = _
     rw [cechExtendMap_f W R (K.d a (a + 1)) p rfl]
@@ -786,7 +786,7 @@ noncomputable def totalCechXIsoCoproduct (K : CochainComplex (PresheafModules.{u
   inv_hom_id := by
     apply Sigma.hom_ext
     rintro ⟨⟨p, a⟩, h⟩
-    simp only [Sigma.ι_desc_assoc, Category.comp_id, Category.assoc]
+    simp only [Sigma.ι_comp_desc_assoc, Category.comp_id, Category.assoc]
     exact ιTotalCech_desc W R K _ p a h
 
 /-- Under `totalCechXIsoCoproduct`, the inclusion of the summand of bidegree `(r, a)` is the
@@ -795,7 +795,7 @@ theorem ιTotalCechIsoCoproduct (K : CochainComplex (PresheafModules.{u} C R) �
     (a : ℤ) :
     ιTotalCech W R K r a ≫ (totalCechXIsoCoproduct W R K ((r : ℤ) + a)).hom =
       Sigma.ι (totalCechSummand W R K ((r : ℤ) + a)) ⟨(r, a), by push_cast; rfl⟩ := by
-  show ιTotalCech W R K r a ≫ totalCechDesc W R K _ = _
+  change ιTotalCech W R K r a ≫ totalCechDesc W R K _ = _
   simpa only [eqToHom_refl, Category.id_comp] using ιTotalCech_desc W R K
     (fun p b h => Sigma.ι (totalCechSummand W R K ((r : ℤ) + a)) ⟨(p, b), h⟩) r a rfl
 
@@ -879,12 +879,12 @@ theorem ιTensorSource_d (K L : CochainComplex (PresheafModules.{u} C R) ℤ) (r
             ((s : ℤ).negOnePow : ℤ) • (tensorModulesMap R (𝟙 _)
                 (cechCochainsMap W R (L.d b (b + 1)) s) ≫
               ιTensorSource W R K L r s a (b + 1) (n + 1) (by omega))) := by
-  show (tensorModulesMap R _ _ ≫ _) ≫ _ = _
+  change (tensorModulesMap R _ _ ≫ _) ≫ _ = _
   rw [Category.assoc, tensorModules_ι_d]
   simp only [Units.smul_def]
   rw [Preadditive.comp_add, Preadditive.comp_zsmul, ← Category.assoc, tensorModulesMap_comp,
     Category.comp_id, ← Category.assoc, tensorModulesMap_comp, Category.comp_id]
-  show tensorModulesMap R (ιTotalCechTo W R K r a ((r : ℤ) + a) rfl ≫ _) _ ≫ _ +
+  change tensorModulesMap R (ιTotalCechTo W R K r a ((r : ℤ) + a) rfl ≫ _) _ ≫ _ +
     (((r : ℤ) + a).negOnePow : ℤ) •
       (tensorModulesMap R _ (ιTotalCechTo W R L s b ((s : ℤ) + b) rfl ≫ _) ≫ _) = _
   rw [ιTotalCechTo_d, ιTotalCechTo_d]
@@ -1068,7 +1068,7 @@ theorem ιTensorSource_hom_ext (K L : CochainComplex (PresheafModules.{u} C R) �
     apply ModuleCat.hom_ext
     apply TensorProduct.ext'
     intro x y
-    show eK.inv.hom ((Sigma.ι Mα ⟨(r, a), by push_cast; rfl⟩).hom x) ⊗ₜ[R]
+    change eK.inv.hom ((Sigma.ι Mα ⟨(r, a), by push_cast; rfl⟩).hom x) ⊗ₜ[R]
           eL.inv.hom ((Sigma.ι Nβ ⟨(s, b), by push_cast; rfl⟩).hom y) =
         (ιTotalCech W R K r a).hom x ⊗ₜ[R] (ιTotalCech W R L s b).hom y
     rw [show eK.inv.hom ((Sigma.ι Mα ⟨(r, a), by push_cast; rfl⟩).hom x) =
@@ -1129,7 +1129,7 @@ theorem cechCupProduct_ι (D : ComplexPairing R K L M) (r s : ℕ) (a b : ℤ) :
         (cechAlexanderWhitney W R (D.μ a b (a + b) rfl) r s ≫
           ιTotalCech W R M (r + s) (a + b) ≫
           eqToHom (congrArg (((totalCechComplexFunctor W R).obj M).X) (by push_cast; ring))) := by
-  show ιTensorSource W R K L r s a b _ rfl ≫ cechCupProductDegree W R D _ = _
+  change ιTensorSource W R K L r s a b _ rfl ≫ cechCupProductDegree W R D _ = _
   rw [ιTensorSource_cechCupProductDegree]
   dsimp only [cechCupProductSummand]
   rw [ιPairingTarget, ιTotalCechTo_eq]

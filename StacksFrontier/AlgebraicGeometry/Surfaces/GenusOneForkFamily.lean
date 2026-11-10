@@ -105,11 +105,11 @@ private def leafFirst (t : ℕ) (b : Fin (t + 1)) : Option (Fin t) :=
 
 private lemma leafFirst_zero {t : ℕ} {b : Fin (t + 1)} (h : b.val = 0) :
     leafFirst t b = none := by
-  rw [leafFirst, dif_neg (by omega)]
+  rw [leafFirst, dite_eq_right (by omega)]
 
 private lemma leafFirst_pos {t : ℕ} {b : Fin (t + 1)} (h : 0 < b.val) :
     leafFirst t b = some ⟨b.val - 1, by have := b.isLt; omega⟩ := by
-  rw [leafFirst, dif_pos h]
+  rw [leafFirst, dite_eq_left h]
 
 private lemma leafFirst_elim_eq_of {α : Type*} {t : ℕ} (p : Fin (t + 1)) (a c : α)
     (g : Fin t → α) (h0 : p.val = 0 → a = c) (hs : ∀ r : Fin t, r.val + 1 = p.val → g r = c) :
@@ -144,11 +144,11 @@ private def leafLast (t : ℕ) (b : Fin (t + 1)) : Option (Fin t) :=
 
 private lemma leafLast_last {t : ℕ} {b : Fin (t + 1)} (h : t ≤ b.val) :
     leafLast t b = none := by
-  rw [leafLast, dif_neg (by omega)]
+  rw [leafLast, dite_eq_right (by omega)]
 
 private lemma leafLast_lt {t : ℕ} {b : Fin (t + 1)} (h : b.val < t) :
     leafLast t b = some ⟨t - 1 - b.val, by omega⟩ := by
-  rw [leafLast, dif_pos h]
+  rw [leafLast, dite_eq_left h]
 
 private lemma leafLast_elim_eq_of {α : Type*} {t : ℕ} (p : Fin (t + 1)) (a c : α)
     (g : Fin t → α) (h0 : t ≤ p.val → a = c)
@@ -423,12 +423,12 @@ public lemma isGenusOneConfiguration_of_affine_D_zero {t : ℕ} (ht : 5 ≤ t) (
       intro r
       have hr := r.isLt
       by_cases hc : r.val + 3 ≤ t
-      · rw [if_pos hc]
+      · rw [ite_eq_left hc]
         linear_combination hlo r hc
-      · rw [if_neg hc]
+      · rw [ite_eq_right hc]
         linear_combination hhi r (by omega)
     have hmr : T.multiplicity (v r₀) = 2 * a := by
-      rw [hmv r₀, if_pos (show r₀.val + 3 ≤ t by omega)]
+      rw [hmv r₀, ite_eq_left (show r₀.val + 3 ≤ t by omega)]
     have hpend := pendant_of_affine_system T hn hminus l x hlx hleaf v hvinj hvl hvsurj .D w
       hcfg r₀ hr₀ 2 hmain
     rw [← hr₀] at hpend
@@ -479,16 +479,17 @@ public lemma isGenusOneConfiguration_of_affine_D_one {t : ℕ} (ht : 5 ≤ t) (T
       intro r
       have hr := r.isLt
       by_cases hc : r.val = 0
-      · rw [if_pos hc]
+      · rw [ite_eq_left hc]
         linear_combination hd0 r hc
-      · rw [if_neg hc]
+      · rw [ite_eq_right hc]
         by_cases hc2 : r.val + 3 ≤ t
-        · rw [if_pos hc2]
+        · rw [ite_eq_left hc2]
           linear_combination hd1 r (by omega) hc2
-        · rw [if_neg hc2]
+        · rw [ite_eq_right hc2]
           linear_combination hd2 r (by omega)
     have hmr : T.multiplicity (v r₀) = 2 * a := by
-      rw [hmv r₀, if_neg (show ¬(r₀.val = 0) by omega), if_pos (show r₀.val + 3 ≤ t by omega)]
+      rw [hmv r₀, ite_eq_right (show ¬(r₀.val = 0) by omega),
+        ite_eq_left (show r₀.val + 3 ≤ t by omega)]
     obtain ⟨hwl, hml⟩ := pendant_level_one_of_affine T hn hminus l x hlx hleaf v hvinj hvl hvsurj
       .D w hcfg r₀ hr₀ hmain (c := 1) rfl hmr
     have hadj := attachAdj_leafFirst_D_iff_doubleForkAdj ht r₀ hr0
@@ -527,17 +528,17 @@ public lemma isGenusOneConfiguration_of_affine_C {t : ℕ} (ht : 5 ≤ t) (T : N
     intro r
     have hr := r.isLt
     by_cases hc : r.val = 0 ∨ r.val + 1 = t
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       rcases hc with hc | hc
       · linear_combination hc0 r hc
       · linear_combination hc2 r hc
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       linear_combination hc1 r (by omega) (by omega)
   have hmr : T.multiplicity (v r₀) = 2 * a := by
-    rw [hmv r₀, if_neg (show ¬(r₀.val = 0 ∨ r₀.val + 1 = t) by omega)]
+    rw [hmv r₀, ite_eq_right (show ¬(r₀.val = 0 ∨ r₀.val + 1 = t) by omega)]
   have hwfr : DynkinShape.C.weightFactor r₀ = 1 := by
     simp only [DynkinShape.weightFactor]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   obtain ⟨hwl, hml⟩ := pendant_level_one_of_affine T hn hminus l x hlx hleaf v hvinj hvl hvsurj
     .C w hcfg r₀ hr₀ hmain hwfr hmr
   have hadj := attachAdj_leafLast_chain_iff_forkAdj r₀ hr0
@@ -570,15 +571,15 @@ public lemma isGenusOneConfiguration_of_affine_B {t : ℕ} (ht : 5 ≤ t) (T : N
       T.multiplicity (v r) = (if r.val = 0 then (1 : ℤ) else 2) * a := by
     intro r
     by_cases hc : r.val = 0
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       linear_combination hb0 r hc
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       linear_combination hb1 r (by omega)
   have hmr : T.multiplicity (v r₀) = 2 * a := by
-    rw [hmv r₀, if_neg (show ¬(r₀.val = 0) by omega)]
+    rw [hmv r₀, ite_eq_right (show ¬(r₀.val = 0) by omega)]
   have hwfr : DynkinShape.B.weightFactor r₀ = 2 := by
     simp only [DynkinShape.weightFactor]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   obtain ⟨hwl, hml⟩ := pendant_level_one_of_affine T hn hminus l x hlx hleaf v hvinj hvl hvsurj
     .B w hcfg r₀ hr₀ hmain hwfr hmr
   have hadj := attachAdj_leafLast_chain_iff_forkAdj r₀ hr0

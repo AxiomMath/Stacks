@@ -68,7 +68,7 @@ theorem isZero_etaleModulesUniv_of_isEmpty (Λ : Type r) [Ring Λ] (U : Scheme.{
 
 /-- **`Hⁱ_c(X_k̄, -)` vanishes on a zero sheaf.** -/
 theorem isZero_compactSupportSheafCohomology_obj (Λ : Type) [Ring Λ] {k : Type u} [Field k]
-    [Fintype k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) (j : CompactificationOf (Over.mk f))
+    {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) (j : CompactificationOf (Over.mk f))
     (kbar : Type u) [Field kbar] [Algebra k kbar] (i : ℤ) {G : EtaleModules.{u, 0} Λ X}
     (hG : IsZero G) : IsZero ((compactSupportSheafCohomology Λ f j kbar i).obj G) := by
   have hC : IsZero ((HomologicalComplex.single (EtaleModules.{u, 0} Λ X)
@@ -103,9 +103,11 @@ variable (B : BigEtaleSite.{u}) (ℓ : ℕ) [Fact ℓ.Prime]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **On an empty scheme the weight bound holds vacuously**: every level of the tower lives on the
 small étale site of the empty scheme, hence is zero, and so is `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)`. -/
-theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_of_isEmpty
+theorem
+    LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_of_isEmpty
     [IsEmpty X.1] (F : LAdicSheaf.{u, u + 1} B X ℓ) (i : ℤ)
     [FiniteDimensional ℚ_[ℓ]
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar F i)]
@@ -132,12 +134,15 @@ local instance (priority := high) locallyOfFiniteType_comp_surjectiveClosedImmer
     ((IsClosedImmersion.iff_isFinite_and_mono g).mp ‹_›).1).2
   @locallyOfFiniteType_comp _ _ _ g h hg ‹_›
 
+namespace LAdicSheaf
+
+omit [LocallyOfFiniteType f] [IsSeparated f] in
 /-- **Weights of `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` from a surjective closed subscheme.**  If `i : Z ⟶ X` is a
 surjective closed immersion, compactified by the compactification induced by `j`, and the complex
 roots, read along `ι`, of the characteristic polynomial of the geometric Frobenius on
 `Hⁱ_c(Z_k̄, F|_Z ⊗ ℚ_ℓ)` have absolute values `q' ^ (w / 2)` with `w ≤ b`, so do those on
 `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)`: in the excision sequence for `X = ∅ ⊔ Z` the open part vanishes. -/
-theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_of_surjective
+theorem isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_of_surjective
     (F : LAdicSheaf.{u, u + 1} B X ℓ) (i : ℤ) {Z : B.Scheme} [IsNoetherian Z.1] (iZ : Z ⟶ X)
     [IsClosedImmersion (B.inclusion.map iZ)]
     (hsurj : Function.Surjective (B.inclusion.map iZ).base)
@@ -213,12 +218,13 @@ theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySuppo
   exact ((compactSupportSheafFrobenius ℤ_[ℓ] (iZ' ≫ f) (j.restrictClosed iZ') kbar p q hcard
     i).naturality (eZ.hom.app n)).symm
 
+omit [IsSeparated f] in
 /-- **Weil II in dimension zero, for any finite scheme.**  Let `X` be finite over `k` and `F` an
 ℓ-adic sheaf on `X` pointwise `ι`-mixed of weights `≤ w`.  For a reduced surjective closed
 subscheme `i : Z ⟶ X` (for instance `X_red`), `Z` is finite étale over the perfect field `k`, the
 restriction `F|_Z` is pointwise `ι`-mixed of weights `≤ w`, and so the weights of `Hⁱ_c(X_k̄, F)`,
 bounded by those of `Hⁱ_c(Z_k̄, F|_Z)`, are `≤ w + i`. -/
-theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_of_isFinite
+theorem isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_of_isFinite
     [IsAlgClosed kbar] [CharP kbar p] [IsFinite f] (F : LAdicSheaf.{u, u + 1} B X ℓ)
     (ι : ℚ_[ℓ] →+* ℂ) (w : ℤ) (hF : LAdicSheaf.IsPointwiseMixedOfWeightLE B X ℓ f F (p ^ q) ι w)
     (i : ℤ) {Z : B.Scheme} [IsNoetherian Z.1] (iZ : Z ⟶ X)
@@ -244,12 +250,14 @@ theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySuppo
   -- instance search for this times out (Lean v4.35.0): supply Mathlib's instance directly
   have : LocallyOfFiniteType (B.inclusion.map iZ) :=
     AlgebraicGeometry.instLocallyOfFiniteTypeOfIsClosedImmersion _
-  refine LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_of_surjective
+  refine isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_of_surjective
     B ℓ f j kbar p q hcard F i iZ hsurj ?_
   exact
     LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_of_etale
       B Z ℓ (B.inclusion.map iZ ≫ f) (j.restrictClosed (B.inclusion.map iZ)) kbar p q hcard
       (LAdicSheaf.inverseImage iZ F) ι w
       (LAdicSheaf.IsPointwiseMixedOfWeightLE.inverseImage X ℓ iZ f hF hg) i
+
+end LAdicSheaf
 
 end Stacks.EtaleCohomology

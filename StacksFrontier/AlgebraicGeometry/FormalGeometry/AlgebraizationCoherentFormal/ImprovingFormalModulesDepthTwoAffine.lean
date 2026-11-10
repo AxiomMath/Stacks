@@ -76,7 +76,7 @@ theorem appₗ_extend_comp {m n : ℕᵒᵖ} (f : m ⟶ n) :
   ext s
   have h := extend_comp_universalImprovedMap
     (isUniversal_canonicalDepthTwoImprovement hdual F hT hT' hTY himm) f
-  show ((canonicalDepthTwoImprovement hdual F hT hT' hTY himm).extend m ≫
+  change ((canonicalDepthTwoImprovement hdual F hT hT' hTY himm).extend m ≫
       universalImprovedMap (isUniversal_canonicalDepthTwoImprovement hdual F hT hT' hTY himm) f).app
         U s = (((improvedSystem T hT F.obj).map f) ≫
       (canonicalDepthTwoImprovement hdual F hT hT' hTY himm).extend n).app U s
@@ -141,7 +141,6 @@ theorem sectionsShortComplexSystem_shortExact (n : ℕᵒᵖ) :
   have := mono_canonicalExtend hdual F hT hT' hTY hTT' himm n
   exact sectionsShortComplex_shortExact _ U
 
-include hTT' in
 /-- Each map `M'ₙ → M''ₙ` is a depth-two embedding with respect to the primes of `Γ(X, U)` lying
 in `T'`. -/
 theorem isDepthTwoEmbedding_sectionsShortComplexSystem (n : ℕᵒᵖ) :
@@ -173,7 +172,7 @@ public def quotientSectionsIsoLocalCohomologyOne :
   Stacks.LocalCohomology.cokernelNatIsoLocalCohomologyOne.{u, u} (primesIn hU T')
     (stableUnderSpecialization_primesIn hU hT') _
     (sectionsShortComplexSystem_shortExact hdual F hT hT' hTY hTT' himm (U := U))
-    (isDepthTwoEmbedding_sectionsShortComplexSystem hdual F hT hT' hTY hTT' himm hU)
+    (isDepthTwoEmbedding_sectionsShortComplexSystem hdual F hT hT' hTY himm hU)
 
 /-! ### The extension data of the sections over an affine open -/
 
@@ -210,7 +209,7 @@ theorem toDepthTwoSections_apply (n : ℕ) (m : formalSectionsOver F U) :
     toDepthTwoSections hdual F hT hT' hTY himm U n m =
       ((canonicalDepthTwoImprovement hdual F hT hT' hTY himm).extend (op n)).app U
         (toDepthOneSections F hT U n m) := by
-  show ((limit.π (F.obj ⋙ sectionsOver U) (op n)) ≫ (sectionsOver U).map
+  change ((limit.π (F.obj ⋙ sectionsOver U) (op n)) ≫ (sectionsOver U).map
     ((toImprovedSystem T hT F.obj).app (op n) ≫
       (canonicalDepthTwoImprovement hdual F hT hT' hTY himm).extend (op n))).hom m = _
   rw [Functor.map_comp]
@@ -365,7 +364,7 @@ theorem modelSections_apply (n : ℕ) (x : formalSectionsOver Mo.G U) :
     modelSections hdual F hT hT' hTY himm U Mo n x =
       ((canonicalDepthTwoImprovement hdual F hT hT' hTY himm).extend (op n)).app U
         ((Mo.κ.app (op n)).app U (limit.π (Mo.G.obj ⋙ sectionsOver U) (op n) x)) := by
-  show ((limit.π (Mo.G.obj ⋙ sectionsOver U) (op n)) ≫ (sectionsOver U).map
+  change ((limit.π (Mo.G.obj ⋙ sectionsOver U) (op n)) ≫ (sectionsOver U).map
     (Mo.κ.app (op n) ≫ (canonicalDepthTwoImprovement hdual F hT hT' hTY himm).extend (op n))).hom
       x = _
   rw [Functor.map_comp]
@@ -395,10 +394,10 @@ theorem ker_modelSections_le (n : ℕ) :
     (homOfLE (Mo.le_μ n)).op)
   simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply] at hw
   rw [← hw]
-  show (Mo.G.obj.map (homOfLE (Mo.le_μ n)).op).app U
+  change (Mo.G.obj.map (homOfLE (Mo.le_μ n)).op).app U
     (limit.π (Mo.G.obj ⋙ sectionsOver U) (op (Mo.μ n)) x) = 0
   rw [← Mo.κ_π n]
-  show (Mo.π n).app U ((Mo.κ.app (op (Mo.μ n))).app U
+  change (Mo.π n).app U ((Mo.κ.app (op (Mo.μ n))).app U
     (limit.π (Mo.G.obj ⋙ sectionsOver U) (op (Mo.μ n)) x)) = 0
   rw [h0]
   exact map_zero (Stacks.AlgebraicGeometry.QcohLimits.appₗ (Mo.π n) U)

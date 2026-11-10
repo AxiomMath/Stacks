@@ -108,6 +108,7 @@ variable {site : BigFppfSite.{u}} {S : Scheme.{u}} {hS : site.Contains S}
   {B : AlgebraicSpaces site S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_SetTheoreticEquivalenceCriterion :
@@ -119,6 +120,7 @@ local instance (priority := high) hasPullback_presheaf_SetTheoreticEquivalenceCr
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the big fppf site is deep
 /-- Small discrete limits of presheaves on the big fppf site (instance search times out without
 this shortcut). -/
 local instance (priority := high)
@@ -176,7 +178,7 @@ private theorem isIso_ofHom_algebraMap (k L : Type u) [Field k] [IsAlgClosed k] 
   have hbij : Function.Bijective (algebraMap k L) :=
     IsAlgClosed.algebraMap_bijective_of_isIntegral
   let e : k ≃+* L := RingEquiv.ofBijective (algebraMap k L) hbij
-  show IsIso (CommRingCat.ofHom e.toRingHom)
+  change IsIso (CommRingCat.ofHom e.toRingHom)
   exact e.toCommRingCatIso.isIso_hom
 
 /-- **A fibre of a radicial morphism over an algebraically closed field in the site has exactly
@@ -494,7 +496,7 @@ private theorem geometricRel_of_setTheoreticRel_of_isRadicial {R' U' : Over B.ob
   have hsec : ∀ v : {v : U'.left.obj (Opposite.op T) // U'.hom.app (Opposite.op T) v = β},
       yonedaEquiv.symm v.1 ≫ U'.hom = A.hom := by
     intro v
-    show yonedaEquiv.symm v.1 ≫ U'.hom = yonedaEquiv.symm β
+    change yonedaEquiv.symm v.1 ≫ U'.hom = yonedaEquiv.symm β
     rw [yonedaEquiv_symm_naturality_right, v.property]
   let mx : A ⟶ U' := Over.homMk (yonedaEquiv.symm x.1) (hsec x)
   let my : A ⟶ U' := Over.homMk (yonedaEquiv.symm y.1) (hsec y)

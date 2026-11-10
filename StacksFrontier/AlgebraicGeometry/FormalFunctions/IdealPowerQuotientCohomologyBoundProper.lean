@@ -11,14 +11,17 @@ Let `A` be a Noetherian ring, `I ⊆ A` an ideal, `f : X ⟶ Spec A` a proper mo
 coherent sheaf of `𝒪_X`-modules and `p ≥ 0`. Write `𝓘 = I · 𝒪_X`. [Stacks, Tag 02OB] produces a
 single integer `c ≥ 0` serving three clauses at once; it is
 `Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology_idealPowerQuotient_of_isProper`
-(`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ArtinReesChain.lean`), where the tag is registered.
+(`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ArtinReesChain.lean`), where the
+tag is registered.
 
 This file records its first clause,
 
 `Ker(Hᵖ(X, ℱ) → Hᵖ(X, ℱ / 𝓘ⁿℱ)) ⊆ Iⁿ⁻ᶜ · Hᵖ(X, ℱ)` for every `n ≥ c`,
 
 as a statement of its own, with coherence spelled `Stacks.SheafOfModules.IsCoherent`, because that
-is the clause the degree-zero comparison of `StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/DirectImageAdicBound.lean` consumes.
+is the clause the degree-zero comparison of
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/DirectImageAdicBound.lean`
+consumes.
 
 ## Main results
 

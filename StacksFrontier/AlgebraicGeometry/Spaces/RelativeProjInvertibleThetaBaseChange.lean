@@ -557,7 +557,8 @@ point `f` the twists `𝒪(d)` of `Proj_Y(𝒜)` are those of `Proj_X(f^*𝒜)`,
 `j ≫ r_{ℒ,ψ} = r_{ℒ',ψ'}`, which is `invertibleMorphism_baseChange`) and
 `j^*(⨁ ℒ^{⊗ d}|_{U(ψ)}) ≅ ⨁ (g'^*ℒ)^{⊗ d}|_{U(ψ')}` of sheaves of graded algebras. -/
 @[stacks 0D2Z "variant: clause (3), last sentence, for the squares in which \
-Y' -> Y is the scheme point f : X -> Y; the tag is AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
+Y' -> Y is the scheme point f : X -> Y; the tag is \
+AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
 theorem invertibleTheta_baseChange {X' : BigFppfOver B S hS} (g' : X' ⟶ X) :
     (toGradedPowerMap (ψ.pullback ((BigFppfOver.toScheme B S hS).map g'))).theta =
       (thetaSourceIso ψ ((BigFppfOver.toScheme B S hS).map g')).inv ≫

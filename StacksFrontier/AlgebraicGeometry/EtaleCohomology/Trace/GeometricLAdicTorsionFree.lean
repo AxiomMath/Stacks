@@ -88,6 +88,7 @@ def LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsogenyIso {F G : LA
     (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar φ i))
     (LAdicSheaf.isIso_rationalGeometricCompactlySupportedCohomologyMap f j kbar φ ψ N h₁ h₂ i)
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The forward map of `LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsogenyIso` is the
 map induced by `φ` on `Hⁱ_c(X_k̄, -)`, extended to `Q_ℓ`. -/
 theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsogenyIso_hom
@@ -97,6 +98,7 @@ theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsogenyIso_hom
         i).hom = (ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map
       (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar φ i) := rfl
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The isomorphism induced by an isogeny commutes with every endomorphism of `RΓ_c(X_k̄, -)`, in
 particular with `π_X^*`. -/
 theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsogenyIso_hom_pullback
@@ -115,6 +117,7 @@ theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsogenyIso_hom_p
       (LAdicSheaf.geometricCompactlySupportedCohomologyMap_pullback f j kbar φ i θ)).trans
       ((ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map_comp _ _))
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **Traces are invariant under isogeny**: the trace of an endomorphism of `RΓ_c(X_k̄, -)` on
 `Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` is its trace on `Hⁱ_c(X_k̄, G ⊗ Q_ℓ)`. -/
 theorem LAdicSheaf.trace_rationalGeometricCompactlySupportedCohomologyPullback_of_isogeny
@@ -160,6 +163,7 @@ private def torsionFreeModelIsogenyIso (F : LAdicSheaf B X ℓ) (i : ℤ) :
 
 variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include p q hcard in
 /-- **`Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` is finite-dimensional** for an ℓ-adic sheaf whose torsion-free model
 has perfect `RΓ_c(X_k̄, F'ₙ)`. -/
@@ -179,6 +183,7 @@ theorem LAdicSheaf.finite_rationalGeometricCompactlySupportedCohomology_of_perfe
   exact Module.Finite.equiv
     (torsionFreeModelIsogenyIso B X ℓ f j kbar F i).symm.toLinearEquiv
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include p q hcard in
 /-- **`Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` vanishes in all but finitely many degrees** for an ℓ-adic sheaf whose
 torsion-free model has perfect `RΓ_c(X_k̄, F'ₙ)`. -/
@@ -197,6 +202,7 @@ theorem LAdicSheaf.finite_nontrivial_rationalGeometricCompactlySupportedCohomolo
   exact @Equiv.nontrivial _ _
     (torsionFreeModelIsogenyIso B X ℓ f j kbar F i).symm.toLinearEquiv.toEquiv hi
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The alternating trace of `π_X^*` on `Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` is the ℓ-adic trace of the tower
 `Kₙ = RΓ_c(X_k̄, F'ₙ)` of the torsion-free model**, whenever the `Kₙ` are perfect. -/
 theorem LAdicSheaf.alternating_trace_rationalGeometricCompactlySupportedFrobenius_of_perfect
@@ -258,6 +264,7 @@ theorem LAdicSheaf.isPerfect_levelComplex_torsionFreeModel [Finite k] (F : LAdic
   exact isPerfect_compactSupportFrobeniusCohomology_single_of_reduction f j kbar ℓ (n + 1) _
     (LAdicSheaf.powExact_etaleLevel_torsionFreeModel B X ℓ F (le_refl _) n) b (hb n) (hf n)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include p q hcard in
 /-- **`Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` vanishes above `b`** as soon as the reductions modulo `ℓ` of the levels
 of the torsion-free model have finite cohomology on `X̄_k̄` vanishing above `b`. -/

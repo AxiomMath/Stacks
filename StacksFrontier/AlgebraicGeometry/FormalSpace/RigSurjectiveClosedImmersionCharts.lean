@@ -194,7 +194,7 @@ private theorem exists_dvr_ker_le_of_isPrime' {A : Type u} [CommRing A] [Topolog
   have _ : (m.map (Ideal.Quotient.mk p)).IsPrime :=
     Ideal.map_isPrime_of_surjective Ideal.Quotient.mk_surjective
       (by simpa [Ideal.mk_ker] using le_sup_left.trans hmle)
-  obtain ⟨x₀, hx₀I, hx₀p⟩ := SetLike.not_le_iff_exists.mp hpI
+  obtain ⟨x₀, hx₀I, hx₀p⟩ := IsConcreteLE.not_le_iff_exists.mp hpI
   have hqne : m.map (Ideal.Quotient.mk p) ≠ ⊥ := by
     intro hbot
     refine hx₀p (Ideal.Quotient.eq_zero_iff_mem.mp ?_)
@@ -427,7 +427,7 @@ theorem leKerAtDvrPoints_ker_of_isRigSurjective
     hrig W hWtop hWcomplete hWweak DW (formalSpectrumMap hA p)
       (isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isTaut B S hS hA hWweak
         D DW (hasLargeSite_of_mk_lt_cutoff DW hWcard) p
-        (RingHom.isTaut_of_isAdic p.toRingHom p.continuous (by rw [hp]; exact hψadic)))
+        (RingHom.isTaut_of_isAdic p.toRingHom (by rw [hp]; exact hψadic)))
   let : CommRing W' := hW'ring
   have : IsDomain W' := hW'dom
   have : IsDiscreteValuationRing W' := hW'dvr
@@ -447,7 +447,7 @@ theorem leKerAtDvrPoints_ker_of_isRigSurjective
       existsUnique_continuousHom_formalSpectrumMap_eq hA hW'weak (formalSpectrumMap hA pe)
     clear hk
     refine (huniq gχ ?_).trans (huniq pe rfl).symm
-    show formalSpectrumMap hA gχ = formalSpectrumMap hA pe
+    change formalSpectrumMap hA gχ = formalSpectrumMap hA pe
     rw [← formalSpectrumMap_comp hA hC g χ gχ hgχ,
       ← formalSpectrumMap_comp hA hWweak p e pe hpe, hχ]
     exact hy
@@ -580,7 +580,7 @@ theorem isRigSurjective_formalSpectrumMap_of_leKerAtDvrPoints
   have hψcomp : ((Ideal.Quotient.lift _ φ.toRingHom hzero).comp
       (e.symm : C →+* A ⧸ RingHom.ker g.toRingHom)).comp g.toRingHom = φ.toRingHom := by
     refine RingHom.ext fun x => ?_
-    show (Ideal.Quotient.lift _ φ.toRingHom hzero) (e.symm (g.toRingHom x)) = φ.toRingHom x
+    change (Ideal.Quotient.lift _ φ.toRingHom hzero) (e.symm (g.toRingHom x)) = φ.toRingHom x
     rw [← he x, RingEquiv.symm_apply_apply, Ideal.Quotient.lift_mk]
   obtain ⟨χ, hχ⟩ := exists_continuousHom_of_comp hA g φ
     ((Ideal.Quotient.lift _ φ.toRingHom hzero).comp
@@ -753,7 +753,7 @@ theorem IsLocallyOfFiniteType.of_isClosedImmersion {X Y : FppfSheaf B S hS} (f :
     (hf : IsClosedImmersion B S hS f) : IsLocallyOfFiniteType B S hS f := by
   obtain ⟨hrep, hci⟩ := hf
   refine ⟨hrep, fun U ξ => ?_⟩
-  show Space.IsLocallyOfFiniteTypeULift.{u + 1} B S hS (pullback.fst ξ f.hom)
+  change Space.IsLocallyOfFiniteTypeULift.{u + 1} B S hS (pullback.fst ξ f.hom)
   have hrel := hci U ξ
   obtain ⟨W, k, e, hpb⟩ := hrel.1 (𝟙 ((uliftYoneda.{u + 1}).obj U))
   have hk : AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map k) :=

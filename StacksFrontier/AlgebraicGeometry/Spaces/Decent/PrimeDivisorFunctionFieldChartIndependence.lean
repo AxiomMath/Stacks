@@ -120,12 +120,10 @@ theorem PrimeDivisor.neighborhoodTotalFractionRingToGeneric_comp_eq
     [IsAffine U.scheme.left.1] [IsReduced U.scheme.left.1]
     [IsLocallyNoetherian U.scheme.left.1] [IsAffine V.scheme.left.1]
     [IsReduced V.scheme.left.1] [IsLocallyNoetherian V.scheme.left.1]
-    (hCofiltered :
-      IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X)))
     (r : rationalFunctions B S hS hX) :
-    Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec V hCofiltered
+    Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec V
         (rationalFunctionsToTotalFractionRing B S hS hX V.scheme V.toSpace V.etale_toSpace r) =
-      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U hCofiltered
+      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U
         (rationalFunctionsToTotalFractionRing B S hS hX U.scheme U.toSpace
           U.etale_toSpace r) := by
   have hetale : IsEtale B S hS (yoneda.map f.hom ≫ U.toSpace) := by
@@ -133,8 +131,8 @@ theorem PrimeDivisor.neighborhoodTotalFractionRingToGeneric_comp_eq
   rw [← rationalFunctionsToTotalFractionRing_congr B S hS hX V.scheme f.over hetale
     V.etale_toSpace r]
   refine rationalFunctionsToTotalFractionRing_comp_eq B S hS hX f.hom U.etale_toSpace hetale
-    (Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U hCofiltered)
-    (Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec V hCofiltered) (fun a => ?_) r
+    (Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U)
+    (Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec V) (fun a => ?_) r
   rw [PrimeDivisor.neighborhoodTotalFractionRingToGeneric,
     PrimeDivisor.neighborhoodTotalFractionRingToGeneric,
     IsLocalization.map_eq, IsLocalization.map_eq]
@@ -155,10 +153,8 @@ theorem PrimeDivisor.neighborhoodTotalFractionRingToGeneric_pullback_eq
     (U : ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X))
     [IsAffine U.scheme.left.1] [IsReduced U.scheme.left.1]
     [IsLocallyNoetherian U.scheme.left.1]
-    (hCofiltered :
-      IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X)))
     (r : rationalFunctions B S hS hX) :
-    Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U hCofiltered
+    Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U
         (rationalFunctionsToTotalFractionRing B S hS hX U.scheme U.toSpace U.etale_toSpace r) =
       Z.rationalFunctionsToGenericTotalFractionRing B S hS hX hdec hInt hN r := by
   have := Z.isLocallyNoetherian_chart B S hS hX hN (Z.genericChart B S hS hX hdec)
@@ -168,13 +164,13 @@ theorem PrimeDivisor.neighborhoodTotalFractionRingToGeneric_pullback_eq
   have := Z.isLocallyNoetherian_chart B S hS hX hN T
   have := Z.isReduced_chart B S hS hX hInt T
   have hgen : Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec
-      (Z.genericChart B S hS hX hdec) hCofiltered
+      (Z.genericChart B S hS hX hdec)
       (rationalFunctionsToTotalFractionRing B S hS hX (Z.genericChart B S hS hX hdec).scheme
         (Z.genericChart B S hS hX hdec).toSpace
         (Z.genericChart B S hS hX hdec).etale_toSpace r) =
       Z.rationalFunctionsToGenericTotalFractionRing B S hS hX hdec hInt hN r := rfl
-  rw [← hgen, ← Z.neighborhoodTotalFractionRingToGeneric_comp_eq B S hS hX hdec a hCofiltered r,
-    ← Z.neighborhoodTotalFractionRingToGeneric_comp_eq B S hS hX hdec b hCofiltered r]
+  rw [← hgen, ← Z.neighborhoodTotalFractionRingToGeneric_comp_eq B S hS hX hdec a r,
+    ← Z.neighborhoodTotalFractionRingToGeneric_comp_eq B S hS hX hdec b r]
 
 end AlgebraicGeometry.Space
 

@@ -61,10 +61,6 @@ private theorem exists_isStrictlyGE_isKInjective_model
 
 variable [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}]
   [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [(Tensor.sheafTensor.{u, u, u, u, u} Rc).Additive]
-  [∀ M, ((Tensor.sheafTensor.{u, u, u, u, u} Rc).obj M).Additive]
-  [∀ K₁ K₂ : CochainComplex (_root_.SheafOfModules.{u} (Tensor.ringSheaf.{u, u, u} Rc)) ℤ,
-    HomologicalComplex.HasMapBifunctor K₁ K₂ (Tensor.sheafTensor Rc) (ComplexShape.up ℤ)]
 
 /-- The internal Hom complex out of a complex vanishing above `d` into a K-injective complex
 vanishing below `b` has no cohomology below `b - d`: over every open the degree-`n` sections

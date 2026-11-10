@@ -403,7 +403,7 @@ private theorem translateArrow_self
   have h := congrArg
     (fun g : EvalHom H T y y => (H.evaluationArrowEquiv T y y g).1)
     (Groupoid.inv_comp f)
-  show H.compose T a (Deformation.inverseArrow H T a) _ = H.identity T y
+  change H.compose T a (Deformation.inverseArrow H T a) _ = H.identity T y
   simpa only [H.evaluationArrowEquiv_comp,
     H.evaluationArrowEquiv_id, Deformation.GroupoidInFunctors.compose,
     Deformation.inverseArrow, x, y, f, Equiv.apply_symm_apply] using h
@@ -431,10 +431,10 @@ private theorem translateArrow_cancel
     apply (H.evaluationArrowEquiv T y z).injective
     apply Subtype.ext
     simp only [cHom, Equiv.apply_symm_apply]
-    show c = (H.evaluationArrowEquiv T y z (Groupoid.inv f ≫ g)).1
+    change c = (H.evaluationArrowEquiv T y z (Groupoid.inv f ≫ g)).1
     rw [H.evaluationArrowEquiv_comp]
     simp only [g, Equiv.apply_symm_apply]
-    show H.compose T b (Deformation.inverseArrow H T a) _ =
+    change H.compose T b (Deformation.inverseArrow H T a) _ =
       H.compose T b (H.evaluationArrowEquiv T y x (Groupoid.inv f)).1 _
     exact groupoidCompose_congr_second H T b _ _ _ _ (by rfl)
   have hfc : f ≫ cHom = g := by
@@ -507,7 +507,7 @@ private theorem translateArrow_back_cancel
     apply (H.evaluationArrowEquiv T x z).injective
     apply Subtype.ext
     simp only [dHom, Equiv.apply_symm_apply]
-    show d = (H.evaluationArrowEquiv T x z (f ≫ g)).1
+    change d = (H.evaluationArrowEquiv T x z (f ≫ g)).1
     rw [H.evaluationArrowEquiv_comp]
     simp only [g, f, Equiv.apply_symm_apply]
     rfl
@@ -524,7 +524,7 @@ private theorem translateArrow_back_cancel
     apply (H.evaluationArrowEquiv T y z).injective
     apply Subtype.ext
     simp only [Equiv.apply_symm_apply]
-    show e = (H.evaluationArrowEquiv T y z (Groupoid.inv f ≫ dHom)).1
+    change e = (H.evaluationArrowEquiv T y z (Groupoid.inv f ≫ dHom)).1
     rw [H.evaluationArrowEquiv_comp]
     simp only [dHom, Equiv.apply_symm_apply]
     dsimp [e, translateArrow]
@@ -731,13 +731,13 @@ private theorem fiberTranslateBack_unit_comp
   have hpair : (fiberTranslateBackPair H z).app T (targetPair.app T x) =
       ⟨(unit.app T y, z.app T x), hunitSource⟩ := by
     apply Subtype.ext
-    show ((pullback.snd (z ≫ H.target) H.source).app T (targetPair.app T x),
+    change ((pullback.snd (z ≫ H.target) H.source).app T (targetPair.app T x),
       z.app T ((pullback.fst (z ≫ H.target) H.source).app T (targetPair.app T x))) = _
     exact Prod.ext hsnd (congrArg (z.app T) hfst)
-  show H.comp.app T
+  change H.comp.app T
       ((fiberTranslateBackPair H z).app T (targetPair.app T x)) = z.app T x
   rw [hpair]
-  show H.compose T (unit.app T (H.target.app T (z.app T x))) (z.app T x) _ =
+  change H.compose T (unit.app T (H.target.app T (z.app T x))) (z.app T x) _ =
     z.app T x
   calc
     H.compose T (unit.app T y) (z.app T x) _ =
@@ -898,7 +898,7 @@ private theorem fiberTranslate_forward_after_back
     let q := (ConcreteCategory.hom ((fiberTranslateBack H z).app T)) p
     have htranslated := fiberTranslate_snd H z T q
     have hax : z.app T ((ConcreteCategory.hom (fstS.app T)) q) = a := by
-      show (ConcreteCategory.hom (z.app T))
+      change (ConcreteCategory.hom (z.app T))
           ((ConcreteCategory.hom (fstS.app T)) q) = a
       dsimp [a,x]
       rw [hbackfst]
@@ -933,7 +933,7 @@ private theorem fiberTranslate_forward_after_back
     have htrans : translateArrow H T a (translateBackArrow H T a c hac)
         (translateBackArrow_source H T a c hac) = c :=
       translateArrow_back_cancel H T a c hac
-    show (ConcreteCategory.hom (snd.app T))
+    change (ConcreteCategory.hom (snd.app T))
         ((ConcreteCategory.hom ((fiberTranslate H z).app T))
           ((ConcreteCategory.hom ((fiberTranslateBack H z).app T)) p)) = c
     exact hpoint.trans htrans
@@ -1152,7 +1152,7 @@ private theorem finiteOpenPair_containsSection
     exact hfactor V y
   let sectionLift : T.obj ⟶ p.subspace.toFunctor := Subfunctor.lift sectionPair hrange
   refine ⟨sectionLift, ?_⟩
-  show sectionLift ≫ p.subspace.ι = sectionPair
+  change sectionLift ≫ p.subspace.ι = sectionPair
   exact Subfunctor.lift_ι _ _
 
 private theorem containsSection_baseChange
@@ -1175,7 +1175,7 @@ private theorem containsSection_baseChange
     AlgebraicGeometry.Space.ContainsSection C S hS f σ hσ q := by
   rcases hp with ⟨l, hl⟩
   let hmap : (schemeSpace U).obj ⟶ T.obj := by
-    show yoneda.obj U ⟶ T.obj
+    change yoneda.obj U ⟶ T.obj
     exact g
   have hbase' : q.toBase.hom = hmap ≫ p.toBase.hom := by
     dsimp [hmap, schemeSpace]
@@ -1202,7 +1202,7 @@ private theorem containsSection_baseChange
         calc
           hmap ≫ sectionP ≫ pullback.fst p.toBase.hom f.hom =
               hmap ≫ (sectionP ≫ pullback.fst p.toBase.hom f.hom) := by simp
-          _ = hmap ≫ 𝟙 _ := by simp [sectionP, pullback.lift_fst]
+          _ = hmap ≫ 𝟙 _ := by simp [sectionP]
           _ = hmap := by simp
       _ = hmap ≫ (l ≫ p.subspace.ι) ≫ pullback.fst p.toBase.hom f.hom := by
         rw [← hl']
@@ -1226,19 +1226,19 @@ private theorem containsSection_baseChange
             calc
               hmap ≫ sectionP ≫ pullback.snd p.toBase.hom f.hom =
                   hmap ≫ (sectionP ≫ pullback.snd p.toBase.hom f.hom) := by simp
-              _ = hmap ≫ (p.toBase.hom ≫ σ.hom) := by simp [sectionP, pullback.lift_snd]
+              _ = hmap ≫ (p.toBase.hom ≫ σ.hom) := by simp [sectionP]
       _ = (hmap ≫ p.toBase.hom) ≫ σ.hom := (Category.assoc _ _ _).symm
       _ = q.toBase.hom ≫ σ.hom := congrArg (fun k => k ≫ σ.hom) hbase'.symm
   refine ⟨l', ?_⟩
   apply pullback.hom_ext
-  · show l' ≫ q.subspace.ι ≫ pullback.fst q.toBase.hom f.hom =
+  · change l' ≫ q.subspace.ι ≫ pullback.fst q.toBase.hom f.hom =
       sectionQ ≫ pullback.fst q.toBase.hom f.hom
     rw [hl'fst]
-    simp [sectionQ, pullback.lift_fst]
-  · show l' ≫ q.subspace.ι ≫ pullback.snd q.toBase.hom f.hom =
+    simp [sectionQ]
+  · change l' ≫ q.subspace.ι ≫ pullback.snd q.toBase.hom f.hom =
       sectionQ ≫ pullback.snd q.toBase.hom f.hom
     rw [hl'snd]
-    simp [sectionQ, pullback.lift_snd]
+    simp [sectionQ]
 
 private theorem translateFiniteOpenPair_containsSection
     {C : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
@@ -1278,7 +1278,7 @@ private theorem translateFiniteOpenPair_containsSection
         (⟨H.objects, hObjects⟩ : AlgebraicGeometry.AlgebraicSpaces C S hS))
     (ObjectProperty.homMk unit) hunit translated
   intro V y
-  show κ.app V (targetPair.app V y) ∈ p.subspace.obj V
+  change κ.app V (targetPair.app V y) ∈ p.subspace.obj V
   have hpoint : ConcreteCategory.hom (κ.app V)
       (ConcreteCategory.hom (targetPair.app V) y) =
       ConcreteCategory.hom (p.subspace.ι.app V)
@@ -1296,7 +1296,7 @@ private theorem translateFiniteOpenPair_containsSection
       ConcreteCategory.hom
         ((pullback.lift (𝟙 T.obj) z
           (by simpa using hbase)).app V) y at hright
-    show ConcreteCategory.hom (baseChange.inv.app V)
+    change ConcreteCategory.hom (baseChange.inv.app V)
         (ConcreteCategory.hom ((fiberTranslateBack H z).app V)
           (ConcreteCategory.hom (targetPair.app V) y)) = _
     simpa only [κ] using hleft.trans hright.symm
@@ -1321,7 +1321,7 @@ private theorem isEtale_of_openImmersion
       ((AlgebraicGeometry.BigFppfOver.toScheme C S hS).map g) at hg
     let : AlgebraicGeometry.IsOpenImmersion
         ((AlgebraicGeometry.BigFppfOver.toScheme C S hS).map g) := hg
-    show Etale ((AlgebraicGeometry.BigFppfOver.toScheme C S hS).map g)
+    change Etale ((AlgebraicGeometry.BigFppfOver.toScheme C S hS).map g)
     infer_instance
   have hpres : Petale.presheaf f := by
     refine ⟨hf.1, ?_⟩
@@ -1565,7 +1565,7 @@ private theorem finitePairFiber_translate
         fiberTranslateBackPair H z ≫ H.comp := by
       rw [Category.assoc, he, fiberTranslateBack_comp_snd]
     apply (congrArg (fun k => k.app V b) hκ).trans
-    show H.compose V ((pullback.snd (z ≫ H.target) H.source).app V b)
+    change H.compose V ((pullback.snd (z ≫ H.target) H.source).app V b)
       (z.app V ((pullback.fst (z ≫ H.target) H.source).app V b)) _ = _
     apply congrArg (H.comp.app V)
     apply Subtype.ext
@@ -1606,7 +1606,7 @@ private theorem composableToPullback_fst
     (p : (Deformation.composableArrows U R s t).obj V) :
     (pullback.fst s t).app V ((composableToPullback s t).app V p) = p.val.1 :=
   by
-    show ((composableToPullback s t ≫ pullback.fst s t).app V) p = _
+    change ((composableToPullback s t ≫ pullback.fst s t).app V) p = _
     simp only [composableToPullback, pullback.lift_fst]
     rfl
 
@@ -1617,7 +1617,7 @@ private theorem composableToPullback_snd
     (p : (Deformation.composableArrows U R s t).obj V) :
     (pullback.snd s t).app V ((composableToPullback s t).app V p) = p.val.2 :=
   by
-    show ((composableToPullback s t ≫ pullback.snd s t).app V) p = _
+    change ((composableToPullback s t ≫ pullback.snd s t).app V) p = _
     simp only [composableToPullback, pullback.lift_snd]
     rfl
 
@@ -1696,7 +1696,7 @@ private theorem pointwiseGroupoid_of_lifts
       apply Subtype.ext
       apply hinj _ _
       · exact ((cs _).trans ((is _).trans a.property.2)).trans (es y).symm
-      · show p (c _) = p (e y)
+      · change p (c _) = p (e y)
         rw [cp, ep]
         calc
           _ = H.compose V (p a.val) (Deformation.inverseArrow H V (p a.val))
@@ -1711,7 +1711,7 @@ private theorem pointwiseGroupoid_of_lifts
       apply Subtype.ext
       apply hinj _ _
       · exact ((cs _).trans a.property.1).trans (es x).symm
-      · show p (c _) = p (e x)
+      · change p (c _) = p (e x)
         rw [cp, ep]
         calc
           _ = H.compose V (Deformation.inverseArrow H V (p a.val)) (p a.val)
@@ -1754,7 +1754,7 @@ private theorem containsSection_of_range_le
     rcases ((finitePartWithSection C S hS f σ hσ).mem_iff U xP).1 hxP with ⟨w, hw⟩
     have hspec := (finiteOpenSubspaceEquiv C S hS f T).2 v U g.hom
     have hbaseV : p.toBase.hom = g.hom ≫ pair.toBase.hom := by
-      show ((AlgebraicGeometry.Space.finiteOpenSubspacePresheaf C S hS f).sections U
+      change ((AlgebraicGeometry.Space.finiteOpenSubspacePresheaf C S hS f).sections U
           (v.app V (yonedaEquiv g.hom))).toBase.hom =
         g.hom ≫
           ((finiteOpenSubspaceEquiv C S hS f T).1 v).toBase.hom
@@ -1803,7 +1803,7 @@ private theorem containsSection_of_range_le
                         rw [pullback.lift_fst]
           _ = (g.hom ≫ iUnit) ≫
                 pullback.fst pair.toBase.hom f.hom := by
-                simp [iUnit, Category.assoc, pullback.lift_fst]
+                simp [iUnit, Category.assoc]
       · calc
           (w ≫ j ≫ pair.subspace.ι) ≫
               pullback.snd pair.toBase.hom f.hom =
@@ -1822,16 +1822,16 @@ private theorem containsSection_of_range_le
                 pullback.snd p.toBase.hom f.hom := by rw [hval]
           _ = (g.hom ≫ iUnit) ≫
                 pullback.snd pair.toBase.hom f.hom := by
-                simp [iUnit, hbaseV, Category.assoc, pullback.lift_snd]
+                simp [iUnit, hbaseV, Category.assoc]
     have hpoint : ((w ≫ j).app V (𝟙 U)).val = iUnit.app V x := by
       have h := congrArg (fun f => f.app V (𝟙 U)) hmap
       change ((w ≫ j).app V (𝟙 U)).val = iUnit.app V (g.hom.app V (𝟙 U)) at h
       have hg' : (ConcreteCategory.hom (g.hom.app V)) (𝟙 U) = x := by
-        show yonedaEquiv g.hom = x
+        change yonedaEquiv g.hom = x
         exact hg
       rw [hg'] at h
       simpa only [Functor.map_id] using h
-    show iUnit.app V x ∈ pair.subspace.obj V
+    change iUnit.app V x ∈ pair.subspace.obj V
     rw [← hpoint]
     exact ((w ≫ j).app V (𝟙 U)).property
   exact ⟨Subfunctor.lift iUnit hle, Subfunctor.lift_ι _ _⟩
@@ -2036,7 +2036,7 @@ public theorem nonempty_finitePartGroupoid
     exact finiteOpenSubspaceEquiv_base G.source objects q.toSubfunctor.ι
   have hObjectProjectionEtale :
       AlgebraicGeometry.Space.IsEtale C S hS objectProjection.hom := by
-    show AlgebraicGeometry.Space.IsEtale C S hS (q.toSubfunctor.ι ≫ P.baseMap)
+    change AlgebraicGeometry.Space.IsEtale C S hS (q.toSubfunctor.ι ≫ P.baseMap)
     exact AlgebraicGeometry.Space.isEtale_comp C S hS
       (isEtale_of_openImmersion q.toSubfunctor.ι hqOpen.2)
       (isEtale_baseMap_finiteOpenSubspacePresheaf C S hS G.source
@@ -2093,9 +2093,9 @@ public theorem nonempty_finitePartGroupoid
       exact isFinite_of_isPullback C S hS hproj universalOpen.finite_projection
   }
   have hsourcePairBase : sourcePair.toBase.hom = arrowProjection.hom ≫ G.source.hom := by
-    show (sourceMap.hom ≫ universalOpen.toBase.hom) =
+    change (sourceMap.hom ≫ universalOpen.toBase.hom) =
       arrowProjection.hom ≫ G.source.hom
-    show (universalOpen.subspace.ι ≫
+    change (universalOpen.subspace.ι ≫
       pullback.fst universalOpen.toBase.hom G.source.hom) ≫ universalOpen.toBase.hom = _
     calc
       (universalOpen.subspace.ι ≫
@@ -2129,7 +2129,7 @@ public theorem nonempty_finitePartGroupoid
   have hsourceUnitPair_mem : Subfunctor.range sourceUnitPair ≤ sourcePair.subspace := by
     intro V a ha
     obtain ⟨a, rfl⟩ := ha
-    show toSourceFiber.app V (sourceUnitPair.app V a) ∈ universalOpen.subspace.obj V
+    change toSourceFiber.app V (sourceUnitPair.app V a) ∈ universalOpen.subspace.obj V
     have hv := congrArg (fun f => f.app V a) hsourceUnitPair
     have hv' : ConcreteCategory.hom (toSourceFiber.app V)
           (ConcreteCategory.hom (sourceUnitPair.app V) a) =
@@ -2163,7 +2163,7 @@ public theorem nonempty_finitePartGroupoid
     ObjectProperty.homMk (Subfunctor.lift targetClassifier htargetRange)
   have htargetProjection : targetMap.hom ≫ objectProjection.hom =
       arrowProjection.hom ≫ G.target.hom := by
-    show (Subfunctor.lift targetClassifier htargetRange) ≫
+    change (Subfunctor.lift targetClassifier htargetRange) ≫
       (q.toSubfunctor.ι ≫ P.baseMap) = _
     rw [← Category.assoc, Subfunctor.lift_ι]
     rw [← finiteOpenSubspaceEquiv_base G.source arrows targetClassifier, htargetPair]
@@ -2184,7 +2184,7 @@ public theorem nonempty_finitePartGroupoid
     exact finitePairFiber_baseChange universalOpen sourcePair sourceMap.hom
       (universalOpen.subspace.fromPreimage toSourceFiber) hproj.flip (by
         rw [Subfunctor.fromPreimage_ι_assoc]
-        show _ = sourcePair.subspace.ι ≫ pullback.snd sourceFiberBase.hom G.source.hom
+        change _ = sourcePair.subspace.ι ≫ pullback.snd sourceFiberBase.hom G.source.hom
         rw [pullback.lift_snd]) V a z
   have htargetFiber (V) (a : arrows.obj.obj V) (z : G.arrows.obj.obj V)
       (hz : G.source.hom.app V z = G.target.hom.app V (arrowProjection.hom.app V a)) :
@@ -2229,11 +2229,11 @@ public theorem nonempty_finitePartGroupoid
           simp only [Category.id_comp, Category.assoc, identitySection_source,
             Category.comp_id]) := hUniversalUnit.choose_spec
   have hunitSource : unitNat ≫ sourceMap.hom = 𝟙 objects.obj := by
-    show unitNat ≫ (universalOpen.subspace.ι ≫ pullback.fst _ _) = _
+    change unitNat ≫ (universalOpen.subspace.ι ≫ pullback.fst _ _) = _
     rw [← Category.assoc, hunitNat, pullback.lift_fst]
   have hunitProjection : unitNat ≫ arrowProjection.hom =
       objectProjection.hom ≫ (identitySection G).hom := by
-    show unitNat ≫ (universalOpen.subspace.ι ≫ pullback.snd _ _) = _
+    change unitNat ≫ (universalOpen.subspace.ι ≫ pullback.snd _ _) = _
     rw [← Category.assoc, hunitNat, pullback.lift_snd, hbaseHom]
   have hunitTargetProjection : (unitNat ≫ targetMap.hom) ≫ objectProjection.hom =
       objectProjection.hom := by
@@ -2247,7 +2247,7 @@ public theorem nonempty_finitePartGroupoid
     intro W k z
     rw [← NatTrans.naturality_apply targetMap.hom, ← NatTrans.naturality_apply unitNat]
     let y := objects.obj.map k x
-    show finitePairFiber universalOpen W (targetMap.hom.app W (unitNat.app W y)) z ↔
+    change finitePairFiber universalOpen W (targetMap.hom.app W (unitNat.app W y)) z ↔
       finitePairFiber universalOpen W y z
     have hbaseY : objectProjection.hom.app W (targetMap.hom.app W (unitNat.app W y)) =
         objectProjection.hom.app W y := congrArg (fun k => k.app W y) hunitTargetProjection
@@ -2437,7 +2437,7 @@ public theorem nonempty_finitePartGroupoid
         congrArg (fun f => f.app W pW)
           (pullback.condition (f := sourceMap.hom) (g := targetMap.hom))
       apply harrowExt W
-      · show sourceMap.hom.app W (composeLift W _ _ hpW) =
+      · change sourceMap.hom.app W (composeLift W _ _ hpW) =
           sourceMap.hom.app W (arrows.obj.map k (composeLift V _ _ hpV))
         calc
           _ = sourceMap.hom.app W ((pullback.snd sourceMap.hom targetMap.hom).app W pW) :=
@@ -2453,7 +2453,7 @@ public theorem nonempty_finitePartGroupoid
               (sourceMap.hom.app V (composeLift V _ _ hpV)) :=
             congrArg (objects.obj.map k) (hcompSource V _ _ hpV).symm
           _ = _ := (NatTrans.naturality_apply sourceMap.hom k _).symm
-      · show arrowProjection.hom.app W (composeLift W _ _ hpW) =
+      · change arrowProjection.hom.app W (composeLift W _ _ hpW) =
           arrowProjection.hom.app W (arrows.obj.map k (composeLift V _ _ hpV))
         let aV := (pullback.fst sourceMap.hom targetMap.hom).app V p
         let bV := (pullback.snd sourceMap.hom targetMap.hom).app V p
@@ -2477,7 +2477,7 @@ public theorem nonempty_finitePartGroupoid
             _ = arrowProjection.hom.app W (arrows.obj.map k bV) :=
               (NatTrans.naturality_apply arrowProjection.hom k bV).symm
             _ = _ := congrArg (arrowProjection.hom.app W) hb
-        show arrowProjection.hom.app W (composeLift W aW bW hpW) =
+        change arrowProjection.hom.app W (composeLift W aW bW hpW) =
           arrowProjection.hom.app W (arrows.obj.map k (composeLift V aV bV hpV))
         have hnat := (groupoidCompose_natural_of_eq H k
           (arrowProjection.hom.app V aV) (arrowProjection.hom.app V bV)
@@ -2492,7 +2492,7 @@ public theorem nonempty_finitePartGroupoid
       (h : sourceMap.hom.app V a = targetMap.hom.app V b) :
       compNat.app V ((composableToPullback sourceMap.hom targetMap.hom).app V ⟨(a, b), h⟩) =
         composeLift V a b h := by
-    show composeLift V
+    change composeLift V
       ((pullback.fst sourceMap.hom targetMap.hom).app V
         ((composableToPullback sourceMap.hom targetMap.hom).app V ⟨(a, b), h⟩))
       ((pullback.snd sourceMap.hom targetMap.hom).app V
@@ -2506,42 +2506,42 @@ public theorem nonempty_finitePartGroupoid
         arrowProjection.hom arrowProjection.hom objectProjection.hom
         hsourceProjection htargetProjection ≫ G.comp.hom := by
     ext V p
-    show arrowProjection.hom.app V (composeLift V
+    change arrowProjection.hom.app V (composeLift V
       ((pullback.fst sourceMap.hom targetMap.hom).app V p)
       ((pullback.snd sourceMap.hom targetMap.hom).app V p)
       (congrArg (fun k => k.app V p)
         (pullback.condition (f := sourceMap.hom) (g := targetMap.hom)))) = _
     rw [hcompProjection V _ _ (congrArg (fun k => k.app V p)
       (pullback.condition (f := sourceMap.hom) (g := targetMap.hom)))]
-    show G.comp.hom.app V
+    change G.comp.hom.app V
       ((composableToPullback G.source.hom G.target.hom).app V _) = _
     apply congrArg (G.comp.hom.app V)
     apply presheafPullback_ext G.source.hom G.target.hom V
-    · show (pullback.fst G.source.hom G.target.hom).app V
+    · change (pullback.fst G.source.hom G.target.hom).app V
         ((composableToPullback G.source.hom G.target.hom).app V _) =
         (pullback.fst G.source.hom G.target.hom).app V
           ((pullback.map sourceMap.hom targetMap.hom G.source.hom G.target.hom
             arrowProjection.hom arrowProjection.hom objectProjection.hom
             hsourceProjection htargetProjection).app V p)
-      show ((composableToPullback G.source.hom G.target.hom ≫
+      change ((composableToPullback G.source.hom G.target.hom ≫
         pullback.fst G.source.hom G.target.hom).app V) _ = _
       simp only [composableToPullback, pullback.lift_fst]
-      show ((pullback.fst sourceMap.hom targetMap.hom ≫ arrowProjection.hom).app V) p =
+      change ((pullback.fst sourceMap.hom targetMap.hom ≫ arrowProjection.hom).app V) p =
         ((pullback.map sourceMap.hom targetMap.hom G.source.hom G.target.hom
             arrowProjection.hom arrowProjection.hom objectProjection.hom
             hsourceProjection htargetProjection ≫
           pullback.fst G.source.hom G.target.hom).app V) p
       simp only [pullback.map, pullback.lift_fst]
-    · show (pullback.snd G.source.hom G.target.hom).app V
+    · change (pullback.snd G.source.hom G.target.hom).app V
         ((composableToPullback G.source.hom G.target.hom).app V _) =
         (pullback.snd G.source.hom G.target.hom).app V
           ((pullback.map sourceMap.hom targetMap.hom G.source.hom G.target.hom
             arrowProjection.hom arrowProjection.hom objectProjection.hom
             hsourceProjection htargetProjection).app V p)
-      show ((composableToPullback G.source.hom G.target.hom ≫
+      change ((composableToPullback G.source.hom G.target.hom ≫
         pullback.snd G.source.hom G.target.hom).app V) _ = _
       simp only [composableToPullback, pullback.lift_snd]
-      show ((pullback.snd sourceMap.hom targetMap.hom ≫ arrowProjection.hom).app V) p =
+      change ((pullback.snd sourceMap.hom targetMap.hom ≫ arrowProjection.hom).app V) p =
         ((pullback.map sourceMap.hom targetMap.hom G.source.hom G.target.hom
             arrowProjection.hom arrowProjection.hom objectProjection.hom
             hsourceProjection htargetProjection ≫
@@ -2556,14 +2556,14 @@ public theorem nonempty_finitePartGroupoid
     target := targetMap
     source_over := by
       apply ObjectProperty.hom_ext
-      show sourceMap.hom ≫ (objectProjection.hom ≫ G.objectsToBase.hom) =
+      change sourceMap.hom ≫ (objectProjection.hom ≫ G.objectsToBase.hom) =
         arrowProjection.hom ≫ G.arrowsToBase.hom
       rw [← Category.assoc, hsourceProjection, Category.assoc]
       exact congrArg (fun k => arrowProjection.hom ≫ k)
         (congrArg (fun k => k.hom) G.source_over)
     target_over := by
       apply ObjectProperty.hom_ext
-      show targetMap.hom ≫ (objectProjection.hom ≫ G.objectsToBase.hom) =
+      change targetMap.hom ≫ (objectProjection.hom ≫ G.objectsToBase.hom) =
         arrowProjection.hom ≫ G.arrowsToBase.hom
       rw [← Category.assoc, htargetProjection, Category.assoc]
       exact congrArg (fun k => arrowProjection.hom ≫ k)
@@ -2571,7 +2571,7 @@ public theorem nonempty_finitePartGroupoid
     comp := ObjectProperty.homMk compNat
     comp_over := by
       apply ObjectProperty.hom_ext
-      show compNat ≫ (arrowProjection.hom ≫ G.arrowsToBase.hom) =
+      change compNat ≫ (arrowProjection.hom ≫ G.arrowsToBase.hom) =
         pullback.fst sourceMap.hom targetMap.hom ≫
           (arrowProjection.hom ≫ G.arrowsToBase.hom)
       have hG : G.comp.hom ≫ G.arrowsToBase.hom =
@@ -2655,7 +2655,7 @@ public theorem nonempty_finitePartGroupoid
         have hm : H.compose T (arrowProjection.hom.app T e) (arrowProjection.hom.app T e)
             (hcomposable T e e (hes.trans het.symm)) =
             arrowProjection.hom.app T (N.compose T e e (hes.trans het.symm)) := by
-          show _ = arrowProjection.hom.app T
+          change _ = arrowProjection.hom.app T
             (compNat.app T
               ((composableToPullback sourceMap.hom targetMap.hom).app T
                 ⟨(e, e), hes.trans het.symm⟩))
@@ -2669,16 +2669,16 @@ public theorem nonempty_finitePartGroupoid
             (congrArg (objectProjection.hom.app T) hes)))
       map_comp := by
         intro T a b h
-        show H.compose T (arrowProjection.hom.app T a)
+        change H.compose T (arrowProjection.hom.app T a)
             (arrowProjection.hom.app T b) _ = _
-        show _ = arrowProjection.hom.app T
+        change _ = arrowProjection.hom.app T
           (compNat.app T ((composableToPullback sourceMap.hom targetMap.hom).app T
             ⟨(a, b), h⟩))
         exact (hcompProjection T a b h).symm.trans
           (congrArg (arrowProjection.hom.app T) (hcompNat_app T a b h).symm)
     }
     mapObjects_over := by
-      show (q.toSubfunctor.ι ≫ P.baseMap) ≫ G.objectsToBase.hom =
+      change (q.toSubfunctor.ι ≫ P.baseMap) ≫ G.objectsToBase.hom =
         q.toSubfunctor.ι ≫ P.baseMap ≫ G.objectsToBase.hom
       exact Category.assoc _ _ _
     mapArrows_over := by rfl

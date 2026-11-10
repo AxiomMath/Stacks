@@ -64,7 +64,7 @@ public theorem exists_modulesPullbackUnit_eq {X Y : Scheme.{u}} (g : X ⟶ Y) [I
   have h3 : IsIso ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app G) := inferInstance
   refine ⟨Scheme.Modules.Hom.app
     (inv ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app G)) W s, ?_⟩
-  show Scheme.Modules.Hom.app (inv ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app G) ≫
+  change Scheme.Modules.Hom.app (inv ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app G) ≫
     (Scheme.Modules.pullbackPushforwardAdjunction g).unit.app G) W s = s
   rw [IsIso.inv_hom_id]
   rfl
@@ -749,13 +749,13 @@ public theorem veroneseMultiplyHomogeneousSectionsCompatibility (d : ℕ) (hd : 
     (t : (twistSheafOfModules 𝒮 (pullbackProjModule 𝒮 (veroneseGrading 𝒮 d)
       (veroneseProjIso 𝒮 d hd).hom F') (m * d)).val.obj (op ⊤))
     (s' : (twistingSheaf (veroneseGrading 𝒮 d) n).val.obj (op ⊤))
-    (t' : (twistSheafOfModules (veroneseGrading 𝒮 d) F' m).val.obj (op ⊤))
-    (hs : ((veroneseTwistingSheafIso 𝒮 d hd n).hom.val.app (op ⊤)).hom s =
+    (t' : (twistSheafOfModules (veroneseGrading 𝒮 d) F' m).val.obj (op ⊤)),
+    ((veroneseTwistingSheafIso 𝒮 d hd n).hom.val.app (op ⊤)).hom s =
       Stacks.Tag01VSPullbackTensor.modulesPullbackUnit (veroneseProjIso 𝒮 d hd).hom
-        (twistingSheaf (veroneseGrading 𝒮 d) n) ⊤ s')
-    (ht : ((veroneseTwistedModuleIso 𝒮 d hd F' m).hom.val.app (op ⊤)).hom t =
+        (twistingSheaf (veroneseGrading 𝒮 d) n) ⊤ s' →
+    ((veroneseTwistedModuleIso 𝒮 d hd F' m).hom.val.app (op ⊤)).hom t =
       Stacks.Tag01VSPullbackTensor.modulesPullbackUnit (veroneseProjIso 𝒮 d hd).hom
-        (twistSheafOfModules (veroneseGrading 𝒮 d) F' m) ⊤ t'),
+        (twistSheafOfModules (veroneseGrading 𝒮 d) F' m) ⊤ t' →
     ((veroneseTwistedModuleIso 𝒮 d hd F' (n + m)).hom.val.app (op ⊤)).hom
         (((eqToHom (congrArg (twistSheafOfModules 𝒮 (pullbackProjModule 𝒮 (veroneseGrading 𝒮 d)
             (veroneseProjIso 𝒮 d hd).hom F'))

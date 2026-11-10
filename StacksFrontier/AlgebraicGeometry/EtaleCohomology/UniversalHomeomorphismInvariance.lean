@@ -112,10 +112,10 @@ theorem ext_precomp_iso_bijective {C : Type*} [Category C] [Abelian C]
     Function.Bijective ((Abelian.Ext.mk₀ e.inv).precomp Z (zero_add q)) := by
   apply Function.bijective_iff_has_inverse.mpr
   refine ⟨(Abelian.Ext.mk₀ e.hom).precomp Z (zero_add q), fun x => ?_, fun x => ?_⟩
-  · show (Abelian.Ext.mk₀ e.hom).comp
+  · change (Abelian.Ext.mk₀ e.hom).comp
       ((Abelian.Ext.mk₀ e.inv).comp x (zero_add q)) (zero_add q) = x
     rw [Abelian.Ext.mk₀_comp_mk₀_assoc, Iso.hom_inv_id, Abelian.Ext.mk₀_id_comp]
-  · show (Abelian.Ext.mk₀ e.inv).comp
+  · change (Abelian.Ext.mk₀ e.inv).comp
       ((Abelian.Ext.mk₀ e.hom).comp x (zero_add q)) (zero_add q) = x
     rw [Abelian.Ext.mk₀_comp_mk₀_assoc, Iso.inv_hom_id, Abelian.Ext.mk₀_id_comp]
 
@@ -178,7 +178,7 @@ theorem etaleCohomologyRestrictionMap_bijective_of_isDenseSubsite
       Sheaf.isGrothendieckAbelian_of_essentiallySmall Y.smallEtaleTopology A
     exact CategoryTheory.IsGrothendieckAbelian.enoughInjectives
   let c := (etaleAbelianInverseImageConstantIso.{u, v} f).app (AddCommGrpCat.of (ULift ℤ))
-  show Function.Bijective
+  change Function.Bijective
     (fun x => ((Abelian.Ext.mk₀ c.inv).precomp (E.obj F) (zero_add q))
       (E.mapExtAddHom
         ((constantSheaf Y.smallEtaleTopology A).obj (AddCommGrpCat.of (ULift ℤ))) F q x))

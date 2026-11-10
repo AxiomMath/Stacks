@@ -304,8 +304,8 @@ theorem gysinRule_extendCycleGroup_flatPullback' (C : ChowSituation.{u}) {X Y : 
   rw [finsum_congr key,
     finsum_eq_single _
       (((Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))).subschemeι ≫ p).base y')
-      (fun j hj ↦ by rw [if_neg hj, mul_zero]),
-    if_pos rfl]
+      (fun j hj ↦ by rw [ite_eq_right hj, mul_zero]),
+    ite_eq_left rfl]
 
 /-! ### Stacks 02TR on Chow groups -/
 
@@ -352,7 +352,7 @@ theorem gysinChowOfInvertible_flatPullbackChow (C : ChowSituation.{u}) {X Y : Sc
     (Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))) hD with hqdef
   induction α using QuotientAddGroup.induction_on with
   | H c =>
-    show gysinChowOfInvertible C sX (k + 1 + (r : ℤ)) L (s.eval (.op ⊤))
+    change gysinChowOfInvertible C sX (k + 1 + (r : ℤ)) L (s.eval (.op ⊤))
         (hcast ▸ flatPullbackChowOfRelativeDimension C sX sY p hbase (r + 1) hp (k + 1)
           (QuotientAddGroup.mk' (rationalEquivalences C sY (k + 1)) c)) =
       flatPullbackChowOfRelativeDimension C
@@ -362,7 +362,7 @@ theorem gysinChowOfInvertible_flatPullbackChow (C : ChowSituation.{u}) {X Y : Sc
         (QuotientAddGroup.mk' (rationalEquivalences C sY (k + 1)) c)
     rw [flatPullbackChowOfRelativeDimension_mk, flatPullbackChowOfRelativeDimension_mk,
       chowGroup_cast_mk_of_cycle C sX hcast]
-    show QuotientAddGroup.mk ((gysinRule C sX (k + 1 + (r : ℤ)) L (s.eval (.op ⊤))
+    change QuotientAddGroup.mk ((gysinRule C sX (k + 1 + (r : ℤ)) L (s.eval (.op ⊤))
       (firstChernComponentClass C sX (k + 1 + (r : ℤ)) L)).extendCycleGroup
         (hcast ▸ flatPullback C sX sY p hbase (r + 1) hp (k + 1) c)) = _
     rw [gysinRule_extendCycleGroup_flatPullback' C sX sY p hbase r hp k L s hD hq hcast c]
@@ -383,7 +383,7 @@ theorem properChowPushforward_gysinChowOfInvertible (C : ChowSituation.{u}) {X :
       firstChernClassCapChow C n sX L β := by
   induction β using QuotientAddGroup.induction_on with
   | H c =>
-    show properChowPushforward C ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ sX) sX
+    change properChowPushforward C ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ sX) sX
         (Stacks.Divisors.zeroScheme X L s).subschemeι rfl n
         (properPushforwardFactorsThroughRationalEquivalence_of_isClosedImmersion
           (Stacks.Divisors.zeroScheme X L s).subschemeι C

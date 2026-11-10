@@ -103,7 +103,7 @@ public lemma IsZariskiLocalAtSource.comp_iSup_ι {P : MorphismProperty Scheme.{u
     exact TopologicalSpace.Opens.mem_iSup.mpr ⟨i, hi⟩
   · have hrange : Set.range ((W.ι ⁻¹ᵁ U i).ι ≫ W.ι) = Set.range (U i).ι := by
       simp only [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp, Scheme.Opens.range_ι]
-      show W.ι '' (W.ι ⁻¹' (U i : Set X)) = (U i : Set X)
+      change W.ι '' (W.ι ⁻¹' (U i : Set X)) = (U i : Set X)
       rw [Set.image_preimage_eq_inter_range, Scheme.Opens.range_ι]
       exact Set.inter_eq_left.mpr (le_iSup U i)
     have hfac : (IsOpenImmersion.isoOfRangeEq ((W.ι ⁻¹ᵁ U i).ι ≫ W.ι) (U i).ι hrange).hom ≫
@@ -163,7 +163,7 @@ public theorem exists_etaleNeighborhood_openCopies_cover_fibers
     infer_instance
   let I : U.scheme.Opens := ⨅ a, (q a).opensRange
   have hUI : (U.point : U.scheme) ∈ I := by
-    show U.point ∈ ((⨅ a, (q a).opensRange : U.scheme.Opens) : Set U.scheme)
+    change U.point ∈ ((⨅ a, (q a).opensRange : U.scheme.Opens) : Set U.scheme)
     rw [TopologicalSpace.Opens.coe_iInf]
     exact Set.mem_iInter.mpr fun a ↦ let ⟨y, hy, hys⟩ := (hclosed a).2; ⟨⟨y, hy⟩, hys⟩
   let u : I.toScheme := ⟨U.point, hUI⟩
@@ -292,9 +292,9 @@ public theorem exists_etaleNeighborhood_openCopies_cover_fibers
     obtain ⟨j, hyV⟩ := hcover i y hybase hyx
     refine ⟨j, ?_⟩
     obtain ⟨w, hw⟩ := (hrange ⟨i, j⟩ pbase).2 hyV
-    show z ∈ Set.range (L ⟨i, j⟩)
+    change z ∈ Set.range (L ⟨i, j⟩)
     refine ⟨w, ?_⟩
-    show K (Ebase.hom (pullback.snd (V ⟨i, j⟩).ι
+    change K (Ebase.hom (pullback.snd (V ⟨i, j⟩).ι
       (pullback.fst (pullback.snd (W.ι ≫ f) U.toBase) I.ι) w)) = z
     rw [hw, hEb]
     exact hp₁

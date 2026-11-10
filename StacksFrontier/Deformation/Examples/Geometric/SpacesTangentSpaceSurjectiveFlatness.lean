@@ -166,7 +166,7 @@ theorem spaceSurjChartToDual_appTop :
       spaceBaseOver B hΛ hSpec (spaceDualNumbers (Λ := Λ) (k := k)) =>
       ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map m).appTop.hom
     (spaceDualEps B hΛ hSpec)) hpre
-  show ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
+  change ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
     (spaceSurjChartToDual B hΛ hSpec X hX toK P)).appTop.hom (spaceDualEps B hΛ hSpec) = _
   refine h2.symm.trans (h1.symm.trans ?_)
   refine (globalFunctionsOfMap_spaceSurjToDual_val B hΛ hSpec X hX toK P (op V)).trans ?_
@@ -260,14 +260,14 @@ theorem spaceSurjChart_comm :
           (spaceDualRetraction B hΛ hSpec)).op).hom
           (spaceDefoAlgebraEquiv (B := B) (hΛ := hΛ) (hSpec := hSpec) (residueFieldBase Λ k) a) :=
       (DFunLike.congr_fun (spaceConstants_Γ_comp Λ B hΛ hSpec (FGModuleCat.of k k)) a).symm
-    show ((E).chartInclusion Wc ≫ (BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
+    change ((E).chartInclusion Wc ≫ (BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
         (spaceSurjChartToDual B hΛ hSpec X hX toK P)).appTop.hom
       (spaceDualEquiv B hΛ hSpec (TrivSqZeroExt.inl a)) =
       ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map (spaceSurjChartToBase B hΛ hSpec X hX toK) ≫
         (BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map (spaceDualImmersion B hΛ hSpec)).appTop.hom
           (spaceDualEquiv B hΛ hSpec (TrivSqZeroExt.inl a))
     rw [hinl]
-    show (((E).chartInclusion Wc ≫ (BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
+    change (((E).chartInclusion Wc ≫ (BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
         (spaceSurjChartToDual B hΛ hSpec X hX toK P)) ≫
       (BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
         (spaceDualRetraction B hΛ hSpec)).appTop.hom _ =
@@ -278,7 +278,7 @@ theorem spaceSurjChart_comm :
           (spaceDualRetraction B hΛ hSpec)).appTop.hom _
     exact congrArg (fun m => (Scheme.Hom.appTop m).hom _)
       (((Category.assoc _ _ _).trans hL).trans ((Category.assoc _ _ _).trans hR).symm)
-  · show ((E).chartInclusion Wc).appTop.hom (((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
+  · change ((E).chartInclusion Wc).appTop.hom (((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
           (spaceSurjChartToDual B hΛ hSpec X hX toK P)).appTop.hom
         (spaceDualEquiv B hΛ hSpec (TrivSqZeroExt.inr 1))) =
       ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
@@ -369,7 +369,7 @@ theorem isFlat_and_isPullback_spaceSurjToDual :
   have hsq : subspaceInclusion B (Spec (.of Λ)) hΛ _ Xs ≫ spaceSurjToDual B hΛ hSpec X hX toK P =
       f ≫ subspaceInclusion B (Spec (.of Λ)) hΛ _ Ys := by
     refine ObjectProperty.hom_ext _ ?_
-    show Xs.1.ι ≫ (spaceSurjToDual B hΛ hSpec X hX toK P).hom = (eX.inv ≫ toK ≫ eY.hom) ≫ Ys.1.ι
+    change Xs.1.ι ≫ (spaceSurjToDual B hΛ hSpec X hX toK P).hom = (eX.inv ≫ toK ≫ eY.hom) ≫ Ys.1.ι
     rw [← hXι, Category.assoc, spaceSurjImmersion_comp_toDual]
     refine Eq.trans ?_ ((Category.assoc _ _ _).trans (congrArg (_ ≫ ·) (Category.assoc _ _ _))).symm
     exact congrArg (fun m => eX.inv ≫ toK ≫ m) hYι.symm

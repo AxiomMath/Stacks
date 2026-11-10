@@ -101,7 +101,7 @@ theorem range_zToX : Set.range (zToX 𝒜) = ((openU 𝒜 : Set (Spec (CommRingC
   refine (PrimeSpectrum.mem_zeroLocus _ _).trans (Iff.trans ?_ (mem_openU_iff 𝒜 x).not.symm)
   simp only [not_exists, not_and, not_not]
   refine ⟨fun hx d hd f => hx (Subtype.ext ?_), fun hx a ha => ?_⟩
-  · show (GradedRing.projZeroRingHom 𝒜 (f : A)) = 0
+  · change (GradedRing.projZeroRingHom 𝒜 (f : A)) = 0
     rw [GradedRing.projZeroRingHom_apply, DirectSum.decompose_of_mem_ne 𝒜 f.2 hd.ne']
   · have ha0 : (DirectSum.decompose 𝒜 a 0 : A) = 0 :=
       congrArg Subtype.val (show GradedRing.projZeroRingHom' 𝒜 a = 0 from ha)
@@ -157,7 +157,7 @@ theorem awayMap_tau_eq_zero {d : ℕ} {f : A} (hf : f ∈ 𝒜 d) {m : ℕ} (hm 
     HomogeneousLocalization.val_mk, HomogeneousLocalization.val_zero,
     Localization.mk_eq_mk'_apply, IsLocalization.mk'_eq_zero_iff]
   refine ⟨⟨tau 𝒜 (psi 𝒜 f) ^ (n + l), n + l, rfl⟩, ?_⟩
-  show tau 𝒜 (psi 𝒜 f) ^ (n + l) * tau 𝒜 (degElt 𝒜 (k * d) a ha) = 0
+  change tau 𝒜 (psi 𝒜 f) ^ (n + l) * tau 𝒜 (degElt 𝒜 (k * d) a ha) = 0
   rwa [tau_psi_apply, tau_degElt]
 
 end Stacks.AlgebraicGeometry.ProjAndSpecTruncation
@@ -288,7 +288,7 @@ theorem nonnegTwist_degreeZero_eq_smul_one (U : Opens (ProjectiveSpectrum.top �
         (nonnegTwistDegreeZeroIso 𝒜).hom.val.app (op U) a) •
       (show ((nonnegTwistAlgebra 𝒜).piece 0).val.obj (op U) from (twistOne 𝒜).eval (op U)) := by
   refine twistSection_ext 𝒜 fun x => ?_
-  show a.1 x = HomogeneousLocalization.val
+  change a.1 x = HomogeneousLocalization.val
       (((nonnegTwistDegreeZeroIso 𝒜).hom.val.app (op U) a).1 x) • (1 : _)
   rw [val_nonnegTwistDegreeZeroIso_hom_apply, smul_eq_mul, mul_one]
 
@@ -306,7 +306,7 @@ theorem coneIota_zero_apply (U : Opens (ProjectiveSpectrum.top 𝒜))
       (coneIota 𝒜 0).val.app (op U) ((twistOne 𝒜).eval (op U))) = 1 := coneIota_one 𝒜 U
   refine (congrArg (fun z => (coneIota 𝒜 0).val.app (op U) z)
     (nonnegTwist_degreeZero_eq_smul_one 𝒜 U a)).trans (key.trans ?_)
-  show (pi 𝒜).app U _ * (show coneSections 𝒜 U from
+  change (pi 𝒜).app U _ * (show coneSections 𝒜 U from
       (coneIota 𝒜 0).val.app (op U) ((twistOne 𝒜).eval (op U))) = _
   rw [hone, mul_one]
 
@@ -398,7 +398,7 @@ theorem zeroSection_appLE_coneTwistApp_eq_zero (m : ℕ) (hm : 0 < m) {f : A} {d
     rw [tau_psi_apply]
   have h0 : Proj.basicOpen 𝒜 (tau 𝒜 (psi 𝒜 f)) ≤
       zeroSection 𝒜 ⁻¹ᵁ Proj.basicOpen (grading 𝒜) (psi 𝒜 f) := by
-    show _ ≤ ProjAndSpec.zeroSection (truncationConeData 𝒜) ⁻¹ᵁ _
+    change _ ≤ ProjAndSpec.zeroSection (truncationConeData 𝒜) ⁻¹ᵁ _
     rw [ProjAndSpec.zeroSection_eq_projMap]
     exact le_rfl
   rw [coneTwistApp_apply]
@@ -423,12 +423,12 @@ theorem zeroSection_appLE_coneTwistApp_eq_zero (m : ℕ) (hm : 0 < m) {f : A} {d
       0 := by
     rw [hcongr]
     refine (congrArg (fun φ => φ.hom (coneTwistAwayHom 𝒜 m d hf hd s)) hmap).trans ?_
-    show (Proj.awayToSection 𝒜 (tau 𝒜 (psi 𝒜 f))).hom
+    change (Proj.awayToSection 𝒜 (tau 𝒜 (psi 𝒜 f))).hom
       (HomogeneousLocalization.Away.map (tau 𝒜) (psi 𝒜 f) (coneTwistAwayHom 𝒜 m d hf hd s)) = 0
     rw [coneTwistAwayHom_apply,
       awayMap_tau_eq_zero 𝒜 hf hm ((awayGradingEquivSectionsTwist 𝒜 d hf hd m).symm s).2,
       map_zero]
-  show ((AlgebraicGeometry.Proj 𝒜).presheaf.map (eqToHom hopen.symm).op).hom
+  change ((AlgebraicGeometry.Proj 𝒜).presheaf.map (eqToHom hopen.symm).op).hom
     ((zeroSection 𝒜).appLE (Proj.basicOpen (grading 𝒜) (psi 𝒜 f))
       (Proj.basicOpen 𝒜 (tau 𝒜 (psi 𝒜 f))) h0
         ((Proj.awayToSection (grading 𝒜) (psi 𝒜 f)).hom (coneTwistAwayHom 𝒜 m d hf hd s))) = 0

@@ -68,7 +68,7 @@ theorem exists_comp_eq_of_surjective_cohomologyOverFieldMap (k : Type u) [Field 
   refine ⟨(Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X F).symm
     (cohomologyOverFieldZeroEquivSections k f F b), ?_⟩
   apply (Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X G).injective
-  show Stacks.SectionProduct.globalSection X G _ = Stacks.SectionProduct.globalSection X G γ
+  change Stacks.SectionProduct.globalSection X G _ = Stacks.SectionProduct.globalSection X G γ
   rw [Stacks.SectionProduct.globalSection_comp]
   have h1 : Stacks.SectionProduct.globalSection X F
       ((Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X F).symm

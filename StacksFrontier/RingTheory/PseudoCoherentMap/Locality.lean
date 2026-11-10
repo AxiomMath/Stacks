@@ -300,7 +300,7 @@ private lemma _root_.Algebra.PseudoCoherent.awayMap
     rintro x ⟨n, rfl⟩
     exact ⟨n, by simp⟩
   have hmap : (Localization.awayMap f r).comp (algebraMap R Rr) = (algebraMap S Sr).comp f := by
-    show (IsLocalization.map Sr f hy).comp (algebraMap R Rr) = _
+    change (IsLocalization.map Sr f hy).comp (algebraMap R Rr) = _
     exact IsLocalization.map_comp (Q := Sr) hy
   have hfmap : algebraMap R S = f := algebraMap_toAlgebra f
   let : IsScalarTower R Rr Sr := IsScalarTower.of_algebraMap_eq' (by
@@ -354,17 +354,17 @@ public theorem pseudoCoherent_localizationAwayPreserves :
       ext x; exact eS.symm.commutes x
     have hcancomp : (Localization.awayMap f r).comp (algebraMap R Rr) =
         (algebraMap S Sr).comp f := by
-      show (IsLocalization.map Sr f hy).comp (algebraMap R Rr) = _
+      change (IsLocalization.map Sr f hy).comp (algebraMap R Rr) = _
       exact IsLocalization.map_comp (Q := Sr) hy
     calc (IsLocalization.Away.map R' S' f r).comp (algebraMap R R')
         = (algebraMap S S').comp f := by
-          show (IsLocalization.map S' f hy).comp (algebraMap R R') = _
+          change (IsLocalization.map S' f hy).comp (algebraMap R R') = _
           exact IsLocalization.map_comp (Q := S') hy
       _ = eS.toRingEquiv.symm.toRingHom.comp
             ((Localization.awayMap f r).comp
               (eR.toRingEquiv.toRingHom.comp (algebraMap R R'))) := by
           rw [hRcomm, hcancomp, ← comp_assoc, hScomm]
-  show @Algebra.PseudoCoherent R' S' _ _ (IsLocalization.Away.map R' S' f r).toAlgebra
+  change @Algebra.PseudoCoherent R' S' _ _ (IsLocalization.Away.map R' S' f r).toAlgebra
   rw [congrArg (fun g : R' →+* S' ↦ g.toAlgebra) hmap]
   exact hcomp'
 

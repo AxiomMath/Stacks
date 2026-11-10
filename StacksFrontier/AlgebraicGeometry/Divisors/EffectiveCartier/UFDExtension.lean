@@ -115,7 +115,7 @@ theorem map_span_eq_span_gcd_of_isPrincipal {R S : Type*} [CommRing R] [CommRing
       simpa only [dite_eq_left hr] using
         Finset.dvd_prod_of_mem (fun r => if hr : r ∈ s then m r hr else 1) hr
     exact (hmr r hr).trans (mul_dvd_mul_right hmdiv r)
-  show Ideal.span {algebraMap R S (s.gcd id)} ≤ J
+  change Ideal.span {algebraMap R S (s.gcd id)} ≤ J
   rw [hJa]
   refine Ideal.span_le.mpr ?_
   rintro z (rfl : z = algebraMap R S (s.gcd id))
@@ -247,7 +247,7 @@ theorem mem_ker_ideal_of_forall_germ_mem_stalk {X Y : Scheme.{u}} [IsAffine X]
       Ideal.map_le_iff_le_comap]
     intro b hb
     rw [Scheme.Hom.ker_apply, RingHom.mem_ker] at hb
-    show (f.stalkMap y).hom ((X.presheaf.germ W (f y) hyW).hom b) = 0
+    change (f.stalkMap y).hom ((X.presheaf.germ W (f y) hyW).hom b) = 0
     rw [Scheme.Hom.germ_stalkMap_apply, hb, map_zero]
   rw [Scheme.Hom.ker_apply, RingHom.mem_ker]
   refine TopCat.Presheaf.section_ext
@@ -290,7 +290,7 @@ theorem exists_isRegular_ker_ideal_eq_span_of_uniqueFactorization {X : Scheme.{u
       ((isAffineOpen_top X).primeIdealOf ⟨g z, trivial⟩).asIdeal.primeCompl s
       (hs ▸ (⟨b, hgen⟩ : (I.map (algebraMap Γ(X, ⊤) (X.presheaf.stalk (g z)))).IsPrincipal))
     rw [hs] at he
-    show algebraMap Γ(X, ⊤) (X.presheaf.stalk (g z)) f ∈
+    change algebraMap Γ(X, ⊤) (X.presheaf.stalk (g z)) f ∈
       I.map (algebraMap Γ(X, ⊤) (X.presheaf.stalk (g z)))
     rw [he]
     exact Ideal.subset_span (Set.mem_singleton _)

@@ -71,6 +71,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {X A : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (fA : A ⟶ X) (W : Subfunctor X)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is heavy
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_GluedDiagonalRelation :
@@ -83,6 +84,7 @@ local instance (priority := high) hasPullback_presheaf_GluedDiagonalRelation
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the big fppf site is heavy
 /-- Discrete limits of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasLimitsOfShape_discrete_presheaf_GluedDiagonalRelation (J : Type) :
@@ -180,11 +182,11 @@ theorem gluedDiagonalRelation_trans {V : (BigFppfOver B S hS)ᵒᵖ}
     (hx : x ∈ (gluedDiagonalRelation fA W).obj V)
     (hy : y ∈ (gluedDiagonalRelation fA W).obj V) :
     z ∈ (gluedDiagonalRelation fA W).obj V := by
-  show _ ∈ BigFppfOver.topology B S hS V.unop
+  change _ ∈ BigFppfOver.topology B S hS V.unop
   refine (BigFppfOver.topology B S hS).superset_covering ?_
     ((BigFppfOver.topology B S hS).intersection_covering hx hy)
   rintro V' q ⟨hqx, hqy⟩
-  show (pullback fA fA).map q.op z ∈ (gluedDiagonalRelation₀ fA W).obj (op V')
+  change (pullback fA fA).map q.op z ∈ (gluedDiagonalRelation₀ fA W).obj (op V')
   refine gluedDiagonalRelation₀_trans fA W ?_ ?_ ?_ hqx hqy
   · rw [NatTrans.naturality_apply, NatTrans.naturality_apply, hxy]
   · rw [NatTrans.naturality_apply, NatTrans.naturality_apply, hzx]
@@ -197,10 +199,10 @@ theorem gluedDiagonalRelation_symm {V : (BigFppfOver B S hS)ᵒᵖ}
     (h₂ : (pullback.snd fA fA).app V y = (pullback.fst fA fA).app V x)
     (hx : x ∈ (gluedDiagonalRelation fA W).obj V) :
     y ∈ (gluedDiagonalRelation fA W).obj V := by
-  show _ ∈ BigFppfOver.topology B S hS V.unop
+  change _ ∈ BigFppfOver.topology B S hS V.unop
   refine (BigFppfOver.topology B S hS).superset_covering ?_ hx
   intro V' q hq
-  show (pullback fA fA).map q.op y ∈ (gluedDiagonalRelation₀ fA W).obj (op V')
+  change (pullback fA fA).map q.op y ∈ (gluedDiagonalRelation₀ fA W).obj (op V')
   refine gluedDiagonalRelation₀_symm fA W ?_ ?_ hq
   · rw [NatTrans.naturality_apply, NatTrans.naturality_apply, h₁]
   · rw [NatTrans.naturality_apply, NatTrans.naturality_apply, h₂]
@@ -307,7 +309,7 @@ theorem gluedRelation_rel_iff {T : BigFppfOver B S hS} {b : yoneda.obj T ⟶ X}
       rw [yonedaEquiv_comp, show yonedaEquiv r = ⟨_, h⟩ from yonedaEquiv.apply_symm_apply _]
       rfl
     refine ⟨⟨r, ?_⟩, ?_, ?_⟩
-    · show r ≫ (gluedDiagonalRelation fA W).ι ≫ pullback.fst fA fA ≫ fA = b
+    · change r ≫ (gluedDiagonalRelation fA W).ι ≫ pullback.fst fA fA ≫ fA = b
       rw [← Category.assoc, hr, ← Category.assoc, gluedPair_fst]
       exact x.2
     · rw [gluedRelation_target_left, ← Category.assoc, hr, gluedPair_fst]
@@ -472,7 +474,7 @@ theorem isPullback_gluedOverFst_gluedOverSnd :
   · obtain ⟨x, hx₁, hx₂⟩ := Types.exists_of_isPullback ((IsPullback.of_hasPullback fA fA).map
       ((evaluation _ _).obj V)) a.1 b.1 (congrArg Subtype.val hab)
     refine ⟨⟨x, ?_⟩, Subtype.ext hx₁, Subtype.ext hx₂⟩
-    show fA.app V ((pullback.fst fA fA).app V x) ∈ W.obj V
+    change fA.app V ((pullback.fst fA fA).app V x) ∈ W.obj V
     rw [show (pullback.fst fA fA).app V x = a.1 from hx₁]
     exact a.2
 
@@ -557,10 +559,10 @@ theorem isEtale_of_isEtale_comp_of_two_opens {R Y F₁ F₂ : (BigFppfOver B S h
     rintro V' q (⟨x, hx⟩ | ⟨x, hx⟩)
     · refine ⟨(Sigma.ι (fun i => (U i).toFunctor) ⟨.left⟩).app (op V') ⟨_, x, rfl⟩, ?_⟩
       exact (congrArg (fun k => k.app (op V') ⟨_, x, rfl⟩)
-        (Sigma.ι_desc (fun i => (U i).ι) (⟨.left⟩ : I))).trans hx
+        (Sigma.ι_comp_desc (fun i => (U i).ι) (⟨.left⟩ : I))).trans hx
     · refine ⟨(Sigma.ι (fun i => (U i).toFunctor) ⟨.right⟩).app (op V') ⟨_, x, rfl⟩, ?_⟩
       exact (congrArg (fun k => k.app (op V') ⟨_, x, rfl⟩)
-        (Sigma.ι_desc (fun i => (U i).ι) (⟨.right⟩ : I))).trans hx
+        (Sigma.ι_comp_desc (fun i => (U i).ι) (⟨.right⟩ : I))).trans hx
   have hcover := points_cover_of_isLocallySurjective_sigma_desc B S hS _ I U hls
   have hcovE : IsEtaleCovering B S hS (fun i => (Fs i).obj) (fun i => (ιs i).hom) := by
     refine ⟨hR, fun i => (Fs i).property, ?_, ?_⟩
@@ -708,7 +710,7 @@ theorem GluedRelationData.isOpenImmersion_gluedDiag :
           rw [gluedDiag_ι]; infer_instance
         exact mono_of_mono _ (gluedDiagonalRelation fA W).ι
       exact presheaf_of_isIso B S hS hQi (fun U => by
-        show AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map (𝟙 U))
+        change AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map (𝟙 U))
         rw [CategoryTheory.Functor.map_id]; infer_instance) _
     exact key _ hk
   · let k' : yoneda.obj b ⟶ (gluedOverPart fA W).toFunctor := yonedaEquiv.symm ⟨s, h⟩

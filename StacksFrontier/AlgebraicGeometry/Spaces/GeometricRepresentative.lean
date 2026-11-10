@@ -48,7 +48,7 @@ theorem exists_geometricRepresentative
   have hKsite : B.Contains (Spec (.of K)) := by
     have hk : (Spec (.of p₀.carrier)).size < B.cutoff := p₀.contained
     rw [Scheme.size_Spec] at hk
-    show (Spec (.of K)).size < B.cutoff
+    change (Spec (.of K)).size < B.cutoff
     rw [Scheme.size_Spec]
     exact max_lt B.aleph0_lt_cutoff ((Algebra.IsAlgebraic.cardinalMk_le_max p₀.carrier K).trans_lt
       (max_lt ((le_max_right _ _).trans_lt hk) B.aleph0_lt_cutoff))
@@ -61,7 +61,7 @@ theorem exists_geometricRepresentative
   let eOver : Over.mk (⟨b⟩ : B.obj hKsite ⟶ B.obj hS) ⟶ p₀.siteObject :=
     Over.homMk e (by
       apply B.inclusion.map_injective
-      show B.inclusion.map e ≫ B.inclusion.map p₀.siteObject.hom = b
+      change B.inclusion.map e ≫ B.inclusion.map p₀.siteObject.hom = b
       rw [Functor.map_preimage]
       simp [FieldValuedPoint.siteObject, b])
   let q : FieldValuedPoint B S hS G :=

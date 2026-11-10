@@ -16,8 +16,8 @@ It exists because four copies of it had accumulated, in
 `StacksFrontier/Deformation/RingedSpaceThickening/FlatLiftExistence.lean`,
 `StacksFrontier/AlgebraicGeometry/BaseChange/TorIndependence/TensorAndSheafHomBaseChange.lean`,
 `StacksFrontier/AlgebraicGeometry/Spaces/ConormalAlgebraSquareMapAmbientComparison.lean` and
-`StacksFrontier/AlgebraicGeometry/Perfect/Coherator/KoszulPowerLift.lean`, whose import closures have
-no common ancestor in this library; this module is that ancestor.
+`StacksFrontier/AlgebraicGeometry/Perfect/Coherator/KoszulPowerLift.lean`, whose import closures
+have no common ancestor in this library; this module is that ancestor.
 -/
 
 @[expose] public section

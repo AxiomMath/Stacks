@@ -203,7 +203,7 @@ theorem bijective_Qh_map_of_isUnitFlat
     refine ⟨q.map g, ?_⟩
     have : IsIso (DerivedCategory.Qh.map (q.map s)) := Localization.inverts _ W _ hs
     have := isIso_Qh_map_quotient_map t ht
-    show DerivedCategory.Qh.map (q.map g) =
+    change DerivedCategory.Qh.map (q.map g) =
       inv (DerivedCategory.Qh.map (q.map s)) ≫ DerivedCategory.Qh.map (q.map f)
     rw [← cancel_epi (DerivedCategory.Qh.map (q.map s)), IsIso.hom_inv_id_assoc,
       ← cancel_epi (DerivedCategory.Qh.map (q.map t))]
@@ -561,7 +561,7 @@ theorem isIso_homotopyForgetPushforwardComparison_app {I : HomotopyCategory.{u, 
     (hI : IsKInjective I.as ∧ GradedInjective I.as) :
     IsIso ((homotopyForgetPushforwardComparison f A B φ hφ).app I) := by
   have := isIso_derivedModulePushforwardUnit_app_of_isDGInjective (f := f) hI.1 hI.2
-  show IsIso ((complexPushforwardComparison f).app I.as.complex)
+  change IsIso ((complexPushforwardComparison f).app I.as.complex)
   simp only [complexPushforwardComparison, NatTrans.comp_app, Functor.whiskerLeft_app,
     Functor.whiskerRight_app]
   infer_instance

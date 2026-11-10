@@ -114,7 +114,7 @@ private theorem arrowRingEquiv_appTop_eq_map (G' : AffineInvariantBaseChange G C
     congrArg (fun k ↦ k.hom y) (Scheme.ΓSpecIso_naturality (CommRingCat.ofHom
       (Algebra.TensorProduct.map s (AlgHom.id (invariantRing G) C')).toRingHom))
   subst hm
-  show (Scheme.ΓSpecIso (.of (arrowRingBaseChange G C'))).commRingCatIsoToRingEquiv
+  change (Scheme.ΓSpecIso (.of (arrowRingBaseChange G C'))).commRingCatIsoToRingEquiv
     ((Scheme.Hom.appTop G'.arrowsIso.inv).hom ((Scheme.Hom.appTop G'.arrowsIso.hom).hom
       ((Scheme.Hom.appTop (Spec.map (CommRingCat.ofHom
         (Algebra.TensorProduct.map s (AlgHom.id (invariantRing G) C')).toRingHom))).hom
@@ -150,10 +150,10 @@ theorem objectRingEquiv_canonicalMapToInvariantFunctions (G' : AffineInvariantBa
     (d : C') :
     G'.objectRingEquiv (G'.canonicalMapToInvariantFunctions d).val =
       Algebra.TensorProduct.includeRight d := by
-  show G'.objectRingEquiv
+  change G'.objectRingEquiv
     ((G'.groupoid.objects.hom.appTop).hom ((Scheme.ΓSpecIso (.of C')).inv.hom d)) = _
   rw [← G'.objectsIso_over, Scheme.Hom.comp_appTop]
-  show G'.objectRingEquiv ((G'.objectsIso.hom.appTop).hom
+  change G'.objectRingEquiv ((G'.objectsIso.hom.appTop).hom
     ((Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeRight :
       C' →ₐ[invariantRing G] objectRingBaseChange G C').toRingHom)).appTop.hom
       ((Scheme.ΓSpecIso (.of C')).inv.hom d))) = _
@@ -183,7 +183,7 @@ theorem isPushout_sourceMap (G' : AffineInvariantBaseChange G C') :
       (CommRingCat.ofHom (Algebra.TensorProduct.map (sourceAlgHom G)
         (AlgHom.id (invariantRing G) C')).toRingHom) := by
   let _ := invariantRingAlgebraArrow G
-  show IsPushout _ G'.objectRingEquiv.toCommRingCatIso.hom
+  change IsPushout _ G'.objectRingEquiv.toCommRingCatIso.hom
     G'.arrowRingEquiv.toCommRingCatIso.hom _
   refine IsPushout.of_vert_isIso ⟨?_⟩
   ext x
@@ -255,9 +255,9 @@ private theorem exists_invariant_idempotent_rank_decomposition {S : Scheme.{u}}
   have hinv (i : ι) : sourceMap G (eA i) = targetMap G (eA i) := by
     refine PrimeSpectrum.basicOpen_injOn_isIdempotentElem
       (show IsIdempotentElem (sourceMap G (eA i)) from by
-        show sourceMap G (eA i) * sourceMap G (eA i) = _; rw [← map_mul, hid i])
+        change sourceMap G (eA i) * sourceMap G (eA i) = _; rw [← map_mul, hid i])
       (show IsIdempotentElem (targetMap G (eA i)) from by
-        show targetMap G (eA i) * targetMap G (eA i) = _; rw [← map_mul, hid i]) ?_
+        change targetMap G (eA i) * targetMap G (eA i) = _; rw [← map_mul, hid i]) ?_
     ext q
     set y := G.arrows.left.isoSpec.inv q with hy
     have hyq : G.arrows.left.isoSpec.hom.base y = q :=
@@ -270,7 +270,7 @@ private theorem exists_invariant_idempotent_rank_decomposition {S : Scheme.{u}}
       change (Spec.map (CommRingCat.ofHom (Scheme.Γ.map m.op).hom)).base
         (G.arrows.left.isoSpec.hom.base y) = _ at h
       rwa [hyq] at h
-    show eA i ∉ (q.comap (sourceMap G)).asIdeal ↔ eA i ∉ (q.comap (targetMap G)).asIdeal
+    change eA i ∉ (q.comap (sourceMap G)).asIdeal ↔ eA i ∉ (q.comap (targetMap G)).asIdeal
     rw [hchar, hchar, hcomap (sourceMap G) G.source.left rfl,
       hcomap (targetMap G) G.target.left rfl, rankAtStalk_source_eq_target G y]
   have hpos (i : ι) : 0 < rank i := by
@@ -286,7 +286,7 @@ private theorem exists_invariant_idempotent_rank_decomposition {S : Scheme.{u}}
       { toFun := rho
         map_add' := map_add rho
         map_smul' := fun a b ↦ by
-          show rho (sourceMap G a * b) = a * rho b
+          change rho (sourceMap G a * b) = a * rho b
           rw [map_mul, hrho] }
     let _ : Module.Flat A B := Module.Flat.of_projective
     rw [← hp]
@@ -378,7 +378,7 @@ private theorem invariantPolynomialEmbedding_map {S : Scheme.{u}} {G : GroupoidS
       (Algebra.TensorProduct.includeRight :
         D →ₐ[invariantRing G] objectRingBaseChange G D).toRingHom :=
     RingHom.ext fun d ↦ GD.objectRingEquiv_canonicalMapToInvariantFunctions d
-  show (Algebra.TensorProduct.polynomialRight (invariantRing G) Γ(G.objects.left, ⊤) D)
+  change (Algebra.TensorProduct.polynomialRight (invariantRing G) Γ(G.objects.left, ⊤) D)
     ((p.map GD.canonicalMapToInvariantFunctions).map
       (GD.objectRingEquiv.toRingHom.comp (invariantRing GD.groupoid).subtype)) = _
   rw [Polynomial.map_map, hcoeff, Algebra.TensorProduct.polynomialRight_map_includeRight]
@@ -548,9 +548,9 @@ theorem exists_polynomial_map_eq_pow_X_sub_C {S : Scheme.{u}} (G : GroupoidSchem
       Polynomial C' →ₐ[invariantRing G] objectRingBaseChange G (Polynomial C')).toRingHom.comp
       (Polynomial.mapRingHom φ.toRingHom)
   have hac (z : Polynomial D) : a (HD.canonicalMapToInvariantFunctions z).val = ψ z := by
-    show α (HD.objectRingEquiv (HD.canonicalMapToInvariantFunctions z).val) = ψ z
+    change α (HD.objectRingEquiv (HD.canonicalMapToInvariantFunctions z).val) = ψ z
     rw [HD.objectRingEquiv_canonicalMapToInvariantFunctions]
-    show Algebra.TensorProduct.map (AlgHom.id (invariantRing G) Γ(G.objects.left, ⊤))
+    change Algebra.TensorProduct.map (AlgHom.id (invariantRing G) Γ(G.objects.left, ⊤))
         (Polynomial.mapAlgHom φ) (1 ⊗ₜ[invariantRing G] z) =
       1 ⊗ₜ[invariantRing G] (z.map φ.toRingHom)
     rw [Algebra.TensorProduct.map_tmul]
@@ -558,12 +558,12 @@ theorem exists_polynomial_map_eq_pow_X_sub_C {S : Scheme.{u}} (G : GroupoidSchem
   let x : objectRingBaseChange G (Polynomial C') :=
     invariantPolynomialEmbedding G' (Polynomial.X - Polynomial.C f)
   have hax : a xHD = x := by
-    show α (HD.objectRingEquiv (HD.objectRingEquiv.symm xD)) = x
+    change α (HD.objectRingEquiv (HD.objectRingEquiv.symm xD)) = x
     rw [RingEquiv.apply_symm_apply]
     exact map_mapAlgHom_sub_eq_invariantPolynomialEmbedding G' f φ g hg
   have hst : sT x = tT x := map_sourceAlgHom_invariantPolynomialEmbedding G' f
   have hbtarget : b (targetMap HD.groupoid xHD) = sT x := by
-    show β (HD.arrowRingEquiv (targetMap HD.groupoid xHD)) = sT x
+    change β (HD.arrowRingEquiv (targetMap HD.groupoid xHD)) = sT x
     rw [HD.arrowRingEquiv_targetMap]
     have ht := congrArg
       (fun k : objectRingBaseChange G (Polynomial D) →ₐ[invariantRing G]

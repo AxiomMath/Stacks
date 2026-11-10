@@ -48,9 +48,9 @@ theorem presheaf_hasFunctorialInjectiveEmbeddings (C : Type u) [Category.{v} C] 
              map f := Arrow.homMk f (E.func.map f) (E.emb.naturality f) },
       rfl, E.mono_emb, E.injective_obj⟩
   have : P.inverse.Additive := by
-    show ((Functor.whiskeringLeft _ _ _).obj e.functor).Additive; infer_instance
+    change ((Functor.whiskeringLeft _ _ _).obj e.functor).Additive; infer_instance
   have : P.functor.Additive := by
-    show ((Functor.whiskeringLeft _ _ _).obj e.inverse).Additive; infer_instance
+    change ((Functor.whiskeringLeft _ _ _).obj e.inverse).Additive; infer_instance
   have : EnoughInjectives A := enoughInjectives_of_hasFunctorialInjectiveEmbeddings (𝒜 := A) hA
   exact hasFunctorialInjectiveEmbeddings_of_adjunction
     (A := A) (B := Cᵒᵖ ⥤ AddCommGrpCat.{max u v t}) P.inverse P.functor P.toAdjunction

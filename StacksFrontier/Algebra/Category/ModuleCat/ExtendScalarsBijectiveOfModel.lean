@@ -87,9 +87,9 @@ theorem modelTensorToExtendScalars_tmul (a : R') (x : Mc) :
 theorem surjective_modelTensorToExtendScalars :
     Function.Surjective (modelTensorToExtendScalars φ eR eR' hcomp eM heM) := by
   intro w
-  refine TensorProduct.induction_on
+  refine TensorProduct.inductionOn
     (motive := fun w ↦ ∃ z, modelTensorToExtendScalars φ eR eR' hcomp eM heM z = w) w
-    ⟨0, map_zero _⟩ (fun b m ↦ ⟨eR'.symm (show A' from b) ⊗ₜ[R] eM.symm m, ?_⟩) ?_
+    (fun b m ↦ ⟨eR'.symm (show A' from b) ⊗ₜ[R] eM.symm m, ?_⟩) ?_
   · exact (congrArg₂ (fun (t : A') (y : M) ↦ t • extendScalarsUnit φ y)
       (eR'.apply_symm_apply _) (eM.apply_symm_apply m)).trans (smul_extendScalarsUnit φ b m)
   · rintro w₁ w₂ ⟨z₁, e₁⟩ ⟨z₂, e₂⟩
@@ -115,9 +115,7 @@ theorem bijective_extendScalars_homEquiv_symm_of_model
   set T := modelTensorToExtendScalars φ eR eR' hcomp eM heM
   have hstep : ∀ z, eP (U (T z)) = c z := by
     intro z
-    refine TensorProduct.induction_on (motive := fun z ↦ eP (U (T z)) = c z) z ?_ ?_ ?_
-    · rw [map_zero, map_zero, map_zero]
-      exact ((add_eq_left).1 ((hcadd 0 0).symm.trans (congrArg c (add_zero 0)))).symm
+    refine TensorProduct.inductionOn (motive := fun z ↦ eP (U (T z)) = c z) z ?_ ?_
     · intro a x
       refine Eq.trans ?_ ((heP a _).trans (hc a x).symm)
       refine congrArg eP ((map_smul U (eR' a) (extendScalarsUnit φ (eM x))).trans ?_)

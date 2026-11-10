@@ -58,8 +58,7 @@ public theorem range_idealTensorToSmul :
   refine le_antisymm ?_ ?_
   · intro y hy
     obtain ⟨ξ, rfl⟩ := hy
-    induction ξ using TensorProduct.induction_on with
-    | zero => simp
+    induction ξ using TensorProduct.inductionOn with
     | tmul x m => exact Submodule.smul_mem_smul x.2 Submodule.mem_top
     | add p q hp hq => rw [map_add]; exact Submodule.add_mem _ hp hq
   · rw [Submodule.smul_le]
@@ -70,8 +69,7 @@ public theorem range_idealTensorToSmul :
 for all `a ∈ I` and `ξ ∈ I ⊗_A M`, `a • ξ = a ⊗ (I ⊗_A M ⟶ M) ξ`. -/
 public theorem smul_eq_tmul_idealTensorToSmul {a : A} (ha : a ∈ I) (ξ : ↥I ⊗[A] M) :
     a • ξ = (⟨a, ha⟩ : ↥I) ⊗ₜ[A] idealTensorToSmul I M ξ := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, tmul_zero]
+  induction ξ using TensorProduct.inductionOn with
   | tmul x m =>
       rw [TensorProduct.smul_tmul', idealTensorToSmul_tmul, ← TensorProduct.smul_tmul]
       exact congrArg (fun y : ↥I ↦ y ⊗ₜ[A] m) (Subtype.ext (mul_comm a (x : A)))

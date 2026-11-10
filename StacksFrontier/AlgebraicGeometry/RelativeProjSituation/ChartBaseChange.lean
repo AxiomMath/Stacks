@@ -207,7 +207,7 @@ public theorem equiv_lTensor_mulPowPiece (n m : ℕ) (h : n ≤ m)
   | tmul b y =>
       rw [LinearMap.lTensor_tmul, IsBaseChange.equiv_tmul, IsBaseChange.equiv_tmul]
       refine Subtype.ext ?_
-      show (b : B) * f (a ^ (m - n) * (y : A)) = f a ^ (m - n) * ((b : B) * f (y : A))
+      change (b : B) * f (a ^ (m - n) * (y : A)) = f a ^ (m - n) * ((b : B) * f (y : A))
       rw [map_mul, map_pow]
       ring
   | add u v hu hv => simp only [map_add, hu, hv]
@@ -230,7 +230,7 @@ include hmap in
 @[simp] public theorem awayTensorLift_tmul (b : ↥(ℬ 0)) (z : Away 𝒜 a) :
     awayTensorLift (𝒜 := 𝒜) f (a := a) (b ⊗ₜ z)
       = algebraMap ↥(ℬ 0) (Away ℬ (f a)) b * Away.map f a z := by
-  show algebraMap ↥(ℬ 0) (Away ℬ (f a)) b * algebraMap (Away 𝒜 a) (Away ℬ (f a)) z = _
+  change algebraMap ↥(ℬ 0) (Away ℬ (f a)) b * algebraMap (Away 𝒜 a) (Away ℬ (f a)) z = _
   rw [hmap]
 
 include hmap halg in
@@ -241,7 +241,7 @@ public theorem awayTensorLift_tmul_awayMk (n : ℕ) (b : ↥(ℬ 0))
     awayTensorLift (𝒜 := 𝒜) f (a := a) (b ⊗ₜ awayMk 𝒜 ha n y)
       = awayMk ℬ (f.map_mem ha) n (b • pieceMap f halg (n • d) y) := by
   rw [awayTensorLift_tmul f hmap, awayMk_apply, Away.map_mk, map_smul, awayMk_apply]
-  show _ = fromZeroRingHom ℬ (Submonoid.powers (f a)) b * _
+  change _ = fromZeroRingHom ℬ (Submonoid.powers (f a)) b * _
   rfl
 
 include hmap halg in
@@ -269,7 +269,7 @@ public theorem awayTensorLift_bijective :
     have hzero : mulPowPiece ℬ (f.map_mem ha) n (n + k) (Nat.le_add_right n k)
         ((hf (n • d)).equiv u) = 0 := by
       refine Subtype.ext ?_
-      show f a ^ (n + k - n) * ((hf (n • d)).equiv u : B) = 0
+      change f a ^ (n + k - n) * ((hf (n • d)).equiv u : B) = 0
       rwa [Nat.add_sub_cancel_left]
     have hu0 : LinearMap.lTensor ↥(ℬ 0)
         (mulPowPiece 𝒜 ha n (n + k) (Nat.le_add_right n k)) u = 0 := by
@@ -289,7 +289,7 @@ public theorem isPushout_away :
     (LinearEquiv.ofBijective (awayTensorLift (𝒜 := 𝒜) f (a := a)).toLinearMap
       (awayTensorLift_bijective f halg ha hf hmap))
     (fun z => by
-      show awayTensorLift (𝒜 := 𝒜) f (a := a) ((1 : ↥(ℬ 0)) ⊗ₜ z) = _
+      change awayTensorLift (𝒜 := 𝒜) f (a := a) ((1 : ↥(ℬ 0)) ⊗ₜ z) = _
       rw [awayTensorLift_tmul f hmap, map_one, one_mul]
       exact (hmap z).symm)⟩
 

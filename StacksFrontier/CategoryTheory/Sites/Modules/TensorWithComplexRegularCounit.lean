@@ -75,7 +75,7 @@ private lemma isIso_of_sectionwiseToSheaf_comp_eq
       (D.sectionwiseToSheaf ((Rep.{u, v, w, t, s, o} X R K).functor.obj
         (liftComplex.{u, v, w, t, s} X K)))
     exact (hu' _ (by
-      show D.sectionwiseToSheaf _ ≫ G.map (g ≫ j) = _
+      change D.sectionwiseToSheaf _ ≫ G.map (g ≫ j) = _
       rw [Functor.map_comp, ← Category.assoc, hg, hj]
       simp)).trans (hu' _ (by simp)).symm
   · apply G.map_injective
@@ -162,7 +162,7 @@ public theorem isIso_tensorWithComplexDG_adjunction_counit_app
     apply Cochain.ext
     intro q d h
     ext U y
-    show evaluationEvalMap.{u, v, w, t, s, o} X R K (liftComplex.{u, v, w, t, s} X K) d p q
+    change evaluationEvalMap.{u, v, w, t, s, o} X R K (liftComplex.{u, v, w, t, s} X K) d p q
         (by omega) U
       ((cocycleHom (tensorHomEquiv.{u, v, w, t, s, o} X R K M (liftComplex.{u, v, w, t, s} X K)
         (CochainComplex.HomComplex.Cocycle.ofHom e.hom))).gradedMap p x) y =

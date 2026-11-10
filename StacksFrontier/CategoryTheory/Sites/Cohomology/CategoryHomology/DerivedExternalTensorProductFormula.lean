@@ -508,6 +508,7 @@ private lemma eq_id_comp {D : Type*} [Category* D] {A B : D} (g : A ⟶ A) (hg :
   subst hg
   rw [Category.id_comp]
 
+omit [Projective P] [Projective Q] in
 /-- **The chain-level transposition identity at a pair of generators**, on the summands of the
 total complex. -/
 private lemma chain_eq' :
@@ -601,7 +602,7 @@ private lemma chain_eq' :
         (colimConstAdj (J := C₂ᵒᵖ) (C := ModuleCat.{u} R)) (projFstInverseImage C₁ C₂ R)
             (projSndInverseImage C₁ C₂ R) (𝟙 _) (𝟙 _) (Presheaf.freeYoneda U P)
             (Presheaf.freeYoneda V Q)
-      simp only [NatTrans.id_app, Category.comp_id] at hmate
+      simp only [NatTrans.id_app] at hmate
       have hL : ((fstChain C₁ C₂ R U P).f 0 ⊗ₘ (sndChain C₁ C₂ R V Q).f 0) ≫
           Functor.LaxMonoidal.μ (Functor.const (C₁ × C₂)ᵒᵖ : ModuleCat.{u} R ⥤ _)
               (((HomologicalComplex.single (ModuleCat.{u} R) (ComplexShape.up ℤ) 0).obj

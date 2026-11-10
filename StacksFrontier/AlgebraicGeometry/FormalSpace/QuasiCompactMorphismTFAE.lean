@@ -124,7 +124,7 @@ theorem isQuasiCompactSpace_of_isPullback_of_isAffineFormal
     (fun _ ↦ isQuasiCompactSpace_of_isAffineFormalAlgebraicSpace B S hS hQ) ?_
   have hcomp' : Epi (Sigma.ι (fun _ : PUnit.{u + 2} ↦ pullback z pz) PUnit.unit ≫
       Sigma.desc (fun _ : PUnit.{u + 2} ↦ pullback.snd z pz)) := by
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact (Sheaf.isLocallySurjective_iff_epi _).mp hsnd
   exact (Sheaf.isLocallySurjective_iff_epi _).mpr
     (epi_of_epi (Sigma.ι (fun _ : PUnit.{u + 2} ↦ pullback z pz) PUnit.unit) _)
@@ -207,7 +207,7 @@ theorem HasQuasiCompactFormalAtlas.isQuasiCompact {X Y : FppfSheaf B S hS} {f : 
   let Vk : K → BigFppfOver B S hS := fun k ↦ U (i₀ k.1) (l k.1)
   let vk : ∀ k, Vk k ⟶ T := fun k ↦ r k.1
   have hcov : Sieve.ofArrows Vk vk ∈ BigFppfOver.topology B S hS T := by
-    show Sieve.ofArrows Vk vk ∈ BigFppfOver.baseOverTopology B S hS .fppf T
+    change Sieve.ofArrows Vk vk ∈ BigFppfOver.baseOverTopology B S hS .fppf T
     refine BigFppfOver.ofArrows_mem_baseOverTopology B S hS Vk vk ?_
     refine (Scheme.ofArrows_mem_precoverage_iff _).mpr ⟨fun x ↦ ?_, fun k ↦ ?_⟩
     · obtain ⟨x', hx', hxx'⟩ := Set.mem_iUnion₂.mp (ht (Set.mem_univ x))
@@ -227,7 +227,7 @@ theorem HasQuasiCompactFormalAtlas.isQuasiCompact {X Y : FppfSheaf B S hS} {f : 
       (BigFppfOver.topology B S hS).pullback_stable _ hcov, ?_⟩
     rintro Z g ⟨Wi, b, c, ⟨i⟩, hfac⟩
     exact ⟨ULift.up i, ULift.up b, congrArg ULift.up hfac⟩
-  have hδ : ∀ k, Sigma.ι F k ≫ Sigma.desc γ = γ k := fun k => Sigma.ι_desc _ _
+  have hδ : ∀ k, Sigma.ι F k ≫ Sigma.desc γ = γ k := fun k => Sigma.ι_comp_desc _ _
   -- each `γ k ≫ g` factors through a member of the covering of condition (4)
   let ρ : ∀ k, F k ⟶ Yi (i₀ k.down.1) := fun k =>
     ⟨(uliftYoneda.{u + 1}).map (π (i₀ k.down.1) (l k.down.1)) ≫ ξ (i₀ k.down.1)⟩
@@ -235,7 +235,7 @@ theorem HasQuasiCompactFormalAtlas.isQuasiCompact {X Y : FppfSheaf B S hS} {f : 
     intro k
     rw [hδ]
     apply Sheaf.hom_ext
-    show (uliftYoneda.{u + 1}).map (π (i₀ k.down.1) (l k.down.1) ≫ qv (i₀ k.down.1)) ≫ g.hom =
+    change (uliftYoneda.{u + 1}).map (π (i₀ k.down.1) (l k.down.1) ≫ qv (i₀ k.down.1)) ≫ g.hom =
       ((uliftYoneda.{u + 1}).map (π (i₀ k.down.1) (l k.down.1)) ≫ ξ (i₀ k.down.1)) ≫
         (c (i₀ k.down.1)).hom
     simp only [Functor.map_comp, Category.assoc]
@@ -268,7 +268,7 @@ theorem HasQuasiCompactFormalAtlas.isQuasiCompact {X Y : FppfSheaf B S hS} {f : 
         (Discrete.mk k)
       simp only [Cofan.mk_ι_app] at hcomp
       rw [← Category.assoc, hedef, hcomp, hm₁ k]
-      exact (Sigma.ι_desc (fun k => pullback.fst p (Sigma.ι F k ≫ Sigma.desc γ)) k).symm
+      exact (Sigma.ι_comp_desc (fun k => pullback.fst p (Sigma.ι F k ≫ Sigma.desc γ)) k).symm
     refine (Sheaf.isLocallySurjective_iff_epi _).mpr ?_
     rw [← he]
     infer_instance

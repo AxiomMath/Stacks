@@ -115,7 +115,7 @@ theorem stageModelTransition_apply (i j : A.Stages) (h : i ≤ j) (x : A.stageMo
 /-- The transition morphism of a limit situation at a reflexivity proof is the identity. -/
 theorem transition_self (i : A.I) : A.transition (le_refl i) = 𝟙 (A.stage i) := by
   apply ObjectProperty.hom_ext
-  show A.system.map (homOfLE (le_refl i)).op = 𝟙 _
+  change A.system.map (homOfLE (le_refl i)).op = 𝟙 _
   rw [show (homOfLE (le_refl i)).op = 𝟙 (op i) from rfl, A.system.map_id]
 
 /-- **The models of the stages form a directed system of `u`-rings.** The laws are the

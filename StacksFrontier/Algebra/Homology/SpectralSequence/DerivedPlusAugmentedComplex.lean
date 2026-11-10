@@ -7,7 +7,8 @@ public import StacksFrontier.CategoryTheory.Sites.Simplicial.CohomologySpectralS
 # The spectral sequence of an augmented functor to complexes in non-negative degrees
 
 Let `A` and `B` be abelian categories, `A` with enough injectives. This file specialises the
-spectral sequence of `StacksFrontier/Algebra/Homology/SpectralSequence/DerivedPlusDoubleComplex.lean`
+spectral sequence of
+`StacksFrontier/Algebra/Homology/SpectralSequence/DerivedPlusDoubleComplex.lean`
 to the shape in which the source's applications meet it: an additive functor
 `C : A ⥤ C^{≥0}(B)` to complexes indexed by `ℕ`, with an augmentation `ε : T ⟶ C(-)^0` from an
 additive functor `T : A ⥤ B`, such that
@@ -75,7 +76,7 @@ omit [Abelian A] [C.Additive] in
 theorem isZero_natExtend_obj_X (X : A) (p : ℤ) (hp : p < 0) :
     IsZero (((natExtend C).obj X).X p) :=
   HomologicalComplex.isZero_extend_X _ ComplexShape.embeddingUpNat p
-    fun i => by show ((i : ℕ) : ℤ) ≠ p; omega
+    fun i => by change ((i : ℕ) : ℤ) ≠ p; omega
 
 /-! ### The augmentation -/
 
@@ -98,7 +99,7 @@ theorem natExtendAugmentation_app_f (Z : CochainComplex A ℤ) (q : ℤ) :
     ((natExtendAugmentation C T ε).app Z).f q =
       ε.app (Z.X q) ≫ ((C.obj (Z.X q)).extendXIso ComplexShape.embeddingUpNat
         (i := 0) (i' := (0 : ℤ)) rfl).inv := by
-  show ε.app (Z.X q) ≫ ((C.obj (Z.X q)).extendXIso ComplexShape.embeddingUpNat
+  change ε.app (Z.X q) ≫ ((C.obj (Z.X q)).extendXIso ComplexShape.embeddingUpNat
     (i := 0) (i' := (0 : ℤ)) rfl).inv ≫ 𝟙 _ = _
   rw [Category.comp_id]
 
@@ -128,10 +129,10 @@ theorem hypotheses_natExtend (Z : CochainComplex A ℤ) (n : ℤ) (hZ : Z.IsStri
   exactAt_of_ne_zero q p hp := by
     rcases lt_trichotomy p 0 with h | h | h
     · exact HomologicalComplex.extend_exactAt _ ComplexShape.embeddingUpNat p
-        fun j => by show ((j : ℕ) : ℤ) ≠ p; omega
+        fun j => by change ((j : ℕ) : ℤ) ≠ p; omega
     · exact absurd h hp
     · have hk : ComplexShape.embeddingUpNat.f p.toNat = p := by
-        show ((p.toNat : ℕ) : ℤ) = p; omega
+        change ((p.toNat : ℕ) : ℤ) = p; omega
       exact (HomologicalComplex.extend_exactAt_iff _ ComplexShape.embeddingUpNat hk).2
         (hinj (Z.X q) (hZinj q) p.toNat (by omega))
   inducesIsoKernel q :=
@@ -143,13 +144,15 @@ theorem hypotheses_natExtend (Z : CochainComplex A ℤ) (n : ℤ) (hZ : Z.IsStri
 
 variable [∀ L : HomologicalComplex₂ B (ComplexShape.up ℤ) (ComplexShape.up ℤ),
     L.HasTotal (ComplexShape.up ℤ)]
-  [EnoughInjectives A] [HasDerivedCategory A] [HasDerivedCategory B]
+  [EnoughInjectives A] [HasDerivedCategory A]
 
 /-- **The first page vanishes in the negative columns.** -/
 theorem isZero_natExtend_page_one (K : DerivedCategory.Plus A) (p q : ℤ) (hp : p < 0) :
     IsZero ((((derivedFunctor (natExtend C)).obj K).page 1 le_rfl).X (p, q)) :=
   isZero_derivedFunctor_page_one (natExtend C) p q
     (fun X => isZero_natExtend_obj_X C X p hp) K
+
+variable [HasDerivedCategory B]
 
 variable {A' : Type*} [Category* A'] [Abelian A'] [EnoughInjectives A'] [HasDerivedCategory A']
   (R : A ⥤ A') [R.Additive] [PreservesFiniteLimits R] [PreservesFiniteColimits R]

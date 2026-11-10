@@ -72,7 +72,7 @@ theorem isIso_app_quotient_iff_quasiIso_map
       ← α.naturality ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).map t),
       isIso_comp_right_iff]
   rw [key, Functor.comp_map, DerivedCategory.isIso_Qh_map_iff]
-  show HomotopyCategory.quasiIso B (ComplexShape.up ℤ)
+  change HomotopyCategory.quasiIso B (ComplexShape.up ℤ)
       ((HomotopyCategory.quotient B (ComplexShape.up ℤ)).map
         ((F.mapHomologicalComplex (ComplexShape.up ℤ)).map t)) ↔ _
   rw [HomotopyCategory.quotient_map_mem_quasiIso_iff, HomologicalComplex.mem_quasiIso_iff]

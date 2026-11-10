@@ -589,7 +589,7 @@ theorem stageTransition_comp_stageIso {j k : J} (h : j ≤ k) :
       simp only [CommRingCat.hom_comp, ConcreteCategory.hom_ofHom, stageMap, homOfLE_leOfHom,
         AlgHom.toRingHom_eq_coe, RingHom.coe_comp, RingHom.coe_coe, Function.comp_apply]
       exact rfl
-    show P.stageInl j ≫ _ ≫ _ = P.stageInl j ≫ _ ≫ _
+    change P.stageInl j ≫ _ ≫ _ = P.stageInl j ≫ _ ≫ _
     rw [reassoc_of% e₁, P.stageInl_comp_stageIso, ← Category.assoc, P.stageInl_comp_stageIso]
     exact P.b.naturality (homOfLE h)
   · have e₂ : CommRingCat.ofHom (baseToStageMap P.algDiagram A₀ j) ≫
@@ -597,7 +597,7 @@ theorem stageTransition_comp_stageIso {j k : J} (h : j ≤ k) :
           CommRingCat.ofHom (baseToStageMap P.algDiagram A₀ k) := by
       ext x
       simp [stageMap, baseToStageMap, Algebra.TensorProduct.map_tmul]
-    show CommRingCat.ofHom (baseToStageMap P.algDiagram A₀ j) ≫ _ ≫ _ =
+    change CommRingCat.ofHom (baseToStageMap P.algDiagram A₀ j) ≫ _ ≫ _ =
       CommRingCat.ofHom (baseToStageMap P.algDiagram A₀ j) ≫ _ ≫ _
     rw [reassoc_of% e₂, P.baseToStage_comp_stageIso, ← Category.assoc,
       P.baseToStage_comp_stageIso]
@@ -616,11 +616,11 @@ theorem stageToLimit_comp_limitIso (j : J) :
         Functor.const_obj_obj, AlgHom.toRingHom_eq_coe, RingHom.coe_comp, RingHom.coe_coe,
         Function.comp_apply]
       exact rfl
-    show P.stageInl j ≫ _ ≫ _ = P.stageInl j ≫ _ ≫ _
+    change P.stageInl j ≫ _ ≫ _ = P.stageInl j ≫ _ ≫ _
     rw [reassoc_of% e₁, P.limitInl_comp_limitIso, ← Category.assoc, P.stageInl_comp_stageIso]
     exact (P.hbι j).symm
   · have e₂ := baseToStage_comp_stageToLimit P.algDiagram P.algCocone A₀ j
-    show CommRingCat.ofHom (baseToStageMap P.algDiagram A₀ j) ≫ _ ≫ _ =
+    change CommRingCat.ofHom (baseToStageMap P.algDiagram A₀ j) ≫ _ ≫ _ =
       CommRingCat.ofHom (baseToStageMap P.algDiagram A₀ j) ≫ _ ≫ _
     rw [reassoc_of% e₂, P.baseToLimit_comp_limitIso, ← Category.assoc, P.baseToStage_comp_stageIso]
     exact (P.haι j).symm

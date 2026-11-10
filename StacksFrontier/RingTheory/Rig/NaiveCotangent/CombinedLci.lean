@@ -190,7 +190,7 @@ public theorem ker_coeffReduction [IsNoetherianRing R] (n : ℕ) :
   · rw [← Ideal.map_pow]
     refine Ideal.map_le_iff_le_comap.mpr fun a ha => Ideal.mem_comap.mpr ?_
     rw [RingHom.mem_ker]
-    show coeffReduction 𝔞 σ n (algebraMap R _ a) = 0
+    change coeffReduction 𝔞 σ n (algebraMap R _ a) = 0
     rw [coeffReduction_coeff, Ideal.Quotient.eq_zero_iff_mem.mpr ha, map_zero]
 
 /-- Two ring maps out of `R⟨x_σ⟩` which kill `𝔞ⁿ R⟨x_σ⟩` and agree on polynomials are equal:
@@ -207,7 +207,7 @@ public theorem coeffReduction_hom_ext {T : Type*} [CommRing T] (n : ℕ)
   have hx : x - algebraMap (MvPolynomial σ R) _ a ∈
       RingHom.ker (coeffReduction 𝔞 σ n).toRingHom := by
     rw [RingHom.sub_mem_ker_iff]
-    show coeffReduction 𝔞 σ n x = coeffReduction 𝔞 σ n (algebraMap (MvPolynomial σ R) _ a)
+    change coeffReduction 𝔞 σ n x = coeffReduction 𝔞 σ n (algebraMap (MvPolynomial σ R) _ a)
     rw [coeffReduction_algebraMap, ha]
   exact ((RingHom.sub_mem_ker_iff u).mp (hu hx)).trans
     ((RingHom.congr_fun he a).trans ((RingHom.sub_mem_ker_iff w).mp (hw hx)).symm)
@@ -228,15 +228,15 @@ public theorem coeffReduction_naturality [IsNoetherianRing R] {τ : Type*} (v : 
       ← Ideal.map_le_iff_le_comap, Ideal.map_pow, Ideal.map_map]
     rw [show u.comp (algebraMap R _) = algebraMap R _ from RingHom.ext hc]
   · intro x hx
-    show MvPolynomial.rename v (coeffReduction 𝔞 σ n x) = 0
+    change MvPolynomial.rename v (coeffReduction 𝔞 σ n x) = 0
     rw [show coeffReduction 𝔞 σ n x = 0 from RingHom.mem_ker.mp hx, map_zero]
   · refine MvPolynomial.ringHom_ext (fun a => ?_) (fun i => ?_)
-    · show coeffReduction 𝔞 τ n (u (algebraMap R _ a)) =
+    · change coeffReduction 𝔞 τ n (u (algebraMap R _ a)) =
         MvPolynomial.rename v (coeffReduction 𝔞 σ n
           (algebraMap (MvPolynomial σ R) _ (C a)))
       rw [hc, coeffReduction_coeff, coeffReduction_algebraMap, MvPolynomial.map_C,
         MvPolynomial.rename_C]
-    · show coeffReduction 𝔞 τ n (u (algebraMap (MvPolynomial σ R) _ (X i))) =
+    · change coeffReduction 𝔞 τ n (u (algebraMap (MvPolynomial σ R) _ (X i))) =
         MvPolynomial.rename v (coeffReduction 𝔞 σ n
           (algebraMap (MvPolynomial σ R) _ (X i)))
       rw [hv, coeffReduction_algebraMap, coeffReduction_algebraMap, MvPolynomial.map_X,
@@ -265,10 +265,9 @@ public theorem map_ker_coeffReduction_eq :
     show f.toRingHom.comp (algebraMap R _) = algebraMap R S from RingHom.ext f.commutes, hb]
 
 omit [Algebra (R ⧸ 𝔞 ^ n) (S ⧸ 𝔟 ^ n)] in
-include hf hb in
+include hb in
 /-- The coefficient reduction's kernel is killed by the reduced presentation, so the latter
-descends along it.  The surjectivity `hf` is not used, but is kept so that this statement reads
-as a property of the presentation `f`. -/
+descends along it. -/
 public theorem ker_coeffReduction_le_ker :
     RingHom.ker (coeffReduction 𝔞 σ n).toRingHom ≤
       RingHom.ker ((Ideal.Quotient.mk (𝔟 ^ n)).comp f.toRingHom) := by
@@ -279,55 +278,55 @@ public theorem ker_coeffReduction_le_ker :
 surjective with kernel `𝔞ⁿ R⟨x_σ⟩`, which `f` carries onto `𝔟ⁿ`, so `f` descends. -/
 public def reducedRingHom : MvPolynomial σ (R ⧸ 𝔞 ^ n) →+* S ⧸ 𝔟 ^ n :=
   (coeffReduction 𝔞 σ n).toRingHom.liftOfSurjective (surjective_coeffReduction 𝔞 σ n)
-    ⟨(Ideal.Quotient.mk (𝔟 ^ n)).comp f.toRingHom, ker_coeffReduction_le_ker 𝔞 𝔟 f hf n hb⟩
+    ⟨(Ideal.Quotient.mk (𝔟 ^ n)).comp f.toRingHom, ker_coeffReduction_le_ker 𝔞 𝔟 f n hb⟩
 
 omit [Algebra (R ⧸ 𝔞 ^ n) (S ⧸ 𝔟 ^ n)] in
-include hf hb in
+include hb in
 /-- The defining square of the reduced presentation map. -/
 public theorem reducedRingHom_comp :
-    (reducedRingHom 𝔞 𝔟 f hf n hb).comp (coeffReduction 𝔞 σ n).toRingHom =
+    (reducedRingHom 𝔞 𝔟 f n hb).comp (coeffReduction 𝔞 σ n).toRingHom =
       (Ideal.Quotient.mk (𝔟 ^ n)).comp f.toRingHom :=
   RingHom.liftOfSurjective_comp ..
 
-include hf hb hc in
+include hb hc in
 /-- The reduced presentation map is an `Rₙ`-algebra map. -/
 public theorem reducedRingHom_C (a : R ⧸ 𝔞 ^ n) :
-    reducedRingHom 𝔞 𝔟 f hf n hb (C a) = algebraMap _ _ a := by
+    reducedRingHom 𝔞 𝔟 f n hb (C a) = algebraMap _ _ a := by
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective a
-  have he := RingHom.congr_fun (reducedRingHom_comp 𝔞 𝔟 f hf n hb) (algebraMap R _ a)
+  have he := RingHom.congr_fun (reducedRingHom_comp 𝔞 𝔟 f n hb) (algebraMap R _ a)
   simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe] at he
   rw [coeffReduction_coeff, f.commutes] at he
   rw [he, hc]
 
 /-- The reduced presentation map as an `Rₙ`-algebra map. -/
 public def reducedAlgHom : MvPolynomial σ (R ⧸ 𝔞 ^ n) →ₐ[R ⧸ 𝔞 ^ n] S ⧸ 𝔟 ^ n where
-  __ := reducedRingHom 𝔞 𝔟 f hf n hb
-  commutes' := reducedRingHom_C 𝔞 𝔟 f hf n hb hc
+  __ := reducedRingHom 𝔞 𝔟 f n hb
+  commutes' := reducedRingHom_C 𝔞 𝔟 f n hb hc
 
 include hf hb in
 /-- The reduced presentation map is surjective. -/
 public theorem surjective_reducedAlgHom :
-    Function.Surjective (reducedAlgHom 𝔞 𝔟 f hf n hb hc) := by
+    Function.Surjective (reducedAlgHom 𝔞 𝔟 f n hb hc) := by
   intro y
   obtain ⟨x, hx⟩ := Ideal.Quotient.mk_surjective.comp hf y
   exact ⟨coeffReduction 𝔞 σ n x,
-    (RingHom.congr_fun (reducedRingHom_comp 𝔞 𝔟 f hf n hb) x).trans hx⟩
+    (RingHom.congr_fun (reducedRingHom_comp 𝔞 𝔟 f n hb) x).trans hx⟩
 
 /-- **The reduced presentation `S / 𝔟ⁿ = (R / 𝔞ⁿ)[x_σ] / (ker f)ₙ`**, as a family of generators
 indexed by the same variables as the presentation `f : R⟨x_σ⟩ ↠ S`.  This is the generic form of
 the reduced presentation of Stacks 0AJS. -/
 public def reducedGenerators : Algebra.Generators (R ⧸ 𝔞 ^ n) (S ⧸ 𝔟 ^ n) σ :=
-  Algebra.Generators.ofAlgHom (reducedAlgHom 𝔞 𝔟 f hf n hb hc)
+  Algebra.Generators.ofAlgHom (reducedAlgHom 𝔞 𝔟 f n hb hc)
     (surjective_reducedAlgHom 𝔞 𝔟 f hf n hb hc)
 
 include hf hb hc in
 /-- The structure map of the reduced presentation is the reduced presentation map. -/
 public theorem algebraMap_reducedGenerators :
     algebraMap (reducedGenerators 𝔞 𝔟 f hf n hb hc).Ring (S ⧸ 𝔟 ^ n) =
-      reducedRingHom 𝔞 𝔟 f hf n hb := by
-  show (MvPolynomial.aeval ((reducedAlgHom 𝔞 𝔟 f hf n hb hc) ∘ X)).toRingHom = _
-  rw [show MvPolynomial.aeval ((reducedAlgHom 𝔞 𝔟 f hf n hb hc) ∘ X)
-      = reducedAlgHom 𝔞 𝔟 f hf n hb hc by ext; simp]
+      reducedRingHom 𝔞 𝔟 f n hb := by
+  change (MvPolynomial.aeval ((reducedAlgHom 𝔞 𝔟 f n hb hc) ∘ X)).toRingHom = _
+  rw [show MvPolynomial.aeval ((reducedAlgHom 𝔞 𝔟 f n hb hc) ∘ X)
+      = reducedAlgHom 𝔞 𝔟 f n hb hc by ext; simp]
   rfl
 
 include hf hb hc in
@@ -335,11 +334,11 @@ include hf hb hc in
 public theorem reducedGenerators_val (i : σ) :
     (reducedGenerators 𝔞 𝔟 f hf n hb hc).val i =
       Ideal.Quotient.mk _ (f (algebraMap (MvPolynomial σ R) _ (X i))) := by
-  have he := RingHom.congr_fun (reducedRingHom_comp 𝔞 𝔟 f hf n hb)
+  have he := RingHom.congr_fun (reducedRingHom_comp 𝔞 𝔟 f n hb)
     (algebraMap (MvPolynomial σ R) _ (X i))
   simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe] at he
   rw [coeffReduction_algebraMap, MvPolynomial.map_X] at he
-  show reducedRingHom 𝔞 𝔟 f hf n hb (X i) = _
+  change reducedRingHom 𝔞 𝔟 f n hb (X i) = _
   exact he
 
 omit [Algebra (R ⧸ 𝔞 ^ n) (S ⧸ 𝔟 ^ n)] in
@@ -348,7 +347,7 @@ include hf hb in
 coefficient reduction, which the presentation carries onto `𝔟ⁿ`, the two ideals have the same
 preimage in `R⟨x_σ⟩`. -/
 public theorem ker_reducedRingHom :
-    RingHom.ker (reducedRingHom 𝔞 𝔟 f hf n hb) =
+    RingHom.ker (reducedRingHom 𝔞 𝔟 f n hb) =
       (RingHom.ker f.toRingHom).map (coeffReduction 𝔞 σ n).toRingHom := by
   refine Ideal.comap_injective_of_surjective (coeffReduction 𝔞 σ n).toRingHom
     (surjective_coeffReduction 𝔞 σ n) ?_
@@ -364,9 +363,9 @@ public theorem reducedGenerators_ker :
     (reducedGenerators 𝔞 𝔟 f hf n hb hc).ker =
       (RingHom.ker f.toRingHom).map (coeffReduction 𝔞 σ n).toRingHom := by
   have h1 : (reducedGenerators 𝔞 𝔟 f hf n hb hc).ker
-      = RingHom.ker (reducedRingHom 𝔞 𝔟 f hf n hb) :=
+      = RingHom.ker (reducedRingHom 𝔞 𝔟 f n hb) :=
     congrArg RingHom.ker (algebraMap_reducedGenerators 𝔞 𝔟 f hf n hb hc)
-  rw [h1, ker_reducedRingHom]
+  rw [h1, ker_reducedRingHom 𝔞 𝔟 f hf n hb]
 
 end ReducedGenerators
 
@@ -387,7 +386,7 @@ public theorem reductionAlgHom_eq_coeffReduction (n : ℕ) :
   · rw [ker_coeffReduction, ← Ideal.map_pow]
     exact P.adicPow_le_ker_reductionAlgHom n
   · refine RingHom.ext fun q => ?_
-    show P.reductionAlgHom n
+    change P.reductionAlgHom n
         (algebraMap (MvPolynomial (Fin P.variableCount) A) P.completedPolynomialRing q) =
       coeffReduction I (Fin P.variableCount) n (algebraMap _ _ q)
     rw [P.reductionAlgHom_polynomial n q, coeffReduction_algebraMap]
@@ -448,7 +447,7 @@ public def conormalTensorEquiv {R S : Type*} [CommRing R] [CommRing S] [Algebra 
     conormalTensorEquiv P D (c ⊗ₜ[P.Ring] x) = c ⊗ₜ[S] Algebra.Extension.Cotangent.mk x := by
   simp only [conormalTensorEquiv, LinearEquiv.trans_apply,
     TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul,
-    LinearEquiv.baseChange_tmul, Algebra.Extension.contangentEquiv_tmul, one_smul]
+    LinearEquiv.baseChange_tmul, Algebra.Extension.cotangentEquiv_tmul, one_smul]
 
 /-! ## Vanishing in a Hausdorff tensor product -/
 
@@ -655,7 +654,7 @@ public theorem reducedCombinedMap_base (n : ℕ) :
           (P.baseReducedGenerators n)).toAlgHom.toRingHom.comp
         (coeffReduction I (Fin P.variableCount) n).toRingHom := by
   refine RingHom.ext fun z => ?_
-  show MvPolynomial.rename (combinedIndex P.variableCount s)
+  change MvPolynomial.rename (combinedIndex P.variableCount s)
       (coeffReduction I (Fin (P.variableCount + s)) n (P.combinedInclusion s z)) =
     ((fiberReducedGenerators s ψ hψ n).toComp (P.baseReducedGenerators n)).toAlgHom
       (coeffReduction I (Fin P.variableCount) n z)
@@ -716,7 +715,7 @@ public theorem algebraMap_combinedVariable (n : ℕ) (k : Fin (P.variableCount +
             (X (Fin.natAdd P.variableCount j))) =
         ψ (algebraMap (MvPolynomial (Fin s) B.carrier)
           (AdicCompletion.completedMvPolynomial B.adicIdeal (Fin s)) (X j)) := by
-      show ψ (P.combinedProjection s (AdicCompletion.of _
+      change ψ (P.combinedProjection s (AdicCompletion.of _
         (MvPolynomial (Fin (P.variableCount + s)) A)
         (X (Fin.natAdd P.variableCount j)))) = _
       rw [P.combinedProjection_of_X_natAdd s j, AdicCompletion.algebraMap_apply,
@@ -780,7 +779,7 @@ public theorem reducedCombinedMap_toC (n : ℕ) :
         (P.combinedPresentation s (ψ.restrictScalars A) hψ).toAlgHom.toRingHom := by
   refine coeffReduction_hom_ext I (Fin (P.variableCount + s)) n _ _ ?_ ?_ ?_
   · intro x hx
-    show algebraMap ((fiberReducedGenerators s ψ hψ n).comp (P.baseReducedGenerators n)).Ring
+    change algebraMap ((fiberReducedGenerators s ψ hψ n).comp (P.baseReducedGenerators n)).Ring
         (C.carrier ⧸ C.adicIdeal ^ n) (MvPolynomial.rename (combinedIndex P.variableCount s)
           (coeffReduction I (Fin (P.variableCount + s)) n x)) = 0
     rw [show coeffReduction I (Fin (P.variableCount + s)) n x = 0 from RingHom.mem_ker.mp hx,
@@ -830,8 +829,7 @@ private theorem algebraMap_baseReducedGenerators_coeffReduction (n : ℕ) (y : P
   rw [h1]
   exact (RingHom.congr_fun (algebraMap_reducedGenerators I B.adicIdeal P.toAlgHom
       P.toAlgHom_surjective n rfl (fun _ => rfl)) _).trans
-    (RingHom.congr_fun (reducedRingHom_comp I B.adicIdeal P.toAlgHom
-      P.toAlgHom_surjective n rfl) y)
+    (RingHom.congr_fun (reducedRingHom_comp I B.adicIdeal P.toAlgHom n rfl) y)
 
 /-- **The comparison `C ⊗_B J/J² → K/K²` of Stacks 0ALM is injective** when every reduction
 `Bₙ → Cₙ` is a local complete intersection homomorphism.  This is the assertion of Stacks 0AQJ
@@ -861,7 +859,7 @@ public theorem injective_cotangentMap_innerExtensionHom_of_lci
     have he : (algebraMap P.extension.Ring C.carrier).comp (algebraMap A P.extension.Ring) =
         algebraMap A C.carrier := by
       refine RingHom.ext fun a => ?_
-      show algebraMap B.carrier C.carrier (algebraMap P.extension.Ring B.carrier
+      change algebraMap B.carrier C.carrier (algebraMap P.extension.Ring B.carrier
         (algebraMap A P.extension.Ring a)) = algebraMap A C.carrier a
       rw [show algebraMap P.extension.Ring B.carrier (algebraMap A P.extension.Ring a) =
           algebraMap A B.carrier a from P.toAlgHom.commutes a, ← IsScalarTower.algebraMap_apply]
@@ -884,7 +882,7 @@ public theorem injective_cotangentMap_innerExtensionHom_of_lci
       P.extension.ker.subtype).codRestrict
         ((P.baseReducedGenerators (n + 1)).toExtension.ker.restrictScalars
           P.extension.Ring) fun y => by
-      show coeffReduction I (Fin P.variableCount) (n + 1) y.1 ∈
+      change coeffReduction I (Fin P.variableCount) (n + 1) y.1 ∈
         (P.baseReducedGenerators (n + 1)).ker
       rw [P.baseReducedGenerators_ker (n + 1)]
       exact Ideal.mem_map_of_mem _ y.2
@@ -899,7 +897,7 @@ public theorem injective_cotangentMap_innerExtensionHom_of_lci
   obtain ⟨c, hc⟩ := exists_ker_idealMap_le_pow_smul (I.map (algebraMap A P.extension.Ring))
     P.extension.ker (S := fun n => (P.baseReducedGenerators (n + 1)).toExtension.Ring)
     (fun n => by
-      show RingHom.ker (coeffReduction I (Fin P.variableCount) (n + 1)).toRingHom ≤ _
+      change RingHom.ker (coeffReduction I (Fin P.variableCount) (n + 1)).toRingHom ≤ _
       rw [ker_coeffReduction]
       exact Ideal.pow_le_pow_right (Nat.le_succ n))
   have hk : ∀ k, ∃ n, (fred n).ker ≤ (I.map (algebraMap A P.extension.Ring)) ^ k • ⊤ ∧
@@ -964,8 +962,7 @@ public theorem injective_cotangentMap_innerExtensionHom_of_lci
             ((Algebra.Extension.Cotangent.map
               (P.innerExtensionHom s ψ hψ)).liftBaseChange C.carrier (e t)) := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => simp only [LinearMap.map_zero, LinearEquiv.map_zero]
+      induction t using TensorProduct.inductionOn with
       | add t w ht hw => simp only [LinearMap.map_add, LinearEquiv.map_add, ht, hw]
       | tmul a b =>
         have h1 : e' (TensorProduct.map (fred n) (gred n) (a ⊗ₜ[P.extension.Ring] b)) =
@@ -991,7 +988,7 @@ public theorem injective_cotangentMap_innerExtensionHom_of_lci
             (z : ((fiberReducedGenerators s ψ hψ (n + 1)).comp
               (P.baseReducedGenerators (n + 1))).toExtension.ker) =>
             c • Algebra.Extension.Cotangent.mk z) rfl (Subtype.ext ?_)
-        show (((fiberReducedGenerators s ψ hψ (n + 1)).toComp
+        change (((fiberReducedGenerators s ψ hψ (n + 1)).toComp
             (P.baseReducedGenerators (n + 1))).toExtensionHom.toRingHom) ((gred n) b).1 =
           (P.reducedCombinedMap s ψ hψ (n + 1)) ((P.combinedInclusion s) b.1)
         exact (RingHom.congr_fun (P.reducedCombinedMap_base s ψ hψ (n + 1)) b.1).symm

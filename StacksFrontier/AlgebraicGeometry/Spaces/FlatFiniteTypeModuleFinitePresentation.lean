@@ -178,7 +178,7 @@ theorem isSurjectiveChart_selfChart (W : BigFppfOver B S hS) :
   presheaf_id_of_iso B S hS _ (fun {_ _} g hg => by
     have : IsIso ((BigFppfOver.toScheme B S hS).map g) := by
       let _ := hg; infer_instance
-    show Surjective ((BigFppfOver.toScheme B S hS).map g)
+    change Surjective ((BigFppfOver.toScheme B S hS).map g)
     infer_instance) W
 
 /-- **A quasi-coherent module of finite type flat over the spectrum of a domain is of finite

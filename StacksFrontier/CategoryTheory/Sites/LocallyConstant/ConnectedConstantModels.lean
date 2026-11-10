@@ -208,7 +208,7 @@ public lemma exists_constantComplexModel_of_hom
     NatIso.ofComponents (fun S => S.pushforwardOverMapIso f) (by
       intro S S' a
       ext Z
-      show a.hom.app (op Z.unop.left) ≫ 𝟙 _ = 𝟙 _ ≫ a.hom.app (op Z.unop.left)
+      change a.hom.app (op Z.unop.left) ≫ 𝟙 _ = 𝟙 _ ≫ a.hom.app (op Z.unop.left)
       simp)
   let ec : constantSheaf (J.over U) A ⋙ F ≅ constantSheaf (J.over V) A :=
     overMapPullbackConstantSheafIso J A f
@@ -410,7 +410,7 @@ theorem exists_cover_uniform_constantComplex_representation
             (((constantSheaf (J.over (U i)) (ModuleCat.{u} Λ)).mapHomologicalComplex
               (ComplexShape.up ℤ)).obj P)) := by
   classical
-  obtain ⟨T, e, I, U, f, hcov, hmodel⟩ :=
+  obtain ⟨T, ⟨e⟩, I, U, f, hcov, hmodel⟩ :=
     exists_cover_constantComplex_representation J Λ X K hK
   choose P a b hPvanish hPfg hPmodel using hmodel
   have hagree : ∀ (i j : I) (z : Z), z ∈ img (U i) → z ∈ img (U j) →
@@ -652,7 +652,7 @@ private lemma overPullback_preservesFiniteLimits' {C : Type*} [Category* C]
     [∀ U : C, HasSheafify (J.over U) A] (W : C) :
     PreservesFiniteLimits (J.overPullback A W) := by
   have : PreservesFiniteLimits (J.overPullback A W ⋙ sheafToPresheaf (J.over W) A) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       (sheafToPresheaf J A ⋙ (Functor.whiskeringLeft _ _ _).obj (Over.forget W).op)
     infer_instance
   exact preservesFiniteLimits_of_reflects_of_preserves _ (sheafToPresheaf (J.over W) A)
@@ -666,7 +666,7 @@ private lemma ab5OfSize_moduleCat (Λ : Type r) [Ring Λ] [Small.{m} Λ] :
   have : PreservesFilteredColimits (forget (ModuleCat.{m} Λ)) := by
     let e := ModuleCat.restrictScalarsEquivalenceOfRingEquiv
       (Shrink.ringEquiv Λ : Shrink.{m} Λ ≃+* Λ)
-    show PreservesFilteredColimits (e.functor ⋙ forget (ModuleCat.{m} (Shrink.{m} Λ)))
+    change PreservesFilteredColimits (e.functor ⋙ forget (ModuleCat.{m} (Shrink.{m} Λ)))
     infer_instance
   ⟨fun I _ _ => HasExactColimitsOfShape.domain_of_functor I (forget (ModuleCat.{m} Λ))⟩
 

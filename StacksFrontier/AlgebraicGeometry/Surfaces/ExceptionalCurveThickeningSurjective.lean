@@ -101,15 +101,16 @@ public theorem
     e.hom _ 1).2 ?_
   refine IsZero.of_iso
     (Stacks.ProjectiveSpace.Cohomology.isZero_lineCohomology_one_of_neg_one_le k
-      (le_trans (by decide) (Int.ofNat_nonneg d)))
+      (le_trans (by decide) (Int.natCast_nonneg d)))
     (((Stacks.Cohomology.sectionsFunctor (projectiveLineProj k) ⊤).rightDerived 1).mapIso
       (hE.nonempty_pullback_negativeTwist_pow_iso_twistingSheaf d).some)
+
+namespace IsExceptionalCurveOfFirstKind
 
 /-- **The cohomological input of [Stacks, Tag 0C4T] holds for an exceptional curve of the first
 kind.** The first cohomology on `X` of the direct image of `𝒪_X(-dE)|_E` vanishes, which is the
 hypothesis of `AlgebraicGeometry.Scheme.IdealSheafData.surjective_thickeningRestriction`. -/
-public theorem
-    IsExceptionalCurveOfFirstKind.isZero_rightDerived_one_sections_pushforward_pullback_negativeTwist_pow
+public theorem isZero_rightDerived_one_sections_pushforward_pullback_negativeTwist_pow
     (hE : IsExceptionalCurveOfFirstKind D k e) (d : ℕ) :
     IsZero (((Stacks.Cohomology.sectionsFunctor X ⊤).rightDerived 1).obj
       ((Scheme.Modules.pushforward D.subschemeι).obj
@@ -117,6 +118,8 @@ public theorem
           (Stacks.Divisors.negativeTwist (D ^ d))))) :=
   Stacks.Cohomology.ClosedImmersion.isZero_rightDerived_one_sectionsFunctor_pushforward
     D.subschemeι _ (hE.isZero_rightDerived_one_sections_pullback_negativeTwist_pow d)
+
+end IsExceptionalCurveOfFirstKind
 
 /-- **The transition maps of the inverse system of thickenings of an exceptional curve of the
 first kind are surjective.** A global function on one infinitesimal thickening extends to the

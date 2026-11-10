@@ -206,7 +206,7 @@ theorem restrictionFamily_isCompatible (G : Sheaf (topology S) AddCommGrpCat.{u 
         G.obj.map ((CrystallineThickening.ι S).map c).op =
       limit.π ((CrystallineThickening.ι S).op ⋙ G.obj) (op W.right) := fun c ↦
     limit.w ((CrystallineThickening.ι S).op ⋙ G.obj) c.op
-  show limit.π ((CrystallineThickening.ι S).op ⋙ G.obj) (op i) ≫ G.obj.map f.op =
+  change limit.π ((CrystallineThickening.ι S).op ⋙ G.obj) (op i) ≫ G.obj.map f.op =
     limit.π ((CrystallineThickening.ι S).op ⋙ G.obj) (op j) ≫ G.obj.map g.op
   rw [← hf', ← hg', op_comp, op_comp, G.obj.map_comp, G.obj.map_comp,
     ← Category.assoc, ← Category.assoc, key (k := i) a.right, key (k := j) b.right]
@@ -280,7 +280,7 @@ instance isIso_limitPre_ι (G : Sheaf (topology S) AddCommGrpCat.{u + 1}) :
     IsIso (limit.pre G.obj (CrystallineThickening.ι S).op) := by
   refine ⟨restrictionInv G, ?_, ?_⟩
   · refine (CrystallineThickening.coversTop_ι S).ext G (limit.isLimit G.obj) fun A ↦ ?_
-    show (limit.pre G.obj (CrystallineThickening.ι S).op ≫ restrictionInv G) ≫
+    change (limit.pre G.obj (CrystallineThickening.ι S).op ≫ restrictionInv G) ≫
       limit.π G.obj (op ((CrystallineThickening.ι S).obj A)) = _
     rw [Category.assoc, restrictionInv_π, limit.pre_π, Category.id_comp]
     rfl
@@ -296,7 +296,7 @@ def restrictionLimIso :
   NatIso.ofComponents (fun G ↦ @asIso _ _ _ _ _ (isIso_limitPre_ι G)) (by
     intro G H φ
     refine limit.hom_ext fun A ↦ ?_
-    show (limMap φ.hom ≫ limit.pre H.obj (CrystallineThickening.ι S).op) ≫
+    change (limMap φ.hom ≫ limit.pre H.obj (CrystallineThickening.ι S).op) ≫
         limit.π ((CrystallineThickening.ι S).op ⋙ H.obj) A =
       (limit.pre G.obj (CrystallineThickening.ι S).op ≫
         limMap (Functor.whiskerLeft (CrystallineThickening.ι S).op φ.hom)) ≫

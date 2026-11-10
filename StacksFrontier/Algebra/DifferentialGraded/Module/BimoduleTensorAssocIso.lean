@@ -76,7 +76,7 @@ theorem assocForward_assocInverse (N : Bimodule A B) (N' : Bimodule B C)
     (M : DifferentialGradedModule.{u, u, u} A) :
     assocForward N N' M ≫ assocInverse N N' M = 𝟙 (tensorObj (compTensor N N') M) := by
   refine compTensor_hom_ext N N' M _ _ fun x y y' => ?_
-  show (assocInverse N N' M).toFun ((assocForward N N' M).toFun
+  change (assocInverse N N' M).toFun ((assocForward N N' M).toFun
       ((tensorPure (compTensor N N') M).toLinearMap x
         ((tensorPure N' N.rightModule).toLinearMap y y'))) =
     (tensorPure (compTensor N N') M).toLinearMap x
@@ -94,7 +94,7 @@ theorem assocInverse_assocForward (N : Bimodule A B) (N' : Bimodule B C)
         ((tensorPure N' (tensorObj N M)).toLinearMap.flip y')) =
       (tensorPure N' (tensorObj N M)).toLinearMap.flip y' := by
     refine tensorObj_linearMap_ext N M _ _ fun x y => ?_
-    show (assocForward N N' M).toFun ((assocInverse N N' M).toFun
+    change (assocForward N N' M).toFun ((assocInverse N N' M).toFun
         ((tensorPure N' (tensorObj N M)).toLinearMap
           ((tensorPure N M).toLinearMap x y) y')) =
       (tensorPure N' (tensorObj N M)).toLinearMap ((tensorPure N M).toLinearMap x y) y'
@@ -122,7 +122,7 @@ theorem assocForward_naturality (N : Bimodule A B) (N' : Bimodule B C)
     (tensorCompFunctor (compTensor N N')).map f ≫ assocForward N N' M₂ =
       assocForward N N' M ≫ (tensorCompFunctor N').map ((tensorCompFunctor N).map f) := by
   refine compTensor_hom_ext N N' M _ _ fun x y y' => ?_
-  show (assocForward N N' M₂).toFun
+  change (assocForward N N' M₂).toFun
       (((tensorCompFunctor (compTensor N N')).map f).toFun
         ((tensorPure (compTensor N N') M).toLinearMap x
           ((tensorPure N' N.rightModule).toLinearMap y y'))) =

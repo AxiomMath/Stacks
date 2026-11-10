@@ -72,7 +72,8 @@ sectionwise Kähler differentials: the inverse of
 generator. -/
 noncomputable def exteriorGeneratorSectionwise :
     (PresheafOfModules.moduleSheafification (Opens.grothendieckTopology X.carrier)
-        (𝟙 X.sheaf.obj)).obj (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom) ⟶
+        (𝟙 X.sheaf.obj)).obj
+          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom) ⟶
       B.exterior.piece 1 :=
   (moduleOfDifferentialsIsoSectionwise.{u, u} φ).inv ≫ B.exteriorGenerator
 
@@ -88,12 +89,14 @@ theorem exteriorGeneratorSectionwise_isExteriorAlgebra :
 /-- The generator read on the unit-image of a local section of the sectionwise Kähler differentials
 is the generator read through `AlgebraicGeometry.SheafOfModules.toModuleOfDifferentials`. -/
 theorem exteriorGeneratorSectionwise_sheafifyUnit (U : (Opens X.carrier)ᵒᵖ)
-    (m : (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom).obj U) :
+    (m : (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
+      φ.hom).obj U) :
     (exteriorGeneratorSectionwise B).val.app U
         (PresheafOfModules.Hom.app (PresheafOfModules.sheafifyUnit
           (CategoryTheory.Sheaf.toRingCatMap (Opens.grothendieckTopology X.carrier)
             (𝟙 X.sheaf.obj))
-          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)) U m) =
+          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom))
+          U m) =
       (toModuleOfDifferentials φ ≫ B.exteriorGenerator.val).app U m :=
   rfl
 
@@ -127,12 +130,14 @@ theorem exactWedgeComparison_eq (p : ℕ) :
         (_root_.SheafOfModules.forget (CategoryTheory.Sheaf.toRingCat
             (Opens.grothendieckTopology X.carrier) X.sheaf)).map
           (_root_.SheafOfModules.exteriorPieceIsoPresheaf
-            (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom) B.exterior
+            (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)
+            B.exterior
             (exteriorGeneratorSectionwise B)
             (exteriorGeneratorSectionwise_isExteriorAlgebra B) (p : ℤ)).hom :=
   (exactWedgeComparison_eq_extCmp B p).trans
     (_root_.SheafOfModules.extCmp_eq_sheafifyUnit_comp
-      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom) B.exterior
+      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)
+      B.exterior
       (exteriorGeneratorSectionwise B) (toModuleOfDifferentials φ ≫ B.exteriorGenerator.val)
       (genSquareZero_toModuleOfDifferentials_comp B)
       (exteriorGeneratorSectionwise_isExteriorAlgebra B)
@@ -162,7 +167,8 @@ theorem equalizerSieve_exactWedgeComparison_mem (p : ℕ) (U : (Opens X.carrier)
         (CategoryTheory.Sheaf.toRingCat
           (Opens.grothendieckTopology X.carrier) X.sheaf).obj).obj
         (PresheafOfModules.extPow.{u, u, u, u} p
-          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom))) z z' ∈
+          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
+            φ.hom))) z z' ∈
       Opens.grothendieckTopology X.carrier U.unop :=
   have := isLocallyInjective_exactWedgeComparison B p
   Presheaf.equalizerSieve_mem (Opens.grothendieckTopology X.carrier)

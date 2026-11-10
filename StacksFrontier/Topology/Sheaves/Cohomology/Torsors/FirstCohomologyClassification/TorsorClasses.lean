@@ -217,7 +217,7 @@ private theorem toCatPresheaf_isSheaf (X : TopCat.{u}) (F : Stacks.SpaceTorsor.S
   let hU : ∀ i, U i ≤ ⨆ j, U j := fun i => le_iSup U i
   let cf : F.CompatibleFamily U := ⟨fun i => (sf i).down, by
     intro i j W hWi hWj
-    show F.res hWi ((sf i).down) = F.res hWj ((sf j).down)
+    change F.res hWi ((sf i).down) = F.res hWj ((sf j).down)
     have hij : F.res (inf_le_left : U i ⊓ U j ≤ U i) (sf i).down =
         F.res (inf_le_right : U i ⊓ U j ≤ U j) (sf j).down := by
       have hsfij := hsf i j
@@ -235,14 +235,14 @@ private theorem toCatPresheaf_isSheaf (X : TopCat.{u}) (F : Stacks.SpaceTorsor.S
     exact congrFun h i
   refine ⟨⟨s⟩, ?_, ?_⟩
   · intro i
-    show ULift.up (F.res (le_iSup U i) s) = sf i
+    change ULift.up (F.res (le_iSup U i) s) = sf i
     exact congrArg ULift.up (hglue i)
   · intro t ht
     apply ULift.ext
     apply hbij.1
     apply Subtype.ext
     funext i
-    show F.res (le_iSup U i) t.down = F.res (le_iSup U i) s
+    change F.res (le_iSup U i) t.down = F.res (le_iSup U i) s
     have hti := ht i
     change ULift.up (F.res (le_iSup U i) t.down) = sf i at hti
     have hti' : F.res (le_iSup U i) t.down = (sf i).down := by
@@ -381,7 +381,7 @@ private theorem fromSitePresheaf_isSheaf (X : TopCat.{u})
     have hsf : TopCat.Presheaf.IsCompatible Q V sf := by
       intro i j
       dsimp [sf]
-      show Q.map (homOfLE (inf_le_left : V i ⊓ V j ≤ V i)).op
+      change Q.map (homOfLE (inf_le_left : V i ⊓ V j ≤ V i)).op
           (Q.map (homOfLE (le_iSup V i)).op s) =
         Q.map (homOfLE (inf_le_right : V i ⊓ V j ≤ V j)).op
           (Q.map (homOfLE (le_iSup V j)).op s)
@@ -584,7 +584,7 @@ theorem TorsorCohomologyClassification.of_cocycle {X : TopCat.{u}}
     · exact le_top
   let za : CechCochains.cocycles1 (Ui ∘ a) H.presheaf :=
     ⟨fun i => z.val (a ∘ i), by
-      show CechCochains.cechD (Ui ∘ a) H.presheaf 1 _ = 0
+      change CechCochains.cechD (Ui ∘ a) H.presheaf 1 _ = 0
       funext i
       exact congrFun z.property (a ∘ i)⟩
   have hza : IsTransitionCocycle F (Ui ∘ a) (fun x => s (a x)) za :=

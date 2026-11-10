@@ -246,9 +246,9 @@ theorem isPullback_ambient {ξ ζ₁ ζ₂ ω : EtaleSmoothLift B S hS ι hι W 
         exact q₂.lift_fst _ _ _
   refine IsPullback.of_iso hP ⟨d, c, hdc, hcd⟩ (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_
     (by simp) (by simp)
-  · show fst ≫ 𝟙 _ = d ≫ Hom.ambient a
+  · change fst ≫ 𝟙 _ = d ≫ Hom.ambient a
     rw [Category.comp_id, ← hc₁, ← Category.assoc, hdc, Category.id_comp]
-  · show snd ≫ 𝟙 _ = d ≫ Hom.ambient b
+  · change snd ≫ 𝟙 _ = d ≫ Hom.ambient b
     rw [Category.comp_id, ← hc₂, ← Category.assoc, hdc, Category.id_comp]
 
 /-- **The ambient components of a covering family form an étale covering.** If the base
@@ -332,10 +332,10 @@ theorem exists_overlap {ξ ζ₁ ζ₂ : EtaleSmoothLift B S hS ι hι W x hx} (
       (congrArg (eqToHom _ ≫ ·) (Category.comp_id _))
   let hb : ω.base ⟶ ζ₂.base := eqToHom hdom ≫ pullback.snd (Hom.base m₁) (Hom.base m₂)
   have hhb : hb ≫ Hom.base m₂ = Hom.base (a ≫ m₁) := by
-    show _ = Hom.base a ≫ Hom.base m₁
+    change _ = Hom.base a ≫ Hom.base m₁
     rw [hfac, Category.assoc, Category.assoc, pullback.condition]
   refine ⟨ω, a, fillIn m₂ (a ≫ m₁) hb hhb, ?_, (fillIn_comp _ _ _ _).symm⟩
-  show IsPullback (Hom.base a) hb _ _
+  change IsPullback (Hom.base a) hb _ _
   rw [hfac]
   exact IsPullback.of_iso (IsPullback.of_hasPullback _ _) (eqToIso hdom).symm (Iso.refl _)
     (Iso.refl _) (Iso.refl _) (by simp) (by simp [hb]) (by simp) (by simp)
@@ -497,7 +497,7 @@ theorem isomIsSheafFor_proj {U : Space.SpacesEtale B S hS W}
       t.hom.left.hom q') (hbr (ξr i))).trans hq'⟩
   have hn : ∀ i, Hom.base (ξr i).hom ≫ eqToHom hη.symm = Hom.base (φ i ≫ (ηr i).hom) := by
     intro i
-    show proj.map (ξr i).hom ≫ eqToHom hη.symm = proj.map (φ i) ≫ proj.map (ηr i).hom
+    change proj.map (ξr i).hom ≫ eqToHom hη.symm = proj.map (φ i) ≫ proj.map (ηr i).hom
     rw [hbr (ξr i), hbφ, hbr (ηr i)]
     simp
   have hcompat : ∀ k l (ω : EtaleSmoothLift B S hS ι hι W x hx) (a : ω ⟶ (ξr k).pt)
@@ -549,7 +549,7 @@ theorem isomIsSheafFor_proj {U : Space.SpacesEtale B S hS W}
   have hgf : ∀ g' : ξ ⟶ η, Hom.base g' = eqToHom hη.symm →
       Functor.FibreHom proj ξ η rfl hη g' := fun g' hb => by
     have h : proj.IsHomLift (eqToHom hη.symm) g' := hb ▸ IsHomLift.map _ g'
-    show proj.IsHomLift (eqToHom rfl ≫ eqToHom hη.symm) g'
+    change proj.IsHomLift (eqToHom rfl ≫ eqToHom hη.symm) g'
     rw [eqToHom_trans]
     exact h
   have := hgf g hgb

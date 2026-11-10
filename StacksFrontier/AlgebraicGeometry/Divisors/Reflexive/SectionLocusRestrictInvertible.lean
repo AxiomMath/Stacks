@@ -97,7 +97,7 @@ theorem codimension_closureSingleton_genericPoint {T : Type u} [TopologicalSpace
     codimension (IrreducibleCloseds.closureSingleton (genericPoint T)) = 0 := by
   rw [codimension_eq_coheight]
   refine Order.coheight_eq_zero.mpr fun A hA => ?_
-  show (A : Set T) ⊆ (IrreducibleCloseds.closureSingleton (genericPoint T) : Set T)
+  change (A : Set T) ⊆ (IrreducibleCloseds.closureSingleton (genericPoint T) : Set T)
   rw [show (IrreducibleCloseds.closureSingleton (genericPoint T) : Set T) = Set.univ from
     genericPoint_spec T]
   exact Set.subset_univ _

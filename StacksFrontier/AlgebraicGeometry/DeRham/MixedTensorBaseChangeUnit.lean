@@ -189,6 +189,7 @@ def inverseImageToPullbackTopos
   (Stacks.FlatChangeOfRings.extendScalarsAdjunction ((auxHomH f).fSharp)).unit.app _ ≫
     (restrictToInvRing f).map (pullbackIsoExtendInverseImage f G).hom
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 open scoped TensorProduct in
 /-- **The underived identity of [Stacks, Tag 08DE] on the image of a pure tensor**: for a section
 `a` of a sheaf `F` of `O`-modules and a section `x` of `f⁻¹G`,
@@ -219,6 +220,7 @@ theorem underivedTensorInverseImageLinearIso_hom_app_val_app_toSheafifyVal
   exact moduleSheafification_map_val_app_toSheafifyVal (O := X.O)
     (tensorMapRight F.val (pullbackIsoExtendInverseImage f G).hom.val) U _
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The comparison `f⁻¹G ⟶ (f^*G)|_{f⁻¹O'}` is the transpose of the unit of `f^* ⊣ f_*`**
 along the geometric half `g^* ⊣ g_*` of the factorization: precomposed with the unit of
 `g^* ⊣ g_*` and pushed forward, it is the unit of `f^* ⊣ f_*` read through
@@ -275,6 +277,7 @@ theorem unit_comp_pushforwardTopos_map_inverseImageToPullbackTopos
     ?_
   exact (pushforwardFactorIso f).hom.naturality ((pullbackFactorIso f).hom.app G)
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The comparison `f⁻¹G ⟶ (f^*G)|_{f⁻¹O'}` on a pullback-unit section**: the image under the
 unit of `g^* ⊣ g_*` of a section `s` of `G` is carried to its image under the unit of
 `f^* ⊣ f_*`. This is

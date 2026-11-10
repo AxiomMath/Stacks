@@ -95,13 +95,13 @@ theorem bijective_globalSectionsEval (hV : IsTerminal V) (M : SheafOfModules.{w}
   · refine ⟨⟨fun X ↦ (M.val.presheaf ⋙ forget _).map (hV.from X.unop).op
       (show (M.val.presheaf ⋙ forget _).obj (op V) from x.down), ?_⟩, ?_⟩
     · intro X Y f
-      show (M.val.presheaf ⋙ forget _).map f
+      change (M.val.presheaf ⋙ forget _).map f
         ((M.val.presheaf ⋙ forget _).map (hV.from X.unop).op _) = _
       rw [← Functor.map_comp_apply,
         show (hV.from X.unop).op ≫ f = (hV.from Y.unop).op from
           Quiver.Hom.unop_inj (hV.hom_ext _ _)]
     · refine ULift.ext ?_
-      show (M.val.presheaf ⋙ forget _).map (hV.from V).op
+      change (M.val.presheaf ⋙ forget _).map (hV.from V).op
         (show (M.val.presheaf ⋙ forget _).obj (op V) from x.down) = x.down
       rw [show (hV.from V).op = 𝟙 (op V) from Quiver.Hom.unop_inj (hV.hom_ext _ _),
         Functor.map_id_apply]

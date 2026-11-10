@@ -58,8 +58,8 @@ and so is *not* in that covering set and no longer carries the tag.
 `StacksFrontier/AlgebraicGeometry/FinitePresentationResidue/Basic.lean`,
 `StacksFrontier/AlgebraicGeometry/PartTwoResidue/Basic.lean`,
 `StacksFrontier/AlgebraicGeometry/FinitelyPresentableComposition/AlgebraSheaf.lean` and
-`StacksFrontier/AlgebraicGeometry/Limits/IntegralLimitFromAlgebraColimit.lean` all record part (2) as
-owed [Stacks, Tag 01BS] for algebra sheaves, namely
+`StacksFrontier/AlgebraicGeometry/Limits/IntegralLimitFromAlgebraColimit.lean` all record part (2)
+as owed [Stacks, Tag 01BS] for algebra sheaves, namely
 `CategoryTheory.IsFinitelyPresentable` of a finite finitely presented quasi-coherent algebra as an
 object of `Stacks.RelativeSpec.AlgebraSheaf X`.  That statement is still absent and still looks
 hard — it quantifies over filtered colimits of algebra sheaves that need not be quasi-coherent,

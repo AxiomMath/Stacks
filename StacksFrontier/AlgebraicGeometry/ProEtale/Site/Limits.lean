@@ -148,7 +148,7 @@ noncomputable def smallProetaleInclusion_createsPullbacks :
 /-- `Spec ℤ` belongs to every big pro-étale site. -/
 @[stacks 098M "part (4), containment of Spec ℤ"]
 theorem specZ_mem : B.Contains (Spec (.of (ULift.{u} ℤ))) := by
-  show (Spec (.of (ULift.{u} ℤ))).size < B.cutoff
+  change (Spec (.of (ULift.{u} ℤ))).size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff (Cardinal.mk_le_aleph0.trans_lt B.aleph0_lt_cutoff)
 
@@ -347,7 +347,7 @@ theorem pullback_functorPushforward_le {C D : Type*} [Category C] [Category D]
   obtain ⟨V, g, k, hg, e⟩ := ht
   let h := (IsPullback.of_hasPullback g f).map F
   refine ⟨pullback g f, pullback.snd g f, h.lift k t (by simpa using e.symm), ?_, ?_⟩
-  · show R (pullback.snd g f ≫ f)
+  · change R (pullback.snd g f ≫ f)
     rw [← pullback.condition]
     exact R.downward_closed hg (pullback.fst g f)
   · exact (h.lift_snd _ _ _).symm
@@ -375,7 +375,7 @@ theorem coverPreserving_of_generators {C D : Type*} [Category C] [Category D]
       intro W q hq
       have hq' := (Sieve.functorPushforward_pullback_le F g R) (q ≫ k) hq
       change (R.functorPushforward F) ((q ≫ k) ≫ F.map g) at hq'
-      show (R.functorPushforward F) (q ≫ t)
+      change (R.functorPushforward F) (q ≫ t)
       rw [e]
       simpa only [Category.assoc] using hq'
 
@@ -435,7 +435,7 @@ theorem isProetaleCovering_overPullback {S T : B.Scheme} (f : T ⟶ S) {X : Over
     (pullback.fst X.hom f) (fun i ↦ ((Over.pullback f).obj (E.X i)).left)
     (fun i ↦ ((Over.pullback f).map (E.f i)).left)
     (fun i ↦ pullback.fst (E.X i).hom f) (fun i ↦ ?_)
-  show IsPullback
+  change IsPullback
     (pullback.lift (pullback.fst (E.X i).hom f ≫ (E.f i).left)
       (pullback.snd (E.X i).hom f) _)
     (pullback.fst (E.X i).hom f) (pullback.fst X.hom f) (E.f i).left

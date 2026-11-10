@@ -37,7 +37,7 @@ variable {I : Type u} [Category.{u} I] [IsCofiltered I]
   [hpt : IsAffine ((BigFppfOver.toScheme B S hS).obj κ.pt.obj)]
   (I₀ : Ideal Γ((BigFppfOver.toScheme B S hS).obj (D.obj k₀).obj, ⊤))
 
-omit hpt in
+omit hD hpt in
 /-- If `x` and `y` are approximated to order `M` by elements of `J A_{k'}^∧` at later stages
 `k'`, then so is `x + y`. -/
 theorem exists_stage_approx_add {Bt : Type u} [CommRing Bt] (k : Over k₀)
@@ -132,6 +132,7 @@ theorem exists_stage_approx_mem_map {Bt : Type u} [CommRing Bt] (k : Over k₀)
   | add x y _ _ hx hy => exact exists_stage_approx_add I₀ k φ J M hx hy
   | smul a x _ hx => exact exists_stage_approx_smul hκ I₀ k φ J M a hx
 
+omit [IsCofiltered I] hD in
 /-- If the image of `g` at the stage `k'` lies in `J A_{k'}^∧ + I_{k'}^{N+1} A_{k'}^∧`, then its
 image at any later stage `k''` lies in `J A_{k''}^∧ + I_{k''}^{N+1} A_{k''}^∧`. -/
 theorem algebraMap_res_mem_sup_of_le {Bt : Type u} [CommRing Bt] {k k' k'' : Over k₀}
@@ -208,6 +209,7 @@ theorem cresL_algebraMap_res_sub {k k' : Over k₀} (f : k' ⟶ k)
       (congrArg (algebraMap _ (AdicCompletion (limitIdeal (κ := κ) I₀)
         Γ((BigFppfOver.toScheme B S hS).obj κ.pt.obj, ⊤))) (resL_res f g))))
 
+omit [IsCofiltered I] hD in
 /-- If `w ∈ J A_{k₂}^∧` and the image of `g` minus `w` lies in `I_{k₃}^{N+1} A_{k₃}^∧` at a later
 stage `k₃`, then the image of `g` at `k₃` lies in `J A_{k₃}^∧ + I_{k₃}^{N+1} A_{k₃}^∧`. -/
 theorem algebraMap_res_mem_sup_of_cres_mem {Bt : Type u} [CommRing Bt] {k k₂ k₃ : Over k₀}

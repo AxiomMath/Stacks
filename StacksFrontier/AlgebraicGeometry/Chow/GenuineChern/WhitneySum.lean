@@ -64,13 +64,13 @@ theorem whitneyChernRelation_chernCap_of_le_one (r₁ : ℕ) (hr₁ : r₁ ≤ 1
   rcases r₁ with _ | _ | r₁
   · have hz : IsZero S.X₁ := Stacks.WeilCohomology.isZero_of_isFiniteLocallyFreeOfRank_zero _ h₁
     have : IsIso S.g := hS.isIso_g_iff.2 hz
-    show chernFamily C q S.X₂ (0 + r₂) = chernFamily C q S.X₁ 0 * chernFamily C q S.X₃ r₂
+    change chernFamily C q S.X₂ (0 + r₂) = chernFamily C q S.X₁ 0 * chernFamily C q S.X₃ r₂
     rw [chernFamily_of_rank_zero C q S.X₁, one_mul]
     exact chernFamily_congr C q S.X₃ r₂ (asIso S.g) (by omega)
   · have := isInvertible_of_rank_one S.X₁
     have : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} S.X₂ (r₂ + 1) :=
       rank_of_iso (Iso.refl _) (by omega) h₂
-    show chernFamily C q S.X₂ (0 + 1 + r₂) =
+    change chernFamily C q S.X₂ (0 + 1 + r₂) =
       chernFamily C q S.X₁ (0 + 1) * chernFamily C q S.X₃ r₂
     rw [chernFamily_congr C q S.X₂ (r₂ + 1) (Iso.refl _) (by omega)]
     exact chernFamily_eq_mul_of_shortExact_of_isInvertible C q S hS r₂

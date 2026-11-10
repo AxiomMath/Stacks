@@ -164,7 +164,7 @@ theorem ringUnitComp_eq : ringUnitComp φ ψ O = ringUnit (ψ.comp φ) O := by
         (ringUnit φ (inverseImageRingSheaf ψ O)) =
       φ.adj.unit.app (ψ.inverseImage.obj (Sheaf.ringSheaf O)) :=
     ringSheafMap_ringUnit φ (inverseImageRingSheaf ψ O)
-  show (Sheaf.sectionsFunctor L X).map ((ψ.comp φ).pushforward.map
+  change (Sheaf.sectionsFunctor L X).map ((ψ.comp φ).pushforward.map
         ((sheafCompose J (forget RingCat.{w})).map (inverseImageRingSheafCompIso φ ψ O).hom))
       ((Sheaf.sectionsFunctor L X).map (ψ.pushforward.map
           ((sheafCompose K (forget RingCat.{w'})).map

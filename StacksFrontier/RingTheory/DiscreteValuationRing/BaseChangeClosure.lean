@@ -308,7 +308,7 @@ private theorem isLocalRing_of_isIntegral_of_pow_mem_range
   ext x
   obtain ⟨n, hn, r, hr⟩ := hpow x
   rw [← hp.isPrime.pow_mem_iff_mem n hn, ← hq.isPrime.pow_mem_iff_mem n hn, ← hr]
-  show r ∈ p.comap (algebraMap R S) ↔ r ∈ q.comap (algebraMap R S)
+  change r ∈ p.comap (algebraMap R S) ↔ r ∈ q.comap (algebraMap R S)
   rw [hpc, hqc]
 
 private theorem isDiscreteValuationRing_integralClosure_of_isPurelyInseparable
@@ -330,7 +330,7 @@ private theorem isDiscreteValuationRing_integralClosure_of_isPurelyInseparable
       obtain ⟨a, ha⟩ := IsIntegrallyClosed.isIntegral_iff.mp hkint
       refine ⟨p ^ n, pow_pos (expChar_pos K p) _, a, ?_⟩
       apply Subtype.ext
-      show algebraMap A E a = (x : E) ^ p ^ n
+      change algebraMap A E a = (x : E) ^ p ^ n
       rw [IsScalarTower.algebraMap_apply A K E, ha, hk]
   have : FaithfulSMul A (integralClosure A E) :=
     (faithfulSMul_iff_algebraMap_injective A _).mpr fun x y h =>
@@ -355,8 +355,7 @@ private theorem tensorProduct_pow_mem_range
     congr 1
     rw [smul_mul_assoc, one_mul]
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul l m =>
       obtain ⟨n, c, hc⟩ := IsPurelyInseparable.pow_mem K p m
       refine ⟨n, ?_⟩
@@ -507,7 +506,7 @@ private theorem integralClosures_isDedekindDomain_and_finiteness
       obtain ⟨n, a, ha⟩ := tensorProduct_pow_mem_range K L K₁ p t
       refine ⟨n, a, eL₁.injective ?_⟩
       rw [eL₁_left, map_pow, ← ht]
-      show Ideal.Quotient.mk _ (algebraMap L T a) = (Ideal.Quotient.mk _ t) ^ p ^ n
+      change Ideal.Quotient.mk _ (algebraMap L T a) = (Ideal.Quotient.mk _ t) ^ p ^ n
       rw [← map_pow, ha]
     let : Field L₁ := (isField_of_pow_mem_range L L₁ fun z => by
       obtain ⟨n, a, ha⟩ := hpow z
@@ -565,9 +564,9 @@ private theorem isDedekindDomain_atPrime_of_pi
       (by simpa using hx)
     apply (IsLocalization.map_eq_zero_iff q.primeCompl (Localization.AtPrime q) x).mpr
     refine ⟨⟨e.symm (Pi.single i 1), ?_⟩, ?_⟩
-    · show e.symm (Pi.single i 1) ∉ q
+    · change e.symm (Pi.single i 1) ∉ q
       rw [hq]
-      show f (e.symm (Pi.single i 1)) ∉ p.asIdeal
+      change f (e.symm (Pi.single i 1)) ∉ p.asIdeal
       simpa [f] using p.isPrime.one_notMem
     · apply e.injective
       ext j
@@ -624,7 +623,7 @@ private theorem exists_tensorProduct_localization
       isIntegral_iff := by
         intro x
         exact ⟨fun hx => ⟨eC.symm ⟨x, hx⟩, by
-          show (eC (eC.symm ⟨x, hx⟩)).1 = x
+          change (eC (eC.symm ⟨x, hx⟩)).1 = x
           rw [eC.apply_symm_apply]⟩,
           by rintro ⟨c, rfl⟩; exact (eC c).2⟩ }
   have : IsLocalization (Algebra.algebraMapSubmonoid C (nonZeroDivisors A)) E :=
@@ -644,10 +643,10 @@ private theorem exists_tensorProduct_localization
   have hloc := IsLocalization.tensorProduct_tensorProduct A C
     (Submonoid.powers (algebraMap A B π)) L (by
       ext x
-      show algebraMap B L 1 ⊗ₜ[A] x = 1 ⊗ₜ[A] x
+      change algebraMap B L 1 ⊗ₜ[A] x = 1 ⊗ₜ[A] x
       rw [map_one])
   have : IsLocalization.Away (algebraMap A T π) V := by
-    show IsLocalization (Submonoid.powers (algebraMap A T π)) V
+    change IsLocalization (Submonoid.powers (algebraMap A T π)) V
     convert hloc using 1
     rw [Algebra.algebraMapSubmonoid, Submonoid.map_powers]
     congr 1
@@ -659,12 +658,12 @@ private theorem exists_tensorProduct_localization
         (Algebra.IsPushout.equiv A K C E))
   refine ⟨e₁.trans e₂.toRingEquiv, ?_, ?_⟩
   · intro b
-    show e₂ (e₁ (algebraMap T _ (b ⊗ₜ[A] 1))) = _
+    change e₂ (e₁ (algebraMap T _ (b ⊗ₜ[A] 1))) = _
     rw [show e₁ (algebraMap T _ _) = algebraMap T V _ from
       (IsLocalization.algEquiv (Submonoid.powers (algebraMap A T π))
         (Localization.Away (algebraMap A T π)) V).commutes _]
-    show e₂ (algebraMap B L b ⊗ₜ[A] 1) = _
-    show (Algebra.TensorProduct.congr (AlgEquiv.refl : L ≃ₐ[L] L)
+    change e₂ (algebraMap B L b ⊗ₜ[A] 1) = _
+    change (Algebra.TensorProduct.congr (AlgEquiv.refl : L ≃ₐ[L] L)
       (Algebra.IsPushout.equiv A K C E))
         ((Algebra.TensorProduct.cancelBaseChange A K L L C).symm
           (algebraMap B L b ⊗ₜ[A] 1)) = _
@@ -674,13 +673,13 @@ private theorem exists_tensorProduct_localization
       map_one, mul_one]
     rfl
   · intro c
-    show e₂ (e₁ (algebraMap T _ (1 ⊗ₜ[A] c))) = _
+    change e₂ (e₁ (algebraMap T _ (1 ⊗ₜ[A] c))) = _
     rw [show e₁ (algebraMap T _ _) = algebraMap T V _ from
       (IsLocalization.algEquiv (Submonoid.powers (algebraMap A T π))
         (Localization.Away (algebraMap A T π)) V).commutes _]
-    show e₂ (algebraMap B L 1 ⊗ₜ[A] c) = _
+    change e₂ (algebraMap B L 1 ⊗ₜ[A] c) = _
     rw [map_one]
-    show (Algebra.TensorProduct.congr (AlgEquiv.refl : L ≃ₐ[L] L)
+    change (Algebra.TensorProduct.congr (AlgEquiv.refl : L ≃ₐ[L] L)
       (Algebra.IsPushout.equiv A K C E))
         ((Algebra.TensorProduct.cancelBaseChange A K L L C).symm (1 ⊗ₜ[A] c)) = _
     rw [Algebra.TensorProduct.cancelBaseChange_symm_tmul A K L L C]
@@ -867,9 +866,9 @@ theorem integralClosures_after_finite_fraction_field_extension
       rw [IsScalarTower.algebraMap_eq A B B₁, ← Ideal.comap_comap, hqB,
         IsLocalRing.maximalIdeal_comap]
     have hmem : algebraMap A A₁ π ∈ q.comap (algebraMap A₁ B₁) := by
-      show algebraMap A₁ B₁ (algebraMap A A₁ π) ∈ q
+      change algebraMap A₁ B₁ (algebraMap A A₁ π) ∈ q
       rw [← IsScalarTower.algebraMap_apply A A₁ B₁]
-      show π ∈ q.comap (algebraMap A B₁)
+      change π ∈ q.comap (algebraMap A B₁)
       rw [hqA, hmπ]
       exact Ideal.subset_span (Set.mem_singleton π)
     exact ⟨(q.comap_isPrime _).isMaximal (fun h => hπA (by simpa [h] using hmem)), hmem⟩
@@ -889,10 +888,10 @@ theorem integralClosures_after_finite_fraction_field_extension
   let g : T →ₐ[A] B₁ := Algebra.TensorProduct.lift
     (IsScalarTower.toAlgHom A B B₁) (IsScalarTower.toAlgHom A A₁ B₁) (fun _ _ => Commute.all _ _)
   have hgB (b : B) : g (b ⊗ₜ[A] 1) = algebraMap B B₁ b := by
-    show algebraMap B B₁ b * algebraMap A₁ B₁ 1 = _
+    change algebraMap B B₁ b * algebraMap A₁ B₁ 1 = _
     rw [map_one, mul_one]
   have hgA (a : A₁) : g (1 ⊗ₜ[A] a) = algebraMap A₁ B₁ a := by
-    show algebraMap B B₁ 1 * algebraMap A₁ B₁ a = _
+    change algebraMap B B₁ 1 * algebraMap A₁ B₁ a = _
     rw [map_one, one_mul]
   have hg : g.toRingHom.IsIntegral := by
     apply RingHom.IsIntegral.tower_top
@@ -904,7 +903,7 @@ theorem integralClosures_after_finite_fraction_field_extension
       eL₁.toRingHom.comp ((algebraMap B₁ L₁).comp g.toRingHom) := by
     apply Algebra.TensorProduct.ringHom_ext
     · ext b
-      show Ideal.Quotient.mk _ (c (b ⊗ₜ[A] 1)) =
+      change Ideal.Quotient.mk _ (c (b ⊗ₜ[A] 1)) =
         eL₁ (algebraMap B₁ L₁ (g (b ⊗ₜ[A] 1)))
       calc
         _ = Ideal.Quotient.mk _ ((Algebra.TensorProduct.includeLeft : L →ₐ[K] U)
@@ -913,7 +912,7 @@ theorem integralClosures_after_finite_fraction_field_extension
           rw [hgB, ← IsScalarTower.algebraMap_apply B B₁ L₁,
             IsScalarTower.algebraMap_apply B L L₁, eL₁_left]
     · ext a
-      show Ideal.Quotient.mk _ (c (1 ⊗ₜ[A] a)) =
+      change Ideal.Quotient.mk _ (c (1 ⊗ₜ[A] a)) =
         eL₁ (algebraMap B₁ L₁ (g (1 ⊗ₜ[A] a)))
       calc
         _ = Ideal.Quotient.mk _ ((Algebra.TensorProduct.includeRight : K₁ →ₐ[K] U)

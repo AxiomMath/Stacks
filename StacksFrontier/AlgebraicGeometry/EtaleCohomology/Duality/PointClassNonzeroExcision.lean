@@ -59,7 +59,7 @@ def etaleModuleDirectImageExtensionByZeroIsoOfComp (Λ : Type) [Ring Λ] {P N W 
     Functor.isoWhiskerRight (etaleModuleExtensionByZeroIdIso Λ P) _ ≪≫ Functor.leftUnitor _
 
 variable (ℓ : ℕ) [Fact ℓ.Prime] {k : Type u} [Field k] [IsSepClosed k] {W : Scheme.{u}}
-  (f : W ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f]
+  (f : W ⟶ Spec (.of k)) [QuasiCompact f]
   (jc : CompactificationOf (Over.mk f))
 
 /-- **The class of a point is nonzero once it is nonzero on an open with small complement.** Let
@@ -120,7 +120,7 @@ theorem pointClassNonzeroAt_of_restrictOpen [TopologicalSpace.NoetherianSpace jc
     apply (Stacks.ExtAdjunction.postcomp_mk₀_bijective_of_isIso eT.hom (2 * (e + 1))).1
     apply hbij.1
     simp only [μ] at hy
-    show (y₁.comp (Ext.mk₀ eT.hom) (add_zero _)).comp (Ext.mk₀ _) (add_zero _) =
+    change (y₁.comp (Ext.mk₀ eT.hom) (add_zero _)).comp (Ext.mk₀ _) (add_zero _) =
       (y₂.comp (Ext.mk₀ eT.hom) (add_zero _)).comp (Ext.mk₀ _) (add_zero _)
     rwa [Ext.comp_assoc_of_third_deg_zero, Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀]
   -- the class on `W`

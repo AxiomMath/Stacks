@@ -165,7 +165,7 @@ theorem ι_sumReindex_inv {V : (spacesEtaleRingedSite B S hS X).C} {x : Geometri
     (v : Lifts V x) :
     Sigma.ι (fun v : Lifts V x => liftedStalk v G) v ≫ (sumReindex G).inv =
       Sigma.ι (fun v : ULift.{u + 1} (Lifts V x) => liftedStalk v.down G) (ULift.up v) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- **Stacks 08GU.** Equation 75.10.0.2: for an étale morphism `j_U : U ⟶ X` of algebraic
 spaces, a sheaf of `𝒪_U`-modules `𝒢` and a geometric point `x̄ : Spec(k) ⟶ X`, the stalk of

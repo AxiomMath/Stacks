@@ -128,7 +128,7 @@ theorem exists_hom_of_homogeneous
     (DirectSum.toAlgebra R (fun n => A.grading n) g hone (fun {m n} a b => hmul m n a b)).comp
       (DirectSum.decomposeAlgEquiv A.grading).toAlgHom
   have hφ (n : ℤ) (a : A.grading n) : φ a = (f n a : B.A) := by
-    show DirectSum.toModule R ℤ B.A g (DirectSum.decomposeLinearEquiv A.grading a) = _
+    change DirectSum.toModule R ℤ B.A g (DirectSum.decomposeLinearEquiv A.grading a) = _
     rw [DirectSum.decomposeLinearEquiv_apply_coe, DirectSum.toModule_lof]
     rfl
   refine ⟨{ toAlgebraHom := φ, map_grading := ?_, map_d := ?_ }, hφ⟩
@@ -479,7 +479,7 @@ theorem exists_hom_nonpositive_bijective_cohomologyMap (C : DGCategory.{w, v, u}
       refine Quotient.sound ⟨e, ?_⟩
       refine congrArg Subtype.val (hinj k (a.1 - b.1)
         ⟨S.algebra.d e, by simpa using S.algebra.d_mem (k - 1) e e.property⟩ ?_)
-      show φ.toAlgebraHom ((a.1 : S.algebra.A) - b.1) = φ.toAlgebraHom (S.algebra.d e)
+      change φ.toAlgebraHom ((a.1 : S.algebra.A) - b.1) = φ.toAlgebraHom (S.algebra.d e)
       rw [map_sub, φ.map_d, he]
       exact hc
   · intro X
@@ -494,7 +494,7 @@ theorem exists_hom_nonpositive_bijective_cohomologyMap (C : DGCategory.{w, v, u}
       have hdb : S.algebra.d b = 0 := by
         refine congrArg Subtype.val (hinj (k + 1)
           ⟨S.algebra.d b, S.algebra.d_mem k b b.property⟩ 0 ?_)
-        show φ.toAlgebraHom (S.algebra.d b) = φ.toAlgebraHom ((0 : S.algebra.grading (k + 1)))
+        change φ.toAlgebraHom (S.algebra.d b) = φ.toAlgebraHom ((0 : S.algebra.grading (k + 1)))
         rw [φ.map_d, hb, a.2, Submodule.coe_zero, map_zero]
       refine ⟨Quotient.mk _ ⟨b, hdb⟩, Quotient.sound ⟨0, ?_⟩⟩
       rw [DifferentialGradedAlgebra.Hom.cocycleMap_val, hb, sub_self, Submodule.coe_zero,

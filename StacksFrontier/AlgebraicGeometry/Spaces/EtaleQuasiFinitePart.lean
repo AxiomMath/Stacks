@@ -98,7 +98,7 @@ private def subfunctorPreimageIso
     intro T z hz
     rcases hz with ⟨x, rfl⟩
     change e.inv.app T (e.hom.app T (W.ι.app T x)) ∈ W.obj T
-    simpa using x.property
+    simp
   refine ⟨W.fromPreimage e.inv, Subfunctor.lift (W.ι ≫ e.hom) hrange, ?_, ?_⟩
   · ext T x
     apply Subtype.ext
@@ -187,9 +187,9 @@ private theorem sheafify_preimage_iso
     hpre e.symm _ ((A.preimage e.inv).sheafify_isSheaf hG)
   have hAB : A ≤ ((A.preimage e.inv).sheafify J).preimage e.hom := by
     intro U x hx
-    show e.hom.app U x ∈ ((A.preimage e.inv).sheafify J).obj U
+    change e.hom.app U x ∈ ((A.preimage e.inv).sheafify J).obj U
     apply (A.preimage e.inv).le_sheafify J
-    show e.inv.app U (e.hom.app U x) ∈ A.obj U
+    change e.inv.app U (e.hom.app U x) ∈ A.obj U
     simpa using hx
   have hclose : A.sheafify J ≤ ((A.preimage e.inv).sheafify J).preimage e.hom :=
     Subfunctor.sheafify_le (J := J) (G := A) (G' := _)
@@ -198,7 +198,7 @@ private theorem sheafify_preimage_iso
   · apply Subfunctor.sheafify_le (J := J) (G := A.preimage e.inv) (G' := _)
       (fun U x hx => ?_) hG hApre
     change e.inv.app U x ∈ A.obj U at hx
-    show e.inv.app U x ∈ (A.sheafify J).obj U
+    change e.inv.app U x ∈ (A.sheafify J).obj U
     exact (A.le_sheafify J U) hx
   · intro U x hx
     change e.inv.app U x ∈ (A.sheafify J).obj U at hx
@@ -419,9 +419,9 @@ public theorem exists_etale_finite_clopen_part
   have hcart : IsPullback q p f g := AlgebraicSpaces.isPullback_fiberProduct B S hS f g
   obtain ⟨x', hxA, hxX⟩ := exists_point_of_isPullback B S hS hcart.flip u₀ x hu₀
   have hqfP : IsQuasiFiniteAt B S hS p.hom x' := by
-    show x' ∈ {z | IsQuasiFiniteAt B S hS p.hom z}
+    change x' ∈ {z | IsQuasiFiniteAt B S hS p.hom z}
     rw [setOf_isQuasiFiniteAt_eq_preimage_of_isPullback B S hS hcart hft]
-    show pointsMap B S hS P.1 q.hom x' ∈ {z | IsQuasiFiniteAt B S hS f.hom z}
+    change pointsMap B S hS P.1 q.hom x' ∈ {z | IsQuasiFiniteAt B S hS f.hom z}
     simpa [hxX] using hqf
   obtain ⟨A₁, k, u₁, W, V, hke, hku, hWo, hWc, hVo, hVc, hparts, hdisj,
       hfinite, -, hWpoints⟩ :=
@@ -453,7 +453,7 @@ public theorem exists_etale_finite_clopen_part
           (by rw [pointsMap_comp_apply, hw, hzP])
   refine ⟨U₁, g', u₁, W', V', ?_, ?_, hW'o, hW'c, hV'o, hV'c, hparts', hdisj', hfinite', v', ?_,
     hv'fst.trans hzU⟩
-  · show IsEtale B S hS (k ≫ g.hom)
+  · change IsEtale B S hS (k ≫ g.hom)
     exact isEtale_comp B S hS hke ((isEtale_iff_presheaf_of_yoneda B S hS φ).mpr heta)
   · refine (pointsMap_comp_apply B S hS k g.hom u₁).trans ?_
     rw [hku]

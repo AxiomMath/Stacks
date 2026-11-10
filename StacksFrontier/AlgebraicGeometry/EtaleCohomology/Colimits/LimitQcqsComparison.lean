@@ -34,15 +34,17 @@ attribute [local instance] isGrothendieckAbelian_sheaf_smallEtale_objectUniverse
 
 section Transfer
 
-variable {J : Type u} [Preorder J] [OrderBot J] [IsDirected J (· ≤ ·)]
+variable {J : Type u} [Preorder J] [OrderBot J]
   {E : Jᵒᵖ ⥤ Scheme.{u}} {c : Cone E} {W : Scheme.{u}} (ι : W ⟶ E.obj (op ⊥))
   [IsOpenImmersion ι]
 
+omit [IsOpenImmersion ι] in
 /-- The projection of a stage of the restricted system to `W` factors through the least stage
 of the restricted system. -/
 theorem rsnd_eq (i : J) : rsnd E ι i = toBot (restrictSystem E ι) i ≫ rsnd E ι ⊥ :=
   (restrictSystem_map_snd E ι _).symm
 
+omit [IsOpenImmersion ι] in
 /-- The projection of the limit of the restricted system to `W` factors through the least stage
 of the restricted system. -/
 theorem rsndL_eq : rsndL E c ι = (restrictCone E ι c).π.app (op ⊥) ≫ rsnd E ι ⊥ :=
@@ -120,6 +122,7 @@ theorem transferMapL_injective {Q : Sheaf (E.obj (op ⊥)).smallEtaleTopology Ad
   (bijective_conjBase_comp_restrictBase ι (c.π.app (op ⊥)) _ _ (IsPullback.of_hasPullback _ _)
     _ _ (rsndL_eq ι) G η hη m).1
 
+omit [IsOpenImmersion ι] in
 /-- The comparison maps `transferMap` commute with the restriction maps `resK` along the
 transition maps of the system and of the restricted system. -/
 theorem transferMap_resK {Q G : Sheaf (E.obj (op ⊥)).smallEtaleTopology AddCommGrpCat.{u + 1}}
@@ -136,6 +139,7 @@ theorem transferMap_resK {Q G : Sheaf (E.obj (op ⊥)).smallEtaleTopology AddCom
     (rfst E ι i) (rfst E ι i') _ rfl (rfst_toBot E ι i).symm _ rfl (rfst_toBot E ι i').symm
     (trans (restrictSystem E ι) h ≫ rfst E ι i) rfl (trans_rfst ι h) η m x]
 
+omit [IsOpenImmersion ι] in
 /-- The comparison map `transferMapL` at the limit is compatible with `transferMap` at a stage
 through the restriction maps `resK` along the projections of the limit cones. -/
 theorem transferMapL_resK {Q G : Sheaf (E.obj (op ⊥)).smallEtaleTopology AddCommGrpCat.{u + 1}}

@@ -285,7 +285,7 @@ lemma functionFieldMap_ι_pullbackGerm [IsIntegral G.left] [IsIntegral X.left]
     (map_genericPoint_of_isDominant V.ι) hgV
   have h2 := Scheme.Hom.germ_stalkMapOfEq π (genericPoint V) (genericPoint X.left)
     (map_genericPoint_of_isDominant π)
-  show (G.left.presheaf.germ V _ hgV ≫ V.ι.stalkMapOfEq _ _
+  change (G.left.presheaf.germ V _ hgV ≫ V.ι.stalkMapOfEq _ _
       (map_genericPoint_of_isDominant V.ι)).hom (V.topIso.hom _) =
     (X.left.presheaf.germ ⊤ _ trivial ≫ π.stalkMapOfEq _ _
       (map_genericPoint_of_isDominant π)).hom φ
@@ -326,7 +326,7 @@ lemma functionFieldMap_ι_mem_range_of_le_adjoin (V : G.left.Opens) [Nonempty V]
   have halg : ∀ r : k, algebraMap k G.left.functionField r ∈ S₀ := fun r =>
     ⟨(stalkAlgebraOver k X.hom (genericPoint X.left)).algebraMap r, by
       rw [functionFieldMap_stalkAlgebraOver_algebraMap k X.hom π _ rfl]
-      show _ = functionFieldMap V.ι
+      change _ = functionFieldMap V.ι
         ((stalkAlgebraOver k G.hom (genericPoint G.left)).algebraMap r)
       rw [functionFieldMap_stalkAlgebraOver_algebraMap k G.hom V.ι _ rfl, hπ]⟩
   let S : IntermediateField k G.left.functionField := S₀.toIntermediateField halg
@@ -423,7 +423,7 @@ theorem exists_localRationalAction_of_leftInvariant [IsAffine X.left] [LocallyOf
     intro a
     obtain ⟨z, hz⟩ := hμ _ (hπK₁ a)
     refine ⟨z, ?_⟩
-    show functionFieldMap f₁ z = _
+    change functionFieldMap f₁ z = _
     rw [hz]
     have e1 : (muPiGerm G V X π p).hom a = functionFieldMap (muV G V ≫ π)
         (X.left.presheaf.germ ⊤ (genericPoint X.left) trivial a) := by

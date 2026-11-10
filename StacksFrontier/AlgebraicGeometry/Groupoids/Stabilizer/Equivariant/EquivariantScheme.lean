@@ -77,13 +77,13 @@ theorem cartesianOver_target_pullback {S : Scheme.{u}} {G : GroupoidScheme S}
       inv_hom_id := by simpa using congrArg Over.Hom.left (groupoidInverse_involutive G) }
   have hmapinv := congrArg Over.Hom.left (groupoidHom_map_inverse X.hom)
   refine hsource.of_iso e₁ e₂ (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
-  · show X.hom.mapArrows.left ≫ G.inverse.left =
+  · change X.hom.mapArrows.left ≫ G.inverse.left =
       X.left.inverse.left ≫ X.hom.mapArrows.left
     simpa only [Over.comp_left] using hmapinv
-  · show X.left.source.left = X.left.inverse.left ≫ X.left.target.left
+  · change X.left.source.left = X.left.inverse.left ≫ X.left.target.left
     simpa only [Over.comp_left] using
       (congrArg Over.Hom.left X.left.target_inverse).symm
-  · show G.source.left = G.inverse.left ≫ G.target.left
+  · change G.source.left = G.inverse.left ≫ G.target.left
     simpa only [Over.comp_left] using
       (congrArg Over.Hom.left G.target_inverse).symm
   · simp
@@ -122,7 +122,7 @@ theorem cartesianOverTargetComparison_hom_fst {S : Scheme.{u}}
       X.left.target := by
   apply Over.OverMorphism.ext
   let h := cartesianOver_target_pullback X
-  show (h.flip.isoPullback.hom ≫
+  change (h.flip.isoPullback.hom ≫
     (overPullbackLeftIso X.hom.mapObjects G.target).inv ≫
       (pullback.fst X.hom.mapObjects G.target).left) = X.left.target.left
   rw [overPullbackLeftIso_inv_fst, h.flip.isoPullback_hom_fst]
@@ -134,7 +134,7 @@ theorem cartesianOverTargetComparison_hom_snd {S : Scheme.{u}}
       X.hom.mapArrows := by
   apply Over.OverMorphism.ext
   let h := cartesianOver_target_pullback X
-  show (h.flip.isoPullback.hom ≫
+  change (h.flip.isoPullback.hom ≫
     (overPullbackLeftIso X.hom.mapObjects G.target).inv ≫
       (pullback.snd X.hom.mapObjects G.target).left) = X.hom.mapArrows.left
   rw [overPullbackLeftIso_inv_snd, h.flip.isoPullback_hom_snd]
@@ -145,7 +145,7 @@ theorem cartesianOverSourceComparison_hom_fst {S : Scheme.{u}}
     (cartesianOverSourceComparison X).hom ≫ pullback.fst G.source X.hom.mapObjects =
       X.hom.mapArrows := by
   apply Over.OverMorphism.ext
-  show (X.isCartesian.isoPullback.hom ≫
+  change (X.isCartesian.isoPullback.hom ≫
     (overPullbackLeftIso G.source X.hom.mapObjects).inv ≫
       (pullback.fst G.source X.hom.mapObjects).left) = X.hom.mapArrows.left
   rw [overPullbackLeftIso_inv_fst, X.isCartesian.isoPullback_hom_fst]
@@ -156,7 +156,7 @@ theorem cartesianOverSourceComparison_hom_snd {S : Scheme.{u}}
     (cartesianOverSourceComparison X).hom ≫ pullback.snd G.source X.hom.mapObjects =
       X.left.source := by
   apply Over.OverMorphism.ext
-  show (X.isCartesian.isoPullback.hom ≫
+  change (X.isCartesian.isoPullback.hom ≫
     (overPullbackLeftIso G.source X.hom.mapObjects).inv ≫
       (pullback.snd G.source X.hom.mapObjects).left) = X.left.source.left
   rw [overPullbackLeftIso_inv_snd, X.isCartesian.isoPullback_hom_snd]
@@ -175,7 +175,7 @@ theorem cartesianOverLiftArrow_target {S : Scheme.{u}}
     (v : T ⟶ X.left.objects) (f : T ⟶ G.arrows)
     (w : v ≫ X.hom.mapObjects = f ≫ G.target) :
     cartesianOverLiftArrow X v f w ≫ X.left.target = v := by
-  show (pullback.lift v f w ≫ (cartesianOverTargetComparison X).inv) ≫
+  change (pullback.lift v f w ≫ (cartesianOverTargetComparison X).inv) ≫
       X.left.target = v
   rw [← cartesianOverTargetComparison_hom_fst]
   simp only [Category.assoc, Iso.inv_hom_id_assoc]
@@ -187,7 +187,7 @@ theorem cartesianOverLiftArrow_mapArrows {S : Scheme.{u}}
     (v : T ⟶ X.left.objects) (f : T ⟶ G.arrows)
     (w : v ≫ X.hom.mapObjects = f ≫ G.target) :
     cartesianOverLiftArrow X v f w ≫ X.hom.mapArrows = f := by
-  show (pullback.lift v f w ≫ (cartesianOverTargetComparison X).inv) ≫
+  change (pullback.lift v f w ≫ (cartesianOverTargetComparison X).inv) ≫
       X.hom.mapArrows = f
   rw [← cartesianOverTargetComparison_hom_snd]
   simp only [Category.assoc, Iso.inv_hom_id_assoc]

@@ -57,9 +57,9 @@ public theorem mul_generator_mem_range_algebraMap_stableIdealQuotient
       LinearMap.range (Algebra.linearMap R ↥(stableIdealQuotient I y u hu hI)) := by
   obtain ⟨w, hw, hwz⟩ := z.2
   refine ⟨w, Subtype.ext ?_⟩
-  show algebraMap R Q w = algebraMap R Q y.1 * (z : Q)
+  change algebraMap R Q w = algebraMap R Q y.1 * (z : Q)
   rw [← hwz]
-  show algebraMap R Q w = algebraMap R Q y.1 * (↑(u⁻¹) * algebraMap R Q w)
+  change algebraMap R Q w = algebraMap R Q y.1 * (↑(u⁻¹) * algebraMap R Q w)
   rw [← hu, Units.mul_inv_cancel_left]
 
 /-! ### The conductor of a node contains its maximal ideal -/
@@ -174,7 +174,7 @@ public theorem isCoatom_range_algebraMap_of_finrank_eq_two
     rw [hsurj1, finrank_top, hrank] at hspan1
     omega
   · intro P hP
-    obtain ⟨t, htP, htN⟩ := SetLike.exists_of_lt hP
+    obtain ⟨t, htP, htN⟩ := IsConcreteLE.exists_of_lt hP
     have hnot : π t ∉ Submodule.span (ResidueField A) {(1 : T)} := fun hc => htN (hmem t hc)
     have hlt : Submodule.span (ResidueField A) {(1 : T)} <
         Submodule.span (ResidueField A) {(1 : T), π t} := by

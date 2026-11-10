@@ -393,7 +393,7 @@ theorem globalSectionHom_eq_sectionHom (M : X.Modules) (σ : Γ(M, ⊤_ (Opens X
       Stacks.EnriquesSeveriZariski.sectionHom M
         (AlgebraicGeometry.restrictTerminalTopEquiv M σ) := by
   refine congrArg M.unitHomEquiv.symm (Subtype.ext (funext fun U => ?_))
-  show M.val.map (terminal.from U.unop).op σ =
+  change M.val.map (terminal.from U.unop).op σ =
     M.presheaf.map (homOfLE (le_top : U.unop ≤ ⊤)).op
       (M.presheaf.map (terminal.from (⊤ : X.Opens)).op σ)
   rw [← ConcreteCategory.comp_apply, ← M.presheaf.map_comp]

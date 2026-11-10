@@ -79,7 +79,7 @@ private theorem ker_le_ker_of_isPullback_presentation {X Y V : FppfSheaf B S hS}
   intro x hx
   rw [RingHom.mem_ker] at hx ⊢
   rw [← hEq]
-  show ψ.toRingHom (g₂.toRingHom x) = 0
+  change ψ.toRingHom (g₂.toRingHom x) = 0
   rw [hx, map_zero]
 
 /-- **The kernel of a chart presentation of a fibre product is independent of the choices.** -/

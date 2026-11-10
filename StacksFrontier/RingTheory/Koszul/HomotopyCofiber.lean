@@ -104,11 +104,11 @@ theorem exists_homotopyEquiv_mappingCone_comp
   obtain ⟨e, he₂, he₃⟩ := complete_distinguished_triangle_morphism
     (F.mapTriangle.obj T.invRotate) (CochainComplex.mappingCone.triangleh φ) hTi hcone
     (𝟙 _) (𝟙 _) (by
-      show F.map φ ≫ 𝟙 _ = 𝟙 _ ≫ F.map φ
+      change F.map φ ≫ 𝟙 _ = 𝟙 _ ≫ F.map φ
       simp)
   let α : F.mapTriangle.obj T.invRotate ⟶ CochainComplex.mappingCone.triangleh φ :=
     ⟨𝟙 _, 𝟙 _, e, by
-      show F.map φ ≫ 𝟙 _ = 𝟙 _ ≫ F.map φ
+      change F.map φ ≫ 𝟙 _ = 𝟙 _ ≫ F.map φ
       simp, he₂, he₃⟩
   have hα₁ : IsIso α.hom₁ := by dsimp [α]; exact IsIso.id _
   have hα₂ : IsIso α.hom₂ := by dsimp [α]; exact IsIso.id _
@@ -200,7 +200,7 @@ private theorem coneD0_formula
       ModuleCat.ofHom (LinearMap.snd R (K.X 1) (K.X 0)) ≫ g.f 0 := by
   apply ModuleCat.hom_ext
   ext x
-  show coneD0lin K K g x = _
+  change coneD0lin K K g x = _
   rfl
 
 private theorem coneDS_fst_formula
@@ -214,7 +214,7 @@ private theorem coneDS_fst_formula
   simp only [ModuleCat.hom_comp, ModuleCat.hom_add, ModuleCat.hom_ofHom,
     LinearMap.coe_comp, Function.comp_apply, LinearMap.add_apply]
   simp only [coneComplex, ChainComplex.of.d]
-  show (coneDSlin K K g n x).1 = _
+  change (coneDSlin K K g n x).1 = _
   rfl
 
 private theorem coneDS_snd_formula
@@ -228,7 +228,7 @@ private theorem coneDS_snd_formula
   simp only [ModuleCat.hom_comp, ModuleCat.hom_ofHom, ModuleCat.hom_neg,
     LinearMap.coe_comp, Function.comp_apply, LinearMap.neg_apply]
   simp only [coneComplex, ChainComplex.of.d]
-  show (coneDSlin K K g n x).2 = _
+  change (coneDSlin K K g n x).2 = _
   rfl
 
 private theorem cofiberToConeX_zero_hom

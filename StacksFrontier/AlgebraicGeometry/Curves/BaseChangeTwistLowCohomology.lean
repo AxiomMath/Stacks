@@ -81,9 +81,9 @@ theorem exists_ne_zero_of_generatingSections {X : Scheme.{u}} [Nonempty X] (M : 
   have hs : σ.s = fun i => SheafOfModules.sectionsMap (0 : M ⟶ M) (σ.s i) := by
     funext i
     ext V
-    show (σ.s i).val V = 0
+    change (σ.s i).val V = 0
     rw [← PresheafOfModules.sections_property (σ.s i) (homOfLE (le_top (a := V.unop))).op]
-    show M.val.map _ ((σ.s i).eval (op ⊤)) = 0
+    change M.val.map _ ((σ.s i).eval (op ⊤)) = 0
     rw [h i, map_zero]
   have hzero : M.freeHomEquiv.symm σ.s ≫ 𝟙 M = M.freeHomEquiv.symm σ.s ≫ (0 : M ⟶ M) :=
     calc M.freeHomEquiv.symm σ.s ≫ 𝟙 M = M.freeHomEquiv.symm σ.s := Category.comp_id _
@@ -186,7 +186,7 @@ theorem ampleTwistStart (k K : Type u) [Field k] [Field K] [Algebra k K]
     have := congrArg (e₂.inv.app ⊤) h0
     rw [map_zero] at this
     have key : (σ.s i).eval (op ⊤) = (e₂.inv.app ⊤) ((e₂.hom.app ⊤) ((σ.s i).eval (op ⊤))) := by
-      show _ = (e₂.hom ≫ e₂.inv).app ⊤ ((σ.s i).eval (op ⊤))
+      change _ = (e₂.hom ≫ e₂.inv).app ⊤ ((σ.s i).eval (op ⊤))
       rw [e₂.hom_inv_id]
       rfl
     exact key.trans this

@@ -94,7 +94,7 @@ theorem isIso_structureSharp_schemeSpaceMap {Z W : BigFppfOver B S hS} (f : Z �
   have hV : ∀ V, IsIso (((sheafToPresheaf _ _).map
       (Space.cartesianProjectionSharp B S hS (schemeSpaceMap f) hf)).app V) := by
     intro V
-    show IsIso ((forget₂ CommRingCat.{u} RingCat.{u}).map (Scheme.Γ.map
+    change IsIso ((forget₂ CommRingCat.{u} RingCat.{u}).map (Scheme.Γ.map
       ((BigFppfOver.toScheme B S hS).map (hf.snd V.unop.1.hom)).op))
     suffices h : IsIso (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
         (hf.snd V.unop.1.hom)).op) from Functor.map_isIso _ _
@@ -147,7 +147,7 @@ theorem isZero_firstDirectImage_schemeSpaceMap_of_isAffine {Z W : BigFppfOver B 
       (BigFppfOver.toScheme B integerBase hZ)).presheaf A.1.hom :=
     presheaf_id_of_iso B integerBase hZ _ (fun _ _ g hg => by
       have : IsIso g := hg
-      show Surjective ((BigFppfOver.toScheme B integerBase hZ).map g)
+      change Surjective ((BigFppfOver.toScheme B integerBase hZ).map g)
       infer_instance) W
   have hqc := Space.isQuasiCompact_yoneda_map_of_quasiCompact B integerBase hZ f inferInstance
   have hqs := (Space.isQuasiSeparated_yoneda_map_iff B integerBase hZ f).2 inferInstance
@@ -181,7 +181,7 @@ theorem isZero_firstDirectImage_schemeSpaceMap_of_isAffine {Z W : BigFppfOver B 
   have := Space.hasInjectiveResolutions_modules B integerBase hZ (schemeSpace Z).1
     (schemeSpace Z).2
   exact Space.isZero_rightDerived_modulePushforward_of_isZero_chart B integerBase hZ
-    (schemeSpaceMap f) hρ hqc hqs A hA hsurj M hM 1 one_pos
+    (schemeSpaceMap f) hρ hqc hqs A hA hsurj M hM 1
     (Space.isZero_rightDerived_evaluation_chartSpace_of_isZero_hgroup_restrictToChart T M hM 1
       one_pos (hH.of_iso ((Hfunctor (Space.chartScheme T).ringCatSheaf ⊤ 1).mapIso e)))
 
@@ -237,7 +237,7 @@ theorem isZero_firstDirectImage_schemeSpaceMap {Z W : BigFppfOver B integerBase 
     BigFppfOver.siteMapOver B integerBase hZ W (B.contains_of_mono j.1.ι W.left.2) j.1.ι
   have hcov := isEtaleCovering_yoneda_map B integerBase hZ gj
     (fun j => by
-      show Etale j.1.ι
+      change Etale j.1.ι
       infer_instance)
     (fun w => by
       obtain ⟨_, ⟨j, hja, rfl⟩, hwj, -⟩ :=
@@ -250,13 +250,13 @@ theorem isZero_firstDirectImage_schemeSpaceMap {Z W : BigFppfOver B integerBase 
     (fun j => schemeSpaceMap (pullback.snd f (gj j))) hcov (fun j => ?_) (fun j => ?_)
   · refine IsPullback.of_map (ObjectProperty.ι _) (ObjectProperty.hom_ext _ ?_)
       ((IsPullback.of_hasPullback f (gj j)).map yoneda)
-    show yoneda.map (pullback.fst f (gj j)) ≫ yoneda.map f =
+    change yoneda.map (pullback.fst f (gj j)) ≫ yoneda.map f =
       yoneda.map (pullback.snd f (gj j)) ≫ yoneda.map (gj j)
     rw [← Functor.map_comp, ← Functor.map_comp, pullback.condition]
   · have hsq := (IsPullback.of_hasPullback f (gj j)).map T
     have : IsAffine (T.obj (Wj j)) := j.2
     have : Flat (T.map (gj j)) := by
-      show Flat j.1.ι
+      change Flat j.1.ι
       infer_instance
     have : QuasiCompact (T.map (pullback.snd f (gj j))) :=
       MorphismProperty.of_isPullback hsq inferInstance

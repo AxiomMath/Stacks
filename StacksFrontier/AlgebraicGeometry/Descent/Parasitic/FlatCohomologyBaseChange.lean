@@ -102,7 +102,8 @@ restatements of instances Mathlib already has, for the reason recorded on
 topology that instance search cannot match.
 
 `AlgebraicGeometry.BigFppfOver.zariskiBaseChangeMap_eq`
-(`StacksFrontier/AlgebraicGeometry/Descent/Parasitic/FlatCohomologyBaseChangeFactor.lean`) identifies
+(`StacksFrontier/AlgebraicGeometry/Descent/Parasitic/FlatCohomologyBaseChangeFactor.lean`)
+identifies
 `AlgebraicGeometry.BigFppfOver.zariskiBaseChangeMap` with the canonical map
 `AlgebraicGeometry.BigFppfOver.zariskiClause2Map` followed by
 `AlgebraicGeometry.BigFppfOver.objZariskiRestrictIso`.  Nothing here carries a `stacks`

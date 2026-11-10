@@ -62,11 +62,11 @@ theorem hasTorAmplitudeCanonical_restrictScalars_iff_extendScalars_of_henselizat
     (((ModuleCat.extendScalars β).mapHomologicalComplex (ComplexShape.up ℤ)).obj P)
   let Msh := ((ModuleCat.restrictScalars e.toRingHom).mapHomologicalComplex
     (ComplexShape.up ℤ)).obj N
-  show HasTorAmplitudeCanonical A (DerivedCategory.Q.obj
+  change HasTorAmplitudeCanonical A (DerivedCategory.Q.obj
       (((ModuleCat.restrictScalars (β.comp α)).mapHomologicalComplex (ComplexShape.up ℤ)).obj
         (((ModuleCat.extendScalars β).mapHomologicalComplex (ComplexShape.up ℤ)).obj P))) a b ↔ _
   rw [← hcomm]
-  show HasTorAmplitudeCanonical A (DerivedCategory.Q.obj
+  change HasTorAmplitudeCanonical A (DerivedCategory.Q.obj
       (((ModuleCat.restrictScalars (algebraMap A H.strictHenselization)).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj Msh)) a b ↔ _
   -- Stacks 0DK0, conditions (1) and (3), for the strict henselization in the tower.

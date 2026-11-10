@@ -122,13 +122,13 @@ theorem fracElt_smul (m : ℤ) (i : ℕ) (a : s.sectionPieces U (i * d))
       HomogeneousLocalization.Away.mk (s.sectionRingGrading U) (cHom_mem U c) i
           (DirectSum.of (s.sectionPieces U) (i * d) a) ⟨a, rfl⟩ • fracElt ℳ U c m x := by
   apply Subtype.ext
-  show (fracElt ℳ U c (m + i) y).1 =
+  change (fracElt ℳ U c (m + i) y).1 =
     HomogeneousLocalization.val (HomogeneousLocalization.Away.mk (s.sectionRingGrading U)
       (cHom_mem U c) i (DirectSum.of (s.sectionPieces U) (i * d) a) ⟨a, rfl⟩) •
         (fracElt ℳ U c m x).1
   rw [fracElt_val_eq ℳ U c (m + i) y (i + m.toNat) (ex m) (by have := ex_spec m; push_cast; omega),
     fracElt_val]
-  show _ = (Localization.mk (DirectSum.of (s.sectionPieces U) (i * d) a)
+  change _ = (Localization.mk (DirectSum.of (s.sectionPieces U) (i * d) a)
     (⟨(cHom U c) ^ i, i, rfl⟩ : Submonoid.powers (cHom U c)) : Localization.Away (cHom U c)) • _
   rw [LocalizedModule.mk_smul_mk, hy, smul_comm ((cHom U c) ^ ex m)]
   congr 1
@@ -143,7 +143,7 @@ theorem fracElt_smul_base (m : ℤ) (r : s.base.ringCatSheaf.obj.obj (op U))
           (s.sectionRingBaseMap U r) (by simpa using sectionRingBaseMap_mem_zero s U r) •
         fracElt ℳ U c m x := by
   apply Subtype.ext
-  show (fracElt ℳ U c m (r • x)).1 = (Localization.mk (s.sectionRingBaseMap U r)
+  change (fracElt ℳ U c m (r • x)).1 = (Localization.mk (s.sectionRingBaseMap U r)
     (⟨(cHom U c) ^ 0, 0, rfl⟩ : Submonoid.powers (cHom U c)) : Localization.Away (cHom U c)) •
       (fracElt ℳ U c m x).1
   rw [fracElt_val, fracElt_val, LocalizedModule.mk_smul_mk, ← sectionRingBaseMap_smul_of,
@@ -155,15 +155,15 @@ theorem fracElt_smul_base (m : ℤ) (r : s.base.ringCatSheaf.obj.obj (op U))
 theorem fracElt_add (m : ℤ) (x y : sectionModulePieces ℳ U (m * d)) :
     fracElt ℳ U c m (x + y) = fracElt ℳ U c m x + fracElt ℳ U c m y := by
   apply Subtype.ext
-  show (fracElt ℳ U c m (x + y)).1 = (fracElt ℳ U c m x).1 + (fracElt ℳ U c m y).1
+  change (fracElt ℳ U c m (x + y)).1 = (fracElt ℳ U c m x).1 + (fracElt ℳ U c m y).1
   rw [fracElt_val, fracElt_val, fracElt_val, LocalizedModule.mk_add_mk, LocalizedModule.mk_eq]
   refine ⟨1, ?_⟩
-  simp only [map_add, smul_add, one_smul, Submonoid.smul_def, Submonoid.coe_mul, mul_smul]
+  simp only [map_add, smul_add, one_smul, Submonoid.smul_def, mul_smul]
 
 /-- The fraction `0 / c^m` is zero. -/
 theorem fracElt_zero (m : ℤ) : fracElt ℳ U c m 0 = 0 := by
   apply Subtype.ext
-  show (fracElt ℳ U c m 0).1 = 0
+  change (fracElt ℳ U c m 0).1 = 0
   rw [fracElt_val, map_zero, smul_zero, LocalizedModule.zero_mk]
 
 end Stacks.RelativeProj.Situation.QuadrupleChart

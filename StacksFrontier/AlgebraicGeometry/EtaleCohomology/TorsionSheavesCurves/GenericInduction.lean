@@ -86,7 +86,7 @@ private theorem inverseImage_constructible_and_nsmul_eq_zero {Y X : Scheme.{u}} 
   ⟨IsConstructibleSmallEtaleSheaf.inverseImage_of_mono r hG,
     nsmul_id_map_eq_zero (etaleAbelianInverseImage.{u, u + 1} r) hℓG⟩
 
-variable {k : Type u} [Field k] [IsAlgClosed k]
+variable {k : Type u} [Field k]
 
 /-- **The Noetherian induction behind Tag 03SC**, inside a fixed Noetherian ambient scheme `X₀`:
 by well-founded induction on the open complement `O` of a closed subscheme. -/

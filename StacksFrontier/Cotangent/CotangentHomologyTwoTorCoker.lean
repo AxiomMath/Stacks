@@ -137,8 +137,7 @@ theorem stdTorOneEquiv_face (y : (torOneSimplicialB.{u, v} A B).obj (op ⦋1⦌)
       (torOneTermEquiv.{u, v} A B (op ⦋1⦌) y).1 = _
     induction ((torOneTermEquiv.{u, v} A B (op ⦋1⦌) y).1 :
         augmentationIdeal A B (op ⦋1⦌) ⊗[(standardResolution A B).left.obj (op ⦋1⦌)]
-          augmentationIdeal A B (op ⦋1⦌)) using TensorProduct.induction_on with
-    | zero => exact (map_zero _).symm
+          augmentationIdeal A B (op ⦋1⦌)) using TensorProduct.inductionOn with
     | tmul a b => rfl
     | add s t hs ht => exact (map_add _ s t).trans ((congrArg₂ (· + ·) hs ht).trans
         (map_add _ s t).symm)

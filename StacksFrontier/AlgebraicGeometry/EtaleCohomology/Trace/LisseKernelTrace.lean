@@ -66,7 +66,7 @@ theorem LAdicSheaf.bijective_rationalStalkMap_of_isogeny {F G : LAdicSheaf.{u, u
     rw [← LAdicSheaf.rationalStalkMap_nsmul_id, ← h]
     simp only [LAdicSheaf.rationalStalkMap, LAdicSheaf.stalkMap_comp, LinearMap.baseChange_comp]
   let e : LAdicSheaf.rationalStalkLeft B X ℓ F s ≃ₗ[ℚ_[ℓ]] LAdicSheaf.rationalStalkLeft B X ℓ G s :=
-    LinearEquiv.ofLinear (LAdicSheaf.rationalStalkMap φ s)
+    LinearEquiv.ofLinearMap (LAdicSheaf.rationalStalkMap φ s)
       (((ℓ ^ N : ℕ) : ℚ_[ℓ])⁻¹ • LAdicSheaf.rationalStalkMap ψ s)
       (by rw [LinearMap.comp_smul, hcomp ψ φ h₂, smul_smul, inv_mul_cancel₀ hc, one_smul])
       (by rw [LinearMap.smul_comp, hcomp φ ψ h₁, smul_smul, inv_mul_cancel₀ hc, one_smul])
@@ -89,11 +89,10 @@ theorem LAdicSheaf.LevelTrivialization.rationalStalkEquiv_rationalStalkMap
     (u : LAdicSheaf.rationalStalkLeft B X ℓ F s) :
     T'.rationalStalkEquiv (LAdicSheaf.rationalStalkMap Φ s u) =
       M.map ((↑) : ℤ_[ℓ] → ℚ_[ℓ]) *ᵥ T.rationalStalkEquiv u := by
-  induction u using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, Matrix.mulVec_zero]
+  induction u using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, ha, hb, map_add, Matrix.mulVec_add]
   | tmul c v =>
-    show TensorProduct.piScalarRight ℤ_[ℓ] ℚ_[ℓ] ℚ_[ℓ] (Fin r')
+    change TensorProduct.piScalarRight ℤ_[ℓ] ℚ_[ℓ] ℚ_[ℓ] (Fin r')
         ((T'.stalkEquiv.baseChange ℤ_[ℓ] ℚ_[ℓ] _ _)
           (LinearMap.baseChange ℚ_[ℓ] (LAdicSheaf.stalkMap Φ s) (c ⊗ₜ v))) =
       M.map ((↑) : ℤ_[ℓ] → ℚ_[ℓ]) *ᵥ TensorProduct.piScalarRight ℤ_[ℓ] ℚ_[ℓ] ℚ_[ℓ] (Fin r)
@@ -105,7 +104,7 @@ theorem LAdicSheaf.LevelTrivialization.rationalStalkEquiv_rationalStalkMap
     simp only [Matrix.mulVec, dotProduct]
     rw [Finset.sum_smul]
     refine Finset.sum_congr rfl fun j _ => ?_
-    show (M i j * _) • c = ((M i j : ℤ_[ℓ]) : ℚ_[ℓ]) * (_ • c)
+    change (M i j * _) • c = ((M i j : ℤ_[ℓ]) : ℚ_[ℓ]) * (_ • c)
     rw [Algebra.smul_def, Algebra.smul_def, map_mul, mul_assoc]
     rfl
 

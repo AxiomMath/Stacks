@@ -152,7 +152,7 @@ sectionwise localization map followed by sheafification. -/
 theorem toLocalizationSheaf_hom :
     T.toLocalizationSheaf.hom =
       T.toLocalizationPresheaf ≫ toSheafify A.J T.localizationPresheaf := by
-  show (sheafificationIso A.O).hom.hom ≫ sheafifyMap A.J T.toLocalizationPresheaf = _
+  change (sheafificationIso A.O).hom.hom ≫ sheafifyMap A.J T.toLocalizationPresheaf = _
   rw [show (sheafificationIso A.O).hom.hom = toSheafify A.J A.O.obj by simp]
   exact (toSheafify_naturality A.J T.toLocalizationPresheaf).symm
 

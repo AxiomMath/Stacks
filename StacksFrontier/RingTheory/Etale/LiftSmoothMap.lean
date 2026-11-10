@@ -105,7 +105,7 @@ private theorem quotient_retraction_etale
     exact RingHom.etale_algebraMap.mpr
       (inferInstance : Algebra.Etale (A ⧸ I) (A ⧸ I))
   have hqft : q.FiniteType := by
-    show (algebraMap (A ⧸ I) (C ⧸ J)).FiniteType
+    change (algebraMap (A ⧸ I) (C ⧸ J)).FiniteType
     exact RingHom.finiteType_algebraMap.mpr inferInstance
   exact ⟨τ, hτ, RingHom.Etale.of_comp hq.formallyUnramified hqft hcomp, hσ⟩
 
@@ -182,7 +182,7 @@ private theorem exists_localization_bijective_closedFiber
         Submonoid.powers e := by
       rw [Algebra.algebraMapSubmonoid, Submonoid.map_powers]
       exact congrArg Submonoid.powers hg
-    show IsLocalization (Submonoid.powers e) _
+    change IsLocalization (Submonoid.powers e) _
     rw [← hm]
     infer_instance
   let : Algebra (C ⧸ J) (A ⧸ I) := τ.toRingHom.toAlgebra
@@ -190,7 +190,7 @@ private theorem exists_localization_bijective_closedFiber
   have : IsLocalization.Away e (L ⧸ K) := hlocL
   have hbij := bijective_base_map_of_localization_retraction
     (T := L ⧸ K) q hτ e
-  show Function.Bijective (qg.comp q) ∧ IsUnit (σ g) ∧
+  change Function.Bijective (qg.comp q) ∧ IsUnit (σ g) ∧
     ∀ x, (qg.comp q) (σ x) = Ideal.Quotient.mk K (algebraMap C L x)
   have hqg : qg = algebraMap (C ⧸ J) (L ⧸ K) := rfl
   rw [hqg]
@@ -234,7 +234,7 @@ private theorem exists_localization_bijective_baseQuotient
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
     simp only [RingHom.comp_apply, q, qg, Ideal.quotientMap_mk,
       RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom]
-    show e (Ideal.Quotient.mk K (algebraMap C L (algebraMap A C a))) = _
+    change e (Ideal.Quotient.mk K (algebraMap C L (algebraMap A C a))) = _
     rw [Ideal.quotEquivOfEq_mk]
     rfl
   refine ⟨?_, hunit, ?_⟩
@@ -242,7 +242,7 @@ private theorem exists_localization_bijective_baseQuotient
     exact e.bijective.comp hbij
   · intro x
     rw [← hcomp]
-    show e ((qg.comp q) (σ x)) = _
+    change e ((qg.comp q) (σ x)) = _
     rw [hcomm]
     exact Ideal.quotEquivOfEq_mk hK _
 
@@ -262,13 +262,13 @@ theorem Module.exists_finite_projective_complement
   let r : (Fin n → R) →ₗ[R] K :=
     (LinearMap.id - g.comp f).codRestrict K (by
       intro x
-      show f (x - g (f x)) = 0
+      change f (x - g (f x)) = 0
       simp only [map_sub]
       have h := LinearMap.congr_fun hfg (f x)
       simpa using congrArg (fun y : P => f x - y) h)
   have hr : r.comp K.subtype = LinearMap.id := by
     refine LinearMap.ext fun x => Subtype.ext ?_
-    show x.1 - g (f x.1) = x.1
+    change x.1 - g (f x.1) = x.1
     simp [LinearMap.mem_ker.mp x.2]
   have hKproj : Module.Projective R K := Module.Projective.of_split K.subtype r hr
   let e : (Fin n → R) →ₗ[R] P × K := f.prod r
@@ -284,11 +284,11 @@ theorem Module.exists_finite_projective_complement
     · intro ⟨p, k⟩
       refine ⟨g p + k.1, ?_⟩
       apply Prod.ext
-      · show f (g p + k.1) = p
+      · change f (g p + k.1) = p
         rw [map_add, LinearMap.mem_ker.mp k.2, add_zero]
         exact LinearMap.congr_fun hfg p
       · apply Subtype.ext
-        show (g p + k.1) - g (f (g p + k.1)) = k.1
+        change (g p + k.1) - g (f (g p + k.1)) = k.1
         have h : f (g p) = p := LinearMap.congr_fun hfg p
         rw [map_add, LinearMap.mem_ker.mp k.2, add_zero, h]
         simp
@@ -425,7 +425,7 @@ private theorem smooth_enlargement_free_differentials
   refine ⟨S, inferInstance, inferInstance, IsScalarTower.toAlgHom A B S,
     f.comp aug, inferInstance, Module.Free.of_equiv et.symm, ?_⟩
   ext b
-  show f (SymmetricAlgebra.lift (0 : K →ₗ[B] B) (algebraMap B S b)) = f b
+  change f (SymmetricAlgebra.lift (0 : K →ₗ[B] B) (algebraMap B S b)) = f b
   rw [AlgHom.commutes]
   rfl
 
@@ -443,7 +443,7 @@ private theorem etale_quotient_of_exact_differential_basis
   let P := Algebra.Extension.ofSurjective (Ideal.Quotient.mkₐ A J)
     Ideal.Quotient.mk_surjective
   have hJ : Ideal.span (Set.range values) = P.ker := by
-    show J = RingHom.ker (Ideal.Quotient.mk J)
+    change J = RingHom.ker (Ideal.Quotient.mk J)
     exact (Ideal.mk_ker).symm
   let c : ι → P.Cotangent := fun i =>
     Algebra.Extension.Cotangent.mk (P := P) ⟨values i, hJ.le (Ideal.subset_span ⟨i, rfl⟩)⟩
@@ -453,9 +453,9 @@ private theorem etale_quotient_of_exact_differential_basis
   let l : P.CotangentSpace →ₗ[C] P.Cotangent := b.constr C c
   have hl : P.cotangentComplex.comp l = LinearMap.id := by
     refine b.ext fun i => ?_
-    show P.cotangentComplex (b.constr C c (b i)) = b i
+    change P.cotangentComplex (b.constr C c (b i)) = b i
     rw [Module.Basis.constr_basis]
-    show 1 ⊗ₜ[S] KaehlerDifferential.D A S (values i) = (basis.baseChange C) i
+    change 1 ⊗ₜ[S] KaehlerDifferential.D A S (values i) = (basis.baseChange C) i
     rw [Module.Basis.baseChange_apply, hb]
   have hls : Function.Surjective l := by
     rw [← LinearMap.range_eq_top, eq_top_iff, ← hc]
@@ -469,7 +469,7 @@ private theorem etale_quotient_of_exact_differential_basis
     P.formallySmooth_iff_split_injection.mpr ⟨l, hleft⟩
   have hz : P.toKaehler = 0 := by
     refine LinearMap.ext fun x => ?_
-    show P.toKaehler x = 0
+    change P.toKaehler x = 0
     have hx : P.cotangentComplex (l x) = x := LinearMap.congr_fun hl x
     rw [← hx]
     exact (Algebra.Extension.exact_cotangentComplex_toKaehler (P := P)).apply_apply_eq_zero (l x)
@@ -501,7 +501,7 @@ private theorem basis_det_baseChange
 private theorem exact_differential_frame_near_section
     {A S : Type*} [CommRing A] [CommRing S] [Algebra A S]
     (I : Ideal A) (σ : S →ₐ[A] A ⧸ I)
-    {ι : Type*} [Fintype ι] (basis : Module.Basis ι S (KaehlerDifferential A S)) :
+    {ι : Type*} [Finite ι] (basis : Module.Basis ι S (KaehlerDifferential A S)) :
     ∃ g : S, IsUnit (σ g) ∧
       ∃ (values : ι → S), (∀ i, σ (values i) = 0) ∧
         ∃ b : Module.Basis ι (Localization.Away g)
@@ -509,6 +509,7 @@ private theorem exact_differential_frame_near_section
           ∀ i, b i = KaehlerDifferential.D A (Localization.Away g)
             (algebraMap S (Localization.Away g) (values i)) := by
   classical
+  have := Fintype.ofFinite ι
   let : Algebra S (A ⧸ I) := σ.toAlgebra
   have : IsScalarTower A S (A ⧸ I) := inferInstance
   have hs : Function.Surjective (algebraMap S (A ⧸ I)) := by
@@ -530,7 +531,7 @@ private theorem exact_differential_frame_near_section
   let d : ι → KaehlerDifferential A S := fun i => KaehlerDifferential.D A S (v i).1
   let g := basis.det d
   have hg : σ g = 1 := by
-    show algebraMap S (A ⧸ I) (basis.det d) = 1
+    change algebraMap S (A ⧸ I) (basis.det d) = 1
     rw [← basis_det_baseChange]
     have heq : (fun i => (1 : A ⧸ I) ⊗ₜ[S] d i) = bbar := funext hvD
     rw [heq]
@@ -546,9 +547,9 @@ private theorem exact_differential_frame_near_section
     (bL.is_basis_iff_det.mpr hdet).2.ge
   let e := KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale A S L
   refine ⟨b'.map e, fun i => ?_⟩
-  show e (b' i) = _
+  change e (b' i) = _
   rw [Module.Basis.mk_apply]
-  show KaehlerDifferential.mapBaseChange A S L (1 ⊗ₜ[S] d i) = _
+  change KaehlerDifferential.mapBaseChange A S L (1 ⊗ₜ[S] d i) = _
   simp only [d, KaehlerDifferential.mapBaseChange_tmul, KaehlerDifferential.map_D, one_smul]
   rfl
 
@@ -584,7 +585,7 @@ private theorem exists_etale_factorization_of_smooth
   have : Algebra.Etale A C := etale_quotient_of_exact_differential_basis vL b hb
   refine ⟨C, inferInstance, inferInstance, k, τ, inferInstance, ?_⟩
   ext x
-  show σL (algebraMap S L (j x)) = f x
+  change σL (algebraMap S L (j x)) = f x
   rw [hσL]
   exact AlgHom.congr_fun hj x
 
@@ -620,7 +621,7 @@ private theorem exists_etale_lift_of_lift
   · refine ⟨φ.toAlgHom.comp g, RingHom.ext fun b => ?_⟩
     have hga : Ideal.Quotient.mk I (g b) = f b :=
       congrArg (fun (h : B →ₐ[A] (A ⧸ I)) => h b) hg
-    show (Ideal.quotientMap (I.map (algebraMap A A')) (algebraMap A A')
+    change (Ideal.quotientMap (I.map (algebraMap A A')) (algebraMap A A')
       Ideal.le_comap_map) (f b) = Ideal.Quotient.mk _ (φ (g b))
     rw [← hga, Ideal.quotientMap_mk]
     rfl
@@ -671,10 +672,10 @@ theorem exists_etale_lift_of_smooth
   refine ⟨A', inferInstance, inferInstance, inferInstance, hbij,
     (IsScalarTower.toAlgHom A C' A').comp (e.toAlgHom.comp j), RingHom.ext fun b => ?_⟩
   have hσ : σ' (e (j b)) = f b := by
-    show σ (e.symm (e (j b))) = f b
+    change σ (e.symm (e (j b))) = f b
     rw [e.symm_apply_apply]
     exact AlgHom.congr_fun hj b
-  show (Ideal.quotientMap (I.map (algebraMap A A')) (algebraMap A A')
+  change (Ideal.quotientMap (I.map (algebraMap A A')) (algebraMap A A')
     Ideal.le_comap_map) (f b) = Ideal.Quotient.mk _ (algebraMap C' A' (e (j b)))
   rw [← hσ]
   exact hcomm (e (j b))

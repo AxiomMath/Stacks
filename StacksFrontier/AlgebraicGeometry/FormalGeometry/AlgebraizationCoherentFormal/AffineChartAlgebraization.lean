@@ -125,13 +125,13 @@ variable (hU : ((U : Set X))ᶜ ⊆ I.support)
 /-- The open complement of the chart situation is the preimage of `U` in `Spec Γ(X, V)`. -/
 theorem chartSituation_U : (chartSituation I U V hU).U = V.2.fromSpec ⁻¹ᵁ U := by
   apply Opens.ext
-  show (PrimeSpectrum.zeroLocus (chartComplementIdeal U V : Set Γ(X, V)))ᶜ = _
+  change (PrimeSpectrum.zeroLocus (chartComplementIdeal U V : Set Γ(X, V)))ᶜ = _
   rw [chartComplementIdeal, PrimeSpectrum.zeroLocus_vanishingIdeal_eq_closure]
   have hcl : IsClosed {p : PrimeSpectrum Γ(X, V) | p ∉ V.2.fromSpec ⁻¹ᵁ U} :=
     (V.2.fromSpec ⁻¹ᵁ U).isOpen.isClosed_compl
   rw [hcl.closure_eq]
   ext p
-  simp only [Set.mem_compl_iff, Set.mem_setOf_eq, not_not]
+  simp only [Set.mem_compl_iff, Set.mem_ofPred_eq, not_not]
   rfl
 
 /-- The chart `Spec Γ(X, V) ⟶ X`, typed with the source of the chart situation. -/
@@ -185,7 +185,7 @@ of the chart situation on its open complement. -/
 theorem comap_chartMap :
     (I.comap U.ι).comap (chartMap I U V hU) = idealOnOpen (chartSituation I U V hU) := by
   rw [← Scheme.IdealSheafData.comap_comp, chartMap_ι, Scheme.IdealSheafData.comap_comp]
-  show (I.comap V.2.fromSpec).comap _ = _
+  change (I.comap V.2.fromSpec).comap _ = _
   rw [comap_fromSpec_eq_ofIdealTop]
   rfl
 
@@ -202,10 +202,10 @@ theorem chartMap_image_top :
   apply Opens.ext
   ext x
   rw [Scheme.Hom.image_top_eq_opensRange, Scheme.Hom.coe_opensRange]
-  show x ∈ Set.range (chartMap I U V hU) ↔ U.ι x ∈ (V : X.Opens)
+  change x ∈ Set.range (chartMap I U V hU) ↔ U.ι x ∈ (V : X.Opens)
   constructor
   · rintro ⟨y, rfl⟩
-    show (chartMap I U V hU ≫ U.ι) y ∈ (V : X.Opens)
+    change (chartMap I U V hU ≫ U.ι) y ∈ (V : X.Opens)
     rw [chartMap_ι]
     exact fromSpec_mem_affineOpen V ((chartSituation I U V hU).U.ι y)
   · intro hx
@@ -213,12 +213,12 @@ theorem chartMap_image_top :
     obtain ⟨p, hp⟩ := h
     have hpU : p ∈ (chartSituation I U V hU).U := by
       rw [chartSituation_U]
-      show V.2.fromSpec p ∈ U
+      change V.2.fromSpec p ∈ U
       rw [hp]
       exact x.2
     refine ⟨⟨p, hpU⟩, ?_⟩
     apply U.ι.isOpenEmbedding.injective
-    show (chartMap I U V hU ≫ U.ι) ⟨p, hpU⟩ = U.ι x
+    change (chartMap I U V hU ≫ U.ι) ⟨p, hpU⟩ = U.ι x
     rw [chartMap_ι]
     exact hp
 
@@ -410,7 +410,7 @@ theorem hasFiniteLowDegreeCohomology_chartSystem
     have happ : (chartSituation I U V hU).U.ι.appLE ⊤ ⊤ (by simp) =
         (chartSituation I U V hU).U.ι.appTop :=
       Scheme.Hom.appLE_eq_app _
-    show Module.Finite Γ(X, V) ((ModuleCat.restrictScalars
+    change Module.Finite Γ(X, V) ((ModuleCat.restrictScalars
       ((Scheme.ΓSpecIso (.of Γ(X, V))).inv ≫
         (chartSituation I U V hU).U.ι.appLE ⊤ ⊤ (by simp)).hom).obj _)
     rw [happ]
@@ -474,10 +474,10 @@ theorem chartMap_baseToStalk (y : (chartSituation (baseIdealSheaf R J p) U V hU)
         X.presheaf.map (homOfLE le_top : (V : X.Opens) ⟶ ⊤).op ≫
         (Scheme.ΓSpecIso Γ(X, V)).inv ≫
           (chartSituation (baseIdealSheaf R J p) U V hU).U.ι.appTop := by
-    show (Scheme.ΓSpecIso (.of R)).inv ≫ p.appTop ≫
+    change (Scheme.ΓSpecIso (.of R)).inv ≫ p.appTop ≫
       ((chartMap (baseIdealSheaf R J p) U V hU) ≫ U.ι).appTop = _
     rw [chartMap_ι]
-    show (Scheme.ΓSpecIso (.of R)).inv ≫ p.appTop ≫ V.2.fromSpec.appTop ≫ _ = _
+    change (Scheme.ΓSpecIso (.of R)).inv ≫ p.appTop ≫ V.2.fromSpec.appTop ≫ _ = _
     rw [fromSpec_appTop_eq V.2]
     rfl
   ext r
@@ -503,7 +503,7 @@ theorem flatCompletedStalks_chartSystem [IsNoetherianRing R]
         trivial).hom.comp (scalarMap (chartSituation (baseIdealSheaf R J p) U V hU))).comp
         (chartBaseMap R p V)) := by
     rw [stalk_idealOnOpen_eq_map_scalarMap]
-    show ((baseIdealSheaf R J p).ideal V).map _ = _
+    change ((baseIdealSheaf R J p).ideal V).map _ = _
     rw [baseIdealSheaf_ideal_eq_map_chartBaseMap, Ideal.map_map]
   refine flat_completedStalk _ _ y R J _ hK fun n => ?_
   have h := (hflat n).restrict (chartMap (baseIdealSheaf R J p) U V hU) y

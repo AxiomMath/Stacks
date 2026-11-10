@@ -115,7 +115,7 @@ theorem exists_boundedEtaleCover_of_isReasonableSpace
     isLocallySurjective_of_surjective_etale B S hS f hfS hfE
   have hdesc : (Sigma.desc fun i ↦ yoneda.map (j i) ≫ f) = coprodYonedaDesc W U j ≫ f := by
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [Sigma.ι_desc, coprodYonedaDesc, ← Category.assoc, Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc, coprodYonedaDesc, ← Category.assoc, Sigma.ι_comp_desc]
   rw [hdesc]
   exact Presheaf.isLocallySurjective_comp _ _ _
 
@@ -242,7 +242,7 @@ theorem isReasonableSpace_of_boundedEtaleCover
       hincsurj fun l ↦ hincopen l
   have hsigEt : Etale ((BigFppfOver.toScheme B S hS).map ρsig) := by
     refine IsZariskiLocalAtSource.of_openCover (𝒰 := 𝒲) fun l ↦ ?_
-    show Etale ((BigFppfOver.toScheme B S hS).map (BigFppfOver.sigmaIncl B S hS Wf l) ≫
+    change Etale ((BigFppfOver.toScheme B S hS).map (BigFppfOver.sigmaIncl B S hS Wf l) ≫
       (BigFppfOver.toScheme B S hS).map ρsig)
     rw [← Functor.map_comp, hfac l]
     exact hρEt l.1

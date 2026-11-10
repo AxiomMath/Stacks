@@ -408,7 +408,7 @@ theorem exists_separated_root_of_henselianLocalRing (A : Type*) [CommRing A]
   let κ := IsLocalRing.ResidueField A
   let r := IsLocalRing.residue A
   have : NeZero (n : κ) := ⟨natCast_residueField_ne_zero hn⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot κ n
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot κ n
   obtain ⟨a₀, rfl⟩ := IsLocalRing.residue_surjective ζ₀
   have hmonic : (X ^ n - 1 : A[X]).Monic := monic_X_pow_sub_C 1 hn0
   have heval : (X ^ n - 1 : A[X]).eval a₀ ∈ IsLocalRing.maximalIdeal A := by

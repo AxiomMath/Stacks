@@ -233,7 +233,7 @@ noncomputable def unitIso : 𝟭 (Fib p p𝒯 F Y) ≅ toElements hp hF hY ⋙ o
 
 lemma sectOf_objOf (a : 𝒯) (m : VertHom p p𝒯 Y Y a) : sectOf hF (objOf hp hF hY a m) = m := by
   apply VertHom.ext
-  show 𝟙 _ ≫ m.1 ≫ 𝟙 _ = m.1
+  change 𝟙 _ ≫ m.1 ≫ 𝟙 _ = m.1
   simp
 
 /-- The counit of the equivalence. -/

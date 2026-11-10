@@ -168,7 +168,7 @@ theorem isIso_derivedDirectImageCompTraceAdjoint_of_bijective
     simp only [Function.comp_apply]
     congr 1
     rw [traceMap_apply, Stacks.TopTruncationExt.extPlus_map_ι]
-    show _ = (Ext.comp _ e₀ (add_zero 0)).hom
+    change _ = (Ext.comp _ e₀ (add_zero 0)).hom
     rw [Ext.comp_hom, he₀]
     rfl
   rw [hfac] at hb

@@ -167,7 +167,7 @@ theorem isIso_of_five {C : Type*} [Category* C] [HasShift C ℤ] [Preadditive C]
   obtain ⟨t, ht⟩ := T'.coyoneda_exact₃ hT' (y - x ≫ a₃) (by
     rw [sub_comp, Category.assoc, hx', sub_self])
   refine ⟨x + (t ≫ inv a₂) ≫ T.mor₂, ?_⟩
-  show (x + (t ≫ inv a₂) ≫ T.mor₂) ≫ a₃ = y
+  change (x + (t ≫ inv a₂) ≫ T.mor₂) ≫ a₃ = y
   rw [add_comp, Category.assoc, h₂]
   simp only [Category.assoc, IsIso.inv_hom_id_assoc]
   rw [← ht, add_sub_cancel]

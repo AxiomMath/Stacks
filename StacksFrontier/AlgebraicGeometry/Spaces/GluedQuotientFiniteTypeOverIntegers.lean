@@ -71,6 +71,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 local notation "F" => BigFppfOver.toScheme B S hS
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site times out otherwise
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_GluedQuotientFiniteTypeOverIntegers :
@@ -119,7 +120,7 @@ quasi-compact and `V` is quasi-separated. -/
 theorem quasiCompact_map_t [CompactSpace ((F).obj V)] [QuasiSeparatedSpace ((F).obj V)]
     [CompactSpace ((F).obj E.Q)] : QuasiCompact ((F).map E.t) := by
   have := E.compactSpace_glued
-  show QuasiCompact E.targetScheme
+  change QuasiCompact E.targetScheme
   infer_instance
 
 /-- **Stacks 07S4 for the quotient of an extended relation.** If `V` is quasi-compact and

@@ -199,8 +199,7 @@ theorem localized_descent {R S M N : Type*} [CommRing R] [IsNoetherianRing R] [C
         ((LocalizedModule.map q.primeCompl d).baseChange (Localization.AtPrime p)) := by
     apply LinearMap.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul c x =>
       induction x using LocalizedModule.induction_on with
       | h x t =>
@@ -228,7 +227,7 @@ theorem localized_descent {R S M N : Type*} [CommRing R] [IsNoetherianRing R] [C
     intro x y hxy
     apply source.injective
     apply hinj
-    show ((LocalizedModule.map p.primeCompl (d.baseChange S)).comp source.toLinearMap) x =
+    change ((LocalizedModule.map p.primeCompl (d.baseChange S)).comp source.toLinearMap) x =
       ((LocalizedModule.map p.primeCompl (d.baseChange S)).comp source.toLinearMap) y
     rw [commutes]
     exact congrArg target hxy
@@ -316,7 +315,7 @@ theorem localized_inner_of_localized_outer (P : CompletedPolynomialPresentation 
     hnegC
   obtain ⟨δ, -, -, hexδ, hex0, hsurj⟩ := P.exists_sixTerm_exact_combined s ψ hψ KB KC F hFc hFp
   obtain ⟨n, hann⟩ := P.exists_pow_adicIdeal_le_annihilator_ker_onH₁_chainMapInl s ψ hψ KB KC hBC
-  obtain ⟨x, hxI, hxp⟩ := SetLike.not_le_iff_exists.mp hp
+  obtain ⟨x, hxI, hxp⟩ := IsConcreteLE.not_le_iff_exists.mp hp
   have hneg' : Subsingleton (LocalizedModule p.primeCompl
       (NaiveCotangent.H₁ (NaiveCotangent.TwoTerm.ofFree (outerDifferential s ψ hψ F)))) :=
     hneg
@@ -421,7 +420,7 @@ theorem localized_cotangent_of_isRigSmooth_comp
     intro hle
     refine hq ?_
     rw [← hpq]
-    show I.map φ ≤ p.comap ψ
+    change I.map φ ≤ p.comap ψ
     rw [← Ideal.map_le_iff_le_comap, Ideal.map_map]
     exact hle
   let pF : Ideal fiber.carrier := p
@@ -459,7 +458,7 @@ theorem localized_cotangent_of_isRigSmooth_comp
     refine LinearMap.ext fun c => LinearMap.ext fun m => ?_
     funext j
     simp only [TensorProduct.AlgebraTensorModule.curry_apply, TensorProduct.curry_apply]
-    show _ = (c • ((Algebra.linearMap base.carrier total.carrier).compLeft (Fin P.variableCount)
+    change _ = (c • ((Algebra.linearMap base.carrier total.carrier).compLeft (Fin P.variableCount)
       (KB.differential m))) j
     simp [Algebra.smul_def, mul_comm]
   have hker : LinearMap.ker (P.innerBaseChangeDifferential (C := total) KB) =

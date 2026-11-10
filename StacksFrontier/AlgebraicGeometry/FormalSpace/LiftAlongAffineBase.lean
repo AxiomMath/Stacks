@@ -258,7 +258,7 @@ theorem isFormalAlgebraicSpace_liftAlong_of_isAffineFormalAlgebraicSpace
       refine (IsPullback.of_hasPullback (liftAlongBase B S hS i' (pc n)) (σ ν)).flip.of_iso
         (Iso.refl _) (εs ν) (Iso.refl _) eY'
         (by simp) (by simp) ?_ (by simp)
-      show σ ν ≫ eY'.hom = (εs ν).hom ≫ colimit.ι (presentationDiagram D) ν
+      change σ ν ≫ eY'.hom = (εs ν).hom ≫ colimit.ι (presentationDiagram D) ν
       rw [hσapp, Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id]
     exact ⟨V', hV'aff, ⟨e₂ ≪≫ hsw.isoIsPullback _ _ (IsPullback.of_hasPullback _ _)⟩⟩
   · -- joint surjectivity
@@ -377,7 +377,7 @@ theorem isFormalAlgebraicSpace_liftAlong_of_isAffineFormalAlgebraicSpace
         (Space.sieve_ofArrows_mem_topology_of_etale B hS F qF hFcov hqFet)
       rintro V' h ⟨W₁, l, ff, hff, rfl⟩
       obtain ⟨n⟩ := hff
-      show R.arrows ((l ≫ qF n) ≫ g)
+      change R.arrows ((l ≫ qF n) ≫ g)
       rw [Category.assoc]
       refine R.downward_closed ⟨⟨ν₀, mE n⟩, uliftYonedaEquiv.{u + 1} (θ n).hom, ?_⟩ l
       have hcomp := congrArg (fun m : liftSheaf B S hS (schemeSpace (F n))

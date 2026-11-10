@@ -99,7 +99,7 @@ theorem exists_isPrimitiveRoot {m : ℕ} (hm : IsUnit (m : R)) : ∃ ζ : R, IsP
   have := neZero_residue_natCast hm
   have : NeZero m := .of_neZero_natCast (ResidueField R)
   have := IsSepClosed.hasEnoughRootsOfUnity (ResidueField R) m
-  obtain ⟨z, hz⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (ResidueField R) m
+  obtain ⟨z, hz⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (ResidueField R) m
   obtain ⟨b₀, rfl⟩ := residue_surjective z
   have hb₀ : residue R b₀ ^ m = residue R 1 := by rw [hz.pow_eq_one, map_one]
   obtain ⟨ζ, hζ, hres⟩ := exists_pow_eq_of_residue R hm 1 b₀ hb₀

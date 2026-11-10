@@ -152,7 +152,7 @@ theorem isLocalHom_algebraMap_localizationAtPrime {A : Type*} [CommRing A] [IsLo
     IsLocalHom (algebraMap A (Localization.AtPrime q)) := by
   apply ((local_hom_TFAE (algebraMap A (Localization.AtPrime q))).out 5 1).mp
   rw [IsScalarTower.algebraMap_eq A B (Localization.AtPrime q), ← Ideal.comap_comap]
-  show ((maximalIdeal (Localization.AtPrime q)).under B).comap (algebraMap A B) = _
+  change ((maximalIdeal (Localization.AtPrime q)).under B).comap (algebraMap A B) = _
   rw [IsLocalization.AtPrime.under_maximalIdeal _ q]
   exact eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal q)
 
@@ -171,13 +171,13 @@ instance liesOver_under_semilocalization : (v.asIdeal.under C).LiesOver q.asIdea
   ⟨(IsLocalization.under_under_eq_of_isMaximal q.asIdeal v.asIdeal).symm⟩
 
 variable [Algebra (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
-  [Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (v.asIdeal.under C)]
+  [IsScalarTower B (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
 
 /-- The structure map `B_𝔮 → C_𝔯` of local rings along the fibre is local. -/
 instance isLocalHom_fibreAlgebraMap :
     IsLocalHom (algebraMap (Localization.AtPrime q.asIdeal)
       (Localization.AtPrime (v.asIdeal.under C))) := by
-  rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq]
+  rw [Localization.AtPrime.algebraMap_eq]
   exact Localization.isLocalHom_localRingHom _ _ _ _
 
 /-- **The local ring of `C` at the prime below `v`, as an algebra over `B_𝔮`.** It is the local
@@ -202,6 +202,7 @@ noncomputable def fibreLocalizationAlgEquiv :
       IsScalarTower.algebraMap_apply B C (Localization.AtPrime v.asIdeal)]
     exact (localizationAtPrimeUnderAlgEquiv B C q v).commutes ((algebraMap B C) b)
 
+omit [Algebra.IsIntegral B C] in
 /-- `fibreLocalizationAlgEquiv` commutes with the structure maps from `B_𝔮`. -/
 @[simp]
 theorem fibreLocalizationAlgEquiv_algebraMap (x : Localization.AtPrime q.asIdeal) :
@@ -218,7 +219,7 @@ instance isLocalHom_algebraMap_localizationAtPrime_semilocalization :
     IsLocalHom (algebraMap (Localization.AtPrime q.asIdeal) (Localization.AtPrime v.asIdeal)) :=
   isLocalHom_algebraMap_localizationAtPrime v.asIdeal
 
-omit [Module.Finite B C] in
+omit [Module.Finite B C] [Algebra.IsIntegral B C] in
 /-- **The order of vanishing agrees at the two models of the local ring at `𝔯`.** -/
 theorem ord_toNat_localizationAtPrimeUnder (x : Localization.AtPrime q.asIdeal) :
     (Ring.ord (Localization.AtPrime v.asIdeal)
@@ -257,7 +258,7 @@ variable {B : Type*} [CommRing B] [IsNoetherianRing B] [Ring.KrullDimLE 1 B]
   [∀ v : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)),
     Algebra (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
   [∀ v : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)),
-    Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (v.asIdeal.under C)]
+    IsScalarTower B (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
 
 /-- **The identity to which the comparison of two extensions reduces, over the fibre.** For a unit
 `λ` of `κ(𝔮)` and a nonzerodivisor `x` of `B_𝔮`, `λ ^ length_{B_𝔮}(B_𝔮/xB_𝔮)` is the product of

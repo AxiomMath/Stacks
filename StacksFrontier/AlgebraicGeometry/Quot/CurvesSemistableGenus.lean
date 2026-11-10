@@ -413,7 +413,7 @@ theorem genusLocus_eq_preimage {X Y : CurveFamily B hZ} (φ : X ⟶ Y)
     X.genusLocus g =
       (BigFppfOver.toScheme B integerBase hZ).map φ.baseMap ⁻¹' Y.genusLocus g := by
   ext x
-  show X.HasGenusAt _ g ↔ Y.HasGenusAt _ g
+  change X.HasGenusAt _ g ↔ Y.HasGenusAt _ g
   rw [← hasGenusAt_map_iff φ]
   refine hasGenusAt_iff_of_schemePoint_eq hfib ?_ g
   rw [schemePoint_residueFieldPoint]

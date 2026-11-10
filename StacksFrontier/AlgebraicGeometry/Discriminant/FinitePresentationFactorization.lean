@@ -147,7 +147,7 @@ theorem exists_finiteOpenFactorization_finitePresentation {A : Type u} {B : Type
     intro q
     obtain ⟨t, htT, htq⟩ := hTcov q
     refine ⟨Ideal.Quotient.mk I (x ⟨t, htT⟩), ?_, ?_⟩
-    · show ρ (x ⟨t, htT⟩) ∉ q.asIdeal
+    · change ρ (x ⟨t, htT⟩) ∉ q.asIdeal
       rw [hρx]
       exact htq
     · exact bijective_awayMap_quotient ρ I _ (x ⟨t, htT⟩) (hsurj _) (hI _)

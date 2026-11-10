@@ -161,7 +161,7 @@ private theorem affine_valuation_diagram_sized
   let h : Spec (.of A) ⟶ Spec (.of R) := Spec.map (CommRingCat.ofHom r)
   have hcomm : (algebraMap A K).comp r = (algebraMap T K).comp φ := by
     ext x
-    show (IsLocalRing.residue (Localization.AtPrime q.asIdeal))
+    change (IsLocalRing.residue (Localization.AtPrime q.asIdeal))
         (θ (algebraMap R (Localization.AtPrime p.asIdeal) x)) = algebraMap T K (φ x)
     calc
       _ = (IsLocalRing.residue (Localization.AtPrime q.asIdeal))
@@ -171,13 +171,13 @@ private theorem affine_valuation_diagram_sized
       _ = algebraMap T K (φ x) :=
         IsScalarTower.algebraMap_apply T (Localization.AtPrime q.asIdeal) K (φ x)
   have hclosed : h (closedPoint A) = p := by
-    show PrimeSpectrum.comap r (IsLocalRing.closedPoint A) = p
+    change PrimeSpectrum.comap r (IsLocalRing.closedPoint A) = p
     rw [PrimeSpectrum.comap_comp]
-    show PrimeSpectrum.comap (algebraMap R (Localization.AtPrime p.asIdeal))
+    change PrimeSpectrum.comap (algebraMap R (Localization.AtPrime p.asIdeal))
       (PrimeSpectrum.comap ρ (IsLocalRing.closedPoint A)) = p
     rw [IsLocalRing.comap_closedPoint ρ]
     apply PrimeSpectrum.ext
-    show Ideal.comap (algebraMap R (Localization.AtPrime p.asIdeal))
+    change Ideal.comap (algebraMap R (Localization.AtPrime p.asIdeal))
       (IsLocalRing.maximalIdeal (Localization.AtPrime p.asIdeal)) = p.asIdeal
     exact IsLocalization.AtPrime.under_maximalIdeal
       (Localization.AtPrime p.asIdeal) p.asIdeal
@@ -185,7 +185,7 @@ private theorem affine_valuation_diagram_sized
     (Cardinal.mk_subtype_le (fun x : K => x ∈ V)).trans
       (residueField_cardinality_bound q.asIdeal),
     K, inferInstance, inferInstance, inferInstance, g, h, ?_, hclosed⟩
-  show Spec.map (CommRingCat.ofHom (algebraMap T K)) ≫
+  change Spec.map (CommRingCat.ofHom (algebraMap T K)) ≫
       Spec.map (CommRingCat.ofHom φ) =
     Spec.map (CommRingCat.ofHom (algebraMap A K)) ≫ Spec.map (CommRingCat.ofHom r)
   rw [← Spec.map_comp, ← Spec.map_comp]
@@ -291,7 +291,7 @@ theorem schemeMapOfFunctor_naturality {W U : BigFppfOver B S hS}
 that morphism. -/
 theorem schemeMapOfFunctor_overMapBased {U V : BigFppfOver B S hS} (g : U ⟶ V) :
     schemeMapOfFunctor B S hS (overMapBased B S hS g) = g := by
-  show (𝟙 U) ≫ (𝟙 U) ≫ g = g
+  change (𝟙 U) ≫ (𝟙 U) ≫ g = g
   simp
 
 /-- The morphism of the site underlying a 1-morphism precomposed with the one induced by a
@@ -371,7 +371,7 @@ private theorem schemePointOfField_eq_of_hom {U : BigFppfOver B S hS}
   have : Subsingleton (T.obj q.obj.left) :=
     ⟨fun x y => e.schemeIsoToHomeo.injective (Subsingleton.elim _ _)⟩
   unfold schemePointOfField
-  show T.map p.obj.hom _ = T.map q.obj.hom _
+  change T.map p.obj.hom _ = T.map q.obj.hom _
   rw [← Over.w a, T.map_comp]
   exact congrArg (T.map q.obj.hom) (Subsingleton.elim _ _)
 
@@ -401,7 +401,7 @@ theorem schemePoint_naturality {W U : BigFppfOver B S hS}
   induction p using Quotient.inductionOn with
   | h p =>
     let T := BigFppfOver.toScheme B S hS
-    show T.map (eqToHom ((b.w_obj p.obj).trans p.over).symm ≫ (b.obj p.obj).hom) _ =
+    change T.map (eqToHom ((b.w_obj p.obj).trans p.over).symm ≫ (b.obj p.obj).hom) _ =
       T.map (schemeMapOfFunctor B S hS b) (T.map (eqToHom p.over.symm ≫ p.obj.hom) _)
     have heq : eqToHom ((b.w_obj p.obj).trans p.over).symm ≫ (b.obj p.obj).hom =
         eqToHom p.over.symm ≫ p.obj.hom ≫ schemeMapOfFunctor B S hS b := by
@@ -572,7 +572,7 @@ theorem exists_valuationRing_of_mem_closure_range_pointsMap
     let _ : TopologicalSpace (points B S hS 𝒱.val.val 𝒱.val.property) :=
       pointTopology B S hS 𝒱.val
     let _ : CompactSpace ((BigFppfOver.toScheme B S hS).obj V) := by
-      show CompactSpace (Spec (.of R)); infer_instance
+      change CompactSpace (Spec (.of R)); infer_instance
     let _ : CompactSpace (Space.points B S hS (yoneda.obj V)) :=
       (Space.schemePointsHomeomorph B S hS V).symm.compactSpace
     exact Function.Surjective.compactSpace
@@ -605,7 +605,7 @@ theorem exists_valuationRing_of_mem_closure_range_pointsMap
       apply schemePoint_injective B S hS U
       rw [schemePoint_naturality, schemeMapOfFunctor_overMapBased,
         schemePoint_spacePointMap]
-      show B.inclusion.map vbase (schemePoint B S hS V vPt) = _
+      change B.inclusion.map vbase (schemePoint B S hS V vPt) = _
       rw [hvbase, hvPt]
       exact hr.symm
     have hgpt : pointsMap B S hS 𝒱.val.val (Classical.choose 𝒱.property)
@@ -642,7 +642,7 @@ theorem exists_valuationRing_of_mem_closure_range_pointsMap
   have hφ : Spec.map (CommRingCat.ofHom φ) = eW.inv ≫ m := Spec.map_preimage _
   have hcl : v ∈ closure (Set.range (PrimeSpectrum.comap φ)) := by
     have hr : Set.range (PrimeSpectrum.comap φ) = Set.range m := by
-      show Set.range (Spec.map (CommRingCat.ofHom φ)) = _
+      change Set.range (Spec.map (CommRingCat.ofHom φ)) = _
       rw [hφ]
       ext t
       constructor
@@ -725,7 +725,7 @@ theorem exists_valuationRing_of_mem_closure_range_pointsMap
   have hmhv : (BigFppfOver.toScheme B S hS).map
       (schemeMapOfFunctor B S hS (hCat ≫ viCat).hom) = h ≫ i := by
     rw [hhv]
-    show B.inclusion.map (hOver.left ≫ vbase) = _
+    change B.inclusion.map (hOver.left ≫ vbase) = _
     rw [B.inclusion.map_comp, hvbase]
     rfl
   have htarget : pointsMap B S hS (schemeFibredCategory B S hS Aobj).val
@@ -733,9 +733,9 @@ theorem exists_valuationRing_of_mem_closure_range_pointsMap
       (schemeFibredCategory B S hS U).property (hCat ≫ viCat).hom special = x := by
     apply schemePoint_injective B S hS U
     rw [schemePoint_naturality, hmhv, hspecial]
-    show i (h (closedPoint A)) = schemePoint B S hS U x
+    change i (h (closedPoint A)) = schemePoint B S hS U x
     exact (congrArg i hclosed).trans hiv
-  show pointsMap B S hS (schemeFibredCategory B S hS Aobj).val
+  change pointsMap B S hS (schemeFibredCategory B S hS Aobj).val
     (schemeFibredCategory B S hS Aobj).property
     (Classical.choose 𝒴.property) yy.hom special = y
   refine Eq.trans (pointsMap_comp B S hS (schemeFibredCategory B S hS Aobj).val

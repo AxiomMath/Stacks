@@ -85,7 +85,7 @@ private theorem inclusion_isCoverDense (B : BigPHSite.{u}) (S : Scheme.{u})
       (fun j => (BigAffinePH.inclusion B S hS).obj (Vobj j)) vf ∈
       BigPHOver.topology B S hS X := by
     rw [BigPHOver.topology, GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.ofArrows W.X W.f ∈ B.topology T
+    change Sieve.ofArrows W.X W.f ∈ B.topology T
     simpa [PreZeroHypercover.presieve₀] using
       Precoverage.generate_mem_toGrothendieck (⟨W, rfl, hW⟩ : W.presieve₀ ∈ B.precoverage T)
   refine (BigPHOver.topology B S hS).superset_covering ?_ hBcover
@@ -135,7 +135,7 @@ private theorem ph_of_surjective_iso_map {T : Scheme.{u}} {I : Type v} {J : Type
           h₀ := fun k => pullback.lift (fstLeg k) (sndLeg k) (hcond k)
           w₀ := by
             intro k
-            show pullback.lift (fstLeg k) (sndLeg k) (hcond k) ≫
+            change pullback.lift (fstLeg k) (sndLeg k) (hcond k) ≫
               pullback.snd (g (a (s k))) V.ι = P.f k
             exact (pullback.lift_snd (fstLeg k) (sndLeg k) (hcond k)).trans (φ.w₀ k) }
     exact ⟨P, hP, ⟨ψ⟩⟩
@@ -160,7 +160,7 @@ private theorem exists_finite_affine_ph_refinement (B : BigPHSite.{u})
     have : IsProper g := hg
     refine StandardPHCovering.of_presentation P'.f hX
       (g ≫ eTop.hom) j (by infer_instance) (by infer_instance) hj hcover fun i => ?_
-    show (j i ≫ g) ≫ eTop.hom = P.f i ≫ eTop.hom
+    change (j i ≫ g) ≫ eTop.hom = P.f i ≫ eTop.hom
     rw [hcomp i]
   have : Finite P'.I₀ := hP'std.finite
   have : IsAffine T.1 := ‹IsAffine (B.inclusion.obj T)›

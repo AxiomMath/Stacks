@@ -92,7 +92,7 @@ theorem transport_unit_comp (P' : PullbackData A M)
         ((transport P' pull' ε).pull f).map ((ε g).app Od ≪≫ mg).hom ≫
           ((ε f).app Ob ≪≫ mf).hom =
       ((ε (f ≫ g)).app Od ≪≫ mk).hom := by
-  show ((transport P' pull' ε).compIso f g).hom.app Od ≫
+  change ((transport P' pull' ε).compIso f g).hom.app Od ≫
       ((transport P' pull' ε).pull f).map ((ε g).hom.app Od ≫ mg.hom) ≫
         ((ε f).hom.app Ob ≫ mf.hom) =
     (ε (f ≫ g)).hom.app Od ≫ mk.hom
@@ -185,7 +185,7 @@ theorem toHomotopy_unit_comp (P : PullbackData A M)
             ((HomologicalComplex.single (M d) (ComplexShape.up ℤ) 0).obj Od)) ≫
         (HomotopyCategory.quotient (M a) (ComplexShape.up ℤ)).map
           (singleUnitIso P (f ≫ g) uk).hom := by
-  show ((P.pull f).mapHomotopyCategory (ComplexShape.up ℤ)).map
+  change ((P.pull f).mapHomotopyCategory (ComplexShape.up ℤ)).map
         ((HomotopyCategory.quotient (M b) (ComplexShape.up ℤ)).map
           (singleUnitIso P g ug).hom) ≫
       (HomotopyCategory.quotient (M a) (ComplexShape.up ℤ)).map (singleUnitIso P f uf).hom =

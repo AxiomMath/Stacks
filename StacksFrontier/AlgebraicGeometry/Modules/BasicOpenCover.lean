@@ -106,7 +106,7 @@ private lemma isCompatible_of_basicOpenCoverDifference_eq_zero (f : ι → R)
       (eqToHom (basicOpen_mul (f i) (f j)).symm).op x) hij
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp,
     ← ConcreteCategory.comp_apply, ← Functor.map_comp] at hij'
-  convert hij' using 1 <;> congr 1
+  convert hij' using 1
 
 private lemma basicOpenCover_exact_and_injective (f : ι → R) :
     Function.Exact (basicOpenCoverRestriction (M := M) f)

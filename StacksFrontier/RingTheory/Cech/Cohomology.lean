@@ -93,7 +93,7 @@ private lemma cechComplexBaseChange_d_hom
       ModuleCat.hom_ofHom]
   · rw [HomologicalComplex.shape _ _ _ h, HomologicalComplex.shape _ _ _ h,
       ModuleCat.hom_zero]
-    show (0 : TensorProduct R S (Cech.cechTerm f M a) →ₗ[S]
+    change (0 : TensorProduct R S (Cech.cechTerm f M a) →ₗ[S]
       TensorProduct R S (Cech.cechTerm f M b)) = LinearMap.baseChange S 0
     exact LinearMap.baseChange_zero.symm
 
@@ -244,7 +244,7 @@ private lemma cech_homology_smul_injective
         algebraMap R (Module.End R (Cech.cechTerm f M p)) g := by
       ext x
       rfl
-    show Function.Bijective (φ.f p).hom
+    change Function.Bijective (φ.f p).hom
     rw [he]
     exact cechTerm_smul_bijective f M g h p
   let : IsIso φ := HomologicalComplex.Hom.isIso_of_components φ

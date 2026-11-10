@@ -150,7 +150,7 @@ theorem specialMap_comp_deformationAmbientToBase (f : X.left ⟶ Y.left) (hf : f
     (P : SchemeDeformationCategory (Λ := Λ) (k := κ) X)
     {A : ArtinianLocalAlgCat.{u, u, u} Λ κ} (e : A ⟶ P.base) :
     P.specialMap ≫ deformationAmbientToBase P e = (f ≫ Y.hom) ≫ residueSpecMap A := by
-  show P.specialMap ≫ P.toBase ≫ baseSpecMap e = (f ≫ Y.hom) ≫ residueSpecMap A
+  change P.specialMap ≫ P.toBase ≫ baseSpecMap e = (f ≫ Y.hom) ≫ residueSpecMap A
   rw [← Category.assoc, P.specialCartesian.w, ← hf, Category.assoc,
     residueSpecMap_naturality]
 
@@ -169,7 +169,7 @@ theorem ker_specialMap_pow_two_eq_bot (P : SchemeDeformationCategory (Λ := Λ) 
     (hm : IsLocalRing.maximalIdeal P.base ^ 2 = ⊥) : P.specialMap.ker ^ 2 = ⊥ := by
   rw [ker_eq_baseIdeal_of_isPullback P.toBase P.specialCartesian]
   refine Scheme.IdealSheafData.ext (funext fun V => ?_)
-  show (Stacks.BaseAdicFiltration.baseIdeal P.toBase
+  change (Stacks.BaseAdicFiltration.baseIdeal P.toBase
     (IsLocalRing.maximalIdeal P.base)).ideal V ^ 2 = ⊥
   rw [Stacks.BaseAdicFiltration.baseIdeal_ideal, ← Ideal.map_pow, hm, Ideal.map_bot]
 
@@ -355,17 +355,17 @@ theorem exists_simplyTransitive_addAction_globalLiftsOverBase
     exists_simplyTransitive_addAction_liftsOverBase_deformation f hf P Q e hm f' hf'₁ hf'₂
   set E := globalLiftsOverBaseEquiv f P Q e
   refine ⟨fun θ c => E (act ⊤ θ (E.symm c)), fun c => ?_, fun θ η c => ?_, fun b₀ c₀ => ?_⟩
-  · show E (act ⊤ 0 (E.symm c)) = c
+  · change E (act ⊤ 0 (E.symm c)) = c
     rw [hzero]
     exact E.apply_symm_apply c
-  · show E (act ⊤ (θ + η) (E.symm c)) = E (act ⊤ θ (E.symm (E (act ⊤ η (E.symm c)))))
+  · change E (act ⊤ (θ + η) (E.symm c)) = E (act ⊤ θ (E.symm (E (act ⊤ η (E.symm c)))))
     rw [hadd, Equiv.symm_apply_apply]
   · obtain ⟨θ, hθ, hu⟩ := huniq ⊤ (E.symm b₀) (E.symm c₀)
     refine ⟨θ, ?_, fun η hη => hu η (E.injective ?_)⟩
-    · show E (act ⊤ θ (E.symm b₀)) = c₀
+    · change E (act ⊤ θ (E.symm b₀)) = c₀
       rw [hθ]
       exact E.apply_symm_apply c₀
-    · show E (act ⊤ η (E.symm b₀)) = E (E.symm c₀)
+    · change E (act ⊤ η (E.symm b₀)) = E (E.symm c₀)
       rw [E.apply_symm_apply c₀]
       exact hη
 

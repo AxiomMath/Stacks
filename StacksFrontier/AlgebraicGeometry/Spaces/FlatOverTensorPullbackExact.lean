@@ -95,7 +95,7 @@ theorem flat_geometricStalk_of_isFlatOverAtGeometricPoint (x : GeometricPoint B 
   let : Module R₀ N := Module.compHom N (γ.comp eR.toRingHom)
   have : IsScalarTower R₀ Ret N :=
     ⟨fun r s n => by
-      show (γ (eR r * s)) • n = (γ (eR r)) • ((γ s) • n)
+      change (γ (eR r * s)) • n = (γ (eR r)) • ((γ s) • n)
       rw [map_mul, mul_smul]⟩
   have : Module.Flat R₀ Ret := RingHom.Flat.of_bijective (f := eR.toRingHom) eR.bijective
   have : Module.Flat R₀ N := Module.Flat.trans _ Ret N

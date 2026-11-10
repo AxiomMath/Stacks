@@ -233,7 +233,7 @@ private theorem topologicalKrullDim_closure_eq_and_mem_support_of_cycle_ne_zero 
   refine ⟨?_, ?_⟩
   · rw [Stacks.Chow.topologicalKrullDim_closure_singleton_eq k sX, hrel]
     simp
-  · show I.subschemeι ξ.1 ∈ (I.support : Set X)
+  · change I.subschemeι ξ.1 ∈ (I.support : Set X)
     rw [← Scheme.IdealSheafData.range_subschemeι]
     exact Set.mem_range_self _
 
@@ -337,7 +337,7 @@ theorem torFormulaCycleIntersectionProduct_cycleAssociatedToClosedSubscheme_appl
     Stacks.Chow.topologicalKrullDim_closure_singleton_eq k sX t
   have hrelt : relativeDimension (fieldChowSituation k).dimensionFunction sX t = e := by
     have hnn : 0 ≤ relativeDimension (fieldChowSituation k).dimensionFunction sX t := by
-      show 0 ≤ (fieldChowSituation k).dimensionFunction (sX.base t) + _
+      change 0 ≤ (fieldChowSituation k).dimensionFunction (sX.base t) + _
       rw [Stacks.Chow.fieldChowSituation_dimensionFunction]
       positivity
     rw [he, Int.toNat_of_nonneg hnn]

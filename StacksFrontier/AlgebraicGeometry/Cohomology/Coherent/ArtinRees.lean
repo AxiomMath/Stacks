@@ -96,7 +96,7 @@ theorem submodule_sections_localized {X : Scheme.{u}}
       (restrictₗ M (X.basicOpen_le f)) (H.toSubmodule.obj (.op U))).trans_le
       (Submodule.span_le.mpr ?_)
     rintro y ⟨x, hx, rfl⟩
-    show (M.val.map (homOfLE (X.basicOpen_le f)).op).hom x ∈ _
+    change (M.val.map (homOfLE (X.basicOpen_le f)).op).hom x ∈ _
     exact H.toSubmodule.map_mem (homOfLE (X.basicOpen_le f)).op hx
   · intro y hy
     change y ∈ H.toSubmodule.obj (.op (X.basicOpen f)) at hy
@@ -322,7 +322,7 @@ theorem exists_ideal_pow_smul_inf_eq {X : Scheme.{u}} [IsNoetherian X]
   have h0 (W : X.affineOpens) (k : ℕ) : idealPowSmulInf F G I 0 k W =
       sectionsIdeal I W.1 ^ k • (⊤ : Submodule Γ(X, W.1) Γ(F, W.1)) ⊓
         G.toSubmodule.obj (op W.1) := by
-    show sectionsIdeal I W.1 ^ 0 • _ = _
+    change sectionsIdeal I W.1 ^ 0 • _ = _
     rw [pow_zero, one_smul]
   exact (submoduleFamily_eq_of_affine_cover F
     (idealPowSmulInf F G I 0 n) (idealPowSmulInf F G I (n - c) c)

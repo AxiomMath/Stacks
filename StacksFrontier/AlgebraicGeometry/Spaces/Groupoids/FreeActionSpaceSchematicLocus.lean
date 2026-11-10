@@ -131,7 +131,7 @@ theorem exists_groupCopies (G : Type u) [Finite G] [Nonempty G] (U : BigFppfOver
   have hincl : ∀ g, ∃ ψ : U ⟶ W, (BigFppfOver.toScheme B S hS).map ψ = Sigma.ι Y g := by
     intro g
     refine BigFppfOver.exists_hom_of_comp_eq B S hS (X := U) (Y := W) (Sigma.ι Y g) ?_
-    rw [hWhom, hτdef, Sigma.ι_desc]
+    rw [hWhom, hτdef, Sigma.ι_comp_desc]
   choose incl hinclmap using hincl
   have hfold : ∃ ψ : W ⟶ U, (BigFppfOver.toScheme B S hS).map ψ =
       Sigma.desc fun _ : G => 𝟙 ((BigFppfOver.toScheme B S hS).obj U) := by
@@ -139,7 +139,7 @@ theorem exists_groupCopies (G : Type u) [Finite G] [Nonempty G] (U : BigFppfOver
       (Sigma.desc fun _ : G => 𝟙 ((BigFppfOver.toScheme B S hS).obj U)) ?_
     rw [hWhom, hτdef]
     refine Sigma.hom_ext _ _ fun g => ?_
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc, Category.id_comp]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc, Category.id_comp]
   obtain ⟨fold, hfoldmap⟩ := hfold
   refine ⟨W, incl, fold, fun g => ?_, fun g g' hgg' y y' => ?_, fun z => ?_, fun g => ?_,
     ?_, ?_⟩
@@ -152,14 +152,14 @@ theorem exists_groupCopies (G : Type u) [Finite G] [Nonempty G] (U : BigFppfOver
       ((Scheme.presieve₀_mem_precoverage_iff _).1 (sigmaOpenCover Y).mem₀).1 z
     exact ⟨g, by rwa [hinclmap g, ← sigmaOpenCover_f Y g]⟩
   · refine (BigFppfOver.toScheme B S hS).map_injective ?_
-    rw [Functor.map_comp, hinclmap g, hfoldmap, Sigma.ι_desc]
+    rw [Functor.map_comp, hinclmap g, hfoldmap, Sigma.ι_comp_desc]
     exact ((BigFppfOver.toScheme B S hS).map_id U).symm
   · rw [hfoldmap]
     exact Stacks.Morphisms.isFiniteLocallyFree_sigmaDesc _
       fun _ => Stacks.Morphisms.isFiniteLocallyFree_id _
   · rw [hfoldmap]
     have _ : IsSplitEpi (Sigma.desc fun _ : G => 𝟙 ((BigFppfOver.toScheme B S hS).obj U)) :=
-      ⟨⟨⟨Sigma.ι Y (Classical.arbitrary G), by rw [Sigma.ι_desc]⟩⟩⟩
+      ⟨⟨⟨Sigma.ι Y (Classical.arbitrary G), by rw [Sigma.ι_comp_desc]⟩⟩⟩
     exact surjective_of_isSplitEpi _
 
 /-- A map out of a representable presheaf commutes with precomposition, by naturality. -/
@@ -257,7 +257,7 @@ theorem hom_ext_of_comp_fold_of_app
         exact (mem_range_pullbackFst r' (incl g') (hoi g') z).2 ⟨y', hy'⟩)
     refine ⟨(g, g'), v, ?_⟩
     rw [Functor.map_comp]
-    show ((BigFppfOver.toScheme B S hS).map (pullback.fst r (incl g))).base
+    change ((BigFppfOver.toScheme B S hS).map (pullback.fst r (incl g))).base
       (((BigFppfOver.toScheme B S hS).map (pullback.fst _ _)).base v) = z
     rw [hv, hw]
   · obtain ⟨g, g'⟩ := p
@@ -309,10 +309,10 @@ theorem exists_comp_fold_eq_of_app_eq
       (fun _ k hk => ρ k hk) := by
     intro V₁ V₂ Z k₁ k₂ f₁ f₂ h₁ h₂ hcomm
     refine hom_ext_of_comp_fold_of_app hnat φ incl fold j hfree hoi hcov hfold hj ?_ ?_
-    · show (k₁ ≫ ρ f₁ h₁) ≫ fold = (k₂ ≫ ρ f₂ h₂) ≫ fold
+    · change (k₁ ≫ ρ f₁ h₁) ≫ fold = (k₂ ≫ ρ f₂ h₂) ≫ fold
       rw [Category.assoc, Category.assoc, hρfold f₁ h₁, hρfold f₂ h₂, ← Category.assoc,
         ← Category.assoc, hcomm]
-    · show j.app (Opposite.op Z) (k₁ ≫ ρ f₁ h₁) = j.app (Opposite.op Z) (k₂ ≫ ρ f₂ h₂)
+    · change j.app (Opposite.op Z) (k₁ ≫ ρ f₁ h₁) = j.app (Opposite.op Z) (k₂ ≫ ρ f₂ h₂)
       rw [app_comp_eq_map_app, app_comp_eq_map_app, hρj f₁ h₁, hρj f₂ h₂,
         ← Functor.map_comp_apply, ← Functor.map_comp_apply,
         ← op_comp, ← op_comp, hcomm]
@@ -325,7 +325,7 @@ theorem exists_comp_fold_eq_of_app_eq
   · refine (((isSheaf_iff_isSheaf_of_type _ _).1
       (BigFppfOver.isSheaf_yoneda_obj B S hS U) _ hsieve).isSeparatedFor).ext ?_
     intro V k hk
-    show k ≫ σ ≫ fold = k ≫ u
+    change k ≫ σ ≫ fold = k ≫ u
     rw [← Category.assoc, show k ≫ σ = ρ k hk from hσ k hk, hρfold k hk]
 
 include hnat in
@@ -361,7 +361,7 @@ theorem comp_toOrbitQuotient_eq
     (NatTrans.naturality_apply (twistQuotientChart hnat φ) e.op fold).symm
   rw [h₁, h₂, h₃, he, Category.assoc, hfold g, Category.comp_id,
     app_comp_incl_eq_smul hnat φ incl j hj l g]
-  show (toOrbitQuotient B S hS G X hnat).app (Opposite.op V)
+  change (toOrbitQuotient B S hS G X hnat).app (Opposite.op V)
       (g • φ.app (Opposite.op V) l) =
     (toOrbitQuotient B S hS G X hnat).app (Opposite.op V) (φ.app (Opposite.op V) l)
   exact toOrbitQuotient_smul B S hS G X hnat g _

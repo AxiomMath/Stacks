@@ -12,8 +12,7 @@ public import StacksFrontier.AlgebraicGeometry.Morphisms.Dominant.ModificationGl
 public import StacksFrontier.AlgebraicGeometry.Perfect.ProperFlatFamily.UniversalDirectImage
 public import StacksFrontier.AlgebraicGeometry.AffineCohomologyVanishing.Basic
 public import StacksFrontier.AlgebraicGeometry.Blowup.Transform.Birational
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.NormalizedBlowUpReduction
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.NormalizedBlowUpReduction
 public import StacksFrontier.AlgebraicGeometry.Curves.NodalFamilyCriterion
 public import
   StacksFrontier.AlgebraicGeometry.Curves.Models.StableModel.SpecialFibreIso.FibreCohomology

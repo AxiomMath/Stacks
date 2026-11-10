@@ -155,7 +155,7 @@ private theorem ratFunc_X_toFractionRing :
 /-- The ground-field map sends the variable to the deformed parameter. -/
 private theorem groundFieldMap_parameter :
     groundFieldMap (RatFunc.X : counterexampleField) = deformedParameter := by
-  show (IsLocalization.lift (M := nonZeroDivisors (Polynomial (ZMod 3)))
+  change (IsLocalization.lift (M := nonZeroDivisors (Polynomial (ZMod 3)))
       (g := polynomialToDualNumber) (by
         intro q
         apply polynomialToDualNumber_isUnit
@@ -216,7 +216,7 @@ private noncomputable instance : Algebra liftedBaseField liftedExampleRing :=
 private theorem liftedGroundFieldMap_parameter :
     liftedGroundFieldMap (ULift.up.{u, 0} (RatFunc.X : counterexampleField)) =
       ULift.up.{u, 0} deformedParameter := by
-  show ULift.up (groundFieldMap (RatFunc.X : counterexampleField)) = _
+  change ULift.up (groundFieldMap (RatFunc.X : counterexampleField)) = _
   exact congrArg ULift.up groundFieldMap_parameter
 
 /-- The image of the variable has no cube root in the lifted counterexample ring. -/
@@ -321,7 +321,7 @@ private theorem stalk_groundFieldMap_parameter :
           (ULift.up (RatFunc.X : counterexampleField))) =
       algebraMap liftedExampleRing (Localization.AtPrime counterexamplePointSpec.asIdeal)
         (liftedGroundFieldMap (ULift.up (RatFunc.X : counterexampleField))) := by
-    show (CommRingCat.Hom.hom
+    change (CommRingCat.Hom.hom
         (CommRingCat.ofHom liftedGroundFieldMap ≫
           (Scheme.ΓSpecIso (.of liftedExampleRing)).inv ≫
             (Spec (.of liftedExampleRing)).presheaf.germ ⊤ counterexamplePointSpec (by simp) ≫
@@ -329,7 +329,7 @@ private theorem stalk_groundFieldMap_parameter :
         (ULift.up (RatFunc.X : counterexampleField)) = _
     rw [← hlocal]
     simp
-  show closedPointStalkEquiv
+  change closedPointStalkEquiv
       ((CommRingCat.Hom.hom
         ((Scheme.ΓSpecIso (.of liftedBaseField)).inv ≫
           (Spec.map (CommRingCat.ofHom liftedGroundFieldMap)).appTop ≫
@@ -343,7 +343,7 @@ private theorem stalk_groundFieldMap_parameter :
               (Spec (.of liftedExampleRing)).presheaf.germ ⊤ counterexamplePointSpec (by simp)))
           (ULift.up (RatFunc.X : counterexampleField))) := congrArg closedPointStalkEquiv hval
     _ = _ := by
-      show (IsLocalization.algEquiv counterexamplePointSpec.asIdeal.primeCompl
+      change (IsLocalization.algEquiv counterexamplePointSpec.asIdeal.primeCompl
           (Localization.AtPrime counterexamplePointSpec.asIdeal) liftedExampleRing).toRingEquiv
         ((Spec.stalkIso (.of liftedExampleRing) counterexamplePointSpec).commRingCatIsoToRingEquiv
           ((CommRingCat.Hom.hom
@@ -395,7 +395,7 @@ private theorem completedGroundFieldMap_parameter :
       (Spec.map (CommRingCat.ofHom liftedGroundFieldMap)).appTop ≫
       (Spec (.of liftedExampleRing)).presheaf.germ ⊤ counterexamplePointSpec (by simp)))
     (ULift.up (RatFunc.X : counterexampleField))
-  show closedPointStalkEquiv
+  change closedPointStalkEquiv
       ((AdicCompletion.ofAlgEquiv I).symm (algebraMap S (AdicCompletion I S) a)) = _
   rw [(AdicCompletion.ofAlgEquiv I).symm.commutes]
   exact stalk_groundFieldMap_parameter
@@ -419,7 +419,7 @@ private theorem residueRoot_cube_in_ring :
     IsLocalRing.ResidueField.map_residue]
   rw [liftedGroundFieldMap_parameter]
   simp only [liftedExampleRingEquiv]
-  show (IsLocalRing.residue (DualNumber counterexampleField)
+  change (IsLocalRing.residue (DualNumber counterexampleField)
       (inl (RatFunc.X : counterexampleField))) ^ 3 =
     IsLocalRing.residue (DualNumber counterexampleField) deformedParameter
   rw [← map_pow (IsLocalRing.residue (DualNumber counterexampleField))
@@ -445,7 +445,7 @@ private theorem residueBaseMap_parameter :
   dsimp only [stalkResidueEquiv, Scheme.residueField]
   have : IsLocalHom closedPointStalkEquiv.toRingHom :=
     ⟨fun a ha => by simpa using ha.map closedPointStalkEquiv.symm.toRingHom⟩
-  show IsLocalRing.ResidueField.map closedPointStalkEquiv.toRingHom
+  change IsLocalRing.ResidueField.map closedPointStalkEquiv.toRingHom
       (IsLocalRing.residue
         ((Spec (.of liftedExampleRing)).presheaf.stalk counterexamplePointSpec)
         ((CommRingCat.Hom.hom

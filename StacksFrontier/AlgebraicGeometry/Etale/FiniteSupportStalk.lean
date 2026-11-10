@@ -120,7 +120,7 @@ variable (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (t : Geomet
 /-- The diagram whose colimit is the stalk at a geometric point. -/
 public abbrev etaleStalkDiagram :
     (geometricPointFiber B S hS t).Elementsᵒᵖ ⥤ AddCommGrpCat.{v} :=
-  (CategoryOfElements.π (geometricPointFiber B S hS t)).op ⋙ P
+  (Functor.Elements.π (geometricPointFiber B S hS t)).op ⋙ P
 
 /-- The germ at a geometric point of a section over an object of the small étale site together
 with a chosen lift of the geometric point to it. -/
@@ -175,7 +175,7 @@ public theorem openObjectLift_map (W : SmallEtale B S hS)
     (geometricPointFiber B S hS t).map (openObjectι B S hS W W₀)
       (openObjectLift B S hS t W q W₀ hq) = q := by
   apply Subtype.ext
-  show (openObjectLift B S hS t W q W₀ hq).1 ≫
+  change (openObjectLift B S hS t W q W₀ hq).1 ≫
     (SmallEtale.toScheme B S hS).map (openObjectι B S hS W W₀) = q.1
   rw [openObjectι_map]
   exact IsOpenImmersion.lift_fac _ _ _
@@ -222,13 +222,15 @@ public theorem etaleGerm_add [HasColimit (etaleStalkDiagram B S hS t P)] (W : Sm
     (q : (geometricPointFiber B S hS t).obj W) (a b : P.obj (op W)) :
     etaleGerm B S hS t P W q (a + b) =
       etaleGerm B S hS t P W q a + etaleGerm B S hS t P W q b :=
-  (colimit.ι (etaleStalkDiagram B S hS t P) (op ((geometricPointFiber B S hS t).elementsMk W q))).hom.map_add a b
+  (colimit.ι (etaleStalkDiagram B S hS t P)
+    (op ((geometricPointFiber B S hS t).elementsMk W q))).hom.map_add a b
 
 /-- The germ of the zero section is zero. -/
 public theorem etaleGerm_zero [HasColimit (etaleStalkDiagram B S hS t P)] (W : SmallEtale B S hS)
     (q : (geometricPointFiber B S hS t).obj W) :
     etaleGerm B S hS t P W q 0 = 0 :=
-  (colimit.ι (etaleStalkDiagram B S hS t P) (op ((geometricPointFiber B S hS t).elementsMk W q))).hom.map_zero
+  (colimit.ι (etaleStalkDiagram B S hS t P)
+    (op ((geometricPointFiber B S hS t).elementsMk W q))).hom.map_zero
 
 /-- The germ at a geometric point of a multiple of a section is that multiple of its germ. -/
 public theorem etaleGerm_nsmul_of_hasColimit [HasColimit (etaleStalkDiagram B S hS t P)]
@@ -401,7 +403,7 @@ public theorem toScheme_baseChange_comp_fst (V V' : SmallEtale B Y.obj Y.propert
   have h : ((Over.pullback f).map ((SmallEtale.inclusion B Y.obj Y.property).map g)).left ≫
       pullback.fst V.obj.hom f =
       pullback.fst V'.obj.hom f ≫ ((SmallEtale.inclusion B Y.obj Y.property).map g).left := by
-    simp [Over.pullback_map_left, pullback.lift_fst]
+    simp [Over.pullback_map_left]
   have h2 := congrArg B.inclusion.map h
   rw [Functor.map_comp, Functor.map_comp] at h2
   exact h2
@@ -962,7 +964,7 @@ public theorem finiteSupportStalkToFiberStalks_germ
     map_eq_of_comp_ι B X.obj X.property (x.toGeometricPoint B f s) _ _ _ _ _
       (hlift.trans (openObjectLift_comp_ι_finiteSupportOpen B f s U.1 U.2 E x hmem).symm)
   rw [finiteSupportStalkToFiberStalks_generator]
-  show fiberStalkComponent B f s F U.1 U.2 E a x = _
+  change fiberStalkComponent B f s F U.1 U.2 E a x = _
   rw [fiberStalkComponent_of_hasFiberLift B f s F U.1 U.2 E a x hmem]
   exact (etaleGerm_map B X.obj X.property (x.toGeometricPoint B f s) F.obj t
     (openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f U.1)
@@ -990,7 +992,7 @@ public theorem finiteSupportStalkToFiberStalks_zero_of_no_open_lift
           ((finiteSupportPushforward B f hsmall).1.obj F)) (op U) ≫
         finiteSupportStalkToFiberStalks B f s F hsmall) a : fiberStalks B f s F) x = 0 := by
   rw [finiteSupportStalkToFiberStalks_generator]
-  show fiberStalkComponent B f s F U.1 U.2 E a x = 0
+  change fiberStalkComponent B f s F U.1 U.2 E a x = 0
   refine fiberStalkComponent_of_not_hasFiberLift B f s F U.1 U.2 E a x fun hmem => hno ?_
   refine ⟨Functor.Elements.mk (obj := finiteSupportOpenObject B f U.1 E)
     (openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f U.1)
@@ -1045,7 +1047,7 @@ abelian sheaves on the small étale site of `X`. -/
 public def fiberStalksMap (φ : F ⟶ G) : fiberStalks B f s F →+ fiberStalks B f s G :=
   DirectSum.map fun x =>
     (colim.map (Functor.whiskerLeft
-      (CategoryOfElements.π
+      (Functor.Elements.π
         (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op φ.1)).hom
 
 /-- The germ decomposition commutes with a morphism of abelian sheaves. -/
@@ -1058,14 +1060,14 @@ public theorem fiberStalkComponent_sheafMap (φ : F ⟶ G) (V : SmallEtale B Y.o
         (supportedSectionsSheafMap B X.obj X.property φ (baseChange B f V) E.1
           (finiteSupport_isLocallyClosed B f V E) a) x =
       (colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π
+        (Functor.Elements.π
           (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op φ.1)).hom
         (fiberStalkComponent B f s F V u E a x) := by
   by_cases h : HasFiberLift B f s V u E x
   · rw [fiberStalkComponent_of_hasFiberLift B f s G V u E _ x h,
       fiberStalkComponent_of_hasFiberLift B f s F V u E a x h]
     have h2 := ConcreteCategory.congr_hom (colimit.ι_map (Functor.whiskerLeft
-      (CategoryOfElements.π
+      (Functor.Elements.π
         (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op φ.1)
       (op (Functor.Elements.mk (obj := finiteSupportOpenObject B f V E)
         (openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f V)
@@ -1097,7 +1099,7 @@ public theorem finiteSupportStalkToFiberStalks_natural
     (hsmall : ∀ V : SmallEtale B Y.obj Y.property, Small.{max u v} (FiniteSupport B f V))
     (φ : F ⟶ G) :
     colim.map (Functor.whiskerLeft
-      (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+      (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
       ((finiteSupportPushforward B f hsmall).1.map φ)) ≫
       finiteSupportStalkToFiberStalks B f s G hsmall =
       finiteSupportStalkToFiberStalks B f s F hsmall ≫
@@ -1108,20 +1110,20 @@ public theorem finiteSupportStalkToFiberStalks_natural
   have hLHS : colimit.ι (etaleStalkDiagram B Y.obj Y.property s
           ((finiteSupportPushforward B f hsmall).1.obj F)) U ≫
         (colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           ((finiteSupportPushforward B f hsmall).1.map φ)) ≫
           finiteSupportStalkToFiberStalks B f s G hsmall) =
-      (Functor.whiskerLeft (CategoryOfElements.π
+      (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B Y.obj Y.property s)).op
           ((finiteSupportPushforward B f hsmall).1.map φ)).app U ≫
         (eqToHom hUG ≫ finiteSupportSectionsToFiberStalks B f s G U.unop.1 U.unop.2) :=
     (Category.assoc _ _ _).symm.trans
       (((congrArg (fun z => z ≫ finiteSupportStalkToFiberStalks B f s G hsmall)
-        (colimit.ι_map (Functor.whiskerLeft (CategoryOfElements.π
+        (colimit.ι_map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B Y.obj Y.property s)).op
           ((finiteSupportPushforward B f hsmall).1.map φ)) U)).trans
         (Category.assoc _ _ _)).trans
-        (congrArg (fun z => (Functor.whiskerLeft (CategoryOfElements.π
+        (congrArg (fun z => (Functor.whiskerLeft (Functor.Elements.π
             (geometricPointFiber B Y.obj Y.property s)).op
             ((finiteSupportPushforward B f hsmall).1.map φ)).app U ≫ z)
           (colimit_ι_unop_comp_finiteSupportStalkToFiberStalks B f s (F := G) hsmall U)))

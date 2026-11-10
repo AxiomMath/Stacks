@@ -56,7 +56,7 @@ theorem relativeProperty_iff
     [Fact (B.Contains X)] [Fact (B.Contains Y)] (f : X ⟶ Y) [f.IsOver S] :
     relativeProperty B S hS P f ↔ P (schemeMap B S hS (relativeMap B S hS f)) := by
   have h : (OverClass.ofHom (f ≫ Y ↘ S) : X.Over S) = hX := by
-    show OverClass.ofHom (f ≫ Y ↘ S) = OverClass.ofHom (X ↘ S)
+    change OverClass.ofHom (f ≫ Y ↘ S) = OverClass.ofHom (X ↘ S)
     exact congrArg OverClass.ofHom (comp_over f S)
   cases h
   rfl
@@ -165,7 +165,7 @@ private theorem schemeMap_smooth
     AlgebraicGeometry.Space.presheaf_etale_id B S hS Y, ?_, by simp, hf⟩
   exact (yoneda.map_id X) ▸
     schemeMap_presheaf_property B S hS (@Surjective) (𝟙 X) (by
-      show Surjective (𝟙 _)
+      change Surjective (𝟙 _)
       infer_instance)
 
 /-- The induced property of a composite over `S` is the property of the composite of the
@@ -247,7 +247,7 @@ private theorem relative_of_isPullback
   have : f.IsOver S := ⟨rfl⟩
   have : h.IsOver S := ⟨rfl⟩
   have : a.IsOver S := ⟨by
-    show a ≫ (f ≫ Y ↘ S) = h ≫ T ↘ S
+    change a ≫ (f ≫ Y ↘ S) = h ≫ T ↘ S
     rw [← Category.assoc, sq.w, Category.assoc, comp_over]⟩
   rw [relativeProperty_iff B S hS P f] at hf
   rw [relativeProperty_iff B S hS P h]
@@ -273,7 +273,7 @@ theorem relative_of_surjective_isPullback
   have : f.IsOver S := ⟨rfl⟩
   have : h.IsOver S := ⟨rfl⟩
   have : a.IsOver S := ⟨by
-    show a ≫ (f ≫ Y ↘ S) = h ≫ T ↘ S
+    change a ≫ (f ≫ Y ↘ S) = h ≫ T ↘ S
     rw [← Category.assoc, sq.w, Category.assoc, comp_over]⟩
   rw [relativeProperty_iff B S hS P h] at hh
   rw [relativeProperty_iff B S hS P f]
@@ -324,7 +324,7 @@ theorem relative_of_source_cover
     · exact schemeMap_jointly_surjective B S hS U' a' (fun x => by
         obtain ⟨i, z, hz⟩ := hsurj x
         refine ⟨e.symm i, ?_⟩
-        show ∃ z : U (e (e.symm i)), a (e (e.symm i)) z = x
+        change ∃ z : U (e (e.symm i)), a (e (e.symm i)) z = x
         rw [e.apply_symm_apply]
         exact ⟨z, hz⟩)
   rw [relativeProperty_iff B S hS P f]
@@ -356,7 +356,7 @@ theorem pullbackFst_isOver
     (f : X ⟶ Z) (g : Y ⟶ Z) [f.IsOver S] [g.IsOver S] :
     (Limits.pullback.fst f g).IsOver S := by
   constructor
-  show Limits.pullback.fst f g ≫ X ↘ S = Limits.pullback.snd f g ≫ Y ↘ S
+  change Limits.pullback.fst f g ≫ X ↘ S = Limits.pullback.snd f g ≫ Y ↘ S
   rw [← comp_over f S, ← comp_over g S, Limits.pullback.condition_assoc]
 
 attribute [local instance] pullbackFst_isOver
@@ -369,7 +369,7 @@ theorem pullbackLift_isOver
     (h : a ≫ f = b ≫ g) [b.IsOver S] :
     (Limits.pullback.lift a b h).IsOver S := by
   constructor
-  show Limits.pullback.lift a b h ≫ (Limits.pullback.snd f g ≫ Y ↘ S) = A ↘ S
+  change Limits.pullback.lift a b h ≫ (Limits.pullback.snd f g ≫ Y ↘ S) = A ↘ S
   rw [Limits.pullback.lift_snd_assoc, comp_over]
 
 attribute [local instance] pullbackLift_isOver
@@ -426,7 +426,7 @@ theorem mem_relativeLargestOpen
     [Fact (B.Contains X)] [Fact (B.Contains Y)] (f : X ⟶ Y) (x : X) :
     x ∈ relativeLargestOpen B S hS P f ↔
       ∃ U : X.Opens, x ∈ U ∧ relativeProperty B S hS P (U.ι ≫ f) := by
-  show x ∈ sSup {U : X.Opens | relativeProperty B S hS P (U.ι ≫ f)} ↔ _
+  change x ∈ sSup {U : X.Opens | relativeProperty B S hS P (U.ι ≫ f)} ↔ _
   rw [TopologicalSpace.Opens.mem_sSup]
   constructor
   · rintro ⟨U, hU, hx⟩

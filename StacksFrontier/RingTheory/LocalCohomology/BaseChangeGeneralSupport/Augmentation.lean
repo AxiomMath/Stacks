@@ -268,7 +268,7 @@ theorem derivedSectionsWithSupportInPlusIso_augmentation :
         DerivedCategory.Plus.Qh).app X :=
     Functor.rightDerived_fac_app _ _
       (HomotopyCategory.Plus.quasiIso (ModuleCat.{max w w₂} C)) _ _ X
-  show (derivedSectionsWithSupportInUnit.{w, w₂} C T).app X.obj ≫
+  change (derivedSectionsWithSupportInUnit.{w, w₂} C T).app X.obj ≫
       (derivedSectionsWithSupportInAugmentation.{w, w₂} C T).app
         (DerivedCategory.Qh.obj X.obj) =
     DerivedCategory.Plus.ι.map
@@ -322,7 +322,7 @@ private lemma compIso_inv_comp_powerTorsionHomotopyInclusion
       (homotopySectionsWithSupportInSubtype.{u, v} A
         (PrimeSpectrum.zeroLocus (I : Set A))).app K := by
   obtain ⟨L⟩ := K
-  show (HomotopyCategory.quotient (ModuleCat.{max u v} A) (ComplexShape.up ℤ)).map _ ≫
+  change (HomotopyCategory.quotient (ModuleCat.{max u v} A) (ComplexShape.up ℤ)).map _ ≫
       (HomotopyCategory.quotient (ModuleCat.{max u v} A) (ComplexShape.up ℤ)).map _ =
     (HomotopyCategory.quotient (ModuleCat.{max u v} A) (ComplexShape.up ℤ)).map _
   rw [← Functor.map_comp]
@@ -410,7 +410,7 @@ theorem bijective_comp_derivedSectionsWithSupportInAugmentation
     refine ⟨fun a b h ↦ (cancel_mono _).1 h, fun h ↦
       ⟨h ≫ CategoryTheory.inv ((compareSectionsWithSupportLocalCohomology.{u, v}
         A I hfg).app X), ?_⟩⟩
-    show (h ≫ CategoryTheory.inv _) ≫ _ = h
+    change (h ≫ CategoryTheory.inv _) ≫ _ = h
     rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
   have h2 := counit_bijective (Dualizing.derivedPowerTorsionProperty A I hfg)
     (Dualizing.localCohomologyAdjunction.{u, max u v} A I hfg) X ⟨W, hW⟩
@@ -449,10 +449,10 @@ lemma isIso_of_universal {X Y Y' : C} (c : Y ⟶ X) (c' : Y' ⟶ X) (m : Y ⟶ Y
   change n ≫ c = c' at hn
   refine ⟨n, ?_, ?_⟩
   · refine hcY ?_
-    show (m ≫ n) ≫ c = (𝟙 Y) ≫ c
+    change (m ≫ n) ≫ c = (𝟙 Y) ≫ c
     rw [Category.assoc, hn, hm, Category.id_comp]
   · refine hc'Y' ?_
-    show (n ≫ m) ≫ c' = (𝟙 Y') ≫ c'
+    change (n ≫ m) ≫ c' = (𝟙 Y') ≫ c'
     rw [Category.assoc, hm, hn, Category.id_comp]
 
 end AbstractUniversal

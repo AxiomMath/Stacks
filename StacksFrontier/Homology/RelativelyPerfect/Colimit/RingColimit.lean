@@ -72,7 +72,7 @@ private theorem directLimit_algebra_lift_bijective.{w, u, v}
         rw [← DirectLimit.Algebra.lift_of (G := S) (f := f) R g hf i s]
         exact hx
       obtain ⟨k, hik, hk⟩ := hinj i s hs
-      show DirectLimit.Algebra.of S f i s = 0
+      change DirectLimit.Algebra.of S f i s = 0
       rw [← DirectLimit.Algebra.of_f (hij := hik), hk, map_zero]
   · obtain ⟨j, s, rfl⟩ := hsurj r
     exact ⟨DirectLimit.Algebra.of S f j s,
@@ -239,7 +239,7 @@ private theorem existsUnique_ringHom_desc {R₀ : Type uR} [CommRing R₀]
   have fac (i : I) (x : F.obj i) : lift ((c.ι.app i).hom x) = ρ i x := by
     let z := (c.ι.app i).hom x
     obtain ⟨k, f, g, hfg⟩ := (stage_elements_eq_iff hc (y z) x).mp (hy z)
-    show ρ (j z) (y z) = ρ i x
+    change ρ (j z) (y z) = ρ i x
     calc
       _ = ρ k ((F.map f).hom (y z)) := (RingHom.congr_fun (hρ f) (y z)).symm
       _ = ρ k ((F.map g).hom x) := congrArg (ρ k) hfg
@@ -290,7 +290,7 @@ private theorem existsUnique_algHom_desc {R₀ : Type uR} [CommRing R₀]
           _ = algebraMap R₀ S r := (ρ i).commutes r }
   refine ⟨ψ, (fun i ↦ AlgHom.ext (RingHom.congr_fun (hφ i))), ?_⟩
   intro ψ' hψ'
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   exact huniq ψ'.toRingHom (fun i ↦ congrArg AlgHom.toRingHom (hψ' i))
 
 set_option backward.isDefEq.respectTransparency false in
@@ -346,7 +346,8 @@ private def isColimit_stageUnderCocone {R₀ : Type uR} [CommRing R₀]
       exact hΦ i x
     · refine Eq.trans ?_ (right i x).symm
       change Φ ((c.ι.app i).hom 1 ⊗ₜ[R₀] x) = α x
-      erw [Algebra.TensorProduct.lift_tmul, map_one (c.ι.app i).hom, map_one ψ, one_mul] <;> rfl
+      erw [Algebra.TensorProduct.lift_tmul, map_one (c.ι.app i).hom, map_one ψ, one_mul]
+      rfl
   · intro n hn
     dsimp only [stageUnderCocone] at n
     apply Under.UnderMorphism.ext
@@ -386,8 +387,7 @@ private theorem exists_stage_tensor_element {R₀ : Type uR} [CommRing R₀]
     (c : Cocone F) (hc : ∀ x : c.pt, ∃ i y, (c.ι.app i).hom y = x)
     (A₀ : Type uA) [CommRing A₀] [Algebra R₀ A₀] (x : c.pt ⊗[R₀] A₀) :
     ∃ (i : I) (y : stageAlgebra F A₀ i), stageToLimitMap c A₀ i y = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨(IsFiltered.nonempty (C := I)).some, 0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul x a =>
     obtain ⟨i, y, hy⟩ := hc x
     exact ⟨i, y ⊗ₜ a, by simp [stageToLimitMap, Algebra.TensorProduct.map_tmul, hy]⟩
@@ -433,8 +433,7 @@ private theorem stageMap_comp {R₀ : Type uR} [CommRing R₀]
     (A₀ : Type uA) [CommRing A₀] [Algebra R₀ A₀] {a b d : I} (u : a ⟶ b) (v : b ⟶ d)
     (z : stageAlgebra F A₀ a) :
     stageMap F A₀ (u ≫ v) z = stageMap F A₀ v (stageMap F A₀ u z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x a => simp [stageMap, Algebra.TensorProduct.map_tmul]
   | add z w hz hw => simp only [map_add, hz, hw]
 
@@ -450,8 +449,7 @@ private theorem stageDirectedSystem {R₀ : Type uR} [CommRing R₀]
     have : G.map (homOfLE (le_refl j)) = 𝟙 _ := by
       rw [show homOfLE (le_refl j) = 𝟙 j from rfl, G.map_id]
     rw [this]
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul x a => simp [stageMap]
     | add y z hy hz => simp only [map_add, hy, hz]
   map_map {i j k} hij hjk y := by

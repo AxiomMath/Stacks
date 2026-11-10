@@ -73,7 +73,8 @@ The following are **not** proved here, and no declaration here should be read as
    `CategoryTheory.Functor.DescentMor` directly, exactly as
    `CategoryTheory.Functor.exists_amalgamation_morPlusProj` was for the second stage.
 
-   A warning about a route that does *not* work: it is tempting to deduce the sheaf condition from full faithfulness of
+   A warning about a route that does *not* work: it is tempting to deduce the sheaf condition from
+   full faithfulness of
    `CategoryTheory.Functor.toDescentPair` together with the local essential surjectivity of
    item 2, on the grounds that being a sheaf is a local condition. **It is not.** The module
    docstring of `StageThreeMorSheaf.lean` records the counterexample: for the category of elements

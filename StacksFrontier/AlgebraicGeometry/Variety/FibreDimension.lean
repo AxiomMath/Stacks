@@ -157,7 +157,7 @@ private theorem topologicalKrullDimAt_fiber_genericPoint_eq_imageClosure_sub
   have hIsupp : (I.support : Set Y) = (C : Set Y) := by
     simp [I, C]
   let z : Z := ⟨ξ, by
-    show ξ ∈ (I.support : Set Y)
+    change ξ ∈ (I.support : Set Y)
     rw [hIsupp]
     exact hξC⟩
   have hz : IsGenericPoint z (Set.univ : Set Z) := by
@@ -194,7 +194,7 @@ private theorem topologicalKrullDimAt_fiber_genericPoint_eq_imageClosure_sub
     (f.residueFieldMap η).hom.toAlgebra
   let : IsScalarTower k (Y.residueField ξ) (X.residueField η) := by
     apply IsScalarTower.of_algebraMap_eq'
-    show ((Scheme.ΓSpecIso (.of k)).inv ≫ pX.appTop ≫ X.Γevaluation η).hom =
+    change ((Scheme.ΓSpecIso (.of k)).inv ≫ pX.appTop ≫ X.Γevaluation η).hom =
       (f.residueFieldMap η).hom.comp
         ((Scheme.ΓSpecIso (.of k)).inv ≫ pY.appTop ≫ Y.Γevaluation ξ).hom
     have hcat : (Scheme.ΓSpecIso (.of k)).inv ≫ pX.appTop ≫ X.Γevaluation η =
@@ -345,7 +345,7 @@ public theorem topologicalKrullDim_le_fiber_add_imageClosure
     let : Algebra k (X.residueField η) :=
       ((Scheme.ΓSpecIso (.of k)).inv ≫ pX.appTop ≫ X.Γevaluation η).hom.toAlgebra
     let : FinTrdeg k (X.residueField η) := residueField_finTrdeg k pX η
-    show topologicalKrullDim X ≠ ⊤
+    change topologicalKrullDim X ≠ ⊤
     rw [topologicalKrullDim_eq_trdeg_residueField k X pX η hη]
     exact fun h ↦ (Cardinal.toENat_ne_top.mpr (trdeg_lt_aleph0 k _))
       (WithBot.coe_injective h)
@@ -354,7 +354,7 @@ public theorem topologicalKrullDim_le_fiber_add_imageClosure
   have hA_nat := eq_natCast_unbotD_toNat hAnonbot hAfinite
   have hfiber := fiberDimension_lower_bound_of_genericPoint f η hη
     ((((A.unbotD 0).toNat - (B.unbotD 0).toNat : ℕ))) hgeneric x
-  show A ≤ topologicalKrullDimAt (f.fiber (f x)) (f.asFiber x) + B
+  change A ≤ topologicalKrullDimAt (f.fiber (f x)) (f.asFiber x) + B
   have hF0 : (0 : WithBot ℕ∞) ≤ topologicalKrullDimAt (f.fiber (f x)) (f.asFiber x) :=
     topologicalKrullDimAt_nonneg (x := f.asFiber x)
   by_cases hBtop : B = ⊤
@@ -375,7 +375,7 @@ public theorem topologicalKrullDim_le_fiber_add_imageClosure
             (Closeds.closure (Set.range (fun x : X => f x)))).support : Set Y) =
               closure (Set.range (fun x : X => f x)) :=
           Scheme.IdealSheafData.coe_support_vanishingIdeal _
-        show f η ∈ ((Scheme.IdealSheafData.vanishingIdeal
+        change f η ∈ ((Scheme.IdealSheafData.vanishingIdeal
           (Closeds.closure (Set.range (fun x : X => f x)))).support : Set Y)
         rw [hsupp]
         exact subset_closure ⟨η, rfl⟩
@@ -524,7 +524,7 @@ private theorem exists_lift_reduction_imageClosure {X Y : Scheme.{u}} (f : X ⟶
     have hgen : IsGenericPoint (g η) (Set.univ : Set I.subscheme) := by
       have hind : Topology.IsInducing (I.subschemeι).base :=
         (Scheme.Hom.isClosedEmbedding I.subschemeι).isEmbedding.isInducing
-      show closure ({g η} : Set I.subscheme) = Set.univ
+      change closure ({g η} : Set I.subscheme) = Set.univ
       rw [hind.closure_eq_preimage_closure_image, Set.image_singleton, hgι η, hcl, ← hIsupp]
       refine Set.eq_univ_of_forall fun p => ?_
       rw [Set.mem_preimage, ← I.range_subschemeι]
@@ -709,10 +709,10 @@ public theorem topologicalKrullDimAt_le_fiber_add_topologicalKrullDimAt_target
   let : LocallyOfFiniteType pW := inferInstance
   let g : J.subscheme ⟶ Y := ι ≫ f
   have hg : g ≫ pY = pW := by
-    show (ι ≫ f) ≫ pY = ι ≫ pX
+    change (ι ≫ f) ≫ pY = ι ≫ pX
     rw [Category.assoc, hf]
   let xW : J.subscheme := ⟨x, by
-    show x ∈ (J.support : Set X)
+    change x ∈ (J.support : Set X)
     rw [hJsupp]
     exact hxC⟩
   have hιxW : ι xW = x := rfl

@@ -156,7 +156,7 @@ theorem relationsIdeal_le_ker : relationsIdeal ≤
     RingHom.ker (MvPolynomial.eval₂Hom (algebraMap ℚ (AlgebraicClosure ℚ)) algebraicRoot) := by
   refine Ideal.span_le.mpr ?_
   rintro _ ⟨i, rfl⟩
-  show MvPolynomial.eval₂Hom _ _ (relation i) = 0
+  change MvPolynomial.eval₂Hom _ _ (relation i) = 0
   simp [relation]
 
 /-- Evaluation of the radical tower algebra at the chosen roots in an algebraic closure. -/

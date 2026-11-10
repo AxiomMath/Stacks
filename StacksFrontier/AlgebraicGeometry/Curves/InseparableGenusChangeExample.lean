@@ -172,7 +172,7 @@ open Polynomial in
 /-- `bivariateEquiv k` sends the variable `X 1` to the inner variable, the constant `C X`. -/
 @[simp] theorem bivariateEquiv_X_one (k : Type u) [CommRing k] :
     bivariateEquiv k (MvPolynomial.X 1) = C Polynomial.X := by
-  show (Polynomial.mapEquiv (MvPolynomial.uniqueAlgEquiv k (Fin 1)).toRingEquiv)
+  change (Polynomial.mapEquiv (MvPolynomial.uniqueAlgEquiv k (Fin 1)).toRingEquiv)
     ((MvPolynomial.finSuccEquiv k 1) (MvPolynomial.X (0 : Fin 1).succ)) = _
   rw [MvPolynomial.finSuccEquiv_X_succ]
   simp [MvPolynomial.uniqueAlgEquiv_apply]
@@ -292,7 +292,7 @@ theorem planeCubic_mem_asHomogeneousIdeal {k : Type u} [Field k] (a : k) {Z : Sc
   set I := Stacks.ClosedSubschemeProjQuotient.homogeneousIdealOfClosedSubscheme 𝒮 i
   have hzero : Stacks.RingTheory.HomogeneousQuotient.quotientMk 𝒮 I (planeCubic k a) = 0 := by
     rw [Stacks.RingTheory.HomogeneousQuotient.quotientMk_apply, Ideal.Quotient.eq_zero_iff_mem]
-    show planeCubic k a ∈ idealOfClosedSubscheme 𝒮 i
+    change planeCubic k a ∈ idealOfClosedSubscheme 𝒮 i
     rw [hI]
     exact Ideal.mem_span_singleton_self _
   have hpre : i ⁻¹ᵁ AlgebraicGeometry.Proj.basicOpen 𝒮 (planeCubic k a) = ⊥ := by

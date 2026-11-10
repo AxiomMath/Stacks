@@ -150,7 +150,7 @@ followed by the canonical map of `g`. -/
 theorem inverseImageIdealMap_eq_comp :
     inverseImageIdealMap.{u} f I =
       t.pullbackModulesIso.hom.app I.toSheafOfModules ≫ inverseImageIdealMap.{u} g I := by
-  show (f.toModulesHom.pullbackModules).map I.ι ≫ pullbackUnitStructureMap f =
+  change (f.toModulesHom.pullbackModules).map I.ι ≫ pullbackUnitStructureMap f =
     t.pullbackModulesIso.hom.app I.toSheafOfModules ≫
       ((g.toModulesHom.pullbackModules).map I.ι ≫ pullbackUnitStructureMap g)
   rw [← pullbackModulesIso_hom_app_comp_pullbackUnitStructureMap t]

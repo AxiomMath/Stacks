@@ -535,7 +535,7 @@ theorem tensorHom_bijective_of_isInvertible
     have hn : (f ▷ G.val) ≫ adj.unit.app (M.val ⊗ G.val) =
         adj.unit.app (A ⊗ G.val) ≫ (a.map (f ▷ G.val)).val :=
       adj.unit.naturality (f ▷ G.val)
-    show adj.unit.app (A ⊗ G.val) ≫
+    change adj.unit.app (A ⊗ G.val) ≫
       ((a.map (η ▷ G.val) ≫ a.map (g.val ▷ G.val)) ≫ ev.hom).val = _
     calc adj.unit.app (A ⊗ G.val) ≫
           ((a.map (η ▷ G.val) ≫ a.map (g.val ▷ G.val)) ≫ ev.hom).val

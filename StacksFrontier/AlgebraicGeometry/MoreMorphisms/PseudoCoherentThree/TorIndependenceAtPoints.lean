@@ -63,7 +63,7 @@ theorem algebraTorIndependent_iff_of_isIso {R A B R₁ A₁ B₁ : CommRingCat.{
   let := φB₁.hom.toAlgebra
   let := φA.hom.toAlgebra
   let := φB.hom.toAlgebra
-  show Algebra.TorIndependent R₁ A₁ B₁ ↔ Algebra.TorIndependent R A B
+  change Algebra.TorIndependent R₁ A₁ B₁ ↔ Algebra.TorIndependent R A B
   rw [Algebra.torIndependent_iff, Algebra.torIndependent_iff,
     ← RingTheory.TorIndependence.torIndependent_iff_isZero_tor,
     ← RingTheory.TorIndependence.torIndependent_iff_isZero_tor]

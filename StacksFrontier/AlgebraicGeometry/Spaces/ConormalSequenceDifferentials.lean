@@ -193,7 +193,8 @@ than writing `r • d(a)` out a second time.
     at these concrete small étale ringed topoi none of them fits the default heartbeat budget
     when it is left to unification — the identification of
     `AlgebraicGeometry.Space.conormalSequenceUnitDerivation` with the universal derivation
-    followed by the unit of the adjunction (`PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply`), the
+    followed by the unit of the adjunction
+    (`PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply`), the
     naturality `CategoryTheory.Adjunction.homEquiv_naturality_right_symm` of the transposition,
     and the identification of `AlgebraicGeometry.Space.conormalSequenceFirstMap` with
     `AlgebraicGeometry.Space.conormalSequenceIdealPullbackMap`.  Delta-reducing the two
@@ -626,7 +627,8 @@ spaces and a structure morphism `g : X ⟶ B`, this is the universal `B`-derivat
 **This definition exists so that the morphism of algebraic spaces stays a variable.**  Every
 statement about this derivation — the identification of its value on a local section with the
 unit applied to a universal differential, which is
-`PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply` — elaborates at the default heartbeat budget while
+`PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply` — elaborates at the default heartbeat
+budget while
 `f` is a variable and does *not* elaborate once `f` is a concrete inclusion of a closed subspace,
 because the coefficient module must then be compared with the one the adjunction writes through
 the composite functor `f^* ⋙ f_*`, which unfolds the construction of the small étale ringed topos.

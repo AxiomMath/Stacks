@@ -106,7 +106,7 @@ private lemma eventually_flat_ring_of_directed {R S : Type u} [CommRing R] [Comm
       IsBaseChange (B j) (Module.Flat.DirectedModel.transLinear b n h) := by
     intro i j h
     let : Algebra (B i) (B j) := (b i j h).toAlgebra
-    show IsBaseChange (B j) (Algebra.linearMap (B i) (B j))
+    change IsBaseChange (B j) (Algebra.linearMap (B i) (B j))
     exact IsBaseChange.linearMap (B i) (B j)
   obtain ⟨i, hi⟩ := Module.Flat.eventually_flat_of_directed (R := R) (S := S) S
     a b n hab ρ σ (fun i => (σ i).toSemilinearMap)
@@ -116,7 +116,7 @@ private lemma eventually_flat_ring_of_directed {R S : Type u} [CommRing R] [Comm
       (inferInstance : Module (A j) (B j)) := by
     apply Module.ext'
     intro x y
-    show (algebraMap (A j) (B j)) x * y = x • y
+    change (algebraMap (A j) (B j)) x * y = x • y
     rw [Algebra.smul_def]
   have hj := hi j hij
   rw [hm] at hj
@@ -215,7 +215,7 @@ private lemma exists_flat_affine_baseChange {I : Type v} [Category.{w} I] [Essen
     let A := (e.obj a).unop
     have : LocallyOfFinitePresentation (baseChangeMap (D.map A.hom) X Y f) :=
       locallyOfFinitePresentation_baseChangeMap (D.map A.hom) X Y f
-    show (baseChangeMap (D.map A.hom) X Y f).appTop.hom.FinitePresentation
+    change (baseChangeMap (D.map A.hom) X Y f).appTop.hom.FinitePresentation
     exact Scheme.Hom.finitePresentation_appTop _
   have hpush : ∀ a b (h : a ≤ b),
       IsPushout (GY.map (homOfLE h)) (τ.app a) (τ.app b) (GX.map (homOfLE h)) := by
@@ -279,7 +279,7 @@ lemma exists_flat_baseChange_of_limitBaseChange
   let a (j : C.I₀) : UX j ⟶ X₀ := Over.homMk (C.f j)
   let b₀ (j : C.I₀) : VY j ⟶ Y₀ := Over.homMk (b j)
   let p₀ (j : C.I₀) : UX j ⟶ VY j := Over.homMk (p j) (by
-    show p j ≫ (b j ≫ Y₀.hom) = C.f j ≫ X₀.hom
+    change p j ≫ (b j ≫ Y₀.hom) = C.f j ≫ X₀.hom
     rw [← Category.assoc, hp, Category.assoc, Over.w])
   have (j : C.I₀) : IsAffine (UX j).left := hCaffine j
   have (j : C.I₀) : IsAffine (VY j).left := hVaffine j

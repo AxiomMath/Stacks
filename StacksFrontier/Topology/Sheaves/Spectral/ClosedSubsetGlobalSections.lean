@@ -106,10 +106,10 @@ private lemma globalSectionsProductEquiv_apply (X : TopCat.{u})
   let : Γ.IsRightAdjoint :=
     (constantSheafAdj (Opens.grothendieckTopology X) (Type u)
       (isTerminalTop (α := Opens X))).isRightAdjoint
-  show (Concrete.productEquiv (fun j => Γ.obj (G j)))
+  change (Concrete.productEquiv (fun j => Γ.obj (G j)))
       ((PreservesProduct.iso Γ G).hom s) i = _
   rw [Concrete.productEquiv_apply_apply]
-  show (ConcreteCategory.hom
+  change (ConcreteCategory.hom
     ((PreservesProduct.iso Γ G).hom ≫ Pi.π (fun j => Γ.obj (G j)) i)) s = _
   exact ConcreteCategory.congr_hom (piComparison_comp_π Γ G i) s
 
@@ -126,10 +126,10 @@ private lemma pullbackProductSectionsEquiv_apply {X Y : TopCat.{u}}
   let : PreservesFiniteLimits H := pullbackPreservesFiniteLimits f
   let : HasFiniteProducts (TopCat.Sheaf (Type u) Y) :=
     CategoryTheory.Sheaf.instHasFiniteProducts
-  show (globalSectionsProductEquiv Y (fun j : Fin n => H.obj (G j)))
+  change (globalSectionsProductEquiv Y (fun j : Fin n => H.obj (G j)))
       ((Γ.mapIso (PreservesProduct.iso H G)).hom t) i = _
   rw [globalSectionsProductEquiv_apply]
-  show (ConcreteCategory.hom
+  change (ConcreteCategory.hom
     (((PreservesProduct.iso H G).hom ≫ Pi.π (fun j => H.obj (G j)) i).hom.app (op ⊤))) t = _
   exact congrArg (fun q : H.obj (∏ᶜ G) ⟶ H.obj (G i) =>
     ConcreteCategory.hom (q.hom.app (op ⊤)) t) (piComparison_comp_π H G i)
@@ -151,7 +151,7 @@ private lemma top_hasFiniteCompactCofinalCovers {X : Type u} [TopologicalSpace X
     exact Set.mem_iUnion.mpr ⟨⟨j, ⟨U, hUopen, hUcompact, hUV⟩⟩, hxU⟩
   have hopenA : ∀ a : A, IsOpen (a.2.1 : Set X) := fun a => a.2.2.1
   have hcoverA : IsOpenCover (fun a : A => Opens.mk (a.2.1 : Set X) (hopenA a)) := by
-    show (⨆ a : A, Opens.mk (a.2.1 : Set X) (hopenA a)) = ⊤
+    change (⨆ a : A, Opens.mk (a.2.1 : Set X) (hopenA a)) = ⊤
     ext x
     refine ⟨fun _ => by simp, fun _ => ?_⟩
     obtain ⟨a, hxa⟩ := Set.mem_iUnion.mp (hAcover (Set.mem_univ x))
@@ -161,7 +161,7 @@ private lemma top_hasFiniteCompactCofinalCovers {X : Type u} [TopologicalSpace X
   let W : K → Opens (TopCat.of X) := fun a => ⟨a.val.2.val, a.val.2.property.1⟩
   refine ⟨K, inferInstance, W, fun _ => le_top, fun x _ => ?_,
     fun a => ⟨a.val.1, a.val.2.property.2.2⟩, fun a a' => ?_⟩
-  · show x ∈ (⨆ k, W k : Opens (TopCat.of X))
+  · change x ∈ (⨆ k, W k : Opens (TopCat.of X))
     rw [ht]
     simp
   · simpa [W] using IsCompact.inter_of_isOpen a.val.2.property.2.1
@@ -465,7 +465,7 @@ private theorem constantToContinuousPresheaf_stalk_bijective (X : TopCat.{u}) (S
       ext y
       rcases y.2 with ⟨z, hzE, hz⟩
       have hz' : z = (⟨y.1, hWU y.2⟩ : U) := Subtype.ext hz
-      show (ConcreteCategory.hom f) ⟨y.1, hWU y.2⟩ = a
+      change (ConcreteCategory.hom f) ⟨y.1, hWU y.2⟩ = a
       change (ConcreteCategory.hom f) z = a at hzE
       simpa [hz'] using hzE
     refine ⟨(constantPresheafOnSpace X (Type u) S).germ ⊤ x trivial a, ?_⟩
@@ -549,7 +549,7 @@ private theorem locallyConstantOfConstantSection_sectionOf
       f.isLocallyConstant.continuous.comp continuous_subtype_val⟩
   have h := congrArg (fun q => q.hom.app (op ⊤) t) e.inv_hom_id
   change e.hom.hom.app (op ⊤) (e.inv.hom.app (op ⊤) t) = t at h
-  show (ConcreteCategory.hom
+  change (ConcreteCategory.hom
     (e.hom.hom.app (op ⊤) (e.inv.hom.app (op ⊤) t))) ⟨x, by simp⟩ = f x
   rw [h]
   rfl
@@ -574,7 +574,7 @@ private theorem constantSectionOfLocallyConstant_ofSection
     apply TopCat.Hom.ext
     ext x
     rfl
-  show e.inv.hom.app (op ⊤) _ = s
+  change e.inv.hom.app (op ⊤) _ = s
   rw [ht]
   exact congrArg (fun q => q.hom.app (op ⊤) s) e.hom_inv_id
 
@@ -604,7 +604,7 @@ private lemma exists_globalConstantSection_germ_eq
     ∃ a : S, F.presheaf.germ ⊤ x trivial s =
       F.presheaf.germ ⊤ x trivial (globalConstantSection X S a) := by
   let F : TopCat.Sheaf (Type u) X := constantSheafOnSpace X (Type u) S
-  show ∃ a : S, F.presheaf.germ ⊤ x trivial s =
+  change ∃ a : S, F.presheaf.germ ⊤ x trivial s =
     F.presheaf.germ ⊤ x trivial (globalConstantSection X S a)
   let P := constantPresheafOnSpace X (Type u) S
   let η := toSheafify (Opens.grothendieckTopology X) P
@@ -632,7 +632,7 @@ private lemma constantToContinuousSheaf_globalConstantSection
 private lemma locallyConstantOfConstantSection_globalConstantSection
     (X : TopCat.{u}) (S : Type u) (a : S) (x : X) :
     locallyConstantOfConstantSection X S (globalConstantSection X S a) x = a := by
-  show (ConcreteCategory.hom
+  change (ConcreteCategory.hom
     ((constantToContinuousSheaf X S).hom.app (op ⊤)
       (globalConstantSection X S a))) ⟨x, by simp⟩ = a
   rw [constantToContinuousSheaf_globalConstantSection]
@@ -867,7 +867,7 @@ private lemma germ_pullback_globalSectionsRestriction {X : Type u} [TopologicalS
       (F.presheaf.germ ⊤ (i z) (Set.mem_univ _) s) =
       ((TopCat.Sheaf.pullback (Type u) i).obj F).presheaf.germ ⊤ z
         (Set.mem_univ _) (globalSectionsRestriction Z F s) at h
-  show (stalkPullbackSheafIso i F z).hom
+  change (stalkPullbackSheafIso i F z).hom
       (((TopCat.Sheaf.pullback (Type u) i).obj F).presheaf.germ ⊤ z
         (Set.mem_univ _) (globalSectionsRestriction Z F s)) =
       F.presheaf.germ ⊤ (i z) (Set.mem_univ _) s
@@ -1101,7 +1101,7 @@ private lemma intersectionPullbackPushforwardIso_global_unit
         (globalSectionsRestriction Z G s)) =
       ((TopCat.Sheaf.pullbackPushforwardAdjunction (Type u) (k ≫ i)).unit.app G).hom.app
         (op ⊤) s := by
-    show α.inv.hom.app (op ⊤)
+    change α.inv.hom.app (op ⊤)
       (((TopCat.Sheaf.pullbackPushforwardAdjunction (Type u) k).unit.app
         ((TopCat.Sheaf.pullback (Type u) i).obj G)).hom.app (op ⊤)
         (((TopCat.Sheaf.pullbackPushforwardAdjunction (Type u) i).unit.app G).hom.app
@@ -1110,7 +1110,7 @@ private lemma intersectionPullbackPushforwardIso_global_unit
     exact congrArg (fun q => q.hom.app (op ⊤)
       (((TopCat.Sheaf.pullbackPushforwardAdjunction (Type u) (k ≫ i)).unit.app G).hom.app
         (op ⊤) s)) α.hom_inv_id
-  show γ.hom.hom.app (op ⊤)
+  change γ.hom.hom.app (op ⊤)
     (β.hom.hom.app (op ⊤)
       (E.hom.hom.app (op ⊤)
         (α.inv.hom.app (op ⊤)
@@ -1131,7 +1131,7 @@ private lemma intersectionPullbackPushforwardIso_global_unit
   have ht := congrArg (fun q => q.hom.app (op ⊤) s) (aj.right_triangle_components C)
   change (aj.counit.app C).hom.app (op ⊤)
       ((aj.unit.app G).hom.app (op ⊤) s) = s at ht
-  show γ.hom.hom.app (op ⊤)
+  change γ.hom.hom.app (op ⊤)
     (((TopCat.Sheaf.pullbackPushforwardAdjunction (Type u) p).unit.app
       ((TopCat.Sheaf.pullback (Type u) j).obj G)).hom.app (op ⊤) u) =
       ((TopCat.Sheaf.pullbackPushforwardAdjunction (Type u) p).unit.app C).hom.app
@@ -1324,7 +1324,7 @@ private theorem surjective_restriction_of_mono
   have : Mono mZ := mono_pullback i m
   apply (SheafInjectiveSurjective.sheaf_mono_iff_injective mZ).1 inferInstance (op ⊤)
   have hunit := pullback_unit_natural i m ⊤ f
-  show mZ.hom.app (op ⊤) (globalSectionsRestriction Z F f) = tG
+  change mZ.hom.app (op ⊤) (globalSectionsRestriction Z F f) = tG
   exact hunit.trans ((congrArg (globalSectionsRestriction Z G) hf).trans hg)
 
 /-- Restriction to `Z` is surjective on global sections of a sheaf with a finite presentation by

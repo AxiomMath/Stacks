@@ -111,7 +111,7 @@ abbrev shiftedUnitComplex (n : ℤ) : CochainComplex (Modules X.O) ℤ :=
 (`Stacks.SheafOfModules.isKFlat_single_unit`) and K-flatness is stable under the translation
 (`CochainComplex.KFlatBifunctor.kFlat_shift`). -/
 theorem kFlat_shiftedUnitComplex (n : ℤ) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O (shiftedUnitComplex X n) :=
+    Stacks.SheafOfModules.KFlat X.O (shiftedUnitComplex X n) :=
   CochainComplex.KFlatBifunctor.kFlat_shift _ (Stacks.SheafOfModules.isKFlat_single_unit X.O) n
 
 /-- Tensoring a morphism of complexes with the identity of the translated unit complex, with its

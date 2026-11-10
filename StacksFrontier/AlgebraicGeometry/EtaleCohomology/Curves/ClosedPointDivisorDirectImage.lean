@@ -68,7 +68,7 @@ theorem constantSheafDirectImageMap_app (V : Y.Etale)
         ((constantSheafDirectImageMap.{u, v} a A).hom.app (op V) s) =
       ((smallEtaleConstantSheafSectionsIsoLocallyConstantMapsAb.{u, v} Y A V).hom s).comap
         (pullback.fst V.hom a).base.hom := by
-  show ((smallEtaleConstantSheafIsoLocallyConstantMapsAb.{u, v} Y' A).hom.app _)
+  change ((smallEtaleConstantSheafIsoLocallyConstantMapsAb.{u, v} Y' A).hom.app _)
       (((smallEtaleConstantSheafIsoLocallyConstantMapsAb.{u, v} Y' A).inv.app _)
         ((locallyConstantMapsDirectImageMap.{u, v} a A).app _
           (((smallEtaleConstantSheafIsoLocallyConstantMapsAb.{u, v} Y A).hom.app _) s))) = _
@@ -111,7 +111,7 @@ theorem integerSkyscraperDirectImageMap_app (x' : X') (U : X.Etale)
       (ULift.{max (u + 1) v} ℤ)).hom.app (op ((smallEtaleBaseChange
         (X.fromSpecResidueField (p.base x'))).obj U)) s)
   refine h1.trans ?_
-  show LocallyConstant.comap _ ((smallEtaleConstantSheafSectionsIsoLocallyConstantMapsAb.{u, v}
+  change LocallyConstant.comap _ ((smallEtaleConstantSheafSectionsIsoLocallyConstantMapsAb.{u, v}
     (Spec (X'.residueField x')) (ULift.{max (u + 1) v} ℤ) _).hom
       ((constantSheafDirectImageMap.{u, v} (Spec.map (p.residueFieldMap x'))
         (ULift.{max (u + 1) v} ℤ)).hom.app _ s)) = _
@@ -138,7 +138,7 @@ theorem ι_closedPointDivisorDirectImageMap (σ : closedPoints X → closedPoint
       eqToHom (by rw [closedPointSkyscraper, hσ x]) ≫
         integerSkyscraperDirectImageMap.{u, v} p (σ x).1 ≫
           (etaleAbelianDirectImage.{u, v} p).map (closedPointDivisorSheaf.ι.{u, v} X' (σ x)) :=
-  Sigma.ι_desc _ x
+  Sigma.ι_comp_desc _ x
 
 end Skyscraper
 

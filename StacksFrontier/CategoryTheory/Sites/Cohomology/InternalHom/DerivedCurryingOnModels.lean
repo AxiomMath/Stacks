@@ -93,7 +93,7 @@ theorem derivedHomGlobalSectionsComparison_naturality_map
           (globalSectionsKInjectiveIso X ((sheafHomComplex X A I).obj)).inv) ≫
         DerivedCategory.Q.map (globalSectionsComplexMap X φ) := by
     rw [Category.assoc, hgs]
-    simp only [Functor.map_comp, Category.assoc, Iso.map_inv_hom_id_assoc]
+    simp only [Functor.map_comp, Category.assoc, Iso.inv_hom_id_map_assoc]
   have hD' : (DerivedCategory.homologyFunctor AddCommGrpCat.{u} 0).map
           ((derivedModuleGlobalSections X).map ((derivedSheafHomComparison X A I).hom ≫
             DerivedCategory.Q.map φ ≫ (derivedSheafHomComparison X A' I').inv)) ≫
@@ -137,7 +137,7 @@ theorem derivedCurryIso_hom_model
               hB).hom.op).app (DerivedCategory.Q.obj I) := by
   have := isKInjective_sheafHomComplex_of_isKFlat X B I hB
   rw [derivedCurryIso_eq_representativeCurryingIso X A B I hB]
-  show ((derivedSheafHomBifunctor X).obj (op (DerivedCategory.Q.obj A))).map
+  change ((derivedSheafHomBifunctor X).obj (op (DerivedCategory.Q.obj A))).map
         (derivedSheafHomComparison X B I).inv ≫
       ((((derivedSheafHomBifunctor X).obj (op (DerivedCategory.Q.obj A))).map
           (derivedSheafHomComparison X B I).hom ≫
@@ -148,7 +148,7 @@ theorem derivedCurryIso_hom_model
             ((derivedSheafHomBifunctor X).map
               ((Stacks.SheafOfModules.canonicalDerivedTensorProduct X).comparisonRight A B
                 hB).hom.op).app (DerivedCategory.Q.obj I))) = _
-  rw [Category.assoc, Iso.map_inv_hom_id_assoc]
+  rw [Category.assoc, Iso.inv_hom_id_map_assoc]
 
 /-- `derivedCurryIso_hom_model` on degree-zero global hypercohomology. -/
 theorem derivedCurryIso_globalMap_model

@@ -172,7 +172,7 @@ theorem sheafMultiplicity_pushforward_eq_finsum (C : ChowSituation.{u}) (sX : X 
         sheafMultiplicity F x.1 * (f.residueDegree x.1 : ℤ) := by
     have hn := congrArg ENat.toNat hlen
     rw [ENat.toNat_sum (fun x _ => hterm x)] at hn
-    show ((Module.length (Y.presheaf.stalk y)
+    change ((Module.length (Y.presheaf.stalk y)
       (((Scheme.Modules.pushforward f).obj F).presheaf.stalk y)).toNat : ℤ) = _
     rw [hn, Nat.cast_sum]
     refine Finset.sum_congr rfl fun x _ => ?_

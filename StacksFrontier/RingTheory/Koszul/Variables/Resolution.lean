@@ -40,7 +40,7 @@ namespace MvPolynomial
 lemma variableKoszul_term_projective
     (A : Type u) [CommRing A] (E : Type v) (j : ℕ) :
     CategoryTheory.Projective ((Koszul.complex (variableKoszulDual A E)).X j) := by
-  show CategoryTheory.Projective
+  change CategoryTheory.Projective
     (ModuleCat.of (MvPolynomial E A) (⋀[MvPolynomial E A]^j (E →₀ MvPolynomial E A)))
   infer_instance
 
@@ -67,7 +67,7 @@ lemma variableKoszul_complex_exact_positive
     (by simp) (by simp)).2
   apply ShortComplex.Exact.moduleCat_of_range_eq_ker
   simp only [Koszul.complex_d]
-  show LinearMap.range (Koszul.d (variableKoszulDual A E) (q + 1)) =
+  change LinearMap.range (Koszul.d (variableKoszulDual A E) (q + 1)) =
     LinearMap.ker (Koszul.d (variableKoszulDual A E) q)
   exact variableKoszul_exact_positive A E q
 
@@ -87,7 +87,7 @@ lemma augmentation_ker_eq_variableIdeal
       (Ideal.span (Set.range MvPolynomial.X) : Ideal (MvPolynomial E A)) := by
   apply le_antisymm
   · intro p hp
-    show p ∈ MvPolynomial.idealOfVars E A
+    change p ∈ MvPolynomial.idealOfVars E A
     rw [← pow_one (MvPolynomial.idealOfVars E A)]
     apply (MvPolynomial.mem_pow_idealOfVars_iff' 1 p).mpr
     intro x hx
@@ -149,7 +149,7 @@ lemma variableKoszulAugmentation_surjective
     LinearEquiv.apply_symm_apply, Algebra.linearMap_apply,
     ULift.moduleEquiv_symm_apply]
   apply ULift.ext
-  show MvPolynomial.eval₂Hom (RingHom.id A) (0 : E → A)
+  change MvPolynomial.eval₂Hom (RingHom.id A) (0 : E → A)
     (MvPolynomial.C _) = _
   simp
 
@@ -179,15 +179,15 @@ lemma variableKoszulAugmentation_exactAt_zero
       exact RingHom.mem_ker.mpr (congrArg ULift.down hx)
     · intro hp
       refine ⟨z.symm p, ?_, by simp⟩
-      show g (z.symm p) = 0
+      change g (z.symm p) = 0
       simp only [g, LinearMap.comp_apply, LinearEquiv.coe_coe,
         LinearEquiv.apply_symm_apply, Algebra.linearMap_apply,
         ULift.moduleEquiv_symm_apply]
       apply ULift.ext
-      show f p = 0
+      change f p = 0
       rw [RingHom.mem_ker.mp hp]
   apply Submodule.map_injective_of_injective z.injective
-  show Submodule.map z.toLinearMap
+  change Submodule.map z.toLinearMap
       (LinearMap.range (Koszul.d (variableKoszulDual A E) 0)) =
     Submodule.map z.toLinearMap (LinearMap.ker g)
   rw [variableKoszul_range_d_zero, hker,
@@ -273,8 +273,7 @@ lemma variableKoszulTensorEmbed_repr
         (TensorProduct.equivFinsuppOfBasisLeft b z) := by
   classical
   let b := (Finsupp.basisSingleOne (R := MvPolynomial E A) (ι := E)).exteriorPower j
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x r =>
     ext s
     simp [variableKoszulTensorEmbed_tmul, mul_comm]
@@ -303,8 +302,7 @@ lemma variableKoszulTensorEmbed_range
   let I : Ideal (MvPolynomial E A) := Ideal.span (Set.range MvPolynomial.X)
   apply le_antisymm
   · rintro _ ⟨x, rfl⟩
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul x r =>
       rw [variableKoszulTensorEmbed_tmul]
       exact Submodule.smul_mem_smul r.property (by simp)
@@ -328,8 +326,7 @@ lemma variableKoszulTensorEmbed_d
         ((Koszul.d (variableKoszulDual A E) j).rTensor _ z) =
       Koszul.d (variableKoszulDual A E) j
         (variableKoszulTensorEmbed A E (j + 1) n z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x r =>
     simp [variableKoszulTensorEmbed_tmul, LinearMap.rTensor_tmul]
   | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
@@ -346,8 +343,7 @@ lemma variableKoszulTensorEmbed_inclusion
           (Submodule.inclusion
             (Ideal.pow_le_pow_right (Nat.le_succ n) : I ^ (n + 1) ≤ I ^ n)) z) =
       variableKoszulTensorEmbed A E j (n + 1) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x r => simp [variableKoszulTensorEmbed_tmul]
   | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
 
@@ -412,7 +408,7 @@ lemma koszul_d_zero_wedge {R M : Type*} [CommRing R] [AddCommGroup M] [Module R 
       algebraMap R (ExteriorAlgebra R M) (exteriorPower.zeroEquiv R M y) := by
     conv_lhs => rw [← (exteriorPower.zeroEquiv R M).symm_apply_apply y]
     exact Koszul.coe_zeroEquiv_symm _
-  show CliffordAlgebra.contractLeft φ
+  change CliffordAlgebra.contractLeft φ
       (ExteriorAlgebra.ι R e * (y : ExteriorAlgebra R M)) =
     φ e • (y : ExteriorAlgebra R M)
   rw [CliffordAlgebra.contractLeft_ι_mul, hy,
@@ -465,7 +461,7 @@ lemma variableKoszulAug_exteriorBasis (A : Type u) [CommRing A] (E : Type v) [Li
       ((Finsupp.basisSingleOne (R := MvPolynomial E A) (ι := E)).exteriorPower 0 s) = 1 := by
   rw [variableExteriorBasis_apply]
   refine Koszul.zeroEquiv_eq_of_coe ?_
-  show ExteriorAlgebra.ιMulti (MvPolynomial E A) 0
+  change ExteriorAlgebra.ιMulti (MvPolynomial E A) 0
       (fun k ↦ Finsupp.single (s.1.orderEmbOfFin s.2 k) 1) = algebraMap _ _ 1
   simp [ExteriorAlgebra.ιMulti]
 
@@ -481,7 +477,7 @@ lemma variableKoszulAug_termBasis (A : Type u) [CommRing A] (E : Type v) [Linear
 /-- `variableKoszulAug` sends `variableKoszulUnit A E a` to `C a`. -/
 lemma variableKoszulAug_unit (A : Type u) [CommRing A] (E : Type v) (a : A) :
     variableKoszulAug A E (variableKoszulUnit A E a) = MvPolynomial.C a := by
-  show (exteriorPower.zeroEquiv (MvPolynomial E A) (E →₀ MvPolynomial E A))
+  change (exteriorPower.zeroEquiv (MvPolynomial E A) (E →₀ MvPolynomial E A))
     ((exteriorPower.zeroEquiv (MvPolynomial E A) (E →₀ MvPolynomial E A)).symm
       (algebraMap A (MvPolynomial E A) a)) = _
   rw [LinearEquiv.apply_symm_apply]
@@ -528,7 +524,7 @@ private lemma variableKoszulChosenContract_homotopy_zero_augmented_termBasis
       rw [variableKoszulChosenContract_termBasis, dite_eq_left (hmd.trans hp)]
     rw [hc, map_zero, zero_add]
     refine (exteriorPower.zeroEquiv (MvPolynomial E A) (E →₀ MvPolynomial E A)).injective ?_
-    show variableKoszulAug A E _ = variableKoszulAug A E _
+    change variableKoszulAug A E _ = variableKoszulAug A E _
     rw [variableKoszulAug_unit, variableKoszulAug_termBasis, hp]
     simp
   · have hα : variableKoszulMultidegree 0 p ≠ 0 := by rwa [hmd]
@@ -552,7 +548,7 @@ lemma variableKoszulChosenContract_homotopy_zero_augmented
     { toFun := MvPolynomial.eval₂Hom (RingHom.id A) (0 : E → A)
       map_add' := map_add _
       map_smul' := fun a p => by
-        show MvPolynomial.eval₂Hom (RingHom.id A) (0 : E → A) (a • p) = a • _
+        change MvPolynomial.eval₂Hom (RingHom.id A) (0 : E → A) (a • p) = a • _
         rw [MvPolynomial.smul_eq_C_mul, map_mul]
         simp [smul_eq_mul] }
   have hlin : ((((Koszul.d (variableKoszulDual A E) 0).restrictScalars A).comp

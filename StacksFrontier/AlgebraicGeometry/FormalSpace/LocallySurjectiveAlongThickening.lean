@@ -147,7 +147,7 @@ theorem isLocallySurjective_sigmaDesc_of_isRepresentableEtale
     have hmρ : (BigFppfOver.toScheme B S hS).map m = ρ :=
       B.inclusion.map_preimage (X := B.obj hK) (Y := T.left) ρ
     have hpx : Space.schemePointULift B S hS T p = x := by
-      show (BigFppfOver.toScheme B S hS).map m (IsLocalRing.closedPoint K) = x
+      change (BigFppfOver.toScheme B S hS).map m (IsLocalRing.closedPoint K) = x
       rw [hmρ]
       exact hρ _
     obtain ⟨k, z, hz⟩ := hsurj (Space.pointsMapULift.{u + 1} B S hS

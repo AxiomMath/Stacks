@@ -219,7 +219,7 @@ theorem stalkHomAt_pullback_fst_comp {S T Y : Scheme.{u}} [IsLocallyNoetherian S
       S.fromSpecStalk s)
       (closedPoint (AdicCompletion (maximalIdeal (S.presheaf.stalk s))
         (S.presheaf.stalk s))) = s := by
-    show S.fromSpecStalk s ((Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk s)
+    change S.fromSpecStalk s ((Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk s)
       (AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s)))))
         (closedPoint _)) = s
     rw [Spec_closedPoint, Scheme.fromSpecStalk_closedPoint]
@@ -233,7 +233,7 @@ theorem stalkHomAt_pullback_fst_comp {S T Y : Scheme.{u}} [IsLocallyNoetherian S
           Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk s)
             (AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s)))) ≫
             S.fromSpecStalk s) yσ = s by
-        show (Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk s)
+        change (Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk s)
           (AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s)))) ≫
             S.fromSpecStalk s) (pullback.snd g b yσ) = s
         rw [hvσ]

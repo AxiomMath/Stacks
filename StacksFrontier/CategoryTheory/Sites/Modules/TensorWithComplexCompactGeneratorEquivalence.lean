@@ -190,7 +190,7 @@ theorem tensorWithComplexDerived_lift_isEquivalence_of_isCompactGenerator
   let : adjP.CommShift ℤ := adjP.commShift_of_leftAdjoint ℤ
   have : R.IsTriangulated := adjP.isTriangulated_rightAdjoint
   have : L.Additive := ⟨fun {_ _ f g} => P.fullyFaithfulι.map_injective (by
-    show F.map (f + g) = P.ι.map (L.map f + L.map g)
+    change F.map (f + g) = P.ι.map (L.map f + L.map g)
     rw [CategoryTheory.Functor.map_add, CategoryTheory.Functor.map_add]
     rfl)⟩
   have : R.Additive := adjP.right_adjoint_additive

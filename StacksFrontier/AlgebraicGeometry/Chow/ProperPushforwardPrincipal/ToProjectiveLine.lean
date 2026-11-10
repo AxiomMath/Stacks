@@ -58,9 +58,9 @@ theorem isDominant_Spec_map_of_injective {R S : CommRingCat.{u}} [IsDomain R] [I
   refine ((tfae_isDominant_of_isIntegral (Spec.map φ)).out 1 2).mpr ?_
   rw [genericPoint_eq_bot_of_affine R, genericPoint_eq_bot_of_affine S]
   refine PrimeSpectrum.ext ?_
-  show Ideal.comap φ.hom (⊥ : PrimeSpectrum S).asIdeal = (⊥ : PrimeSpectrum R).asIdeal
+  change Ideal.comap φ.hom (⊥ : PrimeSpectrum S).asIdeal = (⊥ : PrimeSpectrum R).asIdeal
   ext x
-  show φ.hom x ∈ (⊥ : Ideal S) ↔ x ∈ (⊥ : Ideal R)
+  change φ.hom x ∈ (⊥ : Ideal S) ↔ x ∈ (⊥ : Ideal R)
   simp [map_eq_zero_iff _ hφ]
 
 /-- Every morphism to an affine scheme factors through the canonical morphism to the spectrum of
@@ -148,7 +148,7 @@ theorem exists_isDominant_partialMap_to_projectiveLine {k : Type u} [Field k] {X
     injective_eval₂RingHom_of_ne_zero_of_not_isUnit ρ.hom hs0 hsu
   have hCφ : CommRingCat.ofHom (Polynomial.C : k →+* Polynomial k) ≫ φ = ρ := by
     refine CommRingCat.hom_ext (RingHom.ext fun c ↦ ?_)
-    show Polynomial.eval₂RingHom ρ.hom s (Polynomial.C c) = ρ.hom c
+    change Polynomial.eval₂RingHom ρ.hom s (Polynomial.C c) = ρ.hom c
     simp
   refine ⟨U, U.toScheme.toSpecΓ ≫ Spec.map φ ≫ projectiveLineXChart k, hdense, ?_, ?_⟩
   · have _ : IsDominant (Spec.map φ) := isDominant_Spec_map_of_injective φ hφinj

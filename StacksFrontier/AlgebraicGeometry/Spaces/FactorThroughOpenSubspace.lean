@@ -97,7 +97,7 @@ theorem factorsThrough_openSubspace_iff_points
           ⟨⊤, isOpenSubspace_top hY⟩ := by
         apply (openSubspacesOrderIso B S hS Y hY).injective
         apply SetLike.coe_injective
-        show Set.range (pointsMap B S hS V.toFunctor V.ι) =
+        change Set.range (pointsMap B S hS V.toFunctor V.ι) =
           Set.range (pointsMap B S hS (⊤ : Subfunctor Y).toFunctor (⊤ : Subfunctor Y).ι)
         rw [hrange, (pointsMap_surjective_of_isIso B S hS (⊤ : Subfunctor Y).ι).range_eq]
       exact congrArg Subtype.val h

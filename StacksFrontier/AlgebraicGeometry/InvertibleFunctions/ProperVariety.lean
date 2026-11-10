@@ -150,9 +150,9 @@ theorem fg_units_quotient_of_isOpenImmersion_into_normal_properVariety
     have h2 : ((Scheme.ΓSpecIso (.of k)).inv ≫ (j ≫ g).appTop)
         = ((Scheme.ΓSpecIso (.of k)).inv ≫ g.appTop) ≫ j.appTop := by
       rw [Scheme.Hom.comp_appTop, Category.assoc]
-    show ((j.appIso ⊤).hom.hom) (((Z.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op).hom) (φZ c)) = _
+    change ((j.appIso ⊤).hom.hom) (((Z.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op).hom) (φZ c)) = _
     rw [hφX, h2]
-    show _ = j.appTop.hom (φZ c)
+    change _ = j.appTop.hom (φZ c)
     rw [← h]
     rfl
   have hle : (Units.map ψ.toMonoidHom).range ≤

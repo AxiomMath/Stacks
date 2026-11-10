@@ -46,8 +46,8 @@ theorem overQuotient_mapIso_trans_isEquivalent {T : BigFppfOver B S hS} {Y : Sch
     (D : Stacks.RelativeProj.TautologicalDatum Y F)
     {N₁ N₂ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T)}
     (hN₁ : N₁.IsQuasicoherentOnSite) (hN₂ : N₂.IsQuasicoherentOnSite)
-    [i₁ : ((zariskiReadingFunctor T).obj N₁).IsQuasicoherent]
-    [i₂ : ((zariskiReadingFunctor T).obj N₂).IsQuasicoherent]
+    [((zariskiReadingFunctor T).obj N₁).IsQuasicoherent]
+    [((zariskiReadingFunctor T).obj N₂).IsQuasicoherent]
     (φ : N₁ ≅ N₂) (e : (zariskiReadingFunctor T).obj N₂ ≅ (Scheme.Modules.pullback f).obj F)
     (k : (BigFppfOver.toScheme B S hS).obj T ⟶ Stacks.RelativeProj.projectiveBundle Y F)
     (hk : k ≫ Stacks.RelativeProj.projectiveBundleToBase Y F = f)
@@ -104,7 +104,7 @@ theorem fibreToSpace_comp_projectiveBundleBaseChange_comp_π :
     (congrArg (· ≫ u) (yoneda.map_comp _ _).symm)
 
 
-include u h hvh hE hb hb' in
+include u h hvh hE hb' in
 /-- The base change of the fibre of `𝐏(g^*ℰ)` over `v`, read in `𝐏((u^*ℰ)_Zar)`, lies over
 `f' ≫ h`. -/
 theorem pointFibreProjectiveBundleIso_hom_comp_projectiveBundleBaseChange_comp_toBase :
@@ -248,7 +248,7 @@ theorem pointFibreProjectiveBundleIso_hom_eq_pointBundleSection_comp :
           hb').relativeProjPoints.fibreHom T' v) ≫ v})
       ((congrArg (· ≫ _) (CategoryTheory.Functor.map_id yoneda _)).trans (Category.id_comp _))).symm
 
-include u h hvh hE hb hb' in
+include u h hE hb' in
 /-- The section of the fibre of `𝐏(g^*ℰ)` over `v`, base changed, lies over `f'`. -/
 theorem pointBundleSection_comp_projectiveBundleBaseChange_comp_toBase :
     haveI := isQuasicoherent_pointZariskiModule X E hE T u

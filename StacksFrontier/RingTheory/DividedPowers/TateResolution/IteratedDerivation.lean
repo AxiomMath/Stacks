@@ -98,7 +98,7 @@ public theorem exists_mem_grade_map_eq
   refine ⟨GradedAlgebra.proj 𝒜 n b, (DirectSum.decompose 𝒜 b n).property, ?_⟩
   let f : 𝒜 →+*ᵍ ℬ := ⟨π, fun {i b} hb => hgrade i b hb⟩
   rw [GradedAlgebra.proj_apply]
-  show f (DirectSum.decompose 𝒜 b n) = f b
+  change f (DirectSum.decompose 𝒜 b n) = f b
   rw [f.map_directSumDecompose (x := b) (i := n),
     DirectSum.decompose_of_mem ℬ (show f b ∈ ℬ n from hx)]
   simp

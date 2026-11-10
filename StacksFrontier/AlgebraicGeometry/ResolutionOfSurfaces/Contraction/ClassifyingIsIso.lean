@@ -132,7 +132,7 @@ public theorem exists_notMem_forall_isReduced_localization {A : Type u} [CommRin
   let s : 𝔭.primeCompl := ∏ n : G, c n
   have hsG : ∀ n ∈ (G : Set A), (s : A) * n = 0 := fun n hn ↦ by
     obtain ⟨r, hr⟩ : (c ⟨n, hn⟩ : A) ∣ (s : A) := by
-      rw [Submonoid.coe_finset_prod]
+      rw [Submonoid.coe_finsetProd]
       exact Finset.dvd_prod_of_mem (fun i : G ↦ (c i : A)) (Finset.mem_univ _)
     rw [hr, mul_comm (c ⟨n, hn⟩ : A) r, mul_assoc, hc, mul_zero]
   have hsN : ∀ a ∈ nilradical A, (s : A) * a = 0 := fun a ha ↦ by
@@ -151,7 +151,7 @@ public theorem exists_notMem_forall_isReduced_localization {A : Type u} [CommRin
     linear_combination ((v : A) ^ k * a) * hv⟩
   rw [IsLocalization.mk'_eq_zero_iff]
   refine ⟨⟨(s : A) * v, 𝔮.primeCompl.mul_mem hs𝔮 v.2⟩, ?_⟩
-  show (s : A) * v * a = 0
+  change (s : A) * v * a = 0
   rw [mul_assoc]
   exact hsN _ hva
 
@@ -286,7 +286,7 @@ public theorem isIso_blowUpClassifying_of_steinSetup_of_isNoetherian {X Y : Sche
     have hwW := hEW w hw
     obtain ⟨x, hx, hqf⟩ := hqfE w hw
     have hxW : x ∈ g ⁻¹ᵁ W := by
-      show g x ∈ W
+      change g x ∈ W
       rw [hx]
       exact hwW
     let x' : (g ⁻¹ᵁ W).toScheme := ⟨x, hxW⟩

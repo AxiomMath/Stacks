@@ -297,13 +297,13 @@ of derived categories induced by a functor which Stacks 0D74 makes exact. -/
 local instance moduleLowerShriekDerived_additive (n : SimplexCategory) :
     (S.componentModuleLowerShriekDerived O n (hflat n)).Additive := by
   have h := S.exactFunctor_componentModuleLowerShriek' O n (hflat n)
-  letI : PreservesFiniteLimits
+  let : PreservesFiniteLimits
     (S.componentModuleLowerShriek
       ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology) O)) n) := h.1
-  letI : PreservesFiniteColimits
+  let : PreservesFiniteColimits
     (S.componentModuleLowerShriek
       ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology) O)) n) := h.2
-  letI : (S.componentModuleLowerShriek
+  let : (S.componentModuleLowerShriek
       ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology) O)) n).Additive :=
     Functor.additive_of_preserves_binary_products
       (S.componentModuleLowerShriek
@@ -382,14 +382,17 @@ is a left adjoint, by
 `CategoryTheory.SimplicialSiteSituation.componentModuleRestrictionAdjunction`. -/
 local instance componentModulesRestriction_preservesCountableCoproducts (n : SimplexCategory) :
     PreservesColimitsOfShape (Discrete ℕ) (S.componentModulesRestriction O n) := by
-  letI : PreservesColimitsOfSize.{u, u} (S.componentModulesRestriction O n) :=
+  let : PreservesColimitsOfSize.{u, u} (S.componentModulesRestriction O n) :=
     (S.componentModuleRestrictionAdjunction
       ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology) O))
       n).leftAdjoint_preservesColimits
-  letI : PreservesColimitsOfSize.{0, 0} (S.componentModulesRestriction O n) :=
+  let : PreservesColimitsOfSize.{0, 0} (S.componentModulesRestriction O n) :=
     preservesColimitsOfSize_of_univLE.{u, u, 0, 0} _
   infer_instance
 
+omit [∀ (m n : SimplexCategory) (φ : m ⟶ n),
+    (pullbackOnHomotopy (S.transitionRingedToposHom O φ)).HasLeftDerivedFunctor
+      (targetQuasiIso (S.componentRingedTopos O m))] in
 /-- **Derived restriction to a simplicial degree preserves countable direct sums.** Restriction
 of sheaves of modules is exact and preserves countable direct sums, and both the total and the
 component module categories have exact countable direct sums. -/
@@ -532,6 +535,9 @@ theorem nonempty_sequentialPostnikovSystem_moduleRealizationComplex
     (fun i j t ht f =>
       moduleRealizationTerm_hom_zero_of_biproduct hflat T hT hHom ⦋i⦌ ⦋j⦌ t ht f)
 
+omit [∀ (m n : SimplexCategory) (φ : m ⟶ n),
+    (pullbackOnHomotopy (S.transitionRingedToposHom O φ)).HasLeftDerivedFunctor
+      (targetQuasiIso (S.componentRingedTopos O m))] in
 /-- **The derived category of modules on the total site has countable direct sums.** Sheaves of
 modules have exact countable direct sums, and Stacks 0A5L carries that to the derived
 category. -/
@@ -573,7 +579,8 @@ noncomputable def moduleRealizationComponentComparison
   app n := Limits.Sigma.desc fun φ => moduleRealizationComponentInclusion hflat T hT φ
   naturality _ _ ψ := by
     refine Limits.Sigma.hom_ext _ _ fun φ => ?_
-    simp only [simplexCopower, Limits.Sigma.ι_desc_assoc, Limits.Sigma.ι_desc, Functor.comp_map,
+    simp only [simplexCopower, Limits.Sigma.ι_comp_desc_assoc, Limits.Sigma.ι_comp_desc,
+      Functor.comp_map,
       moduleRealizationSimplicial]
     exact (moduleRealizationComponentInclusion_comp hflat T hT ψ.unop φ).symm
 
@@ -583,7 +590,7 @@ theorem moduleRealizationComponentComparison_ι (T : SimplicialDerivedModuleSyst
     Limits.Sigma.ι (fun _ : n.unop ⟶ m => T.obj m) φ ≫
         (moduleRealizationComponentComparison hflat T hT m).app n =
       moduleRealizationComponentInclusion hflat T hT φ :=
-  Limits.Sigma.ι_desc _ _
+  Limits.Sigma.ι_comp_desc _ _
 
 variable (S O)
 
@@ -638,7 +645,7 @@ theorem moduleRealizationComponentComparison_isIso
     have hL := moduleRealizationTermMap_homEquiv hflat T hT φ
     have hS := hsummand φ (T.obj n.unop)
     simp only [Iso.trans_hom, Iso.symm_hom, Limits.biproduct.isoCoproduct_inv] at hS ⊢
-    simp only [Limits.Sigma.ι_mapIso_hom_assoc, Limits.Sigma.ι_desc_assoc]
+    simp only [Limits.Sigma.ι_mapIso_hom_assoc, Limits.Sigma.ι_comp_desc_assoc]
     rw [hS]
     refine hL.trans ?_
     simp only [Iso.symm_hom, asIso_inv]

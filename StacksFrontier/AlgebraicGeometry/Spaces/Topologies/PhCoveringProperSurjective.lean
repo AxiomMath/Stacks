@@ -290,7 +290,7 @@ theorem isPHCovering_of_isProper_isSurjective
       hVAff ((BigFppfOver.toScheme B S hS).map m) (fun i ↦ VA.f i) hmProper hmSurj
       hVOpen VA.iUnion_range ?_
     intro i
-    show VA.f i ≫ (BigFppfOver.toScheme B S hS).map m =
+    change VA.f i ≫ (BigFppfOver.toScheme B S hS).map m =
       (BigFppfOver.toScheme B S hS).map (r i) ≫ (BigFppfOver.toScheme B S hS).map m
     rw [hr i]
   have hpc : pullback.fst f a ≫ f = pullback.snd f a ≫ a := pullback.condition
@@ -301,7 +301,7 @@ theorem isPHCovering_of_isProper_isSurjective
           (congrArg (fun z ↦ z ≫ a) hm.symm)))
   refine ⟨E, hstandard, ⟨⟨fun _ ↦ (), fun i ↦ yoneda.map (r i) ≫ ρ ≫ pullback.fst f a, ?_⟩⟩⟩
   intro i
-  show (yoneda.map (r i) ≫ ρ ≫ pullback.fst f a) ≫ f = yoneda.map (r i ≫ m) ≫ a
+  change (yoneda.map (r i) ≫ ρ ≫ pullback.fst f a) ≫ f = yoneda.map (r i ≫ m) ≫ a
   exact (Category.assoc (yoneda.map (r i)) (ρ ≫ pullback.fst f a) f).trans
     ((congrArg (fun z ↦ yoneda.map (r i) ≫ z) hcond).trans
       ((Category.assoc (yoneda.map (r i)) (yoneda.map m) a).symm.trans

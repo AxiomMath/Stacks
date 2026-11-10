@@ -76,6 +76,7 @@ def twistPairingCurry (k : ℕ) (d e : ℤ) (he : d + k = e) :
       (D.algebra.piece e) :=
   Stacks.SheafOfModules.tensorHomEquiv _ _ _ _ (twistPairing E hqc D k d e he)
 
+omit [E.IsQuasicoherent] in
 /-- On sections over `U`, the curried pairing sends a section `c` of `𝒪(d)` and a section `t`
 of `π^* Sym^k(E)` to the product of `c` with the image of `t` in `𝒪(k)`, viewed in `𝒪(e)`. -/
 theorem twistPairingCurry_apply (k : ℕ) (d e : ℤ) (he : d + k = e) (U : (bundle E hqc).Opens)

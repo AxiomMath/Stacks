@@ -39,8 +39,8 @@ factor by factor to a single identity about units — here
 
 Every step is a declaration of its own with both of its sides written out, for the reason recorded
 in the implementation notes of
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorMateMonoidal`: the heartbeat budget is
-per declaration, and a composite of two of these steps assembled inside one proof exhausts it at
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorMateMonoidal`: the heartbeat budget
+is per declaration, and a composite of two of these steps assembled inside one proof exhausts it at
 `whnf` even though each step costs a fraction of a second on its own.
 
 ## References

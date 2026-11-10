@@ -111,13 +111,13 @@ private theorem Scheme.IdealSheafData.eq_of_specializes_of_mem_support {Y : Sche
     J.subschemeι.isEmbedding.isOpen_iff.mp (isOpen_discrete ({z₀} : Set J.subscheme))
   have hxV : x ∈ V := by
     rw [← hz₀]
-    show z₀ ∈ J.subschemeι ⁻¹' V
+    change z₀ ∈ J.subschemeι ⁻¹' V
     rw [hVpre]
     simp
   obtain ⟨z, hz⟩ := Set.mem_range.mp
     (show y ∈ Set.range J.subschemeι by rwa [J.range_subschemeι])
   have hzV : z ∈ J.subschemeι ⁻¹' V := by
-    show J.subschemeι z ∈ V
+    change J.subschemeι z ∈ V
     rw [hz]
     exact h.mem_open hV hxV
   have hzEq : z = z₀ := by simpa [hVpre] using hzV
@@ -162,7 +162,7 @@ theorem Scheme.IdealSheafData.stalk_ne_bot_of_discreteTopology_subscheme
   have hK : J.ideal U ≤ q.asIdeal := by
     intro a ha
     have hazero : germ a = 0 := by simpa [hmap] using Ideal.mem_map_of_mem germ ha
-    show a ∈ Ideal.under A (⊥ : Ideal R)
+    change a ∈ Ideal.under A (⊥ : Ideal R)
     rwa [Ideal.mem_under, RingHom.algebraMap_toAlgebra]
   have hySupport : U.2.fromSpec q ∈ J.support := by
     have hyU : U.2.fromSpec q ∈ U.1 := by

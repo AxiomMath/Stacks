@@ -91,7 +91,7 @@ theorem strictHenselizationCone_π_appTop_affine (a : etaleNeighborhoodAffineInd
     (Scheme.ΓSpecIso (CommRingCat.of ↥(etaleLocalRing B S hS s))).hom.hom
         (((strictHenselizationCone B S hS s).π.app
           ((etaleNeighborhoodAffineInclusion B S hS s).obj a)).appTop.hom b) =
-      (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+      (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (SmallEtale.structureSheaf B S hS).obj)
           (op ((etaleNeighborhoodAffineInclusion B S hS s).obj a))).hom b := by
   have h1 : (strictHenselizationCone B S hS s).π.app
@@ -114,10 +114,10 @@ theorem strictHenselizationCone_π_appTop (V : (geometricPointFiber B S hS s).El
     (b : Γ((etaleNeighborhoodDiagram B S hS s).obj V, ⊤)) :
     (Scheme.ΓSpecIso (CommRingCat.of ↥(etaleLocalRing B S hS s))).hom.hom
         (((strictHenselizationCone B S hS s).π.app V).appTop.hom b) =
-      (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+      (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (SmallEtale.structureSheaf B S hS).obj) (op V)).hom b := by
   obtain ⟨a, ⟨h⟩⟩ := etaleNeighborhoodAffineIndex_weaklyInitial B S hS s V
-  set F := (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+  set F := (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
     (SmallEtale.structureSheaf B S hS).obj with hF
   have hcone : (strictHenselizationCone B S hS s).π.app
         ((etaleNeighborhoodAffineInclusion B S hS s).obj a) ≫
@@ -162,7 +162,6 @@ theorem strictHenselizationConeToBase_eq :
     rw [strictHenselizationCone_π_appTop,
       structureSheafStalkFromLocalRing_open_germ B S hS s U hxU
         ((CommRingCat.Hom.hom U.topIso.hom) b), hb]
-    rfl
   have e2 : (Spec.map (S.presheaf.germ U (s.hom (closedPoint s.residueField)) hxU ≫
         CommRingCat.ofHom (structureSheafStalkFromLocalRing B S hS s)) ≫ hU.isoSpec.inv).appTop =
       U.topIso.hom ≫ (S.presheaf.germ U (s.hom (closedPoint s.residueField)) hxU ≫

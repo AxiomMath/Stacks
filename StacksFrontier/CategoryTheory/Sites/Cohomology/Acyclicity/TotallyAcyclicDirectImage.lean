@@ -144,7 +144,7 @@ theorem isTotallyAcyclic_of_injective {C : Type u} [SmallCategory C]
   have hTF : ∀ U, Module.IsTorsionFree ℤ
       (((Presheaf.freeAbelianSheaf J).obj K.obj).obj.obj U) := fun U ↦
     ModuleSheafCohomology.isTorsionFree_sheafify J (K.obj ⋙ AddCommGrpCat.free) (fun V ↦ by
-      show Module.IsTorsionFree ℤ (FreeAbelianGroup (K.obj.obj V))
+      change Module.IsTorsionFree ℤ (FreeAbelianGroup (K.obj.obj V))
       exact Module.Flat.isTorsionFree) U
   have : HasExt.{u} (Sheaf J AddCommGrpCat.{u}) := inferInstance
   have : Subsingleton (Ext.{u} ((Presheaf.freeAbelianSheaf J).obj K.obj)
@@ -187,10 +187,10 @@ lemma splitEpi_moduleSheafFunctor {C : Type u} [SmallCategory C]
     ((Presheaf.freeAbelianSheaf J).obj K.obj) (hS.map_of_exact toAb) (h₁ K 1 le_rfl) a
   refine ⟨⟨⟨adj.homEquiv K.obj (toAb.obj S.X₂) b⟩, ?_⟩⟩
   apply Sheaf.hom_ext
-  show adj.homEquiv K.obj (toAb.obj S.X₂) b ≫
+  change adj.homEquiv K.obj (toAb.obj S.X₂) b ≫
       (sheafToPresheaf J AddCommGrpCat.{u} ⋙ Presheaf.forgetAbelian).map (toAb.map S.g) = 𝟙 K.obj
   rw [← adj.homEquiv_naturality_right]
-  show adj.homEquiv K.obj (toAb.obj S.X₃) (b ≫ (S.map toAb).g) = 𝟙 K.obj
+  change adj.homEquiv K.obj (toAb.obj S.X₃) (b ≫ (S.map toAb).g) = 𝟙 K.obj
   rw [hb]
   exact (adj.homEquiv K.obj (toAb.obj S.X₃)).apply_symm_apply (𝟙 K.obj)
 
@@ -233,6 +233,7 @@ private lemma shortExact_map_pushforwardModules
   exact ShortComplex.ShortExact.mk' hexact hmono
     ((Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).epi_of_epi_map hepi)
 
+omit [HasExt.{x} (Sheaf X.J AddCommGrpCat.{u})] in
 /-- **The direct image of modules has a right derived functor.** Sheaves of modules on a site
 have enough injectives, being a Grothendieck abelian category, so every object of `K⁺` of them
 has a pointwise right derived functor for any functor out of it; speaking of right acyclicity

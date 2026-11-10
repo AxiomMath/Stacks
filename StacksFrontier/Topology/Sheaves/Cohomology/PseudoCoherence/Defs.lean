@@ -293,7 +293,7 @@ theorem exists_local_chain_map (hE : IsStrictlyPerfect E) (m : ℤ)
         (mapHomologicalComplexHomologyIso
           (overFunctor.{u} (structureSheafOfRings X) U) (ComplexShape.up ℤ) m) g).2 ?_
       rw [MorphismProperty.epimorphisms.iff]
-      show Epi ((overFunctor.{u} (structureSheafOfRings X) U).map
+      change Epi ((overFunctor.{u} (structureSheafOfRings X) U).map
         (HomologicalComplex.homologyMap g m))
       infer_instance
     rw [hfac m]

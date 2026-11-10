@@ -59,7 +59,7 @@ theorem nonempty_homotopy_zero_of_forall
     Nonempty (Homotopy f 0) := by
   choose g hg using fun n m => hglue (K.X n) (L.X m) fun r => (H r).hom n m
   refine ⟨{ hom := fun n m => if (ComplexShape.up ℤ).Rel m n then g n m else 0,
-            zero := fun n m hnm => if_neg hnm
+            zero := fun n m hnm => ite_eq_right hnm
             comm := fun n => ?_ }⟩
   refine sub_eq_zero.mp (hinj _ fun r => ?_)
   have hc := (H r).comm n
@@ -69,9 +69,9 @@ theorem nonempty_homotopy_zero_of_forall
   have h₁ : (ComplexShape.up ℤ).Rel n (n + 1) := by simp
   have h₂ : (ComplexShape.up ℤ).Rel (n - 1) n := by simp
   congr 1
-  · rw [dNext_eq _ h₁, dNext_eq _ h₁, Functor.map_comp, if_pos h₁, hg]
+  · rw [dNext_eq _ h₁, dNext_eq _ h₁, Functor.map_comp, ite_eq_left h₁, hg]
     rfl
-  · rw [prevD_eq _ h₂, prevD_eq _ h₂, Functor.map_comp, if_pos h₂, hg]
+  · rw [prevD_eq _ h₂, prevD_eq _ h₂, Functor.map_comp, ite_eq_left h₂, hg]
     rfl
 
 /-- **A morphism of `D(A)` killed by a jointly faithful family of exact functors vanishes.** Let

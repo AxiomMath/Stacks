@@ -173,7 +173,7 @@ public theorem sieve₀_mem_baseTopology_of_isOpenImmersion (τ : SiteKind) {X :
       Scheme.presieve₀_mem_precoverage_iff]
     exact ⟨hsurj, fun i => hP _ (himm i)⟩
   have hfppf : IsFppfCovering (κ := B.cutoff) ⟨X, E⟩ := by
-    show Presieve.map B.inclusion E.presieve₀ ∈ Scheme.fppfPrecoverage.coverings _
+    change Presieve.map B.inclusion E.presieve₀ ∈ Scheme.fppfPrecoverage.coverings _
     rw [← PreZeroHypercover.presieve₀_map]
     exact key (@Flat.{u} ⊓ @LocallyOfFinitePresentation.{u})
       (fun _ hf => ⟨inferInstance, inferInstance⟩) E rfl

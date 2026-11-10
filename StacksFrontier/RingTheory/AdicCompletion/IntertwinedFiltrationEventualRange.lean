@@ -101,7 +101,7 @@ public theorem towerComparison_bijective_of_eventualRange
     choose a ha using hmem
     refine ⟨⟨fun n ↦ Submodule.Quotient.mk (a n), ?_⟩, towerLimit_ext fun n ↦ ?_⟩
     · intro m n h
-      show Submodule.factor (antitone_ker P T π hπ h) (Submodule.Quotient.mk (a n)) =
+      change Submodule.factor (antitone_ker P T π hπ h) (Submodule.Quotient.mk (a n)) =
         (Submodule.Quotient.mk (a m) : M ⧸ LinearMap.ker (π m))
       rw [factor_quotient_mk, Submodule.Quotient.eq, LinearMap.mem_ker, map_sub, sub_eq_zero]
       have h1 : π m (a n) = T m n h (π n (a n)) := by

@@ -152,7 +152,7 @@ private theorem isAbsolutelyQuasiSeparated_of_affine_pullbacks
   let P := MorphismProperty.inverseImage (@QuasiCompact.{u} : MorphismProperty Scheme.{u}) Q
   have : P.RespectsIso := MorphismProperty.RespectsIso.inverseImage
     (@QuasiCompact.{u} : MorphismProperty Scheme.{u}) Q
-  show P.presheaf (diag XR)
+  change P.presheaf (diag XR)
   have hXR : IsAlgebraicSpace B (⊤_ Scheme.{u}) hZ XR :=
     isAlgebraicSpace_viewOver B S (⊤_ Scheme.{u}) hS hZ base X hX
   let hdiag := hXR.diagonal_representable
@@ -175,7 +175,7 @@ private theorem isAbsolutelyQuasiSeparated_of_affine_pullbacks
   apply MorphismProperty.relative.of_exists
   intro T g
   have hP : P (hdiag.snd g) := by
-    show QuasiCompact (Q.map (hdiag.snd g))
+    change QuasiCompact (Q.map (hdiag.snd g))
     rw [quasiCompact_iff_forall_isAffineOpen]
     intro V hV
     let T₀ := openSiteObject B (⊤_ Scheme.{u}) hZ T V

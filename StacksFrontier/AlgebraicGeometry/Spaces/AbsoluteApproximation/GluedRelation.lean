@@ -203,10 +203,10 @@ lemma etale_gluedRelationProj [Etale p] : Etale (gluedRelationProj ι d p hp) :=
       (Scheme.gluePairInr ι d).opensRange) ?_ fun b ↦ ?_
   · exact iSup_bool_eq.trans (Scheme.gluePair_opensRange_sup ι d)
   · cases b
-    · rw [cond_false, ← Scheme.Hom.isoOpensRange_inv_comp, Category.assoc,
+    · rw [Bool.cond_false, ← Scheme.Hom.isoOpensRange_inv_comp, Category.assoc,
         gluePairInr_gluedRelationProj]
       infer_instance
-    · rw [cond_true, ← Scheme.Hom.isoOpensRange_inv_comp, Category.assoc,
+    · rw [Bool.cond_true, ← Scheme.Hom.isoOpensRange_inv_comp, Category.assoc,
         gluePairInl_gluedRelationProj, Category.comp_id]
       infer_instance
 
@@ -231,7 +231,7 @@ lemma exists_gluePairInl_of_not_mem {T : Scheme.{u}} (r : T ⟶ Scheme.gluePair 
   · obtain ⟨v, hv⟩ | ⟨q, hq⟩ := Scheme.gluePair_jointly_surjective ι d (r τ)
     · exact ⟨v, hv⟩
     · refine absurd ?_ hτ
-      show r τ ∈ gluedRelationProj ι d p hp ⁻¹ᵁ ι.opensRange
+      change r τ ∈ gluedRelationProj ι d p hp ⁻¹ᵁ ι.opensRange
       rw [preimage_opensRange_gluedRelationProj]
       exact ⟨q, hq⟩
   · exact ⟨IsOpenImmersion.lift (Scheme.gluePairInl ι d) (_ ≫ r) (by
@@ -429,7 +429,7 @@ lemma _root_.AlgebraicGeometry.Scheme.isPullback_of_openCover_of_isPullback
   · simp only [Iso.refl_hom, Category.comp_id]
     exact ((ha i).isoPullback_hom_snd).symm
   · simp only [Iso.refl_hom, Category.comp_id]
-    show a i ≫ fWY = (ha i).isoPullback.hom ≫ pullback.fst _ _ ≫ fWY
+    change a i ≫ fWY = (ha i).isoPullback.hom ≫ pullback.fst _ _ ≫ fWY
     rw [IsPullback.isoPullback_hom_fst_assoc]
   · simp
   · simp
@@ -470,12 +470,12 @@ theorem isPullback_gluedRelationProjNatTrans ⦃j k : J⦄ (u : j ⟶ k) :
     · exact (isPullback_gluePairFunctorInl_app ι d hβ u).flip
     · exact (isPullback_gluePairFunctorInr_app ι d hα u).flip
   · cases b
-    · show IsPullback (Dv.map u) (Scheme.gluePairInl (ι.app j) (d.app j) ≫ _)
+    · change IsPullback (Dv.map u) (Scheme.gluePairInl (ι.app j) (d.app j) ≫ _)
         (Scheme.gluePairInl (ι.app k) (d.app k) ≫ _) (Dv.map u)
       rw [gluedRelationProjNatTrans_app, gluedRelationProjNatTrans_app,
         gluePairInl_gluedRelationProj, gluePairInl_gluedRelationProj]
       exact IsPullback.of_id_snd
-    · show IsPullback (Dp.map u) (Scheme.gluePairInr (ι.app j) (d.app j) ≫ _)
+    · change IsPullback (Dp.map u) (Scheme.gluePairInr (ι.app j) (d.app j) ≫ _)
         (Scheme.gluePairInr (ι.app k) (d.app k) ≫ _) (Dv.map u)
       rw [gluedRelationProjNatTrans_app, gluedRelationProjNatTrans_app,
         gluePairInr_gluedRelationProj, gluePairInr_gluedRelationProj]

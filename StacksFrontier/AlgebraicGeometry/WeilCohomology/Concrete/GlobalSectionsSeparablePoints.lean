@@ -118,7 +118,7 @@ theorem injective_Γevaluation_of_toSpecΓ {r : ℕ} (x : Fin r → X.obj.left)
     rwa [← Scheme.toSpecΓ_preimage_basicOpen] at hy
   have hxi : x i ∈ X.obj.left.basicOpen a := by
     rw [← Scheme.toSpecΓ_preimage_basicOpen]
-    show X.obj.left.toSpecΓ (x i) ∈ PrimeSpectrum.basicOpen a
+    change X.obj.left.toSpecΓ (x i) ∈ PrimeSpectrum.basicOpen a
     rw [hi]
     exact hy'
   exact ((X.obj.left.evaluation_ne_zero_iff_mem_basicOpen (U := ⊤) (x i) trivial a).mpr hxi) (ha i)
@@ -152,7 +152,7 @@ def closedPointSpecHom : closedPointSpec hx hsep ⟶ closedPointObj hx hsep :=
 theorem closedPointSpecHom_comp_toSpecGlobalSections_left :
     (closedPointSpecHom hx hsep ≫ closedPointHom hx hsep ≫ toSpecGlobalSections X).hom.left =
       Spec.map (CommRingCat.ofHom (evaluationAlgHom x).toRingHom) := by
-  show 𝟙 _ ≫ X.obj.left.fromSpecResidueField x ≫ X.obj.left.toSpecΓ =
+  change 𝟙 _ ≫ X.obj.left.fromSpecResidueField x ≫ X.obj.left.toSpecΓ =
     Spec.map (CommRingCat.ofHom (X.obj.left.Γevaluation x).hom)
   rw [Category.id_comp, CommRingCat.ofHom_hom, Scheme.fromSpecResidueField,
     Category.assoc, Scheme.fromSpecStalk_toSpecΓ, ← Spec.map_comp]
@@ -188,7 +188,7 @@ theorem exists_algHom_comp_eq_of_injective {K' : Type u} [CommRing K'] [Algebra 
   let : Field (K' ⧸ m) := Ideal.Quotient.field m
   let α : K' ⧸ m →ₐ[k] E := (ψ j).comp (Ideal.Quotient.liftₐ m (φ j) fun a ha ↦ ha)
   let β : K' ⧸ m →ₐ[k] E := Ideal.Quotient.liftₐ m θ fun a ha ↦ by
-    show a ∈ RingHom.ker θ.toRingHom
+    change a ∈ RingHom.ker θ.toRingHom
     rwa [← hkereq]
   let : Algebra (K' ⧸ m) E := α.toRingHom.toAlgebra
   have : IsScalarTower k (K' ⧸ m) E :=
@@ -236,12 +236,12 @@ theorem injective_pull_specMap_family [CharZero F] (hA : W.PoincareDuality) (hB 
     have hinj : Function.Injective
         (FirstChernClassData.globalSectionsSpecAlgHom (k := k) (K' := K')) :=
       (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (CommRingCat.of K')).hom).1
-    rw [← minpoly.algHom_eq _ hinj a, ← minpoly.algHom_eq (Pi.algHom k L φ) hφ]
+    rw [← minpoly.algHom_eq _ hinj a, ← minpoly.algHom_eq (AlgHom.pi φ) hφ]
     exact hE _
   have hbij := W.splitMap_bijective hX E hA hB hC hsplit
   let Φ : W.H (spec k K') →ₗ[F] (∀ j, W.H (spec k (L j))) :=
     LinearMap.pi fun j ↦ (W.pull (specMap (φ j))).toLinearMap
-  show Function.Injective Φ
+  change Function.Injective Φ
   rw [injective_iff_map_eq_zero]
   intro c hc0
   have hσ : ∀ σ, W.splitPull hX E σ c = 0 := by
@@ -250,7 +250,7 @@ theorem injective_pull_specMap_family [CharZero F] (hA : W.PoincareDuality) (hB 
       (specMap σ ≫ (isoSpecOfDimensionZero hX).inv)
     obtain ⟨j, τ, hτ⟩ := exists_algHom_comp_eq_of_injective φ hφ ψ θ
     have hcj : W.pull (specMap (φ j)) c = 0 := by simpa [Φ] using congrFun hc0 j
-    show W.pull (specMap σ ≫ (isoSpecOfDimensionZero hX).inv) c = 0
+    change W.pull (specMap σ ≫ (isoSpecOfDimensionZero hX).inv) c = 0
     rw [← hθ, ← hτ, specMap_comp, specMap_comp, W.pull_comp, W.pull_comp, AlgHom.comp_apply,
       AlgHom.comp_apply, hcj, map_zero, map_zero]
   have hκ : W.splitMap hX E (c ⊗ₜ 1) = 0 := by

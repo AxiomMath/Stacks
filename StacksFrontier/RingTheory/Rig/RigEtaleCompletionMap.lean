@@ -99,7 +99,7 @@ public theorem isRigEtale_adicCompletion_of_isRigEtale
         ((Algebra.naiveCotangentComplex (A ⧸ J ^ n)
           (C ⧸ (J ^ n).map (algebraMap A C))).homology 0)).comap ψ
   have hle : J ^ c ≤ K := by
-    show (I.map (algebraMap R A)) ^ c ≤ K
+    change (I.map (algebraMap R A)) ^ c ≤ K
     rw [← Ideal.map_pow]
     refine Ideal.map_le_iff_le_comap.mpr fun r hr ↦ ?_
     have hr' := hc n hn r hr
@@ -183,7 +183,7 @@ public theorem isRigEtaleHom_completionMap_of_isEtaleOutside {A C : Type u} [Com
   have h3 : FiniteTypeModuloSomeIdealOfDefinition g.toRingHom :=
     ⟨⟨J, hJdef, hmap ▸ hCadic⟩, ⟨J, hJdef, hfinJ⟩⟩
   have hft : FiniteTypeAdicAlgebraForEveryIdeal g.toRingHom :=
-    ((adicFiniteType_tfae g.toRingHom hcont hA hC ⟨J, hJdef, I.fg_of_isNoetherianRing.map _⟩
+    ((adicFiniteType_tfae g.toRingHom hA hC ⟨J, hJdef, I.fg_of_isNoetherianRing.map _⟩
       ⟨_, TopologicalRing.isIdealOfDefinition_of_isAdic hCadic,
         (I.map (algebraMap A C)).fg_of_isNoetherianRing.map _⟩).out 3 6).mp h3
   refine ⟨hcont, hft, J, hJdef, ?_⟩
@@ -194,7 +194,7 @@ public theorem isRigEtaleHom_completionMap_of_isEtaleOutside {A C : Type u} [Com
   have : Algebra.FiniteType (A ⧸ I) (Ĉ ⧸ I.map (algebraMap A Ĉ)) :=
     adicCompletion_finiteType_quotient A I C
   have hc' : IsAdicComplete (J.map (algebraMap Â Ĉ)) Ĉ := by
-    show IsAdicComplete (J.map g.toRingHom) Ĉ
+    change IsAdicComplete (J.map g.toRingHom) Ĉ
     rw [hmapA]
     exact hc
   have hfJ : Algebra.FiniteType (Â ⧸ J) (Ĉ ⧸ J.map (algebraMap Â Ĉ)) :=

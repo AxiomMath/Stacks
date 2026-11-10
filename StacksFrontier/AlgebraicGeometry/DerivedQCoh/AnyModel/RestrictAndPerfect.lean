@@ -106,8 +106,9 @@ end IsDQCoh
 /-- **A vanishing cohomology stalk is a vanishing cohomology stalk at either model.** This is the
 transport of `AlgebraicGeometry.CohomologySupportedOn`, in unfolded form: that predicate is a
 `noncomputable abbrev` whose derived category is `CategoryTheory.HasDerivedCategory.standard`,
-fixed by a file-local instance in `StacksFrontier/AlgebraicGeometry/Perfect/SupportedCohomology.lean`,
-so it cannot be *written* at another model -- but it is reducible, and it unfolds to exactly the
+fixed by a file-local instance in
+`StacksFrontier/AlgebraicGeometry/Perfect/SupportedCohomology.lean`, so it cannot be *written* at
+another model -- but it is reducible, and it unfolds to exactly the
 stalk-vanishing condition this statement carries both ways. A consumer holding the support
 condition at one model therefore gets it at the other by composing with this equivalence
 pointwise, with no restatement of the predicate.

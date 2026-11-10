@@ -90,7 +90,7 @@ theorem geometricallyIntegral_of_isVariety_of_smoothAt_rationalPoint
     let : Smooth (f.resLE ⊤ U le_top) := hUsmooth
     have hcomp : f.resLE ⊤ U le_top ≫ (⊤ : (Spec (.of k)).Opens).ι = j ≫ f := by
       simpa [j] using (Scheme.Hom.resLE_comp_ι f (U := ⊤) (V := U) le_top)
-    show Smooth (j ≫ f)
+    change Smooth (j ≫ f)
     rw [← hcomp]
     infer_instance
   have : IrreducibleSpace X := inferInstance
@@ -147,7 +147,7 @@ theorem geometricallyIntegral_of_isVariety_of_smoothAt_rationalPoint
     have : IrreducibleSpace pU := irreducibleSpace_of_isNormal_of_connectedSpace pU (hnormalU' K)
     have : IsDominant v := inferInstance
     apply (irreducibleSpace_def _).mpr
-    show IsIrreducible (Set.univ : Set ↥(pullback f g))
+    change IsIrreducible (Set.univ : Set ↥(pullback f g))
     rw [← v.denseRange.closure_eq]
     simpa [Set.image_univ] using
       ((IrreducibleSpace.isIrreducible_univ pU).image v.base v.continuous.continuousOn).closure
@@ -205,7 +205,7 @@ theorem geometricallyIntegral_toSpecΓ_of_isRegularLocalRing
   let e : X.residueField x ≃ₐ[A] A :=
     (AlgEquiv.ofBijective
       { toRingHom := (X.Γevaluation x).hom, commutes' := fun r => by
-          show _ = ((Scheme.ΓSpecIso (.of A)).inv ≫ X.toSpecΓ.appTop ≫
+          change _ = ((Scheme.ΓSpecIso (.of A)).inv ≫ X.toSpecΓ.appTop ≫
             X.Γevaluation x).hom r
           rw [hev]; rfl }
       (ConcreteCategory.bijective_of_isIso (X.Γevaluation x))).symm

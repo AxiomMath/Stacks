@@ -210,9 +210,9 @@ lemma chartVec_diff (z z' : Lifts F P J x) (y : c.C) :
     ⟨c.α.app (fibreProd (quotMk P J) (quotMk P J)) σ, by rw [c.map_α, hσb, h]⟩
   have hζ : fibreProdFibMap F x ζ = (z, z') := by
     refine Prod.ext (Subtype.ext ?_) (Subtype.ext ?_)
-    · show F.map _ (c.α.app (fibreProd (quotMk P J) (quotMk P J)) σ) = z.1
+    · change F.map _ (c.α.app (fibreProd (quotMk P J) (quotMk P J)) σ) = z.1
       rw [c.map_α, fibreProd.lift_fst, c.α_chartLift]
-    · show F.map _ (c.α.app (fibreProd (quotMk P J) (quotMk P J)) σ) = z'.1
+    · change F.map _ (c.α.app (fibreProd (quotMk P J) (quotMk P J)) σ) = z'.1
       rw [c.map_α, fibreProd.lift_snd, c.α_chartLift]
   have e : c.chartLift (isSqZeroExt_sqZeroFst P J) h (Lifts.diff z z') =
       σ ≫ (diffMap P J).hom := by
@@ -291,7 +291,7 @@ lemma exists_diff_eq (z : Lifts F P J x) (w : Tan F P J x) :
   rw [chartVec_diff hJ c h, ← hcot]
   congr 1
   apply Subtype.ext
-  show (chartLift hJ c h z').hom y - σ₁.hom y = δ y
+  change (chartLift hJ c h z').hom y - σ₁.hom y = δ y
   rw [e₂, addLift_apply]
   ring
 
@@ -338,7 +338,7 @@ lemma diffMap_sqZeroMap :
   refine BoundedAlg.hom_ext (AlgHom.ext fun z => ?_)
   ext
   · rfl
-  · show J.mapCotangent J' (BoundedAlg.toAlgHom f) hJf (J.toCotangent _) = J'.toCotangent _
+  · change J.mapCotangent J' (BoundedAlg.toAlgHom f) hJf (J.toCotangent _) = J'.toCotangent _
     rw [Ideal.mapCotangent_toCotangent]
     congr 1
     exact Subtype.ext (map_sub _ _ _)
@@ -365,21 +365,21 @@ lemma Lifts.map_diff (hJ : J ^ 2 = ⊥) (hJ' : J' ^ 2 = ⊥) (c : EtaleChart F)
   let ζ' : Fib (F := F) (fibreProd.base (quotMk P' J') (quotMk P' J')) x' :=
     ⟨F.map (liftPairMap f hJf) ζ.1, by
       rw [← Functor.map_comp_apply]
-      show F.map (liftPairMap f hJf ≫ fibreProd.fst _ _ ≫ quotMk P' J') ζ.1 = x'
+      change F.map (liftPairMap f hJf ≫ fibreProd.fst _ _ ≫ quotMk P' J') ζ.1 = x'
       rw [← Category.assoc, liftPairMap_fst, Category.assoc, ← quotMk_quotMap f hJf,
         ← Category.assoc, Functor.map_comp_apply, ζ.2, hx]⟩
   have hζ' : fibreProdFibMap F x' ζ' = (Lifts.map f hJf hx z, Lifts.map f hJf hx z') := by
     refine Prod.ext (Subtype.ext ?_) (Subtype.ext ?_)
-    · show F.map (fibreProd.fst _ _) (F.map (liftPairMap f hJf) ζ.1) = F.map f z.1
+    · change F.map (fibreProd.fst _ _) (F.map (liftPairMap f hJf) ζ.1) = F.map f z.1
       rw [← Functor.map_comp_apply, liftPairMap_fst, Functor.map_comp_apply]
       exact congrArg (fun p => F.map f p.1.1) hζ
-    · show F.map (fibreProd.snd _ _) (F.map (liftPairMap f hJf) ζ.1) = F.map f z'.1
+    · change F.map (fibreProd.snd _ _) (F.map (liftPairMap f hJf) ζ.1) = F.map f z'.1
       rw [← Functor.map_comp_apply, liftPairMap_snd, Functor.map_comp_apply]
       exact congrArg (fun p => F.map f p.2.1) hζ
   rw [Lifts.diff_eq z z' ζ hζ (injective_fibreProdFibMap hJ c h),
     Lifts.diff_eq _ _ ζ' hζ' (injective_fibreProdFibMap hJ' c hx')]
   apply Subtype.ext
-  show F.map (sqZeroMap f hJf) (F.map (diffMap P J) ζ.1) =
+  change F.map (sqZeroMap f hJf) (F.map (diffMap P J) ζ.1) =
     F.map (diffMap P' J') (F.map (liftPairMap f hJf) ζ.1)
   rw [← Functor.map_comp_apply, diffMap_sqZeroMap, Functor.map_comp_apply]
 

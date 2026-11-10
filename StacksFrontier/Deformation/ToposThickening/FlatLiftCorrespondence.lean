@@ -120,6 +120,8 @@ variable {X : RingedTopos.{v, u, w}} {X' : RingedTopos.{v', u', w}}
 
 include comm
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 /-- **The "if" half of Stacks 08MQ, read per module.** Granting that the square is strict, that
 `ℱ` is flat over `O_ℬ` and that the first factor `f^*𝒥 ⊗_O ℱ ⟶ I ⊗_O ℱ` of the canonical map is
 an isomorphism, an extension of `ℱ` by `I ⊗_O ℱ` over the thickening whose canonical action of

@@ -173,7 +173,7 @@ theorem exists_affineOpen_mem_openSubspaceOfRepr (x : points B S hS F) :
   -- A preimage of `z` on the open, as a point of the site object it cuts out.
   have hrange : z ∈ Set.range ((BigFppfOver.toScheme B S hS).map
       (openSiteObjectHom B S hS F.reprX U.1)) := by
-    show z ∈ Set.range (Scheme.Opens.ι U.1).base
+    change z ∈ Set.range (Scheme.Opens.ι U.1).base
     rw [Scheme.Opens.range_ι]
     exact hU
   obtain ⟨y, hy⟩ := hrange
@@ -188,14 +188,14 @@ theorem exists_affineOpen_mem_openSubspaceOfRepr (x : points B S hS F) :
       (yoneda.obj (openSiteObject B S hS F.reprX U.1))
       (openSubspaceOfReprHom B S hS F U.1)) := by
     refine ⟨(schemePointsHomeomorph B S hS (openSiteObject B S hS F.reprX U.1)).symm y, ?_⟩
-    show pointsMap B S hS (yoneda.obj (openSiteObject B S hS F.reprX U.1))
+    change pointsMap B S hS (yoneda.obj (openSiteObject B S hS F.reprX U.1))
       (yoneda.map (openSiteObjectHom B S hS F.reprX U.1) ≫ F.reprW.hom)
       ((schemePointsHomeomorph B S hS (openSiteObject B S hS F.reprX U.1)).symm y) = x
     rw [pointsMap_comp, Function.comp_apply, hstep, hx₀,
       ← Function.comp_apply (f := pointsMap B S hS (yoneda.obj F.reprX) F.reprW.hom),
       ← pointsMap_comp, F.reprW.inv_hom_id]
     exact pointsMap_id' B S hS F x
-  show x ∈ Set.range (pointsMap B S hS
+  change x ∈ Set.range (pointsMap B S hS
     (Subfunctor.range (openSubspaceOfReprHom B S hS F U.1)).toFunctor
     (Subfunctor.range (openSubspaceOfReprHom B S hS F U.1)).ι)
   rw [range_pointsMap_ι_range]

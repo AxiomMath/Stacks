@@ -65,15 +65,16 @@ locally small model is no obstacle here, and nothing has to be transported.
 
 The identification of that isomorphism with the comparison below is not made here, and it
 is not needed:
-`StacksFrontier/AlgebraicGeometry/Duality/OpenImmersion/TwistedInverseImageRestrictionBaseChange.lean`
+the module
+`StacksFrontier.AlgebraicGeometry.Duality.OpenImmersion.TwistedInverseImageRestrictionBaseChange`
 proves `IsIso (quasiCoherentDerivedRestrictBaseChangeSquare ..)`, and so `IsIso ξ`, from the
 *existence* of the isomorphism Tag 08FE delivers and nothing more. Tag 08FE delivers *some*
 isomorphism `Rf ⋙ Rj ≅ Ri ⋙ Rg`, got from the universal property of the right derived functor
 applied to a homotopy-level mate, whereas `quasiCoherentDerivedRestrictBaseChangeSquare` is the
 mate of `Stacks.Duality.quasiCoherentDerivedPushforwardSquareIso`, which is built from uniqueness
 of right adjoints at each corner; matching the two would be the same obstruction that
-`StacksFrontier/AlgebraicGeometry/BaseChange/TorIndependence/DerivedBaseChangeGlobal.lean` records for
-the affine case of [Stacks, Tag 0DJ9], and
+`StacksFrontier/AlgebraicGeometry/BaseChange/TorIndependence/DerivedBaseChangeGlobal.lean` records
+for the affine case of [Stacks, Tag 0DJ9], and
 `Stacks.Cohomology.DerivedBaseChange.isIso_mateEquiv_app_of_isIso_counit` goes around it.
 
 *Where the two invertible arrows go.* Reading the mate backwards, the comparison below is the
@@ -82,8 +83,8 @@ around the square, then the counit of `j^* ⊣ Rj_*`. The last two are invertibl
 always, the third because `j` is an open immersion, by
 `Stacks.Duality.OpenImmersion.isIso_derivedRestrictPushforwardAdjunction_counit`. So the whole
 content sits in the first arrow, `(Rf_*K)|_V ⟶ (Rf_*Rj'_*(K|_U))|_V`; that is the shape in which
-`StacksFrontier/AlgebraicGeometry/DerivedQCoh/SupportedPushforward.lean` proves the vanishing half of
-Tag 08FE, in the private declaration `isZero_derivedRestrict_derivedPushforward`.
+`StacksFrontier/AlgebraicGeometry/DerivedQCoh/SupportedPushforward.lean` proves the vanishing half
+of Tag 08FE, in the private declaration `isZero_derivedRestrict_derivedPushforward`.
 
 *No `@[stacks]` attribute.* Nothing below asserts Tag 0A9K or Tag 08FE: the results are
 equivalences, and their hypothesis is the conclusion of Tag 08FE at this model. That hypothesis is

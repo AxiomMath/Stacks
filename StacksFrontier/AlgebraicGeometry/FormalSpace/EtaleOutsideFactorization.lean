@@ -43,7 +43,8 @@ algebraic space by condition (1) of Stacks 04S6,
 `AlgebraicGeometry.Space.bootstrap04S6QuotientSheaf`.
 
 The three conclusions are the ones of
-`StacksFrontier.AlgebraicGeometry.FormalSpace.SmashAwayFromClosed` applied to this relation: `X'' ⟶ X`
+`StacksFrontier.AlgebraicGeometry.FormalSpace.SmashAwayFromClosed` applied to this relation:
+`X'' ⟶ X`
 is locally of finite type because `A ⟶ X` is; over `U` the relation is the full kernel pair of the
 surjection `A_U ⟶ U`, so `X''` is `U` there; and every section of `R` over `T` is a section of the
 diagonal, so the completion of `A ⟶ X''` along `T` is an isomorphism. The completion of `X' ⟶ A`
@@ -124,19 +125,19 @@ private theorem isEtale_fromPreimage_of_cover {X X' A : (BigFppfOver B S hS)ᵒ�
   let κ₁ : (W.preimage f).toFunctor ⟶ (W.preimage fA).toFunctor :=
     Subfunctor.lift ((W.preimage f).ι ≫ ι₁) (by
       rintro V _ ⟨x, rfl⟩
-      show fA.app V (ι₁.app V x.1) ∈ W.obj V
+      change fA.app V (ι₁.app V x.1) ∈ W.obj V
       rw [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, h₁]
       exact x.2)
   let κ₂ : W.toFunctor ⟶ (W.preimage fA).toFunctor :=
     Subfunctor.lift ι₂ (by
       rintro V _ ⟨w, rfl⟩
-      show fA.app V (ι₂.app V w) ∈ W.obj V
+      change fA.app V (ι₂.app V w) ∈ W.obj V
       rw [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, h₂]
       exact w.2)
   have hκ₁ : κ₁ ≫ W.fromPreimage fA = W.fromPreimage f := by
     rw [← cancel_mono W.ι, Category.assoc, Subfunctor.fromPreimage_ι,
       Subfunctor.fromPreimage_ι]
-    show ((W.preimage f).ι ≫ ι₁) ≫ fA = _
+    change ((W.preimage f).ι ≫ ι₁) ≫ fA = _
     rw [Category.assoc, h₁]
   have hκ₂ : κ₂ ≫ W.fromPreimage fA = 𝟙 _ := by
     rw [← cancel_mono W.ι, Category.assoc, Subfunctor.fromPreimage_ι, Category.id_comp]
@@ -151,7 +152,7 @@ private theorem isEtale_fromPreimage_of_cover {X X' A : (BigFppfOver B S hS)ᵒ�
       (sieveOfSection_mem_of_sheafify_eq_top B S hS hcov a.1)
     rintro V' q (⟨x, hx⟩ | ⟨w, hw⟩)
     · have hxW : x ∈ (W.preimage f).obj (op V') := by
-        show f.app (op V') x ∈ W.obj (op V')
+        change f.app (op V') x ∈ W.obj (op V')
         rw [← h₁, NatTrans.comp_app, ConcreteCategory.comp_apply, hx]
         exact ((W.preimage fA).toFunctor.map q.op a).2
       exact Or.inl ⟨⟨x, hxW⟩, Subtype.ext hx⟩
@@ -280,7 +281,7 @@ theorem isIso_pullback_snd_quotientSheafToBase_gluedRelation
   have hqh : q ≫ hh = fA := Space.toQuotientSheaf_quotientSheafToBase hX _
   let σ : W.toFunctor ⟶ (Space.quotientSheaf (Space.gluedRelation fA W)).obj := ιW ≫ q
   have hσ : σ ≫ hh = W.ι := by
-    show (ιW ≫ q) ≫ hh = W.ι
+    change (ιW ≫ q) ≫ hh = W.ι
     rw [Category.assoc, hqh, hιW]
   have key : pullback.snd hh W.ι ≫ σ = pullback.fst hh W.ι := by
     have hQsep := (isSheaf_iff_isSheaf_of_type _ _).1
@@ -295,10 +296,10 @@ theorem isIso_pullback_snd_quotientSheafToBase_gluedRelation
     refine (hQsep _ (Presheaf.imageSieve_mem (BigFppfOver.topology B S hS) q y)).isSeparatedFor.ext
       fun V' g hg => ?_
     obtain ⟨a, ha⟩ := hg
-    show (Space.quotientSheaf (Space.gluedRelation fA W)).obj.map g.op (σ.app V w) =
+    change (Space.quotientSheaf (Space.gluedRelation fA W)).obj.map g.op (σ.app V w) =
       (Space.quotientSheaf (Space.gluedRelation fA W)).obj.map g.op y
     rw [← ha, ← NatTrans.naturality_apply]
-    show q.app (op V') (ιW.app (op V') (W.toFunctor.map g.op w)) = q.app (op V') a
+    change q.app (op V') (ιW.app (op V') (W.toFunctor.map g.op w)) = q.app (op V') a
     have hfa : fA.app (op V') a = W.ι.app (op V') (W.toFunctor.map g.op w) := by
       rw [← hqh, NatTrans.comp_app, ConcreteCategory.comp_apply, ha, NatTrans.naturality_apply,
         hyw, NatTrans.naturality_apply]
@@ -381,7 +382,7 @@ theorem isLocallyBijective_completionMap_of_cover {X X' A : (BigFppfOver B S hS)
           ((Space.completionSubfunctor B S hS A S').map q.op ha)
       · apply Subtype.ext
         apply ULift.ext
-        show ι₁.app (op V'') (X'.map q'.op x) = A.map (q' ≫ q).op a
+        change ι₁.app (op V'') (X'.map q'.op x) = A.map (q' ≫ q).op a
         rw [NatTrans.naturality_apply, hx, op_comp, Functor.map_comp, ConcreteCategory.comp_apply]
     · -- over the complement of `T` the object has no points
       have hrestr : Space.HasImageIn B S hS A S' V' (A.map q.op a) :=
@@ -490,7 +491,7 @@ theorem exists_factorization_of_isEtale_openComplementRestriction
   have := isLocallyInjective_completionMap_toQuotientSheaf B S hS j hj T hh hqh hdiag
   obtain ⟨_, _⟩ := isLocallyBijective_completionMap_of_cover B S hS fA T ι₁ ιW h₂ hcov
     (Space.pointsMap B S hS A q ⁻¹' (Space.pointsMap B S hS _ hh ⁻¹' T)) (fun x hx => by
-      show Space.pointsMap B S hS A fA x ∈ T
+      change Space.pointsMap B S hS A fA x ∈ T
       rw [← hqh, Space.pointsMap_comp]
       exact hx)
   obtain ⟨_, _⟩ := isLocallyBijective_completionMap_comp B S hS ι₁ q

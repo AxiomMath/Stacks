@@ -540,7 +540,7 @@ theorem psi_naturality {M₁ M₂ : DifferentialGradedModule.{u, u, u} A} (f : M
     (tensorCompFunctor V).map f ≫ psi V M₂ =
       psi V M₁ ≫ tensorHomOfBimoduleHom (flipMap f) (flipModule V) := by
   refine tensorObj_hom_ext' V M₁ _ _ fun x y => ?_
-  show (psi V M₂).toFun (((tensorCompFunctor V).map f).toFun
+  change (psi V M₂).toFun (((tensorCompFunctor V).map f).toFun
       (((tensorDGFunctor V).pure M₁).toLinearMap x y)) =
     (tensorHomOfBimoduleHom (flipMap f) (flipModule V)).toFun
       ((psi V M₁).toFun (((tensorDGFunctor V).pure M₁).toLinearMap x y))

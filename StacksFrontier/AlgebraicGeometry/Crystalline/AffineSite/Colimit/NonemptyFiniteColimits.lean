@@ -321,7 +321,7 @@ private theorem quotient_colimit_crystalline
     infer_instance
   have hq : Function.Bijective (DividedPowerRing.quotientRingHom f.hom) := by
     convert ConcreteCategory.bijective_of_isIso (Q.map f) using 1 <;> rfl
-  show Function.Bijective Y.toQuotient
+  change Function.Bijective Y.toQuotient
   have hcomp :
       (DividedPowerRing.quotientRingHom f.hom).comp X.obj.toQuotient =
         Y.toQuotient := f.toQuotient_comp

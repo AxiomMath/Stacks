@@ -204,7 +204,8 @@ public theorem transfer_eq_one_of_mem_inertia (Q : Ideal C) [Q.IsPrime] {τ : Γ
     exact hτ x
   have := hφ (g⁻¹ • Q) ⟨_, hgn⟩ 0 (fun x => by
     have := conj_pow_smul_sub_pow_mem h1 g n x
-    rwa [one_pow, pow_zero, pow_one] at *)
+    rw [one_pow, pow_zero, pow_one] at *
+    assumption)
   rwa [pow_zero] at this
 
 section Galois
@@ -261,7 +262,7 @@ public theorem natCard_orbit_stabilizer (Q : Ideal C) [Q.IsPrime] [Finite (C ⧸
       have := H.inv_mem h
       simpa [mul_assoc] using this
     · rw [mem_stabilizer_iff]
-      show (g⁻¹ * d.1.1 * g) • (g⁻¹ • Q) = g⁻¹ • Q
+      change (g⁻¹ * d.1.1 * g) • (g⁻¹ • Q) = g⁻¹ • Q
       rw [← mul_smul, mul_assoc, mul_assoc, mul_inv_cancel, mul_one, mul_smul,
         mem_stabilizer_iff.1 d.1.2]
     · exact mul_mul_inv_mem_stabilizer (mem_stabilizer_iff.1 h.2)
@@ -311,7 +312,7 @@ public theorem transfer_eq_finprod_frob_pow_ramificationIdx [FaithfulSMul B C] (
   · -- The prime below `g⁻¹ Q` lies over `p`.
     intro O _
     refine ⟨Ideal.IsPrime.under B _, ⟨?_⟩⟩
-    show Q.under A = ((O.out.out⁻¹ • Q).under B).under A
+    change Q.under A = ((O.out.out⁻¹ • Q).under B).under A
     rw [Ideal.under_under, Ideal.under_smul]
   · -- Injectivity: `H` is transitive on the primes of `C` above a prime of `B`.
     intro O _ O' _ hOO'

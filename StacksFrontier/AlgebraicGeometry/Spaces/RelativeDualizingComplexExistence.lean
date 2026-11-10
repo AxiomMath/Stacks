@@ -72,7 +72,6 @@ theorem Functor.comp_map_comp_eq_of_comp_eq {𝒞 𝒟 : Type*} [Category* 𝒞]
 /-- The two pullbacks to `V_1` of the map induced by `τ_0` agree. -/
 theorem cechOverSmallEtaleTransitionIso_trace_eq (hZ : T.schemeSite.Contains (⊤_ Scheme.{u}))
     (hb₀ : etaleRepresentable T b₀)
-    (hb₀' : Presieve.singleton b₀ ∈ T.pretopologyBigFppfPretopology Y)
     (hf : Space.IsProper T.schemeSite S T.scheme_mem f.hom)
     (hfl : Space.IsFlat T.schemeSite S T.scheme_mem f.hom)
     (hfp : Space.IsFinitePresentation T.schemeSite S T.scheme_mem f.hom)
@@ -114,7 +113,6 @@ theorem cechOverSmallEtaleTransitionIso_trace_eq (hZ : T.schemeSite.Contains (�
         (derivedPullback (spacesEtaleRingedToposHom ((cechOverPullback b₀ f ⋙ Over.forget X).map
           (SimplexCategory.δ (0 : Fin 2)).op))).map e.hom)
     (ω : DerivedCategory (Space.Modules.{u, u} T.schemeSite S T.scheme_mem X.1 X.2))
-    (hω : Space.QcohDerived T.schemeSite S T.scheme_mem X ω)
     (eω : (Space.toSpacesEtaleDerivedModules T.schemeSite S T.scheme_mem X).obj ω ≅ K)
     (ε : (Space.smallEtaleDerivedModulePullback T.schemeSite S T.scheme_mem
       ((overAugmentation (cechOverPullback b₀ f)).app (op ⦋0⦌))).obj ω ≅ D₀.ω)
@@ -283,7 +281,7 @@ theorem exists_trace_cechOver (hZ : T.schemeSite.Contains (⊤_ Scheme.{u}))
   exact exists_hom_smallEtaleDerivedModulePullback_cechOver_eq b₀ hb₀ _ _
     (Space.derivedStructureSheaf T.schemeSite S T.scheme_mem Y.1 Y.2).2
     (fun ψ hψ => (hex ψ).1 (sub_eq_zero.2 hψ)) _
-    (cechOverSmallEtaleTransitionIso_trace_eq b₀ f hZ hb₀ hb₀' hf hfl hfp D₀ α hτα K e he ω hω eω
+    (cechOverSmallEtaleTransitionIso_trace_eq b₀ f hZ hb₀ hf hfl hfp D₀ α hτα K e he ω eω
       ε hε)
 
 /-- The augmentation `V_0 ⟶ Y` of the Čech nerve of `b₀` is surjective when `b₀` is. -/
@@ -295,7 +293,7 @@ theorem isSurjective_cechOver_augmentation_zero
     Limits.productUniqueIso (fun _ : Fin 1 => Over.mk b₀)
   have he : ((cechOver b₀).obj (op ⦋0⦌)).hom = e.hom.left ≫ b₀ := (Over.w e.hom).symm
   have : IsIso e.hom.left := inferInstanceAs (IsIso ((Over.forget Y).map e.hom))
-  show Space.IsSurjective T.schemeSite S T.scheme_mem ((cechOver b₀).obj (op ⦋0⦌)).hom.hom
+  change Space.IsSurjective T.schemeSite S T.scheme_mem ((cechOver b₀).obj (op ⦋0⦌)).hom.hom
   rw [he]
   exact Space.isSurjective_comp T.schemeSite S T.scheme_mem
     (Space.isSurjective_of_isIso T.schemeSite S T.scheme_mem e.hom.left.hom) hsurj

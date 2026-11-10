@@ -110,9 +110,9 @@ private theorem pullbackTranspose_comp {A B C : TopCat.{u}} (f : A ⟶ B) (g : B
   have hi := Adjunction.homEquiv_leftAdjointUniq_hom_app a b F
   apply (a.homEquiv F H).injective
   rw [a.homEquiv_naturality_right]
-  show a.homEquiv F _ ((Adjunction.leftAdjointUniq a b).hom.app F) ≫ _ = _
+  change a.homEquiv F _ ((Adjunction.leftAdjointUniq a b).hom.app F) ≫ _ = _
   rw [hi]
-  show b.homEquiv F H _ = _
+  change b.homEquiv F H _ = _
   rw [Adjunction.comp_homEquiv]
   simp only [Equiv.trans_apply]
   rw [Adjunction.homEquiv_naturality_left, Adjunction.homEquiv_naturality_right]
@@ -248,20 +248,20 @@ theorem existsUnique_compositeDerivation {X' X S' S : RingedSpace.{u, u}}
   }
   let D : SheafDerivation (inverseImageStructureMap h)
       ((RingedSpaceModuleAdjunction.modulePushforward f).obj M') := by
-    show PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.restrictScalars
+    change PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.restrictScalars
       (Functor.whiskerRight φ (forget₂ CommRingCat RingCat))).obj Ωpush)
         (inverseImageStructureMap h).hom
     exact SheafDifferentials.compDeriv dpush φ ψ hsq'
   refine ⟨D, ?_, ?_⟩
   · intro U a
-    show (SheafDifferentials.compDeriv dpush φ ψ
+    change (SheafDifferentials.compDeriv dpush φ ψ
       hsq').d a = _
     exact SheafDifferentials.compDeriv_d dpush φ ψ
       hsq' (U := .op U) a
   · intro D' hD'
     apply PresheafOfModulesOfCommRing.Derivation.ext
     ext U a
-    show D'.d a = (SheafDifferentials.compDeriv dpush φ ψ
+    change D'.d a = (SheafDifferentials.compDeriv dpush φ ψ
       hsq').d a
     rw [hD' U.unop a]
     exact (SheafDifferentials.compDeriv_d dpush φ ψ
@@ -333,7 +333,7 @@ theorem existsUnique_differentialMap {X' X S' S : RingedSpace.{u, u}}
         (inverseImageStructureMap h) ((RingedSpaceModuleAdjunction.modulePushforward f).obj Ω') =>
           δ.d a) hm
     have hcomp := compositeDerivation_d f h h' g hcomm U a
-    show (((e c).val.app (.op U)).hom) (d.d a) =
+    change (((e c).val.app (.op U)).hom) (d.d a) =
       (universalDerivation (inverseImageStructureMap h')).d
         ((f.hom.c.app (.op U)).hom a)
     rw [hc]
@@ -342,7 +342,7 @@ theorem existsUnique_differentialMap {X' X S' S : RingedSpace.{u, u}}
     have hfac' : d.postcomp (e c').val = D := by
       ext U a
       have hc := hc' U.unop a
-      show ((e c').val.app U).hom (d.d a) = D.d a
+      change ((e c').val.app U).hom (d.d a) = D.d a
       exact hc.trans (compositeDerivation_d f h h' g hcomm U.unop a).symm
     exact e.injective ((hmunique (e c') hfac').trans hc.symm)
 
@@ -378,7 +378,7 @@ theorem differentialMap_adjoint {X' X S' S : RingedSpace.{u, u}}
     ext U a
     have hmap := (Classical.choose_spec
       (existsUnique_differentialMap f h h' g hcomm)).1 U.unop a
-    show (((RingedSpaceModuleAdjunction.homEquiv f Ω' Ω)
+    change (((RingedSpaceModuleAdjunction.homEquiv f Ω' Ω)
       (differentialMap f h h' g hcomm)).val.app U).hom
       (d.d a) = D.d a
     simpa only [differentialMap, IsDifferentialMap, Ω, Ω', d] using
@@ -452,7 +452,7 @@ private theorem inverseImageRingHom_comp_structureSheafHom {X' X : RingedSpace.{
   simp only [TopCat.Sheaf.pushforward_map, TopCat.Sheaf.pushforward_obj_val,
     TopCat.Presheaf.pushforward_map_app', TopCat.Presheaf.pushforward_obj_obj,
     structureSheafMap] at hUa
-  show ((((inverseImageStructureMap f).hom.app
+  change ((((inverseImageStructureMap f).hom.app
       ((Opens.map f.hom.base).op.obj U)).hom)
         (((adj.unit.app X.sheaf).hom.app U).hom a)) =
     ((f.hom.c.app U).hom a)
@@ -509,7 +509,7 @@ theorem existsUnique_inverseImageToPullback {X' X : RingedSpace.{u, u}} (f : X' 
   let t := (adjα.homEquiv M N).symm transposed
   have hκ (U : (Opens X.carrier)ᵒᵖ) (x : Q.val.obj U) :
       (κ.val.app U).hom x = x := by
-    show (κval.app U).hom x = x
+    change (κval.app U).hom x = x
     simp [κval]
     rfl
   have ht : (adjα.homEquiv M N) t = transposed := Equiv.apply_symm_apply _ _
@@ -531,7 +531,7 @@ theorem existsUnique_inverseImageToPullback {X' X : RingedSpace.{u, u}} (f : X' 
     change (t.val.app (.op ((Opens.map f.hom.base).obj U))).hom
           ((ηα.val.app (.op U)).hom a) =
         (κ.val.app (.op U)).hom ((ηβ.val.app (.op U)).hom a) at hcomp
-    show (t.val.app (.op ((Opens.map f.hom.base).obj U))).hom
+    change (t.val.app (.op ((Opens.map f.hom.base).obj U))).hom
         ((ηα.val.app (.op U)).hom a) =
       (ηβ.val.app (.op U)).hom a
     simpa only [hκ] using hcomp
@@ -541,7 +541,7 @@ theorem existsUnique_inverseImageToPullback {X' X : RingedSpace.{u, u}} (f : X' 
       apply PresheafOfModules.hom_ext
       intro U
       ext a
-      show (t'.val.app (.op ((Opens.map f.hom.base).obj U.unop))).hom
+      change (t'.val.app (.op ((Opens.map f.hom.base).obj U.unop))).hom
           ((ηα.val.app U).hom a) = (ηβ.val.app U).hom a
       exact ht' U.unop a
     apply (adjα.homEquiv M N).injective

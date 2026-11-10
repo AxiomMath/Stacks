@@ -128,7 +128,7 @@ public theorem fShriekFunctorIsoProperSupport_inv_app_apply (W : SmallEtale B Y.
         ((finiteSupportPushforward.{u, max (u + 1) v} B f (fun _ => inferInstance)).val.obj
           F)).app (op W) x := by
   rw [← toSheafify_fShriekFunctorIsoProperSupport_hom.{u, v} B f F]
-  show ((((fShriekFunctorIsoProperSupport.{u, v} B f).hom.app F) ≫
+  change ((((fShriekFunctorIsoProperSupport.{u, v} B f).hom.app F) ≫
     ((fShriekFunctorIsoProperSupport.{u, v} B f).inv.app F)).hom.app (op W)) _ = _
   rw [Iso.hom_inv_id_app]
   rfl
@@ -226,7 +226,7 @@ public theorem fiberPointElement_compIso (s : GeometricPoint Z.obj)
         (fiberPointElement B g s W w y) x) =
       fiberPointElement B (f ≫ g) s W w (compFiberPointOf B f g s y x) := by
   refine Subtype.ext ?_
-  show fiberPointLift B f (y.toGeometricPoint B g s) (baseChange B g W)
+  change fiberPointLift B f (y.toGeometricPoint B g s) (baseChange B g W)
       (fiberPointElement B g s W w y) x ≫ B.inclusion.map
         ((smallEtaleBaseChange_compIso B X Y Z f g).val.hom.app W).hom.left =
     fiberPointLift B (f ≫ g) s W w (compFiberPointOf B f g s y x)
@@ -340,7 +340,7 @@ public theorem separatedCompShriekMap_germ
             (((properSupportFunctor_compIso B f g).val.inv.app F).hom.app (op W) ρ))) := by
   refine (colim_map_etaleGerm.{u, v} B s (separatedCompShriekMap B f g F).hom W w _).trans ?_
   refine congrArg (etaleGerm B Z.obj Z.property s _ W w) ?_
-  show ((fShriekFunctorIsoProperSupport.{u, v} B g).inv.app
+  change ((fShriekFunctorIsoProperSupport.{u, v} B g).inv.app
         ((fShriekFunctor.{u, v} B f).obj F)).hom.app (op W)
       (((properSupportFunctor.{u, max (u + 1) v} B g).map
         ((fShriekFunctorIsoProperSupport.{u, v} B f).inv.app F)).hom.app (op W)
@@ -502,7 +502,7 @@ public theorem etaleSection_ext
       rw [hs, ha, sub_self]
     obtain ⟨W', j, q', hq', hz⟩ := (etaleGerm_eq_zero_iff B S hS _ G.obj U _ (a - b)).1 h0
     refine ⟨W', j, ?_, q'.1.base default, ?_⟩
-    · show G.obj.map j.op a = G.obj.map j.op b
+    · change G.obj.map j.op a = G.obj.map j.op b
       rw [map_sub] at hz
       exact sub_eq_zero.1 hz
     · have h1 : q'.1 ≫ (SmallEtale.toScheme B S hS).map j =
@@ -590,12 +590,12 @@ public theorem isFiniteSupport_sepCompSupport (W : SmallEtale B Z.obj Z.property
     ext x
     constructor
     · rintro ⟨y, hy, rfl⟩
-      show (sepCompMap B f g W).base ((sepCompInv B f g W).base y) ∈ E.1
+      change (sepCompMap B f g W).base ((sepCompInv B f g W).base y) ∈ E.1
       rw [← Scheme.Hom.comp_apply, sepCompInv_sepCompMap]
       exact hy
     · intro hx
       refine ⟨_, hx, ?_⟩
-      show (sepCompInv B f g W).base ((sepCompMap B f g W).base x) = x
+      change (sepCompInv B f g W).base ((sepCompMap B f g W).base x) = x
       rw [← Scheme.Hom.comp_apply, sepCompMap_sepCompInv]
       rfl
 
@@ -642,7 +642,7 @@ public theorem fiberStalkComponent_sepCompSection (s : GeometricPoint Z.obj)
   have hk : Topology.IsOpenEmbedding k.base := k.isOpenEmbedding
   have hcob : (finiteSupportOpen B f _ (sepCompSupport B f g W E) : Set _) =
       k.base ⁻¹' (finiteSupportOpen B (f ≫ g) W E : Set _) := by
-    show coborder ((sepCompMap B f g W).base ⁻¹' E.1) = k.base ⁻¹' coborder E.1
+    change coborder ((sepCompMap B f g W).base ⁻¹' E.1) = k.base ⁻¹' coborder E.1
     exact hk.coborder_preimage _
   have hpt : k.base (lf.base default) = lh.base default := by
     rw [← hl]
@@ -650,7 +650,7 @@ public theorem fiberStalkComponent_sepCompSection (s : GeometricPoint Z.obj)
   have hiff : HasFiberLift B f _ (baseChange B g W) (fiberPointElement B g s W w y)
       (sepCompSupport B f g W E) x ↔
       HasFiberLift B (f ≫ g) s W w E (compFiberPointOf B f g s y x) := by
-    show lf.base default ∈ (finiteSupportOpen B f _ (sepCompSupport B f g W E) : Set _) ↔
+    change lf.base default ∈ (finiteSupportOpen B f _ (sepCompSupport B f g W E) : Set _) ↔
       lh.base default ∈ (finiteSupportOpen B (f ≫ g) W E : Set _)
     rw [hcob, Set.mem_preimage, hpt]
   by_cases h : HasFiberLift B (f ≫ g) s W w E (compFiberPointOf B f g s y x)

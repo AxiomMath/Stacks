@@ -304,7 +304,7 @@ theorem act_apply (s : Base) (v : Base × Base) : act s v = (0, s * v.1) := rfl
 /-- The endomorphism `act s` squares to zero, so it is an action of the coordinate `x`. -/
 theorem act_comp_act (s : Base) : (act s) * (act s) = 0 := by
   refine LinearMap.ext fun v => Prod.ext (by simp) ?_
-  show s * (0, s * v.1).1 = (0 : Base × Base).2
+  change s * (0, s * v.1).1 = (0 : Base × Base).2
   simp
 
 /-- The `Base`-algebra map `Coordinate → End_{Base}(Base²)` sending the coordinate `x` to

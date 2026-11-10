@@ -189,7 +189,7 @@ theorem exists_finite_over_smooth_geometricallyIntegral_of_statement057J
     have hPTold : PurelyTranscendental k K₀ := hpt₀
     set m : T.toScheme ⟶ Y₀ := T.ι ≫ h.fiberι a ≫ B.1.ι with hm
     have hmpt : m pT = y₀ := by
-      show B.1.ι (h.fiberι a (T.ι pT)) = y₀
+      change B.1.ι (h.fiberι a (T.ι pT)) = y₀
       rw [hTp, hpf]
       rfl
     have : IsPreimmersion m := by
@@ -267,7 +267,7 @@ theorem exists_finite_over_smooth_geometricallyIntegral_of_statement057J
     rfl
   have hπ₁ : π₁ u = b := B.1.ι.isEmbedding.injective ((hιπ₁ u).trans rfl)
   have hcomm₁ : U₁.toBase ≫ fO = π₁ ≫ h := by
-    show (UO.ι ≫ U₀.toBase) ≫ fO = π₀.resLE B.1 UO le_rfl ≫ B.1.ι ≫ h₀
+    change (UO.ι ≫ U₀.toBase) ≫ fO = π₀.resLE B.1 UO le_rfl ≫ B.1.ι ≫ h₀
     rw [Scheme.Hom.resLE_comp_ι_assoc, Category.assoc, hcomm₀]
   have huniq₁ (z : U₁.scheme) (hz : π₁ z = b) : z = u := by
     refine Subtype.ext ?_
@@ -285,7 +285,7 @@ theorem exists_finite_over_smooth_geometricallyIntegral_of_statement057J
       point := z
       toBase := pU ≫ U₁.toBase ≫ XO.ι
       map_point := by
-        show XO.ι (U₁.toBase (pU z)) = x
+        change XO.ι (U₁.toBase (pU z)) = x
         rw [hzU]
         exact congrArg XO.ι U₁.map_point }
   set V : EtaleNeighborhood S (f x) :=
@@ -293,9 +293,9 @@ theorem exists_finite_over_smooth_geometricallyIntegral_of_statement057J
       point := V₀.point
       toBase := V₀.toBase ≫ A.1.ι
       map_point := by
-        show A.1.ι (V₀.toBase V₀.point) = f x
+        change A.1.ι (V₀.toBase V₀.point) = f x
         rw [V₀.map_point]
-        show (fO ≫ A.1.ι) xO = f x
+        change (fO ≫ A.1.ι) xO = f x
         rw [← hpullO.w]
         rfl }
   have hVres : IsIso (V₀.toBase.residueFieldMap V₀.point) := V₀.isElementary_iff.mp hV₀
@@ -319,7 +319,7 @@ theorem exists_finite_over_smooth_geometricallyIntegral_of_statement057J
     exact isIso_residueFieldMap_comp V₀.toBase A.1.ι _ hVres
       (isIso_residueFieldMap_of_isPreimmersion A.1.ι _)
   have hcom : U.toBase ≫ f = π' ≫ h' ≫ V.toBase := by
-    show (pU ≫ U₁.toBase ≫ XO.ι) ≫ f = π' ≫ h' ≫ V₀.toBase ≫ A.1.ι
+    change (pU ≫ U₁.toBase ≫ XO.ι) ≫ f = π' ≫ h' ≫ V₀.toBase ≫ A.1.ι
     calc
       (pU ≫ U₁.toBase ≫ XO.ι) ≫ f = pU ≫ U₁.toBase ≫ fO ≫ A.1.ι := by
         simp only [Category.assoc, ← hpullO.w]
@@ -361,11 +361,11 @@ theorem exists_finite_over_smooth_geometricallyIntegral_of_statement057J
     refine ⟨heq, ?_⟩
     let : Algebra (V₀.scheme.residueField V₀.point) (W.toScheme.residueField (π' z)) :=
       ((V₀.scheme.residueFieldCongr heq).inv ≫ h'.residueFieldMap (π' z)).hom.toAlgebra
-    show PurelyTranscendental (V₀.scheme.residueField V₀.point)
+    change PurelyTranscendental (V₀.scheme.residueField V₀.point)
       (W.toScheme.residueField (π' z))
     set tY := wY ≫ B.1.ι with htY
     have hty : tY (π' z) = y₀ := by
-      show B.1.ι (wY (π' z)) = y₀
+      change B.1.ι (wY (π' z)) = y₀
       rw [hzW, hwY']
       rfl
     have htComm : tY ≫ h₀ = h' ≫ V₀.toBase := by

@@ -297,7 +297,7 @@ theorem isSheaf_hilbertTotalPresheaf (X : Over S) (d : ℕ) :
     HilbertFamily.exists_baseChange_eq_of_isOpenImmersion X g 𝒰.exists_eq Z hZ
   have key (i : 𝒰.I₀) : (hilbertTotalPresheaf X d).map (𝒰.f i).op ⟨t, Z'⟩ = x i := by
     rw [hilbertTotalPresheaf_map_apply]
-    show (⟨𝒰.f i ≫ t, baseChange X (g i) Z'⟩ : TotalFamily X d _) = ⟨(x i).1, (x i).2⟩
+    change (⟨𝒰.f i ≫ t, baseChange X (g i) Z'⟩ : TotalFamily X d _) = ⟨(x i).1, (x i).2⟩
     rw [hZ' i]
     conv_rhs => rw [← baseChange_id X (x i).2]
     exact totalFamily_mk_baseChange_eq X (ψ i) (𝟙 _) (by simp [ψ]) _

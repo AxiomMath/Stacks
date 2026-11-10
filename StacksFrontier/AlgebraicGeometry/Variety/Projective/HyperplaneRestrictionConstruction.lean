@@ -48,7 +48,8 @@ of [Stacks, Tag 08A0] twisted as in [Stacks, Tag 0EGK], with the hyperplane iden
 
 ## The mathematics
 
-Three results from the library are glued together, each stated on a different model or at a different
+Three results from the library are glued together, each stated on a different model or at a
+different
 spelling, so the work is transport.
 
 [Stacks, Tag 08A0] splits in two. Its short exact sequence,
@@ -143,7 +144,7 @@ theorem Scheme.Modules.gammaTopIsoOfPullbackIso_hom_apply {X Y : Scheme.{u}} (f 
 private theorem pullbackGlobalSections_eq_pullbackGlobalSection {X Y : Scheme.{u}} (f : X ⟶ Y)
     (M : Y.Modules) (s : Γ(M, ⊤)) :
     pullbackGlobalSections f M s = Stacks.NonvanishingPullback.pullbackGlobalSection f M s := by
-  show ((Scheme.Modules.pullback f).obj M).presheaf.map
+  change ((Scheme.Modules.pullback f).obj M).presheaf.map
       (eqToHom (show f ⁻¹ᵁ (⊤ : Y.Opens) = ⊤ from rfl)).op
       (Stacks.NonvanishingPullback.pullbackGlobalSection f M s) = _
   exact Functor.map_id_apply _ _ _

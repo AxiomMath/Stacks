@@ -69,7 +69,7 @@ public theorem exists_unique_kaehler_of_fstHom_comp_eq
     { toLinearMap := Dlin
       map_one_eq_zero' := hone
       leibniz' := fun a b => by
-        show (q (a * b)).snd = a • (q b).snd + b • (q a).snd
+        change (q (a * b)).snd = a • (q b).snd + b • (q a).snd
         rw [map_mul, TrivSqZeroExt.snd_mul, smul_eq_mul, op_smul_eq_mul, hfst a, hfst b,
           Algebra.smul_def a, Algebra.smul_def b, hψ, hψ]
         ring }
@@ -80,7 +80,7 @@ public theorem exists_unique_kaehler_of_fstHom_comp_eq
         (TrivSqZeroExt.inl_fst_add_inr_snd_eq (q a)).symm, hfst, hsnd]
   · have hcompDer : θ'.compDer (KaehlerDifferential.D Λ A) = D' := by
       ext a
-      show θ' (KaehlerDifferential.D Λ A a) = (q a).snd
+      change θ' (KaehlerDifferential.D Λ A a) = (q a).snd
       have hsnd := congrArg TrivSqZeroExt.snd (hθ' a)
       rwa [TrivSqZeroExt.snd_add, TrivSqZeroExt.snd_inl, TrivSqZeroExt.snd_inr, zero_add,
         eq_comm] at hsnd

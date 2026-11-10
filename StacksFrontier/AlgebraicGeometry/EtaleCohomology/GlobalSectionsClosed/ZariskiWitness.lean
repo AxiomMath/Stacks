@@ -390,7 +390,7 @@ public theorem not_forall_surjective_zariskiGlobalSectionsMap_intQuotient :
       (Ideal.Quotient.mk (Ideal.span {(2 : ℤ)})))).base ⊆
       ((PrimeSpectrum.basicOpen (3 : ℤ) : Opens (PrimeSpectrum ℤ)) : Set (PrimeSpectrum ℤ)) := by
     rintro x ⟨z, rfl⟩
-    show (3 : ℤ) ∉ _
+    change (3 : ℤ) ∉ _
     intro hmem
     have hz : (1 : ℤ ⧸ Ideal.span {(2 : ℤ)}) ∈ z.asIdeal := by
       rw [← hone]

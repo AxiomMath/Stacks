@@ -259,7 +259,7 @@ private lemma mappingCone_isFG
   rw [ModuleCat.isFG_iff]
   let : Module.Finite Λ (P.X (n + 1)) := (ModuleCat.isFG_iff _).mp (hP (n + 1))
   let : Module.Finite Λ (Q.X n) := (ModuleCat.isFG_iff _).mp (hQ n)
-  show Module.Finite Λ
+  change Module.Finite Λ
     (HomologicalComplex.homotopyCofiber.X (C := ModuleCat.{m} Λ) f n)
   rw [Module.Finite.equiv_iff
     (HomologicalComplex.homotopyCofiber.XIsoBiprod f n (n + 1) (by simp)).toLinearEquiv,
@@ -284,7 +284,7 @@ private lemma mappingCocone_isZero_outside
     (hQ : ∀ n, n ∉ Set.Icc c d → IsZero (Q.X n))
     (n : ℤ) (hn : n ∉ Set.Icc (min a (c + 1)) (max b (d + 1))) :
     IsZero ((CochainComplex.mappingCocone f).X n) := by
-  show IsZero ((CochainComplex.mappingCone f).X (n - 1))
+  change IsZero ((CochainComplex.mappingCone f).X (n - 1))
   rw [CochainComplex.mappingCone.isZero_X_iff]
   constructor
   · simpa only [sub_add_cancel] using hP n (by simp only [Set.mem_Icc] at *; omega)
@@ -324,7 +324,7 @@ lemma mappingCocone_single_finite_bounded
       ModuleCat.isFG Λ (((CochainComplex.singleFunctor _ (b - 1)).obj E).X n) := by
     by_cases hn : n = b - 1
     · subst n
-      show ModuleCat.isFG Λ
+      change ModuleCat.isFG Λ
         (((HomologicalComplex.single _ (.up ℤ) (b - 1)).obj E).X (b - 1))
       simpa only [HomologicalComplex.single_obj_X_self] using hE
     · rw [ModuleCat.isFG_iff]
@@ -367,7 +367,7 @@ private lemma homologyMap_topHomologyMapToSingle
     topHomologyMapToSingle P b E h
   apply (cancel_epi (P.homologyπ b)).mp
   rw [← Category.assoc, HomologicalComplex.homologyπ_naturality, Category.assoc]
-  show P.cyclesMap α b ≫
+  change P.cyclesMap α b ≫
     (((HomologicalComplex.single A (.up ℤ) b).obj E).homologyπ b ≫
       (HomologicalComplex.singleObjHomologySelfIso (.up ℤ) b E).hom) = _
   rw [HomologicalComplex.homologyπ_singleObjHomologySelfIso_hom,
@@ -389,7 +389,7 @@ private lemma homologyFunctor_map_injective_of_isLE_isGE
   intro f g hfg
   have heq : f ≫ e.inv = g ≫ e.inv := by
     apply h
-    show (DerivedCategory.homologyFunctor A b).map (f ≫ e.inv) ≫
+    change (DerivedCategory.homologyFunctor A b).map (f ≫ e.inv) ≫
         ((DerivedCategory.homologyFunctor A 0).shiftIso 0 b b (by omega)).hom.app Y =
       (DerivedCategory.homologyFunctor A b).map (g ≫ e.inv) ≫
         ((DerivedCategory.homologyFunctor A 0).shiftIso 0 b b (by omega)).hom.app Y

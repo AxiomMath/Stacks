@@ -62,6 +62,7 @@ section Exactness
 variable (A : Type u) [CommRing A]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the exactness (`AB4OfSize`) instances on the presheaf categories is heavy
 /-- Coproducts of module-valued functors indexed by a type in the value universe are exact. -/
 public lemma hasExactColimitsOfShape_moduleValuedFunctor (ι : Type w) :
     HasExactColimitsOfShape (Discrete ι) (ModuleValuedFunctor.{max u v w, v} A) :=
@@ -98,7 +99,7 @@ public lemma sigma_map_moduleExtensionFunctor_map {J : Type (max u v w)}
   apply colimit.hom_ext
   intro j
   obtain ⟨j⟩ := j
-  show Sigma.ι _ j ≫ _ = Sigma.ι _ j ≫ _
+  change Sigma.ι _ j ≫ _ = Sigma.ι _ j ≫ _
   rw [Sigma.ι_map_assoc, ι_comp_sigmaComparison, ι_comp_sigmaComparison_assoc,
     ← (moduleExtensionFunctor.{max u v w, v} A).map_comp,
     ← (moduleExtensionFunctor.{max u v w, v} A).map_comp, Sigma.ι_map]

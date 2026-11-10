@@ -42,7 +42,7 @@ private theorem etale_adjoinRoot_of_monic_of_separable
       g := 1
       cond := ⟨b, a, 0, by simpa [mul_comm, add_comm] using hab⟩ }
   have hunit : IsUnit (AdjoinRoot.mk f P.g) := by
-    show IsUnit (AdjoinRoot.mk f 1)
+    change IsUnit (AdjoinRoot.mk f 1)
     simp
   let : IsLocalization.Away (AdjoinRoot.mk f P.g) (AdjoinRoot f) :=
     IsLocalization.away_of_isUnit_of_bijective _ hunit Function.bijective_id
@@ -89,14 +89,13 @@ private theorem isIntegrallyClosedIn_tensorProduct_of_smooth
     have hmem : (TensorProduct.toIntegralClosure R S B z : S ⊗[R] B) ∈
         (⊥ : Subalgebra S (S ⊗[R] B)) := by
       clear hz
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul s b =>
         obtain ⟨r, hr⟩ := IsIntegrallyClosedIn.algebraMap_eq_of_integral b.2
-        show s ⊗ₜ[R] (b : B) ∈ (⊥ : Subalgebra S (S ⊗[R] B))
+        change s ⊗ₜ[R] (b : B) ∈ (⊥ : Subalgebra S (S ⊗[R] B))
         rw [← hr]
         refine ⟨s * algebraMap R S r, ?_⟩
-        show (s * algebraMap R S r) ⊗ₜ[R] 1 = s ⊗ₜ[R] algebraMap R B r
+        change (s * algebraMap R S r) ⊗ₜ[R] 1 = s ⊗ₜ[R] algebraMap R B r
         simpa [Algebra.smul_def, mul_comm] using
           (TensorProduct.smul_tmul r s (1 : B))
       | add z w hz hw => simpa only [map_add, AddMemClass.coe_add] using
@@ -165,24 +164,24 @@ private theorem exists_adjoinRoot_X_pow_sub_C_mul_pow_equiv
       (algebraMap R _ (↑c⁻¹ : R) * AdjoinRoot.root f) (by
         simp only [g, eval₂_sub, eval₂_pow, eval₂_X, eval₂_C, mul_pow]
         rw [adjoinRoot_root_X_pow_sub_C_pow]
-        show (algebraMap R (AdjoinRoot f) (↑c⁻¹ : R)) ^ n *
+        change (algebraMap R (AdjoinRoot f) (↑c⁻¹ : R)) ^ n *
           algebraMap R (AdjoinRoot f) ((c : R) ^ n * a) - algebraMap R _ a = 0
         rw [← map_pow, ← map_mul]
         simp [← mul_assoc, ← mul_pow])
   have hφψ : φ.comp ψ = AlgHom.id R _ := by
     apply AdjoinRoot.algHom_ext
-    show φ (ψ (AdjoinRoot.root g)) = AdjoinRoot.root g
+    change φ (ψ (AdjoinRoot.root g)) = AdjoinRoot.root g
     simp only [φ, ψ, AdjoinRoot.liftAlgHom_root, map_mul, AlgHom.commutes]
     rw [← mul_assoc, ← map_mul]
     simp
   have hψφ : ψ.comp φ = AlgHom.id R _ := by
     apply AdjoinRoot.algHom_ext
-    show ψ (φ (AdjoinRoot.root f)) = AdjoinRoot.root f
+    change ψ (φ (AdjoinRoot.root f)) = AdjoinRoot.root f
     simp only [φ, ψ, AdjoinRoot.liftAlgHom_root, map_mul, AlgHom.commutes]
     rw [← mul_assoc, ← map_mul]
     simp
   refine ⟨AlgEquiv.ofAlgHom φ ψ hφψ hψφ, ?_⟩
-  show φ (AdjoinRoot.root f) = _
+  change φ (AdjoinRoot.root f) = _
   exact AdjoinRoot.liftAlgHom_root _ _ _ _
 
 private theorem exists_quotNilradical_algEquiv_pi_fields
@@ -309,7 +308,7 @@ theorem exists_integralClosure_hom
   refine ⟨f.toRingHom, fun _ ↦ rfl, ?_⟩
   intro z
   apply Subtype.ext
-  show algebraMap K L (algebraMap A K z) = algebraMap B L (algebraMap A B z)
+  change algebraMap K L (algebraMap A K z) = algebraMap B L (algebraMap A B z)
   rw [← IsScalarTower.algebraMap_apply A K L, ← IsScalarTower.algebraMap_apply A B L]
 
 theorem exists_injective_localRingHom
@@ -394,7 +393,7 @@ theorem exists_tensorProduct_quotNilradical_equiv_pi_fields
   let (i : Fin n) : Algebra K₁ (E i) :=
     ((algebraMap T (E i)).comp Algebra.TensorProduct.includeRight.toRingHom).toAlgebra
   let (i : Fin n) : IsScalarTower K K₁ (E i) := .of_algebraMap_eq fun k ↦ by
-    show algebraMap K (E i) k = algebraMap T (E i)
+    change algebraMap K (E i) k = algebraMap T (E i)
       (Algebra.TensorProduct.includeRight (algebraMap K K₁ k))
     rw [AlgHom.commutes, ← IsScalarTower.algebraMap_apply K T (E i)]
   refine ⟨n, E, hE, inferInstance, hLE, inferInstance, inferInstance, inferInstance,
@@ -482,7 +481,7 @@ theorem formallySmoothNAdic_of_ramificationIndex_eq
     rw [ramificationIndex_eq_ramificationIdx] at heBD
     rw [ramificationIndex_eq_ramificationIdx A B,
       ramificationIndex_eq_ramificationIdx A C] at he
-    show ramificationIndex C D = 1
+    change ramificationIndex C D = 1
     rw [ramificationIndex_eq_ramificationIdx]
     have hpos := (ramificationIndex_characterization A C).1
     rw [ramificationIndex_eq_ramificationIdx] at hpos
@@ -575,7 +574,7 @@ theorem exists_surjective_tensorProduct_projection
   intro x
   obtain ⟨t, ht⟩ := Ideal.Quotient.mk_surjective (e.symm (Pi.single i x))
   refine ⟨t, ?_⟩
-  show e (Ideal.Quotient.mk _ t) i = x
+  change e (Ideal.Quotient.mk _ t) i = x
   rw [ht, e.apply_symm_apply]
   exact Pi.single_eq_same i x
 

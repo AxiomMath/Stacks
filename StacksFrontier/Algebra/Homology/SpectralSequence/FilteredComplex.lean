@@ -1014,7 +1014,7 @@ private lemma finsum_cl_eq_finsum_cl_homology (a : ℤ × ℤ) (ha : a.1 + a.2 =
     have h := cl_homology_add P (X.sc' (i - a) i (i + a)) (hP _) (hP _) (hP _)
     rw [← cl_congr P (X.homologyIsoSc' (i - a) i (i + a) (hprev i) (hnext i))] at h
     have hk : cl P (kernel (X.sc' (i - a) i (i + a)).f) = k (i - a) := by
-      show cl P (kernel (X.d (i - a) i)) = cl P (kernel (X.d (i - a) (i - a + a)))
+      change cl P (kernel (X.d (i - a) i)) = cl P (kernel (X.d (i - a) (i - a + a)))
       rw [sub_add_cancel]
     change cl P (X.homology i) + cl P (X.X (i - a)) = cl P (kernel (X.sc' (i - a) i (i + a)).f) +
       k i at h
@@ -1040,7 +1040,7 @@ private lemma finsum_cl_eq_finsum_cl_homology (a : ℤ × ℤ) (ha : a.1 + a.2 =
     rw [finsum_sub_distrib hg hg', sub_eq_zero]
     exact (finsum_comp_equiv (Equiv.subRight a) (f := g)).symm
   refine (sub_eq_zero.1 ?_).symm
-  show ∑ᶠ i, ε i • cl P (X.homology i) - ∑ᶠ i, ε i • cl P (X.X i) = 0
+  change ∑ᶠ i, ε i • cl P (X.homology i) - ∑ᶠ i, ε i • cl P (X.X i) = 0
   rw [← finsum_sub_distrib h₁ h₂, ← hsum]
   exact finsum_congr key
 
@@ -1113,13 +1113,13 @@ private lemma cl_image_homologyMap_eq_sum_of_succ {n t b : ℤ} (htb : t < b)
     rw [hφ]
   refine ⟨h₂, ?_, fun hz => ?_⟩
   · rw [cl_shortExact P hS h₁ h₂ (hPgr t)]
-    show cl P (image (HomologicalComplex.homologyMap (K.filtration.diagram.map
+    change cl P (image (HomologicalComplex.homologyMap (K.filtration.diagram.map
       (homOfLE (Int.le_add_one le_rfl) : (t : ℤ) ⟶ t + 1).op) n ≫
         HomologicalComplex.homologyMap (K.filtration.ι.app (op t)) n)) +
       cl P (K.gradedHomology t n) = _
     rw [hcl₁, hQ.2.1, ← hIco, Finset.sum_insert (by simp), add_comm]
   · refine hS.exact.isZero_X₂ (IsZero.eq_of_src ?_ _ _) (IsZero.eq_of_tgt ?_ _ _)
-    · show IsZero (image (HomologicalComplex.homologyMap (K.filtration.diagram.map
+    · change IsZero (image (HomologicalComplex.homologyMap (K.filtration.diagram.map
         (homOfLE (Int.le_add_one le_rfl) : (t : ℤ) ⟶ t + 1).op) n ≫
           HomologicalComplex.homologyMap (K.filtration.ι.app (op t)) n))
       rw [hφ]

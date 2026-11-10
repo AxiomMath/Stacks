@@ -68,7 +68,8 @@ what the weak Serre machinery of Stacks 06UP consumes and hence what produces th
 structure.
 
 The support condition is stated stalkwise rather than as containment of the support of the
-cohomology sheaves, for the reason given in `StacksFrontier/AlgebraicGeometry/Perfect/SupportedCohomology.lean`: in the derived category
+cohomology sheaves, for the reason given in
+`StacksFrontier/AlgebraicGeometry/Perfect/SupportedCohomology.lean`: in the derived category
 the cohomology sheaves are determined only up to isomorphism.
 
 Weak Serre-ness of quasi-coherent modules (Stacks 06VT) is a hypothesis of the theorems about a

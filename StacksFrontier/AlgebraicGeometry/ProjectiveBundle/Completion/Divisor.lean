@@ -72,12 +72,12 @@ theorem pullbackGlobalSections_pullbackGlobalSections (π : Y ⟶ X) (c : Z ⟶ 
   have key := fun {W : Y.Opens} (hW : W ≤ π ⁻¹ᵁ ⊤) =>
     Stacks.Chow.GenuineChern.unitSection_restrict c N hW (unitSection π M ⊤ x)
   rw [h1, key (π.preimage_mono le_top)]
-  show N'.val.map _ (unitSection c N ⊤ (N.val.map _ (unitSection π M ⊤ x))) = _
+  change N'.val.map _ (unitSection c N ⊤ (N.val.map _ (unitSection π M ⊤ x))) = _
   rw [show N.val.map (eqToHom (show (⊤ : Y.Opens) = π ⁻¹ᵁ ⊤ by simp)).op
       (unitSection π M ⊤ x) =
       N.val.map (homOfLE (show (⊤ : Y.Opens) ≤ π ⁻¹ᵁ ⊤ from le_top)).op
         (unitSection π M ⊤ x) from rfl, key le_top]
-  show N'.presheaf.map _ (N'.presheaf.map _ _) = N'.presheaf.map _ (N'.presheaf.map _ _)
+  change N'.presheaf.map _ (N'.presheaf.map _ _) = N'.presheaf.map _ (N'.presheaf.map _ _)
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp, ← ConcreteCategory.comp_apply,
     ← Functor.map_comp]
   rfl

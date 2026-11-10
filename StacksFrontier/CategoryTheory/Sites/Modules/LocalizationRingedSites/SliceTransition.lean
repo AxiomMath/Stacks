@@ -88,6 +88,7 @@ theorem isContinuous_sliceLeft :
     (Over.post (X := V) G').IsContinuous (Y.over V).J (JT.over (G'.obj V)) :=
   Functor.isContinuous_overPost_of_isContinuous Y.J JT G' V
 
+omit hG' in
 /-- `p = Over.post G ⋙ Over.map τ_V` is continuous for the localized topologies. -/
 theorem isContinuous_sliceRight :
     (Over.post (X := f.u.obj V) G ⋙ Over.map (τ.app V)).IsContinuous (X.over (f.u.obj V)).J
@@ -192,7 +193,7 @@ theorem sliceLeft_obj_restriction (M : SheafOfModules.{u} R) :
     (Y.overRestrictionModules V).obj ((SheafOfModules.pushforward.{u} (F := G') ψ').obj M) :=
   rfl
 
-omit hXs hXw [HasWeakSheafify (X.J.over (f.u.obj V)) AddCommGrpCat.{u}]
+omit hG' hXs hXw [HasWeakSheafify (X.J.over (f.u.obj V)) AddCommGrpCat.{u}]
   [(X.J.over (f.u.obj V)).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Restricting `ρ_G M` to `X.C/u(V)` is restricting `M|_{G'(V)}` along `p`, on the nose. -/
 theorem sliceRight_obj_restriction (M : SheafOfModules.{u} R) :

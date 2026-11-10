@@ -51,7 +51,7 @@ lemma schemeSizeBelow_isClosedUnderColimitsOfShape_discrete (hκ : ℵ₀ < κ)
   apply ObjectProperty.IsClosedUnderColimitsOfShape.mk'
   intro X hX
   rcases hX with ⟨F, hF⟩
-  show (colimit F).size < κ
+  change (colimit F).size < κ
   rw [Scheme.size_congr (HasColimit.isoOfNatIso (Discrete.natIsoFunctor (F := F)))]
   exact Scheme.size_sigmaObj_lt hκ hcof hι _ fun i => hF ⟨i⟩
 
@@ -177,13 +177,13 @@ lemma exists_restrict_bigFppfOver (X : BigFppfOver B S hS)
     · refine B.inclusion.map_injective ?_
       have hw := congrArg B.inclusion.map (Over.w g)
       simp only [Functor.map_comp] at hw ⊢
-      show (IsOpenImmersion.lift W.ι ((BigFppfOver.toScheme B S hS).map g) hr ≫ W.ι) ≫
+      change (IsOpenImmersion.lift W.ι ((BigFppfOver.toScheme B S hS).map g) hr ≫ W.ι) ≫
         B.inclusion.map X.hom = B.inclusion.map X'.hom
       rw [IsOpenImmersion.lift_fac]
       exact hw
     · refine (BigFppfOver.toScheme B S hS).map_injective ?_
       rw [Functor.map_comp]
-      show IsOpenImmersion.lift W.ι ((BigFppfOver.toScheme B S hS).map g) hr ≫ W.ι = _
+      change IsOpenImmersion.lift W.ι ((BigFppfOver.toScheme B S hS).map g) hr ≫ W.ι = _
       exact IsOpenImmersion.lift_fac _ _ hr
 
 end Restrict
@@ -293,8 +293,8 @@ lemma exists_isOpenImmersion_factorisation_of_isColimit_cofan
     simp only [cofan_mk_inj, ← Category.assoc, hfac i]
     by_cases h : i = i₀
     · subst h
-      simp [hgi₀, hd, Limits.coprod.inl_desc]
-    · simp [hg, h, hd, Limits.coprod.inr_desc, Limits.pullback.lift_fst]
+      simp [hgi₀, hd]
+    · simp [hg, h, hd]
   have hχi₀ : j i₀ ≫ χ = Limits.coprod.inl := by rw [hfac i₀, hgi₀]
   have hinlW : IsOpenImmersion ((BigFppfOver.toScheme B S hS).map (Limits.coprod.inl :
       U i₀ ⟶ U i₀ ⨿ Limits.pullback (cofanSel hV i₀)

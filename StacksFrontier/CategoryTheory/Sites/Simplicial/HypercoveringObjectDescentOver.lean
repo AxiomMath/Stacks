@@ -46,7 +46,7 @@ theorem exists_local_lift_of_isCoveringOver_hypercoveringObjectDescentOver
     rw [← Over.w (f.φ i), ← Category.assoc, hcomm, Category.assoc, Over.w φ, Over.w g]
   refine ⟨FormalCoproduct.Hom.fromIncl i (Over.homMk p hw),
     FormalCoproduct.hom_ext rfl fun _ => ?_⟩
-  show (Over.homMk p hw ≫ f.φ i) ≫ eqToHom rfl = g ≫ φ
+  change (Over.homMk p hw ≫ f.φ i) ≫ eqToHom rfl = g ≫ φ
   rw [eqToHom_refl, Category.comp_id]
   exact Over.OverMorphism.ext hcomm
 

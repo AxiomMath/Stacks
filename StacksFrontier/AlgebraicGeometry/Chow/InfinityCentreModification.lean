@@ -323,7 +323,7 @@ theorem opensRange_exceptionalComplToModificationFibreAtInfinity :
     refine ⟨(exceptionalComplIsoFibreCompl ℐ).inv w, ?_⟩
     rw [exceptionalComplToModificationFibreAtInfinity, Scheme.Hom.comp_apply,
       ← Scheme.Hom.comp_apply (exceptionalComplIsoFibreCompl ℐ).inv, Iso.inv_hom_id]
-    show (modificationFibreAtInfinityIso ℐ f).inv
+    change (modificationFibreAtInfinityIso ℐ f).inv
       (((fibreIdealAtInfinity ℐ).subschemeι ⁻¹ᵁ strictTransformComplAtInfinity ℐ).ι w) = x
     rw [hw, ← Scheme.Hom.comp_apply, Iso.hom_inv_id]
     rfl

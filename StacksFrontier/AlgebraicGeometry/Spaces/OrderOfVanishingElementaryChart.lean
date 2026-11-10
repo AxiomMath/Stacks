@@ -87,13 +87,11 @@ theorem PrimeDivisor.ordRationalFunction_eq_ord_henselian (Z : PrimeDivisor B S 
   set hdec := hInt.isDecentSpace B S hS X
   have : IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec) :=
     henselianLocalRing_isLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec
-  have hCof := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-    (Z.genericPoint B S hS X) ⟨U⟩
   have hemb : Z.rationalFunctionsToGenericTotalFractionRing B S hS hX hdec hInt hN
         (f : rationalFunctions B S hS hX) =
       algebraMap _ (Z.genericTotalFractionRing B S hS hX hdec)
         (Z.neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec U a) := by
-    rw [← Z.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hX hdec hInt hN U hCof, ha]
+    rw [← Z.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hX hdec hInt hN U, ha]
     exact IsLocalization.map_eq _ _
   have hunit : IsUnit (algebraMap _ (Z.genericTotalFractionRing B S hS hX hdec)
       (Z.neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec U a)) :=
@@ -126,11 +124,9 @@ theorem PrimeDivisor.ordRationalFunction_eq_ord_germ (Z : PrimeDivisor B S hS X)
   set hdec := hInt.isDecentSpace B S hS X
   have : IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec) :=
     henselianLocalRing_isLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec
-  have hCof := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-    (Z.genericPoint B S hS X) ⟨U⟩
   rw [Z.ordRationalFunction_eq_ord_henselian B S hS hX hInt hN U f a ha]
   exact congrArg (fun n : ℕ∞ => ((n.toNat : ℕ) : ℤ))
-    (ord_stalkToHenselianLocalRing B S hS hX hdec Z hCof U
+    (ord_stalkToHenselianLocalRing B S hS hX hdec Z U
       (U.scheme.left.1.presheaf.germ ⊤ U.point trivial a))
 
 /-! ### Elementary étale charts -/

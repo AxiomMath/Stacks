@@ -204,7 +204,7 @@ theorem isZero_homology_cotangentComplex_of_isStandardSmooth
   have : IsScalarTower A (MvPolynomial (ULift.{u} (Fin n)) A) B :=
     IsScalarTower.of_algebraMap_eq' (by
       ext a
-      show algebraMap A B a = g₀ (e (algebraMap A (MvPolynomial (ULift.{u} (Fin n)) A) a))
+      change algebraMap A B a = g₀ (e (algebraMap A (MvPolynomial (ULift.{u} (Fin n)) A) a))
       rw [e.commutes]
       exact congrArg (fun h : A →+* B => h a) hcomp.symm)
   have : Algebra.Etale (MvPolynomial (ULift.{u} (Fin n)) A) B :=

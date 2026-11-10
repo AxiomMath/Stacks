@@ -136,7 +136,7 @@ public theorem awayMap_comp_fromZeroRingHom (ψ : 𝒜 →+*ᵍ ℬ) (f : A) :
     (Away.map ψ f).comp (fromZeroRingHom 𝒜 (Submonoid.powers f)) =
       (fromZeroRingHom ℬ (Submonoid.powers (ψ f))).comp (zeroHom 𝒜 ℬ ψ) := by
   ext a
-  show (Away.map ψ f (HomogeneousLocalization.mk ⟨0, a, 1, Submonoid.one_mem _⟩)).val =
+  change (Away.map ψ f (HomogeneousLocalization.mk ⟨0, a, 1, Submonoid.one_mem _⟩)).val =
     (HomogeneousLocalization.mk
       (⟨0, zeroHom 𝒜 ℬ ψ a, 1, Submonoid.one_mem _⟩ :
         HomogeneousLocalization.NumDenSameDeg ℬ (Submonoid.powers (ψ f)))).val
@@ -219,7 +219,7 @@ public theorem mapAwayHom_id {d : ℕ} (hd : 0 < d) {f : A} (hf : f ∈ 𝒜 d) 
     mapAwayHom 𝒜 𝒜 (GradedRingHom.id 𝒜) hd hf = (Proj.basicOpen 𝒜 f).ι := by
   rw [mapAwayHom]
   simp only [Away.map_id]
-  show Proj.basicOpenToSpec 𝒜 f ≫ Spec.map (CommRingCat.ofHom (RingHom.id (Away 𝒜 f))) ≫
+  change Proj.basicOpenToSpec 𝒜 f ≫ Spec.map (CommRingCat.ofHom (RingHom.id (Away 𝒜 f))) ≫
     Proj.awayι 𝒜 f hf hd = (Proj.basicOpen 𝒜 f).ι
   rw [CommRingCat.ofHom_id, Spec.map_id, Category.id_comp]
   exact ProjTwistChain.basicOpenToSpec_comp_awayι 𝒜 hd hf

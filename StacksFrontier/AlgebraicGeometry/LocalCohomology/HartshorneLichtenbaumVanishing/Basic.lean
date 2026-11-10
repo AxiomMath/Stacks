@@ -125,7 +125,7 @@ private theorem symbolicDefectTransition_of_step (p : Ideal A) [p.IsPrime] (n : 
     Ideal.symbolicDefectTransition p (Nat.add_le_add_left hkl n) (x l) = x k := by
   induction l, hkl using Nat.le_induction with
   | base =>
-      show Ideal.symbolicDefectTransition p (Nat.le_refl (n + k)) (x k) = x k
+      change Ideal.symbolicDefectTransition p (Nat.le_refl (n + k)) (x k) = x k
       simp [Ideal.symbolicDefectTransition]
   | succ l hkl ih =>
       calc
@@ -183,7 +183,7 @@ private theorem symbolicDefectTailRange_eq_bot [IsNoetherianRing A] [IsLocalRing
       _ = Ideal.symbolicDefectTransition p (show n + k ≤ n + l by omega) (x l) :=
         congrArg Subtype.val (symbolicDefectTransition_of_step p n x hstep hkl).symm
       _ = Ideal.Quotient.mk (p ^ (n + k)) (y l) := by
-        show Ideal.Quotient.factor
+        change Ideal.Quotient.factor
           (Ideal.pow_le_pow_right (show n + k ≤ n + l by omega)) ((x l).val) = _
         rw [← (hy l).2]
         simp

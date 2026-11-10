@@ -89,7 +89,7 @@ theorem injective_cotangentComplex_baseChange
 private theorem surjective_toKaehler_baseChange
     {R S : Type*} [CommRing R] [CommRing S] [Algebra R S] (T : Type*) [CommRing T] [Algebra S T]
     (E : Algebra.Extension R S) : Function.Surjective (E.toKaehler.baseChange T) := by
-  rw [LinearMap.baseChange_eq_ltensor]
+  rw [LinearMap.baseChange_eq_lTensor]
   exact LinearMap.lTensor_surjective T Algebra.Extension.toKaehler_surjective
 
 /-- Base change of the exact sequence `cotangentComplex`, `toKaehler` of an extension is exact. -/
@@ -97,7 +97,7 @@ private theorem exact_cotangentComplex_baseChange_toKaehler
     {R S : Type*} [CommRing R] [CommRing S] [Algebra R S] (T : Type*) [CommRing T] [Algebra S T]
     (E : Algebra.Extension R S) :
     Function.Exact (E.cotangentComplex.baseChange T) (E.toKaehler.baseChange T) := by
-  simp only [LinearMap.baseChange_eq_ltensor]
+  simp only [LinearMap.baseChange_eq_lTensor]
   exact lTensor_exact T Algebra.Extension.exact_cotangentComplex_toKaehler
     Algebra.Extension.toKaehler_surjective
 
@@ -149,7 +149,7 @@ theorem relationClassesBaseChange_surjective :
   have heq : relationClassesBaseChange T P = G.baseChange T ∘ₗ ePi.symm := by
     apply LinearMap.ext
     intro x
-    show (∑ j : Fin P.m, x j • ((1 : T) ⊗ₜ[A] d j)) =
+    change (∑ j : Fin P.m, x j • ((1 : T) ⊗ₜ[A] d j)) =
       G.baseChange T ((bPi.baseChange T).equivFun.symm x)
     rw [Module.Basis.equivFun_symm_apply, map_sum]
     simp only [map_smul, LinearMap.baseChange_tmul, Module.Basis.baseChange_apply]
@@ -186,13 +186,13 @@ theorem cotangentSpaceBasis_comp_cotangentComplex_comp_relationClasses :
         algebraMap A T (P.lift (pderiv i (P.f j))) := by
     ext i
     rw [Module.Basis.equivFun_apply]
-    show (Q.toGenerators.cotangentSpaceBasis.baseChange T).repr
+    change (Q.toGenerators.cotangentSpaceBasis.baseChange T).repr
       (1 ⊗ₜ[A] E.cotangentComplex (d j)) i = _
     rw [Module.Basis.baseChange_repr_tmul, relation_coordinates,
       ← algebraMap_smul (A := T) (R := A) (P.lift (pderiv i (P.f j))) (1 : T)]
     simp
   refine (Pi.basisFun T (Fin P.m)).ext fun j => _root_.funext fun i => ?_
-  show bN.equivFun ((E.cotangentComplex.baseChange T)
+  change bN.equivFun ((E.cotangentComplex.baseChange T)
     (relationClassesBaseChange T P ((Pi.basisFun T (Fin P.m)) j))) i = _
   simp only [Pi.basisFun_apply]
   rw [show relationClassesBaseChange T P (Pi.single j 1) = (1 : T) ⊗ₜ[A] d j by
@@ -239,7 +239,7 @@ theorem exists_split_jacobian [Algebra R T] [IsScalarTower R A T] (a : A)
   have hl' : (l ∘ₗ bN.equivFun.symm.toLinearMap) ∘ₗ f = LinearMap.id := by
     apply LinearMap.ext
     intro x
-    show l (bN.equivFun.symm (bN.equivFun (E.cotangentComplex.baseChange T x))) = x
+    change l (bN.equivFun.symm (bN.equivFun (E.cotangentComplex.baseChange T x))) = x
     rw [LinearEquiv.symm_apply_apply]
     exact congrFun (congrArg (fun φ : _ →ₗ[T] _ => (φ : _ → _)) hl) x
   obtain ⟨e, he, -⟩ := (hex.splitInjectiveEquiv hgsurj) ⟨l ∘ₗ bN.equivFun.symm.toLinearMap, hl'⟩

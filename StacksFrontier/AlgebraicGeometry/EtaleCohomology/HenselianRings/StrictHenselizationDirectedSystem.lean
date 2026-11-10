@@ -94,7 +94,7 @@ instance : (nbhdIndexFunctor B S hS s G a₀).Initial := by
 /-- The neighbourhoods as an inverse system of objects of the small étale site of `S`. -/
 def nbhdSystem : (nbhdIndex a₀)ᵒᵖ ⥤ S.Etale :=
   nbhdIndexFunctor B S hS s G a₀ ⋙ etaleNeighborhoodAffineInclusion B S hS s ⋙
-    CategoryOfElements.π _ ⋙ SmallEtale.toEtaleSite B S hS
+    Functor.Elements.π _ ⋙ SmallEtale.toEtaleSite B S hS
 
 /-- The strict henselization as a cone over the system of neighbourhoods; its apex is
 `strictHenselization B S hS s` itself. -/

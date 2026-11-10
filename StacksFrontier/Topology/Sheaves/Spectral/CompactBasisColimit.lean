@@ -176,7 +176,7 @@ theorem exists_epi_coproduct_sheafifiedYoneda
   have hcomp :
       Sigma.ι (fun i : I ↦ (Sheaf.sheafifiedYoneda S.topology).obj (U i)) j ≫ f =
         (Sheaf.sectionEquiv S.topology).symm (F.obj.map (g i).op s) := by
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
   have hι : Sheaf.sectionEquiv S.topology
       (Sigma.ι (fun i : I ↦ (Sheaf.sheafifiedYoneda S.topology).obj (U i)) j) =
       (Sigma.ι (fun i : I ↦ (Sheaf.sheafifiedYoneda S.topology).obj (U i)) j).hom.app
@@ -329,9 +329,9 @@ private lemma isLocallySurjective_sigmaDesc_localImagePreimage
   let t : (G' i).obj.obj (op V) := ⟨X.obj.map k.op x,
     localImagePreimage_mem_of_eq f (g i) _ z hz⟩
   refine ⟨(Sigma.ι G' i).hom.app (op V) t, ?_⟩
-  show ((Sigma.ι G' i ≫ Sigma.desc (fun i => localImagePreimageι f (g i))).hom.app
+  change ((Sigma.ι G' i ≫ Sigma.desc (fun i => localImagePreimageι f (g i))).hom.app
     (op V) t) = X.obj.map k.op x
-  rw [Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
   rfl
 
 private noncomputable def coproductColimitEval {J : GrothendieckTopology C}
@@ -468,14 +468,14 @@ private theorem exists_factor_through_finite_subcoproduct {J : GrothendieckTopol
     let j : T := ⟨i, hi⟩
     let y : X.obj.obj (op Z) := (b j.1).hom.app (op Z) z
     have hy : y = X.obj.map (q ≫ k).op x := by
-      show (b j).hom.app (op Z) z = X.obj.map (q ≫ k).op x
+      change (b j).hom.app (op Z) z = X.obj.map (q ≫ k).op x
       calc
         (b j).hom.app (op Z) z =
             d.hom.app (op Z) ((Sigma.ι (fun i : T => B i.1) j).hom.app (op Z) z) := by
-          show (b j).hom.app (op Z) z =
+          change (b j).hom.app (op Z) z =
             ((Sigma.ι (fun i : T => B i.1) j ≫ d).hom.app (op Z)) z
           exact (congrArg (fun h : B j ⟶ X => h.hom.app (op Z) z)
-            (Sigma.ι_desc (fun i : T => b i.1) j)).symm
+            (Sigma.ι_comp_desc (fun i : T => b i.1) j)).symm
         _ = d.hom.app (op Z) ((∐ fun i : T => B i.1).obj.map q.op s) :=
           congrArg (d.hom.app (op Z)) hz
         _ = X.obj.map q.op (d.hom.app (op V) s) := by
@@ -493,8 +493,8 @@ private theorem exists_factor_through_finite_subcoproduct {J : GrothendieckTopol
       refine J.superset_covering (fun Z' r hr => ?_) hrel
       obtain ⟨t, ht⟩ := hr
       refine ⟨(Sigma.ι (fun j' : T => G j'.1) j).hom.app (op Z') t, ?_⟩
-      show ((Sigma.ι (fun j' : T => G j'.1) j ≫ e).hom.app (op Z') t) = _
-      rwa [Sigma.ι_desc]
+      change ((Sigma.ι (fun j' : T => G j'.1) j ≫ e).hom.app (op Z') t) = _
+      rwa [Sigma.ι_comp_desc]
     have heq : f.hom.app (op Z) y =
         (∐ G).obj.map q.op ((∐ G).obj.map k.op (f.hom.app (op W) x)) := by
       rw [hy, NatTrans.naturality_apply f.hom (q ≫ k).op x, op_comp, Functor.map_comp_apply]
@@ -503,7 +503,7 @@ private theorem exists_factor_through_finite_subcoproduct {J : GrothendieckTopol
   -- The finite subcoproduct is a subobject of the full coproduct. Its image is a sheaf,
   -- so local membership of `f` gives the required lift.
   have heMono : Mono e := by
-    show Mono (Sigma.map' (fun i : T => i.1) (fun i => 𝟙 (G i.1)))
+    change Mono (Sigma.map' (fun i : T => i.1) (fun i => 𝟙 (G i.1)))
     exact MonoCoprod.mono_map'_of_injective G (fun i : T => i.1) Subtype.val_injective
   have heHomMono : Mono e.hom := (Sheaf.Hom.mono_iff_presheaf_mono J _ e).mp heMono
   have hRangeSheaf : Presieve.IsSheaf J (Subfunctor.range e.hom).toFunctor :=
@@ -527,7 +527,7 @@ private theorem exists_factor_through_finite_subcoproduct {J : GrothendieckTopol
   let g : X ⟶ ∐ fun i : T => G i.1 := ObjectProperty.homMk g0
   refine ⟨g, ?_⟩
   apply Sheaf.hom_ext
-  show g0 ≫ e.hom = f.hom
+  change g0 ≫ e.hom = f.hom
   dsimp [g0, lift]
   calc
     Subfunctor.lift f.hom hfRange ≫ inv (Subfunctor.toRange e.hom) ≫ e.hom =
@@ -763,9 +763,9 @@ private lemma supported_of_finite_factors
   refine ⟨t, Sigma.desc (fun j : r => af j.1 ≫ sumMap U (htf j)),
     Sigma.desc (fun j : r => ag j.1 ≫ sumMap U (htg j)),
     Sigma.hom_ext _ _ fun j => ?_, Sigma.hom_ext _ _ fun j => ?_⟩
-  · rw [Sigma.ι_desc_assoc, Category.assoc, sumMap_sumι, haf]
+  · rw [Sigma.ι_comp_desc_assoc, Category.assoc, sumMap_sumι, haf]
     simp [sumι]
-  · rw [Sigma.ι_desc_assoc, Category.assoc, sumMap_sumι, hag]
+  · rw [Sigma.ι_comp_desc_assoc, Category.assoc, sumMap_sumι, hag]
     simp [sumι]
 
 private def finiteSumIso (U : I → D) (t : Finset I) :
@@ -873,9 +873,9 @@ private lemma opensSite_isQuasiCompactObject_of_isCompact (U : Opens X)
   refine ⟨𝒱,
     ⟨fun i => i.1, fun _ => 𝟙 _, ?_⟩, ?_, ?_⟩
   · intro i
-    show 𝟙 _ ≫ 𝒰.f i.1 = 𝒰.f i.1
+    change 𝟙 _ ≫ 𝒰.f i.1 = 𝒰.f i.1
     simp
-  · show ∀ x ∈ U, ∃ (V : Opens X) (f : V ⟶ U), 𝒱.sieve₀ f ∧ x ∈ V
+  · change ∀ x ∈ U, ∃ (V : Opens X) (f : V ⟶ U), 𝒱.sieve₀ f ∧ x ∈ V
     intro x hx
     obtain ⟨i, hiF, hxi⟩ := Set.mem_iUnion₂.mp (hF hx)
     exact ⟨𝒰.X i, 𝒰.f i, 𝒱.sieve₀_f ⟨i, hiF⟩, hxi⟩

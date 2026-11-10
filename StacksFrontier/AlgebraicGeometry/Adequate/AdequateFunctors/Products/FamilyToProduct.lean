@@ -53,8 +53,7 @@ noncomputable def factorAlgPiIso (n : ℕ) (A : Fin n → Type u)
       (fun j => ModuleCat.of (A j) (B j)) i).toAddEquiv
   have he : (f : factorAlg n A (piAlgFamily n A B) i → B i) = e := by
     funext x
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero f).trans (map_zero e).symm
+    induction x using TensorProduct.inductionOn with
     | tmul b a =>
       change t (b ⊗ₜ[R] a) =
         piModuleFamilyFactorEquiv.{0, v, u} n A (fun j => ModuleCat.of (A j) (B j)) i
@@ -89,10 +88,9 @@ private lemma factorAlgPiIso_natural (n : ℕ) (A : Fin n → Type u)
   apply CommAlgCat.hom_ext
   apply AlgHom.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b a =>
-    show (factorAlgPiIso n A C i).hom ((fun j => (f j).hom (b j)) ⊗ₜ[∀ j, A j] a) =
+    change (factorAlgPiIso n A C i).hom ((fun j => (f j).hom (b j)) ⊗ₜ[∀ j, A j] a) =
       (f i).hom ((factorAlgPiIso n A B i).hom (b ⊗ₜ[∀ j, A j] a))
     calc
       _ = (f i).hom (b i) * algebraMap (A i) (C i) a :=
@@ -183,8 +181,7 @@ lemma factorAlgMap_id (n : ℕ) (A : Fin n → Type u)
   apply CommAlgCat.hom_ext
   apply AlgHom.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp [factorAlgMap]
+  induction x using TensorProduct.inductionOn with
   | tmul b a => simp [factorAlgMap]
   | add x y hx hy => simp [factorAlgMap]
 
@@ -418,7 +415,7 @@ lemma familyToProductPiIso_natural_algebra (n : ℕ) (A : Fin n → Type u)
     (familyToProductPiIso n A G C).hom
       (((familyToProductFunctor n A).obj G).map (piAlgFamilyMap n A B C f).op.op x) i =
         (G i).map (f i).op.op ((familyToProductPiIso n A G B).hom x i) := by
-  show (G i).map (factorAlgPiIso n A C i).hom.op.op
+  change (G i).map (factorAlgPiIso n A C i).hom.op.op
     ((G i).map (factorAlgMap n A _ _ (piAlgFamilyMap n A B C f) i).op.op (x i)) =
       (G i).map (f i).op.op ((G i).map (factorAlgPiIso n A B i).hom.op.op (x i))
   rw [← (G i).map_comp_apply, ← (G i).map_comp_apply]
@@ -469,7 +466,7 @@ private lemma productExtensionEquiv_tmul (n : ℕ) (A : Fin n → Type u)
       (b ⊗ₜ[∀ i, A i] (1 : A i)) ⊗ₜ[A i] m i := by
   let : Module (∀ j, A j) (M i) := Module.compHom _ (Pi.evalRingHom A i)
   let : IsScalarTower (∀ j, A j) (A i) (M i) := IsScalarTower.of_compHom _ _ _
-  show (Algebra.IsPushout.cancelBaseChange (∀ i, A i) B (A i)
+  change (Algebra.IsPushout.cancelBaseChange (∀ i, A i) B (A i)
     (factorAlg n A B i) (M i)).symm (b ⊗ₜ[∀ i, A i] m i) = _
   rw [Algebra.IsPushout.cancelBaseChange_symm_tmul]
   rfl
@@ -487,8 +484,7 @@ private noncomputable def productExtensionIso (n : ℕ) (A : Fin n → Type u)
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | tmul b m =>
     funext i
     change productExtensionEquiv.{w, v, u} n A M Y.unop.unop

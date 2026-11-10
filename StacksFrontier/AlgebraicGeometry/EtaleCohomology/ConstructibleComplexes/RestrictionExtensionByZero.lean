@@ -141,6 +141,7 @@ variable (X : B.Scheme) (U : SmallEtale B X.obj X.property)
     HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V)
       (ModuleCat.{max (u + 1) r} Λ)]
 
+omit [IsNoetherianRing Λ] in
 /-- Let `Λ` be a Noetherian ring, let `X` be a scheme and let `U` be an object of the small étale
 site of `X`. If a complex `K` of étale sheaves of `Λ`-modules on `X` lies in `D_c(X_étale, Λ)`,
 then its restriction `K|_U` lies in `D_c(U_étale, Λ)`. -/

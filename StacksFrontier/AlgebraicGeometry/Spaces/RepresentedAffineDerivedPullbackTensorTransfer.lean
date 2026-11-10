@@ -207,6 +207,10 @@ theorem representedAffineTensorTransfer_eq (P N :
       ((representedAffineDerivedExtension B S hS g₀').functor.obj
         (DerivedCategory.Q.obj P))).naturality φ₀).symm
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj U)]
+  [IsAffine ((BigFppfOver.toScheme B S hS).obj V)]
+  [IsAffine ((BigFppfOver.toScheme B S hS).obj U')]
+  [IsAffine ((BigFppfOver.toScheme B S hS).obj V')] in
 include w₀ in
 /-- The ring side of the tensor step: Stacks 0DKI (1) at the ring level, followed by the unit
 `c`. -/
@@ -269,6 +273,8 @@ theorem isIso_representedAffineTensorTransfer_ring (P N :
             f₀' g₀)) (DerivedCategory.Q.obj P) (DerivedCategory.Q.obj N) φ₀ hφ)
   · exact Stacks.Generic.isIso_smul_id_of_isUnit' hcu _
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj V)]
+  [IsAffine ((BigFppfOver.toScheme B S hS).obj V')] in
 include w₀ in
 /-- Stacks 0DKH for `Φ P ⊗ᴸ Φ N` is invertible exactly when it is for `Φ(P ⊗ᴸ N)`, along
 `Φ P ⊗ᴸ Φ N ≅ Φ(P ⊗ᴸ N)` and the compatibility of Stacks 07A4 with `β` up to `c`. -/

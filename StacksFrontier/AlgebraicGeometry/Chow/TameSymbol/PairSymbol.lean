@@ -273,13 +273,13 @@ variable {x y : nonZeroDivisors A}
 theorem isTameSymbolValue_tameSymbolValue
     (h : ∃ v, IsTameSymbolValue (x : A) (y : A) v) :
     IsTameSymbolValue (x : A) (y : A) (tameSymbolValue x y) := by
-  rw [tameSymbolValue, dif_pos h]
+  rw [tameSymbolValue, dite_eq_left h]
   exact h.choose_spec
 
 /-- A pair the formula Stacks 0EAQ has no value on gets `1`. -/
 theorem tameSymbolValue_eq_one_of_not_exists
     (h : ¬ ∃ v, IsTameSymbolValue (x : A) (y : A) v) : tameSymbolValue x y = 1 := by
-  rw [tameSymbolValue, dif_neg h]
+  rw [tameSymbolValue, dite_eq_right h]
 
 /-- **The tame symbol of two units is `1`.** Either the pair has no preparation, and the value is
 `1` by fiat, or it has one, and then the formula is `1` there by

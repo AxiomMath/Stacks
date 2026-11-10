@@ -100,7 +100,7 @@ include hgj
 `j` are disjoint. -/
 theorem isEmpty_smallEtaleBaseChange_smallEtaleCompose_of_disjoint (W : U.Etale) :
     IsEmpty ((smallEtaleBaseChange g).obj ((smallEtaleCompose j).obj W)).left := by
-  show IsEmpty (Limits.pullback (C := Scheme.{u}) (W.hom ≫ j) g)
+  change IsEmpty (Limits.pullback (C := Scheme.{u}) (W.hom ≫ j) g)
   refine Scheme.isEmpty_pullback _ _ (Set.disjoint_left.2 ?_)
   rintro x ⟨w, rfl⟩ hx
   exact Set.disjoint_right.1 hgj ⟨W.hom.base w, by simp⟩ hx
@@ -149,7 +149,7 @@ theorem isIso_etaleAbelianInverseImage_map_counit_of_factors
         (isIso_etaleRestriction_map_counit.{u, v} j F)
   refine (NatIso.isIso_map_iff (etaleAbelianInverseImageCompIso.{u, v} k j)
     ((extensionByZeroAdj.{u, v} j).counit.app F)).mpr ?_
-  show IsIso ((etaleAbelianInverseImage.{u, v} k).map
+  change IsIso ((etaleAbelianInverseImage.{u, v} k).map
     ((etaleAbelianInverseImage.{u, v} j).map ((extensionByZeroAdj.{u, v} j).counit.app F)))
   exact Functor.map_isIso _ _
 
@@ -176,7 +176,7 @@ theorem iUnion_range_residueGeometricPoint_comp_eq_univ {X : Scheme.{u}} {ι : T
   have hx : x ∈ ⋃ a, Set.range (g a).base := by simp [hg]
   obtain ⟨a, t, rfl⟩ := Set.mem_iUnion.1 hx
   refine Set.mem_iUnion.2 ⟨⟨a, t⟩, default, ?_⟩
-  show (g a).base ((residueGeometricPoint (T a) t).base default) = (g a).base t
+  change (g a).base ((residueGeometricPoint (T a) t).base default) = (g a).base t
   rw [residueGeometricPoint_apply]
 
 /-- A family of morphisms `g a : T a ⟶ X` whose images cover `X` jointly reflects isomorphisms
@@ -202,7 +202,7 @@ theorem isIso_of_isIso_etaleAbelianInverseImage_family {X : Scheme.{u}} {ι : Ty
     have _ := hγ a
     refine (NatIso.isIso_map_iff (etaleAbelianInverseImageSheafFiberIso.{u, v} (g a)
       (residueGeometricPoint (T a) t)) γ).mp ?_
-    show IsIso (((pointSmallEtale
+    change IsIso (((pointSmallEtale
       (residueGeometricPoint (T a) t)).ulift.{max (u + 1) v}).sheafFiber.map
         ((etaleAbelianInverseImage.{u, v} (g a)).map γ))
     exact Functor.map_isIso _ _
@@ -351,7 +351,7 @@ def coverFromBiprod : coverBiprod.{u, v} U V ⟶ 𝟭 _ :=
 theorem coverToBiprod_comp_coverFromBiprod
     (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}) :
     (coverToBiprod.{u, v} U V).app F ≫ (coverFromBiprod.{u, v} U V).app F = 0 := by
-  show biprod.lift
+  change biprod.lift
       ((coverComparison.{u, v} (U ⊓ V).ι U.ι (X.homOfLE inf_le_left) (X.homOfLE_ι _)).app F)
       (-((coverComparison.{u, v} (U ⊓ V).ι V.ι (X.homOfLE inf_le_right)
         (X.homOfLE_ι _)).app F)) ≫
@@ -400,7 +400,7 @@ theorem shortExact_coverShortComplex
     (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}) :
     (ShortComplex.mk ((coverToBiprod.{u, v} U V).app F) ((coverFromBiprod.{u, v} U V).app F)
       (coverToBiprod_comp_coverFromBiprod.{u, v} U V F)).ShortExact := by
-  show (ShortComplex.biprodMayerVietoris
+  change (ShortComplex.biprodMayerVietoris
       ((coverComparison.{u, v} (U ⊓ V).ι U.ι (X.homOfLE inf_le_left) (X.homOfLE_ι _)).app F)
       ((coverComparison.{u, v} (U ⊓ V).ι V.ι (X.homOfLE inf_le_right) (X.homOfLE_ι _)).app F)
       ((extensionByZeroAdj.{u, v} U.ι).counit.app F)

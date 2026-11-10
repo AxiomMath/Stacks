@@ -128,7 +128,7 @@ theorem representingMap_schemePointMap (a : yoneda.obj U ⟶ G) :
       {H : (schemeSlice B S hS U).val.obj ⥤ 𝒵.val.obj //
         H ⋙ 𝒵.val.p = (schemeSlice B S hS U).val.p}) = Quotient.out (e.symm a) :=
     Subtype.ext rfl
-  show e (Quotient.mk _ _) = a
+  change e (Quotient.mk _ _) = a
   rw [hout, Quotient.out_eq]
   exact e.apply_symm_apply a
 

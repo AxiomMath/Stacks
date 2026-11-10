@@ -117,7 +117,7 @@ to `1`. -/
 theorem symmetricAlgebraPieceZeroIso_hom_one (W : Cᵒᵖ) :
     Hom.app (symmetricAlgebraPieceZeroIso F).hom W ((symPowIntOne F).eval W) =
       (1 : (O ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj W) := by
-  show SymmetricAlgebra.algebraMapInv
+  change SymmetricAlgebra.algebraMapInv
       (1 : SymmetricAlgebra ((O ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj W) (F.obj W)) = 1
   exact map_one _
 

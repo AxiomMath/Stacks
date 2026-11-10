@@ -65,7 +65,7 @@ private theorem relativeBaseMap_natural {I : Type v} [Category I] {X B : Scheme.
     {D : I ⥤ Arrow Scheme.{u}} (f : X ⟶ B) (c : Cone D)
     (e : c.pt ≅ Arrow.mk f) {i j : I} (a : i ⟶ j) :
     relativeBaseMap f c e i ≫ (D.map a).right = relativeBaseMap f c e j := by
-  show (e.inv ≫ c.π.app i).right ≫ (D.map a).right =
+  change (e.inv ≫ c.π.app i).right ≫ (D.map a).right =
     (e.inv ≫ c.π.app j).right
   rw [← Arrow.comp_right, Category.assoc, c.w a]
 
@@ -147,7 +147,7 @@ private theorem relativePullbackTransition_isAffineHom {I : Type v} [Category I]
   have h₂eq : m₂map = iso.hom ≫ m₂base := by
     apply pullback.hom_ext <;>
       simp [m₂map, m₂base, iso, iso₁, iso₂, iso₃, pullback.map, pullback.congrHom,
-        pullback.lift_fst, pullback.lift_fst_assoc, pullback.lift_snd, Category.assoc]
+        Category.assoc]
   have hfactor : m₁ ≫ m₂map = relativePullbackTransition q hq a := by
     apply pullback.hom_ext
     · simp only [pullback.mapDesc, pullback.map, Category.comp_id, Category.assoc,
@@ -522,7 +522,7 @@ theorem exists_isLimit_finitePresentation
   let p : (Functor.const Iᵒᵖ).obj X ⟶ E := s.π
   have happrox (i : Iᵒᵖ) : FinitePresentation (t.app i) ∧
       CompactSpace (E.obj i) ∧ QuasiSeparatedSpace (E.obj i) := by
-    show FinitePresentation
+    change FinitePresentation
         (pullback.snd (D.obj i).hom (relativeBaseMap fU c e i) ≫ U.ι) ∧
       CompactSpace (pullback (D.obj i).hom (relativeBaseMap fU c e i) : Scheme.{u}) ∧
       QuasiSeparatedSpace (pullback (D.obj i).hom (relativeBaseMap fU c e i) : Scheme.{u})

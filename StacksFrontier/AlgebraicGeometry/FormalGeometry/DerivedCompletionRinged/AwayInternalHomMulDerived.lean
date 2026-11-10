@@ -32,7 +32,8 @@ Let `(𝒞, 𝒪)` be a ringed site, let `f`, `g` be global sections of `𝒪` a
 realisation of the internal Hom complex. That realisation is a different one from the
 [Stacks, Tag 0A8X] complex `AlgebraicGeometry.RingedSite.sheafHomComplex`, and the tree relates
 the two for single sheaves of modules only — see the implementation notes of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/CurryingForComplexesOfModules.lean` and of `StacksFrontier/Topology/Sheaves/Cohomology/InternalHom/DerivedCurryingOnARingedSpace.lean`. The
+`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/CurryingForComplexesOfModules.lean` and
+of `StacksFrontier/Topology/Sheaves/Cohomology/InternalHom/DerivedCurryingOnARingedSpace.lean`. The
 difference matters here: reading the left-hand side as the *iterated* derived internal Hom needs
 the inner complex `SheafHom•_𝒪(𝒪_g, 𝓘•)` to be K-injective, which is
 `AlgebraicGeometry.RingedSite.isKInjective_sheafHomComplex_awayComplex` — [Stacks, Tag 0A96] for

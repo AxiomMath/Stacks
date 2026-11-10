@@ -50,7 +50,7 @@ theorem exists_flat_localHom_stalk_identity (k : Type u) [Field k]
     Limits.pullback.lift (G.X.left.fromSpecResidueField g) (𝟙 _) (by simp [b])
   let y : Y := t (IsLocalRing.closedPoint K)
   have hy : (Limits.pullback.fst f b) y = g := by
-    show (t ≫ Limits.pullback.fst f b) (IsLocalRing.closedPoint K) = g
+    change (t ≫ Limits.pullback.fst f b) (IsLocalRing.closedPoint K) = g
     rw [Limits.pullback.lift_fst]
     exact Scheme.fromSpecResidueField_apply g _
   let : GrpObj (Over.mk f) := G.grp

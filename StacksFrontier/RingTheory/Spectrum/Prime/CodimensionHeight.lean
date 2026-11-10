@@ -114,7 +114,7 @@ theorem codimension_eq_height_vanishingIdeal (Y : IrreducibleCloseds (PrimeSpect
     isIrreducible_iff_vanishingIdeal_isPrime.mp Y.isIrreducible
   have hY : Y = irreducibleClosedsOfPrime ⟨_, hp⟩ := by
     refine IrreducibleCloseds.ext ?_
-    show (Y : Set (PrimeSpectrum R)) = zeroLocus (vanishingIdeal (Y : Set (PrimeSpectrum R)))
+    change (Y : Set (PrimeSpectrum R)) = zeroLocus (vanishingIdeal (Y : Set (PrimeSpectrum R)))
     rw [zeroLocus_vanishingIdeal_eq_closure, Y.isClosed.closure_eq]
   exact (congrArg codimension hY).trans (codimension_irreducibleClosedsOfPrime _)
 
@@ -225,7 +225,7 @@ theorem vanishingIdeal_preimage_mem_minimalPrimes (hf : Topology.IsOpenEmbedding
     exact map_irreducibleClosedsOfPrime_subset hf.continuous hC hIC hIq
   have hlet : Y.comapOpenEmbedding hf hne ≤
       irreducibleClosedsOfPrime (⟨q, hqp⟩ : PrimeSpectrum R) := by
-    show f ⁻¹' (Y : Set X) ⊆ zeroLocus (q : Set R)
+    change f ⁻¹' (Y : Set X) ⊆ zeroLocus (q : Set R)
     rw [← zeroLocus_vanishingIdeal_preimage hf Y]
     exact zeroLocus_anti_mono_ideal hqle
   have hYW : Y ≤ IrreducibleCloseds.map f hf.continuous

@@ -239,7 +239,7 @@ theorem chartBaseChangeOpenChartHom_comp :
           (SpacesEtale.toSpaces B S hS X).map
             ((comparisonFunctor B S hS X).map (openChartInclusion B S hS X.1 V O)) :=
       (spacesBaseChange B S hS f).projection.naturality _
-    show ((SpacesEtale.toSpaces B S hS Y).map ((comparisonFunctor B S hS Y).map
+    change ((SpacesEtale.toSpaces B S hS Y).map ((comparisonFunctor B S hS Y).map
           (openChartInclusion B S hS Y.1 W
             (chartBaseChangeSchemeMap B S hS f V g ⁻¹ᵁ O))) ≫
           (SpacesEtale.toSpaces B S hS Y).map g) ≫

@@ -108,8 +108,8 @@ along an arbitrary morphism of algebraic spaces, so it applies to the structure 
 an object directly.  The third — the identification of the preimage subspace with the
 categorical base change that `AlgebraicGeometry.Space.liftSubfunctor` is defined through — is
 `AlgebraicGeometry.Space.thickeningPreimageIso` of
-`StacksFrontier/AlgebraicGeometry/Spaces/DeformationLiftActionSheaf.lean`, and the sheaf statement of
-[Stacks Project, Tag 061C] is carried out there and in
+`StacksFrontier/AlgebraicGeometry/Spaces/DeformationLiftActionSheaf.lean`, and the sheaf statement
+of [Stacks Project, Tag 061C] is carried out there and in
 `StacksFrontier/AlgebraicGeometry/Spaces/DeformationLiftActionNaturality.lean`, unconditionally:
 `AlgebraicGeometry.Space.conormalLiftSheafAddAction_bijective` and
 `AlgebraicGeometry.Space.conormalLiftAction_map`.

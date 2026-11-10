@@ -121,7 +121,7 @@ lemma toScheme_map_comp_structMap {W W' : AlgebraicGeometry.SmallAffineEtale B S
 /-- The structure morphism of the final object `S / S` is the identity of `S`. -/
 lemma structMap_final [IsAffine S] :
     structMap B S hS (AlgebraicGeometry.SmallAffineEtale.final B S hS) = 𝟙 S := by
-  show B.inclusion.map (𝟙 (B.obj S hS)) = 𝟙 S
+  change B.inclusion.map (𝟙 (B.obj S hS)) = 𝟙 S
   exact B.inclusion.map_id _
 
 /-- A morphism of the small affine etale site whose underlying morphism of schemes is an

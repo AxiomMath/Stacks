@@ -92,7 +92,7 @@ theorem exists_chartBaseChange {X Y X' Y' : Scheme.{u}} {f : Y ⟶ X} {f' : Y' �
       (f ⁻¹ᵁ U).isOpen
   replace hVU : V ≤ f ⁻¹ᵁ U := hVU
   have hx' : f' y' ∈ sq.base ⁻¹ᵁ U := by
-    show sq.base (f' y') ∈ U
+    change sq.base (f' y') ∈ U
     rw [← Scheme.Hom.comp_apply, ← sq.w, Scheme.Hom.comp_apply]
     exact hVU hyV
   obtain ⟨-, ⟨U', hU', rfl⟩, hyU', hU'U⟩ :=
@@ -122,11 +122,11 @@ theorem exists_chartBaseChange {X Y X' Y' : Scheme.{u}} {f : Y ⟶ X} {f' : Y' �
   have hV'W : V' ≤ ι ⁻¹ᵁ W := fun z hz ↦ hDW hz
   have hV'U' : V' ≤ f' ⁻¹ᵁ U' := fun z hz ↦ by
     have := (hV'W hz).2
-    show f' z ∈ U'
+    change f' z ∈ U'
     rw [← hιfst]; exact this
   have hV'V : V' ≤ sq.cover ⁻¹ᵁ V := fun z hz ↦ by
     have := (hV'W hz).1
-    show sq.cover z ∈ V
+    change sq.cover z ∈ V
     rw [← hιsnd]; exact this
   refine ⟨⟨U, hU⟩, ⟨V, hV⟩, ⟨U', hU'⟩, ⟨V', hV'⟩, hVU, hU'U, hV'U', hV'V, hyV', ?_⟩
   let : Algebra Γ(X, U) Γ(Y, V) := (f.appLE U V hVU).hom.toAlgebra
@@ -144,7 +144,7 @@ theorem exists_chartBaseChange {X Y X' Y' : Scheme.{u}} {f : Y ⟶ X} {f' : Y' �
     IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   have : IsScalarTower Γ(X, U) Γ(X', U') Γ(pullback sq.base f, W) :=
     IsScalarTower.of_algebraMap_eq fun a ↦ by
-      show ((f.appLE U V hVU) ≫ (pullback.snd sq.base f).appLE V W inf_le_left) a =
+      change ((f.appLE U V hVU) ≫ (pullback.snd sq.base f).appLE V W inf_le_left) a =
         ((sq.base.appLE U U' hU'U) ≫ (pullback.fst sq.base f).appLE U' W inf_le_right) a
       rw [Scheme.Hom.appLE_comp_appLE, Scheme.Hom.appLE_comp_appLE, appLE_eq H.w]
   have : Algebra.IsPushout Γ(X, U) Γ(X', U') Γ(Y, V) Γ(pullback sq.base f, W) :=
@@ -154,12 +154,12 @@ theorem exists_chartBaseChange {X Y X' Y' : Scheme.{u}} {f : Y ⟶ X} {f' : Y' �
   let : Algebra Γ(pullback sq.base f, W) Γ(Y', V') := (ι.appLE W V' hV'W).hom.toAlgebra
   have : IsScalarTower Γ(X', U') Γ(pullback sq.base f, W) Γ(Y', V') :=
     IsScalarTower.of_algebraMap_eq fun a ↦ by
-      show (f'.appLE U' V' hV'U') a =
+      change (f'.appLE U' V' hV'U') a =
         ((pullback.fst sq.base f).appLE U' W inf_le_right ≫ ι.appLE W V' hV'W) a
       rw [Scheme.Hom.appLE_comp_appLE, appLE_eq (pullback.lift_fst _ _ _)]
   have : IsScalarTower Γ(Y, V) Γ(pullback sq.base f, W) Γ(Y', V') :=
     IsScalarTower.of_algebraMap_eq fun a ↦ by
-      show (sq.cover.appLE V V' hV'V) a =
+      change (sq.cover.appLE V V' hV'V) a =
         ((pullback.snd sq.base f).appLE V W inf_le_left ≫ ι.appLE W V' hV'W) a
       rw [Scheme.Hom.appLE_comp_appLE, appLE_eq (pullback.lift_snd _ _ _)]
   have hlocD := hW.isLocalization_of_eq_basicOpen g (homOfLE hDW) rfl
@@ -168,7 +168,7 @@ theorem exists_chartBaseChange {X Y X' Y' : Scheme.{u}} {f : Y ⟶ X} {f' : Y' �
   let e : Γ(pullback sq.base f, D) ≃+* Γ(Y', V') := (asIso (ι.app D)).commRingCatIsoToRingEquiv
   have he : ∀ c, e (algebraMap Γ(pullback sq.base f, W) Γ(pullback sq.base f, D) c) =
       algebraMap Γ(pullback sq.base f, W) Γ(Y', V') c := fun c ↦ by
-    show ((pullback sq.base f).presheaf.map (homOfLE hDW).op ≫ ι.app D) c =
+    change ((pullback sq.base f).presheaf.map (homOfLE hDW).op ≫ ι.app D) c =
       (ι.appLE W V' hV'W) c
     rw [ι.app_eq_appLE, Scheme.Hom.map_appLE]
   have : IsLocalization.Away g Γ(Y', V') :=

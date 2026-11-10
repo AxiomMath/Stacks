@@ -255,7 +255,7 @@ theorem hasCompactifiableCovers_of_isFlat {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
     Space.isOpenSubspace_subfunctorRange B S hS (hWj j) (hι j)
   have hOW : ∀ j, Subfunctor.range (ι j) ≤ W.preimage g := by
     rintro j T _ ⟨y, rfl⟩
-    show g.app T ((ι j).app T y) ∈ W.obj T
+    change g.app T ((ι j).app T y) ∈ W.obj T
     rw [← NatTrans.comp_app_apply, hιq j, NatTrans.comp_app_apply]
     exact ((q j).app T y).2
   have hx : ∀ j, ∃ x : algebraicSpaceStack.{u, w} B S hS (Subfunctor.range (ι j)).toFunctor
@@ -326,7 +326,7 @@ theorem hasCompactifiableCovers_of_isFlat {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
     refine Set.mem_iUnion.2 ⟨t.equivFin ⟨i, hi⟩, ?_⟩
     have hidx : idx (t.equivFin ⟨i, hi⟩) = i := by
       simp only [idx, Equiv.symm_apply_apply]
-    show y ∈ Set.range (Space.pointsMap B S hS (Nf (idx (t.equivFin ⟨i, hi⟩)).1
+    change y ∈ Set.range (Space.pointsMap B S hS (Nf (idx (t.equivFin ⟨i, hi⟩)).1
       (idx (t.equivFin ⟨i, hi⟩)).2).toFunctor (Nf (idx (t.equivFin ⟨i, hi⟩)).1
         (idx (t.equivFin ⟨i, hi⟩)).2).ι)
     rw [hidx]

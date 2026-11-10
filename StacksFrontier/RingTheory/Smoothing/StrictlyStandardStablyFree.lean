@@ -103,7 +103,7 @@ private theorem exists_smul_cotangentMk_eq_sum_of_isStrictlyStandardFor {a : A}
     exact hy
   have hua : algebraMap Q.toExtension.Ring A (eG u) = a := by
     rw [generatorsToExtensionRingEquiv_algebraMap]
-    show MvPolynomial.aeval Q.toGenerators.val u = a
+    change MvPolynomial.aeval Q.toGenerators.val u = a
     rw [aeval_toAlgebraPresentation, hu]
   have hfE (j : Fin P.m) : eG (P.f j) ∈ Q.toGenerators.toExtension.ker := by
     rw [← generatorsToExtensionRingEquiv_map_ker]
@@ -135,7 +135,7 @@ private theorem surjective_linearCombination_tmul_relation {T : Type*} [CommRing
       Algebra.Extension.Cotangent.mk (P := P.toGenerators.toExtension)
         ⟨P.relation j, P.relation_mem_ker j⟩) = G.baseChange T ∘ₗ ePi.symm := by
     refine LinearMap.ext fun x => ?_
-    show (∑ i : Fin m, x i • ((1 : T) ⊗ₜ[A] Algebra.Extension.Cotangent.mk
+    change (∑ i : Fin m, x i • ((1 : T) ⊗ₜ[A] Algebra.Extension.Cotangent.mk
         (P := P.toGenerators.toExtension) ⟨P.relation i, P.relation_mem_ker i⟩)) =
       G.baseChange T ((bPi.baseChange T).equivFun.symm x)
     rw [Module.Basis.equivFun_symm_apply, map_sum]
@@ -206,14 +206,14 @@ private theorem equivFun_comp_cotangentComplex_comp_linearCombination (P : Prese
         algebraMap A T (P.lift (MvPolynomial.pderiv i (P.f (Fin.castLE hcm j)))) := by
     ext i
     rw [Module.Basis.equivFun_apply]
-    show (Q.toGenerators.cotangentSpaceBasis.baseChange T).repr
+    change (Q.toGenerators.cotangentSpaceBasis.baseChange T).repr
       (1 ⊗ₜ[A] E.cotangentComplex (Algebra.Extension.Cotangent.mk (P := E)
         ⟨P.f (Fin.castLE hcm j), Q.relation_mem_ker _⟩)) i = _
     rw [Module.Basis.baseChange_repr_tmul, relation_coordinates, ← algebraMap_smul (A := T)
       (R := A) (P.lift (MvPolynomial.pderiv i (P.f (Fin.castLE hcm j)))) (1 : T)]
     simp
   refine (Pi.basisFun T (Fin c)).ext fun j => funext fun i => ?_
-  show (Q.toGenerators.cotangentSpaceBasis.baseChange T).equivFun
+  change (Q.toGenerators.cotangentSpaceBasis.baseChange T).equivFun
     (E.cotangentComplex.baseChange T (Fintype.linearCombination T (fun j : Fin c =>
       (1 : T) ⊗ₜ[A] Algebra.Extension.Cotangent.mk (P := E)
         ⟨P.f (Fin.castLE hcm j), Q.relation_mem_ker _⟩) (Pi.basisFun T (Fin c) j))) i = _

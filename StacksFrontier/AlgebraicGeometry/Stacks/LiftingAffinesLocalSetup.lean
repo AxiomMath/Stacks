@@ -80,7 +80,7 @@ theorem exists_affine_shrink {T U' : BigFppfOver B S hS} (ε : T ⟶ U')
   let l : T₀o.toScheme ⟶ Vo.toScheme := IsOpenImmersion.lift Vo.ι (T₀o.ι ≫ ε') hrange
   have hl : l ≫ Vo.ι = T₀o.ι ≫ ε' := IsOpenImmersion.lift_fac _ _ _
   have hw : l ≫ B.inclusion.map (openObj U' Vo).hom = B.inclusion.map (openObj T T₀o).hom := by
-    show l ≫ Vo.ι ≫ B.inclusion.map U'.hom = T₀o.ι ≫ B.inclusion.map T.hom
+    change l ≫ Vo.ι ≫ B.inclusion.map U'.hom = T₀o.ι ≫ B.inclusion.map T.hom
     rw [← Category.assoc, hl, Category.assoc, ← Over.w ε]
     rfl
   refine ⟨openObj U' Vo, openObjι U' Vo, openObj T T₀o, openObjι T T₀o,

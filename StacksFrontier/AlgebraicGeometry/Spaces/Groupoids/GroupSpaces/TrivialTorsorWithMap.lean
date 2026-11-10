@@ -80,7 +80,7 @@ theorem isPseudoTorsor_regular {C : Type u₁} [Category.{v₁} C] [CartesianMon
   refine ModObj.isIso_leftSMul_iff.mpr fun T a c => ?_
   let _ : Group (T ⟶ H) := CategoryTheory.Hom.group
   refine ⟨c * a⁻¹, ?_, ?_⟩
-  · show c * a⁻¹ * a = c
+  · change c * a⁻¹ * a = c
     group
   · intro z hz
     change z * a = c at hz
@@ -94,6 +94,7 @@ variable {𝒞 : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 𝒞.Contains S}
   (G : GroupAlgebraicSpace 𝒞 S hS B hB)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_TrivialTorsorWithMap :
@@ -104,8 +105,10 @@ local instance (priority := high) hasPullback_presheaf_TrivialTorsorWithMap
     HasLimit (cospan f g) :=
   HasLimitsOfShape.has_limit _
 
-set_option maxHeartbeats 1000000 in
 set_option synthInstance.maxHeartbeats 1000000 in
+-- instance search for the lax monoidal structure of `Over.pullback b` is deep
+set_option maxHeartbeats 1000000 in
+-- elaborating this deep instance search exceeds the default heartbeat limit
 /-- The lax monoidal structure of base change along a morphism into `B` (instance search times
 out without this shortcut). -/
 local instance (priority := high) overPullbackLaxMonoidal_TrivialTorsorWithMap
@@ -219,7 +222,7 @@ theorem trivialTorsorMap_over (U : BigFppfOver 𝒞 S hS) (x : yoneda.obj U ⟶ 
     trivialTorsorMap hB G X U x ≫ X.hom =
       pullback.snd G.obj.X.hom (x ≫ X.hom) ≫ x ≫ X.hom := by
   rw [trivialTorsorMap, Category.assoc, (γ[G.obj.X, X]).w]
-  show pullback.lift (pullback.fst G.obj.X.hom (x ≫ X.hom))
+  change pullback.lift (pullback.fst G.obj.X.hom (x ≫ X.hom))
       (pullback.snd G.obj.X.hom (x ≫ X.hom) ≫ x) _ ≫
       pullback.fst G.obj.X.hom X.hom ≫ G.obj.X.hom = _
   rw [← Category.assoc, pullback.lift_fst, pullback.condition]

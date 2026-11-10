@@ -52,7 +52,7 @@ theorem nsmulShortComplex_shortExact (hP : ∀ (j : ℤ) (x : P.X j), n • x = 
 theorem homologyMap_nsmul_id_apply (i : ℤ) (x : P.homology i) :
     HomologicalComplex.homologyMap (n • 𝟙 P) i x = n • x := by
   have h : HomologicalComplex.homologyMap (n • 𝟙 P) i = n • 𝟙 (P.homology i) := by
-    show (HomologicalComplex.homologyFunctor _ _ i).map (n • 𝟙 P) = _
+    change (HomologicalComplex.homologyFunctor _ _ i).map (n • 𝟙 P) = _
     rw [Functor.map_nsmul, CategoryTheory.Functor.map_id]
     rfl
   rw [h]

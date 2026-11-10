@@ -99,7 +99,7 @@ theorem ker_le_span_image_of_flat [Module.Flat R R'] (φ : M →ₗ[R] N) (r : M
   let : Module R M' := Module.compHom M' (algebraMap R R')
   have : IsScalarTower R R' M' :=
     ⟨fun c b m => by
-      show (c • b) • m = algebraMap R R' c • b • m
+      change (c • b) • m = algebraMap R R' c • b • m
       rw [Algebra.smul_def, mul_smul]⟩
   let rL : M →ₗ[R] M' := { toFun := r, map_add' := hr_add, map_smul' := hr_smul }
   intro x hx
@@ -114,8 +114,7 @@ theorem ker_le_span_image_of_flat [Module.Flat R R'] (φ : M →ₗ[R] N) (r : M
   -- the square `φ' ∘ θ = β ∘ (R' ⊗ φ)`
   have hsq : ∀ s : R' ⊗[R] M, φ' (θ s) = β (φ.baseChange R' s) := by
     intro s
-    induction s using TensorProduct.induction_on with
-    | zero => simp
+    induction s using TensorProduct.inductionOn with
     | tmul b m =>
       rw [hθ, map_smul, hcomp, LinearMap.baseChange_tmul, ← map_smul, TensorProduct.smul_tmul',
         smul_eq_mul, mul_one]
@@ -125,11 +124,10 @@ theorem ker_le_span_image_of_flat [Module.Flat R R'] (φ : M →ₗ[R] N) (r : M
   have hex : Function.Exact ((LinearMap.ker φ).subtype.lTensor R') (φ.lTensor R') :=
     Module.Flat.lTensor_exact R' (LinearMap.exact_subtype_ker_map φ)
   have h0' : φ.lTensor R' t = 0 := by
-    rwa [← LinearMap.baseChange_eq_ltensor]
+    rwa [← LinearMap.baseChange_eq_lTensor]
   obtain ⟨s, rfl⟩ := (hex t).1 h0'
   clear h0 h0' hx
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | tmul b k =>
     rw [LinearMap.lTensor_tmul, hθ]
     exact Submodule.smul_mem _ b (Submodule.subset_span ⟨k, k.2, rfl⟩)
@@ -168,7 +166,7 @@ theorem eq_zero_of_forall_one_tmul_eq_zero {R : Type*} [CommRing R] {ι : Type*}
     simp only [κ, LinearMap.coe_comp, LinearEquiv.coe_coe]
     exact Subtype.val_injective.comp (LinearEquiv.injective _)
   have hκ1 : κ (Submodule.Quotient.mk 1) = n := by
-    show (LinearMap.toSpanSingleton R N n) 1 = n
+    change (LinearMap.toSpanSingleton R N n) 1 = n
     simp
   have hinj : Function.Injective (κ.lTensor (R' j)) :=
     Module.Flat.lTensor_preserves_injective_linearMap κ hκ
@@ -268,7 +266,7 @@ theorem sectionTransportIso_pullbackSection (tw : (Scheme.Modules.pullback pc).o
       ψ₁.val.app (op ⊤) x := by
     rw [← h5, ← hx, ← hψ]
     rfl
-  show ((Scheme.Modules.pullback i₁).map tw.hom).val.app (op ⊤)
+  change ((Scheme.Modules.pullback i₁).map tw.hom).val.app (op ⊤)
     (((Scheme.Modules.pullbackComp i₁ pc).inv.app O).val.app (op ⊤)
       (((Scheme.Modules.pullbackCongr hz).hom.app O).val.app (op ⊤)
         (((Scheme.Modules.pullbackComp z i).hom.app O).val.app (op ⊤) _))) = _
@@ -448,7 +446,7 @@ theorem exists_injective_twistEquation_baseChange [IsAffine T] [IsAffine T'] [Fl
     { toFun := fun y => Scheme.Modules.Hom.app Θ ⊤ y
       map_add' := fun y y' => map_add _ y y'
       map_smul' := fun b y => by
-        show Scheme.Modules.Hom.app Θ ⊤
+        change Scheme.Modules.Hom.app Θ ⊤
             (((i₁ ≫ (relativeProj A₁).toBase).appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom b • y) =
           (show Γ(Z₁, ⊤) from (i₁.app ((relativeProj A₁).toBase ⁻¹ᵁ ⊤)).hom
             (((relativeProj A₁).toBase.app ⊤).hom b)) • Scheme.Modules.Hom.app Θ ⊤ y
@@ -458,7 +456,7 @@ theorem exists_injective_twistEquation_baseChange [IsAffine T] [IsAffine T'] [Fl
     exact injective_app_top_of_isIso Θ
   refine ⟨ΘL ∘ₗ e.toLinearMap, hΘinj.comp e.injective, fun a x hx => ?_⟩
   have ht := twistEquationTransport_pullbackSection g A Φ hΦ pc hpc i i₁ z hz n a x hx
-  show φ₁L x = ΘL (e ((1 : Γ(T', ⊤)) ⊗ₜ[Γ(T, ⊤)] φL a))
+  change φ₁L x = ΘL (e ((1 : Γ(T', ⊤)) ⊗ₜ[Γ(T, ⊤)] φL a))
   exact (((twistRestrictMapNat_app A₁ _ i₁ n ⊤ x).trans ht.symm).trans
     (congrArg (fun w => ΘL (pullbackSectionsHom z _ ⊤ ⊤ (le_preimage_top z ⊤) w))
       (twistRestrictMapNat_app A _ i n ⊤ a).symm)).trans
@@ -517,10 +515,7 @@ theorem mem_span_of_twistEquationSection_eq_zero [IsAffine T] [IsAffine T'] [Fla
     let S := (Submodule.span Γ(T', ⊤) (Set.range r)).map ΦL
     have hS : ∀ t, e₀ t ∈ S := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero =>
-        rw [map_zero]
-        exact zero_mem S
+      induction t using TensorProduct.inductionOn with
       | tmul b a =>
         rw [he₀]
         convert S.smul_mem b (Submodule.mem_map_of_mem (Submodule.subset_span ⟨a, rfl⟩)) using 1

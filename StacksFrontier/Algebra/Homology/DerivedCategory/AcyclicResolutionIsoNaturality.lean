@@ -54,7 +54,7 @@ theorem plusQhObjIsoSingleOfQuasiIso_hom_naturality {A A' : C} (a : A ⟶ A')
     rw [← Functor.map_comp, hg, Functor.map_comp]
   have h₁ := (DerivedCategory.quotientCompQhIso C).hom.naturality g
   simp only [Functor.comp_map] at h₁
-  show DerivedCategory.Qh.map ((HomotopyCategory.quotient C _).map g) ≫
+  change DerivedCategory.Qh.map ((HomotopyCategory.quotient C _).map g) ≫
       ((DerivedCategory.quotientCompQhIso C).hom.app R' ≫
         CategoryTheory.inv (DerivedCategory.Q.map q')) =
     ((DerivedCategory.quotientCompQhIso C).hom.app R ≫

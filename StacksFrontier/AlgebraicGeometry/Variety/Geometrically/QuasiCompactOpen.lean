@@ -69,7 +69,7 @@ private lemma galoisActionIso_fst
     {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of k)) (σ : Gal(K/k)) :
     (galoisActionIso f σ).hom ≫ pullback.fst f (spectrumMap k K) =
       pullback.fst f (spectrumMap k K) := by
-  simp [galoisActionIso, pullback.map, pullback.lift_fst]
+  simp [galoisActionIso, pullback.map]
 
 /-- The Galois automorphism of the base change acts on the second projection through the
 automorphism of the extension. -/
@@ -80,7 +80,7 @@ private lemma galoisActionIso_snd
     (galoisActionIso f σ).hom ≫ pullback.snd f (spectrumMap k K) =
       pullback.snd f (spectrumMap k K) ≫
         Spec.map (CommRingCat.ofHom σ.toRingEquiv.toRingHom) := by
-  simp [galoisActionIso, pullback.map, pullback.lift_snd]
+  simp [galoisActionIso, pullback.map]
 
 /-- A Galois automorphism fixing an intermediate field acts trivially on the base change
 descended to that field. -/
@@ -366,7 +366,7 @@ public lemma fextPullbackTransition_isAffineHom
     IsAffineHom ((fextPullbackDiagram (k := k) (K := K) X f).map g) := by
   let : MorphismProperty.IsStableUnderBaseChangeAlong (@IsAffineHom) f :=
     ⟨fun sq hg => MorphismProperty.IsStableUnderBaseChange.of_isPullback sq hg⟩
-  show IsAffineHom
+  change IsAffineHom
     (((Over.pullback f).map ((fextOverDiagram (k := k) (K := K)).map g)).left)
   have hp : ∀ l, IsAffineHom
       (pullback.snd ((fextOverDiagram (k := k) (K := K)).obj l).hom f) := fun l ↦ by
@@ -377,12 +377,7 @@ public lemma fextPullbackTransition_isAffineHom
       ((fextOverDiagram (k := k) (K := K)).map g)).left ≫
         pullback.snd ((fextOverDiagram (k := k) (K := K)).obj j).hom f =
       pullback.snd ((fextOverDiagram (k := k) (K := K)).obj i).hom f := by
-    simpa [Over.pullback_map_left] using
-      (pullback.lift_snd
-        (pullback.fst ((fextOverDiagram (k := k) (K := K)).obj i).hom f ≫
-          Over.Hom.left ((fextOverDiagram (k := k) (K := K)).map g))
-        (pullback.snd ((fextOverDiagram (k := k) (K := K)).obj i).hom f)
-        (by simp [pullback.condition]))
+    simp [Over.pullback_map_left]
   have := hp j
   have : IsAffineHom (((Over.pullback f).map ((fextOverDiagram (k := k) (K := K)).map g)).left ≫
       pullback.snd ((fextOverDiagram (k := k) (K := K)).obj j).hom f) := heq ▸ hp i
@@ -470,7 +465,7 @@ public theorem exists_finite_subextension_descending_isCompact_open
       simp only [p, Category.assoc, Iso.inv_hom_id, Category.comp_id]
     calc
       V = eK.hom ⁻¹ᵁ UK := by
-        show V = (eK.hom ≫ eK.inv) ⁻¹ᵁ V
+        change V = (eK.hom ≫ eK.inv) ⁻¹ᵁ V
         simp
       _ = (eK.hom ≫ (fextPullbackCone (k := k) (K := K) X f).π.app i) ⁻¹ᵁ W := by
         rw [Scheme.Hom.comp_preimage, hW_eq]

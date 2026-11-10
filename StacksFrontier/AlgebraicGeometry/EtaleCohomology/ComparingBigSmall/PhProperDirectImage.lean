@@ -82,7 +82,7 @@ public def bigPHSmallEtaleDirectImageBaseChange :
     (phSmallEtaleMorphism B f).pushforward ⋙ (phToSmallEtaleMorphism B Y).inverseImage ⟶
       (phToSmallEtaleMorphism B X).inverseImage ⋙ (bigPHMorphism B X Y f).pushforward :=
   ((mateEquiv (phToSmallEtaleMorphism B X).adj (phToSmallEtaleMorphism B Y).adj).symm
-    (TwoSquare.mk _ _ _ _ (bigPHSmallEtale_pushforwardCommIso B f).hom)).natTrans
+    (TwoSquare.mk _ _ _ _ (bigPHSmallEtale_pushforwardCommIso B f).hom))
 
 /-- **Stacks 0DDY.** Let `B` be a big ph site and `f : X ⟶ Y` a proper morphism of it. Then
 `a_Y⁻¹ ∘ f_{small,*} = f_{big,ph,*} ∘ a_X⁻¹` as functors from sheaves of sets on `X_étale` to
@@ -108,14 +108,14 @@ public theorem isIso_bigPHSmallEtaleDirectImageBaseChange [IsProper (B.inclusion
   -- their base change maps
   let γε := (mateEquiv εX.adj εY.adj).symm wε
   let γπ := (mateEquiv πX.adj πY.adj).symm wπ
-  have hpaste : bigPHSmallEtaleDirectImageBaseChange B f = (γπ ≫ᵥ γε).natTrans := by
+  have hpaste : bigPHSmallEtaleDirectImageBaseChange B f = (γπ ≫ᵥ γε) := by
     have h := mateEquiv_hcomp πX.adj πY.adj εX.adj εY.adj γπ γε
     rw [Equiv.apply_symm_apply, Equiv.apply_symm_apply] at h
-    show ((mateEquiv (πX.adj.comp εX.adj) (πY.adj.comp εY.adj)).symm (wε ≫ₕ wπ)).natTrans = _
+    change ((mateEquiv (πX.adj.comp εX.adj) (πY.adj.comp εY.adj)).symm (wε ≫ₕ wπ)) = _
     rw [← h, Equiv.symm_apply_apply]
   -- the base change map of `π` is that of Stacks 0DDJ (1), invertible by Stacks 0A3U
   have hπ (c : Sheaf (SmallEtale.topology E X.1 X.2) (Type (u + 1))) :
-      IsIso (γπ.natTrans.app c) := by
+      IsIso (γπ.app c) := by
     have h0DDJ : IsIso (bigSmallEtaleBaseChange E (Type (u + 1)) f
         (bigEtaleProjectionAdjunction E X) (bigEtaleProjectionAdjunction E Y)) :=
       isIso_bigSmallEtaleBaseChange_of_isIso_smallEtaleSetBaseChange E f
@@ -124,7 +124,7 @@ public theorem isIso_bigPHSmallEtaleDirectImageBaseChange [IsProper (B.inclusion
     -- `wπ` is the square of Stacks 0DDJ (1) whiskered by `f_{big,*} ≅ (Over.pullback f)_*`
     have hw : wπ = ((bigSmallEtaleDirectImageSquare E (Type (u + 1)) f).whiskerRight
         (𝟙 _)).whiskerLeft (bigEtaleMorphismPushforwardIso E X Y f).inv := by
-      refine TwoSquare.ext _ _ fun F => ?_
+      refine NatTrans.ext (funext fun F => ?_)
       rfl
     let β := (mateEquiv (bigEtaleProjectionAdjunction E X)
       (bigEtaleProjectionAdjunction E Y)).symm (bigSmallEtaleDirectImageSquare E (Type (u + 1)) f)
@@ -136,18 +136,18 @@ public theorem isIso_bigPHSmallEtaleDirectImageBaseChange [IsProper (B.inclusion
       rw [Equiv.apply_symm_apply] at h
       exact (congrArg (mateEquiv πX.adj πY.adj).symm hw).trans
         ((Equiv.eq_symm_apply _).mpr h).symm
-    have hβ : IsIso (β.natTrans.app c) :=
+    have hβ : IsIso (β.app c) :=
       NatIso.isIso_app_of_isIso (bigSmallEtaleBaseChange E (Type (u + 1)) f
         (bigEtaleProjectionAdjunction E X) (bigEtaleProjectionAdjunction E Y)) c
     have happ : ((β.whiskerTop (𝟙 _)).whiskerBottom
-        (bigEtaleMorphismPushforwardIso E X Y f).inv).natTrans.app c =
-          β.natTrans.app c ≫ (bigEtaleMorphismPushforwardIso E X Y f).inv.app _ := by
+        (bigEtaleMorphismPushforwardIso E X Y f).inv).app c =
+          β.app c ≫ (bigEtaleMorphismPushforwardIso E X Y f).inv.app _ := by
       simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom]
     rw [hγ, happ]
     exact @IsIso.comp_isIso _ _ _ _ _ _ _ hβ inferInstance
   -- the base change map of `ε` is invertible at `π_X⁻¹F`, a ph sheaf by Stacks 0DDW
   have hε (c : Sheaf (SmallEtale.topology E X.1 X.2) (Type (u + 1))) :
-      IsIso (γε.natTrans.app (πX.inverseImage.obj c)) := by
+      IsIso (γε.app (πX.inverseImage.obj c)) := by
     -- `ε_{Y,*}` is fully faithful, so the counit of `ε_Y⁻¹ ⊣ ε_{Y,*}` is invertible
     have hcounit : IsIso εY.adj.counit := by
       have := (Stacks.Sites.sheafPushforwardIdFullyFaithful
@@ -159,18 +159,18 @@ public theorem isIso_bigPHSmallEtaleDirectImageBaseChange [IsProper (B.inclusion
       infer_instance
     have hunit : IsIso (εX.adj.unit.app (πX.inverseImage.obj c)) :=
       (smallEtaleInverseImage_isSheaf_ph B X.1 X.2 c).2
-    have hc : γε.natTrans.app (πX.inverseImage.obj c) =
+    have hc : γε.app (πX.inverseImage.obj c) =
         εY.inverseImage.map (e.pushforward.map (εX.adj.unit.app (πX.inverseImage.obj c))) ≫
-          εY.inverseImage.map (wε.natTrans.app _) ≫ εY.adj.counit.app _ := by
+          εY.inverseImage.map (wε.app _) ≫ εY.adj.counit.app _ := by
       simp [γε]
-    have hwε : IsIso wε.natTrans :=
+    have hwε : IsIso wε :=
       inferInstanceAs (IsIso (bigPHBigEtale_pushforwardCommIso B f).hom)
     rw [hc]
     infer_instance
   rw [hpaste]
   refine @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun c => ?_
-  have hvc : (γπ ≫ᵥ γε).natTrans.app c =
-      εY.inverseImage.map (γπ.natTrans.app c) ≫ γε.natTrans.app (πX.inverseImage.obj c) := by
+  have hvc : (γπ ≫ᵥ γε).app c =
+      εY.inverseImage.map (γπ.app c) ≫ γε.app (πX.inverseImage.obj c) := by
     simp [TwoSquare.vComp]
   rw [hvc]
   exact @IsIso.comp_isIso _ _ _ _ _ _ _

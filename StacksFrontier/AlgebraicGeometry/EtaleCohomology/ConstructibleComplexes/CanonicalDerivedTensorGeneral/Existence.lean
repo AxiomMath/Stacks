@@ -114,15 +114,15 @@ instance derivedTensorBifunctor_isTriangulated_obj_general
       (ComplexShape.up ℤ))
     (kFlatTensorToDerivedGeneral X) (derivedTensorBifunctorGeneral X)
     (fun Â => by
-      letI := Localization.Lifting₂.fst (kFlatComplexQGeneral X) DerivedCategory.Q
+      let := Localization.Lifting₂.fst (kFlatComplexQGeneral X) DerivedCategory.Q
         (kFlatComplexQuasiIsoGeneral X)
         (HomologicalComplex.quasiIso
           (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf.{c, v, w} X.O))
           (ComplexShape.up ℤ))
         (kFlatTensorToDerivedGeneral X) (derivedTensorBifunctorGeneral X) Â
-      letI := Stacks.SheafOfModules.Tensor.Reduction.bifunctorXi
+      let := Stacks.SheafOfModules.Tensor.Reduction.bifunctorXi
         (Stacks.SheafOfModules.Tensor.sheafTensor X.O) Â.obj
-      haveI := Stacks.SheafOfModules.Tensor.Reduction.bifunctorPhi_isTriangulated
+      have := Stacks.SheafOfModules.Tensor.Reduction.bifunctorPhi_isTriangulated
         (Stacks.SheafOfModules.Tensor.sheafTensor X.O) Â.obj
       -- `bifunctorPhiFactors` with its target at `tensorComplex`: instance search compares the
       -- functors of the composites below at implicit transparency, where `tensorComplex` unfolds
@@ -136,7 +136,7 @@ instance derivedTensorBifunctor_isTriangulated_obj_general
           (Stacks.SheafOfModules.Tensor.sheafTensor X.O) Â.obj
       have : NatTrans.CommShift φ.hom ℤ :=
         Stacks.SheafOfModules.Tensor.Reduction.bifunctorPhiFactors_commShift_reg _ Â.obj
-      letI :
+      let :
           ((derivedTensorBifunctorGeneral X).obj ((kFlatComplexQGeneral X).obj Â)).CommShift ℤ :=
         Functor.commShiftOfLocalization DerivedCategory.Q
           (HomologicalComplex.quasiIso
@@ -144,7 +144,7 @@ instance derivedTensorBifunctor_isTriangulated_obj_general
             (ComplexShape.up ℤ)) ℤ
           ((kFlatTensorToDerivedGeneral X).obj Â)
           ((derivedTensorBifunctorGeneral X).obj ((kFlatComplexQGeneral X).obj Â))
-      letI : Localization.Lifting
+      let : Localization.Lifting
           (HomotopyCategory.quotient
             (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf.{c, v, w} X.O))
             (ComplexShape.up ℤ))
@@ -163,7 +163,7 @@ instance derivedTensorBifunctor_isTriangulated_obj_general
               (ComplexShape.up ℤ))
             ((kFlatTensorToDerivedGeneral X).obj Â)
             ((derivedTensorBifunctorGeneral X).obj ((kFlatComplexQGeneral X).obj Â))⟩
-      letI : Localization.Lifting
+      let : Localization.Lifting
           (HomotopyCategory.quotient
             (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf.{c, v, w} X.O))
             (ComplexShape.up ℤ))
@@ -217,7 +217,7 @@ instance derivedTensorBifunctor_isTriangulated_obj_general
             Functor.whiskerRight φ.inv DerivedCategory.Qh) ≫
             (Functor.associator _ _ _).hom :=
         rfl
-      haveI : NatTrans.CommShift
+      have : NatTrans.CommShift
           (Localization.liftNatIso
             (HomotopyCategory.quotient
               (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf.{c, v, w} X.O))
@@ -314,15 +314,15 @@ instance derivedTensorBifunctor_isTriangulated_flipObj_general
     (kFlatComplexQuasiIsoGeneral X)
     (kFlatTensorToDerivedGeneral X).flip (derivedTensorBifunctorGeneral X).flip
     (fun B => by
-      letI := Localization.Lifting₂.fst DerivedCategory.Q (kFlatComplexQGeneral X)
+      let := Localization.Lifting₂.fst DerivedCategory.Q (kFlatComplexQGeneral X)
         (HomologicalComplex.quasiIso
           (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf.{c, v, w} X.O))
           (ComplexShape.up ℤ))
         (kFlatComplexQuasiIsoGeneral X)
         (kFlatTensorToDerivedGeneral X).flip (derivedTensorBifunctorGeneral X).flip B
-      letI := Stacks.SheafOfModules.Tensor.Reduction.bifunctorXiR
+      let := Stacks.SheafOfModules.Tensor.Reduction.bifunctorXiR
         (Stacks.SheafOfModules.Tensor.sheafTensor X.O) B
-      haveI := Stacks.SheafOfModules.Tensor.Reduction.bifunctorPhiR_isTriangulated
+      have := Stacks.SheafOfModules.Tensor.Reduction.bifunctorPhiR_isTriangulated
         (Stacks.SheafOfModules.Tensor.sheafTensor X.O) B
       -- `bifunctorPhiRFactors` with its target at `tensorComplex`, as in
       -- `derivedTensorBifunctor_isTriangulated_obj_general`.
@@ -335,11 +335,11 @@ instance derivedTensorBifunctor_isTriangulated_flipObj_general
           (Stacks.SheafOfModules.Tensor.sheafTensor X.O) B
       have : NatTrans.CommShift φ.hom ℤ :=
         Stacks.SheafOfModules.Tensor.Reduction.bifunctorPhiRFactors_commShift_reg _ B
-      letI : ((derivedTensorBifunctorGeneral X).flip.obj (DerivedCategory.Q.obj B)).CommShift ℤ :=
+      let : ((derivedTensorBifunctorGeneral X).flip.obj (DerivedCategory.Q.obj B)).CommShift ℤ :=
         Functor.commShiftOfLocalization (kFlatComplexQGeneral X) (kFlatComplexQuasiIsoGeneral X) ℤ
           ((kFlatTensorToDerivedGeneral X).flip.obj B)
           ((derivedTensorBifunctorGeneral X).flip.obj (DerivedCategory.Q.obj B))
-      letI : Localization.Lifting
+      let : Localization.Lifting
           (ObjectProperty.complexSubcategoryQuotient (kFlatObjects.{c, v, w} X.O))
           ((HomologicalComplex.homotopyEquivalences
             (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf.{c, v, w} X.O))
@@ -354,7 +354,7 @@ instance derivedTensorBifunctor_isTriangulated_flipObj_general
           Localization.Lifting.iso (kFlatComplexQGeneral X) (kFlatComplexQuasiIsoGeneral X)
             ((kFlatTensorToDerivedGeneral X).flip.obj B)
             ((derivedTensorBifunctorGeneral X).flip.obj (DerivedCategory.Q.obj B))⟩
-      letI : Localization.Lifting
+      let : Localization.Lifting
           (ObjectProperty.complexSubcategoryQuotient (kFlatObjects.{c, v, w} X.O))
           ((HomologicalComplex.homotopyEquivalences
             (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf.{c, v, w} X.O))
@@ -426,7 +426,7 @@ instance derivedTensorBifunctor_isTriangulated_flipObj_general
                   DerivedCategory.Qh)) ≫
             (Functor.associator _ _ _).hom :=
         rfl
-      haveI : NatTrans.CommShift
+      have : NatTrans.CommShift
           (Localization.liftNatIso
             (ObjectProperty.complexSubcategoryQuotient (kFlatObjects.{c, v, w} X.O))
             ((HomologicalComplex.homotopyEquivalences

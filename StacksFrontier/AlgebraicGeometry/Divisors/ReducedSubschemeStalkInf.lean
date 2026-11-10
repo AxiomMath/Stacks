@@ -119,7 +119,7 @@ theorem Scheme.Hom.ker_eq_iInf_of_opensRange_cover
   intro y hy
   obtain ⟨i, a, ha⟩ := hcover y
   subst ha
-  show Y.presheaf.germ (g ⁻¹ᵁ (U : X.Opens)) _ hy ((g.app U).hom s) =
+  change Y.presheaf.germ (g ⁻¹ᵁ (U : X.Opens)) _ hy ((g.app U).hom s) =
     Y.presheaf.germ (g ⁻¹ᵁ (U : X.Opens)) _ hy 0
   have hinj : Function.Injective ((ε i).stalkMap a) :=
     (ConcreteCategory.bijective_of_isIso ((ε i).stalkMap a)).1

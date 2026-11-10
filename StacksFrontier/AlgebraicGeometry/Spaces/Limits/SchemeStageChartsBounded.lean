@@ -660,7 +660,7 @@ private theorem exists_top_of_covering_limit_of_chartsBounded
   have hEaff {i j : Iᵒᵖ} (f : i ⟶ j) :
       AlgebraicGeometry.Space.IsAffineHom B S hS (E.map f) := by
     apply isAffineHom_of_comp_mono B S hS (E.map f) (Z j.unop).ι
-    show AlgebraicGeometry.Space.IsAffineHom B S hS (g f ≫ (Z j.unop).ι)
+    change AlgebraicGeometry.Space.IsAffineHom B S hS (g f ≫ (Z j.unop).ι)
     rw [hg]
     exact AlgebraicGeometry.Space.isAffineHom_comp B S hS _ _ (hιaff i.unop) (D.transition_affine f)
   have hEqc (i : Iᵒᵖ) : AlgebraicGeometry.Space.IsQuasiCompactSpace B S hS (E.obj i) :=

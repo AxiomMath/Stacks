@@ -110,7 +110,8 @@ variable {C : Type uu} [Category.{vv} C] {D : Type uu'} [Category.{vv'} D]
   (Φ : Sheaf K (Type ww') ⥤ Sheaf J (Type ww)) [PreservesFiniteProducts Φ]
 
 omit [J.HasSheafCompose (forget RingCat.{ww})]
-  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})] in
+  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})] in
 /-- The underlying sheaf of sets of the inverse image of a sheaf of commutative rings is the
 inverse image of its underlying sheaf of sets, on the nose. -/
 lemma underlyingRingSheaf_pullbackCommRingSheaf (O : Sheaf K CommRingCat.{ww'}) :

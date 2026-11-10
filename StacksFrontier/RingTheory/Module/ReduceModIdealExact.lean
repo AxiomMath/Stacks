@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.Algebra.Exact
+public import Mathlib.Algebra.Exact.Basic
 public import Mathlib.RingTheory.AdicCompletion.Functoriality
 
 /-!
@@ -36,7 +36,7 @@ theorem reduceModIdeal_exact {R : Type*} [CommRing R] {K L M : Type*} [AddCommGr
       induction x using Submodule.Quotient.induction_on with
       | _ x =>
         rw [← hx]
-        show Submodule.Quotient.mk (g (f x)) = 0
+        change Submodule.Quotient.mk (g (f x)) = 0
         rw [hfg.apply_apply_eq_zero x, Submodule.Quotient.mk_zero]
 
 end LinearMap

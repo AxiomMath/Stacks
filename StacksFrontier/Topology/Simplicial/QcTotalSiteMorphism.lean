@@ -134,7 +134,7 @@ theorem qcTotalIota_coverPreserving (n : SimplexCategoryᵒᵖ) :
       (Grothendieck.ι (U ⋙ Over.mapFunctor S.category) n) := by
   refine ⟨fun {P T} hT => ?_⟩
   have hcov : qcSliceCoverings S U n ⟨P, T.arrows.preZeroHypercover⟩ := by
-    show Sieve.generate (T.arrows.preZeroHypercover).presieve₀ ∈ _
+    change Sieve.generate (T.arrows.preZeroHypercover).presieve₀ ∈ _
     rwa [Presieve.presieve₀_preZeroHypercover, Sieve.generate_sieve]
   have hgen : Sieve.generate ((T.arrows.preZeroHypercover.map
         (Grothendieck.ι (U ⋙ Over.mapFunctor S.category) n)).presieve₀) ∈
@@ -214,7 +214,7 @@ theorem qcTotalComparisonFunctor_representablyFlat :
     · exact Grothendieck.ext _ _ (Category.id_comp _) (S.over_hom_opensToSlice_ext _ _)
     · apply StructuredArrow.hom_ext
       apply SimplicialOpen.Hom.ext
-      show A.hom.base ≫ a.right.base = A.hom.base ≫ b.right.base
+      change A.hom.base ≫ a.right.base = A.hom.base ≫ b.right.base
       exact congrArg Grothendieck.Hom.base
         ((StructuredArrow.w a).trans (StructuredArrow.w b).symm)
   · exact ⟨StructuredArrow.mk (qcTotalHomMk S U V ⊤ (fun _ => trivial))⟩

@@ -140,7 +140,7 @@ theorem locallySeparated_isLocalAtTarget_fppf :
   have hmem : Presieve.ofArrows W k ∈ (Topology.precoverage.{u, v} .fppf B S hS) Z :=
     ⟨I, W, k, rfl, Z.property, fun i ↦ (W i).property,
       isFppfCovering_fibreProduct B S hS Yi gi q hcover.2.2⟩
-  show immersionProperty B S hS d
+  change immersionProperty B S hS d
   refine MorphismProperty.IsLocalAtTarget.of_forall_pullbackSnd
     (K := Topology.precoverage.{u, v} .fppf B S hS) hmem ?_
   rintro U g _ ⟨i⟩

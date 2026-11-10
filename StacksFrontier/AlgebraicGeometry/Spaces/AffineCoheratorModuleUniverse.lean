@@ -47,7 +47,8 @@ seating of `AlgebraicGeometry.Space.Modules.{u, u}` would want, which is `m := u
 
 *Why this matters for Stacks 073K, part (1).*  The `assoc` binder is not what stands
 between the affine case of part (2) — a statement about modules — and the sheaf statement part
-(1)'s reduction consumes (in `StacksFrontier/AlgebraicGeometry/Spaces/CohomologyFlatBaseChange.lean`).
+(1)'s reduction consumes
+(in `StacksFrontier/AlgebraicGeometry/Spaces/CohomologyFlatBaseChange.lean`).
 The crossing part (1) needs is at module universe `u`, where
 `AlgebraicGeometry.Space.QuasicoherentSheaves.{u, u}` is a full subcategory of the very
 `AlgebraicGeometry.Space.Modules.{u, u}` that

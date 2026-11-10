@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPushforward.PullbackInvertsQuasiIsoOfToposHom
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPushforward.PullbackInvertsQuasiIsoOfToposHom
 public import StacksFrontier.CategoryTheory.Sites.Modules.LocalizationRingedSites.PullbackToposSquare
 public import StacksFrontier.CategoryTheory.Sites.Modules.Localization.RelocalizedMorphismComparison
 public import StacksFrontier.CategoryTheory.Sites.Modules.Localization.ModulePullback
@@ -199,6 +198,10 @@ instance hasLeftDerivedFunctor_localizationMorphism (G : X.ringedTopos.Topos) :
     (X.ringedTopos.localizationMorphism G)
 
 
+omit [X.J.HasSheafCompose (forget RingCat.{u})]
+  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify X.J (Type u)] in
 /-- A morphism of sheaves of `𝒪`-modules whose pullback to the localization at `h_V^#` is
 invertible restricts to an invertible morphism on the slice site over `V`. -/
 theorem isIso_over_of_isIso_localizationMorphism_pullbackModules_map (V : X.C)
@@ -212,6 +215,10 @@ theorem isIso_over_of_isIso_localizationMorphism_pullbackModules_map (V : X.C)
     inferInstance
   exact (NatIso.isIso_map_iff (overFunctorIsoPullbackLocalization X V) ψ).2 h
 
+omit [X.J.HasSheafCompose (forget RingCat.{u})]
+  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify X.J (Type u)] in
 /-- The pullbacks of sheaves of `𝒪`-modules to the localizations at the sheaves `h_{V_k}^#` of a
 family of objects covering the final object are jointly conservative. -/
 theorem isIso_of_isIso_localizationMorphism_pullbackModules_map {ι : Type*} (V : ι → X.C)
@@ -224,6 +231,8 @@ theorem isIso_of_isIso_localizationMorphism_pullbackModules_map {ι : Type*} (V 
     have := h k
     isIso_over_of_isIso_localizationMorphism_pullbackModules_map X (V k) ψ
 
+omit [X.J.HasSheafCompose (forget RingCat.{u})]
+  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The localizations at the sheaves `h_V^#` of a family of objects covering the final object
 are jointly conservative on `D(𝒪)`.** A morphism of `D(𝒪)` whose derived pullbacks to all the
 localizations `Sh(𝒞)/h_{V_k}^#` are invertible is invertible: on cohomology sheaves the
@@ -309,7 +318,7 @@ instance isEquivalence_representableLocalizationInverse_pushforward (V : X.C) :
 /-- The structure map of the inverse identification is invertible. -/
 instance isIso_representableLocalizationInverse_fSharp (V : X.C) :
     IsIso (representableLocalizationInverse X V).fSharp := by
-  show IsIso (inv (representableLocalizationRingedMorphism X V).fSharpInverseImage)
+  change IsIso (inv (representableLocalizationRingedMorphism X V).fSharpInverseImage)
   infer_instance
 
 /-- The inverse-image structure map of the inverse identification is invertible. -/
@@ -353,6 +362,8 @@ noncomputable def overFunctorCompRepresentableLocalizationInverseIso (V : X.C) :
     Functor.isoWhiskerLeft _ (pullbackCompRepresentableLocalizationInverseIso X V) ≪≫
     Functor.rightUnitor _
 
+omit [X.J.HasSheafCompose (forget RingCat.{u})]
+  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **A strictly perfect model over the slice site gives a strictly perfect model on the
 localization.** If the restriction of a complex `E₀` of `𝒪`-modules to the slice site over `V`
 receives a quasi-isomorphism from a strictly perfect complex `P`, then the derived pullback of

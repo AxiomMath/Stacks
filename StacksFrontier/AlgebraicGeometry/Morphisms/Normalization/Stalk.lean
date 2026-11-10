@@ -320,9 +320,9 @@ private lemma genericPointResidueFieldEquivMinimalPrime_evaluation
       ((asIso (j.residueFieldMap xSpec)).commRingCatIsoToRingEquiv)
   let eCast : q.1.ResidueField ≃+* xSpec.asIdeal.ResidueField :=
     residueFieldEquivOfEq q.1 xSpec.asIdeal hq
-  show ePoint η' (X.evaluation U z hηU a) = _
+  change ePoint η' (X.evaluation U z hηU a) = _
   unfold ePoint
-  show eCast.symm (eSpecRes (eJRes (X.evaluation U z hηU a))) = _
+  change eCast.symm (eSpecRes (eJRes (X.evaluation U z hηU a))) = _
   have hxj : j xSpec ∈ U := by rwa [hj]
   have hxpre : xSpec ∈ j ⁻¹ᵁ U := hxj
   have hcongr : (X.residueFieldCongr hj).symm.hom
@@ -330,7 +330,7 @@ private lemma genericPointResidueFieldEquivMinimalPrime_evaluation
     residueFieldCongr_evaluation_eq U hj hxj hηU a
   have hnat := Scheme.evaluation_naturality_apply j xSpec hxj a
   unfold eJRes
-  show eCast.symm (eSpecRes (j.residueFieldMap xSpec
+  change eCast.symm (eSpecRes (j.residueFieldMap xSpec
     ((X.residueFieldCongr hj).symm.hom (X.evaluation U z hηU a)))) = _
   have hspec : eSpecRes
       ((Spec (.of A)).evaluation (j ⁻¹ᵁ U) xSpec hxpre (j.app U a)) =
@@ -341,7 +341,7 @@ private lemma genericPointResidueFieldEquivMinimalPrime_evaluation
         (j ⁻¹ᵁ U) xSpec hxpre (j.app U a) =
         (Spec (.of (Γ(X, U)))).evaluation ⊤ xSpec (by simp)
           ((Scheme.ΓSpecIso (Γ(X, U))).inv a) := by
-      show (((Spec (.of (Γ(X, U)))).presheaf.germ
+      change (((Spec (.of (Γ(X, U)))).presheaf.germ
           (j ⁻¹ᵁ U) xSpec hxpre) ≫ (Spec (.of (Γ(X, U)))).residue xSpec)
           (hU.fromSpec.app U a) =
         (((Spec (.of (Γ(X, U)))).presheaf.germ ⊤ xSpec (by simp)) ≫
@@ -359,7 +359,7 @@ private lemma genericPointResidueFieldEquivMinimalPrime_evaluation
     rw [heval]
     have hmap := congrArg (fun φ => φ a)
       (Scheme.Spec.algebraMap_residueFieldIso_inv (.of A) xSpec)
-    show (((Spec (.of A)).presheaf.germ ⊤ xSpec (by simp)) ≫
+    change (((Spec (.of A)).presheaf.germ ⊤ xSpec (by simp)) ≫
         (Spec (.of A)).residue xSpec) ((Scheme.ΓSpecIso (.of A)).inv a) =
       (Scheme.Spec.residueFieldIso (.of A) xSpec).inv
         (algebraMap A xSpec.asIdeal.ResidueField a)
@@ -437,7 +437,7 @@ public theorem finite_minimalPrimes_stalk (X : Scheme.{u})
       (X.presheaf.stalk x)
   let g : X.presheaf.stalk x →+* Localization.AtPrime p.asIdeal :=
     eLoc.toRingEquiv.symm.toRingHom
-  show ((⊥ : Ideal (X.presheaf.stalk x)).minimalPrimes).Finite
+  change ((⊥ : Ideal (X.presheaf.stalk x)).minimalPrimes).Finite
   have hEq : (⊥ : Ideal (Localization.AtPrime p.asIdeal)).comap g = ⊥ := by
     ext a
     simp [g]
@@ -468,14 +468,14 @@ public lemma pushforwardStalk_isLocalization {Y X : Scheme.{u}} (f : Y ⟶ X)
     exact isLocalization_basicOpen_of_qcqs (f.isCompact_preimage hU.isCompact)
       (f.isQuasiSeparated_preimage hU.isQuasiSeparated) (f.app U r)
   have hpr (r : Γ(X, U)) (hr : x ∈ X.basicOpen r) : r ∈ p.asIdeal.primeCompl := by
-    show p ∈ PrimeSpectrum.basicOpen r
+    change p ∈ PrimeSpectrum.basicOpen r
     rw [← hU.fromSpec_preimage_basicOpen r]
-    show hU.fromSpec p ∈ X.basicOpen r
+    change hU.fromSpec p ∈ X.basicOpen r
     rwa [hU.fromSpec_primeIdealOf]
   refine ⟨?_, ?_, ?_⟩
   · rintro ⟨_, r, hr, rfl⟩
-    show IsUnit ((F.germ U x hx) (f.app U r))
-    show IsUnit ((f.c.app (op U) ≫ F.germ U x hx) r)
+    change IsUnit ((F.germ U x hx) (f.app U r))
+    change IsUnit ((f.c.app (op U) ≫ F.germ U x hx) r)
     rw [← TopCat.Presheaf.stalkFunctor_map_germ]
     let := X.presheaf.algebra_section_stalk ⟨x, hx⟩
     have := hU.isLocalization_stalk ⟨x, hx⟩
@@ -493,7 +493,7 @@ public lemma pushforwardStalk_isLocalization {Y X : Scheme.{u}} (f : Y ⟶ X)
     obtain ⟨⟨a, ⟨_, n, rfl⟩⟩, ha⟩ := IsLocalization.surj (.powers (f.app U r)) s'
     refine ⟨⟨a, ⟨f.app U r ^ n, ⟨r ^ n, p.asIdeal.primeCompl.pow_mem (hpr r hr) n,
       map_pow _ _ _⟩⟩⟩, ?_⟩
-    show z * F.germ U x hx (f.app U r ^ n) = F.germ U x hx a
+    change z * F.germ U x hx (f.app U r ^ n) = F.germ U x hx a
     rw [← hs', ← F.germ_res_apply (homOfLE (X.basicOpen_le r)) x hr,
       ← F.germ_res_apply (homOfLE (X.basicOpen_le r)) x hr, ← map_mul]
     exact congrArg (F.germ (X.basicOpen r) x hr) ha
@@ -507,7 +507,7 @@ public lemma pushforwardStalk_isLocalization {Y X : Scheme.{u}} (f : Y ⟶ X)
     have hab' : algebraMap S Γ(Y, f ⁻¹ᵁ X.basicOpen r) a =
         algebraMap S Γ(Y, f ⁻¹ᵁ X.basicOpen r) b := by
       have := congrArg (F.map (homOfLE hrV).op) hij
-      show F.map (homOfLE (X.basicOpen_le r)).op a =
+      change F.map (homOfLE (X.basicOpen_le r)).op a =
         F.map (homOfLE (X.basicOpen_le r)).op b
       simpa only [← CommRingCat.comp_apply, ← Functor.map_comp,
         show i.op ≫ (homOfLE hrV).op = (homOfLE (X.basicOpen_le r)).op from

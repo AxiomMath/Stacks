@@ -92,7 +92,7 @@ homomorphism is the homomorphism. -/
 theorem idPullbackData_functor_eq :
     (idPullbackData.{t, a, m} (A := A)).functor = 𝟭 (DifferentialGradedModule.{t, a, m} A) :=
   CategoryTheory.Functor.ext (fun _ => rfl) (fun _ _ ψ => by
-    show (idPullbackData (A := A)).map ψ = 𝟙 _ ≫ ψ ≫ 𝟙 _
+    change (idPullbackData (A := A)).map ψ = 𝟙 _ ≫ ψ ≫ 𝟙 _
     rw [Category.id_comp, Category.comp_id]
     exact idPullbackData_map ψ)
 

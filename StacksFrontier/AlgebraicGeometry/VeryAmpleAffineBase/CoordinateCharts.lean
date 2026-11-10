@@ -24,9 +24,9 @@ family of sections generates every stalk.
 
 ## Both inclusions
 
-The opposite inclusion is needed as well: the coordinate cut also has to read an open of the chart `X_{s_i}` as an open
-of `α⁻¹(D₊(y_i))`, because the inverse image along the pinned morphism `p : X ⟶ ℙⁿ_S` of a
-standard open of `D₊(T_i)` is computed inside `X_{s_i}`
+The opposite inclusion is needed as well: the coordinate cut also has to read an open of the chart
+`X_{s_i}` as an open of `α⁻¹(D₊(y_i))`, because the inverse image along the pinned morphism
+`p : X ⟶ ℙⁿ_S` of a standard open of `D₊(T_i)` is computed inside `X_{s_i}`
 (`Stacks.AmpleImmersionReduction.preimage_standardChart`) while the fraction dictionary produces
 its sections over `α⁻¹(D₊(y_i))`. So the equality is proved here, as
 `Stacks.CoordinateDictionary.preimage_basicOpen_eq_nvCover`; the extra ingredient is
@@ -112,7 +112,7 @@ theorem mem_nonvanishingLocus_coordSection_iff
       α.base x ∈ AlgebraicGeometry.Proj.basicOpen 𝒜 (y : A) := by
   have hsec : coordSection 𝒜 α y =
       Stacks.NonvanishingPullback.pullbackGlobalSection α (O1 𝒜) (degreeSection 𝒜 1 y) := by
-    show ((Scheme.Modules.pullback α).obj (O1 𝒜)).presheaf.map
+    change ((Scheme.Modules.pullback α).obj (O1 𝒜)).presheaf.map
         (eqToHom (show α ⁻¹ᵁ (⊤ : (AlgebraicGeometry.Proj 𝒜).Opens) = ⊤ from rfl)).op
         (Stacks.NonvanishingPullback.pullbackGlobalSection α (O1 𝒜)
           (degreeSection 𝒜 1 y)) = _

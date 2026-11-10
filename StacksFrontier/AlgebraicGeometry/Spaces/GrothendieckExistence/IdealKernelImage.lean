@@ -44,7 +44,7 @@ theorem imageSubmodule_idealMultipleι_eq_idealKernel :
   · refine (idealKernel φ J).isSheaf x ?_
     refine (SmallEtale.topology B S hS X.1).superset_covering (fun W g hg => ?_) hx
     obtain ⟨m, hm⟩ := hg
-    show _ ∈ (idealKernel φ J).obj (op W)
+    change _ ∈ (idealKernel φ J).obj (op W)
     refine (SheafOfModules.Submodule.mem_ker _ (op W) _).2 ?_
     have h0 : ((idealMultipleι φ (structureSheafModule B S hS X) J) ≫
         idealQuotientπ φ (structureSheafModule B S hS X) J).val.app (op W) m = 0 := by

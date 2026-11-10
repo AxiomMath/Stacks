@@ -307,7 +307,7 @@ private theorem propertySkModule_and_depth_modulesStalk_upperShriek
     Dualizing.min_two_ringKrullDim_le_moduleDepth_localizedModule_homology_relativeDualizingComplex
       p 𝔭 hCM' r htr Q hq hntH
   rw [moduleDepth_eq_of_linearEquiv J.toLinearEquiv]
-  show _ ≤ moduleDepth (X.left.presheaf.stalk x) T
+  change _ ≤ moduleDepth (X.left.presheaf.stalk x) T
   rwa [hdep, hdim]
 
 /-- **Stacks Project, Tag 0E9V (Lemma 48.21.5), the `(S₂)` clause.** Under the hypotheses of the

@@ -195,11 +195,11 @@ theorem isIso_restrictionQuotientSheafMap_of_saturation
     exact (Space.target_toQuotientSheaf_eq_source jG).symm
   have hfac : lift ≫ p' ≫ Φ = sat ≫ p := by
     refine Sheaf.hom_ext ?_
-    show (fiberProductFst g G.target).hom ≫
+    change (fiberProductFst g G.target).hom ≫
         Space.toQuotientSheaf jR ≫ (restrictionQuotientSheafMap G g).hom =
       (restrictionSaturationMap G g).hom ≫ Space.toQuotientSheaf jG
     rw [toQuotientSheaf_comp_restrictionQuotientSheafMap G g]
-    show (pullback.fst g.hom G.target.hom) ≫ g.hom ≫ Space.toQuotientSheaf jG =
+    change (pullback.fst g.hom G.target.hom) ≫ g.hom ≫ Space.toQuotientSheaf jG =
       (pullback.snd g.hom G.target.hom ≫ G.source.hom) ≫ Space.toQuotientSheaf jG
     rw [Category.assoc, hrel, ← Category.assoc, ← Category.assoc, pullback.condition]
   have : Epi sat := (Sheaf.isLocallySurjective_iff_epi sat).1 hsat

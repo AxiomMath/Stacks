@@ -163,6 +163,7 @@ theorem preservesEpimorphisms_restriction :
   exact T.epi_of_epi_map hUnder
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis of finite-limit and homology preservation for `SheafOfModules.overFunctor`
 /-- Restriction to the slice site over an object is exact, over a site whose objects need not lie
 in the universe of its morphisms. Left exactness is the direct image part of Stacks 04BD (2),
 which carries no universe coupling; right exactness is

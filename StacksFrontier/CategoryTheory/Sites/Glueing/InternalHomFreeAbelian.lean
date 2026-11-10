@@ -481,7 +481,7 @@ theorem prodSheafHomAdjunction_homEquiv (G X F : Sheaf J (Type u))
     (ψ : (prod.functor.obj G).obj X ⟶ F) :
     (SheafHomAdj.prodSheafHomAdjunction G).homEquiv X F ψ =
       SheafHomAdj.prodSheafHomEquiv' G F X ψ := by
-  show (Adjunction.mkOfHomEquiv _).homEquiv X F ψ = _
+  change (Adjunction.mkOfHomEquiv _).homEquiv X F ψ = _
   rw [Adjunction.mkOfHomEquiv_homEquiv]
 
 /-- **The contravariant action of the internal hom on sections**: `SheafHom(g, F)` precomposes a

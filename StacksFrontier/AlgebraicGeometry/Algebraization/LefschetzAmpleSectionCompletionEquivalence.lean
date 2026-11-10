@@ -62,12 +62,13 @@ Two inputs are hypotheses rather than invocations, each with a reason.
 * `hff`, full faithfulness. The source gets it from Lemma 52.15.2 and the sections comparison of
   Stacks 0EL2; in this library the Stacks 0EK2 carrier
   `Stacks.Algebraization.quasiAffine_neighbourhoodSectionsComplete_implies_amplePower`
-  (`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionFullyFaithful/Neighbourhoods.lean`, line 288) proves only (1) ⇒ (2), and its
+  (`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionFullyFaithful/Neighbourhoods.lean`,
+  line 288) proves only (1) ⇒ (2), and its
   module documentation records that (2) ⇒ (3) ⇒ (4), which is what would turn the sections
   comparison into full faithfulness, needs inputs that are absent.
 * `halgebraize`, the conclusion of Stacks 0EL5 together with the depth identity that feeds it.
   The Stacks 0EL5 carrier `Stacks.Algebraization.satisfiesDepthInequalities_one_two_iff`
-  (`StacksFrontier/AlgebraicGeometry/Algebraization/DepthInequalitiesCohomologicalDimensionOne.lean`)
+(`StacksFrontier/AlgebraicGeometry/Algebraization/DepthInequalitiesCohomologicalDimensionOne.lean`)
   proves only the opening step of that proposition, in the affine situation of Stacks 0EHC, and
   its attribute says so; the depth identity rests on Local Cohomology, Lemma 51.11.3, which is
   not available either.

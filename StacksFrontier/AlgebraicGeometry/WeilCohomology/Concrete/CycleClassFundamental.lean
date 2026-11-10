@@ -122,7 +122,7 @@ theorem equidimensionalPushforward_codimensionClassOfZeroCycle
       (partBase (point k).obj.hom 0) (dimPart (point k).obj.hom 0).ι rfl
       (by ring : (d : ℤ) - d = 0) _ _ (h1.trans (heq_of_eq hP'))).trans ?_
     rw [map_zsmul, chowGroupRestrict_fundamentalChowClass_of_isOpenImmersion]
-    show _ ≍ n • chowGroupDegreeEquiv _ _ _ _
+    change _ ≍ n • chowGroupDegreeEquiv _ _ _ _
     rw [← map_zsmul]
     exact (chowGroupDegreeEquiv_heq _ _ _ _).symm
   · have := isEmpty_dimPart_of_ne (point k).obj.hom
@@ -202,8 +202,7 @@ theorem nontrivial_of_isNonemptyEquidimensional [CharZero F] (hA : W.PoincareDua
     have : Subsingleton (W.grade X (2 * (d : ℤ))) :=
       ⟨fun a b ↦ Subtype.ext (Subsingleton.elim (a : W.H X) b)⟩
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => rfl
+    induction y using TensorProduct.inductionOn with
     | tmul a b => rw [Subsingleton.elim a 0, TensorProduct.zero_tmul]
     | add y y' hy hy' => rw [hy, hy', add_zero]
   rw [h0 (W.cycleClass X d _), map_zero] at hpush

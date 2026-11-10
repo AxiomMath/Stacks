@@ -209,7 +209,7 @@ theorem exists_isSurjective_pullbackMap_of_isCutoffBoundedSystem {I : Type u} [P
     MorphismProperty.IsStableUnderBaseChange.respectsIso
   let cL := T.mapCone L.cone
   have hqL' : cL.π.app j₀ ≫ T.map (qs j₀) = T.map qL := by
-    show T.map (L.cone.π.app j₀) ≫ _ = _
+    change T.map (L.cone.π.app j₀) ≫ _ = _
     rw [← Functor.map_comp, hcone_qs j₀]
   have hpL : IsPullback L.toLimit (yoneda.map qL) (limit.π D (op i₀)) (b ≫ y) :=
     hqL ▸ L.isPullback
@@ -226,7 +226,7 @@ theorem exists_isSurjective_pullbackMap_of_isCutoffBoundedSystem {I : Type u} [P
       (D.map (homOfLE (leOfHom j.hom.unop)).op) (b ≫ y) := by
     rw [hmap, hqs]; exact C.isPullback j
   have hqj : C.schemeDiagram.map g ≫ T.map (qs j₀) = T.map (qs j) := by
-    show T.map (C.siteDiagram.map g) ≫ _ = _
+    change T.map (C.siteDiagram.map g) ≫ _ = _
     rw [← Functor.map_comp, hqs_comp g]
   refine (htransfer _ (hDalg _) _ _ (C.stageMap j) (qs j) hp).mpr ?_
   exact (prop_iteratedPullback_snd_iff T _ r (qs j₀) (qs j) (C.schemeDiagram.map g)
@@ -261,7 +261,7 @@ theorem exists_universallyInjective_pullbackMap_of_isCutoffBoundedSystem {I : Ty
       pullback.map t x t (pullback.fst f₀ f₀ ≫ x) (𝟙 _) (pullback.diagonal f₀) (𝟙 _)
           (by simp) (by simp) =
         (pullback.lift (pullback.fst t x) (pullback.snd t x ≫ pullback.diagonal f₀) (by
-            simp only [pullback.diagonal_fst_assoc, Category.id_comp]
+            simp only [pullback.diagonal_fst_assoc]
             exact pullback.condition (f := t) (g := x) :
               pullback.fst t x ≫ t =
                 pullback.snd t x ≫ pullback.diagonal f₀ ≫ pullback.fst f₀ f₀ ≫ x) :

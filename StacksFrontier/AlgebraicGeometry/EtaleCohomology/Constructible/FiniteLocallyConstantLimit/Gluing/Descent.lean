@@ -95,28 +95,6 @@ public abbrev transported :
   ((SmallEtale.topology B S.1 S.property).pseudofunctorOver A).transport (fibre B A S)
     (fibreEquiv B A S)
 
-variable [∀ (S T : B.Scheme) (f : T ⟶ S),
-    ((smallEtaleBaseChange B f).sheafPushforwardContinuous A
-      (SmallEtale.topology B S.obj S.property)
-      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
-
-/-- The identity constraint of the restricted pseudofunctor of inverse images, on components. -/
-public theorem restrict_mapId_hom_app (a : LocallyDiscrete (SmallEtale B S.1 S.property)ᵒᵖ)
-    (M : ↑(((pseudofunctor B A).restrict (forget B S)).obj a)) :
-    (((pseudofunctor B A).restrict (forget B S)).mapId a).hom.toNatTrans.app M =
-      ((conjugateEquiv Adjunction.id
-        ((smallEtaleBaseChange B (𝟙 ((forget B S).obj a.as.unop))).sheafAdjunctionContinuous
-          A _ _)).symm (pushforwardId B A ((forget B S).obj a.as.unop)).inv).app M := by
-  have hη : (((forget B S).op.toPseudofunctor).mapId a).hom = 𝟙 _ := Subsingleton.elim _ _
-  show ((pseudofunctor B A).map₂ (((forget B S).op.toPseudofunctor).mapId a).hom ≫
-    ((pseudofunctor B A).mapId _).hom).toNatTrans.app M = _
-  have h0 : (pseudofunctor B A).map₂ (((forget B S).op.toPseudofunctor).mapId a).hom = 𝟙 _ := by
-    rw [hη]
-    exact (pseudofunctor B A).map₂_id _
-  rw [h0]
-  exact (congrArg (fun φ => φ.toNatTrans.app M)
-    (Category.id_comp ((pseudofunctor B A).mapId _).hom)).trans rfl
-
 /-- The identity constraint of the transported pseudofunctor is the strict identity comparison of
 restriction along composition with an identity. -/
 public theorem transported_mapId_hom_app (U : SmallEtale B S.1 S.property)
@@ -131,7 +109,7 @@ public theorem transported_mapId_hom_app (U : SmallEtale B S.1 S.property)
         ⟨op U⟩).hom.toNatTrans.app N).hom.app W =
         N.obj.map ((Over.mapId U).inv.app W.unop).op :=
     fun _ _ => Category.comp_id _
-  show ((((SmallEtale.topology B S.1 S.property).pseudofunctorOver A).mapId
+  change ((((SmallEtale.topology B S.1 S.property).pseudofunctorOver A).mapId
       ⟨op U⟩).hom.toNatTrans.app
       ((fibreEquiv B A S ⟨op U⟩).inverse.obj M)).hom.app
         (op ((smallEtaleEquivalenceOver B S.1 S.property U).functor.obj V.unop)) ≫
@@ -156,7 +134,7 @@ public theorem transported_mapComp_hom_app {U V W : SmallEtale B S.1 S.property}
       (postSheafCompIso B A ((forget B S).map ψ) ((forget B S).map φ)).inv.app M := by
   apply Sheaf.hom_ext
   refine NatTrans.ext (funext fun X => ?_)
-  simp only [Pseudofunctor.transport_mapComp, Pseudofunctor.transportMapComp_hom_app]
+  simp only [Pseudofunctor.transportMapComp_hom_app]
   have e1 : ∀ (N : Sheaf ((SmallEtale.topology B S.1 S.property).over U) A) (Y : (Over W)ᵒᵖ),
       ((((SmallEtale.topology B S.1 S.property).pseudofunctorOver A).mapComp φ.op.toLoc
         ψ.op.toLoc).hom.toNatTrans.app N).hom.app Y =
@@ -171,9 +149,30 @@ public theorem transported_mapComp_hom_app {U V W : SmallEtale B S.1 S.property}
   apply Quiver.Hom.unop_inj
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
-  simp only [unop_comp, Quiver.Hom.unop_op, ObjectProperty.FullSubcategory.comp_hom,
-    Over.comp_left, Functor.op_map]
+  simp only [Quiver.Hom.unop_op, Functor.op_map]
   exact (Category.id_comp _).trans rfl
+
+variable [∀ (S T : B.Scheme) (f : T ⟶ S),
+    ((smallEtaleBaseChange B f).sheafPushforwardContinuous A
+      (SmallEtale.topology B S.obj S.property)
+      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
+
+/-- The identity constraint of the restricted pseudofunctor of inverse images, on components. -/
+public theorem restrict_mapId_hom_app (a : LocallyDiscrete (SmallEtale B S.1 S.property)ᵒᵖ)
+    (M : ↑(((pseudofunctor B A).restrict (forget B S)).obj a)) :
+    (((pseudofunctor B A).restrict (forget B S)).mapId a).hom.toNatTrans.app M =
+      ((conjugateEquiv Adjunction.id
+        ((smallEtaleBaseChange B (𝟙 ((forget B S).obj a.as.unop))).sheafAdjunctionContinuous
+          A _ _)).symm (pushforwardId B A ((forget B S).obj a.as.unop)).inv).app M := by
+  have hη : (((forget B S).op.toPseudofunctor).mapId a).hom = 𝟙 _ := Subsingleton.elim _ _
+  change ((pseudofunctor B A).map₂ (((forget B S).op.toPseudofunctor).mapId a).hom ≫
+    ((pseudofunctor B A).mapId _).hom).toNatTrans.app M = _
+  have h0 : (pseudofunctor B A).map₂ (((forget B S).op.toPseudofunctor).mapId a).hom = 𝟙 _ := by
+    rw [hη]
+    exact (pseudofunctor B A).map₂_id _
+  rw [h0]
+  exact (congrArg (fun φ => φ.toNatTrans.app M)
+    (Category.id_comp ((pseudofunctor B A).mapId _).hom)).trans rfl
 
 /-- The composition constraint of the restricted pseudofunctor of inverse images, on
 components. -/
@@ -185,7 +184,7 @@ public theorem restrict_mapComp_hom_app {U V W : SmallEtale B S.1 S.property} (�
         M := by
   have hη : (((forget B S).op.toPseudofunctor).mapComp φ.op.toLoc ψ.op.toLoc).hom = 𝟙 _ :=
     Subsingleton.elim _ _
-  show ((pseudofunctor B A).map₂ (((forget B S).op.toPseudofunctor).mapComp φ.op.toLoc
+  change ((pseudofunctor B A).map₂ (((forget B S).op.toPseudofunctor).mapComp φ.op.toLoc
     ψ.op.toLoc).hom ≫ ((pseudofunctor B A).mapComp ((forget B S).map φ).op.toLoc
       ((forget B S).map ψ).op.toLoc).hom).toNatTrans.app M = _
   have h0 : (pseudofunctor B A).map₂ (((forget B S).op.toPseudofunctor).mapComp φ.op.toLoc

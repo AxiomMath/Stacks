@@ -66,18 +66,19 @@ theorem isZero_homology_of_isIso (hK : IsZero (K.homology (-1)))
         (hK.eq_of_src _ _)
     have hzero : CochainComplex.homologyδOfTriangle T (-1) 0 = 0 := by
       have hm : Mono (homologyMap T.mor₁ 0) := by
-        show Mono (homologyMap φ 0)
+        change Mono (homologyMap φ 0)
         infer_instance
       exact (CochainComplex.homologyMap_exact₁_of_distTriang T hT (-1) 0).mono_g_iff.1 hm
     exact @IsZero.of_mono_eq_zero _ _ _ _ _ _ hmono hzero
   · have hepi := epi_homologyMap_inr φ hL 0 (by omega)
     have hzero : homologyMap T.mor₂ 0 = 0 := by
       have he : Epi (homologyMap T.mor₁ 0) := by
-        show Epi (homologyMap φ 0)
+        change Epi (homologyMap φ 0)
         infer_instance
       exact (CochainComplex.homologyMap_exact₂_of_distTriang T hT 0).epi_f_iff.1 he
     exact @IsZero.of_epi_eq_zero _ _ _ _ _ _ hepi hzero
 
+omit hL in
 /-- **`H⁰(φ)` is an isomorphism** when the mapping cone of `φ` has no
 homology in degrees `-1` and `0`. -/
 theorem isIso_homologyMap_of_isZero (h₁ : IsZero ((CochainComplex.mappingCone φ).homology (-1)))

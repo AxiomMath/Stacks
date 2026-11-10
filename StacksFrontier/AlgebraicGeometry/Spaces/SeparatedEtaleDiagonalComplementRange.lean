@@ -115,7 +115,7 @@ theorem le_preimage_openComplement_of_inf_le_sheafify_bot (f : V ⟶ W) (T : Sub
   have hdiag : (pullback f f).map a x
       ∈ (Subfunctor.range ((T.preimage f).ι ≫ pullback.diagonal f)).obj A' := by
     rw [← preimage_fst_comp_eq_range_diagonal B S hS f T hT]
-    show (pullback.fst f f ≫ f).app A' ((pullback f f).map a x) ∈ T.obj A'
+    change (pullback.fst f f ≫ f).app A' ((pullback f f).map a x) ∈ T.obj A'
     rwa [NatTrans.naturality_apply]
   exact isEmpty_of_mem_sheafify_bot B S hS (hU _ ⟨U.map a hx, hdiag⟩)
 

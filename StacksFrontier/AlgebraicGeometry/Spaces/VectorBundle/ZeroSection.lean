@@ -126,7 +126,7 @@ theorem relativeSpecPointsEquiv_relativeSpecSection_app (T : BigFppfOver B S hS)
 theorem relativeSpecSection_comp_π :
     relativeSpecSection B S hS A ε ≫ relativeSpecPointsπ B S hS A = 𝟙 X.1 := by
   ext T x
-  show (relativeSpecPointsEquiv B S hS A T.unop
+  change (relativeSpecPointsEquiv B S hS A T.unop
     ((relativeSpecSection B S hS A ε).app T x)).pt = x
   rw [relativeSpecPointsEquiv_relativeSpecSection_app]
   rfl

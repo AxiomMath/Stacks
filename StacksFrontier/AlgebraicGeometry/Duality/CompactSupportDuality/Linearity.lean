@@ -121,7 +121,7 @@ theorem structureSheafHomAddEquiv_comp
   let _ := HasDerivedCategory.standard (SheafOfModules
     (Stacks.SheafOfModules.Tensor.ringSheaf (Stacks.SheafOfModules.ringedSite X.sheaf).O))
   apply (homologyZeroForgetIso q E').addCommGroupIsoToAddEquiv.injective
-  show (homologyZeroForgetIso q E').hom ((homologyZeroForgetIso q E').inv
+  change (homologyZeroForgetIso q E').hom ((homologyZeroForgetIso q E').inv
       ((structureSheafGlobalSectionsEquivScheme k (Over.mk q) E').symm (s ≫ φ))) =
     (homologyZeroForgetIso q E').hom
       (((DerivedCategory.homologyFunctor (ModuleCat.{u} k) 0).map

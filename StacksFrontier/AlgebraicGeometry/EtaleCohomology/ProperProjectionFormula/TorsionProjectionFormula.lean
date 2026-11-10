@@ -46,7 +46,7 @@ derived categories of modules over the constant ringed sites `(X_étale, Λ̲)`,
 `Stacks.Cohomology.ProjectionFormulaOfToposHom.projectionFormulaMap` of [Stacks, Tag 0B56] of the
 morphism of ringed topoi `Stacks.EtaleCohomology.etaleRingedToposHom`, and transported along
 `Stacks.EtaleCohomology.isIso_etalePushforwardProjectionMap_iff`. A torsion ring is a ring whose
-additive group is torsion, `AddMonoid.IsTorsion Λ`.
+additive group is torsion, `IsAddTorsion Λ`.
 
 ## Main results
 
@@ -95,7 +95,7 @@ the unbounded derived category: it is the base change map on sheaves of `Λ`-mod
 ([Stacks, Tag 0F0C]) read through the identifications of `Λ̲`-modules with `Λ`-modules. -/
 @[sga "4 XVII 5.2.7" "special case"]
 theorem isIso_squareBaseChangeMap_etaleRingedToposHomSquareTwoIso_of_isProper
-    (hΛ : AddMonoid.IsTorsion Λ) {X Y X' Y' : Scheme.{u}} (f : X ⟶ Y) [IsProper f]
+    (hΛ : IsAddTorsion Λ) {X Y X' Y' : Scheme.{u}} (f : X ⟶ Y) [IsProper f]
     {g : Y' ⟶ Y} {g' : X' ⟶ X} {f' : X' ⟶ Y'} (sq : IsPullback g' f' f g)
     (E : DerivedCategory (SheafOfModules.{u + 1} (Stacks.SheafOfModules.Tensor.ringSheaf
       (RingedSite.ringedTopos.{u + 1, u + 1, u + 1} (etaleRingedSite.{u, 0} Λ X)).O))) :
@@ -123,7 +123,7 @@ theorem isIso_squareBaseChangeMap_etaleRingedToposHomSquareTwoIso_of_isProper
 ring.** For `f : X ⟶ Y` proper and `Λ` torsion, the map of [Stacks, Tag 0B56]
 `Rf_*E ⊗^L_Λ K ⟶ Rf_*(E ⊗^L_Λ Lf^*K)` along the morphism of constant ringed topoi
 `(X_étale, Λ̲) ⟶ (Y_étale, Λ̲)` is invertible for all unbounded `E` and `K`. -/
-theorem isIso_projectionFormulaMap_etaleRingedToposHom_of_isProper (hΛ : AddMonoid.IsTorsion Λ)
+theorem isIso_projectionFormulaMap_etaleRingedToposHom_of_isProper (hΛ : IsAddTorsion Λ)
     {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f]
     (E : DerivedCategory (EtaleRingedModules.{u, 0} Λ X))
     (K : DerivedCategory (EtaleRingedModules.{u, 0} Λ Y)) :
@@ -146,7 +146,7 @@ For `E ∈ D(X_étale, Λ)` and `K ∈ D(Y_étale, Λ)`, unbounded, the canonica
 `Rf_*E ⊗^L_Λ K ⟶ Rf_*(E ⊗^L_Λ f^{-1}K)`
 is an isomorphism in `D(Y_étale, Λ)`. -/
 @[stacks 0F0G]
-theorem isIso_etalePushforwardProjectionMap_of_isProper (hΛ : AddMonoid.IsTorsion Λ)
+theorem isIso_etalePushforwardProjectionMap_of_isProper (hΛ : IsAddTorsion Λ)
     {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f]
     (E : DerivedCategory (EtaleModules.{u, 0} Λ X))
     (K : DerivedCategory (EtaleModules.{u, 0} Λ Y)) :

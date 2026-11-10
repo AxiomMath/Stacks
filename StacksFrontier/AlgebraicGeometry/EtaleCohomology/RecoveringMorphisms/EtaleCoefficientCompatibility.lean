@@ -97,7 +97,7 @@ chart, not about its structure map, and the coefficient germ
 `AlgebraicGeometry.etaleCoefficientGerm` is defined with that structure map in front. -/
 theorem SmallEtale.schemeStructureHom_final (S : Scheme.{u}) (hS : B.Contains S) :
     schemeStructureHom B S hS (SmallEtale.final B S hS) = CategoryStruct.id S := by
-  show B.inclusion.map (CategoryStruct.id (B.obj S hS)) = _
+  change B.inclusion.map (CategoryStruct.id (B.obj S hS)) = _
   exact B.inclusion.map_id (B.obj S hS)
 
 /-- The structure morphism of the terminal chart induces the identity on global functions. -/
@@ -152,7 +152,7 @@ theorem etaleLocalRingHomOfSheafFiberIso_toPresheafFiber_final
         (SmallEtale.structureSheaf B X.obj X.property).obj)).hom
         ((g.globalSectionsMap (SmallEtale.finalIsTerminal B X.obj X.property)
           (SmallEtale.finalIsTerminal B Y.obj Y.property)).hom b) := by
-  show etaleCommRingFiberEquiv B X.obj X.property x
+  change etaleCommRingFiberEquiv B X.obj X.property x
       ((((geometricPointSitePoint B X.obj X.property x).sheafFiber
         (A := CommRingCat.{u})).map g.fSharpInverseImage).hom
         (etaleLocalRingEquivInverseImageFiber B g x y e _)) = _

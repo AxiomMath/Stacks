@@ -90,7 +90,7 @@ theorem dimensionAtPoint_total_le_one_of_base_eq {K : Type u} [Field K]
   obtain ⟨e, he, hx⟩ := hrel x
   have h := (Space.relativeDimensionAt_fieldTarget_iff_dimensionAtPoint B integerBase hZ
     total.property p toBase.hom x e).1 hx
-  show Space.dimensionAtPoint B integerBase hZ total.obj total.property x ≤ 1
+  change Space.dimensionAtPoint B integerBase hZ total.obj total.property x ≤ 1
   rw [h]
   exact_mod_cast he
 
@@ -144,14 +144,14 @@ theorem exists_iso_curveFamilyOfScheme_of_base_eq {K : Type u} [Field K]
         (isAlgebraicSpace_yoneda B integerBase hZ _) (isAlgebraicSpace_yoneda B integerBase hZ _)
         (Functor.relativelyRepresentable.map yoneda g)).mp h₁)
   have hdim : topologicalKrullDim X.left ≤ 1 := by
-    show topologicalKrullDim
+    change topologicalKrullDim
       ((BigFppfOver.toScheme B integerBase hZ).obj (integerSiteObject B hZ hT)) ≤ 1
     rw [← Space.dimension_yoneda_eq_topologicalKrullDim B integerBase hZ,
       ← Space.dimension_eq_of_iso B integerBase hZ total.property
         (isAlgebraicSpace_yoneda B integerBase hZ _) ((ObjectProperty.ι _).mapIso e)]
     exact iSup_le hdimF
   refine ⟨X, hXp, hdim, ⟨isoMk (Iso.refl _) e ?_⟩⟩
-  show e.hom ≫ schemeSpaceMap (integerSiteMap B hZ hT hK
+  change e.hom ≫ schemeSpaceMap (integerSiteMap B hZ hT hK
       ((BigFppfOver.toScheme B integerBase hZ).map g)) =
     toBase ≫ schemeSpaceMap (𝟙 (integerSiteObject B hZ hK))
   rw [integerSiteMap_toScheme_map, hg, Iso.hom_inv_id_assoc,

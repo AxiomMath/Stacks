@@ -449,9 +449,9 @@ theorem exists_upperShriekComp {R A B : Type u} [CommRing R] [CommRing A] [CommR
   refine ⟨eSource.hom ≫ Functor.whiskerLeft E (Functor.whiskerRight δ post) ≫ eTarget.hom, ?_⟩
   intro K hδ
   have : IsIso ((Functor.whiskerLeft E (Functor.whiskerRight δ post)).app K) := by
-    show IsIso (post.map (δ.app (E.obj K)))
+    change IsIso (post.map (δ.app (E.obj K)))
     infer_instance
-  show IsIso (eSource.hom.app K ≫
+  change IsIso (eSource.hom.app K ≫
     (Functor.whiskerLeft E (Functor.whiskerRight δ post)).app K ≫ eTarget.hom.app K)
   infer_instance
 

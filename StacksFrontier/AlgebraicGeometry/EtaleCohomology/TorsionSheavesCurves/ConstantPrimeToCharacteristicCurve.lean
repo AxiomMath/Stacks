@@ -223,7 +223,6 @@ theorem isUnit_natCast_globalSections_of_isUnit {ℓ : ℕ} (hℓk : IsUnit (ℓ
   rwa [map_natCast] at h
 
 omit [IsAlgClosed k] in
-include g in
 /-- A natural number invertible in a field is nonzero. -/
 theorem ne_zero_of_isUnit_natCast {ℓ : ℕ} (hℓk : IsUnit (ℓ : k)) : ℓ ≠ 0 := by
   rintro rfl
@@ -236,7 +235,7 @@ private theorem nonempty_constantSheaf_iso_rootsOfUnitySheaf_of_isUnit (g : X �
     Nonempty (((constantSheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}).obj E) ≅
       Stacks.Kummer.rootsOfUnitySheaf.{u, v} X ℓ) :=
   Stacks.Kummer.nonempty_constantSheaf_iso_rootsOfUnitySheaf.{u, v} k g ℓ
-    (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast g hℓk)) hℓk E hE
+    (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast hℓk)) hℓk E hE
 
 variable [IsCurve k g] [Smooth g]
 
@@ -250,7 +249,7 @@ theorem subsingleton_sheafH_rootsOfUnitySheaf_of_smoothCurve
     {ℓ : ℕ} (hℓk : IsUnit (ℓ : k)) (q : ℕ) (hq : 2 < q) :
     Subsingleton (Sheaf.H.{w} (Stacks.Kummer.rootsOfUnitySheaf.{u, v} X ℓ) q) := by
   have hSE := Stacks.Kummer.kummerSequence_shortExact.{u, v} X
-    (ne_zero_of_isUnit_natCast g hℓk) (isUnit_natCast_globalSections_of_isUnit g hℓk)
+    (ne_zero_of_isUnit_natCast hℓk) (isUnit_natCast_globalSections_of_isUnit g hℓk)
   obtain ⟨p, rfl⟩ : ∃ p, q = p + 1 := ⟨q - 1, by omega⟩
   exact Stacks.Cohomology.subsingleton_sheafH_X₁_of_shortExact hSE p (p + 1) rfl
     (subsingleton_sheafH_multiplicativeSheaf_of_smoothCurve_univ g (p + 1) (by omega))
@@ -294,13 +293,13 @@ theorem isDegreeTwoOpenRestrictionSurjective_constantSheaf_of_multiplicative
   rcases isEmpty_or_nonempty U with hU | hU
   · exact fun _ => ⟨0, (subsingleton_sheafH_of_isEmpty _ 2).elim _ _⟩
   · have hSE := Stacks.Kummer.kummerSequence_shortExact.{u, v} X
-      (ne_zero_of_isUnit_natCast g hℓk) (isUnit_natCast_globalSections_of_isUnit g hℓk)
+      (ne_zero_of_isUnit_natCast hℓk) (isUnit_natCast_globalSections_of_isUnit g hℓk)
     exact surjective_etaleCohomologyRestrictionMap_X₁_of_shortExact_of_surjective_X₃ U.ι hSE 1 2
       rfl ((Stacks.Cohomology.CoefficientLift.subsingleton_sheafH_congr
         (etaleAbelianInverseImageMultiplicativeSheafIso.{u, v} U.ι) 2).2
         (subsingleton_sheafH_multiplicativeSheaf_opens_of_smoothCurve g U 2 le_rfl)) (hpic U)
 
-omit [IsAlgClosed k] [IsCurve k g] [Smooth g] in
+omit g [IsAlgClosed k] [IsCurve k g] [Smooth g] in
 /-- **Statement (3) of Situation 0A52 for `𝐙/ℓ𝐙`, `ℓ` invertible in `k`.** For a constant sheaf
 `F` on the small étale site of a `k`-scheme whose value is cyclic of order `ℓ` with `ℓ`
 invertible in `k`, if `F` is `p`-power torsion for `p = char(k) > 0` then `F = 0`, `p` and `ℓ`
@@ -309,7 +308,7 @@ theorem isPrimePowerTorsionVanishing_constantSheaf_of_isUnit
     [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})]
     {ℓ : ℕ} (hℓk : IsUnit (ℓ : k)) (E : AddCommGrpCat.{max (u + 1) v})
     (hE : Nonempty (E ≃+ ZMod ℓ)) (p : ℕ) [CharP k p] :
-    IsPrimePowerTorsionVanishing.{u, v, w} g p
+    IsPrimePowerTorsionVanishing.{u, v, w} k p
       ((constantSheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}).obj E) := by
   intro hp hF q _
   obtain ⟨e⟩ := hE
@@ -336,7 +335,7 @@ theorem subsingleton_sheafH_two_rootsOfUnitySheaf_of_divisible
       ∃ d, ℓ • d = c) :
     Subsingleton (Sheaf.H.{w} (Stacks.Kummer.rootsOfUnitySheaf.{u, v} X ℓ) 2) := by
   have hSE := Stacks.Kummer.kummerSequence_shortExact.{u, v} X
-    (ne_zero_of_isUnit_natCast g hℓk) (isUnit_natCast_globalSections_of_isUnit g hℓk)
+    (ne_zero_of_isUnit_natCast hℓk) (isUnit_natCast_globalSections_of_isUnit g hℓk)
   refine subsingleton_of_forall_eq 0 fun y => ?_
   obtain ⟨x, hx⟩ := Ext.covariant_sequence_exact₁ _ hSE y
     ((subsingleton_sheafH_multiplicativeSheaf_of_smoothCurve_univ.{u, v, w} g 2 le_rfl).elim _ _)

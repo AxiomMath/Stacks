@@ -109,7 +109,7 @@ theorem exists_mono_hilbertPolynomialSubfunctor_productSnd (n : ℕ)
     exact congrArg ULift.down ((e.app T').toEquiv.injective (Subtype.ext h2))
   · constructor
     · rintro ⟨g, rfl⟩
-      show ι0.hom.app _ (MP.familyEquiv T' (ξ.app (Opposite.op T') g)) ∈ Q.obj _
+      change ι0.hom.app _ (MP.familyEquiv T' (ξ.app (Opposite.op T') g)) ∈ Q.obj _
       rw [hξ, Iso.inv_hom_id_app_apply]
       exact (e.hom.app _ (ULift.up g)).2
     · intro hw

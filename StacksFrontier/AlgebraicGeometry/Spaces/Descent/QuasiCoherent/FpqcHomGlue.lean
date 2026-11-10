@@ -397,7 +397,7 @@ theorem exists_isCompatibleAt (hc : IsFpqcCovering B S hS fun i => (c i).hom)
     (isFpqcCovering_of_isEtaleCovering B S hS _ _ hcov) fun x => ?_⟩
   have h1 : restrictPullbackHom (b' x) rfl β = ψ x := by
     refine Eq.trans ?_ (hwx x)
-    show Functor.transportHom (modulePullbackTriangle B S hS (rfl : b' x ≫ y = b' x ≫ y))
+    change Functor.transportHom (modulePullbackTriangle B S hS (rfl : b' x ≫ y = b' x ≫ y))
       ((modulePullback B S hS (b' x)).map β) = _
     rw [hβ x]
   rw [h1]

@@ -59,6 +59,7 @@ theorem relativeInvertibleDegreeHomAt_abelNormalized_zero {d : ℕ} {T : Over (S
   exact @Stacks.Hilbert.relativeInvertibleDegreeHomAt_abelClass _ (Over.mk f) _ d T Z
     (isProper_bcProj f T) (topologicalKrullDim_fiber_bcProj_le f hdim T) t
 
+omit [GeometricallyIrreducible f] in
 /-- **`γ_d` lands in `P^d`** ([Stacks, Tag 0BA0] (4)). -/
 theorem range_abelMorphismFull_subset_degreeLocus {d : ℕ} {H : Over (Spec (.of k))}
     (hH : Stacks.Hilbert.RepresentsHilbertFunctorOfRank (Over.mk f) H d) :
@@ -81,6 +82,7 @@ def abelMorphismDegree {d : ℕ} {H : Over (Spec (.of k))}
       rw [Scheme.Opens.range_ι]
       exact range_abelMorphismFull_subset_degreeLocus f hdim σ hσ P e hH)
 
+omit [GeometricallyIrreducible f] in
 /-- Composing `γ_d : Hilb^d ⟶ P^d` with the inclusion `P^d ⊆ P` recovers the Abel morphism
 `Hilb^d ⟶ P`. -/
 @[reassoc (attr := simp)]
@@ -90,6 +92,7 @@ theorem abelMorphismDegree_ι {d : ℕ} {H : Over (Spec (.of k))}
       (abelMorphismFull f σ hσ hH P e).left :=
   IsOpenImmersion.lift_fac _ _ _
 
+omit [GeometricallyIrreducible f] in
 /-- The morphism `γ_d : Hilb^d ⟶ P^d` is a morphism over `Spec k`. -/
 theorem abelMorphismDegree_over {d : ℕ} {H : Over (Spec (.of k))}
     (hH : Stacks.Hilbert.RepresentsHilbertFunctorOfRank (Over.mk f) H d) :
@@ -133,6 +136,7 @@ theorem irreducibleSpace_hilbert (H : ℕ → Over (Spec (.of k)))
     (Stacks.Hilbert.symmetricPowerMap hH d).left (Nat.factorial_pos d)
   exact hs.surj.irreducibleSpace (Stacks.Hilbert.symmetricPowerMap hH d).left.continuous
 
+omit [GeometricallyIrreducible f] in
 include hdimX in
 /-- **The chart of [Stacks, Tag 0B9Z] is the Abel morphism on `W`.** Given the claim of
 [Stacks, Tag 0B9X] and [Stacks, Tag 0B9Y], there is a nonempty open `W ⊆ Hilb^g` on which `γ_g`
@@ -176,7 +180,7 @@ theorem exists_nonempty_isOpenImmersion_abelMorphismFull (H : ℕ → Over (Spec
   have hjγ : j = chartι W ≫ abelMorphismFull f σ hσ (hH (genus f)) P e := by
     have hinj : ∀ x : Over.mk (W.ι ≫ (H (genus f)).hom) ⟶ P.X,
         (e.inv.app (op _)).hom ((e.hom.app (op _)).hom x) = x := fun x => by
-      show ((e.hom ≫ e.inv).app (op _)).hom x = x
+      change ((e.hom ≫ e.inv).app (op _)).hom x = x
       rw [e.hom_inv_id]; rfl
     have h1 := congrArg (fun φ => φ.app (op (Over.mk (W.ι ≫ (H (genus f)).hom)))
       (𝟙 (Over.mk (W.ι ≫ (H (genus f)).hom)))) hj
@@ -184,7 +188,7 @@ theorem exists_nonempty_isOpenImmersion_abelMorphismFull (H : ℕ → Over (Spec
         (e.hom.app (op _)).hom (chartι W ≫ abelMorphismFull f σ hσ (hH (genus f)) P e) := by
       rw [← Category.id_comp j]
       refine h1.trans ?_
-      show (R.homEquiv (𝟙 _)).1 = _
+      change (R.homEquiv (𝟙 _)).1 = _
       refine ext_functor f σ hσ ?_
       rw [hR, abelMorphismFull_spec, smallEquiv_abelElementFull, Category.id_comp]
     rw [← hinj j, h2, hinj]

@@ -57,7 +57,7 @@ private theorem tmul_ne_zero_of_span_eq_top {k : Type u} [Field k] {A B : Type v
     exact ⟨c, rfl⟩
   let e : k ≃ₗ[k] A := LinearEquiv.ofBijective _ ⟨hinj, hsurj⟩
   have hea : e 1 = a := by
-    show LinearMap.toSpanSingleton k A a 1 = a
+    change LinearMap.toSpanSingleton k A a 1 = a
     simp
   intro hz
   apply hb

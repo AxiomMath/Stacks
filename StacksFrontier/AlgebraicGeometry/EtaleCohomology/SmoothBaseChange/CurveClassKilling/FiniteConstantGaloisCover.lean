@@ -58,7 +58,7 @@ private theorem isGalois_of_mono_of_natCard_hom_eq {C : Type*} [Category* C] [Ga
     simp only [σ, Category.assoc, ← pullback.condition, IsIso.inv_hom_id_assoc]
   have hσa : F.map σ a₁ = a₂ := by
     apply hιinj
-    show (F.map σ ≫ F.map ι) a₁ = _
+    change (F.map σ ≫ F.map ι) a₁ = _
     rwa [← F.map_comp, hσ]
   have : Nonempty (F.obj A) := ⟨a₁⟩
   have hsurj := surjective_of_nonempty_fiber_of_isConnected F σ
@@ -133,7 +133,7 @@ private theorem natCard_aut_dvd_natCard_of_bijective {M : AddCommGrpCat.{u + 1}}
     have h : β ((σ * τ).asIso.hom ≫ ι) =
         (fiberSheaf S c).obj.map ((finiteEtaleToEtale X).map τ.asIso.hom).op
           (β (σ.asIso.hom ≫ ι)) := by
-      show β ((τ.asIso.hom ≫ σ.asIso.hom) ≫ ι) = _
+      change β ((τ.asIso.hom ≫ σ.asIso.hom) ≫ ι) = _
       rw [Category.assoc, hβcomp]
     simp only [χfun, ← ofAdd_add]
     congr 1

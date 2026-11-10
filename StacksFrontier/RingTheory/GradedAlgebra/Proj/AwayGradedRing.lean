@@ -120,8 +120,7 @@ public theorem mul_mem_twistAway (hf : f ∈ 𝒜 d) {s t : ℤ} {x y : Localiza
     exact Subtype.ext (by simpa using (pow_add f m n).symm)
 
 /-- **The degree parts of `A[1/f]` form a graded monoid.** -/
-@[instance_reducible]
-public def gradedMonoidTwistAway (hf : f ∈ 𝒜 d) :
+public theorem gradedMonoidTwistAway (hf : f ∈ 𝒜 d) :
     SetLike.GradedMonoid (twistAway 𝒜 f d) where
   one_mem := one_mem_twistAway 𝒜 hf
   mul_mem _ _ _ _ hx hy := mul_mem_twistAway 𝒜 hf hx hy

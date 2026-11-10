@@ -66,6 +66,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 /-! ### Stacks 03JU, part (4) implies part (2) -/
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the pullback `h_U ×_F h_U` of presheaves on the big fppf site exceeds
+-- the default budget
 /-- **Stacks 03JU, condition (4) implies condition (2).** If a point `x` of an algebraic space
 `F` over `S` has a field-valued representative presenting it by a monomorphism out of the
 spectrum of a field, then for every étale chart `φ : h_U ⟶ F` and every pair of points of `|U|`
@@ -95,11 +97,11 @@ theorem HasMonomorphicFieldRepresentative.hasFiniteRelationFiberAtEveryEtaleChar
     isQuasiFiniteAt_of_isLocallyQuasiFinite B S hS hUalg
       (isLocallyQuasiFinite_of_isEtale' B S hS hφ) b
   have hcomm : pointsMap B S hS D.X D.f a = pointsMap B S hS D.Z D.g b := by
-    show pointsMap B S hS (yoneda.obj U) φ a = pointsMap B S hS (yoneda.obj U) φ b
+    change pointsMap B S hS (yoneda.obj U) φ a = pointsMap B S hS (yoneda.obj U) φ b
     rw [ha, hb]
   have hy : HasMonomorphicFieldRepresentative B S hS D.Y
       (pointsMap B S hS D.X D.f a) := by
-    show HasMonomorphicFieldRepresentative B S hS F (pointsMap B S hS (yoneda.obj U) φ a)
+    change HasMonomorphicFieldRepresentative B S hS F (pointsMap B S hS (yoneda.obj U) φ a)
     rw [ha]
     exact h
   exact finite_fibrePoints_of_mono_of_isQuasiFiniteAt D a b hcomm hy hqf

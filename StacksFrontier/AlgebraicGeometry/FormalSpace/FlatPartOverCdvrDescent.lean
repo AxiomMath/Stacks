@@ -79,8 +79,8 @@ theorem exists_comp_eq_of_isLocallySurjective_sigmaDesc
   choose r hr using h
   have hfac : Limits.Sigma.desc wk =
       Limits.Sigma.desc (fun k ↦ pullback.lift (r k) (wk k) (hr k)) ≫ pullback.snd m b :=
-    Limits.Sigma.hom_ext _ _ fun k ↦ by simp only [Limits.Sigma.ι_desc,
-      Limits.Sigma.ι_desc_assoc, pullback.lift_snd]
+    Limits.Sigma.hom_ext _ _ fun k ↦ by simp only [Limits.Sigma.ι_comp_desc,
+      Limits.Sigma.ι_comp_desc_assoc, pullback.lift_snd]
   have : Epi (Limits.Sigma.desc wk) := (isLocallySurjective_iff_epi _).1 hw
   have : Epi (pullback.snd m b) := by
     rw [hfac] at this

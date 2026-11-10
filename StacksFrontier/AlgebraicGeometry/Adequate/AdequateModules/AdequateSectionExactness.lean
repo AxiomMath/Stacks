@@ -217,7 +217,7 @@ public theorem plus_acyclic_map_iff [Abelian C] [Abelian D]
     HomotopyCategory.Plus.subcategoryAcyclic D (F.mapHomotopyCategoryPlus.obj K) ↔
       HomotopyCategory.Plus.subcategoryAcyclic C K := by
   obtain ⟨K, rfl⟩ := HomotopyCategory.Plus.quotient_obj_surjective K
-  show HomotopyCategory.subcategoryAcyclic D
+  change HomotopyCategory.subcategoryAcyclic D
       ((HomotopyCategory.quotient D _).obj ((F.mapHomologicalComplex _).obj K.obj)) ↔
     HomotopyCategory.subcategoryAcyclic C ((HomotopyCategory.quotient C _).obj K.obj)
   rw [HomotopyCategory.quotient_obj_mem_subcategoryAcyclic_iff_acyclic,

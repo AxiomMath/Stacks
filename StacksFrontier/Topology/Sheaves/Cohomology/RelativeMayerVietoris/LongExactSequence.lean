@@ -219,7 +219,7 @@ public theorem pushforwardToCover_comp_toIntersection :
       (modulePushforward f).map
         ((ExtensionByZeroModules.jStarAdjunction (U ⊓ V) (structureSheafRing X)).unit.app M) :=
     fun T hT => by
-      show (modulePushforward f).map _ ≫ (modulePushforward f).map _ = _
+      change (modulePushforward f).map _ ≫ (modulePushforward f).map _ = _
       rw [← Functor.map_comp]
       exact congrArg (modulePushforward f).map
         (congrFun (congrArg NatTrans.app

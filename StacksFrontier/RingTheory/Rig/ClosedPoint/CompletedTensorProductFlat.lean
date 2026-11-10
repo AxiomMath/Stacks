@@ -89,7 +89,7 @@ public theorem isMaximalAmongPrimesAvoiding_comap_of_isIntegral
     rw [Ideal.mem_comap, πS.algebraMap_toAlgebra] at hx
     rwa [Submodule.mem_bot, Ideal.Quotient.eq_zero_iff_mem, ← hcomapeq, Ideal.mem_comap,
       ← hKcomap]
-  rw [← hKcomap, Ideal.eq_bot_of_comap_eq_bot hbot, hkers]
+  rw [← hKcomap, Ideal.eq_bot_of_under_eq_bot hbot, hkers]
 
 /-- Closedness away from an adic ideal is closedness away from the topological nilradical. -/
 private theorem isClosedPointAwayFrom_topologicalNilradical_iff

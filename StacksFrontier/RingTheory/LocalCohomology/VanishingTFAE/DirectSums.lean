@@ -134,7 +134,7 @@ theorem exists_smul_eq_zero_of_directSumMk_eq_zero {x : DirectSum J M}
   choose g hgS hg using hzero
   refine ⟨⟨∏ j ∈ DFinsupp.support x, g j,
     Submonoid.prod_mem _ fun j _ => hgS j⟩, DFinsupp.ext fun j => ?_⟩
-  show (∏ k ∈ DFinsupp.support x, g k) • x j = 0
+  change (∏ k ∈ DFinsupp.support x, g k) • x j = 0
   by_cases hj : j ∈ DFinsupp.support x
   · rw [← Finset.prod_erase_mul _ _ hj, mul_smul, hg j, smul_zero]
   · rw [DFinsupp.notMem_support_iff.1 hj, smul_zero]
@@ -199,7 +199,7 @@ theorem localizedModuleDirectSumEquiv_localizedModuleMap_lof [DecidableEq J] (j 
       DirectSum.lof R J (fun k => LocalizedModule S (M k)) j := by
     refine IsLocalizedModule.ext S (LocalizedModule.mkLinearMap S (M j))
       (isUnit_algebraMap_directSum S M) (LinearMap.ext fun m => ?_)
-    show localizedModuleDirectSumEquiv S M
+    change localizedModuleDirectSumEquiv S M
       (localizedModuleMap S (DirectSum.lof R J M j) (LocalizedModule.mk m 1)) = _
     rw [localizedModuleMap_mk, localizedModuleDirectSumEquiv_mk, DirectSum.lmap_lof]
     rfl
@@ -278,12 +278,12 @@ theorem localizedModuleMap_cechι {N P : Type*} [AddCommGroup N] [Module R N] [A
       (fun y => Cech.isUnit_algebraMap f P h
         (LocalizedModule.mkLinearMap (Cech.cechSub f t) P) y)
       (LinearMap.ext fun m => ?_)
-    show localizedModuleMap (Cech.cechSub f t) g
+    change localizedModuleMap (Cech.cechSub f t) g
       (Cech.cechι f N h (LocalizedModule.mkLinearMap (Cech.cechSub f s) N m)) =
         Cech.cechι f P h (localizedModuleMap (Cech.cechSub f s) g
           (LocalizedModule.mkLinearMap (Cech.cechSub f s) N m))
     rw [Cech.cechι_mk]
-    show localizedModuleMap (Cech.cechSub f t) g (LocalizedModule.mk m 1) =
+    change localizedModuleMap (Cech.cechSub f t) g (LocalizedModule.mk m 1) =
       Cech.cechι f P h (localizedModuleMap (Cech.cechSub f s) g (LocalizedModule.mk m 1))
     rw [localizedModuleMap_mk, localizedModuleMap_mk]
     exact (Cech.cechι_mk f P h (g m)).symm
@@ -297,7 +297,7 @@ theorem cechTermLinearMap_cechD {N P : Type*} [AddCommGroup N] [Module R N] [Add
   have key : (cechTermLinearMap f g (p + 1)).comp (Cech.cechD f N p) =
       (Cech.cechD f P p).comp (cechTermLinearMap f g p) := by
     refine DirectSum.linearMap_ext R fun s => LinearMap.ext fun y => ?_
-    show cechTermLinearMap f g (p + 1)
+    change cechTermLinearMap f g (p + 1)
         (Cech.cechD f N p (DirectSum.lof R _ (fun t => Cech.cechMod f N t.1) s y)) =
       Cech.cechD f P p (cechTermLinearMap f g p
         (DirectSum.lof R _ (fun t => Cech.cechMod f N t.1) s y))
@@ -328,7 +328,7 @@ theorem cechTermDirectSumEquiv_symm_lof (p : ℕ) (j : J) (y : Cech.cechTerm f (
         (cechTermLinearMap f (DirectSum.lof R J M j) p) =
       DirectSum.lof R J (fun k => Cech.cechTerm f (M k) p) j := by
     refine DirectSum.linearMap_ext R fun s => LinearMap.ext fun x => ?_
-    show cechTermDirectSumEquiv f M p (cechTermLinearMap f (DirectSum.lof R J M j) p
+    change cechTermDirectSumEquiv f M p (cechTermLinearMap f (DirectSum.lof R J M j) p
         (DirectSum.lof R _ (fun t => Cech.cechMod f (M j) t.1) s x)) = _
     simp only [cechTermDirectSumEquiv, cechTermLinearMap, LinearEquiv.trans_apply,
       DirectSum.coe_congrLinearEquiv, DirectSum.lmap_lof, LinearEquiv.coe_coe,
@@ -349,7 +349,7 @@ theorem cechD_cechTermDirectSumEquiv_symm (p : ℕ)
       (cechTermDirectSumEquiv f M (p + 1)).symm.toLinearMap.comp
         (DirectSum.lmap fun j => Cech.cechD f (M j) p) := by
     refine DirectSum.linearMap_ext R fun j => LinearMap.ext fun y => ?_
-    show Cech.cechD f (DirectSum J M) p ((cechTermDirectSumEquiv f M p).symm
+    change Cech.cechD f (DirectSum J M) p ((cechTermDirectSumEquiv f M p).symm
           (DirectSum.lof R J (fun k => Cech.cechTerm f (M k) p) j y)) =
         (cechTermDirectSumEquiv f M (p + 1)).symm
           (DirectSum.lmap (fun k => Cech.cechD f (M k) p)
@@ -432,7 +432,7 @@ theorem exactAt_directSumCechComplex (n : ℕ)
     have step : (DirectSum.lmap fun k =>
         ((Cech.cechComplex f (M k)).d ((ComplexShape.up ℕ).prev n) n).hom) W = u := by
       refine DFinsupp.ext fun j => ?_
-      show ((Cech.cechComplex f (M j)).d ((ComplexShape.up ℕ).prev n) n).hom (W j) = u j
+      change ((Cech.cechComplex f (M j)).d ((ComplexShape.up ℕ).prev n) n).hom (W j) = u j
       by_cases hj : j ∈ DFinsupp.support u
       · rw [hW, DFinsupp.mk_apply, dite_eq_left hj]
         exact hw j

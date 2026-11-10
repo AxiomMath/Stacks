@@ -74,7 +74,7 @@ theorem preservesColimitsOfShape_lim_of_colim
   have he : colimit.post E (lim : (K ⥤ A) ⥤ A) = e.hom := by
     refine colimit.hom_ext fun i ↦ limit.hom_ext fun k ↦ ?_
     simp only [Functor.comp_obj, lim_obj, colimit.ι_post, lim_map, limMap_π, limitFlipIsoCompLim,
-      Iso.trans_hom, HasColimit.isoOfNatIso_ι_hom_assoc, Iso.symm_hom,
+      Iso.trans_hom, HasColimit.ι_isoOfNatIso_hom_assoc, Iso.symm_hom,
       NatIso.ofComponents_inv_app, Iso.trans_inv, Category.assoc, e]
     have hi := ι_colimitLimitIso_limit_π E.flip i k
     change colimit.ι (limit E.flip) i ≫ (colimitLimitIso E.flip).hom ≫

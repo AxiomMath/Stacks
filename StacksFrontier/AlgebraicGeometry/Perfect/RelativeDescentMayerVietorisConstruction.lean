@@ -87,8 +87,8 @@ The two connecting homomorphisms are left as data. They are not restriction alon
 of opens: producing them is Stacks 08BW proper, the long exact sequence of the Mayer--Vietoris
 distinguished triangle of Stacks 08BU. The named, non-existential form of that sequence has terms
 that are morphism groups out of the extensions by zero on one fixed ringed space; the existential
-form in `StacksFrontier/Topology/Sheaves/Cohomology/MayerVietoris/ExtSequence.lean` cannot serve here,
-because the connecting homomorphism it produces carries no naturality clause, while
+form in `StacksFrontier/Topology/Sheaves/Cohomology/MayerVietoris/ExtSequence.lean` cannot serve
+here, because the connecting homomorphism it produces carries no naturality clause, while
 `MayerVietorisHomSequence` asks for naturality of its connecting homomorphism in the stage.
 
 The two cover lemmas and the two bijectivity results above are the geometric and transport

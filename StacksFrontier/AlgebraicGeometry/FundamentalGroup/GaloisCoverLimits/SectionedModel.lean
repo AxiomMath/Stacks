@@ -119,7 +119,7 @@ theorem exists_sectioned_model (D : I ⥤ Scheme.{u}) (c : Cone D) (hc : IsLimit
   let p₀ : X ⟶ Y₀.left := e'.hom ≫ pullback.fst Y₀.hom (c.π.app i)
   have he' : e'.hom ≫ pullback.snd Y₀.hom (c.π.app i) = f := Over.w e.hom
   have hp₀ : p₀ ≫ Y₀.hom = f ≫ c.π.app i := by
-    show (e'.hom ≫ pullback.fst Y₀.hom (c.π.app i)) ≫ Y₀.hom = _
+    change (e'.hom ≫ pullback.fst Y₀.hom (c.π.app i)) ≫ Y₀.hom = _
     rw [Category.assoc, pullback.condition, ← Category.assoc, he']
   have hPB : IsPullback p₀ f Y₀.hom (c.π.app i) :=
     IsPullback.of_iso_pullback ⟨hp₀⟩ e' rfl he'

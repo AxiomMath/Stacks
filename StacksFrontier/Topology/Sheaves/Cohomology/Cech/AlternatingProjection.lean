@@ -236,13 +236,13 @@ theorem cechComp_apply_of_injective (F : AbelianPresheaf X) (U : I → Opens X) 
     (s : CechCochainOrd F U p) {t : Fin (p + 1) → I} (h : Function.Injective t) :
     cechComp F U p s t = (Equiv.Perm.sign (Tuple.sort t) : ℤ) •
       F.tres U (Tuple.sort t) t (s ⟨t ∘ Tuple.sort t, strictMono_comp_sort t h⟩) :=
-  dif_pos h
+  dite_eq_left h
 
 /-- On a tuple with a repeated index, `c(s)_t = 0`. -/
 theorem cechComp_apply_of_not_injective (F : AbelianPresheaf X) (U : I → Opens X) {p : ℕ}
     (s : CechCochainOrd F U p) {t : Fin (p + 1) → I} (h : ¬ Function.Injective t) :
     cechComp F U p s t = 0 :=
-  dif_neg h
+  dite_eq_right h
 
 /-- **Definition 2.** The alternating Cech cochains, as an additive subgroup of all
 cochains: those `s` that vanish on tuples with a repeated index and that are antisymmetric,
@@ -347,7 +347,7 @@ theorem isAlt_cechComp (F : AbelianPresheaf X) (U : I → Opens X) (p : ℕ)
   · exact tres_cechComp_comp_perm F U s hinj τ
   have hinj' : ¬ Function.Injective (t ∘ τ) := fun hc =>
     hinj (by simpa [Function.comp_assoc] using hc.comp τ⁻¹.injective)
-  show F.tres U τ t (cechComp F U p s (t ∘ τ)) = (Equiv.Perm.sign τ : ℤ) • cechComp F U p s t
+  change F.tres U τ t (cechComp F U p s (t ∘ τ)) = (Equiv.Perm.sign τ : ℤ) • cechComp F U p s t
   rw [cechComp_apply_of_not_injective F U s hinj', cechComp_apply_of_not_injective F U s hinj,
     map_zero, smul_zero]
 
@@ -503,7 +503,7 @@ theorem cechDiff_apply_eq_zero_of_lt_of_eq (F : AbelianPresheaf X) (U : I → Op
     (t : Fin (p+2) → I) {a b : Fin (p+2)} (hlt : a < b) (hval : t a = t b) :
     cechDiff F U p s t = 0 := by
   have hab : a ≠ b := hlt.ne
-  show (∑ j : Fin (p+2),
+  change (∑ j : Fin (p+2),
       (-1 : ℤ) ^ (j : ℕ) • F.tres U (Fin.succAbove j) t (s (t ∘ Fin.succAbove j))) = 0
   have hvanish : ∀ j ∈ (Finset.univ : Finset (Fin (p+2))), j ∉ ({a, b} : Finset (Fin (p+2))) →
       (-1 : ℤ) ^ (j : ℕ) • F.tres U (Fin.succAbove j) t (s (t ∘ Fin.succAbove j)) = 0 := by
@@ -598,7 +598,7 @@ theorem cechDiff_apply_perm (F : AbelianPresheaf X) (U : I → Opens X) (p : ℕ
       F.tres U σ t (s (t ∘ σ)) = (Equiv.Perm.sign σ : ℤ) • s t)
     (t : Fin (p + 2) → I) (σ : Equiv.Perm (Fin (p + 2))) :
     F.tres U σ t ((cechDiff F U p s) (t ∘ σ)) = (Equiv.Perm.sign σ : ℤ) • (cechDiff F U p s) t := by
-  show F.tres U σ t (∑ j : Fin (p+2),
+  change F.tres U σ t (∑ j : Fin (p+2),
       (-1 : ℤ) ^ (j : ℕ) • F.tres U (Fin.succAbove j) (t ∘ σ) (s ((t ∘ σ) ∘ Fin.succAbove j)))
     = (Equiv.Perm.sign σ : ℤ) • ∑ j : Fin (p+2),
       (-1 : ℤ) ^ (j : ℕ) • F.tres U (Fin.succAbove j) t (s (t ∘ Fin.succAbove j))
@@ -675,7 +675,7 @@ permutation is the identity, so `c(s)` agrees with `s` there.) -/
 theorem cechProj_comp_cechComp (F : AbelianPresheaf X) (U : I → Opens X) (p : ℕ) :
     (cechProj F U p).comp (cechComp F U p) = AddMonoidHom.id (CechCochainOrd F U p) := by
   ext s t
-  show cechComp F U p s t.1 = s t
+  change cechComp F U p s t.1 = s t
   rw [cechComp_apply_of_injective F U s t.2.injective]
   -- Generalize over the sorting permutation and its strict-mono witness, then `subst`.
   have key : ∀ (σ : Equiv.Perm (Fin (p+1))), σ = Equiv.refl _ →
@@ -702,7 +702,7 @@ theorem cechComp_cechProj_of_isAlt (F : AbelianPresheaf X) (U : I → Opens X) {
   funext t
   by_cases hinj : Function.Injective t
   · rw [cechComp_apply_of_injective F U _ hinj]
-    show (Equiv.Perm.sign (Tuple.sort t) : ℤ) •
+    change (Equiv.Perm.sign (Tuple.sort t) : ℤ) •
         F.tres U (Tuple.sort t) t (s (t ∘ Tuple.sort t)) = s t
     rw [halt t (Tuple.sort t), smul_smul, ← Units.val_mul, Int.units_mul_self, Units.val_one,
       one_smul]

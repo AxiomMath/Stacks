@@ -141,8 +141,9 @@ theorem preservesFiniteLimits_strictTransitionPullbackModules_of_isFlat
     (hφ : IsFlat B S hS (X.map φ.op).hom) :
     PreservesFiniteLimits ((strictSituation X).transitionRingedToposHom (strictStructureSheaf X)
       φ).toModulesHom.pullbackModules := by
-  have := preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
-    (X.map φ.op) hφ
+  have := (
+  preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+    (X.map φ.op) hφ)
   let e := (RingedToposHom.pullbackModulesCompIso (strictComponentRingedToposHom X n)
       ((strictSituation X).transitionRingedToposHom (strictStructureSheaf X) φ)).symm ≪≫
     strictComponentPullbackModulesTransitionIso X φ ≪≫

@@ -418,13 +418,13 @@ public theorem restrictedCotangentMap_D {i j : SimplexCategoryᵒᵖ} (f : i ⟶
   let _ : Algebra P C := (standardResolutionOverAug B C i).toAlgebra
   let _ : Algebra Q C := (standardResolutionOverAug B C j).toAlgebra
   have : IsScalarTower A P Q := IsScalarTower.of_algebraMap_eq (fun a => by
-    show _ = g.hom (algebraMap A P a)
+    change _ = g.hom (algebraMap A P a)
     rw [show (algebraMap A P a) = algebraMap B P (algebraMap A B a) from rfl, g.hom.commutes]
     rfl)
   have : IsScalarTower P Q C := IsScalarTower.of_algebraMap_eq' (by
     exact (standardResolutionAugmentationHom_naturality.{max u v, max u v} B
       (CommAlgCat.of B C) f).symm)
-  show (1 : C) ⊗ₜ[Q] (KaehlerDifferential.map A A P Q (KaehlerDifferential.D A P p)) = _
+  change (1 : C) ⊗ₜ[Q] (KaehlerDifferential.map A A P Q (KaehlerDifferential.D A P p)) = _
   rw [KaehlerDifferential.map_D]
   rfl
 
@@ -528,7 +528,7 @@ public theorem restrictedCotangentFromBase_naturality {i j : SimplexCategoryᵒ�
     restrictedCotangentFromBase.{u, v} A B C i ≫ restrictedCotangentMap.{u, v} A B C f =
       restrictedCotangentFromBase.{u, v} A B C j := by
   refine ModuleCat.baseChange_kaehlerDifferential_hom_ext (A := A) (R := B) _ _ fun b => ?_
-  show restrictedCotangentMap.{u, v} A B C f
+  change restrictedCotangentMap.{u, v} A B C f
     (restrictedCotangentFromBase.{u, v} A B C i _) = _
   rw [restrictedCotangentFromBase_D, restrictedCotangentMap_D, restrictedCotangentFromBase_D]
   exact congrArg (restrictedCotangentDifferential.{u, v} A B C j)
@@ -804,8 +804,7 @@ private noncomputable def extendScalarsObjTensorIso {R S : Type w} [CommRing R] 
   let e := TensorProduct.congr eS (LinearEquiv.refl R (M : Type w))
   have key : ∀ (s : S) (z : X ⊗[R] (M : Type w)), e (s • z) = s • e z := by
     intro s z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul a m => rfl
     | add z z' hz hz' => rw [smul_add, map_add, map_add, smul_add, hz, hz']
   exact LinearEquiv.toModuleIso { e.toAddEquiv with map_smul' := key }

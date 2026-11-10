@@ -42,8 +42,8 @@ Stacks 0D75 then hold with no hypothesis beyond flatness of the transitions out 
 The reduction is the one the source performs, and it is carried out here rather than upstream
 because it is the step that consumes the formula. Every object of the total category lies in a
 component, so left exactness of a functor into sheaves of modules on the total site is decided by
-the restrictions to the components
-(`CategoryTheory.SimplicialSiteSituation.preservesFiniteLimits_of_forall_componentModuleRestriction`);
+the restrictions to the components, see
+`CategoryTheory.SimplicialSiteSituation.preservesFiniteLimits_of_forall_componentModuleRestriction`;
 by the formula the restriction of `g_{n!}` to degree `m` is the sum over the finitely many simplex
 maps `[n] ⟶ [m]` of the transition pullbacks, so a finite *product* of them; and a functor
 exhibited as a product of functors preserving limits of a shape preserves limits of that shape.

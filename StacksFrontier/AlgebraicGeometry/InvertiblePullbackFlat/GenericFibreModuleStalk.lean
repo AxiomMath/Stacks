@@ -127,7 +127,7 @@ theorem TensorProduct.lidOfBijectiveAlgebraMap_one_tmul
     TensorProduct.lidOfBijectiveAlgebraMap (R := R) (A := A) (M := M) h (1 ⊗ₜ[R] m) = m := by
   have h1 : (LinearEquiv.ofBijective (Algebra.linearMap R A) h).symm (1 : A) = (1 : R) := by
     refine (LinearEquiv.symm_apply_eq _).mpr ?_
-    show (1 : A) = algebraMap R A 1
+    change (1 : A) = algebraMap R A 1
     rw [map_one]
   simp [TensorProduct.lidOfBijectiveAlgebraMap, h1]
 
@@ -213,11 +213,11 @@ theorem exists_addEquiv_germ_smul_stalk_pullback_fiberι {X Y : Scheme.{u}} (f :
       (M := grpStalk X.toRingedSpace L.val ((((f.fiberι y).toLRSHom.toShHom).hom.base) x₀))
       (bijective_stalkMap_fiberι_of_mem f h x₀)).toAddEquiv, ?_, ?_⟩
   · intro V hx s
-    show TensorProduct.lidOfBijectiveAlgebraMap _ (e _) = _
+    change TensorProduct.lidOfBijectiveAlgebraMap _ (e _) = _
     rw [he V hx s]
     exact TensorProduct.lidOfBijectiveAlgebraMap_one_tmul _ _
   · intro c v
-    show TensorProduct.lidOfBijectiveAlgebraMap _ (e _) = _
+    change TensorProduct.lidOfBijectiveAlgebraMap _ (e _) = _
     rw [map_smul e]
     rw [show ((((f.fiberι y).toLRSHom.toShHom).hom.stalkMap x₀).hom c) =
         algebraMap (ringStalk X.toRingedSpace ((((f.fiberι y).toLRSHom.toShHom).hom.base) x₀))

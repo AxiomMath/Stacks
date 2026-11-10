@@ -78,7 +78,7 @@ def refl (A B : Type*) [CommRing A] [CommRing B] [Algebra A B] : ChartBaseChange
     simp
   elt := 1
   isLocalization := by
-    letI : Algebra (A ⊗[A] B) B := (Algebra.TensorProduct.lid A B).toRingHom.toAlgebra
+    let : Algebra (A ⊗[A] B) B := (Algebra.TensorProduct.lid A B).toRingHom.toAlgebra
     exact IsLocalization.away_of_isUnit_of_bijective _ isUnit_one
       (Algebra.TensorProduct.lid A B).bijective
 
@@ -101,8 +101,7 @@ def ofBijective (hA : Function.Bijective (algebraMap A A'))
     refine ⟨fun z w h ↦ ?_, hsurj⟩
     have key : ∀ z : A' ⊗[A] B, ∃ x : B, z = 1 ⊗ₜ x := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => exact ⟨0, by simp⟩
+      induction z using TensorProduct.inductionOn with
       | tmul y x =>
         obtain ⟨a, rfl⟩ := hA.2 y
         exact ⟨algebraMap A B a * x, by
@@ -125,7 +124,7 @@ def ofBijective (hA : Function.Bijective (algebraMap A A'))
       simp [φ]
     elt := 1
     isLocalization := by
-      letI : Algebra (A' ⊗[A] B) B' := φ.toRingHom.toAlgebra
+      let : Algebra (A' ⊗[A] B) B' := φ.toRingHom.toAlgebra
       exact IsLocalization.away_of_isUnit_of_bijective _ isUnit_one hφ }
 
 /-- The algebra map `A' ⊗_A B → B'` determined by a commutative square. -/
@@ -218,56 +217,55 @@ def ofSourceAway {B₀ : Type*} [CommRing B₀] [Algebra B B₀] [Algebra A B₀
     rw [IsScalarTower.algebraMap_apply A B B₀, ← IsScalarTower.algebraMap_apply B B₀ B',
       D.algebraMap_comm]
   have hex : ∃ e : A' ⊗[A] B₀, letI := (lift hcomm).toAlgebra; IsLocalization.Away e B' := by
-    letI := D.algebra
-    letI : Algebra (A' ⊗[A] B₀) B' := (lift hcomm).toAlgebra
-    letI : Algebra (A' ⊗[A] B) (A' ⊗[A] B₀) :=
+    let := D.algebra
+    let : Algebra (A' ⊗[A] B₀) B' := (lift hcomm).toAlgebra
+    let : Algebra (A' ⊗[A] B) (A' ⊗[A] B₀) :=
       (Algebra.TensorProduct.map (AlgHom.id A A')
         (IsScalarTower.toAlgHom A B B₀)).toRingHom.toAlgebra
-    haveI : IsScalarTower (A' ⊗[A] B) (A' ⊗[A] B₀) B' := IsScalarTower.of_algebraMap_eq fun z ↦ by
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+    have : IsScalarTower (A' ⊗[A] B) (A' ⊗[A] B₀) B' := IsScalarTower.of_algebraMap_eq fun z ↦ by
+      induction z using TensorProduct.inductionOn with
       | add z w hz hw => rw [map_add, map_add, hz, hw, map_add]
       | tmul y x =>
         change algebraMap (A' ⊗[A] B) B' (y ⊗ₜ x) = lift hcomm (y ⊗ₜ algebraMap B B₀ x)
         have : (y ⊗ₜ[A] x : A' ⊗[A] B) = (y ⊗ₜ[A] (1 : B)) * ((1 : A') ⊗ₜ[A] x) := by simp
         rw [this, map_mul, D.base_left, D.base_right, lift_tmul,
           ← IsScalarTower.algebraMap_apply]
-    haveI : Algebra.IsStandardOpenImmersion (A' ⊗[A] B) B' := ⟨D.elt, D.isLocalization⟩
-    letI : Algebra B (A' ⊗[A] B) := Algebra.TensorProduct.rightAlgebra
-    haveI : IsScalarTower B (A' ⊗[A] B) B' := IsScalarTower.of_algebraMap_eq fun x ↦
+    have : Algebra.IsStandardOpenImmersion (A' ⊗[A] B) B' := ⟨D.elt, D.isLocalization⟩
+    let : Algebra B (A' ⊗[A] B) := Algebra.TensorProduct.rightAlgebra
+    have : IsScalarTower B (A' ⊗[A] B) B' := IsScalarTower.of_algebraMap_eq fun x ↦
       (D.base_right x).symm
-    letI : Algebra B₀ (A' ⊗[A] B₀) := Algebra.TensorProduct.rightAlgebra
-    letI : Algebra B (A' ⊗[A] B₀) :=
+    let : Algebra B₀ (A' ⊗[A] B₀) := Algebra.TensorProduct.rightAlgebra
+    let : Algebra B (A' ⊗[A] B₀) :=
       ((Algebra.TensorProduct.includeRight (R := A) (A := A')).toRingHom.comp
         (algebraMap B B₀)).toAlgebra
-    haveI : IsScalarTower B B₀ (A' ⊗[A] B₀) := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
-    haveI : IsScalarTower B (A' ⊗[A] B) (A' ⊗[A] B₀) :=
+    have : IsScalarTower B B₀ (A' ⊗[A] B₀) := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+    have : IsScalarTower B (A' ⊗[A] B) (A' ⊗[A] B₀) :=
       IsScalarTower.of_algebraMap_eq fun x ↦ by
         change (1 : A') ⊗ₜ[A] algebraMap B B₀ x = Algebra.TensorProduct.map (AlgHom.id A A')
           (IsScalarTower.toAlgHom A B B₀) ((1 : A') ⊗ₜ[A] x)
         simp
-    haveI : IsScalarTower A B₀ (A' ⊗[A] B₀) := IsScalarTower.of_algebraMap_eq fun x ↦ by
+    have : IsScalarTower A B₀ (A' ⊗[A] B₀) := IsScalarTower.of_algebraMap_eq fun x ↦ by
       change algebraMap A (A' ⊗[A] B₀) x = (1 : A') ⊗ₜ[A] algebraMap A B₀ x
       rw [Algebra.TensorProduct.algebraMap_apply, Algebra.algebraMap_eq_smul_one,
         Algebra.algebraMap_eq_smul_one x, TensorProduct.smul_tmul]
-    haveI : IsScalarTower A B (A' ⊗[A] B) := IsScalarTower.of_algebraMap_eq fun x ↦ by
+    have : IsScalarTower A B (A' ⊗[A] B) := IsScalarTower.of_algebraMap_eq fun x ↦ by
       change algebraMap A (A' ⊗[A] B) x = (1 : A') ⊗ₜ[A] algebraMap A B x
       rw [Algebra.TensorProduct.algebraMap_apply, Algebra.algebraMap_eq_smul_one,
         Algebra.algebraMap_eq_smul_one x, TensorProduct.smul_tmul]
-    haveI : IsScalarTower A (A' ⊗[A] B) (A' ⊗[A] B₀) := IsScalarTower.of_algebraMap_eq fun x ↦ by
+    have : IsScalarTower A (A' ⊗[A] B) (A' ⊗[A] B₀) := IsScalarTower.of_algebraMap_eq fun x ↦ by
       change algebraMap A (A' ⊗[A] B₀) x = Algebra.TensorProduct.map (AlgHom.id A A')
         (IsScalarTower.toAlgHom A B B₀) (algebraMap A (A' ⊗[A] B) x)
       rw [AlgHom.commutes]
-    haveI : IsScalarTower A' (A' ⊗[A] B) (A' ⊗[A] B₀) := IsScalarTower.of_algebraMap_eq fun y ↦ by
+    have : IsScalarTower A' (A' ⊗[A] B) (A' ⊗[A] B₀) := IsScalarTower.of_algebraMap_eq fun y ↦ by
       change algebraMap A' (A' ⊗[A] B₀) y = Algebra.TensorProduct.map (AlgHom.id A A')
         (IsScalarTower.toAlgHom A B B₀) (algebraMap A' (A' ⊗[A] B) y)
       simp [Algebra.TensorProduct.algebraMap_apply]
-    haveI : Algebra.IsPushout A B A' (A' ⊗[A] B) := inferInstance
-    haveI : Algebra.IsPushout A B₀ A' (A' ⊗[A] B₀) := inferInstance
-    haveI : Algebra.IsPushout B B₀ (A' ⊗[A] B) (A' ⊗[A] B₀) :=
+    have : Algebra.IsPushout A B A' (A' ⊗[A] B) := inferInstance
+    have : Algebra.IsPushout A B₀ A' (A' ⊗[A] B₀) := inferInstance
+    have : Algebra.IsPushout B B₀ (A' ⊗[A] B) (A' ⊗[A] B₀) :=
       (Algebra.IsPushout.comp_iff A B A' (A' ⊗[A] B) (T := B₀) (T' := A' ⊗[A] B₀)).mp
         inferInstance
-    haveI : IsLocalization (Algebra.algebraMapSubmonoid (A' ⊗[A] B) (Submonoid.powers b))
+    have : IsLocalization (Algebra.algebraMapSubmonoid (A' ⊗[A] B) (Submonoid.powers b))
         (A' ⊗[A] B₀) :=
       (Algebra.isLocalization_iff_isPushout (Submonoid.powers b) B₀ (T := A' ⊗[A] B)
         (B := A' ⊗[A] B₀)).mpr (Algebra.IsPushout.symm inferInstance)
@@ -349,8 +347,7 @@ theorem exists_isLocalization_compAux (D₁ : ChartBaseChange A B A' B') :
     IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   have : IsScalarTower (A' ⊗[A] B) B' (A'' ⊗[A'] B') := by
     refine IsScalarTower.of_algebraMap_eq fun r ↦ ?_
-    induction r using TensorProduct.induction_on with
-    | zero => simp
+    induction r using TensorProduct.inductionOn with
     | add r s hr hs => rw [map_add, map_add, hr, hs, map_add]
     | tmul y x =>
       change (compAux D₁) (Stacks.Flatness.baseChangeTowerAlgHom A A' A'' B (y ⊗ₜ x)) =

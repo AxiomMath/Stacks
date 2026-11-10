@@ -201,7 +201,7 @@ theorem pushforwardDeRham_appLE_smul {T : Scheme.{u}} (g : T ⟶ X) (p : ℕ) (V
     rw [Scheme.Hom.app_eq_appLE, ← Scheme.Hom.appLE_comp_appLE]
     rfl
   let ω' : Γ(relativeDifferentialForms (g ≫ f) (p : ℤ), g ⁻¹ᵁ W) := ω
-  show deRhamD (g ≫ f) p (g ⁻¹ᵁ W) ((g.app W).hom ((f.appLE V W hWV).hom s) • ω') =
+  change deRhamD (g ≫ f) p (g ⁻¹ᵁ W) ((g.app W).hom ((f.appLE V W hWV).hom s) • ω') =
     (g.app W).hom ((f.appLE V W hWV).hom s) • deRhamD (g ≫ f) p (g ⁻¹ᵁ W) ω'
   rw [key]
   exact deRhamD_appLE_smul (g ≫ f) p V (g ⁻¹ᵁ W) hle s ω'

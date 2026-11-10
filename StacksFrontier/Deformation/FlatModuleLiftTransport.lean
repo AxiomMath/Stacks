@@ -61,7 +61,7 @@ theorem nonempty_linearEquiv_congr {R S X Y Z W : Type u} [CommRing R] [CommRing
     (h : Nonempty (X ≃ₗ[R] Y)) : Nonempty (Z ≃ₗ[S] W) := by
   obtain ⟨e⟩ := h
   refine ⟨{ (α.symm.trans (e.toAddEquiv.trans β)) with map_smul' := fun s z => ?_ }⟩
-  show β (e (α.symm (s • z))) = s • β (e (α.symm z))
+  change β (e (α.symm (s • z))) = s • β (e (α.symm z))
   rw [symm_smul_of_smul ε α hα, e.map_smul, hβ, RingEquiv.apply_symm_apply]
 
 /-! ### The two packagings of a flat module lift -/
@@ -119,7 +119,7 @@ private theorem exists_addEquiv_tensor_smul {P P₀ Q Q₀ : Type u} [CommRing P
   let tQ : Q₀ ≃ₛₗ[(εP : P₀ →+* P)] Q :=
     { εQ with
       map_smul' := fun x y => by
-        show εQ (x • y) = εP x • εQ y
+        change εQ (x • y) = εP x • εQ y
         rw [Algebra.smul_def, Algebra.smul_def, map_mul, hcomm] }
   let tM : M₀ ≃ₛₗ[(εP : P₀ →+* P)] M := { φ with map_smul' := fun x m => hφ x m }
   set t : (Q₀ ⊗[P₀] M₀) ≃ₛₗ[(εP : P₀ →+* P)] (Q ⊗[P] M) := TensorProduct.congr tQ tM with htdef
@@ -127,7 +127,7 @@ private theorem exists_addEquiv_tensor_smul {P P₀ Q Q₀ : Type u} [CommRing P
     rw [htdef]
     exact TensorProduct.congr_tmul tQ tM y m
   refine ⟨t.toAddEquiv, fun y z => ?_⟩
-  show t (y • z) = εQ y • t z
+  change t (y • z) = εQ y • t z
   induction z with
   | tmul q m =>
     rw [show y • q ⊗ₜ[P₀] m = (y * q) ⊗ₜ[P₀] m from rfl, ht, ht,
@@ -372,7 +372,7 @@ private def baseChangeEquivOfRingEquiv (ε : R ≃+* S)
       map_smul' := fun s n => by
         change (1 : S) ⊗ₜ[R] φ.symm (s • n) = s • ((1 : S) ⊗ₜ[R] φ.symm n)
         rw [hsymm, TensorProduct.tmul_smul, hsmulT] }
-  refine LinearEquiv.ofLinear (g.liftBaseChange S) h ?_ ?_
+  refine LinearEquiv.ofLinearMap (g.liftBaseChange S) h ?_ ?_
   · refine LinearMap.ext fun n => ?_
     change g.liftBaseChange S ((1 : S) ⊗ₜ[R] φ.symm n) = n
     rw [LinearMap.liftBaseChange_tmul]
@@ -399,7 +399,7 @@ theorem flat_of_ringEquiv {R S M N : Type u} [CommRing R] [CommRing S]
   let : Algebra R S := (ε : R →+* S).toAlgebra
   let : Module R N := Module.compHom N (ε : R →+* S)
   let : IsScalarTower R S N := ⟨fun r s n => by
-    show (algebraMap R S r * s) • n = ε r • (s • n)
+    change (algebraMap R S r * s) • n = ε r • (s • n)
     rw [mul_smul]
     rfl⟩
   exact Module.Flat.of_linearEquiv
@@ -413,7 +413,7 @@ theorem finite_of_ringEquiv {R S M N : Type u} [CommRing R] [CommRing S]
   let : Algebra R S := (ε : R →+* S).toAlgebra
   let : Module R N := Module.compHom N (ε : R →+* S)
   let : IsScalarTower R S N := ⟨fun r s n => by
-    show (algebraMap R S r * s) • n = ε r • (s • n)
+    change (algebraMap R S r * s) • n = ε r • (s • n)
     rw [mul_smul]
     rfl⟩
   exact Module.Finite.equiv (baseChangeEquivOfRingEquiv ε (fun _ => rfl) φ hφ)

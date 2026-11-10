@@ -191,7 +191,7 @@ private theorem injective_homology_adicCompletionUnit_of_finite_X
       obtain rfl : i = n - 1 := by
         simp only [ComplexShape.up_Rel] at hi; omega
       refine ModuleCat.hom_ext (LinearMap.ext fun w ↦ ?_)
-      show U.mkQ ((F.d (n - 1) n).hom w) = 0
+      change U.mkQ ((F.d (n - 1) n).hom w) = 0
       exact (Submodule.Quotient.mk_eq_zero U).mpr
         (Submodule.mem_sup_left (LinearMap.mem_range_self _ w))
     set θ : F ⟶ (HomologicalComplex.single (ModuleCat.{u} A) (ComplexShape.up ℤ) n).obj N :=

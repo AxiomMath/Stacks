@@ -38,7 +38,8 @@ The four universes of the two sites and the two universes of the coefficients ar
 independent; that is the point, since the intended use has `C : Type u` small and
 `D : Type (u + 1)`. This is why
 `Stacks.Cohomology.DenseSubsiteGlobal.constantSheafRestrictionIso`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/HigherDirectImage/DenseSubsiteGlobalCohomology.lean`)
+(`HigherDirectImage/DenseSubsiteGlobalCohomology.lean` under
+`StacksFrontier/CategoryTheory/Sites/Cohomology/`)
 is not reused here even though its statement is the same: it is seated at `{C D : Type u}` with
 `[Category.{v} C] [Category.{v} D]`, both sites in one pair of universes, and it takes
 cocontinuity of `v` as a hypothesis in place of the dense-subsite condition. The construction
@@ -49,7 +50,8 @@ right Kan extensions supply.
 
 The same construction appears as the local `let a` inside
 `Stacks.Cohomology.ColimitsOfCohomology.denseSubsite_globalSectionsIso`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/FilteredColimits/GlobalCohomologyOnALargeSite.lean`),
+(`FilteredColimits/GlobalCohomologyOnALargeSite.lean` under
+`StacksFrontier/CategoryTheory/Sites/Cohomology/`),
 which is the companion statement that the two global-sections functors *agree*,
 `v⁻¹ ⋙ Γ(C, -) ≅ Γ(D, -)`. That statement assumes `HasGlobalSectionsFunctor` on both sites; it
 is the consumer of the theorem below rather than a substitute for it, and it is not duplicated

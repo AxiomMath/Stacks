@@ -111,7 +111,7 @@ theorem exists_etale_chart (σ : Spec (.of (invariantRing G)) ⟶ S)
   have : IsAffine (restrictInvariantOpen D.groupoid V hVinv).arrows.left :=
     isAffine_of_isAffineHom (restrictInvariantOpen D.groupoid V hVinv).source.left
   have : Etale F.mapObjects.left := by
-    show Etale (ι.mapObjects.left ≫ D.hom.mapObjects.left)
+    change Etale (ι.mapObjects.left ≫ D.hom.mapObjects.left)
     infer_instance
   -- the three cartesian squares of Stacks 0DT9
   have hsource : IsPullback F.mapArrows.left
@@ -154,7 +154,7 @@ theorem exists_etale_chart (σ : Spec (.of (invariantRing G)) ⟶ S)
   refine ext_of_comp_objectsToInvariantSpectrum (restrictInvariantOpen D.groupoid V hVinv) _ _ ?_
   rw [← Category.assoc, hk, ← Category.assoc, hpb.w.symm, Category.assoc, Category.assoc, hσ,
     Over.w D.toAuxG]
-  show ι.mapObjects.left ≫ D.groupoid.objects.hom =
+  change ι.mapObjects.left ≫ D.groupoid.objects.hom =
     (ι.mapObjects.left ≫ D.hom.mapObjects.left) ≫ G.objects.hom
   rw [Category.assoc, Over.w D.hom.mapObjects]
 

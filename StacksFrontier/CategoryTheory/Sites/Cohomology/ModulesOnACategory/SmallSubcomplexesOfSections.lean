@@ -267,7 +267,7 @@ private lemma sectionSubmodules_differential
         rw [← ConcreteCategory.comp_apply, hmaps]
         simp
       rw [hzero]
-      show (F.X (Int.succ i)).val.map f
+      change (F.X (Int.succ i)).val.map f
         (0 : (F.X (Int.succ i)).val.obj (op V)) ∈
           (sectionSubmodules R F Omega (Int.succ i)).obj (op U)
       rw [map_zero]
@@ -511,7 +511,7 @@ theorem exists_subcomplex_containing_sections_of_size_le
     (sectionSubobject_d_factors R F Omega)
   refine ⟨H, inclusion, this, ?_, ?_⟩
   · exact fun i U x hx => ⟨⟨x, sectionSubmodules_contains R F Omega i U hx⟩, rfl⟩
-  · show complexSectionSize H ≤ B
+  · change complexSectionSize H ≤ B
     have hLocalRing (U : Cᵒᵖ) :
         Cardinal.lift.{max u v m r} (Cardinal.mk (R.obj.obj U)) ≤ B := by
       have hEmbed : (R.obj.obj U) ↪ RingSections :=

@@ -58,7 +58,7 @@ theorem isZero_rightDerivedFunctorPlus_obj {C D : Type*} [Category* C] [Category
     (Functor.map_isZero _ (IsZero.of_full_of_faithful_of_isZero (ObjectProperty.ι _) _ hZ))
   have hFL : IsZero ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).obj L) := by
     refine Functor.map_isZero DerivedCategory.Plus.Qh ?_
-    show IsZero ((HomotopyCategory.Plus.quotient D).obj (F.mapCochainComplexPlus.obj ⟨Z, hZp⟩))
+    change IsZero ((HomotopyCategory.Plus.quotient D).obj (F.mapCochainComplexPlus.obj ⟨Z, hZp⟩))
     refine Functor.map_isZero _ (IsZero.of_full_of_faithful_of_isZero (ObjectProperty.ι _) _ ?_)
     rw [IsZero.iff_id_eq_zero]
     ext n : 1

@@ -101,10 +101,10 @@ theorem exists_isClosedImmersion_isSeparated_isFinitePresentation_of_comp_of_clo
       naturality := fun a b φ => by
         simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.comp_id]
         rw [← Category.assoc]
-        show (Subfunctor.homOfLe (hT (leOfHom φ.unop)) ≫ (T b.unop).1.ι) ≫ g = _
+        change (Subfunctor.homOfLe (hT (leOfHom φ.unop)) ≫ (T b.unop).1.ι) ≫ g = _
         rw [Subfunctor.homOfLe_ι] }
   have ht : ∀ a, D.limitCone.π.app a ≫ t.app a = j ≫ g := fun a => by
-    show c.π.app a ≫ (T a.unop).1.ι ≫ g = j ≫ g
+    change c.π.app a ≫ (T a.unop).1.ι ≫ g = j ≫ g
     rw [← Category.assoc, hfac a.unop]
   obtain ⟨a, -, ha⟩ := D.exists_isSeparated_system_app_of_isClosedImmersion B S hS
     B.contains_terminal hI hTci hY hYqs t (j ≫ g) ht hsep

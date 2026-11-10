@@ -35,7 +35,8 @@ need it for the system of scheme-theoretic images of a good diagram, because the
 `X ⟶ X_{i'}` out of that limit are scheme-theoretically dominant. See the module docstring of
 `StacksFrontier/AlgebraicGeometry/Limits/SmallDominantIndex.lean`.
 
-Nor does `eventually_eq_morphismAt` carry instance hypotheses on `pX`: quasi-compactness, quasi-separatedness and
+Nor does `eventually_eq_morphismAt` carry instance hypotheses on `pX`: quasi-compactness,
+quasi-separatedness and
 local finiteness of type of `pX` are consequences of the existence of the good diagram `GX`, and
 are derived inside the proof.
 

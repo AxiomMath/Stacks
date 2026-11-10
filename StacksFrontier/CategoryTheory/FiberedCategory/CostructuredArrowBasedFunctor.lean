@@ -174,7 +174,7 @@ def addTargetFunctor (F : forgetTargetBased L D 𝒴 ⥤ᵇ 𝒳) :
 theorem addTargetFunctor_comp_pre (F : forgetTargetBased L D 𝒴 ⥤ᵇ 𝒳) :
     addTargetFunctor F ⋙ CostructuredArrow.pre 𝒳.p L D = 𝒴.p := by
   refine Functor.ext (fun y => ?_) (fun y y' φ => ?_)
-  · show CostructuredArrow.mk (L.map (eqToHom (F.w_obj y)) ≫ (𝒴.p.obj y).hom) = _
+  · change CostructuredArrow.mk (L.map (eqToHom (F.w_obj y)) ≫ (𝒴.p.obj y).hom) = _
     rw [mk_map_eqToHom_comp]
     exact (CostructuredArrow.eq_mk _).symm
   · apply CostructuredArrow.hom_ext

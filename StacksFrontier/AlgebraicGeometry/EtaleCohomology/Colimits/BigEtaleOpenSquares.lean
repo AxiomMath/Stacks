@@ -118,7 +118,7 @@ monomorphism of schemes, and reading an object of the raised site as a scheme is
 theorem mono_opensToSite_map {Y : Scheme.{u}} {U V : Y.Opens} (f : U ⟶ V) :
     Mono ((opensToSite Y).map f) := by
   apply Functor.mono_of_mono_map (AsSmall.down : Site.{u} ⥤ Scheme.{u})
-  show Mono (Y.homOfLE f.le)
+  change Mono (Y.homOfLE f.le)
   infer_instance
 
 /-- The inclusion of the preimage of `U ⊓ V` into the preimage of `V` is a monomorphism. -/
@@ -138,7 +138,7 @@ fibre product inside a third, and reading an object of the raised big étale sit
 reflects this limit. -/
 theorem preimageSquare_isPullback : (preimageSquare h U V).IsPullback := by
   apply Square.IsPullback.of_map (AsSmall.down : Site.{u} ⥤ Scheme.{u})
-  show IsPullback (Y.homOfLE inf_le_left) (Y.homOfLE inf_le_right)
+  change IsPullback (Y.homOfLE inf_le_left) (Y.homOfLE inf_le_right)
     (Y.homOfLE (show h ⁻¹ᵁ U ≤ h ⁻¹ᵁ U ⊔ h ⁻¹ᵁ V from le_sup_left))
     (Y.homOfLE (show h ⁻¹ᵁ V ≤ h ⁻¹ᵁ U ⊔ h ⁻¹ᵁ V from le_sup_right))
   exact isPullback_opens_inf_le _ _

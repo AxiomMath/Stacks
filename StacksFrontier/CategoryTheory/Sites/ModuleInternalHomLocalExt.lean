@@ -116,14 +116,14 @@ lemma freeSuccShortComplex_shortExact [Small.{t} A] (b : ℕ) :
   · rw [moduleCat_exact_iff_function_exact']
     intro (v : Fin (b + 1) → Shrink.{t} A)
     refine ⟨fun hv => ⟨v 0, funext fun j => ?_⟩, ?_⟩
-    · show @Pi.single (Fin (b + 1)) (fun _ => Shrink.{t} A) _ _ 0 (v 0) j = v j
+    · change @Pi.single (Fin (b + 1)) (fun _ => Shrink.{t} A) _ _ 0 (v 0) j = v j
       refine Fin.cases ?_ (fun i => ?_) j
       · exact Pi.single_eq_same _ _
       · rw [Pi.single_eq_of_ne (Fin.succ_ne_zero i)]
         exact (congrFun hv i).symm
     · rintro ⟨(x : Shrink.{t} A), rfl⟩
       refine funext fun i => ?_
-      show @Pi.single (Fin (b + 1)) (fun _ => Shrink.{t} A) _ _ 0 x i.succ = 0
+      change @Pi.single (Fin (b + 1)) (fun _ => Shrink.{t} A) _ _ 0 x i.succ = 0
       exact Pi.single_eq_of_ne (Fin.succ_ne_zero i) x
   · rw [ModuleCat.mono_iff_injective]
     intro (a : Shrink.{t} A) (a' : Shrink.{t} A) h
@@ -252,11 +252,11 @@ lemma shortExact_of_sectionwise (S : ShortComplex (Sheaf K (ModuleCat.{max u v} 
     Presheaf.isLocallySurjective_of_surjective K S.toCycles.hom fun X c => by
       obtain ⟨x, hx⟩ := (ShortComplex.moduleCat_exact_iff _).1 (h X).exact
         ((S.iCycles.hom.app X).hom c) (by
-          show ((S.iCycles ≫ S.g).hom.app X).hom c = 0
+          change ((S.iCycles ≫ S.g).hom.app X).hom c = 0
           rw [S.iCycles_g]
           rfl)
       refine ⟨x, hi X ?_⟩
-      show ((S.toCycles ≫ S.iCycles).hom.app X).hom x = _
+      change ((S.toCycles ≫ S.iCycles).hom.app X).hom x = _
       rw [S.toCycles_i]
       exact hx
   exact Sheaf.epi_of_isLocallySurjective S.toCycles
@@ -289,7 +289,7 @@ lemma moduleSheafHomMap_comp_moduleSheafHomMap {G₁ G₂ F₁ F₂ : Sheaf K (M
     moduleSheafHomMap K A f (𝟙 F₁) ≫ moduleSheafHomMap K A (𝟙 G₁) g =
       moduleSheafHomMap K A (𝟙 G₂) g ≫ moduleSheafHomMap K A f (𝟙 F₂) := by
   refine moduleSheafHom_hom_ext K A fun U α => ?_
-  show (K.overPullback (ModuleCat.{max u v} A) U.unop).map (𝟙 G₁) ≫
+  change (K.overPullback (ModuleCat.{max u v} A) U.unop).map (𝟙 G₁) ≫
       ((K.overPullback (ModuleCat.{max u v} A) U.unop).map f ≫ α ≫
         (K.overPullback (ModuleCat.{max u v} A) U.unop).map (𝟙 F₁)) ≫
       (K.overPullback (ModuleCat.{max u v} A) U.unop).map g =
@@ -314,7 +314,7 @@ lemma homComplexMap_comp {G₁ G₂ G₃ : Sheaf K (ModuleCat.{max u v} A)} (f :
     (g : G₂ ⟶ G₃) :
     homComplexMap K A J (f ≫ g) = homComplexMap K A J g ≫ homComplexMap K A J f := by
   refine HomologicalComplex.hom_ext _ _ fun n => moduleSheafHom_hom_ext K A fun U α => ?_
-  show (K.overPullback (ModuleCat.{max u v} A) U.unop).map (f ≫ g) ≫ α ≫
+  change (K.overPullback (ModuleCat.{max u v} A) U.unop).map (f ≫ g) ≫ α ≫
       (K.overPullback (ModuleCat.{max u v} A) U.unop).map (𝟙 (J.X n)) =
     (K.overPullback (ModuleCat.{max u v} A) U.unop).map f ≫
       ((K.overPullback (ModuleCat.{max u v} A) U.unop).map g ≫ α ≫
@@ -326,7 +326,7 @@ lemma homComplexMap_comp {G₁ G₂ G₃ : Sheaf K (ModuleCat.{max u v} A)} (f :
 lemma homComplexMap_id (G : Sheaf K (ModuleCat.{max u v} A)) :
     homComplexMap K A J (𝟙 G) = 𝟙 _ := by
   refine HomologicalComplex.hom_ext _ _ fun n => moduleSheafHom_hom_ext K A fun U α => ?_
-  show (K.overPullback (ModuleCat.{max u v} A) U.unop).map (𝟙 G) ≫ α ≫
+  change (K.overPullback (ModuleCat.{max u v} A) U.unop).map (𝟙 G) ≫ α ≫
       (K.overPullback (ModuleCat.{max u v} A) U.unop).map (𝟙 (J.X n)) = α
   simp only [CategoryTheory.Functor.map_id, Category.comp_id, Category.id_comp]
 
@@ -344,7 +344,7 @@ lemma homComplexMap_comp_eq_zero (S : ShortComplex (Sheaf K (ModuleCat.{max u v}
     homComplexMap K A J S.g ≫ homComplexMap K A J S.f = 0 := by
   rw [← homComplexMap_comp, S.zero]
   refine HomologicalComplex.hom_ext _ _ fun n => moduleSheafHom_hom_ext K A fun U α => ?_
-  show (K.overPullback (ModuleCat.{max u v} A) U.unop).map 0 ≫ α ≫
+  change (K.overPullback (ModuleCat.{max u v} A) U.unop).map 0 ≫ α ≫
       (K.overPullback (ModuleCat.{max u v} A) U.unop).map (𝟙 (J.X n)) = 0
   rw [Functor.map_zero, Limits.zero_comp]
 
@@ -375,13 +375,13 @@ lemma constantHomEval_naturality {N₁ N₂ : ModuleCat.{max u v} A} (f : N₁ �
   refine ModuleCat.hom_ext (LinearMap.ext fun (α : (K.overPullback (ModuleCat.{max u v} A)
     X.unop).obj ((constantSheaf K (ModuleCat.{max u v} A)).obj N₂) ⟶
       (K.overPullback (ModuleCat.{max u v} A) X.unop).obj F) => LinearMap.ext fun m => ?_)
-  show (((K.overPullback (ModuleCat.{max u v} A) X.unop).map
+  change (((K.overPullback (ModuleCat.{max u v} A) X.unop).map
       ((constantSheaf K (ModuleCat.{max u v} A)).map f) ≫ α ≫
         (K.overPullback (ModuleCat.{max u v} A) X.unop).map (𝟙 F)).hom.app
           (op (Over.mk (𝟙 X.unop)))).hom (((constantUnit K A N₁).app X).hom m) =
     (α.hom.app (op (Over.mk (𝟙 X.unop)))).hom (((constantUnit K A N₂).app X).hom (f.hom m))
   rw [CategoryTheory.Functor.map_id, Category.comp_id]
-  show (α.hom.app (op (Over.mk (𝟙 X.unop)))).hom
+  change (α.hom.app (op (Over.mk (𝟙 X.unop)))).hom
       ((((constantSheaf K (ModuleCat.{max u v} A)).map f).hom.app X).hom
         (((constantUnit K A N₁).app X).hom m)) = _
   exact congrArg (fun z => (α.hom.app (op (Over.mk (𝟙 X.unop)))).hom z)
@@ -562,7 +562,7 @@ lemma preservesFiniteLimits_sheafCompose_forget₂ :
       (sheafCompose K (forget₂ (ModuleCat.{max u v} A) AddCommGrpCat.{max u v})) := by
   have : PreservesFiniteLimits (sheafCompose K (forget₂ (ModuleCat.{max u v} A)
       AddCommGrpCat.{max u v}) ⋙ sheafToPresheaf K AddCommGrpCat.{max u v}) := by
-    show PreservesFiniteLimits (sheafToPresheaf K (ModuleCat.{max u v} A) ⋙
+    change PreservesFiniteLimits (sheafToPresheaf K (ModuleCat.{max u v} A) ⋙
       (Functor.whiskeringRight _ _ _).obj (forget₂ (ModuleCat.{max u v} A) AddCommGrpCat.{max u v}))
     exact comp_preservesFiniteLimits _ _
   exact preservesFiniteLimits_of_reflects_of_preserves _ (sheafToPresheaf K AddCommGrpCat.{max u v})
@@ -697,14 +697,14 @@ lemma constantSheafHomIsoOfHom_hom_comp_moduleSheafHomMap {N₁ N₂ : ModuleCat
         ((constantUnit K A (ModuleCat.of A (N₂ ⟶ E))).app X).hom (i ≫ h) :=
     (ConcreteCategory.congr_hom
       (toSheafify_const_naturality_app K (ModuleCat.{max u v} A) (precompHom A i E) X) h).symm
-  show (moduleSheafHomMap K A ((constantSheaf K _).map i) (𝟙 _)).hom.app X
+  change (moduleSheafHomMap K A ((constantSheaf K _).map i) (𝟙 _)).hom.app X
       (((constantSheafHomIsoOfHom K A N₁ E).hom.hom.app X).hom
         (((constantUnit K A (ModuleCat.of A (N₁ ⟶ E))).app X).hom h)) =
     ((constantSheafHomIsoOfHom K A N₂ E).hom.hom.app X).hom
       ((((constantSheaf K _).map (precompHom A i E)).hom.app X).hom
         (((constantUnit K A (ModuleCat.of A (N₁ ⟶ E))).app X).hom h))
   rw [hn, h₂', h₁']
-  show (K.overPullback (ModuleCat.{max u v} A) X.unop).map ((constantSheaf K _).map i) ≫
+  change (K.overPullback (ModuleCat.{max u v} A) X.unop).map ((constantSheaf K _).map i) ≫
       (K.overPullback (ModuleCat.{max u v} A) X.unop).map ((constantSheaf K _).map h) ≫
       (K.overPullback (ModuleCat.{max u v} A) X.unop).map (𝟙 _) = _
   rw [CategoryTheory.Functor.map_id, Category.comp_id, ← Functor.map_comp, ← Functor.map_comp]

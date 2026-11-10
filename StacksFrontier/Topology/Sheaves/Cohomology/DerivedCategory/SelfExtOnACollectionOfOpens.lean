@@ -415,7 +415,7 @@ theorem exists_preimage_eq_of_sSup_covered {T Z : TopCat.{u}} (f : T ⟶ Z) (ℬ
   · rw [hO] at hx
     obtain ⟨W, hW, hxW⟩ := Opens.mem_sSup.mp hx
     refine Opens.mem_sSup.mpr ⟨g ⟨W, hW.1⟩, ⟨⟨W, hW.1⟩, hW.2, rfl⟩, ?_⟩
-    show x ∈ ((Opens.map f).obj (g ⟨W, hW.1⟩) : Set T)
+    change x ∈ ((Opens.map f).obj (g ⟨W, hW.1⟩) : Set T)
     rwa [himage ⟨W, hW.1⟩]
 
 end Coarsening

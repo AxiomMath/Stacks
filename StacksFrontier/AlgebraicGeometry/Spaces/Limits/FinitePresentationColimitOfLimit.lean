@@ -173,6 +173,7 @@ variable (hZ : B.Contains (⊤_ Scheme.{u}))
 
 include hlim hAffine hQc hQs hSizeB hν hHomSizeB hB
 
+omit hQs in
 /-- **Faithfulness.** Two morphisms over a stage whose base changes to the vertex agree already
 agree over a later stage. -/
 theorem faithful_of_isLimit (i : I) (X Y : FinitePresentationSpacesOver B S hS (W.obj i))
@@ -192,8 +193,8 @@ theorem faithful_of_isLimit (i : I) (X Y : FinitePresentationSpacesOver B S hS (
     rw [← Iso.cancel_iso_hom_left ((baseChangeLimitIso hlim i).app X.obj), Iso.app_hom, ← hf,
       ← hg, h₁]
   have h₃ := (Over.pullback (limitIso hlim).hom).map_injective h₂
-  obtain ⟨j, e, he⟩ := Space.eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded B S hS hZ
-    (W ⋙ yoneda) (fun i => isAlgebraicSpace_yoneda B S hS (W.obj i)) hAffine hQc hQs hSizeB hν
+  obtain ⟨j, e, he⟩ := Space.eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded B S hS
+    (W ⋙ yoneda) (fun i => isAlgebraicSpace_yoneda B S hS (W.obj i)) hAffine hQc hSizeB hν
     hHomSizeB hB i X.obj Y.obj X.property.1 Y.property.1 X.property.2 Y.property.2 f.hom g.hom h₃
   exact ⟨j, e, ObjectProperty.hom_ext _ he⟩
 
@@ -354,7 +355,7 @@ theorem isFinitePresentationColimit_of_isLimit :
       (baseChangeFactorIso B S hS (W.map_comp e' e).symm).symm.app Y, ?_⟩
     exact representsFactor_trans B S hS (hp e') (W.map_comp e' e).symm (hp (e' ≫ e)) (hp e)
       hh'
-  faithful i X Y f g h := faithful_of_isLimit hlim hZ hAffine hQc hQs hSizeB hν hHomSizeB hB
+  faithful i X Y f g h := faithful_of_isLimit hlim hAffine hQc hSizeB hν hHomSizeB hB
     i X Y f g h
 
 end Limit

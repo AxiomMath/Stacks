@@ -178,7 +178,7 @@ lemma fromSpecStalk_preimage_eq_top {X : Scheme.{u}} {x : X} (hx : x ∈ generic
     {U : X.Opens} (hxU : x ∈ U) : X.fromSpecStalk x ⁻¹ᵁ U = ⊤ := by
   apply Opens.ext
   refine Set.eq_univ_of_forall fun p ↦ ?_
-  show (X.fromSpecStalk x) p ∈ U
+  change (X.fromSpecStalk x) p ∈ U
   rw [fromSpecStalk_base_eq hx p]
   exact hxU
 
@@ -230,7 +230,7 @@ lemma exists_minimalPrimes_mem_of_notMem_nonZeroDivisors
   have hw : Stacks.Divisors.IsWeaklyAssociatedPoint (SheafOfModules.unit X.ringCatSheaf) y := by
     apply (AlgebraicGeometry.isWeaklyAssociatedPrime_iff_isWeaklyAssociatedPoint
       (SheafOfModules.unit X.ringCatSheaf) U hU y y.2).mp
-    show IsWeaklyAssociatedPrime Γ(X, U) Γ(X, U) (hU.primeIdealOf y).asIdeal
+    change IsWeaklyAssociatedPrime Γ(X, U) Γ(X, U) (hU.primeIdealOf y).asIdeal
     rw [hyp]; exact ⟨z, hq⟩
   have hgen : (y : X) ∈ genericPoints X := hass hw
   have hmin := (genericPointsInOpenEquivMinimalPrimes hU ⟨⟨(y : X), hgen⟩, y.2⟩).2

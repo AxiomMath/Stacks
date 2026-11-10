@@ -147,7 +147,7 @@ theorem openChartRingEquiv_appLE {U V : SmallEtale B S hS F} (g : V ⟶ U)
     ConcreteCategory.congr_hom
       (resLE_appTop_comp_topIso_hom (chartSchemeMap g) hle) _
   apply (ConcreteCategory.bijective_of_isIso O'.topIso.hom).1
-  show O'.topIso.hom (O'.topIso.inv ((chartSchemeMap g).appLE O O' hle r)) =
+  change O'.topIso.hom (O'.topIso.inv ((chartSchemeMap g).appLE O O' hle r)) =
     O'.topIso.hom (((chartSchemeMap g).resLE O O' hle).appTop (O.topIso.inv r))
   rw [e, O.topIso.inv_hom_id_apply, O'.topIso.inv_hom_id_apply]
 

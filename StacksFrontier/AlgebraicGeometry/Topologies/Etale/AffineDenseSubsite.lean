@@ -69,7 +69,7 @@ private theorem isCovering_deduplicateFamily
   cases htarget
   have hcomb' : PreZeroHypercover.CombinatoriallyEquivalent Q Rfam := hcomb.2
   refine ⟨?_, (deduplicateFamily_card_le hcomb').trans hR.2⟩
-  show ((deduplicateFamily Q).map B.inclusion).presieve₀ ∈
+  change ((deduplicateFamily Q).map B.inclusion).presieve₀ ∈
     Scheme.etalePrecoverage (B.inclusion.obj T)
   rw [PreZeroHypercover.presieve₀_map, deduplicateFamily_presieve₀,
     ← PreZeroHypercover.presieve₀_map]
@@ -110,7 +110,7 @@ private theorem finite_standard_refinement
     X i := B.inclusion.obj (E.X i)
     f i := B.inclusion.map (E.f i)
     mem₀ := by
-      show (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage T'
+      change (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage T'
       exact hE.1 }
   obtain ⟨V, q, hfin, hopen⟩ := finite_affine_refinement_etaleCover U
   let Q : PreZeroHypercover T := {
@@ -127,7 +127,7 @@ private theorem finite_standard_refinement
           B.inclusion.obj T from V.f i) }
   have hQf : ∀ i, B.inclusion.map (Q.f i) = V.f i := fun i => B.inclusion.map_preimage _
   have hQ : AlgebraicGeometry.IsEtaleCovering ⟨T, Q⟩ := by
-    show (Q.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage (B.inclusion.obj T)
+    change (Q.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage (B.inclusion.obj T)
     rw [show Q.map B.inclusion = V.cover.toPreZeroHypercover from
       PreZeroHypercover.ext (x := _) (y := _) rfl (by rfl) (heq_of_eq (funext hQf))]
     simpa [T', Scheme.etalePrecoverage] using V.cover.mem₀
@@ -135,7 +135,7 @@ private theorem finite_standard_refinement
     simpa [Q, Scheme.AffineCover.cover] using hfin
   refine exists_finite_affine_covering_of_isEtaleCovering B E Q hQ
     (fun k => by
-      show IsAffine (Spec (V.X k))
+      change IsAffine (Spec (V.X k))
       exact isAffine_Spec _) fun k => ?_
   refine ⟨q.s₀ k, _, preimage_inclusion_comp_eq B (show
     B.inclusion.obj (Q.X k) ⟶ B.inclusion.obj (E.X (q.s₀ k)) from q.h₀ k) _ _ ?_⟩
@@ -197,7 +197,7 @@ private theorem finite_affine_pullback_refinement
         exact congrArg (fun t => F.f i ≫ t) a.w)
   have hl : l ≫ E.f j = G.map (F'.f i) ≫ a := by
     apply Over.OverMorphism.ext
-    show (g ≫ π₁ j) ≫ (E.f j).left = F.f i ≫ a.left
+    change (g ≫ π₁ j) ≫ (E.f j).left = F.f i ≫ a.left
     calc
       (g ≫ π₁ j) ≫ (E.f j).left = g ≫ π₁ j ≫ (E.f j).left := Category.assoc _ _ _
       _ = g ≫ (π₂ j ≫ a.left) := by rw [hpbw]
@@ -236,7 +236,7 @@ private theorem bigAffineEtale_isCoverDense (B : AlgebraicGeometry.BigEtaleSite.
     X i := Over.mk (V.f i ≫ X.hom)
     f i := Over.homMk (V.f i) }
   have hE : BigEtaleOver.IsCovering B S hS ⟨X, E⟩ := by
-    show B.IsCovering ⟨X.left, E.map (Over.forget (B.obj S hS))⟩
+    change B.IsCovering ⟨X.left, E.map (Over.forget (B.obj S hS))⟩
     simpa [E, PreZeroHypercover.map] using hV
   have hpre : E.presieve₀ ∈ BigEtaleOver.precoverage B S hS X := by
     rw [BigEtaleOver.mem_precoverage_iff]
@@ -252,7 +252,7 @@ private theorem bigAffineEtale_isCoverDense (B : AlgebraicGeometry.BigEtaleSite.
     B.obj (U.X j) (Scheme.size_lt_of_isOpenImmersion (U.f j) X.left.property)
   let tj : Tj ⟶ X.left := ⟨U.f j⟩
   let Aobj : BigAffineEtale B S hS := ⟨Over.mk (tj ≫ X.hom), by
-    show IsAffine (A.openCover.X j.down)
+    change IsAffine (A.openCover.X j.down)
     infer_instance⟩
   let eHom : V.X i ⟶ Tj := B.inclusion.preimage (show
       B.inclusion.obj (V.X i) ⟶ B.inclusion.obj Tj from e.hom)
@@ -262,7 +262,7 @@ private theorem bigAffineEtale_isCoverDense (B : AlgebraicGeometry.BigEtaleSite.
   let map : G.obj Aobj ⟶ X := Over.homMk tj
   refine ⟨⟨Aobj, lift, map, ?_⟩⟩
   ext
-  show (eHom ≫ tj).hom = (V.f i).hom
+  change (eHom ≫ tj).hom = (V.f i).hom
   exact congrArg (fun f => f.hom) hTriangle
 
 private theorem affine_inclusion_lifts_saturate
@@ -288,7 +288,7 @@ private theorem affine_inclusion_lifts_saturate
         finite_affine_pullback_refinement B S hS X a E hE
       refine mem_toGrothendieck_of_le_arrows (BigAffineEtale.precoverage B S hS) hF ?_
       rintro Y f ⟨i⟩
-      show (Sieve.generate E.presieve₀).pullback a
+      change (Sieve.generate E.presieve₀).pullback a
         ((BigAffineEtale.inclusion B S hS).map (F.f i))
       simpa [Sieve.pullback_apply, Category.assoc] using hfactor i
   | top U =>
@@ -341,7 +341,7 @@ private theorem affine_topology_eq_restricted
   have : G.IsLocallyFull K := inferInstance
   have : G.IsLocallyFaithful K := inferInstance
   have hle : P.toGrothendieck ≤ G.restrictedTopology K := by
-    show P.toGrothendieck ≤ (K.toPrecoverage.comap G).toGrothendieck
+    change P.toGrothendieck ≤ (K.toPrecoverage.comap G).toGrothendieck
     exact (Precoverage.toGrothendieck_monotone hpre).trans
       (Precoverage.toGrothendieck_monotone hcomp)
   have hge : G.restrictedTopology K ≤ P.toGrothendieck := by
@@ -375,7 +375,7 @@ public theorem BigAffineEtale.inclusion_isSpecialCocontinuous
   have : G.Faithful := inferInstance
   have : G.IsCoverDense K := bigAffineEtale_isCoverDense B S hS
   have hSub : G.IsDenseSubsite J K := by
-    show G.IsDenseSubsite (BigAffineEtale.topology B S hS) K
+    change G.IsDenseSubsite (BigAffineEtale.topology B S hS) K
     rw [affine_topology_eq_restricted B S hS]
     infer_instance
   exact ⟨hCocont, hSub⟩

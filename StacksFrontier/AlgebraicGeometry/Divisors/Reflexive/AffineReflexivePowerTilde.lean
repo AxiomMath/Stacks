@@ -105,7 +105,7 @@ theorem reflexivePowerTildeIso_transition_zero (s : M) :
     rw [toOpen_one]
     exact (tildeGlobalSection_unitHom_app_one M s).trans
       (congrArg (fun m => (tilde.toOpen M ⊤).hom m) (one_smul R s).symm)
-  show (tilde M).unitHomEquiv.symm (tildeGlobalSection M s) ≫ 𝟙 _ =
+  change (tilde M).unitHomEquiv.symm (tildeGlobalSection M s) ≫ 𝟙 _ =
     𝟙 _ ≫ tilde.map (ModuleCat.ofHom (LinearMap.toSpanSingleton R M s))
   exact (Category.comp_id _).trans (key.trans (Category.id_comp _).symm)
 

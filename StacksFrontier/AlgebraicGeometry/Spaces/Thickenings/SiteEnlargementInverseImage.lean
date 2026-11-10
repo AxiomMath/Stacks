@@ -70,16 +70,16 @@ theorem bijective_comp_iso' {X₀ Y₀ Z₀ : E} (e : Y₀ ≅ Z₀) :
 image under `G` of the adjunct of the preimage, followed by `τ`. -/
 theorem homEquiv_mateEquiv_symm_comp (τ : R₁ ⋙ G ⟶ H ⋙ R₂) (hH : H.FullyFaithful) (c : C)
     {d : D} (x : H.obj (L₁.obj c) ⟶ H.obj d) :
-    adj₂.homEquiv _ _ ((((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ τ)).natTrans.app c) ≫ x) =
+    adj₂.homEquiv _ _ ((((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ τ)).app c) ≫ x) =
       G.map (adj₁.homEquiv _ _ (hH.preimage x)) ≫ τ.app d := by
   have hu := unit_mateEquiv_symm adj₁ adj₂ (TwoSquare.mk _ _ _ _ τ) c
   have hn := τ.naturality (hH.preimage x)
   simp only [Functor.comp_map, hH.map_preimage] at hn
   rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit, R₂.map_comp, ← Category.assoc]
-  show _ ≫ _ = _
+  change _ ≫ _ = _
   refine (congrArg (· ≫ R₂.map x) hu.symm).trans ?_
   refine (Category.assoc _ _ _).trans ?_
-  show G.map (adj₁.unit.app c) ≫ τ.app (L₁.obj c) ≫ R₂.map x = _
+  change G.map (adj₁.unit.app c) ≫ τ.app (L₁.obj c) ≫ R₂.map x = _
   refine (congrArg (G.map (adj₁.unit.app c) ≫ ·) hn.symm).trans ?_
   rw [G.map_comp, Category.assoc]
 
@@ -88,8 +88,8 @@ functor on the target side is essentially surjective: precomposition with the ma
 adjunction bijections, a composite of bijections. -/
 theorem isIso_app_mateEquiv_symm (τ : R₁ ⋙ G ≅ H ⋙ R₂) (hG : G.FullyFaithful)
     (hH : H.FullyFaithful) [H.EssSurj] (c : C) :
-    IsIso (((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ τ.hom)).natTrans.app c) := by
-  let μc := ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ τ.hom)).natTrans.app c
+    IsIso (((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ τ.hom)).app c) := by
+  let μc := ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ τ.hom)).app c
   have key : ∀ d : D, Function.Bijective (fun x : H.obj (L₁.obj c) ⟶ H.obj d => μc ≫ x) := by
     intro d
     have h1 : (fun x : H.obj (L₁.obj c) ⟶ H.obj d => μc ≫ x) =
@@ -105,7 +105,7 @@ theorem isIso_app_mateEquiv_symm (τ : R₁ ⋙ G ≅ H ⋙ R₂) (hG : G.FullyF
     exact bijective_comp_iso' (τ.app d)
   rw [isIso_iff_coyoneda_map_bijective]
   intro T
-  show Function.Bijective (fun x : H.obj (L₁.obj c) ⟶ T => μc ≫ x)
+  change Function.Bijective (fun x : H.obj (L₁.obj c) ⟶ T => μc ≫ x)
   let e := H.objObjPreimageIso T
   have h2 : (fun x : H.obj (L₁.obj c) ⟶ T => μc ≫ x) =
       (fun y => y ≫ e.hom) ∘ (fun x : H.obj (L₁.obj c) ⟶ H.obj (H.objPreimage T) => μc ≫ x) ∘
@@ -144,7 +144,7 @@ def inverseImageComparison :
         restrictSheaf h hS' X :=
   ((mateEquiv (smallEtaleRingedToposHom B' S hS' ((changeBigSite B B' h S hS).map f)).toToposHom.adj
     (smallEtaleRingedToposHom B S hS f).toToposHom.adj).symm
-      (TwoSquare.mk _ _ _ _ (pushforwardComparison h hS' f).hom)).natTrans
+      (TwoSquare.mk _ _ _ _ (pushforwardComparison h hS' f).hom))
 
 /-- The comparison `R_Y ⋙ f⁻¹ ⟶ f'⁻¹ ⋙ R_X` of inverse images is an isomorphism: it is the mate of
 an isomorphism along restrictions which are equivalences. -/

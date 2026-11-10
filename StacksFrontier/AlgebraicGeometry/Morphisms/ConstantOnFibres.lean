@@ -124,7 +124,7 @@ theorem toPshHom_comp_descPshHomOfConstantOnFibres :
     f.toPshHom ≫ descPshHomOfConstantOnFibres f g hf hg hiso = g.toPshHom := by
   refine PresheafedSpace.Hom.ext _ _ (fac_descBaseOfConstantOnFibres f g hf hg) ?_
   refine NatTrans.ext (funext fun U ↦ ?_)
-  show descAppOfConstantOnFibres f g hf hg hiso U.unop ≫ f.app _ ≫ X.presheaf.map _ =
+  change descAppOfConstantOnFibres f g hf hg hiso U.unop ≫ f.app _ ≫ X.presheaf.map _ =
     g.app U.unop
   rw [descAppOfConstantOnFibres_comp_app_assoc]
   exact comp_presheaf_map_comp_presheaf_map _ _ _
@@ -155,7 +155,7 @@ def descOfConstantOnFibres : Y ⟶ Z where
 /-- The descended morphism of schemes composed with `f` is `g`. -/
 theorem fac_descOfConstantOnFibres : f ≫ descOfConstantOnFibres f g hf hg hiso = g := by
   refine Scheme.Hom.ext (fac_descBaseOfConstantOnFibres f g hf hg) fun U ↦ ?_
-  show (descAppOfConstantOnFibres f g hf hg hiso U ≫ f.app _) ≫ _ = _
+  change (descAppOfConstantOnFibres f g hf hg hiso U ≫ f.app _) ≫ _ = _
   rw [descAppOfConstantOnFibres_comp_app]
   exact (Category.assoc _ _ _).trans (comp_presheaf_map_comp_presheaf_map _ _ _)
 

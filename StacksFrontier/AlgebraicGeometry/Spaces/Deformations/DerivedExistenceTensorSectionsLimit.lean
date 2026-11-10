@@ -204,7 +204,7 @@ theorem isIso_derivedBaseChangeComparison_transitionTensorSectionsTranspose
       (representedAffineCommRingCatHom B S hS g₂).hom
       (transitionTensorSectionsTranspose B S hS g₂ f' f'' g' g₂' w₂ g₃' hg' K' K'' φ E)) := by
   rw [StacksDraft.DerivedInverseLimit.derivedBaseChangeComparison_eq_adjunction_homEquiv_symm]
-  show IsIso (((RingTheory.TorIndependence.totalDerivedExtensionScalarsAdjunction
+  change IsIso (((RingTheory.TorIndependence.totalDerivedExtensionScalarsAdjunction
       (representedAffineCommRingCatHom B S hS g₂).hom).homEquiv _ _).symm
     ((RingTheory.TorIndependence.totalDerivedExtensionScalarsAdjunction
       (representedAffineCommRingCatHom B S hS g₂).hom).homEquiv _ _

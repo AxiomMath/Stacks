@@ -260,7 +260,7 @@ theorem comp_degreePullback_map_cartesianLift (d : StructuredArrow W (pullbackFu
   have hA : c.hom.hom.left ≫ pullback.snd c.right.1.hom (h.app (op W.degree)) = W.obj.1.hom :=
     Over.w c.hom.hom
   refine ObjectProperty.hom_ext _ (Over.OverMorphism.ext ?_)
-  show c.hom.hom.left ≫ ((degreePullback h W.degree).map (cartesianLift s.right hk)).hom.left =
+  change c.hom.hom.left ≫ ((degreePullback h W.degree).map (cartesianLift s.right hk)).hom.left =
     (reducedHom h d).hom.left
   apply pullback.hom_ext
   · exact comp_degreePullback_map_cartesianLift_fst h d c s hk

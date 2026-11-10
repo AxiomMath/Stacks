@@ -131,8 +131,8 @@ theorem isLocallySurjective_sigmaDesc_sheafifiedULiftMap
     (Sigma.desc fun i ↦ toSheafifiedULift B S hS (Xi i) ≫
       (Sigma.ι (fun i ↦ sheafifiedULift B S hS (Xi i)) i).hom) _ hf <| by
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [Sigma.ι_desc_assoc, Sigma.ι_desc_assoc, Category.assoc,
-      ← ObjectProperty.FullSubcategory.comp_hom, Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc_assoc, Category.assoc,
+      ← ObjectProperty.FullSubcategory.comp_hom, Sigma.ι_comp_desc]
     exact whiskerRight_comp_toSheafifiedULift B S hS (f i)
 
 end AlgebraicGeometry.Space

@@ -8,7 +8,7 @@ import StacksCore.Tactic.StacksAttribute
 import all StacksFrontier.CategoryTheory.Sites.RingedLocalization.RingedToposHomModulesComparison
 
 /-!
-# Additions to `StacksFrontier.CategoryTheory.Sites.RingedLocalization.RingedToposHomModulesComparison`
+# Additions to the ringed topos comparison of module categories
 
 Declarations extending
 `StacksFrontier.CategoryTheory.Sites.RingedLocalization.RingedToposHomModulesComparison`, kept in

@@ -154,7 +154,7 @@ public theorem nonempty_nodalChartNeighbourhood_of_standardNodalDiagram {X S : S
     etale_toChart := inferInstance
     pt_mem := ?_
     comm := ?_ }⟩
-  · show d.toSource (pullback.fst d.toModel (pullback.fst d.familyW j) u) = x
+  · change d.toSource (pullback.fst d.toModel (pullback.fst d.familyW j) u) = x
     rw [hu₁]
     exact d.pt_mem
   · rw [Category.assoc, Category.assoc, reassoc_of% heW, d.comm_left, ← d.comm_model,
@@ -269,7 +269,7 @@ public theorem nonempty_nodalChartNeighbourhood_of_smoothAt {X S : Scheme.{u}} (
   · have : Etale (Spec.map (CommRingCat.ofHom (algebraMap B L))) :=
       HasRingHomProperty.Spec_iff.mpr (RingHom.etale_algebraMap.mpr inferInstance)
     infer_instance
-  · show U₀.ι (hV.fromSpec (Spec.map (CommRingCat.ofHom (algebraMap B L)) q')) = x
+  · change U₀.ι (hV.fromSpec (Spec.map (CommRingCat.ofHom (algebraMap B L)) q')) = x
     rw [show Spec.map (CommRingCat.ofHom (algebraMap B L)) q' = q from hq', hq]
     rfl
   · simp only [Category.assoc]

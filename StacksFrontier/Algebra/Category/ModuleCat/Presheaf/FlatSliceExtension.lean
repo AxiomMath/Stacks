@@ -58,11 +58,11 @@ theorem presheafExtensionUnit_isFlat {C : Type u} [Category.{v} C]
   have : Module.Flat ((ringPresheaf O).obj V)
       (extensionFormula.{v, u, max u v w, max u w} (ringPresheaf O) U V.unop
         (PresheafOfModules.unit (overRingPresheaf (ringPresheaf O) U))) := by
-    show Module.Flat ((ringPresheaf O).obj V)
+    change Module.Flat ((ringPresheaf O).obj V)
       (DirectSum (V.unop ⟶ U) fun φ ↦
         (PresheafOfModules.unit (overRingPresheaf (ringPresheaf O) U)).obj (op (Over.mk φ)))
     refine Module.Flat.directSum_iff.2 fun _ ↦ ?_
-    show Module.Flat ((ringPresheaf O).obj V) ((ringPresheaf O).obj V)
+    change Module.Flat ((ringPresheaf O).obj V) ((ringPresheaf O).obj V)
     infer_instance
   exact Module.Flat.of_linearEquiv (e V.unop)
 

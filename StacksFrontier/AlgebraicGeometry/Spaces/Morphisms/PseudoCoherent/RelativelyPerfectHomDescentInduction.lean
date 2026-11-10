@@ -54,6 +54,7 @@ namespace AlgebraicGeometry.Space
 universe u v
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_RelativelyPerfectHomDescentInduction
@@ -184,7 +185,7 @@ theorem shiftedHomDescent_of_affine (K₀ L₀ : D.InitialDerived)
         hv'qs) fun h hh hU ↦ ?_
     refine hleaf (h ≫ v) (isEtale_comp B S hS hh hv) hU (V := V.1.left)
       (ObjectProperty.homMk V.1.hom.hom) (h.hom ≫ v') hV V.2 ?_
-    show (h.hom ≫ v') ≫ V.1.hom.hom = (h.hom ≫ v.hom) ≫ D.p₀
+    change (h.hom ≫ v') ≫ V.1.hom.hom = (h.hom ≫ v.hom) ≫ D.p₀
     rw [Category.assoc, Category.assoc, sq.w]
   · -- the Mayer–Vietoris step, through the base change of the square along `v'`
     intro W V U f hf hsq _ _ _ _ hPU hPV hPP X' v hv v' sq

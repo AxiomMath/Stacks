@@ -173,6 +173,7 @@ variable {Y : AlgebraicGeometry.RingedTopos.{v₂, u₂, w}}
   {B : DifferentialGradedAlgebra.{w, w} (toRingCat X.J X.O)}
   (ψ : A ⟶ toposPushforwardAlgebra (toposDirectImageModules f) B) (hψ : ψ.IsUnital)
 
+omit [HasSheafify Y.J (Type w)] in
 /-- **The pullback of a good module is good, across universes.** Every pullback `T` of a right
 differential graded module `P` along a base change `(f, B, ψ)` is good at the base changes of
 universe level `(v₃, u₃)`, as soon as `P` is good at those of level `(v₁, u₁)` (the level of `f`)
@@ -195,6 +196,7 @@ theorem isGoodToposBaseChange_of_toposCorepresentableBy_of_univ
   exact ⟨⟨T', ⟨Functor.CorepresentableBy.ofCompSymm eT α e'⟩⟩,
     fun T'' e'' => hT' T'' (Functor.CorepresentableBy.ofComp eT α e'')⟩
 
+omit [HasSheafify Y.J (Type w)] in
 /-- **The goodness half of Tag 0FSI (2).** Let `f : (Sh(C'), O') ⟶ (Sh(C), O)` be a morphism of
 ringed topoi, `B` a sheaf of differential graded `O'`-algebras and `ψ : A ⟶ f_*B` a unital
 homomorphism. Every pullback `T` of a good right differential graded `A`-module `P` along
@@ -208,6 +210,7 @@ theorem isGoodToposBaseChange_of_toposCorepresentableBy
     IsGoodToposBaseChange.{w, v₁, u₁} T :=
   isGoodToposBaseChange_of_toposCorepresentableBy_of_univ f ψ hψ hP hP eT
 
+omit [HasSheafify Y.J (Type w)] in
 /-- **The pullback `f^*P` of a good right differential graded module is good**, as a right
 differential graded `f^*A`-module. -/
 theorem isGoodToposBaseChange_toposPullbackModule

@@ -55,8 +55,7 @@ theorem isIso_underivedSquareComparison_app_of_isPushout
   let e := Algebra.IsPushout.cancelBaseChange R R' A A' M
   have he : ∀ x, ((underivedSquareComparison f g h i sq).app M).hom x = e.symm x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction x using TensorProduct.inductionOn with
     | tmul r' m =>
       exact (underivedSquareComparison_app_tmul f g h i sq M r' m).trans
         (Algebra.IsPushout.cancelBaseChange_symm_tmul R R' A A' M r' m).symm

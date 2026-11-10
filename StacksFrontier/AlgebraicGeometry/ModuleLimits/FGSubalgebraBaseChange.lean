@@ -87,15 +87,13 @@ theorem exists_fg_subalgebra_isInvertible_pullback_iso
   have hc : IsLimit c := isLimitOfPreserves _ (isLimitOfPreserves _ hG)
   have : ∀ {i j : Jᵒᵖ} (g : i ⟶ j), IsAffineHom (D.map g) := fun g => by
     refine MorphismProperty.overPullbackMap (P := @IsAffineHom) f (G.map g) ?_
-    show IsAffineHom (Spec.map _)
+    change IsAffineHom (Spec.map _)
     infer_instance
   have haff (i : Jᵒᵖ) : IsAffineHom (pullback.snd (G.obj i).hom f) := by
     have : IsAffine (G.obj i).left := by
-      show IsAffine (Spec _); infer_instance
+      change IsAffine (Spec _); infer_instance
     have : IsAffineHom (G.obj i).hom := isAffineHom_of_isAffine _
     first
-      | exact isAffineHom_isStableUnderBaseChange.of_isPullback
-          (IsPullback.of_hasPullback (G.obj i).hom f).flip this
       | exact isAffineHom_isStableUnderBaseChange.of_isPullback
           (IsPullback.of_hasPullback (G.obj i).hom f) this
   have (i : Jᵒᵖ) : CompactSpace (D.obj i) :=
@@ -110,7 +108,7 @@ theorem exists_fg_subalgebra_isInvertible_pullback_iso
   obtain ⟨i, L', hL', ⟨e⟩⟩ :=
     Stacks.AlgebraicGeometry.ModuleLimits.exists_isInvertible_pullback_iso_of_isLimit D c hc L hL
   refine ⟨(i.unop : Subalgebra k A), i.unop.2, L', hL', c.π.app i, ?_, ?_, ⟨e⟩⟩
-  all_goals show pullback.lift (pullback.fst _ f ≫ _) (pullback.snd _ f) _ ≫ _ = _
+  all_goals change pullback.lift (pullback.fst _ f ≫ _) (pullback.snd _ f) _ ≫ _ = _
   exacts [(pullback.lift_fst _ _ _).trans rfl, (pullback.lift_snd _ _ _).trans rfl]
 
 end Stacks.FGSubalgebraLimit

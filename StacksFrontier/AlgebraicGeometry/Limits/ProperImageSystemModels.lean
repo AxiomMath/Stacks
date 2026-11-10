@@ -232,7 +232,7 @@ private lemma exists_isProper_model_of_affine_dominant_limit
   let _ (j : Jᵒᵖ) : IsNoetherian (A.obj j) := inferInstanceAs
     (IsNoetherian (D.obj (E.obj j)).left)
   let _ {j k : Jᵒᵖ} (a : j ⟶ k) : IsAffineHom (A.map a) := by
-    show IsAffineHom (D.map (E.map a)).left
+    change IsAffineHom (D.map (E.map a)).left
     have : IsAffineHom ((D.map (E.map a)).left ≫ (D.obj (E.obj k)).hom) := by
       rw [(D.map (E.map a)).w]
       infer_instance
@@ -270,7 +270,7 @@ private lemma exists_isProper_model_of_noetherian_limit
     inferInstanceAs (IsAffineHom (D.map (E.obj j).hom))
   let _ : IsAffineHom c'.pt.hom := EventualLimit.isAffineHom_π_app D c hc (op i)
   let _ (j : (Set.Ici i)ᵒᵖ) : QuasiCompact (c'.π.app j).left := by
-    show QuasiCompact (c.π.app (E.obj j).left)
+    change QuasiCompact (c.π.app (E.obj j).left)
     let _ := EventualLimit.isAffineHom_π_app D c hc (E.obj j).left
     infer_instance
   let _ (j : (Set.Ici i)ᵒᵖ) : IsSchemeTheoreticallyDominant (c'.π.app j).left :=

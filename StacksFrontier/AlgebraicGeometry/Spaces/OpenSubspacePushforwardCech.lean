@@ -77,7 +77,7 @@ theorem ofArrows_openChartHomOfLE_iSup_mem_topology {F : (BigFppfOver B S hS)ᵒ
   obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.mp hx
   obtain ⟨y, hy⟩ := (Scheme.Opens.range_ι (Ω i)).ge hi
   refine ⟨i, y, ?_⟩
-  show (chartScheme M).homOfLE (le_iSup Ω i) y = x
+  change (chartScheme M).homOfLE (le_iSup Ω i) y = x
   apply (⨆ i, Ω i).ι.isOpenEmbedding.injective
   rwa [← Scheme.Hom.comp_apply, Scheme.homOfLE_ι]
 
@@ -187,7 +187,7 @@ theorem snd_mem_of_forall_chartPointsMap {Y : AlgebraicSpaces B S hS} (j : Y ⟶
   apply hO
   refine ⟨pointsMap B S hS _ (hrep.fst M.1.hom)
     ((schemePointsHomeomorph B S hS (hrep.pullback M.1.hom)).symm y), ?_⟩
-  show pointsMap B S hS _ j.hom (pointsMap B S hS _ (hrep.fst M.1.hom) _) =
+  change pointsMap B S hS _ j.hom (pointsMap B S hS _ (hrep.fst M.1.hom) _) =
     pointsMap B S hS _ M.1.hom ((schemePointsHomeomorph B S hS M.1.left).symm _)
   rw [← schemePointsHomeomorph_symm_naturality B S hS (hrep.snd M.1.hom) y,
     ← pointsMap_comp_apply, ← pointsMap_comp_apply, hrep.w]
@@ -233,7 +233,7 @@ theorem bijective_modulePushforward_map_openChartInclusion {Y : AlgebraicSpaces 
   have hq := isIso_smallBaseChange_map_openChartInclusion X j hj.rep M O hO
   have hG : IsIso (((smallBaseChangeModulePushforward.{u, u} B S hS j hj.rep).obj
       H).val.presheaf.map (openChartInclusion B S hS X.1 M O).op) := by
-    show IsIso (H.val.presheaf.map
+    change IsIso (H.val.presheaf.map
       ((smallBaseChange B S hS j hj.rep).map (openChartInclusion B S hS X.1 M O)).op)
     exact (H.val.presheaf.mapIso (asIso ((smallBaseChange B S hS j hj.rep).map
       (openChartInclusion B S hS X.1 M O))).op).isIso_hom
@@ -423,7 +423,7 @@ theorem exists_sectionRestrict_iSup_basicOpen_eq (hM : IsAffine (chartScheme M))
       chartSectionRestrict G a (t i) =
         chartRestrict (hF := hF) a (v i) ^ k • chartSectionRestrict G (a ≫ ιD i) (n i) := by
     intro Z i a
-    show chartSectionRestrict G a (v i ^ k • chartSectionRestrict G (ιD i) (n i)) = _
+    change chartSectionRestrict G a (v i ^ k • chartSectionRestrict G (ιD i) (n i)) = _
     rw [chartSectionRestrict_smul, map_pow, chartSectionRestrict_comp]
   obtain ⟨τ, hτ⟩ := exists_sectionRestrict_eq_of_compatible G hD
     (ofArrows_openChartHomOfLE_iSup_mem_topology B S hS M Ω) t (by
@@ -435,7 +435,7 @@ theorem exists_sectionRestrict_iSup_basicOpen_eq (hM : IsAffine (chartScheme M))
       · rw [chartRestrict_comp, RingHom.comp_apply, ← map_mul, hv i, map_one]
       · rw [hc, chartRestrict_comp, RingHom.comp_apply, ← map_mul, hv i', map_one])
   refine ⟨τ, fun i => ?_⟩
-  show chartRestrict (hF := hF) (ιD i) (g i) ^ k • chartSectionRestrict G (hD i) τ =
+  change chartRestrict (hF := hF) (ιD i) (g i) ^ k • chartSectionRestrict G (hD i) τ =
     chartSectionRestrict G (ιD i) (n i)
   rw [hτ i]
   exact (smul_smul (chartRestrict (hF := hF) (ιD i) (g i) ^ k) (v i ^ k)

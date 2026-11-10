@@ -75,14 +75,14 @@ theorem sectionsPushforwardRingEquiv_unitTop (ρ : R ≃+* ↥(A.sections ⊤))
   have hnat := congrArg (fun m : CommRingCat.of k ⟶ Γ(Spec (CommRingCat.of R), ⊤) =>
       m.hom ((Scheme.ΓSpecIso (CommRingCat.of k)).symm.commRingCatIsoToRingEquiv.symm r))
     (Scheme.ΓSpecIso_inv_naturality (CommRingCat.ofHom (algebraMap k R)))
-  show (Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom (ρ.symm (A.unitTop.hom r)) = _
+  change (Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom (ρ.symm (A.unitTop.hom r)) = _
   rw [hsym]
   refine hnat.trans ?_
-  show (Spec.map (CommRingCat.ofHom (algebraMap k R))).appTop.hom
+  change (Spec.map (CommRingCat.ofHom (algebraMap k R))).appTop.hom
     ((Scheme.ΓSpecIso (CommRingCat.of k)).inv.hom
       ((Scheme.ΓSpecIso (CommRingCat.of k)).symm.commRingCatIsoToRingEquiv.symm r)) = _
   congr 1
-  show (Scheme.ΓSpecIso (CommRingCat.of k)).symm.commRingCatIsoToRingEquiv
+  change (Scheme.ΓSpecIso (CommRingCat.of k)).symm.commRingCatIsoToRingEquiv
     ((Scheme.ΓSpecIso (CommRingCat.of k)).symm.commRingCatIsoToRingEquiv.symm r) = r
   simp
 

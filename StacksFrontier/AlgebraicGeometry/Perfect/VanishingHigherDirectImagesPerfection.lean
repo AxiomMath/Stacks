@@ -138,7 +138,7 @@ public theorem isPerfect_singleFunctor_of_nonempty_iso {X S : Scheme.{u}} (f : X
     (derivedPushforwardModulesUnit f)
     (fun I hI => RingedSpace.isIso_derivedPushforwardUnit_app_of_isKInjective _ I hI)
     ((DerivedCategory.Plus.singleFunctor X.Modules 0).obj F) 0 (by
-      show ((DerivedCategory.singleFunctor X.Modules 0).obj F).IsGE 0
+      change ((DerivedCategory.singleFunctor X.Modules 0).obj F).IsGE 0
       infer_instance)
   have etensor : (((derivedTensorProductFunctor X.sheaf).obj
         ((DerivedCategory.singleFunctor X.Modules 0).obj

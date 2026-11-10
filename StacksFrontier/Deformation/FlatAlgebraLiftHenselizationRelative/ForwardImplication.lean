@@ -133,12 +133,12 @@ public theorem hasFlatAlgebraLift_henselization_of_hasFlatAlgebraLift_of_surject
     ⟨AlgEquiv.ofRingEquiv (f := e1.toRingEquiv.trans
       (e2.toRingEquiv.trans e3.toRingEquiv)) fun a => ?_⟩⟩
   rw [RingEquiv.trans_apply, RingEquiv.trans_apply]
-  show e3 (e2 (e1 (algebraMap A (A ⊗[A'] C') a))) = algebraMap A Bh a
+  change e3 (e2 (e1 (algebraMap A (A ⊗[A'] C') a))) = algebraMap A Bh a
   rw [e1.commutes a]
-  show e3 (e2 ((algebraMap A B a) ⊗ₜ[B'] (1 : C'))) = algebraMap A Bh a
+  change e3 (e2 ((algebraMap A B a) ⊗ₜ[B'] (1 : C'))) = algebraMap A Bh a
   rw [show e2 ((algebraMap A B a) ⊗ₜ[B'] (1 : C')) =
     (1 : C') ⊗ₜ[B'] (algebraMap A B a) from Algebra.TensorProduct.comm_tmul _ _ _]
-  show Algebra.TensorProduct.lift g (IsScalarTower.toAlgHom B' B Bh)
+  change Algebra.TensorProduct.lift g (IsScalarTower.toAlgHom B' B Bh)
     (fun _ _ => Commute.all _ _) ((1 : C') ⊗ₜ[B'] (algebraMap A B a)) = algebraMap A Bh a
   rw [Algebra.TensorProduct.lift_tmul, map_one, one_mul]
   exact (IsScalarTower.algebraMap_apply A B Bh a).symm

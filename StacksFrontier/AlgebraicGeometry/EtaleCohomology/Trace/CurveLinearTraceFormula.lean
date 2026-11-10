@@ -46,7 +46,7 @@ attribute [local instance] HasDerivedCategory.standard moduleCat_hasLimitsOfSize
 public theorem LinearMap.trace_eq_zero_of_not_finite' {R M : Type*} [CommRing R] [AddCommGroup M]
     [Module R M] (h : ¬ Module.Finite R M) (φ : M →ₗ[R] M) : LinearMap.trace R M φ = 0 := by
   classical
-  rw [LinearMap.trace, dif_neg]
+  rw [LinearMap.trace, dite_eq_right]
   · rfl
   rintro ⟨s, ⟨b⟩⟩
   exact h (Module.Finite.of_basis b)
@@ -63,7 +63,7 @@ public theorem map_finsum_residueDegree_dvd {k : Type u} [Field k] [Finite k] {X
   have hS : ∀ {y : closedPoints X}, y ∈ S ↔ residueDegree f y.1 ∣ N := by
     intro y
     rw [Finset.mem_filter]
-    simp only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+    simp only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
     exact ⟨And.right, fun hy => ⟨Nat.le_of_dvd hN hy, hy⟩⟩
   rw [finsum_cond_eq_sum_of_cond_iff (t := S) _ fun _ => hS.symm,
     finsum_cond_eq_sum_of_cond_iff (t := S) _ fun _ => hS.symm, map_sum]
@@ -81,11 +81,12 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (ℓ : ℕ) [Fact ℓ.Prime]
       (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
-  {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
+  {k : Type u} [Field k] [Finite k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
   [QuasiCompact f] [IsSeparated f] (j : CompactificationOf (Over.mk f))
   (kbar : Type u) [Field kbar] [Algebra k kbar] [IsAlgClosure k kbar]
   [IsNoetherian X.1]
 
+omit [IsSeparated f] in
 /-- **On a smooth curve the alternating sum of traces of any family of endomorphisms of
 `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` runs over `i ∈ {0, 1, 2}`.** -/
 public theorem LAdicSheaf.finsum_sign_trace_eq_sum_range_three [SmoothOfRelativeDimension 1 f]
@@ -144,6 +145,7 @@ variable {B : BigEtaleSite.{u}} {X : B.Scheme} {ℓ : ℕ}
   (E : Type) [Field E] [Algebra ℚ_[ℓ] E] [FiniteDimensional ℚ_[ℓ] E] [Algebra O E]
   [IsLocalization (Submonoid.powers (ℓ : O)) E]
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The `E`-trace of `(π_X^*)^N`, twisted by `o ∈ O` and traced down to `ℚ_ℓ`, is the
 `ℚ_ℓ`-trace of `o ∘ (π_X^*)^N`.** -/
 public theorem trace_mul_trace_rationalGeometricCompactlySupportedFrobenius_pow
@@ -172,7 +174,7 @@ public theorem trace_mul_trace_rationalGeometricCompactlySupportedFrobenius_pow
         (LAdicSheaf.rationalGeometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard
           F.toLAdicSheaf i).hom ^ N := by
     refine LinearMap.ext fun v => ?_
-    show F.rationalRingHom f j kbar i E (algebraMap O E o)
+    change F.rationalRingHom f j kbar i E (algebraMap O E o)
       (((F.rationalGeometricCompactlySupportedFrobenius f j kbar i E p q hcard) ^ N) v) = _
     rw [hpow, F.rationalRingHom_algebraMap_apply]
     rfl
@@ -224,7 +226,7 @@ public theorem curveLinearTraceFormulaInput : CurveLinearTraceFormulaInput.{u} :
     refine (map_finsum_residueDegree_dvd f ((Algebra.trace ℚ_[ℓ] E).toAddMonoidHom.comp
       (AddMonoidHom.mulLeft (c0 : E))) _ N hN).trans
       (finsum_congr fun y => finsum_congr fun _ => ?_)
-    show Algebra.trace ℚ_[ℓ] E ((c0 : E) * ((residueDegree f y.1 : E) * _)) = _
+    change Algebra.trace ℚ_[ℓ] E ((c0 : E) * ((residueDegree f y.1 : E) * _)) = _
     rw [algebraMap_trace_padicIntegerRing b, MulMemClass.coe_mul, hc']
     have htr : ((((modelRep b σ hσ (geometricFrobeniusFamily f x y)).val ^
         (N / residueDegree f y.1)).trace : integralClosure ℤ_[ℓ] E) : E) =

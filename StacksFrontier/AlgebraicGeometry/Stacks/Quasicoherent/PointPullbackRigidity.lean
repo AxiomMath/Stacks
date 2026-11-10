@@ -49,12 +49,13 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {𝒰 𝒳 : AlgebraicStacks.{u, w} B S hS} (f : 𝒰 ⟶ 𝒳)
 
 /-- **Restriction in a direct image over terminal arrows.**  Let `φ₁ φ₂ : y ⟶ y'` be arrows of
-`𝒳` and `t`, `t'` terminal objects of `CostructuredArrow f y`, `CostructuredArrow f y'`.  If the
+`𝒳`, `t` an object of `CostructuredArrow f y` and `t'` a terminal object of
+`CostructuredArrow f y'`.  If the
 restriction maps of the direct image `f_* M` along `φ₁` and `φ₂` agree, then so do the restriction
 maps of `M` along the two induced arrows `t.left ⟶ t'.left`. -/
 theorem map_eq_of_fppfModulesPushforward_map_eq (M : Stack.fppfModules B S hS 𝒰)
     {y y' : 𝒳.val.val.obj} (φ₁ φ₂ : y ⟶ y')
-    {t : CostructuredArrow (CatFiberedInGroupoids.homFunctor f.hom) y} (ht : IsTerminal t)
+    {t : CostructuredArrow (CatFiberedInGroupoids.homFunctor f.hom) y}
     {t' : CostructuredArrow (CatFiberedInGroupoids.homFunctor f.hom) y'} (ht' : IsTerminal t')
     (h : ∀ z, ((fppfModulesPushforward B S hS f).obj M).val.map φ₁.op z =
       ((fppfModulesPushforward B S hS f).obj M).val.map φ₂.op z) :
@@ -79,7 +80,7 @@ theorem map_eq_of_fppfModulesPushforward_map_eq (M : Stack.fppfModules B S hS �
       (Stacks.SheafOfModules.ranπ_map w.op M.val.presheaf φ.op j) (e.hom.val.app (op y') z)
     let g : j' ⟶ (StructuredArrow.map φ.op).obj j :=
       StructuredArrow.homMk k.op (by
-        show t'.hom.op ≫ (w.map k).op = φ.op ≫ t.hom.op
+        change t'.hom.op ≫ (w.map k).op = φ.op ≫ t.hom.op
         rw [← op_comp, hk, op_comp])
     have h2 := ConcreteCategory.congr_hom
       (Stacks.SheafOfModules.ranπ_naturality w.op M.val.presheaf g) (e.hom.val.app (op y') z)
@@ -129,7 +130,7 @@ theorem eq_of_pointPullbackTransportIso_eq (hf : IsAffineHom B S hS f)
   obtain ⟨t', ⟨ht'⟩, hta'⟩ := exists_isTerminal_costructuredArrow_of_isAffineHom B S hS f hf x
     (isAffine_point B S hS 𝒳 x e)
   have hk := hM _ _ hta hta'
-    (map_eq_of_fppfModulesPushforward_map_eq B S hS f M.obj a.inv b.inv ht ht' hN)
+    (map_eq_of_fppfModulesPushforward_map_eq B S hS f M.obj a.inv b.inv (t := t) ht' hN)
   have hc : t.hom ≫ a.inv = t.hom ≫ b.inv :=
     (CostructuredArrow.w (ht'.from (CostructuredArrow.mk (t.hom ≫ a.inv)))).symm.trans
       ((congrArg (fun k => (CatFiberedInGroupoids.homFunctor f.hom).map k ≫ t'.hom) hk).trans

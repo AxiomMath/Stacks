@@ -270,7 +270,7 @@ theorem localizedPowerSum_cap_fundamentalChowClass (hr : 0 < r)
       ((q + 1 : ℕ) : ℤ) →+
       chowGroup S.base (pullback.fst S.i (𝟙 S.X) ≫ (S.i ≫ S.a)) (n - ((q + 1 : ℕ) : ℤ)) :=
     AddMonoidHom.mk' (fun c => c.cap (𝟙 S.X) n α) fun _ _ => rfl
-  show φ (S.localizedPowerSum h (q + 1)) = _
+  change φ (S.localizedPowerSum h (q + 1)) = _
   rw [localizedPowerSum_succ S h q, map_add, map_sum,
     map_zsmul]
   have hsum : ∀ j ∈ (Finset.range q).attach, φ (((-1 : ℤ) ^ (j : ℕ)) •
@@ -291,7 +291,7 @@ theorem localizedPowerSum_cap_fundamentalChowClass (hr : 0 < r)
     rw [BivariantClass.cap_eq_zero_of_isRegularClosedImmersionOfCodim S.base (S.i ≫ S.a) S.a S.i
       rfl _ hreg n hX (by push_cast; omega), map_zero]
   rw [Finset.sum_eq_zero hsum, zero_add]
-  show ((-1 : ℤ) ^ q * ((q : ℤ) + 1)) •
+  change ((-1 : ℤ) ^ q * ((q : ℤ) + 1)) •
     (localizedChernClassOfIsZero h hr).cap (𝟙 S.X) n α = _
   rw [hF.2, BivariantClass.zsmul_cap, regularNormalGysinClass_cap_fundamentalChowClass S.base
     (S.i ≫ S.a) S.a S.i rfl hreg n hX, smul_smul]

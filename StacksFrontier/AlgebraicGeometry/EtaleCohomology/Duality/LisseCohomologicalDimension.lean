@@ -52,7 +52,7 @@ theorem nsmul_id_sheaf_zmod_eq {C : Type u'} [Category.{v'} C] {J : Grothendieck
     {n : ℕ} (F : Sheaf J (ModuleCat.{w} (ZMod n))) {a b : ℕ} (hab : (a : ZMod n) = b) :
     a • 𝟙 F = b • 𝟙 F := by
   ext U x
-  show a • (show F.obj.obj U from x) = b • (show F.obj.obj U from x)
+  change a • (show F.obj.obj U from x) = b • (show F.obj.obj U from x)
   rw [← Nat.cast_smul_eq_nsmul (ZMod n), hab, Nat.cast_smul_eq_nsmul]
 
 /-- **Retracts across equivalences and adjunctions.** Let `EY : C'_Y ≌ C_Y` and `ET : C'_T ≌ C_T`

@@ -55,7 +55,7 @@ private theorem map_mulLeft_one {A : Type u} [CommRing A] {P : Submonoid A}
     (z : Localization P) : LocalizedModule.map P (LinearMap.mulLeft A 1) z = z := by
   induction z using Localization.induction_on with
   | H y =>
-    show LocalizedModule.map P (LinearMap.mulLeft A 1) (LocalizedModule.mk y.1 y.2) = _
+    change LocalizedModule.map P (LinearMap.mulLeft A 1) (LocalizedModule.mk y.1 y.2) = _
     rw [LocalizedModule.map_mk]
     simp only [LinearMap.mulLeft_apply, one_mul]
     rfl

@@ -75,7 +75,7 @@ theorem exists_presentation (R S : Type u) [CommRing R] [CommRing S] [Algebra R 
     simp only [Algebra.smul_def]
     rw [hp.as_sum] at hpx
     simpa only [Polynomial.eval₂_add, Polynomial.eval₂_pow, Polynomial.eval₂_X,
-      Polynomial.eval₂_finset_sum, Polynomial.eval₂_mul, Polynomial.eval₂_C] using hpx
+      Polynomial.eval₂_finsetSum, Polynomial.eval₂_mul, Polynomial.eval₂_C] using hpx
   choose cst cst_spec using fun l l' => spans (gen l * gen l')
   choose deg coeff monic using fun l => integral (gen l)
   exact ⟨{ L := ULift.{u} (Fin n), gen := gen, spans := spans, cst := cst, cst_spec := cst_spec,

@@ -79,7 +79,7 @@ theorem isIso_nsmul_id_of_isPrimePowerTorsion {l d : ℕ} (hd : d.Coprime l)
     have h0 : d • F.obj.map g.op (x - y) = 0 := by
       rw [← map_nsmul, smul_sub, hxy, sub_self, map_zero]
     rw [mul_smul, natCast_zsmul, h0, smul_zero] at hz
-    show F.obj.map g.op x = F.obj.map g.op y
+    change F.obj.map g.op x = F.obj.map g.op y
     rw [← sub_eq_zero, ← map_sub, ← hz]
   · obtain ⟨R, hR, hann⟩ := exists_covering_zsmul_mul_eq J hd hF s
     refine J.superset_covering (fun V g hg ↦ ?_) hR

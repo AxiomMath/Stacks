@@ -33,9 +33,9 @@ theorem IsWeaklyContractible.of_iso {X Y : C} (e : X ≅ Y) (h : J.IsWeaklyContr
   obtain ⟨t, ht⟩ := h F G φ hφ (G.obj.map e.hom.op s)
   have ht' : φ.hom.app (op X) t = G.obj.map e.hom.op s := ht
   refine ⟨F.obj.map e.inv.op t, ?_⟩
-  show φ.hom.app (op Y) (F.obj.map e.inv.op t) = s
+  change φ.hom.app (op Y) (F.obj.map e.inv.op t) = s
   rw [NatTrans.naturality_apply φ.hom e.inv.op t]
-  show G.obj.map e.inv.op (φ.hom.app (op X) t) = s
+  change G.obj.map e.inv.op (φ.hom.app (op X) t) = s
   rw [ht', ← types_comp_apply (G.obj.map e.hom.op) (G.obj.map e.inv.op), ← G.obj.map_comp,
     ← op_comp, e.inv_hom_id, op_id, G.obj.map_id, types_id_apply]
 

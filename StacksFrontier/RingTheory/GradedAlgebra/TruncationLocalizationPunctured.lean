@@ -174,7 +174,7 @@ theorem puncturedElt_eq_zero (hf : f ∈ 𝒜 d) (k : ℕ) (a : A) (ha : a ∈ t
   rw [puncturedElt, HomogeneousLocalization.val_mk, HomogeneousLocalization.val_zero,
     Localization.mk_eq_mk'_apply, IsLocalization.mk'_eq_zero_iff]
   refine ⟨⟨sigmaMulPsi 𝒜 f ^ n, n, rfl⟩, ?_⟩
-  show sigmaMulPsi 𝒜 f ^ n * degElt 𝒜 (k * d) a ha = 0
+  change sigmaMulPsi 𝒜 f ^ n * degElt 𝒜 (k * d) a ha = 0
   rw [sigmaMulPsi_pow_eq_degElt 𝒜 d hf n, degElt_mul,
     degElt_congr 𝒜 rfl hzero _ (zero_mem _), degElt_zero]
 

@@ -48,15 +48,15 @@ quasi-isomorphism. Only the orthogonality is stated on `K(A)`, since that is whe
 *Universes.* The differential graded algebra and its modules are taken at main's single-universe
 encoding `StacksDraft.Ch22.Sec4.Tag09JJ`, in which `DifferentialGradedAlgebra : Type u → Type u`
 and a module over it again lies in `Type u`. The Stacks source is universe-polymorphic in the
-algebra and the module separately, and so are the statements this one rests on; matching that needs the
-encoding widened, which is not done here. Nothing below depends on the universes being equal,
+algebra and the module separately, and so are the statements this one rests on; matching that needs
+the encoding widened, which is not done here. Nothing below depends on the universes being equal,
 so the widening is an addition of universe parameters rather than a change of content.
 
 ## Naming
 
 `DifferentialGradedModule.quasiIsomorphisms_isSaturatedMultiplicative'` is primed to keep it
-apart from the homonymous theorem in `StacksFrontier/Algebra/DGA/QuasiIsomorphismFractions.lean`, which
-is the same statement for the parallel Tag 09KW/09KX treatment in `StacksDraft/Ch22/`. The two
+apart from the homonymous theorem in `StacksFrontier/Algebra/DGA/QuasiIsomorphismFractions.lean`,
+which is the same statement for the parallel Tag 09KW/09KX treatment in `StacksDraft/Ch22/`. The two
 rest on different pretriangulated structures on `K(A, d)`; see the naming note in
 `StacksFrontier/Algebra/DifferentialGraded/Module/QuasiIsomorphism.lean`.
 

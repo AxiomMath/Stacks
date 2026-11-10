@@ -553,7 +553,7 @@ theorem wordD_append {U : Cᵒᵖ} (w w' : Word 𝒮 U) :
         wordD 𝒮 δ w' :=
       one_mulAt' 𝒮 _ rfl U _
     have hsign : (Int.negOnePow (wordDeg ([] : Word 𝒮 U)) : ℤ) = 1 := by
-      show (Int.negOnePow (0 : ℤ) : ℤ) = 1
+      change (Int.negOnePow (0 : ℤ) : ℤ) = 1
       rw [Int.negOnePow_zero, Units.val_one]
     rw [hA, hB, hsign, one_zsmul, zero_add]
     rfl
@@ -597,7 +597,7 @@ theorem wordD_append {U : Cᵒᵖ} (w w' : Word 𝒮 U) :
     have hsign : ((Int.negOnePow (letterDeg x) : ℤ) * (Int.negOnePow (wordDeg v) : ℤ)) =
         (Int.negOnePow (wordDeg (x :: v : Word 𝒮 U)) : ℤ) := by
       rw [← Units.val_mul, ← Int.negOnePow_add, ec1]
-    show wordD (Osharp := Osharp) 𝒮 δ ((x :: v) ++ w') =
+    change wordD (Osharp := Osharp) 𝒮 δ ((x :: v) ++ w') =
       mulAt 𝒮 H1 U (wordD 𝒮 δ (x :: v)) (algSec 𝒮 w')
         + (Int.negOnePow (wordDeg (x :: v : Word 𝒮 U)) : ℤ) •
           mulAt 𝒮 H2 U (algSec 𝒮 (x :: v)) (wordD 𝒮 δ w')
@@ -671,7 +671,7 @@ theorem algDAdd_mulAdd (n i : ℤ) (U : Cᵒᵖ) (h₁ : n + 1 + i = n + i + 1)
             + (Int.negOnePow n : ℤ) •
               mulAt 𝒮 Q2 U (algSec 𝒮 w.1) (wordD 𝒮 δ w'.1)) := by
         rw [mulAdd_algOf, algDAdd_apply, algDHom_algOf]
-        show (r * s) • castHom (algPiece (Osharp := Osharp) 𝒮) WA U
+        change (r * s) • castHom (algPiece (Osharp := Osharp) 𝒮) WA U
             (wordD 𝒮 δ (w.1 ++ w'.1)) = _
         rw [hAp, castHom_add_zsmul_mulAt 𝒮 WA P1 P2 Q1 Q2, hsign]
       have hR1 : mulAt 𝒮 h₁ U (algDAdd 𝒮 δ n U (algOf 𝒮 n w r))
@@ -773,12 +773,12 @@ noncomputable def algDRel (n m : ℤ) :
 
 /-- The re-indexed differential `algDRel n m` is zero unless `m = n + 1`. -/
 theorem algDRel_eq_zero {n m : ℤ} (h : ¬ n + 1 = m) : algDRel (Osharp := Osharp) 𝒮 δ n m = 0 :=
-  dif_neg h
+  dite_eq_right h
 
 /-- The re-indexed differential from degree `n` to degree `n + 1` is `algD`. -/
 @[simp] theorem algDRel_self (n : ℤ) :
     algDRel (Osharp := Osharp) 𝒮 δ n (n + 1) = algD 𝒮 δ n := by
-  rw [algDRel, dif_pos (rfl : n + 1 = n + 1)]
+  rw [algDRel, dite_eq_left (rfl : n + 1 = n + 1)]
   exact Category.comp_id _
 
 /-! ### The zero derivation datum
@@ -890,7 +890,7 @@ theorem algD_algDAdd (n : ℤ) (U : Cᵒᵖ) (a : algSections Osharp 𝒮 n U) :
     have dw : wordDeg w.1 + 1 = n + 1 := by omega
     have dw' : wordDeg w.1 + 1 + 1 = n + 1 + 1 := by omega
     rw [algDAdd_apply, algDHom_algOf]
-    show (algD 𝒮 δ (n + 1)).val.app U
+    change (algD 𝒮 δ (n + 1)).val.app U
         (r • castHom (algPiece (Osharp := Osharp) 𝒮) dw U (wordD 𝒮 δ w.1)) = 0
     rw [((algD 𝒮 δ (n + 1)).val.app U).hom.map_smul r, algD_castHom_arg 𝒮 δ dw dw',
       algD_wordD 𝒮 δ hδ w.1, Cofree.castHom_zero, smul_zero]
@@ -903,7 +903,7 @@ theorem algD_algD (n : ℤ) (U : Cᵒᵖ) (z : (algPiece (Osharp := Osharp) 𝒮
   intro Y f a ha
   have ha' : (algToSheaf 𝒮 n).app Y a =
       Stacks.sectionRestrict (algPiece (Osharp := Osharp) 𝒮 n).val f z := ha
-  show Stacks.sectionRestrict (algPiece (Osharp := Osharp) 𝒮 (n + 1 + 1)).val f
+  change Stacks.sectionRestrict (algPiece (Osharp := Osharp) 𝒮 (n + 1 + 1)).val f
       ((algD 𝒮 δ (n + 1)).val.app U ((algD 𝒮 δ n).val.app U z)) =
     Stacks.sectionRestrict (algPiece (Osharp := Osharp) 𝒮 (n + 1 + 1)).val f 0
   rw [map_zero, algD_naturality, algD_naturality, ← ha']

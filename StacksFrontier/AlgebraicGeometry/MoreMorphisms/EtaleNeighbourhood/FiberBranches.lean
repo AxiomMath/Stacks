@@ -119,7 +119,7 @@ private lemma residueFieldMap_isIso_of_isPreimmersion {X Y : Scheme.{u}} (g : X 
   obtain ⟨a, ha⟩ := X.residue_surjective x b
   obtain ⟨c, hc⟩ := g.stalkMap_surjective x a
   refine ⟨Y.residue (g x) c, ?_⟩
-  show (g.residueFieldMap x).hom ((Y.residue (g x)).hom c) = b
+  change (g.residueFieldMap x).hom ((Y.residue (g x)).hom c) = b
   rw [← RingHom.comp_apply, ← CommRingCat.hom_comp, Scheme.residue_residueFieldMap g x,
     CommRingCat.hom_comp, RingHom.comp_apply, hc, ha]
 
@@ -129,7 +129,7 @@ private lemma isIso_residueFieldMap_comp_iff_left {X Y Z : Scheme.{u}} (f : X �
     (x : X) [IsIso (f.residueFieldMap x)] :
     IsIso ((f ≫ g).residueFieldMap x) ↔ IsIso (g.residueFieldMap (f x)) := by
   rw [Scheme.residueFieldMap_comp]
-  show IsIso (g.residueFieldMap (f x) ≫ f.residueFieldMap x) ↔ _
+  change IsIso (g.residueFieldMap (f x) ≫ f.residueFieldMap x) ↔ _
   exact ⟨fun _ => IsIso.of_isIso_comp_right _ (f.residueFieldMap x), fun _ => inferInstance⟩
 
 /-- If `g` has an isomorphism on residue fields at `f x`, then so does `f ≫ g` at `x` exactly
@@ -138,7 +138,7 @@ private lemma isIso_residueFieldMap_comp_iff_right {X Y Z : Scheme.{u}} (f : X �
     (x : X) [IsIso (g.residueFieldMap (f x))] :
     IsIso ((f ≫ g).residueFieldMap x) ↔ IsIso (f.residueFieldMap x) := by
   rw [Scheme.residueFieldMap_comp]
-  show IsIso (g.residueFieldMap (f x) ≫ f.residueFieldMap x) ↔ _
+  change IsIso (g.residueFieldMap (f x) ≫ f.residueFieldMap x) ↔ _
   exact ⟨fun _ => IsIso.of_isIso_comp_left (g.residueFieldMap (f x)) _, fun _ => inferInstance⟩
 
 /-- In a commutative square `a ≫ b = c ≫ d` whose legs `a` and `d` are isomorphisms on residue
@@ -219,7 +219,7 @@ private theorem etaleNeighborhoodOfFiber_isElementary {X S : Scheme.{u}}
     rw [huPoint]
     exact U.isElementary_iff.mp hU
   have hP : IsIso (p.residueFieldMap u) := (isIso_residueFieldMap_iff_of_comm hpull.w u).mp hbase
-  show IsIso (((f.fiber (f x)).residueFieldCongr
+  change IsIso (((f.fiber (f x)).residueFieldCongr
     (etaleNeighborhoodOfFiber f x U).map_point).inv ≫ p.residueFieldMap u)
   exact IsIso.comp_isIso' inferInstance hP
 

@@ -69,8 +69,8 @@ quasi-coherence (`SheafOfModules.IsQuasicoherentOnSite.of_iso`) and for finite t
 
 **The module universe is `{u, u}`**, the universe of the coefficient rings, as in
 `AlgebraicGeometry.Space.IsResolutionBlowupStratified` and in every resolution-property
-result of this library.  Here it is forced rather than chosen: the three transport results are stated
-for a sheaf of modules whose sections live in the universe of its sheaf of rings.
+result of this library.  Here it is forced rather than chosen: the three transport results are
+stated for a sheaf of modules whose sections live in the universe of its sheaf of rings.
 
 **The algebraicity of `Λ X` is not a hypothesis.**  It is derived from that of `X` by
 `AlgebraicGeometry.Space.isAlgebraicSpace_relocalize'` (Stacks 03I5 (2)).  Since

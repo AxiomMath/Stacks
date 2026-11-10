@@ -114,8 +114,8 @@ adjoints, is the spaces side transposed; that reduction is
 `AlgebraicGeometry.Space.representedAssociatedModulePullbackMate_square_of_postcomp`, whose one
 hypothesis is the identity of Zariski derivations it leaves.  Both transposed sides are computed
 here and in
-`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeComparisonMapDerivation.lean`, and
-the value on sections of the comparison is read, in its `inv`
+`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeComparisonMapDerivation.lean`,
+and the value on sections of the comparison is read, in its `inv`
 direction, by
 `AlgebraicGeometry.Space.representedRestrictModuleBaseChangeIso_inv_app_chartFirst` together with
 `AlgebraicGeometry.Space.induced_representedRestrictModuleBaseChangeIso_inv_tail`.
@@ -230,8 +230,8 @@ figure in this module's notes is to be read as one.
 *Where the wall is.*  Applying the links one at a time, by successive
 `refine Eq.trans (α := …) lᵢ ?_` against the sections identity, links one, two and three go
 through — with or without the `γ^{-1}` half of the square already discharged, which does fit (see
-the note in
-`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeComparisonMapSpacesSections.lean`).
+the note in the module
+`StacksFrontier.AlgebraicGeometry.Spaces.SheafOfDifferentialsSchemeComparisonMapSpacesSections`).
 Adding link four is the timeout.  It is the same wall at
 `AlgebraicGeometry.Space.zariskiChain_unit_representedUniversalDerivation`, which joins links four
 and five with neither side pinned to the chain's spelling precisely so that the crossing between
@@ -327,8 +327,8 @@ module the closure is 4,560 modules against this one's 4,537, every one of the n
 resolves, and there is no universe constraint of the kind the note in
 `StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsRepresented.lean` records for
 `ChartSpaceGlobalPresentation`.  That module can also import
-`StacksFrontier/AlgebraicGeometry/Spaces/RelativeDifferentialsShortExact.lean`, which is a sibling of
-this whole chain and not an ancestor of it, so
+`StacksFrontier/AlgebraicGeometry/Spaces/RelativeDifferentialsShortExact.lean`, which is a sibling
+of this whole chain and not an ancestor of it, so
 `AlgebraicGeometry.Space.PullbackDifferentialsMapChartComparison` is statable there and
 the `hchart` hypothesis of Stacks 06BI is dischargeable there and nowhere upstream of it.
 
@@ -416,7 +416,8 @@ differential `d_{X/Y} a`.
 
 This is the shape in which the hypothesis of
 `AlgebraicGeometry.Space.representedAssociatedModulePullbackMate_square_of_postcomp` is
-discharged.  Both reductions it performs -- `PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply`, and
+discharged.  Both reductions it performs --
+`PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply`, and
 the two spellings of a section that `AlgebraicGeometry.Scheme.Modules.app_apply_eq_val_app`
 identifies -- are crossings that cost tens of thousands of heartbeats at the small étale site of
 a represented algebraic space.  Stated here on variables they cost nothing, and the consumer pays

@@ -178,14 +178,14 @@ theorem exists_not_isMorphismOfSites_pullback :
   let AO : BigFppfOver B S hSite := Over.mk AtoSB
   let q : AO ⟶ Y := Over.homMk AtoSB (by simp [AO, Y])
   have hq : Smooth (T.map q) := by
-    show Smooth (B.inclusion.map AtoSB)
+    change Smooth (B.inclusion.map AtoSB)
     rw [Functor.map_preimage]
     exact smooth_Spec_map_C R
   let V : LisseEtale.{u, w} B S hSite (schemeStack.{u, w} B S hSite Y) :=
     ⟨Over.mk q, (smoothObject_schemeStack_iff.{u, w} B S hSite Y _).mpr hq⟩
   let T₀ : LisseEtale.{u, w} B S hSite (schemeStack.{u, w} B S hSite Y) :=
     ⟨Over.mk (𝟙 Y), (smoothObject_schemeStack_iff.{u, w} B S hSite Y _).mpr (by
-      show Smooth (T.map (𝟙 Y))
+      change Smooth (T.map (𝟙 Y))
       rw [T.map_id]
       infer_instance)⟩
   let aB := B.inclusion.preimage (X := B.obj hSite) (Y := B.obj hA) a₀
@@ -209,7 +209,7 @@ theorem exists_not_isMorphismOfSites_pullback :
   have hZOempty : IsEmpty (T.obj ZO) := inferInstanceAs (IsEmpty (∅ : Scheme.{u}))
   let Ez : LisseEtale.{u, w} B S hSite (schemeStack.{u, w} B S hSite Y) :=
     ⟨Over.mk z, (smoothObject_schemeStack_iff.{u, w} B S hSite Y _).mpr (by
-      show Smooth (B.inclusion.map zB)
+      change Smooth (B.inclusion.map zB)
       rw [Functor.map_preimage]
       exact smooth_emptyTo S)⟩
   have hEzempty : IsEmpty (B.inclusion.obj
@@ -226,7 +226,7 @@ theorem exists_not_isMorphismOfSites_pullback :
     have hkbase : k.hom.left = W.obj.hom := by simpa [T₀] using Over.w k.hom
     let g : T.obj W.obj.left ⟶ Spec (CommRingCat.of R) := T.map k.hom.left
     have hgs : Smooth g := by
-      show Smooth (T.map k.hom.left)
+      change Smooth (T.map k.hom.left)
       rw [hkbase]
       exact (smoothObject_schemeStack_iff.{u, w} B S hSite Y W.obj).mp W.property
     have hgf : Flat g := inferInstance
@@ -247,11 +247,11 @@ theorem exists_not_isMorphismOfSites_pullback :
     have hfa : f ≫ aO = f ≫ bO := by
       apply Over.OverMorphism.ext
       apply B.inclusion.map_injective
-      show B.inclusion.map (pB ≫ aB) = B.inclusion.map (pB ≫ bB)
+      change B.inclusion.map (pB ≫ aB) = B.inclusion.map (pB ≫ bB)
       simpa only [Functor.map_comp, pB, aB, bB, Functor.map_preimage] using hpa
     apply ObjectProperty.hom_ext
     apply Over.OverMorphism.ext
-    show ((Over.pullback f).map a.hom).left = ((Over.pullback f).map b.hom).left
+    change ((Over.pullback f).map a.hom).left = ((Over.pullback f).map b.hom).left
     have h1 : ∀ k : T₀.obj ⟶ V.obj,
         ((Over.pullback f).map k).left ≫ Limits.pullback.fst V.obj.hom f =
           Limits.pullback.fst T₀.obj.hom f ≫ k.left :=
@@ -266,7 +266,7 @@ theorem exists_not_isMorphismOfSites_pullback :
           Limits.pullback.snd T₀.obj.hom f ≫ f := by
         rw [← Limits.pullback.condition]
         exact (Category.comp_id _).symm
-      show Limits.pullback.fst T₀.obj.hom f ≫ aO =
+      change Limits.pullback.fst T₀.obj.hom f ≫ aO =
         Limits.pullback.fst T₀.obj.hom f ≫ bO
       rw [hfst, Category.assoc, Category.assoc, hfa]
     · rw [h2 a.hom, h2 b.hom]

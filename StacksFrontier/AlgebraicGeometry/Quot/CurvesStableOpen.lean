@@ -235,11 +235,11 @@ two auxiliary terms their statements name and this tree does not yet have — th
 propositions, so the statements of those tags specialize to these exactly. -/
 theorem forall_not_isRationalTail_and_not_isRationalBridge_of_isAmple_of
     (h0E63 : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (C : X.IdealSheafData) (hC : IsRationalTail k X C)
-      (hCdim : topologicalKrullDim C.subscheme ≤ 1)
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      ∀ C : X.IdealSheafData, IsRationalTail k X C →
+      ∀ (hCdim : topologicalKrullDim C.subscheme ≤ 1)
       [SheafOfModules.IsInvertible C.subscheme.presheaf C.subscheme.ringCatSheaf.2
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))],
@@ -247,11 +247,11 @@ theorem forall_not_isRationalTail_and_not_isRationalBridge_of_isAmple_of
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k)))) < 0)
     (h0E64 : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (C : X.IdealSheafData) (hC : IsRationalBridge k X C)
-      (hCdim : topologicalKrullDim C.subscheme ≤ 1)
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      ∀ C : X.IdealSheafData, IsRationalBridge k X C →
+      ∀ (hCdim : topologicalKrullDim C.subscheme ≤ 1)
       [SheafOfModules.IsInvertible C.subscheme.presheaf C.subscheme.ringCatSheaf.2
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))],
@@ -358,22 +358,22 @@ Stacks 0E63 and 0E64 (`h0E63`, `h0E64`) and Stacks 0B5Y, and the genus bound is
 (`h0C19`). -/
 theorem hasGenusTwoNoRationalTailNoRationalBridge_iff_isAmple_dualizingSheafOverField_of
     (h0E3P : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (htail : ∀ C : X.IdealSheafData, ¬ IsRationalTail k X C)
-      (hbridge : ∀ C : X.IdealSheafData, ¬ IsRationalBridge k X C)
-      (hg : 2 ≤ genus (X ↘ Spec (.of k))),
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      (∀ C : X.IdealSheafData, ¬ IsRationalTail k X C) →
+      (∀ C : X.IdealSheafData, ¬ IsRationalBridge k X C) →
+      2 ≤ genus (X ↘ Spec (.of k)) →
       ∃ _ : SheafOfModules.IsInvertible X.toRingedSpace.presheaf
           (structureSheafRing X.toRingedSpace).property
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))),
         Scheme.Modules.IsAmple X (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))
     (h0E63 : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (C : X.IdealSheafData) (hC : IsRationalTail k X C)
-      (hCdim : topologicalKrullDim C.subscheme ≤ 1)
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      ∀ C : X.IdealSheafData, IsRationalTail k X C →
+      ∀ (hCdim : topologicalKrullDim C.subscheme ≤ 1)
       [SheafOfModules.IsInvertible C.subscheme.presheaf C.subscheme.ringCatSheaf.2
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))],
@@ -381,11 +381,11 @@ theorem hasGenusTwoNoRationalTailNoRationalBridge_iff_isAmple_dualizingSheafOver
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k)))) < 0)
     (h0E64 : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (C : X.IdealSheafData) (hC : IsRationalBridge k X C)
-      (hCdim : topologicalKrullDim C.subscheme ≤ 1)
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      ∀ C : X.IdealSheafData, IsRationalBridge k X C →
+      ∀ (hCdim : topologicalKrullDim C.subscheme ≤ 1)
       [SheafOfModules.IsInvertible C.subscheme.presheaf C.subscheme.ringCatSheaf.2
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))],
@@ -492,22 +492,22 @@ rational tail nor a rational bridge by
 source's "ampleness is insensitive to base field extensions". -/
 theorem hasGenusTwoNoRationalTailNoRationalBridge_of_isPullback_of
     (h0E3P : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (htail : ∀ C : X.IdealSheafData, ¬ IsRationalTail k X C)
-      (hbridge : ∀ C : X.IdealSheafData, ¬ IsRationalBridge k X C)
-      (hg : 2 ≤ genus (X ↘ Spec (.of k))),
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      (∀ C : X.IdealSheafData, ¬ IsRationalTail k X C) →
+      (∀ C : X.IdealSheafData, ¬ IsRationalBridge k X C) →
+      2 ≤ genus (X ↘ Spec (.of k)) →
       ∃ _ : SheafOfModules.IsInvertible X.toRingedSpace.presheaf
           (structureSheafRing X.toRingedSpace).property
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))),
         Scheme.Modules.IsAmple X (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))
     (h0E63 : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (C : X.IdealSheafData) (hC : IsRationalTail k X C)
-      (hCdim : topologicalKrullDim C.subscheme ≤ 1)
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      ∀ C : X.IdealSheafData, IsRationalTail k X C →
+      ∀ (hCdim : topologicalKrullDim C.subscheme ≤ 1)
       [SheafOfModules.IsInvertible C.subscheme.presheaf C.subscheme.ringCatSheaf.2
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))],
@@ -515,11 +515,11 @@ theorem hasGenusTwoNoRationalTailNoRationalBridge_of_isPullback_of
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k)))) < 0)
     (h0E64 : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (C : X.IdealSheafData) (hC : IsRationalBridge k X C)
-      (hCdim : topologicalKrullDim C.subscheme ≤ 1)
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      ∀ C : X.IdealSheafData, IsRationalBridge k X C →
+      ∀ (hCdim : topologicalKrullDim C.subscheme ≤ 1)
       [SheafOfModules.IsInvertible C.subscheme.presheaf C.subscheme.ringCatSheaf.2
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))],
@@ -581,22 +581,22 @@ nodal of dimension one with `H⁰ = k`, and `T` is in turn the base change of `V
 `AlgebraicGeometry.hasGenusTwoNoRationalTailNoRationalBridge_of_isPullback_of` applies. -/
 theorem hasGenusTwoNoRationalTailNoRationalBridge_of_iso_of
     (h0E3P : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (htail : ∀ C : X.IdealSheafData, ¬ IsRationalTail k X C)
-      (hbridge : ∀ C : X.IdealSheafData, ¬ IsRationalBridge k X C)
-      (hg : 2 ≤ genus (X ↘ Spec (.of k))),
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      (∀ C : X.IdealSheafData, ¬ IsRationalTail k X C) →
+      (∀ C : X.IdealSheafData, ¬ IsRationalBridge k X C) →
+      2 ≤ genus (X ↘ Spec (.of k)) →
       ∃ _ : SheafOfModules.IsInvertible X.toRingedSpace.presheaf
           (structureSheafRing X.toRingedSpace).property
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))),
         Scheme.Modules.IsAmple X (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))
     (h0E63 : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (C : X.IdealSheafData) (hC : IsRationalTail k X C)
-      (hCdim : topologicalKrullDim C.subscheme ≤ 1)
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      ∀ C : X.IdealSheafData, IsRationalTail k X C →
+      ∀ (hCdim : topologicalKrullDim C.subscheme ≤ 1)
       [SheafOfModules.IsInvertible C.subscheme.presheaf C.subscheme.ringCatSheaf.2
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))],
@@ -604,11 +604,11 @@ theorem hasGenusTwoNoRationalTailNoRationalBridge_of_iso_of
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k)))) < 0)
     (h0E64 : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (C : X.IdealSheafData) (hC : IsRationalBridge k X C)
-      (hCdim : topologicalKrullDim C.subscheme ≤ 1)
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      ∀ C : X.IdealSheafData, IsRationalBridge k X C →
+      ∀ (hCdim : topologicalKrullDim C.subscheme ≤ 1)
       [SheafOfModules.IsInvertible C.subscheme.presheaf C.subscheme.ringCatSheaf.2
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))],
@@ -660,22 +660,22 @@ Stacks 0E3P (`h0E3P`), Stacks 0E63 and 0E64 (`h0E63`, `h0E64`) and part (2) of S
 dualizing sheaf (`hbc`), each in the shape of its statement. -/
 theorem hasStableFibres_curveFamilyOverFieldOfProper_iff_of
     (h0E3P : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (htail : ∀ C : X.IdealSheafData, ¬ IsRationalTail k X C)
-      (hbridge : ∀ C : X.IdealSheafData, ¬ IsRationalBridge k X C)
-      (hg : 2 ≤ genus (X ↘ Spec (.of k))),
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      (∀ C : X.IdealSheafData, ¬ IsRationalTail k X C) →
+      (∀ C : X.IdealSheafData, ¬ IsRationalBridge k X C) →
+      2 ≤ genus (X ↘ Spec (.of k)) →
       ∃ _ : SheafOfModules.IsInvertible X.toRingedSpace.presheaf
           (structureSheafRing X.toRingedSpace).property
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))),
         Scheme.Modules.IsAmple X (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))
     (h0E63 : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (C : X.IdealSheafData) (hC : IsRationalTail k X C)
-      (hCdim : topologicalKrullDim C.subscheme ≤ 1)
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      ∀ C : X.IdealSheafData, IsRationalTail k X C →
+      ∀ (hCdim : topologicalKrullDim C.subscheme ≤ 1)
       [SheafOfModules.IsInvertible C.subscheme.presheaf C.subscheme.ringCatSheaf.2
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))],
@@ -683,11 +683,11 @@ theorem hasStableFibres_curveFamilyOverFieldOfProper_iff_of
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k)))) < 0)
     (h0E64 : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (C : X.IdealSheafData) (hC : IsRationalBridge k X C)
-      (hCdim : topologicalKrullDim C.subscheme ≤ 1)
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      ∀ C : X.IdealSheafData, IsRationalBridge k X C →
+      ∀ (hCdim : topologicalKrullDim C.subscheme ≤ 1)
       [SheafOfModules.IsInvertible C.subscheme.presheaf C.subscheme.ringCatSheaf.2
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))],
@@ -754,21 +754,21 @@ theorem hasStableFibres_curveFamilyOverFieldOfProper_iff_of
     let e := (BigFppfOver.toScheme B integerBase hZ).mapIso (asIso q')
     have he : e.hom ≫ (BigFppfOver.toScheme B integerBase hZ).map g =
         (BigFppfOver.toScheme B integerBase hZ).map v := by
-      show (BigFppfOver.toScheme B integerBase hZ).map q' ≫ _ = _
+      change (BigFppfOver.toScheme B integerBase hZ).map q' ≫ _ = _
       rw [← Functor.map_comp, hq'g]
     exact hasGenusTwoNoRationalTailNoRationalBridge_of_iso_of h0E3P h0E63 h0E64 hbc k
       ((BigFppfOver.toScheme B integerBase hZ).map v) _ e he hdim1 hnodal hV
   · intro hT p
     let v : p.siteObject ⟶ (Over.mk Wh : BigFppfOver B integerBase hZ) := p.value
     refine ⟨pullback g v, pullback.snd g v, yoneda.map (pullback.fst g v), ?_, ?_⟩
-    · show IsPullback (yoneda.map (pullback.fst g v)) (yoneda.map (pullback.snd g v))
+    · change IsPullback (yoneda.map (pullback.fst g v)) (yoneda.map (pullback.snd g v))
         (yoneda.map g) (yonedaEquiv.symm v)
       rw [hσ]
       exact (IsPullback.of_hasPullback g v).map yoneda
     · let γ : Spec (.of p.carrier) ⟶ Spec (.of k) := (BigFppfOver.toScheme B integerBase hZ).map v
       let : Algebra k p.carrier := (Spec.preimage γ).hom.toAlgebra
       have hγ : Spec.map (CommRingCat.ofHom (algebraMap k p.carrier)) = γ := by
-        show Spec.map (CommRingCat.ofHom (Spec.preimage γ).hom) = γ
+        change Spec.map (CommRingCat.ofHom (Spec.preimage γ).hom) = γ
         rw [CommRingCat.ofHom_hom, Spec.map_preimage]
       have h' : IsPullback ((BigFppfOver.toScheme B integerBase hZ).map (pullback.fst g v))
           ((BigFppfOver.toScheme B integerBase hZ).map (pullback.snd g v))
@@ -799,22 +799,22 @@ theorem isStableCurveFamily_curveFamilyOverFieldOfProper_iff_of
         (Stacks.Curves.HasAtWorstNodalSingularities k X ∧ TopologicalSpace.Equidimensional X ∧
           ∀ Z ∈ irreducibleComponents X, topologicalKrullDim Z = (1 : WithBot ℕ∞)))
     (h0E3P : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (htail : ∀ C : X.IdealSheafData, ¬ IsRationalTail k X C)
-      (hbridge : ∀ C : X.IdealSheafData, ¬ IsRationalBridge k X C)
-      (hg : 2 ≤ genus (X ↘ Spec (.of k))),
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      (∀ C : X.IdealSheafData, ¬ IsRationalTail k X C) →
+      (∀ C : X.IdealSheafData, ¬ IsRationalBridge k X C) →
+      2 ≤ genus (X ↘ Spec (.of k)) →
       ∃ _ : SheafOfModules.IsInvertible X.toRingedSpace.presheaf
           (structureSheafRing X.toRingedSpace).property
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))),
         Scheme.Modules.IsAmple X (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))
     (h0E63 : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (C : X.IdealSheafData) (hC : IsRationalTail k X C)
-      (hCdim : topologicalKrullDim C.subscheme ≤ 1)
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      ∀ C : X.IdealSheafData, IsRationalTail k X C →
+      ∀ (hCdim : topologicalKrullDim C.subscheme ≤ 1)
       [SheafOfModules.IsInvertible C.subscheme.presheaf C.subscheme.ringCatSheaf.2
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))],
@@ -822,11 +822,11 @@ theorem isStableCurveFamily_curveFamilyOverFieldOfProper_iff_of
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k)))) < 0)
     (h0E64 : ∀ (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
-      [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-      [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)]
-      (hnodal : Stacks.Curves.HasAtWorstNodalSingularities k X)
-      (C : X.IdealSheafData) (hC : IsRationalBridge k X C)
-      (hCdim : topologicalKrullDim C.subscheme ≤ 1)
+      [IsProper (X ↘ Spec (.of k))], topologicalKrullDim X = 1 →
+      ∀ [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)],
+      Stacks.Curves.HasAtWorstNodalSingularities k X →
+      ∀ C : X.IdealSheafData, IsRationalBridge k X C →
+      ∀ (hCdim : topologicalKrullDim C.subscheme ≤ 1)
       [SheafOfModules.IsInvertible C.subscheme.presheaf C.subscheme.ringCatSheaf.2
         ((Scheme.Modules.pullback C.subschemeι).obj
           (Stacks.Duality.dualizingSheafOverField (X ↘ Spec (.of k))))],

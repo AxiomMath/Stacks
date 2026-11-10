@@ -104,7 +104,7 @@ theorem chartPoint_baseChange (i : Z ⟶ X) (hi : yoneda.relativelyRepresentable
         (BigFppfOver.toScheme B S hS).map (hi.snd A.chart.1.hom) :=
     (BigFppfOver.toScheme B S hS).map_comp _ _
   have hA := (congrArg (BigFppfOver.toScheme B S hS).map hcomp).symm.trans hmap
-  show ((BigFppfOver.toScheme B S hS).map
+  change ((BigFppfOver.toScheme B S hS).map
       ((SmallEtaleNeighborhood.baseChange B S hS i hi z).obj A).point ≫
       (BigFppfOver.toScheme B S hS).map (hi.snd A.chart.1.hom)).base _ = _
   rw [← hA]

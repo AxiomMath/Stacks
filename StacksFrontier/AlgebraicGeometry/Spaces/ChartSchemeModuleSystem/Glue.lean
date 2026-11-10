@@ -167,7 +167,7 @@ private theorem qcohTransition_cocycle {W V U : SmallEtale B S hS X.1} (f : V �
       (𝓜.qcohTransition (g ≫ f)).hom := by
   have h := 𝓜.cocycle f g
   ext1
-  show (Scheme.Modules.pullbackComp (chartSchemeMap g) (chartSchemeMap f)).inv.app (𝓜.M U) ≫
+  change (Scheme.Modules.pullbackComp (chartSchemeMap g) (chartSchemeMap f)).inv.app (𝓜.M U) ≫
       (Scheme.Modules.pullback (chartSchemeMap g)).map (𝓜.τ f).hom ≫ (𝓜.τ g).hom =
     (𝓜.τ (g ≫ f)).hom
   rw [h, Iso.inv_hom_id_app_assoc]

@@ -64,7 +64,7 @@ theorem codimension_closureSingleton_eq_zero_iff {A : Type*} [TopologicalSpace A
   rw [codimension_eq_coheight, Order.coheight_eq_zero]
   have hg : closure ({genericPoint A} : Set A) = Set.univ := genericPoint_spec A
   have hle (b : IrreducibleCloseds A) : b ≤ closureSingleton (genericPoint A) := by
-    show (b : Set A) ⊆ closure ({genericPoint A} : Set A)
+    change (b : Set A) ⊆ closure ({genericPoint A} : Set A)
     exact hg ▸ Set.subset_univ _
   constructor
   · intro h

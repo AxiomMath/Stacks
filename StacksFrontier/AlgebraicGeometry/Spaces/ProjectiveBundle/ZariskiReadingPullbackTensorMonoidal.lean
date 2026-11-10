@@ -120,7 +120,7 @@ theorem Functor.tensorPasteUpper_of_comp {𝒜 ℬ 𝒞 𝒟 : Type*} [Category 
     (hnat : P.map (R.map m) ≫ Ps = θ' ≫ R'.map n) (hmφ : mφ ≫ m' = n ≫ cφ) :
     Functor.TensorPasteUpper P R R' F Z κ a b θ' mφ Z' := by
   subst hZ hZ'
-  show P.map (R.map m ≫ Zs) ≫ κ ≫ ((F.map a).app Y₂ ≫ (F.obj W₁).map b) =
+  change P.map (R.map m ≫ Zs) ≫ κ ≫ ((F.map a).app Y₂ ≫ (F.obj W₁).map b) =
     θ' ≫ R'.map mφ ≫ R'.map m' ≫ Zs'
   rw [Functor.map_comp, Category.assoc, H, ← Category.assoc, hnat, Category.assoc,
     ← R'.map_comp_assoc, ← hmφ, R'.map_comp_assoc]
@@ -147,9 +147,83 @@ theorem comp_monoidalTensorSheafTensorIso_hom (Y : Scheme.{u}) {X M N : Y.Module
 along `h`, with the Zariski reading tensor isomorphisms split into the identification of the
 monoidal product with the tensor product sheaf and
 `AlgebraicGeometry.Space.zariskiReadingTensorIso`. -/
-def zariskiReadingPullbackTensorSquareUpperAux (h₀ : T' ⟶ T)
+theorem zariskiReadingPullbackTensorSquareUpperAux (h₀ : T' ⟶ T)
     (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
-    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :=
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun a1 a2 a3 a4 a5 => (Functor.tensorPasteUpper_of_comp
+        (modulesTensorObjIso B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T) N₀ M₀).hom
+        (zariskiReadingTensorIso T N₀ M₀ hN₀ hM₀).hom
+        ((zariskiReadingPullbackHom h₀).app
+            (((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
+            (structureSheaf B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))).obj N₀).obj
+            M₀))
+        ((modulePullback B S hS (representedSpaceMap B S hS h₀)).map
+          (modulesTensorObjIso B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T) N₀ M₀).hom)
+        (zariskiReadingSpaceTensorIso h₀ N₀ M₀).hom
+        (modulesTensorObjIso B S hS (yoneda.obj T') (isAlgebraicSpace_yoneda B S hS T')
+            ((modulePullback B S hS (representedSpaceMap B S hS h₀)).obj N₀)
+            ((modulePullback B S hS (representedSpaceMap B S hS h₀)).obj M₀)).hom
+        (zariskiReadingTensorIso T' ((modulePullback B S hS (representedSpaceMap B S hS h₀)).obj N₀)
+            ((modulePullback B S hS (representedSpaceMap B S hS h₀)).obj M₀)
+            (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS
+            (representedSpaceMap B S hS h₀) N₀ hN₀)
+            (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS
+            (representedSpaceMap B S hS h₀) M₀ hM₀)).hom
+        a1 a2 a3 a4 a5 :
+      CategoryTheory.Functor.TensorPasteUpper
+        (ℬ := ((BigFppfOver.toScheme B S hS).obj T').Modules)
+        (iℬ := Scheme.Modules.instCategory)
+        (𝒞 := ((BigFppfOver.toScheme B S hS).obj T).Modules)
+        (i𝒞 := Scheme.Modules.instCategory)
+        (D' := (MonoidalCategory.tensorObj (C := Modules.{u, u} B S hS (yoneda.obj T)
+            (isAlgebraicSpace_yoneda B S hS T)) (N₀) (M₀)))
+        (C' := (((Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨((BigFppfOver.toScheme B S hS).obj T).presheaf,
+          Presheaf.isSheaf_of_isSheaf_comp _ ((BigFppfOver.toScheme B S hS).obj T).presheaf
+          (forget₂ CommRingCat RingCat) ((BigFppfOver.toScheme B S hS).obj T).ringCatSheaf.2⟩)).obj
+                ((zariskiReadingFunctor T).obj (N₀))).obj ((zariskiReadingFunctor T).obj (M₀)))
+        (Y₁ := (Scheme.Modules.pullback ((BigFppfOver.toScheme B S hS).map h₀)).obj
+            ((zariskiReadingFunctor T).obj (N₀)))
+        (Y₂ := (Scheme.Modules.pullback ((BigFppfOver.toScheme B S hS).map h₀)).obj
+            ((zariskiReadingFunctor T).obj (M₀)))
+        (W₁ := (zariskiReadingFunctor T').obj ((modulePullback B S hS
+            (representedSpaceMap B S hS h₀)).obj (N₀)))
+        (W₂ := (zariskiReadingFunctor T').obj ((modulePullback B S hS
+            (representedSpaceMap B S hS h₀)).obj (M₀)))
+        (GD' := (modulePullback B S hS (representedSpaceMap B S hS h₀)).obj
+            ((MonoidalCategory.tensorObj (C := Modules.{u, u} B S hS (yoneda.obj T)
+            (isAlgebraicSpace_yoneda B S hS T)) (N₀) (M₀))))
+        (E' := (MonoidalCategory.tensorObj (C := Modules.{u, u} B S hS (yoneda.obj T')
+            (isAlgebraicSpace_yoneda B S hS T')) ((modulePullback B S hS
+            (representedSpaceMap B S hS h₀)).obj (N₀))
+            ((modulePullback B S hS (representedSpaceMap B S hS h₀)).obj (M₀))))
+        (Scheme.Modules.pullback ((BigFppfOver.toScheme B S hS).map h₀)) (zariskiReadingFunctor T)
+            (zariskiReadingFunctor T') (Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨((BigFppfOver.toScheme B S hS).obj T').presheaf,
+          Presheaf.isSheaf_of_isSheaf_comp _ ((BigFppfOver.toScheme B S hS).obj T').presheaf
+            (forget₂ CommRingCat RingCat) ((BigFppfOver.toScheme B S hS).obj T').ringCatSheaf.2⟩)
+        ((zariskiReadingTensorObjIso T (N₀) (M₀) hN₀ hM₀).hom ≫
+            (monoidalTensorSheafTensorIso ((BigFppfOver.toScheme B S hS).obj T)
+            ((zariskiReadingFunctor T).obj (N₀)) ((zariskiReadingFunctor T).obj (M₀))).hom)
+            ((Stacks.RingedSpace.comparisonBifunctorIso
+            ((BigFppfOver.toScheme B S hS).map h₀).toLRSHom.toShHom).hom.app
+            ((zariskiReadingFunctor T).obj (N₀), (zariskiReadingFunctor T).obj (M₀)))
+            ((zariskiReadingPullbackHom h₀).app (N₀)) ((zariskiReadingPullbackHom h₀).app (M₀))
+            ((zariskiReadingPullbackHom h₀).app ((MonoidalCategory.tensorObj
+            (C := Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T)) (N₀)
+            (M₀))))
+        (modulePullbackTensorIso B S hS (representedSpaceMap B S hS h₀) N₀ M₀).hom
+        ((zariskiReadingTensorObjIso T' ((modulePullback B S hS (representedSpaceMap B S hS h₀)).obj
+            (N₀)) ((modulePullback B S hS (representedSpaceMap B S hS h₀)).obj (M₀))
+            (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS
+            (representedSpaceMap B S hS h₀) (N₀) hN₀)
+            (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS
+            (representedSpaceMap B S hS h₀) (M₀) hM₀)).hom ≫
+            (monoidalTensorSheafTensorIso ((BigFppfOver.toScheme B S hS).obj T')
+            ((zariskiReadingFunctor T').obj ((modulePullback B S hS
+            (representedSpaceMap B S hS h₀)).obj (N₀)))
+            ((zariskiReadingFunctor T').obj ((modulePullback B S hS
+            (representedSpaceMap B S hS h₀)).obj (M₀)))).hom))) :=
   fun a1 a2 a3 a4 a5 => (Functor.tensorPasteUpper_of_comp
       (modulesTensorObjIso B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T) N₀ M₀).hom
       (zariskiReadingTensorIso T N₀ M₀ hN₀ hM₀).hom
@@ -232,9 +306,13 @@ variable (h : T' ⟶ T) (N M : Modules.{u, u} B S hS (yoneda.obj T)
 /-- `CategoryTheory.comp_eq_comp_of_heq` at
 `AlgebraicGeometry.Space.zariskiReadingTensorSquare_sheafTensor`: the third hypothesis of
 `AlgebraicGeometry.Space.zariskiReadingPullbackTensorSquareUpperAux`. -/
-def zariskiReadingPullbackTensorSquareUpper_3Aux (h₀ : T' ⟶ T)
+theorem zariskiReadingPullbackTensorSquareUpper_3Aux (h₀ : T' ⟶ T)
     (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
-    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :=
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 => (comp_eq_comp_of_heq
+        (zariskiReadingTensorSquare_sheafTensor h₀ N₀ M₀ hN₀ hM₀)
+      a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 : HypothesisOf₅_3
+          (zariskiReadingPullbackTensorSquareUpperAux h₀ N₀ M₀ hN₀ hM₀))) :=
   fun a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 => (comp_eq_comp_of_heq
       (zariskiReadingTensorSquare_sheafTensor h₀ N₀ M₀ hN₀ hM₀)
     a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 : HypothesisOf₅_3
@@ -245,9 +323,11 @@ abbrev HypothesisOf₁_1 {α1 β : Prop} (_ : α1 → β) : Prop := α1
 
 /-- The fifth hypothesis of `AlgebraicGeometry.Space.zariskiReadingPullbackTensorSquareUpperAux`,
 from `CategoryTheory.Iso.trans_trans_symm_hom_comp_hom`. -/
-def zariskiReadingPullbackTensorSquareUpper_5Aux (h₀ : T' ⟶ T)
+theorem zariskiReadingPullbackTensorSquareUpper_5Aux (h₀ : T' ⟶ T)
     (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
-    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :=
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun hc => (Iso.trans_trans_symm_hom_comp_hom _ _ _ hc : HypothesisOf₅_5
+        (zariskiReadingPullbackTensorSquareUpperAux h₀ N₀ M₀ hN₀ hM₀))) :=
   fun hc => (Iso.trans_trans_symm_hom_comp_hom _ _ _ hc : HypothesisOf₅_5
       (zariskiReadingPullbackTensorSquareUpperAux h₀ N₀ M₀ hN₀ hM₀))
 

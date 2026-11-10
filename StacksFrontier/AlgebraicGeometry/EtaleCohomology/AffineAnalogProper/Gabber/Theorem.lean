@@ -9,7 +9,7 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.SurjectiveInverse
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.CompositeCohomologyBaseChange
 public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionSheavesCurves.TorsionConstructibleSubsheaves
+StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionSheavesCurves.TorsionConstructibleSubsheaves
 import StacksCore.Tactic.StacksAttribute
 
 /-!
@@ -52,7 +52,7 @@ theorem mono_etaleAbelianInverseImageDirectImageAdj_unit_of_surjective {X Y : Sc
       ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous (smallEtaleBaseChange f)
         AddCommGrpCat.{u + 1} Y.smallEtaleTopology X.smallEtaleTopology).unit.app F) ≫
         (coefficientPushforwardTwoSquare (smallEtaleBaseChange f)
-          Y.smallEtaleTopology X.smallEtaleTopology U).natTrans.app
+          Y.smallEtaleTopology X.smallEtaleTopology U).app
           ((Functor.sheafPullbackConstruction.sheafPullback (smallEtaleBaseChange f)
             AddCommGrpCat.{u + 1} Y.smallEtaleTopology X.smallEtaleTopology).obj F)) := by
     rw [← coefficientPullbackComparison_unit (smallEtaleBaseChange f)

@@ -137,7 +137,7 @@ theorem exists_pullbackOver {X Y : TopCat.{u}} (f : X ⟶ Y)
       SheafOfModules.pushforwardCongr₂ _ e (by
         ext : 2
         funext V
-        show φ.hom.app V ≫ R.obj.map prod.snd.op ≫
+        change φ.hom.app V ≫ R.obj.map prod.snd.op ≫
           R.obj.map (prodComparison F U V.unop).op =
             S.obj.map prod.snd.op ≫ φ.hom.app _
         rw [← R.obj.map_comp, ← op_comp, prodComparison_snd]

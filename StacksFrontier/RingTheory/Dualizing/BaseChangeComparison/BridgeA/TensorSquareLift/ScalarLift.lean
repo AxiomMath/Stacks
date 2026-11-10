@@ -171,8 +171,8 @@ loses its conditional caveat.  What the keystone still needs of
 comparisons read here at chain level, through `DerivedCategory.Q` and the inverse of the scalar
 lift, with the derived comparisons the keystone is stated with; those identifications are listed
 in the implementation notes of
-`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.BridgeA.TensorSquareDerived`, each with the
-equation that evaluates the derived comparison at a class.
+`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.BridgeA.TensorSquareDerived`, each with
+the equation that evaluates the derived comparison at a class.
 
 ## References
 

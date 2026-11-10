@@ -93,12 +93,12 @@ private theorem solution_aux {R S M : Type u} [CommRing R] [CommRing S] [IsLocal
   have hsmulA : ∀ ⦃k l : Λ⦄ (h : k ⟶ l) (x : ↑(A.obj k)) (m : ↑(N.obj k)),
       N.map h (x • m) = A.map h x • N.map h m := by
     intro k l h x m
-    show N.map h ((φ.app k x) • m) = (φ.app l (A.map h x)) • N.map h m
+    change N.map h ((φ.app k x) • m) = (φ.app l (A.map h x)) • N.map h m
     rw [hsmul h ((φ.app k) x) m, hnat h x]
   have hνA : ∀ (k : Λ) (x : ↑(A.obj k)) (m : ↑(N.obj k)),
       (ν.app k (x • m) : M) = HSMul.hSMul (α := R) (β := M) (ρ.app k x) (ν.app k m) := by
     intro k x m
-    show (ν.app k ((φ.app k x) • m) : M) = _
+    change (ν.app k ((φ.app k x) • m) : M) = _
     rw [hν k ((φ.app k) x) m]
     have h2 : (σ.app k (φ.app k x) : S) = algebraMap R S (ρ.app k x) := by
       simpa using ConcreteCategory.congr_hom (hφ k) x
@@ -123,7 +123,7 @@ theorem flat_of_ringEquiv_of_addEquiv {R₁ R₂ X Y : Type*} [CommRing R₁] [C
       ({ toFun := e.symm
          map_add' := fun x y => map_add _ _ _
          map_smul' := fun a y => by
-           show e.symm ((e a * y : R₂)) = a * e.symm y
+           change e.symm ((e a * y : R₂)) = a * e.symm y
            rw [map_mul, e.symm_apply_apply]
          invFun := e
          left_inv := fun x => e.apply_symm_apply x
@@ -167,14 +167,14 @@ private lemma flat_quotient_of_equiv {R : Type u} {M : Type w} {R' : Type x} {M'
     · rw [Submodule.map_le_iff_le_comap]
       refine Submodule.smul_le.2 fun a ha m _ => ?_
       rw [Submodule.mem_comap]
-      show eM (a • m) ∈ I • (⊤ : Submodule R M)
+      change eM (a • m) ∈ I • (⊤ : Submodule R M)
       rw [hcompat]
       exact Submodule.smul_mem_smul (Ideal.mem_comap.mp ha) Submodule.mem_top
     · refine Submodule.smul_le.2 fun a ha m _ => ?_
       refine Submodule.mem_map.2 ⟨(eR.symm a) • (eM.symm m), ?_, ?_⟩
       · refine Submodule.smul_mem_smul (Ideal.mem_comap.mpr ?_) Submodule.mem_top
         simpa using ha
-      · show eM ((eR.symm a) • (eM.symm m)) = a • m
+      · change eM ((eR.symm a) • (eM.symm m)) = a • m
         rw [hcompat, eR.apply_symm_apply, eM.apply_symm_apply]
   let e1 := Submodule.Quotient.equiv (I' • (⊤ : Submodule R' M')) (I • (⊤ : Submodule R M)) eMs hsub
   refine flat_of_ringEquiv_of_addEquiv ebar e1.toAddEquiv fun r z => ?_

@@ -398,8 +398,7 @@ lemma fwdLeg_resTmul {U V W : C} (z : Φ.fiber.obj W) (a : W ⟶ U) (b : W ⟶ V
 lemma fwdLeg_naturality {U V : C} (f : U ⟶ V) (x : Φ.fiber.obj U)
     (t : tensorSections O M N V) :
     fwdLeg Φ O M N U x (tensorRestrict O M N f t) = fwdLeg Φ O M N V (Φ.fiber.map f x) t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul m n =>
       rw [tensorRestrict_tmul, fwdLeg_tmul, fwdLeg_tmul, germ_w, germ_w]
@@ -443,7 +442,7 @@ lemma germ_resTmul_eq {U V W₁ W₂ : C} {x : Φ.fiber.obj U} {y : Φ.fiber.obj
   rw [tensorGerm_apply, tensorGerm_apply]
   refine germ_eq_of_restrict z' (c ≫ d₁) (c ≫ d₂) (map_comp_eq_of_map_eq hc hd₁)
     (map_comp_eq_of_map_eq hc hd₂) _ _ ?_
-  · show tensorRestrict O M N (c ≫ d₁) _ = tensorRestrict O M N (c ≫ d₂) _
+  · change tensorRestrict O M N (c ≫ d₁) _ = tensorRestrict O M N (c ≫ d₂) _
     rw [tensorRestrict_resTmul, tensorRestrict_resTmul, Category.assoc, Category.assoc,
       Category.assoc, Category.assoc, hA, hB]
 
@@ -458,7 +457,7 @@ lemma germ_resTmul_eq_self {U W : C} {x : Φ.fiber.obj U} (z : Φ.fiber.obj W) (
   obtain ⟨W', z', c, hc, h⟩ := exists_eq_nbhd a b ha hb
   rw [tensorGerm_apply, tensorGerm_apply]
   refine germ_eq_of_restrict z' c (c ≫ a) hc (map_comp_eq_of_map_eq hc ha) _ _ ?_
-  · show tensorRestrict O M N c _ = tensorRestrict O M N (c ≫ a) _
+  · change tensorRestrict O M N c _ = tensorRestrict O M N (c ≫ a) _
     rw [tensorRestrict_resTmul, tensorRestrict_tmul, h, resTmul]
 
 /-! ### The backward comparison map -/
@@ -542,7 +541,7 @@ lemma bwdOuterLeg_w {U U' : C} (g : U ⟶ U') (x : Φ.fiber.obj U) (m : M.obj (o
       bwdOuterLeg Φ O M N U' (Φ.fiber.map g x) m := by
   refine AddMonoidHom.ext fun q => ?_
   obtain ⟨V, y, n, rfl⟩ := germ_jointly_surjective (M := N) q
-  show bwdInnerHom Φ O M N x (M.restrictₛₗ g.op m) _ =
+  change bwdInnerHom Φ O M N x (M.restrictₛₗ g.op m) _ =
     bwdInnerHom Φ O M N (Φ.fiber.map g x) m _
   rw [bwdInnerHom_germ, bwdInnerHom_germ, resTmul_restrictₛₗ_left]
   refine germ_resTmul_eq Φ O M N _ _ _ _ _ _ ?_ (fiber_map_meetSnd x y)
@@ -625,15 +624,13 @@ lemma bwdHom_fwdHom (t : moduleFiber Φ O (M ⊗ N)) :
     bwdHom Φ O M N (fwdHom Φ O M N t) = t := by
   obtain ⟨U, x, u, rfl⟩ := tensorGerm_jointly_surjective Φ O M N t
   rw [fwdHom_germ]
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | add t₁ t₂ h₁ h₂ => rw [map_add, map_add, map_add, h₁, h₂]
   | tmul m n => rw [fwdLeg_tmul, bwdHom_germ_tmul]
 
 lemma fwdHom_bwdHom (t : fiberTensor Φ O M N) :
     fwdHom Φ O M N (bwdHom Φ O M N t) = t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add t₁ t₂ h₁ h₂ => rw [map_add, map_add, h₁, h₂]
   | tmul p q =>
       obtain ⟨U₁, x₁, m, rfl⟩ := germ_jointly_surjective (M := M) p
@@ -660,8 +657,7 @@ lemma fwdHom_smul (r : ringFiber Φ O) (t : moduleFiber Φ O (M ⊗ N)) :
     fwdHom Φ O M N (r • t) = r • fwdHom Φ O M N t := by
   obtain ⟨W, z, s, u, rfl, rfl⟩ := exists_common_germ_tensor Φ O M N r t
   rw [← tensorGerm_smul, fwdHom_germ, fwdHom_germ]
-  induction u using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero]; exact (smul_zero _).symm
+  induction u using TensorProduct.inductionOn with
   | add t₁ t₂ h₁ h₂ => rw [smul_add, map_add, map_add, h₁, h₂, smul_add]
   | tmul m n =>
       rw [TensorProduct.smul_tmul', fwdLeg_tmul, fwdLeg_tmul, germ_smul,
@@ -690,7 +686,7 @@ lemma presheafModuleFiberTensorEquiv_germ_tmul (U : C) (x : Φ.fiber.obj U)
         (tensorGerm Φ O M N U x
           (m ⊗ₜ[(O ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj (op U)] n)) =
       germ Φ O M U x m ⊗ₜ[ringFiber Φ O] germ Φ O N U x n := by
-  show fwdHom Φ O M N _ = _
+  change fwdHom Φ O M N _ = _
   rw [fwdHom_germ, fwdLeg_tmul]
 
 @[simp]
@@ -748,8 +744,7 @@ lemma fwdHom_naturality
           (presheafModuleFiberOfCommRing Φ O).map ψ) (fwdHom Φ O M N t) := by
   obtain ⟨U, x, u, rfl⟩ := tensorGerm_jointly_surjective Φ O M N t
   rw [tensorGerm_naturality]
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | add t₁ t₂ h₁ h₂ => simp only [map_add, h₁, h₂]
   | tmul m n =>
       rw [tensorSectionsMap_tmul, fwdHom_germ, fwdHom_germ, fwdLeg_tmul, fwdLeg_tmul,

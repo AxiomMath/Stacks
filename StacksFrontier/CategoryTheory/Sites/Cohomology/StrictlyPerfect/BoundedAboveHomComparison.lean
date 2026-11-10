@@ -153,7 +153,7 @@ private lemma isIso_homMap_f_of_isIso_or_isZero (e : E' ⟶ E) (n : ℤ)
   have hsec : ∀ V : X.Cᵒᵖ, IsIso (((homMap X e (𝟙 F)).f n).val.app V) := by
     rintro ⟨U⟩
     rw [ConcreteCategory.isIso_iff_bijective]
-    show Function.Bijective (fun s : ((sheafHomComplex X E F).obj.X n).val.obj (op U) =>
+    change Function.Bijective (fun s : ((sheafHomComplex X E F).obj.X n).val.obj (op U) =>
       ((homMap X e (𝟙 F)).f n).val.app (op U) s)
     exact ((sheafHomComplex X E' F).sectionsEquiv U n).symm.bijective.comp
       ((bijective_cochainConj_precomp X e n U he).comp
@@ -165,7 +165,7 @@ private lemma isIso_homMap_f_of_isIso_or_isZero (e : E' ⟶ E) (n : ℤ)
     rw [NatTrans.isIso_iff_isIso_app]
     intro V
     have := hsec V
-    show IsIso ((forget₂ (ModuleCat _) AddCommGrpCat).map
+    change IsIso ((forget₂ (ModuleCat _) AddCommGrpCat).map
       (((homMap X e (𝟙 F)).f n).val.app V))
     infer_instance
   have hval : IsIso ((SheafOfModules.forget.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).map

@@ -79,7 +79,7 @@ theorem etale_faithfullyFlat_retracts_quotient
           exact hp)⟩
     have hq : PrimeSpectrum.comap (Ideal.Quotient.mk I) q = p := by
       apply PrimeSpectrum.ext
-      show Ideal.comap (Ideal.Quotient.mk I)
+      change Ideal.comap (Ideal.Quotient.mk I)
         (p.asIdeal.map (Ideal.Quotient.mk I)) = p.asIdeal
       rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective,
         ← RingHom.ker_eq_comap_bot, Ideal.mk_ker]
@@ -133,7 +133,7 @@ theorem etale_faithfullyFlat_retracts_quotient
         (hq : PrimeSpectrum.comap (algebraMap A (E j)) q = p) :
         ∃ q' : PrimeSpectrum D, PrimeSpectrum.comap (algebraMap A D) q' = p := by
       refine ⟨PrimeSpectrum.comap (Pi.evalRingHom E j) q, ?_⟩
-      show PrimeSpectrum.comap ((Pi.evalRingHom E j).comp (algebraMap A D)) q = p
+      change PrimeSpectrum.comap ((Pi.evalRingHom E j).comp (algebraMap A D)) q = p
       convert hq using 1
       ext a
       rfl
@@ -163,7 +163,7 @@ theorem etale_faithfullyFlat_retracts_quotient
     have hJpi : J = Ideal.pi (fun j : Option s => J.map (Pi.evalRingHom E j)) := by
       apply (Ideal.piOrderIso (R := E)).injective
       funext j
-      show J.map (Pi.evalRingHom E j) =
+      change J.map (Pi.evalRingHom E j) =
         (Ideal.pi (fun j : Option s => J.map (Pi.evalRingHom E j))).map
           (Pi.evalRingHom E j)
       rw [Ideal.map_evalRingHom_pi]
@@ -175,7 +175,7 @@ theorem etale_faithfullyFlat_retracts_quotient
         (Ideal.mem_map_of_mem (algebraMap A (Localization.Away (f i : A))) (f i).2)
         (IsLocalization.Away.algebraMap_isUnit (f i : A))
     ext x
-    show ψ (x none) = 0 ↔ x ∈ J
+    change ψ (x none) = 0 ↔ x ∈ J
     rw [hJpi, Ideal.mem_pi, Option.forall]
     simp only [htop, Submodule.mem_top, implies_true, and_true]
     simp [E, hmap, ← hψker', RingHom.mem_ker]
@@ -184,7 +184,7 @@ theorem etale_faithfullyFlat_retracts_quotient
       RingHom.ker φ ≤ RingHom.ker ((Ideal.Quotient.mk I).comp (r : D →+* A)) := by
     rw [hφker, Ideal.map_le_iff_le_comap]
     intro a ha
-    show Ideal.Quotient.mk I (r (algebraMap A D a)) = 0
+    change Ideal.Quotient.mk I (r (algebraMap A D a)) = 0
     rw [r.commutes]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr ha
   let rbar : D ⧸ RingHom.ker φ →+* A' :=
@@ -198,9 +198,9 @@ theorem etale_faithfullyFlat_retracts_quotient
         Ideal.Quotient.mk (RingHom.ker φ) (algebraMap A D a) := by
       rw [show algebraMap A B a = φ (algebraMap A D a) from (ψ.commutes a).symm]
       exact RingHom.quotientKerEquivOfSurjective_symm_apply hφsurj _
-    show rbar (e.symm (algebraMap A B a)) = Ideal.Quotient.mk I a
+    change rbar (e.symm (algebraMap A B a)) = Ideal.Quotient.mk I a
     rw [he]
-    show Ideal.Quotient.mk I (r (algebraMap A D a)) = _
+    change Ideal.Quotient.mk I (r (algebraMap A D a)) = _
     simp [r.commutes]
   exact ⟨{ toRingHom := g, commutes' := Ideal.Quotient.mk_surjective.forall.2 hg }⟩
 

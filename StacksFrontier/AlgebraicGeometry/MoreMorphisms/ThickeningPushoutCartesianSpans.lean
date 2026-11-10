@@ -98,7 +98,7 @@ theorem spanComparison_gluingSourceMap (hu : IsPullback u qX qY f)
   have hsrc : gluingSourceMap i f (spanGluingData i f hu hv) =
       (inv (spanGluingData i f hu hv).obj.hom).left ≫ pullback.fst qY f := rfl
   rw [hsrc, hinv]
-  show hv.isoPullback.hom ≫ (hv.isoPullback.inv ≫ hu.isoPullback.hom) ≫ pullback.fst qY f = u
+  change hv.isoPullback.hom ≫ (hv.isoPullback.inv ≫ hu.isoPullback.hom) ≫ pullback.fst qY f = u
   simp
 
 variable (hi : IsThickening i) [IsAffineHom f]

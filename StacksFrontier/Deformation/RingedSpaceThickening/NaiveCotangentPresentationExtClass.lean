@@ -54,7 +54,6 @@ namespace Stacks.SheafOfModules
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [HasWeakSheafify J CommRingCat.{w}]
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   (A B : Sheaf J CommRingCat.{w}) (a : A ⟶ B) (E₁ E₂ : Functor Cᵒᵖ (Type w))
   (α₁ : E₁ ⟶ Stacks.Sites.FreeAlgebra.underlyingPresheaf J B)
   (α₂ : E₂ ⟶ Stacks.Sites.FreeAlgebra.underlyingPresheaf J B)

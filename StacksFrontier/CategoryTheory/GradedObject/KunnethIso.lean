@@ -54,13 +54,13 @@ variable {M N P : Type w} [AddCommGroup M] [Module R M] [AddCommGroup N] [Module
   [Decomposition 𝒞] (κ : M ⊗[R] N →ₗ[R] P)
   (hκ : ∀ (p q : ℤ) (a : M) (b : N), a ∈ 𝒜 p → b ∈ ℬ q → κ (a ⊗ₜ b) ∈ 𝒞 (p + q))
 
+omit [Decomposition 𝒜] [Decomposition ℬ] [Decomposition 𝒞] in
 include hκ in
 /-- `κ` maps `𝒜 p ⊗ ℬ q` into `𝒞 n` for `p + q = n`. -/
 theorem kunnethBlock_mem (p q n : ℤ) (h : p + q = n) (t : 𝒜 p ⊗[R] ℬ q) :
     κ (TensorProduct.map (𝒜 p).subtype (ℬ q).subtype t) ∈ 𝒞 n := by
   subst h
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b => exact hκ p q a b a.2 b.2
   | add t t' ht ht' => rw [map_add, map_add]; exact Submodule.add_mem _ ht ht'
 
@@ -74,6 +74,7 @@ def kunnethBlock (p q n : ℤ) (h : p + q = n) :
 def kunnethHom (n : ℤ) : (gradedModule 𝒜 ⊗ gradedModule ℬ) n ⟶ gradedModule 𝒞 n :=
   tensorObjDesc fun p q h ↦ kunnethBlock 𝒜 ℬ 𝒞 κ hκ p q n h
 
+omit [Decomposition 𝒜] [Decomposition ℬ] [Decomposition 𝒞] in
 /-- On the summand `𝒜 p ⊗ ℬ q`, `kunnethHom` is `a ⊗ b ↦ κ (a ⊗ b)`. -/
 theorem kunnethHom_apply (p q n : ℤ) (h : p + q = n) (a : 𝒜 p) (b : ℬ q) :
     (kunnethHom 𝒜 ℬ 𝒞 κ hκ n).hom
@@ -151,7 +152,7 @@ theorem kunnethHom_comp_kunnethSplit (n : ℤ) :
         exact (coe_component_of_eq 𝒞 (add_sub_cancel p n) ⟨κ ((a : M) ⊗ₜ (b : N)), hc⟩).symm
       · rw [DirectSum.decompose_coe, DirectSum.of_eq_of_ne _ _ _ (Ne.symm hq),
           TensorProduct.tmul_zero, map_zero, map_zero, ← DirectSum.lof_eq_of R,
-          DirectSum.component.of, dif_neg (by omega)]
+          DirectSum.component.of, dite_eq_right (by omega)]
 
 variable (hbij : Function.Bijective κ)
 
@@ -173,6 +174,7 @@ theorem kunnethHom_kunnethInv (n : ℤ) :
     (LinearEquiv.ofBijective κ hbij).apply_symm_apply c
   rwa [hκc, DirectSum.decompose_coe, ← DirectSum.lof_eq_of R, DirectSum.component.lof_self] at h
 
+omit [Decomposition 𝒞] in
 include hbij in
 /-- The composite `kunnethHom ≫ kunnethInv` is the identity of `(𝒜 ⊗ ℬ)ⁿ`. -/
 theorem kunnethInv_kunnethHom (n : ℤ) :

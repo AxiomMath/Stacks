@@ -182,7 +182,7 @@ def coordHom :
   have h2 : SymmetricAlgebra.equivMvPolynomial b (SymmetricAlgebra.ι k V (b j))
       = MvPolynomial.X j := by
     rw [Stacks.SymmetricFree.equivMvPolynomial_ι, Module.Basis.constr_basis]
-  show (SymPow.gradedMvPolynomialInv b) ((ProjPolyChart.integralGradedHom k n)
+  change (SymPow.gradedMvPolynomialInv b) ((ProjPolyChart.integralGradedHom k n)
       (MvPolynomial.X j)) = _
   rw [h1, SymPow.gradedMvPolynomialInv_apply, ← h2,
     AlgEquiv.symm_apply_apply]
@@ -212,15 +212,15 @@ variable {X : Scheme.{u}} [X.Over (Spec (CommRingCat.of k))] {L : X.Modules}
 private def vanishingSubmodule (ψ : V →ₗ[k] Γ(L, ⊤)) (x : X) : Submodule k V where
   carrier := {v | (L.presheaf.Γgerm x).hom (ψ v) ∈ Stacks.ModuleStalk.maximalSmul L x}
   add_mem' {v w} hv hw := by
-    simp only [Set.mem_setOf_eq] at hv hw ⊢
+    simp only [Set.mem_ofPred_eq] at hv hw ⊢
     rw [map_add, map_add]
     exact Submodule.add_mem _ hv hw
   zero_mem' := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [map_zero, map_zero]
     exact Submodule.zero_mem _
   smul_mem' c v hv := by
-    simp only [Set.mem_setOf_eq] at hv ⊢
+    simp only [Set.mem_ofPred_eq] at hv ⊢
     have hc : (c • ψ v : Γ(L, ⊤)) =
         Stacks.AlgebraicGeometry.ProjectiveSpaceGeneratingSections.baseRingHom k X c • ψ v := rfl
     rw [map_smul, hc, Stacks.ModuleStalk.Γgerm_smul]
@@ -228,7 +228,7 @@ private def vanishingSubmodule (ψ : V →ₗ[k] Γ(L, ⊤)) (x : X) : Submodule
 
 private theorem notMem_nonvanishingOpen_iff (ψ : V →ₗ[k] Γ(L, ⊤)) (x : X) (v : V) :
     v ∈ vanishingSubmodule ψ x ↔ x ∉ nonvanishingOpen X L (ψ v) := by
-  show (L.presheaf.Γgerm x).hom (ψ v) ∈ Stacks.ModuleStalk.maximalSmul L x ↔ _
+  change (L.presheaf.Γgerm x).hom (ψ v) ∈ Stacks.ModuleStalk.maximalSmul L x ↔ _
   rw [Stacks.NonvanishingOpen.mem_nonvanishingOpen, Stacks.Ample.mem_nonvanishingLocus_iff,
     not_not]
 
@@ -313,6 +313,7 @@ private theorem unitorPow_inv_app_hom_app (W : X.Opens) (z : Γ(natTensorPow L 1
   rw [← CategoryTheory.comp_apply, h]
   rfl
 
+omit [Ample.IsInvertibleModule X L] in
 open Stacks.AlgebraicGeometry.ProjectiveSpaceGeneratingSections in
 /-- The left unitor carries the restriction of a section read in `ℒ ^⊗ 1` to the restriction of
 that section. -/
@@ -481,7 +482,7 @@ theorem appLE_awayToSection_chartHom (s : Fin (n + 1) → Γ(L, ⊤)) (i : Fin (
 /-- Restriction along the identity inclusion does nothing. -/
 private theorem resO_self {W : X.Opens} (a : Γ(X, W)) :
     Stacks.ProjectiveFromSections.resO (le_refl W) a = a := by
-  show X.presheaf.map (homOfLE (le_refl W)).op a = a
+  change X.presheaf.map (homOfLE (le_refl W)).op a = a
   rw [show (homOfLE (le_refl W)).op = 𝟙 (op W) from rfl, CategoryTheory.Functor.map_id]
   rfl
 
@@ -522,7 +523,7 @@ theorem away_ringHom_ext_isLocalizationElem {P : Type*} [CommRing P] (i : Fin (n
   have hcomp : α.comp (Stacks.ProjectiveChart.chartHom (ULift.{u} ℤ) i).toRingHom =
       β.comp (Stacks.ProjectiveChart.chartHom (ULift.{u} ℤ) i).toRingHom := by
     refine MvPolynomial.ringHom_ext (fun r => ?_) (fun j => ?_)
-    · show α (Stacks.ProjectiveChart.chartHom (ULift.{u} ℤ) i (MvPolynomial.C r)) =
+    · change α (Stacks.ProjectiveChart.chartHom (ULift.{u} ℤ) i (MvPolynomial.C r)) =
         β (Stacks.ProjectiveChart.chartHom (ULift.{u} ℤ) i (MvPolynomial.C r))
       rw [show Stacks.ProjectiveChart.chartHom (ULift.{u} ℤ) i (MvPolynomial.C r) =
           algebraMap (Stacks.ProjectiveChart.Deg0 (ULift.{u} ℤ) n)
@@ -533,7 +534,7 @@ theorem away_ringHom_ext_isLocalizationElem {P : Type*} [CommRing P] (i : Fin (n
           (Stacks.ProjectiveChart.ChartRing (ULift.{u} ℤ) n i)))
         (β.comp (algebraMap (Stacks.ProjectiveChart.Deg0 (ULift.{u} ℤ) n)
           (Stacks.ProjectiveChart.ChartRing (ULift.{u} ℤ) n i)))) r
-    · show α (Stacks.ProjectiveChart.chartHom (ULift.{u} ℤ) i (MvPolynomial.X j)) =
+    · change α (Stacks.ProjectiveChart.chartHom (ULift.{u} ℤ) i (MvPolynomial.X j)) =
         β (Stacks.ProjectiveChart.chartHom (ULift.{u} ℤ) i (MvPolynomial.X j))
       rw [show Stacks.ProjectiveChart.chartHom (ULift.{u} ℤ) i (MvPolynomial.X j) =
           Stacks.ProjectiveChart.ratio (ULift.{u} ℤ) i (i.succAbove j) from
@@ -598,7 +599,7 @@ private theorem appLE_awayToSection_isLocalizationElem (ψ : V →ₗ[k] Γ(L, �
     ((veroneseOfLinearMap k V L ψ).homogeneousRatios
       (degreeOneElement k V (b i)).2 hW1).lift_mk Nat.one_pos 1
       ((SymmetricAlgebra.ι k V (b j)) ^ 1) _ ⟨_, hmem⟩ rfl]
-  show (veroneseOfLinearMap k V L ψ).ratio (degreeOneElement k V (b i)).2 hW1 1
+  change (veroneseOfLinearMap k V L ψ).ratio (degreeOneElement k V (b i)).2 hW1 1
       ((veroneseOfLinearMap k V L ψ).toFun 1 ⟨(SymmetricAlgebra.ι k V (b j)) ^ 1, hmem⟩) = _
   rw [(veroneseOfLinearMap k V L ψ).toFun_eq_pow (degreeOneElement k V (b j)).2 1
       ⟨(SymmetricAlgebra.ι k V (b j)) ^ 1, hmem⟩ rfl,
@@ -1040,7 +1041,7 @@ private theorem lift_fromZeroRingHom_algebraMap (ψ : V →ₗ[k] Γ(L, ⊤)) (f
       = HomogeneousLocalization.Away.mk (grading k V) f.2 0 _ h0 := by
     apply HomogeneousLocalization.val_injective
     rw [HomogeneousLocalization.Away.val_mk]
-    show Localization.mk _ 1 = _
+    change Localization.mk _ 1 = _
     congr 1
     exact Subtype.ext (pow_zero (f : SymmetricAlgebra k V)).symm
   have hone : (1 : Stacks.GradedSections.sectionRing L) 0 = 𝟙 (𝟙_ X.Modules) := by
@@ -1077,7 +1078,7 @@ private theorem lift_fromZeroRingHom_algebraMap (ψ : V →ₗ[k] Γ(L, ⊤)) (f
       (Stacks.SectionRingGeometric.unitScalarEquiv X).apply_symm_apply _] at h
   rw [hmk, ((veroneseOfLinearMap k V L ψ).homogeneousRatios f.2 le_rfl).lift_mk
     Nat.one_pos 0 _ h0 ⟨_, h0'⟩ rfl]
-  show (veroneseOfLinearMap k V L ψ).ratio f.2 le_rfl 0
+  change (veroneseOfLinearMap k V L ψ).ratio f.2 le_rfl 0
       ((veroneseOfLinearMap k V L ψ).toFun 0 ⟨_, h0'⟩) = _
   refine (veroneseOfLinearMap k V L ψ).ratio_eq_of_resTop_eq f.2 le_rfl ?_
   rw [htoFun, hunit, hpow, resTop_smul]

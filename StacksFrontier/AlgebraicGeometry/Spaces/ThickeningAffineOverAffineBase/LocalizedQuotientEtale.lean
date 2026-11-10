@@ -88,11 +88,13 @@ noncomputable def quotToAlgHom : quot g →ₐ[P] D₀ :=
     rw [← MvPolynomial.aeval_map_algebraMap C₀, ← hrel]
     exact P₀.aeval_val_relation j)
 
+omit [Finite τ] in
 /-- `quotToAlgHom` sends the class of a polynomial `x` to `x` evaluated at the generators of
 `P₀`. -/
 theorem quotToAlgHom_mk (x : MvPolynomial τ P) :
     quotToAlgHom g P₀ hrel (Ideal.Quotient.mk _ x) = aeval P₀.val x := rfl
 
+omit [Finite τ] in
 include hmap in
 /-- `quotToAlgHom` sends the Jacobian of the quotient to the Jacobian of `P₀`. -/
 theorem quotToAlgHom_jac : quotToAlgHom g P₀ hrel (jac g m hm) = P₀.jacobian := by
@@ -107,7 +109,7 @@ theorem quotToAlgHom_jac : quotToAlgHom g P₀ hrel (jac g m hm) = P₀.jacobian
       MvPolynomial.pderiv_map, RingHom.mapMatrix_apply, Matrix.map_apply]
     rfl
   rw [hmat, ← RingHom.map_det, Generators.algebraMap_apply (P := P₀.toGenerators)]
-  show quotToAlgHom g P₀ hrel (Ideal.Quotient.mk _ _) = _
+  change quotToAlgHom g P₀ hrel (Ideal.Quotient.mk _ _) = _
   rw [quotToAlgHom_mk, MvPolynomial.aeval_map_algebraMap]
 
 /-- The map of the localized quotient to `D₀`: the Jacobian goes to the Jacobian of `P₀`,
@@ -118,6 +120,7 @@ noncomputable def toAlgHom : ring g m hm →ₐ[P] D₀ :=
       rintro ⟨_, n, rfl⟩
       simpa [quotToAlgHom_jac g m hm P₀ hrel hmap] using P₀.jacobian_isUnit.pow n)
 
+omit [Finite τ] in
 /-- `toAlgHom` restricts to `quotToAlgHom` on the quotient. -/
 theorem toAlgHom_algebraMap (x : quot g) :
     toAlgHom g m hm P₀ hrel hmap (algebraMap _ _ x) = quotToAlgHom g P₀ hrel x :=
@@ -152,6 +155,7 @@ noncomputable def tensorInv : D₀ →ₐ[C₀] C₀ ⊗[P] ring g m hm :=
       simp)).comp
     ((P₀.quotientEquiv.symm.toAlgHom).restrictScalars C₀)
 
+omit [Finite τ] [Algebra P D₀] [IsScalarTower P C₀ D₀] in
 /-- `tensorInv` sends a polynomial `p` evaluated at the generators of `P₀` to `p` evaluated at
 the elements `1 ⊗ xᵢ` of the base change. -/
 theorem tensorInv_aeval (p : MvPolynomial τ C₀) :
@@ -164,6 +168,7 @@ theorem tensorInv_aeval (p : MvPolynomial τ C₀) :
   simp only [tensorInv, AlgHom.comp_apply, h]
   rfl
 
+omit [Finite τ] in
 /-- `tensorLift` sends a polynomial `p` evaluated at the elements `1 ⊗ xᵢ` of the base change to
 `p` evaluated at the generators of `P₀`. -/
 theorem tensorLift_aeval (p : MvPolynomial τ C₀) :
@@ -174,6 +179,7 @@ theorem tensorLift_aeval (p : MvPolynomial τ C₀) :
   exact congrArg (fun v ↦ aeval v p) (funext fun i ↦ by
     simp [tensorLift, toAlgHom_algebraMap, quotToAlgHom_mk])
 
+omit [Finite τ] in
 /-- The base change of the localized quotient to `C₀` is isomorphic to `D₀` via `tensorLift`. -/
 theorem bijective_tensorLift : Function.Bijective (tensorLift g m hm P₀ hrel hmap) := by
   have hl : Function.LeftInverse (tensorLift g m hm P₀ hrel hmap)
@@ -208,6 +214,7 @@ noncomputable def quotLift (v : τ → E) (hv : ∀ j, aeval v (g j) = 0) : quot
     rintro _ ⟨j, rfl⟩
     exact hv j)
 
+omit [Finite τ] [Finite ρ] in
 /-- `quotLift` sends the class of a polynomial `x` to `x` evaluated at `v`. -/
 theorem quotLift_mk (v : τ → E) (hv : ∀ j, aeval v (g j) = 0) (x : MvPolynomial τ P) :
     quotLift g v hv (Ideal.Quotient.mk _ x) = aeval v x := rfl
@@ -220,6 +227,7 @@ noncomputable def liftOfRoots (v : τ → E) (hv : ∀ j, aeval v (g j) = 0)
     rintro ⟨_, n, rfl⟩
     simpa using hu.pow n)
 
+omit [Finite τ] in
 /-- `liftOfRoots` restricts to `quotLift` on the quotient. -/
 theorem liftOfRoots_algebraMap (v : τ → E) (hv : ∀ j, aeval v (g j) = 0)
     (hu : IsUnit (quotLift g v hv (jac g m hm))) (x : quot g) :

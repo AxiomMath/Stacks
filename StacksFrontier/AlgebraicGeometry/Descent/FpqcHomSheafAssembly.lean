@@ -179,7 +179,7 @@ lemma overEquiv_symm_ofArrows_over (Y : Over S) {I : Type*} {U : I → Scheme.{u
       Sieve.generate (Presieve.ofArrows (fun i ↦ Over.mk (u i ≫ Y.hom))
         (fun i ↦ (Over.homMk (u i) : Over.mk (u i ≫ Y.hom) ⟶ Y))) := by
   apply (Sieve.overEquiv Y).injective
-  show (Sieve.overEquiv Y) ((Sieve.overEquiv Y).symm (Sieve.generate (Presieve.ofArrows U u))) =
+  change (Sieve.overEquiv Y) ((Sieve.overEquiv Y).symm (Sieve.generate (Presieve.ofArrows U u))) =
     (Sieve.overEquiv Y) (Sieve.generate (Presieve.ofArrows (fun i ↦ Over.mk (u i ≫ Y.hom))
       (fun i ↦ (Over.homMk (u i) : Over.mk (u i ≫ Y.hom) ⟶ Y))))
   rw [OrderIso.apply_symm_apply, Sieve.overEquiv_ofArrows]
@@ -231,7 +231,7 @@ theorem isSheafFor_presheafHom_over_mk {T : Scheme.{u}} (a : T ⟶ S) (R : Sieve
     replace fac := (Over.forget _).congr_map fac
     simp only [Over.forget_obj, Over.map_obj_left, Over.mk_left, Over.forget_map, Over.comp_left,
       Over.isoMk_inv_left, Iso.refl_inv, Category.comp_id, Over.map_map_left] at fac
-    show R.arrows b.left
+    change R.arrows b.left
     rw [fac]
     exact R.downward_closed hd d.left
 

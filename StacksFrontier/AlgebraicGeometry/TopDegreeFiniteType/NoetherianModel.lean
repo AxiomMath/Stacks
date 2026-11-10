@@ -172,7 +172,7 @@ theorem exists_stage_properModel {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f]
   refine ⟨j, Xⱼ, e.hom.left ≫ pullback.fst Xⱼ.hom ((affineStageCone Y).π.app j),
     finitePresentation_overPullbackObj _ X₀ hfp₀, ?_, ?_,
     IsPullback.of_iso_pullback ⟨hcomm⟩ ((Over.forget Y).mapIso e) rfl hew⟩
-  · show IsProper (pullback.snd X₀.hom ((specAdjoinFinsetDiagram Γ(Y, ⊤)).map a))
+  · change IsProper (pullback.snd X₀.hom ((specAdjoinFinsetDiagram Γ(Y, ⊤)).map a))
     infer_instance
   · exact (fiberDimensionLE_iff_forall_topologicalKrullDim_fiber_le _ d).mp
       ((overPullback_map_terminal_iff (fiberDimensionLE d) _ X₀).mp hdim₁)

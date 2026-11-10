@@ -85,7 +85,7 @@ condition as tautness together with topological finite type (Stacks 0GBS). -/
 private theorem isAdic_and_isTopologicallyOfFiniteType_iff
     {B A : Type u} [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsLinearTopology B B] [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
-    [IsLinearTopology A A] (φ : B →+* A) (hφ : Continuous φ)
+    [IsLinearTopology A A] (φ : B →+* A)
     (hB : ∃ I : Ideal B, I.FG ∧ _root_.IsAdic I)
     (hAcomplete : @CompleteSpace A (IsTopologicalAddGroup.rightUniformSpace A))
     (hAT2 : T2Space A) :
@@ -94,7 +94,7 @@ private theorem isAdic_and_isTopologicallyOfFiniteType_iff
   let : UniformSpace A := IsTopologicalAddGroup.rightUniformSpace A
   let : CompleteSpace A := hAcomplete
   let : T2Space A := hAT2
-  exact and_congr (RingHom.isAdic_iff_isTaut φ hφ hB) Iff.rfl
+  exact and_congr (RingHom.isAdic_iff_isTaut φ hB) Iff.rfl
 
 /-- The completion over a countably indexed weakly admissible ring is again one (Stacks 0ANB). -/
 private theorem isCountablyWeaklyAdmissible_completionOver'
@@ -119,35 +119,34 @@ public theorem adicTopologicallyFiniteType_isLocal :
       isCountablyWeaklyAdmissible_completionOver' D.toA' D.weaklyAdmissibleA D.countableA
     have hB'weak :=
       isCountablyWeaklyAdmissible_completionOver' D.toB' D.weaklyAdmissibleB D.countableB
-    refine (isAdic_and_isTopologicallyOfFiniteType_iff D.completedMap D.continuousCompletedMap
-      hB' hA'weak.1.2.1 hA'weak.1.2.2).mpr ?_
+    refine (isAdic_and_isTopologicallyOfFiniteType_iff D.completedMap hB'
+      hA'weak.1.2.1 hA'weak.1.2.2).mpr ?_
     exact topologicallyFiniteType_localizationPreserves D
       ⟨D.weaklyAdmissibleA, D.countableA⟩ ⟨D.weaklyAdmissibleB, D.countableB⟩ hA'weak hB'weak
-      ((isAdic_and_isTopologicallyOfFiniteType_iff D.map D.continuousMap hB
+      ((isAdic_and_isTopologicallyOfFiniteType_iff D.map hB
         D.weaklyAdmissibleA.2.1 D.weaklyAdmissibleA.2.2).mp hMap)
   · intro A B A' B' _ _ _ _ _ _ _ _ _ _ D _ hB _ hB' hFF hCompleted
     have hA'weak :=
       isCountablyWeaklyAdmissible_completionOver' D.toA' D.weaklyAdmissibleA D.countableA
     have hB'weak :=
       isCountablyWeaklyAdmissible_completionOver' D.toB' D.weaklyAdmissibleB D.countableB
-    refine (isAdic_and_isTopologicallyOfFiniteType_iff D.map D.continuousMap hB
+    refine (isAdic_and_isTopologicallyOfFiniteType_iff D.map hB
       D.weaklyAdmissibleA.2.1 D.weaklyAdmissibleA.2.2).mpr ?_
     exact topologicallyFiniteType_faithfullyFlatDescent D
       ⟨D.weaklyAdmissibleA, D.countableA⟩ ⟨D.weaklyAdmissibleB, D.countableB⟩ hA'weak hB'weak hFF
-      ((isAdic_and_isTopologicallyOfFiniteType_iff D.completedMap D.continuousCompletedMap
-        hB' hA'weak.1.2.1 hA'weak.1.2.2).mp hCompleted)
+      ((isAdic_and_isTopologicallyOfFiniteType_iff D.completedMap hB'
+        hA'weak.1.2.1 hA'weak.1.2.2).mp hCompleted)
   · intro B _ _ _ _ hB hBcount ι _ A _ _ _ _ hAweak hAcount f hf hBstar _ hfProp
     let : ∀ i, UniformSpace (A i) := fun i ↦ IsTopologicalAddGroup.rightUniformSpace (A i)
     let : ∀ i, CompleteSpace (A i) := fun i ↦ (hAweak i).2.1
     let : ∀ i, T2Space (A i) := fun i ↦ (hAweak i).2.2
     let : ∀ i, IsUniformAddGroup (A i) := fun _ ↦ isUniformAddGroup_of_addCommGroup
     let : IsLinearTopology (∀ i, A i) (∀ i, A i) := isLinearTopology_pi
-    refine (isAdic_and_isTopologicallyOfFiniteType_iff (RingHom.pi f)
-      (continuous_pi fun i ↦ hf i) hBstar
+    refine (isAdic_and_isTopologicallyOfFiniteType_iff (RingHom.pi f) hBstar
       (by rw [IsUniformAddGroup.rightUniformSpace_eq]; infer_instance) inferInstance).mpr ?_
     exact topologicallyFiniteType_finiteProductPreserves hB hBcount A hAweak hAcount f hf
       ⟨hB, hBcount⟩ (fun i ↦ ⟨hAweak i, hAcount i⟩)
-      fun i ↦ (isAdic_and_isTopologicallyOfFiniteType_iff (f i) (hf i) hBstar
+      fun i ↦ (isAdic_and_isTopologicallyOfFiniteType_iff (f i) hBstar
         (hAweak i).2.1 (hAweak i).2.2).mp (hfProp i)
 
 /-- **Stacks 0GBZ.** The local property of Stacks 0GBW — being adic and topologically of finite
@@ -159,8 +158,8 @@ public theorem adicTopologicallyFiniteType_isStableUnderComposition :
         [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] (φ : B →+* A) ↦
         RingHom.IsAdic φ ∧ IsTopologicallyOfFiniteType φ) where
   isLocal := adicTopologicallyFiniteType_isLocal
-  comp _ _ _ _ _ _ f g hf_cont hg_cont hf hg :=
-    isAdic_and_isTopologicallyOfFiniteType_comp f g hf_cont hg_cont hf hg
+  comp _ _ _ _ _ _ f g hf_cont _ hf hg :=
+    isAdic_and_isTopologicallyOfFiniteType_comp f g hf_cont hf hg
 
 end
 

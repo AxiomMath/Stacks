@@ -86,7 +86,7 @@ theorem familyCoeff_baseChangeFamily_of_isIso {S' : Scheme.{u}} (g : S' ⟶ S)
     [IsIso (g.residueFieldMap ((pullback.snd f g).base z))] :
     familyCoeff (pullback.snd f g) r (baseChangeFamily f g r α) z =
       familyCoeff f r α ((pullback.fst f g).base z) := by
-  show (baseChangeFamily f g r α ((pullback.snd f g).base z) : AlgebraicCycle _ ℤ)
+  change (baseChangeFamily f g r α ((pullback.snd f g).base z) : AlgebraicCycle _ ℤ)
       ((pullback.snd f g).asFiber z) = _
   rw [baseChangeFamily_apply_of_isIso_residueFieldMap, familyCoeff_restrictedFiberMap,
     Scheme.Hom.fiberι_asFiber]
@@ -118,7 +118,7 @@ theorem CompatibleCycleCapRule.hasGenericSupport (c : CompatibleCycleCapRule C s
 theorem CycleCapRule.hasGenericSupport_ofFamily (α : FamilyOfCycles p r) :
     (CycleCapRule.ofFamily C sY p r α).HasGenericSupport := by
   intro T _ g _ k hk w hw
-  show (relativeCycleCap C sY p r α g k _).1 w = 0
+  change (relativeCycleCap C sY p r α g k _).1 w = 0
   rw [relativeCycleCap_apply, capCoeff, fundamentalCycle_apply_of_isIntegral C _ hk,
     ite_eq_right hw, zero_mul]
 
@@ -126,9 +126,9 @@ theorem CycleCapRule.hasGenericSupport_ofFamily (α : FamilyOfCycles p r) :
 theorem CycleCapRule.HasGenericSupport.sub {c₁ c₂ : CycleCapRule C sY p r}
     (h₁ : c₁.HasGenericSupport) (h₂ : c₂.HasGenericSupport) : (c₁ - c₂).HasGenericSupport := by
   intro T _ g _ k hk w hw
-  show (c₁.cap g k _ - c₂.cap g k _).1 w = 0
+  change (c₁.cap g k _ - c₂.cap g k _).1 w = 0
   rw [AddSubgroup.coe_sub]
-  show (c₁.cap g k _).1 w - (c₂.cap g k _).1 w = 0
+  change (c₁.cap g k _).1 w - (c₂.cap g k _).1 w = 0
   rw [h₁ g k hk w hw, h₂ g k hk w hw, sub_zero]
 
 omit [LocallyOfFiniteType p] in
@@ -206,10 +206,10 @@ theorem CycleCapRule.locallyFiniteSupport_genericCoeff (c : CycleCapRule C sY p 
   obtain ⟨O, hO, hON'⟩ := hN'
   refine ⟨p.fiberι y ⁻¹' O, (p.fiberι y).continuous.continuousAt.preimage_mem_nhds hO, ?_⟩
   refine ((hfin.preimage hinj.injOn).subset) fun z' hz' ↦ ⟨hON' ?_, ?_⟩
-  · show (pullback.fst p _).base (L z') ∈ O
+  · change (pullback.fst p _).base (L z') ∈ O
     rw [hL₁]
     exact hz'.1
-  · show γ (L z') ≠ 0
+  · change γ (L z') ≠ 0
     rw [← hval]
     exact hz'.2
 
@@ -232,17 +232,17 @@ theorem CycleCapRule.cap_integralComponentAt_eq (c : CycleCapRule C sY p r)
   have := isIntegral_integralComponentAt y
   have hk := schemeDeltaDimension_integralComponentAt C sY y
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun z ↦ ?_)
-  show _ = (relativeCycleCap C sY p r c.genericFamily _ _ _).1 z
+  change _ = (relativeCycleCap C sY p r c.genericFamily _ _ _).1 z
   rw [relativeCycleCap_apply, capCoeff, fundamentalCycle_apply_of_isIntegral C _ hk]
   split_ifs with hz
   · have := residueFieldMap_isIso_of_isClosedImmersion (integralComponentAt y).subschemeι
       ((pullback.snd p (integralComponentAt y).subschemeι).base z)
     have hfc := familyCoeff_baseChangeFamily_of_isIso p r (integralComponentAt y).subschemeι
       c.genericFamily z
-    show _ = 1 * familyCoeff _ r _ z
+    change _ = 1 * familyCoeff _ r _ z
     rw [one_mul, hfc, CycleCapRule.genericFamily, familyCoeff_familyOfCoeff]
     refine (c.genericCoeff_eq ?_ z rfl).symm
-    show (pullback.fst p _ ≫ p).base z = y
+    change (pullback.fst p _ ≫ p).base z = y
     rw [pullback.condition, Scheme.Hom.comp_apply, hz]
     exact genericPointOf_integralComponentAt y
   · rw [zero_mul]

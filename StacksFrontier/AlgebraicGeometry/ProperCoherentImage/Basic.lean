@@ -173,7 +173,8 @@ theorem higherDirectImageIsCoherent_of_overAffineBase
 /-- **[Stacks, Tag 02O5]'s first assertion is equivalent to its affine-base case.** The forward
 implication is the instantiation at an affine base and the reverse is
 `higherDirectImageIsCoherent_of_overAffineBase`, so the reduction performed by this file loses
-nothing: a proof of the affine case is a proof of the first assertion of Tag 02O5, and conversely. -/
+nothing: a proof of the affine case is a proof of the first assertion of Tag 02O5,
+and conversely. -/
 theorem higherDirectImageIsCoherent_iff_overAffineBase :
     HigherDirectImageIsCoherent.{u} ↔ HigherDirectImageIsCoherentOverAffineBase.{u} :=
   ⟨fun h X S f _ hS hf F hF i => h X S f hS hf F hF i,

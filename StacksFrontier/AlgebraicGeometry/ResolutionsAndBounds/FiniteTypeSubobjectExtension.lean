@@ -592,7 +592,7 @@ theorem isCompact_preimage_ι_of_quasiSeparatedSpace {X : Scheme.{u}} [QuasiSepa
   rw [(Y.ι.isOpenEmbedding.isEmbedding).isCompact_iff]
   have himg : (Y.ι.base '' ((Y.ι ⁻¹ᵁ V : Y.toScheme.Opens) : Set Y.toScheme)) =
       (V : Set X) ∩ (Y : Set X) := by
-    show ⇑Y.ι '' (⇑Y.ι ⁻¹' (V : Set X)) = _
+    change ⇑Y.ι '' (⇑Y.ι ⁻¹' (V : Set X)) = _
     rw [Set.image_preimage_eq_inter_range, Scheme.Opens.range_ι]
   rw [himg]
   exact QuasiSeparatedSpace.inter_isCompact _ _ V.2 hVc Y.2 hYc

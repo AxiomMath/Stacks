@@ -107,7 +107,7 @@ theorem PrimeDivisor.support_nonempty {X : Scheme.{u}} (Z : PrimeDivisor X) :
     (Z.support : Set X).Nonempty := by
   have := Z.integral
   have h := Scheme.IdealSheafData.range_subschemeι Z.idealSheaf
-  show ((Z.idealSheaf.support : Closeds X) : Set X).Nonempty
+  change ((Z.idealSheaf.support : Closeds X) : Set X).Nonempty
   exact h ▸ Set.range_nonempty _
 
 /-- **Stacks 02AR part (1), on a Noetherian scheme.** An integer coefficient family indexed by

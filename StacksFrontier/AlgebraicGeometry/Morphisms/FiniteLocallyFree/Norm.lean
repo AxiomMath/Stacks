@@ -190,7 +190,7 @@ theorem affineLocalNorm_eq_norm_of_free {X Y : Scheme.{u}} (f : X ⟶ Y)
   let := (module_finite_and_projective_sections f U).1
   let := (module_finite_and_projective_sections f U).2
   intro _ _ s
-  show Algebra.projectiveNorm Γ(Y, U.1) s = _
+  change Algebra.projectiveNorm Γ(Y, U.1) s = _
   exact Algebra.projectiveNorm_eq_norm_of_free _ s
 
 /-- The norm on affine opens is compatible with an arbitrary base change. -/
@@ -207,7 +207,7 @@ theorem affineLocalNorm_baseChange {X Y X' Y' : Scheme.{u}} (f : X ⟶ Y) (f' : 
   have heq : f' ⁻¹ᵁ V.1 = g' ⁻¹ᵁ (f ⁻¹ᵁ U.1) ⊓ f' ⁻¹ᵁ V.1 := by
     refine (inf_eq_right.mpr ?_).symm
     intro x hx
-    show f (g' x) ∈ U.1
+    change f (g' x) ∈ U.1
     rw [← Scheme.Hom.comp_apply, sq.w, Scheme.Hom.comp_apply]
     exact hV hx
   have hpush := (isIso_pushoutSection_iff sq hV le_rfl heq).mp
@@ -317,7 +317,7 @@ itself at that point. -/
 theorem evaluation_restrict {X : Scheme.{u}} {U V : X.Opens}
     (i : V ⟶ U) (x : X) (hx : x ∈ V) (s : Γ(X, U)) :
     X.evaluation V x hx (X.presheaf.map i.op s) = X.evaluation U x (i.le hx) s := by
-  show (X.presheaf.germ V x hx ≫ X.residue x) (X.presheaf.map i.op s) = _
+  change (X.presheaf.germ V x hx ≫ X.residue x) (X.presheaf.map i.op s) = _
   rw [← ConcreteCategory.comp_apply, ← Category.assoc, TopCat.Presheaf.germ_res]
   rfl
 
@@ -398,7 +398,7 @@ theorem normApp_baseChange {X Y X' Y' : Scheme.{u}} (f : X ⟶ Y) (f' : X' ⟶ Y
   have he := normApp_baseChange_affine f f' g' g sq W'.1 (g ⁻¹ᵁ W'.1.1) le_rfl
     (X.presheaf.map ((Opens.map f.base).map (homOfLE W'.2)).op s)
   rw [normApp_naturality, Scheme.Hom.appLE_eq_app] at he
-  show Y'.presheaf.map ((Opens.map g.base).map (homOfLE W'.2)).op _ = Y'.presheaf.map _ _
+  change Y'.presheaf.map ((Opens.map g.base).map (homOfLE W'.2)).op _ = Y'.presheaf.map _ _
   rw [← normApp_naturality, ← ConcreteCategory.comp_apply, Scheme.Hom.appLE_map,
     ← ConcreteCategory.comp_apply]
   have hg : g.app U ≫ Y'.presheaf.map ((Opens.map g.base).map (homOfLE W'.2)).op =

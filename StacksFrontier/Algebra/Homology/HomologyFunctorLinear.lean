@@ -38,7 +38,7 @@ public instance homologyFunctor_linear [CategoryWithHomology C] (n : ι) :
 of `K`. -/
 public lemma homologyMap_smul_id_of_linear {c : ComplexShape ι} (K : HomologicalComplex C c)
     (n : ι) [K.HasHomology n] (r : R) : homologyMap (r • 𝟙 K) n = r • 𝟙 (K.homology n) := by
-  show ShortComplex.homologyMap ((shortComplexFunctor C c n).map (r • 𝟙 K)) = _
+  change ShortComplex.homologyMap ((shortComplexFunctor C c n).map (r • 𝟙 K)) = _
   rw [show (shortComplexFunctor C c n).map (r • 𝟙 K) =
       r • (shortComplexFunctor C c n).map (𝟙 K) from rfl, ShortComplex.homologyMap_smul,
     CategoryTheory.Functor.map_id, ShortComplex.homologyMap_id]

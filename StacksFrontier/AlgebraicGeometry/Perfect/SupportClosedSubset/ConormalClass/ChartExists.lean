@@ -61,7 +61,7 @@ theorem smul_cotangent_of_surjective {S : Type u} [CommRing S] (φ : R →+* S)
       Module.compHom (RingHom.ker φ).Cotangent
         (RingHom.quotientKerEquivOfSurjective hφ).symm.toRingHom
     φ r • y = r • y := by
-  show (RingHom.quotientKerEquivOfSurjective hφ).symm (φ r) • y = r • y
+  change (RingHom.quotientKerEquivOfSurjective hφ).symm (φ r) • y = r • y
   rw [RingHom.quotientKerEquivOfSurjective_symm_apply, ← Ideal.Quotient.algebraMap_eq,
     algebraMap_smul]
 

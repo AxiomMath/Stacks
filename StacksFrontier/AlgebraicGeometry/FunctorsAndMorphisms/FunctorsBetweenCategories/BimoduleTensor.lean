@@ -95,7 +95,7 @@ private lemma imageTensorModule_smul (F : ModuleCat.{u} A ⥤ ModuleCat.{u} B)
     (imageTensorModule A B F M).isModule.smul (a ⊗ₜ[ℤ] b) x =
       b • (F.map (scalarMul A M a)) x := by
   dsimp [imageTensorModule]
-  show (imageAction A B F M a) (b • x) = b • (F.map (scalarMul A M a)) x
+  change (imageAction A B F M a) (b • x) = b • (F.map (scalarMul A M a)) x
   exact map_smul (imageAction A B F M a) b x
 
 private noncomputable def imageTensorMap (F : ModuleCat.{u} A ⥤ ModuleCat.{u} B)
@@ -109,11 +109,7 @@ private noncomputable def imageTensorMap (F : ModuleCat.{u} A ⥤ ModuleCat.{u} 
       dsimp [imageTensorModule] at x ⊢
       let : Module (A ⊗[ℤ] B) (F.obj M) := (imageTensorModule A B F M).isModule
       let : Module (A ⊗[ℤ] B) (F.obj N) := (imageTensorModule A B F N).isModule
-      induction c using TensorProduct.induction_on with
-      | zero =>
-        rw [zero_smul (A ⊗[ℤ] B) x]
-        exact (F.map f).hom.map_zero.trans
-          (zero_smul (A ⊗[ℤ] B) ((F.map f) x)).symm
+      induction c using TensorProduct.inductionOn with
       | tmul a b =>
         change F.map f ((imageTensorModule A B F M).isModule.smul (a ⊗ₜ[ℤ] b) x) =
           (imageTensorModule A B F N).isModule.smul (a ⊗ₜ[ℤ] b) (F.map f x)
@@ -147,7 +143,7 @@ private lemma imageTensorModule_restrict_smul
           (Algebra.TensorProduct.includeRight
             (R := ℤ) (A := A) (B := B)).toRingHom).obj M).isModule).smul
       b x = b • x := by
-  show (imageTensorModule A B F M).isModule.smul
+  change (imageTensorModule A B F M).isModule.smul
     ((Algebra.TensorProduct.includeRight (R := ℤ) (A := A) (B := B)) b) x = b • x
   rw [Algebra.TensorProduct.includeRight_apply, imageTensorModule_smul]
   simp [scalarMul_one]
@@ -220,7 +216,7 @@ private lemma imageTensorModule_includeLeft_smul
     (imageTensorModule A B F (ModuleCat.of A A)).isModule.smul
       ((Algebra.TensorProduct.includeLeftRingHom (R := ℤ) (A := A) (B := B)) a) k =
         F.map (regularMul A a) k := by
-  show (imageTensorModule A B F (ModuleCat.of A A)).isModule.smul
+  change (imageTensorModule A B F (ModuleCat.of A A)).isModule.smul
     (a ⊗ₜ[ℤ] (1 : B)) k = F.map (regularMul A a) k
   rw [imageTensorModule_smul]
   simp [regularMul_eq_scalarMul]
@@ -237,34 +233,22 @@ private lemma tensorFunctorRegularImageIso_natural
     (T.map (regularMul A a) ≫ e.hom).hom
   let R : T.obj (ModuleCat.of A A) →ₗ[B] F.obj (ModuleCat.of A A) :=
     (e.hom ≫ F.map (regularMul A a)).hom
-  show L = R
+  change L = R
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => exact (L.map_zero).trans (R.map_zero).symm
+  induction x using TensorProduct.inductionOn with
   | tmul s k =>
-    induction s using TensorProduct.induction_on with
-    | zero =>
-      show (tensorFunctorRegularImageIso A B F).hom
-          ((tensorFunctorOverInt A B (imageTensorModule A B F (ModuleCat.of A A))).map
-            (regularMul A a) (0 ⊗ₜ[A ⊗[ℤ] B] k)) =
-        F.map (regularMul A a)
-          ((tensorFunctorRegularImageIso A B F).hom (0 ⊗ₜ[A ⊗[ℤ] B] k))
-      rw [TensorProduct.zero_tmul]
-      exact (by simp : (tensorFunctorRegularImageIso A B F).hom
-        ((tensorFunctorOverInt A B (imageTensorModule A B F (ModuleCat.of A A))).map
-          (regularMul A a) 0) =
-        F.map (regularMul A a) ((tensorFunctorRegularImageIso A B F).hom 0))
+    induction s using TensorProduct.inductionOn with
     | tmul t z =>
       change A ⊗[ℤ] B at t
       change A at z
-      show (tensorFunctorRegularImageIso A B F).hom
+      change (tensorFunctorRegularImageIso A B F).hom
           ((t ⊗ₜ[A] (a * z)) ⊗ₜ[A ⊗[ℤ] B] k) =
         F.map (regularMul A a)
           ((tensorFunctorRegularImageIso A B F).hom
             ((t ⊗ₜ[A] z) ⊗ₜ[A ⊗[ℤ] B] k))
       rw [tensorFunctorRegularImageIso_hom_tmul, tensorFunctorRegularImageIso_hom_tmul]
       let iL := Algebra.TensorProduct.includeLeftRingHom (R := ℤ) (A := A) (B := B)
-      show (iL (a * z) * t) • k = (imageTensorMap A B F (regularMul A a)) ((iL z * t) • k)
+      change (iL (a * z) * t) • k = (imageTensorMap A B F (regularMul A a)) ((iL z * t) • k)
       calc
         (iL (a * z) * t) • k = (iL z * t) • (iL a • k) := by
           rw [← mul_smul, map_mul]

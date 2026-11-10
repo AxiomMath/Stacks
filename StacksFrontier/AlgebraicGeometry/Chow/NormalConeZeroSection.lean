@@ -165,7 +165,7 @@ theorem exists_sub_gradeZero_mem_map_irrelevant (r : R) :
   refine ⟨a, ?_⟩
   rw [← map_sub]
   refine Ideal.mem_map_of_mem _ ?_
-  show _ ∈ HomogeneousIdeal.irrelevant (grading I)
+  change _ ∈ HomogeneousIdeal.irrelevant (grading I)
   rw [Stacks.ExternalGrading.mem_irrelevant_iff_degree_zero_eq_zero, DFinsupp.sub_apply,
     DirectSum.of_eq_same, ha, sub_self]
 
@@ -202,7 +202,7 @@ theorem algebraMap_eq_infinityChartMk (I : Ideal A) (p : A[X]) :
     algebraMap A[X] (infinityChartAlgebra I) p = infinityChartMk I 0 p (by simp) := by
   apply Subtype.ext
   rw [infinityChartMk_val]
-  show Localization.mk p 1 = _
+  change Localization.mk p 1 = _
   congr 1
 
 /-- On the chart, `a = s · (a/s)` for `a ∈ I`. -/
@@ -222,7 +222,7 @@ theorem map_algebraMap_comp_C_eq_infinityChartFibreIdeal_mul (h : I' ≤ I) :
   · rw [Ideal.mem_comap, RingHom.comp_apply, algebraMap_C_eq_X_mul_infinityChartMk (h ha)]
     exact Ideal.mul_mem_mul (Ideal.mem_span_singleton_self _)
       (Ideal.subset_span ⟨⟨a, ha⟩, rfl⟩)
-  · rw [infinityChartFibreIdeal, infinityChartResidualIdeal, Ideal.span_mul_span', Ideal.span_le]
+  · rw [infinityChartFibreIdeal, infinityChartResidualIdeal, Ideal.span_mul_span, Ideal.span_le]
     rintro _ ⟨_, rfl, _, ⟨a, rfl⟩, rfl⟩
     dsimp only
     rw [← algebraMap_C_eq_X_mul_infinityChartMk (h a.2)]
@@ -261,7 +261,7 @@ theorem _root_.Ideal.mem_span_singleton_pow_of_mul_mem {g : A} (hg : IsRegular g
   rw [Ideal.span_singleton_pow, Ideal.mem_span_singleton'] at hc ⊢
   obtain ⟨d, hd⟩ := hc
   refine ⟨d, hg.right ?_⟩
-  show d * g ^ k * g = c * g
+  change d * g ^ k * g = c * g
   rw [← hd, pow_succ]
   ring
 
@@ -365,7 +365,7 @@ theorem ideal_comap_residualIdealAtInfinity_blowupAtInfinityChartS (h : ℐY ≤
       refine Scheme.IdealSheafData.ext_of_isAffine (hbase.trans ?_)
       refine Eq.trans ?_ (congrArg₂ (· * ·) hE
         (Scheme.IdealSheafData.equivOfIsAffine.apply_symm_apply _)).symm
-      show ((ℐY.ideal U).map ((algebraMap (Polynomial Γ(X, U.1))
+      change ((ℐY.ideal U).map ((algebraMap (Polynomial Γ(X, U.1))
         (infinityChartAlgebra (ℐZ.ideal U))).comp Polynomial.C)).map _ = _
       refine (congrArg (Ideal.map _)
         (map_algebraMap_comp_C_eq_infinityChartFibreIdeal_mul (h U))).trans ?_
@@ -643,7 +643,7 @@ theorem isEffectiveCartierDivisor_normalConeZeroSectionIdeal
       Stacks.Divisors.exists_affineOpen_ideal_eq_span_of_isEffectiveCartierDivisor _ hY
         (normalConeToX iY c)
     refine TopologicalSpace.Opens.mem_iSup.2 ⟨⟨⟨V, hV⟩, g, hg, hgen⟩, ?_⟩
-    show c ∈ (normalConeChart iY ⟨V, hV⟩).opensRange
+    change c ∈ (normalConeChart iY ⟨V, hV⟩).opensRange
     rw [AlgebraicGeometry.Proj.opensRange_eq_preimage_of_isPullback
       (isPullback_normalConeChart iY ⟨V, hV⟩), Scheme.Opens.opensRange_ι]
     exact hcV

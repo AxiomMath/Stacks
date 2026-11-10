@@ -134,7 +134,7 @@ public theorem exists_ne_blowUpToBase_eq_of_ringKrullDim_eq_two {Y : Scheme.{u}}
     rfl
   obtain ⟨l, hl⟩ : ∃ l : LTSeries (PrimeSpectrum (Y.presheaf.stalk y)), l.length = 2 := by
     apply (Order.le_krullDim_iff (n := 2)).mp
-    show ((2 : ℕ) : WithBot ℕ∞) ≤ ringKrullDim (Y.presheaf.stalk y)
+    change ((2 : ℕ) : WithBot ℕ∞) ≤ ringKrullDim (Y.presheaf.stalk y)
     rw [hdim]
     rfl
   have h01 : l 0 < l 1 := l.rel_of_lt (by simp [Fin.lt_def, hl])
@@ -212,7 +212,7 @@ public theorem exists_quasiFiniteAt_blowUpClassifying_of_steinSetup_of_eq {X Y :
       base_ne_of_mem_genericPoints_of_isEffectiveCartierDivisor_comap _ _
         (Stacks.Blowup.isEffectiveCartierDivisor_exceptionalIdeal _) y
         (hI ▸ supportSet_vanishingIdeal_singleton hy) hv
-    show blowUpToBase I v ∈ (W : Set Y)
+    change blowUpToBase I v ∈ (W : Set Y)
     rw [hWc]
     exact hv'
   have hgsurj : Function.Surjective g.base := by

@@ -108,7 +108,15 @@ So the natural map is fully faithful, and `Pic_{X/B}` is the full subcategory of
 the objects whose module is invertible: the fibre of the map over an object `(T, g, F)` of
 `Coh_{X/B}` is the set of proofs that `F` is invertible, which is a subsingleton.  That is the
 structural reason the tag asserts an *open immersion* rather than a general morphism. -/
-@[stacks 0D03 "the natural map Picardstack_{X/B} -> Cohstack_{X/B} on hom-sets, together with picardObjectToCoherent on objects: the first part of the source's proof, in which the triple (T, g, L) of Section 0372 is sent to the same triple in Situation 08KB and the morphism (h, a) to the morphism (h, a). The map on hom-sets is a BIJECTION, so the natural map is fully faithful and Picardstack_{X/B} is the full subcategory of Cohstack_{X/B} on the objects with invertible module. The binders are D and the tag's own flatness and properness of f, which the object map needs. The whole statement of the tag is isRepresentableByAlgebraicSpaces_and_isOpenImmersion_picardToCoherent of Quot/PicardStackOpenImmersion.lean."]
+@[stacks 0D03 "the natural map Picardstack_{X/B} -> Cohstack_{X/B} on hom-sets, together with \
+  picardObjectToCoherent on objects: the first part of the source's proof, in which the triple (T, \
+  g, L) of Section 0372 is sent to the same triple in Situation 08KB and the morphism (h, a) to \
+  the morphism (h, a). The map on hom-sets is a BIJECTION, so the natural map is fully faithful \
+  and Picardstack_{X/B} is the full subcategory of Cohstack_{X/B} on the objects with invertible \
+  module. The binders are D and the tag's own flatness and properness of f, which the object map \
+  needs. The whole statement of the tag is \
+  isRepresentableByAlgebraicSpaces_and_isOpenImmersion_picardToCoherent of \
+  Quot/PicardStackOpenImmersion.lean."]
 def picardToCoherentHomEquiv (D : CoherentSituation B S hS) (hflat : IsFlat B S hS D.f.hom)
     (hproper : IsProper B S hS D.f.hom) (A C : PicardObject D.toPicardSituation) :
     PicardHom A C ≃ CoherentHom (picardObjectToCoherent D hflat hproper A)

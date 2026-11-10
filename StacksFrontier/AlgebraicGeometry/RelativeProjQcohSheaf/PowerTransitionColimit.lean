@@ -168,7 +168,7 @@ theorem StrictlyEquivalent.congrDegree {P Q : Quadruple f A d} (hPQ : StrictlyEq
   subst h
   obtain ⟨β, γ, h1, hψ⟩ := hPQ
   refine ⟨β, γ, h1, fun n => ?_⟩
-  show (pullbackFunctor (ringedSpaceHom f)).map
+  change (pullbackFunctor (ringedSpaceHom f)).map
       (eqToHom (congrArg A.piece (show n * d = n * d from rfl))) ≫
         P.twisting.app n ≫ γ.hom.app n = _
   rw [hψ n]
@@ -241,7 +241,7 @@ theorem familyAt_reindex (γ : ScaledFamily L L' a a') {p q p₁ q₁ : ℤ} (hp
     (reindexIso L hp).hom ≫ (γ p₁ q₁ h₁).hom = (γ p q h).hom ≫ (reindexIso L' hq).hom := by
   subst hp
   subst hq
-  show CategoryStruct.id _ ≫ _ = _ ≫ CategoryStruct.id _
+  change CategoryStruct.id _ ≫ _ = _ ≫ CategoryStruct.id _
   rw [Category.id_comp, Category.comp_id]
 
 /-- **The family is multiplicative with its total degrees prescribed**, in the bidegree
@@ -260,7 +260,7 @@ theorem mulPairIso_familyAt (γ : ScaledFamily L L' a a') (hmul : IsMulScaledFam
     (show Quadruple.IsScaledPair a a' (i * a + j * a) (i * a' + j * a') from
       ⟨i + j, by ring, by ring⟩)
     ⟨i + j, rfl, rfl⟩
-  show ((mulIso L (i * a) (j * a)).hom ≫
+  change ((mulIso L (i * a) (j * a)).hom ≫
       (reindexIso L (degMul (rfl : i + j = i + j) a)).hom) ≫ (familyAt γ (i + j)).hom =
     ((familyAt γ i).hom ⊗ₘ (familyAt γ j).hom) ≫ ((mulIso L' (i * a') (j * a')).hom ≫
       (reindexIso L' (degMul (rfl : i + j = i + j) a')).hom)
@@ -369,7 +369,7 @@ theorem strictlyEquivalent_scale_of_compatibleAt {a a' : ℤ} (ha : 0 < a) (ha' 
     StrictlyEquivalent (P.scale ha) ((Q.scale ha').congrDegree hm) := by
   obtain ⟨hm0, γ, hmul, _, hψ⟩ := h
   refine (strictlyEquivalent_iff_exists_hom _ _).mpr ⟨scalePairIso γ hmul, fun i => ?_⟩
-  show P.twisting.scaleApp a i ≫ scalePairApp γ i =
+  change P.twisting.scaleApp a i ≫ scalePairApp γ i =
     (pullbackFunctor (ringedSpaceHom f)).map
         (eqToHom (congrArg A.piece (show i * (a * d) = i * (a' * d') by rw [hm]))) ≫
       Q.twisting.scaleApp a' i

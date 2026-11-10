@@ -84,10 +84,11 @@ public theorem pow_smul_mem_grading (hg : g ∈ 𝒜 0) (j : ℕ) {x : M} {i : �
   have hgj : g ^ j ∈ 𝒜 0 := by simpa using SetLike.pow_mem_graded j hg
   have hmem : g ^ j • x ∈ 𝒨 ((0 : ℕ) +ᵥ i) := SetLike.GradedSMul.smul_mem hgj hx
   have hvadd : ((0 : ℕ) +ᵥ i) = i := by
-    show ((0 : ℕ) : ℤ) + i = i
+    change ((0 : ℕ) : ℤ) + i = i
     simp
   rwa [hvadd] at hmem
 
+omit [AddSubgroupClass σ A] [AddSubgroupClass τ B] [GradedRing 𝒜] [GradedRing ℬ] in
 /-- **Clearing denominators.** A fraction over `𝒜` whose numerator and denominator become
 `φ g ^ i` times `m` and `s` is carried by the comparison of localized modules to the fraction
 `m / s`. -/
@@ -111,7 +112,7 @@ private theorem asHomogeneousIdeal_eq_comap_of_comapFun_eq {x : ProjectiveSpectr
     x.asHomogeneousIdeal.toIdeal = y.asHomogeneousIdeal.toIdeal.comap φ.toRingHom := by
   rw [← hxy]; rfl
 
-omit [SetLike.GradedSMul 𝒜 𝒨] in
+omit [AddSubgroupClass μ M] [DirectSum.Decomposition 𝒨] [SetLike.GradedSMul 𝒜 𝒨] in
 /-- **The pointwise preimage of a fraction family.** Over an open on which `g` does not vanish,
 every point `x` carries a unique element of the module fibre whose image under the comparison of
 localized modules at *any* point of the preimage open above `x` is the given family `b`. -/

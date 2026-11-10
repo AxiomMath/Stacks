@@ -50,8 +50,8 @@ two defeq but not syntactically equal spellings in its type. Such a goal is not 
 the transparency a rewrite motive is built at, so `rw` cannot fire on it even with a lemma written
 for it; the compatibility of the comparison isomorphisms with the projections and their
 naturality are therefore assembled in term mode, out of `Category.assoc` and `congrArg`, and the
-quasi-coherence of `M` is supplied as a hypothesis rather than left to instance search. None of this relaxes definitional-equality
-transparency.
+quasi-coherence of `M` is supplied as a hypothesis rather than left to instance search. None of this
+relaxes definitional-equality transparency.
 
 `cokernelMapIso_hom` and `cokernelπ_map` restate two `rfl`-level facts about
 `CategoryTheory.Limits.cokernel.mapIso` as named lemmas, so that the proofs below can name a
@@ -105,7 +105,7 @@ public lemma mem_idealPowerMultiple_restrict_affine_iff {X Y : Scheme.{u}}
   let e := (f.appIso U.1).commRingCatIsoToRingEquiv
   have hp : Ideal.comap (f.appIso U.1).inv.hom (I.ideal W) ^ n =
       Ideal.comap (f.appIso U.1).inv.hom (I.ideal W ^ n) := by
-    show Ideal.comap e.symm (I.ideal W) ^ n =
+    change Ideal.comap e.symm (I.ideal W) ^ n =
       Ideal.comap e.symm (I.ideal W ^ n)
     rw [← Ideal.map_comap_of_equiv e, ← Ideal.map_comap_of_equiv e, Ideal.map_pow]
   rw [hp]

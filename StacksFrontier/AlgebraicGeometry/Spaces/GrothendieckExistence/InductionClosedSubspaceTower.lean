@@ -324,6 +324,7 @@ theorem definingIdealSheaf_tower_eq_sup (Z : ℕ → ClosedSubspaces B S hS X.1)
   rw [hZ, definingIdealSheaf_schemeTheoreticIntersection,
     idealPowerMultiple_structureSheafModule_eq_definingIdealSheaf]
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj V)] in
 /-- `𝒪_X / 𝓘_Z` is coherent for every closed subspace `Z`. -/
 private theorem isCoherent_cokernel_definingIdealSheaf (hft : IsLocallyOfFiniteType B S hS f.hom)
     (Z : ClosedSubspaces B S hS X.1) :
@@ -351,6 +352,7 @@ theorem isCoherentAdicSystem_towerSystem (hft : IsLocallyOfFiniteType B S hS f.h
       (definingIdealSheaf_tower_eq_sup V I f Z hZeq (n + 1) (by omega)), ?_⟩
     exact π_idealPowerQuotientCokernelIso_hom V I f (n + 1) _ _ _
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj V)] in
 /-- **`𝒪_X / 𝓘_Z` has support proper over `V`** when `Z` is proper over `V`: it is the direct
 image of `𝒪_Z`, so its support lies in `|Z|`. -/
 theorem hasProperSupport_cokernel_definingIdealSheaf (hft : IsLocallyOfFiniteType B S hS f.hom)
@@ -410,6 +412,7 @@ theorem π_towerProjection_app (Z : ℕ → ClosedSubspaces B S hS X.1)
         (definingIdealSheaf B S hS X (Z (k + 1))).ι :=
   cokernel.π_desc _ _ _
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj V)] in
 /-- Completion is bijective on morphisms into a coherent module with support proper over `V`,
 given Stacks 08B9. -/
 theorem completion_bijective_of_hasProperSupport (h08B9 : CompletionBijectiveOnHoms V I f)

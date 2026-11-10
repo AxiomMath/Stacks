@@ -145,7 +145,7 @@ theorem adjoin_ratio_eq_top_of_chart {n : ℕ} (s : Fin (n + 1) → Γ(L, ⊤)) 
     obtain ⟨⟨ρ, ⟨_, m, rfl⟩⟩, hz⟩ := IsLocalization.mk'_surjective (Submonoid.powers r) z
     refine ⟨ρ, m, ?_⟩
     rw [← hz, IsLocalization.mk'_eq_iff_eq_mul]
-    show ιR ρ = ιR ρ * ιB w ^ m * ιR (r ^ m)
+    change ιR ρ = ιR ρ * ιB w ^ m * ιR (r ^ m)
     rw [map_pow, mul_assoc, ← mul_pow, hpr, one_pow, mul_one]
   have hconst : ∀ (β : Γ(X, nvCover s i)) (ρ : Γ(X, nvOpen L t)), ιB β = ιR ρ →
       β ∈ Set.range (algebraMap k Γ(X, nvCover s i)) := by
@@ -172,7 +172,7 @@ theorem adjoin_ratio_eq_top_of_chart {n : ℕ} (s : Fin (n + 1) → Γ(L, ⊤)) 
     obtain ⟨κ, hκ⟩ := (ConcreteCategory.bijective_of_isIso
       ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop)).2 (X.presheaf.map (homOfLE hcov.ge).op g)
     refine ⟨κ, ?_⟩
-    show (X.presheaf.map (homOfLE le_top).op).hom
+    change (X.presheaf.map (homOfLE le_top).op).hom
       (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop).hom κ) = β
     rw [hκ, ← hg, ← CommRingCat.comp_apply, ← Functor.map_comp]
     rfl

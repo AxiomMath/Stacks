@@ -82,7 +82,7 @@ lemma ranObjForgetIso_ranBaseChange (F : C₃ ⥤ AddCommGrpCat.{t}) (x : C₂)
   have e1 := ranObjForgetIso_hom_ranπ T (L ⋙ F) x j
     ((forget AddCommGrpCat.{t}).map ((w.ranBaseChange.app F).app x) s)
   have e2 := ranObjForgetIso_hom_ranπ B F (R.obj x)
-    (StructuredArrow.mk (R.map j.hom ≫ w.natTrans.app j.right)) s
+    (StructuredArrow.mk (R.map j.hom ≫ w.app j.right)) s
   have hA := ConcreteCategory.congr_hom
     (congrArg (forget AddCommGrpCat.{t}).map (ranBaseChange_π w F x j)) s
   have hT := ConcreteCategory.congr_hom (ranBaseChange_π w (F ⋙ forget AddCommGrpCat.{t}) x j)

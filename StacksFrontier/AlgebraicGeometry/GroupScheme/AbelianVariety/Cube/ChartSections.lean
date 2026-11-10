@@ -186,7 +186,7 @@ theorem face_le {b : B A ⟶ P A} (hb : b ≫ r A = bz A) (c : ι) :
     faceOpen V U (fun _ : Fin 1 => c) ≤ b ⁻¹ᵁ ((PV V).ι ''ᵁ ⊤) := by
   intro x hx
   rw [Scheme.Opens.ι_image_top]
-  show (b ≫ r A) x ∈ V
+  change (b ≫ r A) x ∈ V
   rw [hb]
   exact hx.2
 

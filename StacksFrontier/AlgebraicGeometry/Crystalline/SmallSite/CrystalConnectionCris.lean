@@ -201,7 +201,7 @@ theorem tensorFormsAmbientIsoOne_map (W : A.obj.thickening.target.scheme.Opens)
     (tensorFormsAmbientUnitULift F (formsComparisonOne A))
     (isSheaf_pushforwardTensorForms g 1) φ ψ ?_ ?_ ?_ (ULift.up z)
   · intro V V' _ _ h z
-    show (tensorDifferentialFormsSheaf F 1).obj.map
+    change (tensorDifferentialFormsSheaf F 1).obj.map
         (CrystallineThickening.restrictOpenLE B (g.hom.targetHom.hom.preimage_mono h)).op
         ((tensorDifferentialFormsSheaf F 1).obj.map
           (CrystallineThickening.restrictOpenMap g V).op
@@ -218,7 +218,7 @@ theorem tensorFormsAmbientIsoOne_map (W : A.obj.thickening.target.scheme.Opens)
             (CrystallineThickening.restrictOpenMap g V').op)
             (tensorFormsAmbientIso_inv_naturality F (formsComparisonOne A) h z).symm)))
   · intro V V' _ _ h z
-    show (tensorDifferentialFormsSheaf F 1).obj.map
+    change (tensorDifferentialFormsSheaf F 1).obj.map
         (CrystallineThickening.restrictOpenLE B (g.hom.targetHom.hom.preimage_mono h)).op
         ((tensorFormsAmbientIsoOne B).inv.app (op (g.hom.targetHom.hom ⁻¹ᵁ V))
           (ULift.up (crystalTensorTransition g hF V z.down))) =
@@ -230,12 +230,7 @@ theorem tensorFormsAmbientIsoOne_map (W : A.obj.thickening.target.scheme.Opens)
         (ULift.up t)) (crystalTensorTransition_naturality g hF h z.down))
   · intro V hV p
     obtain ⟨p⟩ := p
-    induction p using TensorProduct.induction_on with
-    | zero =>
-      have e0 := map_zero (ConcreteCategory.hom
-        ((tensorFormsAmbientUnitULift F (formsComparisonOne A)).app (op V)))
-      exact (congrArg (φ V hV) e0).trans ((φ V hV).map_zero.trans
-        ((ψ V hV).map_zero.symm.trans (congrArg (ψ V hV) e0).symm))
+    induction p using TensorProduct.inductionOn with
     | tmul x ω =>
       exact (congrArg ((tensorDifferentialFormsSheaf F 1).obj.map
           (CrystallineThickening.restrictOpenMap g V).op)

@@ -87,7 +87,7 @@ lemma mate_exactPairingCongrRight {X Y X' Y' X'' Y'' : C} (pX : ExactPairing X X
         (@exactPairingCongrRight C _ _ Y Y'' Y' pY iY) f =
       iY.hom ≫ mate pX pY f ≫ iX.inv := by
   refine (eq_mate _ _ f _ ?_).symm
-  show (iY.hom ≫ mate pX pY f ≫ iX.inv) ▷ X ≫ iX.hom ▷ X ≫ pX.evaluation' =
+  change (iY.hom ≫ mate pX pY f ≫ iX.inv) ▷ X ≫ iX.hom ▷ X ≫ pX.evaluation' =
     Y'' ◁ f ≫ iY.hom ▷ Y ≫ pY.evaluation'
   rw [← MonoidalCategory.comp_whiskerRight_assoc, Category.assoc, Category.assoc,
     Iso.inv_hom_id, Category.comp_id, MonoidalCategory.comp_whiskerRight_assoc,
@@ -127,7 +127,7 @@ lemma rightDualIsoIhomUnit_hom_whiskerRight_comp_ihomUnitEvaluation (X Y : C)
   have key := Adjunction.rightAdjointUniq_hom_app_counit (tensorRightAdjunction X Y)
     (tensorRightIhomAdjunction X) (𝟙_ C)
   rw [← counit_tensorRightAdjunction X Y, ← key, ← counit_tensorRightIhomAdjunction]
-  show ((λ_ Y).inv ≫ _) ▷ X ≫ _ = _
+  change ((λ_ Y).inv ≫ _) ▷ X ≫ _ = _
   rw [MonoidalCategory.comp_whiskerRight, Category.assoc]
   rfl
 
@@ -137,7 +137,7 @@ dual it was transported from. -/
 lemma evaluation_exactPairingRightDualIhomUnit (X Y : C) [ExactPairing X Y] :
     (exactPairingCongrRight (rightDualIsoIhomUnit X Y).symm :
         ExactPairing X ((ihom X).obj (𝟙_ C))).evaluation' = ihomUnitEvaluation X := by
-  show (rightDualIsoIhomUnit X Y).inv ▷ X ≫ ε_ X Y = _
+  change (rightDualIsoIhomUnit X Y).inv ▷ X ≫ ε_ X Y = _
   rw [← rightDualIsoIhomUnit_hom_whiskerRight_comp_ihomUnitEvaluation X Y,
     ← MonoidalCategory.comp_whiskerRight_assoc, Iso.inv_hom_id,
     MonoidalCategory.id_whiskerRight, Category.id_comp]

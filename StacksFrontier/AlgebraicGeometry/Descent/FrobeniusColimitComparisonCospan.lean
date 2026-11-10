@@ -208,7 +208,7 @@ theorem Pseudococone.mapStageIso_compat (n : ℕ) (E : C) :
     ((P.whisker Ψ).compat n).hom.app E ≫ (P.mapStageIso P' Φ α Ψ β n).hom.app E =
       (P.mapStageIso P' Φ α Ψ β (n + 1)).hom.app (F.obj E) ≫
         (((mapPseudococone F F' Φ α).whisker P'.desc).compat n).hom.app E := by
-  show Ψ.map ((P.compat n).hom.app E) ≫ (β n).hom.app E =
+  change Ψ.map ((P.compat n).hom.app E) ≫ (β n).hom.app E =
     (β (n + 1)).hom.app (F.obj E) ≫
       P'.desc.map ((mapPseudococone F F' Φ α).compat n |>.hom.app E)
   rw [Pseudococone.desc_map_mapPseudococone_compat_hom_app, hβ]
@@ -227,7 +227,7 @@ def Pseudococone.descCompIso : P.desc ⋙ Ψ ≅ map F F' Φ α ⋙ P'.desc :=
 `E`. -/
 theorem Pseudococone.descCompIso_hom_app (A : EndoColim F) :
     (P.descCompIso P' Φ α Ψ β hβ).hom.app A = (β A.stage).hom.app A.obj := by
-  show 𝟙 _ ≫ (β A.stage).hom.app A.obj ≫ 𝟙 _ = _
+  change 𝟙 _ ≫ (β A.stage).hom.app A.obj ≫ 𝟙 _ = _
   rw [Category.id_comp, Category.comp_id]
 
 end CategoryTheory.EndoColim

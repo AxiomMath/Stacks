@@ -169,7 +169,7 @@ public theorem exists_etaleNeighborhood_isClosedImmersion_opens_of_unramifiedAt
   choose Oa hOa hclosed using hshrink
   let O : U.scheme.Opens := ⨅ a : A, Oa a
   have hO : U.point ∈ O := by
-    show U.point ∈ (O : Set U.scheme)
+    change U.point ∈ (O : Set U.scheme)
     rw [TopologicalSpace.Opens.coe_iInf]
     exact Set.mem_iInter.mpr hOa
   let Unew : EtaleNeighborhood S s :=
@@ -177,7 +177,7 @@ public theorem exists_etaleNeighborhood_isClosedImmersion_opens_of_unramifiedAt
       point := ⟨U.point, hO⟩
       toBase := O.ι ≫ U.toBase
       map_point := by
-        show U.toBase (O.ι ⟨U.point, hO⟩) = s
+        change U.toBase (O.ι ⟨U.point, hO⟩) = s
         simpa using U.map_point }
   -- Three identifications of base changes: `Pnew` is the base change of `g` along `Unew`, which
   -- is both the base change of `q` along `O.ι` and an open subscheme of the base change `Pfull`
@@ -210,12 +210,12 @@ public theorem exists_etaleNeighborhood_isClosedImmersion_opens_of_unramifiedAt
         simp only [Category.assoc]
         rw [pullbackRightPullbackFstIso_inv_snd_snd f Unew.toBase W.ι]
       _ = k₀ a ≫ pullback.snd q O.ι := by
-        show k₀ a ≫ (pullbackLeftPullbackSndIso g U.toBase O.ι).hom ≫
+        change k₀ a ≫ (pullbackLeftPullbackSndIso g U.toBase O.ι).hom ≫
           pullback.snd g (O.ι ≫ U.toBase) = k₀ a ≫ pullback.snd (pullback.snd g U.toBase) O.ι
         rw [pullbackLeftPullbackSndIso_hom_snd g U.toBase O.ι]
       _ = pullback.snd (gA a) O.ι := by
         dsimp [k₀, pullback.map, q]
-        show pullback.lift (pullback.fst (gA a) O.ι ≫ (V₀ a.1 a.2).ι)
+        change pullback.lift (pullback.fst (gA a) O.ι ≫ (V₀ a.1 a.2).ι)
           (pullback.snd (gA a) O.ι) ?_ ≫
             pullback.snd (pullback.snd g U.toBase) O.ι = _
         exact pullback.lift_snd _ _ _
@@ -233,16 +233,16 @@ public theorem exists_etaleNeighborhood_isClosedImmersion_opens_of_unramifiedAt
       pullback.fst (gA a) O.ι z = v a.1 a.2 ∧ pullback.snd (gA a) O.ι z = Unew.point := by
     obtain ⟨-, -, -, hva, -, -⟩ := hfinite a.1 a.2
     let zpre : (gA a) ⁻¹ᵁ O := ⟨v a.1 a.2, by
-      show gA a (v a.1 a.2) ∈ (O : Set U.scheme)
+      change gA a (v a.1 a.2) ∈ (O : Set U.scheme)
       rw [hva]
       exact hO⟩
     let z : ↥(pullback (gA a) O.ι) := (pullbackRestrictIsoRestrict (gA a) O).inv zpre
     have hfst : pullback.fst (gA a) O.ι z = v a.1 a.2 := by
-      show ((pullbackRestrictIsoRestrict (gA a) O).inv ≫ pullback.fst (gA a) O.ι) zpre = _
+      change ((pullbackRestrictIsoRestrict (gA a) O).inv ≫ pullback.fst (gA a) O.ι) zpre = _
       rw [pullbackRestrictIsoRestrict_inv_fst]
       rfl
     refine ⟨z, hfst, Subtype.ext ?_⟩
-    show O.ι (pullback.snd (gA a) O.ι z) = U.point
+    change O.ι (pullback.snd (gA a) O.ι z) = U.point
     rw [← hcondpt a z, hfst, hva]
   have hchosen (a : A) (z : ↥(pullback (gA a) O.ι))
       (hzbase : pullback.snd f Unew.toBase (k a z) = Unew.point) :
@@ -271,7 +271,7 @@ public theorem exists_etaleNeighborhood_isClosedImmersion_opens_of_unramifiedAt
         ← pullbackLeftPullbackSndIso_inv_fst g U.toBase O.ι]
     · dsimp [j₂, pullback.map]
       rw [pullback.lift_snd]
-      show pullback.snd g Unew.toBase ≫ O.ι =
+      change pullback.snd g Unew.toBase ≫ O.ι =
         eMid.inv ≫ pullback.fst q O.ι ≫ pullback.snd g U.toBase
       calc
         pullback.snd g Unew.toBase ≫ O.ι = (eMid.inv ≫ pullback.snd q O.ι) ≫ O.ι := by
@@ -315,7 +315,7 @@ public theorem exists_etaleNeighborhood_isClosedImmersion_opens_of_unramifiedAt
       _ = (V₀ b.1 b.2).ι (v b.1 b.2) := hk₀v b zb (hchosen b zb (by rwa [hzb]))
   · intro i y hybase hyx
     have hyW : y ∈ (pullback.fst f Unew.toBase) ⁻¹ᵁ W := by
-      show pullback.fst f Unew.toBase y ∈ (W : Set X)
+      change pullback.fst f Unew.toBase y ∈ (W : Set X)
       rw [hyx]
       exact hW i
     have hyQ : y ∈ Set.range (pullback.snd W.ι (pullback.fst f Unew.toBase)) := by
@@ -324,7 +324,7 @@ public theorem exists_etaleNeighborhood_isClosedImmersion_opens_of_unramifiedAt
     obtain ⟨zQ, hzQ⟩ := hyQ
     let ynew : Pnew := eW.hom zQ
     have hyj₀ : j₀ ynew = y := by
-      show (eW.inv ≫ pullback.snd W.ι (pullback.fst f Unew.toBase)) (eW.hom zQ) = y
+      change (eW.inv ≫ pullback.snd W.ι (pullback.fst f Unew.toBase)) (eW.hom zQ) = y
       simpa [Scheme.Hom.comp_apply] using hzQ
     have hnewbase : pullback.snd g Unew.toBase ynew = Unew.point := by
       rw [← hyj₀] at hybase

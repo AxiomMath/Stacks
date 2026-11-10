@@ -91,7 +91,7 @@ public theorem mem_precoverage_iff_isPHCovering {T : B.Schemes}
       fun i => ?_
     let φ := PreZeroHypercover.homOfPresieveLE hR.le
     have hlft : LocallyOfFiniteType (B.inclusion.map (E'.f (φ.s₀ i))) := hE'ph.1 (φ.s₀ i)
-    show LocallyOfFiniteType (B.inclusion.map (E.f i))
+    change LocallyOfFiniteType (B.inclusion.map (E.f i))
     have : IsIso (B.inclusion.map (φ.h₀ i)) := by
       dsimp [φ, PreZeroHypercover.homOfPresieveLE]
       infer_instance

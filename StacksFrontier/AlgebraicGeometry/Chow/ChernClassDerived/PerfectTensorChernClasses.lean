@@ -321,7 +321,7 @@ theorem perfectChernClass_derivedTensor_apply_one (hE : HasDefinedChernClasses E
         perfectRankClass C sX hF * TotalChowClass.homComponent 1 (perfectChernClass C sX hE))
         1 := by
   rw [← homComponent_one_perfectChernClass_derivedTensor, TotalChowClass.homComponent_apply,
-    if_pos rfl]
+    ite_eq_left rfl]
 
 /-- The class `c₂(E ⊗^𝐋 F) ∈ A²(X)` is the degree-two component of
 `r(E) c₂(F) + r(F) c₂(E) + C(r(E), 2) c₁(F)² + (r(E) r(F) - 1) c₁(F) c₁(E) + C(r(F), 2) c₁(E)²`.
@@ -346,7 +346,7 @@ theorem perfectChernClass_derivedTensor_apply_two
           TotalChowClass.homComponent 1 (perfectChernClass C sX hE) ^ 2 : TotalChowClass C sX)
         2 := by
   rw [← homComponent_two_perfectChernClass_derivedTensor C sX perfectE perfectF hE hF,
-    TotalChowClass.homComponent_apply, if_pos rfl]
+    TotalChowClass.homComponent_apply, ite_eq_left rfl]
 
 /-- `P_p(E ⊗^𝐋 F) ∈ A^p(X)` is the degree-`p` component of
 `∑_{p₁ + p₂ = p} C(p, p₁) P_{p₁}(E) P_{p₂}(F)`. -/
@@ -358,7 +358,7 @@ theorem perfectPowerSumComponent_derivedTensor (hE : HasDefinedChernClasses E)
     perfectPowerSumComponent C sX (hasDefinedChernClasses_derivedTensor hE hF) p =
       ∑ q ∈ antidiagonal p, ((p.choose q.1 : TotalChowClass C sX) *
         (perfectPowerSum C sX hE q.1 * perfectPowerSum C sX hF q.2)) p := by
-  show perfectPowerSum C sX (hasDefinedChernClasses_derivedTensor hE hF) p p = _
+  change perfectPowerSum C sX (hasDefinedChernClasses_derivedTensor hE hF) p p = _
   rw [perfectPowerSum_derivedTensor C sX hE hF _ p, TotalChowClass.sum_apply]
   simp only [zsmul_eq_mul, Int.cast_natCast]
 

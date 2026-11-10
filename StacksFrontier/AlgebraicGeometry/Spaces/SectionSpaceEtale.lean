@@ -118,7 +118,7 @@ theorem isSheaf_sectionAmbient (hW : Presheaf.IsSheaf (BigFppfOver.topology B U 
 noncomputable def sectionSubfunctor : Subfunctor (sectionAmbient Z W) where
   obj T := {s | w.app (op (Z ⨯ T.unop)) s = (prod.fst : Z ⨯ T.unop ⟶ Z)}
   map {T T'} f s hs := by
-    simp only [Set.mem_setOf_eq] at hs ⊢
+    simp only [Set.mem_ofPred_eq] at hs ⊢
     have h := NatTrans.naturality_apply w (prod.map (𝟙 Z) f.unop).op s
     refine h.trans ?_
     rw [hs]
@@ -189,7 +189,7 @@ theorem sectionsOverEquiv_restrict {T T' : BigFppfOver B U hU} (f : T' ⟶ T)
     (σ : SectionsOver B U hU Z T W w) :
     (sectionsOverEquiv T' (SectionsOver.restrict f σ)).1 =
       (sectionAmbient Z W).map f.op (sectionsOverEquiv T σ).1 := by
-  show yonedaEquiv ((prodYonedaIso T').hom ≫ prod.map (yoneda.map f) (𝟙 _) ≫ σ.1) =
+  change yonedaEquiv ((prodYonedaIso T').hom ≫ prod.map (yoneda.map f) (𝟙 _) ≫ σ.1) =
     W.map (prod.map (𝟙 Z) f).op (yonedaEquiv ((prodYonedaIso T).hom ≫ σ.1))
   rw [yonedaEquiv_naturality, ← Category.assoc, ← prodYonedaIso_naturality, Category.assoc]
 
@@ -218,7 +218,7 @@ theorem isSheaf_sectionSpace_of_isSheaf (hW : Presheaf.IsSheaf (BigFppfOver.topo
   have h := NatTrans.naturality_apply w (prod.map (𝟙 Z) g).op s
   change w.app (op (Z ⨯ Y)) ((sectionAmbient Z W).map g.op s) = _ at h
   refine h.symm.trans (hg'.trans ?_)
-  show (prod.fst : Z ⨯ Y ⟶ Z) = prod.map (𝟙 Z) g ≫ prod.fst
+  change (prod.fst : Z ⨯ Y ⟶ Z) = prod.map (𝟙 Z) g ≫ prod.fst
   rw [prod.map_fst, Category.comp_id]
 
 end Sheaf
@@ -605,7 +605,7 @@ theorem exists_atlas_sectionSpace (hW : IsAlgebraicSpace B U hU W) (hw : IsEtale
     refine ⟨c, yoneda.map (m ≫ prod.fst), m ≫ prod.snd, hsq, ?_⟩
     have : _root_.AlgebraicGeometry.Etale (G.map (prod.snd : V₀ ⨯ T ⟶ T)) :=
       prop_toScheme_prod_snd (P := @_root_.AlgebraicGeometry.Etale) hV₀
-    show _root_.AlgebraicGeometry.Etale (G.map (m ≫ prod.snd))
+    change _root_.AlgebraicGeometry.Etale (G.map (m ≫ prod.snd))
     rw [G.map_comp]
     infer_instance
 

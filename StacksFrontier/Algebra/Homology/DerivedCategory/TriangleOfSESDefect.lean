@@ -139,7 +139,7 @@ theorem coneMap_triangle_mor₃
     ← Cocycle.equivHomShift_symm_precomp, ← map_add]
   congr 1
   refine Cocycle.ext ?_
-  show (Cochain.ofHom (coneMap h₁₂ hδ)).comp (-(mappingCone.fst T.f).1) (zero_add 1) =
+  change (Cochain.ofHom (coneMap h₁₂ hδ)).comp (-(mappingCone.fst T.f).1) (zero_add 1) =
     (-(mappingCone.fst S.f).1).comp (Cochain.ofHom φ₁) (add_zero 1) +
       (Cochain.ofHom (mappingCone.descShortComplex S)).comp h.1 (zero_add 1)
   rw [Cochain.comp_neg, Cochain.neg_comp]

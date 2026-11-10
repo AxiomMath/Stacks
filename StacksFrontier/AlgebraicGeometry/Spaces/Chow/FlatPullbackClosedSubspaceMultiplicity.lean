@@ -172,7 +172,7 @@ theorem inducedDimensionValue_image_ambientGenericPoint_eq
     (subspacePointSet_closedSubspaceComponentImage_subset D sY hY Y' hY' V.1 hmemV)
   have hTval : inducedDimensionValue D.site D.base D.base_mem D.delta sX
       (T.ambientGenericPoint D.site D.base D.base_mem) = m + (r : ℤ) := by
-    show deltaDimension D sX T = m + (r : ℤ)
+    change deltaDimension D sX T = m + (r : ℤ)
     rw [deltaDimension_eq_of_flatPullbackMult_ne_zero D sX hX sY hY f hbase r hflat hr
       (closedSubspaceComponentImage D sY hY Y' hY' V.1) T hT, V.2]
   have hle := inducedDimensionValue_le_add_of_hasRelativeDimension D sX hX sY hY f hbase r hr

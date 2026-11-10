@@ -154,7 +154,7 @@ private theorem exists_disjoint_opens_mem_genericPoints [NoetherianSpace Y]
       isOpen_iInter_of_finite fun _ ↦ isClosed_closure.isOpen_compl⟩
   have hmemW : ∀ (η : genericPoints Y) (x : Y), x ∈ W η ↔
       x ∈ V η ∧ ∀ η' : genericPoints Y, η' ≠ η → x ∉ closure {η'.1} := fun η x ↦ by
-    show x ∈ (V η : Set Y) ∩ ⋂ η' : {η' : genericPoints Y // η' ≠ η}, (closure {η'.1.1})ᶜ ↔ _
+    change x ∈ (V η : Set Y) ∩ ⋂ η' : {η' : genericPoints Y // η' ≠ η}, (closure {η'.1.1})ᶜ ↔ _
     simp only [Set.mem_inter_iff, Set.mem_iInter, Set.mem_compl_iff, SetLike.mem_coe,
       Subtype.forall]
   have hWη : ∀ (η : genericPoints Y) (x : Y), x ∈ W η →
@@ -299,7 +299,7 @@ theorem list_prod_homComponent_totalChern_eq_zero (m : ℕ) :
       refine Eq.trans ?_ hIH
       congr 1
       refine List.ofFn_inj.2 (funext fun j ↦ ?_)
-      show TotalChowClass.res ι rfl (TotalChowClass.homComponent _ _) = _
+      change TotalChowClass.res ι rfl (TotalChowClass.homComponent _ _) = _
       have := pullbackPreservesRank_of_isFiniteLocallyFreeOfRank E r ι
       rw [TotalChowClass.res_homComponent, TotalChowClass.res_totalChern]
     · rw [TotalChowClass.res_homComponent, hU, TotalChowClass.homComponent_one,

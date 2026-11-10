@@ -4,7 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.ConormalAlgebra.AffineIdentificat
 public import StacksFrontier.AlgebraicGeometry.Divisors.EffectiveCartierAffineLocal
 public import StacksFrontier.AlgebraicGeometry.Flatness.StalkIdealSheaf
 public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.ConormalNonvanishing
+ StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.ConormalNonvanishing
 public import StacksFrontier.AlgebraicGeometry.Variety.Curve.PullbackDegree
 
 /-!
@@ -136,14 +136,14 @@ public theorem ne_zero_immersionConormalSheafMap_of_isIso_stalkMap {X' Y' : Sche
     Stacks.Divisors.exists_affineOpen_ideal_eq_span_of_isEffectiveCartierDivisor D' hD'
       (D'.subschemeι.base (genericPoint D'.subscheme))
   have hgV : D.subschemeι.base (genericPoint D.subscheme) ∈ g' ⁻¹ᵁ V := by
-    show g'.base (D.subschemeι.base (genericPoint D.subscheme)) ∈ V
+    change g'.base (D.subschemeι.base (genericPoint D.subscheme)) ∈ V
     rwa [hw]
   obtain ⟨-, ⟨U, hU, rfl⟩, hηU, hUV'⟩ :=
     X'.isBasis_affineOpens.exists_subset_of_mem_open hgV (g' ⁻¹ᵁ V).isOpen
   have hUV : U ≤ g' ⁻¹ᵁ V := hUV'
   obtain ⟨I, e, he⟩ := exists_affineModel D.subschemeι U hU
   have hf0 : (D'.subschemeι.app V).hom f = 0 := by
-    show f ∈ RingHom.ker (D'.subschemeι.app V).hom
+    change f ∈ RingHom.ker (D'.subschemeι.app V).hom
     rw [AlgebraicGeometry.Scheme.IdealSheafData.ker_subschemeι_app D' ⟨V, hV⟩, hfspan]
     exact Ideal.mem_span_singleton_self f
   have ha' : (D.subschemeι.app U).hom

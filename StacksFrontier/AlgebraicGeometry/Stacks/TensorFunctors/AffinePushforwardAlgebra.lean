@@ -136,7 +136,7 @@ theorem isCommMonObjAffinePushforwardStructureSheaf :
     intro _ _ P Q _ _ e
     let := MonObj.ofIso e
     constructor
-    show (β_ Q Q).hom ≫ (e.inv ⊗ₘ e.inv) ≫ MonObj.mul ≫ e.hom =
+    change (β_ Q Q).hom ≫ (e.inv ⊗ₘ e.inv) ≫ MonObj.mul ≫ e.hom =
       (e.inv ⊗ₘ e.inv) ≫ MonObj.mul ≫ e.hom
     rw [← BraidedCategory.braiding_naturality_assoc, IsCommMonObj.mul_comm_assoc]
   exact @key (AlgebraicStacks.modulesMonoidalCategory B S hS 𝒳)

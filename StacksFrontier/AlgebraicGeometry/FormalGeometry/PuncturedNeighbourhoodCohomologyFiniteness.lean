@@ -45,8 +45,8 @@ comparison clause of Tag 0DXQ is" below.
   **Stacks 0DXQ, the finiteness clause**: an ideal `J₀` with `V(J₀) ∩ V(I) = {𝔪}` such that for
   every `J ⊆ J₀` with `V(J) ∩ V(I) = {𝔪}` the `A`-module `H^i(X ∖ V(J), M̃)` is finite for
   `i < s`.
-* `Stacks.Algebraization.PuncturedNeighbourhood.finite_neighbourhoodCohomology` — the same, in
-  the form carrying the existence statement `StabilizingDataExists` of Stacks 0EFI.
+* `Stacks.Algebraization.PuncturedNeighbourhood.finite_neighbourhoodCohomology` — the same
+  statement, under the name of Stacks 0DXQ's finiteness clause.
 
 ## Implementation notes
 
@@ -346,14 +346,12 @@ finiteness assumption, read at the points of `U ∩ Y`. Then there is an ideal `
 `V = Spec A ∖ V(J)` inside `V₀` containing `U ∩ V(I)` — the `A`-module `H^i(V, M̃)` is finite in
 every degree `i < s`.
 
-The hypothesis `hex` is the existence statement of Stacks 0EFI, carried as a general statement
-about its own data; it is unused, the same conclusion being
-`exists_ideal_finite_neighbourhoodCohomology` with nothing carried. -/
-@[stacks 0DXQ "finiteness of H^i(V, ℱ) for i < s, with ℱ = M̃|_U, on the carried existence \
-statement of Stacks 0EFI"]
+This is `exists_ideal_finite_neighbourhoodCohomology`; the existence statement of Stacks 0EFI
+is not needed as a hypothesis. -/
+@[stacks 0DXQ "finiteness of H^i(V, ℱ) for i < s, with ℱ = M̃|_U"]
 public theorem finite_neighbourhoodCohomology (I : Ideal A) (s d : ℤ)
     (omega : DerivedCategory (ModuleCat.{u} A)) (H : Hypotheses (M := M) I s d omega)
-    (hdepth : DepthAddDimGtAtMaximalIdeal (M := M) I s) (hex : StabilizingDataExists.{u}) :
+    (hdepth : DepthAddDimGtAtMaximalIdeal (M := M) I s) :
     ∃ J₀ : Ideal A,
       PrimeSpectrum.zeroLocus (J₀ : Set A) ∩ PrimeSpectrum.zeroLocus (I : Set A) =
           {closedPoint A} ∧

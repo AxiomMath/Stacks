@@ -431,7 +431,7 @@ private lemma cechSectionsAugmentation_d (hq : q.IsFiberedInGroupoids)
         (B.baseTopology_le_topology τ))) :
     (cechSectionsAugmentation.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h).app M ≫
       ((cechSectionsComplexFunctor.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h).obj M).d 0 1 = 0 := by
-  show (cechSectionsAugmentation.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h).app M ≫
+  change (cechSectionsAugmentation.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h).app M ≫
     AlgebraicTopology.AlternatingCofaceMapComplex.objD
       ((cechSectionsCosimplicial.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h).flip.obj M) 0 = 0
   simp only [AlgebraicTopology.AlternatingCofaceMapComplex.objD, Nat.reduceAdd, Fin.sum_univ_two,

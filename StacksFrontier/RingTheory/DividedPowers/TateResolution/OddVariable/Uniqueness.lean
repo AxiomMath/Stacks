@@ -398,7 +398,7 @@ private theorem dpow_inr_eq_if
               (fun e : ℕ ↦ Aᵢ (2 * e + 1)) y).mp hy
           have h := dpow_sum_inr_eq_zero Aᵢ d hd_odd delta hf
             (n := n + 2) (by omega)
-          show delta.dpow (n + 2)
+          change delta.dpow (n + 2)
             (TrivSqZeroExt.inr (show TwistedModule Aᵢ d from y)) = 0
           rw [← hfsum]
           exact h

@@ -180,7 +180,7 @@ theorem bijective_unboundedHomMap (E : DerivedCategory A) (H : DerivedCategory.P
   have key : unboundedHomMap adj E H ∘ (fun c => (t.truncGEπ n).app E ≫ c) =
       (fun c => L.mapDerivedCategory.map ((t.truncGEπ n).app E) ≫ c) ∘ Φ₂ := by
     funext b
-    show L.mapDerivedCategory.map ((t.truncGEπ n).app E ≫ b) ≫ plusCounit adj H =
+    change L.mapDerivedCategory.map ((t.truncGEπ n).app E ≫ b) ≫ plusCounit adj H =
       L.mapDerivedCategory.map ((t.truncGEπ n).app E) ≫
         ((adj'.homEquiv X H).symm (ObjectProperty.homMk b)).hom
     rw [homEquiv_symm_hom, Functor.map_comp, Category.assoc]

@@ -43,9 +43,10 @@ linear equivalence by the bijectivity hypothesis and then to a `ModuleCat` isomo
 The hypothesis and conclusion use `Stacks.SheafOfModules.IsInvertible` of
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorInvertible.lean`. The repository also carries
 `AlgebraicGeometry.SheafOfModules.IsInvertible` of
-`StacksFrontier/Topology/Sheaves/Modules/Invertible.lean`, with the same body; nothing here identifies
-the two. The rank predicate is `AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank`,
-reached from `Stacks.SheafOfModules.Invertible.IsFiniteLocallyFreeOfRank` through
+`StacksFrontier/Topology/Sheaves/Modules/Invertible.lean`, with the same body; nothing here
+identifies the two. The rank predicate is
+`AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank`, reached from
+`Stacks.SheafOfModules.Invertible.IsFiniteLocallyFreeOfRank` through
 `Stacks.InvertibleLocallyFree.isFiniteLocallyFreeOfRank_iff_invertible_isFiniteLocallyFreeOfRank`.
 
 ## References

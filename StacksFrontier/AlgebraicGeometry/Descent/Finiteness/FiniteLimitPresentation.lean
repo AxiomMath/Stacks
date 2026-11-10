@@ -71,7 +71,7 @@ theorem exists_isCompact_preimage_eq_of_isClosedImmersion {X Y : Scheme.{u}} (g 
   obtain ⟨W, hWopen, hW⟩ := hEmbed.isEmbedding.isOpen_iff.mp U.2
   have hKW : g.base '' (U : Set X) ⊆ (⟨W, hWopen⟩ : Y.Opens) := by
     rintro y ⟨x, hxU, rfl⟩
-    show x ∈ g.base ⁻¹' W
+    change x ∈ g.base ⁻¹' W
     rw [hW]
     exact hxU
   obtain ⟨n, A, hAW, hKA⟩ := exists_finite_affineOpens_cover_of_isCompact
@@ -80,7 +80,7 @@ theorem exists_isCompact_preimage_eq_of_isClosedImmersion {X Y : Scheme.{u}} (g 
   · rw [isCompact_iff_finite_and_eq_biUnion_affineOpens]
     exact ⟨Set.range A, Set.finite_range A, by simp⟩
   · ext x
-    show g.base x ∈ ((⨆ j : Fin n, (A j).1 : Y.Opens) : Set Y) ↔ x ∈ (U : Set X)
+    change g.base x ∈ ((⨆ j : Fin n, (A j).1 : Y.Opens) : Set Y) ↔ x ∈ (U : Set X)
     simp only [TopologicalSpace.Opens.coe_iSup, Set.mem_iUnion]
     constructor
     · rintro ⟨j, hxj⟩
@@ -146,14 +146,14 @@ theorem exists_isLimit_finitePresentation_closedImmersion {X S : Scheme.{u}} (f 
     simpa using congrArg (fun η => η.app j) hcompat
   refine ⟨I, inferInstance, inferInstance, inferInstance, D, t, p, hlim, ?_, ?_, ?_, ?_⟩
   · ext j
-    show p.app j ≫ (tV.app j ≫ (V.ι ≫ q)) = f
+    change p.app j ≫ (tV.app j ≫ (V.ι ≫ q)) = f
     simp only [← Category.assoc, hproj j, hcV, hcomp]
   · intro j
     have : LocallyOfFinitePresentation (tV.app j) := (hstage j).2.1
     have : QuasiCompact (tV.app j) := (hstage j).2.2.1
     have : QuasiSeparated (tV.app j) := (hstage j).2.2.2
     refine ⟨?_, ?_, ?_⟩
-    · show FinitePresentation (tV.app j ≫ (V.ι ≫ q))
+    · change FinitePresentation (tV.app j ≫ (V.ι ≫ q))
       exact ⟨locallyOfFinitePresentation_comp _ _, quasiCompact_comp _ _, quasiSeparated_comp _ _⟩
     · exact @QuasiCompact.compactSpace_of_compactSpace _ _ (tV.app j)
         inferInstance (by change CompactSpace V.toScheme; infer_instance)

@@ -323,7 +323,7 @@ private theorem product_precompose_source_essSurj
       (𝟙 P.base) Φ := by
     have hmap : (TwoFibreProductOver.structureFunctor pT p𝒜 pℬ G F).map Φ =
         𝟙 P.base := by
-      show eqToHom P.hx.symm ≫ pT.map (𝟙 P.x) ≫ eqToHom P.hx = 𝟙 P.base
+      change eqToHom P.hx.symm ≫ pT.map (𝟙 P.x) ≫ eqToHom P.hx = 𝟙 P.base
       rw [pT.map_id, Category.id_comp, eqToHom_trans, eqToHom_refl]
     rw [← hmap]
     exact IsHomLift.map (TwoFibreProductOver.structureFunctor pT p𝒜 pℬ G F) Φ
@@ -493,7 +493,7 @@ private theorem product_reindex_first_isEquivalence
     (F := G) (p𝒜 := p𝒜) (p𝒟 := p𝒟) (pT := pℬ) α hα
   have : T.IsEquivalence := product_swap_isEquivalence
   have : (S ⋙ R).IsEquivalence := Functor.isEquivalence_trans S R
-  show (S ⋙ R ⋙ T).IsEquivalence
+  change (S ⋙ R ⋙ T).IsEquivalence
   exact Functor.isEquivalence_trans (S ⋙ R) T
 
 private def homFunctorIso {f' : 𝒳' ⟶ 𝒴'} {f : 𝒳 ⟶ 𝒴} {a : 𝒳' ⟶ 𝒳} {b : 𝒴' ⟶ 𝒴}

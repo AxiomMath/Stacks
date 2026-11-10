@@ -50,7 +50,8 @@ agree and why no stalk ever has to be looked at.
 Going through stalks instead would work, by `AlgebraicGeometry.Flat.of_stalkMap`, but it would
 force a comparison of two `A`-algebra structures on one stalk — the one induced by
 `AlgebraicGeometry.Scheme.Hom.stalkMap` and `Stacks.BaseAdicFiltration.stalkAlgebra` — which is
-exactly what the module docstring of `StacksFrontier/AlgebraicGeometry/BaseAdicFiltration/Basic.lean`
+exactly what the module docstring of
+`StacksFrontier/AlgebraicGeometry/BaseAdicFiltration/Basic.lean`
 arranges for its consumers to avoid.
 
 The low-priority instance `AlgebraicGeometry.Flat` carries for a subsingleton integral target does

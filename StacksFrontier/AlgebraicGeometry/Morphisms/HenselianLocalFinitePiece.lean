@@ -49,7 +49,7 @@ theorem RingHom.quasiFiniteAt_iff_quasiFinite_comp {A B : Type*} [CommRing A] [C
     (φ : A →+* B) (p : Ideal B) [p.IsPrime] :
     φ.QuasiFiniteAt p ↔ ((algebraMap B (Localization.AtPrime p)).comp φ).QuasiFinite := by
   let := φ.toAlgebra
-  show Algebra.QuasiFinite A (Localization.AtPrime p) ↔ _
+  change Algebra.QuasiFinite A (Localization.AtPrime p) ↔ _
   rw [← RingHom.quasiFinite_algebraMap,
     IsScalarTower.algebraMap_eq A B (Localization.AtPrime p), RingHom.algebraMap_toAlgebra]
 

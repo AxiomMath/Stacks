@@ -73,7 +73,7 @@ public theorem injective_mapQ_of_mem_maximalIdeal_smul_top
   refine LinearMap.ker_eq_bot.mp (le_antisymm ?_ bot_le)
   rw [Submodule.ker_mapQ]
   rintro x ⟨y, hy, rfl⟩
-  show (Submodule.Quotient.mk y :
+  change (Submodule.Quotient.mk y :
     I ⧸ (IsLocalRing.maximalIdeal A • (⊤ : Submodule A I))) = 0
   exact (Submodule.Quotient.mk_eq_zero _).2 (h y hy)
 
@@ -112,7 +112,7 @@ public theorem exists_ideal_of_notMem_maximalIdeal_smul_top
   refine ⟨K.map I.subtype, ?_, ?_, ?_, ?_⟩
   · rintro _ ⟨z, hz, rfl⟩
     refine ⟨z, ?_, rfl⟩
-    show (Submodule.Quotient.mk z : V) ∈ Q
+    change (Submodule.Quotient.mk z : V) ∈ Q
     rw [(Submodule.Quotient.mk_eq_zero (m • (⊤ : Submodule A I))).2 hz]
     exact Q.zero_mem
   · rintro _ ⟨y, _, rfl⟩
@@ -129,11 +129,11 @@ public theorem exists_ideal_of_notMem_maximalIdeal_smul_top
       simpa only [P, Submodule.mem_span_singleton] using hp
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective c
     refine ⟨a, ⟨y - a • x, ?_, ?_⟩⟩
-    · show (Submodule.Quotient.mk (y - a • x) : V) ∈ Q
+    · change (Submodule.Quotient.mk (y - a • x) : V) ∈ Q
       have hqeq : (Submodule.Quotient.mk (y - a • x) : V) = q := by
-        show (m • (⊤ : Submodule A I)).mkQ (y - a • x) = q
+        change (m • (⊤ : Submodule A I)).mkQ (y - a • x) = q
         rw [map_sub, map_smul]
-        show (Submodule.Quotient.mk y : V) -
+        change (Submodule.Quotient.mk y : V) -
           (Ideal.Quotient.mk m a) • v = q
         rw [hc]
         exact sub_eq_iff_eq_add.mpr (by simpa [add_comm] using hpq.symm)
@@ -269,7 +269,7 @@ public def mvPolynomialFinZeroQuotientAlgEquiv
       (R ⧸ Ideal.span (Set.range F)) := by
   let e := MvPolynomial.isEmptyAlgEquiv R (Fin 0)
   have heC (a : R) : e (MvPolynomial.C a) = a := by
-    simpa [e] using (MvPolynomial.isEmptyAlgEquiv R (Fin 0)).apply_symm_apply a
+    simp [e]
   have hmap : Ideal.span (Set.range F) =
       Ideal.map (e : MvPolynomial (Fin 0) R →+* R)
         (Ideal.span (Set.range (fun j : Fin d => MvPolynomial.C (F j)))) := by

@@ -100,13 +100,13 @@ theorem sheafH_map_torsorClass_of_generatorMap
     ext s
     apply (T'.sectionsEquiv V).injective
     apply Subtype.ext
-    show (T'.sectionsEquiv V (g V (T.torsor.1.presheaf.map f s))).val =
+    change (T'.sectionsEquiv V (g V (T.torsor.1.presheaf.map f s))).val =
       (T'.sectionsEquiv V (T'.torsor.1.presheaf.map f (g U s))).val
     rw [hg, T'.sectionsEquiv_restrict, T.sectionsEquiv_restrict, hα_restrict, hg]
   · intro U h s
     apply (T'.sectionsEquiv U).injective
     apply Subtype.ext
-    show (T'.sectionsEquiv U (g U (T.torsor.1.act U (Multiplicative.ofAdd h) s))).val =
+    change (T'.sectionsEquiv U (g U (T.torsor.1.act U (Multiplicative.ofAdd h) s))).val =
       (T'.sectionsEquiv U (T'.torsor.1.act U
         (Multiplicative.ofAdd (ψ.hom.app U h)) (g U s))).val
     have hψh : ψ.hom.app U h = Additive.ofMul
@@ -135,7 +135,7 @@ theorem bijective_smul_map_of_isIso {C : Type u₁} [Category.{v₁} C] {R : C�
   have hM : Function.Bijective (fun x : M.obj U => M.map g x) := by
     refine Function.bijective_iff_has_inverse.mpr ⟨fun y => M.map (inv g) y,
       fun x => ?_, fun y => ?_⟩
-    · show M.map (inv g) (M.map g x) = x
+    · change M.map (inv g) (M.map g x) = x
       rw [← M.map_comp_apply, IsIso.hom_inv_id, M.map_id]
       rfl
     · refine (M.map_comp_apply (inv g) g y).symm.trans ?_

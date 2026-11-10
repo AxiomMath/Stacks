@@ -150,7 +150,7 @@ theorem relabel_lift (P : Presentation R A) (e : Fin P.n ≃ Fin P.n) (σ : Fin 
     P.span_range_renameEquiv_comp e σ
   let qiso : (MvPolynomial (Fin P.n) R ⧸ J) ≃ₐ[R] (MvPolynomial (Fin P.n) R ⧸ J') :=
     Ideal.quotientEquivAlg J J' (MvPolynomial.renameEquiv R e) hJ
-  show P.iso.symm (qiso.symm (Ideal.Quotient.mkₐ R J' (MvPolynomial.rename e p))) =
+  change P.iso.symm (qiso.symm (Ideal.Quotient.mkₐ R J' (MvPolynomial.rename e p))) =
     P.iso.symm (Ideal.Quotient.mkₐ R J p)
   refine congrArg P.iso.symm (qiso.injective ?_)
   rw [qiso.apply_symm_apply]
@@ -260,7 +260,7 @@ private theorem exists_equiv_coe_orderIsoOfFin_eq_castLE {N c : ℕ} (hcN : c �
         (Fin.castLE hcN i) = Sum.inl i := by
       apply (finSumFinEquiv.trans (Fin.castOrderIso hn).toEquiv).injective
       simp [finSumFinEquiv_apply_left, hleft]
-    show ((Equiv.sumCongr (U.orderIsoOfFin hU).toEquiv
+    change ((Equiv.sumCongr (U.orderIsoOfFin hU).toEquiv
         (ec.trans ecomp.symm)).trans (Equiv.sumCompl (· ∈ U)))
       ((finSumFinEquiv.trans (Fin.castOrderIso hn).toEquiv).symm
         (Fin.castLE hcN i)) = (U.orderIsoOfFin hU i : Fin N)
@@ -379,7 +379,7 @@ private theorem singularIdeal_eq_radical_span_of_notMem_iff (s : A → Prop)
     singularIdeal R A = (Ideal.span {a : A | s a}).radical := by
   refine ((eq_singularIdeal_iff_of_isRadical R A (Ideal.radical_isRadical _)).2 ?_).symm
   ext q
-  show (Ideal.span {a : A | s a}).radical ≤ q.asIdeal ↔ ¬ Algebra.SmoothAt R A q.asIdeal
+  change (Ideal.span {a : A | s a}).radical ≤ q.asIdeal ↔ ¬ Algebra.SmoothAt R A q.asIdeal
   have hq : q.asIdeal.IsPrime := q.isPrime
   rw [Ideal.IsPrime.radical_le_iff hq, Ideal.span_le]
   exact hs q.asIdeal

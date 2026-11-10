@@ -153,6 +153,8 @@ def ShiftedUnitTensorComparisonCompatible : Prop :=
           (shiftedUnitObject (closedSubsetRingedSpace X Z) a)).map
         (derivedPullbackShiftedUnitIso (closedSubsetInclusion X Z) b).hom
 
+omit [PreservesFiniteLimits (modulePushforward (closedSubsetInclusion X Z))]
+  [PreservesFiniteColimits (modulePushforward (closedSubsetInclusion X Z))] in
 /-- **The residual equation of [Stacks, Tag 0G77] follows from the compatibility of the comparison
 of [Stacks, Tag 079U] with the degree identification of [Stacks, Tag 0FNH].**
 
@@ -204,6 +206,8 @@ theorem forgetSupportSquare_of_comparisonCompatible
   forgetSupportSquare_of_transposeClean X Z hZ a b K M
     (shiftedUnitTransposeClean_of_comparisonCompatible X Z a b hcmp) ξ η
 
+omit [PreservesFiniteLimits (modulePushforward (closedSubsetInclusion X Z))]
+  [PreservesFiniteColimits (modulePushforward (closedSubsetInclusion X Z))] in
 /-- **The comparison of [Stacks, Tag 079U] carries the degree identification of the cup product
 on `X` to the one on the closed subspace `Z`.** This is
 `Stacks.RingedSpace.derivedPullbackShiftedUnitIso_comp_shiftedUnitTensorIso` at the inclusion of

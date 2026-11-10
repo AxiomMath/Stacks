@@ -313,7 +313,7 @@ theorem exists_openImmersion_pullback_of_affineOpenPullback
   refine ⟨Os, oι, r2 ≫ pullback.snd ξ Φ, ?_, hoιopen⟩
   refine (IsPullback.of_iso_pullback ?_ (asIso r2) hr2π rfl).flip
   refine ⟨?_⟩
-  show J.uliftYoneda.{u + 1}.map oι ≫ ξ = (r2 ≫ pullback.snd ξ Φ) ≫ Φ
+  change J.uliftYoneda.{u + 1}.map oι ≫ ξ = (r2 ≫ pullback.snd ξ Φ) ≫ Φ
   rw [Category.assoc, ← pullback.condition, ← Category.assoc, hr2π]
 
 /-- **Relative representability by objects of the site, from the affine points of the target.**

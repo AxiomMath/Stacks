@@ -63,7 +63,6 @@ namespace Deformation.ComplexLift
 open PresheafOfModules
 
 variable {C : Type (u + 1)} [Category.{u} C] {J : GrothendieckTopology C}
-variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 
 section Ring
 
@@ -134,9 +133,9 @@ theorem sqZeroExtSheafAnySiteProj_mul_eq_zero
   have ha' : sqZeroExtFstAnySite (M := M.val) a = 0 := ha
   have hb' : sqZeroExtFstAnySite (M := M.val) b = 0 := hb
   refine sqZeroExt_ext_anySite ?_ ?_
-  · show sqZeroExtFstAnySite (M := M.val) a * sqZeroExtFstAnySite (M := M.val) b = 0
+  · change sqZeroExtFstAnySite (M := M.val) a * sqZeroExtFstAnySite (M := M.val) b = 0
     rw [ha', zero_mul]
-  · show sqZeroExtFstAnySite (M := M.val) a • sqZeroExtSndAnySite (M := M.val) b +
+  · change sqZeroExtFstAnySite (M := M.val) a • sqZeroExtSndAnySite (M := M.val) b +
       sqZeroExtFstAnySite (M := M.val) b • sqZeroExtSndAnySite (M := M.val) a = 0
     simp [ha', hb']
 
@@ -229,6 +228,7 @@ theorem sqZeroExtSheafAnySiteMap_idealInclusion {N : SheafOfModules.{u}
       (sqZeroExtIdealInclusion N).val.app U (φ.val.app U m) :=
   sqZeroExt_ext_anySite rfl rfl
 
+omit [HasSheafify J AddCommGrpCat] [J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- The ideal inclusion `M ⟶ O₀[M]` composed with the map `O₀[M] ⟶ O₀` induced by the projection
 is zero. -/
 theorem sqZeroExtIdealInclusion_comp :
@@ -263,6 +263,7 @@ def sqZeroExtIdealKernelIso :
       (structureModuleMap_val_app (sqZeroExtSheafAnySiteProj M) U x.1).symm.trans x.2
     exact Subtype.ext (sqZeroExt_ext_anySite hx.symm rfl)
 
+omit [HasSheafify J AddCommGrpCat] [J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- The isomorphism `M ≅ ker(O₀[M] ⟶ O₀)` composed with the kernel inclusion is the ideal
 inclusion `M ⟶ O₀[M]`. -/
 theorem sqZeroExtIdealKernelIso_hom_comp :
@@ -289,6 +290,7 @@ theorem shortExact_sqZeroExtIdealSequence :
       rw [Category.comp_id, Iso.inv_comp_eq, sqZeroExtIdealKernelIso_hom_comp])
     (by simp)
 
+variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 variable [HasDerivedCategory.{d} (SheafOfModules.{u}
     (Stacks.SheafOfModules.Tensor.ringSheaf (sqZeroExtSheafAnySite O₀ M)))]
   [HasDerivedCategory.{d₀} (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀))]

@@ -212,7 +212,7 @@ theorem Presieve.isSheafFor_prodSectionSnd_of_isSheafFor_functorPullback_snd
   refine ⟨t, ?_, ?_⟩
   · intro V b hb
     refine (ht ((Functor.prodSectionSnd d).map b) hb).trans ?_
-    show Q.map (𝟙 ((d, V) : D × C)).op (y b hb) = y b hb
+    change Q.map (𝟙 ((d, V) : D × C)).op (y b hb) = y b hb
     exact Q.map_id_apply _ _
   · intro t' ht2
     exact ht' t' fun Y g hg => Functor.map_op_apply_comp Q (hfac g) (ht2 g.2 hg)

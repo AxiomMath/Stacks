@@ -43,7 +43,7 @@ public theorem adicCompletion_isAdicallyComplete
   let J : Ideal C := I.map (algebraMap A C)
   let S : Type v := AdicCompletion J C
   have : IsNoetherianRing C := Algebra.FiniteType.isNoetherianRing A C
-  show IsAdicComplete (I.map (algebraMap A S)) S
+  change IsAdicComplete (I.map (algebraMap A S)) S
   rw [IsScalarTower.algebraMap_eq A C S, ← Ideal.map_map,
     IsAdicComplete.map_algebraMap_iff]
   exact AdicCompletion.isAdicComplete (IsNoetherian.noetherian J)

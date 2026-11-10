@@ -90,7 +90,7 @@ def tensorModuleComplexFunctor : TModules X ⥤
 
 /-- The functor `ℳ ↦ 𝒢 ⊗_{𝒪_X} ℳ` is additive. -/
 instance tensorModuleComplexFunctor_additive : (tensorModuleComplexFunctor G).Additive where
-  map_add {_ _ φ ψ} := HomologicalComplex.hom_f_injective (funext fun p =>
+  map_add := HomologicalComplex.hom_f_injective (funext fun p =>
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).obj (G.X p)).map_add)
 
 /-- **The complex `𝒢 ⊗_{𝒪_X} f^*ℱ`**, as a functor of the `𝒪_Y`-module `ℱ`, with `f^*` the
@@ -153,7 +153,7 @@ def singleLeftTensorIso (F : SheafOfModules.{u} (structureSheafRing Y)) :
   @HomologicalComplex.singleLeftIsoMapBifunctor (SheafOfModules.{u} (structureSheafRing Y))
       (SheafOfModules.{u} (structureSheafRing X)) (SheafOfModules.{u} (structureSheafRing X))
       _ _ _ _ _ _ _ (pullbackTensorBifunctor f) _
-      (fun M => Functor.preservesZeroMorphisms_of_additive _) F G _ _
+      inferInstance F G _ _
 
 /-- The isomorphism `singleLeftTensorIso` is natural in the `𝒪_Y`-module `ℱ`. -/
 theorem singleLeftTensorIso_hom_naturality {F F' : SheafOfModules.{u} (structureSheafRing Y)}
@@ -166,7 +166,7 @@ theorem singleLeftTensorIso_hom_naturality {F F' : SheafOfModules.{u} (structure
     (SheafOfModules.{u} (structureSheafRing Y))
     (SheafOfModules.{u} (structureSheafRing X)) (SheafOfModules.{u} (structureSheafRing X))
     _ _ _ _ _ _ _ (pullbackTensorBifunctor f) _
-    (fun M => Functor.preservesZeroMorphisms_of_additive _) F' G _ F _ _ _ v
+    inferInstance F' G _ F _ _ _ v
 
 /-- `Tot(f^*(ℱ[0]) ⊗ 𝒢) ≅ 𝒢 ⊗ f^*ℱ` at one module. -/
 def singleTargetIsoApp (F : SheafOfModules.{u} (structureSheafRing Y)) :

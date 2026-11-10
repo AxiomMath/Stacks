@@ -115,7 +115,7 @@ theorem contains_universalCover (𝒞 : BigFppfSite.{u}) (d : ℕ) [NeZero d] :
     𝒞.Contains (specCover (universalStructure.{u} d)).left := by
   have : Countable (Carrier (universalStructure.{u} d)) :=
     Countable.of_equiv _ (Carrier.coordLinearEquiv (universalStructure.{u} d)).toEquiv.symm
-  show (Spec (CommRingCat.of (Carrier (universalStructure.{u} d)))).size < 𝒞.cutoff
+  change (Spec (CommRingCat.of (Carrier (universalStructure.{u} d)))).size < 𝒞.cutoff
   rw [Scheme.size_Spec]
   exact max_lt 𝒞.aleph0_lt_cutoff (Cardinal.mk_le_aleph0.trans_lt 𝒞.aleph0_lt_cutoff)
 

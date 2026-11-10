@@ -152,7 +152,7 @@ theorem eq_of_twoIso_representable (a b : X ⟶ Y)
         exact ⟨i, w, hw⟩)
       (fun i => MorphismProperty.IsStableUnderBaseChange.of_isPullback (hpb i).flip (hopen i))
   refine 𝒰.hom_ext _ _ fun i => ?_
-  show (BigFppfOver.toScheme B S hS).map
+  change (BigFppfOver.toScheme B S hS).map
         ((smallBaseChange B S hS b hb).map (kk i)).hom.left ≫
       (BigFppfOver.toScheme B S hS).map ((e.hom.app UC).hom.left ≫ ha.snd UC.1.hom) =
     (BigFppfOver.toScheme B S hS).map

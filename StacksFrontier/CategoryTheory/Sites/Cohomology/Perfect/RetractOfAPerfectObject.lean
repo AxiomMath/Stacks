@@ -47,8 +47,8 @@ the two are composed in
 ringed site `RingedSite.{u, v, w}` with the module sections in an independent universe `m`. The
 retract statement is stated where Stacks 08GA is, on the diagonal `RingedSite.{u, u, u}`: the
 biproduct form it reduces to is stated there, for the reason recorded in the implementation notes
-of `StacksFrontier/CategoryTheory/Sites/Cohomology/TorAmplitude/PerfectnessCriterion.lean` — the flat
-representative of an object of finite Tor amplitude and the flatness of a direct summand of a
+of `StacksFrontier/CategoryTheory/Sites/Cohomology/TorAmplitude/PerfectnessCriterion.lean` — the
+flat representative of an object of finite Tor amplitude and the flatness of a direct summand of a
 finite free module both want the structure-sheaf sections in `max u v`, which on the diagonal is
 the universe the module sections live in.
 

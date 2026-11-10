@@ -393,7 +393,7 @@ theorem nonempty_sectionsOverBase_unitInDegree_iso
         (baseRing (Spec (.of A)).toRingedSpace))
       map_add' := fun a b => map_add _ a b
       map_smul' := fun a b => by
-        show (Scheme.ΓSpecIso (.of A)).inv.hom (a * b) =
+        change (Scheme.ΓSpecIso (.of A)).inv.hom (a * b) =
           (Scheme.ΓSpecIso (.of A)).inv.hom a * (Scheme.ΓSpecIso (.of A)).inv.hom b
         exact map_mul _ a b }
   have hl : Function.Bijective l :=
@@ -426,13 +426,13 @@ section Factorization
 
 variable {A : Type u} [CommRing A] {X W : Scheme.{u}} (f : X ⟶ Spec (.of A))
 
-/-- **The factorization through the section.** For `q, p : W ⟶ X` over `S = Spec A`, a section
-`σ` of `f` and `j : X ⟶ W`, the statement that two classes `y, y'` of
+/-- **The factorization through the section.** For `q, p : W ⟶ X` and `j : X ⟶ W`, with
+`S = Spec A` the base of `f`, the statement that two classes `y, y'` of
 `RΓ(W, Lq^*K ⊗^𝐋 Lp^*𝒪_X[-n])` in degree `m` with the same pullback along `j` have the same
 image under `Lq^*K ⊗^𝐋 Lp^*t`, for every `t : 𝒪_X[-n] ⟶ M` with `RΓ(X, M)` concentrated in
 degrees `≤ n`. -/
-def KunnethSectionFactorization (σ : Spec (.of A) ⟶ X) (q p : W ⟶ X) (hqp : q ≫ f = p ≫ f)
-    (j : X ⟶ W) (K : DerivedCategory (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)))
+def KunnethSectionFactorization (q p : W ⟶ X) (j : X ⟶ W)
+    (K : DerivedCategory (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)))
     (n : ℕ) : Prop :=
   ∀ (M : DerivedCategory (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)))
     [((sectionsOverBase f.toLRSHom.toShHom).obj M).IsLE (n : ℤ)]
@@ -473,7 +473,7 @@ theorem kunnethSectionFactorization [IsProper f] [Smooth f] [IsIso f.appTop]
       (𝟙 X : X ⟶ X).toLRSHom.toShHom f.toLRSHom.toShHom
       (𝟙 X ≫ f).toLRSHom.toShHom rfl (by rw [Category.id_comp]; exact Category.comp_id _) K
       (unitInDegree (Spec (.of A)) n))) :
-    KunnethSectionFactorization f σ q p hqp j K n := by
+    KunnethSectionFactorization f q p j K n := by
   intro M _ t m y y' hy
   have hσ' : σ.toLRSHom.toShHom ≫ f.toLRSHom.toShHom = 𝟙 _ :=
     congrArg (fun g => g.toLRSHom.toShHom) hσ

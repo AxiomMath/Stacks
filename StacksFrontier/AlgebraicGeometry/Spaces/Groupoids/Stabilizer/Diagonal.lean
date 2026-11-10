@@ -104,7 +104,7 @@ theorem stabilizerUnit_comp_stabilizerArrow (G : GroupoidInAlgebraicSpaces C S h
     (η[stabilizer G]).left ≫ stabilizerArrow G = (identityArrow G).hom := by
   have h := stabilizerArrowHom_one G (𝟙 (𝟙_ (Over G.objects.obj)))
   rw [Category.id_comp] at h
-  show (stabilizerOne G).left ≫ stabilizerArrow G = (identityArrow G).hom
+  change (stabilizerOne G).left ≫ stabilizerArrow G = (identityArrow G).hom
   simpa [stabilizerArrowHom] using h
 
 /-! ### The three fibre products of the diagram -/
@@ -453,7 +453,7 @@ theorem isIso_arrowPairsToArrowsOverStabilizer
       refine pullback.hom_ext ?_ ?_
       · rw [Category.assoc, arrowDifferenceToStabilizer_comp_arrow]
         exact arrowsOverStabilizerToArrowPairs_comp_arrowDifference G
-      · show arrowsOverStabilizerToArrowPairs G ≫
+      · change arrowsOverStabilizerToArrowPairs G ≫
             arrowDifferenceToStabilizer G ≫ (stabilizer G).hom =
           arrowsOverStabilizerToStabilizer G ≫ (stabilizer G).hom
         rw [arrowDifferenceToStabilizer_comp_hom, ← Category.assoc,
@@ -527,7 +527,7 @@ theorem diagonal_comp_arrowPairsToArrowsOverStabilizer
     · rw [Category.assoc, arrowDifferenceToStabilizer_comp_arrow, Category.assoc,
         stabilizerUnit_comp_stabilizerArrow]
       exact diagonal_comp_arrowDifference G
-    · show pullback.diagonal (sourceTarget G).hom ≫
+    · change pullback.diagonal (sourceTarget G).hom ≫
           arrowDifferenceToStabilizer G ≫ (stabilizer G).hom =
         (G.source.hom ≫ (η[stabilizer G]).left) ≫ (stabilizer G).hom
       rw [arrowDifferenceToStabilizer_comp_hom, ← Category.assoc,

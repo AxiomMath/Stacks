@@ -163,7 +163,7 @@ theorem exists_section_of_isAlgClosed (k : Type u) [Field k] [IsAlgClosed k]
     apply C.inclusion.map_injective
     rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_id,
       CategoryTheory.Functor.map_preimage, Category.assoc]
-    show e.hom ≫ s₀ ≫ g = _
+    change e.hom ≫ s₀ ≫ g = _
     rw [hs₀, Iso.hom_inv_id]
     rfl
   refine ⟨Over.homMk σl ?_, Over.OverMorphism.ext hσl⟩
@@ -255,7 +255,7 @@ theorem exists_lift_quotientStackMap (f : GroupoidInAlgebraicSpaces.Hom G H)
     rw [← harr]
     exact (congrArg (fun k => (pointwiseToQuotientStack H).map k ≫ c₂)
       (quotientPointwiseMap_map_ι f V ε)).symm.trans hnat
-  show M.map (j₁.inv ≫ (pointwiseToQuotientStack G).map
+  change M.map (j₁.inv ≫ (pointwiseToQuotientStack G).map
       ((CoGrothendieck.ι (evaluationGroupoidFunctor G.toGroupoidInFunctors ⋙
         Grpd.forgetToCat).toPseudofunctor' V).map ε) ≫ j₂.hom) = β
   have hcc := NatTrans.congr_app (congrArg (fun α => BasedNatTrans.toNatTrans α)
@@ -305,7 +305,7 @@ theorem full_evaluation_trivialActionGroupoidHom (φ : G₁ ⟶ G₂) (V : BigFp
   have hmap : (trivialActionArrowsMap φ).app (op V) r₁ = r₂ := by
     refine pullback_app_ext G₂.obj.X.hom X.hom (T := V) ?_ (hsub _ _)
     refine (trivialActionArrowsMap_fst_app φ (op V) r₁).trans ?_
-    show φ.hom.hom.hom.left.app (op V) ((fst G₁.obj.X X).left.app (op V) r₁) = _
+    change φ.hom.hom.hom.left.app (op V) ((fst G₁.obj.X X).left.app (op V) r₁) = _
     rw [hfst, ← yonedaEquiv_comp, hz, Equiv.apply_symm_apply]
     rfl
   refine ⟨((trivialActionGroupoid G₁).toGroupoidInFunctors.evaluationArrowEquiv (op V) a b).symm
@@ -356,7 +356,7 @@ theorem liftsTwoArrowsAtGeometricPoints_classifyingMap (φ : G₁ ⟶ G₂)
   obtain ⟨α, hα, hαeq⟩ := exists_isHomLift_preimage e₁.inv.w
     e₁.toEquivalence.fullyFaithfulInverse α' hα'
   refine ⟨α, hα, ?_⟩
-  show e₂.hom.functor.map ((quotientStackMap (trivialActionGroupoidHom φ)).map
+  change e₂.hom.functor.map ((quotientStackMap (trivialActionGroupoidHom φ)).map
     (e₁.inv.functor.map α)) = β
   rw [hαeq, hα'eq, hβ'eq]
 

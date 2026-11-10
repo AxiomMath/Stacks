@@ -331,19 +331,27 @@ calculation that mentions the unitor goes through. -/
 
 /-- The right unitor `A ⊗_{𝒪_X} 𝒪_X ≅ A`, typed over `Stacks.RingedSpace.tensorSheaf`. -/
 noncomputable def tensorSheafUnitRightIso :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩))).obj (A, _root_.SheafOfModules.unit (structureRingSheaf X)) ≅ A :=
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X)).presheaf, ((X)).IsSheaf⟩))).obj
+      (A, _root_.SheafOfModules.unit (structureRingSheaf X)) ≅ A :=
   Stacks.SheafOfModules.tensorSheafUnitRightIso X.sheaf.obj (structureRingSheaf X).property A
 
 /-- The left unitor `𝒪_X ⊗_{𝒪_X} A ≅ A`, typed over `Stacks.RingedSpace.tensorSheaf`. -/
 noncomputable def tensorSheafUnitLeftIso :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩))).obj (_root_.SheafOfModules.unit (structureRingSheaf X), A) ≅ A :=
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X)).presheaf, ((X)).IsSheaf⟩))).obj
+      (_root_.SheafOfModules.unit (structureRingSheaf X), A) ≅ A :=
   Stacks.SheafOfModules.tensorSheafUnitLeftIso X.sheaf.obj (structureRingSheaf X).property A
 
 /-- **The right unitor on local sections**, in the spelling of Tag 0GMW. -/
 lemma tensorSheafUnitRightIso_hom_tensorSheafUnit_tmul (U : (Opens X.carrier)ᵒᵖ)
     (x : A.val.obj U) (r : (structureRingSheaf X).obj.obj U) :
     (tensorSheafUnitRightIso X A).hom.val.app U
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (X)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app (PresheafOfModules.tensorObj (O := (X).presheaf) (A).val ((_root_.SheafOfModules.unit (structureRingSheaf X))).val)) U
+        (Hom.app ((PresheafOfModules.sheafificationAdjunction
+            (R := Stacks.RingedSpace.structureRingSheaf (X))
+            (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app
+            (PresheafOfModules.tensorObj (O := (X).presheaf) (A).val
+              ((_root_.SheafOfModules.unit (structureRingSheaf X))).val)) U
           (x ⊗ₜ r)) = r • x :=
   Stacks.SheafOfModules.tensorSheafUnitRightIso_hom_toSheafify_tmul X.sheaf.obj
     (structureRingSheaf X).property A U x r
@@ -352,7 +360,11 @@ lemma tensorSheafUnitRightIso_hom_tensorSheafUnit_tmul (U : (Opens X.carrier)ᵒ
 lemma tensorSheafUnitRightIso_inv_app_tensorSheafUnit (U : (Opens X.carrier)ᵒᵖ)
     (x : A.val.obj U) :
     (tensorSheafUnitRightIso X A).inv.val.app U x =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (X)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app (PresheafOfModules.tensorObj (O := (X).presheaf) (A).val ((_root_.SheafOfModules.unit (structureRingSheaf X))).val)) U
+      Hom.app ((PresheafOfModules.sheafificationAdjunction
+          (R := Stacks.RingedSpace.structureRingSheaf (X))
+          (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app
+          (PresheafOfModules.tensorObj (O := (X).presheaf) (A).val
+            ((_root_.SheafOfModules.unit (structureRingSheaf X))).val)) U
         (x ⊗ₜ (1 : (structureRingSheaf X).obj.obj U)) :=
   Stacks.SheafOfModules.tensorSheafUnitRightIso_inv_app X.sheaf.obj
     (structureRingSheaf X).property A U x
@@ -361,7 +373,11 @@ lemma tensorSheafUnitRightIso_inv_app_tensorSheafUnit (U : (Opens X.carrier)ᵒ�
 lemma tensorSheafUnitLeftIso_hom_tensorSheafUnit_tmul (U : (Opens X.carrier)ᵒᵖ)
     (r : (structureRingSheaf X).obj.obj U) (x : A.val.obj U) :
     (tensorSheafUnitLeftIso X A).hom.val.app U
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (X)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app (PresheafOfModules.tensorObj (O := (X).presheaf) ((_root_.SheafOfModules.unit (structureRingSheaf X))).val (A).val)) U
+        (Hom.app ((PresheafOfModules.sheafificationAdjunction
+            (R := Stacks.RingedSpace.structureRingSheaf (X))
+            (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app
+            (PresheafOfModules.tensorObj (O := (X).presheaf)
+              ((_root_.SheafOfModules.unit (structureRingSheaf X))).val (A).val)) U
           (r ⊗ₜ x)) = r • x :=
   Stacks.SheafOfModules.tensorSheafUnitLeftIso_hom_toSheafify_tmul X.sheaf.obj
     (structureRingSheaf X).property A U r x
@@ -370,7 +386,11 @@ lemma tensorSheafUnitLeftIso_hom_tensorSheafUnit_tmul (U : (Opens X.carrier)ᵒ�
 lemma tensorSheafUnitLeftIso_inv_app_tensorSheafUnit (U : (Opens X.carrier)ᵒᵖ)
     (x : A.val.obj U) :
     (tensorSheafUnitLeftIso X A).inv.val.app U x =
-      Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (X)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app (PresheafOfModules.tensorObj (O := (X).presheaf) ((_root_.SheafOfModules.unit (structureRingSheaf X))).val (A).val)) U
+      Hom.app ((PresheafOfModules.sheafificationAdjunction
+          (R := Stacks.RingedSpace.structureRingSheaf (X))
+          (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app
+          (PresheafOfModules.tensorObj (O := (X).presheaf)
+            ((_root_.SheafOfModules.unit (structureRingSheaf X))).val (A).val)) U
         ((1 : (structureRingSheaf X).obj.obj U) ⊗ₜ x) :=
   Stacks.SheafOfModules.tensorSheafUnitLeftIso_inv_app X.sheaf.obj
     (structureRingSheaf X).property A U x
@@ -394,14 +414,14 @@ the ringed-site ones, and the three spellings of the tensor product sheaf agree 
 /-- **The right unitor of the tensor product sheaf**: `ℱ ⊗_{𝒪_X} 𝒪_X ≅ ℱ` for the tensor
 product of Tag 01CA on a ringed space. -/
 noncomputable def tensorSheafUnitRightIso :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj ((_root_.SheafOfModules.unit (structureSheafRing
-          X)))) ≅ F :=
+    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj
+      ((_root_.SheafOfModules.unit (structureSheafRing X)))) ≅ F :=
   Stacks.RingedSpace.tensorSheafUnitRightIso X F
 
 /-- **The left unitor of the tensor product sheaf**: `𝒪_X ⊗_{𝒪_X} ℱ ≅ ℱ`. -/
 noncomputable def tensorSheafUnitLeftIso :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((_root_.SheafOfModules.unit (structureSheafRing
-          X)))).obj (F)) ≅ F :=
+    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+      ((_root_.SheafOfModules.unit (structureSheafRing X)))).obj (F)) ≅ F :=
   Stacks.RingedSpace.tensorSheafUnitLeftIso X F
 
 /-- **The section formula for the right unitor on a ringed space**: it carries the image in
@@ -459,7 +479,10 @@ lemma toTensorSheafSection_eq_tensorSheafUnit
       (structureSheafRing X))
     (U : (Opens X.carrier)ᵒᵖ) (x : A.val.obj U) (y : B.val.obj U) :
     Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X A B U (x ⊗ₜ y) =
-      PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (X)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app (PresheafOfModules.tensorObj (O := (X).presheaf) (A).val (B).val)) U (x ⊗ₜ y) :=
+      PresheafOfModules.Hom.app ((PresheafOfModules.sheafificationAdjunction
+          (R := Stacks.RingedSpace.structureRingSheaf (X))
+          (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app
+          (PresheafOfModules.tensorObj (O := (X).presheaf) (A).val (B).val)) U (x ⊗ₜ y) :=
   rfl
 
 end AlgebraicGeometry.SheafOfModules

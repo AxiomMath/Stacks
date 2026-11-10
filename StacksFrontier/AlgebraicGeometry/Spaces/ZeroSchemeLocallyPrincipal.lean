@@ -192,7 +192,7 @@ private theorem has_single_generator_of_epi_from_unit
     ∃ σ : M.GeneratingSections, Nonempty (σ.I ≃ Fin 1) := by
   let σ := (unit_generatingSections R).ofEpi p
   refine ⟨σ, ?_⟩
-  show Nonempty (PUnit ≃ Fin 1)
+  change Nonempty (PUnit ≃ Fin 1)
   exact ⟨(Equiv.equivPUnit (Fin 1)).symm⟩
 
 /-! ### Affine étale covers -/
@@ -227,7 +227,7 @@ theorem affine_chart_cover
       obtain ⟨y, hy⟩ := (Scheme.Opens.range_ι (X := (BigFppfOver.toScheme B S hS).obj
         ((SmallEtale.toOver B S hS F).obj U)) (O : _)).ge hO
       refine ⟨y, ?_⟩
-      show ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS F).map
+      change ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS F).map
         (openChartInclusion B S hS F U (O : _)))) y = x
       rw [heq]
       exact hy
@@ -240,7 +240,7 @@ theorem affine_chart_cover
   refine ⟨E.I₀, E.X, E.f, ?_, fun O => ?_⟩
   · exact Precoverage.generate_mem_toGrothendieck
       (J := SmallEtale.precoverage B S hS F) hpre
-  · show IsAffine ((BigFppfOver.toScheme B S hS).obj
+  · change IsAffine ((BigFppfOver.toScheme B S hS).obj
       ((SmallEtale.toOver B S hS F).obj (E.X O)))
     exact O.down.2
 
@@ -305,7 +305,7 @@ theorem isLocallyPrincipal_zeroScheme
   have hIdealCoeff (i : I) (W : E.C) (g : W ⟶ V i)
       (hW : IsAffine ((SmallEtale.toSchemes B S hS X.1).obj W).1) :
       J'.obj (op W) = Ideal.span {coeff i W g} := by
-    show J.obj (op W) = Ideal.span {coeff i W g}
+    change J.obj (op W) = Ideal.span {coeff i W g}
     have hJW : J.obj (op W) = definingIdealAt B S hS X Z (op W) :=
       definingIdealSheaf_obj B S hS X Z (op W)
     let eW := (SheafOfModules.evaluation ((Stacks.SheafOfModules.Tensor.ringSheaf E.O).over (V i))
@@ -332,7 +332,7 @@ theorem isLocallyPrincipal_zeroScheme
     have hj : (Stacks.SheafOfModules.Tensor.ringSheaf E.O).obj.map (g' j).op (coeff i Y h) ∈
         J'.obj (op (W' j)) := by
       rw [hCoeffMap i h (g' j), hIdealCoeff i (W' j) (g' j ≫ h) (hAff j)]
-      show coeff i (W' j) (g' j ≫ h) ∈
+      change coeff i (W' j) (g' j ≫ h) ∈
         (Ideal.span {coeff i (W' j) (g' j ≫ h)} :
           Ideal ((Stacks.SheafOfModules.Tensor.ringSheaf E.O).obj.obj (op (W' j))))
       exact Ideal.subset_span (Set.mem_singleton _)
@@ -373,7 +373,7 @@ theorem isLocallyPrincipal_zeroScheme
       obtain ⟨r, hr⟩ := Ideal.mem_span_singleton.mp hx
       refine ⟨r, ?_⟩
       apply Subtype.ext
-      show r * (Stacks.SheafOfModules.Tensor.ringSheaf E.O).obj.map (W' j).hom.op
+      change r * (Stacks.SheafOfModules.Tensor.ringSheaf E.O).obj.map (W' j).hom.op
         (coeff i Y h) = xVal
       rw [hCoeffMap i h (W' j).hom]
       exact (mul_comm r (coeff i (W' j).left ((W' j).hom ≫ h))).trans hr.symm

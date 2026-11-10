@@ -437,7 +437,7 @@ theorem residueSpecMap_app_eq_zero_iff (A : ArtinianLocalAlgCat.{u, u, u} Λ k)
     rw [← hnat]
     exact (Scheme.ΓSpecIso (.of k)).commRingCatIsoToRingEquiv.map_eq_zero_iff.symm
   rw [hzero]
-  show (Scheme.ΓSpecIso (.of A)).hom.hom a ∈ RingHom.ker q ↔
+  change (Scheme.ΓSpecIso (.of A)).hom.hom a ∈ RingHom.ker q ↔
     (Scheme.ΓSpecIso (.of A)).hom.hom a ∈ RingHom.ker r
   rw [hker]
 

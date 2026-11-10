@@ -126,25 +126,27 @@ extension is the limit over the quasi-compact opens the source writes. -/
 --   Representability of this functor is Tag 01NY and is NOT proved here; the conditional
 --   assembly is F.representableBy of
 --   StacksFrontier.AlgebraicGeometry.RelativeProjQcohSheaf.UnionRepresentable
-@[stacks 01NX "the functor F of the display for EVERY test scheme, which closes the second qualification \
-recorded on F.functor: the source defines F(T) as the union over d >= 1 of the F_d(T) only for a quasi- \
-compact T and as the inverse limit of those over the quasi-compact opens of T in general, and that inverse \
-limit, previously NOT CONSTRUCTED, is this functor. Both functor laws come from \
-AlgebraicGeometry.Scheme.QcExtension.pullback_id and pullback_comp; F.limEquiv is the identification with \
-the union on a quasi-compact test scheme, and AlgebraicGeometry.Scheme.QcExtension.equivQcOpen the \
-identification of the index used here (all morphisms out of quasi-compact schemes, which makes the \
-functoriality in T a reindexing) with the quasi-compact opens of T that the source indexes by. The FIRST \
-qualification recorded on F.functor is DISCHARGED and is NOT inherited: the value of this functor on a \
-quasi-compact test scheme is the source's F(T) itself, not a quotient of it. UnionRel IS an equivalence \
-relation, being cofinal equality ...UnionEquivalenceRelation.unionRel_iff_cofinallyEqual and \
-...UnionEquivalenceRelation.unionRel_equivalence so two quadruples of positive degree have the same point of \
-F(T) EXACTLY when they are equivalent (...UnionEquivalenceRelation.F.mk_eq_mk_iff_equivalent, and \
-...UnionEquivalenceRelation.F.mk_eq_mk_iff_strictlyEquivalent when the two degrees agree). The brick that \
-had been missing was NOT the implication (3) => (1) of Tag 01NW, which was already proved as \
-...EquivalenceDescent.Quadruple.lcm_compatible_of_exists_compatible, but the converse of \
+@[stacks 01NX "the functor F of the display for EVERY test scheme, which closes the second \
+qualification recorded on F.functor: the source defines F(T) as the union over d >= 1 of the \
+F_d(T) only for a quasi- compact T and as the inverse limit of those over the quasi-compact opens \
+of T in general, and that inverse limit, previously NOT CONSTRUCTED, is this functor. Both functor \
+laws come from AlgebraicGeometry.Scheme.QcExtension.pullback_id and pullback_comp; F.limEquiv is \
+the identification with the union on a quasi-compact test scheme, and \
+AlgebraicGeometry.Scheme.QcExtension.equivQcOpen the identification of the index used here (all \
+morphisms out of quasi-compact schemes, which makes the functoriality in T a reindexing) with the \
+quasi-compact opens of T that the source indexes by. The FIRST qualification recorded on F.functor \
+is DISCHARGED and is NOT inherited: the value of this functor on a quasi-compact test scheme is \
+the source's F(T) itself, not a quotient of it. UnionRel IS an equivalence relation, being cofinal \
+equality ...UnionEquivalenceRelation.unionRel_iff_cofinallyEqual and \
+...UnionEquivalenceRelation.unionRel_equivalence so two quadruples of positive degree have the \
+same point of F(T) EXACTLY when they are equivalent \
+(...UnionEquivalenceRelation.F.mk_eq_mk_iff_equivalent, and \
+...UnionEquivalenceRelation.F.mk_eq_mk_iff_strictlyEquivalent when the two degrees agree). The \
+brick that had been missing was NOT the implication (3) => (1) of Tag 01NW, which was already \
+proved as ...EquivalenceDescent.Quadruple.lcm_compatible_of_exists_compatible, but the converse of \
 ...PowerTransitionColimit.Quadruple.strictlyEquivalent_scale_of_compatibleAt, namely \
-...UnionEquivalenceRelation.Quadruple.compatibleAt_of_strictlyEquivalent_scale; neither Tag 01NB nor Tag \
-01NU is used for it."]
+...UnionEquivalenceRelation.Quadruple.compatibleAt_of_strictlyEquivalent_scale; neither Tag 01NB \
+nor Tag 01NU is used for it."]
 def F.limFunctor (A : SheafOfModules.GradedAlgebra.{u, u} (structureRingSheaf S.toRingedSpace)) :
     Scheme.{u}ᵒᵖ ⥤ Type (u + 1) :=
   Scheme.QcExtension.functor (F.functor A)

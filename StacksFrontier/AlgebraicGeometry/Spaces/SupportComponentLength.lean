@@ -148,7 +148,7 @@ theorem geometricLength_modulePushforward_unit_eq_one (Z : IntegralClosedSubspac
     ⟨Z.subspace.toFunctor, Z.isClosedSubspace.1⟩ Z.isIntegralSpace z ?_
   rw [hz]
   let := Z.irreducibleSpace_points B S hS
-  show closure {Z.genericPoint B S hS} ∈ irreducibleComponents _
+  change closure {Z.genericPoint B S hS} ∈ irreducibleComponents _
   rw [Z.closure_singleton_genericPoint B S hS]
   exact ⟨IrreducibleSpace.isIrreducible_univ _, fun _ _ _ => Set.subset_univ _⟩
 

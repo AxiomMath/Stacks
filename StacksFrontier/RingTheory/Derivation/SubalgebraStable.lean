@@ -198,18 +198,18 @@ public theorem ext_of_adjoin_eq (B : Subalgebra A L) (S : Set L) (hS : Algebra.a
   let Q : Subalgebra A ↥B :=
     { carrier := {t | E₁ t = E₂ t}
       add_mem' := fun ha hb => by
-        show E₁ _ = E₂ _
+        change E₁ _ = E₂ _
         rw [map_add, map_add, ha, hb]
       zero_mem' := by
-        show E₁ _ = E₂ _
+        change E₁ _ = E₂ _
         rw [map_zero, map_zero]
       mul_mem' := fun {a b} ha hb => by
-        show E₁ _ = E₂ _
+        change E₁ _ = E₂ _
         rw [E₁.leibniz, E₂.leibniz]
-        show a • E₁ b + b • E₁ a = a • E₂ b + b • E₂ a
+        change a • E₁ b + b • E₁ a = a • E₂ b + b • E₂ a
         rw [show E₁ b = E₂ b from hb, show E₁ a = E₂ a from ha]
       one_mem' := by
-        show E₁ _ = E₂ _
+        change E₁ _ = E₂ _
         rw [E₁.map_one_eq_zero, E₂.map_one_eq_zero]
       algebraMap_mem' := hE }
   have hle : Algebra.adjoin A S ≤ Q.map B.val :=

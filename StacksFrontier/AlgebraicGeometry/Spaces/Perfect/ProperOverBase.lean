@@ -220,7 +220,7 @@ theorem not_tfae_isProper_closedSubspace (B : BigFppfSite.{u}) :
   have hp : ¬ IsLocallyOfFiniteType B S hS (yoneda.map p) := by
     rw [isLocallyOfFiniteType_yoneda_map_iff, hpj,
       HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)]
-    show ¬ (algebraMap k A).FiniteType
+    change ¬ (algebraMap k A).FiniteType
     rw [RingHom.finiteType_algebraMap]
     exact not_finiteType_squareZeroCounterexampleAlgebra
   have hπsurj : Function.Surjective ((BigFppfOver.toScheme B S hS).map j) := by

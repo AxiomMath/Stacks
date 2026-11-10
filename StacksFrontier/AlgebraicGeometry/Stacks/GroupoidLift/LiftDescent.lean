@@ -335,7 +335,7 @@ theorem hom_ext_of_chart (h𝒳 : 𝒳.val.p.IsStackInGroupoids.{w} (BigFppfOver
     refine ⟨g', hg', huniq g' ⟨fibreHom_of_isHomLift _ _ g', ?_, fun _ ↦ ?_⟩⟩
     · have := hp.isStronglyCartesian_homLift (𝟙 (specOver N)) g'
       exact Functor.IsStronglyCartesian.isIso_of_base_isIso 𝒳.val.p (𝟙 (specOver N)) g'
-    · show c ≫ g' = 𝟙 _ ≫ βy
+    · change c ≫ g' = 𝟙 _ ≫ βy
       rw [Category.id_comp]
       refine Functor.IsStronglyCartesian.ext 𝒳.val.p k y.hom (specOverMap f) ?_
       exact ((Category.assoc _ _ _).trans ((congrArg _ hg').trans hcφ)).trans hβ.symm

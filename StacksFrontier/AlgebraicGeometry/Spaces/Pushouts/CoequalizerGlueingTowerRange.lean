@@ -145,13 +145,13 @@ theorem exists_eq_of_locally_mem_range {Y : AlgebraicSpaces B S hS}
   have hcomp : fam.Compatible := by
     intro W₁ W₂ Z g₁ g₂ f₁ f₂ h₁ h₂ hw
     apply he (op Z)
-    show e.hom.app (op Z) (A.obj.map g₁.op (r f₁ h₁)) =
+    change e.hom.app (op Z) (A.obj.map g₁.op (r f₁ h₁)) =
       e.hom.app (op Z) (A.obj.map g₂.op (r f₂ h₂))
     rw [sheafHom_app_map, sheafHom_app_map, hr, hr, ← sheaf_map_comp_apply,
       ← sheaf_map_comp_apply, hw]
   obtain ⟨t, ht, -⟩ := hA R hR fam hcomp
   refine ⟨t, (hC R hR).isSeparatedFor.ext fun W g hg => ?_⟩
-  show C.obj.map g.op (e.hom.app (op V) t) = C.obj.map g.op x
+  change C.obj.map g.op (e.hom.app (op V) t) = C.obj.map g.op x
   rw [← sheafHom_app_map]
   exact (congrArg (e.hom.app (op W)) (ht g hg)).trans (hr g hg)
 
@@ -220,7 +220,7 @@ theorem crossToModification_comp (k : ℕ) :
     T.crossToModification k ≫ T.neighbourhoodSystem.modificationToStage D k =
       T.crossToMember k ≫ T.neighbourhoodSystem.memberToStage D k := by
   refine Over.OverMorphism.ext ?_
-  show T.crossFst k ≫ coprod.inl ≫ (D k).π = T.crossSnd k ≫ coprod.inr ≫ (D k).π
+  change T.crossFst k ≫ coprod.inl ≫ (D k).π = T.crossSnd k ≫ coprod.inr ≫ (D k).π
   let L : T.crossSpace k ⟶ pullback (T.neighbourhoodSystem.glueMapAt k)
       (T.neighbourhoodSystem.glueMapAt k) :=
     pullback.lift (T.crossFst k ≫ coprod.inl) (T.crossSnd k ≫ coprod.inr) (by
@@ -242,7 +242,7 @@ theorem memberStep_comp_toTarget (n : ℕ) : ∀ m : ℕ,
   | 0 => Category.id_comp _
   | m + 1 => by
     rw [memberStep, Category.assoc]
-    show memberStep n m ≫ T.neighbourhoodSystem.step (n + m) ≫
+    change memberStep n m ≫ T.neighbourhoodSystem.step (n + m) ≫
       T.neighbourhoodSystem.toTarget (n + m + 1) = _
     rw [T.neighbourhoodSystem.step_comp_toTarget, memberStep_comp_toTarget n m]
 
@@ -253,7 +253,7 @@ theorem inl_π_towerTransition (n : ℕ) : ∀ m : ℕ,
       coprod.inl ≫ (D (n + m)).π
   | 0 => by rw [towerTransition, Category.comp_id]; rfl
   | m + 1 => by
-    show coprod.inl ≫ (D n).π ≫ (T.neighbourhoodSystem.towerTransition D n m ≫
+    change coprod.inl ≫ (D n).π ≫ (T.neighbourhoodSystem.towerTransition D n m ≫
       T.neighbourhoodSystem.towerMap D (n + m)) = _
     rw [← Category.assoc (D n).π, ← Category.assoc coprod.inl, inl_π_towerTransition n m,
       Category.assoc, π_comp_towerMap, sourceStep, coprod.inl_map_assoc, Category.id_comp]
@@ -266,11 +266,11 @@ theorem inr_π_towerTransition (n : ℕ) : ∀ m : ℕ,
       memberStep n m ≫ coprod.inr ≫ (D (n + m)).π
   | 0 => by rw [towerTransition, Category.comp_id, memberStep, Category.id_comp]; rfl
   | m + 1 => by
-    show coprod.inr ≫ (D n).π ≫ (T.neighbourhoodSystem.towerTransition D n m ≫
+    change coprod.inr ≫ (D n).π ≫ (T.neighbourhoodSystem.towerTransition D n m ≫
       T.neighbourhoodSystem.towerMap D (n + m)) = _
     rw [← Category.assoc (D n).π, ← Category.assoc coprod.inr, inr_π_towerTransition n m,
       Category.assoc, Category.assoc, π_comp_towerMap, sourceStep, coprod.inr_map_assoc]
-    show _ = (memberStep n m ≫ T.neighbourhoodSystem.step (n + m)) ≫ _
+    change _ = (memberStep n m ≫ T.neighbourhoodSystem.step (n + m)) ≫ _
     rw [Category.assoc]
     rfl
 
@@ -280,7 +280,7 @@ theorem modificationToStage_comp_towerTransitionOver (n m : ℕ) :
         T.neighbourhoodSystem.towerTransitionOver D n m =
       T.neighbourhoodSystem.modificationToStage D (n + m) :=
   Over.OverMorphism.ext (by
-    show (coprod.inl ≫ (D n).π) ≫ T.neighbourhoodSystem.towerTransition D n m = _
+    change (coprod.inl ≫ (D n).π) ≫ T.neighbourhoodSystem.towerTransition D n m = _
     rw [Category.assoc, inl_π_towerTransition]
     rfl)
 
@@ -294,7 +294,7 @@ theorem memberToStage_comp_towerTransitionOver (n m : ℕ) :
     T.neighbourhoodSystem.memberToStage D n ≫ T.neighbourhoodSystem.towerTransitionOver D n m =
       memberStepOver n m ≫ T.neighbourhoodSystem.memberToStage D (n + m) :=
   Over.OverMorphism.ext (by
-    show (coprod.inr ≫ (D n).π) ≫ T.neighbourhoodSystem.towerTransition D n m =
+    change (coprod.inr ≫ (D n).π) ≫ T.neighbourhoodSystem.towerTransition D n m =
       memberStep n m ≫ coprod.inr ≫ (D (n + m)).π
     rw [Category.assoc, inr_π_towerTransition])
 

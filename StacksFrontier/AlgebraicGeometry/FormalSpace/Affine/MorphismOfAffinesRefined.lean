@@ -18,7 +18,8 @@ import all StacksFrontier.AlgebraicGeometry.FormalSpace.Affine.MorphismOfAffines
 # Affine morphisms of affine formal algebraic spaces: the refined forms
 
 The strengthened and newly added declarations of the 2026-10 chapter-87 round that belong with
-`StacksFrontier.AlgebraicGeometry.FormalSpace.Affine.MorphismOfAffines`. A declaration of that module
+`StacksFrontier.AlgebraicGeometry.FormalSpace.Affine.MorphismOfAffines`. A declaration of that
+module
 whose statement the round strengthened keeps its original statement there; its strengthened form
 lives here under a primed name.
 -/

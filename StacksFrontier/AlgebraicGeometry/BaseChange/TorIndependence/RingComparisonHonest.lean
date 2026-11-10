@@ -74,7 +74,7 @@ theorem squareDerivedComparison_app_comp_counit (M : CochainComplex (ModuleCat.{
             (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
               (algebraMap A A')).isLeftDerived).1 (ComplexShape.up ℤ)).app M) :=
   @derivedBaseChangeComparison_snd_app_comp_counit.{u, u, u, u, u} R A R' A' _ _ _ _ _ _ _ _
-    (algebraMap R A) (algebraMap R R') (algebraMap A A') (algebraMap R' A') _ _ baseChangeSquare
+    (algebraMap R A) (algebraMap R R') (algebraMap A A') (algebraMap R' A') baseChangeSquare
     (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
       (algebraMap R R')).functor
     (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}

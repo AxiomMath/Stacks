@@ -97,7 +97,7 @@ private lemma pullback_point_eq_of_isIso_residueFieldMap
       (g.residueFieldMap y)
   have : IsIso ((S.residueFieldCongr T.hy).inv ≫ g.residueFieldMap T.y) := inferInstance
   have hTiso : IsIso T.tensorInl := by
-    show IsIso (CategoryTheory.Limits.pushout.inl _ _)
+    change IsIso (CategoryTheory.Limits.pushout.inl _ _)
     exact CategoryTheory.Limits.pushout_inl_iso_of_right_iso _ _
   exact (@subsingleton_spec_of_isIso_of_field (A.residueField T.x) inferInstance T.tensor
     T.tensorInl hTiso).elim _ _
@@ -114,7 +114,7 @@ private lemma isIso_pullback_snd_residueFieldMap
   have : IsIso (Y.residueFieldCongr T.hx).hom := (Y.residueFieldCongr T.hx).isIso_hom
   have : IsIso ((Y.residueFieldCongr T.hx).inv ≫ f.residueFieldMap T.x) := inferInstance
   have : IsIso T.tensorInr := by
-    show IsIso (pushout.inr ((Y.residueFieldCongr T.hx).inv ≫ f.residueFieldMap T.x)
+    change IsIso (pushout.inr ((Y.residueFieldCongr T.hx).inv ≫ f.residueFieldMap T.x)
       ((Y.residueFieldCongr T.hy).inv ≫ g.residueFieldMap T.y))
     exact CategoryTheory.Limits.pushout_inr_iso_of_left_iso _ _
   have : Field T.tensor :=
@@ -135,7 +135,7 @@ private lemma isIso_pullback_snd_residueFieldMap
     have : IsIso ((Y'.fromSpecResidueField T.y).residueFieldMap (Spec.map T.tensorInr p)) :=
       hIsoFrom
     have : IsIso ((Spec.map T.tensorInr).residueFieldMap p) := inferInstance
-    show IsIso ((Y'.residueFieldCongr hptComp).hom ≫
+    change IsIso ((Y'.residueFieldCongr hptComp).hom ≫
       (Y'.fromSpecResidueField T.y).residueFieldMap (Spec.map T.tensorInr p) ≫
         (Spec.map T.tensorInr).residueFieldMap p)
     exact IsIso.comp_isIso' (Y'.residueFieldCongr hptComp).isIso_hom
@@ -208,11 +208,11 @@ private lemma purelyTranscendental_of_ringEquiv_base {k k' K : Type u} [Field k]
     [PurelyTranscendental k K] : PurelyTranscendental k' K := by
   obtain ⟨s, hind, hgen⟩ := PurelyTranscendental.exists_basis k K
   refine ⟨s, ?_, ?_⟩
-  · show AlgebraicIndependent k' (fun i : s ↦ (i : K))
+  · change AlgebraicIndependent k' (fun i : s ↦ (i : K))
     refine algebraicIndependent_iff.2 fun p hp => ?_
     have hmap : MvPolynomial.aeval (fun i : s ↦ (i : K))
         (MvPolynomial.map e.toRingHom p) = 0 := by
-      show MvPolynomial.eval₂ (algebraMap k K) (fun i : s ↦ (i : K))
+      change MvPolynomial.eval₂ (algebraMap k K) (fun i : s ↦ (i : K))
         (MvPolynomial.map e.toRingHom p) = 0
       calc _ = MvPolynomial.eval₂ ((algebraMap k K).comp e.toRingHom)
               (fun i : s ↦ (i : K)) p :=
@@ -286,7 +286,7 @@ private lemma purelyTranscendental_residueField_of_isPullback {P Y S' S : Scheme
   have hcompat : ∀ a : K', algebraMap K' L' a = algebraMap K L' (eBase a) := by
     intro a
     have hbase : α.hom (eBase a) = a := by
-      show (asIso α).hom ((asIso α).inv a) = a
+      change (asIso α).hom ((asIso α).inv a) = a
       simp
     calc φnew.hom a = (α ≫ φnew).hom (eBase a) := (congrArg φnew.hom hbase).symm
       _ = (φold ≫ β).hom (eBase a) :=
@@ -326,7 +326,7 @@ private lemma isIso_fiberBaseChangeMap (f : X ⟶ S) (h : S' ⟶ S) (s' : S')
       f.fiber (h s') :=
     asIso (pullback.fst (f.fiberToSpecResidueField (h s')) (Spec.map (h.residueFieldMap s')))
   rw [← hh]
-  show IsIso (H.isoPullback ≪≫ eFst).hom
+  change IsIso (H.isoPullback ≪≫ eFst).hom
   infer_instance
 
 /-- The comparison morphism of fibres is compatible with the two inclusions of the fibres. -/
@@ -415,7 +415,7 @@ private lemma exists_fiber_dimension_baseChange (f : X ⟶ S) (h : S' ⟶ S) (F 
       a ∈ SheafOfModules.supp newFiberModule ↔
         fiberIso.hom a ∈ SheafOfModules.supp oldFiberModule := by
     rw [supp_new, supp_old]
-    show (pullback.fst f h ((pullback.snd f h).fiberι _ a) ∈ SheafOfModules.supp F) ↔
+    change (pullback.fst f h ((pullback.snd f h).fiberι _ a) ∈ SheafOfModules.supp F) ↔
       f.fiberι _ (fiberIso.hom a) ∈ SheafOfModules.supp F
     have hp := congrArg
       (fun k : (pullback.snd f h).fiber (pullback.snd f h x') ⟶ X => k a) fiberIso_fst

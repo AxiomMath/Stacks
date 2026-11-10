@@ -86,7 +86,7 @@ theorem zariskiDirectImageEval_naturality {V : S.X.Opens} {A : CrystallineThicke
     {G H : Sheaf (smallTopology S) AddCommGrpCat.{u + 1}} (φ : G ⟶ H) :
     ((zariskiDirectImage S).map φ).hom.app (op V) ≫ zariskiDirectImageEval S h H =
       zariskiDirectImageEval S h G ≫ φ.hom.app (op A) := by
-  show ((forgetToOpens S).op.ran.map φ.hom).app (op V) ≫
+  change ((forgetToOpens S).op.ran.map φ.hom).app (op V) ≫
       ((forgetToOpens S).op.ran.obj H.obj).map (homOfLE h).op ≫
         ((forgetToOpens S).op.ranCounit.app H.obj).app (op A) =
     (((forgetToOpens S).op.ran.obj G.obj).map (homOfLE h).op ≫
@@ -102,7 +102,7 @@ theorem zariskiDirectImageEval_restrict {V W : S.X.Opens} (hWV : W ≤ V)
     (G : Sheaf (smallTopology S) AddCommGrpCat.{u + 1}) :
     ((zariskiDirectImage S).obj G).obj.map (homOfLE hWV).op ≫ zariskiDirectImageEval S h G =
       zariskiDirectImageEval S (h.trans hWV) G := by
-  show ((forgetToOpens S).op.ran.obj G.obj).map (homOfLE hWV).op ≫
+  change ((forgetToOpens S).op.ran.obj G.obj).map (homOfLE hWV).op ≫
       ((forgetToOpens S).op.ran.obj G.obj).map (homOfLE h).op ≫
         ((forgetToOpens S).op.ranCounit.app G.obj).app (op A) =
     ((forgetToOpens S).op.ran.obj G.obj).map (homOfLE (h.trans hWV)).op ≫
@@ -127,7 +127,7 @@ theorem zariskiDirectImageEval_comp {V : S.X.Opens} {A₁ A₂ : CrystallineThic
       ((forgetToOpens S).op.ran.obj G.obj).map (homOfLE h₁).op :=
     (((forgetToOpens S).op.ran.obj G.obj).map_comp _ _).symm.trans
       (congrArg (((forgetToOpens S).op.ran.obj G.obj).map ·) (Subsingleton.elim _ _))
-  show (((forgetToOpens S).op.ran.obj G.obj).map (homOfLE h₂).op ≫
+  change (((forgetToOpens S).op.ran.obj G.obj).map (homOfLE h₂).op ≫
       ((forgetToOpens S).op.ranCounit.app G.obj).app (op A₂)) ≫ G.obj.map g.op =
     ((forgetToOpens S).op.ran.obj G.obj).map (homOfLE h₁).op ≫
       ((forgetToOpens S).op.ranCounit.app G.obj).app (op A₁)

@@ -122,11 +122,11 @@ private lemma isUnit_one_sub_smul_of_sequenceDifference_bijective
     have hs : (fun n => t (x n)) = (fun n => x (n + 1)) := by
       apply h.1
       funext n
-      show t (x n) - f • t (x (n + 1)) = x (n + 1) - f • x (n + 1 + 1)
+      change t (x n) - f • t (x (n + 1)) = x (n + 1) - f • x (n + 1 + 1)
       rw [← map_smul, ← map_sub, ← sequenceDifference_apply, congr_fun hx,
         ← sequenceDifference_apply, congr_fun hx, pow_succ', Module.End.mul_apply]
     refine ⟨x 0, ?_⟩
-    show x 0 - f • t (x 0) = y
+    change x 0 - f • t (x 0) = y
     rw [congr_fun hs 0]
     simpa only [sequenceDifference_apply, pow_zero, Module.End.one_apply] using congr_fun hx 0
 
@@ -164,7 +164,7 @@ private lemma isIso_oneSubSmulShift_iff_bijective {A C : Type*} [CommRing A] [Ca
   have hd : (fun a : P ⟶ P => a ≫ d) = e ∘ sequenceDifference f ∘ e.symm := by
     funext a
     simp only [Function.comp_apply, he, e.apply_symm_apply]
-  show IsIso d ↔ _
+  change IsIso d ↔ _
   rw [isIso_iff_bijective_postcomp, hd, Equiv.comp_bijective, Equiv.bijective_comp]
 
 /-- For `K ∈ D(A)`, the elements `f : A` at which `K` is derived complete —
@@ -302,7 +302,7 @@ public theorem homologicalHomologyFunctorLinear
     Functor.Linear R
       (HomologicalComplex.homologyFunctor (ModuleCat.{w} R) (ComplexShape.up ℤ) i) where
   map_smul f r := by
-    show ShortComplex.homologyMap
+    change ShortComplex.homologyMap
       ((HomologicalComplex.shortComplexFunctor (ModuleCat.{w} R) (ComplexShape.up ℤ) i).map
         (r • f)) = _
     rw [show (HomologicalComplex.shortComplexFunctor (ModuleCat.{w} R)

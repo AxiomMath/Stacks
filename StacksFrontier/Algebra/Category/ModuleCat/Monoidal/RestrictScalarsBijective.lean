@@ -55,14 +55,12 @@ theorem bijective_μ_restrictScalars {R S : Type u} [CommRing R] [CommRing S] (f
       hbal
   have h1 : ∀ t, g ((μ (restrictScalars f) M N).hom t) = t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul m n => exact congrArg g (restrictScalars_μ_tmul f M N m n)
     | add a b ha hb => rw [map_add, map_add, ha, hb]
   have h2 : Function.Surjective (μ (restrictScalars f) M N).hom := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+    induction t using TensorProduct.inductionOn with
     | tmul m n => exact ⟨toM m ⊗ₜ[R] toN n, restrictScalars_μ_tmul f M N m n⟩
     | add a b ha hb =>
       obtain ⟨⟨a', rfl⟩, b', rfl⟩ := And.intro ha hb

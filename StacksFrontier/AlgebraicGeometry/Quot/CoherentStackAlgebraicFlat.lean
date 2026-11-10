@@ -35,14 +35,13 @@ universe u
 /-- **Algebraicity of the stack of coherent sheaves, flat case.** Let `S` be a scheme and
 `f : X ⟶ B` a morphism of algebraic spaces over `S` which is of finite presentation (a field of the
 standing datum `D` of Situation 08KB), separated and flat. Then `Coh_{X/B}` is an algebraic stack
-over `S`. -/
+over `S`. As the source's footnote says, flatness is not needed, so the flatness hypothesis is
+omitted. -/
 @[stacks 08WC]
 theorem isAlgebraicStack_coherentCFG_of_isFlat.{w} {B : BigFppfSite.{u}} {S : Scheme.{u}}
-    {hS : B.Contains S} (D : CoherentSituation B S hS) (hsep : IsSeparated B S hS D.f.hom)
-    (hflat : IsFlat B S hS D.f.hom) :
-    Stack.IsAlgebraicStack.{u, w} B S hS D.coherentCFG.val := by
-  clear hflat
-  exact D.isAlgebraicStack_coherentCFG hsep
+    {hS : B.Contains S} (D : CoherentSituation B S hS) (hsep : IsSeparated B S hS D.f.hom) :
+    Stack.IsAlgebraicStack.{u, w} B S hS D.coherentCFG.val :=
+  D.isAlgebraicStack_coherentCFG hsep
 
 end AlgebraicGeometry.Space.CoherentSituation
 

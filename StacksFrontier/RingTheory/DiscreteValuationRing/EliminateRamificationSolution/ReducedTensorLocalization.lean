@@ -54,7 +54,7 @@ private theorem reductionMap_bijective_of_surjective_of_ker_le_nilradical
     Function.Bijective (ReducedTensorTower.reductionMap f) := by
   have hnil := nilradical_le_comap f.toRingHom
   have hanti : (nilradical B).comap f.toRingHom ≤ nilradical A := by
-    show (Ideal.comap f.toRingHom (⊥ : Ideal B).radical) ≤ (⊥ : Ideal A).radical
+    change (Ideal.comap f.toRingHom (⊥ : Ideal B).radical) ≤ (⊥ : Ideal A).radical
     rw [Ideal.comap_radical]
     exact (Ideal.radical_mono hker).trans_eq (Ideal.radical_idem ⊥)
   exact ⟨Ideal.quotientMap_injective' (H := hnil) hanti,
@@ -78,7 +78,7 @@ theorem reductionMap_tensorProduct_quotient_nilradical_bijective
   apply reductionMap_bijective_of_surjective_of_ker_le_nilradical
   · exact Algebra.TensorProduct.map_surjective _ _ Function.surjective_id
       Ideal.Quotient.mk_surjective
-  · show RingHom.ker (Algebra.TensorProduct.map (AlgHom.id R A)
+  · change RingHom.ker (Algebra.TensorProduct.map (AlgHom.id R A)
       (Ideal.Quotient.mkₐ R (nilradical B))) ≤ _
     rw [ker_map_quotient_nilradical, Ideal.map_le_iff_le_comap]
     exact nilradical_le_comap _
@@ -118,11 +118,11 @@ private theorem reducedTensorProductCancelBaseChange_tmul
     AlgEquiv.ofBijective (ReducedTensorTower.reductionMap f) hf
   have he : e (Ideal.Quotient.mk _ (t ⊗ₜ[S] (s ⊗ₜ[R] a))) =
       Ideal.Quotient.mk _ (t ⊗ₜ[S] (Ideal.Quotient.mk _ (s ⊗ₜ[R] a))) := by
-    show ReducedTensorTower.reductionMap f (Ideal.Quotient.mk _ (t ⊗ₜ[S] (s ⊗ₜ[R] a))) = _
+    change ReducedTensorTower.reductionMap f (Ideal.Quotient.mk _ (t ⊗ₜ[S] (s ⊗ₜ[R] a))) = _
     rw [ReducedTensorTower.reductionMap_mk]
     simp only [f, Algebra.TensorProduct.map_tmul, AlgHom.id_apply,
       Ideal.Quotient.mkₐ_eq_mk]
-  show ReducedTensorTower.reductionEquiv (Algebra.TensorProduct.cancelBaseChange R S T T A)
+  change ReducedTensorTower.reductionEquiv (Algebra.TensorProduct.cancelBaseChange R S T T A)
     (e.symm _) = _
   rw [← he, e.symm_apply_apply, ReducedTensorTower.reductionEquiv_mk,
     Algebra.TensorProduct.cancelBaseChange_tmul]
@@ -139,7 +139,7 @@ theorem isReduced_tensorProduct_reduction_of_nilradical_map_eq
   have hf : Function.Surjective f := Algebra.TensorProduct.map_surjective _ _
     Function.surjective_id Ideal.Quotient.mk_surjective
   apply (RingHom.ker_isRadical_iff_reduced_of_surjective hf).mp
-  show (RingHom.ker (Algebra.TensorProduct.map (AlgHom.id R S)
+  change (RingHom.ker (Algebra.TensorProduct.map (AlgHom.id R S)
     (Ideal.Quotient.mkₐ R (nilradical A)))).IsRadical
   rw [ker_map_quotient_nilradical, hn]
   exact Ideal.radical_isRadical ⊥
@@ -186,8 +186,7 @@ private theorem reducedTensorProductBaseChangeEquiv_includeRight
       ReducedTensorTower.reductionMap (Algebra.TensorProduct.map (AlgHom.id A A)
         (IsScalarTower.toAlgHom R S T)) x := by
   obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero, TensorProduct.tmul_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, TensorProduct.tmul_add, hx, hy]
   | tmul a s =>
     rw [reducedTensorProductBaseChangeEquiv_tmul, ReducedTensorTower.reductionMap_mk]
@@ -298,7 +297,7 @@ theorem integralClosureMapOfIntegralBase_apply
     [Algebra C Cf] [Algebra C Tf] [Algebra T Tf] [Algebra Cf Tf]
     [IsScalarTower C T Tf] [IsScalarTower C Cf Tf] (x : integralClosure R T) :
     (integralClosureMapOfIntegralBase R C T Cf Tf x).val = algebraMap T Tf x.val := by
-  show algebraMap T Tf (integralClosureEquivOfIntegralBase R C T x).val = _
+  change algebraMap T Tf (integralClosureEquivOfIntegralBase R C T x).val = _
   rw [integralClosureEquivOfIntegralBase_apply]
 
 open IsDiscreteValuationRing in
@@ -324,7 +323,7 @@ theorem isLocalization_integralClosureMapOfIntegralBase
   let := (integralClosureMapOfIntegralBase R C T Cf Tf).toAlgebra
   apply IsLocalization.of_ringEquiv_left e.toRingEquiv
     (M₁ := Algebra.algebraMapSubmonoid (integralClosure C T) M)
-  · show (M.map (algebraMap C (integralClosure R T)).toMonoidHom).map e.toMonoidHom =
+  · change (M.map (algebraMap C (integralClosure R T)).toMonoidHom).map e.toMonoidHom =
       M.map (algebraMap C (integralClosure C T)).toMonoidHom
     rw [Submonoid.map_map]
     congr 1
@@ -353,7 +352,7 @@ private theorem isLocalization_reducedTensorProduct
       (Algebra.TensorProduct.includeRight : A →ₐ[R] S ⊗[R] A).toRingHom =
       (Algebra.TensorProduct.includeRight : B →ₐ[R] S ⊗[R] B).toRingHom.comp (algebraMap A B) := by
     ext a
-    show f (1 ⊗ₜ[R] a) = 1 ⊗ₜ[R] algebraMap A B a
+    change f (1 ⊗ₜ[R] a) = 1 ⊗ₜ[R] algebraMap A B a
     simp only [f, Algebra.TensorProduct.map_tmul, AlgHom.id_apply, IsScalarTower.toAlgHom_apply]
   have := IsLocalization.tensorProduct_tensorProduct_right R S M B hcomp
   let : Algebra (ReducedTensorTower.Reduction (S ⊗[R] A))
@@ -425,7 +424,7 @@ theorem isLocalization_reducedTensorProductLocalizationMap
   have hN : N.map e.toRingEquiv =
       M.map (ReducedTensorTower.reductionMap (Algebra.TensorProduct.map (AlgHom.id A A)
         (IsScalarTower.toAlgHom R S T))) := by
-    show ((M.map (Algebra.TensorProduct.includeRight : Q →ₐ[S] T ⊗[S] Q).toMonoidHom).map
+    change ((M.map (Algebra.TensorProduct.includeRight : Q →ₐ[S] T ⊗[S] Q).toMonoidHom).map
       (algebraMap (T ⊗[S] Q)
         (ReducedTensorTower.Reduction (T ⊗[S] Q))).toMonoidHom).map e.toMonoidHom =
       M.map (ReducedTensorTower.reductionMap (Algebra.TensorProduct.map (AlgHom.id A A)

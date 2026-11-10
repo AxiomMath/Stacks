@@ -172,7 +172,7 @@ lemma exists_pageIso_d (K : Filtered C) :
   subst hn
   refine ⟨FilteredComplexSpectralSequence.deltaCycles K.X (filtrationSubobject K) r p (p + q),
     FilteredComplexSpectralSequence.deltaCycles_arrow K.X (filtrationSubobject K) r p (p + q), ?_⟩
-  show Limits.cokernel.π
+  change Limits.cokernel.π
       (FilteredComplexSpectralSequence.den K.X (filtrationSubobject K) r p (p + q)) ≫
       (FilteredComplexSpectralSequence.eIso K.X (filtrationSubobject K)
         (filtrationSubobject_antitone K) r p q (p + q) hr rfl).inv ≫

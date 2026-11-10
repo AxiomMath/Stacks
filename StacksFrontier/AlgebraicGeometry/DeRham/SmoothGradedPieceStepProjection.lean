@@ -292,8 +292,8 @@ namespace Stacks.DeRhamSmooth
 open Stacks.DeRhamDirectImage
 
 /-! The derived-category and abelian structures, pinned rather than restated exactly as in
-`StacksFrontier.AlgebraicGeometry.DeRham.SmoothGradedPieceDegreewise`: resolving them at the concrete
-inverse-image ringed space exceeds the default instance-synthesis budget. -/
+`StacksFrontier.AlgebraicGeometry.DeRham.SmoothGradedPieceDegreewise`: resolving them at the
+concrete inverse-image ringed space exceeds the default instance-synthesis budget. -/
 attribute [local instance 2000] HasDerivedCategory.standard
 attribute [local instance] Stacks.SheafOfModules.abelianOfSmallSite
 attribute [local instance] AlgebraicGeometry.SheafOfModules.abelianModules

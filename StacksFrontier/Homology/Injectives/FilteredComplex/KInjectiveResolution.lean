@@ -509,7 +509,7 @@ private lemma stepCorrectionMap_mono_f [IsGrothendieckAbelian.{w'} A]
     rintro ⟨q⟩
     have h := hfg =≫ (Pi.π (fun r : ℤ => (stepData K R r).E) q.1).f n
     simp only [Category.assoc, htail q] at h
-    show (f ≫ (biprod.snd : S ⊞ correctionTail K R p ⟶
+    change (f ≫ (biprod.snd : S ⊞ correctionTail K R p ⟶
         correctionTail K R p).f n) ≫
         (Pi.π (fun r : {r : ℤ // p < r} => (stepData K R r.1).E) q).f n =
       (g ≫ (biprod.snd : S ⊞ correctionTail K R p ⟶

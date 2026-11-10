@@ -99,7 +99,7 @@ theorem localCohomologyAdicQuotientLeg_comp_map (I J : Ideal A) (hJ : J.FG)
     rw [Functor.ofOpSequence_map_homOfLE_succ]
     exact ModuleCat.hom_ext (LinearMap.ext fun x ↦ rfl)
   rw [localCohomologyAdicQuotientLeg, localCohomologyAdicQuotientLeg]
-  show (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0 ⋙
+  change (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0 ⋙
         Stacks.LocalCohomology.localCohomologyDerived A J hJ).map _ ≫
       (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0 ⋙
         Stacks.LocalCohomology.localCohomologyDerived A J hJ).map

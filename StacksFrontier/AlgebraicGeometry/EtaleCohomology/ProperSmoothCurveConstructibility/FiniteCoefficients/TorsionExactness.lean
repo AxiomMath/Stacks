@@ -99,7 +99,7 @@ abbrev freeQuotient (ℓ : ℕ) (k : ℕ) : ModuleCat.{v} Λ :=
 /-- The module `freeQuotient ℓ k` is killed by `ℓ`. -/
 theorem nsmul_freeQuotient (ℓ k : ℕ) (x : freeQuotient (Λ := Λ) ℓ k) : ℓ • x = 0 := by
   funext i
-  show ℓ • x i = 0
+  change ℓ • x i = 0
   obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (x i)
   rw [← ha, ← map_nsmul, nsmul_eq_mul, Ideal.Quotient.eq_zero_iff_mem]
   exact Ideal.mul_mem_right _ _ (Ideal.subset_span rfl)
@@ -112,7 +112,7 @@ theorem exists_surjective_freeQuotient (ℓ : ℕ) (M : Type v) [AddCommGroup M]
   have hle (i : Fin k) :
       Ideal.span {(ℓ : Λ)} ≤ LinearMap.ker (LinearMap.toSpanSingleton Λ M (m i)) := by
     rw [Ideal.span_le, Set.singleton_subset_iff]
-    show (ℓ : Λ) • m i = 0
+    change (ℓ : Λ) • m i = 0
     rw [Nat.cast_smul_eq_nsmul, h]
   let φ (i : Fin k) : (Λ ⧸ Ideal.span {(ℓ : Λ)}) →ₗ[Λ] M :=
     Submodule.liftQ _ (LinearMap.toSpanSingleton Λ M (m i)) (hle i)

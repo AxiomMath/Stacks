@@ -233,7 +233,7 @@ theorem completionSheafULiftLift_comp (X : FormalSpace.FppfSheaf B S hS)
     (g : Y ⟶ X) (hg : Set.range (pointsMapULift.{u + 1} B S hS Y.obj g.hom) ⊆ T) :
     completionSheafULiftLift B S hS X T Y g hg ≫ completionSheafULiftInclusion B S hS X T = g := by
   refine Sheaf.hom_ext ?_
-  show completionSubfunctorULiftLift B S hS T g.hom hg ≫
+  change completionSubfunctorULiftLift B S hS T g.hom hg ≫
       ((BigFppfOver.topology B S hS).toSheafify
           (completionSubfunctorULift B S hS X.obj T).toFunctor ≫
         (completionSheafULiftInclusion B S hS X T).hom) = g.hom
@@ -368,7 +368,7 @@ theorem range_pointsMapULift_reducedSubspaceSheafInclusion
         (reducedSubspaceSheaf B S hS hXred₀ T hT).obj
         (reducedSubspaceSheafInclusion B S hS hXred₀ T hT).hom) =
       liftedPointSet B S hS hXred₀ T := by
-  show Set.range (Space.pointsMapULift.{u + 1} B S hS
+  change Set.range (Space.pointsMapULift.{u + 1} B S hS
       ((Space.reducedClosedSubspace B S hS Xred₀ hXred₀ T hT).toFunctor ⋙
         uliftFunctor.{u + 1})
       (Functor.whiskerRight (Space.reducedClosedSubspace B S hS Xred₀ hXred₀ T hT).ι
@@ -394,7 +394,7 @@ theorem range_pointsMapULift_reducedSubspaceSheafInclusion_comp
         (reducedSubspaceSheaf B S hS hXred₀ T hT).obj
         (reducedSubspaceSheafInclusion B S hS hXred₀ T hT ≫ i).hom) =
       ambientPointSet B S hS hXred₀ i T := by
-  show Set.range (Space.pointsMapULift.{u + 1} B S hS
+  change Set.range (Space.pointsMapULift.{u + 1} B S hS
       (reducedSubspaceSheaf B S hS hXred₀ T hT).obj
       ((reducedSubspaceSheafInclusion B S hS hXred₀ T hT).hom ≫ i.hom)) =
     ambientPointSet B S hS hXred₀ i T

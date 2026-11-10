@@ -45,11 +45,12 @@ noncomputable def derivX (g : R[X][Y]) : R[X][Y] :=
 /-- The `j`-th coefficient of `∂_X g` is the derivative of the `j`-th coefficient of `g`. -/
 @[simp]
 theorem coeff_derivX (g : R[X][Y]) (j : ℕ) : (derivX g).coeff j = derivative (g.coeff j) := by
-  rw [derivX, finset_sum_coeff]
+  rw [derivX, finsetSum_coeff]
   simp only [coeff_monomial]
   by_cases hj : j ∈ g.support
-  · rw [Finset.sum_eq_single j (fun b _ hb => if_neg hb) (fun h => absurd hj h), if_pos rfl]
-  · rw [Finset.sum_eq_zero fun b hb => if_neg fun h => hj (by rw [← h]; exact hb)]
+  · rw [Finset.sum_eq_single j (fun b _ hb => ite_eq_right hb) (fun h => absurd hj h),
+      ite_eq_left rfl]
+  · rw [Finset.sum_eq_zero fun b hb => ite_eq_right fun h => hj (by rw [← h]; exact hb)]
     rw [notMem_support_iff.mp hj, derivative_zero]
 
 /-- `∂_X` is additive. -/
@@ -170,7 +171,8 @@ theorem derivative_aeval_C_add_X (a : K) (h : K[X]) :
 `g_X(a + s, β(s)) + g_Y(a + s, β(s)) β'(s)`. -/
 theorem derivative_branchEval (a : K) (β : PowerSeries K) (g : K[X][Y]) :
     PowerSeries.derivative (R := K) (branchEval a β g) =
-      branchEval a β (derivX g) + branchEval a β (derivative g) * PowerSeries.derivative (R := K) β := by
+      branchEval a β (derivX g) +
+        branchEval a β (derivative g) * PowerSeries.derivative (R := K) β := by
   induction g using Polynomial.induction_on with
   | C h =>
     simp [branchEval]

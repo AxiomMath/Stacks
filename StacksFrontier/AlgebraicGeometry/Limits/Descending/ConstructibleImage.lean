@@ -109,7 +109,7 @@ lemma exists_affine_scheme_with_range {X : Scheme.{u}} [IsAffine X] {s : Set X}
   refine ⟨Spec (.of S), inferInstance, inferInstance,
     Spec.map (CommRingCat.ofHom f) ≫ X.isoSpec.inv, ?_⟩
   rw [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp]
-  show X.isoSpec.inv.base '' Set.range (PrimeSpectrum.comap f) = s
+  change X.isoSpec.inv.base '' Set.range (PrimeSpectrum.comap f) = s
   change Set.range (PrimeSpectrum.comap f) = e '' s at hf
   calc
     X.isoSpec.inv.base '' Set.range (PrimeSpectrum.comap f) =

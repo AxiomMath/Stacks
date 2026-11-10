@@ -208,7 +208,7 @@ private noncomputable def pairSnd : pairOver G hU a b ⟶ G.arrows :=
 private theorem pairFst_source : pairFst G hU a b ≫ G.source = pairSnd G hU a b ≫ G.target := by
   apply Over.OverMorphism.ext
   apply (cancel_mono (eqToHom hU)).1
-  show pullback.fst _ _ ≫ (a ≫ G.source.left ≫ eqToHom hU) =
+  change pullback.fst _ _ ≫ (a ≫ G.source.left ≫ eqToHom hU) =
     pullback.snd _ _ ≫ (b ≫ G.target.left ≫ eqToHom hU)
   exact pullback.condition
 
@@ -328,7 +328,7 @@ private theorem exists_comp_pairCompose_eq_left {aW : G.objects.left ⟶ B}
     rw [pullback.lift_snd_assoc]
     simp [hfac]
   refine ⟨hT.left, ?_⟩
-  show (Over.forget S).map hT ≫ (Over.forget S).map (G.compose _ _ _) = a
+  change (Over.forget S).map hT ≫ (Over.forget S).map (G.compose _ _ _) = a
   rw [← Functor.map_comp, groupoidCompose_of_precomp_eq G _ _ _ hT hpO hqO
     (by simp [G.target_identity]), groupoidCompose_identity_right]
   rfl
@@ -360,7 +360,7 @@ private theorem exists_comp_pairCompose_eq_right {aZ : G.objects.left ⟶ A}
     rw [pullback.lift_snd_assoc]
     simp
   refine ⟨hT.left, ?_⟩
-  show (Over.forget S).map hT ≫ (Over.forget S).map (G.compose _ _ _) = b
+  change (Over.forget S).map hT ≫ (Over.forget S).map (G.compose _ _ _) = b
   rw [← Functor.map_comp, groupoidCompose_of_precomp_eq G _ _ _ hT hpO hqO
     (by simp [G.source_identity]), groupoidCompose_identity_left]
   rfl
@@ -475,7 +475,7 @@ private theorem existsUnique_irreducibleComponent_of_homeomorph
   let W : irreducibleComponents X :=
     ⟨e '' (Z : Set X), image_mem_irreducibleComponents_of_homeomorph e Z.2⟩
   refine ⟨W, ?_, fun V hyV => ?_⟩
-  · show y ∈ e '' (Z : Set X)
+  · change y ∈ e '' (Z : Set X)
     rw [← hxy]
     exact ⟨x, hxZ, rfl⟩
   let W' : irreducibleComponents X :=
@@ -483,11 +483,11 @@ private theorem existsUnique_irreducibleComponent_of_homeomorph
       preimage_mem_irreducibleComponents V.2 e.isOpenEmbedding
         ⟨e x, by rwa [hxy], x, rfl⟩⟩
   have hxW' : x ∈ (W' : Set X) := by
-    show e x ∈ (V : Set X)
+    change e x ∈ (V : Set X)
     rwa [hxy]
   have hW' : W' = Z := hZ W' hxW'
   apply Subtype.ext
-  show (V : Set X) = e '' (Z : Set X)
+  change (V : Set X) = e '' (Z : Set X)
   rw [← hW']
   exact (Set.image_preimage_eq _ e.surjective).symm
 
@@ -512,7 +512,7 @@ private theorem existsUnique_irreducibleComponent_at_point_of_identityComponent
     TopCat.homeoOfIso (Scheme.forgetToTop.mapIso (asIso f₀))
   have hfp : e p = r := by
     have h := identity_image_translationByPoint G k hU r
-    show f₀.base p = r
+    change f₀.base p = r
     simpa [p, f₀] using h
   exact existsUnique_irreducibleComponent_of_homeomorph e p r hfp hp
 
@@ -592,7 +592,7 @@ public theorem existsUnique_minimalPrime_stalk {S : Scheme.{u}} (G : GroupoidSch
   let rPoint : G'.arrows.left :=
     (eqToHom R.arrows_eq.symm).left (r' (IsLocalRing.closedPoint k'))
   have hpoint : (eqToHom R.arrows_eq).left rPoint = r' (IsLocalRing.closedPoint k') := by
-    show (((eqToHom R.arrows_eq.symm).left ≫ (eqToHom R.arrows_eq).left)
+    change (((eqToHom R.arrows_eq.symm).left ≫ (eqToHom R.arrows_eq).left)
       (r' (IsLocalRing.closedPoint k'))) = _
     simp
   have : IsIso ((eqToHom R.arrows_eq).left) :=
@@ -621,7 +621,7 @@ public theorem existsUnique_minimalPrime_stalk {S : Scheme.{u}} (G : GroupoidSch
   let f := (eqToHom R.arrows_eq).left ≫ (restrictionArrowsToArrows G g).left
   have : Flat f := by infer_instance
   have hfr : f rPoint = r := by
-    show (restrictionArrowsToArrows G g).left
+    change (restrictionArrowsToArrows G g).left
       ((eqToHom R.arrows_eq).left rPoint) = r
     rwa [hpoint]
   have hDown := existsUnique_minimalPrime_stalk_of_flatMap f rPoint hLift
@@ -756,7 +756,7 @@ private theorem galoisAction_fixes_component_through_point
         (Spec.map (CommRingCat.ofHom (algebraMap k K)))) :=
     image_mem_irreducibleComponents_of_homeomorph eh W.2
   let W' : (galoisActionOnGeometricIrreducibleComponents k K (Over.mk f)).V := ⟨W.1, W.2⟩
-  show ConcreteCategory.hom
+  change ConcreteCategory.hom
     ((galoisActionOnGeometricIrreducibleComponents k K (Over.mk f)).ρ σ).asHom W' = W'
   apply Subtype.ext
   rw [galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe]
@@ -787,14 +787,14 @@ private theorem geometricallyIrreducible_component_of_rationalPoint
         k K X f ⟨W.1, W.2⟩).mp (galoisAction_fixes_component_through_point k K f e e'
           he'fst he'snd W hrW hW)
   have hrT : (pullback.fst f (Spec.map (CommRingCat.ofHom (algebraMap k K)))) r ∈ T.1 := by
-    show r ∈ (pullback.fst f
+    change r ∈ (pullback.fst f
       (Spec.map (CommRingCat.ofHom (algebraMap k K)))).base ⁻¹' (T : Set X)
     rw [hpre]
     exact hrW
   have hrZ : (pullback.fst f (Spec.map (CommRingCat.ofHom (algebraMap k K)))) r ∈ Z.1 := by
     have hpoint : (pullback.fst f (Spec.map (CommRingCat.ofHom (algebraMap k K)))) r =
         e (Spec.map (CommRingCat.ofHom (algebraMap k K)) (IsLocalRing.closedPoint K)) := by
-      show (e' ≫ pullback.fst f
+      change (e' ≫ pullback.fst f
         (Spec.map (CommRingCat.ofHom (algebraMap k K)))) (IsLocalRing.closedPoint K) = _
       rw [he'fst]
       rfl

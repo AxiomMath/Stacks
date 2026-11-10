@@ -62,7 +62,7 @@ theorem chartOpen_eq_image :
       Situation.relativeProjChart (reesSituation I) U ''ᵁ
         Proj.basicOpen ((reesSituation I).sectionRingGrading U.1) (reesDegreeOne I U a).1 := by
   refine TopologicalSpace.Opens.ext ?_
-  show Set.range (chart I U a) = _
+  change Set.range (chart I U a) = _
   rw [range_chart I U a]
   refine Set.ext fun z => ⟨?_, ?_⟩
   · rintro ⟨y, rfl⟩

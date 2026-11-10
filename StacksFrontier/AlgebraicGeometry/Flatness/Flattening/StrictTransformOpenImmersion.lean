@@ -58,7 +58,7 @@ theorem isIso_ker_subschemeι_morphismRestrict {T : Scheme.{u}} (W : T.Opens) :
   have hrange : Set.range W.ι.toImage ⊆ Set.range (ι ⁻¹ᵁ W).ι := by
     rintro _ ⟨x, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show ι (W.ι.toImage x) ∈ W
+    change ι (W.ι.toImage x) ∈ W
     rw [← Scheme.Hom.comp_apply, hι, Scheme.Hom.toImage_imageι]
     exact x.2
   let t : W.toScheme ⟶ (ι ⁻¹ᵁ W).toScheme := IsOpenImmersion.lift (ι ⁻¹ᵁ W).ι W.ι.toImage hrange

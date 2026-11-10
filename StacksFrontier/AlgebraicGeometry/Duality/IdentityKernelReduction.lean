@@ -38,7 +38,8 @@ of `Duality/IdentityFourierMukaiKernel.lean`.
 ## Implementation notes
 
 The model of the derived categories is selected at high priority, as in
-`StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/DiagonalKernel.lean`: the imports can
+`StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/DiagonalKernel.lean`: the imports
+can
 bring the locally small model of `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean` as a
 competing instance of the same priority, and raising the standard model's priority keeps every
 statement in the category that `Φ_K` and the diagonal kernel of

@@ -184,6 +184,7 @@ variable
   [iZ : HasDerivedCategory (ModuleSheaves (coneCentre R m n).toRingedSpace)]
   [iP : HasDerivedCategory (ModuleSheaves (coneBundle R m n).toRingedSpace)]
 
+omit iZ iP in
 /-- `H⁰(Rb_*ρ)` is an epimorphism, `b_*ρ` being one (`epi_pushforward_coneFormsRestriction`). -/
 theorem epi_homology_zero_derivedPushforward_coneFormsRestriction (a : ℕ) :
     Epi ((@DerivedCategory.homologyFunctor _ _ _ iX 0).map
@@ -383,9 +384,9 @@ theorem isIso_homology_blowupFormsRestrictionDerivedComparison_of_smooth (a : �
     IsIso ((DerivedCategory.homologyFunctor _ q).map
       (blowupFormsRestrictionDerivedComparison f i (a : ℤ))) :=
   isIso_homology_blowupFormsRestrictionDerivedComparison_of_smooth_of_cone f i
-    (fun R _ m n hn a k hk => @CoordinateCone.isIso_homology_coneFormsDerivedComparison R _ m n
+    (fun R _ m n _ a k hk => @CoordinateCone.isIso_homology_coneFormsDerivedComparison R _ m n
       (HasDerivedCategory.standard _) (HasDerivedCategory.standard _)
-      (HasDerivedCategory.standard _) (HasDerivedCategory.standard _) hn a k hk) a q hq
+      (HasDerivedCategory.standard _) (HasDerivedCategory.standard _) a k hk) a q hq
 
 end Derived
 

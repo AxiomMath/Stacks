@@ -137,11 +137,11 @@ theorem exists_map_kernelι_eq {C : Type*} [Category C] [HasZeroMorphisms C] {R 
   have ht : t ≫ G.map φ = 0 := by
     ext1
     refine LinearMap.ext_ring ?_
-    show G.map φ ((1 : R) • m) = 0
+    change G.map φ ((1 : R) • m) = 0
     rw [one_smul, hm]
   refine ⟨(kernel.lift (G.map φ) t ht ≫ (PreservesKernel.iso G φ).inv) 1, ?_⟩
   rw [← ConcreteCategory.comp_apply, Category.assoc, PreservesKernel.iso_inv_ι, kernel.lift_ι]
-  show (1 : R) • m = m
+  change (1 : R) • m = m
   exact one_smul R m
 
 /-- **A kernel inclusion of modules is injective sectionwise.** -/
@@ -260,17 +260,17 @@ theorem mem_diag_preimage_basicOpen (q : Spec (lineRing k)) (i : Fin 2) :
     q ∈ diag k ⁻¹ᵁ (Spec (planeRing k)).basicOpen
         ((Scheme.ΓSpecIso (planeRing k)).inv (MvPolynomial.X i)) ↔
       (Polynomial.X : Polynomial k) ∉ (show PrimeSpectrum (Polynomial k) from q).asIdeal := by
-  show (diag k).base q ∈ (Spec (planeRing k)).basicOpen
+  change (diag k).base q ∈ (Spec (planeRing k)).basicOpen
     ((Scheme.ΓSpecIso (planeRing k)).inv (MvPolynomial.X i)) ↔ _
   rw [mem_basicOpen_plane]
-  show MvPolynomial.X i ∉ Ideal.comap (diagHom k) _ ↔ _
+  change MvPolynomial.X i ∉ Ideal.comap (diagHom k) _ ↔ _
   rw [Ideal.mem_comap, diagHom_X]
 
 /-- `ζ` specializes to the image `g(0')` of the origin, which is the origin of `𝔸²_k`. -/
 theorem axisPoint_specializes : axisPoint k ⤳ (diag k).base (lineOrigin k) := by
   refine (PrimeSpectrum.le_iff_specializes (R := MvPolynomial (Fin 2) k) _ _).mp ?_
   intro r hr
-  show r ∈ Ideal.comap (diagHom k) (RingHom.ker (Polynomial.evalRingHom (0 : k)))
+  change r ∈ Ideal.comap (diagHom k) (RingHom.ker (Polynomial.evalRingHom (0 : k)))
   have hr : axisHom k r = 0 := hr
   have heq : (Polynomial.evalRingHom (0 : k)).comp (diagHom k) =
       (Polynomial.evalRingHom (0 : k)).comp (axisHom k) := by
@@ -283,7 +283,7 @@ theorem axisPoint_specializes : axisPoint k ⤳ (diag k).base (lineOrigin k) := 
 /-- `ζ` lies in `U = D(x)`. -/
 theorem axisPoint_mem_equationsOpen : axisPoint k ∈ equationsOpen (eqns k) 0 idx := by
   rw [equationsOpen_eqns, mem_basicOpen_plane]
-  show MvPolynomial.X 0 ∉ RingHom.ker (axisHom k)
+  change MvPolynomial.X 0 ∉ RingHom.ker (axisHom k)
   rw [RingHom.mem_ker]
   simp [axisHom]
 
@@ -292,7 +292,7 @@ theorem axisPoint_not_mem_basicOpen_y :
     axisPoint k ∉ (Spec (planeRing k)).basicOpen
       ((Scheme.ΓSpecIso (planeRing k)).inv (MvPolynomial.X 1)) := by
   rw [mem_basicOpen_plane, not_not]
-  show axisHom k (MvPolynomial.X 1) = 0
+  change axisHom k (MvPolynomial.X 1) = 0
   simp [axisHom]
 
 /-- The open `U' = D(t)` of the pulled-back equation. -/
@@ -426,10 +426,10 @@ theorem targetTest_ne_zero : targetTest k ≠ 0 := by
       rw [← key]
       rfl
     rw [step1, hnat, step3]
-    show ((diag k).stalkMap (lineGeneric k)).hom (((Spec (planeRing k)).presheaf.germ W _
+    change ((diag k).stalkMap (lineGeneric k)).hom (((Spec (planeRing k)).presheaf.germ W _
       hmem2).hom (Scheme.Modules.Hom.app (germKernelι (axisPoint k)) W e)) = 1
     rw [he]
-    show ((diag k).stalkMap (lineGeneric k)).hom
+    change ((diag k).stalkMap (lineGeneric k)).hom
       (((Spec (planeRing k)).presheaf.germ W _ hmem2).hom 1) = 1
     rw [map_one, map_one]
   rw [h0] at hval

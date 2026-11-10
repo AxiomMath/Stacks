@@ -278,6 +278,7 @@ def C1573.descendTransition (n : ℕ) : (G (n + 1)).obj ⟶ (G n).obj :=
   (fullyFaithfulModulePushforward B (Spec (.of A)) hA i hi).preimage
     ((θ (n + 1)).hom ≫ E.map (homOfLE (Nat.le_add_right n 1)).op ≫ (θ n).inv)
 
+omit [IsNoetherianRing A] in
 /-- The direct image of `descendTransition` at `n` is `θ_(n+1) ≫ (E_(n+1) ⟶ E_n) ≫ θ_n⁻¹`. -/
 theorem C1573.map_descendTransition (n : ℕ) :
     (modulePushforward B (Spec (.of A)) hA i).map (descendTransition i hi E G θ n) =
@@ -288,6 +289,7 @@ theorem C1573.map_descendTransition (n : ℕ) :
 def C1573.descendSystem : ℕᵒᵖ ⥤ Modules.{u, u} B (Spec (.of A)) hA Z.1 Z.2 :=
   Functor.ofOpSequence (X := fun n => (G n).obj) (descendTransition i hi E G θ)
 
+omit [IsNoetherianRing A] in
 /-- The map `G_(n+1) ⟶ G_n` of `descendSystem` is `descendTransition` at `n`. -/
 theorem C1573.descendSystem_map_succ (n : ℕ) :
     (descendSystem i hi E G θ).map (homOfLE (Nat.le_add_right n 1)).op =
@@ -304,11 +306,13 @@ def C1573.descendSystemHom :
         ((congrArg (E.map (homOfLE (Nat.le_add_right n 1)).op ≫ ·) (θ n).inv_hom_id).trans
           (Category.comp_id _)))))
 
+omit [IsNoetherianRing A] in
 /-- The component of `descendSystemHom` at `n` is `θ_n`. -/
 theorem C1573.descendSystemHom_app (n : ℕ) :
     (descendSystemHom i hi E G θ).app (op n) = (θ n).hom :=
   rfl
 
+omit [IsNoetherianRing A] in
 /-- `descendSystemHom : i_* (G_n) ⟶ (E_n)` is an isomorphism of inverse systems. -/
 theorem C1573.isIso_descendSystemHom : IsIso (descendSystemHom i hi E G θ) :=
   @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun n => (θ n.unop).isIso_hom
@@ -352,7 +356,7 @@ theorem C1573.isCoherentAdicSystem_descendSystem
     refine (cancel_epi ((modulePushforward B (Spec (.of A)) hA i).map
       (smallEtaleAdicQuotientProjection B (Spec (.of A)) hA Z.1 Z.2 (baseIdealSubmodule Z.1 Z.2 I)
         (n + 1) (G (n + 1)).obj))).1 ?_
-    show _ = _ ≫ (pushforwardBaseQuotientIso i hi I (G (n + 1)).obj (n + 1)).hom ≫
+    change _ = _ ≫ (pushforwardBaseQuotientIso i hi I (G (n + 1)).obj (n + 1)).hom ≫
       smallEtaleAdicQuotientMapOfHom B (Spec (.of A)) hA X.1 X.2 (baseIdealSubmodule X.1 X.2 I)
         (n + 1) (θ (n + 1)).hom ≫ e'.hom ≫ (θ n).inv
     rw [← Functor.map_comp, hL, map_descendTransition,
@@ -385,6 +389,11 @@ def C1573.pushforwardCoherentModule (G : CoherentModules.{u, u} B (Spec (.of A))
       (Fact.out : HasEtaleLocalProperty B (Spec (.of A)) hA X.1
         (fun V : Scheme.{u} => IsLocallyNoetherian V)) i hi G.obj G.property⟩
 
+omit [IsAdicComplete I A]
+  [Fact (HasEtaleLocalProperty B (Spec (.of A)) hA X.1
+    (fun V : Scheme.{u} => IsLocallyNoetherian V))]
+  [Fact (HasEtaleLocalProperty B (Spec (.of A)) hA Z.1
+    (fun V : Scheme.{u} => IsLocallyNoetherian V))] in
 /-- The inverse of `pushforwardBaseQuotientIso` commutes with the transition maps
 `(i_* M) / I^(k+1) (i_* M) ⟶ (i_* M) / I^k (i_* M)` and `M / I^(k+1) M ⟶ M / I^k M`. -/
 theorem C1573.transition_pushforwardBaseQuotientIso_inv
@@ -417,6 +426,11 @@ def C1573.pushforwardCompletionHom (M : Modules.{u, u} B (Spec (.of A)) hA Z.1 Z
     rw [adicQuotientSystem_map_succ, adicQuotientSystem_map_succ]
     exact transition_pushforwardBaseQuotientIso_inv i hi I M (n + 1)
 
+omit [IsAdicComplete I A]
+  [Fact (HasEtaleLocalProperty B (Spec (.of A)) hA X.1
+    (fun V : Scheme.{u} => IsLocallyNoetherian V))]
+  [Fact (HasEtaleLocalProperty B (Spec (.of A)) hA Z.1
+    (fun V : Scheme.{u} => IsLocallyNoetherian V))] in
 /-- The component of `pushforwardCompletionHom` at `n` is the inverse of
 `pushforwardBaseQuotientIso` at `n + 1`. -/
 theorem C1573.pushforwardCompletionHom_app (M : Modules.{u, u} B (Spec (.of A)) hA Z.1 Z.2)
@@ -425,6 +439,11 @@ theorem C1573.pushforwardCompletionHom_app (M : Modules.{u, u} B (Spec (.of A)) 
       (pushforwardBaseQuotientIso i hi I M (n + 1)).inv :=
   rfl
 
+omit [IsAdicComplete I A]
+  [Fact (HasEtaleLocalProperty B (Spec (.of A)) hA X.1
+    (fun V : Scheme.{u} => IsLocallyNoetherian V))]
+  [Fact (HasEtaleLocalProperty B (Spec (.of A)) hA Z.1
+    (fun V : Scheme.{u} => IsLocallyNoetherian V))] in
 /-- `pushforwardCompletionHom` is an isomorphism of inverse systems. -/
 theorem C1573.isIso_pushforwardCompletionHom (M : Modules.{u, u} B (Spec (.of A)) hA Z.1 Z.2) :
     IsIso (pushforwardCompletionHom i hi I M) :=
@@ -439,6 +458,7 @@ variable (f : X ⟶ schemeSpace (baseObject A B hA))
   (hker : SheafOfModules.kerIdeal (structureSharp B (Spec (.of A)) hA i) =
     idealPowerMultiple B (Spec (.of A)) hA X.1 X.2 K e (SheafOfModules.unit _))
 
+omit [IsAdicComplete I A] in
 include hker hK in
 /-- **Hypothesis (1) of Stacks 08BC on `X_e`, read on `X`.**  If `i : Z ⟶ X` is the closed
 subspace cut out by `𝓚^e` and completion along `I 𝒪_Z` is essentially surjective onto the

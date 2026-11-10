@@ -87,7 +87,7 @@ theorem guitartExact_ιCompMap (α : F ⟶ G) (c : I) :
       (R := Grothendieck.map α) (B := Grothendieck.ι G c) (Grothendieck.ιCompMap α c).hom := by
   let w : TwoSquare (Grothendieck.ι F c) (α.app c).toFunctor (Grothendieck.map α)
       (Grothendieck.ι G c) := (Grothendieck.ιCompMap α c).hom
-  show w.GuitartExact
+  change w.GuitartExact
   constructor
   intro Y y g
   let f := g.base

@@ -201,12 +201,12 @@ theorem specMapAdicCompletion_preimage_puncturedSpectrum (A : Type u) [CommRing 
     specMapAdicCompletion A ⁻¹ᵁ Stacks.puncturedSpectrum A =
       Stacks.puncturedSpectrum (AdicCompletion (maximalIdeal A) A) := by
   ext p
-  show specMapAdicCompletion A p ≠ closedPoint A ↔ p ≠ closedPoint _
+  change specMapAdicCompletion A p ≠ closedPoint A ↔ p ≠ closedPoint _
   refine not_congr ⟨fun h => PrimeSpectrum.ext ?_, fun h => ?_⟩
   · have hcomap : Ideal.comap (algebraMap A (AdicCompletion (maximalIdeal A) A)) p.asIdeal =
         maximalIdeal A := congrArg PrimeSpectrum.asIdeal h
     refine le_antisymm (IsLocalRing.le_maximalIdeal p.isPrime.ne_top) ?_
-    show maximalIdeal (AdicCompletion (maximalIdeal A) A) ≤ p.asIdeal
+    change maximalIdeal (AdicCompletion (maximalIdeal A) A) ≤ p.asIdeal
     rw [AdicCompletion.maximalIdeal_eq_map]
     exact Ideal.map_le_iff_le_comap.mpr hcomap.ge
   · rw [h]
@@ -280,19 +280,19 @@ theorem completionVanishingDescends (A : Type u) [CommRing A] [IsLocalRing A]
     rw [← Set.image_univ]
     exact (IrreducibleSpace.isIrreducible_univ _).image _ (c ⁻¹ᵁ W).ι.continuous.continuousOn
   have : IrreducibleSpace Z := (irreducibleSpace_def Z).mpr (by
-    show IsIrreducible (Set.univ : Set Z)
+    change IsIrreducible (Set.univ : Set Z)
     rw [← (inferInstance : IsDominant (c ⁻¹ᵁ W).ι).denseRange.closure_range]
     exact hirr.closure)
   have : IsIntegral Z := isIntegral_of_irreducibleSpace_of_isReduced Z
   have hgenU' : genericPoint (Spec (.of (AdicCompletion (maximalIdeal A) A))) ∈ U' := by
-    show _ ∈ (U' : Set (Spec (.of (AdicCompletion (maximalIdeal A) A))))
+    change _ ∈ (U' : Set (Spec (.of (AdicCompletion (maximalIdeal A) A))))
     rw [(genericPoint_spec _).mem_open_set_iff U'.isOpen, Set.univ_inter]
     exact hU'ne
   have hbbir : IsBirational b := by
     refine isBirational_of_isIso_morphismRestrict b U' hbU (fun z hz => ?_) (fun y hy => ?_)
     · rw [genericPoints_eq_singleton, Set.mem_singleton_iff] at hz
       subst hz
-      show genericPoint Z ∈ ((b ⁻¹ᵁ U' : Z.Opens) : Set Z)
+      change genericPoint Z ∈ ((b ⁻¹ᵁ U' : Z.Opens) : Set Z)
       rw [(genericPoint_spec Z).mem_open_set_iff (b ⁻¹ᵁ U').isOpen, Set.univ_inter]
       obtain ⟨v⟩ := (inferInstance : Nonempty (b ⁻¹ᵁ U').toScheme)
       exact ⟨v.1, v.2⟩
@@ -307,7 +307,7 @@ theorem completionVanishingDescends (A : Type u) [CommRing A] [IsLocalRing A]
     simp only [Set.mem_preimage, Set.mem_singleton_iff]
     refine ⟨fun hy => ?_, fun hy => hy ▸ hqgen⟩
     have hmem : ∀ y, q y = genericPoint _ → y ∈ q ⁻¹ᵁ U' := fun y hy => by
-      show q y ∈ U'
+      change q y ∈ U'
       rwa [hy]
     have hy' := hmem y hy
     have hη := hmem _ hqgen

@@ -122,7 +122,7 @@ theorem topologicalKrullDimAt_fiberSupp_of_isPullback {X X' S S' : Scheme.{u}}
     fiberMapOfIsPullback hsq (f' x') ≫ (fiberIsoOfEq f hbase).hom
   have hqiso : IsIso q := inferInstanceAs (IsIso (_ ≫ _))
   have hq : q ≫ f.fiberι (f (pX x')) = f'.fiberι (f' x') ≫ pX := by
-    show (fiberMapOfIsPullback hsq (f' x') ≫ (fiberIsoOfEq f hbase).hom) ≫ _ = _
+    change (fiberMapOfIsPullback hsq (f' x') ≫ (fiberIsoOfEq f hbase).hom) ≫ _ = _
     rw [Category.assoc, fiberIsoOfEq_hom_fiberι, fiberMapOfIsPullback_comp_fiberι]
   have hqw : ∀ w, f.fiberι (f (pX x')) (q w) = pX (f'.fiberι (f' x') w) := fun w =>
     congrArg (fun k : f'.fiber (f' x') ⟶ X => k w) hq
@@ -140,7 +140,7 @@ theorem topologicalKrullDimAt_fiberSupp_of_isPullback {X X' S S' : Scheme.{u}}
     refine (f.fiberι (f (pX x'))).isEmbedding.injective ?_
     rw [hqw, Scheme.Hom.fiberι_asFiber, Scheme.Hom.fiberι_asFiber]
   have hmem' : f'.asFiber x' ∈ (q : _ → _) ⁻¹' T := by
-    show q (f'.asFiber x') ∈ T
+    change q (f'.asFiber x') ∈ T
     rwa [hqpt]
   refine ⟨hTT ▸ hmem', ?_⟩
   calc

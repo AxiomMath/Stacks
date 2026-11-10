@@ -49,8 +49,8 @@ spelling; in the first one the instance is not found at a model other than the g
 additivity of the shift functors — are all found by instance search from a *seated*
 `HasDerivedCategory`. An explicitly given model is not seated, and the statement then fails to
 elaborate. This is the opposite of the discipline urged by
-`StacksFrontier/Homology/DerivedCategory/ModelComparisonTransport.lean`, and it is why the two models
-appearing inside the proof are named explicitly even though the one in the statement is not.
+`StacksFrontier/Homology/DerivedCategory/ModelComparisonTransport.lean`, and it is why the two
+models appearing inside the proof are named explicitly even though the one in the statement is not.
 
 *No `@[stacks]` attribute.* The tag is carried where the theorem is proved, by
 `Stacks.DerivedQCoh.AnyModel.hasPerfectGenerator_of_qcqs` and

@@ -116,8 +116,8 @@ instance isQuasicoherent_tensorSheafBifunctor_obj :
 /-- **The `τ`-tensor product of two associated modules is an associated module.**  The tensor
 product of the readings of `𝓗^a` and `𝓘^a` on `(Sch/S)_τ` is the reading of `(𝓗 ⊗_{𝒪_S} 𝓘)^a`.
 
-Three steps, each of which is a statement in the library: the readings are the `τ`-associated modules
-(`AlgebraicGeometry.BigFppfOver.restrictTopologyAssociatedModuleIso`, Stacks 070S (1) and
+Three steps, each of which is a statement in the library: the readings are the `τ`-associated
+modules (`AlgebraicGeometry.BigFppfOver.restrictTopologyAssociatedModuleIso`, Stacks 070S (1) and
 03DT), their `τ`-tensor product is the `τ`-associated module of `𝓗 ⊗_{𝒪_S} 𝓘`
 (`AlgebraicGeometry.BigFppfOver.baseAssociatedModuleTensorSheafIso`, Stacks 06VE (7)), and that
 is in turn the reading of the fppf associated module of `𝓗 ⊗_{𝒪_S} 𝓘` — the first step again,

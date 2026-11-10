@@ -145,7 +145,7 @@ theorem properPushforward_restrictSourceCap {T T' : Scheme.{u}} (g : T ⟶ Y)
         (c.restrictSourceCap j (h ≫ g) e β) =
       c.restrictSourceCap j g e
         (properPushforward C ((h ≫ g) ≫ sY) (g ≫ sY) h (Category.assoc h g sY).symm e β) := by
-  show _ = cycleGroupRestrict C _ _ (sourceRestrictionMap j g)
+  change _ = cycleGroupRestrict C _ _ (sourceRestrictionMap j g)
     (sourceRestrictionMap_comp_structure j g sY) _
     (c.cap g e (properPushforward C ((h ≫ g) ≫ sY) (g ≫ sY) h (Category.assoc h g sY).symm e β))
   rw [← c.properPushforward_cap g h e β]

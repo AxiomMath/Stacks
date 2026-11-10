@@ -117,9 +117,9 @@ theorem isProper_coprodDesc {A C X : AlgebraicSpaces B S hS} (a : A ⟶ X) (c : 
   refine isProper_of_isColimit_cofan B S hS (fun b => F.map (binarySummandIncl A C b)) hP
     (fun b => (binarySummand A C b).property) (A ⨿ C).property X.property _ ?_
   rintro ⟨_ | _⟩
-  · show IsProper B S hS ((coprod.inl ≫ coprod.desc a c : A ⟶ X).hom)
+  · change IsProper B S hS ((coprod.inl ≫ coprod.desc a c : A ⟶ X).hom)
     rwa [coprod.inl_desc]
-  · show IsProper B S hS ((coprod.inr ≫ coprod.desc a c : C ⟶ X).hom)
+  · change IsProper B S hS ((coprod.inr ≫ coprod.desc a c : C ⟶ X).hom)
     rwa [coprod.inr_desc]
 
 end Coproduct
@@ -408,7 +408,7 @@ theorem towerTransition_comp_toTarget (n : ℕ) :
   | 0 => Category.id_comp _
   | m + 1 => by
     rw [towerTransition, Category.assoc]
-    show N.towerTransition D n m ≫ N.towerMap D (n + m) ≫ (D (n + m + 1)).toTarget = _
+    change N.towerTransition D n m ≫ N.towerMap D (n + m) ≫ (D (n + m + 1)).toTarget = _
     rw [N.towerMap_comp_toTarget D (n + m), towerTransition_comp_toTarget n m]
 
 /-- **The conclusion of Stacks 0AGK for the pair `(n, n + m)`**: `X_n ⟶ X_{n+m}` factors through

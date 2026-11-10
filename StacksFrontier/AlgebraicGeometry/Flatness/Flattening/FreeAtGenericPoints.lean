@@ -226,7 +226,7 @@ theorem condition_of_hom (D : FreeAtGenericPointsSituation.{u}) (p : ℕ)
   obtain ⟨U, hU, hRank⟩ := h t (ψ ξ') hξ
   let V : (pullback D.f T'.hom).Opens := φ ⁻¹ᵁ U
   have hV : (D.baseChangeMap T').fiberι t' ξ' ∈ V := by
-    show φ ((D.baseChangeMap T').fiberι t' ξ') ∈ U
+    change φ ((D.baseChangeMap T').fiberι t' ξ') ∈ U
     rw [hpoint]
     exact hU
   let k : V.toScheme ⟶ U.toScheme := φ.resLE U V le_rfl

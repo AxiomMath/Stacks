@@ -48,6 +48,7 @@ variable {k : Type u} [Field k] [PerfectField k] {U Ub V : Scheme.{u}} {pU : U �
   (C : CoverCompactification k pUb jU f)
 
 include C in
+omit [PerfectField k] [IsCurve k pU] [Smooth pU] [IsProper pUb] [IsOpenImmersion jU] in
 /-- **A cover compactification maps finitely to every compactification of the base.** If
 `j' : U ⟶ Ū'` is another open immersion into a proper `k`-scheme over `k`, the morphism
 `f ≫ j'` extends to a finite `f̄' : V̄ ⟶ Ū'` over `k` with `V = V̄ ×_{Ū'} U`. -/
@@ -114,9 +115,8 @@ variable (B : BigEtaleSite.{u}) (ℓ : ℕ) [Fact ℓ.Prime]
   [∀ (n : ℕ) (T : B.Scheme), HasWeakSheafify (SmallEtale.topology B T.1 T.property)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   {U : B.Scheme} [IsNoetherian U.1] [ConnectedSpace U.1]
-  {k : Type u} [Field k] [Fintype k]
-  (f : U.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
-  [IsCurve k f] [Smooth f] (kbar : Type u) [Field kbar] [Algebra k kbar]
+  {k : Type u} [Field k]
+  (f : U.1 ⟶ Spec (.of k)) [IsCurve k f] [Smooth f] (kbar : Type u) [Field kbar] [Algebra k kbar]
 
 /-- The tower of levels of `F` is its direct image along the identity. -/
 def LAdicSheaf.padicTowerDirectImageIdIso (F : LAdicSheaf B U ℓ) :
@@ -125,10 +125,11 @@ def LAdicSheaf.padicTowerDirectImageIdIso (F : LAdicSheaf B U ℓ) :
   (Functor.rightUnitor _).symm ≪≫
     Functor.isoWhiskerLeft _ (etaleModuleDirectImageIdIso ℤ_[ℓ] U.1).symm
 
+omit [AlgebraicGeometry.IsNoetherian U.1] in
 /-- **The smooth projective compactification of a smooth connected curve, together with finite
 morphisms to two given compactifications**: a compactification `W` and finite morphisms
 `W ⟶ Ū₁`, `W ⟶ Ū₂` over `k` restricting to the identity of `U`, with `U = W ×_{Ūᵢ} U`. -/
-theorem exists_compactification_finite_finite (j₁ j₂ : CompactificationOf (Over.mk f)) :
+theorem exists_compactification_finite_finite [Finite k] (j₁ j₂ : CompactificationOf (Over.mk f)) :
     ∃ (W : CompactificationOf (Over.mk f)) (φ₁ : W.space ⟶ j₁.space) (φ₂ : W.space ⟶ j₂.space),
       IsFinite φ₁ ∧ IsFinite φ₂ ∧ φ₁ ≫ j₁.toBase = W.toBase ∧ φ₂ ≫ j₂.toBase = W.toBase ∧
       IsPullback (𝟙 U.1) W.immersion j₁.immersion φ₁ ∧
@@ -144,12 +145,10 @@ theorem exists_compactification_finite_finite (j₁ j₂ : CompactificationOf (O
     (CompactificationOf.immersion_toBase j₂)
   exact ⟨W, C.fb, φ₂, C.isFinite, hφ₂f, C.hq, hφ₂q, C.isPullback.flip, hφ₂pb.flip⟩
 
-variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
-
 /-- **`Hⁱ_c(U_k̄, F ⊗ ℚ_ℓ)` through `j₂` is finite dimensional when it is through `j₁`**, for a
 smooth connected curve `U`. -/
 theorem LAdicSheaf.finiteDimensional_rationalGeometricCompactlySupportedCohomology_of_isCurve
-    (j₁ j₂ : CompactificationOf (Over.mk f)) (F : LAdicSheaf B U ℓ) (i : ℤ)
+    [Finite k] (j₁ j₂ : CompactificationOf (Over.mk f)) (F : LAdicSheaf B U ℓ) (i : ℤ)
     [FiniteDimensional ℚ_[ℓ]
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B U ℓ f j₁ kbar F i)] :
     FiniteDimensional ℚ_[ℓ]
@@ -161,6 +160,8 @@ theorem LAdicSheaf.finiteDimensional_rationalGeometricCompactlySupportedCohomolo
       f W f j₁ (𝟙 U.1) φ₁ hq₁ sq₁ kbar F F (LAdicSheaf.padicTowerDirectImageIdIso B ℓ F) i
   exact LAdicSheaf.finiteDimensional_rationalGeometricCompactlySupportedCohomology_of_integral B ℓ
     f W f j₂ (𝟙 U.1) φ₂ hq₂ sq₂ kbar F F (LAdicSheaf.padicTowerDirectImageIdIso B ℓ F) i
+
+variable [Fintype k] (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
 /-- **`Hⁱ_c(U_k̄, F ⊗ ℚ_ℓ)` does not depend on the compactification**, for a smooth connected
 curve `U` over a finite field: the geometric Frobenius endomorphisms through two compactifications

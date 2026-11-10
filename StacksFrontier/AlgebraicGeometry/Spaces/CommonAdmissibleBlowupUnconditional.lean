@@ -59,7 +59,7 @@ theorem exists_isAdmissibleBlowup_isOpenImmersion_of_isOpenImmersion_uncondition
     (hYqs : IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y.1)
     (hj₁ : IsOpenImmersion B S hS j₁.hom) (hj₂ : IsOpenImmersion B S hS j₂.hom)
     (hj : j₁ ≫ f₁ = j₂ ≫ f₂)
-    (hUft : IsFiniteType B S hS (j₁ ≫ f₁).hom) (hUsep : IsSeparated B S hS (j₁ ≫ f₁).hom)
+    (hUft : IsFiniteType B S hS (j₁ ≫ f₁).hom)
     (hX₁ft : IsFiniteType B S hS f₁.hom) (hX₁sep : IsSeparated B S hS f₁.hom)
     (hX₂ft : IsFiniteType B S hS f₂.hom) (hX₂sep : IsSeparated B S hS f₂.hom) :
     ∃ (X₁' X₂' X : AlgebraicSpaces B S hS) (b₁ : X₁' ⟶ X₁) (b₂ : X₂' ⟶ X₂)
@@ -74,7 +74,7 @@ theorem exists_isAdmissibleBlowup_isOpenImmersion_of_isOpenImmersion_uncondition
       u₁ ≫ b₁ = j₁ ∧ u₂ ≫ b₂ = j₂ ∧ u₁ ≫ i₁ = u₂ ≫ i₂ ∧
       IsOpenImmersion B S hS u₁.hom ∧ IsOpenImmersion B S hS u₂.hom :=
   exists_isAdmissibleBlowup_isOpenImmersion_of_isOpenImmersion B.contains_terminal
-    f₁ f₂ j₁ j₂ hYqc hYqs hj₁ hj₂ hj hUft hUsep hX₁ft hX₁sep hX₂ft hX₂sep
+    f₁ f₂ j₁ j₂ hYqc hYqs hj₁ hj₂ hj hUft hX₁ft hX₁sep hX₂ft hX₂sep
     (exists_integralFiniteSystem_of_isFinite B S hS)
     (exists_closedImmersion_separated_finitePresentation_of_finiteType B S hS)
 

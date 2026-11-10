@@ -321,7 +321,7 @@ theorem toScheme_map_hom_right_of_isHomLift {V U : B.Schemes} {x : PolarizedFami
     [(polarizedFamiliesProperFlatProjection B).IsHomLift f ζ] :
     (BigFppfOver.toScheme B integerBase B.contains_integerBase).map ζ.1.hom.right =
       B.inclusion.map (eqToHom hx) ≫ B.inclusion.map f ≫ B.inclusion.map (eqToHom hY.symm) := by
-  show B.inclusion.map ((polarizedFamiliesProperFlatProjection B).map ζ) = _
+  change B.inclusion.map ((polarizedFamiliesProperFlatProjection B).map ζ) = _
   rw [IsHomLift.fac' (polarizedFamiliesProperFlatProjection B) f ζ, Functor.map_comp,
     Functor.map_comp]
   rfl

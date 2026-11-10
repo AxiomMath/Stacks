@@ -119,7 +119,7 @@ lemma complementUnitLift_spec {X : Scheme.{u}}
     (hV : V ≤ Stacks.LocalCohomology.idealComplement I) :
     (((idealPowerMultiple I n (SheafOfModules.unit X.ringCatSheaf)).ι.val.app (op V)).hom
       (complementUnitLift I n V hV)) = (1 : Γ(X, V)) := by
-  show (show Γ(SheafOfModules.unit X.ringCatSheaf, V) from
+  change (show Γ(SheafOfModules.unit X.ringCatSheaf, V) from
       (1 : Γ(X, V))) = _
   rfl
 

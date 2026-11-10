@@ -72,7 +72,7 @@ theorem restrictScalars_preservesColimits (α : R ⟶ R') :
     PreservesColimitsOfSize.{max u' v, v} (_root_.SheafOfModules.restrictScalars.{v} α) := by
   have : PreservesColimitsOfSize.{max u' v, v}
       (_root_.SheafOfModules.restrictScalars.{v} α ⋙ _root_.SheafOfModules.toSheaf.{v} R) := by
-    show PreservesColimitsOfSize.{max u' v, v} (_root_.SheafOfModules.toSheaf.{v} R')
+    change PreservesColimitsOfSize.{max u' v, v} (_root_.SheafOfModules.toSheaf.{v} R')
     exact toSheaf_preservesColimits R'
   constructor
   intro K _
@@ -108,7 +108,7 @@ theorem sheafify_smul_restrictScalars (X : Cᵒᵖ)
   have hnat : (α.hom.app (Opposite.op Y)).hom ((R.obj.map f.op).hom r)
       = (R'.obj.map f.op).hom ((α.hom.app X).hom r) := by
     rw [← RingCat.comp_apply, α.hom.naturality f.op, RingCat.comp_apply]
-  show (CategoryTheory.toSheafify J P.presheaf).app (Opposite.op Y)
+  change (CategoryTheory.toSheafify J P.presheaf).app (Opposite.op Y)
       ((α.hom.app (Opposite.op Y)).hom ((R.obj.map f.op).hom r) • a₀) = _
   rw [hnat]
   rfl

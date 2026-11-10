@@ -49,7 +49,7 @@ theorem moduleStalk_restrictScalars_smul
   have ha' : ringStalkGerm Φ O' U ξ (a₀ 0) = a := ha 0
   have hs' : (moduleStalkGerm Φ O' F' U ξ (s 0) : moduleStalk Φ O F) = m := hs 0
   rw [← ha']
-  show ringStalkGerm Φ O' U ξ (a₀ 0) • (id m : moduleStalk Φ O' F') = _
+  change ringStalkGerm Φ O' U ξ (a₀ 0) • (id m : moduleStalk Φ O' F') = _
   rw [← hs']
   refine (moduleStalkGerm_smul Φ O' F' U ξ (a₀ 0) (s 0)).symm.trans ?_
   have hr : (Φ.presheafFiber (A := CommRingCat.{w})).map α.hom (ringStalkGerm Φ O' U ξ (a₀ 0)) =
@@ -59,7 +59,7 @@ theorem moduleStalk_restrictScalars_smul
     (r • moduleStalkGerm Φ O F U ξ (s 0)) : moduleStalk Φ O' F')) hr.symm)
   refine Eq.trans ?_ (moduleStalkGerm_smul Φ O F U ξ (α.hom.app (op U) (a₀ 0)) (s 0))
   let s₀ : F.val.obj (op U) := s 0
-  show moduleStalkGerm Φ O F U ξ (β.hom.app (op U) (a₀ 0) • s₀) = _
+  change moduleStalkGerm Φ O F U ξ (β.hom.app (op U) (a₀ 0) • s₀) = _
   exact congrArg (fun r => moduleStalkGerm Φ O F U ξ (r • s₀)) (hβ (op U) (a₀ 0))
 
 /-- **Flatness of the stalk of a restriction of scalars.**  At a point `Φ`, the stalk of the

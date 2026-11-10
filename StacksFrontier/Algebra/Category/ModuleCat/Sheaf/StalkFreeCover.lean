@@ -276,7 +276,7 @@ lemma freeCoord_freeMk {ι : Type u} [DecidableEq ι] [Fintype ι] (V : Cᵒᵖ)
   have hj : (freeProj (S := S) j).val.app V
       ((ιFree (R := S) j).val.app V (toUnit V (c j))) = c j := by
     rw [key j, ιFree_comp_freeProj_self]; rfl
-  show (freeProj j).val.app V (∑ i : ι, (ιFree (R := S) i).val.app V (toUnit V (c i))) = c j
+  change (freeProj j).val.app V (∑ i : ι, (ιFree (R := S) i).val.app V (toUnit V (c i))) = c j
   rw [map_sum, Finset.sum_eq_single_of_mem j (Finset.mem_univ j) h0, hj]
 
 /-- A section of a finite free sheaf of modules is the section with its own coordinates. -/
@@ -318,8 +318,6 @@ section Kernels
 
 universe u₂
 
-variable [HasSheafify J AddCommGrpCat.{u₂}]
-
 omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Kernels of morphisms of sheaves of modules are computed sectionwise: a section of the
 source killed by the morphism comes from a section of the kernel. The universe of the module
@@ -337,7 +335,7 @@ lemma exists_kernel_section {N P : SheafOfModules.{u₂} S} (g : N ⟶ P) (V : C
   have h1 := ConcreteCategory.congr_hom (ModuleCat.kernelIsoKer_inv_kernel_ι (G.map g)) k
   have h2 := ConcreteCategory.congr_hom (PreservesKernel.iso_inv_ι G g)
     ((ModuleCat.kernelIsoKer (G.map g)).inv k)
-  show (G.map (kernel.ι g)) ((PreservesKernel.iso G g).inv _) = z
+  change (G.map (kernel.ι g)) ((PreservesKernel.iso G g).inv _) = z
   rw [show (G.map (kernel.ι g)) ((PreservesKernel.iso G g).inv
       ((ModuleCat.kernelIsoKer (G.map g)).inv k))
     = ((PreservesKernel.iso G g).inv ≫ G.map (kernel.ι g))

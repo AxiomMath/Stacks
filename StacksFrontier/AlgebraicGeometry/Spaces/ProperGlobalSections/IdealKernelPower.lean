@@ -103,7 +103,7 @@ theorem isPowAnnihilated_idealQuotient_idealKernel (n : ℕ) :
   refine (idealQuotient φ M (J ^ n)).isSheaf.isSeparated U _
     (SmallEtale.generate_affineChartPresieve_mem B S hS X.1 U) _ 0 fun W i hi => ?_
   obtain ⟨W', h, g, hW', rfl⟩ := hi
-  show (idealQuotient φ M (J ^ n)).val.restrictₛₗ (h ≫ g).op (r • q) =
+  change (idealQuotient φ M (J ^ n)).val.restrictₛₗ (h ≫ g).op (r • q) =
     (idealQuotient φ M (J ^ n)).val.restrictₛₗ (h ≫ g).op 0
   rw [map_zero]
   refine (restrictₛₗ_restrictₛₗ B S hS X.1 X.2 _ g.op h.op (r • q)).symm.trans ?_

@@ -284,7 +284,7 @@ theorem existsUnique_desc_of_leftAdjoint {C C' : Type*} [Category* C] [Category*
   · refine (Equiv.symm_apply_apply (adj.homEquiv _ _) y).symm.trans
       (congrArg _ (hχu _ fun i => ?_))
     rw [← Adjunction.homEquiv_naturality_left]
-    show _ = adj.homEquiv _ _ ((κ i).inv ≫ τ' i)
+    change _ = adj.homEquiv _ _ ((κ i).inv ≫ τ' i)
     rw [← hy i, hι', Category.assoc, Iso.inv_hom_id_assoc]
 
 /-- The rearrangement behind `smallEtalePullbackAbSquareIso_hcomp_map`, in an abstract

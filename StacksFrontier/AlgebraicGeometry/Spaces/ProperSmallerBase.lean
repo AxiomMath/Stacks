@@ -21,8 +21,8 @@ This file proves that **properness** (Stacks 03ZM) of the structural morphism of
 over `W` does not depend on the base it is read over: an algebraic space over `W`, viewed over `S`
 and then over a larger base `S'`, has proper structural morphism over `S` as soon as it has one
 over `S'`. Together with
-`StacksFrontier/AlgebraicGeometry/Spaces/QuasiCompactSmallerBase.lean` this completes the four clauses
-of Stacks 03ZM, quasi-compactness being Stacks 03HE and local finite type being the
+`StacksFrontier/AlgebraicGeometry/Spaces/QuasiCompactSmallerBase.lean` this completes the four
+clauses of Stacks 03ZM, quasi-compactness being Stacks 03HE and local finite type being the
 every-étale-chart condition for an arbitrary property of morphisms of schemes.
 
 That is the step a separation condition on the relative diagonal needs in order to be transferred
@@ -91,8 +91,8 @@ condition, which is why it appears only in the implication form.
 
 Being locally of finite type is an étale-chart condition, so its transfer is
 `AlgebraicGeometry.Space.holdsOnEveryEtaleChart_relocalizeMap_iff`; finite type adds
-quasi-compactness. For universal closedness the forward direction is proved elsewhere; its converse is
-the mirror image of the forward argument — the transports of points of
+quasi-compactness. For universal closedness the forward direction is proved elsewhere; its converse
+is the mirror image of the forward argument — the transports of points of
 `AlgebraicGeometry.Space.relocalizedPointsMap` are **bijective** and induce the point topologies,
 so the conjugation that carries a closed map forward carries one back as well.
 
@@ -601,7 +601,7 @@ relative diagonals agree by `CategoryTheory.Limits.pullback_diagonal_eq_of_arrow
 theorem isQuasiSeparated_of_arrowIso (e₁ : X ⟶ X') (e₂ : Y ⟶ Y') [IsIso e₁] [IsIso e₂]
     (w : e₁ ≫ f' = f ≫ e₂) (hf : IsQuasiSeparated B S hS f) :
     IsQuasiSeparated B S hS f' := by
-  show IsQuasiCompact B S hS (pullback.diagonal f')
+  change IsQuasiCompact B S hS (pullback.diagonal f')
   rw [pullback_diagonal_eq_of_arrowIso f f' e₁ e₂ w]
   exact isQuasiCompact_isIso_comp B S hS (inv e₁)
     ((isQuasiCompact_comp_isIso_iff B S hS (pullback.diagonal f) _).2 hf)
@@ -609,7 +609,7 @@ theorem isQuasiSeparated_of_arrowIso (e₁ : X ⟶ X') (e₂ : Y ⟶ Y') [IsIso 
 /-- **Separatedness of a morphism depends only on its arrow up to isomorphism.** -/
 theorem isSeparated_of_arrowIso (e₁ : X ⟶ X') (e₂ : Y ⟶ Y') [IsIso e₁] [IsIso e₂]
     (w : e₁ ≫ f' = f ≫ e₂) (hf : IsSeparated B S hS f) : IsSeparated B S hS f' := by
-  show IsClosedImmersion B S hS (pullback.diagonal f')
+  change IsClosedImmersion B S hS (pullback.diagonal f')
   rw [pullback_diagonal_eq_of_arrowIso f f' e₁ e₂ w]
   exact MorphismProperty.RespectsIso.precomp _ (inv e₁) _
     (MorphismProperty.RespectsIso.postcomp _ _ _ hf)
@@ -815,7 +815,7 @@ unchanged by `AlgebraicGeometry.Space.isQuasiCompact_relocalize_iff`. -/
 theorem isQuasiSeparated_relocalize_iff {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Y) :
     IsQuasiSeparated B S' hS' ((OverShriek.relocalizePresheafFunctor k).map f) ↔
       IsQuasiSeparated B S hS f := by
-  show IsQuasiCompact B S' hS'
+  change IsQuasiCompact B S' hS'
       (pullback.diagonal ((OverShriek.relocalizePresheafFunctor k).map f)) ↔ _
   rw [← OverShriek.relocalize_map_diagonal, isQuasiCompact_comp_isIso_iff]
   exact isQuasiCompact_relocalize_iff B S hS S' hS' k (pullback.diagonal f)
@@ -901,7 +901,7 @@ theorem universallyClosed_of_relocalize (hX : IsAlgebraicSpace B S hS X)
     (isAlgebraicSpace_pullback B S hS g f hZ hX hY) hZ _ ?_
   have key := hf (Λ.obj Z) (isAlgebraicSpace_relocalize B (B.obj hS) (B.obj hS') k Z hZ)
     (Λ.map g)
-  show IsClosedMap (pointsMap B S' hS' _ (Λ.map (pullback.fst g f)))
+  change IsClosedMap (pointsMap B S' hS' _ (Λ.map (pullback.fst g f)))
   rw [← PreservesPullback.iso_hom_fst Λ g f, pointsMap_comp]
   exact IsClosedMap.comp key
     (isClosedMap_pointsMap_of_isIso B S' hS' (PreservesPullback.iso Λ g f).hom)

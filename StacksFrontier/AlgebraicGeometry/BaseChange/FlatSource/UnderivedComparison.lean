@@ -83,11 +83,11 @@ horizontal morphisms is the composite of the composition isomorphisms of pushfor
 @[sga "4 Vbis 3.2.2" "special case"]
 theorem mateEquiv_moduleBaseChangeSquare :
     (mateEquiv (modulePullbackPushforwardAdjunction g') (modulePullbackPushforwardAdjunction g)
-      (moduleBaseChangeSquare g' f' f g sq)).natTrans =
+      (moduleBaseChangeSquare g' f' f g sq)) =
       (modulePushforwardComp g' f).hom ≫ eqToHom (congrArg modulePushforward sq) ≫
         (modulePushforwardComp f' g).inv := by
   rw [moduleBaseChangeSquare, iterated_mateEquiv_conjugateEquiv, pullbackCompSquare]
-  show conjugateEquiv _ _ ((Stacks.DerivedPullback.Composition.modulePullbackComp f' g).hom ≫
+  change conjugateEquiv _ _ ((Stacks.DerivedPullback.Composition.modulePullbackComp f' g).hom ≫
     (eqToHom (congrArg modulePullback sq.symm) ≫
         (Stacks.DerivedPullback.Composition.modulePullbackComp g' f).inv)) = _
   rw [← conjugateEquiv_comp _ (modulePullbackPushforwardAdjunction (f' ≫ g)),
@@ -118,7 +118,7 @@ theorem underivedBaseChangeSquare_app_quotient
     (underivedBaseChangeSquare g' f' f g sq).app
         ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj K) =
       (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
-        ((NatTrans.mapHomologicalComplex (moduleBaseChangeSquare g' f' f g sq).natTrans
+        ((NatTrans.mapHomologicalComplex (moduleBaseChangeSquare g' f' f g sq)
           (ComplexShape.up ℤ)).app K) := by
   have hunit : ∀ (a : X' ⟶ S') (Y : HomotopyCategory _ (ComplexShape.up ℤ)),
       (homotopyPullbackPushforwardAdjunction a).unit.app Y =
@@ -146,12 +146,12 @@ theorem underivedBaseChangeSquare_app_quotient
             (ComplexShape.up ℤ)).app Y.as) := fun _ _ _ => rfl
   rw [underivedBaseChangeSquare, moduleBaseChangeSquare, pullbackCompSquare,
     pullbackOnHomotopyCompIsoLeft_eq]
-  simp only [mateEquiv_apply, TwoSquare.natTrans, NatTrans.comp_app, Functor.whiskerLeft_app,
+  simp only [mateEquiv_apply, NatTrans.comp_app, Functor.whiskerLeft_app,
     Functor.whiskerRight_app, Functor.associator_hom_app, Functor.associator_inv_app,
-    Functor.rightUnitor_inv_app, Functor.leftUnitor_hom_app, Category.id_comp, Category.comp_id,
+    Functor.rightUnitor_inv_app, Functor.leftUnitor_hom_app, Category.id_comp,
     Iso.trans_hom, eqToIso.hom, hunit, hcounit, hcomp, hcomp', Functor.comp_map,
     eqToHom_mapHomotopyCategory_modulePullback_app sq.symm, Functor.mapHomotopyCategory_map,
-    Functor.comp_obj, Functor.mapHomotopyCategory_obj, HomotopyCategory.quotient_obj_as,
+    Functor.comp_obj, HomotopyCategory.quotient_obj_as,
     ← Functor.map_comp]
   congr 1
 
@@ -194,7 +194,7 @@ theorem moduleBaseChangeSquare_eq_baseChangeNatTrans {g' : X' ⟶ X} {f' : X' �
     {g : S' ⟶ S} (w : g' ≫ f = f' ≫ g)
     (sq : g'.toLRSHom.toShHom ≫ f.toLRSHom.toShHom = f'.toLRSHom.toShHom ≫ g.toLRSHom.toShHom) :
     (moduleBaseChangeSquare g'.toLRSHom.toShHom f'.toLRSHom.toShHom f.toLRSHom.toShHom
-      g.toLRSHom.toShHom sq).natTrans = ModuleBaseChange.baseChangeNatTrans w := by
+      g.toLRSHom.toShHom sq) = ModuleBaseChange.baseChangeNatTrans w := by
   have h := mateEquiv_moduleBaseChangeSquare g'.toLRSHom.toShHom f'.toLRSHom.toShHom
     f.toLRSHom.toShHom g.toLRSHom.toShHom sq
   rw [ModuleBaseChange.baseChangeNatTrans, AffinePushforward.baseChangeNatTrans,

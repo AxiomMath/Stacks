@@ -176,7 +176,7 @@ theorem isPinned_cohFibreOfEq {T' T : SchemesOver D.Y} (h : T' ⟶ T)
       ((D.quotientPullbackCokernelIso h K).inv ≫ eqToHom (congrArg (D.quotientModule T') e))
       (D.quotientProjection T K) (D.quotientProjection T' K') := by
     subst e
-    show D.quotientPullbackProjection h K ≫ ((D.quotientPullbackCokernelIso h K).inv ≫ 𝟙 _) = _
+    change D.quotientPullbackProjection h K ≫ ((D.quotientPullbackCokernelIso h K).inv ≫ 𝟙 _) = _
     rw [Category.comp_id]
     exact (Iso.comp_inv_eq (D.quotientPullbackCokernelIso h K)).2
       (D.quotientProjection_comp_quotientPullbackCokernelIso_hom h K).symm
@@ -277,7 +277,7 @@ morphism is a morphism of test schemes along which the quotient of the target pu
 quotient of the source, and the projection forgets the quotient and the morphism to `B`. -/
 def quotBasedCategory : BasedCategory.{u + 1, u + 1} (BigFppfOver B S hS) where
   obj := D.QuotObjects
-  p := ULiftHom.down ⋙ (CategoryOfElements.π D.quotFunctor).leftOp ⋙
+  p := ULiftHom.down ⋙ (Functor.Elements.π D.quotFunctor).leftOp ⋙
     CostructuredArrow.proj (schemeSpaceFunctor B S hS) D.Y
 
 /-! ### The 1-morphism `Quot_{F/X/B} ⟶ Coh_{X/B}` -/

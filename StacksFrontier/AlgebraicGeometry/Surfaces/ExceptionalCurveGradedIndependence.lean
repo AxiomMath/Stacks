@@ -133,9 +133,9 @@ private theorem sum_C_mul_X_pow_ne_zero {R : Type*} [Semiring R] {a : ℕ → R}
     (hj : j ≤ d) (ha : a j ≠ 0) : ∑ i ∈ Finset.range (d + 1), C (a i) * X ^ i ≠ 0 := by
   intro hp0
   have hcoeff := congrArg (fun q : R[X] => q.coeff j) hp0
-  simp only [Polynomial.finset_sum_coeff, Polynomial.coeff_C_mul_X_pow,
+  simp only [Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul_X_pow,
     Finset.sum_ite_eq, Finset.mem_range, Polynomial.coeff_zero] at hcoeff
-  rw [if_pos (Nat.lt_succ_of_le hj)] at hcoeff
+  rw [ite_eq_left (Nat.lt_succ_of_le hj)] at hcoeff
   exact ha hcoeff
 
 /-- **Dehomogenization.** For `u ≠ 0`, `∑ aᵢ (v / u)ⁱ = (∑ aᵢ u^{d-i} vⁱ) / u^d`. -/
@@ -207,7 +207,7 @@ public theorem coeff_mem_of_sum_genMonomial_mem_of_chart
   rw [hρI] at hcj
   let p : k[X] := ∑ i ∈ Finset.range (d + 1), Polynomial.C (ρ (c i)) * Polynomial.X ^ i
   have hpu : p.eval₂ f (π Y₁ / π X₁) = 0 := by
-    simp only [p, Polynomial.eval₂_finset_sum, Polynomial.eval₂_mul, Polynomial.eval₂_C,
+    simp only [p, Polynomial.eval₂_finsetSum, Polynomial.eval₂_mul, Polynomial.eval₂_C,
       Polynomial.eval₂_X_pow]
     rw [sum_mul_div_pow_eq _ _ _ hα, hrel, zero_div]
   obtain ⟨l, hl⟩ := halg _ p (sum_C_mul_X_pow_ne_zero (a := fun i => ρ (c i)) hj hcj) hpu

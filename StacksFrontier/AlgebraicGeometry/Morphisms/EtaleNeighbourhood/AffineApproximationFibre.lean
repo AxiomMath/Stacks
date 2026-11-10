@@ -77,7 +77,7 @@ private theorem geometricallyIrreducible_fiber_iff_componentCount_eq_one
       (geometricallyIrreducible_tfae_of_isSepClosure k (f.fiber y) g ksep).out 1 3
   have hcount : geometricIrreducibleComponentCount f y = 1 ↔ IrreducibleSpace ↥Z := by
     rw [← encard_irreducibleComponents_geometricFiber f y ksep]
-    show (irreducibleComponents Z).encard = 1 ↔ IrreducibleSpace ↥Z
+    change (irreducibleComponents Z).encard = 1 ↔ IrreducibleSpace ↥Z
     rw [Set.encard_eq_one]
     constructor
     · rintro ⟨C, hC⟩

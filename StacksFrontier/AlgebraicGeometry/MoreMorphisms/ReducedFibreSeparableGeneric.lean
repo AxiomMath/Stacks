@@ -198,7 +198,7 @@ theorem exists_dense_open_smooth_reduction_pullback_of_isSeparableExtension {A :
     ker_eq_nilradical_of_surjective _, p.smoothLocus,
     (dense_iff_closure_eq.mpr genericPoints.closure).mono hgen, ?_⟩
   apply (Scheme.Hom.smoothLocus_eq_top_iff).mp
-  show Scheme.Hom.smoothLocus (p.smoothLocus.ι ≫ p) = ⊤
+  change Scheme.Hom.smoothLocus (p.smoothLocus.ι ≫ p) = ⊤
   rw [← Scheme.Hom.preimage_smoothLocus_eq p.smoothLocus.ι p]
   simp
 

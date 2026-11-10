@@ -140,7 +140,7 @@ public lemma formalFibersHaveAt_iff_isRegularRingHom
       IsRegularRingHom
         (algebraMap A (AdicCompletion (IsLocalRing.maximalIdeal A) A)) := by
   let C := AdicCompletion (IsLocalRing.maximalIdeal A) A
-  show (∀ q : PrimeSpectrum A,
+  change (∀ q : PrimeSpectrum A,
     RingMapProperty.geometricallyRegular.Holds.{u, u, v, v}
       (Algebra.TensorProduct.includeRight (R := A) (A := C)
         (B := q.asIdeal.ResidueField)).toRingHom) ↔ _
@@ -428,18 +428,18 @@ private theorem fiber_map_surjective
   let g : B →+* R := f.toRingHom.rangeRestrict.comp
     (Algebra.TensorProduct.includeRight (R := A) (A := p.ResidueField)).toRingHom
   have hg (b : B) : (g b : q.ResidueField) = algebraMap B q.ResidueField b := by
-    show f (1 ⊗ₜ[A] b) = algebraMap B q.ResidueField b
+    change f (1 ⊗ₜ[A] b) = algebraMap B q.ResidueField b
     simp only [f, Algebra.TensorProduct.lift_tmul, map_one, one_mul,
       IsScalarTower.toAlgHom_apply]
   have hgker : RingHom.ker g = q := by
     ext b
-    show g b = 0 ↔ b ∈ q
+    change g b = 0 ↔ b ∈ q
     rw [← Subtype.coe_inj]
     simpa only [hg, Subring.coe_zero] using
       (Ideal.algebraMap_residueField_eq_zero (I := q) (x := b))
   let l : q.ResidueField →+* R := Ideal.ResidueField.lift q g hgker.ge (by
     intro b hb
-    show IsUnit (g b)
+    change IsUnit (g b)
     apply isUnit_iff_ne_zero.mpr
     intro hz
     exact hb (hgker ▸ hz : b ∈ q))
@@ -482,12 +482,12 @@ private theorem isRegularRingHom_of_semisimple_fibers
     { fA.toRingHom with
       commutes' := by
         intro b
-        show fA (1 ⊗ₜ[A] b) = algebraMap B L b
+        change fA (1 ⊗ₜ[A] b) = algebraMap B L b
         dsimp only [fA, T, k, L]
         simp only [Algebra.TensorProduct.lift_tmul, map_one, one_mul,
           IsScalarTower.toAlgHom_apply] }
   have hf_k (b : k) : f (b ⊗ₜ[A] 1) = algebraMap k L b := by
-    show fA (b ⊗ₜ[A] 1) = algebraMap k L b
+    change fA (b ⊗ₜ[A] 1) = algebraMap k L b
     dsimp only [fA, T, k, L]
     rw [Algebra.TensorProduct.lift_tmul, map_one, mul_one]
     rfl
@@ -505,12 +505,12 @@ private theorem isRegularRingHom_of_semisimple_fibers
   have : IsScalarTower k (C ⊗[B] T) (C ⊗[B] L) := by
     apply IsScalarTower.of_algebraMap_eq (R := k) (S := (C ⊗[B] T)) (A := (C ⊗[B] L))
     intro b
-    show (1 ⊗ₜ[B] algebraMap k L b) = g (1 ⊗ₜ[B] (b ⊗ₜ[A] 1))
+    change (1 ⊗ₜ[B] algebraMap k L b) = g (1 ⊗ₜ[B] (b ⊗ₜ[A] 1))
     rw [hg_tmul, hf_k]
   have : IsScalarTower C (C ⊗[B] T) (C ⊗[B] L) := by
     apply IsScalarTower.of_algebraMap_eq (R := C) (S := (C ⊗[B] T)) (A := (C ⊗[B] L))
     intro c
-    show (c ⊗ₜ[B] 1) = g (c ⊗ₜ[B] 1)
+    change (c ⊗ₜ[B] 1) = g (c ⊗ₜ[B] 1)
     rw [hg_tmul, map_one]
   have : IsScalarTower k L (C ⊗[B] L) :=
     IsScalarTower.of_algebraMap_eq (R := k) (S := L) (A := (C ⊗[B] L)) fun _ ↦ rfl
@@ -528,7 +528,7 @@ private theorem isRegularRingHom_of_semisimple_fibers
     { e₁.toRingEquiv.trans (e₂.toRingEquiv.trans e₃.toRingEquiv) with
       commutes' := by
         intro b
-        show e₃ (e₂ (e₁ (1 ⊗ₜ[B] (b ⊗ₜ[A] 1)))) = b ⊗ₜ[A] 1
+        change e₃ (e₂ (e₁ (1 ⊗ₜ[B] (b ⊗ₜ[A] 1)))) = b ⊗ₜ[A] 1
         simp [e₁, e₂, e₃] }
   have : Algebra.IsGeometricallyRegular k (C ⊗[B] T) :=
     @Algebra.IsGeometricallyRegular.of_algEquiv k _ _ _ _ _ _ _ (hC.2 p).2 eD.symm
@@ -562,7 +562,7 @@ private theorem isRegularRingHom_localization_to_localRing
   convert hr using 1
   apply IsLocalization.ringHom_ext m.primeCompl
   ext b
-  show algebraMap (Localization.AtPrime m) C (algebraMap B _ b) =
+  change algebraMap (Localization.AtPrime m) C (algebraMap B _ b) =
     e (Localization.localRingHom m (maximalIdeal C) (algebraMap B C) hm
       (algebraMap B _ b))
   rw [Localization.localRingHom_to_map, e.commutes,
@@ -620,7 +620,7 @@ public theorem isGRing_henselization
     convert hr using 1
     apply RingHom.ext
     intro a
-    show algebraMap A C a = algebraMap S C (algebraMap R S (algebraMap A R a))
+    change algebraMap A C a = algebraMap S C (algebraMap R S (algebraMap A R a))
     rw [← IsScalarTower.algebraMap_apply A R S, ← IsScalarTower.algebraMap_apply A S C]
   have : Module.Flat Ah C := Module.Flat.trans Ah S C
   exact isRegularRingHom_localization_to_localRing m
@@ -829,7 +829,7 @@ private theorem isGRing_strictHenselization
       separable := Algebra.IsSeparable.of_equiv_equiv
         (ResidueField.mapEquiv eR).symm (RingEquiv.refl L) (by
           ext a
-          show algebraMap (ResidueField R) L
+          change algebraMap (ResidueField R) L
             ((ResidueField.mapEquiv eR) ((ResidueField.mapEquiv eR).symm a)) = _
           rw [RingEquiv.apply_symm_apply]
           rfl) }

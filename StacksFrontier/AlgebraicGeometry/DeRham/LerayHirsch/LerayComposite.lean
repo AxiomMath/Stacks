@@ -92,14 +92,14 @@ private theorem exists_cycle {R : Type u} [Ring R] (K : CochainComplex (ModuleCa
     ∃ c : K.cycles n, (K.iCycles n).hom c = x := by
   have hd : ModuleCat.ofHom (LinearMap.toSpanSingleton R (K.X n) x) ≫ K.d n (n + 1) = 0 := by
     ext
-    show (K.d n (n + 1)).hom ((LinearMap.toSpanSingleton R (K.X n) x) 1) = 0
+    change (K.d n (n + 1)).hom ((LinearMap.toSpanSingleton R (K.X n) x) 1) = 0
     rwa [LinearMap.toSpanSingleton_apply, one_smul]
   refine ⟨(K.liftCycles (ModuleCat.ofHom (LinearMap.toSpanSingleton R (K.X n) x)) (n + 1)
     (by simp) hd).hom 1, ?_⟩
   have := ConcreteCategory.congr_hom (K.liftCycles_i
     (ModuleCat.ofHom (LinearMap.toSpanSingleton R (K.X n) x)) (n + 1) (by simp) hd) (1 : R)
   exact this.trans (by
-    show (LinearMap.toSpanSingleton R (K.X n) x) 1 = _
+    change (LinearMap.toSpanSingleton R (K.X n) x) 1 = _
     rw [LinearMap.toSpanSingleton_apply, one_smul])
 
 /-- A global cocycle of a complex `K` of `𝒪_X`-modules is a global cocycle of `f_* K`. -/

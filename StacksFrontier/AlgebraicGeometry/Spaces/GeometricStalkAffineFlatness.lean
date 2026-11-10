@@ -161,7 +161,7 @@ theorem flat_baseChangeTensorRingMap_representedAffineStalk :
       Γ((BigFppfOver.toScheme B S hS).obj V', ⊤) r =
         (((BigFppfOver.toScheme B S hS).map g).appLE ⊤ ⊤ hUW).hom r := by
     intro r
-    show (((BigFppfOver.toScheme B S hS).map g).app ⊤).hom r = _
+    change (((BigFppfOver.toScheme B S hS).map g).app ⊤).hom r = _
     rw [Scheme.Hom.app_eq_appLE]
     rfl
   let := isLocalRing_geometricStalkRing B S hS ⟨yoneda.obj V, isAlgebraicSpace_yoneda B S hS V⟩
@@ -311,7 +311,7 @@ theorem flat_baseChangeTensorRingMap_representedAffineStalk :
     | add a b ha hb => simp only [map_add] at ha hb ⊢; rw [ha, hb]
     | tmul a r =>
       rw [RingTheory.TorIndependence.baseChangeTensorRingMap_tmul, RingHom.comp_apply]
-      show _ = (Algebra.TensorProduct.lift _ _ _) ((Algebra.TensorProduct.comm _ _ _) (a ⊗ₜ r))
+      change _ = (Algebra.TensorProduct.lift _ _ _) ((Algebra.TensorProduct.comm _ _ _) (a ⊗ₜ r))
       rw [Algebra.TensorProduct.comm_tmul, Algebra.TensorProduct.lift_tmul]
       exact mul_comm _ _
   rw [hcomm]
@@ -329,7 +329,7 @@ theorem exists_mem_range_comap_representedAffineStalkRingHom (U : BigFppfOver B 
   have hU := isAffineOpen_top ((BigFppfOver.toScheme B S hS).obj U)
   obtain ⟨u, hu⟩ : ∃ u : (⊤ : ((BigFppfOver.toScheme B S hS).obj U).Opens), hU.primeIdealOf u = q :=
     ⟨hU.isoSpec.inv q, by
-      show (hU.isoSpec.inv ≫ hU.isoSpec.hom) q = q
+      change (hU.isoSpec.inv ≫ hU.isoSpec.hom) q = q
       rw [Iso.inv_hom_id]
       rfl⟩
   obtain ⟨z, hz⟩ := surjective_pointsToScheme B S hS U u.1
@@ -351,7 +351,7 @@ theorem exists_mem_range_comap_representedAffineStalkRingHom (U : BigFppfOver B 
   subst hpt hu
   refine Eq.trans ?_ (hU.primeIdealOf_eq_map_closedPoint _).symm
   ext a
-  show _ ↔ (((BigFppfOver.toScheme B S hS).obj U).presheaf.germ ⊤
+  change _ ↔ (((BigFppfOver.toScheme B S hS).obj U).presheaf.germ ⊤
       (chartPoint B S hS (yoneda.obj U) (yonedaIdentityNeighborhood U x)) trivial).hom a ∈
     (IsLocalRing.closedPoint _).asIdeal
   have e1 : (pointStalkRingEquiv B S hS ⟨yoneda.obj U, isAlgebraicSpace_yoneda B S hS U⟩ x)
@@ -361,7 +361,7 @@ theorem exists_mem_range_comap_representedAffineStalkRingHom (U : BigFppfOver B 
         ((((BigFppfOver.toScheme B S hS).obj U).presheaf.germ ⊤
           (chartPoint B S hS (yoneda.obj U) (yonedaIdentityNeighborhood U x)) trivial).hom a) := by
     rw [representedAffineStalkRingHom_eq_chartLocalRing, RingEquiv.apply_symm_apply]
-  show (pointStalkRingEquiv B S hS ⟨yoneda.obj U, isAlgebraicSpace_yoneda B S hS U⟩ x)
+  change (pointStalkRingEquiv B S hS ⟨yoneda.obj U, isAlgebraicSpace_yoneda B S hS U⟩ x)
       (representedAffineGlobalStalkRingHom B S hS U x a) ∈ P.asIdeal ↔ _
   rw [e1, ← Ideal.mem_comap, ← PrimeSpectrum.comap_asIdeal, hP]
   rfl

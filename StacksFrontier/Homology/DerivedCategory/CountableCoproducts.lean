@@ -17,7 +17,7 @@ public import Mathlib.CategoryTheory.Functor.OfSequence
 public import Mathlib.CategoryTheory.Localization.Adjunction
 public import Mathlib.CategoryTheory.Triangulated.Yoneda
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Order.CompletePartialOrder
 
 /-!
@@ -90,7 +90,7 @@ theorem shortComplexHomologyFunctor_preservesCoproductsℕ :
   rw [show (ShortComplex.colimitCocone K).ι.app j = Sc.mapNatTrans (colim.ι j) from rfl,
     ShortComplex.homologyFunctor_map]
   refine Eq.trans ?_ (ShortComplex.homologyMap_mapNatTrans Sc (colim.ι j)).symm
-  rw [HasColimit.isoOfNatIso_ι_hom_assoc,
+  rw [HasColimit.ι_isoOfNatIso_hom_assoc,
     show ((ShortComplex.homologyFunctorIso CC).app Sc).inv = (Sc.mapHomologyIso CC).inv from rfl,
     colim.ι_app]
   congr 1
@@ -322,7 +322,7 @@ theorem piQuotient_map_eq_of_prodHtpy (R : Type u) [Ring R]
     (x y : ℕ → CochainComplex (ModuleCat.{u} R) ℤ) (f g : x ⟶ y) (h : prodHtpy R f g) :
     (piQuotient R).map f = (piQuotient R).map g := by
   funext n
-  show (HomotopyCategory.quotient _ _).map (f n) = (HomotopyCategory.quotient _ _).map (g n)
+  change (HomotopyCategory.quotient _ _).map (f n) = (HomotopyCategory.quotient _ _).map (g n)
   exact (Quotient.functor_map_eq_iff _ _ _).mpr (h n)
 
 /-- The comparison functor from `Quotient (prodHtpy R)` to the product of the homotopy
@@ -360,7 +360,7 @@ theorem prodHtpyQuotientToPi_full (R : Type u) [Ring R] :
     obtain ⟨b⟩ := B
     choose f hf using fun n => (Quotient.full_functor _).map_surjective (φ n)
     refine ⟨(Quotient.functor (prodHtpy R)).map f, ?_⟩
-    show (piQuotient R).map f = φ
+    change (piQuotient R).map f = φ
     exact funext hf
 
 /-- The functor `prodHtpyQuotientToPi R` is essentially surjective. -/
@@ -369,7 +369,7 @@ theorem prodHtpyQuotientToPi_essSurj (R : Type u) [Ring R] :
   mem_essImage Z := by
     choose X hX using fun n => HomotopyCategory.quotient_obj_surjective (Z n)
     refine ⟨⟨X⟩, ⟨eqToIso ?_⟩⟩
-    show (piQuotient R).obj X = Z
+    change (piQuotient R).obj X = Z
     exact funext hX
 
 /-- The functor `prodHtpyQuotientToPi R` is an equivalence of categories. -/
@@ -557,7 +557,7 @@ theorem pi_quasiIso_isInvertedBy_functorPi_quotient_comp_Qh :
           DerivedCategory.Q (C := ModuleCat.{u} R))).map f ≫ eIso.inv.app Y := by
     rw [← Category.assoc, ← eIso.hom.naturality f, Category.assoc, Iso.hom_inv_id_app,
       Category.comp_id]
-  show IsIso ((Functor.pi (fun (_ : ℕ) =>
+  change IsIso ((Functor.pi (fun (_ : ℕ) =>
       HomotopyCategory.quotient (ModuleCat.{u} R) (ComplexShape.up ℤ)
         ⋙ DerivedCategory.Qh)).map f)
   rw [hmapeq]

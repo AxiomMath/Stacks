@@ -177,7 +177,7 @@ theorem pointwiseChowClass_milnorChainExtend (k : ℤ) (b : PointwiseCycleGroup 
     pointwiseChowClass C p k (closedChainExtend C p i k 0 b) =
       chowPushforwardOfIsClosedImmersion C (i ≫ p) p i rfl k
         (pointwiseChowClass C (i ≫ p) k b) := by
-  show QuotientAddGroup.mk' (rationalEquivalences C p k)
+  change QuotientAddGroup.mk' (rationalEquivalences C p k)
       ((pointwiseCycleEquiv C p k).symm (closedChainExtend C p i k 0 b)) = _
   rw [pointwiseCycleEquiv_symm_closedChainExtend]
   exact (chowPushforwardOfIsClosedImmersion_mk C (i ≫ p) p i rfl k _).symm
@@ -202,6 +202,7 @@ theorem pointwiseChowClass_pointwiseDivisorDifferential (k : ℤ)
 
 /-! ### The splitting identities -/
 
+omit [LocallyOfFiniteType p] in
 /-- Restricting to the closed subscheme an extension by zero from it returns the chain. -/
 theorem closedChainComap_closedChainExtend (m : ℤ) (n : ℕ)
     (b : MilnorChainGroup C (i ≫ p) m n) :
@@ -210,6 +211,7 @@ theorem closedChainComap_closedChainExtend (m : ℤ) (n : ℕ)
     (injective_base_of_isClosedImmersion i) (bijective_residueFieldMap_closedImmersion i)
     inferInstance m n) b
 
+omit [LocallyOfFiniteType p] in
 /-- Extension by zero from the closed subscheme is injective. -/
 theorem closedChainExtend_injective (m : ℤ) (n : ℕ) :
     Function.Injective (closedChainExtend C p i m n) := fun b b' h ↦ by
@@ -230,6 +232,7 @@ variable (hcomp : Set.range i.base = (Set.range V.ι.base)ᶜ)
 
 include hcomp
 
+omit [LocallyOfFiniteType p] in
 /-- An extension by zero from the closed subscheme restricts to zero on the open subscheme. -/
 theorem openChainComap_closedChainExtend (m : ℤ) (n : ℕ)
     (b : MilnorChainGroup C (i ≫ p) m n) :

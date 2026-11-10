@@ -151,7 +151,7 @@ theorem exists_isAffineEtaleCover_of_isAlgebraicSpaceULift (Z : FppfSheaf B S hS
       let ξ : uliftYoneda.{u + 1}.obj T ⟶ Z.obj := uliftYonedaEquiv.symm y
       let p := hqs.rep.snd ξ
       have hcover : Sieve.generate (Presieve.singleton p) ∈ J T := by
-        show Sieve.generate (Presieve.singleton p) ∈ B.topology.over (B.obj hS) T
+        change Sieve.generate (Presieve.singleton p) ∈ B.topology.over (B.obj hS) T
         rw [B.topology.mem_over_iff, Sieve.overEquiv_generate,
           ← Sieve.arrows_generate_map_eq_functorPushforward, Sieve.generate_sieve,
           Presieve.map_singleton]

@@ -196,7 +196,7 @@ theorem quotientMap_smul {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S
     (I' : Ideal S) (h : I ≤ I'.comap f) (r : R) (m : R ⧸ I) :
     Ideal.quotientMap I' f h (r • m) = f r • Ideal.quotientMap I' f h m := by
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective m
-  show Ideal.quotientMap I' f h (Ideal.Quotient.mk I (r * a)) =
+  change Ideal.quotientMap I' f h (Ideal.Quotient.mk I (r * a)) =
     f r • Ideal.quotientMap I' f h (Ideal.Quotient.mk I a)
   rw [Ideal.quotientMap_mk, Ideal.quotientMap_mk, map_mul]
   rfl
@@ -255,7 +255,7 @@ theorem quotModule_isCartesian
   have hρ : ∀ b : A.obj m, (situation.{u}.restrictTransitionModulesApp (ringSheaf A) φ
       (quotModule A J hJ)).val.app (op pt) (Ideal.Quotient.mk (J m) b) =
         (show Mn from Ideal.Quotient.mk (J n) ((A.map φ).hom b)) := fun b => by
-    show Ideal.quotientMap (J n) (A.map φ).hom (hJ φ) (Ideal.Quotient.mk (J m) b) = _
+    change Ideal.quotientMap (J n) (A.map φ).hom (hJ φ) (Ideal.Quotient.mk (J m) b) = _
     rw [Ideal.quotientMap_mk]
   constructor
   · intro h₁ h₂ heq

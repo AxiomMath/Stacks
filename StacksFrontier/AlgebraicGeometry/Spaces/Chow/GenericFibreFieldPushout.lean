@@ -8,7 +8,8 @@ import StacksCore.Tactic.EgaSgaAttribute
 # The generic fibre of a base change, as a pushout of the function fields themselves
 
 In Situation 0EDT let `X/B` and `Y/B` be good and integral and let `p : X ⟶ Y` be finite and
-dominant. `StacksFrontier.AlgebraicGeometry.Spaces.Chow.GenericFibreBaseChangePushout` identifies the
+dominant. `StacksFrontier.AlgebraicGeometry.Spaces.Chow.GenericFibreBaseChangePushout` identifies
+the
 generic fibre `G` of `X ×_Y V ⟶ V`, for `b : V ⟶ Y` a chart of `Y` through the generic point of a
 prime divisor, as the base change of `Spec R(X)` along `R(Y) → R(V)` — but at the level of the
 *global sections of the spectra*, that is as
@@ -127,8 +128,8 @@ available to state it at; a consumer working at the two generic points reads it 
 ### What Stacks 0EQ4 still needs after this
 
 The two plumbing steps the notes of
-`StacksFrontier.AlgebraicGeometry.Spaces.Chow.GenericFibreBaseChangePushout` list are done, and so is
-the field-theoretic step they feed. What remains is the third, **the coefficient identity**: for
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.GenericFibreBaseChangePushout` list are done, and so
+is the field-theoretic step they feed. What remains is the third, **the coefficient identity**: for
 each integral closed `Z ⊆ Y` of δ-dimension one less, both sides of
 `p_* div(f) = div(Nm_{R(X)/R(Y)}(f))` have to be read at the chart, by
 `AlgebraicGeometry.Space.PrimeDivisor.ord_eq_finsum_minimalPrimeOrd` (Stacks 0ENM), the left side
@@ -324,8 +325,8 @@ homomorphism is `Spec.fullyFaithful.preimage` of the morphism of schemes.
 
 This is the clause that lets a square of field spectra be read back as a square of rings, through
 `CommRingCat.isPushout_iff_isPushout`. The implementation notes of
-`StacksFrontier.AlgebraicGeometry.Spaces.Chow.GenericFibreBaseChangePushout` record it as something a
-producer of the morphism has to be restated to expose; it is recovered after the fact from an
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.GenericFibreBaseChangePushout` record it as something
+a producer of the morphism has to be restated to expose; it is recovered after the fact from an
 arbitrary morphism, so no producer has to change. -/
 theorem exists_eq_specMap_of_hom_siteObject {p : FieldValuedPoint B S hS X}
     {q : FieldValuedPoint B S hS Y} (g : p.siteObject B S hS X ⟶ q.siteObject B S hS Y) :

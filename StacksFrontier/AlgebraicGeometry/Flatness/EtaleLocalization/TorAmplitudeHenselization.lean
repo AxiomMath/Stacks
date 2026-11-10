@@ -73,11 +73,11 @@ private lemma torAmplitude_iff_of_quasiIso {R : Type u} [CommRing R]
         IsZero (FaithfullyFlat.derivedTensorHomology Q M i) := by
     have hproj : ∀ n : ℤ, Projective ((FaithfullyFlat.projResComplex M).X n) := by
       intro n
-      show Projective (((ProjectiveResolution.of M).complex.extend
+      change Projective (((ProjectiveResolution.of M).complex.extend
         ComplexShape.embeddingDownNat).X n)
       infer_instance
     have hLE : (FaithfullyFlat.projResComplex M).IsStrictlyLE 0 := by
-      show CochainComplex.IsStrictlyLE
+      change CochainComplex.IsStrictlyLE
         ((ProjectiveResolution.of M).complex.extend ComplexShape.embeddingDownNat) 0
       infer_instance
     have := quasiIso_tensorRight_map
@@ -208,7 +208,7 @@ private lemma torAmplitude_restrictScalars_iff_of_isLE {A B : Type u}
       FaithfullyFlat.HasTorAmplitude P a b := by
   obtain ⟨E, g, hg, hE, hEflat⟩ := exists_flat_isStrictlyLE_quasiIso P b
   have : QuasiIso ((CochainComplex.restrictScalars f).map g) := by
-    show QuasiIso (((ModuleCat.restrictScalars f).mapHomologicalComplex _).map _)
+    change QuasiIso (((ModuleCat.restrictScalars f).mapHomologicalComplex _).map _)
     infer_instance
   rw [← torAmplitude_iff_of_quasiIso g a b,
     ← torAmplitude_iff_of_quasiIso ((CochainComplex.restrictScalars f).map g) a b]
@@ -400,7 +400,7 @@ private lemma moduleLift_flat_iff
     Module.Flat (ULift.{max m n} A)
         ((StacksDraft.TorAmplitude.moduleLift.{u, m, n} A).obj N) ↔
       Module.Flat A N := by
-  show Module.Flat (ULift.{max m n} A) (ULift.{max u n} N) ↔ Module.Flat A N
+  change Module.Flat (ULift.{max m n} A) (ULift.{max u n} N) ↔ Module.Flat A N
   rw [Module.Flat.ulift_left_iff, Module.Flat.ulift_right_iff]
 
 /-- Universe lifting preserves and reflects being supported in degrees `≥ a`. -/
@@ -591,8 +591,7 @@ private noncomputable def extendScalarsCarrierEquivLarge
   have key (b : B) (z : TensorProduct A
       (extendScalarsBaseModule.{u, uh} (A := A) (B := B) : Type uh)
       (N : Type (max m u uh))) : E (b • z) = b • E z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul x n =>
         rw [TensorProduct.smul_tmul' b x n]
         change (e (b • x)) ⊗ₜ[A] n = b • ((e x) ⊗ₜ[A] n)
@@ -660,15 +659,8 @@ private lemma extendScalarsLarge_reflectsIsomorphisms
   have hmap : (eY : _ → _) ∘ (F.map g).hom =
       (LinearMap.lTensor B g.hom) ∘ (eX : _ → _) := by
     funext z
-    show eY ((F.map g).hom z) = LinearMap.lTensor B g.hom (eX z)
-    induction z using TensorProduct.induction_on with
-    | zero =>
-        have h1 : eY ((F.map g).hom 0) = 0 :=
-          (congrArg (eY : _ → _) (map_zero (F.map g).hom)).trans (map_zero eY)
-        have h2 : LinearMap.lTensor B g.hom (eX 0) = 0 :=
-          (congrArg (LinearMap.lTensor B g.hom : _ → _) (map_zero eX)).trans
-            (map_zero (LinearMap.lTensor B g.hom))
-        exact h1.trans h2.symm
+    change eY ((F.map g).hom z) = LinearMap.lTensor B g.hom (eX z)
+    induction z using TensorProduct.inductionOn with
     | tmul s x => rfl
     | add x y hx hy =>
         have h1 : eY ((F.map g).hom (x + y)) =
@@ -911,7 +903,7 @@ private lemma flat_tfae_moduleLift (N : Type (max u uh ush w))
       Module.Flat Rsh N := by
     let : Module (ULift.{max u uh ush w, ush} Rsh) N :=
       Module.compHom N (RingHom.id _)
-    show Module.Flat (ULift.{max u uh ush w, ush} Rsh) N ↔ Module.Flat Rsh N
+    change Module.Flat (ULift.{max u uh ush w, ush} Rsh) N ↔ Module.Flat Rsh N
     exact Module.Flat.ulift_left_iff
   have hcard := flat_tfae_henselization.{u, uh, ush, v,
     max u uh ush w}

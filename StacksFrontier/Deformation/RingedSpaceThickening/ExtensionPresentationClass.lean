@@ -65,7 +65,6 @@ universe v u w z v' u'
 namespace Stacks.Sites.Conormal
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   {A B : Sheaf J CommRingCat.{w}} (φ : A ⟶ B)
   (G : SheafOfModules.{max w u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B))
   [Presheaf.IsLocallySurjective J φ.hom]
@@ -75,7 +74,7 @@ theorem conormalDesc_sub_eq (ρ σ : IdealRestriction φ G) :
     conormalDesc.{v, u, w, z} φ G (IdealRestriction.sub ρ σ) =
       conormalDesc.{v, u, w, z} φ G ρ - conormalDesc.{v, u, w, z} φ G σ := by
   refine conormal_hom_ext.{v, u, w, z} φ G (fun X x ↦ ?_)
-  show ((conormalDesc.{v, u, w, z} φ G (IdealRestriction.sub ρ σ)).val.app X) _ =
+  change ((conormalDesc.{v, u, w, z} φ G (IdealRestriction.sub ρ σ)).val.app X) _ =
     ((conormalDesc.{v, u, w, z} φ G ρ).val.app X) _ -
       ((conormalDesc.{v, u, w, z} φ G σ).val.app X) _
   rw [conormalDesc_toAssociatedModule, conormalDesc_toAssociatedModule,

@@ -111,8 +111,8 @@ not closed immersions.
 
 ## Universe situation
 
-A single universe `u` (`Scheme.{u}` and `SheafOfModules.{u}`), as in the tagged statements, forced by
-`RingedSpaceModuleAdjunction`, whose module pullback exists only for `RingedSpace.{u, u}`.
+A single universe `u` (`Scheme.{u}` and `SheafOfModules.{u}`), as in the tagged statements, forced
+by `RingedSpaceModuleAdjunction`, whose module pullback exists only for `RingedSpace.{u, u}`.
 
 ## Transparency gotchas
 
@@ -142,7 +142,8 @@ Three spellings have to be kept apart, and each one is forced on a different inp
   `modulePullbackIdealSheafIsoOfIsoSource_unit_app` reads the source transport on a section
   *named by* the unit, which is as far as a sheafification admits: the module pullback has no
   elementwise description, so there is no formula for a unit generator's own value, and a
-  generator formula in the sense of the statement has to be carried by these equations rather than by a
+  generator formula in the sense of the statement has to be carried by these equations rather than
+  by a
   section computation. For `idealSheafIsoPullbackOfSquare` not even that much is done — only the
   morphism equation `idealSheafIsoPullbackOfSquare_unit` is available.
 * **No unit compatibility for the chain to the affine model as a whole.** The individual

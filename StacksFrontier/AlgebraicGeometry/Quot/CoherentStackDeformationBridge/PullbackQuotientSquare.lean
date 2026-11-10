@@ -89,7 +89,7 @@ theorem pushforwardModulesCompAt_hom_app_comp_eqToHom {X₀ X₂ X₁ : Algebrai
   rw [h₁]
   exact (congrArg (_ ≫ ·) (Category.id_comp _)).trans
     ((Iso.hom_inv_id_assoc ((pushforwardModulesIsoModulePushforward B S hS b).app _) _).symm.trans
-      (congrArg (_ ≫ ·) (Iso.map_hom_inv_id_assoc
+      (congrArg (_ ≫ ·) (Iso.hom_inv_id_map_assoc
         ((pushforwardModulesIsoModulePushforward B S hS a).app M) _ _).symm))
 
 /-- **The map adjoint to `φ : f^*M ⟶ N`, on small étale ringed topoi, read through the

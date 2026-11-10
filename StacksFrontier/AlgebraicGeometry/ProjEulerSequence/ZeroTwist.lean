@@ -119,7 +119,7 @@ lemma val_mem_moduleSections (U : Opens (ProjectiveSpectrum.top 𝒮))
   refine ⟨V, hxV, iV, k, num.1, den.1,
     mem_integerGrading_natCast 𝒮 num.2, den.2, hden, fun y => ?_⟩
   have hwy : r.1 (iV y) = HomogeneousLocalization.mk ⟨k, num, den, hden y⟩ := hw y
-  show HomogeneousLocalization.val (r.1 (iV y)) = LocalizedModule.mk num.1 ⟨den.1, hden y⟩
+  change HomogeneousLocalization.val (r.1 (iV y)) = LocalizedModule.mk num.1 ⟨den.1, hden y⟩
   rw [hwy]
   rfl
 

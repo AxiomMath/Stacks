@@ -184,7 +184,7 @@ public theorem completionToQuotient_surjective
   obtain ⟨x, hx⟩ := AdicCompletion.surjective_evalₐ
     (pAdicIdeal (A := A) p) n (Ideal.Quotient.mk _ a)
   refine ⟨x, ?_⟩
-  show (Ideal.Quotient.factor (pAdicIdeal_pow_nilpotencyExponent_le I p hp))
+  change (Ideal.Quotient.factor (pAdicIdeal_pow_nilpotencyExponent_le I p hp))
       (AdicCompletion.evalₐ (pAdicIdeal (A := A) p) n x) = _
   rw [hx]
   exact Ideal.Quotient.factor_mk _ a
@@ -201,7 +201,7 @@ public theorem completion_map_subtype_mem
     (x : AdicCompletion (pAdicIdeal (A := A) p) I) :
     AdicCompletion.map (pAdicIdeal (A := A) p) I.subtype x ∈
       completionIdeal I p hp := by
-  show completionToQuotient I p hp
+  change completionToQuotient I p hp
       (AdicCompletion.map (pAdicIdeal (A := A) p) I.subtype x) = 0
   classical
   apply AdicCompletion.induction_on (pAdicIdeal (A := A) p) I x

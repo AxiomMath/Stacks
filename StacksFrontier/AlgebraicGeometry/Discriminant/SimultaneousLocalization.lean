@@ -131,7 +131,7 @@ public theorem localizedModule_dualizingModule_equiv_of_baseLocalization_eq_comp
               (localizedModule_dualizingModule_equiv (algebraMap A B f)
                 F H₀ localizationMap hM m)) := by
       simpa [dualizingModuleEquiv_refl] using hBase
-    show dualizingModule_equiv_of_isLocalization_away f H₀ G
+    change dualizingModule_equiv_of_isLocalization_away f H₀ G
           (localizedModule_dualizingModule_equiv (algebraMap A B f)
             F H₀ localizationMap hM m) =
         dualizingModule_equiv_of_isLocalization_away f H G

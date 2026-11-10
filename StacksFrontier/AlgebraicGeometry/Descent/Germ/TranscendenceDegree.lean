@@ -146,7 +146,7 @@ private theorem openResidueFieldMapIsoAt_toRingHom
       normalizedResidueFieldMap U.ι x y h := by
   subst y
   ext z
-  show (openResidueFieldMapIso U x).toRingHom z =
+  change (openResidueFieldMapIso U x).toRingHom z =
     (U.ι.residueFieldMap x).hom z
   rfl
 
@@ -233,7 +233,7 @@ private theorem representativeResidueFieldMap_restrict
   have hLE : X.scheme.homOfLE hU ≫ f.source.ι = U.ι := by simp
   have hx : x₁ = x₀ := by
     apply Subtype.ext
-    show f.source.ι (X.scheme.homOfLE hU xU) = X.point
+    change f.source.ι (X.scheme.homOfLE hU xU) = X.point
     calc
       _ = (X.scheme.homOfLE hU ≫ f.source.ι) xU := rfl
       _ = U.ι xU := congrArg (fun k : U.toScheme ⟶ X.scheme => k xU) hLE
@@ -292,7 +292,7 @@ private theorem representativeResidueFieldMap_restrict
     mem_source := hxU
     hom := X.scheme.homOfLE hU ≫ f.hom
     map_point := by
-      show f.hom (X.scheme.homOfLE hU ⟨X.point, hxU⟩) = Y.point
+      change f.hom (X.scheme.homOfLE hU ⟨X.point, hxU⟩) = Y.point
       rw [show X.scheme.homOfLE hU ⟨X.point, hxU⟩ =
         ⟨X.point, f.mem_source⟩ by apply Subtype.ext; simp]
       exact f.map_point
@@ -313,7 +313,7 @@ private theorem representativeResidueFieldMap_restrict
   rw [← hg]
   dsimp only [representativeResidueFieldMap, g]
   rw [hpm]
-  show eU.symm.toRingHom
+  change eU.symm.toRingHom
       ((CommRingCat.Hom.hom
         ((Y.scheme.residueFieldCongr
           ((congrArg f.hom hx).trans f.map_point)).inv ≫
@@ -353,7 +353,7 @@ private theorem representativeResidueFieldMap_compRepresentative
   let W := f.source.ι ''ᵁ P
   let xF : f.source.toScheme := ⟨X.point, f.mem_source⟩
   have hxP : xF ∈ P := by
-    show f.hom xF ∈ g.source
+    change f.hom xF ∈ g.source
     rw [f.map_point]
     exact g.mem_source
   let xP : P.toScheme := ⟨xF, hxP⟩
@@ -372,7 +372,7 @@ private theorem representativeResidueFieldMap_compRepresentative
   have he : e xW = xP := by
     apply Subtype.ext
     apply Subtype.ext
-    show f.source.ι (P.ι (e xW)) = W.ι xW
+    change f.source.ι (P.ι (e xW)) = W.ι xW
     simpa only [Scheme.Hom.comp_apply] using
       congrArg (fun k : W.toScheme ⟶ X.scheme => k xW) hImageHom
   have hpx : P.ι xP = xF := Subtype.ext rfl
@@ -434,7 +434,7 @@ private theorem representativeResidueFieldMap_compRepresentative
   have hER : (e ≫ r) xW = xG := by simp [he, hr]
   have hNormC : normalizedResidueFieldMap c.hom xW Z.point c.map_point =
       (nE.comp nR).comp ng := by
-    show normalizedResidueFieldMap ((e ≫ r) ≫ g.hom) xW Z.point _ = _
+    change normalizedResidueFieldMap ((e ≫ r) ≫ g.hom) xW Z.point _ = _
     calc
       _ = (normalizedResidueFieldMap (e ≫ r) xW xG hER).comp ng :=
         normalizedResidueFieldMap_comp (e ≫ r) g.hom xW xG Z.point hER g.map_point
@@ -442,7 +442,7 @@ private theorem representativeResidueFieldMap_compRepresentative
         rw [normalizedResidueFieldMap_comp e r xW xP xG he hr]
   have hpc : representativeResidueFieldMap c =
       eW.symm.toRingHom.comp ((nE.comp nR).comp ng) := by
-    show eW.symm.toRingHom.comp
+    change eW.symm.toRingHom.comp
       (normalizedResidueFieldMap c.hom xW Z.point c.map_point) = _
     rw [hNormC]
   have hpf : representativeResidueFieldMap f = eF.symm.toRingHom.comp nf := rfl
@@ -514,7 +514,7 @@ private theorem representativeResidueFieldMap_eq_of_agreeNear
     apply RingHom.ext
     intro z
     dsimp only [representativeResidueFieldMap, fW, gW]
-    show ((openResidueFieldMapIso W xW).symm.toRingHom.comp
+    change ((openResidueFieldMapIso W xW).symm.toRingHom.comp
       ((Y.scheme.residueFieldCongr pF).inv ≫
         mF.residueFieldMap xW).hom) z =
       ((openResidueFieldMapIso W xW).symm.toRingHom.comp

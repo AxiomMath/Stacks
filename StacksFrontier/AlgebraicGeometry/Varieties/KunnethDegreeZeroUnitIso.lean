@@ -120,11 +120,7 @@ theorem exists_eq_degreeZeroKunnethUnit_comp
     (boxDerived k X.hom Y.hom (structureSheafObj k X) (structureSheafObj k Y))
   have hall : ∀ w, ∃ m, μ.hom w = cW (degreeZeroKunnethUnit k X Y ≫ m) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero =>
-      refine ⟨0, ?_⟩
-      rw [map_zero, Limits.comp_zero, map_zero]
-      rfl
+    induction w using TensorProduct.inductionOn with
     | tmul a b =>
       refine ⟨boxDerivedMap k X Y ((degreeZeroClassAddEquiv k X _).symm a)
         ((degreeZeroClassAddEquiv k Y _).symm b), ?_⟩

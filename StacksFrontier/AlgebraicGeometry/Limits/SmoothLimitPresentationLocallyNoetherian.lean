@@ -95,7 +95,7 @@ private theorem exists_cofiltered_smooth_limit_presentation_specCompletedStalk_o
   refine ⟨I, hI, hcof, D, pp ≫ (Functor.const I).map j, c, hc, specIso ≪≫ e, haff,
     fun i => ?_, fun i => ?_⟩
   · have := hsm i
-    show Smooth (pp.app i ≫ j)
+    change Smooth (pp.app i ≫ j)
     infer_instance
   · have hgeo : X.fromSpecStalk x ≫ j =
         Spec.map (j.stalkMap x) ≫ Y.fromSpecStalk (j x) :=
@@ -114,7 +114,7 @@ private theorem exists_cofiltered_smooth_limit_presentation_specCompletedStalk_o
           (IsLocalRing.map_maximalIdeal_le _)) a
       have hhom : (j.stalkMap x).hom a = j.stalkHomAt rfl a := by
         simp [Scheme.Hom.stalkHomAt, TopCat.Presheaf.stalkCongr_hom]
-      show φ.symm (algebraMap (X.presheaf.stalk x) _ ((j.stalkMap x).hom a)) = _
+      change φ.symm (algebraMap (X.presheaf.stalk x) _ ((j.stalkMap x).hom a)) = _
       rw [hhom, ← ha, φ.symm_apply_apply]
       rfl
     have main : specIso.hom ≫ (e.hom ≫ c.π.app i ≫ pp.app i) ≫ j =
@@ -125,7 +125,7 @@ private theorem exists_cofiltered_smooth_limit_presentation_specCompletedStalk_o
       simp only [specIso, asIso_hom]
       rw [← Category.assoc, ← Category.assoc, ← Spec.map_comp, ← Spec.map_comp]
       exact congrArg (fun f => Spec.map f ≫ Y.fromSpecStalk (j x)) hring
-    show (specIso.hom ≫ e.hom) ≫ c.π.app i ≫ pp.app i ≫ j = _
+    change (specIso.hom ≫ e.hom) ≫ c.π.app i ≫ pp.app i ≫ j = _
     rw [← main]
     simp only [Category.assoc]
 

@@ -82,7 +82,7 @@ public theorem mem_precoverage_iff_isHCovering {T : B.Schemes}
       fun i => ?_
     let φ := PreZeroHypercover.homOfPresieveLE hR.le
     have hlfp : LocallyOfFinitePresentation (B.inclusion.map (E'.f (φ.s₀ i))) := hE'h.1 (φ.s₀ i)
-    show LocallyOfFinitePresentation (B.inclusion.map (E.f i))
+    change LocallyOfFinitePresentation (B.inclusion.map (E.f i))
     have : IsIso (B.inclusion.map (φ.h₀ i)) := by
       dsimp [φ, PreZeroHypercover.homOfPresieveLE]
       infer_instance
@@ -202,7 +202,7 @@ public theorem exists_properRefinement (U : B.Schemes) (R : Presieve U)
         h ≫ pullback.fst (B.inclusion.map (E.f s)) O.ι, ?_⟩
       have hc : pullback.fst (B.inclusion.map (E.f s)) O.ι ≫ B.inclusion.map (E.f s) =
           pullback.snd _ O.ι ≫ O.ι := pullback.condition
-      show (h ≫ pullback.fst (B.inclusion.map (E.f s)) O.ι) ≫ B.inclusion.map (E.f s) =
+      change (h ≫ pullback.fst (B.inclusion.map (E.f s)) O.ι) ≫ B.inclusion.map (E.f s) =
         j k ≫ p ≫ O.ι
       rw [Category.assoc, hc, ← Category.assoc, hh, Category.assoc]
 

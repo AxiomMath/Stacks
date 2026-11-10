@@ -288,17 +288,14 @@ theorem pow_smul_tensor_le_range {n n' : ℕ}
   rw [pow_add] at hr
   refine Submodule.mul_induction_on hr ?_ ?_
   · intro x hx y hy z _
-    induction z using TensorProduct.induction_on with
-    | zero =>
-        rw [smul_zero]
-        exact Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul u v =>
         obtain ⟨c, hc⟩ := hquot (Submodule.smul_mem_smul hx (Submodule.mem_top (x := u)))
         obtain ⟨c', hc'⟩ := hquot' (Submodule.smul_mem_smul hy (Submodule.mem_top (x := v)))
         have hcu : x • u = algebraMap A B c := hc.symm
         have hcv : y • v = algebraMap A B' c' := hc'.symm
         refine ⟨c * c', ?_⟩
-        show algebraMap A (B ⊗[A] B') (c * c') = (x * y) • (u ⊗ₜ[A] v)
+        change algebraMap A (B ⊗[A] B') (c * c') = (x * y) • (u ⊗ₜ[A] v)
         rw [mul_smul, ← TensorProduct.tmul_smul, TensorProduct.smul_tmul', hcu, hcv,
           Algebra.algebraMap_eq_smul_one (R := A) (A := B) c,
           Algebra.algebraMap_eq_smul_one (R := A) (A := B') c',
@@ -329,7 +326,7 @@ theorem exists_pow_smul_le_range_commonRefinement {n n' : ℕ}
     (Submodule.smul_mem_smul hr (Submodule.mem_top (x := d)))
   refine ⟨c, ?_⟩
   rw [Algebra.linearMap_apply] at hc
-  show algebraMap A (TorsionCommonRefinement A B B') c =
+  change algebraMap A (TorsionCommonRefinement A B B') c =
     r • algebraMap (B ⊗[A] B') (TorsionCommonRefinement A B B') d
   rw [smul_algebraMap, IsScalarTower.algebraMap_apply A (B ⊗[A] B')
     (TorsionCommonRefinement A B B') c]

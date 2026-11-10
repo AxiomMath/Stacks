@@ -165,7 +165,7 @@ theorem graphCorr_heq {XX XX' YY YY' : Scheme.{u}} (sXX : XX ⟶ (fieldChowSitua
     (sXX' : XX' ⟶ (fieldChowSituation k).S) (sYY : YY ⟶ (fieldChowSituation k).S)
     (sYY' : YY' ⟶ (fieldChowSituation k).S) [iX : Smooth sXX] [iX' : Smooth sXX']
     [jX : IsSeparated sXX] [jX' : IsSeparated sXX'] [iY : Smooth sYY] [iY' : Smooth sYY']
-    [jY : IsSeparated sYY] [jY' : IsSeparated sYY'] [qY : QuasiCompact sYY]
+    [jY' : IsSeparated sYY'] [qY : QuasiCompact sYY]
     [qY' : QuasiCompact sYY'] (eX : XX = XX') (hX : sXX ≍ sXX') (eY : YY = YY')
     (hY : sYY ≍ sYY') (ψ : YY ⟶ XX) (ψ' : YY' ⟶ XX') (hψ : ψ ≫ sXX = sYY)
     (hψ' : ψ' ≫ sXX' = sYY') (h : ψ ≍ ψ') :
@@ -177,7 +177,6 @@ theorem graphCorr_heq {XX XX' YY YY' : Scheme.{u}} (sXX : XX ⟶ (fieldChowSitua
   obtain rfl : iX = iX' := Subsingleton.elim _ _
   obtain rfl : jX = jX' := Subsingleton.elim _ _
   obtain rfl : iY = iY' := Subsingleton.elim _ _
-  obtain rfl : jY = jY' := Subsingleton.elim _ _
   obtain rfl : qY = qY' := Subsingleton.elim _ _
   rfl
 
@@ -215,8 +214,7 @@ theorem corrEquivOfIso_heq {X X' Y Y' Z Z' W W' : Scheme.{u}} (sX : X ⟶ (field
     (tX' : Z' ⟶ (fieldChowSituation k).S) (sY : Y ⟶ (fieldChowSituation k).S)
     (tY : W ⟶ (fieldChowSituation k).S) (sY' : Y' ⟶ (fieldChowSituation k).S)
     (tY' : W' ⟶ (fieldChowSituation k).S)
-    [i₁ : Smooth sX] [j₁ : IsSeparated sX] [i₂ : Smooth sX'] [j₂ : IsSeparated sX']
-    [i₃ : Smooth sY] [j₃ : IsSeparated sY] [i₄ : Smooth sY'] [j₄ : IsSeparated sY']
+    [i₁ : Smooth sX] [i₂ : Smooth sX'] [i₃ : Smooth sY] [i₄ : Smooth sY']
     [i₁' : Smooth tX] [j₁' : IsSeparated tX] [i₂' : Smooth tX'] [j₂' : IsSeparated tX']
     [i₃' : Smooth tY] [j₃' : IsSeparated tY] [i₄' : Smooth tY'] [j₄' : IsSeparated tY']
     (eX : X = Z) (hX : sX ≍ tX) (eX' : X' = Z') (hX' : sX' ≍ tX') (eY : Y = W) (hY : sY ≍ tY)

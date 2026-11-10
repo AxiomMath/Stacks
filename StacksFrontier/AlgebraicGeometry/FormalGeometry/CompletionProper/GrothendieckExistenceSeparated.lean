@@ -272,7 +272,7 @@ public theorem bijective_completionFunctor_map_of_annihilatedByKer
     refine NatTrans.ext (funext fun n => ?_)
     obtain ⟨m⟩ := n
     have h := pushforwardCompletionIso_naturality J.subschemeι (baseIdealSheaf A I f) u m
-    show ((completionFunctor X (baseIdealSheaf A I f)).map
+    change ((completionFunctor X (baseIdealSheaf A I f)).map
         (pushforwardCoherentMap J.subschemeι u)).hom.app (op m) =
       ψF.hom.app (op m) ≫ (Scheme.Modules.pushforward J.subschemeι).map
         (((completionFunctor J.subscheme

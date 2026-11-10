@@ -110,9 +110,10 @@ this file: the imports here carry `StacksFrontier.Homology.DerivedCategory.Local
 `attribute [local instance]`. Of the ingredients, exactly those mentioning no derived category are
 single declarations serving both — `Stacks.DerivedPullback.mapHomologicalComplexCompFactors`,
 `AlgebraicGeometry.tildePullbackComplexIso` and `AlgebraicGeometry.extendScalarsSpec_additive`,
-all three in `StacksFrontier/AlgebraicGeometry/Scheme/QuasiCoherent/AffineTildeComplexes.lean`, which
-both files import. The rest is genuinely two declarations: `DerivedCategory (Spec S).Modules` is a
-different type at the two models, with morphisms in `Type u` here and in `Type (u + 1)` there.
+all three in `StacksFrontier/AlgebraicGeometry/Scheme/QuasiCoherent/AffineTildeComplexes.lean`,
+which both files import. The rest is genuinely two declarations:
+`DerivedCategory (Spec S).Modules` is a different type at the two models, with morphisms in
+`Type u` here and in `Type (u + 1)` there.
 
 *Three spellings of one category.* The degreewise pullback is written
 `AlgebraicGeometry.Scheme.Modules.pullback (Spec.map f)` and not

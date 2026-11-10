@@ -56,7 +56,7 @@ def liftConstHom {P P' : C ⥤ A} {Y Y' : B} {φ : ∀ c, L.obj (P.obj c) ⟶ R.
     (β : P ⟶ P') (g : Y ⟶ Y') (hβ : ∀ c, L.map (β.app c) ≫ φ' c = φ c ≫ R.map g) :
     liftConst P Y φ hφ ⟶ liftConst P' Y' φ' hφ' where
   app c := ⟨β.app c, g, hβ c⟩
-  naturality c' c u := Comma.hom_ext _ _ (β.naturality u)
+  naturality _ _ u := Comma.hom_ext _ _ (β.naturality u)
     ((Category.id_comp g).trans (Category.comp_id g).symm)
 
 /-- The natural transformation `liftConstHom` induced by `β = 𝟙 P` and `g = 𝟙 Y` is the

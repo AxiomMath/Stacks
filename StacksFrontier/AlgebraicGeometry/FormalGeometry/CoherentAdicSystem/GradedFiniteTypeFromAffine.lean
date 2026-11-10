@@ -95,7 +95,7 @@ theorem associatedGraded_piece_mem_closure_smul {A M : Type*} [CommRing A] [AddC
         have ha' : a ∈ AssociatedGraded.power (M := A) I n := by simpa using ha
         exact AddSubgroup.subset_closure ⟨⟨a, ha'⟩, m, rfl⟩
       · intro z hz w hw ihz ihw _
-        show Submodule.Quotient.mk
+        change Submodule.Quotient.mk
           ((⟨z, hz⟩ : AssociatedGraded.power (M := M) I n) + ⟨w, hw⟩) ∈ H
         rw [Submodule.Quotient.mk_add]
         exact AddSubgroup.add_mem H (ihz hz) (ihw hw)

@@ -148,18 +148,19 @@ universe u v
 
 namespace AlgebraicGeometry.Scheme.Hom
 
-variable {X Y Z : Scheme.{u}} [LocallyConnectedSpace X] [LocallyConnectedSpace Y]
-  [LocallyConnectedSpace Z]
-
 /-- Taking the connected component of the image is functorial: the component of `Z` that a
 component of `X` lands in under `f ≫ g` is the one it lands in after `f` and then `g`. -/
-theorem connectedComponentsMap_comp (f : X ⟶ Y) (g : Y ⟶ Z) (i : ConnectedComponents X) :
+theorem connectedComponentsMap_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z)
+    (i : ConnectedComponents X) :
     (f ≫ g).continuous.connectedComponentsMap i =
       g.continuous.connectedComponentsMap (f.continuous.connectedComponentsMap i) := by
   obtain ⟨x, rfl⟩ := ConnectedComponents.surjective_coe i
   rw [(f ≫ g).continuous.connectedComponentsMap_mk x, f.continuous.connectedComponentsMap_mk x,
     g.continuous.connectedComponentsMap_mk (f.base x)]
   rfl
+
+variable {X Y Z : Scheme.{u}} [LocallyConnectedSpace X] [LocallyConnectedSpace Y]
+  [LocallyConnectedSpace Z]
 
 /-- Two morphisms into connected components of `Z` indexed by equal components agree, up to the
 transport of their targets, as soon as they agree after the component inclusions: those

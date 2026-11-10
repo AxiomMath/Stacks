@@ -95,8 +95,7 @@ theorem bijective_restrictionBaseChange_of_isQuasicoherent (F : X.Modules) [F.Is
   have key : ∀ x, (Stacks.PresheafOfModules.restrictionBaseChange
       (R := X.presheaf) F.val (homOfLE h).op).hom x = hbc.equiv x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction x using TensorProduct.inductionOn with
     | tmul a m =>
         exact (Stacks.PresheafOfModules.restrictionBaseChange_tmul (R := X.presheaf) F.val
           (homOfLE h).op a m).trans (IsBaseChange.equiv_tmul hbc a m).symm

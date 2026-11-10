@@ -97,7 +97,7 @@ theorem bijective_of_pairing_transport_of_natCard_eq {X X' Y' Z' C : Type*} [Add
         rw [hpair, map_add, map_add, map_add, map_add, hpair, hpair] }
   have hker : π.ker = fc.ker :=
     le_antisymm (fun c hc => eq_of_forall_pairing_eq ψ' hψ'.2 hsep fun α => by
-      show ψ' α (f c) = _
+      change ψ' α (f c) = _
       rw [hpair, hc, map_zero, map_zero, map_zero]) (fun c hc => hinj c hc)
   let E₀ : Y ≃+ C ⧸ π.ker := (QuotientAddGroup.quotientKerEquivOfSurjective π hπ).symm
   let E₁ : C ⧸ π.ker ≃+ C ⧸ fc.ker := QuotientAddGroup.quotientAddEquivOfEq hker

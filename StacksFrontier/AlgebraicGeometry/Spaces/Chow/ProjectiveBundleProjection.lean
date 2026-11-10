@@ -50,10 +50,10 @@ subspace of `W` is at most `δ(W) = k`, with equality only for `W` itself:
   proper pushforward and the powers of the cap product are cycle maps of kernels.
 * `AlgebraicGeometry.Space.properCyclePushforward_firstChernCapPowCycleMap_flatPullbackMap_eq_zero`:
   `f_*(c₁(ℒ)^s ∩ f^*α) = 0` for `s` below the relative dimension.
-* `AlgebraicGeometry.Space.properCyclePushforward_firstChernCapPowCycleMap_flatPullbackMap_eq_self_iff`:
+* `Space.properCyclePushforward_firstChernCapPowCycleMap_flatPullbackMap_eq_self_iff`:
   the identity `f_*(c₁(ℒ)^n ∩ f^*α) = α` reduced to the coefficient of `f_*(c₁(ℒ)^n ∩ f^*[T])` at
   `T`.
-* `AlgebraicGeometry.Space.properCyclePushforward_firstChernCapPowCycleMap_flatPullbackMap_projectiveBundle_eq_zero`:
+* `Space.properCyclePushforward_firstChernCapPowCycleMap_flatPullbackMap_projectiveBundle_eq_zero`:
   **Stacks 0ERU for `s < n`**, at the level of cycles.
 
 ## Implementation notes
@@ -153,7 +153,7 @@ theorem integralCycleOrZero_coe_apply {b : ℤ}
     {W : IntegralClosedSubspace D.site D.base D.base_mem X}
     (hW : deltaDimension D sX W = b) (Z : IntegralClosedSubspace D.site D.base D.base_mem X) :
     (integralCycleOrZero D sX b W).1 Z = integralCycleCoeff D W Z := by
-  rw [integralCycleOrZero, dif_pos hW, integralCycle_coe]
+  rw [integralCycleOrZero, dite_eq_left hW, integralCycle_coe]
 
 /-- The identification `Z_a(X) = Z_b(X)` is the cycle map of the kernel `W ↦ [W]` over the
 identity. -/
@@ -176,7 +176,7 @@ theorem isCycleMapOfKernel_cycleGroupCast {a b : ℤ} (h : a = b) :
       · subst hZW
         exact subset_rfl
       · exact absurd (integralCycleCoeff_eq_zero D W hZW) hZ
-    · rw [integralCycleOrZero, dif_neg hW] at hZ
+    · rw [integralCycleOrZero, dite_eq_right hW] at hZ
       exact absurd rfl hZ
 
 variable {D sX} in
@@ -229,7 +229,7 @@ theorem IsCycleMapOfKernel.kernel_eq_zsmul (hX : D.IsGood sX) {a : ℤ}
     (hT : deltaDimension D sX T = a) :
     φ T = (φ T).1 T • integralCycle D sX a T hT := by
   refine Subtype.ext (funext fun Z => ?_)
-  show (φ T).1 Z = (φ T).1 T * integralCycleCoeff D T Z
+  change (φ T).1 Z = (φ T).1 T * integralCycleCoeff D T Z
   by_cases hZT : Z = T
   · subst hZT
     rw [integralCycleCoeff_self, mul_one]
@@ -268,14 +268,14 @@ theorem isCycleMapOfKernel_flatPullbackMap (m n : ℤ) (hmn : m + (r : ℤ) = n)
     refine finsum_congr fun W => ?_
     by_cases hW : α.1 W = 0
     · rw [hW, zero_mul, zero_mul]
-    · rw [flatPullbackKernel, dif_pos (α.2.2 W hW), cycleGroupCast_coe]
+    · rw [flatPullbackKernel, dite_eq_left (α.2.2 W hW), cycleGroupCast_coe]
       rfl
   support W T hT := by
     by_cases hW : deltaDimension D sY W = m
-    · rw [flatPullbackKernel, dif_pos hW, cycleGroupCast_coe] at hT
+    · rw [flatPullbackKernel, dite_eq_left hW, cycleGroupCast_coe] at hT
       exact subspacePointSet_subset_of_flatPullbackMult_ne_zero D sX hX sY hY f hbase r hflat hr
         W T hT
-    · rw [flatPullbackKernel, dif_neg hW] at hT
+    · rw [flatPullbackKernel, dite_eq_right hW] at hT
       exact absurd rfl hT
 
 end FlatPullbackKernel
@@ -331,7 +331,7 @@ theorem IsCycleMapOfKernel.properPushforward {a b : ℤ} {Φ : CycleGroup D sX a
         hTW (T.isGenericPoint_ambientGenericPoint D.site D.base D.base_mem hX.1).mem⟩
         ⟨rfl, right_ne_zero_of_mul h12,
           ((properCycleMult_ne_zero_iff D sY hY sX hX f V T).1 h3).1⟩
-    show (properCyclePushforward D sY hY sX hX hfB hf b (Φ α)).1 T = _
+    change (properCyclePushforward D sY hY sX hX hfB hf b (Φ α)).1 T = _
     rw [properPushforward_apply]
     simp_rw [h.apply, finsum_mul]
     rw [finsum_comm_of_finite (fun W V => α.1 W * (φ W).1 V * properCycleMult D sY hY sX hX f V T)
@@ -540,7 +540,7 @@ theorem chowClass_properCyclePushforward_firstChernCapPowCycleMap_flatPullbackMa
 of rank `n + 1`, the identity `π_*(c₁(𝒪_P(1))^n ∩ π^*α) = α` of `k`-cycles holds for every `α` if
 and only if, for every integral closed subspace `T ⊆ X` of δ-dimension `k`, the coefficient of
 `π_*(c₁(𝒪_P(1))^n ∩ π^*[T])` at `T` is `1`. That cycle is a multiple of `[T]`
-(`AlgebraicGeometry.Space.properCyclePushforward_firstChernCapPowCycleMap_flatPullbackMap_integralCycle`).
+(`Space.properCyclePushforward_firstChernCapPowCycleMap_flatPullbackMap_integralCycle`).
 -/
 theorem properCyclePushforward_firstChernCapPowCycleMap_flatPullbackMap_projectiveBundle_eq_self_iff
     (k : ℤ) :

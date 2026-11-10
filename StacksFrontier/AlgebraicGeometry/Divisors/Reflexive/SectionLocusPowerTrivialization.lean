@@ -133,7 +133,7 @@ theorem isIso_mulSectionHom {Z : RingedSpace.{u, u}}
     {A B : SheafOfModules.{u} (structureSheafRing Z)}
     (σ : 𝟙_ (SheafOfModules.{u} (structureSheafRing Z)) ⟶ A) [IsIso σ] :
     IsIso (mulSectionHom Z σ (G := B)) := by
-  show IsIso ((λ_ B).inv ≫ (σ ▷ B))
+  change IsIso ((λ_ B).inv ≫ (σ ▷ B))
   infer_instance
 
 /-- **Every transition of the tensor-power system of a trivializing section is invertible.**  In

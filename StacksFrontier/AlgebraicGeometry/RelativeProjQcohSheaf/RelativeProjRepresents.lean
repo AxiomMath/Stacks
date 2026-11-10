@@ -74,7 +74,8 @@ Situation 01NN. -/
 --   Fd.degreeOpenEquiv'_scale. The two inputs that complete it are
 --   ChartBaseClause.Fd.chartHom_comp_toBase for the base clause of the converse of the chart
 --   agreement, and ChartClassScale.Fd.chartClassInv_scale. This supersedes
---   AffineScaleRepresentation.F.representableByRelativeProjOfAffine, which restricted S to be affine.
+--   AffineScaleRepresentation.F.representableByRelativeProjOfAffine, which restricted S to be
+--   affine.
 def F.representableByRelativeProjOfCharts (P : RelativeProjData A) :
     (F.limFunctor (situationAlgebra A)).RepresentableBy P.scheme :=
   F.representableByRelativeProj (ProjDegreeRepresentation.ofCharts A P)
@@ -112,8 +113,10 @@ This is `...RelativeProjQcohSheaf.relativeProjRepresentableByFunctor` with its h
 `hrep` — which is exactly [Stacks, Tag 01NY] — discharged by
 `F.representableByRelativeProjOfCharts`. -/
 -- Beyond what this declaration proves, recorded here rather than in the attribute:
---   NOT proved here, and not a consequence: that the universal quadruple's psi is the psi of Tag 01NR or
---   that its L is O(d) that comparison is discussed in RelativeProjQcohSheaf.Theta and this repository
+--   NOT proved here, and not a consequence: that the universal quadruple's psi is the psi of Tag
+--   01NR or
+--   that its L is O(d) that comparison is discussed in RelativeProjQcohSheaf.Theta and this
+--   repository
 --   does not have it
 --   How it is proved, recorded here rather than in the attribute: it is
 --   GluedRepresentsFunctor.relativeProjRepresentableByFunctor, whose input hrep is exactly Tag 01NY
@@ -133,7 +136,8 @@ the graded-twist quotients over `W` of positive degree modulo the identification
 This is `...RelativeProjQcohSheaf.canonicalTwistQuotientEquiv` with its hypothesis `hrep`
 discharged. -/
 -- Beyond what this declaration proves, recorded here rather than in the attribute:
---   NOT proved here: that the universal quadruple's psi is the psi of Tag 01NR, or that its L is O(d)
+--   NOT proved here: that the universal quadruple's psi is the psi of Tag 01NR, or that its L is
+--   O(d)
 def canonicalTwistQuotientEquivUnconditional (W : Scheme.{u}) (hW : CompactSpace W) :
     (W ⟶ (relativeProj A).scheme) ≃ F (situationAlgebra A) W :=
   canonicalTwistQuotientEquiv A (relativeProj A)

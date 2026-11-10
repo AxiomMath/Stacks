@@ -53,8 +53,9 @@ source's own hypothesis; see "Why `𝓖` has to be quasi-coherent" below.
 ## The input from Stacks 03DW, and how it is discharged
 
 The one thing the argument above does not itself supply is the vanishing of the first
-cohomology of `𝓗om_𝒪(𝒪, 𝓖)`, the internal hom out of the structure sheaf, the input of Stacks 03DW together
-with Stacks 01XB.  It is proved, as `AlgebraicGeometry.SmallEtale.subsingleton_sheafH_one_toSheafSheafHomUnit`
+cohomology of `𝓗om_𝒪(𝒪, 𝓖)`, the internal hom out of the structure sheaf, the input of Stacks 03DW
+together with Stacks 01XB.  It is proved, as
+`AlgebraicGeometry.SmallEtale.subsingleton_sheafH_one_toSheafSheafHomUnit`
 (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/SmallEtaleInternalHomUnitVanishing.lean`), from
 which `AlgebraicGeometry.SmallEtale.subsingleton_sheafH_one_sheafHom_unit` below is read off,
 and the two registrations below are unconditional.  Only
@@ -75,7 +76,8 @@ The proof has three steps.
   `AddCommGrpCat.{u}`; `CategoryTheory.Sheaf.H'`, through which every existing statement routes,
   has no coefficient-universe parameter at all.  The universe-lifting functor on abelian groups
   is fully faithful but **not essentially surjective**; essential surjectivity is, however, not
-  what a comparison of `Ext` needs.  `CategoryTheory.Functor.mapExt_bijective_of_preservesInjectiveObjects` asks for an
+  what a comparison of `Ext` needs.
+  `CategoryTheory.Functor.mapExt_bijective_of_preservesInjectiveObjects` asks for an
   exact, fully faithful, injectivity-preserving functor out of a category with enough
   injectives, and `CategoryTheory.sheafCompose J AddCommGrpCat.uliftFunctor` is one on any site
   with a small dense subsite.  The passage is

@@ -191,7 +191,7 @@ private theorem fieldPointOverLargerBase_dominates
   obtain ⟨f, hf⟩ := h
   refine ⟨(Over.map g).map f, ?_⟩
   apply Subtype.ext
-  show (⟨f.left ≫ ⟨q.toBase⟩, _⟩ : Σ a, F.obj (Opposite.op (Over.mk a))) =
+  change (⟨f.left ≫ ⟨q.toBase⟩, _⟩ : Σ a, F.obj (Opposite.op (Over.mk a))) =
     ⟨⟨p.toBase⟩, p.value⟩
   rw [← hf]
   exact OverShriek.sigmaMk_eq F q.value _ f rfl
@@ -316,7 +316,7 @@ private theorem isEtale_from_scheme_iff
   let : Q.IsMultiplicative := {
     id_mem := fun U => by change Etale (T.map (𝟙 U)); rw [T.map_id]; infer_instance
     comp_mem := fun a b ha hb => by
-      show Etale (T.map (a ≫ b))
+      change Etale (T.map (a ≫ b))
       rw [T.map_comp]
       let : Etale (T.map a) := ha
       let : Etale (T.map b) := hb
@@ -466,7 +466,7 @@ private theorem pointsSchemeBaseEquiv_naturality
         ((relocalizedYonedaIso g T).hom ≫ (OverShriek.relocalizePresheafFunctor g).map a)
         (pointsSchemeBaseEquiv B S S' hS hS' g T x) := by
   rw [pointsOverLargerBaseEquiv_naturality]
-  show _ = Space.pointsMap B S' hS' _ _
+  change _ = Space.pointsMap B S' hS' _ _
     (Space.pointsMap B S' hS' _ (relocalizedYonedaIso g T).inv
       (pointsOverLargerBaseEquiv B S S' hS hS' g (yoneda.obj T) x))
   rw [← Space.pointsMap_comp_apply, Iso.inv_hom_id_assoc]
@@ -549,12 +549,12 @@ private theorem isClosed_relocalize_iff
     pointsOverLargerBaseEquiv_naturality B S S' hS hS' g f.hom x
   constructor
   · intro hf
-    show IsClosedMap p
+    change IsClosedMap p
     have h : IsClosedMap (EG.symm ∘ p' ∘ EF) :=
       EG.symm.isClosedMap.comp (IsClosedMap.comp hf EF.isClosedMap)
     simpa only [Function.comp_def, ← hw, EG.symm_apply_apply] using h
   · intro hf
-    show IsClosedMap p'
+    change IsClosedMap p'
     have hw' (x) : EG (p (EF.symm x)) = p' x := by
       rw [hw, EF.apply_symm_apply]
     have h : IsClosedMap (EG ∘ p ∘ EF.symm) :=
@@ -575,7 +575,7 @@ private theorem relocalizePreservesPullbacks
   let : ReflectsLimitsOfShape WalkingCospan PFU := inferInstance
   let : PreservesLimitsOfShape WalkingCospan
       (Over.map (yoneda.map f) ⋙ Over.forget (yoneda.obj U)) := by
-    show PreservesLimitsOfShape WalkingCospan (Over.forget (yoneda.obj V))
+    change PreservesLimitsOfShape WalkingCospan (Over.forget (yoneda.obj V))
     infer_instance
   let : PreservesLimitsOfShape WalkingCospan (Over.map (yoneda.map f)) :=
     preservesLimitsOfShape_of_reflects_of_preserves
@@ -604,7 +604,7 @@ private theorem presheaf_property_of_relocalize
   let R := OverShriek.relocalizePresheafFunctor g
   let j := Over.map g
   let : Q.RespectsIso := inferInstance
-  show Q.presheaf f
+  change Q.presheaf f
   apply MorphismProperty.relative.of_exists
   intro U a
   obtain ⟨T, b, c, hpb⟩ := hrep a

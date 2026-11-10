@@ -111,11 +111,11 @@ theorem isOpenImmersion_ι_of_forall_exists_opens {G : (BigFppfOver B S hS)ᵒ�
     congr 1
   have hkey : Subfunctor.range (yoneda.map i) = P.preimage q := by
     refine Subfunctor.ext (funext fun T => Set.ext fun h => ?_)
-    show (∃ t, (yoneda.map i).app T t = h) ↔ q.app T h ∈ P.obj T
+    change (∃ t, (yoneda.map i).app T t = h) ↔ q.app T h ∈ P.obj T
     rw [hq h, hU h]
     constructor
     · rintro ⟨t, rfl⟩
-      show Set.range ((BigFppfOver.toScheme B S hS).map (t ≫ i)) ⊆ _
+      change Set.range ((BigFppfOver.toScheme B S hS).map (t ≫ i)) ⊆ _
       rw [Functor.map_comp, Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp, ← hirange]
       exact Set.image_subset_range _ _
     · intro hh
@@ -210,7 +210,7 @@ theorem isRepresentable_picardFunctor_of_isSepClosed
     refine ⟨yonedaEquiv.symm ((smallPicardFunctorEquiv B hk f σ hσ Wb).symm
       ((picardFunctor f σ hσ).map ((BigFppfOver.toOver B (Spec (.of k)) hk).map i).op
         (universalClass f σ hσ hH))), fun {T} t => ?_⟩
-    show smallPicardFunctorEquiv B hk f σ hσ T ((smallPicardFunctor B hk f σ hσ).map t.op
+    change smallPicardFunctorEquiv B hk f σ hσ T ((smallPicardFunctor B hk f σ hσ).map t.op
       ((smallPicardFunctorEquiv B hk f σ hσ Wb).symm _)) = _
     rw [smallPicardFunctorEquiv_map, Equiv.apply_symm_apply,
       ← ConcreteCategory.comp_apply, ← Functor.map_comp, ← op_comp, ← Functor.map_comp]
@@ -235,7 +235,7 @@ theorem isRepresentable_picardFunctor_of_isSepClosed
     rw [hF, smallPicardFunctorEquiv_map, hU]
     constructor
     · rintro ⟨h', hh'⟩
-      show Set.range ((BigFppfOver.toOver B (Spec (.of k)) hk).map h).left ⊆ _
+      change Set.range ((BigFppfOver.toOver B (Spec (.of k)) hk).map h).left ⊆ _
       rw [← hh', Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp]
       exact (Set.image_subset_range _ _).trans_eq U.range_ι
     · intro hh
@@ -257,7 +257,7 @@ theorem isRepresentable_picardFunctor_of_isSepClosed
       obtain ⟨m', hmm'⟩ : ∃ m' : T.unop ⟶ H, (BigFppfOver.toOver B (Spec (.of k)) hk).map m' = m :=
         ⟨_, (BigFppfOver.fullyFaithfulToOver B (Spec (.of k)) hk).map_preimage m⟩
       obtain ⟨t, ht⟩ := hilift m' (by
-        show Set.range ((BigFppfOver.toOver B (Spec (.of k)) hk).map m').left ⊆ _
+        change Set.range ((BigFppfOver.toOver B (Spec (.of k)) hk).map m').left ⊆ _
         rw [hmm', ← hh, Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp]
         exact (Set.image_subset_range _ _).trans_eq W.range_ι)
       refine ⟨t, (smallPicardFunctorEquiv B hk f σ hσ T.unop).injective ?_⟩

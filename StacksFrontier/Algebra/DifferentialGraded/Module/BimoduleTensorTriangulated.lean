@@ -259,7 +259,7 @@ theorem tensorComp_quotient_respects_homotopy (N : Bimodule A B)
     rw [← e.hom.naturality f, Category.assoc, Iso.hom_inv_id_app, Category.comp_id]
   have hq : (toHomotopyCategory A ⋙ tensorHomotopyFunctor N).map f₁ =
       (toHomotopyCategory A ⋙ tensorHomotopyFunctor N).map f₂ := by
-    show (tensorHomotopyFunctor N).map ((toHomotopyCategory A).map f₁) =
+    change (tensorHomotopyFunctor N).map ((toHomotopyCategory A).map f₁) =
       (tensorHomotopyFunctor N).map ((toHomotopyCategory A).map f₂)
     rw [CategoryTheory.Quotient.sound (homotopyRel A) h]
   rw [key f₁, key f₂, hq]
@@ -426,7 +426,7 @@ private theorem tensor_g_f {f : K ⟶ L} {g : L ⟶ M} (hfg : IsAdmissibleShortE
     ((tensorCompFunctor N).map g).toFun (((tensorCompFunctor N).map f).toFun x) = 0 :=
   tensorMap_comp_eq_zero N (cocycleOfHom A g).1 (cocycleOfHom A f).1
     (fun z => by
-      show g.toFun (f.toFun z) = 0
+      change g.toFun (f.toFun z) = 0
       apply LinearMap.mem_ker.mp
       rw [← hfg.exact]
       exact ⟨z, rfl⟩) x
@@ -510,11 +510,11 @@ private theorem connectingHomogeneous_val (hfg : IsAdmissibleShortExact f g)
     (connectingHomogeneous c).1 x =
       (connectingHom f g hfg c.s c.π c.hs c.hπ c.hker).val.toFun x := by
   refine Eq.trans ?_ ((connectingHom f g hfg c.s c.π c.hs c.hπ c.hker).property x).symm
-  show c.π.toFun (((dgCategory A).d (gradedToHomogeneous c.s)).1 x) = _
+  change c.π.toFun (((dgCategory A).d (gradedToHomogeneous c.s)).1 x) = _
   rw [dgCategory_d_val]
   simp only [LinearMap.sub_apply, LinearMap.comp_apply, DifferentialGraded.gradedSign_zero,
     one_smul, map_sub]
-  show c.π.toFun (L.d (c.s.toFun x)) - c.π.toFun (c.s.toFun (M.d x)) = _
+  change c.π.toFun (L.d (c.s.toFun x)) - c.π.toFun (c.s.toFun (M.d x)) = _
   rw [compatibleSplittings_pi_s c, sub_zero]
 
 /-- The same computation after applying the tensor functor: the image of `π ∘ d_L ∘ s` is
@@ -536,7 +536,7 @@ private theorem tensor_connectingHom_toFun (hfg : IsAdmissibleShortExact f g)
     (tensorDGFunctor N).functor.map_d, dgCategory_d_val]
   simp only [LinearMap.comp_apply, LinearMap.sub_apply, DifferentialGraded.gradedSign_zero,
     one_smul, map_sub]
-  show _ = (tensorGradedHom N c.π).toFun (((tensorDGFunctor N).functor.obj L).d
+  change _ = (tensorGradedHom N c.π).toFun (((tensorDGFunctor N).functor.obj L).d
       ((tensorGradedHom N c.s).toFun z)) -
     (tensorGradedHom N c.π).toFun
       ((tensorGradedHom N c.s).toFun (((tensorDGFunctor N).functor.obj M).d z))
@@ -560,7 +560,7 @@ private theorem tensor_connectingHom (hfg : IsAdmissibleShortExact f g)
   refine (tensor_connectingHom_toFun N hfg c _).trans ?_
   rw [(tensorDGFunctor N).map_pure (connectingHomogeneous c) x y,
     connectingHomogeneous_val hfg c x]
-  show _ = (tensorShiftIso N K 1).1.inv.toFun
+  change _ = (tensorShiftIso N K 1).1.inv.toFun
     (((tensorCompFunctor N).map
       (connectingHom f g hfg c.s c.π c.hs c.hπ c.hker).val).toFun
         (((tensorDGFunctor N).pure M).toLinearMap x y))

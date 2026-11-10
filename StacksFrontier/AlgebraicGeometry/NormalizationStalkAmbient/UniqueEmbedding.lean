@@ -53,7 +53,7 @@ public theorem algHom_eq_id_of_fractionRing {A : Type*} [CommRing A]
   have hby := IsLocalization.sec_spec (nonZeroDivisors A) (y : FractionRing A)
   have hmul : algebraMap A S (p.2 : A) * y = algebraMap A S p.1 := by
     refine Subtype.ext ?_
-    show algebraMap A (FractionRing A) (p.2 : A) * (y : FractionRing A) = _
+    change algebraMap A (FractionRing A) (p.2 : A) * (y : FractionRing A) = _
     simpa [mul_comm] using hby
   have hcoe : ∀ z : S, algebraMap A S (p.2 : A) * z = algebraMap A S p.1 →
       algebraMap A (FractionRing A) (p.2 : A) * (z : FractionRing A) =

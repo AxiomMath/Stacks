@@ -240,9 +240,9 @@ theorem isQuasiAffine_of_isThickening_of_descentSituation
   have : IsAffineHom g := d.transition_affine _
   have : Surjective (pullback.fst g (a.app (op j.unop))) := by
     refine ⟨fun x ↦ ?_⟩
-    show x ∈ Set.range (pullback.fst g (a.app (op j.unop))).base
+    change x ∈ Set.range (pullback.fst g (a.app (op j.unop))).base
     rw [Scheme.Pullback.range_fst]
-    show g x ∈ Set.range (i.ker.map (d.limitCone.π.app (op j.unop))).subschemeι.base
+    change g x ∈ Set.range (i.ker.map (d.limitCone.π.app (op j.unop))).subschemeι.base
     rw [Scheme.IdealSheafData.range_subschemeι]
     exact hlS ⟨x, rfl⟩
   have : Scheme.IsQuasiAffine (E.obj (op j.unop)) := hj

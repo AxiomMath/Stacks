@@ -195,6 +195,8 @@ abbrev fibreBaseIso :
     restrictedCommRing J (fibreInclusion C n) (simplicialBase J (A := A)) ≅ A :=
   Stacks.SimplicialModules.fibreCommRingIso J ((Functor.const SimplexCategoryᵒᵖ).obj A) n
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- The square identifying `i_n^{-1}(π^{-1}𝒜 ⟶ 𝒫)` with `𝒜 ⟶ P_n` commutes: it is the
 naturality of `Stacks.SimplicialModules.fibreCommRingIso` at the structure maps
 `CategoryTheory.Sheaf.resolutionCommBase`. -/
@@ -303,6 +305,8 @@ def fibreDifferentialsIso :
     (derivationsFunctor.{u} A ((resolutionCommRing J f).obj (op n))
       ((resolutionCommBase J f).app (op n))).corepresentableBy
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- **The identification is the one carrying the restricted universal derivation to the universal
 derivation of `Ω_{P_n/𝒜}`**: transposing it along the corepresentation of
 `CategoryTheory.Sheaf.fibreDifferentialsCorepresentableBy` returns that universal derivation, and
@@ -347,6 +351,7 @@ def fibrePrincipalPartsX₁Iso (F : SheafOfModules.{u} (targetRing J (B := B))) 
         (simplicialResolution J f) (simplicialBaseMap J f))).app
     (simplicialCoefficients J f F)
 
+omit [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- The restriction to the fibre over `n` of the first term of the sequence of principal parts
 **is** the source of `CategoryTheory.Sheaf.fibrePrincipalPartsX₁Iso`: the `congrArg` of
 `CategoryTheory.Sheaf.simplicialPrincipalPartsShortComplex_X₁`. -/

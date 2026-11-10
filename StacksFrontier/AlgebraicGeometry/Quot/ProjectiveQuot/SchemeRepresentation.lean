@@ -62,7 +62,7 @@ theorem mem_hilbertFamilies_of_isEmpty {P : Polynomial ℚ} {T : Scheme.{u}} [Is
 
 /-- A scheme carrying a member of `Quot^P` is empty when `N < p`. -/
 theorem isEmpty_of_mem_hilbertFamilies_of_lt (hr : 1 ≤ r) {P : Polynomial ℚ}
-    (hlt : freeRank.{u} n r (regularityIndex.{u} n r hr P) < quotRank.{u} n r hr P)
+    (hlt : freeRank.{u} n r (regularityIndex.{u} n r P) < quotRank.{u} n r P)
     {T : Scheme.{u}} {K : Subobject (freeModule n r T)} (hK : K ∈ hilbertFamilies n r P T) :
     IsEmpty T :=
   ⟨fun t => by
@@ -71,7 +71,7 @@ theorem isEmpty_of_mem_hilbertFamilies_of_lt (hr : 1 ≤ r) {P : Polynomial ℚ}
 
 /-- If `N < p`, then `Quot^P(T)` has at most one element, for every scheme `T`. -/
 theorem subsingleton_hilbertFamilies_of_lt (hr : 1 ≤ r) {P : Polynomial ℚ}
-    (hlt : freeRank.{u} n r (regularityIndex.{u} n r hr P) < quotRank.{u} n r hr P)
+    (hlt : freeRank.{u} n r (regularityIndex.{u} n r P) < quotRank.{u} n r P)
     (T : Scheme.{u}) : Subsingleton (hilbertFamilies n r P T) :=
   ⟨fun K K' => by
     have := isEmpty_of_mem_hilbertFamilies_of_lt hr hlt K.2
@@ -90,8 +90,8 @@ proper over `Spec ℤ`. -/
 theorem exists_isProper_iso_hilbertFunctor (n r : ℕ) (hr : 1 ≤ r) (P : Polynomial ℚ) :
     ∃ X : Scheme.{u}, IsProper (terminal.from X) ∧
       Nonempty (hilbertFunctor.{u} n r P ≅ yoneda.obj X ⋙ uliftFunctor.{u + 1}) := by
-  by_cases hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P)
-  · exact ⟨_, isProper_hilbertLocus_terminalFrom hr hp, ⟨hilbertFunctorIso hr hp⟩⟩
+  by_cases hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P)
+  · exact ⟨_, isProper_hilbertLocus_terminalFrom hp, ⟨hilbertFunctorIso hp⟩⟩
   · have hlt := Nat.lt_of_not_le hp
     have hsub : ∀ T : Scheme.{u}ᵒᵖ,
         Subsingleton ((yoneda.obj (∅ : Scheme.{u}) ⋙ uliftFunctor.{u + 1}).obj T) := fun T =>

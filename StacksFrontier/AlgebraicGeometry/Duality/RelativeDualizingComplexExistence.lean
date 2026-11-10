@@ -167,7 +167,7 @@ theorem transport_comp_chase {C₁ C₂ C₃ E : Type*} [Category C₁] [Categor
       exact congrArg (· ≫ k) (κ.inv.naturality y).symm
   simp only [Iso.trans_inv, Iso.trans_hom, Iso.symm_hom, Iso.symm_inv, Functor.mapIso_hom,
     Functor.mapIso_inv, Iso.app_inv, Functor.map_comp, Category.assoc,
-    Iso.map_hom_inv_id_assoc, reassoc_of% hc', hn]
+    Iso.hom_inv_id_map_assoc, reassoc_of% hc', hn]
 
 /-- Conjugating a composite by a natural square, with every object a variable. -/
 theorem conj_map_comp {C₁ C₂ : Type*} [Category C₁] [Category C₂] (G : C₁ ⥤ C₂)
@@ -187,7 +187,7 @@ theorem cocycle_chase {C E : Type*} [Category C] [Category E] (H : E ⥤ C) {Δ 
     (t : A₁ ≅ A₂) (a : A₁ ⟶ A₃) (b : A₃ ⟶ B) (hy : x ≫ H.map t.hom = y) (hx : x ≫ H.map a = z)
     (hz : z ≫ H.map b = w) : y ≫ H.map (t.inv ≫ a ≫ b) = w := by
   rw [← hy, ← hz, ← hx]
-  simp only [Functor.map_comp, Category.assoc, Iso.map_hom_inv_id_assoc]
+  simp only [Functor.map_comp, Category.assoc, Iso.hom_inv_id_map_assoc]
 
 /-- Solving the compatibility of a glueing for the transition isomorphism, with every object a
 variable. -/
@@ -211,7 +211,7 @@ theorem chart_compat_chase {C E : Type*} [Category C] [Category E] (H : E ⥤ C)
     (hglue : τξ ≫ H.map (a ≫ c ≫ sV.hom) = ξV) : r = eV.hom ≫ ξV ≫ H.map sV.inv ≫ pV.inv := by
   have h₁ : r = eV.hom ≫ (τζ ≫ H.map c) ≫ pV.inv := by rw [hres]; simp
   rw [h₁, hτ, ← hglue]
-  simp only [Functor.map_comp, Category.assoc, Iso.map_hom_inv_id_assoc]
+  simp only [Functor.map_comp, Category.assoc, Iso.hom_inv_id_map_assoc]
 
 /-- **Two commutative squares of derived pullbacks paste.** Given squares `a₂₁ ≫ p₁ = p₂ ≫ b₂₁`
 and `a₃₂ ≫ p₂ = p₃ ≫ b₃₂` and their composite `a₃₁ ≫ p₁ = p₃ ≫ b₃₁`, the comparison
@@ -596,7 +596,7 @@ theorem exists_hom_of_squareOpens {A L : DerivedCategory D.W.Modules}
     intro P hP U hU hPU
     by_cases hd : ∀ x : X, D.diag.base x ∉ P
     · exact (hA P hd).eq_of_src _ _
-    · refine (dif_neg hd).trans (hφc P _ U _ hU _ hPU ?_)
+    · refine (dite_eq_right hd).trans (hφc P _ U _ hU _ hPU ?_)
       have hc := Classical.choose_spec (hP.resolve_left hd)
       exact le_antisymm (le_of_squareOpens_le (hc.2.trans hPU.symm).le)
         (le_of_squareOpens_le (hPU.trans hc.2.symm).le)

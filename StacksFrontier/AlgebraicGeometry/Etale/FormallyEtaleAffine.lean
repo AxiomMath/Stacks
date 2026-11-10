@@ -39,7 +39,7 @@ theorem formallyEtale_iff_globalSectionsMap_formallyEtale
     {X S : Scheme.{u}} [IsAffine X] [IsAffine S] (f : X ⟶ S) :
     FormallyEtale f ↔ (Scheme.Γ.map f.op).hom.FormallyEtale := by
   let : Algebra Γ(S, ⊤) Γ(X, ⊤) := f.appTop.hom.toAlgebra
-  show FormallyEtale f ↔ Algebra.FormallyEtale Γ(S, ⊤) Γ(X, ⊤)
+  change FormallyEtale f ↔ Algebra.FormallyEtale Γ(S, ⊤) Γ(X, ⊤)
   rw [formallyEtale_iff_formallySmooth_and_formallyUnramified,
     formallySmooth_iff_appTop_formallySmooth,
     HasRingHomProperty.iff_of_isAffine (P := @FormallyUnramified),

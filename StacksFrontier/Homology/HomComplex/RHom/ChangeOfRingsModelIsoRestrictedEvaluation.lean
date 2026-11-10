@@ -160,7 +160,7 @@ public lemma uncurry_comp_left {X P L M : CochainComplex (ModuleCat.{u} R) ℤ}
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro a b
-  show (uncurry (g ≫ u)).f n ((ιTensorObj X L p q n hpq).hom (a ⊗ₜ[R] b)) =
+  change (uncurry (g ≫ u)).f n ((ιTensorObj X L p q n hpq).hom (a ⊗ₜ[R] b)) =
     (uncurry u).f n ((g ⊗ₘ 𝟙 L).f n ((ιTensorObj X L p q n hpq).hom (a ⊗ₜ[R] b)))
   rw [uncurry_apply, tensorHom_apply, uncurry_apply]
   rfl

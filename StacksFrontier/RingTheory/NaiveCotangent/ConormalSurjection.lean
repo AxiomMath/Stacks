@@ -189,8 +189,7 @@ public theorem Cotangent.exact_liftBaseChange_map_of_ker_eq (h₁ : P₀.Hom P) 
         exact Submodule.smul_mem _ _ (iha hak)
     exact key _ hy y.2
   · rintro ⟨w, rfl⟩
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul c a =>
       obtain ⟨j, rfl⟩ := Cotangent.mk_surjective (P := P₀) a
       rw [LinearMap.liftBaseChange_tmul, map_smul, Cotangent.map_mk]

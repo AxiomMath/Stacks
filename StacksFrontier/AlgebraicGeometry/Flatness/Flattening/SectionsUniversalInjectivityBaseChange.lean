@@ -97,7 +97,7 @@ theorem universallyInjective_extendScalars_map_of_isPushout {R A B C : CommRingC
   let : Algebra R C := (φA ≫ ψA).hom.toAlgebra
   have : IsScalarTower R A C := IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower R B C := IsScalarTower.of_algebraMap_eq' (by
-    show (φA ≫ ψA).hom = (φB ≫ ψB).hom
+    change (φA ≫ ψA).hom = (φB ≫ ψB).hom
     rw [H.w])
   have : Algebra.IsPushout R B A C :=
     (CommRingCat.isPushout_iff_isPushout.mp H.flip)
@@ -116,8 +116,7 @@ theorem universallyInjective_extendScalars_map_of_isPushout {R A B C : CommRingC
   refine universallyInjective_of_linearEquiv
     ((extendScalarsTensorEquiv (R := A) (S := C) M).symm.restrictScalars B)
     ((extendScalarsTensorEquiv (R := A) (S := C) N).symm.restrictScalars B) (fun x ↦ ?_) hbc
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul c m => rfl
 

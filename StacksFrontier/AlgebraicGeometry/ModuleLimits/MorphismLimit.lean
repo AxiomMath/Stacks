@@ -95,12 +95,12 @@ theorem exists_pullback_map_eq_of_isAffine (i : I)
   have ha : ∀ {l m : (Over i)ᵒᵖ} (e : l ⟶ m) (x : Γ(D.obj i, ⊤)),
       E.map e (algebraMap Γ(D.obj i, ⊤) (E.obj l) x) = algebraMap Γ(D.obj i, ⊤) (E.obj m) x := by
     intro l m e x
-    show (D.map e.unop.left).appTop ((D.map l.unop.hom).appTop x) = (D.map m.unop.hom).appTop x
+    change (D.map e.unop.left).appTop ((D.map l.unop.hom).appTop x) = (D.map m.unop.hom).appTop x
     rw [← ConcreteCategory.comp_apply, ← Scheme.Hom.comp_appTop, ← D.map_comp, Over.w e.unop]
   have haR : ∀ (l : (Over i)ᵒᵖ) (x : Γ(D.obj i, ⊤)),
       d.ι.app l (algebraMap Γ(D.obj i, ⊤) (E.obj l) x) = algebraMap Γ(D.obj i, ⊤) d.pt x := by
     intro l x
-    show (c.π.app l.unop.left).appTop ((D.map l.unop.hom).appTop x) = (c.π.app i).appTop x
+    change (c.π.app l.unop.left).appTop ((D.map l.unop.hom).appTop x) = (c.π.app i).appTop x
     rw [← ConcreteCategory.comp_apply, ← Scheme.Hom.comp_appTop, c.w l.unop.hom]
   have hfin : Module.Finite Γ(D.obj i, ⊤) M := by have := hM; infer_instance
   have hbc : LinearMap.baseChange d.pt v₁.hom = LinearMap.baseChange d.pt v₂.hom :=
@@ -287,13 +287,13 @@ theorem exists_map_of_pullback_of_isAffine (i : I)
       E.map ee (algebraMap Γ(D.obj i, ⊤) (E.obj l) x)
         = algebraMap Γ(D.obj i, ⊤) (E.obj m) x := by
     intro l m ee x
-    show (D.map ee.unop.left).appTop ((D.map l.unop.hom).appTop x)
+    change (D.map ee.unop.left).appTop ((D.map l.unop.hom).appTop x)
       = (D.map m.unop.hom).appTop x
     rw [← ConcreteCategory.comp_apply, ← Scheme.Hom.comp_appTop, ← D.map_comp, Over.w ee.unop]
   have haR : ∀ (l : (Over i)ᵒᵖ) (x : Γ(D.obj i, ⊤)),
       d.ι.app l (algebraMap Γ(D.obj i, ⊤) (E.obj l) x) = algebraMap Γ(D.obj i, ⊤) d.pt x := by
     intro l x
-    show (c.π.app l.unop.left).appTop ((D.map l.unop.hom).appTop x) = pii.appTop x
+    change (c.π.app l.unop.left).appTop ((D.map l.unop.hom).appTop x) = pii.appTop x
     rw [← ConcreteCategory.comp_apply, ← Scheme.Hom.comp_appTop, hpii, c.w l.unop.hom]
   have hfp : Module.FinitePresentation Γ(D.obj i, ⊤) M := hM
   obtain ⟨l, ul, hul⟩ :=

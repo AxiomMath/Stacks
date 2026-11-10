@@ -77,7 +77,8 @@ local bijections — are not available by the size-matched route when the site h
 the universe of the sections. They are the instances
 `AlgebraicGeometry.Stack.hasSheafifyAddCommGrpCat_subsiteTopology` and
 `AlgebraicGeometry.Stack.wEqualsLocallyBijective_subsiteTopology` of
-`StacksFrontier/AlgebraicGeometry/Stacks/SubcategoryModuleLowerShriek.lean`, which hold because a full
+`StacksFrontier/AlgebraicGeometry/Stacks/SubcategoryModuleLowerShriek.lean`, which hold because a
+full
 subsite of an essentially small site is essentially small.
 
 For the lisse-étale instantiation the two locality hypotheses are

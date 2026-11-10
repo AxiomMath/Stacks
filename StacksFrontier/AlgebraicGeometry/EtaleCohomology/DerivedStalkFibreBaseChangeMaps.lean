@@ -81,9 +81,9 @@ coefficient universe for the reason recorded in
 
 *One proof term per square.* A statement in which the same square appears with two different
 proofs of its commutativity (for instance `h` and `h.symm.symm`) around a concrete base change map
-is, in practice, beyond the kernel's budget, even though proofs are irrelevant. So the right square is
-recorded once, as `AlgebraicGeometry.strictHenselizationBaseChange_square`, in the orientation the
-0A2A map takes it, and every statement uses that term or its `symm`.
+is, in practice, beyond the kernel's budget, even though proofs are irrelevant. So the right square
+is recorded once, as `AlgebraicGeometry.strictHenselizationBaseChange_square`, in the orientation
+the 0A2A map takes it, and every statement uses that term or its `symm`.
 
 *The structure morphism as `𝟙 ≫ j`.* The comparison of the stalk with sections over the strict
 henselization, `AlgebraicGeometry.vanishingCyclesMap`, is stated for a scheme over the strict
@@ -122,7 +122,7 @@ public theorem mapHomotopyCategoryCompIso_hom_app_comp_ofComp (F : A₁ ⥤ A₂
         (mapHomotopyCategoryOfComp H N K τ).app J =
       (mapHomotopyCategoryOfComp (F ⋙ G) N K (e.hom ≫ τ)).app J := by
   rw [mapHomotopyCategoryOfComp_app, mapHomotopyCategoryOfComp_app]
-  show (HomotopyCategory.quotient A₃ (ComplexShape.up ℤ)).map _ ≫
+  change (HomotopyCategory.quotient A₃ (ComplexShape.up ℤ)).map _ ≫
     (HomotopyCategory.quotient A₃ (ComplexShape.up ℤ)).map _ = _
   rw [← Functor.map_comp]
   congr 1

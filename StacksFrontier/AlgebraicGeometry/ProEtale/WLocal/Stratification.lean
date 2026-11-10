@@ -138,7 +138,7 @@ theorem closedStrataMap_isClosedImmersion (E : Finset A) :
       sigmaSpec (fun i => CommRingCat.of (C i)) ≫
         Spec.map (CommRingCat.ofHom g) := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [closedStrataMap, Sigma.ι_desc, ← Category.assoc, sigmaSpec, Sigma.ι_desc,
+    rw [closedStrataMap, Sigma.ι_comp_desc, ← Category.assoc, sigmaSpec, Sigma.ι_comp_desc,
       ← Spec.map_comp, ← Spec.map_comp]
     congr 1
   rw [hmap]
@@ -146,7 +146,7 @@ theorem closedStrataMap_isClosedImmersion (E : Finset A) :
     infer_instance
   have : IsClosedImmersion (Spec.map (CommRingCat.ofHom g)) :=
     IsClosedImmersion.spec_of_surjective _ hg
-  show IsClosedImmersion
+  change IsClosedImmersion
     (sigmaSpec (fun i => CommRingCat.of (C i)) ≫ Spec.map (CommRingCat.ofHom g))
   infer_instance
 
@@ -204,10 +204,10 @@ theorem closedPoints_mem_closedStrataMap_range (E : Finset A)
   have hfac : (Limits.Sigma.ι family i ≫ closedStrataMap E) z =
       (Spec.map (CommRingCat.ofHom (localizationToCoordinateRing I f)) ≫
         Spec.map (CommRingCat.ofHom (Pi.evalRingHom R i))) z := by
-    rw [closedStrataMap, Sigma.ι_desc]
-  show ((Limits.Sigma.ι family i ≫ closedStrataMap E) z) = x
+    rw [closedStrataMap, Sigma.ι_comp_desc]
+  change ((Limits.Sigma.ι family i ≫ closedStrataMap E) z) = x
   rw [hfac]
-  show PrimeSpectrum.comap (Pi.evalRingHom R i) zL = x
+  change PrimeSpectrum.comap (Pi.evalRingHom R i) zL = x
   rw [hzL, hxq]
 
 end AlgebraicGeometry.ProEtale

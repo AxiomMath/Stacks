@@ -133,7 +133,7 @@ abbrev ResolutionPropertyDescentSituation.chartHom :
 /-- The morphism `φ : V ⟶ X` of the situation of Stacks 0GUY is étale. -/
 theorem ResolutionPropertyDescentSituation.isEtale_chartHom :
     IsEtale B S hS (D.chartHom B S hS hZ X hqc hqs).hom := by
-  show IsEtale B S hS (D.j ≫ D.π)
+  change IsEtale B S hS (D.j ≫ D.π)
   rw [D.comp_eq]
   exact D.isEtale_φ
 

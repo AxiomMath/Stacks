@@ -150,7 +150,7 @@ private theorem restrictedSchemeSheaf_map_mono
     {U V : Over S} (f : U ⟶ V) [Mono f] :
     Mono ((restrictedSchemeSheaf B S hS).map f) := by
   apply (sheafToPresheaf _ _).mono_of_mono_map
-  show Mono (Functor.whiskerLeft _ (uliftYoneda.{u + 1}.map f))
+  change Mono (Functor.whiskerLeft _ (uliftYoneda.{u + 1}.map f))
   apply (NatTrans.mono_iff_mono_app _).mpr
   intro T
   apply ConcreteCategory.mono_of_injective
@@ -193,7 +193,7 @@ private theorem exists_affine_factor_of_size_lt
     dsimp [j]
     infer_instance
   refine ⟨W, a, j, inferInstance, ?_, hj, ?_⟩
-  · show W.size < B.cutoff
+  · change W.size < B.cutoff
     rw [Scheme.size_Spec]
     exact max_lt B.aleph0_lt_cutoff ((Cardinal.mk_subtype_le _).trans_lt
       ((mk_globalSections_le V).trans_lt (B.cutoff_isStrongPrelimit hV)))
@@ -230,11 +230,11 @@ private theorem exists_affine_representative_of_epi
   have hgf : g ≫ H.map j' = f := by
     apply Sheaf.hom_ext
     apply (cancel_epi eV.inv).mp
-    show eV.inv ≫ (eV.hom ≫ uliftYonedaEquiv.symm (ULift.up a')) ≫
+    change eV.inv ≫ (eV.hom ≫ uliftYonedaEquiv.symm (ULift.up a')) ≫
       (H.map j').hom = fp
     simp only [Category.assoc, Iso.inv_hom_id_assoc]
     apply uliftYonedaEquiv.injective
-    show ULift.up ((F.map (𝟙 V) ≫ a') ≫ j') = ULift.up p
+    change ULift.up ((F.map (𝟙 V) ≫ a') ≫ j') = ULift.up p
     rw [F.map_id, Category.id_comp, haj']
   have : Epi (H.map j') := epi_of_epi_fac hgf
   have : Mono j' := Over.mono_of_mono_left j'
@@ -403,9 +403,9 @@ public lemma family_imageSieve_mem
   let d : A ⟶ X := ⟨sheafifyLift J q X.property⟩
   have had : Sigma.desc a ≫ d = Sigma.desc f := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    simp only [Sigma.ι_desc_assoc, Sigma.ι_desc]
+    simp only [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
     apply Sheaf.hom_ext
-    show (incl i ≫ toSheafify J Q) ≫ sheafifyLift J q X.property = (f i).hom
+    change (incl i ≫ toSheafify J Q) ≫ sheafifyLift J q X.property = (f i).hom
     rw [Category.assoc, toSheafify_sheafifyLift]
     rfl
   have : Epi d := epi_of_epi_fac had
@@ -507,12 +507,12 @@ public lemma etale_of_openCover
       refine ⟨i, (e i).inv y, ?_⟩
       have he : (e i).inv ≫ (pullback.snd (k i) l).left.hom =
           pullback.snd (k i).left.hom l.left.hom := (pb i).isoPullback_inv_snd
-      show (pullback.snd (k i) l).left.hom ((e i).inv y) = z
+      change (pullback.snd (k i) l).left.hom ((e i).inv y) = z
       exact (congrArg (fun a : pullback (k i).left.hom l.left.hom ⟶ Z.left.obj => a y)
         he).trans hy }
   have : IsZariskiLocalAtSource (@Etale.{u}) :=
     HasRingHomProperty.instIsZariskiLocalAtSource (P := @Etale.{u})
-  show Etale p.left.hom
+  change Etale p.left.hom
   apply IsZariskiLocalAtSource.of_openCover (P := @Etale.{u}) E
   intro i
   have hp' : IsPullback a (Y.map p) q g := hp
@@ -540,7 +540,7 @@ public lemma relative_surjective_of_locallySurjective
   obtain ⟨j, x, rfl⟩ := E.jointly_surjective y
   obtain ⟨a, ha⟩ := hE j
   exact ⟨a x, by
-    show p.left.hom (a x) = (E.f j) x
+    change p.left.hom (a x) = (E.f j) x
     rw [← Scheme.Hom.comp_apply, ha]⟩
 
 private local instance etale_respectsIso : MorphismProperty.RespectsIso (@Etale.{u}) := .mk _
@@ -646,7 +646,7 @@ public theorem isLocallySurjective_of_comp_eq_of_fppf_cover
   let a : ∐ (fun i => Y.obj (V i)) ⟶ Y.obj W := Sigma.desc (fun i => Y.map (r i))
   have hafac : a ≫ q = Sigma.desc (fun i => Y.map (p i)) ≫ t' := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    simpa only [a, Sigma.ι_desc_assoc] using hr i
+    simpa only [a, Sigma.ι_comp_desc_assoc] using hr i
   have : Presheaf.IsLocallySurjective J (a ≫ q) := by
     rw [hafac]
     infer_instance
@@ -711,7 +711,7 @@ public theorem isAlgebraicSpaceULift_of_affineEtaleFamily
     isLocallySurjective_of_comp_eq_of_fppf_cover B S hS t' ht' q (fun x => Wi (idx x))
       (fun x => pi (idx x)) (fun x => ri (idx x) ≫ k x) (fun x => (hgi (idx x)).property_snd t')
       (fun x => ⟨x, hidx x⟩) fun x => by
-        show Y.map (ri (idx x) ≫ k x) ≫ q = Y.map (pi (idx x)) ≫ t'
+        change Y.map (ri (idx x) ≫ k x) ≫ q = Y.map (pi (idx x)) ≫ t'
         rw [Y.map_comp, Category.assoc, show Y.map (k x) ≫ q = gi (idx x) from hkq x]
         exact hfac (idx x)
   exact AlgebraicGeometry.Space.isAlgebraicSpaceULift_of_relative_surjective_etale

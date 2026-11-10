@@ -41,8 +41,8 @@ along that equality of ideal sheaves is needed.
 
 No `@[stacks]` attribute is placed here. The cartesian-square clause of Stacks 0B6Y is already
 recorded, on `AlgebraicGeometry.Scheme.IdealSheafData.comapIso` and its two projection identities,
-by `StacksFrontier.AlgebraicGeometry.Chow.ZeroSchemePullback.Basic`; what is below is that clause read
-off for the zero scheme of a section, not a further clause of the tag.
+by `StacksFrontier.AlgebraicGeometry.Chow.ZeroSchemePullback.Basic`; what is below is that clause
+read off for the zero scheme of a section, not a further clause of the tag.
 
 ## References
 

@@ -193,7 +193,7 @@ public theorem quotient_isAdicallyComplete
   apply AdicCompletion.of_bijective_iff.mp
   have heq : (e.trans e').toLinearMap = AdicCompletion.of qbarI S := by
     refine LinearMap.ext fun x => ?_
-    show (e'.toLinearMap.comp e.toLinearMap) x = AdicCompletion.of qbarI S x
+    change (e'.toLinearMap.comp e.toLinearMap) x = AdicCompletion.of qbarI S x
     rw [he]
     exact congrArg (fun f : S →ₗ[S] AdicCompletion qbarI S => f x) he'
   rw [← heq]
@@ -218,10 +218,10 @@ public theorem tensor_quotient_completion_bijective
   have hmap : qEquiv.toRingHom.comp (algebraMap (A ⧸ a) S) =
       (Algebra.TensorProduct.includeRight : A ⧸ a →ₐ[A] T).toRingHom := by
     ext y
-    show qEquiv (algebraMap B.carrier S (algebraMap A B.carrier y)) =
+    change qEquiv (algebraMap B.carrier S (algebraMap A B.carrier y)) =
       1 ⊗ₜ[A] Ideal.Quotient.mk a y
     rw [AlgEquiv.commutes]
-    show (algebraMap A B.carrier y) ⊗ₜ[A] 1 =
+    change (algebraMap A B.carrier y) ⊗ₜ[A] 1 =
       1 ⊗ₜ[A] Ideal.Quotient.mk a y
     simpa only [← Ideal.Quotient.algebraMap_eq] using
       (Algebra.TensorProduct.tmul_one_eq_one_tmul (R := A) y)
@@ -284,7 +284,7 @@ public theorem quotientBaseChange
   let e (B : AdicFiniteTypeAlgebra.{u, v} A I) :=
     (α B).trans ((RingEquiv.ofBijective (φ B)
       (by
-        show Function.Bijective (fun x => AdicCompletion.of
+        change Function.Bijective (fun x => AdicCompletion.of
           (baseChangedIdeal (A₂ := A ⧸ a) (I₂ := barI) B)
           (baseChangedAlgebra (A₂ := A ⧸ a) B) (qEquiv B x))
         exact Function.Bijective.comp
@@ -301,7 +301,7 @@ public theorem quotientBaseChange
   refine ⟨F, Iso.refl F, e, fun B x => ?_, fun {B C} f x => ?_⟩
   · have hId : AdicFiniteTypeAlgebra.hom (𝟙 (F.obj B)) =
         AlgHom.id (A ⧸ a) (F.obj B).carrier := rfl
-    show BC.completedTensorProductEquiv B
+    change BC.completedTensorProductEquiv B
       (AdicFiniteTypeAlgebra.hom (𝟙 (F.obj B))
         ((e B).symm (Ideal.Quotient.mk (a.map (algebraMap A B.carrier)) x))) =
       AdicCompletion.of
@@ -315,7 +315,7 @@ public theorem quotientBaseChange
     simp only [RingEquiv.symm_apply_apply]
     rw [he_symm B x, he_symm C (AdicFiniteTypeAlgebra.hom f x)]
     simp only [RingEquiv.apply_symm_apply]
-    show BC.completedTensorProductEquiv C
+    change BC.completedTensorProductEquiv C
         (AdicFiniteTypeAlgebra.hom (F.map f)
           ((BC.completedTensorProductEquiv B).symm
             (AdicCompletion.of
@@ -372,11 +372,11 @@ private lemma finiteType_quotient_pow
   have hcompBase : (algebraMap (A ⧸ p) (B ⧸ q)).comp (Ideal.Quotient.mk p) =
       (Ideal.Quotient.mk q).comp (algebraMap A B) := by
     ext a
-    show f (Ideal.Quotient.mk p a) = Ideal.Quotient.mk q (algebraMap A B a)
+    change f (Ideal.Quotient.mk p a) = Ideal.Quotient.mk q (algebraMap A B a)
     rw [Ideal.Quotient.lift_mk]
     simp [Ideal.Quotient.mk_comp_algebraMap]
   have hL : L = J.map (Ideal.Quotient.mk q) := by
-    show (I.map (Ideal.Quotient.mk p)).map (algebraMap (A ⧸ p) (B ⧸ q)) =
+    change (I.map (Ideal.Quotient.mk p)).map (algebraMap (A ⧸ p) (B ⧸ q)) =
       (I.map (algebraMap A B)).map (Ideal.Quotient.mk q)
     rw [Ideal.map_map, Ideal.map_map]
     exact congrArg (fun φ : A →+* B ⧸ q => I.map φ) hcompBase
@@ -417,13 +417,13 @@ private lemma finiteType_quotient_pow
   have heA (a : A) :
       eA.toRingHom (Ideal.Quotient.mk K (Ideal.Quotient.mk p a)) =
         Ideal.Quotient.mk I a := by
-    show DoubleQuot.quotQuotEquivQuotOfLE hpI (DoubleQuot.quotQuotMk p I a) =
+    change DoubleQuot.quotQuotEquivQuotOfLE hpI (DoubleQuot.quotQuotMk p I a) =
       Ideal.Quotient.mk I a
     exact DoubleQuot.quotQuotEquivQuotOfLE_quotQuotMk a hpI
   have heB (a : A) :
       eB.toRingHom (Ideal.Quotient.mk L (Ideal.Quotient.mk q (algebraMap A B a))) =
         Ideal.Quotient.mk J (algebraMap A B a) := by
-    show DoubleQuot.quotQuotEquivQuotOfLE hqJ (DoubleQuot.quotQuotMk q J (algebraMap A B a)) = _
+    change DoubleQuot.quotQuotEquivQuotOfLE hqJ (DoubleQuot.quotQuotMk q J (algebraMap A B a)) = _
     exact DoubleQuot.quotQuotEquivQuotOfLE_quotQuotMk (algebraMap A B a) hqJ
   have hcomp : eB.toRingHom.comp fbar =
       (algebraMap (A ⧸ I) (B ⧸ J)).comp eA.toRingHom := by
@@ -445,7 +445,7 @@ private lemma finiteType_quotient_pow
         (RingHom.FiniteType.of_surjective _ eA.surjective))
   have hKnil : IsNilpotent K := by
     refine ⟨n + 1, ?_⟩
-    show (I.map (Ideal.Quotient.mk p)) ^ (n + 1) = ⊥
+    change (I.map (Ideal.Quotient.mk p)) ^ (n + 1) = ⊥
     rw [← Ideal.map_pow, Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker]
   exact finiteType_of_isNilpotent_quotient_finiteType (A ⧸ p) K (B ⧸ q) hKnil (by
     simpa [L, f] using RingHom.finiteType_algebraMap.mp
@@ -630,7 +630,7 @@ public theorem adicQuotientFunctor_obj_transition_surjective
     ext a
     rfl
   rw [hcomp]
-  show (I ^ (n + 1)).map
+  change (I ^ (n + 1)).map
       ((Ideal.Quotient.mk (B.adicIdeal ^ (n + 2))).comp (algebraMap A B.carrier)) =
     (B.adicIdeal ^ (n + 1)).map (Ideal.Quotient.mk (B.adicIdeal ^ (n + 2)))
   rw [← Ideal.map_map, Ideal.map_pow]

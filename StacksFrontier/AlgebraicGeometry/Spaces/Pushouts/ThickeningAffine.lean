@@ -190,14 +190,14 @@ private lemma exists_glued_of_pullbacks
     simp [leftRestriction, rightRestriction, Over.isoMk]
   have hsource : hcart₁.isoPullback.hom ≫
       Stacks.Pushout.gluingSourceMap iS fS Tglue = fE := by
-    show hcart₁.isoPullback.hom ≫
+    change hcart₁.isoPullback.hom ≫
       (inv Tglue.obj.hom).left ≫ pullback.fst Tglue.obj.left.hom fS = fE
     rw [← Category.assoc, hcompat]
     exact hcart₂.isoPullback_hom_fst
   have hglue : IsPushout iE fE glueInX glueInY := by
     refine hGluedPushout.flip.of_iso hcart₁.isoPullback.symm
       (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
-    · show pullback.fst Tglue.obj.right.hom iS ≫ 𝟙 _ = hcart₁.isoPullback.inv ≫ iE
+    · change pullback.fst Tglue.obj.right.hom iS ≫ 𝟙 _ = hcart₁.isoPullback.inv ≫ iE
       rw [Category.comp_id]
       exact hcart₁.isoPullback_inv_fst.symm
     · simp only [Iso.refl_hom, Category.comp_id, Iso.symm_hom]
@@ -289,10 +289,10 @@ private lemma exists_etale_descent_of_isPushout
       MorphismProperty.IsStableUnderBaseChange.respectsIso
     exact MorphismProperty.RespectsIso.postcomp (P := @Etale.{u}) isoP.inv w hWEtale
   have hu₁ : u₁ ≫ vS = p₁ ≫ aS := by
-    show u₁ ≫ w ≫ isoP.inv = _
+    change u₁ ≫ w ≫ isoP.inv = _
     rw [← Category.assoc, hw₁, Category.assoc, hP.inl_isoPushout_inv]
   have hu₂ : u₂ ≫ vS = p₂ ≫ bS := by
-    show u₂ ≫ w ≫ isoP.inv = _
+    change u₂ ≫ w ≫ isoP.inv = _
     rw [← Category.assoc, hw₂, Category.assoc, hP.inr_isoPushout_inv]
   have hAffineFE : IsAffineHom fE :=
     MorphismProperty.IsStableUnderBaseChange.of_isPullback hcart₂.flip inferInstance
@@ -322,7 +322,7 @@ private lemma exists_etale_descent_of_isPushout
       obtain ⟨x, hx⟩ := hThickU₂.2 ((pullback.snd bS vS).base z)
       refine ⟨x, ?_⟩
       apply (IsClosedImmersion.isClosedEmbedding (pullback.snd bS vS)).injective
-      show (α ≫ pullback.snd bS vS).base x = (pullback.snd bS vS).base z
+      change (α ≫ pullback.snd bS vS).base x = (pullback.snd bS vS).base z
       rw [hαSnd]
       exact hx
     have : Etale α := hαEtale
@@ -494,10 +494,10 @@ private lemma cover_spanCocone
   let c : Cocone D := c₀.whisker e.inverse
   have : HasPushout iS fS := hPushout.hasPushout
   have hAffineF : IsAffineHom fS := by
-    show IsAffineHom (T.map f)
+    change IsAffineHom (T.map f)
     infer_instance
   let := hAffineF
-  show ∀ x : T.obj c.pt, ∃ (j : I) (y : T.obj (D.obj j)), T.map (c.ι.app j) y = x
+  change ∀ x : T.obj c.pt, ∃ (j : I) (y : T.obj (D.obj j)), T.map (c.ι.app j) y = x
   intro x
   let isoP := hPushout.isoPushout
   have hsurj : Function.Surjective (pushout.inr iS fS) :=
@@ -512,9 +512,9 @@ private lemma cover_spanCocone
     have hι : c.ι.app (e.functor.obj WalkingSpan.right) = b := by
       let j := e.inverse.obj (e.functor.obj WalkingSpan.right)
       have hj' : j = WalkingSpan.right := by
-        show (e₁.inverse.obj (e₁.functor.obj WalkingSpan.right)) = _
+        change (e₁.inverse.obj (e₁.functor.obj WalkingSpan.right)) = _
         simp [e₁]
-      show c₀.ι.app j = b
+      change c₀.ι.app j = b
       subst j
       rfl
     rw [hι]
@@ -753,10 +753,10 @@ private lemma etaleDescent_spanCocone
   let c : Cocone D := c₀.whisker e.inverse
   have : HasPushout iS fS := hPushout.hasPushout
   have hAffineF : IsAffineHom fS := by
-    show IsAffineHom (T.map f)
+    change IsAffineHom (T.map f)
     infer_instance
   let := hAffineF
-  show ∀ (E : I ⥤ BigFppfOver B S hS) (p : E ⟶ D),
+  change ∀ (E : I ⥤ BigFppfOver B S hS) (p : E ⟶ D),
     (∀ j, Etale (T.map (p.app j))) →
     (∀ j, _root_.AlgebraicGeometry.IsSeparated (T.map (p.app j))) →
     (∀ {j k : I} (g : j ⟶ k), IsPullback (E.map g) (p.app j) (p.app k) (D.map g)) →
@@ -814,14 +814,14 @@ private lemma etaleDescent_spanCocone
       (κ := B.cutoff)
       (E.obj j₂).left.2
       (by
-        show (T.obj c.pt).size < B.cutoff
+        change (T.obj c.pt).size < B.cutoff
         exact c.pt.left.2)
   let uObject : B.Schemes := ⟨Wsch, hWSize⟩
   let vBase : uObject ⟶ c.pt.left := B.inclusion.preimage vSch
   let U : BigFppfOver B S hS := Over.mk (vBase ≫ c.pt.hom)
   let v : U ⟶ c.pt := Over.homMk vBase (by rfl)
   have hVMap : T.map v = vSch := by
-    show B.inclusion.map vBase = vSch
+    change B.inclusion.map vBase = vSch
     exact B.inclusion.map_preimage _
   have hVEtale : Etale (T.map v) := by
     rw [hVMap]
@@ -830,26 +830,26 @@ private lemma etaleDescent_spanCocone
   have hGlueX'' : u₁ ≫ vSch = p₁ ≫ aS := hPB₁.w.symm
   have hUHom : B.inclusion.map U.hom =
       vSch ≫ B.inclusion.map c.pt.hom := by
-    show B.inclusion.map (vBase ≫ c.pt.hom) = _
+    change B.inclusion.map (vBase ≫ c.pt.hom) = _
     rw [B.inclusion.map_comp]
     change B.inclusion.map vBase = vSch at hVMap
     rw [hVMap]
   have haBase : aS ≫ B.inclusion.map c.pt.hom = B.inclusion.map X'.hom := by
     dsimp [aS]
-    show B.inclusion.map a.left ≫ B.inclusion.map Y'.hom = _
+    change B.inclusion.map a.left ≫ B.inclusion.map Y'.hom = _
     exact congrArg B.inclusion.map a.w
   have hbBase : bS ≫ B.inclusion.map c.pt.hom = B.inclusion.map Y.hom := by
     dsimp [bS]
-    show B.inclusion.map b.left ≫ B.inclusion.map Y'.hom = _
+    change B.inclusion.map b.left ≫ B.inclusion.map Y'.hom = _
     exact congrArg B.inclusion.map b.w
   have hpOver₁ : T.map (p.app j₁) ≫ B.inclusion.map (D.obj j₁).hom =
       B.inclusion.map (E.obj j₁).hom := by
-    show B.inclusion.map (p.app j₁).left ≫
+    change B.inclusion.map (p.app j₁).left ≫
       B.inclusion.map (D.obj j₁).hom = B.inclusion.map (E.obj j₁).hom
     exact congrArg B.inclusion.map (p.app j₁).w
   have hpOver₂ : T.map (p.app j₂) ≫ B.inclusion.map (D.obj j₂).hom =
       B.inclusion.map (E.obj j₂).hom := by
-    show B.inclusion.map (p.app j₂).left ≫
+    change B.inclusion.map (p.app j₂).left ≫
       B.inclusion.map (D.obj j₂).hom = B.inclusion.map (E.obj j₂).hom
     exact congrArg B.inclusion.map (p.app j₂).w
   let d₁Over := (span i f).mapIso (asIso (e.unitInv.app WalkingSpan.left))
@@ -857,13 +857,13 @@ private lemma etaleDescent_spanCocone
   have hd₁Base : d₁.hom ≫ B.inclusion.map X'.hom =
       B.inclusion.map (D.obj j₁).hom := by
     dsimp [d₁, d₁Over]
-    show B.inclusion.map d₁Over.hom.left ≫ B.inclusion.map X'.hom =
+    change B.inclusion.map d₁Over.hom.left ≫ B.inclusion.map X'.hom =
       B.inclusion.map (D.obj j₁).hom
     exact congrArg B.inclusion.map d₁Over.hom.w
   have hd₂Base : d₂.hom ≫ B.inclusion.map Y.hom =
       B.inclusion.map (D.obj j₂).hom := by
     dsimp [d₂, d₂Over]
-    show B.inclusion.map d₂Over.hom.left ≫ B.inclusion.map Y.hom =
+    change B.inclusion.map d₂Over.hom.left ≫ B.inclusion.map Y.hom =
       B.inclusion.map (D.obj j₂).hom
     exact congrArg B.inclusion.map d₂Over.hom.w
   let q₁Base : (E.obj j₁).left ⟶ U.left := B.inclusion.preimage
@@ -872,14 +872,14 @@ private lemma etaleDescent_spanCocone
     (show B.inclusion.obj (E.obj j₂).left ⟶ B.inclusion.obj U.left from u₂)
   have hq₁Over : q₁Base ≫ U.hom = (E.obj j₁).hom := by
     apply B.inclusion.map_injective
-    show B.inclusion.map q₁Base ≫ B.inclusion.map U.hom = _
+    change B.inclusion.map q₁Base ≫ B.inclusion.map U.hom = _
     rw [B.inclusion.map_preimage, hUHom, ← Category.assoc, hGlueX'', Category.assoc, haBase]
     dsimp only [p₁]
     rw [Category.assoc, hd₁Base]
     exact hpOver₁
   have hq₂Over : q₂Base ≫ U.hom = (E.obj j₂).hom := by
     apply B.inclusion.map_injective
-    show B.inclusion.map q₂Base ≫ B.inclusion.map U.hom = _
+    change B.inclusion.map q₂Base ≫ B.inclusion.map U.hom = _
     rw [B.inclusion.map_preimage, hUHom, ← Category.assoc, hGlueY'', Category.assoc, hbBase]
     dsimp only [p₂]
     rw [Category.assoc, hd₂Base]
@@ -889,10 +889,10 @@ private lemma etaleDescent_spanCocone
   have hq0 : E.map g₁ ≫ q₁ = E.map g₂ ≫ q₂ := by
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show B.inclusion.map (E.map g₁).left ≫ B.inclusion.map q₁Base =
+    change B.inclusion.map (E.map g₁).left ≫ B.inclusion.map q₁Base =
       B.inclusion.map (E.map g₂).left ≫ B.inclusion.map q₂Base
     rw [B.inclusion.map_preimage, B.inclusion.map_preimage]
-    show T.map (E.map g₁) ≫ u₁ = T.map (E.map g₂) ≫ u₂
+    change T.map (E.map g₁) ≫ u₁ = T.map (E.map g₂) ≫ u₂
     exact hOverlap
   let q₀ := E.map g₁ ≫ q₁
   let q : E ⟶ (Functor.const I).obj U := {
@@ -901,14 +901,14 @@ private lemma etaleDescent_spanCocone
       | up j =>
         cases j with
         | none =>
-            show E.obj j₀ ⟶ U
+            change E.obj j₀ ⟶ U
             exact q₀
         | some j => cases j with
           | left =>
-              show E.obj j₁ ⟶ U
+              change E.obj j₁ ⟶ U
               exact q₁
           | right =>
-              show E.obj j₂ ⟶ U
+              change E.obj j₂ ⟶ U
               exact q₂
     naturality := by
       intro j k g
@@ -924,7 +924,7 @@ private lemma etaleDescent_spanCocone
                 apply e.inverse.map_injective
                 exact Subsingleton.elim _ _
               subst g
-              show E.map (𝟙 j₀) ≫ q₀ = q₀
+              change E.map (𝟙 j₀) ≫ q₀ = q₀
               rw [E.map_id]
               simp
             | some k =>
@@ -934,14 +934,14 @@ private lemma etaleDescent_spanCocone
                   apply e.inverse.map_injective
                   exact Subsingleton.elim _ _
                 subst g
-                show E.map g₁ ≫ q₁ = q₀
+                change E.map g₁ ≫ q₁ = q₀
                 rfl
               | right =>
                 have hg : g = g₂ := by
                   apply e.inverse.map_injective
                   exact Subsingleton.elim _ _
                 subst g
-                show E.map g₂ ≫ q₂ = E.map g₁ ≫ q₁
+                change E.map g₂ ≫ q₂ = E.map g₁ ≫ q₁
                 exact hq0.symm
         | some j =>
           cases j with
@@ -960,7 +960,7 @@ private lemma etaleDescent_spanCocone
                       apply e.inverse.map_injective
                       exact Subsingleton.elim _ _
                     subst g
-                    show E.map (𝟙 j₁) ≫ q₁ = q₁
+                    change E.map (𝟙 j₁) ≫ q₁ = q₁
                     rw [E.map_id]
                     simp
                 | right =>
@@ -986,19 +986,19 @@ private lemma etaleDescent_spanCocone
                       apply e.inverse.map_injective
                       exact Subsingleton.elim _ _
                     subst g
-                    show E.map (𝟙 j₂) ≫ q₂ = q₂
+                    change E.map (𝟙 j₂) ≫ q₂ = q₂
                     rw [E.map_id]
                     simp
   }
   have hci₂ : d₂.hom ≫ bS = T.map (c.ι.app j₂) :=
     map_unitInv_comp_map_ι T c₀ e WalkingSpan.right
   have hq₂Scheme : T.map (q.app j₂) = u₂ := by
-    show B.inclusion.map (q.app j₂).left = u₂
+    change B.inclusion.map (q.app j₂).left = u₂
     have hq₂app : q.app j₂ = q₂ := by
       dsimp [q, j₂, e, e₁, e₂]
       rfl
     rw [hq₂app]
-    show B.inclusion.map q₂Base = u₂
+    change B.inclusion.map q₂Base = u₂
     exact B.inclusion.map_preimage _
   have hsq₂Scheme : IsPullback (T.map (p.app j₂)) (T.map (q.app j₂))
       (T.map (c.ι.app j₂)) (T.map v) := by
@@ -1014,7 +1014,7 @@ private lemma etaleDescent_spanCocone
         _ = d₂.inv ≫ T.map (c.ι.app j₂) := by
           rw [hci₂]
           exact Category.comp_id (d₂.inv ≫ T.map (c.ι.app j₂))
-    · show vSch ≫ 𝟙 (T.obj Y') = T.map v
+    · change vSch ≫ 𝟙 (T.obj Y') = T.map v
       rw [Category.comp_id]
       exact hVMap.symm
   have hsq₂ : IsPullback (p.app j₂) (q.app j₂) (c.ι.app j₂) v :=
@@ -1053,9 +1053,9 @@ private lemma etaleDescent_spanCocone
             dsimp [q, j₁, e, e₁, e₂]
             rfl
           have hq₁Scheme : T.map (q.app j₁) = u₁ := by
-            show B.inclusion.map (q.app j₁).left = u₁
+            change B.inclusion.map (q.app j₁).left = u₁
             rw [hq₁app]
-            show B.inclusion.map q₁Base = u₁
+            change B.inclusion.map q₁Base = u₁
             exact B.inclusion.map_preimage _
           have hsq₁Scheme : IsPullback (T.map (p.app j₁)) (T.map (q.app j₁))
               (T.map (c.ι.app j₁)) (T.map v) := by
@@ -1070,7 +1070,7 @@ private lemma etaleDescent_spanCocone
                 _ = d₁.inv ≫ T.map (c.ι.app j₁) := by
                   rw [hci₁]
                   exact Category.comp_id (d₁.inv ≫ T.map (c.ι.app j₁))
-            · show vSch ≫ 𝟙 (T.obj Y') = T.map v
+            · change vSch ≫ 𝟙 (T.obj Y') = T.map v
               rw [Category.comp_id]
               exact hVMap.symm
           exact IsPullback.of_map_of_faithful T hsq₁Scheme
@@ -1145,7 +1145,7 @@ public theorem isPushout_algebraicSpaces_of_isThickening_of_isAffineHom
           yoneda.map (D.map g) ≫ maps s k = maps s j := by
       intro j k g
       have hw := congrArg (fun m ↦ m.hom) (s.w g)
-      set_option synthInstance.maxHeartbeats 200000 in simpa [maps, V] using hw
+      exact hw
     let result (s : Cocone (D ⋙ V)) :=
       hUniversal s.pt.1 s.pt.2 (maps s) (hcompat s)
     refine IsColimit.mk (fun s ↦ ObjectProperty.homMk (Classical.choose (result s))) ?_ ?_

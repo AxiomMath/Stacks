@@ -105,7 +105,7 @@ private theorem exists_eq_neg_pow_smul_mulVec_of_continuous {N : ℕ} (b r : B)
     have hsub : (Φ τ).1 i - (Φ τ').1 i =
         -(b ^ p * (E.mulVec (F τ.1 τ.2 - F τ'.1 τ'.2)) i) := by
       rw [Matrix.mulVec_sub, Pi.sub_apply]
-      show -(b ^ p) * _ - -(b ^ p) * _ = _
+      change -(b ^ p) * _ - -(b ^ p) * _ = _
       ring
     rw [hsub]
     exact neg_mem (pow_mul_mem_pow_succ _ _ hp
@@ -235,7 +235,7 @@ private theorem surjective_mkₐ_comp_of_ker_le {A : Type u} [CommRing A] (a : A
   set K := Ideal.span (Set.range t)
   set φ : B →ₐ[A] C ⧸ K := (Ideal.Quotient.mkₐ A K).comp β
   have hφα : (φ : B →+* C ⧸ K) α = Ideal.Quotient.mk K αC := by
-    show Ideal.Quotient.mk K (β (algebraMap A B a)) = _
+    change Ideal.Quotient.mk K (β (algebraMap A B a)) = _
     rw [β.commutes]
   have hjac : I.map (φ : B →+* C ⧸ K) ≤ Ideal.jacobson ⊥ := by
     rw [Ideal.map_span, Set.image_singleton, Ideal.span_le, Set.singleton_subset_iff,

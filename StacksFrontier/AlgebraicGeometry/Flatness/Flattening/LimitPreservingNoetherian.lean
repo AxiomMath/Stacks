@@ -125,7 +125,7 @@ theorem locallyOfFinitePresentation_of_limitPreserving_yoneda
     LocallyOfFinitePresentation (B.inclusion.map X.1.hom) := by
   let Y := (LocallyNoetherianOver.toScheme B S hS).obj X
   let f : Y ⟶ S := B.inclusion.map X.1.hom
-  show LocallyOfFinitePresentation f
+  change LocallyOfFinitePresentation f
   have hlfp : LocallyOfFinitePresentation f := by
     rw [locallyOfFinitePresentation_iff]
     intro U hU V hV e
@@ -252,17 +252,17 @@ theorem locallyOfFinitePresentation_of_limitPreserving_yoneda
             naturality i j f := ObjectProperty.hom_ext _ (cOver.w f).symm } }
     have hc : IsLimit ((LocallyNoetherianOver.toScheme B S hS).mapCone c) := hcZ
     have ha (i : Λᵒᵖ) : IsAffine ((LocallyNoetherianOver.toScheme B S hS).obj (D.obj i)) := by
-      show IsAffine (Spec (CommRingCat.of (G i.unop)))
+      change IsAffine (Spec (CommRingCat.of (G i.unop)))
       infer_instance
     have hAffineZ (i : Λᵒᵖ) : IsAffine (Z.obj i) := by
-      show IsAffine (Spec (CommRingCat.of (G i.unop)))
+      change IsAffine (Spec (CommRingCat.of (G i.unop)))
       infer_instance
     let {i j : Λᵒᵖ} (gij : i ⟶ j) : IsAffineHom (Z.map gij) := by
       have hi := hAffineZ i
       have hj := hAffineZ j
       infer_instance
     have htop : IsAffine ((LocallyNoetherianOver.toScheme B S hS).obj c.pt) := by
-      show IsAffine (Spec (CommRingCat.of A))
+      change IsAffine (Spec (CommRingCat.of A))
       infer_instance
     have hBaseChart : hV.fromSpec ≫ f =
         Scheme.Spec.map (Opposite.op α) ≫ hU.fromSpec := by
@@ -276,7 +276,7 @@ theorem locallyOfFinitePresentation_of_limitPreserving_yoneda
     have hmScheme : cZ.π.app i ≫ aI = hV.fromSpec :=
       (F.map_comp _ _).symm.trans (congrArg F.map hm)
     have hpre : (cZ.π.app i) ⁻¹ᵁ (aI ⁻¹ᵁ V) = ⊤ := by
-      show (cZ.π.app i ≫ aI) ⁻¹ᵁ V = ⊤
+      change (cZ.π.app i ≫ aI) ⁻¹ᵁ V = ⊤
       rw [hmScheme]
       exact hV.fromSpec_preimage_self
     obtain ⟨k, fki, hkV⟩ := exists_map_eq_top Z cZ hcZ (aI ⁻¹ᵁ V) hpre (i := i)
@@ -316,7 +316,7 @@ theorem locallyOfFinitePresentation_of_limitPreserving_yoneda
     have hcompat : α ≫ φR = β := by
       have hOpp : Opposite.op (α ≫ φR) = Opposite.op β := by
         apply Scheme.Spec.map_injective
-        show Scheme.Spec.map (Opposite.op φR ≫ Opposite.op α) = _
+        change Scheme.Spec.map (Opposite.op φR ≫ Opposite.op α) = _
         rw [Functor.map_comp, hφ']
         exact hcompatSpec
       exact congrArg Opposite.unop hOpp
@@ -336,13 +336,13 @@ theorem locallyOfFinitePresentation_of_limitPreserving_yoneda
         (CommRingCat.ofHom (g k.unop).toRingHom)) := by
       dsimp [cZ, Z, c₀, D₀]
     have hmapid : Scheme.Spec.map (Opposite.op (𝟙 A)) = 𝟙 (Spec A) := by
-      show Scheme.Spec.map (𝟙 (Opposite.op A)) = _
+      change Scheme.Spec.map (𝟙 (Opposite.op A)) = _
       exact Scheme.Spec.map_id (Opposite.op A)
     have hretRing : φR ≫ CommRingCat.ofHom (g k.unop).toRingHom = 𝟙 A := by
       have hOpp : Opposite.op
           (φR ≫ CommRingCat.ofHom (g k.unop).toRingHom) = Opposite.op (𝟙 A) := by
         apply Scheme.Spec.map_injective
-        show Scheme.Spec.map (Opposite.op (CommRingCat.ofHom (g k.unop).toRingHom) ≫
+        change Scheme.Spec.map (Opposite.op (CommRingCat.ofHom (g k.unop).toRingHom) ≫
           Opposite.op φR) = _
         rw [Functor.map_comp, ← hπ, hφ', hmapid]
         exact hproj

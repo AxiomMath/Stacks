@@ -73,7 +73,7 @@ theorem isIso_kernelComplexBaseChangeMap
     (hJ : RingHom.ker fS = Ideal.map a (RingHom.ker fR)) (ha : a.Flat) :
     IsIso (kernelComplexBaseChangeMap fR hfR fS hfS a b hcomm) := by
   have := isIso_squareZeroKernelBaseChangeMap fR hfR fS hfS a b hcomm hJ ha
-  show IsIso
+  change IsIso
     ((HomologicalComplex.singleMapHomologicalComplex (ModuleCat.extendScalars.{u, u, u} b)
         (ComplexShape.up ℤ) 0).hom.app (squareZeroKernelModule.{u, u} fR hfR) ≫
       (CochainComplex.singleFunctor (ModuleCat.{u} S) 0).map

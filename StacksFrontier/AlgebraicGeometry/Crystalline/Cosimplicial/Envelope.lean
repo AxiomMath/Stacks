@@ -139,12 +139,12 @@ public lemma adicCompletionMapₛₗ_smul {P Q : Type*} [AddCommGroup P] [Module
       adicCompletionRingMap σ h r • adicCompletionMapₛₗ g h x := by
   apply AdicCompletion.ext
   intro n
-  show adicQuotientMap g h n (r.val n • x.val n) =
+  change adicQuotientMap g h n (r.val n • x.val n) =
     adicQuotientMap (ringHomₛₗ σ) h n (r.val n) • adicQuotientMap g h n (x.val n)
   obtain ⟨a, ha⟩ := Submodule.mkQ_surjective _ (r.val n)
   obtain ⟨b, hb⟩ := Submodule.mkQ_surjective _ (x.val n)
   rw [← ha, ← hb]
-  show Submodule.Quotient.mk (g (a • b)) =
+  change Submodule.Quotient.mk (g (a • b)) =
     (Submodule.Quotient.mk (σ a • g b) : Q ⧸ J ^ n • (⊤ : Submodule S Q))
   rw [g.map_smulₛₗ]
 
@@ -209,17 +209,17 @@ public lemma adicCompletionRingMap_isDPMorphism {I : Ideal R} {J : Ideal S}
   constructor
   · rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show adicCompletionRingMap σ.toRingHom _ x ∈ DividedPowers.completionIdeal J p hS
+    change adicCompletionRingMap σ.toRingHom _ x ∈ DividedPowers.completionIdeal J p hS
     rw [← hc x hx, adicCompletionRingMap_idealSequence p σ.toRingHom σ.ideal_comp]
     exact DividedPowers.completion_map_subtype_mem J p hS _
   · intro n x hx
-    show DividedPowers.completedDpowAux J ε p hS n (adicCompletionRingMap σ.toRingHom _ x) =
+    change DividedPowers.completedDpowAux J ε p hS n (adicCompletionRingMap σ.toRingHom _ x) =
       adicCompletionRingMap σ.toRingHom _ (DividedPowers.completedDpowAux I δ p hR n x)
     rw [← hc x hx, adicCompletionRingMap_idealSequence p σ.toRingHom σ.ideal_comp,
       DividedPowers.completedDpowAux_of_rep, DividedPowers.completedDpowAux_of_rep]
     apply AdicCompletion.ext
     intro k
-    show (DividedPowers.pAdicIdeal (A := S) p ^ k • (⊤ : Ideal S)).mkQ
+    change (DividedPowers.pAdicIdeal (A := S) p ^ k • (⊤ : Ideal S)).mkQ
         (ε.dpow n (σ (DividedPowers.completionIdealRepSequence I p hR ⟨x, hx⟩ k))) =
       (DividedPowers.pAdicIdeal (A := S) p ^ k • (⊤ : Ideal S)).mkQ
         (σ (δ.dpow n (DividedPowers.completionIdealRepSequence I p hR ⟨x, hx⟩ k)))
@@ -268,7 +268,7 @@ public lemma ideal_map_le_ker_presentation :
     s.A.ideal.map (algebraMap s.A (MvPolynomial ι s.A)) ≤ RingHom.ker f.toRingHom := by
   rw [Ideal.map_le_iff_le_comap]
   intro x hx
-  show f (algebraMap s.A (MvPolynomial ι s.A) x) = 0
+  change f (algebraMap s.A (MvPolynomial ι s.A) x) = 0
   rw [f.commutes]
   have hx' : algebraMap s.A s.C x ∈ s.A.ideal.map (algebraMap s.A s.C) :=
     Ideal.mem_map_of_mem (algebraMap s.A s.C) hx
@@ -435,7 +435,7 @@ public lemma envelopeReindex_comp {n m k : SimplexCategory} (φ : n ⟶ m) (ψ :
       exact (congrArg (fun q => (envelopeReindex s f ψ).1 (q a)) hφ).trans
         (congrArg (fun q => q a) hψ)
     · intro a
-      show (envelopeReindex s f (φ ≫ ψ)).1 _ =
+      change (envelopeReindex s f (φ ≫ ψ)).1 _ =
         (envelopeReindex s f ψ).1 ((envelopeReindex s f φ).1 _)
       rw [envelopeReindex_polynomial, envelopeReindex_polynomial, envelopeReindex_polynomial,
         MvPolynomial.rename_rename]
@@ -471,7 +471,7 @@ public lemma cosimplicialEnvelopeRing_map_polynomial {n m : SimplexCategory} (φ
     (cosimplicialEnvelopeRing s f hf).map φ (tensorPowerEnvelopeMap s f hf n.len q) =
       tensorPowerEnvelopeMap s f hf m.len
         (MvPolynomial.rename (simplexVariableMap (ι := ι) φ) q) := by
-  show adicCompletionRingMap (envelopeReindex s f φ).1.toRingHom _
+  change adicCompletionRingMap (envelopeReindex s f φ).1.toRingHom _
     (AdicCompletion.of _ _ ((tensorPowerEnvelope s f n.len).algebraMap.toRingHom q)) = _
   rw [adicCompletionRingMap_of]
   exact congrArg (AdicCompletion.of _ _) (envelopeReindex_polynomial s f φ q)
@@ -556,7 +556,7 @@ public lemma envelopeDifferentialsMap_id (n : SimplexCategory)
   have h : (envelopeDifferentialsMap s f (𝟙 n)).toAddMonoidHom = AddMonoidHom.id _ := by
     apply differentials_hom_ext _ _ (RingHom.id _)
     · intro r y
-      show envelopeDifferentialsMap s f (𝟙 n) (r • y) = r • _
+      change envelopeDifferentialsMap s f (𝟙 n) (r • y) = r • _
       rw [LinearMap.map_smulₛₗ, show (envelopeReindex s f (𝟙 n)).1.toRingHom r = r from
         envelopeReindex_id s f n r]
       rfl
@@ -579,12 +579,12 @@ public lemma envelopeDifferentialsMap_comp {n m k : SimplexCategory} (φ : n ⟶
     apply differentials_hom_ext _ _ (envelopeReindex s f (φ ≫ ψ)).1.toRingHom
     · exact (envelopeDifferentialsMap s f (φ ≫ ψ)).map_smulₛₗ
     · intro r y
-      show envelopeDifferentialsMap s f ψ (envelopeDifferentialsMap s f φ (r • y)) = _
+      change envelopeDifferentialsMap s f ψ (envelopeDifferentialsMap s f φ (r • y)) = _
       rw [LinearMap.map_smulₛₗ, LinearMap.map_smulₛₗ]
       exact congrArg (fun z => z • envelopeDifferentialsMap s f ψ
         (envelopeDifferentialsMap s f φ y)) (envelopeReindex_comp s f φ ψ r).symm
     · intro r
-      show envelopeDifferentialsMap s f (φ ≫ ψ) _ =
+      change envelopeDifferentialsMap s f (φ ≫ ψ) _ =
         envelopeDifferentialsMap s f ψ (envelopeDifferentialsMap s f φ _)
       rw [envelopeDifferentialsMap_d, envelopeDifferentialsMap_d, envelopeDifferentialsMap_d,
         envelopeReindex_comp]
@@ -632,7 +632,7 @@ public lemma completedEnvelopeDifferentialsMap_derivation {n m : SimplexCategory
     adicCompletion_addMonoidHom_ext (pAdicIdeal_adicContinuous s.p l)
       (pAdicIdeal_adicContinuous s.p r') (by
         intro y
-        show adicCompletionMapₛₗ (envelopeDifferentialsMap s f φ) _
+        change adicCompletionMapₛₗ (envelopeDifferentialsMap s f φ) _
             (tensorPowerDerivation s f hf n.len (AdicCompletion.of _ _ y)) =
           tensorPowerDerivation s f hf m.len
             (adicCompletionRingMap (envelopeReindex s f φ).1.toRingHom _

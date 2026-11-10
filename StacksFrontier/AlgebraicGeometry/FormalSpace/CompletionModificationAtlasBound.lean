@@ -70,7 +70,7 @@ theorem completionSheafMap_hom_comp_completionSheafIsoSubfunctor_hom
     (T : Set (points B S hS X)) :
     (completionSheafMap B S hS f T).hom ≫ (completionSheafIsoSubfunctor B S hS hX T).hom =
       (completionSheafIsoSubfunctor B S hS hX' _).hom ≫ completionMap B S hS f T := by
-  show (BigFppfOver.topology B S hS).sheafifyMap (completionMap B S hS f T) ≫
+  change (BigFppfOver.topology B S hS).sheafifyMap (completionMap B S hS f T) ≫
       ((BigFppfOver.topology B S hS).isoSheafify
         (isSheaf_completionSubfunctor B S hS hX T)).inv =
     ((BigFppfOver.topology B S hS).isoSheafify
@@ -150,7 +150,7 @@ theorem exists_eq_completionSheafMap {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   apply uliftYonedaEquiv.injective
   apply Subtype.ext
   apply ULift.ext
-  show x₀.app (op U₀) (𝟙 U₀) = s₀.1.down
+  change x₀.app (op U₀) (𝟙 U₀) = s₀.1.down
   exact X.map_id_apply _ s₀.1.down
 
 /-- Iterating Cantor's inequality: a cardinal is at most `2 ^ 2 ^ a`. -/

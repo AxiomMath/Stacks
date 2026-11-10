@@ -131,7 +131,7 @@ public theorem finite_etaleStalk_of_isConstructibleAbelianSheaf (X : B.Scheme)
     exact Set.mem_iUnion.mp hx
   set t' := GeometricPoint.ofPoint (s.piece i).obj z
   have hbase : (t'.map (B.inclusion.map (s.inclusion i))).hom default = t.hom default := by
-    show (B.inclusion.map (s.inclusion i)).base (t'.hom default) = t.hom default
+    change (B.inclusion.map (s.inclusion i)).base (t'.hom default) = t.hom default
     rw [show t'.hom default = z from GeometricPoint.ofPoint_liesOver (s.piece i).obj z]
     exact hz
   have := finite_etaleStalk_of_isFiniteLocallyConstant.{u, v} B (s.piece i).obj

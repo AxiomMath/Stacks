@@ -57,8 +57,8 @@ spell the single complex as `HomologicalComplex.single _ (ComplexShape.up ℤ) 0
 left-hand side.
 
 The two `IsLeftDerivedFunctor` arguments are instance binders, as in
-`StacksFrontier.Homology.Tor.BaseChangeIndependence.ComparisonEquations` and for the same reason: the
-statements name `RingTheory.TorIndependence.derivedBaseChangeComparison`, whose signature takes
+`StacksFrontier.Homology.Tor.BaseChangeIndependence.ComparisonEquations` and for the same reason:
+the statements name `RingTheory.TorIndependence.derivedBaseChangeComparison`, whose signature takes
 them as instances.  The two `Functor.IsLeftAdjoint` side conditions of that signature are
 discharged by `ModuleCat.extendRestrictScalarsAdj`; they have to be supplied with their module
 universe written out, since universe unification does not solve `max uRp ?u =?= max v uR uA uRp`.

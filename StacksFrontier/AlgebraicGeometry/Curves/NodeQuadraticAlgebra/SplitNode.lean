@@ -401,10 +401,10 @@ theorem nonempty_quadraticAlgebra_algEquiv_prod_of_cotangent_coordinates
     LinearEquiv.transvection (f := e.coord ⟨1⟩) (v := -e ⟨0⟩) (by simp)
   let e' := e.map t
   have hx' : e' ⟨0⟩ = (maximalIdeal A).toCotangent x := by
-    show t (e ⟨0⟩) = _
+    change t (e ⟨0⟩) = _
     simpa [t, LinearMap.transvection.apply] using hx
   have hy' : e' ⟨1⟩ = (maximalIdeal A).toCotangent (y - x) := by
-    show t (e ⟨1⟩) = _
+    change t (e ⟨1⟩) = _
     rw [map_sub, ← hx, ← hy]
     simp [t, LinearMap.transvection.apply, sub_eq_add_neg]
   have ha : residue A (1 : A) ≠ 0 := by simp

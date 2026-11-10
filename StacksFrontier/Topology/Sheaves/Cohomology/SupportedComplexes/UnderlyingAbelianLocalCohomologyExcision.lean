@@ -191,7 +191,7 @@ theorem excisionZero_hom_app {A B : Type*} [Category* A] [Category* B]
         (Stacks.Cohomology.ModuleComparison.rightDerivedCompIso S r (r ⋙ S') e 0 ≪≫
           Stacks.Cohomology.CompositeRightDerived.compRightDerivedNatIso r S' 0).hom.app M =
       e.hom.app M ≫ S'.toRightDerivedZero.app (r.obj M) := by
-  show r.map (S.toRightDerivedZero.app M) ≫
+  change r.map (S.toRightDerivedZero.app M) ≫
       (Stacks.Cohomology.ModuleComparison.rightDerivedCompIso S r (r ⋙ S') e 0).hom.app M ≫
         (Stacks.Cohomology.CompositeRightDerived.compRightDerivedNatIso r S' 0).hom.app M = _
   rw [← Category.assoc,

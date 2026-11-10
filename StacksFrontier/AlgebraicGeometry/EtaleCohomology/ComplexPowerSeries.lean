@@ -93,7 +93,7 @@ private theorem spec_etale_section_of_residueField_bijective
   obtain ⟨ψ, _⟩ := henselian_etale_exists_section R S P hbij
   refine ⟨Spec.map (CommRingCat.ofHom ψ.toRingHom), ?_⟩
   rw [← Spec.map_comp]
-  show Spec.map (CommRingCat.ofHom (ψ.toRingHom.comp (algebraMap R S))) = _
+  change Spec.map (CommRingCat.ofHom (ψ.toRingHom.comp (algebraMap R S))) = _
   rw [show ψ.toRingHom.comp (algebraMap R S) = RingHom.id R from RingHom.ext ψ.commutes]
   exact Spec.map_id _
 
@@ -269,7 +269,7 @@ private theorem exists_pow_finrank_eq_uniformizer
   have hf1 : (IsLocalRing.maximalIdeal B).inertiaDeg R = 1 := by
     rw [Ideal.inertiaDeg_eq_of_isMaximal (IsLocalRing.maximalIdeal R)]
     apply Module.finrank_of_bijective_algebraMap
-    show Function.Bijective
+    change Function.Bijective
       (algebraMap (IsLocalRing.ResidueField R) (IsLocalRing.ResidueField B))
     exact IsSepClosed.algebraMap_bijective _ _
   have he : IsDiscreteValuationRing.ramificationIndex R B = Module.finrank K L := by
@@ -342,7 +342,7 @@ private theorem kummerField_equiv_localization
       obtain ⟨d, hd⟩ := hm
       refine ⟨n * m, d, ?_⟩
       rw [hr, pow_mul, hθ]
-      show z * (algebraMap R E t) ^ m = φ d
+      change z * (algebraMap R E t) ^ m = φ d
       simpa [φ, Algebra.smul_def, map_pow, mul_comm] using hd.symm
     · intro a b hab
       exact ⟨0, by simp [kummer_canonicalMap_injective R K t ht n hn hab]⟩
@@ -448,7 +448,7 @@ theorem etale_puncturedKummerAlgebra (n : ℕ) (hn : 0 < n) :
         rw [mul_zero, add_zero, Polynomial.derivative_sub,
           Polynomial.derivative_X_pow, Polynomial.derivative_C]
         have hnc : (n : PowerSeries ℂ) * c = 1 := by
-          show PowerSeries.C (n : ℂ) * PowerSeries.C ((n : ℂ)⁻¹) = 1
+          change PowerSeries.C (n : ℂ) * PowerSeries.C ((n : ℂ)⁻¹) = 1
           rw [← map_mul]
           simp [hn.ne']
         calc
@@ -475,7 +475,7 @@ theorem isUnit_parameter_puncturedKummerAlgebra (n : ℕ) :
       (X ^ n - C PowerSeries.X) = 0 at h
     rw [eval₂_sub, eval₂_pow, eval₂_X, eval₂_C] at h
     exact sub_eq_zero.mp h
-  show IsUnit (algebraMap (PowerSeries ℂ)
+  change IsUnit (algebraMap (PowerSeries ℂ)
     (Localization.Away (AdjoinRoot.root f)) PowerSeries.X)
   rw [IsScalarTower.algebraMap_apply (PowerSeries ℂ) (AdjoinRoot f)
     (Localization.Away (AdjoinRoot.root f)) PowerSeries.X, ← hroot, map_pow]
@@ -503,7 +503,7 @@ theorem etaleCover_has_section
   have : Algebra.Etale R S :=
     (HasRingHomProperty.Spec_iff (P := @Etale)).mp hEt
   have hpoint : PrimeSpectrum.comap (algebraMap R S) z = x := by
-    show (Spec.map f) z = x
+    change (Spec.map f) z = x
     rw [hf, Scheme.Hom.comp_apply, hz, hy]
   have : z.asIdeal.IsPrime := z.isPrime
   have : z.asIdeal.LiesOver (IsLocalRing.maximalIdeal R) :=

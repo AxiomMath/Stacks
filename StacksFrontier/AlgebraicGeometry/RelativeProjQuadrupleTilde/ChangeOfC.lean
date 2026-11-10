@@ -51,7 +51,6 @@ section Fibre
 
 variable {s : Stacks.RelativeProj.Situation.{u}}
   (ℳ : SheafOfModules.LeftGradedModule.{u, u, u, u, u} s.algebra)
-  [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent]
   (U : s.base.affineOpens) {d : ℕ} (c c' : s.sectionPieces U.1 d)
 
 /-- The overlap `D₊(c) ∩ D₊(c')`. -/
@@ -338,7 +337,7 @@ theorem smulMor_app_top (X : SheafOfModules.{u} (structureRingSheaf T.toRingedSp
     (r : T.ringCatSheaf.obj.obj (op ⊤)) (y : X.val.obj (op ⊤)) :
     (smulMor X r).val.app (op ⊤) y =
       (show (structureRingSheaf T.toRingedSpace).obj.obj (op ⊤) from r) • y := by
-  show (ρ_ X).hom.val.app (op ⊤) ((X ◁ secHom (𝟙_ _) (show (𝟙_ (SheafOfModules.{u}
+  change (ρ_ X).hom.val.app (op ⊤) ((X ◁ secHom (𝟙_ _) (show (𝟙_ (SheafOfModules.{u}
     (structureRingSheaf T.toRingedSpace))).val.obj (op ⊤) from r)).val.app (op ⊤)
     ((ρ_ X).inv.val.app (op ⊤) y)) = _
   rw [rightUnitor_inv_app, whiskerLeft_tmul]
@@ -348,7 +347,7 @@ theorem smulMor_app_top (X : SheafOfModules.{u} (structureRingSheaf T.toRingedSp
       (show (structureRingSheaf T.toRingedSpace).obj.obj (op ⊤) from r) := by
     refine (secHom_app _ _ _ _).trans ((one_smul _ _).trans ?_)
     have h1 : topRes T (op ⊤) = 𝟙 _ := Subsingleton.elim _ _
-    show (𝟙_ (SheafOfModules.{u} (structureRingSheaf T.toRingedSpace))).val.map
+    change (𝟙_ (SheafOfModules.{u} (structureRingSheaf T.toRingedSpace))).val.map
       (topRes T (op ⊤)) r = r
     rw [h1, PresheafOfModules.map_id]
     rfl
@@ -364,7 +363,7 @@ theorem triv_coord_scale (n : ℤ) (r : T.ringCatSheaf.obj.obj (op ⊤))
       (structureRingSheaf T.toRingedSpace))).val.obj (op ⊤) from r) := by
   apply (SheafOfModules.unitHomEquiv _).injective
   ext V
-  show (coord w' n).val.app V ((triv w n).val.app V (oneSec T.toRingedSpace V)) =
+  change (coord w' n).val.app V ((triv w n).val.app V (oneSec T.toRingedSpace V)) =
     (secHom (𝟙_ _) (show (𝟙_ (SheafOfModules.{u}
       (structureRingSheaf T.toRingedSpace))).val.obj (op ⊤) from r)).val.app V
         (oneSec T.toRingedSpace V)
@@ -421,7 +420,7 @@ theorem of_oneMul (a : s.sectionPieces U.1 d) :
 theorem algFrac_oneMul : algFrac U c 1 (oneMul U c') = ratio U c c' := by
   apply HomogeneousLocalization.val_injective
   rw [HomogeneousLocalization.Away.val_mk]
-  show (Localization.mk (DirectSum.of (s.sectionPieces U.1) (1 * d) (oneMul U c'))
+  change (Localization.mk (DirectSum.of (s.sectionPieces U.1) (1 * d) (oneMul U c'))
     (⟨(cHom U.1 c) ^ 1, 1, rfl⟩ : Submonoid.powers (cHom U.1 c)) : Localization.Away _) = _
   rw [of_oneMul]
 

@@ -57,7 +57,7 @@ theorem pushforward_map_globalSectionToEnd
       (globalSectionToEnd S t).asHom.app ((_root_.SheafOfModules.pushforward.{w} φ).obj M) := by
   ext U x
   let y : M.val.obj (op (F.obj (unop U))) := x
-  show s.val (op (F.obj (unop U))) • y = _
+  change s.val (op (F.obj (unop U))) • y = _
   rw [← h U]
   rfl
 

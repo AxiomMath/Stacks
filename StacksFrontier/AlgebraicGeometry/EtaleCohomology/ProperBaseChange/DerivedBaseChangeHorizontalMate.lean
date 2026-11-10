@@ -92,9 +92,9 @@ public theorem etaleAbelianDerivedBaseChange_eq_mateEquiv_symm_derivedDirectImag
           (etaleAbelianDerivedAdjunction.{u, v} g)).symm
         (TwoSquare.mk _ _ _ _
           ((etaleAbelianDerivedDirectImageCompIso'.{u, v} g' f P hP₁).inv ≫
-            (etaleAbelianDerivedDirectImageCompIso'.{u, v} f' g P hP₂).hom))).natTrans := by
+            (etaleAbelianDerivedDirectImageCompIso'.{u, v} f' g P hP₂).hom))) := by
   rw [etaleAbelianDerivedBaseChange_eq_mateEquiv.{u, v} f g g' f' P hP₁ hP₂]
-  refine congrArg TwoSquare.natTrans ((Equiv.eq_symm_apply _).2 ?_)
+  refine (Equiv.eq_symm_apply _).2 ?_
   refine (iterated_mateEquiv_conjugateEquiv
     (etaleAbelianDerivedAdjunction.{u, v} f)
     (etaleAbelianDerivedAdjunction.{u, v} f')

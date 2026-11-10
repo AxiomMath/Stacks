@@ -119,7 +119,8 @@ in `Proj`), but only the hyperplane case is used.
   `AlgebraicGeometry.isIso_unit_app_cokernel_twistSectionMul`).
 * *The twist identifications over all of `ℤ`.*
   `Stacks.AlgebraicGeometry.PullbackTwistRegrouping.exists_regroupingFamily`
-  (`StacksFrontier/AlgebraicGeometry/Variety/Projective/PullbackTwistRegroupingFamily.lean`) produces
+  (`StacksFrontier/AlgebraicGeometry/Variety/Projective/PullbackTwistRegroupingFamily.lean`)
+  produces
   a family `θ_d : j^*𝒪(d) ≅ 𝒪(d)` satisfying the regrouping square of
   `…PullbackTwistSectionMul.pullback_twistSectionMul` in **every** integer degree. The downward
   step needs `- ⊗ 𝒪(1)` to be full, which

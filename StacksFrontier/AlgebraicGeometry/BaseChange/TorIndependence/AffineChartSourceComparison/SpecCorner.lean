@@ -1,9 +1,9 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.SourceBridge
+StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.SourceBridge
 public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.MergeCounit
+StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.MergeCounit
 
 /-!
 # The reconciliation at the `Spec 𝒪_X(U)` corner

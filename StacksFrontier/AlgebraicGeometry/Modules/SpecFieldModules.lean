@@ -62,7 +62,7 @@ universe u
 ideal. -/
 public theorem subsingleton_carrier {R : CommRingCat.{u}} (hR : IsField R) :
     Subsingleton (Spec R) := by
-  show Subsingleton (PrimeSpectrum R)
+  change Subsingleton (PrimeSpectrum R)
   let : Field R := hR.toField
   exact Ring.KrullDimLE.subsingleton_primeSpectrum _
 
@@ -78,11 +78,11 @@ public theorem isIso_fromTildeΓ {R : CommRingCat.{u}} (hR : IsField R)
     rw [NatTrans.isIso_iff_isIso_app]
     rintro ⟨U⟩
     rcases U.eq_bot_or_top with rfl | rfl
-    · show IsIso ((modulesSpecToSheaf.map M.fromTildeΓ).hom.app (.op ⊥))
+    · change IsIso ((modulesSpecToSheaf.map M.fromTildeΓ).hom.app (.op ⊥))
       have hF := TopCat.Sheaf.isTerminalOfEmpty (modulesSpecToSheaf.obj M)
       have hT := TopCat.Sheaf.isTerminalOfEmpty (modulesSpecToSheaf.obj (tilde ΓM))
       exact ⟨⟨hT.from _, hT.hom_ext _ _, hF.hom_ext _ _⟩⟩
-    · show IsIso ((modulesSpecToSheaf.map M.fromTildeΓ).hom.app (.op ⊤))
+    · change IsIso ((modulesSpecToSheaf.map M.fromTildeΓ).hom.app (.op ⊤))
       have : IsIso (tilde.toOpen ΓM ⊤) := tilde.isIso_toOpen_top
       have heq : tilde.toOpen ΓM ⊤ ≫
           (modulesSpecToSheaf.map M.fromTildeΓ).hom.app (.op ⊤) = 𝟙 ΓM := by
@@ -187,7 +187,7 @@ public theorem finrank_extendScalars (M : ModuleCat R) :
   let := (CommRingCat.Hom.hom φ).toAlgebra
   let : Field R := hR.toField
   let : Field S := hS.toField
-  show Module.finrank S (TensorProduct R S M) = Module.finrank R M
+  change Module.finrank S (TensorProduct R S M) = Module.finrank R M
   exact Module.finrank_baseChange
 
 include hR hS in

@@ -47,7 +47,7 @@ variable {G : Type (u + 1)} [Group G] [TopologicalSpace G] [IsTopologicalGroup G
   {ρ : G →* GL (Fin r) ℤ_[ℓ]} (hρ : Continuous ρ) {ρ' : G →* GL (Fin r') ℤ_[ℓ]}
   (hρ' : Continuous ρ') {ρ'' : G →* GL (Fin r'') ℤ_[ℓ]} (hρ'' : Continuous ρ'')
 
-omit [IsTopologicalGroup G] in
+omit [TopologicalSpace G] [IsTopologicalGroup G] in
 /-- An intertwiner commutes with the level representations. -/
 public theorem mulVec_levelRepresentation (A : Matrix (Fin r') (Fin r) ℤ_[ℓ])
     (hA : ∀ g, A * (ρ g).val = (ρ' g).val * A) (k : ℕ) (g : G) (y : Fin r → ZMod (ℓ ^ k)) :
@@ -87,7 +87,7 @@ public theorem levelAbelianMap_one (k : ℕ) :
   apply finiteContinuousAbelianHom_ext
   ext y
   refine ULift.ext ?_
-  show ((1 : Matrix (Fin r) (Fin r) ℤ_[ℓ]).map (PadicInt.toZModPow k)) *ᵥ y.down = y.down
+  change ((1 : Matrix (Fin r) (Fin r) ℤ_[ℓ]).map (PadicInt.toZModPow k)) *ᵥ y.down = y.down
   rw [Matrix.map_one _ (map_zero _) (map_one _), Matrix.one_mulVec]
 
 public theorem levelAbelianMap_mul (A : Matrix (Fin r') (Fin r) ℤ_[ℓ])
@@ -99,7 +99,7 @@ public theorem levelAbelianMap_mul (A : Matrix (Fin r') (Fin r) ℤ_[ℓ])
   apply finiteContinuousAbelianHom_ext
   ext y
   refine ULift.ext ?_
-  show ((A' * A).map (PadicInt.toZModPow k)) *ᵥ y.down =
+  change ((A' * A).map (PadicInt.toZModPow k)) *ᵥ y.down =
     (A'.map (PadicInt.toZModPow k)) *ᵥ ((A.map (PadicInt.toZModPow k)) *ᵥ y.down)
   rw [Matrix.map_mul, Matrix.mulVec_mulVec]
 
@@ -111,7 +111,7 @@ public theorem levelAbelianMap_add (A B : Matrix (Fin r') (Fin r) ℤ_[ℓ])
   apply finiteContinuousAbelianHom_ext
   ext y
   refine ULift.ext ?_
-  show ((A + B).map (PadicInt.toZModPow k)) *ᵥ y.down =
+  change ((A + B).map (PadicInt.toZModPow k)) *ᵥ y.down =
     (A.map (PadicInt.toZModPow k)) *ᵥ y.down + (B.map (PadicInt.toZModPow k)) *ᵥ y.down
   rw [Matrix.map_add _ (map_add _), Matrix.add_mulVec]
 
@@ -127,7 +127,7 @@ public theorem finiteContinuousScalarFunctor_map_comp_levelAbelianMap
   apply finiteContinuousAbelianHom_ext
   ext y
   refine ULift.ext ?_
-  show (A.map (PadicInt.toZModPow k)) *ᵥ (a • y.down) = a • ((A.map (PadicInt.toZModPow k)) *ᵥ
+  change (A.map (PadicInt.toZModPow k)) *ᵥ (a • y.down) = a • ((A.map (PadicInt.toZModPow k)) *ᵥ
     y.down)
   rw [Matrix.mulVec_smul]
 
@@ -139,7 +139,7 @@ public theorem levelAbelianReduction_comp_levelAbelianMap (A : Matrix (Fin r') (
   apply finiteContinuousAbelianHom_ext
   ext y
   refine ULift.ext ?_
-  show (A.map (PadicInt.toZModPow k)) *ᵥ (levelReduction k y.down) =
+  change (A.map (PadicInt.toZModPow k)) *ᵥ (levelReduction k y.down) =
     levelReduction k ((A.map (PadicInt.toZModPow (k + 1))) *ᵥ y.down)
   funext i
   simp only [levelReduction_apply, Matrix.mulVec, dotProduct, Matrix.map_apply, map_sum,

@@ -137,7 +137,7 @@ public theorem connectingHom_transportQuotient {z' : A.Obj}
   have hd : A.d (A.comp (by omega : (0 : ℤ) + 0 = 0) E.s e.inv.1) =
       A.comp (by omega : (1 : ℤ) + 0 = 1) (A.d E.s) e.inv.1 := by
     rw [A.leibniz, e.inv.2, A.comp_zero_right, smul_zero, add_zero]
-  show A.comp (by omega : (0 : ℤ) + (0 + 1) = 1) E.π
+  change A.comp (by omega : (0 : ℤ) + (0 + 1) = 1) E.π
       (A.d (A.comp (by omega : (0 : ℤ) + 0 = 0) E.s e.inv.1)) = _
   rw [hd]
   exact A.assoc (show (1 : ℤ) + 0 = 1 by omega) (show (0 : ℤ) + 1 = 1 by omega)
@@ -195,7 +195,7 @@ public theorem connectingHom_transportSub {x' : A.Obj}
     (e : (show A.Comp from x) ≅ (show A.Comp from x')) :
     connectingHom (E.transportSub e) =
       A.comp (by omega : (0 : ℤ) + 1 = 1) e.hom.1 (connectingHom E) := by
-  show A.comp (by omega : (0 : ℤ) + (0 + 1) = 1)
+  change A.comp (by omega : (0 : ℤ) + (0 + 1) = 1)
       (A.comp (by omega : (0 : ℤ) + 0 = 0) e.hom.1 E.π) (A.d E.s) = _
   exact (comp_comp_degree_one e.hom.1 E.π (A.d E.s)).symm
 
@@ -268,7 +268,7 @@ public theorem connectingHom_transportMiddle {y' : A.Obj}
     rw [comp_comp_degree_one, show A.comp (show (0 : ℤ) + 0 = 0 by omega) e.inv.1 e.hom.1 =
       A.id y from hom_inv_comp0 e]
     exact A.id_comp (A.d E.s)
-  show A.comp (by omega : (0 : ℤ) + (0 + 1) = 1)
+  change A.comp (by omega : (0 : ℤ) + (0 + 1) = 1)
       (A.comp (by omega : (0 : ℤ) + 0 = 0) E.π e.inv.1)
       (A.d (A.comp (by omega : (0 : ℤ) + 0 = 0) e.hom.1 E.s)) = _
   rw [hd, ← comp_comp_degree_one, step]

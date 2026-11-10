@@ -394,7 +394,7 @@ theorem trans_stageToLim_eq_coord_restrict {s₂ : Over j} (k l : K) (a : Fin (n
     stageToLim_naturality_sbs B S hS D hc hD hAffine (T := (SmallEtale.prodObj B S hS
         (stageAlgebraicSpace B S hS D hD j).1 (W k) (W l))) (SmallEtale.prodFst B S hS
         (stageAlgebraicSpace B S hS D hD j).1 (W k) (W l)) s₂
-  show (he k).coord _ _ a = (he k).coord _ _ a
+  change (he k).coord _ _ a = (he k).coord _ _ a
   rw [res_stageToLim_prodSnd B S hS D hc hD hAffine W E k l b, e3]
 
 /-- The coordinates of the frames of `E`, restricted to the base changes of a later stage, are the

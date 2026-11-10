@@ -278,7 +278,7 @@ theorem formallySmooth_localizations_of_ramificationIndex_dvd
       (algebraMap K₁ (E i)).comp (algebraMap R K₁) := by
     apply IsLocalization.ringHom_ext p.primeCompl
     ext a
-    show algebraMap D (E i) (φ (algebraMap A₁ R a)) =
+    change algebraMap D (E i) (φ (algebraMap A₁ R a)) =
       algebraMap K₁ (E i) (algebraMap R K₁ (algebraMap A₁ R a))
     rw [hφ, ← IsScalarTower.algebraMap_apply B₁ D (E i),
       ← IsScalarTower.algebraMap_apply A₁ R K₁]
@@ -369,7 +369,7 @@ theorem formallySmooth_localizations_of_ramificationIndex_dvd
   let : IsScalarTower R D T := inferInstance
   let : IsScalarTower R S T := .of_algebraMap_eq fun r ↦ by
     rw [IsScalarTower.algebraMap_apply R D T]
-    show algebraMap D T (algebraMap R D r) = φ₂ (algebraMap R S r)
+    change algebraMap D T (algebraMap R D r) = φ₂ (algebraMap R S r)
     rw [IsScalarTower.algebraMap_apply R R₂ S, hφ₂, hg₂R,
       ← IsScalarTower.algebraMap_apply D C₂ T]
   let : IsLocalHom (algebraMap R T) := by
@@ -411,7 +411,7 @@ theorem formallySmooth_localizations_of_ramificationIndex_dvd
     have hc : (algebraMap T E').comp φ₂ = (algebraMap K₂ E').comp (algebraMap S K₂) := by
       apply IsLocalization.ringHom_ext p₂.primeCompl
       ext r
-      show algebraMap T E' (φ₂ (algebraMap R₂ S r)) =
+      change algebraMap T E' (φ₂ (algebraMap R₂ S r)) =
         algebraMap K₂ E' (algebraMap S K₂ (algebraMap R₂ S r))
       rw [hφ₂, ← IsScalarTower.algebraMap_apply C₂ T E',
         ← IsScalarTower.algebraMap_apply R₂ S K₂]
@@ -439,11 +439,11 @@ theorem formallySmooth_localizations_of_ramificationIndex_dvd
     · apply mem_of_surjective_tensorProduct fE hfE (algebraMap (E i) E') fnew.range.toSubring
       · intro l
         exact ⟨algebraMap L (L ⊗[K] K₂) l, by
-          show fnew (algebraMap L _ l) = algebraMap (E i) E' (algebraMap L (E i) l)
+          change fnew (algebraMap L _ l) = algebraMap (E i) E' (algebraMap L (E i) l)
           rw [fnew.commutes, ← IsScalarTower.algebraMap_apply L (E i) E']⟩
       · intro a
         exact ⟨Algebra.TensorProduct.includeRight (algebraMap K₁ K₂ a), by
-          show fnew (Algebra.TensorProduct.includeRight (algebraMap K₁ K₂ a)) =
+          change fnew (Algebra.TensorProduct.includeRight (algebraMap K₁ K₂ a)) =
             algebraMap (E i) E' (fE (Algebra.TensorProduct.includeRight a))
           rw [hfnewK₂, hfEK₁, ← IsScalarTower.algebraMap_apply K₁ K₂ E',
             ← IsScalarTower.algebraMap_apply K₁ (E i) E']⟩
@@ -550,7 +550,7 @@ theorem exists_algEquiv_of_surjective_pi
   have hπ : Function.Surjective π := Function.surjective_eval i
   have hker : RingHom.ker π.toRingHom ≤ RingHom.ker f.toRingHom := by
     intro z hz
-    show f z = 0
+    change f z = 0
     have hz' : z i = 0 := hz
     have hmul : z * Pi.single i (1 : E i) = 0 := by
       ext j
@@ -588,13 +588,13 @@ theorem isLocalization_integralClosure
     IsLocalization.integralClosure (R := B) (S := E) (Rf := R) (Sf := E) S
   have hmap : (Algebra.algebraMapSubmonoid C S).map e.symm.toMonoidHom =
       Algebra.algebraMapSubmonoid C₀ S := by
-    show (Algebra.algebraMapSubmonoid C S).map e.symm.toAlgHom.toMonoidHom = _
+    change (Algebra.algebraMapSubmonoid C S).map e.symm.toAlgHom.toMonoidHom = _
     exact Algebra.algebraMapSubmonoid_map_eq S e.symm.toAlgHom
   apply IsLocalization.of_ringEquiv_left e.symm.toRingEquiv hmap
   intro c
   apply FaithfulSMul.algebraMap_injective D E
   rw [← IsScalarTower.algebraMap_apply C D E]
-  show algebraMap C E c = (e.symm c).1
+  change algebraMap C E c = (e.symm c).1
   exact (IsIntegralClosure.algebraMap_equiv B C E C₀ c).symm
 
 private theorem isSeparable_of_isSeparablyGenerated
@@ -611,7 +611,7 @@ private theorem isSeparable_of_isSeparablyGenerated
   exact Algebra.IsSeparable.of_equiv_equiv
     (IntermediateField.botEquiv k F).toRingEquiv (RingEquiv.refl F) (by
       ext x
-      show algebraMap k F ((IntermediateField.botEquiv k F) x) = x.1
+      change algebraMap k F ((IntermediateField.botEquiv k F) x) = x.1
       exact congrArg Subtype.val ((IntermediateField.botEquiv k F).symm_apply_apply x))
 
 theorem isSeparable_of_isSeparableExtension
@@ -737,7 +737,7 @@ theorem unram_transport {R S M : Type*} [CommRing R] [CommRing S]
       (Ideal.quotientEquiv m m' τ hmm') ?_
     apply Ideal.Quotient.ringHom_ext
     ext r
-    show Ideal.Quotient.mk m' (algebraMap S (integralClosure S M) (σ r)) =
+    change Ideal.Quotient.mk m' (algebraMap S (integralClosure S M) (σ r)) =
       Ideal.Quotient.mk m' (τ (algebraMap R (integralClosure R M) r))
     exact congrArg (Ideal.Quotient.mk m') (RingHom.congr_fun hτ r).symm
 

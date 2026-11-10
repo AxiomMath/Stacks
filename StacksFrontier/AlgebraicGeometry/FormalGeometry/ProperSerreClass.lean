@@ -92,7 +92,7 @@ private lemma isZero_of_stalks_isZero {X : Scheme.{u}} (F : X.Modules)
     (hF : ∀ x : X, IsZero
       ((TopCat.Presheaf.stalkFunctor Ab.{u} x).obj F.val.presheaf)) : IsZero F := by
   refine (IsZero.iff_id_eq_zero F).2 ((SheafOfModules.toSheaf _).map_injective ?_)
-  show (𝟙 ((SheafOfModules.toSheaf _).obj F)) = 0
+  change (𝟙 ((SheafOfModules.toSheaf _).obj F)) = 0
   exact (IsZero.iff_id_eq_zero _).mp
     ((TopCat.Sheaf.isZero_iff_stalkFunctor_obj_isZero _).2 hF)
 
@@ -291,14 +291,14 @@ private lemma smul_smul_eq_zero_of_exact (T : ShortComplex X.Modules) (hT : T.Ex
   let bsUQ : Q₂.obj (op U.1) := b • s
   have hker : (AlgebraicGeometry.SheafOfModules.stalkShortComplex
       X.ringCatSheaf T x).g.hom (Q₂.germ U.1 x hx bsUQ) = 0 := by
-    show ((TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map (G.map (H.map T.g)))
+    change ((TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map (G.map (H.map T.g)))
       (Q₂.germ U.1 x hx bsUQ) = 0
     rw [TopCat.Presheaf.stalkFunctor_map_germ_apply U.1 x hx (G.map (H.map T.g)) bsUQ]
     have hsection : (G.map (H.map T.g)).app (op U.1) bsUQ = 0 := by
-      show T.g.app U.1 (b • s) = 0
+      change T.g.app U.1 (b • s) = 0
       rw [Scheme.Modules.Hom.app_smul, hbg]
     rw [hsection]
-    show ((Q₃.germ U.1 x hx).hom) 0 = 0
+    change ((Q₃.germ U.1 x hx).hom) 0 = 0
     exact (Q₃.germ U.1 x hx).hom.map_zero
   rw [ShortComplex.ab_exact_iff] at hxStalk
   obtain ⟨y, hy⟩ := hxStalk _ hker
@@ -320,7 +320,7 @@ private lemma smul_smul_eq_zero_of_exact (T : ShortComplex X.Modules) (hT : T.Ex
   let tA : Γ(T.X₁, A') := Q₁.map qV t
   have haA : aA ∈ J.ideal A' := by
     have hmem := Ideal.mem_map_of_mem (X.presheaf.map qU).hom ha
-    show (X.presheaf.map qU).hom a ∈ J.ideal A'
+    change (X.presheaf.map qU).hom a ∈ J.ideal A'
     rw [← Scheme.IdealSheafData.map_ideal J hAU]
     exact hmem
   have hkill : aA • tA = 0 :=
@@ -333,17 +333,17 @@ private lemma smul_smul_eq_zero_of_exact (T : ShortComplex X.Modules) (hT : T.Ex
           AddCommGrpCat.hom_comp, AddMonoidHom.comp_apply]) <;> rfl
     calc
       bA • sA = (T.X₂.presheaf.map qU) (b • s) := by
-        show (X.presheaf.map qU).hom b • (T.X₂.presheaf.map qU) s =
+        change (X.presheaf.map qU).hom b • (T.X₂.presheaf.map qU) s =
           (T.X₂.presheaf.map qU) (b • s)
         exact (Scheme.Modules.map_smul T.X₂ (jAW ≫ iWU) b s).symm
       _ = (T.X₂.presheaf.map qV) (T.f.app V t) := hWA'
       _ = T.f.app A' tA := by
-        show (T.X₂.presheaf.map qV) (T.f.app V t) = T.f.app A' (Q₁.map qV t)
+        change (T.X₂.presheaf.map qV) (T.f.app V t) = T.f.app A' (Q₁.map qV t)
         exact (NatTrans.naturality_apply (T.f.mapPresheaf) qV t).symm
   have hzeroA : aA • (bA • sA) = 0 := by
     rw [hEqA, ← Scheme.Modules.Hom.app_smul, hkill, map_zero]
   refine ⟨A'.1, hAU, hxA, ?_⟩
-  show T.X₂.presheaf.map (homOfLE hAU).op (a • (b • s)) =
+  change T.X₂.presheaf.map (homOfLE hAU).op (a • (b • s)) =
     T.X₂.presheaf.map (homOfLE hAU).op 0
   simpa [aA, bA, sA, Scheme.Modules.map_smul, hzeroA]
 
@@ -448,7 +448,7 @@ public theorem isSerreClass_hasProperSupport {X S : Scheme.{u}} [IsNoetherian S]
   have hsup : IsProperOver f (Z₁ ⊔ Z₃) := isProperOver_sup f Z₁ Z₃ hP₁ hP₃
   refine ⟨⟨SheafOfModules.supp (T.X₂.obj.obj (op 0)),
     SheafOfModules.isClosed_supp _⟩, rfl, isProperOver_of_le f ?_ hsup⟩
-  show SheafOfModules.supp (T.X₂.obj.obj (op 0)) ⊆ ((Z₁ ⊔ Z₃ : Closeds X) : Set X)
+  change SheafOfModules.supp (T.X₂.obj.obj (op 0)) ⊆ ((Z₁ ⊔ Z₃ : Closeds X) : Set X)
   simpa [hZ₁, hZ₃] using supp_middle_subset_of_exact I T hT
 
 /-! ### Systems with a common annihilating closed subscheme proper over the base -/

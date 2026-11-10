@@ -49,7 +49,7 @@ private theorem tensorRight_map_injective
   have hh := congrArg (fun t => t.hom) h
   change f.hom.rTensor L = g.hom.rTensor L at hh
   apply (Module.Invertible.rTensorEquiv X Y e).injective
-  show (LinearMap.rTensorHom L) f.hom = (LinearMap.rTensorHom L) g.hom
+  change (LinearMap.rTensorHom L) f.hom = (LinearMap.rTensorHom L) g.hom
   simpa only [← LinearMap.coe_rTensorHom] using hh
 
 private theorem ringEquiv_apply_eq_of_extensionScalars_map
@@ -66,11 +66,11 @@ private theorem ringEquiv_apply_eq_of_extensionScalars_map
   have hevalL : ((ModuleCat.extendScalars e.toRingHom).map
       (ModuleCat.ofHom (LinearMap.lsmul A (ModuleCat.of A A) a))).hom v =
       (1 : B) ⊗ₜ[A,e.toRingHom] a := by
-    show ((ModuleCat.extendScalars e.toRingHom).map
+    change ((ModuleCat.extendScalars e.toRingHom).map
       (ModuleCat.ofHom (LinearMap.lsmul A (ModuleCat.of A A) a)))
         ((1 : B) ⊗ₜ[A,e.toRingHom] (1 : A)) = _
     rw [ModuleCat.ExtendScalars.map_tmul]
-    show (1 : B) ⊗ₜ[A,e.toRingHom]
+    change (1 : B) ⊗ₜ[A,e.toRingHom]
       ((LinearMap.lsmul A (ModuleCat.of A A) a) 1) = _
     simp [LinearMap.lsmul_apply]
   have hevalR : (b • (𝟙 E)).hom v = b • ((1 : B) ⊗ₜ[A,e.toRingHom] (1 : A)) := rfl
@@ -109,7 +109,7 @@ public theorem exists_algEquiv_invertible_iso_extensionTensorFunctor
         ((algebraMap R A r) • 𝟙 X) =
         (algebraMap R B r) • 𝟙 E := by
       apply tensorRight_map_injective L
-      show T.map ((ModuleCat.extendScalars e.toRingHom).map
+      change T.map ((ModuleCat.extendScalars e.toRingHom).map
         ((algebraMap R A r) • 𝟙 X)) = T.map ((algebraMap R B r) • 𝟙 E)
       have hT : T.map ((algebraMap R B r) • 𝟙 E) =
           (algebraMap R B r) • 𝟙 (T.obj E) := by

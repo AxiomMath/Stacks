@@ -81,8 +81,7 @@ theorem exists_surjective_toResidueField {R M : Type*} [CommRing R] [IsLocalRing
     simp only [not_exists, not_not, hφ] at hall
     have hzero : ∀ z : ResidueField R ⊗[R] M, b.coord i z = 0 := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul c m =>
           have hc : c ⊗ₜ[R] m = c • (1 : ResidueField R) ⊗ₜ[R] m := by
             rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -134,8 +133,7 @@ theorem nontrivial_of_nontrivial_tensorProduct {R S M : Type*} [CommSemiring R]
   have hM' : Subsingleton M := not_nontrivial_iff_subsingleton.mp hM
   refine (not_nontrivial_iff_subsingleton.mpr ⟨fun a b => ?_⟩) h
   have hz (z : M ⊗[R] S) : z = 0 := by
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | tmul m s => rw [hM'.elim m 0, TensorProduct.zero_tmul]
     | add x y hx hy => rw [hx, hy, zero_add]
   exact (hz a).trans (hz b).symm

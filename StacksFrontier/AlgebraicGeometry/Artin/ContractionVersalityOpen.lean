@@ -65,7 +65,7 @@ private theorem exists_comp_eq_of_isOpenImmersion_aux {T V V₀ : BigFppfOver B 
     rw [ObjectProperty.FullSubcategory.comp_hom]
     have hV₀ : V₀.hom.hom = ι.left.hom ≫ V.hom.hom :=
       (congrArg (fun m => m.hom) (Over.w ι)).symm
-    show l ≫ V₀.hom.hom = T.hom.hom
+    change l ≫ V₀.hom.hom = T.hom.hom
     have hl' : l ≫ ι.left.hom = φ.left.hom := hl
     rw [hV₀, ← Category.assoc, hl']
     exact congrArg (fun m => m.hom) (Over.w φ)
@@ -325,7 +325,7 @@ theorem liftsAtResiduePoint_openObject_iff {Λ k : Type u} [CommRing Λ] [Field 
         refine Eq.trans ?_ ha'
         simp only [Deformation.Artin.schemeMap, Category.assoc]
         congr 2
-        show ((Over.post B.inclusion).map φ₀ ≫ (Over.post B.inclusion).map t.openHom).left =
+        change ((Over.post B.inclusion).map φ₀ ≫ (Over.post B.inclusion).map t.openHom).left =
           ((Over.post B.inclusion).map φ).left
         rw [← Functor.map_comp, hφ₀]
       exact (cancel_mono j).1 key
@@ -337,15 +337,15 @@ theorem liftsAtResiduePoint_openObject_iff {Λ k : Type u} [CommRing Λ] [Field 
     have hZ' := (mapTriple_Z_eq_empty_iff c φ' t).2 (comp_openHom_mem c t b𝒳.base)
     have hb : mapTriple c φ' t = z.unop.2 := by
       refine Triple.ext_of_Z_eq_empty hZ' hzZ ?_
-      show ((mapTriple c φ' t).uPoint hZ').1 = sz.1
+      change ((mapTriple c φ' t).uPoint hZ').1 = sz.1
       rw [uPoint_mapTriple_eq_map_openPoint c t b𝒳.base φ' rfl hZ', hbfib]
     refine ⟨Quiver.Hom.op ⟨(ObjectProperty.homMk φ' : z.unop.1.unop ⟶ x.unop.1.unop).op, hb⟩,
       ?_⟩
     apply Quiver.Hom.unop_inj
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     apply Quiver.Hom.unop_inj
     apply ObjectProperty.hom_ext
-    show ι ≫ b𝒳.base ≫ t.openHom = φ
+    change ι ≫ b𝒳.base ≫ t.openHom = φ
     rw [← Category.assoc, hbase, hφ₀]
   · intro hU A A' f hf y z hy hz i hi a ha
     obtain ⟨T, ⟨sy⟩⟩ := y
@@ -371,14 +371,16 @@ theorem liftsAtResiduePoint_openObject_iff {Λ k : Type u} [CommRing Λ] [Field 
     have hu : (yonedaEquiv u : c.U'.toFunctor.obj (op T')).1 = sz := by rw [hu']
     let TN : LocallyNoetherianOver B S hS := ⟨T, isLocallyNoetherian_of_over_spec hy⟩
     let T'N : LocallyNoetherianOver B S hS := ⟨T', isLocallyNoetherian_of_over_spec hz⟩
-    let yF : (contractionFunctor c).Elementsᵒᵖ := op ((contractionFunctor c).elementsMk (op TN) (mapTriple c φ t))
-    let zF : (contractionFunctor c).Elementsᵒᵖ := op ((contractionFunctor c).elementsMk (op T'N) (c.emptyTriple T' u))
+    let yF : (contractionFunctor c).Elementsᵒᵖ :=
+      op ((contractionFunctor c).elementsMk (op TN) (mapTriple c φ t))
+    let zF : (contractionFunctor c).Elementsᵒᵖ :=
+      op ((contractionFunctor c).elementsMk (op T'N) (c.emptyTriple T' u))
     have hyZ : (mapTriple c φ t).Z = ∅ := (mapTriple_Z_eq_empty_iff c φ t).2 hmem
     have hiF : mapTriple c ι (c.emptyTriple T' u) = mapTriple c φ t := by
       refine Triple.ext_of_Z_eq_empty
         (Triple.mapTriple_Z_eq_empty c ι _ (c.emptyTriple_Z T' u)) hyZ ?_
       rw [Triple.uValue_mapTriple ι _ (c.emptyTriple_Z T' u)]
-      show c.X'.map ι.op ((c.emptyTriple T' u).uPoint (c.emptyTriple_Z T' u)).1 =
+      change c.X'.map ι.op ((c.emptyTriple T' u).uPoint (c.emptyTriple_Z T' u)).1 =
         ((mapTriple c φ t).uPoint hyZ).1
       rw [uPoint_emptyTriple, hu, uPoint_mapTriple_eq_map_openPoint c t φ₀ φ rfl hyZ,
         ← hiy, hay]
@@ -416,7 +418,7 @@ theorem liftsAtResiduePoint_openObject_iff {Λ k : Type u} [CommRing Λ] [Field 
       exact h₂.symm
     refine ⟨{ base := φ'₀, fiber := Discrete.eqToHom hfib }, ?_⟩
     apply Deformation.Artin.fibredCategory_hom_ext
-    show ι ≫ φ'₀ = φ₀
+    change ι ≫ φ'₀ = φ₀
     apply BigFppfOver.eq_of_comp_openSubHom_eq t.openPart
     rw [Category.assoc, hφ'₀]
     exact congrArg (fun m : yF ⟶ x => m.unop.1.unop.hom) hb

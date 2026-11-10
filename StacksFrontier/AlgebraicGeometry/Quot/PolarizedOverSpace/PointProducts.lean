@@ -61,7 +61,7 @@ theorem yonedaEquiv_comp_pointMap {c : yoneda.obj W ⟶ T.obj}
     (hc : yoneda.map g ≫ (SpacesOverSpace.pointMap a).hom = c) :
     yonedaEquiv c = T.obj.map g.op a.fiber.as := by
   subst hc
-  show yonedaEquiv (yoneda.map g ≫ yonedaEquiv.symm a.fiber.as) = _
+  change yonedaEquiv (yoneda.map g ≫ yonedaEquiv.symm a.fiber.as) = _
   rw [yonedaEquiv_symm_naturality_left, Equiv.apply_symm_apply]
 
 /-- The morphism of points from a restriction. -/

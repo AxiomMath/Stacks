@@ -171,6 +171,7 @@ private lemma hom_comp_inv_comp_inv {𝒞 : Type*} [Category 𝒞] {A B C D E G 
     _ = b.inv ≫ a.inv ≫ d.hom := by rw [h]; simp
 
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- The comparison of total tensor complexes is associative, in the direction of
 `pullbackTensorTotalComplexIso`. -/
 theorem pullbackTensorComplexμ_inv_associativity
@@ -229,11 +230,7 @@ theorem derivedPullbackTensorIso_hom_app_model_comp₂
 private theorem assoc_model_s1
     (P N M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
     (hP : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) P)
-    (hN : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) N)
-    (hM : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) M)
-    (hflatP : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (P.X i))
-    (hflatN : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (N.X i))
-    (hflatM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (M.X i)) :
+    (hflatP : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (P.X i)) :
     ((TX.tensor.obj ((derivedPullback f).obj (DerivedCategory.Q.obj P))).map
       ((derivedPullbackTensorIso f TX TY).hom.app
       ((DerivedCategory.Q.obj N), (DerivedCategory.Q.obj M)))) ≫
@@ -252,10 +249,8 @@ private theorem assoc_model_s1
 
 private theorem assoc_model_s2
     (P N M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hP : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) P)
     (hN : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) N)
     (hM : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) M)
-    (hflatP : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (P.X i))
     (hflatN : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (N.X i))
     (hflatM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (M.X i)) :
     ((TX.tensor.obj (DerivedCategory.Q.obj ((pullbackComplex f).obj P))).map
@@ -290,9 +285,7 @@ private theorem assoc_model_s3
     (hP : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) P)
     (hN : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) N)
     (hM : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) M)
-    (hflatP : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (P.X i))
-    (hflatN : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (N.X i))
-    (hflatM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (M.X i)) :
+    (hflatP : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (P.X i)) :
     ((TX.tensor.map (flatPullbackIso f P hP hflatP).hom).app
       ((derivedPullback f).obj
       ((TY.tensor.obj (DerivedCategory.Q.obj N)).obj (DerivedCategory.Q.obj M)))) ≫
@@ -309,12 +302,8 @@ private theorem assoc_model_s3
 
 private theorem assoc_model_s4
     (P N M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hP : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) P)
     (hN : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) N)
-    (hM : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) M)
-    (hflatP : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (P.X i))
-    (hflatN : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (N.X i))
-    (hflatM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (M.X i)) :
+    (hM : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) M) :
     ((derivedPullbackTensorIso f TX TY).hom.app
       ((DerivedCategory.Q.obj P),
       ((TY.tensor.obj (DerivedCategory.Q.obj N)).obj (DerivedCategory.Q.obj M)))) ≫
@@ -433,10 +422,7 @@ private theorem assoc_model_s7
     (P N M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
     (hP : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) P)
     (hN : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) N)
-    (hM : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) M)
-    (hflatP : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (P.X i))
-    (hflatN : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (N.X i))
-    (hflatM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (M.X i)) :
+    (hM : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) M) :
     ((derivedPullback f).map
       (TY.associatorGeneral (DerivedCategory.Q.obj P) (DerivedCategory.Q.obj N)
       (DerivedCategory.Q.obj M)).hom) ≫
@@ -593,10 +579,8 @@ private theorem assoc_model_h4
     (P N M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
     (hP : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) P)
     (hN : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) N)
-    (hM : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) M)
     (hflatP : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (P.X i))
-    (hflatN : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (N.X i))
-    (hflatM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (M.X i)) :
+    (hflatN : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (N.X i)) :
     ((TX.tensor.map ((derivedPullbackTensorIso f TX TY).hom.app
       ((DerivedCategory.Q.obj P), (DerivedCategory.Q.obj N)))).app
       ((derivedPullback f).obj (DerivedCategory.Q.obj M))) ≫
@@ -627,11 +611,7 @@ private theorem assoc_model_h4
 
 private theorem assoc_model_h5
     (P N M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hP : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) P)
-    (hN : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) N)
     (hM : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) M)
-    (hflatP : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (P.X i))
-    (hflatN : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (N.X i))
     (hflatM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (M.X i)) :
     ((TX.tensor.map (DerivedCategory.Q.map
       (Iso.hom (X := ((pullbackComplex f).obj
@@ -714,11 +694,7 @@ private theorem assoc_model_h6
 private theorem assoc_model_h7
     (P N M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
     (hP : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) P)
-    (hN : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) N)
-    (hM : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) M)
-    (hflatP : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (P.X i))
-    (hflatN : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (N.X i))
-    (hflatM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (M.X i)) :
+    (hN : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) N) :
     ((derivedPullbackTensorIso f TX TY).hom.app
       (((TY.tensor.obj (DerivedCategory.Q.obj P)).obj (DerivedCategory.Q.obj N)),
       (DerivedCategory.Q.obj M))) ≫
@@ -853,13 +829,13 @@ theorem derivedPullbackTensorIso_assoc_left_model
         (pullbackTensorTotalComplexIso f N M))
         (Stacks.SheafOfModules.Tensor.sheafTensor X.toRingedSite.O) (ComplexShape.up ℤ))) :=
   assoc_left_assemble _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-    (assoc_model_s1 f TX TY P N M hP hN hM hflatP hflatN hflatM)
-      (assoc_model_s2 f TX TY P N M hP hN hM hflatP hflatN hflatM)
-      (assoc_model_s3 f TX TY P N M hP hN hM hflatP hflatN hflatM)
-      (assoc_model_s4 f TX TY P N M hP hN hM hflatP hflatN hflatM)
+    (assoc_model_s1 f TX TY P N M hP hflatP)
+      (assoc_model_s2 f TX TY P N M hN hM hflatN hflatM)
+      (assoc_model_s3 f TX TY P N M hP hN hM hflatP)
+      (assoc_model_s4 f TX TY P N M hN hM)
       (assoc_model_s5 f TX P N M hP hN hM hflatP hflatN hflatM)
       (assoc_model_s6 f TX TY P N M hP hN hM hflatP hflatN hflatM)
-      (assoc_model_s7 f TY P N M hP hN hM hflatP hflatN hflatM)
+      (assoc_model_s7 f TY P N M hP hN hM)
       (assoc_model_s8 f P N M hP hN hM hflatP hflatN hflatM)
 
 /-- The right-hand side of the associativity of Stacks 07A4 on models, read through the
@@ -934,10 +910,10 @@ theorem derivedPullbackTensorIso_assoc_right_model
     (assoc_model_h1 f TX P N M hP hN hM hflatP hflatN hflatM)
       (assoc_model_h2 f TX P N M hP hN hM hflatP hflatN hflatM)
       (assoc_model_h3 f TX P N M hP hN hM hflatP hflatN hflatM)
-      (assoc_model_h4 f TX TY P N M hP hN hM hflatP hflatN hflatM)
-      (assoc_model_h5 f TX P N M hP hN hM hflatP hflatN hflatM)
+      (assoc_model_h4 f TX TY P N M hP hN hflatP hflatN)
+      (assoc_model_h5 f TX P N M hM hflatM)
       (assoc_model_h6 f TX P N M hP hN hM hflatP hflatN hflatM)
-      (assoc_model_h7 f TX TY P N M hP hN hM hflatP hflatN hflatM)
+      (assoc_model_h7 f TX TY P N M hP hN)
       (assoc_model_h8 f TX TY P N M hP hN hM hflatP hflatN hflatM)
 
 omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
@@ -1173,6 +1149,7 @@ private theorem assoc_complex_right
     (assoc_complex_o7 f P N M) (assoc_complex_o8 f P N M) (assoc_complex_c4 f P N M)
     (assoc_complex_c5 f P N M) (assoc_complex_c6 f P N M)
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 attribute [local irreducible] Stacks.SheafOfModules.Tensor.sheafTensor in
 /-- The comparison of total tensor complexes of Stacks 07A4 is associative, in the spelling of
 `Stacks.SheafOfModules.Tensor.tensorComplex` and of `pullbackTensorTotalComplexIso`. -/

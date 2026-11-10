@@ -84,7 +84,7 @@ private theorem isIso_app_of_isIntegralHom_of_isBirational_of_isNormal
     let e : KY ≃ₐ[A] KX :=
       { (asIso (f.stalkMap (genericPoint X))).commRingCatIsoToRingEquiv with
         commutes' := fun a ↦ by
-          show f.stalkMap (genericPoint X)
+          change f.stalkMap (genericPoint X)
               (Y.presheaf.germ U.1 (f (genericPoint X)) hfxU a) =
             X.germToFunctionField (f ⁻¹ᵁ U.1) (f.app U.1 a)
           exact f.germ_stalkMap_apply U.1 (genericPoint X) hfxU a }

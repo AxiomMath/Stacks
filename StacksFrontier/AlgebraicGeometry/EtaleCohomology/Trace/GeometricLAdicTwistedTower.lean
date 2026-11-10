@@ -173,6 +173,7 @@ public def LAdicSheaf.levelCohomologyMap (F : LAdicSheaf B X ℓ)
     ((DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) i).map
       ((compactSupportFrobeniusFunctor.{u, 0} _ f j kbar).map (LAdicSheaf.levelComplexMap ψ n)))
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The level isomorphisms carry `ψ_*` to `Hⁱ(ψ_*)` on the level cohomology.** -/
 public theorem LAdicSheaf.geometricLevelCohomologyIso_map (F : LAdicSheaf B X ℓ)
     (hF : ∀ n, PowExact ℓ (n + 1) (LAdicSheaf.etaleLevel B X ℓ F n))
@@ -212,6 +213,7 @@ public theorem LAdicSheaf.levelCohomologyEndoSystem_geometricPerfectTowerTwist
         (LAdicSheaf.levelComplexMap ψ n)))).trans
     ((DerivedCategory.homologyFunctor (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) i).map_comp _ _))
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The system isomorphism carries `π_X^* ≫ ψ_*` to the endomorphisms of the twisted tower.** -/
 public theorem LAdicSheaf.geometricLevelCohomologySystemIso_twist (F : LAdicSheaf B X ℓ)
     (hF : ∀ n, PowExact ℓ (n + 1) (LAdicSheaf.etaleLevel B X ℓ F n))
@@ -233,6 +235,7 @@ public theorem LAdicSheaf.geometricLevelCohomologySystemIso_twist (F : LAdicShea
     hF hP ψ i n
   exact (comp_comp_eq_of_comm_squares hπ.symm hψ.symm).symm.trans (congrArg (_ ≫ ·) hT.symm)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The trace formula twisted by `ψ`, on the cohomology side**: for an ℓ-adic sheaf with flat
 levels whose `RΓ_c(X_k̄, Fₙ)` are perfect and `ψ : F ⟶ F`, the alternating sum of the traces of
 `π_X^* ≫ ψ_*` on `Hⁱ_c(X_k̄, F) ⊗ ℚ_ℓ` is the ℓ-adic trace of the twisted tower. -/

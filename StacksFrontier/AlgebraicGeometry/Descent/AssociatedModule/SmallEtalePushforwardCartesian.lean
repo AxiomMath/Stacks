@@ -307,11 +307,7 @@ public theorem bijective_of_tmul_eq {R S : Type u} [CommRing R] [CommRing S]
     Function.Bijective ψ := by
   have key : ∀ z, ψ z = β (e z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-        exact (AddMonoidHom.mk' ψ hψ).map_zero.trans
-          (AddMonoidHom.mk' (fun w => β (e w))
-            (fun u v => (congrArg β (he u v)).trans (hβ _ _))).map_zero.symm
+    induction z using TensorProduct.inductionOn with
     | tmul b x => exact h b x
     | add u v hu hv => rw [hψ, he, hβ, hu, hv]
   refine ⟨fun u v huv => ?_, fun z => ?_⟩

@@ -140,7 +140,7 @@ theorem Space.rankLocus_congr {S : Scheme.{u}} {hS : B.Contains S} {Y : Algebrai
     exact ⟨fun i => ι i ≫ (SheafOfModules.overFunctor _ V).map e.hom,
       ⟨hc.ofIsoColimit (Cocone.ext ((SheafOfModules.overFunctor _ V).mapIso e) fun _ => rfl)⟩⟩
   ext x
-  simp only [Space.rankLocus, Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+  simp only [Space.rankLocus, Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
   exact exists_congr fun V => and_congr_left fun _ => ⟨key e V, key e.symm V⟩
 
 namespace CurveFamily
@@ -177,7 +177,7 @@ theorem class_mem_range_pointsMap
   rw [Space.pointsMap_class]
   have hv : (schemeSpaceMap p.value).hom.app (Opposite.op p.siteObject) (𝟙 p.siteObject) =
       p.value := Category.id_comp p.value
-  show Quot.mk _
+  change Quot.mk _
       { carrier := p.carrier, field := p.field, contained := p.contained, toBase := p.toBase,
         value := (schemeSpaceMap p.value).hom.app (Opposite.op p.siteObject) (𝟙 p.siteObject) } =
       Quot.mk _ p
@@ -335,7 +335,7 @@ theorem isClopen_fibreGenusLocus_and_pairwise_disjoint_and_iUnion_eq_univ :
   have hcompl : (Space.rankLocus (X.firstDirectImage B hZ) g)ᶜ =
       ⋃ g' ∈ {g' | g' ≠ g}, Space.rankLocus (X.firstDirectImage B hZ) g' := by
     ext s
-    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
     constructor
     · intro hs
       obtain ⟨g', hg'⟩ := Set.mem_iUnion.mp (hcov.symm ▸ Set.mem_univ s :

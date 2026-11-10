@@ -64,10 +64,10 @@ theorem smulHom_app_overMk_id {C : Type*} [Category C] (O : Cᵒᵖ ⥤ CommRing
     (smulHom O F G U f α).app (op (Over.mk (𝟙 U))) m =
       (show (ORestr O U).obj (op (Over.mk (𝟙 U))) from f) • α.app (op (Over.mk (𝟙 U))) m := by
   have hf : fRestr O U f (op (Over.mk (𝟙 U))) = f := by
-    show ((Oforget O).map (𝟙 (op U))).hom f = f
+    change ((Oforget O).map (𝟙 (op U))).hom f = f
     rw [CategoryTheory.Functor.map_id]
     rfl
-  show fRestr O U f (op (Over.mk (𝟙 U))) • α.app (op (Over.mk (𝟙 U))) m = _
+  change fRestr O U f (op (Over.mk (𝟙 U))) • α.app (op (Over.mk (𝟙 U))) m = _
   rw [hf]
 
 variable {D : Type w₁} [Category.{w₂} D] (O : Dᵒᵖ ⥤ CommRingCat.{u})
@@ -115,8 +115,7 @@ theorem isBaseChange_of_arrowCongr {A B M N M' N' P Q : Type*} [CommRing A] [Com
     refine LinearMap.ext fun m => ?_
     obtain ⟨w, rfl⟩ := eF.surjective m
     rw [LinearEquiv.arrowCongr_apply, eF.symm_apply_apply]
-    induction w using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction w using TensorProduct.inductionOn with
     | add a b ha hb => simp only [map_add, ha, hb]
     | tmul c n =>
       rw [LinearMap.baseChange_tmul]
@@ -228,8 +227,7 @@ theorem isIso_restrictionBaseChange_presheafShrink {C : Type w₁} [Category.{w�
     (Stacks.PresheafOfModules.restrictionBaseChange.{w₁, w₂, u, v} M f).hom ∘ₗ e.toLinearMap
   have key : L₁ = L₂ := by
     refine LinearMap.ext fun w => ?_
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction w using TensorProduct.inductionOn with
     | add a c ha hc => rw [map_add, map_add, ha, hc]
     | tmul b x =>
       refine Eq.trans ?_

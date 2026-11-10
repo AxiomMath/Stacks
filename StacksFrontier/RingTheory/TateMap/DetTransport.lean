@@ -127,12 +127,12 @@ theorem coneLine_detPresentationIso (K : TwoTermDeterminant.PerfectTwoTermComple
   have := Pp'.projective 0
   have h₁ : a.neg = (coneNegOneIso T').toLinearEquiv.toLinearMap ∘ₗ (toHom f).neg ∘ₗ
       (coneNegOneIso T).symm.toLinearEquiv.toLinearMap := by
-    show ((coneMap f).f (-1)).hom = _
+    change ((coneMap f).f (-1)).hom = _
     rw [coneMap_f_negOne]
     rfl
   have h₀ : a.zero = (coneZeroIso T').toLinearEquiv.toLinearMap ∘ₗ (toHom f).zero ∘ₗ
       (coneZeroIso T).symm.toLinearEquiv.toLinearMap := by
-    show ((coneMap f).f 0).hom = _
+    change ((coneMap f).f 0).hom = _
     rw [coneMap_f_zero]
     rfl
   have hα : T.d ∘ₗ (coneNegOneIso T).symm.toLinearEquiv.toLinearMap =
@@ -148,7 +148,7 @@ theorem coneLine_detPresentationIso (K : TwoTermDeterminant.PerfectTwoTermComple
     TwoTermComplex.isQuasiIso_conj (toHom f) hq _ _ hα _ _ hβ a h₁ h₀
   have key := TwoTermDeterminant.detPresentationIso_det_map K K Pp Pp' (𝟙 _) (coneMap f)
     (by
-      show e.hom ≫ DerivedCategory.Q.map (coneMap f) ≫ e'.inv = 𝟙 _
+      change e.hom ≫ DerivedCategory.Q.map (coneMap f) ≫ e'.inv = 𝟙 _
       rw [← Category.assoc, hf, Iso.hom_inv_id]) hs' hq' x
   rw [CategoryTheory.Functor.map_id] at key
   change TwoTermDeterminant.detPresentationIso K Pp' x =
@@ -198,9 +198,9 @@ theorem comp_left {f g : ChainMap X Y} (h : Homotopic f g) (k : ChainMap Y Z) :
     Homotopic (k.comp f) (k.comp g) := by
   obtain ⟨a, a₁, a₀⟩ := h
   refine ⟨k.f₁ ∘ₗ a, ?_, ?_⟩
-  · show k.f₁ ∘ₗ f.f₁ - k.f₁ ∘ₗ g.f₁ = _
+  · change k.f₁ ∘ₗ f.f₁ - k.f₁ ∘ₗ g.f₁ = _
     rw [← LinearMap.comp_sub, a₁, LinearMap.comp_assoc]
-  · show k.f₀ ∘ₗ f.f₀ - k.f₀ ∘ₗ g.f₀ = _
+  · change k.f₀ ∘ₗ f.f₀ - k.f₀ ∘ₗ g.f₀ = _
     rw [← LinearMap.comp_sub, a₀, ← LinearMap.comp_assoc, ← LinearMap.comp_assoc, k.comm]
 
 /-- Homotopic chain maps stay homotopic after composing with a chain map on the right. -/
@@ -208,9 +208,9 @@ theorem comp_right {f g : ChainMap Y Z} (h : Homotopic f g) (k : ChainMap X Y) :
     Homotopic (f.comp k) (g.comp k) := by
   obtain ⟨a, a₁, a₀⟩ := h
   refine ⟨a ∘ₗ k.f₀, ?_, ?_⟩
-  · show f.f₁ ∘ₗ k.f₁ - g.f₁ ∘ₗ k.f₁ = _
+  · change f.f₁ ∘ₗ k.f₁ - g.f₁ ∘ₗ k.f₁ = _
     rw [← LinearMap.sub_comp, a₁, LinearMap.comp_assoc, LinearMap.comp_assoc, ← k.comm]
-  · show f.f₀ ∘ₗ k.f₀ - g.f₀ ∘ₗ k.f₀ = _
+  · change f.f₀ ∘ₗ k.f₀ - g.f₀ ∘ₗ k.f₀ = _
     rw [← LinearMap.sub_comp, a₀, LinearMap.comp_assoc]
 
 /-- Homotopic chain maps are quasi-isomorphisms together. -/

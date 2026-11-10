@@ -170,7 +170,7 @@ public theorem complementRes_eq_complementRestriction (S : AlgebraizationSituati
       S.complementRestriction.{u, u} P
         (Stacks.LocalCohomology.complementTilde S.A S.a P) (Iso.refl _) := by
   refine LinearMap.ext fun m => ?_
-  show _ = restrictionToComplement _ P _ (Iso.refl _) m
+  change _ = restrictionToComplement _ P _ (Iso.refl _) m
   rw [restrictionToComplement_apply]
   rfl
 
@@ -228,7 +228,7 @@ public theorem exists_linearEquiv_of_limitIso_isAdicTower
     obtain ⟨z, hz⟩ := Stacks.Coherent.moduleLimit_projection_surjective E hE.surjective j y
     obtain ⟨w, hw⟩ := e.toLinearEquiv.surjective z
     exact ⟨w, by
-      show ((limit.π E (op j)).hom) (e.hom.hom w) = y
+      change ((limit.π E (op j)).hom) (e.hom.hom w) = y
       rw [show e.hom.hom w = z from hw]
       exact hz⟩
   have hkE : ∀ j : ℕ, LinearMap.ker ((e.hom ≫ limit.π E (op j)).hom) =
@@ -256,7 +256,7 @@ public theorem exists_linearEquiv_of_limitIso_isAdicTower
       (LinearMap.quotKerEquivOfSurjective _ (hsD j)).symm_apply_eq.2
         (LinearMap.quotKerEquivOfSurjective_apply_mk _ (hsD j) w).symm
     rw [hφdef]
-    show LinearMap.quotKerEquivOfSurjective _ (hsE j)
+    change LinearMap.quotKerEquivOfSurjective _ (hsE j)
         (Submodule.quotEquivOfEq _ _ ((hkD j).trans (hkE j).symm)
           ((LinearMap.quotKerEquivOfSurjective _ (hsD j)).symm
             ((limit.π D (op j)).hom w))) = _
@@ -310,6 +310,7 @@ private def sectionsGrading :
     ∀ n : ℕ, DirectSum.Decomposition (sectionsGrading S 𝒜 M ℳ fgen hspan n) :=
   fun n => complementDecomposition 𝒜 (ℳ n) fgen S.a hspan hcdeg
 
+omit [∀ n : ℕ, DirectSum.Decomposition (ℳ n)] in
 private theorem smul_mem_sectionsGrading (hcdeg : ∀ i, fgen i ∈ 𝒜 (cdeg i))
     (n i : ℕ) (d : ℤ) (a : S.A) (x : (sectionsSystem S M).obj (op n)) (ha : a ∈ 𝒜 i)
     (hx : x ∈ sectionsGrading S 𝒜 M ℳ fgen hspan n d) :
@@ -340,6 +341,7 @@ private def sectionsRes : M ⟶ sectionsSystem S M where
 private theorem sectionsRes_app_hom (n : ℕᵒᵖ) :
     ((sectionsRes S M).app n).hom = complementRes (M := M.obj n) S.a := rfl
 
+omit [∀ n : ℕ, DirectSum.Decomposition (ℳ n)] [∀ n : ℕ, SetLike.GradedSMul 𝒜 (ℳ n)] in
 private theorem mem_sectionsGrading_sectionsRes (hcdeg : ∀ i, fgen i ∈ 𝒜 (cdeg i))
     (n : ℕ) (d : ℤ) (x : M.obj (op n)) (hx : x ∈ ℳ n d) :
     ((sectionsRes S M).app (op n)).hom x ∈ sectionsGrading S 𝒜 M ℳ fgen hspan n d := by
@@ -478,7 +480,7 @@ public theorem nonempty_completionIso_of_adicQuotientsEquiv
     have hfeq : f = (homOfLE hle).op := Subsingleton.elim _ _
     have hstep : ϖ m.unop ≫ W.map f = ϖ n.unop := by
       refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-      show (W.map f).hom ((θ m.unop) (Submodule.Quotient.mk x)) = _
+      change (W.map f).hom ((θ m.unop) (Submodule.Quotient.mk x)) = _
       rw [hfeq]
       exact hθ n.unop m.unop hle x
     refine Eq.trans (Category.assoc _ _ _) ?_
@@ -636,7 +638,7 @@ public theorem exists_finite_graded_ladder_of_canonicallyExtends
         x ∈ S.I ^ k • L.stable m' := fun k m m' hk h x hx hxI => hm₀ k m m' hk h x hx hxI
   -- the graded adic tower
   have hfinT : ∀ k : ℕ, Module.Finite S.A (stableQuot (H := Hm) m₀ m₁ S.I k) :=
-    fun k => finite_stableQuot m₀ m₁ S.I L hW hm₁' k
+    fun k => finite_stableQuot m₀ m₁ S.I L hm₁' k
   let iT : ∀ k : ℕ, DirectSum.Decomposition (stableQuotPiece (H := Hm) m₀ m₁ S.I 𝓗 k) :=
     fun k => stableQuotDecomposition 𝒜 m₀ m₁ S.I 𝓗 hgr hHtr hIhom k
   -- the graded limit theorem of Stacks 0EKC
@@ -646,8 +648,8 @@ public theorem exists_finite_graded_ladder_of_canonicallyExtends
       (fun k i d a x ha hx => smul_mem_stableQuotPiece 𝒜 m₀ m₁ S.I 𝓗 hgr k i d a x ha hx)
       (fun k => stableQuotTr (H := Hm) m₀ m₁ S.I k)
       (fun k d z hz => stableQuotTr_mem_stableQuotPiece m₀ m₁ S.I 𝓗 hHtr k d z hz)
-      (fun k => surjective_stableQuotTr m₀ m₁ S.I L hW hm₁' k)
-      (fun k => ker_stableQuotTr m₀ m₁ S.I L hW hm₁' hm₀' k)
+      (fun k => surjective_stableQuotTr m₀ m₁ S.I L hm₁' k)
+      (fun k => ker_stableQuotTr m₀ m₁ S.I L hm₁' hm₀' k)
   choose equot hequot using fun n =>
     exists_quotient_smul_top_equiv (S.I ^ n) (fq n) (hfsurj n) (hfker n)
   have hequottr : ∀ (k l : ℕ) (h : k ≤ l) (x : N),
@@ -668,7 +670,7 @@ public theorem exists_finite_graded_ladder_of_canonicallyExtends
         exact ih
   -- clause (b): the adic quotients of `N` are the sections of the canonical extension
   have hlT : IsAdicTower S.I (stableQuotSystem (H := Hm) m₀ m₁ S.I) :=
-    isAdicTower_stableQuotSystem m₀ m₁ S.I L hW hm₁' hm₀'
+    isAdicTower_stableQuotSystem m₀ m₁ S.I L hm₁' hm₀'
   obtain ⟨eLim1, -⟩ := exists_limitIso_of_hasProLadder (limit.cone Hm) (limit.isLimit Hm)
     (hasProLadder_stableQuotSystem m₀ m₁ S.I hHann)
   obtain ⟨eLim2, -⟩ := exists_limitIso_of_hasProLadder (limit.cone W) (limit.isLimit W)
@@ -786,7 +788,7 @@ public theorem exists_finite_graded_proIso_completion_of_canonicallyExtends
     · intro n d y hy
       obtain ⟨x, hx, hxz⟩ := hε' n d _ (hLg n d y hy)
       refine ⟨x, hx, ?_⟩
-      show Submodule.Quotient.mk x = (ε n).symm ((L.g n).hom y)
+      change Submodule.Quotient.mk x = (ε n).symm ((L.g n).hom y)
       rw [← hxz, LinearEquiv.symm_apply_apply]
   -- the restriction maps `(Mₙ) → (Γ(U, ℱₙ))` are inverted in the quotient category
   let ρg : M ⟶ Hg :=

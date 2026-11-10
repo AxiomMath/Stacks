@@ -377,7 +377,8 @@ The composite is described by its cap operation, in the idiom of
 @[stacks 0FBL "c(Z -> X, N) = c_top(E) composed with c(Z -> X, N') for a short exact sequence
 0 -> N' -> N -> E -> 0 of finite locally free O_Z-modules of constant ranks m', m, e whose
 conormal surjection factors. The short exact sequence IS consumed: it gives m = m' + e, which
-is what puts the two sides in the same Chow group. Read as an equality of classes in A^m(Z -> X) via `BivariantClass.ext`. Both classes are the ones CHARACTERIZED by
+is what puts the two sides in the same Chow group. Read as an equality of classes in
+A^m(Z -> X) via `BivariantClass.ext`. Both classes are the ones CHARACTERIZED by
 Tag 0FBK, neither being constructed in this repository, and the composite is spelled by the
 top Chern cap rule at `Fin.last e` as Tag 0FAA spells it. CARRIED: Tag 0FAA at the
 base changes of the two bundle projections (`SubbundleGysinTopChernStep`) -- 0FAA is proved

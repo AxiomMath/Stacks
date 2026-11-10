@@ -97,7 +97,7 @@ lemma pushforward_pushforward_relativeDifferentialForms_eq {E W W' X : Scheme.{u
       (Scheme.Modules.pushforward h₂).obj ((Scheme.Modules.pushforward g₂).obj
         (Scheme.Hom.relativeDifferentialForms π₂ k)) := by
   subst hπ
-  show (Scheme.Modules.pushforward (g₁ ≫ h₁)).obj _ =
+  change (Scheme.Modules.pushforward (g₁ ≫ h₁)).obj _ =
     (Scheme.Modules.pushforward (g₂ ≫ h₂)).obj _
   rw [hw]
 

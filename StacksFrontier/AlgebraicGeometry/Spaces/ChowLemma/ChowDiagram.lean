@@ -153,12 +153,12 @@ theorem exists_chowDiagram_of_proper_scheme_covers
     Over.homMk (ObjectProperty.homMk pr) (by apply ObjectProperty.hom_ext; rfl)
   have hhw : (BigFppfOver.toScheme B S hS).map h ≫ B.inclusion.map Z.hom =
       B.inclusion.map X₂.hom := by
-    show B.inclusion.map h.left ≫ B.inclusion.map Z.hom = _
+    change B.inclusion.map h.left ≫ B.inclusion.map Z.hom = _
     rw [← Functor.map_comp, Over.w]
   let i' : X₃' ⟶ Pn :=
     Over.homMk (ObjectProperty.homMk i) (by
       apply ObjectProperty.hom_ext
-      show i ≫ pr ≫ B.inclusion.map Z.hom = ρ ≫ B.inclusion.map X₂.hom
+      change i ≫ pr ≫ B.inclusion.map Z.hom = ρ ≫ B.inclusion.map X₂.hom
       rw [← Category.assoc, ← hcomm, Category.assoc, hhw])
   have hi'pn : i' ≫ pn = ρ' ≫ h := BigFppfOver.map_toScheme_injective B S hS hcomm.symm
   have hX₃c : CompactSpace X₃ := QuasiCompact.compactSpace_of_compactSpace ρ
@@ -193,7 +193,7 @@ theorem exists_chowDiagram_of_proper_scheme_covers
   · exact relativelyRepresentable_of_isAlgebraicSpace B S hS hY _
   · have hgs' : toSchemeImageObj B S hS i' ≫ gs = ρ' ≫ h := by
       rw [← hi'pn]
-      show toSchemeImageObj B S hS i' ≫ schemeImageObjι B S hS i' ≫ pn = i' ≫ pn
+      change toSchemeImageObj B S hS i' ≫ schemeImageObjι B S hS i' ≫ pn = i' ≫ pn
       rw [← Category.assoc, toSchemeImageObj_comp_schemeImageObjι]
     rw [Category.assoc, Category.assoc, hsq.w, ← Category.assoc p, ← hh, ← Category.assoc,
       ← Functor.map_comp, ← hgs', Functor.map_comp, Category.assoc]

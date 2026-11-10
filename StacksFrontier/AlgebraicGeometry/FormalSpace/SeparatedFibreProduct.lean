@@ -143,7 +143,7 @@ private theorem surjective_specHomOf {R : CommRingCat.{u}} {T : Scheme.{u}} (h :
     [_root_.AlgebraicGeometry.IsClosedImmersion h] :
     Function.Surjective (specHomOf h).hom.toIntAlgHom := by
   obtain ⟨-, hs⟩ := _root_.AlgebraicGeometry.IsClosedImmersion.isAffine_surjective_of_isAffine h
-  show Function.Surjective ((Scheme.ΓSpecIso R).inv ≫ h.appTop).hom
+  change Function.Surjective ((Scheme.ΓSpecIso R).inv ≫ h.appTop).hom
   rw [CommRingCat.hom_comp, RingHom.coe_comp]
   exact hs.comp (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso R).inv).2
 

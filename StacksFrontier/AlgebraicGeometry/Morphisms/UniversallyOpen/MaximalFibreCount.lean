@@ -92,7 +92,7 @@ private theorem geometricIrreducibleComponentCount_comp_eq_iff
     rw [Set.range_eq_univ.mpr (Scheme.Hom.surjective _), Set.image_univ,
       Scheme.range_fromSpecResidueField]
   have hp : Set.range p = f ⁻¹' {y} := by
-    show Set.range (pullback.fst f k) = _
+    change Set.range (pullback.fst f k) = _
     rw [Scheme.Pullback.range_fst, hk]
   have hr : Set.range j = p ⁻¹' Set.range i := Scheme.Pullback.range_snd i p
   rw [hc, hd]
@@ -193,7 +193,7 @@ private theorem exists_isOpen_isFinite_pullback_snd
   refine ⟨U, ?_, ?_⟩
   · have heq := (geometricIrreducibleComponentCount_comp_eq_iff V.ι f y
       (hy ▸ ENat.natCast_ne_top d)).mpr (by simpa only [Scheme.Opens.range_ι] using hV)
-    show (d : ℕ∞) ≤ geometricIrreducibleComponentCount (V.ι ≫ f) y
+    change (d : ℕ∞) ≤ geometricIrreducibleComponentCount (V.ι ≫ f) y
     rw [heq, hy]
   · refine isFinite_pullback_snd_of_range_subset V.ι f U.ι fun x hx => ?_
     rw [Scheme.Opens.range_ι] at hx ⊢
@@ -216,7 +216,7 @@ private theorem finite_fiber_of_geometricIrreducibleComponentCount_ne_top
   have : Surjective (Spec.map (CommRingCat.ofHom (algebraMap (Y.residueField y) K))) :=
     inferInstance
   have : Surjective p := by
-    show Surjective (pullback.fst (f.fiberToSpecResidueField y)
+    change Surjective (pullback.fst (f.fiberToSpecResidueField y)
       (Spec.map (CommRingCat.ofHom (algebraMap (Y.residueField y) K))))
     infer_instance
   have : Finite (f.fiber y) := Finite.of_surjective p p.surjective

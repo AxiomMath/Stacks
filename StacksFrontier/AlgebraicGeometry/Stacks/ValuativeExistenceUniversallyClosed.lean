@@ -184,13 +184,13 @@ theorem schemeMapOfFunctor_eq_of_basedNatTrans {W U : BigFppfOver B S hS}
   have hfac : (η.toNatTrans.app (Over.mk (𝟙 W))).left
       = eqToHom (F.w_obj (Over.mk (𝟙 W))) ≫ 𝟙 W ≫ eqToHom (G.w_obj (Over.mk (𝟙 W))).symm :=
     IsHomLift.fac' (Over.forget U) (𝟙 W) (η.toNatTrans.app (Over.mk (𝟙 W)))
-  show eqToHom (F.w_obj (Over.mk (𝟙 W))).symm ≫ (F.obj (Over.mk (𝟙 W))).hom = _
+  change eqToHom (F.w_obj (Over.mk (𝟙 W))).symm ≫ (F.obj (Over.mk (𝟙 W))).hom = _
   refine Eq.trans (congrArg
     (fun k => eqToHom (F.w_obj (Over.mk (𝟙 W))).symm ≫ k) hw.symm) ?_
   refine Eq.trans (congrArg
     (fun k => eqToHom (F.w_obj (Over.mk (𝟙 W))).symm ≫ k ≫ (G.obj (Over.mk (𝟙 W))).hom)
     hfac) ?_
-  show _ = eqToHom (G.w_obj (Over.mk (𝟙 W))).symm ≫ (G.obj (Over.mk (𝟙 W))).hom
+  change _ = eqToHom (G.w_obj (Over.mk (𝟙 W))).symm ≫ (G.obj (Over.mk (𝟙 W))).hom
   exact eqToHom_id_fac _ _ _ _
 
 /-- The morphism of the site underlying a 1-morphism *postcomposed* with the one induced by a

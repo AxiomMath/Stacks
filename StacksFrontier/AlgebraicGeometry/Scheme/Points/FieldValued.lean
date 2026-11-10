@@ -145,7 +145,7 @@ theorem hasCommonExtension_iff_point_eq {X : Scheme.{u}} (p q : FieldValuedPoint
     dsimp [r]
     rw [← (X.SpecToEquivOfField q.carrier).left_inv q.map,
       ← (X.SpecToEquivOfField p.carrier).left_inv p.map]
-    show Spec.map (CommRingCat.ofHom (algebraMap q.carrier M)) ≫
+    change Spec.map (CommRingCat.ofHom (algebraMap q.carrier M)) ≫
         (Spec.map eq.2 ≫ X.fromSpecResidueField eq.1) =
       Spec.map (CommRingCat.ofHom (algebraMap p.carrier M)) ≫
         (Spec.map ep.2 ≫ X.fromSpecResidueField ep.1)
@@ -155,7 +155,7 @@ theorem hasCommonExtension_iff_point_eq {X : Scheme.{u}} (p q : FieldValuedPoint
     have H : (algebraMap q.carrier M).comp eq'.2.hom =
         (algebraMap p.carrier M).comp ep.2.hom := by
       ext z
-      show algebraMap q.carrier M (algebraMap K q.carrier z) =
+      change algebraMap q.carrier M (algebraMap K q.carrier z) =
         algebraMap p.carrier M (algebraMap K p.carrier z)
       rw [← IsScalarTower.algebraMap_apply K q.carrier M,
         ← IsScalarTower.algebraMap_apply K p.carrier M]
@@ -176,7 +176,7 @@ theorem canonical_isSmallest {X : Scheme.{u}} (x : X) :
   let φ : X.residueField x ⟶ .of p.carrier :=
     (X.residueFieldCongr he).inv ≫ e.2
   have hfac : Spec.map φ ≫ (canonical X x).map = p.map := by
-    show Spec.map φ ≫ X.fromSpecResidueField x = p.map
+    change Spec.map φ ≫ X.fromSpecResidueField x = p.map
     calc
       Spec.map φ ≫ X.fromSpecResidueField x =
           Spec.map e.2 ≫ (Spec.map (X.residueFieldCongr he).inv ≫

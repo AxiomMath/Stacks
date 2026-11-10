@@ -70,8 +70,8 @@ two declarations together covering the whole definition.
 Likewise only part (1) of Stacks 044X is registered here, and it is registered rather than
 restated: part (1) is *the* stackification clause, so the declaration that carries it already
 exists and no second general name is coined. Parts (2)–(6) of Stacks 044X are about
-`[U/R]`-descent data and belong with the morphism description of Stacks 044V; they are not formalized
-here.
+`[U/R]`-descent data and belong with the morphism description of Stacks 044V; they are not
+formalized here.
 
 The stackification used is the explicit three-stage construction of Stacks 02ZN,
 `CategoryTheory.Functor.stageThreeProj`. Its input must have objects and morphisms in a common

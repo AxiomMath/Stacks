@@ -1,7 +1,6 @@
 module
 
-public import
-StacksFrontier.AlgebraicGeometry.FormalGeometry.AlgebraizationCoherentFormal.IdealPowerCohomologyFinite
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.AlgebraizationCoherentFormal.IdealPowerCohomologyFinite
 public import StacksFrontier.Topology.Sheaves.Cohomology.InverseSystems.MittagLefflerCriteria
 
 /-!

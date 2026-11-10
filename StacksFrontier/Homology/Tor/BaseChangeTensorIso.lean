@@ -247,20 +247,18 @@ private lemma distribBaseChange_symm_naturality (f : R →+* A)
   intro x y
   change TensorProduct R A M at x
   change TensorProduct R A N at y
-  show (TensorProduct.AlgebraTensorModule.distribBaseChange R A M' N').symm
+  change (TensorProduct.AlgebraTensorModule.distribBaseChange R A M' N').symm
       ((F.map a).hom x ⊗ₜ[A] (F.map b).hom y) =
     (F.map (((moduleTensor.{uR, max uA v} R).map a).app N ≫
       ((moduleTensor.{uR, max uA v} R).obj M').map b)).hom
       ((TensorProduct.AlgebraTensorModule.distribBaseChange R A M N).symm (x ⊗ₜ[A] y))
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero, TensorProduct.zero_tmul]
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => simp only [map_add, TensorProduct.add_tmul, hx, hx']
   | tmul r x =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [map_zero, TensorProduct.tmul_zero]
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => simp only [map_add, TensorProduct.tmul_add, hy, hy']
     | tmul s y =>
-      show (TensorProduct.AlgebraTensorModule.distribBaseChange R A M' N').symm
+      change (TensorProduct.AlgebraTensorModule.distribBaseChange R A M' N').symm
           ((r ⊗ₜ[R] a.hom x) ⊗ₜ[A] (s ⊗ₜ[R] b.hom y)) = _
       rw [TensorProduct.AlgebraTensorModule.distribBaseChange_symm_tmul,
         TensorProduct.AlgebraTensorModule.distribBaseChange_symm_tmul]
@@ -317,7 +315,7 @@ private lemma tensorComplexExtendScalarsXIso_comm (f : R →+* A)
     (ModuleCat.extendRestrictScalarsAdj.{max uR uA v, uR, uA} f).isLeftAdjoint
   have : F.Additive := CategoryTheory.rightExactFunctor_le_additiveFunctor _ _ _
     (by change PreservesFiniteColimits F; infer_instance)
-  show (tensorComplexExtendScalarsXIso f K L i).hom ≫
+  change (tensorComplexExtendScalarsXIso f K L i).hom ≫
       F.map (tensorComplex.{uR, max uA v} K L |>.d i j) = _
   apply HomologicalComplex.mapBifunctor.hom_ext
   intro p q h
@@ -385,7 +383,7 @@ private lemma tensorComplexExtendScalarsIso_naturality (f : R →+* A)
   funext n
   apply HomologicalComplex.mapBifunctor.hom_ext
   intro p q h
-  show HomologicalComplex.ιMapBifunctor
+  change HomologicalComplex.ιMapBifunctor
       ((extensionOfScalarsCochain f).obj K) ((extensionOfScalarsCochain f).obj L)
       (moduleTensor.{uA, max uR v} A) (.up ℤ) p q n h ≫
       (HomologicalComplex.mapBifunctorMap
@@ -567,7 +565,7 @@ private lemma tensorBaseChangeModelRightIso_naturality (f : R →+* A)
   have hd : D.functor.map (DerivedCategory.Q.map t) ≫ D.comparison.app _ =
       D.comparison.app _ ≫ DerivedCategory.Q.map
         ((extensionOfScalarsCochain.{uR, uA, v} f).map t) := D.comparison.naturality t
-  show D.functor.map ((CategoryTheory.Functor.uncurry.obj T_R.tensor).map
+  change D.functor.map ((CategoryTheory.Functor.uncurry.obj T_R.tensor).map
       (CategoryTheory.Prod.mkHom (DerivedCategory.Q.map a) (DerivedCategory.Q.map b))) ≫
       (D.functor.map (T_R.comparison K' L' hK' hL').hom ≫ D.comparison.app _) =
     (D.functor.map (T_R.comparison K L hK hL).hom ≫ D.comparison.app _) ≫
@@ -623,7 +621,7 @@ private lemma tensorBaseChangeModelLeftIso_naturality (f : R →+* A)
       DerivedCategory.Q.map (E.map t) := by
     rw [← DerivedCategory.Q.map_comp, tensorComplexExtendScalarsIso_naturality f a b,
       DerivedCategory.Q.map_comp]
-  show U.map α ≫ (U.map (δ K' L') ≫ c'.hom ≫
+  change U.map α ≫ (U.map (δ K' L') ≫ c'.hom ≫
       DerivedCategory.Q.map (tensorComplexExtendScalarsIso f K' L').hom) =
     (U.map (δ K L) ≫ c.hom ≫
       DerivedCategory.Q.map (tensorComplexExtendScalarsIso f K L).hom) ≫
@@ -777,11 +775,11 @@ private lemma tensorBaseChangeNatIso_hom_app (f : R →+* A)
     (⟨(HomotopyCategory.quotient _ _).obj K, hK⟩,
       ⟨(HomotopyCategory.quotient _ _).obj L, hL⟩)
   apply natTrans_app_of_transport _ _ _ (kFlatModelPairsIso X)
-  show (Localization.liftNatTrans _ _ _ _ _ _
+  change (Localization.liftNatTrans _ _ _ _ _ _
       (tensorBaseChangeModelsIso f T_R T_A D).hom).app
       ((kFlatModelPairsQ.{uR, max uA v} R).obj X) = _
   rw [Localization.liftNatTrans_app]
-  show 𝟙 _ ≫ ((baseChangedTensorFunctor f T_A D).mapIso (kFlatModelPairsIso X) ≪≫
+  change 𝟙 _ ≫ ((baseChangedTensorFunctor f T_A D).mapIso (kFlatModelPairsIso X) ≪≫
       tensorBaseChangeModelIso f T_R T_A D K L hK hL ≪≫
       ((tensorBaseChangeFunctor f T_R D).mapIso (kFlatModelPairsIso X)).symm).hom ≫
       𝟙 _ = _

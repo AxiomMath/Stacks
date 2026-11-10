@@ -528,7 +528,7 @@ private theorem isFlatAt_sliceToTarget (hd : Space.IsFlatAt B S hS d.h d.u)
     Stack.representingMap_associatedMap B S hS d.U d.V d.h
   refine isFlatAt_of_isPullback_presheaf B S hS hZ d.algebraicU hT d.algebraicV
     (hm ▸ hpb.flip) z ?_
-  show Space.IsFlatAt B S hS d.h (Space.pointsMap B S hS Z (sliceToSource d e Z eZ) z)
+  change Space.IsFlatAt B S hS d.h (Space.pointsMap B S hS Z (sliceToSource d e Z eZ) z)
   rw [hz]
   exact hd
 

@@ -72,7 +72,6 @@ theorem isPerfectRelativeTo_pullbackAffineChart
       (pullback.lift_fst _ _ _)).app K).symm
 
 omit [Flat f] [LocallyOfFinitePresentation f] in
-include hW hV hW' in
 /-- The chart `V ×_W W' ⟶ X ×_S S'` contains every point lying over `V` and `W'`. -/
 theorem mem_range_pullbackAffineChart (x : ↥(pullback f g)) (hx₁ : pullback.fst f g x ∈ V)
     (hx₂ : pullback.snd f g x ∈ W') :
@@ -96,7 +95,7 @@ theorem exists_mem_range_pullbackAffineChart (x : ↥(pullback f g)) :
     (Scheme.isBasis_affineOpens S').exists_subset_of_mem_open
       (show pullback.snd f g x ∈ (g ⁻¹ᵁ W : S'.Opens) from hgx) (g ⁻¹ᵁ W).2
   exact ⟨W, hW, V, hV, hVW, W', hW', hW'W,
-    mem_range_pullbackAffineChart f g hW hV hVW hW' hW'W x hxV hxW'⟩
+    mem_range_pullbackAffineChart f g hVW hW'W x hxV hxW'⟩
 
 end Local
 

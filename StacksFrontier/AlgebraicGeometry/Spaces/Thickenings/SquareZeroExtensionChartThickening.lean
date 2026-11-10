@@ -92,7 +92,7 @@ abbrev sheafStalkMap (x : X) :=
 theorem sheafStalkMap_mul_self_eq_zero
     (hsq : ∀ (V : (Opens X)ᵒᵖ) (a : A.presheaf.obj V), π.hom.app V a = 0 → a * a = 0)
     (x : X) (g : A.presheaf.stalk x) (hg : sheafStalkMap A π x g = 0) : g * g = 0 := by
-  obtain ⟨V, hxV, a, rfl⟩ := TopCat.Presheaf.germ_exist A.presheaf g
+  obtain ⟨V, hxV, a, rfl⟩ := TopCat.Presheaf.exists_germ_eq A.presheaf g
   rw [sheafStalkMap, TopCat.Presheaf.stalkFunctor_map_germ_apply] at hg
   have hg' : X.presheaf.germ V x hxV (π.hom.app (op V) a) = X.presheaf.germ V x hxV 0 :=
     hg.trans (map_zero _).symm
@@ -132,11 +132,11 @@ def thickenedInclusion : X.toSheafedSpace ⟶ Stacks.Thickenings.thickenedSpace 
 /-- The stalk maps of `AlgebraicGeometry.Scheme.thickenedInclusion` are those of `π`. -/
 theorem thickenedInclusion_stalkMap (x : X) :
     (thickenedInclusion A π).hom.stalkMap x = sheafStalkMap A π x := by
-  show (TopCat.Presheaf.stalkFunctor CommRingCat x).map π.hom ≫
+  change (TopCat.Presheaf.stalkFunctor CommRingCat x).map π.hom ≫
       TopCat.Presheaf.stalkPushforward CommRingCat (𝟙 (X : TopCat)) X.presheaf x =
     (TopCat.Presheaf.stalkFunctor CommRingCat x).map π.hom
   rw [TopCat.Presheaf.stalkPushforward.id]
-  show (TopCat.Presheaf.stalkFunctor CommRingCat x).map π.hom ≫
+  change (TopCat.Presheaf.stalkFunctor CommRingCat x).map π.hom ≫
       (TopCat.Presheaf.stalkFunctor CommRingCat x).map
       (TopCat.Presheaf.Pushforward.id X.presheaf).hom =
     (TopCat.Presheaf.stalkFunctor CommRingCat x).map π.hom

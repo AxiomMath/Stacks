@@ -80,7 +80,7 @@ theorem definingIdealAt_range_eq_ker {P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   ext a
   simp only [RingHom.mem_ker]
   rw [← he, Functor.map_comp, Scheme.Hom.comp_appTop]
-  show _ ↔ ((BigFppfOver.toScheme B S hS).map e'.hom).appTop.hom
+  change _ ↔ ((BigFppfOver.toScheme B S hS).map e'.hom).appTop.hom
     (((BigFppfOver.toScheme B S hS).map (Z.2.2.rep.snd T.1.hom)).appTop.hom a) = 0
   rw [← map_zero ((BigFppfOver.toScheme B S hS).map e'.hom).appTop.hom, hinj.eq_iff]
   rfl

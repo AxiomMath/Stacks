@@ -142,7 +142,7 @@ theorem exists_comparisonAt_eq_of_surjective_lift
     calc _ = ConcreteCategory.hom ((resNearVanishing A I a F V n ≫ (β.hom.app n).app W) ≫
           Φ.hom.app _) (ConcreteCategory.hom (limit.π (formalSections A I a F) n) s) := rfl
       _ = _ := by rw [h2]; rfl
-  show ConcreteCategory.hom (Φ.hom.app _) (ConcreteCategory.hom ((β.hom.app n).app W)
+  change ConcreteCategory.hom (Φ.hom.app _) (ConcreteCategory.hom ((β.hom.app n).app W)
     (ConcreteCategory.hom pr t)) = _
   rw [hL, hR, ← ConcreteCategory.comp_apply, ← limMap_π, ConcreteCategory.comp_apply, ← hy,
     ← ConcreteCategory.comp_apply, limit.lift_π]

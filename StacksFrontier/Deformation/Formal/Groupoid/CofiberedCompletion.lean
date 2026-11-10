@@ -226,7 +226,7 @@ public theorem artinianTruncationIso_inv_comp_map
     calc
       e.inv.hom (Ideal.Quotient.mk I r) = e.inv.hom (e.hom.hom r) := rfl
       _ = r := congrArg (fun f : A ⟶ A => f.hom r) e.hom_inv_id
-  show (artinianAdicQuotient (Λ := Λ) (k := k) A n).hom
+  change (artinianAdicQuotient (Λ := Λ) (k := k) A n).hom
       (e.inv.hom (Ideal.Quotient.mk I r)) =
     (truncationMapLE (artinianToComplete.obj A) h).hom
       (Ideal.Quotient.mk I r)
@@ -294,7 +294,7 @@ public noncomputable def sectionsToFormalObject
     (F : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type (max v z))
     (S : CompleteLocalAlgCat.{u, v, w} Λ k)
     (x : completedSections F S) :
-    FormalObject (CategoryOfElements.π F) where
+    FormalObject (Functor.Elements.π F) where
   base := S
   level n := CategoryTheory.Functor.elementsMk F
     ((AdicTruncation.functor (Λ := Λ) (k := k) n).obj S) (x.1 n)
@@ -302,20 +302,20 @@ public noncomputable def sectionsToFormalObject
   transition n := Functor.Elements.homMk
     ((AdicTruncation.transitionNat (Λ := Λ) (k := k) n).app S) (x.2 n)
   transition_lift n := by
-    apply IsHomLift.of_fac (CategoryOfElements.π F) _ _ rfl rfl
+    apply IsHomLift.of_fac (Functor.Elements.π F) _ _ rfl rfl
     rfl
 
 /-- The compatible family of values determined by a formal object of the category of
 elements of `F`. -/
 public noncomputable def formalObjectToSections
     (F : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type (max v z))
-    (X : FormalObject (CategoryOfElements.π F)) :
+    (X : FormalObject (Functor.Elements.π F)) :
     completedSections F X.base := by
   let θ (n : ℕ) := eqToHom (X.level_eq n)
   refine ⟨fun n => F.map (θ n) (X.level n).2, ?_⟩
   intro n
   let := X.transition_lift n
-  let p := CategoryOfElements.π F
+  let p := Functor.Elements.π F
   let tr := (AdicTruncation.transitionNat (Λ := Λ) (k := k) n).app X.base
   have htheta : θ (n + 1) ≫ tr = p.map (X.transition n) ≫ θ n := by
     have hcomm := IsHomLift.commSq p tr (X.transition n)
@@ -336,7 +336,7 @@ public noncomputable def formalObjectToSections
 levels are equal. -/
 public theorem formalObject_ext
     (F : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type (max v z))
-    {X Y : FormalObject (CategoryOfElements.π F)}
+    {X Y : FormalObject (Functor.Elements.π F)}
     (hbase : X.base = Y.base) (hlevel : ∀ n, X.level n = Y.level n) : X = Y := by
   cases X with
   | mk baseX levelX levelEqX transitionX transitionLiftX =>
@@ -350,7 +350,7 @@ public theorem formalObject_ext
         funext n
         apply Functor.Elements.hom_ext
         let q := AdicTruncation.transitionNat (Λ := Λ) (k := k) n
-        let p := CategoryOfElements.π F
+        let p := Functor.Elements.π F
         let : p.IsHomLift (q.app baseX) (transitionX n) := transitionLiftX n
         let : p.IsHomLift (q.app baseX) (transitionY n) := transitionLiftY n
         have h₁ := IsHomLift.commSq p (q.app baseX) (transitionX n)
@@ -358,7 +358,7 @@ public theorem formalObject_ext
         have hmap : p.map (transitionX n) = p.map (transitionY n) := by
           apply (cancel_mono (eqToHom (levelEqX n))).1
           simpa [q, Category.assoc, levelEqX, levelEqY] using h₁.w.trans h₂.w.symm
-        simpa [p, CategoryOfElements.π] using hmap
+        simpa [p, Functor.Elements.π] using hmap
       subst transitionY
       congr 1
 
@@ -369,7 +369,7 @@ public theorem sectionsFormalObjectRoundTrip
     formalObjectToSections F (sectionsToFormalObject F S x) = x := by
   apply Subtype.ext
   funext n
-  show F.map (𝟙 ((AdicTruncation.functor (Λ := Λ) (k := k) n).obj S)) (x.1 n) = x.1 n
+  change F.map (𝟙 ((AdicTruncation.functor (Λ := Λ) (k := k) n).obj S)) (x.1 n) = x.1 n
   simp
 
 /-- Compatible families of values over `S` correspond to formal objects of the
@@ -378,7 +378,7 @@ public noncomputable def sectionsFormalObjectEquiv
     (F : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type (max v z))
     (S : CompleteLocalAlgCat.{u, v, w} Λ k) :
     completedSections F S ≃
-      {X : FormalObject (CategoryOfElements.π F) // X.base = S} where
+      {X : FormalObject (Functor.Elements.π F) // X.base = S} where
   toFun x := ⟨sectionsToFormalObject F S x, rfl⟩
   invFun X := (congrArg (completedSections F) X.2).mp
     (formalObjectToSections F X.1)
@@ -397,9 +397,9 @@ public noncomputable def sectionsFormalObjectEquiv
       ((AdicTruncation.functor (Λ := Λ) (k := k) n).obj X.base)
       (F.map (eqToHom (X.level_eq n)) (X.level n).2) = X.level n
     refine Functor.Elements.ext _ _
-      (by simpa [CategoryOfElements.π] using (X.level_eq n).symm) ?_
+      (by simpa [Functor.Elements.π] using (X.level_eq n).symm) ?_
     exact (F.map_comp_apply _ _ _).symm.trans (by
-      simp only [eqToHom_trans, eqToHom_refl]; exact F.map_id_apply _ _)
+      simp only [eqToHom_trans]; exact F.map_id_apply _ _)
 
 /-- The compatible family of images of an element under the quotient maps of its
 base. -/
@@ -606,7 +606,7 @@ public theorem quotientProjection_map_artinianTruncationIso_inv
         (AdicTruncation.ideal S m) r) =
       e.hom.hom (t.hom (Ideal.Quotient.mk (AdicTruncation.ideal S m) r)) at hpt
     exact hpt
-  show τ ≫ e.inv = t
+  change τ ≫ e.inv = t
   rw [ht]
   simp
 
@@ -704,7 +704,7 @@ public theorem cofiberedCompletion_isRightKanExtension
   · intro X f
     apply CostructuredArrow.hom_ext
     let γ : X.left ⟶ R.obj F := (adj.homEquiv X.left F) X.hom
-    show f.left = γ
+    change f.left = γ
     apply (adj.homEquiv X.left F).symm.injective
     calc
       (adj.homEquiv X.left F).symm f.left =
@@ -722,7 +722,7 @@ public noncomputable def cofiberedCompletion_obj_equiv_formalObject
     (F : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type (max v z))
     (S : CompleteLocalAlgCat.{u, v, w} Λ k) :
     (cofiberedCompletion.obj F).obj S ≃
-      {X : FormalObject (CategoryOfElements.π F) // X.base = S} :=
+      {X : FormalObject (Functor.Elements.π F) // X.base = S} :=
   sectionsFormalObjectEquiv F S
 
 /-- The canonical map from the restriction of a completion to the original
@@ -734,14 +734,14 @@ public theorem cofiberedCompletion_restriction_isIso
   rw [NatTrans.isIso_iff_isIso_app]
   intro A
   rw [CategoryTheory.isIso_iff_bijective]
-  show Function.Bijective (cofiberedCompletionCounitValue F A)
+  change Function.Bijective (cofiberedCompletionCounitValue F A)
   let inv := cofiberedCompletionCounitInverseValue (Λ := Λ) (k := k) F A
   have hleft : ∀ y, cofiberedCompletionCounitValue F A (inv y) = y := by
     intro y
     let n := vanishingIndex (Λ := Λ) (k := k) A
     let hn := vanishingIndex_spec (Λ := Λ) (k := k) A
     let e := artinianTruncationIso (Λ := Λ) (k := k) A n hn
-    show F.map e.inv (F.map (artinianAdicQuotient (Λ := Λ) (k := k) A n) y) = y
+    change F.map e.inv (F.map (artinianAdicQuotient (Λ := Λ) (k := k) A n) y) = y
     rw [← Functor.map_comp_apply]
     have he : artinianAdicQuotient (Λ := Λ) (k := k) A n = e.hom := rfl
     rw [he]
@@ -759,7 +759,7 @@ public theorem cofiberedCompletion_restriction_isIso
     have hm : AdicTruncation.ideal
         (artinianToComplete.obj A) m = ⊥ :=
       artinianTruncation_stable_of_le (Λ := Λ) (k := k) A hs hsm
-    show F.map (artinianAdicQuotient (Λ := Λ) (k := k) A n)
+    change F.map (artinianAdicQuotient (Λ := Λ) (k := k) A n)
         (cofiberedCompletionCounitValue F A x) = x.1 n
     unfold cofiberedCompletionCounitValue
     calc

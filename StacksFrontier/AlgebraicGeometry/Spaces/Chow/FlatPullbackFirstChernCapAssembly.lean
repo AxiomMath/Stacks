@@ -102,7 +102,7 @@ theorem flatChernDefect_apply (W : IntegralClosedSubspace D.site D.base D.base_m
     (hW : deltaDimension D sY W = k + 1) (T : IntegralClosedSubspace D.site D.base D.base_mem X) :
     (flatChernDefect D sX hX sY hY f hbase r hflat hr k chernY chernX W hW).1 T =
       flatChernDefectCoeff D sX hX sY hY f hbase r hflat hr k chernY chernX W T := by
-  show (flatPullbackMap D sX hX sY hY f hbase r hflat hr k (k + (r : ℤ)) rfl
+  change (flatPullbackMap D sX hX sY hY f hbase r hflat hr k (k + (r : ℤ)) rfl
       (firstChernComponentCycle D sY hY k chernY W)).1 T -
     (firstChernCapCycleMap D sX hX (k + (r : ℤ)) chernX
       (flatPullbackMap D sX hX sY hY f hbase r hflat hr (k + 1) (k + (r : ℤ) + 1) (by ring)
@@ -320,7 +320,7 @@ theorem isRationallyEquivalentToZeroCanonical_flatPullbackMap_firstChernCapCycle
     ((locallyFinite_cycleSupport α).preimage_continuous
       (continuous_pointsMap D.site D.base D.base_mem f))
     (fun j => hdefect j.1 (α.2.2 j.1 j.2) (α.1 j.1)) fun T => ?_
-  show (flatPullbackMap D sX hX sY hY f hbase r hflat hr k (k + (r : ℤ)) rfl
+  change (flatPullbackMap D sX hX sY hY f hbase r hflat hr k (k + (r : ℤ)) rfl
           (firstChernCapCycleMap D sY hY k chernY α)).1 T -
         (firstChernCapCycleMap D sX hX (k + (r : ℤ)) chernX
           (flatPullbackMap D sX hX sY hY f hbase r hflat hr (k + 1) (k + (r : ℤ) + 1) (by ring)
@@ -339,8 +339,8 @@ theorem isRationallyEquivalentToZeroCanonical_flatPullbackMap_firstChernCapCycle
     (fun W => α.1 W ≠ 0)).symm
   refine finsum_congr fun W => ?_
   by_cases hW : α.1 W = 0
-  · rw [hW, zero_mul, finsum_eq_if, if_neg (not_not.2 rfl)]
-  · rw [finsum_eq_if, if_pos hW]
+  · rw [hW, zero_mul, finsum_eq_if, ite_eq_right (not_not.2 rfl)]
+  · rw [finsum_eq_if, ite_eq_left hW]
 
 end AlgebraicGeometry.Space
 

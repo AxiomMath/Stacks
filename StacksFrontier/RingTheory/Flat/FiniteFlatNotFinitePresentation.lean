@@ -44,7 +44,8 @@ not finitely presented.
 ## Implementation notes
 
 The two reduction theorems in
-`StacksFrontier.RingTheory.Flat.FinitePresentationOfFlatFinite` take as a hypothesis, quantified over
+`StacksFrontier.RingTheory.Flat.FinitePresentationOfFlatFinite` take as a hypothesis, quantified
+over
 the number of variables, that every module over `R[x_1, …, x_n]` which is finite over it and flat
 over `R` is finitely presented over it. Specialising that hypothesis to no variables at all gives
 exactly the statement refuted here, so the hypothesis holds for no ring having a non-finitely
@@ -194,7 +195,7 @@ theorem not_forall_finitePresentation_mvPolynomial_of_finite_of_flat :
   have : IsScalarTower (ℕ → ZMod 2) (MvPolynomial (Fin 0) (ℕ → ZMod 2))
       ((ℕ → ZMod 2) ⧸ Ideal.finiteSupport ℕ (ZMod 2)) :=
     IsScalarTower.of_algebraMap_smul fun r x => by
-      show (e (algebraMap (ℕ → ZMod 2) (MvPolynomial (Fin 0) (ℕ → ZMod 2)) r)) • x = r • x
+      change (e (algebraMap (ℕ → ZMod 2) (MvPolynomial (Fin 0) (ℕ → ZMod 2)) r)) • x = r • x
       rw [AlgEquiv.commutes]
       simp
   have hsurj : Function.Surjective

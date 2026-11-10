@@ -193,7 +193,7 @@ theorem exists_spectralSequence_rightDerived_comp_coreflection
         exact IsIso.id _
       exact IsIso.of_isIso_comp_left (adjB.unit.app (QB.obj Y)) _
     have hk : IsIso (QC.map ((D.functor p).map (adjB.counit.app Y))) :=
-      DeltaFunctor.isIso_map_map_of_isIso_map adjB LB hiB adjC LC hiC D hD hDQ
+      DeltaFunctor.isIso_map_map_of_isIso_map adjB LB adjC LC hiC D hD hDQ
         (adjB.counit.app Y) (hiB _) (hXplus q) p
     exact ⟨(hE' 2 le_rfl (p, q)).some ≪≫ QC.mapIso (hE₂ p q).some ≪≫
       (asIso (QC.map ((D.functor p).map (adjB.counit.app Y)))).symm ≪≫

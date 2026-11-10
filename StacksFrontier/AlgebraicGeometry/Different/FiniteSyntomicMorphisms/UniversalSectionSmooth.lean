@@ -102,7 +102,7 @@ private theorem Module.Basis.exists_lift_quotient_map_of_isNilpotent {R A : Type
   obtain ⟨b', hb'0, hb'⟩ := Module.Basis.exists_lift_mkQ_of_isNilpotent hI (b.map e) i₀ 1
     (by rw [Module.Basis.map_apply, hb]; rfl)
   refine ⟨b', hb'0, fun i => ?_⟩
-  show e.symm ((I • (⊤ : Submodule R A)).mkQ (b' i)) = b i
+  change e.symm ((I • (⊤ : Submodule R A)).mkQ (b' i)) = b i
   rw [hb' i, Module.Basis.map_apply, LinearEquiv.symm_apply_apply]
 
 /-- **Lifting a basis through a reduction by a nilpotent ideal.** Let `R' → R` be surjective with
@@ -126,7 +126,7 @@ theorem Algebra.exists_basis_lift_of_nilpotent_ker
   let : Algebra (R' ⧸ I) A := Algebra.compHom _ eR.toRingHom
   -- the given basis, read over `R' ⧸ I`
   let b₀ : Module.Basis (Fin d) (R' ⧸ I) A := b.mapCoeffs eR.symm fun c x => by
-    show eR (eR.symm c) • x = c • x
+    change eR (eR.symm c) • x = c • x
     rw [eR.apply_symm_apply]
   have hb₀_apply : ∀ i : Fin d, b₀ i = b i := b.mapCoeffs_apply _ _
   -- the kernel of the reduction, as an ideal of `A'`
@@ -142,7 +142,7 @@ theorem Algebra.exists_basis_lift_of_nilpotent_ker
     AlgEquiv.ofRingEquiv (f := eJ.symm) fun r => by
       obtain ⟨r', rfl⟩ := Ideal.Quotient.mk_surjective r
       refine eJ.injective ?_
-      show eJ (eJ.symm (algebraMap R A (eR (Ideal.Quotient.mk I r')))) =
+      change eJ (eJ.symm (algebraMap R A (eR (Ideal.Quotient.mk I r')))) =
         eJ (Ideal.Quotient.mk J (algebraMap R' A' r'))
       rw [eJ.apply_symm_apply, heJmk, hcompat]
       exact congrArg (algebraMap R A)

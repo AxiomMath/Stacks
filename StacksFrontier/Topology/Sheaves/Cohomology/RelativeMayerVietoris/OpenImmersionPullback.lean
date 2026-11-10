@@ -250,10 +250,10 @@ public theorem openImmersionImages_cover_intersection
       immImage iW = immImage iU ⊓ immImage iV := by
   constructor
   · ext x
-    show x ∈ Set.range iU.hom.base ∪ Set.range iV.hom.base ↔ x ∈ Set.univ
+    change x ∈ Set.range iU.hom.base ∪ Set.range iV.hom.base ↔ x ∈ Set.univ
     simpa using congrArg (fun s : Set X.carrier => x ∈ s) cover
   · ext x
-    show x ∈ Set.range iW.hom.base ↔
+    change x ∈ Set.range iW.hom.base ↔
       x ∈ Set.range iU.hom.base ∩ Set.range iV.hom.base
     simpa using congrArg (fun s : Set X.carrier => x ∈ s) intersection
 

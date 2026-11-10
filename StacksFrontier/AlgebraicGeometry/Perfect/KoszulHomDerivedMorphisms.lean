@@ -61,7 +61,7 @@ projective. -/
 theorem koszulCochain_projective {r : ℕ} (f : Fin r → A) (e : ℕ) (i : ℤ) :
     Projective ((koszulCochain f e).X i) := by
   have (n : ℕ) : Projective ((Koszul.koszulIdealComplexPower f e).X n) := by
-    show Projective (ModuleCat.of A (⋀[A]^(n + 1) (Fin r → A)))
+    change Projective (ModuleCat.of A (⋀[A]^(n + 1) (Fin r → A)))
     let b := (Pi.basisFun A (Fin r)).exteriorPower (n + 1)
     let := Module.Free.of_basis b
     infer_instance

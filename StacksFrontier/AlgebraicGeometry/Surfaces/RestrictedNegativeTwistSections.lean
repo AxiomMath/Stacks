@@ -404,14 +404,13 @@ theorem restrictedNegativeTwist_eq (D C : X.IdealSheafData) :
 a `Γ(X, ⊤)`-linear map. This is [Stacks, Tag 0C4T] together with the left exactness of global
 sections, read on the `𝒪_X`-module `closedSubschemeStructureSheaf D'`. -/
 theorem exists_sections_linearMap_restrictedNegativeTwist (D D' C : X.IdealSheafData)
-    (hD : IsEffectiveCartierDivisor D) (hD' : IsEffectiveCartierDivisor D')
-    (hC : IsEffectiveCartierDivisor C) (hsub : D' ≤ D) (hsum : D' = D * C) :
+    (hD : IsEffectiveCartierDivisor D) (hsub : D' ≤ D) (hsum : D' = D * C) :
     ∃ φ : Γ(restrictedNegativeTwist D C, (⊤ : X.Opens)) →ₗ[Γ(X, ⊤)]
         Γ(D'.closedSubschemeStructureSheaf, (⊤ : X.Opens)),
       Function.Injective φ ∧
         ∀ v, (closedSubschemeRestriction hsub).app ⊤ v = 0 ↔ ∃ x, φ x = v := by
   rw [restrictedNegativeTwist_eq]
-  obtain ⟨f, zero, hse⟩ := addEffectiveCartierDivisor_shortExact D D' C hD hD' hC hsub hsum
+  obtain ⟨f, zero, hse⟩ := addEffectiveCartierDivisor_shortExact D D' C hD hsub hsum
   exact exists_sections_linearMap_of_shortExact f _ zero hse ⊤
 
 /-- **The global sections of `𝒪_X(-D)|_C` inject onto the kernel of the restriction of global
@@ -419,13 +418,12 @@ functions `Γ(D', 𝒪) ⟶ Γ(D, 𝒪)`.** The same as
 `Stacks.Divisors.exists_sections_linearMap_restrictedNegativeTwist`, read on the global functions
 of the subschemes themselves rather than on the `𝒪_X`-modules they define. -/
 theorem exists_sections_addMonoidHom_restrictedNegativeTwist (D D' C : X.IdealSheafData)
-    (hD : IsEffectiveCartierDivisor D) (hD' : IsEffectiveCartierDivisor D')
-    (hC : IsEffectiveCartierDivisor C) (hsub : D' ≤ D) (hsum : D' = D * C) :
+    (hD : IsEffectiveCartierDivisor D) (hsub : D' ≤ D) (hsum : D' = D * C) :
     ∃ φ : Γ(restrictedNegativeTwist D C, (⊤ : X.Opens)) →+
         Γ(D'.subscheme, (⊤ : D'.subscheme.Opens)),
       Function.Injective φ ∧ ∀ v, (inclusion hsub).appTop.hom v = 0 ↔ ∃ x, φ x = v := by
   rw [restrictedNegativeTwist_eq]
-  obtain ⟨f, zero, hse⟩ := addEffectiveCartierDivisor_shortExact D D' C hD hD' hC hsub hsum
+  obtain ⟨f, zero, hse⟩ := addEffectiveCartierDivisor_shortExact D D' C hD hsub hsum
   exact exists_sections_addMonoidHom_of_shortExact hsub f zero hse
 
 /-- **The injection of `Stacks.Divisors.exists_sections_addMonoidHom_restrictedNegativeTwist` is
@@ -438,14 +436,13 @@ the ideal sheaf rather than as the sections of the sealed module
 `Stacks.Divisors.restrictedNegativeTwist`: the two are the same type, but the action of
 `Γ(V(C), 𝒪)` — the one the statement is about — is visible only on the former. -/
 theorem exists_sections_addMonoidHom_smul_restrictedNegativeTwist (D D' C : X.IdealSheafData)
-    (hD : IsEffectiveCartierDivisor D) (hD' : IsEffectiveCartierDivisor D')
-    (hC : IsEffectiveCartierDivisor C) (hsub : D' ≤ D) (hsubC : D' ≤ C) (hsum : D' = D * C) :
+    (hD : IsEffectiveCartierDivisor D) (hsub : D' ≤ D) (hsubC : D' ≤ C) (hsum : D' = D * C) :
     ∃ φ : Γ((Scheme.Modules.pullback C.subschemeι).obj (negativeTwist D),
           (⊤ : C.subscheme.Opens)) →+ Γ(D'.subscheme, (⊤ : D'.subscheme.Opens)),
       Function.Injective φ ∧
       (∀ v, (inclusion hsub).appTop.hom v = 0 ↔ ∃ x, φ x = v) ∧
       (∀ u x, φ ((inclusion hsubC).appTop.hom u • x) = u * φ x) := by
-  obtain ⟨f, zero, hse⟩ := addEffectiveCartierDivisor_shortExact D D' C hD hD' hC hsub hsum
+  obtain ⟨f, zero, hse⟩ := addEffectiveCartierDivisor_shortExact D D' C hD hsub hsum
   exact ⟨sectionsAddMonoidHom f, sectionsAddMonoidHom_injective hse,
     sectionsAddMonoidHom_eq_iff hsub f zero hse, sectionsAddMonoidHom_smul hsubC f⟩
 
@@ -512,7 +509,7 @@ theorem exists_sections_addMonoidHom_ker_thickeningRestriction (D : X.IdealSheaf
         Γ(thickening D (n + 1), (⊤ : (thickening D (n + 1)).Opens)),
       Function.Injective φ ∧ ∀ v, thickeningRestriction D n v = 0 ↔ ∃ x, φ x = v :=
   exists_sections_addMonoidHom_restrictedNegativeTwist (D ^ (n + 1)) (D ^ (n + 2)) D
-    inferInstance inferInstance inferInstance (pow_succ_le_pow_succ D (Nat.le_succ n))
+    inferInstance (pow_succ_le_pow_succ D (Nat.le_succ n))
     (pow_succ D (n + 1))
 
 /-! ### The injection of the graded piece, named -/

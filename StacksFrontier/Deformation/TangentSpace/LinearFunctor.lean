@@ -107,7 +107,7 @@ private theorem productGroupFunctor_preservesFiniteProducts
     (F : C ⥤ Type uM) [PreservesFiniteProducts F] :
     PreservesFiniteProducts (productGroupFunctor F) := by
   let : PreservesFiniteProducts (productGroupFunctor F ⋙ forget AddCommGrpCat) := by
-    show PreservesFiniteProducts F
+    change PreservesFiniteProducts F
     infer_instance
   exact preservesFiniteProducts_of_reflects_of_preserves
     (productGroupFunctor F) (forget AddCommGrpCat)
@@ -155,7 +155,7 @@ private lemma scalarRingHom_natural
     (G : C ⥤ AddCommGrpCat.{uM}) [G.Additive] {X Y : C}
     (f : X ⟶ Y) (r : R) :
     G.map f ≫ (scalarRingHom G Y r).asHom = (scalarRingHom G X r).asHom ≫ G.map f := by
-  show G.map f ≫ G.map (r • 𝟙 Y) = G.map (r • 𝟙 X) ≫ G.map f
+  change G.map f ≫ G.map (r • 𝟙 Y) = G.map (r • 𝟙 X) ≫ G.map f
   rw [← Functor.map_comp, ← Functor.map_comp,
     Linear.comp_smul, Linear.smul_comp]
   simp
@@ -214,7 +214,7 @@ private lemma productPreimage_fst
   let s : BinaryFan (F.obj X) (F.obj X) :=
     BinaryFan.mk (↾fun _ : PUnit.{uM + 1} => x)
       (↾fun _ : PUnit.{uM + 1} => y)
-  show (F.map (Limits.prod.fst (X := X) (Y := X))) ((hF.lift s) PUnit.unit) = x
+  change (F.map (Limits.prod.fst (X := X) (Y := X))) ((hF.lift s) PUnit.unit) = x
   exact ConcreteCategory.congr_hom (hF.fac s ⟨WalkingPair.left⟩) PUnit.unit
 
 private lemma productPreimage_snd
@@ -226,7 +226,7 @@ private lemma productPreimage_snd
   let s : BinaryFan (F.obj X) (F.obj X) :=
     BinaryFan.mk (↾fun _ : PUnit.{uM + 1} => x)
       (↾fun _ : PUnit.{uM + 1} => y)
-  show (F.map (Limits.prod.snd (X := X) (Y := X))) ((hF.lift s) PUnit.unit) = y
+  change (F.map (Limits.prod.snd (X := X) (Y := X))) ((hF.lift s) PUnit.unit) = y
   exact ConcreteCategory.congr_hom (hF.fac s ⟨WalkingPair.right⟩) PUnit.unit
 
 public lemma eqToHom_app_apply_cast
@@ -341,7 +341,7 @@ private theorem moduleFunctor_ext
       apply (Equiv.cast hKX).injective
       have hleft := lift_add_characterization R F L hL X a b
       have hright := lift_add_characterization R F K hK X (cast eX a) (cast eX b)
-      show cast hKX (cast eX (a + b)) =
+      change cast hKX (cast eX (a + b)) =
         cast hKX (cast eX a + cast eX b)
       rw [hcast a, hcast b] at hright
       rw [hcast, hleft, hright]
@@ -351,7 +351,7 @@ private theorem moduleFunctor_ext
       apply (Equiv.cast hKX).injective
       have hleft := lift_smul_characterization R F L hL X r a
       have hright := lift_smul_characterization R F K hK X r (cast eX a)
-      show cast hKX (cast eX (r • a)) = cast hKX (r • cast eX a)
+      change cast hKX (cast eX (r • a)) = cast hKX (r • cast eX a)
       rw [hcast a] at hright
       rw [hcast, hleft, hright]
     exact moduleCat_ext_of_cast R eX hadd hsmul
@@ -389,7 +389,7 @@ private theorem moduleFunctor_ext
   apply (Equiv.cast eY).injective
   simp only [Equiv.cast_apply, cast_cast, cast_eq]
   apply (Equiv.cast hKY).injective
-  show cast hKY (cast eY (L.map f a)) = cast hKY (K.map f (cast eX a))
+  change cast hKY (cast eY (L.map f a)) = cast hKY (K.map f (cast eX a))
   rw [hcastY, hLmap, hKmap]
 
 private noncomputable def moduleFunctorLift
@@ -451,7 +451,7 @@ private theorem moduleFunctorLift_additive
   intro X Y f g
   apply ModuleCat.hom_ext
   ext x
-  show (G.map (f + g) : G.obj X ⟶ G.obj Y) x =
+  change (G.map (f + g) : G.obj X ⟶ G.obj Y) x =
     ((G.map f + G.map g : G.obj X ⟶ G.obj Y)) x
   rw [Functor.map_add]
 
@@ -470,7 +470,7 @@ private theorem moduleFunctorLift_linear
   apply ModuleCat.hom_ext
   ext x
   simp only [ModuleCat.hom_smul, ModuleCat.hom_id]
-  show (G.map (r • (𝟙 X)) : G.obj X ⟶ G.obj X) x =
+  change (G.map (r • (𝟙 X)) : G.obj X ⟶ G.obj X) x =
     AddCommGrpCat.Hom.hom (scalarRingHom (R := R) G X r).asHom x
   rfl
 
@@ -565,14 +565,14 @@ private theorem fgModuleCat_hasBinaryProduct
       intro s
       apply FGModuleCat.hom_ext
       ext x
-      show (LinearMap.fst R X.obj.carrier Y.obj.carrier)
+      change (LinearMap.fst R X.obj.carrier Y.obj.carrier)
         ((LinearMap.prod s.fst.hom.hom s.snd.hom.hom) x) = s.fst.hom.hom x
       simp [LinearMap.prod_apply])
     (by
       intro s
       apply FGModuleCat.hom_ext
       ext x
-      show (LinearMap.snd R X.obj.carrier Y.obj.carrier)
+      change (LinearMap.snd R X.obj.carrier Y.obj.carrier)
         ((LinearMap.prod s.fst.hom.hom s.snd.hom.hom) x) = s.snd.hom.hom x
       simp [LinearMap.prod_apply])
     (by
@@ -584,7 +584,7 @@ private theorem fgModuleCat_hasBinaryProduct
           s.fst.hom.hom x at h
         have h' : (m.hom.hom x).1 = s.fst.hom.hom x := by
           simpa only [LinearMap.fst_apply] using h
-        show (m.hom.hom x).1 =
+        change (m.hom.hom x).1 =
           (LinearMap.prod s.fst.hom.hom s.snd.hom.hom x).1
         exact h'
       · have h := congrArg (fun q : s.pt ⟶ Y => q.hom.hom x) hsnd
@@ -592,7 +592,7 @@ private theorem fgModuleCat_hasBinaryProduct
           s.snd.hom.hom x at h
         have h' : (m.hom.hom x).2 = s.snd.hom.hom x := by
           simpa only [LinearMap.snd_apply] using h
-        show (m.hom.hom x).2 =
+        change (m.hom.hom x).2 =
           (LinearMap.prod s.fst.hom.hom s.snd.hom.hom x).2
         exact h')
   exact HasLimit.mk ⟨fan, lim⟩
@@ -775,7 +775,7 @@ universe u
 
 private lemma fg_add_apply {K : Type u} [Field K] {V W : FGModuleCat.{u} K}
     (f g : V ⟶ W) (x : V) : (f + g).hom x = f.hom x + g.hom x := by
-  show (((forget₂ (FGModuleCat.{u} K) (ModuleCat.{u} K)).map (f + g)).hom) x = _
+  change (((forget₂ (FGModuleCat.{u} K) (ModuleCat.{u} K)).map (f + g)).hom) x = _
   simp only [CategoryTheory.Functor.map_add, ModuleCat.hom_add, LinearMap.add_apply]
   rfl
 
@@ -809,10 +809,9 @@ private lemma tensorComparison_natural (K : Type u) [Field K]
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x v =>
-      show (L.map (fromUnit K W (f.hom v))).hom x =
+      change (L.map (fromUnit K W (f.hom v))).hom x =
         (L.map f).hom ((L.map (fromUnit K V v)).hom x)
       have h : fromUnit K W (f.hom v) = fromUnit K V v ≫ f :=
         FGModuleCat.hom_ext (LinearMap.comp_toSpanSingleton f.hom.hom v).symm
@@ -840,7 +839,7 @@ private lemma tensorComparison_comp_inv (K : Type u) [Field K]
   dsimp [tensorComparisonInv]
   rw [map_sum]
   simp only [tensorComparison, ModuleCat.hom_ofHom]
-  show (∑ i, (L.map (fromUnit K V (b i))).hom
+  change (∑ i, (L.map (fromUnit K V (b i))).hom
     ((L.map (FGModuleCat.ofHom (b.coord i))).hom y)) = y
   have heq (i) : (L.map (fromUnit K V (b i))).hom
       ((L.map (FGModuleCat.ofHom (b.coord i))).hom y) =
@@ -864,7 +863,7 @@ private lemma tensorComparison_comp_inv (K : Type u) [Field K]
           rw [Finset.sum_insert hi, Finset.sum_insert hi, fg_add_apply, ih]
           have hterm : ((FGModuleCat.ofHom (b.coord i) : V ⟶ FGModuleCat.of K K) ≫
               fromUnit K V (b i)).hom v = b.repr v i • b i := by
-            show b.coord i v • b i = b.repr v i • b i
+            change b.coord i v • b i = b.repr v i • b i
             rfl
           rw [hterm]
     rw [eval_sum Finset.univ, b.sum_repr]
@@ -885,17 +884,16 @@ private lemma tensorComparison_inv_comp (K : Type u) [Field K]
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x v =>
-      show (∑ i, (L.map (FGModuleCat.ofHom (b.coord i))).hom
+      change (∑ i, (L.map (FGModuleCat.ofHom (b.coord i))).hom
         ((L.map (fromUnit K V v)).hom x) ⊗ₜ[K] b i) = x ⊗ₜ[K] v
       have h (i) : fromUnit K V v ≫ FGModuleCat.ofHom (b.coord i) =
           (b.repr v i) • 𝟙 (FGModuleCat.of K K) := by
         apply FGModuleCat.hom_ext
         apply LinearMap.ext
         intro r
-        show b.coord i (r • v) = b.repr v i * r
+        change b.coord i (r • v) = b.repr v i * r
         simp [b.coord_apply, mul_comm]
       have heq (i) : (L.map (FGModuleCat.ofHom (b.coord i))).hom
           ((L.map (fromUnit K V v)).hom x) = b.repr v i • x := by

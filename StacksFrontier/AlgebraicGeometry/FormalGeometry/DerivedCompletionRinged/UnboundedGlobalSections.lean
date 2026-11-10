@@ -316,7 +316,7 @@ theorem smul_id_moduleGlobalSectionsOver_eq_zero (c : A) (hc : ρ c = 0)
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show ((globalSectionMulEnd X).comp ρ) c •
+  change ((globalSectionMulEnd X).comp ρ) c •
     (show ((preadditiveCoyonedaObj
         (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))).obj P) from x) = 0
   rw [h0, zero_smul]

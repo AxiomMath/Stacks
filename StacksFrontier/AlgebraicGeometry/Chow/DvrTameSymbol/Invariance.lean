@@ -7,8 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Chow.MilnorNorm.ResidueConstants
 # The tame symbol of a discrete valuation ring: independence of the uniformizer, and base change
 
 The tame symbol `∂_A : K^M_{i+1}(F) → K^M_i(κ)` of a discrete valuation ring `A` is built in
-`StacksFrontier.AlgebraicGeometry.Chow.DvrTameSymbol.MilnorTameSymbol` from a chosen uniformizer `ϖ`:
-it is the `ξ`-coefficient of the ring homomorphism
+`StacksFrontier.AlgebraicGeometry.Chow.DvrTameSymbol.MilnorTameSymbol` from a chosen uniformizer
+`ϖ`: it is the `ξ`-coefficient of the ring homomorphism
 
 `θ_ϖ : K^M_*(F) → K^M_*(κ) ⊕ K^M_*(κ) ξ`, `f ↦ {f ϖ ^ -v(f)} + v(f) ξ`.
 
@@ -192,7 +192,7 @@ theorem dvrMilnorShiftMap_eq_twist_comp {ϖ : A} (hϖ : Irreducible ϖ) (w : Aˣ
       algebraMap A F (u : A) * (algebraMap A F (w : A)) ^ (-n) := by
     have h := congrArg Units.val (map_mul (Units.map (algebraMap A F : A →* F)) u (w ^ (-n)))
     rw [map_zpow] at h
-    simpa only [Units.val_mul, Units.coe_map, MonoidHom.coe_coe, Units.val_zpow_eq_zpow_val]
+    simpa only [Units.val_mul, Units.coe_map, MonoidHom.coe_ofClass, Units.val_zpow_eq_zpow_val]
       using h
   have hf' : (f : F) = algebraMap A F ((u * w ^ (-n) : Aˣ) : A) *
       (algebraMap A F ((w : A) * ϖ)) ^ n := by
@@ -253,7 +253,7 @@ theorem dvrMilnorShiftMap_algebraMap {ϖ : A} (hϖ : Irreducible ϖ)
   obtain ⟨u, hu, hpart⟩ := exists_eq_unit_mul_zpow (F := F) hϖ f
   have hf' : (f : F) = algebraMap B F ((Units.map (algebraMap A B : A →* B) u : Bˣ) : B) *
       (algebraMap B F (algebraMap A B ϖ)) ^ dvrFracOrd (F := F) hϖ f := by
-    rw [hu, Units.coe_map, MonoidHom.coe_coe, ← IsScalarTower.algebraMap_apply,
+    rw [hu, Units.coe_map, MonoidHom.coe_ofClass, ← IsScalarTower.algebraMap_apply,
       ← IsScalarTower.algebraMap_apply]
   have hord : dvrFracOrd (F := F) hϖB f = dvrFracOrd (F := F) hϖ f := dvrFracOrd_eq_of_eq hϖB hf'
   have hpart' : dvrFracUnitPart (F := F) hϖB f =

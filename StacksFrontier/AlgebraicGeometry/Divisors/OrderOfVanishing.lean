@@ -49,7 +49,8 @@ section by which multiplication is an isomorphism over that open set and over ev
 one.
 
 Tag 0B8M, which compares the sheafified invertibility predicate with the presheaf tensor
-functor, is available in both directions, and the form this file needs is `Stacks.SheafOfModules.exists_bijective_smul_of_isInvertible`
+functor, is available in both directions, and the form this file needs is
+`Stacks.SheafOfModules.exists_bijective_smul_of_isInvertible`
 (`StacksFrontier/AlgebraicGeometry/InvertibleTrivialization/Basic.lean`), which produces
 exactly the hypothesis of `nonempty_orderOfVanishingData_of_bijective_smul`. The parameters
 below are therefore dischargeable from `IsInvertible` alone, and
@@ -120,13 +121,13 @@ theorem stalkSpecializes_smul
       TopCat.Presheaf.stalkSpecializes M.presheaf h
           (TopCat.Presheaf.germ M.presheaf W y hyW z) =
         TopCat.Presheaf.germ M.presheaf W x hxW z := by
-    show (TopCat.Presheaf.germ M.presheaf W y hyW ≫
+    change (TopCat.Presheaf.germ M.presheaf W y hyW ≫
       TopCat.Presheaf.stalkSpecializes M.presheaf h) z = _
     rw [TopCat.Presheaf.germ_stalkSpecializes]
   have hspecR (z : R.obj (Opposite.op W)) :
       TopCat.Presheaf.stalkSpecializes R h (TopCat.Presheaf.germ R W y hyW z) =
         TopCat.Presheaf.germ R W x hxW z := by
-    show (TopCat.Presheaf.germ R W y hyW ≫ TopCat.Presheaf.stalkSpecializes R h) z = _
+    change (TopCat.Presheaf.germ R W y hyW ≫ TopCat.Presheaf.stalkSpecializes R h) z = _
     rw [TopCat.Presheaf.germ_stalkSpecializes]
   calc TopCat.Presheaf.stalkSpecializes M.presheaf h
         (TopCat.Presheaf.germ R U y hyU r₀ • TopCat.Presheaf.germ M.presheaf V y hyV m₀)
@@ -195,7 +196,7 @@ theorem span_germ_eq_top_of_surjective_smul
       (TopCat.Presheaf.stalk (C := Ab.{u}) L.val.presheaf x) :=
     PresheafOfModules.instModuleCarrierStalkCommRingCatCarrierAbPresheafOpensCarrier
       (R := X.presheaf) L.val x
-  show Submodule.span (X.presheaf.stalk x)
+  change Submodule.span (X.presheaf.stalk x)
     {TopCat.Presheaf.germ L.val.presheaf U x hx s} = ⊤
   refine le_antisymm le_top fun z _ => ?_
   obtain ⟨V, hV, v, hv⟩ := TopCat.Presheaf.exists_germ_eq L.val.presheaf z
@@ -245,7 +246,7 @@ theorem germ_ne_zero_of_injective_smul
   have hdom : IsDomain Γ(X, W) := IsIntegral.component_integral W
   have hone : (1 : X.ringCatSheaf.obj.obj (op W)) = 0 := by
     refine hinj W iWU.le ?_
-    show (1 : X.ringCatSheaf.obj.obj (op W)) •
+    change (1 : X.ringCatSheaf.obj.obj (op W)) •
         (L.val.map (homOfLE (iWU.le : W ≤ U)).op).hom s =
       (0 : X.ringCatSheaf.obj.obj (op W)) •
         (L.val.map (homOfLE (iWU.le : W ≤ U)).op).hom s
@@ -378,7 +379,7 @@ theorem nonempty_orderOfVanishingData
   have hgξne : gξ ≠ 0 := by
     intro hg
     apply hgηne
-    show (ConcreteCategory.hom
+    change (ConcreteCategory.hom
       (TopCat.Presheaf.stalkSpecializes L.val.presheaf hηξ)) gξ = 0
     rw [hg]
     exact map_zero f
@@ -408,7 +409,7 @@ theorem nonempty_orderOfVanishingData
     rw [hm0] at hmemG
     exact hgξne (by simpa using hmemG)
   refine ⟨⟨X.ord a ξ, ?_⟩⟩
-  show (∃ m : L.presheaf.stalk ξ,
+  change (∃ m : L.presheaf.stalk ξ,
         (Submodule.span (X.presheaf.stalk ξ) {m} = ⊤) ∧
         ∃ b : X.functionField,
           t = constantGenericStalkModuleSection X L ⊤
@@ -435,7 +436,7 @@ theorem nonempty_orderOfVanishingData
       exact ha0 ((smul_eq_zero.mp hbasezero).resolve_right hgηne)
     have hchosen : mη = a • (f gξ) := by
       apply hmη_unique
-      show t = constantGenericStalkModuleSection X L ⊤
+      change t = constantGenericStalkModuleSection X L ⊤
         (a • ((TopCat.Presheaf.stalkSpecializes L.val.presheaf hηξ) gξ))
       exact hcoordBase
     let : Ring.KrullDimLE 1 (X.presheaf.stalk ξ) :=

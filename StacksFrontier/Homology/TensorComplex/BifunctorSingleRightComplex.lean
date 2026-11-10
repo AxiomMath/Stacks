@@ -153,7 +153,7 @@ lemma mapBifunctorSingleRightIso_hom_naturality [(F.flip.obj N).Additive]
     intro L _
     have h := (mapBifunctorSingleRightXIso F L N i).inv_hom_id
     rw [mapBifunctorSingleRightXIso_inv, Category.assoc] at h
-    show singleRightι F L N i ≫ (mapBifunctorSingleRightXIso F L N i).hom = _
+    change singleRightι F L N i ≫ (mapBifunctorSingleRightXIso F L N i).hom = _
     rw [← cancel_epi ((F.obj (L.X i)).map (singleObjXSelf (ComplexShape.up ℤ) 0 N).inv), h,
       ← CategoryTheory.Functor.map_comp, Iso.inv_hom_id, CategoryTheory.Functor.map_id]
   unfold singleRightι at h₁ ⊢

@@ -139,6 +139,8 @@ def withRingsHom (i : RingedToposHom X X₁) {A : Sheaf X.J CommRingCat.{w₀}}
 
 variable (i : RingedToposHom X X₁) {A : Sheaf X.J CommRingCat.{w₀}}
 
+omit [X.J.HasSheafCompose (forget CommRingCat.{w₀})]
+  [X₁.J.HasSheafCompose (forget CommRingCat.{w₀})] in
 /-- The inverse-image structure map of `withRingsHom i φ` is `φ`. -/
 theorem withRingsHom_fSharpInverseImage
     (φ : (inverseImageCommRingFunctor i.toToposHom).obj X₁.O ⟶ A) :
@@ -178,6 +180,8 @@ theorem isIso_withRingsHom_id_fSharp [i.toToposHom.pushforward.IsEquivalence] :
     IsIso (withRingsHom i (𝟙 ((inverseImageCommRingFunctor i.toToposHom).obj X₁.O))).fSharp :=
   isIso_withRingsHom_fSharp i _
 
+omit [X.J.HasSheafCompose (forget CommRingCat.{w₀})]
+  [X₁.J.HasSheafCompose (forget CommRingCat.{w₀})] in
 /-- The inverse-image structure map of `(i, 𝟙)` is an isomorphism. -/
 theorem isIso_withRingsHom_id_fSharpInverseImage :
     IsIso (withRingsHom i
@@ -213,7 +217,7 @@ def transportSquare (hσ : σ ≫ i.fSharpInverseImage = i₂.fSharpInverseImage
         (RingedToposHom.inverse (X := withRings X ((inverseImageCommRingFunctor i.toToposHom).obj
             X₁.O)) (withRingsHom i (𝟙 _)))
       have h3 := forgetFSharp_withRingsHom i₂ σ
-      haveI := isIso_withRingsHom_id_fSharpInverseImage i
+      have := isIso_withRingsHom_id_fSharpInverseImage i
       have hinv : inv (withRingsHom i (𝟙 _)).fSharpInverseImage = 𝟙 _ :=
         IsIso.inv_eq_of_hom_inv_id ((congrArg (· ≫ 𝟙 _)
           (withRingsHom_fSharpInverseImage i (𝟙 _))).trans (Category.comp_id _))
@@ -232,10 +236,11 @@ def transportSquare (hσ : σ ≫ i.fSharpInverseImage = i₂.fSharpInverseImage
       · exact (Category.comp_id _).trans rfl
       · exact (congrArg _ hE).trans (Equiv.apply_symm_apply _ _) }
 
+omit [X₂.J.HasSheafCompose (forget CommRingCat.{w₀})] in
 /-- The direct image of `transport i i₂ σ` is an equivalence when those of `i` and `i₂` are. -/
 theorem isEquivalence_transport [i₂.toToposHom.pushforward.IsEquivalence] :
     (transport i i₂ σ).toToposHom.pushforward.IsEquivalence := by
-  show (i.toToposHom.inverseImage ⋙ i₂.toToposHom.pushforward).IsEquivalence
+  change (i.toToposHom.inverseImage ⋙ i₂.toToposHom.pushforward).IsEquivalence
   infer_instance
 
 /-- The structure map of `transport i i₂ σ` is an isomorphism when `i_*` and `i₂_*` are

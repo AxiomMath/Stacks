@@ -100,7 +100,7 @@ theorem isLE_obj_of_adjunction (G : A ⥤ B) [G.Additive] [PreservesFiniteLimits
     [PreservesFiniteColimits G] {L : DerivedCategory B ⥤ DerivedCategory A}
     (adj : L ⊣ G.mapDerivedCategory) (X : DerivedCategory B) (n : ℤ) [X.IsLE n] :
     (L.obj X).IsLE n := by
-  show TStructure.t.IsLE (L.obj X) n
+  change TStructure.t.IsLE (L.obj X) n
   rw [TStructure.t.isLE_iff_isZero_truncGE_obj n (n + 1) rfl]
   set Y := (TStructure.t.truncGE (n + 1)).obj (L.obj X)
   have hπ : (TStructure.t.truncGEπ (n + 1)).app (L.obj X) = 0 := by
@@ -153,7 +153,7 @@ theorem isHomotopyColimit_truncLT (hA : HasExactCountableDirectSums A)
   have hc : Stacks.CountableCoproducts.oneSubShift F ≫ Sigma.desc c = 0 := by
     refine Sigma.hom_ext _ _ fun n => ?_
     rw [reassoc_of% (Stacks.CountableCoproducts.ι_oneSubShift F n), comp_zero,
-      Preadditive.sub_comp, Sigma.ι_desc, Category.assoc, Sigma.ι_desc]
+      Preadditive.sub_comp, Sigma.ι_comp_desc, Category.assoc, Sigma.ι_comp_desc]
     exact sub_eq_zero.2 (truncLTSystem_map_ι K (homOfLE (Nat.le_succ n))).symm
   obtain ⟨b, hb⟩ := Triangle.yoneda_exact₂ _ hT (Sigma.desc c) hc
   have hiso : IsIso b := by
@@ -180,7 +180,7 @@ theorem isHomotopyColimit_truncLT (hA : HasExactCountableDirectSums A)
     have hfac : e.hom ≫ (homologyFunctor A i).map b = colimit.desc _ cc := by
       refine colimit.hom_ext fun n => ?_
       rw [colimit.ι_desc, reassoc_of% (he n), ← Functor.map_comp, Category.assoc,
-        show p ≫ b = Sigma.desc c from hb.symm, Sigma.ι_desc]
+        show p ≫ b = Sigma.desc c from hb.symm, Sigma.ι_comp_desc]
     have h2 : IsIso (e.hom ≫ (homologyFunctor A i).map b) := by
       rw [hfac]
       exact ⟨hcc.desc (colimit.cocone _), colimit.hom_ext fun n => by simp,

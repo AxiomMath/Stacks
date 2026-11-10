@@ -143,7 +143,7 @@ theorem exists_imageSystem_isColimit {K : Type u} [SmallCategory K] [IsFiltered 
         { app := fun k => image.map (sqc k)
           naturality := fun k l f => by
             rw [← cancel_epi (factorThruImage (β.app k))]
-            show factorThruImage (β.app k) ≫
+            change factorThruImage (β.app k) ≫
                 image.map (imageSq _ _ (Φ.map f) (imageSystem_comm β f)) ≫
                 image.map (sqc l) = factorThruImage (β.app k) ≫ image.map (sqc k) ≫ 𝟙 _
             rw [Category.comp_id, ← Category.assoc, factorThruImage_imageSq]

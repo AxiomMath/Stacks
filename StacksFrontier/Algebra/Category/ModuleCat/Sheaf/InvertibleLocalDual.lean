@@ -184,7 +184,7 @@ lemma isLocallyInjective_of_coversTop {I : Type*} {Y : I → C} (hY : J.CoversTo
     intro W r hr
     have hr' : F₁.map r.op (F₁.map f.op x) = F₁.map r.op (F₁.map f.op y) :=
       (Sieve.overEquiv_iff _ _).1 hr
-    show F₁.map (r ≫ f).op x = F₁.map (r ≫ f).op y
+    change F₁.map (r ≫ f).op x = F₁.map (r ≫ f).op y
     simp only [op_comp, F₁.map_comp, ConcreteCategory.comp_apply]
     exact hr'
 

@@ -77,7 +77,7 @@ theorem isLocallyConstructible_of_etale_surjective {T V : Scheme.{u}} (g : T ⟶
     have hset : Limits.pullback.snd g v ⁻¹' (v ⁻¹' s) =
         Limits.pullback.fst g v ⁻¹' (g ⁻¹' s) := by
       ext x
-      show v (Limits.pullback.snd g v x) ∈ s ↔ g (Limits.pullback.fst g v x) ∈ s
+      change v (Limits.pullback.snd g v x) ∈ s ↔ g (Limits.pullback.fst g v x) ∈ s
       exact Iff.of_eq (congrArg (fun y ↦ y ∈ s) (congrArg (fun f ↦ f x)
         (Limits.pullback.condition (f := g) (g := v)))).symm
     rw [hset]
@@ -91,7 +91,7 @@ theorem isLocallyConstructible_of_etale_surjective {T V : Scheme.{u}} (g : T ⟶
       (v.isOpenEmbedding.isEmbedding.homeomorphImage Set.univ)).trans
       (Homeomorph.setCongr (show ((v : V.affineCover.X i → V) '' Set.univ) =
         (v.opensRange : Set V) by ext y; simp))
-  show IsLocallyConstructible ((v.opensRange : Set V) ↓∩ s)
+  change IsLocallyConstructible ((v.opensRange : Set V) ↓∩ s)
   exact (e.isLocallyConstructible_preimage_iff _).mp hlocV
 
 end AlgebraicGeometry

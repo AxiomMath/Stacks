@@ -92,7 +92,7 @@ theorem quotIncl_comp_systemMap {E : SheafOfModules.{u} X.ringCatSheaf} [E.IsQua
   refine (pushforwardAlgebraMap_comp (symQuotientOverMap E E g J J' h)
     (quotIncl E J)).symm.trans (congrArg (fun t => pushforwardAlgebraMap t) ?_)
   refine Over.OverMorphism.ext ?_
-  show (symQuotientOverMap E E g J J' h).left ≫ J.subschemeι = J'.subschemeι
+  change (symQuotientOverMap E E g J J' h).left ≫ J.subschemeι = J'.subschemeι
   refine (symQuotientOverMap_left_subschemeι E E g J J' h).trans ?_
   subst hg
   rw [Scheme.Modules.vectorBundleMap_id, Over.id_left]

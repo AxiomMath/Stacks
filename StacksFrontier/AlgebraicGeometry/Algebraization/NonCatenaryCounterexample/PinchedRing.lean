@@ -134,10 +134,10 @@ theorem primeA_W_cover (q : Ideal (RingA K e)) [q.IsPrime] (h₁ : primeA K e (i
   · exact Or.inr (by rw [heq])
   · exact Or.inl (by rw [eq_of_le_of_lt_extV K Q hWQ hlt])
 
-/-- Let `𝔭 ≤ 𝔮` be primes of `R`, each contained in `idealM K` or in `idealN K`. If some
+/-- Let `𝔭 ≤ 𝔮` be primes of `R`, with `𝔭` contained in `idealM K` or in `idealN K`. If some
 `a ∈ 𝔮` does not lie in `𝔭`, then `𝔭B < 𝔮B`. -/
 theorem ext_lt_ext {𝔭 𝔮 : Ideal (R6 K)} [𝔭.IsPrime] [𝔮.IsPrime]
-    (h𝔭 : 𝔭 ≤ idealM K ∨ 𝔭 ≤ idealN K) (h𝔮 : 𝔮 ≤ idealM K ∨ 𝔮 ≤ idealN K) (hle : 𝔭 ≤ 𝔮)
+    (h𝔭 : 𝔭 ≤ idealM K ∨ 𝔭 ≤ idealN K) (hle : 𝔭 ≤ 𝔮)
     {a : R6 K} (ha𝔮 : a ∈ 𝔮) (ha𝔭 : a ∉ 𝔭) : ext K 𝔭 < ext K 𝔮 := by
   refine lt_of_le_of_ne (Ideal.map_mono hle) fun h => ha𝔭 ?_
   rw [← algebraMap_mem_ext_iff K h𝔭, h]
@@ -145,12 +145,12 @@ theorem ext_lt_ext {𝔭 𝔮 : Ideal (R6 K)} [𝔭.IsPrime] [𝔮.IsPrime]
 
 /-- `W ∩ A` is strictly contained in `C ∩ A`. -/
 theorem primeA_W_lt_C : primeA K e (idealW K) < primeA K e (idealC K) :=
-  comap_lt_comap (residueEquiv K e) (ext_lt_ext K (hW K) (hC K) (idealW_le_idealC K)
+  comap_lt_comap (residueEquiv K e) (ext_lt_ext K (hW K) (idealW_le_idealC K)
     (a := MvPolynomial.X 3) (Ideal.subset_span (by simp)) (by rw [mem_idealW_iff]; simp [mapW]))
 
 /-- `C ∩ A` is strictly contained in `P ∩ A`. -/
 theorem primeA_C_lt_P : primeA K e (idealC K) < primeA K e (idealP K) :=
-  comap_lt_comap (residueEquiv K e) (ext_lt_ext K (hC K) (hP K) (idealC_le_idealP K)
+  comap_lt_comap (residueEquiv K e) (ext_lt_ext K (hC K) (idealC_le_idealP K)
     (a := MvPolynomial.X 4) (Ideal.subset_span (by simp)) (by rw [mem_idealC_iff]; simp [mapC]))
 
 /-- `W ∩ A` is contained in `V ∩ A`. -/
@@ -264,7 +264,7 @@ def pointY (q : Ideal (RingA K e)) [q.IsPrime] (hq : primeA K e (idealW K) ≤ q
 /-- The preimage in `A` of the point `pointY K e q hq` is `q`. -/
 theorem comap_pointY (q : Ideal (RingA K e)) [q.IsPrime] (hq : primeA K e (idealW K) ≤ q) :
     (pointY K e q hq).asIdeal.comap (toY K e) = q := by
-  show (q.map (toY K e)).comap (toY K e) = q
+  change (q.map (toY K e)).comap (toY K e) = q
   rw [Ideal.comap_map_of_surjective _ (toY_surjective K e), sup_eq_left,
     ← RingHom.ker_eq_comap_bot]
   exact ker_toY_le K e ((idealB_le_primeA_W K e).trans hq) (hq (elemF_mem_primeA_W K e))
@@ -296,7 +296,7 @@ theorem eq_pointY (x : PrimeSpectrum (RingA2 K e ⧸ idealI K e)) :
   refine ⟨primeA_W_le K e _ ((idealB_le_ker_toY K e).trans (Ideal.comap_mono bot_le))
     (Ideal.comap_mono bot_le (elemF_mem_ker_toY K e)), ?_⟩
   ext1
-  show x.asIdeal = (x.asIdeal.comap (toY K e)).map (toY K e)
+  change x.asIdeal = (x.asIdeal.comap (toY K e)).map (toY K e)
   rw [Ideal.map_comap_of_surjective _ (toY_surjective K e)]
 
 /-- `pointY K e q hq ≤ pointY K e q' hq'` if and only if `q ≤ q'`. -/
@@ -347,7 +347,7 @@ theorem distanceToZ_ptP_le_two : (situation K e).distanceToZ (ptP K e) ≤ 2 := 
   have spec_iff : ∀ a b : PrimeSpectrum (RingA2 K e ⧸ idealI K e),
       ((a : Y) ⤳ (b : Y)) ↔ a ≤ b := fun a b => (PrimeSpectrum.le_iff_specializes a b).symm
   have hz0 : z0 ∈ ((situation K e).closedSubsetZ : Set Y) := by
-    show (maximalIdeal (RingA2 K e)).map (Ideal.Quotient.mk (idealI K e)) ≤
+    change (maximalIdeal (RingA2 K e)).map (Ideal.Quotient.mk (idealI K e)) ≤
       (closedPoint (RingA2 K e ⧸ idealI K e)).asIdeal
     exact Ideal.map_le_iff_le_comap.mpr (le_of_eq (IsLocalRing.eq_maximalIdeal
       (Ideal.comap_isMaximal_of_surjective _ Ideal.Quotient.mk_surjective)).symm)

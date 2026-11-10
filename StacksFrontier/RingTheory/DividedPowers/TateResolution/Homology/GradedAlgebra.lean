@@ -25,7 +25,8 @@ but `γₙ x` carries a positive divided power of a boundary, which is itself a 
 
 This file defines the differential graded algebra predicate, cycles, boundaries and homology,
 and constructs the ring, algebra and grading on cycles and on homology. The independence of the
-representative is in `StacksFrontier.RingTheory.DividedPowers.TateResolution.Homology.Representative`
+representative is in
+`StacksFrontier.RingTheory.DividedPowers.TateResolution.Homology.Representative`
 and the divided power structure on homology in
 `StacksFrontier.RingTheory.DividedPowers.TateResolution.Homology.DividedPowerStructure`.
 
@@ -40,8 +41,8 @@ and the divided power structure on homology in
 ## Main results
 
 * `DividedPowers.TateResolution.dividedPowerStructureOnHomology_of_surjective` (in
-  `StacksFrontier.RingTheory.DividedPowers.TateResolution.Homology.DividedPowerStructure`) equips the
-  homology quotient with its graded algebra and divided power structures, and records that the
+  `StacksFrontier.RingTheory.DividedPowers.TateResolution.Homology.DividedPowerStructure`) equips
+  the homology quotient with its graded algebra and divided power structures, and records that the
   quotient map is a morphism of all the structures involved.
 
 ## Implementation notes
@@ -377,7 +378,7 @@ private theorem comapGrading_iSup_top {R : Type u} {M : Type w} [CommRing R]
   refine Submodule.sum_mem _ ?_
   intro i _
   apply Submodule.mem_iSup_of_mem i
-  show ((DirectSum.decompose gM (y.val : M)) i : M) ∈ gM i
+  change ((DirectSum.decompose gM (y.val : M)) i : M) ∈ gM i
   exact ((DirectSum.decompose gM (y.val : M)) i).property
 
 @[instance_reducible]
@@ -437,7 +438,7 @@ private theorem quotientGrading_iSupIndep {R : Type u} {M : Type w} [CommRing R]
   have hzc : (DirectSum.decompose gM z i : M) = 0 :=
     decompose_eq_zero_of_mem_iSup_ne gM i z hz
   rw [DirectSum.decompose_sub, DirectSum.sub_apply, Submodule.coe_sub, hyc, hzc, sub_zero] at hcomp
-  show s.mkQ y = 0
+  change s.mkQ y = 0
   rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
   exact hcomp
 
@@ -522,7 +523,7 @@ public theorem mem_boundaries_iff {R : Type u} {B : Type w}
     {𝒜 : ℕ → Submodule R B} [GradedAlgebra 𝒜]
     (d : B →ₗ[R] B) [IsDifferentialGradedAlgebra 𝒜 d] (x : cycles d) :
     x ∈ boundaries (𝒜 := 𝒜) d ↔ ∃ z, d z = (x : B) := by
-  show x ∈ LinearMap.range (boundaryMap (𝒜 := 𝒜) d) ↔ _
+  change x ∈ LinearMap.range (boundaryMap (𝒜 := 𝒜) d) ↔ _
   rw [LinearMap.mem_range]
   constructor
   · rintro ⟨z, hz⟩
@@ -596,7 +597,7 @@ private theorem boundaryIdeal_isTwoSided {R : Type u} {B : Type w}
   constructor
   intro x y hx
   change x ∈ boundaries (𝒜 := 𝒜) d at hx
-  show x * y ∈ boundaries (𝒜 := 𝒜) d
+  change x * y ∈ boundaries (𝒜 := 𝒜) d
   rw [mem_boundaries_iff] at hx ⊢
   obtain ⟨z, hz⟩ := hx
   exact boundary_mul_cycle_exists_preimage 𝒜 d ⟨z, hz⟩ y.property
@@ -638,7 +639,7 @@ private theorem homologyGrading_eq_quotientGrading {R : Type u} {B : Type w}
         (Submodule.Quotient.mk x : Homology (𝒜 := ℬ) d) = z}) =
       quotientGrading (cyclesGrading ℬ d) (boundaries (𝒜 := ℬ) d) := by
   funext n
-  show Submodule.span R {z : Homology (𝒜 := ℬ) d |
+  change Submodule.span R {z : Homology (𝒜 := ℬ) d |
       ∃ x : cycles d, (x : B) ∈ ℬ n ∧
         (Submodule.Quotient.mk x : Homology (𝒜 := ℬ) d) = z} =
     Submodule.map (Submodule.mkQ (boundaries (𝒜 := ℬ) d))

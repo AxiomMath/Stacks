@@ -139,7 +139,7 @@ piece `S_{i + c + m}`, which is the degree-`i` piece of `S(m + c)`. -/
 theorem shiftedGrading_twistGrading (m c : ℤ) :
     shiftedGrading (twistGrading (S := S) 𝒮 m) c = twistGrading (S := S) 𝒮 (m + c) := by
   funext i
-  show integerGrading (S := S) 𝒮 (i + c + m) = integerGrading (S := S) 𝒮 (i + (m + c))
+  change integerGrading (S := S) 𝒮 (i + c + m) = integerGrading (S := S) 𝒮 (i + (m + c))
   exact congrArg (integerGrading (S := S) 𝒮) (by ring)
 
 /-- Two equal gradings cut out the same sections. The predicate defining `moduleSections` is the
@@ -214,10 +214,10 @@ lemma bijective_ratioMulHom (hp : p ∈ 𝒮 (e + d)) (hq : q ∈ 𝒮 e) {n c :
     ⟨fun ϑ => ⟨fun x => ratioFunInv 𝒮 n hW x • ϑ.1 x, ratioInvMul_mem 𝒮 hp hq hc b hW ϑ⟩,
       fun ς => ?_, fun ϑ => ?_⟩
   · refine Subtype.ext (funext fun x => ?_)
-    show ratioFunInv 𝒮 n hW x • ratioFun 𝒮 n hW x • ς.1 x = ς.1 x
+    change ratioFunInv 𝒮 n hW x • ratioFun 𝒮 n hW x • ς.1 x = ς.1 x
     rw [smul_smul, mul_comm, ratioFun_mul_inv, one_smul]
   · refine Subtype.ext (funext fun x => ?_)
-    show ratioFun 𝒮 n hW x • ratioFunInv 𝒮 n hW x • ϑ.1 x = ϑ.1 x
+    change ratioFun 𝒮 n hW x • ratioFunInv 𝒮 n hW x • ϑ.1 x = ϑ.1 x
     rw [smul_smul, ratioFun_mul_inv, one_smul]
 
 /-! ### Bijectivity on the sections of the presheaf tensor product -/

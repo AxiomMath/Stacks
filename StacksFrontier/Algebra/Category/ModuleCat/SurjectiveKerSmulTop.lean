@@ -39,7 +39,7 @@ theorem surjective_and_ker_eq_of_comm {R : Type u} [CommRing R] {A A' B B' : Mod
         LinearEquiv.range]
     ext x
     rw [LinearMap.mem_ker, ← key, Submodule.mem_comap, ← hk, LinearMap.mem_ker]
-    show f x = 0 ↔ f' (eA.hom x) = 0
+    change f x = 0 ↔ f' (eA.hom x) = 0
     refine ⟨fun hx => ?_, fun hx => ?_⟩
     · have := congrArg eB.hom hx
       rwa [map_zero, ← ConcreteCategory.comp_apply, w, ConcreteCategory.comp_apply] at this
@@ -68,7 +68,7 @@ theorem mem_smul_top_restrictScalars_iff {R : Type u} {S : Type u'} [CommRing R]
       (I • ⊤ : Submodule R ((restrictScalars ρ).obj N))
     have hPadd : ∀ a b : N, a ∈ P → b ∈ P → a + b ∈ P := fun a b ha hb =>
       Submodule.add_mem (I • ⊤ : Submodule R ((restrictScalars ρ).obj N)) ha hb
-    show x ∈ P
+    change x ∈ P
     refine Submodule.smul_induction_on (p := fun y : N => y ∈ P) hx (fun s hs n _ => ?_) hPadd
     suffices h : ∀ n : N, s • n ∈ P from h n
     refine Submodule.span_induction (p := fun s _ => ∀ n : N, s • n ∈ P) ?_ ?_ ?_ ?_ hs

@@ -50,7 +50,7 @@ private theorem algebra_finitePresentation_iff_self_relative
     let l : P →ₗ[P] A :=
       { toFun := α, map_add' := α.map_add, map_smul' := fun r x => map_mul α r x }
     have hker : (RingHom.ker α.toRingHom).FG := by
-      show (LinearMap.ker l).FG
+      change (LinearMap.ker l).FG
       exact (Module.FinitePresentation.fg_ker_iff l hα).2 hfp
     exact Algebra.FinitePresentation.of_surjective (f := α) hα hker
 
@@ -68,7 +68,7 @@ private theorem appLE_finitePresentation_iff_unit_relative
          ((Scheme.Modules.presheaf M).obj (Opposite.op U))) := by
   subst M
   let : Algebra Γ(S, V) Γ(X, U) := (f.appLE V U hUV).hom.toAlgebra
-  show RingHom.FinitePresentation (algebraMap Γ(S, V) Γ(X, U)) ↔
+  change RingHom.FinitePresentation (algebraMap Γ(S, V) Γ(X, U)) ↔
     Module.FinitePresentationRel Γ(S, V) Γ(X, U) Γ(X, U)
   rw [RingHom.finitePresentation_algebraMap]
   exact algebra_finitePresentation_iff_self_relative (R := Γ(S, V)) (A := Γ(X, U))

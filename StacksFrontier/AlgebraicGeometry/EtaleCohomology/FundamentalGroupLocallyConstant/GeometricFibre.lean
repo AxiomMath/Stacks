@@ -168,7 +168,7 @@ theorem card_finiteEtaleFiber_trivialCover_and_smul [ConnectedSpace Y] :
   obtain ⟨i, rfl⟩ := hsurj a
   have hn := congrArg (fun f ↦ f p₀) (σ.asIso.hom.naturality (c.ι.app ⟨i⟩))
   simp only [types_comp_apply] at hn
-  show σ.asIso.hom.app (trivialCover ι) ((finiteEtaleFiberFunctor y).map (c.ι.app ⟨i⟩) p₀) =
+  change σ.asIso.hom.app (trivialCover ι) ((finiteEtaleFiberFunctor y).map (c.ι.app ⟨i⟩) p₀) =
     (finiteEtaleFiberFunctor y).map (c.ι.app ⟨i⟩) p₀
   refine hn.trans ?_
   congr 1

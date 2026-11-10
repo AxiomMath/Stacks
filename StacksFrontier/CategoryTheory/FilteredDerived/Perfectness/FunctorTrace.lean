@@ -86,20 +86,20 @@ multiplication by `b`. -/
 lemma regularRightMul_mul (a b : R) :
     regularRightMul.{u, v} (a * b) = regularRightMul.{u, v} a ≫ regularRightMul.{u, v} b := by
   ext x
-  show x.down * (a * b) = x.down * a * b
+  change x.down * (a * b) = x.down * a * b
   rw [mul_assoc]
 
 /-- Right multiplication is additive in the multiplier. -/
 lemma regularRightMul_add (a b : R) :
     regularRightMul.{u, v} (a + b) = regularRightMul.{u, v} a + regularRightMul.{u, v} b := by
   ext x
-  show x.down * (a + b) = x.down * a + x.down * b
+  change x.down * (a + b) = x.down * a + x.down * b
   rw [mul_add]
 
 /-- Right multiplication by `0` is the zero endomorphism. -/
 lemma regularRightMul_zero : regularRightMul.{u, v} (0 : R) = 0 := by
   ext x
-  show x.down * 0 = 0
+  change x.down * 0 = 0
   rw [mul_zero]
 
 /-- Every endomorphism of the regular left module is right multiplication by its value at `1`. -/
@@ -205,7 +205,7 @@ def functorTraceRaw : R →+ AdditiveCommutatorQuotient S where
 /-- The map `functorTraceRaw` takes equal values on `a * b` and `b * a`. -/
 lemma functorTraceRaw_mul_comm (a b : R) :
     functorTraceRaw Φ θ hΦ (a * b) = functorTraceRaw Φ θ hΦ (b * a) := by
-  show functorTrace Φ θ hΦ _ (regularRightMul (a * b)) =
+  change functorTrace Φ θ hΦ _ (regularRightMul (a * b)) =
     functorTrace Φ θ hΦ _ (regularRightMul (b * a))
   rw [regularRightMul_mul, regularRightMul_mul]
   exact functorTrace_comp_comm Φ θ hΦ _ _ _ _
@@ -240,7 +240,7 @@ lemma functorTrace_pi (n : ℕ)
     simp only [π, ι, ModuleCat.hom_sum, ModuleCat.hom_comp, ModuleCat.hom_ofHom,
       ModuleCat.hom_id, LinearMap.id_apply]
     rw [LinearMap.sum_apply, Finset.sum_apply]
-    show ∑ j, (Pi.single j (x j) : Fin n → ULift.{max u v} R) k' = x k'
+    change ∑ j, (Pi.single j (x j) : Fin n → ULift.{max u v} R) k' = x k'
     simp [Pi.single_apply]
   have hS : functorTrace Φ θ hΦ F h =
       ∑ k, functorTraceRaw Φ θ hΦ ((ι k ≫ h ≫ π k).hom ⟨1⟩).down := by
@@ -348,7 +348,7 @@ theorem alternatingTrace_functor (P : CochainComplex (ModuleCat.{max u v} R) ℤ
     have : Subsingleton (P.X i) := ModuleCat.subsingleton_of_isZero hzero
     have ht := projectiveModuleTrace_eq_zero_of_subsingleton R (P.X i) (g.f i).hom
     simp [tR, ht] at hi
-  show _ = functorTraceMap Φ θ hΦ (∑ᶠ i, tR i)
+  change _ = functorTraceMap Φ θ hΦ (∑ᶠ i, tR i)
   rw [AddMonoidHom.map_finsum _ hfin]
   unfold alternatingTrace
   apply finsum_congr

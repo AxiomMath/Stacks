@@ -52,7 +52,7 @@ private lemma milnorKAugmentation_eq_zero_on_relations (k : Type u) [Field k]
 /-- The augmentation is constant on the classes of the Steinberg congruence. -/
 private lemma milnorKAugmentation_congruent (k : Type u) [Field k] :
     (milnorKSteinbergIdeal k).ringCon ≤ RingCon.ker (milnorKAugmentation k) := by
-  show (milnorKSteinbergIdeal k).ringCon ≤
+  change (milnorKSteinbergIdeal k).ringCon ≤
     (TwoSidedIdeal.ker (milnorKAugmentation k)).ringCon
   rw [← TwoSidedIdeal.ringCon_le_iff]
   exact (TwoSidedIdeal.span_le).mpr fun x hx ↦
@@ -118,7 +118,7 @@ theorem milnorKTransport_milnorKZeroMap {k₁ k₂ : Type u} [Field k₁] [Field
     (φ : k₁ →+* k₂) (n : ℤ) :
     milnorKTransport φ 0 (milnorKZeroMap k₁ n) = milnorKZeroMap k₂ n := by
   refine Subtype.ext ?_
-  show milnorKRingMap φ (milnorKZeroMap k₁ n : MilnorKRing k₁) =
+  change milnorKRingMap φ (milnorKZeroMap k₁ n : MilnorKRing k₁) =
     (milnorKZeroMap k₂ n : MilnorKRing k₂)
   have h : ∀ (k : Type u) [Field k] (n : ℤ), (milnorKZeroMap k n : MilnorKRing k) =
       (milnorKSteinbergIdeal k).ringCon.mk' (algebraMap ℤ (TensorAlgebra ℤ (Additive kˣ)) n) :=

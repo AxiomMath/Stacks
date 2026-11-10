@@ -171,7 +171,7 @@ lemma surjective_tangentFunctorAt_map_of_injective
     (B : Type v) [CommRing B] [Algebra A B] {M N : ModuleCat.{v} B} (g : M ⟶ N)
     (hg : Function.Surjective g) :
     Function.Surjective ((tangentFunctorAt A I B).map g) := by
-  show Function.Surjective
+  change Function.Surjective
     ((tangentFunctor A I).map ((fixedAlgebraModuleFunctor A B).map g))
   set X := (fixedAlgebraModuleFunctor A B).obj M
   set Y := (fixedAlgebraModuleFunctor A B).obj N

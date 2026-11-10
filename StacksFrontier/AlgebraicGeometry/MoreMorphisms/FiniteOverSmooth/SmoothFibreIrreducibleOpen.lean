@@ -68,7 +68,7 @@ theorem geometricallyConnected_fibre_open_of_isAlgClosedIn {V U : Scheme.{u}} (h
   have hclosedOld : IsAlgClosedIn k E := hclosed
   set m : T.toScheme ⟶ V := T.ι ≫ h.fiberι (h v) with hm
   have hmpt : m pT = v := by
-    show h.fiberι (h v) (T.ι pT) = v
+    change h.fiberι (h v) (T.ι pT) = v
     exact Scheme.Hom.fiberι_asFiber h v
   have : IsPreimmersion m := IsPreimmersion.comp T.ι (h.fiberι (h v))
   have hmres : IsIso (m.residueFieldMap pT) := isIso_residueFieldMap_of_isPreimmersion m pT

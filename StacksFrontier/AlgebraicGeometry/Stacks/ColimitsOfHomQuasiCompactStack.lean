@@ -158,7 +158,7 @@ theorem fppfTopology_changeBaseFiberedInGroupoids (B : BigFppfSite.{u}) (S S' : 
   let _ : 𝒳.val.p.IsFibered := 𝒳.2.isFibered
   let _ : (changeBaseFiberedInGroupoids B S S' hS hS' g 𝒳).val.p.IsFibered :=
     (changeBaseFiberedInGroupoids B S S' hS hS' g 𝒳).2.isFibered
-  show (changeBaseFiberedInGroupoids B S S' hS hS' g 𝒳).val.p.inheritedTopology
+  change (changeBaseFiberedInGroupoids B S S' hS hS' g 𝒳).val.p.inheritedTopology
       (B.topology.over (B.obj hS')) = 𝒳.val.p.inheritedTopology (B.topology.over (B.obj hS))
   rw [← Functor.inheritedTopology_comp_overForget' (B.obj hS') _ B.topology,
     ← Functor.inheritedTopology_comp_overForget' (B.obj hS) _ B.topology]
@@ -324,7 +324,7 @@ theorem exists_finite_affineObjects_hypercover_hom
   refine ⟨{ I₀ := ULift.{u} (Fin n), X := fun i => V' i.down, f := fun i => f' i.down },
     { s₀ := fun i => jj i.down, h₀ := fun i => hh i.down, w₀ := fun i => hw i.down },
     ?_, inferInstance, fun i => hVaff' i.down⟩
-  show Sieve.generate (Presieve.ofArrows _ _) ∈ _
+  change Sieve.generate (Presieve.ofArrows _ _) ∈ _
   rwa [hpre]
 
 /-! ### Condition (2)(c) -/

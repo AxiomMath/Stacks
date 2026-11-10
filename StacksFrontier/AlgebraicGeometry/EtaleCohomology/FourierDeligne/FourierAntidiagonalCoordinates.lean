@@ -76,15 +76,14 @@ theorem fourierAntidiagonalRelHom_X (i : Fin 1) :
 theorem fourierAntidiagonalRelInv_comp_U :
     (fourierAntidiagonalRelInv k).comp (fourierAntidiagonalU k).toRingHom = MvPolynomial.C := by
   refine Polynomial.ringHom_ext (fun c => ?_) ?_
-  · simp [fourierAntidiagonalRelInv, MvPolynomial.algebraMap_eq, Polynomial.algebraMap_apply]
+  · simp [fourierAntidiagonalRelInv, MvPolynomial.algebraMap_eq]
   · simp [fourierAntidiagonalRelInv]
 
 /-- `fourierAntidiagonalRelHom` is a left inverse of `fourierAntidiagonalRelInv`. -/
 theorem fourierAntidiagonalRelHom_comp_inv :
     (fourierAntidiagonalRelHom k).comp (fourierAntidiagonalRelInv k) = RingHom.id _ := by
   refine MvPolynomial.ringHom_ext (fun c => ?_) (fun i => ?_)
-  · simp [fourierAntidiagonalRelInv, fourierAntidiagonalRelHom, MvPolynomial.algebraMap_eq,
-      Polynomial.algebraMap_apply]
+  · simp [fourierAntidiagonalRelInv, fourierAntidiagonalRelHom, MvPolynomial.algebraMap_eq]
   · fin_cases i <;> simp [fourierAntidiagonalRelInv, fourierAntidiagonalRelHom]
 
 /-- `fourierAntidiagonalRelInv` is a left inverse of `fourierAntidiagonalRelHom`. -/
@@ -118,14 +117,14 @@ theorem isPushout_fourierAntidiagonal :
   · refine CommRingCat.hom_ext (RingHom.ext fun p => ?_)
     exact fourierAntidiagonalRelHom_C k p
   · refine CommRingCat.hom_ext (MvPolynomial.ringHom_ext (fun c => ?_) (fun i => ?_))
-    · show fourierAntidiagonalRelHom k (MvPolynomial.map (algebraMap k (Polynomial k))
+    · change fourierAntidiagonalRelHom k (MvPolynomial.map (algebraMap k (Polynomial k))
           (MvPolynomial.C c)) = fourierAntidiagonalT k (φ (MvPolynomial.C c))
       rw [MvPolynomial.map_C, fourierAntidiagonalRelHom_C, ← MvPolynomial.algebraMap_eq,
         φ.commutes, AlgHom.commutes, AlgHom.commutes]
-    · show fourierAntidiagonalRelHom k (MvPolynomial.map (algebraMap k (Polynomial k))
+    · change fourierAntidiagonalRelHom k (MvPolynomial.map (algebraMap k (Polynomial k))
           (MvPolynomial.X i)) = fourierAntidiagonalT k (φ (MvPolynomial.X i))
       rw [MvPolynomial.map_X, fourierAntidiagonalRelHom_X]
-      show _ = fourierAntidiagonalT k (φ (MvPolynomial.monomial (Finsupp.single i 1) 1))
+      change _ = fourierAntidiagonalT k (φ (MvPolynomial.monomial (Finsupp.single i 1) 1))
       rw [MvPolynomial.uniqueAlgEquiv_monomial, Subsingleton.elim (default : Fin 1) i,
         Finsupp.single_eq_same, Polynomial.monomial_one_one_eq_X, Polynomial.aeval_X]
 
@@ -165,10 +164,10 @@ theorem fourierAntidiagonal_coordinate_eq (i : Fin 3)
   rw [← Category.assoc, pullback.condition, Category.assoc, ← Spec.map_comp]
   congr 2
   refine CommRingCat.hom_ext (Polynomial.ringHom_ext (fun c => ?_) ?_)
-  · show fourierAntidiagonalRingHom k (Polynomial.aeval (MvPolynomial.X i) (Polynomial.C c)) =
+  · change fourierAntidiagonalRingHom k (Polynomial.aeval (MvPolynomial.X i) (Polynomial.C c)) =
       φ (Polynomial.C c)
     rw [Polynomial.aeval_C, AlgHom.commutes, ← Polynomial.algebraMap_eq, AlgHom.commutes]
-  · show fourierAntidiagonalRingHom k (Polynomial.aeval (MvPolynomial.X i) Polynomial.X) =
+  · change fourierAntidiagonalRingHom k (Polynomial.aeval (MvPolynomial.X i) Polynomial.X) =
       φ Polynomial.X
     rw [Polynomial.aeval_X, hφ]
 

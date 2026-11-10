@@ -121,7 +121,7 @@ theorem isFiniteDimensionalDeformationCategory_predeformationCategory
     let : Fact (IsPredeformationCategory (BasedCategory.ofFunctor (predeformationCategory iΛ
         (polarizedSliceProjection B hS hT ⋙ Over.post B.inclusion) x hx₀).projection).p) :=
       ⟨hD.predeformation⟩
-    let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    let : Fact (SchlessingerConditionS2 (Functor.Elements.π
         (isomorphismClasses (BasedCategory.ofFunctor (predeformationCategory iΛ
           (polarizedSliceProjection B hS hT ⋙ Over.post B.inclusion) x hx₀).projection)
           hD.predeformation.cofibered))) := ⟨tangentConditionS2 hD⟩

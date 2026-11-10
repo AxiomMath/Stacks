@@ -262,7 +262,7 @@ private lemma exists_unique_iso_of_resolutions
     have := hα W' hW'
     have : IsIso (L.map s) := Localization.inverts L W s hs
     have : IsIso ((L ⋙ F).map s) := by
-      show IsIso (F.map (L.map s)); infer_instance
+      change IsIso (F.map (L.map s)); infer_instance
     rw [← isIso_comp_left_iff (α.app Z), ← α.naturality s]
     infer_instance
   have hP' : ∀ Z, ∃ (Y : C) (_ : P Y) (s : Y ⟶ Z), W s := fun Z =>
@@ -318,7 +318,7 @@ private lemma exists_unique_iso_on_complexes
     have hc (K : CochainComplex A ℤ) :
         (e.hom.app (DerivedCategory.Qh.obj (q.obj K)) ≫ βh.app (q.obj K) = αh.app (q.obj K)) ↔
           (e.hom.app (DerivedCategory.Q.obj K) ≫ β.app K = α.app K) := by
-      show (e.hom.app _ ≫ (G.map ((DerivedCategory.quotientCompQhIso A).hom.app K) ≫
+      change (e.hom.app _ ≫ (G.map ((DerivedCategory.quotientCompQhIso A).hom.app K) ≫
         β.app K ≫ uIso.inv.app K) =
           F.map ((DerivedCategory.quotientCompQhIso A).hom.app K) ≫
             α.app K ≫ uIso.inv.app K) ↔ _
@@ -447,14 +447,14 @@ theorem exists_unique_derivedPullbackStalkIso {X Y : Scheme.{u}} (f : X ⟶ Y) (
           (ComplexShape.up ℤ)).app P).hom)) :=
       (DerivedCategory.Q.mapIso ((NatIso.mapHomologicalComplex
         (Stacks.ModuleSkyscraper.pullbackStalkIso f x).symm (ComplexShape.up ℤ)).app P)).isIso_hom
-    show IsIso ((derivedStalkFunctor x).map (α₀.app P) ≫ _ ≫ _)
+    change IsIso ((derivedStalkFunctor x).map (α₀.app P) ≫ _ ≫ _)
     rw [h]
     exact IsIso.comp_isIso' g1 (IsIso.comp_isIso' g2 g3)
   have hβ (P : CochainComplex Y.Modules ℤ)
       (hP : Stacks.Cohomology.KFlatDerivedPullback.KFlatComplex Y.toSheafedSpace P) :
       IsIso (β.app P) := by
     have := T.comparison_isIso_of_kFlat _ (kFlat_modulesStalkFunctor (f x) P hP)
-    show IsIso (T.functor.map (S.mapDerivedCategoryFactors.hom.app P) ≫ T.comparison.app _)
+    change IsIso (T.functor.map (S.mapDerivedCategoryFactors.hom.app P) ≫ T.comparison.app _)
     infer_instance
   have hP (K : CochainComplex Y.Modules ℤ) :
       ∃ P, Stacks.Cohomology.KFlatDerivedPullback.KFlatComplex Y.toSheafedSpace P ∧

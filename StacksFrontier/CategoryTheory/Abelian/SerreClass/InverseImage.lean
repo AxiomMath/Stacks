@@ -42,7 +42,7 @@ theorem isoModSerre_eq_inverseImage_of_iff {P : ObjectProperty C} {Q : ObjectPro
     [PreservesFiniteColimits F] (h : ∀ A : C, P A ↔ Q (F.obj A)) :
     P.isoModSerre = Q.isoModSerre.inverseImage F := by
   ext A B f
-  show (P (kernel f) ∧ P (cokernel f)) ↔ (Q (kernel (F.map f)) ∧ Q (cokernel (F.map f)))
+  change (P (kernel f) ∧ P (cokernel f)) ↔ (Q (kernel (F.map f)) ∧ Q (cokernel (F.map f)))
   rw [h (kernel f), h (cokernel f), Q.prop_iff_of_iso (PreservesKernel.iso F f),
     Q.prop_iff_of_iso (PreservesCokernel.iso F f)]
 

@@ -174,14 +174,14 @@ public theorem setIndexedDividedPowerPolynomialBaseChange_comp
   (setIndexedDividedPowerPolynomialBaseChange_unique W (h.comp g) _
     (by
       ext r
-      show setIndexedDividedPowerPolynomialBaseChange W h
+      change setIndexedDividedPowerPolynomialBaseChange W h
           (setIndexedDividedPowerPolynomialBaseChange W g
             (algebraMap R (setIndexedDividedPowerPolynomialAlgebra R W) r)) =
         algebraMap R'' (setIndexedDividedPowerPolynomialAlgebra R'' W) (h (g r))
       rw [setIndexedDividedPowerPolynomialBaseChange_algebraMap,
         setIndexedDividedPowerPolynomialBaseChange_algebraMap])
     fun w ↦ by
-      show setIndexedDividedPowerPolynomialBaseChange W h
+      change setIndexedDividedPowerPolynomialBaseChange W h
         (setIndexedDividedPowerPolynomialBaseChange W g
           (dividedPowerPolynomialVariable R w)) = _
       rw [setIndexedDividedPowerPolynomialBaseChange_variable,
@@ -281,7 +281,7 @@ public theorem polynomialDividedPowerEnvelope_dpMorphism_ext (C : DividedPowerRi
       a.comp (polynomialDividedPowerEnvelope s g).structureMap := by
     ext c
     have h := RingHom.congr_fun (polynomialDividedPowerEnvelope s g).algebraMap_comp c
-    show b ((polynomialDividedPowerEnvelope s g).structureMap.toRingHom c) =
+    change b ((polynomialDividedPowerEnvelope s g).structureMap.toRingHom c) =
       a ((polynomialDividedPowerEnvelope s g).structureMap.toRingHom c)
     rw [← h, RingHom.comp_apply]
     exact (hab _).symm
@@ -321,7 +321,7 @@ public theorem completedMapDifferentialForms_completedFormsDifferential
     (pAdicIdeal (A := B) p ^ n • ⊤ : Submodule B B) (r.val n)
   have hr : (adicCompletionRingMap e.toRingHom (map_pAdicIdeal_le p _) r).val n =
       Submodule.Quotient.mk (e c) := by
-    show adicQuotientMap (ringHomₛₗ e.toRingHom) _ n (r.val n) = _
+    change adicQuotientMap (ringHomₛₗ e.toRingHom) _ n (r.val n) = _
     rw [← hc]
     rfl
   rw [completedMapDifferentialForms_val p A hJ epsilon e he 1 n _ (dividedPowerOneForm A hJ c)
@@ -403,7 +403,7 @@ public theorem envelopeDegreePolynomialEquiv_algebraMap (b : ℕ) (a : s.A) :
       algebraMap s.A
         (setIndexedDividedPowerPolynomialAlgebra (tensorPowerEnvelope s f 0).object
           (ι × Fin b)) a := by
-  show setIndexedDividedPowerPolynomialBaseChange (ι × Fin b)
+  change setIndexedDividedPowerPolynomialBaseChange (ι × Fin b)
       (envelopePolynomialCoprojection s f 0 0).1
       (tensorEnvelopeDPEquiv s f b ((polynomialDividedPowerEnvelope s
         (tensorPowerPresentation s f b)).structureMap.toRingHom a)) = _
@@ -478,7 +478,7 @@ public theorem envelopeDegreePolynomialEquiv_map_const (b : ℕ)
       algebraMap (tensorPowerEnvelope s f 0).object
         (setIndexedDividedPowerPolynomialAlgebra (tensorPowerEnvelope s f 0).object (ι × Fin b))
         x := by
-  show setIndexedDividedPowerPolynomialBaseChange (ι × Fin b)
+  change setIndexedDividedPowerPolynomialBaseChange (ι × Fin b)
       (envelopePolynomialCoprojection s f 0 0).1
       (tensorEnvelopeDPEquiv s f b
         ((envelopeReindex s f (SimplexCategory.const ⦋0⦌ ⦋b⦌ 0)).1 x)) = _
@@ -493,7 +493,7 @@ public theorem envelopeDegreePolynomialEquiv_coprojectionDifference (b : ℕ) (q
     envelopeDegreePolynomialEquiv s f b
         ((tensorPowerEnvelope s f b).algebraMap.toRingHom (coprojectionDifference s b q)) =
       dividedPowerPolynomialVariable (tensorPowerEnvelope s f 0).object q := by
-  show setIndexedDividedPowerPolynomialBaseChange (ι × Fin b)
+  change setIndexedDividedPowerPolynomialBaseChange (ι × Fin b)
       (envelopePolynomialCoprojection s f 0 0).1
       (tensorEnvelopeDPEquiv s f b ((polynomialDividedPowerEnvelope s
         (tensorPowerPresentation s f b)).algebraMap.toRingHom (coprojectionDifference s b q))) = _

@@ -94,13 +94,13 @@ private lemma isDirectedColimit_of_maps {α : Type u} [PartialOrder α] [IsDirec
       (fun a ↦ (p a).hom.toIntAlgHom) := by
   refine ⟨?_, ?_, ?_, hsurj, hzero⟩
   · intro i j k hij hjk x
-    show (F.map (homOfLE hjk)).hom ((F.map (homOfLE hij)).hom x) = (F.map (homOfLE _)).hom x
+    change (F.map (homOfLE hjk)).hom ((F.map (homOfLE hij)).hom x) = (F.map (homOfLE _)).hom x
     rw [← ConcreteCategory.comp_apply, ← F.map_comp, homOfLE_comp]
   · intro a x
-    show (F.map (homOfLE le_rfl)).hom x = x
+    change (F.map (homOfLE le_rfl)).hom x = x
     simp
   · intro i j hij x
-    show (p j).hom ((F.map (homOfLE hij)).hom x) = (p i).hom x
+    change (p j).hom ((F.map (homOfLE hij)).hom x) = (p i).hom x
     rw [← ConcreteCategory.comp_apply, hp hij]
 
 /-- Finiteness descends along a filtered colimit of diagrams of rings: a morphism of diagrams of
@@ -134,12 +134,12 @@ private lemma exists_finite_app_of_maps {α : Type u} [PartialOrder α] [IsDirec
     (fun a ↦ (η.app a).hom.toIntAlgHom) φ.hom.toIntAlgHom
     (by
       intro i j hij x
-      show (η.app j).hom ((F.map (homOfLE hij)).hom x) =
+      change (η.app j).hom ((F.map (homOfLE hij)).hom x) =
         (G.map (homOfLE hij)).hom ((η.app i).hom x)
       rw [← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply, η.naturality])
     (by
       intro a x
-      show φ.hom ((pF a).hom x) = (pG a).hom ((η.app a).hom x)
+      change φ.hom ((pF a).hom x) = (pG a).hom ((η.app a).hom x)
       rw [← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply, hcompat a])
     hft hφ a₀ gen hgen
 
@@ -270,7 +270,7 @@ private lemma isFinite_of_baseChange_cover {S T : Scheme.{u}} (p : T ⟶ S)
   have hp := (hOver k).map (Over.pullback p ⋙ Over.forget _)
   change IsPullback ((Over.pullback p).map (vx k)).left ((Over.pullback p).map (fu k)).left
     ((Over.pullback p).map f).left ((Over.pullback p).map (vy k)).left at hp
-  show IsFinite (pullback.snd ((Over.pullback p).map f).left
+  change IsFinite (pullback.snd ((Over.pullback p).map f).left
     ((Over.pullback p).map (vy k)).left)
   rw [← hp.isoPullback_inv_snd]
   have := H k
@@ -305,7 +305,7 @@ private lemma exists_isFinite_of_isAffineHom {I : Type v} [Category.{w} I] [IsCo
     have : IsAffine (YU k).left := by change IsAffine (U.X k); infer_instance
     have : IsAffine (XU k).left := IsAffine.of_isPullback (hpb k).flip
     have : LocallyOfFiniteType (fu k).left := by
-      show LocallyOfFiniteType (pullback.snd f.left (U.f k))
+      change LocallyOfFiniteType (pullback.snd f.left (U.f k))
       infer_instance
     have : IsFinite ((Over.pullback (c.π.app i₀)).map (fu k)).left :=
       MorphismProperty.IsStableUnderBaseChange.of_isPullback
@@ -343,7 +343,7 @@ theorem exists_isFinite_baseChange_of_isLimit
   let f₁ : X₁ ⟶ Y₁ := (Over.pullback (D.map hi₁)).map f₀
   have : IsAffineHom f₁.left := hAffine
   have : CompactSpace Y₁.left := by
-    show CompactSpace ↥(pullback Y₀.hom (D.map hi₁))
+    change CompactSpace ↥(pullback Y₀.hom (D.map hi₁))
     infer_instance
   have : LocallyOfFiniteType f₁.left :=
     MorphismProperty.overPullbackMap (P := @LocallyOfFiniteType) (D.map hi₁) f₀ inferInstance

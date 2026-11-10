@@ -86,6 +86,7 @@ variable (X : AlgebraicGeometry.RingedSite.{u, u, u}) [HasSheafify X.J AddCommGr
 
 attribute [local instance] AlgebraicGeometry.RingedSite.hasSheafCompose_forget₂_ringCat
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The structure sheaf of a ringed site is a sheaf of commutative rings. -/
 theorem isMulCommutative_tensorRingSheaf (V : X.Cᵒᵖ) :
     IsMulCommutative ((ringSheaf X.O).obj.obj V) := by
@@ -102,8 +103,6 @@ abbrev linearCatCenterTensorRingSheaf :
   Linear.ofRingMorphism (RingHom.id _)
 
 attribute [local instance] linearCatCenterTensorRingSheaf
-
-variable [HasDerivedCategory.{d} (SheafOfModules.{u} (ringSheaf X.O))]
 
 /-- **The tensor product of sheaves of modules is linear over multiplication by a compatible
 family of local sections of `𝒪`, in its second variable.** Both sides are morphisms out of a
@@ -164,7 +163,8 @@ theorem mapBifunctorMap_smul_id
         (globalSectionToEnd (ringSheaf X.O) a • 𝟙 Q)
         (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ) =
       globalSectionToEnd (ringSheaf X.O) a •
-        𝟙 (HomologicalComplex.mapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)) := by
+        𝟙 (HomologicalComplex.mapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O)
+          (ComplexShape.up ℤ)) := by
   apply HomologicalComplex.hom_ext
   intro j
   apply HomologicalComplex.mapBifunctor.hom_ext
@@ -173,20 +173,25 @@ theorem mapBifunctorMap_smul_id
   simp only [HomologicalComplex.id_f, HomologicalComplex.smul_f_apply,
     CategoryTheory.Functor.map_id, NatTrans.id_app, Category.id_comp, Linear.comp_smul,
     Category.comp_id]
-  show ((sheafTensor.{u, u, u, u, u} X.O).obj (P.X i₁)).map
+  change ((sheafTensor.{u, u, u, u, u} X.O).obj (P.X i₁)).map
         ((globalSectionToEnd (ringSheaf X.O) a).asHom.app (Q.X i₂) ≫ 𝟙 (Q.X i₂)) ≫
-      HomologicalComplex.ιMapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ) i₁ i₂ j h =
+      HomologicalComplex.ιMapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O)
+        (ComplexShape.up ℤ) i₁ i₂ j h =
     (globalSectionToEnd (ringSheaf X.O) a).asHom.app
         (((sheafTensor.{u, u, u, u, u} X.O).obj (P.X i₁)).obj (Q.X i₂)) ≫
-      HomologicalComplex.ιMapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ) i₁ i₂ j h
+      HomologicalComplex.ιMapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O)
+        (ComplexShape.up ℤ) i₁ i₂ j h
   exact (congrArg
       (fun φ => ((sheafTensor.{u, u, u, u, u} X.O).obj (P.X i₁)).map φ ≫
-        HomologicalComplex.ιMapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ) i₁ i₂ j h)
+        HomologicalComplex.ιMapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O)
+          (ComplexShape.up ℤ) i₁ i₂ j h)
       (Category.comp_id ((globalSectionToEnd (ringSheaf X.O) a).asHom.app (Q.X i₂)))).trans
     (congrArg
       (fun φ => φ ≫ HomologicalComplex.ιMapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O)
         (ComplexShape.up ℤ) i₁ i₂ j h)
       (sheafTensor_obj_map_globalSectionToEnd X a (P.X i₁) (Q.X i₂)))
+
+variable [HasDerivedCategory.{d} (SheafOfModules.{u} (ringSheaf X.O))]
 
 /-- Every object of `D(𝒪)` is the class of a K-flat complex, by [Stacks, Tag 06YS]. -/
 theorem exists_kFlat_representative
@@ -217,10 +222,12 @@ theorem derivedTensor_map_smul_id_representatives
       globalSectionToEnd (ringSheaf X.O) a • 𝟙 (DerivedCategory.Q.obj Q) := by
     rw [Functor.Linear.map_smul, CategoryTheory.Functor.map_id]
   have hQt : DerivedCategory.Q.map (globalSectionToEnd (ringSheaf X.O) a •
-        𝟙 (HomologicalComplex.mapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ))) =
+        𝟙 (HomologicalComplex.mapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O)
+          (ComplexShape.up ℤ))) =
       globalSectionToEnd (ringSheaf X.O) a •
         𝟙 (DerivedCategory.Q.obj
-          (HomologicalComplex.mapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ))) := by
+          (HomologicalComplex.mapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O)
+            (ComplexShape.up ℤ))) := by
     rw [Functor.Linear.map_smul, CategoryTheory.Functor.map_id]
   have h := (T.comparisonRight_naturality (𝟙 P)
       (globalSectionToEnd (ringSheaf X.O) a • 𝟙 Q) hQ hQ).trans

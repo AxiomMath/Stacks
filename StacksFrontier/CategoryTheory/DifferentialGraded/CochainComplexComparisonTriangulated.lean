@@ -106,7 +106,7 @@ theorem cochain_ofHom_homOfDegreewiseSplit :
       (dgShiftAxiomBIso B).toShift 1 S.X₃ S.X₁ 0
         (connectingHom (gradedSplitOfDegreewiseSplit S σ)) := by
   rw [connectingHom_gradedSplitOfDegreewiseSplit]
-  show _ = (cocycleOfDegreewiseSplit S σ).1.rightShift 1 0 (by omega)
+  change _ = (cocycleOfDegreewiseSplit S σ).1.rightShift 1 0 (by omega)
   ext p
   rw [Cochain.ofHom_v, homOfDegreewiseSplit_f,
     Cochain.rightShift_v _ _ _ _ _ _ _ _ rfl]

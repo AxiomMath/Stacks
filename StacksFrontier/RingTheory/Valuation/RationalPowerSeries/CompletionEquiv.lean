@@ -214,7 +214,7 @@ private theorem completionRepresentative_coeff_eq_completionCoefficient {k : Typ
     (Quotient.out (x.val n)).coeff a = completionCoefficient x a := by
   have hceil : Nat.ceil a ≤ Nat.ceil q := (Nat.ceil_le).2 (ha.trans (Nat.le_ceil q))
   have hlevel : Nat.ceil a + 1 ≤ n := (Nat.add_le_add_right hceil 1).trans hn
-  show (Quotient.out (x.val n)).coeff a =
+  change (Quotient.out (x.val n)).coeff a =
     (Quotient.out (x.val (Nat.ceil a + 1))).coeff a
   exact (completion_representative_coeff_stable x hlevel (lt_natCast_ceil_add_one a)).symm
 
@@ -230,7 +230,7 @@ private theorem coefficientFamilyToCompletion_left_inverse {k : Type*} [CommRing
       (coefficientFamilyToCompletion f) = f := by
   apply Subtype.ext
   funext q
-  show completionCoefficient (coefficientFamilyToCompletion f) q = f.1 q
+  change completionCoefficient (coefficientFamilyToCompletion f) q = f.1 q
   have hqLt : q < (Nat.ceil q : ℚ≥0) + 1 :=
     lt_of_le_of_lt (Nat.le_ceil q)
       (lt_add_of_pos_right _ (show (0 : ℚ≥0) < 1 by positivity))
@@ -291,10 +291,10 @@ private theorem polynomial_mul_coeff_eq_hahn_mul_coeff {k : Type*} [Field k]
       have haz : z.1 ≤ q := le_self_add.trans_eq hsum
       have hbz : z.2 ≤ q := le_add_self.trans_eq hsum
       refine Finset.mem_antidiagonal.mpr ⟨?_, ?_, hsum⟩
-      · show f.coeff z.1 ≠ 0
+      · change f.coeff z.1 ≠ 0
         rw [← hp z.1 haz]
         exact Finsupp.mem_support_iff.mp hpa
-      · show g.coeff z.2 ≠ 0
+      · change g.coeff z.2 ≠ 0
         rw [← hr z.2 hbz]
         exact Finsupp.mem_support_iff.mp hpb
     · intro hz
@@ -627,9 +627,9 @@ theorem exists_ringEquiv_coefficientRing (k : Type*) [Field k] :
     refine ⟨x, ?_⟩
     apply Subtype.ext
     ext q
-    show (completionToCoefficientFamily x).1 q = y.1.coeff q
+    change (completionToCoefficientFamily x).1 q = y.1.coeff q
     have hx : completionToCoefficientFamily x = c := by
-      show completionToCoefficientFamily (coefficientFamilyToCompletion c) = c
+      change completionToCoefficientFamily (coefficientFamilyToCompletion c) = c
       exact coefficientFamilyToCompletion_left_inverse c
     rw [hx]
     calc
@@ -637,7 +637,7 @@ theorem exists_ringEquiv_coefficientRing (k : Type*) [Field k] :
       _ = y.1.coeff q := by simp [c]
   refine ⟨RingEquiv.ofBijective f ⟨hinj, hsurj⟩, ?_⟩
   intro p q
-  show completionCoefficient
+  change completionCoefficient
     (AdicCompletion.of (polynomialTIdeal k) (rationalPolynomial k) p) q = p.coeff q
   exact completionCoefficient_of p q
 

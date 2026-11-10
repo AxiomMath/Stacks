@@ -116,7 +116,7 @@ theorem powerSection_smul (L : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.
     (s : L.val.obj (op U)) :
     (k : ℕ) → powerSection X L U (r • s) k = r ^ k • powerSection X L U s k
   | 0 => by
-      show (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)) =
+      change (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)) =
         r ^ 0 • (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U))
       rw [pow_zero, one_smul]
   | k + 1 => by
@@ -132,7 +132,7 @@ theorem powerSection_restrict (L : SheafOfModules.{w} (Stacks.SheafOfModules.Ten
       (tpow X L k).val.restrictₛₗ f.op (powerSection X L U s k) =
         powerSection X L V (L.val.restrictₛₗ f.op s) k
   | 0 => by
-      show ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map f.op)
+      change ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map f.op)
           (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)) =
         (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V))
       exact map_one _

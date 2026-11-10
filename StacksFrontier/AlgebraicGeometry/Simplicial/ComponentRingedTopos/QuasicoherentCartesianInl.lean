@@ -158,7 +158,6 @@ theorem hasGlobalPresentation_over_componentFunctor_quasicoherentCartesianInl
       hθP hθF
     have := (C.transitionRingedSiteHomTransitionRingedSite O ψ).isContinuous_sliceRight
       (hG := C.isContinuous_componentFunctor_componentRingedSite_localizedTransition O k)
-      (hG' := C.isContinuous_componentFunctor_componentRingedSite_localizedTransition O n)
       (C.transitionArrowsLocalizedTransition O ψ) V
     have h₂ := Stacks.AlgebraicGeometry.QcohRestrictEquiv.isIso_val_app_of_isIso_pushforward _ c h
       (op (Over.mk b'.fiber))

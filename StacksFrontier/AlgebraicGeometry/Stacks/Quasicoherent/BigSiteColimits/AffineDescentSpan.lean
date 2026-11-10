@@ -133,7 +133,7 @@ theorem exists_cancelBaseChange
         map_add' := fun b b' => by ext c n; simp [TensorProduct.add_tmul] }
       fun a b c => by
         ext n
-        show (a • b) ⊗ₜ[A] (c • n) = b ⊗ₜ[A] ((a • c) • n)
+        change (a • b) ⊗ₜ[A] (c • n) = b ⊗ₜ[A] ((a • c) • n)
         rw [TensorProduct.smul_tmul, smul_assoc]
   have hg : ∀ (b : B) (c : C) (n : N), g (b ⊗ₜ[A] c) n = b ⊗ₜ[A] (c • n) := fun _ _ _ => rfl
   let α : B ⊗[A] N →+ D ⊗[C] N :=
@@ -145,7 +145,7 @@ theorem exists_cancelBaseChange
         map_zero' := by ext n; simp
         map_add' := fun b b' => by ext n; simp [TensorProduct.add_tmul] }
       fun a b n => by
-        show v₁ (a • b) ⊗ₜ[C] n = v₁ b ⊗ₜ[C] (a • n)
+        change v₁ (a • b) ⊗ₜ[C] n = v₁ b ⊗ₜ[C] (a • n)
         rw [← IsScalarTower.algebraMap_smul C a n, ← TensorProduct.smul_tmul,
           Algebra.smul_def a b, map_mul, hbase, Algebra.smul_def (algebraMap A C a) (v₁ b)]
   have hα : ∀ (b : B) (n : N), α (b ⊗ₜ[A] n) = v₁ b ⊗ₜ[C] n := fun _ _ => rfl
@@ -162,7 +162,7 @@ theorem exists_cancelBaseChange
   let β : D ⊗[C] N →+ B ⊗[A] N :=
     TensorProduct.liftAddHom (g.comp (ψ.symm.toAddEquiv : D ≃+ B ⊗[A] C).toAddMonoidHom)
       fun c d n => by
-        show g (ψ.symm (c • d)) n = g (ψ.symm d) (c • n)
+        change g (ψ.symm (c • d)) n = g (ψ.symm d) (c • n)
         rw [Algebra.smul_def, map_mul, hψ₂, hgmul]
   have hβ : ∀ (d : D) (n : N), β (d ⊗ₜ[C] n) = g (ψ.symm d) n := fun _ _ => rfl
   have hαg : ∀ (y : B ⊗[A] C) (n : N), α (g y n) = ψ y ⊗ₜ[C] n := by
@@ -188,7 +188,7 @@ theorem exists_cancelBaseChange
     (AddEquiv.ofBijective α hαbij).trans
       (AddEquiv.ofBijective (ρ.liftBaseChange D).toAddMonoidHom hρ)
   have he₀ : ∀ (b : B) (n : N), e₀ (b ⊗ₜ[A] n) = v₁ b • ρ n := fun b n => by
-    show (ρ.liftBaseChange D) (α (b ⊗ₜ[A] n)) = v₁ b • ρ n
+    change (ρ.liftBaseChange D) (α (b ⊗ₜ[A] n)) = v₁ b • ρ n
     rw [hα]
     rfl
   refine ⟨AddEquiv.toLinearEquiv e₀ ?_, he₀⟩
@@ -239,7 +239,7 @@ theorem exists_cancelBaseChange_pair
   obtain ⟨f, hf⟩ := exists_cancelBaseChange A B D E u₁ ψ₃ hu₁ hu₂ ρ₃ hρ₃
   let g := (TensorProduct.congr (LinearEquiv.refl A B) e).trans f
   refine ⟨e.toAddEquiv, g.toAddMonoidHom, he, g.injective, fun b y => ?_⟩
-  show f (TensorProduct.congr (LinearEquiv.refl A B) e (b ⊗ₜ[A] y)) = u₁ b • ρ₃ (e y)
+  change f (TensorProduct.congr (LinearEquiv.refl A B) e (b ⊗ₜ[A] y)) = u₁ b • ρ₃ (e y)
   rw [TensorProduct.congr_tmul, hf]
   rfl
 
@@ -297,7 +297,7 @@ theorem exists_cancelBaseChange_pi
   refine ⟨split.trans
     (LinearEquiv.piCongrRight fun i => LinearEquiv.piCongrRight fun k => F i k),
     fun s u i k => ?_⟩
-  show F i k (split (s ⊗ₜ[A] u) i k) = v i k (s i) • ρ i k (u k)
+  change F i k (split (s ⊗ₜ[A] u) i k) = v i k (s i) • ρ i k (u k)
   rw [hsplit, hF]
 
 /-- **A span over a product of rings restricts to a span over each factor.**  If a set of elements

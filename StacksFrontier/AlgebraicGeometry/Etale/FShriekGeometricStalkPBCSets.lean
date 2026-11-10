@@ -222,7 +222,7 @@ the underlying scheme of `X`). -/
 abbrev neighborhoodBaseChangeSystem :
     etaleNeighborhoodAffineIndex B Y.obj Y.property y ⥤ X.obj.Etale :=
   etaleNeighborhoodAffineInclusion B Y.obj Y.property y ⋙
-    CategoryOfElements.π (geometricPointFiber B Y.obj Y.property y) ⋙
+    Functor.Elements.π (geometricPointFiber B Y.obj Y.property y) ⋙
       toEtaleSite B Y.obj Y.property ⋙
         Stacks.EtaleCohomology.smallEtaleBaseChange (B.inclusion.map f)
 
@@ -230,7 +230,7 @@ abbrev neighborhoodBaseChangeSystem :
 abbrev neighborhoodOverDiagram :
     etaleNeighborhoodAffineIndex B Y.obj Y.property y ⥤ Over Y.obj :=
   etaleNeighborhoodAffineInclusion B Y.obj Y.property y ⋙
-    CategoryOfElements.π (geometricPointFiber B Y.obj Y.property y) ⋙
+    Functor.Elements.π (geometricPointFiber B Y.obj Y.property y) ⋙
       toEtaleSite B Y.obj Y.property ⋙ Scheme.Etale.forget Y.obj
 
 /-- The strict henselization of `Y` at `ȳ`, over `Y`, as a cone on the affine étale

@@ -120,7 +120,7 @@ theorem Scheme.injective_res_basicOpen_of_mem_nonZeroDivisors {X : Scheme.{u}} {
   have := TopCat.Presheaf.germ_res_apply X.presheaf (homOfLE hcW) x hxc s
   rw [map_zero]
   refine this.symm.trans ?_
-  show X.presheaf.germ _ x hxc s' = 0
+  change X.presheaf.germ _ x hxc s' = 0
   rw [hs', map_zero]
 
 omit [GrpObj G] in
@@ -195,6 +195,7 @@ theorem sectionsAlgHom_apply (φ : T' ⟶ T) (V : T.left.Opens) (V' : T'.left.Op
     sectionsAlgHom φ V V' h a = φ.left.appLE V V' h a :=
   rfl
 
+omit [GrpObj G] in
 /-- If `V' ≤ φ⁻¹ V`, then `U ×_k V'` lies in the preimage of `U ×_k V` under the base change
 `G ×_k T' ⟶ G ×_k T`. -/
 theorem prodOpen_le_preimage (φ : T' ⟶ T) (U : G.left.Opens) (V : T.left.Opens)
@@ -202,13 +203,14 @@ theorem prodOpen_le_preimage (φ : T' ⟶ T) (U : G.left.Opens) (V : T.left.Open
     prodOpen U V' ≤ (stabilizerBaseChange (G := G) φ).left ⁻¹ᵁ prodOpen U V := by
   intro x hx
   refine ⟨?_, ?_⟩
-  · show ((stabilizerBaseChange φ ≫ fst G T).left) x ∈ U
+  · change ((stabilizerBaseChange φ ≫ fst G T).left) x ∈ U
     rw [stabilizerBaseChange_fst]
     exact hx.1
-  · show ((stabilizerBaseChange φ ≫ snd G T).left) x ∈ V
+  · change ((stabilizerBaseChange φ ≫ snd G T).left) x ∈ V
     rw [show stabilizerBaseChange (G := G) φ ≫ snd G T = snd G T' ≫ φ from lift_snd _ _]
     exact h hx.2
 
+omit [GrpObj G] in
 /-- **The tensor identification is natural in the parameter.**  Along `φ : T' ⟶ T` with
 `V' ⊆ φ⁻¹ V`, pulling sections of `U ×_k V` back to `U ×_k V'` is `id ⊗ φ^*`. -/
 theorem prodOpenTensorIso_naturality (φ : T' ⟶ T) {U : G.left.Opens} {V : T.left.Opens}
@@ -226,8 +228,7 @@ theorem prodOpenTensorIso_naturality (φ : T' ⟶ T) {U : G.left.Opens} {V : T.l
   let := sectionsAlgebra G.hom U
   let := sectionsAlgebra T.hom V
   let := sectionsAlgebra T'.hom V'
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul c a =>
     rw [prodOpenTensorIso_tmul, Algebra.TensorProduct.map_tmul, prodOpenTensorIso_tmul, map_mul]
     congr 1
@@ -381,7 +382,7 @@ theorem rightStabilizerLocus_comp (φ : T' ⟶ T) (h : T ⟶ G) (U : G.left.Open
     rightStabilizerLocus (φ ≫ h) U =
       (stabilizerBaseChange φ).left ⁻¹ᵁ rightStabilizerLocus h U := by
   ext x
-  show (fst G T').left x ∈ U ∧ (rightTranslate (φ ≫ h)).left x ∈ U ↔
+  change (fst G T').left x ∈ U ∧ (rightTranslate (φ ≫ h)).left x ∈ U ↔
     ((stabilizerBaseChange φ ≫ fst G T).left) x ∈ U ∧
       ((stabilizerBaseChange φ ≫ rightTranslate h).left) x ∈ U
   rw [stabilizerBaseChange_fst, stabilizerBaseChange_rightTranslate]
@@ -541,6 +542,7 @@ theorem stabilizerBaseChange_snd (φ : T' ⟶ T) :
     stabilizerBaseChange (G := G) φ ≫ snd G T = snd G T' ≫ φ :=
   lift_snd _ _
 
+omit [GrpObj G] in
 /-- **`G ×_k T'` is the base change of `G ×_k T ⟶ T` along `φ : T' ⟶ T`.** -/
 theorem isPullback_stabilizerBaseChange (φ : T' ⟶ T) :
     IsPullback (stabilizerBaseChange (G := G) φ).left (snd G T').left (snd G T).left φ.left := by
@@ -620,7 +622,7 @@ theorem exists_stabilizerChartData [GeometricallyIrreducible G.hom] (hU : IsAffi
   -- a point of `D(b)` over `p`
   let y : V := hV.isoSpec.inv (show Spec Γ(G.left, V) from p)
   have hyp : hV.primeIdealOf y = p := by
-    show (hV.isoSpec.inv ≫ hV.isoSpec.hom) (show Spec Γ(G.left, V) from p) = p
+    change (hV.isoSpec.inv ≫ hV.isoSpec.hom) (show Spec Γ(G.left, V) from p) = p
     rw [Iso.inv_hom_id]
     rfl
   obtain ⟨w', hw'b₀, hw'y⟩ := hVO y.2
@@ -648,7 +650,7 @@ theorem exists_stabilizerChartData [GeometricallyIrreducible G.hom] (hU : IsAffi
     ((fst G G).left.appLE U (prodOpen U V) (prodOpen_le_fst U V)).hom
     ((snd G G).left.appLE V (prodOpen U V) (prodOpen_le_snd U V)).hom
     (prodOpenTensorIso_tmul hU hV) _ Q.asIdeal p.asIdeal hQp.symm ?_
-  show (prodOpenTensorIso hU hV).hom ((prodOpenTensorIso hU hV).inv b) ∉ Q.asIdeal
+  change (prodOpenTensorIso hU hV).hom ((prodOpenTensorIso hU hV).inv b) ∉ Q.asIdeal
   rwa [Iso.inv_hom_id_apply]
 
 end AlgebraicGeometry

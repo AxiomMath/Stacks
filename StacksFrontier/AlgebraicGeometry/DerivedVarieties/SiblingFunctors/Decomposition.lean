@@ -730,7 +730,7 @@ lemma hasEnoughNegativeObjects_piece {i : I}
   refine ⟨⟨d.summand N i, d.summand_mem N i⟩, ObjectProperty.homMk (d.incl N i ≫ p), ?_,
     ⟨fun a b => ObjectProperty.hom_ext _ ?_⟩⟩
   · apply (d.piece i).ι.epi_of_epi_map
-    show Epi (d.incl N i ≫ p)
+    change Epi (d.incl N i ≫ p)
     rw [← d.proj_incl_comp X.property p] at hp
     exact epi_of_epi (d.proj N i) _
   · have h := hs.elim (a.hom ≫ d.incl N i) (b.hom ≫ d.incl N i)

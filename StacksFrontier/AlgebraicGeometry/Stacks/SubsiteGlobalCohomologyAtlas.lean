@@ -66,7 +66,7 @@ theorem isSurjective_objectMorphism_schemeStack_id (U : BigFppfOver B S hS) :
   rw [baseMapOfBasedFunctor_liftBased] at heq
   refine (congrArg (fun f => Space.IsSurjective B S hS f) heq).mpr ?_
   refine Space.isSurjective_yoneda_map B S hS _ ?_
-  show Surjective ((BigFppfOver.toScheme B S hS).map (𝟙 U))
+  change Surjective ((BigFppfOver.toScheme B S hS).map (𝟙 U))
   rw [CategoryTheory.Functor.map_id]
   infer_instance
 

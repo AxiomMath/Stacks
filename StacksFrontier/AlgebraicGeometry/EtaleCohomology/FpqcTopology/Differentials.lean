@@ -110,13 +110,13 @@ private theorem faithfullyFlat_frobenius (R : Type u) [CommRing R] [IsDomain R]
         have hfr0 : frobenius R p r ≠ 0 := by
           intro hz
           exact hr0 ((frobenius_inj R p) (by simpa using hz))
-        show Function.Injective (fun x : R => (algebraMap R R r) * x)
+        change Function.Injective (fun x : R => (algebraMap R R r) * x)
         exact fun _ _ hxy => mul_left_cancel₀ hfr0 hxy }
   let : Module.Flat R R := Module.Flat.instOfIsDedekindDomainOfIsTorsionFree
   refine (RingHom.faithfullyFlat_algebraMap_iff (R := R) (S := R)).2
     (Module.FaithfullyFlat.of_comap_surjective fun q => ⟨q, PrimeSpectrum.ext ?_⟩)
   ext x
-  show frobenius R p x ∈ q.asIdeal ↔ x ∈ q.asIdeal
+  change frobenius R p x ∈ q.asIdeal ↔ x ∈ q.asIdeal
   rw [frobenius_def]
   exact q.isPrime.pow_mem_iff_mem p hp
 
@@ -137,7 +137,7 @@ private theorem _root_.CategoryTheory.Presheaf.IsSheaf.eq_zero_of_map_eq_zero {C
   have hα : α = 0 := by
     refine hT.isSeparatedFor.ext (t₁ := α) (t₂ := (0 : A ⟶ F.obj (Opposite.op X))) ?_
     rintro _ _ ⟨⟩
-    show ((coyoneda.obj (Opposite.op A)).map (F.map g.op)) α =
+    change ((coyoneda.obj (Opposite.op A)).map (F.map g.op)) α =
       ((coyoneda.obj (Opposite.op A)).map (F.map g.op)) (0 : A ⟶ F.obj (Opposite.op X))
     dsimp [coyoneda, yoneda]
     ext
@@ -161,7 +161,7 @@ private theorem differentialSectionsMap_d_eq_zero {S : Scheme.{u}} {X Y : Over S
     (Scheme.Hom.relativeDifferentialsMap g.left Y.hom X.hom (𝟙 S) hcomm)).val.app
       (Opposite.op ⊤)).hom ((Scheme.Hom.universalRelativeDerivation Y.hom).d a)) = 0 at hzero
   unfold differentialSectionsMap differentialsSectionMorphism
-  show (M.presheaf.map (eqToHom (by simp)).op).hom
+  change (M.presheaf.map (eqToHom (by simp)).op).hom
     (((adj.homEquiv N M _).val.app (Opposite.op ⊤)).hom
       ((Scheme.Hom.universalRelativeDerivation Y.hom).d a)) = 0
   rw [hzero]
@@ -188,7 +188,7 @@ private theorem universalRelativeDerivation_d_X_ne_zero (p : ℕ) [Fact p.Prime]
   let a : Γ(X, ⊤) := eX.symm Polynomial.X
   have halg (r : Γ(S, ⊤)) :
       eX (algebraMap Γ(S, ⊤) Γ(X, ⊤) r) = algebraMap (ZMod p) P (eS r) := by
-    show (Scheme.ΓSpecIso (CommRingCat.of P)).hom.hom (b.appTop.hom r) =
+    change (Scheme.ΓSpecIso (CommRingCat.of P)).hom.hom (b.appTop.hom r) =
       (algebraMap (ZMod p) P) ((Scheme.ΓSpecIso (CommRingCat.of (ZMod p))).hom.hom r)
     exact congrArg (fun f : CommRingCat.Hom _ _ => f.hom r)
       (Scheme.ΓSpecIso_naturality (CommRingCat.ofHom (algebraMap (ZMod p) P)))
@@ -219,7 +219,7 @@ private theorem universalRelativeDerivation_d_frobenius_X (p : ℕ) [Fact p.Prim
       (isAffineOpen_top X) hUV (isAffineOpen_top S)
   let eX : Γ(X, ⊤) ≃+* P := (Scheme.ΓSpecIso (CommRingCat.of P)).commRingCatIsoToRingEquiv
   let a : Γ(X, ⊤) := eX.symm Polynomial.X
-  show (Scheme.Hom.universalRelativeDerivation b).d ((φ.appTop).hom a) = 0
+  change (Scheme.Hom.universalRelativeDerivation b).d ((φ.appTop).hom a) = 0
   have hphi : (φ.appTop).hom a = a ^ p := by
     apply eX.injective
     rw [show eX ((φ.appTop).hom a) = (frobenius P p) (eX a) from
@@ -229,7 +229,7 @@ private theorem universalRelativeDerivation_d_frobenius_X (p : ℕ) [Fact p.Prim
   have hΩphi :
       CommRingCat.KaehlerDifferential.d (f := b.appLE ⊤ ⊤ hUV) ((φ.appTop).hom a) = 0 := by
     rw [hphi]
-    show KaehlerDifferential.D Γ(S, ⊤) Γ(X, ⊤) (a ^ p) = 0
+    change KaehlerDifferential.D Γ(S, ⊤) Γ(X, ⊤) (a ^ p) = 0
     rw [Derivation.leibniz_pow, ← Nat.cast_smul_eq_nsmul (Γ(X, ⊤)), hp, zero_smul]
   have hleft : Function.LeftInverse e.inv.hom e.hom.hom :=
     fun z => congrArg (fun f => f z) e.hom_inv_id

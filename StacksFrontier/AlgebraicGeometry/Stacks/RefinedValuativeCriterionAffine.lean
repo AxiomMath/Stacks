@@ -509,31 +509,31 @@ theorem exists_dominatingExtension_lift_of_discreteExistenceAlong
       have : IsLocalHom E₂.ringMap := E₂.isLocalHom
       exact RingHom.isLocalHom_comp E₂.ringMap E.ringMap
     fraction_comm := by
-      show (algebraMap E₂.R' E₂.K').comp (E₂.ringMap.comp E.ringMap) = _
+      change (algebraMap E₂.R' E₂.K').comp (E₂.ringMap.comp E.ringMap) = _
       rw [← RingHom.comp_assoc, E₂.fraction_comm, RingHom.comp_assoc, E.fraction_comm,
         RingHom.comp_assoc]
     base_comm := by
-      show Spec.map (CommRingCat.ofHom E₂.ringMap) ≫ Spec.map (CommRingCat.ofHom E.ringMap) ≫
+      change Spec.map (CommRingCat.ofHom E₂.ringMap) ≫ Spec.map (CommRingCat.ofHom E.ringMap) ≫
         q.base = Spec.map (CommRingCat.ofHom (E₂.ringMap.comp E.ringMap)) ≫ q.base
       rw [CommRingCat.ofHom_comp, Spec.map_comp, Category.assoc]
     genericOver := E₂.genericOver ≫ E.genericOver
     genericOver_left := by
-      show (B.inclusion).map (E₂.genericOver.left ≫ E.genericOver.left) =
+      change (B.inclusion).map (E₂.genericOver.left ≫ E.genericOver.left) =
         Spec.map (CommRingCat.ofHom (E₂.fieldMap.comp E.fieldMap))
       rw [Functor.map_comp, E₂.genericOver_left, E.genericOver_left, CommRingCat.ofHom_comp,
         Spec.map_comp]
     specialOver := E₂.specialOver ≫ E.specialOver
     specialOver_left := by
-      show (B.inclusion).map (E₂.specialOver.left ≫ E.specialOver.left) =
+      change (B.inclusion).map (E₂.specialOver.left ≫ E.specialOver.left) =
         Spec.map (CommRingCat.ofHom (E₂.ringMap.comp E.ringMap))
       rw [Functor.map_comp, E₂.specialOver_left, E.specialOver_left, CommRingCat.ofHom_comp,
         Spec.map_comp]
     generic_comm := by
-      show yoneda.map E₂.genericOver ≫ yoneda.map E.genericOver ≫ q.generic =
+      change yoneda.map E₂.genericOver ≫ yoneda.map E.genericOver ≫ q.generic =
         yoneda.map (E₂.genericOver ≫ E.genericOver) ≫ q.generic
       rw [Functor.map_comp, Category.assoc]
     special_comm := by
-      show yoneda.map E₂.specialOver ≫ yoneda.map E.specialOver ≫ q.special =
+      change yoneda.map E₂.specialOver ≫ yoneda.map E.specialOver ≫ q.special =
         yoneda.map (E₂.specialOver ≫ E.specialOver) ≫ q.special
       rw [Functor.map_comp, Category.assoc] }
   exact ⟨E₀, ⟨{ map := ℓ, generic_comm := hR₁, special_comm := hR₂ }⟩⟩
@@ -559,9 +559,9 @@ theorem universallyClosed_of_discreteExistenceAlong_of_chow
       Space.IsAbsolutelyQuasiSeparated B S hS (BigFppfSite.contains_terminal B) Y →
       ∀ (𝒳 : AlgebraicStacks.{u, w} B S hS) (f : 𝒳 ⟶ algebraicSpaceStack.{u, w} B S hS Y hY),
         IsSeparated B S hS f → IsFiniteType B S hS f →
-        ∃ (X Xbar : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hX : IsAlgebraicSpace B S hS X)
-          (hXbar : IsAlgebraicSpace B S hS Xbar)
-          (a : algebraicSpaceStack.{u, w} B S hS X hX ⟶ 𝒳) (i : X ⟶ Xbar) (p : Xbar ⟶ Y),
+        ∃ (X Xbar : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hX : IsAlgebraicSpace B S hS X),
+          IsAlgebraicSpace B S hS Xbar ∧
+          ∃ (a : algebraicSpaceStack.{u, w} B S hS X hX ⟶ 𝒳) (i : X ⟶ Xbar) (p : Xbar ⟶ Y),
           IsProper B S hS a ∧ IsSurjective B S hS a ∧ Space.IsOpenImmersion B S hS i ∧
             Space.IsProper B S hS p ∧
             Nonempty (a ≫ f ≅ algebraicSpaceStackMap.{u, w} B S hS hX hY (i ≫ p)))
@@ -891,9 +891,9 @@ theorem isProper_of_discreteExistenceAlong_of_chow
       Space.IsAbsolutelyQuasiSeparated B S hS (BigFppfSite.contains_terminal B) Y →
       ∀ (𝒳 : AlgebraicStacks.{u, w} B S hS) (f : 𝒳 ⟶ algebraicSpaceStack.{u, w} B S hS Y hY),
         IsSeparated B S hS f → IsFiniteType B S hS f →
-        ∃ (X Xbar : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hX : IsAlgebraicSpace B S hS X)
-          (hXbar : IsAlgebraicSpace B S hS Xbar)
-          (a : algebraicSpaceStack.{u, w} B S hS X hX ⟶ 𝒳) (i : X ⟶ Xbar) (p : Xbar ⟶ Y),
+        ∃ (X Xbar : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hX : IsAlgebraicSpace B S hS X),
+          IsAlgebraicSpace B S hS Xbar ∧
+          ∃ (a : algebraicSpaceStack.{u, w} B S hS X hX ⟶ 𝒳) (i : X ⟶ Xbar) (p : Xbar ⟶ Y),
           IsProper B S hS a ∧ IsSurjective B S hS a ∧ Space.IsOpenImmersion B S hS i ∧
             Space.IsProper B S hS p ∧
             Nonempty (a ≫ f ≅ algebraicSpaceStackMap.{u, w} B S hS hX hY (i ≫ p)))
@@ -923,9 +923,9 @@ theorem isSeparated_of_discreteUniquenessAlong_of_chow
       Space.IsAbsolutelyQuasiSeparated B S hS (BigFppfSite.contains_terminal B) Y →
       ∀ (𝒳 : AlgebraicStacks.{u, w} B S hS) (f : 𝒳 ⟶ algebraicSpaceStack.{u, w} B S hS Y hY),
         IsSeparated B S hS f → IsFiniteType B S hS f →
-        ∃ (X Xbar : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hX : IsAlgebraicSpace B S hS X)
-          (hXbar : IsAlgebraicSpace B S hS Xbar)
-          (a : algebraicSpaceStack.{u, w} B S hS X hX ⟶ 𝒳) (i : X ⟶ Xbar) (p : Xbar ⟶ Y),
+        ∃ (X Xbar : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hX : IsAlgebraicSpace B S hS X),
+          IsAlgebraicSpace B S hS Xbar ∧
+          ∃ (a : algebraicSpaceStack.{u, w} B S hS X hX ⟶ 𝒳) (i : X ⟶ Xbar) (p : Xbar ⟶ Y),
           IsProper B S hS a ∧ IsSurjective B S hS a ∧ Space.IsOpenImmersion B S hS i ∧
             Space.IsProper B S hS p ∧
             Nonempty (a ≫ f ≅ algebraicSpaceStackMap.{u, w} B S hS hX hY (i ≫ p)))

@@ -255,7 +255,7 @@ theorem pAdicLevelClosedFiberIso_hom_eq {e : ℕ} (he : IsPAdicLevel I γ p e) :
     (pAdicLevelClosedFiberIso I γ p he).hom =
       closedFiberMap (pAdicLevelSchemeProj I γ p he) := by
   refine eq_closedFiberMap _ _ ?_
-  show (specClosedFiberIso (pAdicLevelRing I γ p he)).hom ≫
+  change (specClosedFiberIso (pAdicLevelRing I γ p he)).hom ≫
       Spec.map (pAdicLevelQuotIso I γ p he).hom ≫
         (specClosedFiberIso (DividedPowerRing.of A I γ)).inv ≫
           closedFiberι (specDividedPowerScheme (DividedPowerRing.of A I γ)) =
@@ -368,7 +368,7 @@ theorem pAdicLevelSituation_changeBase_condition {e : ℕ} (he : IsPAdicLevel I 
     (pAdicLevelSituation I γ p he X toCF hX).toClosedFiber ≫
         closedFiberMap (pAdicLevelSchemeProj I γ p he) =
       (𝟙 X : X ⟶ X) ≫ (specSituation I γ p X toCF hX).toClosedFiber := by
-  show (toCF ≫ (pAdicLevelClosedFiberIso I γ p he).inv) ≫
+  change (toCF ≫ (pAdicLevelClosedFiberIso I γ p he).inv) ≫
       closedFiberMap (pAdicLevelSchemeProj I γ p he) = (𝟙 X : X ⟶ X) ≫ toCF
   rw [← pAdicLevelClosedFiberIso_hom_eq, Category.assoc, Iso.inv_hom_id, Category.comp_id,
     Category.id_comp]

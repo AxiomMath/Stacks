@@ -281,7 +281,7 @@ public theorem chart_relation {S : Type v} [CommRing S] (f : A →+* S)
     ∑ i, ∑ j, f (a i j) * (y i * y j)
       = f (x 0) * ∑ i, ∑ j, ∑ k, f (b i j k) * (y i * y j * y k) := by
   refine hreg (hreg ?_)
-  show f (x 0) * (f (x 0) * ∑ i, ∑ j, f (a i j) * (y i * y j))
+  change f (x 0) * (f (x 0) * ∑ i, ∑ j, f (a i j) * (y i * y j))
     = f (x 0) * (f (x 0) * (f (x 0) * ∑ i, ∑ j, ∑ k, f (b i j k) * (y i * y j * y k)))
   calc f (x 0) * (f (x 0) * ∑ i, ∑ j, f (a i j) * (y i * y j))
       = f (∑ i, ∑ j, a i j * (x i * x j)) := by
@@ -309,7 +309,7 @@ public theorem chartFraction_zero {x : Fin 3 → A} (S : Type u) [CommRing S] [A
     [IsLocalization.Away (x 0) S] (hx : ∀ i, x i ∈ maximalIdeal A) :
     chartFraction S hx 0 = 1 := by
   apply Subtype.ext
-  show IsLocalization.mk' S (x 0) ⟨x 0, Submonoid.mem_powers (x 0)⟩ = 1
+  change IsLocalization.mk' S (x 0) ⟨x 0, Submonoid.mem_powers (x 0)⟩ = 1
   exact IsLocalization.mk'_self' (M := Submonoid.powers (x 0)) S
     (x := ⟨x 0, Submonoid.mem_powers (x 0)⟩)
 

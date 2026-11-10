@@ -94,7 +94,7 @@ lemma ι_πPre {E : Set C} {F00WS : Sheaf J (Type max v u)}
     Sigma.ι (indexFamilyPre J E F00WS) p ≫ πPre J E F00WS =
       uliftYonedaEquiv.{u}.symm p.2 := by
   unfold πPre
-  exact Sigma.ι_desc _ _
+  exact Sigma.ι_comp_desc _ _
 
 /-- Pointwise computation of the cocone-leg-then-`πPre` composite on identity:
 the `(U, s)` leg sends `ULift.up (𝟙 U)` to `s`. -/
@@ -107,11 +107,11 @@ lemma πPre_app_of_ι (E : Set C) (F00WS : Sheaf J (Type max v u))
   -- `ULift.up (𝟙 U)` evaluates to `F00WS.obj.map (𝟙 _).op s = s`.
   have hcomp := ι_πPre (J := J) (E := E) (F00WS := F00WS) ⟨U, s⟩
   -- Rewrite the LHS via the composite identity, then evaluate `yoneda.symm`.
-  show (Sigma.ι (indexFamilyPre J E F00WS) ⟨U, s⟩ ≫ πPre J E F00WS).app (op U.val)
+  change (Sigma.ι (indexFamilyPre J E F00WS) ⟨U, s⟩ ≫ πPre J E F00WS).app (op U.val)
       (ULift.up (𝟙 U.val)) = s
   rw [hcomp]
   -- The remaining goal is `F00WS.obj.map (𝟙 U).op s = s`.
-  show F00WS.obj.map (𝟙 U.val).op s = s
+  change F00WS.obj.map (𝟙 U.val).op s = s
   simp
 
 /-- The presheaf coproduct map `πPre` is locally surjective: for every section

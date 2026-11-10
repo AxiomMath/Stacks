@@ -144,7 +144,7 @@ theorem psiOfIsIso_unit :
   dsimp only [Functor.id_obj, Functor.op_obj, unop_op, Functor.comp_obj]
   simp only [Category.assoc, Category.id_comp]
   rw [hn, ← Category.assoc ((inv ph.hom).app _) (ph.hom.app _), hi, Category.id_comp]
-  show ph.hom.app (op T) ≫ R.obj.map (e.counit.app (e.functor.obj T)).op ≫
+  change ph.hom.app (op T) ≫ R.obj.map (e.counit.app (e.functor.obj T)).op ≫
       R.obj.map (e.functor.map (e.unit.app T)).op = ph.hom.app (op T)
   rw [← Functor.map_comp, ← op_comp, e.functor_unit_comp T]
   simp only [Functor.id_obj, Functor.op_obj, op_id, CategoryTheory.Functor.map_id]

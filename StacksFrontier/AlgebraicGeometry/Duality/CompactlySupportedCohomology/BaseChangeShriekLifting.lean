@@ -143,7 +143,7 @@ public lemma baseChangePointsHom_eq (K : 𝒞) :
   dsimp only [Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
     Functor.whiskeringLeft_obj_map, NatTrans.comp_app, Functor.whiskerLeft_app] at h₁ h₂
   rw [ConcreteCategory.comp_apply] at h₂
-  show (baseChangeHomNatTrans F G β K).app L ((A.systemHomIso K).hom.app L _) =
+  change (baseChangeHomNatTrans F G β K).app L ((A.systemHomIso K).hom.app L _) =
     (proHomComparison (A.system K ⋙ F) jY
       (coneOfNatIso (baseChangeRestrictIso A F G β K) ⟨G.obj K, 𝟙 _⟩)).app _
       ((Pro.lanSeqHomColimIso F (A.system K)).hom.app _
@@ -151,14 +151,14 @@ public lemma baseChangePointsHom_eq (K : 𝒞) :
         ((F.lanUnit.app (jX ⋙ coyoneda.obj (op K))).app L _)))
   simp only [ConcreteCategory.comp_apply, Iso.hom_inv_id_app_apply] at h₁
   rw [← h₁]
-  show _ = (proHomComparison (A.system K ⋙ F) jY
+  change _ = (proHomComparison (A.system K ⋙ F) jY
       (coneOfNatIso (baseChangeRestrictIso A F G β K) ⟨G.obj K, 𝟙 _⟩)).app _
     ((Pro.lanSeqHomColimHom F (A.system K)).app _ _)
   rw [h₂, Pro.seqHomColimToComp_app_seqStage, proHomComparison_stage]
-  show (baseChangeHomNatTrans F G β K).app L ((proHomComparison (A.system K) jX
+  change (baseChangeHomNatTrans F G β K).app L ((proHomComparison (A.system K) jX
     (coneOfNatIso (A.restrictIso K) ⟨K, 𝟙 _⟩)).app L (Pro.seqStage (A.system K) g)) = _
   rw [proHomComparison_stage]
-  show G.map ((𝟙 K ≫ (A.restrictIso K).inv.app _) ≫ jX.map g) ≫ β.inv.app L =
+  change G.map ((𝟙 K ≫ (A.restrictIso K).inv.app _) ≫ jX.map g) ≫ β.inv.app L =
     (𝟙 _ ≫ G.map ((A.restrictIso K).inv.app _) ≫ β.inv.app _) ≫ jY.map (F.map g)
   have hβ : β.inv.app ((A.system K).obj (op n)) ≫ jY.map (F.map g) =
       G.map (jX.map g) ≫ β.inv.app L := (β.inv.naturality g).symm

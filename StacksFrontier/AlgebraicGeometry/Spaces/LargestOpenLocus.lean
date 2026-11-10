@@ -99,6 +99,7 @@ section
 attribute [local instance] pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf :
@@ -256,7 +257,7 @@ private theorem subfunctor_le_preimage_of_factor
     (f : Y ⟶ X)
     (h : U.toFunctor ⟶ V.toFunctor) (hh : h ≫ V.ι = U.ι ≫ f) : U ≤ V.preimage f := by
   intro T x hx
-  show f.app T (U.ι.app T ⟨x, hx⟩) ∈ V.obj T
+  change f.app T (U.ι.app T ⟨x, hx⟩) ∈ V.obj T
   have hval : V.ι.app T (h.app T ⟨x, hx⟩) = f.app T (U.ι.app T ⟨x, hx⟩) := by
     have hval' := congrArg (fun α ↦ α ⟨x, hx⟩) (congrArg (fun α ↦ α.app T) hh)
     change (V.ι.app T ∘ h.app T) ⟨x, hx⟩ = (f.app T ∘ U.ι.app T) ⟨x, hx⟩ at hval'
@@ -559,7 +560,7 @@ theorem largestOpenSubspace_baseChange (τ : Topology) (hτ : τ ≠ .fpqc)
   have hdirect : P (pullback.snd f (openInclusion B S hS V ≫ g)) :=
     pullback_snd_of_eq P f hpullCat.w.symm
       ((pullback_snd_comp_iff P f (openInclusion B S hS L.1) r).mp hbase)
-  show P (pullback.snd (pullback.snd f g) (openInclusion B S hS V))
+  change P (pullback.snd (pullback.snd f g) (openInclusion B S hS V))
   exact (pullback_snd_comp_iff P f g (openInclusion B S hS V)).mpr hdirect
 
 /-- **Stacks 06R2**, part (3). The largest open locus of the base change of `f` along a member

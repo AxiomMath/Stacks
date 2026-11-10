@@ -50,7 +50,7 @@ theorem isFppfCovering_map_of_le {κ κ' : Cardinal.{u}}
     IsFppfCovering (κ := κ') ⟨(ObjectProperty.ιOfLE hle).obj E.1,
       E.2.map (ObjectProperty.ιOfLE hle)⟩ := by
   change E.2.presieve₀ ∈ Scheme.fppfPrecoverage.comap (schemeBelowInclusion κ) E.1 at hE
-  show (E.2.map (ObjectProperty.ιOfLE hle)).presieve₀ ∈ Scheme.fppfPrecoverage.comap
+  change (E.2.map (ObjectProperty.ιOfLE hle)).presieve₀ ∈ Scheme.fppfPrecoverage.comap
     (schemeBelowInclusion κ') _
   simpa [Precoverage.mem_comap_iff, PreZeroHypercover.presieve₀, PreZeroHypercover.map,
     Presieve.map_ofArrows] using hE
@@ -73,7 +73,7 @@ theorem exists_isContained_lt_cutoff (B : BigFppfSite.{u}) (μ : Cardinal.{u}) :
   obtain ⟨C, hC⟩ := exists_common_bigFppfSite (ι := Bool) (fun b => if b then B else B₁)
   have hB := hC true
   have hB₁ := hC false
-  simp only [if_true, Bool.false_eq_true, if_false] at hB hB₁
+  simp only [ite_true, Bool.false_eq_true, ite_false] at hB hB₁
   exact ⟨C, isContained_of_le hB.1 hB.2,
     ((le_max_right _ _).trans_lt hμκ).trans_le hB₁.1⟩
 

@@ -78,15 +78,14 @@ variable {R A B M N : Type*} [CommSemiring R] [Semiring A] [Algebra R A] [CommSe
   [AddCommMonoid M] [Module B M] [Module (A ⊗[R] B) M] [IsScalarTower B (A ⊗[R] B) M]
   [AddCommGroup N] [Module B N] [Module (A ⊗[R] B) N] [IsScalarTower B (A ⊗[R] B) N]
 
-/-- A property of operators inherited by `0` and by sums which holds for the commutators of `D`
+/-- A property of operators inherited by sums which holds for the commutators of `D`
 with the pure tensors `a ⊗ b` holds for the commutators of `D` with every element of `A ⊗[R] B`,
 the pure tensors generating `A ⊗[R] B` additively. This replaces the source's reduction to the
 elements `a ⊗ 1`, which generate `A ⊗[R] B` as a `B`-algebra, by Lemma 0G35. -/
-private lemma forall_commSMul_of_tmul {P : (M →ₗ[B] N) → Prop} (hzero : P 0)
+private lemma forall_commSMul_of_tmul {P : (M →ₗ[B] N) → Prop}
     (hadd : ∀ D E, P D → P E → P (D + E)) (D : M →ₗ[B] N)
     (h : ∀ (a : A) (b : B), P (commSMul D (a ⊗ₜ[R] b))) (g : A ⊗[R] B) : P (commSMul D g) := by
-  induction g using TensorProduct.induction_on with
-  | zero => rw [commSMul_zero_right]; exact hzero
+  induction g using TensorProduct.inductionOn with
   | tmul a b => exact h a b
   | add g₁ g₂ h₁ h₂ => rw [commSMul_add_right]; exact hadd _ _ h₁ h₂
 
@@ -104,8 +103,7 @@ tensors generating `M ⊗[R] N` additively. -/
 private lemma tmul_ext {F G : M ⊗[R] N →ₗ[B] P}
     (h : ∀ (m : M) (n : N), F (m ⊗ₜ[R] n) = G (m ⊗ₜ[R] n)) : F = G := by
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m n => exact h m n
   | add x y hx hy => simp [hx, hy]
 
@@ -157,8 +155,7 @@ include halg hsmul hsmul' in
 /-- `D ⊗ id_N` is `B`-linear, `B` acting on the factor `N` that `D ⊗ id_N` leaves alone. -/
 public lemma rTensor_smul (D : M →ₗ[R] M') (b : B) (x : M ⊗[R] N) :
     D.rTensor N (b • x) = b • D.rTensor N x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m n =>
     rw [smul_tmul_right halg hsmul b m n, LinearMap.rTensor_tmul, LinearMap.rTensor_tmul,
       smul_tmul_right halg hsmul' b (D m) n]
@@ -195,7 +192,7 @@ private lemma commSMul_rTensorB (D : M →ₗ[R] M') (a : A) (b : B) :
       = (Algebra.lsmul B (A ⊗[R] B) (M' ⊗[R] N) b).restrictScalars B ∘ₗ
           rTensorB halg hsmul hsmul' (commSMul D a) := by
   refine tmul_ext fun m n => ?_
-  show commSMul (rTensorB halg hsmul hsmul' D) (a ⊗ₜ[R] b) (m ⊗ₜ[R] n)
+  change commSMul (rTensorB halg hsmul hsmul' D) (a ⊗ₜ[R] b) (m ⊗ₜ[R] n)
     = b • rTensorB halg hsmul hsmul' (commSMul D a) (m ⊗ₜ[R] n)
   rw [commSMul_apply, hsmul a b m n, rTensorB_tmul, rTensorB_tmul, hsmul' a b (D m) n,
     ← TensorProduct.sub_tmul, ← commSMul_apply, rTensorB_tmul,
@@ -211,14 +208,13 @@ public lemma order_rTensorB (k : ℕ) {D : M →ₗ[R] M'}
   induction k generalizing D with
   | zero =>
     refine isDifferentialOperatorOfOrderLE_zero_iff_commSMul_eq_zero.mpr
-      (forall_commSMul_of_tmul (P := fun E => E = 0) rfl
+      (forall_commSMul_of_tmul (P := fun E => E = 0)
         (fun E F hE hF => by rw [hE, hF, add_zero]) _ fun a b => ?_)
     rw [commSMul_rTensorB, isDifferentialOperatorOfOrderLE_zero_iff_commSMul_eq_zero.mp hD a,
       rTensorB_zero, LinearMap.comp_zero]
   | succ k ih =>
     refine isDifferentialOperatorOfOrderLE_succ_iff.mpr (forall_commSMul_of_tmul
       (P := fun E => E.IsDifferentialOperatorOfOrderLE (A ⊗[R] B) k)
-      (zero_isDifferentialOperatorOfOrderLE k)
       (fun E F hE hF => isDifferentialOperatorOfOrderLE_add hE hF) _ fun a b => ?_)
     rw [commSMul_rTensorB]
     exact isDifferentialOperatorOfOrderLE_postcomp _
@@ -233,13 +229,9 @@ public lemma eq_rTensorB {D : M →ₗ[R] M'} (D' : M ⊗[R] N →ₗ[B] M' ⊗[
     D' = rTensorB halg hsmul hsmul' D :=
   tmul_ext fun m n => by rw [hD' m n, rTensorB_tmul]
 
--- `IsScalarTower R B N` is a hypothesis of the statement — it pins the `R`-action on `N` to the one
--- along `R → B`, and is what makes the pinned actions on the tensor products exist in any
--- instantiation — but it is unused by this proof, which reads those actions off `halg`, `hsmul`
--- and `hsmul'`; it is kept to match the source, so the two lints are silenced here.
+omit [IsScalarTower R B N] in
 /-- `D ⊗ id_N` is the unique `B`-linear map `M ⊗[R] N → M' ⊗[R] N` sending `m ⊗ n` to `D m ⊗ n`,
 and it is a differential operator of order at most `k` relative to `B → A ⊗[R] B`. -/
-@[nolint unusedArguments]
 public theorem solution {k : ℕ} {D : M →ₗ[R] M'}
     (hD : D.IsDifferentialOperatorOfOrderLE A k)
     (halg : ∀ b : B, algebraMap B (A ⊗[R] B) b = 1 ⊗ₜ[R] b)
@@ -410,6 +402,7 @@ public lemma eq_rTensorB {D : M →ₗ[R] M'}
     D' = rTensorB halg hsmul hsmul' D :=
   Stacks.DifferentialOperator.TensorIdentity.eq_rTensorB halg hsmul hsmul' D' hD'
 
+omit [IsScalarTower R B N] in
 /-- **Stacks 0G37.** Let `R → A` and `R → B` be ring maps, let `M` and `M'` be `A`-modules and
 let `N` be a `B`-module. If `D : M → M'` is a differential operator of order at most `k` relative
 to `R → A`, then `D ⊗ id_N` is a differential operator of order at most `k` relative to
@@ -614,7 +607,7 @@ private lemma isDifferentialOperatorOfOrderLE_comp_restrictScalars (φ : M →�
   | zero =>
     replace hE : ∀ (g : B') (x : M'), E (g • x) = g • E x := hE
     intro b m
-    show E (φ (b • m)) = b • E (φ m)
+    change E (φ (b • m)) = b • E (φ m)
     rw [map_smul φ b m, ← algebraMap_smul B' b (φ m), hE, algebraMap_smul]
   | succ k ih =>
     rw [isDifferentialOperatorOfOrderLE_succ_iff]
@@ -622,7 +615,7 @@ private lemma isDifferentialOperatorOfOrderLE_comp_restrictScalars (φ : M →�
     have key : commSMul (E.restrictScalars A ∘ₗ φ.restrictScalars A) b =
         (commSMul E (algebraMap B B' b)).restrictScalars A ∘ₗ φ.restrictScalars A := by
       ext m
-      show E (φ (b • m)) - b • E (φ m) =
+      change E (φ (b • m)) - b • E (φ m) =
         E (algebraMap B B' b • φ m) - algebraMap B B' b • E (φ m)
       rw [map_smul φ b m, algebraMap_smul, algebraMap_smul]
     rw [key]
@@ -646,7 +639,7 @@ private lemma isDifferentialOperatorOfOrderLE_of_comp_eq (φ : M →ₗ[B] M')
     have key : (E ∘ₗ Algebra.lsmul A' A' M' (algebraMap B B' b) : M' →ₗ[A'] N) =
         Algebra.lsmul A' A' N (algebraMap B B' b) ∘ₗ E := by
       refine hφ.algHom_ext _ _ fun m => ?_
-      show E (algebraMap B B' b • φ m) = algebraMap B B' b • E (φ m)
+      change E (algebraMap B B' b • φ m) = algebraMap B B' b • E (φ m)
       rw [algebraMap_smul, algebraMap_smul, ← map_smul φ b m, hE, hE, hD, map_smul]
     exact fun x => LinearMap.congr_fun key x
   | succ k ih =>
@@ -681,7 +674,7 @@ private lemma existsUnique_comp_eq {k : ℕ} {D : M →ₗ[A] P} {φ : M →ₗ[
   refine ⟨γ.liftBaseChange B', ?_, ?_⟩
   · have key : ((γ.liftBaseChange B').restrictScalars A' ∘ₗ Dt : M' →ₗ[A'] N) = E := by
       refine hφ.algHom_ext _ _ fun m => ?_
-      show (γ.liftBaseChange B') (Dt (φ m)) = E (φ m)
+      change (γ.liftBaseChange B') (Dt (φ m)) = E (φ m)
       rw [hDt m, LinearMap.liftBaseChange_one_tmul]
       exact hγ m
     exact fun x => LinearMap.congr_fun key x
@@ -690,7 +683,7 @@ private lemma existsUnique_comp_eq {k : ℕ} {D : M →ₗ[A] P} {φ : M →ₗ[
         ((γ.liftBaseChange B').restrictScalars B) ∘ₗ (TensorProduct.mk B B' P 1) := by
       refine LinearMap.ext_on (span_range_eq_top hD) ?_
       rintro x ⟨m, rfl⟩
-      show α (1 ⊗ₜ[B] D m) = (γ.liftBaseChange B') (1 ⊗ₜ[B] D m)
+      change α (1 ⊗ₜ[B] D m) = (γ.liftBaseChange B') (1 ⊗ₜ[B] D m)
       rw [LinearMap.liftBaseChange_one_tmul, ← hDt m, hα (φ m)]
       exact (hγ m).symm
     exact (LinearMap.liftBaseChangeEquiv B').symm.injective
@@ -740,7 +733,7 @@ public theorem solution {A : Type*} {A' B B' M M' P P' : Type u}
   have key : (η.restrictScalars B) ∘ₗ (TensorProduct.mk B B' P 1) = ψ := by
     refine LinearMap.ext_on (span_range_eq_top hD) ?_
     rintro x ⟨m, rfl⟩
-    show η (1 ⊗ₜ[B] D m) = ψ (D m)
+    change η (1 ⊗ₜ[B] D m) = ψ (D m)
     rw [← hDt m, hη (φ m), hψ m]
   have hψη : ∀ p : P, η (1 ⊗ₜ[B] p) = ψ p := fun p => LinearMap.congr_fun key p
   refine IsBaseChange.of_equiv

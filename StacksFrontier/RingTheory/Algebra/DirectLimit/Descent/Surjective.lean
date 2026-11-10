@@ -139,16 +139,14 @@ theorem tensorCoconeB_comp_tensorTransB
   simp only [tensorCoconeB, tensorTransB]
   rw [← Algebra.TensorProduct.map_comp, hfac, AlgHom.comp_id]
 
+omit [Nonempty I] in
 /-- Every element of `A ⊗ B₀` is the image under `tensorCoconeB i` of an element of
 `Aᵢ ⊗ B₀` for some `i`. -/
 @[ega "IV 11.2.2" "partial"]
 theorem tensorCoconeB_jointly_surjective
     (hcolim : IsRingColimit A₀ Aᵢ f A g) (z : A ⊗[A₀] B₀) :
     ∃ (i : I) (y : Aᵢ i ⊗[A₀] B₀), tensorCoconeB A₀ Aᵢ A g B₀ i y = z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    refine ⟨Classical.arbitrary I, 0, ?_⟩
-    simp
+  induction z using TensorProduct.inductionOn with
   | tmul a b =>
     obtain ⟨i, a', ha⟩ := hcolim.jointly_surjective a
     refine ⟨i, a' ⊗ₜ[A₀] b, ?_⟩
@@ -209,8 +207,7 @@ theorem directLimitLeft_tensorCoconeC [DecidableEq I] (hcolim : IsRingColimit A�
           (tensorCoconeC A₀ Aᵢ A g C₀ i w)) =
       Module.DirectLimit.of A₀ I _
         (fun i j h => LinearMap.rTensor C₀ (f i j h).toLinearMap) i w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul a c =>
     have h := (IsRingColimit.linearEquivDirectLimit A₀ Aᵢ f A g hcolim).symm_apply_apply
       (Module.DirectLimit.of A₀ I Aᵢ _ i a)
@@ -263,8 +260,7 @@ theorem surjective_baseChange_of_generators_in_range
   have key2 : ∀ a : Aᵢ i, a ⊗ₜ[A₀] (1 : C₀) ∈ S := fun a => by simpa using hrange a 1
   rw [eq_top_iff]
   rintro z -
-  induction z using TensorProduct.induction_on with
-  | zero => exact Subalgebra.zero_mem S
+  induction z using TensorProduct.inductionOn with
   | tmul a c =>
     rw [← mul_one a, ← one_mul c, ← Algebra.TensorProduct.tmul_mul_tmul]
     exact S.mul_mem (key2 a) (key1 c)

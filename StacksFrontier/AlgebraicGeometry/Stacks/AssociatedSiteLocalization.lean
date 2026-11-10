@@ -121,7 +121,7 @@ theorem inducedTopology_overPost {𝒳 : Type v} [Category.{w} 𝒳]
   have he : F.IsEquivalence := hq.isEquivalence_overPost x
   have hJq : Functor.IsInheritedTopology q τ J𝒳 := by
     let _ : q.IsFibered := hq.isFibered
-    show Functor.IsInheritedTopology q τ (q.inheritedTopology τ)
+    change Functor.IsInheritedTopology q τ (q.inheritedTopology τ)
     exact Functor.isInheritedTopology_inheritedTopology q τ
   let _ : F.IsDenseSubsite (J𝒳.over x) (τ.over ((p.obj x).left)) :=
     ⟨inferInstance, inferInstance, inferInstance,

@@ -307,6 +307,7 @@ variable (sq : IsPullback h e f g) [QuasiCompact g] [QuasiSeparated g] (x : Geom
   (v : (Scheme.pointSmallEtale (x.map f).hom).fiber.obj V)
   (σ : ToType (F.obj.obj (op ((Stacks.EtaleCohomology.smallEtaleBaseChange g).obj V))))
 
+omit [QuasiCompact g] [QuasiSeparated g] in
 /-- **The comparison of Stacks 03Q9 in degree zero, on germs**, read through the
 identification of degree-zero cohomology with sections on the identity object. -/
 theorem higherDirectImageStalkComparison_zero_germ :
@@ -395,6 +396,7 @@ theorem restrictionHom_zero_sectionsRestrictionAlong :
 
 variable [QuasiCompact h] [QuasiSeparated h]
 
+omit [QuasiCompact h] [QuasiSeparated h] in
 /-- The comparison of Stacks 03Q9 in degree zero, through the identification of `h_*` with its
 degree-zero derived functor. -/
 theorem higherDirectImageStalkComparison_zero_apply' (G : Sheaf (smallEtaleTopology Y) Ab.{u + 1})
@@ -409,7 +411,7 @@ theorem higherDirectImageStalkComparison_zero_apply' (G : Sheaf (smallEtaleTopol
       (((pushforwardStalkToStrictHenselizationSectionsAb B hX h x).app G) z))
     (stalk_map_pushforwardIsoRightDerivedZero_inv_hom_apply _ _)
 
-omit [QuasiCompact g] [QuasiSeparated g] in
+omit [QuasiCompact g] [QuasiSeparated g] [QuasiCompact h] [QuasiSeparated h] in
 /-- **The stalk of the base change map in degree zero, on germs.** -/
 theorem stalkBaseChange_comparison_zero_germ :
     Sheaf.H.equiv₀ ((smallEtalePullbackAb (strictHenselizationBaseChangeToSource B hX h x)).obj
@@ -491,6 +493,7 @@ theorem stalkBaseChange_comparison_zero_germ :
   refine (congrArg _ (smallEtaleBaseChangeAb_app_unitApp f g h e sq.w F V σ)).trans ?_
   exact sectionsRestrictionAlong_map _ _ _ _ _ _ _ _
 
+omit [QuasiCompact g] [QuasiSeparated g] [QuasiCompact h] [QuasiSeparated h] in
 /-- **The two degree-zero composites agree on germs.** -/
 theorem stalkBaseChange_square_zero_germ :
     Sheaf.H.equiv₀ ((smallEtalePullbackAb (strictHenselizationBaseChangeToSource B hX h x)).obj
@@ -569,8 +572,7 @@ end DegreeZero
 
 section Main
 
-variable (sq : IsPullback h e f g) [QuasiCompact g] [QuasiSeparated g] [QuasiCompact h]
-  [QuasiSeparated h] (x : GeometricPoint X)
+variable (sq : IsPullback h e f g) (x : GeometricPoint X)
 
 /-- **The stalk of the base change map is the restriction map**, as morphisms of δ-functors: the
 stalk at `x` of `f⁻¹ R^• g_* F ⟶ R^• h_* e⁻¹ F`, read through Stacks 03Q9 on both sides, is the

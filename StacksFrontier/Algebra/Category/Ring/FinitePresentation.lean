@@ -289,7 +289,7 @@ Lemma `00QN` provides. Both departures strengthen the equivalence. See the modul
   ega "IV 8.8.2.3" "f.p. => bijective",
   ega "IV 8.8.2.1" "f.p. case: bijective",
   ega "IV 8.13.1" "affine case, bijective",
-  ega "IV 8.14.2" "X, S affine", ega "IV 8.14.2.2" "more general"]
+  ega "IV 8.14.2" "X, S affine"]
 public theorem isFinitelyPresentable_under_tfae {R : CommRingCat.{u}} (S : Under R) :
     List.TFAE
       [ S.hom.hom.FinitePresentation,

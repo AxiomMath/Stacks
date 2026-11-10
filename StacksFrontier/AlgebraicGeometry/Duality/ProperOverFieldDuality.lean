@@ -481,7 +481,7 @@ theorem dualityAddEquivZero_naturality (K L : quasiCoherentDerivedCategory X)
   let : Injective (ModuleCat.of k k) :=
     let : Module.Injective k k := Module.injective_of_isSemisimpleRing k _
     Module.injective_object_of_injective_module k _
-  show DerivedCategory.homologyMapToInjectiveEquivAnyModel
+  change DerivedCategory.homologyMapToInjectiveEquivAnyModel
       ((derivedGlobalSectionsOver f).obj K.obj) (ModuleCat.of k k) 0
       (dualityDerivedHomAddEquiv f K (g ≫ α)) = _
   exact (congrArg (fun q => DerivedCategory.homologyMapToInjectiveEquivAnyModel

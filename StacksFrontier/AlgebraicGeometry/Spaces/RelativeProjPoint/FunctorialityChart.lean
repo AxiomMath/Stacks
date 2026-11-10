@@ -109,9 +109,9 @@ theorem sectionOfPoint_fibreToSpace (T : BigFppfOver B S hS) (f : yoneda.obj T �
     apply (d.pointEquivOver T f (d.fibreHom T f)).symm.injective
     rw [Equiv.symm_apply_apply]
     apply Subtype.ext
-    show d.fibreToSpace T f = yoneda.map (𝟙 _) ≫ d.fibreToSpace T f
+    change d.fibreToSpace T f = yoneda.map (𝟙 _) ≫ d.fibreToSpace T f
     rw [CategoryTheory.Functor.map_id, Category.id_comp]
-  show (d.pointEquivProjOver T f (d.fibreHom T f) ⟨_, _⟩).1 = _
+  change (d.pointEquivProjOver T f (d.fibreHom T f) ⟨_, _⟩).1 = _
   rw [pointEquivProjOver_apply, h, CategoryTheory.Functor.map_id, Category.id_comp]
 
 /-- A morphism of fibres lying over a morphism `k` of test objects, read on the relative Projs,
@@ -194,7 +194,7 @@ theorem range_yoneda_map_chartIncl (T : BigFppfOver B S hS) (f : yoneda.obj T �
     Subfunctor.range (yoneda.map (hψ.chartIncl T f)) =
       hψ.relativeMapSubfunctor.preimage (dQ.fibreToSpace T f) := by
   ext ⟨T'⟩ r
-  show (∃ h, h ≫ hψ.chartIncl T f = r) ↔
+  change (∃ h, h ≫ hψ.chartIncl T f = r) ↔
     (dQ.fibreToSpace T f).app (op T') r ∈ hψ.relativeMapSubfunctor.obj (op T')
   have e : (dQ.fibreToSpace T f).app (op T') r =
       yonedaEquiv (yoneda.map r ≫ dQ.fibreToSpace T f) := by
@@ -315,7 +315,7 @@ theorem toScheme_map_chartMapHom (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ 
     apply yonedaEquiv.injective
     rw [yonedaEquiv_comp, ← hψ.app_relativeMapSpaceHom T f _ _ hu hd hx]
     congr 1
-  show (dP.pointEquivProjOver T f _ ⟨_, _⟩).1 = _
+  change (dP.pointEquivProjOver T f _ ⟨_, _⟩).1 = _
   refine (dP.sectionOfPoint_congr T f _ hpt _ (pointHomOn_comp dP dQ hψ.hom T f _ _ hu hd)).trans ?_
   rw [sectionOfPoint_pointHomOn]
   congr 1

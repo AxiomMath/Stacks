@@ -292,7 +292,7 @@ theorem liftsW₀_eq_preimage :
   have hz : ξ.selfIntersection.fst.hom.app V ((selfIntersectionMap m).hom.app V z) =
       m.ambient.hom.app V (η.selfIntersection.fst.hom.app V z) :=
     congrArg (fun g => g.hom.app V z) (selfIntersectionMap_fst m)
-  show η.selfIntersection.fst.hom.app V z ∈ (liftsZ hι₁ η).1.obj V ↔
+  change η.selfIntersection.fst.hom.app V z ∈ (liftsZ hι₁ η).1.obj V ↔
     ξ.selfIntersection.fst.hom.app V ((selfIntersectionMap m).hom.app V z) ∈
       (Subfunctor.range ξ.inclusion.hom).obj V
   rw [hz, hZ]

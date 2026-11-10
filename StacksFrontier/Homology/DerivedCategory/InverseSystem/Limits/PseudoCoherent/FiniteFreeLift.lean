@@ -169,7 +169,7 @@ lemma exists_linearEquiv_pi_of_compatible_coordinates
     ConcreteCategory.congr_hom (e j).hom_inv_id z
   let s (x : d.pt) (i : ι) : (A ⋙ forget CommRingCat.{u}).sections :=
     ⟨fun j ↦ (e j).inv (d.π.app j x) i, fun {j k} f ↦ by
-      show (A.map f).hom ((e j).inv (d.π.app j x) i) =
+      change (A.map f).hom ((e j).inv (d.π.app j x) i) =
         (e k).inv (d.π.app k x) i
       rw [← he f]
       exact congrArg (fun z ↦ (e k).inv z i) (ConcreteCategory.congr_hom (d.w f) x)⟩
@@ -179,20 +179,20 @@ lemma exists_linearEquiv_pi_of_compatible_coordinates
         funext i
         apply Concrete.isLimit_ext A hc
         intro j
-        show (c.π.app j).hom (er.symm (s (x + y) i)) =
+        change (c.π.app j).hom (er.symm (s (x + y) i)) =
           (c.π.app j).hom (er.symm (s x i) + er.symm (s y i))
         rw [map_add, her, her, her]
-        show (e j).inv (d.π.app j (x + y)) i = _
+        change (e j).inv (d.π.app j (x + y)) i = _
         rw [map_add, map_add]
         rfl
       map_smul' a x := by
         funext i
         apply Concrete.isLimit_ext A hc
         intro j
-        show (c.π.app j).hom (er.symm (s (a • x) i)) =
+        change (c.π.app j).hom (er.symm (s (a • x) i)) =
           (c.π.app j).hom (a * er.symm (s x i))
         rw [map_mul, her, her]
-        show (e j).inv (d.π.app j (a • x)) i = _
+        change (e j).inv (d.π.app j (a • x)) i = _
         rw [map_smul, map_smul]
         rfl }
   have hl (x : d.pt) (j : J) (i : ι) :
@@ -204,16 +204,16 @@ lemma exists_linearEquiv_pi_of_compatible_coordinates
     intro j
     apply (e j).toLinearEquiv.symm.injective
     funext i
-    show (e j).inv (d.π.app j x) i = (e j).inv (d.π.app j y) i
+    change (e j).inv (d.π.app j x) i = (e j).inv (d.π.app j y) i
     rw [← hl, ← hl, hxy]
   have hsurj : Function.Surjective l := by
     intro x
     let t : (M ⋙ forget (ModuleCat.{max u v} c.pt)).sections :=
       ⟨fun j ↦ (e j).hom (fun i ↦ (c.π.app j).hom (x i)), fun {j k} f ↦ by
-        show M.map f ((e j).hom _) = (e k).hom _
+        change M.map f ((e j).hom _) = (e k).hom _
         apply (e k).toLinearEquiv.symm.injective
         funext i
-        show (e k).inv (M.map f ((e j).hom _)) i = (e k).inv ((e k).hom _) i
+        change (e k).inv (M.map f ((e j).hom _)) i = (e k).inv ((e k).hom _) i
         rw [he, heinv, heinv]
         exact ConcreteCategory.congr_hom (c.w f) (x i)⟩
     refine ⟨em.symm t, ?_⟩
@@ -225,7 +225,7 @@ lemma exists_linearEquiv_pi_of_compatible_coordinates
       Types.isLimitEquivSections_symm_apply
         (isLimitOfPreserves (forget (ModuleCat.{max u v} c.pt)) hd) t j
     rw [ht]
-    show (e j).inv ((e j).hom _) i = _
+    change (e j).inv ((e j).hom _) i = _
     exact congrFun (heinv j _) i
   exact ⟨LinearEquiv.ofBijective l ⟨hinj, hsurj⟩, hl⟩
 
@@ -274,7 +274,7 @@ private lemma extendScalarsQuotientIso_one_tmul
     (extendScalarsQuotientIso f hf M).hom
         ((ModuleCat.extendRestrictScalarsAdj f).unit.app M x) =
       Submodule.Quotient.mk x := by
-  show TensorProduct.quotTensorEquivQuotSMul M (RingHom.ker f)
+  change TensorProduct.quotTensorEquivQuotSMul M (RingHom.ker f)
     ((RingHom.quotientKerEquivOfSurjective hf).symm 1 ⊗ₜ[R] x) = _
   rw [map_one, TensorProduct.quotTensorEquivQuotSMul_mk_one_tmul]
 
@@ -296,13 +296,13 @@ private lemma exists_iso_lifting_extendScalars
   intro x
   apply eN.toLinearEquiv.injective
   have hunit := extendScalarsQuotientIso_one_tmul f hf N (E x)
-  show eN.hom ((ModuleCat.extendRestrictScalarsAdj f).unit.app N (E x)) = _
+  change eN.hom ((ModuleCat.extendRestrictScalarsAdj f).unit.app N (E x)) = _
   rw [hunit, hE]
-  show eN.hom (e.hom (eM.inv (Submodule.Quotient.mk x))) = _
+  change eN.hom (e.hom (eM.inv (Submodule.Quotient.mk x))) = _
   have hx : eM.inv (Submodule.Quotient.mk x) =
       (ModuleCat.extendRestrictScalarsAdj f).unit.app M x := by
     apply eM.toLinearEquiv.injective
-    show eM.hom (eM.inv _) = _
+    change eM.hom (eM.inv _) = _
     rw [← ConcreteCategory.comp_apply, eM.inv_hom_id]
     exact (extendScalarsQuotientIso_one_tmul f hf M x).symm
   rw [hx]
@@ -323,10 +323,10 @@ private lemma extendScalarsPiIso_one_tmul
       ((ModuleCat.extendRestrictScalarsAdj f).unit.app (ModuleCat.of R (ι → R)) x) i =
         f (x i) := by
   let := f.toAlgebra
-  show (((Pi.basisFun R ι).baseChange S).equivFun ((1 : S) ⊗ₜ[R] x)) i = _
+  change (((Pi.basisFun R ι).baseChange S).equivFun ((1 : S) ⊗ₜ[R] x)) i = _
   rw [Module.Basis.equivFun_apply, Module.Basis.baseChange_repr_tmul]
   simp only [Pi.basisFun_repr]
-  show f (x i) * 1 = f (x i)
+  change f (x i) * 1 = f (x i)
   exact mul_one _
 
 private lemma exists_coordinates_lifting_extendScalars
@@ -334,10 +334,11 @@ private lemma exists_coordinates_lifting_extendScalars
     (hf : Function.Surjective f)
     (hI : ∀ x ∈ RingHom.ker f, IsUnit (1 + x))
     (M : ModuleCat.{max u v} R) [Module.Finite R M] [Module.Projective R M]
-    (ι : Type v) [Fintype ι]
+    (ι : Type v) [Finite ι]
     (e : (ModuleCat.extendScalars f).obj M ≅ ModuleCat.of S (ι → S)) :
     ∃ E : M ≅ ModuleCat.of R (ι → R), ∀ x : M, ∀ i : ι,
       f (E.hom x i) = e.hom ((ModuleCat.extendRestrictScalarsAdj f).unit.app M x) i := by
+  have := Fintype.ofFinite ι
   obtain ⟨E, hE⟩ := exists_iso_lifting_extendScalars f hf hI M
     (ModuleCat.of R (ι → R)) (e ≪≫ (extendScalarsPiIso f ι).symm)
   refine ⟨E, fun x i ↦ ?_⟩
@@ -355,10 +356,11 @@ lemma exists_compatible_coordinates
     [∀ n, Module.Finite (R n) (M n)] [∀ n, Module.Projective (R n) (M n)]
     (g : ∀ n, M (n + 1) ⟶ (ModuleCat.restrictScalars (f n)).obj (M n))
     (hg : ∀ n, IsIso (((ModuleCat.extendRestrictScalarsAdj (f n)).homEquiv _ _).symm (g n)))
-    (ι : Type v) [Fintype ι] (e₀ : M 0 ≅ ModuleCat.of (R 0) (ι → R 0)) :
+    (ι : Type v) [Finite ι] (e₀ : M 0 ≅ ModuleCat.of (R 0) (ι → R 0)) :
     ∃ e : ∀ n, M n ≅ ModuleCat.of (R n) (ι → R n),
       e 0 = e₀ ∧ ∀ n (x : M (n + 1)) (i : ι),
         (f n) ((e (n + 1)).hom x i) = (e n).hom (g n x) i := by
+  have := Fintype.ofFinite ι
   have hs (n : ℕ) (e : M n ≅ ModuleCat.of (R n) (ι → R n)) :
       ∃ E : M (n + 1) ≅ ModuleCat.of (R (n + 1)) (ι → R (n + 1)),
         ∀ x i, f n (E.hom x i) = e.hom (g n x) i := by
@@ -371,7 +373,7 @@ lemma exists_compatible_coordinates
     have he := ConcreteCategory.congr_hom
       (((ModuleCat.extendRestrictScalarsAdj (f n)).homEquiv _ _).apply_symm_apply (g n)) x
     change a.hom ((ModuleCat.extendRestrictScalarsAdj (f n)).unit.app _ x) = g n x at he
-    show e.hom (a.hom _) i = e.hom (g n x) i
+    change e.hom (a.hom _) i = e.hom (g n x) i
     rw [he]
   let e : ∀ n, M n ≅ ModuleCat.of (R n) (ι → R n) :=
     Nat.rec e₀ (fun n e ↦ (hs n e).choose)
@@ -380,11 +382,12 @@ lemma exists_compatible_coordinates
 lemma isIso_baseChange_of_coordinates
     {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S)
     (M : ModuleCat.{max u v} R) (N : ModuleCat.{max u v} S)
-    (ι : Type v) [Fintype ι]
+    (ι : Type v) [Finite ι]
     (eM : M ≅ ModuleCat.of R (ι → R)) (eN : N ≅ ModuleCat.of S (ι → S))
     (g : M ⟶ (ModuleCat.restrictScalars f).obj N)
     (hg : ∀ x i, eN.hom (g x) i = f (eM.hom x i)) :
     IsIso (((ModuleCat.extendRestrictScalarsAdj f).homEquiv M N).symm g) := by
+  have := Fintype.ofFinite ι
   let e := (ModuleCat.extendScalars f).mapIso eM ≪≫ extendScalarsPiIso f ι ≪≫ eN.symm
   suffices h : ((ModuleCat.extendRestrictScalarsAdj f).homEquiv M N).symm g = e.hom by
     rw [h]
@@ -394,7 +397,7 @@ lemma isIso_baseChange_of_coordinates
   ext x
   apply eN.toLinearEquiv.injective
   ext i
-  show eN.hom (g x) i = eN.hom (eN.inv ((extendScalarsPiIso f ι).hom
+  change eN.hom (g x) i = eN.hom (eN.inv ((extendScalarsPiIso f ι).hom
     ((ModuleCat.extendRestrictScalarsAdj f).unit.app _ (eM.hom x)))) i
   rw [← ConcreteCategory.comp_apply, eN.inv_hom_id]
   exact (hg x i).trans (extendScalarsPiIso_one_tmul f ι (eM.hom x) i).symm
@@ -415,10 +418,10 @@ lemma epi_pi_difference_of_surjective
     ConcreteCategory.congr_hom (ModuleCat.piIsoPi_inv_kernel_ι M n) y
   apply Concrete.isLimit_ext (Discrete.functor M) (limit.isLimit _)
   intro ⟨n⟩
-  show Pi.π M n ((Pi.lift fun n ↦ Pi.π M n - Pi.π M (n + 1) ≫ g n) z) =
+  change Pi.π M n ((Pi.lift fun n ↦ Pi.π M n - Pi.π M (n + 1) ≫ g n) z) =
     Pi.π M n x
   rw [← ConcreteCategory.comp_apply, Pi.lift_comp_π]
-  show Pi.π M n z - g n (Pi.π M (n + 1) z) = Pi.π M n x
+  change Pi.π M n z - g n (Pi.π M (n + 1) z) = Pi.π M n x
   rw [hz, hz]
   rw [(hg n (y n - Pi.π M n x)).choose_spec]
   abel
@@ -594,7 +597,7 @@ private lemma derivedHomEquiv_map
     (P E : CochainComplex C ℤ) [P.IsKProjective] (f : P ⟶ E) :
     derivedHomEquiv P E ((HomotopyCategory.quotient C (.up ℤ)).map f) =
       DerivedCategory.Q.map f := by
-  show (DerivedCategory.quotientCompQhIso C).inv.app P ≫
+  change (DerivedCategory.quotientCompQhIso C).inv.app P ≫
     DerivedCategory.Qh.map ((HomotopyCategory.quotient C (.up ℤ)).map f) ≫
       (DerivedCategory.quotientCompQhIso C).hom.app E = _
   rw [← DerivedCategory.quotientCompQhIso_inv_naturality_assoc]
@@ -631,12 +634,12 @@ lemma derivedAdjunctionHomEquiv_map
         G.mapDerivedCategoryFactors.inv.app E := by
   simp only [derivedAdjunctionHomEquiv, Equiv.trans_apply, Iso.homCongr_apply,
     Iso.refl_inv, Category.id_comp]
-  show (derivedHomEquiv P ((G.mapHomologicalComplex (.up ℤ)).obj E))
+  change (derivedHomEquiv P ((G.mapHomologicalComplex (.up ℤ)).obj E))
     ((mapHomotopyCategoryAdjunction adj (.up ℤ)).homEquiv _ _
       ((derivedHomEquiv ((F.mapHomologicalComplex (.up ℤ)).obj P) E).symm
         (DerivedCategory.Q.map f))) ≫ _ = _
   rw [← derivedHomEquiv_map _ _ f, Equiv.symm_apply_apply]
-  show derivedHomEquiv _ _ ((HomotopyCategory.quotient _ _).map
+  change derivedHomEquiv _ _ ((HomotopyCategory.quotient _ _).map
     ((mapHomologicalComplexAdjunction adj (.up ℤ)).homEquiv _ _ f)) ≫ _ = _
   rw [derivedHomEquiv_map]
   rfl
@@ -736,7 +739,7 @@ public lemma isIso_derived_transpose_iff
     simpa only [u, Category.assoc] using bijective_derived_unit_comp adj P Y)
   rw [← derivedAdjunctionHomEquiv_map, derivedAdjunctionHomEquiv_eq]
   rw [← Category.assoc]
-  show IsIso ((adjD.homEquiv _ _).symm (u ≫ G.mapDerivedCategory.map
+  change IsIso ((adjD.homEquiv _ _).symm (u ≫ G.mapDerivedCategory.map
     (DerivedCategory.Q.map f))) ↔ _
   rw [Adjunction.homEquiv_naturality_right_symm, isIso_comp_left_iff]
   exact DerivedCategory.isIso_Q_map_iff_quasiIso D f
@@ -765,7 +768,7 @@ lemma exists_iso_comp_eq_of_distinguished_mk
   have : IsIso f.hom₁ := Pretriangulated.isIso₁_of_isIso₂₃ f hK hL
     (inferInstanceAs (IsIso (𝟙 P))) (inferInstanceAs (IsIso (𝟙 Q)))
   refine ⟨asIso f.hom₁, ?_⟩
-  show a ≫ q = p
+  change a ≫ q = p
   change p ≫ 𝟙 P = a ≫ q at ha
   simpa only [Category.comp_id] using ha.symm
 

@@ -204,14 +204,14 @@ theorem cohomology_isZero_of_isZero_on_covering_fiberProducts
       rw [PreZeroHypercover.sieve₀, Sieve.generate_le_iff,
         Presieve.ofArrows_le_iff]
       rintro ⟨X, g, Y, f, hf, hX, hg⟩
-      show R.arrows g
+      change R.arrows g
       rw [hg]
       simpa [Category.assoc] using R.downward_closed (hPR Y f hf)
         (eqToHom (congrArg (equivSmallModel.{v} C).inverse.obj hX) ≫
           (equivSmallModel.{v} C).unitIso.inv.app Y)
     · intro V E hE q hq
       apply ShortComplex.isZero_homology_of_isZero_X₂
-      show IsZero (∏ᶜ (fun s : Fin (q + 1) → E.1.I₀ ↦
+      change IsZero (∏ᶜ (fun s : Fin (q + 1) → E.1.I₀ ↦
         F.obj.obj (op ((∏ᶜ (fun a ↦ Over.mk (E.1.f (s a)))).left))))
       exact isZero_product _ fun s ↦ hF _ ((hmem E.1 hE).2 q s)
 

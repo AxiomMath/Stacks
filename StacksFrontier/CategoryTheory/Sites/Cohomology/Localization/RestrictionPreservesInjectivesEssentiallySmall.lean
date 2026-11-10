@@ -147,7 +147,7 @@ theorem extensionByZeroPresheafSectionIso_inv_ι
       (F := Over.forget U) (R := R.obj) (S := (R.over U).obj)
       (𝟙 (R.over U) : (R.over U) ⟶ (R.over U)).hom).unit.app G.val).app
         (op (Over.mk φ))) :=
-  heq_of_eq (Sigma.ι_desc _ φ)
+  heq_of_eq (Sigma.ι_comp_desc _ φ)
 
 variable [HasWeakSheafify J AddCommGrpCat.{u}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{u}]

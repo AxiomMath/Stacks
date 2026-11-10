@@ -186,7 +186,7 @@ theorem inverseImageRingedSpaceLift_comp_c (S : RingedSpace.{u, u}) {T : TopCat.
       ((TopCat.Sheaf.pushforward CommRingCat.{u} k).obj Y.sheaf)) :
     (inverseImageRingedSpaceLift S j k φ ≫
         AlgebraicGeometry.RingedSpace.inverseImageProjection S j).hom.c = φ.hom := by
-  show (((TopCat.Sheaf.pullbackPushforwardAdjunction CommRingCat.{u} j).unit.app
+  change (((TopCat.Sheaf.pullbackPushforwardAdjunction CommRingCat.{u} j).unit.app
     S.sheaf).hom ≫ _) = _
   exact congrArg (fun a => a.hom)
     (((TopCat.Sheaf.pullbackPushforwardAdjunction CommRingCat.{u} j).homEquiv S.sheaf
@@ -401,7 +401,7 @@ theorem cohomologySupportedOn_derivedPullback
     (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical
       (closedSubsetRestriction f Zᶜ) (closedSubsetInclusion X Zᶜ)).symm
   refine IsZero.of_iso ?_ (cmp.app E)
-  show IsZero ((derivedPullback (closedSubsetRestriction f Zᶜ)).obj
+  change IsZero ((derivedPullback (closedSubsetRestriction f Zᶜ)).obj
     ((derivedPullback (closedSubsetInclusion X Zᶜ)).obj E))
   refine Functor.map_isZero (derivedPullback (closedSubsetRestriction f Zᶜ))
     (isZero_derivedPullback_closedSubsetInclusion_of_supported X Zᶜ E ?_)

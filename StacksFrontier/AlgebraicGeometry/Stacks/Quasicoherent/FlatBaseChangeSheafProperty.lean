@@ -205,7 +205,7 @@ theorem hasFlatBaseChangePropertySheaf_of_hasFlatBaseChangeProperty
     HasFlatBaseChangePropertySheaf B E h S hS p hp ℱ := by
   intro x z φ hflat
   have := hℱ φ hflat
-  show IsIso (sheafifiedRestrictComparisonApp B E h S hS p hp φ ℱ)
+  change IsIso (sheafifiedRestrictComparisonApp B E h S hS p hp φ ℱ)
   -- The adjunct of `c_φ` is the image of `c_φ` under sheafification followed by the counit.
   have heq : sheafifiedRestrictComparisonApp B E h S hS p hp φ ℱ = _ :=
     Adjunction.homEquiv_counit _ _ _ _

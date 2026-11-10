@@ -69,7 +69,8 @@ written from scratch:
   `Stacks.DerivedIndexing.ι_map_singleFunctorPlusIsoCompQh_inv_app`
   (`StacksFrontier/Homology/DerivedIndexing/Composite.lean:750`);
 * `Stacks.DerivedIndexing.ι_map_mapSingleFunctorCompQhIso_inv_app`
-  (`StacksFrontier/Homology/DerivedIndexing/Composite.lean:820`), with the raw preimage form at `:808`.
+  (`StacksFrontier/Homology/DerivedIndexing/Composite.lean:820`), with the raw preimage form at
+  `:808`.
 
 Note which directions those are: the second is available for `inv` and not for `hom`. So the
 matching should be stated in the **inverse** direction — the `D⁺` collapse's inverse is

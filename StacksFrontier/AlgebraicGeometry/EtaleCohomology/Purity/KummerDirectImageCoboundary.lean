@@ -133,7 +133,7 @@ theorem multiplicativeDirectImageComparison_comp_kummerDirectImageδ (hN0 : N �
   have h2 : ρ ≫ (smallEtalePushforwardAb j).map (powMap.{u, 0} U₀ N) = N • ρ := by
     rw [powMap, Functor.map_nsmul, CategoryTheory.Functor.map_id, Preadditive.comp_nsmul,
       Category.comp_id]
-  show powMap.{u, 0} U N ≫ ρ ≫ kummerDirectImageδ j hN0 hN = 0
+  change powMap.{u, 0} U N ≫ ρ ≫ kummerDirectImageδ j hN0 hN = 0
   rw [← Category.assoc, h1, ← h2, Category.assoc, map_powMap_comp_kummerDirectImageδ j hN0 hN,
     comp_zero]
 

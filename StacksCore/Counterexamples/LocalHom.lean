@@ -32,7 +32,7 @@ theorem not_isLocalHom_algebraMap_atPrime {R : Type*} [CommRing R] [IsLocalRing 
     ¬ IsLocalHom (algebraMap R (Localization.AtPrime p)) := by
   intro hloc
   have hlt : p < maximalIdeal R := lt_of_le_of_ne (le_maximalIdeal hp.ne_top) hne
-  obtain ⟨x, hxm, hxp⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x, hxm, hxp⟩ := IsConcreteLE.exists_of_lt hlt
   have hunit : IsUnit (algebraMap R (Localization.AtPrime p) x) :=
     IsLocalization.map_units _ (⟨x, hxp⟩ : p.primeCompl)
   exact (maximalIdeal.isMaximal R).ne_top

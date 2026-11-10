@@ -153,7 +153,7 @@ theorem reprGlobalFunctionsRestriction_section (T : BigFppfOver B S hS)
     reprGlobalFunctionsRestriction B S hS T
         (reprGlobalFunctionsSection B S hS T s) = s := by
   refine (reprGlobalFunctionsSection_val B S hS (idChart B S hS T) s).trans ?_
-  show Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map
+  change Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map
     (yoneda.preimage (𝟙 (yoneda.obj T)) : T ⟶ T))) s = s
   rw [Functor.preimage_id, CategoryTheory.Functor.map_id]
   rfl

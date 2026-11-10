@@ -140,7 +140,7 @@ public theorem exists_hom_associatedModuleMap_app_eq_of_isAffine [IsAffine S]
     rw [PresheafOfModules.naturality_apply (associatedModuleMap S toOver φ) f.op y,
       PresheafOfModules.naturality_apply a f.op y]
     have hz : (associatedModuleMap S toOver φ).app (op X₀) y = a.app (op X₀) y := by
-      show ((Scheme.Modules.pullback (toOver.obj X₀).hom).map φ).app ⊤ y = _
+      change ((Scheme.Modules.pullback (toOver.obj X₀).hom).map φ).app ⊤ y = _
       rw [hφ, hψ₀]
     rw [hz]
   have hkey : ψX = (Scheme.Modules.pullback (toOver.obj X).hom).map φ := by

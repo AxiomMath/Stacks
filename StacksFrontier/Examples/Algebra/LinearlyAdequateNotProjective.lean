@@ -467,8 +467,7 @@ lemma map_unitAt {X Y : ((CommAlgCat.{0} ℤ)ᵒᵖ)ᵒᵖ} (f : X ⟶ Y) :
 /-- Doubling acts on sections by adding them to themselves. -/
 lemma doublingExt_app (X : ((CommAlgCat.{0} ℤ)ᵒᵖ)ᵒᵖ)
     (z : (moduleExtension.{0, 0} ℤ rankOne).obj X) : doublingExt.app X z = z + z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, add_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
     have h : doublingExt.app X (b ⊗ₜ[ℤ] m) = b ⊗ₜ[ℤ] (m + m) :=
       (moduleExtensionFunctor_map_app_tmul ℤ doubling X b m).trans

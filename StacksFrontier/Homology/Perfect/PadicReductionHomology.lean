@@ -74,7 +74,7 @@ theorem shortExact_nsmul_extendRestrictScalarsAdj_unit (M : ModuleCat.{v} ℤ_[�
     Submodule.mem_smul_pointwise_iff_exists] at hmem
   obtain ⟨y, -, hy⟩ := hmem
   refine ⟨y, ?_⟩
-  show (ℓ ^ m) • y = x
+  change (ℓ ^ m) • y = x
   rw [← hy, ← Nat.cast_pow, Nat.cast_smul_eq_nsmul]
 
 /-- For a complex `P` of projective `ℤ_ℓ`-modules, the sequence `0 → P →^{ℓᵐ} P → ℤ/ℓᵐ ⊗ P → 0`

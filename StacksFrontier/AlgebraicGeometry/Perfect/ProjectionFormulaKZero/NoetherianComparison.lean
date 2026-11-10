@@ -111,7 +111,7 @@ theorem addEquiv_parityEulerClass_eq_cls [IsLocallyNoetherian X]
   have hcomp : ψ.comp e.toAddMonoidHom = AddMonoidHom.id _ := by
     refine KZero.hom_ext fun G => ?_
     obtain ⟨D, ⟨i⟩⟩ := hexists G
-    show ψ (e (KZero.mk _ G)) = KZero.mk _ G
+    change ψ (e (KZero.mk _ G)) = KZero.mk _ G
     rw [hchar G D i, hψ D, parityEulerClass_congr i]
     exact parityEulerClass_single G
   obtain ⟨y, hy⟩ := e.surjective (K0.cls K)

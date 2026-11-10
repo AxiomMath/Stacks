@@ -165,10 +165,10 @@ theorem range_pointsMap_ι_subset_sourceSaturationPoints
   have key (f : G.arrows.obj ⟶ G.objects.obj) (hf : f.app T a.1 = z) :
       pointsMap B S hS G.arrows.obj f (r.class B S hS G.arrows.obj) =
         pointsMap B S hS W.toFunctor W.ι (p.class B S hS W.toFunctor) := by
-    show Quot.mk _ (FieldValuedPoint.map B S hS G.arrows.obj f r) =
+    change Quot.mk _ (FieldValuedPoint.map B S hS G.arrows.obj f r) =
       Quot.mk _ (FieldValuedPoint.map B S hS W.toFunctor W.ι p)
     congr 1
-    show FieldValuedPoint.mk p.carrier p.contained p.toBase (f.app T a.1) = _
+    change FieldValuedPoint.mk p.carrier p.contained p.toBase (f.app T a.1) = _
     rw [hf]
     rfl
   exact ⟨r.class B S hS G.arrows.obj,
@@ -247,16 +247,16 @@ private theorem exists_source_eq_target_mem
   have hdom₁ : FieldValuedPoint.Dominates B S hS G.objects.obj common
       (FieldValuedPoint.map B S hS G.arrows.obj G.source.hom r) := by
     refine ⟨𝟙 _, ?_⟩
-    show G.objects.obj.map (𝟙 T) (G.source.hom.app T c) = G.target.hom.app T a
+    change G.objects.obj.map (𝟙 T) (G.source.hom.app T c) = G.target.hom.app T a
     simpa using hcsrc
   have hdom₂ : FieldValuedPoint.Dominates B S hS G.objects.obj common tp := by
     refine ⟨i, ?_⟩
-    show G.objects.obj.map i.op tp.value = G.target.hom.app T a
+    change G.objects.obj.map i.op tp.value = G.target.hom.app T a
     exact (G.target.hom.naturality_apply i.op p.value).symm
   refine ⟨r, ?_, ?_⟩
   · exact FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS G.objects.obj
       ⟨common, hdom₁, hdom₂⟩
-  · show G.target.hom.app T c ∈ W.obj T
+  · change G.target.hom.app T c ∈ W.obj T
     exact hctgt ▸ hbmem
 
 /-- An arrow whose source lies in the saturation of `W` has its target in it: the source of the

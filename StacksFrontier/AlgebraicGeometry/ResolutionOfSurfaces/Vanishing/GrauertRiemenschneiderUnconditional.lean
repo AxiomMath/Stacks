@@ -391,11 +391,13 @@ reading, which is the whole apparent chain through 08DW, 08EU, 0GEW and the dual
 Read in its own module the private lemma is clean, and so is every constant in the statements
 and proofs of the two theorems that consume it.
 
-The proof is complete: no proof in `StacksCore/` or `StacksFrontier/` is left open, Mathlib and every
+The proof is complete: no proof in `StacksCore/` or `StacksFrontier/` is left open, Mathlib and
+every
 dependency are complete, and no elaborator in this repository emits a placeholder. So no library
 declaration can carry one at all.
 
-The spurious report disappears with a three-line change in that one base file: import `Homology/Tor/DerivedChangeOfRings`
+The spurious report disappears with a three-line change in that one base file: import
+`Homology/Tor/DerivedChangeOfRings`
 publicly instead of `import all` on `DerivedExtensionScalars`, and call the already-public twin
 `CochainComplex.DerivedTensor.KFlatDerived.isLeftDerivedFunctor_of_isIso_on_kFlat`, which has the
 same signature and whose body lives in its own module. It is mathematically a no-op. -/

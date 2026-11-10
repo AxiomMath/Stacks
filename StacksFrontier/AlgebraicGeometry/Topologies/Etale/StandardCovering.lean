@@ -123,7 +123,7 @@ public theorem isStandardEtaleCovering_comp (B : AlgebraicGeometry.BigEtaleSite.
     h𝒰.2.1, ?_, ?_⟩
   · have := h𝒰.2.2.1
     have (i : 𝒰.2.I₀) := (h𝒱 i).2.2.1
-    show Finite (Σ i, (𝒱 i).2.I₀)
+    change Finite (Σ i, (𝒱 i).2.I₀)
     infer_instance
   · rintro ⟨i, j⟩
     exact (h𝒱 i).2.2.2 j

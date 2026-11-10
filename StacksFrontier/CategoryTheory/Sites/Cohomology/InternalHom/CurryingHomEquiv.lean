@@ -91,8 +91,8 @@ The inputs it needs are available.
 * The comparison of Stacks 08DM, `strictlyPerfectHomComparison`, as a degree-zero global
   hypercohomology class is
   `AlgebraicGeometry.RingedSite.strictlyPerfectHomComparisonClass`, in
-  `StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.StrictlyPerfectHomComparisonClass`, and
-  `RingedSite.derivedSheafHomGlobalSectionsEquiv_symm_strictlyPerfectHomComparison`
+  `StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.StrictlyPerfectHomComparisonClass`,
+  and `RingedSite.derivedSheafHomGlobalSectionsEquiv_symm_strictlyPerfectHomComparison`
   says it is the Stacks 08JA preimage of the comparison. The comparison **factors** as the class
   of a morphism of complexes followed by two isomorphisms of `D(O)` — the morphism of internal Hom
   complexes induced by the K-injective augmentation `𝜀_F : F ⟶ R F`, then the inverse of the
@@ -100,9 +100,10 @@ The inputs it needs are available.
   Hom — which is its definition, so the factorization is `rfl`. Only that first factor has to be
   of the form `DerivedCategory.Q.map f`, Stacks 08JA being natural in its target for an arbitrary
   morphism of `D(O)`.
-* No hypothesis on the target `C` is needed:
-  `StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.StrictlyPerfectHomComparisonEvaluation`
-  writes both sides of the square above as the corresponding side of a more general square at a
+* No hypothesis on the target `C` is needed: the module
+  `StrictlyPerfectHomComparisonEvaluation` (in the folder
+  `StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom`) writes both sides of the
+  square above as the corresponding side of a more general square at a
   morphism of complexes `f : A ⟶ SheafHom(B, C)`, pushed along `f ⊗ 1` — the cochain side by
   `AlgebraicGeometry.RingedSite.comparisonRight_comp_curryHomEquiv`, the derived side by Stacks
   08J8 in the source variable — and

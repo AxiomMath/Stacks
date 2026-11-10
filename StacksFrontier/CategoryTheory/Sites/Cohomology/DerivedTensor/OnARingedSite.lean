@@ -165,15 +165,15 @@ structure DerivedTensorProduct where
   tensor : DerivedModules R ⥤ DerivedModules R ⥤ DerivedModules R
   /-- K-flat representatives compute the derived tensor product. -/
   comparison (K L : CochainComplex (Modules R) ℤ)
-      (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+      (hK : Stacks.SheafOfModules.KFlat R K) (hL : Stacks.SheafOfModules.KFlat R L) :
     (tensor.obj (DerivedCategory.Q.obj K)).obj (DerivedCategory.Q.obj L) ≅
       DerivedCategory.Q.obj ((Stacks.SheafOfModules.Tensor.tensorComplex R).obj K |>.obj L)
   /-- The K-flat comparison is natural in both complexes. -/
   comparison_naturality
       {K K' L L' : CochainComplex (Modules R) ℤ}
       (f : K ⟶ K') (g : L ⟶ L')
-      (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hK' : Stacks.SheafOfModules.KFlat.KFlat R K')
-      (hL : Stacks.SheafOfModules.KFlat.KFlat R L) (hL' : Stacks.SheafOfModules.KFlat.KFlat R L') :
+      (hK : Stacks.SheafOfModules.KFlat R K) (hK' : Stacks.SheafOfModules.KFlat R K')
+      (hL : Stacks.SheafOfModules.KFlat R L) (hL' : Stacks.SheafOfModules.KFlat R L') :
     (tensor.map (DerivedCategory.Q.map f)).app (DerivedCategory.Q.obj L) ≫
         (tensor.obj (DerivedCategory.Q.obj K')).map (DerivedCategory.Q.map g) ≫
         (comparison K' L' hK' hL').hom =
@@ -183,14 +183,14 @@ structure DerivedTensorProduct where
             (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, u, u} R) (ComplexShape.up ℤ))
   /-- A K-flat right factor computes the tensor product with any left complex. -/
   comparisonRight (K L : CochainComplex (Modules R) ℤ)
-      (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+      (hL : Stacks.SheafOfModules.KFlat R L) :
     (tensor.obj (DerivedCategory.Q.obj K)).obj (DerivedCategory.Q.obj L) ≅
       DerivedCategory.Q.obj ((Stacks.SheafOfModules.Tensor.tensorComplex R).obj K |>.obj L)
   /-- The right K-flat comparison is natural without flatness on the left. -/
   comparisonRight_naturality
       {K K' L L' : CochainComplex (Modules R) ℤ}
       (f : K ⟶ K') (g : L ⟶ L')
-      (hL : Stacks.SheafOfModules.KFlat.KFlat R L) (hL' : Stacks.SheafOfModules.KFlat.KFlat R L') :
+      (hL : Stacks.SheafOfModules.KFlat R L) (hL' : Stacks.SheafOfModules.KFlat R L') :
     (tensor.map (DerivedCategory.Q.map f)).app (DerivedCategory.Q.obj L) ≫
         (tensor.obj (DerivedCategory.Q.obj K')).map (DerivedCategory.Q.map g) ≫
         (comparisonRight K' L' hL').hom =
@@ -201,18 +201,18 @@ structure DerivedTensorProduct where
   /-- On two K-flat complexes the right comparison is the existing comparison. -/
   comparisonRight_eq_comparison
       (K L : CochainComplex (Modules R) ℤ)
-      (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+      (hK : Stacks.SheafOfModules.KFlat R K) (hL : Stacks.SheafOfModules.KFlat R L) :
     comparisonRight K L hL = comparison K L hK hL
   /-- A K-flat left factor computes the tensor product with any right complex. -/
   comparisonLeft (K L : CochainComplex (Modules R) ℤ)
-      (hK : Stacks.SheafOfModules.KFlat.KFlat R K) :
+      (hK : Stacks.SheafOfModules.KFlat R K) :
     (tensor.obj (DerivedCategory.Q.obj K)).obj (DerivedCategory.Q.obj L) ≅
       DerivedCategory.Q.obj ((Stacks.SheafOfModules.Tensor.tensorComplex R).obj K |>.obj L)
   /-- The left K-flat comparison is natural without flatness on the right. -/
   comparisonLeft_naturality
       {K K' L L' : CochainComplex (Modules R) ℤ}
       (f : K ⟶ K') (g : L ⟶ L')
-      (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hK' : Stacks.SheafOfModules.KFlat.KFlat R K') :
+      (hK : Stacks.SheafOfModules.KFlat R K) (hK' : Stacks.SheafOfModules.KFlat R K') :
     (tensor.map (DerivedCategory.Q.map f)).app (DerivedCategory.Q.obj L) ≫
         (tensor.obj (DerivedCategory.Q.obj K')).map (DerivedCategory.Q.map g) ≫
         (comparisonLeft K' L' hK').hom =
@@ -223,7 +223,7 @@ structure DerivedTensorProduct where
   /-- On two K-flat complexes the left comparison is the existing comparison. -/
   comparisonLeft_eq_comparison
       (K L : CochainComplex (Modules R) ℤ)
-      (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+      (hK : Stacks.SheafOfModules.KFlat R K) (hL : Stacks.SheafOfModules.KFlat R L) :
     comparisonLeft K L hK = comparison K L hK hL
   /-- The canonical map from derived tensor to ordinary total tensor. -/
   toTensor (K L : CochainComplex (Modules R) ℤ) :
@@ -243,12 +243,12 @@ structure DerivedTensorProduct where
   /-- If the right factor is K-flat, the canonical map is the right comparison. -/
   toTensor_eq_comparisonRight
       (K L : CochainComplex (Modules R) ℤ)
-      (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+      (hL : Stacks.SheafOfModules.KFlat R L) :
     toTensor K L = (comparisonRight K L hL).hom
   /-- If the left factor is K-flat, the canonical map is the left comparison. -/
   toTensor_eq_comparisonLeft
       (K L : CochainComplex (Modules R) ℤ)
-      (hK : Stacks.SheafOfModules.KFlat.KFlat R K) :
+      (hK : Stacks.SheafOfModules.KFlat R K) :
     toTensor K L = (comparisonLeft K L hK).hom
   /-- The derived tensor product commutes with the shifts in both variables, with Mathlib's
   sign `(-1) ^ (p * q)`: fixing either argument gives a shift-compatible functor, those
@@ -291,7 +291,7 @@ variable (T : DerivedTensorProduct R)
 /-- On two K-flat complexes the canonical map is the two-sided comparison. -/
 theorem toTensor_eq_comparison
     (K L : CochainComplex (Modules R) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K) (hL : Stacks.SheafOfModules.KFlat R L) :
     T.toTensor K L = (T.comparison K L hK hL).hom := by
   rw [T.toTensor_eq_comparisonRight K L hL,
     T.comparisonRight_eq_comparison K L hK hL]
@@ -301,7 +301,7 @@ those augmentations. -/
 theorem toTensor_comp_augmentations
     {P Q K L : CochainComplex (Modules R) ℤ}
     (p : P ⟶ K) (q : Q ⟶ L)
-    (hP : Stacks.SheafOfModules.KFlat.KFlat R P) (hQ : Stacks.SheafOfModules.KFlat.KFlat R Q) :
+    (hP : Stacks.SheafOfModules.KFlat R P) (hQ : Stacks.SheafOfModules.KFlat R Q) :
     (T.tensor.map (DerivedCategory.Q.map p)).app (DerivedCategory.Q.obj Q) ≫
         (T.tensor.obj (DerivedCategory.Q.obj K)).map (DerivedCategory.Q.map q) ≫
         T.toTensor K L =
@@ -315,7 +315,7 @@ theorem toTensor_comp_augmentations
 theorem toTensor_eq_of_resolutions
     {P Q K L : CochainComplex (Modules R) ℤ}
     (p : P ⟶ K) (q : Q ⟶ L) [QuasiIso p] [QuasiIso q]
-    (hP : Stacks.SheafOfModules.KFlat.KFlat R P) (hQ : Stacks.SheafOfModules.KFlat.KFlat R Q) :
+    (hP : Stacks.SheafOfModules.KFlat R P) (hQ : Stacks.SheafOfModules.KFlat R Q) :
     T.toTensor K L =
       inv ((T.tensor.obj (DerivedCategory.Q.obj K)).map (DerivedCategory.Q.map q)) ≫
         inv ((T.tensor.map (DerivedCategory.Q.map p)).app (DerivedCategory.Q.obj Q)) ≫
@@ -330,8 +330,8 @@ theorem toTensor_eq_of_resolutions
 of the arbitrary left complex. -/
 theorem comparisonRight_comp_augmentation
     {P K L : CochainComplex (Modules R) ℤ}
-    (p : P ⟶ K) (hP : Stacks.SheafOfModules.KFlat.KFlat R P)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (p : P ⟶ K) (hP : Stacks.SheafOfModules.KFlat R P)
+    (hL : Stacks.SheafOfModules.KFlat R L) :
     (T.tensor.map (DerivedCategory.Q.map p)).app (DerivedCategory.Q.obj L) ≫
         (T.comparisonRight K L hL).hom =
       (T.comparison P L hP hL).hom ≫
@@ -345,8 +345,8 @@ theorem comparisonRight_comp_augmentation
 of the arbitrary right complex. -/
 theorem comparisonLeft_comp_augmentation
     {K P L : CochainComplex (Modules R) ℤ}
-    (p : P ⟶ L) (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-    (hP : Stacks.SheafOfModules.KFlat.KFlat R P) :
+    (p : P ⟶ L) (hK : Stacks.SheafOfModules.KFlat R K)
+    (hP : Stacks.SheafOfModules.KFlat R P) :
     (T.tensor.obj (DerivedCategory.Q.obj K)).map (DerivedCategory.Q.map p) ≫
         (T.comparisonLeft K L hK).hom =
       (T.comparison K P hK hP).hom ≫
@@ -361,7 +361,7 @@ including its normalization, from the two-sided comparison. -/
 theorem comparisonRight_eq_of_resolution
     {P K L : CochainComplex (Modules R) ℤ}
     (p : P ⟶ K) [QuasiIso p]
-    (hP : Stacks.SheafOfModules.KFlat.KFlat R P) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hP : Stacks.SheafOfModules.KFlat R P) (hL : Stacks.SheafOfModules.KFlat R L) :
     (T.comparisonRight K L hL).hom =
       inv ((T.tensor.map (DerivedCategory.Q.map p)).app (DerivedCategory.Q.obj L)) ≫
         (T.comparison P L hP hL).hom ≫
@@ -375,7 +375,7 @@ two-sided comparison and the augmentation. -/
 theorem comparisonLeft_eq_of_resolution
     {K P L : CochainComplex (Modules R) ℤ}
     (p : P ⟶ L) [QuasiIso p]
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hP : Stacks.SheafOfModules.KFlat.KFlat R P) :
+    (hK : Stacks.SheafOfModules.KFlat R K) (hP : Stacks.SheafOfModules.KFlat R P) :
     (T.comparisonLeft K L hK).hom =
       inv ((T.tensor.obj (DerivedCategory.Q.obj K)).map (DerivedCategory.Q.map p)) ≫
         (T.comparison K P hK hP).hom ≫

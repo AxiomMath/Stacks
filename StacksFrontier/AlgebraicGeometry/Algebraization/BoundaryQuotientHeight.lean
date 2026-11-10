@@ -87,7 +87,7 @@ private lemma height_le_cohomologicalDimension_of_height_one
   have hdim := Stacks.LocalCohomology.ringKrullDim_quotient_le_cohomologicalDimension' R P I
     I.fg_of_isNoetherianRing hinter (IsLocalRing.maximalIdeal (R ⧸ P)).height.toNat
     (by rw [← IsLocalRing.maximalIdeal_height_eq_ringKrullDim]
-        exact_mod_cast (ENat.coe_toNat hmne).symm)
+        exact_mod_cast (ENat.natCast_toNat hmne).symm)
   have hle := Ideal.height_add_one_le_of_lt_of_isPrime hQ
   rw [hadd, add_comm (1 : ℕ∞)] at hle
   have hle' : Q.height ≤ (IsLocalRing.maximalIdeal (R ⧸ P)).height :=
@@ -131,22 +131,22 @@ public theorem quotient_height_le_cohomologicalDimension
     apply Subtype.ext
     exact h
   have hfq : f qR = q := by
-    show (eQ (eL qR).val).val = q
+    change (eQ (eL qR).val).val = q
     rw [eL.apply_symm_apply]
     exact congrArg Subtype.val (eQ.apply_symm_apply _)
   have hfy : f yR = y := by
-    show (eQ (eL yR).val).val = y
+    change (eQ (eL yR).val).val = y
     rw [eL.apply_symm_apply]
     exact congrArg Subtype.val (eQ.apply_symm_apply _)
   have hfz (a : PrimeSpectrum R) : f a ≤ z := by
     have h := eQ.monotone (eL a).property
     change (eQ (eL a).val).val ≤ (eQ zB).val at h
-    show (eQ (eL a).val).val ≤ z
+    change (eQ (eL a).val).val ≤ z
     simpa only [zB, eQ.apply_symm_apply] using h
   have hfm : f (IsLocalRing.closedPoint R) = z := by
     let zR : PrimeSpectrum R := eL.symm ⟨zB, show zB.asIdeal ≤ zB.asIdeal from le_rfl⟩
     have hzR : f zR = z := by
-      show (eQ (eL zR).val).val = z
+      change (eQ (eL zR).val).val = z
       rw [eL.apply_symm_apply]
       exact congrArg Subtype.val (eQ.apply_symm_apply _)
     refine le_antisymm (hfz _) ?_
@@ -154,7 +154,7 @@ public theorem quotient_height_le_cohomologicalDimension
     exact Ideal.comap_mono (IsLocalRing.le_maximalIdeal zR.isPrime.ne_top)
   have hfp : f ⊥ = p := by
     apply PrimeSpectrum.ext
-    show RingHom.ker g = p.asIdeal
+    change RingHom.ker g = p.asIdeal
     rw [RingHom.ker_comp_of_injective _ (IsLocalization.injective R
       zB.asIdeal.primeCompl_le_nonZeroDivisors), Ideal.mk_ker]
   have hcov : (⊥ : PrimeSpectrum R) ⋖ qR := by
@@ -170,7 +170,7 @@ public theorem quotient_height_le_cohomologicalDimension
     exact hpq.2 h₁ h₂
   have hheight : qR.asIdeal.height = 1 := by
     rw [PrimeSpectrum.height_eq_orderHeight]
-    show Order.height qR = (0 : ℕ∞) + 1
+    change Order.height qR = (0 : ℕ∞) + 1
     refine (Order.height_eq_coe_add_one_iff (n := 0)).mpr ⟨?_, ⟨⊥, hcov.lt, by simp⟩, ?_⟩
     · rw [← PrimeSpectrum.height_eq_orderHeight]
       exact lt_top_iff_ne_top.mpr (Ideal.height_ne_top qR.isPrime.ne_top)
@@ -182,7 +182,7 @@ public theorem quotient_height_le_cohomologicalDimension
       simp
   have hImax : I.map g ≤ IsLocalRing.maximalIdeal R := by
     rw [Ideal.map_le_iff_le_comap]
-    show I ≤ (f (IsLocalRing.closedPoint R)).asIdeal
+    change I ≤ (f (IsLocalRing.closedPoint R)).asIdeal
     rw [hfm]
     exact le_sup_right.trans hzmin.1.2
   have hinter : PrimeSpectrum.zeroLocus (qR.asIdeal : Set R) ∩

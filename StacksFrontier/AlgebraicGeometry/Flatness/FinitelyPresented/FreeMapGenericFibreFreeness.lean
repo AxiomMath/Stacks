@@ -101,7 +101,7 @@ theorem bijective_rTensor_residueField_of_basis_localizedModule {S : Type u} [Co
   classical
   have hsurjb : Function.Surjective (alpha.baseChange q.ResidueField) := by
     have h := alpha.lTensor_surjective q.ResidueField hsurj
-    rwa [← LinearMap.baseChange_eq_ltensor] at h
+    rwa [← LinearMap.baseChange_eq_lTensor] at h
   have hbsrc : Module.Basis (Fin p) q.ResidueField (q.ResidueField ⊗[S] (Fin p → S)) :=
     (Pi.basisFun S (Fin p)).baseChange q.ResidueField
   have : Module.Finite q.ResidueField (q.ResidueField ⊗[S] (Fin p → S)) :=
@@ -114,7 +114,7 @@ theorem bijective_rTensor_residueField_of_basis_localizedModule {S : Type u} [Co
     finrank_fiber_of_basis_localizedModule q N p b
   have hbij : Function.Bijective (alpha.baseChange q.ResidueField) :=
     OrzechProperty.bijective_of_surjective_of_finrank_le _ hsurjb (by rw [hsrc, htgt])
-  rw [LinearMap.baseChange_eq_ltensor] at hbij
+  rw [LinearMap.baseChange_eq_lTensor] at hbij
   exact ⟨(LinearMap.lTensor_inj_iff_rTensor_inj _ _).mp hbij.1,
     (LinearMap.lTensor_surj_iff_rTensor_surj _ _).mp hbij.2⟩
 

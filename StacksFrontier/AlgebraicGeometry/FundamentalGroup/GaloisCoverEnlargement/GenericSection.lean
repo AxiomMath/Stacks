@@ -62,7 +62,7 @@ theorem exists_section_of_genericPoint {S : Scheme.{u}} [IsIntegral S] [IsNormal
   let H' : FiniteEtaleOver (Spec (.of R)) := (finiteEtaleBaseChange hV.isoSpec.inv).obj HV
   have hgen : Spec.map (CommRingCat.ofHom (algebraMap R K)) ≫ hV.isoSpec.inv ≫ V.ι =
       S.fromSpecResidueField (genericPoint S) := by
-    show Spec.map ρ ≫ _ = _
+    change Spec.map ρ ≫ _ = _
     rw [Spec.map_comp, Category.assoc, ← Category.assoc (Spec.map (S.presheaf.germ _ _ _)),
       specMap_germ_isoSpec_inv S _ hV hηV, Scheme.Opens.fromSpecStalkOfMem_ι]
     rfl
@@ -84,7 +84,7 @@ theorem exists_section_of_genericPoint {S : Scheme.{u}} [IsIntegral S] [IsNormal
     MorphismProperty.Over.mk ⊤ (𝟙 U.toScheme) ⟨inferInstance, inferInstance⟩
   let m : (finiteEtaleBaseChange j).obj one ⟶ (finiteEtaleBaseChange j).obj H :=
     MorphismProperty.Over.homMk (pullback.snd (𝟙 U.toScheme) j ≫ tV) (by
-      show (pullback.snd (𝟙 U.toScheme) j ≫ tV) ≫ HV.hom = _
+      change (pullback.snd (𝟙 U.toScheme) j ≫ tV) ≫ HV.hom = _
       rw [Category.assoc, htV, Category.comp_id]
       rfl) trivial
   exact ⟨(hff.preimage m).left, MorphismProperty.Over.w (hff.preimage m)⟩

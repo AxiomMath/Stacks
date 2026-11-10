@@ -45,7 +45,7 @@ theorem upperSemicontinuous_natCast_eNat {α : Type*} [TopologicalSpace α] {β 
     (h : UpperSemicontinuous β) : UpperSemicontinuous (fun x => (β x : ℕ∞)) := by
   intro x y hy
   induction y using ENat.recTopCoe with
-  | top => exact Filter.Eventually.of_forall fun x' => ENat.coe_lt_top _
+  | top => exact Filter.Eventually.of_forall fun x' => ENat.natCast_lt_top _
   | coe n =>
       have hy' : (β x : ℕ∞) < (n : ℕ∞) := hy
       have hlt : β x < n := by exact_mod_cast hy'

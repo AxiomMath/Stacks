@@ -139,14 +139,14 @@ private theorem isLocallySurjective_sigmaDesc_sheafifiedULiftMap
     have hG : (Sigma.ι G i).hom ≫ (Sigma.desc fun i ↦
           Space.sheafifiedULiftMap B S hS (yoneda.map (ι i) ≫ p)).hom =
         (Space.sheafifiedULiftMap B S hS (yoneda.map (ι i) ≫ p)).hom := by
-      rw [← ObjectProperty.FullSubcategory.comp_hom, Sigma.ι_desc]
+      rw [← ObjectProperty.FullSubcategory.comp_hom, Sigma.ι_comp_desc]
     have hL : Sigma.ι (fun i ↦ yoneda.obj (C i) ⋙ uliftFunctor.{u + 1}) i ≫ d =
         JJ.toSheafify (yoneda.obj (C i) ⋙ uliftFunctor.{u + 1}) ≫ (Sigma.ι G i).hom :=
-      Sigma.ι_desc _ i
+      Sigma.ι_comp_desc _ i
     have hR : Sigma.ι (fun i ↦ yoneda.obj (C i) ⋙ uliftFunctor.{u + 1}) i ≫
         (Sigma.desc fun i ↦ Functor.whiskerRight (yoneda.map (ι i)) uliftFunctor.{u + 1}) =
           Functor.whiskerRight (yoneda.map (ι i)) uliftFunctor.{u + 1} :=
-      Sigma.ι_desc _ i
+      Sigma.ι_comp_desc _ i
     have e₁ : Sigma.ι (fun i ↦ yoneda.obj (C i) ⋙ uliftFunctor.{u + 1}) i ≫ d ≫
           (Sigma.desc fun i ↦ Space.sheafifiedULiftMap B S hS (yoneda.map (ι i) ≫ p)).hom =
         (JJ.toSheafify (yoneda.obj (C i) ⋙ uliftFunctor.{u + 1}) ≫ (Sigma.ι G i).hom) ≫
@@ -326,7 +326,7 @@ theorem epi_sigmaDesc_completionSheafMap {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
       t ≫ Sigma.desc fun i ↦ pullback.snd (ψ i) φ := by
     apply Sigma.hom_ext
     intro i
-    simp only [t, Sigma.ι_desc_assoc, Sigma.ι_desc, Category.assoc]
+    simp only [t, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Category.assoc]
     exact ((Space.isPullback_completionSheafMap B S hS (a i) T).isoPullback_hom_snd).symm
   rw [hfac]
   exact epi_comp' (IsSplitEpi.epi t) ((Sheaf.isLocallySurjective_iff_epi _).mp hbase)
@@ -386,7 +386,7 @@ theorem exists_epi_uliftYoneda_zeroLocusCompletion {A : Type u} [CommRing A]
       _ ≤ μ := le_max_right _ _
   have hX : ∀ K, ((BigFppfOver.toScheme B S hS).obj (Xs K)).size ≤ μ := by
     intro K
-    show (Spec (.of (A ⧸ K.1))).size ≤ μ
+    change (Spec (.of (A ⧸ K.1))).size ≤ μ
     rw [Scheme.size_Spec]
     exact max_le (le_max_left _ _)
       (mk_quotient_le.trans ((Cardinal.cantor _).le.trans (le_max_right _ _)))

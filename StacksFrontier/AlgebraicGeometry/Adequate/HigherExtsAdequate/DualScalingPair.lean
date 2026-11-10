@@ -239,10 +239,10 @@ lemma dualNumberPairInr_eq_eps_smul (X : AlgebraModulePair.{w} A) (v : X.module)
       dualEps X • (dualNumberPairInl X).linear v :=
   DualPairModule.ext (C := X.algebra)
     (by
-      show (0 : X.module) = (inr 1 : TrivSqZeroExt X.algebra X.algebra).fst • v
+      change (0 : X.module) = (inr 1 : TrivSqZeroExt X.algebra X.algebra).fst • v
       simp)
     (by
-      show v = (inr 1 : TrivSqZeroExt X.algebra X.algebra).fst • (0 : X.module) +
+      change v = (inr 1 : TrivSqZeroExt X.algebra X.algebra).fst • (0 : X.module) +
         (inr 1 : TrivSqZeroExt X.algebra X.algebra).snd • v
       simp)
 
@@ -309,13 +309,13 @@ lemma dualCoord_ext {x y : (dualNumberPair X).module} (h₁ : dualCoordFst X x =
 /-- The `V`-coordinate is `A`-linear. -/
 @[simp] lemma dualCoordFst_smul_base (a : A) (x : (dualNumberPair X).module) :
     dualCoordFst X (a • x) = a • dualCoordFst X x := by
-  show (algebraMap A X.algebra a) • DualPairModule.fst X.algebra x = _
+  change (algebraMap A X.algebra a) • DualPairModule.fst X.algebra x = _
   exact algebraMap_smul X.algebra a _
 
 /-- The `εV`-coordinate is `A`-linear. -/
 @[simp] lemma dualCoordSnd_smul_base (a : A) (x : (dualNumberPair X).module) :
     dualCoordSnd X (a • x) = a • dualCoordSnd X x := by
-  show (algebraMap A X.algebra a) • DualPairModule.snd X.algebra x +
+  change (algebraMap A X.algebra a) • DualPairModule.snd X.algebra x +
     (0 : X.algebra) • DualPairModule.fst X.algebra x = _
   rw [zero_smul, add_zero]
   exact algebraMap_smul X.algebra a _

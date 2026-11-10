@@ -211,7 +211,7 @@ theorem isFlat_algebraicSpaceMap_of_iso_yoneda (U : BigFppfOver B S hS)
       isAlgebraicSpace_viewOver B U.left.1 S U.left.2 hS U.hom P hP⟩ : AlgebraicSpaces B S hS) ≅
       ⟨yoneda.obj ((Over.map U.hom).obj V), isAlgebraicSpace_yoneda B S hS _⟩ :=
     ObjectProperty.isoMk _ j
-  show Space.IsFlat B S hS (OverShriek.relocalizeToYoneda U.hom P)
+  change Space.IsFlat B S hS (OverShriek.relocalizeToYoneda U.hom P)
   rw [← hj]
   exact ((Space.flatProperty B S hS).cancel_left_of_respectsIso jA.hom
     (ObjectProperty.homMk (yoneda.map k) :
@@ -373,7 +373,7 @@ theorem exists_locus_of_isCutOutOnTestSchemes
   have hm : m.base.left = eqToHom hT ≫ (Over.map U.hom).map t ≫ eqToHom hA.symm :=
     Functor.congr_hom hy t
   rw [hZ (y.obj T) m]
-  show Set.range ((BigFppfOver.toScheme B S hS).map m.base.left) ⊆ Z ↔ _
+  change Set.range ((BigFppfOver.toScheme B S hS).map m.base.left) ⊆ Z ↔ _
   rw [hm]
 
 /-- **The flat closed subscheme cutting out `Coh^Q_{X/Y}` on a scheme-valued point.**  If on the
@@ -407,14 +407,14 @@ theorem exists_flatClosedLocus_conditionι (U : BigFppfOver B S hS)
       (BigFppfOver.toScheme B S hS).map s ≫ (BigFppfOver.toScheme B S hS).map (eqToHom hA) :=
     Functor.map_comp _ _ _
   refine ⟨Over.mk s'.left, ?_, ?_, fun hop => ?_, fun T => ?_⟩
-  · show _root_.AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map s')
+  · change _root_.AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map s')
     rw [hs']
     infer_instance
-  · show Flat ((BigFppfOver.toScheme B S hS).map s')
+  · change Flat ((BigFppfOver.toScheme B S hS).map s')
     rw [hs']
     infer_instance
   · have := hsop hop
-    show _root_.AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map s')
+    change _root_.AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map s')
     rw [hs']
     infer_instance
   · have hT : (y.obj T).T.left = (Over.map U.hom).obj T := Functor.congr_obj hy T

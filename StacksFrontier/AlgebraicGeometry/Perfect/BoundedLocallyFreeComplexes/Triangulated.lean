@@ -94,7 +94,7 @@ theorem free_empty_isZero {C : Type u} [Category.{u} C]
 private theorem coversTop_iff_forall_exists_mem {Y : Type u} [TopologicalSpace Y] {ι : Type*}
     (U : ι → Opens Y) :
     (Opens.grothendieckTopology Y).CoversTop U ↔ ∀ x, ∃ i, x ∈ U i := by
-  simp [Opens.coversTop_iff, IsOpenCover, eq_top_iff, SetLike.le_def, Opens.mem_iSup]
+  simp [Opens.coversTop_iff, IsOpenCover, eq_top_iff, IsConcreteLE.le_iff, Opens.mem_iSup]
 
 /-- **A zero module on a scheme is finite locally free.** Take the one-member covering by the
 whole space and the empty generating family: the free module on the empty type is zero, so the
@@ -185,9 +185,9 @@ theorem freeGeneratingSectionsEquivOfIso_isIso
     [J.WEqualsLocallyBijective AddCommGrpCat.{u}] (I : Type u)
     {N : SheafOfModules.{u} R} (e : SheafOfModules.free I ≅ N) :
     IsIso ((SheafOfModules.free.generatingSections I).equivOfIso e).π := by
-  show IsIso (((SheafOfModules.free.generatingSections I).ofEpi e.hom).π)
+  change IsIso (((SheafOfModules.free.generatingSections I).ofEpi e.hom).π)
   rw [SheafOfModules.GeneratingSections.ofEpi_π, SheafOfModules.free.generatingSections_π]
-  show IsIso (𝟙 (SheafOfModules.free I) ≫ e.hom)
+  change IsIso (𝟙 (SheafOfModules.free I) ≫ e.hom)
   simpa only [Category.id_comp] using e.isIso_hom
 
 /-- **A biproduct of two finite locally free modules is finite locally free.** Intersect the two
@@ -252,7 +252,7 @@ theorem finiteLocallyFree_biprod
     refine ⟨fun ij => ⟨?_⟩⟩
     have := (hqfin.isFiniteType ij.1).finite
     have := (hrfin.isFiniteType ij.2).finite
-    show Finite (Sum (q.generators ij.1).I (r.generators ij.2).I)
+    change Finite (Sum (q.generators ij.1).I (r.generators ij.2).I)
     infer_instance
   exact ⟨σ, hσ, hσfin⟩
 

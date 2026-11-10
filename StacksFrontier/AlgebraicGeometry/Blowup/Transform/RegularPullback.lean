@@ -136,17 +136,17 @@ namespace AlgebraicGeometry
 private theorem appTop_specMap_comp_isoSpec_inv {X : Scheme.{u}} {U : X.Opens}
     (hU : IsAffineOpen U) {B : CommRingCat.{u}} (φ : CommRingCat.of Γ(X, U) ⟶ B) (s : Γ(X, U)) :
     (Spec.map φ ≫ hU.isoSpec.inv).appTop (U.topIso.inv s) = (Scheme.ΓSpecIso B).inv (φ s) := by
-  show ((Spec.map φ ≫ hU.isoSpec.inv).app ⊤) (U.topIso.inv s) = _
+  change ((Spec.map φ ≫ hU.isoSpec.inv).app ⊤) (U.topIso.inv s) = _
   rw [Scheme.Hom.comp_app]
-  show (hU.isoSpec.inv.appTop ≫ (Spec.map φ).appTop) (U.topIso.inv s) = _
+  change (hU.isoSpec.inv.appTop ≫ (Spec.map φ).appTop) (U.topIso.inv s) = _
   rw [hU.isoSpec_inv_appTop]
   have hnat : φ ≫ (Scheme.ΓSpecIso B).inv =
       (Scheme.ΓSpecIso (CommRingCat.of Γ(X, U))).inv ≫ (Spec.map φ).appTop :=
     Scheme.SpecΓIdentity.inv.naturality φ
-  show (U.topIso.hom ≫ ((Scheme.ΓSpecIso (CommRingCat.of Γ(X, U))).inv ≫
+  change (U.topIso.hom ≫ ((Scheme.ΓSpecIso (CommRingCat.of Γ(X, U))).inv ≫
     (Spec.map φ).appTop)) (U.topIso.inv s) = (Scheme.ΓSpecIso B).inv (φ s)
   rw [← hnat]
-  show (Scheme.ΓSpecIso B).inv (φ (U.topIso.hom (U.topIso.inv s))) =
+  change (Scheme.ΓSpecIso B).inv (φ (U.topIso.hom (U.topIso.inv s))) =
     (Scheme.ΓSpecIso B).inv (φ s)
   rw [U.topIso.inv_hom_id_apply]
 
@@ -193,7 +193,7 @@ theorem isSMulRegular_germ_blowUpToBase_app (V : X.affineOpens) (r : Γ(X, V.1))
   let t := gV.appTop t₀
   have hgpoint : g qZ = x := by
     dsimp only [g, qZ]
-    show (Q.ι ≫ Stacks.RelativeProj.Situation.relativeProjChart (reesSituation I) V)
+    change (Q.ι ≫ Stacks.RelativeProj.Situation.relativeProjChart (reesSituation I) V)
       (e.hom (e.inv q)) = x
     rw [show e.hom (e.inv q) = q from congrArg (fun f ↦ f q) e.inv_hom_id]
     exact hq
@@ -208,7 +208,7 @@ theorem isSMulRegular_germ_blowUpToBase_app (V : X.affineOpens) (r : Γ(X, V.1))
     have hm : V.1.ι.appLE V.1 ⊤ V.1.ι_preimage_self.ge = V.1.topIso.inv := by
       ext z
       rw [Scheme.Opens.ι_appLE]
-      show X.presheaf.map _ z = X.presheaf.map _ z
+      change X.presheaf.map _ z = X.presheaf.map _ z
       exact congrArg (fun i ↦ (X.presheaf.map i) z) (Subsingleton.elim _ _)
     exact congrArg (fun f ↦ f r) hm
   cases hgpoint
@@ -230,7 +230,7 @@ theorem isSMulRegular_germ_blowUpToBase_app (V : X.affineOpens) (r : Γ(X, V.1))
           (x := (gV ≫ V.1.ι) qZ) heq.ge)
     rw [hxi, Scheme.Hom.germ_stalkMap_apply (f := gV ≫ V.1.ι) V.1 qZ hv' r]
     have hpre : (Opens.map (gV ≫ V.1.ι).base).obj V.1 = ⊤ := by
-      show gV ⁻¹ᵁ (V.1.ι ⁻¹ᵁ V.1) = ⊤
+      change gV ⁻¹ᵁ (V.1.ι ⁻¹ᵁ V.1) = ⊤
       simp [V.1.ι_preimage_self]
     let O := (Opens.map (gV ≫ V.1.ι).base).obj V.1
     let tpre : Γ(Z, O) := Z.presheaf.map (homOfLE le_top).op t
@@ -252,7 +252,7 @@ theorem isSMulRegular_germ_blowUpToBase_app (V : X.affineOpens) (r : Γ(X, V.1))
       rw [← Scheme.Hom.appLE_eq_app, ← hcompVal', CommRingCat.comp_apply, hfinal]
       rfl
     rw [happ]
-    show Z.presheaf.germ O qZ hvpre tpre = Z.presheaf.germ ⊤ qZ (by simp) t
+    change Z.presheaf.germ O qZ hvpre tpre = Z.presheaf.germ ⊤ qZ (by simp) t
     exact Z.presheaf.germ_res_apply (homOfLE le_top) qZ hvpre t
   have hmap : g.stalkMap qZ
       ((blowUp I).presheaf.germ (b ⁻¹ᵁ V.1) (g qZ) hx (b.app V.1 r)) =
@@ -293,7 +293,7 @@ pullback along the blowup of the scheme in any quasi-coherent ideal. -/
 theorem isPullbackDefined_blowUpToBase (D : X.IdealSheafData)
     (hD : Stacks.Divisors.IsEffectiveCartierDivisor D) :
     Stacks.Divisors.IsPullbackDefined (blowUpToBase I) D := by
-  show Stacks.Divisors.IsEffectiveCartierDivisor (D.comap (blowUpToBase I))
+  change Stacks.Divisors.IsEffectiveCartierDivisor (D.comap (blowUpToBase I))
   refine (Stacks.Divisors.isEffectiveCartierDivisor_iff_affineLocal
     (D.comap (blowUpToBase I))).2 fun x hx ↦ ?_
   set b : blowUp I ⟶ X := blowUpToBase I

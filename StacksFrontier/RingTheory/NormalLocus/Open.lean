@@ -380,7 +380,7 @@ private theorem mem_associatedPrimes_of_maximalIdeal_mem [IsNoetherianRing R] {q
   have hJmem : ∀ c : R, c ∈ (R ∙ w).annihilator ↔ c * r ∈ Ideal.span {f} := by
     intro c
     rw [Submodule.mem_annihilator_span_singleton]
-    show Ideal.Quotient.mk (Ideal.span {f}) (c * r) = 0 ↔ _
+    change Ideal.Quotient.mk (Ideal.span {f}) (c * r) = 0 ↔ _
     exact Ideal.Quotient.eq_zero_iff_mem
   have hJq : (R ∙ w).annihilator ≤ q := by
     intro c hc

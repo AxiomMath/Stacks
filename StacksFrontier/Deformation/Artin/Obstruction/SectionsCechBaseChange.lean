@@ -286,7 +286,7 @@ lemma cochainComp_cechD (p : ℕ) (m : M) (s : CechCochains.Cochain U G.presheaf
     CechCochains.cechD U (tensorMod f M G).presheaf p (cochainComp f M G U p m s) =
       cochainComp f M G U (p + 1) m (CechCochains.cechD U G.presheaf p s) := by
   funext i
-  show ∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
+  change ∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
       CechCochains.restr (tensorMod f M G).presheaf (CechCochains.inter_le_omit U i j)
         (cochainComp f M G U p m s (i ∘ j.succAbove)) =
     compSection f M G (CechCochains.inter U i) m
@@ -531,8 +531,7 @@ theorem bijective_compSectionSpecHom [G.IsQuasicoherent] (hW : IsAffineOpen W) :
   set e6 := tensorSectionEquiv (constMod f M) G hW with he6
   have hcomp : ∀ z, compSectionSpecHom f M G W z = e6 (e5 (e4 (e3 (e2 (e1 z))))) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul m x =>
         simp only [compSectionSpecHom_tmul, he1, he2, he3, he4, he5, he6,
           TensorProduct.congr_tmul, LinearEquiv.refl_apply, TensorProduct.comm_tmul,
@@ -621,8 +620,7 @@ theorem bijective_alternatingCompTensor [G.IsQuasicoherent] [Finite I]
     ordLinearEquiv f U (tensorMod f M G) p with he4
   have hcomp : ∀ z, e4 (alternatingCompTensor f M G U p z) = e3 (e2 (e1 z)) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul m s => rfl
     | add a b ha hb => simp only [map_add]; rw [ha, hb]
   refine (e4.bijective.of_comp_iff' _).mp ?_

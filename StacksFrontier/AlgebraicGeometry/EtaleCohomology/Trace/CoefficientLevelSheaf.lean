@@ -76,10 +76,10 @@ public theorem coeffLevelMatrix_commute (k : ℕ) (c : coeffLevelRing ℓ O k) (
         rw [map_smul, Matrix.smul_mul, Matrix.mul_smul, ← smul_sub]
         rfl }
   have h : L = 0 := (coeffLevelBasis ℓ b k).ext fun i => by
-    show coeffLevelMatrix ℓ b m k (coeffLevelBasis ℓ b k i) * R -
+    change coeffLevelMatrix ℓ b m k (coeffLevelBasis ℓ b k i) * R -
       R * coeffLevelMatrix ℓ b m k (coeffLevelBasis ℓ b k i) = 0
     rw [coeffLevelBasis_apply, coeffLevelMatrix_of, sub_eq_zero]
-    show (PadicInt.toZModPow k).mapMatrix (coefficientScalarRingHom b m (b i)) *
+    change (PadicInt.toZModPow k).mapMatrix (coefficientScalarRingHom b m (b i)) *
         (PadicInt.toZModPow k).mapMatrix (coefficientMatrixRingHom b m (σ g).val) =
       (PadicInt.toZModPow k).mapMatrix (coefficientMatrixRingHom b m (σ g).val) *
         (PadicInt.toZModPow k).mapMatrix (coefficientScalarRingHom b m (b i))
@@ -173,7 +173,7 @@ public theorem coeffLevelAbelianMap_of (k : ℕ) (o : O) :
   apply finiteContinuousAbelianHom_ext
   ext y
   exact ULift.ext (by
-    show coeffLevelMatrix ℓ b m k (coeffLevelRing.of ℓ O k o) *ᵥ y.down =
+    change coeffLevelMatrix ℓ b m k (coeffLevelRing.of ℓ O k o) *ᵥ y.down =
       ((coefficientScalarRingHom b m o).map (PadicInt.toZModPow k)) *ᵥ y.down
     rw [coeffLevelMatrix_of])
 
@@ -190,7 +190,7 @@ public theorem finiteContinuousScalarFunctor_map_comp_coeffLevelAbelianMap (k : 
   apply finiteContinuousAbelianHom_ext
   ext y
   refine ULift.ext ?_
-  show coeffLevelMatrix ℓ b m k c *ᵥ (a • y.down) = a • (coeffLevelMatrix ℓ b m k c *ᵥ y.down)
+  change coeffLevelMatrix ℓ b m k c *ᵥ (a • y.down) = a • (coeffLevelMatrix ℓ b m k c *ᵥ y.down)
   rw [Matrix.mulVec_smul]
 
 end Abelian
@@ -267,25 +267,29 @@ public def coeffLevelSheafRingHom (k : ℕ) :
     refine End.ext (ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_)))
     ext y
     exact congrArg (fun g => (g.hom.hom.app U).hom y)
-      ((congrArg (fun g : End _ => e.inverse.map g.asHom) (map_one (coeffLevelAbelianRingHom b σ hρ k))).trans
+      ((congrArg (fun g : End _ => e.inverse.map g.asHom)
+        (map_one (coeffLevelAbelianRingHom b σ hρ k))).trans
         (e.inverse.map_id _))
   map_mul' c c' := by
     refine End.ext (ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_)))
     ext y
     exact congrArg (fun g => (g.hom.hom.app U).hom y)
-      ((congrArg (fun g : End _ => e.inverse.map g.asHom) (map_mul (coeffLevelAbelianRingHom b σ hρ k) c c')).trans
+      ((congrArg (fun g : End _ => e.inverse.map g.asHom)
+        (map_mul (coeffLevelAbelianRingHom b σ hρ k) c c')).trans
         (e.inverse.map_comp _ _))
   map_zero' := by
     refine End.ext (ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_)))
     ext y
     exact congrArg (fun g => (g.hom.hom.app U).hom y)
-      ((congrArg (fun g : End _ => e.inverse.map g.asHom) (map_zero (coeffLevelAbelianRingHom b σ hρ k))).trans
+      ((congrArg (fun g : End _ => e.inverse.map g.asHom)
+        (map_zero (coeffLevelAbelianRingHom b σ hρ k))).trans
         (e.inverse.map_zero _ _))
   map_add' c c' := by
     refine End.ext (ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_)))
     ext y
     exact congrArg (fun g => (g.hom.hom.app U).hom y)
-      ((congrArg (fun g : End _ => e.inverse.map g.asHom) (map_add (coeffLevelAbelianRingHom b σ hρ k) c c')).trans
+      ((congrArg (fun g : End _ => e.inverse.map g.asHom)
+        (map_add (coeffLevelAbelianRingHom b σ hρ k) c c')).trans
         e.inverse.map_add)
 
 /-- **`1 ⊗ o` acts on the level sheaf as the morphism of the intertwiner of `o`.** -/
@@ -386,7 +390,7 @@ public theorem coeffLevelEtaleSheafRestrictIso_smul (n : ℕ) (c : coeffLevelRin
         (SmallEtale.sheafEquiv B X.1 X.2 (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))).functor.map
           (coeffLevelSheafMap b B X x e σ hρ (n + 1) c) := by
   ext U y
-  show (c • (show (coeffLevelEtaleSheaf b B X x e σ hρ n).obj.obj U from y)) = _
+  change (c • (show (coeffLevelEtaleSheaf b B X x e σ hρ n).obj.obj U from y)) = _
   exact (ModuleCat.mkOfSMul'_smul _ c _).trans rfl
 
 end Sheaves

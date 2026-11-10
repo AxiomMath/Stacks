@@ -73,6 +73,7 @@ variable {S M N : Type u} {σ : Type w}
   {υ : Type*} [SetLike υ N] [AddSubgroupClass υ N] (𝒩 : ℤ → υ) [Decomposition 𝒩]
   [SetLike.GradedSMul 𝒮 𝒩]
 
+omit [Decomposition 𝒨] in
 /-- The stalk of `associatedModuleSheaf` computed through
 `AlgebraicGeometry.SheafOfModules.stalkObj` is, on the nose, the hand-built
 `associatedModuleSheafStalk`. -/
@@ -81,6 +82,7 @@ theorem stalkObj_eq (x : ProjectiveSpectrum.top 𝒮) :
       (ProjectiveSpectrum.Proj.associatedModuleSheaf 𝒮 𝒨) : Type u) =
       associatedModuleSheafStalk 𝒮 𝒨 x := rfl
 
+omit [Decomposition 𝒨] in
 /-- The germ map through `TopCat.Presheaf.germ` and the hand-built
 `associatedModuleSheafGerm` agree on the nose, once their target types are identified by
 `stalkObj_eq`. -/
@@ -89,6 +91,7 @@ theorem germ_eq (x : ProjectiveSpectrum.top 𝒮) (U : Opens (ProjectiveSpectrum
     (TopCat.Presheaf.germ (ProjectiveSpectrum.Proj.associatedModuleSheaf 𝒮 𝒨).val.presheaf
       U x hx).hom s = associatedModuleSheafGerm 𝒮 𝒨 x U hx s := rfl
 
+omit [Decomposition 𝒨] [Decomposition 𝒩] in
 /-- **The stalk map of `associatedModuleSheafMap` is the localization of `φ`, read through the
 evaluation maps into the ambient fibers.** Evaluating the stalk map at any stalk element and
 pushing the result into the ambient fiber of `N` agrees with applying `φ`'s localization to the
@@ -141,7 +144,7 @@ theorem isIso_associatedModuleSheafMap_of_eventually_bijective
     refine ⟨zM, ?_⟩
     apply (associatedModuleSheafStalkEquiv 𝒮 𝒩 x).injective
     apply Subtype.ext
-    show (associatedModuleSheafStalkEval 𝒮 𝒩 x
+    change (associatedModuleSheafStalkEval 𝒮 𝒩 x
         ((AlgebraicGeometry.SheafOfModules.stalkMap _ x
           (associatedModuleSheafMap 𝒮 𝒨 𝒩 φ hφ)).hom zM) :
         ProjectiveSpectrum.Proj.ModuleFiber (M := N) 𝒮 x) =

@@ -822,7 +822,7 @@ public theorem globalSmul_comp_cokernelπ_pullback (i : Fin (d + 1)) :
   have h : Sigma.ι (fun _ : Fin (d + 1) => (Scheme.Modules.pullback g).obj F) i ≫
       equationsMultiplication (fun j => g.appTop (f j)) ((Scheme.Modules.pullback g).obj F) =
       globalSmul (g.appTop (f i)) ((Scheme.Modules.pullback g).obj F) :=
-    Sigma.ι_desc _ _
+    Sigma.ι_comp_desc _ _
   rw [← h, Category.assoc, cokernel.condition, comp_zero]
 
 /-- The transpose along `g^* ⊣ g_*` of the bottom arrow `equationsQuotientBaseChange` is well

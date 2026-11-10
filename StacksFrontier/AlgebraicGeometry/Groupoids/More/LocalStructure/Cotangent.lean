@@ -401,7 +401,7 @@ theorem pairIdeal_eq_ker :
     G.pairIdeal x = RingHom.ker ((G.stalkIdentity x).comp (G.stalkRightUnit x)) := by
   unfold pairIdeal Scheme.Hom.conormalIdeal
   have hpt : G.identityPair.left x = G.identityPair.left.base x := rfl
-  show RingHom.ker (G.identityPair.left.stalkMapAt x (G.identityPair.left x) hpt) = _
+  change RingHom.ker (G.identityPair.left.stalkMapAt x (G.identityPair.left x) hpt) = _
   congr 1
   rw [stalkIdentity, stalkRightUnit, Scheme.Hom.stalkMapAt_comp_left,
     Scheme.Hom.stalkMapAt_congr _ _ (congrArg Over.Hom.left G.identity_comp_rightUnitPair)]
@@ -425,12 +425,12 @@ theorem pairIdeal_eq_sup :
   let a := (pullback.fst G.source.left G.target.left).stalkMapAt q (G.identity.left x) ha
   let b := (pullback.snd G.source.left G.target.left).stalkMapAt q (G.identity.left x) hb
   have hka : k.comp a = G.stalkFirst x := by
-    show (t.stalkMapAt p q rfl).comp a = _
+    change (t.stalkMapAt p q rfl).comp a = _
     dsimp only [a]
     rw [Scheme.Hom.stalkMapAt_comp]
     exact Scheme.Hom.stalkMapAt_congr _ _ (G.pairSchemeIso_hom_fst) _ _ _ _
   have hkb : k.comp b = G.stalkSecond x := by
-    show (t.stalkMapAt p q rfl).comp b = _
+    change (t.stalkMapAt p q rfl).comp b = _
     dsimp only [b]
     rw [Scheme.Hom.stalkMapAt_comp]
     exact Scheme.Hom.stalkMapAt_congr _ _ (G.pairSchemeIso_hom_snd) _ _ _ _
@@ -443,12 +443,12 @@ theorem pairIdeal_eq_sup :
   have he : (e.comp k).comp
       ((pullback.fst G.source.left G.target.left ≫ G.source.left).stalkMapAt q x hz) =
         RingHom.id _ := by
-    show ((G.identityPair.left.stalkMapAt x p rfl).comp (t.stalkMapAt p q rfl)).comp _ = _
+    change ((G.identityPair.left.stalkMapAt x p rfl).comp (t.stalkMapAt p q rfl)).comp _ = _
     rw [Scheme.Hom.stalkMapAt_comp, Scheme.Hom.stalkMapAt_comp]
     have ht : (G.identityPair.left ≫ t) ≫
         (pullback.fst G.source.left G.target.left ≫ G.source.left) = 𝟙 G.objects.left := by
       rw [Category.assoc, ← Category.assoc t, G.pairSchemeIso_hom_fst, ← Category.assoc]
-      show ((G.identityPair ≫ pullback.fst G.source G.target) ≫ G.source).left = _
+      change ((G.identityPair ≫ pullback.fst G.source G.target) ≫ G.source).left = _
       rw [identityPair_fst, G.source_identity]
       rfl
     rw [Scheme.Hom.stalkMapAt_congr _ _ ht x x _ rfl]
@@ -544,7 +544,7 @@ theorem cotangent_composition :
   simp only [LinearMap.comp_apply, LinearMap.prod_apply, LinearMap.coprod_apply] at *
   simp only [compositionCotangent, firstCotangent, secondCotangent,
     Scheme.Hom.conormalMap_toCotangent] at *
-  show (G.pairIdeal x).toCotangent _ =
+  change (G.pairIdeal x).toCotangent _ =
     (G.pairIdeal x).toCotangent _ + (G.pairIdeal x).toCotangent _
   refine (G.pairIdeal x).cotangentToQuotientSquare_injective ?_
   have hq := congrArg K.pairIdeal.cotangentToQuotientSquare hcomp

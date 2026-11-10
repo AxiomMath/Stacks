@@ -68,7 +68,7 @@ of `toGradedPowerMap (twistingOfUnitalHom (𝟙_T) 𝒜 ℒ Φ)`, transposed bac
 powers, is `Φ_d`.  The instances are bound implicitly, so that an instance is matched by
 unification rather than by instance search. -/
 theorem homEquiv_symm_twistingOfUnitalHom_psi_comp_powCompare {T : Scheme.{u}}
-    {A : SheafGradedAlgebra.{u} T} {L : T.Modules} {hLm : Stacks.Ample.IsInvertibleModule T L}
+    {A : SheafGradedAlgebra.{u} T} {L : T.Modules}
     {hLi : Stacks.SheafOfModules.IsInvertible T.toRingedSpace.presheaf
       (isSheafStruct T) L}
     (Φ : SheafOfModules.GradedAlgebra.UnitalHom
@@ -90,9 +90,7 @@ spellings is compared by its own hypothesis, so that an instance compares only l
 theorem homEquiv_symm_psi_comp_powCompare_heq_of_heq {T₁ T₂ : Scheme.{u}} (hT : T₁ = T₂)
     {A₁ : SheafGradedAlgebra.{u} T₁} {A₂ : SheafGradedAlgebra.{u} T₂} (hA : HEq A₁ A₂)
     {L₁ : T₁.Modules} {L₂ : T₂.Modules} (hL : HEq L₁ L₂)
-    {hLm₁ : Stacks.Ample.IsInvertibleModule T₁ L₁}
     {hLi₁ : Stacks.SheafOfModules.IsInvertible T₁.toRingedSpace.presheaf (isSheafStruct T₁) L₁}
-    {hLm₂ : Stacks.Ample.IsInvertibleModule T₂ L₂}
     {hLi₂ : Stacks.SheafOfModules.IsInvertible T₂.toRingedSpace.presheaf (isSheafStruct T₂) L₂}
     (tw : Twisting (𝟙 T₁) (situationAlgebra A₁) 1 L₁)
     (Φ : SheafOfModules.GradedAlgebra.UnitalHom
@@ -106,11 +104,10 @@ theorem homEquiv_symm_psi_comp_powCompare_heq_of_heq {T₁ T₂ : Scheme.{u}} (h
   have eA := eq_of_heq hA
   have eL := eq_of_heq hL
   subst eA eL
-  obtain rfl : hLm₂ = hLm₁ := rfl
   obtain rfl : hLi₂ = hLi₁ := rfl
   have e := eq_of_heq h
   subst e
-  exact heq_of_eq (homEquiv_symm_twistingOfUnitalHom_psi_comp_powCompare (hLm := hLm₂) Φ d)
+  exact heq_of_eq (homEquiv_symm_twistingOfUnitalHom_psi_comp_powCompare Φ d)
 
 end Stacks.AlgebraicGeometry.RelativeProjInvertibleMorphism
 
@@ -391,7 +388,7 @@ theorem pointTwisting_psi_homEquiv_symm_comp_powCompare :
       (situationAlgebra (s.shrink.pointAlgebra W (x ≫ f.hom)))).comp
         (pointPsi f s.shrink.algebra L ψ W x)).app (d : ℤ) :=
   homEquiv_symm_twistingOfUnitalHom_psi_comp_powCompare
-    (A := s.shrink.pointAlgebra W (x ≫ f.hom)) (hLm := isInvertible_pointLine_toScheme L W x)
+    (A := s.shrink.pointAlgebra W (x ≫ f.hom))
     ((Stacks.Conormal.gradedPullbackId
       (situationAlgebra (s.shrink.pointAlgebra W (x ≫ f.hom)))).comp
         (pointPsi f s.shrink.algebra L ψ W x)) d
@@ -445,8 +442,6 @@ theorem homEquiv_symm_ofUnitalHom_twisting_psi_comp_powCompare_heq :
       (A₂ := s.shrink.pointAlgebra W (x ≫ f.hom)) HEq.rfl
       (L₁ := (ofUnitalHom s f L ψ).line W x)
       (L₂ := pointLine s.shrink.site s.shrink.base s.shrink.containsBase L W x) HEq.rfl
-      (hLm₁ := (ofUnitalHom s f L ψ).isInvertible W x)
-      (hLm₂ := isInvertible_pointLine_toScheme L W x)
       ((ofUnitalHom s f L ψ).twisting W x)
       ((Stacks.Conormal.gradedPullbackId
         (situationAlgebra (s.shrink.pointAlgebra W (x ≫ f.hom)))).comp
@@ -459,8 +454,6 @@ theorem homEquiv_symm_ofUnitalHom_twisting_psi_comp_powCompare_heq :
       (A₂ := s.shrink.pointAlgebra W (x ≫ f.hom)) HEq.rfl
       (L₁ := (ofUnitalHom s f L ψ).line W x)
       (L₂ := pointLine s.shrink.site s.shrink.base s.shrink.containsBase L W x) HEq.rfl
-      (hLm₁ := (ofUnitalHom s f L ψ).isInvertible W x)
-      (hLm₂ := isInvertible_pointLine_toScheme L W x)
       ((ofUnitalHom s f L ψ).twisting W x)
       ((Stacks.Conormal.gradedPullbackId
         (situationAlgebra (s.shrink.pointAlgebra W (x ≫ f.hom)))).comp

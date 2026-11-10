@@ -59,7 +59,7 @@ theorem hom_ext_of_pullbackSection {Y Y' : Scheme.{u}} (b : Y' ⟶ Y) {M : Y.Mod
             χ.app i.1 (((Scheme.Modules.pullback b).obj M).presheaf.map
               (homOfLE (hP V i.1 i.2)).op u) := fun χ ↦
         (congr($(χ.mapPresheaf.naturality (homOfLE (hP V i.1 i.2)).op) u)).symm
-      show F.1.map (homOfLE (hP V i.1 i.2)).op (φ.app (b ⁻¹ᵁ V) u) =
+      change F.1.map (homOfLE (hP V i.1 i.2)).op (φ.app (b ⁻¹ᵁ V) u) =
         F.1.map (homOfLE (hP V i.1 i.2)).op (ψ.app (b ⁻¹ᵁ V) u)
       exact (nat φ).trans ((heq V i.1 i.2 s).trans (nat ψ).symm)
 

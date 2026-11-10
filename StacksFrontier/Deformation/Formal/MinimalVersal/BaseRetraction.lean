@@ -178,7 +178,7 @@ public theorem exists_formalObject_isoCompletionMap
           (eqToHom (completionMap_obj_level φ X n).symm)
         refine IsHomLift.of_fac q ((AdicTruncation.functor n).map baseMap)
           (appMap n) hA hB ?_
-        show (AdicTruncation.functor n).map baseMap =
+        change (AdicTruncation.functor n).map baseMap =
           eqToHom hA.symm ≫ q.map (appMap n) ≫ eqToHom hB
         dsimp only [appMap]
         calc
@@ -414,7 +414,7 @@ public theorem exists_ideal_prodAddEquiv_of_smallestDescent
     { toFun := fun x => d.inclusion.base.hom x.1 + (x.2 : ξ.base)
       map_zero' := by simp
       map_add' := fun x y => by
-        show d.inclusion.base.hom (x.1 + y.1) + ((x.2 + y.2 : I) : ξ.base) =
+        change d.inclusion.base.hom (x.1 + y.1) + ((x.2 + y.2 : I) : ξ.base) =
           (d.inclusion.base.hom x.1 + (x.2 : ξ.base)) +
             (d.inclusion.base.hom y.1 + (y.2 : ξ.base))
         rw [map_add, Submodule.coe_add]
@@ -437,9 +437,9 @@ public theorem exists_ideal_prodAddEquiv_of_smallestDescent
     · intro z
       refine ⟨(r.hom z, ⟨z - d.inclusion.base.hom (r.hom z), ?_⟩), ?_⟩
       · refine RingHom.mem_ker.mpr ?_
-        show r.hom (z - d.inclusion.base.hom (r.hom z)) = 0
+        change r.hom (z - d.inclusion.base.hom (r.hom z)) = 0
         rw [map_sub, hsection, sub_self]
-      · show d.inclusion.base.hom (r.hom z) + (z - d.inclusion.base.hom (r.hom z)) = z
+      · change d.inclusion.base.hom (r.hom z) + (z - d.inclusion.base.hom (r.hom z)) = z
         abel
   exact ⟨I, AddEquiv.ofBijective f hbij, fun _ _ => rfl⟩
 

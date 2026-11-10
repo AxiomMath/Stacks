@@ -292,7 +292,7 @@ public theorem exists_isStabilizingData_maximalIdeal (I : Ideal A) (s d : ℤ)
         | top => exact le_top
         | coe k =>
           refine le_trans ?_ (le_of_eq (krullDimToEInt_natCast k).symm)
-          exact_mod_cast WithBotTop.coe_le_coe.mpr (by exact_mod_cast Int.ofNat_zero_le k)
+          exact_mod_cast WithBotTop.coe_le_coe.mpr (by exact_mod_cast Int.natCast_nonneg k)
     have hneg : (d : EInt) < 0 := by
       refine lt_of_lt_of_le (WithBotTop.coe_lt_coe.mpr (by exact_mod_cast hd)) (le_of_eq ?_)
       rfl

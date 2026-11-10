@@ -110,7 +110,7 @@ public theorem geometricPointStalkMap_finiteLocallyConstantStalkForgetIso
       (finiteLocallyConstantStalkForgetIso B X t).hom.app G ≫
         (((canonicalFiniteLocallyConstantSetsEquivalence B X x).functor.obj G).obj.obj.obj.ρ
           (etaleFundamentalGroupMulEquiv t σ)).asHom := by
-  show _ ≫ ((finiteLocallyConstantStalkIso B X s).hom.app G ≫
+  change _ ≫ ((finiteLocallyConstantStalkIso B X s).hom.app G ≫
       uliftFunctor.{u + 1}.map (t.hom.app _) ≫
       (canonicalFiniteLocallyConstantSetsForgetIso B X x).inv.app G) =
     ((finiteLocallyConstantStalkIso B X s).hom.app G ≫
@@ -124,7 +124,7 @@ public theorem geometricPointStalkMap_finiteLocallyConstantStalkForgetIso
   apply (canonicalFiniteLocallyConstantSetsForgetIso B X x).app G |>.toEquiv.injective
   apply ULift.ext
   refine Eq.trans ?_ (canonicalFiniteLocallyConstantSetsForgetIso_hom_ρ B X x G _ _).symm
-  show ((canonicalFiniteLocallyConstantSetsForgetIso B X x).hom.app G
+  change ((canonicalFiniteLocallyConstantSetsForgetIso B X x).hom.app G
       ((canonicalFiniteLocallyConstantSetsForgetIso B X x).inv.app G
         (ULift.up (t.hom.app _ ((finiteEtaleFiberMap a).app _ y))))).down =
     (((etaleFundamentalGroupMulEquiv t) σ).asIso.hom.app _)
@@ -135,7 +135,7 @@ public theorem geometricPointStalkMap_finiteLocallyConstantStalkForgetIso
   refine (congrArg ULift.down (hinv _)).trans (Eq.trans ?_
     (congrArg (fun z => (((etaleFundamentalGroupMulEquiv t) σ).asIso.hom.app _) (ULift.down z))
       (hinv _)).symm)
-  show _ = t.hom.app _ (σ.asIso.hom.app _ (t.inv.app _ (t.hom.app _ y)))
+  change _ = t.hom.app _ (σ.asIso.hom.app _ (t.inv.app _ (t.hom.app _ y)))
   rw [hσ]
   have hy := (t.app ((finiteLocallyConstantFiniteEtaleEquivalence B X).functor.obj
     G)).hom_inv_id_apply
@@ -202,20 +202,21 @@ public theorem geometricPointStalkMap_finiteLocallyConstantAbelianStalkIso
   have h1 := ConcreteCategory.congr_hom hpre z
   have h2 := ConcreteCategory.congr_hom hset
     ((preservesColimitIso (CategoryTheory.forget AddCommGrpCat.{u + 1})
-      ((CategoryOfElements.π (geometricPointFiber B X.1 X.2 s)).op ⋙ A.obj.obj)).hom z)
-  show (finiteLocallyConstantStalkForgetIso B X t).hom.app
+      ((Functor.Elements.π (geometricPointFiber B X.1 X.2 s)).op ⋙ A.obj.obj)).hom z)
+  change (finiteLocallyConstantStalkForgetIso B X t).hom.app
         ((forgetFiniteLocallyConstantAbelianSheaf _).obj A)
       ((preservesColimitIso (CategoryTheory.forget AddCommGrpCat.{u + 1})
-        ((CategoryOfElements.π (geometricPointFiber B X.1 X.2 s)).op ⋙ A.obj.obj)).hom
+        ((Functor.Elements.π (geometricPointFiber B X.1 X.2 s)).op ⋙ A.obj.obj)).hom
         ((geometricPointStalkMap B X.1 X.2 a AddCommGrpCat.{u + 1}).app A.obj.obj z)) =
-    ConcreteCategory.hom ((((canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x).functor.obj
+    ConcreteCategory.hom
+        ((((canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x).functor.obj
           A).obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ)).asHom)
       ((finiteLocallyConstantStalkForgetIso B X t).hom.app
           ((forgetFiniteLocallyConstantAbelianSheaf _).obj A)
         ((preservesColimitIso (CategoryTheory.forget AddCommGrpCat.{u + 1})
-          ((CategoryOfElements.π (geometricPointFiber B X.1 X.2 s)).op ⋙ A.obj.obj)).hom z))
+          ((Functor.Elements.π (geometricPointFiber B X.1 X.2 s)).op ⋙ A.obj.obj)).hom z))
   rw [show (preservesColimitIso (CategoryTheory.forget AddCommGrpCat.{u + 1})
-        ((CategoryOfElements.π (geometricPointFiber B X.1 X.2 s)).op ⋙ A.obj.obj)).hom
+        ((Functor.Elements.π (geometricPointFiber B X.1 X.2 s)).op ⋙ A.obj.obj)).hom
         ((geometricPointStalkMap B X.1 X.2 a AddCommGrpCat.{u + 1}).app A.obj.obj z) = _ from h1]
   exact h2
 
@@ -257,7 +258,7 @@ public def etaleStalkForget₂Iso (F : Sheaf (SmallEtale.topology B S hS) (Modul
         ((sheafCompose (SmallEtale.topology B S hS)
           (forget₂ (ModuleCat.{u + 1} R) AddCommGrpCat.{u + 1})).obj F) :=
   preservesColimitIso (forget₂ (ModuleCat.{u + 1} R) AddCommGrpCat.{u + 1})
-    ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F.obj)
+    ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F.obj)
 
 end ModuleStalk
 
@@ -326,7 +327,7 @@ public theorem representationLevelStalkIso_geometricPointStalkMap {s : Geometric
     (geometricPointStalkMap_finiteLocallyConstantAbelianStalkIso B X t a σ hσ (e.inverse.obj L)) z
   have s3 : ∀ w, C (ρ1 w) = ρL (C w) := fun w => ConcreteCategory.congr_hom
     ((e.counitIso.hom.app L).hom.hom.hom.comm g) w
-  show (C (I2 (I1 (m y)))).down = levelRepresentation ρ k g (C (I2 (I1 y))).down
+  change (C (I2 (I1 (m y)))).down = levelRepresentation ρ k g (C (I2 (I1 y))).down
   rw [s1]
   exact (congrArg (fun z => (C z).down) (s2 (I1 y))).trans (congrArg ULift.down (s3 _))
 
@@ -335,11 +336,11 @@ induced by the transition of underlying abelian sheaves. -/
 public theorem forget₂_finiteLevelStalkTransition_representation (s : GeometricPoint X.1) (k : ℕ) :
     (forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ (k + 1)))) AddCommGrpCat.{u + 1}).map
         (colim.map (Functor.whiskerLeft
-          ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op)
+          ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op)
           (representationLevelTransition B X x
             (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ hρ k).hom) ≫
         (preservesColimitIso (ModuleCat.restrictScalars (levelRingHom (ℓ := ℓ) k))
-          (((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op) ⋙
+          (((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op) ⋙
             (representationLevelSheaf B X x
               (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ hρ k).obj)).inv) ≫
         (etaleStalkForget₂Iso B X.1 X.2 s (ZMod (ℓ ^ k)) _).hom =
@@ -348,14 +349,14 @@ public theorem forget₂_finiteLevelStalkTransition_representation (s : Geometri
           ((canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x).inverse.map
             (levelAbelianReduction ρ hρ k)).hom := by
   set e := canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x
-  let π := (CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op
+  let π := (Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op
   let f₁ := forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ (k + 1)))) AddCommGrpCat.{u + 1}
   let f₀ := forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ k))) AddCommGrpCat.{u + 1}
   let res := ModuleCat.restrictScalars.{u + 1} (levelRingHom (ℓ := ℓ) k)
   let D₁ := π ⋙ (representationLevelSheaf B X x e ρ hρ (k + 1)).obj
   let D₀ := π ⋙ (representationLevelSheaf B X x e ρ hρ k).obj
   refine (isColimitOfPreserves f₁ (colimit.isColimit D₁)).hom_ext fun j => ?_
-  show f₁.map (colimit.ι D₁ j) ≫ _ = f₁.map (colimit.ι D₁ j) ≫ _
+  change f₁.map (colimit.ι D₁ j) ≫ _ = f₁.map (colimit.ι D₁ j) ≫ _
   have hT : colimit.ι D₁ j ≫ colim.map (Functor.whiskerLeft π
         (representationLevelTransition B X x e ρ hρ k).hom) ≫ (preservesColimitIso res D₀).inv =
       (representationLevelTransition B X x e ρ hρ k).hom.app (π.obj j) ≫
@@ -384,11 +385,11 @@ public theorem representationLevelStalkIso_transition {s : GeometricPoint X.1}
     ((representationLevelStalkIso B X x ρ hρ t k).hom
         ((forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ (k + 1)))) AddCommGrpCat.{u + 1}).map
           (colim.map (Functor.whiskerLeft
-            ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op)
+            ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op)
             (representationLevelTransition B X x
               (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ hρ k).hom) ≫
           (preservesColimitIso (ModuleCat.restrictScalars (levelRingHom (ℓ := ℓ) k))
-            (((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op) ⋙
+            (((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op) ⋙
               (representationLevelSheaf B X x
                 (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ hρ k).obj)).inv)
           y)).down =
@@ -404,10 +405,10 @@ public theorem representationLevelStalkIso_transition {s : GeometricPoint X.1}
   let m := ConcreteCategory.hom ((forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ (k + 1))))
     AddCommGrpCat.{u + 1}).map
           (colim.map (Functor.whiskerLeft
-            ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op)
+            ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op)
             (representationLevelTransition B X x e ρ hρ k).hom) ≫
           (preservesColimitIso (ModuleCat.restrictScalars (levelRingHom (ℓ := ℓ) k))
-            (((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op) ⋙
+            (((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op) ⋙
               (representationLevelSheaf B X x e ρ hρ k).obj)).inv))
   let ab := ConcreteCategory.hom ((abelianEtaleStalkFunctor.{u, u + 1} B X.1 X.2 s).map
     (e.inverse.map red).hom)
@@ -417,7 +418,7 @@ public theorem representationLevelStalkIso_transition {s : GeometricPoint X.1}
     ((finiteLocallyConstantAbelianStalkIso B X t).hom.naturality (e.inverse.map red)) z
   have s3 := fun w => ConcreteCategory.congr_hom
     (congrArg (fun f => f.hom.hom.hom.hom) (e.counitIso.hom.naturality red)) w
-  show (C k (I2 k (I1 k (m y)))).down =
+  change (C k (I2 k (I1 k (m y)))).down =
     levelReduction k (C (k + 1) (I2 (k + 1) (I1 (k + 1) y))).down
   rw [s1]
   exact (congrArg (fun z => (C k z).down) (s2 _)).trans (congrArg ULift.down (s3 _))

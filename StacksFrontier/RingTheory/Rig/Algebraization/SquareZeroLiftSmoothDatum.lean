@@ -107,7 +107,7 @@ theorem Wc_algHom_ext (i : Fin k) (s : Finset (Fin k)) (hi : i ∈ s) {B : Type*
   have : a.toRingHom = b.toRingHom :=
     IsLocalization.ringHom_ext (Submonoid.powers (algebraMap R (W i).carrier (rs f s)))
       (RingHom.ext h)
-  exact AlgHom.coe_ringHom_injective this
+  exact AlgHom.toRingHom_injective this
 
 /-- The restriction map `W_{i,t} → W_{i,s}` for `t ⊆ s`. -/
 noncomputable def resW (i : Fin k) {t s : Finset (Fin k)} (h : t ⊆ s) (hi : i ∈ t) :
@@ -267,7 +267,7 @@ theorem mk_locMapH (φ : (Wc N f S W i t hi).carrier →ₐ[R] Hl f H t)
     Wc_algHom_ext N f S W i s _ fun w ↦ by
       rw [AlgHom.comp_apply, AlgHom.comp_apply, Ideal.Quotient.mkₐ_eq_mk, locMapH_toWc,
         psi_toWc]
-      show Ideal.Quotient.mk _ (((locH f H h).restrictScalars R) (φ (toWc N f S W i t hi w))) = _
+      change Ideal.Quotient.mk _ (((locH f H h).restrictScalars R) (φ (toWc N f S W i t hi w))) = _
       rw [← redMap_mk N, hφ, psi_toWc]
       have h1 := AlgHom.congr_fun (redMap_locH_chi N f S H e h)
         (locS f S (Finset.singleton_subset_iff.mpr hi) ((W i).ψ w))

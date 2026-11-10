@@ -99,7 +99,7 @@ public theorem exists_fg_le_surjective_quotient (I : Ideal R)
     apply Algebra.adjoin_le
     intro w hw
     refine Subalgebra.mem_map.2 ⟨g w, ?_, Function.surjInv_eq Ideal.Quotient.mk_surjective w⟩
-    refine SetLike.le_def.1 le_sup_right (Algebra.subset_adjoin ?_)
+    refine IsConcreteLE.le_iff.1 le_sup_right (Algebra.subset_adjoin ?_)
     exact Finset.mem_coe.2 (Finset.mem_image_of_mem g (Finset.mem_coe.1 hw))
   exact fun z => Subalgebra.mem_map.1 (hmap (Algebra.mem_top (x := z)))
 
@@ -181,7 +181,7 @@ public theorem exists_mem_finiteTypeCover (r : R) :
     simpa using Subalgebra.fg_adjoin_finset (R := Λ) ({r} : Finset R)
   exact ⟨⟨A.1 ⊔ Algebra.adjoin Λ ({r} : Set R), A.2.1.sup hfg,
     surjective_quotientRestrict_of_le I le_sup_left A.2.2⟩,
-    SetLike.le_def.1 le_sup_right (Algebra.subset_adjoin rfl)⟩
+    IsConcreteLE.le_iff.1 le_sup_right (Algebra.subset_adjoin rfl)⟩
 
 end Subalgebras
 

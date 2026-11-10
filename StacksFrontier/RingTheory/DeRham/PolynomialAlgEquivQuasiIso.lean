@@ -91,11 +91,11 @@ theorem isIso_deRhamComplexMap_of_algEquiv (R : Type u) {A B : Type u} [CommRing
   let : Algebra B A := e.symm.toRingHom.toAlgebra
   have : IsScalarTower R B A := IsScalarTower.of_algebraMap_eq fun r ↦ (e.symm.commutes r).symm
   have : IsScalarTower A B A := IsScalarTower.of_algebraMap_eq fun a ↦ by
-    show a = e.symm (algebraMap A B a)
+    change a = e.symm (algebraMap A B a)
     rw [he]
     exact (e.symm_apply_apply a).symm
   have : IsScalarTower B A B := IsScalarTower.of_algebraMap_eq fun b ↦ by
-    show b = algebraMap A B (e.symm b)
+    change b = algebraMap A B (e.symm b)
     rw [he]
     exact (e.apply_symm_apply b).symm
   refine ⟨deRhamComplexMap R B A, ?_, ?_⟩ <;>
@@ -125,12 +125,12 @@ theorem quasiIso_deRhamComplexMap_of_algEquiv (e : A[X] ≃ₐ[A] B) :
   let e' : A[X] ≃ₐ[R] B :=
     { e.toRingEquiv with
       commutes' := fun r ↦ by
-        show e (algebraMap R A[X] r) = algebraMap R B r
+        change e (algebraMap R A[X] r) = algebraMap R B r
         rw [IsScalarTower.algebraMap_apply R A A[X], e.commutes,
           ← IsScalarTower.algebraMap_apply] }
   have := isIso_deRhamComplexMap_of_algEquiv R e' rfl
   rw [← deRhamComplexMap_comp R A A[X] B]
-  show QuasiIso (incl R A ≫ deRhamComplexMap R A[X] B)
+  change QuasiIso (incl R A ≫ deRhamComplexMap R A[X] B)
   infer_instance
 
 end PolynomialDeRham

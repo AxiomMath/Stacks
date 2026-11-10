@@ -131,7 +131,7 @@ theorem sheafify_iSup_range_comp
     (⨆ i, Subfunctor.range (c i ≫ g)).sheafify (BigFppfOver.topology B S hS) = ⊤ := by
   rw [eq_top_iff]
   intro U t _
-  show (⨆ i, Subfunctor.range (c i ≫ g)).sieveOfSection t ∈
+  change (⨆ i, Subfunctor.range (c i ≫ g)).sieveOfSection t ∈
     BigFppfOver.topology B S hS (unop U)
   refine (BigFppfOver.topology B S hS).transitive (Presheaf.imageSieve_mem _ g t) _ ?_
   rintro V f ⟨z, hz⟩
@@ -143,7 +143,7 @@ theorem sheafify_iSup_range_comp
     refine ⟨y, ?_⟩
     rw [NatTrans.comp_app, ConcreteCategory.comp_apply, hy, NatTrans.naturality_apply g f2.op z, hz,
       op_comp, F.map_comp, ConcreteCategory.comp_apply]
-  show F.map (f2 ≫ f).op t ∈ (⨆ i, Subfunctor.range (c i ≫ g)).obj (op W)
+  change F.map (f2 ≫ f).op t ∈ (⨆ i, Subfunctor.range (c i ≫ g)).obj (op W)
   rw [Subfunctor.iSup_obj]
   exact Set.mem_iUnion.2 ⟨i, hmem⟩
 
@@ -178,7 +178,7 @@ theorem isRepresentable_of_locally_covering
         NatTrans.naturality_apply h f2.op s]
     refine ⟨(Sigma.ι (fun k => yoneda.obj (X k)) i).app (op W)
       (yonedaEquiv ((hp i).lift sig tau hcomm)), ?_⟩
-    rw [← NatTrans.comp_app_apply, Sigma.ι_desc, ← yonedaEquiv_comp, (hp i).lift_fst,
+    rw [← NatTrans.comp_app_apply, Sigma.ι_comp_desc, ← yonedaEquiv_comp, (hp i).lift_fst,
       Equiv.apply_symm_apply]
   exact isRepresentable_of_openCover p hpopen hI hsurj
 

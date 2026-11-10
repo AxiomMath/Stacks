@@ -84,7 +84,7 @@ lemma directImageComp_sheafCompose (G : EtaleModules.{u, 0} R Y') :
   by
   apply Sheaf.hom_ext
   refine NatTrans.ext (funext fun U => ?_)
-  show (𝟙 _ ≫ Φ.map (G.obj.map _)) ≫ (𝟙 _ ≫ Φ.map (G.obj.map _)) =
+  change (𝟙 _ ≫ Φ.map (G.obj.map _)) ≫ (𝟙 _ ≫ Φ.map (G.obj.map _)) =
     Φ.map ((𝟙 _ ≫ G.obj.map _) ≫ (𝟙 _ ≫ G.obj.map _))
   simp only [Category.id_comp, Functor.map_comp]
 
@@ -145,7 +145,7 @@ theorem etaleModuleBaseChangeTwist_app_comp_coefficientMate
     simp only [etaleModuleBaseChangeTwistAdj, NatTrans.comp_app, Functor.whiskerRight_app,
       Functor.whiskerLeft_app, Functor.leftUnitor_inv_app, Functor.associator_hom_app,
       Functor.associator_inv_app, Category.id_comp, Category.comp_id, Functor.map_comp,
-      Functor.comp_obj, Functor.id_obj, Functor.map_id, Category.assoc]
+      Functor.comp_obj, Functor.id_obj]
   have key : (etaleModuleBaseChangeTwistAdj.{u, 0} Λ g a b w ψΛ).app
         ((sheafCompose Y.smallEtaleTopology Φ).obj L) ≫
         (etaleModuleDirectImage.{u, 0} Λ g).map ((etaleModuleDirectImage.{u, 0} Λ a).map c) =
@@ -221,6 +221,7 @@ def compactSupportCoefficientMate :
       (inverseImageCoefficientMate Φ (fieldBaseChangeProj Y kbar)) ≫
     (Functor.associator _ _ _).inv
 
+omit [Fintype k] in
 /-- The component of `compactSupportCoefficientMate` at `G` is the inverse image of the component
 of the extension-by-zero comparison, followed by the inverse image comparison at `j_! G`. -/
 lemma compactSupportCoefficientMate_app (G : EtaleModules.{u, 0} R X) :

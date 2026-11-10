@@ -117,13 +117,15 @@ theorem globalSectionsFunctor_obj_X (M : _root_.SheafOfModules.DifferentialGrade
 
 /-- The differential of `Γ(M)` is the limit of the differentials of the sections of `M`. -/
 theorem globalSectionsFunctor_obj_d (M : _root_.SheafOfModules.DifferentialGradedModule.{u, u, u} A)
-    (p q : ℤ) : ((globalSectionsFunctor A).obj M).d p q = limMap ((sectionsF R).map (M.complex.d p q)) :=
+    (p q : ℤ) :
+    ((globalSectionsFunctor A).obj M).d p q = limMap ((sectionsF R).map (M.complex.d p q)) :=
   rfl
 
 /-- The degree-`p` component of `Γ(φ)` is the limit of the maps of sections induced by `φ`. -/
-theorem globalSectionsFunctor_map_f {M N : _root_.SheafOfModules.DifferentialGradedModule.{u, u, u} A}
-    (φ : M ⟶ N) (p : ℤ) :
-    ((globalSectionsFunctor A).map φ).f p = limMap ((sectionsF R).map (φ.toHomologicalComplex.f p)) :=
+theorem globalSectionsFunctor_map_f
+    {M N : _root_.SheafOfModules.DifferentialGradedModule.{u, u, u} A} (φ : M ⟶ N) (p : ℤ) :
+    ((globalSectionsFunctor A).map φ).f p =
+      limMap ((sectionsF R).map (φ.toHomologicalComplex.f p)) :=
   rfl
 
 /-! ### The projections of the global sections -/
@@ -226,7 +228,8 @@ theorem unitElt_add (U : Cᵒᵖ) (x y : (baseModule K).M) :
 
 /-- The unit is `R`-linear on each `Kᵖ`, with `R` acting on `K ⊗_R A(U)` through `A(U)`. -/
 theorem unitElt_baseElt_smul (p : ℤ) (U : Cᵒᵖ) (r : R) (k : K.X p) :
-    unitElt A K U (baseElt K p (r • k)) = A.sectionScalarOp U r • unitElt A K U (baseElt K p k) := by
+    unitElt A K U (baseElt K p (r • k)) =
+      A.sectionScalarOp U r • unitElt A K U (baseElt K p k) := by
   rw [unitElt, ← op_smul_baseElt]
   exact (extensionUnit A K U).map_smul (baseElt K p k) r
 
@@ -243,7 +246,7 @@ theorem extensionRestr_extensionUnit {U V : Cᵒᵖ} (a : V ⟶ U) (x : (baseMod
   have key : (extensionRestr A K a).toFun.toAddMonoidHom.comp
       (extensionUnit A K V).toFun.toAddMonoidHom = (extensionUnit A K U).toFun.toAddMonoidHom := by
     refine DirectSum.addHom_ext fun p k => ?_
-    show (extensionRestr A K a).toFun (unitElt A K V (baseElt K p k)) =
+    change (extensionRestr A K a).toFun (unitElt A K V (baseElt K p k)) =
       unitElt A K U (baseElt K p k)
     rw [unitElt_eq, unitElt_eq]
     refine (extensionRestr_pure A K a p ⟨_, baseElt_mem K p k⟩ _).trans ?_
@@ -304,7 +307,8 @@ abbrev extendUnitCone (p : ℤ) :
 
 /-- The degree-`p` parts of the unit over `U` commute with the differentials. -/
 theorem extendUnitApp_d (p : ℤ) (U : Cᵒᵖ) :
-    extendUnitApp A K p U ≫ ((sectionsF R).map (((extendFunctor A).obj K).complex.d p (p + 1))).app U =
+    extendUnitApp A K p U ≫
+        ((sectionsF R).map (((extendFunctor A).obj K).complex.d p (p + 1))).app U =
       K.d p (p + 1) ≫ extendUnitApp A K (p + 1) U := by
   ext k
   change (((extendFunctor A).obj K).complex.d p (p + 1)).val.app U (extendUnitElt A K p U k) =
@@ -380,7 +384,7 @@ def globalProjHom (U : Cᵒᵖ) :
 theorem globalProjHom_baseElt (U : Cᵒᵖ) (p : ℤ) (s : ((globalSectionsFunctor A).obj M).X p) :
     (globalProjHom M U).toFun (baseElt _ p s) =
       DirectSum.of (M.sectionsPiece U) p ((globalπ M p U).hom s) := by
-  show _root_.DifferentialGradedModule.degreeZeroTotalLinear (A := R) (sectionsOverBase M U)
+  change _root_.DifferentialGradedModule.degreeZeroTotalLinear (A := R) (sectionsOverBase M U)
     (DirectSum.lmap (fun n => ((globalProjection M U).f n).hom)
       (DirectSum.of (fun n => ((globalSectionsFunctor A).obj M).X n) p s)) = _
   rw [DirectSum.lmap_of, _root_.DifferentialGradedModule.degreeZeroTotalLinear_of]
@@ -461,7 +465,8 @@ def extendCounit : (extendFunctor A).obj ((globalSectionsFunctor A).obj M) ⟶ M
 are the counit over `U`. -/
 theorem sectionMap_extendCounit (U : Cᵒᵖ) :
     SectionSystem.Hom.app.{u, u, u, u}
-        (SectionSystem.realizeSectionsIso (extensionSystem A ((globalSectionsFunctor A).obj M))).inv U ≫
+        (SectionSystem.realizeSectionsIso
+          (extensionSystem A ((globalSectionsFunctor A).obj M))).inv U ≫
       sectionMap (extendCounit M) U =
       counitSections M U := by
   have h2 : ((SectionSystem.realizeAdjunction A).homEquiv _ _) (extendCounit M) =
@@ -489,7 +494,8 @@ theorem extensionSectionsMap_unitElt {K L : CochainComplex (ModuleCat.{u} R) ℤ
 
 /-- The unit `K ⟶ Γ(K ⊗_R A)` is natural in `K`. -/
 theorem extendUnit_naturality {K L : CochainComplex (ModuleCat.{u} R) ℤ} (f : K ⟶ L) :
-    f ≫ extendUnit A L = extendUnit A K ≫ (globalSectionsFunctor A).map ((extendFunctor A).map f) := by
+    f ≫ extendUnit A L =
+      extendUnit A K ≫ (globalSectionsFunctor A).map ((extendFunctor A).map f) := by
   ext p : 1
   refine globalπ_hom_ext _ fun U => ?_
   rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f, Category.assoc, Category.assoc,
@@ -500,7 +506,8 @@ theorem extendUnit_naturality {K L : CochainComplex (ModuleCat.{u} R) ℤ} (f : 
 /-- The counit over `U` is natural in `M` on pure tensors `s ⊗ y`. -/
 theorem extensionSectionsMap_counitSections_pure
     {M N : _root_.SheafOfModules.DifferentialGradedModule.{u, u, u} A} (g : M ⟶ N) (U : Cᵒᵖ)
-    (p : ℤ) (s : ((globalSectionsFunctor A).obj M).X p) (y : (extensionBimodule A U).rightModule.M) :
+    (p : ℤ) (s : ((globalSectionsFunctor A).obj M).X p)
+    (y : (extensionBimodule A U).rightModule.M) :
     (counitSections N U).toFun ((extensionSectionsMap A ((globalSectionsFunctor A).map g) U).toFun
         (extensionPure A _ U (baseElt _ p s) y)) =
       sectionMapAdd g U ((counitSections M U).toFun (extensionPure A _ U (baseElt _ p s) y)) := by
@@ -731,7 +738,8 @@ theorem extendCounit_extendUnitElt
 /-- The right triangle identity: `Γ(M) ⟶ Γ(Γ(M) ⊗_R A) ⟶ Γ(M)` is the identity. -/
 theorem extendUnit_extendCounit_right
     (M : _root_.SheafOfModules.DifferentialGradedModule.{u, u, u} A) :
-    extendUnit A ((globalSectionsFunctor A).obj M) ≫ (globalSectionsFunctor A).map (extendCounit M) =
+    extendUnit A ((globalSectionsFunctor A).obj M) ≫
+        (globalSectionsFunctor A).map (extendCounit M) =
       𝟙 _ := by
   ext p : 1
   refine globalπ_hom_ext _ fun U => ?_

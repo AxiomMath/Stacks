@@ -64,6 +64,7 @@ namespace AlgebraicGeometry.BigFppfSpaceSite
 variable {S : Scheme.{u}} (T : BigFppfSpaceSite S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for `HasPullbacks` of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site of `S` (instance search times out without
 this shortcut). -/
 private instance hasPullbacks_presheaf :

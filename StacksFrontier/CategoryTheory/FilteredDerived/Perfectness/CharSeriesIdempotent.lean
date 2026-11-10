@@ -76,7 +76,7 @@ public theorem exists_perfectRep_spec (K : DerivedCategory (ModuleCat.{v} R))
   have hn := (DerivedCategory.quotientCompQhIso (ModuleCat.{v} R)).hom.naturality g
   dsimp at hn
   rw [← cancel_epi ((DerivedCategory.quotientCompQhIso (ModuleCat.{v} R)).hom.app P), ← hn]
-  show DerivedCategory.Qh.map (Q.map g) ≫ _ = _
+  change DerivedCategory.Qh.map (Q.map g) ≫ _ = _
   rw [hgH]
   simp [α]
 
@@ -160,7 +160,7 @@ public theorem finiteProjectiveComplex_restrictScalars [Module.Finite R R'] [Mod
       (hPi i).1
     have : Module.Finite R' ((ModuleCat.restrictScalars (algebraMap R R')).obj (P.X i)) :=
       (hPi i).2
-    show Module.Projective R ((ModuleCat.restrictScalars (algebraMap R R')).obj (P.X i)) ∧
+    change Module.Projective R ((ModuleCat.restrictScalars (algebraMap R R')).obj (P.X i)) ∧
       Module.Finite R ((ModuleCat.restrictScalars (algebraMap R R')).obj (P.X i))
     exact ⟨Module.Projective.trans R R' _, Module.Finite.trans R' _⟩
 
@@ -312,22 +312,22 @@ public theorem exists_isPerfect_map_perfectDerivedCharSeries_of_binaryBicone
   have hd₁ : biprod.desc b.inl b.inr ≫ b.fst = biprod.fst := by ext <;> simp
   have hd₂ : biprod.desc b.inl b.inr ≫ b.snd = biprod.snd := by ext <;> simp
   have hE₁ : E.hom ≫ b.fst = DerivedCategory.Q.map biprod.fst ≫ α₁.hom := by
-    show (biprod.lift (DerivedCategory.Q.map biprod.fst) (DerivedCategory.Q.map biprod.snd) ≫
+    change (biprod.lift (DerivedCategory.Q.map biprod.fst) (DerivedCategory.Q.map biprod.snd) ≫
       biprod.map α₁.hom α₂.hom ≫ biprod.desc b.inl b.inr) ≫ b.fst = _
     rw [Category.assoc, Category.assoc, hd₁, biprod.map_fst, biprod.lift_fst_assoc]
   have hE₂ : E.hom ≫ b.snd = DerivedCategory.Q.map biprod.snd ≫ α₂.hom := by
-    show (biprod.lift (DerivedCategory.Q.map biprod.fst) (DerivedCategory.Q.map biprod.snd) ≫
+    change (biprod.lift (DerivedCategory.Q.map biprod.fst) (DerivedCategory.Q.map biprod.snd) ≫
       biprod.map α₁.hom α₂.hom ≫ biprod.desc b.inl b.inr) ≫ b.snd = _
     rw [Category.assoc, Category.assoc, hd₂, biprod.map_snd, biprod.lift_snd_assoc]
   have hgE : DerivedCategory.Q.map g = E.hom ≫ φ ≫ E.inv := by
     rw [← cancel_mono E.hom, Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id]
     refine hb.isLimit.hom_ext fun j => ?_
     rcases j with ⟨⟨⟩⟩
-    · show (DerivedCategory.Q.map g ≫ E.hom) ≫ b.fst = (E.hom ≫ φ) ≫ b.fst
+    · change (DerivedCategory.Q.map g ≫ E.hom) ≫ b.fst = (E.hom ≫ φ) ≫ b.fst
       rw [Category.assoc, Category.assoc, hE₁, h₁, reassoc_of% hE₁, ← Functor.map_comp_assoc,
         biprod.map_fst, Functor.map_comp_assoc,
         restrictRepIso_comm e₁ g₁ φ₁ hg₁]
-    · show (DerivedCategory.Q.map g ≫ E.hom) ≫ b.snd = (E.hom ≫ φ) ≫ b.snd
+    · change (DerivedCategory.Q.map g ≫ E.hom) ≫ b.snd = (E.hom ≫ φ) ≫ b.snd
       rw [Category.assoc, Category.assoc, hE₂, h₂, reassoc_of% hE₂, ← Functor.map_comp_assoc,
         biprod.map_snd, Functor.map_comp_assoc,
         restrictRepIso_comm e₂ g₂ φ₂ hg₂]
@@ -338,7 +338,7 @@ public theorem exists_isPerfect_map_perfectDerivedCharSeries_of_binaryBicone
       alternatingCharSeries_biprod R hQ₁ hQ₂, map_mul,
       map_alternatingCharSeries_restrictScalars hs₁,
       map_alternatingCharSeries_eq_one ha₁ hQ₂ (fun n x => ?_), mul_one]
-    show algebraMap R R₂ a • (show P₂.X n from x) = 0
+    change algebraMap R R₂ a • (show P₂.X n from x) = 0
     rw [ha₂, zero_smul]
   · rw [perfectDerivedCharSeries_eq_alternatingCharSeries R b.pt hK φ P hP E g hgE,
       perfectDerivedCharSeries_eq_alternatingCharSeries R₂ M₂ hM₂ φ₂ P₂ hP₂ e₂ g₂ hg₂,
@@ -346,7 +346,7 @@ public theorem exists_isPerfect_map_perfectDerivedCharSeries_of_binaryBicone
       map_alternatingCharSeries_restrictScalars hs₂,
       map_alternatingCharSeries_eq_one (a := 1 - a) (by rw [map_sub, map_one, ha₂, sub_zero]) hQ₁
         (fun n x => ?_), one_mul]
-    show algebraMap R R₁ (1 - a) • (show P₁.X n from x) = 0
+    change algebraMap R R₁ (1 - a) • (show P₁.X n from x) = 0
     rw [map_sub, map_one, ha₁, sub_self, zero_smul]
 
 end Derived

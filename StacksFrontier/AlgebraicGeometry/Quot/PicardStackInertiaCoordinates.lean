@@ -88,7 +88,7 @@ theorem PicardObject.Vertical.eq_verticalOfAut {A : PicardObject s} (v : A.Verti
   subst hb
   refine PicardHom.ext rfl ?_
   refine (eqToHom_refl_comp_picard _ _).trans ?_
-  show φ = (PicardObject.unitComparison (modulePushforwardCoherence B S hS) A).hom ≫
+  change φ = (PicardObject.unitComparison (modulePushforwardCoherence B S hS) A).hom ≫
     (PicardObject.unitComparison (modulePushforwardCoherence B S hS) A).inv ≫
       ((baseChangeMapComparison s.f (rfl : 𝟙 A.T = 𝟙 A.T)).app A.lineBundle).inv ≫ φ
   rw [Iso.hom_inv_id_assoc]
@@ -218,7 +218,7 @@ theorem bijective_baseChangeGlobalFunctions (h : s.StructureSheafMapIso) (T : s.
   simp only [baseChangeGlobalFunctions_eq_terminalChartPullback]
   exact bijective_terminalChartPullback B S hS (baseChangeInclusion s.f T)
     (idEtaleChart B S hS T.left)
-    (by show IsIso (𝟙 ((schemeSpaceFunctor B S hS).obj T.left)); infer_instance) (h T)
+    (by change IsIso (𝟙 ((schemeSpaceFunctor B S hS).obj T.left)); infer_instance) (h T)
 
 /-- Under the hypothesis of Stacks 0375, the automorphism group of the structure module of the
 base change `X_T` — its group of invertible global functions, `H^0(X_T, 𝒪_{X_T})^*` — is the group
@@ -338,7 +338,7 @@ theorem multiplicativeGroupPresheaf_map_symm {T T' : BigFppfOver B S hS} (g : T 
     ((Over.post (X := B.obj hS) B.inclusion).map g).op)
     ((multiplicativeGroupPointsAtMulEquivUnits B S hS T').symm u)
   refine hn.trans ?_
-  show Units.map _ ((multiplicativeGroupPointsAtMulEquivUnits B S hS T')
+  change Units.map _ ((multiplicativeGroupPointsAtMulEquivUnits B S hS T')
     ((multiplicativeGroupPointsAtMulEquivUnits B S hS T').symm u)) = _
   rw [MulEquiv.apply_symm_apply]
   rfl

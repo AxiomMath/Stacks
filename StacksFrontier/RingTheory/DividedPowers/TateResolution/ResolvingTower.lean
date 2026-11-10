@@ -94,7 +94,7 @@ public theorem limitBoundary_rungVar (k : ℕ)
       towerComparison R P (ruleIdx R P ρ) k
         (ρ.bdry (towerIndices (ruleIdx R P ρ) k) (rungBoundary ρ k) (rungBoundary_mem ρ k)
           k x.down.1) := by
-  show towerComparison R P (ruleIdx R P ρ) (k + 1)
+  change towerComparison R P (ruleIdx R P ρ) (k + 1)
       (towerBoundary R P (ruleIdx R P ρ) (ruleBdry R P ρ) (ruleBdry_mem R P ρ) (k + 1)
         ⟨k, cast (towerIndices_succ_self k).symm x⟩) = _
   rw [towerBoundary_succ_self, ← AlgHom.comp_apply, towerComparison_oneStepComparison]

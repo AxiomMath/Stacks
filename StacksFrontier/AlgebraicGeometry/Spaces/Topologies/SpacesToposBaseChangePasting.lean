@@ -64,7 +64,7 @@ theorem spacesToposBaseChangeSquare_eq_mateEquiv {X Y X' Y' : AlgebraicSpaces B 
     spacesToposBaseChangeSquare B S hS i f' f g sq =
       (mateEquiv (spacesEtalePseudofunctorAdjunction B S hS f)
         (spacesEtalePseudofunctorAdjunction B S hS f')
-        (Pseudofunctor.commSqTwoSquare (spacesEtalePseudofunctor B S hS) sq.w)).natTrans :=
+        (Pseudofunctor.commSqTwoSquare (spacesEtalePseudofunctor B S hS) sq.w)) :=
   (mateEquiv_spacesEtalePseudofunctor_isoMapOfCommSq B S hS i f' f g sq).symm
 
 section Horiz

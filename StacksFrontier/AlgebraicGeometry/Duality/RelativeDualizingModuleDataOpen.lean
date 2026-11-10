@@ -64,7 +64,6 @@ theorem chartEquiv_trans (U : X.affineOpens) (V : Y.affineOpens) (hVU : V.1 ≤ 
       α.inv.app V.1 (chartEquiv hig M t hbij e U V hVU z) := by
   let : Algebra Γ(X, U.1) Γ(Y, V.1) := (f.appLE U V hVU).hom.toAlgebra
   induction z using dualizingModule.induction_on with
-  | zero => simp only [map_zero]
   | add z₁ z₂ h₁ h₂ => simp only [map_add, h₁, h₂]
   | tmul φ b =>
     rw [chartEquiv_tmul, chartEquiv_tmul, Scheme.Modules.Hom.app_smul]
@@ -594,7 +593,6 @@ theorem localEquiv_ofFiniteTrace_restrict (U : X.affineOpens) (T : Y.affineOpens
   generalize ρ x = y
   obtain ⟨z, rfl⟩ := (chartEquiv hig M t hbij ε U T'V (preimage_le f hTU hV)).surjective y
   induction z using dualizingModule.induction_on with
-  | zero => simp only [map_zero]
   | add z₁ z₂ h₁ h₂ => simp only [map_add, h₁, h₂]
   | tmul φ b =>
     rw [chartEquiv_tmul]

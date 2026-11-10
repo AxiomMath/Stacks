@@ -175,12 +175,11 @@ public lemma etale_fiberMap (f' : U' ⟶ V') (g' : U' ⟶ U)
   have key : ∀ {S' S : Scheme.{u}} (s' : S' ⟶ V') (s : S ⟶ V) (k : S' ⟶ S)
       (h₂ : s' ≫ g = k ≫ s), pullback.map f' s' f s g' k g h.symm h₂ =
         pullback.map f' s' f' (pullback.fst g s) (𝟙 _) (pullback.lift s' k h₂) (𝟙 _)
-          (by simp) (by simp [pullback.lift_fst]) ≫ (pullbackRightPullbackFstIso g s f').hom ≫
+          (by simp) (by simp) ≫ (pullbackRightPullbackFstIso g s f').hom ≫
         pullback.map (f' ≫ g) s f s g' (𝟙 _) (𝟙 _) (by simp [h]) (by simp) := by
     intro S' S s' s k h₂
     apply pullback.hom_ext <;>
-      simp [pullback.map, pullback.lift_fst, pullback.lift_fst_assoc, pullback.lift_snd,
-        pullback.lift_snd_assoc]
+      simp [pullback.map]
   rw [fiberMap, key]
   exact MorphismProperty.comp_mem _ _ _ hm₁ (MorphismProperty.comp_mem _ _ _ inferInstance hm₂)
 

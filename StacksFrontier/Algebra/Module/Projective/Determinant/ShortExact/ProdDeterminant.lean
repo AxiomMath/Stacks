@@ -145,7 +145,7 @@ private theorem exteriorGradeInvolution_involutive {R M : Type*} [CommRing R]
     exteriorGradeInvolution (R := R) (M := M)
       (exteriorGradeInvolution (R := R) (M := M) x) = x := by
   let f : M →ₗ[R] M := -LinearMap.id
-  show (ExteriorAlgebra.map f) ((ExteriorAlgebra.map f) x) = x
+  change (ExteriorAlgebra.map f) ((ExteriorAlgebra.map f) x) = x
   rw [← AlgHom.comp_apply, ExteriorAlgebra.map_comp_map]
   simp [f]
 
@@ -166,7 +166,7 @@ private theorem mulLeft_ι_eq_zero_iff_mulRight {R M : Type*} [CommRing R]
     · intro n
       simp only [exteriorGradeInvolution, AlgEquiv.ofAlgHom_apply,
         ExteriorAlgebra.map_apply_ι]
-      show ExteriorAlgebra.ι R m * ExteriorAlgebra.ι R n =
+      change ExteriorAlgebra.ι R m * ExteriorAlgebra.ι R n =
         ExteriorAlgebra.ι R (-n) * ExteriorAlgebra.ι R m
       simpa only [map_neg, neg_mul] using
         eq_neg_of_add_eq_zero_left (ExteriorAlgebra.ι_add_mul_swap m n)
@@ -364,14 +364,12 @@ private theorem tensorKerInf
   apply le_antisymm
   · rintro z ⟨x, rfl⟩
     constructor
-    · show f.rTensor B (TensorProduct.mapIncl f.ker g.ker x) = 0
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+    · change f.rTensor B (TensorProduct.mapIncl f.ker g.ker x) = 0
+      induction x using TensorProduct.inductionOn with
       | tmul a b => simp [TensorProduct.mapIncl]
       | add x y hx hy => simp [hx, hy]
-    · show g.lTensor A (TensorProduct.mapIncl f.ker g.ker x) = 0
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+    · change g.lTensor A (TensorProduct.mapIncl f.ker g.ker x) = 0
+      induction x using TensorProduct.inductionOn with
       | tmul a b => simp [TensorProduct.mapIncl]
       | add x y hx hy => simp [hx, hy]
   · intro z hz
@@ -384,16 +382,14 @@ private theorem tensorKerInf
       have hco (t : f.ker ⊗[R] B) :
           ((e₁.symm t : LinearMap.ker (f.rTensor B)) : A ⊗[R] B) =
             f.ker.subtype.rTensor B t := by
-        induction t using TensorProduct.induction_on with
-        | zero => simp
+        induction t using TensorProduct.inductionOn with
         | tmul a b => rfl
         | add a b ha hb => simp [ha, hb]
       rw [← hco x]
       exact congrArg Subtype.val (e₁.symm_apply_apply ⟨z, hzF⟩)
     have hcomp : (f.ker.subtype.rTensor D) (g.lTensor f.ker x) =
         g.lTensor A (f.ker.subtype.rTensor B x) := by
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul a b => simp
       | add x y hx hy => simp [hx, hy]
     have hD : Function.Injective (f.ker.subtype.rTensor D) :=
@@ -404,8 +400,7 @@ private theorem tensorKerInf
     calc
       TensorProduct.mapIncl f.ker g.ker y =
           f.ker.subtype.rTensor B (g.ker.subtype.lTensor f.ker y) := by
-            induction y using TensorProduct.induction_on with
-            | zero => simp
+            induction y using TensorProduct.inductionOn with
             | tmul a b => rfl
             | add x y hx hy => simp [hx, hy]
       _ = f.ker.subtype.rTensor B x := by
@@ -445,8 +440,7 @@ private theorem exteriorProdTensorEquiv_ι_left_mul {R A B : Type*} [CommRing R]
       e (ExteriorAlgebra.ι R (a, 0) * e.symm t) =
         (LinearMap.mulLeft R (ExteriorAlgebra.ι R a)).rTensor
           (ExteriorAlgebra R B) t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul x y =>
       rw [exteriorProdTensorEquiv_symm_tmul]
       have ha : ExteriorAlgebra.ι R (a, 0) =
@@ -468,8 +462,7 @@ private theorem exteriorProdTensorEquiv_mul_ι_right {R A B : Type*} [CommRing R
       e (e.symm t * ExteriorAlgebra.ι R (0, b)) =
         (LinearMap.mulRight R (ExteriorAlgebra.ι R b)).lTensor
           (ExteriorAlgebra R A) t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul x y =>
       rw [exteriorProdTensorEquiv_symm_tmul]
       have hb : ExteriorAlgebra.ι R (0, b) =
@@ -489,8 +482,7 @@ private theorem pi_rTensor_eq_zero_iff {R A B C ι : Type*} [CommRing R]
   let e := TensorProduct.piLeft R B (fun _ : ι => C)
   have hproj (i : ι) (t : (ι → C) ⊗[R] B) :
       (e t) i = (LinearMap.proj i).rTensor B t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul x y => simp [e, TensorProduct.piLeft, TensorProduct.piRight]
     | add x y hx hy => simp [hx, hy]
   have hcomp (i : ι) :
@@ -518,8 +510,7 @@ private theorem pi_lTensor_eq_zero_iff {R A B C ι : Type*} [CommRing R]
   let e := TensorProduct.piRight R R A (fun _ : ι => C)
   have hproj (i : ι) (t : A ⊗[R] (ι → C)) :
       (e t) i = (LinearMap.proj i).lTensor A t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul x y => simp [e, TensorProduct.piRight]
     | add x y hx hy => simp [hx, hy]
   have hcomp (i : ι) :
@@ -552,7 +543,7 @@ private theorem exteriorProdTensorEquiv_mem_joint_ker_iff
   have hfirst :
       (annMap s).rTensor (ExteriorAlgebra R B) (e z) = 0 ↔
         ∀ i, ExteriorAlgebra.ι R (s i, 0) * z = 0 := by
-    show (LinearMap.pi (fun i => LinearMap.mulLeft R (ExteriorAlgebra.ι R (s i)))).rTensor
+    change (LinearMap.pi (fun i => LinearMap.mulLeft R (ExteriorAlgebra.ι R (s i)))).rTensor
         (ExteriorAlgebra R B) (e z) = 0 ↔ _
     rw [pi_rTensor_eq_zero_iff]
     exact forall_congr' fun i => by
@@ -561,7 +552,7 @@ private theorem exteriorProdTensorEquiv_mem_joint_ker_iff
   have hsecond :
       (annMapRight t).lTensor (ExteriorAlgebra R A) (e z) = 0 ↔
         ∀ i, z * ExteriorAlgebra.ι R (0, t i) = 0 := by
-    show (LinearMap.pi (fun i => LinearMap.mulRight R (ExteriorAlgebra.ι R (t i)))).lTensor
+    change (LinearMap.pi (fun i => LinearMap.mulRight R (ExteriorAlgebra.ι R (t i)))).lTensor
         (ExteriorAlgebra R A) (e z) = 0 ↔ _
     rw [pi_lTensor_eq_zero_iff]
     exact forall_congr' fun i => by
@@ -585,7 +576,7 @@ private theorem exteriorProdTensorEquiv_mem_joint_ker_iff
         ((ExteriorAlgebra.ι R).comp (LinearMap.inr R A B))) hi b
     · intro hb i
       exact hb (t i)
-  show ((annMap s).rTensor (ExteriorAlgebra R B) (e z) = 0 ∧
+  change ((annMap s).rTensor (ExteriorAlgebra R B) (e z) = 0 ∧
       (annMapRight t).lTensor (ExteriorAlgebra R A) (e z) = 0) ↔
         z ∈ determinantSubmodule (R := R) (M := A × B)
   rw [hfirst, hsecond, hspanA, hspanB]
@@ -597,7 +588,7 @@ private theorem exteriorProdTensorEquiv_mem_joint_ker_iff
     have hp : ExteriorAlgebra.ι R p =
         ExteriorAlgebra.ι R (p.1, 0) + ExteriorAlgebra.ι R (0, p.2) := by
       simpa using (map_add (ExteriorAlgebra.ι R) (p.1, 0) (0, p.2))
-    show ExteriorAlgebra.ι R p * z = 0
+    change ExteriorAlgebra.ι R p * z = 0
     rw [hp, add_mul, ha p.1, hb', add_zero]
   · intro hp
     have hp' (p : A × B) : ExteriorAlgebra.ι R p * z = 0 := hp p

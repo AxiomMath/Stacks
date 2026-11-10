@@ -173,8 +173,7 @@ theorem segreBaseChangeHom_injective [Module.Flat k k'] :
     Module.Flat.lTensor_preserves_injective_linearMap _ Subtype.val_injective
   have key (x : k' ⊗[k] segre k) : (segreBaseChangeHom k k' x : MvPolynomial (Fin 2) (Cone k')) =
       polyBaseChange k k' (((segre k).val.toLinearMap).lTensor k' x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a b => simp [segreBaseChangeHom, polyBaseChange]
     | add x y hx hy => simp only [map_add, Subalgebra.coe_add, hx, hy]
   intro x y h

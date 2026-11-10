@@ -86,7 +86,7 @@ private lemma move_entry_exact (e : AdmissibleSequence R M)
   refine ⟨f, ?_, ?_, ?_, ?_, ?_⟩
   · intro k hk
     rw [hfprev k hk]
-    show swapEntries e.1 i b k = e.1 k
+    change swapEntries e.1 i b k = e.1 k
     have hki : k ≠ i := Fin.ne_of_val_ne (by omega)
     have hkb : k ≠ b := Fin.ne_of_val_ne (by omega)
     simp [swapEntries, Equiv.swap_apply_of_ne_of_ne hki hkb]
@@ -103,13 +103,13 @@ private lemma move_entry_exact (e : AdmissibleSequence R M)
       simp [g, swapEntries]
     · have hklt : k.val < b.val := by dsimp [b] at *; omega
       rw [hfshift k hjk hklt]
-      show swapEntries e.1 i b k = e.1 k
+      change swapEntries e.1 i b k = e.1 k
       have hki : k ≠ i := Fin.ne_of_val_ne (by omega)
       have hkb' : k ≠ b := Fin.ne_of_val_ne (by omega)
       simp [swapEntries, Equiv.swap_apply_of_ne_of_ne hki hkb']
   · intro k hki
     rw [hfsuffix k (by omega)]
-    show swapEntries e.1 i b k = e.1 k
+    change swapEntries e.1 i b k = e.1 k
     have hki' : k ≠ i := Fin.ne_of_val_ne (by omega)
     have hkb' : k ≠ b := Fin.ne_of_val_ne (by omega)
     simp [swapEntries, Equiv.swap_apply_of_ne_of_ne hki' hkb']
@@ -668,7 +668,7 @@ public theorem determinantExactSequenceMap_three_by_three
     have hadm := eRight.2 pos r hr
     change r • eRight.1 pos ∈ initialSpan (R := R) eRight.1 (aN + j.val) at hadm
     rw [hspan] at hadm
-    show r • Gblock j ∈ initialSpan (R := R) base (aN + j.val)
+    change r • Gblock j ∈ initialSpan (R := R) base (aN + j.val)
     simpa [Gblock, base, pos]
       using hadm
   have hbaseG (j : Fin gN) : base ⟨aN + j.val, by dsimp [aN, gN]; omega⟩ =
@@ -749,7 +749,7 @@ public theorem determinantExactSequenceMap_three_by_three
         eLeft.1 ⟨aN + cN + gN + j.val, by omega⟩ = liftI_E j := hLeftI j
         _ = eRight.1 ⟨aN + gN + cN + j.val, by omega⟩ := (hRightI j).symm
         _ = Iblock j := by
-          show eRight.1 ⟨aN + gN + cN + j.val, by omega⟩ =
+          change eRight.1 ⟨aN + gN + cN + j.val, by omega⟩ =
             eRight.1 ⟨aN + cN + gN + j.val, by omega⟩
           exact congrArg eRight.1 (Fin.ext (by ring))
   obtain ⟨eSwap, hSwapArrangement, hSwapSymbol⟩ :=
@@ -786,7 +786,7 @@ public theorem determinantExactSequenceMap_three_by_three
             (symbol ec ⊗ₜ[IsLocalRing.ResidueField R] symbol ei)) := by
     simp [signedTensorInterchange, x0, sign]
   have hLhs : lhs x0 = symbol eLeft := by
-    show γBEH ((TensorProduct.map γAB γGH)
+    change γBEH ((TensorProduct.map γAB γGH)
       ((symbol ea ⊗ₜ[IsLocalRing.ResidueField R] symbol ec) ⊗ₜ[
         IsLocalRing.ResidueField R] (symbol eg ⊗ₜ[IsLocalRing.ResidueField R] symbol ei))) =
       symbol eLeft

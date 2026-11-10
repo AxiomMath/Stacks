@@ -144,8 +144,7 @@ theorem etaleAbelianInverseImageUliftMate_comp
     (etaleAbelianInverseImageCompIso.{u, 0} a b) (etaleAbelianInverseImageCompIso.{u, v} a b)
     (etaleAbelianInverseImageCompIso_unit.{0} a b) (etaleAbelianInverseImageCompIso_unit.{v} a b)
     (fun N => by
-      simp only [etaleAbelianDirectImageUliftIso_hom_app, Category.id_comp, Category.comp_id,
-        CategoryTheory.Functor.map_id]
+      simp only [etaleAbelianDirectImageUliftIso_hom_app]
       exact etaleAbelianDirectImageCompIso_ulift a b N) M
 
 /-- `Stacks.EtaleCohomology.etaleAbelianInverseImageUliftMate_comp` with the inverses of the

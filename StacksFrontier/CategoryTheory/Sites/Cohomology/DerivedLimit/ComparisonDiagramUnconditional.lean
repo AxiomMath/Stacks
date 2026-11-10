@@ -42,9 +42,8 @@ the only case in which the category of sheaves of modules is the one the source 
 This file therefore takes the module universe to be `max u v r w` -- still an arbitrary universe,
 since `w` is arbitrary -- and discharges all five, so that the tag is available with no class
 hypothesis at all beyond the model of the derived category.  This is the same treatment, at the
-same module universe, that
-`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedLimit.TruncationTowerConvergenceUnconditional`
-gives to [Stacks, Tag 0D6M] and
+same module universe, that the module `TruncationTowerConvergenceUnconditional` of
+`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedLimit` gives to [Stacks, Tag 0D6M] and
 `StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedLimit.SectionsInjectivityUnconditional`
 to [Stacks, Tag 0D6L]; the five facts are the same five, and the discharges are those, reused.
 
@@ -132,6 +131,7 @@ section LargeModules
 
 variable (X : RingedSite.{u, v, max u v r w})
 
+set_option linter.checkUnivs false in
 /-- Sheafification of presheaves of modules on a ringed site whose module universe contains the
 site, with its instances supplied.  Sheafification of abelian presheaves and local bijectivity
 cannot be found by instance search at this universe shape, so the functor is given a name that
@@ -157,6 +157,7 @@ abbrev sheafificationCohomologyPresheafIsoMax (m : ℤ) :
   haveI := wEqualsLocallyBijectiveMax.{u, v, r, w} (J := X.J)
   sheafificationCohomologyPresheafIso X m
 
+set_option linter.checkUnivs false in
 /-- Unbounded derived sections over an object of a ringed site whose module universe contains the
 site, with its instances supplied.  Its degree-`m` cohomology is the hypercohomology module
 `Hᵐ(U, -)` over the ring of sections `O(U)`. -/

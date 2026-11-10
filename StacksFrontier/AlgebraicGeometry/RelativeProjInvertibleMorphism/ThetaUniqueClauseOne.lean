@@ -107,7 +107,7 @@ theorem eq_thetaPush_of_laws (φ : ∀ n : ℤ, Otw A n ⟶ P.pushK n)
   refine P.eq_thetaPush n fun V hV => ?_
   refine Scheme.Modules.hom_ext _ _ fun W₁ => ?_
   refine ConcreteCategory.hom_ext _ _ fun s => ?_
-  show (φ n).app ((relativeProj A).chart V hV ''ᵁ W₁) s =
+  change (φ n).app ((relativeProj A).chart V hV ''ᵁ W₁) s =
     localApp ((relativeProj A).chart V hV) (P.thetaLoc V hV n) rfl s
   let ι := {p : Stacks.AlgebraicGeometry.ProjChartGradedThetaBuild.Idx (A.grading V) //
     AlgebraicGeometry.Proj.basicOpen (A.grading V) (p.1.2 : A.sectionRing V) ≤ W₁}

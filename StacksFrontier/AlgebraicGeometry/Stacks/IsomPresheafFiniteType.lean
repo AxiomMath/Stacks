@@ -122,7 +122,7 @@ theorem isIso_liftedMorPresheafMap (hF : p.IsFibredOneMorphism r F)
         ((hF.mapPullbackFiberIso a g.unop.hom).inv ≫ n ≫
           (hF.mapPullbackFiberIso b g.unop.hom).hom)
       refine ⟨ULift.up m, ?_⟩
-      show (hF.mapPullbackFiberIso a g.unop.hom).hom ≫ _ ≫ _ = n
+      change (hF.mapPullbackFiberIso a g.unop.hom).hom ≫ _ ≫ _ = n
       rw [hm]
       simp
   exact NatIso.isIso_of_isIso_app _

@@ -132,6 +132,7 @@ universe u
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site over `S` is slow
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_QuotientFunctorPoints :
@@ -157,6 +158,7 @@ def spaceBaseChange {T : AlgebraicSpaces B S hS} (h : T ⟶ D.Y) : AlgebraicSpac
   AlgebraicSpaces.fiberProduct B S hS D.f h
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullback D.f.hom h.hom` on presheaves over the big fppf site is slow
 /-- The projection `X_T ⟶ X` of the base change along a morphism out of an algebraic space, along
 which the module of the situation is pulled back. -/
 def spaceBaseToSource {T : AlgebraicSpaces B S hS} (h : T ⟶ D.Y) :
@@ -164,6 +166,7 @@ def spaceBaseToSource {T : AlgebraicSpaces B S hS} (h : T ⟶ D.Y) :
   ObjectProperty.homMk (pullback.fst D.f.hom h.hom)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullback D.f.hom h.hom` on presheaves over the big fppf site is slow
 /-- The projection `X_T ⟶ T` of the base change along a morphism out of an algebraic space, over
 which the quotients are required to be flat. -/
 def spaceBaseToSpace {T : AlgebraicSpaces B S hS} (h : T ⟶ D.Y) : D.spaceBaseChange h ⟶ T :=

@@ -327,10 +327,10 @@ theorem tensor_smul_bijective {R M N : Type u} [CommRing R]
     funext r
     have h1 : g r = e (1 : R) ⊗ₜ[R] f r := by simp [g]
     have h2 : e (1 : R) = s := by
-      show LinearMap.toSpanSingleton R M s (1 : R) = s
+      change LinearMap.toSpanSingleton R M s (1 : R) = s
       rw [LinearMap.toSpanSingleton_apply, one_smul]
     have h3 : f r = r • t := by
-      show LinearMap.toSpanSingleton R N t r = r • t
+      change LinearMap.toSpanSingleton R N t r = r • t
       rw [LinearMap.toSpanSingleton_apply]
     rw [h1, h2, h3, TensorProduct.tmul_smul]
   rw [hg]
@@ -416,10 +416,10 @@ theorem tensorSection_bijective
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2 P)
   let η' := Functor.whiskerRight η (forget AddCommGrpCat)
   have : Presheaf.IsLocallyInjective X.J η := by
-    show Presheaf.IsLocallyInjective X.J (CategoryTheory.toSheafify X.J P.presheaf)
+    change Presheaf.IsLocallyInjective X.J (CategoryTheory.toSheafify X.J P.presheaf)
     infer_instance
   have : Presheaf.IsLocallySurjective X.J η := by
-    show Presheaf.IsLocallySurjective X.J (CategoryTheory.toSheafify X.J P.presheaf)
+    change Presheaf.IsLocallySurjective X.J (CategoryTheory.toSheafify X.J P.presheaf)
     infer_instance
   let R := (X.O.over U).obj ⋙ forget CommRingCat
   let T := (Over.forget U).op ⋙ P.presheaf ⋙ forget AddCommGrpCat
@@ -430,7 +430,7 @@ theorem tensorSection_bijective
       {V W : (Over U)ᵒᵖ} (f : V ⟶ W) (m : M.val.obj (op U)) :
       M.val.restrictₛₗ f.unop.left.op (M.val.restrictₛₗ V.unop.hom.op m) =
         M.val.restrictₛₗ W.unop.hom.op m := by
-    show M.val.map f.unop.left.op (M.val.map V.unop.hom.op m) = M.val.map W.unop.hom.op m
+    change M.val.map f.unop.left.op (M.val.map V.unop.hom.op m) = M.val.map W.unop.hom.op m
     rw [← M.val.map_comp_apply, ← op_comp, Over.w f.unop]
   have hknat {V W : (Over U)ᵒᵖ} (f : V ⟶ W) (r : R.obj V) :
       kf W (R.map f r) = T.map f (kf V r) := by
@@ -447,7 +447,7 @@ theorem tensorSection_bijective
           (L.val.restrictₛₗ f.unop.left.op (L.val.restrictₛₗ V.unop.hom.op s)
             ⊗ₜ[X.O.obj.obj (op W.unop.left)]
             N.val.restrictₛₗ f.unop.left.op (N.val.restrictₛₗ V.unop.hom.op t)) := by
-      show (X.O.obj.map f.unop.left.op) r •
+      change (X.O.obj.map f.unop.left.op) r •
           (L.val.restrictₛₗ W.unop.hom.op s ⊗ₜ[X.O.obj.obj (op W.unop.left)]
             N.val.restrictₛₗ W.unop.hom.op t) = _
       rw [hL, hN]
@@ -487,7 +487,7 @@ theorem tensorSection_bijective
   have hid (A : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
       (a : A.val.obj (op U)) :
       A.val.restrictₛₗ (𝟙 U).op a = a := by
-    show A.val.presheaf.map (𝟙 (op U)) a = a
+    change A.val.presheaf.map (𝟙 (op U)) a = a
     simp
     rfl
   have hr (r : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)) :
@@ -496,7 +496,7 @@ theorem tensorSection_bijective
     have h0 : k.app (op (Over.mk (𝟙 U))) r =
         @SMul.smul (X.O.obj.obj (op U)) _ _ r
           (s ⊗ₜ[X.O.obj.obj (op U)] t) := by
-      show @SMul.smul (X.O.obj.obj (op U)) _ _ r
+      change @SMul.smul (X.O.obj.obj (op U)) _ _ r
         (L.val.restrictₛₗ (𝟙 U).op s ⊗ₜ[X.O.obj.obj (op U)]
           N.val.restrictₛₗ (𝟙 U).op t) = _
       rw [hid L s, hid N t]
@@ -531,7 +531,7 @@ theorem tensorSection_smul (L N : SheafOfModules.{u} (Stacks.SheafOfModules.Tens
   let P := (PresheafOfModules.tensorObj (O := X.O.obj) (L.val) (N.val))
   let η := (Stacks.SheafOfModules.TensorSheafification.toSheafify X.O.obj
     (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2 P).app (op U)
-  show η.hom ((a' • s) ⊗ₜ[X.O.obj.obj (op U)] (b' • t)) = (a * b) • tensorSection X L N U s t
+  change η.hom ((a' • s) ⊗ₜ[X.O.obj.obj (op U)] (b' • t)) = (a * b) • tensorSection X L N U s t
   rw [TensorProduct.smul_tmul_smul a' b' s t]
   exact η.hom.map_smul (a' * b') (s ⊗ₜ t)
 
@@ -653,7 +653,7 @@ theorem picardToH1_eq_zero
     have ht : T.val.presheaf.map f
         (Multiplicative.ofAdd (Additive.ofMul (1 : (X.O.obj.obj U)ˣ))) =
         Multiplicative.ofAdd (Additive.ofMul (1 : (X.O.obj.obj V)ˣ)) := by
-      show Multiplicative.ofAdd ((unitsAddSheaf X).obj.map f 0) = Multiplicative.ofAdd 0
+      change Multiplicative.ofAdd ((unitsAddSheaf X).obj.map f 0) = Multiplicative.ofAdd 0
       exact congrArg Multiplicative.ofAdd (map_zero ((unitsAddSheaf X).obj.map f).hom)
     exact (F.sectionsEquiv_restrict f _).symm.trans
       (congrArg (fun z => (F.sectionsEquiv V z).val)
@@ -669,7 +669,7 @@ theorem picardToH1_eq_zero
         (φ.val.app U).hom r = r • (s U).val := by
       rw [unitHom_symm_app_smul]
       rfl
-    show Function.Bijective
+    change Function.Bijective
       (fun r : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U => (φ.val.app U).hom r)
     exact (funext hv).symm ▸ h
   let iso : SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ≅ L :=

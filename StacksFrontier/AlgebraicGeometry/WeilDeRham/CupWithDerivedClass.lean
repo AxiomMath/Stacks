@@ -70,7 +70,7 @@ variable {C : Type u} [SmallCategory.{u} C] {J : GrothendieckTopology C}
 theorem isIso_toTensor_of_kFlat_right
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct.{d, u} R)
     (K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules R) ℤ)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) : IsIso (T.toTensor K L) := by
+    (hL : Stacks.SheafOfModules.KFlat R L) : IsIso (T.toTensor K L) := by
   rw [T.toTensor_eq_comparisonRight K L hL]
   infer_instance
 
@@ -84,7 +84,7 @@ abbrev unitSection : (unitModule X).val.sections :=
 
 /-- The structure sheaf placed in degree `n` and extended by zero is K-flat. -/
 theorem kFlat_unitExtend (n : ℕ) :
-    Stacks.SheafOfModules.KFlat.KFlat X.sheaf
+    Stacks.SheafOfModules.KFlat X.sheaf
       ((singleNat (X := X) (unitModule X) n).extend ComplexShape.embeddingUpNat) :=
   CochainComplex.KFlatBifunctor.KFlat.of_iso (sheafTensor.{u, u, u, u, u} X.sheaf)
     (Stacks.RingedSpace.kFlat_shiftedUnitComplex X (n : ℤ))

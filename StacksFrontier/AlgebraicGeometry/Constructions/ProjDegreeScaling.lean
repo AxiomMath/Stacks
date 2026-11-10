@@ -165,7 +165,7 @@ theorem Proj_map_degreeScale (hu : u ∈ 𝒜 0) (hv : v ∈ 𝒜 0) (huv : u * 
     Proj.map (degreeScale 𝒜 hu) (irrelevant_le_map_degreeScale 𝒜 hu hv huv) = 𝟙 (Proj 𝒜) := by
   refine (Proj.mapAffineOpenCover (degreeScale 𝒜 hu)
     (irrelevant_le_map_degreeScale 𝒜 hu hv huv)).openCover.hom_ext _ _ fun s ↦ ?_
-  show Proj.awayι 𝒜 (degreeScale 𝒜 hu s.2) (map_mem _ s.2.2) s.1.2 ≫
+  change Proj.awayι 𝒜 (degreeScale 𝒜 hu s.2) (map_mem _ s.2.2) s.1.2 ≫
       Proj.map (degreeScale 𝒜 hu) (irrelevant_le_map_degreeScale 𝒜 hu hv huv) =
     Proj.awayι 𝒜 (degreeScale 𝒜 hu s.2) (map_mem _ s.2.2) s.1.2 ≫ 𝟙 (Proj 𝒜)
   rw [Category.comp_id]

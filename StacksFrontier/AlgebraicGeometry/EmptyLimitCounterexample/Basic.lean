@@ -226,7 +226,7 @@ theorem coneMap_compat (s : Cone (schemeDiagram F)) (T T' : Finset F) (h : T ⊆
         (Scheme.ΓSpecIso (CommRingCat.of (stage F T'))).inv ≫ (coneLeg F s T').appTop := by
     rw [← Category.assoc, Scheme.ΓSpecIso_inv_naturality, Category.assoc,
       ← Scheme.Hom.comp_appTop, coneLeg_w F s h]
-  show ((Scheme.ΓSpecIso (CommRingCat.of (stage F T'))).inv ≫ (coneLeg F s T').appTop).hom
+  change ((Scheme.ΓSpecIso (CommRingCat.of (stage F T'))).inv ≫ (coneLeg F s T').appTop).hom
         ((stageEquiv F T').symm ⟨x, hx'⟩)
       = ((Scheme.ΓSpecIso (CommRingCat.of (stage F T))).inv ≫ (coneLeg F s T).appTop).hom
         ((stageEquiv F T).symm ⟨x, hx⟩)

@@ -67,7 +67,7 @@ normalised quotients on a chart, and their identification with the functor of po
 space over `Spec ℤ`.
 -/
 
-public section
+@[expose] public section
 
 open CategoryTheory AlgebraicGeometry Opposite Limits TopologicalSpace
 
@@ -88,7 +88,7 @@ attribute [local implicit_reducible] CategoryTheory.Pseudofunctor.comp
 
 /-- The inclusion of the free module of rank `n - k` into the free module of rank `n`
 sending the `i`-th basis vector to the `ι i`-th one. -/
-private noncomputable def coordinateSubmap (X : Scheme.{u}) (k n : ℕ)
+noncomputable def coordinateSubmap (X : Scheme.{u}) (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) :
     SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin (n - k))) ⟶
       SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin n)) :=
@@ -96,7 +96,7 @@ private noncomputable def coordinateSubmap (X : Scheme.{u}) (k n : ℕ)
     (fun i : ULift.{u} (Fin (n - k)) => ULift.up (ι i.down))
 
 /-- The free module of rank `m` is finite locally free of rank `m`. -/
-private theorem free_isFiniteLocallyFreeOfRank (X : Scheme.{u}) (m : ℕ) :
+theorem free_isFiniteLocallyFreeOfRank (X : Scheme.{u}) (m : ℕ) :
     AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
       (SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin m))) m := by
   apply AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.mk
@@ -112,7 +112,7 @@ private theorem free_isFiniteLocallyFreeOfRank (X : Scheme.{u}) (m : ℕ) :
 
 /-- A surjection from the free module of rank `n - k` onto a module that is finite locally free
 of the same rank is an isomorphism. -/
-private lemma coordinateSubmap_comp_isIso_of_epi (X : Scheme.{u}) (k n : ℕ)
+lemma coordinateSubmap_comp_isIso_of_epi (X : Scheme.{u}) (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) (q : QuotientPresentation X k n)
     (h : Epi (coordinateSubmap X k n ι ≫ q.map)) :
     IsIso (coordinateSubmap X k n ι ≫ q.map) :=
@@ -123,7 +123,7 @@ private lemma coordinateSubmap_comp_isIso_of_epi (X : Scheme.{u}) (k n : ℕ)
 
 /-- If the quotient map composed with the coordinate inclusion indexed by `ι` is surjective, it
 identifies the quotient with the free module of rank `n - k`. -/
-private noncomputable def coordinateChartNormalizationIso (X : Scheme.{u})
+noncomputable def coordinateChartNormalizationIso (X : Scheme.{u})
     (k n : ℕ) (ι : Fin (n - k) ↪ Fin n)
     (q : QuotientPresentation X k n)
     (h : Epi (coordinateSubmap X k n ι ≫ q.map)) :
@@ -133,7 +133,7 @@ private noncomputable def coordinateChartNormalizationIso (X : Scheme.{u})
   exact (asIso (coordinateSubmap X k n ι ≫ q.map)).symm
 
 /-- The normalisation isomorphism splits the coordinate inclusion indexed by `ι`. -/
-private lemma coordinateChartNormalizationIso_comp (X : Scheme.{u})
+lemma coordinateChartNormalizationIso_comp (X : Scheme.{u})
     (k n : ℕ) (ι : Fin (n - k) ↪ Fin n)
     (q : QuotientPresentation X k n)
     (h : Epi (coordinateSubmap X k n ι ≫ q.map)) :
@@ -145,14 +145,14 @@ private lemma coordinateChartNormalizationIso_comp (X : Scheme.{u})
 
 /-- The condition cutting out the chart attached to `ι`: some presentation representing the given
 point of `G(k, n)` has surjective composite with the coordinate inclusion indexed by `ι`. -/
-private def coordinateChartCondition (k n : ℕ) (ι : Fin (n - k) ↪ Fin n)
+def coordinateChartCondition (k n : ℕ) (ι : Fin (n - k) ↪ Fin n)
     (X : Scheme.{u}) (x : (functor.{u} k n).obj (op X)) : Prop :=
   ∃ q : QuotientPresentation X k n,
     (functorData.{u} k n).objEquiv X x = ⟦q⟧ ∧
       Epi (coordinateSubmap X k n ι ≫ q.map)
 
 /-- Composing with an isomorphism does not change surjectivity. -/
-private lemma epi_comp_iso_iff {C : Type*} [Category C] {A B D : C}
+lemma epi_comp_iso_iff {C : Type*} [Category C] {A B D : C}
     (f : A ⟶ B) (e : B ≅ D) : Epi (f ≫ e.hom) ↔ Epi f := by
   constructor
   · intro h
@@ -166,7 +166,7 @@ private lemma epi_comp_iso_iff {C : Type*} [Category C] {A B D : C}
     exact epi_comp f e.hom
 
 /-- Presentations related by the generated equivalence relation are isomorphic. -/
-private lemma isomorphic_of_eqvGen {X : Scheme.{u}} {k n : ℕ} {q q' : QuotientPresentation X k n}
+lemma isomorphic_of_eqvGen {X : Scheme.{u}} {k n : ℕ} {q q' : QuotientPresentation X k n}
     (h : Relation.EqvGen QuotientPresentation.Isomorphic q q') : q.Isomorphic q' := by
   induction h with
   | rel _ _ h => exact h
@@ -182,14 +182,14 @@ private lemma isomorphic_of_eqvGen {X : Scheme.{u}} {k n : ℕ} {q q' : Quotient
     exact ⟨e ≪≫ e', by simp only [Iso.trans_hom, ← Category.assoc, he, he']⟩
 
 /-- Presentations with the same class in `Points` are isomorphic. -/
-private lemma quotientPresentation_isomorphic_of_eq {X : Scheme.{u}} {k n : ℕ}
+lemma quotientPresentation_isomorphic_of_eq {X : Scheme.{u}} {k n : ℕ}
     {q q' : QuotientPresentation X k n}
     (h : (⟦q⟧ : Points X k n) = ⟦q'⟧) :
     q.Isomorphic q' :=
   isomorphic_of_eqvGen (Quotient.exact h)
 
 /-- The chart condition may be tested on any presentation representing the given point. -/
-private lemma coordinateChartCondition_iff_epi (k n : ℕ)
+lemma coordinateChartCondition_iff_epi (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) (X : Scheme.{u})
     (x : (functor.{u} k n).obj (op X))
     (q : QuotientPresentation X k n)
@@ -208,14 +208,14 @@ private lemma coordinateChartCondition_iff_epi (k n : ℕ)
     exact ⟨q, hq, hEpi⟩
 
 /-- The instances needed to work with the module pullback along a morphism of schemes. -/
-private theorem pullback_instances {S T : Scheme.{u}} (f : T ⟶ S) :
+theorem pullback_instances {S T : Scheme.{u}} (f : T ⟶ S) :
     (SheafOfModules.pushforward.{u} f.toRingCatSheafHom).IsRightAdjoint ∧
       (TopologicalSpace.Opens.map f.base).Final :=
   ⟨(Scheme.Modules.pullbackPushforwardAdjunction f).isRightAdjoint,
     CategoryTheory.final_of_representablyFlat _⟩
 
 /-- Pullback of modules along a morphism of schemes preserves surjections. -/
-private lemma pullback_preserves_epi {S T : Scheme.{u}} (f : T ⟶ S)
+lemma pullback_preserves_epi {S T : Scheme.{u}} (f : T ⟶ S)
     {A B : S.Modules} (g : A ⟶ B) (hg : Epi g) :
     Epi ((Scheme.Modules.pullback f).map g) := by
   obtain ⟨_, _⟩ := pullback_instances f
@@ -226,7 +226,7 @@ private lemma pullback_preserves_epi {S T : Scheme.{u}} (f : T ⟶ S)
 
 /-- The coordinate inclusion indexed by `ι` commutes with pullback, through the identifications
 of the pullbacks of the free modules. -/
-private lemma coordinateSubmap_pullback_naturality {S T : Scheme.{u}} (f : T ⟶ S)
+lemma coordinateSubmap_pullback_naturality {S T : Scheme.{u}} (f : T ⟶ S)
     (k n : ℕ) (ι : Fin (n - k) ↪ Fin n) :
     (Scheme.Modules.pullback f).map (coordinateSubmap S k n ι) ≫
         (pullbackFreeIso f n).hom =
@@ -237,7 +237,7 @@ private lemma coordinateSubmap_pullback_naturality {S T : Scheme.{u}} (f : T ⟶
   exact h
 
 /-- The chart condition is stable under pullback along a morphism of schemes. -/
-private lemma coordinateChartCondition_map (k n : ℕ)
+lemma coordinateChartCondition_map (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) {S T : Scheme.{u}} (f : T ⟶ S)
     (x : (functor.{u} k n).obj (op S))
     (hx : coordinateChartCondition k n ι S x) :
@@ -294,7 +294,7 @@ private lemma coordinateChartCondition_map (k n : ℕ)
   exact hright
 
 /-- The chart subfunctor of `G(k, n)` attached to an embedding `ι`. -/
-private def coordinateChartSubfunctor (k n : ℕ) (ι : Fin (n - k) ↪ Fin n) :
+def coordinateChartSubfunctor (k n : ℕ) (ι : Fin (n - k) ↪ Fin n) :
     Subfunctor (functor.{u} k n) where
   obj X := coordinateChartCondition k n ι X.unop
   map {_S _T} f x hx := coordinateChartCondition_map k n ι f.unop x hx
@@ -302,14 +302,14 @@ private def coordinateChartSubfunctor (k n : ℕ) (ι : Fin (n - k) ↪ Fin n) :
 
 /-- A normalised quotient: a map onto the free module of rank `n - k` splitting the coordinate
 inclusion indexed by `ι`. -/
-private abbrev NormalizedQuotient (X : Scheme.{u}) (k n : ℕ)
+abbrev NormalizedQuotient (X : Scheme.{u}) (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) :=
   {p : SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin n)) ⟶
       SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin (n - k))) //
     coordinateSubmap X k n ι ≫ p = 𝟙 _}
 
 /-- The quotient presentation underlying a normalised quotient. -/
-private noncomputable def normalizedQuotientPresentation (X : Scheme.{u}) (k n : ℕ)
+noncomputable def normalizedQuotientPresentation (X : Scheme.{u}) (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) (p : NormalizedQuotient X k n ι) :
     QuotientPresentation X k n where
   target := SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin (n - k)))
@@ -320,7 +320,7 @@ private noncomputable def normalizedQuotientPresentation (X : Scheme.{u}) (k n :
   finiteLocallyFree := free_isFiniteLocallyFreeOfRank X (n - k)
 
 /-- The point of the chart subfunctor determined by a normalised quotient. -/
-private noncomputable def normalizedQuotientPoint (X : Scheme.{u}) (k n : ℕ)
+noncomputable def normalizedQuotientPoint (X : Scheme.{u}) (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) (p : NormalizedQuotient X k n ι) :
     (coordinateChartSubfunctor.{u} k n ι).obj (op X) := by
   let q := normalizedQuotientPresentation X k n ι p
@@ -331,7 +331,7 @@ private noncomputable def normalizedQuotientPoint (X : Scheme.{u}) (k n : ℕ)
   infer_instance
 
 /-- Normalised quotients are exactly the points of the chart subfunctor. -/
-private lemma normalizedQuotientPoint_bijective (X : Scheme.{u}) (k n : ℕ)
+lemma normalizedQuotientPoint_bijective (X : Scheme.{u}) (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) :
     Function.Bijective (normalizedQuotientPoint X k n ι) := by
   constructor
@@ -354,7 +354,7 @@ private lemma normalizedQuotientPoint_bijective (X : Scheme.{u}) (k n : ℕ)
       ⟨q.map ≫ e.hom, coordinateChartNormalizationIso_comp X k n ι q h⟩
     refine ⟨p, Subtype.ext ?_⟩
     apply ((functorData.{u} k n).objEquiv X).injective
-    show _ = (functorData.{u} k n).objEquiv X x
+    change _ = (functorData.{u} k n).objEquiv X x
     rw [hq]
     simp only [normalizedQuotientPoint, Equiv.apply_symm_apply]
     apply Quotient.sound
@@ -362,14 +362,14 @@ private lemma normalizedQuotientPoint_bijective (X : Scheme.{u}) (k n : ℕ)
     exact Relation.EqvGen.rel _ _ ⟨e, rfl⟩
 
 /-- The bijection between normalised quotients and points of the chart subfunctor. -/
-private noncomputable def normalizedQuotientEquivChart (X : Scheme.{u}) (k n : ℕ)
+noncomputable def normalizedQuotientEquivChart (X : Scheme.{u}) (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) :
     NormalizedQuotient X k n ι ≃ (coordinateChartSubfunctor.{u} k n ι).obj (op X) :=
   Equiv.ofBijective _ (normalizedQuotientPoint_bijective X k n ι)
 
 /-- Two presentations obtained from the same one by pullback along the same morphism are
 isomorphic. -/
-private lemma quotientPresentation_isomorphic_of_isPullback {S T : Scheme.{u}}
+lemma quotientPresentation_isomorphic_of_isPullback {S T : Scheme.{u}}
     {k n : ℕ} {f : T ⟶ S} {q : QuotientPresentation S k n}
     {q₁ q₂ : QuotientPresentation T k n}
     (h₁ : q.IsPullback f q₁) (h₂ : q.IsPullback f q₂) : q₁.Isomorphic q₂ := by
@@ -383,7 +383,7 @@ private lemma quotientPresentation_isomorphic_of_isPullback {S T : Scheme.{u}}
 
 /-- The map of `G(k, n)` induced by a morphism of schemes sends the class of a presentation to
 the class of any presentation obtained from it by pullback. -/
-private lemma points_map_of_isPullback {S T : Scheme.{u}} {k n : ℕ}
+lemma points_map_of_isPullback {S T : Scheme.{u}} {k n : ℕ}
     (f : T ⟶ S) (q : QuotientPresentation S k n)
     (q' : QuotientPresentation T k n) (h : q.IsPullback f q') :
     (functorData.{u} k n).objEquiv T
@@ -395,7 +395,7 @@ private lemma points_map_of_isPullback {S T : Scheme.{u}} {k n : ℕ}
     (Quotient.sound (.rel _ _ (quotientPresentation_isomorphic_of_isPullback hh h)))
 
 /-- The pullback of a normalised quotient along a morphism of schemes. -/
-private noncomputable def normalizedQuotientPullback {S T : Scheme.{u}} (f : T ⟶ S)
+noncomputable def normalizedQuotientPullback {S T : Scheme.{u}} (f : T ⟶ S)
     (k n : ℕ) (ι : Fin (n - k) ↪ Fin n) (p : NormalizedQuotient S k n ι) :
     NormalizedQuotient T k n ι := by
   refine ⟨(pullbackFreeIso f n).inv ≫
@@ -408,25 +408,25 @@ private noncomputable def normalizedQuotientPullback {S T : Scheme.{u}} (f : T �
 
 /-- The presentation underlying the pullback of a normalised quotient is obtained by pullback
 from the presentation underlying it. -/
-private lemma normalizedQuotientPullback_isPullback {S T : Scheme.{u}} (f : T ⟶ S)
+lemma normalizedQuotientPullback_isPullback {S T : Scheme.{u}} (f : T ⟶ S)
     (k n : ℕ) (ι : Fin (n - k) ↪ Fin n) (p : NormalizedQuotient S k n ι) :
     (normalizedQuotientPresentation S k n ι p).IsPullback f
       (normalizedQuotientPresentation T k n ι (normalizedQuotientPullback f k n ι p)) := by
   refine ⟨pullbackFreeIso f (n - k), ?_⟩
-  show (Scheme.Modules.pullback f).map p.1 ≫ _ = _ ≫
+  change (Scheme.Modules.pullback f).map p.1 ≫ _ = _ ≫
     ((pullbackFreeIso f n).inv ≫ (Scheme.Modules.pullback f).map p.1 ≫ _)
   simp only [Iso.hom_inv_id_assoc]
 
 /-- The point of the chart subfunctor attached to a normalised quotient is natural in the base
 scheme. -/
-private lemma normalizedQuotientPoint_naturality {S T : Scheme.{u}} (f : T ⟶ S)
+lemma normalizedQuotientPoint_naturality {S T : Scheme.{u}} (f : T ⟶ S)
     (k n : ℕ) (ι : Fin (n - k) ↪ Fin n) (p : NormalizedQuotient S k n ι) :
     ((coordinateChartSubfunctor.{u} k n ι).toFunctor.map f.op)
         (normalizedQuotientPoint S k n ι p) =
       normalizedQuotientPoint T k n ι (normalizedQuotientPullback f k n ι p) := by
   apply Subtype.ext
   apply ((functorData.{u} k n).objEquiv T).injective
-  show (functorData.{u} k n).objEquiv T
+  change (functorData.{u} k n).objEquiv T
     ((functor.{u} k n).map f.op
       (((functorData.{u} k n).objEquiv S).symm
         ⟦normalizedQuotientPresentation S k n ι p⟧)) = _
@@ -436,7 +436,7 @@ private lemma normalizedQuotientPoint_naturality {S T : Scheme.{u}} (f : T ⟶ S
 
 /-- A function on `J` whose values on the range of an embedding `ι : I ↪ J` are prescribed by
 `s : I → A` is the same thing as a function on the complement of that range. -/
-private noncomputable def extensionEquiv {I J A : Type*} (ι : I ↪ J) (s : I → A) :
+noncomputable def extensionEquiv {I J A : Type*} (ι : I ↪ J) (s : I → A) :
     {f : J → A // ∀ i, f (ι i) = s i} ≃ ({j // j ∉ Set.range ι} → A) := by
   classical
   refine
@@ -463,7 +463,7 @@ private noncomputable def extensionEquiv {I J A : Type*} (ι : I ↪ J) (s : I �
 
 /-- A normalised quotient is determined by the images of the basis vectors outside the range
 of `ι`. -/
-private noncomputable def normalizedQuotientEquivSections (X : Scheme.{u}) (k n : ℕ)
+noncomputable def normalizedQuotientEquivSections (X : Scheme.{u}) (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) :
     NormalizedQuotient X k n ι ≃
       ({j // j ∉ Set.range ι} →
@@ -493,7 +493,7 @@ private noncomputable def normalizedQuotientEquivSections (X : Scheme.{u}) (k n 
 
 /-- The sections of the structure sheaf viewed as a module are the global sections of the
 structure sheaf. -/
-private noncomputable def unitSectionsEquiv (X : Scheme.{u}) :
+noncomputable def unitSectionsEquiv (X : Scheme.{u}) :
     (SheafOfModules.unit X.ringCatSheaf).sections ≃ Γ(X, ⊤) where
   toFun s := s.1 (op ⊤)
   invFun s := PresheafOfModules.sectionsMk
@@ -512,18 +512,18 @@ private noncomputable def unitSectionsEquiv (X : Scheme.{u}) :
     simp
 
 /-- The free module of rank `m` as a biproduct of `m` copies of the structure sheaf. -/
-private noncomputable def freeBicone (X : Scheme.{u}) (m : ℕ) :
+noncomputable def freeBicone (X : Scheme.{u}) (m : ℕ) :
     Bicone (fun _ : ULift.{u} (Fin m) => SheafOfModules.unit X.ringCatSheaf) :=
   Bicone.ofColimitCocone (SheafOfModules.isColimitFreeCofan (R := X.ringCatSheaf)
     (ULift.{u} (Fin m)))
 
 /-- The projections of that biproduct are the coordinate projections of the free module. -/
-private lemma freeBicone_π (X : Scheme.{u}) (m : ℕ) (i : ULift.{u} (Fin m)) :
+lemma freeBicone_π (X : Scheme.{u}) (m : ℕ) (i : ULift.{u} (Fin m)) :
     (freeBicone X m).π i = SheafOfModules.freeProjection (R := X.ringCatSheaf) i := by
   classical
   refine Cofan.IsColimit.hom_ext
     (SheafOfModules.isColimitFreeCofan (R := X.ringCatSheaf) (ULift.{u} (Fin m))) _ _ fun j ↦ ?_
-  show (freeBicone X m).ι j ≫ (freeBicone X m).π i =
+  change (freeBicone X m).ι j ≫ (freeBicone X m).π i =
     SheafOfModules.ιFree (R := X.ringCatSheaf) j ≫
       SheafOfModules.freeProjection (R := X.ringCatSheaf) i
   have h := (freeBicone X m).ι_π j i
@@ -536,7 +536,7 @@ private lemma freeBicone_π (X : Scheme.{u}) (m : ℕ) (i : ULift.{u} (Fin m)) :
 
 /-- On the `j`-th summand the `i`-th projection of the free module is the identity if `j = i`
 and zero otherwise. -/
-private lemma ιFree_freeProjection (X : Scheme.{u}) (m : ℕ) (i j : Fin m) :
+lemma ιFree_freeProjection (X : Scheme.{u}) (m : ℕ) (i j : Fin m) :
     SheafOfModules.ιFree (R := X.ringCatSheaf) (ULift.up j) ≫
         SheafOfModules.freeProjection (R := X.ringCatSheaf) (ULift.up i) =
       if j = i then 𝟙 _ else 0 := by
@@ -545,7 +545,7 @@ private lemma ιFree_freeProjection (X : Scheme.{u}) (m : ℕ) (i j : Fin m) :
   exact if_congr ULift.up_inj rfl rfl
 
 /-- Morphisms into the apex of a limit fan are families of morphisms into its legs. -/
-private noncomputable def homFanEquiv {C : Type*} [Category C]
+noncomputable def homFanEquiv {C : Type*} [Category C]
     {I : Type*} {F : I → C} (c : Fan F) (hc : IsLimit c) (A : C) :
     (A ⟶ c.pt) ≃ (∀ i, A ⟶ F i) where
   toFun f i := f ≫ c.proj i
@@ -555,7 +555,7 @@ private noncomputable def homFanEquiv {C : Type*} [Category C]
 
 /-- The sections of the free module of rank `m` are the `m`-tuples of global sections of the
 structure sheaf. -/
-private noncomputable def freeSectionsEquiv (X : Scheme.{u}) (m : ℕ) :
+noncomputable def freeSectionsEquiv (X : Scheme.{u}) (m : ℕ) :
     (SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin m))).sections ≃
       (Fin m → Γ(X, ⊤)) := by
   let U := SheafOfModules.unit X.ringCatSheaf
@@ -569,7 +569,7 @@ private noncomputable def freeSectionsEquiv (X : Scheme.{u}) (m : ℕ) :
 
 /-- The `i`-th coordinate of a section of the free module is its image under the `i`-th
 projection. -/
-private lemma freeSectionsEquiv_unitHom_apply (X : Scheme.{u}) (m : ℕ)
+lemma freeSectionsEquiv_unitHom_apply (X : Scheme.{u}) (m : ℕ)
     (s : SheafOfModules.unit X.ringCatSheaf ⟶
       SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin m))) (i : Fin m) :
     freeSectionsEquiv X m ((SheafOfModules.free (R := X.ringCatSheaf)
@@ -577,7 +577,7 @@ private lemma freeSectionsEquiv_unitHom_apply (X : Scheme.{u}) (m : ℕ)
     unitSectionsEquiv X ((SheafOfModules.unit X.ringCatSheaf).unitHomEquiv
       (s ≫ SheafOfModules.freeProjection (R := X.ringCatSheaf) (ULift.up i))) := by
   rw [← freeBicone_π X m (ULift.up i)]
-  show unitSectionsEquiv X ((SheafOfModules.unit X.ringCatSheaf).unitHomEquiv
+  change unitSectionsEquiv X ((SheafOfModules.unit X.ringCatSheaf).unitHomEquiv
     (((SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin m))).unitHomEquiv.symm
       ((SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin m))).unitHomEquiv s)) ≫
         (freeBicone X m).π (ULift.up i))) = _
@@ -596,7 +596,7 @@ attribute [local implicit_reducible] AlgebraicGeometry.Scheme.unitModule
 
 /-- Transporting an endomorphism of the structure sheaf along pullback computes its sections as
 the pullback of its sections. -/
-private lemma pullback_unitHom_sections {S T : Scheme.{u}} (f : T ⟶ S)
+lemma pullback_unitHom_sections {S T : Scheme.{u}} (f : T ⟶ S)
     (s : SheafOfModules.unit S.ringCatSheaf ⟶ SheafOfModules.unit S.ringCatSheaf) :
     SheafOfModules.pushforwardSections f.toRingCatSheafHom
       ((SheafOfModules.unit T.ringCatSheaf).unitHomEquiv
@@ -629,7 +629,7 @@ private lemma pullback_unitHom_sections {S T : Scheme.{u}} (f : T ⟶ S)
       exact congrArg (fun g ↦ s ≫ g) he
 
 /-- The projections of the free module commute with pullback. -/
-private lemma freeProjection_pullback {S T : Scheme.{u}} (f : T ⟶ S)
+lemma freeProjection_pullback {S T : Scheme.{u}} (f : T ⟶ S)
     (m : ℕ) (i : Fin m) :
     (Scheme.Modules.pullback f).map
           (SheafOfModules.freeProjection (R := S.ringCatSheaf) (ULift.up i)) ≫
@@ -641,11 +641,11 @@ private lemma freeProjection_pullback {S T : Scheme.{u}} (f : T ⟶ S)
     (isColimitCofanMkObjOfIsColimit (Scheme.Modules.pullback f) _ _
       (SheafOfModules.isColimitFreeCofan (R := S.ringCatSheaf) (ULift.{u} (Fin m))))
   rintro ⟨j⟩
-  show (Scheme.Modules.pullback f).map (SheafOfModules.ιFree (ULift.up j)) ≫
+  change (Scheme.Modules.pullback f).map (SheafOfModules.ιFree (ULift.up j)) ≫
     ((Scheme.Modules.pullback f).map
       (SheafOfModules.freeProjection (R := S.ringCatSheaf) (ULift.up i)) ≫ _) = _
   rw [← Category.assoc, ← CategoryTheory.Functor.map_comp, ιFree_freeProjection]
-  show _ = (Scheme.Modules.pullback f).map (SheafOfModules.ιFree (ULift.up j)) ≫
+  change _ = (Scheme.Modules.pullback f).map (SheafOfModules.ιFree (ULift.up j)) ≫
     ((SheafOfModules.pullbackObjFreeIso f.toRingCatSheafHom (ULift.{u} (Fin m))).hom ≫ _)
   have h := SheafOfModules.pullback_map_ιFree_comp_pullbackObjFreeIso_hom
     f.toRingCatSheafHom (ULift.up j : ULift.{u} (Fin m))
@@ -659,12 +659,12 @@ private lemma freeProjection_pullback {S T : Scheme.{u}} (f : T ⟶ S)
   · have hz : (Scheme.Modules.pullback f).map
         (0 : SheafOfModules.unit S.ringCatSheaf ⟶ SheafOfModules.unit S.ringCatSheaf) = 0 :=
       (Scheme.Modules.pullback f).map_zero _ _
-    simp only [hji, if_false, hz, Limits.zero_comp]
+    simp only [hji, ite_false, hz, Limits.zero_comp]
     rfl
 
 /-- The global section attached to an endomorphism of the structure sheaf pulls back to the
 pullback of that section. -/
-private lemma unitEnd_pullback_global {S T : Scheme.{u}} (f : T ⟶ S)
+lemma unitEnd_pullback_global {S T : Scheme.{u}} (f : T ⟶ S)
     (s : SheafOfModules.unit S.ringCatSheaf ⟶ SheafOfModules.unit S.ringCatSheaf) :
     unitSectionsEquiv T ((SheafOfModules.unit T.ringCatSheaf).unitHomEquiv
       ((Scheme.Modules.pullbackUnitIso f).inv ≫ (Scheme.Modules.pullback f).map s ≫
@@ -673,7 +673,7 @@ private lemma unitEnd_pullback_global {S T : Scheme.{u}} (f : T ⟶ S)
   congrArg (fun t => t.1 (op ⊤)) (pullback_unitHom_sections f s)
 
 /-- The coordinates of a section of the free module pull back coordinatewise. -/
-private lemma freeSectionsEquiv_pullback {S T : Scheme.{u}} (f : T ⟶ S) (m : ℕ)
+lemma freeSectionsEquiv_pullback {S T : Scheme.{u}} (f : T ⟶ S) (m : ℕ)
     (s : SheafOfModules.unit S.ringCatSheaf ⟶
       SheafOfModules.free (R := S.ringCatSheaf) (ULift.{u} (Fin m))) (i : Fin m) :
     freeSectionsEquiv T m ((SheafOfModules.free (R := T.ringCatSheaf)
@@ -689,7 +689,7 @@ private lemma freeSectionsEquiv_pullback {S T : Scheme.{u}} (f : T ⟶ S) (m : �
     (s ≫ SheafOfModules.freeProjection (R := S.ringCatSheaf) (ULift.up i))
 
 /-- The coefficients of a normalised quotient pull back coordinatewise. -/
-private lemma normalizedQuotient_coefficients_pullback {S T : Scheme.{u}}
+lemma normalizedQuotient_coefficients_pullback {S T : Scheme.{u}}
     (f : T ⟶ S) (k n : ℕ) (ι : Fin (n - k) ↪ Fin n)
     (p : NormalizedQuotient S k n ι) (j : {j // j ∉ Set.range ι}) (i : Fin (n - k)) :
     freeSectionsEquiv T (n - k)
@@ -708,7 +708,7 @@ private lemma normalizedQuotient_coefficients_pullback {S T : Scheme.{u}}
       Category.comp_id, Scheme.Modules.pullbackUnitIso, pullbackFreeIso,
       asIso_hom, asIso_inv, Scheme.Modules.pullback,
       IsIso.hom_inv_id_assoc] using h.symm
-  show freeSectionsEquiv T (n - k) ((SheafOfModules.free (R := T.ringCatSheaf)
+  change freeSectionsEquiv T (n - k) ((SheafOfModules.free (R := T.ringCatSheaf)
     (ULift.{u} (Fin (n - k)))).unitHomEquiv
       (SheafOfModules.ιFree (ULift.up j.1) ≫ (pullbackFreeIso f n).inv ≫
         (Scheme.Modules.pullback f).map p.1 ≫ (pullbackFreeIso f (n - k)).hom)) i = _
@@ -722,17 +722,17 @@ end
 /-- The coordinates on the chart attached to an embedding `ι`: for each basis vector of the
 free module of rank `n` outside the range of `ι`, its `n - k` coordinates in the normalised
 quotient. -/
-private abbrev ChartCoordinates {k n : ℕ} (ι : Fin (n - k) ↪ Fin n) :=
+abbrev ChartCoordinates {k n : ℕ} (ι : Fin (n - k) ↪ Fin n) :=
   ULift.{u} ({j // j ∉ Set.range ι} × Fin (n - k))
 
 /-- The affine space over `Spec ℤ` on the chart coordinates. -/
-private noncomputable abbrev coordinateChartScheme {k n : ℕ}
+noncomputable abbrev coordinateChartScheme {k n : ℕ}
     (ι : Fin (n - k) ↪ Fin n) : Scheme.{u} :=
   Spec (.of (MvPolynomial (ChartCoordinates.{u} ι) (ULift.{u} ℤ)))
 
 /-- A normalised quotient on `X` is the same thing as a matrix of global sections of `X`
 indexed by the chart coordinates. -/
-private noncomputable def normalizedQuotientCoefficientsEquiv (X : Scheme.{u}) (k n : ℕ)
+noncomputable def normalizedQuotientCoefficientsEquiv (X : Scheme.{u}) (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) :
     NormalizedQuotient X k n ι ≃ (ChartCoordinates.{u} ι → Γ(X, ⊤)) :=
   (normalizedQuotientEquivSections X k n ι).trans
@@ -740,7 +740,7 @@ private noncomputable def normalizedQuotientCoefficientsEquiv (X : Scheme.{u}) (
       ((Equiv.curry _ _ _).symm.trans (Equiv.arrowCongr Equiv.ulift.symm (Equiv.refl _))))
 
 /-- Pulling back a normalised quotient pulls back each of its coefficients. -/
-private lemma normalizedQuotientCoefficientsEquiv_pullback {S T : Scheme.{u}} (f : T ⟶ S)
+lemma normalizedQuotientCoefficientsEquiv_pullback {S T : Scheme.{u}} (f : T ⟶ S)
     (k n : ℕ) (ι : Fin (n - k) ↪ Fin n) (p : NormalizedQuotient S k n ι)
     (a : ChartCoordinates.{u} ι) :
     normalizedQuotientCoefficientsEquiv T k n ι (normalizedQuotientPullback f k n ι p) a =
@@ -749,7 +749,7 @@ private lemma normalizedQuotientCoefficientsEquiv_pullback {S T : Scheme.{u}} (f
   exact normalizedQuotient_coefficients_pullback f k n ι p j i
 
 /-- A point of the chart subfunctor over `X` is a matrix of global sections of `X`. -/
-private noncomputable def chartPointsEquiv (X : Scheme.{u}) (k n : ℕ)
+noncomputable def chartPointsEquiv (X : Scheme.{u}) (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) :
     (ChartCoordinates.{u} ι → Γ(X, ⊤)) ≃
       (coordinateChartSubfunctor.{u} k n ι).obj (op X) :=
@@ -758,7 +758,7 @@ private noncomputable def chartPointsEquiv (X : Scheme.{u}) (k n : ℕ)
 
 /-- The description of the chart subfunctor by matrices of global sections is natural in the
 scheme. -/
-private lemma chartPointsEquiv_naturality {S T : Scheme.{u}} (f : T ⟶ S)
+lemma chartPointsEquiv_naturality {S T : Scheme.{u}} (f : T ⟶ S)
     (k n : ℕ) (ι : Fin (n - k) ↪ Fin n) (v : ChartCoordinates.{u} ι → Γ(S, ⊤)) :
     chartPointsEquiv T k n ι (fun a => f.appTop (v a)) =
       (coordinateChartSubfunctor.{u} k n ι).toFunctor.map f.op
@@ -772,7 +772,7 @@ private lemma chartPointsEquiv_naturality {S T : Scheme.{u}} (f : T ⟶ S)
   have h : chartPointsEquiv T k n ι (fun a => f.appTop (v a)) =
       normalizedQuotientPoint T k n ι (normalizedQuotientPullback f k n ι
         ((normalizedQuotientCoefficientsEquiv S k n ι).symm v)) := by
-    show normalizedQuotientPoint T k n ι
+    change normalizedQuotientPoint T k n ι
       ((normalizedQuotientCoefficientsEquiv T k n ι).symm fun a => f.appTop (v a)) = _
     rw [← hp, Equiv.symm_apply_apply]
   rw [h]
@@ -780,7 +780,7 @@ private lemma chartPointsEquiv_naturality {S T : Scheme.{u}} (f : T ⟶ S)
 
 /-- The chart subfunctor of the Grassmannian functor is isomorphic to the functor of matrices
 of global sections indexed by the chart coordinates. -/
-private noncomputable def chartSubfunctorIso (k n : ℕ) (ι : Fin (n - k) ↪ Fin n) :
+noncomputable def chartSubfunctorIso (k n : ℕ) (ι : Fin (n - k) ↪ Fin n) :
     _root_.Stacks.AlgebraicGeometry.GrassmannianChart.sectionsFunctor
         (ChartCoordinates.{u} ι) ≅
       (coordinateChartSubfunctor.{u} k n ι).toFunctor :=
@@ -791,7 +791,7 @@ private noncomputable def chartSubfunctorIso (k n : ℕ) (ι : Fin (n - k) ↪ F
     exact chartPointsEquiv_naturality f.unop k n ι v)
 
 /-- The chart subfunctor is representable by the affine space on the chart coordinates. -/
-private noncomputable def coordinateChartRepresentableBy (k n : ℕ)
+noncomputable def coordinateChartRepresentableBy (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) :
     (coordinateChartSubfunctor.{u} k n ι).toFunctor.RepresentableBy
       (coordinateChartScheme.{u} ι) :=
@@ -799,14 +799,14 @@ private noncomputable def coordinateChartRepresentableBy (k n : ℕ)
     (ChartCoordinates.{u} ι)).ofIso (chartSubfunctorIso k n ι)
 
 /-- The bijection between morphisms into the chart and points of the chart subfunctor. -/
-private noncomputable def coordinateChartPointsEquiv (X : Scheme.{u}) (k n : ℕ)
+noncomputable def coordinateChartPointsEquiv (X : Scheme.{u}) (k n : ℕ)
     (ι : Fin (n - k) ↪ Fin n) :
     (X ⟶ coordinateChartScheme.{u} ι) ≃
       (coordinateChartSubfunctor.{u} k n ι).obj (op X) :=
   (coordinateChartRepresentableBy k n ι).homEquiv
 
 /-- The bijection of `coordinateChartPointsEquiv` is natural in the scheme. -/
-private lemma coordinateChartPointsEquiv_naturality {S T : Scheme.{u}} (f : T ⟶ S)
+lemma coordinateChartPointsEquiv_naturality {S T : Scheme.{u}} (f : T ⟶ S)
     (k n : ℕ) (ι : Fin (n - k) ↪ Fin n) (g : S ⟶ coordinateChartScheme.{u} ι) :
     coordinateChartPointsEquiv T k n ι (f ≫ g) =
       (coordinateChartSubfunctor.{u} k n ι).toFunctor.map f.op

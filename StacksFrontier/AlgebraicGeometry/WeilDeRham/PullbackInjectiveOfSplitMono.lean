@@ -28,8 +28,8 @@ cohomology (`b^*` is injective), as used in the proof of [Stacks, Proposition 0F
 The split-mono hypothesis is written in the derived category `HasDerivedCategory.standard`, with
 the instance given explicitly (`@DerivedCategory.Q _ _ _ (HasDerivedCategory.standard _)`): the
 comparison `pushforwardComparisonQ` and the edge identity this file is a corollary of
-(`StacksFrontier/AlgebraicGeometry/DeRham/LerayHirsch/RealizationEdge.lean`) are stated in that model
-only. No instance is declared in this file. The conclusion, about the de Rham pullback of
+(`StacksFrontier/AlgebraicGeometry/DeRham/LerayHirsch/RealizationEdge.lean`) are stated in that
+model only. No instance is declared in this file. The conclusion, about the de Rham pullback of
 [Stacks, Tag 0FL6], does not depend on a model.
 
 ## References

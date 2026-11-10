@@ -104,7 +104,7 @@ left tensor factor. -/
 public theorem adicCompletionRankOneEquiv_of_tmul (ι : V ≃ₗ[k] k) (p : P) (v : V) :
     adicCompletionRankOneEquiv k P J ι (AdicCompletion.of J (P ⊗[k] V) (p ⊗ₜ[k] v))
       = algebraMap P (AdicCompletion J P) p ⊗ₜ[k] v := by
-  show AdicCompletion.of J P (ι v • p) ⊗ₜ[k] ι.symm 1 = _
+  change AdicCompletion.of J P (ι v • p) ⊗ₜ[k] ι.symm 1 = _
   rw [LinearMap.map_smul_of_tower, TensorProduct.smul_tmul, ← map_smul ι.symm, smul_eq_mul,
     mul_one, ι.symm_apply_apply]
   rfl

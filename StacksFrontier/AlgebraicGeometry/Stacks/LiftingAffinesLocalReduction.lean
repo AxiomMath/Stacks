@@ -121,7 +121,7 @@ theorem map_ker_le_map_of_twoIso {V Yw E : BigFppfOver B S hS}
   obtain ⟨k₂, hk₂, -⟩ := exists_factor_of_twoIso γw hUw (repHom (zE ≫ s)) (repHom (zE ≫ t)) η
     (repHom zY ≫ ObjectProperty.homMk eY.hom) (by
       apply ObjectProperty.hom_ext
-      show yoneda.map zY ≫ eY.hom ≫ iUw.hom = yoneda.map (zE ≫ s)
+      change yoneda.map zY ≫ eY.hom ≫ iUw.hom = yoneda.map (zE ≫ s)
       rw [heY, ← yoneda.map_comp, h1])
   let κ : Zs ⟶ Yw := yoneda.preimage (k₂.hom ≫ eY.inv)
   have h2 : κ ≫ c = zE ≫ t :=
@@ -309,7 +309,7 @@ theorem exists_smooth_tensor_of_twoFibreProduct {V Yw E : BigFppfOver B S hS}
     refine preimage_comp_eY_inv_comp c eY heY (l ≫ m.hom) _ ?_
     have hm' : m.hom ≫ iUw.hom = p₁.hom ≫ tR.hom := congrArg (fun f => f.hom) hm
     rw [Category.assoc, hm', yoneda.map_comp, ← htE']
-    show l ≫ pullback.fst _ _ ≫ tR.hom = _
+    change l ≫ pullback.fst _ _ ≫ tR.hom = _
     rw [← Category.assoc, pullback.lift_fst, Category.assoc]
   refine ⟨BigFppfOver.ringOf θK, (BigFppfOver.prop_iff_ringOf @Smooth θK).mp hθsm, ?_⟩
   have h := congrArg BigFppfOver.ringOf hθc

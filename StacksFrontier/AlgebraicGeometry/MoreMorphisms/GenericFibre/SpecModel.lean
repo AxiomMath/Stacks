@@ -155,7 +155,7 @@ theorem specModel_of_monic {A : Type u} [CommRing A] [IsDomain A] {K : Type u} [
       (MvPolynomial (Fin (n + 1)) A' ⧸ Ideal.span {P.map (algebraMap A A')}) x) =
       algebraMap K L (algebraMap A' K x) := by
     intro x
-    show ψ₀ (Ideal.Quotient.mk _ (C x)) = _
+    change ψ₀ (Ideal.Quotient.mk _ (C x)) = _
     simp [hψ₀]
   intro x y hxy
   refine IsFractionRing.injective A' K ((algebraMap K L).injective ?_)

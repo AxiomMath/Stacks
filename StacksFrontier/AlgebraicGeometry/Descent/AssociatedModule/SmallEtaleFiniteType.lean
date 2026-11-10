@@ -286,7 +286,7 @@ theorem spanSubmodule_unitSectionFamily {W : D} {U : C} (p : W ⟶ i.obj U)
   · rintro ⟨Z, g, z, ⟨T, f, t, rfl⟩, rfl⟩
     obtain ⟨a, ha⟩ := hp T (g.unop ≫ f)
     refine ⟨M.val.map a.op t, ?_⟩
-    show (L.obj M).val.map p.op ((adj.unit.app M).val.app (op U) (M.val.map a.op t)) = _
+    change (L.obj M).val.map p.op ((adj.unit.app M).val.app (op U) (M.val.map a.op t)) = _
     have hcomp : (i.map a).op ≫ p.op = f.op ≫ g := by
       rw [← op_comp, ha, op_comp, Quiver.Hom.op_unop]
     rw [← unit_app_map φ adj M a t]
@@ -353,7 +353,7 @@ theorem generates_unit_app [HasSheafify K AddCommGrpCat.{u}]
       rw [← unit_app_map φ adj M g x]
       exact ((L.obj M).val.congr_map_apply (op_comp (f := k) (g := i.map g)) _).trans
         ((L.obj M).val.map_comp_apply (i.map g).op k.op _)
-    show (L.obj M).val.map (k ≫ i.map g).op ((adj.unit.app M).val.app (op T) x)
+    change (L.obj M).val.map (k ≫ i.map g).op ((adj.unit.app M).val.app (op T) x)
       ∈ P.obj (op W)
     rw [heq]
     exact P.map_mem k.op hstep

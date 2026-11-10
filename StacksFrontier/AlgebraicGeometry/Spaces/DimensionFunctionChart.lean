@@ -126,7 +126,7 @@ theorem exists_reducedChart_isClosedImmersion (T : Set (points B S hS X)) (hT : 
           (atlasReducedSubscheme B S hS φ T hT).arrow from
       (Subobject.underlyingIso_arrow _).symm]
     exact hiso _ _
-  show Set.range ((BigFppfOver.toScheme B S hS).map i).base = _
+  change Set.range ((BigFppfOver.toScheme B S hS).map i).base = _
   rw [← hei, hiso e _, ← h2, Scheme.IdealSheafData.range_subschemeι]
   exact coe_support_atlasVanishingIdeal B S hS φ T hT
 
@@ -252,7 +252,7 @@ theorem false_of_isImmediateSpecialization_of_chain (hX : IsAlgebraicSpace B S h
   have hjet : Pe.presheaf (yoneda.map j) :=
     MorphismProperty.relative_map (show _root_.AlgebraicGeometry.Etale
       ((BigFppfOver.toScheme B S hS).map j) from by
-        show _root_.AlgebraicGeometry.Etale W.ι
+        change _root_.AlgebraicGeometry.Etale W.ι
         infer_instance)
   have hc : Pe.presheaf (yoneda.map j ≫ k) := MorphismProperty.comp_mem Pe.presheaf _ _ hjet hke
   obtain ⟨E, s, t, hE⟩ := exists_kernelPair_of_etale_atlas B S hS (yoneda.map j ≫ k) hc
@@ -297,7 +297,7 @@ theorem false_of_isImmediateSpecialization_of_chain (hX : IsAlgebraicSpace B S h
     refine isLocallyOfFiniteType_comp B S hS (isAlgebraicSpace_yoneda B S hS Wo)
       (isAlgebraicSpace_yoneda B S hS U) hX _ _ ?_ (isLocallyOfFiniteType_of_isEtale' B S hS φ hφet)
     rw [isLocallyOfFiniteType_yoneda_map_iff]
-    show LocallyOfFiniteType (W.ι ≫ ι)
+    change LocallyOfFiniteType (W.ι ≫ ι)
     infer_instance
   /- The point `x` is generic in `W`. -/
   have hallF : ∀ w, φpt (m w) ∈ F := by
@@ -332,7 +332,7 @@ theorem false_of_isImmediateSpecialization_of_chain (hX : IsAlgebraicSpace B S h
   set ιG := OpenSubRelation.subι s t r hrs G with hιG
   have hσqc : QuasiCompact ((BigFppfOver.toScheme B S hS).map (ιG ≫ s)) := by
     rw [Functor.map_comp]
-    show QuasiCompact ((OpenSubRelation.opens s t r hrs G).ι ≫ _)
+    change QuasiCompact ((OpenSubRelation.opens s t r hrs G).ι ≫ _)
     infer_instance
   have hinv : yoneda.map (ιG ≫ s) ≫ ψ = yoneda.map (ιG ≫ t) ≫ ψ := by
     have hw : ∀ (h : (reducedClosedSubspaceOfChart B S hS φ F hFc).toFunctor ⟶ X),

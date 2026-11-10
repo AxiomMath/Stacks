@@ -166,7 +166,7 @@ theorem exists_greatest_isNowhereDenseCoherentSubobject [IsLocallyNoetherian X]
       exists_isAffineOpen_mem_and_subset (U := (⊤ : X.Opens)) (x := (x : X)) (by simp)
     let V : Set U := {z | z.1 ∈ SF}
     have hVclosed : IsClosed V := by
-      show IsClosed (Subtype.val ⁻¹' SF)
+      change IsClosed (Subtype.val ⁻¹' SF)
       exact hSFclosed.preimage continuous_subtype_val
     have : IsNoetherianRing Γ(X, U) := IsLocallyNoetherian.component_noetherian ⟨U, hU⟩
     have : NoetherianSpace U := noetherianSpace_of_isAffineOpen U hU
@@ -184,13 +184,13 @@ theorem exists_greatest_isNowhereDenseCoherentSubobject [IsLocallyNoetherian X]
     let e : V → ↥SF := fun q ↦ (e₀ q).1
     have he : Topology.IsOpenEmbedding e := by
       have hUrel : IsOpen {q : ↥SF | (q : X) ∈ U} := U.2.preimage continuous_subtype_val
-      show Topology.IsOpenEmbedding
+      change Topology.IsOpenEmbedding
         ((Subtype.val : {q : ↥SF // (q : X) ∈ U} → ↥SF) ∘ e₀)
       exact hUrel.isOpenEmbedding_subtypeVal.comp e₀.isOpenEmbedding
     have hyW : y ∈ e ⁻¹' W := by
       refine (hy.mem_open_set_iff (hWopen.preimage he.continuous)).2
         ⟨z, mem_irreducibleComponent, ?_⟩
-      show e z ∈ W
+      change e z ∈ W
       have hez : e z = x := Subtype.ext rfl
       rwa [hez]
     have hyK : (e y : X) ∈ SK := hWsub hyW

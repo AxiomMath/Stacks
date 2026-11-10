@@ -82,7 +82,7 @@ private theorem ringHom_retract_of_squareZero_ker
   let : IsSemisimpleModule A K := hsem
   let i : J →ₗ[A] K :=
     { toFun := fun x => ⟨e x.1, by
-        show p (e x.1) = 0
+        change p (e x.1) = 0
         have hx : q x.1 = 0 := x.2
         rw [← hcomm] at hx
         exact hx⟩
@@ -102,7 +102,7 @@ private theorem ringHom_retract_of_squareZero_ker
   have hdec (b : B) : ∃ a : A, ∃ k : K, b = e a + k := by
     obtain ⟨a, ha⟩ := hq (p b)
     refine ⟨a, ⟨b - e a, ?_⟩, ?_⟩
-    · show p (b - e a) = 0
+    · change p (b - e a) = 0
       rw [map_sub, show p (e a) = q a from congrArg (fun f : A →+* C => f a) hcomm]
       exact sub_eq_zero.mpr ha.symm
     · simp
@@ -117,7 +117,7 @@ private theorem ringHom_retract_of_squareZero_ker
         rintro b c ⟨kc, hkc, hlc⟩
         obtain ⟨a, k, hb⟩ := hdec b
         refine ⟨a • kc, ?_, ?_⟩
-        · show e a * (kc : B) = b * c
+        · change e a * (kc : B) = b * c
           rw [hb, ← hkc, add_mul, hki k kc, add_zero]
         · simp [hlc] }
   let eqv : A →+* B ⧸ M := (Ideal.Quotient.mk M).comp e
@@ -129,9 +129,9 @@ private theorem ringHom_retract_of_squareZero_ker
       simpa only [map_sub] using hh
     obtain ⟨k, hk, hlk⟩ := hmem
     have haJ : a - a' ∈ J := by
-      show q (a - a') = 0
+      change q (a - a') = 0
       rw [← hcomm]
-      show p (e (a - a')) = 0
+      change p (e (a - a')) = 0
       rw [← hk]
       exact k.2
     have hik : i ⟨a - a', haJ⟩ = k := by
@@ -149,9 +149,9 @@ private theorem ringHom_retract_of_squareZero_ker
     obtain ⟨a, k, hb⟩ := hdec b
     refine ⟨a + (l k).1, ?_⟩
     apply Ideal.Quotient.eq.mpr
-    show e (a + (l k).1) - b ∈ M
+    change e (a + (l k).1) - b ∈ M
     refine ⟨i (l k) - k, ?_, ?_⟩
-    · show e (l k).1 - (k : B) = e (a + (l k).1) - b
+    · change e (l k).1 - (k : B) = e (a + (l k).1) - b
       rw [hb, map_add]
       ring
     · have := congrArg (fun f : J →ₗ[A] J => f (l k)) hl
@@ -162,7 +162,7 @@ private theorem ringHom_retract_of_squareZero_ker
   have hre : r.comp e = RingHom.id A := by
     apply RingHom.ext
     intro a
-    show E.symm (eqv a) = a
+    change E.symm (eqv a) = a
     exact E.symm_apply_apply a
   have hMker : M ≤ RingHom.ker p := by
     intro b hb
@@ -172,15 +172,15 @@ private theorem ringHom_retract_of_squareZero_ker
   have hMp (b : B) (hb : b ∈ M) : p b = 0 := RingHom.mem_ker.mp (hMker hb)
   let p' : B ⧸ M →+* C := Ideal.Quotient.lift M p hMp
   have hp'e (a : A) : p' (E a) = q a := by
-    show p' ((Ideal.Quotient.mk M) (e a)) = q a
+    change p' ((Ideal.Quotient.mk M) (e a)) = q a
     dsimp [p']
     exact congrArg (fun h : A →+* C => h a) hcomm
   have hqr : q.comp r = p := by
     apply RingHom.ext
     intro b
-    show q (r b) = p b
+    change q (r b) = p b
     rw [← hp'e (r b)]
-    show p' (E (E.symm ((Ideal.Quotient.mk M) b))) = p b
+    change p' (E (E.symm ((Ideal.Quotient.mk M) b))) = p b
     rw [E.apply_symm_apply]
     dsimp [p']
   exact ⟨r, hre, hqr⟩
@@ -201,7 +201,7 @@ private theorem simple_ker_factor
   let p : A ⧸ I →+* A ⧸ J := Ideal.Quotient.factor hIJ
   let q : J →ₛₗ[Ideal.Quotient.mk I] RingHom.ker p :=
     { toFun := fun x => ⟨(Ideal.Quotient.mk I) x.1, by
-        show p ((Ideal.Quotient.mk I) x.1) = 0
+        change p ((Ideal.Quotient.mk I) x.1) = 0
         rw [← RingHom.comp_apply, Ideal.Quotient.factor_comp_mk]
         exact (Ideal.Quotient.eq_zero_iff_mem (I := J)).mpr x.property⟩
       map_add' := by
@@ -211,14 +211,14 @@ private theorem simple_ker_factor
       map_smul' := by
         intro a x
         apply Subtype.ext
-        show (Ideal.Quotient.mk I) (a * (x : A)) =
+        change (Ideal.Quotient.mk I) (a * (x : A)) =
           (Ideal.Quotient.mk I) a * (Ideal.Quotient.mk I) (x : A)
         exact map_mul _ _ _ }
   have hKker : K ≤ LinearMap.ker q := by
     intro x hx
     rw [LinearMap.mem_ker]
     apply Subtype.ext
-    show (Ideal.Quotient.mk I) (x : A) = 0
+    change (Ideal.Quotient.mk I) (x : A) = 0
     apply (Ideal.Quotient.eq_zero_iff_mem (I := I)).mpr
     exact (mem_map_subtype_iff K x).mpr hx
   let q' : J ⧸ K →ₛₗ[Ideal.Quotient.mk I] RingHom.ker p := K.liftQ q hKker
@@ -427,16 +427,16 @@ theorem lift_of_smallExtensions_artinian_squareZero_annihilated.{u, v, w}
   let P : Subring ((A ⧸ J) × ((i : ι) → A ⧸ I i)) := diag.pullback pPi
   let e : A →+* P := (q.prod qPi).codRestrict P (by
     intro a
-    show diag (q a) = pPi (qPi a)
+    change diag (q a) = pPi (qPi a)
     funext i
-    show q a = (pᵢ i) ((Ideal.Quotient.mk (I i)) a)
+    change q a = (pᵢ i) ((Ideal.Quotient.mk (I i)) a)
     exact (congrArg (fun h : A →+* A ⧸ J => h a)
       (Ideal.Quotient.factor_comp_mk (hIJ i))).symm)
   let l : S →+* P := (gbar.prod gPi).codRestrict P (by
     intro s
-    show diag (gbar s) = pPi (gPi s)
+    change diag (gbar s) = pPi (gPi s)
     funext i
-    show gbar s = (pᵢ i) ((gᵢ i) s)
+    change gbar s = (pᵢ i) ((gᵢ i) s)
     exact (congrArg (fun h : S →+* A ⧸ J => h s) (hgp i)).symm)
   let p : P →+* A ⧸ J := diag.pullbackFst pPi
   have hpe : p.comp e = q := by rfl
@@ -485,11 +485,11 @@ theorem lift_of_smallExtensions_artinian_squareZero_annihilated.{u, v, w}
     apply bot_unique
     rw [pow_two, Ideal.mul_le]
     intro x hx y hy
-    show x * y = 0
+    change x * y = 0
     apply Subtype.ext
     apply Prod.ext
     · have hx0 : (x : P).1.1 = 0 := hx
-      show (x : P).1.1 * (y : P).1.1 = 0
+      change (x : P).1.1 * (y : P).1.1 = 0
       simp [hx0]
     · funext i
       have hm : (x : P).1.2 i * (y : P).1.2 i ∈
@@ -505,7 +505,7 @@ theorem lift_of_smallExtensions_artinian_squareZero_annihilated.{u, v, w}
     apply Subtype.ext
     apply Prod.ext
     · have hz : (z.1 : P).1.1 = 0 := z.property
-      show (q a) * (z.1 : P).1.1 = 0
+      change (q a) * (z.1 : P).1.1 = 0
       simp [hz]
     · funext i
       have hm := hkerPi z i
@@ -517,7 +517,7 @@ theorem lift_of_smallExtensions_artinian_squareZero_annihilated.{u, v, w}
         have hh : a * j ∈ IsLocalRing.maximalIdeal A * J :=
           Ideal.mul_mem_mul ha hj
         simpa [hann] using hh
-      show (Ideal.Quotient.mk (I i)) a * (z.1 : P).1.2 i = 0
+      change (Ideal.Quotient.mk (I i)) a * (z.1 : P).1.2 i = 0
       rw [← hrep, ← map_mul, hz, map_zero]
   obtain ⟨r, hre, hrp⟩ := ringHom_retract_of_squareZero_ker
     e p q hpe hp Ideal.Quotient.mk_surjective he hsq hsem

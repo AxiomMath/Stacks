@@ -99,7 +99,7 @@ public theorem openObjectι_map (U : SmallEtale B S hS)
   let V : B.Scheme := ⟨(↑W : Scheme),
     lt_of_le_of_lt (Scheme.size_coe_opens_le _ W) U.obj.left.property⟩
   let fscheme : B.inclusion.obj V ⟶ B.inclusion.obj U.obj.left := W.ι
-  show B.inclusion.map (B.inclusion.preimage fscheme) = fscheme
+  change B.inclusion.map (B.inclusion.preimage fscheme) = fscheme
   exact B.inclusion.map_preimage fscheme
 
 /-- The inclusion of a Zariski open is an open immersion of schemes. -/
@@ -153,7 +153,7 @@ public theorem openObjectHomOfLE_comp (U : SmallEtale B S hS)
   apply (SmallEtale.inclusion B S hS).map_injective
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show (SmallEtale.toScheme B S hS).map (openObjectHomOfLE B S hS U h ≫
+  change (SmallEtale.toScheme B S hS).map (openObjectHomOfLE B S hS U h ≫
     openObjectHomOfLE B S hS U k) =
       (SmallEtale.toScheme B S hS).map (openObjectHomOfLE B S hS U (h.trans k))
   simp only [Functor.map_comp, openObjectHomOfLE_map, Scheme.homOfLE_homOfLE]
@@ -166,7 +166,7 @@ public theorem openObjectHomOfLE_refl (U : SmallEtale B S hS)
   apply (SmallEtale.inclusion B S hS).map_injective
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show (SmallEtale.toScheme B S hS).map (openObjectHomOfLE B S hS U (le_refl W)) =
+  change (SmallEtale.toScheme B S hS).map (openObjectHomOfLE B S hS U (le_refl W)) =
     (SmallEtale.toScheme B S hS).map (𝟙 _)
   rw [openObjectHomOfLE_map, CategoryTheory.Functor.map_id, Scheme.homOfLE_rfl]
   rfl
@@ -236,10 +236,10 @@ private theorem restrict_zero_of_image_subset
   let q : V ⟶ V₀ := ⟨qOver⟩
   have hq : q ≫ f₀ = k := by
     apply (SmallEtale.toScheme B S hS).map_injective
-    show B.inclusion.map (qbase ≫ f₀base) = B.inclusion.map kbase
+    change B.inclusion.map (qbase ≫ f₀base) = B.inclusion.map kbase
     rw [hqbase]
   rw [← hq, op_comp, F.obj.map_comp]
-  show (F.obj.map q.op) ((F.obj.map f₀.op) s) = 0
+  change (F.obj.map q.op) ((F.obj.map f₀.op) s) = 0
   rw [hzero]
   simp
 
@@ -255,7 +255,7 @@ public theorem section_zero_of_covering
     rw [SmallEtale.mem_precoverage_iff]
     exact ⟨E, rfl, hE⟩
   have htop : Sieve.generate E.presieve₀ ∈ SmallEtale.topology B S hS V := by
-    show Sieve.generate E.presieve₀ ∈
+    change Sieve.generate E.presieve₀ ∈
       (SmallEtale.precoverage B S hS).toGrothendieck V
     rw [Precoverage.mem_toGrothendieck_iff]
     exact Precoverage.Saturate.of V E.presieve₀ hpre
@@ -297,7 +297,7 @@ public theorem map_eq_zero_iff_le_zeroOpen
       simp [Ebase, G, PreZeroHypercover.map, SmallEtale.toScheme,
         BigEtaleOver.toScheme]
     have hEtale : IsEtaleCovering ⟨V.obj.left, Ebase⟩ := by
-      show (Ebase.map B.inclusion).presieve₀ ∈
+      change (Ebase.map B.inclusion).presieve₀ ∈
         Scheme.etalePrecoverage (B.inclusion.obj (G.obj V))
       have hcover :
           (∀ x, ∃ i, x ∈ Set.range ((Ebase.map B.inclusion).f i)) ∧
@@ -309,9 +309,9 @@ public theorem map_eq_zero_iff_le_zeroOpen
           obtain ⟨W, hW, hxW⟩ := TopologicalSpace.Opens.mem_sSup.mp hx0
           let i : E.I₀ := ULift.up ⟨W, hW⟩
           refine ⟨i, ?_⟩
-          show ∃ y, ((Ebase.map B.inclusion).f i).base y = x
+          change ∃ y, ((Ebase.map B.inclusion).f i).base y = x
           refine ⟨⟨x, ?_⟩, ?_⟩
-          · show ((SmallEtale.toScheme B S hS).map f).base x ∈ i.down.1
+          · change ((SmallEtale.toScheme B S hS).map f).base x ∈ i.down.1
             exact hxW
           · rw [hmapEi i, openObjectι_map]
             rfl
@@ -339,13 +339,13 @@ public theorem map_eq_zero_iff_le_zeroOpen
     let Rsmall : PreZeroHypercover.{u + 1} V := {
       I₀ := Rfam.I₀
       X i := ⟨Over.mk (Rfam.f i ≫ V.obj.hom), by
-        show Etale (B.inclusion.map (Rfam.f i) ≫ B.inclusion.map V.obj.hom)
+        change Etale (B.inclusion.map (Rfam.f i) ≫ B.inclusion.map V.obj.hom)
         let _ : Etale (B.inclusion.map (Rfam.f i)) := hRprops.2 i
         exact Etale.etale_comp _ _⟩
       f i := ⟨Over.homMk (Rfam.f i) (by rfl)⟩
     }
     have hRsmall : SmallEtale.IsCovering B S hS ⟨V, Rsmall⟩ := by
-      show B.IsCovering ⟨V.obj.left, Rsmall.map G⟩
+      change B.IsCovering ⟨V.obj.left, Rsmall.map G⟩
       have hmap : Rsmall.map G = Rfam := by
         ext <;> rfl
       rw [hmap]
@@ -373,14 +373,14 @@ public theorem map_eq_zero_iff_le_zeroOpen
         let z : (SmallEtale.toScheme B S hS).obj (E.X j) := e.base y
         have hinc : B.inclusion.map (Ebase.f j) =
             (((SmallEtale.toScheme B S hS).map f ⁻¹ᵁ W).ι) := by
-          show (Ebase.map B.inclusion).f j = _
+          change (Ebase.map B.inclusion).f j = _
           rw [hmapEi j]
           exact openObjectι_map B S hS V _
         have hRangeEq :
             ((SmallEtale.toScheme B S hS).map (Rsmall.f i ≫ f)).base y =
               ((SmallEtale.toScheme B S hS).map f).base z.val := by
           rw [Functor.map_comp, hmapR, hArrow]
-          show ((SmallEtale.toScheme B S hS).map f).base
+          change ((SmallEtale.toScheme B S hS).map f).base
               ((B.inclusion.map (Ebase.f j)).base (e.base y)) =
             ((SmallEtale.toScheme B S hS).map f).base z.val
           rw [hinc]
@@ -447,7 +447,7 @@ public theorem factorThroughOpenObject_fac
   apply (SmallEtale.inclusion B S hS).map_injective
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show B.inclusion.map
+  change B.inclusion.map
       (B.inclusion.preimage lbase ≫ B.inclusion.preimage fscheme) =
     B.inclusion.map f.hom.left
   rw [Functor.map_comp, B.inclusion.map_preimage, B.inclusion.map_preimage]
@@ -464,10 +464,10 @@ private theorem exists_covering_family_of_surjective_etale
   let qB := ((SmallEtale.inclusion B S hS).map q).left
   let C₀ : Covering B.Scheme := ⟨W.obj.left, PreZeroHypercover.singleton qB⟩
   have hEt : IsEtaleCovering C₀ := by
-    show (PreZeroHypercover.singleton (B.inclusion.map qB)).presieve₀ ∈
+    change (PreZeroHypercover.singleton (B.inclusion.map qB)).presieve₀ ∈
       Scheme.etalePrecoverage (B.inclusion.obj W.obj.left)
     rw [PreZeroHypercover.presieve₀_singleton]
-    show Presieve.singleton (B.inclusion.map qB) ∈
+    change Presieve.singleton (B.inclusion.map qB) ∈
       Scheme.precoverage (@Etale) (B.inclusion.obj W.obj.left)
     rw [Scheme.singleton_mem_precoverage_iff (P := @Etale)]
     exact ⟨hsurj, hetale⟩
@@ -482,7 +482,7 @@ private theorem exists_covering_family_of_surjective_etale
   let E : PreZeroHypercover W := {
     I₀ := E₁.I₀
     X := fun i => ⟨Over.mk (E₁.f i ≫ W.obj.hom), by
-      show Etale (B.inclusion.map (E₁.f i ≫ W.obj.hom))
+      change Etale (B.inclusion.map (E₁.f i ≫ W.obj.hom))
       rw [Functor.map_comp]
       let _ : Etale (B.inclusion.map (E₁.f i)) := hC₁maps i
       let _ : Etale (B.inclusion.map W.obj.hom) := W.property
@@ -493,7 +493,7 @@ private theorem exists_covering_family_of_surjective_etale
     cases E₁
     rfl
   have hEcover : SmallEtale.IsCovering B S hS ⟨W, E⟩ := by
-    show B.IsCovering ⟨W.obj.left, (E.map (SmallEtale.inclusion B S hS)).map
+    change B.IsCovering ⟨W.obj.left, (E.map (SmallEtale.inclusion B S hS)).map
       (Over.forget (B.obj S hS))⟩
     rw [hEMap]
     exact hC₁
@@ -608,9 +608,9 @@ public theorem map_eq_zero_iff_range_subset_zeroOpen
     have hfac : Q ≫ j = f := factorThroughOpenObject_fac B S hS V U f W hW
     have hJzero : (F.obj.map j.op).hom σ = 0 := by
       have hWle : ((SmallEtale.toScheme B S hS).map j).opensRange ≤ Z := by
-        show Set.range ((SmallEtale.toScheme B S hS).map j).base ⊆ (Z : Set T)
+        change Set.range ((SmallEtale.toScheme B S hS).map j).base ⊆ (Z : Set T)
         rw [openObjectι_map]
-        show Set.range Z.ι ⊆ (Z : Set T)
+        change Set.range Z.ι ⊆ (Z : Set T)
         rw [Scheme.Opens.range_ι]
       exact (map_eq_zero_iff_le_zeroOpen
         B S hS F U σ (openObject B S hS U W) j).2 hWle
@@ -664,7 +664,7 @@ public theorem supportSection_map_subset
     unfold zeroOpen
     apply sSup_le
     rintro W ⟨V, f, hf, hW, hs⟩
-    show (W : Set ((SmallEtale.toScheme B S hS).obj U)) ⊆
+    change (W : Set ((SmallEtale.toScheme B S hS).obj U)) ⊆
       (zeroOpen B S hS G U (φ.hom.app (op U) s) : Set _)
     rw [hW]
     exact (@map_eq_zero_iff_le_zeroOpen B S hS G U (φ.hom.app (op U) s) V f hf).mp (by

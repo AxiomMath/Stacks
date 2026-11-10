@@ -114,7 +114,7 @@ theorem smallEtaleDerivedModulePullbackCompToSpacesEtaleDerivedModulesIso_comp
       (Space.spacesEtaleDerivedPullbackCompIsoSpacesEtaleRingedToposHomComp g f).hom.app
         ((Space.toSpacesEtaleDerivedModules T.schemeSite S T.scheme_mem X).obj K) :=
   BigEtaleSpaceSite.smallEtaleDerivedModulePullbackCompToSpacesEtaleDerivedModulesIso_comp
-    T.bigEtaleSpaceSite f g hf.1 hg.1 hgf.1 hf.2 hg.2 hgf.2 K
+    T.bigEtaleSpaceSite f g hf.1 hg.1 hgf.1 K
 
 /-- **`ι(Lg^*K) ≅ Lg^*(ιK)` is compatible with composition, read at a factorization.** For étale,
 relatively representable `g : Z ⟶ Y`, `f : Y ⟶ X` and `k = g ≫ f`, `ι` of the compositor

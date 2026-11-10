@@ -65,7 +65,7 @@ theorem baseChange_algebraMap {R : Type u} {S : Type v} {T : Type w}
   let algBaseChange : Algebra (S ⊗[R] A) (S ⊗[R] T) := φ.toRingHom.toAlgebra
   have towerBaseChange : IsScalarTower S (S ⊗[R] A) (S ⊗[R] T) :=
     IsScalarTower.of_algebraMap_eq fun x => by
-      show _ = φ (algebraMap S (S ⊗[R] A) x)
+      change _ = φ (algebraMap S (S ⊗[R] A) x)
       simp [φ, Algebra.TensorProduct.algebraMap_apply]
   have : IsLocalization
       (M.map (Algebra.TensorProduct.includeRight (R := R) (A := S))) (S ⊗[R] T) :=

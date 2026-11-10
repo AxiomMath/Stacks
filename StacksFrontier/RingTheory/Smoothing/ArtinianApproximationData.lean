@@ -233,11 +233,11 @@ private theorem exists_fin_mem_span_eq_maximalIdeal_atPrime {R : Type*} [CommRin
   rw [hrange, ← hspan]
   refine le_antisymm (Ideal.span_le.mpr (Set.range_subset_iff.mpr fun z => ?_))
     (Ideal.span_le.mpr fun y hy => ?_)
-  · show algebraMap R (Localization.AtPrime 𝔭) (b z)
+  · change algebraMap R (Localization.AtPrime 𝔭) (b z)
       ∈ Ideal.span (s : Set (Localization.AtPrime 𝔭))
     rw [hbw z]
     exact Ideal.mul_mem_left _ _ (Ideal.subset_span (Finset.mem_coe.mpr z.2))
-  · show y ∈ Ideal.span (Set.range fun z : s => algebraMap R (Localization.AtPrime 𝔭) (b z))
+  · change y ∈ Ideal.span (Set.range fun z : s => algebraMap R (Localization.AtPrime 𝔭) (b z))
     have hys : y ∈ s := Finset.mem_coe.mp hy
     rw [← Ideal.unit_mul_mem_iff_mem _ (hw ⟨y, hys⟩), ← hbw ⟨y, hys⟩]
     exact Ideal.subset_span ⟨⟨y, hys⟩, rfl⟩

@@ -218,7 +218,7 @@ lemma commRingSheaf_map_snd (B : SimplicialObject (Sheaf J CommRingCat.{u}))
         ((Prod.mkHom (𝟙 n.unop) g.unop : ((n.unop, W.unop) : SimplexCategory × C) ⟶
           (n.unop, V.unop))).op =
       forgetToAddCommGrp.map ((B.obj n).obj.map g) := by
-  show forgetToAddCommGrp.map ((commRingSheaf J B).obj.map _) = _
+  change forgetToAddCommGrp.map ((commRingSheaf J B).obj.map _) = _
   simp [commRingSheaf, associatedCommRingPresheaf, prodOpEquiv]
 
 /-- Restriction maps of the abelian sheaf on `Δ × C` attached to `B_•`, in the `Δ`-direction. -/
@@ -229,7 +229,7 @@ lemma commRingSheaf_map_fst (B : SimplicialObject (Sheaf J CommRingCat.{u}))
         ((Prod.mkHom α.unop (𝟙 V.unop) : ((m.unop, V.unop) : SimplexCategory × C) ⟶
           (n.unop, V.unop))).op =
       forgetToAddCommGrp.map ((B.map α).hom.app V) := by
-  show forgetToAddCommGrp.map ((commRingSheaf J B).obj.map _) = _
+  change forgetToAddCommGrp.map ((commRingSheaf J B).obj.map _) = _
   simp [commRingSheaf, associatedCommRingPresheaf, prodOpEquiv]
 
 /-- The underlying abelian presheaf of the simplicial sheaf of rings `B_•`, read on `Δ × C`, is the
@@ -346,7 +346,7 @@ theorem isIso_derivedLowerShriek_map_ringAbelianSheafMap (ε : CommAugmentation 
       Arrow.isoMk ((alternatingFaceMapComplex _).mapIso (pointEvaluationIso J A))
         ((alternatingFaceMapComplex _).mapIso (pointEvaluationIso J (constCommRing J O)))
         (by
-          show (alternatingFaceMapComplex _).map _ ≫ (alternatingFaceMapComplex _).map _ =
+          change (alternatingFaceMapComplex _).map _ ≫ (alternatingFaceMapComplex _).map _ =
             (alternatingFaceMapComplex _).map _ ≫ (alternatingFaceMapComplex _).map _
           rw [← Functor.map_comp, ← Functor.map_comp]
           exact congrArg (alternatingFaceMapComplex _).map

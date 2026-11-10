@@ -161,7 +161,7 @@ private theorem integral_idempotents_of_etale_section_lifting
     ext b
     simp [D, ι]
   have hmapJ : JT.map D.toRingHom ≤ K := by
-    show (K.map ι).map D.toRingHom ≤ K
+    change (K.map ι).map D.toRingHom ≤ K
     rw [Ideal.map_map, hdι]
     simp
   obtain ⟨b, hb⟩ := Ideal.Quotient.mk_surjective e.val
@@ -216,14 +216,14 @@ private theorem etale_section_lifting_of_gabber_root_condition
       obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (q b)
       refine ⟨Ideal.Quotient.mk I a, Ideal.Quotient.eq.mpr ?_⟩
       rw [show J = RingHom.ker q from hker.symm]
-      show q (algebraMap A B a - b) = 0
+      change q (algebraMap A B a - b) = 0
       simp [ha]
   have hbij := bijective_algebraMap_of_bijective_quotientMap I hI hF
   let base : A ≃ₐ[A] B := AlgEquiv.ofBijective (Algebra.ofId A B) hbij
   have hq : (Ideal.Quotient.mkₐ A I).comp base.symm.toAlgHom = q := by
     ext b
     obtain ⟨a, rfl⟩ := base.surjective b
-    show Ideal.Quotient.mk I (base.symm (base a)) = q (algebraMap A B a)
+    change Ideal.Quotient.mk I (base.symm (base a)) = q (algebraMap A B a)
     rw [base.symm_apply_apply, q.commutes]
     rfl
   refine ⟨base.symm.toAlgHom.comp ((AlgHom.fst A B C).comp e.toAlgHom), ?_⟩
@@ -310,7 +310,7 @@ private theorem idempotents_of_algEquiv
     refine ⟨⟨e.symm y.val, y.property.map e.symm.toRingHom⟩, ?_⟩
     apply Subtype.ext
     apply E.injective
-    show E (Ideal.Quotient.mk K (e.symm y.val)) = E x.val
+    change E (Ideal.Quotient.mk K (e.symm y.val)) = E x.val
     rw [show E (Ideal.Quotient.mk K (e.symm y.val)) = Ideal.Quotient.mk L y.val by
       dsimp [E]
       rw [Ideal.quotientEquiv_mk]; simp]
@@ -344,7 +344,7 @@ private theorem jacobson_of_finite_idempotents
       ⟨1, IsIdempotentElem.one⟩ := by
     apply (H B).1
     apply Subtype.ext
-    show Ideal.Quotient.mk (I.map (algebraMap A B)) 0 =
+    change Ideal.Quotient.mk (I.map (algebraMap A B)) 0 =
       Ideal.Quotient.mk (I.map (algebraMap A B)) 1
     rw [htop]
     exact Subsingleton.elim _ _
@@ -368,7 +368,7 @@ private theorem gabber_root_of_finite_idempotents
   have hr : r ^ n * (r - 1) = 0 := by
     have ha : ∀ i, algebraMap A (B ⧸ K) (a i : A) = 0 := by
       intro i
-      show Ideal.Quotient.mk K (algebraMap A B (a i : A)) = 0
+      change Ideal.Quotient.mk K (algebraMap A B (a i : A)) = 0
       exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem _ (a i).property)
     simpa [hform, ha] using hz
   have hmul : r ^ n * r = r ^ n := by linear_combination hr
@@ -397,7 +397,7 @@ private theorem gabber_root_of_finite_idempotents
       Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem _ ha)
   have heone : q e.val = 1 := by
     apply (sub_eq_zero.mp : q e.val - 1 = 0 → q e.val = 1)
-    show Ideal.Quotient.mk J (e.val - 1) = 0
+    change Ideal.Quotient.mk J (e.val - 1) = 0
     apply Ideal.Quotient.eq_zero_iff_mem.mpr
     have hm : 1 - e.val ∈ J := Ideal.subset_span (Set.mem_singleton _)
     simpa only [neg_sub] using J.neg_mem hm
@@ -416,9 +416,9 @@ private theorem gabber_root_of_finite_idempotents
     obtain ⟨z, rfl⟩ := Ideal.Quotient.mk_surjective z
     obtain ⟨p, rfl⟩ := AdjoinRoot.mk_surjective z
     refine ⟨Ideal.Quotient.mk I (p.eval 1), ?_⟩
-    show algebraMap A (C ⧸ L) (p.eval 1) = φ (AdjoinRoot.mk f p)
+    change algebraMap A (C ⧸ L) (p.eval 1) = φ (AdjoinRoot.mk f p)
     rw [← AdjoinRoot.aeval_eq, ← aeval_algHom_apply]
-    show algebraMap A (C ⧸ L) (p.eval 1) = aeval x p
+    change algebraMap A (C ⧸ L) (p.eval 1) = aeval x p
     rw [hx]
     simp [aeval_def]
   have hred : aeval (1 : A ⧸ I) f = 0 := by
@@ -436,7 +436,7 @@ private theorem gabber_root_of_finite_idempotents
     simpa only [hεroot, one_pow] using h
   have hεJ : J ≤ RingHom.ker ε := by
     rw [Ideal.span_le, Set.singleton_subset_iff]
-    show ε (1 - e.val) = 0
+    change ε (1 - e.val) = 0
     simp [hεe]
   let εC : C →ₐ[A] A ⧸ I := Ideal.Quotient.liftₐ J ε hεJ
   let εQ : C ⧸ L →ₐ[A] A ⧸ I := Ideal.Quotient.liftₐ L εC (map_le_ker_of_algHom I εC hker)

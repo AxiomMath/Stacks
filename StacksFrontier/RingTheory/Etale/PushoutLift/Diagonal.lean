@@ -83,8 +83,7 @@ theorem ideal_le_map_of_surjective_of_injective (I : Ideal A)
     rwa [AlgHom.coe_restrictScalars', map_sub, AlgHom.commutes] at this
   have key : ∀ z : Γ₀ ⊗[B₀] Γ₀, ∃ b : B₀, z - algebraMap B₀ (Γ₀ ⊗[B₀] Γ₀) b ∈ 𝔦 := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction z using TensorProduct.inductionOn with
     | tmul y y' =>
       obtain ⟨b, hb⟩ := hsurj y
       obtain ⟨b', hb'⟩ := hsurj y'

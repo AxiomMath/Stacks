@@ -551,7 +551,7 @@ private lemma jetLift_apply_D (b : B) : jetLift (D A B b) = (mk (ι B (D A B b))
   Derivation.liftKaehlerDifferential_comp_D jetD b
 
 private lemma d1_apply_D (b : B) : d1 (D A B b) = (0 : Ext A B) := by
-  show der (jetLift (D A B b)) = 0
+  change der (jetLift (D A B b)) = 0
   rw [jetLift_apply_D]
   rfl
 
@@ -562,14 +562,14 @@ private lemma val_liftKaehlerDifferential (ω : Ω[B⁄A]) :
     refine LinearMap.ext_on (KaehlerDifferential.span_range_derivation A B) ?_
     intro x hx
     obtain ⟨b, rfl⟩ := hx
-    show val (jetLift (D A B b)) = ι B (D A B b)
+    change val (jetLift (D A B b)) = ι B (D A B b)
     rw [jetLift_apply_D]
     rfl
   exact LinearMap.congr_fun h ω
 
 private lemma d1_apply_smul (c : B) (ω : Ω[B⁄A]) :
     d1 (c • ω) = c • d1 ω + ι B (D A B c) * ι B ω := by
-  show der (jetLift (c • ω)) =
+  change der (jetLift (c • ω)) =
     c • der (jetLift ω) + ι B (D A B c) * ι B ω
   rw [map_smul, der_smul, val_liftKaehlerDifferential]
 
@@ -605,7 +605,7 @@ private noncomputable def dp (p : ℕ) : ⋀[B]^p (Ω[B⁄A]) →ₗ[A] Ext A B 
 
 private lemma dp_apply_ιMulti (p : ℕ) (v : Fin p → Ω[B⁄A]) :
     dp p (exteriorPower.ιMulti B p v) = G d1 p v := by
-  show der (exteriorPower.alternatingMapLinearEquiv (jetAlternating p)
+  change der (exteriorPower.alternatingMapLinearEquiv (jetAlternating p)
     (exteriorPower.ιMulti B p v)) = G d1 p v
   rw [exteriorPower.alternatingMapLinearEquiv_apply_ιMulti]
   rfl
@@ -617,7 +617,7 @@ private lemma val_alternatingMapLinearEquiv (p : ℕ) (ξ : ⋀[B]^p (Ω[B⁄A])
     refine LinearMap.ext_on (exteriorPower.ιMulti_span B p (Ω[B⁄A])) ?_
     intro x hx
     obtain ⟨v, rfl⟩ := hx
-    show val (exteriorPower.alternatingMapLinearEquiv (jetAlternating p)
+    change val (exteriorPower.alternatingMapLinearEquiv (jetAlternating p)
       (exteriorPower.ιMulti B p v)) = ((exteriorPower.ιMulti B p v : ⋀[B]^p (Ω[B⁄A])) : Ext A B)
     rw [exteriorPower.alternatingMapLinearEquiv_apply_ιMulti]
     rfl
@@ -625,7 +625,7 @@ private lemma val_alternatingMapLinearEquiv (p : ℕ) (ξ : ⋀[B]^p (Ω[B⁄A])
 
 private lemma dp_apply_smul (p : ℕ) (c : B) (ξ : ⋀[B]^p (Ω[B⁄A])) :
     dp p (c • ξ) = c • dp p ξ + ι B (D A B c) * (ξ : Ext A B) := by
-  show der (exteriorPower.alternatingMapLinearEquiv (jetAlternating p) (c • ξ)) =
+  change der (exteriorPower.alternatingMapLinearEquiv (jetAlternating p) (c • ξ)) =
     c • der (exteriorPower.alternatingMapLinearEquiv (jetAlternating p) ξ) +
       ι B (D A B c) * (ξ : Ext A B)
   rw [map_smul, der_smul, val_alternatingMapLinearEquiv]
@@ -680,11 +680,11 @@ public lemma deRhamDifferential_smul_ιMulti_D (p : ℕ) (b : Fin (p + 1) → B)
       exteriorPower.ιMulti B (p + 1) fun i ↦ D A B (b i) := by
   refine Subtype.ext ?_
   rw [coe_deRhamDifferential]
-  show dp p (b 0 • exteriorPower.ιMulti B p fun i => D A B (b i.succ)) =
+  change dp p (b 0 • exteriorPower.ιMulti B p fun i => D A B (b i.succ)) =
     ιMulti B (p + 1) fun i => D A B (b i)
   rw [dp_apply_smul, dp_apply_ιMulti, G_exact d1 d1_apply_D p fun i => b i.succ,
     smul_zero, zero_add]
-  show ι B (D A B (b 0)) * ιMulti B p (fun i => D A B (b i.succ)) =
+  change ι B (D A B (b 0)) * ιMulti B p (fun i => D A B (b i.succ)) =
     ιMulti B (p + 1) fun i => D A B (b i)
   rw [ιMulti_succ_apply]
   rfl
@@ -1238,7 +1238,7 @@ private noncomputable def wedge2 {M : Type u} [AddCommGroup M] [Module B M] :
 private theorem wedge2_apply {M : Type u} [AddCommGroup M] [Module B M] (v w : M) :
     wedge2 v w = (exteriorPower.ιMulti B 2) ![v, w] := by
   refine Subtype.ext ?_
-  show ι B v * ((exteriorPower.oneEquiv B M).symm w : ExteriorAlgebra B M) = _
+  change ι B v * ((exteriorPower.oneEquiv B M).symm w : ExteriorAlgebra B M) = _
   rw [exteriorPower.oneEquiv_symm_apply, coe_ιMulti_one, exteriorPower.ιMulti_apply_coe,
     ExteriorAlgebra.ιMulti_apply]
   simp
@@ -1465,7 +1465,7 @@ private lemma leibnizDefect_smul_D_smul_ιMulti_D (q : ℕ) (c e0 b0 : B) (b : F
         rw [show Equiv.swap (0 : Fin (q+2)) 1 k.succ.succ = k.succ.succ from
           Equiv.swap_apply_of_ne_of_ne (by simp [Fin.ext_iff]) (by simp [Fin.ext_iff])]
         simp
-  show ((S.d (q + 1) (wedgeι q (c • D e0) (b0 • W)) : ⋀[B]^(q + 1 + 1) (Ω[B⁄A])).val
+  change ((S.d (q + 1) (wedgeι q (c • D e0) (b0 • W)) : ⋀[B]^(q + 1 + 1) (Ω[B⁄A])).val
       : ExteriorAlgebra B (Ω[B⁄A]))
       - (((S.d 1 (e.symm (c • D e0)) : ⋀[B]^2 (Ω[B⁄A])).val : ExteriorAlgebra B (Ω[B⁄A]))
           * ((b0 • W : ⋀[B]^q (Ω[B⁄A])) : ExteriorAlgebra B (Ω[B⁄A]))
@@ -1699,7 +1699,7 @@ private theorem ker_exteriorPower_map_le_span (hπ : Function.Surjective π) (q 
     simp only [LinearMap.compAlternatingMap_apply, LinearMap.comp_apply]
     rw [exteriorPower.map_apply_ιMulti]
     rw [hg, exteriorPower.alternatingMapLinearEquiv_apply_ιMulti]
-    show Submodule.Quotient.mk (exteriorPower.ιMulti B (q+1) (fun i => sec ((π ∘ v) i)))
+    change Submodule.Quotient.mk (exteriorPower.ιMulti B (q+1) (fun i => sec ((π ∘ v) i)))
         = Nsub.mkQ (exteriorPower.ιMulti B (q+1) v)
     rw [Submodule.mkQ_apply]
     apply telescope

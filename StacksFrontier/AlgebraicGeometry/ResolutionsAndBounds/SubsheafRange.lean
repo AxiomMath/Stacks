@@ -118,7 +118,7 @@ lemma eq_of_res_eq (M : X.Modules) {T : X.Opens} {ι : Type u} (U : ι → X.Ope
   obtain ⟨_, _, huniq⟩ := (abSheaf M).existsUnique_gluing' U T (fun i => homOfLE (hUT i)) hU
     (fun i => res M (hUT i) s) (by
       intro i j
-      show res M (inf_le_left : U i ⊓ U j ≤ U i) (res M (hUT i) s) =
+      change res M (inf_le_left : U i ⊓ U j ≤ U i) (res M (hUT i) s) =
         res M (inf_le_right : U i ⊓ U j ≤ U j) (res M (hUT j) s)
       rw [res_res, res_res])
   rw [huniq s fun _ => rfl, huniq t fun i => (h i).symm]
@@ -212,7 +212,7 @@ lemma smul_restrict_eq {Y : Scheme.{u}} (f : Y ⟶ X) [IsOpenImmersion f] (W : Y
     (r : Γ(Y, W)) : ((M.restrict f).smul r) = M.smul ((f.appIso W).inv r) := by
   have h := Scheme.Modules.smul_restrictAppIso_hom f M W r
   rw [Scheme.Modules.restrictAppIso] at h
-  simp only [Iso.refl_hom, Category.comp_id, Category.id_comp] at h
+  simp only [Iso.refl_hom] at h
   exact End.ext h
 
 /-- A submodule of `M.restrict V.ι` is stable under the action of the sections of `𝒪_X`. -/
@@ -298,7 +298,7 @@ lemma mem_pushObj_of_local (V : X.Opens) (N : SheafOfModules.Submodule (M.restri
   refine ⟨pre V (Q ⊓ T), pre_mono V inf_le_right, ⟨hyQ, hy⟩, ?_⟩
   have h2 := mem_pushObj.mp (mem_pushObj_res V N (inf_le_left : Q ⊓ T ≤ Q) hmem)
   rw [res_res, res_res] at h2
-  show res M (V.ι.image_mono (pre_mono V (inf_le_right : Q ⊓ T ≤ T)))
+  change res M (V.ι.image_mono (pre_mono V (inf_le_right : Q ⊓ T ≤ T)))
       (res M (image_pre_le V T) s) ∈ N.obj (op (pre V (Q ⊓ T)))
   rw [res_res]
   exact h2
@@ -373,7 +373,7 @@ lemma inclusion_app {N N' : SheafOfModules.Submodule M}
       PresheafOfModules.Submodule.homOfLE (N₁ := N.toSubmodule) (N₂ := N'.toSubmodule)
         (fun T => h T.unop) :=
     (SheafOfModules.fullyFaithfulForget _).map_preimage _
-  show ((SheafOfModules.forget X.ringCatSheaf).map (inclusion h) ≫
+  change ((SheafOfModules.forget X.ringCatSheaf).map (inclusion h) ≫
     N'.toSubmodule.ι).app (op T) x = _
   rw [hv]
   rfl
@@ -440,7 +440,7 @@ lemma liftOfMono_app (a : A ⟶ M) [Mono a] (T : X.Opens) (w : Γ(A, T)) :
   have hv : (SheafOfModules.forget X.ringCatSheaf).map (liftOfMono a) =
       PresheafOfModules.homMk (liftAb a) (fun _ r m => Subtype.ext (a.app_smul r m)) :=
     (SheafOfModules.fullyFaithfulForget _).map_preimage _
-  show ((SheafOfModules.forget X.ringCatSheaf).map (liftOfMono a) ≫
+  change ((SheafOfModules.forget X.ringCatSheaf).map (liftOfMono a) ≫
     (ofMono a).toSubmodule.ι).app (op T) w = _
   rw [hv]
   rfl
@@ -519,7 +519,7 @@ lemma pushRestrictHom_app_val (V : X.Opens) (N : SheafOfModules.Submodule (M.res
   have hv : (SheafOfModules.forget V.toScheme.ringCatSheaf).map (pushRestrictHom V N) =
       PresheafOfModules.homMk (pushAb V N) (fun _ _ _ => Subtype.ext rfl) :=
     (SheafOfModules.fullyFaithfulForget _).map_preimage _
-  show (((SheafOfModules.forget V.toScheme.ringCatSheaf).map
+  change (((SheafOfModules.forget V.toScheme.ringCatSheaf).map
     (pushRestrictHom V N)).app (op W) x : ↥((push V N).obj (op (V.ι ''ᵁ W)))).1 = _
   rw [hv]
   rfl
@@ -550,7 +550,7 @@ lemma pushRestrictIso_hom_comp (V : X.Opens)
   refine Scheme.Modules.hom_ext _ _ fun W => ?_
   ext x
   rw [Scheme.Modules.Hom.comp_app]
-  show (modι (push V N)).app (V.ι ''ᵁ W) ((pushRestrictHom V N).app W x) = _
+  change (modι (push V N)).app (V.ι ''ᵁ W) ((pushRestrictHom V N).app W x) = _
   simp only [modι_app]
   exact pushRestrictHom_app_val V N W x
 

@@ -55,12 +55,6 @@ attribute [local instance] HasDerivedCategory.standard
 variable (B : BigEtaleSite.{u}) (X : B.Scheme) (Λ : Type r) [CommRing Λ]
   [UnivLE.{u + 1, w}] [UnivLE.{u + 1, max (u + 1) w r}]
   [HasSheafify (SmallEtale.topology B X.obj X.property) (ModuleCat.{w} Λ)]
-  [∀ (S T : B.Scheme) (f : T ⟶ S),
-    ((smallEtaleBaseChange B f).sheafPushforwardContinuous (ModuleCat.{w} Λ)
-      (SmallEtale.topology B S.obj S.property)
-      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
-  [∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
-    HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V) (ModuleCat.{w} Λ)]
   [HasDerivedCategory.{d} (RingedSite.Modules.{u + 1, u, max (u + 1) w r}
     (constantCoefficientRingedSite.{u, w, r} B X Λ))]
   [hSliceDerived : ∀ U : (constantCoefficientRingedSite.{u, w, r} B X Λ).C,
@@ -88,6 +82,21 @@ attribute [local instance] Stacks.SheafOfModules.DerivedTensorProduct.sliceTenso
   Stacks.SheafOfModules.DerivedTensorProduct.sliceTensorObjAdditive
   Stacks.SheafOfModules.DerivedTensorProduct.sliceHasMapBifunctor
 
+omit hSliceDerived
+  [∀ U : (constantCoefficientRingedSite.{u, w, r} B X Λ).C,
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r,
+        max (u + 1) w r}
+      ((constantCoefficientRingedSite.{u, w, r} B X Λ).over U).O).Additive]
+  [∀ (U : (constantCoefficientRingedSite.{u, w, r} B X Λ).C) M,
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r,
+        max (u + 1) w r}
+      ((constantCoefficientRingedSite.{u, w, r} B X Λ).over U).O).obj M).Additive]
+  [∀ (U : (constantCoefficientRingedSite.{u, w, r} B X Λ).C)
+    (K L : CochainComplex (RingedSite.Modules.{u + 1, u, max (u + 1) w r}
+      ((constantCoefficientRingedSite.{u, w, r} B X Λ).over U)) ℤ),
+    HomologicalComplex.HasMapBifunctor K L
+      (Stacks.SheafOfModules.Tensor.sheafTensor
+        ((constantCoefficientRingedSite.{u, w, r} B X Λ).over U).O) (ComplexShape.up ℤ)] in
 /-- **Vanishing of a cohomology sheaf of the image over the constant coefficient ring sheaf is
 vanishing of that cohomology sheaf.** -/
 public theorem isZero_homology_of_isZero_homology_moduleSheafOverConstantCoefficients

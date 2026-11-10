@@ -634,7 +634,7 @@ theorem singleMapHomologicalComplex_comp_mapHomologicalComplex_app (X : A) :
   simp only [Functor.mapHomologicalComplex_obj_X, Functor.comp_obj, HomologicalComplex.comp_f,
     HomologicalComplex.singleMapHomologicalComplex_inv_app_self,
     Functor.mapHomologicalComplex_map_f, Functor.map_comp, NatTrans.mapHomologicalComplex_app_f,
-    Category.assoc, Iso.map_inv_hom_id_assoc, HomologicalComplex.single_map_f_self,
+    Category.assoc, Iso.inv_hom_id_map_assoc, HomologicalComplex.single_map_f_self,
     Iso.inv_hom_id_assoc, Iso.cancel_iso_hom_left]
   exact τ.naturality _
 

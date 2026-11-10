@@ -149,7 +149,7 @@ is `AlgebraicGeometry.RingedToposHom.pullbackUnitStructureMap_id`. -/
 theorem inverseImageIdealMap_id :
     inverseImageIdealMap.{u} (RingedToposHom.id X) I =
       (pullbackModulesIdIso X).hom.app I.toSheafOfModules ≫ I.ι ≫ (idUnitDiscrepancy X).hom := by
-  show ((RingedToposHom.id X).toModulesHom.pullbackModules).map I.ι ≫
+  change ((RingedToposHom.id X).toModulesHom.pullbackModules).map I.ι ≫
       pullbackUnitStructureMap (RingedToposHom.id X) =
     (pullbackModulesIdIso X).hom.app I.toSheafOfModules ≫
       ((𝟭 (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))).map I.ι ≫

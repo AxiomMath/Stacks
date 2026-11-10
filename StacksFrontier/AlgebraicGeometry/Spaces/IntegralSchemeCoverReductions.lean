@@ -14,7 +14,8 @@ Stacks 09YB asserts, for a quasi-compact quasi-separated algebraic space `X` ove
 given a surjective étale `U ⟶ X` the cover `Y` may be chosen so that every point of `Y` has an
 open neighbourhood over which `Y ⟶ X` factors through `U`.
 
-Two steps of that proof need nothing beyond what is already in the library, and both are proved here:
+Two steps of that proof need nothing beyond what is already in the library, and both are proved
+here:
 
 * its first sentence, "part (1) is the special case of part (2) where `U = X`"; and
 * its third sentence, "since `X` is quasi-separated, hence reasonable, there exists an integer

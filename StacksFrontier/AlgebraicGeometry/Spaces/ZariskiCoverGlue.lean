@@ -64,7 +64,7 @@ theorem familyImage_sieveOfSection_mem_of_isLocallySurjective (J : GrothendieckT
   have hy' : (Sigma.ι Pi i).app (Opposite.op W) y = tW := hy
   refine ⟨i, y, ?_⟩
   rw [← htW, ← hy', ← types_comp_apply ((Sigma.ι Pi i).app (Opposite.op W))
-    ((Sigma.desc p).app (Opposite.op W)), ← NatTrans.comp_app, Sigma.ι_desc]
+    ((Sigma.desc p).app (Opposite.op W)), ← NatTrans.comp_app, Sigma.ι_comp_desc]
 
 end Bridge
 

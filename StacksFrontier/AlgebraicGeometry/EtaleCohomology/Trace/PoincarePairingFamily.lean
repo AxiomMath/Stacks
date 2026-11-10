@@ -231,6 +231,7 @@ lemma exists_poincareCoeffacingEpi
       rwa [show ((n + 1 : ℕ) : ℤ) = 2 - m by omega] at h
 
 set_option maxHeartbeats 400000 in
+-- elaborating the injective-resolution hypotheses and the `Γ^Gal` short exact sequences
 omit [IsCurve k f] [Smooth f] [GeometricallyConnected f] [IsAlgClosed kbar]
   [CompactSpace (kbar ≃ₐ[k] kbar)] in
 /-- **The inductive step for the family**: a coeffacing epimorphism `π : P ⟶ M` gives members

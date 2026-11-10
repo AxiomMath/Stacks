@@ -96,7 +96,7 @@ public theorem germ_comp_skyscraperSheafAdjunction_unit (x : X) (F : TopCat.Shea
     TopCat.Presheaf.germ F.presheaf V x hV ≫ ψ =
       ((stalkSkyscraperSheafAdjunction x).unit.app F ≫
           (skyscraperSheafFunctor x).map ψ).hom.app (op V) ≫ eqToHom (ite_eq_left hV) := by
-  show _ = (((stalkSkyscraperSheafAdjunction x).unit.app F).hom.app (op V) ≫
+  change _ = (((stalkSkyscraperSheafAdjunction x).unit.app F).hom.app (op V) ≫
     (SkyscraperPresheafFunctor.map' x ψ).app (op V)) ≫ eqToHom (ite_eq_left hV)
   rw [stalkSkyscraperSheafAdjunction_unit_app x F V hV]
   have h3 : (SkyscraperPresheafFunctor.map' x ψ).app (op V) =

@@ -156,7 +156,7 @@ theorem perfectInQcoh_inverseImage :
         (ModuleCat.of R R))).triangEnvelope := by
   rw [← StacksDraft.Perfect.isPerfect_eq_triangEnvelope_singleton_regularModule]
   ext M
-  show Stacks.Cohomology.PerfectComplexes.IsPerfect (((derivedTilde R).obj M).obj) ↔ _
+  change Stacks.Cohomology.PerfectComplexes.IsPerfect (((derivedTilde R).obj M).obj) ↔ _
   exact (isPerfect_iff_of_iso R ((derivedTildeCompι R).app M)).trans (isPerfect_tilde_iff M)
 
 /-- **`D_perf(R) = D_perf(𝒪_{Spec R})`** ([Stacks, Tag 08EB], [Stacks, Tag 06Z0], as used in the

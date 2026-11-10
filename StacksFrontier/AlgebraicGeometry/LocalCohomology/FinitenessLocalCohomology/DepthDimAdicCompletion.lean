@@ -99,7 +99,8 @@ public theorem _root_.Dualizing.isUniversallyCatenary_of_isDualizingComplex_univ
 /-- **A Noetherian ring with a dualizing complex is universally catenary**, with the dualizing
 complex read at an arbitrary module universe: this is
 `Dualizing.isUniversallyCatenary_of_isDualizingComplex_univ`. -/
-private alias isUniversallyCatenary_of_isDualizingComplex_univ := Dualizing.isUniversallyCatenary_of_isDualizingComplex_univ
+private alias isUniversallyCatenary_of_isDualizingComplex_univ :=
+  Dualizing.isUniversallyCatenary_of_isDualizingComplex_univ
 
 /-- Bookkeeping for the depth-plus-dimension equality: if `a = b + c` and `c + d = e`, then
 `a + d = b + e`, after coercion to `WithBot ℕ∞`. -/

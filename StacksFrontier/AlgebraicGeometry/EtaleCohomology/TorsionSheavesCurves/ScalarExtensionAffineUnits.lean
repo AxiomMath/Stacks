@@ -106,7 +106,7 @@ theorem unitsDivisor_eq_zero_of_mem_range [IsLocallyNoetherian X] (a : Additive 
     (y : closedPoints Y) (hy : y.1 ∈ Set.range j.base) : unitsDivisor j a y = 0 := by
   obtain ⟨x, hx⟩ := hy
   rw [unitsDivisor_apply, ← hx, ← Stacks.Chow.ord_functionFieldEquiv_openImmersion]
-  show X.ord (dominantFunctionFieldMap j _) x = 0
+  change X.ord (dominantFunctionFieldMap j _) x = 0
   rw [dominantFunctionFieldMap_unitsToFunctionField]
   exact Scheme.ord_of_isUnit (Additive.toMul a).isUnit trivial
 
@@ -146,7 +146,7 @@ theorem exists_unitsDivisor_eq (d : closedPoints Y →₀ ℤ)
   have h0 : ∀ z : X, coheight z = 1 → X.ord (G : X.functionField) z = 0 := by
     intro z hz
     have hzc := isClosed_singleton_of_coheight_eq_one (j ≫ q) hz
-    show X.ord (Stacks.Chow.functionFieldEquiv_openImmersion j
+    change X.ord (Stacks.Chow.functionFieldEquiv_openImmersion j
       ((Additive.toMul F : (Y.functionField)ˣ) : Y.functionField)) z = 0
     rw [Stacks.Chow.ord_functionFieldEquiv_openImmersion]
     have h :=
@@ -158,12 +158,12 @@ theorem exists_unitsDivisor_eq (d : closedPoints Y →₀ ℤ)
   refine ⟨Additive.ofMul s, ?_⟩
   rw [← hF]
   refine congrArg (closedPointDivisorOfUnit Y) (congrArg Additive.ofMul (Units.ext ?_))
-  show (Stacks.Chow.functionFieldEquiv_openImmersion j).symm
+  change (Stacks.Chow.functionFieldEquiv_openImmersion j).symm
     (X.presheaf.germ ⊤ (genericPoint X) trivial (s : Γ(X, ⊤))) = _
   rw [hs]
   exact (Stacks.Chow.functionFieldEquiv_openImmersion j).symm_apply_apply _
 
-omit [Smooth (j ≫ q)] [IsLocallyNoetherian X] [NoetherianSpace X] [IsNormal X] in
+omit [Smooth q] [Smooth (j ≫ q)] [IsLocallyNoetherian X] [NoetherianSpace X] [IsNormal X] in
 include q in
 /-- **On a proper curve an invertible function on `X` without zeros and poles is an `ℓ`-th
 power**: it extends to a global unit of `Y`, a constant, and `k` is algebraically closed. -/
@@ -193,7 +193,7 @@ theorem exists_nsmul_eq_of_unitsDivisor_eq_zero [IsProper q] {ℓ : ℕ} (hℓ :
   refine (dominantFunctionFieldMap j).injective ?_
   rw [dominantFunctionFieldMap_unitsToFunctionField, dominantFunctionFieldMap_unitsToFunctionField]
   have hw : ((w ^ ℓ : (Γ(X, ⊤))ˣ) : Γ(X, ⊤)) = j.appTop (s : Γ(Y, ⊤)) := by
-    show j.appTop (ψ t) ^ ℓ = _
+    change j.appTop (ψ t) ^ ℓ = _
     rw [← map_pow, ← map_pow, ht]
     exact congrArg j.appTop (ψ.apply_symm_apply _)
   rw [hw, ← Stacks.Chow.dominantFunctionFieldMap_germToFunctionField,
@@ -204,8 +204,7 @@ variable (k' : Type u) [Field k'] [Algebra k k'] [IsAlgClosed k']
 
 /-- `j_{k'}` is dominant. -/
 instance isDominant_scalarExtensionMap : IsDominant (scalarExtensionMap q j k') :=
-  isDominant_of_isOpenImmersion_of_isCurve (scalarExtensionSnd k k' (j ≫ q))
-    (scalarExtensionSnd k k' q) (scalarExtensionMap q j k')
+  isDominant_of_isOpenImmersion_of_isCurve (scalarExtensionMap q j k')
 
 omit [IsDominant j] [IsLocallyNoetherian X] [IsLocallyNoetherian Y] [NoetherianSpace X]
   [NoetherianSpace Y] [IsNormal X] [IsNormal Y] [Smooth (j ≫ q)] in
@@ -272,7 +271,7 @@ theorem unitsDivisor_scalarExtension (a : Additive (Γ(X, ⊤))ˣ) :
     refine (Stacks.Chow.ord_dominantFunctionFieldMap_of_flat (scalarExtensionFst k k' q) _
       (map_maximalIdeal_stalk_scalarExtension q k' _ hy1) hcoh F).trans ?_
     rw [scalarExtensionFst_scalarExtensionClosedPoint]
-  · rw [Finsupp.mapDomain_notin_range _ _ hy]
+  · rw [Finsupp.mapDomain_of_notMem_range _ _ hy]
     have hη : (scalarExtensionFst k k' q).base y'.1 = genericPoint Y := by
       by_contra h
       exact hy ⟨⟨_,

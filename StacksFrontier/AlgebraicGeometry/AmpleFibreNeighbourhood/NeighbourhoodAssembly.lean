@@ -303,7 +303,7 @@ def fibreToRestrict (f : X ⟶ S) (y : S) {U : S.Opens} (hyU : y ∈ U) :
 `Stacks.AmpleFibreNeighbourhood.fiberMorphismRestrictIso_inv_comp_fiberι`. -/
 theorem fibreToRestrict_comp_ι (f : X ⟶ S) (y : S) {U : S.Opens} (hyU : y ∈ U) :
     fibreToRestrict f y hyU ≫ (f ⁻¹ᵁ U).ι = f.fiberι y := by
-  show ((fiberMorphismRestrictIso f U y hyU).inv ≫
+  change ((fiberMorphismRestrictIso f U y hyU).inv ≫
     (f ∣_ U).fiberι (⟨y, hyU⟩ : U.toScheme)) ≫ (f ⁻¹ᵁ U).ι = f.fiberι y
   rw [Category.assoc]
   exact fiberMorphismRestrictIso_inv_comp_fiberι f U y hyU
@@ -325,7 +325,7 @@ def fibreToRestrictRestrict (f : X ⟶ S) (y : S) {U : S.Opens} (hyU : y ∈ U)
 theorem fibreToRestrictRestrict_comp_ι (f : X ⟶ S) (y : S) {U : S.Opens} (hyU : y ∈ U)
     {W : U.toScheme.Opens} (hyW : (⟨y, hyU⟩ : U.toScheme) ∈ W) :
     fibreToRestrictRestrict f y hyU hyW ≫ ((f ∣_ U) ⁻¹ᵁ W).ι = fibreToRestrict f y hyU := by
-  show ((fiberMorphismRestrictIso f U y hyU).inv ≫
+  change ((fiberMorphismRestrictIso f U y hyU).inv ≫
         (fiberMorphismRestrictIso (f ∣_ U) W (⟨y, hyU⟩ : U.toScheme) hyW).inv ≫
           ((f ∣_ U) ∣_ W).fiberι (⟨⟨y, hyU⟩, hyW⟩ : W.toScheme)) ≫ ((f ∣_ U) ⁻¹ᵁ W).ι =
       (fiberMorphismRestrictIso f U y hyU).inv ≫ (f ∣_ U).fiberι (⟨y, hyU⟩ : U.toScheme)
@@ -341,7 +341,7 @@ theorem comp_fibreToRestrictRestrict (f : X ⟶ S) (y : S) {U : S.Opens} (hyU : 
     (fiberMorphismRestrictIso (f ∣_ U) W (⟨y, hyU⟩ : U.toScheme) hyW).hom ≫
         (fiberMorphismRestrictIso f U y hyU).hom ≫ fibreToRestrictRestrict f y hyU hyW =
       ((f ∣_ U) ∣_ W).fiberι (⟨⟨y, hyU⟩, hyW⟩ : W.toScheme) := by
-  show (fiberMorphismRestrictIso (f ∣_ U) W (⟨y, hyU⟩ : U.toScheme) hyW).hom ≫
+  change (fiberMorphismRestrictIso (f ∣_ U) W (⟨y, hyU⟩ : U.toScheme) hyW).hom ≫
       (fiberMorphismRestrictIso f U y hyU).hom ≫
         (fiberMorphismRestrictIso f U y hyU).inv ≫
           (fiberMorphismRestrictIso (f ∣_ U) W (⟨y, hyU⟩ : U.toScheme) hyW).inv ≫
@@ -573,7 +573,7 @@ theorem exists_mem_generatesStalks_restrict (f : X ⟶ S) [UniversallyClosed f] 
     have hcomp : (fibreToRestrict f y hyU).base z =
         ((f ∣_ U).fiberι (⟨y, hyU⟩ : U.toScheme)).base
           ((fiberMorphismRestrictIso f U y hyU).inv.base z) := by
-      show ((fiberMorphismRestrictIso f U y hyU).inv ≫
+      change ((fiberMorphismRestrictIso f U y hyU).inv ≫
         (f ∣_ U).fiberι (⟨y, hyU⟩ : U.toScheme)).base z = _
       simp
     rw [hcomp, hz, hz₀]

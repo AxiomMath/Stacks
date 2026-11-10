@@ -136,7 +136,7 @@ theorem isZero_rightDerived_moduleGlobalSections_of_forall_fiber_dim_le {d : ℕ
   have : Module.Finite A ↥(cohomologyOverBase A f p F) :=
     Stacks.Algebraization.moduleFinite_cohomologyOverBase A f F p
   refine ModuleCat.isZero_iff_subsingleton.mpr ?_
-  show Subsingleton ↥(cohomologyOverBase A f p F)
+  change Subsingleton ↥(cohomologyOverBase A f p F)
   by_contra hns
   have hann : Module.annihilator A ↥(cohomologyOverBase A f p F) ≠ ⊤ := fun h =>
     hns (Module.annihilator_eq_top_iff.mp h)

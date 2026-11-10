@@ -332,7 +332,7 @@ public theorem topologicalKrullDim_fiberSupport_eq_of_finite (R B A M : Type*) [
     rcases eq_or_lt_of_le hle with h | hlt
     · exact h
     · exact absurd (congrArg PrimeSpectrum.asIdeal heq)
-        (Ideal.IsIntegral.comap_lt_comap (R := B)
+        (Ideal.IsIntegral.under_lt_under (R := B)
           ((PrimeSpectrum.asIdeal_lt_asIdeal z w).mpr hlt)).ne
   refine le_antisymm
     (Topology.topologicalKrullDim_le_of_continuous_of_specializes_injective _ hcont

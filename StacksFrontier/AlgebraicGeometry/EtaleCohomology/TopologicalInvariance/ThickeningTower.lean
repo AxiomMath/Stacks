@@ -284,7 +284,7 @@ theorem lift_jointlySurjective (n : ℕ) {ι : Type*} {Z : ι → V.Etale} {W : 
       exact (ConcreteCategory.bijective_of_isIso cW.base).1
     apply hinj
     rw [← Scheme.Hom.comp_apply, hnat, Scheme.Hom.comp_apply]
-    show (g i).left (((T.baseChangeLiftIso n (Z i)).inv ≫
+    change (g i).left (((T.baseChangeLiftIso n (Z i)).inv ≫
       (T.baseChangeLiftIso n (Z i)).hom).left y) = cW p
     rw [Iso.inv_hom_id]
     exact hy

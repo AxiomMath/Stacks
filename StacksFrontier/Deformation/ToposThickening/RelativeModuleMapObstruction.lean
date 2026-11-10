@@ -230,7 +230,7 @@ theorem pullback_retraction_iff {S : ShortComplex D} (hS : S.ShortExact) {F : D}
   · rintro ⟨r, hr⟩
     change l ≫ r = 𝟙 _ at hr
     obtain ⟨t, ht⟩ := hP.exact.desc' (s - r ≫ S.f) (by
-      show l ≫ (s - r ≫ S.f) = 0
+      change l ≫ (s - r ≫ S.f) = 0
       rw [Preadditive.comp_sub, hls, ← Category.assoc, hr, Category.id_comp, sub_self])
     change p ≫ t = s - r ≫ S.f at ht
     refine ⟨t, ?_⟩
@@ -242,7 +242,7 @@ theorem pullback_retraction_iff {S : ShortComplex D} (hS : S.ShortExact) {F : D}
       rw [Preadditive.sub_comp, Category.assoc, ht, hps, sub_self])
     refine ⟨r, ?_⟩
     apply (cancel_mono S.f).1
-    show (l ≫ r) ≫ S.f = _
+    change (l ≫ r) ≫ S.f = _
     rw [Category.assoc, hr, Preadditive.comp_sub, hls, ← Category.assoc,
       hlp, zero_comp, sub_zero, Category.id_comp]
 

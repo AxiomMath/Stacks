@@ -166,7 +166,8 @@ That transport cannot be carried out *in this module*, which is why it is not.  
 leave the `HasDerivedCategory` argument of `derivedPullback`, `derivedPushforward` and
 `pullbackOnHomotopy` to instance search, and rely on search finding at the standard model the
 `Functor.IsRightDerivedFunctor` and `Functor.HasLeftDerivedFunctor` instances that the derived
-functors need.  Importing `StacksFrontier.Homology.DerivedCategory.LocallySmall`, which the transport
+functors need.  Importing `StacksFrontier.Homology.DerivedCategory.LocallySmall`, which the
+transport
 needs, puts a second global `HasDerivedCategory` instance on
 `SheafOfModules.{u} (structureSheafRing X)` in scope, and search then prefers it to the file-local
 one: `pullbackOnHomotopy f` is elaborated with morphisms in `Type u` instead of `Type (u + 1)` and
@@ -222,13 +223,13 @@ restriction functors, whose derived adjunctions have invertible counit because r
 direct image back to the open subspace changes nothing, and `e` is the comparison of
 Stacks 08FE. -/
 theorem isIso_mateEquiv_app_of_isIso_counit (a : L ⊣ R) (b : L' ⊣ R') (h : H ⊣ I) (j : J ⊣ V)
-    [IsIso h.counit] [IsIso j.counit] (α : TwoSquare H L L' J) [IsIso α.natTrans]
+    [IsIso h.counit] [IsIso j.counit] (α : TwoSquare H L L' J) [IsIso α]
     (e : R ⋙ H ≅ J ⋙ R') (A : D) :
     IsIso ((mateEquiv a b α).app A) := by
   set β := mateEquiv a b α with hβ
-  have hδ : (mateEquiv j h β).natTrans = conjugateEquiv (a.comp j) (h.comp b) α.natTrans :=
+  have hδ : (mateEquiv j h β) = conjugateEquiv (a.comp j) (h.comp b) α :=
     iterated_mateEquiv_conjugateEquiv a b h j _
-  have : IsIso (mateEquiv j h β).natTrans := by rw [hδ]; infer_instance
+  have : IsIso (mateEquiv j h β) := by rw [hδ]; infer_instance
   have hJ : IsIso (J.map (j.unit.app A)) := by
     refine (isIso_comp_right_iff _ (j.counit.app (J.obj A))).mp ?_
     rw [j.left_triangle_components A]
@@ -236,13 +237,13 @@ theorem isIso_mateEquiv_app_of_isIso_counit (a : L ⊣ R) (b : L' ⊣ R') (h : H
   have : IsIso (H.map (R.map (j.unit.app A))) :=
     (NatIso.isIso_map_iff e (j.unit.app A)).mpr (R'.map_isIso (J.map (j.unit.app A)))
   have hfac : H.map (R.map (j.unit.app A)) ≫
-      H.map ((mateEquiv j h β).natTrans.app (J.obj A)) ≫ h.counit.app (R'.obj (J.obj A)) =
-      β.natTrans.app A := by
+      H.map ((mateEquiv j h β).app (J.obj A)) ≫ h.counit.app (R'.obj (J.obj A)) =
+      β.app A := by
     rw [← H.map_comp_assoc, unit_mateEquiv j h β A, H.map_comp, Category.assoc]
-    show H.map (h.unit.app (R.obj A)) ≫ H.map (I.map (β.natTrans.app A)) ≫
+    change H.map (h.unit.app (R.obj A)) ≫ H.map (I.map (β.app A)) ≫
       h.counit.app _ = _
-    rw [h.counit_naturality (β.natTrans.app A), ← Category.assoc]
-    exact (congrArg (fun t => t ≫ β.natTrans.app A)
+    rw [h.counit_naturality (β.app A), ← Category.assoc]
+    exact (congrArg (fun t => t ≫ β.app A)
       (h.left_triangle_components (R.obj A))).trans (Category.id_comp _)
   rw [← hfac]
   infer_instance
@@ -470,7 +471,7 @@ theorem isIso_derivedBaseChangeMap_of_isOpenImmersions {X' X S' S : RingedSpace.
   have := isIso_derivedAdjunction_counit_of_isOpenImmersion g
   have := isIso_derivedAdjunction_counit_of_isOpenImmersion g'
   have : IsIso (Mate.derivedPullbackSquare (derivedPullbackCompIsoLeft g' f' f g sq.w)
-      (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical g' f)).natTrans := by
+      (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical g' f)) := by
     dsimp only [Mate.derivedPullbackSquare, TwoSquare.mk]
     infer_instance
   rw [derivedBaseChangeMap_eq_mateEquiv_app g' f' f g sq.w K]
@@ -594,7 +595,7 @@ theorem compact_open_immersion_induction_on {Y : Scheme.{u}} [CompactSpace Y]
       · exact hPV _ (second.ι ≫ jZ) (by simpa [Scheme.Hom.opensRange_comp] using himg₂)
       · refine hPOV _ ((first ⊓ second).ι ≫ jZ) ?_
         rw [Scheme.Hom.opensRange_comp, Scheme.Opens.opensRange_ι]
-        show jZ ''ᵁ (jZ ⁻¹ᵁ (O ⊓ (V : Y.Opens))) = O ⊓ (V : Y.Opens)
+        change jZ ''ᵁ (jZ ⁻¹ᵁ (O ⊓ (V : Y.Opens))) = O ⊓ (V : Y.Opens)
         rw [Scheme.Hom.image_preimage_eq_opensRange_inf, hrange]
         exact inf_eq_right.mpr (inf_le_left.trans le_sup_left)
   exact htop Y (𝟙 Y) (by simp [Scheme.Hom.opensRange_of_isIso])

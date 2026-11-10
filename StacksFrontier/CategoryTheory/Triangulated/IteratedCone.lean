@@ -223,9 +223,9 @@ private theorem genN_eq_retractClosure_extensionProductIter (E : D) (n : ℕ) :
     rfl
   | succ n ih =>
     rw [ObjectProperty.extensionProductIter_succ]
-    show (fun X => X ∈ smd (starOp (gen₁ E) (genN E n))) = _
+    change (fun X => X ∈ smd (starOp (gen₁ E) (genN E n))) = _
     rw [← retractClosure_eq_smd, ← extensionProduct_eq_star, ih]
-    show ObjectProperty.retractClosure (ObjectProperty.extensionProduct
+    change ObjectProperty.retractClosure (ObjectProperty.extensionProduct
       (fun X => X ∈ smd (add (shiftCat E))) _) = _
     rw [← retractClosure_eq_smd,
       ObjectProperty.retractClosure_extensionProduct_retractClosure_retractClosure]

@@ -67,7 +67,7 @@ theorem isClosed_constructionA_fst {𝒳 𝒴 𝒵 : AlgebraicStacks.{u, w} B S 
     obtain ⟨y, rfl⟩ := H.surjective x
     obtain ⟨z, rfl⟩ := EP.surjective y
     simp only [Function.comp_apply, Homeomorph.symm_apply_apply]
-    show Stack.pointsMap B S' hS' PT.pt.val.val PT.pt.val.property _ PT.fst.hom.hom
+    change Stack.pointsMap B S' hS' PT.pt.val.val PT.pt.val.property _ PT.fst.hom.hom
         (Stack.pointsMap B S' hS' _ _ PT.pt.val.property Hom
           (changeBasePointsEquiv B S S' hS hS' g PS.pt.val.val PS.pt.val.property z)) =
       changeBasePointsEquiv B S S' hS hS' g 𝒵.val.val 𝒵.val.property
@@ -75,7 +75,7 @@ theorem isClosed_constructionA_fst {𝒳 𝒴 𝒵 : AlgebraicStacks.{u, w} B S 
     exact (Stack.pointsMap_comp B S' hS' _ _ _ _ Hom PT.fst.hom.hom _).trans
       (changeBasePointsEquiv_pointsMap B S S' hS hS' g PS.pt.val.property 𝒵.val.property
         PS.fst.hom.hom z).symm
-  show IsClosedMap (Stack.pointsMap B S' hS' PT.pt.val.val PT.pt.val.property
+  change IsClosedMap (Stack.pointsMap B S' hS' PT.pt.val.val PT.pt.val.property
     (changeBaseFiberedInGroupoids B S S' hS hS' g 𝒵.val).property PT.fst.hom.hom)
   rw [hfun]
   exact EZ.isClosedMap.comp (h.comp (EP.symm.isClosedMap.comp H.symm.isClosedMap))

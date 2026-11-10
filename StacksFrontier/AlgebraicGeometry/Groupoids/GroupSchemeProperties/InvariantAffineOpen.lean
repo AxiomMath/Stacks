@@ -200,7 +200,7 @@ theorem norm_evaluation_ne_zero_iff {X Y : Scheme.{u}} (p : X ⟶ Y) [IsFinite p
     let O0 : U.toScheme.Opens := ⟨(q.base '' C)ᶜ, hclosed.isOpen_compl⟩
     let O : Y.Opens := U.ι ''ᵁ O0
     have hyO : y ∈ O := by
-      show ∃ z : U.toScheme, z ∈ O0 ∧ U.ι z = y
+      change ∃ z : U.toScheme, z ∈ O0 ∧ U.ι z = y
       refine ⟨⟨y, hy⟩, ?_, rfl⟩
       simp only [O0]
       rintro ⟨z, hzC, hzq⟩

@@ -3,13 +3,13 @@ module
 public import Mathlib.Algebra.Order.Floor.Extended
 public import Mathlib.Algebra.Order.Interval.Basic
 public import Mathlib.Algebra.Order.Ring.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 public import Mathlib.Analysis.SpecialFunctions.Bernstein
 public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Altitude
@@ -256,7 +256,7 @@ theorem isField_of_isDomain_finite_maximalIdeal
     rintro ⟨m, hm⟩ -
     exact (hf m hm).right
   have hp_mem : p ∈ (⊥ : Ideal R).jacobson := by
-    show p ∈ sInf {J : Ideal R | ⊥ ≤ J ∧ J.IsMaximal}
+    change p ∈ sInf {J : Ideal R | ⊥ ≤ J ∧ J.IsMaximal}
     rw [Submodule.mem_sInf]
     rintro J ⟨-, hJmax⟩
     have hJS : J ∈ hfin.toFinset := hfin.mem_toFinset.mpr hJmax
@@ -340,7 +340,7 @@ lemma int_mem_localizationLocalizationSubmodule_twoIdeal_of_ne_zero (n : ℤ) (h
     n ∈ IsLocalization.localizationLocalizationSubmodule twoIdeal.primeCompl
         (Submonoid.powers ((2 : ℤ) : StacksZ2loc)) := by
   obtain ⟨k, m, hm, hnk⟩ := int_eq_pow_two_mul_odd n hn
-  show (algebraMap ℤ StacksZ2loc) n ∈
+  change (algebraMap ℤ StacksZ2loc) n ∈
       Submonoid.powers ((2 : ℤ) : StacksZ2loc) ⊔
         Submonoid.map (algebraMap ℤ StacksZ2loc) twoIdeal.primeCompl
   rw [show (algebraMap ℤ StacksZ2loc) n =
@@ -381,7 +381,7 @@ theorem comap_closedPoint_eq_genericPoint (e : StacksR_at_2 ≃+* ℚ) :
       (PrimeSpectrum.comap (e : StacksR_at_2 →+* ℚ) (IsLocalRing.closedPoint ℚ)) =
         ⟨⊥, Ideal.isPrime_bot⟩ := by
   apply PrimeSpectrum.ext
-  show ((IsLocalRing.closedPoint ℚ).asIdeal.comap (e : StacksR_at_2 →+* ℚ)).comap
+  change ((IsLocalRing.closedPoint ℚ).asIdeal.comap (e : StacksR_at_2 →+* ℚ)).comap
       (algebraMap StacksZ2loc StacksR_at_2) = (⊥ : Ideal StacksZ2loc)
   rw [show (IsLocalRing.closedPoint ℚ).asIdeal = (⊥ : Ideal ℚ) by
         simp [IsLocalRing.closedPoint, IsLocalRing.maximalIdeal_eq_bot],

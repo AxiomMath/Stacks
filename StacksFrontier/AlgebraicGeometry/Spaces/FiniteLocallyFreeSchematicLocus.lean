@@ -171,7 +171,7 @@ private theorem presheaf_universallyClosed_of_presheaf_isFiniteLocallyFree
   have h := (Stacks.Morphisms.isFiniteLocallyFree_iff_isFinite_flat_locallyOfFinitePresentation
     ((BigFppfOver.toScheme B S hS).map snd)).mp (hf.2 g fst snd hpb)
   have _ : AlgebraicGeometry.IsFinite ((BigFppfOver.toScheme B S hS).map snd) := h.1
-  show AlgebraicGeometry.UniversallyClosed ((BigFppfOver.toScheme B S hS).map snd)
+  change AlgebraicGeometry.UniversallyClosed ((BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 /-- The map on points of a universally closed morphism of algebraic spaces is a closed map:
@@ -314,7 +314,7 @@ theorem exists_affineChart_pointsMap_eq {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type
         (FieldValuedPoint.map B S hS F e.inv p).value.left := by
     have hsub : Subsingleton ((BigFppfOver.toScheme B S hS).obj
         (FieldValuedPoint.map B S hS F e.inv p).siteObject) := by
-      show Subsingleton (PrimeSpectrum (CommRingCat.of p.carrier))
+      change Subsingleton (PrimeSpectrum (CommRingCat.of p.carrier))
       exact (PrimeSpectrum.subsingleton_iff_isField_of_isReduced
         (R := CommRingCat.of p.carrier)).2 (Field.toIsField p.carrier)
     have hrange : Set.range ((BigFppfOver.toScheme B S hS).map
@@ -349,12 +349,12 @@ theorem exists_affineChart_pointsMap_eq {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type
   apply FieldValuedPoint.class_eq_class_of_hasCommonExtension
   refine ⟨p, ⟨𝟙 _, ?_⟩, FieldValuedPoint.dominates_refl B S hS F p⟩
   refine Eq.trans (Functor.map_id_apply F _ _) ?_
-  show (yoneda.map (affineChartι B S hS U i) ≫ e.hom).app _ _ = p.value
+  change (yoneda.map (affineChartι B S hS U i) ≫ e.hom).app _ _ = p.value
   rw [NatTrans.comp_app, types_comp_apply]
-  show e.hom.app _ ((Over.homMk ℓ hover : _ ⟶ affineChart B S hS U i) ≫
+  change e.hom.app _ ((Over.homMk ℓ hover : _ ⟶ affineChart B S hS U i) ≫
     affineChartι B S hS U i) = p.value
   rw [hcomp]
-  show (e.inv ≫ e.hom).app _ p.value = p.value
+  change (e.inv ≫ e.hom).app _ p.value = p.value
   rw [e.inv_hom_id]
   rfl
 
@@ -610,7 +610,7 @@ theorem isRepresentable_of_presheafSurjective_presheafFiniteLocallyFree
   let dS : MF ⟶ ZF := ⟨d⟩
   have hwm : tf ≫ mf = sf ≫ mf := by
     refine Sheaf.hom_ext ?_
-    show yoneda.map t ≫ yoneda.map m = yoneda.map s ≫ yoneda.map m
+    change yoneda.map t ≫ yoneda.map m = yoneda.map s ≫ yoneda.map m
     rw [← Functor.map_comp, ← Functor.map_comp, hts]
   have hwf : tf ≫ ff = sf ≫ ff := Sheaf.hom_ext hR.w
   have hcolim' : IsColimit (Cofork.ofπ ff hwf) := hcolim

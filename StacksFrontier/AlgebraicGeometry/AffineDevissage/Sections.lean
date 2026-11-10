@@ -109,7 +109,7 @@ public theorem exists_sectionOfHom_eq_of_finite [IsNoetherianRing A] [Module.Fin
       congrArg _ (hcross f hf f' hf')
     rw [smul_smul, smul_smul] at h
     refine Subtype.ext ?_
-    show f' ^ (n + m) • ((yN f : M)) = f ^ (n + m) • ((yN f' : M))
+    change f' ^ (n + m) • ((yN f : M)) = f ^ (n + m) • ((yN f' : M))
     rw [hyN f hf, hyN f' hf', smul_smul, smul_smul,
       show f' ^ (n + m) * f ^ m = f ^ m * f' ^ m * f' ^ n by ring,
       show f ^ (n + m) * f' ^ m = f ^ m * f' ^ m * f ^ n by ring]

@@ -21,7 +21,7 @@ public import Mathlib.CategoryTheory.Monoidal.Mon
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Altitude
@@ -296,7 +296,7 @@ private lemma isRightDerivedValueAt_coconeOfDiagramTerminal {D : Type u₁} [Cat
       (MorphismProperty.Under.forget W ⊤ X ⋙ Under.forget X ⋙ F)) := by
   refine ⟨s₀, 𝟙 _, (Category.id_comp _).trans (coconeOfDiagramTerminal_ι_app_self h _),
     fun s => ⟨s₀, h.from s, h.from s₀, ?_⟩⟩
-  show F.map (h.from s).right = F.map (h.from s).right ≫ 𝟙 _ ≫ F.map (h.from s₀).right
+  change F.map (h.from s).right = F.map (h.from s).right ≫ 𝟙 _ ≫ F.map (h.from s₀).right
   simp
 
 /-! ### K-injective complexes as local objects -/

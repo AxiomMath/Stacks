@@ -80,7 +80,7 @@ theorem homOfLe_supDesc_right {Z : Cᵒᵖ ⥤ Type w} (a : V.toFunctor ⟶ Z) (
     homOfLe le_sup_right ≫ supDesc V W a b hab = b := by
   classical
   ext U x
-  show dite _ _ _ = _
+  change dite _ _ _ = _
   split_ifs with h
   · exact hab _ _ h x.2
   · rfl
@@ -93,7 +93,7 @@ theorem eq_supDesc {Z : Cᵒᵖ ⥤ Type w} (a : V.toFunctor ⟶ Z) (b : W.toFun
     m = supDesc V W a b hab := by
   classical
   ext U x
-  show _ = dite _ _ _
+  change _ = dite _ _ _
   split_ifs with h
   · rw [← ha]
     rfl

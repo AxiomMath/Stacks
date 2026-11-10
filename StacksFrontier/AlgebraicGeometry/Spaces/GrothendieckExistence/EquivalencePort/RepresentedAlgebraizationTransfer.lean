@@ -66,7 +66,7 @@ structure morphism of the representing object. -/
 theorem C1573.toScheme_map_preimage_baseObject (U : BigFppfOver B (Spec (.of A)) hA)
     (f : yoneda.obj U ⟶ yoneda.obj (baseObject A B hA)) :
     (BigFppfOver.toScheme B (Spec (.of A)) hA).map (yoneda.preimage f) = B.inclusion.map U.hom := by
-  show B.inclusion.map (yoneda.preimage f).left = _
+  change B.inclusion.map (yoneda.preimage f).left = _
   rw [← Over.w (yoneda.preimage f)]
   simp
 

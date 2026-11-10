@@ -159,7 +159,7 @@ private lemma cechComplexFunctor_map_zero {X : Scheme.{u}} {R : Type u} [CommRin
     (CategoryTheory.cechComplexFunctor (A := ModuleCat.{u} R) U).map (0 : P ⟶ Q) = 0 := by
   apply HomologicalComplex.Hom.ext
   funext n
-  show Limits.Pi.map (fun i => (0 : P.obj _ ⟶ Q.obj _)) = 0
+  change Limits.Pi.map (fun i => (0 : P.obj _ ⟶ Q.obj _)) = 0
   apply Limits.Pi.hom_ext
   intro j
   rw [Limits.Pi.map_π]
@@ -240,7 +240,7 @@ private lemma flat_evalOp_obj {C : Type u} [Category.{u} C] {R : Type u} [CommRi
     [Finite V.I] (hP : ∀ i, Module.Flat R (P.obj (Opposite.op (V.obj i)))) :
     Module.Flat R ↑(((CategoryTheory.Limits.FormalCoproduct.evalOp C (ModuleCat R)).obj P).obj
       (Opposite.op V)) := by
-  show Module.Flat R ↑(∏ᶜ fun i : V.I => P.obj (Opposite.op (V.obj i)))
+  change Module.Flat R ↑(∏ᶜ fun i : V.I => P.obj (Opposite.op (V.obj i)))
   exact flat_categorical_pi _ hP
 
 private lemma flat_categorical_coprod {R : Type*} [CommRing R] {ι : Type*}
@@ -263,9 +263,9 @@ private lemma cech_term_flat {X S : Scheme.{u}} [IsAffine S] (f : X ⟶ S)
   let V : CategoryTheory.Limits.FormalCoproduct.{u} X.Opens :=
     E.cech.obj (Opposite.op (SimplexCategory.mk p))
   have : Finite V.I := by
-    show Finite (Fin (p + 1) → I)
+    change Finite (Fin (p + 1) → I)
     infer_instance
-  show Module.Flat ↑Γ(S, ⊤)
+  change Module.Flat ↑Γ(S, ⊤)
     (((CategoryTheory.Limits.FormalCoproduct.evalOp X.Opens (ModuleCat ↑Γ(S, ⊤))).obj
       (sectionsPresheaf f (F n))).obj (Opposite.op V))
   apply flat_evalOp_obj
@@ -317,7 +317,7 @@ private lemma cechDouble_component_flat {X S : Scheme.{u}} [IsAffine S] (f : X �
     (hflat : ∀ n, IsFlatOver f.toLRSHom.toShHom (F n))
     (hterm : ∀ n, K.X n ≅ sectionsPresheaf f (F n)) (p q : ℤ) :
     Module.Flat ↑Γ(S, ⊤) ↑((((cechDoubleComplex U).obj K).X p).X q) := by
-  show Module.Flat ↑Γ(S, ⊤) ↑(((cechComplexInt U).obj (K.X q)).X p)
+  change Module.Flat ↑Γ(S, ⊤) ↑(((cechComplexInt U).obj (K.X q)).X p)
   exact cechInt_term_flat f U haffine F hqc hflat (K.X q) q (hterm q) p
 
 private lemma totalCech_term_flat {X S : Scheme.{u}} [IsAffine S] (f : X ⟶ S)
@@ -330,7 +330,7 @@ private lemma totalCech_term_flat {X S : Scheme.{u}} [IsAffine S] (f : X ⟶ S)
     Module.Flat ↑Γ(S, ⊤) ↑(((totalCechComplex U).obj K).X n) := by
   classical
   let B := (cechDoubleComplex U).obj K
-  show Module.Flat ↑Γ(S, ⊤)
+  change Module.Flat ↑Γ(S, ⊤)
     ↑(∐ B.toGradedObject.mapObjFun (ComplexShape.π (ComplexShape.up ℤ)
       (ComplexShape.up ℤ) (ComplexShape.up ℤ)) n)
   exact flat_categorical_coprod _ fun pq =>
@@ -394,7 +394,7 @@ private lemma evaluation_boundary (P : X.Presheaf C) (V : Opens X) (p : ℕ)
     DFunLike.congr_fun this chain
   apply FreeAbelianGroup.lift_ext
   intro tuple
-  show evaluation U P V p (boundary U V p (FreeAbelianGroup.of tuple)) =
+  change evaluation U P V p (boundary U V p (FreeAbelianGroup.of tuple)) =
     differential U P p ≫ evaluation U P V (p + 1) (FreeAbelianGroup.of tuple)
   simp only [boundary,
     FreeAbelianGroup.lift_apply_of, map_sum, map_zsmul, evaluation,
@@ -415,7 +415,7 @@ private lemma evaluation_chainMap (P : X.Presheaf C) {V W : Opens X}
         (evaluation U P W p) from DFunLike.congr_fun this chain
   apply FreeAbelianGroup.lift_ext
   intro tuple
-  show evaluation U P V p (chainMap U inclusion p (FreeAbelianGroup.of tuple)) =
+  change evaluation U P V p (chainMap U inclusion p (FreeAbelianGroup.of tuple)) =
     evaluation U P W p (FreeAbelianGroup.of tuple) ≫ P.map (homOfLE inclusion).op
   simp only [chainMap,
     FreeAbelianGroup.lift_apply_of, evaluation,
@@ -436,9 +436,9 @@ private lemma comp_evaluation_of_natural {J : Type u} (U : J → Opens X) (P : X
       (evaluation U P V b).comp (T V) from DFunLike.congr_fun this chain
   apply FreeAbelianGroup.lift_ext
   intro tuple
-  show t ≫ evaluation U P V a (FreeAbelianGroup.of tuple) = _
+  change t ≫ evaluation U P V a (FreeAbelianGroup.of tuple) = _
   simp only [evaluation, FreeAbelianGroup.lift_apply_of, ← Category.assoc, ht]
-  show evaluation U P (CechCochains.inter U tuple.1) b
+  change evaluation U P (CechCochains.inter U tuple.1) b
       (T _ (FreeAbelianGroup.of ⟨tuple.1, le_rfl⟩)) ≫ P.map (homOfLE tuple.2).op = _
   rw [← evaluation_chainMap, hT]
   rfl

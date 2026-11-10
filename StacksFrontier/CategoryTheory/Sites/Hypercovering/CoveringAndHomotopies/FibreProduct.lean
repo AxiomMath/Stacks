@@ -153,13 +153,11 @@ noncomputable def relativePullbackIso {P Q R S T U : D} (f : P ⟶ Q) (g : R ⟶
     Limits.pullback.lift (Limits.pullback.fst f g ≫ p) (Limits.pullback.snd f g ≫ r)
       (by simp [Limits.pullback.condition_assoc, Category.assoc, hp, hr])
   let d : Limits.pullback f g ⟶ Limits.pullback p (Limits.pullback.fst s t) :=
-    Limits.pullback.lift (Limits.pullback.fst f g) c (by simp [Limits.pullback.lift_fst, c])
+    Limits.pullback.lift (Limits.pullback.fst f g) c (by simp [c])
   have hd : d ≫ h = Limits.pullback.snd f g ≫ γ := by
     apply Limits.pullback.hom_ext
-    · simp [Limits.pullback.lift_fst_assoc, Limits.pullback.lift_fst,
-        Limits.pullback.condition, d, h, γ, c, Category.assoc]
-    · simp [Limits.pullback.lift_snd_assoc, Limits.pullback.lift_snd, d, h, γ, c,
-        Category.assoc]
+    · simp [Limits.pullback.condition, d, h, γ, c, Category.assoc]
+    · simp [d, h, γ, c, Category.assoc]
   let hom : Limits.pullback f g ⟶ Limits.pullback h γ :=
     Limits.pullback.lift d (Limits.pullback.snd f g) hd
   let inv : Limits.pullback h γ ⟶ Limits.pullback f g :=
@@ -172,23 +170,19 @@ noncomputable def relativePullbackIso {P Q R S T U : D} (f : P ⟶ Q) (g : R ⟶
           Limits.pullback.lift_fst] using he)
   refine { hom := hom, inv := inv, hom_inv_id := ?_, inv_hom_id := ?_ }
   · apply Limits.pullback.hom_ext
-    · simp [Limits.pullback.lift_fst_assoc, Limits.pullback.lift_fst, hom, inv, d, c, h, γ,
-        Category.assoc]
-    · simp [Limits.pullback.lift_snd, hom, inv, d, c, h, γ, Category.assoc]
+    · simp [hom, inv, d, c, h, γ, Category.assoc]
+    · simp [hom, inv, d, c, h, γ, Category.assoc]
   · apply Limits.pullback.hom_ext
     · apply Limits.pullback.hom_ext
-      · simp [Limits.pullback.lift_fst, hom, inv, d, c, h, γ, Category.assoc]
+      · simp [hom, inv, d, c, h, γ, Category.assoc]
       · apply Limits.pullback.hom_ext
-        · simp [Limits.pullback.lift_fst_assoc, Limits.pullback.lift_fst,
-            Limits.pullback.lift_snd, Limits.pullback.condition, hom, inv, d, c, h, γ,
-            Category.assoc]
+        · simp [Limits.pullback.condition, hom, inv, d, c, h, γ, Category.assoc]
         · have he := congrArg (fun z : Limits.pullback h γ ⟶ Limits.pullback q t ↦
               z ≫ Limits.pullback.snd q t) (Limits.pullback.condition (f := h) (g := γ))
-          simp [Limits.pullback.lift_snd_assoc, Limits.pullback.lift_fst,
-            Limits.pullback.lift_snd, hom, inv, d, c, h, γ, Category.assoc]
+          simp [hom, inv, d, c, h, γ, Category.assoc]
           simpa [h, γ, Category.assoc, Limits.pullback.lift_snd_assoc,
             Limits.pullback.lift_snd] using he.symm
-    · simp [Limits.pullback.lift_snd, hom, inv, d, c, h, γ, Category.assoc]
+    · simp [hom, inv, d, c, h, γ, Category.assoc]
 
 end Relative
 
@@ -224,7 +218,7 @@ theorem isCoveringOver_relativePullbackLift (J : Pretopology C)
         (Limits.pullback.snd f g ≫ r)
         (by simp [Category.assoc, hp, hr, Limits.pullback.condition_assoc]) := by
     apply Limits.pullback.hom_ext <;>
-      simp [e, relativePullbackIso, h, γ, Limits.pullback.lift_fst, Limits.pullback.lift_snd]
+      simp [e, relativePullbackIso, h, γ]
   exact heq ▸ hcomp
 
 /-! ### Tag 01GH -/

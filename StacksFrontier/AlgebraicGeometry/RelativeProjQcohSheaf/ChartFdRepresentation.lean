@@ -250,7 +250,7 @@ theorem Fd.chartRelativeEquiv_pullback (hU : IsAffineOpen U) (hk : 0 < k)
     {T T' : Scheme.{u}} (g : T' ⟶ T) (ξ : Fd (situationAlgebra (A.restrict U.ι)) (k : ℤ) T) :
     Fd.chartRelativeEquiv A U P hU hk T' (Fd.pullback g ξ)
       = g ≫ Fd.chartRelativeEquiv A U P hU hk T ξ := by
-  show homEquivOfSchemeIso (P.degreeOpenChartIso U hU k) T'
+  change homEquivOfSchemeIso (P.degreeOpenChartIso U hU k) T'
       (Fd.chartEquiv A U hU hk T' (Fd.pullback g ξ)) = _
   rw [Fd.chartEquiv_pullback A U hU hk g ξ]
   exact homEquivOfSchemeIso_comp (P.degreeOpenChartIso U hU k) g _

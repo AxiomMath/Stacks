@@ -16,7 +16,8 @@ de Rham differential of `X/S` — had to be a field there, and so had the matchi
 charts of two consecutive degrees.
 
 `Stacks.Gysin.gysinChartDataOfClsDet` of
-`StacksFrontier/AlgebraicGeometry/DeRham/Gysin/ChartDataComparison.lean` builds the chart data at the
+`StacksFrontier/AlgebraicGeometry/DeRham/Gysin/ChartDataComparison.lean` builds the chart data at
+the
 **concrete** target `Stacks.Gysin.gysinTarget`, and this file discharges those two inputs there:
 
 * the right vertical arrow is [Stacks, Tag 0G74] part (2) at the Gysin map's target, which the
@@ -145,7 +146,8 @@ abelian sheaves it is down to the single equation
 `Stacks.Gysin.supportCohomologyRestrictAbNatural_of_excisionAbComparison_eq` there; that equation
 is the derived-versus-classical comparison of the two excisions, and it is proved —
 `Stacks.Gysin.excisionAbComparisonEqAbelianExcision` of
-`StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinExcisionAbelianAgreement.lean` — so the arbitrary
+`StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinExcisionAbelianAgreement.lean` — so the
+arbitrary
 case is `Stacks.Gysin.supportCohomologyRestrictAbNatural` there.  The naturality of the class map
 of [Stacks, Tag 0G7Q] in an arbitrary morphism of the
 **underlying abelian sheaves** is not open: it is

@@ -82,7 +82,7 @@ private theorem exists_comp_eq_smul_sub_aux {N L M : ModuleCat.{u} (A ⧸ I ^ n)
   obtain ⟨t, ht⟩ := Module.projective_lifting_property u.hom.rangeRestrict w
     u.hom.surjective_rangeRestrict
   refine ⟨ModuleCat.ofHom t, ModuleCat.hom_ext (LinearMap.ext fun x => ?_)⟩
-  show u (t x) = (a • 𝟙 L - v ≫ s).hom x
+  change u (t x) = (a • 𝟙 L - v ≫ s).hom x
   rw [ModuleCat.hom_sub, LinearMap.sub_apply, ModuleCat.hom_smul, ModuleCat.hom_id]
   exact congrArg Subtype.val (LinearMap.congr_fun ht x)
 

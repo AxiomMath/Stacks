@@ -97,7 +97,7 @@ theorem order_aeval_C_add_X {r : K[X]} (hr : r ≠ 0) (a : K) :
 
 /-- The multiplicities of finitely many roots of a nonzero polynomial add up to at most its
 degree. -/
-theorem sum_rootMultiplicity_le_natDegree {p : K[X]} (hp : p ≠ 0) (A : Finset K) :
+theorem sum_rootMultiplicity_le_natDegree {p : K[X]} (A : Finset K) :
     ∑ a ∈ A, p.rootMultiplicity a ≤ p.natDegree := by
   classical
   calc ∑ a ∈ A, p.rootMultiplicity a = ∑ a ∈ A, p.roots.count a := by simp [count_roots]
@@ -147,7 +147,7 @@ theorem sum_order_le_rootMultiplicity_resultant {Ψ g : K[X][X]} (hΨ : Ψ.Monic
   have hφres : φ (resultant Ψ g) =
       (∏ t ∈ T, ga.eval t) * resultant H ga H.natDegree g.natDegree := by
     rw [resultant, ← resultant, ← resultant_map_map, hdeg]
-    show Ψa.resultant ga _ _ = _
+    change Ψa.resultant ga _ _ = _
     rw [hH, resultant_mul_left _ _ _ _ hga,
       resultant_prod_left _ _ _ _ (by simp [leadingCoeff_X_sub_C]) hga]
     congr 1
@@ -155,7 +155,7 @@ theorem sum_order_le_rootMultiplicity_resultant {Ψ g : K[X][X]} (hΨ : Ψ.Monic
     rw [natDegree_X_sub_C, ← pow_one (X - C t), resultant_X_sub_C_pow_left _ _ _ _ hga, pow_one]
   have hord := order_aeval_C_add_X hres a
   rw [← hord]
-  show _ ≤ (φ (resultant Ψ g)).order
+  change _ ≤ (φ (resultant Ψ g)).order
   rw [hφres, PowerSeries.order_mul, PowerSeries.order_prod]
   exact le_self_add
 
@@ -181,7 +181,7 @@ theorem sum_order_le_natDegree_resultant {Ψ g : K[X][X]} (hΨ : Ψ.Monic)
         refine Finset.sum_le_sum fun a _ => ?_
         have hinj : Set.InjOn β (S.filter fun P => P.1 = a) := by
           intro P hP P' hP' h
-          simp only [Finset.coe_filter, Set.mem_setOf_eq] at hP hP'
+          simp only [Finset.coe_filter, Set.mem_ofPred_eq] at hP hP'
           have h2 : P.2 = P'.2 := by rw [← (hβ P hP.1).1, ← (hβ P' hP'.1).1, h]
           exact Prod.ext (hP.2.trans hP'.2.symm) h2
         rw [Finset.sum_congr rfl (g := fun P => ((g.map (aeval (R := K)
@@ -195,6 +195,6 @@ theorem sum_order_le_natDegree_resultant {Ψ g : K[X][X]} (hΨ : Ψ.Monic)
         exact (hβ P hPS).2
     _ = ((∑ a ∈ A, (resultant Ψ g).rootMultiplicity a : ℕ) : ℕ∞) := by push_cast; rfl
     _ ≤ ((resultant Ψ g).natDegree : ℕ∞) := by
-        exact_mod_cast sum_rootMultiplicity_le_natDegree hres A
+        exact_mod_cast sum_rootMultiplicity_le_natDegree A
 
 end Polynomial

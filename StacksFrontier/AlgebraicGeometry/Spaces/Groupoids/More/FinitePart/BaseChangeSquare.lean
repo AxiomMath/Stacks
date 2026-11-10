@@ -77,7 +77,7 @@ noncomputable def subfunctorIsoPreimage {C : Type v} [Category.{u, v} C]
   have hf : Subfunctor.range (Z.ι ≫ e.hom) ≤ Z.preimage e.inv := by
     rintro U y ⟨x, rfl⟩
     change e.inv.app U (e.hom.app U ((Z.ι.app U) x)) ∈ Z.obj U
-    simpa using x.property
+    simp
   refine ⟨Subfunctor.lift (Z.ι ≫ e.hom) hf, Subfunctor.fromPreimage Z e.inv, ?_, ?_⟩
   · ext U x
     apply Subtype.ext
@@ -235,7 +235,7 @@ theorem exists_ofPullbackSquare_eq (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : 
   refine ⟨ofAmbientIso B S hS (f₁ := g')
     (⟨a ≫ g, Z, ho, hf⟩ : FiniteOpenSubspace B S hS f T) a e.symm
     (IsPullback.isoPullback_inv_fst _), ?_, rfl⟩
-  show FiniteOpenSubspace.mk (a ≫ g) ((Z.preimage e.hom).preimage e.inv) _ _ =
+  change FiniteOpenSubspace.mk (a ≫ g) ((Z.preimage e.hom).preimage e.inv) _ _ =
     ⟨a ≫ g, Z, ho, hf⟩
   congr 1
   exact preimage_hom_preimage_inv e Z
@@ -327,7 +327,7 @@ theorem mapOfPullbackSquare_baseMap (B : BigFppfSite.{u}) (S : Scheme.{u})
     mapOfPullbackSquare B S hS f' g' f g h P Q ≫ Q.baseMap = P.baseMap ≫ g.hom := by
   ext T p
   apply yonedaEquiv.symm.injective
-  show yonedaEquiv.symm
+  change yonedaEquiv.symm
       (Q.baseMap.app T ((mapOfPullbackSquare B S hS f' g' f g h P Q).app T p)) =
     yonedaEquiv.symm (g.hom.app T (P.baseMap.app T p))
   rw [Q.baseMap_spec, sections_mapOfPullbackSquare, ← yonedaEquiv_symm_naturality_right,
@@ -357,7 +357,7 @@ theorem isPullback_mapOfPullbackSquare (B : BigFppfSite.{u}) (S : Scheme.{u})
     let b : schemeSpace T.unop ⟶ Y' := ObjectProperty.homMk (yonedaEquiv.symm a)
     have hb : (Q.sections T.unop q).toBase.hom = b.hom ≫ g.hom := by
       rw [← Q.baseMap_spec]
-      show yonedaEquiv.symm _ = yonedaEquiv.symm a ≫ g.hom
+      change yonedaEquiv.symm _ = yonedaEquiv.symm a ≫ g.hom
       rw [yonedaEquiv_symm_naturality_right, ha]
     obtain ⟨r, hr, hb'⟩ := FiniteOpenSubspace.exists_ofPullbackSquare_eq B S hS f' g' f g h
       (Q.sections T.unop q) b hb

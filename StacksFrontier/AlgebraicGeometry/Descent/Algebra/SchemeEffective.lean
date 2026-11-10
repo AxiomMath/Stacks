@@ -530,8 +530,7 @@ lemma trivialTransition_cocycle :
         Stacks.AlgebraDescent.cocycle01 R R B (trivialTransition R B).toLinearMap =
       Stacks.AlgebraDescent.cocycle02 R R B (trivialTransition R B).toLinearMap := by
   refine TensorProduct.ext' fun q c ↦ ?_
-  induction q using TensorProduct.induction_on with
-  | zero => simp
+  induction q using TensorProduct.inductionOn with
   | add x y hx hy => rw [add_tmul, map_add, map_add, hx, hy]
   | tmul b a =>
     simp only [Stacks.AlgebraDescent.cocycle01, Stacks.AlgebraDescent.cocycle12,

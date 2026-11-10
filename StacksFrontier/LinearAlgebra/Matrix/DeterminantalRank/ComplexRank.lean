@@ -14,7 +14,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Altitude
@@ -427,11 +427,11 @@ theorem dim_eq_of_iso {C D : Complex R e} (φ : ComplexIso C D) (i : ℕ) :
     invFun := fun w => φ.ψinv i *ᵥ w
     left_inv := by
       intro v
-      show φ.ψinv i *ᵥ (φ.ψ i *ᵥ v) = v
+      change φ.ψinv i *ᵥ (φ.ψ i *ᵥ v) = v
       rw [Matrix.mulVec_mulVec, φ.left i, Matrix.one_mulVec]
     right_inv := by
       intro w
-      show φ.ψ i *ᵥ (φ.ψinv i *ᵥ w) = w
+      change φ.ψ i *ᵥ (φ.ψinv i *ᵥ w) = w
       rw [Matrix.mulVec_mulVec, φ.right i, Matrix.one_mulVec] }
 
 omit [Nontrivial R] in

@@ -104,7 +104,7 @@ theorem hasResolutionByNormalizedBlowUps_of_isResolution_of_isAdicComplete
   have hNagata : IsNagataScheme (Spec (.of A)) :=
     isNagataScheme_spec_of_isNagataRing _ IsNagataRing.of_isPrecomplete_maximalIdeal
   have hdimA : topologicalKrullDim (Spec (.of A)) = 2 := by
-    show topologicalKrullDim (PrimeSpectrum A) = 2
+    change topologicalKrullDim (PrimeSpectrum A) = 2
     rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, hdim]
   -- Step 2: dominate the resolution by a chain of normalized blowups.
   obtain ⟨Z, g, h, hchain, hhg⟩ :=

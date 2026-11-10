@@ -177,6 +177,9 @@ noncomputable def derivedPushforwardCompUnit
       (f.pushforwardTopos.mapHomotopyCategory (ComplexShape.up ℤ)) αg ≫
     Functor.whiskerRight αf Rg
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The value of `derivedPushforwardCompUnit` at an object of the homotopy category, written out
 as a composite of three maps.  Each whiskering contributes its component on the nose. -/
 theorem derivedPushforwardCompUnit_app
@@ -299,6 +302,8 @@ theorem pushforwardComputesDerived_of_isKInjective
     PushforwardComputesDerived f g Rg αg :=
   fun I hI => isIso_app_of_isKInjective g Rg αg _ (h I hI)
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The composite of two derived pushforwards is a derived pushforward along the composite.**
 Under `PushforwardComputesDerived`, the composite `Rf_* ⋙ Rg_*`, with the comparison
 `derivedPushforwardCompUnit`, is a right derived functor of degreewise pushforward along
@@ -322,6 +327,8 @@ theorem isRightDerivedFunctor_comp
   have h₃ := isIso_app_of_isKInjective f Rf αf I hI
   infer_instance
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **Stacks 0D6E, the composition formula.**  Under `PushforwardComputesDerived`, the canonical
 comparison from a derived pushforward along `g ∘ f` to the composite of derived pushforwards
 along `f` and `g` is an isomorphism. -/
@@ -353,6 +360,8 @@ noncomputable def derivedPushforwardCompIso
   haveI := isIso_derivedPushforwardComparison f g Rf Rg Rh αf αg αh h
   (asIso (derivedPushforwardComparison f g Rf Rg Rh αf αg αh)).symm
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The hypothesis is the whole content of the composition formula.**  The canonical comparison
 is an isomorphism exactly when degreewise pushforward along `f` carries K-injective complexes to
 complexes computing the derived pushforward along `g`. -/

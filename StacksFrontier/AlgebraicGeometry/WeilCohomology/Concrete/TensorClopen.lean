@@ -490,12 +490,10 @@ theorem composition_prodHomPushforward [IsProper sB] [IsProper sQ]
         (prodHomPushforward sQ sR sB sC iB iC hiB hiC f s y) =
       prodHomPushforward sP sR sA sC iA iC hiA hiC f (r + s)
         (composition k sA sB sC Δ hA hB hC r s x y) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, LinearMap.add_apply, ha, hb]
   | tmul q a =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add a' b' ha hb => simp only [map_add, ha, hb]
     | tmul q' c =>
       rw [prodHomPushforward_tmul, prodHomPushforward_tmul, composition_tmul, composition_tmul,
@@ -516,12 +514,10 @@ theorem composition_prodHomPushforward_of_disjoint [IsProper sQ]
     (y : Correspondence (fieldChowSituation k) sB' sC f s) :
     composition k sP sQ sR Δ hP hQ hR r s (prodHomPushforward sP sQ sA sB iA iB hiA hiB e r x)
         (prodHomPushforward sQ sR sB' sC iB' iC hiB' hiC f s y) = 0 := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, LinearMap.add_apply, ha, hb, add_zero]
   | tmul q a =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add a' b' ha hb => simp only [map_add, ha, hb, add_zero]
     | tmul q' c =>
       rw [prodHomPushforward_tmul, prodHomPushforward_tmul, composition_tmul,
@@ -545,12 +541,10 @@ theorem tensorBlock_prodHomPushforward (hproj : Δ.ProjectionFormula) {d d' e e'
         (prodHom_comp_prodBase sP sP' sA sA' iA iA' hiA hiA')
         (prodHom_comp_prodBase sQ sQ' sB sB' iB iB' hiB hiB') ((e + e' : ℕ) : ℤ) (r + r')
         (tensorBlock k sA sA' sB sB' Δ hA hA' hB hB' r r' x x') := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, LinearMap.add_apply, ha, hb]
   | tmul q a =>
-    induction x' using TensorProduct.induction_on with
-    | zero => simp
+    induction x' using TensorProduct.inductionOn with
     | add a' b' ha hb => simp only [map_add, ha, hb]
     | tmul q' c =>
       rw [prodHomPushforward_tmul, prodHomPushforward_tmul, tensorBlock_tmul, tensorBlock_tmul,

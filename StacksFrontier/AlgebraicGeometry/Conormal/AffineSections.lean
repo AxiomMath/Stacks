@@ -20,8 +20,8 @@ global sections of the pushforward conormal sheaf of `Spec (R ⧸ I) ⟶ Spec R`
 their composition:
 
 * locality of the conormal sheaf on the ambient space, from
-  `StacksFrontier.AlgebraicGeometry.Conormal.RestrictIdealSheaf`, which turns `𝒞_{Z/X}` restricted to
-  `(i')⁻¹V` into the conormal sheaf of the *restricted* morphism `i' ∣_ V`;
+  `StacksFrontier.AlgebraicGeometry.Conormal.RestrictIdealSheaf`, which turns `𝒞_{Z/X}` restricted
+  to `(i')⁻¹V` into the conormal sheaf of the *restricted* morphism `i' ∣_ V`;
 * transport along an isomorphism square, from
   `StacksFrontier.AlgebraicGeometry.Conormal.IsoSquare`, which turns that into the conormal sheaf of
   `Spec (Γ(U, V) ⧸ I) ⟶ Spec Γ(U, V)` through `AlgebraicGeometry.IsAffineOpen.isoSpec`.

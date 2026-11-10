@@ -89,7 +89,7 @@ theorem sum_closedPointsDegreeLE_ite_dvd {k : Type u} [Field k] [Finite k] {Z : 
   rw [← Finset.sum_filter]
   congr 1
   ext x
-  simp only [Finset.mem_filter, closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+  simp only [Finset.mem_filter, closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨-, hd⟩
     exact ⟨Nat.le_of_dvd hm hd, hd⟩
@@ -99,17 +99,13 @@ theorem sum_closedPointsDegreeLE_ite_dvd {k : Type u} [Field k] [Finite k] {Z : 
 section Lisse
 
 variable (B : BigEtaleSite.{u}) (Z : B.Scheme) (Λ : Type) [CommRing Λ] [Finite Λ] [IsLocalRing Λ]
-  [∀ (S T : B.Scheme) (g : T ⟶ S),
-    ((AlgebraicGeometry.smallEtaleBaseChange B g).sheafPushforwardContinuous
-      (ModuleCat.{u + 1} Λ) (SmallEtale.topology B S.obj S.property)
-      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
   (FZ : Sheaf (SmallEtale.topology B Z.obj Z.property) (ModuleCat.{u + 1} Λ))
   (hfin : ∀ s : GeometricPoint Z.obj,
     Module.Finite Λ ((etaleModuleStalkFunctor.{u, u + 1, 0} B Z Λ s).obj FZ))
   (hproj : ∀ s : GeometricPoint Z.obj,
     Module.Projective Λ ((etaleModuleStalkFunctor.{u, u + 1, 0} B Z Λ s).obj FZ))
   {k : Type u} [Field k] [Fintype k] (fZ : Z.obj ⟶ Spec (.of k)) [LocallyOfFiniteType fZ]
-  [QuasiCompact fZ] [IsSeparated fZ] (kbar : Type u) [Field kbar] [IsAlgClosed kbar]
+  [QuasiCompact fZ] (kbar : Type u) [Field kbar] [IsAlgClosed kbar]
   [Algebra k kbar] (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
   {H : Type} [Group H] [Fintype H] (C : EtaleGaloisCovering Z.obj H) (E : Type (u + 1))
   [AddCommGroup E] [Module Λ E] [Module.Finite Λ E] [Module.Projective Λ E]
@@ -220,7 +216,7 @@ theorem compactSupportCharSeriesInverts_of_galoisCovering (hΛ : ((Nat.card Λ :
               FZ))) := by
       have hnat := (Functor.whiskerRight (canonicalCompactSupportFrobeniusNatTrans.{u, 0} Λ fZ J
         kbar p q hcard) DerivedCategory.Plus.ι).naturality iK.hom
-      show _ ≫ (e₀.hom ≫ (compactSupportFrobeniusFunctor.{u, 0} Λ fZ J kbar ⋙
+      change _ ≫ (e₀.hom ≫ (compactSupportFrobeniusFunctor.{u, 0} Λ fZ J kbar ⋙
         DerivedCategory.Plus.ι).map iK.hom) = (e₀.hom ≫ (compactSupportFrobeniusFunctor.{u, 0} Λ fZ
           J kbar ⋙ DerivedCategory.Plus.ι).map iK.hom) ≫ _
       exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _) he₀).trans
@@ -249,7 +245,7 @@ theorem compactSupportCharSeriesInverts_of_galoisCovering (hΛ : ((Nat.card Λ :
         sum_closedPointsDegreeLE_ite_dvd fZ _ hm hmN]
       refine Finset.sum_congr rfl fun x _ => ?_
       have := finite_residueField fZ x.1 x.2
-      rw [descentSheafLocalValue, dif_pos ‹Finite (Z.obj.residueField x.1)›]
+      rw [descentSheafLocalValue, dite_eq_left ‹Finite (Z.obj.residueField x.1)›]
       congr 2
       simp only [gP, τ]
       rw [MonoidAlgebra.single_pow, one_pow, inv_pow]

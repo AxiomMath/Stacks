@@ -214,7 +214,7 @@ theorem congrIso_succIso (n : ℤ) :
     (succIso L n).hom ≫ (congrIso e (n + 1)).hom =
       ((laurent L).piece n ◁ e.hom) ≫ ((congrIso e n).hom ▷ L') ≫ (succIso L' n).hom := by
   rw [congrIso_succ]
-  show (succIso L n).hom ≫
+  change (succIso L n).hom ≫
       (((succIso L n).inv ≫ ((laurent L).piece n ◁ e.hom)) ≫
         (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨T.toRingedSpace.presheaf,
               Presheaf.isSheaf_of_isSheaf_comp _ T.toRingedSpace.presheaf
@@ -256,7 +256,7 @@ theorem congrIso_reindex {n m : ℤ} (h : n = m) :
     (reindexIso L h).hom ≫ (congrIso e m).hom =
       (congrIso e n).hom ≫ (reindexIso L' h).hom := by
   subst h
-  show 𝟙 _ ≫ _ = _ ≫ 𝟙 _
+  change 𝟙 _ ≫ _ = _ ≫ 𝟙 _
   rw [Category.id_comp, Category.comp_id]
 
 /-- The comparison is compatible with reindexing, read backwards. -/
@@ -264,7 +264,7 @@ theorem congrIso_reindex_inv {n m : ℤ} (h : n = m) :
     (reindexIso L h).inv ≫ (congrIso e n).hom =
       (congrIso e m).hom ≫ (reindexIso L' h).inv := by
   subst h
-  show 𝟙 _ ≫ _ = _ ≫ 𝟙 _
+  change 𝟙 _ ≫ _ = _ ≫ 𝟙 _
   rw [Category.id_comp, Category.comp_id]
 
 /-! ### Multiplicativity of the comparison -/
@@ -278,7 +278,7 @@ abbrev MulCompat (n m : ℤ) : Prop :=
 
 /-- Multiplicativity in bidegree `(n, 1)`, for every integer `n`. -/
 theorem mulCompat_one (n : ℤ) : MulCompat e n 1 := by
-  show (mulIso L n 1).hom ≫ _ = _
+  change (mulIso L n 1).hom ≫ _ = _
   rw [mulIso_one_right, mulIso_one_right, Category.assoc, congrIso_succIso,
     ← Category.assoc, ← MonoidalCategory.whiskerLeft_comp, congrIso_oneIso]
   simp only [tensorHom_def', Category.assoc, MonoidalCategory.whiskerLeft_comp]

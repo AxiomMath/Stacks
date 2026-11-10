@@ -74,7 +74,7 @@ theorem bijective_smul_chartRestrictLinear_of_isAffine (X : AlgebraicSpaces B S 
       rintro W' a ⟨V, t, k'', hV, rfl⟩
       have hV' : chartRestrict (hF := X.2) k'' r = chartRestrict (hF := X.2) k'' r' := by
         apply (haff V hV (k'' ≫ k)).1
-        show chartRestrict (hF := X.2) k'' r • chartRestrictLinear M (k'' ≫ k) s =
+        change chartRestrict (hF := X.2) k'' r • chartRestrictLinear M (k'' ≫ k) s =
           chartRestrict (hF := X.2) k'' r' • chartRestrictLinear M (k'' ≫ k) s
         rw [chartRestrictLinear_comp M k k'' s, ← chartRestrictLinear_smul M k'' r,
           ← chartRestrictLinear_smul M k'' r']
@@ -100,14 +100,14 @@ theorem bijective_smul_chartRestrictLinear_of_isAffine (X : AlgebraicSpaces B S 
       c (g ≫ a) (T.downward_closed ha g) = chartRestrict (hF := X.2) g (c a ha) := by
     intro W₁ W₂ a g ha
     apply hinj W₂ (g ≫ a ≫ k)
-    show c (g ≫ a) (T.downward_closed ha g) • chartRestrictLinear M (g ≫ a ≫ k) s =
+    change c (g ≫ a) (T.downward_closed ha g) • chartRestrictLinear M (g ≫ a ≫ k) s =
       chartRestrict (hF := X.2) g (c a ha) • chartRestrictLinear M (g ≫ a ≫ k) s
     rw [← Category.assoc, hcspec (g ≫ a) (T.downward_closed ha g), Category.assoc,
       chartRestrictLinear_comp M (a ≫ k) g s, ← chartRestrictLinear_smul M g (c a ha),
       hcspec a ha, chartRestrictLinear_comp M a g m]
   obtain ⟨r, hr⟩ := exists_chartRestrict_eq_of_sieve B S hS X W T hT c hc
   refine ⟨r, eq_of_modules_map_eq_of_sieve B S hS X M W T hT _ m fun {W'} a ha ↦ ?_⟩
-  show chartRestrictLinear M a (r • chartRestrictLinear M k s) = chartRestrictLinear M a m
+  change chartRestrictLinear M a (r • chartRestrictLinear M k s) = chartRestrictLinear M a m
   rw [chartRestrictLinear_smul M a r, hr a ha, ← chartRestrictLinear_comp M k a s, hcspec a ha]
 
 /-- **An invertible module is free on a basic open neighbourhood of every point of an affine

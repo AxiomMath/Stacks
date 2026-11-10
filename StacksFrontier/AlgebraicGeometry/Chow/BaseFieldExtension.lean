@@ -153,10 +153,9 @@ private lemma length_tensorProduct_eq_prime_pow_of_isPurelyInseparable
   let : Algebra K A := Algebra.TensorProduct.leftAlgebra
   let : Module.Finite K A := Module.Finite.base_change k K k'
   have hsmul (r : K) (x : A) : r • x = algebraMap K A r * x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a b =>
-      show r • (a ⊗ₜ[k] b) = algebraMap K A r * (a ⊗ₜ[k] b)
+      change r • (a ⊗ₜ[k] b) = algebraMap K A r * (a ⊗ₜ[k] b)
       rw [TensorProduct.smul_tmul', Algebra.TensorProduct.algebraMap_apply,
         Algebra.TensorProduct.tmul_mul_tmul]
       simp [smul_eq_mul]
@@ -184,7 +183,7 @@ private lemma length_tensorProduct_eq_prime_pow_of_isPurelyInseparable
         (IsLocalRing.ResidueField A)) (eK : K →+* IsLocalRing.ResidueField K) =
       RingHom.comp (RingHom.id _) (algebraMap K (IsLocalRing.ResidueField A)) := by
     ext b
-    show algebraMap (IsLocalRing.ResidueField K) (IsLocalRing.ResidueField A)
+    change algebraMap (IsLocalRing.ResidueField K) (IsLocalRing.ResidueField A)
         (eK b) = IsLocalRing.residue A (algebraMap K A b)
     rw [← IsLocalRing.ResidueField.algebraMap_residue]
     rfl
@@ -308,13 +307,13 @@ private lemma length_eq_prime_pow_of_separable_fibre
   let : Algebra U V := ψ.toRingHom.toAlgebra
   let : IsScalarTower A' U V := ⟨fun a x y => by
     have hinc : ψ (algebraMap A' U a) = algebraMap A' V a := by
-      show ψ (a ⊗ₜ[A] (1 : T)) = a ⊗ₜ[A] (1 : C)
+      change ψ (a ⊗ₜ[A] (1 : T)) = a ⊗ₜ[A] (1 : C)
       rw [Algebra.TensorProduct.map_tmul]
       simp
     rw [Algebra.smul_def (R := A') (A := U) a x,
       Algebra.smul_def (R := U) (A := V) (algebraMap A' U a * x) y,
       Algebra.smul_def (R := A') (A := V) a (x • y), Algebra.smul_def (R := U) (A := V) x y]
-    show ψ (algebraMap A' U a * x) * y = algebraMap A' V a * (ψ x * y)
+    change ψ (algebraMap A' U a * x) * y = algebraMap A' V a * (ψ x * y)
     rw [map_mul, hinc, mul_assoc]⟩
   have hlocV : IsLocalization
       (M.map (Algebra.TensorProduct.includeRight (R := A) (A := A'))) V :=
@@ -393,7 +392,8 @@ private lemma componentMultiplicity_id_eq_length {X : Scheme.{u}} (ξ : genericP
   have hid : ((𝟙 X : X ⟶ X).stalkMap ξ.1).hom = RingHom.id _ :=
     congrArg CommRingCat.Hom.hom (Scheme.Hom.stalkMap_id X ξ.1)
   rw [componentMultiplicity_id]
-  show ((@Module.length _ _ _ _ (Module.compHom _ ((𝟙 X : X ⟶ X).stalkMap ξ.1).hom)).toNat : ℤ) = _
+  change ((@Module.length _ _ _ _ (Module.compHom _ ((𝟙 X : X ⟶ X).stalkMap ξ.1).hom)).toNat : ℤ) =
+    _
   rw [hid]
   rfl
 
@@ -503,12 +503,12 @@ theorem componentMultiplicity_baseChange_eq_one_or_char_pow
       ((eqToHom (congrArg (Spec (.of k)).presheaf.stalk hbase)) ≫ g.stalkMap y).hom.toAlgebra
     let : Algebra R C := ((pX ≫ f).stalkMap ξ.1).hom.toAlgebra
     have locR : IsLocalization.AtPrime R z.asIdeal := by
-      show IsLocalization.AtPrime ((structurePresheafInCommRingCat k).stalk z) _
+      change IsLocalization.AtPrime ((structurePresheafInCommRingCat k).stalk z) _
       infer_instance
     have hr : Function.Bijective (algebraMap k R) :=
       Field.localization_map_bijective (M := z.asIdeal.primeCompl) (by simp)
     have locB : IsLocalization.AtPrime B y.asIdeal := by
-      show IsLocalization.AtPrime ((structurePresheafInCommRingCat K).stalk y) _
+      change IsLocalization.AtPrime ((structurePresheafInCommRingCat K).stalk y) _
       infer_instance
     have hb : Function.Bijective (algebraMap K B) :=
       Field.localization_map_bijective (M := y.asIdeal.primeCompl) (by simp)
@@ -538,7 +538,7 @@ theorem componentMultiplicity_baseChange_eq_one_or_char_pow
     have hA : Algebra.EssFiniteType k A := Algebra.EssFiniteType.comp k R A
     have hfieldA : IsField A := by
       have hxmem : closure ({x} : Set Z) ∈ irreducibleComponents Z := by
-        show closure ({pX ξ.1} : Set Z) ∈ irreducibleComponents Z
+        change closure ({pX ξ.1} : Set Z) ∈ irreducibleComponents Z
         rw [hx]
         simp [irreducibleComponents_eq_singleton]
       exact isField_stalk_of_closure_mem_irreducibleComponents Z x hxmem

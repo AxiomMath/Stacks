@@ -253,7 +253,7 @@ theorem closedStrataRingMap_surjective (E : Finset A) :
   intro y
   obtain ⟨z, hz⟩ := closedStrataMap_appTop_surjective E y
   refine ⟨(Scheme.ΓSpecIso (.of (stratificationRing E))).hom.hom z, ?_⟩
-  show (closedStrataMap E).appTop.hom
+  change (closedStrataMap E).appTop.hom
       ((Scheme.ΓSpecIso (.of (stratificationRing E))).inv.hom
         ((Scheme.ΓSpecIso (.of (stratificationRing E))).hom.hom z)) = y
   rw [Iso.hom_inv_id_apply]

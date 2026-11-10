@@ -105,7 +105,7 @@ private lemma moduleCat_isCompactObject_of_finite
       ∑ j ∈ s, DFinsupp.single j (φ (g i) j) = φ (g i) := by
     have hsmall :
         ∑ j ∈ (φ (g i)).support, DFinsupp.single j (φ (g i) j) = φ (g i) := by
-      show (φ (g i)).sum DFinsupp.single = _
+      change (φ (g i)).sum DFinsupp.single = _
       exact DFinsupp.sum_single
     have hsub : (φ (g i)).support ⊆ s :=
       Finset.subset_biUnion_of_mem (s := Finset.univ)
@@ -133,7 +133,7 @@ private lemma moduleCat_isCompactObject_of_finite
   · rintro x ⟨i, rfl⟩
     simp only [ModuleCat.hom_sum, ModuleCat.hom_comp, ModuleCat.hom_ofHom,
       LinearMap.sum_apply, LinearMap.comp_apply, a]
-    show ∑ j ∈ s, DFinsupp.single j ((φ (g i)) j) = φ (g i)
+    change ∑ j ∈ s, DFinsupp.single j ((φ (g i)) j) = φ (g i)
     exact hgen i
   · simp [a, φ]
   · intro x y hx hy hpx hpy
@@ -207,7 +207,7 @@ private def homogeneousMatrixSubalgebra (k : Type u) [Field k] (n : ℕ) :
       by_cases h : i = j
       · subst j
         simpa using (MvPolynomial.isHomogeneous_C (Fin (n + 1)) (1 : k))
-      · rw [Matrix.one_apply, if_neg h]
+      · rw [Matrix.one_apply, ite_eq_right h]
         exact MvPolynomial.isHomogeneous_zero _ _ _
     · intro hji
       simp [ne_of_gt hji]
@@ -255,7 +255,7 @@ private def homogeneousMatrixSubalgebra (k : Type u) [Field k] (n : ℕ) :
       · subst j
         simpa [Matrix.algebraMap_matrix_apply] using
           (MvPolynomial.isHomogeneous_C (Fin (n + 1)) r)
-      · rw [Matrix.algebraMap_matrix_apply, if_neg h]
+      · rw [Matrix.algebraMap_matrix_apply, ite_eq_right h]
         exact MvPolynomial.isHomogeneous_zero _ _ _
     · intro hji
       simp [Matrix.algebraMap_matrix_apply, ne_of_gt hji]
@@ -309,7 +309,7 @@ private lemma diagonalIdempotent_mul_self
     (k : Type u) [Field k] (n : ℕ) (i : Fin (n + 1)) :
     diagonalIdempotent k n i * diagonalIdempotent k n i = diagonalIdempotent k n i := by
   apply Subtype.ext
-  show Matrix.single i i (1 : MvPolynomial (Fin (n + 1)) k) *
+  change Matrix.single i i (1 : MvPolynomial (Fin (n + 1)) k) *
       Matrix.single i i 1 = Matrix.single i i 1
   simp
 
@@ -327,15 +327,15 @@ private lemma diagonalRow_projective
   let e : R := MulOpposite.op (diagonalIdempotent k n i)
   let f : R →ₗ[R] R := LinearMap.mulRight R e
   have he : e * e = e := by
-    show MulOpposite.op (diagonalIdempotent k n i * diagonalIdempotent k n i) = e
+    change MulOpposite.op (diagonalIdempotent k n i * diagonalIdempotent k n i) = e
     rw [diagonalIdempotent_mul_self]
   have hf (x : R) : f (f x) = f x := by
-    show (x * e) * e = x * e
+    change (x * e) * e = x * e
     rw [mul_assoc, he]
   let : Module.Projective R R := inferInstance
   apply Module.Projective.of_split (LinearMap.range f).subtype f.rangeRestrict
   ext x
-  show f x = x
+  change f x = x
   obtain ⟨y, hy⟩ := x.property
   rw [← hy]
   exact hf y
@@ -360,14 +360,14 @@ private lemma diagonalRow_vanishesAtLT
   intro x
   obtain ⟨y, hy⟩ := x.property
   apply Subtype.ext
-  show MulOpposite.op (diagonalIdempotent k n j) * x.val = 0
+  change MulOpposite.op (diagonalIdempotent k n j) * x.val = 0
   rw [← hy]
-  show MulOpposite.op (diagonalIdempotent k n j) *
+  change MulOpposite.op (diagonalIdempotent k n j) *
       (y * MulOpposite.op (diagonalIdempotent k n i)) = 0
   apply MulOpposite.unop_injective
   simp only [MulOpposite.unop_mul, MulOpposite.unop_op]
   apply Subtype.ext
-  show Matrix.single i i (1 : MvPolynomial (Fin (n + 1)) k) *
+  change Matrix.single i i (1 : MvPolynomial (Fin (n + 1)) k) *
       y.unop.val * Matrix.single j j 1 = 0
   have hentry := (beilinsonAlgebra_entry_property k n y.unop i j).2 hji
   rw [Matrix.single_mul_mul_single]
@@ -376,7 +376,7 @@ private lemma diagonalRow_vanishesAtLT
 private lemma sum_diagonalIdempotents (k : Type u) [Field k] (n : ℕ) :
     ∑ i : Fin (n + 1), diagonalIdempotent k n i = 1 := by
   apply Subtype.ext
-  show (beilinsonAlgebra k n).val (∑ i : Fin (n + 1), diagonalIdempotent k n i) =
+  change (beilinsonAlgebra k n).val (∑ i : Fin (n + 1), diagonalIdempotent k n i) =
     (beilinsonAlgebra k n).val 1
   rw [map_sum]
   simpa [diagonalIdempotent] using
@@ -486,11 +486,11 @@ private lemma diagonalRow_vertexProjection
     exact (MvPolynomial.totalDegree_eq_zero_iff_eq_C).mp hdegree
   refine ⟨c, ?_⟩
   apply Subtype.ext
-  show e * x.val = algebraMap k R c * e
+  change e * x.val = algebraMap k R c * e
   rw [← hy]
-  show e * (y * e) = algebraMap k R c * e
+  change e * (y * e) = algebraMap k R c * e
   apply MulOpposite.unop_injective
-  show MulOpposite.unop
+  change MulOpposite.unop
       (MulOpposite.op (diagonalIdempotent k n i) *
         (y * MulOpposite.op (diagonalIdempotent k n i))) =
     MulOpposite.unop
@@ -498,7 +498,7 @@ private lemma diagonalRow_vertexProjection
   rw [MulOpposite.unop_mul, MulOpposite.unop_mul, MulOpposite.unop_op,
     MulOpposite.unop_mul, MulOpposite.unop_op]
   apply Subtype.ext
-  show Matrix.single i i (1 : MvPolynomial (Fin (n + 1)) k) *
+  change Matrix.single i i (1 : MvPolynomial (Fin (n + 1)) k) *
       y.unop.val * Matrix.single i i 1 =
     Matrix.single i i (1 : MvPolynomial (Fin (n + 1)) k) *
       (algebraMap k (beilinsonAlgebra k n) c).val
@@ -536,7 +536,7 @@ private lemma isCompactObject_single_of_isFiniteLength_of_vanishesAtLE
       have hQvanish : VanishesAtLE R (M ⧸ N) e i := by
         intro j hj x
         obtain ⟨y, rfl⟩ := N.mkQ_surjective x
-        show N.mkQ (e j • y) = 0
+        change N.mkQ (e j • y) = 0
         rw [hvanish j hj y]
         simp
       let hExact := LinearMap.exact_subtype_mkQ N
@@ -550,11 +550,11 @@ private lemma isCompactObject_single_of_isFiniteLength_of_vanishesAtLE
       have hT : T ∈ distTriang (DerivedCategory (ModuleCat.{v} R)) :=
         Pretriangulated.inv_rot_of_distTriang _ hSq.singleTriangle_distinguished
       have hfirst : IsCompactObject.{v} T.obj₁ := by
-        show IsCompactObject.{v} (((DerivedCategory.singleFunctor (ModuleCat.{v} R) 0).obj
+        change IsCompactObject.{v} (((DerivedCategory.singleFunctor (ModuleCat.{v} R) 0).obj
           (ModuleCat.of R (M ⧸ N)))⟦(-1 : ℤ)⟧)
         exact isCompactObject_shift (hSimple (M ⧸ N) hQvanish) (-1)
       have hsecond : IsCompactObject.{v} T.obj₂ := by
-        show IsCompactObject.{v} ((DerivedCategory.singleFunctor (ModuleCat.{v} R) 0).obj
+        change IsCompactObject.{v} ((DerivedCategory.singleFunctor (ModuleCat.{v} R) 0).obj
           (ModuleCat.of R N))
         exact ih hNvanish
       have hthird : IsCompactObject.{v} T.obj₃ :=
@@ -625,9 +625,9 @@ private lemma diagonalSimple_isCompact_of_compact_successors
   let φ : row →ₗ[R] N :=
     (LinearMap.toSpanSingleton R N m).comp (raw.subtype.comp rowEquiv.toLinearMap)
   have herm : e j • m = m := by
-    show e j • (e j • z) = e j • z
+    change e j • (e j • z) = e j • z
     rw [← mul_smul]
-    show MulOpposite.op (diagonalIdempotent k n j * diagonalIdempotent k n j) • z = _
+    change MulOpposite.op (diagonalIdempotent k n j * diagonalIdempotent k n j) • z = _
     rw [diagonalIdempotent_mul_self]
   have hφerow : φ erow = m := by
     simpa [φ, erow] using herm
@@ -643,7 +643,7 @@ private lemma diagonalSimple_isCompact_of_compact_successors
       (fun l => e l) j := by
     intro l hlj a
     apply Subtype.ext
-    show e l • a.val = 0
+    change e l • a.val = 0
     by_cases hlj' : l < j
     · apply rowEquiv.injective
       simpa only [hmap, rowEquiv.map_zero] using
@@ -903,16 +903,16 @@ private lemma boundedFiniteCohom_isCompact
         have hT : T ∈ distTriang (DerivedCategory (ModuleCat.{v} R)) :=
           t.triangleLEGE_distinguished (b - 1) b (by omega) K
         have : T.obj₁.IsGE a := by
-          show ((t.truncLE (b - 1)).obj K).IsGE a
+          change ((t.truncLE (b - 1)).obj K).IsGE a
           infer_instance
         have : T.obj₁.IsLE (b - 1) := by
-          show ((t.truncLE (b - 1)).obj K).IsLE (b - 1)
+          change ((t.truncLE (b - 1)).obj K).IsLE (b - 1)
           infer_instance
         have : T.obj₃.IsGE b := by
-          show ((t.truncGE b).obj K).IsGE b
+          change ((t.truncGE b).obj K).IsGE b
           infer_instance
         have : T.obj₃.IsLE b := by
-          show ((t.truncGE b).obj K).IsLE b
+          change ((t.truncGE b).obj K).IsLE b
           infer_instance
         have : IsIso ((H b).map T.mor₂) :=
           homologyMap_mor₂_isIso_of_isZero T hT b
@@ -1010,11 +1010,11 @@ private lemma finiteTotalCohom_obj₂_of_distTriangle
       simpa only [gr, LinearMap.codRestrict_apply, Subtype.ext_iff, Submodule.coe_zero] using
         hExact x
     let : Module.Finite k ((H i).obj T.obj₁) := by
-      show Module.Finite k ((ModuleCat.restrictScalars (algebraMap k R)).obj
+      change Module.Finite k ((ModuleCat.restrictScalars (algebraMap k R)).obj
         ((H i).obj T.obj₁))
       exact h₁.1 i
     let : Module.Finite k ((H i).obj T.obj₃) := by
-      show Module.Finite k ((ModuleCat.restrictScalars (algebraMap k R)).obj
+      change Module.Finite k ((ModuleCat.restrictScalars (algebraMap k R)).obj
         ((H i).obj T.obj₃))
       exact h₃.1 i
     let : Module.Finite k (LinearMap.range g) := by infer_instance

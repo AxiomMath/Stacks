@@ -120,8 +120,7 @@ private theorem baseChangeComparison_naturality (R : Type u) [CommRing R] (S : T
     [Module R C] [AddCommGroup T] [Module R T] (b : N →ₗ[R] C) (x : N ⊗[R] T) :
     (b.baseChange S).rTensor (S ⊗[R] T) (baseChangeComparison R S N T x)
       = baseChangeComparison R S C T (b.rTensor T x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul n t => simp [baseChangeComparison_tmul, LinearMap.baseChange_tmul]
   | add x y hx hy => simp [hx, hy]
 
@@ -274,8 +273,7 @@ private noncomputable def toMBC (i : Idx R M) : sysBC R M S i →ₗ[S] S ⊗[R]
 
 private theorem toMBC_transBC (i j : Idx R M) (h : i ≤ j) (x : sysBC R M S i) :
     toMBC R M S j (transBC R M S i j h x) = toMBC R M S i x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s y => simp [toMBC, transBC, LinearMap.baseChange_tmul, toM_trans]
   | add x y hx hy => simp [map_add, hx, hy]
 
@@ -291,8 +289,7 @@ private theorem exists_transBC_eq_zero [Module.Flat R S] (i : Idx R M) (x : sysB
   obtain ⟨w, hw⟩ := (hex x).mp hx
   clear hx
   subst hw
-  induction w using TensorProduct.induction_on with
-  | zero => exact ⟨i, le_rfl, by simp⟩
+  induction w using TensorProduct.inductionOn with
   | tmul s y =>
       obtain ⟨j, hij, hzero⟩ := exists_trans_eq_zero R M i (y : sys R M i) y.2
       refine ⟨j, hij, ?_⟩
@@ -322,8 +319,7 @@ private noncomputable def dlLiftBC : Module.DirectLimit (sysBC R M S) (transBC R
 
 private theorem dlLiftBC_bijective [Module.Flat R S] : Function.Bijective (dlLiftBC R M S) := by
   refine ⟨lift_injective_of_exists_map_eq_zero _ _ (exists_transBC_eq_zero R M S), fun z ↦ ?_⟩
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul s m =>
       obtain ⟨i, x, hx⟩ := exists_toM_eq R M m
       refine ⟨Module.DirectLimit.of S _ _ _ i (s ⊗ₜ[R] x), ?_⟩

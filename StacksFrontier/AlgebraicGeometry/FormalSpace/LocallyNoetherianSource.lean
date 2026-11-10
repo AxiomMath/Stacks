@@ -22,7 +22,7 @@ set-theoretic condition of Stacks 0AIS as hypotheses; here each is proved:
   correction it needs;
 * the set-theoretic condition of a sheaf representable by algebraic spaces over a formal
   algebraic space is the following lemma of the namespace `AlgebraicGeometry.FormalSpace`:
-`satisfiesSetTheoreticCondition_of_isRepresentableByAlgebraicSpacesULift_of_isFormalAlgebraicSpace`
+`satisfiesSetTheoreticCondition_of_isRepresentableByAlgSpacesULift_of_isFormalAlgebraicSpace`
 * Stacks 0AQ7 is
   `AlgebraicGeometry.FormalSpace.isLocallyNoetherian_source_of_isLocallyOfFiniteType'`.
 
@@ -58,7 +58,7 @@ of fppf sheaves representable by algebraic spaces, then `X` is a formal algebrai
 This is `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_representable_over_formal`
 with its hypotheses proved: the set-theoretic condition of `X` and of the base changed atlas
 members by
-`satisfiesSetTheoreticCondition_of_isRepresentableByAlgebraicSpacesULift_of_isFormalAlgebraicSpace`
+`satisfiesSetTheoreticCondition_of_isRepresentableByAlgSpacesULift_of_isFormalAlgebraicSpace`
 and Stacks 0AIU by its corrected form
 `isFormalAlgebraicSpace_of_colimit_isRepresentableThickeningULift`. -/
 @[stacks 0AJI]
@@ -68,10 +68,10 @@ theorem isFormalAlgebraicSpace_of_isRepresentableByAlgebraicSpacesULift
     (hf : Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS f.hom) :
     IsFormalAlgebraicSpace B S hS X :=
   isFormalAlgebraicSpace_of_representable_over_formal B S hS f hY hf
-    (satisfiesSetTheoreticCondition_of_isRepresentableByAlgebraicSpacesULift_of_isFormalAlgebraicSpace
+    (satisfiesSetTheoreticCondition_of_isRepresentableByAlgSpacesULift_of_isFormalAlgebraicSpace
       B S hS f hf hY)
     (fun _ v hV _ =>
-      satisfiesSetTheoreticCondition_of_isRepresentableByAlgebraicSpacesULift_of_isFormalAlgebraicSpace
+      satisfiesSetTheoreticCondition_of_isRepresentableByAlgSpacesULift_of_isFormalAlgebraicSpace
         B S hS (pullback.fst v f)
         (Space.isRepresentableByAlgebraicSpacesULift_of_isPullback B S hS _ _ _ _
           ((IsPullback.of_hasPullback v f).map

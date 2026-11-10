@@ -105,7 +105,7 @@ theorem quadraticMonomial_eval_top (i k : Fin 3) :
         (projectiveLineCube S).ringCatSheaf.property (op ⊤) (lineBundle S i) (lineBundle S i)
         ((tautological (cubeProduct.proj S _ i)).coord (quadraticFirst k))
         ((tautological (cubeProduct.proj S _ i)).coord (quadraticSecond k)) := by
-  show Stacks.SheafOfModules.tensorSectionsAt _ _ (op ⊤) _ _ ((coordinate S i _).eval (op ⊤))
+  change Stacks.SheafOfModules.tensorSectionsAt _ _ (op ⊤) _ _ ((coordinate S i _).eval (op ⊤))
     ((coordinate S i _).eval (op ⊤)) = _
   rw [coordinate_eval_top, coordinate_eval_top]
   rfl

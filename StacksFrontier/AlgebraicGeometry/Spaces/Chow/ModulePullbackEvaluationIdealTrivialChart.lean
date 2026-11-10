@@ -121,7 +121,7 @@ theorem exists_dual_smul_eq_self_of_bijective {F : (BigFppfOver B S hS)ᵒᵖ �
       (LinearMap.toSpanSingleton (chartRing B S hS F hF V) (M.val.obj (op V)) t) := ht
   refine ⟨(LinearEquiv.ofBijective _ hbij).symm.toLinearMap,
     fun x ↦ (LinearEquiv.ofBijective _ hbij).apply_symm_apply x, hbij.injective ?_⟩
-  show (LinearEquiv.ofBijective _ hbij) ((LinearEquiv.ofBijective _ hbij).symm t) = _
+  change (LinearEquiv.ofBijective _ hbij) ((LinearEquiv.ofBijective _ hbij).symm t) = _
   rw [LinearEquiv.apply_symm_apply]
   exact (one_smul _ t).symm
 
@@ -163,7 +163,7 @@ theorem exists_chartDiagram_prod_comm (f : X ⟶ Y) (d d' : ChartDiagram B S hS 
     d.V.property.rep.lift' ((SmallEtale.toOver B S hS X.1).map k ≫ d.g)
       ((SmallEtale.toOver B S hS X.1).map i ≫ d'.g) ((hroute d k).trans (hroute d' i).symm),
     ?_, ?_, ?_⟩
-  · show W.1.hom ≫ f.hom = yoneda.map _ ≫ yoneda.map (d.V.property.rep.snd d'.V.obj.hom) ≫
+  · change W.1.hom ≫ f.hom = yoneda.map _ ≫ yoneda.map (d.V.property.rep.snd d'.V.obj.hom) ≫
       d'.V.obj.hom
     rw [← Functor.map_comp_assoc, Functor.relativelyRepresentable.lift'_snd]
     exact (hroute d' i).symm

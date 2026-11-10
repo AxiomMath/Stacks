@@ -138,10 +138,10 @@ theorem exists_globalFunctionsToChart_eq_iff (c : Γ((BigFppfOver.toScheme B S h
       (pHom k.unop) (pHom j.unop) d hdP hdAlpha (hαE k.unop) (hαS k.unop) c
       (v k.unop) (v j.unop) (hv k.unop) (hv j.unop)⟩
   refine ⟨chartFunctionsToSmall B S hS F t, ?_⟩
-  show ((globalFunctionsChartEquiv B S hS ⟨F, hF⟩).val _).val _ = _
+  change ((globalFunctionsChartEquiv B S hS ⟨F, hF⟩).val _).val _ = _
   rw [globalFunctionsChartEquiv_chartFunctionsToSmall B S hS F hF t]
   let j₀ : CostructuredArrow yoneda F := CostructuredArrow.mk p
-  show v j₀ = c
+  change v j₀ = c
   refine gamma_injective_of_etale_surjection B S hS (α j₀) (hαS j₀) (hαE j₀) ?_
   rw [hv j₀]
   exact (gamma_eq_of_isPullback_kernelPair B S hS F p r₁ r₂ hR c hc (α j₀) (pHom j₀)
@@ -238,6 +238,7 @@ theorem presheaf_etale_chartRelocalizeRestrict
   presheaf_chartRelocalizeRestrict_of_respectsIso B g p _ hpe
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the pullbacks in the over category and of presheaves is slow
 /-- The base change of the kernel pair of a chart is the kernel pair of the base-changed chart. -/
 theorem isPullback_chartRelocalizeRestrict (r₁ r₂ : R ⟶ U)
     (hR : IsPullback (yoneda.map r₁) (yoneda.map r₂) p p) :
@@ -378,10 +379,10 @@ theorem bijective_algebraMap_globalFunctions_relocalizeRestrict_iff
         rw [← Functor.map_comp, ← Functor.map_comp]
         exact congrArg B.inclusion.map (pullback.lift_fst _ _ _)
       congr 1
-      · show ((Scheme.ΓSpecIso (.of A')).inv ≫ (B.inclusion.map (pullback.snd U.hom g)).appTop ≫
+      · change ((Scheme.ΓSpecIso (.of A')).inv ≫ (B.inclusion.map (pullback.snd U.hom g)).appTop ≫
           (B.inclusion.map ((Over.pullback g).map r).left).appTop) a = _
         rw [← Scheme.Hom.comp_appTop, h1]
-      · show ((B.inclusion.map (pullback.fst U.hom g)).appTop ≫
+      · change ((B.inclusion.map (pullback.fst U.hom g)).appTop ≫
           (B.inclusion.map ((Over.pullback g).map r).left).appTop) c =
             ((B.inclusion.map r.left).appTop ≫
               (B.inclusion.map (pullback.fst R.hom g)).appTop) c
@@ -428,7 +429,7 @@ theorem bijective_algebraMap_globalFunctions_iff
     (exists_globalFunctionsToChart_eq_iff B _ hA X hX p hps hpe r₁ r₂ hR)
     (TensorProduct.lid A _).toEquiv (TensorProduct.lid A _) (TensorProduct.lid A _).injective
     _ _ _ (hF2 r₁) (hF2 r₂) fun a => by
-      show TensorProduct.lid A _ (a ⊗ₜ 1) = _
+      change TensorProduct.lid A _ (a ⊗ₜ 1) = _
       rw [TensorProduct.lid_tmul, globalFunctionsToChart_algebraMap A B hA X hX p a,
         ← Algebra.algebraMap_eq_smul_one]
       rfl

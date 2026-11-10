@@ -411,7 +411,7 @@ theorem descendedHomTypeU_map (ξ : FMap B S hS X.1 Y.1 f.hom F.obj G.obj)
   obtain ⟨V⟩ := V
   refine spacesEtale_section_ext_charts B S hS X (chartBaseChange B S hS f V) H'
     (fun U k ↦ ?_)
-  show H'.obj.map k.op
+  change H'.obj.map k.op
     (α.hom.app _ (fMapDescendedSectionTypeU B S hS f F G H i ξ V s)) =
       H'.obj.map k.op (fMapDescendedSectionTypeU B S hS f F G H' i' ξ V s)
   rw [← NatTrans.naturality_apply α.hom k.op
@@ -476,7 +476,7 @@ theorem fMapEquivPushforwardHom_ringUniverse_comparison
           ((smallEtaleComparisonRestriction B S hS X).objPreimage F) ≫
         (spacesDirectImageRestrictionTypeU B S hS f).map α :=
     (smallEtaleRingedToposHom_pushforward B S hS f).hom.naturality _
-  show (𝟙 G ≫ descendedHomTypeU B S hS f F G
+  change (𝟙 G ≫ descendedHomTypeU B S hS f F G
         ((smallEtaleComparisonRestriction B S hS X).objPreimage F)
         ((smallEtaleComparisonRestriction B S hS X).objObjPreimageIso F).symm ξ ≫
       ((smallEtaleRingedToposHom_pushforward B S hS f).inv.app
@@ -517,12 +517,12 @@ theorem fMapEquivPushforwardHom_ringUniverse_chart :
       (fMapEquivPushforwardHom_ringUniverse B S hS f F G) := by
   intro H i ξ d h hh s
   dsimp only
-  show i.hom.hom.app (op d.U) (ξ.app d s) = H.obj.map h.op
+  change i.hom.hom.app (op d.U) (ξ.app d s) = H.obj.map h.op
     ((fMapEquivPushforwardHom_ringUniverse B S hS f F G ξ ≫
       (smallEtaleRingedToposHom B S hS f).toToposHom.pushforward.map i.hom ≫
       (smallEtaleRingedToposHom_pushforward B S hS f).hom.app H).hom.app (op d.V) s)
   rw [fMapEquivPushforwardHom_ringUniverse_comparison]
-  show i.hom.hom.app (op d.U) (ξ.app d s) = H.obj.map h.op
+  change i.hom.hom.app (op d.U) (ξ.app d s) = H.obj.map h.op
     (fMapDescendedSectionTypeU B S hS f F G H i ξ d.V s)
   rw [descendedSectionTypeU_restrict]
   congr 1

@@ -73,8 +73,8 @@ every such `(P')_g` and over `Q'`, and unsolvable globally. That local-to-global
 the unconditional one, is what still separates the nilpotent form of Stacks 0DZ2 from the proved
 square-zero form. Two facts bracket it. The abstract local-to-global principle for a quadratic
 correction equation is false (`Deformation.Examples.QuadraticCorrection.not_quadraticLocalGlobal`,
-recorded in the implementation notes of `StacksFrontier.Deformation.MaurerCartanCorrection`), and its
-mechanism is that existence-only local data sits on two disjoint branches of an idempotent. That
+recorded in the implementation notes of `StacksFrontier.Deformation.MaurerCartanCorrection`), and
+its mechanism is that existence-only local data sits on two disjoint branches of an idempotent. That
 mechanism does not transport to the window: its solution set is symmetric under `a ↦ 1 − a` —
 if `(a, b)` solves the window then so does `(1 − a, b)`, since `x·(1 − a) + (1 − a)·x = x` and
 `(1 − a)² − (1 − a) = a² − a` — so local solutions are never pinned to a single branch.

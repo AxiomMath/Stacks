@@ -79,7 +79,7 @@ def continuousModuleInvariantsResIso :
 
 /-- Raising the module universe from `u + 1` to `u + 1` is the identity, up to isomorphism. -/
 def moduleCatUliftFunctorIsoId : ModuleCat.uliftFunctor.{0, u + 1} Λ ≅ 𝟭 (ModuleCat.{u + 1} Λ) :=
-  NatIso.ofComponents (fun M ↦ ULift.moduleEquiv.toModuleIso) (fun _ ↦ rfl)
+  NatIso.ofComponents (fun _ ↦ ULift.moduleEquiv.toModuleIso) (fun _ ↦ rfl)
 
 end Invariants
 

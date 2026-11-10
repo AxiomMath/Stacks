@@ -109,7 +109,7 @@ theorem mem_genericPoints_iff_of_isOpenEmbedding {W Z : Type u} [TopologicalSpac
       refine (Set.image_mono hmax).trans ?_
       refine (image_closure_subset_closure_image hg.continuous).trans ?_
       simp
-    show closure ({g w} : Set Z) ∈ irreducibleComponents Z
+    change closure ({g w} : Set Z) ∈ irreducibleComponents Z
     exact hVeq ▸ hV
   · have h := preimage_mem_irreducibleComponents hw hg ⟨g w, subset_closure rfl, w, rfl⟩
     rwa [hpre] at h
@@ -171,7 +171,7 @@ theorem closedSubschemeCycleCoeff_of_isOpenImmersion_ambient (C : ChowSituation.
     rw [← hm, relativeDimension_comp_isOpenImmersion]
   have hpt : ∀ w : W, m.base (p.base w) = i.base (g.base w) :=
     base_apply_eq_of_comp_eq hsq
-  show (cycleAssociatedToClosedSubscheme C sA' p k).1 x' =
+  change (cycleAssociatedToClosedSubscheme C sA' p k).1 x' =
     (cycleAssociatedToClosedSubscheme C sA i k).1 (m.base x')
   by_cases hW : ∃ ξ : genericPoints W,
       p.base ξ.1 = x' ∧ relativeDimension C.dimensionFunction sA' x' = k

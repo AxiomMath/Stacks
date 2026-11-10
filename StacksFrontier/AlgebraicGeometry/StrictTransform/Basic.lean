@@ -71,7 +71,8 @@ statement is written.  Tag 053P remains absent.
 **The blowup morphism is available.** The cartesian chart condition
 `Stacks.RelativeProj.Situation.ChartsCartesian` (tag 01NO) taken by
 `Stacks.RelativeProj.Situation.data` is discharged by
-`Stacks.RelativeProj.Situation.chartsCartesian`, an unconditional theorem, so `AlgebraicGeometry.blowUpToBase` and `AlgebraicGeometry.exceptionalIdeal` are
+`Stacks.RelativeProj.Situation.chartsCartesian`, an unconditional theorem, so
+`AlgebraicGeometry.blowUpToBase` and `AlgebraicGeometry.exceptionalIdeal` are
 unconditional, and quasi-coherence at the blowup instance of these definitions is found by
 instance search, through `Stacks.StrictTransform.isQuasicoherent_sheaf` and
 `Stacks.StrictTransform.quasiCompact_ι_compl_support_exceptionalIdeal`

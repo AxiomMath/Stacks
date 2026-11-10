@@ -102,11 +102,9 @@ private noncomputable def exteriorScalarExtension {K A M : Type*} [CommRing K]
   let f := TensorProduct.AlgebraTensorModule.map
     (LinearMap.id : A →ₗ[A] A) (ExteriorAlgebra.ι K (M := M))
   have hanti (x y : A ⊗[K] M) : f x * f y + f y * f x = 0 := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a m =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul b n =>
         simp only [f, TensorProduct.AlgebraTensorModule.map_tmul, LinearMap.id_apply,
           Algebra.TensorProduct.tmul_mul_tmul]
@@ -124,8 +122,7 @@ private noncomputable def exteriorScalarExtension {K A M : Type*} [CommRing K]
         _ = (f x * f y + f y * f x) + (f z * f y + f y * f z) := by abel
         _ = 0 := by rw [hx, hz, add_zero]
   refine ExteriorAlgebra.lift A ⟨f, fun x => ?_⟩
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a m => simp [f, Algebra.TensorProduct.tmul_mul_tmul]
   | add x y hx hy =>
     simp only [map_add, add_mul, mul_add]
@@ -493,8 +490,7 @@ private theorem pthRootAbsoluteDifferentials_span [CharP R p]
     rw [E.apply_symm_apply, pthRootAbsoluteDifferentialEquiv_apply_base]
     rfl
   have hmem (z : S ⊗[R] Ω[R⁄Λ]) : L z ∈ P := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul s η =>
       have h : s ⊗ₜ[R] η = s • ((1 : S) ⊗ₜ[R] η) := by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]

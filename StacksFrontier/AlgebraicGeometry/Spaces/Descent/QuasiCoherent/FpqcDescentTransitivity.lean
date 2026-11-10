@@ -134,8 +134,8 @@ theorem modulePullback_mapIso_transition (D : DescentDatum B S hS Y f)
         transitionOn B S hS Y f D.F D.transition i j v vi vj hi hj ≪≫
         pullbackComparison B S hS v (pairSnd B S hS Y f i j) vj hj (D.F j) := by
   rw [transitionOn]
-  simp only [Iso.trans_assoc, Iso.symm_self_id_assoc, Iso.self_symm_id_assoc,
-    Iso.symm_self_id, Iso.self_symm_id, Iso.trans_refl]
+  simp only [Iso.trans_assoc, Iso.symm_self_id_assoc,
+    Iso.symm_self_id, Iso.trans_refl]
 
 end Components
 
@@ -189,7 +189,7 @@ theorem transitionOn_eq_readN {T : AlgebraicSpaces B S hS}
   rw [transitionOn, hψ T q i j α β xx yy hqx hqy hax hby v hv₁ hv₂, unreadIso]
   simp only [Iso.trans_assoc, Iso.self_symm_id_assoc, Iso.self_symm_id, Iso.trans_refl]
 
-include hcan hψ in
+include hψ in
 /-- **One member of a covering of a test space identifies the two sides of the cocycle condition
 of `(N, ψ)` there.**  On the member all three readings of `ψ` are readings of `D`, by
 `…transitionOn_eq_readN`, and those compose by `…readN_trans`. -/
@@ -236,11 +236,11 @@ theorem transitionOn_trans_member {T : AlgebraicSpaces B S hS} (vi vj vk : T ⟶
   obtain ⟨vjk', hvjk₁, hvjk₂, e₂⟩ := key j k bn dn vjk vj vk hjk₀ hjk₁ hbn hdn
   obtain ⟨vik', hvik₁, hvik₂, e₃⟩ := key i k an dn vik vi vk hik₀ hik₁ han hdn
   rw [Functor.mapIso_trans, e₁, e₂, e₃]
-  simp only [Iso.trans_assoc, Iso.symm_self_id_assoc, Iso.self_symm_id_assoc]
+  simp only [Iso.trans_assoc, Iso.self_symm_id_assoc]
   rw [Iso.subst_trans₂ (readN_trans B S hS W w ρ D N ε i j k an bn dn (an ≫ w i) (bn ≫ w j)
     (dn ≫ w k) rfl rfl rfl vij' hvij₁ hvij₂ vjk' hvjk₁ hvjk₂ vik' hvik₁ hvik₂)]
 
-include hcan hψ in
+include hψ in
 /-- **The cocycle condition of `(N, ψ)`.**  A test space with three morphisms to `R` agreeing
 over `X` is covered, in the fpqc topology, by spaces mapping to members of `(w i)` over all
 three, by `…exists_isFpqcCovering_legTriple`; there the two sides agree by
@@ -270,11 +270,11 @@ theorem transitionOn_trans (hw : IsFpqcCovering B S hS fun i => (w i).hom)
   refine Iso.ext (modulePullback_map_injective_of_isFpqcCovering B S hS
     (reprFpqcHomInjective B S hS) Z₃ c₃ hcov₃ _ _ fun n => ?_)
   simpa only [Functor.mapIso_hom] using congrArg Iso.hom
-    (transitionOn_trans_member B S hS W w ρ D N ε hcan ψ hψ vi vj vk vij vjk vik hij₀ hij₁
+    (transitionOn_trans_member B S hS W w ρ D N ε ψ hψ vi vj vk vij vjk vik hij₀ hij₁
       hjk₀ hjk₁ hik₀ hik₁ (c₃ n) (ι₃ n) (κ₃ n) (lam₃ n) (a₃ n) (b₃ n) (d₃ n) (ha₃ n) (hb₃ n)
       (hd₃ n))
 
-include hcan hψ in
+include hψ in
 /-- **The descent datum `(N, ψ)` relative to the one-member family `{ρ}`.** -/
 def oneMemberDatum (hw : IsFpqcCovering B S hS fun i => (w i).hom)
     (hN : N.IsQuasicoherentOnSite) :
@@ -282,23 +282,23 @@ def oneMemberDatum (hw : IsFpqcCovering B S hS fun i => (w i).hom)
   F _ := N
   quasicoherent _ := hN
   transition _ _ := ψ
-  cocycle := transitionOn_trans B S hS W w ρ D N ε hcan ψ hψ hw
+  cocycle := transitionOn_trans B S hS W w ρ D N ε ψ hψ hw
 
 /-- Every component module of `oneMemberDatum` is `N`. -/
 @[simp]
 theorem oneMemberDatum_F (hw : IsFpqcCovering B S hS fun i => (w i).hom)
     (hN : N.IsQuasicoherentOnSite) (i : PUnit.{v + 1}) :
-    (oneMemberDatum B S hS W w ρ D N ε hcan ψ hψ hw hN).F i = N :=
+    (oneMemberDatum B S hS W w ρ D N ε ψ hψ hw hN).F i = N :=
   rfl
 
 /-- Every pairwise isomorphism of `oneMemberDatum` is `ψ`. -/
 @[simp]
 theorem oneMemberDatum_transition (hw : IsFpqcCovering B S hS fun i => (w i).hom)
     (hN : N.IsQuasicoherentOnSite) (i j : PUnit.{v + 1}) :
-    (oneMemberDatum B S hS W w ρ D N ε hcan ψ hψ hw hN).transition i j = ψ :=
+    (oneMemberDatum B S hS W w ρ D N ε ψ hψ hw hN).transition i j = ψ :=
   rfl
 
-include hcan hψ in
+include hψ in
 /-- **The quasi-coherent `𝒪_X`-module and the identification of `N` with its inverse image.**
 The descent datum `(N, ψ)` relative to the one-member étale covering `{ρ}` is effective by
 `…isEffective_of_isEtaleCovering`; its component isomorphism is `ν` and the compatibility of
@@ -306,8 +306,8 @@ that isomorphism with the pairwise isomorphisms is the equation carried here. -/
 theorem exists_module_and_nu (hw : IsFpqcCovering B S hS fun i => (w i).hom)
     (hN : N.IsQuasicoherentOnSite)
     (hρ : IsEtaleCovering B S hS (fun _ : PUnit.{v + 1} => R.1) (fun _ => ρ.hom)) :
-    ∃ (M : Modules.{u, u} B S hS X.1 X.2) (hM : M.IsQuasicoherentOnSite)
-      (ν : N ≅ (modulePullback B S hS ρ).obj M),
+    ∃ M : Modules.{u, u} B S hS X.1 X.2, M.IsQuasicoherentOnSite ∧
+      ∃ (ν : N ≅ (modulePullback B S hS ρ).obj M),
       (modulePullback B S hS
             (pairFst B S hS (fun _ : PUnit.{v + 1} => R) (fun _ => ρ) ⟨⟩ ⟨⟩)).mapIso ν ≪≫
           canonicalComparison
@@ -318,7 +318,7 @@ theorem exists_module_and_nu (hw : IsFpqcCovering B S hS fun i => (w i).hom)
           (pairSnd B S hS (fun _ : PUnit.{v + 1} => R) (fun _ => ρ) ⟨⟩ ⟨⟩)).mapIso ν := by
   obtain ⟨M, hM, ⟨e⟩⟩ := isEffective_of_isEtaleCovering B S hS (fun _ : PUnit.{v + 1} => R)
     (fun _ => ρ) (fun _ => hρ.etale ⟨⟩) hρ
-    (oneMemberDatum B S hS W w ρ D N ε hcan ψ hψ hw hN)
+    (oneMemberDatum B S hS W w ρ D N ε ψ hψ hw hN)
   have hnat := appIso_naturality B S hS e ⟨⟩ ⟨⟩
   rw [canonicalDescentDatum_transition, oneMemberDatum_transition] at hnat
   exact ⟨M, hM, DescentDatum.appIso B S hS e ⟨⟩, hnat⟩
@@ -361,7 +361,7 @@ theorem readN_trans_mapIso_nu {T : AlgebraicSpaces B S hS} (i j : I) (α : T ⟶
     modulePullback_mapIso_mapIso B S hS u
       (pairSnd B S hS (fun _ : PUnit.{v + 1} => R) (fun _ => ρ) ⟨⟩ ⟨⟩) yy hu₂ ν,
     hψ T u i j α β xx yy hu₁ hu₂ hax hby v hv₁ hv₂, unreadIso] at key
-  simp only [Iso.trans_assoc, Iso.self_symm_id_assoc, Iso.symm_self_id_assoc] at key
+  simp only [Iso.trans_assoc, Iso.self_symm_id_assoc] at key
   exact Iso.eq_of_trans_eq_trans _ _ key
 
 /-- **The identification of the component modules of `D` with the inverse images of `M`**: the
@@ -413,7 +413,7 @@ theorem mapIso_compModuleIso_canonicalComparison {T : AlgebraicSpaces B S hS} (i
         (pullbackComparison B S hS α (w i) (α ≫ w i) rfl N).symm ≪≫
         readN B S hS W w ρ D N ε i j α β (α ≫ w i) (β ≫ w j) rfl rfl v hv₁ hv₂ := by
     rw [readN]
-    simp only [Functor.mapIso_symm, Iso.trans_assoc, Iso.self_symm_id_assoc,
+    simp only [Functor.mapIso_symm, Iso.self_symm_id_assoc,
       Iso.symm_self_id_assoc]
   simp only [compModuleIso_eq, Functor.mapIso_trans, Functor.mapIso_symm]
   rw [modulePullback_mapIso_mapIso B S hS α (w i) (α ≫ w i) rfl ν,
@@ -425,7 +425,7 @@ theorem mapIso_compModuleIso_canonicalComparison {T : AlgebraicSpaces B S hS} (i
     canonicalComparison_eq_pullbackComparison B S hS α β (w i ≫ ρ) (w j ≫ ρ) h
       ((α ≫ w i) ≫ ρ) (by rw [← Category.assoc])
       (by rw [← Category.assoc]; exact hxy.symm) M]
-  simp only [Iso.trans_symm, Iso.symm_symm_eq, Iso.trans_assoc, Iso.symm_self_id_assoc,
+  simp only [Iso.trans_symm, Iso.symm_symm_eq, Iso.trans_assoc,
     Iso.self_symm_id_assoc]
   rw [Iso.subst_trans₃ hreadN]
   simp only [Iso.trans_assoc]
@@ -434,7 +434,7 @@ theorem mapIso_compModuleIso_canonicalComparison {T : AlgebraicSpaces B S hS} (i
   simp only [Iso.trans_assoc]
   rw [canonicalComparison_eq_pullbackComparison B S hS (α ≫ w i) (β ≫ w j) ρ ρ hxy
     ((α ≫ w i) ≫ ρ) rfl hxy.symm M]
-  simp only [Iso.trans_assoc, Iso.symm_self_id_assoc, Iso.self_symm_id_assoc]
+  simp only [Iso.trans_assoc, Iso.self_symm_id_assoc]
 
 include hψ hν in
 /-- **The compatibility of the identifications with the pairwise isomorphisms, after pullback
@@ -474,7 +474,7 @@ theorem mapIso_compModuleIso_pair_member (i j : I) {P : AlgebraicSpaces B S hS}
     modulePullback_mapIso_mapIso B S hS r (pairSnd B S hS W (fun t => w t ≫ ρ) i j)
       (r ≫ pairSnd B S hS W (fun t => w t ≫ ρ) i j) rfl
       (compModuleIso B S hS W w ρ D N ε M ν j)]
-  simp only [Iso.trans_assoc, Iso.symm_self_id_assoc, Iso.self_symm_id_assoc]
+  simp only [Iso.trans_assoc, Iso.self_symm_id_assoc]
   rw [Iso.subst_trans₂ (mapIso_compModuleIso_canonicalComparison B S hS W w ρ D N ε ψ hψ M
     ν hν i j (r ≫ pairFst B S hS W (fun t => w t ≫ ρ) i j)
     (r ≫ pairSnd B S hS W (fun t => w t ≫ ρ) i j) h' r rfl rfl)]
@@ -522,7 +522,7 @@ theorem isEffective_of_isEffective_baseChangeDatum
     (pairFst B S hS (fun _ : PUnit.{v + 1} => R) (fun _ => ρ) ⟨⟩ ⟨⟩)
     (pairSnd B S hS (fun _ : PUnit.{v + 1} => R) (fun _ => ρ) ⟨⟩ ⟨⟩) hw hN
     (pair_condition B S hS (fun _ : PUnit.{v + 1} => R) (fun _ => ρ) ⟨⟩ ⟨⟩)
-  obtain ⟨M, hM, ν, hν⟩ := exists_module_and_nu B S hS W w ρ D N ε hcan ψ hψ hw hN hρ
+  obtain ⟨M, hM, ν, hν⟩ := exists_module_and_nu B S hS W w ρ D N ε ψ hψ hw hN hρ
   exact ⟨M, hM, ⟨DescentDatum.isoMkOfTransitionEq B S hS
     (fun i => compModuleIso B S hS W w ρ D N ε M ν i) D.transition
     (fun i j => canonicalComparison (pairFst B S hS W (fun t => w t ≫ ρ) i j)

@@ -18,8 +18,8 @@ the quotient by `x` is.
 
 This is the form in which the dimension theory of finite-type algebras over a field is needed for
 singular plane curves.  The usual formula `dim = trdeg` is available in this repository only for a
-domain (`StacksFrontier.RingTheory.KrullDimension.FiniteTypeOverField`), and the coordinate ring of a
-reducible or non-reduced plane curve is not one.
+domain (`StacksFrontier.RingTheory.KrullDimension.FiniteTypeOverField`), and the coordinate ring of
+a reducible or non-reduced plane curve is not one.
 
 ## Main results
 

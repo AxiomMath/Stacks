@@ -318,7 +318,7 @@ public theorem isIso_torExtensionMap_of_flat_sameUniverse
         congrArg₂ (fun (fa : A →ₐ[R] A') (fb : B →ₐ[R] B') ↦
           S.1.map R R' A B A' B' i fa fb x) hfA.symm hfB.symm
       _ = _ := S.2.map_comp R R' R' A B A₁ B₁ A' B' i a b a' b' x
-  show IsIso (S.1.extensionMap R R' A B A' B' i fA fB)
+  change IsIso (S.1.extensionMap R R' A B A' B' i fA fB)
   generalize hd : S.1.extensionMap R R' A B A' B' i fA fB = d
   have hdgen (x : TorChangeOfRings.torObj R i A B) :=
     S.2.extension_one_tmul R R' A B A' B' i fA fB x
@@ -334,7 +334,7 @@ public theorem isIso_torExtensionMap_of_flat_sameUniverse
     dsimp only [E]
     rw [ModuleCat.comp_apply, ModuleCat.extendScalarsComp_hom_app_one_tmul,
       ModuleCat.comp_apply]
-    show S.1.map R' R' A₁ B₁ A' B' i a' b' (S.1.map R R' A B A₁ B₁ i a b x) =
+    change S.1.map R' R' A₁ B₁ A' B' i a' b' (S.1.map R R' A B A₁ B₁ i a b x) =
       e' ((1 : A' ⊗[R'] B') ⊗ₜ[R' ⊗[R] A ⊗[R'] (R' ⊗[R] B)]
         (e ((1 : A₁ ⊗[R'] B₁) ⊗ₜ[A ⊗[R] B] x)))
     rw [S.2.extension_one_tmul, S.2.extension_one_tmul]
@@ -555,7 +555,7 @@ private theorem flat_lift_includeLeft (R R' X : Type*) [CommRing R] [CommRing R'
       AlgHom.id R (X ⊗[R] R') := by
     refine Algebra.TensorProduct.ext' fun a r => ?_
     rw [Algebra.TensorProduct.lift_tmul]
-    show (a ⊗ₜ[R] 1) * (1 ⊗ₜ[R] r) = a ⊗ₜ[R] r
+    change (a ⊗ₜ[R] 1) * (1 ⊗ₜ[R] r) = a ⊗ₜ[R] r
     rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
   rw [he]
   exact RingHom.Flat.id _
@@ -574,7 +574,7 @@ public theorem torIndependent_tensorProduct_of_flat
     TorIndependent R' (A ⊗[R] R') (B ⊗[R] R') := by
   let : Algebra R' (A ⊗[R] R') := Algebra.TensorProduct.rightAlgebra
   let : Algebra R' (B ⊗[R] R') := Algebra.TensorProduct.rightAlgebra
-  show TorIndependent R' (A ⊗[R] R') (B ⊗[R] R')
+  change TorIndependent R' (A ⊗[R] R') (B ⊗[R] R')
   let fA : A →ₐ[R] A ⊗[R] R' := Algebra.TensorProduct.includeLeft
   let fB : B →ₐ[R] B ⊗[R] R' := Algebra.TensorProduct.includeLeft
   have hA := flat_lift_includeLeft R R' A
@@ -603,7 +603,7 @@ public theorem torIndependent_tensorProduct_of_flat
     (isZero_tor_changeUniverse M₀ N₀ _ _ _ eR₀ eA₀ eB₀ i).mpr (h i hi)
   have hbig := (asIso e).isZero_iff.mp
     ((ModuleCat.extendScalars _).map_isZero (by
-      rwa [ModuleCat.isZero_iff_subsingleton] at hsourceBase ⊢))
+      rw [ModuleCat.isZero_iff_subsingleton] at hsourceBase ⊢; assumption))
   let RS := ULift.{max uS uA uB} R'
   let AS := ULift.{max uS uA uB} (A ⊗[R] R')
   let BS := ULift.{max uS uA uB} (B ⊗[R] R')
@@ -616,7 +616,7 @@ public theorem torIndependent_tensorProduct_of_flat
   have hbigBase : IsZero (((Tor (ModuleCat (ULift.{max uR uS uA uB} R')) i).obj
       (ModuleCat.of _ (ULift.{max uR uS uA uB} (A ⊗[R] R')))).obj
         (ModuleCat.of _ (ULift.{max uR uS uA uB} (B ⊗[R] R')))) := by
-    rwa [ModuleCat.isZero_iff_subsingleton] at hbig ⊢
+    rw [ModuleCat.isZero_iff_subsingleton] at hbig ⊢; assumption
   exact (isZero_tor_changeUniverse M N _ _ _ eR eA eB i).mp hbigBase
 
 end
@@ -663,8 +663,8 @@ private theorem isIso_torExtensionMap_atPrime
     [p.asIdeal.LiesOver r.asIdeal] [q.asIdeal.LiesOver r.asIdeal]
     [Algebra (Localization.AtPrime r.asIdeal) (Localization.AtPrime p.asIdeal)]
     [Algebra (Localization.AtPrime r.asIdeal) (Localization.AtPrime q.asIdeal)]
-    [Localization.AtPrime.IsLiesOverAlgebra r.asIdeal p.asIdeal]
-    [Localization.AtPrime.IsLiesOverAlgebra r.asIdeal q.asIdeal] (i : ℕ) :
+    [IsScalarTower R (Localization.AtPrime r.asIdeal) (Localization.AtPrime p.asIdeal)]
+    [IsScalarTower R (Localization.AtPrime r.asIdeal) (Localization.AtPrime q.asIdeal)] (i : ℕ) :
     IsIso (TorChangeOfRings.extensionMap TorChangeOfRings.canonicalSystem_nonempty
       R (Localization.AtPrime r.asIdeal) A B
       (Localization.AtPrime p.asIdeal) (Localization.AtPrime q.asIdeal) i
@@ -683,8 +683,7 @@ private theorem subsingleton_localizedModule_of_tensorProduct
     Subsingleton (LocalizedModule U M) := by
   have : Subsingleton (Localization U ⊗[R] M) := by
     refine (subsingleton_iff_forall_eq 0).mpr fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul s m =>
       have hm : (1 : Localization U) ⊗ₜ[R] m = 0 := by
         simpa using congrArg (TensorProduct.map f.toLinearMap (LinearMap.id : M →ₗ[R] M))
@@ -734,7 +733,7 @@ public theorem torIndependent_localizations_tfae
       Localization.AtPrime.algebraOfLiesOver r.asIdeal p.asIdeal
     let : Algebra (Localization.AtPrime r.asIdeal) (Localization.AtPrime q.asIdeal) :=
       Localization.AtPrime.algebraOfLiesOver r.asIdeal q.asIdeal
-    show TorIndependent _ _ _
+    change TorIndependent _ _ _
     rw [torIndependent_iff_subsingleton_tor] at h ⊢
     intro i hi
     let : Subsingleton (TorChangeOfRings.torObj R i A B) := h i hi
@@ -753,11 +752,11 @@ public theorem torIndependent_localizations_tfae
     let p := PrimeSpectrum.comap (Algebra.TensorProduct.includeLeft : A →ₐ[R] A ⊗[R] B).toRingHom s
     let q := PrimeSpectrum.comap (Algebra.TensorProduct.includeRight : B →ₐ[R] A ⊗[R] B).toRingHom s
     have hp : r.asIdeal = p.asIdeal.comap (algebraMap R A) := by
-      show s.asIdeal.comap _ = (s.asIdeal.comap _).comap _
+      change s.asIdeal.comap _ = (s.asIdeal.comap _).comap _
       rw [Ideal.comap_comap]
       congr 1
     have hq : r.asIdeal = q.asIdeal.comap (algebraMap R B) := by
-      show s.asIdeal.comap _ = (s.asIdeal.comap _).comap _
+      change s.asIdeal.comap _ = (s.asIdeal.comap _).comap _
       rw [Ideal.comap_comap]
       congr 1
       ext b
@@ -794,13 +793,12 @@ public theorem torIndependent_localizations_tfae
     have hg : g.comp f = algebraMap (A ⊗[R] B) (Localization.AtPrime s.asIdeal) := by
       apply RingHom.ext
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul a b =>
         have hf : f (a ⊗ₜ[R] b) = fA a ⊗ₜ[Localization.AtPrime r.asIdeal] fB b := by
           simp [f, TorChangeOfRings.tensorProductMap, Algebra.TensorProduct.tmul_mul_tmul]
         rw [RingHom.comp_apply, hf]
-        show gA (fA a) * gB (fB b) = _
+        change gA (fA a) * gB (fB b) = _
         simp [gA, gB, fA, fB, Localization.localAlgHom, Localization.localRingHom_to_map,
           ← map_mul, Algebra.TensorProduct.tmul_mul_tmul]
       | add x y hx hy => simp_all only [map_add]

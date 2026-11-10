@@ -43,7 +43,8 @@ category, along which the group structure on `Ext` is defined. Note that the two
 live in *different* categories — `AddCommGrpCat` at two universes — so the bridge cannot be an
 isomorphism and has to be an additive equivalence.
 
-The four instance binders are those of the tagged statement, kept verbatim. `HasSheafify J Ab` is in fact an
+The four instance binders are those of the tagged statement, kept verbatim. `HasSheafify J Ab` is in
+fact an
 instance for every Grothendieck topology on a small site, and so is `HasExt` in the site's own
 universe; both are therefore redundant, but `CategoryTheory.HasSheafify` and
 `CategoryTheory.HasExt` are `Prop`-valued classes, so a redundant binder cannot make the statement

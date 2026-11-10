@@ -329,7 +329,7 @@ private lemma chart_isPullback (D : DescentData f) [hopen : ∀ i, IsOpenImmersi
     let w := e.inv z
     have hw : (prod.fst : overlap D j i ⟶ _).left w = xj := by
       rw [← Scheme.Hom.comp_apply]
-      show (e.inv ≫ (prod.fst : overlap D j i ⟶ _).left) z = xj
+      change (e.inv ≫ (prod.fst : overlap D j i ⟶ _).left) z = xj
       rw [← Over.prodLeftIsoPullback_hom_fst, Iso.inv_hom_id_assoc]
       exact hz
     refine ⟨(prod.fst : overlap D i j ⟶ _).left ((transition D j i).left w), ?_⟩
@@ -475,7 +475,7 @@ private lemma transport_chart (D : DescentData f) [∀ i, IsOpenImmersion (f i)]
 
 private lemma pullbackId_hom_left {X : Scheme.{u}} (Z : Over X) :
     (Over.pullbackId.app Z).hom.left = pullback.fst Z.hom (𝟙 X) := by
-  show ((conjugateEquiv (Over.mapPullbackAdj (𝟙 X)) Adjunction.id
+  change ((conjugateEquiv (Over.mapPullbackAdj (𝟙 X)) Adjunction.id
     (Over.mapId X).inv).app Z).left = _
   rw [conjugateEquiv_adjunction_id]
   simp [Over.mapId]
@@ -591,7 +591,7 @@ private lemma fibreChart_structure (D : DescentData U.f)
     fibreChart U V α D H j i ≫ structureMap (V.f j) (gluedFibre U V α D H j) =
       structureMap (U.f i.val) (D.obj i.val) ≫ fibreBaseMap U V α j i := by
   apply Over.OverMorphism.ext
-  show (fibreChart U V α D H j i).left ≫ (gluedFibre U V α D H j).hom =
+  change (fibreChart U V α D H j i).left ≫ (gluedFibre U V α D H j).hom =
     (D.obj i.val).hom ≫ (fibreFamily U V α j).f i
   rw [fibreChart_left, fibreChartLeft_comp_hom]
 
@@ -672,20 +672,20 @@ private lemma fibreChart_compat {S : Scheme.{u}}
   let xR : T' ⟶ (Over.map ((fibreFamily U V α j).f i)).obj
       ((fibreDatum U V α D j).obj i) :=
     Over.homMk (x.left ≫ (fibreComponentIso U V α D j i).inv.left) (by
-      show (x.left ≫ _) ≫ (_ ≫ _) = _
+      change (x.left ≫ _) ≫ (_ ≫ _) = _
       rw [Category.assoc, Over.w_assoc (fibreComponentIso U V α D j i).inv]
       rfl)
   let yR : T' ⟶ Over.mk ((fibreFamily U V α j).f i') :=
     Over.homMk y.left (congrArg Over.Hom.left h.symm)
   have he := fibre_transport U V α D j i i' xR yR (e ≫ x) (e ≫ y)
     (by
-      show 𝟙 _ ≫ x.left = (x.left ≫ (fibreComponentIso U V α D j i).inv.left) ≫
+      change 𝟙 _ ≫ x.left = (x.left ≫ (fibreComponentIso U V α D j i).inv.left) ≫
         (fibreComponentIso U V α D j i).hom.left
       rw [Category.id_comp, Category.assoc, ← Over.comp_left, Iso.inv_hom_id,
         Over.id_left]
       exact (Category.comp_id x.left).symm)
     (by
-      show 𝟙 _ ≫ y.left = y.left
+      change 𝟙 _ ≫ y.left = y.left
       exact Category.id_comp _)
   have ht : (transport D i.val i'.val x y).left ≫
       (fibreComponentIso U V α D j i').inv.left =
@@ -698,7 +698,7 @@ private lemma fibreChart_compat {S : Scheme.{u}}
     rw [← he, Category.assoc, ← Over.comp_left, Iso.hom_inv_id, Over.id_left]
     exact Category.comp_id _
   apply Over.OverMorphism.ext
-  show (transport D i.val i'.val x y).left ≫ (fibreChart U V α D H j i').left =
+  change (transport D i.val i'.val x y).left ≫ (fibreChart U V α D H j i').left =
     x.left ≫ (fibreChart U V α D H j i).left
   rw [fibreChart_left, fibreChart_left, fibreChartLeft, fibreChartLeft,
     ← Category.assoc, ht, transport_glueι]
@@ -758,7 +758,7 @@ private lemma map_desc (c : OpenCoverOver B) {Z : Over S} (m : ∀ i, c.obj i �
       a ≫ c.map i = b ≫ c.map j → a ≫ m i = b ≫ m j) (i : c.I) :
     c.map i ≫ c.desc m hm = m i := by
   apply Over.OverMorphism.ext
-  show (c.map i).left ≫ c.toCover.glueMorphisms
+  change (c.map i).left ≫ c.toCover.glueMorphisms
     (fun i ↦ (m i).left) (c.overlap_compatible m hm) = (m i).left
   exact c.toCover.ι_glueMorphisms (fun i ↦ (m i).left) (c.overlap_compatible m hm) i
 
@@ -950,7 +950,7 @@ private lemma transitionMap_structure (R : RefinementGluing U V α D) (j k : V.I
     R.transitionMap j k ≫ R.structureMap k = prod.snd := by
   apply ((R.chartCover j).prod (R.baseCover k)).hom_ext
   rintro ⟨i, l⟩
-  show prod.map (R.chart j i) (fibreBaseMap U V α k l) ≫ _ = _
+  change prod.map (R.chart j i) (fibreBaseMap U V α k l) ≫ _ = _
   rw [R.chart_transitionMap_assoc, R.chart_structure]
   simp only [_root_.AlgebraicGeometry.ZariskiRefinement.transport_structure_assoc, prod.map_snd]
 
@@ -966,7 +966,7 @@ private lemma transport_self (R : RefinementGluing U V α D) {T : Over S}
   have hs : R.transport j j (𝟙 _) (R.structureMap j) = 𝟙 _ := by
     apply (R.chartCover j).hom_ext
     intro i
-    show R.chart j i ≫ _ = R.chart j i ≫ 𝟙 _
+    change R.chart j i ≫ _ = R.chart j i ≫ 𝟙 _
     rw [transport_naturality, Category.comp_id, R.chart_structure]
     have h := R.transport_chart j j i i (𝟙 _)
       (_root_.AlgebraicGeometry.structureMap (U.f i.val) (D.obj i.val))
@@ -987,7 +987,7 @@ private lemma transport_comp (R : RefinementGluing U V α D) {T : Over S}
       R.transport j l (prod.fst ≫ prod.fst) prod.snd := by
     apply (((R.chartCover j).prod (R.baseCover k)).prod (R.baseCover l)).hom_ext
     rintro ⟨⟨i, m⟩, n⟩
-    show prod.map (prod.map (R.chart j i) (fibreBaseMap U V α k m))
+    change prod.map (prod.map (R.chart j i) (fibreBaseMap U V α k m))
       (fibreBaseMap U V α l n) ≫ _ = _
     simp only [transport_naturality, prod.map_fst_assoc, prod.map_fst, prod.map_snd]
     simp only [← Category.assoc, transport_chart,
@@ -1082,7 +1082,7 @@ private lemma projection_transport (R : RefinementGluing U V α D) {T : Over S}
   rw [← datum_transport]
   apply Over.OverMorphism.ext
   have h := pullback_transport_left (familyMorphism (α := α)) R.datum i l x y
-  show (_root_.AlgebraicGeometry.ZariskiRefinement.transport
+  change (_root_.AlgebraicGeometry.ZariskiRefinement.transport
     R.pullbackDatum i l x y).left ≫ _ ≫ _ = _
   rw [_root_.AlgebraicGeometry.ZariskiRefinement.transport_left R.datum]
   refine h.trans ?_
@@ -1182,7 +1182,7 @@ public theorem pullbackFunctor_isEquivalence_of_zariskiRefinement
   let G := MorphismOfSchemeFamilies.pullbackFunctor F
   have hff' : G.functor.FullyFaithful := by
     simpa [G, F] using hff
-  show Nonempty (G.functor.IsEquivalence)
+  change Nonempty (G.functor.IsEquivalence)
   refine ⟨{ faithful := hff'.faithful, full := hff'.full, essSurj := ?_ }⟩
   refine ⟨fun D ↦ ?_⟩
   let H (j : V.I₀) : ∀ i, IsOpenImmersion ((fibreFamily U V α j).f i) :=

@@ -80,7 +80,7 @@ theorem finiteDimensional_artinianTangentSpace
     let hD := isDeformationCategory_predeformationCategory c Λ k iΛ hiΛ x₀ hx₀
     letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor D.projection).p) :=
       ⟨hD.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
         (isomorphismClasses (BasedCategory.ofFunctor D.projection) hD.predeformation.cofibered))) :=
       ⟨tangentConditionS2 hD⟩
     FiniteDimensional k (artinianTangentSpace Λ k

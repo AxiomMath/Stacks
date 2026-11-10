@@ -73,7 +73,7 @@ theorem isFiniteType_π
     (hft : s.HoldsAtEtalePoints Stacks.AlgebraicGeometry.RelativeProjFiniteType.IsFiniteType) :
     IsFiniteType s.site s.base s.containsBase s.π.hom := by
   rw [s.π_hom]
-  obtain ⟨T, g, hgEt, hgSurj⟩ := s.relativeProjPoints.exists_etalePoint s.space.property
+  obtain ⟨T, g, hgEt, hgSurj⟩ := RelativeProjPoints.exists_etalePoint s.space.property
   exact ⟨s.relativeProjPoints.isLocallyOfFiniteType_of_etalePoint T g hgEt hgSurj
       (Stacks.AlgebraicGeometry.RelativeProjFiniteType.locallyOfFiniteType_toBase _
         (hft T g hgEt)),

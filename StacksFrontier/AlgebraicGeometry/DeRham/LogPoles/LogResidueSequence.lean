@@ -194,7 +194,7 @@ theorem divisorShiftD_comp (n : ℕ) : divisorShiftD f I n ≫ divisorShiftD f I
   cases n with
   | zero => exact zero_comp
   | succ p =>
-    show (-pushforwardDeRhamDifferentialAbHom I.subschemeι f p) ≫
+    change (-pushforwardDeRhamDifferentialAbHom I.subschemeι f p) ≫
       (-pushforwardDeRhamDifferentialAbHom I.subschemeι f (p + 1)) = 0
     rw [Preadditive.neg_comp_neg]
     exact pushforwardDeRhamDifferentialAbHom_comp f I p

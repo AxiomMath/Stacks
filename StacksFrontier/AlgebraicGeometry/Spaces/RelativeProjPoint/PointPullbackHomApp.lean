@@ -26,8 +26,8 @@ file shows that in degree `n` it is the composition comparison of Stacks 03LU,
 ## Implementation notes
 
 The declarations of `StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjPoint.EtaleCoherence` and
-`StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjPoint.PullbackPointAlgebra` are elaborated in an
-environment without `Mathlib.Algebra.Category.Grp.Adjunctions`, those of
+`StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjPoint.PullbackPointAlgebra` are elaborated in
+an environment without `Mathlib.Algebra.Category.Grp.Adjunctions`, those of
 `StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjPoint.PointComparisonModule` in one with it.
 That file declares the instance `(forget AddCommGrpCat).IsRightAdjoint`
 (`AddCommGrpCat.instIsRightAdjointForgetAddMonoidHomCarrier`), through which instance search proves

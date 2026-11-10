@@ -139,7 +139,7 @@ theorem exists_liftQ_isIPowerTorsion {T₁ T₀ : Type w} [AddCommGroup T₁] [M
       rw [h2]
       exact add_mem hp (Submodule.smul_of_tower_mem _ _ hx')
     refine ⟨p + q, Subtype.ext ?_⟩
-    show g ^ (p + q) • (Submodule.Quotient.mk (Submodule.Quotient.mk x) : _ ⧸ P) = 0
+    change g ^ (p + q) • (Submodule.Quotient.mk (Submodule.Quotient.mk x) : _ ⧸ P) = 0
     rw [← Submodule.Quotient.mk_smul, ← Submodule.Quotient.mk_smul,
       Submodule.Quotient.mk_eq_zero]
     exact hmkQ _ hmem

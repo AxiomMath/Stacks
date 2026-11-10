@@ -155,7 +155,7 @@ lemma tensorComplexSingleUnitIso_naturality
         (Stacks.SheafOfModules.Tensor.sheafTensor S) (ComplexShape.up ℤ) ≫
         (tensorComplexSingleUnitIso S K' q).hom =
       (tensorComplexSingleUnitIso S K q).hom ≫ (CategoryTheory.shiftFunctor _ (-q)).map φ := by
-  show _ ≫ (totalSingleShiftIso _ K' _ q).hom ≫
+  change _ ≫ (totalSingleShiftIso _ K' _ q).hom ≫
       (CategoryTheory.shiftFunctor _ (-q)).map (rowComplexUnitIsoFreeSections S K').hom =
     ((totalSingleShiftIso _ K _ q).hom ≫
       (CategoryTheory.shiftFunctor _ (-q)).map (rowComplexUnitIsoFreeSections S K).hom) ≫

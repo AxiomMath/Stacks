@@ -97,7 +97,7 @@ theorem mono_secondEdge_app_one_of_isZero (X : A)
     (h : IsZero ((Q.rightDerived 1).obj (P.obj X))) :
     Mono ((secondEdge P Q 1).app X) := by
   have hm := mono_homologyToMapHomology_one_of_isZero P Q (injectiveResolution X) h
-  show Mono (secondEdgeApp P Q 1 X)
+  change Mono (secondEdgeApp P Q 1 X)
   rw [secondEdgeApp]
   have : Mono (homologyFunctorToMapHomology Q
       ((P.mapHomologicalComplex (ComplexShape.up ℕ)).obj (injectiveResolution X).cocomplex) 1) :=

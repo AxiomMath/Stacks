@@ -63,7 +63,7 @@ be a domain of dimension at most one and let `T` be an `O`-algebra which is inte
 the localization of `T` at a prime `q` is a domain and not a field, then `q` is maximal.
 
 The localization has a prime strictly below its maximal ideal, which contracts to a prime
-`q₀ < q` of `T`; by `Ideal.comap_lt_comap_of_integral_mem_sdiff` the contractions of `q₀` and `q`
+`q₀ < q` of `T`; by `Ideal.under_lt_under_of_integral_mem_sdiff` the contractions of `q₀` and `q`
 to `O` are then distinct, so the contraction of `q` is nonzero, hence maximal, and
 `Ideal.isMaximal_of_isIntegral_of_isMaximal_under` carries that back up to `q`. -/
 theorem Ideal.isMaximal_of_isIntegral_of_isDomain_localizationAtPrime {O : Type u} [CommRing O]
@@ -72,7 +72,7 @@ theorem Ideal.isMaximal_of_isIntegral_of_isDomain_localizationAtPrime {O : Type 
     (hfield : ¬ IsField (Localization.AtPrime q)) : q.IsMaximal := by
   have hcomapmax :
       (maximalIdeal (Localization.AtPrime q)).comap (algebraMap T (Localization.AtPrime q)) = q :=
-    IsLocalization.AtPrime.comap_maximalIdeal (I := q) _
+    IsLocalization.AtPrime.under_maximalIdeal (I := q) _
   have hmapmax : q.map (algebraMap T (Localization.AtPrime q)) =
       maximalIdeal (Localization.AtPrime q) :=
     IsLocalization.AtPrime.map_eq_maximalIdeal q (Localization.AtPrime q)
@@ -88,9 +88,9 @@ theorem Ideal.isMaximal_of_isIntegral_of_isDomain_localizationAtPrime {O : Type 
     refine le_antisymm ?_ bot_le
     rw [Ideal.map_le_iff_le_comap]
     exact h.ge
-  obtain ⟨x, hxq, hxq₀⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hle hne)
+  obtain ⟨x, hxq, hxq₀⟩ := IsConcreteLE.exists_of_lt (lt_of_le_of_ne hle hne)
   have hcomaplt : q₀.comap (algebraMap O T) < q.comap (algebraMap O T) :=
-    Ideal.comap_lt_comap_of_integral_mem_sdiff (I := q₀) (J := q) hle ⟨hxq, hxq₀⟩
+    Ideal.under_lt_under_of_integral_mem_sdiff (I := q₀) (J := q) hle ⟨hxq, hxq₀⟩
       (Algebra.IsIntegral.isIntegral x)
   exact Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := O) q
     (Ring.DimensionLEOne.maximalOfPrime (fun h => absurd (hcomaplt.trans_le h.le) not_lt_bot)

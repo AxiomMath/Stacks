@@ -141,11 +141,11 @@ theorem comm_zero :
   refine ConcreteCategory.hom_ext _ _ fun x => ?_
   refine ((extendedAlternatingCech f F).sectionsIso 0 V).injective ?_
   funext s
-  show (extendedAlternatingCech f F).sectionsIso 0 V
+  change (extendedAlternatingCech f F).sectionsIso 0 V
       (((extendedAlternatingCech f F).complex.d 0 1).app V ((zeroBridge f F).hom.app V x)) s = _
   rw [Stacks.Perfect.ExtendedAlternatingCech.ExtendedAlternatingCechData.differential_zero,
     zeroIso_zeroBridge]
-  show _ = (extendedAlternatingCech f F).sectionsIso 0 V
+  change _ = (extendedAlternatingCech f F).sectionsIso 0 V
       ((termBridge f F 0).hom.app V (((data f F).complex.d 0 1).app V x)) s
   rw [sectionsIso_termBridge, AlgebraicGeometry.ExtendedAlternatingCech.Data.differential_zero]
 
@@ -156,12 +156,12 @@ theorem comm_succ (p : ℕ) :
   refine Scheme.Modules.hom_ext _ _ fun V => ?_
   refine ConcreteCategory.hom_ext _ _ fun x => ?_
   refine ((extendedAlternatingCech f F).sectionsIso (p + 1) V).injective ?_
-  show (extendedAlternatingCech f F).sectionsIso (p + 1) V
+  change (extendedAlternatingCech f F).sectionsIso (p + 1) V
       (((extendedAlternatingCech f F).complex.d (p + 1) (p + 2)).app V
         ((termBridge f F p).hom.app V x)) = _
   rw [Stacks.Perfect.ExtendedAlternatingCech.ExtendedAlternatingCechData.differential_succ,
     sectionsIso_termBridge]
-  show _ = (extendedAlternatingCech f F).sectionsIso (p + 1) V
+  change _ = (extendedAlternatingCech f F).sectionsIso (p + 1) V
       ((termBridge f F (p + 1)).hom.app V
         (((data f F).complex.d (p + 1) (p + 2)).app V x))
   rw [sectionsIso_termBridge, AlgebraicGeometry.ExtendedAlternatingCech.Data.differential_succ]
@@ -242,7 +242,7 @@ theorem augmentation_eq :
   rw [AlgebraicGeometry.ExtendedAlternatingCech.augmentation,
     Stacks.Perfect.ExtendedAlternatingCech.Augmentation.augmentation, ← DerivedCategory.Q.map_comp]
   refine congrArg DerivedCategory.Q.map ?_
-  show HomologicalComplex.extendMap
+  change HomologicalComplex.extendMap
       (AlgebraicGeometry.ExtendedAlternatingCech.augmentationComplex f F)
         ComplexShape.embeddingUpNat ≫ _ =
     HomologicalComplex.extendMap (complexIso f F).hom ComplexShape.embeddingUpNat ≫ _

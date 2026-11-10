@@ -234,9 +234,9 @@ theorem powerTorsionProperty_spec (R : CommRingCat.{u}) (ψ : A →+* Γ(Spec R,
     intro i x hx
     refine hsupp i x ?_
     simp only [Set.mem_compl_iff, not_not, SetLike.mem_coe]
-    show x ∈ (Spec R).basicOpen ((Scheme.ΓSpecIso R).inv (φ a))
+    change x ∈ (Spec R).basicOpen ((Scheme.ΓSpecIso R).inv (φ a))
     rw [hb]
-    show x ∈ (PrimeSpectrum.basicOpen (φ a) : Set (PrimeSpectrum R))
+    change x ∈ (PrimeSpectrum.basicOpen (φ a) : Set (PrimeSpectrum R))
     rw [PrimeSpectrum.basicOpen_eq_zeroLocus_compl]
     exact hx
   obtain ⟨k, hk⟩ := exists_pow_smul_eq_zero_of_isPerfect_of_cohomologySupportedOn

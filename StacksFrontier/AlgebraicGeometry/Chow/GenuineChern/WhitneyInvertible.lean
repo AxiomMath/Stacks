@@ -222,7 +222,7 @@ theorem projectiveBundleChernRelation_add_capShift
   have hQ : ∑ i : Fin (n + 1 + 1), (-1 : ℤ) ^ i.val •
       projectiveBundleChernTerm C sX sPQ πQ hsPQ (n + 1) hπQ hfacQ twistQ k i.val
         (Nat.lt_succ_iff.mp i.isLt) (e (n + 1 - i.val)) = 0 := he
-  show ∑ i : Fin (n + 1 + 1 + 1), (-1 : ℤ) ^ i.val •
+  change ∑ i : Fin (n + 1 + 1 + 1), (-1 : ℤ) ^ i.val •
       projectiveBundleChernTerm C sX sPG πG hsPG (n + 1 + 1) hπG hfacG twistG k i.val
         (Nat.lt_succ_iff.mp i.isLt)
         (e (n + 1 + 1 - i.val) + capShift C sX capM k e (n + 1 + 1 - i.val)) = 0
@@ -361,7 +361,7 @@ theorem capTo_chernFamily_rankOne (M : X.Modules)
   have h1 := firstChern_eq_bundleChernCapFamily_one M 0 C sX k y
   have h2 := firstChern_one sX (topHalf C) M k y
   refine eq_of_heq ((gradedDegreeCast_heq _ _).trans ?_)
-  show bundleChernCapFamily M 0 C sX k y ⟨1, by omega⟩ ≍ _
+  change bundleChernCapFamily M 0 C sX k y ⟨1, by omega⟩ ≍ _
   refine ((chowGroupCast_heq C sX _ _).symm.trans (heq_of_eq h1.symm)).trans ?_
   refine (heq_of_eq h2).trans ?_
   exact heq_apply_of_degree C sX sX (fun d => d + 1) (fun d => d)
@@ -395,7 +395,7 @@ theorem bundleChernCapFamily_eq_add_capShift (S : ShortComplex X.Modules) (hS : 
   have hι : bundleEmbedding S.g ≫ (bundleProj S.X₂ ≫ sX) = bundleProj S.X₃ ≫ sX := by
     rw [bundleEmbedding_comp_bundleProj_assoc]
   refine eq_bundleChernCapFamily_of_isChernCapFamily S.X₂ (n + 1) C sX k α _ ⟨?_, ?_⟩
-  · show chowGroupCast C sX _ (chernFamily C sX S.X₃ (n + 1) k 0 α + 0) = α
+  · change chowGroupCast C sX _ (chernFamily C sX S.X₃ (n + 1) k 0 α + 0) = α
     rw [add_zero, chernFamily_apply_zero, gradedCap_one_apply_zero]
     exact eq_of_heq ((chowGroupCast_heq C sX _ _).trans (gradedDegreeCast_heq _ α))
   · refine projectiveBundleChernRelation_add_capShift C sX (bundleProj S.X₂ ≫ sX)

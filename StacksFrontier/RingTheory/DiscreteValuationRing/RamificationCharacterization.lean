@@ -74,7 +74,7 @@ theorem isWeaklyUnramified_iff_exists_unit_algebraMap_eq_mul
   obtain ⟨v, hv⟩ := exists_unit_algebraMap_eq_mul_pow A B πA hπA πB hπB
   refine ⟨fun h => ⟨v, by simpa [show ramificationIndex A B = 1 from h] using hv⟩,
     fun ⟨u, hu⟩ => ?_⟩
-  show ramificationIndex A B = 1
+  change ramificationIndex A B = 1
   exact IsDiscreteValuationRing.unit_mul_pow_congr_pow hπB hπB v u
     (ramificationIndex A B) 1 (by simpa using hv.symm.trans hu)
 

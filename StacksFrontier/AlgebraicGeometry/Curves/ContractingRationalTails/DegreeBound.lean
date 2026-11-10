@@ -77,7 +77,7 @@ theorem finrank_globalSections_intersection_eq_mul (C : X.IdealSheafData)
     rw [hf, ← Category.assoc, Scheme.IdealSheafData.inclusion_subschemeι]
   have : IsScalarTower k k' Γ(I.subscheme, ⊤) := by
     refine IsScalarTower.of_algebraMap_eq fun r => ?_
-    show ((Scheme.ΓSpecIso (.of k)).inv ≫ (I.subschemeι ≫ (X ↘ Spec (.of k))).appTop).hom r =
+    change ((Scheme.ΓSpecIso (.of k)).inv ≫ (I.subschemeι ≫ (X ↘ Spec (.of k))).appTop).hom r =
       ((Scheme.ΓSpecIso (.of k')).inv ≫ (iC ≫ f').appTop).hom (algebraMap k k' r)
     rw [hI, ← Category.assoc iC, Scheme.Hom.comp_appTop (iC ≫ f'), ← Category.assoc,
       ← Scheme.ΓSpecIso_inv_naturality]
@@ -194,7 +194,6 @@ theorem isRationalTail_of_finrank_globalSections_intersection_eq_one
     (C : X.IdealSheafData) [IsIntegral C.subscheme] (hCdim : topologicalKrullDim C.subscheme = 1)
     (hne : Nonempty (complementaryCurve C))
     (k' : Type u) [Field k'] [Algebra k k'] (f' : C.subscheme ⟶ Spec (.of k'))
-    (hf : f' ≫ Spec.map (CommRingCat.ofHom (algebraMap k k')) = C.subschemeι ≫ (X ↘ Spec (.of k)))
     [IsProper f'] [IsIso ((Scheme.ΓSpecIso (.of k')).inv ≫ f'.appTop)]
     (h1 :
       letI : Algebra k' Γ((intersectionWithComplementaryCurveIdeal C).subscheme, ⊤) :=
@@ -213,7 +212,7 @@ theorem isRationalTail_of_finrank_globalSections_intersection_eq_one
   have : Nontrivial Γ(I.subscheme, ⊤) := Module.nontrivial_of_finrank_eq_succ h1
   have hbij : Function.Bijective (algebraMap k' Γ(I.subscheme, ⊤)) := by
     refine ⟨(algebraMap k' Γ(I.subscheme, ⊤)).injective, ?_⟩
-    show Function.Surjective (Algebra.linearMap k' Γ(I.subscheme, ⊤))
+    change Function.Surjective (Algebra.linearMap k' Γ(I.subscheme, ⊤))
     have : FiniteDimensional k' Γ(I.subscheme, ⊤) := Module.finite_of_finrank_eq_succ h1
     exact (LinearMap.injective_iff_surjective_of_finrank_eq_finrank
       (by rw [h1, Module.finrank_self])).mp (algebraMap k' Γ(I.subscheme, ⊤)).injective

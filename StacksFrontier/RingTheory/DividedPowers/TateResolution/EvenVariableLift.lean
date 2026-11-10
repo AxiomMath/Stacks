@@ -26,9 +26,9 @@ finite variable stages are stable under divided powers.
 
 The graph argument is run over `ℤ` rather than over the ambient coefficient ring. This is not a
 weakening: the gradings and divided powers do not involve the coefficients (see
-`StacksFrontier.RingTheory.DividedPowers.TateResolution.ScalarRestriction`), while the argument needs
-the coefficient inclusion to be an algebra homomorphism, which over `ℤ` is automatic and over `R`
-is false for the abstractly-supplied algebra structure on a subring of a graded divided power
+`StacksFrontier.RingTheory.DividedPowers.TateResolution.ScalarRestriction`), while the argument
+needs the coefficient inclusion to be an algebra homomorphism, which over `ℤ` is automatic and over
+`R` is false for the abstractly-supplied algebra structure on a subring of a graded divided power
 algebra.
 
 ## References
@@ -117,7 +117,7 @@ public theorem evenVariableAlgebra_ringHom_dpow
   have hmon : ∀ (m : ℕ) (a : B), monomial m a = ιZ a * γC.dpow m (T ()) := by
     intro m a
     rw [hδT m]
-    show monomial m a = monomial 0 a * monomial m 1
+    change monomial m a = monomial 0 a * monomial m 1
     rw [monomial_mul_monomial]
     simp
   have hfinite : ∀ y : EvenVariableAlgebra B,
@@ -148,11 +148,11 @@ public theorem evenVariableAlgebra_ringHom_dpow
     g (fun m y hy => hg3 m y hy) (fun r => by simp)
     (fun m a ha => by
       have hb := (mem_positiveEvenPart_restrictGrade ℤ _ _).1 ha
-      show δ.dpow m (g (coeffEmbedding a)) = g (γC.dpow m (coeffEmbedding a))
+      change δ.dpow m (g (coeffEmbedding a)) = g (γC.dpow m (coeffEmbedding a))
       rw [hcoeffdpow m a hb, hg1, hg1]
       exact hdpow m a (hrefl a hb))
     (fun m _ _ => by
-      show δ.dpow m (g (monomial 1 1)) = g (γC.dpow m (monomial 1 1))
+      change δ.dpow m (g (monomial 1 1)) = g (γC.dpow m (monomial 1 1))
       rw [hδT m, hg2, hg2, δ.dpow_one htpos])
     (hfinite x) ((mem_positiveEvenPart_restrictGrade ℤ _ _).2 hx) n
   exact key

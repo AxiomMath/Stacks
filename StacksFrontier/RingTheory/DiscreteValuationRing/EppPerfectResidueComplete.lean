@@ -300,14 +300,14 @@ theorem exists_finite_extension_isWeakSolution_of_perfectField
   let : Algebra K N := ((algebraMap M N).comp (algebraMap K M)).toAlgebra
   let : IsScalarTower K M N := IsScalarTower.of_algebraMap_eq' rfl
   let : IsScalarTower K L N := IsScalarTower.of_algebraMap_eq fun k => by
-    show algebraMap M N (algebraMap K M k) = algebraMap L N (algebraMap K L k)
+    change algebraMap M N (algebraMap K M k) = algebraMap L N (algebraMap K L k)
     rw [IsScalarTower.algebraMap_apply K L M, ← IsScalarTower.algebraMap_apply L M N]
   let : Algebra C N := ((algebraMap M N).comp (algebraMap C M)).toAlgebra
   let : IsScalarTower C M N := IsScalarTower.of_algebraMap_eq' rfl
   let : Algebra A N := ((algebraMap C N).comp (algebraMap A C)).toAlgebra
   let : IsScalarTower A C N := IsScalarTower.of_algebraMap_eq' rfl
   let : IsScalarTower A K N := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap M N (algebraMap C M (algebraMap A C a)) =
+    change algebraMap M N (algebraMap C M (algebraMap A C a)) =
       algebraMap M N (algebraMap K M (algebraMap A K a))
     rw [← IsScalarTower.algebraMap_apply A C M, ← IsScalarTower.algebraMap_apply A K M]
   -- Completeness of the top of the tower is derived, not assumed, exactly as Tag 09F8 derives it:
@@ -329,7 +329,7 @@ theorem exists_finite_extension_isWeakSolution_of_perfectField
   let : Algebra A C' := ((algebraMap C C').comp (algebraMap A C)).toAlgebra
   let : IsScalarTower A C C' := IsScalarTower.of_algebraMap_eq' rfl
   let : IsScalarTower A C' N := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap C N (algebraMap A C a) =
+    change algebraMap C N (algebraMap A C a) =
       algebraMap C' N (algebraMap C C' (algebraMap A C a))
     rw [← IsScalarTower.algebraMap_apply C C' N]
   let : IsExtension A C' := isExtension_of_injective_of_isLocalHom A C'
@@ -338,21 +338,21 @@ theorem exists_finite_extension_isWeakSolution_of_perfectField
   let : Algebra B N := ((algebraMap M N).comp (algebraMap B M)).toAlgebra
   let : IsScalarTower B M N := IsScalarTower.of_algebraMap_eq' rfl
   let : IsScalarTower B L N := IsScalarTower.of_algebraMap_eq fun b => by
-    show algebraMap M N (algebraMap B M b) = algebraMap L N (algebraMap B L b)
+    change algebraMap M N (algebraMap B M b) = algebraMap L N (algebraMap B L b)
     rw [IsScalarTower.algebraMap_apply B L M, ← IsScalarTower.algebraMap_apply L M N]
   let : IsScalarTower B C N := IsScalarTower.of_algebraMap_eq fun b => by
-    show algebraMap M N (algebraMap B M b) =
+    change algebraMap M N (algebraMap B M b) =
       algebraMap M N (algebraMap C M (algebraMap B C b))
     rw [← IsScalarTower.algebraMap_apply B C M]
   let : Algebra B C' := ((algebraMap C C').comp (algebraMap B C)).toAlgebra
   let : IsScalarTower B C C' := IsScalarTower.of_algebraMap_eq' rfl
   let : IsScalarTower B C' N := IsScalarTower.of_algebraMap_eq fun b => by
-    show algebraMap M N (algebraMap B M b) =
+    change algebraMap M N (algebraMap B M b) =
       algebraMap C' N (algebraMap C C' (algebraMap B C b))
     rw [← IsScalarTower.algebraMap_apply C C' N]
     exact IsScalarTower.algebraMap_apply B C N b
   let : IsScalarTower A B C' := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap C C' (algebraMap A C a) =
+    change algebraMap C C' (algebraMap A C a) =
       algebraMap C C' (algebraMap B C (algebraMap A B a))
     rw [← IsScalarTower.algebraMap_apply A B C]
   let : IsExtension B C' := isExtension_of_injective_of_isLocalHom B C'
@@ -818,7 +818,8 @@ gives the reason: Tag 07NJ is available here only as
 topology, which `A` does not.
 
 That is now fixed at the root rather than worked around: `formallySmoothTop_of_formallySmoothNAdic`
-(`StacksFrontier.RingTheory.FormallySmooth.Adic`) is the `mpr` half of that equivalence stated without
+(`StacksFrontier.RingTheory.FormallySmooth.Adic`) is the `mpr` half of that equivalence stated
+without
 `[DiscreteTopology R]`, the hypothesis being needed only by the forward direction. **Tag 07NJ
 itself is not restated**; what follows supplies its topological hypotheses and calls it.
 
@@ -1001,7 +1002,7 @@ theorem exists_ringHom_powerSeries_of_equalCharacteristic
     have hres : residue A a = 0 := (residue_eq_zero_iff a).mpr ha
     have hcc : PowerSeries.constantCoeff
         ((PowerSeries.map φ).comp (e.symm : A →+* PowerSeries (ResidueField A)) a) = 0 := by
-      show PowerSeries.constantCoeff (PowerSeries.map φ (e.symm a)) = 0
+      change PowerSeries.constantCoeff (PowerSeries.map φ (e.symm a)) = 0
       rw [show PowerSeries.constantCoeff (PowerSeries.map φ (e.symm a))
         = φ (PowerSeries.constantCoeff (e.symm a)) from rfl,
         constantCoeff_symm_eq_residue A hπ e heX heC, hres, map_zero]
@@ -1009,7 +1010,7 @@ theorem exists_ringHom_powerSeries_of_equalCharacteristic
     rw [← PowerSeries.ker_coeff_eq_max_ideal]
     exact hcc
   · intro a
-    show PowerSeries.constantCoeff (PowerSeries.map φ (e.symm a)) = φ (residue A a)
+    change PowerSeries.constantCoeff (PowerSeries.map φ (e.symm a)) = φ (residue A a)
     rw [show PowerSeries.constantCoeff (PowerSeries.map φ (e.symm a))
       = φ (PowerSeries.constantCoeff (e.symm a)) from rfl,
       constantCoeff_symm_eq_residue A hπ e heX heC]

@@ -125,7 +125,7 @@ theorem isLocalModelBundle_zeroScheme_of_charts {Y T : Scheme.{u}} (q : T ⟶ Y)
           rw [Iso.trans_hom, Category.assoc]
           refine congrArg _ ?_
           rw [hpush, localModelSpecMap, specIsoOfRingEquiv]
-          show Spec.map (CommRingCat.ofHom ψ.symm.toRingHom) ≫
+          change Spec.map (CommRingCat.ofHom ψ.symm.toRingHom) ≫
             Spec.map (CommRingCat.ofHom (algebraMap Γ(Y, V) (LocalModel Γ(Y, V) b))) ≫
               hV.fromSpec = _
           rw [← Category.assoc, ← Spec.map_comp, ← Category.assoc, ← Spec.map_comp, hring]

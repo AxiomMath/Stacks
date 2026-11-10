@@ -186,10 +186,10 @@ private theorem additiveDerivation_naturality_of_isLocalization
     (addMonoidHom_eq_of_isLocalization (B := T) U ρ (f.comp D)
       (E.comp ρ.toAddMonoidHom)
       (fun x y => by
-        show f (D (x * y)) = ρ x • f (D y) + ρ y • f (D x)
+        change f (D (x * y)) = ρ x • f (D y) + ρ y • f (D x)
         rw [hD, map_add, hf, hf])
       (fun x y => by
-        show E (ρ (x * y)) = ρ x • E (ρ y) + ρ y • E (ρ x)
+        change E (ρ (x * y)) = ρ x • E (ρ y) + ρ y • E (ρ x)
         rw [map_mul, hE])
       hA)
     s
@@ -218,7 +218,7 @@ private theorem additiveDerivation_zero_on_localization
   DFunLike.congr_fun
     (addMonoidHom_eq_of_isLocalization (B := T) U ρ (D.comp ρ.toAddMonoidHom) 0
       (fun x y => by
-        show D (ρ (x * y)) = ρ x • D (ρ y) + ρ y • D (ρ x)
+        change D (ρ (x * y)) = ρ x • D (ρ y) + ρ y • D (ρ x)
         rw [map_mul]
         exact hD (ρ x) (ρ y))
       (fun _ _ => by simp)
@@ -424,11 +424,11 @@ private theorem basicOpenDerivation_natural {R A : CommRingCat.{u}}
   let f : M →+ N := (F.val.map (homOfLE i).op).hom.toAddMonoidHom
   let : Algebra A S := StructureSheaf.openAlgebra A (.op (PrimeSpectrum.basicOpen b))
   let : Module S M := by
-    show Module ((SheafOfModules.underlyingRingSheaf (Spec A).sheaf).obj.obj
+    change Module ((SheafOfModules.underlyingRingSheaf (Spec A).sheaf).obj.obj
       (.op (PrimeSpectrum.basicOpen b))) M
     infer_instance
   let : Module T N := by
-    show Module ((SheafOfModules.underlyingRingSheaf (Spec A).sheaf).obj.obj
+    change Module ((SheafOfModules.underlyingRingSheaf (Spec A).sheaf).obj.obj
       (.op (PrimeSpectrum.basicOpen a))) N
     infer_instance
   let : IsLocalization (.powers b) S := inferInstanceAs
@@ -446,7 +446,7 @@ private theorem basicOpenDerivation_natural {R A : CommRingCat.{u}}
     (fun s t => (basicOpenDerivation φ F d a).d_mul s t)
     (by
       intro c
-      show F.val.map (homOfLE i).op
+      change F.val.map (homOfLE i).op
           ((basicOpenDerivation φ F d b).d (algebraMap A S c)) =
         (basicOpenDerivation φ F d a).d
           ((Spec A).presheaf.map (homOfLE i).op (algebraMap A S c))
@@ -462,7 +462,7 @@ private theorem basicOpenDerivation_natural {R A : CommRingCat.{u}}
           (Functor.map_comp (Spec A).presheaf p q).symm.trans
             (congrArg (Spec A).presheaf.map hpqr)
         exact congrArg (fun g : A ⟶ T => g c) (by
-          show ((Scheme.ΓSpecIso A).inv ≫ (Spec A).presheaf.map p) ≫
+          change ((Scheme.ΓSpecIso A).inv ≫ (Spec A).presheaf.map p) ≫
             (Spec A).presheaf.map q =
             (Scheme.ΓSpecIso A).inv ≫ (Spec A).presheaf.map r
           exact (Category.assoc _ _ _).trans
@@ -513,7 +513,7 @@ private theorem affineSectionAddHom_basic {R A : CommRingCat.{u}}
     (x : (Spec A).presheaf.obj (.op (PrimeSpectrum.basicOpen a))) :
     affineSectionAddHom φ F d (.op (PrimeSpectrum.basicOpen a)) x =
       (basicOpenDerivation φ F d a).d x := by
-  show ((affineAddMap φ F d).hom.app (.op (PrimeSpectrum.basicOpen a))
+  change ((affineAddMap φ F d).hom.app (.op (PrimeSpectrum.basicOpen a))
     (ULift.up x)).down = _
   unfold affineAddMap
   exact congrArg ULift.down
@@ -576,7 +576,7 @@ private theorem existingDerivation_basic {R A : CommRingCat.{u}}
   let M := F.val.obj (.op (PrimeSpectrum.basicOpen a))
   let : Algebra A S := StructureSheaf.openAlgebra A (.op (PrimeSpectrum.basicOpen a))
   let : Module S M := by
-    show Module ((SheafOfModules.underlyingRingSheaf (Spec A).sheaf).obj.obj
+    change Module ((SheafOfModules.underlyingRingSheaf (Spec A).sheaf).obj.obj
       (.op (PrimeSpectrum.basicOpen a))) M
     infer_instance
   let : IsLocalization (.powers a) S := inferInstanceAs
@@ -589,7 +589,7 @@ private theorem existingDerivation_basic {R A : CommRingCat.{u}}
     (fun s t => (basicOpenDerivation φ F (globalSectionsDerivation φ F D) a).d_mul s t)
     (by
       intro b
-      show D.d (algebraMap A S b) =
+      change D.d (algebraMap A S b) =
         (basicOpenDerivation φ F (globalSectionsDerivation φ F D) a).d
           (algebraMap A S b)
       rw [← basicOpenRingHom_apply A a b, basicOpenDerivation_on_algebraMap]
@@ -627,7 +627,7 @@ private theorem basicOpenDerivation_base {R A : CommRingCat.{u}}
       (.op (PrimeSpectrum.basicOpen r))))
   let ρ : S →+* T := ((Spec.map φ).app (PrimeSpectrum.basicOpen r)).hom
   let : Module T M := by
-    show Module ((SheafOfModules.underlyingRingSheaf (Spec A).sheaf).obj.obj
+    change Module ((SheafOfModules.underlyingRingSheaf (Spec A).sheaf).obj.obj
       (.op (PrimeSpectrum.basicOpen (φ r)))) M
     infer_instance
   let D : T →+ M := basicOpenAddHom φ F d (φ r)
@@ -656,7 +656,7 @@ private theorem basicOpenDerivation_base {R A : CommRingCat.{u}}
     (fun s t => (basicOpenDerivation φ F d (φ r)).d_mul s t)
     (fun s => by
       rw [hcomm]
-      show (basicOpenDerivation φ F d (φ r)).d
+      change (basicOpenDerivation φ F d (φ r)).d
         (basicOpenRingHom A (φ r) (φ s)) = 0
       rw [basicOpenDerivation_on_algebraMap, d.d_map]
       exact map_zero (F.val.map (homOfLE le_top).op).hom) x
@@ -721,7 +721,7 @@ theorem globalSectionsDerivation_bijective {R A : CommRingCat.{u}} (φ : R ⟶ A
       (F.val.obj (op ⊤))) := Module.compHom _ φ.hom
   apply _root_.Derivation.ext
   intro a
-  show affineSectionAddHom φ F d (.op ⊤) ((Scheme.ΓSpecIso A).inv a) = d.d a
+  change affineSectionAddHom φ F d (.op ⊤) ((Scheme.ΓSpecIso A).inv a) = d.d a
   let p := (homOfLE (show PrimeSpectrum.basicOpen (1 : A) ≤ ⊤ from le_top)).op
   refine sections_ext_of_cover F (fun _ : Unit => PrimeSpectrum.basicOpen (1 : A))
     (fun _ => le_top) (by

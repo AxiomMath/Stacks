@@ -185,7 +185,7 @@ private theorem mem_primeIdealOf_iff_notMem_basicOpen {X : Scheme.{u}} {V : X.Op
     a ∈ (hV.primeIdealOf ⟨x, hx⟩).asIdeal ↔ x ∉ X.basicOpen a := by
   have h : hV.primeIdealOf ⟨x, hx⟩ ∈ PrimeSpectrum.basicOpen a ↔ x ∈ X.basicOpen a := by
     rw [← hV.fromSpec_preimage_basicOpen a]
-    show hV.fromSpec (hV.primeIdealOf ⟨x, hx⟩) ∈ (X.basicOpen a : Set X) ↔ _
+    change hV.fromSpec (hV.primeIdealOf ⟨x, hx⟩) ∈ (X.basicOpen a : Set X) ↔ _
     rw [hV.fromSpec_primeIdealOf ⟨x, hx⟩]
     exact Iff.rfl
   rw [← h, PrimeSpectrum.mem_basicOpen, not_not]

@@ -161,7 +161,7 @@ theorem isSheaf_overTotalPresheaf (hR : Presheaf.IsSheaf (SchemesOver.topology Y
     have := congrArg Sigma.fst (hx g₁ g₂ h₁ h₂ hg)
     change (schemeSpaceFunctor B S hS).map g₁ ≫ (x f₁ h₁).1 =
       (schemeSpaceFunctor B S hS).map g₂ ≫ (x f₂ h₂).1 at this
-    show Y.1.map g₁.op (testPoint (CostructuredArrow.mk (x f₁ h₁).1)) =
+    change Y.1.map g₁.op (testPoint (CostructuredArrow.mk (x f₁ h₁).1)) =
       Y.1.map g₂.op (testPoint (CostructuredArrow.mk (x f₂ h₂).1))
     rw [← testPoint_mk_comp, ← testPoint_mk_comp, this]
   obtain ⟨yU, hyU, hyuniq⟩ := hY Sv hSv y hy
@@ -184,14 +184,14 @@ theorem isSheaf_overTotalPresheaf (hR : Presheaf.IsSheaf (SchemesOver.topology Y
     (hfst _ k.left hk).trans (CostructuredArrow.w k)
   have hbase : ∀ {T₀ T₁ : SchemesOver Y} (k : T₀ ⟶ T₁) (a : OverTotal R T₁.left),
       a.1 = T₁.hom → (overTotalMap R k.left a).1 = T₀.hom := fun k a ha ↦ by
-    show (schemeSpaceFunctor B S hS).map k.left ≫ a.1 = _
+    change (schemeSpaceFunctor B S hS).map k.left ≫ a.1 = _
     rw [ha]
     exact CostructuredArrow.w k
   let z : Presieve.FamilyOfElements R S'.arrows := fun T' k hk' ↦
     overTotalToValue R T' (x k.left hk') (hk T' k hk')
   have hz : z.Compatible := by
     intro T₁ T₂ T₀ g₁ g₂ k₁ k₂ h₁ h₂ hg
-    show R.map g₁.op (overTotalToValue R T₁ (x k₁.left h₁) _) =
+    change R.map g₁.op (overTotalToValue R T₁ (x k₁.left h₁) _) =
       R.map g₂.op (overTotalToValue R T₂ (x k₂.left h₂) _)
     have ha₁ := hbase g₁ _ (hk T₁ k₁ h₁)
     have ha₂ := hbase g₂ _ (hk T₂ k₂ h₂)
@@ -208,7 +208,7 @@ theorem isSheaf_overTotalPresheaf (hR : Presheaf.IsSheaf (SchemesOver.topology Y
       ((congrArg (R.map k.op) (overTotalToValue_self R ⟨h, r⟩)).trans (hr k hf))
   · have h1 : a.1 = h := by
       refine eq_hom_of_testPoint_mk_eq (T := T) a.1 ((hyuniq _ fun V f hf ↦ ?_).trans htest.symm)
-      show Y.1.map f.op (testPoint (CostructuredArrow.mk a.1)) =
+      change Y.1.map f.op (testPoint (CostructuredArrow.mk a.1)) =
         testPoint (CostructuredArrow.mk (x f hf).1)
       rw [← testPoint_mk_comp, ← ha f hf]
       rfl
@@ -298,7 +298,7 @@ theorem overTotalToValue_pointsModelEquiv (T : SchemesOver Y) (y : spacePointsOv
     overTotalToValue R T (pointsModelEquiv p c T.left ⟨y.1⟩) hy = c.hom.app (op T) ⟨y⟩ := by
   refine (NatTrans.naturality_apply c.hom _ _).symm.trans (congrArg _ ?_)
   exact ULift.ext (Subtype.ext (by
-    show H.1.map (𝟙 (op T.left)) y.1 = y.1
+    change H.1.map (𝟙 (op T.left)) y.1 = y.1
     exact H.1.map_id_apply _ y.1))
 
 /-- The model of the total presheaf is natural. -/
@@ -420,9 +420,9 @@ theorem exists_generate_singleton_mem_lift (hflat : IsFlat B S hS g.hom)
           b ≫ V.hom = b ≫ (j.left ≫ U.hom) := by rw [← Over.w j]
           _ = (b ≫ j.left) ≫ U.hom := by simp [Category.assoc]
           _ = E'.f i ≫ U.hom := by
-            show (b ≫ (BigFppfOver.forget B S hS).map j) ≫ U.hom = _
+            change (b ≫ (BigFppfOver.forget B S hS).map j) ≫ U.hom = _
             rw [hbp])
-      show R α
+      change R α
       rw [← show β ≫ j = α from Over.OverMorphism.ext hbp]
       exact ⟨_, β, j, Presieve.singleton.mk, rfl⟩
     exact J.superset_covering hle hRcov
@@ -560,13 +560,13 @@ theorem isAlgebraicSpaceOver_of_map (hflat : IsFlat B S hS g.hom)
     rw [Types.isPullback_iff]
     refine ⟨?_, ?_, ?_⟩
     · ext x
-      show testPoint (CostructuredArrow.mk (e U (χ.app (op U) x)).1) = g.hom.app (op U)
+      change testPoint (CostructuredArrow.mk (e U (χ.app (op U) x)).1) = g.hom.app (op U)
         (p'.hom.app (op U) x)
       rw [hχ, ← testPoint_mk_pointBase p' x]
       exact htg _
     · rintro x y ⟨h₁, h₂⟩
       have hb : pointBase p' x = pointBase p' y := by
-        show ObjectProperty.homMk _ = ObjectProperty.homMk _
+        change ObjectProperty.homMk _ = ObjectProperty.homMk _
         rw [show p'.hom.app (op U) x = p'.hom.app (op U) y from h₂]
       have h₃ := congrArg (e U) h₁
       rw [hχ, hχ] at h₃

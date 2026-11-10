@@ -77,7 +77,7 @@ lemma relocalizeChart_w {A B : CostructuredArrow yoneda G} (k : A ⟶ B) :
   congr 1
   refine Subtype.ext ?_
   have hA := yonedaEquiv_hom_eq_map k
-  show (⟨k.left.left ≫ B.left.hom, G.map (Over.homMk k.left.left rfl :
+  change (⟨k.left.left ≫ B.left.hom, G.map (Over.homMk k.left.left rfl :
       Over.mk (k.left.left ≫ B.left.hom) ⟶ Over.mk B.left.hom).op (yonedaEquiv B.hom)⟩ :
       Σ χ : A.left.left ⟶ V, G.obj (op (Over.mk χ))) = ⟨A.left.hom, yonedaEquiv A.hom⟩
   rw [hA]

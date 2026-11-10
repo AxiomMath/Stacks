@@ -270,9 +270,9 @@ theorem isIntegralElem_globalFunctions_of_isProper
     refine (globalFunctionsHomEquiv B (Spec (.of k)) hS ⟨X, hX⟩).injective ?_
     rw [globalFunctionsHomEquiv_natural, hbdef, Equiv.apply_symm_apply]
     apply ObjectProperty.hom_ext
-    show (globalFunctionsHomEquiv B (Spec (.of k)) hS ⟨X, hX⟩ a).hom = (φ ≫ m).hom
+    change (globalFunctionsHomEquiv B (Spec (.of k)) hS ⟨X, hX⟩ a).hom = (φ ≫ m).hom
     rw [← hq2]
-    show q ≫ yoneda.map tl = (g ≫ jW) ≫ iW ≫ Z.ι ≫ yoneda.map tl
+    change q ≫ yoneda.map tl = (g ≫ jW) ≫ iW ≫ Z.ι ≫ yoneda.map tl
     rw [← Category.assoc (g ≫ jW) iW, Category.assoc g jW iW, hjW, Category.comp_id,
       ← Category.assoc g Z.ι, hg]
   -- Step 11: `Γ(W, ⊤)` is integral over `k`, hence so are `b` and `a`.

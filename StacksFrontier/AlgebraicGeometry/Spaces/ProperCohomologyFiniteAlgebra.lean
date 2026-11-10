@@ -99,7 +99,8 @@ with endomorphisms `τ r` of `N` acting as the scalars `κ r`.  If `N` is finite
 `κ`, then `G.obj X` is finite over `R`. -/
 theorem moduleFinite_endActionModule_of_iso {k k' R : Type*} [Ring k] [CommRing k']
     [CommRing R] (G : C ⥤ ModuleCat k) [G.Additive] {X Y : C} (ρ : R →+* End X) (e : X ≅ Y)
-    (σ : R → End Y) (he : ∀ r, (ρ r).asHom ≫ e.hom = e.hom ≫ (σ r).asHom) (N : ModuleCat k') (κ : R →+* k')
+    (σ : R → End Y) (he : ∀ r, (ρ r).asHom ≫ e.hom = e.hom ≫ (σ r).asHom)
+    (N : ModuleCat k') (κ : R →+* k')
     (τ : R → End N) (hτ : ∀ r y, (τ r).asHom.hom y = κ r • y)
     (D : (forget₂ (ModuleCat k') AddCommGrpCat).obj N ≅
       (forget₂ (ModuleCat k) AddCommGrpCat).obj (G.obj Y))
@@ -198,7 +199,7 @@ theorem moduleFinite_cohomology_of_isProper_of_action
       ((modulePushforwardChartIso B S hS pr hrep).app F').symm
   have he : ∀ r, (ρ r).asHom ≫ e.hom = e.hom ≫ (modulePushforward B S hS pr).map (s r) := by
     intro r
-    show (ρ r).asHom ≫ toPushforwardModuleOfAction B S hS pr' pr F ρ hrep ≫
+    change (ρ r).asHom ≫ toPushforwardModuleOfAction B S hS pr' pr F ρ hrep ≫
         (modulePushforwardChartIso B S hS pr hrep).inv.app F' =
       (toPushforwardModuleOfAction B S hS pr' pr F ρ hrep ≫
         (modulePushforwardChartIso B S hS pr hrep).inv.app F') ≫ _
@@ -310,9 +311,9 @@ theorem moduleFinite_cohomology_of_isProper_of_algebra_of_isAffine [IsNoetherian
       (specAlgebraMapOver B S hS A α R)).appTop x)).asHom =
       globalSmul _ (pullbackToGlobalFunctions B S hS X V f x) F := by
     intro x
-    show (ρ (e ((specAlgebraToAffine B S hS A α R).appTop x))).asHom = _
+    change (ρ (e ((specAlgebraToAffine B S hS A α R).appTop x))).asHom = _
     rw [specAlgebraToAffine_appTop]
-    show (ρ ((Scheme.ΓSpecIso (.of R)).hom.hom ((Scheme.ΓSpecIso (.of R)).inv.hom
+    change (ρ ((Scheme.ΓSpecIso (.of R)).hom.hom ((Scheme.ΓSpecIso (.of R)).inv.hom
       (algebraMap A R (α.symm x))))).asHom = _
     rw [← CommRingCat.comp_apply, Iso.inv_hom_id, CommRingCat.id_apply, hρ, α.apply_symm_apply]
   have hfin' := moduleFinite_cohomology_of_isProper_of_action B S hS
@@ -353,7 +354,7 @@ theorem pullbackToGlobalFunctions_baseObject {X : AlgebraicSpaces B (Spec (.of A
   have hw : (yoneda.preimage (U.unop.1.hom ≫ p.hom)).left =
       ((SmallEtale.toOver B (Spec (.of A)) hA X.1).obj U.unop).hom :=
     (Category.comp_id _).symm.trans (Over.w (yoneda.preimage (U.unop.1.hom ≫ p.hom)))
-  show (Scheme.Γ.map (B.inclusion.map (yoneda.preimage (U.unop.1.hom ≫ p.hom)).left).op)
+  change (Scheme.Γ.map (B.inclusion.map (yoneda.preimage (U.unop.1.hom ≫ p.hom)).left).op)
       ((Scheme.ΓSpecIso (.of A)).inv a) = _
   exact (congrArg (fun g : ((SmallEtale.toOver B (Spec (.of A)) hA X.1).obj U.unop).left ⟶
       B.obj hA => (Scheme.Γ.map (B.inclusion.map g).op)

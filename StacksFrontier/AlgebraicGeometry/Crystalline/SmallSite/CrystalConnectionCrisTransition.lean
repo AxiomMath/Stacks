@@ -56,7 +56,7 @@ theorem formsWedge_map {B B' : CrystallineThickening S} (k : B ⟶ B')
       formsWedge ((crysDifferentials S).map k.op η) ((crysDifferentials S).map k.op ω) := by
   apply crysFormVal_injective
   refine (PresheafOfModules.extPowSections_map 2 (crysDifferentials S) k.op _).trans ?_
-  show ExteriorAlgebra.mapₛₗ _ _ (ExteriorAlgebra.ι _ η * ExteriorAlgebra.ι _ ω) = _
+  change ExteriorAlgebra.mapₛₗ _ _ (ExteriorAlgebra.ι _ η * ExteriorAlgebra.ι _ ω) = _
   rw [map_mul, ExteriorAlgebra.mapₛₗ_ι, ExteriorAlgebra.mapₛₗ_ι]
   rfl
 
@@ -124,7 +124,7 @@ theorem tensorTransitionTwo_tmul (V : A.obj.thickening.target.scheme.Opens)
         (crystalRestrict F (CrystallineThickening.restrictOpenMap g V) x)
         ((formsComparisonTwo B).toFun (g.hom.targetHom.hom ⁻¹ᵁ V)
           ((crysDifferentialForms S 2).map (CrystallineThickening.restrictOpenMap g V).op θ)) := by
-  show ((tensorFormsAmbientIsoTwo B).hom.app (op (g.hom.targetHom.hom ⁻¹ᵁ V))
+  change ((tensorFormsAmbientIsoTwo B).hom.app (op (g.hom.targetHom.hom ⁻¹ᵁ V))
     ((tensorDifferentialFormsSheaf F 2).obj.map (CrystallineThickening.restrictOpenMap g V).op
       ((tensorFormsAmbientIsoTwo A).inv.app (op V) (ULift.up _)))).down = _
   rw [tensorFormsAmbientIso_inv_tmul F (formsComparisonTwo A) V x θ]
@@ -142,7 +142,7 @@ theorem tensorTransitionTwo_naturality {V V' : A.obj.thickening.target.scheme.Op
     (tensorTwo (F := F) B).val.map (homOfLE (g.hom.targetHom.hom.preimage_mono h)).op
         (tensorTransitionTwo F g V z) =
       tensorTransitionTwo F g V' ((tensorTwo (F := F) A).val.map (homOfLE h).op z) := by
-  show ((ambientTensorSheafULift F _).map (homOfLE (g.hom.targetHom.hom.preimage_mono h)).op
+  change ((ambientTensorSheafULift F _).map (homOfLE (g.hom.targetHom.hom.preimage_mono h)).op
     ((tensorFormsAmbientIsoTwo B).hom.app (op (g.hom.targetHom.hom ⁻¹ᵁ V))
       ((tensorDifferentialFormsSheaf F 2).obj.map (CrystallineThickening.restrictOpenMap g V).op
         ((tensorFormsAmbientIsoTwo A).inv.app (op V) (ULift.up z))))).down = _

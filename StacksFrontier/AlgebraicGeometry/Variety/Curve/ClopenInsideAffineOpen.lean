@@ -52,7 +52,7 @@ theorem eq_empty_of_isClopen_of_subset_range_of_isAffine {K : Type u} [Field K] 
     ext v
     constructor
     · rintro ⟨w, rfl⟩
-      show o (l w) ∈ Z
+      change o (l w) ∈ Z
       rw [← Scheme.Hom.comp_apply, hl]
       exact w.2
     · intro hv
@@ -67,7 +67,7 @@ theorem eq_empty_of_isClopen_of_subset_range_of_isAffine {K : Type u} [Field K] 
     exact ⟨inferInstance, inferInstance⟩
   have h0 := topologicalKrullDim_le_of_isIntegralHom (W.ι ≫ g)
   have hK : topologicalKrullDim (Spec (.of K)) = 0 := by
-    show topologicalKrullDim (PrimeSpectrum K) = 0
+    change topologicalKrullDim (PrimeSpectrum K) = 0
     rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, ringKrullDim_eq_zero_of_field]
   rw [h1, hK] at h0
   exact absurd h0 (by decide)

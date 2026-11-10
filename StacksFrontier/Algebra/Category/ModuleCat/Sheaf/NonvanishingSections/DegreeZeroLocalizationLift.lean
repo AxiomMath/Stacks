@@ -204,10 +204,10 @@ theorem degreeZeroLocalizationLift_smul
       GradedModuleDegreeZeroLocalization A B f) : LocalizedModule.Away f M) =
       LocalizedModule.mk (S := Submonoid.powers f) (r • x)
         ⟨f ^ (m + n), by exact ⟨m + n, rfl⟩⟩ := by
-    show HomogeneousLocalization.val (HomogeneousLocalization.Away.mk A hf m r hr) •
+    change HomogeneousLocalization.val (HomogeneousLocalization.Away.mk A hf m r hr) •
       (z : LocalizedModule.Away f M) = _
     rw [hz, val_mk_smul_mk_pow A hf hr]
-  show fractionValue A B hf e _ = _ • fractionValue A B hf e z
+  change fractionValue A B hf e _ = _ • fractionValue A B hf e z
   rw [fractionValue_eq A B hf e he _ (m + n) (r • x) hrx haz,
     fractionValue_eq A B hf e he z n x hx hz]
   exact hφ m n r x hr hx

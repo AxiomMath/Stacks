@@ -79,10 +79,8 @@ namespace Stacks.SimplicialModules
 universe w
 
 variable (C : Type w) [SmallCategory C] (J : GrothendieckTopology C)
-  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)]
   (O : Sheaf J RingCat.{w})
 
-omit [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- **Restriction to a fibre commutes with forgetting the module structure.** The underlying
 abelian sheaf of the restriction of a sheaf of `π^{-1}O`-modules `M` to the fibre `{n} × C` is the
 degree-`n` term of the fibrewise reading of the underlying abelian sheaf of `M`. Both are the

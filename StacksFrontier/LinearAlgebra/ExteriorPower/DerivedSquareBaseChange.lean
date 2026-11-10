@@ -134,7 +134,7 @@ lemma extendScalarsEquiv_tmul_ιMulti (N : ModuleCat.{u} A) (n : ℕ) (b : B) (v
     LinearEquiv.refl B _
   have h : e (ModuleCat.of A (⋀[A]^n N)) (b ⊗ₜ[A, f] _root_.exteriorPower.ιMulti A n v) =
       b ⊗ₜ[A] _root_.exteriorPower.ιMulti A n v := rfl
-  show _root_.exteriorPower.mapEquiv (e N).symm n
+  change _root_.exteriorPower.mapEquiv (e N).symm n
     (ExteriorAlgebra.exteriorPowerBaseChange A B N n (e (ModuleCat.of A (⋀[A]^n N))
       (b ⊗ₜ[A, f] _root_.exteriorPower.ιMulti A n v))) = _
   rw [h, ExteriorAlgebra.exteriorPowerBaseChange_tmul_ιMulti, map_smul,
@@ -605,7 +605,7 @@ theorem quasiIso_mapπ_reduction (P : SimplicialProjectiveResolution M)
         have hd : (P.derivedComplex G).d 1 0 =
             G.map (((alternatingFaceMapComplex _).obj P.obj).d 1 0) := by
           rw [derivedComplex_d_one_zero, alternatingFaceMapComplex_obj_d_one_zero, G.map_sub]
-        show LinearMap.range ((P.derivedComplex G).d 1 0).hom = LinearMap.ker (G.map P.ε).hom
+        change LinearMap.range ((P.derivedComplex G).d 1 0).hom = LinearMap.ker (G.map P.ε).hom
         rwa [hd]
       · have := adj.isLeftAdjoint
         infer_instance
@@ -828,7 +828,7 @@ theorem isZero_homology (hM : IsZero M) (Q : SimplicialProjectiveResolution M) (
   have h0 : derivedComplexMap (exteriorSquare A) (0 : Q.obj ⟶ Q.obj) = 0 := by
     ext n : 1
     refine ModuleCat.hom_ext ?_
-    show exteriorPower.map 2 (0 : Q.obj _⦋n⦌ →ₗ[A] Q.obj _⦋n⦌) = 0
+    change exteriorPower.map 2 (0 : Q.obj _⦋n⦌ →ₗ[A] Q.obj _⦋n⦌) = 0
     simpa using exteriorPower.map_smul_eq_pow_smul 2 (0 : A)
       (0 : Q.obj _⦋n⦌ →ₗ[A] Q.obj _⦋n⦌)
   rw [IsZero.iff_id_eq_zero, ← derivedMap_id (exteriorSquare A) Q i, hl.derivedMap_eq, h0,

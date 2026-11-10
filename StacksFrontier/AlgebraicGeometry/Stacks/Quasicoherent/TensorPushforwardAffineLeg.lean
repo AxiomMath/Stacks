@@ -135,8 +135,7 @@ lemma Function.Bijective.of_tmul_eq {R : Type*} [CommRing R] {M N M' N' T : Type
     (h : ∀ m n, Θ (m ⊗ₜ n) = Φ (τ m ⊗ₜ σ n)) : Function.Bijective Θ := by
   have : Θ = Φ.comp (TensorProduct.congr τ σ).toLinearMap.toAddMonoidHom := by
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul m n => simp [h]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   rw [this]
@@ -480,8 +479,7 @@ lemma tensorLeg_naturality
     (φ : j₁ ⟶ j₂) (m : tensorPushforwardSections a b x) :
     baseRingHom ((tensorApex a b).val.val.p.map φ.right.unop) (tensorLeg j₁ m) =
       tensorLeg j₂ m := by
-  induction m using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction m using TensorProduct.inductionOn with
   | tmul s t =>
     exact (congrArg (baseRingHom ((tensorApex a b).val.val.p.map φ.right.unop))
       (tensorLeg_tmul j₁ s t)).trans (((map_mul _ _ _).trans (congrArg₂ (· * ·)
@@ -509,12 +507,7 @@ lemma tensorLeg_map {x' : 𝒳.val.val.obj} (g : op x ⟶ op x')
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       (pushUnit a).val (pushUnit b).val).map g m) =
         tensorLeg ((StructuredArrow.map g).obj j) m := by
-  induction m using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg (tensorLeg j) (map_zero ((PresheafOfModulesOfCommRing.Monoidal.tensorObj
-      (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
-      (pushUnit a).val (pushUnit b).val).map g).hom)).trans
-        ((map_zero _).trans (map_zero _).symm)
+  induction m using TensorProduct.inductionOn with
   | tmul s t =>
     have hb : unitLeg b (legSnd j) ((pushUnit b).val.map g t) =
         unitLeg b (legSnd ((StructuredArrow.map g).obj j)) t :=
@@ -569,10 +562,7 @@ lemma tensorLeg_smul
     (r : ((FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj ⋙
       forget₂ CommRingCat RingCat).obj (op x)) (m : tensorPushforwardSections a b x) :
     tensorLeg j (r • m) = legRingHom (tensorProj a b) j r * tensorLeg j m := by
-  induction m using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg (tensorLeg j) (smul_zero r)).trans ((map_zero _).trans
-      ((mul_zero _).symm.trans (congrArg (_ * ·) (map_zero _).symm)))
+  induction m using TensorProduct.inductionOn with
   | tmul s t =>
     have e₁ : unitLeg a (legFst j) (r • s) = legRingHom a (legFst j) r * unitLeg a (legFst j) s :=
       unitLeg_smul a (legFst j) r s
@@ -1007,6 +997,7 @@ lemma bijective_tensorPushforwardPresheafComp_app (ha : AlgebraicStacks.IsAffine
       h2 h3)
 
 set_option maxHeartbeats 2000000 in
+-- long proof through the sheafification and coherator adjunctions of fppf module sheaves
 attribute [local instance] fppfModulesMonoidal fppfModulesBraided fppfModulesSymmetric in
 /-- **Stacks 0GRN, corrected: one leg affine.** Let `a : 𝒴 ⟶ 𝒳` be an affine (Stacks 0CHQ),
 quasi-compact, quasi-separated and flat 1-morphism of algebraic stacks and `b : 𝒵 ⟶ 𝒳` one which

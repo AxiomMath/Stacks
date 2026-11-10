@@ -219,7 +219,7 @@ theorem isClosedMap_pointsEquivScheme_symm (V : BigFppfOver B S hS) :
   rw [isClosed_pointTopology_yoneda_iff_isClosed_image, Equiv.image_symm_eq_preimage]
   have : pointsToScheme B S hS V '' (pointsToScheme B S hS V ⁻¹' W) = W :=
     Set.image_preimage_eq W (surjective_pointsToScheme B S hS V)
-  show IsClosed (pointsToScheme B S hS V '' (pointsToScheme B S hS V ⁻¹' W))
+  change IsClosed (pointsToScheme B S hS V '' (pointsToScheme B S hS V ⁻¹' W))
   rwa [this]
 
 /-- **The fibres of a proper morphism with `f_* 𝒪_X = 𝒪_T` over a Noetherian affine scheme of
@@ -351,7 +351,7 @@ theorem isPreconnected_fibre_of_isProper_of_isIso_fSharp {T : BigFppfOver B S hS
     have hfst : pullback.fst ((BigFppfOver.toScheme B S hS).map m) U.toBase (lam z) =
         (BigFppfOver.toScheme B S hS).map a z := by
       rw [← Scheme.Hom.comp_apply, pullback.lift_fst]
-    show lam z ∈ A ↔ _
+    change lam z ∈ A ↔ _
     rw [hAp (lam z) hsnd, hfst]
   -- the points of the base change of the Chow cover, read in `X'`
   let ψ' : (BigFppfOver.toScheme B S hS).obj Vp → points B S hS X'.obj := fun z =>
@@ -367,7 +367,7 @@ theorem isPreconnected_fibre_of_isProper_of_isIso_fSharp {T : BigFppfOver B S hS
     refine h₁.trans (congrArg (pointsMap B S hS (yoneda.obj V) ρ) ?_)
     apply injective_pointsToScheme B S hS V
     rw [pointsToScheme_pointsMap_yoneda]
-    show (BigFppfOver.toScheme B S hS).map a (pointsEquivScheme B S hS Vp
+    change (BigFppfOver.toScheme B S hS).map a (pointsEquivScheme B S hS Vp
       ((pointsEquivScheme B S hS Vp).symm z)) = pointsEquivScheme B S hS V
         ((pointsEquivScheme B S hS V).symm _)
     rw [Equiv.apply_symm_apply, Equiv.apply_symm_apply]
@@ -464,7 +464,7 @@ theorem isPreconnected_fibre_of_isProper_of_isIso_fSharp' {T : BigFppfOver B S h
         exists_point_pullback_of_pointsToScheme_eq f ν t₂ x (hx.trans ht₂.symm)
       exact ⟨y, hy₂, hy₁⟩
     · rintro ⟨y, hy, rfl⟩
-      show pointsToScheme B S hS T (pointsMap B S hS X.obj f.hom (pointsMap B S hS _ j.hom y)) = t
+      change pointsToScheme B S hS T (pointsMap B S hS X.obj f.hom (pointsMap B S hS _ j.hom y)) = t
       rw [pointsToScheme_pointsMap_pullback, hy, ht₂]
   rw [heq]
   exact hpre.image _ (continuous_pointsMap B S hS j.hom).continuousOn

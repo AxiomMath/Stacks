@@ -77,7 +77,7 @@ private lemma restrictionHom_arrows_isOpenMap {S : Scheme.{u}}
         universallyOpen_restrictionDiagramMorphisms G g k k' e e' (11 : Fin 12)
     exact Scheme.Hom.isOpenMap _
   rw [restrictionHom_mapArrows_left_eq]
-  show IsOpenMap (fun x => (restrictionArrowsToArrows G g).left.base
+  change IsOpenMap (fun x => (restrictionArrowsToArrows G g).left.base
     ((eqToHom (congrArg Over.left H.arrows_eq)).base x))
   exact hraw.comp (Scheme.Hom.homeomorph (eqToHom (congrArg Over.left H.arrows_eq))).isOpenMap
 
@@ -110,7 +110,7 @@ private lemma overComp_isOpenMap {S : Scheme.{u}} {X Y Z : Over S}
     (f : X ⟶ Y) (g : Y ⟶ Z) (hf : IsOpenMap f.left) (hg : IsOpenMap g.left) :
     IsOpenMap (f ≫ g).left := by
   rw [Over.comp_left]
-  show IsOpenMap (fun x => g.left.base (f.left.base x))
+  change IsOpenMap (fun x => g.left.base (f.left.base x))
   exact hg.comp hf
 
 /-- A composite of morphisms of `Over S` with surjective underlying maps is surjective. -/
@@ -150,7 +150,7 @@ private lemma pullbackPoint_eq_of_proj_eq_of_residueFieldMap_isIso
   apply Scheme.Pullback.carrierEquiv.injective
   refine Scheme.Pullback.carrierEquiv_eq_iff.mpr ⟨Scheme.Pullback.Triplet.ext hfst hsnd, ?_⟩
   have hres' : IsIso (f.residueFieldMap (Scheme.Pullback.Triplet.ofPoint q).x) := by
-    show IsIso (f.residueFieldMap ((pullback.fst f g).base q))
+    change IsIso (f.residueFieldMap ((pullback.fst f g).base q))
     rwa [← hfst]
   exact (pullbackTensorSpec_subsingleton f g _ hres').elim _ _
 
@@ -319,7 +319,7 @@ public theorem isOpen_image_comp_of_isOpen
   have : IsIso translate :=
     GroupoidScheme.translationByPoint_isIso H1.groupoid k' h1eq r1
   have : IsIso translate.left := by
-    show IsIso ((Over.forget S).map translate)
+    change IsIso ((Over.forget S).map translate)
     infer_instance
   have hTranslateOpen : IsOpen (translate.left.base '' W1) := by
     have : UniversallyOpen translate.left := inferInstance
@@ -329,7 +329,7 @@ public theorem isOpen_image_comp_of_isOpen
   have hr1map : H1.hom.mapArrows.left.base r1 = r0 := by
     rw [restrictionHom_mapArrows_apply, hr1raw, hrRaw]
   have hmapr : mapArrow.left.base r1 = r := by
-    show H0.hom.mapArrows.left.base (H1.hom.mapArrows.left.base r1) = r
+    change H0.hom.mapArrows.left.base (H1.hom.mapArrows.left.base r1) = r
     rw [hr1map, hr0]
   have : Subsingleton H1.groupoid.objects.left := h1field.hom.homeomorph.subsingleton
   let a := GroupoidScheme.sourceNormalizedArrow H1.groupoid k' h1eq r1
@@ -365,7 +365,7 @@ public theorem isOpen_image_comp_of_isOpen
     · rw [pullback.lift_snd]
       simp [hpairMapSnd, reassoc_of% hdSnd]
   have htranslateMap : translate ≫ mapArrow = d ≫ pairMap ≫ G.comp := by
-    show (H1.groupoid.compose q (𝟙 H1.groupoid.arrows) hq ≫ F.mapArrows) =
+    change (H1.groupoid.compose q (𝟙 H1.groupoid.arrows) hq ≫ F.mapArrows) =
       d ≫ pairMap ≫ G.comp
     calc
       H1.groupoid.compose q (𝟙 H1.groupoid.arrows) hq ≫ F.mapArrows =
@@ -379,7 +379,7 @@ public theorem isOpen_image_comp_of_isOpen
           rfl
   have htargetA : ∀ w' : H1.groupoid.arrows.left,
       (H1.groupoid.target ≫ a).left.base w' = r1 := fun w' => by
-    show a.left.base (H1.groupoid.target.left.base w') = r1
+    change a.left.base (H1.groupoid.target.left.base w') = r1
     rw [Subsingleton.elim (H1.groupoid.target.left.base w') (H1.groupoid.source.left r1)]
     exact GroupoidScheme.sourceNormalizedArrow_apply H1.groupoid k' h1eq r1
   have hdFirst : ∀ w' : H1.groupoid.arrows.left,
@@ -406,7 +406,7 @@ public theorem isOpen_image_comp_of_isOpen
             (d.left.base w') := by
         simpa [pair0Pt, Over.comp_left, Scheme.Hom.comp_apply] using hp
       rw [hp', Over.comp_left, Scheme.Hom.comp_apply, hdFirst w']
-      show mapArrow.left.base r1 = r
+      change mapArrow.left.base r1 = r
       exact hmapr
     obtain ⟨x', -, hx'pair⟩ := exists_preimage_overPullback f
       (pullback.fst G.source G.target) z pair0Pt (by rw [hpair0First])
@@ -428,10 +428,10 @@ public theorem isOpen_image_comp_of_isOpen
     refine ⟨x', hx'W, ?_⟩
     have hcompPoint : (p ≫ G.comp).left.base x' =
         mapArrow.left.base (translate.left.base w') := by
-      show G.comp.left.base
+      change G.comp.left.base
         ((pullback.snd f (pullback.fst G.source G.target)).left.base x') = _
       rw [hx'pair]
-      show (d ≫ pairMap ≫ G.comp).left.base w' = _
+      change (d ≫ pairMap ≫ G.comp).left.base w' = _
       have h := congrArg (fun m : H1.groupoid.arrows ⟶ G.arrows => m.left.base w')
         htranslateMap
       simpa [Scheme.Hom.comp_apply, d] using h.symm
@@ -493,24 +493,24 @@ public theorem isOpen_image_comp_of_isOpen
       pullback.lift rT2 h1 h1tgt.symm
     let w' := h1.left.base t2
     have hwTpoint : wT.left.base t0 = w := by
-      show (pullback.snd G.source G.target).left.base (p.left.base (xT.left.base t0)) = w
+      change (pullback.snd G.source G.target).left.base (p.left.base (xT.left.base t0)) = w
       rw [hxTpoint]
     have hwT2point : wT2.left.base t2 = w := by
-      show wT.left.base (eT.left.base t2) = w
+      change wT.left.base (eT.left.base t2) = w
       rwa [heTpoint]
     have hw' : w' ∈ W1 := by
       have hhw : mapArrow.left.base w' = w := by
         have hp := congrArg (fun m => m.left.base t2) hhLiftArrow
         change mapArrow.left.base w' = wT2.left.base t2 at hp
         rwa [hwT2point] at hp
-      show mapArrow.left.base w' ∈ W
+      change mapArrow.left.base w' ∈ W
       rwa [hhw]
-    show (p ≫ G.comp).left.base x ∈ mapArrow.left.base ''
+    change (p ≫ G.comp).left.base x ∈ mapArrow.left.base ''
       (translate.left.base '' W1)
     refine ⟨translate.left.base w', ⟨w', hw', rfl⟩, ?_⟩
     let pairTPt := pairT.left.base t2
     have hrT2point : rT2.left.base t2 = r1 := by
-      show rT1.left.base (eT.left.base t2) = r1
+      change rT1.left.base (eT.left.base t2) = r1
       rwa [heTpoint]
     have hpairTfstHom :
         pairT ≫ pullback.fst H1.groupoid.source H1.groupoid.target = rT2 :=
@@ -556,7 +556,7 @@ public theorem isOpen_image_comp_of_isOpen
           _ = xT2 ≫ p ≫ pullback.snd G.source G.target := by
             simp [wT2, xT2, wT, Category.assoc]
     have hxT2point : xT2.left.base t2 = x := by
-      show xT.left.base (eT.left.base t2) = x
+      change xT.left.base (eT.left.base t2) = x
       rwa [heTpoint]
     have hpairMapPt : pairMap.left.base pairTPt = ξ := by
       have hp := congrArg (fun m => m.base t2) (congrArg Over.Hom.left hPairMapExact)

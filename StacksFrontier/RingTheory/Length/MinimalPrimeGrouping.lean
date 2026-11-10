@@ -78,7 +78,7 @@ theorem IsRadical.length_localizedModule_quotient_eq_one {I : Ideal R} (hI : I.I
   set J : Ideal S := I.map (algebraMap R S) with hJ
   have hmaxmin : IsLocalRing.maximalIdeal S ∈ J.minimalPrimes := by
     rw [hJ, IsLocalization.minimalPrimes_map q.primeCompl S I, Set.mem_preimage,
-      IsLocalization.AtPrime.comap_maximalIdeal S q]
+      IsLocalization.AtPrime.under_maximalIdeal S q]
     exact hq
   have hJmax : J = IsLocalRing.maximalIdeal S := by
     have hrad : J.radical = J := by
@@ -243,7 +243,7 @@ theorem natCast_length_quotient_span_eq_finsum_length_quotient_sup (a : R)
         left_inv := fun _ => rfl
         right_inv := fun _ => rfl }
     rw [← finsum_comp_equiv e.symm]
-    show (∑ᶠ p : ({p : T | c' p = i} : Set T), L p.1) = _
+    change (∑ᶠ p : ({p : T | c' p = i} : Set T), L p.1) = _
     rw [finsum_set_coe_eq_finsum_mem {p : T | c' p = i}, finsum_mem_eq_toFinset_sum]
     congr 1
     ext p
@@ -254,7 +254,7 @@ theorem natCast_length_quotient_span_eq_finsum_length_quotient_sup (a : R)
     intro i hi
     by_contra hni
     refine hi ?_
-    show n i * _ = 0
+    change n i * _ = 0
     rw [hblock i, Finset.sum_eq_zero fun p hp => absurd (Finset.mem_image.mpr
       ⟨p, Finset.mem_univ _, (Finset.mem_filter.mp hp).2⟩) hni, mul_zero]
   rw [hleft, finsum_eq_sum_of_support_subset _ hsupp]

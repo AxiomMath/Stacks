@@ -8,8 +8,8 @@ public import StacksFrontier.RingTheory.AdicCompletion.InverseLimitTensorShift
 # The comparison datum of [Stacks, Tag 07JG] on `M = lim_e M_e`, with no finiteness
 
 `Crystalline.FirstOrderComparison.ofLevels` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelComparisonInterchange.lean` assembles the
-*uncompleted* comparison datum of [Stacks, Lemma 60.17.3, Tag 07JG] on the limit module
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelComparisonInterchange.lean` assembles
+the *uncompleted* comparison datum of [Stacks, Lemma 60.17.3, Tag 07JG] on the limit module
 `M = lim_e M_e` out of the comparison data of the levels, and it costs a basis of `Ω` **indexed by
 a finite type**.  That hypothesis is not an artefact: the interchange it runs on,
 

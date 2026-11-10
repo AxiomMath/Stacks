@@ -247,7 +247,7 @@ theorem IsResolutionBlowupStratified.pullback_of_isAffineHom {X X₀ : Algebraic
     isOpenSubspace_preimage B S hS _ U.1 (hZcl i).1 (hWcl i).1 U.2⟩, Y₁, b₁, ?_, hb₁,
     hasResolutionProperty_source_of_isAffineHom hZ q hq hYqc hYqs hres⟩
   rw [range_pointsMap_preimage_fromPreimage_ι_comp B S hS X₀.2 a.hom (hZcl i) U.1, hUpts,
-    hWpts i, hWpts (i + 1), Set.preimage_diff]
+    hWpts i, hWpts (i + 1), Set.preimage_sdiff]
 
 end AlgebraicGeometry.Space
 

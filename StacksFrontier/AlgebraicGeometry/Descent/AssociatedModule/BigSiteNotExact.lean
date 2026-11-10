@@ -254,8 +254,7 @@ public abbrev associatedModule :=
 
 /-- The associated-module functor is additive: it is a left adjoint, hence preserves binary
 coproducts, hence binary biproducts. -/
-@[instance_reducible]
-public def additive_associatedModule : (associatedModule B τ).Additive := by
+public theorem additive_associatedModule : (associatedModule B τ).Additive := by
   have := Limits.preservesBinaryBiproducts_of_preservesBinaryCoproducts (associatedModule B τ)
   exact Functor.additive_of_preservesBinaryBiproducts _
 

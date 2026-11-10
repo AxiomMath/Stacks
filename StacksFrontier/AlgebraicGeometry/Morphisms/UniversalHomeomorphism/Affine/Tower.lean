@@ -410,7 +410,7 @@ theorem universalHomeomorphism_spec_iff_finite_adjoin_tower
           (Scheme.Spec.preimage g₁).unop.hom (algebraMap A B a) =
             (Scheme.Spec.preimage g₂).unop.hom (algebraMap A B a) := by
         have hfpre : (Scheme.Spec.preimage f).unop.hom = algebraMap A B := by
-          show (Scheme.Spec.preimage
+          change (Scheme.Spec.preimage
             (Scheme.Spec.map (CommRingCat.ofHom (algebraMap A B)).op)).unop.hom = _
           rw [Scheme.Spec.preimage_map]
           rfl

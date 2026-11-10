@@ -82,15 +82,15 @@ variable (D : BaseSpaceDimensionSituation.{u})
 theorem flatPullbackMap_inv_flatPullbackMap_of_isIso (φ : P' ⟶ P) [IsIso φ]
     (hφB : φ ≫ sP = sP') (hψB : inv φ ≫ sP' = sP) (N : ℤ) (ξ : CycleGroup D sP N) :
     flatPullbackMap D sP hP sP' hP' (inv φ) hψB 0
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' sP hP (inv φ)).1
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' sP hP (inv φ)).2 N N (by simp)
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' (inv φ)).1
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' (inv φ)).2 N N (by simp)
         (flatPullbackMap D sP' hP' sP hP φ hφB 0
-          (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).1
-          (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).2 N N (by simp) ξ) =
+          (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).1
+          (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).2 N N (by simp) ξ) =
       ξ := by
-  have hφ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ
-  have hψ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' sP hP (inv φ)
-  have hid := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP hP (𝟙 P)
+  have hφ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ
+  have hψ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' (inv φ)
+  have hid := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP (𝟙 P)
   refine Subtype.ext ?_
   have h1 := congrArg (fun χ => (χ ξ).1)
     (flatPullbackMap_comp D sP hP sP' hP' sP hP (inv φ) φ hψB hφB 0 0 hψ.1 hψ.2 hφ.1 hφ.2 N N
@@ -107,8 +107,8 @@ theorem flatPullbackMap_inv_flatPullbackMap_of_isIso (φ : P' ⟶ P) [IsIso φ]
 theorem bijective_flatPullbackChowMapCanonical_of_isIso (φ : P' ⟶ P) (hφ : IsIso φ)
     (hφB : φ ≫ sP = sP') (N : ℤ) :
     Function.Bijective (flatPullbackChowMapCanonical.{u + 1} D sP' hP' sP hP φ hφB 0
-      (@isFlat_and_hasRelativeDimension_zero_of_isIso D P P' sP hP sP' hP' φ hφ).1
-      (@isFlat_and_hasRelativeDimension_zero_of_isIso D P P' sP hP sP' hP' φ hφ).2 N N
+      (@isFlat_and_hasRelativeDimension_zero_of_isIso D P P' sP hP φ hφ).1
+      (@isFlat_and_hasRelativeDimension_zero_of_isIso D P P' sP hP φ hφ).2 N N
       (by simp)) := by
   have hψB : inv φ ≫ sP' = sP := by rw [← hφB, IsIso.inv_hom_id_assoc]
   have hφB' : inv (inv φ) ≫ sP = sP' := by rw [IsIso.inv_inv, hφB]
@@ -118,8 +118,8 @@ theorem bijective_flatPullbackChowMapCanonical_of_isIso (φ : P' ⟶ P) (hφ : I
     obtain ⟨η, rfl⟩ : ∃ η, chowClassCanonical.{u + 1} D sP hP N η = y :=
       QuotientAddGroup.mk'_surjective _ y
     have h := congrArg (flatPullbackChowMapCanonical.{u + 1} D sP hP sP' hP' (inv φ) hψB 0
-      (isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' sP hP (inv φ)).1
-      (isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' sP hP (inv φ)).2 N N (by simp)) hxy
+      (isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' (inv φ)).1
+      (isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' (inv φ)).2 N N (by simp)) hxy
     rw [flatPullbackChowMapCanonical_chowClassCanonical,
       flatPullbackChowMapCanonical_chowClassCanonical,
       flatPullbackChowMapCanonical_chowClassCanonical,
@@ -131,8 +131,8 @@ theorem bijective_flatPullbackChowMapCanonical_of_isIso (φ : P' ⟶ P) (hφ : I
       QuotientAddGroup.mk'_surjective _ y
     refine ⟨chowClassCanonical.{u + 1} D sP hP N
       (flatPullbackMap D sP hP sP' hP' (inv φ) hψB 0
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' sP hP (inv φ)).1
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' sP hP (inv φ)).2 N N (by simp)
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' (inv φ)).1
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' (inv φ)).2 N N (by simp)
         η), ?_⟩
     rw [flatPullbackChowMapCanonical_chowClassCanonical]
     have h := flatPullbackMap_inv_flatPullbackMap_of_isIso D sP' hP' sP hP (inv φ) hψB hφB' N η
@@ -253,12 +253,10 @@ theorem bijective_chernBundleSum {Y : D.Ambient} (g : Y ⟶ X) (hY : D.IsGood (g
         (isGood_projectiveBundleProj_comp_of_rank D (X := ⟨Y, hY.1⟩) (g ≫ sX) hY _ n hr')
         (projectiveBundlePullbackIso gs E hr.isFiniteLocallyFreeOnSite).inv.hom hφB 0
         (@isFlat_and_hasRelativeDimension_zero_of_isIso D _ _ _
-          (isGood_projectiveBundleProj_comp_of_rank D (X := ⟨Y, hY.1⟩) (g ≫ sX) hY _ n hr') _
-          (isGood_projectiveBundleBaseChangeProj_comp D sX hX E hr.isFiniteLocallyFreeOnSite g hY)
+          (isGood_projectiveBundleProj_comp_of_rank D (X := ⟨Y, hY.1⟩) (g ≫ sX) hY _ n hr')
           (projectiveBundlePullbackIso gs E hr.isFiniteLocallyFreeOnSite).inv.hom hiso).1
         (@isFlat_and_hasRelativeDimension_zero_of_isIso D _ _ _
-          (isGood_projectiveBundleProj_comp_of_rank D (X := ⟨Y, hY.1⟩) (g ≫ sX) hY _ n hr') _
-          (isGood_projectiveBundleBaseChangeProj_comp D sX hX E hr.isFiniteLocallyFreeOnSite g hY)
+          (isGood_projectiveBundleProj_comp_of_rank D (X := ⟨Y, hY.1⟩) (g ≫ sX) hY _ n hr')
           (projectiveBundlePullbackIso gs E hr.isFiniteLocallyFreeOnSite).inv.hom hiso).2 N N
           (by simp)).comp
         (bundleFormulaMap D (X := Y) (g ≫ sX) hY _
@@ -711,13 +709,13 @@ theorem chernCapFamily_gysin {Y : D.Ambient} (g : Y ⟶ X) (hY : D.IsGood (g ≫
           (fun m => chowGroupCanonical.{u + 1} D (g ≫ sX) hY m) (by ring)
           (chernCapFamily D sX hX E n hr g hY j (k + 1) α))) = 0 := by
     refine hiso.trans ((congrArg (flatPullbackChowMapCanonical.{u + 1} D _ hPι _ hZ φ hφB 0
-      (isFlat_and_hasRelativeDimension_zero_of_isIso D _ hZ _ hPι φ).1
-      (isFlat_and_hasRelativeDimension_zero_of_isIso D _ hZ _ hPι φ).2 _ _ (by simp))
+      (isFlat_and_hasRelativeDimension_zero_of_isIso D _ hZ φ).1
+      (isFlat_and_hasRelativeDimension_zero_of_isIso D _ hZ φ).2 _ _ (by simp))
       hrel.symm).trans ?_)
     have h1 := chernRelationSumAt_chernCapFamily D sX hX E n hr g hY (k + 1) α
     refine (congrArg (fun z => flatPullbackChowMapCanonical.{u + 1} D _ hPι _ hZ φ hφB 0
-      (isFlat_and_hasRelativeDimension_zero_of_isIso D _ hZ _ hPι φ).1
-      (isFlat_and_hasRelativeDimension_zero_of_isIso D _ hZ _ hPι φ).2 _ _ (by simp)
+      (isFlat_and_hasRelativeDimension_zero_of_isIso D _ hZ φ).1
+      (isFlat_and_hasRelativeDimension_zero_of_isIso D _ hZ φ).2 _ _ (by simp)
       (sectionGysinChowGroupMap D _ hP _ _
         (isInvertibleSheaf_pullbackSheaf D (g ≫ sX) hY _ hP
           (ObjectProperty.homMk (pullback.snd π₀ g)) M hM) _
@@ -751,7 +749,7 @@ include sX hX in
 /-- The identity of `X` is flat of relative dimension `0`. -/
 theorem isFlat_and_hasRelativeDimension_zero_id :
     IsFlat D.site D.base D.base_mem (𝟙 X) ∧ HasRelativeDimension 0 D.site D.base D.base_mem (𝟙 X) :=
-  isFlat_and_hasRelativeDimension_zero_of_isIso D sX hX sX hX (𝟙 X)
+  isFlat_and_hasRelativeDimension_zero_of_isIso D sX hX (𝟙 X)
 
 include hX in
 /-- The identification `X ×_X Y ⟶ Y` of a test space `g : Y ⟶ X` with its base change along
@@ -1128,7 +1126,7 @@ theorem chernCap_gysin (j : Fin (r + 1)) {Y : D.Ambient} (g : Y ⟶ X) (hY : D.I
           (chernCap D sX hX E r hE g hY j (k + 1) α)) := by
   cases r with
   | zero =>
-    show ProjectiveBundleRelation.degreeCast _ _
+    change ProjectiveBundleRelation.degreeCast _ _
         (sectionGysinChowGroupMap D (g ≫ sX) hY M t hM k α) =
       sectionGysinChowGroupMap D (g ≫ sX) hY M t hM (k - ((j : ℕ) : ℤ))
         (ProjectiveBundleRelation.degreeCast _ _ (ProjectiveBundleRelation.degreeCast _ _ α))

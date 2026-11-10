@@ -116,7 +116,7 @@ theorem hasOpenObjectPropertyLocus_picardAmple (hproper : IsProper B S hS s.f.ho
   have hW : A.T.left = (Over.map U.hom).obj (Over.mk (𝟙 U.left)) := Functor.congr_obj hy _
   refine ⟨Over.mk (v.left ≫ (eqToHom hW).left), ?_, fun T => ?_⟩
   · have := hv
-    show AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map v ≫
+    change AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map v ≫
       (BigFppfOver.toScheme B S hS).map (eqToHom hW))
     infer_instance
   · let t : T ⟶ Over.mk (𝟙 U.left) := Over.homMk T.hom (Category.comp_id _)

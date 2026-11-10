@@ -107,7 +107,7 @@ theorem exists_stageLiftAlgebra (J₀ : TopologicalRing.WeakIdealOfDefinitionInd
   refine ⟨A, inferInstance, inferInstance, hA,
     (Ideal.quotEquivOfEq hker'.symm).trans (RingHom.quotientKerEquivOfSurjective hψ), ?_⟩
   refine Ideal.Quotient.ringHom_ext (RingHom.ext fun r ↦ ?_)
-  show ((Ideal.quotEquivOfEq hker'.symm).trans (RingHom.quotientKerEquivOfSurjective hψ))
+  change ((Ideal.quotEquivOfEq hker'.symm).trans (RingHom.quotientKerEquivOfSurjective hψ))
       (Ideal.quotientMap (J₀.1.map (algebraMap R A)) (algebraMap R A) Ideal.le_comap_map
         (Ideal.Quotient.mk J₀.1 r)) = _
   rw [Ideal.quotientMap_mk, RingEquiv.trans_apply, Ideal.quotEquivOfEq_mk]

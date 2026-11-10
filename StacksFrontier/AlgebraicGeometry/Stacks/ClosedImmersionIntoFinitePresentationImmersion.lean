@@ -299,7 +299,7 @@ theorem isClosedImmersion_modelMap {𝒳 𝒳' : AlgebraicStacks.{u, w} B S hS}
     (modelSquare φ e e') (isTwoFibreProduct_modelSquare φ e e' hφ) G'.objects.obj
     G'.objects.property (StacksRepresentableCFG.EquivalenceOver.refl _)).2
     ⟨G.objects.obj, G.objects.property, StacksRepresentableCFG.EquivalenceOver.refl _, ?_⟩
-  show Space.IsClosedImmersion B S hS (representingMap B S hS
+  change Space.IsClosedImmersion B S hS (representingMap B S hS
     (fibredCategory B S hS G.objects.obj) (fibredCategory B S hS G'.objects.obj) _ _
     (StacksRepresentableCFG.EquivalenceOver.refl _) (StacksRepresentableCFG.EquivalenceOver.refl _)
     (associatedMap B S hS φ.toGroupoidHom.mapObjects).1)

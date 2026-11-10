@@ -69,7 +69,7 @@ universe u
 
 variable (k V : Type u) [Field k] [IsAlgClosed k] [AddCommGroup V] [Module k V]
   (L : Submodule k (ParameterModule k V)) [FiniteDimensional k V]
-  [Nontrivial (lineSpace k V L)] [Nontrivial V]
+  [Nontrivial (lineSpace k V L)]
 
 /-- **The section at a closed point of the line is the base change of that point.** The square
 with top the section `σ_λ`, left the structure morphism of `𝐏(V)`, right the projection to the
@@ -88,7 +88,6 @@ public theorem isPullback_lineSection (lam : movingLine k V L)
     (IsPullback.of_hasPullback (movingLineToSpec k V L)
       (projectiveSpaceOfModuleToSpec k V)).flip
 
-omit [Nontrivial V] in
 /-- The image of the `k`-point of the line at a closed point `λ` is the singleton `{λ}`: every
 point of `Spec k` is sent to `λ`, and `Spec k` is nonempty. -/
 public theorem range_pointOfClosedPoint_movingLine (lam : movingLine k V L)

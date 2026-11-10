@@ -157,7 +157,6 @@ variable {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', u', w'}}
   [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
   [Y.J.HasSheafCompose (forget AddCommGrpCat.{w'})]
   [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
-  [HasWeakSheafify Y.J AddCommGrpCat.{w'}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}]
   (f : RingedToposHom X Y)
 
 /-- The canonical morphism `1_{O_D} ⟶ f_*1_{O_C}` of
@@ -220,7 +219,7 @@ theorem ringSectionHom_globalSectionsRingHom
   rw [← unitTerminalHomEquiv_unitEnd (ringSheaf X.O) (globalSectionsRingHom f a),
     unitEnd_globalSectionsRingHom, pushforwardUnitEndMap_eq,
     unitTerminalHomEquiv_pushforwardUnitHomEquiv]
-  show f.toToposHom.pushforwardTerminalHomEquiv (Sheaf.ringSheaf (ringSheaf X.O))
+  change f.toToposHom.pushforwardTerminalHomEquiv (Sheaf.ringSheaf (ringSheaf X.O))
       (unitTerminalHomEquiv (ringSheaf Y.O)
         ((pushforwardModules f).obj (SheafOfModules.unit (ringSheaf X.O)))
         (unitEnd (ringSheaf Y.O) a ≫ pushforwardUnitSection f)) = _
@@ -265,7 +264,7 @@ theorem ringSectionHom_globalSectionsRingHom_inverseImage
         f.toToposHom.inverseImage.map (Sheaf.ringSectionHom (ringSheaf Y.O) a) ≫
           (sheafCompose X.J (forget RingCat.{w})).map f.fSharpInverseImage := by
   refine (ringSectionHom_globalSectionsRingHom f a).trans ?_
-  show (MorphismOfTopoi.inverseImageTerminalIso f.toToposHom).inv ≫
+  change (MorphismOfTopoi.inverseImageTerminalIso f.toToposHom).inv ≫
       (f.toToposHom.adj.homEquiv _ (Sheaf.ringSheaf (ringSheaf X.O))).symm
         (Sheaf.ringSectionHom (ringSheaf Y.O) a ≫ fSharpSet f) = _
   rw [show fSharpSet f = f.toToposHom.adj.homEquiv (Sheaf.ringSheaf (ringSheaf Y.O))

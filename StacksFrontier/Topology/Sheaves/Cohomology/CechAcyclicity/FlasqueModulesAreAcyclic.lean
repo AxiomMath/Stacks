@@ -110,7 +110,7 @@ public lemma rightAcyclic_evaluation_of_isFlasque
     refine ⟨(TopCat.Sheaf.IsFlasque.of_shortExact_of_isFlasque₁₂ hS' : S'.X₃.IsFlasque),
       { exact := hMap.1, mono_f := hMap.2, epi_g := ?_ }⟩
     apply (ModuleCat.epi_iff_surjective _).2
-    show Function.Surjective (S'.g.1.app (op U))
+    change Function.Surjective (S'.g.1.app (op U))
     exact (AddCommGrpCat.epi_iff_surjective _).1
       (TopCat.Sheaf.IsFlasque.epi_of_shortExact (U := U) hS')
   exact Functor.le_rightAcyclic (SheafOfModules.evaluation R (op U)) I hI₁ hI₂ F hF

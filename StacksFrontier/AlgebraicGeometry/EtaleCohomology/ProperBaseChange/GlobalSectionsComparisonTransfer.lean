@@ -85,7 +85,7 @@ theorem natTrans_Γ_ext [HasSheafify J (Type w)] [HasGlobalSectionsFunctor J (Ty
   have hα := ConcreteCategory.congr_hom (α.naturality xh) pt
   have hβ := ConcreteCategory.congr_hom (β.naturality xh) pt
   simp only [ConcreteCategory.comp_apply] at hα hβ
-  show α.app G x = β.app G x
+  change α.app G x = β.app G x
   rw [hx, hα, hβ, Subsingleton.elim (α.app P pt) (β.app P pt)]
 
 end Generic
@@ -185,7 +185,7 @@ theorem isIso_etaleAbelianUnit_app_terminal
   have : IsIso φ := by
     have := NatIso.isIso_app_of_isIso (coefficientPullbackTwoSquare (smallEtaleBaseChange c)
       (Scheme.smallEtaleTopology Z) (Scheme.smallEtaleTopology T)
-      (forget AddCommGrpCat.{u + 1})).natTrans G
+      (forget AddCommGrpCat.{u + 1})) G
     rwa [coefficientPullbackTwoSquare_app] at this
   have : IsIso φ.hom :=
     (inferInstance : IsIso ((sheafToPresheaf (Scheme.smallEtaleTopology T) (Type (u + 1))).map φ))

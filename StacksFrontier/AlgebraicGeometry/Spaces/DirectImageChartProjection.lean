@@ -152,7 +152,7 @@ theorem directImageChartProjection_structureSharpSet (f : X ⟶ Y) (V : SmallEta
     Sheaf.hom_congr_app_apply
       (((smallEtaleDirectImageRanIso B S hS f).app
         (structureSetSheaf B S hS X)).inv_hom_id) (op V) _
-  show (chartProjection B S hS f V j).app (structureSetSheaf B S hS X)
+  change (chartProjection B S hS f V j).app (structureSetSheaf B S hS X)
       (((smallEtaleDirectImageRanIso B S hS f).hom.app
         (structureSetSheaf B S hS X)).hom.app (op V)
         ((structureSharpSet B S hS f).hom.app (op V) b)) = _

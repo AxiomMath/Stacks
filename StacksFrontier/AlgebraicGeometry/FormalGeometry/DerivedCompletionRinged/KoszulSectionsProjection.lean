@@ -122,7 +122,7 @@ theorem mapComplexIso_hom_map {F F' : Finset (Fin r) ⥤ 𝒜} (α : F ⟶ F') :
     (G.mapHomologicalComplex (ComplexShape.up ℤ)).map (map α) ≫ (mapComplexIso G F').hom =
       (mapComplexIso G F).hom ≫ map (Functor.whiskerRight α G) := by
   refine HomologicalComplex.hom_ext _ _ fun p => ?_
-  show G.map (mapX α p) ≫ (mapTermIso G F' p).hom =
+  change G.map (mapX α p) ≫ (mapTermIso G F' p).hom =
     (mapTermIso G F p).hom ≫ mapX (Functor.whiskerRight α G) p
   refine Pi.hom_ext _ _ fun A => ?_
   rw [Category.assoc, mapTermIso_hom_comp_pi, ← G.map_comp, mapX_comp_pi, Category.assoc,
@@ -221,7 +221,7 @@ theorem koszulScalarOn_comp (e e' : Fin r → ℕ)
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
     koszulScalarOn X f e M ≫ koszulScalarOn X f e' M = koszulScalarOn X f (e + e') M := by
   refine sheafOfModules_hom_ext_apply X fun U x => ?_
-  show koszulRingValue X f e' U • (koszulRingValue X f e U • x) =
+  change koszulRingValue X f e' U • (koszulRingValue X f e U • x) =
     koszulRingValue X f (e + e') U • x
   rw [← mul_smul]
   exact congrArg (fun c : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U => c • x)
@@ -231,7 +231,7 @@ theorem koszulScalarOn_comp (e e' : Fin r → ℕ)
 theorem koszulScalarOn_zero (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
     koszulScalarOn X f 0 M = 𝟙 M := by
   refine sheafOfModules_hom_ext_apply X fun U x => ?_
-  show koszulRingValue X f 0 U • x = x
+  change koszulRingValue X f 0 U • x = x
   rw [show koszulRingValue X f 0 U = 1 from koszulValue_zero X f U]
   exact one_smul _ x
 
@@ -434,7 +434,7 @@ theorem koszulFamily_globalSectionOfSections (e : Fin r → ℕ) :
     koszulFamily X (fun i => globalSectionOfSections (ρ (a i))) e =
       ⟨(ρ (moduleKoszulValue a e)).1, fun g => (ρ (moduleKoszulValue a e)).2 g⟩ := by
   refine Subtype.ext (funext fun U => ?_)
-  show koszulValue X (fun i => globalSectionOfSections (ρ (a i))) e U =
+  change koszulValue X (fun i => globalSectionOfSections (ρ (a i))) e U =
     (ρ (moduleKoszulValue a e)).1 U
   have hev : ∀ x : A, (ρ x).1 U = ((sectionsEval U).comp ρ) x := fun _ => rfl
   rw [koszulValue, hev, moduleKoszulValue, map_prod]

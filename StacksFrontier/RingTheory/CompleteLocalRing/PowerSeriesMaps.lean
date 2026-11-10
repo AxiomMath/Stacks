@@ -364,7 +364,7 @@ theorem linearIndependent_and_span_eq_top_of_sub_smul {κ : Type*} [CommRing κ]
   have hbW : ∀ j, bW j = W j := by
     intro j
     rw [hWe j]
-    show e (bV j) = e (V j)
+    change e (bV j) = e (V j)
     rw [hbV j]
   have hbWeq : (⇑bW) = W := funext hbW
   refine ⟨?_, ?_⟩

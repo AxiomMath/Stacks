@@ -101,6 +101,8 @@ def extendDifferentialsDerivationEquiv
     (derivationsFunctor.{u} (simplicialBase J (A := A)) (simplicialResolution J f)
       (simplicialBaseMap J f)).corepresentableBy.homEquiv
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- The description is natural in the coefficient module: postcomposing a morphism with
 `k : 𝒩 ⟶ 𝒩'` postcomposes the derivation with `ε_*k`. -/
 theorem extendDifferentialsDerivationEquiv_naturality
@@ -129,6 +131,8 @@ abbrev simplicialUncurryAdjunction :
 
 variable {J f}
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- The derivation attached to a composite is the derivation of the first factor, postcomposed on
 sections with the second. This is the `naturality` field of the cotangent data, read on sections.
 -/
@@ -138,6 +142,8 @@ theorem derivationEquiv_comp_d (D : CotangentSimplicialModuleData J f) (n : Simp
     (D.derivationEquiv n M' (g ≫ k)).d x = k.val.app U ((D.derivationEquiv n M g).d x) :=
   PresheafOfModulesOfCommRing.Derivation.congr_d (D.naturality n g k) x
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- **The family of degreewise derivations of a morphism into the fibrewise reading is
 compatible**, in the sense of `CategoryTheory.Sheaf.simplicialDerivationOfFamily`. -/
 theorem derivationEquiv_app_naturality (D : CotangentSimplicialModuleData J f)
@@ -166,6 +172,8 @@ def cotangentFibreApp (D : CotangentSimplicialModuleData J f)
     D.object.obj n ⟶ ((fibrewiseMod C J (targetRing J (B := B))).obj N).obj n :=
   (D.derivationEquiv n _).symm (simplicialDerivationFibre n d)
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- The degree-`n` derivation of the degree-`n` transpose of a derivation `d` is the degree-`n`
 member of the family of `d`. -/
 theorem derivationEquiv_cotangentFibreApp (D : CotangentSimplicialModuleData J f)
@@ -230,6 +238,8 @@ def cotangentUncurryDerivationEquiv (D : CotangentSimplicialModuleData J f)
             (cotangentFibreMorphism D d))).trans
           (derivationEquiv_cotangentFibreApp D d (op X.unop.1))) x)
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- The derivation a morphism out of the uncurrying gives, read on sections over `(n, U)`, is the
 degree-`n` derivation of the corresponding morphism of simplicial objects. -/
 theorem cotangentUncurryDerivationEquiv_d (D : CotangentSimplicialModuleData J f)
@@ -243,6 +253,8 @@ theorem cotangentUncurryDerivationEquiv_d (D : CotangentSimplicialModuleData J f
             (op X.unop.1))).d (X := op X.unop.2) x :=
   rfl
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- Postcomposing a derivation on `Δ × C` with `ε_*k` acts on sections as `k`. -/
 theorem postcomp_restrictScalars_d
     {N N' : SheafOfModules.{u} (projectionRing C J (targetRing J (B := B)))}
@@ -254,6 +266,8 @@ theorem postcomp_restrictScalars_d
         (op X.unop.2) (d.d x) :=
   rfl
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- The second description is natural in the coefficient module, with the same action as the first.
 -/
 theorem cotangentUncurryDerivationEquiv_naturality (D : CotangentSimplicialModuleData J f)

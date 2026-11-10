@@ -553,7 +553,7 @@ theorem hasPropertyOnEveryAffineEtaleDiagram_isFlatAdicOfFiniteTypeHom_of_isFlat
   let _ : UniformSpace R := IsTopologicalAddGroup.rightUniformSpace R
   have : CompleteSpace R := hRc.1.2.2
   have : T2Space R := hRc.1.2.1
-  exact ⟨RingHom.isAdic_of_isTaut φ.toRingHom φ.continuous htaut
+  exact ⟨RingHom.isAdic_of_isTaut φ.toRingHom htaut
     ⟨I, IsNoetherian.noetherian I, hI⟩, htft⟩
 
 /-- **Stacks 0GCE, part (2), flatness, through the chart conditions above.** A base change of a
@@ -686,7 +686,7 @@ theorem isIdempotentElem_ker_of_isRigEtale_of_isRigSurjective_diagonal
     have hreg : IsSMulRegular R ϖ :=
       Module.Flat.isSMulRegular_of_nonZeroDivisors (mem_nonZeroDivisors_of_ne_zero hϖ.ne_zero)
     refine mem_nonZeroDivisors_iff_right.mpr fun x hx => hreg ?_
-    show ϖ • x = ϖ • 0
+    change ϖ • x = ϖ • 0
     rw [smul_zero, Algebra.smul_def]
     exact (mul_comm _ _).trans hx
   -- powers of `π` enter every open ideal of `R`

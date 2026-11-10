@@ -97,7 +97,7 @@ theorem ker_presentationHom (P : Algebra.Presentation C B (Fin n) (Fin m)) :
       LinearMap.range (relationMapOfHom (algebraMap C D) P.relation) := by
   refine Ideal.ext fun a => ?_
   rw [RingHom.mem_ker]
-  show presentationHom D P a = 0 ↔ _
+  change presentationHom D P a = 0 ↔ _
   rw [← quotRangeEquivTensor_mk_eq_presentationHom,
     map_eq_zero_iff _ (quotRangeEquivTensor D P).injective, Ideal.Quotient.eq_zero_iff_mem]
 
@@ -337,7 +337,7 @@ theorem chartAwayEquiv_algebraMap (z : MvPolynomial (Fin na) D) :
         (Localization.Away ((1 : D) ⊗ₜ[C] f : TensorProduct C D Ba))
         (presentationHom D Pa z) := by
   let := chartAwayAlgebra (D := D) f Pa Pk
-  show chartAwayEquiv (D := D) f Pk ((chartAwayEquiv (D := D) f Pk).symm
+  change chartAwayEquiv (D := D) f Pk ((chartAwayEquiv (D := D) f Pk).symm
       (algebraMap (TensorProduct C D Ba)
         (Localization.Away ((1 : D) ⊗ₜ[C] f : TensorProduct C D Ba))
         (quotRangeEquivTensor D Pa (Ideal.Quotient.mk _ z)))) = _
@@ -355,7 +355,7 @@ theorem isScalarTower_chartAwayAlgebra :
   let := chartAwayAlgebra (D := D) f Pa Pk
   refine IsScalarTower.of_algebraMap_eq fun d => ?_
   refine (chartAwayEquiv (D := D) f Pk).injective ?_
-  show chartAwayEquiv (D := D) f Pk (algebraMap D _ d) =
+  change chartAwayEquiv (D := D) f Pk (algebraMap D _ d) =
     chartAwayEquiv (D := D) f Pk
       ((chartAwayEquiv (D := D) f Pk).symm
         (algebraMap (TensorProduct C D Ba)
@@ -384,7 +384,7 @@ theorem isLocalization_chartAwayAlgebra (F₀ : MvPolynomial (Fin na) C)
         ((1 : D) ⊗ₜ[C] f : TensorProduct C D Ba) =
       Ideal.Quotient.mk (LinearMap.range (relationMapOfHom (algebraMap C D) Pa.relation))
         (MvPolynomial.map (algebraMap C D) F₀) := by
-    show (quotRangeEquivTensor D Pa).symm _ = _
+    change (quotRangeEquivTensor D Pa).symm _ = _
     refine (AlgEquiv.symm_apply_eq _).2 ?_
     rw [quotRangeEquivTensor_mk_eq_presentationHom, presentationHom_map, hF₀]
   have key := Stacks.ArtinRees.isLocalization_of_ringEquiv
@@ -408,7 +408,7 @@ theorem isLocalization_chartAwayAlgebra (F₀ : MvPolynomial (Fin na) C)
         (MvPolynomial.map (algebraMap C D) F₀)) := by
     rw [Submonoid.map_powers]
     exact congrArg Submonoid.powers hG
-  show IsLocalization (Submonoid.powers (Ideal.Quotient.mkₐ D
+  change IsLocalization (Submonoid.powers (Ideal.Quotient.mkₐ D
       (LinearMap.range (relationMapOfHom (algebraMap C D) Pa.relation))
       (MvPolynomial.map (algebraMap C D) F₀)))
     (MvPolynomial (Fin nk) D ⧸
@@ -490,7 +490,7 @@ theorem awayPolyHom_comp_awayCompHom (F₀ : MvPolynomial (Fin na) C)
         (MvPolynomial.X j)) =
       IsLocalization.Away.tensorProductEquivTMulRight C D f Bk
         ((1 : D) ⊗ₜ[C] Pk.val j : TensorProduct C D Bk) := by
-    show IsLocalization.Away.tensorProductEquivTMulRight C D f Bk
+    change IsLocalization.Away.tensorProductEquivTMulRight C D f Bk
       (quotRangeEquivTensor D Pk (Ideal.Quotient.mk _ (MvPolynomial.X j))) = _
     rw [quotRangeEquivTensor_mk_eq_presentationHom, presentationHom_X]
   rw [chartAwayEquiv_algebraMap (D := D) f Pa Pk, presentationHom_map, map_mul, map_pow, hEk,

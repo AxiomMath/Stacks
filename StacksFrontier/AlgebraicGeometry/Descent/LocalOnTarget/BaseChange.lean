@@ -68,13 +68,13 @@ theorem pullbackSnd_of_flat
       (fun b => by cases b <;> first | exact hg | infer_instance)
   have hqc : QuasiCompactCover C.toPreZeroHypercover := by
     refine ⟨fun {U} hU => ?_⟩
-    show IsCompactOpenCovered (fun b x => (m b).base x) (U : Set Y)
+    change IsCompactOpenCovered (fun b x => (m b).base x) (U : Set Y)
     convert IsCompactOpenCovered.image (f := fun b x => (m b).base x)
       (i := true) U hU.isCompact using 1
     ext x
     exact ⟨fun hx ↦ ⟨x, hx, rfl⟩, fun ⟨y, hy, hxy⟩ ↦ (hxy : y = x) ▸ hy⟩
   have hcover : C.presieve₀ ∈ Scheme.fpqcPrecoverage Y := by
-    show C.presieve₀ ∈ Scheme.qcPrecoverage Y ∧
+    change C.presieve₀ ∈ Scheme.qcPrecoverage Y ∧
       C.presieve₀ ∈ Scheme.precoverage (@Flat : MorphismProperty Scheme.{u}) Y
     exact ⟨by rwa [Scheme.presieve₀_mem_qcPrecoverage_iff], C.mem₀⟩
   exact (inferInstance : P.IsLocalAtTarget Scheme.fpqcPrecoverage).pullbackSnd

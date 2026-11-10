@@ -91,7 +91,7 @@ theorem preservesColimitsOfShape_lim_of_colim
     have key : colimit.ι (limit D.flip) j ≫ (colimitLimitIso D.flip).hom ≫
         limit.π (colimit D) i = (limit.π D.flip i).app j ≫ (colimit.ι D j).app i :=
       ι_colimitLimitIso_limit_π D.flip j i
-    simp only [e, Iso.trans_hom, HasColimit.isoOfNatIso_ι_hom_assoc,
+    simp only [e, Iso.trans_hom, HasColimit.ι_isoOfNatIso_hom_assoc,
       Iso.symm_hom, Category.assoc]
     rw [key]
     simp
@@ -177,7 +177,7 @@ private theorem isIso_app_of_small {C : Type u} [Category.{u} C]
     have : ∀ S, IsIso ((Functor.whiskerLeft (smallSubfunctorDiagram F) α).app S) := by
       intro S
       have : ∀ c, Small.{u} (S.val.toFunctor.obj c) := S.property
-      show IsIso (α.app S.val.toFunctor)
+      change IsIso (α.app S.val.toFunctor)
       exact h _
     exact NatIso.isIso_of_isIso_app _
   exact isIso_app_coconePt_of_preservesColimit (smallSubfunctorDiagram F) α
@@ -263,7 +263,7 @@ private theorem preservesFiniteLimits_of_comp_ulift
     (by
       intro p q f
       ext x
-      show (equivShrink (P.obj q)).symm
+      change (equivShrink (P.obj q)).symm
         ((equivShrink (P.obj q)) (P.map f ((equivShrink (P.obj p)).symm x.down))) = _
       simp only [Equiv.symm_apply_apply]
       rfl)

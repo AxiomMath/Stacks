@@ -110,7 +110,7 @@ theorem isAffineSpace_of_closedChartData {Z : ClosedSubspaces B _ B.contains_ter
     CommRingCat.hom_ext (RingHom.ext h2)
   have hab : b ≫ π = a := by
     apply BigFppfOver.map_toScheme_injective
-    show (X.toSpecΓ ≫ Spec.map (CommRingCat.ofHom ψV)) ≫
+    change (X.toSpecΓ ≫ Spec.map (CommRingCat.ofHom ψV)) ≫
       Spec.map (CommRingCat.ofHom (algebraMap A' P)) = X.toSpecΓ ≫ Spec.map (CommRingCat.ofHom αV)
     rw [Category.assoc, ← Spec.map_comp, hψV]
   -- the two projections agree on `A'`
@@ -126,7 +126,7 @@ theorem isAffineSpace_of_closedChartData {Z : ClosedSubspaces B _ B.contains_ter
           ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) B.contains_terminal).map D.t'').appTop := by
     ext x
     apply D.eR.injective
-    show D.eR
+    change D.eR
         (((BigFppfOver.toScheme B (⊤_ Scheme.{u}) B.contains_terminal).map D.s'').appTop.hom
           (D.eV.symm (α x))) =
       D.eR
@@ -140,7 +140,7 @@ theorem isAffineSpace_of_closedChartData {Z : ClosedSubspaces B _ B.contains_ter
     rw [← RingHom.comp_apply ψ, hψ]
   have hsa : D.s'' ≫ a = D.t'' ≫ a := by
     apply BigFppfOver.map_toScheme_injective
-    show Gm.map D.s'' ≫ X.toSpecΓ ≫ Spec.map (CommRingCat.ofHom αV) =
+    change Gm.map D.s'' ≫ X.toSpecΓ ≫ Spec.map (CommRingCat.ofHom αV) =
       Gm.map D.t'' ≫ X.toSpecΓ ≫ Spec.map (CommRingCat.ofHom αV)
     rw [Scheme.toSpecΓ_naturality_assoc, Scheme.toSpecΓ_naturality_assoc, ← Spec.map_comp,
       ← Spec.map_comp, hst']
@@ -156,7 +156,7 @@ theorem isAffineSpace_of_closedChartData {Z : ClosedSubspaces B _ B.contains_ter
       ((Stacks.AffineStageCore.tBar (Gm.map s).appTop.hom (Gm.map t).appTop.hom
         (chartIdealAt B _ _ Y he Z) (map_chartIdealAt_eq Y he hts Z)).comp ψ) p := by
     intro p
-    show D.eR ((Gm.map D.t'').appTop.hom (D.eV.symm (ψ p))) = _
+    change D.eR ((Gm.map D.t'').appTop.hom (D.eV.symm (ψ p))) = _
     rw [D.eR_t, RingEquiv.apply_symm_apply]
     rfl
   let iA : Algebra A' Γ(X, ⊤) := αV.toAlgebra

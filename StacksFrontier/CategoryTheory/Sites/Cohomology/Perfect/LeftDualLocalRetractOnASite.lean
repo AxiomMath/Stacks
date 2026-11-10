@@ -178,7 +178,8 @@ omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
   [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).Additive]
   [∀ (K L : Stacks.SheafOfModules.DerivedMonoidal.Complexes X.O),
     HomologicalComplex.HasMapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
-      (ComplexShape.up ℤ)] in
+      (ComplexShape.up ℤ)]
+  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The chain-level representative attached to a degree-zero cocycle section restricts, along
 an arrow of the site, to the one attached to the restricted section.** -/
 theorem restrictComplexMapAlong_cocycleHomOver {V W : X.C} (g : W ⟶ V)

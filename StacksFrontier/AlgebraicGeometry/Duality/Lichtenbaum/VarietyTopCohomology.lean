@@ -231,7 +231,8 @@ theorem le_topologicalKrullDim_and_isProper_of_not_isZero_rightDerived (k : Type
   have hR := (Stacks.Cohomology.AffineComparison.cohomologyIsoPushforward
     j.isoOpensRange.hom F d).isZero_iff.2
       (isZero_rightDerived_of_nonempty_compl k q d hdX j.opensRange hV F')
-  rwa [ModuleCat.isZero_iff_subsingleton] at hR ⊢
+  rw [ModuleCat.isZero_iff_subsingleton] at hR ⊢
+  assumption
 
 end Stacks.Duality.Lichtenbaum
 

@@ -209,7 +209,8 @@ neither 08AR for a representable proper morphism nor the uniform Artin-Rees boun
 the scheme case 088B"]
 theorem exists_pos_idealPowerMultiple_kernel_cokernel_directImageComparison_iff
     (𝓚 : (SheafOfModules.unit
-      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O))).Submodule) :
+      ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B S hS Y.1 Y.2).O))).Submodule) :
     (∃ t : ℕ, 0 < t ∧ ∀ k : ℕ,
         idealPowerMultiple B S hS Y.1 Y.2 𝓚 t
             (kernel ((directImageComparison B S hS f 𝓙 𝓘 hI G F β).app (op k))) = ⊥ ∧

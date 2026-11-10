@@ -125,12 +125,11 @@ private theorem tensorContract_finiteTrace_eq_lmul
       LinearMap.trace_eq_matrix_trace A b]
     simp only [Matrix.trace, Matrix.diag_apply, LinearMap.toMatrix_apply]
     refine Finset.sum_congr rfl fun k _ => ?_
-    show b.coord k (i ((Algebra.lmul A B).toLinearMap x (p (b k)))) = _
+    change b.coord k (i ((Algebra.lmul A B).toLinearMap x (p (b k)))) = _
     rfl
   have hcontract (z : B ⊗[A] B) :
       (∑ k, u k * tensorContract A B (f k) z) = (Algebra.TensorProduct.lmul' A) z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z t hz ht =>
         calc
           (∑ k, u k * tensorContract A B (f k) (z + t)) =
@@ -147,7 +146,7 @@ private theorem tensorContract_finiteTrace_eq_lmul
     | tmul x y =>
         simp only [Algebra.TensorProduct.lmul'_apply_tmul, tensorContract,
           TensorProduct.lift.tmul]
-        show (∑ k, u k * ((f k x) • y)) = x * y
+        change (∑ k, u k * ((f k x) • y)) = x * y
         have hframe : (∑ k, (f k x) • u k) = x := by
           have hp := congrArg p (b.sum_repr (i x))
           simp only [map_sum, map_smul] at hp
@@ -164,18 +163,17 @@ private theorem tensorContract_finiteTrace_eq_lmul
   have htraceMap :
       (finiteProjectiveTrace A B).comp (Algebra.lmul A B).toLinearMap = ∑ k, u k • f k := by
     ext x
-    show finiteProjectiveTrace A B ((Algebra.lmul A B).toLinearMap x) = _
+    change finiteProjectiveTrace A B ((Algebra.lmul A B).toLinearMap x) = _
     rw [htrace]
     simp only [LinearMap.sum_apply]
     refine Finset.sum_congr rfl fun k _ => ?_
-    show f k (x * u k) = (u k • f k) x
+    change f k (x * u k) = (u k • f k) x
     simp [algebraDualModule_smul_apply, mul_comm]
   calc
     tensorContract A B ((finiteProjectiveTrace A B).comp (Algebra.lmul A B).toLinearMap) j.1 =
         ∑ k, tensorContract A B (u k • f k) j.1 := by
           rw [htraceMap]
-          induction j.1 using TensorProduct.induction_on with
-          | zero => simp [tensorContract]
+          induction j.1 using TensorProduct.inductionOn with
           | tmul x y => simp [tensorContract, TensorProduct.lift.tmul, LinearMap.sum_apply]
           | add x y hx hy => simp [hx, hy, map_add, Finset.sum_add_distrib]
     _ = ∑ k, u k * tensorContract A B (f k) j.1 :=
@@ -307,17 +305,13 @@ theorem noetherPairing_localize [IsNoetherianRing A] [IsNoetherianRing B]
       _ = algebraMap B Bg (algebraMap F.middle B (algebraMap A F.middle a)) := by
         rw [IsScalarTower.algebraMap_apply A F.middle B])
   let eJ := diagonalAnnihilatorBaseChangeEquiv F
-  have he0 : eJ 0 = 0 := eJ.map_zero
   have headd : ∀ z t, eJ (z + t) = eJ z + eJ t := fun z t => eJ.map_add z t
   induction ω using dualizingModule.induction_on generalizing j with
-  | zero => simp only [map_zero, LinearMap.zero_apply, map_zero]
   | add ω η hω hη =>
       simpa only [map_add, LinearMap.add_apply] using congrArg₂ (· + ·) (hω j) (hη j)
   | tmul φ y₀ =>
       obtain ⟨z, rfl⟩ := eJ.surjective j
-      induction z using TensorProduct.induction_on with
-      | zero =>
-          rw [he0, map_zero, map_zero, diagonalAnnihilatorLocalize_zero, map_zero]
+      induction z using TensorProduct.inductionOn with
       | add z t hz ht =>
           rw [headd, map_add, map_add, diagonalAnnihilatorLocalize_add, map_add, hz, ht]
       | tmul y j' =>
@@ -345,8 +339,7 @@ theorem noetherPairing_localize [IsNoetherianRing A] [IsNoetherianRing B]
                     (IsScalarTower.toAlgHom A F.middle Bg)
                     (IsScalarTower.toAlgHom A F.middle Bg) z := by
               intro z
-              induction z using TensorProduct.induction_on with
-              | zero => simp
+              induction z using TensorProduct.inductionOn with
               | add z t hz ht => simpa only [map_add, smul_add] using congrArg₂ (· + ·) hz ht
               | tmul a c =>
                   simp [Algebra.TensorProduct.map_tmul, Algebra.smul_def]
@@ -378,9 +371,8 @@ theorem lmul_diagonalAnnihilatorBaseChange (A₁ : Type x) [CommRing A₁] [Alge
     Algebra.TensorProduct.lmul' A₁
         (diagonalAnnihilatorFlatBaseChange A B A₁ j).1 =
       Algebra.TensorProduct.includeRight (Algebra.TensorProduct.lmul' A j.1) := by
-  show Algebra.TensorProduct.lmul' A₁ (envelopingBaseChange A B A₁ j.1) = _
-  induction j.1 using TensorProduct.induction_on with
-  | zero => simp
+  change Algebra.TensorProduct.lmul' A₁ (envelopingBaseChange A B A₁ j.1) = _
+  induction j.1 using TensorProduct.inductionOn with
   | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   | tmul x y => simp [envelopingBaseChange_tmul]
 
@@ -403,7 +395,7 @@ private theorem localization_eq_of_flat {R : Type u} {S : Type v} [CommRing R] [
   have : Module.FaithfullyFlat (Localization.AtPrime p) (Localization.AtPrime q) :=
     Module.FaithfullyFlat.of_flat_of_isLocalHom
   apply FaithfulSMul.algebraMap_injective (Localization.AtPrime p) (Localization.AtPrime q)
-  show l (algebraMap R _ a) = l (algebraMap R _ b)
+  change l (algebraMap R _ a) = l (algebraMap R _ b)
   simpa [l, Localization.localRingHom_to_map] using h
 
 /-- **Stacks Project, Tag 0BVT.** Under the isomorphism induced by the canonical pairing,
@@ -415,7 +407,7 @@ theorem noetherPairingEquiv_apply_traceElement
     (F : FiniteOpenFactorization.{u, v, w} A B) (j : ↑(diagonalAnnihilator A B)) :
     noetherPairingEquiv F j (dualizingModule.traceElement F) =
       Algebra.TensorProduct.lmul' A j.1 := by
-  show noetherPairing F (dualizingModule.traceElement F) j = _
+  change noetherPairing F (dualizingModule.traceElement F) j = _
   have : Algebra.FiniteType A B := finiteType_of_finiteOpenFactorization F
   apply sub_eq_zero.mp
   apply eq_zero_of_localization
@@ -491,7 +483,7 @@ theorem noetherDifferent_eq_range_traceElement
       ((Algebra.TensorProduct.lmul' A).toRingHom : B ⊗[A] B →+* B) := fun b =>
     ⟨b ⊗ₜ[A] (1 : B), by simp [Algebra.TensorProduct.lmul'_apply_tmul]⟩
   ext b
-  show b ∈ Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom (diagonalAnnihilator A B) ↔ _
+  change b ∈ Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom (diagonalAnnihilator A B) ↔ _
   rw [Ideal.mem_map_iff_of_surjective _ hsurj]
   constructor
   · rintro ⟨ξ, hξ, rfl⟩

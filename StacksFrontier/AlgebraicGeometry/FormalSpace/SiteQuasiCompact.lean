@@ -83,7 +83,7 @@ public theorem isQuasiCompactObject_over_of_compact_scheme
     rwa [BigFppfOver.topology, GrothendieckTopology.mem_over_iff,
       Sieve.overEquiv_ofArrows] at h𝒰
   have : CompactSpace (B.inclusion.obj U.left) := by
-    show CompactSpace ((BigFppfOver.toScheme B S hS).obj U)
+    change CompactSpace ((BigFppfOver.toScheme B S hS).obj U)
     infer_instance
   obtain ⟨E, ψ, hE, hfin⟩ :=
     isQuasiCompactObject_of_compact_scheme B U.left 𝒰' hbase'
@@ -107,7 +107,7 @@ public theorem isQuasiCompactObject_over_of_compact_scheme
         _ = E.f i ≫ U.hom := by rw [hw])
     w₀ := fun i => by
       apply (Over.forget (B.obj hS)).map_injective
-      show ψ.h₀ i ≫ (𝒰.f (ψ.s₀ i)).left = E.f i
+      change ψ.h₀ i ≫ (𝒰.f (ψ.s₀ i)).left = E.f i
       exact ψ.w₀ i
   }
   refine ⟨V, φ, hV, ?_⟩

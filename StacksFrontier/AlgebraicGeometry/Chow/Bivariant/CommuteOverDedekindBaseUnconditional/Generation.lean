@@ -100,7 +100,7 @@ theorem exists_cycle_mem_central_of_mem_genericPoints_of_dimensionFunction_eq_on
     have h1 := hδ j₀
     have h2 : C.dimensionFunction (sX.base (y j₀)) ≤
         relativeDimension C.dimensionFunction sX (y j₀) := by
-      show _ ≤ C.dimensionFunction (sX.base (y j₀)) +
+      change _ ≤ C.dimensionFunction (sX.base (y j₀)) +
         (Cardinal.toNat (residueTrdeg sX (y j₀)) : ℤ)
       omega
     rw [hδ1] at h2
@@ -130,7 +130,7 @@ theorem exists_cycle_mem_central_of_mem_genericPoints_of_dimensionFunction_eq_on
       rw [hδ j, hδ1]
       omega
     rw [e] at h
-    exact AlgebraicGeometry.RelativeDimension.of_eq (Sigma.ι_desc_assoc _ _ _).symm h
+    exact AlgebraicGeometry.RelativeDimension.of_eq (Sigma.ι_comp_desc_assoc _ _ _).symm h
   have hφ : IsBivariantFlatPullback C (gysinSystemOfInvertible C) (Sigma.desc v ≫ sX) (𝟙 C.S)
       (Sigma.desc v ≫ sX) (Category.comp_id _) r hr (flatPullbackDescends C)
       (flatPullbackBivariantClassOfInvertible C (Sigma.desc v ≫ sX) (𝟙 C.S) (Sigma.desc v ≫ sX)
@@ -209,17 +209,17 @@ theorem exists_cycle_mem_central_of_notMem_genericPoints (hS : IsDedekindChowBas
   have hX : IsClopenDecomposition UX := isClopenDecomposition_opensRange_sigmaι Zs
   have hpt : ∀ j (w : Zs j), (Sigma.ι Zs j ≫ sW).base w = sX.base (y j) := by
     intro j w
-    rw [hsW, ← Category.assoc, Sigma.ι_desc, Scheme.Hom.comp_apply, hZpt]
+    rw [hsW, ← Category.assoc, Sigma.ι_comp_desc, Scheme.Hom.comp_apply, hZpt]
   have hUXpt : ∀ j (w : (UX j : Scheme.{u})), sW.base ((UX j).ι.base w) = sX.base (y j) := by
     intro j w
     obtain ⟨z, hz⟩ := w.2
-    show sW.base w.1 = _
+    change sW.base w.1 = _
     rw [← hz, ← Scheme.Hom.comp_apply]
     exact hpt j z
   have ha : ∀ j, UX j ≤ sW ⁻¹ᵁ V j := by
     intro j w hw
     have h1 := hUXpt j ⟨w, hw⟩
-    show sW.base w ∈ V j
+    change sW.base w ∈ V j
     change sW.base w = _ at h1
     rw [h1]
     exact hsV j
@@ -232,7 +232,7 @@ theorem exists_cycle_mem_central_of_notMem_genericPoints (hS : IsDedekindChowBas
       rw [schemeDeltaDimension_eq_genericPoint, relativeDimension_comp_closedImmersion]
       simpa using (hδj j).le
   have _ : ∀ j, IsProper (Sigma.ι Zs j) := fun j ↦ by
-    have : IsProper (Sigma.ι Zs j ≫ Sigma.desc v) := by rw [Sigma.ι_desc]; infer_instance
+    have : IsProper (Sigma.ι Zs j ≫ Sigma.desc v) := by rw [Sigma.ι_comp_desc]; infer_instance
     exact IsProper.of_comp (Sigma.ι Zs j) (Sigma.desc v)
   choose e heop hecap using fun j ↦ exists_isChowOperationClassOverBase_cap_eq_of_closedPoint hS
     (hclosed j) (hts j) (hne j) (Sigma.ι Zs j ≫ sW) (hpt j) p (hδj j)
@@ -389,10 +389,10 @@ theorem exists_cycle_mem_of_multiplicity (K : AddSubgroup (chowGroup C sX (1 - p
   refine ⟨P, hP, fun x ↦ ?_⟩
   rw [hPy]
   by_cases hx : x ∈ Function.support (a.1 : X → ℤ) ∧ Q x
-  · rw [dif_pos hx]
+  · rw [dite_eq_left hx]
     exact (finsum_mem_preimage_sigma_fst_one (fun i : I ↦ ((i.1 : _) : X))
       (fun i i' h ↦ Subtype.ext (Subtype.ext h)) ⟨⟨x, hx.1⟩, hx.2⟩).trans (by simp)
-  · rw [dif_neg hx]
+  · rw [dite_eq_right hx]
     refine (finsum_mem_congr (Set.eq_empty_of_forall_notMem fun j hj ↦ hx ?_)
       fun _ _ ↦ rfl).trans finsum_mem_empty
     have hj' : (j.1.1 : X) = x := hj
@@ -433,23 +433,23 @@ theorem mem_of_forall_cycle_generators (K : AddSubgroup (chowGroup C sX (1 - p))
   obtain ⟨P₄, hP₄, hP₄y⟩ := hv' fun i ↦ (-a.1 i).toNat
   have hsub : a = P₁ - P₂ + (P₃ - P₄) := by
     refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-    show a.1 x = P₁.1 x - P₂.1 x + (P₃.1 x - P₄.1 x)
+    change a.1 x = P₁.1 x - P₂.1 x + (P₃.1 x - P₄.1 x)
     rw [hP₁y, hP₂y, hP₃y, hP₄y]
     by_cases hx : x ∈ Function.support (a.1 : X → ℤ)
     · by_cases hg : sX.base x ∈ genericPoints C.S
-      · rw [dif_pos ⟨hx, hg⟩, dif_pos ⟨hx, hg⟩, dif_neg (fun h ↦ h.2 hg),
-          dif_neg (fun h ↦ h.2 hg)]
+      · rw [dite_eq_left ⟨hx, hg⟩, dite_eq_left ⟨hx, hg⟩, dite_eq_right (fun h ↦ h.2 hg),
+          dite_eq_right (fun h ↦ h.2 hg)]
         simp only
         omega
-      · rw [dif_neg (fun h ↦ hg h.2), dif_neg (fun h ↦ hg h.2), dif_pos ⟨hx, hg⟩,
-          dif_pos ⟨hx, hg⟩]
+      · rw [dite_eq_right (fun h ↦ hg h.2), dite_eq_right (fun h ↦ hg h.2), dite_eq_left ⟨hx, hg⟩,
+          dite_eq_left ⟨hx, hg⟩]
         simp only
         omega
-    · rw [dif_neg (fun h ↦ hx h.1), dif_neg (fun h ↦ hx h.1), dif_neg (fun h ↦ hx h.1),
-        dif_neg (fun h ↦ hx h.1)]
+    · rw [dite_eq_right (fun h ↦ hx h.1), dite_eq_right (fun h ↦ hx h.1),
+        dite_eq_right (fun h ↦ hx h.1), dite_eq_right (fun h ↦ hx h.1)]
       simpa using hx
   rw [hsub]
-  show QuotientAddGroup.mk' (rationalEquivalences C sX (1 - p)) (P₁ - P₂ + (P₃ - P₄)) ∈ K
+  change QuotientAddGroup.mk' (rationalEquivalences C sX (1 - p)) (P₁ - P₂ + (P₃ - P₄)) ∈ K
   rw [map_add, map_sub, map_sub]
   exact add_mem (sub_mem hP₁ hP₂) (sub_mem hP₃ hP₄)
 

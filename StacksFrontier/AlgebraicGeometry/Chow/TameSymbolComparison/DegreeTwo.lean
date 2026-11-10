@@ -175,7 +175,7 @@ the norms of the tame symbols of the `A'_𝔪`. -/
 theorem oneDimTamePairing_apply [Ring.DimensionLEOne A] (hdim : ringKrullDim A = 1) (f g : Fˣ) :
     oneDimTamePairing hdim f g =
       normalizationNormProduct (maximalIdeal_ne_bot_of_ringKrullDim_eq_one A hdim) f g := by
-  show Additive.toMul (milnorKTheoryOneAddEquiv (ResidueField A) _) = _
+  change Additive.toMul (milnorKTheoryOneAddEquiv (ResidueField A) _) = _
   rw [milnorKTheoryOneAddEquiv_of_coe_eq _ _
     (coe_oneDimTameSymbol_one_milnorKTwoPureSymbol hdim f g)]
   rfl
@@ -608,7 +608,6 @@ theorem oneDimTameSymbol_one_eq_milnorKTwoTameSymbol (hdim : ringKrullDim A = 1)
     oneDimTameSymbol A F hdim 1 = milnorKTwoTameSymbol (A := A) (K := F) hdim := by
   refine AddMonoidHom.ext fun α ↦ ?_
   induction α using milnorKTwo_induction with
-  | h0 => rw [map_zero, map_zero]
   | hsymb f g =>
     rw [oneDimTameSymbol_one_milnorKTwoPureSymbol, milnorKTwoTameSymbol_pureSymbol]
   | hadd a b ha hb => rw [map_add, map_add, ha, hb]

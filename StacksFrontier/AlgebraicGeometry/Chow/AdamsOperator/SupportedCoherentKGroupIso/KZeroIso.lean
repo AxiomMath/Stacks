@@ -580,7 +580,7 @@ theorem coherentToSupportedCoherentKZeroHom_bijective :
   let r := KZero.lift (inverseSupportedClass i) fun S hS => inverseSupportedClass_additive i S hS
   have hr : r.comp (coherentToSupportedCoherentKZeroHom i) = AddMonoidHom.id _ := by
     refine KZero.hom_ext fun F => ?_
-    show r (coherentToSupportedCoherentKZeroHom i (KZero.mk _ F)) = KZero.mk _ F
+    change r (coherentToSupportedCoherentKZeroHom i (KZero.mk _ F)) = KZero.mk _ F
     rw [coherentToSupportedCoherentKZeroHom_mk]
     exact (KZero.lift_mk _ _ _).trans (inverseSupportedClass_supportedPushforward i F)
   exact ⟨Function.LeftInverse.injective (g := r) fun x => DFunLike.congr_fun hr x,

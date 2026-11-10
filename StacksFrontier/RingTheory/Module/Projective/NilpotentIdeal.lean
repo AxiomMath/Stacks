@@ -372,7 +372,6 @@ nilpotence of the maximal ideal is `IsNilpotent (IsLocalRing.maximalIdeal R)`.",
   ega "0 10.1.3"
   "case (i)",
   sga "1 IV 4.3" "(i),(ii),(iii)",
-  ega "0 10.1.3" "case (i)",
   ega "III 7.3.5" "commutative case",
   ega "IV 11.3.12" "special case",
   ega "IV 2.2.17" "special case",

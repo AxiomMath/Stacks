@@ -87,7 +87,7 @@ public theorem isLocalization_disjointResidueFieldProduct (hA : (minimalPrimes A
       1⟩, ?_⟩
     simp only [OneMemClass.coe_one, map_one, mul_one]
     funext p
-    show y p = dite (Disjoint (M : Set A) ((p.1 : Ideal A) : Set A))
+    change y p = dite (Disjoint (M : Set A) ((p.1 : Ideal A) : Set A))
       (fun h ↦ y ⟨p.1, h⟩) (fun _ ↦ 0)
     rw [dite_eq_left p.2]
   · intro z₁ z₂ h

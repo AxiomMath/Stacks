@@ -224,7 +224,7 @@ theorem isoRightDerivedPlusSingle_zero_hom_app (N : A) :
         (DerivedCategory.Plus.homologyFunctor B 0).map
           ((Stacks.DerivedIndexing.rightDerivedPlusUnitSingle F).app N) := by
   rw [F.isoRightDerivedPlusSingle_hom_app 0 N]
-  show _ = _ ≫ (DerivedCategory.Plus.homologyFunctor B 0).map (_ ≫ _ ≫ _)
+  change _ = _ ≫ (DerivedCategory.Plus.homologyFunctor B 0).map (_ ≫ _ ≫ _)
   rw [Functor.map_comp, Functor.map_comp]
   rfl
 

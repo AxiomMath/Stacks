@@ -210,7 +210,7 @@ theorem phComparisonHom_id (S : SimplexCategoryᵒᵖ) :
   ext x
   refine spacesTotal_hom_ext rfl ?_
   refine Eq.trans ?_ (phComparisonFib_map_fiber_left S _).symm
-  show comparison (𝟙 S).unop x = _
+  change comparison (𝟙 S).unop x = _
   rw [totalPseudofunctor_mapId_hom_app]
   exact (comparison_id' x).trans (etaleComponent_eqToHom_left _).symm
 
@@ -243,7 +243,7 @@ theorem phComparisonHom_comp {R S T : SimplexCategoryᵒᵖ} (f : R ⟶ S) (g : 
   let a₂ := phComparisonHomApp f
     (((etaleSimplicialSite A).totalPseudofunctor.map g.op.toLoc).toFunctor.obj x)
   let a₃ := phComparisonHomApp g x
-  show comparison (f ≫ g).unop x = (Grothendieck.Hom.fiber (a₁ ≫ a₂ ≫ a₃)).left
+  change comparison (f ≫ g).unop x = (Grothendieck.Hom.fiber (a₁ ≫ a₂ ≫ a₃)).left
   refine (comparison_comp' g.unop f.unop x).trans ?_
   refine Eq.trans ?_ (spacesTotal_comp_fiber_left a₁ (a₂ ≫ a₃)).symm
   refine Eq.trans ?_ (congrArg (fun t => (Grothendieck.Hom.fiber a₁).left ≫ t)

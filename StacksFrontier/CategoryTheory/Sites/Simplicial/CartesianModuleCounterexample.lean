@@ -479,7 +479,10 @@ on its total site (the cosimplicial ring of unit ratios
 `f_{δ¹₁}` and `f_{δ¹₀}` are flat, but the category of cartesian `O`-modules is not abelian, for
 any choice of abelian structure: the quotient map `𝒪 ⟶ 𝒪/(x₀)` is a monomorphism and an
 epimorphism of cartesian modules, but not an isomorphism. -/
-@[stacks 0D7K "the positive assertion is false as written: counterexample with f_{δ¹₁} and f_{δ¹₀} flat but the cartesian O-modules not an abelian category (constant simplicial site on the point, O the cosimplicial ring of unit ratios); the corrected form is CategoryTheory.SimplicialSiteSituation.cartesianModuleSheafAbelian"]
+@[stacks 0D7K "the positive assertion is false as written: counterexample with f_{δ¹₁} and \
+f_{δ¹₀} flat but the cartesian O-modules not an abelian category (constant simplicial site on \
+the point, O the cosimplicial ring of unit ratios); the corrected form is \
+CategoryTheory.SimplicialSiteSituation.cartesianModuleSheafAbelian"]
 theorem exists_not_abelian_cartesianModuleSheaf :
     ∃ (S : SimplicialSiteSituation.{u}) (O : Sheaf S.totalTopology CommRingCat.{u}),
       (S.transitionRingedToposHom O (SimplexCategory.δ (1 : Fin 2))).IsFlat ∧

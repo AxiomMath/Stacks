@@ -47,8 +47,9 @@ assembly**, reducing `hsrc` to the inverse-line factor alone.
 
 ## The crossings
 
-Five vocabulary crossings this assembly needs are stated here as equations. Each is a `rfl` or one rewrite, and each is given its own declaration so that the
-kernel meets one definitional crossing at a time:
+Five vocabulary crossings this assembly needs are stated here as equations. Each is a `rfl` or one
+rewrite, and each is given its own declaration so that the kernel meets one definitional crossing at
+a time:
 
 * `pullbackCompIso_hom_eq`: `Stacks.ClosedImmersion.pullbackCompIso` — the spelling `hsrc`
   is stated at — against `schemePullbackCompIso`, the spelling everything is proved at. The two
@@ -305,10 +306,10 @@ spelling**, on forward maps. `Stacks.ClosedImmersion.pullbackCompIso` is the spe
 hypothesis `hsrc` of
 `Stacks.ProjectiveBundleConormal.conormalCanonicalMap_baseChange_of_twistedSourceBaseChange` is
 stated at, and `Stacks.ProjectiveBundleConormal.schemePullbackCompIso` is the one everything is
-proved at; they are definitionally equal, and this lemma states it. They are built from oppositely oriented composition laws —
-`RingedSpaceModuleAdjunction.modulePullbackComp` runs from the pullback along a composite,
-`AlgebraicGeometry.Scheme.Modules.pullbackComp` towards it — and the forward maps are
-nonetheless the same term. -/
+proved at; they are definitionally equal, and this lemma states it. They are built from oppositely
+oriented composition laws — `RingedSpaceModuleAdjunction.modulePullbackComp` runs from the pullback
+along a composite, `AlgebraicGeometry.Scheme.Modules.pullbackComp` towards it — and the forward maps
+are nonetheless the same term. -/
 theorem pullbackCompIso_hom_eq (e : i ≫ k = f ≫ j) (M : W₂.Modules) :
     (Stacks.ClosedImmersion.pullbackCompIso (Stacks.Conormal.comm_toShHom e) M).hom =
       (schemePullbackCompIso e M).hom := rfl
@@ -341,8 +342,8 @@ halves above.
 
 Stated at the scheme spelling and at the re-seated monoidal structure. The repository has the
 same statement at `Stacks.PullbackGradedAlgebra.monoidalCategory`'s `⊗ₘ`, which — as
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorComparisonCompSheafTensor` records — is not
-definitionally this one. -/
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorComparisonCompSheafTensor` records —
+is not definitionally this one. -/
 theorem pullbackTensorComparison_naturality_tensorHom {Y Z : Scheme.{u}} (f : Y ⟶ Z)
     {A A' B B' : Z.Modules} (u : A ⟶ A') (v : B ⟶ B') :
     (Scheme.Modules.pullback f).map (u ⊗ₘ v) ≫ pullbackTensorComparison f A' B' =

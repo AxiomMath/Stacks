@@ -167,7 +167,7 @@ public theorem nonempty_nodalChartNeighbourhood_of_etale {X X' S V : Scheme.{u}}
             etale_toChart := hchart
             pt_mem := ?_
             comm := ?_ }⟩
-  · show p (d.toSource d.pt) = x
+  · change p (d.toSource d.pt) = x
     rw [d.pt_mem, hx]
   · calc (d.toSource ≫ p) ≫ f = d.toSource ≫ f' ≫ eV := by
           rw [Category.assoc, hcomm]

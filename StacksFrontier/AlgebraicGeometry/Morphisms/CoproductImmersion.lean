@@ -82,9 +82,9 @@ theorem isClosedImmersion_coprodDesc [IsClosedImmersion a] [IsClosedImmersion b]
   have hsos : SurjectiveOnStalks (coprod.desc a b) := by
     refine IsZariskiLocalAtSource.of_openCover (coprodOpenCover.{u, 0} X Y) ?_
     rintro (_ | _)
-    · show SurjectiveOnStalks ((coprod.inl : X ⟶ X ⨿ Y) ≫ coprod.desc a b)
+    · change SurjectiveOnStalks ((coprod.inl : X ⟶ X ⨿ Y) ≫ coprod.desc a b)
       rw [coprod.inl_desc]; infer_instance
-    · show SurjectiveOnStalks ((coprod.inr : Y ⟶ X ⨿ Y) ≫ coprod.desc a b)
+    · change SurjectiveOnStalks ((coprod.inr : Y ⟶ X ⨿ Y) ≫ coprod.desc a b)
       rw [coprod.inr_desc]; infer_instance
   have hinj : Function.Injective (coprod.desc a b).base := by
     intro p q hpq

@@ -61,7 +61,7 @@ variable (S : BootstrapSituation.{u, u, u})
 /-- **The closed point of `A_𝔮` lies in the localized locus**, for `𝔮 ∈ T`. -/
 theorem closedPoint_mem_locus (q : PrimeSpectrum S.A) (hq : q ∈ S.T) :
     closedPoint (Localization q.asIdeal.primeCompl) ∈ locus S q.asIdeal.primeCompl := by
-  show PrimeSpectrum.comap (algebraMap S.A (Localization q.asIdeal.primeCompl))
+  change PrimeSpectrum.comap (algebraMap S.A (Localization q.asIdeal.primeCompl))
     (closedPoint (Localization q.asIdeal.primeCompl)) ∈ S.T
   rwa [show PrimeSpectrum.comap (algebraMap S.A (Localization q.asIdeal.primeCompl))
       (closedPoint (Localization q.asIdeal.primeCompl)) = q from

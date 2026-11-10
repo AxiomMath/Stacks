@@ -234,7 +234,7 @@ theorem nonempty_isColimit_affineExtension {P : ObjectProperty (Over S)}
             ((lfpRestriction P F).map k.op z) := by
       intro z
       rw [affineExtensionι_naturality, hfac, affineExtensionι_map]
-    show (affineExtension P F).map (D.map (γ ≫ α)).op x
+    change (affineExtension P F).map (D.map (γ ≫ α)).op x
       = (affineExtension P F).map (D.map (γ ≫ α)).op y
     rw [← hx₁, ← hy₁, hrw, hrw, hk]
 
@@ -461,7 +461,7 @@ lemma overOpenCone_w (D : Λᵒᵖ ⥤ Over S) (W : (D.obj (op (⊥ : Λ))).left
       = Scheme.Hom.resLE (c.π.app l).left (overOpenAt D W l.unop)
         ((c.π.app (op (⊥ : Λ))).left ⁻¹ᵁ W) (le_of_eq (preimage_overOpenAt D c W l).symm) := rfl
   rw [key]
-  show _ ≫ (overOpenAt D W l.unop).ι ≫ (D.obj l).hom = _
+  change _ ≫ (overOpenAt D W l.unop).ι ≫ (D.obj l).hom = _
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (fun k => k ≫ (D.obj l).hom) h1).trans ?_
   refine (Category.assoc _ _ _).trans ?_

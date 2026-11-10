@@ -46,6 +46,9 @@ variable {X : RingedTopos.{u, c, u}} {Y : RingedTopos.{u, c', u}}
   [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)]
   (f : RingedToposHom X Y)
 
+omit [Y.J.HasSheafCompose (forget RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget AddCommGrpCat.{u})] [HasSheafify Y.J (Type u)] in
 /-- The structure sheaf placed in degree `0`, as a complex, has flat terms. -/
 theorem isFlat_single_unit_X (j : ℤ) :
     AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O)

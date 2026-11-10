@@ -445,7 +445,7 @@ theorem bcN_hcomp {Xa Xb Xc Ya Yb Yc : Scheme.{u}} [IsNoetherian Xa] [IsNoetheri
     [IsOpenImmersion l] (sq₁ : IsPullback k' f'' f' l') (sq₂ : IsPullback k f' f l) :
     bcN (sq₁.paste_horiz sq₂) =
       (((TwoSquare.mk _ _ _ _ (bcN sq₂) ≫ᵥ TwoSquare.mk _ _ _ _ (bcN sq₁)).whiskerLeft
-        (pbCompN l' l).hom).whiskerRight (pbCompN k' k).inv).natTrans := by
+        (pbCompN l' l).hom).whiskerRight (pbCompN k' k).inv) := by
   let := noethAdj f
   let := noethAdj f'
   let := noethAdj f''
@@ -499,6 +499,7 @@ instance : IsOpenImmersion D.innerFst := inferInstanceAs (IsOpenImmersion (pullb
 instance : @IsOpenImmersion D.inner.space D.top.space D.innerFst :=
   inferInstanceAs (IsOpenImmersion (pullback.fst _ _))
 
+omit [AlgebraicGeometry.IsNoetherian S] in
 /-- `Stacks.Duality.CompositionData.isPullback_innerFst` with the structure morphism of the
 compactification `D.inner` as left edge. -/
 theorem isPullback_innerFst' :
@@ -600,12 +601,14 @@ variable {D₁ D₂ : CompositionData f g} (φ : Hom D₁ D₂)
   (hb : CompactificationOf.PreservesInterior φ.base)
   (ho : CompactificationOf.PreservesInterior φ.outerHom)
 
+omit [AlgebraicGeometry.IsNoetherian S] in
 include ho in
 /-- The square `A` of the source: `X ⟶ U₁` over `X ⟶ U₂`. -/
 theorem sqA : IsPullback D₁.innerImmersion (𝟙 X.left) φ.innerMap D₂.innerImmersion :=
   (CompactificationOf.isPullback_of_preservesInterior φ.innerHom
     (φ.preservesInterior_innerHom ho)).flip
 
+omit [AlgebraicGeometry.IsNoetherian S] in
 include ho in
 /-- The square `E` of the source: `X ⟶ X̄₁` over `X ⟶ X̄₂`. -/
 theorem sqE : IsPullback D₁.topImm (𝟙 X.left) φ.top D₂.topImm :=
@@ -617,6 +620,7 @@ include hb in
 theorem sqD : IsPullback D₁.baseImm (𝟙 Y.left) (Hom.map φ.base) D₂.baseImm :=
   (CompactificationOf.isPullback_of_preservesInterior φ.base hb).flip
 
+omit [AlgebraicGeometry.IsNoetherian S] in
 include hb in
 /-- The square `F` of the source: `U₁ ⟶ X̄₁` over `U₂ ⟶ X̄₂`. -/
 theorem sqF : IsPullback D₁.innerFst φ.innerMap φ.top D₂.innerFst :=
@@ -638,6 +642,7 @@ theorem h₁ (M : quasiCoherentDerivedCategory D₂.top.space) :
     (bcN_congr_horiz D₁.innerImmersion_fst.symm D₂.innerImmersion_fst.symm _ _)
     (bcN_hcomp (φ.sqA ho) (φ.sqF hb)) M
 
+omit [AlgebraicGeometry.IsNoetherian S] in
 /-- The left vertical edges of the two stacks of the source agree. -/
 theorem hq' : D₁.innerSnd ≫ 𝟙 Y.left = φ.innerMap ≫ D₂.innerSnd :=
   (Category.comp_id _).trans φ.innerMap_snd.symm
@@ -647,6 +652,7 @@ omit [AlgebraicGeometry.IsNoetherian S] in
 theorem hp' : D₁.top.toBase ≫ CompactificationOf.Hom.map φ.base = φ.top ≫ D₂.top.toBase :=
   φ.top_comp_toBase.symm
 
+omit [AlgebraicGeometry.IsNoetherian S] in
 /-- The structure morphism of `X̄₁` over `Z` factors through `X̄₂`. -/
 theorem hk : D₁.top.toBase ≫ D₁.base.toBase = φ.top ≫ D₂.top.toBase ≫ D₂.base.toBase :=
   (CompactificationOf.homMap_comp_toBase φ.outerHom).symm

@@ -21,7 +21,8 @@ coherent module `G` on its scheme-theoretic support `Z`, the composite `g : Z ‚ü
 and the conclusion for `g` is [Stacks, Tag 02O5]. What remains to be supplied is exactly
 [Stacks, Tag 02O5], which is carried as the single hypothesis `h02O5` of
 `isCoherent_rightDerivedPlus_of_isProperOver_supp`; it is discharged, giving the statement with
-no hypothesis at all, in `StacksFrontier/AlgebraicGeometry/ProperSupportCoherent/Unconditional.lean`.
+no hypothesis at all, in
+`StacksFrontier/AlgebraicGeometry/ProperSupportCoherent/Unconditional.lean`.
 
 ## Main definitions
 

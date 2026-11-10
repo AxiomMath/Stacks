@@ -429,9 +429,9 @@ private theorem descent_assembly_shape
     rw [← hnats, hRUq]
     simp only [Functor.map_comp, Category.assoc]
   rw [hs, hRUq]
-  simp only [Functor.map_comp, Category.assoc, Iso.hom_inv_id_assoc, Iso.map_inv_hom_id_assoc]
+  simp only [Functor.map_comp, Category.assoc, Iso.hom_inv_id_assoc, Iso.inv_hom_id_map_assoc]
   rw [reassoc_of% hsch, hsq]
-  simp only [Category.assoc, Iso.map_inv_hom_id_assoc]
+  simp only [Category.assoc, Iso.inv_hom_id_map_assoc]
 
 end Assembly
 

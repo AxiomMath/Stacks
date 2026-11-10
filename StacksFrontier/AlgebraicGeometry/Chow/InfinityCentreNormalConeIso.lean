@@ -361,7 +361,7 @@ theorem opensRange_exceptionalComplChart (U : X.affineOpens) :
   ext e
   constructor
   · rintro ⟨z, rfl⟩
-    show (exceptionalComplChart ℐ U ≫ exceptionalComplToX ℐ) z ∈ U.1
+    change (exceptionalComplChart ℐ U ≫ exceptionalComplToX ℐ) z ∈ U.1
     rw [exceptionalComplChart_toX, Scheme.Hom.comp_apply]
     exact (IsAffineOpen.range_fromSpec (U.2 : IsAffineOpen U.1)).le ⟨_, rfl⟩
   · intro he
@@ -384,7 +384,7 @@ theorem opensRange_exceptionalComplChart (U : X.affineOpens) :
     obtain ⟨x, hx⟩ := hD
     have hxU : x ∈ U.1 := by
       have h1 : exceptionalComplToX ℐ e = x := by
-        show (relativeProjectiveLine X ↘ X) (blowupAtInfinityToLine ℐ w) = x
+        change (relativeProjectiveLine X ↘ X) (blowupAtInfinityToLine ℐ w) = x
         rw [← hx, ← Scheme.Hom.comp_apply, lineInfinitySection_comp]
         rfl
       rw [← h1]
@@ -396,7 +396,7 @@ theorem opensRange_exceptionalComplChart (U : X.affineOpens) :
       have := congrArg (fun φ => φ y) (congrArg (fun g => (g.base : _ → _))
         (specMap_evalZero_infinityChartOver U))
       simp only [Scheme.Hom.comp_base, TopCat.coe_comp, Function.comp_apply] at this
-      show (infinityChartOver U) _ = blowupAtInfinityToLine ℐ w
+      change (infinityChartOver U) _ = blowupAtInfinityToLine ℐ w
       rw [this, hy, hx]
     have hwX' : w ∉ (strictTransformIdealAtInfinity ℐ).support := e.2
     have hwS := (mem_range_blowupAtInfinityChartS_iff_notMem ℐ U w hwU).mpr hwX'
@@ -472,7 +472,7 @@ theorem infinityChartFibreMap_conormalEquiv (z : AssociatedGraded.gradedRing I) 
     | _ y =>
       rw [AssociatedGraded.gradedRingMapOfRingHom_of, conormalToInfinityChartFibre_of,
         conormalToInfinityChartFibre_of]
-      show infinityChartFibreMap f hI (conormalPieceToInfinityChartFibre I n
+      change infinityChartFibreMap f hI (conormalPieceToInfinityChartFibre I n
           (AssociatedGraded.mk I n y)) =
         conormalPieceToInfinityChartFibre I' n
           (AssociatedGraded.pieceMapOfRingHom f hI n (AssociatedGraded.mk I n y))
@@ -493,7 +493,7 @@ theorem conormalEquivInfinityChartFibre_gradeZeroMk (a : A) :
           (AssociatedGraded.gradeZeroMk I a)) =
       Ideal.Quotient.mk _ (algebraMap A[X] (infinityChartAlgebra I) (C a)) := by
   rw [conormalEquivInfinityChartFibre_apply', conormalToInfinityChartFibre_of]
-  show conormalPieceToInfinityChartFibre I 0 (AssociatedGraded.mk I 0 _) = _
+  change conormalPieceToInfinityChartFibre I 0 (AssociatedGraded.mk I 0 _) = _
   rw [conormalPieceToInfinityChartFibre_mk, infinityChartClass]
   congr 1
 
@@ -536,7 +536,7 @@ theorem exceptionalChartSectionsEquiv_conormalEquiv (U : X.affineOpens)
       Stacks.Conormal.conormalAlgebraSheafSectionsEquiv i U inferInstance
         (AssociatedGraded.gradedRingMapOfRingHom (RingHom.id _)
           (by rw [Ideal.map_id, chartIdeal_eq_ker_ideal]) z) := by
-  show Stacks.Conormal.conormalAlgebraSheafSectionsEquiv i U inferInstance
+  change Stacks.Conormal.conormalAlgebraSheafSectionsEquiv i U inferInstance
       (AssociatedGraded.gradedRingEquivOfEq (chartIdeal_eq_ker_ideal i U).symm
         ((conormalEquivInfinityChartFibre (i.ker.ideal U)).symm
           (conormalEquivInfinityChartFibre (i.ker.ideal U) z))) = _
@@ -563,7 +563,7 @@ theorem opensRange_exceptionalComplChartT (U : X.affineOpens) :
     (exceptionalComplChartT i U).opensRange = exceptionalComplToX i.ker ⁻¹ᵁ U.1 := by
   rw [← opensRange_exceptionalComplChart]
   ext x
-  show x ∈ Set.range (exceptionalComplChartT i U) ↔ x ∈ Set.range (exceptionalComplChart i.ker U)
+  change x ∈ Set.range (exceptionalComplChartT i U) ↔ x ∈ Set.range (exceptionalComplChart i.ker U)
   rw [exceptionalComplChartT, Stacks.Chow.range_isIso_comp]
 
 /-- The map `Γ(X, U) ⟶ Γ(X, U)[s][J/s] ⧸ (s)` followed by the identification with the sections of
@@ -578,7 +578,7 @@ theorem exceptionalChartSectionsEquiv_structure (U : X.affineOpens) :
         (conormalSituation i).algebra.hom.hom.app (op (subschemeAffineOpen i U).1) := by
   apply CommRingCat.hom_ext
   refine RingHom.ext fun r => ?_
-  show exceptionalChartSectionsEquiv i U (Ideal.Quotient.mk _ (algebraMap _ _ (Polynomial.C r))) =
+  change exceptionalChartSectionsEquiv i U (Ideal.Quotient.mk _ (algebraMap _ _ (Polynomial.C r))) =
     _
   rw [← conormalEquivInfinityChartFibre_gradeZeroMk, exceptionalChartSectionsEquiv_conormalEquiv,
     AssociatedGraded.gradedRingMapOfRingHom_of]
@@ -653,7 +653,7 @@ theorem exceptionalChartSectionsIso_naturality {U V : X.affineOpens} (h : V.1 �
   apply CommRingCat.hom_ext
   refine RingHom.ext fun w => ?_
   obtain ⟨z, rfl⟩ := (conormalEquivInfinityChartFibre (i.ker.ideal U)).surjective w
-  show (conormalSectionsRestrict i h).hom (exceptionalChartSectionsEquiv i U
+  change (conormalSectionsRestrict i h).hom (exceptionalChartSectionsEquiv i U
       (conormalEquivInfinityChartFibre (i.ker.ideal U) z)) =
     exceptionalChartSectionsEquiv i V (infinityChartFibreMap (affineRestrict h)
       (map_ideal_infinityChart_le i.ker h) (conormalEquivInfinityChartFibre (i.ker.ideal U) z))
@@ -787,7 +787,7 @@ instance : IsOpenImmersion (normalConeToExceptionalDivisor i) := by
 /-- The image of `C_ZX ⟶ E` is `E ∖ X'`. -/
 theorem opensRange_normalConeToExceptionalDivisor :
     (normalConeToExceptionalDivisor i).opensRange = exceptionalCompl i.ker := by
-  show ((normalConeIsoExceptionalCompl i).hom ≫ (exceptionalCompl i.ker).ι).opensRange = _
+  change ((normalConeIsoExceptionalCompl i).hom ≫ (exceptionalCompl i.ker).ι).opensRange = _
   rw [Scheme.Hom.opensRange_comp_of_isIso, Scheme.Opens.opensRange_ι]
 
 /-- `C_ZX ⟶ E ⟶ W ⟶ X` is `C_ZX ⟶ Z ⟶ X`. -/
@@ -842,7 +842,7 @@ instance : IsOpenImmersion (normalConeToFibreAtInfinity i f) := by
 theorem opensRange_normalConeToFibreAtInfinity :
     (normalConeToFibreAtInfinity i f).opensRange =
       modificationFibreAtInfinityComplStrictTransform i.ker f := by
-  show ((normalConeIsoExceptionalCompl i).hom ≫
+  change ((normalConeIsoExceptionalCompl i).hom ≫
     exceptionalComplToModificationFibreAtInfinity i.ker f).opensRange = _
   rw [Scheme.Hom.opensRange_comp_of_isIso,
     opensRange_exceptionalComplToModificationFibreAtInfinity]

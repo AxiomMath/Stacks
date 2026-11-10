@@ -190,7 +190,7 @@ theorem rowChase {Ee : 𝒜 ⥤ ℬ} {C₁ L₁ : ℬ ⥤ 𝒞} {C₂ L₂ : �
     (βA : Ee' ⋙ V₁ ⟶ V₂ ⋙ IX)
     (hE : βE = Functor.whiskerLeft Ee τ₁.hom ≫ βrow ≫ Functor.whiskerRight τ₂.inv IX)
     (hrow : βrow = (((TwoSquare.mk _ _ _ _ βF ≫ᵥ TwoSquare.mk _ _ _ _ βA).whiskerLeft
-      ω₂.hom).whiskerRight ω₁.inv).natTrans) (M : 𝒜) :
+      ω₂.hom).whiskerRight ω₁.inv)) (M : 𝒜) :
     βE.app M = pc₁.hom.app (Ee.obj M) ≫ V₁.map (βF.app M) ≫ βA.app (F₂.obj M) ≫
       IX.map (pc₂.inv.app M) := by
   subst hpc₁ hpc₂ hE hrow

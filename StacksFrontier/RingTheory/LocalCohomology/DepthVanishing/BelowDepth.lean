@@ -11,8 +11,8 @@ the two inequalities making up the equality of parts (1) and (3) of [Stacks, Lem
 `H^i_{V(I)}(M) = 0` for every `i < depth_I(M)`. That inequality is proved here, in every degree.
 
 The mechanism is the one already used for the degrees `0` and `1` in
-`StacksFrontier/RingTheory/LocalCohomology/DepthVanishing/DepthTwo.lean`, run as an induction along a
-regular sequence rather than unrolled twice. For `f ∈ I` a nonzerodivisor on `M`, the short exact
+`StacksFrontier/RingTheory/LocalCohomology/DepthVanishing/DepthTwo.lean`, run as an induction along
+a regular sequence rather than unrolled twice. For `f ∈ I` a nonzerodivisor on `M`, the short exact
 sequence `0 → M →^f M → M/fM → 0` has a connecting map `H^{i-1}_{V(I)}(M/fM) ⟶ H^i_{V(I)}(M)`; if
 the source vanishes then multiplication by `f` is injective on `H^i_{V(I)}(M)`, and a module
 supported in `V(I)` on which some element of `I` acts injectively is zero. Since the tail of an

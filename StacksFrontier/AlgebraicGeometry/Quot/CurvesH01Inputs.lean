@@ -109,7 +109,7 @@ theorem globalFunctionsMap_eq_terminalChartPullback {Z : AlgebraicSpaces B S hS}
       (idEtaleChart B S hS U₀)).hom) (yoneda_map_chartBaseChangeMap B S hS f _ j)).trans ?_
     let cV := (comparisonFunctor B S hS ((schemeSpaceFunctor B S hS).obj U₀)).obj
       (idEtaleChart B S hS U₀)
-    show ((j.hom.unop.hom.left ≫ (spacesBaseChange B S hS f).projection.app cV) ≫
+    change ((j.hom.unop.hom.left ≫ (spacesBaseChange B S hS f).projection.app cV) ≫
       cV.1.hom).hom = _
     rw [Category.assoc, ((spacesBaseChange B S hS f).isPullback cV).w, ← Category.assoc,
       Over.w j.hom.unop.hom]
@@ -125,7 +125,7 @@ theorem bijective_globalFunctionsMap_of_isIso_structureSharp {Z : AlgebraicSpace
     Function.Bijective (globalFunctionsMap B S hS f) := by
   have hV : IsIso ((comparisonFunctor B S hS ((schemeSpaceFunctor B S hS).obj U₀)).obj
       (idEtaleChart B S hS U₀)).1.hom := by
-    show IsIso (𝟙 ((schemeSpaceFunctor B S hS).obj U₀))
+    change IsIso (𝟙 ((schemeSpaceFunctor B S hS).obj U₀))
     infer_instance
   have heq : ⇑(globalFunctionsMap B S hS f) =
       ⇑(terminalChartPullback B S hS f (idEtaleChart B S hS U₀) hV) ∘
@@ -179,12 +179,12 @@ theorem bijective_chartFunctionsMap_of_forall {Z Y : (BigFppfOver B S hS)ᵒᵖ 
       have hkf : k ≫ pullback.fst π t = pullback.fst π (yoneda.map ml ≫ t) :=
         pullback.lift_fst _ _ _
       rw [hr]
-      show chartFunctionsMap B S hS (pullback.snd π (yoneda.map ml ≫ t) ≫ yoneda.map ml)
+      change chartFunctionsMap B S hS (pullback.snd π (yoneda.map ml ≫ t) ≫ yoneda.map ml)
         (r T t) = _
       rw [hks]
-      show chartFunctionsMap B S hS k (chartFunctionsMap B S hS (pullback.snd π t) (r T t)) = _
+      change chartFunctionsMap B S hS k (chartFunctionsMap B S hS (pullback.snd π t) (r T t)) = _
       rw [hr]
-      show chartFunctionsMap B S hS (k ≫ pullback.fst π t) σ = _
+      change chartFunctionsMap B S hS (k ≫ pullback.fst π t) σ = _
       rw [hkf]
     let s : chartFunctions B S hS Y := ⟨fun j =>
       (r j.unop.left j.unop.hom).val (op (CostructuredArrow.mk (𝟙 (yoneda.obj j.unop.left)))),
@@ -205,7 +205,7 @@ theorem bijective_chartFunctionsMap_of_forall {Z Y : (BigFppfOver B S hS)ᵒᵖ 
     let σw : yoneda.obj W ⟶ pullback π (w ≫ π) := pullback.lift w (𝟙 _) (by simp)
     have h1 : chartFunctionsMap B S hS σw
         (chartFunctionsMap B S hS (pullback.snd π (w ≫ π)) (r W (w ≫ π))) = r W (w ≫ π) := by
-      show chartFunctionsMap B S hS (σw ≫ pullback.snd π (w ≫ π)) (r W (w ≫ π)) = _
+      change chartFunctionsMap B S hS (σw ≫ pullback.snd π (w ≫ π)) (r W (w ≫ π)) = _
       rw [pullback.lift_snd]
       rfl
     rw [hr] at h1
@@ -369,7 +369,7 @@ theorem bijective_algebraMap_fibreOverFieldValuedPoint_iff :
         ⇑(globalFunctionsRelocalizeEquiv B (Spec (.of p.carrier)) S p.contained hS a fib) ∘
           ⇑(globalFunctionsMapEquiv B S hS I3) ∘ ⇑(globalFunctionsMap B S hS snd) ∘ ι := by
     funext c
-    show _ = globalFunctionsMap B _ p.contained I1.hom
+    change _ = globalFunctionsMap B _ p.contained I1.hom
       (globalFunctionsRelocalizeEquiv B (Spec (.of p.carrier)) S p.contained hS a fib
         (globalFunctionsMap B S hS I3.hom (globalFunctionsMap B S hS snd (ι c))))
     have h3 : globalFunctionsMap B S hS I3.hom (globalFunctionsMap B S hS snd (ι c)) =
@@ -426,7 +426,7 @@ theorem bijective_of_toENat_rank_le_one {k A : Type*} [Field k] [CommRing A] [No
   have h0 : Cardinal.toENat (Module.rank k A) ≠ 0 := fun h0 =>
     (rank_pos (R := k) (M := A)).ne' (Cardinal.toENat_eq_zero.1 h0)
   have h1 : Cardinal.toENat (Module.rank k A) = 1 :=
-    le_antisymm h (ENat.one_le_iff_ne_zero.2 h0)
+    le_antisymm h (Order.one_le_iff_ne_zero.2 h0)
   have hr : Module.rank k A = 1 := by
     simpa using Cardinal.toENat_eq_natCast.1 (h1.trans (Nat.cast_one (R := ℕ∞)).symm)
   have hf : Module.finrank k A = 1 := Module.finrank_eq_of_rank_eq (by simpa using hr)
@@ -443,7 +443,7 @@ theorem toENat_rank_comp_ringEquiv {k : Type*} {A A' : Type*} [Field k] [CommRin
   let L : A ≃ₗ[k] A' :=
     { σ.toAddEquiv with
       map_smul' := fun c x => by
-        show σ (φ c * x) = σ (φ c) * σ x
+        change σ (φ c * x) = σ (φ c) * σ x
         exact map_mul σ _ _ }
   have h := congrArg Cardinal.toENat L.lift_rank_eq
   rw [Cardinal.toENat_lift, Cardinal.toENat_lift] at h
@@ -591,7 +591,7 @@ theorem h0FibreRank_toBase_of_hom {F G : CurveFamily B hZ} (a : F ⟶ G)
       (Space.globalFunctionsMapEquiv B integerBase hZ e).toRingHom.comp
         (Space.h0FibreAlgebraMap B integerBase hZ G.toBase p') := by
     refine RingHom.ext fun c => ?_
-    show Space.globalFunctionsMap B integerBase hZ (Space.h0FibreProj B integerBase hZ F.toBase p)
+    change Space.globalFunctionsMap B integerBase hZ (Space.h0FibreProj B integerBase hZ F.toBase p)
       _ = Space.globalFunctionsMap B integerBase hZ e.hom
         (Space.globalFunctionsMap B integerBase hZ
           (Space.h0FibreProj B integerBase hZ G.toBase p') _)
@@ -635,7 +635,7 @@ theorem isOpenCurvesLocus_hasH0RankLeOneOnFieldFibres
   · rw [Set.range_subset_iff]
     refine ⟨fun hR s => ?_, fun hΩ q => ?_⟩
     · obtain ⟨q, rfl⟩ := Quot.exists_rep s
-      show b (Space.schemePoint B integerBase hZ G.base
+      change b (Space.schemePoint B integerBase hZ G.base
         (q.map B integerBase hZ _ (yoneda.map a.baseMap))) ≤ 1
       rw [← hbp, ← h0FibreRank_toBase_of_hom a q]
       exact hR q

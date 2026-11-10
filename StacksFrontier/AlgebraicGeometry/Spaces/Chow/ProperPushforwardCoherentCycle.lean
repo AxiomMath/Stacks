@@ -700,7 +700,7 @@ theorem properPushforward_cycleOfClosedSubspace (sX : X ⟶ D.space) (hX : D.IsG
           (deltaDimensionClosed_le_of_subset_subspacePointSet D sX hX Z hZ _ _ k hZk hsuppZ)
           hsupp) := by
   refine Subtype.ext ?_
-  show properPushforwardCoeff D sX hX sY hY f (cycleCoeffOfClosedSubspace D sX hX Z hZ k γZ) =
+  change properPushforwardCoeff D sX hX sY hY f (cycleCoeffOfClosedSubspace D sX hX Z hZ k γZ) =
     cycleCoeffOfModule D sY hY
       (directImageModule D hX.1 hY.1 f
         (closedSubspacePushforwardStructureSheaf D.site D.base D.base_mem hX.1 Z hZ)) k γY

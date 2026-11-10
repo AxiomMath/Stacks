@@ -64,7 +64,8 @@ object `𝒪_{Spec R}[0] = derivedTilde R (R[0])` — and Brown representability
 ## Implementation notes
 
 No `@[stacks]` attribute appears below. Tag 06Z0 is split into thirteen declarations, and a single
-attribute anywhere in this cluster would mark the whole tag as formalized; what is proved here is the
+attribute anywhere in this cluster would mark the whole tag as formalized; what is proved here is
+the
 *adjunction* together with reductions of the equivalence, not the equivalence. The one input still
 missing is recorded under "What is not done" below. No attribute for Tag 09IS either: that tag is
 the statement for a quasi-compact, quasi-separated scheme, and only the affine case is reached

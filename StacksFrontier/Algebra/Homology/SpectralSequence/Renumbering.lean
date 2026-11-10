@@ -94,7 +94,7 @@ lemma truncationRenumberingEquiv_rel (r : ℤ) (ij ij' : ℤ × ℤ) :
     (ComplexShape.up' (r, 1 - r)).Rel ij ij' ↔
       (ComplexShape.up' (r - 1, 1 - (r - 1))).Rel
         (truncationRenumberingEquiv ij) (truncationRenumberingEquiv ij') := by
-  show ij + (r, 1 - r) = ij' ↔ _ + (r - 1, 1 - (r - 1)) = _
+  change ij + (r, 1 - r) = ij' ↔ _ + (r - 1, 1 - (r - 1)) = _
   simp only [Prod.ext_iff, Prod.fst_add, Prod.snd_add, truncationRenumberingEquiv,
     Equiv.coe_fn_mk]
   omega

@@ -59,7 +59,7 @@ theorem existsUnique_section_of_isThickening {X₀ X E : Scheme.{u}} (i : X₀ �
     ext
     apply pullback.hom_ext
     · simp only [Over.pullback_map_left, pullback.lift_fst, Over.homMk_left]
-      show pullback.fst (𝟙 X) i ≫ t' = pullback.fst (𝟙 X) i ≫ t
+      change pullback.fst (𝟙 X) i ≫ t' = pullback.fst (𝟙 X) i ≫ t
       rw [hfst, Category.assoc, Category.assoc, hts, hts']
     · simp only [Over.pullback_map_left, pullback.lift_snd]
   exact congrArg CommaMorphism.left this
@@ -303,7 +303,7 @@ abbrev sliceℓ (hcomp : ∀ n, ℓ n ≫ κ (n + 1) = κ n) (n : ℕ) :
 theorem IsEtaleLimitTower.slice (hW : IsEtaleLimitTower W κ ℓ) :
     IsEtaleLimitTower (sliceLevel κ) (sliceκ κ) (sliceℓ hW.comp) where
   comp n := Over.OverMorphism.ext (by
-    show (ℓ n).left ≫ (κ (n + 1)).left = (κ n).left
+    change (ℓ n).left ≫ (κ (n + 1)).left = (κ n).left
     rw [← Over.comp_left, hW.comp n])
   isThickening_zero := hW.isThickening_zero
   isThickening_ℓ := hW.isThickening_ℓ
@@ -311,26 +311,26 @@ theorem IsEtaleLimitTower.slice (hW : IsEtaleLimitTower W κ ℓ) :
   existsUnique P' e' he' hP' Q' a' b' c' hpb' hca' hcb' s hs := by
     let P : BigFppfOver B S hS := Over.mk (P'.hom ≫ V.hom)
     let e : P ⟶ V := Over.homMk e'.left (by
-      show e'.left ≫ V.hom = P'.hom ≫ V.hom
+      change e'.left ≫ V.hom = P'.hom ≫ V.hom
       rw [← Over.w e']
       simp)
     let Q : ℕ → BigFppfOver B S hS := fun n => Over.mk ((Q' n).hom ≫ V.hom)
     let a : ∀ n, Q n ⟶ P := fun n => Over.homMk (a' n).left (by
-      show (a' n).left ≫ P'.hom ≫ V.hom = (Q' n).hom ≫ V.hom
+      change (a' n).left ≫ P'.hom ≫ V.hom = (Q' n).hom ≫ V.hom
       rw [← Category.assoc, Over.w (a' n)])
     let b : ∀ n, Q n ⟶ W n := fun n => Over.homMk (b' n).left (by
-      show (b' n).left ≫ (W n).hom = (Q' n).hom ≫ V.hom
+      change (b' n).left ≫ (W n).hom = (Q' n).hom ≫ V.hom
       rw [← Over.w (b' n), ← Over.w (κ n)]
       simp)
     let c : ∀ n, Q n ⟶ Q (n + 1) := fun n => Over.homMk (c' n).left (by
-      show (c' n).left ≫ (Q' (n + 1)).hom ≫ V.hom = (Q' n).hom ≫ V.hom
+      change (c' n).left ≫ (Q' (n + 1)).hom ≫ V.hom = (Q' n).hom ≫ V.hom
       rw [← Category.assoc, Over.w (c' n)])
     exact hW.existsUnique e he' hP' Q a b c hpb'
       (fun n => Over.OverMorphism.ext (by
-        show (c' n).left ≫ (a' (n + 1)).left = (a' n).left
+        change (c' n).left ≫ (a' (n + 1)).left = (a' n).left
         rw [← Over.comp_left, hca' n]))
       (fun n => Over.OverMorphism.ext (by
-        show (c' n).left ≫ (b' (n + 1)).left = (b' n).left ≫ (ℓ n).left
+        change (c' n).left ≫ (b' (n + 1)).left = (b' n).left ≫ (ℓ n).left
         rw [← Over.comp_left, hcb' n]
         rfl)) s hs
 

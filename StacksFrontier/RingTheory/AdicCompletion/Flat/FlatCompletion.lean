@@ -100,7 +100,7 @@ theorem adicCompletion_flat_of_flat {R : Type u} [CommRing R]
   have hscalar : ∀ n : ℕ, let := qmod n
       IsScalarTower R (R ⧸ I ^ n) (F.obj (.op n)) := by
     intro n
-    show IsScalarTower R (R ⧸ I ^ n) (M ⧸ (I ^ n • (⊤ : Submodule R M)))
+    change IsScalarTower R (R ⧸ I ^ n) (M ⧸ (I ^ n • (⊤ : Submodule R M)))
     infer_instance
   have hflat : ∀ n : ℕ, let := qmod n
       Module.Flat (R ⧸ I ^ n) (F.obj (.op n)) :=
@@ -149,7 +149,7 @@ private theorem uliftQuotientEquiv_transition {R : Type u} [CommRing R]
     AdicCompletion.transitionMap I M h (uliftQuotientEquiv I M n x) := by
   induction x using Quotient.inductionOn' with
   | _ x =>
-    show uliftQuotientEquiv I M m
+    change uliftQuotientEquiv I M m
         (AdicCompletion.transitionMap (I.map (algebraMap R (ULift.{v} R))) M h
           (Submodule.Quotient.mk x)) =
       AdicCompletion.transitionMap I M h
@@ -249,7 +249,7 @@ private theorem flat_quotient_iff_of_equiv {R S M N : Type*} [CommRing R] [CommR
     apply le_antisymm
     · rw [Submodule.map_le_iff_le_comap]
       refine Submodule.smul_le.2 fun r hr x _ => ?_
-      show f (r • x) ∈ I.map e • (⊤ : Submodule S N)
+      change f (r • x) ∈ I.map e • (⊤ : Submodule S N)
       rw [hf]
       exact Submodule.smul_mem_smul (Ideal.mem_map_of_mem e hr) Submodule.mem_top
     · refine Submodule.smul_le.2 fun s hs y _ => ?_
@@ -263,7 +263,7 @@ private theorem flat_quotient_iff_of_equiv {R S M N : Type*} [CommRing R] [CommR
     intro r x
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective r
     obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-    show Submodule.Quotient.mk (f (r • x)) =
+    change Submodule.Quotient.mk (f (r • x)) =
       (Submodule.Quotient.mk (e r • f x) : N ⧸ J • (⊤ : Submodule S N))
     rw [hf]
   constructor
@@ -272,7 +272,7 @@ private theorem flat_quotient_iff_of_equiv {R S M N : Type*} [CommRing R] [CommR
     apply flat_of_equiv er.symm q.toAddEquiv.symm
     intro r x
     apply q.injective
-    show q (q.symm (r • x)) = q (er.symm r • q.symm x)
+    change q (q.symm (r • x)) = q (er.symm r • q.symm x)
     rw [hq, q.apply_symm_apply, er.apply_symm_apply, q.apply_symm_apply]
   · intro h
     let := h
@@ -303,11 +303,11 @@ private theorem flat_quotient_pow_of_isZero_tor
         obtain ⟨r, rfl⟩ := e.surjective s
         obtain ⟨x, rfl⟩ := er.surjective x
         apply ULift.down_injective
-        show er.symm (e r • er x) = r • er.symm (er x)
+        change er.symm (e r • er x) = r • er.symm (er x)
         rw [er.symm_apply_apply]
         apply er.injective
         simp only [er.apply_symm_apply]
-        show Ideal.Quotient.mk J (e r) * er x = er (Ideal.Quotient.mk I r * x)
+        change Ideal.Quotient.mk J (e r) * er x = er (Ideal.Quotient.mk I r * x)
         rw [map_mul]
         rfl }
   have ht : Tor1Vanishes S N (S ⧸ J) :=
@@ -335,7 +335,7 @@ private theorem ker_liftedEval {R : Type u} [CommRing R] (I : Ideal R)
     (hI : I.FG) (n : ℕ) :
     RingHom.ker (liftedEval.{u, v} I n) =
       (I.map (algebraMap R (ULift.{v} (AdicCompletion I R)))) ^ n := by
-  show (RingHom.ker (AdicCompletion.evalₐ I n).toRingHom).comap
+  change (RingHom.ker (AdicCompletion.evalₐ I n).toRingHom).comap
     ULift.ringEquiv.toRingHom = _
   rw [AdicCompletion.ker_evalₐ I hI n]
   calc
@@ -350,7 +350,7 @@ private theorem ker_liftedEval {R : Type u} [CommRing R] (I : Ideal R)
         ext r
         rfl
       rw [Ideal.map_pow]
-      show ((I.map (algebraMap R (AdicCompletion I R))).map
+      change ((I.map (algebraMap R (AdicCompletion I R))).map
         (ULift.ringEquiv : ULift.{v} (AdicCompletion I R) ≃+*
           AdicCompletion I R).symm.toRingHom) ^ n = _
       rw [Ideal.map_map, hc]
@@ -443,7 +443,7 @@ private theorem adicCompletion_flat_of_flat_quotients
     (Ideal.quotEquivOfEq (ker_liftedEval I hI n).symm).trans
       (RingHom.quotientKerEquivOfSurjective (hsur n))
   have he (n : ℕ) (a : A) : e n (Ideal.Quotient.mk (J ^ n) a) = liftedEval I n a := by
-    show (RingHom.quotientKerEquivOfSurjective (hsur n))
+    change (RingHom.quotientKerEquivOfSurjective (hsur n))
       ((Ideal.quotEquivOfEq (ker_liftedEval I hI n).symm) (Ideal.Quotient.mk (J ^ n) a)) = _
     rw [Ideal.quotEquivOfEq_mk]
     exact RingHom.quotientKerEquivOfSurjective_apply_mk (hsur n) a
@@ -453,11 +453,11 @@ private theorem adicCompletion_flat_of_flat_quotients
       IsScalarTower A (A ⧸ J ^ n) (F.obj (.op n)) := by
     intro n
     let : Module (A ⧸ J ^ n) (ULift.{u} (M ⧸ I ^ n • (⊤ : Submodule R M))) := qmod n
-    show IsScalarTower A (A ⧸ J ^ n) (ULift.{u} (M ⧸ I ^ n • (⊤ : Submodule R M)))
+    change IsScalarTower A (A ⧸ J ^ n) (ULift.{u} (M ⧸ I ^ n • (⊤ : Submodule R M)))
     constructor
     intro a b x
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective b
-    show e n (Ideal.Quotient.mk (J ^ n) (a * b)) • x =
+    change e n (Ideal.Quotient.mk (J ^ n) (a * b)) • x =
       liftedEval I n a • (e n (Ideal.Quotient.mk (J ^ n) b) • x)
     rw [he, he, map_mul, mul_smul]
   have hflat' : ∀ n, let := qmod n
@@ -467,7 +467,7 @@ private theorem adicCompletion_flat_of_flat_quotients
     have := hflat n
     have : Module.Flat (R ⧸ I ^ n) (ULift.{u} (M ⧸ I ^ n • (⊤ : Submodule R M))) :=
       Module.Flat.ulift_right_iff.mpr ‹_›
-    show Module.Flat (A ⧸ J ^ n) (ULift.{u} (M ⧸ I ^ n • (⊤ : Submodule R M)))
+    change Module.Flat (A ⧸ J ^ n) (ULift.{u} (M ⧸ I ^ n • (⊤ : Submodule R M)))
     exact flat_of_equiv (e n) (AddEquiv.refl _) (fun _ _ => rfl)
   have htrans : ∀ n, Function.Surjective (F.map (homOfLE (Nat.le_succ n)).op) := by
     intro n x

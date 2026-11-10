@@ -261,15 +261,13 @@ def chartTensorEquiv (U : Over d.U) :
   toFun := chartTensorToLocal B S hS f d U
   invFun := chartTensorOfLocal B S hS f d U
   left_inv t := by
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul s m => rfl
     | add a b ha hb => rw [map_add, map_add, ha, hb]
   right_inv t := by
     let := chartDiagramAlgebraInst B S hS f d
     let := chartDiagramRestrictAlgebra B S hS f d U
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul s h => rfl
     | add a b ha hb => rw [map_add, map_add, ha, hb]
   map_add' := map_add _
@@ -491,7 +489,7 @@ theorem naiveCotangentKernelι_chartKernelPresheafHom (U : Over d.U)
         (chartKernelTheta B S hS f d) (op U)))
     (h := ((naiveCotangentSigma B S hS f U.left).comp (chartH1Tensor B S hS f d U)).comp
       (chartTensorToLocal B S hS f d U)) (fun s m => ?_) t
-  show naiveCotangentKernelι B S hS f U.left
+  change naiveCotangentKernelι B S hS f U.left
       (ringSheafSection s • ((chartKernelTheta B S hS f d).hom m).eval (op U)) =
     naiveCotangentSigma B S hS f U.left
       (ofSliceSection B S hS f d U s • chartH1Map B S hS f d U (chartH1Down B S hS f d m))
@@ -539,7 +537,7 @@ theorem chartTensorVanishingSieve_mem_of_chartKernelPresheafHom (U : Over d.U)
   refine GrothendieckTopology.superset_covering _ ?_
     (chartTensorVanishingSieve_mem B S hS f d hU hW V _ h2)
   intro W k hk
-  show chartRestrictTensor B S hS f d (k ≫ g) t' = 0
+  change chartRestrictTensor B S hS f d (k ≫ g) t' = 0
   rwa [Point.restrictTensor_comp]
 
 /-- The differential of `NL_{X/Y}` vanishes on the image of `𝒦` in the conormal sheaf. -/
@@ -654,11 +652,11 @@ theorem isIso_chartKernelSliceHom : IsIso (chartKernelSliceHom B S hS f d) := by
       (chartH1GlobalModule B S hS f d))
   have hi : PresheafOfModules.IsLocallyInjective
       ((SmallEtale.topology B S hS X.1).over d.U) η := by
-    show Presheaf.IsLocallyInjective _ (CategoryTheory.toSheafify _ _)
+    change Presheaf.IsLocallyInjective _ (CategoryTheory.toSheafify _ _)
     exact Presheaf.isLocallyInjective_toSheafify'.{u + 1, u, u + 2, u + 1, u + 1} _ _
   have hs : PresheafOfModules.IsLocallySurjective
       ((SmallEtale.topology B S hS X.1).over d.U) η := by
-    show Presheaf.IsLocallySurjective _ (CategoryTheory.toSheafify _ _)
+    change Presheaf.IsLocallySurjective _ (CategoryTheory.toSheafify _ _)
     exact Presheaf.isLocallySurjective_toSheafify'.{u, u + 1, u + 1, u + 2, u + 1} _ _
   exact @Stacks.SheafOfModules.isIso_of_fac_of_isLocallyBijective _ _ _ _ _ _ _ _ _
     (chartKernelSliceHom B S hS f d) (chartKernelSliceHom_fac B S hS f d) hi hs ‹_› ‹_›

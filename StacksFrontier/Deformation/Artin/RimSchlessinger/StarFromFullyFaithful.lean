@@ -8,8 +8,8 @@ public import StacksFrontier.Deformation.Artin.RimSchlessinger.FromThickeningPus
 
 **This file does not prove condition (RS*).** It records what is left of it once the
 fully-faithful half of the comparison is available, in the same hypothesis-carrying shape as
-`StacksFrontier/Deformation/Artin/RimSchlessinger/FromThickeningPushouts.lean`: the hypothesis is the
-content, and here the hypothesis is *essential surjectivity* of
+`StacksFrontier/Deformation/Artin/RimSchlessinger/FromThickeningPushouts.lean`: the hypothesis is
+the content, and here the hypothesis is *essential surjectivity* of
 `Deformation.Artin.fiberSquareComparison` at the squares condition (RS*) quantifies over.
 
 Full faithfulness at those squares is

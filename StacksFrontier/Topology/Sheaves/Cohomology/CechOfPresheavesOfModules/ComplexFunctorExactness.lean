@@ -117,7 +117,7 @@ private theorem moduleCat_hasExactLimitsOfShape_discrete
     have key := ConcreteCategory.congr_hom (limMap_π η j)
       ((Types.isLimitEquivSections hL).symm ⟨g, hsec⟩)
     rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply] at key
-    show ConcreteCategory.hom (limit.π G j) (ConcreteCategory.hom (limMap η) _)
+    change ConcreteCategory.hom (limit.π G j) (ConcreteCategory.hom (limMap η) _)
       = ConcreteCategory.hom (limit.π G j) y
     rw [key, hpa, hg j]
   exact hasExactLimitsOfShape_of_preservesEpi (J := Discrete J)

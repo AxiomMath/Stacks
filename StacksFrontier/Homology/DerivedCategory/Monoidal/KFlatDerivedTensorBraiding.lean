@@ -74,7 +74,8 @@ attribute [local instance] derivedLocalizedTensorLifting derivedBifunctorLifting
 
 /-! ### The two localizations, one at a time -/
 
-omit [(kFlatQ (curriedTensor A)).IsLocalization (kFlatQuasiIso (curriedTensor A))]
+omit [HasDerivedCategory A]
+  [(kFlatQ (curriedTensor A)).IsLocalization (kFlatQuasiIso (curriedTensor A))]
   [(kFlatQLeft (curriedTensor A)).IsLocalization (kFlatQuasiIsoLeft (curriedTensor A))] in
 /-- **In the full monoidal subcategory of K-flat objects of `K(A)`, the braiding followed by
 the tensorator of the first localization is that tensorator followed by the image of the
@@ -112,6 +113,7 @@ theorem kFlatQ_map_braiding_comp_kFlatHomotopyMu {K L : CochainComplex A ℤ}
 
 /-! ### The commutativity constraint through the comparison -/
 
+omit [(kFlatQLeft (curriedTensor A)).IsLocalization (kFlatQuasiIsoLeft (curriedTensor A))] in
 /-- **[Stacks, Tag 0FPT], the commutativity constraint of `D(A)` is the braiding of
 `Comp(A)`.**  For K-flat complexes `K` and `L` the comparison
 `CochainComplex.KFlatMonoidal.derivedTensorIso` of the tensor product of `D(A)` with the image

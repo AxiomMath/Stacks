@@ -254,7 +254,7 @@ theorem isTrivialAffineSpaceBundle_fst_comp {P W₁ W₂ V : Scheme.{u}} {a : P 
   let ε : ULift.{u} (Fin r₁) ⊕ ULift.{u} (Fin r₂) ≃ ULift.{u} (Fin (r₁ + r₂)) :=
     (Equiv.sumCongr Equiv.ulift Equiv.ulift).trans (finSumFinEquiv.trans Equiv.ulift.symm)
   refine ⟨pullbackAffineSpaceSumIso hsq he₁ he₂ ≪≫ affineSpaceReindexIso ε V, ?_⟩
-  show ((pullbackAffineSpaceSumIso hsq he₁ he₂).hom ≫ reindex ε.symm V) ≫ _ = _
+  change ((pullbackAffineSpaceSumIso hsq he₁ he₂).hom ≫ reindex ε.symm V) ≫ _ = _
   rw [Category.assoc, reindex_over, pullbackAffineSpaceSumIso_hom_over]
 
 /-- **A globally trivial affine-space bundle over an open subscheme of the target stays one over a
@@ -302,7 +302,7 @@ theorem affineSpaceSectionsIso_inv (n : Type u) (S : Scheme.{u}) [IsAffine S] :
     (affineSpaceSectionsIso n S).inv =
       CommRingCat.ofHom
         (MvPolynomial.eval₂Hom ((𝔸(n; S) ↘ S).appTop).hom (coord S)) := by
-  show (Scheme.ΓSpecIso _).inv ≫ (isoOfIsAffine n S).hom.appTop = _
+  change (Scheme.ΓSpecIso _).inv ≫ (isoOfIsAffine n S).hom.appTop = _
   rw [isoOfIsAffine_hom_appTop, Iso.inv_hom_id_assoc]
 
 /-- The polynomial chart of affine space carries the `i`-th variable to the `i`-th coordinate. -/
@@ -327,7 +327,7 @@ def affineSpaceChartIso {W S : Scheme.{u}} [IsAffine S] {n : Type u} (e : W ≅ 
 the `i`-th coordinate. -/
 theorem affineSpaceChartIso_inv_X {W S : Scheme.{u}} [IsAffine S] {n : Type u} (e : W ≅ 𝔸(n; S))
     (i : n) : (affineSpaceChartIso e).inv (MvPolynomial.X i) = e.hom.appTop (coord S i) := by
-  show (schemeSectionsIso e).inv ((affineSpaceSectionsIso n S).inv (MvPolynomial.X i)) = _
+  change (schemeSectionsIso e).inv ((affineSpaceSectionsIso n S).inv (MvPolynomial.X i)) = _
   rw [affineSpaceSectionsIso_inv_X]
   rfl
 
@@ -336,9 +336,9 @@ pullback of the corresponding section of the base. -/
 theorem affineSpaceChartIso_inv_C {W S : Scheme.{u}} [IsAffine S] {n : Type u} {π : W ⟶ S}
     (e : W ≅ 𝔸(n; S)) (he : e.hom ≫ (𝔸(n; S) ↘ S) = π) (s : Γ(S, ⊤)) :
     (affineSpaceChartIso e).inv (MvPolynomial.C s) = π.appTop s := by
-  show (schemeSectionsIso e).inv ((affineSpaceSectionsIso n S).inv (MvPolynomial.C s)) = _
+  change (schemeSectionsIso e).inv ((affineSpaceSectionsIso n S).inv (MvPolynomial.C s)) = _
   rw [affineSpaceSectionsIso_inv_C, ← he]
-  show e.hom.appTop ((𝔸(n; S) ↘ S).appTop s) = _
+  change e.hom.appTop ((𝔸(n; S) ↘ S).appTop s) = _
   rw [Scheme.Hom.comp_appTop, CommRingCat.comp_apply]
 
 /-! ### Affine space from a polynomial presentation of the sections -/
@@ -371,11 +371,11 @@ theorem affineSpaceHomOfSectionsIso_appTop :
     (affineSpaceHomOfSectionsIso π Φ).appTop = (affineSpaceSectionsIso n S).hom ≫ Φ.inv := by
   rw [← Iso.inv_comp_eq]
   refine CommRingCat.hom_ext (MvPolynomial.ringHom_ext (fun r => ?_) (fun i => ?_))
-  · show (affineSpaceHomOfSectionsIso π Φ).appTop
+  · change (affineSpaceHomOfSectionsIso π Φ).appTop
         ((affineSpaceSectionsIso n S).inv (MvPolynomial.C r)) = Φ.inv (MvPolynomial.C r)
     rw [affineSpaceSectionsIso_inv_C, sectionsIso_inv_C π Φ hΦ, ← CommRingCat.comp_apply,
       ← Scheme.Hom.comp_appTop, affineSpaceHomOfSectionsIso, homOfVector_over]
-  · show (affineSpaceHomOfSectionsIso π Φ).appTop
+  · change (affineSpaceHomOfSectionsIso π Φ).appTop
         ((affineSpaceSectionsIso n S).inv (MvPolynomial.X i)) = Φ.inv (MvPolynomial.X i)
     rw [affineSpaceSectionsIso_inv_X, affineSpaceHomOfSectionsIso, homOfVector_appTop_coord]
 
@@ -489,14 +489,14 @@ def mvPolynomialRingEquiv {σ τ : Type*} (e : σ ≃ τ) {A B : Type*} [CommRin
 theorem mvPolynomialRingEquiv_X {σ τ : Type*} (e : σ ≃ τ) {A B : Type*} [CommRing A] [CommRing B]
     (f : A ≃+* B) (i : σ) :
     mvPolynomialRingEquiv e f (MvPolynomial.X i) = MvPolynomial.X (e i) := by
-  show MvPolynomial.rename e (MvPolynomial.map (f : A →+* B) (MvPolynomial.X i)) = _
+  change MvPolynomial.rename e (MvPolynomial.map (f : A →+* B) (MvPolynomial.X i)) = _
   rw [MvPolynomial.map_X, MvPolynomial.rename_X]
 
 /-- `mvPolynomialRingEquiv e f` carries the constant `C a` to the constant `C (f a)`. -/
 theorem mvPolynomialRingEquiv_C {σ τ : Type*} (e : σ ≃ τ) {A B : Type*} [CommRing A] [CommRing B]
     (f : A ≃+* B) (a : A) :
     mvPolynomialRingEquiv e f (MvPolynomial.C a) = MvPolynomial.C (f a) := by
-  show MvPolynomial.rename e (MvPolynomial.map (f : A →+* B) (MvPolynomial.C a)) = _
+  change MvPolynomial.rename e (MvPolynomial.map (f : A →+* B) (MvPolynomial.C a)) = _
   rw [MvPolynomial.map_C, MvPolynomial.rename_C]
   rfl
 
@@ -705,7 +705,7 @@ theorem factorSectionsIso_hom_comp (V : Y.affineOpens)
     (Category.assoc _ _ _).symm.trans
       ((congrArg (fun k => k ≫ (factorPolyIso Y V).hom)
         (lineBundleChartIso_hom_comp Y M V b)).trans hC)
-  show (lineBundleProj Y M ∣_ (V.1 : Y.Opens)).appTop ≫
+  change (lineBundleProj Y M ∣_ (V.1 : Y.Opens)).appTop ≫
       (lineBundleProj Y M ⁻¹ᵁ (V.1 : Y.Opens)).topIso.hom ≫
         ((lineBundleChartIso Y M V b).hom ≫ (factorPolyIso Y V).hom) = _
   rw [morphismRestrict_appTop', Category.assoc, Category.assoc, Iso.inv_hom_id_assoc, hstep]
@@ -720,7 +720,7 @@ theorem factorSectionsIso_inv_X (V : Y.affineOpens)
     (factorSectionsIso Y M V b).inv (MvPolynomial.X (ULift.up i)) =
       (lineBundleProj Y M ⁻¹ᵁ (V.1 : Y.Opens)).topIso.inv
         ((lineBundleChartIso Y M V b).inv (MvPolynomial.X i)) := by
-  show (lineBundleProj Y M ⁻¹ᵁ (V.1 : Y.Opens)).topIso.inv
+  change (lineBundleProj Y M ⁻¹ᵁ (V.1 : Y.Opens)).topIso.inv
       ((lineBundleChartIso Y M V b).inv ((factorPolyIso Y V).inv
         (MvPolynomial.X (ULift.up i)))) = _
   congr 2

@@ -107,7 +107,7 @@ theorem exists_isOpen_inter_support_subset_of_isEffectiveCartierDivisor_sup
   obtain ⟨a₂, ha₂⟩ := Ideal.mem_span_singleton'.1 (hgen ▸ hle₂ hg₂)
   have hone : a₁ + a₂ = 1 := by
     refine hf.2 ?_
-    show (a₁ + a₂) * f = 1 * f
+    change (a₁ + a₂) * f = 1 * f
     rw [add_mul, ha₁, ha₂, hsum, one_mul]
   -- On the basic open of `aᵢ`, the support of `Kᵢ` lies in the support of the sum.
   have key : ∀ (a g : Γ(W, A)) (K : W.IdealSheafData), K ≤ K₁ ⊔ K₂ →
@@ -307,7 +307,7 @@ theorem disjoint_strictTransformPointSet_of_inter_subset {X X' : AlgebraicSpaces
     intro y hy
     rw [exceptionalPreimageSet_eq_preimage]
     refine hNZ ⟨hy, ?_⟩
-    show pointsMap B S hS _ pr y ∈ Set.range (pointsMap B S hS _ (Z.1.preimage b.hom).ι)
+    change pointsMap B S hS _ pr y ∈ Set.range (pointsMap B S hS _ (Z.1.preimage b.hom).ι)
     rw [range_pointsMap_preimage_ι, Set.mem_preimage, ← pointsMap_comp_apply]
     have hcond : pr ≫ b.hom = pullback.fst f.hom b.hom ≫ Z.1.ι := pullback.condition.symm
     rw [hcond]

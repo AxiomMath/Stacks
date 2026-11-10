@@ -76,7 +76,7 @@ include w hV in
 theorem preimage_le_preimage : g' ⁻¹ᵁ V' ≤ q ⁻¹ᵁ (g ⁻¹ᵁ V) := by
   intro x hx
   have h1 : g'.base x ∈ h ⁻¹ᵁ V := hV hx
-  show g.base (q.base x) ∈ V
+  change g.base (q.base x) ∈ V
   have h2 : g.base (q.base x) = h.base (g'.base x) := by
     rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, w]
   rw [h2]

@@ -104,7 +104,7 @@ private lemma pushforwardEndomorphism_mul
       (pushforwardEndomorphism hp g f hf a)
   apply Functor.IsStronglyCocartesian.ext p g f (𝟙 A)
   rw [← hom_comp_eq_comp_pushforwardEndomorphism hp g f hf (a * b)]
-  show (b.asIso.hom.val ≫ a.asIso.hom.val) ≫ f =
+  change (b.asIso.hom.val ≫ a.asIso.hom.val) ≫ f =
     f ≫ (pushforwardEndomorphism hp g f hf b ≫
       pushforwardEndomorphism hp g f hf a)
   rw [Category.assoc, hom_comp_eq_comp_pushforwardEndomorphism hp g f hf a,
@@ -315,7 +315,7 @@ private theorem canonicalDualNumberHom_unique
     simpa using congrArg (fun q : A₀ ⟶ A₀ => q.hom) hgf
   have hφinl : φ.comp (TrivSqZeroExt.inlAlgHom Λ k k) = AlgHom.id Λ k := by
     ext a
-    show i₀ (f.hom (iε.symm (TrivSqZeroExt.inlAlgHom Λ k k a))) = a
+    change i₀ (f.hom (iε.symm (TrivSqZeroExt.inlAlgHom Λ k k a))) = a
     have hga := congrArg (fun q : A₀ →ₐ[Λ] DualNumber k => q (i₀.symm a)) hg
     change iε (g.hom (i₀.symm a)) = TrivSqZeroExt.inlAlgHom Λ k k
       (i₀ (i₀.symm a)) at hga

@@ -33,10 +33,10 @@ variable {C : Type u} [SmallCategory C]
 absorb `φ.hom` into the representable section. -/
 lemma colimit_ι_yoneda_compatible (p : C ⥤ Type u) (U : C) (Vy Vy' : p.Elements)
     (φ : Vy ⟶ Vy') (f : Vy'.obj ⟶ U) :
-    colimit.ι ((CategoryOfElements.π p).op ⋙ yoneda.obj U) (op Vy) (φ.hom ≫ f) =
-      colimit.ι ((CategoryOfElements.π p).op ⋙ yoneda.obj U) (op Vy') f :=
+    colimit.ι ((Functor.Elements.π p).op ⋙ yoneda.obj U) (op Vy) (φ.hom ≫ f) =
+      colimit.ι ((Functor.Elements.π p).op ⋙ yoneda.obj U) (op Vy') f :=
   ConcreteCategory.congr_hom
-    (colimit.w ((CategoryOfElements.π p).op ⋙ yoneda.obj U) (op φ : op Vy' ⟶ op Vy)) f
+    (colimit.w ((Functor.Elements.π p).op ⋙ yoneda.obj U) (op φ : op Vy' ⟶ op Vy)) f
 
 /-- **Stacks 00Y6.** The canonical map `Φ_U : p U ⟶ (h_U)_p` from the value of the point at `U`
 to the stalk of the representable presheaf `h_U` is bijective. -/
@@ -57,5 +57,5 @@ theorem Phi_naturality (p : C ⥤ Type u) {U U' : C} (g : U ⟶ U') (x : p.obj U
     (⟨p.map g x⟩ : p.Elements) ⟨g, rfl⟩ (𝟙 U')
   exact h.symm.trans
     (ConcreteCategory.congr_arg
-      (colimit.ι ((CategoryOfElements.π p).op ⋙ yoneda.obj U') (op ⟨x⟩))
+      (colimit.ι ((Functor.Elements.π p).op ⋙ yoneda.obj U') (op ⟨x⟩))
       (Category.comp_id _))

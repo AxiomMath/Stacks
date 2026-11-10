@@ -133,8 +133,7 @@ def baseChangeComplexRestrictIso (K : CochainComplex (ModuleCat.{u} A) ℤ) :
       refine LinearMap.ext fun x => ?_
       change (K.d i j).hom (tensorEquiv hbij (K.X i : Type u) x) =
         tensorEquiv hbij (K.X j : Type u) (LinearMap.baseChange B (K.d i j).hom x)
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul b p => simp
       | add x y hx hy => simp only [map_add, hx, hy]
 

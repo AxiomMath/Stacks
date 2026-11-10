@@ -177,12 +177,12 @@ theorem isIso_colimit_ι_topNearVanishing
   · have htop : fromTopNearVanishing A I a (topNearVanishing A I a) = 𝟙 _ :=
       hom_ext_opensNearVanishing A I a _ _
     rw [colimit.ι_desc]
-    show inv ((sectionsNearVanishing A I a F).map
+    change inv ((sectionsNearVanishing A I a F).map
       (fromTopNearVanishing A I a (topNearVanishing A I a))) = 𝟙 _
     simp [htop]
   · refine colimit.hom_ext fun V => ?_
     rw [← Category.assoc, colimit.ι_desc]
-    show inv ((sectionsNearVanishing A I a F).map (fromTopNearVanishing A I a V)) ≫
+    change inv ((sectionsNearVanishing A I a F).map (fromTopNearVanishing A I a V)) ≫
       colimit.ι (sectionsNearVanishing A I a F) (topNearVanishing A I a) = _
     rw [Category.comp_id, ← colimit.w (sectionsNearVanishing A I a F)
       (fromTopNearVanishing A I a V), ← Category.assoc, IsIso.inv_hom_id, Category.id_comp]

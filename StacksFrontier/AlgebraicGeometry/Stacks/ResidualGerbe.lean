@@ -43,7 +43,8 @@ monomorphism of algebraic stacks (**Stacks 04ZW**), which the library did not ha
 * `AlgebraicGeometry.Stack.FieldSpectrum`: the spectrum of a field in the chosen big fppf site.
 * `AlgebraicGeometry.Stack.IsResidualGerbeAt`: the property of an object property of `𝒳` which
   the residual gerbe at `x` is asserted to satisfy uniquely.
-* `AlgebraicGeometry.Stack.HasReducedSingletonPointMonomorphism` carries **Stacks 06MU**, part (1) — the residual gerbe of
+* `AlgebraicGeometry.Stack.HasReducedSingletonPointMonomorphism` carries **Stacks 06MU**, part (1)
+  — the residual gerbe of
   `𝒳` at `x` exists.
 * `AlgebraicGeometry.Stack.residualGerbe` and
   `AlgebraicGeometry.Stack.residualGerbeInclusion`: **Stacks 06MU**, part (2) — the residual

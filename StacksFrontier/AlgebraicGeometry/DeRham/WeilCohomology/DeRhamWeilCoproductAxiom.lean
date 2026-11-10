@@ -141,10 +141,10 @@ theorem bijective_pullbackPiece_prod (i : X ⟶ Z) (j : Y ⟶ Z)
         (AlgebraicGeometry.SheafOfModules.deRhamDifferential
           (Scheme.Hom.deRhamAlgebras ((U b).ι ≫ Z.obj.hom))) n) b0 a0 b)
     refine ⟨z, Prod.ext ?_ ?_⟩
-    · show pullbackPiece i n z = ab.1
+    · change pullbackPiece i n z = ab.1
       rw [pullbackPiece_eq_isoOpensRange, ← ha0]
       exact congrArg _ (congrFun hz true)
-    · show pullbackPiece j n z = ab.2
+    · change pullbackPiece j n z = ab.2
       rw [pullbackPiece_eq_isoOpensRange, ← hb0]
       exact congrArg _ (congrFun hz false)
 
@@ -159,7 +159,7 @@ theorem bijective_pullback_prod (i : X ⟶ Z) (j : Y ⟶ Z)
   · simp only [Prod.mk.injEq] at hab
     ext n
     apply (Φ n).injective
-    show (pullbackPiece i n (a n), pullbackPiece j n (a n)) =
+    change (pullbackPiece i n (a n), pullbackPiece j n (a n)) =
       (pullbackPiece i n (b n), pullbackPiece j n (b n))
     rw [← pullback_apply_component, ← pullback_apply_component, ← pullback_apply_component,
       ← pullback_apply_component, hab.1, hab.2]

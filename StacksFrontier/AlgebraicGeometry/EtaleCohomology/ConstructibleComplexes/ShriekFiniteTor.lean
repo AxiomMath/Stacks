@@ -144,10 +144,12 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (U : SmallEtale B X.obj X.propert
     HasDerivedCategory.{d} (RingedSite.Modules.{u + 1, u, max (u + 1) r}
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B U.obj.left Λ).over V))]
   [∀ V : (constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).C,
-    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r, max (u + 1) r}
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r,
+        max (u + 1) r}
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over V).O).Additive]
   [∀ (V : (constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).C) M,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r, max (u + 1) r}
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r,
+        max (u + 1) r}
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over V).O).obj M).Additive]
   [∀ (V : (constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).C)
     (K L : CochainComplex (RingedSite.Modules.{u + 1, u, max (u + 1) r}
@@ -157,10 +159,12 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (U : SmallEtale B X.obj X.propert
         ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over V).O)
       (ComplexShape.up ℤ)]
   [∀ V : (constantCoefficientRingedSite.{u, max (u + 1) r, r} B U.obj.left Λ).C,
-    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r, max (u + 1) r}
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r,
+        max (u + 1) r}
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B U.obj.left Λ).over V).O).Additive]
   [∀ (V : (constantCoefficientRingedSite.{u, max (u + 1) r, r} B U.obj.left Λ).C) M,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r, max (u + 1) r}
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r,
+        max (u + 1) r}
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B U.obj.left Λ).over V).O).obj
         M).Additive]
   [∀ (V : (constantCoefficientRingedSite.{u, max (u + 1) r, r} B U.obj.left Λ).C)
@@ -209,6 +213,14 @@ attribute [local instance] AlgebraicGeometry.SheafOfModules.hasSheafify_commRing
   CategoryTheory.Limits.comp_preservesFiniteLimits
   CategoryTheory.Limits.comp_preservesFiniteColimits
 
+omit [IsNoetherianRing Λ]
+  [∀ (S T : B.Scheme) (g : T ⟶ S),
+    ((smallEtaleBaseChange B g).sheafPushforwardContinuous (ModuleCat.{max (u + 1) r} Λ)
+      (SmallEtale.topology B S.obj S.property)
+      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
+  [∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V)
+      (ModuleCat.{max (u + 1) r} Λ)] in
 open Stacks.DerivedCategoryComparisons StacksDraft.TorAmplitude in
 /-- **The finite-Tor-dimension half of Stacks 0962, part (2).** Let `j : U ⟶ X` be étale and
 quasi-compact. If the image under the change of coefficients of Tag 03TR of an object `M` of
@@ -241,11 +253,11 @@ public theorem extensionByZeroPreservesLocallyFiniteTorDimension
       Stacks.SheafOfModules.DerivedTensorProduct.{u + 1, u, max (u + 1) r, d}
         ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B U.obj.left Λ).over V)) :
     ExtensionByZeroPreservesLocallyFiniteTorDimension.{u, r, d} B X U Λ T T' := by
-  letI : LocallySmall.{max (u + 1) r} (SmallEtale B X.obj X.property) :=
+  let : LocallySmall.{max (u + 1) r} (SmallEtale B X.obj X.property) :=
     ⟨fun _ _ => small_max.{max (u + 1) r} _⟩
-  letI : LocallySmall.{max (u + 1) r} (SmallEtale B U.obj.left.obj U.obj.left.property) :=
+  let : LocallySmall.{max (u + 1) r} (SmallEtale B U.obj.left.obj U.obj.left.property) :=
     ⟨fun _ _ => small_max.{max (u + 1) r} _⟩
-  haveI : AB5OfSize.{max (u + 1) r, max (u + 1) r} (ModuleCat.{max (u + 1) r} Λ) :=
+  have : AB5OfSize.{max (u + 1) r, max (u + 1) r} (ModuleCat.{max (u + 1) r} Λ) :=
     ⟨fun J _ _ => HasExactColimitsOfShape.domain_of_functor J
       (forget₂ (ModuleCat.{max (u + 1) r} Λ) AddCommGrpCat.{max (u + 1) r})⟩
   intro M hM
@@ -265,7 +277,7 @@ public theorem extensionByZeroPreservesLocallyFiniteTorDimension
   have hP := isPullback_smallEtaleBaseChange B U.obj.hom (Yc i)
   set W := (smallEtaleBaseChange B U.obj.hom).obj (Yc i) with hWdef
   have hWc : CompactSpace ((SmallEtale.toScheme B U.obj.left.obj U.obj.left.property).obj W) := by
-    haveI : IsAffine (B.inclusion.obj (Yc i).obj.left) := haff i
+    have : IsAffine (B.inclusion.obj (Yc i).obj.left) := haff i
     have hq : QuasiCompact (B.inclusion.map (Limits.pullback.fst (Yc i).obj.hom U.obj.hom)) :=
       MorphismProperty.of_isPullback hP.flip hqc
     exact @QuasiCompact.compactSpace_of_compactSpace _ _ _ hq _
@@ -290,32 +302,32 @@ public theorem extensionByZeroPreservesLocallyFiniteTorDimension
   refine hasTorAmplitudeCanonical_of_hasFlatRepresentative_restrictScalars.{r, max (u + 1) r}
     (constantCoefficientRingOverFiberEquiv.{u, max (u + 1) r, r} B X Λ
       ((geometricSitePoint B X (GeometricPoint.ofPoint X.obj z)).ulift.{max (u + 1) r}) x) ?_
-  haveI hFXa : (Stacks.sheafModuleFiberOfCommRing
+  have hFXa : (Stacks.sheafModuleFiberOfCommRing
       (((geometricSitePoint B X (GeometricPoint.ofPoint X.obj z)).ulift.{max (u + 1) r}).over x)
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over (Yc i)).O).Additive :=
     inferInstance
-  haveI hlFXa : PreservesFiniteLimits (Stacks.sheafModuleFiberOfCommRing
+  have hlFXa : PreservesFiniteLimits (Stacks.sheafModuleFiberOfCommRing
       (((geometricSitePoint B X (GeometricPoint.ofPoint X.obj z)).ulift.{max (u + 1) r}).over x)
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over (Yc i)).O) :=
     Stacks.preservesFiniteLimits_sheafModuleFiberOfCommRing
       (((geometricSitePoint B X (GeometricPoint.ofPoint X.obj z)).ulift.{max (u + 1) r}).over x)
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over (Yc i)).O
-  haveI hcFXa : PreservesFiniteColimits (Stacks.sheafModuleFiberOfCommRing
+  have hcFXa : PreservesFiniteColimits (Stacks.sheafModuleFiberOfCommRing
       (((geometricSitePoint B X (GeometricPoint.ofPoint X.obj z)).ulift.{max (u + 1) r}).over x)
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over (Yc i)).O) :=
     Stacks.instPreservesFiniteColimitsSheafModuleFiberOfCommRing
       (((geometricSitePoint B X (GeometricPoint.ofPoint X.obj z)).ulift.{max (u + 1) r}).over x)
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over (Yc i)).O
-  letI : HasDerivedCategory.{d} (SheafOfModules.{max (u + 1) r}
+  let : HasDerivedCategory.{d} (SheafOfModules.{max (u + 1) r}
       ((Stacks.SheafOfModules.Tensor.ringSheaf.{u + 1, u, max (u + 1) r}
         (constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).O).over (Yc i))) :=
     hSliceDerivedX (Yc i)
-  haveI hGa : ∀ p : ULift.{max (u + 1) r}
+  have hGa : ∀ p : ULift.{max (u + 1) r}
       (geometricPointLifts B X.obj X.property U (GeometricPoint.ofPoint X.obj z)),
       ((uliftLiftedSitePoint.{u, r} B X U (GeometricPoint.ofPoint X.obj z) p.down).sheafFiber
         (A := ModuleCat.{max (u + 1) r} Λ)).Additive :=
     fun _ => Functor.additive_of_preserves_binary_products _
-  haveI hΦa : (((geometricSitePoint B X (GeometricPoint.ofPoint X.obj z)).ulift.{max (u + 1) r}
+  have hΦa : (((geometricSitePoint B X (GeometricPoint.ofPoint X.obj z)).ulift.{max (u + 1) r}
       ).sheafFiber (A := ModuleCat.{max (u + 1) r} Λ)).Additive :=
     Functor.additive_of_preserves_binary_products _
   refine hasFlatRepresentative_of_iso
@@ -363,23 +375,24 @@ public theorem extensionByZeroPreservesLocallyFiniteTorDimension
   set k := φ.s₀ m with hk
   let y : Ψ.fiber.obj k.1 := Ψ.fiber.map (φ.h₀ m) (Ψ.fiber.map c y₁)
   have hab := (hI k).mono (ha ⟨k, ⟨m, rfl⟩, rfl⟩) (hb ⟨k, ⟨m, rfl⟩, rfl⟩)
-  have hcan := Stacks.SheafOfModules.DerivedTensorProduct.hasTorAmplitudeCanonical_derivedModuleFiber
-    (T' k.1) _ a b hab (Ψ.over y)
+  have hcan :=
+    Stacks.SheafOfModules.DerivedTensorProduct.hasTorAmplitudeCanonical_derivedModuleFiber
+      (T' k.1) _ a b hab (Ψ.over y)
   have hflat := hasFlatRepresentative_restrictScalars_of_ringEquiv
     (constantCoefficientRingOverFiberEquiv.{u, max (u + 1) r, r} B U.obj.left Λ Ψ y) _ a b
     ((hasTorAmplitudeCanonical_iff_hasFlatRepresentative _ _ a b).1 hcan)
-  haveI hFUa : (Stacks.sheafModuleFiberOfCommRing (Ψ.over y)
+  have hFUa : (Stacks.sheafModuleFiberOfCommRing (Ψ.over y)
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B U.obj.left Λ).over k.1).O).Additive :=
     inferInstance
-  haveI hlFUa : PreservesFiniteLimits (Stacks.sheafModuleFiberOfCommRing (Ψ.over y)
+  have hlFUa : PreservesFiniteLimits (Stacks.sheafModuleFiberOfCommRing (Ψ.over y)
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B U.obj.left Λ).over k.1).O) :=
     Stacks.preservesFiniteLimits_sheafModuleFiberOfCommRing (Ψ.over y)
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B U.obj.left Λ).over k.1).O
-  haveI hcFUa : PreservesFiniteColimits (Stacks.sheafModuleFiberOfCommRing (Ψ.over y)
+  have hcFUa : PreservesFiniteColimits (Stacks.sheafModuleFiberOfCommRing (Ψ.over y)
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B U.obj.left Λ).over k.1).O) :=
     Stacks.instPreservesFiniteColimitsSheafModuleFiberOfCommRing (Ψ.over y)
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B U.obj.left Λ).over k.1).O
-  letI : HasDerivedCategory.{d} (SheafOfModules.{max (u + 1) r}
+  let : HasDerivedCategory.{d} (SheafOfModules.{max (u + 1) r}
       ((Stacks.SheafOfModules.Tensor.ringSheaf.{u + 1, u, max (u + 1) r}
         (constantCoefficientRingedSite.{u, max (u + 1) r, r} B U.obj.left Λ).O).over k.1)) :=
     hSliceDerivedU k.1

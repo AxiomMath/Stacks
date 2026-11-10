@@ -344,7 +344,7 @@ theorem exists_algebra_of_formalBase_mem_range {S : Scheme.{u}}
       ((Spec.homEquiv (IsOpenImmersion.lift iΛ A.toS hrange)).hom)) =
       IsOpenImmersion.lift iΛ A.toS hrange :=
     Spec.homEquiv.symm_apply_apply _
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
       ((Spec.homEquiv (IsOpenImmersion.lift iΛ A.toS hrange)).hom)) ≫ iΛ = A.toS
   rw [hg]
   exact IsOpenImmersion.lift_fac iΛ A.toS hrange

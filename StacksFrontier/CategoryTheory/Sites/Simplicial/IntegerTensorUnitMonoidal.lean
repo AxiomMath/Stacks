@@ -97,7 +97,7 @@ theorem freeObjToFreeAbIso_hom_app_freeMk (E : Cᵒᵖ ⥤ Type u) (X : Cᵒᵖ)
         (ModuleCat.freeMk (R := ((intRingPresheaf C).obj X : Type u)) x) =
       (FreeAbelianGroup.of x : (((E ⋙ AddCommGrpCat.free.{u}).obj X : AddCommGrpCat.{u}) :
         Type u)) := by
-  show AddCommGrpCat.Hom.hom (AddCommGrpCat.freeIsoFreeIntModule.{u}.inv.app (E.obj X))
+  change AddCommGrpCat.Hom.hom (AddCommGrpCat.freeIsoFreeIntModule.{u}.inv.app (E.obj X))
       (Finsupp.single x (1 : ULift.{u} ℤ)) = _
   exact AddCommGrpCat.freeIsoFreeIntModule_inv_app_single (E.obj X) x
 
@@ -157,10 +157,10 @@ carries the basis element to `1`. -/
 theorem pointFreeAbIso_hom_app_of (X : S.totalCategoryᵒᵖ) :
     AddCommGrpCat.Hom.hom ((pointFreeAbIso S).hom.app X)
         (FreeAbelianGroup.of (PUnit.unit : PUnit.{u+1})) = ULift.up 1 := by
-  show AddCommGrpCat.Hom.hom (freeUnitIntegerIso'.{u}).hom
+  change AddCommGrpCat.Hom.hom (freeUnitIntegerIso'.{u}).hom
       (AddCommGrpCat.Hom.hom ((freeAbPresheafConstIso' S.totalCategory).hom.app X)
         (FreeAbelianGroup.of (PUnit.unit : PUnit.{u+1}))) = _
-  show ((FreeAbelianGroup.uniqueEquiv PUnit.{u + 1}).trans AddEquiv.ulift.symm)
+  change ((FreeAbelianGroup.uniqueEquiv PUnit.{u + 1}).trans AddEquiv.ulift.symm)
     (FreeAbelianGroup.of PUnit.unit) = _
   simp [FreeAbelianGroup.uniqueEquiv, FreeAbelianGroup.lift_apply_of]
   rfl
@@ -199,7 +199,7 @@ theorem chainTail_app (F : Sheaf S.totalTopology Ab.{u}) (V : S.totalCategoryᵒ
           (AddCommGrpCat.Hom.hom ((barCounitIso S F).inv.app V) x :
             ((barRestrict S F).obj V : Type u)) :
         ((tensorObj (freeObj (pointPresheaf S)) (barRestrict S F)).obj V : Type u))) := by
-  show AddCommGrpCat.Hom.hom
+  change AddCommGrpCat.Hom.hom
       ((freeTensorCopowerIso (pointPresheaf S) (intPresheaf S) (barRestrict S F)).inv.app V)
       (AddCommGrpCat.Hom.hom
         ((copowerPresheafMap (pointPresheaf S) (barCounitIso S F).inv).app V)
@@ -284,7 +284,7 @@ theorem functor_map_pointUnitComparison :
 theorem intSheafScalars_app_one (V : S.totalCategoryᵒᵖ) :
     AddCommGrpCat.Hom.hom ((intSheafScalars S.totalTopology).app V) (1 : ULift.{u} ℤ) =
       (1 : ((intRings S.totalTopology).obj.obj V : Type u)) := by
-  show RingCat.Hom.hom ((intRingSheafScalars S.totalTopology).app V) (1 : ULift.{u} ℤ) = 1
+  change RingCat.Hom.hom ((intRingSheafScalars S.totalTopology).app V) (1 : ULift.{u} ℤ) = 1
   exact map_one _
 
 /-- The identification of the constant sheaf `ℤ` with the structure sheaf is the sheafification
@@ -314,7 +314,7 @@ theorem pointIntegerIso_hom_app_unit_freeMk (V : S.totalCategoryᵒᵖ) :
         ((toSheafify S.totalTopology
           ((Functor.const S.totalCategoryᵒᵖ).obj (AddCommGrpCat.of (ULift.{u} ℤ)))).app V)
         (1 : ULift.{u} ℤ) := by
-  show AddCommGrpCat.Hom.hom ((sheafifyMap S.totalTopology (pointFreeAbIso S).hom).app V)
+  change AddCommGrpCat.Hom.hom ((sheafifyMap S.totalTopology (pointFreeAbIso S).hom).app V)
       (AddCommGrpCat.Hom.hom
         ((sheafifyMap S.totalTopology
           (freeObjToFreeAbIso (C := S.totalCategory) (pointPresheaf S)).hom).app V)
@@ -481,7 +481,7 @@ theorem unitTensorIsoAux_inv_app (F : Sheaf S.totalTopology Ab.{u}) (V : S.total
             (PUnit.unit : PUnit.{u+1}))) ⊗ₜ
           (AddCommGrpCat.Hom.hom ((barCounitIso S F).inv.app V) x :
             ((barRestrict S F).obj V : Type u))) := by
-  show Hom.app (pointTensorIso S F).inv.val V
+  change Hom.app (pointTensorIso S F).inv.val V
       (AddCommGrpCat.Hom.hom ((sheafifyMap S.totalTopology
           (freeTensorCopowerIso (pointPresheaf S) (intPresheaf S) (barRestrict S F)).inv).app V)
         (AddCommGrpCat.Hom.hom ((sheafifyMap S.totalTopology
@@ -509,7 +509,7 @@ theorem monoidalUnitLeftIsoAux_inv_app (F : Sheaf S.totalTopology Ab.{u})
             (1 : ((intRings S.totalTopology).obj.obj V : Type u)) ⊗ₜ
           (AddCommGrpCat.Hom.hom ((barCounitIso S F).inv.app V) x :
             ((barRestrict S F).obj V : Type u))) := by
-  show Hom.app (((sheafTensor.{u, u, u, u, u} (intRingSheaf S.totalTopology)).map
+  change Hom.app (((sheafTensor.{u, u, u, u, u} (intRingSheaf S.totalTopology)).map
         (totalIntegerModuleIsoUnit S).inv).app (barModule S F)).val V
       (Hom.app (@MonoidalCategoryStruct.leftUnitor _ _
           (SheafOfModules.monoidalCategorySheafTensor

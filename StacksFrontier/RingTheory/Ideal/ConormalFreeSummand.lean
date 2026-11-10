@@ -199,9 +199,9 @@ private theorem projectiveDimension_ne_top_of_splitLinearMap
     (f : M →ₗ[R] N) (s : N →ₗ[R] M) (hfs : f.comp s = LinearMap.id)
     (hpd : Module.projectiveDimension R M ≠ ⊤) :
     Module.projectiveDimension R N ≠ ⊤ := by
-  show CategoryTheory.projectiveDimension (ModuleCat.of R N) ≠ ⊤
+  change CategoryTheory.projectiveDimension (ModuleCat.of R N) ≠ ⊤
   have hpdM : CategoryTheory.projectiveDimension (ModuleCat.of R M) ≠ ⊤ := by
-    show Module.projectiveDimension R M ≠ ⊤
+    change Module.projectiveDimension R M ≠ ⊤
     exact hpd
   obtain ⟨n, hn⟩ :=
     (CategoryTheory.projectiveDimension_ne_top_iff (ModuleCat.of R M)).mp hpdM
@@ -209,7 +209,7 @@ private theorem projectiveDimension_ne_top_of_splitLinearMap
     { i := ModuleCat.ofHom s
       r := ModuleCat.ofHom f
       retract := by
-        show ModuleCat.ofHom (f.comp s) = ModuleCat.ofHom LinearMap.id
+        change ModuleCat.ofHom (f.comp s) = ModuleCat.ofHom LinearMap.id
         rw [hfs] }
   rw [CategoryTheory.projectiveDimension_ne_top_iff]
   have := hn
@@ -247,7 +247,7 @@ private theorem exists_surjective_forall_mem_maximalIdeal_of_mem_ker
         refine ih (g ∘ i.succAbove) (top_le_iff.mp ?_)
         rw [← hg, Submodule.span_le, Set.range_subset_iff]
         intro j
-        show g j ∈ Submodule.span R (Set.range (g ∘ i.succAbove))
+        change g j ∈ Submodule.span R (Set.range (g ∘ i.succAbove))
         by_cases hj : j = i
         · subst hj
           have hsum : a j • g j + ∑ k : Fin N, a (j.succAbove k) • g (j.succAbove k) = 0 := by
@@ -292,7 +292,7 @@ private theorem free_of_hasProjectiveDimensionLE_of_mul_eq_zero
       have hbot : LinearMap.ker f = ⊥ := by
         have := subsingleton_of_free_of_smul_eq_zero hy fun n : LinearMap.ker f =>
           Subtype.ext (funext fun j => by
-            show y * ((n : Fin m → R)) j = 0
+            change y * ((n : Fin m → R)) j = 0
             rw [mul_comm]
             exact hann _ (hker _ n.2 j))
         exact Submodule.eq_bot_of_subsingleton
@@ -326,7 +326,7 @@ private theorem mem_of_smul_basis_eq_zero {R : Type u} [CommRing R] {I : Ideal R
     {s : R} (hs : s • (b i : I.Cotangent) = 0) : s ∈ I := by
   have hsb : algebraMap R (R ⧸ I) s • b i = 0 := by
     apply Subtype.ext
-    show algebraMap R (R ⧸ I) s • (b i : I.Cotangent) = 0
+    change algebraMap R (R ⧸ I) s • (b i : I.Cotangent) = 0
     rw [IsScalarTower.algebraMap_smul (A := R ⧸ I)]
     exact hs
   have hcoef : Finsupp.single i (algebraMap R (R ⧸ I) s) = 0 := by
@@ -373,14 +373,14 @@ private theorem ideal_not_le_associatedPrime
     exact Ideal.map_mono hIp
   have hJbot : J = ⊥ := by
     have := subsingleton_of_free_of_smul_eq_zero hy0 fun n : J => Subtype.ext (by
-      show y * (n : S) = 0
+      change y * (n : S) = 0
       rw [mul_comm]
       exact hann _ (hJmax n.2))
     exact Submodule.eq_bot_of_subsingleton
   have hsub : Subsingleton J.Cotangent := by
     apply (J.cotangent_subsingleton_iff).2
     rw [hJbot]
-    show (⊥ : Ideal S) * ⊥ = ⊥
+    change (⊥ : Ideal S) * ⊥ = ⊥
     simp
   let b := hfree.some
   let i : Fin r := ⟨0, hr⟩
@@ -417,7 +417,7 @@ private theorem pow_two_le_cotangentPreimage {R : Type u} [CommRing R] (I : Idea
   intro a ha
   have haI : a ∈ I := Ideal.pow_le_self two_ne_zero ha
   have hP : (⟨a, haI⟩ : I) ∈ Submodule.comap I.toCotangent (F.restrictScalars R) := by
-    show I.toCotangent ⟨a, haI⟩ ∈ F
+    change I.toCotangent ⟨a, haI⟩ ∈ F
     rw [(I.toCotangent_eq_zero ⟨a, haI⟩).2 ha]
     exact F.zero_mem
   exact Submodule.mem_map_of_mem hP
@@ -441,7 +441,7 @@ private theorem cotangentPreimageMap_surjective {R : Type u} [CommRing R] (I : I
   intro z
   obtain ⟨y, hy⟩ := I.toCotangent_surjective z
   have hyP : y ∈ Submodule.comap I.toCotangent (F.restrictScalars R) := by
-    show I.toCotangent y ∈ F
+    change I.toCotangent y ∈ F
     rw [hy]
     exact z.2
   exact ⟨⟨y, Submodule.mem_map_of_mem hyP⟩, Subtype.ext hy⟩
@@ -633,7 +633,7 @@ private theorem exists_regular_primitive_cotangent
 private theorem comap_map_quotient_span_singleton {R : Type u} [CommRing R] (I : Ideal R) (x : R) :
     (I.map (algebraMap R (R ⧸ Ideal.span {x}))).comap (algebraMap R (R ⧸ Ideal.span {x})) =
       RingHom.ker (algebraMap R (R ⧸ Ideal.span {x})) ⊔ I := by
-  show (I.map (Ideal.Quotient.mk _)).comap (Ideal.Quotient.mk _) =
+  change (I.map (Ideal.Quotient.mk _)).comap (Ideal.Quotient.mk _) =
     RingHom.ker (Ideal.Quotient.mk _) ⊔ I
   rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective, ← RingHom.ker_eq_comap_bot]
   exact sup_comm _ _
@@ -652,7 +652,7 @@ private theorem quotient_cotangent_map_ker
   let J := I.map (algebraMap R A)
   have hqI : q ≤ I := Ideal.span_le.mpr (by rintro y rfl; exact x.2)
   have hkerq : RingHom.ker (algebraMap R A) = q := by
-    show RingHom.ker (Ideal.Quotient.mk q) = q
+    change RingHom.ker (Ideal.Quotient.mk q) = q
     exact Ideal.mk_ker
   have hcomap : J.comap (algebraMap R A) = RingHom.ker (algebraMap R A) ⊔ I :=
     comap_map_quotient_span_singleton I x
@@ -669,18 +669,18 @@ private theorem quotient_cotangent_map_ker
       rw [Submodule.mem_span_singleton]
       refine ⟨c, ?_⟩
       apply Subtype.ext
-      show c * (x : R) = (a : R)
+      change c * (x : R) = (a : R)
       exact hc
     · intro ha
       rw [Submodule.mem_span_singleton] at ha
       obtain ⟨c, hc⟩ := ha
       apply Submodule.mem_comap.mpr
       constructor
-      · show (a : R) ∈ q
+      · change (a : R) ∈ q
         rw [← hc]
-        show c * (x : R) ∈ q
+        change c * (x : R) ∈ q
         exact q.mul_mem_left c (Ideal.mem_span_singleton_self _)
-      · show (a : R) ∈ I
+      · change (a : R) ∈ I
         rw [← hc]
         exact (c • x).property
   have hpre' : Submodule.comap I.subtype q = Submodule.span R {x} := by
@@ -689,7 +689,7 @@ private theorem quotient_cotangent_map_ker
   change LinearMap.ker f = _ at hker
   have hker' : f.ker = Submodule.map I.toCotangent (Submodule.comap I.subtype q) := by
     rw [hker, hkerq, inf_eq_left.mpr hqI]
-  show LinearMap.ker f = Submodule.span R {I.toCotangent x}
+  change LinearMap.ker f = Submodule.span R {I.toCotangent x}
   rw [hker', hpre', Submodule.map_span, Set.image_singleton]
 
 private theorem basis_change_at_primitive
@@ -712,7 +712,7 @@ private theorem basis_change_at_primitive
       exact Submodule.smul_mem_smul (h i) (Submodule.mem_top)
     have hmem' : Finsupp.linearCombination A b (b.repr z) ∈
         IsLocalRing.maximalIdeal A • (⊤ : Submodule A M) := by
-      show (∑ i ∈ (b.repr z).support, b.repr z i • b i) ∈ _
+      change (∑ i ∈ (b.repr z).support, b.repr z i • b i) ∈ _
       exact hmem
     exact hz (hsum ▸ hmem')
   obtain ⟨i, hi⟩ := hcoord
@@ -759,7 +759,7 @@ private theorem split_free_basis_at_primitive
     have h := c.linearIndependent.isCompl_span_image c.span_eq
       (isCompl_compl : IsCompl ({i} : Set (Fin (r + 1))) ({i} : Set (Fin (r + 1)))ᶜ)
     have hset : Set.range v = c '' ({i}ᶜ) := by
-      show Set.range (c ∘ i.succAbove) = c '' ({i}ᶜ)
+      change Set.range (c ∘ i.succAbove) = c '' ({i}ᶜ)
       rw [Set.range_comp, Fin.range_succAbove]
     simpa [G, hset] using h
   exact ⟨i, a, c, G, bG, hci, hcomp⟩
@@ -860,7 +860,7 @@ private theorem exists_comp_eq_id_of_comp_eq
   refine ⟨(LinearMap.ker g).liftQ ρ hker ∘ₗ (g.quotKerEquivOfSurjective hg).symm.toLinearMap, ?_⟩
   ext y
   obtain ⟨v, rfl⟩ := hg y
-  show gR ((LinearMap.ker g).liftQ ρ hker ((g.quotKerEquivOfSurjective hg).symm (g v))) = g v
+  change gR ((LinearMap.ker g).liftQ ρ hker ((g.quotKerEquivOfSurjective hg).symm (g v))) = g v
   rw [LinearMap.quotKerEquivOfSurjective_symm_apply, Submodule.liftQ_apply, hρ]
 
 private theorem quotSMulTop_mk_eq_of_mem_span
@@ -891,9 +891,9 @@ private theorem exists_retraction_quotSMulTop
   have hkillI : (I : Submodule R R) ≤ LinearMap.ker u := by
     intro a ha
     rw [LinearMap.mem_ker]
-    show Submodule.Quotient.mk ((a : R) • x) = 0
+    change Submodule.Quotient.mk ((a : R) • x) = 0
     rw [Submodule.Quotient.mk_eq_zero]
-    show (a : R) • x ∈ (x : R) • (⊤ : Submodule R I)
+    change (a : R) • x ∈ (x : R) • (⊤ : Submodule R I)
     rw [Submodule.mem_smul_pointwise_iff_exists]
     exact ⟨⟨a, ha⟩, Submodule.mem_top, Subtype.ext (by simp [mul_comm])⟩
   let eta : (R ⧸ I) →ₗ[R] QuotSMulTop (x : R) I := (I : Submodule R R).liftQ u hkillI
@@ -902,7 +902,7 @@ private theorem exists_retraction_quotSMulTop
   let rho : I →ₗ[R] QuotSMulTop (x : R) I := ((x : R) • (⊤ : Submodule R I)).mkQ - eta.comp psi
   let gbar : I →ₗ[R] I.map (algebraMap R Q) := Algebra.idealMap Q I
   have hxzero : algebraMap R Q (x : R) = 0 := by
-    show Ideal.Quotient.mk q (x : R) = 0
+    change Ideal.Quotient.mk q (x : R) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_span_singleton_self _)
   have hgx : gbar x = 0 := Subtype.ext hxzero
   have hgbar_surj : Function.Surjective gbar := fun y => by
@@ -920,14 +920,14 @@ private theorem exists_retraction_quotSMulTop
     have hbar0 : algebraMap R Q (y : R) = 0 := congrArg Subtype.val (LinearMap.mem_ker.mp hy)
     have hyq : (y : R) ∈ q := Ideal.Quotient.eq_zero_iff_mem.mp hbar0
     rw [LinearMap.mem_ker]
-    show (Submodule.Quotient.mk y : QuotSMulTop (x : R) I) - eta (psi y) = 0
+    change (Submodule.Quotient.mk y : QuotSMulTop (x : R) I) - eta (psi y) = 0
     rw [sub_eq_zero]
     exact quotSMulTop_mk_eq_of_mem_span I x phi hphi eta heta hyq
   have hρ (v : I) : gR (rho v) = gbar v := by
     obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (psi v)
-    show gR (Submodule.Quotient.mk v - eta (psi v)) = gbar v
+    change gR (Submodule.Quotient.mk v - eta (psi v)) = gbar v
     rw [← ha, heta, map_sub]
-    show gbar v - gbar (a • x) = gbar v
+    change gbar v - gbar (a • x) = gbar v
     rw [map_smul, hgx, smul_zero, sub_zero]
   obtain ⟨s, hs⟩ := exists_comp_eq_id_of_comp_eq gbar hgbar_surj gR rho hrho hρ
   exact ⟨gR, s, hs⟩
@@ -1012,7 +1012,7 @@ private theorem nonempty_basis_restrictScalars_of_ringEquiv
       left_inv _ := rfl
       right_inv _ := rfl }
   refine ⟨(basisOfRingEquiv e (fun c w => Subtype.ext ?_) b).map eF⟩
-  show c • (w : N) = e c • (w : N)
+  change c • (w : N) = e c • (w : N)
   rw [← he, IsScalarTower.algebraMap_smul]
 
 /-- Cutting down along a regular `x ∈ I` whose class is primitive in the free summand `F` of rank
@@ -1045,7 +1045,7 @@ private theorem exists_free_summand_quotient_span
   let : Module (R ⧸ I) J.Cotangent := Module.compHom J.Cotangent e.symm.toRingHom
   let : IsScalarTower R (R ⧸ I) J.Cotangent := IsScalarTower.of_compHom R (R ⧸ I) J.Cotangent
   have : IsScalarTower B (R ⧸ I) J.Cotangent := ⟨fun c a v => by
-    show e.symm (e c * a) • v = c • e.symm a • v
+    change e.symm (e c * a) • v = c • e.symm a • v
     rw [map_mul, e.symm_apply_apply, mul_smul]⟩
   let fR : I.Cotangent →ₗ[R] J.Cotangent :=
     Ideal.mapCotangent I J (Algebra.ofId R Q) (Ideal.map_le_iff_le_comap.mp le_rfl)
@@ -1075,7 +1075,7 @@ private theorem exists_free_summand_quotient_span
   apply Submodule.restrictScalars_injective B
   rw [Submodule.restrictScalars_span B (R ⧸ I) e.surjective, ← hy]
   refine congrArg (fun g => Submodule.span B (Set.range g)) (funext fun i => ?_)
-  show fR (I.toCotangent (t i)) = _
+  change fR (I.toCotangent (t i)) = _
   rw [Ideal.mapCotangent_toCotangent]
   exact congrArg J.toCotangent (Subtype.ext (ht i))
 
@@ -1166,7 +1166,7 @@ theorem exists_isRegular_generator_of_isCompl_cotangent
     refine ⟨1, (show (1 : R) ∈ (⊤ : Ideal R) from trivial), isRegular_one, ?_⟩
     let : Subsingleton (⊤ : Ideal R).Cotangent :=
       (Ideal.cotangent_subsingleton_iff (⊤ : Ideal R)).mpr (by
-        show (⊤ : Ideal R) * ⊤ = ⊤
+        change (⊤ : Ideal R) * ⊤ = ⊤
         simp)
     exact Subsingleton.elim _ _
   obtain ⟨e⟩ := hFfree

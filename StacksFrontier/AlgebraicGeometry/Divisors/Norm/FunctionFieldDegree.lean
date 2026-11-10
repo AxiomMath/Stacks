@@ -173,7 +173,7 @@ private theorem normOnAffine_germ
   let : IsScalarTower A K L := IsScalarTower.of_algebraMap_eq' (by ext a; rfl)
   let : IsScalarTower A B L :=
     IsScalarTower.of_algebraMap_eq' (by ext a; exact hcompat U a)
-  show algebraMap A K
+  change algebraMap A K
     (IsIntegralClosure.mk' (R := A) (B := K) A
       (Algebra.norm K (algebraMap B L s)) (isIntegral_norm_algebraMap s)) = _
   rw [IsIntegralClosure.algebraMap_mk']
@@ -247,7 +247,7 @@ private theorem affineNormFamily_compatible
   let V : {V : Y.Opens // IsAffineOpen V ∧ V ≤ U ∧ Nonempty V} → Y.Opens := fun i => i.1
   let sf := affineNormFamily f φ hcompat s
   intro i j
-  show Y.presheaf.map (TopologicalSpace.Opens.infLELeft (V i) (V j)).op (sf i) =
+  change Y.presheaf.map (TopologicalSpace.Opens.infLELeft (V i) (V j)).op (sf i) =
     Y.presheaf.map (TopologicalSpace.Opens.infLERight (V i) (V j)).op (sf j)
   let I : Y.Opens := V i ⊓ V j
   apply sections_ext I
@@ -380,11 +380,11 @@ private theorem normOnOpenHom_pullback
   apply sections_ext U
   intro hU
   let : Algebra Y.functionField X.functionField := φ.toAlgebra
-  show Y.germToFunctionField U
+  change Y.germToFunctionField U
     (normOnOpen f φ hcompat U (f.app U g)) =
     Y.germToFunctionField U (g ^ Module.finrank Y.functionField X.functionField)
   rw [normOnOpen_germ f φ hcompat U (f.app U g), ← hcompat U g]
-  show Algebra.norm Y.functionField
+  change Algebra.norm Y.functionField
     (algebraMap Y.functionField X.functionField (Y.germToFunctionField U g)) = _
   rw [Algebra.norm_algebraMap]
   simp
@@ -539,7 +539,7 @@ private theorem evaluation_res_apply
     (x : Z) (hxV : x ∈ V) (s : Γ(Z, U)) :
     Z.evaluation V x hxV (Z.presheaf.map (homOfLE hVU).op s) =
       Z.evaluation U x (hVU hxV) s := by
-  show (Z.presheaf.germ V x hxV ≫ Z.residue x)
+  change (Z.presheaf.germ V x hxV ≫ Z.residue x)
       (Z.presheaf.map (homOfLE hVU).op s) =
     (Z.presheaf.germ U x (hVU hxV) ≫ Z.residue x) s
   exact congrArg (fun t => Z.residue x t)
@@ -566,11 +566,11 @@ theorem exists_norm_of_finite_surjective_of_normal
   have hcompat : FunctionFieldHomCompatible f φ := by
     intro U hU hX s
     have hηU : genericPoint Y ∈ U := genericPoint_mem U
-    show (((Y.presheaf.germ U (genericPoint Y) hηU) ≫
+    change (((Y.presheaf.germ U (genericPoint Y) hηU) ≫
       Y.presheaf.stalkSpecializes hspec) ≫ f.stalkMap ηX) s = _
     rw [Y.presheaf.germ_stalkSpecializes hηU hspec]
     have hx : f ηX ∈ U := hη ▸ hηU
-    show f.stalkMap ηX (Y.presheaf.germ U (f ηX) hx s) = _
+    change f.stalkMap ηX (Y.presheaf.germ U (f ηX) hx s) = _
     rw [f.germ_stalkMap_apply U ηX hx s]
   refine ⟨φ, hcompat, ?_⟩
   · let : Algebra Y.functionField X.functionField := φ.toAlgebra
@@ -589,7 +589,7 @@ theorem exists_norm_of_finite_surjective_of_normal
         have hxV : x ∈ f ⁻¹ᵁ V := hyV
         let sV := X.presheaf.map iX.op s
         have hsV : X.evaluation (f ⁻¹ᵁ V) x hxV sV = 0 := by
-          show X.evaluation (f ⁻¹ᵁ V) x hxV
+          change X.evaluation (f ⁻¹ᵁ V) x hxV
             (X.presheaf.map iX.op s) = 0
           rwa [hiX, evaluation_res_apply hpre x hyV s]
         let v : {V : Y.Opens // IsAffineOpen V ∧ V ≤ U ∧ Nonempty V} :=
@@ -599,7 +599,7 @@ theorem exists_norm_of_finite_surjective_of_normal
           let : Algebra Y.functionField X.functionField := φ.toAlgebra
           have heq : normOnOpenHom f φ hcompat V sV =
               normOnAffine f φ hcompat V v.2.1 sV := by
-            show normOnOpen f φ hcompat V sV = normOnAffine f φ hcompat V v.2.1 sV
+            change normOnOpen f φ hcompat V sV = normOnAffine f φ hcompat V v.2.1 sV
             apply Y.germToFunctionField_injective V
             rw [normOnOpen_germ f φ hcompat V sV,
               normOnAffine_germ f φ hcompat V v.2.1 sV]

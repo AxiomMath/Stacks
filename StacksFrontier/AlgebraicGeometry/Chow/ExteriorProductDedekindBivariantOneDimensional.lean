@@ -35,7 +35,7 @@ product into it vanishes.
   `X ×_S T = ∅` when `X` avoids `S₀` and `T` is irreducible over a point of `S₀`.
 * `Stacks.Chow.bivariantCapBaseFundamentalClass_bijective_of_forall_not_isZeroDimensionalBasePoint`
   — **Stacks 0FC5** for `X` over the one-dimensional part.
-* `Stacks.Chow.isExteriorProductOverBase_bivariantCapBaseFundamentalClass_of_forall_not_isZeroDimensionalBasePoint`
+* `isExteriorProductOverBase_bivariantCapBaseFundamentalClass_of_forall_not_isZeroDimBasePoint`
   — the inverse of that map acts by the exterior product of Stacks 0FC4,
   `c ∩ α' = (c ∩ [S]₁) × α'`.
 
@@ -160,7 +160,7 @@ theorem exists_cycle_mem_range_of_mem_genericPoints_of_dimensionFunction_eq_one
     have h1 := hδ j₀
     have h2 : C.dimensionFunction (sX.base (y j₀)) ≤
         relativeDimension C.dimensionFunction sX (y j₀) := by
-      show _ ≤ C.dimensionFunction (sX.base (y j₀)) +
+      change _ ≤ C.dimensionFunction (sX.base (y j₀)) +
         (Cardinal.toNat (residueTrdeg sX (y j₀)) : ℤ)
       omega
     rw [hδ1] at h2
@@ -190,7 +190,7 @@ theorem exists_cycle_mem_range_of_mem_genericPoints_of_dimensionFunction_eq_one
       rw [hδ j, hδ1]
       omega
     rw [e] at h
-    exact AlgebraicGeometry.RelativeDimension.of_eq (Sigma.ι_desc_assoc _ _ _).symm h
+    exact AlgebraicGeometry.RelativeDimension.of_eq (Sigma.ι_comp_desc_assoc _ _ _).symm h
   exact exists_cycle_mem_range_of_sigma C sX (-(r : ℤ)) y hδ
     (flatPullbackBivariantClassOfInvertible C (Sigma.desc v ≫ sX) (𝟙 C.S) (Sigma.desc v ≫ sX)
         (Category.comp_id _) r hr)
@@ -226,7 +226,7 @@ theorem bivariantCapBaseFundamentalClass_surjective_of_forall_not_isZeroDimensio
   obtain ⟨P₄, hP₄, hP₄y⟩ := hv fun i ↦ (-a.1 i).toNat
   have hsub : a = P₁ - P₂ + (P₃ - P₄) := by
     refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-    show a.1 x = P₁.1 x - P₂.1 x + (P₃.1 x - P₄.1 x)
+    change a.1 x = P₁.1 x - P₂.1 x + (P₃.1 x - P₄.1 x)
     rw [hP₁y, hP₂y, hP₃y, hP₄y]
     by_cases hx : x ∈ Function.support (a.1 : X → ℤ)
     · by_cases hg : sX.base x ∈ genericPoints C.S <;> simp [hx, hg]
@@ -264,7 +264,7 @@ part.** For `X` with no point over the zero-dimensional part of a base as in sec
 `c ∩ α' = (c ∩ [S]₁) × α'`. This is the argument of
 `Stacks.Chow.isExteriorProductOverBase_bivariantCapBaseFundamentalClass`; a test scheme over a
 zero-dimensional point has empty fibre product with `X`, where both sides vanish. -/
-theorem isExteriorProductOverBase_bivariantCapBaseFundamentalClass_of_forall_not_isZeroDimensionalBasePoint
+theorem isExteriorProductOverBase_bivariantCapBaseFundamentalClass_of_forall_not_isZeroDimBasePoint
     (hS : IsDedekindChowBase C) (hX : ∀ x : X, ¬ IsZeroDimensionalBasePoint C (sX.base x))
     (c : BivariantClass C (gysinSystemOfInvertible C) sX (𝟙 C.S) sX (Category.comp_id sX) p) :
     IsExteriorProductOverBase C (gysinSystemOfInvertible C) sX (1 - p) p

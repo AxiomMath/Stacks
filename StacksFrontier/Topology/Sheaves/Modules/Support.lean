@@ -146,7 +146,7 @@ private lemma supportedSectionsSubfunctor_isSheaf (Z : Set X)
     ((isSheaf_iff_isSheaf_of_type _ _).mp
       (GrothendieckTopology.HasSheafCompose.isSheaf F.presheaf F.2))]
   intro U s hs
-  show s ∈ supportedSections Z F U
+  change s ∈ supportedSections Z F U
   intro x hx hxZ
   rw [Opens.mem_grothendieckTopology] at hs
   obtain ⟨W, g, hg, hxW⟩ := hs x hx

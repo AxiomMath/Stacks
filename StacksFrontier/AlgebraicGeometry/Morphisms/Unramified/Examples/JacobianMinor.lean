@@ -131,7 +131,7 @@ private theorem jacobianMinor_smul_eq_zero (S : FullRankJacobianSystem R n m)
     algebraMap P B (MvPolynomial.pderiv j (S.equations i))
   have hqgen (i : Fin m) : q (cgen i) = jac.row i := by
     funext j
-    show (basis.repr (cmap (cgen i))) j = jac i j
+    change (basis.repr (cmap (cgen i))) j = jac i j
     rw [show cmap (cgen i) = (1 : B) ⊗ₜ[P] KaehlerDifferential.D R P (S.equations i) from
       ConormalSeq.conormalMap_toCotangent R hsurj ⟨S.equations i, hmemJ i⟩]
     rw [Module.Basis.baseChange_repr_tmul,
@@ -139,10 +139,10 @@ private theorem jacobianMinor_smul_eq_zero (S : FullRankJacobianSystem R n m)
       Algebra.smul_def, mul_one, Ideal.Quotient.algebraMap_eq]
     rfl
   have hψq (z : J.Cotangent) : ψ (q z) = 0 := by
-    show map (coords.symm (coords (cmap z))) = 0
+    change map (coords.symm (coords (cmap z))) = 0
     rw [coords.symm_apply_apply]
     have hrange := (ConormalSeq.conormal_exact_sequence R P B hsurj).1
-    show cmap z ∈ (LinearMap.ker map).restrictScalars B
+    change cmap z ∈ (LinearMap.ker map).restrictScalars B
     rw [← hrange]
     exact ⟨z, rfl⟩
   have hmem : algebraMap P B (jacobianMinor S rows) ∈ jac.minorIdeal := by
@@ -164,7 +164,7 @@ private theorem jacobianMinor_smul_eq_zero (S : FullRankJacobianSystem R n m)
   have hsurjψ : Function.Surjective ψ := fun y => by
     obtain ⟨z, hz⟩ := KaehlerDifferential.mapBaseChange_surjective R P B hsurj y
     refine ⟨coords z, ?_⟩
-    show map (coords.symm (coords z)) = y
+    change map (coords.symm (coords z)) = y
     simpa [map, ψ] using hz
   obtain ⟨v, rfl⟩ := hsurjψ x
   have hv : d • v = ∑ j : Fin n, v j • (d • Pi.single j (1 : B)) := by

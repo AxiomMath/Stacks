@@ -152,7 +152,7 @@ theorem statement_one_baseChanged (hM : Module.Finite A M) (u u' : M →ₗ[A] N
     (Stacks.ColimitPresentation.FPModules.isModuleColimit
       (fun i j (h : i ≤ j) ↦ baseChangedMap (A := A) f i j h)
       (fun i j h x ↦ by
-        show baseChangedLeg (A := A) (Tlim := Tlim) j (baseChangedMap (A := A) f i j h x) =
+        change baseChangedLeg (A := A) (Tlim := Tlim) j (baseChangedMap (A := A) f i j h x) =
           baseChangedLeg (A := A) (Tlim := Tlim) i x
         induction x with
         | tmul a y => simp [hf i j h y]

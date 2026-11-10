@@ -100,7 +100,7 @@ lemma towerRightHomOfGenerators_apply_C (m : SimplexCategoryᵒᵖ)
     (φ : ↑(towerLeftAlgebra W.unop.obj) →ₐ[A] ↑(P.obj m))
     (b : T → MvPolynomial E ↑(P.obj m)) (p : ↑(towerLeftAlgebra W.unop.obj)) :
     towerRightHomOfGenerators e₂ m φ b (e₂ (MvPolynomial.C p)) = MvPolynomial.C (φ p) := by
-  show MvPolynomial.aevalTower _ b
+  change MvPolynomial.aevalTower _ b
     ((AlgEquiv.restrictScalars A e₂.symm) (e₂ (MvPolynomial.C p))) = _
   rw [show (AlgEquiv.restrictScalars A e₂.symm) (e₂ (MvPolynomial.C p)) = MvPolynomial.C p from
     e₂.symm_apply_apply _]
@@ -112,7 +112,7 @@ lemma towerRightHomOfGenerators_apply_X (m : SimplexCategoryᵒᵖ)
     (φ : ↑(towerLeftAlgebra W.unop.obj) →ₐ[A] ↑(P.obj m))
     (b : T → MvPolynomial E ↑(P.obj m)) (t : T) :
     towerRightHomOfGenerators e₂ m φ b (e₂ (MvPolynomial.X t)) = b t := by
-  show MvPolynomial.aevalTower _ b
+  change MvPolynomial.aevalTower _ b
     ((AlgEquiv.restrictScalars A e₂.symm) (e₂ (MvPolynomial.X t))) = _
   rw [show (AlgEquiv.restrictScalars A e₂.symm) (e₂ (MvPolynomial.X t)) = MvPolynomial.X t from
     e₂.symm_apply_apply _]
@@ -228,7 +228,7 @@ lemma towerHom_ext_of_generators (m : SimplexCategoryᵒᵖ)
           (AlgEquiv.restrictScalars A e₂).toAlgHom := by
       refine MvPolynomial.algHom_ext' ?_ ?_
       · refine AlgHom.ext fun p => ?_
-        show (CommAlgCat.Hom.hom f₁.hom.right.left) (e₂ (MvPolynomial.C p)) =
+        change (CommAlgCat.Hom.hom f₁.hom.right.left) (e₂ (MvPolynomial.C p)) =
           (CommAlgCat.Hom.hom f₂.hom.right.left) (e₂ (MvPolynomial.C p))
         rw [e₂_C_eq]
         have hw1 := ConcreteCategory.congr_hom f₁.hom.w p

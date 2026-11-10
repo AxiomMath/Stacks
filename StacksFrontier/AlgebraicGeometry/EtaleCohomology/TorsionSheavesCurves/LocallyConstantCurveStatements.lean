@@ -1,7 +1,6 @@
 module
 
-public import
- StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionSheavesCurves.ReducedExtensionByZeroStatements
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionSheavesCurves.ReducedExtensionByZeroStatements
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
@@ -72,7 +71,7 @@ theorem curveStatements_extensionByZero_forget₂_of_isFiniteLocallyConstant {k 
         (forget₂ (ModuleCat.{max (u + 1) v} (ZMod ℓ)) AddCommGrpCat.{max (u + 1) v})).obj G)) := by
   have hG : ℓ • 𝟙 G = 0 := by
     ext V x
-    show (ℓ : ℕ) • x = 0
+    change (ℓ : ℕ) • x = 0
     rw [← Nat.cast_smul_eq_nsmul (ZMod ℓ), ZMod.natCast_self, zero_smul]
   exact curveStatements_of_torsionSheafProperty_max π hdim
     (fun p hp ↦ curveStatementsConstantOnSmoothCurves_of_prime k hp _ ⟨AddEquiv.ulift⟩) _

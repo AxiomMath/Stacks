@@ -193,7 +193,7 @@ theorem exists_affine_baseChange_numericalEuler (A : CoherentObject D) (t : A.te
   have hw : (schemeSpaceFunctor B S hS).map ev ≫ A.T.hom =
       ((D.overBase gW).obj T₀).hom := by
     apply ObjectProperty.hom_ext
-    show yoneda.map ev ≫ A.T.hom.hom = yoneda.map m ≫ (yoneda.map (j i) ≫ f)
+    change yoneda.map ev ≫ A.T.hom.hom = yoneda.map m ≫ (yoneda.map (j i) ≫ f)
     apply yonedaEquiv.injective
     exact ((yonedaEquiv_comp _ _).trans (congrArg _ (yonedaEquiv_yoneda_map ev))).trans
       ((yonedaEquiv_naturality _ _).symm.trans (hfac.symm.trans

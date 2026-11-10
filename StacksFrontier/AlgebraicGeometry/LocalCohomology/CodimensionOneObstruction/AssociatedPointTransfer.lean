@@ -178,7 +178,7 @@ theorem isAssociatedPoint_restrict_iff {X Y : Scheme.{u}} (j : X ⟶ Y)
         Y.presheaf.germ (j ''ᵁ U) (j.base x) (by simpa) ((j.appIso U).inv a) := by
     apply e.symm.injective
     simp only [e.symm_apply_apply]
-    show X.presheaf.germ U x hx a =
+    change X.presheaf.germ U x hx a =
       j.stalkMap x (Y.presheaf.germ (j ''ᵁ U) (j.base x) (by simpa) ((j.appIso U).inv a))
     rw [j.germ_stalkMap_apply, Scheme.Hom.appIso_inv_app_apply]
     exact (X.presheaf.germ_res_apply _ _ _ _).symm
@@ -199,10 +199,10 @@ theorem isAssociatedPoint_restrict_iff {X Y : Scheme.{u}} (j : X ⟶ Y)
     change a' • t' = (G.smul ((j.appIso U).inv a')).asHom.hom t' at hs
     rw [hs]
     let z : Γ(G, j ''ᵁ U) := t'
-    show G.presheaf.germ (j ''ᵁ U) (j.base x) (by simpa)
+    change G.presheaf.germ (j ''ᵁ U) (j.base x) (by simpa)
       ((G.smul ((j.appIso U).inv a')).asHom.hom z) = _
     rw [G.smul_apply ((j.appIso U).inv a') z]
-    show TopCat.Presheaf.germ G.val.presheaf (j ''ᵁ U) (j.base x) (by simpa)
+    change TopCat.Presheaf.germ G.val.presheaf (j ''ᵁ U) (j.base x) (by simpa)
       (((j.appIso U).inv a') • z) = _
     exact PresheafOfModules.germ_smul G.val (j.base x) (j ''ᵁ U) (by simpa)
       ((j.appIso U).inv a') z

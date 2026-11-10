@@ -325,7 +325,7 @@ theorem affineLineSquare_points_locallySurjective (B : BigFppfSite.{u})
   · obtain ⟨z, hz⟩ := (F.obj T).left.affineCover.covers x
     obtain ⟨w, hw⟩ := f.surjective z
     refine ⟨w, ?_⟩
-    show (f ≫ e) w = x
+    change (f ≫ e) w = x
     rw [Scheme.Hom.comp_apply, hw]
     exact hz
   · let g : (Over.mk (m ≫ T.hom) : BigFppfOver B (Spec (.of k)) hk) ⟶ T := Over.homMk m
@@ -335,7 +335,7 @@ theorem affineLineSquare_points_locallySurjective (B : BigFppfSite.{u})
     have hcomp : ∀ Z, (f ≫ e).appTop Z = f.appTop (e.appTop Z) := fun Z => by
       rw [Scheme.Hom.comp_appTop, CommRingCat.comp_apply]
     refine ⟨r, ?_⟩
-    show r ≫ affineLineSquare k = F.map g ≫ a
+    change r ≫ affineLineSquare k = F.map g ≫ a
     refine affineLine_hom_ext k ?_
     rw [affineLineSquare_appTop_coord, comp_appTop_coord,
       show r.left.appTop (AffineSpace.coord (Spec (.of k)) PUnit.unit) = b from
@@ -556,7 +556,7 @@ theorem existsUnique_pointsMap_squaringMap_eq_originPoint (B : BigFppfSite.{u})
     rw [← Function.comp_apply (f := Space.pointsMap B (Spec (.of k)) hk _ (squaringMap k B hk)),
       ← Space.pointsMap_comp, toQuotientSheaf_comp_squaringMap]
   refine ⟨Space.pointsMap B (Spec (.of k)) hk _ q (originPoint k B hk), ?_, ?_⟩
-  · show Space.pointsMap B (Spec (.of k)) hk _ (squaringMap k B hk)
+  · change Space.pointsMap B (Spec (.of k)) hk _ (squaringMap k B hk)
       (Space.pointsMap B (Spec (.of k)) hk _ q (originPoint k B hk)) = originPoint k B hk
     rw [hfac, pointsMap_affineLineSquare_originPoint]
   · intro x hx
@@ -615,7 +615,7 @@ theorem universallyInjective_squaringMap (hchar : (2 : k) ≠ 0) (B : BigFppfSit
       L₁ hL₁ s₁ ((involutionQuotient k B hk).obj.map c₁.op y)
   have hred : IsReduced ((Over.post (X := B.obj hk) B.inclusion).obj
       (Over.mk (⟨s₂⟩ : B.obj hL₂ ⟶ B.obj hk))).left := by
-    show IsReduced (Spec (.of L₂))
+    change IsReduced (Spec (.of L₂))
     infer_instance
   have _ := hred
   set t₁ : (Over.post (X := B.obj hk) B.inclusion).obj
@@ -738,7 +738,7 @@ theorem mem_range_pointsMap_puncturedAffineLineInclusion_iff (B : BigFppfSite.{u
           ⟨Over.homMk ⟨p.toBase⟩ (by
             apply ObjectProperty.hom_ext
             exact Category.comp_id p.toBase), ?_⟩⟩
-      show (Over.post (X := B.obj hk) B.inclusion).map _ ≫ affineLineZero k _ = p.value
+      change (Over.post (X := B.obj hk) B.inclusion).map _ ≫ affineLineZero k _ = p.value
       rw [comp_affineLineZero, hval]
       rfl
     · obtain ⟨a', ha'⟩ := exists_lift_puncture_of_isUnit k p.value hu
@@ -749,7 +749,7 @@ theorem mem_range_pointsMap_puncturedAffineLineInclusion_iff (B : BigFppfSite.{u
           value := a' }, ?_⟩
       rw [Space.pointsMap_class]
       congr 1
-      show Space.FieldValuedPoint.mk p.carrier p.contained p.toBase
+      change Space.FieldValuedPoint.mk p.carrier p.contained p.toBase
         (a' ≫ puncturedAffineLineInclusion k) = p
       rw [ha']
 

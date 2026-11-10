@@ -49,7 +49,7 @@ theorem GeometricPoint.Hom.iterate_mapHom {X Y : Scheme.{u}} {x : GeometricPoint
   induction e with
   | zero => rfl
   | succ e ih =>
-      show (a.iterate e).hom ≫ a.hom = ((a.mapHom g).iterate e).hom ≫ a.hom
+      change (a.iterate e).hom ≫ a.hom = ((a.mapHom g).iterate e).hom ≫ a.hom
       change (a.iterate e).hom = ((a.mapHom g).iterate e).hom at ih
       rw [ih]
 
@@ -115,43 +115,43 @@ theorem finiteLevelStalkPointIso_transition (F : LAdicSheaf B X ℓ) {s t : Geom
       finiteLevelStalkTransition B X ℓ F t n ≫
         (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n)).map
           (finiteLevelStalkPointIso B X ℓ F θ n).hom := by
-  show colimit.pre ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op ⋙
+  change colimit.pre ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op ⋙
         (F.level (n + 1)).obj) (neighborhoodFunctor B X.1 X.property θ).op ≫
       (colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op
+          (Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op
           (F.transition n).hom) ≫
         (preservesColimitIso (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n))
-          ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op ⋙
+          ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op ⋙
             (F.level n).obj)).inv) =
     (colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B X.1 X.property t)).op
+          (Functor.Elements.π (geometricPointFiber B X.1 X.property t)).op
           (F.transition n).hom) ≫
         (preservesColimitIso (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n))
-          ((CategoryOfElements.π (geometricPointFiber B X.1 X.property t)).op ⋙
+          ((Functor.Elements.π (geometricPointFiber B X.1 X.property t)).op ⋙
             (F.level n).obj)).inv) ≫
       (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n)).map
-        (colimit.pre ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op ⋙
+        (colimit.pre ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op ⋙
           (F.level n).obj) (neighborhoodFunctor B X.1 X.property θ).op)
   apply colimit.hom_ext
   intro j
   have h1 := ι_pre_map_preservesColimitIso_inv_of_functor
       (R := ModuleCat.restrictScalars (finiteLevelRingHom ℓ n))
-      (A := (CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op ⋙
+      (A := (Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op ⋙
         (F.level (n + 1)).obj)
-      (G := (CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op ⋙ (F.level n).obj)
-      (β := Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op
+      (G := (Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op ⋙ (F.level n).obj)
+      (β := Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op
         (F.transition n).hom)
       (E := (neighborhoodFunctor B X.1 X.property θ).op) (j := j)
   have h2 := ι_map_preservesColimitIso_inv_comp_of_hom
       (R := ModuleCat.restrictScalars (finiteLevelRingHom ℓ n))
-      (A := (CategoryOfElements.π (geometricPointFiber B X.1 X.property t)).op ⋙
+      (A := (Functor.Elements.π (geometricPointFiber B X.1 X.property t)).op ⋙
         (F.level (n + 1)).obj)
-      (G := (CategoryOfElements.π (geometricPointFiber B X.1 X.property t)).op ⋙ (F.level n).obj)
-      (β := Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B X.1 X.property t)).op
+      (G := (Functor.Elements.π (geometricPointFiber B X.1 X.property t)).op ⋙ (F.level n).obj)
+      (β := Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B X.1 X.property t)).op
         (F.transition n).hom)
-      (p := colimit.pre ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op ⋙
+      (p := colimit.pre ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op ⋙
         (F.level n).obj) (neighborhoodFunctor B X.1 X.property θ).op)
-      (hp := colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op ⋙
+      (hp := colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op ⋙
         (F.level n).obj) (neighborhoodFunctor B X.1 X.property θ).op j)
   exact h1.trans h2.symm
 
@@ -219,7 +219,7 @@ theorem LAdicSheaf.charpoly_rationalStalkFrobenius_inverseImage (F : LAdicSheaf.
     exact (LAdicSheaf.finrank_rationalStalkLeft_eq_of_hom B ℓ X F
       (residueClosurePointHom (B.inclusion.map g) y)).symm
   · obtain ⟨e, rfl⟩ : ∃ e, k = e + 1 := ⟨k - 1, by omega⟩
-    show LinearMap.trace (Padic ℓ) _ (LAdicSheaf.rationalStalkEnd B X' ℓ
+    change LinearMap.trace (Padic ℓ) _ (LAdicSheaf.rationalStalkEnd B X' ℓ
         (LAdicSheaf.inverseImage g F) (frobeniusPointHom X'.1 y) ^ (e + 1)) =
       LinearMap.trace (Padic ℓ) _ (LAdicSheaf.rationalStalkEnd B X ℓ F
         (frobeniusPointHom X.1 ((B.inclusion.map g).base y)) ^ (e + 1))

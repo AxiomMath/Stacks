@@ -212,7 +212,7 @@ noncomputable def uliftYonedaCompEvaluationIso (K : Cᵒᵖ) :
     apply (cancel_epi (sigmaObjIso (fun i : X.I => uliftYoneda.{w}.obj (X.obj i)) K).inv).1
     apply Sigma.hom_ext
     intro i
-    rw [ι_comp_sigmaObjIso_inv_assoc, ← Category.assoc, ← NatTrans.comp_app, Sigma.ι_desc,
+    rw [ι_comp_sigmaObjIso_inv_assoc, ← Category.assoc, ← NatTrans.comp_app, Sigma.ι_comp_desc,
       NatTrans.comp_app, Category.assoc]
     simp only [uliftYonedaObjObjIso, Iso.trans_hom, Category.assoc, Iso.inv_hom_id_assoc,
       ι_comp_sigmaObjIso_hom_assoc]

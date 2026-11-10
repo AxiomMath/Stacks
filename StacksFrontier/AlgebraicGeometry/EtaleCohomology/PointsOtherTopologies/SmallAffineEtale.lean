@@ -113,7 +113,7 @@ private theorem essentiallySmall_smallAffineEtale
         (X.left.isoSpec.inv ≫ X.hom) (by infer_instance)
     refine ⟨F.obj A, ⟨A, ⟨Iso.refl _⟩⟩, ⟨MorphismProperty.Over.isoMk
       X.left.isoSpec (by
-        show X.left.isoSpec.hom ≫ (X.left.isoSpec.inv ≫ X.hom) = X.hom
+        change X.left.isoSpec.hom ≫ (X.left.isoSpec.inv ≫ X.hom) = X.hom
         simp)⟩⟩
   have : LocallySmall.{u} S.Etale := inferInstance
   have : EssentiallySmall.{u} P.FullSubcategory := inferInstance
@@ -178,7 +178,7 @@ public theorem finite_refinement_equiv
   have hPushCover : E'.sieve₀ ≤ H.functorPushforward G := by
     rw [PreZeroHypercover.sieve₀, Sieve.generate_le_iff, Presieve.ofArrows_le_iff]
     intro k
-    show (H.arrows.functorPushforward G) (E'.f k)
+    change (H.arrows.functorPushforward G) (E'.f k)
     exact ⟨Y k, f k, e.unit.app (E'.X k),
       (Sieve.ofArrows_mk (Y := Y) (f := f) k), hUnitFactor k⟩
   have hHcover : H.functorPushforward G ∈ J (G.obj X) :=
@@ -220,7 +220,7 @@ public theorem smallAffineEtale_hasConservativeFamily
     let Y (k : ι) : Over i := Over.mk (f k ≫ X.hom)
     let g (k : ι) : Y k ⟶ X := Over.homMk (f k) (by simp [Y])
     have hEq : (Sieve.overEquiv X) (Sieve.ofArrows Y g) = Sieve.ofArrows Z f := by
-      show Sieve.functorPushforward (Over.forget i)
+      change Sieve.functorPushforward (Over.forget i)
           (Sieve.generate (Presieve.ofArrows Y g)) =
         Sieve.generate (Presieve.ofArrows Z f)
       rw [← Sieve.generate_map_eq_functorPushforward, Presieve.map_ofArrows]

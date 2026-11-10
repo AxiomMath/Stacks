@@ -51,7 +51,7 @@ theorem exists_h0_addEquiv_rootsOfUnityPullbackMap {n : ℕ} (hn : IsUnit (n : k
   have hn0 : n ≠ 0 := neZero_of_isUnit hn
   have : NeZero n := ⟨hn0⟩
   have : NeZero (n : k) := ⟨hn.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k n
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k n
   have : IsIntegral C := IsCurve.toIsVariety.toIsIntegral (k := k) (f := g)
   exact ⟨h0RootsOfUnityAddEquivZMod.{u, u + 1, u + 1} g hζ, fun φ w x => by
     rw [rootsOfUnityPullbackMap_zero_eq_self.{u, u + 1, u + 1} g hζ φ w x]⟩

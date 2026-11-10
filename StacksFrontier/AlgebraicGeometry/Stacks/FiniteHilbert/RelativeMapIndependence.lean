@@ -71,7 +71,7 @@ theorem RelativeMapData.exists_iso_map_comp (D₁ D₂ : RelativeMapData P) :
     rw [hb]
     have h2 : 𝒴.toBasedCategory.p.IsHomLift (𝟙 P.U) (inv D₂.yUnit) :=
       IsHomLift.lift_id_inv_isIso _ _ D₂.yUnit
-    show 𝒴.toBasedCategory.p.IsHomLift (𝟙 P.U) (D₁.yUnit ≫ inv D₂.yUnit)
+    change 𝒴.toBasedCategory.p.IsHomLift (𝟙 P.U) (D₁.yUnit ≫ inv D₂.yUnit)
     simpa using IsHomLift.comp 𝒴.toBasedCategory.p (𝟙 P.U) (𝟙 P.U) D₁.yUnit (inv D₂.yUnit)
   obtain ⟨θ, hθ, hθid⟩ := StacksRepresentableCFG.exists_natIso_of_iso_at_id_app_id P.U.hom
     D₁.y D₂.y D₁.y_comp D₂.y_comp hY θ₀ hθ₀
@@ -110,7 +110,7 @@ theorem RelativeMapData.exists_iso_map_comp (D₁ D₂ : RelativeMapData P) :
   refine ⟨TwoFibreProductOver.mapFstIsoPresheafIso θ hθ D₁.e D₂.e, ?_⟩
   apply yonedaEquiv.injective
   rw [yonedaEquiv_comp]
-  show (TwoFibreProductOver.mapFstIsoPresheafIso θ hθ D₁.e D₂.e).hom.app (op P.coverOver)
+  change (TwoFibreProductOver.mapFstIsoPresheafIso θ hθ D₁.e D₂.e).hom.app (op P.coverOver)
       (yonedaEquiv (relativeMap F D₁.y D₁.e D₁.isAlgebraicSpace P.coverOver P.x
         P.x_over_coverOver D₁.α D₁.α_over).hom) =
     yonedaEquiv (relativeMap F D₂.y D₂.e D₂.isAlgebraicSpace P.coverOver P.x

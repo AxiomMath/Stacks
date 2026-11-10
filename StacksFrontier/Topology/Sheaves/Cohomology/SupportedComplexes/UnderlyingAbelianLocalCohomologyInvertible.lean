@@ -199,14 +199,14 @@ lemma isIso_whiskerRight_isoInv_app {A B E : Type*} [Category A] [Category B] [C
 lemma isIso_associator_hom_app {A B E T : Type*} [Category A] [Category B] [Category E]
     [Category T] (F : A ⥤ B) (G : B ⥤ E) (H : E ⥤ T) (x : A) :
     IsIso ((Functor.associator F G H).hom.app x) := by
-  show IsIso (𝟙 _)
+  change IsIso (𝟙 _)
   infer_instance
 
 /-- The inverse associator is the identity on components. -/
 lemma isIso_associator_inv_app {A B E T : Type*} [Category A] [Category B] [Category E]
     [Category T] (F : A ⥤ B) (G : B ⥤ E) (H : E ⥤ T) (x : A) :
     IsIso ((Functor.associator F G H).inv.app x) := by
-  show IsIso (𝟙 _)
+  change IsIso (𝟙 _)
   infer_instance
 
 /-- A quasi-isomorphism of complexes becomes invertible in the derived category. -/
@@ -266,7 +266,7 @@ lemma sectionsForgetUnit_isIso_at_kInjective
     _ (sectionsForgetUnit O W)
     ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj I)
   rw [← hf]
-  show IsIso (α.app _ ≫ (sectionsForgetComparison O W).app _)
+  change IsIso (α.app _ ≫ (sectionsForgetComparison O W).app _)
   infer_instance
 
 /-- The derivation unit of derived sections of *abelian* sheaves over an open is invertible at
@@ -321,10 +321,10 @@ lemma abelianSections_map_quasiIso_of_kInjectiveModule
   have hl : IsIso (HA.map (Q.map q) ≫ α.app (Q.obj J)) := by
     rw [α.naturality (Q.map q)]
     exact hr
-  show HomologicalComplex.quasiIso _ _
+  change HomologicalComplex.quasiIso _ _
     (((abelianSectionsOnOpen X W).mapHomologicalComplex (ComplexShape.up ℤ)).map q)
   rw [← HomotopyCategory.quotient_map_mem_quasiIso_iff, ← DerivedCategory.isIso_Qh_map_iff]
-  show IsIso (HA.map (Q.map q))
+  change IsIso (HA.map (Q.map q))
   exact (isIso_comp_right_iff _ _).mp hl
 
 /-! ### Supported sections over a single open -/
@@ -468,7 +468,7 @@ lemma supportedSections_map_quasiIso_of_kInjectiveModule
   refine sheafQuasiIso_of_presheafQuasiIso _ _ ?_
   rw [HomologicalComplex.quasiIso_iff_evaluation]
   intro W
-  show QuasiIso (((supportedSectionsEvaluation Z (unop W)).mapHomologicalComplex
+  change QuasiIso (((supportedSectionsEvaluation Z (unop W)).mapHomologicalComplex
     (ComplexShape.up ℤ)).map q)
   exact supportedSectionsEvaluation_map_quasiIso_of_kInjectiveModule O Z hZ (unop W) I hI J hJ q
 
@@ -596,7 +596,7 @@ lemma abelianSupportedUnit_isIso_at_underlying_kInjective
   have hcomp : IsIso (aHab.app (Q.obj M) ≫ (DerivedCategory.Qh ⋙ RHab).map (Q.map q)) := by
     rw [← aHab.naturality (Q.map q)]
     infer_instance
-  show IsIso (aHab.app (Q.obj M))
+  change IsIso (aHab.app (Q.obj M))
   exact (isIso_comp_right_iff _ _).mp hcomp
 
 /-! ### Invertibility of the comparison of Tag 0G74 (2) -/

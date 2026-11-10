@@ -87,7 +87,7 @@ theorem exists_hom_curveFamilyOfScheme_of_iso {K : Type u} [Field K] {B : BigFpp
       integerSiteMap B hZ hX' hK X'.hom ≫ β.hom :=
     Over.OverMorphism.ext (ObjectProperty.hom_ext _ w)
   refine ⟨(CurveFamily.isoMk β ((schemeSpaceFunctor B integerBase hZ).mapIso ι) ?_).hom, rfl⟩
-  show schemeSpaceMap (integerSiteMap B hZ hX' hX i.hom) ≫
+  change schemeSpaceMap (integerSiteMap B hZ hX' hX i.hom) ≫
       schemeSpaceMap (integerSiteMap B hZ hX hK X.hom) =
     schemeSpaceMap (integerSiteMap B hZ hX' hK X'.hom) ≫ schemeSpaceMap β.hom
   rw [← schemeSpaceMap_comp, ← schemeSpaceMap_comp, hw]
@@ -132,7 +132,7 @@ theorem CurveFamily.exists_hom_curveFamilyOfScheme_baseMap_eq {K : Type u} [Fiel
     (Iso.refl X.left) hw
   refine ⟨Over.mk (X.hom ≫ s), inferInstance, hdim,
     θ ≫ φ.inv ≫ F.homOfIsPullback B hZ eK.hom (𝟙 F.total) _ sqF, ?_⟩
-  show θ.baseMap ≫ β.inv ≫ eK.hom = eK.hom
+  change θ.baseMap ≫ β.inv ≫ eK.hom = eK.hom
   rw [hθ]
   exact β.hom_inv_id_assoc eK.hom
 
@@ -217,7 +217,7 @@ theorem hasStableReductionCurveFamilies_of_two_le {g : ℕ} (hg : 2 ≤ g) :
   have hgiven : (χ ≫ ψ).baseMap ≫ e.hom =
       integerSiteMap B hZ hK' hK ιK ≫ (schemeOverIntegersLeftIso (siteObject B integerBase hZ hK
         (Spec.map (CommRingCat.ofHom (algebraMap A K)) ≫ tA))).hom := by
-    show (integerSiteMap B hZ hK' hK ιK ≫ ψ.baseMap) ≫ e.hom = _
+    change (integerSiteMap B hZ hK' hK ιK ≫ ψ.baseMap) ≫ e.hom = _
     simp [hψ, eK]
   exact ⟨{
     A' := R'

@@ -596,11 +596,11 @@ translation.
 for arbitrary `M`, `N` in `D(E, d)` and every `n`, which is exactly the source's second assertion
 with both sides already identified as the `Ext`-groups it compares; it is
 `AlgebraicGeometry.RingedSite.tensorWithComplexDerivedHomMapDerived_homology` of
-`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexDerivedExtClause`. The three inputs are
-`AlgebraicGeometry.RingedSite.homComplexToGlobalDerivedHom_homology_degree` for the second leg of
-the canonical map, `AlgebraicGeometry.RingedSite.tensorWithComplexHomComplexMap_homology` for the
-first, and `AlgebraicGeometry.RingedSite.tensorWithComplexDerivedExtMap_q` for the passage from
-`K(E, d)` to `D(E, d)`; the glue between them has four parts, carried out there in this order.
+`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexDerivedExtClause`. The three inputs
+are `AlgebraicGeometry.RingedSite.homComplexToGlobalDerivedHom_homology_degree` for the second leg
+of the canonical map, `AlgebraicGeometry.RingedSite.tensorWithComplexHomComplexMap_homology` for
+the first, and `AlgebraicGeometry.RingedSite.tensorWithComplexDerivedExtMap_q` for the passage
+from `K(E, d)` to `D(E, d)`; the glue between them has four parts, carried out there in this order.
 
 *(i)* The first leg. `H^n` of `DerivedCategory.Q.map (tensorWithComplexHomComplexMap X R K M N)`
 has to be turned into `HomologicalComplex.homologyMap` of that morphism by the naturality of
@@ -632,8 +632,8 @@ proved in `StacksFrontier.Algebra.DifferentialGraded.Module.DGFunctorHomotopyCom
 commutation of `K(E, d) ⥤ K(O)` with the translation as
 `DifferentialGradedModule.dgFunctorToComplexesShiftIso` conjugated by the two quotient functors
 (a `private` equivalent exists in
-`StacksFrontier.Algebra.DifferentialGraded.Module.DGFunctorToComplexes`, hence is not importable, and
-it is reproved there without the `set_option backward.*` that file carries), and
+`StacksFrontier.Algebra.DifferentialGraded.Module.DGFunctorToComplexes`, hence is not importable,
+and it is reproved there without the `set_option backward.*` that file carries), and
 `DifferentialGradedModule.General.homAddEquivOfEq_apply` together with
 `DifferentialGradedModule.General.homAddEquivOfEq_comp_commShiftIso_inv`, which cancel the
 transport along the equality of objects that Tag 09LC's identification produces against the

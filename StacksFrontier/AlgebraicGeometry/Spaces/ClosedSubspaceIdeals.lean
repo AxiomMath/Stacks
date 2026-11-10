@@ -148,7 +148,7 @@ theorem ker_chartBaseChangeArrow_le (f : X ⟶ Y)
   rw [RingHom.mem_ker] at ha ⊢
   refine (congrArg (fun g ↦ g a) (chartPullback_comp B S hS f V
     (chartBaseChangeArrowHom B S hS f hf V j))).trans ?_
-  show ((structureRingSheaf B S hS X).obj.map
+  change ((structureRingSheaf B S hS X).obj.map
       (chartBaseChangeArrowHom B S hS f hf V j).right).hom
       (chartPullbackRingHom B S hS f V (chartBaseChangeArrow B S hS f hf V) a) = 0
   rw [ha, map_zero]

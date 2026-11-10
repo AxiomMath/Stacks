@@ -66,8 +66,8 @@ compatible with the shifts, the mate `R₁ ⋙ G ⟶ H ⋙ R₂` is compatible w
 composite of whiskerings of the unit of `L₂ ⊣ R₂`, of the two-square and of the counit of
 `L₁ ⊣ R₁`, together with associators and unitors. -/
 theorem commShift_mateEquiv (α : G ⋙ L₂ ⟶ L₁ ⋙ H) [NatTrans.CommShift α A] :
-    NatTrans.CommShift (mateEquiv adj₁ adj₂ (TwoSquare.mk _ _ _ _ α)).natTrans A := by
-  show NatTrans.CommShift ((R₁ ⋙ G).rightUnitor.inv ≫
+    NatTrans.CommShift (mateEquiv adj₁ adj₂ (TwoSquare.mk _ _ _ _ α)) A := by
+  change NatTrans.CommShift ((R₁ ⋙ G).rightUnitor.inv ≫
             (R₁ ⋙ G).whiskerLeft adj₂.unit ≫
               (R₁.associator G (L₂ ⋙ R₂)).hom ≫
                 R₁.whiskerLeft (G.associator L₂ R₂).inv ≫

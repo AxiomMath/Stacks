@@ -61,7 +61,8 @@ Carried as named hypotheses, because the library does not have them:
   coefficient universe is `AddCommGrpCat.{max (u + 1) v}` and can therefore never be the
   `AddCommGrpCat.{u}` of this site. This does not block the transport to this site: **the
   asymmetry of coefficient universes is exactly what makes the comparison free.** The site
-  comparison is in the library, as the dense subsite `AlgebraicGeometry.SmallEtale.isDenseSubsite_toEtaleSite`, the
+  comparison is in the library, as the dense subsite
+  `AlgebraicGeometry.SmallEtale.isDenseSubsite_toEtaleSite`, the
   equivalence of abelian sheaf categories `AlgebraicGeometry.SmallEtale.sheafEquiv` and the
   cohomological transport
   `Stacks.Cohomology.DenseSubsiteGlobal.sheafCohomologyIsoOfIsEquivalence`; and the two sheaves
@@ -160,6 +161,7 @@ variable (k : Type u) [Field k] [IsAlgClosed k] (X : Scheme.{u}) (f : X ⟶ Spec
 abbrev curvePicardDegree : schemePicard X →+ ℤ :=
   picardDegree k f (topologicalKrullDim_le_one_of_isCurve k X f)
 
+omit [IsAlgClosed k] in
 /-- `Pic⁰(X)` is the kernel of the degree homomorphism `deg : Pic(X) ⟶ 𝐙`. -/
 theorem curvePicardDegreeZero_eq_ker :
     curvePicardDegreeZero k X f = (curvePicardDegree k X f).ker :=
@@ -295,6 +297,7 @@ abbrev picardDegreeZMod : schemePicard X →+ ZMod n :=
   (Int.castAddHom (ZMod n)).comp (curvePicardDegree k X f)
 
 include f in
+omit [IsAlgClosed k] in
 /-- **`deg mod n` is onto `𝐙/n𝐙`** when the degree homomorphism is onto `𝐙`. -/
 theorem surjective_picardDegreeZMod
     (hdeg : Function.Surjective (curvePicardDegree k X f)) :
@@ -304,6 +307,7 @@ theorem surjective_picardDegreeZMod
   exact ⟨x, by simpa [hx] using hm⟩
 
 include f in
+omit [IsAlgClosed k] in
 /-- **`Pic(X)/n·Pic(X) = 𝐙/n𝐙`**, as the statement that `deg mod n` kills exactly `n·Pic(X)`.
 
 The two hypotheses are the exact sequence `0 ⟶ Pic⁰(X) ⟶ Pic(X) ⟶ 𝐙 ⟶ 0` and the
@@ -331,6 +335,7 @@ theorem picardDegreeZMod_eq_zero_iff
     simp
 
 include f in
+omit [IsAlgClosed k] in
 /-- **The canonical map `Pic(X) ⟶ H²_ét(X, μ_n)` and the degree modulo `n` have the same
 kernel**, namely `n·Pic(X)`: the first by
 `AlgebraicGeometry.etaleH2RootsOfUnityFromPicard_eq_zero_iff`, unconditionally, and the second
@@ -370,6 +375,7 @@ def etaleH2RootsOfUnityAddEquivZMod (hn : IsUnit (n : k))
       (surjective_picardDegreeZMod k X f n hdeg))
 
 include f in
+omit [IsAlgClosed k] in
 /-- **The identification `H²_ét(X, μ_n) = 𝐙/n𝐙` is normalised by the degree**: it carries the
 canonical image of a Picard class in `H²_ét(X, μ_n)` to the degree of that class modulo `n`.
 

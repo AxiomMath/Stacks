@@ -67,7 +67,7 @@ public theorem hom_ext_of_app_isTerminal_of_epi_free {C : Type u₁} [Category.{
     (h : φ.val.app (op e) = ψ.val.app (op e)) : φ = ψ := by
   have key (s : M.sections) : sectionsMap φ s = sectionsMap ψ s := by
     refine (Stacks.SheafOfModules.FiniteTypeKernel.sectionsEquivOfTerminal N he).injective ?_
-    show φ.val.app (op e) (s.val (op e)) = ψ.val.app (op e) (s.val (op e))
+    change φ.val.app (op e) (s.val (op e)) = ψ.val.app (op e) (s.val (op e))
     rw [h]
   rw [← cancel_epi π]
   exact (freeHomEquiv N).injective (funext fun l => by

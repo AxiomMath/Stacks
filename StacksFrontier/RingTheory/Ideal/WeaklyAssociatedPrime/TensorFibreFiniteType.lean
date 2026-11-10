@@ -144,7 +144,7 @@ theorem isWeaklyAssociatedPrime_comap_tensorResidueField {L : Type*}
     convert hunit.map (Algebra.TensorProduct.includeRight (R := R) (A := S)).toRingHom using 1
     exact (Algebra.TensorProduct.includeRight
       (R := R) (A := S) (B := p.ResidueField)).commutes r |>.symm
-  · show algebraMap S (S ⊗[R] p.ResidueField) (algebraMap R S r) * b = s ⊗ₜ[R] 1
+  · change algebraMap S (S ⊗[R] p.ResidueField) (algebraMap R S r) * b = s ⊗ₜ[R] 1
     rw [← IsScalarTower.algebraMap_apply, ← Algebra.smul_def]
     exact hs
 
@@ -217,7 +217,7 @@ theorem isWeaklyAssociatedPrime_iff_of_isLocalization
   let p : Ideal R := Ideal.under R q
   have hp : p.IsPrime := Ideal.IsPrime.comap _
   have hpd : Disjoint (U : Set R) (p : Set R) := by
-    show Disjoint (U : Set R) (Ideal.under R q : Set R)
+    change Disjoint (U : Set R) (Ideal.under R q : Set R)
     rw [IsLocalization.disjoint_under_iff U S]
     exact hq.ne_top
   have heq : (e ⟨q, hq⟩).1 = p := rfl
@@ -237,7 +237,7 @@ theorem isWeaklyAssociatedPrime_iff_of_isLocalization
       simpa [annihilatorOfElem_semiring] using
         (annOfElem_localized_le_iff U f m q hq).mp hn'.1.2
     refine ⟨m, ?_⟩
-    show Minimal (fun J : Ideal R => J.IsPrime ∧ (R ∙ m).annihilator ≤ J) p
+    change Minimal (fun J : Ideal R => J.IsPrime ∧ (R ∙ m).annihilator ≤ J) p
     refine ⟨⟨hp, hAnnp⟩, ?_⟩
     intro p' hp' hp'le
     have hpd' : Disjoint (U : Set R) (p' : Set R) :=
@@ -251,7 +251,7 @@ theorem isWeaklyAssociatedPrime_iff_of_isLocalization
     have hq'le : z' ≤ ⟨q, hq⟩ := e.le_iff_le.mp hporder
     have hAnnR' : annihilatorOfElem_semiring (R := R) m ≤
         Ideal.comap (algebraMap R S) q' := by
-      show annihilatorOfElem_semiring (R := R) m ≤ (e z').1
+      change annihilatorOfElem_semiring (R := R) m ≤ (e z').1
       rw [hz']
       exact hp'.2
     have hAnnq' : (S ∙ f m).annihilator ≤ q' := by
@@ -266,7 +266,7 @@ theorem isWeaklyAssociatedPrime_iff_of_isLocalization
       simpa [annihilatorOfElem_semiring] using
         (annOfElem_localized_le_iff U f m q hq).mpr hm.le
     refine ⟨f m, ?_⟩
-    show Minimal (fun J : Ideal S => J.IsPrime ∧ (S ∙ f m).annihilator ≤ J) q
+    change Minimal (fun J : Ideal S => J.IsPrime ∧ (S ∙ f m).annihilator ≤ J) q
     refine ⟨⟨hq, hAnnq⟩, ?_⟩
     intro q' hq' hq'le
     let z' : {J : Ideal S // J.IsPrime} := ⟨q', hq'.1⟩
@@ -274,7 +274,7 @@ theorem isWeaklyAssociatedPrime_iff_of_isLocalization
     have hp' : p'.IsPrime := (e z').property.1
     have hp'le : p' ≤ p := by
       have horder : e z' ≤ e ⟨q, hq⟩ := e.monotone hq'le
-      show (e z').1 ≤ p
+      change (e z').1 ≤ p
       rw [← heq]
       exact Subtype.mk_le_mk.mp horder
     have hAnnp' : (R ∙ m).annihilator ≤ p' := by

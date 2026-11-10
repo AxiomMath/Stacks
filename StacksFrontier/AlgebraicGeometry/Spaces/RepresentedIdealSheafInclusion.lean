@@ -4,8 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.RepresentedDefiningIdealSh
 public import StacksFrontier.AlgebraicGeometry.Spaces.RepresentedModulePullbackNaturality
 public import StacksFrontier.AlgebraicGeometry.Spaces.IdealSheafMapStructureSheaf
 public import StacksFrontier.AlgebraicGeometry.Spaces.StructureProjectionComposition
-public import
-  StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SmallEtaleAssociatedModuleBaseChangeComposition
+public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SmallEtaleAssociatedModuleBaseChangeComposition
 
 /-!
 # The object identification of ideal sheaves on a representable algebraic space, on inclusions

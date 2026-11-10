@@ -167,7 +167,7 @@ theorem koszulPowerComplexMap_comp_koszulCechComplexMap (n : ℕ) :
     koszulPowerComplexMap X f n ≫ koszulCechComplexMap X f (n + 1) =
       koszulCechComplexMap X f n := by
   refine HomologicalComplex.hom_ext _ _ fun p => ?_
-  show CategoryTheory.AlternatingCech.mapX (koszulPowerTrans X f n) p ≫
+  change CategoryTheory.AlternatingCech.mapX (koszulPowerTrans X f n) p ≫
       CategoryTheory.AlternatingCech.mapX (koszulCechTrans X f (n + 1)) p =
     CategoryTheory.AlternatingCech.mapX (koszulCechTrans X f n) p
   rw [CategoryTheory.AlternatingCech.mapX_comp, koszulPowerTrans_comp_koszulCechTrans]
@@ -339,7 +339,7 @@ private theorem termDesc_uniq (m : term (awayLocalizationFunctor X f) p ⟶ c.pt
     refine (isColimitAwayModuleShiftCocone X (prodGlobalSection f A.1)
       (koszulScalar X f (koszulIndicator A.1 1))
       (koszulScalar_koszulIndicator_one_app_apply X f A.1)).hom_ext fun n => ?_
-    show awayModuleCoconeι X (prodGlobalSection f A.1) (n + 1) ≫
+    change awayModuleCoconeι X (prodGlobalSection f A.1) (n + 1) ≫
         cechDelta X f p A ≫ m =
       awayModuleCoconeι X (prodGlobalSection f A.1) (n + 1) ≫ termDescApp X f p c A
     rw [← Category.assoc, ← koszulDelta_comp_mapX_koszulCechTrans, Category.assoc, hm,

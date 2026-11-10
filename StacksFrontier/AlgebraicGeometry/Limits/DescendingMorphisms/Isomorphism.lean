@@ -94,9 +94,9 @@ private lemma isIso_pullback_snd_symmetry_iff {X Y S B : Scheme.{u}} (f : X ⟶ 
   let e := pullbackSymmetry q p
   have h : e.hom ≫ pullback.fst p q = pullback.snd q p := by simp [e]
   rw [← h]
-  show IsIso ((Over.pullback (e.hom ≫ pullback.fst p q)).obj (Over.mk f)).hom ↔ _
+  change IsIso ((Over.pullback (e.hom ≫ pullback.fst p q)).obj (Over.mk f)).hom ↔ _
   rw [isIso_structural_pullback_comp_iff]
-  show IsIso (pullback.snd (pullback.snd f (pullback.fst p q)) e.hom) ↔ _
+  change IsIso (pullback.snd (pullback.snd f (pullback.fst p q)) e.hom) ↔ _
   have cond := pullback.condition (f := pullback.snd f (pullback.fst p q)) (g := e.hom)
   rw [← isIso_comp_right_iff _ e.hom, ← cond, isIso_comp_left_iff]
 
@@ -135,7 +135,7 @@ private lemma exists_isIso_baseChange_of_isClosedImmersion {I : Type v} [Categor
   let X : Over (D.obj idI) := (Over.pullback p).obj (Over.mk f₀.left)
   have hp (k : Over i₀) (g : k ⟶ idI) : D.map g ≫ p = (V.obj k).hom := (V.map g).w
   have hlim : cD.π.app idI ≫ p = pullback.snd (c.π.app i₀) Y₀.hom := by
-    simp [cD, H, idI, p, V, Functor.mapCone_π_app, Over.conePost, pullback.lift_snd]
+    simp [cD, H, idI, p, V, Functor.mapCone_π_app, Over.conePost]
   have {j k : Over i₀} (g : j ⟶ k) : IsAffineHom (D.map g) :=
     isAffineHom_baseChangeDiagram_map S i₀ Y₀ g
   have (k : Over i₀) : IsAffineHom (V.obj k).hom :=
@@ -148,7 +148,7 @@ private lemma exists_isIso_baseChange_of_isClosedImmersion {I : Type v} [Categor
   have : IsIso ((Over.pullback (cD.π.app idI)).obj X).hom := by
     apply (isIso_structural_pullback_comp_iff (cD.π.app idI) p (Over.mk f₀.left)).mp
     rw [hlim]
-    show IsIso (pullback.snd f₀.left (pullback.snd (c.π.app i₀) Y₀.hom))
+    change IsIso (pullback.snd f₀.left (pullback.snd (c.π.app i₀) Y₀.hom))
     exact (isIso_pullback_snd_symmetry_iff f₀.left Y₀.hom (c.π.app i₀)).mpr
       ((isIso_overPullback_map_iff (c.π.app i₀) X₀ Y₀ f₀).mp inferInstance)
   obtain ⟨k, g, hk⟩ := exists_isIso_structural_baseChange D cD hcD idI X

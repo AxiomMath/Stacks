@@ -205,7 +205,7 @@ variable (𝒞 : BigFppfSite.{u}) (S : Scheme.{u}) (hS : 𝒞.Contains S)
 /-- The spectrum of the integers belongs to every big fppf site: its cardinality is countable
 and the size cutoff of a big fppf site is uncountable. -/
 theorem contains_specULiftZ : 𝒞.Contains (Spec (.of (ULift.{u} ℤ))) := by
-  show (Spec (.of (ULift.{u} ℤ))).size < 𝒞.cutoff
+  change (Spec (.of (ULift.{u} ℤ))).size < 𝒞.cutoff
   rw [Scheme.size_Spec]
   simpa using 𝒞.aleph0_lt_cutoff
 

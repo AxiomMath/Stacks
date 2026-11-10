@@ -140,7 +140,7 @@ theorem cls_add_of_distinguished {D : Type u} [Category.{v} D] [HasZeroObject D]
     (P.fullyFaithfulι.preimage (X := E₃) (Y := E₁⟦(1 : ℤ)⟧)
       (h ≫ ((ObjectProperty.ι P).commShiftIso (1 : ℤ)).inv.app E₁))
   have hT' : T ∈ distTriang P.FullSubcategory := by
-    show (ObjectProperty.ι P).mapTriangle.obj T ∈ distTriang D
+    change (ObjectProperty.ι P).mapTriangle.obj T ∈ distTriang D
     simpa [T] using hT
   rw [← sub_eq_zero, ← sub_sub]
   exact cls_rel T hT'

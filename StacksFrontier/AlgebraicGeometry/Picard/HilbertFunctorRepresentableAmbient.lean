@@ -10,7 +10,8 @@ Let `X ⟶ S` be a morphism of schemes and let `d` be a natural number with `d �
 tuple of `d` points of a single fibre of `X ⟶ S` lies in an affine open of `X`, then the
 degree-`d` Hilbert functor of points `Hilb^d_{X/S}` is representable by a scheme over `S`. That
 is the proposition of Stacks Tag 0B9A verbatim, hypothesis for hypothesis, on every `d` but one:
-`Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`.
+in the namespace `Stacks.Hilbert`,
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`.
 
 The value `d = 1` is where the tag is false. For `d ≤ 1` the source's `d`-tuple hypothesis is
 vacuous for every morphism of schemes; at `d = 0` the conclusion holds anyway, `Hilb^0_{X/S}`
@@ -26,10 +27,13 @@ case. The last section of this docstring is about that.
 
 * `AlgebraicGeometry.isSeparated_of_exists_isAffineOpen_pair` — if every *two* points of a single
   fibre of `f : X ⟶ S` lie in an affine open of `X`, then `f` is separated.
-* `Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`
+
+The remaining results are in the namespace `Stacks.Hilbert`.
+
+* `nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`
   — **Stacks Tag 0B9A**: representability of `Hilb^d_{X/S}` by a scheme, under the `d`-tuple
   affine-open hypothesis the source states, for every `d ≠ 1`.
-* `Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_two_le`
+* `nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_two_le`
   — the same on the range `2 ≤ d`, where the argument of the source runs.
 * `…_of_exists_isAffineOpen_forall_mem` — its generalisation to every `d`, under the affine-open
   hypothesis at `max d 2` points of one fibre.
@@ -147,9 +151,9 @@ theorem isSeparated_of_exists_isAffineOpen_pair {X S : Scheme.{u}} (f : X ⟶ S)
     (h : ∀ (s : S) (x y : X), f.base x = s → f.base y = s →
       ∃ U : X.Opens, IsAffineOpen U ∧ x ∈ U ∧ y ∈ U) :
     IsSeparated f := by
-  haveI : IsFinite (pullback.diagonal f ≫
+  have : IsFinite (pullback.diagonal f ≫
       ((Over.pullback (Over.mk f).hom).obj (Over.mk f)).hom) := by
-    show IsFinite (pullback.diagonal f ≫ pullback.snd f f)
+    change IsFinite (pullback.diagonal f ≫ pullback.snd f f)
     rw [pullback.diagonal_snd]
     infer_instance
   refine ⟨IsClosedImmersion.of_isPreimmersion _
@@ -185,7 +189,7 @@ points `Hilb^d_{X/S}` is representable by a scheme over `S`.
 
 This is the generalisation of Stacks Tag 0B9A to every `d`, and the `@[stacks 0B9A]` attribute
 sits not here but on
-`Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`,
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`,
 which is the tag's statement for every `d ≠ 1`, where the tag holds. On the range `2 ≤ d` the two
 statements agree, `max d 2 = d`; below it the hypothesis here is strictly the stronger of the
 two, which is what buys the extra reach. That extra reach is real content: at `d = 0` and `d = 1`
@@ -208,7 +212,7 @@ theorem nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_me
     (hX : ∀ (s : S) (x : Fin (max d 2) → X.left), (∀ i, X.hom.base (x i) = s) →
       ∃ U : X.left.Opens, IsAffineOpen U ∧ ∀ i, x i ∈ U) :
     Nonempty (Σ H : Over S, RepresentsHilbertFunctorOfRank X H d) := by
-  haveI : IsSeparated X.hom := by
+  have : IsSeparated X.hom := by
     refine isSeparated_of_exists_isAffineOpen_pair X.hom fun s x y hx hy => ?_
     obtain ⟨U, hU, hmem⟩ := hX s (fun i => if (i : ℕ) = 0 then x else y) (by
       intro i
@@ -247,7 +251,7 @@ side by side in
 `2 ≤ d` is not a restriction of convenience: outside it there is nothing true to state, except
 at `d = 0`, where `Hilb^0_{X/S} = S` holds with no hypothesis whatever
 (`Stacks.Hilbert.representsHilbertFunctorOfRankZero`); the two together are
-`Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`.
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`.
 
 The proof is the generalisation
 `Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem`,
@@ -275,7 +279,7 @@ degree-`1` Hilbert functor of the affine line with the origin doubled over affin
 (`Stacks.Hilbert.not_nonempty_representsHilbertFunctorOfRank_one`).
 
 For `2 ≤ d` this is
-`Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_two_le`;
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_two_le`;
 for `d = 0` the base `S` itself represents `Hilb^0_{X/S}`, with no hypothesis needed
 (`Stacks.Hilbert.representsHilbertFunctorOfRankZero`). -/
 @[stacks 0B9A "the source's own hypothesis, an affine open around every `d`-tuple of points of \

@@ -64,8 +64,9 @@ Both carried clauses are named and both are described in the implementation note
 `AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeModules` and
 `AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeEtaleModules` are, and as the library's
 form of **Stacks 0771** part (4)(b) in
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/LocallyQuasicoherentFlatBaseChangeSummary.lean`
-is.  The source's default topology is the fppf one; the two readings agree by **Stacks 0771**
+`LocallyQuasicoherentFlatBaseChangeSummary.lean` (in this file's directory,
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/`) is.  The source's default topology is
+the fppf one; the two readings agree by **Stacks 0771**
 part (4)(a), which that file records as unavailable here, so the étale reading is the only one
 this library can state.  The membership predicate is therefore the same conjunction that
 `AlgebraicGeometry.Stack.isLocallyQuasicoherentWithFlatBaseChangeUnivLE_`

@@ -116,7 +116,7 @@ theorem isIso_stalk_higherDirectImageClassMap_of_generator {k : Type u} [Field k
   obtain ⟨V₁, v₁, M, _, ⟨ρ⟩⟩ :=
     exists_fiber_sliceIso_constantSheaf N (Scheme.pointSmallEtale x) H hH
   rw [ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective ((Scheme.pointSmallEtale x).presheafFiber.map (classMap g q N s H).hom)
+  change Function.Bijective ((Scheme.pointSmallEtale x).presheafFiber.map (classMap g q N s H).hom)
   rw [bijective_presheafFiber_map_classMap_iff g q N s (Scheme.pointSmallEtale x) v
       (cyclotomicBaseChangeStructMap f N _) (IsCyclotomicExtension.zeta_spec N k _) H,
     bijective_classMapGermMap_iff_of_slice_iso g q N s (Scheme.pointSmallEtale x) v

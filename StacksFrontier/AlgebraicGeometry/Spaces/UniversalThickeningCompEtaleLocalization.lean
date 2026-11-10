@@ -85,7 +85,8 @@ an étale morphism over `Z` across the closed immersion `Z ⊂ Z'` is the topolo
 the spaces-étale site, Stacks 05ZH, and **that is proved** —
 `AlgebraicGeometry.Space.essSurj_spacesBaseChange_of_isFirstOrderThickening` of
 `StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/SpacesEtaleEssSurj.lean`, read through
-`Stacks.Spaces.UniversalThickening.etaleExtendsAlongFirstOrderThickening`.  The data remain arguments of the statements below, so that they hold
+`Stacks.Spaces.UniversalThickening.etaleExtendsAlongFirstOrderThickening`.  The data remain
+arguments of the statements below, so that they hold
 for any witnesses, and `AlgebraicGeometry.Space.exists_compatibleEtaleLocalization_of_charts`
 supplies witnesses from a compatible pair of charts;
 `AlgebraicGeometry.Space.exists_compatibleEtaleLocalization_of_fibreChart` supplies them from a
@@ -99,8 +100,8 @@ produced there is also sharper than the shape of this file in one respect: `hiU`
   nothing here claims they are.  Carrying the left-hand arrow
   `π^*𝒞_{Y/X} ⟶ π^*𝒞_{Z/X}` of Stacks 06BD across the localization needs the map of Stacks 04CP
   at the localization square to be the isomorphism of Stacks 04CO, which the *What is not proved*
-  section of `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleEtaleRestriction.lean` records as
-  absent: the two available descriptions of
+  section of `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleEtaleRestriction.lean` records
+  as absent: the two available descriptions of
   `AlgebraicGeometry.Space.idealSheafMap` and of the Stacks 03LW comparison are not brought to a
   common form anywhere in this development.  So this file carries the *geometry* of the
   localization and not the comparison of the two sequences of modules.

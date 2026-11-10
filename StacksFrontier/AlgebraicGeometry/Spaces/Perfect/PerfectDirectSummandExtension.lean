@@ -163,7 +163,7 @@ theorem isSummandOfPerfectRestriction_step (hZ : B.Contains (⊤_ Scheme.{u}))
     apply ObjectProperty.hom_ext
     refine (cancel_mono W₂.ι).1 ?_
     refine Eq.trans ?_ hai.symm
-    show Subfunctor.homOfLe hWW₁ ≫ Subfunctor.toRange (Subfunctor.homOfLe hle) ≫ Uo.ι ≫ W₂.ι =
+    change Subfunctor.homOfLe hWW₁ ≫ Subfunctor.toRange (Subfunctor.homOfLe hle) ≫ Uo.ι ≫ W₂.ι =
       W.ι
     rw [Subfunctor.toRange_ι_assoc, Subfunctor.homOfLe_ι, Subfunctor.homOfLe_ι]
   let G := (etaleModulePullback.{u, u} B S hS b hb).mapDerivedCategory
@@ -214,7 +214,7 @@ theorem exists_isPerfect_retract_restrict (hZ : B.Contains (⊤_ Scheme.{u}))
   let a := i ≫ eT.inv
   have ha : IsEtale B S hS a.hom := isEtale_comp B S hS hi hT
   have hai : a.hom ≫ (⊤ : Subfunctor X.1).ι = W.ι := by
-    show W.ι ≫ inv (⊤ : Subfunctor X.1).ι ≫ (⊤ : Subfunctor X.1).ι = W.ι
+    change W.ι ≫ inv (⊤ : Subfunctor X.1).ι ≫ (⊤ : Subfunctor X.1).ι = W.ι
     simp
   obtain ⟨s, r, h⟩ := hret a ha hai
   let χ := (derivedEtaleRestrictComp i eT.inv a hi hT ha rfl).app Q

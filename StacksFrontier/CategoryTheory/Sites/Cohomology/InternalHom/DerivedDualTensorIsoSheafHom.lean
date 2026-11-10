@@ -75,6 +75,7 @@ def derivedDualTensorIsoSheafHom (K M : DerivedCategory (SheafOfModules.{u} (rin
     (derivedTensorObjIso X M (derivedDual X K)).symm ≪≫
       derivedDualTensorSheafHomIso X K M hK
 
+omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})] in
 /-- Vanishing of `H⁰(C, K^∨ ⊗^𝐋 M)` forces `Hom_{D(𝒪)}(K, M)` to vanish, for a perfect `K`. -/
 theorem subsingleton_hom_of_isZero_homology_derivedTensorDual
     (K M : DerivedCategory (SheafOfModules.{u} (ringSheaf X.O))) (hK : X.IsPerfect K)

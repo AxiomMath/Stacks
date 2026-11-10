@@ -361,7 +361,7 @@ theorem exists_fourierTransform_isogeny_coefficientExtension {Λ Λ'' : Type} [C
     isOpen_ker_characterTwist _ _ (hσ''.preimage φ.continuous)
       (Stacks.ArtinSchreier.isOpen_ker_artinSchreierCharacter k' _ _ Λ'' ψ'' z pK)
   let mY := matrixContinuousModuleIsoOfEq Λ'' hY₂ hY'' fun g => by
-    show Y₂ g = ((Matrix.GeneralLinearGroup.map ρ).comp
+    change Y₂ g = ((Matrix.GeneralLinearGroup.map ρ).comp
       (characterTwist (σ.comp φ.toMonoidHom) χ)) g
     rw [map_comp_characterTwist]
     rfl

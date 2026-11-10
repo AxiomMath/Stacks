@@ -52,7 +52,8 @@ The K-injective model exists for every object, so the hypothesis of
 
 The derived category of `A`-modules is taken at the standard model, as in
 `StacksFrontier/RingTheory/Dualizing/DualizingDerivedHom.lean` and
-`StacksFrontier/RingTheory/Dualizing/DerivedHomDuality/Duality.lean`: the model is baked into the type
+`StacksFrontier/RingTheory/Dualizing/DerivedHomDuality/Duality.lean`: the model is baked
+into the type
 of `Dualizing.dualizingDerivedHomFunctor`, so it is forced here rather than chosen. No
 statement in this file mentions coproducts, and the standard model is a legitimate derived
 category of `ModuleCat A`, so nothing is weakened by the pin.

@@ -211,7 +211,8 @@ naturally in the abelian sheaf on `Cris(U_W/T_W)`, for `g⁻¹` restriction alon
 `Crystalline.GlobalCrystallineSituation.pullbackSituationRestrictEquivalence`.
 
 This is the identification the module documentation of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Formula07MKBaseCase.lean` records as missing:
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Formula07MKBaseCase.lean` records as
+missing:
 the left-hand side of the base case of the displayed equation (07MK) of [Stacks, Tag 07MJ] read
 at `W` is `Γ(Cris(U_W/T_W), F_{U_W})` by
 `...crisDirectImageSectionsNatIsoRightSideTop` applied to `(U', T', δ')|_W`, and this says that

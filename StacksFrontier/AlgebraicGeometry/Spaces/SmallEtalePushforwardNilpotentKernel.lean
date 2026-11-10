@@ -109,7 +109,7 @@ theorem KernelIsLocallyNilpotent.comp_isIso {R R' R'' : Sheaf J CommRingCat.{w}}
   intro U a ha
   refine hφ U a ?_
   have h2 : φ.hom.app U a = (inv e).hom.app U ((φ ≫ e).hom.app U a) := by
-    show _ = ((φ ≫ e) ≫ inv e).hom.app U a
+    change _ = ((φ ≫ e) ≫ inv e).hom.app U a
     rw [Category.assoc, IsIso.hom_inv_id, Category.comp_id]
   rw [h2, ha, map_zero]
 
@@ -120,7 +120,7 @@ theorem KernelIsLocallyNilpotent.of_comp_isIso {R R' R'' : Sheaf J CommRingCat.{
     KernelIsLocallyNilpotent J φ := by
   intro U a ha
   refine h U a ?_
-  show e.hom.app U (φ.hom.app U a) = 0
+  change e.hom.app U (φ.hom.app U a) = 0
   rw [ha, map_zero]
 
 /-- If `φ` is locally surjective and `φ ≫ ψ` has locally nilpotent kernel, so has `ψ`. -/
@@ -132,7 +132,7 @@ theorem KernelIsLocallyNilpotent.of_comp_of_isLocallySurjective
   refine exists_isNilpotent_of_locally b _ (Presheaf.imageSieve_mem J φ.hom b) fun V p hp => ?_
   obtain ⟨a, ha⟩ := hp
   have hker : (φ ≫ ψ).hom.app (op V) a = 0 := by
-    show ψ.hom.app (op V) (φ.hom.app (op V) a) = 0
+    change ψ.hom.app (op V) (φ.hom.app (op V) a) = 0
     rw [ha, hom_app_map_apply, hb, map_zero]
   obtain ⟨T, hT, hTa⟩ := h (op V) a hker
   refine ⟨T, hT, fun W q hq => ?_⟩
@@ -176,7 +176,7 @@ theorem pushforwardEval_map {V V' : SmallEtale B S hS Y.1} {U : SmallEtale B S h
           (smallEtaleRingedTopos B S hS X).O).obj.map q.op) x) =
       pushforwardEval t ((t.toToposHom.inverseImage.map
         ((SmallEtale.topology B S hS Y.1).yoneda.map q)).hom.app (op U) s) x := by
-  show ((t.toToposHom.adj.homEquiv _ _).symm
+  change ((t.toToposHom.adj.homEquiv _ _).symm
       ((SmallEtale.topology B S hS Y.1).yonedaEquiv.symm
         ((t.toToposHom.pushforward.obj (Sheaf.ringSheaf (ringO X))).obj.map q.op x))).hom.app
         (op U) s = ((t.toToposHom.adj.homEquiv _ _).symm
@@ -282,7 +282,7 @@ theorem kernelIsLocallyNilpotent_pushforward [t.toToposHom.pushforward.IsEquival
     rw [GrothendieckTopology.yonedaEquiv_comp, GrothendieckTopology.yonedaEquiv_comp]
     simp only [GrothendieckTopology.yonedaEquiv_yoneda_map]
     convert ((GrothendieckTopology.map_yonedaEquiv _ _ q).symm.trans hs'.symm) using 2 <;>
-      first | rfl | exact Equiv.apply_symm_apply _ _ | exact heq_of_eq (Equiv.apply_symm_apply _ _)
+      first | rfl | exact Equiv.apply_symm_apply _ _
   have hs : (t.toToposHom.inverseImage.map
       ((SmallEtale.topology B S hS Y.1).yoneda.map q)).hom.app (op U) s'' =
       (invRep t V).obj.map

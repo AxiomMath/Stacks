@@ -307,7 +307,7 @@ public theorem exists_hom_associatedModuleMap_app_eq_of_isPrestack
       = localHom S toOver a X hX := ht f hX
   rw [← hφ, presheafHom_toOver_map_pullbackMap] at h1
   refine ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
-  show ((Scheme.Modules.pullback (toOver.obj X).hom).map φ).app ⊤ m = _
+  change ((Scheme.Modules.pullback (toOver.obj X).hom).map φ).app ⊤ m = _
   rw [h1]
   exact localHom_app_top S toOver a X hX m
 

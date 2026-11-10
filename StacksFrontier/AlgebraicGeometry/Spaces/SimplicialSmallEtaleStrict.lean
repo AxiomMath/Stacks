@@ -313,7 +313,7 @@ theorem strictTransition_map_hom_left_fst {m n : SimplexCategory} (φ : m ⟶ n)
     ((strictTransition X φ).map g).hom.hom.left ≫ pullback.fst _ _ =
       StrictObj.transitionRealizeHom φ x ≫ pullback.fst _ _ ≫ g.hom.hom.left ≫
         pullback.fst _ _ := by
-  show (StrictObj.transitionRealizeHom φ x ≫
+  change (StrictObj.transitionRealizeHom φ x ≫
       ((spacesBaseChange B S hS (X.map φ.op)).functor.map g.hom).hom.left ≫
         StrictObj.transitionRealizeInv φ y) ≫ pullback.fst _ _ = _
   exact (Category.assoc _ _ _).trans (congrArg (StrictObj.transitionRealizeHom φ x ≫ ·)

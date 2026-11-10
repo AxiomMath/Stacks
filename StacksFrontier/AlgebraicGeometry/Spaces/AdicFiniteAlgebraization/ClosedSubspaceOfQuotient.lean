@@ -143,7 +143,7 @@ theorem closedSubspace_eq_of_iso (Z Z' : ClosedSubspaces B S hS Y.1)
   refine ⟨fun hx => (SheafOfModules.Submodule.mem_ker (p ≫ e.hom) U x).2 ?_,
     fun hx => (SheafOfModules.Submodule.mem_ker p U x).2 ?_⟩
   · have h0 : p.val.app U x = 0 := (SheafOfModules.Submodule.mem_ker p U x).1 hx
-    show e.hom.val.app U (p.val.app U x) = 0
+    change e.hom.val.app U (p.val.app U x) = 0
     rw [h0, map_zero]
   · have h0 : e.hom.val.app U (p.val.app U x) = 0 :=
       (SheafOfModules.Submodule.mem_ker (p ≫ e.hom) U x).1 hx

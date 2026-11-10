@@ -216,7 +216,8 @@ noncomputable def toTensorSheafSection (F G : SheafOfModules.{u} (structureSheaf
     TensorProduct (X.presheaf.obj U) (F.val.obj U) (G.val.obj U) →
       ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val.obj U :=
-  fun t => ((sheafifyUnit X ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))).app U).hom t
+  fun t =>
+    ((sheafifyUnit X ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))).app U).hom t
 
 /-! ### Functoriality: the canonical induced morphism `φ ⊗ ψ`. -/
 
@@ -231,10 +232,12 @@ and the presheaf-level tensor of morphisms is functorial, so the two composites 
 public theorem tensorSheafMap_comp {A B C D E F : SheafOfModules.{u} (structureSheafRing X)}
     (f : A ⟶ B) (g : B ⟶ C) (h : D ⟶ E) (i : E ⟶ F) :
     ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map ((f, h) : (_, _) ⟶ (_, _))) ≫ ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map ((f, h) : (_, _) ⟶ (_, _))) ≫
+      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map ((g, i) : (_, _) ⟶ (_, _))) =
       ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map (((f ≫ g), (h ≫ i)) : (_, _) ⟶ (_, _)))  := by
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map
+        (((f ≫ g), (h ≫ i)) : (_, _) ⟶ (_, _)))  := by
   exact ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map_comp
     ((f, h) : (A, D) ⟶ (B, E)) ((g, i) : (B, E) ⟶ (C, F))).symm
@@ -333,23 +336,27 @@ theorem exists_tensorSheafStalkIso (x : X.carrier)
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G).val x
     ∃ θ : (grpStalk X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val x) ≃ₗ[ringStalk X x]
+      (⟨X.presheaf, X.IsSheaf⟩ :
+        Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val x) ≃ₗ[ringStalk X x]
         (grpStalk X ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)) x),
       ∀ (U : TopologicalSpace.Opens X.carrier) (hxU : x ∈ U)
         (t : ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).obj (Opposite.op U)),
         θ (grpGerm X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val x U hxU
-            ((sheafifyUnit X ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))).app (Opposite.op U) t))
+            ((sheafifyUnit X ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))).app
+              (Opposite.op U) t))
           = grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)) x U hxU t := by
-  letI := stalkModule X
+  let := stalkModule X
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G).val x
   set P := (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val) with hP
   -- The `O_{X,x}`-linear stalk map `ι : P_x →ₗ (P^#)_x` induced by the sheafification unit.
-  set ι : (grpStalk X P x) →ₗ[ringStalk X x] (grpStalk X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+  set ι : (grpStalk X P x) →ₗ[ringStalk X x]
+      (grpStalk X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val x) :=
     stalkMapL X P ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val (sheafifyUnit X P) x with hι
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val
+      (sheafifyUnit X P) x with hι
   -- Its underlying additive map is the genuine `stalkMap`, which is an iso of abelian groups.
   have hiso : IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
       ((PresheafOfModules.toPresheaf (O X)).map (sheafifyUnit X P))) :=
@@ -360,7 +367,8 @@ theorem exists_tensorSheafStalkIso (x : X.carrier)
       ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
         ((PresheafOfModules.toPresheaf (O X)).map (sheafifyUnit X P)))
   -- Upgrade `ι` to a linear equivalence `e : P_x ≃ₗ (P^#)_x`.
-  set e : (grpStalk X P x) ≃ₗ[ringStalk X x] (grpStalk X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+  set e : (grpStalk X P x) ≃ₗ[ringStalk X x]
+      (grpStalk X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val x) :=
     LinearEquiv.ofBijective ι hbij with he
   -- The germ-naturality of `ι`: `ι (germ_P t) = germ_{P^#} (unit t)`.
@@ -416,7 +424,8 @@ noncomputable def phiLeg (x : X.carrier) (F G : PresheafOfModules.{u} (O X))
 /-- The forward cocone: legs `phiLeg` assembled into a cocone over the stalk diagram of the
 presheaf tensor product, with apex `F_x ⊗ G_x`. -/
 noncomputable def phiCocone (x : X.carrier) (F G : PresheafOfModules.{u} (O X)) :
-    Limits.Cocone ((OpenNhds.inclusion x).op ⋙ ((PresheafOfModules.tensorObj (O := X.presheaf) F G)).presheaf) where
+    Limits.Cocone ((OpenNhds.inclusion x).op ⋙
+      ((PresheafOfModules.tensorObj (O := X.presheaf) F G)).presheaf) where
   pt := AddCommGrpCat.of (grpStalk X F x ⊗[ringStalk X x] grpStalk X G x)
   ι :=
     { app := fun j =>
@@ -427,10 +436,10 @@ noncomputable def phiCocone (x : X.carrier) (F G : PresheafOfModules.{u} (O X)) 
         apply AddMonoidHom.ext
         intro t
         change (phiLeg X x F G ((OpenNhds.inclusion x).obj k.unop) k.unop.2)
-            ((((PresheafOfModules.tensorObj (O := X.presheaf) F G)).presheaf.map ((OpenNhds.inclusion x).op.map f)).hom t)
+            ((((PresheafOfModules.tensorObj (O := X.presheaf) F G)).presheaf.map
+              ((OpenNhds.inclusion x).op.map f)).hom t)
           = (phiLeg X x F G ((OpenNhds.inclusion x).obj j.unop) j.unop.2) t
-        induction t using TensorProduct.induction_on with
-        | zero => rw [map_zero]; exact (map_zero _).symm
+        induction t using TensorProduct.inductionOn with
         | add a b ha hb => rw [map_add, map_add, map_add, ha, hb]
         | tmul m n =>
             change (grpGerm X F x ((OpenNhds.inclusion x).obj k.unop) k.unop.2)
@@ -458,8 +467,8 @@ example (F : PresheafOfModules.{u} (O X)) (x : X.carrier)
       = Limits.colimit.ι ((OpenNhds.inclusion x).op ⋙ F.presheaf) (Opposite.op ⟨U, hxU⟩) := by
   rfl
 
-/-- The forward map `Φ : grpStalk(PresheafOfModules.tensorObj) → F_x ⊗ G_x`, via the colimit universal
-property applied to `phiCocone`. -/
+/-- The forward map `Φ : grpStalk(PresheafOfModules.tensorObj) → F_x ⊗ G_x`, via the colimit
+universal property applied to `phiCocone`. -/
 noncomputable def phiHom (x : X.carrier) (F G : PresheafOfModules.{u} (O X)) :
     grpStalk X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x
       →+ (grpStalk X F x ⊗[ringStalk X x] grpStalk X G x) :=
@@ -485,8 +494,10 @@ open TopologicalSpace
 noncomputable def psiInnerLeg (x : X.carrier) (F G : PresheafOfModules.{u} (O X))
     (U : TopologicalSpace.Opens X.carrier) (hxU : x ∈ U) (m : F.obj (Opposite.op U))
     (V : TopologicalSpace.Opens X.carrier) (hxV : x ∈ V) :
-    G.obj (Opposite.op V) →+ grpStalk X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x where
-  toFun n := grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x (U ⊓ V) (TopologicalSpace.Opens.mem_inf.mpr ⟨hxU, hxV⟩)
+    G.obj (Opposite.op V) →+
+      grpStalk X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x where
+  toFun n := grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x (U ⊓ V)
+    (TopologicalSpace.Opens.mem_inf.mpr ⟨hxU, hxV⟩)
     (((F.restrictₛₗ (homOfLE inf_le_left).op) m)
       ⊗ₜ[X.presheaf.obj (Opposite.op (U ⊓ V))]
       ((G.restrictₛₗ (homOfLE inf_le_right).op) n))
@@ -517,11 +528,13 @@ noncomputable def psiInnerCocone (x : X.carrier) (F G : PresheafOfModules.{u} (O
         change psiInnerLeg X x F G U hxU m Vk k.unop.2
             ((G.presheaf.map gres.op).hom n)
           = psiInnerLeg X x F G U hxU m Vj j.unop.2 n
-        change grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x (U ⊓ Vk) ⟨hxU, k.unop.2⟩
+        change grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x (U ⊓ Vk)
+            ⟨hxU, k.unop.2⟩
             (((F.restrictₛₗ (homOfLE inf_le_left).op) m)
               ⊗ₜ[X.presheaf.obj (Opposite.op (U ⊓ Vk))]
               ((G.restrictₛₗ (homOfLE inf_le_right).op) ((G.presheaf.map gres.op).hom n)))
-          = grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x (U ⊓ Vj) ⟨hxU, j.unop.2⟩
+          = grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x (U ⊓ Vj)
+            ⟨hxU, j.unop.2⟩
             (((F.restrictₛₗ (homOfLE inf_le_left).op) m)
               ⊗ₜ[X.presheaf.obj (Opposite.op (U ⊓ Vj))]
               ((G.restrictₛₗ (homOfLE inf_le_right).op) n))
@@ -557,7 +570,8 @@ lemma psiInnerHom_germ (x : X.carrier) (F G : PresheafOfModules.{u} (O X))
     (U : TopologicalSpace.Opens X.carrier) (hxU : x ∈ U) (m : F.obj (Opposite.op U))
     (V : TopologicalSpace.Opens X.carrier) (hxV : x ∈ V) (n : G.obj (Opposite.op V)) :
     psiInnerHom X x F G U hxU m (grpGerm X G x V hxV n)
-      = grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x (U ⊓ V) (TopologicalSpace.Opens.mem_inf.mpr ⟨hxU, hxV⟩)
+      = grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x (U ⊓ V)
+        (TopologicalSpace.Opens.mem_inf.mpr ⟨hxU, hxV⟩)
         (((F.restrictₛₗ (homOfLE inf_le_left).op) m)
           ⊗ₜ[X.presheaf.obj (Opposite.op (U ⊓ V))]
           ((G.restrictₛₗ (homOfLE inf_le_right).op) n)) := by
@@ -569,7 +583,8 @@ lemma psiInnerHom_germ (x : X.carrier) (F G : PresheafOfModules.{u} (O X))
 /-- The outer cocone leg `F(U) →+ (G_x →+ PT_x)`, `m ↦ psiInnerHom U m`. -/
 noncomputable def psiOuterLeg (x : X.carrier) (F G : PresheafOfModules.{u} (O X))
     (U : TopologicalSpace.Opens X.carrier) (hxU : x ∈ U) :
-    F.obj (Opposite.op U) →+ (grpStalk X G x →+ grpStalk X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x) where
+    F.obj (Opposite.op U) →+ (grpStalk X G x →+
+        grpStalk X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x) where
   toFun m := psiInnerHom X x F G U hxU m
   map_zero' := by
     apply AddMonoidHom.ext
@@ -593,7 +608,8 @@ noncomputable def psiOuterLeg (x : X.carrier) (F G : PresheafOfModules.{u} (O X)
 /-- The outer cocone over `F`'s stalk diagram, apex `G_x →+ PT_x`, legs `psiOuterLeg U`. -/
 noncomputable def psiOuterCocone (x : X.carrier) (F G : PresheafOfModules.{u} (O X)) :
     Limits.Cocone ((OpenNhds.inclusion x).op ⋙ F.presheaf) where
-  pt := AddCommGrpCat.of (grpStalk X G x →+ grpStalk X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x)
+  pt := AddCommGrpCat.of (grpStalk X G x →+
+      grpStalk X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x)
   ι :=
     { app := fun j =>
         AddCommGrpCat.ofHom (psiOuterLeg X x F G ((OpenNhds.inclusion x).obj j.unop) j.unop.2)
@@ -641,7 +657,8 @@ noncomputable def psiOuterCocone (x : X.carrier) (F G : PresheafOfModules.{u} (O
 
 /-- The biadditive map `F_x →+ (G_x →+ PT_x)` underlying the inverse `Ψ`. -/
 noncomputable def psiBiAdd (x : X.carrier) (F G : PresheafOfModules.{u} (O X)) :
-    grpStalk X F x →+ (grpStalk X G x →+ grpStalk X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x) :=
+    grpStalk X F x →+ (grpStalk X G x →+
+        grpStalk X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x) :=
   (Limits.colimit.desc _ (psiOuterCocone X x F G)).hom
 
 lemma psiBiAdd_germ (x : X.carrier) (F G : PresheafOfModules.{u} (O X))
@@ -657,7 +674,8 @@ lemma psiBiAdd_germ_germ (x : X.carrier) (F G : PresheafOfModules.{u} (O X))
     (U : TopologicalSpace.Opens X.carrier) (hxU : x ∈ U) (m : F.obj (Opposite.op U))
     (V : TopologicalSpace.Opens X.carrier) (hxV : x ∈ V) (n : G.obj (Opposite.op V)) :
     psiBiAdd X x F G (grpGerm X F x U hxU m) (grpGerm X G x V hxV n)
-      = grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x (U ⊓ V) (TopologicalSpace.Opens.mem_inf.mpr ⟨hxU, hxV⟩)
+      = grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x (U ⊓ V)
+        (TopologicalSpace.Opens.mem_inf.mpr ⟨hxU, hxV⟩)
         (((F.restrictₛₗ (homOfLE inf_le_left).op) m)
           ⊗ₜ[X.presheaf.obj (Opposite.op (U ⊓ V))]
           ((G.restrictₛₗ (homOfLE inf_le_right).op) n)) := by
@@ -728,7 +746,8 @@ lemma psiHom_germ_tmul (x : X.carrier) (F G : PresheafOfModules.{u} (O X))
   rw [psiHom_tmul, psiBiAdd_germ_germ]
   -- `germ_{U⊓U}(m| ⊗ n|) = germ_U(m ⊗ n)`
   refine Eq.trans ?_ (TopCat.Presheaf.germ_res_apply (C := AddCommGrpCat.{u})
-    ((PresheafOfModules.tensorObj (O := X.presheaf) F G)).presheaf (homOfLE inf_le_left) x ⟨hxU, hxU⟩
+    ((PresheafOfModules.tensorObj (O := X.presheaf) F G)).presheaf
+    (homOfLE inf_le_left) x ⟨hxU, hxU⟩
     (m ⊗ₜ[X.presheaf.obj (Opposite.op U)] n))
   congr 1
 
@@ -740,10 +759,10 @@ lemma psiHom_phiHom (x : X.carrier) (F G : PresheafOfModules.{u} (O X))
     TopCat.Presheaf.exists_germ_eq (C := AddCommGrpCat.{u}) (X := X.carrier)
       ((PresheafOfModules.tensorObj (O := X.presheaf) F G)).presheaf z
   -- `z = germ_U t`; reduce to pure tensors.
-  change psiHom X x F G (phiHom X x F G (grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x U hxU t))
+  change psiHom X x F G (phiHom X x F G
+      (grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x U hxU t))
     = grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x U hxU t
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, map_add, ha, hb]
   | tmul m n =>
       rw [phiHom_germ]
@@ -754,8 +773,7 @@ lemma psiHom_phiHom (x : X.carrier) (F G : PresheafOfModules.{u} (O X))
 lemma phiHom_psiHom (x : X.carrier) (F G : PresheafOfModules.{u} (O X))
     (w : grpStalk X F x ⊗[ringStalk X x] grpStalk X G x) :
     phiHom X x F G (psiHom X x F G w) = w := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, ha, hb]
   | tmul p q =>
       obtain ⟨Um, hUm, sm, rfl⟩ :=
@@ -784,8 +802,7 @@ lemma phiLeg_smul (x : X.carrier) (F G : PresheafOfModules.{u} (O X))
       (G.obj (Opposite.op U))) :
     phiLeg X x F G U hxU (r • t)
       = (ringGerm X x U hxU r) • phiLeg X x F G U hxU t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => rw [smul_add, map_add, map_add, smul_add, ha, hb]
   | tmul m n =>
       rw [TensorProduct.smul_tmul', phiLeg_tmul, phiLeg_tmul]
@@ -806,7 +823,8 @@ lemma phiHom_smul (x : X.carrier) (F G : PresheafOfModules.{u} (O X))
   set rU : X.presheaf.obj (Opposite.op U) :=
     (X.presheaf.map (homOfLE inf_le_left).op).hom sr with hrU
   set tU : ((PresheafOfModules.tensorObj (O := X.presheaf) F G)).obj (Opposite.op U) :=
-    (((PresheafOfModules.tensorObj (O := X.presheaf) F G)).map (homOfLE inf_le_right).op).hom sz with htU
+    (((PresheafOfModules.tensorObj (O := X.presheaf) F G)).map
+      (homOfLE inf_le_right).op).hom sz with htU
   have hgr : ringGerm X x U hxU rU = r :=
     (ringGerm_map X x (homOfLE inf_le_left) hxU hUr sr).trans hsr
   have hgz : grpGerm X ((PresheafOfModules.tensorObj (O := X.presheaf) F G)) x U hxU tU = z :=
@@ -826,7 +844,8 @@ This is the simultaneous "tensor commutes with filtered colimit in the ring and 
 arguments" statement; cf. `TensorProduct.directLimitLeft`/`directLimitRight`. -/
 theorem exists_presheafTensorStalkIso (x : X.carrier)
     (F G : SheafOfModules.{u} (structureSheafRing X)) :
-    ∃ Φ : (grpStalk X ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)) x) ≃ₗ[ringStalk X x]
+    ∃ Φ : (grpStalk X
+        ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)) x) ≃ₗ[ringStalk X x]
         ((grpStalk X F.val x) ⊗[ringStalk X x] (grpStalk X G.val x)),
       ∀ (U : TopologicalSpace.Opens X.carrier) (hxU : x ∈ U)
         (m : F.val.obj (Opposite.op U)) (n : G.val.obj (Opposite.op U)),
@@ -858,7 +877,8 @@ theorem exists_tensorStalkIso (x : X.carrier)
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G).val x
     ∃ e : (grpStalk X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val x) ≃ₗ[ringStalk X x]
+      (⟨X.presheaf, X.IsSheaf⟩ :
+        Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val x) ≃ₗ[ringStalk X x]
         ((grpStalk X F.val x) ⊗[ringStalk X x] (grpStalk X G.val x)),
       ∀ (U : TopologicalSpace.Opens X.carrier) (hxU : x ∈ U)
         (m : F.val.obj (Opposite.op U)) (n : G.val.obj (Opposite.op U)),
@@ -877,7 +897,8 @@ theorem exists_tensorStalkIso (x : X.carrier)
   rw [LinearEquiv.trans_apply]
   rw [show toTensorSheafSection X F G (Opposite.op U)
         (m ⊗ₜ[X.presheaf.obj (Opposite.op U)] n)
-      = (sheafifyUnit X ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))).app (Opposite.op U)
+      = (sheafifyUnit X ((PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))).app
+        (Opposite.op U)
         (m ⊗ₜ[X.presheaf.obj (Opposite.op U)] n) from rfl]
   rw [hθ U hxU (m ⊗ₜ[X.presheaf.obj (Opposite.op U)] n)]
   rw [hΦ U hxU m n]
@@ -892,7 +913,8 @@ noncomputable def tensorStalkIso (x : X.carrier)
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G).val x
     (grpStalk X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val x) ≃ₗ[ringStalk X x]
+      (⟨X.presheaf, X.IsSheaf⟩ :
+        Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val x) ≃ₗ[ringStalk X x]
       ((grpStalk X F.val x) ⊗[ringStalk X x] (grpStalk X G.val x)) :=
   (exists_tensorStalkIso X x F G).choose
 
@@ -918,7 +940,8 @@ lemma tensorSheafMap_app_toTensorSheafSection
     (U : TopologicalSpace.Opens X.carrier)
     (m : F.val.obj (Opposite.op U)) (n : G.val.obj (Opposite.op U)) :
     ((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map ((φ, ψ) : (_, _) ⟶ (_, _)))).val.app (Opposite.op U)).hom
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map
+        ((φ, ψ) : (_, _) ⟶ (_, _)))).val.app (Opposite.op U)).hom
         (toTensorSheafSection X F G (Opposite.op U)
           (m ⊗ₜ[X.presheaf.obj (Opposite.op U)] n))
       = toTensorSheafSection X F' G' (Opposite.op U)
@@ -935,7 +958,8 @@ lemma tensorSheafMap_app_toTensorSheafSection
       (toTensorSheafSection X F G (Opposite.op U)
         (m ⊗ₜ[X.presheaf.obj (Opposite.op U)] n))) tensorMap
   have hnat := (PresheafOfModules.sheafificationAdjunction (R := structureSheafRing X)
-    (𝟙 (structureSheafRing X).obj)).unit.naturality ((PresheafOfModules.tensorHom (O := X.presheaf) φ.val ψ.val))
+    (𝟙 (structureSheafRing X).obj)).unit.naturality
+      ((PresheafOfModules.tensorHom (O := X.presheaf) φ.val ψ.val))
   have happ := congrArg (fun α => (PresheafOfModules.Hom.app α (Opposite.op U)).hom
       (m ⊗ₜ[X.presheaf.obj (Opposite.op U)] n)) hnat
   exact sectionMap.trans happ.symm
@@ -972,17 +996,19 @@ theorem tensorStalkIso_natural (x : X.carrier)
         (tensorStalkIso X x F G).toLinearMap
       = (tensorStalkIso X x F' G').toLinearMap.comp
           (stalkMapL X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G)).val
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F').obj G')).val
             (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map ((φ, ψ) : (_, _) ⟶ (_, _)))).val x)  := by
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map
+        ((φ, ψ) : (_, _) ⟶ (_, _)))).val x)  := by
   let tensorPresheaf := PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val
   let sourceTensor := ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F).obj G
   let targetTensor := ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj F').obj G'
-  letI := stalkModule X sourceTensor.val x
-  letI := stalkModule X targetTensor.val x
+  let := stalkModule X sourceTensor.val x
+  let := stalkModule X targetTensor.val x
   let tensorMorphism :=
     (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map
@@ -993,7 +1019,7 @@ theorem tensorStalkIso_natural (x : X.carrier)
     (stalkMapL X G.val G'.val ψ.val x)).comp (tensorStalkIso X x F G).toLinearMap
   let rightMap := (tensorStalkIso X x F' G').toLinearMap.comp
     (stalkMapL X sourceTensor.val targetTensor.val tensorMorphism.val x)
-  letI := stalkMap_sheafifyUnit_isIso X x tensorPresheaf
+  let := stalkMap_sheafifyUnit_isIso X x tensorPresheaf
   have unitBijective : Function.Bijective unitStalk :=
     ConcreteCategory.bijective_of_isIso (C := AddCommGrpCat.{u})
       ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
@@ -1010,8 +1036,7 @@ theorem tensorStalkIso_natural (x : X.carrier)
     let leftEvaluation := leftMap.toAddMonoidHom.comp (germMap.comp sectionMap)
     let rightEvaluation := rightMap.toAddMonoidHom.comp (germMap.comp sectionMap)
     change leftEvaluation sectionValue = rightEvaluation sectionValue
-    induction sectionValue using TensorProduct.induction_on with
-    | zero => exact (map_zero leftEvaluation).trans (map_zero rightEvaluation).symm
+    induction sectionValue using TensorProduct.inductionOn with
     | add first second firstEquality secondEquality =>
         exact (map_add leftEvaluation first second).trans
           ((congrArg₂ (· + ·) firstEquality secondEquality).trans

@@ -150,7 +150,7 @@ theorem exists_finiteEtale_extension_of_isAdicComplete_of_annihilated
           S.U₀Open.ι S.X₀ToX
   let eV₀ : F.obj v ≅ J.obj y₀ := MorphismProperty.Over.isoMk
     (h₀.isoPullback ≪≫ pullbackSymmetry S.U₀Open.ι f₀) (by
-      show (h₀.isoPullback ≪≫ pullbackSymmetry S.U₀Open.ι f₀).hom ≫
+      change (h₀.isoPullback ≪≫ pullbackSymmetry S.U₀Open.ι f₀).hom ≫
         pullback.snd f₀ S.U₀Open.ι = pullback.snd pi S.U₀ToU
       simpa only [Iso.trans_hom, Category.assoc, pullbackSymmetry_hom_comp_snd] using
         h₀.isoPullback_hom_fst)
@@ -159,7 +159,7 @@ theorem exists_finiteEtale_extension_of_isAdicComplete_of_annihilated
     (MorphismProperty.Over.forget (finiteEtale : MorphismProperty Scheme.{u}) ⊤ S.U).mapIso
         eVY ≪≫
       Over.isoMk (pullbackSymmetry y.hom S.UOpen.ι) (by
-        show (pullbackSymmetry y.hom S.UOpen.ι).hom ≫ pullback.fst S.UOpen.ι y.hom =
+        change (pullbackSymmetry y.hom S.UOpen.ι).hom ≫ pullback.fst S.UOpen.ι y.hom =
           pullback.snd y.hom S.UOpen.ι
         exact pullbackSymmetry_hom_comp_fst y.hom S.UOpen.ι)
   exact ⟨y.left, y.hom, eVYOver.hom.left ≫ pullback.snd S.UOpen.ι y.hom,

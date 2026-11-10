@@ -51,6 +51,7 @@ section Support
 variable {Y U O O' : Scheme.{u}} (n : U ⟶ Y) [IsOpenImmersion n] (m : O ⟶ Y) [IsOpenImmersion m]
   (c : O' ⟶ U) [IsOpenImmersion c] (c' : O' ⟶ O) (sq : IsPullback c' c m n)
 
+omit [IsOpenImmersion n] in
 include sq in
 /-- The direct image `n_* P` vanishes on `O` when `P` vanishes on `U ∩ O`. -/
 theorem isZero_restriction_directImage_of_isZero (P : EtaleModules.{u, 0} Λ U)

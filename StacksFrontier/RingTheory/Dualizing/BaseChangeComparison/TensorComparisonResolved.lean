@@ -243,6 +243,7 @@ theorem quasiIso_baseChangeResolution' (hP : CochainComplex.KFlat.{uR, max v uA 
   quasiIso_baseChangeResolution.{uR, uA, uRp, v} hTor baseChangeR comparisonR baseChangeA
     comparisonA P p hP
 
+set_option linter.checkUnivs false in
 /-- The K-flatness of the base-changed resolution. -/
 theorem kFlat_baseChangeResolution (hP : CochainComplex.KFlat.{uR, max v uA uRp} P) :
     CochainComplex.KFlat.{uRp, max (max v uR) uRp (max uA uRp)}
@@ -252,7 +253,7 @@ theorem kFlat_baseChangeResolution (hP : CochainComplex.KFlat.{uR, max v uA uRp}
     (algebraMap R R') P hP
 
 
-include hTor hf hA hR hi hP p in
+include hTor hf hA hR hP p in
 /-- **The source half of the tensor comparison at a K-flat complex.**  Granted the value of the
 base change of the derived tensor product at the K-flat pair `(K, P)` through a tensor base-change
 isomorphism `e` of total complexes, the composite of that base change at `A`, the inverse of the
@@ -512,7 +513,8 @@ theorem tensorComparisonResolved_source (K : CochainComplex (ModuleCat.{max v uR
   exact tcAssembly_source_half _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     H1 H2 H3 H4 rfl H6 H7 H8 H9 H10 H11
 
-include hTor hf hA hR hi hP p in
+include hf hA hR hi p in
+omit [QuasiIso p] in
 /-- **The target half of the tensor comparison at a K-flat complex.**  Through the square
 isomorphism of the four derived extensions of scalars and the resolved projection formula over
 `R'`, followed by the K-flat description of the derived tensor product over `R'`, the composite is
@@ -963,9 +965,9 @@ theorem tensorComparisonCompatibilityOf_resolved_of_chain
         (algebraMap R A) K hK)
   have hL := kFlat_baseChangeResolution.{uR, uA, uRp, v} (R' := R') K hK
   have Hs := tensorComparisonResolved_source.{uR, uA, uRp, v} hTor baseChangeR comparisonR
-    baseChangeA comparisonA Ff alphaf Fi alphai P hP p K hK hP' e hval
-  have Ht := tensorComparisonResolved_target.{uR, uA, uRp, v} hTor baseChangeR comparisonR
-    baseChangeA comparisonA Ff alphaf Fi alphai P hP p K hK hL hP'
+    baseChangeA comparisonA Ff alphaf P hP p K hK hP' e hval
+  have Ht := tensorComparisonResolved_target.{uR, uA, uRp, v} baseChangeR comparisonR
+    baseChangeA comparisonA Ff alphaf Fi alphai P p K hK hL hP'
   have Hr := tensorComparisonResolved_rhs.{uR, uA, uRp, v} hTor baseChangeR comparisonR
     baseChangeA comparisonA P p K hP' hL hP'
   have Hf := tcAssembly_full _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ Hs Ht (IsIso.inv_hom_id _)

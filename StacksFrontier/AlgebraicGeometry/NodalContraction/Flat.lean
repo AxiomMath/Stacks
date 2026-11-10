@@ -130,7 +130,7 @@ public theorem flat_of_isContractionOfExceptionalCurve
   have : Flat (b ≫ f') := AlgebraicGeometry.flat hf.1.1
   obtain ⟨z, hz, hreg, hdim, hD, ε, hε⟩ := hb.exists_blowUp_iso
   have hW : Flat (Scheme.Opens.ι (⟨({z} : Set X')ᶜ, hz.isOpen_compl⟩ : X'.Opens) ≫ f') :=
-    AlgebraicGeometry.flat (nodal_on_compl_centre D b z hz ε hε f' hf).1.1
+    AlgebraicGeometry.flat (nodal_on_compl_centre b z hz ε hε f' hf).1.1
   exact flat_of_flat_off_point_of_flat_comp b f' hsurj z hz hreg
 
 /-- Let `b : X ⟶ X'` contract an exceptional curve of the first kind with ideal sheaf `D`, and let

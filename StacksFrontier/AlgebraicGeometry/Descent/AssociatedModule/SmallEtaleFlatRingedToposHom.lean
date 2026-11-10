@@ -61,8 +61,8 @@ induces, and a flat ring map stays flat after composition with an isomorphism.
   universe lifts of the geometric points of `S` are a conservative family of points of the small
   étale site, which is the shape Stacks 05VC consumes.
 * `SmallEtale.inverseImageCommRingToposIso_hom_app_comp_inverseImageStructureMap`: the
-  identification of the two models of `ε⁻¹` carries the site-pullback structure map to the inverse-image
-  structure map of the morphism of ringed topoi.
+  identification of the two models of `ε⁻¹` carries the site-pullback structure map to the
+  inverse-image structure map of the morphism of ringed topoi.
 * `AlgebraicGeometry.SmallEtale.isFlatMapULift_fSharpInverseImage_toZariskiRingedSiteHom`:
   **Stacks 0GNA at the morphism of ringed topoi attached to `ε`.**  This is the hypothesis
   `hflat` of `exactFunctor_pullbackModules_toZariskiRingedSiteHom`.
@@ -198,8 +198,8 @@ private theorem homEquiv_symm_commRingStructureMap :
   Adjunction.homEquiv_ofNatIsoRight_symm_apply _ _ _
 
 /-- **The identification of the two models of `ε⁻¹` carries one structure map to the other.**  The
-structure map `AlgebraicGeometry.SmallEtale.inverseImageStructureMap` and the inverse-image structure map
-of the morphism of ringed topoi attached to `ε` are both the transpose of
+structure map `AlgebraicGeometry.SmallEtale.inverseImageStructureMap` and the inverse-image
+structure map of the morphism of ringed topoi attached to `ε` are both the transpose of
 `AlgebraicGeometry.SmallEtale.commRingStructureMap`, in the two adjunctions whose left adjoints
 `AlgebraicGeometry.SmallEtale.inverseImageCommRingToposIso` compares. -/
 public theorem inverseImageCommRingToposIso_hom_app_comp_inverseImageStructureMap :

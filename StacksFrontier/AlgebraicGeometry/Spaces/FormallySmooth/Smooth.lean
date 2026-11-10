@@ -99,12 +99,12 @@ public theorem formallySmooth_of_smooth
     simpa using hhp
   have hOver : hB ≫ P.hom = T'.hom := by
     conv_lhs => rw [← p.w, ← Category.assoc]
-    show (hB ≫ (BigFppfOver.forget B S hS).map p) ≫ T'.hom = _
+    change (hB ≫ (BigFppfOver.forget B S hS).map p) ≫ T'.hom = _
     rw [hBp]
     simp
   set s : T' ⟶ P := Over.homMk hB hOver
   have hs_map : (BigFppfOver.toScheme B S hS).map s = h := by
-    show B.inclusion.map hB = h
+    change B.inclusion.map hB = h
     rw [hhB]
     exact B.inclusion.map_preimage h
   have hsp : s ≫ p = 𝟙 T' :=
@@ -113,7 +113,7 @@ public theorem formallySmooth_of_smooth
     apply (BigFppfOver.forget B S hS).map_injective
     apply B.inclusion.map_injective
     rw [Functor.map_comp]
-    show (BigFppfOver.toScheme B S hS).map i ≫
+    change (BigFppfOver.toScheme B S hS).map i ≫
       (BigFppfOver.toScheme B S hS).map s = f
     simpa only [hs_map] using hhi
   exact ⟨(e.symm ⟨s, hsp, hit⟩).val, (e.symm ⟨s, hsp, hit⟩).property⟩

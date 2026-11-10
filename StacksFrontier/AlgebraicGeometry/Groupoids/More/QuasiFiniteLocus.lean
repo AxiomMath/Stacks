@@ -106,7 +106,7 @@ public theorem exists_open_with_preimage_maximal_quasiFiniteLocus
     D.groupoid D.g inferInstance inferInstance inferInstance
   refine ⟨W, ?_⟩
   have hft : LocallyOfFiniteType D.h := by
-    show LocallyOfFiniteType
+    change LocallyOfFiniteType
       (pullback.snd D.g D.groupoid.target.left ≫ D.groupoid.source.left)
     infer_instance
   have hset : {V : D.fiberProduct.Opens |

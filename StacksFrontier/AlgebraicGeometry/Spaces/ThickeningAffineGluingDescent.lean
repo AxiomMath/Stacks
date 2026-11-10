@@ -239,13 +239,13 @@ and the Tag 07W1 carrier asserts them cartesian but quantifies over the atlas an
 square*, not as an isomorphism of adjunction values.  The first form of that in the tree was
 `Stacks.Pushout.isPushout_baseChange_of_flat`: a scheme flat over `Y' = Y ⨿_X X'` is the pushout
 of its own two base changes along their common restriction to `X`.  It is unconditional, but it
-is **not** the form step (ii) can consume, for two reasons.  Its two legs `v` and `u'` are existentially quantified and constrained only by
-`v ≫ W'.hom = …` and `u' ≫ W'.hom = …`, so nothing in that statement identifies either of them
-with the projection of a base change, and a square over prescribed charts cannot be compared
-with it; and its span and cocone point are the *canonical* `pushout i f` and canonical
-pullbacks, whereas `ThickeningAffineAtlas.isPushout_chart` and `isPushout_relation` carry an
-arbitrary `CategoryTheory.IsPushout` square over objects of the site.  Both gaps are closed;
-see the account of step (ii) below.
+is **not** the form step (ii) can consume, for two reasons.  Its two legs `v` and `u'` are
+existentially quantified and constrained only by `v ≫ W'.hom = …` and `u' ≫ W'.hom = …`, so nothing
+in that statement identifies either of them with the projection of a base change, and a square over
+prescribed charts cannot be compared with it; and its span and cocone point are the *canonical*
+`pushout i f` and canonical pullbacks, whereas `ThickeningAffineAtlas.isPushout_chart` and
+`isPushout_relation` carry an arbitrary `CategoryTheory.IsPushout` square over objects of the site.
+Both gaps are closed; see the account of step (ii) below.
 
 *What the atlas needs that `isPushout_baseChange_of_flat` does not give directly, and where it
 comes from.*  The two legs of the pushout square it produces are the pushout inclusions of the

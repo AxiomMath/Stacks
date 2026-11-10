@@ -71,7 +71,7 @@ theorem stratumIdeal_le (E₁ E₂ : Finset A) (h : E₁ ⊆ E₂)
   apply Ideal.span_mono
   intro x hx
   change x ∈ E₁ \ (E₁ ∩ i.val) at hx
-  show x ∈ E₂ \ i.val
+  change x ∈ E₂ \ i.val
   simp only [Finset.mem_sdiff, Finset.mem_inter] at hx ⊢
   exact ⟨h hx.1, fun hxi => hx.2 ⟨hx.1, hxi⟩⟩
 
@@ -87,17 +87,17 @@ theorem locallyClosedPoints_restrictStratum (E₁ E₂ : Finset A)
       (stratumIdeal E₁ (restrictStratum E₁ E₂ h i))
       (stratumOpenElement (restrictStratum E₁ E₂ h i).val) := by
   classical
-  show stratumIdeal E₁ (restrictStratum E₁ E₂ h i) ≤ q.asIdeal ∧
+  change stratumIdeal E₁ (restrictStratum E₁ E₂ h i) ≤ q.asIdeal ∧
     stratumOpenElement (restrictStratum E₁ E₂ h i).val ∉ q.asIdeal
   change stratumIdeal E₂ i ≤ q.asIdeal ∧
     stratumOpenElement i.val ∉ q.asIdeal at hq
   refine ⟨(stratumIdeal_le E₁ E₂ h i).trans hq.1, ?_⟩
-  · show (E₁ ∩ i.val).prod id ∉ q.asIdeal
+  · change (E₁ ∩ i.val).prod id ∉ q.asIdeal
     intro hprod
     obtain ⟨x, hx, hxq⟩ := q.isPrime.prod_mem_iff.mp hprod
     simp only [Finset.mem_inter] at hx
     apply hq.2
-    show i.val.prod id ∈ q.asIdeal
+    change i.val.prod id ∈ q.asIdeal
     exact q.isPrime.prod_mem_iff.mpr ⟨x, hx.2, hxq⟩
 
 /-- The diagonal structure map from `A` to the product of its stratum localizations. -/
@@ -251,7 +251,7 @@ theorem closedStratumCoordinateMap_comp_localizationToCoordinateRing
   let q₁₂ := Ideal.Quotient.factor (stratumIdeal_le E₁ E₂ h i)
   have hloc₁ : loc₁.comp (algebraMap A L₁) =
       (algebraMap (A ⧸ I₁) C₁).comp (Ideal.Quotient.mk I₁) := by
-    show (localizationToCoordinateRing I₁ f₁).comp (algebraMap A L₁) = _
+    change (localizationToCoordinateRing I₁ f₁).comp (algebraMap A L₁) = _
     calc
       _ = locallyClosedCoordinateMap I₁ f₁ := by
         unfold localizationToCoordinateRing
@@ -259,7 +259,7 @@ theorem closedStratumCoordinateMap_comp_localizationToCoordinateRing
       _ = _ := rfl
   have hloc₂ : loc₂.comp (algebraMap A L₂) =
       (algebraMap (A ⧸ I₂) C₂).comp (Ideal.Quotient.mk I₂) := by
-    show (localizationToCoordinateRing I₂ f₂).comp (algebraMap A L₂) = _
+    change (localizationToCoordinateRing I₂ f₂).comp (algebraMap A L₂) = _
     calc
       _ = locallyClosedCoordinateMap I₂ f₂ := by
         unfold localizationToCoordinateRing
@@ -271,7 +271,7 @@ theorem closedStratumCoordinateMap_comp_localizationToCoordinateRing
         simpa only [PrimeSpectrum.comap_id] using
           locallyClosedPoints_restrictStratum E₁ E₂ h i q hq)
     ext a
-    show IsLocalization.map L₂ (RingHom.id A) hsel (algebraMap A L₁ a) = _
+    change IsLocalization.map L₂ (RingHom.id A) hsel (algebraMap A L₁ a) = _
     simp
   apply IsLocalization.ringHom_ext (localizationSubmonoid I₁ f₁)
   calc
@@ -310,7 +310,7 @@ theorem stratificationRingMap_id (E : Finset A) :
     localizationSubmonoid (stratumIdeal E k) (stratumOpenElement k.val)
   have hM : M j = M i := congrArg M hji
   simp only [stratificationRingMap, RingHom.pi_apply, RingHom.comp_apply]
-  show IsLocalization.map (Localization (M i)) (RingHom.id A) _ (x j) = x i
+  change IsLocalization.map (Localization (M i)) (RingHom.id A) _ (x j) = x i
   rw [localizationMap_id_cast (M j) (M i) hM]
   exact dependentSection_cast (fun k => x k) hji
 
@@ -338,7 +338,7 @@ theorem stratificationRingMap_comp (E₁ E₂ E₃ : Finset A)
   have hx : cast (congrArg (fun k => Localization (M₁ k)) hj) (x j₁) = x j₁₃ :=
     dependentSection_cast (fun k => x k) hj
   rw [← hx]
-  show IsLocalization.map (Localization (M₃ i)) (RingHom.id A) _ (x j₁) =
+  change IsLocalization.map (Localization (M₃ i)) (RingHom.id A) _ (x j₁) =
     IsLocalization.map (Localization (M₃ i)) (RingHom.id A) _
       (cast (congrArg (fun S : Submonoid A => Localization S) hM) (x j₁))
   exact (localizationMap_id_source_cast (M₁ j₁) (M₁ j₁₃) (M₃ i) hM _ _ (x j₁)).symm
@@ -374,7 +374,7 @@ def closedStrataTransition (E₁ E₂ : Finset A) (h : E₁ ⊆ E₂) :
   intro i
   simp only [closedStrata, eqToHom_naturality, eqToHom_refl, Category.id_comp,
     closedStrataMap, Category.assoc, eqToHom_naturality_assoc, colimit.ι_desc_assoc,
-    Discrete.functor_obj_eq_as, Cofan.mk_pt, Cofan.mk_ι_app, Sigma.ι_desc, F₂, g]
+    Discrete.functor_obj_eq_as, Cofan.mk_pt, Cofan.mk_ι_app, Sigma.ι_comp_desc, F₂, g]
   rw [stratificationSchemeMap]
   simp only [← Spec.map_comp, ← CommRingCat.ofHom_comp]
   congr 1

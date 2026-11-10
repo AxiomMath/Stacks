@@ -166,7 +166,7 @@ theorem exists_mem_baseIdeal_mem_basicOpen {X : Scheme.{u}} (f : X ⟶ Spec (.of
     ∃ a ∈ baseIdeal f 𝔪, x ∈ X.basicOpen a := by
   have hnle : ¬ 𝔪 ≤ (f.base x).asIdeal := fun hle =>
     hx (PrimeSpectrum.ext (h𝔪.eq_of_le (f.base x).isPrime.ne_top hle).symm)
-  obtain ⟨a, ham, hax⟩ := SetLike.not_le_iff_exists.1 hnle
+  obtain ⟨a, ham, hax⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
   refine ⟨((Scheme.ΓSpecIso (.of A)).inv ≫ f.appTop) a, Ideal.mem_map_of_mem _ ham, ?_⟩
   rw [show ((Scheme.ΓSpecIso (.of A)).inv ≫ f.appTop) a
       = f.appTop ((Scheme.ΓSpecIso (.of A)).inv a) from rfl,

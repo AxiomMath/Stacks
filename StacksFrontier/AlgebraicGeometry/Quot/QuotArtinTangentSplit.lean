@@ -79,7 +79,7 @@ theorem sqArrow_sqRetraction (V : FGModuleCat.{u} k) :
     sqArrow hS toS hk V ≫ sqRetraction hS toS hk V = 𝟙 _ := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (TrivSqZeroExt.fstHom k k
+  change Spec.map (CommRingCat.ofHom (TrivSqZeroExt.fstHom k k
       ((fgSiteModule B hk).obj V).obj).toRingHom) ≫
     Spec.map (CommRingCat.ofHom (TrivSqZeroExt.inlHom k ((fgSiteModule B hk).obj V).obj)) = 𝟙 _
   rw [← Spec.map_comp]
@@ -96,7 +96,7 @@ theorem sqMap_sqRetraction {V W : FGModuleCat.{u} k} (f : V ⟶ W) :
     sqMap hS toS hk f ≫ sqRetraction hS toS hk V = sqRetraction hS toS hk W := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
       (TrivSqZeroExt.map ((fgSiteModule B hk).map f).hom.hom).toRingHom) ≫
     Spec.map (CommRingCat.ofHom (TrivSqZeroExt.inlHom k ((fgSiteModule B hk).obj V).obj)) =
       Spec.map (CommRingCat.ofHom (TrivSqZeroExt.inlHom k ((fgSiteModule B hk).obj W).obj))
@@ -105,7 +105,7 @@ theorem sqMap_sqRetraction {V W : FGModuleCat.{u} k} (f : V ⟶ W) :
   apply CommRingCat.hom_ext
   ext a
   · simp
-  · show (TrivSqZeroExt.map ((fgSiteModule B hk).map f).hom.hom (TrivSqZeroExt.inl a)).snd =
+  · change (TrivSqZeroExt.map ((fgSiteModule B hk).map f).hom.hom (TrivSqZeroExt.inl a)).snd =
       (TrivSqZeroExt.inl a : TrivSqZeroExt k ((fgSiteModule B hk).obj W).obj).snd
     rw [TrivSqZeroExt.map_inl]
 
@@ -301,7 +301,7 @@ theorem sqFunctions_smul (V : FGModuleCat.{u} k) (c : k) (v : ↥V) :
       (CoherentSituation.siteΓ (D.sqπ ι toS hk V).left).hom
         (D.sqScalars ι toS hk c) * D.sqFunctions ι toS hk V v := by
   rw [sqFunctions_apply, sqFunctions_apply, map_smul]
-  show _ = (CoherentSituation.siteΓ (D.sqπ ι toS hk V).left).hom
+  change _ = (CoherentSituation.siteΓ (D.sqπ ι toS hk V).left).hom
       (D.sqRing₀ ι toS hk c) * _
   rw [D.siteΓ_sqRetraction ι toS hk V, ← map_mul, TrivSqZeroExt.inl_mul_inr]
 
@@ -319,7 +319,7 @@ theorem sqFunctions_mul_eq (V : FGModuleCat.{u} k) (v : ↥V)
     D.sqFunctions ι toS hk V v * a = D.sqFunctions ι toS hk V (D.sqResidue ι toS hk V a • v) := by
   obtain ⟨y, rfl⟩ := (D.sqRing ι toS hk V).surjective a
   rw [sqFunctions_apply, sqFunctions_apply, map_smul, ← map_mul]
-  show _ = D.sqRing ι toS hk V (TrivSqZeroExt.inr ((TrivSqZeroExt.fstHom k k _)
+  change _ = D.sqRing ι toS hk V (TrivSqZeroExt.inr ((TrivSqZeroExt.fstHom k k _)
       ((D.sqRing ι toS hk V).symm (D.sqRing ι toS hk V y)) • sqVec hk V v))
   rw [RingEquiv.symm_apply_apply, TrivSqZeroExt.inr_mul_eq]
   rfl
@@ -422,7 +422,7 @@ theorem sq_isSplitThickeningBy (V : FGModuleCat.{u} k) :
       (D.sqSplitFunctions ι toS hk V) :=
   D.morphismCoherentSituation.isSplitThickeningBy _ _ (D.sqβ_sqπ ι toS hk V) V
     (D.sqScalars ι toS hk) (D.sqFunctions ι toS hk V) inferInstance inferInstance
-    (D.siteΓ_sqArrow_sqFunctions ι toS hk V) (D.ker_siteΓ_sqArrow ι toS hk V)
+    (D.ker_siteΓ_sqArrow ι toS hk V)
     (D.sqFunctions_mul ι toS hk V) (D.sqFunctions_smul ι toS hk V)
 
 /-- The extension `0 ⟶ 𝒢₀ ⊗ V ⟶ r_*𝒢 ⟶ 𝒢₀ ⟶ 0` of a module `𝒢` on `X_{k[V]}` flat over

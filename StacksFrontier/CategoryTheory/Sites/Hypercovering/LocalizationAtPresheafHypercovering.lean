@@ -285,11 +285,11 @@ theorem isLocallySurjective_toTerminal_iff
     (mem_toGrothendieck_iff J J' hJ') (augmentationOf G X) a (secForget G X)
     (fun Z _ ↦ ULift.up (yonedaEquiv Z.hom)) ?_ (augmentationOf_secForget G X) ?_ ?_
   · intro Z Z' f q
-    show ULift.up (yonedaEquiv Z'.hom) = ULift.up (G.map f.left.op (yonedaEquiv Z.hom))
+    change ULift.up (yonedaEquiv Z'.hom) = ULift.up (G.map f.left.op (yonedaEquiv Z.hom))
     rw [yonedaEquiv_naturality, CostructuredArrow.w]
   · intro U q
     refine ⟨yonedaEquiv.symm q.down, liftedTerminalSection G _, ?_⟩
-    show ULift.up (yonedaEquiv (yonedaEquiv.symm q.down)) = q
+    change ULift.up (yonedaEquiv (yonedaEquiv.symm q.down)) = q
     rw [Equiv.apply_symm_apply]
     rfl
   · intro Z p q hp
@@ -572,7 +572,7 @@ lemma toOver_comp_ofOver :
   have hobj : ∀ X : FormalCoproduct.{w} (CostructuredArrow (yoneda (C := C)) G),
       (ofOver G).obj ((toOver G).obj X) = X := by
     rintro ⟨I, obj⟩
-    show (⟨I, fun i ↦ CostructuredArrow.mk (yonedaEquiv.symm
+    change (⟨I, fun i ↦ CostructuredArrow.mk (yonedaEquiv.symm
       (elementOf (augmentationOf G ⟨I, obj⟩) i))⟩ : FormalCoproduct _) = ⟨I, obj⟩
     congr 1
     funext i
@@ -581,7 +581,7 @@ lemma toOver_comp_ofOver :
   refine CategoryTheory.Functor.ext hobj (fun X Y f ↦ ?_)
   apply (forgetSR G).map_injective
   rw [Functor.map_comp, Functor.map_comp, eqToHom_map, eqToHom_map]
-  show (forgetSR G).map f =
+  change (forgetSR G).map f =
     eqToHom (rfl : (forgetSR G).obj X = _) ≫ (forgetSR G).map f ≫ eqToHom rfl
   simp
 

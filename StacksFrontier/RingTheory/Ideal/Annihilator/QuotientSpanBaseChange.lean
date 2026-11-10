@@ -134,8 +134,7 @@ def baseChangeQuotEquiv (τ : M) :
     change (LinearMap.baseChange B₁ S.mkQ) (b₁ ⊗ₜ[B] m) = _
     rw [LinearMap.baseChange_tmul]
   refine LinearEquiv.ofLinearMap Φ Ψ (LinearMap.ext fun x ↦ ?_) (LinearMap.ext fun y ↦ ?_)
-  · induction x using TensorProduct.induction_on with
-    | zero => simp
+  · induction x using TensorProduct.inductionOn with
     | tmul b₁ q =>
       obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective S q
       change Φ (Ψ (b₁ ⊗ₜ[B] S.mkQ m)) = b₁ ⊗ₜ[B] S.mkQ m
@@ -144,8 +143,7 @@ def baseChangeQuotEquiv (τ : M) :
       change Φ (Ψ (x + y)) = x + y
       rw [map_add, map_add, show Φ (Ψ x) = x from hx, show Φ (Ψ y) = y from hy]
   · obtain ⟨x, rfl⟩ := W.mkQ_surjective y
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b₁ m =>
       change Ψ (Φ (W.mkQ (b₁ ⊗ₜ[B] m))) = W.mkQ (b₁ ⊗ₜ[B] m)
       rw [hΦmk, hΨmk]
@@ -227,8 +225,7 @@ theorem cokerSpanIdeal_tmul_le_map_range_eval [Module.Invertible B M] (τ : M) :
   have hz : ∀ z : Module.Dual B M ⊗[B] M,
       a * algebraMap B B₁ (contractLeft B M z) ∈ I := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul φ m => simpa only [contractLeft_apply] using hφ φ m
     | add z w hz hw => simpa only [map_add, mul_add] using I.add_mem hz hw
   have hone := hz ((Module.Invertible.linearEquiv B M).symm 1)

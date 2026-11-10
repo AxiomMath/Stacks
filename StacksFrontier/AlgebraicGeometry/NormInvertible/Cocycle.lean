@@ -258,7 +258,7 @@ theorem sectionsMap_val (D : UnitTransitionCocycle X U) {W W' : Opens X.carrier}
     (s : ↥(D.sectionsSubmodule W)) (i : ι) :
     (D.sectionsMap h s).val i =
       X.presheaf.map (homOfLE (inf_le_inf_right (U i) h)).op (s.val i) := by
-  show (D.toGlueData.sectionsMap h ((D.sectionsEquiv W).symm s)).1 i = _
+  change (D.toGlueData.sectionsMap h ((D.sectionsEquiv W).symm s)).1 i = _
   rw [TopCat.Sheaf.GlueData.sectionsMap_val]
   rfl
 
@@ -395,17 +395,17 @@ theorem smul_bijective_of_isUnit (D : UnitTransitionCocycle X U)
         (homOfLE (inf_le_left : W ⊓ U i ⊓ (W ⊓ U j) ≤ W ⊓ U i)).op).hom
       let g := (X.presheaf.map
         (homOfLE (inf_le_right : W ⊓ U i ⊓ (W ⊓ U j) ≤ W ⊓ U j)).op).hom
-      show f (t.val i * ((a i)⁻¹).val) = g (t.val j * ((a j)⁻¹).val)
+      change f (t.val i * ((a i)⁻¹).val) = g (t.val j * ((a j)⁻¹).val)
       rw [map_mul, map_mul]
       let c := D.transition i j (W ⊓ U i ⊓ (W ⊓ U j))
         (inf_le_left.trans inf_le_right) (inf_le_right.trans inf_le_right)
       have hca : c.val * (Units.map f.toMonoidHom (a i)).val =
           (Units.map g.toMonoidHom (a j)).val := by
-        show c.val * f (a i).val = g (a j).val
+        change c.val * f (a i).val = g (a j).val
         dsimp only [a]
         rw [IsUnit.unit_spec, IsUnit.unit_spec]
         exact s.property i j
-      show f (t.val i) * (Units.map f.toMonoidHom ((a i)⁻¹)).val =
+      change f (t.val i) * (Units.map f.toMonoidHom ((a i)⁻¹)).val =
         g (t.val j) * (Units.map g.toMonoidHom ((a j)⁻¹)).val
       rw [map_inv, map_inv]
       exact unit_ratio_eq (Units.map f.toMonoidHom (a i))
@@ -413,10 +413,10 @@ theorem smul_bijective_of_isUnit (D : UnitTransitionCocycle X U)
     obtain ⟨r', hr', -⟩ := X.sheaf.existsUnique_gluing' (fun i => W ⊓ U i) W
       (fun _ => homOfLE inf_le_left) hcov r hcompat
     refine ⟨r', Subtype.ext (funext fun i => ?_)⟩
-    show X.presheaf.map (homOfLE (inf_le_left : W ⊓ U i ≤ W)).op r' * s.val i = t.val i
+    change X.presheaf.map (homOfLE (inf_le_left : W ⊓ U i ≤ W)).op r' * s.val i = t.val i
     have he : X.presheaf.map (homOfLE (inf_le_left : W ⊓ U i ≤ W)).op r' = r i := hr' i
     rw [he]
-    show (t.val i * ((a i)⁻¹).val) * s.val i = t.val i
+    change (t.val i * ((a i)⁻¹).val) * s.val i = t.val i
     rw [← (hs i).unit_spec]
     simp [a, mul_assoc]
 

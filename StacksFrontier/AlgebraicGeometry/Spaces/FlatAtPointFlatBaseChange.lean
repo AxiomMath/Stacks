@@ -181,7 +181,7 @@ theorem isFlatAt_iff_of_isPullback_of_isFlat
         rw [h₁, hz', h₂, e.hom_inv_id, pointsMap_id, id_eq] }
   have hsource : chartF.sourcePoint B S hS =
       (BigFppfOver.toScheme B S hS).map pU (chartF'.sourcePoint B S hS) := by
-    show ((BigFppfOver.toScheme B S hS).map (r.value ≫ pU))
+    change ((BigFppfOver.toScheme B S hS).map (r.value ≫ pU))
         (IsLocalRing.closedPoint r.carrier) =
       (BigFppfOver.toScheme B S hS).map pU
         (((BigFppfOver.toScheme B S hS).map r.value) (IsLocalRing.closedPoint r.carrier))

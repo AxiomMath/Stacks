@@ -184,8 +184,8 @@ noncomputable def koszulQuotientIndex (I : Ideal Λ) (hg : Ideal.span (Set.range
 
 /-- `koszulQuotientIndex g I hg` is monotone. -/
 theorem monotone_koszulQuotientIndex (I : Ideal Λ) (hg : Ideal.span (Set.range g) = I) :
-    Monotone (koszulQuotientIndex g I hg) := fun a b h =>
-  Nat.add_le_add h (Finset.sum_le_sum_of_subset (Finset.range_mono (Nat.succ_le_succ h)))
+    Monotone (koszulQuotientIndex g I hg) :=
+  monotone_id.add ((Finset.sum_mono_set _).comp (Finset.range_mono.comp (monotone_id.add_const 1)))
 
 /-- `I^N ⊂ (g_1^{m+1}, …, g_r^{m+1})` for `N = koszulQuotientIndex g I hg m`. -/
 theorem pow_koszulQuotientIndex_le (I : Ideal Λ) (hg : Ideal.span (Set.range g) = I) (m : ℕ) :

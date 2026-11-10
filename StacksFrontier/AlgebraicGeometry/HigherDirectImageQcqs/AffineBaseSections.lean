@@ -181,7 +181,7 @@ private lemma rightAcyclic_moduleGlobalSections_of_isAffine (S : Scheme.{u}) [Is
   refine (rightAcyclic_iff_forall_pos_isZero (moduleGlobalSections S) F).2 fun n hn => ?_
   have hcoh : IsZero (((moduleGlobalSections S ⋙
       forget₂ (ModuleCat.{u} Γ(S, ⊤)) AddCommGrpCat.{u}).rightDerived n).obj F) := by
-    show IsZero (Hgroup S.ringCatSheaf ⊤ n F)
+    change IsZero (Hgroup S.ringCatSheaf ⊤ n F)
     exact Stacks.Cohomology.Cech.isZero_hgroup_of_isAffineOpen S F ⊤
       (isAffineOpen_top S) n hn
   exact isZero_of_isZero_forget₂ _ (hcoh.of_iso

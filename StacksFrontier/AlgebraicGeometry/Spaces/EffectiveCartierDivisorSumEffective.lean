@@ -288,7 +288,7 @@ theorem isIso_of_isIso_sheafify_map_homEquiv
     Adjunction.homEquiv_symm_apply (sheafifyAdjunction O hO) P N φ
   have hcounit : IsIso ((sheafifyAdjunction O hO).counit.app N) := by
     have : IsIso (sheafifyAdjunction O hO).counit := by
-      show IsIso (_root_.PresheafOfModules.sheafificationAdjunction
+      change IsIso (_root_.PresheafOfModules.sheafificationAdjunction
         (𝟙 (structureSheaf O hO).obj)).counit
       infer_instance
     exact NatIso.isIso_app_of_isIso _ _
@@ -338,7 +338,7 @@ theorem sieve_mem_of_forall_isAffine_hom (Uc : SmallEtale B S hS X.1)
     ((AffineEtale.inclusion B S hS X.1).is_cover_of_isCoverDense
       (SmallEtale.topology B S hS X.1) Y)
   rintro Z g ⟨A, l, k, ⟨rfl⟩⟩
-  show T ((l ≫ k) ≫ f)
+  change T ((l ≫ k) ≫ f)
   simpa only [Category.assoc] using T.downward_closed (h _ A.property (k ≫ m) (k ≫ f)) l
 
 /-- **Sections of `𝒪_X` are determined on the affine charts lying over a fixed surjective
@@ -525,6 +525,7 @@ theorem toSheafify_comp_sumIdealHom :
 end Multiplication
 
 set_option maxHeartbeats 1000000 in
+-- unifying the sheafification adjunction's `homEquiv` with the tensor-product unitor is slow
 /-- Restricting the left unit constraint of the sheaf tensor product along the unit of
 sheafification gives back the left unit constraint of the tensor product of presheaves. -/
 theorem toSheafify_comp_tensorProductLeftUnitor

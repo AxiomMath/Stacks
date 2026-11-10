@@ -172,7 +172,7 @@ theorem polySpecIso_hom_comp {P : CommAlgCat.{u} Λ} (hP : CommAlgCat.IsPolynomi
       CommRingCat.ofHom (algebraMap Λ (P : Type u)) := by
     ext r
     exact (polyEquiv Λ hP).commutes r
-  show Spec.map (RingEquiv.toCommRingCatIso (polyEquiv Λ hP).toRingEquiv).hom ≫
+  change Spec.map (RingEquiv.toCommRingCatIso (polyEquiv Λ hP).toRingEquiv).hom ≫
     Spec.map (CommRingCat.ofHom (MvPolynomial.C : Λ →+* _)) = _
   rw [← Spec.map_comp, h]
 
@@ -460,7 +460,7 @@ theorem chartAlgebraIso_hom_comp (P : PolynomialChart Λ B hS X hX) :
         (chartAlgebraIso Λ B hS X hX P).hom =
       CommRingCat.ofHom (algebraMap Λ (chartAlgebra Λ B hS X hX P : Type u)) := by
   rw [ofHom_algebraMap_chartAlgebra]
-  show CommRingCat.ofHom (MvPolynomial.C : Λ →+* MvPolynomial P.variableIndex Λ) ≫
+  change CommRingCat.ofHom (MvPolynomial.C : Λ →+* MvPolynomial P.variableIndex Λ) ≫
       (Scheme.ΓSpecIso (CommRingCat.of (MvPolynomial P.variableIndex Λ))).inv ≫
         P.affineEquiv.hom.appTop =
     (Scheme.ΓSpecIso (CommRingCat.of Λ)).inv ≫ P.toBase.appTop

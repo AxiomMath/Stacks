@@ -84,7 +84,7 @@ theorem cycleGroupOpensRestrict_cycleAssociatedToClosedSubscheme_integralCompone
           (integralComponentAt (U.ι.base x')).subschemeι k) =
       cycleAssociatedToClosedSubscheme C (U.ι ≫ p) (integralComponentAt x').subschemeι k := by
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun z ↦ ?_)
-  show (cycleAssociatedToClosedSubscheme C p
+  change (cycleAssociatedToClosedSubscheme C p
       (integralComponentAt (U.ι.base x')).subschemeι k).1 (U.ι.base z) =
     (cycleAssociatedToClosedSubscheme C (U.ι ≫ p) (integralComponentAt x').subschemeι k).1 z
   by_cases hz : z = x'

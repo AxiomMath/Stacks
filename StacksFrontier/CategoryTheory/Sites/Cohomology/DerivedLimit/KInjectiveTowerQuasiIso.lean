@@ -206,7 +206,7 @@ theorem quasiIso_to_limit_of_truncGE_resolutions {C : Type u} [Category.{u} C]
       a (n + 1) ≫ H.map (homOfLE (Nat.le_succ n)).op := by
     have := ha n
     have h₀ : DerivedCategory.TStructure.t.IsGE (G.obj ⟨n⟩) (-(n : ℤ)) := by
-      show DerivedCategory.TStructure.t.IsGE
+      change DerivedCategory.TStructure.t.IsGE
         ((DerivedCategory.TStructure.t.truncGE (-(n : ℤ))).obj E) (-(n : ℤ))
       infer_instance
     have h₁ : DerivedCategory.TStructure.t.IsGE (H.obj ⟨n⟩) (-(n : ℤ)) :=

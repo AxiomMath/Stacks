@@ -121,7 +121,7 @@ private theorem flat_fg_ideal_pi
     refine (Submodule.mem_span_iff_of_fintype (R := R) (s := S)).mpr ⟨fun x j ↦ c j x, ?_⟩
     funext j
     rw [Finset.sum_apply]
-    show (∑ x, c j x * x.1 j) = f j
+    change (∑ x, c j x * x.1 j) = f j
     exact hc j
   have hSI : S ⊆ Ideal.span {f} := by
     intro x hx
@@ -138,7 +138,7 @@ private theorem flat_fg_ideal_pi
   let e : R := fun j ↦ if f j = 0 then 0 else 1
   let g : R := fun j ↦ if f j = 0 then 1 else f j
   have hge : g * e = f := by
-    show (fun j ↦ (if f j = 0 then 1 else f j) * (if f j = 0 then 0 else 1)) = f
+    change (fun j ↦ (if f j = 0 then 1 else f j) * (if f j = 0 then 0 else 1)) = f
     funext j
     split_ifs with h <;> simp [h]
   have hg : ∀ x : R, g * x = 0 → x = 0 := by
@@ -147,15 +147,15 @@ private theorem flat_fg_ideal_pi
     have hj := congr_fun hx j
     change (if f j = 0 then 1 else f j) * x j = 0 at hj
     by_cases h : f j = 0
-    · show x j = (0 : A j)
+    · change x j = (0 : A j)
       simpa [h] using hj
     · exact (mul_eq_zero.mp hj).resolve_left (by
-        show (if f j = 0 then 1 else f j) ≠ 0
+        change (if f j = 0 then 1 else f j) ≠ 0
         simp [h])
   let E : Ideal R := Ideal.span {e}
   let m : E →ₗ[R] I :=
     LinearMap.codRestrict I ((LinearMap.mulLeft R g).comp E.subtype) (fun x ↦ by
-      show g * x.1 ∈ I
+      change g * x.1 ∈ I
       rw [hprincipal]
       obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.mp x.2
       apply Ideal.mem_span_singleton'.mpr
@@ -196,7 +196,7 @@ private theorem flat_fg_ideal_pi
     obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.mp x.2
     rw [← ha]
     funext j
-    show (if f j = 0 then 0 else 1) *
+    change (if f j = 0 then 0 else 1) *
       (a j * (if f j = 0 then 0 else 1)) = a j * (if f j = 0 then 0 else 1)
     by_cases h : f j = 0 <;> simp [h]
   let iso : E ≃ₗ[R] I := LinearEquiv.ofBijective m ⟨hm_inj, hm_surj⟩
@@ -341,7 +341,7 @@ theorem exists_isPullback_with_weakDimensionLE_one
       let x : J := ⟨ULift.up (toK s z), hz⟩
       apply (hW x).2
       have he := hcond s z x
-      show toK s z ∈ W x
+      change toK s z ∈ W x
       exact he.symm ▸ (s.snd.hom z x).property
     let toRange (s : Limits.PullbackCone
         (CommRingCat.ofHom ((algebraMap K L).comp ULift.ringEquiv.toRingHom))
@@ -361,7 +361,7 @@ theorem exists_isPullback_with_weakDimensionLE_one
         exact congr_arg Subtype.val (e.apply_symm_apply (toRange s z))
       · intro s
         ext z x
-        show algebraMap A K _ = _
+        change algebraMap A K _ = _
         rw [show algebraMap A K _ = toK s z by
           exact congr_arg Subtype.val (e.apply_symm_apply (toRange s z))]
         exact hcond s z x
@@ -371,7 +371,7 @@ theorem exists_isPullback_with_weakDimensionLE_one
         intro z
         apply ULift.ext
         apply IsFractionRing.injective A K
-        show algebraMap A K ((m.hom z).down) = algebraMap A K ((lift s).hom z).down
+        change algebraMap A K ((m.hom z).down) = algebraMap A K ((lift s).hom z).down
         rw [show algebraMap A K ((lift s).hom z).down = toK s z by
           exact congr_arg Subtype.val (e.apply_symm_apply (toRange s z))]
         exact congr_arg (fun q => (q.hom z).down) hm₁
@@ -458,7 +458,7 @@ private theorem tensor_isPullback
     (IsScalarTower.toAlgHom A V L).toUnder
   have hUnder : IsPullback f g h i := by
     apply IsPullback.of_map (Under.forget (CommRingCat.of A)) (by ext; simp [f, g, h, i])
-    show IsPullback
+    change IsPullback
       (CommRingCat.ofHom (algebraMap A K)) (CommRingCat.ofHom (algebraMap A V))
       (CommRingCat.ofHom (algebraMap K L)) (CommRingCat.ofHom (algebraMap V L))
     exact hsq
@@ -472,7 +472,7 @@ private theorem closed_equiv
       eS.toRingHom.comp (algebraMap R S))
     (h : IsIntegrallyClosedIn R S) : IsIntegrallyClosedIn R' S' := by
   have hc (r : R) : algebraMap R' S' (eR r) = eS (algebraMap R S r) := by
-    show (algebraMap R' S').comp eR.toRingHom r =
+    change (algebraMap R' S').comp eR.toRingHom r =
       eS.toRingHom.comp (algebraMap R S) r
     exact RingHom.congr_fun hcomm r
   have hc' (x : R') : eS (algebraMap R S (eR.symm x)) = algebraMap R' S' x := by
@@ -572,7 +572,7 @@ private theorem core
         (e X).hom ≫ CommRingCat.ofHom (mapRight f) := by
     let : Algebra AU X.right := CommRingCat.instAlgebraCarrierRight X
     let : Algebra AU Y.right := CommRingCat.instAlgebraCarrierRight Y
-    show CommRingCat.ofHom (Algebra.TensorProduct.map (AlgHom.id BU BU)
+    change CommRingCat.ofHom (Algebra.TensorProduct.map (AlgHom.id BU BU)
         (CommRingCat.toAlgHom f)).toRingHom ≫ (e Y).hom =
       (e X).hom ≫ CommRingCat.ofHom (mapRight f)
     ext x <;> rfl
@@ -601,7 +601,7 @@ private theorem core
   let : Algebra T0 U0 := RingHom.toAlgebra (mapRight fVL)
   have hdim := weakDimensionLEOne_of_weaklyEtale Vo T0 hV inferInstance
   have hflatMap : (mapRight fVL).Flat := by
-    show (Algebra.TensorProduct.map (CommRingCat.toAlgHom fVL)
+    change (Algebra.TensorProduct.map (CommRingCat.toAlgHom fVL)
       (AlgHom.id AU BU)).toRingHom.Flat
     have hf : (CommRingCat.toAlgHom fVL).toRingHom.Flat :=
       (RingHom.flat_algebraMap_iff.mpr iFlat : (algebraMap V L).Flat)
@@ -611,7 +611,7 @@ private theorem core
   let : Module.Flat T0 U0 := hflatMap
   have hinj' : Function.Injective (mapRight fVL) := by
     have hi : Function.Injective (CommRingCat.toAlgHom fVL) := by
-      show Function.Injective (algebraMap V L)
+      change Function.Injective (algebraMap V L)
       exact hinj
     have ht := Module.Flat.rTensor_preserves_injective_linearMap (M := BU)
       (CommRingCat.toAlgHom fVL).toLinearMap hi
@@ -651,14 +651,14 @@ private theorem core
       intro Z a b hab
       apply (cancel_epi (e Lo).hom).mp
       apply (cancel_epi (F.map fVL).right).mp
-      show ((Under.forget (CommRingCat.of BU)).map
+      change ((Under.forget (CommRingCat.of BU)).map
           ((CommRingCat.tensorProd (CommRingCat.of AU) (CommRingCat.of BU)).map fVL) ≫
           (e Lo).hom) ≫ a =
         ((Under.forget (CommRingCat.of BU)).map
           ((CommRingCat.tensorProd (CommRingCat.of AU) (CommRingCat.of BU)).map fVL) ≫
           (e Lo).hom) ≫ b
       rw [he fVL]
-      show (e Vo).hom ≫ (CommRingCat.ofHom (mapRight fVL) ≫ a) =
+      change (e Vo).hom ≫ (CommRingCat.ofHom (mapRight fVL) ≫ a) =
         (e Vo).hom ≫ (CommRingCat.ofHom (mapRight fVL) ≫ b)
       exact congrArg (fun q ↦ (e Vo).hom ≫ q) hab
     exact CommRingCat.epi_iff_epi.mp inferInstance
@@ -670,7 +670,7 @@ private theorem core
     congrArg CommRingCat.Hom.hom hright.w
   let : IsScalarTower R0 S0 U0 := IsScalarTower.of_algebraMap_eq' hsqMaps.symm
   let eR : R0 ≃+* B := by
-    show (AU ⊗[AU] BU) ≃+* B
+    change (AU ⊗[AU] BU) ≃+* B
     exact (Algebra.TensorProduct.lid AU BU).toRingEquiv.trans ULift.ringEquiv
   have hKo : (CommRingCat.instAlgebraCarrierRight Ko : Algebra AU Ko.right) =
       ULift.algebra' A KU := by
@@ -697,10 +697,10 @@ private theorem core
       mapRight fAK (x ⊗ₜ[AU] (1 : BU)) =
         (CommRingCat.toAlgHom fAK x) ⊗ₜ[AU] (1 : BU) := rfl
   apply closed_equiv eR eS
-  · show (algebraMap B (B ⊗[A] K)).comp eR.toRingHom =
+  · change (algebraMap B (B ⊗[A] K)).comp eR.toRingHom =
       eS.toRingHom.comp (mapRight fAK)
     ext x
-    · show algebraMap B (B ⊗[A] K) (eR (x ⊗ₜ[AU] (1 : BU))) =
+    · change algebraMap B (B ⊗[A] K) (eR (x ⊗ₜ[AU] (1 : BU))) =
         eS (mapRight fAK (x ⊗ₜ[AU] (1 : BU)))
       rw [mapRight_fAK_tmul]
       simp only [eS, RingEquiv.trans_apply]
@@ -709,20 +709,20 @@ private theorem core
       rw [he]
       convert Algebra.TensorProduct.tmul_one_eq_one_tmul (A := B) (B := K) x.down using 1
       · have hv : eR (x ⊗ₜ[AU] (1 : BU)) = algebraMap A B x.down := by
-          show ULift.ringEquiv (Algebra.TensorProduct.lid AU BU (x ⊗ₜ[AU] 1)) =
+          change ULift.ringEquiv (Algebra.TensorProduct.lid AU BU (x ⊗ₜ[AU] 1)) =
           algebraMap A B x.down
           rw [Algebra.TensorProduct.lid_tmul]
-          show (SMul.smul (self := inferInstanceAs (SMul AU BU)) (x : AU) (1 : BU)).down =
+          change (SMul.smul (self := inferInstanceAs (SMul AU BU)) (x : AU) (1 : BU)).down =
             algebraMap A B x.down
-          show (x.down • (1 : B)) = algebraMap A B x.down
+          change (x.down • (1 : B)) = algebraMap A B x.down
           simp [Algebra.smul_def]
         rw [hv]
         rfl
       · exact eu_down (1 : BU) (CommRingCat.toAlgHom fAK x)
-    · show algebraMap B (B ⊗[A] K) (eR (1 ⊗ₜ[AU] x)) =
+    · change algebraMap B (B ⊗[A] K) (eR (1 ⊗ₜ[AU] x)) =
         eS (mapRight fAK (1 ⊗ₜ[AU] x))
       have hv : eR (1 ⊗ₜ[AU] x) = x.down := by
-        show ULift.ringEquiv (Algebra.TensorProduct.lid AU BU (1 ⊗ₜ[AU] x)) = x.down
+        change ULift.ringEquiv (Algebra.TensorProduct.lid AU BU (1 ⊗ₜ[AU] x)) = x.down
         rw [Algebra.TensorProduct.lid_tmul, one_smul]
         rfl
       rw [hv]

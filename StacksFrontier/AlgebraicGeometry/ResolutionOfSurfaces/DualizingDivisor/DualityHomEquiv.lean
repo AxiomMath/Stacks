@@ -93,7 +93,7 @@ theorem globalSectionsTildeHomEquiv_comp
     globalSectionsTildeHomEquiv M' N (β ≫ g) =
       (derivedGlobalSectionsQuasicoherent (CommRingCat.of A)).map β ≫
         globalSectionsTildeHomEquiv M N g := by
-  show tildeEquivalenceInverseIso.inv.app M' ≫
+  change tildeEquivalenceInverseIso.inv.app M' ≫
       ((tildeEquivalence (A := A)).symm.toAdjunction.homEquiv M' N).symm (β ≫ g) =
     _ ≫ tildeEquivalenceInverseIso.inv.app M ≫
       ((tildeEquivalence (A := A)).symm.toAdjunction.homEquiv M N).symm g
@@ -114,6 +114,7 @@ def lerayIso (F : quasiCoherentDerivedCategory X) :
           (isQuasicoherent_homology_derivedPushforward_of_qcqs f)).obj F) :=
   (derivedGlobalSectionsOverPushforwardIsoLocallySmall f).app F.obj
 
+omit [CompactSpace X] [QuasiSeparatedSpace X] in
 /-- The isomorphisms `lerayIso f F` are natural in `F`. -/
 theorem lerayIso_hom_naturality {F F' : quasiCoherentDerivedCategory X} (β : F' ⟶ F) :
     (lerayIso f F').hom ≫ (derivedGlobalSectionsQuasicoherent (CommRingCat.of A)).map

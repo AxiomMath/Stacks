@@ -61,7 +61,7 @@ public theorem isField_sections_subscheme_of_iso_projectiveLineProj
 to the projective line over a field form a field. -/
 public theorem isField_sections_thickening_zero (e : projectiveLineProj k ≅ D.subscheme) :
     IsField Γ(thickening D 0, ⊤) := by
-  show IsField Γ((D ^ 1).subscheme, ⊤)
+  change IsField Γ((D ^ 1).subscheme, ⊤)
   rw [pow_one]
   exact isField_sections_subscheme_of_iso_projectiveLineProj D k e
 

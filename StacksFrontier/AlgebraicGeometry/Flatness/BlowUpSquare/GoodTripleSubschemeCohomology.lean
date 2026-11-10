@@ -252,7 +252,7 @@ theorem appLE_comp_subschemeSectionsIso (C : AffineChart S)
     exact congrArg (S.D.subschemeι.app C.U.1 ≫ ·) (Scheme.Hom.appLE_eq_app _)
   rw [h1]
   ext a
-  show (Ideal.quotientEquiv (T.ideal C.divisorAffineOpen)
+  change (Ideal.quotientEquiv (T.ideal C.divisorAffineOpen)
       (Stacks.Decalage.DirectSumIdeal.etaTotalDirectSumIdeal C.complex C.f) C.divisorQuotEquiv
       (by
         rw [hT]
@@ -306,7 +306,7 @@ theorem mem_range_subschemeChartι (C : AffineChart S)
     rw [hA.range_fromSpec]
     exact ht
   refine ⟨Spec.map (C.subschemeSectionsIso T hT).inv z, ?_⟩
-  show hA.fromSpec ((Spec.map (C.subschemeSectionsIso T hT).inv ≫
+  change hA.fromSpec ((Spec.map (C.subschemeSectionsIso T hT).inv ≫
     Spec.map (C.subschemeSectionsIso T hT).hom) z) = _
   rw [← Spec.map_comp, Iso.hom_inv_id, Spec.map_id]
   rfl
@@ -317,7 +317,7 @@ end Subscheme
 
 private theorem isoSpec_hom_isoSpec_inv_apply {X : Scheme.{u}} {U : X.Opens}
     (hU : IsAffineOpen U) (x : Spec Γ(X, U)) : hU.isoSpec.hom (hU.isoSpec.inv x) = x := by
-  show (hU.isoSpec.inv ≫ hU.isoSpec.hom) x = x
+  change (hU.isoSpec.inv ≫ hU.isoSpec.hom) x = x
   rw [Iso.inv_hom_id]
   rfl
 

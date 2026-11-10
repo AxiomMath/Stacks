@@ -240,7 +240,7 @@ private lemma primeGammaPolynomialEval_monomial {A : Type*} [CommRing A] {I : Id
     primeGammaPolynomialEval p hp hA δ x factorial_mul
       (dividedPowerPolynomialMonomial A e) =
         ∏ i : Fin 2, primeGamma p hp hA δ (e i) (x i) := by
-  show (dividedPowerPolynomialMonomialBasis A (Fin 2)).constr A
+  change (dividedPowerPolynomialMonomialBasis A (Fin 2)).constr A
     (fun e ↦ ∏ i : Fin 2, primeGamma p hp hA δ (e i) (x i))
       (dividedPowerPolynomialMonomial A e) = _
   rw [← dividedPowerPolynomialMonomialBasis_apply]
@@ -386,7 +386,7 @@ private lemma map_dpow_prime_of_span {A B : Type*} [CommRing A] [CommRing B]
         Subtype.ext (map_add f z w)
       rw [he, add]
     | smul a z hz ih =>
-      show f (D.dpow p (a * z)) = _
+      change f (D.dpow p (a * z)) = _
       rw [D.dpow_mul (hmem z hz), map_mul, map_pow, ih]
       have he : (⟨f (a * z), hf _ (hmem _ (Submodule.smul_mem _ a hz))⟩ : I) =
           f a • ⟨f z, hf z (hmem z hz)⟩ := Subtype.ext (map_mul f a z)
@@ -396,7 +396,9 @@ private lemma map_dpow_prime_of_span {A B : Type*} [CommRing A] [CommRing B]
   exact goal z (hS ▸ hz)
 
 
-private lemma primeGamma_polynomial_lift {A : Type*} [CommRing A] {I : Ideal A}
+/-- The family `primeGamma` on a pair of elements of `I` is the image of the canonical divided
+power structure on `A⟨x₀, x₁⟩` under a ring homomorphism sending the variables to them. -/
+lemma primeGamma_polynomial_lift {A : Type*} [CommRing A] {I : Ideal A}
     (p : ℕ) (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A))
     (δ : I → I)
     (factorial_mul : ∀ z : I, (p.factorial : A) * (δ z : A) = (z : A) ^ p)
@@ -425,7 +427,7 @@ private lemma primeGamma_polynomial_lift {A : Type*} [CommRing A] {I : Ideal A}
   have hDvar (i : Fin 2) (n : ℕ) :
       D.dpow n (dividedPowerPolynomialVariable A i) =
         dividedPowerPolynomialVariableMonomial A i n := by
-    show (hJ ▸ dividedPowerPolynomialDividedPowers R (Fin 2)).dpow n _ = _
+    change (hJ ▸ dividedPowerPolynomialDividedPowers R (Fin 2)).dpow n _ = _
     rw [hcast]
     exact dividedPowerPolynomialDividedPowers_dpow_variable R (Fin 2) i n
   let f := (primeGammaPolynomialEval p hp hA δ x factorial_mul).toRingHom
@@ -437,11 +439,11 @@ private lemma primeGamma_polynomial_lift {A : Type*} [CommRing A] {I : Ideal A}
     z = dividedPowerPolynomialVariableMonomial A i n}
   have hspan : J = Ideal.span S := positiveIdeal_eq_span_variableMonomials A (Fin 2)
   have hf : ∀ z ∈ J, f z ∈ I := by
-    show J ≤ I.comap f
+    change J ≤ I.comap f
     rw [hspan]
     apply Ideal.span_le.mpr
     rintro z ⟨i, n, hn, rfl⟩
-    show f (dividedPowerPolynomialVariableMonomial A i n) ∈ I
+    change f (dividedPowerPolynomialVariableMonomial A i n) ∈ I
     rw [hfmon]
     exact primeGamma_mem p hp hA δ n hn (x i)
   have hv (i : Fin 2) : dividedPowerPolynomialVariable A i ∈ J := by

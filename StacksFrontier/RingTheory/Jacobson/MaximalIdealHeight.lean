@@ -168,7 +168,7 @@ theorem exists_maximalSpectrum_height_eq_of_away_of_inf_primeCompl
   have hrunder : rA.under R = r :=
     under_map_of_isPrime_disjoint M A inferInstance hrdis
   have hfA : algebraMap R A f ∉ rA := by
-    show f ∉ rA.under R
+    change f ∉ rA.under R
     rwa [hrunder]
   have hrAdis : Disjoint (Submonoid.powers (algebraMap R A f) : Set A) (rA : Set A) := by
     apply Set.disjoint_left.mpr
@@ -198,13 +198,13 @@ theorem exists_maximalSpectrum_height_eq_of_away_of_inf_primeCompl
     exact (not_lt_of_ge h₁) h₂
   have hrAm : rA = m.under A := by
     rw [← map_under M A (m.under A)]
-    show r.map (algebraMap R A) = J.map (algebraMap R A)
+    change r.map (algebraMap R A) = J.map (algebraMap R A)
     rw [hrJeq]
   have hrBm : rB = m := by
-    show rA.map (algebraMap A B) = m
+    change rA.map (algebraMap A B) = m
     rw [hrAm, map_under (.powers (algebraMap R A f)) B]
   refine ⟨⟨m, hm⟩, ?_⟩
-  show m.height = r.height
+  change m.height = r.height
   rw [← hrBm, height_map_of_disjoint (.powers (algebraMap R A f)) rA hrAdis,
     height_map_of_disjoint M r hrdis]
 

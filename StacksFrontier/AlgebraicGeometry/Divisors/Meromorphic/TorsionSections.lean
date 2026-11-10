@@ -136,7 +136,7 @@ private lemma generic_germ_zero_torsion_at
       _ = 0 := by rw [hkillV]; simp
   refine ⟨X.presheaf.germ V x hxV r, hscalar, ?_⟩
   have hres : F.presheaf.germ V x hxV sV = F.presheaf.germ U x hx s := by
-    show F.presheaf.germ V x hxV (F.presheaf.map (homOfLE hVUle).op s) = _
+    change F.presheaf.germ V x hxV (F.presheaf.map (homOfLE hVUle).op s) = _
     rw [F.presheaf.germ_res_apply]
   convert hkillx using 1; simp [hres]; rfl
 

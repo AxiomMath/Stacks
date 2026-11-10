@@ -56,7 +56,7 @@ All in the namespace `Stacks.Cohomology.ProjectionFormulaPerfectDevissage`.
 *Why the engine is restated rather than reused.*
 `Stacks.Cohomology.StrictlyPerfectInvertibility.isIso_app_of_isStrictlyPerfect`
 (in `StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/`,
-`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/ComponentwiseInvertibilityOnStrictlyPerfect.lean`) is the same dévissage for a *ringed space*:
+`ComponentwiseInvertibilityOnStrictlyPerfect.lean`) is the same dévissage for a *ringed space*:
 it is stated at `OXMod X` for
 `X : RingedSpace.{u, u}`, with the two local sheafification instances of the open-cover site
 baked into its context, and `IsStrictlyPerfect` there is the ringed-space structure of
@@ -111,8 +111,9 @@ declaration here carries the tag 0944.
   accompanied by no compatibility with the unitors, with the shift or with composition.  Its
   module-level predecessor, the proposition
   `Stacks.Sheaves.DerivedPullback.PullbackToposRightUnitorCoherence`, **is now proved**, by
-  `Stacks.Sheaves.DerivedPullback.pullbackToposRightUnitorCoherence` of
-  `StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.PullbackToposRightUnitorCoherence`,
+  `Stacks.Sheaves.DerivedPullback.pullbackToposRightUnitorCoherence` of the module
+  `PullbackToposRightUnitorCoherence` (in `StacksFrontier.CategoryTheory.Sites.Cohomology`,
+  folder `DerivedPullback`),
   unconditionally in the morphism of sites.  What is still owed is the passage from it to the
   derived statement: `O_D[0]` is a K-flat complex with flat terms
   (`Stacks.SheafOfModules.isKFlat_single_unit`,

@@ -97,8 +97,8 @@ This first part covers the classes built by the operations of chapter 42: flat p
 class towards the base, the Gysin class of a divisor on the base, the inductive predicate
 `Stacks.Chow.IsChowOperationClassOverBase`, and the theorem that every class it records commutes
 with every bivariant class over the base. Locality on open and closed pieces, central classes and
-the vertical generators are in
-`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.CommuteOverDedekindBaseUnconditional.CentralClasses`;
+the vertical generators are in the sibling module `CentralClasses` of
+`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.CommuteOverDedekindBaseUnconditional`;
 the generation of the Chow groups and Stacks 0FC6 itself are in
 `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.CommuteOverDedekindBaseUnconditional.Generation`.
 

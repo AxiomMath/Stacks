@@ -59,7 +59,7 @@ theorem closedPointResidueFieldIso_hom_fromSpecResidueField :
     (closedPointResidueFieldIso A).hom ≫
         (Spec A).fromSpecResidueField (IsLocalRing.closedPoint A) =
       Spec.map (CommRingCat.ofHom (residue A)) := by
-  show Spec.map _ ≫ _ = _
+  change Spec.map _ ≫ _ = _
   dsimp only [Scheme.fromSpecResidueField]
   rw [← Spec_stalkClosedPointIso]
   have h : CommRingCat.ofHom (residue (A : Type u)) =
@@ -68,7 +68,7 @@ theorem closedPointResidueFieldIso_hom_fromSpecResidueField :
           (ResidueField.mapEquiv
             (stalkClosedPointIso A).commRingCatIsoToRingEquiv).toRingHom := by
     ext a
-    show residue (A : Type u) a =
+    change residue (A : Type u) a =
       (ResidueField.mapEquiv (stalkClosedPointIso A).commRingCatIsoToRingEquiv)
         (residue _ ((stalkClosedPointIso A).inv a))
     rw [ResidueField.mapEquiv_apply, ResidueField.map_residue]

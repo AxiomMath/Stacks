@@ -73,12 +73,12 @@ lemma isFiltered_costructuredArrow (X : D) :
         (0 : (0 : D) ⟶ X) (𝟙 X) (0 : X ⟶ _))
       (ι.map_distinguished T hT) (Pretriangulated.contractible_distinguished₁ X)
       0 B.hom (by
-        show ι.map (f.left - g.left) ≫ B.hom = _
+        change ι.map (f.left - g.left) ≫ B.hom = _
         rw [ι.map_sub, Preadditive.sub_comp, CostructuredArrow.w f,
           CostructuredArrow.w g, sub_self, zero_comp])
     refine ⟨CostructuredArrow.mk c, CostructuredArrow.homMk q ?_,
       CostructuredArrow.hom_ext _ _ ?_⟩
-    · show ι.map q ≫ c = B.hom
+    · change ι.map q ≫ c = B.hom
       simpa using (show ι.map q ≫ c = B.hom ≫ 𝟙 X from hc)
     · dsimp
       simpa only [Preadditive.sub_comp, sub_eq_zero] using

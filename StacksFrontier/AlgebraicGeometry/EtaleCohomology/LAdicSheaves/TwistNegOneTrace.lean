@@ -118,7 +118,7 @@ theorem LAdicSheaf.unit_comp_inverse_map_etaleTransition (F : LAdicSheaf.{u, u +
   rw [LAdicSheaf.etaleTransition, Functor.map_comp, ← Category.assoc]
   refine (Iso.comp_inv_eq (e'.inverse.mapIso ((sheafEquivRestrictScalarsIso.{u} B X.1 X.property
     (levelCast ℓ n)).app (F.level n)))).2 ?_
-  show _ = _ ≫ e'.inverse.map ((sheafEquivRestrictScalarsIso.{u} B X.1 X.property
+  change _ = _ ≫ e'.inverse.map ((sheafEquivRestrictScalarsIso.{u} B X.1 X.property
     (levelCast ℓ n)).hom.app (F.level n))
   rw [h, ← hnat]
   refine Eq.trans ?_ (Category.assoc _ _ _).symm
@@ -149,16 +149,16 @@ theorem LAdicSheaf.stalkTransition_germ (F : LAdicSheaf.{u, u + 1} B X ℓ) (n :
       finiteLevelStalkTransition B X ℓ F t n =
         (F.transition n).hom.app (op U) ≫ (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n)).map
           ((geometricSitePoint B X t).toPresheafFiber U x (F.level n).obj) := by
-    show colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property t)).op ⋙
+    change colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property t)).op ⋙
         (F.level (n + 1)).obj) (op ((geometricPointFiber B X.1 X.property t).elementsMk U x)) ≫
           finiteLevelStalkTransition B X ℓ F t n =
       (F.transition n).hom.app (op U) ≫ (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n)).map
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property t)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property t)).op ⋙
           (F.level n).obj) (op ((geometricPointFiber B X.1 X.property t).elementsMk U x)))
     let R := ModuleCat.restrictScalars (finiteLevelRingHom ℓ n)
-    let E := (CategoryOfElements.π (geometricPointFiber B X.1 X.property t)).op ⋙ (F.level n).obj
+    let E := (Functor.Elements.π (geometricPointFiber B X.1 X.property t)).op ⋙ (F.level n).obj
     let w := Functor.whiskerLeft
-      (CategoryOfElements.π (geometricPointFiber B X.1 X.property t)).op (F.transition n).hom
+      (Functor.Elements.π (geometricPointFiber B X.1 X.property t)).op (F.transition n).hom
     let L := op ((geometricPointFiber B X.1 X.property t).elementsMk U x)
     exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ (preservesColimitIso R E).inv)
       (colimit.ι_map w L)).trans ((Category.assoc _ _ _).trans
@@ -389,7 +389,7 @@ theorem LAdicSheaf.twistNegOne_transition_app (n : ℕ) (U : SmallEtale B X.1 X.
     (underlyingLevelFunctor_map_strictTowerTransition (LAdicSheaf.twistNegOneTower fX F)
       (LAdicSheaf.twistNegOneTower_isStrict fX F) n)
   refine h.trans ?_
-  show ((LAdicSheaf.twistNegOneTower fX F).map (homOfLE (n.le_add_right 1)).op).hom.app
+  change ((LAdicSheaf.twistNegOneTower fX F).map (homOfLE (n.le_add_right 1)).op).hom.app
     (op ((SmallEtale.toEtaleSite B X.1 X.property).obj U)) σ = _
   rw [LAdicSheaf.twistNegOneTower_map_succ fX F n]
   rfl
@@ -704,7 +704,7 @@ theorem LAdicSheaf.twistStalkMap_smul (n : ℕ) (c : ℤ_[ℓ])
   let f :
       finiteLevelStalk B X ℓ (LAdicSheaf.twistNegOne fX hF) t n →+ finiteLevelStalk B X ℓ F t n :=
     AddMonoidHom.mk' (LAdicSheaf.twistStalkMap fX hF t n) (LAdicSheaf.twistStalkMap_add fX hF t n)
-  show f ((PadicInt.toZModPow (n + 1) c) • a) = (PadicInt.toZModPow (n + 1) c) • f a
+  change f ((PadicInt.toZModPow (n + 1) c) • a) = (PadicInt.toZModPow (n + 1) c) • f a
   rw [zmod_smul_eq_val_nsmul, zmod_smul_eq_val_nsmul, map_nsmul]
 
 /-- **The ℓ-adic stalks of `F(-1)` and `F` at `t` are isomorphic**, level by level by the
@@ -784,7 +784,7 @@ theorem LAdicSheaf.twistStalkEquiv_stalkEnd
         LAdicSheaf.stalkEnd B X ℓ F (frobeniusPointHom X.1 x)
           (LAdicSheaf.twistStalkEquiv fX hF (geometricPointAt X.1 x) v) := by
   refine Subtype.ext (funext fun n => ?_)
-  show LAdicSheaf.twistStalkMap fX hF (geometricPointAt X.1 x) n
+  change LAdicSheaf.twistStalkMap fX hF (geometricPointAt X.1 x) n
       ((finiteLevelStalkEnd B X ℓ (LAdicSheaf.twistNegOne fX hF) (frobeniusPointHom X.1 x) n).hom
         (v.1 n)) = (Nat.card (X.1.residueField x) : ℤ_[ℓ]) •
       (finiteLevelStalkEnd B X ℓ F (frobeniusPointHom X.1 x) n).hom
@@ -818,10 +818,9 @@ theorem LAdicSheaf.trace_rationalStalkFrobenius_twistNegOne_pow (hx : Finite (X.
   let rF := LAdicSheaf.rationalStalkFrobenius B X ℓ F x hx
   have key : ∀ z, e (rT z) = (q : ℚ_[ℓ]) • rF (e z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a w =>
-      show e (LAdicSheaf.rationalStalkEnd B X ℓ (LAdicSheaf.twistNegOne fX hF)
+      change e (LAdicSheaf.rationalStalkEnd B X ℓ (LAdicSheaf.twistNegOne fX hF)
         (frobeniusPointHom X.1 x) (a ⊗ₜ w)) =
           (q : ℚ_[ℓ]) • LAdicSheaf.rationalStalkEnd B X ℓ F (frobeniusPointHom X.1 x) (e (a ⊗ₜ w))
       rw [LAdicSheaf.rationalStalkEnd_tmul, LinearEquiv.baseChange_tmul,
@@ -831,9 +830,9 @@ theorem LAdicSheaf.trace_rationalStalkFrobenius_twistNegOne_pow (hx : Finite (X.
     | add z z' hz hz' => rw [map_add, map_add, hz, hz', map_add, map_add, smul_add]
   have hconj : rT = e.symm.conj ((q : ℚ_[ℓ]) • rF) := by
     refine LinearMap.ext fun z => ?_
-    show rT z = e.symm (((q : ℚ_[ℓ]) • rF) (e.symm.symm z))
+    change rT z = e.symm (((q : ℚ_[ℓ]) • rF) (e.symm.symm z))
     rw [LinearEquiv.symm_symm, LinearMap.smul_apply, ← key, LinearEquiv.symm_apply_apply]
-  show LinearMap.trace ℚ_[ℓ] _ (rT ^ m) = (q : ℚ_[ℓ]) ^ m * LinearMap.trace ℚ_[ℓ] _ (rF ^ m)
+  change LinearMap.trace ℚ_[ℓ] _ (rT ^ m) = (q : ℚ_[ℓ]) ^ m * LinearMap.trace ℚ_[ℓ] _ (rF ^ m)
   rw [hconj, LinearEquiv.conj_pow', LinearMap.trace_conj', smul_pow, map_smul, smul_eq_mul]
 
 end Frobenius

@@ -104,7 +104,7 @@ theorem gluingAddMonoidHom_map
   let glue (a : A) : G.1.obj (op V) := Classical.choose (hexists a)
   have hglue (a : A) (i : ι) : G.1.map (iUV i).op (glue a) = φ i a :=
     Classical.choose_spec (hexists a) i
-  show G.1.map (iUV i).op (glue a) = φ i a
+  change G.1.map (iUV i).op (glue a) = φ i a
   exact hglue a i
 
 theorem presheaf_map_comp_apply
@@ -188,17 +188,17 @@ theorem conormalChartHom_compatible
   let W₀ : Z'.Opens := i' ⁻¹ᵁ A'
   have hTA : T ≤ i ⁻¹ᵁ A := by
     intro z hz
-    show i z ∈ j.U.1 ∧ i z ∈ k.U.1
+    change i z ∈ j.U.1 ∧ i z ∈ k.U.1
     exact ⟨hz.1, hz.2⟩
   have hWA' : W₀ ≤ i' ⁻¹ᵁ A' := le_rfl
   have hW₀W : W₀ ≤ W := by
     intro z hz
     apply j.target_subset
-    show i' z ∈ j.U'.1
+    change i' z ∈ j.U'.1
     exact hz.1
   have hTW : T ≤ f ⁻¹ᵁ W₀ := by
     intro z hz
-    show i' (f z) ∈ A'
+    change i' (f z) ∈ A'
     refine ⟨?_, ?_⟩
     · exact square_chart_preimage_le i i' f g comm j.U.1 j.U'.1
         j.ambient_compatible hz.1
@@ -275,14 +275,14 @@ theorem conormalChartHom_compatible
         (G'P.map (homOfLE hjZ').op) xj := by
       have hcomp : (homOfLE j.target_subset).op ≫ (homOfLE hjZ').op =
           (homOfLE hlW).op := by apply Subsingleton.elim
-      show (G'P.map (homOfLE hlW).op).hom a = _
+      change (G'P.map (homOfLE hlW).op).hom a = _
       rw [← hcomp, G'P.map_comp]
       rfl
     have hxk : xl = ConcreteCategory.hom
         (G'P.map (homOfLE hkZ').op) xk := by
       have hcomp : (homOfLE k.target_subset).op ≫ (homOfLE hkZ').op =
           (homOfLE hlW).op := by apply Subsingleton.elim
-      show (G'P.map (homOfLE hlW).op).hom a = _
+      change (G'P.map (homOfLE hlW).op).hom a = _
       rw [← hcomp, G'P.map_comp]
       rfl
     have hjl := chartConormalMap_nested i i' f g comm j.U l.U j.U' l.U'
@@ -359,7 +359,7 @@ theorem conormalChartHom_compatible
   let ψ : ∀ l, GP.obj (op (P l)) := fun l => GP.map (inc l).op rj
   have hψ : TopCat.Presheaf.IsCompatible GP P ψ := by
     intro l m
-    show GP.map (infLELeft (P l) (P m)).op (GP.map (inc l).op rj) =
+    change GP.map (infLELeft (P l) (P m)).op (GP.map (inc l).op rj) =
       GP.map (infLERight (P l) (P m)).op (GP.map (inc m).op rj)
     have hcomp : (inc l).op ≫ (infLELeft (P l) (P m)).op =
         (inc m).op ≫ (infLERight (P l) (P m)).op := by

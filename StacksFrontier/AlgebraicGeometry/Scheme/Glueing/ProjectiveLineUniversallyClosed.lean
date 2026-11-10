@@ -73,10 +73,10 @@ private theorem projectiveLine_compactSpace (k : Type u) [CommRing k] :
     obtain ⟨⟨_ | _⟩, y, hy⟩ := Scheme.GlueData.ι_jointly_surjective
       (projectiveLineGluingData k) x
     · exact Set.mem_union_left _ ⟨y, by
-        show (projectiveLineGluingData k).ι (projectiveLineXIndex k) y = x
+        change (projectiveLineGluingData k).ι (projectiveLineXIndex k) y = x
         exact hy⟩
     · exact Set.mem_union_right _ ⟨y, by
-        show (projectiveLineGluingData k).ι (projectiveLineYIndex k) y = x
+        change (projectiveLineGluingData k).ι (projectiveLineYIndex k) y = x
         exact hy⟩
   rw [← hcover]
   exact (isCompact_range (projectiveLineXChart k).continuous).union
@@ -92,7 +92,7 @@ private theorem projectiveLine_chartFactor (k K : Type u) [CommRing k] [Field K]
     · rintro y ⟨x, rfl⟩
       obtain rfl : x = IsLocalRing.closedPoint K := Subsingleton.elim _ _
       exact ⟨z, by
-        show (projectiveLineGluingData k).ι (projectiveLineXIndex k) z =
+        change (projectiveLineGluingData k).ι (projectiveLineXIndex k) z =
           ξ (IsLocalRing.closedPoint K)
         exact hz⟩
     · simpa using IsOpenImmersion.lift_fac (projectiveLineXChart k) ξ _
@@ -100,7 +100,7 @@ private theorem projectiveLine_chartFactor (k K : Type u) [CommRing k] [Field K]
     · rintro y ⟨x, rfl⟩
       obtain rfl : x = IsLocalRing.closedPoint K := Subsingleton.elim _ _
       exact ⟨z, by
-        show (projectiveLineGluingData k).ι (projectiveLineYIndex k) z =
+        change (projectiveLineGluingData k).ι (projectiveLineYIndex k) z =
           ξ (IsLocalRing.closedPoint K)
         exact hz⟩
     · simpa using IsOpenImmersion.lift_fac (projectiveLineYChart k) ξ _
@@ -235,7 +235,7 @@ theorem projectiveLine_valuativeCriterion_existence (k : Type u) [CommRing k] :
         congr 1
         apply CommRingCat.hom_ext
         simp only [Spec.preimage_map]
-        show overlapEval.comp Polynomial.toLaurent = fK
+        change overlapEval.comp Polynomial.toLaurent = fK
         apply Polynomial.ringHom_ext
         · intro a
           simp [overlapEval]
@@ -258,9 +258,9 @@ theorem projectiveLine_valuativeCriterion_existence (k : Type u) [CommRing k] :
             exact comp_eqToHom_comp_eqToHom_comp _ _ _ _
           have hxi : ξchart ≫ (projectiveLineGluingData k).ι
               (projectiveLineXIndex k) = ξ := by
-            show ξchart ≫ projectiveLineXChart k = ξ
+            change ξchart ≫ projectiveLineXChart k = ξ
             exact hξchart
-          show (overlapMapXY ≫ (projectiveLineGluingData k).t
+          change (overlapMapXY ≫ (projectiveLineGluingData k).t
               (projectiveLineXIndex k) (projectiveLineYIndex k) ≫
               (projectiveLineGluingData k).f
                 (projectiveLineYIndex k) (projectiveLineXIndex k)) ≫
@@ -283,9 +283,9 @@ theorem projectiveLine_valuativeCriterion_existence (k : Type u) [CommRing k] :
             exact comp_eqToHom_comp_eqToHom_comp _ _ _ _
           have hxi : ξchart ≫ (projectiveLineGluingData k).ι
               (projectiveLineYIndex k) = ξ := by
-            show ξchart ≫ projectiveLineYChart k = ξ
+            change ξchart ≫ projectiveLineYChart k = ξ
             exact hξchart
-          show (overlapMapYX ≫ (projectiveLineGluingData k).t
+          change (overlapMapYX ≫ (projectiveLineGluingData k).t
               (projectiveLineYIndex k) (projectiveLineXIndex k) ≫
               (projectiveLineGluingData k).f
                 (projectiveLineXIndex k) (projectiveLineYIndex k)) ≫

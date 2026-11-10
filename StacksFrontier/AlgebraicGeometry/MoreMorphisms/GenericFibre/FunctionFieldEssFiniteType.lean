@@ -59,7 +59,7 @@ theorem isScalarTower_sections_stalk (R : CommRingCat.{u}) {X : Scheme.{u}} (f :
     ((Scheme.ΓSpecIso R).inv ≫ f.appTop ≫ X.presheaf.germ ⊤ x trivial).hom.toAlgebra
   let : Algebra Γ(X, U) (X.presheaf.stalk x) := (X.presheaf.germ U x hxU).hom.toAlgebra
   refine IsScalarTower.of_algebraMap_eq' (RingHom.ext fun a ↦ ?_)
-  show X.presheaf.germ ⊤ x trivial (f.appTop ((Scheme.ΓSpecIso R).inv.hom a)) =
+  change X.presheaf.germ ⊤ x trivial (f.appTop ((Scheme.ΓSpecIso R).inv.hom a)) =
     X.presheaf.germ U x hxU (f.appLE ⊤ U e ((Scheme.ΓSpecIso R).inv.hom a))
   exact (X.presheaf.germ_res_apply (homOfLE (show U ≤ ⊤ from le_top)) x hxU
     (f.appTop ((Scheme.ΓSpecIso R).inv.hom a))).symm

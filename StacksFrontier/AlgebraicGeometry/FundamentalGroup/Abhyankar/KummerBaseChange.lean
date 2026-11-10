@@ -48,7 +48,7 @@ def standardMap : standardTamelyRamifiedAlgebra R φ e →+*
 lemma standardMap_algebraMap (r : R) :
     standardMap φ e T (algebraMap R _ r) = algebraMap T _ (algebraMap R T r) := by
   rw [← Ideal.Quotient.mk_algebraMap, Polynomial.algebraMap_eq]
-  show Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ _) = _
+  change Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ _) = _
   rw [Ideal.Quotient.lift_mk]
   simp only [RingHom.comp_apply, Polynomial.coe_mapRingHom, Polynomial.map_C]
   rfl
@@ -56,7 +56,7 @@ lemma standardMap_algebraMap (r : R) :
 /-- `standardMap` sends the class of `x` to the class of `x`. -/
 lemma standardMap_root :
     standardMap φ e T (Ideal.Quotient.mk _ X) = Ideal.Quotient.mk _ X := by
-  show Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ _) = _
+  change Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ _) = _
   rw [Ideal.Quotient.lift_mk]
   simp
 
@@ -104,7 +104,7 @@ def standardInv : standardTamelyRamifiedAlgebra T (algebraMap R T φ) e →+*
 /-- `standardInv` sends the image of `t ∈ T` to the image of `t`. -/
 lemma standardInv_algebraMap (t : T) :
     standardInv φ e T (algebraMap T _ t) = algebraMap T _ t := by
-  show Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ (Polynomial.C t)) = _
+  change Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ (Polynomial.C t)) = _
   rw [Ideal.Quotient.lift_mk]
   simp
 
@@ -112,7 +112,7 @@ lemma standardInv_algebraMap (t : T) :
 lemma standardInv_root :
     standardInv φ e T (root T (algebraMap R T φ) e) =
       (1 : T) ⊗ₜ[R] algebraMap _ _ (root R φ e) := by
-  show Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ _) = _
+  change Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ _) = _
   rw [Ideal.Quotient.lift_mk]
   simp
 
@@ -164,7 +164,7 @@ def kummerAwayBaseChange :
   have hFr : ∀ k, F (1 ⊗ₜ k) = kummerAwayMap φ e T k := fun k ↦ by
     simp [F, Algebra.TensorProduct.lift_tmul, Fr]
   have hFG : F.comp G = AlgHom.id T KT := by
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     refine IsLocalization.ringHom_ext (Submonoid.powers (algebraMap T CT (algebraMap R T φ)))
       (Ideal.Quotient.ringHom_ext (Polynomial.ringHom_ext (fun t ↦ ?_) ?_))
     · change F (kummerAwayInv φ e T (algebraMap CT KT (Ideal.Quotient.mk _ (C t)))) =
@@ -179,7 +179,7 @@ def kummerAwayBaseChange :
   have hGF : G.comp F = AlgHom.id T (T ⊗[R] KR) := by
     apply Algebra.TensorProduct.ext
     · exact Subsingleton.elim _ _
-    · apply AlgHom.coe_ringHom_injective
+    · apply AlgHom.toRingHom_injective
       refine IsLocalization.ringHom_ext (Submonoid.powers (algebraMap R CR φ))
         (Ideal.Quotient.ringHom_ext (Polynomial.ringHom_ext (fun r ↦ ?_) ?_))
       · change G (F (1 ⊗ₜ algebraMap CR KR (algebraMap R CR r))) =

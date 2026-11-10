@@ -138,7 +138,7 @@ theorem conicForm_irreducible {k : Type u} [Field k] (hk : ∀ c : k, c ^ 2 ≠ 
   set A := MvPolynomial (Fin 2) k with hA
   set F := FractionRing A with hF
   refine (MulEquiv.irreducible_iff (MvPolynomial.finSuccEquiv k 2).toMulEquiv).mp ?_
-  show Irreducible (MvPolynomial.finSuccEquiv k 2 (conicForm k))
+  change Irreducible (MvPolynomial.finSuccEquiv k 2 (conicForm k))
   rw [finSuccEquiv_conicForm k]
   have hmonic : (Polynomial.X ^ 2 + Polynomial.C ((MvPolynomial.X 0 : A) ^ 2)).Monic := by
     refine (Polynomial.monic_X_pow 2).add_of_left ?_
@@ -390,7 +390,7 @@ theorem geometricallyIntegral_opens_ι {X : Scheme.{u}} {k : Type u} [Field k]
     obtain ⟨u⟩ := ‹Nonempty U›
     obtain ⟨p, hp⟩ := hqsurj.surj (U.ι.base u)
     refine ⟨⟨p, ?_⟩⟩
-    show (Limits.pullback.fst f y).base p ∈ U
+    change (Limits.pullback.fst f y).base p ∈ U
     rw [hp]
     exact u.2
   have hpaste : IsPullback (Limits.pullback.fst f y ∣_ U)
@@ -534,7 +534,7 @@ theorem not_geometricallyIntegral_conic {k : Type u} [Field k] (hk : ∀ c : k, 
   -- transport to the `k`-algebra structure of the chart
   let : Algebra k Γ(Z, V) := ((Scheme.ΓSpecIso (.of k)).inv ≫ φ).hom.toAlgebra
   have halg : Algebra.IsGeometricallyIntegral k Γ(Z, V) := by
-    show GeometricallyIntegral (Spec.map (CommRingCat.ofHom (algebraMap k Γ(Z, V))))
+    change GeometricallyIntegral (Spec.map (CommRingCat.ofHom (algebraMap k Γ(Z, V))))
     have hcomp : Spec.map (CommRingCat.ofHom (algebraMap k Γ(Z, V))) =
         Spec.map φ ≫ Spec.map (Scheme.ΓSpecIso (.of k)).inv := by
       rw [← Spec.map_comp]
@@ -554,7 +554,7 @@ theorem not_geometricallyIntegral_conic {k : Type u} [Field k] (hk : ∀ c : k, 
   have hek : ∀ r : k,
       e (algebraMap k (conicChartRing k (conicChartC k j)) r) = algebraMap k Γ(Z, V) r := by
     intro r
-    show (Stacks.ProjectiveChart.chartQuotientEquiv iZ j (conicForm k) hFhom hI)
+    change (Stacks.ProjectiveChart.chartQuotientEquiv iZ j (conicForm k) hFhom hI)
       (Ideal.quotEquivOfEq hid (Ideal.Quotient.mk _ (MvPolynomial.C r))) = _
     rw [Ideal.quotEquivOfEq_mk,
       Stacks.ProjectiveChart.chartQuotientEquiv_mk iZ j (conicForm k) hFhom hI]

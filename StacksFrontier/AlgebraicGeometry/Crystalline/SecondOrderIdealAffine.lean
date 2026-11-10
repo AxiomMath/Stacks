@@ -264,16 +264,14 @@ def affineCrossEquiv :
   invFun := affineCrossInv M A
   map_add' := map_add (affineCross M A)
   left_inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul t s =>
         rw [affineCross_tmul, affineCrossInv_tmul, siteRingSection_ambientRingSection,
           siteModuleSection_ambientModuleSection, ← restrictOpenTopEquiv_apply,
           AddEquiv.symm_apply_apply]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   right_inv w := by
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul t x =>
         rw [affineCrossInv_tmul, affineCross_tmul,
           moduleSiteRestrict_restrictOpenTopEquiv_symm]
@@ -522,8 +520,7 @@ theorem extensionSectionsMap_eq_affineExtensionHom :
     (SecondOrderAffine.extensionSectionsMap M A : _ → _) =
       (SecondOrderAffine.affineExtensionHom M A : _ → _) := by
   funext w
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul t s => exact (affineExtensionHom_tmul M A t s).symm
   | add w w' hw hw' => rw [map_add, map_add, hw, hw']
 

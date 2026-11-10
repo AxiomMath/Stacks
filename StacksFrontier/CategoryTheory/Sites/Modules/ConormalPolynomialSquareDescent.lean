@@ -89,7 +89,7 @@ private theorem mem_sq_of_le {R : Type*} [CommRing R] {I K : Ideal R} (h : I ≤
 private theorem mem_ker_comp_comp_of_map_mem_ker {A B C D : CommRingCat.{w}} (t : A ⟶ B)
     (φ : B ⟶ C) (ρ : C ⟶ D) {x : A} (hx : t.hom x ∈ RingHom.ker φ.hom) :
     x ∈ RingHom.ker (t ≫ φ ≫ ρ).hom := by
-  show ρ.hom (φ.hom (t.hom x)) = 0
+  change ρ.hom (φ.hom (t.hom x)) = 0
   rw [RingHom.mem_ker.mp hx, map_zero]
 
 variable {R₀ T₀ T₁ P : CommRingCat.{w}} {ι κ : Type w}
@@ -141,12 +141,12 @@ theorem ofHom_eval₂Hom_comp_eq_of_lift {s : Finset κ} (c : {j // j ∈ s} →
       CommRingCat.ofHom (MvPolynomial.rename (Subtype.val : {j // j ∈ s} → κ)).toRingHom ≫
         φ₂ ≫ ρ := by
   refine CommRingCat.hom_ext (MvPolynomial.ringHom_ext (fun r ↦ ?_) fun j ↦ ?_)
-  · show ψ.hom (MvPolynomial.eval₂Hom bP.hom c (MvPolynomial.C r)) =
+  · change ψ.hom (MvPolynomial.eval₂Hom bP.hom c (MvPolynomial.C r)) =
       ρ.hom (φ₂.hom (MvPolynomial.rename Subtype.val (MvPolynomial.C r)))
     rw [MvPolynomial.eval₂Hom_C, MvPolynomial.rename_C]
     exact congrArg (fun t : R₀ ⟶ T₁ ↦ t.hom r)
       (comp_eq_ofHom_C_comp_of_fac φ₁ φ₂ u ψ ρ res bP hu hbu hres hbres)
-  · show ψ.hom (MvPolynomial.eval₂Hom bP.hom c (MvPolynomial.X j)) =
+  · change ψ.hom (MvPolynomial.eval₂Hom bP.hom c (MvPolynomial.X j)) =
       ρ.hom (φ₂.hom (MvPolynomial.rename Subtype.val (MvPolynomial.X j)))
     rw [MvPolynomial.eval₂Hom_X', MvPolynomial.rename_X]
     exact hc j
@@ -161,12 +161,12 @@ theorem ofHom_aeval_comp_rename_eq {ι' κ' : Type w} (e : ι' → ι) (f : κ' 
         CommRingCat.ofHom (MvPolynomial.rename f).toRingHom =
       CommRingCat.ofHom (MvPolynomial.rename e).toRingHom ≫ u := by
   refine CommRingCat.hom_ext (MvPolynomial.ringHom_ext (fun r ↦ ?_) fun x ↦ ?_)
-  · show MvPolynomial.rename f (MvPolynomial.aeval g (MvPolynomial.C r)) =
+  · change MvPolynomial.rename f (MvPolynomial.aeval g (MvPolynomial.C r)) =
       u.hom (MvPolynomial.rename e (MvPolynomial.C r))
     rw [MvPolynomial.aeval_C, MvPolynomial.algebraMap_eq, MvPolynomial.rename_C,
       MvPolynomial.rename_C]
     exact (congrArg (fun t : R₀ ⟶ CommRingCat.of (MvPolynomial κ R₀) ↦ t.hom r) hbu).symm
-  · show MvPolynomial.rename f (MvPolynomial.aeval g (MvPolynomial.X x)) =
+  · change MvPolynomial.rename f (MvPolynomial.aeval g (MvPolynomial.X x)) =
       u.hom (MvPolynomial.rename e (MvPolynomial.X x))
     rw [MvPolynomial.aeval_X, MvPolynomial.rename_X]
     exact hg x
@@ -238,7 +238,7 @@ theorem mem_ker_sq_of_rename_lift
   have hj₀ := ofHom_aeval_comp_rename_eq u hbu Subtype.val Subtype.val g hg
   have hbv : CommRingCat.ofHom MvPolynomial.C ≫ j₀ ≫ σ = bP :=
     CommRingCat.hom_ext (RingHom.ext fun r ↦ by
-      show MvPolynomial.eval₂Hom bP.hom c (MvPolynomial.aeval g (MvPolynomial.C r)) = bP.hom r
+      change MvPolynomial.eval₂Hom bP.hom c (MvPolynomial.aeval g (MvPolynomial.C r)) = bP.hom r
       rw [MvPolynomial.aeval_C, MvPolynomial.algebraMap_eq, MvPolynomial.eval₂Hom_C])
   have hdiff := sub_mem_ker_sq_of_rename φ₁ ψ ρ res bP hres hbres Subtype.val (j₀ ≫ σ)
     (by rw [Category.assoc, hσ, reassoc_of% hj₀, reassoc_of% hu]) hbv p₀ (hp₀.symm ▸ hq) hpd₀

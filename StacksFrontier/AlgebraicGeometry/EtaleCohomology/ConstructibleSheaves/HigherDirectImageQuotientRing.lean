@@ -97,7 +97,7 @@ theorem module_finite_moduleCatQuotientOfTorsionBy (M : ModuleCat.{u + 1} Λ)
     Module.Finite (Λ ⧸ I) (moduleCatQuotientOfTorsionBy I M hM) := by
   let := hM.module
   have := hM.isScalarTower (S := Λ)
-  show Module.Finite (Λ ⧸ I) M
+  change Module.Finite (Λ ⧸ I) M
   exact Module.Finite.of_restrictScalars_finite (R := Λ) (A := Λ ⧸ I) (M := M)
 
 end Quotient
@@ -158,7 +158,7 @@ theorem isConstructibleEtaleModule_rightDerived_constantSheaf_of_quotient
     rw [Module.isTorsionBySet_iff_torsionBySet_eq_top, Submodule.torsionBySet_span_singleton_eq,
       eq_top_iff]
     intro m _
-    show (ℓ : Λ) • m = 0
+    change (ℓ : Λ) • m = 0
     rw [Nat.cast_smul_eq_nsmul]
     exact hℓ m
   let M' := moduleCatQuotientOfTorsionBy I M hMI

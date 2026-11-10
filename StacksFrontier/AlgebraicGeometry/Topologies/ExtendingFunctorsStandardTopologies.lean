@@ -266,7 +266,7 @@ lemma exists_standardCovering_refinement_over (τ : CoveringTopology) {V : Over 
   obtain ⟨Wh, r, hstd⟩ := exists_standardCovering_refinement τ E hE
   refine ⟨Wh.I₀, fun j => Over.mk (Wh.f j ≫ V.hom), fun j => Over.homMk (Wh.f j) rfl,
     fun j => r.s₀ j, fun j => Over.homMk (r.h₀ j) ?_, hstd, fun j => ?_⟩
-  · show r.h₀ j ≫ (Y (r.s₀ j)).hom = Wh.f j ≫ V.hom
+  · change r.h₀ j ≫ (Y (r.s₀ j)).hom = Wh.f j ≫ V.hom
     rw [← Over.w (f (r.s₀ j)), ← Category.assoc]
     exact congrArg (· ≫ V.hom) (r.w₀ j)
   · refine Over.OverMorphism.ext ?_

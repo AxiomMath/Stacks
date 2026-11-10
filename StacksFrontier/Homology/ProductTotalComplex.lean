@@ -402,7 +402,7 @@ theorem total_H0_eq_zero (c : CplxCplx)
   have hzc : ∀ (p : ℕ) (yp : c.A p (-1 - (p:ℤ))), c.StageInvariant x p yp →
       c.d (p+1) (-(((p+1:ℕ)):ℤ)) (zc p yp) = 0 := by
     intro p yp hinv
-    show c.d (p+1) (-(((p+1:ℕ)):ℤ)) (((-1:ℤ)^(p+1)) • c.cast (p+1) _ _) = 0
+    change c.d (p+1) (-(((p+1:ℕ)):ℤ)) (((-1:ℤ)^(p+1)) • c.cast (p+1) _ _) = 0
     rw [map_zsmul, d_cast, d_sub_eq_zero_of_stageInvariant c hx hinv, map_zero, smul_zero]
   -- `StageInvariant` for a base witness produced from `hH 0`.
   have stageInvariant_base : ∀ (w : c.A 0 (-(0:ℤ) - 1)),
@@ -465,7 +465,7 @@ theorem total_H0_eq_zero (c : CplxCplx)
         = c.cast 0 (show (0:ℤ) - ((0:ℕ):ℤ) = -(0:ℤ) by simp) (x 0) :=
       Classical.choose_spec (hH 0 _ hbase)
     rw [totalD_apply_zero, dPartHom_apply]
-    show c.cast 0 _ (((-1:ℤ)^(0:ℕ)) • c.d 0 ((-1) - ((0:ℕ):ℤ))
+    change c.cast 0 _ (((-1:ℤ)^(0:ℕ)) • c.d 0 ((-1) - ((0:ℕ):ℤ))
         (c.cast 0 (show (-(0:ℤ)) - 1 = -1 - (0:ℤ) by ring) (Classical.choose (hH 0 _ hbase)))) = x 0
     rw [pow_zero, one_smul]
     exact (c.cast_d_cast 0 _ _ _).trans hd0
@@ -478,7 +478,7 @@ theorem total_H0_eq_zero (c : CplxCplx)
           (c.d (p+1) (-(((p+1:ℕ)):ℤ) - 1) ww) = zz :=
       Classical.choose_spec (hH (p+1) zz (hzc p (Y p).fst (Y p).snd))
     -- `(Y (p+1)).fst = cast ww`.
-    show c.cast (p+1) _ (((-1:ℤ)^(p+1)) • c.d (p+1) ((-1) - ((p+1:ℕ):ℤ))
+    change c.cast (p+1) _ (((-1:ℤ)^(p+1)) • c.d (p+1) ((-1) - ((p+1:ℕ):ℤ))
           (c.cast (p+1) (show (-(((p+1:ℕ)):ℤ)) - 1 = -1 - ((p+1:ℕ):ℤ) by push_cast; ring) ww))
         + c.cast (p+1) _ (c.f p ((-1) - (p:ℕ)) (Y p).fst) = x (p+1)
     rw [show c.d (p+1) ((-1) - ((p+1:ℕ):ℤ))
@@ -492,7 +492,7 @@ theorem total_H0_eq_zero (c : CplxCplx)
         from by rw [← hdS, cast_cast]]
     -- LHS now `(-1)^{p+1} • cast (cast zz) + cast (f (Y p).fst)`; unfold `zz` and simplify.
     rw [cast_cast, hzz]
-    show ((-1:ℤ)^(p+1)) • c.cast (p+1)
+    change ((-1:ℤ)^(p+1)) • c.cast (p+1)
           (show (-(((p+1:ℕ)):ℤ)) = (0:ℤ) - ((p+1:ℕ):ℤ) by push_cast; ring)
           (((-1:ℤ)^(p+1)) • c.cast (p+1)
             (show -((p:ℤ)+1) = -(((p+1:ℕ)):ℤ) by push_cast; ring)
@@ -517,7 +517,7 @@ inclusion `ker(D^0) ⊆ im(D^{-1})`). -/
 theorem totalD_totalD_eq_zero (c : CplxCplx) {n : ℤ} (x : c.Tot n) :
     c.totalD (n + 1) (c.totalD n x) = 0 := by
   funext p
-  show c.totalD (n + 1) (c.totalD n x) p = (0 : c.A p (n + 1 + 1 - p))
+  change c.totalD (n + 1) (c.totalD n x) p = (0 : c.A p (n + 1 + 1 - p))
   match p with
   | 0 =>
     rw [totalD_apply_zero, dPartHom_apply, totalD_apply_zero, dPartHom_apply]

@@ -182,7 +182,7 @@ public theorem isMittagLefflerCategorical_of_canonicallyExtends (h : Canonically
   refine isMittagLefflerCategorical_of_range_eq_submodule (globalSectionsSystem S F) b hb₂
     (fun i => LinearMap.range (g i).hom) ?_
   intro i k hbk hik
-  show LinearMap.range (Stacks.ProObject.invTransition (globalSectionsSystem S F) hik).hom = _
+  change LinearMap.range (Stacks.ProObject.invTransition (globalSectionsSystem S F) hik).hom = _
   apply le_antisymm
   · have hsplit : Stacks.ProObject.invTransition (globalSectionsSystem S F) hik =
         Stacks.ProObject.invTransition (globalSectionsSystem S F) hbk ≫
@@ -418,7 +418,7 @@ private theorem limitGlobalSections_properties (h : CanonicallyExtends S F) :
       obtain ⟨w, hw⟩ := e.toLinearEquiv.surjective
         (show (((extensionLimitCone S G).pt) : Type u) from z)
       refine ⟨w, ?_⟩
-      show ((extensionLimitCone S G).π.app (op 0)).hom (e.hom.hom w) = y
+      change ((extensionLimitCone S G).π.app (op 0)).hom (e.hom.hom w) = y
       rw [show e.hom.hom w = z from hw]
       exact hz
     have hfinB := finite_extensionSections_aux S G 0

@@ -255,7 +255,7 @@ theorem bijective_tmul_of_linearEquiv {R T N : Type*} [CommRing R] [CommRing T] 
   have h : (fun t : T => e (t ⊗ₜ u₀)) =
       e ∘ (TensorProduct.congr (LinearEquiv.refl R T) ε).symm ∘ (TensorProduct.rid R T).symm := by
     funext t
-    simp [TensorProduct.congr_symm_tmul, ← hu]
+    simp [← hu]
   rw [h]
   exact e.bijective.comp ((TensorProduct.congr (LinearEquiv.refl R T) ε).symm.bijective.comp
     (TensorProduct.rid R T).symm.bijective)
@@ -330,7 +330,7 @@ theorem bijective_coverSnd_appTop (hdim : topologicalKrullDim Z ≤ 1) (hn : n �
         map_zero' := rfl
         map_add' := fun _ _ => rfl }
     exact (congrArg (fun F => F x) (map_sum A g Finset.univ)).trans
-      (AddMonoidHom.finset_sum_apply _ _ _)
+      (AddMonoidHom.finsetSum_apply _ _ _)
   have htot : ∀ x, x = ∑ i, (biproduct.ι M i).app ⊤ ((biproduct.π M i).app ⊤ x) := fun x => by
     have h := congrArg (fun t => t.app ⊤ x) (biproduct.total (f := M))
     simp only at h
@@ -368,7 +368,7 @@ theorem bijective_coverSnd_appTop (hdim : topologicalKrullDim Z ≤ 1) (hn : n �
   let ε := LinearEquiv.ofBijective _ hb
   have hε : ε.symm u₀ = 1 := by
     rw [LinearEquiv.symm_apply_eq]
-    show u₀ = (1 : Γ(Spec (.of k), ⊤)) • u₀
+    change u₀ = (1 : Γ(Spec (.of k), ⊤)) • u₀
     exact (one_smul _ _).symm
   let := Stacks.AlgebraicGeometry.SectionsBaseChange.baseAlgebra
     (Spec.map (CommRingCat.ofHom (algebraMap k S)))
@@ -386,7 +386,7 @@ theorem bijective_coverSnd_appTop (hdim : topologicalKrullDim Z ≤ 1) (hn : n �
   have key : ∀ t, (coverSnd f φ S c).appTop t * w₀ =
       Ψ ((biproduct.ι M i₀).app ⊤ (e (t ⊗ₜ u₀))) := fun t => by
     rw [he, hι]
-    show _ = (symPowToCoverMap f φ S c 0).app ⊤
+    change _ = (symPowToCoverMap f φ S c 0).app ⊤
       ((baseChangeSnd f S).appLE ⊤ ⊤
         (Stacks.AlgebraicGeometry.SectionsBaseChange.le_preimage_top _ ⊤) t • m₀)
     rw [Scheme.Modules.Hom.app_smul, hg]
@@ -511,7 +511,7 @@ theorem genus_cover (hdim : topologicalKrullDim Z ≤ 1) (hn : n ≠ 0)
   rw [Fin.sum_univ_succ]
   have h0 : Module.finrank k (cohomologyOverField k f (symPow f L ((0 : Fin (m + 1)) : ℕ)) 1) =
       genus f := by
-    show Module.finrank k (cohomologyOverField k f (symPow f L 0) 1) = _
+    change Module.finrank k (cohomologyOverField k f (symPow f L 0) 1) = _
     rw [finrank_cohomologyOverField_eq_of_iso k f (symPowIsoTensorPower f L 0) 1,
       genus_eq_finrank_cohomologyOverField_unit_one' k f]
     rfl

@@ -181,7 +181,7 @@ theorem BivariantClass.VanishesOver.chowCohomologyRestriction_of_comp
   refine chowPushforwardOfIso_injective C _ _ (pullback.snd (𝟙 _) _)
     (pullbackSnd_comp_structureMorphism (Category.id_comp _) _) (k - p) ?_
   rw [map_zero]
-  show BivariantClass.idRule C (f ≫ sZ) (gysinSystemOfInvertible C) _ _ k α = 0
+  change BivariantClass.idRule C (f ≫ sZ) (gysinSystemOfInvertible C) _ _ k α = 0
   rw [chowCohomologyRestriction_idRule]
   exact ha.idRule_eq_zero (t ≫ l) _ (by rw [Category.assoc, hl, Category.assoc]) k _
 

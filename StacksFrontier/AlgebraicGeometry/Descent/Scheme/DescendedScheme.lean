@@ -604,7 +604,7 @@ lemma ι_comp_glueProj (i : C.glue.J) :
 @[reassoc (attr := simp)]
 lemma glueProj_comp_toBase : C.glueProj ≫ C.glue.toBase = D.over.hom ≫ f := by
   refine Scheme.Cover.hom_ext C.cover _ _ fun (i : C.glue.J) ↦ ?_
-  show (C.opens i).ι ≫ C.glueProj ≫ C.glue.toBase = (C.opens i).ι ≫ D.over.hom ≫ f
+  change (C.opens i).ι ≫ C.glueProj ≫ C.glue.toBase = (C.opens i).ι ≫ D.over.hom ≫ f
   rw [← Category.assoc, C.ι_comp_glueProj i, Category.assoc, C.glue.ι_toBase,
     ← (C.isPullback i).w, Category.assoc]
 
@@ -726,7 +726,7 @@ lemma glueProj_invariant :
     D.transitionPullbackIso.hom ≫ pullback.snd f (D.over.hom ≫ f) ≫ C.glueProj =
       pullback.fst (D.over.hom ≫ f) f ≫ C.glueProj := by
   refine Scheme.Cover.hom_ext C.sourceCover _ _ fun (i : C.glue.J) ↦ ?_
-  show (pullback.fst (D.over.hom ≫ f) f ⁻¹ᵁ C.opens i).ι ≫ _ =
+  change (pullback.fst (D.over.hom ≫ f) f ⁻¹ᵁ C.opens i).ι ≫ _ =
     (pullback.fst (D.over.hom ≫ f) f ⁻¹ᵁ C.opens i).ι ≫ _
   rw [← C.sourcePart_comp_homSourceMap i, Category.assoc, Category.assoc,
     C.homSourceMap_comp_glueProj_invariant i]
@@ -860,7 +860,7 @@ lemma homOfLE_comp_proj_comp_base_hom (v : D.over.left) {Z : D.over.left.Opens}
     D.over.left.homOfLE hle ≫ (C.chart v).proj ≫ (C.chart v).base.hom =
       Z.ι ≫ D.over.hom ≫ f := by
   rw [← (C.chart v).isPullback.w]
-  show D.over.left.homOfLE hle ≫ ((C.opens v).ι ≫ D.over.hom) ≫ f = Z.ι ≫ D.over.hom ≫ f
+  change D.over.left.homOfLE hle ≫ ((C.opens v).ι ≫ D.over.hom) ≫ f = Z.ι ≫ D.over.hom ≫ f
   rw [← Category.assoc, ← Category.assoc, Scheme.homOfLE_ι, Category.assoc]
 
 /-- **A chart is glued to itself along the whole of itself.** -/

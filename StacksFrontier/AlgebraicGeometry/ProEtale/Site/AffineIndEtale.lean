@@ -73,7 +73,7 @@ theorem indEtale_of_isSplitEpiFactorization {A D D' : CommRingCat.{u}} (f : A �
     (MorphismProperty.ind_iff_ind_underMk g).mp hg
   rw [CommRingCat.ind_under_iff_exists_factorization _ etale_under_le_finitePresentation] at h₁
   apply (MorphismProperty.ind_iff_ind_underMk f).2
-  show ObjectProperty.ind.{u} (fun C : Under A ↦ C.hom.hom.Etale) (Under.mk f)
+  change ObjectProperty.ind.{u} (fun C : Under A ↦ C.hom.hom.Etale) (Under.mk f)
   rw [CommRingCat.ind_under_iff_exists_factorization _ etale_under_le_finitePresentation]
   intro X hX φ
   have hgr : g ≫ r = f := by rw [hgs, Category.assoc, hsr, Category.comp_id]

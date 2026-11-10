@@ -344,7 +344,7 @@ theorem ι_mem_pointOfDual_iff {v₀ : V} (φ : Module.Dual k V) (hφv₀ : φ v
       (d := 1) (e := 1) hdeg hdv = awayFraction k hdeg v := by
     apply val_injective
     rw [awayFraction_val]
-    show Localization.mk _ _ = Localization.mk _ _
+    change Localization.mk _ _ = Localization.mk _ _
     simp only [pow_one]
   have hpre : Proj.awayι (fun n => SymPow.symmetricPower n k V) (SymmetricAlgebra.ι k V v₀)
         hdeg Nat.one_pos ⁻¹ᵁ
@@ -360,7 +360,7 @@ theorem ι_mem_pointOfDual_iff {v₀ : V} (φ : Module.Dual k V) (hφv₀ : φ v
         ((Spec.map (CommRingCat.ofHom (awayEval k V φ hφv₀))).base a) := rfl
   have hprime : awayFraction k hdeg v ∈ ((Spec.map (CommRingCat.ofHom
       (awayEval k V φ hφv₀))).base a).asIdeal ↔ φ v = 0 := by
-    show awayFraction k hdeg v ∈
+    change awayFraction k hdeg v ∈
       Ideal.comap (CommRingCat.ofHom (awayEval k V φ hφv₀)).hom a.asIdeal ↔ _
     rw [Ideal.mem_comap, show (CommRingCat.ofHom (awayEval k V φ hφv₀)).hom
       (awayFraction k hdeg v) = φ v from awayEval_awayFraction k V φ hφv₀ hdeg v,
@@ -368,7 +368,7 @@ theorem ι_mem_pointOfDual_iff {v₀ : V} (φ : Module.Dual k V) (hφv₀ : φ v
   have hnot : SymmetricAlgebra.ι k V v ∉
       ((pointOfDual k V φ hφv₀).base a).asHomogeneousIdeal ↔ φ v ≠ 0 := by
     rw [← Proj.mem_basicOpen, hcomp]
-    show (Spec.map (CommRingCat.ofHom (awayEval k V φ hφv₀))).base a ∈
+    change (Spec.map (CommRingCat.ofHom (awayEval k V φ hφv₀))).base a ∈
       Proj.awayι (fun n => SymPow.symmetricPower n k V) (SymmetricAlgebra.ι k V v₀) hdeg
         Nat.one_pos ⁻¹ᵁ
         Proj.basicOpen (fun n => SymPow.symmetricPower n k V) (SymmetricAlgebra.ι k V v) ↔ _

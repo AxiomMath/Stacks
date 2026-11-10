@@ -116,6 +116,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (X : AlgebraicSpaces B S hS)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks in this presheaf category exceeds the default limit
 /-- Presheaves of types on the big fppf site of `S` have pullbacks. Recorded here because
 instance search for it times out at the default budget under this file's imports. -/
 private instance hasPullbacksPresheaf : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
@@ -378,7 +379,7 @@ theorem spacesEtaleLocalization_toSpaces :
       SpacesEtale.toSpaces B S hS X := by
   rw [← Over.post_forget_eq_forget_comp (SpacesEtale.toSpaces B S hS Y)
     (etaleObject B S hS f hf)]
-  show ((spacesEtaleLocalization B S hS f hf).functor ⋙
+  change ((spacesEtaleLocalization B S hS f hf).functor ⋙
     Over.post (SpacesEtale.toSpaces B S hS Y)) ⋙ Over.forget X = _
   rw [spacesEtaleLocalization_slice B S hS f hf]
   rfl

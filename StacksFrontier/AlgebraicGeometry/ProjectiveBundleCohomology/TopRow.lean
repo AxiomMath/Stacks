@@ -43,7 +43,7 @@ public theorem isZero_dualSheaf_of_isZero {X : Scheme.{u}} {F : X.Modules} (hF :
   refine (Stacks.AlgebraicGeometry.ReflexiveModules.dualMap_id F).symm.trans (h.trans ?_)
   refine Stacks.AlgebraicGeometry.ReflexiveModules.hom_ext_dualSheaf fun U x W y => ?_
   rw [Stacks.AlgebraicGeometry.ReflexiveModules.dualPairing_dualMap]
-  show (x.app (op W)).hom ((0 : F ⟶ F).val.app (op W.left) y) = 0
+  change (x.app (op W)).hom ((0 : F ⟶ F).val.app (op W.left) y) = 0
   exact (congrArg (x.app (op W)).hom (by rfl : (0 : F ⟶ F).val.app (op W.left) y = 0)).trans
     (map_zero _)
 
@@ -92,7 +92,7 @@ public theorem isZero_topRow_of_le {d : ℤ} (hd : -(n : ℤ) ≤ d) :
       IsZero (topRowTarget E hqc n d) := by
   refine ⟨isZero_rightDerivedPlus_pushforward_twist_top E hqc hn hfree D d hd,
     isZero_dualSheaf_of_isZero ?_⟩
-  have := isInvertible_det E hn hfree
+  have := isInvertible_det E hfree
   exact (Stacks.ProjectionFormula.tensorRightInvertible S _).map_isZero
     ((Stacks.SymGraded.schemeSheafGradedAlgebra E hqc).negative_isZero _ (by omega))
 

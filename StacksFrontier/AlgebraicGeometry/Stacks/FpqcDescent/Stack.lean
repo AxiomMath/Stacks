@@ -98,7 +98,7 @@ theorem effectiveSieve_mem_topology
     rw [← Category.id_comp (F.map q), ← e.inv_hom_id, Category.assoc]
     congr 1
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [← Category.assoc, he i, Sigma.ι_desc, ← Functor.map_comp]
+    rw [← Category.assoc, he i, Sigma.ι_comp_desc, ← Functor.map_comp]
     exact congrArg F.map (Cofan.IsColimit.fac hc (w j) i)
   have hWaff' (i : Fin (m j)) : IsAffine (F.obj (W j i)) := hWaff j i
   have hTaff : IsAffine (F.obj (Cofan.mk (∐ W j) (Sigma.ι (W j))).pt) := IsAffine.of_isIso e.inv
@@ -117,7 +117,7 @@ theorem effectiveSieve_mem_topology
       refine ⟨fun y ↦ ?_⟩
       obtain ⟨i, z, hzy⟩ := hjs y
       refine ⟨Sigma.ι (fun i ↦ F.obj (W j i)) i z, ?_⟩
-      rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+      rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
       exact hzy
     rw [hqdesc]
     infer_instance
@@ -131,7 +131,7 @@ theorem effectiveSieve_mem_topology
         (BigFppfOver.ofArrows_cofan_inj_mem_fppfPrecoverage (W j) hc))
     rw [Sieve.generate_le_iff]
     rintro _ _ ⟨i⟩
-    show R.arrows (Sigma.ι (W j) i ≫ q ≫ u j)
+    change R.arrows (Sigma.ι (W j) i ≫ q ≫ u j)
     obtain ⟨T, f, hf, v, hv⟩ := hfac j i
     have hι : Sigma.ι (W j) i ≫ q = w j i := Cofan.IsColimit.fac hc (w j) i
     rw [← Category.assoc, hι, hv]

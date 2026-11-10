@@ -155,8 +155,8 @@ perfect, and perfectness is local on the space by [Stacks, Tag 08CN]. -/
 @[stacks 09M1 "compact implies perfect; the affine-local datum, which the source draws from Tag
 08DZ (derived direct image along a quasi-compact quasi-separated morphism commutes with direct
 sums) together with Tag 06Z0, is a hypothesis: that deduction is not carried out here. Tag 08DZ
-is proved in this repository, as
-Stacks.Duality.DerivedPushforward.preservesColimitsOfShape_discrete_qcqsQuasiCoherentDerivedPushforward,
+is proved in this repository, as Stacks.Duality.DerivedPushforward.\
+  preservesColimitsOfShape_discrete_qcqsQuasiCoherentDerivedPushforward,
 but only at HasDerivedCategory.standard"]
 theorem isPerfect_of_isCompactObject (X : Scheme.{u}) (K : QuasicoherentDerivedCategory X)
     (hloc : ∀ x : X.toRingedSpace.carrier,

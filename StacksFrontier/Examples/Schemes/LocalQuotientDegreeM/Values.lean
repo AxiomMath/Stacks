@@ -119,7 +119,7 @@ public def genericValue {W : Opens (PrimeSpectrum.Top A)} (s : Sect A W) : Fract
 there under `toFrac`. -/
 public lemma genericValue_eq {W : Opens (PrimeSpectrum.Top A)} (hW : genericPt A ∈ W)
     (s : Sect A W) : genericValue s = toFrac A (s.1 ⟨genericPt A, hW⟩) :=
-  dif_pos hW
+  dite_eq_left hW
 
 /-- Two sections with the same germ at the generic point have the same value. -/
 public lemma genericValue_congr {W W' : Opens (PrimeSpectrum.Top A)} (hW : genericPt A ∈ W)
@@ -158,7 +158,7 @@ public lemma genericValue_zero {W : Opens (PrimeSpectrum.Top A)} :
     genericValue (0 : Sect A W) = 0 := by
   by_cases hW : genericPt A ∈ W
   · rw [genericValue_eq hW, show (0 : Sect A W).1 ⟨genericPt A, hW⟩ = 0 from rfl, map_zero]
-  · exact dif_neg hW
+  · exact dite_eq_right hW
 
 /-- The value of a section is unchanged by restriction to a smaller nonempty open. -/
 public lemma genericValue_res {W W' : Opens (PrimeSpectrum.Top A)} (hle : W' ≤ W)

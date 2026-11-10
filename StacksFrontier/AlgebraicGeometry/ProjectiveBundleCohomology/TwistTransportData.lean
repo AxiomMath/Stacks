@@ -205,7 +205,7 @@ variable {S : Scheme.{u}} {A A' : SheafGradedAlgebra S}
 
 /-- **The chart data of the transported twists.** -/
 public def transportChartData : ChartData A' (restrictAlgebra f D.algebra) where
-  chart_isOpenImmersion U hU := inferInstance
+  chart_isOpenImmersion := inferInstance
   chart_range U hU := chart_image_top _ U hU
   chartIso U hU n := transportChartIso f σ (fun U => τ.sectionHom U) hσχ hχσ hchart D U hU n
 
@@ -287,10 +287,9 @@ public theorem restrictPushforwardMap_app (M : (relativeProj A).scheme.Modules) 
     (x : Γ(M, (relativeProj A).toBase ⁻¹ᵁ W)) :
     (restrictPushforwardMap f hbase M).app W x =
       M.presheaf.map (homOfLE (image_preimage_le_preimage f hbase W)).op x := by
-  simp only [restrictPushforwardMap, Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply,
+  simp only [restrictPushforwardMap, Scheme.Modules.Hom.comp_app,
     Scheme.Modules.pushforward_map_app, Scheme.Modules.pushforwardComp_hom_app_app,
-    Scheme.Modules.pushforwardCongr_hom_app_app, Scheme.Modules.restrictAdjunction_unit_app_app,
-    ConcreteCategory.id_apply]
+    Scheme.Modules.pushforwardCongr_hom_app_app, Scheme.Modules.restrictAdjunction_unit_app_app]
   exact ConcreteCategory.congr_hom (presheaf_map_comp₂ M.presheaf _ _ _) x
 
 /-- `restrictPushforwardMap_app` on the underlying presheaves. -/

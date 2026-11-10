@@ -249,7 +249,7 @@ public theorem derivedTensorTwoTermδ_eq_of_factorization
           ((CochainComplex.DerivedTensor.derivedTensorProduct K).map ψ ≫
             ((CochainComplex.DerivedTensor.derivedTensorProduct K).commShiftIso
               (1 : ℤ)).hom.app ((twoTermComplexTriangle T).obj₁)) 1 2 (by omega) := by
-  show (DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).shiftMap
+  change (DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).shiftMap
       ((CochainComplex.DerivedTensor.derivedTensorProduct K).map
           ((twoTermComplexTriangle T).mor₃) ≫
         ((CochainComplex.DerivedTensor.derivedTensorProduct K).commShiftIso

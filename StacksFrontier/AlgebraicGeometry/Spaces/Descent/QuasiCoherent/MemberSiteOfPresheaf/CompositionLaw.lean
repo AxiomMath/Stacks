@@ -33,8 +33,6 @@ variable {I : Type v} {X : AlgebraicSpaces B S hS} (Yi : I → AlgebraicSpaces B
 
 section CoverDense
 
-variable [(memberFunctor B S hS Yi f hf).IsCoverDense (SmallEtale.topology B S hS X.1)]
-
 /-! ### The composition law at the charts of the members -/
 
 /-- **The composition law of the restriction map of the presheaf attached to a descent datum,
@@ -335,6 +333,8 @@ theorem memberDatumAb_comp_apply (D : DescentDatum B S hS Yi f) (p q r : (Member
 
 
 /-! ### The sections of the presheaf of abelian groups, and the composition law on them -/
+
+variable [(memberFunctor B S hS Yi f hf).IsCoverDense (SmallEtale.topology B S hS X.1)]
 
 /-- **The composition law of the restriction map, retyped onto the sections of the presheaf of
 abelian groups.**  `.memberDatumAb_comp_apply` states the law at the type its own two sides

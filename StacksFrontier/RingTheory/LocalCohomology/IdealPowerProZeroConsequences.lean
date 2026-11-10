@@ -313,7 +313,7 @@ private theorem exists_proj_eq_of_forall_mem_range (T : Set (PrimeSpectrum A)) (
       ∀ n : ℕᵒᵖ, ((localCohomologyAdicCone.{u, v} A T I i M).π.app n).hom x = y n := by
   obtain ⟨x, hx⟩ := hlift k₀
   refine ⟨x, fun n => ?_⟩
-  show ((localCohomologyAdicCone.{u, v} A T I i M).π.app (op n.unop)).hom x = y (op n.unop)
+  change ((localCohomologyAdicCone.{u, v} A T I i M).π.app (op n.unop)).hom x = y (op n.unop)
   obtain ⟨z, hz⟩ := hlift (max n.unop k₀)
   have hzx : z = x := by
     refine hinj k₀ le_rfl ?_

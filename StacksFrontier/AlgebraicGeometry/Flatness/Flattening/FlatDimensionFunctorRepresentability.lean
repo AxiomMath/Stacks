@@ -135,7 +135,7 @@ theorem isRepresentableNear_of_global {S : Scheme.{u}} {P : Over S → Prop} {s 
     exact ⟨pullback.lift g T.hom hg, pullback.lift_snd _ _ _⟩
   · rintro ⟨g, hg⟩
     refine ⟨g ≫ pullback.fst i V.ι, ?_⟩
-    show _ = T.hom ≫ V.ι
+    change _ = T.hom ≫ V.ι
     rw [Category.assoc, pullback.condition, ← Category.assoc, hg]
 
 /-- The base change of the zero module is flat in all dimensions: every stalk of the pullback of

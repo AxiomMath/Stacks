@@ -208,7 +208,7 @@ theorem exists_geometricPoint_chartLift_liesOver (V : SmallEtale B S hS X) (q : 
   refine ⟨xbar, ℓ, hℓ, ?_, hℓq⟩
   have hzq : (pointsEquivScheme B S hS V.obj.left).symm q = z :=
     (Equiv.symm_apply_eq _).2 hz.symm
-  show xbar.image = _
+  change xbar.image = _
   rw [chartSchemeToPoints_eq_pointsMap_pointsEquivScheme_symm, hxbar]
   exact congrArg _ hzq.symm
 
