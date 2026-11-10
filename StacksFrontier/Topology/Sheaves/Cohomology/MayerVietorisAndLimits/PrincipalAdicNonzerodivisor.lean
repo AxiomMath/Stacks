@@ -61,7 +61,7 @@ lemma isSMulRegular_limit (S : PrincipalAdicInverseSystem.{u, w}) :
       apply ModuleCat.hom_ext
       ext y
       change (S.F (n + 1)).val.obj (op (⊤ : Opens S.X)) at y
-      show (E.map ι).hom ((E.map (S.map n)).hom y) = (S.scalarMap S.f) • y
+      change (E.map ι).hom ((E.map (S.map n)).hom y) = (S.scalarMap S.f) • y
       have heval := congrArg (fun g ↦ (E.map g).hom y) hfactor
       change (E.map ι).hom ((E.map (S.map n)).hom y) =
         ((Stacks.SheafOfModules.terminalSectionToEnd S.R (⊤ : Opens S.X)
@@ -102,10 +102,10 @@ lemma isSMulRegular_limit (S : PrincipalAdicInverseSystem.{u, w}) :
     have hxcoord : S.f • (q (n + 1)).hom x = 0 := by
       rw [← (q (n + 1)).hom.map_smul, hx, map_zero]
     apply hιinj
-    show ιA.hom (qcoord n) = ιA.hom 0
+    change ιA.hom (qcoord n) = ιA.hom 0
     dsimp only [qcoord]
     rw [← htrans]
-    show ιA.hom (tmap.hom (qcoord (n + 1))) = ιA.hom 0
+    change ιA.hom (tmap.hom (qcoord (n + 1))) = ιA.hom 0
     rw [hfactorCoord]
     have hxcoordA : S.f • qcoord (n + 1) = 0 := hxcoord
     rw [hxcoordA, map_zero]
@@ -120,7 +120,7 @@ lemma isSMulRegular_limit (S : PrincipalAdicInverseSystem.{u, w}) :
     apply ModuleCat.hom_ext
     ext y
     rw [ModuleCat.hom_comp, LinearMap.comp_apply]
-    show (limit.π S.globalSectionsSystem n).hom y.val =
+    change (limit.π S.globalSectionsSystem n).hom y.val =
       (limit.π S.globalSectionsSystem n).hom 0
     rw [map_zero]
     exact LinearMap.mem_ker.mp (hker y.property)

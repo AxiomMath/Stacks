@@ -73,10 +73,10 @@ theorem exists_finset_forall_exists_comp_eq_of_isLimit [Nonempty I]
   have hrange : Set.range ev =
       ⋂ (k : I) (k' : I) (a : k ⟶ k'), {φ : ∀ k, Lk k | (φ k).1 ≫ D.map a = (φ k').1} := by
     ext φ
-    simp only [Set.mem_range, Set.mem_iInter, Set.mem_setOf_eq]
+    simp only [Set.mem_range, Set.mem_iInter, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨x, rfl⟩ k k' a
-      show (x.1 ≫ c.π.app k) ≫ D.map a = x.1 ≫ c.π.app k'
+      change (x.1 ≫ c.π.app k) ≫ D.map a = x.1 ≫ c.π.app k'
       rw [Category.assoc, c.w]
     · intro hφ
       obtain ⟨k₀⟩ := ‹Nonempty I›
@@ -105,7 +105,7 @@ theorem exists_finset_forall_exists_comp_eq_of_isLimit [Nonempty I]
   have hU (x : L) : IsOpen (U x) := by
     have : U x = ev ⁻¹' ((fun φ : ∀ k, Lk k => φ (j x)) ⁻¹' {ev x (j x)}) := by
       ext x'
-      simp only [U, Set.mem_setOf_eq, Set.mem_preimage, Set.mem_singleton_iff, ev]
+      simp only [U, Set.mem_ofPred_eq, Set.mem_preimage, Set.mem_singleton_iff, ev]
       exact ⟨fun h => Subtype.ext h, fun h => congrArg Subtype.val h⟩
     rw [this]
     exact ((isOpen_discrete _).preimage (continuous_apply (j x))).preimage hind.continuous

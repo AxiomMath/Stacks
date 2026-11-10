@@ -15,7 +15,8 @@ import StacksCore.Tactic.EgaSgaAttribute
 Let `B` be a big étale site, `X` an object of it and `Λ` a commutative ring. Stacks 06YQ says
 that a bounded above complex of flat modules is K-flat. This file proves that statement for the
 tensor product of sheaves of `Λ`-modules on the small étale site of `X`, with flatness taken in
-the form of `StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.FlatEtaleStalks`:
+the form of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.FlatEtaleStalks`:
 every étale stalk of every term is a flat `Λ`-module. Nothing is asked of `X`.
 
 The engine is the bifunctor-generic `CochainComplex.KFlatBifunctor.kFlat_of_isStrictlyLE`, whose

@@ -117,9 +117,6 @@ def etaleComparisonAdjunction :
       etaleComparisonPushforward B S hS p hp :=
   Stacks.Cohomology.CompareTopologies.adjunction _ _
 
-variable [HasSheafify (BigFppfOver.associatedTopology B S hS p .etale) AddCommGrpCat.{u}]
-  [(BigFppfOver.associatedTopology B S hS p .etale).WEqualsLocallyBijective AddCommGrpCat.{u}]
-
 /-- **`ε_*` preserves injective objects**: its left adjoint, fppf sheafification, is left exact
 and therefore preserves monomorphisms. -/
 theorem preservesInjectiveObjects_etaleComparisonPushforward :
@@ -140,6 +137,9 @@ theorem preservesFiniteLimits_etaleComparisonPushforward :
   have : PreservesLimitsOfSize.{0, 0} (etaleComparisonPushforward B S hS p hp) :=
     (etaleComparisonAdjunction B S hS p hp).rightAdjoint_preservesLimits
   inferInstance
+
+variable [HasSheafify (BigFppfOver.associatedTopology B S hS p .etale) AddCommGrpCat.{u}]
+  [(BigFppfOver.associatedTopology B S hS p .etale).WEqualsLocallyBijective AddCommGrpCat.{u}]
 
 variable [EnoughInjectives (fppfSiteModules B S hS p hp)]
 
@@ -177,7 +177,7 @@ theorem isZero_rightDerived_etaleComparisonPushforward_of_isZero_affine
   rintro V g ⟨⟨Y, a, b, hfac⟩⟩
   have hsub : Subsingleton (ToType (P.obj (op Y.obj))) :=
     ModuleCat.isZero_iff_subsingleton.1 (hPzero Y.obj Y.property)
-  show P.presheaf.map g.op x = P.presheaf.map g.op 0
+  change P.presheaf.map g.op x = P.presheaf.map g.op 0
   rw [← hfac]
   have hfac' : (a ≫ b).op = b.op ≫ a.op := rfl
   rw [hfac', P.presheaf.map_comp]
@@ -185,8 +185,6 @@ theorem isZero_rightDerived_etaleComparisonPushforward_of_isZero_affine
   simp only [ConcreteCategory.comp_apply, hmid]
 
 section Comparison
-
-variable [EnoughInjectives (SheafOfModules.{u} (etaleSiteRingSheaf B S hS p hp))]
 
 /-- `ε_*` carries a short exact sequence to a short exact sequence as soon as `R¹ε_*` vanishes
 on its first term. -/
@@ -196,6 +194,8 @@ theorem shortExact_map_etaleComparisonPushforward_of_isZero
     (T.map (etaleComparisonPushforward B S hS p hp)).ShortExact :=
   let := preservesFiniteLimits_etaleComparisonPushforward B S hS p hp
   Stacks.Cohomology.RightDerivedDelta.shortExact_map_of_isZero_rightDerived_one _ hT h₁
+
+variable [EnoughInjectives (SheafOfModules.{u} (etaleSiteRingSheaf B S hS p hp))]
 
 /-- **Stacks 075R (2) over an object, for an `ε_*`-acyclic module**: if `R^iε_*ℱ = 0` for
 `i > 0`, then `H^n_fppf(x, ℱ) ≅ H^n_ét(x, ε_*ℱ)` for every object `x` and every `n`.
@@ -291,8 +291,8 @@ variable (𝒳 : AlgebraicStacks.{u, w} B S hS)
 
 attribute [local instance] enoughInjectives_fppfModules
 
--- Lean v4.35.0: the `HasProducts` searches behind `hasExt_of_enoughInjectives` exceed the default.
 set_option maxHeartbeats 800000 in
+-- Lean v4.35.0: the `HasProducts` searches behind `hasExt_of_enoughInjectives` exceed the default.
 set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 075R (1)**, `Rε_*ℱ = ε_*ℱ`, on an algebraic stack at module universe `u`, for a
 sheaf of modules on the fppf site cartesian along flat morphisms of affines: `R^iε_*ℱ = 0` for

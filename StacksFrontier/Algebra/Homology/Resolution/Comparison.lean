@@ -420,11 +420,11 @@ theorem lift_unique_up_to_homotopy {M N : Type*} [AddCommGroup M] [Module R M]
   -- The difference, a chain map lifting `0`.
   let γ : ∀ i, F.obj i →ₗ[R] C.obj i := fun i => α i - β i
   have hγ0 : C.ε ∘ₗ γ 0 = 0 := by
-    show C.ε ∘ₗ (α 0 - β 0) = 0
+    change C.ε ∘ₗ (α 0 - β 0) = 0
     rw [LinearMap.comp_sub, hα.bottom_square, hβ.bottom_square, sub_self]
   have hγchain : ∀ i, C.d i ∘ₗ γ (i + 1) = γ i ∘ₗ F.d i := by
     intro i
-    show C.d i ∘ₗ (α (i + 1) - β (i + 1)) = (α i - β i) ∘ₗ F.d i
+    change C.d i ∘ₗ (α (i + 1) - β (i + 1)) = (α i - β i) ∘ₗ F.d i
     rw [LinearMap.comp_sub, hα.chain_map, hβ.chain_map, LinearMap.sub_comp]
   -- State carried by the recursion: a homotopy term `h i` with the property that
   -- `C.d i ∘ₗ h i ∘ₗ F.d i = γ i ∘ₗ F.d i`.

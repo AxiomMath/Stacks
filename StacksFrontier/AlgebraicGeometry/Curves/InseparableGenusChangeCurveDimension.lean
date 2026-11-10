@@ -77,7 +77,7 @@ theorem isCohenMacaulayRing_of_isRegularRing (B : Type*) [CommRing B] [IsRegular
     rw [localRingDepth, Module.depth, ite_eq_right hne]
     exact le_antisymm (iSup_le fun s => le_iSup₂_of_le s.val s.property le_rfl)
       (iSup_le fun rs => iSup_le fun hrs => le_iSup_of_le ⟨rs, hrs⟩ le_rfl)
-  show (localRingDepth R : WithBot ℕ∞) = ringKrullDim R
+  change (localRingDepth R : WithBot ℕ∞) = ringKrullDim R
   rw [hd]
   exact_mod_cast
     (IsRegularLocalRing.isRegular_and_isRegularLocalRing_quotient_and_isMaximalCohenMacaulay R).2
@@ -137,7 +137,7 @@ theorem AlgebraicGeometry.irreducibleSpace_proj_of_isDomain {A : Type u} {σ : T
     [SetLike σ A] [AddSubgroupClass σ A] (𝒜 : ℕ → σ) [_root_.GradedRing 𝒜] [IsDomain A]
     [Nonempty (AlgebraicGeometry.Proj 𝒜)] : IrreducibleSpace (AlgebraicGeometry.Proj 𝒜) := by
   refine (irreducibleSpace_def _).mpr ?_
-  show IsIrreducible (Set.univ : Set (ProjectiveSpectrum 𝒜))
+  change IsIrreducible (Set.univ : Set (ProjectiveSpectrum 𝒜))
   rw [← AlgebraicGeometry.isGenericPoint_projBot 𝒜]
   exact isIrreducible_singleton.closure
 

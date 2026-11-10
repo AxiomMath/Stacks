@@ -158,7 +158,7 @@ theorem imageSieve_iSup_mem_comp {ι : Type*} {A B' : ι → Cᵒᵖ ⥤ Type w}
   rintro V'' d ⟨y, hy⟩
   simp only [Sieve.pullback_apply, iSup, Sieve.sSup_apply, Set.mem_range]
   refine ⟨_, ⟨i, rfl⟩, y, ?_⟩
-  show (ψ i ≫ φ i).app (Opposite.op V'') y = F.map (d ≫ c).op s
+  change (ψ i ≫ φ i).app (Opposite.op V'') y = F.map (d ≫ c).op s
   rw [NatTrans.comp_app, types_comp_apply, hy, (φ i).naturality_apply d.op z, hz,
     ← Functor.map_comp_apply]
   rfl
@@ -257,7 +257,7 @@ theorem exists_chart_of_etaleChartFamily {E : FppfSheaf B S hS}
     { comp_mem := fun f₁ f₂ h₁ h₂ => by
         have _ : Etale ((BigFppfOver.toScheme B S hS).map f₁) := h₁
         have _ : Etale ((BigFppfOver.toScheme B S hS).map f₂) := h₂
-        show Etale ((BigFppfOver.toScheme B S hS).map (f₁ ≫ f₂))
+        change Etale ((BigFppfOver.toScheme B S hS).map (f₁ ≫ f₂))
         rw [Functor.map_comp]
         infer_instance }
   -- the base changes of the members along `t`, and the points of `W'` they meet
@@ -384,7 +384,7 @@ theorem exists_chart_of_etaleChartFamily {E : FppfSheaf B S hS}
   have hcomp : (Sigma.desc fun x => uliftYoneda.{u + 1}.map (kk x)) ≫ qc =
       Sigma.desc fun x => uliftYoneda.{u + 1}.map (k x) ≫ g (idx x) := by
     refine Sigma.hom_ext _ _ fun x => ?_
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc, hkq x]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc, hkq x]
   have : Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS)
       ((Sigma.desc fun x => uliftYoneda.{u + 1}.map (kk x)) ≫ qc) := by
     rw [hcomp]; exact hfxls
@@ -409,7 +409,7 @@ theorem exists_chart_of_etaleChartFamily {E : FppfSheaf B S hS}
       mem₀ := by
         rw [Scheme.presieve₀_mem_precoverage_iff]
         exact ⟨hcovk, hopenk⟩ } fun x => ?_
-  show P ((BigFppfOver.toScheme B S hS).map (kk x) ≫
+  change P ((BigFppfOver.toScheme B S hS).map (kk x) ≫
     (BigFppfOver.toScheme B S hS).map (uliftYoneda.{u + 1}.preimage (qc ≫ π)))
   rw [← Functor.map_comp, hkkwc x, Functor.map_comp, hkxmap x]
   exact IsZariskiLocalAtSource.comp (hwP (idx x)) (Aff x).1.ι
@@ -528,7 +528,7 @@ theorem IsLocallyOfFiniteType.of_etaleFamily {X Y : FppfSheaf B S hS} (f : X ⟶
         (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B S hS T).isSheaf X.property Y.property)
       (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B S hS Z) q hqs hqe
   refine ⟨hrepf, fun T ξ => ?_⟩
-  show Space.IsLocallyOfFiniteTypeULift.{u + 1} B S hS (pullback.fst ξ f.hom)
+  change Space.IsLocallyOfFiniteTypeULift.{u + 1} B S hS (pullback.fst ξ f.hom)
   obtain ⟨Z, w, q, hfac, hqs, hqe, hwlft⟩ := hchart T ξ
   refine Space.holdsOnEveryEtaleChartULift_of_surjectiveChart B S hS
     (@AlgebraicGeometry.LocallyOfFiniteType.{u})

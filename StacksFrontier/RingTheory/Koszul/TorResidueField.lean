@@ -213,7 +213,7 @@ theorem length_tor_swap_of_le_annihilator (f : Fin r → R) (hf : IsKoszulRegula
 theorem sum_range_neg_one_pow_mul_toNat_choose_mul (ℓ : ℕ∞) :
     ∑ n ∈ Finset.range (r + 1), (-1 : ℤ) ^ n * (((r.choose n : ℕ∞) * ℓ).toNat : ℤ) =
       if r = 0 then (ℓ.toNat : ℤ) else 0 := by
-  simp only [ENat.toNat_mul, ENat.toNat_coe, Nat.cast_mul, ← mul_assoc, ← Finset.sum_mul,
+  simp only [ENat.toNat_mul, ENat.toNat_natCast, Nat.cast_mul, ← mul_assoc, ← Finset.sum_mul,
     Int.alternating_sum_range_choose, ite_mul, one_mul, zero_mul]
 
 /-- **The Euler characteristic of `Tor` against a module killed by a Koszul-regular sequence.**
@@ -382,7 +382,7 @@ theorem sum_range_neg_one_pow_mul_length_tor_residueField_residueField {c : ℕ}
     ∑ n ∈ Finset.range (c + 1), (-1 : ℤ) ^ n * ((Module.length R (((Tor' (ModuleCat.{u} R) n).obj
         (ModuleCat.of R (ResidueField R))).obj (ModuleCat.of R (ResidueField R)))).toNat : ℤ) =
       if c = 0 then 1 else 0 := by
-  simp only [length_tor_residueField_residueField hc, ENat.toNat_coe]
+  simp only [length_tor_residueField_residueField hc, ENat.toNat_natCast]
   exact Int.alternating_sum_range_choose
 
 end IsRegularLocalRing

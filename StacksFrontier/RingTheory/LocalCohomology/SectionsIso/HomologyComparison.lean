@@ -106,7 +106,7 @@ theorem cechCyclesOneIsoKer_hom_comp_kerSubtype :
         ModuleCat.ofHom (LinearMap.ker (Cech.cechD f (M : Type _) 1)).subtype =
       (Cech.cechComplex f (M : Type _)).iCycles 1 :=
   ModuleCat.hom_ext (LinearMap.ext fun x => by
-    show (HomologicalComplex.sc' (Cech.cechComplex f (M : Type _)) 0 1 2
+    change (HomologicalComplex.sc' (Cech.cechComplex f (M : Type _)) 0 1 2
         ).moduleCatLeftHomologyData.i
         ((HomologicalComplex.sc' (Cech.cechComplex f (M : Type _)) 0 1 2).moduleCatCyclesIso.hom
           (((Cech.cechComplex f (M : Type _)).cyclesIsoSc' 0 1 2 (by simp) (by simp)).hom x)) = _

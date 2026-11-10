@@ -51,7 +51,7 @@ public lemma sum_finrank_residueField_le_finrank
     choose y hy using fun i => (𝔪 i).asIdeal.algebraMap_residueField_surjective (x i)
     obtain ⟨a, ha⟩ := Ideal.pi_mkQ_surjective hpair fun i => (𝔪 i).asIdeal.mkQ (y i)
     refine ⟨a, funext fun i => ?_⟩
-    show algebraMap A (𝔪 i).asIdeal.ResidueField a = x i
+    change algebraMap A (𝔪 i).asIdeal.ResidueField a = x i
     rw [← hy i, ← sub_eq_zero, ← map_sub, ← RingHom.mem_ker, Ideal.ker_algebraMap_residueField]
     exact (Submodule.Quotient.eq _).mp (congr_fun ha i)
   have (i : Fin t) : Module.Finite k (𝔪 i).asIdeal.ResidueField :=

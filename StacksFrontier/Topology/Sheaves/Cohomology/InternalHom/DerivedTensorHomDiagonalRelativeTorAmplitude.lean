@@ -274,7 +274,7 @@ theorem isFlat_comp {A B C : AlgebraicGeometry.RingedSpace.{u, u}} (f : A ⟶ B)
     (hf : AlgebraicGeometry.IsFlat f) (hg : AlgebraicGeometry.IsFlat g) :
     AlgebraicGeometry.IsFlat (f ≫ g) := fun x => by
   have e := AlgebraicGeometry.PresheafedSpace.stalkMap.comp f.hom g.hom x
-  show ((f.hom ≫ g.hom).stalkMap x).hom.Flat
+  change ((f.hom ≫ g.hom).stalkMap x).hom.Flat
   rw [e]
   exact RingHom.Flat.comp (hg _) (hf x)
 

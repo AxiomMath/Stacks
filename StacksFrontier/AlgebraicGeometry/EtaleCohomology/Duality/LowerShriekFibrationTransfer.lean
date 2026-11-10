@@ -153,7 +153,7 @@ theorem bijective_transferMap_lowerShriekTopTrace (hPD : RelativeCurveDualityInp
     rw [h, ShiftedHom.map_comp, ← ShiftedHom.comp_map, lowerShriekTopTraceTheta_map_ι]
     rfl
   rw [← Function.Bijective.of_comp_iff' (bijective_map_ι ℓ)]
-  show Function.Bijective (fun y => ShiftedHom.map (HomologicalDuality.transferMap
+  change Function.Bijective (fun y => ShiftedHom.map (HomologicalDuality.transferMap
       (derivedLowerShriek.{u, 0} f jf (ZMod ℓ)) (lowerShriekTopTraceTheta ℓ f jf hf ν)
         ((DerivedCategory.Plus.singleFunctor _ 0).obj
           ((etaleModuleInverseImage.{u, 0} (ZMod ℓ) f).obj (unitSheaf (X := S) ℓ))) j y :

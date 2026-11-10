@@ -63,7 +63,7 @@ theorem etale_iff_locallyOfFinitePresentation_and_formallyEtale
         hfp.left).mp hlfp x
     refine ⟨V, U, hx, hUV, ?_⟩
     have hgtop : (f.resLE V.1 U.1 hUV).appTop.hom.FormallyEtale := by
-      show (Scheme.Γ.map (f.resLE V.1 U.1 hUV).op).hom.FormallyEtale
+      change (Scheme.Γ.map (f.resLE V.1 U.1 hUV).op).hom.FormallyEtale
       exact (formallyEtale_iff_globalSectionsMap_formallyEtale (f.resLE V.1 U.1 hUV)).mp
         (FormallyEtale.resLE f U.1 V.1 hUV hformal)
     let : Algebra Γ(S, V) Γ(X, U) := (f.appLE V U hUV).hom.toAlgebra

@@ -116,7 +116,7 @@ theorem map_pull_kzero (h : IsChernCharacter 𝔚 ch)
     (φ := (𝔚.pull f).toAddMonoidHom.comp (h.componentHom Y n))
     (ψ := (h.componentHom X n).comp
       (VectorBundleKZero.pullbackRingHom (S.map f)).toAddMonoidHom) fun E hE => ?_) α
-  show 𝔚.pull f (ch Y (VectorBundleKZero.classOf (S.obj Y) E) n) =
+  change 𝔚.pull f (ch Y (VectorBundleKZero.classOf (S.obj Y) E) n) =
     ch X (VectorBundleKZero.pullbackRingHom (S.map f) (VectorBundleKZero.classOf (S.obj Y) E)) n
   rw [VectorBundleKZero.pullbackRingHom_classOf (S.map f) E hE, h.map_pull f E hE n]
 

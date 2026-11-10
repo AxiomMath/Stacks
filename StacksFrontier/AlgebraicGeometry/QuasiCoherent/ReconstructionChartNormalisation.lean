@@ -226,7 +226,7 @@ theorem chartPullbackIso_hom_app_unit :
         (tensorLeftFunctorObjUnitSchemeIso L).inv ≫
         ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} V.toScheme.sheaf).obj L).map
           (Scheme.Modules.pullbackUnitIso (f.hom ≫ U.ι)).inv := by
-  show (Scheme.Modules.restrictFunctorIsoPullback V.ι).inv.app
+  change (Scheme.Modules.restrictFunctorIsoPullback V.ι).inv.app
           (E.obj (quasicoherentUnit X)).obj ≫
         (ObjectProperty.ι (SheafOfModules.isQuasicoherent V.toScheme.ringCatSheaf)).map
             (α.app (quasicoherentUnit X)).hom ≫

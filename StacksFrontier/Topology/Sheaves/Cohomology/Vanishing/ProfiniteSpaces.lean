@@ -103,7 +103,7 @@ private theorem exists_fin_pairwise_disjoint_opens_refinement
   · obtain ⟨j, hj⟩ := Set.mem_iUnion.mp (hWcov (Set.mem_univ x))
     exact Opens.mem_iSup.mpr ⟨j, hj⟩
   · apply SetLike.coe_injective
-    show (W i : Set X) ∩ (W j : Set X) = ∅
+    change (W i : Set X) ∩ (W j : Set X) = ∅
     exact congrArg (fun A : Clopens X ↦ (A : Set X)) (disjoint_iff.mp (hWdisj hij))
 
 variable [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{w}]
@@ -148,7 +148,7 @@ private lemma epi_globalSections_map_of_isProfiniteStacks
     rw [NatTrans.naturality_apply f₁.hom (incl j).op (ULift.up (a j)),
       show f₁.hom.app (op (U (x j))) (ULift.up (a j)) =
         ULift.up ((G.obj.map (i (x j)).op) t) from congrArg ULift.up (ha j)]
-    show ULift.up ((G.obj.map (incl j).op) ((G.obj.map (i (x j)).op) t)) =
+    change ULift.up ((G.obj.map (incl j).op) ((G.obj.map (i (x j)).op) t)) =
       ULift.up ((G.obj.map (homOfLE (show V j ≤ ⊤ from le_top)).op) t)
     rw [← Functor.map_comp_apply, ← op_comp,
       Subsingleton.elim (incl j ≫ i (x j)) (homOfLE le_top)]
@@ -196,7 +196,7 @@ theorem isZero_abelianSheafCohomology_of_isProfiniteStacks
   have : E.PreservesHomology := Functor.preservesHomology_of_preservesEpis_and_kernels E
   let I := injectiveResolution F
   refine IsZero.of_iso ?_ (I.isoRightDerivedObj E q)
-  show IsZero (((E.mapHomologicalComplex (ComplexShape.up ℕ)).obj I.cocomplex).homology q)
+  change IsZero (((E.mapHomologicalComplex (ComplexShape.up ℕ)).obj I.cocomplex).homology q)
   rw [← HomologicalComplex.exactAt_iff_isZero_homology]
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hq.ne'
   rw [HomologicalComplex.exactAt_iff]

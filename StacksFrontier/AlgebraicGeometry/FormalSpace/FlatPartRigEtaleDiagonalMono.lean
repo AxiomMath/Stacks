@@ -80,7 +80,7 @@ theorem isLocallySurjective_of_isSurjective_of_isRepresentableEtale {X Y : FppfS
     Sheaf.IsLocallySurjective f := by
   obtain ⟨hrep, hflat⟩ := IsRepresentableFlat.of_isRepresentableEtale B S hS f hf
   refine isLocallySurjective_of_isSurjective_of_flat B S hS hrep hsurj hflat fun U ξ => ?_
-  show Space.HoldsOnEveryEtaleChartULift.{u + 1} B S hS
+  change Space.HoldsOnEveryEtaleChartULift.{u + 1} B S hS
     (@AlgebraicGeometry.LocallyOfFinitePresentation.{u} : MorphismProperty Scheme.{u})
       (pullback.fst ξ f.hom)
   exact Space.holdsOnEveryEtaleChartULift_locallyOfFinitePresentation_of_isEtaleULift_of_uliftYoneda
@@ -150,13 +150,13 @@ theorem FieldValuedPointULift.class_eq_of_ker_eq
     let f : p.siteObject B S hS _ ⟶ p₀.siteObject B S hS _ :=
       Over.homMk (⟨Spec.map (CommRingCat.ofHom L)⟩ : B.obj p.contained ⟶ B.obj hκ) (by
         ext
-        show Spec.map (CommRingCat.ofHom L) ≫ Spec.map (CommRingCat.ofHom α) ≫ E.overS I =
+        change Spec.map (CommRingCat.ofHom L) ≫ Spec.map (CommRingCat.ofHom α) ≫ E.overS I =
           p.toBase
         rw [← Category.assoc, hspec, ← ht]
         exact congrArg (fun k => k.hom) (Over.w t))
     have hft : f ≫ t₀ = t := by
       ext
-      show Spec.map (CommRingCat.ofHom L) ≫ Spec.map (CommRingCat.ofHom α) = t.left.hom
+      change Spec.map (CommRingCat.ofHom L) ≫ Spec.map (CommRingCat.ofHom α) = t.left.hom
       rw [hspec, ht]
     refine ⟨f, (Sheaf.sectionEquiv_map_comp (BigFppfOver.topology B S hS) f
       ((Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).map t₀ ≫
@@ -199,7 +199,7 @@ theorem exists_adic_completeDvr_point_of_pointsULift (hR : TopologicalRing.IsAdi
       (_ : TopologicalSpace W) (_ : IsTopologicalRing W) (_ : IsLinearTopology W W)
       (hWadic : _root_.IsAdic (IsLocalRing.maximalIdeal W)),
       IsAdicComplete (IsLocalRing.maximalIdeal W) W ∧
-        ∃ (hW : TopologicalRing.IsWeaklyAdmissible W) (DW : QuotientSystem B S hS W)
+        ∃ (_ : TopologicalRing.IsWeaklyAdmissible W) (DW : QuotientSystem B S hS W)
           (χ : ContinuousHom E DW),
           Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS
             (formalSpectrumMap (Rig.weaklyAdmissible_of_isAdicRing hR) χ).hom ∧
@@ -245,7 +245,7 @@ theorem exists_adic_completeDvr_point_of_pointsULift (hR : TopologicalRing.IsAdi
   refine ⟨W, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, hWadic, hWc, hWw, DW, χ, hrep, ?_⟩
   have hIm : I.1 ≤ Ideal.comap χ.toRingHom (residueStage hWadic).1 := by
-    show I.1 ≤ (IsLocalRing.maximalIdeal W).comap χ.toRingHom
+    change I.1 ≤ (IsLocalRing.maximalIdeal W).comap χ.toRingHom
     rwa [hcomap]
   let p₂ := Space.FieldValuedPointULift.map B S hS _
     (formalSpectrumMap (Rig.weaklyAdmissible_of_isAdicRing hR) χ).hom (residuePoint hWadic DW)
@@ -263,9 +263,9 @@ theorem exists_adic_completeDvr_point_of_pointsULift (hR : TopologicalRing.IsAdi
   refine (FieldValuedPointULift.class_eq_of_ker_eq B S hS E I p p₂ t t₂ h₁ h₂ φ φ₂ hφ rfl ?_).symm
   ext x
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-  show φ (Ideal.Quotient.mk I.1 r) = 0 ↔ Ideal.Quotient.mk _ (χ.toRingHom r) = 0
+  change φ (Ideal.Quotient.mk I.1 r) = 0 ↔ Ideal.Quotient.mk _ (χ.toRingHom r) = 0
   rw [Ideal.Quotient.eq_zero_iff_mem]
-  show r ∈ 𝔪 ↔ r ∈ (IsLocalRing.maximalIdeal W).comap χ.toRingHom
+  change r ∈ 𝔪 ↔ r ∈ (IsLocalRing.maximalIdeal W).comap χ.toRingHom
   rw [hcomap]
 
 end DvrPoints
@@ -293,7 +293,7 @@ theorem pointsMapULift_residuePoint_of_isExtension {W W' : Type u} [CommRing W] 
     hcomap.ge
   have hm' : ∀ {r : W}, e.toRingHom r ∈ (residueStage hW'adic).1 → r ∈ (residueStage hWadic).1 :=
     fun {r} h => by
-      show r ∈ IsLocalRing.maximalIdeal W
+      change r ∈ IsLocalRing.maximalIdeal W
       rw [← hcomap]
       exact h
   let p₂ := Space.FieldValuedPointULift.map B S hS _ (formalSpectrumMap hWw e).hom
@@ -404,7 +404,7 @@ theorem exists_nonZeroDivisor_pow_mem_of_flat
     have hreg : IsSMulRegular R ϖ :=
       Module.Flat.isSMulRegular_of_nonZeroDivisors (mem_nonZeroDivisors_of_ne_zero hϖ.ne_zero)
     refine mem_nonZeroDivisors_iff_right.mpr fun x hx => hreg ?_
-    show ϖ • x = ϖ • 0
+    change ϖ • x = ϖ • 0
     rw [smul_zero, Algebra.smul_def]
     exact (mul_comm _ _).trans hx
   · have hopen : IsOpen (c ⁻¹' (I : Set R)) := hI.preimage hc

@@ -386,7 +386,7 @@ theorem selfSolutionOverSubcollection_rho_isCompatibleHom (S : LocallyGiven X)
     ((selfSolutionOverSubcollection S 𝒟 h𝒟 V hV).restrictOpen W hWV).IsCompatibleHom
       (selfSolutionOverSubcollection S 𝒟 h𝒟 W hW) (S.rho W V hWV hV hW).hom := by
   intro T hT hTW
-  show (S.restriction T W hTW).map (S.rho W V hWV hV hW).hom ≫
+  change (S.restriction T W hTW).map (S.rho W V hWV hV hW).hom ≫
         (S.rho T W hTW hW (h𝒟 hT)).hom =
       (S.restrictionComp T W V hTW hWV).inv.app (S.obj V hV) ≫
         (S.rho T V (hTW.trans hWV) hV (h𝒟 hT)).hom

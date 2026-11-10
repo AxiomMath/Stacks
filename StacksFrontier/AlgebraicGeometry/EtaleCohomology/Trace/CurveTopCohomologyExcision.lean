@@ -43,7 +43,7 @@ variable {k : Type u} [Field k] [Fintype k] {Y : Scheme.{u}}
   {Z U : Scheme.{u}} (iZ : Z ⟶ Y) [IsClosedImmersion iZ] (jU : U ⟶ Y) [IsOpenImmersion jU]
   (hij : Set.range jU.base = (Set.range iZ.base)ᶜ)
 
-omit [Fintype k] in
+omit [Fintype k] [IsSeparated fY] in
 include hij in
 /-- **`H²_c(Y_k̄, j_! j⁻¹ G) ≅ H²_c(Y_k̄, G)`** when the closed complement of the open `U` has
 dimension `0`. -/

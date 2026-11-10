@@ -105,6 +105,22 @@ public theorem tensorProduct_idealOfDefinition_eq_map (I : Ideal A) :
     exact congrArg (I.map) (RingHom.ext f.commutes)
   rw [key, key, Ideal.add_eq_sup, sup_idem]
 
+/-- **`B ⊗[A] C` is complete when `C` is a finite `A`-module.**  The tensor product is a finite
+module over the Noetherian complete ring `B`, hence complete for the extension of the ideal of
+definition of `B`, which is the extension of `I`. -/
+@[ega "0 7.7.8" "special case"]
+public theorem isAdicComplete_tensorProduct_of_finite (I : Ideal A) [IsNoetherianRing B]
+    [IsAdicComplete (I.map (algebraMap A B)) B] [Module.Finite A C] :
+    IsAdicComplete (I.map (algebraMap A (B ⊗[A] C))) (B ⊗[A] C) := by
+  have : Module.Finite B (B ⊗[A] C) := Module.Finite.base_change A B C
+  have hB : IsAdicComplete (I.map (algebraMap A B)) (B ⊗[A] C) :=
+    AdicCompletion.isAdicComplete_of_finite_of_isNoetherianRing (I.map (algebraMap A B))
+      (B ⊗[A] C)
+  have hmap : (I.map (algebraMap A B)).map (algebraMap B (B ⊗[A] C)) =
+      I.map (algebraMap A (B ⊗[A] C)) := by
+    rw [Ideal.map_map, ← IsScalarTower.algebraMap_eq A B (B ⊗[A] C)]
+  exact hmap ▸ (IsAdicComplete.map_algebraMap_iff (I.map (algebraMap A B)) (B ⊗[A] C)).mpr hB
+
 variable [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
   [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
   [TopologicalSpace C] [IsTopologicalRing C] [IsLinearTopology C C]
@@ -121,22 +137,6 @@ public theorem isAdic_tensorProduct_map_algebraMap (I : Ideal A)
     (I.map (algebraMap A C)) (isIdealOfDefinition_of_isAdic hK)
     (I.map (algebraMap A C)) (isIdealOfDefinition_of_isAdic hK) hK
   rwa [tensorProduct_idealOfDefinition_eq_map I] at h
-
-/-- **`B ⊗[A] C` is complete when `C` is a finite `A`-module.**  The tensor product is a finite
-module over the Noetherian complete ring `B`, hence complete for the extension of the ideal of
-definition of `B`, which is the extension of `I`. -/
-@[ega "0 7.7.8" "special case"]
-public theorem isAdicComplete_tensorProduct_of_finite (I : Ideal A) [IsNoetherianRing B]
-    [IsAdicComplete (I.map (algebraMap A B)) B] [Module.Finite A C] :
-    IsAdicComplete (I.map (algebraMap A (B ⊗[A] C))) (B ⊗[A] C) := by
-  have : Module.Finite B (B ⊗[A] C) := Module.Finite.base_change A B C
-  have hB : IsAdicComplete (I.map (algebraMap A B)) (B ⊗[A] C) :=
-    AdicCompletion.isAdicComplete_of_finite_of_isNoetherianRing (I.map (algebraMap A B))
-      (B ⊗[A] C)
-  have hmap : (I.map (algebraMap A B)).map (algebraMap B (B ⊗[A] C)) =
-      I.map (algebraMap A (B ⊗[A] C)) := by
-    rw [Ideal.map_map, ← IsScalarTower.algebraMap_eq A B (B ⊗[A] C)]
-  exact hmap ▸ (IsAdicComplete.map_algebraMap_iff (I.map (algebraMap A B)) (B ⊗[A] C)).mpr hB
 
 /-- `B ⊗[A] C` is complete and separated for the tensor-product topology when `C` is finite. -/
 private theorem completeSpace_and_t2Space_of_finite (I : Ideal A)

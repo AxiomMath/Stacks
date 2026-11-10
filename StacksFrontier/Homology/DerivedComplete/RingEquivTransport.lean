@@ -223,7 +223,7 @@ theorem restrictScalars_symm_map_smul_id (M : ModuleCat.{w} R) (a : R) :
     (ModuleCat.restrictScalars.{w} e.symm.toRingHom).map (a • 𝟙 M) =
       e a • 𝟙 ((ModuleCat.restrictScalars.{w} e.symm.toRingHom).obj M) := by
   ext x
-  show a • x = e.symm.toRingHom (e a) • x
+  change a • x = e.symm.toRingHom (e a) • x
   simp
 
 /-- Restriction of scalars along `e.symm`, applied degreewise to cochain complexes, carries the

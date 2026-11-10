@@ -466,7 +466,8 @@ sheaf, so the two spellings of the category are already interchangeable by unfol
 What would remove this obstruction is therefore not that refactor but one of: a shape in which
 the chart component of the direct image is declared at a single spelling of its argument, so
 that no consumer ever crosses (this moves the cost to every consumer of
-`AlgebraicGeometry.Space.modulePushforwardCounitApp`, of which there are many); or a statement of the composite coherence quantified over the chart in opposite
+`AlgebraicGeometry.Space.modulePushforwardCounitApp`, of which there are many); or a statement of
+the composite coherence quantified over the chart in opposite
 form, so that the crossing is never instantiated at a constructor application. -/
 def ModulePushforwardChartComponentCompResidue : Prop :=
   ∀ {X Y Z : AlgebraicSpaces B S hS} (f : X ⟶ Y) (g : Y ⟶ Z)

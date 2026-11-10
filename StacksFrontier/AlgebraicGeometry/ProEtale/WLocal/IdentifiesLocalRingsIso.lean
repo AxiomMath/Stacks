@@ -248,7 +248,7 @@ private theorem localized_algebraMap_bijective
   have heq : eB.toRingHom.comp l = g := by
     apply IsLocalization.ringHom_ext (q.comap (algebraMap A B)).primeCompl
     ext x
-    show eB.toRingHom
+    change eB.toRingHom
         ((algebraMap (Localization.AtPrime (q.comap (algebraMap A B))) Bp)
           (algebraMap A (Localization.AtPrime (q.comap (algebraMap A B))) x)) =
       g (algebraMap A (Localization.AtPrime (q.comap (algebraMap A B))) x)

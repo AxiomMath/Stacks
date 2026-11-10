@@ -245,7 +245,7 @@ theorem isHigherDirectImageColimit_zero (F : EtaleSheafSystem DX Ab.{u + 1})
   have hinv : ∀ {Z : Scheme.{u}} {P Q : Sheaf (smallEtaleTopology Z) Ab.{u + 1}} (e : P ≅ Q)
       (V : Z.Etaleᵒᵖ)
       (z : ToType (Q.obj.obj V)), e.hom.hom.app V (e.inv.hom.app V z) = z := fun e V z => by
-    show (e.inv ≫ e.hom).hom.app V z = z
+    change (e.inv ≫ e.hom).hom.app V z = z
     rw [Iso.inv_hom_id]
     rfl
   have hinv' : ∀ {Z : Scheme.{u}} {P Q : Sheaf (smallEtaleTopology Z) Ab.{u + 1}} (e : P ≅ Q)
@@ -263,7 +263,7 @@ theorem isHigherDirectImageColimit_zero (F : EtaleSheafSystem DX Ab.{u + 1})
       ((Φ i₀).inv.hom.app (op V₀) s)
     refine ⟨k, a, (Ψ a).hom.hom.app (op V₀) y, ?_⟩
     refine (hleg' a V₀ y).trans ?_
-    show (Φ i₀).hom.hom.app (op V₀) ((F.pushforwardLeg cX ι a).hom.app (op W₀) y) = s
+    change (Φ i₀).hom.hom.app (op V₀) ((F.pushforwardLeg cX ι a).hom.app (op W₀) y) = s
     rw [hy]
     exact hinv (Φ i₀) (op V₀) s
   · intro i₀ V₀ _ _ k a x hx
@@ -278,7 +278,7 @@ theorem isHigherDirectImageColimit_zero (F : EtaleSheafSystem DX Ab.{u + 1})
     rw [hxy, hx] at h
     have hy0 : (F.pushforwardLeg cX ι a).hom.app (op W₀) y = 0 := by
       rw [← hinv' (Φ i₀) (op V₀) ((F.pushforwardLeg cX ι a).hom.app (op W₀) y)]
-      show (Φ i₀).inv.hom.app (op V₀) ((Φ i₀).hom.hom.app (op V₀)
+      change (Φ i₀).inv.hom.app (op V₀) ((Φ i₀).hom.hom.app (op V₀)
         ((F.pushforwardLeg cX ι a).hom.app (op W₀) y)) = 0
       rw [← h, map_zero]
     obtain ⟨l, b, hb⟩ := F.exists_pushforwardTransition_apply_eq_zero cX hcX ι hι hpres W₀ a y
@@ -287,7 +287,7 @@ theorem isHigherDirectImageColimit_zero (F : EtaleSheafSystem DX Ab.{u + 1})
     have h2 := htr' b a V₀ y
     rw [hxy] at h2
     refine h2.trans ?_
-    show (Ψ (b ≫ a)).hom.hom.app (op V₀) ((F.pushforwardTransition b a).hom.app (op W₀) y) = 0
+    change (Ψ (b ≫ a)).hom.hom.app (op V₀) ((F.pushforwardTransition b a).hom.app (op W₀) y) = 0
     rw [hb]
     exact map_zero _
 

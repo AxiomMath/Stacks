@@ -156,7 +156,7 @@ private lemma over_mem_toPrecoverage_of_mapped_hypercover
       (Scheme.fpqcTopology.over S).toPrecoverage (F.obj X) := by
   rw [GrothendieckTopology.mem_toPrecoverage_iff, GrothendieckTopology.mem_over_iff,
     Sieve.overEquiv_generate]
-  show Sieve.generate (Presieve.functorPushforward (Over.forget S)
+  change Sieve.generate (Presieve.functorPushforward (Over.forget S)
       (E.presieve₀.map F)) ∈ Scheme.fpqcTopology (F.obj X).left
   rw [← Sieve.arrows_generate_map_eq_functorPushforward]
   simp only [Sieve.generate_sieve]
@@ -513,7 +513,7 @@ private theorem bigAffineSmooth_isContinuous (B : BigSmoothSite.{u})
   let : PreservesLimitsOfShape WalkingCospan
       (BigSmoothOver.toScheme B S hS) := inferInstance
   let : CreatesLimitsOfShape WalkingCospan (BigAffineSmooth.inclusion B S hS) := by
-    show CreatesLimitsOfShape WalkingCospan
+    change CreatesLimitsOfShape WalkingCospan
       (ObjectProperty.ι (fun X : BigSmoothOver B S hS =>
         IsAffine ((BigSmoothOver.toScheme B S hS).obj X)))
     exact affineCreatesPullbacks (C := BigSmoothOver B S hS)
@@ -635,7 +635,7 @@ private theorem bigAffineSyntomic_isContinuous
   let : PreservesLimitsOfShape WalkingCospan
       (BigSyntomicOver.toScheme B S hS) := inferInstance
   let : CreatesLimitsOfShape WalkingCospan (BigAffineSyntomic.inclusion B S hS) := by
-    show CreatesLimitsOfShape WalkingCospan
+    change CreatesLimitsOfShape WalkingCospan
       (ObjectProperty.ι
         (fun X : BigSyntomicOver B S hS =>
           IsAffine ((BigSyntomicOver.toScheme B S hS).obj X)))

@@ -49,8 +49,8 @@ existence statement cannot express that: `exists_relativeLeraySpectralSequence` 
 spectral sequence for each object of `D⁺(Mod(O_C))` separately and relates the spectral
 sequences of two objects by nothing at all. The tag is therefore carried by
 `Stacks.Cohomology.Leray.relativeLeraySpectralSequence` and
-`Stacks.Cohomology.Leray.relativeLeraySpectralSequencePlus` of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/Modules/RelativeLeraySpectralSequenceFunctorial.lean`,
+`Stacks.Cohomology.Leray.relativeLeraySpectralSequencePlus` of the module
+`StacksFrontier.CategoryTheory.Sites.Cohomology.Modules.RelativeLeraySpectralSequenceFunctorial`,
 which construct the spectral sequence as a *functor* of the module, respectively of the bounded
 below complex, together with the natural identification of its second page and a functorial
 finite filtered abutment.

@@ -62,7 +62,7 @@ theorem existsUnique_specMap_eq {C D : Type u} [CommRing C] [Algebra (ringOf B S
   · apply (BigFppfOver.toScheme B S hS).map_injective
     rw [toScheme_map_specMap, ← hφ₀]
     rfl
-  · apply AlgHom.coe_ringHom_injective
+  · apply AlgHom.toRingHom_injective
     have h1 := congrArg (BigFppfOver.toScheme B S hS).map hψ
     rw [toScheme_map_specMap, ← hφ₀] at h1
     exact congrArg CommRingCat.Hom.hom (Spec.map_injective h1)

@@ -63,14 +63,14 @@ theorem ratioN_eq_one_iff (i : ℱ.Index) :
   · simpa only [h, one_smul] using ℱ.ratioN_smul_localGeneratorN i
   · refine ((ℱ.isStalkBasis_localGeneratorN i).toGenericStalk
       (isTrivializedNear_of_isInvertible N (ℱ.componentPoint i))).injective ?_
-    show ℱ.ratioN i • _ = (1 : X.functionField) • _
+    change ℱ.ratioN i • _ = (1 : X.functionField) • _
     rw [one_smul, ℱ.ratioN_smul_localGeneratorN i, h]
 
 /-- `∂_{B_i}(f_i, 1) = 1`: the tame symbol is trivial in its second argument (Stacks 0EAI). -/
 theorem tameSymbol_eq_one_of_ratioN_eq_one {i : ℱ.Index} (h : ℱ.ratioN i = 1) :
     ℱ.tameSymbol i = 1 := by
   have h1 : Units.mk0 (ℱ.ratioN i) (ℱ.ratioN_ne_zero i) = 1 := Units.val_eq_one.mp h
-  show tameSymbolAtCoheightOne (ℱ.coheight_componentPoint i)
+  change tameSymbolAtCoheightOne (ℱ.coheight_componentPoint i)
       (Units.mk0 (ℱ.ratioL i) (ℱ.ratioL_ne_zero i))
       (Units.mk0 (ℱ.ratioN i) (ℱ.ratioN_ne_zero i)) = 1
   rw [h1]

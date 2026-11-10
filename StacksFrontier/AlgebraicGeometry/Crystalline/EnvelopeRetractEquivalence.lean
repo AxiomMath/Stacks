@@ -125,7 +125,7 @@ variable (s : AffineCrystallineSituation.{u, v})
 `q : A[x_i] ↠ P'` the completed envelopes are related by divided power morphisms `a`, `b` over
 `A` with `a ∘ b = id`, compatible with the augmentations to `C`; then `b ∘ a` moves elements within
 the divided power ideal. -/
-theorem exists_retract_of_surjective {ι : Type u} [Fintype ι] (P' : Type u) [CommRing P']
+theorem exists_retract_of_surjective {ι : Type u} (P' : Type u) [CommRing P']
     [Algebra s.A P'] [Algebra.Smooth (s.A : Type u) P'] (f' : P' →ₐ[s.A] s.C)
     (hf' : Function.Surjective f') (q : MvPolynomial ι s.A →ₐ[s.A] P')
     (hq : Function.Surjective q) :
@@ -153,7 +153,7 @@ theorem exists_retract_of_surjective {ι : Type u} [Fintype ι] (P' : Type u) [C
   have haug := completedEnvelopeAugmentation_comp_of_dpMorphism s q f' hf' (hf'.comp hq) rho
     hrhoalg a ha
   refine ⟨a, b, fun c ↦ ?_, hbstruct, hab, haug, ?_⟩
-  · show a.toRingHom (algebraMap _ _ ((presentationEnvelope s (f'.comp q)).structureMap.toRingHom
+  · change a.toRingHom (algebraMap _ _ ((presentationEnvelope s (f'.comp q)).structureMap.toRingHom
       c)) = algebraMap _ _ ((presentationEnvelope s f').structureMap.toRingHom c)
     rw [ha ((presentationEnvelope s (f'.comp q)).structureMap.toRingHom c)]
     exact congrArg _ (DFunLike.congr_fun
@@ -167,7 +167,7 @@ theorem exists_retract_of_surjective {ι : Type u} [Fintype ι] (P' : Type u) [C
 
 /-- `Crystalline.exists_retract_of_surjective` for a presentation `g` equal to the composite
 `f' ∘ q`, stated for `g` itself. -/
-theorem exists_retract_of_comp_eq {ι : Type u} [Fintype ι] (P' : Type u) [CommRing P']
+theorem exists_retract_of_comp_eq {ι : Type u} (P' : Type u) [CommRing P']
     [Algebra s.A P'] [Algebra.Smooth (s.A : Type u) P'] (f' : P' →ₐ[s.A] s.C)
     (hf' : Function.Surjective f') (q : MvPolynomial ι s.A →ₐ[s.A] P')
     (hq : Function.Surjective q) (g : MvPolynomial ι s.A →ₐ[s.A] s.C) (hgq : f'.comp q = g)

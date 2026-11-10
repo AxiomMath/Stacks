@@ -285,7 +285,7 @@ public lemma isSite (B : BigPHSite.{u}) (S : Scheme.{u})
     have hc := hComp ⟨G.obj E.1, E.2.map G⟩ hE.1
       (fun i => ⟨G.obj (F i).1, (F i).2.map G⟩) (fun i => (hF i).1)
       (fun i => congrArg G.obj (h i))
-    show B.IsCovering ⟨G.obj E.1,
+    change B.IsCovering ⟨G.obj E.1,
       (E.2.bind fun i => (F i).2.pushforward (eqToHom (h i))).map G⟩ ∧
       Finite (E.2.bind fun i => (F i).2.pushforward (eqToHom (h i))).I₀
     have : Finite E.2.I₀ := hE.2
@@ -294,7 +294,7 @@ public lemma isSite (B : BigPHSite.{u}) (S : Scheme.{u})
     · convert hc using 1
       simp [G, PreZeroHypercover.map, PreZeroHypercover.bind,
         PreZeroHypercover.pushforward]
-    · show Finite (Σ i : E.2.I₀, (F i).2.I₀)
+    · change Finite (Σ i : E.2.I₀, (F i).2.I₀)
       exact Finite.instSigma
   · intro E hE V g
     let U₀ := (BigAffinePH.inclusion B S hS).obj E.1
@@ -318,7 +318,7 @@ public lemma isSite (B : BigPHSite.{u}) (S : Scheme.{u})
     let q₁ (i : E.2.I₀) : Q i ⟶ E.2.X i :=
       ObjectProperty.homMk (Over.homMk (X := B.obj S hS) (U := Q₀ i) (V := X₀ i)
         (p₁ i) (by
-        show p₁ i ≫ (X₀ i).hom = (Q₀ i).hom
+        change p₁ i ≫ (X₀ i).hom = (Q₀ i).hom
         simpa [G, U₀, V₀, X₀, Q₀, Category.assoc] using
           congrArg (fun t => t ≫ U₀.hom) (hpb i).w))
     let q₂ (i : E.2.I₀) : Q i ⟶ V :=
@@ -328,7 +328,7 @@ public lemma isSite (B : BigPHSite.{u}) (S : Scheme.{u})
     · exact fun i ↦ IsPullback.of_map_of_faithful (F := BigAffinePH.inclusion B S hS)
         (IsPullback.of_map_of_faithful (F := BigPHOver.forget B S hS)
           (by simpa [G, Q, Q₀, q₁, q₂, U₀, V₀, X₀] using hpb i))
-    · show B.IsCovering ⟨G.obj V, ⟨E.2.I₀, P, p₂⟩⟩ ∧
+    · change B.IsCovering ⟨G.obj V, ⟨E.2.I₀, P, p₂⟩⟩ ∧
         Finite E.2.I₀
       exact ⟨hcov, hE.2⟩
 

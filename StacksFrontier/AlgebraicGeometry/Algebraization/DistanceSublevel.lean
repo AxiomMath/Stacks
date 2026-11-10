@@ -258,7 +258,7 @@ private lemma appendTerminal_weight_le
           (∑ l : Fin s.k, if i.val ≤ l.val then s.downCodimension l else 0))
         (Finset.mem_univ j)
       omega
-  show s.k + 1 + N ≤ s.k + M
+  change s.k + 1 + N ≤ s.k + M
   omega
 
 /-- **Stacks Project, Tag 0EIY.** Sublevel sets of the distance from a closed subset of a

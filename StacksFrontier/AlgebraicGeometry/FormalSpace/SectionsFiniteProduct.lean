@@ -89,7 +89,7 @@ theorem existsUnique_section_of_pi {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type v}
     refine ⟨i, (eUi i).inv.base w', ?_⟩
     rw [sigmaMk_mk, ← Scheme.Hom.comp_apply, ι_sigmaSpec] at hw
     apply eU.hom.homeomorph.injective
-    show ((toScheme B S hS).map (j i) ≫ eU.hom).base ((eUi i).inv.base w') = _
+    change ((toScheme B S hS).map (j i) ≫ eU.hom).base ((eUi i).inv.base w') = _
     rwa [hj i, Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply (eUi i).inv, Iso.inv_hom_id]
   refine (Presieve.isSheafFor_arrows_iff _ _).1 ((Presieve.isSheafFor_iff_generate _).2
     (((isSheaf_iff_isSheaf_of_type (topology B S hS) F).1 hF) _

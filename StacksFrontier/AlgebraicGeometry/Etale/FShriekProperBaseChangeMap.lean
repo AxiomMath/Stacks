@@ -75,7 +75,7 @@ public theorem fiberBaseChangeArrow_naturality {V₁ V : SmallEtale B Y.obj Y.pr
       (smallEtaleBaseChange B f').map ((smallEtaleBaseChange B g).map a) ≫
         fiberBaseChangeArrow B p f' f g sq V := by
   refine baseChangeObj_hom_ext B p ?_
-  show (fiberBaseChangeArrow B p f' f g sq V₁).hom.left ≫
+  change (fiberBaseChangeArrow B p f' f g sq V₁).hom.left ≫
       ((smallEtaleBaseChange B p).map ((smallEtaleBaseChange B f).map a)).hom.left ≫
         baseChangeObjProjection B p (baseChange B f V) =
     ((smallEtaleBaseChange B f').map ((smallEtaleBaseChange B g).map a)).hom.left ≫

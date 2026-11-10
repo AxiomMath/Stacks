@@ -97,7 +97,7 @@ public theorem isEmpty_relativeSingularIdeal_subscheme_of_smoothOfRelativeDimens
   have hFit := (((finiteLocallyFreeOfRank_tfae_fittingIdeal
     (Scheme.Hom.relativeDifferentials f) 1).out 1 2 rfl rfl).mp inferInstance).2
   rw [Nat.cast_one] at hFit
-  show IsEmpty (fittingIdeal (Scheme.Hom.relativeDifferentials f) 1).subscheme
+  change IsEmpty (fittingIdeal (Scheme.Hom.relativeDifferentials f) 1).subscheme
   rw [hFit]
   infer_instance
 

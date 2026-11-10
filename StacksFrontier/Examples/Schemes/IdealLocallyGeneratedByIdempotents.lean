@@ -238,7 +238,7 @@ private def branchAt (n : Int) : TwistRing →+* TwistBranch where
 at its successor. -/
 private lemma mem_supportFinset (a : TwistRing) (ha : a ∈ tailIdeal) (i : Int) :
     i ∈ supportFinset a ha ↔ a.1.1 i ≠ 0 ∨ a.1.1 (i + 1) ≠ 0 := by
-  show i ∈ rawSupportFinset a ha ∪
+  change i ∈ rawSupportFinset a ha ∪
       (rawSupportFinset a ha).image (fun j : Int => j - 1) ↔ _
   simp only [Finset.mem_union, Finset.mem_image, mem_rawSupportFinset]
   constructor
@@ -260,11 +260,11 @@ private lemma branchXSubOne_mul_eq_sum (a : TwistRing) (ha : a ∈ tailIdeal) :
   apply Subtype.ext
   funext n
   by_cases hn : a.1.1 n = 0
-  · show branchXSubOne.1.1 n * a.1.1 n =
+  · change branchXSubOne.1.1 n * a.1.1 n =
       (∑ i ∈ supportFinset a ha, dPlus i * a).1.1 n
     simp [hn]
   · have hmem : n ∈ supportFinset a ha := (mem_supportFinset a ha n).2 (Or.inl hn)
-    show branchAt n (branchXSubOne * a) =
+    change branchAt n (branchXSubOne * a) =
       branchAt n (∑ i ∈ supportFinset a ha, dPlus i * a)
     simp only [map_sum, map_mul, branchAt]
     rw [Finset.sum_eq_single n]
@@ -282,14 +282,14 @@ private lemma branchX_mul_eq_sum (a : TwistRing) (ha : a ∈ tailIdeal) :
   apply Subtype.ext
   funext n
   by_cases hn : a.1.1 n = 0
-  · show branchX.1.1 n * a.1.1 n =
+  · change branchX.1.1 n * a.1.1 n =
       (∑ i ∈ supportFinset a ha, dMinus i * a).1.1 n
     simp [hn]
   · have hmem : n ∈ supportFinset a ha := (mem_supportFinset a ha n).2 (Or.inl hn)
     have hnmem : n - 1 ∈ supportFinset a ha := by
       rw [mem_supportFinset]
       exact Or.inr (by simpa using hn)
-    show branchAt n (branchX * a) =
+    change branchAt n (branchX * a) =
       branchAt n (∑ i ∈ supportFinset a ha, dMinus i * a)
     simp only [map_sum, map_mul, branchAt]
     let t : Finset Int := {n, n - 1}
@@ -315,7 +315,7 @@ private lemma branchX_mul_eq_sum (a : TwistRing) (ha : a ∈ tailIdeal) :
       have hnb : n ≠ b := Ne.symm hbn
       have hnb' : n ≠ b + 1 := Ne.symm hbs
       simp only [dMinus, hnb, hnb']
-      show (0 : TwistBranch) * a.1.1 n = 0
+      change (0 : TwistBranch) * a.1.1 n = 0
       exact zero_mul _
     have hsum : (∑ b ∈ t, branchAt n (dMinus b) * branchAt n a) =
         ∑ b ∈ supportFinset a ha, branchAt n (dMinus b) * branchAt n a :=
@@ -331,7 +331,7 @@ private lemma branchX_mul_eq_sum (a : TwistRing) (ha : a ∈ tailIdeal) :
 
 /-- The spike at an index lies in the ideal. -/
 private lemma tailSpike_mem (i : Int) : tailSpike i ∈ tailIdeal := by
-  show ∀ᶠ n : Int in Filter.cofinite, (tailSpike i).1.1 n = 0
+  change ∀ᶠ n : Int in Filter.cofinite, (tailSpike i).1.1 n = 0
   filter_upwards [Filter.eventually_cofinite_ne i] with n hn
   simp [tailSpike, hn]
 
@@ -403,13 +403,13 @@ private lemma idempotent_in_tailIdeal_eq_zero {a : TwistRing} (ha : a ∈ tailId
 
 /-- The selector `dPlus i` lies in the ideal. -/
 private lemma dPlus_mem (i : Int) : dPlus i ∈ tailIdeal := by
-  show ∀ᶠ n : Int in Filter.cofinite, (dPlus i).1.1 n = 0
+  change ∀ᶠ n : Int in Filter.cofinite, (dPlus i).1.1 n = 0
   filter_upwards [Filter.eventually_cofinite_ne i] with n hn
   simp [dPlus, hn]
 
 /-- The selector `dMinus i` lies in the ideal. -/
 private lemma dMinus_mem (i : Int) : dMinus i ∈ tailIdeal := by
-  show ∀ᶠ n : Int in Filter.cofinite, (dMinus i).1.1 n = 0
+  change ∀ᶠ n : Int in Filter.cofinite, (dMinus i).1.1 n = 0
   filter_upwards [Filter.eventually_cofinite_ne i,
     Filter.eventually_cofinite_ne (i + 1)] with n hni hnnext
   simp [dMinus, hni, hnnext]
@@ -425,7 +425,7 @@ private lemma away_map_mul_inv (f : TwistRing) :
     algebraMap TwistRing (Localization.Away f) f * awayInv f = 1 := by
   let h : IsUnit (algebraMap TwistRing (Localization.Away f) f) :=
     IsLocalization.Away.algebraMap_isUnit f
-  show (↑h.unit : Localization.Away f) *
+  change (↑h.unit : Localization.Away f) *
       (↑(h.unit⁻¹ : (Localization.Away f)ˣ) : Localization.Away f) = 1
   exact Units.val_inv h.unit
 
@@ -436,7 +436,7 @@ private lemma localizedIdem_isIdempotent (f d : TwistRing) (hd : d * d = f * d) 
   let u := φ f
   let v := awayInv f
   have huv : u * v = 1 := away_map_mul_inv f
-  show (φ d * v) * (φ d * v) = φ d * v
+  change (φ d * v) * (φ d * v) = φ d * v
   calc
     (φ d * v) * (φ d * v) = φ (d * d) * (v * v) := by rw [map_mul]; ring
     _ = φ (f * d) * (v * v) := by rw [hd]
@@ -471,13 +471,13 @@ private lemma localized_map_eq_span (f : TwistRing) (d : Int → TwistRing)
         _ = ∑ i ∈ s, (φ (d i) * v) * φ a := by
           simp only [map_mul, Finset.mul_sum]
           exact Finset.sum_congr rfl fun _ _ => by ring
-    show φ a ∈ Ideal.span (Set.range fun i => φ (d i) * v)
+    change φ a ∈ Ideal.span (Set.range fun i => φ (d i) * v)
     rw [hrel]
     exact Submodule.sum_mem _ fun i _ => Ideal.mul_mem_right
       (I := Ideal.span (Set.range fun i => φ (d i) * v)) (b := φ a) (Ideal.subset_span ⟨i, rfl⟩)
   · apply Ideal.span_le.mpr
     rintro e ⟨i, rfl⟩
-    show (φ (d i) * awayInv f) ∈ Ideal.map φ tailIdeal
+    change (φ (d i) * awayInv f) ∈ Ideal.map φ tailIdeal
     exact Ideal.mul_mem_right (I := Ideal.map φ tailIdeal)
       (b := awayInv f) (Ideal.mem_map_of_mem φ (hd i))
 

@@ -149,7 +149,7 @@ theorem exists_sections_forall_exists_mem_span_of_isFiniteTypeSections [IsAffine
     rw [e1, ← hc]
     refine Submodule.sum_mem _ fun l _ => Submodule.smul_mem _ _
       (Submodule.subset_span ⟨e ⟨i, l⟩, ?_⟩)
-    show (sectionsOfMkId M (x (e.symm (e ⟨i, l⟩)))).eval (op W) = _
+    change (sectionsOfMkId M (x (e.symm (e ⟨i, l⟩)))).eval (op W) = _
     rw [Equiv.symm_apply_apply, sectionsOfMkId_eval M _ (h ≫ b ≫
       clopenDecompositionHom (ProEt.mk (𝟙 X)) f hf i)]
     have e2 := PresheafOfModules.map_comp_apply M
@@ -259,7 +259,7 @@ theorem exists_epi_comp_of_isFiniteType [IsAffine X] (hX : IsWeaklyContractibleO
   choose y hy using hlift
   have hsec : ∀ i, SheafOfModules.sectionsMap π (sectionsOfMkId F.val (y i)) = s i := fun i => by
     ext V
-    show π.val.app V (F.val.map (toMkId V.unop).op (y i)) = (s i).eval V
+    change π.val.app V (F.val.map (toMkId V.unop).op (y i)) = (s i).eval V
     rw [PresheafOfModules.naturality_apply, hy]
     exact (s i).property _
   refine ⟨n, F.freeHomEquiv.symm fun i => sectionsOfMkId F.val (y i.down), ?_⟩

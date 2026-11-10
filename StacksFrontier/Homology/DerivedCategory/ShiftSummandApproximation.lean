@@ -229,7 +229,7 @@ theorem nonempty_iso_of_distTriang_biprod_map_id {Q Q' P Z Z' : D} (c : Q' ⟶ P
     { hom := -𝟙 _, inv := -𝟙 _, hom_inv_id := by simp, inv_hom_id := by simp }
   obtain ⟨e, -, he₂⟩ := exists_iso_of_arrow_iso _ _ hS hO
     (Arrow.isoMk eneg (Iso.refl _) (by
-      show (-𝟙 ((shiftFunctor D (1 : ℤ)).obj Q')) ≫ (shiftFunctor D (1 : ℤ)).map c =
+      change (-𝟙 ((shiftFunctor D (1 : ℤ)).obj Q')) ≫ (shiftFunctor D (1 : ℤ)).map c =
         (-(shiftFunctor D (1 : ℤ)).map c) ≫ 𝟙 ((shiftFunctor D (1 : ℤ)).obj P)
       simp))
   -- the second compatibility of that comparison, with the sign already cancelled

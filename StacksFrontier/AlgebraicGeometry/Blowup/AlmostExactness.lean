@@ -142,7 +142,7 @@ theorem exists_scalar_retraction_of_projective_factorization
   let h : L →ₗ[R] K := e.symm.toLinearMap.comp t
   have hfactor : i.comp h = (LinearMap.range i).subtype.comp t := by
     ext x
-    show i (e.symm (t x)) = (t x).1
+    change i (e.symm (t x)) = (t x).1
     exact congrArg Subtype.val (e.apply_symm_apply (t x))
   refine ⟨h, ?_⟩
   ext x
@@ -193,7 +193,7 @@ private lemma factorization_kills_kernel_after_tensor
       ModuleCat.ofHom (LinearMap.lsmul T (F.obj K) (algebraMap R T a)) := by
     apply ModuleCat.ExtendScalars.hom_ext
     intro k
-    show (1 : T) ⊗ₜ[R, algebraMap R T] (a • k) =
+    change (1 : T) ⊗ₜ[R, algebraMap R T] (a • k) =
       LinearMap.lsmul T (F.obj K) (algebraMap R T a)
         ((1 : T) ⊗ₜ[R, algebraMap R T] k)
     rw [TensorProduct.tmul_smul]
@@ -277,7 +277,7 @@ private lemma affineSectionsModuleIso_hom_natural {X : Scheme.{u}}
         ModuleCat.ofHom (affineRestrictedSectionsMap φ hUaff) ≫
         (affineSectionsLinearEquiv G hUaff).toModuleIso.hom := by
   ext s
-  show φ.app U (affineSectionsLinearEquiv F hUaff s) =
+  change φ.app U (affineSectionsLinearEquiv F hUaff s) =
     affineSectionsLinearEquiv G hUaff
       (((Scheme.Modules.restrictFunctor hUaff.fromSpec).map φ).app ⊤ s)
   exact (affineSectionsLinearEquiv_natural φ hUaff s).symm
@@ -307,7 +307,7 @@ private lemma smul_eq_zero_of_iso_kernel
     apply eL.toLinearEquiv.injective
     have hh := congrArg (fun t => t.hom z) hcomm
     change f'.hom (eK.hom.hom z) = eL.hom.hom (f.hom z) at hh
-    show eL.hom.hom (f.hom z) = eL.hom.hom 0
+    change eL.hom.hom (f.hom z) = eL.hom.hom 0
     simpa only [he, hy, map_zero] using hh.symm
   have hh := congrArg (fun t => eK.hom.hom t) (hkill z hz)
   simpa only [map_smul, map_zero, he] using hh
@@ -441,13 +441,13 @@ public theorem exceptionalIdeal_pow_le_annihilator_kernel
   let p : blowUp J ⟶ Spec (CommRingCat.of A) := blowUpToBase J
   let H := kernel ((Scheme.Modules.pullback p).map
     ((tilde.functor (.of A)).map ((ModuleCat.restrictScalars q).map f)))
-  show (exceptionalIdeal J) ^ c ≤ Scheme.Modules.annihilatorIdeal H
+  change (exceptionalIdeal J) ^ c ≤ Scheme.Modules.annihilatorIdeal H
   rw [Scheme.Modules.annihilatorIdeal, Scheme.IdealSheafData.le_ofIdeals_iff]
   intro V
-  show ((exceptionalIdeal J) ^ c).ideal V ≤
+  change ((exceptionalIdeal J) ^ c).ideal V ≤
     Module.annihilator Γ((blowUp J), V.1) Γ(H, V.1)
   rw [Scheme.IdealSheafData.ideal_pow, exceptionalIdeal]
-  show ((J.comap p).ideal V) ^ c ≤
+  change ((J.comap p).ideal V) ^ c ≤
     Module.annihilator Γ((blowUp J), V.1) Γ(H, V.1)
   rw [Stacks.IdealSheaf.ideal_comap_appLE J p
     ⟨⊤, isAffineOpen_top (Spec (CommRingCat.of A))⟩ V (by simp)]

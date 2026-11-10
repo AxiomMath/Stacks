@@ -121,7 +121,7 @@ theorem exists_colimitPresentation_mono_isCoherent (terminal_mem : B.Contains (�
   let φ : D ⟶ (Functor.const I).obj M :=
     { app := fun H => (P H).arrow
       naturality := fun {H H'} g => by
-        show Subobject.underlying.map (homOfLE (hPle g)) ≫ (P H').arrow = (P H).arrow ≫ 𝟙 M
+        change Subobject.underlying.map (homOfLE (hPle g)) ≫ (P H').arrow = (P H).arrow ≫ 𝟙 M
         rw [Category.comp_id, Subobject.underlying_arrow] }
   have hcoh : ∀ H : I, IsCoherent B S hS G.objects.1 G.objects.2 (D.obj H).F.obj := fun H =>
     isCoherent_of_iso B S hS G.objects.2 (e H).symm

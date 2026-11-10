@@ -515,7 +515,7 @@ theorem cone_π_fst (j : Over j₀) :
   rw [← Category.assoc, E.a_cone, Category.assoc]
   rw [atlasMorphism, pullback.lift_fst, ← Category.assoc, ← Functor.map_comp,
     ← Category.assoc, hg.w]
-  show yoneda.map (pullback.lift (w' ≫ P.atlasCone.π.app j.left) E.m _ ≫ pullback.fst _ _) ≫ _ = _
+  change yoneda.map (pullback.lift (w' ≫ P.atlasCone.π.app j.left) E.m _ ≫ pullback.fst _ _) ≫ _ = _
   rw [pullback.lift_fst, Functor.map_comp, Category.assoc, ← P.limitAtlas_π, Category.assoc]
 
 omit [IsCofiltered J] in
@@ -528,7 +528,7 @@ theorem isPullback_cone (j : Over j₀) :
   refine IsPullback.of_right ?_ (E.a_cone hD hW hg_surj hg_et j).symm
     (E.isPullback_atlasMorphism j)
   rw [← Functor.map_comp, E.cone_π_snd hD hW hg_surj hg_et j]
-  show IsPullback (yoneda.map (pullback.lift (w' ≫ P.atlasCone.π.app j.left) E.m _ ≫
+  change IsPullback (yoneda.map (pullback.lift (w' ≫ P.atlasCone.π.app j.left) E.m _ ≫
     pullback.snd _ _)) g E.q E.v
   rw [pullback.lift_snd]
   exact E.isPullback_m_v hg
@@ -540,7 +540,7 @@ theorem atlasFamily_map {i j : Over j₀} (e : i ⟶ j) :
     (E.atlasFamily hD).map e = (overStageBaseChange D j₀ E.w₀).map e := by
   refine (E.atlasFamily hD).hom_ext ((E.atlasFamily hD).isAlgebraicSpace j).isSheaf ?_
   rw [AtlasFamily.v_map]
-  show yoneda.map ((overStageBaseChange P.atlas j₀ E.p).map e) ≫ E.atlasMorphism j =
+  change yoneda.map ((overStageBaseChange P.atlas j₀ E.p).map e) ≫ E.atlasMorphism j =
     E.atlasMorphism i ≫ (overStageBaseChange D j₀ E.w₀).map e
   apply pullback.hom_ext
   · have hn := P.atlasMap.naturality e.left

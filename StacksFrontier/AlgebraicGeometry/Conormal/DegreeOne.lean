@@ -201,7 +201,7 @@ private theorem chartDegreeOneAddHom_generator (i : Z ⟶ X) [IsImmersion i] (U 
           (chartIdeal i U) e he).inv.hom ((chartIdeal i U).toCotangent a)) =
       (conormalAlgebra i).localMap U hU 1 ⟨a.1, by simpa only [pow_one] using a.2⟩ := by
   let q := Stacks.Conormal.affineConormalIsoCotangent i U.1 U.2 (chartIdeal i U) e he
-  show (affineCotangentPieceEquiv i U hU)
+  change (affineCotangentPieceEquiv i U hU)
       (q.hom.hom (q.inv.hom ((chartIdeal i U).toCotangent a))) = _
   rw [moduleIso_inv_hom_apply q ((chartIdeal i U).toCotangent a)]
   exact affineCotangentPieceEquiv_toCotangent i U hU a
@@ -214,7 +214,7 @@ private theorem chartDegreeOneAddHom_bijective (i : Z ⟶ X) [IsImmersion i] (U 
     Function.Bijective (chartDegreeOneAddHom i U hU e he).hom := by
   let q := Stacks.Conormal.affineConormalIsoCotangent i U.1 U.2 (chartIdeal i U) e he
   let l := affineCotangentPieceEquiv i U hU
-  show Function.Bijective (fun x => l (q.hom.hom x))
+  change Function.Bijective (fun x => l (q.hom.hom x))
   exact l.bijective.comp (ConcreteCategory.bijective_of_isIso q.hom)
 
 private theorem chartDegreeOneAddHom_smul (i : Z ⟶ X) [IsImmersion i] (U : X.affineOpens)
@@ -250,7 +250,7 @@ private theorem chartDegreeOneAddHom_smul (i : Z ⟶ X) [IsImmersion i] (U : X.a
   have hq : q.hom.hom
       ((show Z.ringCatSheaf.obj.obj (op (i ⁻¹ᵁ U.1)) from (i.app U).hom s) • x) =
       s • q.hom.hom x := (q.hom.hom).map_smul s x
-  show l (q.hom.hom
+  change l (q.hom.hom
       ((show Z.ringCatSheaf.obj.obj (op (i ⁻¹ᵁ U.1)) from (i.app U).hom s) • x)) =
     (show Z.ringCatSheaf.obj.obj (op (i ⁻¹ᵁ U.1)) from (i.app U).hom s) • l (q.hom.hom x)
   rw [hq]
@@ -280,7 +280,7 @@ private theorem chartDegreeOneAddHom_restrict (i : Z ⟶ X) [IsImmersion i]
   let ar : J := ⟨(X.presheaf.map (homOfLE hAU).op).hom a.1, by
     have hn := i.naturality (homOfLE hAU).op
     have ha0 : (i.app U).hom a.1 = 0 := RingHom.mem_ker.mp a.2
-    show (X.presheaf.map (homOfLE hAU).op ≫ i.app A).hom a.1 = 0
+    change (X.presheaf.map (homOfLE hAU).op ≫ i.app A).hom a.1 = 0
     rw [hn, ConcreteCategory.comp_apply, ha0]
     simp⟩
   have hqA : qA.hom.hom
@@ -340,7 +340,7 @@ private theorem conormalChartDegreeOneHom_restrict_of_le (i : Z ⟶ X) [IsImmers
   have hZB_A : (i ⁻¹ᵁ C.1.1) ≤ (i ⁻¹ᵁ A.1.1) := i.preimage_mono hBC
   have hZB_U : (i ⁻¹ᵁ C.1.1) ≤ (i ⁻¹ᵁ U.1.1) := i.preimage_mono hBU
   refine ⟨i ⁻¹ᵁ C.1.1, hZB_A, hzV, ?_⟩
-  show ((conormalAlgebra i).algebra.piece 1).val.map (homOfLE hZB_A).op
+  change ((conormalAlgebra i).algebra.piece 1).val.map (homOfLE hZB_A).op
       (((conormalAlgebra i).algebra.piece 1).val.map (homOfLE hZU).op
         ((conormalChartDegreeOneHom i U).hom x)) =
     ((conormalAlgebra i).algebra.piece 1).val.map (homOfLE hZB_A).op
@@ -423,7 +423,7 @@ private theorem conormalDegreeOneAddHom_smul (i : Z ⟶ X) [IsImmersion i] (U : 
   have e3 := chartDegreeOneAddHom_smul i A hA' (Classical.choose hmodel)
     (Classical.choose_spec hmodel) r' ((conormalSheaf i).val.map f x)
   have e4 := P.val.map_smul f r (Φ x)
-  show P.val.map f (Φ (r • x)) = P.val.map f (r • Φ x)
+  change P.val.map f (Φ (r • x)) = P.val.map f (r • Φ x)
   refine (hnat (r • x)).trans ?_
   refine (congrArg (fun w => ψ w) e2).trans ?_
   refine e3.trans ?_
@@ -505,7 +505,7 @@ theorem conormalDegreeOneHom_localMap (i : Z ⟶ X) [IsImmersion i] (U : X.affin
   have hUW := le_coborderRange_of_isClosedImmersion_resLE i U.1 hU
   have hC : (conormalDegreeOneAddHom i).hom.app (op (i ⁻¹ᵁ U.1)) =
       conormalChartDegreeOneHom i ⟨U, hUW⟩ := conormalDegreeOneAddHom_chart i ⟨U, hUW⟩
-  show ((conormalDegreeOneAddHom i).hom.app (op (i ⁻¹ᵁ U.1))).hom _ = _
+  change ((conormalDegreeOneAddHom i).hom.app (op (i ⁻¹ᵁ U.1))).hom _ = _
   rw [hC]
   exact chartDegreeOneAddHom_generator i U hU
     (Classical.choose (exists_chartIdeal_affineModel i U hU)) he a

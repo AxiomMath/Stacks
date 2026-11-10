@@ -110,7 +110,7 @@ private theorem baseFormProjection_comp_baseFormInclusion
       (baseFormInclusion pi' psi z dec) = LinearMap.id := by
   apply LinearMap.ext
   intro x
-  show (dec.equiv.symm (dec.equiv (x, 0))).1 = x
+  change (dec.equiv.symm (dec.equiv (x, 0))).1 = x
   simp
 
 /-- Extract the component containing exactly one factor from the distinguished rank-one summand
@@ -191,7 +191,7 @@ private theorem exteriorPower_extractRankOne_zero_on_inl
       simp
   | zero => simp
   | add x y hx hy ihx ihy =>
-      show (exteriorPower_extractRankOne R W n ∘ₗ
+      change (exteriorPower_extractRankOne R W n ∘ₗ
         exteriorPower.map (n + 1) (LinearMap.inl R W R)) (x + y) = 0
       rw [map_add, ihx, ihy]
       simp
@@ -228,7 +228,7 @@ private theorem exteriorPower_extractRankOne_cons_inr_one
     apply Subtype.ext
     simp only [Submodule.coe_smul, exteriorPower.ιMulti_apply_coe]
     rw [← ExteriorAlgebra.ιMulti_mul_ιMulti, ExteriorAlgebra.ιMulti_succ_apply]
-    show ExteriorAlgebra.ι R (0, 1) *
+    change ExteriorAlgebra.ι R (0, 1) *
       ExteriorAlgebra.ιMulti R n (LinearMap.inl R W R ∘ v) = _
     have h := ExteriorAlgebra.ι_mul_ιMulti_anticomm (R := R) (0, 1)
       (LinearMap.inl R W R ∘ v)
@@ -491,11 +491,7 @@ private theorem decomposition_span
   rw [hx, dec.equiv_dz]
   clear hx
   apply Submodule.add_mem
-  · induction w using TensorProduct.induction_on with
-    | zero =>
-      show dec.equiv 0 ∈ _
-      rw [map_zero]
-      exact Submodule.zero_mem _
+  · induction w using TensorProduct.inductionOn with
     | tmul f w =>
       rw [dec.equiv_tmul]
       exact Submodule.smul_mem _ _ (Submodule.subset_span (Or.inl ⟨w, rfl⟩))
@@ -535,7 +531,7 @@ theorem tensorExterior_dz_induction
     rw [← exteriorPower.ιMulti_span_of_span B' p Omega' (decomposition_span pi' psi z dec),
       Submodule.span_le]
     rintro _ ⟨v, hv, rfl⟩
-    show ∀ f m, _
+    change ∀ f m, _
     intro f m
     let F := (TensorProduct.mk B' (B' ⊗[B] M) (⋀[B']^p Omega') (f ⊗ₜ[B] m)).compAlternatingMap
       (exteriorPower.ιMulti B' p)
@@ -552,13 +548,11 @@ theorem tensorExterior_dz_induction
       obtain ⟨w, rfl⟩ := Set.range_subset_range_iff_exists_comp.mp hv
       exact hdz p f m w
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact (H p).zero_mem
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => exact (H p).add_mem hx hy
   | tmul m w =>
     have hw : w ∈ K := hK ▸ Submodule.mem_top
-    induction m using TensorProduct.induction_on with
-    | zero => simp
+    induction m using TensorProduct.inductionOn with
     | tmul f m => exact hw f m
     | add x y hx hy => simpa only [TensorProduct.add_tmul] using (H p).add_mem hx hy
 
@@ -570,8 +564,7 @@ theorem tensorExterior_induction_of_span
     (hzero : P 0) (hadd : ∀ x y, P x → P y → P (x + y))
     (hwedge : ∀ m v, P (m ⊗ₜ[R] exteriorPower.ιMulti R p (g ∘ v)))
     (x : N ⊗[R] (⋀[R]^p W)) : P x := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact hzero
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => exact hadd x y hx hy
   | tmul m w =>
     have hw : w ∈ Submodule.span R (exteriorPower.ιMulti R p ''
@@ -646,7 +639,7 @@ theorem baseChangeMap_injective
       (1 ⊗ₜ[B] x) = (Algebra.linearMap B B').rTensor (M ⊗[B] (⋀[B]^p Omega))
       (1 ⊗ₜ[B] y) := by simpa using hxy'
   have hh := huniv (M ⊗[B] (⋀[B]^p Omega)) h'
-  show (x : M ⊗[B] (⋀[B]^p Omega)) = y
+  change (x : M ⊗[B] (⋀[B]^p Omega)) = y
   simpa using congrArg (TensorProduct.lid B (M ⊗[B] (⋀[B]^p Omega))) hh
 
 end Crystalline

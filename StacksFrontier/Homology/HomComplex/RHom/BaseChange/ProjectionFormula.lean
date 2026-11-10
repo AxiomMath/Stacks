@@ -79,7 +79,7 @@ private lemma unitComparison_leftAdjointUniq
   apply (a.homEquiv _ _).injective
   rw [Adjunction.homEquiv_unit, U.map_comp, ← Category.assoc,
     Adjunction.unit_leftAdjointUniq_hom_app]
-  show b.homEquiv _ _ ((b.homEquiv _ _).symm _) = _
+  change b.homEquiv _ _ ((b.homEquiv _ _).symm _) = _
   rw [Equiv.apply_symm_apply, a.homEquiv_naturality_right]
   simp only [Functor.id_obj, Equiv.apply_symm_apply]
   rw [
@@ -219,7 +219,7 @@ private lemma unitComparison_scalar_unit
     Functor.leftUnitor_inv_app,
     NatTrans.comp_app, Functor.map_comp,
     Category.id_comp, Category.comp_id, Category.assoc]
-  show E.functor.map (a.unit.app X) ≫
+  change E.functor.map (a.unit.app X) ≫
     E.functor.map (U.map (S.unitIso.hom.app (F.obj X))) ≫
       E.functor.map (δ.hom.app (S.functor.obj (F.obj X))) ≫
         E.counitIso.hom.app (V.obj (S.functor.obj (F.obj X))) ≫ 𝟙 _ ≫
@@ -252,7 +252,7 @@ private lemma scalarRestriction_counit
   simp only [Iso.compInverseIso_hom_app, Iso.inverseCompIso_inv_app,
     Iso.trans_hom, Iso.symm_hom, Iso.symm_inv, NatTrans.comp_app, Functor.associator_inv_app,
     Functor.map_comp, Category.comp_id, Category.assoc]
-  show E.functor.map (δ.inv.app Y) ≫
+  change E.functor.map (δ.inv.app Y) ≫
     E.functor.map (U.map (S.unitIso.hom.app (S.inverse.obj Y))) ≫
       E.functor.map (δ.hom.app (S.functor.obj (S.inverse.obj Y))) ≫
         E.counitIso.hom.app _ ≫ V.map (S.counitIso.hom.app Y) = _
@@ -450,7 +450,7 @@ private lemma extensionRestrictionComplexIso_hom_app_f
   dsimp only [extensionRestrictionComplexIso, Iso.trans_hom, NatTrans.comp_app,
     HomologicalComplex.comp_f, NatIso.ofComponents_hom_app]
   rw [Functor.mapHomologicalComplexCompIso_hom_app_f]
-  show ((extensionRestrictionIso f).hom.app (K.X n) ≫
+  change ((extensionRestrictionIso f).hom.app (K.X n) ≫
       (β_ (B.X 0) (K.X n)).hom) ≫
       HomologicalComplex.ιTensorObj K B n 0 n (add_zero n) ≫ (β_ K B).hom.f n = _
   rw [Category.assoc,
@@ -504,7 +504,7 @@ private theorem kFlatNatIso_hom_app {R : Type u} [CommRing R]
     Iso.refl_inv, NatTrans.id_app, Category.id_comp, Category.comp_id,
     NatIso.ofComponents_hom_app, Iso.trans_hom, Iso.symm_hom,
     Functor.mapIso_hom, Functor.mapIso_inv, Category.assoc]
-  show F.map q.hom ≫ e.hom.app ⟨K, hK⟩ ≫ G.map q.inv ≫ G.map q.hom =
+  change F.map q.hom ≫ e.hom.app ⟨K, hK⟩ ≫ G.map q.inv ≫ G.map q.hom =
     F.map q.hom ≫ e.hom.app ⟨K, hK⟩
   erw [← G.map_comp, Iso.inv_hom_id, G.map_id, Category.comp_id]
 

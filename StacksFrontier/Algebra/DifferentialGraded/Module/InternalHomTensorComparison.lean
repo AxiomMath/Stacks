@@ -128,7 +128,7 @@ theorem evalPair_add_right (T : Bimodule A B) {N : DifferentialGradedModule.{u, 
     congrArg (fun z : HomogeneousMap B T.rightModule (regularModule B) p => z.1 t)
       (((homDualPresentation T).homogeneousEquiv p).map_add f g)
   refine Subtype.ext (LinearMap.ext fun t => ?_)
-  show MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) (f + g)).1 t) •
+  change MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) (f + g)).1 t) •
       (y : N.M) =
     MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) f).1 t) • (y : N.M) +
       MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) g).1 t) • (y : N.M)
@@ -144,7 +144,7 @@ theorem evalPair_smul_right (T : Bimodule A B) {N : DifferentialGradedModule.{u,
     congrArg (fun z : HomogeneousMap B T.rightModule (regularModule B) p => z.1 t)
       (((homDualPresentation T).homogeneousEquiv p).map_smul r f)
   refine Subtype.ext (LinearMap.ext fun t => ?_)
-  show MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) (r • f)).1 t) •
+  change MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) (r • f)).1 t) •
       (y : N.M) =
     r • MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) f).1 t) • (y : N.M)
   rw [ht t, MulOpposite.op_smul, smul_assoc]
@@ -154,7 +154,7 @@ theorem evalPair_add_left (T : Bimodule A B) {N : DifferentialGradedModule.{u, u
     {q p : ℤ} (y z : N.grading q) (f : (homDualModule T).grading p) :
     evalPair T (y + z) f = evalPair T y f + evalPair T z f := by
   refine Subtype.ext (LinearMap.ext fun t => ?_)
-  show MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) f).1 t) •
+  change MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) f).1 t) •
       ((y : N.M) + (z : N.M)) =
     MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) f).1 t) • (y : N.M) +
       MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) f).1 t) • (z : N.M)
@@ -165,7 +165,7 @@ theorem evalPair_smul_left (T : Bimodule A B) {N : DifferentialGradedModule.{u, 
     {q p : ℤ} (r : R) (y : N.grading q) (f : (homDualModule T).grading p) :
     evalPair T (r • y) f = r • evalPair T y f := by
   refine Subtype.ext (LinearMap.ext fun t => ?_)
-  show MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) f).1 t) •
+  change MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) f).1 t) •
       (r • (y : N.M)) =
     r • MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) f).1 t) • (y : N.M)
   exact smul_comm _ r _
@@ -208,7 +208,7 @@ on that pair of homogeneous pieces. -/
 theorem evalRowFun_apply (T : Bimodule A B) (N : DifferentialGradedModule.{u, u, u} B)
     {q p : ℤ} (y : N.grading q) (f : (homDualModule T).grading p) :
     evalRowFun T N y (f : (homDualModule T).M) = evalPieceₗ T N q p y f := by
-  show (DirectSum.toModule R ℤ (homPresentation T N).module.M
+  change (DirectSum.toModule R ℤ (homPresentation T N).module.M
       fun i => evalPieceₗ T N q i y)
       ((DirectSum.decomposeLinearEquiv (homDualModule T).grading) (f : (homDualModule T).M)) = _
   rw [DirectSum.decomposeLinearEquiv_apply_coe, DirectSum.toModule_lof]
@@ -263,7 +263,7 @@ theorem evalTotal_apply (T : Bimodule A B) (N : DifferentialGradedModule.{u, u, 
       ((((homPresentation T N).homogeneousEquiv (q + p)).symm (evalPair T y f)) :
         (homPresentation T N).module.M) := by
   have h : evalTotal T N (y : N.M) = evalRowₗ T N q y := by
-    show (DirectSum.toModule R ℤ _ fun i => evalRowₗ T N i)
+    change (DirectSum.toModule R ℤ _ fun i => evalRowₗ T N i)
       ((DirectSum.decomposeLinearEquiv N.grading) (y : N.M)) = _
     rw [DirectSum.decomposeLinearEquiv_apply_coe, DirectSum.toModule_lof]
   rw [h, evalRowₗ_apply]
@@ -362,7 +362,7 @@ theorem evalTotal_balance_graded (T : Bimodule A B) (N : DifferentialGradedModul
   intro k t
   rw [homogeneousEquiv_evalGraded_apply, homogeneousEquiv_evalGraded_apply,
     homDualBimodule_action_apply T n p k b f t]
-  show MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) f).1
+  change MulOpposite.op ((((homDualPresentation T).homogeneousEquiv p) f).1
       (t : T.rightModule.M)) • (MulOpposite.op (b : B.A) • (y : N.M)) = _
   rw [smul_smul, ← MulOpposite.op_mul]
 
@@ -638,7 +638,7 @@ theorem evalHomotopyNatTrans_app (T : Bimodule A B)
       (tensorCompFunctor_quotient (homDualBimodule T)).inv.app N ≫
         (toHomotopyCategory A).map ((evalModuleNatTrans T).app N) ≫
           (homHomotopyDescent T.rightModule T.leftAction).inv.app N := by
-  show (evalHomotopyNatTransAux T).app N = _
+  change (evalHomotopyNatTransAux T).app N = _
   rfl
 
 /-- **The comparison between the two functors that Tag 09LS and Tag 09LI derive.** The

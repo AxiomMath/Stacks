@@ -203,7 +203,7 @@ lemma localizationAway_isTriangulated {R : Type u} [CommRing R] (g : R) :
   let F := ModuleCat.extendScalars.{u, u, max v u}
     (algebraMap R (Localization.Away g))
   obtain ⟨_, _, _⟩ := extendScalars_localizationAway_exact.{u, v} g
-  show F.mapDerivedCategory.IsTriangulated
+  change F.mapDerivedCategory.IsTriangulated
   infer_instance
 
 attribute [local instance] localizationAway_isTriangulated

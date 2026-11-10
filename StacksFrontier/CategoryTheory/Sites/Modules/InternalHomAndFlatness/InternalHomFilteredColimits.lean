@@ -89,7 +89,7 @@ theorem colimitPost_naturality (D : K ⥤ M) {H₀ H₁ : M ⥤ M} (β : H₀ �
   apply colimit.hom_ext
   intro k
   rw [← Category.assoc, ← Category.assoc]
-  show (colimit.ι (D ⋙ H₀) k ≫ colimMap (Functor.whiskerLeft D β)) ≫ colimit.post D H₁ = _
+  change (colimit.ι (D ⋙ H₀) k ≫ colimMap (Functor.whiskerLeft D β)) ≫ colimit.post D H₁ = _
   rw [ι_colimMap, colimit.ι_post, Category.assoc, colimit.ι_post]
   exact (β.naturality (colimit.ι D k)).symm
 
@@ -401,7 +401,7 @@ theorem freeInternalHomBicone_total [Fintype I]
         Sigma.ι (fun _ : I =>
           _root_.SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O))
             i)).app G := by
-    show ((internalHomNatLeft J O _).app G ≫ (unitInternalHomNatIso J O).hom.app G) ≫
+    change ((internalHomNatLeft J O _).app G ≫ (unitInternalHomNatIso J O).hom.app G) ≫
       ((unitInternalHomNatIso J O).inv.app G ≫ (internalHomNatLeft J O _).app G) = _
     rw [Category.assoc, ← Category.assoc ((unitInternalHomNatIso J O).hom.app G),
       Iso.hom_inv_id_app, Category.id_comp, internalHomNatLeft_comp]

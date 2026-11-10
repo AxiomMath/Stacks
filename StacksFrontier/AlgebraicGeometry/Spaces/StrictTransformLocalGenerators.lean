@@ -380,7 +380,7 @@ submodule. -/
 theorem cokernel_π_app_eq_zero_of_mem {M : Modules.{u, u} B S hS F hF} (K : M.Submodule)
     (X : SmallEtale B S hS F) (z : M.val.obj (op X)) (hz : z ∈ K.toSubmodule.obj (op X)) :
     (cokernel.π K.ι).val.app (op X) z = 0 := by
-  show (K.ι ≫ cokernel.π K.ι).val.app (op X) ⟨z, hz⟩ = 0
+  change (K.ι ≫ cokernel.π K.ι).val.app (op X) ⟨z, hz⟩ = 0
   rw [cokernel.condition]
   rfl
 
@@ -418,11 +418,11 @@ theorem generatesLocally_cokernel_π_of_le_span_sup {M : Modules.{u, u} B S hS F
     exact restrict_family_sum_smul_eq (cokernel K.ι) (g ≫ f) g k (Category.assoc ..) rfl _ y a
       ha
   · have hsh : HasSheafify (smallEtaleRingedSite B S hS F hF).J AddCommGrpCat.{u} := by
-      show HasSheafify (SmallEtale.topology B S hS F) AddCommGrpCat.{u}
+      change HasSheafify (SmallEtale.topology B S hS F) AddCommGrpCat.{u}
       infer_instance
     have _hwe : (smallEtaleRingedSite B S hS F hF).J.WEqualsLocallyBijective
         AddCommGrpCat.{u} := by
-      show (SmallEtale.topology B S hS F).WEqualsLocallyBijective AddCommGrpCat.{u}
+      change (SmallEtale.topology B S hS F).WEqualsLocallyBijective AddCommGrpCat.{u}
       infer_instance
     obtain ⟨S₁, hS₁, hsec⟩ :=
       Stacks.SheafOfModules.EpiMono.exists_covering_of_epi (cokernel.π K.ι) y

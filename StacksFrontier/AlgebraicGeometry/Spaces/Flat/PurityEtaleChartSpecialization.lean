@@ -82,15 +82,15 @@ theorem exists_specializes_fibre_of_isPureAbove_of_isPullback
   -- Part (1) of Stacks 0CV2 at the isomorphism `e` carries `ξ` into the relative assassin of
   -- the chosen fibre product.
   have hEiso : IsIso E.hom := by
-    show IsIso e.hom
+    change IsIso e.hom
     infer_instance
   have hid : IsIso (𝟙 (schemeSpace V) : schemeSpace V ⟶ schemeSpace V).hom := by
-    show IsIso (𝟙 (yoneda.obj V))
+    change IsIso (𝟙 (yoneda.obj V))
     infer_instance
   have sqE : IsPullback E.hom q.hom (P.baseChangeToBase V b).hom
       (𝟙 (schemeSpace V) : schemeSpace V ⟶ schemeSpace V).hom :=
     @IsPullback.of_horiz_isIso _ _ _ _ _ _ _ _ _ _ hEiso hid ⟨by
-      show e.hom ≫ pullback.fst b P.f = q.hom ≫ 𝟙 _
+      change e.hom ≫ pullback.fst b P.f = q.hom ≫ 𝟙 _
       rw [hefst, Category.comp_id]⟩
   have hcomp : E ≫ P.baseChangeToSource V b = p :=
     ObjectProperty.hom_ext (h := sq.flip.isoPullback_hom_snd)

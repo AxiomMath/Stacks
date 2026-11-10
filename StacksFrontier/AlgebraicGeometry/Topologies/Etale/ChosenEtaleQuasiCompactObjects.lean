@@ -58,7 +58,7 @@ public theorem BigFppfSite.isQuasiCompactObject_etaleTopology_of_compactSpace
     (fun x _ => Set.mem_iUnion.mpr (hjfl.1 x))
   have het : IsEtaleCovering (κ := B.cutoff)
       ⟨X, { I₀ := ↥T, X := fun i => E.X ↑i, f := fun i => E.f ↑i }⟩ := by
-    show Presieve.ofArrows (fun i : ↥T => B.inclusion.obj (E.X i))
+    change Presieve.ofArrows (fun i : ↥T => B.inclusion.obj (E.X i))
         (fun i : ↥T => B.inclusion.map (E.f i)) ∈
           Scheme.precoverage @Etale (B.inclusion.obj X)
     refine (Scheme.ofArrows_mem_precoverage_iff _).2 ⟨fun x => ?_, fun (i : ↥T) => hEet i.1⟩

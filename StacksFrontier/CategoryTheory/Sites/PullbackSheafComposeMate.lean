@@ -53,7 +53,7 @@ def sheafPullbackConstructionSheafComposeMate :
 /-- The comparison of the explicit pullbacks is `sheafPullbackSheafComposeHom` of Mathlib's
 chosen pullbacks, read through the identifications of the two left adjoints. -/
 theorem sheafPullbackConstructionSheafComposeMate_app (S : Sheaf J A) :
-    (sheafPullbackConstructionSheafComposeMate F A J K G).natTrans.app S =
+    (sheafPullbackConstructionSheafComposeMate F A J K G).app S =
       ((sheafPullbackConstruction.sheafAdjunctionContinuous F B J K).leftAdjointUniq
           (F.sheafAdjunctionContinuous B J K)).hom.app ((sheafCompose J G).obj S) ≫
         F.sheafPullbackSheafComposeHom A J K G S ≫
@@ -66,7 +66,7 @@ theorem sheafPullbackConstructionSheafComposeMate_app (S : Sheaf J A) :
   set adjcB := F.sheafAdjunctionContinuous B J K
   apply (adjB.homEquiv _ _).injective
   have hL : adjB.homEquiv _ _
-      ((sheafPullbackConstructionSheafComposeMate F A J K G).natTrans.app S) =
+      ((sheafPullbackConstructionSheafComposeMate F A J K G).app S) =
       (sheafCompose J G).map (adjA.unit.app S) ≫
         (F.sheafComposeSheafPushforwardIso A J K G).inv.app
           ((sheafPullbackConstruction.sheafPullback F A J K).obj S) := by
@@ -89,7 +89,7 @@ variable [K.PreservesSheafification G]
 
 /-- **Pulling back commutes with a change of coefficients**: the comparison is invertible. -/
 instance isIso_sheafPullbackConstructionSheafComposeMate :
-    IsIso (sheafPullbackConstructionSheafComposeMate F A J K G).natTrans := by
+    IsIso (sheafPullbackConstructionSheafComposeMate F A J K G) := by
   refine @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun S => ?_
   rw [sheafPullbackConstructionSheafComposeMate_app]
   infer_instance

@@ -298,7 +298,7 @@ theorem exists_liftedEtalePresentation_mod_chartIdeal {X : AlgebraicSpaces B S h
   let Inv : Subring Γ((BigFppfOver.toScheme B S hS).obj V, ⊤) :=
     RingHom.eqLocus ((Ideal.Quotient.mk J).comp tR) ((Ideal.Quotient.mk J).comp sR)
   have hInv : ∀ b, b ∈ Inv ↔ tR b - sR b ∈ J := fun b => by
-    show Ideal.Quotient.mk J (tR b) = Ideal.Quotient.mk J (sR b) ↔ _
+    change Ideal.Quotient.mk J (tR b) = Ideal.Quotient.mk J (sR b) ↔ _
     exact Ideal.Quotient.eq
   let C := Inv ⊓ pU.range.comap rU
   let e : Γ((BigFppfOver.toScheme B S hS).obj TG, ⊤) ≃+* pU.range :=
@@ -325,7 +325,7 @@ theorem exists_liftedEtalePresentation_mod_chartIdeal {X : AlgebraicSpaces B S h
     intro b hb
     have h0 : rU b = 0 := by
       rw [← hα b]
-      show pU (algebraMap C _ b) = 0
+      change pU (algebraMap C _ b) = 0
       rw [RingHom.mem_ker.mp hb, map_zero]
     obtain ⟨n, hn⟩ := ker_appTop_le_nilradical_of_surjective
       ((BigFppfOver.toScheme B S hS).map (G.2.2.rep.snd φ)) (RingHom.mem_ker.mpr h0)
@@ -348,7 +348,7 @@ theorem exists_liftedEtalePresentation_mod_chartIdeal {X : AlgebraicSpaces B S h
     inferInstance, (algebraMap C _).comp P.val.toRingHom, ε, C.subtype.comp P.val.toRingHom,
     T, hT, hpush, ?_, ?_⟩
   · ext x
-    show rU x.1.1 = pU (α x.1)
+    change rU x.1.1 = pU (α x.1)
     exact (hα x.1).symm
   · intro x
     exact (hInv x.1.1).1 (Subring.mem_inf.mp x.1.2).1
@@ -448,14 +448,14 @@ theorem isAffineSpace_of_forall_sub_mem_map_chartIdeal {X : AlgebraicSpaces B S 
   refine isAffineSpace_of_liftedEtalePresentation B S hS Xi Gi hGi hTG eGi hVi
     (H.2.2.rep.fst φ) hφis hφie ιUi πU sqUi P E α ε hpush β ?_ ?_
   · ext x
-    show ((BigFppfOver.toScheme B S hS).map ιUi).appTop.hom
+    change ((BigFppfOver.toScheme B S hS).map ιUi).appTop.hom
         (((BigFppfOver.toScheme B S hS).map (H.2.2.rep.snd φ)).appTop.hom (γ x)) =
       ((BigFppfOver.toScheme B S hS).map πU).appTop.hom (α x)
     rw [← appTop_comp_apply, hιUi]
     exact RingHom.congr_fun hγU x
   · intro W r₁ r₂ h
     ext x
-    show ((BigFppfOver.toScheme B S hS).map r₁).appTop.hom
+    change ((BigFppfOver.toScheme B S hS).map r₁).appTop.hom
         (((BigFppfOver.toScheme B S hS).map (H.2.2.rep.snd φ)).appTop.hom (γ x)) =
       ((BigFppfOver.toScheme B S hS).map r₂).appTop.hom
         (((BigFppfOver.toScheme B S hS).map (H.2.2.rep.snd φ)).appTop.hom (γ x))
@@ -512,7 +512,7 @@ theorem exists_isAffineSpace_stage (X : AlgebraicSpaces B S hS)
   have hTle : Algebra.adjoin ℤ (T : Set P) ≤ subalgebraOfSubring Inv := by
     rw [Algebra.adjoin_le_iff]
     intro x hx
-    show Ideal.Quotient.mk K (tR (γ x)) = Ideal.Quotient.mk K (sR (γ x))
+    change Ideal.Quotient.mk K (tR (γ x)) = Ideal.Quotient.mk K (sR (γ x))
     exact Ideal.Quotient.eq.mpr (hi _ (Finset.mem_image_of_mem _ hx))
   have hall : ∀ x, tR (γ x) - sR (γ x) ∈ K := by
     intro x

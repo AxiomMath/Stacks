@@ -94,11 +94,11 @@ theorem exists_iso_pushoutScheme_of_isContractionOfRationalBridge
     IsPushout.inr_isoIsPushout_hom s.X s.Y (pushoutAlongClosedImmersionAndIntegral s).isPushout hpos
   refine ⟨e, hia.trans hac.symm, ?_⟩
   refine (pushoutAlongClosedImmersionAndIntegral s).isPushout.hom_ext ?_ ?_
-  · show pushoutInl s ≫ e.hom ≫ g = pushoutInl s ≫ pushoutToBase s
+  · change pushoutInl s ≫ e.hom ≫ g = pushoutInl s ≫ pushoutToBase s
     rw [reassoc_of% hia, ← hac]
     exact (Category.assoc _ _ _).trans ((congrArg _ hcg).trans
       (pushoutInl_comp_pushoutToBase_bridge hdim hnodal hC).symm)
-  · show pushoutInr s ≫ e.hom ≫ g = pushoutInr s ≫ pushoutToBase s
+  · change pushoutInr s ≫ e.hom ≫ g = pushoutInr s ≫ pushoutToBase s
     rw [reassoc_of% hib, show pushoutInr s ≫ pushoutToBase s = s.pY by simp [pushoutToBase]]
     have hC' : C.subscheme.toSpecΓ ≫ b ≫ g = C.subscheme.toSpecΓ ≫ s.pY := by
       rw [← Category.assoc, ← hbc, Category.assoc, hcg]

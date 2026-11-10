@@ -174,7 +174,7 @@ lemma overPullback_constantSheaf_hom_ext [J.WEqualsLocallyBijective (ModuleCat.{
       ((constantSheaf J (ModuleCat.{w} Λ)).obj M)).property F.property _ _ ?_
   refine ((constantPresheafAdj (ModuleCat.{w} Λ)
     (Over.mkIdTerminal (X := U))).homEquiv M F.obj).injective ?_
-  show (𝟙 M) ≫ ((η.app (op U)) ≫ f.hom.app (op (Over.mk (𝟙 U)))) =
+  change (𝟙 M) ≫ ((η.app (op U)) ≫ f.hom.app (op (Over.mk (𝟙 U)))) =
     (𝟙 M) ≫ ((η.app (op U)) ≫ g.hom.app (op (Over.mk (𝟙 U))))
   simpa only [Category.id_comp] using h
 
@@ -322,7 +322,7 @@ theorem exists_cover_overPullback_eq_constantSheaf_mapHomologicalComplex
       Over.mk (𝟙 V ≫ f) ⟶ Over.mk (𝟙 U)).op
   have hu : (η n).app (op V) = (η n).app (op U) ≫ (c.obj (P.X n)).obj.map f.op :=
     (η n).naturality f.op
-  show (η n).app (op V) ≫ (β.f n).hom.app (op (Over.mk (𝟙 V ≫ f))) =
+  change (η n).app (op V) ≫ (β.f n).hom.app (op (Over.mk (𝟙 V ≫ f))) =
     (η n).app (op V) ≫ (c.map (g.f n)).hom.app (op V)
   refine Eq.trans ?_ hηg
   refine Eq.trans ?_ (hg n).symm

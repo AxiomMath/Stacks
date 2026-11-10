@@ -63,6 +63,7 @@ theorem natCard_residueField_eq_natCard_pow_residueDegree (x : X) [Finite (X.res
   have : Module.Finite k (X.residueField x) := Module.Finite.of_finite
   exact Module.natCard_eq_pow_finrank
 
+omit [IsSeparated f] in
 include hτ eP in
 /-- **The trace identities for the regular descent sheaf.** Given the trace formula for `𝒫` over
 an extension `k'` of degree `m` of `k`, `RΓ_c(X_k̄, 𝒫)` is perfect and the trace of the `m`-th
@@ -114,6 +115,6 @@ theorem perfectDerivedTrace_pow_descentSheaf_eq_sum (m : ℕ) (hm : 0 < m) (k' :
       ← pow_mul, ← pow_mul, hcard', Nat.mul_div_cancel' hdvd]
   rw [perfectDerivedTrace_rationalPointStalkFrobenius_descentSheaf R f k' kbar p (q * m) hcard' C
     N ρ eN τ hτ P eP s (m / residueDegree f x) hn (a x) (ha x) (hs s), descentSheafLocalValue,
-    dif_pos ‹Finite (X.residueField x)›]
+    dite_eq_left ‹Finite (X.residueField x)›]
 
 end Stacks.EtaleCohomology

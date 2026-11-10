@@ -88,7 +88,7 @@ theorem quasiIso_whiskerRight_extendScalars_of_restrictKFlat (ψ : S →+* R) (h
   have : (ModuleCat.extendScalars.{u, u, u} ψ).PreservesHomology :=
     extendScalars_preservesHomology_of_flat.{u, u} ψ hψ
   have hq' : QuasiIso (ext.map q) := by
-    show QuasiIso (((ModuleCat.extendScalars.{u, u, u} ψ).mapHomologicalComplex
+    change QuasiIso (((ModuleCat.extendScalars.{u, u, u} ψ).mapHomologicalComplex
       (ComplexShape.up ℤ)).map q)
     infer_instance
   have h2 : QuasiIso (P ◁ ext.map q) :=
@@ -130,14 +130,14 @@ def homComplexBaseChangeIso (ψ : S →+* R) (F J : CochainComplex (ModuleCat.{u
 theorem finite_extendScalars (ψ : S →+* R) (N : ModuleCat.{u} S) [Module.Finite S N] :
     Module.Finite R ((ModuleCat.extendScalars.{u, u, u} ψ).obj N) := by
   let := ψ.toAlgebra
-  show Module.Finite R (R ⊗[S] N)
+  change Module.Finite R (R ⊗[S] N)
   infer_instance
 
 /-- Extension of scalars of a free module is free. -/
 theorem free_extendScalars (ψ : S →+* R) (N : ModuleCat.{u} S) [Module.Free S N] :
     Module.Free R ((ModuleCat.extendScalars.{u, u, u} ψ).obj N) := by
   let := ψ.toAlgebra
-  show Module.Free R (R ⊗[S] N)
+  change Module.Free R (R ⊗[S] N)
   infer_instance
 
 /-- **The derived tensor--Hom diagonal with a tensor factor K-flat over a subring.**  Let

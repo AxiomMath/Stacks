@@ -421,7 +421,7 @@ theorem generalLinearTwoPowerPoint_comp_algebraMap
     (generalLinearTwoPowerPoint k m M).comp
         (algebraMap k (generalLinearTwoPowerCoordinateRing k m)) = RingHom.id k := by
   refine RingHom.ext fun r ↦ ?_
-  show generalLinearTwoPowerPoint k m M
+  change generalLinearTwoPowerPoint k m M
       (algebraMap k (generalLinearTwoPowerCoordinateRing k m) r) = r
   rw [IsScalarTower.algebraMap_apply k (MvPolynomial (Fin m × Fin 2 × Fin 2) k)
       (generalLinearTwoPowerCoordinateRing k m) r,

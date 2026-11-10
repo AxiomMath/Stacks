@@ -137,8 +137,9 @@ is **Stacks 06QA**, `AlgebraicGeometry.Stack.exists_fppfCovering_fibre_lift`, ap
 affine smooth presentation of that 2-fibre product; the pattern is the one
 `AlgebraicGeometry.Stack.exists_isAffineObject_cover_nonempty_hom` follows for condition (1). That
 step is taken in
-`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfCohomologyProductAffineCover.lean`, where condition
-(2)(c) is proved, for an algebraic stack quasi-separated over a quasi-separated base scheme, as
+`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfCohomologyProductAffineCover.lean`, where
+condition (2)(c) is proved, for an algebraic stack quasi-separated over a quasi-separated base
+scheme, as
 `AlgebraicGeometry.Stack.exists_fin_affineObjects_isLocallySurjective_prodLift`. Its two geometric
 ingredients are
 
@@ -153,8 +154,8 @@ affine object, the slice there being `AlgebraicGeometry.Stack.schemeStack` at th
 nose: quasi-compactness is
 `AlgebraicGeometry.Stack.isQuasiCompactStack_schemeStack_of_isAffine` and quasi-separatedness over
 `S` is `AlgebraicGeometry.Stack.isQuasiSeparatedOver_schemeStack_of_isAffine`, proved in
-`StacksFrontier/AlgebraicGeometry/Stacks/QuasiSeparatedSchemeStack.lean`. That file is what starts the
-chain: every *other* producer of `AlgebraicGeometry.Stack.IsQuasiSeparatedOver` consumes a
+`StacksFrontier/AlgebraicGeometry/Stacks/QuasiSeparatedSchemeStack.lean`. That file is what starts
+the chain: every *other* producer of `AlgebraicGeometry.Stack.IsQuasiSeparatedOver` consumes a
 quasi-separatedness statement —
 `AlgebraicGeometry.Stack.AlgebraicStacks.isQuasiSeparatedOver_of_isQuasiSeparated`
 (**Stacks 050L** part (4)),

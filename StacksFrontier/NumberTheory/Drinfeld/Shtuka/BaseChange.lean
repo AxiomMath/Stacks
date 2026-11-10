@@ -153,7 +153,7 @@ end Coherence
 
 section Graph
 
-variable {k : Type u} [Field k] [Fintype k] {X S S' : Over (Spec (.of k))}
+variable {k : Type u} [Field k] {X S S' : Over (Spec (.of k))}
 
 /-- **Pulling back a modification along `id × g` keeps it injective.** If `j : E ⟶ E'` is a
 monomorphism of `𝒪_{X ×_k S}`-modules whose cokernel is the direct image of an invertible
@@ -176,13 +176,11 @@ theorem isGraphLineBundle_cokernel_pullback_productMap [IsSeparated X.hom]
     IsGraphLineBundle (cokernel ((Scheme.Modules.pullback (productMap g)).map j)) (g ≫ x) :=
   (hj.pullback_productMap g).of_iso (PreservesCokernel.iso _ j)
 
-omit [Fintype k] in
 variable (X) in
 /-- `id_X × 𝟙_S = 𝟙`. -/
 theorem productMap_id : productMap (X := X) (𝟙 S) = 𝟙 (product X S) := by
   apply pullback.hom_ext <;> simp
 
-omit [Fintype k] in
 variable (X) in
 /-- `id_X × (g' ≫ g) = (id_X × g') ≫ (id_X × g)`. -/
 theorem productMap_comp {S'' : Over (Spec (.of k))} (g' : S'' ⟶ S') (g : S' ⟶ S) :

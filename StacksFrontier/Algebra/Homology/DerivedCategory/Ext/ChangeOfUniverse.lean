@@ -33,7 +33,7 @@ lemma chgUniv_comp {a b c : ℕ} (α : Ext.{w} X Y a) (β : Ext.{w} Y Z b) (h : 
   let := HasDerivedCategory.standard C
   ext
   rw [comp_hom]
-  show homEquiv (chgUniv.{w'} (α.comp β h)) =
+  change homEquiv (chgUniv.{w'} (α.comp β h)) =
     (homEquiv (chgUniv.{w'} α)).comp (homEquiv (chgUniv.{w'} β)) _
   rw [homEquiv_chgUniv, homEquiv_chgUniv, homEquiv_chgUniv]
   exact comp_hom α β h
@@ -42,9 +42,9 @@ lemma chgUniv_comp {a b c : ℕ} (α : Ext.{w} X Y a) (β : Ext.{w} Y Z b) (h : 
 lemma chgUniv_mk₀ (f : X ⟶ Y) : chgUniv.{w'} (mk₀.{w} f) = mk₀.{w'} f := by
   let := HasDerivedCategory.standard C
   ext
-  show homEquiv (chgUniv.{w'} (mk₀.{w} f)) = homEquiv (mk₀.{w'} f)
+  change homEquiv (chgUniv.{w'} (mk₀.{w} f)) = homEquiv (mk₀.{w'} f)
   rw [homEquiv_chgUniv]
-  show (mk₀.{w} f).hom = (mk₀.{w'} f).hom
+  change (mk₀.{w} f).hom = (mk₀.{w'} f).hom
   rw [mk₀_hom, mk₀_hom]
 
 /-- **The change of universe of `Ext` is additive.** -/
@@ -53,7 +53,7 @@ lemma chgUniv_add {n : ℕ} (α β : Ext.{w} X Y n) :
   let := HasDerivedCategory.standard C
   ext
   rw [add_hom]
-  show homEquiv (chgUniv.{w'} (α + β)) =
+  change homEquiv (chgUniv.{w'} (α + β)) =
     homEquiv (chgUniv.{w'} α) + homEquiv (chgUniv.{w'} β)
   rw [homEquiv_chgUniv, homEquiv_chgUniv, homEquiv_chgUniv]
   exact add_hom α β
@@ -71,14 +71,14 @@ lemma chgUniv_mapExactFunctor {D : Type u₂} [Category.{v₂} D] [Abelian D] (F
   let := HasDerivedCategory.standard C
   let := HasDerivedCategory.standard D
   ext
-  show homEquiv (chgUniv.{w₂} (Ext.mapExactFunctor.{w, w₁} F e)) =
+  change homEquiv (chgUniv.{w₂} (Ext.mapExactFunctor.{w, w₁} F e)) =
     homEquiv (Ext.mapExactFunctor.{w', w₂} F (chgUniv.{w'} e))
   rw [homEquiv_chgUniv]
-  show (Ext.mapExactFunctor.{w, w₁} F e).hom =
+  change (Ext.mapExactFunctor.{w, w₁} F e).hom =
     (Ext.mapExactFunctor.{w', w₂} F (chgUniv.{w'} e)).hom
   rw [mapExactFunctor_hom, mapExactFunctor_hom]
   congr 3
-  show homEquiv e = homEquiv (chgUniv.{w'} e)
+  change homEquiv e = homEquiv (chgUniv.{w'} e)
   rw [homEquiv_chgUniv]
 
 end CategoryTheory.Abelian.Ext

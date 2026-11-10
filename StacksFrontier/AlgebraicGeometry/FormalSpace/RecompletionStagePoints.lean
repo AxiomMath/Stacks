@@ -177,7 +177,7 @@ theorem sheafifiedYoneda_map_comp_weakIdealStagePoint {J K : WeakIdeals A} (f : 
           ((BigAffineFppf.inclusion B S hS).map (P.diagram.map f)) ≫
         weakIdealStagePoint B S hS A P K =
       weakIdealStagePoint B S hS A P J := by
-  show ((P.diagram ⋙ BigAffineFppf.inclusion B S hS ⋙
+  change ((P.diagram ⋙ BigAffineFppf.inclusion B S hS ⋙
       Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).map f) ≫
     (colimit.ι _ K ≫ P.colimitIso.inv) = colimit.ι _ J ≫ P.colimitIso.inv
   rw [← Category.assoc, colimit.w]
@@ -214,7 +214,7 @@ theorem app_mapToScheme_comp_weakIdealStagePoint (K : WeakIdeals A) {W : BigFppf
     ((BigAffineFppf.inclusion B S hS).obj (P.diagram.obj K)) W b
     (weakIdealStagePoint B S hS A P K)
   rw [h]
-  show (BigFppfOver.toScheme B S hS).map b ≫
+  change (BigFppfOver.toScheme B S hS).map b ≫
     (Sheaf.sectionEquiv (BigFppfOver.topology B S hS)
       (weakIdealStagePoint B S hS A P K ≫ weakIdealToSpecPoints B S hS A P)).down = _
   rw [weakIdealToSpecPoints_comp_stage]
@@ -303,7 +303,7 @@ theorem stagePrimeMap_comap {J K : WeakIdeals A} (f : J ⟶ K) (p : PrimeSpectru
     exact P.quotientIso_natural f
   rw [stagePrimeMap, stagePrimeMap, stagePointsMap_map B S hS A X P f]
   refine congrArg (stagePointsMap B S hS A X P K) ?_
-  show ((P.quotientIso J).inv ≫ (BigFppfOver.toScheme B S hS).map
+  change ((P.quotientIso J).inv ≫ (BigFppfOver.toScheme B S hS).map
       ((BigAffineFppf.inclusion B S hS).map (P.diagram.map f))).base p =
     (Spec.map (CommRingCat.ofHom
         (Ideal.Quotient.factor (show (K.1 : Ideal A) ≤ J.1 from leOfHom f))) ≫
@@ -348,13 +348,13 @@ theorem cutsOutAtStage_iff_of_hom (hA : TopologicalRing.IsWeaklyAdmissible A)
       PrimeSpectrum.comap (Ideal.Quotient.factor hle) ⁻¹'
         (stagePrimeMap B S hS A X P L ⁻¹' T) :=
     Set.ext fun p ↦ by
-      show stagePrimeMap B S hS A X P K p ∈ T ↔
+      change stagePrimeMap B S hS A X P K p ∈ T ↔
         stagePrimeMap B S hS A X P L (PrimeSpectrum.comap (Ideal.Quotient.factor hle) p) ∈ T
       rw [stagePrimeMap_comap B S hS A X P f]
   have hmap : (Ideal.map (Ideal.Quotient.mk K.1) 𝔞 : Ideal (A ⧸ K.1)) =
       Ideal.span (Ideal.Quotient.factor hle ''
         ((Ideal.map (Ideal.Quotient.mk L.1) 𝔞 : Ideal (A ⧸ L.1)) : Set (A ⧸ L.1))) := by
-    show _ = Ideal.map (Ideal.Quotient.factor hle) (Ideal.map (Ideal.Quotient.mk L.1) 𝔞)
+    change _ = Ideal.map (Ideal.Quotient.factor hle) (Ideal.map (Ideal.Quotient.mk L.1) 𝔞)
     rw [Ideal.map_map, Ideal.Quotient.factor_comp_mk]
   have hzl : PrimeSpectrum.zeroLocus
         ((Ideal.map (Ideal.Quotient.mk K.1) 𝔞 : Ideal (A ⧸ K.1)) : Set (A ⧸ K.1)) =
@@ -418,7 +418,7 @@ theorem exists_fg_cutsOutAtStage (hA : TopologicalRing.IsWeaklyAdmissible A) {I 
       exact hIfg
   · refine cutsOutAtStage_of_cutsOutAtStage B S hS A X P hA T _
       (K₀ := (⟨I, hw⟩ : WeakIdeals A)) ?_
-    show stagePrimeMap B S hS A X P (⟨I, hw⟩ : WeakIdeals A) ⁻¹' T =
+    change stagePrimeMap B S hS A X P (⟨I, hw⟩ : WeakIdeals A) ⁻¹' T =
       PrimeSpectrum.zeroLocus
         ((Ideal.map (Ideal.Quotient.mk I) (Ideal.comap (Ideal.Quotient.mk I) I') :
           Ideal (A ⧸ I)) : Set (A ⧸ I))
@@ -481,7 +481,7 @@ theorem le_radical_stageIdeal_of_range_subset (hA : TopologicalRing.IsWeaklyAdmi
     have hr := range_pointsMapULift_comp_weakIdealStagePoint B S hS A X P K
       ((BigAffineFppf.inclusion B S hS).map b)
     rw [← hcuts K]
-    show stagePointsMap B S hS A X P K ((P.quotientIso K).inv.base
+    change stagePointsMap B S hS A X P K ((P.quotientIso K).inv.base
       (((BigFppfOver.toScheme B S hS).map ((BigAffineFppf.inclusion B S hS).map b) ≫
         (P.quotientIso K).hom).base x)) ∈ T
     rw [hpt]

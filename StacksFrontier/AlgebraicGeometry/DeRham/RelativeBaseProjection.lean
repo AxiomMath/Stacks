@@ -94,7 +94,8 @@ theorem relativeBase_comp_inverseImageBaseProjection :
 /-! The square comparing the two factorizations of `f` — `toInverseImageBase (f ≫ g) ≫
 relativeBase f g = f.toLRSHom.toShHom ≫ toInverseImageBase g` — is not restated here: it is
 `Stacks.DeRhamPullback.toInverseImageBase_relativeBase` of
-`StacksFrontier.AlgebraicGeometry.DeRham.PullbackComplex`.  With `relativeBase_eq_relativeInverseImageProjection` above it is
+`StacksFrontier.AlgebraicGeometry.DeRham.PullbackComplex`.  With
+`relativeBase_eq_relativeInverseImageProjection` above it is
 also the `relativeInverseImageProjection` spelling of that square. -/
 
 end Stacks.DeRhamSmooth

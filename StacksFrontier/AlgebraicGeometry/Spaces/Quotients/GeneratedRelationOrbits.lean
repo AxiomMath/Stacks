@@ -97,7 +97,7 @@ private theorem weaklyEquivalent_oneStep (p : FieldValuedPoint site S hS B.obj)
       rw [Category.assoc, P.firstInclusion_zero_target]
     have hs : (q ≫ P.firstInclusion 0) ≫ (P.pathRelation 0).source = q ≫ j.source := by
       rw [Category.assoc, P.firstInclusion_zero_source]
-    show (presheafPreRelation j).WeaklyEquivalent p
+    change (presheafPreRelation j).WeaklyEquivalent p
       (overTestPoint ((q ≫ P.firstInclusion 0) ≫ (P.pathRelation 0).target))
       (overTestPoint ((q ≫ P.firstInclusion 0) ≫ (P.pathRelation 0).source))
     rw [ht, hs]
@@ -108,7 +108,7 @@ private theorem weaklyEquivalent_oneStep (p : FieldValuedPoint site S hS B.obj)
     have hs : (q ≫ P.firstInclusion 1) ≫ (P.pathRelation 0).source = q := by
       rw [Category.assoc, P.firstInclusion_one_source]
       exact Category.comp_id q
-    show (presheafPreRelation j).WeaklyEquivalent p
+    change (presheafPreRelation j).WeaklyEquivalent p
       (overTestPoint ((q ≫ P.firstInclusion 1) ≫ (P.pathRelation 0).target))
       (overTestPoint ((q ≫ P.firstInclusion 1) ≫ (P.pathRelation 0).source))
     rw [ht, hs]
@@ -117,7 +117,7 @@ private theorem weaklyEquivalent_oneStep (p : FieldValuedPoint site S hS B.obj)
       rw [Category.assoc, P.firstInclusion_two_target]
     have hs : (q ≫ P.firstInclusion 2) ≫ (P.pathRelation 0).source = q ≫ j.target := by
       rw [Category.assoc, P.firstInclusion_two_source]
-    show (presheafPreRelation j).WeaklyEquivalent p
+    change (presheafPreRelation j).WeaklyEquivalent p
       (overTestPoint ((q ≫ P.firstInclusion 2) ≫ (P.pathRelation 0).target))
       (overTestPoint ((q ≫ P.firstInclusion 2) ≫ (P.pathRelation 0).source))
     rw [ht, hs]

@@ -35,7 +35,8 @@ hypothesis is consumed; brought down to the module universe of the structure she
 `𝓘_{W₀} ⟶ 𝒪_X ⟶ i_*𝒪_{W₁}` is surjective on global sections, once that morphism is an
 epimorphism with quasi-coherent kernel. Both of those come from the defining ideal sheaves of the
 two subspaces, through the two statements of
-`StacksFrontier/AlgebraicGeometry/Spaces/ReducedClosedSubspaceDefiningIdeal.lean`: disjointness makes
+`StacksFrontier/AlgebraicGeometry/Spaces/ReducedClosedSubspaceDefiningIdeal.lean`: disjointness
+makes
 the two defining ideals comaximal on every affine chart, which gives the epimorphism, and the two
 defining ideal sheaves meet in the defining ideal sheaf of the reduced closed subspace of
 `Z₀ ∪ Z₁`, which gives quasi-coherence of the kernel. Lifting the image of `1` then yields the
@@ -722,7 +723,7 @@ theorem exists_mem_definingIdealAt_and_sub_one_mem
   refine ⟨SheafOfModules.sectionsMap
     (definingIdealSheaf T'.site T'.base T'.containsBase T'.space W₀).ι s,
     fun V => (s.val V).2, fun V => ?_⟩
-  show _ - 1 ∈ (definingIdealSheaf T'.site T'.base T'.containsBase T'.space W₁).obj V
+  change _ - 1 ∈ (definingIdealSheaf T'.site T'.base T'.containsBase T'.space W₁).obj V
   rw [← ker_structureProjection T'.site T'.base T'.containsBase T'.space W₁]
   refine (PresheafOfModules.Submodule.mem_ker
     (structureProjection T'.site T'.base T'.containsBase T'.space W₁).val V _).2 ?_

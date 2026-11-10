@@ -146,7 +146,7 @@ private lemma le_ker_algebraMap_of_forall_exists_eq_mul (A : Type*) [CommRing A]
   refine (IsLocalization.map_eq_zero_iff
     (Submonoid.comap (Ideal.Quotient.mk I).toMonoidHom ⊥) A x).2
       ⟨⟨1 - y, one_sub_mem_onePlus hy⟩, ?_⟩
-  show (1 - y) * x = 0
+  change (1 - y) * x = 0
   linear_combination hyeq
 
 /-! ### Localizations at primes -/
@@ -154,7 +154,7 @@ private lemma le_ker_algebraMap_of_forall_exists_eq_mul (A : Type*) [CommRing A]
 /-- If `I` is not contained in the prime `p`, then `I` generates the unit ideal in `R_p`. -/
 private lemma map_atPrime_eq_top_of_not_le {p : Ideal R} [p.IsPrime] (h : ¬ I ≤ p) :
     I.map (algebraMap R (Localization.AtPrime p)) = ⊤ := by
-  obtain ⟨x, hxI, hxp⟩ := SetLike.not_le_iff_exists.1 h
+  obtain ⟨x, hxI, hxp⟩ := IsConcreteLE.not_le_iff_exists.1 h
   exact Ideal.eq_top_of_isUnit_mem _ (Ideal.mem_map_of_mem _ hxI)
     (IsLocalization.map_units _ (⟨x, hxp⟩ : p.primeCompl))
 
@@ -637,7 +637,7 @@ theorem isPure04PT_imp_isPure
     {R : Type*} [CommRing R] {I : Ideal R} (hI : I.IsPure04PT) :
     I.IsPure := by
   -- `I.IsPure` is definitionally `Module.Flat R (R ⧸ I)`.
-  show Module.Flat R (R ⧸ I)
+  change Module.Flat R (R ⧸ I)
   -- `I.IsPure04PT` is definitionally `∀ x ∈ I, ∃ y ∈ I, x * y = x`.
   rw [Module.Flat.iff_forall_isTrivialRelation]
   intro l f x hrel
@@ -664,7 +664,7 @@ theorem isPure04PT_imp_isPure
     rw [Fin.sum_univ_one, hsmul, map_one, mul_one, map_mul, map_sub, map_one, hez,
       sub_zero, one_mul, hz i]
   · intro j
-    show ∑ i, f i * ((1 - e) * z i) = 0
+    change ∑ i, f i * ((1 - e) * z i) = 0
     rw [show ∑ i, f i * ((1 - e) * z i) = (1 - e) * s by
       rw [hs, Finset.mul_sum]; exact Finset.sum_congr rfl fun i _ => by ring,
       sub_mul, one_mul, mul_comm e s, hse, sub_self]
@@ -773,7 +773,7 @@ theorem purifyIdeal_radical_ge {R : Type*} [CommRing R] (J : Ideal R)
     rw [Ideal.add_eq_sup, Submodule.mem_sup] at h1
     obtain ⟨c, hc, j, hj, hcj⟩ := h1
     have hcT : c ∈ T := by
-      show c - 1 ∈ J
+      change c - 1 ∈ J
       rw [show c - 1 = -j by linear_combination hcj]
       exact J.neg_mem hj
     exact hqdisj hc (Submonoid.mem_sup_right hcT)
@@ -1016,7 +1016,7 @@ theorem pure_fg_tfae (R : Type*) [CommRing R] (I : Ideal R) :
     intro hproj
     have : Module.Projective R (R ⧸ I) := hproj
     refine ⟨?_, ?_⟩
-    · show Module.Flat R (R ⧸ I)
+    · change Module.Flat R (R ⧸ I)
       exact Module.Flat.of_projective
     · have : Module.Finite R (R ⧸ I) :=
         Module.Finite.of_surjective (Submodule.mkQ I) (Submodule.mkQ_surjective I)
@@ -1034,7 +1034,7 @@ theorem pure_fg_tfae (R : Type*) [CommRing R] (I : Ideal R) :
     have hee : e * e = e := by rw [← pow_two]; exact he
     refine ⟨?_, ?_⟩
     · -- Purity: `R ⧸ span{e}` is projective (replicate S2), hence flat.
-      show Module.Flat R (R ⧸ Ideal.span {e})
+      change Module.Flat R (R ⧸ Ideal.span {e})
       have := projective_quotient_span_of_sq_eq_self he
       exact Module.Flat.of_projective
     · -- Openness: `V(span{e}) = V({e}) = basicOpen (1-e)`, which is open.

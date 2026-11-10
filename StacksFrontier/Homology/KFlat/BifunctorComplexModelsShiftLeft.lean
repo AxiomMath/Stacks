@@ -62,8 +62,7 @@ variable {A B D : Type*} [Category A] [Category B] [Category D]
 
 /-- The mirror of `kFlatQuotientCompι_commShift` in the first variable of `F`, by
 `CategoryTheory.Functor.CommShift.ofComp_compatibility`. -/
-@[instance_reducible]
-def kFlatQuotientCompιLeft_commShift :
+theorem kFlatQuotientCompιLeft_commShift :
     letI := kFlatQuotientLeft_commShift F
     NatTrans.CommShift ((kFlatObjectsLeft F).liftCompιIso
       ((kFlatComplexesLeft F).ι ⋙ HomotopyCategory.quotient A (ComplexShape.up ℤ))

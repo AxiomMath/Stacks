@@ -129,7 +129,7 @@ public theorem smul_mem_idealPowerMultiple_one {X : Scheme.{u}} (I : X.IdealShea
   have hfin := hgen (Submodule.smul_mem_smul (by rwa [pow_one])
     (Submodule.mem_top (x := Stacks.restr M.val (homOfLE hle).op b)))
   rw [harr]
-  show Stacks.restr M.val (homOfLE hle).op (c • b) ∈
+  change Stacks.restr M.val (homOfLE hle).op (c • b) ∈
     (idealPowerMultiple I 1 M).toSubmodule.obj (op V.1)
   exact hres ▸ hfin
 
@@ -301,7 +301,7 @@ theorem restrictionHom_app_eq_zero_iff_restrictionToClosed [IsClosedImmersion i]
         = 0 ↔
       (restrictionToClosed i ((twistSheafGradedAlgebra D).piece n)).app V a = 0 := by
   rw [restrictionHom_app_eq_zero_iff]
-  show a ∈ (generatedByDegree (twistSheafGradedAlgebra D)
+  change a ∈ (generatedByDegree (twistSheafGradedAlgebra D)
     (closedIdealDegreeZero D i) n).toSubmodule.obj (op V) ↔ _
   rw [generatedByDegree_closedIdealDegreeZero_eq D i n,
     ← Stacks.Algebraization.kernelSubmodule_unit_app_eq_idealMultiple

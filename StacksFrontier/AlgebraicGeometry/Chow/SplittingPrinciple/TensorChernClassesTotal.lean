@@ -120,7 +120,7 @@ theorem esymmOfRoots_eq_esymRec {ι : Type*} [Fintype ι] {m : ℕ} (e : ι ≃ 
     have h := congrArg Finset.val (Fin.map_valEmbedding_univ (n := m))
     rw [Finset.map_val, Nat.Iio_eq_range, Finset.range_val] at h
     exact h
-  show (Multiset.map z Finset.univ.val).esymm k = _
+  change (Multiset.map z Finset.univ.val).esymm k = _
   rw [huniv, ← hrange, Multiset.map_map, Multiset.map_map]
   exact congrArg (fun t => Multiset.esymm t k)
     (Multiset.map_congr rfl fun i _ => (hw' i).symm)
@@ -138,7 +138,7 @@ theorem esymmOfRoots_finProd_eq_esymRec {r s : ℕ} (z : Fin r × Fin s → A) (
     esymmOfRoots z k = esymRec w (r * s) k := by
   refine esymmOfRoots_eq_esymRec finProdFinEquiv z w (fun a => ?_) k
   have hval : ((finProdFinEquiv a : Fin (r * s)) : ℕ) = (a.1 : ℕ) * s + (a.2 : ℕ) := by
-    show (a.2 : ℕ) + s * (a.1 : ℕ) = (a.1 : ℕ) * s + (a.2 : ℕ)
+    change (a.2 : ℕ) + s * (a.1 : ℕ) = (a.1 : ℕ) * s + (a.2 : ℕ)
     rw [Nat.mul_comm]
     exact Nat.add_comm _ _
   rw [hval, hw a.1 a.2]
@@ -164,9 +164,9 @@ private theorem exists_esymRec_lex {r s : ℕ} (x : Fin r → A) (y : Fin s → 
         (fun k => wx (k / s) + wy (k % s)) (i * s + j) = wx i + wy j := by
   classical
   obtain ⟨wx, hwx⟩ : ∃ w : ℕ → A, ∀ i : Fin r, w (i : ℕ) = x i :=
-    ⟨fun k => if h : k < r then x ⟨k, h⟩ else 0, fun i => dif_pos i.isLt⟩
+    ⟨fun k => if h : k < r then x ⟨k, h⟩ else 0, fun i => dite_eq_left i.isLt⟩
   obtain ⟨wy, hwy⟩ : ∃ w : ℕ → A, ∀ j : Fin s, w (j : ℕ) = y j :=
-    ⟨fun k => if h : k < s then y ⟨k, h⟩ else 0, fun j => dif_pos j.isLt⟩
+    ⟨fun k => if h : k < s then y ⟨k, h⟩ else 0, fun j => dite_eq_left j.isLt⟩
   exact ⟨wx, wy, esymmOfRoots_fin_eq_esymRec x wx hwx, esymmOfRoots_fin_eq_esymRec y wy hwy,
     esymmOfRoots_finProd_eq_esymRec _ _
       fun i j => by rw [lexSeq_apply wx wy (i : ℕ) (j : ℕ) j.isLt, hwx i, hwy j],
@@ -341,7 +341,7 @@ theorem chernClassSub_tensorObj_one (E F : X.Modules) (r s : ℕ)
       by_cases hi : i = 0
       · simp only [hi, reduceIte]
         infer_instance
-      · simp only [if_neg hi]
+      · simp only [ite_eq_right hi]
         infer_instance)
   obtain ⟨L, hLinv, hL⟩ := exists_hasQuotients_of_hasInvertibleFiltration
     (show Stacks.WeilCohomology.HasInvertibleFiltration T.P
@@ -374,7 +374,8 @@ theorem chernClassSub_tensorObj_one (E F : X.Modules) (r s : ℕ)
           homComponent 1 (GenuineChern.chernFamily C T.sP
             ((Scheme.Modules.pullback T.π).obj F) s) := by
     have h := congrArg (Subring.subtype (chernSubring C T.sP)) hup
-    simpa only [Subring.coe_add, Subring.coe_mul, Subring.coe_natCast, Subring.coe_subtype, coe_chernClassSub] using h
+    simpa only [Subring.coe_add, Subring.coe_mul, Subring.coe_natCast, Subring.coe_subtype,
+      coe_chernClassSub] using h
   have hint1 : Intertwines T.pullbackChow (GenuineChern.chernFamily C sX E r)
       (GenuineChern.chernFamily C T.sP ((Scheme.Modules.pullback T.π).obj E) r) :=
     GenuineChern.intertwines_chernFamily C sX E r T.sP T.π T.hsP _ T.relDim _ (Iso.refl _)
@@ -395,7 +396,8 @@ theorem chernClassSub_tensorObj_one (E F : X.Modules) (r s : ℕ)
           homComponent 1 (GenuineChern.chernFamily C sX E r)
         + (r : GradedCapFamily (chowGroup C sX)) *
           homComponent 1 (GenuineChern.chernFamily C sX F s) := by
-    simp only [Subring.coe_add, Subring.coe_mul, Subring.coe_natCast, Subring.coe_subtype, coe_chernClassSub]
+    simp only [Subring.coe_add, Subring.coe_mul, Subring.coe_natCast, Subring.coe_subtype,
+      coe_chernClassSub]
   have hrhs := ((Intertwines.natCast (pull := T.pullbackChow) s).mul
       (hint1.homComponent 1)).add
     ((Intertwines.natCast (pull := T.pullbackChow) r).mul (hint2.homComponent 1))
@@ -451,7 +453,7 @@ theorem chernClassSub_tensorObj_two (E F : X.Modules) (r s : ℕ)
       by_cases hi : i = 0
       · simp only [hi, reduceIte]
         infer_instance
-      · simp only [if_neg hi]
+      · simp only [ite_eq_right hi]
         infer_instance)
   obtain ⟨L, hLinv, hL⟩ := exists_hasQuotients_of_hasInvertibleFiltration
     (show Stacks.WeilCohomology.HasInvertibleFiltration T.P

@@ -43,8 +43,7 @@ theorem surjective_extendRestrictScalarsAdj_unit_app (i : C →+* C') (hi : Func
     Function.Surjective ((ModuleCat.extendRestrictScalarsAdj.{u} i).unit.app M) := by
   intro y
   change ((ModuleCat.extendScalars i).obj M : Type u) at y
-  induction y using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction y using TensorProduct.inductionOn with
   | tmul c' m =>
     obtain ⟨c, rfl⟩ := hi c'
     refine ⟨c • m, ?_⟩

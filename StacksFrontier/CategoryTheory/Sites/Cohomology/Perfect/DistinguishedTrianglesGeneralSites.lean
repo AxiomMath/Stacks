@@ -81,7 +81,7 @@ theorem nonempty_mappingCone_iso_mapDerivedCategory_obj₃
   let j : Arrow.mk (DerivedCategory.Q.map β) ≅ Arrow.mk (H.mapDerivedCategory.map α) :=
     Arrow.isoMk (H.mapDerivedCategoryFactors.app P).symm
       (H.mapDerivedCategoryFactors.app Q).symm (by
-        show H.mapDerivedCategoryFactors.inv.app P ≫ H.mapDerivedCategory.map α =
+        change H.mapDerivedCategoryFactors.inv.app P ≫ H.mapDerivedCategory.map α =
           DerivedCategory.Q.map β ≫ H.mapDerivedCategoryFactors.inv.app Q
         apply (cancel_mono (H.mapDerivedCategoryFactors.hom.app Q)).mp
         simpa only [Functor.comp_obj, Category.assoc, Iso.inv_hom_id_app, Category.comp_id,

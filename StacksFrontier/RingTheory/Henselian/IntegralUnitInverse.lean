@@ -74,7 +74,7 @@ theorem isLocalHom_of_isIntegral [IsLocalRing R] [IsLocalRing C]
         rw [Ideal.comap_comap]
         congr 1
         ext r
-        simpa using (g.commutes r).symm
+        simp
       rw [hcomp, maximalIdeal_comap (algebraMap R C)]
       exact maximalIdeal.isMaximal R
     exact eq_maximalIdeal
@@ -105,7 +105,7 @@ theorem isIntegral_val_inv [HenselianLocalRing R] [IsLocalRing C] [IsDomain C]
     isLocalHom_of_isIntegral (E := E) E.val
   have htE : (t : C) ∈ E := Algebra.self_mem_adjoin_singleton R _
   have hunit : IsUnit (⟨(t : C), htE⟩ : E) :=
-    isUnit_of_map_unit (E.val : E →+* C) _ (by simpa using t.isUnit)
+    isUnit_of_map_unit (E.val : E →+* C) _ (by simp)
   obtain ⟨u, hu⟩ := hunit
   -- its inverse in `E` is integral over `R` and maps to `t⁻¹`.
   have hvinv : (E.val ((u⁻¹ : Eˣ) : E)) * (t : C) = 1 := by

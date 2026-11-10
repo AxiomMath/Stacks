@@ -25,8 +25,8 @@ For `V'` the canonical choice works: `AlgebraicGeometry.Space.immersionCoborderO
 closed factorisation is `AlgebraicGeometry.Space.immersionCoborderLift`.  For `V` it does not —
 `a` need not carry the coborder of the range of `j` into the coborder of the range of `j'`; for a
 closed immersion `j` the former is all of `V`, and `a` can land outside the latter.  The ambient
-built here is therefore smaller, and it is built in **two** steps from results of the library rather than by cutting
-`j.coborderRange` down and proving the restriction closed by hand:
+built here is therefore smaller, and it is built in **two** steps from results of the library rather
+than by cutting `j.coborderRange` down and proving the restriction closed by hand:
 
 * first the open `a⁻¹ᵁ (j').coborderRange` of `V`, which contains the range of `j` **because the
   square commutes**, so that `AlgebraicGeometry.Space.openSubLift` factors `j` through it; that
@@ -122,7 +122,7 @@ theorem range_subset_preimage_coborderRange (hsq : j ≫ a = b ≫ j') :
     rw [← Functor.map_comp, ← Functor.map_comp, hsq]
   have hy := congrArg (fun f : (BigFppfOver.toScheme B S hS).obj R ⟶
     (BigFppfOver.toScheme B S hS).obj V' ↦ f.base y) hc
-  show ((BigFppfOver.toScheme B S hS).map a).base
+  change ((BigFppfOver.toScheme B S hS).map a).base
       (((BigFppfOver.toScheme B S hS).map j).base y) ∈
     ((BigFppfOver.toScheme B S hS).map j').coborderRange
   have hpt : ((BigFppfOver.toScheme B S hS).map a).base

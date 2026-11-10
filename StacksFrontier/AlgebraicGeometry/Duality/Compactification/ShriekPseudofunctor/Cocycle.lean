@@ -174,7 +174,7 @@ theorem tripleAF_hcomp :
         (pbCompN (tripleLeft E t).innerImmersion (tripleLeft E t).innerFst).hom).whiskerRight
           (pbCompN (tripleInner E t).innerImmersion
             ((tripleInner E t).innerFst ≫ (tripleRight E t).innerFst :
-              _ ⟶ t.space)).inv).natTrans :=
+              _ ⟶ t.space)).inv) :=
   @bcN_hcomp _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     (instIsOpenImmersionInnerImmersion (tripleInner E t)) (isOpenImmersion_tripleRow E t)
     (instIsOpenImmersionInnerImmersion (tripleLeft E t))

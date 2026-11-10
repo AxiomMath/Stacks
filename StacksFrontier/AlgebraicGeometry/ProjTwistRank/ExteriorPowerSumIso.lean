@@ -223,7 +223,9 @@ def wedgeMapIso {F G : ProjModules R n} (e : F ≅ G) (q : ℕ) : wedge R n F q 
 /-- Tensoring with a fixed left factor on `ℙⁿ_R` carries an isomorphism to an isomorphism. -/
 def tensorObjMapIso (A : ProjModules R n) {B B' : ProjModules R n} (e : B ≅ B') :
     tensorObj R n A B ≅ tensorObj R n A B' :=
-  ((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((_root_.AlgebraicGeometry.Proj (polyGrading R n))).presheaf, ((_root_.AlgebraicGeometry.Proj (polyGrading R n))).IsSheaf⟩).obj A).mapIso e
+  ((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨((_root_.AlgebraicGeometry.Proj (polyGrading R n))).presheaf,
+        ((_root_.AlgebraicGeometry.Proj (polyGrading R n))).IsSheaf⟩).obj A).mapIso e
 
 /-- **`𝒪(d) ⊗ 𝒪(e)^{⊕k} ≅ 𝒪(d+e)^{⊕k}` on `ℙⁿ_R`**: tensoring with a fixed sheaf distributes
 over a finite direct sum, and the product of two Serre twists is the twist by the sum of their

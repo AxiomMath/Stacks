@@ -147,7 +147,7 @@ public theorem leftMulMatrix_commute (o : O) (g : EtaleFundamentalGroup X.1 x) :
     (Algebra.leftMulMatrix b).toRingHom o * (characterRepresentation B X x b χ g).val =
       (characterRepresentation B X x b χ g).val * (Algebra.leftMulMatrix b).toRingHom o := by
   rw [characterRepresentation_val]
-  show Algebra.leftMulMatrix b o * _ = _ * Algebra.leftMulMatrix b o
+  change Algebra.leftMulMatrix b o * _ = _ * Algebra.leftMulMatrix b o
   rw [← map_mul, ← map_mul, mul_comm]
 
 /-- **The rank-one `O`-sheaf `ℱ_χ` of a continuous character `χ : π₁(X, x̄) → O^×`.** -/
@@ -170,7 +170,7 @@ private theorem equivFun_symm_leftMulMatrix_mulVec (o : O) (w : Fin d → ℤ_[�
     b.equivFun.symm (Algebra.leftMulMatrix b o *ᵥ w) = o * b.equivFun.symm w := by
   have hw : (b.repr (b.equivFun.symm w) : Fin d → ℤ_[ℓ]) = w := b.equivFun.apply_symm_apply w
   rw [← hw, Algebra.leftMulMatrix_mulVec_repr]
-  show b.equivFun.symm (b.equivFun _) = _
+  change b.equivFun.symm (b.equivFun _) = _
   rw [LinearEquiv.symm_apply_apply, hw]
 
 /-- `characterSheafStalkEquiv` is `O`-linear: it sends `o • v` to
@@ -210,7 +210,7 @@ public theorem characterSheafStalkLinearEquiv_stalkEnd {s : GeometricPoint X.1}
     apply eq_of_toZModPow_succ_eq
     intro n
     rw [LAdicSheaf.LevelTrivialization.toZModPow_stalkEquiv]
-    show T.equiv n ((finiteLevelStalkEnd B X ℓ _ a n).hom (v.1 n)) i = _
+    change T.equiv n ((finiteLevelStalkEnd B X ℓ _ a n).hom (v.1 n)) i = _
     have hl := congrArg ULift.down (ULift.ext
       (representationLevelStalkIso_geometricPointStalkMap B X x _ hχ t a σ hσ (n + 1) (v.1 n)))
     change T.equiv n ((finiteLevelStalkEnd B X ℓ _ a n).hom (v.1 n)) =
@@ -219,7 +219,7 @@ public theorem characterSheafStalkLinearEquiv_stalkEnd {s : GeometricPoint X.1}
     congr 2
     funext j
     exact (LAdicSheaf.LevelTrivialization.toZModPow_stalkEquiv T v n j).symm
-  show b.equivFun.symm (T.stalkEquiv (LAdicSheaf.stalkEnd B X ℓ _ a v)) =
+  change b.equivFun.symm (T.stalkEquiv (LAdicSheaf.stalkEnd B X ℓ _ a v)) =
     _ * b.equivFun.symm (T.stalkEquiv v)
   rw [hT, characterRepresentation_val]
   exact equivFun_symm_leftMulMatrix_mulVec b _ _

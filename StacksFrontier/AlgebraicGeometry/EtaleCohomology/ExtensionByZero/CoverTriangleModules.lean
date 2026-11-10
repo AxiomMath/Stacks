@@ -421,7 +421,7 @@ def etaleModuleCoverFromBiprod : etaleModuleCoverBiprod.{u, r} Λ U V ⟶ 𝟭 _
 theorem etaleModuleCoverToBiprod_comp_coverFromBiprod (F : EtaleModules.{u, r} Λ X) :
     (etaleModuleCoverToBiprod.{u, r} Λ U V).app F ≫
       (etaleModuleCoverFromBiprod.{u, r} Λ U V).app F = 0 := by
-  show biprod.lift
+  change biprod.lift
       ((etaleModuleCoverComparison.{u, r} Λ (U ⊓ V).ι U.ι (X.homOfLE inf_le_left)
         (X.homOfLE_ι _)).app F)
       (-((etaleModuleCoverComparison.{u, r} Λ (U ⊓ V).ι V.ι (X.homOfLE inf_le_right)
@@ -472,7 +472,7 @@ theorem shortExact_etaleModuleCoverShortComplex (F : EtaleModules.{u, r} Λ X) :
     (ShortComplex.mk ((etaleModuleCoverToBiprod.{u, r} Λ U V).app F)
       ((etaleModuleCoverFromBiprod.{u, r} Λ U V).app F)
       (etaleModuleCoverToBiprod_comp_coverFromBiprod.{u, r} Λ U V F)).ShortExact := by
-  show (ShortComplex.biprodMayerVietoris
+  change (ShortComplex.biprodMayerVietoris
       ((etaleModuleCoverComparison.{u, r} Λ (U ⊓ V).ι U.ι (X.homOfLE inf_le_left)
         (X.homOfLE_ι _)).app F)
       ((etaleModuleCoverComparison.{u, r} Λ (U ⊓ V).ι V.ι (X.homOfLE inf_le_right)

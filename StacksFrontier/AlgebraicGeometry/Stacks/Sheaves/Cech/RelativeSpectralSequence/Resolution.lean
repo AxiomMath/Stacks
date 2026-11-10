@@ -362,7 +362,7 @@ private lemma termMap_add (φ ψ : F ⟶ G) (n : ℕ) :
       termMap q f φ n + termMap q f ψ n := by
   have := ((Tuple.projection q f n).op.ranAdjunction
     AddCommGrpCat.{max uU uX vX w}).right_adjoint_additive
-  show (Tuple.projection q f n).op.ran.map
+  change (Tuple.projection q f n).op.ran.map
       (Functor.whiskerLeft (Tuple.projection q f n).op φ +
         Functor.whiskerLeft (Tuple.projection q f n).op ψ) = _
   exact Functor.map_add _
@@ -470,7 +470,7 @@ private lemma h0PushforwardAddEquiv_naturality
     Sheaf.H.addEquiv₀_map (R.map φ) x
   apply Abelian.Ext.addEquiv₀.injective
   rw [Sheaf.H.addEquiv₀_map]
-  show Abelian.Ext.addEquiv₀ (Abelian.Ext.addEquiv₀.symm
+  change Abelian.Ext.addEquiv₀ (Abelian.Ext.addEquiv₀.symm
     ((aJ.homEquiv _ G).symm ((aR.homEquiv Z G.obj).symm
       ((aK.homEquiv Z (R.obj G) (Abelian.Ext.addEquiv₀ (Sheaf.H.map (R.map φ) 0 x))) ≫
         (e.app G).hom)))) =
@@ -480,7 +480,7 @@ private lemma h0PushforwardAddEquiv_naturality
   rw [AddEquiv.apply_symm_apply, AddEquiv.apply_symm_apply, hmap,
     aK.homEquiv_naturality_right, ← aJ.homEquiv_naturality_right_symm]
   apply congrArg (aJ.homEquiv _ G).symm
-  show (aR.homEquiv Z G.obj).symm
+  change (aR.homEquiv Z G.obj).symm
       (((aK.homEquiv Z (R.obj F)) u ≫
         (sheafToPresheaf K AddCommGrpCat.{a}).map (R.map φ)) ≫ (e.app G).hom) =
     (aR.homEquiv Z F.obj).symm ((aK.homEquiv Z (R.obj F)) u ≫ (e.app F).hom) ≫ φ.hom
@@ -569,7 +569,7 @@ private lemma sheafAugmentation_naturality
   dsimp only [Functor.id_map] at h₂
   change φ.hom ≫ augmentation.{u, uU, uX, vU, vX, w} q f G.obj 0 =
     augmentation.{u, uU, uX, vU, vX, w} q f F.obj 0 ≫ termMap q f φ.hom 0 at h₂
-  show φ ≫ (sheafificationIso G).hom ≫
+  change φ ≫ (sheafificationIso G).hom ≫
       (presheafToSheaf J AddCommGrpCat.{max uU uX vX w}).map
         (augmentation.{u, uU, uX, vU, vX, w} q f G.obj 0) =
     ((sheafificationIso F).hom ≫ (presheafToSheaf J AddCommGrpCat.{max uU uX vX w}).map

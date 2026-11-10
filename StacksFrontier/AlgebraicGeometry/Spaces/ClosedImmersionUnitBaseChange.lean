@@ -56,7 +56,8 @@ open CategoryTheory CategoryTheory.Limits
 
 /- The global instances `Abelian (SheafOfModules.{max u v r w} O)` and its Grothendieck
 counterpart leave a stuck universe constraint against the modules of the small étale site; the
-abelian structure used here is the one of `StacksFrontier.AlgebraicGeometry.Spaces.ModulesAbelian`. -/
+abelian structure used here is the one of `StacksFrontier.AlgebraicGeometry.Spaces.ModulesAbelian`.
+-/
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
 

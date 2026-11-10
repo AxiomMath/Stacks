@@ -48,7 +48,7 @@ family of submodules has its universe pinned to that of the schemes. -/
 theorem isGrothendieckAbelian_modules :
     IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS F hF) :=
   have : EssentiallySmall.{u} (smallEtaleRingedSite B S hS F hF).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS F)
+    change EssentiallySmall.{u} (SmallEtale B S hS F)
     infer_instance
   SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _
 

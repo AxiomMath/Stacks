@@ -119,7 +119,7 @@ theorem comp_generalLinearTwoPowerGraphSection :
       toBaseFunctor k B hk (generalLinearTwoPowerFunctor k B hk m) =
       𝟙 (baseFunctor k B hk) := (base_isTerminal k B hk).hom_ext _ _
   refine BinaryFan.IsLimit.hom_ext (isLimitBinaryFanFunctorProjections k B hk m) ?_ ?_
-  · show yoneda.map (generalLinearTwoPowerSitePoint k B hk m M) ≫
+  · change yoneda.map (generalLinearTwoPowerSitePoint k B hk m M) ≫
         generalLinearTwoPowerGraphSection k B hk m x ≫
           generalLinearTwoPowerFunctorProjection k B hk m =
       (x ≫ projectiveLinePowerPointSection k B hk m M) ≫
@@ -128,7 +128,7 @@ theorem comp_generalLinearTwoPowerGraphSection :
       Category.comp_id, Category.assoc,
       projectiveLinePowerPointSection_comp_generalLinearTwoPowerFunctorProjection,
       ← Category.assoc, hb₁, Category.id_comp]
-  · show yoneda.map (generalLinearTwoPowerSitePoint k B hk m M) ≫
+  · change yoneda.map (generalLinearTwoPowerSitePoint k B hk m M) ≫
         generalLinearTwoPowerGraphSection k B hk m x ≫
           projectiveLinePowerFunctorProjection k B hk m =
       (x ≫ projectiveLinePowerPointSection k B hk m M) ≫

@@ -156,7 +156,7 @@ lemma tripleIsoPullback_fst {Z X : Scheme.{u}}
         overlapRestrictionMap 𝒰 h A i j =
         tripleRestrictionMap 𝒰 h A i j k := by
           rw [Category.assoc]
-          show (IsOpenImmersion.isoOfRangeEq
+          change (IsOpenImmersion.isoOfRangeEq
             (tripleRestrictionMap 𝒰 h A i j k)
             (pullback.fst (overlapRestrictionMap 𝒰 h A i j)
               (overlapRestrictionMap 𝒰 h A i k) ≫
@@ -476,13 +476,13 @@ lemma overlapRestrictionMap_self_opensRange {Z X : Scheme.{u}}
     (overlapRestrictionMap 𝒰 h A i i).opensRange = ⊤ := by
   have : IsOpenImmersion (overlapRestrictionMap 𝒰 h A i i) :=
     isOpenImmersion_overlapRestrictionMap 𝒰 h A i i
-  show Scheme.Hom.opensRange
+  change Scheme.Hom.opensRange
       ((thickeningOpenImage (A i).inclusion
         (A i).isUniversal.isFirstOrderThickening.isThickening (sourceOverlap 𝒰 i i)).ι) = ⊤
   rw [Scheme.Opens.opensRange_ι]
   rw [sourceOverlap_self]
   apply SetLike.coe_injective
-  show (thickeningHomeomorph (A i).inclusion
+  change (thickeningHomeomorph (A i).inclusion
       (A i).isUniversal.isFirstOrderThickening.isThickening) '' (Set.univ : Set (𝒰.X i)) = Set.univ
   exact Set.image_univ_of_surjective
     (thickeningHomeomorph (A i).inclusion

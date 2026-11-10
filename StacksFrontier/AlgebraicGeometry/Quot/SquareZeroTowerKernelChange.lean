@@ -59,7 +59,7 @@ theorem isClosedImmersion_limitBase :
     (@AlgebraicGeometry.IsClosedImmersion.{u}) _).2
     (isSquareZeroClosedImmersion_limitBase ξ hsurj hsq e cR hcR c eLimit hc).1
 
-include hsurj hsq hcR hc in
+include e in
 /-- `X₀` is quasi-compact and quasi-separated: it is of finite presentation over the affine
 `Y₀`. -/
 theorem qcqs_towerSpace_zero (hZ : B.Contains (⊤_ Scheme.{u})) :
@@ -83,8 +83,8 @@ theorem exists_towerProblem_kernelChangeHom (hZ : B.Contains (⊤_ Scheme.{u}))
     (hDQ :
       letI := Space.quasicoherentDerivedInclusion_isLeftAdjoint_of_qcqs B S hS hZ
         (towerSpace ξ 0).1 (towerSpace ξ 0).2
-        (qcqs_towerSpace_zero ξ hsurj hsq e cR hcR c eLimit hc hZ).1
-        (qcqs_towerSpace_zero ξ hsurj hsq e cR hcR c eLimit hc hZ).2
+        (qcqs_towerSpace_zero ξ e hZ).1
+        (qcqs_towerSpace_zero ξ e hZ).2
       IsIso ((Space.qcohDerivedProp B S hS (towerSpace ξ 0)).ι.rightAdjoint.map
         ((DerivedCategory.singleFunctor (Space.Modules.{u, u} B S hS (towerSpace ξ 0).1
           (towerSpace ξ 0).2) 0).map (towerLimitKernelMap ξ hsurj hsq e he cR hcR c eLimit hc)))) :
@@ -94,8 +94,8 @@ theorem exists_towerProblem_kernelChangeHom (hZ : B.Contains (⊤_ Scheme.{u}))
         (towerLimitKernelMap ξ hsurj hsq e he cR hcR c eLimit hc) P'
         (towerLimitSolutionOfKernelMap ξ hsurj hsq e he cR hcR c eLimit hc)) :=
   Space.exists_kernelChangeHom_of_isIso_coherator_map_of_qcqs B S hS hZ
-    (qcqs_towerSpace_zero ξ hsurj hsq e cR hcR c eLimit hc hZ).1
-    (qcqs_towerSpace_zero ξ hsurj hsq e cR hcR c eLimit hc hZ).2
+    (qcqs_towerSpace_zero ξ e hZ).1
+    (qcqs_towerSpace_zero ξ e hZ).2
     (towerStructureMap ξ 0) (schemeSpaceMap (c.ι.app 0))
     (isClosedImmersion_limitBase ξ hsurj hsq e cR hcR c eLimit hc)
     (towerProblem ξ hsurj hsq e cR hcR c eLimit hc)
@@ -154,8 +154,8 @@ theorem exists_towerProblem_kernelChangeHom_of_limitComparison (hZ : B.Contains 
         (towerLimitSolutionOfKernelMap ξ hsurj hsq e he cR hcR c eLimit hc)) :=
   exists_towerProblem_kernelChangeHom ξ hsurj hsq e he cR hcR c eLimit hc hZ
     (Space.isIso_coherator_map_single_of_eq_limitComparison hZ
-      (qcqs_towerSpace_zero ξ hsurj hsq e cR hcR c eLimit hc hZ).1
-      (qcqs_towerSpace_zero ξ hsurj hsq e cR hcR c eLimit hc hZ).2
+      (qcqs_towerSpace_zero ξ e hZ).1
+      (qcqs_towerSpace_zero ξ e hZ).2
       (towerStructureMap ξ 0) (isFlat_towerStructureMap ξ 0) (ξ.obj 0).obj.property.1
       (isAffine_towerBase ξ e 0) Msys hMsurj hpush _ α β hφ)
 

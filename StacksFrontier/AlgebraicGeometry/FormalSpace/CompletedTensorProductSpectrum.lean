@@ -274,11 +274,11 @@ theorem exists_formalSpectrum_completedTensorProduct_iso_snd
   have hτA : τ.toRingHom.comp γA.toRingHom = ιA :=
     congrArg ContinuousHom.toRingHom (continuousHom_eq_of_formalSpectrumMap_eq hA hT
       (y₁ := ContinuousHom.comp hT hA τ γA) (y₂ := iA)
-      (by rw [← formalSpectrumMap_comp_eq, hτ, hγA]; simp [κ, pullback.lift_fst_assoc]))
+      (by rw [← formalSpectrumMap_comp_eq, hτ, hγA]; simp [κ]))
   have hτC : τ.toRingHom.comp γC.toRingHom = ιC :=
     congrArg ContinuousHom.toRingHom (continuousHom_eq_of_formalSpectrumMap_eq hC hT
       (y₁ := ContinuousHom.comp hT hC τ γC) (y₂ := iC)
-      (by rw [← formalSpectrumMap_comp_eq, hτ, hγC]; simp [κ, pullback.lift_snd_assoc]))
+      (by rw [← formalSpectrumMap_comp_eq, hτ, hγC]; simp [κ]))
   have hγR : γA.toRingHom.comp (algebraMap R A) = γC.toRingHom.comp (algebraMap R C) :=
     congrArg ContinuousHom.toRingHom (continuousHom_eq_of_formalSpectrumMap_eq hR hT
       (y₁ := ContinuousHom.comp hA hR γA φA) (y₂ := ContinuousHom.comp hC hR γC φC)
@@ -300,7 +300,7 @@ theorem exists_formalSpectrum_completedTensorProduct_iso_snd
         have hJK : J.1 ≤ Ideal.comap γA.toRingHom K.1 := fun x hx ↦ by
           rw [Ideal.mem_comap, ← hσA]
           exact h (hJ hx)
-        show _ ≫ (QuotientSystem.induced hA DA ιA hιA D₀).overS K' = _
+        change _ ≫ (QuotientSystem.induced hA DA ιA hιA D₀).overS K' = _
         rw [QuotientSystem.induced_overS hA DA ιA hιA D₀ K' J hJ, ← γA.overS J K hJK,
           ← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
         congr 3
@@ -337,8 +337,8 @@ theorem exists_formalSpectrum_completedTensorProduct_iso_snd
       inv_hom_id := by rw [← Category.assoc, ← hτ, hτs] }
   refine ⟨DT, iC, E, hT, rfl, ?_⟩
   have hκC : formalSpectrumMap hC iC = E.inv ≫ pullback.snd f g ≫ eY.hom := by
-    show _ = κ ≫ pullback.snd f g ≫ eY.hom
-    simp [κ, pullback.lift_snd_assoc]
+    change _ = κ ≫ pullback.snd f g ≫ eY.hom
+    simp [κ]
   rw [hκC, Iso.hom_inv_id_assoc]
 
 end FibreProduct

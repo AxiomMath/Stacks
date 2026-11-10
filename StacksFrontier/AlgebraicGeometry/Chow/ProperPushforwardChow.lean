@@ -134,7 +134,7 @@ theorem properPushforward_rationallyEquivalent (p : X ⟶ Y) [IsProper p] (hp : 
     {α β : CycleGroup C sX k} (h : RationallyEquivalent C sX k α β) :
     RationallyEquivalent C sY k (properPushforward C sX sY p hp k α)
       (properPushforward C sX sY p hp k β) := by
-  show properPushforward C sX sY p hp k α - properPushforward C sX sY p hp k β ∈
+  change properPushforward C sX sY p hp k α - properPushforward C sX sY p hp k β ∈
     rationalEquivalences C sY k
   rw [← properPushforward_sub]
   exact hfac (α - β) h
@@ -150,7 +150,7 @@ theorem properPushforwardFactorsThroughRationalEquivalence_iff_rationallyEquival
   refine ⟨fun hfac α β h ↦ properPushforward_rationallyEquivalent C sX sY p hp k hfac h,
     fun h α hα ↦ ?_⟩
   have hα0 : RationallyEquivalent C sX k α 0 := by
-    show α - 0 ∈ rationalEquivalences C sX k
+    change α - 0 ∈ rationalEquivalences C sX k
     simpa only [sub_zero] using hα
   have h0 : properPushforward C sX sY p hp k α - properPushforward C sX sY p hp k 0 ∈
     rationalEquivalences C sY k := h α 0 hα0
@@ -245,7 +245,7 @@ theorem properChowPushforward_comp (f : X ⟶ Y) [IsProper f] (g : Y ⟶ Z) [IsP
           hfacf hfacg) := by
   refine eq_properChowPushforward C sX sZ (f ≫ g) (by rw [Category.assoc, hg, hf]) k _ _ ?_
   ext α
-  show QuotientAddGroup.mk' (rationalEquivalences C sZ k)
+  change QuotientAddGroup.mk' (rationalEquivalences C sZ k)
       (properPushforward C sY sZ g hg k (properPushforward C sX sY f hf k α)) = _
   rw [properPushforward_properPushforward C sX sY sZ f g hf hg k α]
   rfl

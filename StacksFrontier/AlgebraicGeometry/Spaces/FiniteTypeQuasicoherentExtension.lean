@@ -195,7 +195,7 @@ theorem exists_fg_comap_spanOfChart_eq (hF : IsCartesianOnAffineCharts F)
       exact map_mem_chartSpan F (g l) (m₂ ≫ k) M (chartSpan_mono F (g l) le_sup_left (hDZ l hx))
     have h4 := map_mem_chartSpan F _ m _ h2
     rw [modules_map_map] at h4
-    show chartRes F (m ≫ m₂ ≫ d₂) σ ∈ chartSpan F _ M
+    change chartRes F (m ≫ m₂ ≫ d₂) σ ∈ chartSpan F _ M
     refine (chartSpan_congr F ?_ M).le h4
     apply SmallEtale.hom_ext'
     apply yoneda.map_injective
@@ -257,7 +257,7 @@ def affineChartOfIso {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (π : Y ⟶ X) 
 theorem affineChartOfIso_hom {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (π : Y ⟶ X)
     (hπ : IsEtale B S hS π) {T₀ : BigFppfOver B S hS} (e : Y ≅ yoneda.obj T₀) :
     e.hom ≫ (affineChartOfIso π hπ e).1.hom = π := by
-  show e.hom ≫ e.inv ≫ π = π
+  change e.hom ≫ e.inv ≫ π = π
   rw [Iso.hom_inv_id_assoc]
 
 /-- **The affine case of the étale extension property.** Over an affine algebraic space `V`
@@ -272,7 +272,7 @@ theorem chartExtensionProperty_of_isAffineSpace (hF : IsCartesianOnAffineCharts 
   have hV₀ : IsAffine (chartScheme V₀) := hT₀
   intro T a ha hT σ
   have hc : (a ≫ e.hom) ≫ V₀.1.hom = T.1.hom := by
-    show (a ≫ e.hom) ≫ e.inv ≫ π = T.1.hom
+    change (a ≫ e.hom) ≫ e.inv ≫ π = T.1.hom
     rw [Category.assoc, Iso.hom_inv_id_assoc]
     exact ha
   obtain ⟨t, ht⟩ := exists_finset_mem_span_chartRes hF hV₀ hT (chartHomOfYoneda _ hc) σ
@@ -322,7 +322,7 @@ theorem chartExtensionProperty_of_isElementaryDistinguishedSquare
   obtain ⟨nV, EV, eV, yV, hEV, hyV, hcovV⟩ :=
     exists_finite_affine_pullback_cover hZ hW hWqs h.isAlgebraicSpace hVqc f h.isEtale T hTc a
   have hcV : ∀ l, (yV l ≫ e.hom) ≫ QV.1.hom = (EV l).1.hom := fun l => by
-    show (yV l ≫ e.hom) ≫ e.inv ≫ f ≫ πW = _
+    change (yV l ≫ e.hom) ≫ e.inv ≫ f ≫ πW = _
     rw [Category.assoc, Iso.hom_inv_id_assoc, ← Category.assoc, hyV l, Category.assoc, ha]
     exact CostructuredArrow.w (eV l).hom
   let gV : ∀ l, EV l ⟶ QV := fun l => chartHomOfYoneda _ (hcV l)
@@ -340,11 +340,11 @@ theorem chartExtensionProperty_of_isElementaryDistinguishedSquare
     | Sum.inr p => uG p.1
   have haα : ∀ x, aα x ≫ U.ι ≫ πW = (Tα x).1.hom := fun x => match x with
     | Sum.inl l => by
-      show yU l ≫ U.ι ≫ πW = (EU l).1.hom
+      change yU l ≫ U.ι ≫ πW = (EU l).1.hom
       rw [← Category.assoc, hyU l, Category.assoc, ha]
       exact CostructuredArrow.w (eU l).hom
     | Sum.inr p => by
-      show uG p.1 ≫ U.ι ≫ πW = (G p.1).1.hom
+      change uG p.1 ≫ U.ι ≫ πW = (G p.1).1.hom
       rw [← Category.assoc, huG p.1, Category.assoc, haV]
       exact CostructuredArrow.w (gG p.1).hom
   have hTα : ∀ x, IsAffine (chartScheme (Tα x)) := fun x => match x with
@@ -389,12 +389,12 @@ theorem chartExtensionProperty_of_isElementaryDistinguishedSquare
       DU.obj R u hu = DV.obj R v hv := by
     intro R u v huv hu hv
     have hw : u ≫ U.ι = (v ≫ e.hom) ≫ aV := by
-      show _ = (v ≫ e.hom) ≫ e.inv ≫ f
+      change _ = (v ≫ e.hom) ≫ e.inv ≫ f
       rw [Category.assoc, Iso.hom_inv_id_assoc, huv]
     let w : yoneda.obj R.1.left ⟶ VU := pullback.lift u (v ≫ e.hom) hw
     have hw' : w ≫ pullback.snd U.ι aV ≫ QV.1.hom = R.1.hom := by
       rw [pullback.lift_snd_assoc]
-      show (v ≫ e.hom) ≫ e.inv ≫ f ≫ πW = _
+      change (v ≫ e.hom) ≫ e.inv ≫ f ≫ πW = _
       rw [Category.assoc, Iso.hom_inv_id_assoc]
       exact hv
     have h1 := hMeq R w hw'
@@ -402,7 +402,7 @@ theorem chartExtensionProperty_of_isElementaryDistinguishedSquare
     refine (DU.obj.congr R (pullback.lift_fst _ _ _).symm hu
       (by rw [pullback.lift_fst]; exact hu)).trans (h1.symm.trans ?_)
     have hv'' : (v ≫ e.hom) ≫ QV.1.hom = R.1.hom := by
-      show (v ≫ e.hom) ≫ e.inv ≫ f ≫ πW = _
+      change (v ≫ e.hom) ≫ e.inv ≫ f ≫ πW = _
       rw [Category.assoc, Iso.hom_inv_id_assoc]
       exact hv
     exact (ChartSubmodule.spanOfChart hF QV M hM).obj.congr R (pullback.lift_snd _ _ _) _ hv''

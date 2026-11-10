@@ -140,7 +140,7 @@ private lemma essentiallyOfFinitePresentation_atPrime {R : Type u} {S : Type v} 
       fun _ _ ↦ Commute.all _ _
   let : Algebra C Sq := φ.toRingHom.toAlgebra
   let : IsScalarTower S C Sq := IsScalarTower.of_algebraMap_eq fun s ↦ by
-    show _ = φ (1 ⊗ₜ s)
+    change _ = φ (1 ⊗ₜ s)
     rw [Algebra.TensorProduct.lift_tmul]
     simp
   let : IsScalarTower Rp C Sq := IsScalarTower.of_algebraMap_eq fun r ↦ (φ.commutes r).symm
@@ -164,6 +164,7 @@ private lemma isAssociatedPrimeStacks_residueField_congr
   rfl
 
 set_option maxHeartbeats 400000 in
+-- instance synthesis for module and scalar-tower structures across several localizations
 open Module.associatedPrimes in
 /-- The hypothesis of Stacks 05DG over the local base `R_p`, in the presence of an `S`-algebra
 `A` playing the role of the fibre `κ(p) ⊗[R] S`.
@@ -233,7 +234,7 @@ private lemma exists_isPrime_comap_eq_of_algEquiv_closedFibre
   have hT : IsAssociatedPrimeStacks Sq (BS ⊗[Sq] Nq) r :=
     (isAssociatedPrimeStacks_congr eQuot).mpr hassoc
   have hISle : IS ≤ r := by
-    show Ideal.map (algebraMap Rp Sq) (maximalIdeal Rp) ≤ r
+    change Ideal.map (algebraMap Rp Sq) (maximalIdeal Rp) ≤ r
     rw [Ideal.map_le_iff_le_comap, hr]
   let rBS : Ideal BS := Ideal.map (Ideal.Quotient.mk IS) r
   have hrBS : rBS.IsPrime := Ideal.isPrime_map_quotientMk_of_isPrime hISle
@@ -249,7 +250,7 @@ private lemma exists_isPrime_comap_eq_of_algEquiv_closedFibre
       Iff.of_eq (by simpa only [Submodule.mem_colon_span_singleton, Submodule.mem_bot] using
         (congrArg (fun I : Ideal Sq ↦ s ∈ I) hy).symm)
     rw [← Ideal.mem_comap, hrBSunder]
-    show (algebraMap Sq BS s) • y = 0 ↔ s ∈ r
+    change (algebraMap Sq BS s) • y = 0 ↔ s ∈ r
     rw [IsScalarTower.algebraMap_smul]
     exact hy'.symm
   let : Module BS locM := Module.compHom locM (eClosed.symm : BS →+* Aq)
@@ -272,21 +273,18 @@ private lemma exists_isPrime_comap_eq_of_algEquiv_closedFibre
     (eQ₁.restrictScalars S).trans ((eQ₂.restrictScalars S).trans
       (eQ₃.trans ((eCancel.symm.restrictScalars S).trans (eLocM.restrictScalars S))))
   have hQ₁ (b : BS) (x : BS ⊗[Sq] Nq) : eQ₁ (b • x) = b • eQ₁ x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp [map_add, hx, hy]
     | tmul c n => simp [eQ₁, TensorProduct.smul_tmul']
   have hQ₃ (b : BS) (x : BS ⊗[S] N) : eQ₃ (b • x) = eClosed.symm b • eQ₃ x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp [map_add, hx, hy]
     | tmul c n => simp [eQ₃, TensorProduct.smul_tmul']
   have heQ (b : BS) (x : BS ⊗[Sq] Nq) : eQ (b • x) = eClosed.symm b • eQ x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp [map_add, hx, hy]
     | tmul b' n =>
-      show eLocM (eCancel.symm (eQ₃ (eQ₂ (eQ₁ (b • (b' ⊗ₜ[Sq] n)))))) =
+      change eLocM (eCancel.symm (eQ₃ (eQ₂ (eQ₁ (b • (b' ⊗ₜ[Sq] n)))))) =
         eClosed.symm b • eLocM (eCancel.symm (eQ₃ (eQ₂ (eQ₁ (b' ⊗ₜ[Sq] n)))))
       rw [hQ₁ b, eQ₂.map_smul, hQ₃ b, ← eLocM.map_smul, ← eCancel.symm.map_smul]
   have hLocBS : IsAssociatedPrimeStacks BS locM rBS := by
@@ -333,7 +331,7 @@ private lemma exists_isPrime_comap_eq_of_algEquiv_closedFibre
     rw [Ideal.under_def]
     dsimp only [q0, p0, pA, rBS]
     ext s
-    show eClosed (algebraMap A Aq (algebraMap S A s)) ∈ Ideal.map (Ideal.Quotient.mk IS) r ↔
+    change eClosed (algebraMap A Aq (algebraMap S A s)) ∈ Ideal.map (Ideal.Quotient.mk IS) r ↔
       (algebraMap S Sq) s ∈ r
     have hscalar : eClosed (algebraMap A Aq (algebraMap S A s)) =
         (Ideal.Quotient.mk IS) ((algebraMap S Sq) s) :=
@@ -341,7 +339,7 @@ private lemma exists_isPrime_comap_eq_of_algEquiv_closedFibre
     rw [hscalar, ← Ideal.mem_comap, hrBSunder]
   have hq0underR : q0.under R = p := by
     rw [hq0r]
-    show Ideal.comap (algebraMap R S) (Ideal.comap (algebraMap S Sq) r) = p
+    change Ideal.comap (algebraMap R S) (Ideal.comap (algebraMap S Sq) r) = p
     rw [Ideal.comap_comap,
       show (algebraMap S Sq).comp (algebraMap R S) = algebraMap R Sq from
         IsScalarTower.algebraMap_eq R S Sq]
@@ -365,7 +363,7 @@ private lemma exists_isPrime_comap_eq_of_algEquiv_closedFibre
     IsLocalization.isPrime_of_isPrime_disjoint
       (Algebra.algebraMapSubmonoid S' q.primeCompl) S'q q0' hq0' hdisjoint, ?_⟩
   apply (IsLocalization.orderEmbedding q.primeCompl Sq).injective
-  show Ideal.comap (algebraMap S Sq)
+  change Ideal.comap (algebraMap S Sq)
     (Ideal.comap (algebraMap Sq S'q) (Ideal.map (algebraMap S' S'q) q0')) =
     Ideal.comap (algebraMap S Sq) r
   rw [Ideal.comap_comap,
@@ -425,12 +423,12 @@ private lemma exists_isPrime_comap_eq_of_isAssociatedPrimeStacks_closedFibre
   let Aq := Localization.AtPrime qF.asIdeal
   let sFiber := qF.asIdeal.comap Algebra.TensorProduct.includeRight
   let : sFiber.LiesOver p := ⟨by
-    show p = (qF.asIdeal.comap Algebra.TensorProduct.includeRight).under R
+    change p = (qF.asIdeal.comap Algebra.TensorProduct.includeRight).under R
     rw [hqF]⟩
   -- `S_q` is also the localization of `S` at `sFiber`, which `hqF` identifies with `q`.
   let Tq := Localization.AtPrime sFiber
   let : Algebra Rp Tq := Localization.AtPrime.algebraOfLiesOver p sFiber
-  let : Localization.AtPrime.IsLiesOverAlgebra p sFiber := inferInstance
+  let : IsScalarTower R Rp Tq := inferInstance
   have hcompl : Submonoid.map (RingEquiv.refl S) q.primeCompl = sFiber.primeCompl := by
     ext x
     simp [sFiber, hqF]
@@ -447,7 +445,7 @@ private lemma exists_isPrime_comap_eq_of_isAssociatedPrimeStacks_closedFibre
     rw [Ideal.map_map]
     congr 1
   have hprime : p.map (algebraMap R Sq) = IT.map (eTqSq : Tq →+* Sq) := by
-    show p.map (algebraMap R Sq) =
+    change p.map (algebraMap R Sq) =
       ((p.map (algebraMap R S)).map (algebraMap S Tq)).map (eTqSq : Tq →+* Sq)
     rw [Ideal.map_map, Ideal.map_map]
     congr 1
@@ -546,10 +544,10 @@ private lemma universallyInjective_localizedMapRp_of_tensorUnit
           Localization.mk (1 : S) s • LocalizedModule.mk n 1 := by
         simpa using (LocalizedModule.mk_smul_mk (r := (1 : S))
           (m := n) (s := s) (t := (1 : q.primeCompl))).symm
-      show eTarget (LocalizedModule.map q.primeCompl f (LocalizedModule.mk n s)) =
+      change eTarget (LocalizedModule.map q.primeCompl f (LocalizedModule.mk n s)) =
         fLocal (LocalizedModule.mk n s)
       rw [LocalizedModule.map_mk]
-      show eTarget (LocalizedModule.mk (n ⊗ₜ[S] (1 : S')) s) =
+      change eTarget (LocalizedModule.mk (n ⊗ₜ[S] (1 : S')) s) =
         (LocalizedModule.mk n s) ⊗ₜ[Sq] (1 : S'q)
       rw [hsL, hsR]
       simp only [map_smul]
@@ -564,13 +562,13 @@ private lemma universallyInjective_localizedMapRp_of_tensorUnit
       rw [hbase]
       exact TensorProduct.smul_tmul' (Localization.mk (1 : S) s)
         (LocalizedModule.mk n (1 : q.primeCompl)) (1 : S'q)
-  show Stacks.UniversalInjectivity.LocalizationCriteria.UniversallyInjective
+  change Stacks.UniversalInjectivity.LocalizationCriteria.UniversallyInjective
     (Stacks.UniversalInjectivity.LocalizationCriteria.localizedMapRp f q)
   intro Q _ _
   have hnat : ((eTarget.restrictScalars Rp).rTensor Q).toLinearMap ∘ₗ
       ((fLoc.restrictScalars Rp).rTensor Q) = (fLocal.restrictScalars Rp).rTensor Q := by
     ext x y
-    show (eTarget.toLinearMap ∘ₗ fLoc) x ⊗ₜ[Rp] y = fLocal x ⊗ₜ[Rp] y
+    change (eTarget.toLinearMap ∘ₗ fLoc) x ⊗ₜ[Rp] y = fLocal x ⊗ₜ[Rp] y
     rw [hbridge]
   have hcoe : Function.Injective
       (((eTarget.restrictScalars Rp).rTensor Q).toLinearMap ∘ₗ

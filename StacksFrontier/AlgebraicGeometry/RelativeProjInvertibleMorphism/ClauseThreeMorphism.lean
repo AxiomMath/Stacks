@@ -77,7 +77,7 @@ theorem affineDatumInclusion_globalMorphism (V : S.affineOpens) :
     P.affineDatumInclusion V ≫ P.globalMorphism rp
       = (P.affineDatum V.1).glued ≫ rp.chart V.1 V.2 := by
   rw [affineDatumInclusion, Category.assoc, ← P.pieceLeg_comp_chart rp V]
-  show (P.pieceIso V.1 V.2).inv ≫ ((P.pieceIso V.1 V.2).hom ≫ (P.affineDatum V.1).glued)
+  change (P.pieceIso V.1 V.2).inv ≫ ((P.pieceIso V.1 V.2).hom ≫ (P.affineDatum V.1).glued)
         ≫ rp.chart V.1 V.2 = _
   rw [Category.assoc, Iso.inv_hom_id_assoc]
 

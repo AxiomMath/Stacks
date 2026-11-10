@@ -109,7 +109,7 @@ private theorem coe_eq_of_componentEquiv (U : S.Opens) (n : ℕ) (a : A.grading 
 theorem componentEquiv_sectionHom (U : S.Opens) (n : ℕ) (a : A.grading U n) :
     B.componentEquiv U n ⟨ψ.sectionHom U (a : A.sectionRing U), (ψ.sectionHom U).map_mem a.2⟩ =
       (ψ.app (n : ℤ)).app U (A.componentEquiv U n a) := by
-  show (ψ.sectionHom U (a : A.sectionRing U)) n = _
+  change (ψ.sectionHom U (a : A.sectionRing U)) n = _
   rw [coe_eq_of_componentEquiv, SheafGradedAlgebraHom.sectionHom_of]
   exact DirectSum.of_eq_same n _
 
@@ -125,7 +125,7 @@ theorem componentEquiv_sectionBaseChange {S' : Scheme.{u}} (g : S' ⟶ S)
             h).map_mem a.2⟩ =
       Scheme.Modules.pullbackSection g (A.piece (n : ℤ)) U.toOpens U'.toOpens h
         (A.componentEquiv U.toOpens n a) := by
-  show (Stacks.AlgebraicGeometry.RelativeProjBaseChangeTwist.sectionBaseChange A g U U' h
+  change (Stacks.AlgebraicGeometry.RelativeProjBaseChangeTwist.sectionBaseChange A g U U' h
     (a : A.sectionRing U.toOpens)) n = _
   rw [coe_eq_of_componentEquiv,
     Stacks.AlgebraicGeometry.RelativeProjBaseChangeTwist.sectionBaseChange_of]
@@ -209,7 +209,7 @@ theorem comparison_algebraPullbackSheafHom_pullbackSection {U : D₂.S'.Opens} {
             (Stacks.RelativeAmple.laurentPowers D₁.L')) d₀ hd₀ hnt).symm).val.app
           (op (φ.base ⁻¹ᵁ U)) w) = w := by
     intro w
-    show Scheme.Modules.Hom.app (Stacks.AlgebraicGeometry.SectionAlgebra.tailCompApp
+    change Scheme.Modules.Hom.app (Stacks.AlgebraicGeometry.SectionAlgebra.tailCompApp
       D₁.laurentPushforward d₀ hd₀ (n : ℤ)) (φ.base ⁻¹ᵁ U) _ = w
     rw [Stacks.AlgebraicGeometry.SectionAlgebra.tailCompApp_eq_eqToHom _ _ _ h0 hnt
       (by omega)]
@@ -225,7 +225,7 @@ theorem comparison_algebraPullbackSheafHom_pullbackSection {U : D₂.S'.Opens} {
       (eqToHom (Stacks.AlgebraicGeometry.SectionAlgebra.tailPiece_eq_piece
           (Stacks.AlgebraicGeometry.PushforwardGradedAlgebra.pushforwardGradedAlgebra D₂.f'
             (Stacks.RelativeAmple.laurentPowers D₂.L')) d₀ hd₀ hnt)).val.app (op U) y := by
-    show Scheme.Modules.Hom.app (Stacks.AlgebraicGeometry.SectionAlgebra.tailCompApp
+    change Scheme.Modules.Hom.app (Stacks.AlgebraicGeometry.SectionAlgebra.tailCompApp
       D₂.laurentPushforward d₀ hd₀ (n : ℤ)) U y = _
     rw [Stacks.AlgebraicGeometry.SectionAlgebra.tailCompApp_eq_eqToHom _ _ _ h0 hnt
       (by omega)]

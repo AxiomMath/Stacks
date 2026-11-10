@@ -65,7 +65,7 @@ private theorem setOf_geometricallyReduced_and_eq_one_pullback {S : Scheme.{u}}
     (geometricallyReducedFibreLocus_pullback B S hS f g hX hY hY')
   have h2 := congrFun (numberGeometricConnectedComponents_baseChange B S hS hX hY hY' f g) y
   simp only [eq_iff_iff] at h1
-  simp only [Set.mem_setOf_eq, Set.mem_preimage, IsGeometricallyReducedFibreAt, h1, h2,
+  simp only [Set.mem_ofPred_eq, Set.mem_preimage, IsGeometricallyReducedFibreAt, h1, h2,
     Function.comp_apply]
 
 /-- The locus is unchanged by precomposing the morphism with an isomorphism of the source. -/
@@ -78,7 +78,7 @@ private theorem setOf_geometricallyReduced_and_eq_one_iso_comp {S : Scheme.{u}}
       {y | IsGeometricallyReducedFibreAt B S hS f hX hY y ∧
         numberGeometricConnectedComponents B S hS f y = 1} := by
   ext y
-  simp only [Set.mem_setOf_eq, IsGeometricallyReducedFibreAt,
+  simp only [Set.mem_ofPred_eq, IsGeometricallyReducedFibreAt,
     geometricallyReducedFibreLocus_iso_comp B S hS e f hX' hX hY,
     numberGeometricConnectedComponents_iso_comp e f]
 

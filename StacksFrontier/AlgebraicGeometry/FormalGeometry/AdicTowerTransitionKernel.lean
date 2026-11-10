@@ -166,7 +166,7 @@ lemma pow_ker_appTop_thickeningIncl (n : ℕ) :
   set φ : CommRingCat.of (A ⧸ I ^ (n + 1 + 1)) ⟶ CommRingCat.of (A ⧸ I ^ (0 + 1)) :=
     CommRingCat.ofHom (Ideal.Quotient.factorPow I (show 0 + 1 ≤ n + 1 + 1 by omega))
   have hdown : RingHom.ker φ.hom ^ (n + 2) = ⊥ := by
-    show RingHom.ker (Ideal.Quotient.factorPow I (show 0 + 1 ≤ n + 1 + 1 by omega)) ^ (n + 2) = ⊥
+    change RingHom.ker (Ideal.Quotient.factorPow I (show 0 + 1 ≤ n + 1 + 1 by omega)) ^ (n + 2) = ⊥
     rw [Ideal.Quotient.factor_ker, ← Ideal.map_pow]
     refine Ideal.map_mk_eq_bot_of_le ?_
     rw [← pow_mul]
@@ -319,7 +319,7 @@ lemma mul_eq_zero_of_app_eq_zero (n : ℕ) (U : (Xn (n + 1)).Opens)
   have hz : (Xn (n + 1)).presheaf.map j.op a * (Xn (n + 1)).presheaf.map j.op s = 0 := by
     have hm := Ideal.mul_mem_mul hka hks
     rwa [ideal_mul_ideal_eq_bot q t hcart n ⟨V, hV⟩, Ideal.mem_bot] at hm
-  show (Xn (n + 1)).presheaf.germ U x hx (a * s) = (Xn (n + 1)).presheaf.germ U x hx 0
+  change (Xn (n + 1)).presheaf.germ U x hx (a * s) = (Xn (n + 1)).presheaf.germ U x hx 0
   rw [← TopCat.Presheaf.germ_res_apply (Xn (n + 1)).presheaf j x hxV (a * s)]
   simp only [map_mul, hz, map_zero]
 
@@ -344,7 +344,7 @@ lemma smul_transitionIdeal_eq_zero (n : ℕ) (U : (Xn (n + 1)).Opens)
   refine Eq.trans ?_
     (((kernel.ι (SheafOfModules.unitToPushforwardObjUnit (t n).toRingCatSheafHom)).val.app
       (Opposite.op U)).hom.map_zero).symm
-  show (a : Γ(Xn (n + 1), U)) * (show Γ(Xn (n + 1), U) from
+  change (a : Γ(Xn (n + 1), U)) * (show Γ(Xn (n + 1), U) from
     ((kernel.ι (SheafOfModules.unitToPushforwardObjUnit (t n).toRingCatSheafHom)).val.app
       (Opposite.op U)) m) = 0
   exact mul_eq_zero_of_app_eq_zero q t hcart n U a _ ha

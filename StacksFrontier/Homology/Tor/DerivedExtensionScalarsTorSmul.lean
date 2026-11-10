@@ -150,7 +150,7 @@ theorem extendRestrict_smul_id_square (r : R')
         ((tensoringLeft (ModuleCat.{u} R)).map (mulByBase (R := R) r))
         (ComplexShape.down ℕ)).app K := by
   refine HomologicalComplex.hom_ext _ _ fun n => ?_
-  show (ModuleCat.restrictScalars.{u, u, u} (algebraMap R R')).map
+  change (ModuleCat.restrictScalars.{u, u, u} (algebraMap R R')).map
         (r • 𝟙 ((ModuleCat.extendScalars.{u, u, u} (algebraMap R R')).obj (K.X n))) ≫ 𝟙 _ =
       𝟙 _ ≫ ((tensoringLeft (ModuleCat.{u} R)).map (mulByBase (R := R) r)).app (K.X n)
   rw [Category.comp_id, Category.id_comp, restrictScalars_map_smul_id]

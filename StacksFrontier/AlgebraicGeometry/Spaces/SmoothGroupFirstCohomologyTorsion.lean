@@ -107,7 +107,7 @@ private theorem exists_etale_disjoint_open_decomposition {X S : Scheme.{u}} (f :
     obtain ⟨i, z, hz⟩ := hjoint (e.hom.base x)
     exact ⟨W (φ (φ.symm i)), ⟨φ.symm i, rfl⟩, by rw [φ.apply_symm_apply, hpre]; exact ⟨z, hz⟩⟩
   · intro a b hab
-    show Disjoint (W (φ a)) (W (φ b))
+    change Disjoint (W (φ a)) (W (φ b))
     rw [disjoint_iff, hpre, hpre, ← Scheme.Hom.preimage_inf,
       disjoint_iff.mp (disjoint_opensRange_sigmaι (fun _ : ι ↦ U) (φ a) (φ b)
         (fun hc => hab (φ.injective hc))), Scheme.Hom.preimage_bot]
@@ -116,7 +116,7 @@ private theorem exists_etale_disjoint_open_decomposition {X S : Scheme.{u}} (f :
     have hsnd : (Sigma.ι (fun _ : ι ↦ U) (φ j) ≫ e.inv) ≫ pullback.snd f g = 𝟙 U := by
       rw [show pullback.snd f g = e.hom ≫ Sigma.desc fun _ : ι ↦ 𝟙 U from he.symm]
       simp
-    show IsIso ((W (φ j)).ι ≫ pullback.snd f g)
+    change IsIso ((W (φ j)).ι ≫ pullback.snd f g)
     rw [← @Scheme.Hom.isoOpensRange_inv_comp _ _ _ hoj, Category.assoc, hsnd, Category.comp_id]
     infer_instance
 
@@ -172,7 +172,7 @@ private theorem schemeSpaceMap_isFlat
     {U V : AlgebraicGeometry.BigFppfOver B S hS} (g : U ⟶ V)
     (hg : Flat ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g)) :
     AlgebraicGeometry.Space.IsFlat B S hS (AlgebraicGeometry.schemeSpaceMap g).hom := by
-  show AlgebraicGeometry.Space.HoldsOnEveryEtaleChart B S hS (@Flat) (yoneda.map g)
+  change AlgebraicGeometry.Space.HoldsOnEveryEtaleChart B S hS (@Flat) (yoneda.map g)
   rw [AlgebraicGeometry.Space.holdsOnEveryEtaleChart_iff_representable
     B S hS (@Flat) AlgebraicGeometry.Flat.isEtaleLocalOnSourceAndTarget]
   let eU := yoneda.preimage (yoneda.obj U).reprW.hom
@@ -260,7 +260,7 @@ private theorem schemeFppfCover_isFpqcCovering
     let K := F.toPreZeroHypercover
     have hK := (Scheme.presieve₀_mem_precoverage_iff K).mp F.mem₀
     have hsize (i : K.I₀) : (K.X i).size < B.cutoff := by
-      show (pullback (G.map (E.f i)) GA).size < B.cutoff
+      change (pullback (G.map (E.f i)) GA).size < B.cutoff
       exact Scheme.size_pullback_lt _ _ (E.X i).left.property Aover.left.property
     have hpoints (x : (G.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj A))) :
         ∃ i : K.I₀, ∃ y : K.X i, K.f i y = x := by
@@ -296,7 +296,7 @@ private theorem schemeFppfCover_isFpqcCovering
     have hcover : ∀ x, x ∈ Set.range (qmap x) := by
       intro x
       refine ⟨⟨y x, hmem x⟩, ?_⟩
-      show (K.f (i x)) ((W x).ι ⟨y x, hmem x⟩) = x
+      change (K.f (i x)) ((W x).ι ⟨y x, hmem x⟩) = x
       rw [Scheme.Opens.ι_apply]
       exact hy x
     obtain ⟨s, hs⟩ := isCompact_univ.elim_finite_subcover
@@ -313,11 +313,11 @@ private theorem schemeFppfCover_isFpqcCovering
     let pV (k : K.I₀) : P k ⟶ E.X k := by
       refine Over.homMk (f := ⟨pullback.fst (G.map (E.f k)) GA⟩) ?_
       apply B.inclusion.map_injective
-      show pullback.fst (G.map (E.f k)) GA ≫
+      change pullback.fst (G.map (E.f k)) GA ≫
           B.inclusion.map (Over.hom (E.X k)) =
         pullback.snd (G.map (E.f k)) GA ≫ B.inclusion.map (Over.hom Aover)
       rw [← (E.f k).w, ← g.w]
-      show pullback.fst (G.map (E.f k)) GA ≫ G.map (E.f k) ≫
+      change pullback.fst (G.map (E.f k)) GA ≫ G.map (E.f k) ≫
           B.inclusion.map (Over.hom V) =
         pullback.snd (G.map (E.f k)) GA ≫ G.map g ≫
           B.inclusion.map (Over.hom V)
@@ -344,10 +344,10 @@ private theorem schemeFppfCover_isFpqcCovering
         rcases hxrange with ⟨y, hy⟩
         refine ⟨ULift.up ⟨x, hxS⟩, ?_⟩
         refine ⟨y, ?_⟩
-        show K.f (i x) ((W x).ι y) = z
+        change K.f (i x) ((W x).ι y) = z
         exact hy
       · intro x
-        show Flat (qmap x.down.1) ∧
+        change Flat (qmap x.down.1) ∧
           LocallyOfFinitePresentation (qmap x.down.1)
         exact ⟨hqFlat x.down.1, hqLfp x.down.1⟩
     · intro x
@@ -357,7 +357,7 @@ private theorem schemeFppfCover_isFpqcCovering
           pA (i x.down.1) ≫ g := by
         apply Over.OverMorphism.ext
         apply B.inclusion.map_injective
-        show pullback.fst (G.map (E.f (i x.down.1))) GA ≫
+        change pullback.fst (G.map (E.f (i x.down.1))) GA ≫
             G.map (E.f (i x.down.1)) =
           pullback.snd (G.map (E.f (i x.down.1))) GA ≫ G.map g
         exact pullback.condition
@@ -369,7 +369,7 @@ private theorem schemeFppfCover_isFpqcCovering
         simpa [k, K, F, E₀] using hpull
       dsimp [AlgebraicGeometry.schemeSpaceMap, AlgebraicGeometry.schemeSpace, K, F, E₀,
         U, affineOpenOverMap, affineOpenOver] at ⊢
-      show yoneda.map
+      change yoneda.map
           (affineOpenOverMap B S hS (P (i x.down.1)) (W x.down.1)
             (hW x.down.1) ≫ pV (i x.down.1)) ≫
             yoneda.map (E.f (i x.down.1)) =
@@ -423,7 +423,7 @@ private theorem exists_base_cover_refining_sieve
       refine ⟨EF, hEF, ?_⟩
       rw [Presieve.ofArrows_le_iff]
       rintro ⟨i, j⟩
-      show Q ((F i).f j ≫ E.f i)
+      change Q ((F i).f j ≫ E.f i)
       exact hFle i _ _ ⟨j⟩
 
 private theorem generate_mem_topology_of_isFppfCovering
@@ -496,7 +496,7 @@ private theorem singleton_cover_of_fppf
     (PreZeroHypercover.singleton.{u + 1} (Over.mkIdTerminal.from V)).sieve₀ ∈
       AlgebraicGeometry.BigFppfOver.topology B S hS (Over.mk (𝟙 (B.obj hS))) := by
   let E := PreZeroHypercover.singleton.{u + 1} (Over.mkIdTerminal.from V)
-  show Sieve.ofArrows E.X E.f ∈ _
+  change Sieve.ofArrows E.X E.f ∈ _
   exact ofArrows_mem_topology_of_fppf B S hS E.X E.f
     (singleton_surjective_flat_lfp B S hS V).1 (singleton_surjective_flat_lfp B S hS V).2
 
@@ -540,12 +540,12 @@ private theorem nsmul_torsorClass_eq_zero_of_sectionFamily
   apply NatTrans.ext
   funext U
   apply Stacks.Cohomology.Torsors.liftedInt_hom_ext
-  show S.g.hom.app U (r.app U ⟨1⟩) = _
+  change S.g.hom.app U (r.app U ⟨1⟩) = _
   rw [Stacks.Cohomology.Torsors.morphismOfSectionFamily_one]
-  show (Stacks.Cohomology.Torsors.torsorPushoutProjection H F).hom.app U (s U) = _
+  change (Stacks.Cohomology.Torsors.torsorPushoutProjection H F).hom.app U (s U) = _
   rw [hp U]
   let P := (Functor.const Cᵒᵖ).obj (AddCommGrpCat.of (ULift.{u} ℤ))
-  show n • ((adj.homEquiv P ((presheafToSheaf J AddCommGrpCat.{u}).obj P))
+  change n • ((adj.homEquiv P ((presheafToSheaf J AddCommGrpCat.{u}).obj P))
     (𝟙 _)).app U ⟨1⟩ =
       ((adj.homEquiv P ((presheafToSheaf J AddCommGrpCat.{u}).obj P))
         (n • 𝟙 _)).app U ⟨1⟩
@@ -583,10 +583,10 @@ private theorem nsmul_torsorClass_eq_zero_of_locally_permuted_sections
     intro I
     simp only [Category.assoc, ← E.obj.map_comp]
     apply Stacks.Cohomology.Torsors.liftedInt_hom_ext
-    show E.obj.map (I.f ≫ r.g₁).op ((uliftZMultiplesHom _) (z I₁) ⟨1⟩) =
+    change E.obj.map (I.f ≫ r.g₁).op ((uliftZMultiplesHom _) (z I₁) ⟨1⟩) =
       E.obj.map (I.f ≫ r.g₂).op ((uliftZMultiplesHom _) (z I₂) ⟨1⟩)
     simp only [uliftZMultiplesHom_apply_apply]
-    show E.obj.map (I.f ≫ r.g₁).op ((1 : ℤ) • z I₁) =
+    change E.obj.map (I.f ≫ r.g₁).op ((1 : ℤ) • z I₁) =
       E.obj.map (I.f ≫ r.g₂).op ((1 : ℤ) • z I₂)
     rw [one_zsmul, one_zsmul]
     dsimp only [z]
@@ -594,7 +594,7 @@ private theorem nsmul_torsorClass_eq_zero_of_locally_permuted_sections
     obtain ⟨e, he⟩ := hp' I
     apply Fintype.sum_equiv e
     intro i
-    show (E.obj ⋙ forget AddCommGrpCat).map (I.f ≫ r.g₁).op (g.app _ (p I₁ i)) =
+    change (E.obj ⋙ forget AddCommGrpCat).map (I.f ≫ r.g₁).op (g.app _ (p I₁ i)) =
       (E.obj ⋙ forget AddCommGrpCat).map (I.f ≫ r.g₂).op (g.app _ (p I₂ (e i)))
     rw [← NatTrans.naturality_apply, ← NatTrans.naturality_apply, he i]
   let q := E.property.amalgamate R a @ha
@@ -607,10 +607,10 @@ private theorem nsmul_torsorClass_eq_zero_of_locally_permuted_sections
     rw [Preadditive.nsmul_comp, ← η.naturality]
     simp only [Functor.const_obj_map]
     apply Stacks.Cohomology.Torsors.liftedInt_hom_ext
-    show π.hom.app _ ((uliftZMultiplesHom _) (z I) ⟨1⟩) =
+    change π.hom.app _ ((uliftZMultiplesHom _) (z I) ⟨1⟩) =
       n • η.app (Opposite.op I.Y) ⟨1⟩
     simp only [uliftZMultiplesHom_apply_apply]
-    show π.hom.app _ ((1 : ℤ) • z I) = _
+    change π.hom.app _ ((1 : ℤ) • z I) = _
     rw [one_zsmul]
     dsimp only [z]
     rw [map_sum]
@@ -629,7 +629,7 @@ private theorem nsmul_torsorClass_eq_zero_of_locally_permuted_sections
       Quiver.Hom.unop_inj (hT.hom_ext _ _)]
   apply nsmul_torsorClass_eq_zero_of_sectionFamily H F n s hs
   intro U
-  show π.hom.app U (E.obj.map (hT.from U.unop).op (q ⟨1⟩)) = _
+  change π.hom.app U (E.obj.map (hT.from U.unop).op (q ⟨1⟩)) = _
   rw [NatTrans.naturality_apply]
   have hq1 := ConcreteCategory.congr_hom hq (⟨1⟩ : ULift.{u} ℤ)
   change π.hom.app (Opposite.op T) (q ⟨1⟩) =
@@ -846,7 +846,7 @@ private theorem isSmooth_torsor
   let e : PG ≅ PF := ObjectProperty.isoMk _ (torsorProductIso G F V s)
   have he : e.hom ≫ qF = qG := by
     apply ObjectProperty.hom_ext
-    show (torsorProductIso G F V s).hom ≫ prod.fst = prod.fst
+    change (torsorProductIso G F V s).hom ≫ prod.fst = prod.fst
     exact prod.lift_fst _ _
   have hqF : P qF := by
     apply (MorphismProperty.cancel_left_of_respectsIso P e.hom qF).mp
@@ -941,7 +941,7 @@ private theorem splitSection_comp {X Y : Scheme.{u}}
 private theorem splitSection_mem {X Y : Scheme.{u}}
     (q : X ⟶ Y) (U : X.Opens) [IsIso (U.ι ≫ q)] (y : Y) :
     splitSection q U y ∈ U := by
-  show U.ι ((inv (U.ι ≫ q)) y) ∈ U
+  change U.ι ((inv (U.ι ≫ q)) y) ∈ U
   exact ((inv (U.ι ≫ q)) y).2
 
 private theorem restrict_eq_splitSection {X Y Z : Scheme.{u}}
@@ -984,7 +984,7 @@ private theorem locally_permuted_split_sections
   choose j hj using hj
   let W : Z.Opens := Finset.univ.inf (fun i => c i ⁻¹ᵁ U (j i))
   have hz : z ∈ W := by
-    show z ∈ (W : Set Z)
+    change z ∈ (W : Set Z)
     rw [show (W : Set Z) = Finset.univ.inf
       (fun i => ((c i ⁻¹ᵁ U (j i) : Z.Opens) : Set Z)) from
         TopologicalSpace.Opens.coe_finset_inf _ _]
@@ -1080,7 +1080,7 @@ private theorem split_sections_locally_permuted_on_site
     · intro z
       exact ⟨ULift.up z, ⟨z, hz z⟩, rfl⟩
     · intro z
-      show Flat (W z.down).ι ∧ LocallyOfFinitePresentation (W z.down).ι
+      change Flat (W z.down).ι ∧ LocallyOfFinitePresentation (W z.down).ι
       exact ⟨inferInstance, inferInstance⟩
   refine ⟨⟨R₀, hR⟩, ?_⟩
   intro I
@@ -1090,7 +1090,7 @@ private theorem split_sections_locally_permuted_on_site
   have heq : q z.down ≫ a ≫ t i = q z.down ≫ b ≫ t (e z.down i) := by
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show B.inclusion.map ((q z.down).left ≫ a.left ≫ (t i).left) =
+    change B.inclusion.map ((q z.down).left ≫ a.left ≫ (t i).left) =
       B.inclusion.map ((q z.down).left ≫ b.left ≫ (t (e z.down i)).left)
     simp only [Functor.map_comp, ht]
     exact he z.down i
@@ -1178,7 +1178,7 @@ public theorem Space.fppfH1_isAddTorsion
     (ObjectProperty.homMk (O.ι ≫ splitSection (pullback.snd p.toBase N.toBase) (U i) ≫
       pullback.fst p.toBase N.toBase)) (by
         apply B.inclusion.map_injective
-        show (O.ι ≫ splitSection (pullback.snd p.toBase N.toBase) (U i) ≫
+        change (O.ι ≫ splitSection (pullback.snd p.toBase N.toBase) (U i) ≫
           pullback.fst p.toBase N.toBase) ≫ p.toBase = O.ι ≫ N.toBase
         rw [Category.assoc, Category.assoc, pullback.condition,
           ← Category.assoc (splitSection _ _) (pullback.snd _ _),

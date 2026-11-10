@@ -134,7 +134,8 @@ theorem descendedUnit_app_single (M : C₁) :
     Stacks.DerivedIndexing.singleFunctorIsoCompQh_hom_app 0 _
   have s2 := (singleFunctorIsoCompQh C₂ 0).inv_hom_id_app (F.obj M)
   rw [Stacks.DerivedIndexing.singleFunctorIsoCompQh_hom_app] at s2
-  refine unit_single_chase RG _ ((Qh (C := C₁)).map ((HomotopyCategory.quotient C₁ (ComplexShape.up ℤ)).map
+  refine unit_single_chase RG _
+    ((Qh (C := C₁)).map ((HomotopyCategory.quotient C₁ (ComplexShape.up ℤ)).map
     ((HomologicalComplex.single C₁ (ComplexShape.up ℤ) 0).map (adj.unit.app M)))) _ _ ?_ _ _ _ hβ
     _ _ _ ?_ _ _ ?_
   · simp only [Functor.map_comp]
@@ -276,7 +277,8 @@ theorem singleFunctor_map_injective_of_comp {Z' : Scheme.{u}} (g : Z ⟶ Z') (N 
   have n₂ := (singleFunctorCompHomologyFunctorIso Z'.Modules 0).hom.naturality y
   simp only [Functor.comp_map, Functor.id_map] at n₁ n₂
   rw [n₁, n₂] at hH
-  exact (Iso.cancel_iso_hom_left ((singleFunctorCompHomologyFunctorIso Z'.Modules 0).app P) x y).mp hH
+  exact (Iso.cancel_iso_hom_left
+    ((singleFunctorCompHomologyFunctorIso Z'.Modules 0).app P) x y).mp hH
 
 /-- **`R(𝟙_Z)_* ≅ 𝟭` at `N[0]` is the identification `𝟙_*N = N`** through
 `N[0] ⟶ R(𝟙_Z)_*(N[0])`. -/

@@ -114,7 +114,15 @@ abbrev coefficientPushforwardHom {S T : B.Scheme} (f : T ⟶ S) :
       coefficientChange B e T ⋙ smallEtaleSheafPushforward B A' f :=
   𝟙 _
 
-omit [∀ S : B.Scheme, (SmallEtale.topology B S.obj S.property).HasSheafCompose e.inverse] in
+omit [∀ (S T : B.Scheme) (f : T ⟶ S),
+      ((smallEtaleBaseChange B f).sheafPushforwardContinuous A
+        (SmallEtale.topology B S.obj S.property)
+        (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
+  [∀ (S T : B.Scheme) (f : T ⟶ S),
+      ((smallEtaleBaseChange B f).sheafPushforwardContinuous A'
+        (SmallEtale.topology B S.obj S.property)
+        (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
+  [∀ S : B.Scheme, (SmallEtale.topology B S.obj S.property).HasSheafCompose e.inverse] in
 /-- The comparisons of direct images along a composite are compatible with the change of
 coefficients. -/
 theorem coefficientChange_pushforwardComp_compat {X Y Z : B.Scheme} (f : X ⟶ Y) (g : Y ⟶ Z)
@@ -210,7 +218,15 @@ theorem coefficientChange_map_unit {S T : B.Scheme} (f : T ⟶ S)
         (smallEtaleSheafPushforward B A' f).map (coefficientPullbackIso B e f H).hom :=
   ((unit_comp_map_coefficientPullbackIso B e f H).trans (Category.comp_id _)).symm
 
-omit [∀ S : B.Scheme, (SmallEtale.topology B S.obj S.property).HasSheafCompose e.inverse] in
+omit [∀ (S T : B.Scheme) (f : T ⟶ S),
+      ((smallEtaleBaseChange B f).sheafPushforwardContinuous A
+        (SmallEtale.topology B S.obj S.property)
+        (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
+  [∀ (S T : B.Scheme) (f : T ⟶ S),
+      ((smallEtaleBaseChange B f).sheafPushforwardContinuous A'
+        (SmallEtale.topology B S.obj S.property)
+        (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
+  [∀ S : B.Scheme, (SmallEtale.topology B S.obj S.property).HasSheafCompose e.inverse] in
 /-- The comparison of direct images along a composite, after the change of coefficients. -/
 theorem coefficientChange_map_pushforwardCompHom {X Y Z : B.Scheme} (f : X ⟶ Y) (g : Y ⟶ Z)
     (h : X ⟶ Z) (e' : f ≫ g = h) (K : Sheaf (SmallEtale.topology B X.obj X.property) A) :

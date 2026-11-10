@@ -75,7 +75,7 @@ public theorem map_mem_exteriorPower {A : Type u} [CommRing A]
   induction hx using Submodule.pow_induction_on_left' with
   | algebraMap a =>
       rw [AlgHom.commutes]
-      show algebraMap A (ExteriorAlgebra A N) a ∈
+      change algebraMap A (ExteriorAlgebra A N) a ∈
         (LinearMap.range (ExteriorAlgebra.ι A : N →ₗ[A] _)) ^ 0
       rw [pow_zero]
       exact Submodule.algebraMap_mem a
@@ -86,7 +86,7 @@ public theorem map_mem_exteriorPower {A : Type u} [CommRing A]
       rw [map_mul]
       obtain ⟨z, rfl⟩ := hx
       rw [ExteriorAlgebra.map_apply_ι]
-      show (ExteriorAlgebra.ι A) (g z) * (ExteriorAlgebra.map g) y ∈
+      change (ExteriorAlgebra.ι A) (g z) * (ExteriorAlgebra.map g) y ∈
         (LinearMap.range (ExteriorAlgebra.ι A : N →ₗ[A] _)) ^ (i + 1)
       rw [pow_succ']
       exact Submodule.mul_mem_mul (LinearMap.mem_range_self _ _) ih
@@ -200,7 +200,7 @@ private theorem transition_id {A : Type u} [CommRing A] {r : ℕ}
   apply HomologicalComplex.hom_ext
   intro j
   apply ModuleCat.hom_ext
-  show exteriorPowerMap (scale f (n - n)) j = LinearMap.id
+  change exteriorPowerMap (scale f (n - n)) j = LinearMap.id
   rw [Nat.sub_self, scale_zero, exteriorPowerMap_id]
 
 private theorem transition_comp {A : Type u} [CommRing A] {r : ℕ}
@@ -210,7 +210,7 @@ private theorem transition_comp {A : Type u} [CommRing A] {r : ℕ}
   apply HomologicalComplex.hom_ext
   intro j
   apply ModuleCat.hom_ext
-  show (exteriorPowerMap (scale f (m - n)) j).comp
+  change (exteriorPowerMap (scale f (m - n)) j).comp
       (exteriorPowerMap (scale f (k - m)) j) =
     exteriorPowerMap (scale f (k - n)) j
   rw [← exteriorPowerMap_comp, ← scale_add]
@@ -230,7 +230,7 @@ public theorem powerIdeal_antitone {A : Type u} [CommRing A] {r : ℕ}
       Ideal.span (Set.range fun i ↦ f i ^ (n + 1)) := by
   rw [Ideal.span_le]
   rintro _ ⟨i, rfl⟩
-  show f i ^ (m + 1) ∈ Ideal.span (Set.range fun i ↦ f i ^ (n + 1))
+  change f i ^ (m + 1) ∈ Ideal.span (Set.range fun i ↦ f i ^ (n + 1))
   rw [show m + 1 = m - n + (n + 1) by omega, pow_add]
   exact Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨i, rfl⟩)
 
@@ -284,10 +284,10 @@ public theorem ringToKoszul_f_zero_apply {A : Type u} [CommRing A] {r : ℕ}
       a • ⟨ExteriorAlgebra.ιMulti A 0 (fun i ↦ Fin.elim0 i),
         Koszul.ιMulti_mem 0 (fun i ↦ Fin.elim0 i)⟩ := by
   rw [ringToKoszul_f_zero]
-  show (exteriorPower.zeroEquiv A (Fin r → A)).symm a = _
+  change (exteriorPower.zeroEquiv A (Fin r → A)).symm a = _
   apply (exteriorPower.zeroEquiv A (Fin r → A)).injective
   rw [LinearEquiv.apply_symm_apply, map_smul]
-  show a = a • (exteriorPower.zeroEquiv A (Fin r → A))
+  change a = a • (exteriorPower.zeroEquiv A (Fin r → A))
     (exteriorPower.ιMulti A 0 (fun i ↦ Fin.elim0 i))
   rw [exteriorPower.zeroEquiv_ιMulti, smul_eq_mul, mul_one]
 
@@ -298,7 +298,7 @@ public theorem ringToKoszul_transition {A : Type u} [CommRing A] {r : ℕ}
       ringToKoszul (fun i ↦ f i ^ (n + 1)) := by
   apply (ChainComplex.fromSingle₀Equiv
     (Koszul.seqComplex (fun i ↦ f i ^ (n + 1))) (ModuleCat.of A A)).injective
-  show (ringToKoszul (fun i ↦ f i ^ (m + 1))).f 0 ≫
+  change (ringToKoszul (fun i ↦ f i ^ (m + 1))).f 0 ≫
       (transition f m n h).f 0 =
     (ringToKoszul (fun i ↦ f i ^ (n + 1))).f 0
   rw [ringToKoszul_f_zero, ringToKoszul_f_zero]
@@ -334,7 +334,7 @@ public theorem homologyZeroIso_transition {A : Type u} [CommRing A] {r : ℕ}
   change ⋀[A]^0 (Fin r → A) at x
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply]
   rw [homologyZeroIso_fac_apply, homologyZeroIso_fac_apply]
-  show (Ideal.span (Set.range fun i ↦ f i ^ (n + 1))).mkQ
+  change (Ideal.span (Set.range fun i ↦ f i ^ (n + 1))).mkQ
       ((exteriorPower.zeroEquiv A (Fin r → A)) (((transition f m n h).f 0).hom x)) =
     (quotientTransition f m n h).hom
       ((Ideal.span (Set.range fun i ↦ f i ^ (m + 1))).mkQ
@@ -360,7 +360,7 @@ public theorem singleZeroHomology_fac {A : Type u} [CommRing A] :
   rw [← cancel_mono ((ChainComplex.single₀ (ModuleCat.{u} A)).obj
     (ModuleCat.of A A)).isoHomologyι₀.hom]
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
-  show (HomologicalComplex.singleObjXSelf (ComplexShape.down ℕ) 0
+  change (HomologicalComplex.singleObjXSelf (ComplexShape.down ℕ) 0
       (ModuleCat.of A A)).hom ≫
       (HomologicalComplex.singleObjHomologySelfIso (ComplexShape.down ℕ) 0
         (ModuleCat.of A A)).inv ≫
@@ -388,7 +388,7 @@ public theorem homologyZeroIso_ringToKoszul {A : Type u} [CommRing A] {r : ℕ}
   change A at a
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply]
   rw [homologyZeroIso_fac_apply]
-  show (Ideal.span (Set.range f)).mkQ
+  change (Ideal.span (Set.range f)).mkQ
       ((exteriorPower.zeroEquiv A (Fin r → A)) (((ringToKoszul f).f 0).hom a)) =
     (Ideal.span (Set.range f)).mkQ
       ((HomologicalComplex.singleObjXSelf (ComplexShape.down ℕ) 0
@@ -396,7 +396,7 @@ public theorem homologyZeroIso_ringToKoszul {A : Type u} [CommRing A] {r : ℕ}
   have hE : (exteriorPower.zeroEquiv A (Fin r → A))
       (((ringToKoszul f).f 0).hom a) = a := by
     rw [ringToKoszul_f_zero]
-    show (exteriorPower.zeroEquiv A (Fin r → A))
+    change (exteriorPower.zeroEquiv A (Fin r → A))
       ((exteriorPower.zeroEquiv A (Fin r → A)).symm a) = a
     exact LinearEquiv.apply_symm_apply _ _
   have hX : ((HomologicalComplex.singleObjXSelf (ComplexShape.down ℕ) 0

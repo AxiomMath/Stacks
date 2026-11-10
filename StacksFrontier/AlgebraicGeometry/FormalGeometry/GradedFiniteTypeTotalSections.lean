@@ -103,7 +103,7 @@ theorem moduleFinite_total_of_isFiniteTypeOnAffine (hft : IsFiniteTypeOnAffine M
       refine (AddSubgroup.closure_le _).2 ?_
       rintro t ⟨s, hsG, m, a, h, rfl⟩
       subst h
-      show M.toPresheafGradedModule.incl (s.1 + m) (M.smul s.1 m (op U.1) s.2 a) ∈
+      change M.toPresheafGradedModule.incl (s.1 + m) (M.smul s.1 m (op U.1) s.2 a) ∈
         Submodule.span _ _
       have hsm : A.toPresheafGradedAlgebra.incl m a •
             M.toPresheafGradedModule.incl s.1 s.2

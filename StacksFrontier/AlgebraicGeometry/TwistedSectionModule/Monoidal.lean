@@ -316,6 +316,7 @@ def componentHom (F L : C) (m : ℕ) : twistModule F L →+ twistSections F L m 
   map_zero' := rfl
   map_add' x y := DFinsupp.add_apply x y m
 
+omit [(tensorRight L).Additive] [BraidedCategory C] [HasTrivialSelfBraiding L] in
 /-- The degree-`m` component of the image of `t` in degree `m` is `t`. -/
 @[simp] theorem componentHom_of (m : ℕ) (t : twistSections F L m) :
     componentHom F L m (DirectSum.of (twistSections F L) m t) = t :=

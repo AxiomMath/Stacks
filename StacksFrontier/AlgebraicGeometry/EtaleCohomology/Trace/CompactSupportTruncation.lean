@@ -63,7 +63,7 @@ theorem isIso_compactSupportFrobeniusFunctor_map_of_quasiIso
   have h₁ : QuasiIso (((etaleModuleInverseImage.{u, 0} Λ
       (fieldBaseChangeProj Y kbar)).mapCochainComplexPlus.map
       ((etaleModuleExtensionByZero.{u, 0} Λ j.immersion).mapCochainComplexPlus.map φ)).hom) := by
-    show QuasiIso (((etaleModuleInverseImage.{u, 0} Λ
+    change QuasiIso (((etaleModuleInverseImage.{u, 0} Λ
       (fieldBaseChangeProj Y kbar)).mapHomologicalComplex _).map
       (((etaleModuleExtensionByZero.{u, 0} Λ j.immersion).mapHomologicalComplex _).map φ.hom))
     infer_instance
@@ -127,7 +127,7 @@ theorem isIso_whiskerRight_truncGEπTruncGE (n n' i : ℤ) (h : n ≤ n') :
       (compactSupportFrobeniusFunctor.{u, 0} Λ f j kbar ⋙
         DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i)).app K) := fun K => by
     have := CochainComplex.Plus.quasiIso_truncGEπTruncGE (C := EtaleModules.{u, 0} Λ X) n n' h K
-    show IsIso ((DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
+    change IsIso ((DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
       ((compactSupportFrobeniusFunctor.{u, 0} Λ f j kbar).map
         ((CochainComplex.Plus.truncGEπTruncGE n n').app K)))
     exact isIso_homology_map_compactSupportFrobeniusFunctor_map_of_quasiIso Λ f j kbar i _
@@ -193,7 +193,7 @@ theorem exact_compactSupportGradedToTrunc_truncToTrunc [Finite k] (n i : ℤ)
       (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
         ((compactSupportFrobeniusFunctor.{u, 0} Λ f j kbar).map
           (ObjectProperty.homMk S.g : (⟨S.X₂, h₂⟩ : CochainComplex.Plus _) ⟶ ⟨S.X₃, h₃⟩)) ≫ e := by
-    show (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
+    change (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
         ((compactSupportFrobeniusFunctor.{u, 0} Λ f j kbar).map
           ((CochainComplex.Plus.πTruncGEComp n (n + 1)).app K)) ≫ _ = _
     rw [NatIso.isIso_inv_app, hk]
@@ -208,7 +208,7 @@ theorem isZero_compactSupportTruncHomology [Finite k] (n i : ℤ) (h : i < n)
     IsZero ((compactSupportTruncHomology Λ f j kbar n i).obj K) := by
   cases nonempty_fintype k
   have : ((CochainComplex.Plus.truncGEFunctor n).obj K).obj.IsStrictlyGE n := by
-    show (K.obj.truncGE n).IsStrictlyGE n
+    change (K.obj.truncGE n).IsStrictlyGE n
     infer_instance
   have := isGE_compactSupportFrobeniusFunctor_obj.{u, 0} Λ f j kbar
     ((CochainComplex.Plus.truncGEFunctor n).obj K) n
@@ -353,7 +353,7 @@ theorem compactSupportGradedHomologyIso_hom_frobenius (n i i' : ℤ) (h : -n + i
     rw [← Functor.whiskerLeft_comp, ← Functor.whiskerLeft_comp]
     exact congrArg _
       (compactSupportSingleHomologyIso_hom_frobenius.{u, 0} Λ f j kbar p q hcard n i i' h)
-  show _ ≫ (Functor.whiskerRight (CochainComplex.Plus.gradedIsoSingle n).hom _ ≫
+  change _ ≫ (Functor.whiskerRight (CochainComplex.Plus.gradedIsoSingle n).hom _ ≫
       (Functor.associator _ _ _).hom ≫
       Functor.whiskerLeft gX (compactSupportSingleHomologyIso.{u, 0} Λ f j kbar n i i' h).hom ≫
       Functor.whiskerRight (CochainComplex.Plus.gradedXIsoHomology n).hom _) =

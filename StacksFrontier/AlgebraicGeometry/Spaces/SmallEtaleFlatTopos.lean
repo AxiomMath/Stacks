@@ -157,7 +157,7 @@ private theorem preservesColimit_commRingCatULift {D : Type u₁} [Category.{v�
   let : HasColimitsOfShape D CommRingCat.{u + 1} :=
     hasColimitsOfShape_of_finallySmall.{u} D _
   let : PreservesColimit R (commRingCatULift.{u, u + 1} ⋙ forget CommRingCat.{u + 1}) := by
-    show PreservesColimit R (forget CommRingCat.{u} ⋙ uliftFunctor.{u + 1, u})
+    change PreservesColimit R (forget CommRingCat.{u} ⋙ uliftFunctor.{u + 1, u})
     infer_instance
   let : ReflectsColimit (R ⋙ commRingCatULift.{u, u + 1})
       (forget CommRingCat.{u + 1}) := reflectsColimit_of_reflectsIsomorphisms _ _
@@ -199,7 +199,7 @@ theorem uliftRingFiberIso'_germ (Φ : J.Point.{u}) (R : Cᵒᵖ ⥤ CommRingCat.
   let := preservesColimit_commRingCatULift' (π ⋙ R)
   have h := Functor.Final.ι_colimitIso_hom E (π ⋙ R ⋙ L)
     (Opposite.op ((Φ.fiber ⋙ uliftFunctor.{u + 1}).elementsMk U (ULift.up x)))
-  show colimit.ι _ _ ≫ (Functor.Final.colimitIso E (π ⋙ R ⋙ L)).hom ≫
+  change colimit.ι _ _ ≫ (Functor.Final.colimitIso E (π ⋙ R ⋙ L)).hom ≫
     (preservesColimitIso L (π ⋙ R)).inv = _
   rw [← Category.assoc]
   exact (h =≫ (preservesColimitIso L (π ⋙ R)).inv).trans
@@ -339,7 +339,7 @@ theorem commRingSheafFiberIso_inv_comp :
   rw [Iso.inv_comp_eq]
   apply Φ.presheafFiber_hom_ext
   intro X x
-  show Φ.toPresheafFiber X x (O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}) ≫
+  change Φ.toPresheafFiber X x (O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}) ≫
       (Φ.presheafFiber (A := RingCat.{w})).map
         (Functor.whiskerRight g.hom (forget₂ CommRingCat.{w} RingCat.{w})) ≫
         (Φ.presheafFiberCompIso (forget₂ CommRingCat.{w} RingCat.{w})).hom.app O'.obj =

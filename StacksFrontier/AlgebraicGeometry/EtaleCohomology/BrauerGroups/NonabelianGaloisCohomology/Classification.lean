@@ -234,8 +234,7 @@ private theorem finiteGaloisFixedMatrixBaseChangeHom_bijective (K : Type u) [Fie
         inc.liftBaseChange L := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul a b =>
         simp only [AlgHom.toLinearMap_apply, LinearMap.liftBaseChange_tmul]
@@ -424,8 +423,7 @@ private theorem cocycleFixedMatrixBaseChangeHom_intertwines (K : Type u) [Field 
         (tensorGaloisAut K Ksep (cocycleFixedMatrixAlgebra K Ksep d f) σ z) =
       cocycleMatrixGaloisAut K Ksep d f σ
         (cocycleFixedMatrixBaseChangeHom K Ksep d f z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   | tmul a M =>
       rw [tensorGaloisAut_tmul, cocycleFixedMatrixBaseChangeHom_tmul,

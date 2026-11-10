@@ -127,7 +127,7 @@ private lemma exists_algHom_eq_comp_residueField {R : Type u} {A : Type v} {S : 
   rw [Algebra.smul_def, Algebra.smul_def]
   simp only [RingHom.comp_apply, map_mul]
   congr 1
-  show τ (algebraMap A q.ResidueField (algebraMap R A c)) = algebraMap R (ResidueField S) c
+  change τ (algebraMap A q.ResidueField (algebraMap R A c)) = algebraMap R (ResidueField S) c
   rw [← residueFieldMapFib_algebraMap p q hpq c, ← RingHom.comp_apply, hτ,
     residueFieldMapBase_algebraMap, IsScalarTower.algebraMap_apply R S (ResidueField S) c,
     ResidueField.algebraMap_eq]
@@ -177,7 +177,7 @@ theorem henselian_Spoint_lift
     have hu : ∀ (y : Submonoid.powers h), IsUnit (g ↑y) := by
       rintro ⟨y, n, rfl⟩; simpa using hg.pow n
     refine ⟨IsLocalization.liftAlgHom (M := Submonoid.powers h) (f := g) hu, fun c => ?_⟩
-    show IsLocalization.liftAlgHom hu (algebraMap C (Localization.Away h) c) = g c
+    change IsLocalization.liftAlgHom hu (algebraMap C (Localization.Away h) c) = g c
     rw [IsLocalization.coe_liftAlgHom, IsLocalization.lift_eq]; rfl
   obtain ⟨φh, hℓφ⟩ := hlift _ φ hφh
   set a₀ : ResidueField S := φh pres.x with ha₀
@@ -213,16 +213,16 @@ theorem henselian_Spoint_lift
   let σ₀ₕ : Localization.Away h →ₐ[S] S := (pres.P.lift x hHasMapx).comp pres.equivRing.toAlgHom
   let σ₀ : C →ₐ[S] S := σ₀ₕ.comp ℓ
   have hσ₀ₕx : σ₀ₕ pres.x = x := by
-    show (pres.P.lift x hHasMapx) (pres.equivRing pres.x) = x
+    change (pres.P.lift x hHasMapx) (pres.equivRing pres.x) = x
     rw [pres.equivRing_x, pres.P.lift_X]
   have hσ₀ : (residue S).comp (σ₀ : C →+* S) = (φ : C →+* ResidueField S) := by
     have keyAlg : (Algebra.ofId S (ResidueField S)).comp σ₀ₕ = φh := by
       apply pres.hom_ext
-      show (Algebra.ofId S (ResidueField S)) (σ₀ₕ pres.x) = φh pres.x
+      change (Algebra.ofId S (ResidueField S)) (σ₀ₕ pres.x) = φh pres.x
       rw [hσ₀ₕx]
       exact hxres
     ext c
-    show (residue S) (σ₀ c) = φ c
+    change (residue S) (σ₀ c) = φ c
     exact (DFunLike.congr_fun keyAlg (ℓ c)).trans (hℓφ c)
   -- (3) Uniqueness: every lift σ factors through the chart and its value at pres.x is the
   --     unique simple-root lift x, hence equals σ₀ by `StandardEtalePresentation.hom_ext`.
@@ -245,7 +245,7 @@ theorem henselian_Spoint_lift
     · have hcomp : (Algebra.ofId S (ResidueField S)).comp σₕ = φh := by
         apply IsLocalization.algHom_ext (Submonoid.powers h)
         ext c
-        show residue S (σₕ (ℓ c)) = φh (ℓ c)
+        change residue S (σₕ (ℓ c)) = φh (ℓ c)
         rw [hℓσ, hℓφ]
         exact congrFun (congrArg DFunLike.coe hσ) c
       rw [ha₀]
@@ -328,7 +328,7 @@ theorem exists_unique_algHom_etale
         (φ : (S ⊗[R] B) →+* ResidueField S) (1 ⊗ₜ[R] b)
           = τ (algebraMap B qB.ResidueField b) := by
       intro b
-      show φ (1 ⊗ₜ[R] b) = _
+      change φ (1 ⊗ₜ[R] b) = _
       rw [hφ, AlgHom.liftEquiv_tmul, one_smul]
       exact hψb b
     have keyσ : ∀ b : B, ((residue S).comp (σ : (S ⊗[R] B) →+* S)) (1 ⊗ₜ[R] b)
@@ -352,14 +352,14 @@ theorem exists_unique_algHom_etale
           have hsl : (s ⊗ₜ[R] (1 : B)) = algebraMap S (S ⊗[R] B) s := by
             rw [Algebra.TensorProduct.algebraMap_apply, Algebra.algebraMap_self_apply]
           rw [hsl]
-          show (residue S) (σ (algebraMap S (S ⊗[R] B) s)) = φ (algebraMap S (S ⊗[R] B) s)
+          change (residue S) (σ (algebraMap S (S ⊗[R] B) s)) = φ (algebraMap S (S ⊗[R] B) s)
           rw [AlgHom.commutes, AlgHom.commutes, Algebra.algebraMap_self_apply]
           rfl
         · ext b
           have hb := congrFun (congrArg DFunLike.coe h) b
           simp only [RingHom.comp_apply] at hb
           rw [key b] at hb
-          show ((residue S).comp (σ : (S ⊗[R] B) →+* S)) (1 ⊗ₜ[R] b)
+          change ((residue S).comp (σ : (S ⊗[R] B) →+* S)) (1 ⊗ₜ[R] b)
               = (φ : (S ⊗[R] B) →+* ResidueField S) (1 ⊗ₜ[R] b)
           rw [keyσ b, keyφ b]
           exact hb
@@ -443,7 +443,7 @@ private lemma exists_algHom_comp_ι_eq {R : Type u} {A J : Type (max u v)}
             simp only [CommAlgCat.hom_comp, CommAlgCat.hom_ofHom, Functor.const_obj_obj,
               Functor.const_obj_map, Category.comp_id]
             refine AlgHom.ext fun x => hembinj ?_
-            show emb ((g₀ k) ((pres.diag.map φ).hom x)) = emb ((g₀ j) x)
+            change emb ((g₀ k) ((pres.diag.map φ).hom x)) = emb ((g₀ j) x)
             rw [← AlgHom.comp_apply emb (g₀ k), ← AlgHom.comp_apply emb (g₀ j),
               hembg k, hembg j]
             exact congrFun (congrArg DFunLike.coe (hg φ)) x } }
@@ -619,20 +619,20 @@ private theorem existsUnique_algHom_aux
   obtain ⟨Φₐ, hΦₐ⟩ := exists_algHom_eq_comp_residueField p hp q hpq τ hτ
   -- Verify fglue: InducesResidueMap q fglue τ, i.e. Φ = (residue S) ∘ fglue.
   have hglueInduces : InducesResidueMap q (fglue : A →+* S) τ := by
-    show Φ = (residue S).comp (fglue : A →+* S)
+    change Φ = (residue S).comp (fglue : A →+* S)
     -- as R-algebra homs A → κ(S): Φₐ vs (S → κ(S) as R-alg) ∘ fglue.
     let Rfglue : A →ₐ[R] ResidueField S :=
       (IsScalarTower.toAlgHom R S (ResidueField S)).comp fglue
     have hRf : (Rfglue : A →+* ResidueField S) = (residue S).comp (fglue : A →+* S) := by
       ext a
-      show (IsScalarTower.toAlgHom R S (ResidueField S)) (fglue a) = (residue S) (fglue a)
-      show algebraMap S (ResidueField S) (fglue a) = (residue S) (fglue a)
+      change (IsScalarTower.toAlgHom R S (ResidueField S)) (fglue a) = (residue S) (fglue a)
+      change algebraMap S (ResidueField S) (fglue a) = (residue S) (fglue a)
       rw [ResidueField.algebraMap_eq]
     have heq : Φₐ = Rfglue := by
       apply hjointepiT (ResidueField S) Φₐ Rfglue
       intro j
       ext x
-      show Φₐ (ι j x) = (residue S) (fglue (ι j x))
+      change Φₐ (ι j x) = (residue S) (fglue (ι j x))
       rw [show Φₐ (ι j x) = Φ (ι j x) from RingHom.congr_fun hΦₐ _,
         ← AlgHom.comp_apply fglue (ι j) x, hfac j]
       exact RingHom.congr_fun (hfΦ j) x

@@ -146,10 +146,10 @@ private theorem smooth_appLE_of_flat_of_perfect_diagonal {X Y : Scheme.{u}} (f :
   let d : V.toScheme ⟶ P := pullback.diagonal fV
   have hdq : d ≫ q = V.ι ≫ pullback.diagonal f := by
     apply pullback.hom_ext <;>
-      simp [d, q, pullback.map, pullback.lift_fst, pullback.lift_snd, Category.assoc]
+      simp [d, q, pullback.map, Category.assoc]
   have hdelta : V ≤ (pullback.diagonal f) ⁻¹ᵁ W := by
     intro x hx
-    show pullback.diagonal f (V.ι ⟨x, hx⟩) ∈ Set.range q
+    change pullback.diagonal f (V.ι ⟨x, hx⟩) ∈ Set.range q
     refine ⟨d ⟨x, hx⟩, ?_⟩
     have he := congrArg (fun k : V.toScheme ⟶ Q => k ⟨x, hx⟩) hdq
     change q (d ⟨x, hx⟩) = pullback.diagonal f (V.ι ⟨x, hx⟩) at he
@@ -170,10 +170,10 @@ private theorem smooth_appLE_of_flat_of_perfect_diagonal {X Y : Scheme.{u}} (f :
     apply IsPushout.of_iso hpo₀ U.topIso V.topIso V.topIso (Iso.refl _)
     · exact (arrowResLEAppIso f U V hVU).hom.w.symm
     · exact (arrowResLEAppIso f U V hVU).hom.w.symm
-    · show (pullback.fst fV fV).appTop =
+    · change (pullback.fst fV fV).appTop =
         V.topIso.hom ≫ V.topIso.inv ≫ (pullback.fst fV fV).appTop
       exact (Iso.hom_inv_id_assoc V.topIso _).symm
-    · show (pullback.snd fV fV).appTop =
+    · change (pullback.snd fV fV).appTop =
         V.topIso.hom ≫ V.topIso.inv ≫ (pullback.snd fV fV).appTop
       exact (Iso.hom_inv_id_assoc V.topIso _).symm
   have hα : α = CommRingCat.ofHom (algebraMap A B) := by
@@ -213,7 +213,7 @@ private theorem smooth_appLE_of_flat_of_perfect_diagonal {X Y : Scheme.{u}} (f :
   have hretract (p : P ⟶ V.toScheme) (hp : d ≫ p = 𝟙 V.toScheme) :
       dRing.comp (V.topIso.inv ≫ p.appTop).hom = RingHom.id B := by
     have hcat : (V.topIso.inv ≫ p.appTop) ≫ (d.appTop ≫ V.topIso.hom) = 𝟙 B := by
-      show V.topIso.inv ≫ (p.appTop ≫ d.appTop) ≫ V.topIso.hom = 𝟙 B
+      change V.topIso.inv ≫ (p.appTop ≫ d.appTop) ≫ V.topIso.hom = 𝟙 B
       rw [← Scheme.Hom.comp_appTop d p, hp, Scheme.Hom.id_appTop]
       simp only [Category.id_comp]
       exact Iso.inv_hom_id V.topIso
@@ -267,11 +267,11 @@ private theorem smooth_appLE_of_flat_of_perfect_diagonal {X Y : Scheme.{u}} (f :
     have hmul' : μ.comp ePush.symm.toRingHom = dRing := by
       rw [hmul]
       simp [dRing, RingHom.comp_assoc]
-    show (μ.comp ePush.symm.toRingHom).comp eOpen.toRingHom =
+    change (μ.comp ePush.symm.toRingHom).comp eOpen.toRingHom =
       ((pullback.diagonal f).appLE W V hdelta).hom
     rw [hmul']
     have heOpen : eOpen.toRingHom = (W.topIso.symm.hom ≫ qW.appTop).hom := by
-      show (qW.appTop).hom.comp (W.topIso.symm.hom).hom =
+      change (qW.appTop).hom.comp (W.topIso.symm.hom).hom =
         (W.topIso.symm.hom ≫ qW.appTop).hom
       exact (CommRingCat.hom_comp W.topIso.symm.hom qW.appTop).symm
     rw [heOpen]

@@ -90,7 +90,7 @@ private theorem hom_ext_of_isLocallySurjective (J : GrothendieckTopology C) (φ 
   refine Presheaf.eq_of_restrict_eq J hR (Presheaf.imageSieve_mem J φ x) ?_
   intro Y f hf
   have ha := Presheaf.app_localPreimage φ x f hf
-  show (R.map f.op) ((χ₁.app X).hom x) = (R.map f.op) ((χ₂.app X).hom x)
+  change (R.map f.op) ((χ₁.app X).hom x) = (R.map f.op) ((χ₂.app X).hom x)
   rw [← NatTrans.naturality_apply χ₁ f.op x, ← NatTrans.naturality_apply χ₂ f.op x, ← ha]
   simpa only [NatTrans.comp_app, CategoryTheory.comp_apply] using
     congrArg (fun η : P ⟶ R => (η.app (op Y)).hom (Presheaf.localPreimage φ x f hf)) h
@@ -152,7 +152,7 @@ private theorem pullback_equalizerSieve {X : C} (x y : P.obj (op X)) {Y : C} (g 
     (Presheaf.equalizerSieve x y).pullback g =
       Presheaf.equalizerSieve ((P.map g.op).hom x) ((P.map g.op).hom y) := by
   ext Z h
-  show (P.map (h ≫ g).op).hom x = (P.map (h ≫ g).op).hom y ↔ _
+  change (P.map (h ≫ g).op).hom x = (P.map (h ≫ g).op).hom y ↔ _
   rw [op_comp, P.map_comp]
   rfl
 
@@ -274,15 +274,15 @@ private theorem exists_lift_section_of_universalHomeomorphism {X Y : Scheme.{u}}
     dsimp only [g]
     infer_instance
   have hkg : k ≫ g = f := by
-    show (X.isoSpec.hom ≫ Spec.map h) ≫ Spec.map D.hom ≫ Y.isoSpec.inv = f
+    change (X.isoSpec.hom ≫ Spec.map h) ≫ Spec.map D.hom ≫ Y.isoSpec.inv = f
     rw [Category.assoc, ← Category.assoc (Spec.map h), ← Spec.map_comp, hh]
-    show X.isoSpec.hom ≫ Spec.map f.appTop ≫ Y.isoSpec.inv = f
+    change X.isoSpec.hom ≫ Spec.map f.appTop ≫ Y.isoSpec.inv = f
     rw [← Category.assoc, Scheme.isoSpec_hom_naturality]
     simp
   refine ⟨Scheme.Spec.obj (op D.right), g, k, (Scheme.ΓSpecIso D.right).inv.hom b,
     inferInstance, hg, hlfp, hkg, ?_⟩
   have heq : (Scheme.ΓSpecIso D.right).inv ≫ k.appTop = h := by
-    show (Scheme.ΓSpecIso D.right).inv ≫ (Spec.map h).appTop ≫ X.isoSpec.hom.appTop = h
+    change (Scheme.ΓSpecIso D.right).inv ≫ (Spec.map h).appTop ≫ X.isoSpec.hom.appTop = h
     rw [← Category.assoc, ← Scheme.ΓSpecIso_inv_naturality, Category.assoc,
       Scheme.isoSpec_hom, Scheme.toSpecΓ_appTop]
     simp
@@ -300,7 +300,7 @@ private theorem absoluteWeakNormalization_hom_ext {X Y Z : Scheme.{u}} (f : X �
       (hk : k ≫ p = X.absoluteWeakNormalizationHom ≫ f) :
       initial (UniversalHomeomorphismOver X) ⟶ W :=
     ⟨Over.homMk (pullback.lift X.absoluteWeakNormalizationHom k hk.symm) (by
-      show pullback.lift _ _ _ ≫ pullback.fst f p = X.absoluteWeakNormalizationHom
+      change pullback.lift _ _ _ ≫ pullback.fst f p = X.absoluteWeakNormalizationHom
       exact pullback.lift_fst _ _ _)⟩
   have he := initialIsInitial.hom_ext (a g hg) (a h hh)
   have hkey := congrArg
@@ -327,7 +327,7 @@ private theorem exists_universalHomeomorphism_lift_of_isAffine (X : Scheme.{u}) 
     rw [Category.assoc, hk]
     exact absoluteWeakNormalizationMap_spec f
   rw [he]
-  show (absoluteWeakNormalizationMap f).appTop.hom (k.appTop.hom b) = _
+  change (absoluteWeakNormalizationMap f).appTop.hom (k.appTop.hom b) = _
   rw [hb]
 
 /-- A global function on an affine scheme dying on its absolute weak normalization dies on a
@@ -352,7 +352,7 @@ private theorem exists_universalHomeomorphism_kill_of_isAffine (X : Scheme.{u}) 
     universalHomeomorphism_comp_isoSpec_inv q (universalHomeomorphism_Spec_quotient _ I hI)
   have : LocallyOfFinitePresentation (Spec.map q) := by
     rw [LocallyOfFinitePresentation.SpecMap_iff]
-    show (algebraMap Γ(X, ⊤) (Γ(X, ⊤) ⧸ I)).FinitePresentation
+    change (algebraMap Γ(X, ⊤) (Γ(X, ⊤) ⧸ I)).FinitePresentation
     rw [RingHom.finitePresentation_algebraMap]
     exact Algebra.FinitePresentation.quotient (Submodule.fg_span_singleton x)
   have hlfp : LocallyOfFinitePresentation f := by
@@ -361,14 +361,14 @@ private theorem exists_universalHomeomorphism_kill_of_isAffine (X : Scheme.{u}) 
   refine ⟨_, f, hf, hlfp, inferInstance, ?_⟩
   have he : Scheme.Γ.mapIso X.isoSpec.op = Scheme.ΓSpecIso Γ(X, ⊤) := by
     refine Iso.ext ?_
-    show X.isoSpec.hom.appTop = _
+    change X.isoSpec.hom.appTop = _
     rw [Scheme.isoSpec_hom, Scheme.toSpecΓ_appTop]
   have hmap : f.appTop = q ≫ (Scheme.ΓSpecIso (CommRingCat.of (Γ(X, ⊤) ⧸ I))).inv := by
-    show X.isoSpec.inv.appTop ≫ (Spec.map q).appTop = _
+    change X.isoSpec.inv.appTop ≫ (Spec.map q).appTop = _
     rw [show X.isoSpec.inv.appTop = (Scheme.ΓSpecIso Γ(X, ⊤)).inv from congrArg Iso.inv he,
       ← Scheme.ΓSpecIso_inv_naturality]
   rw [hmap]
-  show (Scheme.ΓSpecIso (CommRingCat.of (Γ(X, ⊤) ⧸ I))).inv.hom (Ideal.Quotient.mk I x) = 0
+  change (Scheme.ΓSpecIso (CommRingCat.of (Γ(X, ⊤) ⧸ I))).inv.hom (Ideal.Quotient.mk I x) = 0
   rw [Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (Set.mem_singleton x)), map_zero]
 
 /-- A universal homeomorphism of schemes which is locally of finite presentation is finite. -/
@@ -597,7 +597,7 @@ private theorem sieve₀_mem_topology {X : B.Schemes} (E : PreZeroHypercover.{u 
   obtain ⟨Vbase, Vfam⟩ := V
   change X = Vbase at he
   subst he
-  show Sieve.generate E.presieve₀ ∈ B.topology X
+  change Sieve.generate E.presieve₀ ∈ B.topology X
   rw [PreZeroHypercover.presieve₀_eq_of_combinatoriallyEquivalent hcomb]
   exact Precoverage.generate_mem_toGrothendieck ((B.mem_precoverage_iff).2 ⟨Vfam, rfl, hV⟩)
 
@@ -609,7 +609,7 @@ private theorem sieve₀_mem_bigPHOver_topology {X : BigPHOver B S hS}
       (fun i ↦ (BigPHOver.toScheme B S hS).map (E.f i))) :
     E.sieve₀ ∈ BigPHOver.topology B S hS X := by
   rw [BigPHOver.topology, GrothendieckTopology.mem_over_iff]
-  show Sieve.overEquiv X (Sieve.ofArrows E.X E.f) ∈ _
+  change Sieve.overEquiv X (Sieve.ofArrows E.X E.f) ∈ _
   rw [Sieve.overEquiv_ofArrows]
   exact sieve₀_mem_topology B (E.map (BigPHOver.forget B S hS)) hE
 
@@ -731,7 +731,7 @@ theorem isSheaf_absoluteWeakNormalizationSections :
   refine Presheaf.isSheaf_of_isSheaf_comp (BigHOver.topology B S hS)
     (absoluteWeakNormalizationSectionsOver F) (CategoryTheory.forget CommRingCat.{u}) ?_
   refine (isSheaf_iff_isSheaf_of_type _ _).mpr ?_
-  show Presieve.IsSheaf (BigHOver.topology B S hS) P
+  change Presieve.IsSheaf (BigHOver.topology B S hS) P
   have hz : BigHOver.IsZariskiSheaf B S hS P := by
     intro X E hE
     rw [Presieve.IsSheafFor.comp_iff_of_preservesPairwisePullbacks F

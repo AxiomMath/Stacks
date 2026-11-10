@@ -70,9 +70,7 @@ private lemma targetNode_v_not_mul_sq (w : targetNodeRing ℚ) :
 @[stacks 0BWP "nonflat example"]
 theorem powerMap_two_not_flat
     (f : nodeRing ℚ →+* targetNodeRing ℚ)
-    (hx : f (x ℚ) = u ℚ ^ 2) (hy : f (y ℚ) = v ℚ ^ 2)
-    (hk : ∀ a : ℚ, f (algebraMap ℚ (nodeRing ℚ) a) =
-      algebraMap ℚ (targetNodeRing ℚ) a) :
+    (hx : f (x ℚ) = u ℚ ^ 2) (hy : f (y ℚ) = v ℚ ^ 2) :
     letI : Algebra (nodeRing ℚ) (targetNodeRing ℚ) := f.toAlgebra
     ¬ Module.Flat (nodeRing ℚ) (targetNodeRing ℚ) := by
   classical

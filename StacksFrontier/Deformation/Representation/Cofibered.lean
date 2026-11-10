@@ -158,7 +158,7 @@ theorem exists_isHomLift (X : RepresentationCategory.{u, v, w, m, x} Λ k Γ)
       map_add' := fun a b => by simp [TensorProduct.tmul_add] }
   have hsmul : ∀ (r : X.base) (mm : X.carrier), ι (r • mm) = f.hom r • ι mm := by
     intro r mm
-    show e.symm ((1 : B) ⊗ₜ[X.base] (r • mm)) = f.hom r • e.symm ((1 : B) ⊗ₜ[X.base] mm)
+    change e.symm ((1 : B) ⊗ₜ[X.base] (r • mm)) = f.hom r • e.symm ((1 : B) ⊗ₜ[X.base] mm)
     rw [← map_smul]
     congr 1
     rw [← TensorProduct.smul_tmul, TensorProduct.smul_tmul', Algebra.smul_def, mul_one,
@@ -168,7 +168,7 @@ theorem exists_isHomLift (X : RepresentationCategory.{u, v, w, m, x} Λ k Γ)
     representationCongr e.symm (representationBaseChange B X.action)
   have hequiv : ∀ (γ : Γ) (mm : X.carrier), ι (X.action γ mm) = ρ' γ (ι mm) := by
     intro γ mm
-    show e.symm ((1 : B) ⊗ₜ[X.base] X.action γ mm) =
+    change e.symm ((1 : B) ⊗ₜ[X.base] X.action γ mm) =
       representationCongr e.symm (representationBaseChange B X.action) γ
         (e.symm ((1 : B) ⊗ₜ[X.base] mm))
     rw [representationCongr_apply, LinearEquiv.symm_symm, LinearEquiv.apply_symm_apply,
@@ -207,7 +207,7 @@ theorem exists_unique_hom {X Y Z : RepresentationCategory.{u, v, w, m, x} Λ k �
     IsScalarTower.of_algebraMap_eq fun r ↦ (hfh r).symm
   have htower : IsScalarTower X.base Y.base Z.carrier :=
     IsScalarTower.of_algebraMap_smul fun r z ↦ by
-      show f.hom (φ.base.hom r) • z = ψ.base.hom r • z
+      change f.hom (φ.base.hom r) • z = ψ.base.hom r • z
       rw [hfh]
   have hφbc : IsBaseChange (Y.base : Type v)
       (restrictAddHom φ.base.hom.toRingHom φ.map φ.map_smul) := φ.isBaseChange
@@ -223,7 +223,7 @@ theorem exists_unique_hom {X Y Z : RepresentationCategory.{u, v, w, m, x} Λ k �
     intro γ
     have hext : L ∘ₗ Y.action γ = (Z.action γ).restrictScalars Y.base ∘ₗ L := by
       refine hφbc.algHom_ext _ _ fun xx ↦ ?_
-      show L (Y.action γ (φ.map xx)) = Z.action γ (L (φ.map xx))
+      change L (Y.action γ (φ.map xx)) = Z.action γ (L (φ.map xx))
       rw [← φ.equivariant, hLeq, hLeq, ψ.equivariant]
     exact LinearMap.congr_fun hext
   have hLbc : IsBaseChange (Z.base : Type v)
@@ -250,7 +250,7 @@ theorem exists_unique_hom {X Y Z : RepresentationCategory.{u, v, w, m, x} Λ k �
       congrArg (fun q : Hom X Z => q.map xx) hχ.2
     have hLL : restrictAddHom f.hom.toRingHom χ.map hsm' = L := by
       refine hφbc.algHom_ext _ _ fun xx ↦ ?_
-      show χ.map (φ.map xx) = L (φ.map xx)
+      change χ.map (φ.map xx) = L (φ.map xx)
       rw [hfac, hLeq]
     exact Hom.ext hb (AddMonoidHom.ext (LinearMap.congr_fun hLL))
 

@@ -67,7 +67,8 @@ def permutationModuleSum (N : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ G)
       comm := fun g => by
         ext f
         change ∑ x : G ⧸ (H : Subgroup G), (N.obj.obj.obj.ρ x.out).asHom.hom (f (g⁻¹ • x)) =
-          (N.obj.obj.obj.ρ g).asHom.hom (∑ x : G ⧸ (H : Subgroup G), (N.obj.obj.obj.ρ x.out).asHom.hom (f x))
+          (N.obj.obj.obj.ρ g).asHom.hom
+            (∑ x : G ⧸ (H : Subgroup G), (N.obj.obj.obj.ρ x.out).asHom.hom (f x))
         rw [map_sum]
         refine Fintype.sum_equiv (MulAction.toPerm g⁻¹) _ _ fun x => ?_
         have hx : g⁻¹ • x = ((g⁻¹ * x.out : G) : G ⧸ (H : Subgroup G)) := by
@@ -103,10 +104,12 @@ theorem surjective_permutationModuleSum (N : FiniteTypeContinuousModule.{0, u + 
   refine ⟨fun x => if x = ((1 : G) : G ⧸ (H : Subgroup G)) then m else 0, ?_⟩
   refine (permutationModuleSum_apply Λ H N hH _).trans ?_
   refine (Finset.sum_eq_single ((1 : G) : G ⧸ (H : Subgroup G))
-    (fun x _ hx => (congrArg (N.obj.obj.obj.ρ x.out).asHom.hom (if_neg hx)).trans (map_zero _))
+    (fun x _ hx => (congrArg (N.obj.obj.obj.ρ x.out).asHom.hom (ite_eq_right hx)).trans
+      (map_zero _))
     (fun h => absurd (Finset.mem_univ _) h)).trans ?_
   obtain ⟨h, hh⟩ := QuotientGroup.mk_out_eq_mul (H : Subgroup G) (1 : G)
-  exact (congrArg (N.obj.obj.obj.ρ ((1 : G) : G ⧸ (H : Subgroup G)).out).asHom.hom (if_pos rfl)).trans
+  exact (congrArg (N.obj.obj.obj.ρ ((1 : G) : G ⧸ (H : Subgroup G)).out).asHom.hom
+      (ite_eq_left rfl)).trans
     ((congrArg (fun k => (N.obj.obj.obj.ρ k).asHom.hom m) (hh.trans (one_mul _))).trans
       (congrArg (fun φ => φ.asHom.hom m) (hH h h.2)))
 
@@ -157,7 +160,7 @@ theorem surjective_permutationModuleCoinvariantsSum [Fintype (G ⧸ (H : Subgrou
     (LinearMap.proj x : (G ⧸ (H : Subgroup G) → N.obj) →ₗ[Λ] N.obj)) _).trans
     ((LinearMap.sum_apply _ _ _).trans ?_)
   exact (Finset.sum_ite_eq' Finset.univ ((1 : G) : G ⧸ (H : Subgroup G)) (fun _ => m)).trans
-    (if_pos (Finset.mem_univ _))
+    (ite_eq_left (Finset.mem_univ _))
 
 end Permutation
 

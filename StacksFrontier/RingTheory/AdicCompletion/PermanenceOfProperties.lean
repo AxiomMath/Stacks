@@ -356,7 +356,7 @@ private lemma depth_residueField_eq_zero (S : Type*) [CommRing S] [IsLocalRing S
       have hone : (1 : S ⧸ maximalIdeal S) ≠ 0 := one_ne_zero
       apply hone
       exact hreg.right_eq_zero_of_smul (by
-        show Ideal.Quotient.mk (maximalIdeal S) (r * 1) = 0
+        change Ideal.Quotient.mk (maximalIdeal S) (r * 1) = 0
         rw [mul_one]
         exact Ideal.Quotient.eq_zero_iff_mem.mpr hr)
   · intro h
@@ -624,7 +624,7 @@ private theorem flat_quotientMap_iff_flat_quotient {R : Type u} {S : Type v}
       map_smul' := by
         rintro ⟨r⟩ x
         exact e₀.map_smul r x }
-  show (algebraMap (R ⧸ I) (S ⧸ I.map (algebraMap R S))).Flat ↔ _
+  change (algebraMap (R ⧸ I) (S ⧸ I.map (algebraMap R S))).Flat ↔ _
   rw [RingHom.flat_algebraMap_iff]
   exact (Module.Flat.equiv_iff
     ((Algebra.TensorProduct.quotIdealMapEquivQuotTensor S I).toLinearEquiv.trans e))
@@ -639,7 +639,7 @@ public lemma ker_evalₐ_eq_pow_maximalIdeal (R : Type*) [CommRing R] [IsLocalRi
   rw [AdicCompletion.maximalIdeal_eq_map, ← Ideal.map_pow]
   ext x
   rw [RingHom.mem_ker]
-  show AdicCompletion.evalₐ (IsLocalRing.maximalIdeal R) n x = 0 ↔ _
+  change AdicCompletion.evalₐ (IsLocalRing.maximalIdeal R) n x = 0 ↔ _
   rw [← Submodule.restrictScalars_mem R, ← Ideal.smul_top_eq_map,
     AdicCompletion.pow_smul_top_eq_ker_eval
       (IsLocalRing.maximalIdeal R).fg_of_isNoetherianRing]
@@ -667,11 +667,11 @@ public lemma completionQuotientEquiv_mk (R : Type*) [CommRing R]
     completionQuotientEquiv R n
         (Ideal.Quotient.mk _ (algebraMap R (AdicCompletion (IsLocalRing.maximalIdeal R) R) r)) =
       Ideal.Quotient.mk _ r := by
-  show completionQuotientEquiv R n
+  change completionQuotientEquiv R n
       (Ideal.Quotient.mk _ (AdicCompletion.of (IsLocalRing.maximalIdeal R) R r)) = _
   simp only [completionQuotientEquiv, RingEquiv.trans_apply, Ideal.quotEquivOfEq_mk,
     RingHom.quotientKerEquivOfSurjective_apply_mk]
-  show AdicCompletion.evalₐ _ n (AdicCompletion.of _ R r) = _
+  change AdicCompletion.evalₐ _ n (AdicCompletion.of _ R r) = _
   exact AdicCompletion.evalₐ_of _ n r
 
 private theorem isLocalization_atMaximal (R : Type u) [CommRing R] [IsLocalRing R] :
@@ -719,7 +719,7 @@ public theorem adicCompletionMap_flat_iff {A : Type u} {B : Type v}
       rw [AdicCompletion.maximalIdeal_eq_map, Ideal.map_map, hcomm,
         ← Ideal.map_map, AdicCompletion.maximalIdeal_eq_map]
       exact Ideal.map_mono (IsLocalRing.map_maximalIdeal_le f)
-    show fc.Flat
+    change fc.Flat
     rw [← fc.algebraMap_toAlgebra, RingHom.flat_algebraMap_iff]
     refine Module.Flat.of_flat_quotient_pow
       (IsLocalRing.maximalIdeal Ac) Bc ?_
@@ -758,7 +758,7 @@ public theorem adicCompletionMap_flat_iff {A : Type u} {B : Type v}
       (RingHom.Flat.comp_iff_of_bijective_left eT.bijective).mp (by
         rw [hnat]
         exact RingHom.Flat.comp (RingHom.Flat.of_bijective eA.bijective) hqA)
-    show Module.Flat (Ac ⧸ Jc) (Bc ⧸ Jc • (⊤ : Submodule Ac Bc))
+    change Module.Flat (Ac ⧸ Jc) (Bc ⧸ Jc • (⊤ : Submodule Ac Bc))
     exact (flat_quotientMap_iff_flat_quotient Jc).mp hqC
 
 end
@@ -797,7 +797,7 @@ public theorem exists_adicCompletion_ringEquiv_of_flat
     obtain ⟨x, hx⟩ := hres.surjective y
     obtain ⟨a, rfl⟩ := residue_surjective x
     refine ⟨a, ?_⟩
-    show residue B (algebraMap A B a) = _
+    change residue B (algebraMap A B a) = _
     simpa only [IsLocalRing.ResidueField.map_residue] using hx
   have hfib : Module.Finite A (B ⧸ (maximalIdeal A).map (algebraMap A B)) := by
     rw [hmax]
@@ -840,11 +840,11 @@ public theorem exists_adicCompletion_ringEquiv_of_flat
         have hL : (x • y).val n = Submodule.Quotient.mk (algebraMap A B a * b) := by
           rw [AdicCompletion.smul_eval, ← ha, ← hb, ← hab]
           rfl
-        show quotEquivMapPow I B n ((x • y).val n) =
+        change quotEquivMapPow I B n ((x • y).val n) =
           ((completionMap (B := B) I x) * adicCompletionLinearEquivMap I B y).val n
         rw [hL, quotEquivMapPow_mk, AdicCompletion.val_mul,
           val_completionMap I n x a ha.symm]
-        show _ = _ * quotEquivMapPow I B n (y.val n)
+        change _ = _ * quotEquivMapPow I B n (y.val n)
         rw [← hb, quotEquivMapPow_mk]
         rfl }
   let : Module.Finite Rhat C := hfinite.equiv E
@@ -896,10 +896,10 @@ public theorem exists_adicCompletion_ringEquiv_of_flat
       refine ⟨Ideal.Quotient.mk _ (algebraMap A Rhat a), ?_⟩
       apply Ideal.Quotient.eq.mpr
       rw [hpC, RingHom.mem_ker, map_sub]
-      show AdicCompletion.evalOneₐ _
+      change AdicCompletion.evalOneₐ _
           (completionMap (B := B) I (algebraMap A Rhat a)) - _ = 0
       rw [completionMap_algebraMap]
-      show AdicCompletion.evalOneₐ _ (algebraMap B C (algebraMap A B a)) -
+      change AdicCompletion.evalOneₐ _ (algebraMap B C (algebraMap A B a)) -
         AdicCompletion.evalOneₐ _ y = 0
       dsimp only [C]
       rw [show AdicCompletion.evalOneₐ _
@@ -909,7 +909,7 @@ public theorem exists_adicCompletion_ringEquiv_of_flat
               (AdicCompletion.evalOneₐ_comp_algebraMap_eq_mk (I.map (algebraMap A B)))
               (algebraMap A B a), ← hb, sub_eq_zero]
       apply (Ideal.quotientEquivAlgOfEq B hmax).injective
-      show residue B (algebraMap A B a) = residue B b
+      change residue B (algebraMap A B a) = residue B b
       have hqeq : qeq (Ideal.Quotient.mk _ b) = residue B b := rfl
       simpa only [IsLocalRing.ResidueField.map_residue, hb', hqeq] using hx
   have hfinrank : Module.finrank Rhat C = 1 := by
@@ -920,7 +920,7 @@ public theorem exists_adicCompletion_ringEquiv_of_flat
   let eC : Rhat ≃+* C := RingEquiv.ofBijective (algebraMap Rhat C) hbij
   refine ⟨eC.trans eB.symm.toRingEquiv, fun a ↦ ?_⟩
   apply eB.injective
-  show eB (eB.symm (eC (algebraMap A Rhat a))) =
+  change eB (eB.symm (eC (algebraMap A Rhat a))) =
     eB (algebraMap B (AdicCompletion (maximalIdeal B) B) (algebraMap A B a))
   rw [eB.apply_symm_apply, eB.commutes]
   exact completionMap_algebraMap (B := B) I a
@@ -977,7 +977,7 @@ public theorem adicCompletionMap_bijective_of_quotientMap_bijective
         apply RingHom.ext
         intro x
         apply (e m).injective
-        show e m (Ideal.Quotient.factorPow I hmn
+        change e m (Ideal.Quotient.factorPow I hmn
             ((e n).symm (AdicCompletion.evalₐ (I.map f) n x))) =
           e m ((e m).symm (AdicCompletion.evalₐ (I.map f) m x))
         rw [← e_naturality]
@@ -995,7 +995,7 @@ public theorem adicCompletionMap_bijective_of_quotientMap_bijective
     apply AdicCompletion.ext_evalₐ
     intro n
     simp only [RingHom.comp_apply, AdicCompletion.evalₐ_liftRingHom, inv, RingHom.id_apply]
-    show (e n).symm
+    change (e n).symm
       (AdicCompletion.evalₐ (I.map f) n
         (adicCompletionMap f I (I.map f) le_rfl x)) = _
     rw [hlevel, RingEquiv.symm_apply_apply]
@@ -1007,7 +1007,7 @@ public theorem adicCompletionMap_bijective_of_quotientMap_bijective
     intro n
     simp only [RingHom.comp_apply, RingHom.id_apply]
     rw [hlevel, AdicCompletion.evalₐ_liftRingHom]
-    show e n ((e n).symm (AdicCompletion.evalₐ (I.map f) n x)) = _
+    change e n ((e n).symm (AdicCompletion.evalₐ (I.map f) n x)) = _
     rw [RingEquiv.apply_symm_apply]
   exact Function.bijective_iff_has_inverse.mpr
     ⟨inv, fun x ↦ DFunLike.congr_fun hinv_left x, fun x ↦ DFunLike.congr_fun hinv_right x⟩

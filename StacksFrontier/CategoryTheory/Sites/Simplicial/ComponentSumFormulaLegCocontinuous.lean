@@ -194,10 +194,10 @@ theorem lanRestrictComparison_app_comp_whiskerLeft_toSheafify (i : I) (P : Cnᵒ
         Functor.whiskerRight (NatTrans.op (σ i)) (sheafify L (vn.op.lan.obj P)) := by
   refine NatTrans.ext (funext fun W => ?_)
   obtain ⟨V⟩ := W
-  show ((lanRestrictComparison A vn vm t σ i).app P).app (op V) ≫
+  change ((lanRestrictComparison A vn vm t σ i).app P).app (op V) ≫
       (toSheafify L (vn.op.lan.obj P)).app (op (vm.obj V)) = _
   rw [lanRestrictComparison_app_app]
-  show ((vn.op.lanUnit.app P).app (op ((t i).obj V)) ≫
+  change ((vn.op.lanUnit.app P).app (op ((t i).obj V)) ≫
         (vn.op.lan.obj P).map ((σ i).app V).op) ≫
       (toSheafify L (vn.op.lan.obj P)).app (op (vm.obj V)) =
     ((vn.op.lanUnit.app P).app (op ((t i).obj V)) ≫
@@ -232,7 +232,7 @@ theorem toSheafify_comp_sigma_ι_comp_sheafPullbackCompPushforwardIsoCoproductOf
       toSheafify Jm ((t i).op ⋙ X.obj) ≫ (α.app X).hom)
     (sigma_ι_comp_sheafPullbackCompPushforwardIsoCoproductOfLan_inv A Jn Jm L vn vm t σ
       hcofan i)) ?_
-  show toSheafify Jm ((t i).op ⋙ X.obj) ≫
+  change toSheafify Jm ((t i).op ⋙ X.obj) ≫
       sheafifyMap Jm ((lanRestrictComparison A vn vm t σ i).app X.obj) ≫
       ((sheafificationCompPushforwardContinuousIso vm A Jm L).inv.app
         (vn.op.lan.obj X.obj)).hom = _

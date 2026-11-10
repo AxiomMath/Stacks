@@ -154,7 +154,7 @@ private theorem exists_parameterSpecialization_ne_zero
   · intro i
     rw [show φ (MvPolynomial.X i) = PowerSeries.X * a i by simp [φ]]
     exact Ideal.mem_span_singleton.mpr ⟨a i, by ring⟩
-  · show MvPolynomial.eval₂ (algebraMap k (PowerSeries k))
+  · change MvPolynomial.eval₂ (algebraMap k (PowerSeries k))
       (fun i => PowerSeries.X * a i) p ≠ 0
     exact ha
 
@@ -459,7 +459,7 @@ private theorem exists_specialization_smooth_genericFiber_of_one_le
     apply top_unique
     intro q _
     apply hpU
-    show algebraMap R K p ∉ q.asIdeal
+    change algebraMap R K p ∉ q.asIdeal
     exact fun h => q.isPrime.ne_top (q.asIdeal.eq_top_of_isUnit_mem h hpK)
   let : Algebra.Smooth K (K ⊗[R] S) := smooth_baseChange_of_smooth_resLE U hsm hpre
   obtain ⟨e₁⟩ := nonempty_baseChangeQuotientEquiv (R := R) K (deformedEquation k n c f)

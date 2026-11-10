@@ -131,8 +131,6 @@ theorem PrimeDivisor.ringEquivOfRingEquiv_neighborhoodTotalFractionRingToGeneric
     (U : ElementaryEtaleNeighborhood B S hS A hA (Z.genericPoint B S hS A))
     (V : ElementaryEtaleNeighborhood B S hS C hC (Z'.genericPoint B S hS C))
     [IsAffine U.scheme.left.1] [IsAffine V.scheme.left.1]
-    (hCofA : IsCofiltered (ElementaryEtaleNeighborhood B S hS A hA (Z.genericPoint B S hS A)))
-    (hCofC : IsCofiltered (ElementaryEtaleNeighborhood B S hS C hC (Z'.genericPoint B S hS C)))
     (σ : Γ(U.scheme.left.1, ⊤) ≃+* Γ(V.scheme.left.1, ⊤))
     (ψ : ↥(Z.genericHenselianLocalRing B S hS hA hAdec) ≃+*
       ↥(Z'.genericHenselianLocalRing B S hS hC hCdec))
@@ -143,15 +141,15 @@ theorem PrimeDivisor.ringEquivOfRingEquiv_neighborhoodTotalFractionRingToGeneric
     (IsFractionRing.ringEquivOfRingEquiv ψ :
         Z.genericTotalFractionRing B S hS hA hAdec ≃+*
           Z'.genericTotalFractionRing B S hS hC hCdec)
-        (Z.neighborhoodTotalFractionRingToGeneric B S hS hA hAdec U hCofA x) =
-      Z'.neighborhoodTotalFractionRingToGeneric B S hS hC hCdec V hCofC
+        (Z.neighborhoodTotalFractionRingToGeneric B S hS hA hAdec U x) =
+      Z'.neighborhoodTotalFractionRingToGeneric B S hS hC hCdec V
         ((IsFractionRing.ringEquivOfRingEquiv σ :
           FractionRing Γ(U.scheme.left.1, ⊤) ≃+* FractionRing Γ(V.scheme.left.1, ⊤)) x) := by
   refine eq_of_comp_algebraMap_eq (R := Γ(U.scheme.left.1, ⊤))
     (((IsFractionRing.ringEquivOfRingEquiv ψ :
       Z.genericTotalFractionRing B S hS hA hAdec ≃+* Z'.genericTotalFractionRing B S hS hC hCdec) :
-        _ →+* _).comp (Z.neighborhoodTotalFractionRingToGeneric B S hS hA hAdec U hCofA))
-    ((Z'.neighborhoodTotalFractionRingToGeneric B S hS hC hCdec V hCofC).comp
+        _ →+* _).comp (Z.neighborhoodTotalFractionRingToGeneric B S hS hA hAdec U))
+    ((Z'.neighborhoodTotalFractionRingToGeneric B S hS hC hCdec V).comp
       ((IsFractionRing.ringEquivOfRingEquiv σ :
         FractionRing Γ(U.scheme.left.1, ⊤) ≃+* FractionRing Γ(V.scheme.left.1, ⊤)) : _ →+* _))
     (fun a => ?_) x
@@ -196,15 +194,11 @@ theorem PrimeDivisor.rationalFunctionsToGenericTotalFractionRing_eq_of_chart
         (Z.rationalFunctionsToGenericTotalFractionRing B S hS hA hAdec hAint hAN g) := by
   have := henselianLocalRing_isLocalRing B S hS A hA (Z.genericPoint B S hS A) hAdec
   have := henselianLocalRing_isLocalRing B S hS C hC (Z'.genericPoint B S hS C) hCdec
-  have hCofA := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS A hA
-    (Z.genericPoint B S hS A) ⟨U⟩
-  have hCofC := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS C hC
-    (Z'.genericPoint B S hS C) ⟨V⟩
-  rw [← Z.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hA hAdec hAint hAN U hCofA g,
-    ← Z'.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hC hCdec hCint hCN V hCofC
+  rw [← Z.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hA hAdec hAint hAN U g,
+    ← Z'.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hC hCdec hCint hCN V
       (e g), he]
   exact (Z.ringEquivOfRingEquiv_neighborhoodTotalFractionRingToGeneric B S hS hA hC hAdec hCdec
-    Z' U V hCofA hCofC σ ψ hψ _).symm
+    Z' U V σ ψ hψ _).symm
 
 end CommonChart
 

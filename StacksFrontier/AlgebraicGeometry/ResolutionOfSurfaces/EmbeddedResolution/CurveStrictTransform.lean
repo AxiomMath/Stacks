@@ -432,7 +432,7 @@ private theorem isEffectiveCartierDivisor_of_stalk_regular_principal
   let V := X.affineBasicOpen c
   have hxV : x ∈ V.1 := by
     refine (X.mem_basicOpen' c ⟨x, hxW⟩).2 ?_
-    show IsUnit (algebraMap Γ(X, W) (X.presheaf.stalk x) c)
+    change IsUnit (algebraMap Γ(X, W) (X.presheaf.stalk x) c)
     exact IsLocalization.map_units (M := p.primeCompl) _ ⟨c, hcp⟩
   let _ : Algebra Γ(X, W) Γ(X, V) :=
     (X.presheaf.map (homOfLE (X.basicOpen_le c)).op).hom.toAlgebra
@@ -464,7 +464,7 @@ private theorem exceptionalComplement_centerIdeal {X : Scheme.{u}} (I : X.IdealS
       (pullback.fst I.subschemeι
           (AlgebraicGeometry.blowUpToBase (centerIdeal p hp)) ≫ I.subschemeι) ⁻¹ᵁ
         (centerIdeal p hp).support.compl := by
-  show pullback.snd I.subschemeι (AlgebraicGeometry.blowUpToBase (centerIdeal p hp)) ⁻¹ᵁ
+  change pullback.snd I.subschemeι (AlgebraicGeometry.blowUpToBase (centerIdeal p hp)) ⁻¹ᵁ
       ((centerIdeal p hp).comap
         (AlgebraicGeometry.blowUpToBase (centerIdeal p hp))).support.compl = _
   rw [← Stacks.Blowup.preimage_compl_support (centerIdeal p hp)
@@ -479,7 +479,7 @@ private theorem strictTransformCenterIdeal_eq_ker {X : Scheme.{u}} (I : X.IdealS
       (Scheme.Opens.ι ((pullback.fst I.subschemeι
           (AlgebraicGeometry.blowUpToBase (centerIdeal p hp)) ≫ I.subschemeι) ⁻¹ᵁ
         (centerIdeal p hp).support.compl)).ker := by
-  show Stacks.StrictTransform.ideal I.subschemeι
+  change Stacks.StrictTransform.ideal I.subschemeι
       (AlgebraicGeometry.blowUpToBase (centerIdeal p hp))
       (AlgebraicGeometry.exceptionalIdeal (centerIdeal p hp)) = _
   rw [Stacks.StrictTransform.ideal_eq_ker_ι, exceptionalComplement_centerIdeal]
@@ -594,7 +594,7 @@ private theorem centerIdeal_ideal {X : Scheme.{u}} (p : X)
         hU.fromSpec.isOpenEmbedding.injective (hz.trans (hU.fromSpec_primeIdealOf ⟨p, hpU⟩).symm)
     · rintro rfl
       exact hU.fromSpec_primeIdealOf ⟨p, hpU⟩
-  show PrimeSpectrum.vanishingIdeal (hU.fromSpec ⁻¹' ({p} : Set X)) = _
+  change PrimeSpectrum.vanishingIdeal (hU.fromSpec ⁻¹' ({p} : Set X)) = _
   exact (congrArg PrimeSpectrum.vanishingIdeal hpre).trans
     (PrimeSpectrum.vanishingIdeal_singleton _)
 
@@ -665,7 +665,7 @@ private theorem transformToBlowUp_comp_toBase {X : Scheme.{u}}
     (I : X.IdealSheafData) (p : X) (hp : IsClosed ({p} : Set X)) :
     transformToBlowUp I p hp ≫ (AlgebraicGeometry.blowUpToBase (centerIdeal p hp)) =
       transformToCurve I p hp ≫ I.subschemeι := by
-  show ((strictTransformCenterIdeal I p hp).subschemeι ≫
+  change ((strictTransformCenterIdeal I p hp).subschemeι ≫
       pullback.snd I.subschemeι (AlgebraicGeometry.blowUpToBase (centerIdeal p hp))) ≫
       AlgebraicGeometry.blowUpToBase (centerIdeal p hp) =
     ((strictTransformCenterIdeal I p hp).subschemeι ≫
@@ -703,7 +703,7 @@ private theorem mem_range_of_mem_support_ker {X C : Scheme.{u}} (f : C ⟶ X)
 public theorem isClosedImmersion_transformToBlowUp {X : Scheme.{u}}
     (I : X.IdealSheafData) (p : X) (hp : IsClosed ({p} : Set X)) :
     IsClosedImmersion (transformToBlowUp I p hp) := by
-  show IsClosedImmersion ((strictTransformCenterIdeal I p hp).subschemeι ≫
+  change IsClosedImmersion ((strictTransformCenterIdeal I p hp).subschemeι ≫
     pullback.snd I.subschemeι (AlgebraicGeometry.blowUpToBase (centerIdeal p hp)))
   infer_instance
 
@@ -714,10 +714,10 @@ public theorem mem_exceptionalIdeal_support_iff {X : Scheme.{u}}
     (q : (AlgebraicGeometry.blowUp (centerIdeal p hp))) :
     q ∈ (AlgebraicGeometry.exceptionalIdeal (centerIdeal p hp)).support ↔
       (AlgebraicGeometry.blowUpToBase (centerIdeal p hp)) q = p := by
-  show q ∈ ((centerIdeal p hp).comap
+  change q ∈ ((centerIdeal p hp).comap
     (AlgebraicGeometry.blowUpToBase (centerIdeal p hp))).support ↔ _
   rw [Scheme.IdealSheafData.support_comap]
-  show (AlgebraicGeometry.blowUpToBase (centerIdeal p hp)) q ∈
+  change (AlgebraicGeometry.blowUpToBase (centerIdeal p hp)) q ∈
     ((centerIdeal p hp).support : Set X) ↔ _
   simp only [centerIdeal, Scheme.IdealSheafData.coe_support_vanishingIdeal,
     Closeds.coe_mk, Set.mem_singleton_iff]
@@ -795,7 +795,7 @@ private theorem length_stalk_eq_one_of_isField {X C : Scheme.{u}}
   have : IsClosedImmersion f := isClosedImmersion_transformToBlowUp Y p hp
   have : IsIso g := strictTransformToCurve_isIso Y hYdim p hp yPoint hyPoint hregular
   have hker : f.ker ≤ i.ker := by
-    show f.ker ≤ D.subschemeι.ker
+    change f.ker ≤ D.subschemeι.ker
     rw [Scheme.IdealSheafData.ker_subschemeι]
     exact le_sup_left
   let a := IsClosedImmersion.lift f i hker
@@ -806,7 +806,7 @@ private theorem length_stalk_eq_one_of_isField {X C : Scheme.{u}}
     Scheme.IdealSheafData.support_antitone (show E ≤ D from le_sup_right) hq
   have hx : (g ≫ Y.subschemeι) (a d) = p := by
     rw [← transformToBlowUp_comp_toBase Y p hp]
-    show π (f (a d)) = p
+    change π (f (a d)) = p
     have hai : f (a d) = q := congrArg (fun k => k d) ha
     rw [hai]
     exact (mem_exceptionalIdeal_support_iff p hp q).mp hqE
@@ -892,7 +892,7 @@ private theorem exists_regular_generator_at_support
     have ha' : a ∈ nonZeroDivisors A := (isRegular_iff_mem_nonZeroDivisors).1 ha
     have hb' : algebraMap A R a ∈ nonZeroDivisors R :=
       IsLocalization.map_nonZeroDivisors_le q.asIdeal.primeCompl R ⟨a, ha', rfl⟩
-    show _root_.IsRegular (algebraMap A R a)
+    change _root_.IsRegular (algebraMap A R a)
     exact (isRegular_iff_mem_nonZeroDivisors).2 hb'
   exact ⟨b, hmax, hreg, hstalk⟩
 
@@ -960,9 +960,9 @@ private theorem length_quotient_sup_ker {R A : Type*}
     rw [hmap]
     exact Ideal.Quotient.mk_surjective.comp hf
   have hk : RingHom.ker (Algebra.ofId R (A ⧸ J.map f)) = RingHom.ker f ⊔ J := by
-    show RingHom.ker (algebraMap R (A ⧸ J.map f)) = _
+    change RingHom.ker (algebraMap R (A ⧸ J.map f)) = _
     rw [hmap]
-    show (RingHom.ker (Ideal.Quotient.mk (J.map f))).comap f = _
+    change (RingHom.ker (Ideal.Quotient.mk (J.map f))).comap f = _
     rw [Ideal.mk_ker, Ideal.comap_map_of_surjective f hf]
     exact sup_comm _ _
   have e := Ideal.quotientKerAlgEquivOfSurjective (f := Algebra.ofId R (A ⧸ J.map f)) hsurj2
@@ -1074,7 +1074,7 @@ private theorem totalTransform_stalk_le_exceptional_mul_strictTransform
     obtain ⟨r, hr⟩ := hdiv
     rw [hr] at hb
     exact hb.of_mul_left
-  show _ ≤ _ * AlgebraicGeometry.IdealSheafData.stalk f.ker (f z)
+  change _ ≤ _ * AlgebraicGeometry.IdealSheafData.stalk f.ker (f z)
   rw [stalk_ker, ht]
   apply ideal_le_span_mul_ker _ _ _ _ hker htreg
   rw [← ht]

@@ -62,13 +62,13 @@ theorem eq_zero_of_mul_eq_zero_of_flat (f : X ⟶ Y) [Flat f] [IsIntegral Y] {U 
   let ρ := X.presheaf.map (homOfLE hVle).op
   have hres : ρ b = 0 := by
     apply hreg'
-    show (f.appLE U V hVle) a * ρ b = (f.appLE U V hVle) a * 0
+    change (f.appLE U V hVle) a * ρ b = (f.appLE U V hVle) a * 0
     rw [mul_zero]
-    show ρ (f.app U a) * ρ b = 0
+    change ρ (f.app U a) * ρ b = 0
     rw [← map_mul, hab, map_zero]
-  show X.presheaf.germ _ x hx b = X.presheaf.germ _ x hx 0
+  change X.presheaf.germ _ x hx b = X.presheaf.germ _ x hx 0
   rw [← X.presheaf.germ_res_apply (homOfLE hVle) x hxV b, map_zero]
-  show X.presheaf.germ V x hxV (ρ b) = 0
+  change X.presheaf.germ V x hxV (ρ b) = 0
   rw [hres, map_zero]
 
 /-- **`Γ(Y, U) ⟶ Γ(X, f⁻¹U)` is an isomorphism on affine opens, for `f` flat, proper and
@@ -113,7 +113,7 @@ theorem isIso_app_of_flat_of_isIntegral (f : X ⟶ Y) [Flat f] [IsProper f] [Sur
   have hcomm : ∀ r : R, φD (algebraMap R Γ(Y, D) r) =
       algebraMap Γ(X, f ⁻¹ᵁ U) Γ(X, X.basicOpen a') (f.app U r) := by
     intro r
-    show (Y.presheaf.map (homOfLE (Y.basicOpen_le a)).op ≫ φD) r =
+    change (Y.presheaf.map (homOfLE (Y.basicOpen_le a)).op ≫ φD) r =
       (f.app U ≫ X.presheaf.map (homOfLE (X.basicOpen_le a')).op) r
     rw [Scheme.Hom.map_appLE]
     rfl

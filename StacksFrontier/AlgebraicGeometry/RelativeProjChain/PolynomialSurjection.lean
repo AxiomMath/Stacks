@@ -167,7 +167,7 @@ theorem surjective_gradedAddHom_polyGradedHom (hgen : Algebra.adjoin R (Set.rang
       simp [he]
   refine ⟨⟨MvPolynomial.homogeneousComponent d p, MvPolynomial.homogeneousComponent_mem d p⟩,
     Subtype.ext ?_⟩
-  show MvPolynomial.aeval x (MvPolynomial.homogeneousComponent d p) = s
+  change MvPolynomial.aeval x (MvPolynomial.homogeneousComponent d p) = s
   rw [← hproj, hsum, map_sum]
   simp only [hprojy]
   rw [Finset.sum_ite_eq' (Finset.range M) d y]

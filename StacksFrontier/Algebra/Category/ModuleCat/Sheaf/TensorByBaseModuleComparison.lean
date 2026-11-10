@@ -129,12 +129,10 @@ theorem addHom_ext_tmul_tmul {Rr Aa F Mm P : Type*} [CommRing Rr] [CommRing Aa] 
     {g h : (F ⊗[Aa] (Aa ⊗[Rr] Mm)) →+ P}
     (H : ∀ x a m, g (x ⊗ₜ[Aa] (a ⊗ₜ[Rr] m)) = h (x ⊗ₜ[Aa] (a ⊗ₜ[Rr] m))) : g = h := by
   refine AddMonoidHom.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add s t hs ht => rw [map_add, map_add, hs, ht]
   | tmul x u =>
-    induction u using TensorProduct.induction_on with
-    | zero => rw [TensorProduct.tmul_zero, map_zero, map_zero]
+    induction u using TensorProduct.inductionOn with
     | add p q hp hq => rw [TensorProduct.tmul_add, map_add, map_add, hp, hq]
     | tmul a m => exact H x a m
 
@@ -199,6 +197,7 @@ def comparisonApp (X : Cᵒᵖ) :
     ((LinearMap.liftBaseChangeEquiv (R := R) (M := M) (N := N.obj X)
       (O.obj.obj X)).toLinearMap ∘ₗ comparisonBilin R J O 𝓕 θ M N σ hadd hsmul X))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The comparison on a generator**: `x ⊗ (a ⊗ m) ↦ a • (σ m)_X x`.  The source is written in
 the spelling of `Stacks.TensorByBaseModule.tensorByBaseModulePresheafOfHom_obj_obj`, which is
 the sections of the presheaf-level tensor product by `rfl`. -/
@@ -210,6 +209,7 @@ theorem comparisonApp_tmul (X : Cᵒᵖ) (x : 𝓕.val.obj X) (a : O.obj.obj X) 
       = a • ((σ m).app X).hom x :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The components commute with restriction**, stated for a section written in the closed
 form `𝓕(X) ⊗_{O(X)} (O(X) ⊗_R M)`: on a generator both sides are
 `O(f)(a) • (σ m)_Y (𝓕(f) x)`, the left by the restriction maps of the two tensor factors and the
@@ -227,7 +227,7 @@ theorem comparisonApp_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y) :
         (𝓕.val.obj X ⊗[O.obj.obj X] (O.obj.obj X ⊗[R] M)) →+ N.obj Y))
     (h := (N.map f).hom.toAddMonoidHom.comp
       (comparisonApp R J O 𝓕 θ M N σ hadd hsmul X).hom.toAddMonoidHom) fun x a m => ?_
-  show (comparisonApp R J O 𝓕 θ M N σ hadd hsmul Y).hom
+  change (comparisonApp R J O 𝓕 θ M N σ hadd hsmul Y).hom
       ((((tensorByBaseModulePresheafOfHom R J O 𝓕 θ).obj M).map f).hom
         ((x ⊗ₜ[O.obj.obj X] (a ⊗ₜ[R] m) :
           𝓕.val.obj X ⊗[O.obj.obj X] (O.obj.obj X ⊗[R] M))))
@@ -244,6 +244,7 @@ def comparison : (tensorByBaseModulePresheafOfHom R J O 𝓕 θ).obj M ⟶ N whe
     refine ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
     exact comparisonApp_naturality R J O 𝓕 θ M N σ hadd hsmul f t
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The comparison acts over an object by `Stacks.TensorByBaseModule.comparisonApp`. -/
 @[simp]
 theorem comparison_app (X : Cᵒᵖ) :
@@ -273,6 +274,7 @@ theorem comparisonCancelled_tmul (X : Cᵒᵖ) (x : 𝓕.val.obj X) (m : M) :
     comparisonCancelled R J O 𝓕 θ M N σ hadd hsmul X (x ⊗ₜ[R] m) = ((σ m).app X).hom x :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The comparison factors through the cancellation of the base change.**  The cancellation is
 `TensorProduct.AlgebraTensorModule.cancelBaseChange`, which is what
 `Stacks.TensorByBaseModule.sectionsEquivOfHom` is by definition. -/
@@ -295,9 +297,10 @@ theorem comparisonApp_eq_cancelBaseChange (X : Cᵒᵖ) :
       (TensorProduct.AlgebraTensorModule.cancelBaseChange R (O.obj.obj X) (O.obj.obj X)
         (𝓕.val.obj X) M).toLinearMap.toAddMonoidHom)
     (h := (comparisonApp R J O 𝓕 θ M N σ hadd hsmul X).hom.toAddMonoidHom) fun x a m => ?_
-  show ((σ m).app X).hom (a • x) = a • ((σ m).app X).hom x
+  change ((σ m).app X).hom (a • x) = a • ((σ m).app X).hom x
   exact ((σ m).app X).hom.map_smul a x
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The comparison is bijective over an object exactly when its cancelled form is.**  This is
 the reduction a consumer uses: bijectivity of the comparison over an object is bijectivity of the
 map `𝓕(X) ⊗_R M → N(X)`, `x ⊗ m ↦ (σ m)_X x`. -/

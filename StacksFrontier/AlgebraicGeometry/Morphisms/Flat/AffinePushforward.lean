@@ -50,7 +50,7 @@ private theorem module_compHom_appLE_pushforward {X Y S : Scheme.{u}} (f : X ⟶
     Module.compHom Γ((Scheme.Modules.pushforward f).obj F, W) (g.appLE V W hWV).hom =
       Module.compHom Γ(F, f ⁻¹ᵁ W) ((f ≫ g).appLE V (f ⁻¹ᵁ W) fun _ hx => hWV hx).hom := by
   refine Module.ext' _ _ fun a m => ?_
-  show (f.app W ((g.appLE V W hWV).hom a)) • (show Γ(F, f ⁻¹ᵁ W) from m) = _
+  change (f.app W ((g.appLE V W hWV).hom a)) • (show Γ(F, f ⁻¹ᵁ W) from m) = _
   rw [← Scheme.Hom.appLE_eq_app, ← CommRingCat.comp_apply, Scheme.Hom.appLE_comp_appLE]
   rfl
 

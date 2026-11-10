@@ -193,7 +193,6 @@ section TensorIso
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   {A₁ A₂ : Cᵒᵖ ⥤ CommRingCat.{w}} (θ : A₁ ⟶ A₂)
   (h₁ : Presheaf.IsSheaf J (ringPresheaf A₁)) (h₂ : Presheaf.IsSheaf J (ringPresheaf A₂))
   (F G : SheafOfModules.{w} (commRingSheaf J A₁ h₁))

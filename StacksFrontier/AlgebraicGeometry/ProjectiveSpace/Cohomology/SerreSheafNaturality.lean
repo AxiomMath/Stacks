@@ -207,7 +207,7 @@ theorem ordD_app {F G : (Opens (TopCat.of X))ᵒᵖ ⥤ AddCommGrpCat.{uM}} (a :
       CechCochains.ordD (X := TopCat.of X) U G p
         (fun k => ConcreteCategory.hom
           (a.app (op (CechCochains.inter (X := TopCat.of X) U k.1))) (s k)) i := by
-  show ConcreteCategory.hom (a.app (op (CechCochains.inter (X := TopCat.of X) U i.1)))
+  change ConcreteCategory.hom (a.app (op (CechCochains.inter (X := TopCat.of X) U i.1)))
       (∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
         CechCochains.restr F (CechCochains.inter_le_omit U i.1 j)
           (s ⟨i.1 ∘ j.succAbove, CechCochains.strictMono_omit i.2 j⟩)) =
@@ -472,7 +472,7 @@ theorem sheafCohomologyIsoOrderedHomology_naturality {d e : ℤ}
           ⊤).rightDerived q).map φ ≫ (sheafCohomologyIsoOrderedHomology R n e q).hom =
       (sheafCohomologyIsoOrderedHomology R n d q).hom ≫
         HomologicalComplex.homologyMap (twistOrderedMap R n φ) q := by
-  show _ ≫ ((cechHomologyIsoRightDerivedTwistingSheaf R n e q).hom ≫
+  change _ ≫ ((cechHomologyIsoRightDerivedTwistingSheaf R n e q).hom ≫
       (orderedCechHomologyModuleIso (⊤ : (AlgebraicGeometry.Proj (polyGrading R n)).Opens)
         (basicOpenXAtUniverse R n) (iSup_basicOpenXAtUniverse_eq_top R n).symm
         (ProjectiveSpectrum.Proj.twistingSheaf (polyGrading R n) e) q).inv) =

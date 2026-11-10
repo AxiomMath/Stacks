@@ -32,7 +32,8 @@ first page.
 The filtered complex of `SmoothFiltration` is stated over
 `AlgebraicGeometry.SheafOfModules.underlyingRingSheaf ((f ≫ g)^{-1}𝒪_S)`, the ring sheaf the
 relative de Rham complex of `f ≫ g` is built over, while the spectral sequence is stated over
-`structureSheafRing (Stacks.DeRhamDirectImage.inverseImageBase (f ≫ g))`, the structure ring sheaf of the
+`structureSheafRing (Stacks.DeRhamDirectImage.inverseImageBase (f ≫ g))`,
+the structure ring sheaf of the
 inverse-image ringed space. The two have the same body, so the filtered complex is accepted
 where the spectral sequence asks for one with no transport; this is the same identification that
 lets `Stacks.DeRhamDirectImage.deRhamCochainComplex` be read in either spelling.

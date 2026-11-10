@@ -199,7 +199,7 @@ theorem ranSectionsMap_naturality (G : (qcTotal.{x} S U a)ᵒᵖ ⥤ Type u) {Ω
   rw [Category.assoc, ranSectionsMap_π, Category.assoc, limMap_π,
     ← Category.assoc (ranSectionsMap.{x} S U a G Ω.unop), ranSectionsMap_π,
     Functor.whiskerRight_app, Category.assoc]
-  show R.map _ ≫ R.map _ ≫ ε.app c' = R.map _ ≫ ε.app c ≫ G.map k
+  change R.map _ ≫ R.map _ ≫ ε.app c' = R.map _ ≫ ε.app c ≫ G.map k
   rw [hnat, ← Category.assoc, ← Category.assoc, ← R.map_comp, ← R.map_comp]
   congr 2
   exact Quiver.Hom.unop_inj (opensToSlice_hom_subsingleton Ω.unop _ _)

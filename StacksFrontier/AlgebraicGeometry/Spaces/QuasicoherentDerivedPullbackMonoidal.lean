@@ -175,11 +175,6 @@ theorem isIso_quasicoherentDerivedPullbackOplaxMonoidal_η (f : X ⟶ Y)
   let := quasicoherentDerivedMonoidal Y
   OplaxOfAssoc.isIso_counit (quasicoherentDerivedModulePullback f)
     (fun K L => (quasicoherentDerivedPullbackTensorComparison f).app (L, K))
-    (fun g L => CategoryTheory.swapUncurry_naturality_left _ _ _
-      (quasicoherentDerivedPullbackTensorComparison f) g L)
-    (fun K g => CategoryTheory.swapUncurry_naturality_right _ _ _
-      (quasicoherentDerivedPullbackTensorComparison f) K g)
-    (quasicoherentDerivedPullbackTensorComparison_associativity f hassoc)
     (quasicoherentDerivedPullbackUnitIso f)
 
 /-- **Derived pullback is a monoidal functor on `D_QCoh`**, with the isomorphisms of Stacks 07A4

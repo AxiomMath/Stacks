@@ -71,7 +71,7 @@ public theorem signComponent_one (Aᵢ : ℕ → Submodule R A) [GradedAlgebra A
     (d : ℕ) :
     signComponent Aᵢ d 0
       (@GradedMonoid.GOne.one ℕ (fun m ↦ Aᵢ m) _ _) = 1 := by
-  show (-1 : R) ^ (d * 0) • (1 : A) = 1
+  change (-1 : R) ^ (d * 0) • (1 : A) = 1
   simp
 
 /-- The grading-sign components are multiplicative on homogeneous elements. -/
@@ -80,7 +80,7 @@ public theorem signComponent_mul (Aᵢ : ℕ → Submodule R A) [GradedAlgebra A
     signComponent Aᵢ d (i + j)
         (@GradedMonoid.GMul.mul ℕ (fun m ↦ Aᵢ m) _ _ i j x y) =
       signComponent Aᵢ d i x * signComponent Aᵢ d j y := by
-  show (-1 : R) ^ (d * (i + j)) • ((x : A) * (y : A)) =
+  change (-1 : R) ^ (d * (i + j)) • ((x : A) * (y : A)) =
     ((-1 : R) ^ (d * i) • (x : A)) * ((-1 : R) ^ (d * j) • (y : A))
   simp only [Nat.mul_add, pow_add]; rw [smul_mul_smul]
 
@@ -98,7 +98,7 @@ public noncomputable def signRingHom (Aᵢ : ℕ → Submodule R A) [GradedAlgeb
 public theorem signRingHom_of_mem (Aᵢ : ℕ → Submodule R A) [GradedAlgebra Aᵢ] (d m : ℕ)
     {a : A} (ha : a ∈ Aᵢ m) :
     signRingHom Aᵢ d a = (-1 : R) ^ (d * m) • a := by
-  show (DirectSum.toSemiring (signComponent Aᵢ d) (signComponent_one Aᵢ d)
+  change (DirectSum.toSemiring (signComponent Aᵢ d) (signComponent_one Aᵢ d)
       (signComponent_mul Aᵢ d))
       ((DirectSum.decomposeRingEquiv Aᵢ) a) = _
   rw [show DirectSum.decomposeRingEquiv Aᵢ a = DirectSum.decompose Aᵢ a from rfl,
@@ -280,7 +280,7 @@ public theorem inclusion_mem_grade (Aᵢ : ℕ → Submodule R A) [GradedAlgebra
 public theorem generator_mem_grade (Aᵢ : ℕ → Submodule R A) [GradedAlgebra Aᵢ]
     (d : ℕ) : generator Aᵢ d ∈ grade Aᵢ d d := by
   rw [mem_grade_iff]; simp only [generator, ite_eq_left le_rfl, Nat.sub_self]
-  show (0 : A) ∈ Aᵢ d ∧ (1 : A) ∈ Aᵢ 0
+  change (0 : A) ∈ Aᵢ d ∧ (1 : A) ∈ Aᵢ 0
   exact ⟨(Aᵢ d).zero_mem, SetLike.one_mem_graded Aᵢ⟩
 
 /-- The Koszul commutation rule for the adjoined variable and a homogeneous coefficient. -/
@@ -296,7 +296,7 @@ public theorem generator_mul_inclusion (Aᵢ : ℕ → Submodule R A) [GradedAlg
   · simp
   · rw [TrivSqZeroExt.snd_smul, TrivSqZeroExt.snd_inr, TrivSqZeroExt.snd_inr,
       TwistedModule.op_smul, TwistedModule.smul_eq_mul, one_mul, mul_one]
-    show signRingEquiv Aᵢ d a = (-1 : R) ^ (d * m) • a
+    change signRingEquiv Aᵢ d a = (-1 : R) ^ (d * m) • a
     exact signRingEquiv_of_mem Aᵢ d m ha
 
 variable (Aᵢ : ℕ → Submodule R A) [GradedAlgebra Aᵢ] (d : ℕ)
@@ -320,14 +320,14 @@ public theorem mul_snd (x y : OddVariableExtension Aᵢ d) :
 public theorem inclusion_fst_add_inclusion_snd_mul_generator (x : OddVariableExtension Aᵢ d) :
     inclusion Aᵢ d x.fst + inclusion Aᵢ d x.snd * generator Aᵢ d = x := by
   apply TrivSqZeroExt.ext
-  · show x.fst + (show A from x.snd) * 0 = x.fst; simp
-  · show 0 + ((show A from x.snd) * 1 + 0 * signRingEquiv Aᵢ d 0) = x.snd; simp
+  · change x.fst + (show A from x.snd) * 0 = x.fst; simp
+  · change 0 + ((show A from x.snd) * 1 + 0 * signRingEquiv Aᵢ d 0) = x.snd; simp
 
 /-- The coefficient of the variable is homogeneous in the shifted degree. -/
 public theorem inr_mem_grade {m : ℕ} {a : A} (ha : a ∈ Aᵢ m) :
     TrivSqZeroExt.inr (show TwistedModule Aᵢ d from a) ∈ grade Aᵢ d (m + d) := by
   rw [mem_grade_iff]
-  show (0 : A) ∈ Aᵢ (m + d) ∧ a ∈ (if d ≤ m + d then Aᵢ (m + d - d) else ⊥)
+  change (0 : A) ∈ Aᵢ (m + d) ∧ a ∈ (if d ≤ m + d then Aᵢ (m + d - d) else ⊥)
   simp [ha]
 
 /-- The coefficient of `T` in a degree-`m` element lies in `Aᵢ (m - d)` once `d ≤ m`. -/
@@ -370,7 +370,7 @@ public noncomputable def decomposeRight :
 /-- `decomposeLeft` sends a homogeneous element of degree `m` to its degree-`m` component. -/
 public theorem decomposeLeft_of_mem {m : ℕ} {a : A} (ha : a ∈ Aᵢ m) :
     decomposeLeft Aᵢ d a = DirectSum.of _ m (leftComponent Aᵢ d m ⟨a, ha⟩) := by
-  show DirectSum.toAddMonoid _ (DirectSum.decompose Aᵢ a) = _
+  change DirectSum.toAddMonoid _ (DirectSum.decompose Aᵢ a) = _
   rw [DirectSum.decompose_of_mem Aᵢ ha, DirectSum.toAddMonoid_of]; rfl
 
 /-- `decomposeRight` sends a homogeneous element `a` of degree `m` to the degree-`(m + d)`
@@ -378,7 +378,7 @@ component `a T`. -/
 public theorem decomposeRight_of_mem {m : ℕ} {a : A} (ha : a ∈ Aᵢ m) :
     decomposeRight Aᵢ d a =
       DirectSum.of _ (m + d) (rightComponent Aᵢ d m ⟨a, ha⟩) := by
-  show DirectSum.toAddMonoid _ (DirectSum.decompose Aᵢ a) = _
+  change DirectSum.toAddMonoid _ (DirectSum.decompose Aᵢ a) = _
   rw [DirectSum.decompose_of_mem Aᵢ ha, DirectSum.toAddMonoid_of]; rfl
 
 private theorem recompose_left (a : A) :
@@ -417,7 +417,7 @@ public noncomputable def decompositionMap :
 @[simp]
 public theorem decompositionMap_coe {m : ℕ} (x : grade Aᵢ d m) :
     decompositionMap Aᵢ d x = DirectSum.of _ m x := by
-  show decomposeLeft Aᵢ d x.val.fst + decomposeRight Aᵢ d x.val.snd = _
+  change decomposeLeft Aᵢ d x.val.fst + decomposeRight Aᵢ d x.val.snd = _
   rw [decomposeLeft_of_mem Aᵢ d x.property.1]
   by_cases h : d ≤ m
   · have hy := snd_mem_of_mem_grade Aᵢ d x.property h
@@ -460,7 +460,7 @@ public theorem mul_mem_grade {i j : ℕ} {x y : OddVariableExtension Aᵢ d}
     x * y ∈ grade Aᵢ d (i + j) := by
   rw [mem_grade_iff]
   refine ⟨SetLike.mul_mem_graded hx.1 hy.1, ?_⟩
-  show x.fst * (show A from y.snd) +
+  change x.fst * (show A from y.snd) +
     (show A from x.snd) * signRingEquiv Aᵢ d y.fst ∈ _
   apply Submodule.add_mem
   · by_cases h : d ≤ j

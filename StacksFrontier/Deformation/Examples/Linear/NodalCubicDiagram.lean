@@ -83,7 +83,7 @@ abbrev QRed : Type := QBase ⧸ (Ideal.span {tauP}).map (algebraMap PBase QBase)
 /-- **The image of `t·P'` in `Q'` is `t·Q'`.** This is the side condition that makes `P → Q`
 well defined, and it is just the tower `IsScalarTower A' P' Q'`, which resolves automatically. -/
 theorem map_tauP : algebraMap PBase QBase tauP = tauQBase := by
-  show algebraMap PBase QBase (algebraMap ABase PBase (tau NC)) =
+  change algebraMap PBase QBase (algebraMap ABase PBase (tau NC)) =
     algebraMap ABase QBase (tau NC)
   rw [← IsScalarTower.algebraMap_apply]
 

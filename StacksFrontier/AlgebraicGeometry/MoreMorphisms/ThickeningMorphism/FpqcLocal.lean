@@ -89,7 +89,7 @@ private theorem ker_sq_eq_bot_iff_of_isAffine {X Z : Scheme.{u}} [IsAffine Z] (h
       congrArg (fun I : Z.IdealSheafData ↦ I.ideal ⟨⊤, isAffineOpen_top Z⟩) hh
     rwa [Scheme.Hom.ker_apply] at h2
   · refine Scheme.IdealSheafData.ext_of_isAffine ?_
-    show h.ker.ideal ⟨⊤, isAffineOpen_top Z⟩ ^ 2 = ⊥
+    change h.ker.ideal ⟨⊤, isAffineOpen_top Z⟩ ^ 2 = ⊥
     rwa [Scheme.Hom.ker_apply]
 
 /-- **The descent step for Tag 0BPF.** Let `Spec S ⟶ Spec R` be a surjective flat morphism of
@@ -118,7 +118,7 @@ private theorem firstOrderThickening_of_affine_descent {R S : CommRingCat.{u}} {
     have hw := congrArg (fun k : pullback (Spec.map φ) g ⟶ Spec R ↦ k.appTop.hom a)
       (pullback.condition (f := Spec.map φ) (g := g))
     simp only [Scheme.Hom.comp_appTop, CommRingCat.comp_apply] at hw
-    show (pullback.fst (Spec.map φ) g).appTop.hom (algebraMap _ _ a) = 0
+    change (pullback.fst (Spec.map φ) g).appTop.hom (algebraMap _ _ a) = 0
     rw [RingHom.algebraMap_toAlgebra, hw, show g.appTop.hom a = 0 from ha, map_zero]
   -- Hence the extension of its square vanishes, and faithful flatness removes the extension.
   refine Ideal.map_injective_of_faithfullyFlat (A := Γ(Spec R, ⊤)) (B := Γ(Spec S, ⊤)) ?_

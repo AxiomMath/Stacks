@@ -233,7 +233,7 @@ public theorem isConstructibleModuleSheaf_extendScalars
     (hF : IsConstructibleModuleSheaf B X R F) :
     IsConstructibleModuleSheaf B X S
       ((extendScalarsSheaf (SmallEtale.topology B X.1 X.property) R S f).obj F) := by
-  show ∀ U : X.1.affineOpens, ∃ s : ConstructibleStratification B X U.1,
+  change ∀ U : X.1.affineOpens, ∃ s : ConstructibleStratification B X U.1,
       ∀ i, IsFiniteTypeLocallyConstant S
         (SmallEtale.topology B (s.piece i).1 (s.piece i).property)
         (((smallEtaleBaseChange B (s.inclusion i)).sheafPullback

@@ -117,7 +117,7 @@ theorem isZero_inverseImage_homology_two_derivedLowerShriek_purityComplex (k : T
     rcases isEmpty_or_nonempty U' with h | h
     · have : IsEmpty (TopologicalSpace.IrreducibleCloseds U') :=
         ⟨fun Z => h.elim Z.isIrreducible.nonempty.some⟩
-      show Order.krullDim (TopologicalSpace.IrreducibleCloseds U') ≤ 1
+      change Order.krullDim (TopologicalSpace.IrreducibleCloseds U') ≤ 1
       rw [Order.krullDim_eq_bot]; exact bot_le
     · rw [topologicalKrullDim_eq_of_smoothOfRelativeDimension_over_field 1 g']; rfl
   have hfib' : ∀ C ∈ irreducibleComponents U', (∃ x ∈ C, ∃ y ∈ C, x ≠ y) →

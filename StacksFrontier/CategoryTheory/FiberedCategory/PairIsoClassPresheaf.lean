@@ -124,7 +124,7 @@ to `𝒞`, i.e. it is a 1-morphism over `𝒞`. -/
 lemma sliceFunctor_comp : c.sliceFunctor y ⋙ p𝒴 = Over.forget U := by
   refine CategoryTheory.Functor.ext (fun f => (c.obj f.hom y).2) ?_
   intro f' f h
-  show p𝒴.map ((c.sliceFunctor y).map h) = _
+  change p𝒴.map ((c.sliceFunctor y).map h) = _
   rw [IsHomLift.fac' p𝒴 h.left ((c.sliceFunctor y).map h)]
   rfl
 

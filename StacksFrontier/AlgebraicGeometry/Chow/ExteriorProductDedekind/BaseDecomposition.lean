@@ -147,7 +147,7 @@ theorem exists_mk_eq_bivariantChowClassCapBaseFundamentalClass
       ← chowGroupRestrict_mk, hb, hres, map_zero, sub_zero]
   have hb'0 : ∀ y, y ∈ Set.range j.base → b'.1 y = 0 := by
     rintro _ ⟨z, rfl⟩
-    show b.1 (j.base z) - (properPushforward C _ _ j hjs (1 - p)
+    change b.1 (j.base z) - (properPushforward C _ _ j hjs (1 - p)
       (cycleGroupRestrict C _ _ j hjs (1 - p) b)).1 (j.base z) = 0
     rw [properPushforward_cycleGroupRestrict_apply, sub_self]
   refine ⟨properPushforward C _ sX (basePullbackProjection C sX) rfl (1 - p) b', ?_, ?_⟩

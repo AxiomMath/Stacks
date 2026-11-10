@@ -224,6 +224,7 @@ theorem presentationSpaceRelation_source :
   prod.lift_snd _ _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- synthesizing `HasPullbacks` for presheaves on the big fppf site needs a deep instance search
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_quasicoherentSeparator :
@@ -400,7 +401,7 @@ theorem comm_of_transportedTransition_eq {Y Y' : QuasicoherentModule B S hS G}
     (modulePullback B S hS G.source).map e'.inv) h
   dsimp only [transportedTransition] at hh
   simp only [Category.assoc] at hh
-  rw [Iso.map_hom_inv_id_assoc, Iso.map_hom_inv_id, Category.comp_id] at hh
+  rw [Iso.hom_inv_id_map_assoc, Iso.hom_inv_id_map, Category.comp_id] at hh
   rw [Functor.map_comp, Functor.map_comp, Category.assoc, hh]
 
 /-- Two quasi-coherent modules on a groupoid in algebraic spaces whose underlying modules are
@@ -513,7 +514,7 @@ theorem comparisonTransportBack_comm {Z FZ : C} {M : D} (εM : LU.obj FZ ≅ M)
   simp only [comparisonTransportBack, Functor.map_comp, Category.assoc]
   rw [← reassoc_of% ns, ← Functor.map_comp_assoc LR, hβ, Functor.map_comp, Category.assoc, hαZ]
   simp only [comparisonTransport, Category.assoc, Iso.hom_inv_id_app_assoc]
-  rw [← reassoc_of% nt, Iso.hom_inv_id_app_assoc, Iso.map_inv_hom_id, Category.comp_id]
+  rw [← reassoc_of% nt, Iso.hom_inv_id_app_assoc, Iso.inv_hom_id_map, Category.comp_id]
 
 /-- Two morphisms of `𝒪_X`-modules on a scheme agreeing on every section are equal. -/
 theorem scheme_modules_hom_ext_of_app_apply {X : Scheme.{u}} {M N : X.Modules} (f g : M ⟶ N)

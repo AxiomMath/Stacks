@@ -816,7 +816,6 @@ theorem splittingApp_injective (U : (Opens X.carrier)ᵒᵖ) :
     add_left_cancel h2
   exact TrivSqZeroExt.ext hfst (idealSection_injective i (retractionOpen i π U) h3)
 
-include hi in
 /-- The splitting is surjective on sections. -/
 theorem splittingApp_surjective (U : (Opens X.carrier)ᵒᵖ) :
     Function.Surjective (splittingApp i π U) := by
@@ -848,7 +847,7 @@ include hi in
 theorem isIso_splittingHomApp (U : (Opens X.carrier)ᵒᵖ) :
     IsIso (splittingHomApp i π hi U) :=
   (ConcreteCategory.isIso_iff_bijective _).2
-    ⟨splittingApp_injective i π U, splittingApp_surjective i π hi U⟩
+    ⟨splittingApp_injective i π U, splittingApp_surjective i π U⟩
 
 include hi in
 /-- The splitting `X' ⟶ (X, 𝒪_X ⋉ ℐ)` is an isomorphism of ringed spaces. -/

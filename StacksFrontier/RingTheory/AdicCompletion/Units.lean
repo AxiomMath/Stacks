@@ -135,7 +135,7 @@ components are again compatible with the transition maps. -/
 private theorem isUnit_of_forall_isUnit_val {x : AdicCompletion I R}
     (h : ∀ n, IsUnit (x.val n)) : IsUnit x := by
   refine IsUnit.of_mul_eq_one ⟨fun n ↦ Ring.inverse (x.val n), fun {m n} hmn ↦ ?_⟩ ?_
-  · show transitionMapₐ I hmn (Ring.inverse (x.val n)) = Ring.inverse (x.val m)
+  · change transitionMapₐ I hmn (Ring.inverse (x.val n)) = Ring.inverse (x.val m)
     rw [map_ringInverse _ (h n), show transitionMapₐ I hmn (x.val n) = x.val m from x.property hmn]
   · exact AdicCompletion.ext fun n ↦ Ring.mul_inverse_cancel _ (h n)
 

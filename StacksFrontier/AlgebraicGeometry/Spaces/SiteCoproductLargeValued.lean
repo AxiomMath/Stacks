@@ -227,11 +227,11 @@ theorem exists_isColimitUliftYoneda_of_size_le {ι : Type u} (X : ι → BigFppf
   let j : ∀ i, X i ⟶ V := fun i =>
     Over.homMk (B.inclusion.preimage (X := (X i).left) (Y := B.obj hcon) (Sigma.ι Y i)) (by
       apply B.inclusion.map_injective
-      show B.inclusion.map (B.inclusion.preimage (X := (X i).left) (Y := B.obj hcon)
+      change B.inclusion.map (B.inclusion.preimage (X := (X i).left) (Y := B.obj hcon)
           (Sigma.ι Y i) ≫ B.inclusion.preimage (X := B.obj hcon) (Y := B.obj hS)
           (Sigma.desc fun k => B.inclusion.map (X k).hom)) = _
       rw [Functor.map_comp, B.inclusion.map_preimage, B.inclusion.map_preimage]
-      exact Sigma.ι_desc _ i)
+      exact Sigma.ι_comp_desc _ i)
   have hmap : ∀ i, (toScheme B S hS).map (j i) = Sigma.ι Y i := fun i =>
     B.inclusion.map_preimage _
   have hj : IsColimit (Cofan.mk ((toScheme B S hS).obj V)
@@ -300,7 +300,7 @@ theorem exists_surjective_etale_sigma_of_etaleCover {ι : Type u} (X : ι → Bi
     have : IsZariskiLocalAtSource (@Etale.{u}) :=
       HasRingHomProperty.instIsZariskiLocalAtSource (P := @Etale.{u}) (Q := RingHom.Etale)
     refine IsZariskiLocalAtSource.of_openCover 𝒰 fun i => ?_
-    show Etale ((toScheme B S hS).map (j i) ≫ _)
+    change Etale ((toScheme B S hS).map (j i) ≫ _)
     rw [hfac i]
     exact hg i
 

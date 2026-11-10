@@ -174,9 +174,9 @@ theorem leftCoeff_singleComponentLocal {x : X} (hx : Order.coheight x = 1)
     (f g : (rationalFunctions X)ˣ) (y : X) :
     (singleComponentLocal hx f g).leftCoeff C p y = 0 := by
   have hdiff : ∀ i, (singleComponentLocal hx f g).componentDifference i = 0 := fun _ ↦ by
-    show _ • (0 : AlgebraicCycle _ ℤ) - _ • (0 : AlgebraicCycle _ ℤ) = 0
+    change _ • (0 : AlgebraicCycle _ ℤ) - _ • (0 : AlgebraicCycle _ ℤ) = 0
     simp
-  show (∑ᶠ i, closedSubschemeCyclePushforward C p
+  change (∑ᶠ i, closedSubschemeCyclePushforward C p
     ((singleComponentLocal hx f g).component i)
       ((singleComponentLocal hx f g).componentDifference i) y) = 0
   simp only [hdiff, closedSubschemeCyclePushforward_zero_apply, finsum_zero]

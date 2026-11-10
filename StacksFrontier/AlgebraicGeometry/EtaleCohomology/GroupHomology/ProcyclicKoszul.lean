@@ -464,7 +464,7 @@ omit [IsTopologicalGroup G] [CompactSpace G] [SMulCommClass G Λ M] in
 public theorem completedEval_eq (f : CompletedInduced Λ G M) {U : OpenNormalSubgroup G}
     (hU : U ≤ U₀) :
     completedEval U₀ hU₀ f = levelEval U (fun g hg => hU₀ g (hU hg)) (f.level U) := by
-  show levelEval U₀ hU₀ (f.level U₀) = _
+  change levelEval U₀ hU₀ (f.level U₀) = _
   rw [← CompletedInduced.mapDomain_level hU, levelEval_mapDomain]
 
 omit [IsTopologicalGroup G] [CompactSpace G] [SMulCommClass G Λ M] in
@@ -472,7 +472,7 @@ omit [IsTopologicalGroup G] [CompactSpace G] [SMulCommClass G Λ M] in
 @[simp]
 public theorem completedEval_single (g : G) (m : M) :
     completedEval U₀ hU₀ (CompletedInduced.single (Λ := Λ) g m) = g • m := by
-  show levelEval U₀ hU₀ (Finsupp.single _ m) = _
+  change levelEval U₀ hU₀ (Finsupp.single _ m) = _
   exact levelEval_single U₀ hU₀ g m
 
 omit [IsTopologicalGroup G] [CompactSpace G] in
@@ -556,7 +556,7 @@ public theorem exists_completedShift_sub_eq [Finite M] {f : CompletedInduced Λ 
     have e1 := congrArg (Finsupp.mapDomain (levelMap (inf_le_left : U ⊓ U₀ ≤ U))) h1
     have e2 := congrArg (Finsupp.mapDomain (levelMap (inf_le_left : U ⊓ U₀ ≤ U))) h2
     simp only [mapDomain_levelMap_levelMap] at e1 e2
-    show _ = Finsupp.mapDomain (levelMap (hVU U)) (z U)
+    change _ = Finsupp.mapDomain (levelMap (hVU U)) (z U)
     rw [e1, e2]
   refine ⟨CompletedInduced.mk y fun U U' hUU' => ?_, CompletedInduced.ext fun U => ?_⟩
   · let W := V U ⊓ V U'
@@ -565,7 +565,7 @@ public theorem exists_completedShift_sub_eq [Finite M] {f : CompletedInduced Λ 
     obtain ⟨t, ht⟩ := exists_levelShift_sub_eq hgen hU₀ hf
       ((inf_le_left : W ≤ V U).trans (hV₀ U))
     rw [← key U W hWU t ht, ← key U' W hWU' t ht, mapDomain_levelMap_levelMap]
-  · show levelShift σ U (y U) - y U = f.level U
+  · change levelShift σ U (y U) - y U = f.level U
     exact hpush (hVU U) (z U) (hz U)
 
 end Exactness

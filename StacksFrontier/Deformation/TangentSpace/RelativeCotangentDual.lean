@@ -173,8 +173,7 @@ private theorem exists_conormalQuotientEquiv
     obtain ⟨t, rfl⟩ :=
       (conormalToH1Cotangent_baseChange_bijective
         (Λ := R) (S := k) (k := K) hR).surjective z
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy => simp [hx, hy]
     | tmul b y =>
       obtain ⟨a, rfl⟩ := hA b

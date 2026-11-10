@@ -66,11 +66,11 @@ private theorem bij_A1_one (hπ : Irreducible π) :
   let φ : K →ₐ[A] Stacks.KummerExtension.K1 K π 1 := IsScalarTower.toAlgHom A K _
   have hyint : IsIntegral A y := by
     rw [← isIntegral_algHom_iff φ hb.1]
-    show IsIntegral A (algebraMap K _ y)
+    change IsIntegral A (algebraMap K _ y)
     rw [hy]; exact x.2
   obtain ⟨a, ha⟩ := IsIntegrallyClosed.isIntegral_iff.mp hyint
   refine ⟨a, Subtype.ext ?_⟩
-  show algebraMap A (Stacks.KummerExtension.K1 K π 1) a = x.1
+  change algebraMap A (Stacks.KummerExtension.K1 K π 1) a = x.1
   rw [IsScalarTower.algebraMap_apply A K, ha, hy]
 
 end Kummer
@@ -93,7 +93,7 @@ private theorem coprime_of_isUnit {A : Type*} [CommRing A] [IsLocalRing A] {e : 
     (he : IsUnit (e : IsLocalRing.ResidueField A)) :
     ringChar (A ⧸ IsLocalRing.maximalIdeal A) = 0 ∨
       Nat.Coprime (ringChar (A ⧸ IsLocalRing.maximalIdeal A)) e := by
-  show ringChar (IsLocalRing.ResidueField A) = 0 ∨
+  change ringChar (IsLocalRing.ResidueField A) = 0 ∨
       Nat.Coprime (ringChar (IsLocalRing.ResidueField A)) e
   rcases CharP.char_is_prime_or_zero (IsLocalRing.ResidueField A)
       (ringChar (IsLocalRing.ResidueField A)) with hp | hp
@@ -215,7 +215,7 @@ private theorem tame_of_has
         (Localization.AtPrime m) (K1 K π e) m.primeCompl
           (nonZeroDivisors (integralClosure A (K1 K π e))) m.primeCompl_le_nonZeroDivisors
       refine tame_of_unram (unram_transport σ (fun r => ?_) hunr)
-      show algebraMap (K1 K π e) L' (algebraMap (Localization.AtPrime m) (K1 K π e)
+      change algebraMap (K1 K π e) L' (algebraMap (Localization.AtPrime m) (K1 K π e)
         (algebraMap (A1 K π e) (Localization.AtPrime m) r)) = _
       rw [hcompat]
       congr 1
@@ -264,7 +264,7 @@ private theorem formallySmoothNAdic_of_equiv
       IsLocalRing.maximalIdeal S ^ k ≤ RingHom.ker (q.comp b.toRingHom) := by
     obtain ⟨k, hk, hn⟩ := hn
     refine ⟨k, hk, ?_⟩
-    show IsLocalRing.maximalIdeal S ^ k ≤ (RingHom.ker q).comap b.toRingHom
+    change IsLocalRing.maximalIdeal S ^ k ≤ (RingHom.ker q).comap b.toRingHom
     rw [← Ideal.map_le_iff_le_comap, Ideal.map_pow]
     have hmax : (IsLocalRing.maximalIdeal S).map b.toRingHom =
         IsLocalRing.maximalIdeal S' := IsLocalRing.map_ringEquiv_maximalIdeal b
@@ -325,7 +325,7 @@ private theorem formallySmooth_tensor_factor
     (t₀.comp d.symm.toAlgHom) (ht₀.comp d.symm.surjective)
   have hg' (z : L ⊗[K] F) : g (d (Ideal.Quotient.mk _ z) i) = t z := by
     have h := AlgHom.congr_fun hg (d (Ideal.Quotient.mk _ z))
-    show g (d (Ideal.Quotient.mk _ z) i) = t₀ (Ideal.Quotient.mk _ z)
+    change g (d (Ideal.Quotient.mk _ z) i) = t₀ (Ideal.Quotient.mk _ z)
     simpa only [AlgHom.comp_apply, AlgEquiv.coe_toAlgHom, AlgEquiv.symm_apply_apply,
       Pi.evalAlgHom_apply] using h
   have hgL (l : L) : g (algebraMap L (H i) l) = algebraMap L E l := by
@@ -337,19 +337,19 @@ private theorem formallySmooth_tensor_factor
   let gB : H i ≃ₐ[B] E :=
     { g.toRingEquiv with
       commutes' := fun b => by
-        show g (algebraMap B (H i) b) = algebraMap B E b
+        change g (algebraMap B (H i) b) = algebraMap B E b
         rw [hdB i b, hgL, ← IsScalarTower.algebraMap_apply B L E] }
   let c : integralClosure B (H i) ≃ₐ[B] integralClosure B E := gB.mapIntegralClosure
   obtain ⟨fᵢ, hfᵢ, hfᵢA, hformal⟩ := hloc i
   have hcf (z : integralClosure A F) : c (fᵢ z) = f z := by
     apply Subtype.ext
-    show g (fᵢ z : H i) = (f z : E)
+    change g (fᵢ z : H i) = (f z : E)
     rw [hfᵢ, hgF, hf]
   let qᵢ := q.comap c.toRingHom
   have : qᵢ.IsMaximal := Ideal.comap_isMaximal_of_surjective _ c.surjective
   have hqᵢ : qᵢ.comap fᵢ = p := by
     rw [← hq]
-    show q.comap (c.toRingHom.comp fᵢ) = q.comap f
+    change q.comap (c.toRingHom.comp fᵢ) = q.comap f
     congr 1
     exact RingHom.ext hcf
   obtain ⟨_, _, _, _, φ, hφinj, hφlocal, hφcomp, hφformal⟩ :=
@@ -361,12 +361,12 @@ private theorem formallySmooth_tensor_factor
   have : IsLocalHom b.toRingHom := IsLocalHom.of_surjective _ b.surjective
   refine ⟨φ', b.injective.comp hφinj, RingHom.isLocalHom_comp b.toRingHom φ, ?_, ?_⟩
   · intro z
-    show b (φ (algebraMap _ _ z)) = _
+    change b (φ (algebraMap _ _ z)) = _
     rw [hφcomp]
-    show Localization.localRingHom qᵢ q c.toRingHom rfl
+    change Localization.localRingHom qᵢ q c.toRingHom rfl
       (algebraMap _ _ (fᵢ z)) = _
     rw [Localization.localRingHom_to_map]
-    show algebraMap _ _ (c (fᵢ z)) = algebraMap _ _ (f z)
+    change algebraMap _ _ (c (fᵢ z)) = algebraMap _ _ (f z)
     rw [hcf]
   · exact formallySmoothNAdic_of_equiv (RingEquiv.refl _) b φ φ' rfl hφformal
 
@@ -440,7 +440,7 @@ private theorem isLocalHom_localization
     IsLocalHom (algebraMap A T) := by
   apply ((IsLocalRing.local_hom_TFAE (algebraMap A T)).out 5 1).mp
   rw [IsScalarTower.algebraMap_eq A B T, ← Ideal.comap_comap]
-  show ((IsLocalRing.maximalIdeal T).under B).under A = _
+  change ((IsLocalRing.maximalIdeal T).under B).under A = _
   rw [IsLocalization.AtPrime.under_maximalIdeal T m,
     ← Ideal.over_def m (IsLocalRing.maximalIdeal A)]
 
@@ -619,7 +619,7 @@ private theorem isUnramified_tensor_factor
     let f : A₁ →+* D := (cd.comp ac).toRingHom
     have hf (z : A₁) : (f z : E) = algebraMap F E (z : F) := rfl
     have hqp : q.comap f = IsLocalRing.maximalIdeal A₁ := by
-      show (q.under C).under A₁ = _
+      change (q.under C).under A₁ = _
       rw [hqn, ← Ideal.over_def n (IsLocalRing.maximalIdeal A₁)]
     have hdivR : ramificationIndex A R ∣
         (IsLocalRing.maximalIdeal A₁).ramificationIdx A := by
@@ -648,9 +648,9 @@ private theorem isUnramified_tensor_factor
         algebraMap A₁ T := by
       apply RingHom.ext
       intro z
-      show b (φ (algebraMap A₁ _ z)) = algebraMap A₁ T z
+      change b (φ (algebraMap A₁ _ z)) = algebraMap A₁ T z
       rw [hφcomp]
-      show b (algebraMap C U (ac z)) = _
+      change b (algebraMap C U (ac z)) = _
       rw [b.commutes]
       rfl
     have hformal : RingHom.FormallySmoothNAdic.{max u v w x} (algebraMap A₁ T)
@@ -732,10 +732,10 @@ private theorem tame_has_overfields
     (q.restrictScalars K).comp (Algebra.TensorProduct.comm K L F).toAlgHom
   have ht : Function.Surjective t := hq.comp (Algebra.TensorProduct.comm K L F).surjective
   have htL (l : L) : t (l ⊗ₜ[K] 1) = algebraMap L E l := by
-    show q (1 ⊗ₜ[K] l) = j l
+    change q (1 ⊗ₜ[K] l) = j l
     rfl
   have htF (f : F) : t (1 ⊗ₜ[K] f) = algebraMap F E f := by
-    show q (f ⊗ₜ[K] 1) = algebraMap F E f
+    change q (f ⊗ₜ[K] 1) = algebraMap F E f
     exact q.commutes f
   have hr : (IsLocalRing.maximalIdeal A₁).ramificationIdx A = e := by
     obtain ⟨m, hm, hlo, _, hr⟩ := Stacks.KummerExtension.exists_ramificationIdx_eq K π e he hπ

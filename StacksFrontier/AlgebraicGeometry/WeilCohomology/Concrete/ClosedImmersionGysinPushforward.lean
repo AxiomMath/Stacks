@@ -55,7 +55,7 @@ theorem topologicalKrullDim_ne_top (X : (SmoothProjectiveScheme k).FullSubcatego
   obtain ⟨lo, hi, hb⟩ := exists_bounds_relativeDimension_fieldChowSituation k X.obj.hom
   refine ne_top_of_le_ne_top ?_ (topologicalKrullDim_le_of_relativeDimension_bounds
     (C := fieldChowSituation k) (sX := X.obj.hom) lo hi hb)
-  exact ne_of_lt (lt_of_lt_of_le (WithBot.coe_lt_coe.mpr (ENat.coe_lt_top _)) le_top)
+  exact ne_of_lt (lt_of_lt_of_le (WithBot.coe_lt_coe.mpr (ENat.natCast_lt_top _)) le_top)
 
 /-- **The projection formula for `j_*j^!`.** For a morphism `j : Z ⟶ X` of smooth projective
 schemes over `k`, equidimensional of dimensions `e` and `d`, `c = d - e` and `b ∈ CH^p(X)`, the
@@ -118,8 +118,7 @@ theorem exists_zsmul_eq_codimensionGysin_of_lciGysinRational
         (GysinMapExists.of_smooth_source j.hom.left X.obj.hom Z.obj.hom (Over.w j.hom)) (eX t) =
       eZ (G.toIntLinearMap.baseChange ℚ t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => rw [map_add, map_add, map_add, ht, ht', map_add]
     | tmul q x =>
       induction x using DirectSum.induction_on with

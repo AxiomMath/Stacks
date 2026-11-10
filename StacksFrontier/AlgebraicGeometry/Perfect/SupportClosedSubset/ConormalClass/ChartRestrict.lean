@@ -102,7 +102,7 @@ theorem inter_image_le (U : X.Opens) {p : ℕ} (s : CechCochains.OrdIndex (I := 
   obtain ⟨h1, h2⟩ := hy' k
   refine ⟨h1, ?_⟩
   have h2' : y ∈ V.toScheme.basicOpen (restrictEquations hVW f (s.1 k)) := h2
-  show (⟨y.1, hVW y.2⟩ : W.toScheme) ∈ W.toScheme.basicOpen (f (s.1 k))
+  change (⟨y.1, hVW y.2⟩ : W.toScheme) ∈ W.toScheme.basicOpen (f (s.1 k))
   have e1 := (Scheme.Opens.mem_basicOpen_toScheme (U := V) (V := ⊤)
     (r := restrictEquations hVW f (s.1 k)) (x := y)).1 h2'
   have e2 := (Scheme.basicOpen_res X (f := f (s.1 k)) (homOfLE (image_top_le hVW)).op).le e1

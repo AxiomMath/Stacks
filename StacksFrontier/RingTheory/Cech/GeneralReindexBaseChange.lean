@@ -54,7 +54,7 @@ theorem isUnit_algebraMap_restrictedLoc (φ : A →+* B) (f : Fin r → A) (g : 
   have hB := Cech.isUnit_locTarget_cechSub (mapFamily φ f) (mapFamily φ g) α
     (mapFamily_dvd φ f g α hα) B hU
     (⟨φ (y : A), mem_cechSub_mapFamily φ f y.2⟩ : Cech.cechSub (mapFamily φ f) U)
-  rwa [Module.End.isUnit_iff] at hB ⊢
+  rw [Module.End.isUnit_iff] at hB ⊢; assumption
 
 /-- Two linear maps out of a localization of `A` agree if they agree on the image of `A`, provided
 every element of `Cech.cechSub f U` acts invertibly on the target. -/
@@ -78,7 +78,7 @@ theorem modMap_locLift (φ : A →+* B) (f : Fin r → A) (g : Fin s → A) (α 
         (mapFamily_dvd φ f g α hα) B U V hU))).comp (modMap φ f U) =
       (modMap φ g V).comp (Cech.locLift f g α hα A U V hU) := by
     refine ext_of_mkLinearMap f U (isUnit_algebraMap_restrictedLoc φ f g α hα hU) fun a => ?_
-    show Cech.locLift (mapFamily φ f) (mapFamily φ g) α (mapFamily_dvd φ f g α hα) B U V hU
+    change Cech.locLift (mapFamily φ f) (mapFamily φ g) α (mapFamily_dvd φ f g α hα) B U V hU
         (modMap φ f U (LocalizedModule.mkLinearMap (Cech.cechSub f U) A a)) =
       modMap φ g V (Cech.locLift f g α hα A U V hU
         (LocalizedModule.mkLinearMap (Cech.cechSub f U) A a))
@@ -172,7 +172,7 @@ theorem modMap_id (f : Fin r → A) (U : Finset (Fin r)) :
     modMap (RingHom.id A) f U = LinearMap.id := by
   refine ext_of_mkLinearMap f U (isUnit_algebraMap_restrictedMod (RingHom.id A) f (le_refl U))
     fun a => ?_
-  show modMap (RingHom.id A) f U (LocalizedModule.mkLinearMap (Cech.cechSub f U) A a) =
+  change modMap (RingHom.id A) f U (LocalizedModule.mkLinearMap (Cech.cechSub f U) A a) =
     LocalizedModule.mkLinearMap (Cech.cechSub f U) A a
   rw [modMap_mkLinearMap]
   rfl
@@ -180,7 +180,7 @@ theorem modMap_id (f : Fin r → A) (U : Finset (Fin r)) :
 /-- **Along the identity ring map the change-of-rings map on the terms is the identity.** -/
 theorem termMap_id (f : Fin r → A) (p : ℕ) : termMap (RingHom.id A) f p = LinearMap.id := by
   refine DirectSum.linearMap_ext A fun U => LinearMap.ext fun y => ?_
-  show termMap (RingHom.id A) f p
+  change termMap (RingHom.id A) f p
       (DirectSum.lof A (Idx r p) (fun U => Cech.cechMod f A U.1) U y) =
     DirectSum.lof A (Idx r p) (fun U => Cech.cechMod f A U.1) U y
   rw [termMap_lof, modMap_id]

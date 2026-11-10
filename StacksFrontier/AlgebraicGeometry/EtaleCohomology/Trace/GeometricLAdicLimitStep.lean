@@ -67,12 +67,10 @@ variable [∀ n : ℕ, HasWeakSheafify
   (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
 variable [IsNoetherian X.1] [Fact ℓ.Prime]
 
-variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+variable {k : Type u} [Field k] (f : X.1 ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   (F : LAdicSheaf B X ℓ) (T : PerfectTower.{u + 1} ℓ)
 
-omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- If `n ↦ Hⁱ_c(X_k̄, Fₙ)` is the cohomology system of a perfect tower, then
 `Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` is finite-dimensional. -/
 public theorem LAdicSheaf.finite_rationalGeometricCompactlySupportedCohomology_of_iso (i : ℤ)
@@ -82,7 +80,6 @@ public theorem LAdicSheaf.finite_rationalGeometricCompactlySupportedCohomology_o
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar F i) :=
   finite_rational_limit_of_iso T i e
 
-omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- If, in every degree, `n ↦ Hⁱ_c(X_k̄, Fₙ)` is the cohomology system of a perfect tower, then
 `Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` vanishes in all but finitely many degrees. -/
 public theorem LAdicSheaf.finite_nontrivial_rationalGeometricCompactlySupportedCohomology_of_iso

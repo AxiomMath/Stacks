@@ -122,7 +122,7 @@ theorem sourceRelPresentation_coord (i : Fin n) :
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U => TypeCat.homEquiv.injective
     (funext fun (z : U.unop ⟶ (smallEtaleBaseChange B (glueHom g)).obj V') => ?_)))
   refine Eq.trans ?_ (smallEtaleSectionRingEquiv_symm_hom_app B X.obj X.property _ _ U z).symm
-  show (pres.iso.inv ≫ (baseChangeSchemeHom (glueHom g) U.unop V' z).appTop).hom
+  change (pres.iso.inv ≫ (baseChangeSchemeHom (glueHom g) U.unop V' z).appTop).hom
     (Ideal.Quotient.mk (Ideal.span (Set.range P)) (MvPolynomial.X i)) = _
   rw [baseChangeSchemeHom_eq, Scheme.Hom.comp_appTop]
   rfl
@@ -150,6 +150,7 @@ theorem baseChangeRingHom_appTop
       ((SmallEtale.toScheme B Y.obj Y.property).map k))
   exact h2.symm.trans ((congrArg (fun m => m.appTop.hom b) hsq).symm.trans h1)
 
+omit [IsAffine ((SmallEtale.toScheme B Y.obj Y.property).obj V')] in
 /-- The presentation carries the constants to the pullbacks of global functions of `V`. -/
 theorem pres_inv_C (b) :
     pres.iso.inv.hom (Ideal.Quotient.mk (Ideal.span (Set.range P)) (MvPolynomial.C b)) =
@@ -253,6 +254,7 @@ def comparisonOver :
   g.toToposHom.inverseImage.map ((smallEtaleYoneda B Y.obj Y.property).map k) ≫
     (inverseImageOpenIso g V).hom
 
+omit [IsAffine ((SmallEtale.toScheme B Y.obj Y.property).obj V')] in
 /-- **The coefficients move along `g` as they should**: transporting the coefficient `b` of the
 target row gives the coefficient `φ_V b` of the source row, read on `g⁻¹h_{V'}`. -/
 theorem comparisonOver_comp_openRingHomObj (b) :
@@ -260,7 +262,7 @@ theorem comparisonOver_comp_openRingHomObj (b) :
         (openObj B X.obj X.property (inverseImageOpen B X Y g V))).symm (openRingHomObj g V b) =
       transportRingHom g (𝟙 _) (targetCoeff V k b) := by
   rw [smallEtaleSectionRingEquiv_symm_openRingHomObj, transportRingHom_apply]
-  show (g.toToposHom.inverseImage.map ((smallEtaleYoneda B Y.obj Y.property).map k) ≫
+  change (g.toToposHom.inverseImage.map ((smallEtaleYoneda B Y.obj Y.property).map k) ≫
     (inverseImageOpenIso g V).hom) ≫ _ = 𝟙 _ ≫ g.toToposHom.inverseImage.map
       ((smallEtaleYoneda B Y.obj Y.property).map k ≫ _) ≫ _
   rw [Functor.map_comp]
@@ -328,7 +330,7 @@ theorem isComparison_comparison : IsComparison g V' (comparison g hg V k P pres)
     refine RingHom.ext fun b => ?_
     simp only [RingHom.comp_apply, Sheaf.compRingHom_apply]
     rw [← comparisonOver_comp_openRingHomObj g V k b]
-    show comparison g hg V k P pres ≫ ((smallEtaleYoneda B X.obj X.property).map
+    change comparison g hg V k P pres ≫ ((smallEtaleYoneda B X.obj X.property).map
       (sourceRelPresentation g V k P pres hg).over ≫ _) = _
     rw [← Category.assoc]
     exact congrArg (· ≫ _) (isSubterminal_openSheaf B X.obj X.property _ _ _)
@@ -351,7 +353,7 @@ theorem IsComparison.eq {c₁ c₂ : g.toToposHom.inverseImage.obj
       (smallEtaleYoneda B X.obj X.property).obj ((smallEtaleBaseChange B (glueHom g)).obj V')}
     (h₁ : IsComparison g V' c₁) (h₂ : IsComparison g V' c₂) : c₁ = c₂ := by
   refine (sourceRelPresentation g V k P pres hg).hom_ext c₁ c₂ fun i => ?_
-  show c₁ ≫ sourceCoord g hg V k P pres i = c₂ ≫ sourceCoord g hg V k P pres i
+  change c₁ ≫ sourceCoord g hg V k P pres i = c₂ ≫ sourceCoord g hg V k P pres i
   rw [sourceCoord, sourceRelPresentation_coord g hg V k P pres i, h₁, h₂]
 
 end Comparison

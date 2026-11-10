@@ -148,11 +148,11 @@ public theorem isAdequate_cokernel_kernelComp_restrictDomain (ι : C ⥤ CommAlg
   refine cokernel.mapIso _ (R.map c) e.symm (Iso.refl _) ?_
   have hι : e.hom ≫ kernel.ι ((moduleExtensionFunctorOn.{max u v w, v} ι).map δ) =
       R.map (kernel.ι (Ef.map δ)) := by
-    show kernelComparison (Ef.map δ) R ≫ _ = _
+    change kernelComparison (Ef.map δ) R ≫ _ = _
     exact kernelComparison_comp_ι (Ef.map δ) R
   have hc : R.map c = e.hom ≫ kernel.ι ((moduleExtensionFunctorOn.{max u v w, v} ι).map δ) ≫
       (moduleExtensionFunctorOn.{max u v w, v} ι).map g := by
-    show R.map (kernel.ι (Ef.map δ) ≫ Ef.map g) = _
+    change R.map (kernel.ι (Ef.map δ) ≫ Ef.map g) = _
     rw [Functor.map_comp, ← hι, Category.assoc]
     rfl
   rw [hc]
@@ -254,7 +254,7 @@ public theorem isAdequate_cokernel_to_moduleExtension_on {ι : C ⥤ CommAlgCat.
   let δ : P ⟶ Qq := Sigma.desc fun j => f j ≫
     Sigma.ι (fun j => finiteFreeModule.{max u v w} A (m j)) j
   have hpres (N : J → ModuleCat.{max u v w} A) : PreservesColimit (Discrete.functor N) E := by
-    show PreservesColimit (Discrete.functor N)
+    change PreservesColimit (Discrete.functor N)
       (moduleExtensionFunctor.{max u v w, v} A ⋙
         PresheafOfModules.pushforward₀ ι.op (algebraRingDiagram.{v} A))
     have h1 := moduleExtension_preservesCoproduct.{u, v, w} (A := A) N
@@ -280,7 +280,7 @@ public theorem isAdequate_cokernel_to_moduleExtension_on {ι : C ⥤ CommAlgCat.
     intro j
     have hcol : colimit.ι D j ≫ colim.map α = α.app j ≫ colimit.ι G j := ι_colimMap α j
     rw [reassoc_of% hcol, hιQ, reassoc_of% hιP]
-    show E.map (f j.as) ≫ _ = _
+    change E.map (f j.as) ≫ _ = _
     rw [← E.map_comp, ← E.map_comp]
     simp [δ]
   have : HasExactColimitsOfShape (Discrete J) Cc := by
@@ -303,7 +303,7 @@ public theorem isAdequate_cokernel_to_moduleExtension_on {ι : C ⥤ CommAlgCat.
         ii j.as ≫ E.map (Sigma.ι (fun k => finiteFreeModule.{max u v w} A (n k)) j.as) := by
       have hη : colimit.ι (Discrete.functor L) j ≫ colim.map eH.hom =
           eH.hom.app j ≫ colimit.ι (kernel α) j := colimit.ι_map eH.hom j
-      show colimit.ι (Discrete.functor L) j ≫ colim.map eH.hom ≫
+      change colimit.ι (Discrete.functor L) j ≫ colim.map eH.hom ≫
         (PreservesKernel.iso colim α).hom ≫
         (kernel.mapIso (colimMap α) (E.map δ) eP eQ hcompat).hom ≫
         kernel.ι (E.map δ) = _
@@ -320,14 +320,14 @@ public theorem isAdequate_cokernel_to_moduleExtension_on {ι : C ⥤ CommAlgCat.
       have hηj : eH.hom.app j ≫ (kernel.ι α).app j =
           (e j.as).hom ≫ kernel.ι (E.map (f j.as)) := by
         let ev := (evaluation (Discrete J) Cc).obj j
-        show (e j.as).hom ≫ (PreservesKernel.iso ev α).inv ≫
+        change (e j.as).hom ≫ (PreservesKernel.iso ev α).inv ≫
             ev.map (kernel.ι α) = _
         rw [PreservesKernel.iso_inv_ι]
         rfl
       rw [hcmp, Category.assoc, reassoc_of% hNat, hιP j, reassoc_of% hηj]
       simp [ii]
     rw [reassoc_of% he]
-    show Sigma.ι L j.as ≫ cover' ≫ φ = _
+    change Sigma.ι L j.as ≫ cover' ≫ φ = _
     rw [← hψ j.as, moduleExtension_natTransOn_eq_map b (ψ j.as), ← E.map_comp]
     congr 2
     simp [g, g₀]

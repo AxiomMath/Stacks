@@ -57,9 +57,9 @@ theorem Scheme.exists_factor_isLocallyNoetherian_of_range_subset {U V : Scheme.{
   have hnil : I.map φ.hom ≤ _root_.nilradical (U.presheaf.obj (op O)) := by
     rw [Ideal.map_le_iff_le_comap]
     intro f hf
-    show IsNilpotent (φ f)
+    change IsNilpotent (φ f)
     have hempty : U.basicOpen (φ f) = ⊥ := by
-      show U.basicOpen (x.appLE A O hOA f) = ⊥
+      change U.basicOpen (x.appLE A O hOA f) = ⊥
       rw [Scheme.basicOpen_appLE]
       ext o
       simp only [TopologicalSpace.Opens.coe_inf, Set.mem_inter_iff, SetLike.mem_coe,
@@ -69,10 +69,10 @@ theorem Scheme.exists_factor_isLocallyNoetherian_of_range_subset {U V : Scheme.{
       obtain ⟨p, hp⟩ : x.base o ∈ Set.range hA'.fromSpec.base := by
         rw [hA'.range_fromSpec]; exact V.basicOpen_le f hmem
       have hpW : p ∈ W' := by
-        show hA'.fromSpec.base p ∈ Ws
+        change hA'.fromSpec.base p ∈ Ws
         rw [hp]; exact hx ⟨o, rfl⟩
       have hpb : p ∈ hA'.fromSpec ⁻¹ᵁ V.basicOpen f := by
-        show hA'.fromSpec.base p ∈ V.basicOpen f
+        change hA'.fromSpec.base p ∈ V.basicOpen f
         rw [hp]; exact hmem
       rw [hA'.fromSpec_preimage_basicOpen] at hpb
       exact hpb ((PrimeSpectrum.mem_vanishingIdeal W' f).mp hf p hpW)
@@ -95,7 +95,7 @@ theorem Scheme.exists_factor_isLocallyNoetherian_of_range_subset {U V : Scheme.{
   refine ⟨O, _, n, hO'.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom lift), huO, inferInstance,
     inferInstance, ?_, ?_⟩
   · rintro _ ⟨q, rfl⟩
-    show PrimeSpectrum.comap (Ideal.Quotient.mk (I ^ m)) q ∈ W'
+    change PrimeSpectrum.comap (Ideal.Quotient.mk (I ^ m)) q ∈ W'
     rw [← hW'.closure_eq, ← PrimeSpectrum.zeroLocus_vanishingIdeal_eq_closure]
     intro f hf
     exact (PrimeSpectrum.comap (Ideal.Quotient.mk (I ^ m)) q).isPrime.mem_of_pow_mem m
@@ -156,7 +156,7 @@ theorem completionSheaf_yoneda_hom_ext_of_isLocallyNoetherian {V : BigFppfOver B
   apply Sheaf.hom_ext
   apply (BigFppfOver.topology B S hS).sheafify_hom_ext _ _ G.property
   ext W ⟨⟨x⟩, hx⟩
-  show φ.hom.app W (presheafSection B S hS x hx) = ψ.hom.app W (presheafSection B S hS x hx)
+  change φ.hom.app W (presheafSection B S hS x hx) = ψ.hom.app W (presheafSection B S hS x hx)
   have hrange := (hasImageIn_yoneda_iff_range_subset B S hS Z x).mp hx
   choose O N n y huO hmono hN hn hyn using fun w : (BigFppfOver.toScheme B S hS).obj W.unop =>
     Scheme.exists_factor_isLocallyNoetherian_of_range_subset
@@ -173,13 +173,13 @@ theorem completionSheaf_yoneda_hom_ext_of_isLocallyNoetherian {V : BigFppfOver B
     Over.homMk (ObjectProperty.homMk (n w)) (by apply ObjectProperty.hom_ext; rfl)
   have hxw : ∀ w, (O w).ι ≫ (BigFppfOver.toScheme B S hS).map x ≫ B.inclusion.map V.hom =
       (O w).ι ≫ B.inclusion.map W.unop.hom := fun w => by
-    show (O w).ι ≫ B.inclusion.map x.left ≫ B.inclusion.map V.hom = _
+    change (O w).ι ≫ B.inclusion.map x.left ≫ B.inclusion.map V.hom = _
     rw [← B.inclusion.map_comp]
     exact congrArg (fun t => (O w).ι ≫ B.inclusion.map t) (Over.w x)
   let yw : ∀ w, Ow w ⟶ Nw w := fun w =>
     Over.homMk (ObjectProperty.homMk (y w)) (by
       apply ObjectProperty.hom_ext
-      show y w ≫ n w ≫ B.inclusion.map V.hom = (O w).ι ≫ B.inclusion.map W.unop.hom
+      change y w ≫ n w ≫ B.inclusion.map V.hom = (O w).ι ≫ B.inclusion.map W.unop.hom
       rw [← Category.assoc, hyn w, Category.assoc, hxw w])
   have hfac : ∀ w, k w ≫ x = yw w ≫ nw w := fun w =>
     Over.OverMorphism.ext (B.inclusion.map_injective (hyn w).symm)
@@ -192,7 +192,7 @@ theorem completionSheaf_yoneda_hom_ext_of_isLocallyNoetherian {V : BigFppfOver B
     (y := (↾fun _ : PUnit.{u + 2} => ψ.hom.app W (presheafSection B S hS x hx))) ?_) PUnit.unit
   intro w
   ext _
-  show G.obj.map (k w).op (φ.hom.app W (presheafSection B S hS x hx)) =
+  change G.obj.map (k w).op (φ.hom.app W (presheafSection B S hS x hx)) =
     G.obj.map (k w).op (ψ.hom.app W (presheafSection B S hS x hx))
   have hmap : ∀ {M} (f : Ow w ⟶ M) a,
       Space.HasImageIn B S hS (yoneda.obj V) Z M a →

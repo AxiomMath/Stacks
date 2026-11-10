@@ -204,7 +204,7 @@ theorem flatObject_of_realization_of_extensionRealizationComparison
   obtain ⟨l, _, _, _, _, hkl, xₗ, hxₗ, η, hη, xR, ζ, hζ, alg, hΛ, hxRflat, hζversal,
     _, _, hfin, η', hη'⟩ := exists_chartPoint_closedFibre D iΛ hiΛ x₀ hx₀ hfinite
   obtain ⟨hAc, yc, hyc, ⟨Ryc⟩, hycflat⟩ :=
-    exists_flat_realization_closedFibre D xR hxRflat ζ hζ Λ iΛ hΛ hζversal
+    exists_flat_realization_closedFibre D xR hxRflat ζ hζ Λ iΛ hΛ
   have hl : RealizationsFlatAt D xₗ l :=
     realizationsFlatAt_extension_of_flat H iΛ hiΛ (ζ.level 0) (ζ.basePoint Λ iΛ hΛ)
       (locallyOfFiniteType_and_quasiCompact_residueField_formalBase D ζ Λ iΛ hΛ) _ hζversal
@@ -238,7 +238,7 @@ theorem extensionRealizationComparison : ExtensionRealizationComparison D := by
     intro X Y U V hX hY g ψ h hψ
     subst hX hY
     simp only [eqToHom_refl, Category.id_comp, Category.comp_id] at h
-    show Flat ((BigFppfOver.toScheme D.B D.S D.hS).map g) ∧
+    change Flat ((BigFppfOver.toScheme D.B D.S D.hS).map g) ∧
       Surjective ((BigFppfOver.toScheme D.B D.S D.hS).map g)
     rw [h]
     exact hψ

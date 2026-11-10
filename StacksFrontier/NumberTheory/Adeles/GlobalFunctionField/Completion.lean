@@ -41,7 +41,7 @@ variable {K : Type u} [Field K] (v : Place K)
 
 /-- The valuation of the image of `y ∈ K` in `K_v` is the valuation of `y`. -/
 public theorem valued_coeRingHom (y : K) : Valued.v (v.coeRingHom y) = v.1.valuation y := by
-  show Valued.v ((WithVal.toVal v.1.valuation y : WithVal v.1.valuation) : v.completion) = _
+  change Valued.v ((WithVal.toVal v.1.valuation y : WithVal v.1.valuation) : v.completion) = _
   rw [Valued.valuedCompletion_apply]
   rfl
 
@@ -293,18 +293,18 @@ public theorem relIndex_ball (hv : v.IsDiscrete) (m : ℤ) :
       have : Valued.v (w : v.completion) ≤ 1 := w.2
       exact mul_le_of_le_one_left zero_le this
     refine ⟨⟨_, hw⟩, ?_⟩
-    show IsLocalRing.residue v.integers _ = _
+    change IsLocalRing.residue v.integers _ = _
     congr 1
     refine Subtype.ext ?_
-    show (w : v.completion) * ϖ ^ m * ϖ ^ (-m) = w
+    change (w : v.completion) * ϖ ^ m * ϖ ^ (-m) = w
     rw [mul_assoc, ← zpow_add₀ hϖ0, add_neg_cancel, zpow_zero, mul_one]
   have hker : φ.ker = (v.ball (m + 1)).addSubgroupOf (v.ball m) := by
     ext y
     rw [AddMonoidHom.mem_ker, AddSubgroup.mem_addSubgroupOf]
-    show IsLocalRing.residue v.integers ⟨_, hmem y⟩ = 0 ↔ _
+    change IsLocalRing.residue v.integers ⟨_, hmem y⟩ = 0 ↔ _
     rw [IsLocalRing.residue_eq_zero_iff, ValuationSubring.valuation_lt_one_iff,
       integers_valuation_lt_one_iff]
-    show Valued.v ((y : v.completion) * ϖ ^ (-m)) < 1 ↔ _
+    change Valued.v ((y : v.completion) * ϖ ^ (-m)) < 1 ↔ _
     rw [hval, mul_inv_lt_iff₀ (zpow_pos (unifVal_pos hv) _), one_mul]
     exact ⟨mem_ball_succ_of_lt hv,
       fun h => (mem_ball.1 h).trans_lt (zpow_unifVal_lt hv m.lt_succ_self)⟩
@@ -418,7 +418,7 @@ public theorem isUniformizer_unif (hv : v.IsDiscrete) :
     Place.IsUniformizer v ⟨v.coeRingHom v.unif, coeRingHom_unif_mem_integers hv⟩ := by
   set π : v.integers := ⟨v.coeRingHom v.unif, coeRingHom_unif_mem_integers hv⟩
   have hπv : Valued.v (π : v.completion) = v.unifVal := by
-    show Valued.v (v.coeRingHom v.unif) = _
+    change Valued.v (v.coeRingHom v.unif) = _
     rw [valued_coeRingHom]; rfl
   have hπ0 : (π : v.completion) ≠ 0 := by
     intro h; rw [h, map_zero] at hπv; exact unifVal_ne_zero hv hπv.symm
@@ -439,7 +439,7 @@ public theorem isUniformizer_unif (hv : v.IsDiscrete) :
         _ = 1 := mul_inv_cancel₀ (unifVal_ne_zero hv)
     rw [Ideal.mem_span_singleton']
     refine ⟨⟨_, hq⟩, Subtype.ext ?_⟩
-    show (y : v.completion) * (π : v.completion)⁻¹ * π = y
+    change (y : v.completion) * (π : v.completion)⁻¹ * π = y
     rw [inv_mul_cancel_right₀ hπ0]
 
 /-- Every neighbourhood of `0` in `K_v` contains a ball `ϖ^m O_v`. -/
@@ -452,7 +452,7 @@ public theorem exists_ball_subset (hv : v.IsDiscrete) {s : Set v.completion}
     rw [h, map_zero] at hr
     exact MonoidWithZeroHom.ValueGroup₀.embedding_unit_ne_zero γ hr.symm
   refine ⟨v.ord r + 1, fun z hz => hγ ?_⟩
-  show Valued.v.restrict z < γ.1
+  change Valued.v.restrict z < γ.1
   rw [Valuation.restrict_lt_iff_lt_embedding, ← hr, valuation_eq_unifVal_zpow hv hr0]
   exact (mem_ball.1 hz).trans_lt (zpow_unifVal_lt hv (by omega))
 

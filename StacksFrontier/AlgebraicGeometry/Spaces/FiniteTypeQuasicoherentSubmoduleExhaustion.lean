@@ -204,9 +204,6 @@ theorem finiteTypeGermExhaustion_of_isAffineSpace (hXa : IsAffineSpace B S hS X.
           (smallEtaleRingedSite B S hS X.1 X.2).O).obj.obj (op W)), ?_⟩⟩
     rw [← isoChartSectionHom_app_one B S hS X.2 e F n W]
     exact congrArg (fun φ : _ ⟶ F => (φ.val.app (op W)).hom _) (imageSubobject_arrow_comp u)
-  have hzero : ∀ W : SmallEtale B S hS X.1, Good W 0 := fun W =>
-    ⟨⊥, (isQuasicoherentOnSite_isFiniteType_bot B S hS).1,
-      (isQuasicoherentOnSite_isFiniteType_bot B S hS).2, Submodule.zero_mem _⟩
   have hadd : ∀ (W : SmallEtale B S hS X.1) (y y' : F.val.obj (op W)), Good W y → Good W y' →
       Good W (y + y') := by
     rintro W y y' ⟨K, hKq, hKf, hK⟩ ⟨K', hK'q, hK'f, hK'⟩
@@ -225,8 +222,7 @@ theorem finiteTypeGermExhaustion_of_isAffineSpace (hXa : IsAffineSpace B S hS X.
       (F.val.map (openChartInclusion B S hS X.1 V O.down.1).op s)
     rw [← hy]
     clear hy
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact hzero _
+    induction y using TensorProduct.inductionOn with
     | tmul b n =>
         obtain ⟨K, hKq, hKf, hK⟩ := hgen (openChart B S hS X.1 V O.down.1) n
         rw [chartBaseChange_tmul]

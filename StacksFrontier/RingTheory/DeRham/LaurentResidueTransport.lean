@@ -192,7 +192,7 @@ theorem formsₛₗ_wedgeMul (φ : A₁ →ₐ[R] A₂) (p q : ℕ) (x : ⋀[A�
     formsₛₗ φ (p + q) (exteriorPower.wedgeMul p q x y) =
       exteriorPower.wedgeMul p q (formsₛₗ φ p x) (formsₛₗ φ q y) := by
   refine Subtype.ext ?_
-  show ExteriorAlgebra.mapₛₗ _ (mapₛₗ φ)
+  change ExteriorAlgebra.mapₛₗ _ (mapₛₗ φ)
       ((x : ExteriorAlgebra A₁ (Ω[A₁⁄R])) * (y : ExteriorAlgebra A₁ (Ω[A₁⁄R]))) =
     (ExteriorAlgebra.mapₛₗ _ (mapₛₗ φ) (x : ExteriorAlgebra A₁ (Ω[A₁⁄R]))) *
       (ExteriorAlgebra.mapₛₗ _ (mapₛₗ φ) (y : ExteriorAlgebra A₁ (Ω[A₁⁄R])))
@@ -299,7 +299,7 @@ theorem wedgeMul_ιMulti_D_mem_gradedDifferentialFormComponent {G : Type*} [AddC
       funext k
       refine Fin.lastCases ?_ (fun l => ?_) k
       · rw [Fin.snoc_last, Fin.succ_last, Fin.snoc_last]
-      · rw [Fin.snoc_castSucc, ← Fin.castSucc_fin_succ, Fin.snoc_castSucc]
+      · rw [Fin.snoc_castSucc, ← Fin.castSucc_succ, Fin.snoc_castSucc]
     rw [key]
     have h0 : (a 0 : A₁) = (Fin.snoc (fun k : Fin (p + 1) => (a k : A₁)) b : Fin (p + 2) → A₁) 0 :=
       (Fin.snoc_castSucc (α := fun _ => A₁) (x := b) (p := fun k => (a k : A₁)) 0).symm
@@ -481,7 +481,7 @@ def transportUnit : Bˣ := Units.map (e : A[T;T⁻¹] →* B) (weightOneUnit (1 
 /-- The coordinate `e T` is homogeneous of degree one for the transported grading. -/
 theorem transportUnit_mem : (transportUnit e : B) ∈ transportGrading (R := R) e 1 := by
   rw [mem_transportGrading]
-  show e.symm (e (weightOneUnit (1 : Aˣ) : A[T;T⁻¹])) ∈ _
+  change e.symm (e (weightOneUnit (1 : Aˣ) : A[T;T⁻¹])) ∈ _
   rw [AlgEquiv.symm_apply_apply]
   exact weightOneUnit_mem_weightGrading R A 1
 

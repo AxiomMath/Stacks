@@ -76,7 +76,7 @@ theorem coe_opensOfOpenSubspace_eq_range (U : BigFppfOver B S hS)
   have hcomm : pointsToScheme B S hS U ∘ pointsMap B S hS (yoneda.obj V) (yoneda.map j) =
       (BigFppfOver.toScheme B S hS).map j ∘ pointsToScheme B S hS V :=
     funext (pointsToScheme_pointsMap_yoneda B S hS j)
-  show pointsToScheme B S hS U '' _ = _
+  change pointsToScheme B S hS U '' _ = _
   rw [hrange, ← Set.range_comp, hcomm, Set.range_comp,
     (surjective_pointsToScheme B S hS V).range_eq, Set.image_univ]
 

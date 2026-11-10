@@ -84,7 +84,7 @@ theorem isFlat_of_forall_flat_sections {X : Scheme.{u}} (F : X.Modules) [F.IsQua
   refine ⟨X.affineOpens, fun V => V.1, iSup_affineOpens_eq_top X, fun V => V.2, fun V => ?_⟩
   refine ⟨PUnit.{u + 1}, fun _ => V.1, by simp, fun _ => V.2, fun _ => ?_⟩
   intro hUV
-  show @Module.Flat _ _ _ _
+  change @Module.Flat _ _ _ _
     (Module.compHom Γ(F, V.1) ((𝟙 X : X ⟶ X).appLE V.1 V.1 hUV).hom)
   rw [Scheme.Hom.id_appLE_hom]
   exact h V.1 V.2

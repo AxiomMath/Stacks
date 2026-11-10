@@ -229,7 +229,7 @@ public theorem restrictedRepresentableProjection_comp_inclusion
     rcases X with ⟨@⟨S, f⟩, A, h⟩
     change S = artinianToComplete.obj A at h
     subst S
-    show (Restriction.mk (p := representedProjection R) ⟨f ≫ 𝟙 _⟩ A rfl) = _
+    change (Restriction.mk (p := representedProjection R) ⟨f ≫ 𝟙 _⟩ A rfl) = _
     rw [Category.comp_id]
   have hfun : ((representedRestrictionInverseBased R).comp
       (restrictedRepresentableInclusion R)).toFunctor = 𝟭 _ := by
@@ -243,7 +243,7 @@ public theorem restrictedRepresentableProjection_comp_inclusion
     simp only [Functor.id_obj, Functor.id_map]
     apply Restriction.Hom.ext
     · apply Functor.Elements.hom_ext
-      show artinianToComplete.map g.base = g.obj.hom
+      change artinianToComplete.map g.base = g.obj.hom
       have hc := g.comm
       change 𝟙 _ ≫ artinianToComplete.map g.base = g.obj.hom ≫ 𝟙 _ at hc
       simpa only [Category.id_comp, Category.comp_id] using hc
@@ -456,7 +456,7 @@ private lemma quotientTruncation_nilpotent
     IsLocalRing.of_surjective' (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective
   let : IsLocalHom (Ideal.Quotient.mk I) :=
     IsLocalHom.of_surjective (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective
-  show IsLocalRing.maximalIdeal (R ⧸ I) ^ (n + 1) = ⊥
+  change IsLocalRing.maximalIdeal (R ⧸ I) ^ (n + 1) = ⊥
   have hm : (IsLocalRing.maximalIdeal R).map (Ideal.Quotient.mk I) =
       IsLocalRing.maximalIdeal (R ⧸ I) := by
     ext x
@@ -550,7 +550,7 @@ public theorem associatedMorphism_maps_to
       let : p.IsHomLift (𝟙 (AdicTruncation.obj ξ.base n)) ((W n).hom) := hw_lift n
       exact IsHomLift.lift_id_inv p _ (W n)
     dsimp [J]
-    show p.IsHomLift (𝟙 (AdicTruncation.obj ξ.base n))
+    change p.IsHomLift (𝟙 (AdicTruncation.obj ξ.base n))
       ((L n).symm.hom ≫ (W n).symm.hom)
     exact IsHomLift.comp p (𝟙 (AdicTruncation.obj ξ.base n))
       (𝟙 (AdicTruncation.obj ξ.base n)) ((L n).symm.hom) ((W n).symm.hom)
@@ -602,7 +602,7 @@ public theorem associatedMorphism_maps_to
     calc
       x.transition n ≫ (J n).hom =
           (L (n + 1)).symm.hom ≫ assocMap n ≫ (W n).symm.hom := by
-            show x.transition n ≫
+            change x.transition n ≫
               ((L n).symm.hom ≫ (W n).symm.hom) = _
             rw [← Category.assoc, hL', Category.assoc]
       _ = (L (n + 1)).symm.hom ≫ (W (n + 1)).symm.hom ≫ ξ.transition n := by rw [hW']
@@ -633,17 +633,17 @@ public theorem associatedMorphism_maps_to
       naturality := fun n ↦ comp_inv_eq_inv_comp_of_comp_eq (J (n + 1)) (J n) _ _ (hJ n) }
   have hfg : f ≫ g = 𝟙 x := by
     apply FormalObject.Hom.ext
-    · show eqToHom hx ≫ eqToHom hx.symm = 𝟙 x.base
+    · change eqToHom hx ≫ eqToHom hx.symm = 𝟙 x.base
       simp
     · intro n
-      show (J n).hom ≫ (J n).symm.hom = 𝟙 _
+      change (J n).hom ≫ (J n).symm.hom = 𝟙 _
       simp
   have hgf : g ≫ f = 𝟙 ξ := by
     apply FormalObject.Hom.ext
-    · show eqToHom hx.symm ≫ eqToHom hx = 𝟙 ξ.base
+    · change eqToHom hx.symm ≫ eqToHom hx = 𝟙 ξ.base
       simp
     · intro n
-      show (J n).symm.hom ≫ (J n).hom = 𝟙 _
+      change (J n).symm.hom ≫ (J n).hom = 𝟙 _
       simp
   have hf : (FormalObject.projection (p := p)).IsHomLift (𝟙 ξ.base) f := by
     apply IsHomLift.of_fac' (FormalObject.projection (p := p)) (𝟙 ξ.base) f xFiber.2 rfl

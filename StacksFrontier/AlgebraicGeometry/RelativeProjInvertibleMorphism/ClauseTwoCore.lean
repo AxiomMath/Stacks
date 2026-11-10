@@ -116,7 +116,7 @@ theorem coveringOpen_ι_toProj_classifyingHom (ψ : GradedSections 𝒜 M) {k : 
     rw [e1, e2]
     congr 1
     refine homogeneousRatios_ext fun n a => ?_
-    show ratioOf N (χ.pow g.2 n) (χ.le_nonvanishingOpen g.2 hV n) (χ.toFun n a)
+    change ratioOf N (χ.pow g.2 n) (χ.le_nonvanishingOpen g.2 hV n) (χ.toFun n a)
       = ratioOf M (ψ.toFun (n * k) ⟨(g : A) ^ n, HomogeneousRatios.pow_mem g.2 n⟩)
           (ψ.le_nonvanishingOpen_pow g.2 le_rfl n) (ψ.toFun (n * k) a)
     have hpow : χ.pow g.2 n

@@ -319,7 +319,7 @@ def stageTargetCocone (sq : IsPullback g' f' f g) : Cocone (stageTargetDiagram S
   ι :=
     { app := fun i => stageLeg S F (Opposite.op i)
       naturality := fun i j h => by
-        show stageTargetTransition S F h.op ≫ stageLeg S F (Opposite.op j) =
+        change stageTargetTransition S F h.op ≫ stageLeg S F (Opposite.op j) =
           stageLeg S F (Opposite.op i) ≫ 𝟙 _
         rw [Category.comp_id, ← stageTargetIso_hom_comp S F sq (Opposite.op j),
           ← stageTargetIso_hom_comp S F sq (Opposite.op i), ← Category.assoc,
@@ -363,7 +363,7 @@ theorem isIso_smallEtaleSetsBaseChange_app_of_isColimit (sq : IsPullback g' f' f
       ι :=
         { app := fun i => (stageTargetIso S F (Opposite.op i)).hom
           naturality := fun i j h => by
-            show stageTargetTransition S F h.op ≫ (stageTargetIso S F (Opposite.op j)).hom =
+            change stageTargetTransition S F h.op ≫ (stageTargetIso S F (Opposite.op j)).hom =
               (stageTargetIso S F (Opposite.op i)).hom ≫ 𝟙 _
             rw [Category.comp_id, stageTargetTransition_comp_iso] } }
   obtain ⟨φ, hφ⟩ :
@@ -376,7 +376,7 @@ theorem isIso_smallEtaleSetsBaseChange_app_of_isColimit (sq : IsPullback g' f' f
   · refine (cancel_epi (stageTargetIso S F (Opposite.op i₀)).hom).1 ?_
     rw [Category.comp_id, ← Category.assoc, stageTargetIso_hom_comp S F sq, hφ i₀]
   · refine hc.hom_ext fun i => ?_
-    show stageLeg S F (Opposite.op i) ≫ φ ≫
+    change stageLeg S F (Opposite.op i) ≫ φ ≫
         (smallEtaleSetsBaseChange.{u, 0} g' f' f g sq.w).app F =
       stageLeg S F (Opposite.op i) ≫
         𝟙 ((smallEtaleInverseImage.{u, 0} g' ⋙ smallEtaleDirectImage.{u, 0} f').obj F)

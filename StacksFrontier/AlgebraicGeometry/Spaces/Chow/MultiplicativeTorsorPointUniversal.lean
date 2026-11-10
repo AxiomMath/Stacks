@@ -235,7 +235,7 @@ theorem exists_trivial_affine_chartDiagram_at_point {Z : AlgebraicSpaces D.site 
     openChartInclusion D.site D.base D.base_mem _ d₀.U O ≫ k₀,
     isAffine_chartScheme_openChart_basicOpen D.site D.base D.base_mem X d₀.V hV₀ g,
     nonempty_iso_unit_of_freeFamily D p hp L _ e hcompat hbij, ⟨⟨z₀, hvg⟩, ?_⟩⟩
-  show ((BigFppfOver.toScheme D.site D.base D.base_mem).map
+  change ((BigFppfOver.toScheme D.site D.base D.base_mem).map
       ((SmallEtale.toOver D.site D.base D.base_mem _).map (openChartInclusion D.site D.base
         D.base_mem _ d₀.U O)) ≫ (BigFppfOver.toScheme D.site D.base D.base_mem).map
       ((SmallEtale.toOver D.site D.base D.base_mem _).map k₀)) ⟨z₀, hvg⟩ = z
@@ -335,7 +335,7 @@ omit [IsAffine (chartScheme V)] in
 theorem laurentChartRingEquiv_T :
     laurentChartRingEquiv D p hp L hL e hV (LaurentPolynomial.T 1) =
       laurentPieceOneIncl D p hp L hL V (laurentChartGenerator D p hp L hL e 1) := by
-  show ((laurentCommUnit D p hp L hL).app (op V)).hom
+  change ((laurentCommUnit D p hp L hL).app (op V)).hom
       (LaurentPolynomial.eval₂ (laurentChartStructureMap D p hp L hL (V := V))
         (laurentChartUnit D p hp L hL e) (LaurentPolynomial.T 1)) = _
   rw [LaurentPolynomial.eval₂_T, zpow_one]
@@ -360,7 +360,7 @@ theorem localTorsorRingMap_comm
       localTorsorRingMap D p hp L hL e hV v w =
         ((BigFppfOver.toScheme D.site D.base D.base_mem).map v).appTop := by
   ext r
-  show LaurentPolynomial.eval₂ _ w ((laurentChartRingEquiv D p hp L hL e hV).symm
+  change LaurentPolynomial.eval₂ _ w ((laurentChartRingEquiv D p hp L hL e hV).symm
     ((laurentAlgebraSheaf D p hp L hL).algebraMap (op V) r)) = _
   have h1 : (laurentChartRingEquiv D p hp L hL e hV).symm
       ((laurentAlgebraSheaf D p hp L hL).algebraMap (op V) r) = LaurentPolynomial.C r :=
@@ -373,7 +373,7 @@ theorem localTorsorRingMap_generator
     (w : (Γ((BigFppfOver.toScheme D.site D.base D.base_mem).obj U, ⊤))ˣ) :
     localTorsorRingMap D p hp L hL e hV v w
         (laurentPieceOneIncl D p hp L hL V (laurentChartGenerator D p hp L hL e 1)) = w := by
-  show LaurentPolynomial.eval₂ _ w ((laurentChartRingEquiv D p hp L hL e hV).symm
+  change LaurentPolynomial.eval₂ _ w ((laurentChartRingEquiv D p hp L hL e hV).symm
     (laurentPieceOneIncl D p hp L hL V (laurentChartGenerator D p hp L hL e 1))) = _
   have h1 : (laurentChartRingEquiv D p hp L hL e hV).symm
       (laurentPieceOneIncl D p hp L hL V (laurentChartGenerator D p hp L hL e 1)) =
@@ -418,7 +418,7 @@ theorem chartEval_eq_of_generator {V : SmallEtale D.site D.base D.base_mem X}
     congrArg CommRingCat.Hom.hom (hφ.trans hψ.symm)
   have key : φ.comp ε.toRingHom = ψ.comp ε.toRingHom := by
     refine LaurentPolynomial.ringHom_ext_of_T (fun r => RingHom.congr_fun hC r) ?_
-    · show φ (ε (LaurentPolynomial.T 1)) = ψ (ε (LaurentPolynomial.T 1))
+    · change φ (ε (LaurentPolynomial.T 1)) = ψ (ε (LaurentPolynomial.T 1))
       rw [laurentChartRingEquiv_T D p hp L hL e hqc]
       exact hgen
   apply CommRingCat.hom_ext
@@ -669,7 +669,7 @@ theorem torsorPointAt_localTorsorHom :
     torsorPointAt D p hp L hL (localTorsorHom D p hp L hL x β d e)
         (selfChart D.site D.base D.base_mem d.U.obj.left) =
       localTorsorRelativePoint D p hp L hL x β d e := by
-  show relativeSpecPointsEquiv D.site D.base D.base_mem (X := ⟨X, hp.1⟩) _ d.U.obj.left
+  change relativeSpecPointsEquiv D.site D.base D.base_mem (X := ⟨X, hp.1⟩) _ d.U.obj.left
       (yonedaEquiv (yonedaEquiv.symm ((relativeSpecPointsEquiv D.site D.base D.base_mem
         (X := ⟨X, hp.1⟩) _ d.U.obj.left).symm (localTorsorRelativePoint D p hp L hL x β d e)))) = _
   rw [Equiv.apply_symm_apply, Equiv.apply_symm_apply]
@@ -726,7 +726,7 @@ theorem localTorsorHom_chartEval_generator :
     (isQuasiCompactObject_of_isAffine D.site D.base D.base_mem X d.V
       (inferInstance : IsAffine (chartScheme d.V))) d.g (trivializationUnit D p hp L hL x β d e)
   have e1 := localTorsorHom_chartEval D p hp L hL x β d e
-  show ((torsorPointAt D p hp L hL (localTorsorHom D p hp L hL x β d e)
+  change ((torsorPointAt D p hp L hL (localTorsorHom D p hp L hL x β d e)
       (chartDiagramSelf D p hp x d).U).chartEval D.site D.base D.base_mem d.V d.g
       (torsorPointAt_pt_of_eq D p hp L hL _ (localTorsorHom_comp D p hp L hL x β d e)
         (chartDiagramSelf D p hp x d))).hom

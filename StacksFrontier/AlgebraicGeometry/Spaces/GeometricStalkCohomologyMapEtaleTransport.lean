@@ -247,7 +247,7 @@ theorem geometricPointwiseBaseChange_iff_affineChartwiseBaseChange
       AffineChartwiseBaseChange B S hS f g f' g' sq.w K K' φ :=
   geometricPointwiseBaseChange_iff_affineChartwiseBaseChange_of sq K hK K' hK' φ
     (isIso_geometricStalkBaseChangeCohomologyMap_iff_affineQuadruple sq K K' φ)
-    (forall_isIso_geometricStalkBaseChangeCohomologyMap_iff_isIso_representedAffineSectionsBaseChangeComp
+    (forall_isIso_geometricStalkBaseChangeCohomologyMap_iff_isIso_affineSectionsBaseChangeComp
       B S hS)
 
 end AlgebraicGeometry.Space

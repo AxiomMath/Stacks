@@ -127,10 +127,10 @@ theorem nonempty_iso_colimit_smallerBaseDiagramLift {I : Type w} [Category.{w'} 
   have h1 : Ψ.map (colimit.ι (L ⋙ rV) i) ≫ (preservesColimitIso Ψ (L ⋙ rV)).hom =
       colimit.ι ((L ⋙ rV) ⋙ Ψ) i := by
     rw [← Iso.eq_comp_inv, ι_preservesColimitIso_inv]
-  show Ψ.map (colimit.ι (L ⋙ rV) i) ≫ (preservesColimitIso Ψ (L ⋙ rV)).hom ≫
+  change Ψ.map (colimit.ι (L ⋙ rV) i) ≫ (preservesColimitIso Ψ (L ⋙ rV)).hom ≫
       (HasColimit.isoOfNatIso N).hom ≫ e.inv ≫ smallerBaseStr B V S hV hS g G =
     Ψ.map (colimit.ι (L ⋙ rV) i) ≫ smallerBaseStr B V S hV hS g _
-  rw [reassoc_of% h1, HasColimit.isoOfNatIso_ι_hom_assoc, he,
+  rw [reassoc_of% h1, HasColimit.ι_isoOfNatIso_hom_assoc, he,
     smallerBaseSheafFunctor_map_comp_str]
   exact smallerBaseYonedaIso_hom_comp B V S hV hS g (ψ i)
 
@@ -310,7 +310,7 @@ theorem exists_smallerBaseAtlas (G : FppfSheaf B V hV) {I : Type (u + 1)}
         Limits.Sigma.map (fun i => (ε i).hom) ≫ Sigma.desc f := by
       rw [sigmaComparison_map_desc]
       refine Sigma.hom_ext _ _ fun i => ?_
-      rw [Sigma.ι_desc, Sigma.ι_map_assoc, Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc, Sigma.ι_map_assoc, Sigma.ι_comp_desc]
       exact hf' i
     have : Epi (Sigma.desc f) := (Sheaf.isLocallySurjective_iff_epi _).mp hsurj
     have h2 : Epi (sigmaComparison Ψ Xi' ≫ Ψ.map (Sigma.desc f')) := by

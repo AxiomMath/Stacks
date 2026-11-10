@@ -128,10 +128,10 @@ private theorem isFlatOverAt_tilde_iff_flat_stalk
       (letI : Module Γ(S, V) ((tilde M).presheaf.stalk q) := Module.compHom _ φ.hom
        Module.Flat Γ(S, V) ((tilde M).presheaf.stalk q)) := by
   let _ : Module Γ(S, V) ((tilde M).presheaf.stalk q) := Module.compHom _ φ.hom
-  show IsFlatOverAt (Spec.map φ ≫ hV.fromSpec).toLRSHom.toShHom (tilde M) q ↔
+  change IsFlatOverAt (Spec.map φ ≫ hV.fromSpec).toLRSHom.toShHom (tilde M) q ↔
     Module.Flat Γ(S, V) ((tilde M).presheaf.stalk q)
   have hx : (Spec.map φ ≫ hV.fromSpec) q ∈ V := by
-    show (Spec.map φ q) ∈ hV.fromSpec ⁻¹ᵁ V
+    change (Spec.map φ q) ∈ hV.fromSpec ⁻¹ᵁ V
     rw [hV.fromSpec_preimage_self]
     trivial
   rw [flatOverAt_iff_flat_sectionsStalk (Spec.map φ ≫ hV.fromSpec) (tilde M) hV q hx]
@@ -158,14 +158,14 @@ private theorem isFlatOverAt_tilde_iff_flat_stalk
   have hmodule : moduleLeft = moduleRight := by
     apply Module.ext'
     intro a m
-    show ((Spec.map φ ≫ hV.fromSpec).stalkMap q).hom
+    change ((Spec.map φ ≫ hV.fromSpec).stalkMap q).hom
         ((S.presheaf.germ V _ hx).hom a) • m = (φ.hom a) • m
     have hval := congrArg (fun t : Γ(S, V) ⟶ (Spec B).presheaf.stalk q => t a) hr
     change ((Spec.map φ ≫ hV.fromSpec).stalkMap q).hom
         ((S.presheaf.germ V _ hx).hom a) =
       algebraMap B ((Spec B).presheaf.stalk q) (φ.hom a) at hval
     rw [hval, hB]
-  show @Module.Flat Γ(S, V) N _ _ moduleLeft ↔ @Module.Flat Γ(S, V) N _ _ moduleRight
+  change @Module.Flat Γ(S, V) N _ _ moduleLeft ↔ @Module.Flat Γ(S, V) N _ _ moduleRight
   rw [hmodule]
 
 /-- **The affine case.** Openness of the relative flat locus for a module of finite type on the

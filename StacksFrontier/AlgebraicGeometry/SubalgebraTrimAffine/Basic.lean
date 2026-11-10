@@ -48,8 +48,8 @@ the conversion.
 [Stacks, Tag 05JT] nor any assertion of [Stacks, Tag 0817] is proved here, and nothing here is a
 statement of either: both labels of Tag 05JT are registered on
 `StacksFrontier/AlgebraicGeometry/FiniteTypeSubalgebraFiltered/Basic.lean`, and what
-`StacksFrontier/AlgebraicGeometry/SubalgebraSectionsResidue/Basic.lean` records as the residue of the
-symmetric-algebra-free route is a finite type quasi-coherent algebra sheaf on the whole of `X`
+`StacksFrontier/AlgebraicGeometry/SubalgebraSectionsResidue/Basic.lean` records as the residue of
+the symmetric-algebra-free route is a finite type quasi-coherent algebra sheaf on the whole of `X`
 mapping to `A` and hitting a given section over an affine open. What is below is one input
 to that, and it carries hypotheses the tags do not grant (an affine open, a chosen finite family of
 sections, and finite type over each of their basic opens).

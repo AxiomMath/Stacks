@@ -64,7 +64,7 @@ theorem exists_comp_eq_det_smul_id {R : Type u} [CommRing R]
     exact (det_stabilize q i hqi f).symm
   refine ⟨q ∘ₗ (adj ∘ₗ i), ?_⟩
   ext x
-  show f (q (adj (i x))) = det f • x
+  change f (q (adj (i x))) = det f • x
   calc
     _ = q (F (adj (i x))) := LinearMap.congr_fun hqF.symm _
     _ = q (A.det • i x) := congrArg q (LinearMap.congr_fun hFadj (i x))

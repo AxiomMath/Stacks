@@ -18,8 +18,8 @@ indexed.
 * `AlgebraicGeometry.FormalSpace.exists_affinePresentation_of_colimit'`: the colimit of such a
   system is a directed colimit of affine schemes over `S` along thickenings.
 
-These results belong with `StacksFrontier.AlgebraicGeometry.FormalSpace.DirectedColimit` but are kept
-in a module of their own, so that that module stays as it is on the base.
+These results belong with `StacksFrontier.AlgebraicGeometry.FormalSpace.DirectedColimit` but are
+kept in a module of their own, so that that module stays as it is on the base.
 -/
 
 @[expose] public noncomputable section
@@ -116,7 +116,7 @@ private theorem combinedStageMapOf_comp_of_factor (B : BigFppfSite.{u}) (S : Sch
         combinedStageMapOf B S hS D Q X e ⟨k, n⟩ = combinedStageMapOf B S hS D Q X e p := by
   let : Preorder (Q k).Index := (Q k).preorder
   intro i n hin g hg
-  show g ≫ (((Q k).stages ⋙ BigAffineFppf.inclusion B S hS ⋙
+  change g ≫ (((Q k).stages ⋙ BigAffineFppf.inclusion B S hS ⋙
       Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).map (homOfLE hin) ≫
       colimit.ι ((Q k).stages ⋙ BigAffineFppf.inclusion B S hS ⋙
         Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)) n) ≫
@@ -173,7 +173,7 @@ private theorem countable_index_affinePresentation (B : BigFppfSite.{u}) (S : Sc
       if hc : ∃ P : AffinePresentation B S hS X, Countable P.Index then hc.choose
       else affinePresentation B S hS X hX).Index := by
   classical
-  rw [dif_pos hc]
+  rw [dite_eq_left hc]
   exact hc.choose_spec
 
 /-- A countably indexed sheaf admits an affine presentation with countable index type. -/
@@ -204,7 +204,7 @@ private theorem mono_combinedStageMapToColimitOf (B : BigFppfSite.{u}) (S : Sche
     fun _ _ f => mono_of_relativeThickening B S hS (hthick f)
   have := affinePresentationStageMap_mono B S hS (D.obj p.1) (Q p.1) p.2
   have := mono_colimit_ι B S hS D p.1
-  show Mono (affinePresentationStageMap B S hS (D.obj p.1) (Q p.1) p.2 ≫ colimit.ι D p.1)
+  change Mono (affinePresentationStageMap B S hS (D.obj p.1) (Q p.1) p.2 ≫ colimit.ι D p.1)
   infer_instance
 
 /-- The transition morphisms of the factorization diagram of the combined stages are

@@ -234,7 +234,7 @@ theorem exists_surjective_etale_cover_isPullback_of_compact_pullback
           rw [Scheme.presieve₀_mem_precoverage_iff]
           exact ⟨hj'cov, hj'open⟩ }
     refine IsZariskiLocalAtSource.of_openCover 𝒰 fun i => ?_
-    show P ((BigFppfOver.toScheme 𝔅 S hS).map (j' i) ≫ (BigFppfOver.toScheme 𝔅 S hS).map k)
+    change P ((BigFppfOver.toScheme 𝔅 S hS).map (j' i) ≫ (BigFppfOver.toScheme 𝔅 S hS).map k)
     rw [← Functor.map_comp, hkfac i, Functor.map_comp]
     have _ := hjopen i
     exact P.comp_mem _ _ (hPp i)

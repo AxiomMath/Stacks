@@ -73,7 +73,7 @@ theorem restrictScalarsMatrix_towerBasis_map {m n : ℕ} (M : Matrix (Fin m) (Fi
   obtain ⟨⟨j, lk'⟩, rfl⟩ := finProdFinEquiv.surjective q
   obtain ⟨⟨l', k'⟩, rfl⟩ := finProdFinEquiv.surjective lk'
   rw [submatrix_apply, towerReindex_apply, towerReindex_apply]
-  show _ = restrictScalarsMatrix b M (finProdFinEquiv (i, l)) (finProdFinEquiv (j, l')) *
+  change _ = restrictScalarsMatrix b M (finProdFinEquiv (i, l)) (finProdFinEquiv (j, l')) *
     (1 : Matrix (Fin d') (Fin d') F) k k'
   rw [restrictScalarsMatrix_apply, restrictScalarsMatrix_apply]
   simpa using leftMulMatrix_towerBasis_algebraMap b c (M i j) l l' k k'

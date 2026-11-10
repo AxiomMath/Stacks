@@ -199,7 +199,7 @@ theorem kernel_ι_kernelDifference (t x : CopowerQuotientLift q₀ A) :
       hb]
     simp [z]
   rw [← cancel_mono x.μ', zero_comp, Category.assoc, kernelDifference_μ', ← Category.assoc]
-  show z ≫ x.g = 0
+  change z ≫ x.g = 0
   rw [← hb, Category.assoc, copowerDesc_comp_g, ← Category.assoc, hbt, zero_comp]
 
 /-- The difference `𝒦₀ ⟶ Q₀ ⊗ V` of the lift `x` with the lift `t`. -/

@@ -126,6 +126,7 @@ theorem dominationProperty_of_isAffineSpace (W : AlgebraicSpaces B S hS)
     exists_isFiniteType_le_etaleSubmoduleRestrict_of_isAffineSpace B S hS hWa hF g hg hYqc G hG
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves times out at the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FiniteTypeSubmoduleEtaleChartStep :
@@ -327,7 +328,7 @@ theorem dominationProperty_of_isElementaryDistinguishedSquare (hZ : B.Contains (
     have hmem : t.1 ∈ V₀.obj (op (x.val.siteObject B S hS W.1)) := by
       have h := t.2
       change fV.app _ t.1 = x.val.value at h
-      show fV.app _ t.1 ∈ Uo.obj _
+      change fV.app _ t.1 ∈ Uo.obj _
       rw [h]
       exact hu
     let t₁ : GeometricPointLift B S hS ι₁.hom (liftGeometricPoint B S hS f t) :=
@@ -385,7 +386,7 @@ theorem dominationProperty_of_isElementaryDistinguishedSquare (hZ : B.Contains (
       have hmem : t'.1 ∈ Y₀.obj (op (x.val.siteObject B S hS W.1)) := by
         have h := t'.2
         change g.hom.app _ t'.1 = x.val.value at h
-        show g.hom.app _ t'.1 ∈ Uo.obj _
+        change g.hom.app _ t'.1 ∈ Uo.obj _
         rw [h]
         exact hu
       let t₀ : GeometricPointLift B S hS ι.hom (liftGeometricPoint B S hS g t') :=

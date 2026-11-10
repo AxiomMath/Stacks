@@ -154,7 +154,7 @@ theorem genericPoint_notMem_supp_cokernel_of_genericPoint_mem_supp [IsIntegral X
   have hb : b = mapFun ψ (genericPoint X) (r • a) :=
     injective_mapFun_of_mono ι _ (by rw [← hr, mapFun_smul, mapFun_smul, ← mapFun_comp])
   apply hc
-  show mapFun (cokernel.π ψ) (genericPoint X) b = 0
+  change mapFun (cokernel.π ψ) (genericPoint X) b = 0
   rw [hb, ← mapFun_comp, cokernel.condition]
   obtain ⟨U, hxU, t, ht⟩ := TopCat.Presheaf.exists_germ_eq _ (r • a)
   rw [← ht, mapFun_germ]

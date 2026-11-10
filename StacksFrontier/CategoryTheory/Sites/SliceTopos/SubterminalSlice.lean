@@ -93,7 +93,7 @@ theorem natTrans_ext_of_essImage (hG : ∀ {U : C}, G.obj (op U) → j.essImage 
     (hres : ∀ B : D, α.app (op (j.obj B)) = β.app (op (j.obj B))) : α = β := by
   ext ⟨U⟩ t
   obtain ⟨B, ⟨e⟩⟩ := hG t
-  show α.app (op U) t = β.app (op U) t
+  change α.app (op U) t = β.app (op U) t
   have ht : G.map e.inv.op (G.map e.hom.op t) = t := by
     rw [← Functor.map_comp_apply, ← op_comp, e.inv_hom_id, op_id,
       Functor.map_id_apply]
@@ -194,7 +194,7 @@ omit [∀ (X : Cᵒᵖ), Subsingleton (F.obj X)] in
 theorem srcHom_id {U : Cᵒᵖ} (s : F.obj U) : srcHom hsupp (𝟙 U) s = 𝟙 _ :=
   j.map_injective <| by
     rw [map_srcHom]
-    show (srcIso hsupp s).hom ≫ (𝟙 U).unop ≫ (srcIso hsupp s).inv = j.map (𝟙 (srcObj hsupp s))
+    change (srcIso hsupp s).hom ≫ (𝟙 U).unop ≫ (srcIso hsupp s).inv = j.map (𝟙 (srcObj hsupp s))
     simp
 
 omit [∀ (X : Cᵒᵖ), Subsingleton (F.obj X)] in
@@ -289,7 +289,7 @@ theorem functorPushforward_functorPullback_of_essImage {A : D} (T : Sieve (j.obj
     exact T.downward_closed hk a
   · obtain ⟨B, ⟨ε⟩⟩ := essImage_of_hom hmem hsupp g ⟨A, ⟨Iso.refl _⟩⟩
     refine ⟨B, j.preimage (ε.hom ≫ g), ε.inv, ?_, by rw [j.map_preimage]; simp⟩
-    show T.arrows (j.map (j.preimage (ε.hom ≫ g)))
+    change T.arrows (j.map (j.preimage (ε.hom ≫ g)))
     rw [j.map_preimage]
     exact T.downward_closed hg ε.hom
 

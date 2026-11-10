@@ -58,7 +58,8 @@ quasi-compact quasi-separated *scheme* statement and is two steps further on, re
 `Stacks.Rouquier.exists_isPerfect_isWeakTriangulatedGenerator_supported` of
 `StacksFrontier/AlgebraicGeometry/Rouquier/SupportedGeneratorQcqs.lean`.
 
-**The model is the locally small one** of `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`:
+**The model is the locally small one** of
+`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`:
 no `CategoryTheory.HasDerivedCategory` binder appears below, so instance search supplies the
 global instances. A free `[HasDerivedCategory.{w} _]` binder would not do, for the reason given in
 the implementation notes of

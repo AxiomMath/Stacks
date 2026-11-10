@@ -71,8 +71,8 @@ change it yields, `AlgebraicGeometry.Stack.exists_extension_in_represented_fiber
 the valuative diagram of Stacks 0CLG and so is also available to Stacks 0CLD.
 
 `CategoryTheory.DottedArrow` is the structure of
-`StacksFrontier/CategoryTheory/DottedArrows/Defs.lean`, whose `γ`, `α` and `β` are 2-morphisms, as in
-the source; the name is written out because a different structure of the same name in the root
+`StacksFrontier/CategoryTheory/DottedArrows/Defs.lean`, whose `γ`, `α` and `β` are 2-morphisms, as
+in the source; the name is written out because a different structure of the same name in the root
 namespace shadows it under `open CategoryTheory`.
 
 ## References
@@ -122,26 +122,26 @@ theorem nonempty_dottedArrow_of_isProper {𝒜 ℬ : AlgebraicStacks.{u, w} B S 
   let V₀ : (schemeFibredCategory B S hS D.generic).val.obj := Over.mk (𝟙 D.generic)
   have hjobj : D.j.hom.obj V₀ = Over.mk D.inclusion := by
     rw [show D.j.hom.toFunctor = Over.map D.inclusion from D.j_canonical]
-    show Over.mk (𝟙 D.generic ≫ D.inclusion) = Over.mk D.inclusion
+    change Over.mk (𝟙 D.generic ≫ D.inclusion) = Over.mk D.inclusion
     rw [Category.id_comp]
   let y := back ⋙ D.y.hom.toFunctor
   have hy : y ⋙ ℬ.val.val.p = Over.map D.whole.hom :=
     (congrArg (fun k => back ⋙ k) D.y.hom.w).trans (Over.iteratedSliceBackward_forget D.whole)
   have hgx : (Over.map D.whole.hom).obj (Over.mk D.inclusion.left) = D.generic := by
-    show Over.mk (D.inclusion.left ≫ D.whole.hom) = D.generic
+    change Over.mk (D.inclusion.left ≫ D.whole.hom) = D.generic
     rw [Over.w D.inclusion]
     rfl
   let c₀ : back.obj (Over.mk D.inclusion.left) ≅ Over.mk D.inclusion :=
     Over.isoMk (Over.isoMk (Iso.refl D.generic.left) (by
-          show 𝟙 D.generic.left ≫ D.generic.hom = D.inclusion.left ≫ D.whole.hom
+          change 𝟙 D.generic.left ≫ D.generic.hom = D.inclusion.left ≫ D.whole.hom
           rw [Category.id_comp]
           exact (Over.w D.inclusion).symm)) (by
         apply Over.OverMorphism.ext
-        show 𝟙 D.generic.left ≫ D.inclusion.left = D.inclusion.left
+        change 𝟙 D.generic.left ≫ D.inclusion.left = D.inclusion.left
         rw [Category.id_comp])
   let c : back.obj (Over.mk D.inclusion.left) ≅ D.j.hom.obj V₀ := c₀ ≪≫ eqToIso hjobj.symm
   have hc₀ : (schemeFibredCategory B S hS D.whole).val.p.IsHomLift (𝟙 D.generic) c₀.hom := by
-    show (Over.forget D.whole).IsHomLift (𝟙 D.generic) c₀.hom
+    change (Over.forget D.whole).IsHomLift (𝟙 D.generic) c₀.hom
     refine IsHomLift.of_fac' _ _ _ hgx rfl ?_
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
@@ -150,7 +150,7 @@ theorem nonempty_dottedArrow_of_isProper {𝒜 ℬ : AlgebraicStacks.{u, w} B S 
   have h₁ : (schemeFibredCategory B S hS D.whole).val.p.IsHomLift (𝟙 D.generic)
       (eqToHom hjobj.symm) := IsHomLift.eqToHom_domain_lift_id hjobj.symm rfl
   have hc : (schemeFibredCategory B S hS D.whole).val.p.IsHomLift (𝟙 D.generic) c.hom := by
-    show (schemeFibredCategory B S hS D.whole).val.p.IsHomLift (𝟙 D.generic)
+    change (schemeFibredCategory B S hS D.whole).val.p.IsHomLift (𝟙 D.generic)
       (c₀.hom ≫ eqToHom hjobj.symm)
     exact IsHomLift.comp_lift_id_left _ _ _ _
   have hc' : ℬ.val.val.p.IsHomLift (𝟙 D.generic) (D.y.hom.map c.hom) :=
@@ -173,7 +173,7 @@ theorem nonempty_dottedArrow_of_isProper {𝒜 ℬ : AlgebraicStacks.{u, w} B S 
       hy := D.x.hom.w_obj _
       iso := D.y.hom.toFunctor.mapIso c ≪≫ γIso
       vertical := by
-        show ℬ.val.val.p.IsHomLift (𝟙 D.generic) (D.y.hom.map c.hom ≫ γIso.hom)
+        change ℬ.val.val.p.IsHomLift (𝟙 D.generic) (D.y.hom.map c.hom ≫ γIso.hom)
         exact IsHomLift.comp_lift_id_left _ _ _ _ }
   obtain ⟨q', h, hv⟩ := exists_extension_in_represented_fiber B S hS g.hom hg hrep
     D.inclusion D.R D.whole_iso D.generic_iso D.inclusion_spec y hy q rfl
@@ -193,7 +193,7 @@ theorem nonempty_dottedArrow_of_isProper {𝒜 ℬ : AlgebraicStacks.{u, w} B S 
       simp [back, Over.iteratedSliceBackward, T₀]
       rfl)
   have he : (schemeFibredCategory B S hS D.whole).val.p.IsHomLift (𝟙 D.whole) e.hom := by
-    show (Over.forget D.whole).IsHomLift (𝟙 D.whole) e.hom
+    change (Over.forget D.whole).IsHomLift (𝟙 D.whole) e.hom
     refine IsHomLift.of_fac' _ _ _ rfl ?_ ?_
     · exact hmk
     · apply Over.OverMorphism.ext
@@ -225,7 +225,7 @@ theorem nonempty_dottedArrow_of_isProper {𝒜 ℬ : AlgebraicStacks.{u, w} B S 
   refine CatFiberedInGroupoids.nonempty_dottedArrow_of_fiberObj D.inclusion D.j_canonical
     qy qhy h.b hmlift (D.y.hom.toFunctor.map e.hom ≫ qiso.hom)
     (IsHomLift.comp_lift_id_left _ _ _ _) ?_
-  show D.γ.hom.toNatTrans.app V₀ ≫ g.hom.hom.toFunctor.map h.b =
+  change D.γ.hom.toNatTrans.app V₀ ≫ g.hom.hom.toFunctor.map h.b =
     D.y.hom.toFunctor.map (Over.mkIdTerminal.from (D.j.hom.obj V₀)) ≫
       D.y.hom.toFunctor.map e.hom ≫ qiso.hom
   change D.y.hom.toFunctor.map (back.map h.a) ≫ qiso.hom =
@@ -233,7 +233,7 @@ theorem nonempty_dottedArrow_of_isProper {𝒜 ℬ : AlgebraicStacks.{u, w} B S 
       g.hom.hom.toFunctor.map h.b at hw
   rw [← Category.assoc, hDtDe, Category.assoc, hw]
   exact ((congrArg (D.y.hom.toFunctor.map c.inv ≫ ·) (Category.assoc _ _ _)).trans
-    (c.map_inv_hom_id_assoc _ _)).symm
+    (c.inv_hom_id_map_assoc _ _)).symm
 
 /-! ### The valuative diagram of the relative diagonal attached to two dotted arrows -/
 

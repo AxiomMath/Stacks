@@ -69,7 +69,7 @@ theorem topologicalKrullDim_le_of_isClosed_ne_univ {α : Type*} [TopologicalSpac
       induction a using WithTop.recTopCoe with
       | top => exact absurd hab (lt_irrefl _)
       | coe a =>
-        show img a < ⟨Set.univ, _, _⟩
+        change img a < ⟨Set.univ, _, _⟩
         refine lt_of_le_of_ne (fun x _ => Set.mem_univ x) fun heq => hne ?_
         have h1 : (Subtype.val '' (a : Set T)) = Set.univ := congrArg SetLike.coe heq
         exact Set.eq_univ_of_univ_subset (h1 ▸ Subtype.coe_image_subset _ _)
@@ -79,7 +79,7 @@ theorem topologicalKrullDim_le_of_isClosed_ne_univ {α : Type*} [TopologicalSpac
       | coe a =>
         have hab' : a < b := WithTop.coe_lt_coe.1 hab
         have hab'' : (a : Set T) < (b : Set T) := hab'
-        show img a < img b
+        change img a < img b
         exact (Subtype.val_injective.image_strictMono hab'' : _)
   have hle := Order.krullDim_le_of_strictMono φ hφ
   rw [Order.krullDim_WithTop] at hle
@@ -127,7 +127,7 @@ theorem integralClosedSubspaceIntersectionNumber_of_dimension_eq
         (closedSubspaceToSpace B (Spec (.of k)) hk X ⟨Z.subspace, Z.isClosedSubspace⟩) d f hf
         (closedSubspaceInclusion B (Spec (.of k)) hk X ⟨Z.subspace, Z.isClosedSubspace⟩)
         Z.isClosedSubspace.2 h L :=
-  dif_pos h
+  dite_eq_left h
 
 /-- **Intersecting with the divisor of a regular meromorphic section.** Let `Y` be an integral
 algebraic space proper over `k` of dimension `e + 1`, `𝒩` invertible with a regular meromorphic

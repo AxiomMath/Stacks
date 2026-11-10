@@ -28,8 +28,8 @@ produced is `y` over `O` for the coborder factorization, and its existence is
 `Stacks.Conormal.AffineCotangent.Sections.exists_idealSheaf_section_iff` applied to the vanishing
 `appLE_eq_zero`, which is itself read off from `x₁`.
 
-Consequently **no part of the statement's presentation data is used**: the affine hypothesis `hV`, the
-ideal `I`, the identification `e` of the fibre and the compatibility `he` play no role, and
+Consequently **no part of the statement's presentation data is used**: the affine hypothesis `hV`,
+the ideal `I`, the identification `e` of the fibre and the compatibility `he` play no role, and
 `generator_eq_of_two_factorizations` is stated for an arbitrary section `r` of `Γ(X, V)` over an
 arbitrary open `V`. Had the comparison been made at `i.coborderRange.ι ⁻¹ᵁ V` instead, three
 sections would have had to be produced rather than one, and each would have needed the
@@ -102,8 +102,8 @@ the image of `x` in the structure sheaf — then `r` restricts to zero on every 
 inside `k ⁻¹ᵁ W`.
 
 This is what produces the section of the coborder ideal sheaf in
-`generator_eq_of_two_factorizations` without any appeal to the presentation data of the statement: the
-vanishing needed there is read off from one of the two given sections. -/
+`generator_eq_of_two_factorizations` without any appeal to the presentation data of the statement:
+the vanishing needed there is read off from one of the two given sections. -/
 theorem appLE_eq_zero {Z X : Scheme.{u}} (i : Z ⟶ X) (V : X.Opens)
     (U : X.Opens) (k : Z ⟶ U.toScheme) (hfac : k ≫ U.ι = i)
     (W : U.toScheme.Opens) (hW : W ≤ U.ι ⁻¹ᵁ V) (r : Γ(X, V))
@@ -114,7 +114,7 @@ theorem appLE_eq_zero {Z X : Scheme.{u}} (i : Z ⟶ X) (V : X.Opens)
     (S : Z.Opens) (hS : S ≤ i ⁻¹ᵁ V) (hSk : S ≤ k ⁻¹ᵁ W) :
     (i.appLE V S hS).hom r = 0 := by
   rw [← appLE_appLE_eq_of_comp_eq k U.ι i hfac V W S hW hSk hS r, hx]
-  show (Z.presheaf.map (homOfLE hSk).op).hom ((k.app W).hom _) = 0
+  change (Z.presheaf.map (homOfLE hSk).op).hom ((k.app W).hom _) = 0
   rw [Sections.app_idealSheaf_section_eq_zero, map_zero]
 
 /-! ### The two sections correspond -/
@@ -167,13 +167,13 @@ theorem idealRestrictHomOfCompEq_app_eq {Z X : Scheme.{u}} (i : Z ⟶ X) [IsImme
     (comp_homOfLE_eq_liftCoborder i U k hfac)
   have h0 := congrArg (fun m => SheafOfModules.Hom.val m |>.app (.op O) y) hmor
   refine Locality.idealSheaf_section_injective k _ ?_
-  show (kernel.ι (SheafOfModules.unitToPushforwardObjUnit
+  change (kernel.ι (SheafOfModules.unitToPushforwardObjUnit
         (structureSheafHom k.toLRSHom.toShHom))).val.app
           (.op (X.homOfLE (le_coborderRange_of_comp_eq i U k hfac) ⁻¹ᵁ O))
       ((idealRestrictHomOfCompEq k (X.homOfLE (le_coborderRange_of_comp_eq i U k hfac))
         i.liftCoborder (comp_homOfLE_eq_liftCoborder i U k hfac)).val.app (.op O) y) = _
   refine h0.trans ?_
-  show ((X.homOfLE (le_coborderRange_of_comp_eq i U k hfac)).app O).hom
+  change ((X.homOfLE (le_coborderRange_of_comp_eq i U k hfac)).app O).hom
       ((kernel.ι (SheafOfModules.unitToPushforwardObjUnit
         (structureSheafHom i.liftCoborder.toLRSHom.toShHom))).val.app (.op O) y) = _
   rw [← hy, app_appLE_comp _ i.coborderRange.ι U.ι (X.homOfLE_ι _) V O hO hW' r, hx']
@@ -228,8 +228,8 @@ private theorem liftCoborder_preimage_image {Z X : Scheme.{u}} (i : Z ⟶ X) [Is
     Scheme.Hom.preimage_image_eq]
 
 /-- **Compatibility of two open factorizations, for an arbitrary ambient section.** This is the
-assertion of part (1) of the tag with its presentation data removed: no affineness of `V`, no ideal, no
-identification of the fibre. Only that `r : Γ(X, V)` names a section of each of the two ideal
+assertion of part (1) of the tag with its presentation data removed: no affineness of `V`, no ideal,
+no identification of the fibre. Only that `r : Γ(X, V)` names a section of each of the two ideal
 sheaves. -/
 theorem generator_eq_of_two_factorizations {Z X : Scheme.{u}} (i : Z ⟶ X) [IsImmersion i]
     (V : X.Opens) (r : Γ(X, V))
@@ -289,7 +289,8 @@ identifications from two open factorizations agree on common conormal sections: 
 same ambient ideal generator agree after restriction to any common source open.
 
 This is `generator_eq_of_two_factorizations` at `r = (a : Γ(X, V))`. The presentation data
-`hV`, `I`, `e`, `he` is carried because the tagged statement carries it; the proof does not use it, and the
+`hV`, `I`, `e`, `he` is carried because the tagged statement carries it; the proof does not use it,
+and the
 statement proved is the stronger one with `a : I` replaced by an arbitrary `r : Γ(X, V)` and the
 presentation dropped altogether. -/
 @[stacks 01R3 "part (1): compatibility of open factorizations"]
@@ -319,7 +320,8 @@ theorem conormalQuotientMap_restrict_factorization {Z X : Scheme.{u}} (i : Z ⟶
         ((conormalQuotientMap i U₁ i₁ hfac₁).val.app (.op W₁) x₁) =
       (conormalSheaf i).val.map (homOfLE hT₂).op
         ((conormalQuotientMap i U₂ i₂ hfac₂).val.app (.op W₂) x₂) := by
-  -- `he` is a hypothesis of the tagged statement, so it is kept verbatim; the proof does not need it.
+  -- `he` is a hypothesis of the tagged statement, so it is kept verbatim; the proof does not need
+  -- it.
   -- Mentioning it keeps the statement's binder name while satisfying the unused-variable linter.
   have _ := he
   exact generator_eq_of_two_factorizations i V (a : Γ(X, V)) U₁ U₂ i₁ i₂ hfac₁ hfac₂

@@ -130,7 +130,7 @@ theorem comparison_leftUnitor_inv (A : _root_.SheafOfModules.{u} (structureRingS
         (tensorSheafUnitLeftIso X ((pullbackFunctor f).obj A)).inv :=
       (Iso.eq_comp_inv _).mpr ((Category.assoc _ _ _).trans (comparison_leftUnitor f A))
   rw [h2]
-  exact Iso.map_inv_hom_id_assoc (tensorSheafUnitLeftIso Y A) (pullbackFunctor f) _
+  exact Iso.inv_hom_id_map_assoc (tensorSheafUnitLeftIso Y A) (pullbackFunctor f) _
 
 end Stacks.RingedSpace
 
@@ -163,6 +163,7 @@ theorem conjugateEquiv_symm_internalHomSecondFunctorUnitIso_app
     MonoidalCategory.reseat_leftUnitor_inv]
   rfl
 
+omit [K.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Evaluation at the unit section along `u : O ⟶ M`, as a conjugate, with the inverse left
 unitor named as the conjugate preimage of the trivialisation.** -/
 theorem internalHomPrecompNatTrans_comp_unitIso_symm

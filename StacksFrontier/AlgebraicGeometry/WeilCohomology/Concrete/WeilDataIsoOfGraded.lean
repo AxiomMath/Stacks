@@ -237,7 +237,7 @@ theorem coe_cycleClassCoord_intersection_gysin (hC : W.CycleClassPullback) (hCc 
         (prod Q P).obj.hom d 1 (codimensionGysin _ _ (Over.w (fst Q P).hom) d e)
         (codimensionGysin _ _ (Over.w (snd Q P).hom) 1 p)) : W.H (prod Q P)) =
       W.pull (fst Q P) (W.cycleClassCoord Q d e) * W.pull (snd Q P) (W.cycleClassCoord P 1 p) := by
-  show ((W.cycleClassCoord (prod Q P) ((d : ℤ) + 1) (codimensionIntersectionProduct k
+  change ((W.cycleClassCoord (prod Q P) ((d : ℤ) + 1) (codimensionIntersectionProduct k
     (prod Q P).obj.hom d 1 _ _) : W.grade (prod Q P) (2 * ((d : ℤ) + 1))) : W.H (prod Q P)) = _
   rw [coe_cycleClassCoord_intersection W hCc, cycleClassCoord_codimensionGysin W hC,
     cycleClassCoord_codimensionGysin W hC]
@@ -414,7 +414,7 @@ theorem isIsomorphic [CharZero F] (hB : W.Kunneth) (hB' : W'.Kunneth) (hA' : W'.
     rw [key]
     rcases le_or_gt 0 i with hi | hi
     · obtain ⟨n, rfl⟩ := Int.eq_ofNat_of_zero_le hi
-      show W'.cycleClassCoord X n α = _ • Θ.e X (2 * (n : ℤ)) (W.cycleClassCoord X n α)
+      change W'.cycleClassCoord X n α = _ • Θ.e X (2 * (n : ℤ)) (W.cycleClassCoord X n α)
       rw [e_cycleClassCoord hΘ hpW hpW' hBa hCa hCc hCd hBa' hCa' hCc' hCd' hB hB' hA' hC' X n α,
         smul_smul, hcancel, one_smul]
     · rw [codimensionChowGroup_eq_zero_of_neg X hi α]

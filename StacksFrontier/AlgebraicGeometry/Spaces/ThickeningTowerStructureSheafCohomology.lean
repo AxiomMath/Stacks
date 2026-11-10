@@ -132,7 +132,7 @@ theorem finiteCoverings_cofinal (hF : IsAlgebraicSpace B S hS F) :
   let E' : PreZeroHypercover.{u} U := E.restrictIndex eqv'
   have hpre : E'.presieve₀ = E.presieve₀ := E.presieve₀_restrictIndex_equiv eqv'
   have hmem : E'.sieve₀ ∈ AffineEtale.topology B S hS F U := by
-    show Sieve.generate E'.presieve₀ ∈ AffineEtale.topology B S hS F U
+    change Sieve.generate E'.presieve₀ ∈ AffineEtale.topology B S hS F U
     rw [hpre]
     exact Precoverage.generate_mem_toGrothendieck
       ((AffineEtale.mem_precoverage_iff B S hS F).mpr ⟨E, rfl, hE⟩)
@@ -316,7 +316,7 @@ theorem isZero_cechCohomology_towerStructureSheafAffine (hF : IsAlgebraicSpace B
   · intro y
     obtain ⟨x, hx⟩ := surjective_towerRingsTransition e T n (op W') y.down
     refine ⟨ULift.up x, ?_⟩
-    show TopCommRingCat.DiscreteULift.up (((towerRingsSystem e T).map
+    change TopCommRingCat.DiscreteULift.up (((towerRingsSystem e T).map
       (homOfLE (Nat.le_succ n)).op).app (op W') x) = y
     rw [towerRingsSystem_map_succ]
     exact congrArg ULift.up hx

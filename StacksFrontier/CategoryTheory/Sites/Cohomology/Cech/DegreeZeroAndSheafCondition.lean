@@ -443,7 +443,7 @@ public theorem cechRestriction_bijective_of_isSheaf
     (J : GrothendieckTopology C) (F : Cᵒᵖ ⥤ AddCommGrpCat.{a})
     (hF : Presheaf.IsSheaf J F) {X : C} (E : PreZeroHypercover.{w} X)
     (hE : E.sieve₀ ∈ J X) : Function.Bijective (cechRestriction E F) :=
-  (Presieve.isSheafFor_ofArrows_iff_bijective_toCompabible _ _).1
+  (Presieve.isSheafFor_ofArrows_iff_bijective_toCompatible _ _).1
     (((isSheaf_iff_isSheaf_of_type J (F ⋙ forget AddCommGrpCat.{a})).1
       (GrothendieckTopology.HasSheafCompose.isSheaf F hF)).isSheafFor E.presieve₀ hE)
 
@@ -462,7 +462,7 @@ public theorem isSheaf_iff_bijective_cechRestriction
   have hE : S.arrows.preZeroHypercover.sieve₀ ∈ J X := by
     change Sieve.generate S.arrows.preZeroHypercover.presieve₀ ∈ J X
     simpa using hS
-  have h' := (Presieve.isSheafFor_ofArrows_iff_bijective_toCompabible
+  have h' := (Presieve.isSheafFor_ofArrows_iff_bijective_toCompatible
     (F ⋙ forget AddCommGrpCat.{a}) S.arrows.preZeroHypercover.f).2
     (h S.arrows.preZeroHypercover hE)
   change Presieve.IsSheafFor _ S.arrows.preZeroHypercover.presieve₀ at h'

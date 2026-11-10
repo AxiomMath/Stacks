@@ -23,10 +23,10 @@ variable (X : AlgebraicSpaces B S hS) (E : SheafOfModules.{u} (structureRingShea
 variable {T : BigFppfOver B S hS} (u : yoneda.obj T ⟶ X.1)
 variable {X' : AlgebraicSpaces B S hS} (g : X' ⟶ X) {T' : BigFppfOver B S hS}
 variable (v : yoneda.obj T' ⟶ X'.1) (h : T' ⟶ T) (hvh : v ≫ g.hom = yoneda.map h ≫ u)
-variable (hE : E.IsQuasicoherentOnSite) (hb : SymmetricAlgebraBounded X E)
+variable (hE : E.IsQuasicoherentOnSite)
 variable (hb' : SymmetricAlgebraBounded X' ((modulePullback B S hS g).obj E))
 
-include u h hvh hE hb hb' in
+include u h hE hb' in
 /-- The quotient carried by the section of the fibre of `𝐏(g^*ℰ)` over `v` is the Zariski reading
 of a representative of the class of the inclusion of the fibre (Tag 0B3V). -/
 theorem overQuotient_pointBundleSection_eq_zariskiReading
@@ -141,7 +141,7 @@ theorem overQuotient_pointBundleSection_eq_zariskiReading
         ((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
         (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g)
         hb').relativeProjPoints.fibreHom T' v))))
-        (pointBundleSection_comp_projectiveBundleBaseChange_comp_toBase X E u g v h hvh hE hb hb'))
+        (pointBundleSection_comp_projectiveBundleBaseChange_comp_toBase X E u g v h hE hb'))
         = Quotient.mk (Stacks.Divisors.invertibleQuotientSetoid
         ((BigFppfOver.toScheme B S hS).obj ((projectiveBundleSituation X'
         ((modulePullback B S hS g).obj E) (isQuasicoherentOnSite_modulePullback_projectiveBundle X E
@@ -202,7 +202,7 @@ theorem overQuotient_pointBundleSection_eq_zariskiReading
       ((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
       (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g)
       hb').relativeProjPoints.fibreHom T' v) ≫ v}))
-      (pointBundleSection_comp_projectiveBundleBaseChange_comp_toBase X E u g v h hvh hE hb
+      (pointBundleSection_comp_projectiveBundleBaseChange_comp_toBase X E u g v h hE
       hb')).symm.trans
     (projectiveBundleSectionsEquiv_pointBundleSection X' ((modulePullback B S hS g).obj E)
         (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g) hb'
@@ -240,7 +240,7 @@ theorem overQuotient_pointBundleSection_eq_zariskiReading
           hb').relativeProjPoints.fibreHom T' v) ≫ v))) hQ₀.symm).trans
         (invertibleQuotientClassZariskiEquiv_mk _ _ Q₀))
 
-include u h hvh hE hb hb' in
+include u h hvh hE hb' in
 /-- The quotient carried by the section of the fibre of `𝐏(g^*ℰ)` over `v`, read through
 `(u ∘ h ∘ f')^*ℰ ≅ (v ∘ f')^* g^*ℰ`, is the Zariski reading of the transported representative. -/
 theorem overQuotient_pointBundleSection_twoSpace_transport
@@ -359,7 +359,7 @@ theorem overQuotient_pointBundleSection_twoSpace_transport
         ((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
         (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g)
         hb').relativeProjPoints.fibreHom T' v))))
-        (pointBundleSection_comp_projectiveBundleBaseChange_comp_toBase X E u g v h hvh hE hb hb'))
+        (pointBundleSection_comp_projectiveBundleBaseChange_comp_toBase X E u g v h hE hb'))
         = Quotient.mk (Stacks.Divisors.invertibleQuotientSetoid
         ((BigFppfOver.toScheme B S hS).obj ((projectiveBundleSituation X'
         ((modulePullback B S hS g).obj E) (isQuasicoherentOnSite_modulePullback_projectiveBundle X E
@@ -390,9 +390,9 @@ theorem overQuotient_pointBundleSection_twoSpace_transport
       T' v) (yoneda.map ((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
       (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g)
       hb').relativeProjPoints.fibreHom T' v) ≫ v)
-  exact Quotient.sound (overQuotient_mapIso_trans_isEquivalent
+  exact Quotient.sound (@overQuotient_mapIso_trans_isEquivalent _ _ _ _ _ _ _ _
       (Stacks.RelativeProj.tautologicalDatum (pointZariskiModule X'
-      ((modulePullback B S hS g).obj E) T' v)) (isQuasicoherentOnSite_pointPullback X E hE
+      ((modulePullback B S hS g).obj E) T' v)) _ _ (isQuasicoherentOnSite_pointPullback X E hE
       ((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
       (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g) hb').relativeProjPoints.fibre
       T' v) (yoneda.map (((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
@@ -405,14 +405,14 @@ theorem overQuotient_pointBundleSection_twoSpace_transport
       T' v) (yoneda.map ((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
       (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g)
       hb').relativeProjPoints.fibreHom T' v) ≫ v))
-    (i₁ := isQuasicoherent_pointZariskiModule X E hE
+      (isQuasicoherent_pointZariskiModule X E hE
         ((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
         (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g)
         hb').relativeProjPoints.fibre T' v) (yoneda.map
         (((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
         (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g)
         hb').relativeProjPoints.fibreHom T' v) ≫ h) ≫ u))
-    (i₂ := isQuasicoherent_pointZariskiModule X' ((modulePullback B S hS g).obj E)
+      (isQuasicoherent_pointZariskiModule X' ((modulePullback B S hS g).obj E)
         (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g)
         ((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
         (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g)
@@ -467,9 +467,9 @@ theorem overQuotient_pointBundleSection_twoSpace_transport
         ((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
         (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g)
         hb').relativeProjPoints.fibreHom T' v))))
-        (pointBundleSection_comp_projectiveBundleBaseChange_comp_toBase X E u g v h hvh hE hb hb')
+        (pointBundleSection_comp_projectiveBundleBaseChange_comp_toBase X E u g v h hE hb')
         Q₀
-    (Quotient.exact (overQuotient_pointBundleSection_eq_zariskiReading X E u g v h hvh hE hb hb' Q₀
+    (Quotient.exact (overQuotient_pointBundleSection_eq_zariskiReading X E u g v h hE hb' Q₀
         hQ₀)))
 
 end AlgebraicGeometry.Space

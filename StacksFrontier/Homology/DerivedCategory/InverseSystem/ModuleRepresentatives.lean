@@ -79,6 +79,7 @@ private noncomputable def prodAb (M : PresheafOfModules.{v} A) : ℕᵒᵖ ⥤ A
     ext x j
     rfl
 
+@[instance_reducible]
 private noncomputable def prodModule (M : PresheafOfModules.{v} A) (X : ℕᵒᵖ) :
     Module (A.obj X) ((prodAb M).obj X) := by
   change Module (A.obj X) ((j : Fin (X.unop + 1)) → M.obj (op j.val))
@@ -195,7 +196,7 @@ private lemma prod_transition_surjective (M : PresheafOfModules.{v} A) (n : ℕ)
   let x : (prodPresheaf M).obj (op (n + 1)) :=
     fun j => if h : j.val ≤ n then y ⟨j.val, Nat.lt_succ_of_le h⟩ else 0
   refine ⟨x, ?_⟩
-  show (fun j : Fin (n + 1) => x (earlierIndex (Nat.le_succ n) j)) = y
+  change (fun j : Fin (n + 1) => x (earlierIndex (Nat.le_succ n) j)) = y
   funext j
   simp [x, earlierIndex, Nat.le_of_lt_succ j.isLt]
 
@@ -226,7 +227,7 @@ private lemma cokernel_π_f_epi (K L : CochainComplex (PresheafOfModules.{v} A) 
   let F := HomologicalComplex.eval (PresheafOfModules.{v} A) (.up ℤ) i
   have : PreservesColimit (parallelPair φ 0) F :=
     HomologicalComplex.eval_preservesColimit_of_hasCokernel_f φ i
-  show Epi (F.map (cokernel.π φ))
+  change Epi (F.map (cokernel.π φ))
   rw [← π_comp_cokernelComparison φ F]
   infer_instance
 
@@ -256,7 +257,7 @@ private lemma biprod_transition_surjective (P Q : PresheafOfModules.{v} A)
   refine ⟨((biprod.inl : P ⟶ P ⊞ Q).app (op (n + 1)) p) +
       ((biprod.inr : Q ⟶ P ⊞ Q).app (op (n + 1)) q), ?_⟩
   simp only [map_add]
-  show (P ⊞ Q).map f ((biprod.inl : P ⟶ P ⊞ Q).app (op (n + 1)) p) +
+  change (P ⊞ Q).map f ((biprod.inl : P ⟶ P ⊞ Q).app (op (n + 1)) p) +
       (P ⊞ Q).map f ((biprod.inr : Q ⟶ P ⊞ Q).app (op (n + 1)) q) = y
   rw [← PresheafOfModules.naturality_apply (biprod.inl : P ⟶ P ⊞ Q) f p,
     ← PresheafOfModules.naturality_apply (biprod.inr : Q ⟶ P ⊞ Q) f q, hp, hq]
@@ -293,7 +294,7 @@ private noncomputable def fiberIso (K : CochainComplex (PresheafOfModules.{v} A)
     (rotate_distinguished_triangle T₂).mp
       (DerivedCategory.mappingCocone_triangle_distinguished π)
   let e := isoTriangleOfIso₁₂ T₁.rotate T₂.rotate hT₁ hT₂
-    (Iso.refl _) (Iso.refl _) (by simp [T₁, T₂, S, π, Functor.mapTriangle,
+    (Iso.refl _) (Iso.refl _) (by simp [T₁, T₂, S, π,
       CochainComplex.mappingCocone.triangle])
   let e₃ := Triangle.π₃.mapIso e
   exact (shiftEquiv _ (1 : ℤ)).unitIso.app _ ≪≫

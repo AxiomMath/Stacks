@@ -127,7 +127,7 @@ theorem baseChangeCohomologyAction_apply_eq (K : DerivedCategory (ModuleCat.{u} 
 theorem includeLeft_algebraMap_eq_includeRight_algebraMap (r : R) :
     (Algebra.TensorProduct.includeLeft (R := R) (S := R) (algebraMap R A r) : A ⊗[R] R') =
       Algebra.TensorProduct.includeRight (algebraMap R R' r) := by
-  show (algebraMap R A r) ⊗ₜ[R] (1 : R') = (1 : A) ⊗ₜ[R] (algebraMap R R' r)
+  change (algebraMap R A r) ⊗ₜ[R] (1 : R') = (1 : A) ⊗ₜ[R] (algebraMap R R' r)
   rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one]
   exact TensorProduct.smul_tmul r (1 : A) (1 : R')
 
@@ -348,13 +348,13 @@ theorem cohomologyComparisonMap_includeLeft_smul (a : A)
       J.map α ≫ ((ModuleCat.restrictScalars i).mapDerivedCategoryHomologyIso n).hom.app K' := rfl
   have hφ : Th.functor.map (a • 𝟙 K) ≫ φ = φ ≫ (h a • 𝟙 K') := by
     rw [derivedExtension_scalar]
-    show (h a • 𝟙 (Th.functor.obj K)) ≫ φ = φ ≫ (h a • 𝟙 K')
+    change (h a • 𝟙 (Th.functor.obj K)) ≫ φ = φ ≫ (h a • 𝟙 K')
     simp only [Linear.smul_comp, Linear.comp_smul, Category.id_comp, Category.comp_id]
   have hd : ((ModuleCat.restrictScalars f).mapDerivedCategory ⋙ Tg.functor).map
       (a • 𝟙 K) ≫ α = α ≫ C.map (h a • 𝟙 K') := by
     dsimp only [α]
     rw [← Category.assoc, τ.naturality]
-    show (τ.app K ≫ C.map (Th.functor.map (a • 𝟙 K))) ≫ C.map φ = _
+    change (τ.app K ≫ C.map (Th.functor.map (a • 𝟙 K))) ≫ C.map φ = _
     rw [Category.assoc, ← C.map_comp, hφ, C.map_comp, Category.assoc]
   have hn := ((ModuleCat.restrictScalars i).mapDerivedCategoryHomologyIso n).hom.naturality
     (h a • 𝟙 K')
@@ -364,7 +364,7 @@ theorem cohomologyComparisonMap_includeLeft_smul (a : A)
       cohomologyComparisonMap (R := R) (R' := R') K K' φ n ≫
         (ModuleCat.restrictScalars i).map (h a • 𝟙 H') := by
     rw [hq, ← Category.assoc, ← J.map_comp, hd, J.map_comp, Category.assoc]
-    show _ ≫ ((C ⋙ J).map (h a • 𝟙 K') ≫
+    change _ ≫ ((C ⋙ J).map (h a • 𝟙 K') ≫
       ((ModuleCat.restrictScalars i).mapDerivedCategoryHomologyIso n).hom.app K') = _
     rw [hn]
     dsimp only [Functor.comp_map]
@@ -393,10 +393,7 @@ def cohomologyComparisonLinearMap :
         map_add' := fun x y => q.hom.map_add x y
         map_smul' := fun t m => by
           change q.hom (t • m) = k t • (show H' from q.hom m)
-          induction t using TensorProduct.induction_on with
-          | zero =>
-            rw [zero_smul, k.map_zero]
-            exact q.hom.map_zero.trans (zero_smul A' (show H' from q.hom m)).symm
+          induction t using TensorProduct.inductionOn with
           | add x y hx hy =>
             rw [add_smul, k.map_add]
             exact (q.hom.map_add _ _).trans

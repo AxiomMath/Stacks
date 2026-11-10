@@ -52,14 +52,14 @@ theorem reindexBackSharp_triangle :
       e.functor.op.whiskerLeft (reindexBackSharp (J' := J') e R).hom ≫
       Functor.whiskerRight (NatTrans.op e.unit) (reindexRing J' e R).obj = 𝟙 _ := by
   ext A : 2
-  show 𝟙 _ ≫ R.obj.map _ ≫ R.obj.map _ = 𝟙 _
+  change 𝟙 _ ≫ R.obj.map _ ≫ R.obj.map _ = 𝟙 _
   rw [Category.id_comp, ← R.obj.map_comp, ← R.obj.map_id]
   congr 1
   simp [← op_comp]
 
 /-- The structure map of the inverse transport is invertible. -/
 instance isIso_reindexBackSharp : IsIso (reindexBackSharp (J' := J') e R) := by
-  haveI : IsIso ((sheafToPresheaf _ _).map (reindexBackSharp (J' := J') e R)) :=
+  have : IsIso ((sheafToPresheaf _ _).map (reindexBackSharp (J' := J') e R)) :=
     (Functor.isoWhiskerRight (NatIso.op e.counitIso) R.obj).isIso_hom
   exact isIso_of_fully_faithful (sheafToPresheaf _ _) _
 

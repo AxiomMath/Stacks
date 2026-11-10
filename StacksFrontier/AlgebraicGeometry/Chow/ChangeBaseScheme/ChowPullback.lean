@@ -114,7 +114,7 @@ private theorem map_eq_genericPoint_of_mem_schemeAssociatedPoints {Y X : Scheme.
   have hpbot : (hU.primeIdealOf ⟨q y, hx⟩).asIdeal = ⊥ := by
     apply le_antisymm _ bot_le
     intro a ha
-    show a = 0
+    change a = 0
     have ha' : φ a ∈ (hV.primeIdealOf ⟨y, hyV⟩).asIdeal := by
       have hnat := IsAffineOpen.comap_primeIdealOf_appLE U hU V hV hVU hyV
       rw [← hnat] at ha
@@ -219,7 +219,7 @@ private theorem baseChangedFamilyProjection_comp {X S S' : Scheme.{u}} (f : X �
     (W : (projectiveLineProduct f).IdealSheafData) :
     baseChangedFamilyProjection f g W ≫ W.subschemeι =
       (baseChangedFamily f g W).subschemeι ≫ projectiveLineProductBaseChange f g := by
-  show ((W.comapIso (projectiveLineProductBaseChange f g)).hom ≫
+  change ((W.comapIso (projectiveLineProductBaseChange f g)).hom ≫
       pullback.snd (projectiveLineProductBaseChange f g) W.subschemeι) ≫ W.subschemeι =
     (W.comap (projectiveLineProductBaseChange f g)).subschemeι ≫
       projectiveLineProductBaseChange f g

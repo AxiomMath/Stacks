@@ -487,7 +487,7 @@ theorem modulePullbackCompIso_inv_comp_pullbackTransport_comp_hom {T Y X : Algeb
           (modulePullbackCompIso B S hS b π).hom.app M) =
       pullbackTransport M (congrArg (· ≫ π) h : a ≫ π = b ≫ π) := by
   subst h
-  show _ ≫ 𝟙 _ ≫ _ = 𝟙 _
+  change _ ≫ 𝟙 _ ≫ _ = 𝟙 _
   rw [Category.id_comp, Iso.inv_hom_id_app]
 
 end Coherence

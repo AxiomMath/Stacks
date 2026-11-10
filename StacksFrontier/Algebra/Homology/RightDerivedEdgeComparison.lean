@@ -95,7 +95,7 @@ theorem toRightDerivedZero_comp_edge_zero (X : A) :
   refine Eq.trans ?_
     (key.trans (InjectiveResolution.toRightDerivedZero_eq (injectiveResolution X) (P ⋙ Q)).symm)
   rw [InjectiveResolution.toRightDerivedZero_eq (injectiveResolution (P.obj X)) Q]
-  show ((injectiveResolution (P.obj X)).toRightDerivedZero' Q ≫
+  change ((injectiveResolution (P.obj X)).toRightDerivedZero' Q ≫
       HomologicalComplex.homologyπ _ 0 ≫
       ((injectiveResolution (P.obj X)).isoRightDerivedObj Q 0).inv) ≫
       ((injectiveResolution (P.obj X)).isoRightDerivedObj Q 0).hom ≫

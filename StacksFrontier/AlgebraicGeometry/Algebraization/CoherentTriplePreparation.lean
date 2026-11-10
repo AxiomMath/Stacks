@@ -189,23 +189,23 @@ public theorem puncturedSpectrum_eq_support_compl (A : Type u) [CommRing A] [IsL
   let r : Spec (CommRingCat.of (IsLocalRing.ResidueField A)) ⟶ X :=
     Spec.map (CommRingCat.ofHom (IsLocalRing.residue A))
   have hrange : Set.range r = ({IsLocalRing.closedPoint A} : Set X) := by
-    show Set.range (PrimeSpectrum.comap (IsLocalRing.residue A)) = _
+    change Set.range (PrimeSpectrum.comap (IsLocalRing.residue A)) = _
     rw [range_comap_of_surjective _ _ IsLocalRing.residue_surjective, IsLocalRing.ker_residue]
     ext x
     rw [PrimeSpectrum.mem_zeroLocus]
-    show IsLocalRing.maximalIdeal A ≤ x.asIdeal ↔ x = IsLocalRing.closedPoint A
+    change IsLocalRing.maximalIdeal A ≤ x.asIdeal ↔ x = IsLocalRing.closedPoint A
     refine ⟨fun h ↦ le_antisymm le_top h, ?_⟩
     rintro rfl
     exact le_rfl
   have hclosed : IsClosed ({IsLocalRing.closedPoint A} : Set X) := by
     rw [← hrange]
-    show IsClosed (Set.range (PrimeSpectrum.comap (IsLocalRing.residue A)))
+    change IsClosed (Set.range (PrimeSpectrum.comap (IsLocalRing.residue A)))
     exact PrimeSpectrum.isClosed_range_comap_of_surjective _ _ IsLocalRing.residue_surjective
   have hsupp : ((Scheme.Hom.ker r).support : Set X) =
       ({IsLocalRing.closedPoint A} : Set X) := by
     rw [Scheme.Hom.support_ker, hrange, hclosed.closure_eq]
   ext x
-  show x ∈ ({IsLocalRing.closedPoint A} : Set X)ᶜ ↔
+  change x ∈ ({IsLocalRing.closedPoint A} : Set X)ᶜ ↔
     x ∉ ((Scheme.Hom.ker r).support : Set X)
   simp [hsupp]
 
@@ -260,8 +260,8 @@ triple and a suitable power `n`; the three steps are described in the implementa
 this file. -/
 @[stacks 0F23]
 public theorem nonempty_preparedExtension (A : Type u) [CommRing A]
-    [IsLocalRing A] [IsNoetherianRing A] (f : A) (hf : f ∈ IsLocalRing.maximalIdeal A)
-    (hreg : IsRegular f) (T : CoherentTriple A f) : Nonempty (PreparedExtension A f T) := by
+    [IsLocalRing A] [IsNoetherianRing A] (f : A) (T : CoherentTriple A f) :
+    Nonempty (PreparedExtension A f T) := by
   classical
   let U := Stacks.Divisors.puncturedSpectrum A
   let j := U.ι
@@ -325,7 +325,7 @@ public theorem nonempty_preparedExtension (A : Type u) [CommRing A]
     Equiv.apply_symm_apply _ ψ
   rw [hq] at hbc
   have hcompat := (adj.homEquiv _ _).injective (hbc.trans hext')
-  show (Scheme.Modules.pullbackCongr (morphismRestrict_ι i U).symm).hom.app H ≫
+  change (Scheme.Modules.pullbackCongr (morphismRestrict_ι i U).symm).hom.app H ≫
       (Scheme.Modules.pullbackComp k j).inv.app H ≫
       (Scheme.Modules.pullback k).map α'.hom ≫ T.alpha.hom =
     (Scheme.Modules.pullbackComp j₀ i).inv.app H ≫

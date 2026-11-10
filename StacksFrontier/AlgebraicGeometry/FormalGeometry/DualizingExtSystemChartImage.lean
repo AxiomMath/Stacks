@@ -130,7 +130,7 @@ public theorem map_linearEquiv_localized₀ {R : Type*} [CommRing R] (p : Submon
     intro m s
     refine (IsLocalizedModule.mk'_eq_iff.mpr ?_).symm
     have h1 : (s : R) • IsLocalizedModule.mk' f₁ m s = f₁ m := IsLocalizedModule.mk'_cancel' f₁ m s
-    show f₂ m = (s : R) • _
+    change f₂ m = (s : R) • _
     rw [← LinearEquiv.map_smul, h1, IsLocalizedModule.linearEquiv_apply]
   ext x
   constructor

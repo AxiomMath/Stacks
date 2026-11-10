@@ -134,7 +134,7 @@ generalizes `AlgebraicGeometry.Scheme.Modules.sectionsTopLinearEquivOfIso`, whic
 `W = ⊤`, and subsumes it: the body is the same with the open as a parameter. -/
 def sectionsLinearEquivOfIso {Y : Scheme.{u}} {M N : Y.Modules} (e : M ≅ N)
     (W : Y.Opens) : Γ(M, W) ≃ₗ[Γ(Y, W)] Γ(N, W) :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (sectionsLinearMap e.hom W)
     (sectionsLinearMap e.inv W)
     (LinearMap.ext fun x => by

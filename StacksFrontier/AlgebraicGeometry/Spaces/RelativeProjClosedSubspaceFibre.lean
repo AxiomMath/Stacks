@@ -309,7 +309,7 @@ theorem inter_range_fibreClosedImmersion_eq_empty
         z) = pointsMap s.site s.base s.containsBase _ (yoneda.map g) p := by
     apply (schemePointsHomeomorph s.site s.base s.containsBase T).injective
     rw [Homeomorph.apply_symm_apply]
-    show _ = pointsToScheme s.site s.base s.containsBase T _
+    change _ = pointsToScheme s.site s.base s.containsBase T _
     rw [pointsToScheme_pointsMap, hz, s.fibreClosedImmersion_comp_toBase]
   have hsq : yoneda.map g ≫ f = s.fibreClosedSubspaceToSpace hi T f ≫ i ≫ s.relativeProjπ := by
     rw [Functor.map_comp, Category.assoc, ← (s.relativeProjPoints.isPullback T f).w,
@@ -353,7 +353,7 @@ theorem exists_isCompact_opens_image_cover
       rw [hφ]
       exact congrArg _ ((schemePointsHomeomorph s.site s.base s.containsBase T).symm_apply_apply p)
     have htW : t ∈ W := by
-      show φ t ∈ U
+      change φ t ∈ U
       rwa [hφt]
     obtain ⟨_, ⟨O, hO, rfl⟩, htO, hOW⟩ :=
       (((BigFppfOver.toScheme s.site s.base s.containsBase).obj

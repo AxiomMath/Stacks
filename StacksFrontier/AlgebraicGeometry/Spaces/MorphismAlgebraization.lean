@@ -96,7 +96,7 @@ private theorem adicFibreSubspace_le_range_of_comp_eq {X P : (BigFppfOver B (Spe
     {f : P ⟶ X} (n : ℕ) (k : adicFibre A I B hS hSn fX n ⟶ P)
     (hk : k ≫ f = pullback.fst fX (yoneda.map (adicThickeningMap A I B hS hSn n))) :
     (adicFibreSubspace A I B hS hSn ⟨X, hX⟩ fX n).1 ≤ Subfunctor.range f := by
-  show (Subfunctor.range (yoneda.map (adicThickeningMap A I B hS hSn n))).preimage fX ≤ _
+  change (Subfunctor.range (yoneda.map (adicThickeningMap A I B hS hSn n))).preimage fX ≤ _
   rw [← range_adicFibre_fst]
   rintro U _ ⟨x, rfl⟩
   exact ⟨k.app U x, by rw [← hk]; rfl⟩
@@ -218,7 +218,7 @@ theorem range_adicGraph
     have ht' : (pullback.snd fX (yoneda.map (adicThickeningMap A I B hS hSn (n + 1)))).app U x' =
         (yoneda.map (adicThickeningSuccMap A I B hS hSn n)).app U t := by
       have := mono_adicThickeningMap A I B hS hSn (n + 1)
-      show _ = t ≫ adicThickeningSuccMap A I B hS hSn n
+      change _ = t ≫ adicThickeningSuccMap A I B hS hSn n
       refine (cancel_mono (adicThickeningMap A I B hS hSn (n + 1))).1 ?_
       rw [Category.assoc, adicThickeningSuccMap_adicThickeningMap]
       exact (congrArg (fun k => k.app U x') (hcond (n + 1))).symm.trans ht.symm
@@ -226,7 +226,7 @@ theorem range_adicGraph
       ((isPullback_adicFibreSucc A I B hS hSn fX n).map ((evaluation _ _).obj U)) x' t ht'
     refine ⟨x, ?_⟩
     rw [← adicFibreSucc_adicGraph g hg hgc n]
-    show (adicGraph g hg (n + 1)).app U ((adicFibreSucc A I B hS hSn fX n).app U x) = _
+    change (adicGraph g hg (n + 1)).app U ((adicFibreSucc A I B hS hSn fX n).app U x) = _
     rw [show (adicFibreSucc A I B hS hSn fX n).app U x = x' from hx]
 
 /-- **A point of `Z` over `Spec (A / I^{n+1})` lies on the `n`-th graph**, when `Z` cuts out the
@@ -252,7 +252,7 @@ theorem adicFibre_ext (n : ℕ) {U : (BigFppfOver B (Spec (.of A)) hS)ᵒᵖ}
   have sq := (IsPullback.of_hasPullback fX (yoneda.map (adicThickeningMap A I B hS hSn n))).map
     ((evaluation _ _).obj U)
   refine Types.ext_of_isPullback sq h ?_
-  show (pullback.snd fX _).app U x₁ = (pullback.snd fX _).app U x₂
+  change (pullback.snd fX _).app U x₁ = (pullback.snd fX _).app U x₂
   have hc : ∀ x, (pullback.snd fX (yoneda.map (adicThickeningMap A I B hS hSn n))).app U x ≫
       adicThickeningMap A I B hS hSn n =
       fX.app U ((pullback.fst fX (yoneda.map (adicThickeningMap A I B hS hSn n))).app U x) :=
@@ -281,7 +281,7 @@ theorem preimage_le_range_diagonal (Z : Subfunctor (pullback fX fY))
       Set.range ((yoneda.map (adicThickeningMap A I B hS hSn n)).app U) := hy
   have h₂ : (pullback.fst fX fY ≫ fX).app U z₂.1 ∈
       Set.range ((yoneda.map (adicThickeningMap A I B hS hSn n)).app U) := by
-    show fX.app U (p.app U z₂) ∈ _
+    change fX.app U (p.app U z₂) ∈ _
     rw [← hpz]
     exact hy
   obtain ⟨x₁, hx₁⟩ := exists_adicGraph_of_mem g hg hZ n z₁.2 h₁
@@ -291,7 +291,7 @@ theorem preimage_le_range_diagonal (Z : Subfunctor (pullback fX fY))
       (pullback.fst fX (yoneda.map (adicThickeningMap A I B hS hSn n))).app U x = p.app U z := by
     intro x z hxz
     rw [← adicGraph_fst g hg n]
-    show (pullback.fst fX fY).app U ((adicGraph g hg n).app U x) = _
+    change (pullback.fst fX fY).app U ((adicGraph g hg n).app U x) = _
     rw [hxz]
     rfl
   have hx : x₁ = x₂ := adicFibre_ext n ((e hx₁).trans (hpz.trans (e hx₂).symm))
@@ -299,10 +299,10 @@ theorem preimage_le_range_diagonal (Z : Subfunctor (pullback fX fY))
   refine ⟨z₁, ?_⟩
   refine Types.ext_of_isPullback ((IsPullback.of_hasPullback p p).map ((evaluation _ _).obj U))
     ?_ ?_
-  · show (pullback.diagonal p ≫ pullback.fst p p).app U z₁ = z₁
+  · change (pullback.diagonal p ≫ pullback.fst p p).app U z₁ = z₁
     rw [pullback.diagonal_fst]
     rfl
-  · show (pullback.diagonal p ≫ pullback.snd p p).app U z₁ = z₂
+  · change (pullback.diagonal p ≫ pullback.snd p p).app U z₁ = z₂
     rw [pullback.diagonal_snd]
     exact hz
 
@@ -311,7 +311,7 @@ and cuts out the graphs of the `g_n` on the adic fibres: the diagonal of `Z ⟶ 
 subspace of the proper space `Z ×_X Z` containing every adic fibre
 (`AlgebraicGeometry.Space.preimage_le_range_diagonal`), hence everything. -/
 theorem mono_ι_comp_fst_of_inf_eq_range_adicGraph [IsNoetherianRing A] [IsAdicComplete I A]
-    (hX : IsAlgebraicSpace B _ hS X) (hY : IsAlgebraicSpace B _ hS Y)
+    (hX : IsAlgebraicSpace B _ hS X)
     (hpX : IsProper B _ hS fX) (Z : ClosedSubspaces B _ hS (pullback fX fY))
     (hZ : ∀ n, Z.1 ⊓ (Subfunctor.range (yoneda.map (adicThickeningMap A I B hS hSn n))).preimage
       (pullback.fst fX fY ≫ fX) = Subfunctor.range (adicGraph g hg n))
@@ -404,7 +404,7 @@ theorem exists_adicFibreMap_eq [IsNoetherianRing A] [IsAdicComplete I A]
   set p := Z.1.ι ≫ pullback.fst fX fY
   have hpp : IsProper B _ hS p := isProper_of_comp_of_isSeparated B _ hS hZa hX hbase p fX
     (by rw [Category.assoc]; exact hZp) hpX.1
-  have hmono : Mono p := mono_ι_comp_fst_of_inf_eq_range_adicGraph g hg hX hY hpX Z hZ hZp
+  have hmono : Mono p := mono_ι_comp_fst_of_inf_eq_range_adicGraph g hg hX hpX Z hZ hZp
   have htfae := (closedImmersion_conditions_tfae B _ hS hZa hX p).out 4 1
   have hpci : IsClosedImmersion B _ hS p := htfae.mp ⟨hpp.2.2, hpp.2.1.1, hmono⟩
   have hγZ : ∀ n, Subfunctor.range (adicGraph g hg n) ≤ Z.1 := fun n => by

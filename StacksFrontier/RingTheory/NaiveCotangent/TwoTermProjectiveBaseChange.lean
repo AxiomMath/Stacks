@@ -121,7 +121,7 @@ theorem isHomotopyEquiv_of_isQuasiIso_of_projective {f : ChainMap A B} (hf : IsQ
     rw [Submodule.Quotient.mk_eq_zero] at hx'
     obtain ⟨a', ha'⟩ := hx'
     have hcyc : b - f.f₁ a' ∈ H₁ B := by
-      show B.d (b - f.f₁ a') = 0
+      change B.d (b - f.f₁ a') = 0
       rw [map_sub, chainMap_comm_apply, ha', ← hm, sub_self]
     obtain ⟨a'', ha''0, h''⟩ := hker.surjOn hcyc
     refine ⟨a' + a'', ?_⟩
@@ -147,25 +147,25 @@ theorem isHomotopyEquiv_of_isQuasiIso_of_projective {f : ChainMap A B} (hf : IsQ
     { f₁ := r ∘ₗ LinearMap.inr S A.X₀ B.X₁
       f₀ := LinearMap.fst S A.X₀ B.X₁ ∘ₗ s
       comm := LinearMap.ext fun b => by
-        show A.d (r (0, b)) = (s (B.d b)).1
+        change A.d (r (0, b)) = (s (B.d b)).1
         simp only [hαr₁, hβ, map_zero, zero_sub, map_neg, Prod.fst_neg, neg_neg] }
   refine ⟨g, ⟨-(r ∘ₗ LinearMap.inl S A.X₀ B.X₁), ?_, ?_⟩,
     ⟨LinearMap.snd S A.X₀ B.X₁ ∘ₗ s, ?_, ?_⟩⟩
   · refine LinearMap.ext fun a => ?_
-    show r (0, f.f₁ a) - a = -r (A.d a, 0)
+    change r (0, f.f₁ a) - a = -r (A.d a, 0)
     have h : r (A.d a, 0) + r (0, f.f₁ a) = a := by
       rw [← map_add, Prod.mk_add_mk, add_zero, zero_add]
       exact hrα a
     calc r (0, f.f₁ a) - a = r (0, f.f₁ a) - (r (A.d a, 0) + r (0, f.f₁ a)) := by rw [h]
       _ = -r (A.d a, 0) := by abel
   · refine LinearMap.ext fun x => ?_
-    show (s (f.f₀ x)).1 - x = A.d (-r (x, 0))
+    change (s (f.f₀ x)).1 - x = A.d (-r (x, 0))
     rw [map_neg, hαr₁, hβ, map_zero, sub_zero, neg_sub]
   · refine LinearMap.ext fun b => ?_
-    show f.f₁ (r (0, b)) - b = (s (B.d b)).2
+    change f.f₁ (r (0, b)) - b = (s (B.d b)).2
     rw [hαr₂, hβ, map_zero, zero_sub, map_neg, Prod.snd_neg, sub_neg_eq_add, add_sub_cancel_left]
   · refine LinearMap.ext fun y => ?_
-    show f.f₀ (s y).1 - y = B.d (s y).2
+    change f.f₀ (s y).1 - y = B.d (s y).2
     have h := hs' y
     rw [hβ] at h
     generalize s y = m at h ⊢

@@ -257,7 +257,7 @@ theorem isOpenImmersion_quotModelMap' (I : D.AffinePushforwardQuotInputs')
       have hnat := NatTrans.naturality_apply q (Quiver.Hom.op g) (𝟙 T)
       rw [yonedaEquiv_apply]
       simpa using hnat
-    show q.app U g ∈ Set.range ((D.quotModelMap' I MX MY).app U) ↔
+    change q.app U g ∈ Set.range ((D.quotModelMap' I MX MY).app U) ↔
       g ∈ (J.locus T y).obj U
     rw [hqg, D.mem_range_quotModelMap_iff' I MX MY, QuotSitePresheafModel.familyEquiv_map,
       D.exists_quotFamilyOverPushforward_iff' I]

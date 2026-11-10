@@ -146,7 +146,7 @@ lemma exists_hom_of_moduleGeneratorImages {A B : ModuleCat.{w} R} (n : ℕ) (z :
   have heq : ε.symm (z i) = Submodule.Quotient.mk (Finsupp.single i (1 : R)) := by
     apply ε.injective
     simp [ε, p, Finsupp.linearCombination_single]
-  show ((LinearMap.ker p).liftQ q hpq) (ε.symm (z i)) = b i
+  change ((LinearMap.ker p).liftQ q hpq) (ε.symm (z i)) = b i
   rw [heq]
   calc ((LinearMap.ker p).liftQ q hpq) (Submodule.Quotient.mk (Finsupp.single i (1 : R)))
       = q (Finsupp.single i 1) := DFunLike.congr_fun (Submodule.liftQ_mkQ (LinearMap.ker p) q hpq) _
@@ -199,7 +199,7 @@ lemma constantSheaf_hom_ext_of_moduleGenerators {T : C} (hT : IsTerminal T) (A :
       rw [← Finsupp.range_linearCombination, LinearMap.range_eq_top.mpr hz]) h
   apply Sheaf.hom_ext
   apply sheafify_hom_ext K _ _ Q.property
-  show a' = b'
+  change a' = b'
   apply NatTrans.ext
   funext V
   have ha := a'.naturality (hT.from V.unop).op
@@ -391,7 +391,7 @@ lemma isConstantModuleMapAt_of_constantSection_representatives (F G : Sheaf J (M
         (overPullbackIsoOfMapModule J t G B eG).hom =
       (overPullbackIsoOfMapModule J t F A eF).hom ≫
         (J.overPullback (ModuleCat.{w} R) V).map φ := by
-    show constantModuleMapRestrict J t A B ψ ≫
+    change constantModuleMapRestrict J t A B ψ ≫
         (constantSheafOverMapIso J (ModuleCat.{w} R) t B).hom ≫
           (J.overMapPullback (ModuleCat.{w} R) t).map eG.hom =
       ((constantSheafOverMapIso J (ModuleCat.{w} R) t A).hom ≫
@@ -453,7 +453,7 @@ lemma exists_cover_isConstantModuleMapAt (F G : Sheaf J (ModuleCat.{w} R)) (φ :
           (ηA.app (op T) (z j))) =
       ((constantSheaf (J.over U) (ModuleCat.{w} R)).obj B).obj.map (k i).op
         (ψ.hom.app (op T) (ηA.app (op T) (z j))) at h₂
-    show ηB.app (op (W i)) (b j) = ψ.hom.app (op (W i)) (ηA.app (op (W i)) (z j))
+    change ηB.app (op (W i)) (b j) = ψ.hom.app (op (W i)) (ηA.app (op (W i)) (z j))
     rw [h₁, h₂]
     exact (hb j).symm
 

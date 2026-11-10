@@ -164,7 +164,7 @@ public theorem mapHomologicalComplexExtendIso_inv_comp_extendSingleIso {ι ι' :
       HomologicalComplex.singleMapHomologicalComplex_hom_app_self,
       HomologicalComplex.singleMapHomologicalComplex_hom_app_self]
     simp only [Functor.comp_obj, Functor.map_comp, Category.assoc, Iso.inv_hom_id_assoc,
-      Iso.map_inv_hom_id_assoc]
+      Iso.inv_hom_id_map_assoc]
   · exact (HomologicalComplex.isZero_single_obj_X s' i' (P.obj A) n hn).eq_of_tgt _ _
 
 /-- **The comparison `Lp^*(ℱ[0]) ⟶ (p^*ℱ)[0]` is the comparison of [Stacks, Tag 06YJ] at the

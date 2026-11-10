@@ -164,7 +164,7 @@ theorem completionKernelFunctor_initial (f : A) :
   have hb := ((RingHom.isTaut_iff_hasBasis_isWeakIdealOfDefinition
     (canonicalMap (algebraMap A (Localization.Away f)))
     (TopologicalRing.continuous_canonicalMap _)
-    hA (TopologicalRing.completionOver_isWeaklyAdmissible _ hA)).mp
+    hA).mp
     (TopologicalRing.isTaut_canonicalMap _ hA.1)).2
   obtain ⟨I, hI, hIK⟩ := hb.mem_iff.mp (K.2.1.mem_nhds K.1.zero_mem)
   refine ⟨⟨I, hI⟩, ?_⟩
@@ -517,7 +517,7 @@ theorem exists_affineFormalOpen_le
       (H := localizationSpectrumMap_isOpenImmersion A.α hA f) (hg := hφ) _ _
   have hAf := RingHom.isPreAdmissible_of_isTaut
     (canonicalMap (algebraMap A.α (Localization.Away f)))
-    (TopologicalRing.continuous_canonicalMap _) (TopologicalRing.isTaut_canonicalMap _ hA.1) hAd.1
+    (TopologicalRing.isTaut_canonicalMap _ hA.1) hAd.1
   refine ⟨⟨Set.range g.base, hg.base_open.isOpen_range⟩, ?_, ?_,
     isAffineFormalOpen_range_of_isOpenImmersion X (TopCommRingCat.of (localizedCompletion A.α f))
       ⟨hAf, ⟨inferInstance, inferInstance⟩⟩ hg⟩

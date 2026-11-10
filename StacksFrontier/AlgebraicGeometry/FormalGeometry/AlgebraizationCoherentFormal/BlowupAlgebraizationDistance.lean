@@ -114,7 +114,7 @@ abbrev exceptionalDistance (x : situationExceptional S) : ℕ∞ :=
 /-- A point of `Y` lies in `Z` exactly when its image in `X` does not lie in `U`. -/
 theorem mem_closedSubsetZ_iff (z : S.Y) :
     z ∈ (S.closedSubsetZ : Set S.Y) ↔ S.Yι z ∉ S.U := by
-  show ((S.a.map (Ideal.Quotient.mk S.I) : Ideal (S.A ⧸ S.I)) : Set (S.A ⧸ S.I)) ⊆
+  change ((S.a.map (Ideal.Quotient.mk S.I) : Ideal (S.A ⧸ S.I)) : Set (S.A ⧸ S.I)) ⊆
       ((z : PrimeSpectrum (S.A ⧸ S.I)).asIdeal : Set (S.A ⧸ S.I)) ↔
     ¬¬ ((S.a : Set S.A) ⊆
       (Ideal.comap (Ideal.Quotient.mk S.I) (z : PrimeSpectrum (S.A ⧸ S.I)).asIdeal : Set S.A))
@@ -132,7 +132,7 @@ theorem mem_exceptionalZ_iff (x : situationExceptional S) :
     x ∈ exceptionalZ S ↔ situationExceptionalι S x ∉ situationBlowUpU S := by
   rw [exceptionalZ, mem_support_comap_iff, support_zIdealOnY,
     ← SetLike.mem_coe, mem_closedSubsetZ_iff]
-  show ¬ (exceptionalToY S ≫ S.Yι) x ∈ S.U ↔
+  change ¬ (exceptionalToY S ≫ S.Yι) x ∈ S.U ↔
     ¬ (situationExceptionalι S ≫ situationBlowUpToBase S) x ∈ S.U
   rw [exceptionalToY_Yι]
 
@@ -154,10 +154,10 @@ theorem distanceToZ_add_trdeg_le_exceptional (hcat : Scheme.IsUniversallyCatenar
 theorem compl_situationBlowUpU_subset :
     ((situationBlowUpU S : Set (situationBlowUp S)))ᶜ ⊆ (situationExceptionalIdeal S).support := by
   intro x hx
-  show x ∈ ((Stacks.LocalCohomology.specIdealSheaf S.A S.I).comap
+  change x ∈ ((Stacks.LocalCohomology.specIdealSheaf S.A S.I).comap
     (situationBlowUpToBase S)).support
   rw [mem_support_comap_iff]
-  show situationBlowUpToBase S x ∈
+  change situationBlowUpToBase S x ∈
     ((Stacks.LocalCohomology.specIdealSheaf S.A S.I).support : Set S.X)
   rw [Stacks.LocalCohomology.coe_support_specIdealSheaf]
   have hx' : situationBlowUpToBase S x ∉ S.U := hx
@@ -174,7 +174,7 @@ theorem situationExceptionalι_subschemeCover (z : (chartSituation (situationExc
         (compl_situationBlowUpU_subset S)
         ((chartSituation (situationExceptionalIdeal S) (situationBlowUpU S) V
           (compl_situationBlowUpU_subset S)).Yι z) := by
-  show ((situationExceptionalIdeal S).subschemeCover.f V ≫ situationExceptionalι S) z = _
+  change ((situationExceptionalIdeal S).subschemeCover.f V ≫ situationExceptionalι S) z = _
   rw [← Stacks.CartierQuotientChart.quotientImmersion_ι (situationExceptionalIdeal S) V]
   simp only [Stacks.CartierQuotientChart.quotientImmersion, chartFromSpec, IsAffineOpen.fromSpec]
   rfl
@@ -215,7 +215,7 @@ theorem topologicalKrullDim_fiber_exceptionalToY_le (y : S.Y) :
   have hmem : ∀ p : (exceptionalToY S ⁻¹' {y}),
       ψ p.1 ∈ (AlgebraicGeometry.blowUpToBase ℐ ⁻¹' {S.Yι y}) := by
     rintro ⟨p, hp⟩
-    show (e.hom ≫ AlgebraicGeometry.blowUpToBase ℐ) (situationExceptionalι S p) = S.Yι y
+    change (e.hom ≫ AlgebraicGeometry.blowUpToBase ℐ) (situationExceptionalι S p) = S.Yι y
     rw [Stacks.Blowup.blowUpIso_hom_comp, ← Scheme.Hom.comp_apply, ← exceptionalToY_Yι,
       Scheme.Hom.comp_apply, Set.mem_singleton_iff.mp hp]
   let φ := Set.codRestrict (fun p : (exceptionalToY S ⁻¹' {y}) => ψ p.1) _ hmem
@@ -255,7 +255,7 @@ theorem mem_support_blowupIdealU_iff (x : (situationBlowUpU S).toScheme) :
     x ∈ ((blowupIdealU S).support : Set _) ↔
       ∃ e : situationExceptional S, situationExceptionalι S e = (situationBlowUpU S).ι x := by
   rw [SetLike.mem_coe, mem_support_comap_iff]
-  show (situationBlowUpU S).ι x ∈ ((situationExceptionalIdeal S).support : Set _) ↔ _
+  change (situationBlowUpU S).ι x ∈ ((situationExceptionalIdeal S).support : Set _) ↔ _
   rw [← Scheme.IdealSheafData.range_subschemeι]
   rfl
 

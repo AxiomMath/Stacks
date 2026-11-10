@@ -296,7 +296,7 @@ theorem preservesInterior_innerHom
     CompactificationOf.PreservesInterior φ.innerHom := by
   unfold CompactificationOf.PreservesInterior at ho ⊢
   simp only [outerHom_map, outer_immersion] at ho
-  show (φ.innerMap : D₁.innerSpace → D₂.innerSpace) ⁻¹' Set.range D₂.innerImmersion =
+  change (φ.innerMap : D₁.innerSpace → D₂.innerSpace) ⁻¹' Set.range D₂.innerImmersion =
     Set.range D₁.innerImmersion
   apply Set.Subset.antisymm
   · rintro x ⟨z, hz⟩

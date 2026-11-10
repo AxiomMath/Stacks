@@ -71,7 +71,7 @@ private theorem stalk_ker_eq_top_of_notMem_range {X C : Scheme.{u}} (f : C ⟶ X
     [IsClosedImmersion f] (x : X) (hx : x ∉ Set.range f) :
     IdealSheafData.stalk f.ker x = ⊤ := by
   rw [IdealSheafData.stalk_eq_top_iff_not_mem_support]
-  show x ∉ (f.ker.support : Set X)
+  change x ∉ (f.ker.support : Set X)
   rw [Scheme.Hom.support_ker, f.isClosedEmbedding.isClosed_range.closure_eq]
   exact hx
 
@@ -91,10 +91,10 @@ public theorem stalk_transformIdeal_of_ne {W : Scheme.{u}} (I : W.IdealSheafData
         (IdealSheafData.stalk I (blowUpToBase (centerIdeal p hp) q)) := by
   have hcomap : I.comap (blowUpToBase (centerIdeal p hp)) =
       (pullback.snd I.subschemeι (blowUpToBase (centerIdeal p hp))).ker := by
-    show (pullback.fst (blowUpToBase (centerIdeal p hp)) I.subschemeι).ker = _
+    change (pullback.fst (blowUpToBase (centerIdeal p hp)) I.subschemeι).ker = _
     rw [← pullbackSymmetry_hom_comp_fst, Scheme.Hom.ker_comp_of_isIso]
   rw [← IdealSheafData.stalk_comap, hcomap]
-  show IdealSheafData.stalk ((strictTransformCenterIdeal I p hp).subschemeι ≫
+  change IdealSheafData.stalk ((strictTransformCenterIdeal I p hp).subschemeι ≫
       pullback.snd I.subschemeι (blowUpToBase (centerIdeal p hp))).ker q = _
   have hpt : ∀ y, I.subschemeι (pullback.fst I.subschemeι (blowUpToBase (centerIdeal p hp)) y) =
       blowUpToBase (centerIdeal p hp)
@@ -107,7 +107,7 @@ public theorem stalk_transformIdeal_of_ne {W : Scheme.{u}} (I : W.IdealSheafData
       (pullback.fst I.subschemeι (blowUpToBase (centerIdeal p hp)) ≫ I.subschemeι) ⁻¹ᵁ
         (centerIdeal p hp).support.compl with hV
     have hyV : y ∈ V := by
-      show I.subschemeι (pullback.fst I.subschemeι (blowUpToBase (centerIdeal p hp)) y) ∉
+      change I.subschemeι (pullback.fst I.subschemeι (blowUpToBase (centerIdeal p hp)) y) ∉
         ((centerIdeal p hp).support : Set W)
       rw [coe_support_centerIdeal p hp, Set.mem_singleton_iff, hpt]
       exact hq

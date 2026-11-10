@@ -333,8 +333,7 @@ theorem bijective_comparisonAlgebraicSpacesModules_app_of_locallyQuasicoherentFl
   have h3 : (c.val.app (op d.U)).hom ∘ modulePullbackChartBaseChange B S hS aSpace G d =
       ρ.liftBaseChange (chartRing B S hS U.1 U.2 d.U) := by
     funext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [Function.comp_apply, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul x s =>
       rw [Function.comp_apply, modulePullbackChartBaseChange_tmul, LinearMap.map_smul,
         LinearMap.liftBaseChange_tmul]

@@ -176,10 +176,10 @@ theorem exists_isClopen_rankStratum_of_subscheme {X' : Scheme.{u}} (b : X' ⟶ S
       rintro _ ⟨y, rfl⟩
       rw [Scheme.Opens.range_ι]
       have hy : T.subschemeι.base (g₀.base y) = U.ι.base y := by
-        show (g₀ ≫ T.subschemeι).base y = _
+        change (g₀ ≫ T.subschemeι).base y = _
         rw [IsClosedImmersion.lift_fac]
       have hxV : (j ≫ b).base (g₀.base y) ∈ V := by
-        show b.base ((S.D.comap b).subschemeι.base (T.subschemeι.base (g₀.base y))) ∈ V
+        change b.base ((S.D.comap b).subschemeι.base (T.subschemeι.base (g₀.base y))) ∈ V
         rw [hy]
         exact y.2
       have hx := S.mem_locallyFreeLocus_and_finrank_eq_of_isFreeOver ρ V hV hxV
@@ -196,7 +196,7 @@ theorem exists_isClopen_rankStratum_of_subscheme {X' : Scheme.{u}} (b : X' ⟶ S
       (@Scheme.Modules.isFiniteLocallyFree_toRingSheafModule _ (F n) (h₂ n)) (ρ n).toNat Tρ
       (fun s hs ↦ by
         have := hs n
-        show (@Scheme.Modules.finiteLocallyFreeRank _ (F n) (h₂ n) s) = (ρ n).toNat
+        change (@Scheme.Modules.finiteLocallyFreeRank _ (F n) (h₂ n) s) = (ρ n).toNat
         omega) t ht
     refine ⟨U, htU, hUT, I, Finite.of_equiv _ e.symm, ?_, he⟩
     rw [Nat.card_congr e, Nat.card_eq_fintype_card, Fintype.card_fin]

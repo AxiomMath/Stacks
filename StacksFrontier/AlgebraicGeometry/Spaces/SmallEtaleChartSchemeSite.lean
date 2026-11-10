@@ -159,7 +159,7 @@ theorem exists_sliceToOver_obj_eq (Y : Over (chartScheme X)) (hY : Etale Y.hom)
     B.inclusion.map_preimage (X := B.obj hYc) (Y := X.obj.left.left) f
   let l : Over.mk (b ≫ X.obj.left.hom) ⟶ X.obj.left := Over.homMk b (by simp)
   have hl : Etale ((BigFppfOver.toScheme B S hS).map l) := by
-    show Etale (B.inclusion.map b)
+    change Etale (B.inclusion.map b)
     rwa [hbf]
   exact ⟨Over.mk (Y := ⟨CostructuredArrow.mk (yoneda.map l ≫ X.obj.hom),
       etale_comp_of_scheme B S hS l X.obj.hom hl X.property⟩)

@@ -186,10 +186,10 @@ theorem exists_isBaseChange_restrictSection (n : ℕ)
       (IsPullback.of_hasPullback E.map (Spec.map (CommRingCat.ofHom φ))) W) ⊤), ?_,
     hbc.comp (IsBaseChange.ofEquiv e)⟩
   funext x
-  show e (Stacks.Cech.pullbackSectionsBaseₗ g F φ E.map _ _ ⊤ x) = _
+  change e (Stacks.Cech.pullbackSectionsBaseₗ g F φ E.map _ _ ⊤ x) = _
   rw [Stacks.AlgebraicGeometry.ProperFlatGlobalSections.pullbackSectionsBaseₗ_top_apply,
     restrictSection_eq]
-  show Scheme.Modules.Hom.app (E.powPullbackIso φ n).hom ⊤
+  change Scheme.Modules.Hom.app (E.powPullbackIso φ n).hom ⊤
       (((Scheme.Modules.pullback g).obj F).presheaf.map _ _) = _
   congr 1
   exact Stacks.AlgebraicGeometry.ProjChartRatioPullback.map_pullbackSectionHom g F ⊤ _ ⊤ _ _ _ x

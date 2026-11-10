@@ -68,7 +68,7 @@ theorem eq_zero_of_forall_mem_pAdicIdeal_pow {R : Type*} [CommRing R] (p : ℕ)
 end PAdic
 
 /-- An induction principle for multi-indices, adding one unit at a time. -/
-private theorem finsupp_induction_single {ι : Type*} [DecidableEq ι] {P : (ι →₀ ℕ) → Prop}
+private theorem finsupp_induction_single {ι : Type*} {P : (ι →₀ ℕ) → Prop}
     (h0 : P 0) (hstep : ∀ K i, P K → P (K + Finsupp.single i 1)) (K : ι →₀ ℕ) : P K := by
   refine Finsupp.induction K h0 fun i n K _ _ ih => ?_
   have key : ∀ m : ℕ, P (Finsupp.single i m + K) := by
@@ -82,14 +82,14 @@ private theorem finsupp_induction_single {ι : Type*} [DecidableEq ι] {P : (ι 
 
 section Completed
 
-variable {A : DividedPowerRing.{u}} {ι : Type u} [Fintype ι] [DecidableEq ι]
+variable {A : DividedPowerRing.{u}} {ι : Type u} [Fintype ι]
   {J : Ideal (MvPolynomial ι A)} {hJ : A.ideal.map (algebraMap A (MvPolynomial ι A)) ≤ J}
   (E : DividedPowerEnvelope A (algebraMap A (MvPolynomial ι A)) J hJ) (p : ℕ)
   (hp : IsNilpotent (Ideal.Quotient.mk E.object.ideal (p : E.object)))
 
 /-! ### `E` is dense in `D` -/
 
-omit [Fintype ι] [DecidableEq ι] in
+omit [Fintype ι] in
 /-- **Every element of `D` agrees with an element of `E` modulo `p^n D`.** -/
 theorem exists_sub_envelopeCompletionInclusion_mem (x : envelopeCompletion E p hp) (n : ℕ) :
     ∃ a₀ : E.object, x - envelopeCompletionInclusion E p hp a₀ ∈
@@ -107,7 +107,7 @@ theorem exists_sub_envelopeCompletionInclusion_mem (x : envelopeCompletion E p h
     Ideal.map_pow, pAdicIdeal_map] at hker
   exact hker
 
-omit [Fintype ι] [DecidableEq ι] in
+omit [Fintype ι] in
 /-- **Two additive self-maps of `D` agreeing on `E` are equal**, since `E` is dense in the
 `p`-adically separated ring `D` and additive maps preserve the `p`-adic filtration. -/
 theorem envelopeCompletion_addMonoidHom_ext
@@ -128,17 +128,19 @@ theorem envelopeCompletion_addMonoidHom_ext
 
 /-! ### The universal differential of `D` as a divided power derivation -/
 
+omit [Fintype ι] in
 /-- `d` kills the image of `A`. -/
 theorem envelopeCompletionFormsDifferential_algebraMap (r : A) :
     envelopeCompletionFormsDifferential E p hp
       (algebraMap (A : Type u) (envelopeCompletion E p hp) r) = 0 := by
-  show completedDividedPowerDifferentialOnRing p (A : Type u) _ _ = 0
+  change completedDividedPowerDifferentialOnRing p (A : Type u) _ _ = 0
   rw [completedDividedPowerDifferentialOnRing_eq, dividedPowerOneForm_apply]
   have h : dividedPowerDifferential (A := (A : Type u)) (envelopeCompletion E p hp).dividedPowers
       (algebraMap (A : Type u) (envelopeCompletion E p hp) r) = 0 := by
     rw [dividedPowerDifferential, Derivation.map_algebraMap, map_zero]
   rw [h, map_zero, map_zero]
 
+omit [Fintype ι] in
 /-- **The divided power chain rule for `d`**: `d(γ_n x) = γ_{n-1}(x) d x` for `x` in the divided
 power ideal of `D` and `n > 0`. -/
 theorem envelopeCompletionFormsDifferential_dpow {n : ℕ} (hn : 0 < n)
@@ -148,7 +150,7 @@ theorem envelopeCompletionFormsDifferential_dpow {n : ℕ} (hn : 0 < n)
       (envelopeCompletion E p hp).dividedPowers.dpow (n - 1) x •
         envelopeCompletionFormsDifferential E p hp x := by
   obtain ⟨k, rfl⟩ : ∃ k, n = k + 1 := ⟨n - 1, by omega⟩
-  show completedDividedPowerDifferentialOnRing p (A : Type u) _ _ =
+  change completedDividedPowerDifferentialOnRing p (A : Type u) _ _ =
     _ • completedDividedPowerDifferentialOnRing p (A : Type u) _ _
   rw [completedDividedPowerDifferentialOnRing_eq, completedDividedPowerDifferentialOnRing_eq,
     dividedPowerOneForm_apply, dividedPowerOneForm_apply, Nat.add_sub_cancel]
@@ -190,25 +192,28 @@ def envelopeCompletionDelta (i : ι) : envelopeCompletion E p hp →+ envelopeCo
     (bas.repr.toAddMonoidHom.comp (AddMonoidHom.mk' (envelopeCompletionFormsDifferential E p hp)
       (envelopeCompletionFormsDifferential_add E p hp)))
 
-omit [Fintype ι] [DecidableEq ι] in
+omit [Fintype ι] in
 /-- `δ̂_i(x)` is the `i`-th coordinate of `d x`. -/
 theorem envelopeCompletionDelta_apply (i : ι) (x : envelopeCompletion E p hp) :
     envelopeCompletionDelta E p hp bas i x =
       bas.repr (envelopeCompletionFormsDifferential E p hp x) i :=
   rfl
 
+omit [Fintype ι] in
 /-- **`δ̂_i` extends `δ_i`**, for a basis on the `d x_i`. -/
-theorem envelopeCompletionDelta_inclusion
+theorem envelopeCompletionDelta_inclusion [Finite ι]
     (hbas : ∀ i, bas i =
       envelopeCompletionFormsDifferential E p hp (envelopeCompletionCoord E p hp i))
     (i : ι) (a : E.object) :
     envelopeCompletionDelta E p hp bas i (envelopeCompletionInclusion E p hp a) =
       envelopeCompletionInclusion E p hp (envelopeDelta E i a) := by
+  classical
+  have := Fintype.ofFinite ι
   rw [envelopeCompletionDelta_apply, envelopeCompletionFormsDifferential_inclusion]
   simp_rw [← hbas]
   simp [map_sum, Finsupp.single_apply]
 
-omit [Fintype ι] [DecidableEq ι] in
+omit [Fintype ι] in
 /-- **The Leibniz rule** `δ̂_i(x y) = x δ̂_i(y) + y δ̂_i(x)`. -/
 theorem envelopeCompletionDelta_mul (i : ι) (x y : envelopeCompletion E p hp) :
     envelopeCompletionDelta E p hp bas i (x * y) =
@@ -217,6 +222,7 @@ theorem envelopeCompletionDelta_mul (i : ι) (x y : envelopeCompletion E p hp) :
     LinearEquiv.map_smul, LinearEquiv.map_smul]
   rfl
 
+omit [Fintype ι] in
 /-- `δ̂_i` kills the image of `A`. -/
 theorem envelopeCompletionDelta_algebraMap (i : ι) (r : A) :
     envelopeCompletionDelta E p hp bas i (algebraMap (A : Type u) (envelopeCompletion E p hp) r) =
@@ -224,6 +230,7 @@ theorem envelopeCompletionDelta_algebraMap (i : ι) (r : A) :
   rw [envelopeCompletionDelta_apply, envelopeCompletionFormsDifferential_algebraMap, map_zero]
   rfl
 
+omit [Fintype ι] in
 /-- **The divided power chain rule** `δ̂_i(γ_n x) = γ_{n-1}(x) δ̂_i(x)`. -/
 theorem envelopeCompletionDelta_dpow (i : ι) {n : ℕ} (hn : 0 < n)
     {x : envelopeCompletion E p hp} (hx : x ∈ (envelopeCompletion E p hp).ideal) :
@@ -237,9 +244,10 @@ theorem envelopeCompletionDelta_dpow (i : ι) {n : ℕ} (hn : 0 < n)
 variable (hbas : ∀ i, bas i =
   envelopeCompletionFormsDifferential E p hp (envelopeCompletionCoord E p hp i))
 
+omit [Fintype ι] in
 include hbas in
 /-- **The `δ̂_i` commute**: they extend the commuting `δ_i` of the dense subring `E`. -/
-theorem envelopeCompletionDelta_comm (i j : ι) :
+theorem envelopeCompletionDelta_comm [Finite ι] (i j : ι) :
     ⇑(envelopeCompletionDelta E p hp bas i) ∘ ⇑(envelopeCompletionDelta E p hp bas j) =
       ⇑(envelopeCompletionDelta E p hp bas j) ∘ ⇑(envelopeCompletionDelta E p hp bas i) := by
   have h := envelopeCompletion_addMonoidHom_ext E p hp
@@ -370,7 +378,7 @@ theorem envelopeCompletion_taylor_levels
   · exact key (AddMonoidHom.id _) ρ.toRingHom.toAddMonoidHom _ hρP ha₀
       (envelopeTaylor_formula E (envelopeCompletion E p hp) ιD (ρ.comp ιD) hFG
         (fun i => by
-          show envelopeCompletionCoord E p hp i - ρ (envelopeCompletionCoord E p hp i) ∈ _
+          change envelopeCompletionCoord E p hp i - ρ (envelopeCompletionCoord E p hp i) ∈ _
           rw [← neg_sub]
           exact Submodule.neg_mem _ (hρ _)) a₀)
   · refine key ρ.toRingHom.toAddMonoidHom (AddMonoidHom.id _) _ (fun _ h => h) (hρP _ ha₀) ?_

@@ -121,7 +121,7 @@ private theorem map_dpow_of_finiteVariableStage_aux
       intro m a ha
       obtain ⟨b, hb⟩ := hclosed m a (hfst ha)
       refine ⟨b, ?_⟩
-      show k (ι b) = η.dpow m (k (ι a))
+      change k (ι b) = η.dpow m (k (ι a))
       rw [hdp (hcoeff · a), hb]) n (k x) hxQ (hkpos hp)
   let G : Subring (C × D) :=
     { carrier := {p | f p.1 = p.2}

@@ -169,7 +169,7 @@ theorem mem_geometricallyIrreducibleFibreLocus_comap_of_injective
     ((Ideal.Quotient.mk m).comp
       (Algebra.TensorProduct.includeRight : K →ₐ[A] R ⊗[A] K).toRingHom).toAlgebra
   have htowerK : IsScalarTower A K L := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A L a = Ideal.Quotient.mk m
+    change algebraMap A L a = Ideal.Quotient.mk m
       (Algebra.TensorProduct.includeRight (algebraMap A K a))
     rw [AlgHom.commutes]
     rfl
@@ -184,7 +184,7 @@ theorem mem_geometricallyIrreducibleFibreLocus_comap_of_injective
         (⟨RingHom.ker (algebraMap R L), hprime⟩ : PrimeSpectrum R) =
         comap (algebraMap A R) q := by
       refine PrimeSpectrum.ext ?_
-      show Ideal.comap (algebraMap A R) (RingHom.ker (algebraMap R L)) =
+      change Ideal.comap (algebraMap A R) (RingHom.ker (algebraMap R L)) =
         Ideal.comap (algebraMap A R) q.asIdeal
       calc Ideal.comap (algebraMap A R) (RingHom.ker (algebraMap R L))
           = RingHom.ker ((algebraMap R L).comp (algebraMap A R)) :=
@@ -229,7 +229,7 @@ theorem mem_geometricallyIrreducibleFibreLocus_tensorProduct_of_comap (q : Prime
   let _ : Algebra A K := ((algebraMap R K).comp (algebraMap A R)).toAlgebra
   have : IsScalarTower A R K := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have hker' : RingHom.ker (algebraMap A K) = (comap (algebraMap A R) q).asIdeal := by
-    show RingHom.ker ((algebraMap R K).comp (algebraMap A R)) = _
+    change RingHom.ker ((algebraMap R K).comp (algebraMap A R)) = _
     rw [← RingHom.comap_ker, hker, PrimeSpectrum.comap_asIdeal]
   have e : (R ⊗[A] T) ⊗[R] K ≃+* T ⊗[A] K :=
     (Algebra.TensorProduct.comm R (R ⊗[A] T) K).toRingEquiv.trans

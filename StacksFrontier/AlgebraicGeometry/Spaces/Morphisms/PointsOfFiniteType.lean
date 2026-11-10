@@ -171,6 +171,7 @@ private theorem exists_affineOpen_isClosed_singleton {Z : Scheme.{u}} {z : Z}
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep (see the docstring)
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_finiteTypePoints :
@@ -220,7 +221,7 @@ theorem toScheme_map_schemePointRepresentative_value (U : BigFppfOver B S hS)
     (z : (BigFppfOver.toScheme B S hS).obj U) :
     (BigFppfOver.toScheme B S hS).map (schemePointRepresentative B S hS U z).value =
       ((BigFppfOver.toScheme B S hS).obj U).fromSpecResidueField z := by
-  show B.inclusion.map (B.inclusion.preimage _) = _
+  change B.inclusion.map (B.inclusion.preimage _) = _
   rw [Functor.map_preimage]
 
 /-- The residue field representative of a finite type point of a chart scheme is locally of
@@ -341,7 +342,7 @@ private theorem exists_isAffine_isClosed_etaleChart_of_isFiniteTypePoint
   set Uv : BigFppfOver B S hS := Over.mk (α ≫ U.hom)
   set j : Uv ⟶ U := Over.homMk α
   have hjmap : (BigFppfOver.toScheme B S hS).map j = V.1.ι := by
-    show B.inclusion.map α = _
+    change B.inclusion.map α = _
     rw [hα, Functor.map_preimage]
   have hjEtale : Etale ((BigFppfOver.toScheme B S hS).map j) := by
     rw [hjmap]; infer_instance
@@ -361,7 +362,7 @@ private theorem exists_isAffine_isClosed_etaleChart_of_isFiniteTypePoint
           ((schemePointRepresentative B S hS W w).class B S hS (yoneda.obj W)) := by
       refine injective_pointsToScheme B S hS U ?_
       rw [pointsToScheme_pointsMap, pointsToScheme_pointsMap]
-      show (BigFppfOver.toScheme B S hS).map j (schemePoint B S hS Uv _) =
+      change (BigFppfOver.toScheme B S hS).map j (schemePoint B S hS Uv _) =
         (BigFppfOver.toScheme B S hS).map fst (schemePoint B S hS W _)
       rw [schemePointRepresentative_point, schemePointRepresentative_point, hjmap]
       rfl
@@ -524,7 +525,7 @@ theorem image_finiteTypePoints_eq {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} 
       mapsTo_finiteTypePoints B S hS πX.hom
         (AlgebraicSpaces.fiberProduct B S hS fs gs).property hX hπXlft hwft, ?_⟩
     have hcond : πX.hom ≫ f = πK.hom ≫ gs.hom := by
-      show pullback.fst fs.hom gs.hom ≫ f = pullback.snd fs.hom gs.hom ≫ gs.hom
+      change pullback.fst fs.hom gs.hom ≫ f = pullback.snd fs.hom gs.hom ≫ gs.hom
       exact pullback.condition
     exact (pointsMap_pointsMap_eq_of_comp_eq B S hS hcond _).trans
       ((FieldValuedPoint.pointsMap_eq_class B S hS p _).trans hpy)
@@ -560,7 +561,7 @@ theorem isFiniteTypePoint_iff_exists_singleton_space
     obtain ⟨z₀, -⟩ := surjective_pointsToScheme B S hS (p.siteObject B S hS X)
       (IsLocalRing.closedPoint p.carrier)
     have hsub : Subsingleton ((BigFppfOver.toScheme B S hS).obj (p.siteObject B S hS X)) := by
-      show Subsingleton (Spec (CommRingCat.of p.carrier))
+      change Subsingleton (Spec (CommRingCat.of p.carrier))
       infer_instance
     refine ⟨yoneda.obj (p.siteObject B S hS X),
       isAlgebraicSpace_yoneda B S hS (p.siteObject B S hS X), yonedaEquiv.symm p.value,
@@ -693,14 +694,14 @@ theorem isSurjective_iff_surjective_app_isAlgClosed
     set sOver : T ⟶ P := Over.homMk secBase hsecBaseW
     have hsOverComp : sOver ≫ sP = 𝟙 T := by
       ext
-      show B.inclusion.map secBase ≫ B.inclusion.map sP.left = 𝟙 _
+      change B.inclusion.map secBase ≫ B.inclusion.map sP.left = 𝟙 _
       rw [hsecBase, Functor.map_preimage]
       exact hsecComp
     refine ⟨a.app (Opposite.op T) ((yoneda.map rP).app (Opposite.op T) sOver), ?_⟩
     have hw := congrArg (fun α : yoneda.obj P ⟶ Y ↦ α.app (Opposite.op T) sOver) hsq.w
     simp only [NatTrans.comp_app, types_comp_apply] at hw
     rw [hw]
-    show q.app (Opposite.op T) (sOver ≫ sP) = y
+    change q.app (Opposite.op T) (sOver ≫ sP) = y
     rw [hsOverComp, hq]
     exact yonedaEquiv.apply_symm_apply y
   · intro hall y
@@ -714,7 +715,7 @@ theorem isSurjective_iff_surjective_app_isAlgClosed
       ⟨p.val, ?_, FieldValuedPoint.dominates_refl B S hS Y p.val⟩
     have hx' : f.app (Opposite.op (p.val.siteObject B S hS Y)) x = p.val.value := hx
     refine ⟨𝟙 (p.val.siteObject B S hS Y), ?_⟩
-    show Y.map (𝟙 (p.val.siteObject B S hS Y)).op
+    change Y.map (𝟙 (p.val.siteObject B S hS Y)).op
       (f.app (Opposite.op (p.val.siteObject B S hS Y)) x) = p.val.value
     rw [hx']
     simp

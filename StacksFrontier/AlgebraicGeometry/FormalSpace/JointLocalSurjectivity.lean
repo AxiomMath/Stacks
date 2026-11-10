@@ -51,9 +51,9 @@ theorem _root_.CategoryTheory.Sheaf.isLocallySurjective_sigmaDesc_sigma_comp
   rw [Sheaf.isLocallySurjective_iff_epi]
   refine ⟨fun g h hgh ↦ (cancel_epi (Sigma.desc q)).1 (Sigma.hom_ext _ _ fun j ↦ ?_)⟩
   have := hw j
-  rw [← Category.assoc, ← Category.assoc, Sigma.ι_desc]
+  rw [← Category.assoc, ← Category.assoc, Sigma.ι_comp_desc]
   refine (cancel_epi (Sigma.desc (w j))).1 (Sigma.hom_ext _ _ fun i ↦ ?_)
-  simpa only [← Category.assoc, Sigma.ι_desc] using
+  simpa only [← Category.assoc, Sigma.ι_comp_desc] using
     Sigma.ι (fun p : Σ j, I j ↦ U p.1 p.2) ⟨j, i⟩ ≫= hgh
 
 /-- Joint local surjectivity passes to a family of base changes presented by arbitrary
@@ -74,7 +74,7 @@ theorem isLocallySurjective_sigmaDesc_of_isPullback
   refine ⟨fun α β hab ↦ (cancel_epi (Sigma.desc fun i ↦ pullback.snd (ψ i) φ)).1
     (Sigma.hom_ext _ _ fun i ↦ ?_)⟩
   have h1 := Sigma.ι A i ≫= hab
-  simp only [← Category.assoc, Sigma.ι_desc] at h1 ⊢
+  simp only [← Category.assoc, Sigma.ι_comp_desc] at h1 ⊢
   refine (cancel_epi (sq i).isoPullback.hom).1 ?_
   simpa only [← Category.assoc, (sq i).isoPullback_hom_snd] using h1
 

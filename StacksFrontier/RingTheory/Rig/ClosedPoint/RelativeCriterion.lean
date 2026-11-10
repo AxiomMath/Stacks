@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.Data.ENat.SuccOrder
+public import Mathlib.Order.SuccPred.ENat
 public import Mathlib.Data.List.TFAE
 public import Mathlib.LinearAlgebra.TensorProduct.Quotient
 public import Mathlib.LinearAlgebra.TensorProduct.Tower
@@ -314,7 +314,7 @@ public lemma rigPoint_relative_tfae {A B : Type*} [CommRing A] [CommRing B]
     let ρ : A →+* IsLocalRing.ResidueField S :=
       (IsLocalRing.residue S).comp fS
     have hρfinite : ρ.Finite := by
-      show ((IsLocalRing.residue (B ⧸ q)).comp
+      change ((IsLocalRing.residue (B ⧸ q)).comp
         ((Ideal.Quotient.mk q).comp φ)).Finite
       rw [← hψcomp]
       exact RingHom.Finite.comp hψfinite
@@ -346,7 +346,7 @@ public lemma rigPoint_relative_tfae {A B : Type*} [CommRing A] [CommRing B]
       apply IsScalarTower.of_algebraMap_smul
       intro r t
       obtain ⟨t, rfl⟩ := Submodule.Quotient.mk_surjective J t
-      show Submodule.Quotient.mk (algebraMap A S r • t) =
+      change Submodule.Quotient.mk (algebraMap A S r • t) =
         Submodule.Quotient.mk (algebraMap A S r • t)
       rfl
     have hfiniteA : Module.Finite A T :=
@@ -365,7 +365,7 @@ public lemma rigPoint_relative_tfae {A B : Type*} [CommRing A] [CommRing B]
         intro x r
         refine Quotient.inductionOn x ?_
         intro y
-        show Submodule.Quotient.mk (r.val • y) = 0
+        change Submodule.Quotient.mk (r.val • y) = 0
         rw [Submodule.Quotient.mk_eq_zero]
         exact Submodule.smul_mem_smul r.2 Submodule.mem_top
       let : Module (A ⧸ a) (S ⧸ (a • (⊤ : Submodule A S))) := hTors.module
@@ -439,14 +439,14 @@ public lemma rigPoint_relative_tfae {A B : Type*} [CommRing A] [CommRing B]
         Ideal.comap_isPrime (f := Ideal.Quotient.mk q) (K := s.asIdeal)
       have hqQ : q ≤ Q := by
         intro x hx
-        show Ideal.Quotient.mk q x ∈ s.asIdeal
+        change Ideal.Quotient.mk q x ∈ s.asIdeal
         have hxq : Ideal.Quotient.mk q x = 0 :=
           Ideal.Quotient.eq_zero_iff_mem.mpr hx
         rw [hxq]
         exact s.asIdeal.zero_mem
       have hQr : Q.comap φ = r := by
         ext x
-        show Ideal.Quotient.mk q (φ x) ∈ s.asIdeal ↔ x ∈ r
+        change Ideal.Quotient.mk q (φ x) ∈ s.asIdeal ↔ x ∈ r
         have hcomp : f (Ideal.Quotient.mk p x) = Ideal.Quotient.mk q (φ x) := by
           simp [f]
         rw [← hcomp, ← Ideal.mem_comap, hsIdeal, ← Ideal.mem_comap, hrbar_comap]
@@ -481,7 +481,7 @@ public lemma rigPoint_relative_tfae {A B : Type*} [CommRing A] [CommRing B]
   tfae_have 2 → 1 := by
     intro hpclosed
     let : IsLocalRing (B ⧸ q) := hlocal.choose
-    have htaut := RingHom.isTaut_of_isAdic φ hφ ⟨I, hI, hJ⟩
+    have htaut := RingHom.isTaut_of_isAdic φ ⟨I, hI, hJ⟩
     have hred := isFiniteTypeOnReductions_of_isTaut_of_isTopologicallyOfFiniteType
       φ hφ hA.1 htaut hft
     obtain ⟨ψ, hψcomp, hψft⟩ :=
@@ -508,7 +508,7 @@ public lemma rigPoint_relative_tfae {A B : Type*} [CommRing A] [CommRing B]
           (Ideal.Quotient.mk q).comp φ := by
         ext x
         simp [f]
-      show (I.map (Ideal.Quotient.mk p)).map f =
+      change (I.map (Ideal.Quotient.mk p)).map f =
         (I.map φ).map (Ideal.Quotient.mk q)
       rw [Ideal.map_map, hfcomp, Ideal.map_map]
     have hmapMax :
@@ -529,14 +529,14 @@ public lemma rigPoint_relative_tfae {A B : Type*} [CommRing A] [CommRing B]
     let τ : (A ⧸ a) →+* kA := Ideal.Quotient.lift a g hker'
     have hτcomp : τ.comp (Ideal.Quotient.mk a) = g := by
       ext x
-      show (Ideal.Quotient.lift a g hker') (Ideal.Quotient.mk a x) = g x
+      change (Ideal.Quotient.lift a g hker') (Ideal.Quotient.mk a x) = g x
       rw [Ideal.Quotient.lift_mk]
     have hτsurj : Function.Surjective τ := by
       intro y
       obtain ⟨z, hz⟩ := IsLocalRing.residue_surjective (R := A ⧸ p) y
       obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective z
       refine ⟨Ideal.Quotient.mk a x, ?_⟩
-      show IsLocalRing.residue (A ⧸ p) (Ideal.Quotient.mk p x) = y
+      change IsLocalRing.residue (A ⧸ p) (Ideal.Quotient.mk p x) = y
       exact hz
     have hθg : θ.comp g =
         (IsLocalRing.residue (B ⧸ q)).comp ((Ideal.Quotient.mk q).comp φ) := by
@@ -554,7 +554,7 @@ public lemma rigPoint_relative_tfae {A B : Type*} [CommRing A] [CommRing B]
         ψ (Ideal.Quotient.mk a y) = (ψ.comp (Ideal.Quotient.mk a)) y := rfl
         _ = (θ.comp g) y := (congrArg (fun F : A →+* kB => F y) hcomp).symm
         _ = (θ.comp τ) (Ideal.Quotient.mk a y) := by
-          show θ (g y) = θ (τ (Ideal.Quotient.mk a y))
+          change θ (g y) = θ (τ (Ideal.Quotient.mk a y))
           exact congrArg θ hτval.symm
     have hθft : θ.FiniteType := by
       have hcompft : (θ.comp τ).FiniteType := by
@@ -591,11 +591,11 @@ public lemma isClosedPointAwayFrom_congr_radical
     rw [← PrimeSpectrum.zeroLocus_radical I, hIJ, PrimeSpectrum.zeroLocus_radical]
   constructor <;> intro h
   · change ∃ hq : _, IsClosed _ at h
-    show ∃ hq : _, IsClosed _
+    change ∃ hq : _, IsClosed _
     rw [hzero] at h
     exact h
   · change ∃ hq : _, IsClosed _ at h
-    show ∃ hq : _, IsClosed _
+    change ∃ hq : _, IsClosed _
     rw [hzero.symm] at h
     exact h
 
@@ -628,7 +628,7 @@ public theorem isRigPointLocalCondition_comap_of_isJacobsonRing_quotient
     (isIdealOfDefinition_iff_isAdic hAadic Iadic).2 hIadicA
   have hIdefB : TopologicalRing.IsIdealOfDefinition (Iadic.map φ) :=
     (isIdealOfDefinition_iff_isAdic hBadic (Iadic.map φ)).2 hIadicB
-  have htaut := RingHom.isTaut_of_isAdic φ hφ ⟨Iadic, hIadicA, hIadicB⟩
+  have htaut := RingHom.isTaut_of_isAdic φ ⟨Iadic, hIadicA, hIadicB⟩
   have hfiniteRed :=
     isFiniteTypeOnReductions_of_isTaut_of_isTopologicallyOfFiniteType
       φ hφ hA.1 htaut hft
@@ -668,9 +668,9 @@ public theorem isRigPointLocalCondition_comap_of_isJacobsonRing_quotient
   have hψfinite : ψ.Finite := by
     let : Algebra.FiniteType (A ⧸ topologicalNilradical A) K := by
       change RingHom.FiniteType ψ at hψft
-      show RingHom.FiniteType (algebraMap (A ⧸ topologicalNilradical A) K)
+      change RingHom.FiniteType (algebraMap (A ⧸ topologicalNilradical A) K)
       simpa only [RingHom.algebraMap_toAlgebra] using hψft
-    show (algebraMap (A ⧸ topologicalNilradical A) K).Finite
+    change (algebraMap (A ⧸ topologicalNilradical A) K).Finite
     exact RingHom.finite_algebraMap.mpr
       (finite_of_finite_type_of_isJacobsonRing _ _)
   have hfirst :

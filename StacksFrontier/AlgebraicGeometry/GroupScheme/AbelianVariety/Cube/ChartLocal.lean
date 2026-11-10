@@ -50,10 +50,10 @@ omit [Fintype ι] [DecidableEq ι] in
 theorem targetD_w₁ : targetD V U ha₀ (w₁ U (V := V)) = 0 := by
   let := cochainModule U A.hom 0
   refine Prod.ext ?_ (Prod.ext ?_ ?_)
-  · show faceD V U 0 (faceψ V U 0 (one U)) = 0
+  · change faceD V U 0 (faceψ V U 0 (one U)) = 0
     rw [faceD_faceψ, rawD_one]
     exact map_zero (faceψ V U 1)
-  · show faceD V U 0 (faceψ V U 0 (one U)) = 0
+  · change faceD V U 0 (faceψ V U 0 (one U)) = 0
     rw [faceD_faceψ, rawD_one]
     exact map_zero (faceψ V U 1)
   · exact sub_self _
@@ -77,30 +77,32 @@ structure ChartHyp : Prop where
 
 variable {hV U N}
 
-omit [GrpObj A] [DecidableEq ι] in
+omit [GrpObj A] [Fintype ι] [DecidableEq ι] in
 /-- Every term of the chart complex is flat over the ring of functions of `V`. -/
-theorem ChartHyp.flatC (h : ChartHyp hV U N) (p : ℕ) :
+theorem ChartHyp.flatC [Finite ι] (h : ChartHyp hV U N) (p : ℕ) :
     Module.Flat (chartRing V) (CX hV U N p) := by
   have := h.sep
   have := h.qcoh
   exact Stacks.Cech.alternatingCechModuleComplex_flat (chartMap hV) (chartCover U V)
     (chartModule N V) h.aff h.flat p
 
-omit [GrpObj A] [DecidableEq ι] in
+omit [GrpObj A] [Fintype ι] [DecidableEq ι] in
 /-- After base change to a Noetherian algebra `S`, the degree-one cohomology of the chart complex
 is a finite `S`-module. -/
-theorem ChartHyp.finC (h : ChartHyp hV U N) (S : Type u) [CommRing S] [Algebra (chartRing V) S]
-    [IsNoetherianRing S] : Module.Finite S (homology (d₀ hV U N) (d₁ hV U N) S) := by
+theorem ChartHyp.finC [Finite ι] (h : ChartHyp hV U N) (S : Type u) [CommRing S]
+    [Algebra (chartRing V) S] [IsNoetherianRing S] :
+    Module.Finite S (homology (d₀ hV U N) (d₁ hV U N) S) := by
   have := h.sep; have := h.proper; have := h.qcoh; have := h.coh
   classical
   let : LinearOrder (ι × ι) := linearOrderOfSTO WellOrderingRel
   exact Stacks.CechBaseChange.finite_homology_baseChange (chartMap hV) (chartCover U V)
     (chartModule N V) h.cov h.aff S
 
-omit [GrpObj A] [DecidableEq ι] in
+omit [GrpObj A] [Fintype ι] [DecidableEq ι] in
 /-- After base change to a Noetherian algebra `S`, the kernel of `d₀` is a finite `S`-module. -/
-theorem ChartHyp.finK (h : ChartHyp hV U N) (S : Type u) [CommRing S] [Algebra (chartRing V) S]
-    [IsNoetherianRing S] : Module.Finite S (LinearMap.ker ((d₀ hV U N).baseChange S)) := by
+theorem ChartHyp.finK [Finite ι] (h : ChartHyp hV U N) (S : Type u) [CommRing S]
+    [Algebra (chartRing V) S] [IsNoetherianRing S] :
+    Module.Finite S (LinearMap.ker ((d₀ hV U N).baseChange S)) := by
   have := h.sep; have := h.proper; have := h.qcoh; have := h.coh
   classical
   let : LinearOrder (ι × ι) := linearOrderOfSTO WellOrderingRel
@@ -124,10 +126,10 @@ variable [IsAlgClosed k] [LocallyOfFiniteType A.hom] [Smooth A.hom]
 
 variable {hV U N}
 
-omit [IsAlgClosed k] [LocallyOfFiniteType A.hom] in
+omit [Fintype ι] [DecidableEq ι] [IsAlgClosed k] [LocallyOfFiniteType A.hom] in
 include hU hUcov hAc hBc in
 /-- **A normalized lift near a point with trivial fibre.** -/
-theorem exists_lift_at (h : ChartHyp hV U N) (hnorm : Normalized N (g₁ := g₁) (g₂ := g₂))
+theorem exists_lift_at [Finite ι] (h : ChartHyp hV U N) (hnorm : Normalized N (g₁ := g₁) (g₂ := g₂))
     (z : Spec (.of k) ⟶ A.left) (hzk : z ≫ A.hom = 𝟙 _) (hzV : z ⁻¹ᵁ V = ⊤)
     {σ₀ : Γ(fibreModule z hzk hzV N, ⊤)} (hσ₀ : IsGen _ σ₀) :
     ∃ a : chartRing V, evz z hzV a ≠ 0 ∧ ∃ y : CX hV U N 0, d₀ hV U N y = 0 ∧
@@ -163,9 +165,11 @@ theorem exists_lift_at (h : ChartHyp hV U N) (hnorm : Normalized N (g₁ := g₁
     (targetD_w₁ U ha₀)
   exact ⟨a, fun h0 => ha (RingHom.mem_ker.mpr h0), y, hy0, hy⟩
 
+omit [Fintype ι] [DecidableEq ι] in
 include hU hUcov hAc hBc in
 /-- **Injectivity on `H⁰` relative to the faces when all fibres are trivial.** -/
-theorem ker_cone_eq_bot (h : ChartHyp hV U N) (hnorm : Normalized N (g₁ := g₁) (g₂ := g₂))
+theorem ker_cone_eq_bot [Finite ι] (h : ChartHyp hV U N)
+    (hnorm : Normalized N (g₁ := g₁) (g₂ := g₂))
     (hall : ∀ (z : Spec (.of k) ⟶ A.left) (hzk : z ≫ A.hom = 𝟙 _) (hzV : z ⁻¹ᵁ V = ⊤),
       ∃ σ₀ : Γ(fibreModule z hzk hzV N, ⊤), IsGen _ σ₀) :
     LinearMap.ker (coneD₀ (d₀ hV U N) (phi₀ hV U ha₀ N hg₁ hg₂)) = ⊥ := by
@@ -184,17 +188,17 @@ theorem ker_cone_eq_bot (h : ChartHyp hV U N) (hnorm : Normalized N (g₁ := g�
   let : Algebra (chartRing V) k := (evz z hzV).toAlgebra
   exact Stacks.FlatComplexNakayama.ker_eq_bot_congr _ (quotEquiv z hzk hzV).symm ht.2
 
-omit [GrpObj A] [DecidableEq ι] [IsAlgClosed k] [LocallyOfFiniteType A.hom] in
-include hUcov hAc in
+omit [GrpObj A] [Fintype ι] [DecidableEq ι] [IsAlgClosed k] [LocallyOfFiniteType A.hom] in
+include hUcov in
 /-- **Vanishing of `H⁰` when one fibre has no sections.** -/
-theorem ker_d₀_eq_bot_of_fibre (h : ChartHyp hV U N) [IsDomain (chartRing V)]
+theorem ker_d₀_eq_bot_of_fibre [Finite ι] (h : ChartHyp hV U N) [IsDomain (chartRing V)]
     (z : Spec (.of k) ⟶ A.left) (hzk : z ≫ A.hom = 𝟙 _) (hzV : z ⁻¹ᵁ V = ⊤)
     (h0 : ∀ s : Γ(fibreModule z hzk hzV N, ⊤), s = 0) :
     LinearMap.ker (d₀ hV U N) = ⊥ := by
   have := h.sep; have := h.qcoh
   have := h.flatC 0
   have := h.flatC 1
-  have ht := ker_d₀_evz z hzk hV hzV U N h.aff hUcov hAc h0
+  have ht := ker_d₀_evz z hzk hV hzV U N h.aff hUcov h0
   let : Algebra (chartRing V) k := (evz z hzV).toAlgebra
   have hm : (RingHom.ker (evz z hzV)).IsMaximal :=
     RingHom.ker_isMaximal_of_surjective _ (evz_surjective z hzk hzV)

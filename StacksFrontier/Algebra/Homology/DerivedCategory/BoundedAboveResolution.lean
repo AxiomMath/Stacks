@@ -584,7 +584,7 @@ private lemma comp_extend_d_eq_zero (n : ℕ) {C : A}
       have h2 : (embeddingUpIntLE a).f m = a - ((m + 1 : ℕ) : ℤ) + 1 := by
         rw [embeddingUpIntLE_f]; omega
       have hγd' : γ ≫ layerD R G X hP hQzero hQbiprod hX a m = 0 := by
-        show γ ≫ (layer R G X hP hQzero hQbiprod hX a (m + 1)).d = 0
+        change γ ≫ (layer R G X hP hQzero hQbiprod hX a (m + 1)).d = 0
         exact hγd
       rw [resolution_extend_d_eq R G X hP hQzero hQbiprod hX a m
         (embeddingUpIntLE_f a (m + 1)) h2]
@@ -604,7 +604,7 @@ private lemma comp_layer_d_eq_zero (n : ℕ) ⦃T : A⦄
   | succ m =>
       have h2 : (embeddingUpIntLE a).f m = a - ((m + 1 : ℕ) : ℤ) + 1 := by
         rw [embeddingUpIntLE_f]; omega
-      show _ ≫ layerD R G X hP hQzero hQbiprod hX a m = 0
+      change _ ≫ layerD R G X hP hQzero hQbiprod hX a m = 0
       rw [resolution_extend_d_eq R G X hP hQzero hQbiprod hX a m
         (embeddingUpIntLE_f a (m + 1)) h2] at ht
       rw [← cancel_mono (layerExtendXIso R G X hP hQzero hQbiprod hX a h2).inv, zero_comp]

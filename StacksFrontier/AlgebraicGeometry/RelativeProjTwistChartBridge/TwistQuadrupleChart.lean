@@ -131,10 +131,7 @@ theorem chartPieceIso_pullbackSection (k : ℕ) (a : A.sectionPieces U k)
         (((Scheme.Modules.pullbackPushforwardAdjunction (relativeProj A).toBase).unit.app
           (A.piece ((k : ℕ) : ℤ))).val.app (op U) a)) := by
     rw [h2]
-    first
-      | exact eqRec_heq _ _
-      | exact cast_heq _ _
-      | simp
+    simp
   have h4 := eq_map_of_heq (D.algebra.piece ((k : ℕ) : ℤ)) (D.chartData.chart_range U hU) _ _ h3
   refine (congrArg (fun z => (D.chartData.chartIso U hU ((k : ℕ) : ℤ)).hom.val.app (op ⊤) z)
     (h1.trans h4.symm)).trans ?_

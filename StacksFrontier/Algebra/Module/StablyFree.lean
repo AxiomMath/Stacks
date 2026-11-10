@@ -182,9 +182,10 @@ variable {R : Type u} [CommRing R]
 /-- An endomorphism of a finite free module that reduces to the identity modulo an ideal all of
 whose `1 + x` are units has unit determinant, hence is invertible. -/
 private theorem isUnit_of_reduction_eq_id (I : Ideal R) (hI : ∀ x ∈ I, IsUnit (1 + x))
-    {κ : Type v} [Fintype κ] [DecidableEq κ] (f : (κ → R) →ₗ[R] (κ → R))
+    {κ : Type v} [Finite κ] (f : (κ → R) →ₗ[R] (κ → R))
     (hf : ∀ x i, Ideal.Quotient.mk I (f x i) = Ideal.Quotient.mk I (x i)) : IsUnit f := by
   classical
+  have := Fintype.ofFinite κ
   let b := Pi.basisFun R κ
   have hm : (LinearMap.toMatrix b b f).map (Ideal.Quotient.mk I) = 1 := by
     ext i j
@@ -193,7 +194,7 @@ private theorem isUnit_of_reduction_eq_id (I : Ideal R) (hI : ∀ x ∈ I, IsUni
     by_cases hij : i = j <;> simp [hij]
   have hd : Ideal.Quotient.mk I (LinearMap.det f) = 1 := by
     rw [← LinearMap.det_toMatrix b f, RingHom.map_det]
-    show ((LinearMap.toMatrix b b f).map (Ideal.Quotient.mk I)).det = 1
+    change ((LinearMap.toMatrix b b f).map (Ideal.Quotient.mk I)).det = 1
     rw [hm, Matrix.det_one]
   have hx : LinearMap.det f - 1 ∈ I := by
     apply Ideal.Quotient.eq_zero_iff_mem.mp
@@ -220,13 +221,14 @@ public theorem quotientPiMap_surjective (I : Ideal R) {ι : Type v} :
   exact ⟨x, funext hx⟩
 
 /-- On a finite free module, `I • ⊤` is the submodule of tuples with all coordinates in `I`. -/
-public theorem ideal_smul_top_pi (I : Ideal R) {ι : Type v} [Fintype ι] [DecidableEq ι] :
+public theorem ideal_smul_top_pi (I : Ideal R) {ι : Type v} [Finite ι] :
     I • (⊤ : Submodule R (ι → R)) =
       Submodule.pi Set.univ (fun _ : ι => (I : Submodule R R)) := by
   classical
+  have := Fintype.ofFinite ι
   ext x
   constructor
-  · intro hx i _
+  · rintro hx i -
     have hproj : Function.Surjective (LinearMap.proj i : (ι → R) →ₗ[R] R) :=
       fun y => ⟨fun _ => y, rfl⟩
     have hmap : (I • (⊤ : Submodule R (ι → R))).map (LinearMap.proj i) = I := by
@@ -283,7 +285,7 @@ theorem exists_isStablyFree_lift (I : Ideal R) (hI : ∀ x ∈ I, IsUnit (1 + x)
   let jR : (κ → q) →ₗ[R] (ι → q) := jQ.restrictScalars R
   have hpj : pQ.comp jQ = LinearMap.id := by
     refine LinearMap.ext fun x => ?_
-    show bN.equivFun (LinearMap.snd q E N
+    change bN.equivFun (LinearMap.snd q E N
       (bF.equivFun.symm (bF.equivFun (LinearMap.inr q E N (bN.equivFun.symm x))))) = x
     rw [bF.equivFun.symm_apply_apply]
     simp only [LinearMap.snd_apply, LinearMap.inr_apply]
@@ -297,7 +299,7 @@ theorem exists_isStablyFree_lift (I : Ideal R) (hI : ∀ x ∈ I, IsUnit (1 + x)
   let h : (κ → R) →ₗ[R] (κ → R) := φ.comp ψ
   have hcomp : qMapN.comp h = qMapN := by
     refine LinearMap.ext fun x => ?_
-    show qMapN (φ (ψ x)) = qMapN x
+    change qMapN (φ (ψ x)) = qMapN x
     calc
       qMapN (φ (ψ x)) = pR (qMapF (ψ x)) := LinearMap.congr_fun hφ (ψ x)
       _ = pR (jR (qMapN x)) := congrArg pR (LinearMap.congr_fun hψ x)
@@ -322,18 +324,18 @@ theorem exists_isStablyFree_lift (I : Ideal R) (hI : ∀ x ∈ I, IsUnit (1 + x)
   let P := LinearMap.ker φ
   let liftKer : (ι → R) →ₗ[R] P :=
     { toFun := fun x => ⟨x - ψ' (φ x), by
-        show φ (x - ψ' (φ x)) = 0
+        change φ (x - ψ' (φ x)) = 0
         rw [map_sub, hsection]
         simp⟩
       map_add' := fun x y => Subtype.ext <| by
-        show x + y - ψ' (φ (x + y)) = (x - ψ' (φ x)) + (y - ψ' (φ y))
+        change x + y - ψ' (φ (x + y)) = (x - ψ' (φ x)) + (y - ψ' (φ y))
         rw [map_add, map_add]
         abel
       map_smul' := fun r x => Subtype.ext <| by
-        show r • x - ψ' (φ (r • x)) = r • (x - ψ' (φ x))
+        change r • x - ψ' (φ (r • x)) = r • (x - ψ' (φ x))
         rw [map_smul, map_smul, smul_sub] }
   have hidLiftKer : ∀ p : P, liftKer p.val = p := fun p => Subtype.ext <| by
-    show p.val - ψ' (φ p.val) = p.val
+    change p.val - ψ' (φ p.val) = p.val
     rw [p.property]
     simp
   have hsurjLiftKer : Function.Surjective liftKer := fun p => ⟨p.val, hidLiftKer p⟩
@@ -343,14 +345,14 @@ theorem exists_isStablyFree_lift (I : Ideal R) (hI : ∀ x ∈ I, IsUnit (1 + x)
       ψ'.comp (LinearMap.snd R P (κ → R))
   have hfg : ∀ z, g (f z) = z := fun z => Prod.ext
     (Subtype.ext <| by
-      show z.1.val + ψ' z.2 - ψ' (φ (z.1.val + ψ' z.2)) = z.1.val
+      change z.1.val + ψ' z.2 - ψ' (φ (z.1.val + ψ' z.2)) = z.1.val
       rw [map_add, z.1.property, zero_add, hsection]
       simp)
     (by
-      show φ (z.1.val + ψ' z.2) = z.2
+      change φ (z.1.val + ψ' z.2) = z.2
       rw [map_add, z.1.property, zero_add, hsection])
   have hgf : ∀ x, f (g x) = x := fun x => by
-    show (liftKer x).val + ψ' (φ x) = x
+    change (liftKer x).val + ψ' (φ x) = x
     simp [liftKer, sub_add_cancel]
   let eSplit : (P × (κ → R)) ≃ₗ[R] (ι → R) :=
     LinearEquiv.ofBijective f
@@ -362,22 +364,22 @@ theorem exists_isStablyFree_lift (I : Ideal R) (hI : ∀ x ∈ I, IsUnit (1 + x)
   let fP : P →ₛₗ[Ideal.Quotient.mk I] E :=
     { toFun := fun x => (bF.equivFun.symm (qMapF x.val)).1
       map_add' := fun x y => by
-        show (bF.equivFun.symm (qMapF (x.val + y.val))).1 =
+        change (bF.equivFun.symm (qMapF (x.val + y.val))).1 =
           (bF.equivFun.symm (qMapF x.val)).1 + (bF.equivFun.symm (qMapF y.val)).1
         rw [map_add, map_add]
         rfl
       map_smul' := fun r x => by
-        show (bF.equivFun.symm (qMapF (r • x.val))).1 =
+        change (bF.equivFun.symm (qMapF (r • x.val))).1 =
           Ideal.Quotient.mk I r • (bF.equivFun.symm (qMapF x.val)).1
         rw [qMapF.map_smul]
-        show (bF.equivFun.symm ((Ideal.Quotient.mk I r) • qMapF x.val)).1 = _
+        change (bF.equivFun.symm ((Ideal.Quotient.mk I r) • qMapF x.val)).1 = _
         rw [bF.equivFun.symm.map_smulₛₗ]
         rfl }
   let J : Submodule R P := I • (⊤ : Submodule R P)
   have hJle : J ≤ fP.ker := by
     rw [Submodule.smul_le]
-    intro r hr x _
-    show fP (r • x) = 0
+    rintro r hr x -
+    change fP (r • x) = 0
     rw [fP.map_smulₛₗ]
     simp [Ideal.Quotient.eq_zero_iff_mem.mpr hr]
   have hmapLiftKer : (I • (⊤ : Submodule R (ι → R))).map liftKer = J := by
@@ -396,11 +398,11 @@ theorem exists_isStablyFree_lift (I : Ideal R) (hI : ∀ x ∈ I, IsUnit (1 + x)
     have hqzero : qMapF x.val = 0 := by
       refine bF.equivFun.symm.injective ?_
       have hw : w = 0 := by ext <;> assumption
-      show w = bF.equivFun.symm 0
+      change w = bF.equivFun.symm 0
       simpa using hw
     have hxAmbient : x.val ∈ I • (⊤ : Submodule R (ι → R)) := by
       rw [ideal_smul_top_pi]
-      intro i _
+      rintro i -
       exact Ideal.Quotient.eq_zero_iff_mem.mp (congrArg (fun y : ι → q => y i) hqzero)
     rw [← hmapLiftKer, ← hidLiftKer x]
     exact Submodule.mem_map_of_mem hxAmbient
@@ -425,9 +427,9 @@ theorem exists_isStablyFree_lift (I : Ideal R) (hI : ∀ x ∈ I, IsUnit (1 + x)
         _ = pQ v := by rw [hx]; rfl
         _ = 0 := by simp [pQ, v]
     refine ⟨liftKer x, ?_⟩
-    show (bF.equivFun.symm (qMapF (liftKer x).val)).1 = e
+    change (bF.equivFun.symm (qMapF (liftKer x).val)).1 = e
     have hqLift : qMapF (liftKer x).val = v := by
-      show qMapF (x - ψ' (φ x)) = v
+      change qMapF (x - ψ' (φ x)) = v
       rw [map_sub, hqψ' (φ x), hqφ, map_zero, sub_zero, hx]
     rw [hqLift]
     simp [v]
@@ -444,7 +446,7 @@ theorem exists_isStablyFree_lift (I : Ideal R) (hI : ∀ x ∈ I, IsUnit (1 + x)
     refine ⟨LinearEquiv.ofBijective fbar ⟨fun x y hxy => ?_, fun e => ?_⟩⟩
     · have hx : x - y ∈ fbarSem.ker := by
         change fbarSem x = fbarSem y at hxy
-        show fbarSem (x - y) = 0
+        change fbarSem (x - y) = 0
         rw [map_sub, hxy, sub_self]
       exact sub_eq_zero.mp (by simpa using (hkerBar ▸ hx : x - y ∈ (⊥ : Submodule R (P ⧸ J))))
     · obtain ⟨x, hx⟩ := hsurj e

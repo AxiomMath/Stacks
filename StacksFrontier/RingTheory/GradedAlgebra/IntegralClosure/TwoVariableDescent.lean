@@ -313,11 +313,11 @@ theorem bundle_transport
     simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom] at hab
     exact h2 (eqB.injective hab)
   · intro b
-    show π₀ (eqB.symm.toAddMonoidHom ((eqB.toRingHom.comp ι₀) b)) = b
+    change π₀ (eqB.symm.toAddMonoidHom ((eqB.toRingHom.comp ι₀) b)) = b
     rw [show (eqB.toRingHom.comp ι₀) b = eqB (ι₀ b) from rfl, hsymm]
     exact h3 b
   · intro cc b
-    show π₀ (eqB.symm.toAddMonoidHom (cc * (eqB.toRingHom.comp ι₀) b))
+    change π₀ (eqB.symm.toAddMonoidHom (cc * (eqB.toRingHom.comp ι₀) b))
       = π₀ (eqB.symm.toAddMonoidHom cc) * b
     rw [show (eqB.toRingHom.comp ι₀) b = eqB (ι₀ b) from rfl, hsymmA, hsymmA]
     rw [map_mul, RingEquiv.symm_apply_apply]
@@ -325,7 +325,7 @@ theorem bundle_transport
   · intro ct
     obtain ⟨c₀, hc₀⟩ := h5 (eqA.symm ct)
     refine ⟨c₀, ?_⟩
-    show Ψ c₀ = π₀ (eqB.symm.toAddMonoidHom (((eqB.toRingHom.comp f'₀).comp eqA.symm.toRingHom)
+    change Ψ c₀ = π₀ (eqB.symm.toAddMonoidHom (((eqB.toRingHom.comp f'₀).comp eqA.symm.toRingHom)
         ct))
     rw [show ((eqB.toRingHom.comp f'₀).comp eqA.symm.toRingHom) ct = eqB (f'₀ (eqA.symm ct)) from
         rfl,
@@ -476,7 +476,7 @@ theorem mqod_inner
     · have hself : Polynomial.C c %ₘ gS = Polynomial.C c := by
         rw [Polynomial.modByMonic_eq_self_iff hgSmonic]
         refine lt_of_le_of_lt Polynomial.degree_C_le ?_
-        show (0 : WithBot ℕ) < gS.degree
+        change (0 : WithBot ℕ) < gS.degree
         rw [hgSdef', show (Polynomial.X ^ D - Polynomial.X - 1 : Polynomial (LaurentPolynomial S))
               = Polynomial.X ^ D + (- Polynomial.X - 1) from by ring]
         have hlt : (- Polynomial.X - 1 : Polynomial (LaurentPolynomial S)).degree
@@ -599,20 +599,20 @@ theorem mqod_inner
     rw [hqin, hein]
     apply AddMonoidAlgebra.ringHom_ext
     · intro r
-      show (LaurentPolynomial.eval₂ ((AdjoinRoot.of gS).comp LaurentPolynomial.C) ubU)
+      change (LaurentPolynomial.eval₂ ((AdjoinRoot.of gS).comp LaurentPolynomial.C) ubU)
           ((Φ₁ (R := R) (S := S)) (LaurentPolynomial.C r)) = _
       rw [Phi1_C, LaurentPolynomial.eval₂_C]
-      show _ = ftil ((LaurentPolynomial.eval₂ ((AdjoinRoot.of gR).comp LaurentPolynomial.C) urU)
+      change _ = ftil ((LaurentPolynomial.eval₂ ((AdjoinRoot.of gR).comp LaurentPolynomial.C) urU)
           (LaurentPolynomial.C r))
       rw [LaurentPolynomial.eval₂_C]
       have hh := congrArg (fun w => w (LaurentPolynomial.C r)) hftilof
       simp only [RingHom.comp_apply] at hh ⊢
       rw [hh, RingHom.comp_apply, Phi1_C]
     · intro j
-      show (LaurentPolynomial.eval₂ ((AdjoinRoot.of gS).comp LaurentPolynomial.C) ubU)
+      change (LaurentPolynomial.eval₂ ((AdjoinRoot.of gS).comp LaurentPolynomial.C) ubU)
           ((Φ₁ (R := R) (S := S)) (LaurentPolynomial.T j)) = _
       rw [Phi1_T, LaurentPolynomial.eval₂_T]
-      show _ = ftil ((LaurentPolynomial.eval₂ ((AdjoinRoot.of gR).comp LaurentPolynomial.C) urU)
+      change _ = ftil ((LaurentPolynomial.eval₂ ((AdjoinRoot.of gR).comp LaurentPolynomial.C) urU)
           (LaurentPolynomial.T j))
       rw [LaurentPolynomial.eval₂_T]
       exact hrtRpow j
@@ -653,7 +653,7 @@ theorem mqod_inner
   have hUmulAval : (UmulA : Atil) = (↑(urU ^ n) : Atil) - ↑(urU ^ m) := IsUnit.unit_spec _
   have hmapU : Units.map (ftil : Atil →* Btil) UmulA = UmulB := by
     apply Units.ext; rw [Units.coe_map]
-    show ftil (UmulA : Atil) = (UmulB : Btil)
+    change ftil (UmulA : Atil) = (UmulB : Btil)
     rw [hUmulAval, hUmulBval, map_sub, ← hrtRpow, ← hrtRpow]
   set U0 : (AddMonoidAlgebra Btil ℤ)ˣ :=
     Units.map ((AddMonoidAlgebra.singleZeroRingHom : Btil →+* AddMonoidAlgebra Btil ℤ) : Btil →*
@@ -665,7 +665,7 @@ theorem mqod_inner
   have hqmt : q (C (LaurentPolynomial.T n - LaurentPolynomial.T m : LaurentPolynomial S) *
       (C (LaurentPolynomial.C z) * T n)) = (U0 : AddMonoidAlgebra Btil ℤ) * ι₀ target := by
     rw [map_mul]
-    show q mult * q target = _
+    change q mult * q target = _
     rw [hqmult, htgt, hιtgt, hU0val, hUmulBval]
   rw [hqmt, hsq] at hmap6
   have hf'int : f'₀.IsIntegralElem ((U0 : AddMonoidAlgebra Btil ℤ) * ι₀ target) :=

@@ -433,6 +433,7 @@ here `j : E ⟶ X'` is the inclusion of the exceptional divisor. -/
 abbrev exceptionalOpen : (exceptionalDivisor i.ker).Opens :=
   (exceptionalIdeal i.ker).subschemeι ⁻¹ᵁ (blowUpToBase i.ker ⁻¹ᵁ c.U)
 
+omit [IsClosedImmersion i] in
 /-- The ideal of `E_U ⊆ b⁻¹(U)` is the inverse image of the coordinate exceptional ideal. -/
 theorem ker_exceptionalOpen :
     ((exceptionalIdeal i.ker).subschemeι ∣_ (blowUpToBase i.ker ⁻¹ᵁ c.U)).ker =
@@ -452,6 +453,7 @@ noncomputable def exceptionalMap :
       rw [Scheme.Hom.ker_comp, Scheme.IdealSheafData.le_map_iff_comap_le, c.ker_exceptionalOpen,
         Scheme.IdealSheafData.ker_subschemeι])
 
+omit [IsClosedImmersion i] in
 /-- The square of the exceptional divisor over a chart commutes. -/
 @[reassoc]
 theorem exceptionalMap_comm :
@@ -459,6 +461,7 @@ theorem exceptionalMap_comm :
       ((exceptionalIdeal i.ker).subschemeι ∣_ (blowUpToBase i.ker ⁻¹ᵁ c.U)) ≫ c.blowupMap :=
   IsClosedImmersion.lift_fac _ _ _
 
+omit [IsClosedImmersion i] in
 /-- **The exceptional divisor on a chart is the base change of the coordinate exceptional
 divisor.**  The square
 ```

@@ -146,7 +146,7 @@ theorem isQuasiCompact_iff_hasPropertyULift' {X Y : FppfSheaf B S hS} (f : X ⟶
           (Space.relative_of_isPullback B S hS hsquare hcE))⟩
   constructor
   · intro hqc U ξ
-    show Space.IsQuasiCompactULift.{u + 1} B S hS (pullback.fst ξ f.hom)
+    change Space.IsQuasiCompactULift.{u + 1} B S hS (pullback.fst ξ f.hom)
     refine qcOfCompact _ (fun V hV η => ?_)
     refine Space.isQuasiCompactSpaceULift_of_iso B S hS
       (pullbackRightPullbackFstIso ξ f.hom η).symm ?_

@@ -42,8 +42,7 @@ private theorem transMod_transMod {A : Type*} [CommRing A] {ι : Type*} [Preorde
     (φ : ∀ ⦃i j : ι⦄, i ≤ j → R i →ₐ[A] R j) (htrans : TransitionSystem φ) {P : Type*}
     [AddCommGroup P] [Module A P] {i j k : ι} (hij : i ≤ j) (hjk : j ≤ k) (w : (R i) ⊗[A] P) :
     transMod φ P hjk (transMod φ P hij w) = transMod φ P (le_trans hij hjk) w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul r m => simp only [transMod_tmul, htrans.trans hij hjk r]
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -54,8 +53,7 @@ private theorem canonMod_transMod {A : Type*} [CommRing A] {ι : Type*} [Preorde
     (hcocone : IsCoconeAlg φ ψ) {P : Type*} [AddCommGroup P] [Module A P] {i j : ι} (hij : i ≤ j)
     (w : (R i) ⊗[A] P) :
     canonMod ψ P j (transMod φ P hij w) = canonMod ψ P i w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul r m => simp only [transMod_tmul, canonMod_tmul, hcocone hij r]
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -125,8 +123,7 @@ theorem statement_three
   have canonMod_smulM : ∀ (i : ι) (r : R i)
       (y : (R i) ⊗[A] M), canonMod ψ M i (r • y) = (ψ i r) • canonMod ψ M i y := by
     intro i r y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul a m =>
         rw [TensorProduct.smul_tmul']
         simp only [canonMod, TensorProduct.map_tmul, LinearMap.id_coe, id_eq,
@@ -243,8 +240,7 @@ theorem statement_three
         (LinearMap.liftBaseChange (R j) cj) ((LinearMap.lTensor (R j) (LinearMap.ker e).subtype)
             y) = 0 := by
       intro y
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul r κ =>
           rw [LinearMap.lTensor_tmul, LinearMap.liftBaseChange_tmul]
           have hκ : cj (κ : (Fin n →₀ A)) = 0 :=
@@ -255,7 +251,7 @@ theorem statement_three
     intro z hz
     rw [LinearMap.mem_ker] at hz ⊢
     have hbc : (LinearMap.baseChange (R j) e) z = (LinearMap.lTensor (R j) e) z := by
-      rw [LinearMap.baseChange_eq_ltensor]
+      rw [LinearMap.baseChange_eq_lTensor]
     rw [hbc] at hz
     have hzmem : z ∈ LinearMap.ker (LinearMap.lTensor (R j) e) := LinearMap.mem_ker.mpr hz
     rw [hkereq] at hzmem
@@ -280,8 +276,7 @@ theorem statement_three
   have master : ∀ z : (R j) ⊗[A] (Fin n →₀ A),
       canonMod ψ M j (gj z) = v (canonMod ψ N j (ej z)) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul r x =>
         rw [hgj_def, LinearMap.liftBaseChange_tmul, canonMod_smulM,
           hcj_apply, canonMod_transMod φ ψ hcocone hi₀j (c x), hd x,

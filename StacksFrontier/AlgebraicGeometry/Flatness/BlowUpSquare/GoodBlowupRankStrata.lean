@@ -93,9 +93,9 @@ ones tag 0F8Y is given: the closed immersion `i : T → D'` of tag 0F8X together
 (2) and (3), which are the binders `hQ` and `hrank` and are the instance at the pulled-back \
 triple of parts (2) and (3) of tag 0GTZ, which need the chart-level comparison \
 AlgebraicGeometry.ComplexAndDivisorSituation.ChartDecalage over and above tag 08DW --- that tag \
-being formalized in both its parts; plus `hbd`, the local boundedness of the family `H^n(Li^*Q)`, a \
-consequence of perfectness of `Li^*Q`, and `hM`, the finite local freeness of `H^n(M)` over \
-`W`, which tag 0GT1's second assertion gives over the universe-lifted locus of \
+being formalized in both its parts; plus `hbd`, the local boundedness of the family \
+`H^n(Li^*Q)`, a consequence of perfectness of `Li^*Q`, and `hM`, the finite local freeness of \
+`H^n(M)` over `W`, which tag 0GT1's second assertion gives over the universe-lifted locus of \
 Stacks.Cohomology.PerfectComplexes.cohomologyFiniteFreeLocus rather than over the open \
 subscheme `W` built from AlgebraicGeometry.RingedSpace.cohomologyFiniteFreeLocus"]
 theorem exists_isClopen_rankStratum_goodBlowupToBase

@@ -51,13 +51,13 @@ variable {C : Type u} [Category.{v} C] [MonoidalCategory C] [Preadditive C]
 /-- Whiskering on the right is `ℤ`-linear, in the form needed for `ℤˣ`-scalars. -/
 lemma units_smul_whiskerRight (s : ℤˣ) {X Y Z : C} (f : X ⟶ Y) :
     (s • f) ▷ Z = s • (f ▷ Z) := by
-  show (tensorRight Z).map (s • f) = s • (tensorRight Z).map f
+  change (tensorRight Z).map (s • f) = s • (tensorRight Z).map f
   exact Functor.map_units_smul (tensorRight Z) s f
 
 /-- Whiskering on the left is `ℤ`-linear, in the form needed for `ℤˣ`-scalars. -/
 lemma units_smul_whiskerLeft (s : ℤˣ) {X Y Z : C} (f : X ⟶ Y) :
     Z ◁ (s • f) = s • (Z ◁ f) := by
-  show (tensorLeft Z).map (s • f) = s • (tensorLeft Z).map f
+  change (tensorLeft Z).map (s • f) = s • (tensorLeft Z).map f
   exact Functor.map_units_smul (tensorLeft Z) s f
 
 variable [HasZeroObject C]
@@ -76,7 +76,7 @@ lemma ιTensorObj_whiskerRight {K L : CochainComplex C ℤ} (f : K ⟶ L)
     (M : CochainComplex C ℤ) (i j n : ℤ) (h : i + j = n) :
     HomologicalComplex.ιTensorObj K M i j n h ≫ (f ▷ M).f n =
       f.f i ▷ M.X j ≫ HomologicalComplex.ιTensorObj L M i j n h := by
-  show HomologicalComplex.ιTensorObj K M i j n h ≫
+  change HomologicalComplex.ιTensorObj K M i j n h ≫
     (HomologicalComplex.tensorHom f (𝟙 M)).f n = _
   rw [HomologicalComplex.ι_mapBifunctorMap, HomologicalComplex.id_f,
     CategoryTheory.Functor.map_id, Category.id_comp, curriedTensor_map_app]
@@ -88,7 +88,7 @@ lemma ιTensorObj_whiskerLeft (K : CochainComplex C ℤ) {L M : CochainComplex C
     (f : L ⟶ M) (i j n : ℤ) (h : i + j = n) :
     HomologicalComplex.ιTensorObj K L i j n h ≫ (K ◁ f).f n =
       K.X i ◁ f.f j ≫ HomologicalComplex.ιTensorObj K M i j n h := by
-  show HomologicalComplex.ιTensorObj K L i j n h ≫
+  change HomologicalComplex.ιTensorObj K L i j n h ≫
     (HomologicalComplex.tensorHom (𝟙 K) f).f n = _
   rw [HomologicalComplex.ι_mapBifunctorMap, HomologicalComplex.id_f,
     CategoryTheory.Functor.map_id, NatTrans.id_app, Category.id_comp, curriedTensor_obj_map]
@@ -187,7 +187,7 @@ lemma koszulBraidingX_hom_comm (K L : CochainComplex C ℤ) (n m : ℤ)
     (hnm : (ComplexShape.up ℤ).Rel n m) :
     (koszulBraidingX K L n).hom ≫ (L ⊗ K).d n m =
       (K ⊗ L).d n m ≫ (koszulBraidingX K L m).hom := by
-  show (koszulBraidingX K L n).hom ≫
+  change (koszulBraidingX K L n).hom ≫
       (HomologicalComplex.mapBifunctor L K (curriedTensor C) (ComplexShape.up ℤ)).d n m =
     (HomologicalComplex.mapBifunctor K L (curriedTensor C) (ComplexShape.up ℤ)).d n m ≫
       (koszulBraidingX K L m).hom

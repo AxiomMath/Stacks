@@ -67,7 +67,7 @@ theorem Flat.of_comp_faithfullyFlat {R S T : Type*} [CommRing R] [CommRing S] [C
   have : Module.Flat R T := hgf
   rw [RingHom.Flat, Module.Flat.iff_lTensor_preserves_injective_linearMap]
   intro N P _ _ _ _ φ hφ
-  show Function.Injective (LinearMap.baseChange S φ)
+  change Function.Injective (LinearMap.baseChange S φ)
   rw [← Module.FaithfullyFlat.lTensor_injective_iff_injective S T]
   let eP := TensorProduct.AlgebraTensorModule.cancelBaseChange R S T T P
   let eN := TensorProduct.AlgebraTensorModule.cancelBaseChange R S T T N
@@ -191,13 +191,13 @@ theorem isIso_stalkMap_of_local_inverse {Q T₁ T₂ : Scheme.{u}} {D D' : Q.Ope
     IsIso (φ₁.stalkMap z) := by
   have hct₁ : c₁ t₁ = z' := by
     apply D'.ι.isOpenEmbedding.injective
-    show (c₁ ≫ D'.ι) t₁ = _
+    change (c₁ ≫ D'.ι) t₁ = _
     rw [hc₁, Scheme.Hom.comp_apply, ht₁, hz']
   have hφ₂z' : φ₂ z' = D.ι z := by
     rw [← hct₁, ← Scheme.Hom.comp_apply, hc₁', Scheme.Hom.comp_apply, ht₁]
   have hct₂ : c₂ t₂ = z := by
     apply D.ι.isOpenEmbedding.injective
-    show (c₂ ≫ D.ι) t₂ = _
+    change (c₂ ≫ D.ι) t₂ = _
     rw [hc₂, Scheme.Hom.comp_apply, ht₂, hφ₂z']
   let I₀ := D.ι.stalkMapOfEq z (D.ι z) rfl
   let I₁ := D'.ι.stalkMapOfEq z' (D'.ι z') rfl
@@ -307,7 +307,7 @@ lemma exists_fiberGenericPoint {k : Type u} [Field k] [IsSepClosed k] {A B : Sch
   let g : f.fiber x := genericPoint (f.fiber x)
   let p := f.fiberι x g
   have hp : f p = x := by
-    show (f.fiberι x ≫ f) g = x
+    change (f.fiberι x ≫ f) g = x
     rw [Scheme.Hom.fiber_fac, Scheme.Hom.comp_apply, Scheme.fromSpecResidueField_apply]
   have hO : ∀ O : (pullback a b).Opens, (∃ q ∈ O, f q = x) → p ∈ O := by
     rintro O ⟨q, hqO, hqx⟩
@@ -321,7 +321,7 @@ lemma exists_fiberGenericPoint {k : Type u} [Field k] [IsSepClosed k] {A B : Sch
   apply eq_genericPoint_of_forall_mem
   rintro U ⟨u, hu⟩
   have hsub : Subsingleton (Spec (.of k)) := by
-    show Subsingleton (PrimeSpectrum k); infer_instance
+    change Subsingleton (PrimeSpectrum k); infer_instance
   obtain ⟨q, hq₁, hq₂⟩ := Scheme.Pullback.exists_preimage_pullback (f := a) (g := b) x u
     (Subsingleton.elim (α := Spec (.of k)) _ _)
   exact hO (pullback.snd a b ⁻¹ᵁ U) ⟨q, by simpa [hq₂] using hu, hq₁⟩
@@ -396,7 +396,7 @@ lemma flatAt_iff_of_comp_openImmersion {X Y Z : Scheme.{u}} (f : X ⟶ Y) (j : Y
     [IsOpenImmersion j] (x : X) : FlatAt (f ≫ j) x ↔ FlatAt f x := by
   unfold FlatAt
   rw [Scheme.Hom.stalkMap_comp]
-  show ((f.stalkMap x).hom.comp (j.stalkMap (f x)).hom).Flat ↔ _
+  change ((f.stalkMap x).hom.comp (j.stalkMap (f x)).hom).Flat ↔ _
   exact RingHom.Flat.comp_iff_of_bijective_right (ConcreteCategory.bijective_of_isIso _)
 
 /-- Precomposing a morphism with an open immersion does not change flatness at a point. -/
@@ -404,7 +404,7 @@ lemma flatAt_iff_of_openImmersion_comp {X Y Z : Scheme.{u}} (j : X ⟶ Y) (f : Y
     [IsOpenImmersion j] (x : X) : FlatAt (j ≫ f) x ↔ FlatAt f (j x) := by
   unfold FlatAt
   rw [Scheme.Hom.stalkMap_comp]
-  show ((j.stalkMap x).hom.comp (f.stalkMap (j x)).hom).Flat ↔ _
+  change ((j.stalkMap x).hom.comp (f.stalkMap (j x)).hom).Flat ↔ _
   exact RingHom.Flat.comp_iff_of_bijective_left (ConcreteCategory.bijective_of_isIso _)
 
 /-- Following a morphism by an open immersion does not change injectivity on local rings. -/
@@ -412,7 +412,7 @@ lemma injective_iff_of_comp_openImmersion {X Y Z : Scheme.{u}} (f : X ⟶ Y) (j 
     [IsOpenImmersion j] (x : X) :
     Function.Injective ((f ≫ j).stalkMap x).hom ↔ Function.Injective (f.stalkMap x).hom := by
   rw [Scheme.Hom.stalkMap_comp]
-  show Function.Injective ((f.stalkMap x).hom ∘ (j.stalkMap (f x)).hom) ↔ _
+  change Function.Injective ((f.stalkMap x).hom ∘ (j.stalkMap (f x)).hom) ↔ _
   exact Function.Injective.of_comp_iff' _ (ConcreteCategory.bijective_of_isIso _)
 
 /-- Precomposing a morphism with an open immersion does not change injectivity on local rings. -/
@@ -420,7 +420,7 @@ lemma injective_iff_of_openImmersion_comp {X Y Z : Scheme.{u}} (j : X ⟶ Y) (f 
     [IsOpenImmersion j] (x : X) :
     Function.Injective ((j ≫ f).stalkMap x).hom ↔ Function.Injective (f.stalkMap (j x)).hom := by
   rw [Scheme.Hom.stalkMap_comp]
-  show Function.Injective ((j.stalkMap x).hom ∘ (f.stalkMap (j x)).hom) ↔ _
+  change Function.Injective ((j.stalkMap x).hom ∘ (f.stalkMap (j x)).hom) ↔ _
   exact Function.Injective.of_comp_iff (ConcreteCategory.bijective_of_isIso _).1 _
 
 /-- Injectivity on local rings at a point only depends on the morphism. -/
@@ -625,7 +625,7 @@ lemma homExtGX {T : Scheme.{u}} {f g : T ⟶ (G ⊗ X).left}
 /-- If `a b ∈ V` then `(a, a b) ∈ G × V`. -/
 lemma shearL_mem_EV {V : G.left.Opens} {w : (G ⊗ G).left} (h : μ[G].left w ∈ V) :
     shearL G w ∈ EV G V := by
-  show (snd G G).left (shearL G w) ∈ V
+  change (snd G G).left (shearL G w) ∈ V
   rwa [← Scheme.Hom.comp_apply, shearL_snd]
 
 /-- The second projection `G × X ⟶ X` is flat. -/
@@ -726,7 +726,7 @@ theorem flatAt_of_translation (V : G.left.Opens) (π : V.toScheme ⟶ X.left)
   have hc₁r : Set.range (a₁ ≫ sigma G X D F hF) ⊆ Set.range (D' G X D).ι := by
     rintro _ ⟨x, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show (invL G X) ((a₁ ≫ sigma G X D F hF) x) ∈ D
+    change (invL G X) ((a₁ ≫ sigma G X D F hF) x) ∈ D
     rw [← Scheme.Hom.comp_apply, K₄, ht₁, Scheme.Hom.comp_apply]
     exact (t₁ x).2
   let c₁ : N₁.toScheme ⟶ (D' G X D).toScheme := IsOpenImmersion.lift _ _ hc₁r
@@ -778,7 +778,7 @@ theorem flatAt_of_translation (V : G.left.Opens) (π : V.toScheme ⟶ X.left)
   have ha₂r : Set.range (e₂ ≫ onePi G X V π hπ) ⊆ Set.range (D' G X D).ι := by
     rintro _ ⟨x, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show (invL G X) ((e₂ ≫ onePi G X V π hπ) x) ∈ D
+    change (invL G X) ((e₂ ≫ onePi G X V π hπ) x) ∈ D
     rw [← Scheme.Hom.comp_apply, H2a, Scheme.Hom.comp_apply]
     exact ((k₂ ≫ d₁) x).2
   let a₂ : N₂.toScheme ⟶ (D' G X D).toScheme := IsOpenImmersion.lift _ _ ha₂r
@@ -809,7 +809,7 @@ theorem flatAt_of_translation (V : G.left.Opens) (π : V.toScheme ⟶ X.left)
   have he₂p : e₂ p₂ = ⟨shearL G w, hsw⟩ := Scheme.homOfLE_apply' _ _ _
   have hg₁p : g₁ p₁ = ⟨shearL G w, hsw⟩ := by
     apply Subtype.ext
-    show (g₁ ≫ (EV G V).ι) p₁ = _
+    change (g₁ ≫ (EV G V).ι) p₁ = _
     rw [hg₁]; rfl
   have hz' : sigma G X D F hF (a₁ p₁) = (D' G X D).ι (a₂ p₂) := by
     rw [← Scheme.Hom.comp_apply, K₄, ← Scheme.Hom.comp_apply, ha₂, Scheme.Hom.comp_apply,
@@ -839,7 +839,7 @@ theorem flatAt_of_translation (V : G.left.Opens) (π : V.toScheme ⟶ X.left)
     hm he (flatAt_of_flat _ _)
   have hpt : (k₀ ≫ d₂) p₁ = ⟨μ[G].left w, hD''μ hw⟩ := by
     apply Subtype.ext
-    show ((k₀ ≫ d₂) ≫ V.ι) p₁ = _
+    change ((k₀ ≫ d₂) ≫ V.ι) p₁ = _
     rw [hk₀d₂]; rfl
   rwa [hpt] at key
 
@@ -895,10 +895,10 @@ lemma prodIso_onePi (V : G.left.Opens) (π : V.toScheme ⟶ X.left)
     (prodIso G X V π hπ).hom ≫ onePi G X V π hπ = prodMap G X V π := by
   have h := prodIso_hom_ι G X V π hπ
   apply pullback.hom_ext
-  · show _ ≫ _ ≫ (fst G X).left = _
+  · change _ ≫ _ ≫ (fst G X).left = _
     rw [onePi_fst, reassoc_of% h]
     exact (pullback.lift_fst _ _ _).trans (pullback.lift_fst _ _ _).symm
-  · show _ ≫ _ ≫ (snd G X).left = _
+  · change _ ≫ _ ≫ (snd G X).left = _
     rw [onePi_snd]
     rw [reassoc_of% (prodIso_resLE G X V π hπ)]
     exact (pullback.lift_snd _ _ _).symm
@@ -976,11 +976,11 @@ theorem flatAt_of_rationalAction [IsAlgClosed k] [IsIntegral G.left] [IsIntegral
   have hwO : w ∈ D'' ⊓ shearL G ⁻¹ᵁ (invFstL G ⁻¹ᵁ D'') := by
     have hmem : (lift μ[G] (snd G G)).left u ∈
         divL G ⁻¹ᵁ (D'' ⊓ shearL G ⁻¹ᵁ (invFstL G ⁻¹ᵁ D'')) := by
-      show ((lift μ[G] (snd G G)).left ≫ divL G) u ∈
+      change ((lift μ[G] (snd G G)).left ≫ divL G) u ∈
         (D'' ⊓ shearL G ⁻¹ᵁ (invFstL G ⁻¹ᵁ D'') : (G ⊗ G).left.Opens)
       rw [mulSnd_divL]; exact ⟨hu, hu'⟩
     have hfst : pullback.fst G.hom G.hom ((lift μ[G] (snd G G)).left u) = v := by
-      show ((lift μ[G] (snd G G)).left ≫ (fst G G).left) u = v
+      change ((lift μ[G] (snd G G)).left ≫ (fst G G).left) u = v
       rw [mulSnd_fst]
     exact hpO (divL G ⁻¹ᵁ (D'' ⊓ shearL G ⁻¹ᵁ (invFstL G ⁻¹ᵁ D''))) ⟨_, hmem, hfst⟩
   have hwD'' : w ∈ D'' := hwO.1
@@ -1000,7 +1000,7 @@ theorem flatAt_of_rationalAction [IsAlgClosed k] [IsIntegral G.left] [IsIntegral
     refine flat_stalkMap_pullbackMap_of_flat_stalkMap (A := k) G.hom (π ≫ X.hom) X.hom π rfl _ ?_
     have hs : pullback.snd G.hom (π ≫ X.hom) (e.inv y) = genericPoint V := by
       rw [← prodIso_resLE G X V π hπ, Scheme.Hom.comp_apply]
-      show ((snd G G).left.resLE V (EV G V) le_rfl) (e.hom (e.inv y)) = _
+      change ((snd G G).left.resLE V (EV G V) le_rfl) (e.hom (e.inv y)) = _
       rw [hinv]
       apply V.ι.isOpenEmbedding.injective
       rwa [hgenV, ← Scheme.Hom.comp_apply, Scheme.Hom.resLE_comp_ι, Scheme.Hom.comp_apply]
@@ -1114,7 +1114,7 @@ lemma canonicalDomain_range (V : G.left.Opens) (π : V.toScheme ⟶ X.left)
   obtain ⟨⟨y, hy, hyz⟩, -⟩ := z.2
   have : (G ⊗ G).left.homOfLE (canonicalDomain_le_EV G X V π hπ D) z = y :=
     Subtype.ext ((Scheme.homOfLE_apply _ z).trans hyz.symm)
-  show onePi G X V π hπ ((G ⊗ G).left.homOfLE (canonicalDomain_le_EV G X V π hπ D) z) ∈ D
+  change onePi G X V π hπ ((G ⊗ G).left.homOfLE (canonicalDomain_le_EV G X V π hπ D) z) ∈ D
   rwa [this]
 
 /-- **Flatness of a rational quotient map, from a local action datum.**  If `F (a, π b) = π (a b)`
@@ -1147,7 +1147,7 @@ theorem exists_open_flatAt_of_localRationalAction [IsAlgClosed k] [IsIntegral G.
     rw [Category.assoc, Category.assoc, hF, hπ, IsOpenImmersion.lift_fac_assoc,
       IsOpenImmersion.lift_fac_assoc, Category.assoc, Category.assoc]
     have h1 : onePi G X V π hπ ≫ (G ⊗ X).hom = (EV G V).ι ≫ (G ⊗ G).hom := by
-      show _ ≫ (fst G X).left ≫ G.hom = _
+      change _ ≫ (fst G X).left ≫ G.hom = _
       rw [onePi_fst_assoc]
       rfl
     have h2 : μ[G].left ≫ G.hom = (G ⊗ G).hom := Over.w μ[G]

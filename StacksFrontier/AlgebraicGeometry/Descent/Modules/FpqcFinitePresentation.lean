@@ -76,7 +76,7 @@ private theorem isFinitePresentation_on_affine_refinement
     (𝒱 : Scheme.AffineCover.{v} @Flat S) (f : 𝒱.cover ⟶ 𝒰.forgetQc)
     (j : 𝒱.I₀) :
     ((Scheme.Modules.pullback (𝒱.f j)).obj M).IsFinitePresentation := by
-  show ((Scheme.Modules.pullback (𝒱.cover.f j)).obj M).IsFinitePresentation
+  change ((Scheme.Modules.pullback (𝒱.cover.f j)).obj M).IsFinitePresentation
   rw [← f.w₀ j]
   exact isFinitePresentation_pullback_comp _ _ M (h _)
 
@@ -134,7 +134,7 @@ private theorem isFinitePresentation_of_affine_flat_surjective
   have hN : ((Scheme.Modules.pullback (Spec.map φ)).obj N).IsFinitePresentation := by
     have hY' : ((Scheme.Modules.pullback (Spec.map φ ≫ Y.isoSpec.inv)).obj
         M).IsFinitePresentation := by
-      show ((Scheme.Modules.pullback (Spec.map f.appTop ≫ Y.isoSpec.inv)).obj
+      change ((Scheme.Modules.pullback (Spec.map f.appTop ≫ Y.isoSpec.inv)).obj
         M).IsFinitePresentation
       rw [Scheme.isoSpec_inv_naturality f]
       exact hY
@@ -340,7 +340,7 @@ private theorem isFinitePresentation_of_fpqcCover_affine
     refine isFinitePresentation_of_affineOpenCover N 𝒲 fun i => ?_
     have hcomp : ((Scheme.Modules.pullback (𝒱.cover.f i)).obj M).IsFinitePresentation :=
       isFinitePresentation_on_affine_refinement M 𝒰 h 𝒱 f i
-    rw [← CategoryTheory.Limits.Sigma.ι_desc 𝒱.cover.f i] at hcomp
+    rw [← CategoryTheory.Limits.Sigma.ι_comp_desc 𝒱.cover.f i] at hcomp
     exact (SheafOfModules.isFinitePresentation (𝒲.X i).ringCatSheaf).prop_of_iso
       ((Scheme.Modules.pullbackComp (𝒲.f i) g).app M).symm hcomp
   obtain ⟨hflat, hsurj, _⟩ := affine_sigmaDesc_fpqc 𝒱

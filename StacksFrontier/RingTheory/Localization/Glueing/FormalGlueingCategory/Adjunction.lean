@@ -233,11 +233,11 @@ private theorem isUnitEnd {A B M : Type*} [CommRing A] [CommRing B]
       map_smul' c m := by rw [RingHom.id_apply, smul_comm] }
   refine ⟨⟨_, inv, ?_, ?_⟩, rfl⟩
   · ext m
-    show a • ((↑b⁻¹ : B) • m) = m
+    change a • ((↑b⁻¹ : B) • m) = m
     rw [show a • ((↑b⁻¹ : B) • m) = ((algebraMap A B a) • (↑b⁻¹ : B) • m : M)
       from (IsScalarTower.algebraMap_smul B a _).symm, ← hb, smul_smul, b.mul_inv, one_smul]
   · ext m
-    show (↑b⁻¹ : B) • (a • m) = m
+    change (↑b⁻¹ : B) • (a • m) = m
     rw [show a • m = ((algebraMap A B a) • m : M)
       from (IsScalarTower.algebraMap_smul B a _).symm, ← hb, smul_smul, b.inv_mul, one_smul]
 
@@ -286,8 +286,7 @@ private noncomputable def genericOfSection
       map_add' := eR.map_add
       map_smul' := by
         intro s z
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | add x y hx hy => simp [hx, hy]
         | tmul a n =>
           simp only [TensorProduct.smul_tmul']
@@ -355,7 +354,7 @@ private theorem constructionCanonicalAlpha_mk
       LocalizedModule.mkLinearMap (Submonoid.powers (f i)) N n :=
     (C.canonicalLocal N i).apply_symm_apply _
   apply (TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl S S) e).injective
-  show (TensorProduct.map LinearMap.id e.toLinearMap) _ =
+  change (TensorProduct.map LinearMap.id e.toLinearMap) _ =
     (TensorProduct.map LinearMap.id e.toLinearMap) _
   rw [C.canonicalAlpha N i n s]
   simp only [TensorProduct.map_tmul, LinearMap.id_coe, id_eq,
@@ -381,7 +380,7 @@ private theorem constructionCanonicalAlphaIJ_mk
       LocalizedModule.mkLinearMap (Submonoid.powers (f j)) N n :=
     (C.canonicalLocal N j).apply_symm_apply _
   apply (LocalizedModule.map_injective (cechSub f {i}) e.toLinearMap e.injective)
-  show (localizedMap f {i} e.toLinearMap) _ =
+  change (localizedMap f {i} e.toLinearMap) _ =
     (localizedMap f {i} e.toLinearMap) _
   rw [C.canonicalAlphaIJ N i j n, localizedMap_mk, LinearEquiv.coe_coe, he]
 
@@ -392,8 +391,7 @@ private theorem tensor_ext {A B M L P : Type*} [CommRing A] [CommRing B]
     (he : ∀ m, g (e.symm (1 ⊗ₜ[A] m)) = h (e.symm (1 ⊗ₜ[A] m))) : g = h := by
   ext l
   obtain ⟨z, rfl⟩ := e.symm.surjective l
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul b m =>
     have hz : b ⊗ₜ[A] m = b • (1 ⊗ₜ[A] m) := by
@@ -489,7 +487,7 @@ private theorem sectionsHom_generic
     (g : C.canonical.obj N ⟶ X) (n : N) :
     (C.sectionsObj X (sectionsHom S f C N X g n)).1.1 =
       (C.homEquiv _ _ g).generic ((C.canonicalGeneric N).symm (1 ⊗ₜ[R] n)) := by
-  show (C.sectionsObj X (C.sections.map g (C.canonicalSectionsUnit.app N n))).1.1 = _
+  change (C.sectionsObj X (C.sections.map g (C.canonicalSectionsUnit.app N n))).1.1 = _
   rw [C.sectionsMapGeneric]
   congr 1
   apply (C.canonicalGeneric N).injective
@@ -502,7 +500,7 @@ private theorem sectionsHom_local
     (C.sectionsObj X (sectionsHom S f C N X g n)).1.2 i =
       (C.homEquiv _ _ g).localPiece i ((C.canonicalLocal N i).symm
         (LocalizedModule.mkLinearMap (Submonoid.powers (f i)) N n)) := by
-  show (C.sectionsObj X (C.sections.map g (C.canonicalSectionsUnit.app N n))).1.2 i = _
+  change (C.sectionsObj X (C.sections.map g (C.canonicalSectionsUnit.app N n))).1.2 i = _
   rw [C.sectionsMapLocal]
   congr 1
   apply (C.canonicalLocal N i).injective

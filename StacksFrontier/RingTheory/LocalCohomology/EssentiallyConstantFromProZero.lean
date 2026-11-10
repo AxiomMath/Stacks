@@ -93,11 +93,11 @@ theorem exists_isEssentiallyConstantWith_of_injective_of_range_le
   let t {a b : ℕ} (h : a ≤ b) : F.obj (op b) →ₗ[R] F.obj (op a) := (F.map (homOfLE h).op).hom
   have tcomp {a b d : ℕ} (hab : a ≤ b) (hbd : b ≤ d) (x : F.obj (op d)) :
       t hab (t hbd x) = t (hab.trans hbd) x := by
-    show (F.map (homOfLE hbd).op ≫ F.map (homOfLE hab).op).hom x = _
+    change (F.map (homOfLE hbd).op ≫ F.map (homOfLE hab).op).hom x = _
     rw [← F.map_comp]
     rfl
   have pcomp {a b : ℕ} (hab : a ≤ b) (z : c.pt) : t hab (p b z) = p a z := by
-    show (c.π.app (op b) ≫ F.map (homOfLE hab).op).hom z = _
+    change (c.π.app (op b) ≫ F.map (homOfLE hab).op).hom z = _
     rw [c.w]
   have hstab : ∀ j : ℕ, ∃ b : ℕ, ∃ hjb : j ≤ b, ∀ k (hbk : b ≤ k),
       LinearMap.range (t (hjb.trans hbk)) = LinearMap.range (p j) := by
@@ -139,7 +139,7 @@ theorem exists_isEssentiallyConstantWith_of_injective_of_range_le
     refine ⟨op k, op (homOfLE hik), op (homOfLE hjk), ?_⟩
     apply ModuleCat.hom_ext
     ext x
-    show t hjk x = p jn (sₗ (t hik x))
+    change t hjk x = p jn (sₗ (t hik x))
     by_cases hjn : jn ≤ n
     · calc
         t hjk x = t hjn (t hnk x) := (tcomp hjn hnk x).symm
@@ -231,7 +231,7 @@ theorem range_map_localCohomologyAdicTower_le (T : Set (PrimeSpectrum A)) (I : I
         ((localCohomologyMap.{u, v} A T i
           (idealPowerShortComplexMap.{u, v} I M h).τ₃).hom x) = _ at h1
     refine h1.trans ?_
-    show ((localCohomologyWithSupportInModuleFunctor.{u, v} A T (i + 1)).map
+    change ((localCohomologyWithSupportInModuleFunctor.{u, v} A T (i + 1)).map
         ((idealPowerTower.{u, v} I M).map (homOfLE h).op)).hom
           ((localCohomologyδ.{u, v} T hSk i (i + 1) rfl).hom x) = 0
     refine hz _ ?_
@@ -456,7 +456,7 @@ theorem exists_forall_localCohomology_idealPower_submodule_eq_zero (s : ℤ)
   refine h1.symm.trans (((localCohomologyWithSupportInModuleFunctor_map_comp_apply T (s + 1)
     (f := (idealPowerCokernelShortComplexMap I L hle).τ₁)
     (g := ModuleCat.ofHom (Submodule.inclusion (hAR m))) rfl _).symm).trans ?_)
-  show ((localCohomologyWithSupportInModuleFunctor.{u, u} A T (s + 1)).map _).hom
+  change ((localCohomologyWithSupportInModuleFunctor.{u, u} A T (s + 1)).map _).hom
     ((localCohomologyMap.{u, u} A T (s + 1)
       (idealPowerCokernelShortComplexMap I L hle).τ₁).hom ξ') = 0
   exact (congrArg (((localCohomologyWithSupportInModuleFunctor.{u, u} A T (s + 1)).map
@@ -492,7 +492,7 @@ theorem eq_zero_of_forall_localCohomology_proj_eq_zero (j : ℤ) {r : ℕ} (n : 
     apply LinearMap.ext
     intro y
     apply Subtype.ext
-    show (∑ i, (pr i ≫ ι i)).hom y = (y : Fin r → M)
+    change (∑ i, (pr i ≫ ι i)).hom y = (y : Fin r → M)
     rw [ModuleCat.hom_sum, LinearMap.sum_apply, Submodule.coe_sum]
     exact Finset.univ_sum_single (y : Fin r → M)
   have h1 : ((localCohomologyWithSupportInModuleFunctor.{u, u} A T j).map (𝟙 _)).hom ζ = ζ := by
@@ -500,7 +500,7 @@ theorem eq_zero_of_forall_localCohomology_proj_eq_zero (j : ℤ) {r : ℕ} (n : 
   rw [← h1, ← hsum, Functor.map_sum, ModuleCat.hom_sum, LinearMap.sum_apply]
   refine Finset.sum_eq_zero fun i _ => ?_
   rw [Functor.map_comp]
-  show ((localCohomologyWithSupportInModuleFunctor.{u, u} A T j).map (ι i)).hom
+  change ((localCohomologyWithSupportInModuleFunctor.{u, u} A T j).map (ι i)).hom
     (((localCohomologyWithSupportInModuleFunctor.{u, u} A T j).map (pr i)).hom ζ) = 0
   rw [hζ i, map_zero]
 
@@ -664,7 +664,7 @@ theorem exists_forall_localCohomology_idealPowerTower_eq_zero_of_inclusion [IsNo
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
-    show e.symm _ = _
+    change e.symm _ = _
     rw [LinearEquiv.symm_apply_eq]
     rfl
   have hξL : ((localCohomologyWithSupportInModuleFunctor.{u, u} A T (s + 1)).map

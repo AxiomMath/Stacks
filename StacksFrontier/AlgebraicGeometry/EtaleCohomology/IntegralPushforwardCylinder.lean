@@ -135,10 +135,11 @@ abbrev cylinderGerm (τ : F.obj.obj (op (cylinderObj B ιX P y' i x₀ W)))
     (hxi : x ≫ B.inclusion.map (P.proj.app i) = x₀ ≫ B.inclusion.map (P.proj.app i)) :
     etaleStalk B X.1 X.property (geometricPointLift (B.inclusion.map f)
       (y'.map (B.inclusion.map g)) (cartesianLiftEquiv B g' f' f g sq y' p)) F.obj :=
-  colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+  colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property
       (geometricPointLift (B.inclusion.map f) (y'.map (B.inclusion.map g))
         (cartesianLiftEquiv B g' f' f g sq y' p)))).op ⋙ F.obj)
-    (op (Functor.elementsMk _ (cylinderObj B ιX P y' i x₀ W) (cylinderPoint B sq ιX P y' i x₀ W p x hx hxi))) τ
+    (op (Functor.elementsMk _ (cylinderObj B ιX P y' i x₀ W)
+      (cylinderPoint B sq ιX P y' i x₀ W p x hx hxi))) τ
 
 /-- The element `c_p` of the stalk of `F` at the lift `p ∘ g'` attached to an element `c` of the
 stalk of `f'_* (g')⁻¹ F` at `y'` and a lift `p` of `y'` through `f'`. -/
@@ -180,13 +181,13 @@ theorem exists_stage_forall_cylinderGerm_eq
   let T := cylinderObj B ιX P y' i x₀ W
   -- the representative of `c`
   obtain ⟨V'o, σ, hσ⟩ := Types.jointly_surjective_of_isColimit (colimit.isColimit
-    ((CategoryOfElements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
+    ((Functor.Elements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
       ((B.smallPushforward f' _).obj G).obj)) c
   subst hσ
   let V' := V'o.unop
   -- the germ of the representative at a lift
   let D (p : {a : y'.source ⟶ X'.1 // a ≫ B.inclusion.map f' = y'.hom}) :=
-    (CategoryOfElements.π (geometricPointFiber B X'.1 X'.property
+    (Functor.Elements.π (geometricPointFiber B X'.1 X'.property
       (geometricPointLift (B.inclusion.map f') y' p))).op ⋙ G.obj
   let bP (p : {a : y'.source ⟶ X'.1 // a ≫ B.inclusion.map f' = y'.hom}) :
       (geometricPointFiber B X'.1 X'.property (geometricPointLift (B.inclusion.map f') y' p)).obj
@@ -195,7 +196,7 @@ theorem exists_stage_forall_cylinderGerm_eq
   have hcomp (p : {a : y'.source ⟶ X'.1 // a ≫ B.inclusion.map f' = y'.hom}) :
       pushforwardEtaleStalkComponent B f' (geometricPointLift (B.inclusion.map f') y' p) y'
         (geometricPointLift_map (B.inclusion.map f') y' p) G
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
           ((B.smallPushforward f' _).obj G).obj) V'o σ) =
       colimit.ι (D p) (op (Functor.elementsMk _ ((smallEtaleBaseChange B f').obj V'.1) (bP p))) σ :=
     pushforwardEtaleStalkComponent_germ_baseChange B f'
@@ -232,16 +233,17 @@ theorem exists_stage_forall_cylinderGerm_eq
       (hxi : x ≫ B.inclusion.map (P.proj.app i) = x₀ ≫ B.inclusion.map (P.proj.app i)) :
       cylinderGerm B sq F ιX P y' i x₀ W τ p x hx hxi =
           pullbackStalkComponent B sq F y'
-            (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
+            (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
               ((B.smallPushforward f' _).obj G).obj) V'o σ) p ↔
         colimit.ι (D p) (op (Functor.elementsMk _ Q (qP p x hx hxi))) τ' =
-          colimit.ι (D p) (op (Functor.elementsMk _ ((smallEtaleBaseChange B f').obj V'.1) (bP p))) σ := by
+          colimit.ι (D p)
+            (op (Functor.elementsMk _ ((smallEtaleBaseChange B f').obj V'.1) (bP p))) σ := by
     rw [← hiso p x hx hxi]
-    show _ =
+    change _ =
       (smallEtalePullbackStalkIso B g' (geometricPointLift (B.inclusion.map f') y' p)).hom.app F
       (pushforwardEtaleStalkComponent B f' (geometricPointLift (B.inclusion.map f') y' p) y'
         (geometricPointLift_map (B.inclusion.map f') y' p) G
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
           ((B.smallPushforward f' _).obj G).obj) V'o σ)) ↔ _
     rw [hcomp p]
     exact ((smallEtalePullbackStalkIso B g' (geometricPointLift (B.inclusion.map f') y' p)).app
@@ -403,7 +405,8 @@ theorem exists_stage_forall_cylinderGerm_eq
       rw [← hα, ← Category.assoc, hnα]
       exact (qP p x hx hxi).2⟩
   let a' : N' ⟶ Functor.elementsMk _ Q (qP p x hx hxi) := ⟨aN.1, Subtype.ext hnα⟩
-  let b' : N' ⟶ Functor.elementsMk _ ((smallEtaleBaseChange B f').obj V'.1) (bP p) := ⟨bN.1, Subtype.ext hnβ⟩
+  let b' : N' ⟶ Functor.elementsMk _ ((smallEtaleBaseChange B f').obj V'.1) (bP p) :=
+    ⟨bN.1, Subtype.ext hnβ⟩
   have e₁ := ConcreteCategory.congr_hom (colimit.w (D p) a'.op) τ'
   have e₂ := ConcreteCategory.congr_hom (colimit.w (D p) b'.op) σ
   exact e₁.symm.trans ((congrArg (colimit.ι (D p) (op N')) hab).trans e₂)

@@ -77,7 +77,7 @@ public theorem IsSplitting.exact : Function.Exact (J *ᵥ ·) (K *ᵥ ·) := fun
     change K *ᵥ w = 0 at hw
     rwa [hw, Matrix.mulVec_zero, add_zero] at h1
   · rintro ⟨v, rfl⟩
-    show K *ᵥ (J *ᵥ v) = 0
+    change K *ᵥ (J *ᵥ v) = 0
     rw [Matrix.mulVec_mulVec, h.comp_zero, Matrix.zero_mulVec]
 
 /-- Ring homomorphisms preserve splittings. -/
@@ -216,7 +216,7 @@ public theorem coordMatrix_mul_transpose_apply {e : Fin a → Fin r} (he : Funct
       simp [coordMatrix, h, h']
   · rw [Finset.sum_eq_zero fun j _ => by
       simp only [coordMatrix, Matrix.transpose_apply, Matrix.of_apply]
-      rw [if_neg fun h => hi ⟨j, h.symm⟩, zero_mul]]
+      rw [ite_eq_right fun h => hi ⟨j, h.symm⟩, zero_mul]]
     simp [hi]
 
 /-- **A coordinate splitting**: for injective `e₁ : Fin a → Fin r`, `e₂ : Fin c → Fin r` with
@@ -386,11 +386,11 @@ public theorem IsSplitting.exists_integral_conj (h : IsSplitting J J' K K')
   have hKTm : ∀ g, K.map φ * Tm g = (integralModel γ hγ g).val.map φ * K.map φ := fun g => by
     rw [val_map_integralModel, ← hLγ]; exact (hblk g).2
   have hZ : Z.val = Q₀.val * hq.blockDiag 1 (L m).val := by
-    show hq.blockDiag Pα.val (Pγ * L m).val =
+    change hq.blockDiag Pα.val (Pγ * L m).val =
       hq.blockDiag Pα.val Pγ.val * hq.blockDiag 1 (L m).val
     rw [hq.blockDiag_mul, Matrix.mul_one, Units.val_mul]
   have hZi : Z⁻¹.val = hq.blockDiag 1 (L m)⁻¹.val * Q₀⁻¹.val := by
-    show hq.blockDiag Pα⁻¹.val (Pγ * L m)⁻¹.val =
+    change hq.blockDiag Pα⁻¹.val (Pγ * L m)⁻¹.val =
       hq.blockDiag 1 (L m)⁻¹.val * hq.blockDiag Pα⁻¹.val Pγ⁻¹.val
     rw [hq.blockDiag_mul, Matrix.one_mul, _root_.mul_inv_rev, Units.val_mul]
   have hJ'D : J'.map φ * hq.blockDiag 1 (L m)⁻¹.val = J'.map φ := by
@@ -416,7 +416,7 @@ public theorem IsSplitting.exists_integral_conj (h : IsSplitting J J' K K')
     simp only [Matrix.map_mul]
   have hint : ∀ g, IsIntegralMatrix (conjRepr T Z g).val := fun g i j => by
     rw [conjRepr_apply, Units.val_mul, Units.val_mul]
-    show ‖Tm g i j‖ ≤ 1
+    change ‖Tm g i j‖ ≤ 1
     rw [hTm g, Matrix.map_apply]
     exact PadicInt.norm_le_one _
   have hc : Continuous (conjRepr T Z) := by
@@ -433,13 +433,13 @@ public theorem IsSplitting.exists_integral_conj (h : IsSplitting J J' K K')
   · apply Matrix.map_injective (f := φ) (fun a b h => PadicInt.ext h)
     dsimp only
     simp only [Matrix.map_mul]
-    show (integralLift (conjRepr T Z) hint g).val.map φ * J.map φ = _
+    change (integralLift (conjRepr T Z) hint g).val.map φ * J.map φ = _
     rw [hlift]
     exact hTmJ g
   · apply Matrix.map_injective (f := φ) (fun a b h => PadicInt.ext h)
     dsimp only
     simp only [Matrix.map_mul]
-    show K.map φ * (integralLift (conjRepr T Z) hint g).val.map φ = _
+    change K.map φ * (integralLift (conjRepr T Z) hint g).val.map φ = _
     rw [hlift]
     exact hKTm g
 

@@ -148,7 +148,7 @@ theorem nonempty_dottedArrow_of_span (q : ValuativeSquare B S hS f)
     IsHomLift.comp_lift_id_right _ e.genericMap _ _
   refine CatFiberedInGroupoids.nonempty_dottedArrow_of_fiberObj e.genericMap
     e.j_canonical ZR (IsHomLift.codomain_eq _ e.genericMap m) m₀ hm₀ β hβ ?_
-  show (outerSquare B q e).γ.hom.app zK ≫ f.hom.hom.map m₀ =
+  change (outerSquare B q e).γ.hom.app zK ≫ f.hom.hom.map m₀ =
     (outerSquare B q e).y.hom.map (Over.mkIdTerminal.from (e.j.hom.obj zK)) ≫ β
   refine Functor.IsStronglyCartesian.ext 𝒴.val.val.p e.specialOver b e.genericMap ?_
   calc

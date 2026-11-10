@@ -288,7 +288,7 @@ private theorem homotopyDescent0_eq_genSum {I : Type w}
     (hs : {i | (x : ∀ j, (f j).M) i ≠ 0} ⊆ ↑s) :
     homotopyDescent0 f h x = homotopyGenSum f h s (x : ∀ j, (f j).M) := by
   classical
-  show homotopyGenSum f h
+  change homotopyGenSum f h
       (coprodSub_finite f (x : ∀ j, (f j).M) x.2).toFinset (x : ∀ j, (f j).M) = _
   let sf := (coprodSub_finite f (x : ∀ j, (f j).M) x.2).toFinset
   have hsf := coprodSub_support_subset f x
@@ -305,7 +305,7 @@ private theorem homotopyDescent0_inj {I : Type w}
   classical
   let w : ↥(coprodSub f) := (coprodι f i).toFun y
   have hwi : (w : ∀ k, (f k).M) i = y := by
-    show coprodIncl0 f i y i = y
+    change coprodIncl0 f i y i = y
     exact coprodIncl0_apply_self f i y
   have hsupp : {j | (w : ∀ k, (f k).M) j ≠ 0} ⊆ ↑({i} : Finset I) := fun j hj => by
     simpa using not_imp_comm.1 (coprodIncl0_apply_ne f i y j) hj

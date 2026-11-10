@@ -84,7 +84,7 @@ theorem restrictToChartSchemePushforwardComparison_naturality
   obtain ⟨O⟩ := O
   ext a
   obtain ⟨x, rfl⟩ := (bijective_chartSectionsToRestrict X M U O).2 a
-  show (restrictToChartSchemePushforwardComparison B S hS X.1 X.2 M' g).val.app (op O)
+  change (restrictToChartSchemePushforwardComparison B S hS X.1 X.2 M' g).val.app (op O)
       (((restrictToChartSchemeFunctor B S hS X.1 X.2 U).map φ).val.app (op O)
         (chartSectionsToRestrict X M U O x)) =
     ((restrictToChartSchemeFunctor B S hS X.1 X.2 V).map φ).val.app (op (chartSchemeMap g ⁻¹ᵁ O))
@@ -128,7 +128,7 @@ theorem ofArrows_le_sieveOfSection {M : Modules.{u, u} B S hS X.1 X.2} (K : M.Su
     (y : M.val.obj (op V)) (h : ∀ j, M.val.map (a j).op y ∈ K.obj (op (Y j))) :
     Sieve.ofArrows Y a ≤ K.toSubfunctor.sieveOfSection y := by
   rintro Z _ ⟨T, g, _, ⟨j⟩, rfl⟩
-  show M.val.map ((a j).op ≫ g.op) y ∈ K.obj (op Z)
+  change M.val.map ((a j).op ≫ g.op) y ∈ K.obj (op Z)
   have e := ConcreteCategory.congr_hom (M.val.map_comp (a j).op g.op) y
   exact (congrArg (· ∈ K.obj (op Z)) e).mpr (K.map_mem g.op (h j))
 

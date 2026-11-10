@@ -234,12 +234,12 @@ public lemma datum_gluing_proj {I : Type v} {S : Scheme.{u}} {X : I → Scheme.{
   simp only [DescentData.gluingPullbackIso, Iso.trans_hom,
     Iso.symm_hom, Functor.mapIso_hom, Over.forget_map, Category.assoc]
   dsimp only [datum]
-  show _ ≫ _ ≫ (Over.prodLeftIsoPullback (Over.mk (f i)) (component U (f j))).hom ≫
+  change _ ≫ _ ≫ (Over.prodLeftIsoPullback (Over.mk (f i)) (component U (f j))).hom ≫
     pullback.snd (Over.mk (f i)).hom (component U (f j)).hom ≫ _ = _
   rw [Over.prodLeftIsoPullback_hom_snd_assoc]
   have h := congrArg Over.Hom.left (transition_original U (f i) (f j))
   simp only [Over.comp_left] at h
-  show _ ≫ (transition U (f i) (f j)).left ≫
+  change _ ≫ (transition U (f i) (f j)).left ≫
     (prod.snd : Over.mk (f i) ⨯ component U (f j) ⟶ _).left ≫
     (originalProjection U (f j)).left = _
   rw [h]

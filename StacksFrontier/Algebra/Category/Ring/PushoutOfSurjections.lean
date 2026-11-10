@@ -125,7 +125,7 @@ theorem ker_eq_map_ker_of_isPushout_of_surjective
     ((ConcreteCategory.isIso_iff_bijective e.inv).mp inferInstance).1
   refine Ideal.ext fun x => ?_
   rw [RingHom.mem_ker, hb]
-  show e.inv.hom ((Ideal.Quotient.mk ((RingHom.ker f.hom).map g.hom)) x) = 0 ↔ _
+  change e.inv.hom ((Ideal.Quotient.mk ((RingHom.ker f.hom).map g.hom)) x) = 0 ↔ _
   rw [← map_zero e.inv.hom, hinj.eq_iff, Ideal.Quotient.eq_zero_iff_mem]
 
 end CommRingCat

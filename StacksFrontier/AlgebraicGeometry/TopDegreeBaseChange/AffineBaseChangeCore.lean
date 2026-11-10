@@ -53,11 +53,7 @@ theorem extendScalars_map_smul_of_tmul {R S : CommRingCat.{u}} (φ : R ⟶ S)
     (s : S) (x : (ModuleCat.extendScalars φ.hom).obj M) : Ξ (s • x) = s • Ξ x := by
   have : SMulCommClass R S ((ModuleCat.restrictScalars φ.hom).obj (ModuleCat.of S S)) :=
     ⟨fun r s t ↦ mul_left_comm (φ.hom r) s (t : S)⟩
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    calc Ξ (s • 0) = Ξ 0 := congrArg Ξ (smul_zero s)
-      _ = 0 := Ξ.map_zero
-      _ = s • Ξ 0 := by rw [Ξ.map_zero, smul_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul r m =>
     exact (congrArg Ξ (ModuleCat.ExtendScalars.smul_tmul φ.hom (M := M) s r m)).trans
       ((hΞ _ m).trans ((mul_smul s r (g m)).trans (congrArg (s • ·) (hΞ r m).symm)))

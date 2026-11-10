@@ -73,7 +73,7 @@ public theorem liftOfEmbedding_eq (x : {x : X // f x = y}) (ι : FiberEmbeddings
 /-- The lift attached to an embedding passes through the point. -/
 public theorem liftOfEmbedding_apply (x : {x : X // f x = y}) (ι : FiberEmbeddings f y x)
     (s : (geometricPointAt Y y).source) : (liftOfEmbedding f y x ι).1 s = x.1 := by
-  show (X.fromSpecResidueField x.1) _ = x.1
+  change (X.fromSpecResidueField x.1) _ = x.1
   exact Scheme.fromSpecResidueField_apply _ _
 
 /-- Distinct embeddings give distinct lifts. -/
@@ -115,7 +115,7 @@ public theorem exists_liftOfEmbedding (ℓ : PointLifts f y) :
       commutes' := fun z => by
         have hz := congrArg (fun g => g.hom ((Y.residueFieldCongr hp).inv z)) hφ
         simp only [CommRingCat.hom_comp, RingHom.comp_apply] at hz
-        show e.2.hom (f.residueFieldMap e.1 ((Y.residueFieldCongr hp.symm).hom z)) = _
+        change e.2.hom (f.residueFieldMap e.1 ((Y.residueFieldCongr hp.symm).hom z)) = _
         exact hz.trans (congrArg
           (algebraMap (Y.residueField y) (AlgebraicClosure (Y.residueField y)))
           (Iso.inv_hom_id_apply (Y.residueFieldCongr hp) z)) }
@@ -137,7 +137,7 @@ private theorem spec_comp_liftOfEmbedding (x : {x : X // f x = y})
     Spec.map (CommRingCat.ofHom τ.toAlgHom.toRingHom) ≫ (liftOfEmbedding f y x ι).1 =
       (liftOfEmbedding f y x (FiberEmbeddings.comp f y x τ ι)).1 := by
   let := fiberResidueAlgebra f y x
-  show Spec.map _ ≫ Spec.map _ ≫ X.fromSpecResidueField x.1 =
+  change Spec.map _ ≫ Spec.map _ ≫ X.fromSpecResidueField x.1 =
     Spec.map _ ≫ X.fromSpecResidueField x.1
   rw [← Spec.map_comp_assoc]
   rfl
@@ -183,7 +183,7 @@ public theorem GeometricPoint.Hom.ext_of_hom {s t : GeometricPoint S}
 public theorem galoisPointHom_comp (σ τ : K ≃ₐ[k] K) :
     (galoisPointHom K σ s).comp (galoisPointHom K τ s) = galoisPointHom K (σ * τ) s := by
   refine GeometricPoint.Hom.ext_of_hom ?_
-  show Spec.map _ ≫ Spec.map _ = Spec.map _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _
   rw [← Spec.map_comp]
   rfl
 

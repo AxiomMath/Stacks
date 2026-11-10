@@ -86,7 +86,7 @@ public lemma ForkShape.tail {T : NumericalType} {u : ℕ} (hu : 2 ≤ u)
     {i : Fin (u + 1 + 1) → Fin T.componentCount} {w : ℤ} (h : ForkShape T (u + 1) i w) :
     ForkShape T u (fun j => i j.succ) w := by
   refine ⟨fun j => h.1 j.succ, fun j => by simpa using h.2.1 ⟨j.val + 1, by omega⟩, ?_, ?_⟩
-  · show T.intersection (i (Fin.succ ⟨u - 2, by omega⟩)) (i ⟨u + 1, by omega⟩) = w
+  · change T.intersection (i (Fin.succ ⟨u - 2, by omega⟩)) (i ⟨u + 1, by omega⟩) = w
     rw [succ_sub_two hu]
     exact h.2.2.1
   · intro j k hkj hnc hnb
@@ -137,7 +137,7 @@ public lemma fork_quadratic_head (T : NumericalType) {u : ℕ} (hu : 3 ≤ u)
       Finset.sum_singleton]
     have hedge0 : T.intersection (i 0) (i z.succ) = edge := by
       simpa [z] using hedge
-    show c 0 * T.intersection (i 0) (i z.succ) * c z.succ = c0 * edge * 2
+    change c 0 * T.intersection (i 0) (i z.succ) * c z.succ = c0 * edge * 2
     rw [hedge0]
     simp [c, z, show 1 < u by omega]
   have hcrossSymm : (∑ r : Fin (u + 1), q r.succ 0) = c0 * edge * 2 :=
@@ -449,7 +449,7 @@ public theorem exists_forkShape_of_isMinusTwoIndex
         obtain ⟨w, hw⟩ := ih u (by omega) (by omega) (by omega) (fun j => i j.succ)
           (hi.comp (Fin.succ_injective _)) (fun j => hminus j.succ)
           (fun j => by simpa using hchain ⟨j.val + 1, by omega⟩) (by
-            show T.intersection (i (Fin.succ ⟨u - 2, by omega⟩)) (i ⟨u + 1, by omega⟩) ≠ 0
+            change T.intersection (i (Fin.succ ⟨u - 2, by omega⟩)) (i ⟨u + 1, by omega⟩) ≠ 0
             rw [succ_sub_two (by omega)]
             exact hbranch)
         exact ⟨w, forkShape_of_tail T (by omega) hn i hi hminus hchain hbranch hw⟩

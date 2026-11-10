@@ -470,7 +470,7 @@ public theorem norm_inv_sq_mul_le_of_mem_range_pow_of_notMem [FiniteDimensional 
     rintro y ⟨hy1, ⟨z, rfl⟩⟩
     have hy1' : N' ((N' ^ i) z) = 0 := hy1
     refine ⟨?_, ?_⟩
-    · show G.dualMap ((N' ^ i) z) ∈ LinearMap.ker N'
+    · change G.dualMap ((N' ^ i) z) ∈ LinearMap.ker N'
       rw [LinearMap.mem_ker, ← Module.End.mul_apply, hNF'', LinearMap.smul_apply,
         Module.End.mul_apply, hy1', map_zero, smul_zero]
     · refine ⟨(q⁻¹ ^ i) • G.dualMap z, ?_⟩

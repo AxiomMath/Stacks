@@ -52,7 +52,7 @@ theorem quotSMulTopEquiv_smul (φ : A →+* B) (hφ : Function.Surjective φ) (g
   induction x using Submodule.Quotient.induction_on with
   | H y =>
     rw [← Submodule.Quotient.mk_smul]
-    show φ (a • y) = φ a * φ y
+    change φ (a • y) = φ a * φ y
     rw [smul_eq_mul, map_mul]
 
 /-- Let `A` be a Noetherian local ring, `φ : A →+* B` surjective with kernel `(g)`, and `J` an

@@ -166,10 +166,6 @@ theorem isIso_sheafFiber_edsGlueRight_of_mem (x : GeometricPoint B S hS W.1)
       exact isIso_sheafFiber_etaleModuleCounit_of_unique B S hS (edsSnd B S hS hsq)
         (isEtale_edsSnd B S hS hsq) (liftGeometricPoint B S hS (edsEtaleHom B S hS hsq) t) H
 
-variable
-  [HasSheafify (smallEtaleRingedSite B S hS W.1 W.2).J AddCommGrpCat.{u}]
-  [(smallEtaleRingedSite B S hS W.1 W.2).J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-
 /-- **The common source `j_{V!} q_!(H|_P)` of the glueing pushout has vanishing stalk at a
 geometric point outside the open subspace**: it is the extension by zero from the
 intersection, to which such a point does not lift. -/
@@ -211,6 +207,10 @@ theorem isZero_edsModuleStalk_edsOpen_shriek_obj_of_notMem (x : GeometricPoint B
   exact isZero_edsModuleStalk_of_isZero_sheafFiber B S hS _ x
     (isZero_sheafFiber_etaleModuleShriek_of_isEmpty B S hS (edsOpenHom B S hS hsq)
       (isEtale_edsOpenHom B S hS hsq) x _)
+
+variable
+  [HasSheafify (smallEtaleRingedSite B S hS W.1 W.2).J AddCommGrpCat.{u}]
+  [(smallEtaleRingedSite B S hS W.1 W.2).J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
 /-- **At a geometric point of the open subspace the first coprojection of the glueing pushout
 is invertible on stalks**: the stalk functor preserves the pushout, and the second map is

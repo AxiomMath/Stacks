@@ -9,7 +9,7 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.Diagona
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.TensorHomInterchange
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.TensorComplex.TotalComplexComparison
 public import
-  StacksFrontier.Topology.Sheaves.Cohomology.HomComplexAndStrictPerfection.InternalHomComplexQuasiIso
+StacksFrontier.Topology.Sheaves.Cohomology.HomComplexAndStrictPerfection.InternalHomComplexQuasiIso
 import StacksCore.Tactic.StacksAttribute
 
 /-! # Moving a derived tensor factor inside a derived internal Hom
@@ -133,7 +133,8 @@ otherwise make associativity normalisation the dominant cost. The last square of
 closed in term mode rather than by `rw`, because `HomologicalComplex.mapBifunctorMap` and
 `Stacks.SheafOfModules.Tensor.tensorComplex` are two spellings of one object that `rw` cannot
 reconcile while Mathlib's `getColimitCocone` stays unexposed — the hazard already recorded in the
-implementation notes of `StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.OnARingedSite`.
+implementation notes of
+`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.OnARingedSite`.
 
 The universes are the diagonal `RingedSite.{u, u, u}` of the whole derived internal Hom
 cluster, which is where `derivedSheafHomBifunctor` is stated; see the implementation notes of

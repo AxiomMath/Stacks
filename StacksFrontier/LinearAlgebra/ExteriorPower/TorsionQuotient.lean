@@ -75,7 +75,7 @@ public theorem top_le_range_map_sup_torsion (s : (M ⧸ Submodule.torsion A M) �
     refine (Submodule.Quotient.mk_eq_zero _).mp ?_
     have hid := LinearMap.congr_fun hs ((Submodule.torsion A M).mkQ (m i))
     simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.id_coe, id_eq] at hid
-    show (Submodule.torsion A M).mkQ (m i - s ((Submodule.torsion A M).mkQ (m i))) = 0
+    change (Submodule.torsion A M).mkQ (m i - s ((Submodule.torsion A M).mkQ (m i))) = 0
     rw [map_sub, hid, sub_self]
   have hexp : (exteriorPower.ιMulti A r) m
       = ∑ S : Finset (Fin r), (exteriorPower.ιMulti A r).toMultilinearMap (S.piecewise g h) := by

@@ -126,7 +126,7 @@ theorem isPerfect_representedDerivedAssociatedModule_of_isPerfect
       (X := (Spec (CommRingCat.of A)).toRingedSpace) eM.symm hE)
   have hbd : {i : ℤ | ¬ IsZero (C.X i)}.Finite := by
     refine Set.Finite.subset (Set.finite_Icc a b) fun i hi => ?_
-    simp only [Set.mem_setOf_eq] at hi
+    simp only [Set.mem_ofPred_eq] at hi
     refine Set.mem_Icc.2 ⟨?_, ?_⟩ <;> by_contra hcon
     · exact hi (C.isZero_of_isStrictlyGE a i (by lia))
     · exact hi (C.isZero_of_isStrictlyLE b i (by lia))
@@ -275,7 +275,7 @@ theorem exists_representedTilde_iso_of_isDirectSummandOfFiniteFree
   · exact Module.Projective.of_split a.hom b.hom hy
   · have : Φ.map a ≫ (r' ≫ i') ≫ Φ.map b = 𝟙 _ := by
       rw [← hΦ.map_preimage (r' ≫ i')]
-      show Φ.map a ≫ Φ.map q ≫ Φ.map b = 𝟙 _
+      change Φ.map a ≫ Φ.map q ≫ Φ.map b = 𝟙 _
       rw [← hba, ← Φ.map_comp, ← Φ.map_comp]
       simp only [Category.assoc]
       rw [reassoc_of% hab, hab, Φ.map_id]
@@ -317,7 +317,7 @@ theorem exists_isPerfect_tilde_iso_of_isStrictlyPerfect
       d_comp_d' := fun i j k _ _ => hΦ.map_injective (by simp [hd]) }
   let eC : (Φ.mapHomologicalComplex (ComplexShape.up ℤ)).obj C ≅ P :=
     HomologicalComplex.Hom.isoOfComponents φ (fun i j _ => by
-      show (φ i).hom ≫ P.d i j = (representedTilde B S hS hA p).map (d i j) ≫ (φ j).hom
+      change (φ i).hom ≫ P.d i j = (representedTilde B S hS hA p).map (d i j) ≫ (φ j).hom
       rw [hd]
       simp)
   have hb : {i : ℤ | ¬ IsZero (C.X i)}.Finite :=

@@ -182,7 +182,7 @@ theorem eq_algebraLift
     refine Eq.trans ?_ (toTotalSheaf_comp_ungradedLift 𝒜 F _).symm
     refine NatTrans.ext (funext fun W => RingCat.hom_ext (RingHom.ext
       fun (z : (symPre F).Total W) => ?_))
-    show (α.hom.app W).hom
+    change (α.hom.app W).hom
         ((symPre F).totalUnit (Opens.grothendieckTopology (X : TopCat)) W z) =
       psiTotal 𝒜 F _ W z
     induction z using Stacks.GradedAlgebra.incl_induction with

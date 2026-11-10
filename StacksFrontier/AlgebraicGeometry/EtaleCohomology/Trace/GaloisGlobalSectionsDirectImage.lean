@@ -183,7 +183,7 @@ theorem etaleModuleDirectImageCompGlobalSections_hom_app_comp_ΓRes {X Z : Schem
     (isTerminalSmallEtaleBaseChangeObj g (isTerminalOfIsIsoHom (Scheme.Etale.mk (𝟙 Z))))
   have cL : (etaleModuleDirectImageCompGlobalSections.{u, 0} R g).hom.app F ≫ ΓX.hom.app F =
       ΓZ.hom.app ((etaleModuleDirectImage.{u, 0} R g).obj F) := by
-    show (ΓZ.hom.app ((etaleModuleDirectImage.{u, 0} R g).obj F) ≫ 𝟙 _ ≫ ΓX.inv.app F) ≫
+    change (ΓZ.hom.app ((etaleModuleDirectImage.{u, 0} R g).obj F) ≫ 𝟙 _ ≫ ΓX.inv.app F) ≫
       ΓX.hom.app F = _
     exact (Category.assoc _ _ _).trans ((congrArg _ ((Category.assoc _ _ _).trans
       ((Category.id_comp _).trans (Iso.inv_hom_id_app ΓX F)))).trans (Category.comp_id _))

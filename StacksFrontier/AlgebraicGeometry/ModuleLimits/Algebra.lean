@@ -198,7 +198,7 @@ lemma mkQ_eq_sum_single {R : Type*} [CommRing R] (p : Submodule R (Fin n → R))
 /-- `psi` sends the image in `Fin n → B` of a tuple `a : Fin n → A` to `1 ⊗ₜ [a]`. -/
 lemma psi_algebraMap (a : Fin n → A) :
     psi B w₀ (fun k => algebraMap A B (a k)) = 1 ⊗ₜ[A] ((relA w₀).mkQ a) := by
-  show ∑ k, (algebraMap A B (a k)) ⊗ₜ[A]
+  change ∑ k, (algebraMap A B (a k)) ⊗ₜ[A]
     (Submodule.Quotient.mk (Pi.single k 1) : ((Fin n → A) ⧸ relA w₀)) = _
   rw [mkQ_eq_sum_single (relA w₀) a, TensorProduct.tmul_sum]
   refine Finset.sum_congr rfl fun k _ => ?_
@@ -232,7 +232,7 @@ lemma relB_le_ker_psi : relB B w₀ ≤ LinearMap.ker (psi B w₀) := by
   have h0 : (relA w₀).mkQ (w₀ j) = 0 := by
     rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, relA]
     exact Submodule.subset_span ⟨j, rfl⟩
-  show psi B w₀ (fun k => algebraMap A B (w₀ j k)) = 0
+  change psi B w₀ (fun k => algebraMap A B (w₀ j k)) = 0
   rw [psi_algebraMap B w₀ (w₀ j), h0, TensorProduct.tmul_zero]
 
 /-- The `B`-linear map `(Fin n → B) ⧸ relB B w₀ → B ⊗[A] ((Fin n → A) ⧸ relA w₀)` induced by
@@ -245,8 +245,8 @@ noncomputable def psibar :
 lemma theta_psibar : (theta B w₀).comp (psibar B w₀) = LinearMap.id := by
   refine LinearMap.ext fun x => ?_
   obtain ⟨b, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-  show theta B w₀ (psi B w₀ b) = _
-  show theta B w₀ (∑ k, b k ⊗ₜ[A]
+  change theta B w₀ (psi B w₀ b) = _
+  change theta B w₀ (∑ k, b k ⊗ₜ[A]
     (Submodule.Quotient.mk (Pi.single k 1) : ((Fin n → A) ⧸ relA w₀))) = _
   rw [map_sum]
   have key : ∀ k : Fin n, theta B w₀ (b k ⊗ₜ[A]
@@ -267,15 +267,14 @@ lemma theta_psibar : (theta B w₀).comp (psibar B w₀) = LinearMap.id := by
 lemma psibar_theta : (psibar B w₀).comp (theta B w₀) = LinearMap.id := by
   refine LinearMap.ext fun x => ?_
   simp only [LinearMap.comp_apply, LinearMap.id_apply]
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add u v hu hv => simp only [map_add] at hu hv ⊢; rw [hu, hv]
   | tmul b y =>
       obtain ⟨a, rfl⟩ := Submodule.Quotient.mk_surjective _ y
       rw [theta, LinearMap.liftBaseChange_tmul]
       rw [show (Submodule.Quotient.mk a : ((Fin n → A) ⧸ relA w₀)) = (relA w₀).mkQ a from rfl,
         l0_mkQ, map_smul]
-      show b • psi B w₀ (fun k => algebraMap A B (a k)) = _
+      change b • psi B w₀ (fun k => algebraMap A B (a k)) = _
       rw [psi_algebraMap B w₀ a, TensorProduct.smul_tmul', smul_eq_mul, mul_one]
 
 /-- Base change of a presentation by a finite family of relations:

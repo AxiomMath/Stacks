@@ -94,7 +94,7 @@ theorem exists_etaleCovering_smallModelAffineObjects (U : (fppfSmallModel B S hS
   refine ⟨𝒰, ?_, fun a ↦ a.2⟩
   obtain ⟨I, y, φ, hy, hcov⟩ := FibredSite.exists_affine_ofArrows_etale B S hS 𝒳.val.val.p
     𝒳.val.isFiberedInGroupoids (e.functor.obj U)
-  show 𝒰.sieve₀ ∈ e.functor.inducedTopology
+  change 𝒰.sieve₀ ∈ e.functor.inducedTopology
     (BigFppfOver.associatedTopology B S hS 𝒳.val.val.p .etale) U
   rw [Functor.mem_inducedTopology_iff_of_isCoverDense]
   refine (BigFppfOver.associatedTopology B S hS 𝒳.val.val.p .etale).superset_covering ?_ hcov

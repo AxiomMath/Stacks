@@ -21,9 +21,9 @@ S' --g-->  S
 
 the degree-zero base-change comparison `g^*f_*F ⟶ f'_*(g')^*F` of
 `Stacks.AlgebraicGeometry.FlatBaseChange.pushforwardBaseChange` is related by
-`StacksFrontier/AlgebraicGeometry/FlatBaseChange/Pushforward.lean` to the unit of `(g')^* ⊣ g'_*`, and
-only on global sections. The square `hγ` of the second paragraph of Stacks 088B needs it related to
-the unit of the adjunction of the morphism *being base changed*: that for an `𝒪_S`-module `𝒢`,
+`StacksFrontier/AlgebraicGeometry/FlatBaseChange/Pushforward.lean` to the unit of `(g')^* ⊣ g'_*`,
+and only on global sections. The square `hγ` of the second paragraph of Stacks 088B needs it related
+to the unit of the adjunction of the morphism *being base changed*: that for an `𝒪_S`-module `𝒢`,
 
 `g^*𝒢 ⟶ g^*(f_*f^*𝒢) ⟶ f'_*((g')^*f^*𝒢) ≅ f'_*((f')^*g^*𝒢)`
 

@@ -93,7 +93,7 @@ theorem mem_zariskiTopology_of_opens_cover {T : S.category} {ι : Type t}
   let P : Presieve T := Presieve.ofArrows (fun i => ((S.opensToSlice T).1.obj (V i)).left)
     (fun i => ((S.opensToSlice T).1.obj (V i)).hom)
   have hP : P ∈ S.zariskiPrecoverage T := by
-    show P ∈ (TopCat.precoverage.comap
+    change P ∈ (TopCat.precoverage.comap
       (S.qcSite.inclusion ⋙ locallyQuasiCompactHausdorffToTop)) T
     rw [Precoverage.mem_comap_iff]
     simp only [P, Presieve.map_ofArrows]
@@ -179,9 +179,9 @@ theorem site_pullback_snd_range {U : S.category} (j : U ⟶ Y) :
     rw [← preservesLimitIso_hom_π]
   have hsndTop : limit.π cTop WalkingCospan.right = pullback.snd (I.map j) (I.map f) :=
     PullbackCone.snd_limit_cone _ _
-  show Set.range (I.map (pullback.snd j f)) = _
+  change Set.range (I.map (pullback.snd j f)) = _
   rw [← hproj]
-  show Set.range
+  change Set.range
     ((ConcreteCategory.hom (limit.π cTop WalkingCospan.right)) ∘
       (ConcreteCategory.hom eTop.hom)) = _
   have hsurj : Function.Surjective (ConcreteCategory.hom eTop.hom) :=
@@ -338,7 +338,7 @@ theorem properBaseChangeSectionsIso_hom_naturality
     exact (zariskiOpenPullbackIso S f).inv.naturality (homOfLE h)
   rw [Subsingleton.elim ((Opens.map ((S.qcSite.inclusion ⋙
     locallyQuasiCompactHausdorffToTop).map f)).map (homOfLE h)) (homOfLE h')]
-  show ((S.comparisonInverseImage.{u, w, max (u + 1) v} X).obj F).obj.map
+  change ((S.comparisonInverseImage.{u, w, max (u + 1) v} X).obj F).obj.map
       ((Over.pullback f).map ((S.opensToSlice Y).1.map (homOfLE h))).op
       (((S.comparisonInverseImage.{u, w, max (u + 1) v} X).obj F).obj.map
         (((zariskiOpenPullbackIso S f).app W).inv).op
@@ -347,7 +347,7 @@ theorem properBaseChangeSectionsIso_hom_naturality
       (((S.comparisonInverseImage.{u, w, max (u + 1) v} X).obj F).obj.map _)
     (((S.comparisonInverseImage.{u, w, max (u + 1) v} X).obj F).obj.map _),
     ← Functor.map_comp, ← op_comp, hkey]
-  show _ = ((S.comparisonInverseImage.{u, w, max (u + 1) v} X).obj F).obj.map
+  change _ = ((S.comparisonInverseImage.{u, w, max (u + 1) v} X).obj F).obj.map
       (((zariskiOpenPullbackIso S f).app W').inv).op
       ((comparisonSectionsIso.{u, w, max (u + 1) v} S X F _).hom
         (F.obj.map (homOfLE h').op s))

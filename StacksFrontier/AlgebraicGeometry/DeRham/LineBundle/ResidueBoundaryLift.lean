@@ -141,7 +141,7 @@ theorem Situation.residueBaseSequence_res_f_natCast (p : ℕ) :
         (HomologicalComplex.extendXIso (Scheme.Hom.deRhamComplex D.f) embeddingUpNat (i := p)
           (show embeddingUpNat.f p = ((p + 1 : ℕ) : ℤ) + -1 by
             simp only [embeddingUpNat_f]; omega)).inv := by
-  show (HomologicalComplex.extendMap D.residueBaseMap embeddingUpNat).f ((p + 1 : ℕ) : ℤ) ≫
+  change (HomologicalComplex.extendMap D.residueBaseMap embeddingUpNat).f ((p + 1 : ℕ) : ℤ) ≫
       (CochainComplex.desuspendExtendIso (Scheme.Hom.deRhamComplex D.f)).hom.f
         ((p + 1 : ℕ) : ℤ) = _
   refine (congrArg (· ≫ _) (HomologicalComplex.extendMap_f D.residueBaseMap embeddingUpNat
@@ -314,7 +314,7 @@ theorem Situation.coneShiftHom_comp_residueDifferentialGradedModuleHom :
   refine Hom.ext fun n => ?_
   have h : (coneShiftHom D.inclusionDifferentialGradedModuleHom).toHomologicalComplex ≫
       D.residueDifferentialGradedModuleHom.toHomologicalComplex = 0 := by
-    show (eqToHom (shiftPackage (regularModule (deRhamDifferentialGradedAlgebra
+    change (eqToHom (shiftPackage (regularModule (deRhamDifferentialGradedAlgebra
           (Scheme.Hom.deRhamAlgebras D.f)
           (deRhamDifferential (Scheme.Hom.deRhamAlgebras D.f))))).shifted_complex ≫
         D.residueBaseSequence.incl⟦(1 : ℤ)⟧' ≫

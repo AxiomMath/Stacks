@@ -34,7 +34,8 @@ the stalk of a complex of sheaves of modules.
   source's proof of Tag 0GT9 appeals to.
 * `quasiIso_stalkFunctor_map_of_stalkComplexFunctor_map`: the two spellings of the stalk of a
   complex — the one over the `CommRingCat` stalk `O_{X,x}` that `Eta.stalkComplex` uses and the
-  one over the `RingCat` stalk that `StacksFrontier/Topology/Sheaves/Modules/StalkAcyclic.lean` uses — have the same
+  one over the `RingCat` stalk that `StacksFrontier/Topology/Sheaves/Modules/StalkAcyclic.lean` uses
+  — have the same
   quasi-isomorphisms, restriction of scalars along the comparison of the two rings being an
   exact functor that reflects isomorphisms.
 * `HasStalkModelComparison`: the stalkwise model identification, as a predicate — an
@@ -85,7 +86,8 @@ statements stand in the generality of `EtaSheafReductionQuasiIso.lean`.
 `Eta.stalkComplex` takes stalks over the `CommRingCat` stalk `ringStalk X x`, because
 `EtaComplex` is a development about modules over a commutative ring, while
 `AlgebraicGeometry.SheafOfModules.quasiIso_iff_forall_stalk_quasiIso` of
-`StacksFrontier/Topology/Sheaves/Modules/StalkAcyclic.lean` speaks about the `RingCat`-valued stalk functor.  The first is the second
+`StacksFrontier/Topology/Sheaves/Modules/StalkAcyclic.lean` speaks about the `RingCat`-valued stalk
+functor.  The first is the second
 followed by `ModuleCat.restrictScalars` along `SemilinearStalk.commStalkIso`, so the passage is
 Mathlib's `HomologicalComplex.quasiIso_map_iff_of_preservesHomology`: restriction of scalars
 along a ring map is additive and reflects isomorphisms by global instances, and preserving
@@ -174,7 +176,7 @@ category in the middle of the composite carries two spellings of the same `RingC
 public theorem stalkModuleFunctor_preservesZeroMorphisms (x : X) :
     (stalkModuleFunctor X x).PreservesZeroMorphisms :=
   ⟨fun Y Z => by
-    show (ModuleCat.restrictScalars (SemilinearStalk.commStalkIso X.presheaf x).inv.hom).map
+    change (ModuleCat.restrictScalars (SemilinearStalk.commStalkIso X.presheaf x).inv.hom).map
       ((AlgebraicGeometry.SheafOfModules.stalkFunctor Oₓ x).map (0 : Y ⟶ Z)) = 0
     rw [Functor.map_zero]
     rfl⟩

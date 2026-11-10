@@ -94,7 +94,7 @@ theorem exists_idempotent_prodEquiv_of_isLocalizationAway
   have hcomp : PrimeSpectrum.comap f.toRingHom =
       (PrimeSpectrum.comap ι) ∘ (PrimeSpectrum.comap ε.toRingHom) ∘ (PrimeSpectrum.comap π) := by
     funext p
-    show PrimeSpectrum.comap (π.comp (ε.toRingHom.comp ι)) p = _
+    change PrimeSpectrum.comap (π.comp (ε.toRingHom.comp ι)) p = _
     simp [PrimeSpectrum.comap_comp_apply, Function.comp_def]
   have hopen : IsOpen (Set.range (PrimeSpectrum.comap f.toRingHom)) := by
     let : Algebra (C × D) C := π.toAlgebra
@@ -165,7 +165,7 @@ theorem exists_idempotent_prodEquiv_of_isLocalizationAway
     exact (IsIdempotentElem.iff_eq_one_of_isUnit hunit).mp (hqC.map f)
   have hqmem : qC ∈ Ideal.span {s} := by
     have hrangeSubset : PrimeSpectrum.basicOpen qC ≤ PrimeSpectrum.basicOpen s := by
-      show (PrimeSpectrum.basicOpen qC : Set (PrimeSpectrum R)) ⊆ PrimeSpectrum.basicOpen s
+      change (PrimeSpectrum.basicOpen qC : Set (PrimeSpectrum R)) ⊆ PrimeSpectrum.basicOpen s
       rw [← hqCRange, ← PrimeSpectrum.localization_away_comap_range Rg s]
       rintro p ⟨x, rfl⟩
       refine ⟨PrimeSpectrum.comap mid x, ?_⟩
@@ -234,7 +234,7 @@ theorem exists_idempotent_prodEquiv_of_isLocalizationAway
     rw [show (1 : R) - (1 - qC) = qC by ring]
   refine ⟨1 - qC, hq, (eprod.trans (AlgEquiv.prodCongr eqv AlgEquiv.refl)).trans
     (AlgEquiv.prodCongr AlgEquiv.refl (Ideal.quotientEquivAlgOfEq A hJ)), fun x => ?_⟩
-  show eqv (Ideal.Quotient.mk (Ideal.span {1 - qC}) x) = (e (algebraMap R Rg x)).1
+  change eqv (Ideal.Quotient.mk (Ideal.span {1 - qC}) x) = (e (algebraMap R Rg x)).1
   simp [eqv, Ideal.quotientEquivAlgOfEq_mk, Ideal.quotientKerAlgEquivOfSurjective_mk, f]
 
 /-- Scalar extension of an away localization is the away localization at the extended element,
@@ -250,7 +250,7 @@ theorem isLocalization_away_one_tmul
     (g : B) [IsLocalization.Away g Bg] :
     IsLocalization.Away ((1 : A₁) ⊗ₜ[A] g) (A₁ ⊗[A] Bg) := by
   have h := IsLocalization.tensorProduct_tensorProduct_right A A₁ (Submonoid.powers g) Bg hmap
-  show IsLocalization (Submonoid.powers ((1 : A₁) ⊗ₜ[A] g)) (A₁ ⊗[A] Bg)
+  change IsLocalization (Submonoid.powers ((1 : A₁) ⊗ₜ[A] g)) (A₁ ⊗[A] Bg)
   simpa [Submonoid.map_powers, Algebra.TensorProduct.includeRight_apply] using h
 
 /-- **Stacks Project, Tag 0BT9.** A trace element of the relative dualizing module of a flat
@@ -296,7 +296,7 @@ theorem isTraceElement_localization
     let : Algebra (A₁ ⊗[A] B) (A₁ ⊗[A] Bg) := loc.toAlgebra
     have : IsScalarTower A₁ (A₁ ⊗[A] B) (A₁ ⊗[A] Bg) :=
       IsScalarTower.of_algebraMap_eq fun a => by
-        show ((a ⊗ₜ[A] (1 : Bg)) : A₁ ⊗[A] Bg) = loc (a ⊗ₜ[A] (1 : B))
+        change ((a ⊗ₜ[A] (1 : Bg)) : A₁ ⊗[A] Bg) = loc (a ⊗ₜ[A] (1 : B))
         simp [loc]
     have hloc : ∀ b : B, loc ((1 : A₁) ⊗ₜ[A] b) = (1 : A₁) ⊗ₜ[A] algebraMap B Bg b := fun b => by
       simp [loc]
@@ -328,7 +328,7 @@ theorem isTraceElement_localization
     have : Module.Projective H₁.middle C := hmpT
     have hmapFactors : (algebraMap (A₁ ⊗[A] B) (A₁ ⊗[A] Bg)).comp
           F₁.algebraTarget.algebraMap = H₁.algebraTarget.algebraMap := by
-      show (Algebra.TensorProduct.map (AlgHom.id A A₁)
+      change (Algebra.TensorProduct.map (AlgHom.id A A₁)
             (IsScalarTower.toAlgHom A B Bg)).toRingHom.comp
           (Algebra.TensorProduct.map (AlgHom.id A A₁)
             (IsScalarTower.toAlgHom A F.middle B)).toRingHom =
@@ -340,7 +340,7 @@ theorem isTraceElement_localization
       exact RingHom.ext fun u => congrArg (fun k => k u) hcomp.symm
     have hmiddleMap : ∀ a : F₁.middle,
         algebraMap H₁.middle C a = algebraMap F₁.middle C a := fun a => by
-      show (e (H₁.algebraTarget.algebraMap a)).1 = (e₁ (F₁.algebraTarget.algebraMap a)).1
+      change (e (H₁.algebraTarget.algebraMap a)).1 = (e₁ (F₁.algebraTarget.algebraMap a)).1
       rw [he₁ (F₁.algebraTarget.algebraMap a)]
       exact (congrArg (fun u => (e u).1) (DFunLike.congr_fun hmapFactors a)).symm
     have htrace (value : C) :
@@ -365,8 +365,7 @@ theorem isTraceElement_localization
         restrictLoc.1 (dualizingModule.baseChange H A₁
             (localizedModule_dualizingModule_equiv g F H localizationMap hM
               (localizationMap ω))) =
-          restrictBase.1 (dualizingModule.baseChange F A₁ ω)) ω ?_ ?_ ?_
-      · simp
+          restrictBase.1 (dualizingModule.baseChange F A₁ ω)) ω ?_ ?_
       · intro φ b
         have hcoeff : (e₁ ((1 : A₁) ⊗ₜ[A] b)).1 =
             (e ((1 : A₁) ⊗ₜ[A] algebraMap B Bg b)).1 := by

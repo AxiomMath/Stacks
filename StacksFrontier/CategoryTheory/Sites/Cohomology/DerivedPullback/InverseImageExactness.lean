@@ -510,10 +510,10 @@ theorem kFlat_pullbackComplex (f : AlgebraicGeometry.RingedToposSiteHom X Y)
     (hmos : f.u.IsMorphismOfSites Y.J X.J)
     (hpf : PullbackPreservesIsFlatUniv.{u})
     (K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
     (hflatK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
       (K.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O
+    Stacks.SheafOfModules.KFlat X.O
       ((Stacks.Sheaves.DerivedPullback.KFlatPullback.pullbackComplex f).obj K) :=
   kFlat_pullbackComplex_of_univ f hmos hpf (inverseImagePreservesShortExact f) K hK hflatK
 

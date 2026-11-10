@@ -93,7 +93,7 @@ theorem hasFiniteGlobalGenerators_of_generates (M : SheafOfModules.{w} R) {W : C
   obtain ⟨a, ha⟩ := ht Z.left g.left hg
   refine ⟨a, ?_⟩
   have hw : (g.left ≫ V.hom) = Z.hom := Over.w g
-  show ∑ i, a i • M.val.map Z.hom.op (s i) = M.val.map g.left.op x
+  change ∑ i, a i • M.val.map Z.hom.op (s i) = M.val.map g.left.op x
   rw [← hw]
   exact ha
 
@@ -293,7 +293,7 @@ theorem moduleStalkSetMap_zero_eq (X : AlgebraicSpaces B S hS)
       moduleStalkSetMap B S hS X p (0 : M ⟶ N) b := by
   have := subsingleton_moduleStalkSetFunctor_obj_zero.{u, m} B S hS X p
   set T := moduleStalkSetFunctor.{u, m} B S hS X p
-  show T.map (0 : M ⟶ N) a = T.map (0 : M ⟶ N) b
+  change T.map (0 : M ⟶ N) a = T.map (0 : M ⟶ N) b
   rw [show (0 : M ⟶ N) = (0 : M ⟶ 0) ≫ (0 : (0 : Modules.{u, m} B S hS X.1 X.2) ⟶ N) by simp,
     Functor.map_comp]
   exact congrArg (T.map (0 : (0 : Modules.{u, m} B S hS X.1 X.2) ⟶ N))
@@ -308,7 +308,7 @@ private theorem moduleStalkSetMap_comp_eq_of_comp_eq_zero (X : AlgebraicSpaces B
     moduleStalkSetMap B S hS X p g (moduleStalkSetMap B S hS X p f a) =
       moduleStalkSetMap B S hS X p g (moduleStalkSetMap B S hS X p f b) := by
   set T := moduleStalkSetFunctor.{u, m} B S hS X p
-  show (T.map f ≫ T.map g) a = (T.map f ≫ T.map g) b
+  change (T.map f ≫ T.map g) a = (T.map f ≫ T.map g) b
   rw [← Functor.map_comp, h]
   exact moduleStalkSetMap_zero_eq B S hS X p a b
 

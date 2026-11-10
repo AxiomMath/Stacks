@@ -206,7 +206,7 @@ theorem exists_descent_changeBase {𝒳 𝒴 : AlgebraicStacks.{u, w} B S hS} (f
   have h𝒲 : changeBaseAlgebraicStacks.{u, w, w} B S S' hS hS' g 𝒲₀ =
       ⟨⟨⟨X₀, inst, q⟩, hfib⟩, halg⟩ := by
     refine Subtype.ext (Subtype.ext ?_)
-    show BasedCategory.mk X₀ inst (F ⋙ 𝒴.val.val.p ⋙ Over.map g) = BasedCategory.mk X₀ inst q
+    change BasedCategory.mk X₀ inst (F ⋙ 𝒴.val.val.p ⋙ Over.map g) = BasedCategory.mk X₀ inst q
     rw [hF']
   have transport : ∀ (P : ∀ {𝒜 ℬ : AlgebraicStacks.{u, w} B S' hS'}, (𝒜 ⟶ ℬ) → Prop)
       {𝒜₁ 𝒜₂ ℬ₁ ℬ₂ : AlgebraicStacks.{u, w} B S' hS'} (h𝒜 : 𝒜₁ = 𝒜₂) (hℬ : ℬ₁ = ℬ₂)

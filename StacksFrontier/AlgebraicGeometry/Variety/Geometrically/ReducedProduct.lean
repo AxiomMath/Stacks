@@ -89,10 +89,10 @@ public theorem isReduced_stalk_pullback_of_isGeometricallyReducedAt
         stalkClosedPointIso (.of k)
     have heq : (algebraMap k R) = eR.inv.hom := by
       ext s
-      show (StructureSheaf.toStalk k (f.base (pX.base z))).hom s = _
+      change (StructureSheaf.toStalk k (f.base (pX.base z))).hom s = _
       dsimp only [eR, Iso.trans_inv]
       rw [stalkClosedPointIso_inv]
-      show (StructureSheaf.toStalk k (f.base (pX.base z))).hom s =
+      change (StructureSheaf.toStalk k (f.base (pX.base z))).hom s =
         (StructureSheaf.toStalk k (IsLocalRing.closedPoint k) ≫
           (Spec (.of k)).presheaf.stalkSpecializes (Inseparable.of_eq hqclosed).le).hom s
       exact congrArg

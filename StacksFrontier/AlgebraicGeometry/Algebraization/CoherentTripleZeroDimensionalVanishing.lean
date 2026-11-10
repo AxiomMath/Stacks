@@ -102,7 +102,7 @@ public theorem mem_asIdeal_morphismRestrict_closedImmersion
   rw [show (show (Stacks.Divisors.puncturedSpectrum A).toScheme from
       (morphismRestrict (closedImmersion A f)
         (Stacks.Divisors.puncturedSpectrum A)).base y).1 = _ from h]
-  show (Ideal.Quotient.mk (Ideal.span {f})) f ∈
+  change (Ideal.Quotient.mk (Ideal.span {f})) f ∈
     ((puncturedClosedFibre A f).ι.base y).asIdeal
   rw [Ideal.Quotient.eq_zero_iff_mem.2 (Ideal.mem_span_singleton_self f)]
   exact Ideal.zero_mem _
@@ -204,15 +204,15 @@ public theorem CoherentTriple.isZero_F₀_of_shortExact_twistZ (hf : f ∈ maxim
 the support of `T.F` has dimension at most `0` and `G.F` is zero, then the Euler characteristic
 of `G` is `0`. -/
 public theorem CoherentTriple.eulerCharacteristic_eq_zero_of_shortExact_twistZ_quotientTriple
-    [IsLocalRing (A ⧸ Ideal.span {f})] (hf : f ∈ maximalIdeal A) (hreg : IsRegular f)
+    [IsLocalRing (A ⧸ Ideal.span {f})] (hf : f ∈ maximalIdeal A)
     (T : CoherentTriple A f) {G L : CoherentTriple A f} (hL : IsInvertibleTriple L) {n : ℤ}
     {u : (((T.quotientTriple hf).twistZ L hL n)).Hom ((T.quotientTriple hf).twistZ L hL (n + 1))}
     {v : (((T.quotientTriple hf).twistZ L hL (n + 1))).Hom (G.twistZ L hL n)}
     (hse : CoherentTriple.ShortExact u v)
     (hdim : topologicalKrullDim ↥(SheafOfModules.supp T.F) ≤ ((0 : ℕ) : WithBot ℕ∞))
     (hG : IsZero G.F) :
-    G.eulerCharacteristic hf hreg = 0 :=
-  CoherentTriple.eulerCharacteristic_eq_zero_of_isZero hf hreg hG
+    G.eulerCharacteristic = 0 :=
+  CoherentTriple.eulerCharacteristic_eq_zero_of_isZero hf hG
     (CoherentTriple.isZero_F₀_of_shortExact_twistZ hf hL hse
       (CoherentTriple.isZero_F₀_quotientTriple_of_topologicalKrullDim_le hf T hdim))
 

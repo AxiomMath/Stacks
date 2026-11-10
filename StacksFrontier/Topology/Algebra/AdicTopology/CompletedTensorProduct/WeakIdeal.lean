@@ -130,11 +130,11 @@ public theorem projectionKernel_le_topologicalNilradical (i : ι) (j : κ)
   let φC : C →+* T := RingHom.comp UniformSpace.Completion.coeRingHom
     ((Algebra.TensorProduct.includeRight : C →ₐ[B] A ⊗[B] C).toRingHom)
   have hφA : Continuous φA := by
-    show Continuous (fun a : A => ((a ⊗ₜ[B] (1 : C) : A ⊗[B] C) : T))
+    change Continuous (fun a : A => ((a ⊗ₜ[B] (1 : C) : A ⊗[B] C) : T))
     exact (UniformSpace.Completion.continuous_coe (A ⊗[B] C)).comp
       (TopologicalRing.continuous_tmul_const (R := B) (M := A) (N := C) (1 : C))
   have hφC : Continuous φC := by
-    show Continuous (fun c : C => (((1 : A) ⊗ₜ[B] c : A ⊗[B] C) : T))
+    change Continuous (fun c : C => (((1 : A) ⊗ₜ[B] c : A ⊗[B] C) : T))
     exact (UniformSpace.Completion.continuous_coe (A ⊗[B] C)).comp
       (TopologicalRing.continuous_const_tmul (R := B) (M := A) (N := C) (1 : A))
   intro x hx

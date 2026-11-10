@@ -169,14 +169,14 @@ theorem exists_isAffine_etale_domination (f : X ⟶ Y) [UniversalHomeomorphism f
     Sigma.desc (fun i ↦ opensFactorMap f v i.1.1 ≫ h₀) with hdom
   have domp : dom ≫ p = Sigma.desc fun i ↦ pullback.fst f (qs i) := by
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [hdom, ← Category.assoc, Sigma.ι_desc, Sigma.ι_desc, Category.assoc, hh₀,
+    rw [hdom, ← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc, Category.assoc, hh₀,
       opensFactorMap_fst]
   refine ⟨∐ Ws, Sigma.desc qs, hwetale, inferInstance, ec.inv ≫ dom, ⟨fun x ↦ ?_⟩, ?_⟩
   · obtain ⟨A, hAt, m, hmA, hmx⟩ := Set.mem_iUnion₂.1 (ht (Set.mem_univ x))
     obtain ⟨z, hz⟩ := (range_opensFactorMap f v A.1).ge hmA
     refine ⟨ec.hom.base ((Sigma.ι (fun i ↦ pullback f (qs i)) ⟨A, hAt⟩).base z), ?_⟩
     rw [← Scheme.Hom.comp_apply, Iso.hom_inv_id_assoc, ← Scheme.Hom.comp_apply, hdom,
-      Sigma.ι_desc, Scheme.Hom.comp_apply, hz, hmx]
+      Sigma.ι_comp_desc, Scheme.Hom.comp_apply, hz, hmx]
   · rw [Category.assoc, domp, ← hpb.isoPullback_hom_fst, Iso.inv_hom_id_assoc]
 
 end Stacks.Etale

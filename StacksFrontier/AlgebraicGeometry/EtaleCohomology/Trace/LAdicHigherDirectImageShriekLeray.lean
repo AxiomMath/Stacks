@@ -175,7 +175,7 @@ theorem isGE_lerayComplex (ψ : C ⋙ DerivedCategory.Plus.Q ≅ LAdicSheaf.tors
   have h0 : ((DerivedCategory.Plus.Q).obj ((singlePlus (EtaleModules.{u, 0} ℤ_[ℓ]
       (B.inclusion.obj U))).obj K.obj)).IsGE 0 := by
     rw [← DerivedCategory.Plus.isGE_ι_obj_iff]
-    show (DerivedCategory.Q.obj ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj
+    change (DerivedCategory.Q.obj ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj
       K.obj)).IsGE 0
     rw [DerivedCategory.isGE_Q_obj_iff]
     infer_instance
@@ -268,7 +268,7 @@ theorem LAdicSheaf.lerayGradedTowerIso_hom_frobenius (G : LAdicSheaf B U ℓ)
     NatTrans.ext (funext fun m => ((compactSupportSheafFrobenius ℤ_[ℓ] fW jW kbar p q hcard
       (-n + i)).naturality ((lerayComplexHomologyIso B ℓ g jg C ψ n).hom.app
         ((LAdicSheaf.flatModelTorsionTower G).obj m))).symm)
-  show _ ≫ ((Functor.isoWhiskerLeft (LAdicSheaf.flatModelTorsionTower G ⋙ C)
+  change _ ≫ ((Functor.isoWhiskerLeft (LAdicSheaf.flatModelTorsionTower G ⋙ C)
       (compactSupportGradedHomologyIso ℤ_[ℓ] fW jW kbar n i (-n + i) rfl)).hom ≫ _) =
     ((Functor.isoWhiskerLeft (LAdicSheaf.flatModelTorsionTower G ⋙ C)
       (compactSupportGradedHomologyIso ℤ_[ℓ] fW jW kbar n i (-n + i) rfl)).hom ≫ _) ≫ _
@@ -406,7 +406,9 @@ theorem LAdicSheaf.isIso_whiskerLeft_πTruncGE_lerayComplex
   have : ((P ⋙ C).obj m).obj.IsGE 0 := isGE_lerayComplex B ℓ g jg C ψ (P.obj m)
   exact isIso_compactSupport_πTruncGE_zero ℤ_[ℓ] fW jW kbar i ((P ⋙ C).obj m)
 
-omit [AlgebraicGeometry.IsNoetherian W.1] in
+omit [AlgebraicGeometry.IsNoetherian W.1] [LocallyOfFiniteType (B.inclusion.map g)]
+  [QuasiCompact (B.inclusion.map g)] [IsSeparated (B.inclusion.map g)]
+  [LocallyOfFiniteType fW] [QuasiCompact fW] [IsSeparated fW] in
 /-- **The `U` side of the Leray weight implication**: a weight bound on `Hⁱ_c(W_k̄, τ_{≥ 0} C G'ₘ)`
 gives the same bound on `Hⁱ_c(U_k̄, G ⊗ ℚ_ℓ)`. -/
 theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_of_lerayTruncTower
@@ -463,7 +465,7 @@ theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_of_lerayTruncTower
       e₂.hom ≫ Functor.whiskerLeft (LAdicSheaf.flatModelTorsionTower G ⋙ C)
         (compactSupportFrobeniusAlong ℤ_[ℓ] fW jW kbar p q hcard
           (CochainComplex.Plus.truncGEFunctor 0) i) := by
-    show _ ≫ Functor.whiskerLeft _ _ = Functor.whiskerLeft _ _ ≫ _
+    change _ ≫ Functor.whiskerLeft _ _ = Functor.whiskerLeft _ _ ≫ _
     simp only [← Functor.whiskerLeft_comp, compactSupportFrobeniusAlong_whiskerRight]
   have : FiniteDimensional ℚ_[ℓ] ((rationalLim.{u + 1} (ℓ := ℓ)).obj
       (LAdicSheaf.padicTower B U ℓ (LAdicSheaf.flatModel B ℓ G) ⋙

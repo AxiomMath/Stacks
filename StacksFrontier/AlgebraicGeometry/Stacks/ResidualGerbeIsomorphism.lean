@@ -37,7 +37,8 @@ The comparison `Spec k ×_𝒳 Spec k ⟶ Spec k ×_𝒴 Spec k` is
 `CategoryTheory.TwoFibreProductOver.mapBase` at the functor underlying `f`, which postcomposes
 both legs with it and leaves the two projections to `Spec k` untouched. That is exactly the
 morphism the source names. "In the equivalence class of `x`" is spelled as in
-`StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeFieldPointFactorization` (**Stacks 06MW**): the
+`StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeFieldPointFactorization` (**Stacks 06MW**):
+the
 source of the 1-morphism is the algebraic stack of an `AlgebraicGeometry.Stack.FieldSpectrum` and
 some point of it maps to `x`. "Is an isomorphism", for the comparison and for the conclusion, is
 rendered the way this library renders an isomorphism of algebraic stacks throughout: the
@@ -52,7 +53,8 @@ The source's proof has three steps. Its first two paragraphs show that the self-
 is independent of the chosen representative of `x` and then, presenting `𝒵_x` as `[Spec k/R]` with
 `R = Spec k ×_𝒳 Spec k = Spec k ×_𝒴 Spec k`, that the composite `𝒵_x ⟶ 𝒳 ⟶ 𝒴` is fully faithful.
 That is `AlgebraicGeometry.Stack.full_and_faithful_comp_of_hasSelfProductEquivalenceAt` of
-`StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeSelfProduct`, proved with no further input: the
+`StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeSelfProduct`, proved with no further input:
+the
 independence of the representative is fpqc descent on the sheaves of morphisms of `𝒳` and `𝒴`, and
 the role of the presentation and of **Stacks 04T4 (6)** is played by the local-to-global step of
 **Stacks 04WQ** along a surjective, flat, locally finitely presented cover of `𝒵_x`.

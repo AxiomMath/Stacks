@@ -53,7 +53,7 @@ theorem injective_app_flatObject_of_mono [Mono φ] {w : 𝒳.val.val.obj}
   have h0 : kernel.ι φ = 0 := (cancel_mono φ).1 (by simp)
   have hker : LinearMap.ker (φ.hom.val.app (op w)).hom = ⊥ := by
     rw [← hk.2]
-    show LinearMap.range ((kernel.ι φ).hom.val.app (op w)).hom = ⊥
+    change LinearMap.range ((kernel.ι φ).hom.val.app (op w)).hom = ⊥
     rw [h0]
     exact LinearMap.range_eq_bot.2 rfl
   exact LinearMap.ker_eq_bot.1 hker

@@ -78,7 +78,7 @@ namespace Stacks.EtaleCohomology
 variable (Λ : Type r) [CommRing Λ]
 
 /-- A torsion ring is killed by a positive integer: the additive order of `1`. -/
-theorem exists_natCast_eq_zero_of_isTorsion (hΛ : AddMonoid.IsTorsion Λ) :
+theorem exists_natCast_eq_zero_of_isTorsion (hΛ : IsAddTorsion Λ) :
     ∃ m : ℕ, 0 < m ∧ (m : Λ) = 0 :=
   ⟨addOrderOf (1 : Λ), (hΛ 1).addOrderOf_pos, by
     rw [← nsmul_one]; exact addOrderOf_nsmul_eq_zero 1⟩
@@ -107,7 +107,7 @@ image along the morphism of constant ringed topoi `(X_étale, Λ̲) ⟶ (Y_étal
 direct sums**: it is the étale one read through `Stacks.EtaleCohomology.etaleDerivedEquivalence`.
 -/
 theorem preservesColimitsOfShape_etaleRingedDerivedPushforward_of_isProper
-    [IsProper f] (hΛ : AddMonoid.IsTorsion Λ) (I : Type (max (u + 1) r)) :
+    [IsProper f] (hΛ : IsAddTorsion Λ) (I : Type (max (u + 1) r)) :
     PreservesColimitsOfShape (Discrete I) (etaleRingedDerivedPushforward.{u, r} Λ f) := by
   have := preservesColimitsOfShape_etaleModuleDerivedDirectImageUnbounded_of_isProper Λ f
     (exists_natCast_eq_zero_of_isTorsion Λ hΛ) I
@@ -189,7 +189,7 @@ field, for a torsion ring of coefficients.** Let `k` be a separably closed field
 every `K ∈ D(Spec(k)_étale, Λ̲)`, unbounded, the map of [Stacks, Tag 0B56]
 `Rπ_*E ⊗^L_Λ K ⟶ Rπ_*(E ⊗^L_Λ π^{-1}K)` along the morphism of constant ringed topoi of `π` is an
 isomorphism. -/
-theorem isIso_projectionFormulaMap_of_isProper_of_isSepClosed (hΛ : AddMonoid.IsTorsion Λ)
+theorem isIso_projectionFormulaMap_of_isProper_of_isSepClosed (hΛ : IsAddTorsion Λ)
     (k : Type u) [Field k] [IsSepClosed k] (π : X ⟶ Spec (.of k)) [IsProper π]
     (E : DerivedCategory (EtaleRingedModules.{u, r} Λ X))
     (K : DerivedCategory (EtaleRingedModules.{u, r} Λ (Spec (.of k)))) :

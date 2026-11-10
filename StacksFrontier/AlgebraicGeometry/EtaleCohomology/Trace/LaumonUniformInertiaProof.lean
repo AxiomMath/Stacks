@@ -104,7 +104,7 @@ theorem exists_mem_curvePointInertia_isUnit_restrictScalarsMatrix_sub_one :
       Continuous fun g : GL (Fin (m * d)) ℚ_[ℓ] => T * (g : Matrix _ _ ℚ_[ℓ]) - 1).matrix_det)
       continuous_const
   have h1O : (1 : GL (Fin (m * d)) ℚ_[ℓ]) ∈ O := by
-    show (T * ((1 : GL (Fin (m * d)) ℚ_[ℓ]) : Matrix _ _ ℚ_[ℓ]) - 1).det ≠ 0
+    change (T * ((1 : GL (Fin (m * d)) ℚ_[ℓ]) : Matrix _ _ ℚ_[ℓ]) - 1).det ≠ 0
     rw [Units.val_one, Matrix.mul_one]
     have hT : T - 1 = restrictScalarsMatrix b (Matrix.scalar (Fin m) (ψ c₁ - 1)) := by
       simp only [T, map_sub, map_one, restrictScalarsMatrix_sub, restrictScalarsMatrix_one]
@@ -171,7 +171,7 @@ theorem exists_mem_curvePointInertia_isUnit_restrictScalarsMatrix_sub_one :
     refine ⟨(Scheme.ΓSpecIso (.of (Polynomial k'))).hom g, ?_⟩
     have h := congrArg (fun φ => φ.hom g) (Iso.hom_inv_id (Scheme.ΓSpecIso (.of (Polynomial k'))))
     simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_id, RingHom.id_apply] at h
-    show ((Scheme.ΓSpecIso _).inv ≫ (Spec _).Γevaluation _).hom
+    change ((Scheme.ΓSpecIso _).inv ≫ (Spec _).Γevaluation _).hom
       ((Scheme.ΓSpecIso (.of (Polynomial k'))).hom g) ∉ _
     rw [CommRingCat.hom_comp, RingHom.comp_apply, h]
     exact hg
@@ -181,7 +181,7 @@ theorem exists_mem_curvePointInertia_isUnit_restrictScalarsMatrix_sub_one :
   have : IsScalarTower k k' K' := IsScalarTower.of_algebraMap_eq (fun _ => rfl)
   have : IsScalarTower k (FractionRing (Polynomial k)) K' :=
     IsScalarTower.of_algebraMap_eq (fun a => by
-      show algebraMap (Polynomial k') K' (Polynomial.C (algebraMap k k' a)) =
+      change algebraMap (Polynomial k') K' (Polynomial.C (algebraMap k k' a)) =
         Polynomial.liftInvX k k' K' (algebraMap k _ a)
       rw [hkK, Polynomial.liftInvX_algebraMap, Polynomial.evalInvX_C])
   have hK'top := Polynomial.adjoin_range_eq_top_of_liftInvX k (K' := K') rfl rfl
@@ -236,7 +236,7 @@ theorem exists_mem_curvePointInertia_isUnit_restrictScalarsMatrix_sub_one :
       (Stacks.ArtinSchreier.torsorCover k' (Polynomial k') g)
       ⟨Functor.leftUnitor _, fun _ _ _ => rfl⟩ (isEtaleFundamentalGroupHomInducedBy_basePointHom t)
       q p₀ γ
-    show Multiplicative.toAdd ((Stacks.ArtinSchreier.torsorCover k' (Polynomial k') g).character
+    change Multiplicative.toAdd ((Stacks.ArtinSchreier.torsorCover k' (Polynomial k') g).character
       x' p₀ ((etaleFundamentalGroupBasePointHom t).toMonoidHom γ)) = c₀
     rw [hce]
     have h1 := hσt₀ σL
@@ -262,20 +262,20 @@ theorem exists_mem_curvePointInertia_isUnit_restrictScalarsMatrix_sub_one :
   have hJ : (j' ≫ 𝟙 _) ≫ f =
       Spec.map (CommRingCat.ofHom (algebraMap (FractionRing (Polynomial k)) K')) ≫ J₀ := by
     rw [Category.comp_id]
-    show (Spec (.of (Polynomial k'))).fromSpecResidueField _ ≫ _ = _
+    change (Spec (.of (Polynomial k'))).fromSpecResidueField _ ≫ _ = _
     rw [fromSpecResidueField_eq_specMap]
     simp only [f, J₀, ← Category.assoc, ← Spec.map_comp]
     congr 2
     ext1
     apply Polynomial.ringHom_ext
     · intro z
-      show algebraMap (Polynomial k') K' (Polynomial.map (algebraMap k k') (Polynomial.C z)) =
+      change algebraMap (Polynomial k') K' (Polynomial.map (algebraMap k k') (Polynomial.C z)) =
         Polynomial.liftInvX k k' K' (ψ₀ (Polynomial.C z))
       rw [Polynomial.map_C]
-      show _ = Polynomial.liftInvX k k' K' (Polynomial.eval₂ _ _ (Polynomial.C z))
+      change _ = Polynomial.liftInvX k k' K' (Polynomial.eval₂ _ _ (Polynomial.C z))
       rw [Polynomial.eval₂_C, RingHom.comp_apply, Polynomial.liftInvX_algebraMap,
         Polynomial.evalInvX_C]
-    · show algebraMap (Polynomial k') K' (Polynomial.map (algebraMap k k') Polynomial.X) =
+    · change algebraMap (Polynomial k') K' (Polynomial.map (algebraMap k k') Polynomial.X) =
         Polynomial.liftInvX k k' K' (Polynomial.eval₂ _ _ Polynomial.X)
       rw [Polynomial.map_X, Polynomial.eval₂_X, map_inv₀, Polynomial.liftInvX_algebraMap,
         Polynomial.evalInvX_X, inv_inv]
@@ -287,11 +287,11 @@ theorem exists_mem_curvePointInertia_isUnit_restrictScalarsMatrix_sub_one :
       (ι.symm.trans (σL.restrictScalars (FractionRing (Polynomial k)))).trans ι
     refine spec_comp_eq_of_algEquiv ι J₀ Y σL σ₀ (fun z => ?_) (hfix₀ σ₀ ?_) g'
       (hg'.trans (by rw [hJ]))
-    · show ι (σL (ι.symm (ι z))) = ι (σL z)
+    · change ι (σL (ι.symm (ι z))) = ι (σL z)
       rw [AlgEquiv.symm_apply_apply]
     · rw [IntermediateField.mem_fixingSubgroup_iff]
       intro z hz
-      show ι (σL (ι.symm z)) = z
+      change ι (σL (ι.symm z)) = z
       rw [hσE z hz, AlgEquiv.apply_symm_apply]
   have hstab := forall_apply_eq_of_forall_spec_comp_eq K' L Ω _ hind Y σL hfixL y
   have hdet := hHO (show (etaleFundamentalGroupMap f x') (etaleFundamentalGroupBasePointHom t γ) ∈
@@ -300,7 +300,7 @@ theorem exists_mem_curvePointInertia_isUnit_restrictScalarsMatrix_sub_one :
     (ψ.compAddMonoidHom (Algebra.trace k k').toAddMonoidHom) x' p₀
   have hχ : (χ (etaleFundamentalGroupBasePointHom t γ) : E) = ψ c₁ := by
     rw [Stacks.ArtinSchreier.artinSchreierCharacter_apply, hchar, AddChar.compAddMonoidHom_apply]
-    show ψ (Algebra.trace k k' (-c₀)) = ψ c₁
+    change ψ (Algebra.trace k k' (-c₀)) = ψ c₁
     rw [map_neg, hc₀, neg_neg]
   have hunit : IsUnit (restrictScalarsMatrix b ((characterTwist
       (σ.comp (etaleFundamentalGroupMap f x').toMonoidHom) χ

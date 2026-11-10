@@ -76,7 +76,8 @@ already proves birationality of a morphism through which a dominant open immersi
 second reuses `AlgebraicGeometry.birationalOver_iff_exists_nonempty_open_iso`, the irreducible
 case of [Stacks, Tag 0BAD]. Dominance of an open immersion with nonempty source into an
 irreducible scheme is one line and is taken inline, as at
-`StacksFrontier/AlgebraicGeometry/Divisors/Modification/InvertibleFiltration.lean`; the named form is
+`StacksFrontier/AlgebraicGeometry/Divisors/Modification/InvertibleFiltration.lean`; the named
+form is
 `Stacks.Chow.isDominant_of_isOpenImmersion'`, whose module is not imported here.
 
 The base of the second result is an arbitrary scheme rather than `Spec k`; the tag's case is

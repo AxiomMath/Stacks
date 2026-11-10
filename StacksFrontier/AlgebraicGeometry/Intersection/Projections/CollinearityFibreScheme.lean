@@ -212,7 +212,7 @@ public theorem range_rationalFibreSection (pt : Spec (.of k) ⟶ prodTwo k V)
     ⟨(h.isoPullback.inv).base y, by
       rw [← Scheme.Hom.comp_apply, h.isoPullback.inv_hom_id]; rfl⟩
   rw [← Scheme.Pullback.range_fst (prFst k V) pt, hcomp]
-  show Set.range ((pullback.fst (prFst k V) pt).base ∘ (h.isoPullback.hom).base) = _
+  change Set.range ((pullback.fst (prFst k V) pt).base ∘ (h.isoPullback.hom).base) = _
   rw [Set.range_comp, hsurj.range_eq, Set.image_univ]
 
 variable {k V} in

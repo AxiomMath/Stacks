@@ -97,7 +97,7 @@ omit [∀ X, IsAffine (L.obj X)] in
 /-- The ring map of a morphism with flat underlying morphism of affine schemes is flat. -/
 theorem flat_rings_map {X Y : C} [IsAffine (L.obj X)] [IsAffine (L.obj Y)] (a : X ⟶ Y)
     (ha : Flat (L.map a)) : ((rings L).map a.op).hom.Flat := by
-  show (L.map a).appTop.hom.Flat
+  change (L.map a).appTop.hom.Flat
   exact HasRingHomProperty.appTop (P := @Flat) _ ha
 
 /-- The rings of a cover form a faithfully flat family. -/

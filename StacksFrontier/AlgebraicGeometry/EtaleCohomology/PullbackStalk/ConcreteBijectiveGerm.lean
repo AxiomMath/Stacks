@@ -126,7 +126,7 @@ public theorem bijective_concreteGerm_iff_of_specializes (U : SmallEtale B S hS)
   have hσ : (specializationFiberHom σ).app U ⟨s.hom, rfl⟩ = ⟨t.hom, rfl⟩ := by
     apply Subtype.ext
     rw [specializationFiberHom_app_val]
-    show (l ≫ strictHenselizationSquareMap B U.obj.left.property hS
+    change (l ≫ strictHenselizationSquareMap B U.obj.left.property hS
       (B.inclusion.map U.obj.hom) s) ≫ _ = t.hom
     rw [Category.assoc, hfactor, hl]
   have hcomp : (fun a : M => (geometricPointSitePoint B S hS
@@ -249,7 +249,7 @@ public theorem isLocallySurjective_constantPresheafHomOfSectionsHom
   · rw [Sieve.overEquiv_iff]
     refine ⟨e, ?_⟩
     rw [constantPresheafHomOfSectionsHom_app_apply B S hS F U z]
-    show F.obj.map (g ≫ V.hom).op (z e) = F.obj.map g.op c
+    change F.obj.map (g ≫ V.hom).op (z e) = F.obj.map g.op c
     rw [op_comp, Functor.map_comp_apply]
     exact (ConcreteCategory.congr_arg (F.obj.map g.op)
       (constantPresheafHomOfSectionsHom_app_apply B S hS F U z (op V) e)).symm.trans heq

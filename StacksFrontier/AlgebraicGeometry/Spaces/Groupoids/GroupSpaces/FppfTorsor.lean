@@ -426,7 +426,7 @@ theorem isFppfTorsor_iff_siteTorsor
         ((yonedaEquiv (X := (Over.mk (E.f i) : BigFppfOver B S hS)) (F := X.left)).symm
           (eX.hom.app (op (Over.mk (E.f i) : BigFppfOver B S hS)) s))
         (𝟙 (yoneda.obj (Over.mk (E.f i) : BigFppfOver B S hS))) (by subsingleton)) ?_⟩
-      simp [pullback.lift_snd]
+      simp
 
 end AlgebraicGeometry.Space
 

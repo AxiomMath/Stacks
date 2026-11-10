@@ -102,7 +102,7 @@ include hD hAffine hQc hQs
 /- Given an affine chart of one stage, every later transition pulls it back to
    an affine chart. This is the scheme diagram underlying the presentation of
    the limit algebraic space. -/
-private structure AffineStageChartOfLimitFacts (i₀ : I)
+structure AffineStageChartOfLimitFacts (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (j : Over i₀) where
@@ -112,7 +112,7 @@ private structure AffineStageChartOfLimitFacts (i₀ : I)
     (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀
   isPullback : IsPullback toStage (yoneda.map toChart) (D.map j.hom) q₀
 
-private noncomputable def affineStageChartOfLimitFacts (i₀ : I)
+noncomputable def affineStageChartOfLimitFacts (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
@@ -124,7 +124,7 @@ private noncomputable def affineStageChartOfLimitFacts (i₀ : I)
     Classical.choose (Classical.choose_spec (Classical.choose_spec h)),
     Classical.choose_spec (Classical.choose_spec (Classical.choose_spec h))⟩
 
-private noncomputable def affineStageChartMapOfLimitFacts (i₀ : I)
+noncomputable def affineStageChartMapOfLimitFacts (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
@@ -148,7 +148,7 @@ private noncomputable def affineStageChartMapOfLimitFacts (i₀ : I)
     (Cj.toStage ≫ D.map e.left) (yoneda.map Cj.toChart) hcomm)
 
 omit [IsCofiltered I] hD hAffine hQc hQs in
-private theorem affineStageChartMap_toStage_of_limitFacts (i₀ : I)
+theorem affineStageChartMap_toStage_of_limitFacts (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
@@ -160,7 +160,7 @@ private theorem affineStageChartMap_toStage_of_limitFacts (i₀ : I)
   simp [affineStageChartMapOfLimitFacts]
 
 omit [IsCofiltered I] hD hAffine hQc hQs in
-private theorem affineStageChartMap_toChart_of_limitFacts (i₀ : I)
+theorem affineStageChartMap_toChart_of_limitFacts (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
@@ -174,7 +174,7 @@ private theorem affineStageChartMap_toChart_of_limitFacts (i₀ : I)
 /-- The map from a pullback chart over the limit to the affine chart at a later stage,
 named so that its two defining identities can be stated and used without unfolding the
 `yoneda.preimage` that produces it. -/
-private noncomputable def affineStageChartLiftOfLimitFacts (i₀ : I)
+noncomputable def affineStageChartLiftOfLimitFacts (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
@@ -190,7 +190,7 @@ private noncomputable def affineStageChartLiftOfLimitFacts (i₀ : I)
       rw [Category.assoc, limit.w]
       exact h.w))
 
-private noncomputable def affineStageChartOverDiagramOfLimitFacts (i₀ : I)
+noncomputable def affineStageChartOverDiagramOfLimitFacts (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
@@ -215,7 +215,7 @@ private noncomputable def affineStageChartOverDiagramOfLimitFacts (i₀ : I)
     · simp [affineStageChartMapOfLimitFacts, Category.assoc]
     · simp [affineStageChartMapOfLimitFacts, Category.assoc]
 
-private noncomputable def affineStageChartConeOfLimitFacts (i₀ : I)
+noncomputable def affineStageChartConeOfLimitFacts (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
@@ -302,7 +302,7 @@ stage has its limit computed in schemes. Stating the development against these r
 against the bound lets it be used both for a bounded index category
 (`AlgebraicGeometry.Space.exists_model_of_finitePresentation`) and for a system whose limit is
 given at the level of schemes, where no bound is available. -/
-private structure LimitFacts (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u})
+structure LimitFacts (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) {I : Type u} [Category.{u} I] [IsCofiltered I]
     (D : I ⥤ (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) where
   /-- The limit of the system is an algebraic space. -/
@@ -321,7 +321,8 @@ private structure LimitFacts (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme
         AlgebraicGeometry.BigFppfOver.toScheme B S hS).mapCone
       (affineStageChartConeOfLimitFacts B S hS D i₀ U₀ q₀ hAff U p q h))
 
-private theorem eventually_eq_on_affine_chart_over_of_limitFacts
+omit hD hQc hQs in
+theorem eventually_eq_on_affine_chart_over_of_limitFacts
     (hFacts : LimitFacts B S hS D) (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -352,7 +353,8 @@ private theorem eventually_eq_on_affine_chart_over_of_limitFacts
     (hFacts.chartLim hAffine i₀ U₀ q₀ _ p q h)
     hE U.property f g hf hg hh
 
-private theorem eventually_eq_on_affine_chart_of_limitFacts
+omit hQc hQs in
+theorem eventually_eq_on_affine_chart_of_limitFacts
     (hFacts : LimitFacts B S hS D) (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -366,10 +368,11 @@ private theorem eventually_eq_on_affine_chart_of_limitFacts
     ∃ j : Over i₀,
       yoneda.map (affineStageChartOfLimitFacts B S hS D i₀ U₀ q₀ hAffine j).toChart ≫ f =
         yoneda.map (affineStageChartOfLimitFacts B S hS D i₀ U₀ q₀ hAffine j).toChart ≫ g := by
-  exact eventually_eq_on_affine_chart_over_of_limitFacts B S hS hZ D hD hAffine hQc hQs
+  exact eventually_eq_on_affine_chart_over_of_limitFacts B S hS D hAffine
     hFacts i₀ U₀ q₀ (hD i₀) (𝟙 _) hZalg a ha f g (by simpa using hf) (by simpa using hg) hfg
 
-private theorem exists_hom_on_affine_chart_of_limitFacts
+omit hQc hQs in
+theorem exists_hom_on_affine_chart_of_limitFacts
     (hFacts : LimitFacts B S hS D) (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj U₀.obj ⟶ D.obj i₀)
@@ -396,7 +399,7 @@ private theorem exists_hom_on_affine_chart_of_limitFacts
     (hD i₀) a ha U₀.obj q₀ E c
     (hFacts.chartLim hAffine i₀ U₀ q₀ _ p q h)
     hE U.property (h.isoPullback.hom ≫ f) (by
-      show (h.isoPullback.hom ≫ f) ≫ a = yoneda.map q ≫ q₀
+      change (h.isoPullback.hom ≫ f) ≫ a = yoneda.map q ≫ q₀
       rw [Category.assoc, hf, IsPullback.isoPullback_hom_fst_assoc]
       exact h.w)
   refine ⟨j, g,
@@ -412,7 +415,7 @@ private theorem exists_hom_on_affine_chart_of_limitFacts
     · simp [affineStageChartLiftOfLimitFacts]
   exact (Category.assoc _ _ _).symm.trans ((congrArg (fun t => t ≫ g) hh).trans he)
 
-private noncomputable def affineStageChartDiagramOfLimitFacts (i₀ : I)
+noncomputable def affineStageChartDiagramOfLimitFacts (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
@@ -461,8 +464,8 @@ private noncomputable def affineStageChartDiagramOfLimitFacts (i₀ : I)
       congrArg (AlgebraicGeometry.BigFppfOver.toScheme B S hS |>.map) hsrc
 }
 
-omit [IsCofiltered I] in
-private theorem affineStageChartDiagram_map_isAffineHom_of_limitFacts (i₀ : I)
+omit [IsCofiltered I] hD hAffine hQc hQs in
+theorem affineStageChartDiagram_map_isAffineHom_of_limitFacts (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
@@ -476,24 +479,25 @@ private theorem affineStageChartDiagram_map_isAffineHom_of_limitFacts (i₀ : I)
       ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj Cj.U)) := Cj.U.property
   let : IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
       ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj Ck.U)) := Ck.U.property
-  show _root_.AlgebraicGeometry.IsAffineHom ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
+  change _root_.AlgebraicGeometry.IsAffineHom ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
     (affineStageChartMapOfLimitFacts B S hS D i₀ U₀ q₀ hAff e))
   exact AlgebraicGeometry.isAffineHom_of_isAffine _
 
-omit [IsCofiltered I] in
-private theorem affineStageChartDiagram_obj_isAffine_of_limitFacts (i₀ : I)
+omit [IsCofiltered I] hD hAffine hQc hQs in
+theorem affineStageChartDiagram_obj_isAffine_of_limitFacts (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
       AlgebraicGeometry.Space.IsAffineHom B S hS (D.map f)) (j : Over i₀) :
     IsAffine ((affineStageChartDiagramOfLimitFacts B S hS D
       i₀ U₀ q₀ hAff).obj j) := by
-  show IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
+  change IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
     ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj
       (affineStageChartOfLimitFacts B S hS D i₀ U₀ q₀ hAff j).U))
   exact (affineStageChartOfLimitFacts B S hS D i₀ U₀ q₀ hAff j).U.property
 
-private theorem affineStageChartDiagram_obj_compact_of_limitFacts
+omit hD hAffine hQc hQs in
+theorem affineStageChartDiagram_obj_compact_of_limitFacts
     (_hFacts : LimitFacts B S hS D) (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -501,11 +505,12 @@ private theorem affineStageChartDiagram_obj_compact_of_limitFacts
       AlgebraicGeometry.Space.IsAffineHom B S hS (D.map f)) (j : Over i₀) :
     CompactSpace ((affineStageChartDiagramOfLimitFacts B S hS D
       i₀ U₀ q₀ hAff).obj j) := by
-  let := affineStageChartDiagram_obj_isAffine_of_limitFacts B S hS hZ D hD hAffine hQc hQs
+  let := affineStageChartDiagram_obj_isAffine_of_limitFacts B S hS D
     i₀ U₀ q₀ hAff j
   infer_instance
 
-private theorem affineStageChartDiagram_obj_quasiSeparated_of_limitFacts
+omit hD hAffine hQc hQs in
+theorem affineStageChartDiagram_obj_quasiSeparated_of_limitFacts
     (_hFacts : LimitFacts B S hS D) (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -513,11 +518,12 @@ private theorem affineStageChartDiagram_obj_quasiSeparated_of_limitFacts
       AlgebraicGeometry.Space.IsAffineHom B S hS (D.map f)) (j : Over i₀) :
     QuasiSeparatedSpace ((affineStageChartDiagramOfLimitFacts B S hS D
       i₀ U₀ q₀ hAff).obj j) := by
-  let := affineStageChartDiagram_obj_isAffine_of_limitFacts B S hS hZ D hD hAffine hQc hQs
+  let := affineStageChartDiagram_obj_isAffine_of_limitFacts B S hS D
     i₀ U₀ q₀ hAff j
   infer_instance
 
-private theorem affineStageChartScheme_model_of_finitePresentation_of_limitFacts
+omit hD hAffine hQc hQs in
+theorem affineStageChartScheme_model_of_finitePresentation_of_limitFacts
     (hFacts : LimitFacts B S hS D) (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -534,17 +540,18 @@ private theorem affineStageChartScheme_model_of_finitePresentation_of_limitFacts
     i₀ U₀ q₀ hAff
   let : ∀ {j k : Over i₀} (e : j ⟶ k), _root_.AlgebraicGeometry.IsAffineHom (E.map e) := by
     intro j k e
-    exact affineStageChartDiagram_map_isAffineHom_of_limitFacts B S hS hZ D hD hAffine hQc hQs
+    exact affineStageChartDiagram_map_isAffineHom_of_limitFacts B S hS D
       i₀ U₀ q₀ hAff e
   let : ∀ j : Over i₀, CompactSpace (E.obj j) := fun j =>
-    affineStageChartDiagram_obj_compact_of_limitFacts B S hS hZ D hD hAffine hQc hQs hFacts
+    affineStageChartDiagram_obj_compact_of_limitFacts B S hS D hFacts
       i₀ U₀ q₀ hAff j
   let : ∀ j : Over i₀, QuasiSeparatedSpace (E.obj j) := fun j =>
-    affineStageChartDiagram_obj_quasiSeparated_of_limitFacts B S hS hZ D hD hAffine hQc hQs hFacts
+    affineStageChartDiagram_obj_quasiSeparated_of_limitFacts B S hS D hFacts
       i₀ U₀ q₀ hAff j
   exact scheme_model_of_finitePresentation E c hc X hFp
 
-private theorem exists_affine_limit_atlas_of_limitFacts
+omit hAffine hQs in
+theorem exists_affine_limit_atlas_of_limitFacts
     (hFacts : LimitFacts B S hS D) (i : I) :
     ∃ (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
       (U : AlgebraicGeometry.BigAffineFppf B S hS) (p : yoneda.obj U.obj ⟶ limit D)
@@ -570,7 +577,8 @@ private theorem exists_affine_limit_atlas_of_limitFacts
   exact ⟨U₀', p₀, U, p, q, hp, P.presheaf.of_isPullback hp.flip hs,
     Q.presheaf.of_isPullback hp.flip (represented_etale_of_isEtale B S hS p₀ he)⟩
 
-private theorem exists_model_over_affine_chart_of_limitFacts
+omit hD hQc hQs in
+theorem exists_model_over_affine_chart_of_limitFacts
     (hFacts : LimitFacts B S hS D) (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (U : AlgebraicGeometry.BigAffineFppf B S hS) (p : yoneda.obj U.obj ⟶ limit D)
@@ -606,7 +614,8 @@ private theorem exists_model_over_affine_chart_of_limitFacts
       (Over.mk ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g)) hg
     exact ⟨j, Wj, hWj, fun h => (hW h).elim, e⟩
 
-private theorem exists_affine_model_over_affine_chart_of_limitFacts
+omit hD hQc hQs in
+theorem exists_affine_model_over_affine_chart_of_limitFacts
     (hFacts : LimitFacts B S hS D) (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (U : AlgebraicGeometry.BigAffineFppf B S hS) (p : yoneda.obj U.obj ⟶ limit D)
@@ -624,11 +633,12 @@ private theorem exists_affine_model_over_affine_chart_of_limitFacts
         (Over.pullback
           ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (c.π.app j).left)).obj Wj) := by
   dsimp only
-  obtain ⟨j, Wj, hWj, hWa, e⟩ := exists_model_over_affine_chart_of_limitFacts B S hS hZ D hD
-    hAffine hQc hQs hFacts i U₀ p₀ U p q hp W g hg
+  obtain ⟨j, Wj, hWj, hWa, e⟩ := exists_model_over_affine_chart_of_limitFacts B S hS D
+    hAffine hFacts i U₀ p₀ U p q hp W g hg
   exact ⟨j, Wj, hWj, hWa ‹_›, e⟩
 
-private theorem exists_site_model_over_affine_chart_of_limitFacts
+omit hQc in
+theorem exists_site_model_over_affine_chart_of_limitFacts
     (hFacts : LimitFacts B S hS D) (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (hp₀ : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
@@ -646,17 +656,17 @@ private theorem exists_site_model_over_affine_chart_of_limitFacts
       IsPullback (yoneda.map a) (yoneda.map g ≫ p) v (limit.π D j.left) := by
   let c := affineStageChartConeOfLimitFacts B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  obtain ⟨j, V₀, hV₀, hV₀aff, ⟨e⟩⟩ := exists_model_over_affine_chart_of_limitFacts B S hS hZ D hD
-    hAffine hQc hQs hFacts i U₀ p₀ U p q hp W g hg
+  obtain ⟨j, V₀, hV₀, hV₀aff, ⟨e⟩⟩ := exists_model_over_affine_chart_of_limitFacts B S hS D
+    hAffine hFacts i U₀ p₀ U p q hp W g hg
   let Cj := affineStageChartOfLimitFacts B S hS D i U₀ p₀ hAffine j
   let b : U.obj ⟶ Cj.U.obj := (c.π.app j).left
   obtain ⟨V, f, a, hf, ⟨eV⟩, ha⟩ := exists_site_pullback_model B S hS b g V₀ hV₀ e
   have hbp : yoneda.map b ≫ Cj.toStage = p ≫ limit.π D j.left := by
-    show yoneda.map (affineStageChartLiftOfLimitFacts B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLiftOfLimitFacts B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         (affineStageChartOfLimitFacts B S hS D i U₀ p₀ hAffine j).toStage = p ≫ limit.π D j.left
     simp [affineStageChartLiftOfLimitFacts]
   have hbq : yoneda.map b ≫ yoneda.map Cj.toChart = yoneda.map q := by
-    show yoneda.map (affineStageChartLiftOfLimitFacts B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLiftOfLimitFacts B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         yoneda.map (affineStageChartOfLimitFacts B S hS D i U₀ p₀ hAffine j).toChart = yoneda.map q
     simp [affineStageChartLiftOfLimitFacts]
   have hU : IsPullback (yoneda.map b) p Cj.toStage (limit.π D j.left) := by
@@ -686,7 +696,8 @@ private theorem exists_site_model_over_affine_chart_of_limitFacts
       Cj.U.obj)).map eV.hom))
   exact IsAffine.of_isIso eV.hom.left
 
-private theorem exists_affine_site_model_over_affine_chart_of_limitFacts
+omit hQc in
+theorem exists_affine_site_model_over_affine_chart_of_limitFacts
     (hFacts : LimitFacts B S hS D) (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (hp₀ : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
@@ -703,7 +714,7 @@ private theorem exists_affine_site_model_over_affine_chart_of_limitFacts
       IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj V) ∧
       IsPullback (yoneda.map a) (yoneda.map g ≫ p) v (limit.π D j.left) := by
   obtain ⟨j, V, v, a, hv, hV, ha⟩ := exists_site_model_over_affine_chart_of_limitFacts B S hS hZ D
-    hD hAffine hQc hQs hFacts i U₀ p₀ hp₀ U p q hp W g hg
+    hD hAffine hQs hFacts i U₀ p₀ hp₀ U p q hp W g hg
   exact ⟨j, V, v, a, hv, hV ‹_›, ha⟩
 
 end AlgebraicGeometry.Space

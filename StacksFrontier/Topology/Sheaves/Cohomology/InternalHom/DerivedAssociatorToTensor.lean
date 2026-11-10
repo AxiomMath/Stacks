@@ -95,7 +95,7 @@ def derivedToTensorHom (A B : CochainComplex (StructureSheafModules Rc) ℤ) :
 
 /-- On two K-flat complexes the canonical map is the K-flat comparison. -/
 theorem derivedToTensorHom_eq_comparisonHom (A B : CochainComplex (StructureSheafModules Rc) ℤ)
-    (hA : KFlat.KFlat Rc A) (hB : KFlat.KFlat Rc B) :
+    (hA : KFlat Rc A) (hB : KFlat Rc B) :
     derivedToTensorHom Rc A B = derivedTensorComparisonHom Rc A B hA hB := by
   rw [derivedToTensorHom, derivedTensorComparisonHom,
     (canonicalDerivedTensorProduct (ringedSite Rc)).toTensor_eq_comparisonRight A B hB,
@@ -114,7 +114,7 @@ theorem derivedToTensorHom_naturality {A A' B B' : CochainComplex (StructureShea
 /-- On K-flat complexes `A`, `B`, `D`, the associativity constraint of `D(O_X)` is carried by
 the canonical map `derivedToTensorHom` to the associator of total tensor complexes. -/
 theorem derivedAssociator_toTensor_of_kFlat (A B D : CochainComplex (StructureSheafModules Rc) ℤ)
-    (hA : KFlat.KFlat Rc A) (hB : KFlat.KFlat Rc B) (hD : KFlat.KFlat Rc D) :
+    (hA : KFlat Rc A) (hB : KFlat Rc B) (hD : KFlat Rc D) :
     derivedWhiskerRight Rc (derivedToTensorHom Rc A B) (DerivedCategory.Q.obj D) ≫
         derivedToTensorHom Rc (A ⊗ B) D ≫ complexAssociatorHomSpace Rc A B D =
       derivedAssociatorHom Rc (DerivedCategory.Q.obj A) (DerivedCategory.Q.obj B)
@@ -146,7 +146,7 @@ theorem derivedAssociatorHom_naturality
 /-- Every complex receives a K-flat complex by a map that becomes invertible in `D(O_X)`. -/
 private theorem exists_kFlat_isIso_Q_map (A : CochainComplex (StructureSheafModules Rc) ℤ) :
     ∃ (A' : CochainComplex (StructureSheafModules Rc) ℤ) (a : A' ⟶ A),
-      KFlat.KFlat Rc A' ∧ IsIso (DerivedCategory.Q.map a) := by
+      KFlat Rc A' ∧ IsIso (DerivedCategory.Q.map a) := by
   obtain ⟨A', a, hA', h⟩ := Stacks.DerivedTensor.RingedSite.exists_kFlat_quasiIso Rc A
   exact ⟨A', a, hA', (DerivedCategory.isIso_Q_map_iff_quasiIso _ _).2 h⟩
 

@@ -109,8 +109,7 @@ theorem range_idealPowerSmulLift (I : Ideal R) (M₀ : Type v) [AddCommGroup M�
     LinearMap.range (idealPowerSmulLift I M₀ k) = I ^ k • (⊤ : Submodule R M₀) := by
   refine le_antisymm ?_ (Submodule.smul_le.2 fun r hr x _ ↦ ⟨⟨r, hr⟩ ⊗ₜ[R] x, rfl⟩)
   rintro _ ⟨ξ, rfl⟩
-  induction ξ using TensorProduct.induction_on with
-  | zero => simpa only [map_zero] using Submodule.zero_mem _
+  induction ξ using TensorProduct.inductionOn with
   | tmul a x => exact Submodule.smul_mem_smul a.2 Submodule.mem_top
   | add ξ ξ' hξ hξ' => simpa only [map_add] using Submodule.add_mem _ hξ hξ'
 
@@ -127,8 +126,7 @@ theorem idealPowerSmulLift_map_inclusion {I : Ideal R} {M₀ : Type v} [AddCommG
     idealPowerSmulLift I M₀ k' (TensorProduct.map
         (Submodule.inclusion (Ideal.pow_le_pow_right hk)) LinearMap.id ξ) =
       idealPowerSmulLift I M₀ k ξ := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction ξ using TensorProduct.inductionOn with
   | tmul a x => rfl
   | add ξ ξ' hξ hξ' => simp only [map_add, hξ, hξ']
 
@@ -223,8 +221,7 @@ theorem mulTopTensor_tmul ⦃k m : ℕ⦄ (h : m ≤ k) (a : ↥(I ^ k)) (x : M�
 product. -/
 theorem proj_mulTopTensor ⦃k m : ℕ⦄ (h : m ≤ k) (ξ : ↥(I ^ k) ⊗[R] M₀) :
     S.proj m (S.mulTopTensor h ξ) = idealPowerSmulLift I M₀ k ξ := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction ξ using TensorProduct.inductionOn with
   | tmul a x => exact S.proj_mulTop h a x
   | add ξ ξ' hξ hξ' => simp only [map_add, hξ, hξ']
 
@@ -236,8 +233,7 @@ theorem tr_mulTopTensor_inclusion {k k' m m' j : ℕ} (hk : k' ≤ k) (h : m ≤
     S.tr hj (S.mulTopTensor h ξ) =
       S.tr hj' (S.mulTopTensor h' (TensorProduct.map
         (Submodule.inclusion (Ideal.pow_le_pow_right hk)) LinearMap.id ξ)) := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction ξ using TensorProduct.inductionOn with
   | tmul a x =>
       rw [TensorProduct.map_tmul, mulTopTensor_tmul, mulTopTensor_tmul,
         S.tr_mulTop h (hj.trans h) hj, S.tr_mulTop h' (hj'.trans h') hj']
@@ -249,8 +245,7 @@ theorem tr_mulTopTensor_inclusion {k k' m m' j : ℕ} (hk : k' ≤ k) (h : m ≤
 theorem idealPowerSmulLift_map_proj (k n : ℕ) (ζ : ↥(I ^ k) ⊗[R] M n) :
     idealPowerSmulLift I M₀ k (TensorProduct.map LinearMap.id (S.proj n) ζ) =
       S.proj (k + n) (S.mulTensor k n ζ) := by
-  induction ζ using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction ζ using TensorProduct.inductionOn with
   | tmul a x => exact (S.proj_mul k n a x).symm
   | add ζ ζ' hζ hζ' => simp only [map_add, hζ, hζ']
 
@@ -260,8 +255,7 @@ product itself to `M_j`: the identity that makes the composite `Mₙ → IⁿM�
 theorem tr_mulTopTensor_map_proj {k n j : ℕ} (hj : j ≤ k) (ζ : ↥(I ^ k) ⊗[R] M n) :
     S.tr hj (S.mulTopTensor (le_refl k) (TensorProduct.map LinearMap.id (S.proj n) ζ)) =
       S.tr (hj.trans (Nat.le_add_right k n)) (S.mulTensor k n ζ) := by
-  induction ζ using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction ζ using TensorProduct.inductionOn with
   | tmul a x =>
       rw [TensorProduct.map_tmul, mulTensor_tmul, mulTopTensor_tmul,
         ← S.tr_tr hj (Nat.le_add_right k n), S.tr_mul_eq_mulTop_proj]
@@ -312,7 +306,7 @@ theorem quotEquiv_apply {n : ℕ} (ξ : ↥(I ^ n) ⊗[R] M₀)
       (LinearMap.range (idealPowerSmulLift I M₀ n))
       (range_idealPowerSmulLift I M₀ n).symm) y =
       ⟨idealPowerSmulLift I M₀ n ξ, LinearMap.mem_range_self _ ξ⟩ := Subtype.ext hy
-  show (LinearMap.quotKerEquivRange (idealPowerSmulLift I M₀ n)).symm
+  change (LinearMap.quotKerEquivRange (idealPowerSmulLift I M₀ n)).symm
       ((LinearEquiv.ofEq _ _ (range_idealPowerSmulLift I M₀ n).symm) y) = _
   rw [h1, LinearMap.quotKerEquivRange_symm_apply_image]
   rfl
@@ -333,7 +327,7 @@ theorem comparison_apply {n j : ℕ} (hj : j + c ≤ n) (ξ : ↥(I ^ n) ⊗[R] 
     (y : ↥(I ^ n • (⊤ : Submodule R M₀))) (hy : (y : M₀) = idealPowerSmulLift I M₀ n ξ) :
     S.comparison c hker n j hj y =
       S.tr ((Nat.le_add_right j c).trans hj) (S.mulTopTensor (le_refl n) ξ) := by
-  show Submodule.liftQ _ _ (S.ker_idealPowerSmulLift_le c hker hj)
+  change Submodule.liftQ _ _ (S.ker_idealPowerSmulLift_le c hker hj)
     (quotEquiv (I := I) (M₀ := M₀) n y) = _
   rw [quotEquiv_apply ξ y hy]
   exact Submodule.liftQ_apply _ _ ξ

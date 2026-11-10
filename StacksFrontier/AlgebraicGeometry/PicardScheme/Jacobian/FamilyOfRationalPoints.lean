@@ -42,7 +42,7 @@ theorem baseChange_familyOfPoints {S : Scheme.{u}} (X : Over S) [SmoothOfRelativ
     Stacks.Hilbert.baseChange X g (familyOfPoints X T x) =
       familyOfPoints X T' fun i => g ≫ x i := by
   refine HilbertFamily.ext ?_
-  show (familyOfPoints X T x).ideal.comap (familyBaseChangeMap X g) = _
+  change (familyOfPoints X T x).ideal.comap (familyBaseChangeMap X g) = _
   rw [familyOfPoints_ideal, familyOfPoints_ideal, Stacks.IdealSheaf.comap_prod]
   refine Finset.prod_congr rfl fun i _ => ?_
   have := isClosedImmersion_pointGraph_of_isSeparated X _ (x i)
@@ -108,11 +108,11 @@ theorem exists_familyOfPoints_eq (X : Over (Spec (.of k))) [SmoothOfRelativeDime
       rintro _ ⟨t, rfl⟩
       have hpt : pointGraph X (fieldPoint k) x₀' t = z := by
         apply (asIso p).hom.homeomorph.injective
-        show p (pointGraph X (fieldPoint k) x₀' t) = p z
+        change p (pointGraph X (fieldPoint k) x₀' t) = p z
         rw [← Scheme.Hom.comp_apply]
         have hc : pointGraph X (fieldPoint k) x₀' ≫ pullback.fst X.hom (𝟙 _) = x₀ :=
           pullback.lift_fst _ _ _
-        show (pointGraph X (fieldPoint k) x₀' ≫ pullback.fst X.hom (𝟙 _)) t = p z
+        change (pointGraph X (fieldPoint k) x₀' ≫ pullback.fst X.hom (𝟙 _)) t = p z
         rw [hc]
         exact pointOfClosedPoint_apply _ _ _ _
       rw [hpt, ← Scheme.IdealSheafData.range_subschemeι]

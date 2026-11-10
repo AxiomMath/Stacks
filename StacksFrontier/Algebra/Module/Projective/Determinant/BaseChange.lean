@@ -59,8 +59,7 @@ variable (R : Type*) [CommRing R] (A : Type*) [CommRing A] [Algebra R A]
 theorem tensorProduct_span_one_tmul :
     Submodule.span A (Set.range (TensorProduct.mk R A M 1)) = ⊤ := by
   refine Submodule.eq_top_iff'.mpr fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => exact Submodule.zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul a m =>
       have h : (1 : A) ⊗ₜ[R] m ∈ Submodule.span A (Set.range (TensorProduct.mk R A M 1)) :=
         Submodule.subset_span ⟨m, rfl⟩
@@ -164,7 +163,7 @@ theorem rankIdempotent_baseChange (n : ℕ) :
     (rankLocus_isClopen (R := A) (M := A ⊗[R] M) n))).2
   refine ⟨(rankIdempotent_spec (R := R) (M := M) n).1.map _, ?_⟩
   ext p
-  show Module.rankAtStalk (A ⊗[R] M) p = n ↔ _
+  change Module.rankAtStalk (A ⊗[R] M) p = n ↔ _
   rw [Module.rankAtStalk_baseChange]
   exact Set.ext_iff.mp (rankIdempotent_spec (R := R) (M := M) n).2
     (PrimeSpectrum.comap (algebraMap R A) p)

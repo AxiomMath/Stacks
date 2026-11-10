@@ -109,7 +109,7 @@ theorem subsingleton_sheafH_etaleRestriction_genericPointDirectImage {k : Type u
     Subsingleton (Sheaf.H.{u + 1, u + 1} ((etaleRestriction.{u, u + 1} U.ι).obj
       ((genericPointDirectImage.{u, u + 1} X).obj
         (Stacks.Kummer.multiplicativeSheaf.{u, u + 1} (Spec X.functionField)))) p) := by
-  letI := functionFieldAlgebra k g
+  let := functionFieldAlgebra k g
   have : ∀ Y : Scheme.{u}, (Sheaf.Γ Y.smallEtaleTopology AddCommGrpCat.{u + 1}).Additive :=
     fun Y => Stacks.Cohomology.GlobalSections.additive_Γ.{u + 1} Y.smallEtaleTopology
   have : (etaleAbelianDirectImage.{u, u + 1} (genericPointInclusion X)).PreservesInjectiveObjects :=

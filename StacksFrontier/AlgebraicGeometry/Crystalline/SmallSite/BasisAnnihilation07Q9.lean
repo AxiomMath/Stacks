@@ -129,18 +129,18 @@ theorem homologyπ_app_zsmul_eq_zero
   have hx : (((((sheafSections (opensTopology S) AddCommGrpCat.{u + 1}).obj
       (op W)).mapHomologicalComplex _).obj K).sc j).g
       ((K.sc j).iCycles.hom.app (op W) z) = 0 := by
-    show ((K.sc j).iCycles ≫ (K.sc j).g).hom.app (op W) z = 0
+    change ((K.sc j).iCycles ≫ (K.sc j).g).hom.app (op W) z = 0
     rw [(K.sc j).iCycles_g]
     rfl
   obtain ⟨y, hy⟩ := Stacks.Triangulated.exists_f_eq_smul_of_smul_id_homology_eq_zero _ q hW _ hx
   have hyz : (K.sc j).toCycles.hom.app (op W) y = q • z := by
     apply hmono
     refine Eq.trans ?_ (hy.trans (map_zsmul _ q z).symm)
-    show ((K.sc j).toCycles ≫ (K.sc j).iCycles).hom.app (op W) y = _
+    change ((K.sc j).toCycles ≫ (K.sc j).iCycles).hom.app (op W) y = _
     rw [(K.sc j).toCycles_i]
     rfl
   rw [← hyz]
-  show ((K.sc j).toCycles ≫ (K.sc j).homologyπ).hom.app (op W) y = 0
+  change ((K.sc j).toCycles ≫ (K.sc j).homologyπ).hom.app (op W) y = 0
   rw [(K.sc j).toCycles_comp_homologyπ]
   rfl
 
@@ -162,7 +162,7 @@ theorem smul_id_homology_eq_zero_of_isBasis
   have hπ : q • (K.sc j).homologyπ = 0 := by
     refine Sheaf.hom_ext ?_
     ext V z
-    show AddCommGrpCat.Hom.hom (q • (K.sc j).homologyπ.hom.app V) z = 0
+    change AddCommGrpCat.Hom.hom (q • (K.sc j).homologyπ.hom.app V) z = 0
     rw [AddCommGrpCat.hom_zsmul, AddMonoidHom.smul_apply, ← map_zsmul]
     refine TopCat.Sheaf.eq_of_locally_eq' (F := (K.sc j).homology)
       (fun i : {W : S.X.Opens // W ∈ ℬ ∧ W ≤ V.unop} => i.1) V.unop
@@ -172,7 +172,7 @@ theorem smul_id_homology_eq_zero_of_isBasis
       exact Opens.mem_iSup.2 ⟨⟨U', hU'ℬ, hU'V⟩, hxU'⟩
     · rw [map_zero, ← NatTrans.naturality_apply, map_zsmul]
       exact homologyπ_app_zsmul_eq_zero S K j q i.1 (h i.1 i.2.1) _
-  show q • 𝟙 (K.sc j).homology = 0
+  change q • 𝟙 (K.sc j).homology = 0
   rw [← cancel_epi (K.sc j).homologyπ, comp_zero, Preadditive.comp_zsmul, Category.comp_id]
   exact hπ
 

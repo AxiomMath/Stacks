@@ -89,7 +89,7 @@ theorem surjOn_fibrePoints_baseChange (D : PointsFibresDiagram B S hS)
   obtain ⟨w', hw'r, hw'q⟩ :=
     exists_points_of_isPullback B S hS sq w z' (by rw [hwq])
   refine ⟨w', ⟨?_, hw'q⟩, hw'r⟩
-  show pointsMap B S hS W' (r ≫ D.p) w' = x
+  change pointsMap B S hS W' (r ≫ D.p) w' = x
   rw [pointsMap_comp_apply, hw'r, hwp]
 
 end AlgebraicGeometry.Space

@@ -68,7 +68,7 @@ theorem fibreDifference_apply_eq_zero_of_relativeDimension_ne
     (W : (projectiveLineProduct f).IdealSheafData) {x : X}
     (hx : relativeDimension C.dimensionFunction f x ≠ k) :
     (fibreDifference C f k W).1 x = 0 := by
-  show (cycleAssociatedToClosedSubscheme C f (zeroFiber f W).subschemeι k).1 x -
+  change (cycleAssociatedToClosedSubscheme C f (zeroFiber f W).subschemeι k).1 x -
     (cycleAssociatedToClosedSubscheme C f (infinityFiber f W).subschemeι k).1 x = 0
   rw [cycleAssociatedToClosedSubscheme_apply_eq_zero_of_relativeDimension_ne C f
       (zeroFiber f W).subschemeι k hx,
@@ -111,7 +111,7 @@ theorem fibreDifference_apply_eq_finsum_componentFamily
     (fibreDifference C f k Z).1 x =
       ∑ᶠ j : componentIndex C f k Z, (fibreDifference C f k (componentFamily C f k Z j)).1 x := by
   by_cases hx : relativeDimension C.dimensionFunction f x = k
-  · show (cycleAssociatedToClosedSubscheme C f (zeroFiber f Z).subschemeι k).1 x -
+  · change (cycleAssociatedToClosedSubscheme C f (zeroFiber f Z).subschemeι k).1 x -
       (cycleAssociatedToClosedSubscheme C f (infinityFiber f Z).subschemeι k).1 x = _
     rw [cycleAssociatedToZeroFiber_apply_eq_finsum_componentFamily C f k Z hZ h₀ hAssociated hx,
       cycleAssociatedToInfinityFiber_apply_eq_finsum_componentFamily C f k Z hZ hInf

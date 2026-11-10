@@ -101,7 +101,7 @@ torsion-free. -/
 private lemma isTorsionFree_sheafify_free (Q : Dᵒᵖ ⥤ Type v) (X : Dᵒᵖ) :
     Module.IsTorsionFree ℤ (((presheafToSheaf K Ab.{v}).obj (Q ⋙ AddCommGrpCat.free)).obj.obj X) :=
   ModuleSheafCohomology.isTorsionFree_sheafify K _ (fun Y => by
-    show Module.IsTorsionFree ℤ (FreeAbelianGroup (Q.obj Y))
+    change Module.IsTorsionFree ℤ (FreeAbelianGroup (Q.obj Y))
     exact Module.Flat.isTorsionFree) X
 
 /-- Every abelian sheaf is an epimorphic image of a sectionwise torsion-free one, namely of the
@@ -116,7 +116,7 @@ private lemma exists_isTorsionFree_epi (F : Sheaf K Ab.{v}) :
         apply AddCommGrpCat.hom_ext
         apply FreeAbelianGroup.lift_ext
         intro x
-        show FreeAbelianGroup.lift (fun x => x)
+        change FreeAbelianGroup.lift (fun x => x)
             (FreeAbelianGroup.map (F.obj.map f) (FreeAbelianGroup.of x)) =
           F.obj.map f (FreeAbelianGroup.lift (fun x => x) (FreeAbelianGroup.of x))
         simp }
@@ -330,7 +330,7 @@ private lemma sectionHomAddEquiv_comp (R : Sheaf J RingCat.{u}) (U : C)
       f.val.app (op U) (sectionHomAddEquiv J R U M a) := by
   have h := ConcreteCategory.congr_hom
     ((tensorSheafHomIso J R (yoneda.obj U ⋙ AddCommGrpCat.free)).hom.naturality f) a
-  show ModuleSheafCohomology.freeEvaluationHomAddEquiv U N.val.presheaf
+  change ModuleSheafCohomology.freeEvaluationHomAddEquiv U N.val.presheaf
       ((sheafificationAdjunction J Ab.{u}).homEquiv _ _
         (((tensorSheafHomIso J R (yoneda.obj U ⋙ AddCommGrpCat.free)).hom.app N) (a ≫ f))) =
     f.val.app (op U) (ModuleSheafCohomology.freeEvaluationHomAddEquiv U M.val.presheaf
@@ -423,7 +423,7 @@ public theorem subsingleton_rightDerived_evaluation {C : Type u'} [Category.{u} 
       (sectionObject_ext_subsingleton J R F U (n + 1) hF).elim _ _
     obtain ⟨b, hb⟩ := (I.extMk_eq_zero_iff a (n + 2) rfl ha n rfl).mp he
     refine ⟨sectionHomAddEquiv J R U (I.cocomplex.X n) b, ?_⟩
-    show (I.cocomplex.d n (n + 1)).val.app (op U) _ = x
+    change (I.cocomplex.d n (n + 1)).val.app (op U) _ = x
     rw [← sectionHomAddEquiv_comp, hb, hax]
   exact ModuleCat.isZero_iff_subsingleton.mp
     (hex.isZero_homology.of_iso (I.isoRightDerivedObj E (n + 1)))

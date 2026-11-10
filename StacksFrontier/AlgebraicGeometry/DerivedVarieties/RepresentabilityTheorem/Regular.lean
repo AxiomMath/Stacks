@@ -125,7 +125,7 @@ theorem exists_iso_linearCoyoneda_of_representability
   have hF : ∀ {E E' : (perfectDerived X.left)ᵒᵖ} (f : E ⟶ E') (r : k),
       F.map ((r • f.unop).op) = r • F.map f := by
     intro E E' f r
-    show G.map (D.map (r • f.unop).op) = r • G.map (D.map f.unop.op)
+    change G.map (D.map (r • f.unop).op) = r • G.map (D.map f.unop.op)
     rw [perfectDerivedDual_map_smul, hG]
   have hFfin : ∀ E : perfectDerived X.left,
       Cardinal.sum (fun n : ℤ => Module.rank k (F.obj (op (E⟦n⟧)))) < Cardinal.aleph0 := by

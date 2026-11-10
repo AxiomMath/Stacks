@@ -66,12 +66,14 @@ variable {F L Ω κ : Type u} [Field F] [Field L] [Field Ω] [Field κ]
   (E : IntermediateField F L)
   (hE : ∀ z : Ω, z ∈ Set.range (algebraMap κ Ω) ↔ ∃ e ∈ E, algebraMap L Ω e = z)
 
+omit [IsSepClosed L] [Algebra.IsSeparable F L] in
 include hE in
 /-- The image of `F` in `Ω` lies in the image of `κ`. -/
 theorem algebraMap_mem_range_of_sepClosure (f : F) :
     algebraMap F Ω f ∈ Set.range (algebraMap κ Ω) :=
   (hE _).2 ⟨algebraMap F L f, E.algebraMap_mem f, (IsScalarTower.algebraMap_apply F L Ω f).symm⟩
 
+omit [IsSepClosed L] in
 include hE in
 /-- Every element of `L` is separable over `κ` inside `Ω`. -/
 theorem algebraMap_mem_separableClosure (l : L) :
@@ -81,6 +83,7 @@ theorem algebraMap_mem_separableClosure (l : L) :
   exact (Algebra.IsSeparable.isSeparable F l).map (IsScalarTower.toAlgHom F L Ω)
     (algebraMap L Ω).injective
 
+omit [Algebra F Ω] [IsScalarTower F L Ω] [Algebra.IsSeparable F L] in
 include hE in
 /-- Every element of `Ω` separable over `κ` comes from `L`. -/
 theorem exists_algebraMap_eq_of_mem_separableClosure {z : Ω} (hz : z ∈ separableClosure κ Ω) :
@@ -115,7 +118,7 @@ theorem exists_sepClosureRingEquiv_eq_algebraMap {e : L} (he : e ∈ E) :
   exact ⟨c, Subtype.ext hc.symm⟩
 
 /-- The `F`-automorphism of `L` induced by a `κ`-automorphism of `κ^{sep}`. -/
-def sepClosureAutToGalAux (σ : Gal(separableClosure κ Ω / κ)) : Gal(L / F) :=
+def sepClosureAutToGalAux (σ : Gal(separableClosure κ Ω/κ)) : Gal(L/F) :=
   AlgEquiv.ofRingEquiv (f := (sepClosureRingEquiv E hE).trans
       (σ.toRingEquiv.trans (sepClosureRingEquiv E hE).symm)) (fun f => by
     obtain ⟨c, hc⟩ := exists_sepClosureRingEquiv_eq_algebraMap E hE (E.algebraMap_mem f)
@@ -123,7 +126,7 @@ def sepClosureAutToGalAux (σ : Gal(separableClosure κ Ω / κ)) : Gal(L / F) :
     rw [hc, σ.commutes, ← hc, RingEquiv.symm_apply_apply])
 
 /-- `sepClosureAutToGalAux E hE σ` is `σ` conjugated by `sepClosureRingEquiv E hE`. -/
-theorem sepClosureAutToGalAux_apply (σ : Gal(separableClosure κ Ω / κ)) (l : L) :
+theorem sepClosureAutToGalAux_apply (σ : Gal(separableClosure κ Ω/κ)) (l : L) :
     sepClosureAutToGalAux E hE σ l =
       (sepClosureRingEquiv E hE).symm (σ (sepClosureRingEquiv E hE l)) := rfl
 
@@ -143,12 +146,12 @@ def sepClosureAutToGal : Gal(separableClosure κ Ω / κ) →* Gal(L / F) where
     rfl
 
 /-- `sepClosureRingEquiv E hE` intertwines `sepClosureAutToGal E hE σ` with `σ`. -/
-theorem sepClosureRingEquiv_sepClosureAutToGal (σ : Gal(separableClosure κ Ω / κ)) (l : L) :
+theorem sepClosureRingEquiv_sepClosureAutToGal (σ : Gal(separableClosure κ Ω/κ)) (l : L) :
     sepClosureRingEquiv E hE (sepClosureAutToGal E hE σ l) = σ (sepClosureRingEquiv E hE l) :=
   RingEquiv.apply_symm_apply _ _
 
 /-- **The characterization of the restriction map**: `σ` and its image agree on `L ⊆ Ω`. -/
-theorem algebraMap_sepClosureAutToGal (σ : Gal(separableClosure κ Ω / κ)) (l : L) :
+theorem algebraMap_sepClosureAutToGal (σ : Gal(separableClosure κ Ω/κ)) (l : L) :
     algebraMap L Ω (sepClosureAutToGal E hE σ l) =
       (σ ⟨algebraMap L Ω l, algebraMap_mem_separableClosure E hE l⟩ : Ω) :=
   congrArg Subtype.val (sepClosureRingEquiv_sepClosureAutToGal E hE σ l)
@@ -161,7 +164,7 @@ theorem sepClosureAutToGal_injective : Function.Injective (sepClosureAutToGal E 
   rw [← sepClosureRingEquiv_sepClosureAutToGal, ← sepClosureRingEquiv_sepClosureAutToGal, h]
 
 /-- The `κ`-automorphism of `κ^{sep}` induced by an element of `Gal(L/F)` fixing `E`. -/
-def sepClosureAutOfFixing (g : Gal(L / F)) (hg : ∀ e ∈ E, g e = e) :
+def sepClosureAutOfFixing (g : Gal(L/F)) (hg : ∀ e ∈ E, g e = e) :
     Gal(separableClosure κ Ω / κ) :=
   AlgEquiv.ofRingEquiv (f := (sepClosureRingEquiv E hE).symm.trans
       (g.toRingEquiv.trans (sepClosureRingEquiv E hE))) (fun c => by
@@ -173,7 +176,7 @@ def sepClosureAutOfFixing (g : Gal(L / F)) (hg : ∀ e ∈ E, g e = e) :
     rw [← h1, RingEquiv.symm_apply_apply, hg e he])
 
 /-- **The image of the restriction map is the fixing subgroup of `E`.** -/
-theorem mem_range_sepClosureAutToGal_iff (g : Gal(L / F)) :
+theorem mem_range_sepClosureAutToGal_iff (g : Gal(L/F)) :
     g ∈ (sepClosureAutToGal E hE).range ↔ g ∈ E.fixingSubgroup := by
   constructor
   · rintro ⟨σ, rfl⟩
@@ -186,7 +189,7 @@ theorem mem_range_sepClosureAutToGal_iff (g : Gal(L / F)) :
     rw [IntermediateField.mem_fixingSubgroup_iff] at hg
     refine ⟨sepClosureAutOfFixing E hE g hg, ?_⟩
     ext l
-    show (sepClosureRingEquiv E hE).symm (sepClosureRingEquiv E hE
+    change (sepClosureRingEquiv E hE).symm (sepClosureRingEquiv E hE
       (g ((sepClosureRingEquiv E hE).symm (sepClosureRingEquiv E hE l)))) = g l
     rw [RingEquiv.symm_apply_apply, RingEquiv.symm_apply_apply]
 
@@ -241,12 +244,12 @@ def sepClosureAutHomeomorphFixingSubgroup :
 
 /-- The homeomorphism `sepClosureAutHomeomorphFixingSubgroup E hE` is the restriction map
 `sepClosureAutToGal E hE`. -/
-theorem coe_sepClosureAutHomeomorphFixingSubgroup (σ : Gal(separableClosure κ Ω / κ)) :
+theorem coe_sepClosureAutHomeomorphFixingSubgroup (σ : Gal(separableClosure κ Ω/κ)) :
     (sepClosureAutHomeomorphFixingSubgroup E hE σ : Gal(L / F)) = sepClosureAutToGal E hE σ :=
   rfl
 
 /-- The homeomorphism `sepClosureAutHomeomorphFixingSubgroup E hE` is multiplicative. -/
-theorem sepClosureAutHomeomorphFixingSubgroup_mul (σ τ : Gal(separableClosure κ Ω / κ)) :
+theorem sepClosureAutHomeomorphFixingSubgroup_mul (σ τ : Gal(separableClosure κ Ω/κ)) :
     sepClosureAutHomeomorphFixingSubgroup E hE (σ * τ) =
       sepClosureAutHomeomorphFixingSubgroup E hE σ *
         sepClosureAutHomeomorphFixingSubgroup E hE τ :=

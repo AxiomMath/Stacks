@@ -145,7 +145,7 @@ immersion `j` onto one `W i`. Then they hold for `j_! j^{-1} F` for every open i
 a finite union of the `W i`. -/
 theorem CurveStatements.extensionByZero_etaleAbelianInverseImage_of_range_eq_biUnion
     {k : Type u} [Field k] {X : Scheme.{u}} [IsNoetherian X] (π : X ⟶ Spec (.of k))
-    (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}) {ι : Type*} [DecidableEq ι]
+    (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}) {ι : Type*}
     {W : ι → Set X} (hWo : ∀ i, IsOpen (W i)) (hWdisj : Pairwise (Function.onFun Disjoint W))
     (hW : ∀ (i : ι) (V : Scheme.{u}) (j : V ⟶ X) [IsOpenImmersion j], Set.range j.base = W i →
       CurveStatements.{u, 0, u + 1} π ((extensionByZero.{u, 0} j).obj
@@ -154,6 +154,7 @@ theorem CurveStatements.extensionByZero_etaleAbelianInverseImage_of_range_eq_biU
     ∀ (V : Scheme.{u}) (j : V ⟶ X) [IsOpenImmersion j], Set.range j.base = ⋃ i ∈ S, W i →
       CurveStatements.{u, 0, u + 1} π ((extensionByZero.{u, 0} j).obj
         ((etaleAbelianInverseImage.{u, 0} j).obj F)) := by
+  classical
   induction S using Finset.induction_on with
   | empty =>
     intro V j _ hj

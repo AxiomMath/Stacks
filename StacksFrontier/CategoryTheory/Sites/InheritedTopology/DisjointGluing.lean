@@ -217,7 +217,7 @@ theorem compat_of_disjoint (hmono : ∀ i, Mono (e i))
       (yrij i i)
     have e₂ := compTo_congr (p := p) hpr rfl (IsPullback.of_hasPullback (e i) (e i)).w (xr i)
       (xrij i i)
-    show γ ≫ Restriction.compTo p _ _ _ (yr i) (yrij i i) =
+    change γ ≫ Restriction.compTo p _ _ _ (yr i) (yrij i i) =
       Restriction.compTo p _ _ _ (xr i) (xrij i i) ≫ φ i
     rw [← e₁, ← e₂]
     exact hr

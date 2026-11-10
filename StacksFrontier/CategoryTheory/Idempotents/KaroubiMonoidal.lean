@@ -166,14 +166,14 @@ theorem ofComm_tensor {P Q P' Q' : Karoubi C} (g : P.X ⟶ Q.X) (h : P.p ≫ g =
 /-- The left unit constraint of `C` intertwines the idempotents. -/
 theorem comm_leftUnitor (P : Karoubi C) :
     (𝟙_ (Karoubi C) ⊗ P).p ≫ (λ_ P.X).hom = (λ_ P.X).hom ≫ P.p := by
-  show (𝟙 (𝟙_ C) ⊗ₘ P.p) ≫ (λ_ P.X).hom = (λ_ P.X).hom ≫ P.p
+  change (𝟙 (𝟙_ C) ⊗ₘ P.p) ≫ (λ_ P.X).hom = (λ_ P.X).hom ≫ P.p
   rw [MonoidalCategory.id_tensorHom]
   exact leftUnitor_naturality P.p
 
 /-- The right unit constraint of `C` intertwines the idempotents. -/
 theorem comm_rightUnitor (P : Karoubi C) :
     (P ⊗ 𝟙_ (Karoubi C)).p ≫ (ρ_ P.X).hom = (ρ_ P.X).hom ≫ P.p := by
-  show (P.p ⊗ₘ 𝟙 (𝟙_ C)) ≫ (ρ_ P.X).hom = (ρ_ P.X).hom ≫ P.p
+  change (P.p ⊗ₘ 𝟙 (𝟙_ C)) ≫ (ρ_ P.X).hom = (ρ_ P.X).hom ≫ P.p
   rw [MonoidalCategory.tensorHom_id]
   exact rightUnitor_naturality P.p
 

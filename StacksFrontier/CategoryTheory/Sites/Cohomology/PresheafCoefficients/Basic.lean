@@ -261,7 +261,7 @@ variable (X : AlgebraicGeometry.RingedSite.{u, u, u}) (K : X.Cᵒᵖ ⥤ Type u)
 torsion free. -/
 lemma isTorsionFree_free (U : X.Cᵒᵖ) :
     Module.IsTorsionFree ℤ ((K ⋙ AddCommGrpCat.free).obj U) := by
-  show Module.IsTorsionFree ℤ (FreeAbelianGroup (K.obj U))
+  change Module.IsTorsionFree ℤ (FreeAbelianGroup (K.obj U))
   exact Module.Flat.isTorsionFree
 
 /-- Sheafification preserves sectionwise torsion-freeness, so the sheafification of the free

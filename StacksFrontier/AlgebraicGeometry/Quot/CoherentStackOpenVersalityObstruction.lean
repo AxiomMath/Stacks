@@ -273,10 +273,10 @@ theorem obstructionElement_natural
       D.obstructionElement L Ξ data s := by
   have h := data.ob_natural t.top.carrier s.top.carrier t.toSquareZeroThickening
     s.toSquareZeroThickening (m.toSquareZeroThickeningHom hbase fk hfk) hsurj
-  show _ = D.extShiftedHomEquiv x (D.chartRingEquiv x hx) L Ξ s.kernelObj 2
+  change _ = D.extShiftedHomEquiv x (D.chartRingEquiv x hx) L Ξ s.kernelObj 2
     (data.ob s.top.carrier s.toSquareZeroThickening)
   rw [← h]
-  show _ = D.extShiftedHomEquiv x (D.chartRingEquiv x hx) L Ξ s.kernelObj 2
+  change _ = D.extShiftedHomEquiv x (D.chartRingEquiv x hx) L Ξ s.kernelObj 2
     (D.extGroupMap x (D.chartRingEquiv x hx) fk 2 (data.ob t.top.carrier t.toSquareZeroThickening))
   have key := D.extShiftedHomEquiv_extGroupMap x (D.chartRingEquiv x hx) hΞnat fk 2
     (data.ob t.top.carrier t.toSquareZeroThickening)

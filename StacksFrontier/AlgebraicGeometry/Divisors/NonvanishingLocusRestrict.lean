@@ -24,7 +24,8 @@ docstrings record this as the bookkeeping that is owed:
 `StacksFrontier/AlgebraicGeometry/AmplePullbackPart1/Restriction.lean`, under
 "What this does *not* give", says that "the nonvanishing locus of the resulting section over `U`
 is not compared with the nonvanishing locus of the section of the restriction it came from", and
-`StacksFrontier/AlgebraicGeometry/PullbackExtension/Basic.lean` lists as the first of the two ingredients
+`StacksFrontier/AlgebraicGeometry/PullbackExtension/Basic.lean` lists as the first of the two
+ingredients
 still missing for part (1) of [Stacks, Tag 0892] "the nonvanishing open of a section of a module
 over an open subscheme, and its compatibility with restriction along the open immersion". That
 comparison is what this file supplies.
@@ -338,7 +339,7 @@ theorem sectionOfRestrictGlobalSection_restrictSection (s : Γ(N, U)) :
         (homOfLE (top_le_ι_preimage_self U)).op).hom w)
       (pullbackUnit_eq_restrictIsoPullback_hom_app U N s))
       (restrictIsoPullback_hom_app_res U N _)
-  show (N.presheaf.map (eqToHom U.ι_image_top.symm).op).hom
+  change (N.presheaf.map (eqToHom U.ι_image_top.symm).op).hom
       (Scheme.Modules.Hom.app (restrictIsoPullback U N).inv ⊤ (restrictSection U N s)) = s
   rw [h1, iso_inv_app_hom_app (restrictIsoPullback U N)]
   exact map_map_map_self N (homOfLE (U.ι.image_preimage_le U)).op

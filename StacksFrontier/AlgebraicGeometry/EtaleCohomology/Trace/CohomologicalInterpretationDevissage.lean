@@ -99,18 +99,18 @@ theorem compactSupportCharSeriesInverts_lFunction_of_stages
     rw [lFunctionOfFiniteProjectiveStalks_eq_prod_stageLFunction B X Λ F hfin hproj f Φ,
       ← Fin.prod_univ_eq_prod_range]
     refine Finset.prod_congr rfl fun i _ => ?_
-    simp only [L, dif_pos i.2]
+    simp only [L, dite_eq_left i.2]
   rw [hL]
   refine compactSupportCharSeriesInverts_of_closedFiltration Λ kbar p q hcard f Φ _ L
     (fun i hi J' => ?_) J
   have h := compactSupportCharSeriesInverts_of_eq (map_comp_eq_filtrationPieceMap f Φ i).symm
     (hstratum ⟨i, hi⟩) J'
-  simp only [L, dif_pos hi]
+  simp only [L, dite_eq_left hi]
   exact h.of_iso (filtrationPieceSheafIso Λ Φ F i).symm
 
 section Identity
 
-variable [Finite Λ] [HasColimitsOfSize.{u, u} (ModuleCat.{u + 1} Λ)]
+variable [HasColimitsOfSize.{u, u} (ModuleCat.{u + 1} Λ)]
   [HasLimitsOfSize.{u, u} (ModuleCat.{u + 1} Λ)]
   [∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
     HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V) (ModuleCat.{u + 1} Λ)]

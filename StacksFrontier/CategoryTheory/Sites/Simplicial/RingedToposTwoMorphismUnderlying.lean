@@ -121,7 +121,7 @@ coming from a simplicial situation live. -/
 instance isIso_comp_fSharpInverseImage (g : RingedToposHom Y Z) (f : RingedToposHom X Y)
     [IsIso g.fSharpInverseImage] [IsIso f.fSharpInverseImage] :
     IsIso (g.comp f).fSharpInverseImage := by
-  haveI : IsIso (X.forgetRing.map (g.comp f).fSharpInverseImage) := by
+  have : IsIso (X.forgetRing.map (g.comp f).fSharpInverseImage) := by
     rw [comp_fSharpInverseImage_forget]
     exact ((f.toToposHom.inverseImage.mapIso
           (Y.forgetRing.mapIso (asIso g.fSharpInverseImage))) ≪≫
@@ -168,7 +168,7 @@ theorem moduleSheafFunctor_map_pullbackModulesMap_app :
           t.pushforwardModulesMap.app ((f.toModulesHom.pullbackModules).obj M) :=
       (unit_conjugateEquiv_symm (pullbackAdjPushforwardModules f)
         (pullbackAdjPushforwardModules g) t.pushforwardModulesMap M).symm
-    show (Sheaf.moduleSheafFunctor ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J) Y.O))).map
+    change (Sheaf.moduleSheafFunctor ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J) Y.O))).map
             ((pullbackAdjPushforwardModules g).unit.app M) ≫
           (Sheaf.moduleSheafFunctor ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J) Y.O))).map
             (g.pushforwardModules.map (t.pullbackModulesMap.app M)) = _

@@ -221,8 +221,7 @@ theorem exists_proj_eq (hT : T.IsAdmissible) {d : ℕ} {y : T.A 0} (hy : y ∈ T
   obtain ⟨e, he⟩ := (finite_projective_baseChange_piece hT d).2.2 0
   have key : ∀ t, ∃ z : T.piece d, e t = T.pieceProj d 0 z := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction t using TensorProduct.inductionOn with
     | tmul a w =>
       obtain ⟨b, rfl⟩ := surjective_limit_π_zero hT a
       refine ⟨b • w, ?_⟩
@@ -257,7 +256,7 @@ theorem mem_smul_of_proj_eq_zero (hT : T.IsAdmissible) {d : ℕ} {z : T.Lim}
     { toFun := q.symm
       map_add' := map_add _
       map_smul' := fun b x => by
-        show q.symm ((limit.π Rg (op 0)).hom b * x) = Ideal.Quotient.mk I b * q.symm x
+        change q.symm ((limit.π Rg (op 0)).hom b * x) = Ideal.Quotient.mk I b * q.symm x
         rw [map_mul, hq] }
   let Θ : Rg.obj (op 0) ⊗[(limit Rg : CommRingCat.{u})] T.piece d →ₗ[(limit Rg : CommRingCat.{u})]
       T.piece d ⧸ (I • ⊤ : Submodule (limit Rg : CommRingCat.{u}) (T.piece d)) :=
@@ -266,7 +265,7 @@ theorem mem_smul_of_proj_eq_zero (hT : T.IsAdmissible) {d : ℕ} {z : T.Lim}
   have h2 : Θ (1 ⊗ₜ w) = Submodule.Quotient.mk w := by
     rw [LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_apply]
     have hg1 : g 1 = Ideal.Quotient.mk I 1 := by
-      show q.symm 1 = _
+      change q.symm 1 = _
       rw [map_one, map_one]
     rw [hg1, LinearEquiv.coe_coe, TensorProduct.quotTensorEquivQuotSMul_mk_tmul, one_smul]
   rw [h1, map_zero, eq_comm, Submodule.Quotient.mk_eq_zero] at h2
@@ -513,7 +512,7 @@ theorem finitePresentation_lim (hT : T.IsAdmissible) :
       rw [← DirectSum.Decomposition.decompose'_eq, weightedDecomposition.decompose'_apply]
       refine mem_span_of_isWeightedHomogeneous hT b hb hw d (hsurj d) e F
         (fun p => (hFs p.1 p.2).1) G hG hG0 hGF (fun ψ hψ => hspan (by
-          show aeval g (map π ψ) = 0
+          change aeval g (map π ψ) = 0
           rw [← proj_aeval b g hbg, hψ, map_zero]))
         (weightedHomogeneousComponent_isWeightedHomogeneous d φ) ?_
       rw [← coe_decompose_aeval T.limGrading w b hb, hφ0, DirectSum.decompose_zero,

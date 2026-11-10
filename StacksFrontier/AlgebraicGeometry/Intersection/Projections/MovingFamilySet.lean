@@ -82,7 +82,7 @@ public theorem mem_movingFamilySet_iff {ι : Type*} [Fintype ι]
   · rintro ⟨t, ht, htC, rfl⟩
     exact ⟨t, ⟨ht, htC⟩, rfl⟩
 
-omit [IsAlgClosed k] in
+omit [IsAlgClosed k] [Nontrivial (lineSpace k V L)] in
 /-- **`C'` is closed.** The graph is closed, the preimage of a closed `C` is closed, and the
 projection forgetting the source point is proper, hence a closed map. -/
 public theorem isClosed_movingFamilySet {ι : Type*} [Fintype ι]
@@ -92,6 +92,7 @@ public theorem isClosed_movingFamilySet {ι : Type*} [Fintype ι]
   isClosed_image_prAmbient k V L
     ((isClosed_movingGraph k V L b).inter (hC.preimage (prSource k V L).continuous))
 
+omit [Nontrivial V] in
 /-- The fibre of `C'` over a closed point of the line, read through the section at that point. -/
 public theorem mem_movingFibre_movingFamilySet_iff {ι : Type*} [Fintype ι]
     (b : Module.Basis ι k (lineSpace k V L)) (C : Set (projectiveSpaceOfModule k V))
@@ -113,6 +114,7 @@ public theorem ambLine_image_movingFamilySet {ι : Type*} [Fintype ι]
   rw [movingFamilySet, ← Set.image_comp]
   rfl
 
+omit [Nontrivial V] in
 /-- **Clause (1) of Tag 0B1T: the family is dominant over the line.** If the fibre of `C'` over
 every closed point of the line is nonempty then the image of `C'` in the line is dense, the
 closed points of the line being dense in it. -/

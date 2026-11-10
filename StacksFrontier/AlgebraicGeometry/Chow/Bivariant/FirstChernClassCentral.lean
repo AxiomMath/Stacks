@@ -277,7 +277,7 @@ theorem chowCohomologyMul_firstChernClassBivariantCanonical_comm (C : ChowSituat
     (firstChernClassBivariantCanonical C sX L))).symm.trans (HEq.trans ?_
       (heq_of_eq (chowCohomologyRingMul_gysinSystemOfInvertible C sX
         (firstChernClassBivariantCanonical C sX L) c)))
-  show chowCohomologyRingMul C (canonicalGysinSystem C) sX
+  change chowCohomologyRingMul C (canonicalGysinSystem C) sX
       (canonicalGysinSystem_isNaturalUnderInverseIso C) c
       (firstChernClassBivariantCanonical C sX L) ≍
     chowCohomologyRingMul C (canonicalGysinSystem C) sX

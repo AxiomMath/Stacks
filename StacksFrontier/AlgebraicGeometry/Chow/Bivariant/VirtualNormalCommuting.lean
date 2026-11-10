@@ -93,7 +93,8 @@ matching gap on their side: clause (1) of Stacks 02UA, the centrality of `c_j(�
 available there as a statement about `Stacks.Chow.BivariantCommute`. The second reason is
 decisive: the Chern cap that Stacks 0FBL's factorization produces is
 `Stacks.Chow.subbundleTopChernCap`, built from the `Stacks.Chow.HigherChernCapRule` that this
-directory carries as its stand-in for Stacks 0B7G, not yet formalized, whereas the library's Stacks 02UA is
+directory carries as its stand-in for Stacks 0B7G, not yet formalized, whereas the library's Stacks
+02UA is
 a statement about `Stacks.Chow.chernCapOnChow`, the cap product the projective bundle relation
 constructs. Nothing in this repository identifies the two, so even a complete transport of the
 library's tag would be about a different operation than the one appearing in the factorization.
@@ -139,7 +140,8 @@ It needs Stacks 02UC applied to the difference of the two composites `res(c₁) 
 `Stacks.Chow.IsBivariantClassComposition`, the characterizing property, as
 `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.Commuting` records. It also needs the blowup of
 Stacks 02OS and the base change compatibility of Stacks 0FBJ for the Gysin class, which
-`StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.VirtualNormalBundleClass` records as unproved.
+`StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.VirtualNormalBundleClass` records as
+unproved.
 So `Stacks.Chow.virtualNormalGysinClass_bivariantCommute_of_subbundle` proves the factorization
 whenever `𝒩` has a subsheaf with locally free quotient, which is the situation Stacks 0FBL
 covers; and

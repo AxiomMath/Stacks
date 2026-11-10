@@ -18,7 +18,8 @@ This file proves Stacks 09DM: `H^0(E) = H^{-1}(E) = 0`, and at a geometric point
 The proof is the source's. The stalk at `w̄` of the right column `Lq^*L_{Y/Z} ⟶ L_{W/X} ⟶ E ⟶` of
 the diagram is a distinguished triangle on `L_{B/R} ⊗^𝐋_B C ⟶ L_{C/R} ⟶ L_{C/A}` for the stalk
 rings (`CategoryTheory.Sheaf.exists_distTriang_derivedModuleFiber_fundamental`); these are the
-étale local rings (`StacksFrontier.Cotangent.Spaces.FibreProductStalkRings`); `C` is weakly étale over
+étale local rings (`StacksFrontier.Cotangent.Spaces.FibreProductStalkRings`); `C` is weakly étale
+over
 `A ⊗_R B` (`AlgebraicGeometry.Space.cartesian_etaleStalk_tensor_weaklyEtale`), so the stalk of `E`
 is the base change to `C` of the object `E` of the nine diagram of `R → A, R → B`, whose
 cohomology is Stacks 09DB. The cohomology sheaves are read off on stalks at the geometric points
@@ -99,21 +100,20 @@ theorem homology_cone_fundamentalMor_of_ringEquiv (φ : A ⊗[R] B →+* C)
     ((Algebra.TensorProduct.lift (IsScalarTower.toAlgHom R' A' C')
       (IsScalarTower.toAlgHom R' B' C') fun _ _ => Commute.all _ _).commutes r).symm
   have : IsScalarTower A' (A' ⊗[R'] B') C' := IsScalarTower.of_algebraMap_eq fun a => by
-    show _ = (Algebra.TensorProduct.lift _ _ _) (a ⊗ₜ[R'] (1 : B'))
+    change _ = (Algebra.TensorProduct.lift _ _ _) (a ⊗ₜ[R'] (1 : B'))
     simp
   have : IsScalarTower B' (A' ⊗[R'] B') C' := IsScalarTower.of_algebraMap_eq fun b => by
-    show _ = (Algebra.TensorProduct.lift _ _ _) ((1 : A') ⊗ₜ[R'] b)
+    change _ = (Algebra.TensorProduct.lift _ _ _) ((1 : A') ⊗ₜ[R'] b)
     simp
   have hτ : ∀ t, ρC (algebraMap (A' ⊗[R'] B') C' t) =
       φ (TorChangeOfRings.equivTensorProductRingEquiv ρR ρA ρB hA hB t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul a b =>
-      show ρC ((Algebra.TensorProduct.lift _ _ _) (a ⊗ₜ[R'] b)) =
+      change ρC ((Algebra.TensorProduct.lift _ _ _) (a ⊗ₜ[R'] b)) =
         φ (TorChangeOfRings.equivTensorProductMap ρR ρA ρB hA hB (a ⊗ₜ[R'] b))
       rw [TorChangeOfRings.equivTensorProductMap_tmul, Algebra.TensorProduct.lift_tmul, map_mul]
-      show ρC (algebraMap A' C' a) * ρC (algebraMap B' C' b) = _
+      change ρC (algebraMap A' C' a) * ρC (algebraMap B' C' b) = _
       rw [hAC, hBC, ← map_mul, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   have : Algebra.WeaklyEtale (A' ⊗[R'] B') C' :=

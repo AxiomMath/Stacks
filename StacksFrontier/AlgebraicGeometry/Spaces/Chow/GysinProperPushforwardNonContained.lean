@@ -529,7 +529,7 @@ theorem properPushforwardChernDefect_sectionGysinChernRule_eq_zero_of_not_le
   · -- the dimension-drop case
     have hgB : (chernComponentHom D hp' hp f W' g).hom ≫ (chernImage D hp' hp f W').subspace.ι ≫ p =
         W'.subspace.ι ≫ p' := by
-      show g ≫ _ ≫ p = _
+      change g ≫ _ ≫ p = _
       rw [← Category.assoc, hg, Category.assoc, hfbase]
     have hσ0 := properCyclePushforward_canonicalDivisorCycleAt_pullback_eq_zero_of_deltaValue_drop
       D (W'.subspace.ι ≫ p') (isGood_integralClosedSubspace D p' hp' W') W'.isIntegralSpace

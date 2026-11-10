@@ -226,7 +226,7 @@ public theorem finitePresentation_localizedModule_of_isLocalizedModule
     IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
   have : IsScalarTower P (Localization T) N :=
     IsScalarTower.of_algebraMap_smul fun r m ↦ by
-      show eA (algebraMap P (Localization T) r) • m = r • m
+      change eA (algebraMap P (Localization T) r) • m = r • m
       rw [eA.commutes, algebraMap_smul]
   have : Module.FinitePresentation (Localization T) A :=
     Module.FinitePresentation.of_equiv
@@ -250,10 +250,10 @@ public theorem finitePresentation_localizedModule_away_of_tilde {R : CommRingCat
       (tilde M) D.2 (isFinitePresentation_of_iso
         ((Scheme.Modules.restrictFunctorIsoPullback D.1.ι).app (tilde M)).symm hfp)
   let : Algebra R Γ(Spec R, D.1) := by
-    show Algebra R ((Spec.structureSheaf R).obj.obj (.op D.1))
+    change Algebra R ((Spec.structureSheaf R).obj.obj (.op D.1))
     exact StructureSheaf.openAlgebra R _
   let : IsLocalization.Away g Γ(Spec R, D.1) := by
-    show IsLocalization.Away g
+    change IsLocalization.Away g
       ((Spec.structureSheaf R).obj.obj (.op (PrimeSpectrum.basicOpen g)))
     exact StructureSheaf.IsLocalization.to_basicOpen R g
   have hloc : IsLocalizedModule (Submonoid.powers g)

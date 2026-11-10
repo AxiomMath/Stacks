@@ -555,7 +555,7 @@ theorem pulled_conormalDifferentialComplex_d :
           (Stacks.ConormalSequenceRight.conormalDifferential i h) ≫
         ((RingedSpaceModuleAdjunction.twoStepPullback g'.toLRSHom.toShHom).mapIso
           (Stacks.ConormalSequenceRight.conormalDifferentialComplexXIsoZero i h)).inv := by
-  show (RingedSpaceModuleAdjunction.twoStepPullback g'.toLRSHom.toShHom).map
+  change (RingedSpaceModuleAdjunction.twoStepPullback g'.toLRSHom.toShHom).map
     ((Stacks.ConormalSequenceRight.conormalDifferentialComplex i h).d (-1) 0) = _
   rw [Stacks.ConormalSequenceRight.conormalDifferentialComplex_d_negOne_zero]
   exact map_comp_comp _ _ _ _

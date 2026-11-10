@@ -51,7 +51,8 @@ on either property.
 
 **Stacks 0DNP is formalized in `StacksFrontier.AlgebraicGeometry.Stacks.SmoothLocalMorphismMonotone`
 (with `@[stacks 0DNP]`); the result below is the pointwise half of it, proved here untagged.**
-Stacks 0DNP says a smooth 1-morphism of algebraic stacks is locally of finite presentation. Smoothness
+Stacks 0DNP says a smooth 1-morphism of algebraic stacks is locally of finite presentation.
+Smoothness
 (Stacks 075U) is the *existential* smooth-diagram test and local finite presentation
 (`AlgebraicGeometry.Stack.AlgebraicStacks.IsLocallyOfFinitePresentation`, **Stacks 06Q2**,
 part (1)) is the *universal* one, so 0DNP is the pointwise implication Stacks 04AJ followed by

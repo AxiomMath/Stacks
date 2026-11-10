@@ -117,7 +117,7 @@ theorem countable_sections_tildeRestrict_of_countable (M : ModuleCat.{u} Γ(X, V
       Scheme.Modules.restrictFunctor hV.isoSpec.hom).obj M, ⊤) := by
   have h' : Countable ((modulesSpecToSheaf.obj (tilde M)).presheaf.obj (op ⊤)) :=
     countable_of_mono (tilde.isoTop M).inv
-  show Countable Γ((tilde.functor Γ(X, V)).obj M, hV.isoSpec.hom ''ᵁ ⊤)
+  change Countable Γ((tilde.functor Γ(X, V)).obj M, hV.isoSpec.hom ''ᵁ ⊤)
   rw [Scheme.Hom.image_top_eq_opensRange, Scheme.Hom.opensRange_of_isIso]
   exact h'
 

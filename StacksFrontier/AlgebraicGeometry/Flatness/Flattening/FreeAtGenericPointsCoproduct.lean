@@ -93,9 +93,9 @@ theorem mem_baseRankLocus_of_condition_opens {p : ℕ} (T : Over D.S) (O : T.lef
       (freeAtPointOfRank_of_moduleIso (D.transitionModuleIso g).symm hy)
   · have hw := congrArg (fun k : _ ⟶ T.left ↦ k.base y) (D.transitionHom_comp_snd g)
     simp only [Scheme.Hom.comp_base, TopCat.comp_app] at hw
-    show (D.baseChangeMap T).base (D.transitionHom g y) = t
+    change (D.baseChangeMap T).base (D.transitionHom g y) = t
     rw [hw]
-    show O.ι.base ((D.baseChangeMap _).base y) = t
+    change O.ι.base ((D.baseChangeMap _).base y) = t
     rw [hyt]
     rfl
 
@@ -136,7 +136,7 @@ theorem baseChangeFlatInDimensionsGE_iff [QuasiCompact D.f] [QuasiSeparated D.f]
     have hsq := isPullback_fiberToSpecResidueField_of_isPullback
       (IsPullback.of_hasPullback D.f T.hom) t
     have hlft : LocallyOfFiniteType (D.f.fiberToSpecResidueField (T.hom t)) := by
-      show LocallyOfFiniteType (pullback.snd D.f (D.S.fromSpecResidueField (T.hom t)))
+      change LocallyOfFiniteType (pullback.snd D.f (D.S.fromSpecResidueField (T.hom t)))
       infer_instance
     exact (@topologicalKrullDim_eq_of_isPullback_of_subsingleton _ _ _ _ _ _ _ _ hsq hlft _ _
       _).trans (hd _)
@@ -175,7 +175,7 @@ theorem mono_sigmaDesc_of_factorizationCriterion {B : ℕ} (W : ULift.{u} (Fin (
     Mono (Sigma.desc fun p ↦ (W p).hom) := by
   set i : (∐ fun p ↦ (W p).left) ⟶ D.S := Sigma.desc fun p ↦ (W p).hom
   have hιi : ∀ p, Sigma.ι (fun p ↦ (W p).left) p ≫ i = (W p).hom := fun p ↦
-    Sigma.ι_desc _ p
+    Sigma.ι_comp_desc _ p
   refine ⟨fun {T} a b hab ↦ ?_⟩
   have key : ∀ t : T, ∃ O : T.Opens, t ∈ O ∧ O.ι ≫ a = O.ι ≫ b := by
     intro t
@@ -233,7 +233,7 @@ theorem exists_mono_baseChangeFlatInDimensionsGE [IsAffine D.S] [QuasiCompact D.
   let Z : Scheme.{u} := ∐ fun p ↦ (W p).left
   let i : Z ⟶ D.S := Sigma.desc fun p ↦ (W p).hom
   have hιi : ∀ p, Sigma.ι (fun p ↦ (W p).left) p ≫ i = (W p).hom := fun p ↦
-    Sigma.ι_desc _ p
+    Sigma.ι_comp_desc _ p
   have hmono : Mono i := D.mono_sigmaDesc_of_factorizationCriterion W hWcrit
   have hcompact : CompactSpace Z := by
     have : ∀ p, CompactSpace (W p).left := fun p ↦
@@ -260,13 +260,13 @@ theorem exists_mono_baseChangeFlatInDimensionsGE [IsAffine D.S] [QuasiCompact D.
       (Over.mk i) hmono 𝒰 fun t ↦ ?_
     obtain ⟨b, hb⟩ := (hWcrit (p t) _).mp (D.condition_baseRankLocus (p := (p t).down.val) T)
     refine ⟨b ≫ Sigma.ι (fun p ↦ (W p).left) (p t), ?_⟩
-    show (b ≫ Sigma.ι (fun p ↦ (W p).left) (p t)) ≫ i = (O t).ι ≫ T.hom
+    change (b ≫ Sigma.ι (fun p ↦ (W p).left) (p t)) ≫ i = (O t).ι ≫ T.hom
     rw [Category.assoc, hιi]
     exact hb
   · obtain ⟨p, O, ht, b, hb⟩ := Scheme.exists_opens_lift_sigmaι (fun p ↦ (W p).left) g t
     refine ⟨p.down.val, D.mem_baseRankLocus_of_condition_opens T O ?_ ht⟩
     refine (hWcrit p _).mpr ⟨b, ?_⟩
-    show b ≫ (W p).hom = O.ι ≫ T.hom
+    change b ≫ (W p).hom = O.ι ≫ T.hom
     rw [← hιi p, ← Category.assoc, hb, Category.assoc, hg]
 
 end FreeAtGenericPointsSituation

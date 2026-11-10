@@ -79,7 +79,7 @@ lemma isVCovering_of_isIso {T' T : Scheme.{u}} (f : T' ⟶ T) [IsIso f] :
       s₀ := fun _ => ()
       h₀ := fun _ => Limits.pullback.lift (U.ι ≫ inv f) (𝟙 U.toScheme) ?_
       w₀ := fun _ => ?_ }⟩
-    · show (U.ι ≫ inv f) ≫ f = (𝟙 U.toScheme) ≫ U.ι
+    · change (U.ι ≫ inv f) ≫ f = (𝟙 U.toScheme) ≫ U.ι
       simp [Category.assoc]
     · exact Limits.pullback.lift_snd (f := f) (g := U.ι) (U.ι ≫ inv f) (𝟙 U.toScheme)
         (by simp [Category.assoc])
@@ -107,7 +107,7 @@ lemma isVCovering_pullback {T : Scheme.{u}} {I : Type v}
       idx := ℬ.idx
       covers := ℬ.covers
       map_prop j := by
-        show Flat (𝒜.openCover.f (𝒜.openCover.idx j.1))
+        change Flat (𝒜.openCover.f (𝒜.openCover.idx j.1))
         infer_instance }
   let k (j : ℬ.I₀) := 𝒜.openCover.idx j.1
   let i (j : ℬ.I₀) : 𝒯.openCover.I₀ := 𝒱.fromAffineRefinement.s₀ (k j)
@@ -124,7 +124,7 @@ lemma isVCovering_pullback {T : Scheme.{u}} {I : Type v}
   let (j : ℬ.I₀) : Finite (E j).I₀ := (hE j).1
   let (j : ℬ.I₀) : ∀ a, IsAffine ((E j).X a) := (hE j).2.1
   have hWaff (j : ℬ.I₀) : IsAffine (ℬ.X j) := by
-    show IsAffine (Spec (𝒞.X j))
+    change IsAffine (Spec (𝒞.X j))
     infer_instance
   let hpbAff (j : ℬ.I₀) (a : (E j).I₀) : IsAffine (pullback ((E j).f a) (q j)) := by
     let : IsAffine (ℬ.X j) := hWaff j
@@ -173,7 +173,7 @@ lemma isVCovering_pullback {T : Scheme.{u}} {I : Type v}
             rw [Category.assoc, hφ, ← Category.assoc, pullback.condition, Category.assoc, hq j,
               Category.assoc, Category.assoc])
       refine pullback.lift h₁ (pullback.snd ((E j).f a) (q j) ≫ ℬ.f j) ?_
-      show pullback.lift _ _ _ ≫ pullback.snd (f b) g = _
+      change pullback.lift _ _ _ ≫ pullback.snd (f b) g = _
       rw [pullback.lift_snd]
       simp [Category.assoc]
     · intro ja

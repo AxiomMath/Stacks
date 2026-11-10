@@ -79,6 +79,7 @@ section Yoneda
 
 variable {D : Type u₂} [Category.{v₂} D]
 
+set_option linter.checkUnivs false in
 /-- Morphisms from the free abelian presheaf on a representable presheaf are sections, at
 independent universes. -/
 def freeUliftYonedaHomAddEquiv (V : D) (F : Dᵒᵖ ⥤ AddCommGrpCat.{max u₁ u₂ v₁ v₂ w}) :
@@ -209,7 +210,7 @@ theorem isIso_rightDerivedUnit_of_qh_bijective
     intro t
     have : ((sheafSections K AddCommGrpCat.{max u₁ u₂ v₁ v₂ w}).obj t).Additive :=
       ⟨fun {_ _ _ _} => rfl⟩
-    show QuasiIso (((Fs ⋙ (sheafSections K AddCommGrpCat.{max u₁ u₂ v₁ v₂ w}).obj t
+    change QuasiIso (((Fs ⋙ (sheafSections K AddCommGrpCat.{max u₁ u₂ v₁ v₂ w}).obj t
       ).mapHomologicalComplex (ComplexShape.up ℤ)).map q)
     refine DerivedLowerShriek.quasiIso_mapHomologicalComplex_of_corepresentable
       _ _ (pushforwardCorepRepresentation J K w t.unop).symm q (fun n => ?_)
@@ -218,12 +219,12 @@ theorem isIso_rightDerivedUnit_of_qh_bijective
       apply Localization.inverts DerivedCategory.Qh
         (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))
       rw [HomotopyCategory.quotient_map_mem_quasiIso_iff]
-      show QuasiIso ((CategoryTheory.shiftFunctor (CochainComplex A ℤ) n).map q)
+      change QuasiIso ((CategoryTheory.shiftFunctor (CochainComplex A ℤ) n).map q)
       infer_instance
     exact DerivedLowerShriek.bijective_postcomp_of_qh_bijective _ (hZ t.unop n)
       (CochainComplex.IsKInjective.Qh_map_bijective _
         (((Stacks.Injectives.kInjectiveResolutionFunctor A).obj Z)⟦n⟧))
-  show IsIso (DerivedCategory.Qh.map ((Fs.mapHomotopyCategory (ComplexShape.up ℤ)).map
+  change IsIso (DerivedCategory.Qh.map ((Fs.mapHomotopyCategory (ComplexShape.up ℤ)).map
     ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).map q)))
   rw [Functor.mapHomotopyCategory_map]
   exact _root_.isIso_Qh_map_quotient_map_of_quasiIso _

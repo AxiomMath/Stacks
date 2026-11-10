@@ -46,7 +46,8 @@ sequences above are assembled there into a short exact sequence of *functors* on
 identifying `Cris(X'/S)` with the localization of `Cris(X/S)` at the open subobject `X'` of the
 final sheaf — clause (d) of [Stacks, Tag 07KL] — is also formalized, as
 `Crystalline.GlobalCrystallineSituation.openSubspaceSliceEquivalence` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/OpenSubobjectLocalization.lean`.  What is **not** formalized is the remark's own
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/OpenSubobjectLocalization.lean`.  What is
+**not** formalized is the remark's own
 statement, whose terms are the derived *global* sections of the four crystalline sites: the
 functors of the triangle above are sections at a fixed object, and `Cris(X/S)` has no terminal
 object for the two to coincide, so the sequence would have to be redone for global sections.
@@ -56,7 +57,9 @@ paragraph above.  The abelian derived direct image `Rf_{cris, *}` is formalized,
 `Crystalline.GlobalCrystallineSituation.SmallSite.derivedCrisDirectImageFunctor` of
 `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CrisDirectImage.lean`, together with
 `...preservesInjectiveObjects_crisDirectImage`; the module-valued `R^i f_{cris, *}` is formalized as
-`...higherCrisModuleDirectImage` of `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CrisModuleDirectImage.lean`; and the situation
+`...higherCrisModuleDirectImage` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CrisModuleDirectImage.lean`; and the
+situation
 `X'/S` attached to an open `X'` of `X` is formalized as
 `Crystalline.GlobalCrystallineSituation.restrict` of
 `StacksFrontier/AlgebraicGeometry/Crystalline/BigSite/SituationRestrict.lean`.  So the triangle does

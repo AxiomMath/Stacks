@@ -216,7 +216,7 @@ theorem homOf_arrow_base_eq (a b : DeformationObject iΛ D.cohQ x₀ hx₀)
     (hb : b.algebra = (squareZeroExtensionArtinian.{u, u, u} Λ k).obj M)
     (hT : b.point.T = a.point.T) :
     (D.homOf b.arrow).base = (D.homOf a.arrow).base ≫ eqToHom hT.symm := by
-  haveI := D.isAffine_fiberPoint iΛ x₀ hx₀ M b hb
+  have := D.isAffine_fiberPoint iΛ x₀ hx₀ M b hb
   refine CostructuredArrow.hom_ext _ _ ((BigFppfOver.toScheme B S hS).map_injective
     (ext_of_isAffine ?_))
   change siteΓ (D.homOf b.arrow).base.left =

@@ -53,7 +53,7 @@ theorem hasSeparator_modules_ringUniverse (B : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hF : IsAlgebraicSpace B S hS F) :
     HasSeparator (Modules.{u, u} B S hS F hF) := by
   have : EssentiallySmall.{u} (smallEtaleRingedSite B S hS F hF).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS F)
+    change EssentiallySmall.{u} (SmallEtale B S hS F)
     infer_instance
   have : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS F hF) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _

@@ -214,7 +214,7 @@ theorem exists_projectiveStageModel (hc : IsLimit c) (hf : FinitePresentation f)
   have ha : cE.π ≫ Scheme.baseChangeStructureMap D i₀ (Over.mk f₀) =
       (Functor.const _).map (a ≫ (projectiveSpaceOver n (D.obj i₀) ↘ D.obj i₀)) := by
     ext m
-    show πE m ≫ (pullback.snd (D.map m.hom) f₀ ≫ f₀) =
+    change πE m ≫ (pullback.snd (D.map m.hom) f₀ ≫ f₀) =
       a ≫ (projectiveSpaceOver n (D.obj i₀) ↘ D.obj i₀)
     rw [← Category.assoc, hπ₂ m, ← pullback.condition]
     simp only [a, Category.assoc, projectiveSpaceOverMap_comp_fst]

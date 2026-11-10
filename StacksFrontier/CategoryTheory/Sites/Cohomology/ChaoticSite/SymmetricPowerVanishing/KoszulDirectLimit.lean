@@ -427,8 +427,7 @@ lemma symmetricKoszulDirectLimitEquiv_map (p : ℕ) (i : ι)
         (Module.DirectLimit.of R ι (fun i => SymmetricAlgebra R (G i))
           (fun i j h => (symmetricAlgebraMap (f i j h)).toLinearMap) i) x) =
       symmetricKoszulMap (Module.DirectLimit.of R ι G f i) p x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => simp [exteriorPowerDirectLimitEquiv_of, symmetricAlgebraDirectLimitEquiv_of]
   | add a b ha hb => simp [ha, hb]
 

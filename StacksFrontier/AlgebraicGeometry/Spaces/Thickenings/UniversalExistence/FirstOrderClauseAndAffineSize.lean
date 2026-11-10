@@ -458,14 +458,14 @@ private lemma cardinalMk_universalExtension_le_max
       apply AlgHom.ext
       intro x
       apply eP.injective
-      show eP ((Ideal.Quotient.mk (RingHom.ker b)) (d x)) =
+      change eP ((Ideal.Quotient.mk (RingHom.ker b)) (d x)) =
         eP (eP.symm (b x))
       rw [Ideal.quotientKerAlgEquivOfSurjective_mk, AlgEquiv.apply_symm_apply]
       exact congrArg (fun k : P.Ring →ₐ[R] S => k x) hd
     obtain ⟨_, _, huniqP⟩ := hP.existsUnique_lift P.ker hP.ker_sq_eq_bot
       eP.symm.toAlgHom
     have hvc : b.comp ((Subalgebra.val A).comp c) = b := by
-      show f.comp c = IsScalarTower.toAlgHom R P.Ring S
+      change f.comp c = IsScalarTower.toAlgHom R P.Ring S
       exact hfc
     have hid : b.comp (AlgHom.id R P.Ring) = b := by simp
     have heq : (Subalgebra.val A).comp c = AlgHom.id R P.Ring :=
@@ -484,7 +484,7 @@ private lemma contains_spec_universalExtension
     (hP : P.IsUniversalFirstOrderThickening)
     (hR : Cardinal.mk R < B.cutoff) (hS : Cardinal.mk S < B.cutoff) :
     B.Contains (AlgebraicGeometry.Spec (CommRingCat.of P.Ring)) := by
-  show (AlgebraicGeometry.Spec (CommRingCat.of P.Ring)).size < B.cutoff
+  change (AlgebraicGeometry.Spec (CommRingCat.of P.Ring)).size < B.cutoff
   rw [AlgebraicGeometry.Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff
     ((cardinalMk_universalExtension_le_max P hP).trans_lt
@@ -595,13 +595,13 @@ private lemma bridge_size_le_universalThickening_affine
   let g : H ⟶ X := H.isoSpec.hom ≫
     Spec.map (CommRingCat.ofHom (Subalgebra.val A).toRingHom)
   have hgi : i ≫ g = j := by
-    show (i ≫ H.toSpecΓ) ≫
+    change (i ≫ H.toSpecΓ) ≫
       Spec.map (CommRingCat.ofHom (Subalgebra.val A).toRingHom) =
       V.toSpecΓ ≫ Spec.map (CommRingCat.ofHom f)
     rw [Scheme.toSpecΓ_naturality i, Category.assoc, ← Spec.map_comp]
     rfl
   have hgb : g ≫ b = p := by
-    show (H.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (Subalgebra.val A).toRingHom) ≫
+    change (H.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (Subalgebra.val A).toRingHom) ≫
       Spec.map (CommRingCat.ofHom r)) ≫ U.isoSpec.inv = p
     rw [Category.assoc H.toSpecΓ]
     rw [← Spec.map_comp]
@@ -610,7 +610,7 @@ private lemma bridge_size_le_universalThickening_affine
         CommRingCat.ofHom p.appTop.hom from by
           apply CommRingCat.hom_ext
           exact hri]
-    show H.toSpecΓ ≫ Spec.map p.appTop ≫ U.isoSpec.inv = p
+    change H.toSpecΓ ≫ Spec.map p.appTop ≫ U.isoSpec.inv = p
     rw [← Category.assoc]
     rw [← Scheme.toSpecΓ_naturality p]
     simp [Scheme.isoSpec]

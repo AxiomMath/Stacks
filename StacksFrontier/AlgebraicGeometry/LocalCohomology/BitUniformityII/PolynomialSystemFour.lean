@@ -102,11 +102,11 @@ theorem polyEvalBase_comp_polyMap :
     (polyEvalBase g).comp (polyMap R₀ (A := A) (r := r)) = polyEval R₀ g :=
   MvPolynomial.ringHom_ext
     (fun c => by
-      show MvPolynomial.aeval g (MvPolynomial.map (algebraMap R₀ A) (MvPolynomial.C c)) =
+      change MvPolynomial.aeval g (MvPolynomial.map (algebraMap R₀ A) (MvPolynomial.C c)) =
         MvPolynomial.aeval g (MvPolynomial.C c)
       simp)
     fun i => by
-      show MvPolynomial.aeval g (MvPolynomial.map (algebraMap R₀ A) (MvPolynomial.X i)) =
+      change MvPolynomial.aeval g (MvPolynomial.map (algebraMap R₀ A) (MvPolynomial.X i)) =
         MvPolynomial.aeval g (MvPolynomial.X i)
       simp
 

@@ -112,7 +112,8 @@ variable (X : RingedSite.{u, u, u}) (U : X.C)
     HomologicalComplex.HasMapBifunctor K₁ K₂ (sheafTensor (X.O.over U)) (ComplexShape.up ℤ)]
 
 
-variable (A I N : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
+variable (A I N :
+  CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
 
 /-- **The interchange morphism of Stacks 0BYR commutes with restriction to a localized ringed
 site.** Restricting

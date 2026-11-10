@@ -912,7 +912,7 @@ theorem exists_tupleCoord_eq_of_isomorphic {n : ℕ} {s s' : GeneratingTuple T n
     rw [← hβ j]
     exact hj''
   refine ⟨hj', funext fun i => ?_⟩
-  show stalkCoord _ hj' (s'.coord i) = stalkCoord _ hj (s.coord i)
+  change stalkCoord _ hj' (s'.coord i) = stalkCoord _ hj (s.coord i)
   rw [← stalkCoord_app_hom β hj hj'' (s.coord i)]
   simp only [hβ]
 

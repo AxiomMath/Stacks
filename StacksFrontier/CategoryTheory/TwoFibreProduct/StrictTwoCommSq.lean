@@ -81,7 +81,7 @@ theorem postcompose_iso_hom_strict {F : 𝒰 ⟶ 𝒳} {G : 𝒱 ⟶ 𝒳}
     (ε : σ ≫ p ≅ F ≫ f) (δ : τ ≫ q ≅ G ≫ f) :
     (Z.postcompose f σ τ ε δ).iso.hom
       = (Z.fst ◁ ε.hom) ≫ (Z.iso.hom ▷ f) ≫ (Z.snd ◁ δ.inv) := by
-  show 𝟙 (Z.fst ≫ σ ≫ p) ≫ (Z.fst ◁ ε.hom) ≫ 𝟙 (Z.fst ≫ F ≫ f) ≫
+  change 𝟙 (Z.fst ≫ σ ≫ p) ≫ (Z.fst ◁ ε.hom) ≫ 𝟙 (Z.fst ≫ F ≫ f) ≫
       (Z.iso.hom ▷ f) ≫ 𝟙 ((Z.snd ≫ G) ≫ f) ≫ (Z.snd ◁ δ.inv) ≫ 𝟙 (Z.snd ≫ τ ≫ q) = _
   simp only [Category.id_comp]
   exact congrArg (fun t => (Z.fst ◁ ε.hom) ≫ (Z.iso.hom ▷ f) ≫ t)
@@ -106,11 +106,11 @@ theorem twoIso_canonicalPreHom (p : 𝒰 ⟶ 𝒳) (q : 𝒱 ⟶ 𝒳)
   refine ⟨θ, ?_, ?_⟩
   · refine (Category.id_comp
       (θ.hom ▷ (twoFibreProductSquare.{v₁, v₂, u₁, u₂} p q).fst)).symm.trans (h₁.trans ?_)
-    show w.isoFst.hom ≫ 𝟙 (w.hom ≫ Y.fst) ≫ 𝟙 (w.hom ≫ Y.fst) = _
+    change w.isoFst.hom ≫ 𝟙 (w.hom ≫ Y.fst) ≫ 𝟙 (w.hom ≫ Y.fst) = _
     simp
   · refine (Category.id_comp
       (θ.hom ▷ (twoFibreProductSquare.{v₁, v₂, u₁, u₂} p q).snd)).symm.trans (h₂.trans ?_)
-    show w.isoSnd.hom ≫ 𝟙 (w.hom ≫ Y.snd) ≫ 𝟙 (w.hom ≫ Y.snd) = _
+    change w.isoSnd.hom ≫ 𝟙 (w.hom ≫ Y.snd) ≫ 𝟙 (w.hom ≫ Y.snd) = _
     simp
 
 end CategoryTheory.CatFiberedInGroupoids

@@ -86,7 +86,7 @@ theorem exists_weilPairing_of_twist [IsAlgClosed k] [IsCurve k f] [Smooth f] [Is
   have hN0 : N ≠ 0 := (pow_pos hp.pos n).ne'
   have hNk : IsUnit (N : k) := by rw [hNdef, Nat.cast_pow]; exact hℓ.pow n
   have : NeZero (N : k) := ⟨hNk.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k N
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k N
   have : IsIntegral X := IsCurve.toIsVariety.toIsIntegral (k := k) (f := f)
   have hX : IsUnit ((N : ℕ) : Γ(X, ⊤)) := Stacks.Kummer.isUnit_globalSections f hNk
   have hsurj := Stacks.Kummer.surjective_sheafH_map_powMap_zero.{u + 1, u, u + 1} X (n := N)
@@ -123,14 +123,14 @@ theorem exists_weilPairing_of_twist [IsAlgClosed k] [IsCurve k f] [Smooth f] [Is
       obtain ⟨x, rfl⟩ := κ.surjective a
       rw [AddEquiv.symm_apply_apply]
       apply Subtype.ext
-      show schemePullbackClassHom g ((κ x : Submodule.torsionBy ℤ (ofScheme X) _) : ofScheme X) =
+      change schemePullbackClassHom g ((κ x : Submodule.torsionBy ℤ (ofScheme X) _) : ofScheme X) =
         (w : ℤ) • ((κ (constantExtRestriction (ZMod N) g 1 x) :
           Submodule.torsionBy ℤ (ofScheme X) _) : ofScheme X)
       rw [hκ, hκ, ← Stacks.Kummer.h1RootsOfUnityAddEquivPicardTorsion_naturality.{u + 1, u + 1, u}
         g N hN0 hX hX hsurj hsurj, htw, map_zsmul]
       rfl)
     (fun z => by
-      show (w : ℤ) • Stacks.Kummer.smoothProperCurveTrace f hNk
+      change (w : ℤ) • Stacks.Kummer.smoothProperCurveTrace f hNk
           (extRootsOfUnityAddEquiv f hζ hN0 2 (constantExtRestriction (ZMod N) g 2 z)) =
         c • Stacks.Kummer.smoothProperCurveTrace f hNk (extRootsOfUnityAddEquiv f hζ hN0 2 z)
       rw [← map_zsmul, ← htw]

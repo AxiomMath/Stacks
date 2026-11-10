@@ -73,18 +73,18 @@ public theorem free_quotient_adicCompletion_of_linearEquiv {R : Type u} [CommRin
   obtain ⟨b, hb⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ J n a)
   have hab : a - algebraMap R (AdicCompletion J R) b ∈ K ^ n := by
     rw [← AdicCompletion.ker_evalₐ J hJ n, RingHom.mem_ker]
-    show AdicCompletion.evalₐ J n (a - algebraMap R (AdicCompletion J R) b) = 0
+    change AdicCompletion.evalₐ J n (a - algebraMap R (AdicCompletion J R) b) = 0
     rw [map_sub, hev, hb, sub_self]
   have he : e (Ideal.Quotient.mk (K ^ n) a) = Ideal.Quotient.mk (J ^ n) b := hb.symm
   obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective _ m
   have h1 : (Ideal.Quotient.mk (K ^ n) a) •
       (Submodule.Quotient.mk m : M ⧸ (K ^ n • (⊤ : Submodule (AdicCompletion J R) M))) =
       Submodule.Quotient.mk (b • m) := by
-    show Submodule.Quotient.mk (a • m) = _
+    change Submodule.Quotient.mk (a • m) = _
     rw [Submodule.Quotient.eq, ← algebraMap_smul (AdicCompletion J R) b m, ← sub_smul]
     exact Submodule.smul_mem_smul hab Submodule.mem_top
   rw [h1, he]
-  show f (b • Submodule.Quotient.mk m) = _
+  change f (b • Submodule.Quotient.mk m) = _
   rw [f.map_smul, ← algebraMap_smul (R ⧸ J ^ n) b]
   rfl
 
@@ -115,7 +115,7 @@ public theorem free_completedStalk_of_isFiniteLocallyFreeAdic [IsLocallyNoetheri
     have h1 : (1 : completedLocalRing I y) ∈
         RingHom.ker (AdicCompletion.evalOneₐ (IdealSheafData.stalk I y)).toRingHom := by
       rw [hker]
-      show (1 : completedLocalRing I y) ∈ completedLocalIdeal I y
+      change (1 : completedLocalRing I y) ∈ completedLocalIdeal I y
       rw [htop]
       exact Submodule.mem_top
     rw [RingHom.mem_ker, map_one] at h1

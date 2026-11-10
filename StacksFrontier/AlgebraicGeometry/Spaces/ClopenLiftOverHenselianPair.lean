@@ -155,7 +155,7 @@ theorem preimage_range_pointsMap_of_isPullback
     exact ⟨w, hw⟩
   · rintro ⟨w, rfl⟩
     refine ⟨pointsMap B S hS P a w, ?_⟩
-    show (pointsMap B S hS X f ∘ pointsMap B S hS P a) w =
+    change (pointsMap B S hS X f ∘ pointsMap B S hS P a) w =
       (pointsMap B S hS Y g ∘ pointsMap B S hS P b) w
     rw [← pointsMap_comp, ← pointsMap_comp, sq.w]
 
@@ -225,15 +225,10 @@ theorem exists_isOpenSubspace_isClosedSubspace_isProper_of_henselianPair
     let base : BigFppfOver B S hS := Over.mk (𝟙 (B.obj hS))
     let q : yoneda.obj T ⟶ yoneda.obj base :=
       yoneda.map (Over.homMk qSite (Category.comp_id _) : T ⟶ base)
-    ∀ (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
-      (hX : IsAlgebraicSpace B S hS X)
-      (f : X ⟶ yoneda.obj base)
-      (hfSeparated : IsSeparated B S hS f)
-      (hfFiniteType : IsFiniteType B S hS f)
-      (Y : Subfunctor (pullback f q))
-      (hYOpen : IsOpenSubspace B S hS Y)
-      (hYClosed : IsClosedSubspace B S hS Y)
-      (hYProper : IsProper B S hS (Y.ι ≫ pullback.snd f q)),
+    ∀ (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u), IsAlgebraicSpace B S hS X →
+      ∀ (f : X ⟶ yoneda.obj base), IsSeparated B S hS f → IsFiniteType B S hS f →
+      ∀ (Y : Subfunctor (pullback f q)), IsOpenSubspace B S hS Y → IsClosedSubspace B S hS Y →
+      IsProper B S hS (Y.ι ≫ pullback.snd f q) →
       ∃ (W : Subfunctor X) (_ : IsOpenSubspace B S hS W)
         (_ : IsClosedSubspace B S hS W) (_ : IsProper B S hS (W.ι ≫ f)),
       let w₀ : pullback (W.ι ≫ f) q ⟶ pullback f q :=
@@ -358,7 +353,7 @@ theorem exists_isOpenSubspace_isClosedSubspace_isProper_of_henselianPair
       hpbScheme.isoPullback_hom_fst] using h
   have hvs : v ≫ w ≫ fT = B.inclusion.map V.hom := by
     rw [← Category.assoc, hvw, Category.assoc]
-    show B.inclusion.map j.left ≫ B.inclusion.map (pullback.fst m q').left ≫
+    change B.inclusion.map j.left ≫ B.inclusion.map (pullback.fst m q').left ≫
         B.inclusion.map T'.hom = _
     rw [← B.inclusion.map_comp, (pullback.fst m q').w,
       ← B.inclusion.map_comp, j.w]
@@ -376,10 +371,10 @@ theorem exists_isOpenSubspace_isClosedSubspace_isProper_of_henselianPair
     have hsq : IsPullback v (L.map (j ≫ pullback.snd m q')) (w ≫ fT)
         (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))) := by
       refine IsPullback.of_iso_pullback ⟨?_⟩ e rfl he₂
-      show (e.hom ≫ pullback.fst (w ≫ fT)
+      change (e.hom ≫ pullback.fst (w ≫ fT)
         (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I)))) ≫ (w ≫ fT) = _
       rw [← he₂, Category.assoc, pullback.condition, Category.assoc]
-    show IsPullback v (L.map (j ≫ pullback.snd m q'))
+    change IsPullback v (L.map (j ≫ pullback.snd m q'))
       (w ≫ fT) (B.inclusion.map qSite)
     rw [hqSite]
     exact hsq
@@ -424,7 +419,7 @@ theorem exists_isOpenSubspace_isClosedSubspace_isProper_of_henselianPair
       pointsMap B S hS (pullback f q) (pullback.fst f q)
           (pointsMap B S hS (yoneda.obj U₀) φ₀ z) =
         p (pointsMap B S hS (yoneda.obj U₀) a z) := by
-    show (pointsMap B S hS (pullback f q) (pullback.fst f q) ∘
+    change (pointsMap B S hS (pullback f q) (pullback.fst f q) ∘
       pointsMap B S hS (yoneda.obj U₀) φ₀) z = (p ∘ pointsMap B S hS (yoneda.obj U₀) a) z
     rw [← pointsMap_comp, ← hφ₀.w, pointsMap_comp]
   have hmem (z : points B S hS (yoneda.obj U₀)) :
@@ -438,12 +433,12 @@ theorem exists_isOpenSubspace_isClosedSubspace_isProper_of_henselianPair
     have hx' : pointsMap B S hS (yoneda.obj T') (φ ≫ f) x =
         pointsMap B S hS (yoneda.obj T) q t := by
       rw [pointsMap_comp]
-      show g (p x) = _
+      change g (p x) = _
       exact ht.symm
     have hy' : pointsMap B S hS (yoneda.obj T') (φ ≫ f) y =
         pointsMap B S hS (yoneda.obj T) q t := by
       rw [pointsMap_comp]
-      show g (p y) = _
+      change g (p y) = _
       rw [← hxy]
       exact ht.symm
     obtain ⟨x₀, hxx, -⟩ := exists_point_of_isPullback_presheaf B S hS hlarge x t hx'
@@ -479,7 +474,7 @@ theorem exists_isOpenSubspace_isClosedSubspace_isProper_of_henselianPair
     exact hQ.1
   let ψ := yoneda.map ws ≫ φ
   have hψrange : Set.range (pointsMap B S hS (yoneda.obj Ws) ψ) = p '' U := by
-    show Set.range (pointsMap B S hS (yoneda.obj Ws) (yoneda.map ws ≫ φ)) = _
+    change Set.range (pointsMap B S hS (yoneda.obj Ws) (yoneda.map ws ≫ φ)) = _
     rw [pointsMap_comp, Set.range_comp]
   obtain ⟨l, hl⟩ := (factorsThrough_openSubspace_iff_points B S hS hX hWs W hWOpen ψ).2
     (by rw [hψrange, hWrange])
@@ -492,7 +487,7 @@ theorem exists_isOpenSubspace_isClosedSubspace_isProper_of_henselianPair
     obtain ⟨y, hy⟩ := hx
     refine ⟨y, ?_⟩
     apply pointsMap_injective_of_mono B S hS W.ι
-    show (pointsMap B S hS W.toFunctor W.ι ∘
+    change (pointsMap B S hS W.toFunctor W.ι ∘
       pointsMap B S hS (yoneda.obj Ws) l) y = _
     rwa [← pointsMap_comp, hl]
   have hWiProper := isProper_of_isClosedImmersion B S hS hWOpen.1 hX W.ι hWClosed.2
@@ -514,7 +509,7 @@ theorem exists_isOpenSubspace_isClosedSubspace_isProper_of_henselianPair
     obtain ⟨u, hu⟩ := hp (pointsMap B S hS (pullback f q) (pullback.fst f q) x)
     obtain ⟨z, hz, hzx⟩ := exists_point_of_isPullback_presheaf B S hS hφ₀ u x hu
     rw [← hzx]
-    show pointsMap B S hS (pullback f q) (pullback.fst f q)
+    change pointsMap B S hS (pullback f q) (pullback.fst f q)
         (pointsMap B S hS (yoneda.obj U₀) φ₀ z) ∈ p '' U ↔ _
     rw [hcomp]
     exact (Set.ext_iff.mp hpreQ _).trans (hmem z)

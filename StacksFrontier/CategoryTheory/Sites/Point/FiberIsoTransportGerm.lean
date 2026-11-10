@@ -79,13 +79,13 @@ lemma presheafFiberIsoOfFiberIso_hom_toPresheafFiber (Psi : Point.{u} J) {G : C 
       (pointOfFiberIso Psi e).toPresheafFiber V (e.hom.app V t) P s := by
   let : HasColimitsOfShape (G.Elements)ᵒᵖ (Type u) :=
     inferInstanceAs (HasColimitsOfShape ((pointOfFiberIso Psi e).fiber.Elements)ᵒᵖ (Type u))
-  show (Functor.Final.colimitIso (elementsEquivOfIso e).functor.op
-      ((CategoryOfElements.π G).op ⋙ P)).hom
-    (colimit.ι ((elementsEquivOfIso e).functor.op ⋙ (CategoryOfElements.π G).op ⋙ P)
+  change (Functor.Final.colimitIso (elementsEquivOfIso e).functor.op
+      ((Functor.Elements.π G).op ⋙ P)).hom
+    (colimit.ι ((elementsEquivOfIso e).functor.op ⋙ (Functor.Elements.π G).op ⋙ P)
       (op (Psi.fiber.elementsMk V t)) s) = _
   rw [Functor.Final.colimitIso_hom]
   exact congrFun (congrArg (fun φ => (ConcreteCategory.hom φ : _ → _))
-    (colimit.ι_pre ((CategoryOfElements.π G).op ⋙ P) (elementsEquivOfIso e).functor.op
+    (colimit.ι_pre ((Functor.Elements.π G).op ⋙ P) (elementsEquivOfIso e).functor.op
       (op (Psi.fiber.elementsMk V t)))) s
 
 /-- **The stalk comparison of a base change, followed by the counit, on germs.** For the
@@ -105,7 +105,7 @@ lemma sheafFiberIsoOfFiberIsoOfAdj_hom_app_counit_toPresheafFiber (Phi : Point.{
       Phi.toPresheafFiber (uf.obj V) (e.hom.app V t) F.obj s := by
   have h₁ := presheafFiberIsoOfFiberIso_hom_toPresheafFiber Psi e
     ((uf.sheafPushforwardContinuous (Type u) J K).obj F).obj V t s
-  show Phi.sheafFiber.map (adj.counit.app F)
+  change Phi.sheafFiber.map (adj.counit.app F)
       ((sheafFiberIsoOfAdj Phi uf adj (pointOfFiberIso Psi e) rfl).hom.app
         ((uf.sheafPushforwardContinuous (Type u) J K).obj F)
         ((presheafFiberIsoOfFiberIso Psi e).hom.app

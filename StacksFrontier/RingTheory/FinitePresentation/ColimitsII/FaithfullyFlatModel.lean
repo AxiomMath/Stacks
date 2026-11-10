@@ -117,8 +117,7 @@ theorem exists_flat_stage_self [Module.Flat A B] : ∃ i, Module.Flat (Base R₀
   have e (C M : Type u) [CommRing C] [CommRing M] [Algebra S₀ M] [Algebra C M] :
       M ⊗[S₀] S₀ ≃ₗ[C] M :=
     (_root_.TensorProduct.rid S₀ M).toAddEquiv.toLinearEquiv fun a x => by
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul m s =>
         simp only [TensorProduct.smul_tmul', LinearEquiv.coe_toAddEquiv]
         simp [Algebra.smul_def, mul_left_comm]
@@ -231,11 +230,11 @@ theorem Algebra.exists_faithfullyFlat_finitePresentation_model {R : Type v} {A B
   let _ : Algebra A₀ A := φ.toRingHom.toAlgebra
   have : @IsScalarTower R A₀ A Algebra.toSMul Algebra.toSMul Algebra.toSMul :=
       .of_algebraMap_eq fun r => by
-    show algebraMap R A r = φ (r ⊗ₜ[ℤ] 1)
+    change algebraMap R A r = φ (r ⊗ₜ[ℤ] 1)
     rw [Algebra.TensorProduct.productMap_apply_tmul]
     simp
   have : IsScalarTower A' A₀ A := .of_algebraMap_eq fun a => by
-    show algebraMap A' A a = φ (1 ⊗ₜ[ℤ] a)
+    change algebraMap A' A a = φ (1 ⊗ₜ[ℤ] a)
     rw [Algebra.TensorProduct.productMap_apply_tmul]
     simp
   let _ : Algebra A₀ B := ((algebraMap A B).comp (algebraMap A₀ A)).toAlgebra
@@ -249,13 +248,13 @@ theorem Algebra.exists_faithfullyFlat_finitePresentation_model {R : Type v} {A B
   let _ : Algebra B₀ B := ψ.toRingHom.toAlgebra
   have : @IsScalarTower A₀ B₀ B Algebra.toSMul Algebra.toSMul Algebra.toSMul :=
       .of_algebraMap_eq fun x => by
-    show algebraMap A₀ B x = ψ (x ⊗ₜ[A'] 1)
+    change algebraMap A₀ B x = ψ (x ⊗ₜ[A'] 1)
     rw [Algebra.TensorProduct.productMap_apply_tmul]
     simp
   have : IsScalarTower A' B₀ B := .to₁₃₄ A' A₀ B₀ B
   have : @IsScalarTower B' B₀ B Algebra.toSMul Algebra.toSMul Algebra.toSMul :=
       .of_algebraMap_eq fun b => by
-    show algebraMap B' B b = ψ (1 ⊗ₜ[A'] b)
+    change algebraMap B' B b = ψ (1 ⊗ₜ[A'] b)
     rw [Algebra.TensorProduct.productMap_apply_tmul]
     simp
   refine ⟨A₀, B₀, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,

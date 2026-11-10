@@ -43,11 +43,11 @@ followed by `e`. -/
 theorem descOfVanishingF_of_le (n : ℤ) (h : n ≤ N) :
     haveI := isIso_πStupidTruncLE_f C N n h
     descOfVanishingF C e N n = inv ((C.πStupidTrunc (embeddingUpIntLE N)).f n) ≫ e.f n := by
-  rw [descOfVanishingF, dif_pos h]
+  rw [descOfVanishingF, dite_eq_left h]
 
 /-- In degrees `n > N`, `descOfVanishingF` is zero. -/
 theorem descOfVanishingF_of_lt (n : ℤ) (h : N < n) : descOfVanishingF C e N n = 0 := by
-  rw [descOfVanishingF, dif_neg (not_le.2 h)]
+  rw [descOfVanishingF, dite_eq_right (not_le.2 h)]
 
 include he in
 /-- **A chain map vanishing above degree `N` factors through `σ^{≤N}C`.** -/

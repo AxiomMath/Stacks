@@ -89,7 +89,7 @@ private theorem schemeStalkMap_smul {R : CommRingCat.{u}} (M N : ModuleCat R)
   let : Module ((structurePresheafInCommRingCat (↑R)).stalk x)
       ((tilde N).presheaf.stalk x) :=
     AlgebraicGeometry.Scheme.Modules.moduleStalkPresheaf (tilde N) x
-  show schemeStalkMap (tilde.map f) x
+  change schemeStalkMap (tilde.map f) x
       (CommRingCat.Hom.hom (StructureSheaf.toStalk (↑R) x) r • m) =
     CommRingCat.Hom.hom (StructureSheaf.toStalk (↑R) x) r • schemeStalkMap (tilde.map f) x m
   exact schemeStalkMap_ringSmul (tilde M) (tilde N) (tilde.map f) x

@@ -493,7 +493,7 @@ theorem cotangentSpaceStalkLinearEquiv_germ_tmul_d (U : Opens X) (hx : x ∈ U)
         KaehlerDifferential.D (ToType (TopCat.Presheaf.stalk R.obj x))
           (ToType (TopCat.Presheaf.stalk A.obj x))
           ((TopCat.Presheaf.germ A.obj U x hx).hom f) := by
-    show tensorPresheafStalkKaehlerLinearEquiv φ.hom a.hom x
+    change tensorPresheafStalkKaehlerLinearEquiv φ.hom a.hom x
       ((tensorSheafStalkSheafifyLinearEquiv R A B a φ x).symm _) = _
     refine Eq.trans (congrArg (tensorPresheafStalkKaehlerLinearEquiv φ.hom a.hom x)
       ((LinearEquiv.symm_apply_eq _).mpr hE.symm)) ?_
@@ -677,7 +677,7 @@ theorem tensorSheafMapOfFacStalk_eq_cotangentSpaceMap (c : R ⟶ B)
       (cotangentSpaceStalkLinearEquiv R A₁ B a₁ φ₁ x).toLinearMap.toAddMonoidHom) ?_) ξ
   intro U hx b f
   obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective b
-  show cotangentSpaceStalkLinearEquiv R A₂ B a₂ φ₂ x
+  change cotangentSpaceStalkLinearEquiv R A₂ B a₂ φ₂ x
       (tensorSheafMapOfFacStalk R A₁ A₂ B a₁ a₂ φ₁ φ₂ h x hφ ha _) = _
   refine Eq.trans (congrArg (cotangentSpaceStalkLinearEquiv R A₂ B a₂ φ₂ x)
     ((tensorSheafMapOfFacStalk_germ R A₁ A₂ B a₁ a₂ φ₁ φ₂ h x hφ ha U hx _).trans
@@ -858,7 +858,7 @@ family of generators `α : E ⟶ B` presenting `B`, the canonical comparison map
 theorem quasiIso_naiveCotangentComplexComparison :
     QuasiIso (naiveCotangentComplexComparison.{u, u, u, u}
       (Opens.grothendieckTopology X) A B a E α) := by
-  show QuasiIso (presentationNaiveCotangentComplexMap.{u, u, u, u}
+  change QuasiIso (presentationNaiveCotangentComplexMap.{u, u, u, u}
     (Opens.grothendieckTopology X) A E (underlyingPresheaf (Opens.grothendieckTopology X) B)
     α B a α (𝟙 _) (Category.comp_id α))
   refine (AlgebraicGeometry.SheafOfModules.quasiIso_iff_forall_stalk_quasiIso _ _).mpr fun x ↦ ?_

@@ -180,7 +180,7 @@ theorem isIso_homology_derivedLowerShriek_map_truncGEπ_of_isTorsionPlus (d : �
   have hLE := hN L hL (b - N - 1) hLLE
   let R := derivedLowerShriek.{u, 0} f j Λ ⋙ DerivedCategory.Plus.ι
   have hLE' : (R.mapTriangle.obj T).obj₁.IsLE (b - 1) := by
-    show (DerivedCategory.Plus.ι.obj ((derivedLowerShriek.{u, 0} f j Λ).obj L)).IsLE (b - 1)
+    change (DerivedCategory.Plus.ι.obj ((derivedLowerShriek.{u, 0} f j Λ).obj L)).IsLE (b - 1)
     rwa [show b - 1 = b - N - 1 + N by omega]
   exact DerivedCategory.isIso_homologyMap_mor₂_of_isLE₁ (R.mapTriangle.obj T)
     (R.map_distinguished T hT) i (b - 1) hLE' (by omega)

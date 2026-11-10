@@ -76,7 +76,7 @@ theorem schemeTheoreticImage_baseChangeCone_π_of_isFlat (c : Cone Ys)
   have flatl : IsFlat B S hS (pullback.fst (Ys.map l.hom) u) :=
     isFlat_of_isPullback_of_isAlgebraicSpace B S hS (IsPullback.of_hasPullback (Ys.map l.hom) u)
       algU (algYs m) flat
-  haveI : Epi sq.flip.isoPullback.hom := IsIso.epi_of_iso _
+  have : Epi sq.flip.isoPullback.hom := IsIso.epi_of_iso _
   rw [← sq.flip.isoPullback_hom_snd, schemeTheoreticImageSubfunctor_comp_of_epi,
     schemeTheoreticImageSubfunctor_pullback_snd_of_isFlat_of_isQuasiCompact' B S hS _ _ algUl
       (algYs _) algY flatl (qc l.left), dom]
@@ -89,7 +89,7 @@ private theorem schemeTheoreticImageSubfunctor_limit_π_eq_top {K : Type u} [Cat
     schemeTheoreticImageSubfunctor B S hS (limit.π F j) = ⊤ := by
   have hπ : (hc.conePointUniqueUpToIso (limit.isLimit F)).inv ≫ c.π.app j = limit.π F j :=
     hc.conePointUniqueUpToIso_inv_comp (limit.isLimit F) j
-  haveI hepi : Epi (hc.conePointUniqueUpToIso (limit.isLimit F)).inv := IsIso.epi_of_iso _
+  have hepi : Epi (hc.conePointUniqueUpToIso (limit.isLimit F)).inv := IsIso.epi_of_iso _
   rw [← hπ, schemeTheoreticImageSubfunctor_comp_of_epi, dom]
 
 /-- **The system of base changes along a flat morphism has limit bridges.** Let `(Y_j)` be a

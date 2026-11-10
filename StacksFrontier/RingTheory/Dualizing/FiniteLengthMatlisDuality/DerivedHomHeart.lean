@@ -145,7 +145,7 @@ lemma finiteCohomology_single
     have hf : Function.Surjective f := by
       intro x
       refine ⟨ModuleCat.homEquiv e.hom x, ?_⟩
-      show e.inv (e.hom x) = x
+      change e.inv (e.hom x) = x
       exact congrArg (fun g : H ⟶ H => g x) e.hom_inv_id
     exact Module.Finite.of_surjective f hf
   · let : ((DerivedCategory.Plus.singleFunctor (ModuleCat.{max v u} A) 0).obj M).IsGE
@@ -163,7 +163,7 @@ lemma finiteCohomology_single
       have hh := congrArg (fun f : N ⟶ N => f x) (hz.eq_of_tgt (0 : N ⟶ N) (𝟙 N))
       simpa using hh.symm
     have htop : (⊤ : Submodule A N) = ⊥ := by ext x; simp [hzero x]
-    show Module.Finite A N
+    change Module.Finite A N
     exact Module.Finite.of_fg_top (htop.symm ▸ Submodule.fg_bot)
 
 private lemma simple_module_linearEquiv_residueField
@@ -266,7 +266,7 @@ private lemma annihilator_le_ext_annihilator
       ext m
       simp [LinearMap.lsmul_apply]
     rw [hcat, Functor.map_smul, CategoryTheory.Functor.map_id]
-  show a • (x : S ⟶ K⟦i⟧) = 0
+  change a • (x : S ⟶ K⟦i⟧) = 0
   calc
     a • x = (a • 𝟙 S) ≫ x := by simp
     _ = (DerivedCategory.singleFunctor (ModuleCat.{max v u} A) 0).map
@@ -318,7 +318,7 @@ lemma supportDim_le_of_support_subset
     [AddCommGroup N] [Module A N]
     (h : Module.support A M ⊆ Module.support A N) :
     Module.supportDim A M ≤ Module.supportDim A N := by
-  show Order.krullDim (Module.support A M) ≤
+  change Order.krullDim (Module.support A M) ≤
     Order.krullDim (Module.support A N)
   exact Order.krullDim_le_of_strictMono
     (fun p : Module.support A M => ⟨p.1, h p.2⟩) fun _ _ => id
@@ -786,7 +786,7 @@ private lemma maximalIdeal_power_quotient_isArtinianRing
     rw [← IsLocalRing.map_maximalIdeal_of_surjective
       (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective,
       ← Ideal.map_pow]
-    show Ideal.map (Ideal.Quotient.mk I) (IsLocalRing.maximalIdeal A ^ (n + 1)) = ⊥
+    change Ideal.map (Ideal.Quotient.mk I) (IsLocalRing.maximalIdeal A ^ (n + 1)) = ⊥
     rw [Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker]
   exact (isArtinianRing_iff_isNilpotent_maximalIdeal (A ⧸ I)).mpr hnil
 

@@ -48,7 +48,7 @@ theorem topologicalKrullDim_fiber_pullbackSnd_le_of_isImmersion {X S W : Scheme.
     (w : W) : topologicalKrullDim ((pullback.snd f ι).fiber w) ≤ n := by
   let φ : (pullback.snd f ι).base ⁻¹' {w} → f.base ⁻¹' {ι.base w} := fun x =>
     ⟨(pullback.fst f ι).base x.1, by
-      show (pullback.fst f ι ≫ f).base x.1 = ι.base w
+      change (pullback.fst f ι ≫ f).base x.1 = ι.base w
       rw [pullback.condition, Scheme.Hom.comp_apply, x.2]⟩
   have hφ : IsHomeomorph φ := by
     rw [isHomeomorph_iff_isEmbedding_surjective]
@@ -56,7 +56,7 @@ theorem topologicalKrullDim_fiber_pullbackSnd_le_of_isImmersion {X S W : Scheme.
       (fun x hx => (φ ⟨x, hx⟩).2), fun y => ?_⟩
     obtain ⟨x, hx⟩ : y.1 ∈ Set.range (pullback.fst f ι).base := by
       rw [Scheme.Pullback.range_fst]
-      show f.base y.1 ∈ Set.range ι.base
+      change f.base y.1 ∈ Set.range ι.base
       rw [show f.base y.1 = ι.base w from y.2]
       exact Set.mem_range_self _
     have hxw : (pullback.snd f ι).base x = w := by
@@ -175,7 +175,7 @@ theorem isConstructibleEtaleModule_rightDerivedConstantUnit_of_isNoetherian_of_i
     refine isUnit_natCast_of_hom (pullback.fst (Spec.map φU) S.obj.toSpecΓ) ?_
     rw [natCast_ΓSpec]
     refine IsUnit.map _ ?_
-    show IsUnit ((ℓ : Localization.Away r))
+    change IsUnit ((ℓ : Localization.Away r))
     rw [← map_natCast (algebraMap A (Localization.Away r))]
     exact IsLocalization.Away.algebraMap_isUnit r
   have hZzero : ((ℓ : ℕ) : Γ(TZ.obj, ⊤)) = 0 := by
@@ -183,7 +183,7 @@ theorem isConstructibleEtaleModule_rightDerivedConstantUnit_of_isNoetherian_of_i
       (pullback.fst (Spec.map φZ) S.obj.toSpecΓ) ?_
     rw [natCast_ΓSpec]
     refine (congrArg _ ?_).trans (map_zero _)
-    show ((ℓ : A ⧸ Ideal.span {r})) = 0
+    change ((ℓ : A ⧸ Ideal.span {r})) = 0
     rw [← map_natCast (Ideal.Quotient.mk (Ideal.span {r}))]
     exact Ideal.Quotient.eq_zero_iff_mem.2 (Ideal.mem_span_singleton_self r)
   have : IsNoetherian TU.obj := Stacks.Coherent.isNoetherian_of_isOpenImmersion ιU
@@ -199,13 +199,13 @@ theorem isConstructibleEtaleModule_rightDerivedConstantUnit_of_isNoetherian_of_i
   -- membership in the two strata
   have hmemU : ∀ x : S.obj, x ∈ Set.range ιU ↔ r ∉ (S.obj.toSpecΓ x).asIdeal := fun x => by
     rw [Scheme.Pullback.range_snd]
-    show S.obj.toSpecΓ x ∈ Set.range (PrimeSpectrum.comap (algebraMap A (Localization.Away r)))
+    change S.obj.toSpecΓ x ∈ Set.range (PrimeSpectrum.comap (algebraMap A (Localization.Away r)))
       ↔ _
     rw [PrimeSpectrum.localization_away_comap_range (Localization.Away r) r]
     exact PrimeSpectrum.mem_basicOpen _ _
   have hmemZ : ∀ x : S.obj, x ∈ Set.range ιZ ↔ r ∈ (S.obj.toSpecΓ x).asIdeal := fun x => by
     rw [Scheme.Pullback.range_snd]
-    show S.obj.toSpecΓ x ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk (Ideal.span {r})))
+    change S.obj.toSpecΓ x ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk (Ideal.span {r})))
       ↔ _
     rw [range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective, Ideal.mk_ker]
     exact SetLike.coe_subset_coe.trans (Ideal.span_singleton_le_iff_mem _)

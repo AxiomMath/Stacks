@@ -55,8 +55,8 @@ variable {C₁ C₂ C₃ C₄ C₅ C₆ : Type*} [Category* C₁] [Category* C�
 /-- The component of a 2-square whiskered at its top and bottom. -/
 theorem whiskerTop_whiskerBottom_natTrans_app {T T' : C₁ ⥤ C₂} {L : C₁ ⥤ C₃} {R : C₂ ⥤ C₄}
     {B B' : C₃ ⥤ C₄} (w : TwoSquare T' L R B) (φ : T ⟶ T') (ψ : B ⟶ B') (c : C₁) :
-    ((w.whiskerTop φ).whiskerBottom ψ).natTrans.app c =
-      R.map (φ.app c) ≫ w.natTrans.app c ≫ ψ.app (L.obj c) := by
+    ((w.whiskerTop φ).whiskerBottom ψ).app c =
+      R.map (φ.app c) ≫ w.app c ≫ ψ.app (L.obj c) := by
   simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom]
 
 end Stacks.EtaleCohomology.ModuleBaseChangeForget
@@ -73,7 +73,7 @@ direct image of the counit is the identity. -/
 theorem mateEquiv_etaleModuleUnderlyingAbelianInverseImageIso {X Y : Scheme.{u}} (g : Y ⟶ X) :
     (mateEquiv (etaleModuleInverseImageAdj.{u, 0} Λ g)
       (etaleAbelianInverseImageDirectImageAdj.{u, 0} g)
-      (TwoSquare.mk _ _ _ _ (etaleModuleUnderlyingAbelianInverseImageIso Λ g).hom)).natTrans =
+      (TwoSquare.mk _ _ _ _ (etaleModuleUnderlyingAbelianInverseImageIso Λ g).hom)) =
       𝟙 (etaleModuleDirectImage.{u, 0} Λ g ⋙ etaleModuleUnderlyingAbelian X Λ) := by
   ext N : 2
   have hu := etaleModuleUnderlyingAbelianInverseImageIso_unit' Λ g
@@ -81,8 +81,8 @@ theorem mateEquiv_etaleModuleUnderlyingAbelianInverseImageIso {X Y : Scheme.{u}}
   have ht := (etaleModuleInverseImageAdj.{u, 0} Λ g).right_triangle_components N
   simp only [mateEquiv_apply, NatTrans.comp_app, Functor.comp_obj,
     Functor.whiskerLeft_app, Functor.whiskerRight_app, Functor.rightUnitor_inv_app,
-    Functor.leftUnitor_hom_app, Category.id_comp, Category.comp_id, NatTrans.id_app]
-  show (etaleAbelianInverseImageDirectImageAdj.{u, 0} g).unit.app
+    Functor.leftUnitor_hom_app, Category.id_comp, NatTrans.id_app]
+  change (etaleAbelianInverseImageDirectImageAdj.{u, 0} g).unit.app
         ((etaleModuleUnderlyingAbelian X Λ).obj ((etaleModuleDirectImage.{u, 0} Λ g).obj N)) ≫
       (etaleAbelianDirectImage.{u, 0} g).map
         ((etaleModuleUnderlyingAbelianInverseImageIso Λ g).hom.app
@@ -102,9 +102,9 @@ theorem mateEquiv_etaleModuleUnderlyingAbelianInverseImageIso' {X Y : Scheme.{u}
       (TwoSquare.mk _ _ _ _ (etaleModuleUnderlyingAbelianInverseImageIso Λ g).hom) =
       TwoSquare.mk (etaleModuleDirectImage.{u, 0} Λ g) (etaleModuleUnderlyingAbelian Y Λ)
         (etaleModuleUnderlyingAbelian X Λ) (etaleAbelianDirectImage.{u, 0} g) (𝟙 _) :=
-  TwoSquare.ext _ _ fun N => by
+  NatTrans.ext (funext fun N => by
     have := congrArg (fun t => t.app N) (mateEquiv_etaleModuleUnderlyingAbelianInverseImageIso Λ g)
-    exact this
+    exact this)
 
 variable {X X' Y Y' : Scheme.{u}} (f : X ⟶ Y) (f' : X' ⟶ Y') (g : Y' ⟶ Y) (g' : X' ⟶ X)
   (w : f' ≫ g = g' ≫ f)
@@ -142,15 +142,15 @@ theorem etaleModuleUnderlyingAbelianInverseImageIso_comp_map_etaleModuleBaseChan
       (etaleAbelianDirectImageCompIso'.{u, 0} f' g (f' ≫ g) rfl).inv)) (by
         rw [mateEquiv_etaleModuleUnderlyingAbelianInverseImageIso',
           mateEquiv_etaleModuleUnderlyingAbelianInverseImageIso']
-        refine TwoSquare.ext _ _ fun M => ?_
+        refine NatTrans.ext (funext fun M => ?_)
         refine Sheaf.hom_ext ?_
         refine NatTrans.ext (funext fun U => ?_)
         rfl)
-  have h0 := congrArg (fun t => t.natTrans.app M) hcube
+  have h0 := congrArg (fun t => t.app M) hcube
   simp only [TwoSquare.hComp, TwoSquare.whiskerTop, TwoSquare.whiskerBottom,
-    Functor.whiskerRight_id', Functor.whiskerLeft_id', NatTrans.comp_app, Functor.whiskerLeft_app,
+    NatTrans.comp_app, Functor.whiskerLeft_app,
     Functor.whiskerRight_app, Functor.associator_hom_app, Functor.associator_inv_app,
-    NatTrans.id_app, Category.id_comp, Category.comp_id] at h0
+    Category.id_comp, Category.comp_id] at h0
   rw [etaleModuleBaseChange_eq_mateEquiv_symm,
     etaleAbelianBaseChange_eq_mateEquiv_symm_directImageCompIso.{u, 0} f g g' f' w.symm
       (f' ≫ g) w rfl]

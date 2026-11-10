@@ -49,6 +49,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {W X Y : AlgebraicSpaces B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasLimitsOfShape` instance search for presheaves of types on the small étale site
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high)
@@ -58,6 +59,7 @@ local instance (priority := high)
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasTerminal` instance search for sheaves of types on the small étale site
 /-- The terminal sheaf of sets on the small étale site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasTerminal_topos_EtaleRestrictionInverseImageGlobalSection

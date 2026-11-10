@@ -59,9 +59,10 @@ than homological algebra.  Nothing in this file carries a `stacks` attribute.
 
 ## Implementation notes
 
-*The first half.* `cohomologySupportedOn_derivedTensor_of_left` is proved in
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/ProjectionFormulaClosedEmbeddingUnconditional.lean` by computing the derived stalk of a tensor
-product as the tensor product of the derived stalks over the stalk ring
+*The first half.* `cohomologySupportedOn_derivedTensor_of_left` is proved in the file
+`ProjectionFormulaClosedEmbeddingUnconditional.lean` of the directory
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/` by computing the derived stalk
+of a tensor product as the tensor product of the derived stalks over the stalk ring
 (`derivedTensorStalkIsoGeneral`, the derived form of [Stacks, Tag 01CB]) and using exactness of
 the derived tensor product in its first variable.  The right-hand mirror is the same argument
 with `DerivedTensorProduct.exact_right` in place of `DerivedTensorProduct.exact_left`, and the
@@ -95,8 +96,9 @@ object to a zero object.  That is the whole content of
 
 *Why instances are named in the local context.* Two places hand the elaborator an instance that
 already exists rather than letting it search, each for the reason recorded at length in
-`StacksFrontier.Topology.Sheaves.Cohomology.TorAmplitude.DerivedTensorStalk` and in
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/ProjectionFormulaClosedEmbeddingUnconditional.lean`, whose
+`StacksFrontier.Topology.Sheaves.Cohomology.TorAmplitude.DerivedTensorStalk` and in the file
+`ProjectionFormulaClosedEmbeddingUnconditional.lean` of the directory
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/`, whose
 `cohomologySupportedOn_derivedTensor_of_left` — the mirror of
 `cohomologySupportedOn_derivedTensor_of_right` below — does exactly the same thing.
 

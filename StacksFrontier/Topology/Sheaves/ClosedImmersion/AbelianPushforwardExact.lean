@@ -47,7 +47,7 @@ lemma stalkPushforward_naturality
   let P := TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} z
   let Q := TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} (i.hom z)
   dsimp [P, Q, TopCat.Presheaf.stalkFunctor]
-  show F.stalkPushforward AddCommGrpCat i z ≫ P.map φ =
+  change F.stalkPushforward AddCommGrpCat i z ≫ P.map φ =
     Q.map ((TopCat.Presheaf.pushforward AddCommGrpCat i).map φ) ≫
       G.stalkPushforward AddCommGrpCat i z
   dsimp [P, Q]

@@ -138,7 +138,7 @@ scaled by `r`. -/
 theorem reesDegOne_eq_mul {r : R} (hr : r ∈ I) (h1 : (1 : R) ∈ I) :
     reesDegOne I hr = algebraMap R (reesAlgebra I) r * reesDegOne I h1 := by
   apply Subtype.ext
-  show monomial 1 r = (algebraMap R R[X] r) * monomial 1 1
+  change monomial 1 r = (algebraMap R R[X] r) * monomial 1 1
   rw [Polynomial.algebraMap_eq, C_mul_monomial, mul_one]
 
 /-- **The chart at the unit section is the whole `Proj` of the Rees algebra.** When `1 ∈ I` every
@@ -487,7 +487,7 @@ theorem exists_admissibleBlowup_dominating {X : Scheme.{u}} (U : X.Opens)
     exact asIso (Classical.choose (H i))
   have hMeq : ∀ i, M i = (J i).comap (f i) := by
     intro i
-    show ((J i).comap (AlgebraicGeometry.blowUpToBase (I i))).comap (e i).hom = _
+    change ((J i).comap (AlgebraicGeometry.blowUpToBase (I i))).comap (e i).hom = _
     rw [← Scheme.IdealSheafData.comap_comp, he i]
   have hMdisj : ∀ i,
       Disjoint ((f i ⁻¹ᵁ U : (Y i).Opens) : Set (Y i)) ((M i).support : Set (Y i)) := by

@@ -251,7 +251,7 @@ lemma surjective_ι (hsurj : ∀ j, Function.Surjective (F.map (arr j)).hom) :
         naturality := fun j k g => by
           ext y
           refine Subtype.ext ?_
-          show (d.ι.app k).hom ((F.map g).hom y) = (d.ι.app j).hom y
+          change (d.ι.app k).hom ((F.map g).hom y) = (d.ι.app j).hom y
           rw [← ConcreteCategory.comp_apply, d.w g] } }
   have hcomp : hd.desc e ≫ CommRingCat.ofHom C.subtype = 𝟙 d.pt := by
     refine hd.hom_ext fun j => ?_
@@ -321,7 +321,7 @@ lemma exists_map_eq_zero (harr_id : arr j₀ = 𝟙 j₀)
         naturality := fun j k g => by
           ext y
           obtain ⟨z, rfl⟩ := hsurj j y
-          show ψ k ((F.map g).hom ((F.map (arr j)).hom z)) = ψ j ((F.map (arr j)).hom z)
+          change ψ k ((F.map g).hom ((F.map (arr j)).hom z)) = ψ j ((F.map (arr j)).hom z)
           rw [← ConcreteCategory.comp_apply, ← F.map_comp, harr g, hψ, hψ] } }
   have h1 : ψ j₀ x = 0 := by
     have h := congrArg (fun q : F.obj j₀ ⟶ e.pt => q.hom x) (hd.fac e j₀)

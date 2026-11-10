@@ -67,7 +67,7 @@ theorem surjective_comp_extClass_of_natCard_le (n : ℕ)
   intro y
   have hy : y.comp (mk₀ S.f) (add_zero _) = 0 := by
     apply hinj
-    show (y.comp (mk₀ S.f) (add_zero _)).comp (mk₀ S.g) (add_zero _) =
+    change (y.comp (mk₀ S.f) (add_zero _)).comp (mk₀ S.g) (add_zero _) =
       (0 : Ext O S.X₂ (n + 1)).comp (mk₀ S.g) (add_zero _)
     rw [comp_assoc_of_third_deg_zero, mk₀_comp_mk₀, S.zero, mk₀_zero, comp_zero, zero_comp]
   exact covariant_sequence_exact₁ O hS y hy rfl
@@ -99,7 +99,7 @@ theorem surjective_extClass_comp_of_natCard_le (Y : C) (n : ℕ)
   intro y
   have hy : (mk₀ S.g).comp y (zero_add _) = 0 := by
     apply hinj
-    show (mk₀ S.f).comp ((mk₀ S.g).comp y (zero_add _)) (zero_add _) =
+    change (mk₀ S.f).comp ((mk₀ S.g).comp y (zero_add _)) (zero_add _) =
       (mk₀ S.f).comp (0 : Ext S.X₂ Y (n + 1)) (zero_add _)
     rw [← comp_assoc_of_second_deg_zero, mk₀_comp_mk₀, S.zero, mk₀_zero, zero_comp, comp_zero]
   exact contravariant_sequence_exact₃ hS Y y hy (add_comm 1 n)

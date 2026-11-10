@@ -57,6 +57,7 @@ variable {A B C D : Type*} [Category* A] [Category* B] [Category* C] [Category* 
   [HasInjectiveResolutions A] [HasInjectiveResolutions C] [PreservesFiniteLimits Gp]
   (e : G'p ⋙ F ≅ F' ⋙ Gp)
 
+omit [HasInjectiveResolutions A] [HasInjectiveResolutions C] [PreservesFiniteLimits Gp] in
 /-- The adjoint of the morphism of complexes `F I ⟶ G_*(F' J)` attached to a comparison
 `c : I ⟶ G'_* J` is the mate applied to `I`, followed by `F'` of the adjoint of `c`. -/
 lemma adjointHom_complexMap {I : CochainComplex A ℕ}
@@ -157,7 +158,7 @@ private lemma mapExtendXIso_comp_hom {ι : Type*} {c : ComplexShape ι} (F₁ : 
   cases o with
   | none => exact (isZero_zero _).eq_of_src _ _
   | some a =>
-    show 𝟙 _ = 𝟙 _ ≫ F₂.map (𝟙 _)
+    change 𝟙 _ = 𝟙 _ ≫ F₂.map (𝟙 _)
     rw [F₂.map_id, id_comp]
 
 omit [HasInjectiveResolutions A] [HasInjectiveResolutions C] [EnoughInjectives A]

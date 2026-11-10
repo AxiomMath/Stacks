@@ -175,7 +175,7 @@ theorem totalCoverage_hasIsos (C : SimplicialSite.{u}) :
       simp only [e]
       exact HasFibers.Fib.map_homMk Φ.hom
     have hmap' : (CoGrothendieck.ι C.totalPseudofunctor bS).map e.hom = f := by
-      show (HasFibers.ι (p := p) bS).map e.hom = f
+      change (HasFibers.ι (p := p) bS).map e.hom = f
       simpa [Φ] using hmap
     rw [← hmap']
     exact Presieve.map_singleton e.hom

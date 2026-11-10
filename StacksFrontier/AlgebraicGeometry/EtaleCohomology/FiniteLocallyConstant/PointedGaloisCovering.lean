@@ -212,7 +212,7 @@ theorem exists_pointedGaloisCover_subset {U : Set (EtaleFundamentalGroup X x)}
   have hU' : e ⁻¹' U ∈ nhds (1 : Aut (finiteEtaleFiberFintypeFunctor X x)) := by
     refine e.continuous.continuousAt.preimage_mem_nhds ?_
     have h1 : e 1 = 1 := e.toMulEquiv.map_one
-    show U ∈ nhds (e 1)
+    change U ∈ nhds (e 1)
     rw [h1]
     exact hU
   obtain ⟨A, -, hA⟩ := (nhds_one_has_basis_stabilizers _).mem_iff.1 hU'

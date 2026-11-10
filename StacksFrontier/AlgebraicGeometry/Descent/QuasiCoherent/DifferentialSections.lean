@@ -78,11 +78,11 @@ lemma relativeDifferentialsMap_id_overBase {S : Scheme.{u}} (T : Over S) :
   have hdiff : Scheme.Hom.IsRelativeDifferentialsMap (𝟙 T.left) T.hom T.hom
       ((Scheme.Modules.pullbackId T.left).hom.app M) := by
     intro U h
-    show (((Scheme.Modules.pullbackPushforwardAdjunction (𝟙 T.left)).homEquiv
+    change (((Scheme.Modules.pullbackPushforwardAdjunction (𝟙 T.left)).homEquiv
         M M ((Scheme.Modules.pullbackId T.left).hom.app M)).val.app (op U)).hom
         ((Scheme.Hom.universalRelativeDerivation T.hom).d h) = _
     rw [Adjunction.homEquiv_unit, pullbackId_unit M]
-    show (Scheme.Modules.Hom.app ((Scheme.Modules.pushforwardId T.left).inv.app M) U)
+    change (Scheme.Modules.Hom.app ((Scheme.Modules.pushforwardId T.left).inv.app M) U)
       ((Scheme.Hom.universalRelativeDerivation T.hom).d h) = _
     rw [Scheme.Modules.pushforwardId_inv_app_app]
     rfl

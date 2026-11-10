@@ -315,7 +315,7 @@ lemma smallPolynomialAugmentationIdealPowSubmodule_zero
     (X : ((smallBoundedPolynomialSite A B κ)ᵒᵖ)) :
     smallPolynomialAugmentationIdealPowSubmodule A B κ 0 X = ⊤ := by
   refine eq_top_iff.2 fun x _ => ?_
-  show x ∈ smallPolynomialAugmentationIdeal A B κ X ^ 0
+  change x ∈ smallPolynomialAugmentationIdeal A B κ X ^ 0
   rw [pow_zero, Ideal.one_eq_top]
   exact Submodule.mem_top
 

@@ -57,13 +57,11 @@ add_to_ega "0 19.10.2" "discrete, unramified" Algebra.FormallyUnramified.iff_com
 -- The former @[stacks 00UO] declaration is now the Mathlib theorem.
 add_to_stacks 00UO "formally unramified iff the module of differentials vanishes"
   Algebra.formallyUnramified_iff
-add_to_ega "IV 17.2.1" "affine case" Algebra.formallyUnramified_iff
+add_to_ega "IV 17.2.1" "affine/ring case" Algebra.formallyUnramified_iff
 add_to_ega "0 21.7.4" "b) ⇔ d)" Algebra.formallyUnramified_iff
 add_to_ega "IV 17.4.1" "(c) <=> (e)" Algebra.formallyUnramified_iff
 add_to_ega "0 20.7.4" "discrete case"
   Algebra.formallyUnramified_iff
-add_to_ega "0 21.7.4" "b) <=> d)" Algebra.formallyUnramified_iff
-add_to_ega "IV 17.2.1" "affine/ring case" Algebra.formallyUnramified_iff
 
 -- The former @[stacks 04E9] declarations are now the Mathlib theorems.
 add_to_stacks 04E9 "(1)" Algebra.FormallyUnramified.localization_map

@@ -431,7 +431,7 @@ theorem mk_gysinCycleMapAlong_zeroSection_eq_infinitySection
       (zeroSection sB ≫ Φ.hom) L₀ s₀ htriv₀ hq₀ hker₀ δ y
     obtain ⟨hB, hfinI⟩ := gysinCycleMapAlong_apply_and_finite_support C sB sV k
       (infinitySection sB ≫ Φ.hom) LI sI htrivI hqI hkerI δ y
-    show (gysinCycleMapAlong C sV sB k L₀ s₀ (zeroSection sB ≫ Φ.hom) htriv₀ hq₀ hker₀ δ).1 y -
+    change (gysinCycleMapAlong C sV sB k L₀ s₀ (zeroSection sB ≫ Φ.hom) htriv₀ hq₀ hker₀ δ).1 y -
         (gysinCycleMapAlong C sV sB k LI sI (infinitySection sB ≫ Φ.hom) htrivI hqI hkerI δ).1 y
       = _
     rw [hA, hB, ← finsum_sub_distrib hfin₀ hfinI]

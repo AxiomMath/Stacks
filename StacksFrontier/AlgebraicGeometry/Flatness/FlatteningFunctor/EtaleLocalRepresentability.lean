@@ -266,7 +266,7 @@ private theorem exists_representation_baseChangeSituation
   refine ⟨Z, inferInstance, ⟨representableByOfNonemptyIff
     (baseChangeSituation D T).isomorphismFunctor Z (fun V ↦ inferInstance)
     (fun V ↦ subsingleton_overHom_of_mono V Z) fun V ↦ ?_⟩⟩
-  show Nonempty (PLift ((baseChangeSituation D T).IsIsomorphismAfterBaseChange V)) ↔ _
+  change Nonempty (PLift ((baseChangeSituation D T).IsIsomorphismAfterBaseChange V)) ↔ _
   rw [nonempty_plift, nonempty_prop, isIsomorphismAfterBaseChange_baseChangeSituation_iff]
   let adj := Over.mapPullbackAdj T.hom
   exact ⟨fun h ↦ ⟨adj.homEquiv _ _ (r.homEquiv.symm ⟨h⟩)⟩,
@@ -287,7 +287,7 @@ private theorem exists_lift_of_localRepresentative (D : ModuleMapBaseChangeSitua
   let e : (Over.map q).obj V ≅ T := Over.isoMk (Iso.refl _) (by simpa [V] using (Over.w a).symm)
   obtain ⟨b⟩ := (h V).mp (D.isIsomorphismAfterBaseChange_of_hom e.hom hT)
   refine ⟨Over.homMk b.left ?_, Over.OverMorphism.ext (Over.w b)⟩
-  show b.left ≫ W.hom ≫ q = T.hom
+  change b.left ≫ W.hom ≫ q = T.hom
   rw [← Category.assoc, Over.w b]
   exact Over.w a
 
@@ -442,7 +442,7 @@ private theorem representableBy_of_fpqcLocalRepresentatives
       nonempty_iff_forall_of_subsingleton_sheaf (yoneda.obj Z) hZ
         (fun T' ↦ subsingleton_overHom_of_mono T' Z) Q a ha]
   refine forall_congr' fun i ↦ ?_
-  show Nonempty (PLift (D.IsIsomorphismAfterBaseChange (Q i))) ↔ Nonempty (Q i ⟶ Z)
+  change Nonempty (PLift (D.IsIsomorphismAfterBaseChange (Q i))) ↔ Nonempty (Q i ⟶ Z)
   rw [nonempty_plift, nonempty_prop, h i ((Over.pullback (q i)).obj T)]
   let adj := Over.mapPullbackAdj (q i)
   exact ⟨fun ⟨g⟩ ↦ ⟨(adj.homEquiv _ _).symm (g ≫ (e i).inv)⟩,
@@ -596,7 +596,7 @@ private theorem exists_etaleLocalRepresentation (D : ModuleMapBaseChangeSituatio
   -- the chart's sections are projective over the neighbourhood, by transport along `k ≫ DU.f = p`
   have hprojE : let : Module Γ(E.S, ⊤) Γ(E.F, ⊤) := Module.compHom _ E.f.appTop.hom
       Module.Projective Γ(E.S, ⊤) Γ(E.F, ⊤) := by
-    show let : Module Γ(U.scheme, ⊤) Γ((Scheme.Modules.pullback k).obj DU.F, ⊤) :=
+    change let : Module Γ(U.scheme, ⊤) Γ((Scheme.Modules.pullback k).obj DU.F, ⊤) :=
       Module.compHom _ (k ≫ DU.f).appTop.hom
       Module.Projective Γ(U.scheme, ⊤) Γ((Scheme.Modules.pullback k).obj DU.F, ⊤)
     rw [show k ≫ DU.f = p from pullback.lift_snd _ _ _]

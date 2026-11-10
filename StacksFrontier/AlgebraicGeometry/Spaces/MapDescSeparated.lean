@@ -35,7 +35,7 @@ theorem isClosedImmersion_of_isIso (f : X ⟶ Y) [IsIso f] : IsClosedImmersion B
   refine ⟨Functor.relativelyRepresentable.of_isIso yoneda f, fun a b g fst snd sq => ?_⟩
   have : IsIso (yoneda.map snd) := sq.isIso_snd_of_isIso
   have : IsIso snd := Yoneda.fullyFaithful.isIso_of_isIso_map _
-  show AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map snd)
+  change AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 end AlgebraicGeometry.Space

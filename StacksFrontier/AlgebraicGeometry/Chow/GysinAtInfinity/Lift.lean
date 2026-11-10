@@ -489,11 +489,11 @@ theorem onChow_chowPushforward_zeroScheme_eq_zero {Y : Scheme.{u}} (q : Y ⟶ C.
         (Stacks.Divisors.zeroScheme Y M t).subschemeι rfl (m + 1) δ) = 0 := by
   induction δ using QuotientAddGroup.induction_on with
   | H d =>
-    show (gysinSystemOfInvertible C).onChow q M t m
+    change (gysinSystemOfInvertible C).onChow q M t m
       (chowPushforwardOfIsClosedImmersion C _ q _ rfl (m + 1)
         (QuotientAddGroup.mk' (rationalEquivalences C _ (m + 1)) d)) = 0
     rw [chowPushforwardOfIsClosedImmersion_mk, GysinSystem.onChow_mk]
-    show gysinHomomorphismOfInvertible C q m M t _ = 0
+    change gysinHomomorphismOfInvertible C q m M t _ = 0
     rw [gysinHomomorphismOfInvertible_properPushforward_zeroSchemeι]
     obtain ⟨e⟩ := htriv
     rw [firstChernClassCapOfInvertible_congr C _ m _

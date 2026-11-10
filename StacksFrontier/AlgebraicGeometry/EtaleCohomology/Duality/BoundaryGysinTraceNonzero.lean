@@ -89,7 +89,7 @@ theorem isZero_map_homology_of_comp_shift_eq_zero (T : Triangle (DerivedCategory
   have hex := ((DerivedCategory.homologyFunctor 𝒜 0).homologySequence_exact₁ T hT 1 2 rfl).map G
   have hepi : Epi (G.map δ) := hex.epi_f (hZ.eq_of_tgt _ _)
   have hcomp : δ ≫ (DerivedCategory.homologyFunctor 𝒜 2).map κ = 0 := by
-    show (DerivedCategory.homologyFunctor 𝒜 0).shiftMap T.mor₃ 1 2 _ ≫
+    change (DerivedCategory.homologyFunctor 𝒜 0).shiftMap T.mor₃ 1 2 _ ≫
       ((DerivedCategory.homologyFunctor 𝒜 0).shift 2).map κ = 0
     rw [← Functor.shiftMap_comp, h0, Functor.shiftMap_zero]
   have h2 : G.map ((DerivedCategory.homologyFunctor 𝒜 2).map κ) = 0 :=

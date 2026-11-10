@@ -90,7 +90,8 @@ its inverse is `Function.surjInv` of a surjectivity proof that amalgamates chart
 through the bare existential `Fd.exists_amalgamation_opens`, and no declaration names the
 resulting `ℒ` or `ψ`.
 
-**The triangle is not carried everywhere, though.** Over an *affine* base the representation of `F_d` is honest computable data —
+**The triangle is not carried everywhere, though.** Over an *affine* base the representation of
+`F_d` is honest computable data —
 `...RelativeProjQcohSheaf.Fd.representableByDegreeOpen`, whose bijections
 `...RelativeProjQcohSheaf.Quadruple.fdEquiv` have `...AffineTripleSections.fdOfHom` for their
 inverse — and there the whole `θ`-assertion is proved with nothing carried, as

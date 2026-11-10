@@ -95,7 +95,7 @@ theorem isIso_restrictionBaseChange_of_isColimit_evaluation
   have he : e.hom = a.app c.pt := hT.hom_ext fun k => by
     rw [IsColimit.comp_coconePointsIsoOfNatIso_hom]
     exact (a.naturality (c.ι.app k)).symm
-  show IsIso (a.app c.pt)
+  change IsIso (a.app c.pt)
   rw [← he]
   infer_instance
 

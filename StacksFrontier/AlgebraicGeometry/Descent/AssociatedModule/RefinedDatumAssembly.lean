@@ -82,7 +82,7 @@ public abbrev objHomOver {Z W : BigFppfOver B S hS} (g : Z ⟶ W) :
 final object `S / S` is the structure morphism of `T`. -/
 public theorem toScheme_map_from_mkIdTerminal (T : BigFppfOver B S hS) :
     (toScheme B S hS).map (Over.mkIdTerminal.from T) = objHom B S hS T := by
-  show B.inclusion.map (Over.mkIdTerminal.from T).left = objHom B S hS T
+  change B.inclusion.map (Over.mkIdTerminal.from T).left = objHom B S hS T
   rw [Over.mkIdTerminal_from_left]
   rfl
 

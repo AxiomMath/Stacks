@@ -144,7 +144,7 @@ theorem moduleDepth_and_moduleSupportDim_localizedModule_atPrime_localizedModule
     IsScalarTower.of_algebraMap_eq' (by ext r; exact (er.commutes r).symm)
   let _ : Module Qq N := Module.compHom N (algebraMap Qq P)
   let _ : IsScalarTower A Qq N := IsScalarTower.of_algebraMap_smul fun r n => by
-    show algebraMap Qq P (algebraMap A Qq r) • n = r • n
+    change algebraMap Qq P (algebraMap A Qq r) • n = r • n
     rw [← IsScalarTower.algebraMap_apply A Qq P, IsScalarTower.algebraMap_smul]
   let _ : IsScalarTower Qq P N := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   let em : LocalizedModule.AtPrime q M ≃ₗ[Qq] N :=
@@ -186,7 +186,7 @@ theorem algebraMap_residueField_fiber_apply {R S : Type u} [CommRing R] [CommRin
       algebraMap (𝔭.Fiber S) Q.ResidueField (algebraMap R (𝔭.Fiber S) x) := by
   let : Algebra 𝔭.ResidueField Q.ResidueField :=
     IsLocalRing.ResidueField.algebra (Localization.AtPrime Q)
-  show IsLocalRing.residue _ (algebraMap 𝔭.ResidueField (Localization.AtPrime Q)
+  change IsLocalRing.residue _ (algebraMap 𝔭.ResidueField (Localization.AtPrime Q)
       (algebraMap R 𝔭.ResidueField x)) =
     IsLocalRing.residue _ (algebraMap (𝔭.Fiber S) (Localization.AtPrime Q)
       (algebraMap R (𝔭.Fiber S) x))
@@ -217,7 +217,7 @@ theorem trdeg_residueField_comap_includeRight_eq {R S : Type u} [CommRing R] [Co
     refine IsScalarTower.of_algebraMap_eq' ?_
     refine Ideal.ResidueField.ringHom_ext ?_
     ext x
-    show algebraMap 𝔭.ResidueField Q.ResidueField (algebraMap R 𝔭.ResidueField x) =
+    change algebraMap 𝔭.ResidueField Q.ResidueField (algebraMap R 𝔭.ResidueField x) =
       algebraMap (𝔭.Fiber S) Q.ResidueField
         (algebraMap 𝔭.ResidueField (𝔭.Fiber S) (algebraMap R 𝔭.ResidueField x))
     rw [h1, ← IsScalarTower.algebraMap_apply R 𝔭.ResidueField (𝔭.Fiber S)]
@@ -232,7 +232,7 @@ theorem trdeg_residueField_comap_includeRight_eq {R S : Type u} [CommRing R] [Co
       (f := φ.comp (algebraMap 𝔭.ResidueField q.ResidueField))
       (g := algebraMap 𝔭.ResidueField Q.ResidueField) (by
         ext x
-        show φ (algebraMap 𝔭.ResidueField q.ResidueField (algebraMap R _ x)) =
+        change φ (algebraMap 𝔭.ResidueField q.ResidueField (algebraMap R _ x)) =
           algebraMap 𝔭.ResidueField Q.ResidueField (algebraMap R _ x)
         have h2 : algebraMap 𝔭.ResidueField q.ResidueField (algebraMap R 𝔭.ResidueField x) =
             algebraMap S q.ResidueField (algebraMap R S x) :=
@@ -244,12 +244,11 @@ theorem trdeg_residueField_comap_includeRight_eq {R S : Type u} [CommRing R] [Co
   have hsurj : Function.Surjective φ := by
     have hrange : ∀ w : 𝔭.Fiber S, algebraMap (𝔭.Fiber S) Q.ResidueField w ∈ φ.fieldRange := by
       intro w
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul a s =>
         have hw : (a ⊗ₜ[R] s : 𝔭.Fiber S) =
             algebraMap 𝔭.ResidueField (𝔭.Fiber S) a * iR s := by
-          show a ⊗ₜ[R] s = (a ⊗ₜ[R] (1 : S)) * ((1 : 𝔭.ResidueField) ⊗ₜ[R] s)
+          change a ⊗ₜ[R] s = (a ⊗ₜ[R] (1 : S)) * ((1 : 𝔭.ResidueField) ⊗ₜ[R] s)
           simp
         rw [hw, map_mul, ← IsScalarTower.algebraMap_apply]
         exact Subfield.mul_mem _ ⟨_, hcomm a⟩ ⟨algebraMap S q.ResidueField s, hφ s⟩
@@ -300,7 +299,7 @@ theorem isMaximalCohenMacaulay_and_le_depth_ker_localRingHom
   let pBase : Ideal R := q.under R
   have hrUnder : rP.under R = pBase := by
     rw [hrP]
-    show Ideal.comap (MvPolynomial.C : R →+* P) (Ideal.comap p.toRingHom q) = _
+    change Ideal.comap (MvPolynomial.C : R →+* P) (Ideal.comap p.toRingHom q) = _
     rw [Ideal.comap_comap, p.commutes]
   obtain ⟨Qp, hQp, hQpcomp⟩ := Ideal.Fiber.exists_comap_includeRight_eq rP pBase hrUnder
   subst hQpcomp
@@ -322,7 +321,7 @@ theorem isMaximalCohenMacaulay_and_le_depth_ker_localRingHom
   let J₀ : Ideal S₀ := (IsLocalRing.maximalIdeal R₀).map (algebraMap R₀ S₀)
   let J₀' : Ideal S₀ := pBase.map (algebraMap R S₀)
   have hJ₀ : J₀ = J₀' := by
-    show (IsLocalRing.maximalIdeal R₀).map (algebraMap R₀ S₀) = pBase.map (algebraMap R S₀)
+    change (IsLocalRing.maximalIdeal R₀).map (algebraMap R₀ S₀) = pBase.map (algebraMap R S₀)
     rw [← Localization.AtPrime.map_eq_maximalIdeal,
       Ideal.map_map, ← IsScalarTower.algebraMap_eq R R₀ S₀]
   let eFiberP := Ideal.Fiber.localizationAlgEquivQuotient pBase Qp
@@ -398,7 +397,7 @@ theorem isMaximalCohenMacaulay_and_le_depth_ker_localRingHom
   have hcfin : Cardinal.toENat c ≠ ⊤ := by
     intro htop
     rw [htop, add_top] at hT
-    exact ENat.top_ne_coe _ hT
+    exact ENat.top_ne_natCast _ hT
   have hclt : c < Cardinal.aleph0 := by
     by_contra hge
     exact hcfin (Cardinal.toENat_eq_top.mpr (not_lt.mp hge))
@@ -416,7 +415,7 @@ theorem isMaximalCohenMacaulay_and_le_depth_ker_localRingHom
   rw [← hb] at hT
   rw [← hh, ← ha] at h0BAE
   rw [← hh, hflat] at h0BUX
-  show (p.variableCount : ℕ∞) ≤ Module.depth S₀ I₀ S₀ + r
+  change (p.variableCount : ℕ∞) ≤ Module.depth S₀ I₀ S₀ + r
   by_cases hD : Module.depth S₀ I₀ S₀ = ⊤
   · simp [hD]
   obtain ⟨d, hd⟩ := ENat.ne_top_iff_exists.mp hD
@@ -565,7 +564,7 @@ theorem moduleDepth_and_moduleSupportDim_localizedModule_restrictScalars {P A : 
   have : IsScalarTower P S₀ Hq := by
     refine IsScalarTower.of_algebraMap_smul fun x n => ?_
     rw [← algebraMap_smul A x n]
-    show Localization.localRingHom rP q φ hrP (algebraMap P S₀ x) • n = algebraMap P A x • n
+    change Localization.localRingHom rP q φ hrP (algebraMap P S₀ x) • n = algebraMap P A x • n
     rw [Localization.localRingHom_to_map, algebraMap_smul]
     rfl
   let e : LocalizedModule rP.primeCompl H ≃ₗ[S₀] Hq :=
@@ -708,16 +707,16 @@ theorem subsingleton_and_min_two_le_moduleDepth_localizedModule_homology_upperSh
   have hNann : I₀ ≤ Module.annihilator S₀ N := by
     rw [hIMap, Ideal.map_le_iff_le_comap]
     intro x hx
-    show algebraMap P S₀ x ∈ Module.annihilator S₀ N
+    change algebraMap P S₀ x ∈ Module.annihilator S₀ N
     rw [Module.mem_annihilator]
     intro y
-    show algebraMap P S₀ x • y = 0
+    change algebraMap P S₀ x • y = 0
     rw [algebraMap_smul]
     induction y using LocalizedModule.induction_on with
     | h a t =>
       rw [LocalizedModule.smul'_mk]
       have hxa : x • a = 0 := by
-        show ULift.up (p.toRingHom x * a.down) = ULift.up 0
+        change ULift.up (p.toRingHom x * a.down) = ULift.up 0
         rw [RingHom.mem_ker.mp hx, zero_mul]
       rw [hxa, LocalizedModule.zero_mk]
   have hI₀ : I₀ ≠ ⊤ := RingHom.ker_ne_top fLocal
@@ -751,7 +750,7 @@ theorem subsingleton_and_min_two_le_moduleDepth_localizedModule_homology_upperSh
   · have := finite_homology_upperShriekFunctor p (-(r : ℤ))
     obtain ⟨hd, hs⟩ := moduleDepth_and_moduleSupportDim_localizedModule_restrictScalars
       p.toRingHom p.surjective q rP rfl (H (-(r : ℤ)))
-    show min (2 : ℕ∞) ((moduleSupportDim T₀ (LocalizedModule.AtPrime q (H (-(r : ℤ))))).unbotD
+    change min (2 : ℕ∞) ((moduleSupportDim T₀ (LocalizedModule.AtPrime q (H (-(r : ℤ))))).unbotD
       0) ≤ moduleDepth T₀ (LocalizedModule.AtPrime q (H (-(r : ℤ))))
     rw [hd, hs]
     by_cases h0 : -(r : ℤ) + p.variableCount < 0

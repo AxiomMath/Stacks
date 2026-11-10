@@ -141,7 +141,7 @@ theorem trivSieve_mem_of_epi {F : Sheaf J (ModuleCat.{max u v w} Λ)} {Y₀ : C}
   rw [Sieve.generate_le_iff]
   rintro Z p ⟨i⟩
   obtain ⟨ψ, hψ⟩ := hloc i
-  show IsConstantFGOver J Λ (V i).left F
+  change IsConstantFGOver J Λ (V i).left F
   have hres : (J.overMapPullback (ModuleCat.{max u v w} Λ) (V i).hom).map ξ =
       (J.overMapPullback (ModuleCat.{max u v w} Λ) (V i).hom).map
         ((constantSheaf (J.over Y₀) (ModuleCat.{max u v w} Λ)).map ψ) :=

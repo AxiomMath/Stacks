@@ -324,8 +324,8 @@ section Adic
 variable {Y : Scheme.{u}} (J : Y.IdealSheafData) (F : Y.Modules)
 
 /-- **`H¹` of the diagonal graded piece `𝓘 ᵐ ℱ / 𝓘 ᵐ ℱ` vanishes**, that piece being the zero
-sheaf. The proof `h : m ≤ m` is an explicit argument because the induction's hypothesis supplies one;
-by proof irrelevance it does not matter which. -/
+sheaf. The proof `h : m ≤ m` is an explicit argument because the induction's hypothesis supplies
+one; by proof irrelevance it does not matter which. -/
 public theorem isZero_rightDerived_one_adicGradedPiece_self (m : ℕ) (h : m ≤ m) :
     IsZero (((moduleGlobalSections Y).rightDerived 1).obj
       (cokernel (C := Y.Modules) (submoduleInclusion (idealPowerMultiple_antitone J F h)))) :=

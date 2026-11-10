@@ -332,7 +332,7 @@ lemma tensorMapRight_eq_zero (M : PresheafOfModules.{z} (ringPresheaf O))
     tensorMapRight M α = 0 := by
   subst hα
   refine PresheafOfModules.tensorObj_hom_ext fun X x y ↦ ?_
-  show x ⊗ₜ[(ringPresheaf O).obj X] (0 : N'.obj X) = 0
+  change x ⊗ₜ[(ringPresheaf O).obj X] (0 : N'.obj X) = 0
   rw [TensorProduct.tmul_zero]
 
 section Comm
@@ -414,7 +414,7 @@ instance epi_fromFreeCover : Epi (fromFreeCover M) :=
 /-- Every module of sections of the free cover of `M` is flat. -/
 lemma flat_freeCover_obj (X : Cᵒᵖ) :
     Module.Flat ((ringPresheaf O).obj X) ((freeCover M).obj X) := by
-  show Module.Flat ((ringPresheaf O).obj X)
+  change Module.Flat ((ringPresheaf O).obj X)
     ((M.presheaf ⋙ forget _).obj X →₀ (ringPresheaf O).obj X)
   infer_instance
 

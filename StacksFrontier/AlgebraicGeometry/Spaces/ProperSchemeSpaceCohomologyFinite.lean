@@ -75,7 +75,7 @@ theorem moduleFinite_restrictScalars_of_finite_ringHom {R : Type*} {S : Type*} [
     Module.Finite R ((ModuleCat.restrictScalars f).obj M) := by
   let _ : Algebra R S := f.toAlgebra
   have : Module.Finite R S := hf
-  show @Module.Finite R (M : Type u) _ _ (Module.compHom (M : Type u) f)
+  change @Module.Finite R (M : Type u) _ _ (Module.compHom (M : Type u) f)
   let _ : Module R (M : Type u) := Module.compHom (M : Type u) f
   have : IsScalarTower R S (M : Type u) := ⟨fun r s m => mul_smul (f r) s m⟩
   exact Module.Finite.trans S (M : Type u)
@@ -126,7 +126,7 @@ theorem hasFiniteGlobalCohomologyOver_schemeSpaceMap_of_isProper {Z W : BigFppfO
       V := idEtaleChart B S hS W
       g := (SmallEtale.toOver B S hS (yoneda.obj Z)).map e.hom ≫ g
       comm := by
-        show V.obj.hom ≫ yoneda.map g =
+        change V.obj.hom ≫ yoneda.map g =
           yoneda.map ((SmallEtale.toOver B S hS (yoneda.obj Z)).map e.hom ≫ g) ≫ 𝟙 _
         rw [Category.comp_id, ← yoneda_map_toOver_map_comp_hom e.hom]
         exact (congrArg (· ≫ yoneda.map g) (Category.comp_id _)).trans

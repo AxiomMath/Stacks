@@ -594,8 +594,8 @@ theorem length_tor_quotient_of_length_quotient_sup_eq_one {A : Type u} [CommRing
   classical
   by_cases hi : i = 0
   · subst hi
-    rw [if_pos rfl, length_tor_zero_quotient_eq, hmult]
-  · rw [if_neg hi]
+    rw [ite_eq_left rfl, length_tor_zero_quotient_eq, hmult]
+  · rw [ite_eq_right hi]
     obtain ⟨a, b, f, g, hparam, hI, -, -, hdimJ⟩ :=
       exists_isRegularSystemOfParameters_of_length_quotient_sup_eq_one I J hmult hproper
     refine ((torIsoKoszulHomology _ (isRegularSystemOfParameters_take f g hparam).1 I hI

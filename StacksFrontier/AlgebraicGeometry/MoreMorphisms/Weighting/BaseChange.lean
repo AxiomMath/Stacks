@@ -480,7 +480,7 @@ private theorem locallyConstant_weightedFiberSum_after_singleton_chart_baseChang
   have : Etale qV := inferInstance
   have : Etale q := by dsimp [q]; infer_instance
   refine ⟨W.toScheme, q, t, inferInstance, hqV, ?_⟩
-  show IsLocallyConstant ((separableDegreeWeightedFiberSum πB (w ∘ hB) ∘ qV) ∘ W.ι)
+  change IsLocallyConstant ((separableDegreeWeightedFiberSum πB (w ∘ hB) ∘ qV) ∘ W.ι)
   rwa [hBC]
 
 private theorem eventually_eq_weightedFiberSum_of_singleton_open_piece
@@ -639,7 +639,7 @@ theorem IsWeighting.comp_of_isPullback {X Y X' Y' : Scheme.{u}}
         pullback.lift h π comm ≫ e.hom ≫ pullback.fst f (k ≫ g) =
             pullback.lift h π comm ≫ (pullback.fst f' k ≫ p) := by rw [he₁]
         _ = h₀ := by
-          show (pullback.lift h π comm ≫ pullback.fst f' k) ≫ p = h ≫ p
+          change (pullback.lift h π comm ≫ pullback.fst f' k) ≫ p = h ≫ p
           rw [pullback.lift_fst]
         _ = pullback.lift h₀ π comm₀ ≫ pullback.fst f (k ≫ g) := by
           rw [pullback.lift_fst]

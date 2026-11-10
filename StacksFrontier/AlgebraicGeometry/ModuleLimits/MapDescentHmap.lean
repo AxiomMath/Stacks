@@ -102,7 +102,7 @@ of the preimage of `V` at any stage over `i`.  The two opens are in fact equal; 
 the form in which `IsChartDescent` takes it. -/
 theorem coneProj_preimage_le (i : I) (k : Over i) (V : (D.obj i).Opens) :
     coneProj D c i ⁻¹ᵁ V ≤ coneProj D c k.left ⁻¹ᵁ (D.map k.hom ⁻¹ᵁ V) := by
-  show c.π.app i ⁻¹ᵁ V ≤ c.π.app k.left ⁻¹ᵁ (D.map k.hom ⁻¹ᵁ V)
+  change c.π.app i ⁻¹ᵁ V ≤ c.π.app k.left ⁻¹ᵁ (D.map k.hom ⁻¹ᵁ V)
   rw [← Scheme.Hom.comp_preimage, c.w k.hom]
 
 /-- The preimage of `V` at a stage over `i` is contained in the preimage of the preimage of `V` at

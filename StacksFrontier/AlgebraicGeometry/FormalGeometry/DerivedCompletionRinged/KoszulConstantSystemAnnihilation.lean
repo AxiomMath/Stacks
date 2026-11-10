@@ -129,17 +129,20 @@ of the system at a subset, and they have to be composable with endomorphisms of 
   map_comp {S T V} g g' := by
     rw [hσadd, koszulExp_add (leOfHom g) (leOfHom g')]
 
+omit [Preadditive 𝒜] [HasFiniteProducts 𝒜] in
 /-- The constant Koszul system takes the value `Y` at every subset. -/
 @[simp]
 theorem constSystem_obj (n : ℕ) (S : Finset (Fin r)) :
     (constSystem σ hσ0 hσadd n).obj S = Y :=
   rfl
 
+omit [Preadditive 𝒜] [HasFiniteProducts 𝒜] in
 /-- The transition map of the constant Koszul system along `S ⊆ T` is `σ (koszulExp n S T)`. -/
 theorem constSystem_map (n : ℕ) {S T : Finset (Fin r)} (g : S ⟶ T) :
     (constSystem σ hσ0 hσadd n).map g = σ (koszulExp n S T) :=
   rfl
 
+omit [Preadditive 𝒜] [HasFiniteProducts 𝒜] in
 /-- A transition map of the constant Koszul system across a single new index `k` is the monomial
 concentrated at `k`. -/
 theorem constSystem_map_single (n : ℕ) {S T : Finset (Fin r)} (h : S ⊆ T) {k : Fin r}
@@ -154,9 +157,10 @@ def constSmulNat (n : ℕ) (e : Fin r → ℕ) :
     constSystem σ hσ0 hσadd n ⟶ constSystem σ hσ0 hσadd n where
   app _ := σ e
   naturality {S T} _ := by
-    show σ (koszulExp n S T) ≫ σ e = σ e ≫ σ (koszulExp n S T)
+    change σ (koszulExp n S T) ≫ σ e = σ e ≫ σ (koszulExp n S T)
     rw [hσadd, hσadd, add_comm]
 
+omit [Preadditive 𝒜] [HasFiniteProducts 𝒜] in
 /-- The component of `constSmulNat` at every subset is `σ e`. -/
 @[simp]
 theorem constSmulNat_app (n : ℕ) (e : Fin r → ℕ) (S : Finset (Fin r)) :
@@ -169,6 +173,7 @@ def constSmulTerm (n : ℕ) (e : Fin r → ℕ) (p : ℤ) :
     term (constSystem σ hσ0 hσadd n) p ⟶ term (constSystem σ hσ0 hσadd n) p :=
   mapX (constSmulNat σ hσ0 hσadd n e) p
 
+omit [Preadditive 𝒜] in
 /-- Each component of `constSmulTerm` is the projection followed by `σ e`. -/
 @[simp]
 theorem constSmulTerm_comp_pi (n : ℕ) (e : Fin r → ℕ) (p : ℤ) (A : Idx r p) :
@@ -420,17 +425,18 @@ def constDownNat {m n : ℕ} (hnm : n ≤ m) :
     constSystem σ hσ0 hσadd m ⟶ constSystem σ hσ0 hσadd n where
   app S := σ (downExp m n S)
   naturality {S T} g := by
-    show σ (koszulExp m S T) ≫ σ (downExp m n T) = σ (downExp m n S) ≫ σ (koszulExp n S T)
+    change σ (koszulExp m S T) ≫ σ (downExp m n T) = σ (downExp m n S) ≫ σ (koszulExp n S T)
     rw [hσadd, hσadd]
     refine congrArg σ (funext fun i => ?_)
     by_cases hiS : i ∈ S
     · simp [koszulExp, downExp, Finset.mem_sdiff, hiS, leOfHom g hiS]
     · by_cases hiT : i ∈ T
-      · simp only [koszulExp, downExp, Finset.mem_sdiff, hiS, hiT, Pi.add_apply, if_true,
-          if_false, and_true, not_false_eq_true]
+      · simp only [koszulExp, downExp, Finset.mem_sdiff, hiS, hiT, Pi.add_apply, ite_true,
+          ite_false, and_true, not_false_eq_true]
         omega
       · simp [koszulExp, downExp, Finset.mem_sdiff, hiS, hiT, Pi.add_apply]
 
+omit [Preadditive 𝒜] [HasFiniteProducts 𝒜] in
 /-- The component of `constDownNat` at a subset `S` is `σ (downExp m n S)`. -/
 @[simp]
 theorem constDownNat_app {m n : ℕ} (hnm : n ≤ m) (S : Finset (Fin r)) :
@@ -450,6 +456,7 @@ theorem constDownMap_f {m n : ℕ} (hnm : n ≤ m) (p : ℤ) :
     (constDownMap σ hσ0 hσadd hnm).f p = mapX (constDownNat σ hσ0 hσadd hnm) p :=
   rfl
 
+omit [Preadditive 𝒜] [HasFiniteProducts 𝒜] in
 /-- **The downward transitions compose.** Going down from the `(m₂+1)`-st to the `(m₁+1)`-st and
 then to the `(n+1)`-st powers is going down from the `(m₂+1)`-st to the `(n+1)`-st, because the
 exponents `m₂ - m₁` and `m₁ - n` add to `m₂ - n`. -/
@@ -457,20 +464,21 @@ theorem constDownNat_comp {m₁ m₂ n : ℕ} (h₁ : m₁ ≤ m₂) (h₂ : n �
     constDownNat σ hσ0 hσadd h₁ ≫ constDownNat σ hσ0 hσadd h₂ =
       constDownNat σ hσ0 hσadd (h₂.trans h₁) := by
   refine NatTrans.ext (funext fun S => ?_)
-  show σ (downExp m₂ m₁ S) ≫ σ (downExp m₁ n S) = σ (downExp m₂ n S)
+  change σ (downExp m₂ m₁ S) ≫ σ (downExp m₁ n S) = σ (downExp m₂ n S)
   rw [hσadd]
   refine congrArg σ (funext fun i => ?_)
   by_cases hiS : i ∈ S
   · simp [downExp, hiS, Pi.add_apply]
-  · simp only [downExp, hiS, if_false, Pi.add_apply]
+  · simp only [downExp, hiS, ite_false, Pi.add_apply]
     omega
 
+omit [Preadditive 𝒜] [HasFiniteProducts 𝒜] in
 /-- **The downward transition at a level to itself is the identity**: its exponent vector is
 zero. -/
 theorem constDownNat_self (n : ℕ) :
     constDownNat σ hσ0 hσadd (le_refl n) = 𝟙 (constSystem σ hσ0 hσadd n) := by
   refine NatTrans.ext (funext fun S => ?_)
-  show σ (downExp n n S) = 𝟙 Y
+  change σ (downExp n n S) = 𝟙 Y
   rw [show downExp n n S = 0 from funext fun i => by simp [downExp]]
   exact hσ0
 
@@ -562,14 +570,14 @@ endomorphisms: at the exponent vector `e` it is multiplication by `∏_i a_i^{e_
 
 /-- The monomial multiplication at the zero exponent vector is the identity. -/
 theorem smulFam_zero : smulFam a N 0 = 𝟙 N := by
-  show moduleKoszulValue a 0 • 𝟙 N = 𝟙 N
+  change moduleKoszulValue a 0 • 𝟙 N = 𝟙 N
   rw [moduleKoszulValue_zero, one_smul]
 
 /-- The monomial multiplications are multiplicative: the composite at `e` and `e'` is the
 multiplication at `e + e'`. -/
 theorem smulFam_add (e e' : Fin r → ℕ) :
     smulFam a N e ≫ smulFam a N e' = smulFam a N (e + e') := by
-  show (moduleKoszulValue a e • 𝟙 N) ≫ (moduleKoszulValue a e' • 𝟙 N) =
+  change (moduleKoszulValue a e • 𝟙 N) ≫ (moduleKoszulValue a e' • 𝟙 N) =
     moduleKoszulValue a (e + e') • 𝟙 N
   rw [Linear.smul_comp, Category.id_comp, smul_smul, moduleKoszulValue_add]
 
@@ -593,11 +601,11 @@ theorem modComplex_eq (n : ℕ) : modComplex a N n = moduleKoszulPowerComplex a 
 /-- The monomial concentrated at the single index `j` is the `(n+1)`-st power of `a j`. -/
 theorem moduleKoszulValue_singleExp (j : Fin r) (n : ℕ) :
     moduleKoszulValue a (singleExp j n) = a j ^ (n + 1) := by
-  show (∏ i, a i ^ singleExp j n i) = a j ^ (n + 1)
+  change (∏ i, a i ^ singleExp j n i) = a j ^ (n + 1)
   refine (Finset.prod_eq_single j (fun i _ hij => ?_)
     (fun h => absurd (Finset.mem_univ j) h)).trans ?_
-  · rw [show singleExp j n i = 0 from if_neg hij, pow_zero]
-  · rw [show singleExp j n j = n + 1 from if_pos rfl]
+  · rw [show singleExp j n i = 0 from ite_eq_right hij, pow_zero]
+  · rw [show singleExp j n j = n + 1 from ite_eq_left rfl]
 
 /-- Multiplication by the monomial `∏_i a_i^{e_i}` on the Koszul complex is the scalar action of
 that monomial. -/
@@ -605,11 +613,11 @@ theorem constSmulMap_modComplex (n : ℕ) (e : Fin r → ℕ) :
     constSmulMap (smulFam a N) (smulFam_zero a N) (smulFam_add a N) n e =
       moduleKoszulValue a e • 𝟙 (modComplex a N n) := by
   refine HomologicalComplex.hom_ext _ _ fun q => ?_
-  show constSmulTerm (smulFam a N) (smulFam_zero a N) (smulFam_add a N) n e q =
+  change constSmulTerm (smulFam a N) (smulFam_zero a N) (smulFam_add a N) n e q =
     moduleKoszulValue a e • 𝟙 (term (modSystem a N n) q)
   refine Pi.hom_ext _ _ fun B => ?_
   rw [constSmulTerm_comp_pi, Linear.smul_comp, Category.id_comp]
-  show _ ≫ (moduleKoszulValue a e • 𝟙 N) = _
+  change _ ≫ (moduleKoszulValue a e • 𝟙 N) = _
   rw [Linear.comp_smul, Category.comp_id]
 
 /-- **[Stacks, Tag 0663] with coefficients, in the subset-product model.** The ideal generated by
@@ -656,7 +664,7 @@ theorem range_modDown_le_ideal_smul (n k : ℕ) {m : ℕ} (hm : m = n + (n + 1) 
       (Ideal.span (Set.range fun i => a i ^ (n + 1))) ^ k •
         (⊤ : Submodule A ((modComplex a N n).X p)) := by
   classical
-  show LinearMap.range ((modDown a N hnm).f p).hom ≤
+  change LinearMap.range ((modDown a N hnm).f p).hom ≤
       (Ideal.span (Set.range fun i => a i ^ (n + 1))) ^ k •
         (⊤ : Submodule A ↥(term (modSystem a N n) p))
   refine range_le_ideal_smul_of_total _ _ Finset.univ
@@ -670,8 +678,8 @@ theorem range_modDown_le_ideal_smul (n k : ℕ) {m : ℕ} (hm : m = n + (n + 1) 
         (Ideal.span (Set.range fun j => a j ^ (n + 1))) ^ k :=
       NoetherianKoszulProIso.power_generator_mem_span_pow a n k i
     have hval : downExp m n S.1 i = (n + (n + 1) * k) - n := by
-      rw [downExp, if_neg hi, hm]
-    show (∏ j, a j ^ downExp m n S.1 j) ∈ _
+      rw [downExp, ite_eq_right hi, hm]
+    change (∏ j, a j ^ downExp m n S.1 j) ∈ _
     rw [← Finset.mul_prod_erase Finset.univ (fun j => a j ^ downExp m n S.1 j)
       (Finset.mem_univ i), hval]
     exact Ideal.mul_mem_right _ _ hpow
@@ -681,7 +689,7 @@ theorem range_modDown_le_ideal_smul (n k : ℕ) {m : ℕ} (hm : m = n + (n + 1) 
       mapX_comp_pi
         (constDownNat (smulFam a N) (smulFam_zero a N) (smulFam_add a N) hnm) S
     rw [h1]
-    show _ ≫ (moduleKoszulValue a (downExp m n S.1) • 𝟙 N) = _
+    change _ ≫ (moduleKoszulValue a (downExp m n S.1) • 𝟙 N) = _
     rw [Linear.comp_smul, Category.comp_id]
     rfl
 
@@ -726,7 +734,7 @@ theorem exists_modDown_cocyclesIntoCoboundaries [IsNoetherianRing A] [Module.Fin
   classical
   have hnext : (ComplexShape.up ℤ).next p = p + 1 := ComplexShape.next_eq' _ rfl
   have hprev : (ComplexShape.up ℤ).prev p = p - 1 :=
-    ComplexShape.prev_eq' (ComplexShape.up ℤ) (i := p) (j := p - 1) (by show p - 1 + 1 = p; omega)
+    ComplexShape.prev_eq' (ComplexShape.up ℤ) (i := p) (j := p - 1) (by change p - 1 + 1 = p; omega)
   have hfin : Module.Finite A (((modComplex a N n).sc p).X₂ : Type u) :=
     Module.Finite.equiv
       (ModuleCat.piIsoPi (fun T : Idx r p => (modSystem a N n).obj T.1)).symm.toLinearEquiv
@@ -742,7 +750,7 @@ theorem exists_modDown_cocyclesIntoCoboundaries [IsNoetherianRing A] [Module.Fin
   have hnm' : n ≤ n + (n + 1) * k := by omega
   refine ⟨n + (n + 1) * k, hnm', fun x hx => ?_⟩
   have hx' : (((modComplex a N (n + (n + 1) * k)).sc p).g).hom x = 0 := by
-    show ((modComplex a N (n + (n + 1) * k)).d p ((ComplexShape.up ℤ).next p)).hom x = 0
+    change ((modComplex a N (n + (n + 1) * k)).d p ((ComplexShape.up ℤ).next p)).hom x = 0
     rwa [hnext]
   have h : (((modComplex a N n).sc p).g).hom (((modDown a N hnm').f p).hom x) =
       ((modDown a N hnm').f ((ComplexShape.up ℤ).next p)).hom

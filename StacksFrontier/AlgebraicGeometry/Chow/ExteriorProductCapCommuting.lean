@@ -181,7 +181,6 @@ def CommutesExteriorProductCapAt (c : BivariantClass C G sY sZ u hu p) (n m : �
     exteriorProductCap C hδ G sX sY sZ u hu p c n m α β =
       capExteriorProduct C hδ G sX sY sZ u hu p c n m α β
 
-include hfp in
 /-- The predicate of Stacks 0FBY is its single-class form quantified over `α`, by definition. -/
 theorem commutesExteriorProductCap_iff_forall (c : BivariantClass C G sY sZ u hu p) (n m : ℤ) :
     CommutesExteriorProductCap C hδ G sX sY sZ u hu p c n m ↔
@@ -467,12 +466,7 @@ theorem flatPullbackBivariantClassSnd_cap_heq_chowExteriorProduct {T : Scheme.{u
     (relativeDimension_pullbackSnd sX hfr (g ≫ sZ)) k (hfp _ _ _ _ d _ k) (hfp _ _ _ _ d _ k) γ
   rw [chowPushforwardOfIso_id] at hiso
   have hprod := chowGroupDegreeEquiv_flatPullbackChowSnd_eq_chowExteriorProduct C hδ sX (g ≫ sZ)
-    d (relativeDimension_pullbackSnd sX hfr (g ≫ sZ)) hd k
-    (flatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres_of_descends C hfp sX
-      (g ≫ sZ) k)
-    (flatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres_of_descends C hfp
-      (g ≫ sZ) sX (d : ℤ))
-    (hfp _ _ _ _ d _ k) γ
+    d (relativeDimension_pullbackSnd sX hfr (g ≫ sZ)) hd k (hfp _ _ _ _ d _ k) γ
   refine HEq.trans (chowPushforwardOfIso_heq_congr C
     (pullback.fst (pullback.snd sX sZ) g ≫ (pullback.snd sX sZ ≫ sZ))
     (pullback.fst sX (g ≫ sZ) ≫ sX) (pullbackLeftPullbackSndIso sX sZ g).hom
@@ -528,11 +522,7 @@ theorem flatPullbackBivariantClassSnd_cap_id_heq_exteriorProductOnTarget (β : c
   rw [chowPushforwardOfIso_chowGroupCongr_source C sZ (Category.id_comp sZ).symm (𝟙 Z)
       (Category.id_comp sZ) rfl m β, chowPushforwardOfIso_id] at hiso
   have hprod := chowGroupDegreeEquiv_flatPullbackChowSnd_eq_chowExteriorProduct C hδ sX sZ d
-    hrelZ hd m
-    (flatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres_of_descends C hfp sX sZ m)
-    (flatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres_of_descends C hfp sZ sX
-      (d : ℤ))
-    (hfp _ _ _ _ d _ m) β
+    hrelZ hd m (hfp _ _ _ _ d _ m) β
   refine HEq.trans (chowPushforwardOfIso_heq_congr C
     (pullback.fst (pullback.snd sX sZ) (𝟙 Z) ≫ (pullback.snd sX sZ ≫ sZ))
     (pullback.snd sX sZ ≫ sZ) (pullbackIdIso (pullback.snd sX sZ)).inv

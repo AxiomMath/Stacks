@@ -102,7 +102,7 @@ public theorem compFiberStalksMap_fiberStalkOf (y : GeometricFiberPoint B g s)
   subst hx
   refine ConcreteCategory.hom_ext _ _ fun b => ?_
   let := Classical.decEq (GeometricFiberPoint B (f ≫ g) s)
-  show compFiberStalksMap.{u, v} B f g s F
+  change compFiberStalksMap.{u, v} B f g s F
     (DirectSum.of (fun r : GeometricFiberPoint B (f ≫ g) s =>
       ↑(etaleStalk B X.obj X.property (r.toGeometricPoint B (f ≫ g) s) F.obj))
       (compFiberPointOf B f g s _ _) b) = _
@@ -253,7 +253,7 @@ public theorem pushStalkMap_precomp
       AddCommGrpCat.{u + 1}}
     (α : G ⟶ G') (β : G' ⟶ (abelianRestriction B X hX U).obj H) :
     pushStalkMap B X hX U s x H G (α ≫ β) =
-      colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber
+      colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber
           B U.obj.left.1 U.obj.left.property (geometricPointOfLift B X hX U s x))).op α.1) ≫
         pushStalkMap B X hX U s x H G' β := by
   refine colimit.hom_ext fun N => ?_
@@ -271,9 +271,9 @@ public theorem extensionUnitStalkMap_naturality
     {G G' : Sheaf (SmallEtale.topology B U.obj.left.1 U.obj.left.property)
       AddCommGrpCat.{u + 1}} (α : G ⟶ G') :
     extensionUnitStalkMap B X hX U s x G ≫
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B X hX s)).op
+        colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B X hX s)).op
           ((abelianExtensionByZero B X hX U).map α).1) =
-      colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber
+      colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber
           B U.obj.left.1 U.obj.left.property (geometricPointOfLift B X hX U s x))).op α.1) ≫
         extensionUnitStalkMap B X hX U s x G' := by
   refine (pushStalkMap_comp B X hX U s x G _ _).trans ?_
@@ -290,7 +290,7 @@ public theorem extensionUnitStalkMap_comp_extensionUnitStalkMap
           (geometricPointOfLift B X hX U s x) y F ≫
         extensionUnitStalkMap B X hX U s x
           ((abelianExtensionByZero B U.obj.left.1 U.obj.left.property V).obj F) ≫
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B X hX s)).op
+        colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B X hX s)).op
           ((abelianExtensionByZeroCompIso B X hX U V).hom.app F).1) =
       extensionUnitStalkMap B X hX (smallEtaleCompObject B X hX U V) s
         (pushLift B X hX U s V x y) F := by
@@ -474,7 +474,7 @@ public theorem upperShriekCompIso_etaleUpperShriekIsoRestriction :
       etaleUpperShriekIsoRestriction B X hX (smallEtaleCompObject B X hX U V) ≪≫
         (abelianRestrictionCompIso B X hX U V).symm := by
   ext1
-  show conjugateEquiv _ _ _ ≫ whiskerRight (conjugateEquiv _ _ (𝟙 _)) _ ≫
+  change conjugateEquiv _ _ _ ≫ whiskerRight (conjugateEquiv _ _ (𝟙 _)) _ ≫
       whiskerLeft _ (conjugateEquiv _ _ (𝟙 _)) = conjugateEquiv _ _ (𝟙 _) ≫ _
   rw [← conjugateEquiv_whiskerLeft _ _ (fShriekAdjunction.{u, u + 1} B V.obj.hom),
     ← conjugateEquiv_whiskerRight _ _ (fShriekAdjunctionRestriction B X hX U),

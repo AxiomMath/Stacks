@@ -488,7 +488,7 @@ theorem isLocallySurjective_restrictionFMap_tensorDifferentialFormsSheaf
   have hP : Presheaf.IsLocallySurjective
       (Opens.grothendieckTopology B.obj.thickening.target.scheme)
       (CohomologyRestriction.restrictionFMap (tensorDifferentialFormsPresheaf F i) g) := by
-    show Presheaf.IsLocallySurjective
+    change Presheaf.IsLocallySurjective
       (Opens.grothendieckTopology B.obj.thickening.target.scheme)
       (Functor.whiskerRight
         ((PresheafOfModules.toPresheaf (CohomologyRestriction.ringRestriction B)).map

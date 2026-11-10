@@ -49,7 +49,7 @@ def toRestricted (x : (M : Type u)) :
 lemma toRestricted_smul (b : B) (x : (M : Type u)) :
     toRestricted E M (b • x) = (E.symm b) • toRestricted E M x := by
   rw [ModuleCat.restrictScalars.smul_def (E : A →+* B) (E.symm b) (toRestricted E M x)]
-  show (b • x : (M : Type u)) = ((E : A →+* B) (E.symm b)) • (x : (M : Type u))
+  change (b • x : (M : Type u)) = ((E : A →+* B) (E.symm b)) • (x : (M : Type u))
   simp
 
 /-- The additive map `M ⊗_B N ⟶ M ⊗_A N` inverse to base change along an isomorphism. -/
@@ -78,8 +78,7 @@ lemma invAddHom_tmul (x : (M : Type u)) (y : (N : Type u)) :
 /-- The inverse of base change is `B`-semilinear along `E⁻¹`. -/
 lemma invAddHom_smul (b : B) (z : (M : Type u) ⊗[B] (N : Type u)) :
     invAddHom E M N (b • z) = (E.symm b) • invAddHom E M N z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x y =>
     rw [TensorProduct.smul_tmul', invAddHom_tmul, invAddHom_tmul, toRestricted_smul,
       TensorProduct.smul_tmul']
@@ -102,8 +101,7 @@ def invMap : (ModuleCat.restrictScalars (E : A →+* B)).obj (M ⊗ N) ⟶
 lemma baseChange_invAddHom (t : (M : Type u) ⊗[B] (N : Type u)) :
     ((Stacks.Cech.SheafTensorPairing.baseChange (E : A →+* B) M N).hom
       (invAddHom E M N t) : (M : Type u) ⊗[B] (N : Type u)) = t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]; rfl
+  induction t using TensorProduct.inductionOn with
   | tmul x y => rfl
   | add t t' h h' => rw [map_add, map_add, h, h']; rfl
 

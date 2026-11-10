@@ -91,7 +91,7 @@ theorem mul_eq_zero_of_app_eq_zero {i : X ⟶ X'} (hi : IsFirstOrderThickening i
     change _ ∈ i.ker.ideal ⟨V, hV⟩ * i.ker.ideal ⟨V, hV⟩ at hm
     change i.ker.ideal ⟨V, hV⟩ ^ 2 = ⊥ at hsq
     rwa [← pow_two, hsq] at hm
-  show X'.presheaf.germ U x hx (a * b) = X'.presheaf.germ U x hx 0
+  change X'.presheaf.germ U x hx (a * b) = X'.presheaf.germ U x hx 0
   rw [← TopCat.Presheaf.germ_res_apply X'.presheaf j x hxV (a * b)]
   simp only [map_mul, hz, map_zero]
 
@@ -148,7 +148,7 @@ theorem exists_isQuasicoherent_pushforward_iso_idealSheafModule {i : X ⟶ X'}
     refine Eq.trans ?_
       (((kernel.ι (SheafOfModules.unitToPushforwardObjUnit i.toRingCatSheafHom)).val.app
         (Opposite.op U)).hom.map_zero).symm
-    show (a : Γ(X', U)) * (show Γ(X', U) from
+    change (a : Γ(X', U)) * (show Γ(X', U) from
       ((kernel.ι (SheafOfModules.unitToPushforwardObjUnit i.toRingCatSheafHom)).val.app
         (Opposite.op U)) m) = 0
     exact mul_eq_zero_of_app_eq_zero hi U a _ ha

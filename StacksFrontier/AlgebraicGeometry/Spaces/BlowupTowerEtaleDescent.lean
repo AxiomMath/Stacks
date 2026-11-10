@@ -53,8 +53,8 @@ up is an isomorphism, hence itself factors as the empty sequence.
 The source proves the "if" direction of Stacks 0BHF by the same induction as the "only if"
 direction, assembling the tower over `X` from the given local towers.  That induction is run as
 `AlgebraicGeometry.Space.ClosedPointNeighborhoods.nonempty_globalBlowupFactorization_of_isPullback`
-in `StacksFrontier/AlgebraicGeometry/Spaces/BlowupTowerGlobalConverse.lean`; its inductive step needs
-the blowing up of an intermediate space at a closed point
+in `StacksFrontier/AlgebraicGeometry/Spaces/BlowupTowerGlobalConverse.lean`; its inductive step
+needs the blowing up of an intermediate space at a closed point
 (`AlgebraicGeometry.Space.exists_isBlowupAtClosedPoint_unconditional`, which takes
 `[HasSheafify (BigFppfOver.topology B S hS) (Type u)]` as an instance argument, supplied there
 by `AlgebraicGeometry.BigFppfOver.hasSheafify_type`), the global centre realizing a

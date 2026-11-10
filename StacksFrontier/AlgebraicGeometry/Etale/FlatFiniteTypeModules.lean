@@ -126,7 +126,7 @@ theorem EtaleNeighborhood.congrPoint_toBase {S : Scheme.{u}} {s s' : S}
 theorem EtaleNeighborhood.IsElementary.congrPoint {S : Scheme.{u}} {s s' : S}
     {U : EtaleNeighborhood S s} (hU : U.IsElementary) (h : s = s') :
     (U.congrPoint h).IsElementary := by
-  rwa [EtaleNeighborhood.isElementary_iff] at hU ⊢
+  rw [EtaleNeighborhood.isElementary_iff] at hU ⊢; assumption
 
 /-- Flatness over the base of the restriction of a module to an open subscheme is flatness of
 the module itself at the corresponding point: an open immersion is flat, so Tag 02JZ applies. -/
@@ -162,7 +162,7 @@ theorem exists_homeomorph_fiber {X S T : Scheme.{u}} (f : X ⟶ S) (b : T ⟶ S)
       (pullback.snd f b).fiberι y ≫ pullback.fst f b := by
     have he₂ : m₂ ≫ pullback.fst f g₂ = pullback.fst f g₁ := by
       simp only [m₂, pullback.map, pullback.lift_fst, Category.comp_id]
-    show e₁.hom ≫ m₂ ≫ pullback.fst f g₂ = _
+    change e₁.hom ≫ m₂ ≫ pullback.fst f g₂ = _
     rw [he₂]
     exact pullbackLeftPullbackSndIso_hom_fst f b (T.fromSpecResidueField y)
   refine ⟨(Scheme.homeoOfIso e).symm, fun w => ?_⟩
@@ -285,7 +285,7 @@ theorem exists_elementaryEtaleNeighborhood_isFlatOverAt_nhds {X S : Scheme.{u}} 
   · have huniq' : pullback.fst f b ⁻¹' {f.fiberι s w} = {V.ι v} := huniq
     have hmem : (pullback.snd f b).fiberι y (e w) ∈
         ({V.ι v} : Set ↑(pullback f b)) := huniq' ▸ he w
-    show (pullback.snd f b).fiberι y (e w) ∈ V.1
+    change (pullback.snd f b).fiberι y (e w) ∈ V.1
     rw [Set.eq_of_mem_singleton hmem]
     exact v.2
   · intro p hp

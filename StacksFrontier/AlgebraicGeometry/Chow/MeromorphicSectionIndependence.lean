@@ -57,8 +57,8 @@ the source.
 ## What this is not
 
 The model of a meromorphic section used here is the one of
-`StacksFrontier.AlgebraicGeometry.Chow.MeromorphicOrder`: on an integral scheme the sheaf `𝒦_X(L)` of
-meromorphic sections is the constant sheaf with value the generic stalk `L_η`, so a meromorphic
+`StacksFrontier.AlgebraicGeometry.Chow.MeromorphicOrder`: on an integral scheme the sheaf `𝒦_X(L)`
+of meromorphic sections is the constant sheaf with value the generic stalk `L_η`, so a meromorphic
 section is an element of `L_η` and regularity is nonvanishing. Identifying that model with the
 source's sheaf of meromorphic sections is Stacks 01X5 (2), which this repository does not have, so
 **no declaration here carries a Stacks attribute for Tag 02SJ**; composing with Stacks 01X5 (2) is
@@ -137,7 +137,7 @@ theorem isRationallyEquivalentToZero_of_eq_principalCycle [IsLocallyNoetherian X
     exact h
   refine ⟨PUnit.{u + 1}, fun _ ↦ I, fun _ ↦ hI, fun _ ↦ hDim,
     fun x ↦ ⟨Set.univ, Filter.univ_mem, Set.toFinite _⟩, fun _ ↦ g, fun x ↦ ?_⟩
-  show (α : AlgebraicCycle X ℤ) x = ∑ᶠ _ : PUnit.{u + 1}, _
+  change (α : AlgebraicCycle X ℤ) x = ∑ᶠ _ : PUnit.{u + 1}, _
   rw [finsum_unique, hα, ← hpush]
 
 /-- **Stacks 02RW for a principal divisor on `X` itself.** On an integral scheme of
@@ -169,7 +169,7 @@ theorem mk_eq_mk_of_coe_eq_add_principalCycle (C : ChowSituation.{u}) {X : Schem
     (QuotientAddGroup.mk α : chowGroup C p k) = QuotientAddGroup.mk β := by
   refine QuotientAddGroup.eq_iff_sub_mem.2 ?_
   refine isRationallyEquivalentToZero_of_eq_principalCycle C p hk hf (α - β) ?_
-  show (α : AlgebraicCycle X ℤ) - (β : AlgebraicCycle X ℤ) = principalCycle X f
+  change (α : AlgebraicCycle X ℤ) - (β : AlgebraicCycle X ℤ) = principalCycle X f
   rw [h, add_sub_cancel_left]
 
 /-! ### The cycle form of Stacks 02SH -/
@@ -192,7 +192,7 @@ theorem weilDivisorAlgebraicCycle_meromorphic_eq_add (hL : ∀ x : X, IsTriviali
       weilDivisorAlgebraicCycle (weilDivisorOfMeromorphicSection hL s') + principalCycle X f := by
   apply Function.locallyFinsuppWithin.ext
   intro x
-  show weilDivisorAlgebraicCycle (weilDivisorOfMeromorphicSection hL s) x =
+  change weilDivisorAlgebraicCycle (weilDivisorOfMeromorphicSection hL s) x =
     weilDivisorAlgebraicCycle (weilDivisorOfMeromorphicSection hL s') x + principalCycle X f x
   rw [weilDivisorAlgebraicCycle_apply, weilDivisorAlgebraicCycle_apply, principalCycle_apply]
   by_cases hx : ∃ Z : PrimeDivisor X, Z.genericPoint = x

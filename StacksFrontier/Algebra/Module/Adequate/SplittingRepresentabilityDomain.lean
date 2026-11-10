@@ -156,7 +156,7 @@ public lemma exists_linearRepresentation (b : BaseAlgebraObject.{v} Q.ι)
       (kernelTensorDualLarge_bijective g.hom))
   refine ⟨M, inferInstance, inferInstance, hM, r, fun X Y φ x => LinearMap.ext fun z => ?_⟩
   obtain ⟨l, rfl⟩ := K.mkQ_surjective z
-  show tensorDualLarge A V (Y.obj : Type (max u v))
+  change tensorDualLarge A V (Y.obj : Type (max u v))
       (eX Y (L.map φ.op.op x)).val l =
     (Q.ι.map φ).hom (tensorDualLarge A V (X.obj : Type (max u v)) (eX X x).val l)
   rw [heX Y (L.map φ.op.op x), heX X x,
@@ -195,7 +195,7 @@ public lemma exists_linearRepresentation_smallCarrier (b : BaseAlgebraObject.{v}
   refine ⟨N ⧸ K, inferInstance, inferInstance, Module.FinitePresentation.of_equiv eqv,
     fun X => (e X).trans (homCongrLeftLarge eqv.symm (X.obj : Type (max u v))), ?_⟩
   intro X Y φ x
-  show (e Y (L.map φ.op.op x)).comp eqv.symm.toLinearMap =
+  change (e Y (L.map φ.op.op x)).comp eqv.symm.toLinearMap =
     (Q.ι.map φ).hom.toLinearMap.comp ((e X x).comp eqv.symm.toLinearMap)
   rw [he X Y φ x, LinearMap.comp_assoc]
 

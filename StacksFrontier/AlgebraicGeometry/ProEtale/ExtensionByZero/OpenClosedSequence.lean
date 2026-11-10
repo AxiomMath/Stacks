@@ -452,7 +452,8 @@ theorem sieve_ofArrows_mem_proetaleTopology_of_isOpenImmersion {X : Scheme.{u}} 
 /-- An affine object of the small pro-étale site whose ring of global sections is
 w-contractible is a weakly contractible object of that site.
 
-This is the converse of `AlgebraicGeometry.Scheme.ProEt.isWContractible_globalSections_of_isWeaklyContractible`;
+This is the converse of
+`AlgebraicGeometry.Scheme.ProEt.isWContractible_globalSections_of_isWeaklyContractible`;
 it goes through the clopen-refinement criterion of Stacks 098H. -/
 theorem isWeaklyContractible_of_isWContractible {X : Scheme.{u}} (V : X.ProEt)
     [IsAffine V.left] (hV : ProetaleWContractible.IsWContractible.{u, u} Γ(V.left, ⊤)) :
@@ -486,7 +487,7 @@ theorem isWeaklyContractible_of_isWContractible {X : Scheme.{u}} (V : X.ProEt)
   have hmapf : ∀ i, (f i).hom.left = g i ≫ e.hom := fun i ↦ rfl
   have hqc : ∀ i, QuasiCompact (f i).hom.left := by
     intro i
-    show QuasiCompact (g i ≫ e.hom)
+    change QuasiCompact (g i ≫ e.hom)
     have hclosed : Topology.IsClosedEmbedding (g i ≫ e.hom).base :=
       ⟨(hoi i).base_open.isEmbedding, (hdecV.clopen i).1⟩
     have _ : CompactSpace ↥(Vi i) := hclosed.compactSpace
@@ -500,14 +501,14 @@ theorem isWeaklyContractible_of_isWContractible {X : Scheme.{u}} (V : X.ProEt)
   refine ⟨n, U, f, ?_, ?_, ?_⟩
   · exact hdecV
   · refine sieve_ofArrows_mem_proetaleTopology U f (fun i ↦ ?_) hqc hsurj
-    show WeaklyEtale (g i ≫ e.hom)
+    change WeaklyEtale (g i ≫ e.hom)
     have _ := hoi i
     infer_instance
   · intro i
     obtain ⟨Z, k, h, hk, hfac⟩ := href i
     have hw : h ≫ Z.hom = (U i).hom := by
-      have hkw : k.hom.left ≫ V.hom = Z.hom := by simpa using k.hom.w
-      show h ≫ Z.hom = (g i ≫ e.hom) ≫ V.hom
+      have hkw : k.hom.left ≫ V.hom = Z.hom := by simp
+      change h ≫ Z.hom = (g i ≫ e.hom) ≫ V.hom
       refine Eq.trans (congrArg (fun t ↦ h ≫ t) hkw.symm) ?_
       refine Eq.trans (Category.assoc h k.hom.left V.hom).symm ?_
       exact congrArg (fun t ↦ t ≫ V.hom) hfac.symm
@@ -561,7 +562,7 @@ theorem hasEnoughObjects_isAffine (X : Scheme.{u}) :
     fun k ↦ @Scheme.ProEt.mk X _ (V.left.affineCover.f k ≫ V.hom) (hwec k),
     fun k ↦ MorphismProperty.Over.homMk (V.left.affineCover.f k) rfl, ?_, fun k ↦ ?_⟩
   · refine sieve_ofArrows_mem_proetaleTopology_of_isOpenImmersion _ _ (fun k ↦ ?_) (fun x ↦ ?_)
-    · show IsOpenImmersion (V.left.affineCover.f k)
+    · change IsOpenImmersion (V.left.affineCover.f k)
       infer_instance
     · exact ⟨V.left.affineCover.idx x, (V.left.affineCover.covers x).choose,
         (V.left.affineCover.covers x).choose_spec⟩
@@ -667,7 +668,7 @@ theorem zeroLocus_subset_range_localizationToAffine (V : Scheme.{u}) [IsAffine V
     exact ⟨p, ⟨fun _ hx ↦ hp hx, p.2.one_notMem⟩, specializes_refl p⟩
   obtain ⟨q, hq⟩ := hpr
   refine ⟨q, ?_⟩
-  show V.isoSpec.inv.base
+  change V.isoSpec.inv.base
       ((Spec.map (CommRingCat.ofHom
         (algebraMap Γ(V, ⊤) (localizationRing I (1 : Γ(V, ⊤)))))).base q) = _
   exact congrArg V.isoSpec.inv.base hq
@@ -796,7 +797,7 @@ theorem hasEnoughObjects_openPart_or_closedFibre {Z U X : Scheme.{u}} (i : Z ⟶
       · exact weaklyEtale_localizationToAffine V.left I
     · rcases b with ⟨b⟩; cases b
       · exact inferInstanceAs (QuasiCompact (pullback.fst V.hom j))
-      · show QuasiCompact (localizationToAffine V.left I)
+      · change QuasiCompact (localizationToAffine V.left I)
         exact quasiCompact_of_compactSpace _
     · by_cases hx : x ∈ Set.range (pullback.fst V.hom i).base
       · obtain ⟨y, hy⟩ :=
@@ -804,7 +805,7 @@ theorem hasEnoughObjects_openPart_or_closedFibre {Z U X : Scheme.{u}} (i : Z ⟶
         exact ⟨⟨true⟩, y, hy⟩
       · have hxo : x ∈ Set.range (pullback.fst V.hom j).base := by
           rw [Scheme.Pullback.range_fst]
-          show V.hom.base x ∈ Set.range j.base
+          change V.hom.base x ∈ Set.range j.base
           rw [hij]
           rwa [Scheme.Pullback.range_fst] at hx
         obtain ⟨y, hy⟩ := hxo
@@ -813,7 +814,7 @@ theorem hasEnoughObjects_openPart_or_closedFibre {Z U X : Scheme.{u}} (i : Z ⟶
     cases b
     · refine Or.inl ⟨@Scheme.ProEt.mk U _ (pullback.snd V.hom j) inferInstance, ⟨?_⟩⟩
       exact MorphismProperty.Over.isoMk (Iso.refl _) (by
-        show 𝟙 _ ≫ pullback.snd V.hom j ≫ j = pullback.fst V.hom j ≫ V.hom
+        change 𝟙 _ ≫ pullback.snd V.hom j ≫ j = pullback.fst V.hom j ≫ V.hom
         simpa only [Category.id_comp] using (pullback.condition (f := V.hom) (g := j)).symm)
     · exact Or.inr ⟨hWcaff,
         isWeaklyContractible_of_isWContractible Wc

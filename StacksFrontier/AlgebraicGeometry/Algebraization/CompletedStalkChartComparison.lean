@@ -70,7 +70,7 @@ theorem formalStalkQuotientEquivStalk_transitionMap {m n : ℕ} (h : m ≤ n)
       ((modulesStalkFunctor X x).map (G.obj.map (homOfLE h).op)).hom
         (formalStalkQuotientEquivStalk G x n z) := by
   obtain ⟨z, rfl⟩ := Submodule.Quotient.mk_surjective _ z
-  show formalStalkQuotientEquivStalk G x m (Submodule.Quotient.mk z) = _
+  change formalStalkQuotientEquivStalk G x m (Submodule.Quotient.mk z) = _
   rw [formalStalkQuotientEquivStalk_apply_mk, formalStalkQuotientEquivStalk_apply_mk]
   rw [← limit.w (G.obj ⋙ modulesStalkFunctor X x) (homOfLE h).op]
   rfl
@@ -139,7 +139,7 @@ theorem isLocalizedModule_chartSideLevelMap (n : ℕ) :
   have hT : chartBaseCompl f (p := chartPrimeOfPoint S y f) =
       (underlyingPrime S y).asIdeal.primeCompl := by
     ext a
-    show a ∉ _ ↔ a ∉ _
+    change a ∉ _ ↔ a ∉ _
     rw [comap_chartPrimeOfPoint S y f hf]
   exact hT ▸ h
 
@@ -156,7 +156,7 @@ theorem transitionMap_chartLevelMap
           (n + 1) (e n) Rq fq x) =
       chartLevelMap f (S.I.map (algebraMap S.A (Localization.Away f))) (Ideal.map_mono hI)
         (m + 1) (e m) Rq fq ((M.map (homOfLE h).op).hom x) := by
-  show AdicCompletion.transitionMap _ Nq (Nat.succ_le_succ h) (levelLocalizationMap _ _ Rq fq
+  change AdicCompletion.transitionMap _ Nq (Nat.succ_le_succ h) (levelLocalizationMap _ _ Rq fq
       (n + 1) (e n (LocalizedModule.mk x 1))) =
     levelLocalizationMap _ _ Rq fq (m + 1)
       (e m (LocalizedModule.mk ((M.map (homOfLE h).op).hom x) 1))
@@ -250,7 +250,7 @@ theorem stalkChartLevelIso_naturality
         ((restrictedTildeSystemToStalk S y M).naturality (homOfLE h).op)
       simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply] at hnat ⊢
       rw [LinearEquiv.coe_coe, stalkChartLevelIso_apply]
-      show _ = stalkChartLevelIso S y f hf hI M Rq fq e m
+      change _ = stalkChartLevelIso S y f hf hI M Rq fq e m
         ((((restrictedTildeSystem S M ⋙ modulesStalkFunctor S.U.toScheme y ⋙
           ModuleCat.restrictScalars.{u} (baseToPointStalk S y)).map (homOfLE h).op).hom)
             (((restrictedTildeSystemToStalk S y M).app (op n)).hom x))
@@ -301,7 +301,7 @@ theorem completedStalkChartLevelEquiv_transitionMap
   rcases n with _ | n
   · omega
   have h' : m ≤ n := Nat.le_of_succ_le_succ h
-  show AdicCompletion.transitionMap _ Nq (Nat.succ_le_succ h')
+  change AdicCompletion.transitionMap _ Nq (Nat.succ_le_succ h')
       (stalkChartLevelIso S y f hf hI M Rq fq e n (formalStalkLevelEquiv S y M halg hM n x)) =
     stalkChartLevelIso S y f hf hI M Rq fq e m (formalStalkLevelEquiv S y M halg hM m
       (AdicCompletion.transitionMap _ _ (Nat.succ_le_succ h') x))
@@ -434,9 +434,9 @@ theorem exists_completedLocalRing_chartRingEquiv
     (AdicCompletion.congrQuotientEquiv_factorPow _ (ideal_eq_map_refl h1)) n r
   have eφ := evalₐ_adicCompletionLocalizationAlgEquiv (S.I.map (algebraMap S.A
     (Localization.Away f))) hfg (Ideal.map_mono hI) (S.U.toScheme.presheaf.stalk y) Rq n (c₁ r)
-  show AdicCompletion.evalₐ _ n (c₂ (φ (c₁ r))) = _
+  change AdicCompletion.evalₐ _ n (c₂ (φ (c₁ r))) = _
   refine e₂.trans ?_
-  show AdicCompletion.congrQuotientEquiv _ _ n (AdicCompletion.evalₐ _ n
+  change AdicCompletion.congrQuotientEquiv _ _ n (AdicCompletion.evalₐ _ n
     (adicCompletionLocalizationAlgEquiv (S.I.map (algebraMap S.A (Localization.Away f))) hfg
       (Ideal.map_mono hI) (S.U.toScheme.presheaf.stalk y) Rq (c₁ r))) = _
   rw [eφ, show AdicCompletion.evalₐ _ n (c₁ r) = _ from e₁]

@@ -256,12 +256,12 @@ theorem exists_isAdmissibleShortExact_telescope {I P : DifferentialGradedModule 
           _ = op a • α.toFun ((hexρ r).choose) := by rw [hρ]
           _ = α.toFun (op a • (hexρ r).choose) := (α.map_smul _ a).symm)
       map_grading := fun n r hr => Hom.mem_grading_of_injective hαinj (by
-        show α.toFun ((hexρ r).choose) ∈ P.grading n
+        change α.toFun ((hexρ r).choose) ∈ P.grading n
         rw [hρ]
         exact Submodule.sub_mem _ hr (hsgr' n _ ((𝟙 P - τ).map_grading n r hr))) }
   · intro x
     refine hαinj ?_
-    show α.toFun ((hexρ (α.toFun x)).choose) = α.toFun x
+    change α.toFun ((hexρ (α.toFun x)).choose) = α.toFun x
     rw [hρ, hcomp x, hs0, sub_zero]
   · exact ⟨{
       toFun := { toFun := s, map_add' := hsadd, map_smul' := hsR }

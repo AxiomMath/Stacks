@@ -21,8 +21,8 @@ Three functors have to be carried across that equivalence: derived coextension o
 extension of scalars, and the derived change-of-rings tensor product.
 `StacksDraft.DerivedRingEquivIso.derivedHomRingEquivIso` and
 `StacksDraft.DerivedRingEquivIso.derivedExtensionRingEquivIso` do the first two, and
-`StacksFrontier/RingTheory/Dualizing/UpperShriek/DerivedTensorRingEquivIso.lean` reduces the third to
-one functor over a single ring, its hypothesis `hG`. That hypothesis is proved here.
+`StacksFrontier/RingTheory/Dualizing/UpperShriek/DerivedTensorRingEquivIso.lean` reduces the third
+to one functor over a single ring, its hypothesis `hG`. That hypothesis is proved here.
 
 ## Main results
 

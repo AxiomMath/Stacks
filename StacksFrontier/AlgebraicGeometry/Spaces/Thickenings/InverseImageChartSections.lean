@@ -182,7 +182,7 @@ theorem app_ringUnit_comp_map_structureSharpRingInverseImage
         ((ringUnit (smallToposMorphismTypeU B S hS (subspaceInclusion B S hS X Z))
           (structureRingSheaf B S hS X)).hom.app V x) =
       (structureSharp B S hS (subspaceInclusion B S hS X Z)).hom.app V x := by
-  show (ringUnit (smallToposMorphismTypeU B S hS (subspaceInclusion B S hS X Z))
+  change (ringUnit (smallToposMorphismTypeU B S hS (subspaceInclusion B S hS X Z))
         (structureRingSheaf B S hS X) ≫
       (pushforwardRingFunctor (smallToposMorphismTypeU B S hS
           (subspaceInclusion B S hS X Z))).map

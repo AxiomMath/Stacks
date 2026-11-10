@@ -182,7 +182,7 @@ public lemma compatible_smul (X : CategoricalPullback
   let : Module R' R := Module.compHom R R'toR
   rw [TensorProduct.tmul_smul (R := B) (R' := B),
     TensorProduct.tmul_smul (R := R') (R' := R')]
-  show X.iso.hom ((BtoR (toB b)) • ((1 : R) ⊗ₜ[B,BtoR] x.1)) =
+  change X.iso.hom ((BtoR (toB b)) • ((1 : R) ⊗ₜ[B,BtoR] x.1)) =
     (R'toR (toR' b)) • ((1 : R) ⊗ₜ[R',R'toR] x.2)
   rw [X.iso.hom.hom.map_smul, hx]
   exact congrArg (fun r : R ↦ r • ((1 : R) ⊗ₜ[R',R'toR] x.2))
@@ -308,7 +308,7 @@ private lemma source_iso_one_tmul_one_tmul (L : ModuleCat.{max u uB uR' uR} B') 
     ((extensionOfScalarsToPullback.{u} toB toR' BtoR R'toR comm).obj L).iso.hom
       ((1 : R) ⊗ₜ[B,BtoR] ((1 : B) ⊗ₜ[B',toB] l)) =
         (1 : R) ⊗ₜ[R',R'toR] ((1 : R') ⊗ₜ[B',toR'] l) := by
-  show (((extendScalarsComp.{max u uB uR' uR} toB BtoR).symm ≪≫
+  change (((extendScalarsComp.{max u uB uR' uR} toB BtoR).symm ≪≫
       eqToIso (congrArg ModuleCat.extendScalars comm) ≪≫
       extendScalarsComp.{max u uB uR' uR} toR' R'toR).hom.app L)
         ((1 : R) ⊗ₜ[B,BtoR] ((1 : B) ⊗ₜ[B',toB] l)) = _
@@ -405,8 +405,7 @@ private lemma double_hom_ext (L : ModuleCat.{max u uB uR} B') (N : ModuleCat.{ma
       g ((1 : R) ⊗ₜ[B,BtoR] ((1 : B) ⊗ₜ[B',toB] l))) : f = g := by
   apply ModuleCat.ExtendScalars.hom_ext
   intro m
-  induction m using TensorProduct.induction_on with
-  | zero => simp
+  induction m using TensorProduct.inductionOn with
   | add x y hx hy => simpa only [TensorProduct.tmul_add, map_add] using congrArg₂ (· + ·) hx hy
   | tmul b l =>
     change B at b
@@ -414,7 +413,7 @@ private lemma double_hom_ext (L : ModuleCat.{max u uB uR} B') (N : ModuleCat.{ma
         b • ((1 : B) ⊗ₜ[B',toB] l) := by
       rw [ModuleCat.ExtendScalars.smul_tmul, mul_one]
     rw [hb, TensorProduct.tmul_smul (R := B) (R' := B)]
-    show f ((BtoR b) • ((1 : R) ⊗ₜ[B,BtoR] ((1 : B) ⊗ₜ[B',toB] l))) =
+    change f ((BtoR b) • ((1 : R) ⊗ₜ[B,BtoR] ((1 : B) ⊗ₜ[B',toB] l))) =
       g ((BtoR b) • ((1 : R) ⊗ₜ[B,BtoR] ((1 : B) ⊗ₜ[B',toB] l)))
     rw [map_smul, map_smul, h l]
 
@@ -483,11 +482,11 @@ private lemma compatiblePairsToHom_right_inv
   intro l
   apply Subtype.ext
   apply Prod.ext
-  · show ((ModuleCat.extendRestrictScalarsAdj.{max u uB uR' uR} toB).homEquiv L X.fst
+  · change ((ModuleCat.extendRestrictScalarsAdj.{max u uB uR' uR} toB).homEquiv L X.fst
         (compatiblePairsToHom.{u} toB toR' BtoR R'toR comm L X h).fst) l = (h l).1.1
     rw [ModuleCat.extendRestrictScalarsAdj_homEquiv_apply]
     exact compatiblePairsToHom_fst_one_tmul.{u} toB toR' BtoR R'toR comm L X h l
-  · show ((ModuleCat.extendRestrictScalarsAdj.{max u uB uR' uR} toR').homEquiv L X.snd
+  · change ((ModuleCat.extendRestrictScalarsAdj.{max u uB uR' uR} toR').homEquiv L X.snd
         (compatiblePairsToHom.{u} toB toR' BtoR R'toR comm L X h).snd) l = (h l).1.2
     rw [ModuleCat.extendRestrictScalarsAdj_homEquiv_apply]
     exact compatiblePairsToHom_snd_one_tmul.{u} toB toR' BtoR R'toR comm L X h l
@@ -503,7 +502,7 @@ private lemma compatiblePairsToHom_left_inv
   apply CategoricalPullback.hom_ext
   · apply ModuleCat.ExtendScalars.hom_ext
     intro l
-    show (compatiblePairsToHom.{u} toB toR' BtoR R'toR comm L X
+    change (compatiblePairsToHom.{u} toB toR' BtoR R'toR comm L X
         (homToCompatiblePairs.{u} toB toR' BtoR R'toR comm L X f)).fst
           ((1 : B) ⊗ₜ[B',toB] l) = f.fst ((1 : B) ⊗ₜ[B',toB] l)
     calc
@@ -512,7 +511,7 @@ private lemma compatiblePairsToHom_left_inv
       _ = _ := rfl
   · apply ModuleCat.ExtendScalars.hom_ext
     intro l
-    show (compatiblePairsToHom.{u} toB toR' BtoR R'toR comm L X
+    change (compatiblePairsToHom.{u} toB toR' BtoR R'toR comm L X
         (homToCompatiblePairs.{u} toB toR' BtoR R'toR comm L X f)).snd
           ((1 : R') ⊗ₜ[B',toR'] l) = f.snd ((1 : R') ⊗ₜ[B',toR'] l)
     calc
@@ -545,7 +544,7 @@ private lemma compatiblePairsHomEquiv_naturality_left_symm
   apply CategoricalPullback.hom_ext
   · apply ModuleCat.ExtendScalars.hom_ext
     intro l
-    show (compatiblePairsToHom.{u} toB toR' BtoR R'toR comm L' X (a ≫ h)).fst
+    change (compatiblePairsToHom.{u} toB toR' BtoR R'toR comm L' X (a ≫ h)).fst
         ((1 : B) ⊗ₜ[B',toB] l) =
       (compatiblePairsToHom.{u} toB toR' BtoR R'toR comm L X h).fst
         ((ModuleCat.extendScalars toB).map a ((1 : B) ⊗ₜ[B',toB] l))
@@ -557,7 +556,7 @@ private lemma compatiblePairsHomEquiv_naturality_left_symm
       _ = _ := (compatiblePairsToHom_fst_one_tmul.{u} toB toR' BtoR R'toR comm L X h (a l)).symm
   · apply ModuleCat.ExtendScalars.hom_ext
     intro l
-    show (compatiblePairsToHom.{u} toB toR' BtoR R'toR comm L' X (a ≫ h)).snd
+    change (compatiblePairsToHom.{u} toB toR' BtoR R'toR comm L' X (a ≫ h)).snd
         ((1 : R') ⊗ₜ[B',toR'] l) =
       (compatiblePairsToHom.{u} toB toR' BtoR R'toR comm L X h).snd
         ((ModuleCat.extendScalars toR').map a ((1 : R') ⊗ₜ[B',toR'] l))
@@ -582,12 +581,12 @@ private lemma compatiblePairsHomEquiv_naturality_right
   intro l
   apply Subtype.ext
   apply Prod.ext
-  · show ((ModuleCat.extendRestrictScalarsAdj.{max u uB uR' uR} toB).homEquiv L Y.fst
+  · change ((ModuleCat.extendRestrictScalarsAdj.{max u uB uR' uR} toB).homEquiv L Y.fst
         (f ≫ g).fst) l =
       g.fst (((ModuleCat.extendRestrictScalarsAdj.{max u uB uR' uR} toB).homEquiv L X.fst f.fst) l)
     simp only [ModuleCat.extendRestrictScalarsAdj_homEquiv_apply]
     rfl
-  · show ((ModuleCat.extendRestrictScalarsAdj.{max u uB uR' uR} toR').homEquiv L Y.snd
+  · change ((ModuleCat.extendRestrictScalarsAdj.{max u uB uR' uR} toR').homEquiv L Y.snd
         (f ≫ g).snd) l =
       g.snd (((ModuleCat.extendRestrictScalarsAdj.{max u uB uR' uR} toR').homEquiv L X.snd f.snd) l)
     simp only [ModuleCat.extendRestrictScalarsAdj_homEquiv_apply]

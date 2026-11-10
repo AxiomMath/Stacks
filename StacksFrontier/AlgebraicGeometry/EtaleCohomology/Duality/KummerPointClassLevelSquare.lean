@@ -111,7 +111,7 @@ theorem kummerPointClassLevelReduction_of_reductionSquare (K : Type u) [Field K]
     rw [this, Ext.comp_zero]
   apply (bijective_mk₀_unitSheafReduction_comp_mapExactFunctor
     (dvd_pow_self ℓ (Nat.succ_ne_zero r)) (2 * d) _).1
-  show (Ext.mk₀ (unitSheafReduction Y (dvd_pow_self ℓ (Nat.succ_ne_zero r)))).comp
+  change (Ext.mk₀ (unitSheafReduction Y (dvd_pow_self ℓ (Nat.succ_ne_zero r)))).comp
       ((kummerPointClass hζ' hℓ fY n D z').mapExactFunctor _) _ =
     (Ext.mk₀ (unitSheafReduction Y (dvd_pow_self ℓ (Nat.succ_ne_zero r)))).comp
       ((0 : Ext (unitSheaf (X := Y) ℓ) (unitSheaf (X := Y) ℓ) (2 * d)).mapExactFunctor _) _

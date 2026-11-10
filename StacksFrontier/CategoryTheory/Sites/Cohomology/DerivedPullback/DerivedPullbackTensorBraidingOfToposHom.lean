@@ -136,6 +136,14 @@ variable {X Y : RingedTopos.{u, u, u}}
 
 section Complexes
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)]
+  [(sheafTensor.{u, u, u, u, u} X.O).Additive] [(sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ M, ((sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [∀ M, ((sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B (sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)] in
 /-- **The braided clause of [Stacks, Tag 03EL] for the pullback of a morphism of ringed topoi,
 at the `sheafTensorBraiding` spelling of the symmetry.** This is
 `Stacks.SheafOfModules.RingedToposPullback.braiding` at `f.toModulesHom`, with the braiding of
@@ -158,6 +166,7 @@ theorem pullbackTensorIso_hom_app_braiding
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property (f.toModulesHom.pullbackModules.obj A)
       (f.toModulesHom.pullbackModules.obj B)))
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- **The comparison of total tensor complexes of [Stacks, Tag 03EL] is braided for the Koszul
 symmetry of [Stacks, Tag 06YM]**, for a morphism of ringed topoi and arbitrary unbounded
 cochain complexes `K`, `L`. In each bidegree `(p, q)` both sides carry the sign `(-1)^{pq}`. Once
@@ -275,6 +284,10 @@ def pullbackComparisonQ
         (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))).hom.app
           ((pullbackComplex f).obj K))
 
+omit [(sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ M, ((sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)] in
 /-- On a K-flat complex with flat terms the comparison is the isomorphism of Stacks 06YY. -/
 lemma flatPullbackIso_hom_eq_pullbackComparisonQ
     (K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
@@ -283,6 +296,13 @@ lemma flatPullbackIso_hom_eq_pullbackComparisonQ
     (flatPullbackIso f K hK hflat).hom = pullbackComparisonQ f K :=
   rfl
 
+omit [(sheafTensor.{u, u, u, u, u} X.O).Additive] [(sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ M, ((sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [∀ M, ((sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B (sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)] in
 /-- **The comparison of Stacks 06YY is natural in the complex.** -/
 lemma pullbackComparisonQ_naturality
     {K L : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ}

@@ -72,7 +72,7 @@ private lemma dualizingModule_flat_of_finite_flat
   let : IsScalarTower A B (Module.Dual A B) := IsScalarTower.of_algebraMap_smul (by
     intro a f
     ext x
-    show f ((algebraMap A B a) * x) = a * f x
+    change f ((algebraMap A B a) * x) = a * f x
     rw [← Algebra.smul_def]
     simp)
   let : IsScalarTower A B (dualizingModule F) := IsScalarTower.of_algebraMap_smul (by
@@ -225,7 +225,6 @@ public lemma dualizingModule_flat
   let : q'.LiesOver q := ⟨hq'q.symm⟩
   let : qC.LiesOver q := Ideal.LiesOver.trans qC q' q
   let : Algebra Bq Cq := Localization.AtPrime.algebraOfLiesOver q qC
-  let : Localization.AtPrime.IsLiesOverAlgebra q qC := inferInstance
   let : IsScalarTower B Bq Cq := inferInstance
   let : Module.Flat B Cq := Module.Flat.trans B (Localization.Away e) Cq
   let : Module.Flat Bq Cq :=

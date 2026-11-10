@@ -158,7 +158,7 @@ public theorem trdeg_residueField_of_isClosedImmersion {Y Z : Scheme.{u}}
     AlgEquiv.ofRingEquiv (f := RingEquiv.ofBijective (i.residueFieldMap y).hom
       ⟨RingHom.injective _, hs⟩) (by
         intro a
-        show (i.residueFieldMap y).hom
+        change (i.residueFieldMap y).hom
           (((Scheme.ΓSpecIso (.of k)).inv ≫ g.appTop ≫ Z.Γevaluation (i y)).hom a) =
           ((Scheme.ΓSpecIso (.of k)).inv ≫ (i ≫ g).appTop ≫ Y.Γevaluation y).hom a
         rw [Scheme.Hom.comp_appTop]
@@ -191,7 +191,7 @@ private theorem trdeg_residueField_lt_aleph0 [LocallyOfFiniteType f] (x : X) :
   have hp : p.asIdeal.IsPrime := p.isPrime
   have hbase : (((Scheme.ΓSpecIso (.of k)).inv ≫
       (Spec (.of k)).Γevaluation (f x)).hom).EssFiniteType := by
-    show (((Scheme.ΓSpecIso (.of k)).inv ≫
+    change (((Scheme.ΓSpecIso (.of k)).inv ≫
       (Spec (.of k)).presheaf.germ ⊤ (f x) trivial ≫
       (Spec (.of k)).residue (f x)).hom).EssFiniteType
     rw [← Scheme.Spec.algebraMap_residueFieldIso_inv]
@@ -202,7 +202,7 @@ private theorem trdeg_residueField_lt_aleph0 [LocallyOfFiniteType f] (x : X) :
           (Scheme.Spec.residueFieldIso (.of k) (f x)).symm.commRingCatIsoToRingEquiv.surjective))
   let : Algebra.EssFiniteType k (X.residueField x) := by
     rw [← RingHom.essFiniteType_algebraMap]
-    show (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x).hom).EssFiniteType
+    change (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x).hom).EssFiniteType
     rw [← Scheme.Γevaluation_naturality]
     exact hbase.comp (RingHom.EssFiniteType.residueFieldMap
       (LocallyOfFiniteType.stalkMap f x))
@@ -249,7 +249,7 @@ theorem codimension_diagonal_eq_topologicalKrullDim [IsVariety k f] :
   have htrZ : Algebra.trdeg k (Z.residueField z) = Algebra.trdeg k (X.residueField η) :=
     trdeg_residueField_of_isClosedImmersion p (pullback.diagonal f) η
   have hz {π : Z ⟶ X} (h : pullback.diagonal f ≫ π = 𝟙 X) : π z = η := by
-    show (pullback.diagonal f ≫ π) η = η
+    change (pullback.diagonal f ≫ π) η = η
     rw [h]
     rfl
   have hzfst : (pullback.fst f f) z = η := hz (pullback.diagonal_fst f)

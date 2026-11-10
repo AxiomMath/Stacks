@@ -90,7 +90,7 @@ theorem exists_ringEquiv_residueField_of_mono (hX : IsAlgebraicSpace B S hS X)
   set φ₀ := ((Spec.fullyFaithful.preimage (B.inclusion.map g.left)).unop).hom with hφDef
   have hspec : B.inclusion.map g.left = Spec.map (CommRingCat.ofHom φ₀) := by simp [hφDef]
   have hleftIso : IsIso (B.inclusion.map g.left) := by
-    show IsIso ((BigFppfOver.toScheme B S hS).map g)
+    change IsIso ((BigFppfOver.toScheme B S hS).map g)
     infer_instance
   have hφiso : IsIso (Spec.map (CommRingCat.ofHom φ₀)) := by rw [← hspec]; infer_instance
   have hSpecIso : IsIso (Scheme.Spec.map (CommRingCat.ofHom φ₀).op) := hφiso

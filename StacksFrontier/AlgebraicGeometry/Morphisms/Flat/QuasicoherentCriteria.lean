@@ -125,7 +125,7 @@ private theorem germ_spec_comp_stalkMap
             rw [germ_fromSpec_stalkMap hU (Spec.map φ q) hq]
     _ = _ := by
       rw [Category.assoc, Scheme.Hom.germ_stalkMap]
-      show (Scheme.ΓSpecIso Γ(S, U)).inv ≫
+      change (Scheme.ΓSpecIso Γ(S, U)).inv ≫
         (Spec.map φ).appTop ≫
           (Spec B).presheaf.germ ⊤ q (TopologicalSpace.Opens.mem_top _) =
         φ ≫ (Scheme.ΓSpecIso B).inv ≫
@@ -190,12 +190,12 @@ private theorem isFlatOverAt_iff_flat_localizedSections
     AlgebraicGeometry.tilde.instModuleCarrierCarrierStalkAbPresheaf M q
   let : Module Γ(S, V) ((tilde M).presheaf.stalk q) :=
     Module.compHom _ φ.hom
-  show IsFlatOverAt
+  change IsFlatOverAt
       (Spec.map φ ≫ hV.fromSpec).toLRSHom.toShHom F q ↔
     Module.Flat Γ(S, V) ((tilde M).presheaf.stalk q)
   rw [isFlatOverAt_iff_of_moduleIso (Spec.map φ ≫ hV.fromSpec).toLRSHom.toShHom e q]
   have hx : (Spec.map φ ≫ hV.fromSpec) q ∈ V := by
-    show (Spec.map φ q) ∈ hV.fromSpec ⁻¹ᵁ V
+    change (Spec.map φ q) ∈ hV.fromSpec ⁻¹ᵁ V
     rw [hV.fromSpec_preimage_self]
     trivial
   rw [isFlatOverAt_iff_flat_sectionsStalk
@@ -228,7 +228,7 @@ private theorem isFlatOverAt_iff_flat_localizedSections
   have hmodule : moduleLeft = moduleRight := by
     apply Module.ext'
     intro a m
-    show ((Spec.map φ ≫ hV.fromSpec).stalkMap q).hom
+    change ((Spec.map φ ≫ hV.fromSpec).stalkMap q).hom
       ((S.presheaf.germ V _ hx).hom a) • m = (φ.hom a) • m
     have hval := congrArg
       (fun t : Γ(S, V) ⟶ (Spec B).presheaf.stalk q => t a) hr
@@ -236,7 +236,7 @@ private theorem isFlatOverAt_iff_flat_localizedSections
         ((S.presheaf.germ V _ hx).hom a) =
       algebraMap B ((Spec B).presheaf.stalk q) (φ.hom a) at hval
     rw [hval, hB]
-  show @Module.Flat Γ(S, V) N _ _ moduleLeft ↔
+  change @Module.Flat Γ(S, V) N _ _ moduleLeft ↔
     @Module.Flat Γ(S, V) N _ _ moduleRight
   rw [hmodule]
 
@@ -394,7 +394,7 @@ private theorem flat_restrictAppIso
         Scheme.Hom.appIso_hom']
       have hAppLE : j.appLE U ⊤ hpre =
           (Scheme.ΓSpecIso Γ(X, U)).inv := by
-        show j.app U ≫
+        change j.app U ≫
           (Spec Γ(X, U)).presheaf.map (homOfLE hpre).op = _
         rw [hU.fromSpec_app_self, Category.assoc, ← Functor.map_comp, ← op_comp]
         have hcomp : homOfLE hpre ≫ eqToHom hpreEq = 𝟙 _ := Subsingleton.elim _ _
@@ -427,7 +427,7 @@ private theorem flat_restrictAppIso
           ((j.appIso (⊤ : (Spec Γ(X, U)).Opens)).inv
             r) = φ.hom a :=
         hR (φ.hom a)
-      show e.hom (φ.hom a • m) = φ.hom a • e.hom m
+      change e.hom (φ.hom a • m) = φ.hom a • e.hom m
       calc
         e.hom (φ.hom a • m) = e.hom
             (((Spec Γ(X, U)).presheaf.map
@@ -493,7 +493,7 @@ private theorem isFlatOver_iff_affineSections
         (Spec.map φ ≫ hV.fromSpec).toLRSHom.toShHom G := by
       intro q
       have hq := (AlgebraicGeometry.isFlatOverAt_restrict_iff j f F q).mpr (h (j q))
-      show IsFlatOverAt
+      change IsFlatOverAt
         (Spec.map φ ≫ hV.fromSpec).toLRSHom.toShHom G q
       simpa only [← hjf] using hq
     have hM := (isFlatOver_spec_iff_flat_sections hV φ G).mp hG
@@ -547,12 +547,12 @@ private theorem isFlatOverAt_iff_resLE
           (q.hom.right ((g.stalkMap w).hom r)) := by rw [hsquare]
       _ = (g.stalkMap w).hom r := by
         have hr : q.hom.right ≫ U.ι.stalkMap w = 𝟙 _ := by
-          show (U.stalkIso w).hom ≫ U.ι.stalkMap w = 𝟙 _
+          change (U.stalkIso w).hom ≫ U.ι.stalkMap w = 𝟙 _
           have h0 := (U.stalkIso w).hom_inv_id
           rwa [Scheme.Opens.stalkIso_inv U w] at h0
         exact congrArg (fun k : CommRingCat.Hom _ _ => k.hom ((g.stalkMap w).hom r)) hr
   let : IsScalarTower R T M := IsScalarTower.of_algebraMap_smul fun r m => by
-    show ((U.ι ≫ f).stalkMap w).hom (e r) • m =
+    change ((U.ι ≫ f).stalkMap w).hom (e r) • m =
       (g.stalkMap w).hom r • m
     rw [hcomp r]
   exact (Module.flat_iff_of_isLocalization T (IsUnit.submonoid R) M).symm.trans
@@ -679,7 +679,7 @@ public theorem isFlatOver_tfae {X S : Scheme.{u}} (f : X ⟶ S)
     obtain ⟨i, hxi⟩ := Opens.mem_iSup.mp (show x ∈ ⨆ i, U i by rw [hU]; exact hxV)
     exact isFlatOverAt_of_flat_sections f F (hUaff i) (hVaff j)
       ((le_iSup U i).trans hU.le) (hsections i) hxi
-  show List.TFAE [C1, C2, C3, C4]
+  change List.TFAE [C1, C2, C3, C4]
   refine List.tfae_of_forall (b := C1) ?_
   intro P hP
   simp only [List.mem_cons, List.not_mem_nil, or_false] at hP

@@ -62,11 +62,11 @@ private theorem surjective_map_toCycles (T : ShortComplex (SheafOfModules.{u} X.
     (AddCommGrpCat.mono_iff_injective _).1 inferInstance
   intro y
   obtain ⟨x, hx⟩ := (ShortComplex.ab_exact_iff _).1 h (Φ.map T.iCycles y) (by
-    show (Φ.map T.iCycles ≫ Φ.map T.g) y = 0
+    change (Φ.map T.iCycles ≫ Φ.map T.g) y = 0
     rw [← Φ.map_comp, T.iCycles_g, Φ.map_zero]
     rfl)
   refine ⟨x, hinj ?_⟩
-  show (Φ.map T.toCycles ≫ Φ.map T.iCycles) x = _
+  change (Φ.map T.toCycles ≫ Φ.map T.iCycles) x = _
   rw [← Φ.map_comp, T.toCycles_i]
   exact hx
 

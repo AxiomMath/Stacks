@@ -190,7 +190,7 @@ noncomputable def sigmaOverInj {I : Type v} [Small.{u} I] (U : I → BigFppfOver
           (Sigma.desc fun k => B.inclusion.map (U k).hom)) =
         B.inclusion.map (U i).hom
       rw [Functor.map_comp, B.inclusion.map_preimage, B.inclusion.map_preimage]
-      exact Sigma.ι_desc _ i)
+      exact Sigma.ι_comp_desc _ i)
 
 /-- The underlying scheme morphism of `AlgebraicGeometry.BigFppfOver.sigmaOverInj` is the
 coproduct inclusion. -/

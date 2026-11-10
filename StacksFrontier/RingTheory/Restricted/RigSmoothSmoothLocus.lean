@@ -246,11 +246,11 @@ private theorem projective_kaehlerDifferential_of_exists_leftInverse
   have : Algebra.FormallyEtale S T := Algebra.FormallyEtale.of_isLocalization M
   have hsurj : Function.Surjective
       (LinearMap.baseChange T P.toExtension.toKaehler) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective T Algebra.Extension.toKaehler_surjective
   have hex : Function.Exact (LinearMap.baseChange T P.toExtension.cotangentComplex)
       (LinearMap.baseChange T P.toExtension.toKaehler) := by
-    simp only [LinearMap.baseChange_eq_ltensor]
+    simp only [LinearMap.baseChange_eq_lTensor]
     exact lTensor_exact T Algebra.Extension.exact_cotangentComplex_toKaehler
       Algebra.Extension.toKaehler_surjective
   obtain ⟨l, hlid⟩ := hl
@@ -564,8 +564,7 @@ private theorem piRight_baseChange_relationMap {S : Type*} [CommRing S] [Algebra
       ∑ i, (algebraMap B S (presentationDifferential G (z j) i)) •
         (TensorProduct.piRight B S S (fun _ : Fin n ↦ G.toExtension.Cotangent) w i) := by
   classical
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul s y =>
     have hpi : ∀ {m : ℕ} (w : Fin m → G.toExtension.Cotangent) (i : Fin m),
         TensorProduct.piRight B S S (fun _ : Fin m ↦ G.toExtension.Cotangent) (s ⊗ₜ[B] w) i =
@@ -668,8 +667,7 @@ private theorem le_smul_of_tmul_eq_zero (M₀ : Submodule B M) (hfg : M₀.FG)
   have hzero' : ∀ x : AdicCompletion K B ⊗[B] ↥M₀,
       LinearMap.lTensor (AdicCompletion K B) M₀.subtype x = 0 := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => rw [map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul s m => rw [LinearMap.lTensor_tmul]; exact hzero s m.1 m.2
     | add x y hx hy => rw [map_add, hx, hy, add_zero]
   have hsub : Subsingleton (AdicCompletion K B ⊗[B] ↥M₀) :=

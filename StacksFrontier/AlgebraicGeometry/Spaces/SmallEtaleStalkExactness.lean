@@ -215,7 +215,7 @@ private noncomputable def neighborhoodSectionsIso {A : Type w} [Category A]
     (P : (SmallEtale B S hS X)ᵒᵖ ⥤ A) (x : GeometricPoint B S hS X) :
     (neighborhoodFiberElementsEquiv B S hS X x).symm.op.functor ⋙
         SmallEtaleNeighborhood.sections (x := x) P ≅
-      (CategoryOfElements.π (geometricFiber B S hS X x)).op ⋙ P :=
+      (Functor.Elements.π (geometricFiber B S hS X x)).op ⋙ P :=
   NatIso.ofComponents (fun j => Iso.refl _) (by
     intro j j' g
     change P.map
@@ -245,7 +245,7 @@ private noncomputable def pointStalkIso {A : Type w} [Category A]
   have : HasColimitsOfShape (geometricFiber B S hS X x).Elementsᵒᵖ A :=
     inferInstanceAs (HasColimitsOfShape (etaleSitePoint B S hS X x hX).fiber.Elementsᵒᵖ A)
   let e := (neighborhoodFiberElementsEquiv B S hS X x).symm.op
-  change colimit ((CategoryOfElements.π (geometricFiber B S hS X x)).op ⋙ P) ≅
+  change colimit ((Functor.Elements.π (geometricFiber B S hS X x)).op ⋙ P) ≅
     colimit (SmallEtaleNeighborhood.sections (x := x) P)
   exact HasColimit.isoOfEquivalence e (neighborhoodSectionsIso B S hS X P x)
 
@@ -260,11 +260,11 @@ private theorem pointStalkIso_naturality {A : Type w} [Category A]
   have : HasColimitsOfShape (geometricFiber B S hS X x).Elementsᵒᵖ A :=
     inferInstanceAs (HasColimitsOfShape (etaleSitePoint B S hS X x hX).fiber.Elementsᵒᵖ A)
   let e := (neighborhoodFiberElementsEquiv B S hS X x).symm.op
-  let dP := (CategoryOfElements.π (geometricFiber B S hS X x)).op ⋙ P
-  let dQ := (CategoryOfElements.π (geometricFiber B S hS X x)).op ⋙ Q
+  let dP := (Functor.Elements.π (geometricFiber B S hS X x)).op ⋙ P
+  let dQ := (Functor.Elements.π (geometricFiber B S hS X x)).op ⋙ Q
   let nP := neighborhoodSectionsIso B S hS X P x
   let nQ := neighborhoodSectionsIso B S hS X Q x
-  let π := (CategoryOfElements.π (geometricFiber B S hS X x)).op
+  let π := (Functor.Elements.π (geometricFiber B S hS X x)).op
   let tP : dP ⟶ dQ := Functor.whiskerLeft π f
   let ν : (SmallEtaleNeighborhood x)ᵒᵖ ⥤ (SmallEtale B S hS X)ᵒᵖ := {
     obj := fun U => Opposite.op U.unop.chart
@@ -877,7 +877,7 @@ private theorem pointFiber_preservesFiniteLimits {C : Type (u + 1)} [Category.{u
     {J : GrothendieckTopology C} (p : J.Point.{u}) :
     PreservesFiniteLimits (p.presheafFiber (A := Type (max (u + 1) w))) := by
   change PreservesFiniteLimits
-    ((Functor.whiskeringLeft _ _ _).obj (CategoryOfElements.π p.fiber).op ⋙
+    ((Functor.whiskeringLeft _ _ _).obj (Functor.Elements.π p.fiber).op ⋙
       colim (J := p.fiber.Elementsᵒᵖ) (C := Type (max (u + 1) w)))
   exact comp_preservesFiniteLimits _ _
 
@@ -887,7 +887,7 @@ private theorem pointFiber_preservesColimits {C : Type (u + 1)} [Category.{u} C]
     {J : GrothendieckTopology C} (p : J.Point.{u}) :
     PreservesColimits (p.presheafFiber (A := Type (max (u + 1) w))) := by
   change PreservesColimits
-    ((Functor.whiskeringLeft _ _ _).obj (CategoryOfElements.π p.fiber).op ⋙
+    ((Functor.whiskeringLeft _ _ _).obj (Functor.Elements.π p.fiber).op ⋙
       colim (J := p.fiber.Elementsᵒᵖ) (C := Type (max (u + 1) w)))
   exact comp_preservesColimits _ _
 
@@ -1030,7 +1030,7 @@ theorem presheafSetStalk_preservesColimits (x : GeometricPoint B S hS X) :
       (A := Type (max (u + 1) w))) := by
     change PreservesColimitsOfSize.{w, w}
       ((Functor.whiskeringLeft _ _ _).obj
-        (CategoryOfElements.π (etaleSitePoint B S hS X x hX).fiber).op ⋙
+        (Functor.Elements.π (etaleSitePoint B S hS X x hX).fiber).op ⋙
         colim (J := (etaleSitePoint B S hS X x hX).fiber.Elementsᵒᵖ)
           (C := Type (max (u + 1) w)))
     exact comp_preservesColimits _ _

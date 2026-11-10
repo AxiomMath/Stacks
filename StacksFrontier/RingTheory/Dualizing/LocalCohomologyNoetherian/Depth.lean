@@ -126,9 +126,9 @@ private theorem le_annihilator_ker_quotientPowerSucc (R : Type u) [CommRing R] (
     rw [← hrrep] at hx
     simpa [quotientPowerSucc] using hx
   apply Subtype.ext
-  show a • (x.1 : R ⧸ I ^ (n + 1)) = 0
+  change a • (x.1 : R ⧸ I ^ (n + 1)) = 0
   rw [← hrrep]
-  show (Ideal.Quotient.mk (I ^ (n + 1)) a) * (Ideal.Quotient.mk (I ^ (n + 1)) r) = 0
+  change (Ideal.Quotient.mk (I ^ (n + 1)) a) * (Ideal.Quotient.mk (I ^ (n + 1)) r) = 0
   rw [← map_mul, Ideal.Quotient.eq_zero_iff_mem, pow_succ]
   simpa [mul_comm] using Ideal.mul_mem_mul hr ha
 

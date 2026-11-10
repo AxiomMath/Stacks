@@ -95,7 +95,6 @@ theorem surjective_of_exists_triangular_preimage
   exact key n y hn
 
 variable (C : ChowSituation.{u}) {X : Scheme.{u}} (f : X ⟶ C.S) [LocallyOfFiniteType f]
-  [IsLocallyNoetherian X]
 
 /-- The canonical map `CH_k(X) ⊗ 𝐐 ⟶ gr_k K'₀(X) ⊗ 𝐐` is injective, for a homomorphism
 `ch : K'₀(X) → CH_*(X) ⊗ 𝐐` such that the class of a coherent module whose support has
@@ -139,7 +138,7 @@ theorem chowToGradedCoherentKZero_injective
     induction z with
     | tmul q α =>
       rw [TensorProduct.map_tmul, TensorProduct.lift.tmul]
-      show q • ψ (cls k α) = q ⊗ₜ[ℤ] α
+      change q • ψ (cls k α) = q ⊗ₜ[ℤ] α
       rw [hψ, TensorProduct.smul_tmul', smul_eq_mul, mul_one]
     | add z w hz hw => rw [map_add, map_add, hz, hw]
   exact Function.LeftInverse.injective key
@@ -181,10 +180,10 @@ theorem rationalCoherentKZeroToChowHomology_surjective
       obtain ⟨x, hx⟩ := toGradedCoherentKZero_surjective C f k (cls k α)
       refine ⟨q ⊗ₜ[ℤ] (x : CoherentKZero X), ?_, fun j hj ↦ ?_⟩
       · rw [LinearMap.liftBaseChange_tmul]
-        show q • (ch (x : CoherentKZero X)) k = _
+        change q • (ch (x : CoherentKZero X)) k = _
         rw [hch_diagonal k α x hx, TensorProduct.smul_tmul', smul_eq_mul, mul_one]
       · rw [LinearMap.liftBaseChange_tmul]
-        show q • (ch (x : CoherentKZero X)) j = 0
+        change q • (ch (x : CoherentKZero X)) j = 0
         rw [htri k j hj _ x.2, smul_zero]
     | add a b ha hb =>
       obtain ⟨v, hv1, hv2⟩ := ha

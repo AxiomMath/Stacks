@@ -163,7 +163,7 @@ theorem genericSupportClosure_subset_preimage_closure (f : X ⟶ S) [LocallyOfFi
     genericSupportClosure f r α s ⊆ f ⁻¹' closure ({s} : Set S) := by
   refine Set.iUnion_subset fun ξ ↦ closure_minimal ?_ (isClosed_closure.preimage f.continuous)
   rintro x rfl
-  show f (f.fiberι s ξ.1) ∈ closure ({s} : Set S)
+  change f (f.fiberι s ξ.1) ∈ closure ({s} : Set S)
   rw [fiberι_apply_base f s ξ.1]
   exact subset_closure rfl
 

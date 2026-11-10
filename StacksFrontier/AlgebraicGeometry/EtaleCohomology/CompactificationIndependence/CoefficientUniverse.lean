@@ -316,6 +316,7 @@ variable {X A B : Scheme.{u}} {j : X ⟶ A} {k : X ⟶ B} {g : A ⟶ B} [IsOpenI
   (hN : ∀ ⦃T : Scheme.{u}⦄ (t : T ⟶ A), Disjoint (Set.range t.base) (Set.range j.base) →
     IsZero ((etaleAbelianInverseImage.{u, v} t).obj N))
 
+omit [IsOpenImmersion j] in
 include hjk hN in
 /-- **`g_* N` vanishes on the complement of `X`**, at every coefficient universe, for `g` proper
 and `N` vanishing away from `X`. -/

@@ -254,11 +254,11 @@ theorem finrank_globalSections_eq_add_one_of_ne_connectedComponents {k : Type u}
   have hle : (⊤ : X'.Opens) ≤ (X' ↘ Spec (.of k)) ⁻¹ᵁ ⊤ := by simp
   have halg : ∀ c : k, algebraMap k Γ(X', ⊤) c = constHom X' ⊤ hle c := by
     intro c
-    show ((Scheme.ΓSpecIso (.of k)).inv ≫ (f ≫ X ↘ Spec (.of k)).appTop).hom c = _
+    change ((Scheme.ΓSpecIso (.of k)).inv ≫ (f ≫ X ↘ Spec (.of k)).appTop).hom c = _
     rw [constHom_top X' hle c, hover]
   have hcomm : ∀ c : k, (f.appTop).hom (algebraMap k Γ(X, ⊤) c) = algebraMap k Γ(X', ⊤) c := by
     intro c
-    show (f.appTop).hom (((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop).hom c) =
+    change (f.appTop).hom (((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop).hom c) =
       ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop ≫ f.appTop).hom c
     simp only [CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply]
   -- evaluation at a rational point is additive and `k`-linear
@@ -283,12 +283,12 @@ theorem finrank_globalSections_eq_add_one_of_ne_connectedComponents {k : Type u}
     { toFun := fun s => AlgebraicGeometry.sectionAt a ⊤ (Opens.mem_top _) s -
         AlgebraicGeometry.sectionAt b ⊤ (Opens.mem_top _) s
       map_add' := fun s t => by
-        show AlgebraicGeometry.sectionAt a ⊤ (Opens.mem_top _) (s + t) -
+        change AlgebraicGeometry.sectionAt a ⊤ (Opens.mem_top _) (s + t) -
           AlgebraicGeometry.sectionAt b ⊤ (Opens.mem_top _) (s + t) = _
         rw [hadd a, hadd b]
         ring
       map_smul' := fun c s => by
-        show AlgebraicGeometry.sectionAt a ⊤ (Opens.mem_top _) (c • s) -
+        change AlgebraicGeometry.sectionAt a ⊤ (Opens.mem_top _) (c • s) -
             AlgebraicGeometry.sectionAt b ⊤ (Opens.mem_top _) (c • s) =
             c • (AlgebraicGeometry.sectionAt a ⊤ (Opens.mem_top _) s -
               AlgebraicGeometry.sectionAt b ⊤ (Opens.mem_top _) s)
@@ -300,7 +300,7 @@ theorem finrank_globalSections_eq_add_one_of_ne_connectedComponents {k : Type u}
     { toFun := fun t => (f.appTop).hom t
       map_add' := fun s t => map_add (f.appTop).hom s t
       map_smul' := fun c t => by
-        show (f.appTop).hom (c • t) = c • (f.appTop).hom t
+        change (f.appTop).hom (c • t) = c • (f.appTop).hom t
         rw [Algebra.smul_def c t, Algebra.smul_def c ((f.appTop).hom t), map_mul, hcomm c] }
   have hinj : ∀ W : X.Opens, Function.Injective (f.app W).hom := fun W =>
     injective_app_of_isGlueingTwoPoints f a b h W
@@ -318,7 +318,7 @@ theorem finrank_globalSections_eq_add_one_of_ne_connectedComponents {k : Type u}
         by_cases hyx : y = (a ≫ f).base (IsLocalRing.closedPoint k)
         · exact Or.inl (hyx ▸ hxV)
         · refine Or.inr ?_
-          show y ∈ (U : Set X)
+          change y ∈ (U : Set X)
           rw [hUset]
           exact hyx
       obtain ⟨r, hr⟩ :=
@@ -334,7 +334,7 @@ theorem finrank_globalSections_eq_add_one_of_ne_connectedComponents {k : Type u}
         (Stacks.GlueSquishUnits.sectionAt_pullback' f a ⊤ hxtop hxtop t).trans
           ((Stacks.GlueSquishUnits.sectionAt_congr' hab' ⊤ hxtop hxtopB t).trans
             (Stacks.GlueSquishUnits.sectionAt_pullback' f b ⊤ hxtopB hxtopB t).symm)
-      show AlgebraicGeometry.sectionAt a (f ⁻¹ᵁ (⊤ : X.Opens)) hxtop
+      change AlgebraicGeometry.sectionAt a (f ⁻¹ᵁ (⊤ : X.Opens)) hxtop
             ((f.app (⊤ : X.Opens)).hom t) -
           AlgebraicGeometry.sectionAt b (f ⁻¹ᵁ (⊤ : X.Opens)) hxtopB
             ((f.app (⊤ : X.Opens)).hom t) = 0
@@ -346,7 +346,7 @@ theorem finrank_globalSections_eq_add_one_of_ne_connectedComponents {k : Type u}
       Stacks.GluePicard.exists_globalUnit_sectionAt_eq_of_ne_connectedComponents f a b h hab
         (Units.mk0 c hc.1)
     have hδs₀ : δ (s₀ : Γ(X', ⊤)) = c - 1 := by
-      show AlgebraicGeometry.sectionAt a ⊤ (Opens.mem_top _) (s₀ : Γ(X', ⊤)) -
+      change AlgebraicGeometry.sectionAt a ⊤ (Opens.mem_top _) (s₀ : Γ(X', ⊤)) -
         AlgebraicGeometry.sectionAt b ⊤ (Opens.mem_top _) (s₀ : Γ(X', ⊤)) = c - 1
       rw [hs₀a, hs₀b, Units.val_mk0]
     have hne : c - 1 ≠ 0 := sub_ne_zero_of_ne hc.2

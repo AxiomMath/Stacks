@@ -58,7 +58,7 @@ lemma frobPow_comp {S Y Y' : Scheme.{u}} {hY : IsInCharacteristic Y p}
     ∀ n, frobPow p hY H n ≫ k = frobPow p hY' (H ≫ k) n
   | 0 => rfl
   | n + 1 => by
-    show (frobOf p hY (frobPow p hY H n) ≫ frobPow p hY H n) ≫ k =
+    change (frobOf p hY (frobPow p hY H n) ≫ frobPow p hY H n) ≫ k =
       frobOf p hY' (frobPow p hY' (H ≫ k) n) ≫ frobPow p hY' (H ≫ k) n
     rw [Category.assoc, frobPow_comp H k n]
 

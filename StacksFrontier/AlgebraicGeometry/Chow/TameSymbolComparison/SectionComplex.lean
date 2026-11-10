@@ -139,7 +139,7 @@ theorem milnorKTheoryZeroAddEquiv_sectionOrdArrow_sectionTameArrow (j : ℤ)
   refine finsum_congr fun x' ↦ ?_
   by_cases h : (x'.1 : X) ⤳ (y.1 : X)
   · rw [chainArrowTerm_of_specializes j _ x' y h]
-    show milnorKTheoryZeroAddEquiv _ ((milnorKTheoryZeroAddEquiv _).symm
+    change milnorKTheoryZeroAddEquiv _ ((milnorKTheoryZeroAddEquiv _).symm
       (sectionOrdHom δ x'.1 y.1 h _ ((sectionTameArrow δ (j + 1) ξ).1 x'))) = _
     rw [AddEquiv.apply_symm_apply, sectionTameArrow, chainArrow_apply, chainArrowCoeff,
       (sectionOrdHom δ x'.1 y.1 h _).map_finsum (finite_support_chainArrowTerm (j + 1) ξ x')]
@@ -481,7 +481,7 @@ theorem sectionOrdArrow_comp_sectionTameArrow_eq_zero (j : ℤ) :
     (sectionOrdArrow δ j).comp (sectionTameArrow δ (j + 1)) = 0 := by
   refine AddMonoidHom.ext fun ξ ↦ Subtype.ext (funext fun y ↦ ?_)
   refine (milnorKTheoryZeroAddEquiv ↥(X.residueField y.1)).injective ?_
-  show milnorKTheoryZeroAddEquiv _ ((sectionOrdArrow δ j (sectionTameArrow δ (j + 1) ξ)).1 y) =
+  change milnorKTheoryZeroAddEquiv _ ((sectionOrdArrow δ j (sectionTameArrow δ (j + 1) ξ)).1 y) =
     milnorKTheoryZeroAddEquiv _ 0
   rw [milnorKTheoryZeroAddEquiv_sectionOrdArrow_sectionTameArrow,
     finsum_sectionOrdTameTerm_comm,

@@ -129,17 +129,17 @@ private lemma affine_stalk_serre_iff [IsLocallyNoetherian X] (F : X.Modules)
       algebraMap (Localization.AtPrime p) (X.presheaf.stalk x)
           (algebraMap Γ(X, U) (Localization.AtPrime p) r) =
         algebraMap Γ(X, U) (X.presheaf.stalk x) r := by
-    show e (algebraMap Γ(X, U) (Localization.AtPrime p) r) = _
+    change e (algebraMap Γ(X, U) (Localization.AtPrime p) r) = _
     exact e.commutes r
   let : IsScalarTower Γ(X, U) (Localization.AtPrime p) (X.presheaf.stalk x) :=
     IsScalarTower.of_algebraMap_smul fun r t => by
-      show algebraMap (Localization.AtPrime p) (X.presheaf.stalk x)
+      change algebraMap (Localization.AtPrime p) (X.presheaf.stalk x)
           (algebraMap Γ(X, U) (Localization.AtPrime p) r) * t =
         algebraMap Γ(X, U) (X.presheaf.stalk x) r * t
       rw [hcomp]
   let : IsScalarTower Γ(X, U) (Localization.AtPrime p) (F.presheaf.stalk x) :=
     IsScalarTower.of_algebraMap_smul fun r n => by
-      show algebraMap (Localization.AtPrime p) (X.presheaf.stalk x)
+      change algebraMap (Localization.AtPrime p) (X.presheaf.stalk x)
           (algebraMap Γ(X, U) (Localization.AtPrime p) r) • n =
         algebraMap Γ(X, U) (X.presheaf.stalk x) r • n
       rw [hcomp]
@@ -297,7 +297,7 @@ private lemma mem_freeLocus_of_free_stalk [IsLocallyNoetherian X] (F : X.Modules
         rw [Equiv.symm_apply_apply]
         infer_instance }
   have : IsIso G.π := by
-    show IsIso ((F.over W).freeHomEquiv.symm ((F.over W).freeHomEquiv e.inv))
+    change IsIso ((F.over W).freeHomEquiv.symm ((F.over W).freeHomEquiv e.inv))
     rw [Equiv.symm_apply_apply]
     infer_instance
   obtain ⟨ey⟩ := Stacks.StalkFreeBridge.nonempty_stalkLinearEquiv W F G hy
@@ -316,11 +316,11 @@ private lemma free_of_isReflexive_of_ringKrullDim_le_one {R M : Type*} [CommRing
   · let : Field R := hField.toField
     infer_instance
   · have hone : (1 : WithBot ℕ∞) ≤ ringKrullDim R := by
-      show (1 : WithBot ℕ∞) ≤ Order.krullDim (PrimeSpectrum R)
+      change (1 : WithBot ℕ∞) ≤ Order.krullDim (PrimeSpectrum R)
       rw [Order.one_le_krullDim_iff]
       refine ⟨⟨⊥, Ideal.isPrime_bot⟩,
         ⟨IsLocalRing.maximalIdeal R, (IsLocalRing.maximalIdeal.isMaximal R).isPrime⟩, ?_⟩
-      show (⊥ : Ideal R) < IsLocalRing.maximalIdeal R
+      change (⊥ : Ideal R) < IsLocalRing.maximalIdeal R
       exact bot_lt_iff_ne_bot.mpr fun h =>
         hField (IsLocalRing.isField_iff_maximalIdeal_eq.mpr h)
     have hdvr := ((isDiscreteValuationRing_tfae R).out 3 1).mp

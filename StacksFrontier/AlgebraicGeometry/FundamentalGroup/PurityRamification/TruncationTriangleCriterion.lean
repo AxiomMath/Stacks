@@ -127,7 +127,7 @@ theorem nonempty_iso_singleFunctor_truncLT_succ (X : DerivedCategory C) (a : ℤ
         ((TStructure.t.triangleLTGE (a + 1)).obj X).mor₁) := by
       rw [HomologySequence.mono_homologyMap_mor₁_iff _ hT (a - 1) a (by omega)]
       exact (isZero_of_isGE _ (a + 1) (a - 1) (by omega)).eq_of_src _ _
-    show IsIso ((homologyFunctor C a).map ((TStructure.t.triangleLTGE (a + 1)).obj X).mor₁)
+    change IsIso ((homologyFunctor C a).map ((TStructure.t.triangleLTGE (a + 1)).obj X).mor₁)
     exact isIso_of_mono_of_epi _
   exact nonempty_iso_singleFunctor_of_iso_homology _ X a
     (asIso ((homologyFunctor C a).map ((TStructure.t.truncLTι (a + 1)).app X)))
@@ -159,7 +159,7 @@ theorem nonempty_iso_singleFunctor_truncGE (X : DerivedCategory C) (b : ℤ) [X.
       rw [HomologySequence.mono_homologyMap_mor₂_iff _ hT b]
       exact (isZero_of_isLE ((TStructure.t.triangleLTGE b).obj X).obj₁ (b - 1) b
         (by omega)).eq_of_src _ _
-    show IsIso ((homologyFunctor C b).map ((TStructure.t.triangleLTGE b).obj X).mor₂)
+    change IsIso ((homologyFunctor C b).map ((TStructure.t.triangleLTGE b).obj X).mor₂)
     exact isIso_of_mono_of_epi _
   exact nonempty_iso_singleFunctor_of_iso_homology _ X b
     (asIso ((homologyFunctor C b).map ((TStructure.t.truncGEπ b).app X))).symm
@@ -195,7 +195,7 @@ omit [HasDerivedCategory.{w} (ModuleCat.{u} A)] in
 theorem eq_ofHom_toSpanSingleton {N : ModuleCat.{u} A} (g : ModuleCat.of A A ⟶ N) :
     g = ModuleCat.ofHom (LinearMap.toSpanSingleton A N (g.hom 1)) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun a => ?_)
-  show g.hom a = a • g.hom 1
+  change g.hom a = a • g.hom 1
   rw [← map_smul, smul_eq_mul, mul_one]
 
 /-- Multiplication by a scalar killing a module kills its single complex. -/
@@ -286,7 +286,7 @@ theorem subsingleton_homology_succ_of_forall_eq_smul [IsNoetherianRing A] [IsLoc
     have hbg : b • g₀ = 0 := by
       rw [eq_ofHom_toSpanSingleton g₀]
       refine ModuleCat.hom_ext (LinearMap.ext fun a => ?_)
-      show b • (a • t) = 0
+      change b • (a • t) = 0
       rw [smul_comm, hb, smul_zero]
     have h1 : Tr.mor₁ ≫ (b • φ) = 0 := by
       have : e₁.inv ≫ Tr.mor₁ ≫ (b • φ) = 0 := by

@@ -74,9 +74,9 @@ theorem exists_properModel_of_isClosedImmersion
     rw [pullback.condition, ← Category.assoc, he]
   refine ⟨(GoodDiagram.ofModel g rfl H Z hZ e).ofIsClosedImmersion hu, H, rfl, Z.hom,
     ‹IsProper Z.hom›, ?_, ?_⟩
-  · show Z.hom ≫ H.modelMap = (Z.hom ≫ H.modelMap) ≫ D.system.map (eqToHom (congrArg op rfl))
+  · change Z.hom ≫ H.modelMap = (Z.hom ≫ H.modelMap) ≫ D.system.map (eqToHom (congrArg op rfl))
     simp
-  · show (ι ≫ e.hom.left ≫ pullback.fst Z.hom H.toModel) ≫ Z.hom = f ≫ H.toModel
+  · change (ι ≫ e.hom.left ≫ pullback.fst Z.hom H.toModel) ≫ Z.hom = f ≫ H.toModel
     rw [← hιg]
     simp only [Category.assoc]
     rw [key]

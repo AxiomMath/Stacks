@@ -77,7 +77,7 @@ theorem isZero_homology_totalDerived_residueField_of_isZero {R L : Type u} [Comm
     (isPseudoCoherent_of_isPerfect.{u, u} K hK)
   let : Algebra p.ResidueField L := ψ.toAlgebra
   have hflat : ψ.Flat := by
-    show Module.Flat p.ResidueField L
+    change Module.Flat p.ResidueField L
     infer_instance
   let Y := (totalDerivedExtensionScalars.{u, u, u} (algebraMap R p.ResidueField)).functor.obj K
   have h₁ : IsZero ((ModuleCat.extendScalars.{u, u, u} ψ).obj

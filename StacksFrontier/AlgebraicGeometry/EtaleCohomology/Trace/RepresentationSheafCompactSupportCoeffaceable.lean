@@ -83,12 +83,12 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
   [ConnectedSpace X.1] [ConnectedSpace (fieldBaseChange (Over.mk f) kbar)] [CompactSpace X.1]
   [QuasiSeparatedSpace X.1]
 
-omit [IsAlgClosure k kbar] in
+omit [IsAlgClosure k kbar] [Fintype Λ] in
 /-- **`#H¹_c(X_k̄, ℱ_P) ≤ #H¹(X_k̄, ℱ_{P'})`, both finite**, for permutation modules `P = Q[Γ/H]`
 over `Λ` and `P' = Q'[Γ/H]` over a finite ring `Λ'`, `H` open normal, `#Λ` invertible in `k̄`,
 whenever `Q ≃ Q'` as groups. -/
 theorem finite_and_natCard_compactSupportRepresentationHomology_one_le_of_addEquiv
-    (hΛ : IsUnit (Nat.card Λ : kbar))
+    [Finite Λ] (hΛ : IsUnit (Nat.card Λ : kbar))
     (H : OpenSubgroup (EtaleFundamentalGroup X.1 (y.map (fieldBaseChangeObjProj B X f kbar
       (contains_fieldBaseChange_of_isCurve B X f kbar)).hom))) [H.toSubgroup.Normal]
     (Q : ObjectProperty.FullSubcategory (ModuleCat.isFG.{u + 1} Λ))
@@ -134,11 +134,11 @@ theorem finite_and_natCard_compactSupportRepresentationHomology_one_le_of_addEqu
   rw [Nat.card_congr e1.toEquiv, Nat.card_congr e2'.toEquiv, ← Nat.card_congr c.toEquiv]
   exact hle
 
-omit [IsAlgClosure k kbar] in
+omit [IsAlgClosure k kbar] [Fintype Λ] in
 /-- **`#H¹_c(X_k̄, ℱ_P) ≤ #H¹(X_k̄, ℱ_P)`, both finite**, for a permutation module `P = N[Γ/H]`,
 `H` open normal, `#Λ` invertible in `k̄`. -/
 theorem finite_and_natCard_compactSupportRepresentationHomology_one_le
-    (hΛ : IsUnit (Nat.card Λ : kbar))
+    [Finite Λ] (hΛ : IsUnit (Nat.card Λ : kbar))
     (H : OpenSubgroup (EtaleFundamentalGroup X.1 (y.map (fieldBaseChangeObjProj B X f kbar
       (contains_fieldBaseChange_of_isCurve B X f kbar)).hom))) [H.toSubgroup.Normal]
     (Q : ObjectProperty.FullSubcategory (ModuleCat.isFG.{u + 1} Λ)) :
@@ -232,7 +232,7 @@ theorem coeffacement_compactSupportRepresentationHomology_zero
         (congrArg ModuleCat.Hom.hom ((restrictedHomologyZeroIso Λ φ).hom.naturality S.f)).symm).symm
     rw [h0, Stacks.CategoryHomology.HomologicalDeltaFunctor.natCard_ker_map_f_eq_of_map_g_eq_zero
       Hgh hS 0 c.map_π]
-    show Nat.card ((T.functor 1).obj P) ≤
+    change Nat.card ((T.functor 1).obj P) ≤
       Nat.card (CharacterModule ((E.functor 1).obj
         ((finiteTypeContinuousModuleDual Λ _).obj (Opposite.op P))))
     rw [CharacterModule.natCard_eq, Nat.card_congr eE.toLinearEquiv.toEquiv,

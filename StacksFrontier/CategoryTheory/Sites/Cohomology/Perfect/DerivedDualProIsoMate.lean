@@ -73,7 +73,7 @@ theorem mate_exactPairingCongrLeft {X X₀ X' Y Y₀ Y' : C} (pX : ExactPairing 
         (@exactPairingCongrLeft C _ _ Y Y₀ Y' pY iY) f =
       mate pX pY (iX.inv ≫ f ≫ iY.hom) := by
   refine (eq_mate _ _ f _ ?_).symm
-  show mate pX pY (iX.inv ≫ f ≫ iY.hom) ▷ X ≫ X' ◁ iX.hom ≫ pX.evaluation' =
+  change mate pX pY (iX.inv ≫ f ≫ iY.hom) ▷ X ≫ X' ◁ iX.hom ≫ pX.evaluation' =
     Y' ◁ f ≫ Y' ◁ iY.hom ≫ pY.evaluation'
   rw [← MonoidalCategory.whisker_exchange_assoc, mate_comp_evaluation,
     ← MonoidalCategory.whiskerLeft_comp_assoc, Iso.hom_inv_id_assoc,
@@ -107,7 +107,7 @@ theorem evaluation_map_ofFullyFaithful (F : C ⥤ D) [F.Monoidal] [F.Full] [F.Fa
     (A A' : C) [pA : ExactPairing (F.obj A) (F.obj A')] :
     (@ExactPairing.map C D _ _ _ _ F _ A A'
         (ExactPairing.ofFullyFaithful F A A')).evaluation' = pA.evaluation' := by
-  show μ F A' A ≫ F.map (ExactPairing.ofFullyFaithful F A A').evaluation' ≫ η F = _
+  change μ F A' A ≫ F.map (ExactPairing.ofFullyFaithful F A A').evaluation' ≫ η F = _
   rw [show (ExactPairing.ofFullyFaithful F A A').evaluation' =
       F.preimage (δ F A' A ≫ pA.evaluation' ≫ ε F) from rfl, F.map_preimage]
   simp

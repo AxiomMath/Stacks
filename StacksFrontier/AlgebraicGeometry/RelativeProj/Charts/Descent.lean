@@ -263,7 +263,7 @@ public theorem opensRange_projInclusionMap {W W' : s.base.Opens} (h : W ≤ W')
   have hoi := isOpenImmersion_projInclusionMap s h hW hW'
   apply le_antisymm
   · rintro z ⟨x, rfl⟩
-    show chartToBase s W' hW' (projInclusionMap s W W' h hW hW' x) ∈ W
+    change chartToBase s W' hW' (projInclusionMap s W W' h hW hW' x) ∈ W
     rw [chartToBase_projInclusionMap]
     exact chartToBase_mem s W hW x
   · intro z hz

@@ -235,7 +235,7 @@ theorem hom_comp_descChartRingHom
       Functor.whiskerLeft (chartOverInclusion B S hS F W).op C.hom.hom) :
     A.hom ≫ descChartRingHom B S hS F hF W hsurj α = C.hom := by
   refine sheafHom_ext_chartOver B S hS F hF W hsurj ?_
-  show Functor.whiskerLeft (chartOverInclusion B S hS F W).op
+  change Functor.whiskerLeft (chartOverInclusion B S hS F W).op
     (A.hom.hom ≫ (descChartRingHom B S hS F hF W hsurj α).hom) = _
   rw [Functor.whiskerLeft_comp, descChartRingHom_restrict, hα]
 

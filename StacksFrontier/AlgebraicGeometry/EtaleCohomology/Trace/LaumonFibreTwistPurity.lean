@@ -104,7 +104,7 @@ public theorem laumonFibreTwistPurityInput : LaumonFibreTwistPurityInput.{u} := 
     Spec.map (CommRingCat.ofHom (algebraMap k' (Polynomial k')))
   have hy : g.base y.1 ∈ closedPoints U.1 := by
     have : JacobsonSpace U.1 := LocallyOfFiniteType.jacobsonSpace f
-    exact g.closePoints_subset_preimage_closedPoints y.2
+    exact g.closedPoints_subset_preimage_closedPoints y.2
   rw [characterTwist_val] at hz
   obtain ⟨w, hw, hzw⟩ := exists_isRoot_of_isRoot_charpoly_smul ι' _ _ (by
     rw [Stacks.ArtinSchreier.artinSchreierCharacter_apply]

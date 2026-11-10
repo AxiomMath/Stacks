@@ -92,7 +92,7 @@ noncomputable def sheafHomOfUliftYonedaHom {T : BigFppfOver B S hS} {Z : FppfShe
 theorem uliftYonedaHom_sheafHomOfUliftYonedaHom {T : BigFppfOver B S hS} {Z : FppfSheaf B S hS}
     (h : (uliftYoneda.{u + 1} (C := BigFppfOver B S hS)).obj T ⟶ Z.obj) :
     uliftYonedaHom B S hS (sheafHomOfUliftYonedaHom B S hS h) = h := by
-  show ((fppfYonedaCompSheafToPresheaf' B S hS).app T).inv ≫
+  change ((fppfYonedaCompSheafToPresheaf' B S hS).app T).inv ≫
     ((fppfYonedaCompSheafToPresheaf' B S hS).app T).hom ≫ h = h
   rw [Iso.inv_hom_id_assoc]
 
@@ -137,7 +137,7 @@ theorem uliftYonedaHom_map_comp {T T' : BigFppfOver B S hS} {Z : FppfSheaf B S h
     (g : T ⟶ T') (h : (fppfYoneda B S hS).obj T' ⟶ Z) :
     uliftYonedaHom B S hS ((fppfYoneda B S hS).map g ≫ h) =
       (uliftYoneda.{u + 1}).map g ≫ uliftYonedaHom B S hS h := by
-  show ((fppfYonedaCompSheafToPresheaf' B S hS).app T).inv ≫
+  change ((fppfYonedaCompSheafToPresheaf' B S hS).app T).inv ≫
       ((fppfYoneda B S hS).map g).hom ≫ h.hom = _
   rw [← Category.assoc, ← uliftYonedaHom_naturality B S hS g, Category.assoc]
   rfl

@@ -106,7 +106,7 @@ public theorem isOpenImmersion_SpecMap_of_forall_exists_awayMap_bijective
   refine ⟨Spec (.of (Localization.Away (φ.hom a))),
     Spec.map (CommRingCat.ofHom (algebraMap B (Localization.Away (φ.hom a)))), inferInstance,
     ?_, ?_⟩
-  · show q ∈ (Spec.map (CommRingCat.ofHom
+  · change q ∈ (Spec.map (CommRingCat.ofHom
       (algebraMap B (Localization.Away (φ.hom a))))).opensRange
     rw [Scheme.Hom.opensRange_localizationAway]
     exact haq

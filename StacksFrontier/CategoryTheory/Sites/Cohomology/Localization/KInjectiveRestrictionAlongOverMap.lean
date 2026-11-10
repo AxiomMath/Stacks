@@ -41,7 +41,8 @@ structure sheaves of the two sites are the same presheaf of rings read on equiva
 side reduces to the functoriality of `O` at an identity.
 
 The universes are collapsed — the objects and the morphisms of `C` in one universe, which is also
-the one of the ring and of the module sections — because the library's Stacks 08FI is stated that way.
+the one of the ring and of the module sections — because the library's Stacks 08FI is stated that
+way.
 
 ## References
 
@@ -111,9 +112,9 @@ theorem isKInjective_sliceBackward
 complexes.
 
 Restriction along `Over.map f` is restriction to the slice of `C/U` at `Over.mk f` followed by the
-transport of that iterated slice to `C/V`. The first preserves K-injectivity by the library's form of
-Stacks 08FI for `SheafOfModules.overFunctor`, extension by zero being an exact left adjoint of it,
-and the second by `isKInjective_sliceBackward`. -/
+transport of that iterated slice to `C/V`. The first preserves K-injectivity by the library's form
+of Stacks 08FI for `SheafOfModules.overFunctor`, extension by zero being an exact left adjoint of
+it, and the second by `isKInjective_sliceBackward`. -/
 @[stacks 08FI "for the restriction between two slices, along `Over.map`"]
 theorem isKInjective_overMap
     (I : CochainComplex (SheafOfModules.{u} (O.over U)) ℤ) [I.IsKInjective] :

@@ -144,7 +144,7 @@ private theorem relativeDimension_genericPoints_eq_of_schemeDeltaDimension_famil
   subst hx
   rw [schemeDeltaDimension_eq_genericPoint C (familyBase f W), ← coe_add_coe_eq_coe_add] at h
   have h2 := WithBotTop.coe_injective h
-  show relativeDimension C.dimensionFunction (familyBase f W) (genericPoint W.subscheme) = k + 1
+  change relativeDimension C.dimensionFunction (familyBase f W) (genericPoint W.subscheme) = k + 1
   omega
 
 /-- **A zero fibre of delta-dimension `k` forces relative dimension `k + 1`.** For an integral

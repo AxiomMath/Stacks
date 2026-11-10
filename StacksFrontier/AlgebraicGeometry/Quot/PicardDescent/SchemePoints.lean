@@ -36,8 +36,8 @@ abbrev schemeSpaceSection {Y : AlgebraicSpaces B S hS} {U : BigFppfOver B S hS}
 
 /-- A morphism from the algebraic space represented by a scheme is determined by its point. -/
 theorem schemeSpaceSection_injective {Y : AlgebraicSpaces B S hS} {U : BigFppfOver B S hS} :
-    Function.Injective (schemeSpaceSection (Y := Y) (U := U)) := fun b₁ b₂ h =>
-  ObjectProperty.hom_ext _ (yonedaEquiv.injective h)
+    Function.Injective (schemeSpaceSection (Y := Y) (U := U)) :=
+  yonedaEquiv.injective.comp (ObjectProperty.ι _).map_injective
 
 /-- The point attached to the composite of a morphism `b` with the map induced by `g : V ⟶ U` is
 the restriction along `g` of the point attached to `b`. -/

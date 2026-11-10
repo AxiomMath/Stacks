@@ -88,18 +88,18 @@ theorem restrictionToComplement_ring_apply
     (complementTildeRingIsoUnit A I).symm with hρ
   have h1 : ρ 1 = (1 : Γ((complementZeroLocus A I : Scheme), ⊤)) := by
     rw [hρ, restrictionToComplement_apply]
-    show ((complementZeroLocus A I).ι.appIso ⊤).hom _ = 1
+    change ((complementZeroLocus A I).ι.appIso ⊤).hom _ = 1
     convert map_one ((complementZeroLocus A I).ι.appIso ⊤).hom.hom using 1
     congr 1
     apply Subtype.ext
     funext x
-    show LocalizedModule.mk (1 : A) (1 : x.1.asIdeal.primeCompl) =
+    change LocalizedModule.mk (1 : A) (1 : x.1.asIdeal.primeCompl) =
       (1 : LocalizedModule x.1.asIdeal.primeCompl A)
     exact (LocalizedModule.numeratorRingHom (S := x.1.asIdeal.primeCompl) (A := A)).map_one
   have h2 := map_smul ρ a (1 : ModuleCat.of A A)
   rw [smul_eq_mul, mul_one] at h2
   rw [h2, h1]
-  show (complementTopScalars I a) * (1 : Γ((complementZeroLocus A I : Scheme), ⊤)) = _
+  change (complementTopScalars I a) * (1 : Γ((complementZeroLocus A I : Scheme), ⊤)) = _
   exact mul_one _
 
 /-- **Vanishing of `H¹` is surjectivity of the restriction on global functions.**

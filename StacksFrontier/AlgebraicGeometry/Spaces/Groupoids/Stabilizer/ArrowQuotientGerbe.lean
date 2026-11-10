@@ -188,7 +188,7 @@ theorem target_comp_toArrowStabilizerQuotientSpace :
   have h := Space.target_toQuotientSheaf_eq_source (arrowStabilizerQuotientPreRelation G)
   rw [arrowStabilizerQuotientPreRelation_source_left,
     arrowStabilizerQuotientPreRelation_target_left] at h
-  show G.target.hom ≫ Space.toQuotientSheaf (arrowStabilizerQuotientPreRelation G) =
+  change G.target.hom ≫ Space.toQuotientSheaf (arrowStabilizerQuotientPreRelation G) =
     G.source.hom ≫ Space.toQuotientSheaf (arrowStabilizerQuotientPreRelation G)
   rw [← toArrowStabilizerQuotient_comp_target, ← toArrowStabilizerQuotient_comp_source,
     Category.assoc, Category.assoc, h]

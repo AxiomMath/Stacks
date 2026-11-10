@@ -16,9 +16,9 @@ locally of finite presentation (Stacks 0DSS).
 
 ## Main results
 
-* The theorem ending `_relativeDiagonal_curvesAlgebraicStack_of_picardCharts`: the
+* `isSeparated_isRelativelyFinitePresentation_diagonal_curves_of_picardCharts`: the
   diagonal of the stack of curves is separated and of finite presentation.
-* The theorem ending `_structureMorphism_curvesAlgebraicStack_of_picardCharts`: the morphism
+* `isQuasiSeparated_isLocallyOfFinitePresentation_curves_of_picardCharts`: the morphism
   `Curves → Spec(ℤ)` is quasi-separated and locally of finite presentation.
 
 ## References
@@ -48,7 +48,7 @@ Picard objects of every family of curves admit smooth charts staying in the rela
 (`hchart`, Stacks 0D04 with Stacks 09DS, and Stacks 0DPJ), the diagonal
 `Δ : Curves ⟶ Curves ×_{Spec(ℤ)} Curves` is separated and of finite presentation, both in the
 sense of Stacks 04XB. -/
-theorem isSeparated_and_isRelativelyFinitePresentation_relativeDiagonal_curvesAlgebraicStack_of_picardCharts
+theorem isSeparated_isRelativelyFinitePresentation_diagonal_curves_of_picardCharts
     (h : Stack.IsAlgebraicStack.{u, w} B integerBase hZ (curvesFiberedCategory B hZ).val)
     (hlim : Deformation.Artin.IsLimitPreserving.{u, u, u, u + 1, u + 1} B integerBase hZ
       (curvesFiberedCategory B hZ))
@@ -86,7 +86,7 @@ theorem isSeparated_and_isRelativelyFinitePresentation_relativeDiagonal_curvesAl
       Stack.AlgebraicStacks.IsRelativelyFinitePresentation B integerBase hZ
         (Stack.AlgebraicStacks.relativeDiagonal B integerBase hZ
           (Stack.structureMorphism B integerBase hZ (curvesAlgebraicStack B hZ h))) :=
-  isSeparated_and_isRelativelyFinitePresentation_relativeDiagonal_curvesAlgebraicStack_of_isSmoothLocallyPolarized
+  isSeparated_isRelativelyFinitePresentation_diagonal_curves_of_isSmoothLocallyPolarized
     B hZ h hlim (CurveFamily.isSmoothLocallyPolarized hchart) hproj
 
 /-- **Stacks 0DSS over the Picard-chart inputs.** Given that the stack of curves is algebraic
@@ -95,7 +95,7 @@ quasi-compactness of `Isom_U(Y, X) ⟶ U` (`hproj`, Stacks 0DPR with Riemann–R
 Picard objects of every family of curves admit smooth charts staying in the relative ample locus
 (`hchart`, Stacks 0D04 with Stacks 09DS, and Stacks 0DPJ), the morphism `Curves → Spec(ℤ)` is
 quasi-separated and locally of finite presentation. -/
-theorem isQuasiSeparated_and_isLocallyOfFinitePresentation_structureMorphism_curvesAlgebraicStack_of_picardCharts
+theorem isQuasiSeparated_isLocallyOfFinitePresentation_curves_of_picardCharts
     (h : Stack.IsAlgebraicStack.{u, w} B integerBase hZ (curvesFiberedCategory B hZ).val)
     (hlim : Deformation.Artin.IsLimitPreserving.{u, u, u, u + 1, u + 1} B integerBase hZ
       (curvesFiberedCategory B hZ))
@@ -130,7 +130,7 @@ theorem isQuasiSeparated_and_isLocallyOfFinitePresentation_structureMorphism_cur
         (Stack.structureMorphism B integerBase hZ (curvesAlgebraicStack B hZ h)) ∧
       Stack.AlgebraicStacks.IsLocallyOfFinitePresentation B integerBase hZ
         (Stack.structureMorphism B integerBase hZ (curvesAlgebraicStack B hZ h)) :=
-  isQuasiSeparated_and_isLocallyOfFinitePresentation_structureMorphism_curvesAlgebraicStack_of_isSmoothLocallyPolarized
+  isQuasiSeparated_isLocallyOfFinitePresentation_curves_of_isSmoothLocallyPolarized
     B hZ h hlim (CurveFamily.isSmoothLocallyPolarized hchart) hproj
 
 end AlgebraicGeometry

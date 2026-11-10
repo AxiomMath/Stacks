@@ -40,8 +40,7 @@ theorem bijective_baseChangeTensorRingMap_of_bijective {R A R' A' : Type u} [Com
     rw [baseChangeTensorRingMap_tmul, map_one, one_mul]
   have hsurj : ∀ z : A ⊗[R] R', ∃ r : R', (1 : A) ⊗ₜ[R] r = z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction z using TensorProduct.inductionOn with
     | tmul a r =>
       obtain ⟨s, rfl⟩ := hA a
       refine ⟨s • r, ?_⟩

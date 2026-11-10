@@ -90,7 +90,7 @@ theorem perfectPairing_of_coord
       ((W.cup X i j _ hij).compr₂ (W.traceCoord X d hX)).compl₁₂
         (LinearEquiv.refl F _).toLinearMap (W.twCoord X j d).toLinearMap := by
     refine LinearMap.ext fun a ↦ LinearMap.ext fun b ↦ ?_
-    show W.trace X d hX (tateCupLeft (W.cup X i j _ hij) d a b) =
+    change W.trace X d hX (tateCupLeft (W.cup X i j _ hij) d a b) =
       W.traceCoord X d hX (W.cup X i j _ hij a (W.twCoord X j d b))
     rw [trace_eq_traceCoord]
     exact congrArg (W.traceCoord X d hX)

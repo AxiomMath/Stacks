@@ -369,8 +369,7 @@ private lemma alpha_tmul (r : R) (u : Fin k → Away 𝒜₀ x₀) :
 private lemma alpha_single (i : Fin k) (z : R ⊗[R₀] Away 𝒜₀ x₀) :
     ∃ w, alpha 𝒜₀ x₀ d bc k w = Pi.single i (bc.ringEquiv z) := by
   classical
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul r a =>
       refine ⟨r ⊗ₜ[R₀] Pi.single i a, ?_⟩
       rw [alpha_tmul, bc.ringEquiv_tmul]
@@ -444,8 +443,7 @@ private def relR : (Fin m → Away 𝒜₀ x₀) →ₗ[R₀] (Fin n → Away �
 private lemma freeComb_alpha (z : R ⊗[R₀] (Fin n → Away 𝒜₀ x₀)) :
     bc.twistEquiv t (LinearMap.lTensor R (presR 𝒜₀ x₀ d t p) z) =
       freeComb 𝒜₀ x₀ d bc t p (alpha 𝒜₀ x₀ d bc n z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul r u =>
       rw [LinearMap.lTensor_tmul]
       change bc.twistEquiv t (r ⊗ₜ[R₀] p u) = _
@@ -470,8 +468,7 @@ private lemma awayBC_comp_rel (u : Fin m → Away 𝒜₀ x₀) :
 private lemma alpha_relR_mem_span (w : R ⊗[R₀] (Fin m → Away 𝒜₀ x₀)) :
     alpha 𝒜₀ x₀ d bc n (LinearMap.lTensor R (relR 𝒜₀ x₀ q) w) ∈
       Submodule.span (SBC (R := R) 𝒜₀ x₀) (Set.range (genRel (R := R) 𝒜₀ x₀ q)) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul r u =>
       rw [LinearMap.lTensor_tmul]
       change alpha 𝒜₀ x₀ d bc n (r ⊗ₜ[R₀] q u) ∈ _

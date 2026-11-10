@@ -159,7 +159,7 @@ private theorem bijective_conj_rightAdjoint_map {L : S ⥤ T} {Rr : T ⥤ S} (ad
       (fun g : Rr.obj A ⟶ Rr.obj B => α.inv ≫ g) ∘ (adj.homEquiv (Rr.obj A) B) ∘
         (fun f : A ⟶ B => adj.counit.app A ≫ f) := by
     funext f
-    show α.inv ≫ Rr.map f = α.inv ≫ adj.homEquiv (Rr.obj A) B (adj.counit.app A ≫ f)
+    change α.inv ≫ Rr.map f = α.inv ≫ adj.homEquiv (Rr.obj A) B (adj.counit.app A ≫ f)
     rw [Adjunction.homEquiv_apply, Functor.map_comp]
     simp only [adj.right_triangle_components_assoc]
   rw [hfun]

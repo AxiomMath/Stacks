@@ -86,7 +86,7 @@ theorem pullbackStalk_tildeMap_germ (M : CochainComplex (ModuleCat.{u} A) ℤ)
       Functor.mapHomologicalComplex_map_f]
     rfl
   rw [hθ]
-  show (tilde (N.X p)).presheaf.germ ⊤ q trivial
+  change (tilde (N.X p)).presheaf.germ ⊤ q trivial
     ((((pullbackTildeIso A A' c).hom.app (M.X p)).val.app (Opposite.op ⊤) ≫
         (tilde.map (ψ₀.f p)).val.app (Opposite.op ⊤)).hom
         ((((Scheme.Modules.pullbackPushforwardAdjunction (Spec.map c)).unit.app
@@ -164,8 +164,7 @@ theorem isIso_comp_specMap_of_pointwise (h : IsPushout a b c d)
     let e := CommRingCat.pushoutTensorLinearEquiv R A R' A' a b c d h
     have he : ⇑(baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := A')) = ⇑e :=
       funext fun t => by
-        induction t using TensorProduct.induction_on with
-        | zero => rw [map_zero, map_zero]
+        induction t using TensorProduct.inductionOn with
         | add x y hx hy => rw [map_add, map_add, hx, hy]
         | tmul x y =>
           rw [baseChangeTensorRingMap_tmul]
@@ -192,7 +191,7 @@ theorem isIso_comp_specMap_of_pointwise (h : IsPushout a b c d)
   have hκ : ∀ n (x : P.X n), (κ₀.f n).hom ((1 : R') ⊗ₜ[R, algebraMap R R'] x) =
       (ψ₀.f n).hom ((1 : A') ⊗ₜ[A, algebraMap A A'] (show M.X n from (π.f n).hom x)) := by
     intro n x
-    show (ψ₀.f n).hom (((squareTermComparison R A R' A').app (M.X n)).hom
+    change (ψ₀.f n).hom (((squareTermComparison R A R' A').app (M.X n)).hom
       ((1 : R') ⊗ₜ[R, algebraMap R R'] (π.f n).hom x)) = _
     rw [squareTermComparison_tmul, map_one]
   have hq : QuasiIso κ₀ := by

@@ -261,15 +261,15 @@ theorem isRepresentableByAlgebraicSpace_fullSubcategory
       (isStackInSetoids_of_isRepresentableByAlgebraicSpace B S hS 𝒳.val h𝒳) P hP)
 
 /-- **Stacks 06MR, the uniqueness assertion, for an algebraic space.** Let `𝒳` be an algebraic
-stack over `S` represented by an algebraic space, with at most one point. Then at most one strictly
-full subcategory of `𝒳` is an algebraic stack satisfying condition (2) of **Stacks 06MP**.
+stack over `S` with at most one point (the argument does not use that `𝒳` is represented by an
+algebraic space). Then at most one strictly full subcategory of `𝒳` is an algebraic stack
+satisfying condition (2) of **Stacks 06MP**.
 
 This is the uniqueness argument of Stacks 06MR, whose input — that the inclusions of the two
 substacks are monomorphisms — is
 `AlgebraicGeometry.Stack.AlgebraicStacks.isMonomorphism_fullSubcategoryInclusion`. -/
 theorem eq_of_isReducedLocallyNoetherianUniquePointSubstack_of_representable
     (𝒳 : AlgebraicStacks.{u, w} B S hS)
-    (h𝒳 : IsRepresentableByAlgebraicSpace B S hS 𝒳.val)
     (hsub : Subsingleton (AlgebraicStacks.points B S hS 𝒳))
     {P Q : ObjectProperty 𝒳.val.val.obj}
     (hP : IsReducedLocallyNoetherianUniquePointSubstack.{u, w} B S hS 𝒳 P)

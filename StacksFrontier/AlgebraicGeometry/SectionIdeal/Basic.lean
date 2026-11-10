@@ -174,7 +174,7 @@ theorem restrictionUnit_app_eq_zero (L : X.Modules)
   -- Its coordinate lies in the ideal of the zero scheme, which is Stacks Tag 02OQ.
   have hmem : e (s.eval (op V')) ∈ RingHom.ker ((Stacks.RegularSectionSequence.zeroScheme X L
       (s.eval (op ⊤))).subschemeι.toLRSHom.c.app (op V')).hom := by
-    show e (s.eval (op V')) ∈ RingHom.ker ((Stacks.RegularSectionSequence.zeroScheme X L
+    change e (s.eval (op V')) ∈ RingHom.ker ((Stacks.RegularSectionSequence.zeroScheme X L
       (s.eval (op ⊤))).subschemeι.app V').hom
     rw [Scheme.IdealSheafData.ker_subschemeι_app _ ⟨V', hV'⟩,
       Stacks.Tag02OQSectionIdeal.zeroScheme_ideal L (s.eval (op ⊤)) ⟨V', hV'⟩]

@@ -326,7 +326,7 @@ theorem mul_liftSMul (n : ℤ) (U : Cᵒᵖ) (s s' : (toRingCat J R').obj.obj U)
       (show (B.complex.X 0).val.obj U from coeffOne (α := α) B U s))
   refine eq_of_heq ((L.liftSMul_heq n U (s * s') x).trans (h.trans ?_).symm)
   refine heq_of_eq (congrArg ((L.mul n 0).app U x) ?_)
-  show s' • (s • B.one.eval U) = (s * s') • B.one.eval U
+  change s' • (s • B.one.eval U) = (s * s') • B.one.eval U
   rw [smul_smul, hc]
 
 variable (L)
@@ -336,7 +336,7 @@ variable (B) in
 theorem coeffOne_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y) (s : (toRingCat J R').obj.obj X) :
     ((B.restrictCoeff α).complex.X 0).val.map f (coeffOne (α := α) B X s) =
       coeffOne (α := α) B Y ((toRingCat J R').obj.map f s) := by
-  show (B.complex.X 0).val.map f (s • B.one.eval X) =
+  change (B.complex.X 0).val.map f (s • B.one.eval X) =
     ((toRingCat J R').obj.map f s) • B.one.eval Y
   rw [PresheafOfModules.map_smul]
   congr 1
@@ -354,7 +354,7 @@ theorem liftSMul_naturality (n : ℤ) {X Y : Cᵒᵖ} (f : X ⟶ Y) (s : (toRing
 /-- The differential of `B♭` kills `s · 1`. -/
 theorem d_coeffOne (U : Cᵒᵖ) (s : (toRingCat J R').obj.obj U) :
     ((B.restrictCoeff α).complex.d 0 (0 + 1)).val.app U (coeffOne (α := α) B U s) = 0 := by
-  show (B.complex.d 0 (0 + 1)).val.app U (s • B.one.eval U) = 0
+  change (B.complex.d 0 (0 + 1)).val.app U (s • B.one.eval U) = 0
   rw [map_smul, B.d_one_eval, smul_zero]
 
 /-- The differentials of `L` commute with the action of `R'`. -/
@@ -369,7 +369,7 @@ theorem d_liftSMul (i j : ℤ) (U : Cᵒᵖ) (s : (toRingCat J R').obj.obj U)
       gradedCast_zero, smul_zero]
     simp only [add_zero, gradedCast_trans]
   · rw [L.complex.shape i j hij]
-    show (0 : (L.complex.X i).val.obj U →+ (L.complex.X j).val.obj U)
+    change (0 : (L.complex.X i).val.obj U →+ (L.complex.X j).val.obj U)
       (L.liftSMul i U s x) = L.liftSMul j U s 0
     rw [liftSMul_zero]
     rfl

@@ -107,7 +107,7 @@ residue of `r`. -/
   let q := Ideal.Quotient.mkₐ Λ I
   let _ : IsLocalHom q := ⟨(IsLocalHom.of_surjective q.toRingHom
     Ideal.Quotient.mk_surjective).map_nonunit⟩
-  show A.residueEquiv
+  change A.residueEquiv
     ((AlgEquiv.ofBijective (ResidueField.mapAlgHom q) _).symm
       (residue _ (q r))) = _
   exact congrArg A.residueEquiv

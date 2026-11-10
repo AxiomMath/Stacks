@@ -79,7 +79,7 @@ theorem appLE_top_eq_crysSheafRingMap_siteP₀ (A : Thickening S)
         Γ((firstOrderThickeningObject S A).thickening.target.scheme, ⊤)) =
       𝟙 Γ((firstOrderThickeningObject S A).thickening.target.scheme, ⊤) :=
     (firstOrderThickeningObject S A).thickening.target.scheme.presheaf.map_id _
-  show ((firstOrderThickeningObject S A).thickening.target.scheme.presheaf.map
+  change ((firstOrderThickeningObject S A).thickening.target.scheme.presheaf.map
       (homOfLE hVU).op).hom
       (((firstOrderThickeningSiteP₀ S A).targetHom.hom.app ⊤).hom b) = _
   exact congrArg (fun k ↦ CommRingCat.Hom.hom k
@@ -144,7 +144,7 @@ theorem firstOrderAmbientPullbackAdjunction_unit_app_val_app (A : Thickening S)
     ((firstOrderAmbientPullbackAdjunction A).unit.app N).val.app W a =
       ((Scheme.Modules.pullbackPushforwardAdjunction
         (firstOrderThickeningSiteP₀ S A).targetHom.hom).unit.app N).val.app W a := by
-  show ((Scheme.Modules.pullback (firstOrderThickeningSiteP₀ S A).targetHom.hom).obj N).val.map
+  change ((Scheme.Modules.pullback (firstOrderThickeningSiteP₀ S A).targetHom.hom).obj N).val.map
       (𝟙 (op ((firstOrderThickeningSiteP₀ S A).targetHom.hom ⁻¹ᵁ W.unop)))
       (((Scheme.Modules.pullbackPushforwardAdjunction
         (firstOrderThickeningSiteP₀ S A).targetHom.hom).unit.app N).val.app W a) = _
@@ -204,7 +204,7 @@ theorem affineFirstOrderComparison_pullbackSection (A : Thickening S)
           (affineFirstOrderComparison M A) =
       (SheafOfModules.restrictScalars (Thickening.ringRestrictionSheafStructureIso A).inv).map
         (Thickening.moduleFMapSheaf M (firstOrderThickeningSiteP₀ S A)) := by
-    show (firstOrderAmbientPullbackAdjunction A).homEquiv _ _
+    change (firstOrderAmbientPullbackAdjunction A).homEquiv _ _
       (affineFirstOrderComparison M A) = _
     exact Equiv.apply_symm_apply _ _
   refine (congrArg (fun y ↦ (affineFirstOrderComparison M A).val.app
@@ -268,7 +268,7 @@ theorem crysPullbackAdjunction_homEquiv_symm_moduleFMapSheaf (A : Thickening S) 
       (SheafOfModules.pullbackPushforwardAdjunction.{u}
         (Thickening.ringRestrictionSheafFMap (firstOrderThickeningSiteP₀ S A)))
       (Thickening.moduleRestrictionSheaf M (firstOrderThickeningObject S A))
-  show (SheafOfModules.pullback.{u} (Thickening.ringRestrictionSheafFMap
+  change (SheafOfModules.pullback.{u} (Thickening.ringRestrictionSheafFMap
           (firstOrderThickeningSiteP₀ S A))).map
         ((SheafOfModules.restrictScalars
             (Thickening.ringRestrictionSheafStructureIso A).hom).map
@@ -617,16 +617,14 @@ def affineCrossEquiv :
   invFun := affineCrossInv M A
   map_add' := map_add (affineCross M A)
   left_inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul t s =>
         rw [affineCross_tmul, affineCrossInv_tmul, siteRingSection_ambientRingSection,
           siteModuleSection_ambientModuleSection, ← restrictOpenTopEquiv_apply,
           AddEquiv.symm_apply_apply]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   right_inv w := by
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul t x =>
         rw [affineCrossInv_tmul, affineCross_tmul,
           moduleSiteRestrict_restrictOpenTopEquiv_symm]

@@ -488,8 +488,7 @@ theorem exists_noetherianGradedModel (𝒜 : ℕ → Submodule R A) [GradedAlgeb
     exact AlgHom.congr_fun hcomp p
   have hvu : ∀ x : TensorProduct R₀ R A₀, v (u x) = x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul r y =>
         obtain ⟨p₀, rfl⟩ := Ideal.Quotient.mk_surjective y
         rw [hudef, Algebra.TensorProduct.lift_tmul]
@@ -501,11 +500,11 @@ theorem exists_noetherianGradedModel (𝒜 : ℕ → Submodule R A) [GradedAlgeb
   refine ⟨R₀, hFT, hNoeth, A₀, inferInstance, inferInstance, 𝒜₀, hgraded, hFTA₀, hNoethA₀, f,
     AlgEquiv.ofAlgHom u v (AlgHom.ext huv) (AlgHom.ext hvu), ?_, ?_⟩
   · intro r
-    show gA (algebraMap R₀ A₀ r) = algebraMap R A (r : R)
+    change gA (algebraMap R₀ A₀ r) = algebraMap R A (r : R)
     rw [AlgHom.commutes, IsScalarTower.algebraMap_apply R₀ R A]
     rfl
   · intro r x
-    show u (r ⊗ₜ[R₀] x) = r • gA x
+    change u (r ⊗ₜ[R₀] x) = r • gA x
     rw [hudef, Algebra.TensorProduct.lift_tmul, Algebra.ofId_apply, Algebra.smul_def]
 
 end Model

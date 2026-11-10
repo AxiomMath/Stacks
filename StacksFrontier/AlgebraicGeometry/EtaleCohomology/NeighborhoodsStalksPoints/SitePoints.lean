@@ -145,7 +145,7 @@ private theorem bijective_of_bijective_on_cofinal {C : Type u} [Category.{v} C]
     let V : G.Elements := G.elementsMk X (α X a)
     let f' : U ⟶ V := ⟨f.1, by simpa only [f.2] using (hnat f.1 T'.2)⟩
     let g' : U ⟶ V := ⟨g.1, by
-      show G.map g.1 (α T'.1 T'.2) = α X a
+      change G.map g.1 (α T'.1 T'.2) = α X a
       rw [hnat, g.2]
       exact hab.symm⟩
     let W := IsCofiltered.eq f' g'
@@ -157,7 +157,7 @@ private theorem bijective_of_bijective_on_cofinal {C : Type u} [Category.{v} C]
       rw [← hnat, hc]
       exact k.2)
     have heq : k.1 ≫ f.1 = k.1 ≫ g.1 := by
-      show (r'.1 ≫ e.1) ≫ f.1 = (r'.1 ≫ e.1) ≫ g.1
+      change (r'.1 ≫ e.1) ≫ f.1 = (r'.1 ≫ e.1) ≫ g.1
       rw [Category.assoc, Category.assoc]
       exact congrArg (fun h => r'.1 ≫ h.1) (IsCofiltered.eq_condition f' g')
     calc
@@ -203,7 +203,7 @@ private theorem exists_isClosed_opens_equalizer {T X S : Scheme.{u}}
       apply pullback.hom_ext <;>
         simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd,
           pullback.diagonal_fst, pullback.diagonal_snd, Category.comp_id, ha, k, δ]
-    show k (a w) ∈ Set.range δ
+    change k (a w) ∈ Set.range δ
     exact ⟨(a ≫ f) w, (congrArg (fun a => a w) hk).symm⟩
 
 /-- An étale affine scheme over a field has finitely many sections.
@@ -220,7 +220,7 @@ private theorem finite_sections_etale_affine {X : Scheme.{u}} [IsAffine X]
       fun a b h ↦ Subtype.ext ((cancel_mono e.hom).mp (congrArg Subtype.val h))
   let φ := Spec.homEquiv (e.inv ≫ f)
   have hf : Etale (Spec.map φ) := by
-    show Etale (Spec.map (Spec.homEquiv (e.inv ≫ f)))
+    change Etale (Spec.map (Spec.homEquiv (e.inv ≫ f)))
     simpa using (inferInstance : Etale (e.inv ≫ f))
   let := φ.hom.toAlgebra
   have : Algebra.Etale Ω Γ(X, ⊤) := (HasRingHomProperty.Spec_iff (P := @Etale)).mp hf
@@ -231,7 +231,7 @@ private theorem finite_sections_etale_affine {X : Scheme.{u}} [IsAffine X]
       commutes' := by
         intro r
         have hg := congrArg (fun k => Spec.homEquiv k) g.2
-        show ((Spec.homEquiv g.1).hom) (φ.hom r) = r
+        change ((Spec.homEquiv g.1).hom) (φ.hom r) = r
         simpa [φ] using congrArg (fun k => k.hom r) hg }
   exact Finite.of_injective t fun a b h ↦ Subtype.ext <| Spec.homEquiv.injective <| by
     ext r
@@ -319,7 +319,7 @@ private theorem geometricPointFiber_lift_of_mem (X : SmallEtale B S hS)
   have hι : (SmallEtale.toScheme B S hS).map (SmallEtale.openObjectι B S hS X U) = U.ι :=
     SmallEtale.openObjectι_map B S hS X U
   refine ⟨⟨b, ?_⟩, ?_⟩
-  · show b ≫ B.inclusion.map (SmallEtale.openObject B S hS X U).obj.hom = s.hom
+  · change b ≫ B.inclusion.map (SmallEtale.openObject B S hS X U).obj.hom = s.hom
     have hcomp : (SmallEtale.toScheme B S hS).map (SmallEtale.openObjectι B S hS X U) ≫
         B.inclusion.map X.obj.hom =
         B.inclusion.map (SmallEtale.openObject B S hS X U).obj.hom :=
@@ -327,7 +327,7 @@ private theorem geometricPointFiber_lift_of_mem (X : SmallEtale B S hS)
     rw [← hcomp, hι, ← Category.assoc, hb]
     exact a.2
   · apply Subtype.ext
-    show b ≫ (SmallEtale.toScheme B S hS).map (SmallEtale.openObjectι B S hS X U) = a.1
+    change b ≫ (SmallEtale.toScheme B S hS).map (SmallEtale.openObjectι B S hS X U) = a.1
     rwa [hι]
 
 /-- A lift of a geometric point factors through a clopen of an object of the site or through its
@@ -388,7 +388,7 @@ private theorem injective_of_natTo_geometricPointFiber
         SmallEtale.openObjectι B S hS T.1 U ≫ g.1 := by
       refine (SmallEtale.inclusion B S hS).map_injective
         (Over.OverMorphism.ext (B.inclusion.map_injective ?_))
-      show τ.map (SmallEtale.openObjectι B S hS T.1 U ≫ f.1) =
+      change τ.map (SmallEtale.openObjectι B S hS T.1 U ≫ f.1) =
         τ.map (SmallEtale.openObjectι B S hS T.1 U ≫ g.1)
       rw [Functor.map_comp, Functor.map_comp, SmallEtale.openObjectι_map]
       exact heq
@@ -526,7 +526,7 @@ private theorem fiber_nonempty_of_geometricPointFiber_elements
     (s : GeometricPoint S) (hsx : s.hom default = x)
     (a : (geometricPointFiber B S hS s).Elements) : Nonempty (p.fiber.obj a.1) := by
   apply fiber_nonempty_of_mem_imageOpen B S hS p x hx a.1
-  show x ∈ Set.range (B.inclusion.map a.1.obj.hom).base
+  change x ∈ Set.range (B.inclusion.map a.1.obj.hom).base
   refine ⟨a.2.1 default, ?_⟩
   have h := congrArg (fun f => f default) a.2.2
   change (a.2.1 ≫ B.inclusion.map a.1.obj.hom) default = s.hom default at h

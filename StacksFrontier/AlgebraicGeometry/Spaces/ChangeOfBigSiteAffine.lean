@@ -104,7 +104,7 @@ theorem isAffineHom_changeBigSite_map {Y : AlgebraicSpaces B S hS} (f : Y ⟶ X)
   have hg : (changeBigSiteChart B B' h S hS X (CostructuredArrow.mk g)).hom = V.obj.hom := by
     apply yonedaEquiv.injective
     refine (chartElement_changeBigSiteChart B B' h S hS X (CostructuredArrow.mk g)).trans ?_
-    show changeBigSiteSectionEquiv B B' h S hS X T (yonedaEquiv (yonedaEquiv.symm x)) = _
+    change changeBigSiteSectionEquiv B B' h S hS X T (yonedaEquiv (yonedaEquiv.symm x)) = _
     rw [Equiv.apply_symm_apply]
     exact Equiv.apply_symm_apply _ _
   refine ⟨⟨(inclusionOver h S hS).obj W.obj, W.property⟩,

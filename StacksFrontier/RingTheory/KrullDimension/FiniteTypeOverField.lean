@@ -115,7 +115,7 @@ private lemma height_eq_of_isMaximal_mvPolynomial (k : Type u) [Field k] {r : �
   induction r with
   | zero =>
     simpa using height_le_of_ringKrullDim_eq (n := 0)
-      (by simp [ringKrullDim_mvPolynomial_of_isEmpty, ringKrullDim_eq_zero_of_field]) 𝔮
+      (by simp [ringKrullDim_eq_zero_of_field]) 𝔮
   | succ r ih =>
     have e := (MvPolynomial.finSuccEquiv k r).toRingEquiv
     have : (Ideal.map e 𝔮).IsMaximal := Ideal.map_isMaximal_of_equiv e
@@ -361,8 +361,9 @@ private lemma covBy_comap_of_surjective {R S : Type*} [CommRing R] [CommRing S] 
 /-- A polynomial ring in finitely many variables over a field has finite Krull dimension. -/
 private lemma finiteRingKrullDim_mvPolynomial (k : Type u) [Field k] (ι : Type*) [Finite ι] :
     FiniteRingKrullDim (MvPolynomial ι k) := by
-  rw [finiteRingKrullDim_iff_ne_bot_and_top, MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite,
-    ringKrullDim_eq_zero_of_field, zero_add]
+  rw [finiteRingKrullDim_iff_ne_bot_and_top,
+    MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite, ringKrullDim_eq_zero_of_field,
+    zero_add]
   refine ⟨by simp, ?_⟩
   rw [← WithBot.coe_natCast, ← WithBot.coe_top, ne_eq, WithBot.coe_inj]
   exact ENat.natCast_ne_top _

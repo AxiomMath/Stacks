@@ -112,7 +112,7 @@ theorem range_pointsMap_subset_image_of_isAdmissibleBlowup {X X' : AlgebraicSpac
   have hVC : Set.range (pointsMap B S hS V.1.toFunctor V.1.ι) ⊆
       Set.range (pointsMap B S hS C.1.toFunctor C.1.ι) := by
     intro y hy
-    show y ∈ subspacePointSet B S hS X.1 C.1
+    change y ∈ subspacePointSet B S hS X.1 C.1
     rw [subspacePointSet_openComplement B S hS X Z]
     exact fun hz => Set.disjoint_left.1 hdisj hy hz
   have := isIso_fromPreimage_openComplement hbl

@@ -222,7 +222,7 @@ theorem balancedTensorMapPure_balanced
     (n : N) (a : Λ) (m : M) :
     balancedTensorMapPure Λ f g (MulOpposite.op a • n) m =
       balancedTensorMapPure Λ f g n (a • m) := by
-  show balancedTensorPure Λ N' M' (f (MulOpposite.op a • n)) (g m) =
+  change balancedTensorPure Λ N' M' (f (MulOpposite.op a • n)) (g m) =
     balancedTensorPure Λ N' M' (f n) (g (a • m))
   rw [f.hom.map_smul, g.hom.map_smul]
   exact balancedTensorPure_balanced Λ N' M' (f n) a (g m)
@@ -286,7 +286,7 @@ def balancedTensorFunctor :
 theorem balancedTensorFunctor_additive (N : ModuleCat.{v} (MulOpposite Λ)) :
     ((balancedTensorFunctor Λ).obj N).Additive where
   map_add {M M'} {f g} := balancedTensor_hom_ext Λ N M _ _ _ fun n m => by
-    show balancedTensorMap Λ (𝟙 N) (f + g) (balancedTensorPure Λ N M n m) =
+    change balancedTensorMap Λ (𝟙 N) (f + g) (balancedTensorPure Λ N M n m) =
       balancedTensorMap Λ (𝟙 N) f (balancedTensorPure Λ N M n m) +
         balancedTensorMap Λ (𝟙 N) g (balancedTensorPure Λ N M n m)
     simp only [balancedTensorMap_pure]
@@ -417,7 +417,7 @@ theorem balancedTensorFunctor_isLeftAdjoint (N : ModuleCat.{v} (MulOpposite Λ))
     intro M' M Q f g
     let := balancedTensorHomModule Λ N Q
     ext m n
-    show g (balancedTensorMap Λ (𝟙 N) f (balancedTensorPure Λ N M' n m)) =
+    change g (balancedTensorMap Λ (𝟙 N) f (balancedTensorPure Λ N M' n m)) =
       g (balancedTensorPure Λ N M n (f m))
     rw [balancedTensorMap_pure]
     rfl

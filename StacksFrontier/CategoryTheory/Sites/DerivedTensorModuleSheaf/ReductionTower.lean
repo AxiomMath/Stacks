@@ -51,7 +51,7 @@ variable {J Λ} in
 theorem constantSheaf_map_smul {M N : ModuleCat.{w} Λ} (a : Λ) (g : M ⟶ N) :
     (constantSheaf J (ModuleCat.{w} Λ)).map (a • g) =
       a • (constantSheaf J (ModuleCat.{w} Λ)).map g := by
-  show (presheafToSheaf J _).map ((Functor.const _).map (a • g)) =
+  change (presheafToSheaf J _).map ((Functor.const _).map (a • g)) =
     a • (presheafToSheaf J _).map ((Functor.const _).map g)
   rw [← Functor.map_smul]
   rfl
@@ -143,10 +143,10 @@ theorem pow_smul_id_quotientPowerTower_obj {f : Λ} (hf : f ∈ I) (n : ℕ) :
       (ModuleCat.of Λ Λ)).obj (Opposite.op n)) = 0 := by
     ext x
     obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-    show (Submodule.Quotient.mk (f ^ n • y) : Λ ⧸ (I ^ n • ⊤ : Submodule Λ Λ)) = 0
+    change (Submodule.Quotient.mk (f ^ n • y) : Λ ⧸ (I ^ n • ⊤ : Submodule Λ Λ)) = 0
     rw [Submodule.Quotient.mk_eq_zero]
     exact Submodule.smul_mem_smul (Ideal.pow_mem_pow hf n) Submodule.mem_top
-  show f ^ n • 𝟙 ((DerivedCategory.singleFunctor _ 0).obj ((constantSheaf J _).obj _)) = 0
+  change f ^ n • 𝟙 ((DerivedCategory.singleFunctor _ 0).obj ((constantSheaf J _).obj _)) = 0
   rw [← (DerivedCategory.singleFunctor _ 0).map_id, ← (constantSheaf J _).map_id,
     ← Functor.map_smul, ← constantSheaf_map_smul, h, Functor.map_zero, Functor.map_zero]
 
@@ -159,7 +159,7 @@ theorem isDerivedComplete_derivedReductionTower_obj
   refine isDerivedCompleteAt_of_isNilpotent ⟨n.unop, ?_⟩
   ext
   rw [smul_id_pow, End.zero_asHom]
-  show f ^ n.unop • 𝟙 (K ⊗ (quotientPowerTower J Λ I).obj (Opposite.op n.unop)) = 0
+  change f ^ n.unop • 𝟙 (K ⊗ (quotientPowerTower J Λ I).obj (Opposite.op n.unop)) = 0
   rw [← derived_whiskerLeft_smul_id, pow_smul_id_quotientPowerTower_obj J Λ I hf,
     ← zero_smul Λ (𝟙 ((quotientPowerTower J Λ I).obj (Opposite.op n.unop))),
     derived_whiskerLeft_smul_id, zero_smul]

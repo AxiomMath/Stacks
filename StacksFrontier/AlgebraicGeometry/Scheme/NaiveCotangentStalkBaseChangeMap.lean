@@ -137,7 +137,7 @@ theorem fiberStalkRingEquiv_smul_fiber
     Module.compHom _ (Stacks.SitePointBaseChange.stalkRingHom b.hom
       (Opens.pointGrothendieckTopology z))
   let _ := algebraStalk b.hom z
-  show fiberStalkRingEquiv C z
+  change fiberStalkRingEquiv C z
       (Stacks.SitePointBaseChange.stalkRingHom b.hom
         (Opens.pointGrothendieckTopology z) r * n) = _
   refine Eq.trans (map_mul (fiberStalkRingEquiv C z) _ _) ?_

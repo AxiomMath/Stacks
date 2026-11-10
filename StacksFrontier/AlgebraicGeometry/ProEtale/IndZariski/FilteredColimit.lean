@@ -76,7 +76,7 @@ theorem localIso_isFinitelyPresentable (A : Type u) [CommRing A] :
   have hfp : ((E'.functor.obj X).hom.hom).FinitePresentation :=
     hA.comp (.of_bijective (ULift.ringEquiv : ULift.{v} A ≃+* A).bijective)
   have := Cardinal.fact_isRegular_aleph0.{max u v}
-  show IsFinitelyPresentable.{max u v} X
+  change IsFinitelyPresentable.{max u v} X
   rw [IsFinitelyPresentable, ← isCardinalPresentable_iff_of_isEquivalence X _ E'.functor]
   exact CommRingCat.isFinitelyPresentable_under (CommRingCat.of (ULift.{v} A)) _ hfp
 

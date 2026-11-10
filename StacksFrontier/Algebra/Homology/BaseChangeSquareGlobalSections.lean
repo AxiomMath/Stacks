@@ -271,7 +271,7 @@ variable {A B C D : Type*} [Category* A] [Category* B] [Category* C] [Category* 
   (e : G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅
     DerivedCategory.Plus.Qh ⋙ G.rightDerivedFunctorPlus)
   {P : D ⥤ B} {P' : C ⥤ A} {Fm : A ⥤ B} {F'm : C ⥤ D}
-  [P.Additive] [P'.Additive] [Fm.Additive] [F'm.Additive]
+  [Fm.Additive] [F'm.Additive]
 
 /-- **The descended base change comparison at `X[0]`, from the base change map on complexes of a
 transported square.**  Let `τ : F ⋙ G ⟶ G' ⋙ F'` be the base change mate of a comparison

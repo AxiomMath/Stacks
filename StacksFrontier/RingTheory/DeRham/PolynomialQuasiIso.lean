@@ -408,7 +408,7 @@ theorem kaehlerProdEquiv_symm_comp_inl :
 theorem kaehlerProdEquiv_symm_zero_one :
     (kaehlerProdEquiv R A).symm.toLinearMap ((0, 1) : (A[X] ⊗[A] Ω[A⁄R]) × A[X]) =
       D R A[X] (X : A[X]) := by
-  show (kaehlerProdEquiv R A).symm (0, 1) = _
+  change (kaehlerProdEquiv R A).symm (0, 1) = _
   rw [kaehlerProdEquiv_symm_apply]
   simp
 
@@ -602,8 +602,7 @@ private theorem eq_on_mapBaseChangePow_of_forall_smul {N : Type*} [AddCommGroup 
     (ζ : A[X] ⊗[A] ↥(⋀[A]^p (Ω[A⁄R]))) :
     F (mapBaseChangePow R A p (ExteriorAlgebra.exteriorPowerBaseChange A A[X] (Ω[A⁄R]) p ζ)) =
       G (mapBaseChangePow R A p (ExteriorAlgebra.exteriorPowerBaseChange A A[X] (Ω[A⁄R]) p ζ)) := by
-  induction ζ using TensorProduct.induction_on with
-  | zero => simp
+  induction ζ using TensorProduct.inductionOn with
   | tmul g ω => rw [mapBaseChangePow_baseChange_tmul]; exact h g ω
   | add ζ η hζ hη => simp only [map_add, hζ, hη]
 
@@ -673,8 +672,7 @@ theorem integralPow_wedgeLeft_mapBaseChange (p : ℕ) (ζ : A[X] ⊗[A] Ω[A⁄R
       exteriorPower.wedgeLeft
         (mapBaseChange R A A[X] (LinearMap.rTensor (Ω[A⁄R]) (integral (A := A)) ζ)) p
         (mapExteriorPower R A A[X] p ω) := by
-  induction ζ using TensorProduct.induction_on with
-  | zero => simp
+  induction ζ using TensorProduct.inductionOn with
   | tmul g α =>
       have hw (q : A[X]) : exteriorPower.wedgeLeft (mapBaseChange R A A[X] (q ⊗ₜ[A] α)) p
           (mapExteriorPower R A A[X] p ω) =

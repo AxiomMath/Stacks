@@ -250,7 +250,7 @@ theorem gysinPushforwardComponentCoeff_of_le
     (hWE : W.subspace ≤ (vanishingLocus D p hp L s).1) :
     gysinPushforwardComponentCoeff D p hp L s k chern W =
       (integralClosedSubspacePushforward D p hp W k (chern W hW)).1 := by
-  rw [gysinPushforwardComponentCoeff, dite_eq_left hW, if_pos hWE]
+  rw [gysinPushforwardComponentCoeff, dite_eq_left hW, ite_eq_left hWE]
 
 /-- For `W ⊄ E` of δ-dimension `k + 1` the component is the pushforward to `X` of the cycle of
 `E ∩ W` formed on `W`. -/
@@ -267,7 +267,7 @@ theorem gysinPushforwardComponentCoeff_of_not_le
           (interOnClosedSubspace D p hp L s ⟨W.subspace, W.isClosedSubspace⟩).2 k
           (canonicalGeometricPoint D.site D.base D.base_mem
             (interOnClosedSubspace D p hp L s ⟨W.subspace, W.isClosedSubspace⟩).1.toFunctor)) := by
-  rw [gysinPushforwardComponentCoeff, dite_eq_left hW, if_neg hWE]
+  rw [gysinPushforwardComponentCoeff, dite_eq_left hW, ite_eq_right hWE]
 
 /-- At a subspace of δ-dimension other than `k + 1` the component is zero. -/
 theorem gysinPushforwardComponentCoeff_of_deltaDimension_ne

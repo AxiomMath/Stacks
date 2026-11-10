@@ -206,10 +206,10 @@ theorem isFiniteLocallyFreeOfRank_of_charts (hV : ∀ v, V.hom v ∉ W) [IsAffin
       map_smul' := fun r x ↦ by
         simp only [Algebra.smul_def, map_mul, RingHom.id_apply]
         ext
-        · show _ * _ = κ₁.appTop r * _
+        · change _ * _ = κ₁.appTop r * _
           congr 1
           exact RingHom.congr_fun (hcomp true) r
-        · show _ * _ = κ₂.appTop r * _
+        · change _ * _ = κ₂.appTop r * _
           congr 1
           exact RingHom.congr_fun (hcomp false) r }
   rw [isFiniteLocallyFreeOfRank_iff_module_of_isAffine κ (r₁ + r₂) rfl]
@@ -243,7 +243,7 @@ private theorem subset_preimage_range_diagonal {Z Y X : Scheme.{u}} {π : Y ⟶ 
     (U : Set Z) ⊆ pullback.lift f g h ⁻¹' Set.range (pullback.diagonal π) := by
   intro z hz
   have hΨ : U.ι ≫ pullback.lift f g h = U.ι ≫ f ≫ pullback.diagonal π :=
-    pullback.hom_ext (by simp [pullback.lift_fst]) (by simp [pullback.lift_snd, hU])
+    pullback.hom_ext (by simp) (by simp [hU])
   exact ⟨f z, (congrArg (fun φ ↦ φ (⟨z, hz⟩ : U)) hΨ).symm⟩
 
 /-- Two morphisms over `X` agree at a point which the induced map to the fibre product sends into
@@ -317,7 +317,7 @@ private theorem image_setOf_mem_comap_chartT_eq_sup {T : Over S} (I : (total W T
       rw [Scheme.IdealSheafData.support_sup]
       refine ⟨hsupp₁, ?_⟩
       rw [Scheme.IdealSheafData.support_comap] at hsupp₁ ⊢
-      show chartT W T (!b) _ ∈ I.support
+      change chartT W T (!b) _ ∈ I.support
       rwa [chartT_apply_eq _ hx (!b) b]
     rw [← SetLike.mem_coe, ← Scheme.IdealSheafData.range_subschemeι] at hsupp
     obtain ⟨w, hw⟩ := hsupp
@@ -327,7 +327,7 @@ private theorem image_setOf_mem_comap_chartT_eq_sup {T : Over S} (I : (total W T
       le_sup_left
     have := Scheme.IdealSheafData.inclusion_subschemeι hle₁
     refine ⟨Scheme.IdealSheafData.inclusion hle₁ w, ?_, ?_⟩
-    · show T.hom (proj T ((Scheme.IdealSheafData.inclusion hle₁ ≫
+    · change T.hom (proj T ((Scheme.IdealSheafData.inclusion hle₁ ≫
         (I.comap (chartT W T b)).subschemeι) w)) ∈ W
       rwa [this]
     · rw [← Scheme.Hom.comp_apply, this]
@@ -388,7 +388,7 @@ theorem isClosed_preimage_of_family {T : Over S} {d : ℕ} (hd : 0 < d)
         (T.hom ⁻¹' (W : Set S))) =
       {x | T.hom (proj T ((D.ideal.comap (chartT W T b)).subschemeι x)) ∈ W} := by
     ext x
-    show T.hom ((subschemeChart D.ideal b ≫ D.ideal.subschemeι ≫
+    change T.hom ((subschemeChart D.ideal b ≫ D.ideal.subschemeι ≫
       ((Over.pullback T.hom).obj (doubledLine W)).hom) x) ∈ W ↔ _
     rw [subschemeChart_hom D.ideal b]
     rfl

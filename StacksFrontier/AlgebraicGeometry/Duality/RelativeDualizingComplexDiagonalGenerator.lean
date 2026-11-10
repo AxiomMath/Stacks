@@ -155,13 +155,13 @@ theorem sheafTensor_map_unitMap_comp_mul :
           (Category.comp_id _)))))
   refine hL.trans (Eq.trans ?_ hR.symm)
   refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (TensorProduct.ext' fun x r => ?_)
-  show (presheafMul A).app U (PresheafOfModules.Hom.app h U (x ⊗ₜ r)) = _
+  change (presheafMul A).app U (PresheafOfModules.Hom.app h U (x ⊗ₜ r)) = _
   rw [PresheafOfModules.tensorHom_tmul]
   simp only [presheafMul]
-  show x * (unitMap A).val.app U r = _
+  change x * (unitMap A).val.app U r = _
   refine (congrArg (x * ·) (unitMap_app A U r)).trans ?_
   refine Eq.trans ?_ (ModuleCat.MonoidalCategory.rightUnitor_hom_apply x r).symm
-  show x * ((show (moduleOfAlgebra A).val.obj U from (structureMap A).hom.app U r) * 1) =
+  change x * ((show (moduleOfAlgebra A).val.obj U from (structureMap A).hom.app U r) * 1) =
     (show (moduleOfAlgebra A).val.obj U from (structureMap A).hom.app U r) * x
   rw [mul_one, mul_comm]
 

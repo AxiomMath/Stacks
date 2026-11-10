@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SheafHomFilteredColimit
-public import
- StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.InternalHomFilteredColimitsSections
+public import StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.InternalHomFilteredColimitsSections
 public import StacksFrontier.Topology.Sheaves.Limits.FilteredColimitGlobalSections
 import StacksCore.Tactic.StacksAttribute
 

@@ -35,18 +35,20 @@ variable (k : Type u) [Field k] [Fintype k] {F : Type v} [Field F] [Algebra k F]
 abbrev scaledAffineLineASMap : F[X] →ₐ[F] F[X] :=
   aeval (C (σ⁻¹ : Fˣ).1 * ((Polynomial.X : F[X]) ^ Fintype.card k - Polynomial.X))
 
+omit [Field k] [Algebra k F] in
 /-- Applying `x ↦ σ⁻¹ (x^q - x)` to the coefficients of `T^q - T - σ x` gives a polynomial over
 `F[x]` with root `x`. -/
 theorem eval₂_poly_scaledAffineLineASMap :
     (poly k (C σ.1 * Polynomial.X : F[X])).eval₂ (scaledAffineLineASMap k σ : F[X] →+* F[X])
       Polynomial.X = 0 := by
   simp only [poly, eval₂_sub, eval₂_X_pow, eval₂_add, eval₂_X, eval₂_C]
-  show Polynomial.X ^ Fintype.card k - (Polynomial.X +
+  change Polynomial.X ^ Fintype.card k - (Polynomial.X +
     aeval (C (σ⁻¹ : Fˣ).1 * ((Polynomial.X : F[X]) ^ Fintype.card k - Polynomial.X))
       (C σ.1 * Polynomial.X)) = 0
   rw [map_mul, aeval_C, aeval_X, algebraMap_eq, ← mul_assoc, ← C_mul, Units.mul_inv, C_1, one_mul]
   ring
 
+omit [Field k] [Algebra k F] in
 /-- `root^q - root = σ x` in `F[x][T]/(T^q - T - σ x)`. -/
 theorem root_pow_card_sub_root_scaled :
     AdjoinRoot.root (poly k (C σ.1 * Polynomial.X : F[X])) ^ Fintype.card k -
@@ -82,6 +84,7 @@ def scaledAffineLineRingEquiv : Ring k (C σ.1 * Polynomial.X : F[X]) ≃ₐ[F] 
           Polynomial.algebraMap_eq, ← map_mul, ← mul_assoc, ← C_mul, Units.inv_mul, C_1, one_mul]
       · simp)
 
+omit [Field k] [Algebra k F] in
 /-- **The Artin–Schreier algebra of `σ x` over `F[x]` is a domain**, being a polynomial ring. -/
 theorem isDomain_ring_scaledAffineLine : IsDomain (Ring k (C σ.1 * Polynomial.X : F[X])) :=
   (scaledAffineLineRingEquiv k σ).toMulEquiv.isDomain

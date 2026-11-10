@@ -7,8 +7,7 @@ public import
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.InverseImageTorsion
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.CompositionIsoNaturality
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.ExtensionByZeroCounitBaseChange
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.ExtensionByZeroCounitBaseChange
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.InverseImageCompIdRight
 
@@ -151,7 +150,7 @@ theorem isPullback_restrictBase_baseChange :
         (compImmersionBaseChange sqg sqf jg jX)
       have h4 := restrictBaseBaseChangeι_fst sqg sqf jg jX
       rw [Category.id_comp] at h2 h3
-      show (hX ≫ baseChangeImmersion (isPullback_id_comp_immersion jg) jX) ≫ _ =
+      change (hX ≫ baseChangeImmersion (isPullback_id_comp_immersion jg) jX) ≫ _ =
         (baseChangeImmersion (isPullback_id_comp_immersion (jg.baseChange sqg))
           (compImmersionBaseChange sqg sqf jg jX) ≫ _) ≫ _
       exact (congrArg (fun z => hX ≫ z) h2).trans (h1.trans
@@ -162,7 +161,7 @@ theorem isPullback_restrictBase_baseChange :
       have h3 := baseChangeImmersion_snd (isPullback_id_comp_immersion (jg.baseChange sqg))
         (compImmersionBaseChange sqg sqf jg jX)
       have h4 := restrictBaseBaseChangeι_snd sqg sqf jg jX
-      show (hX ≫ baseChangeImmersion (isPullback_id_comp_immersion jg) jX) ≫ _ =
+      change (hX ≫ baseChangeImmersion (isPullback_id_comp_immersion jg) jX) ≫ _ =
         (baseChangeImmersion (isPullback_id_comp_immersion (jg.baseChange sqg))
           (compImmersionBaseChange sqg sqf jg jX) ≫ _) ≫ _
       exact (congrArg (fun z => hX ≫ z) h2).trans (sqf.w.trans

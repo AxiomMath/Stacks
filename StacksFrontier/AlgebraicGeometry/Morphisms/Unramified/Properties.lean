@@ -173,7 +173,7 @@ private lemma algebraUnramified_iff_ringHom {R T : Type u} [CommRing R] [CommRin
     letI : Algebra R T := g.toAlgebra
     Algebra.Unramified R T ↔ (g.FiniteType ∧ g.FormallyUnramified) := by
   let : Algebra R T := g.toAlgebra
-  show Algebra.Unramified R T ↔
+  change Algebra.Unramified R T ↔
     (RingHom.FiniteType (algebraMap R T) ∧ RingHom.FormallyUnramified (algebraMap R T))
   rw [RingHom.finiteType_algebraMap, RingHom.formallyUnramified_algebraMap]
   exact ⟨fun h => ⟨h.finiteType, h.formallyUnramified⟩, fun h => ⟨h.2, h.1⟩⟩
@@ -183,7 +183,7 @@ private lemma algebraGUnramified_iff_ringHom {R T : Type u} [CommRing R] [CommRi
     letI : Algebra R T := g.toAlgebra
     Algebra.GUnramified R T ↔ (g.FinitePresentation ∧ g.FormallyUnramified) := by
   let : Algebra R T := g.toAlgebra
-  show Algebra.GUnramified R T ↔
+  change Algebra.GUnramified R T ↔
     (RingHom.FinitePresentation (algebraMap R T) ∧ RingHom.FormallyUnramified (algebraMap R T))
   rw [RingHom.finitePresentation_algebraMap, RingHom.formallyUnramified_algebraMap]
   exact ⟨fun h => ⟨h.finitePresentation, h.formallyUnramified⟩, fun h => ⟨h.2, h.1⟩⟩

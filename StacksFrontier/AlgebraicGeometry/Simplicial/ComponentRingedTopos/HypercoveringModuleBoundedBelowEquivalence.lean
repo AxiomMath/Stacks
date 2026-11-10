@@ -242,7 +242,8 @@ theorem isIso_derivedPullbackComparison :
 /-- **`La^*E` is computed degreewise.** The derived pullback agrees with the functor induced on
 derived categories by the exact functor `a^*` of sheaves of modules. -/
 def derivedPullbackObjIso
-    (M : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) :
+    (M : DerivedCategory (SheafOfModules.{u}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) :
     (leftDerivedPullbackOfIsIsoFSharp f).functor.obj M ≅
       (f.toModulesHom.pullbackModules).mapDerivedCategory.obj M :=
   have := isIso_derivedPullbackComparison f
@@ -258,13 +259,15 @@ def derivedPullbackObjIso
 /-- **`H^q(La^*E) = a^*H^q(E)`**: the derived pullback is degreewise, and an exact functor
 commutes with the cohomology functors. -/
 def derivedPullbackHomologyObjIso
-    (M : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) (q : ℤ) :
+    (M : DerivedCategory (SheafOfModules.{u}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) (q : ℤ) :
     (DerivedCategory.homologyFunctor
           (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O)) q).obj
         ((leftDerivedPullbackOfIsIsoFSharp f).functor.obj M) ≅
       (f.toModulesHom.pullbackModules).obj
         ((DerivedCategory.homologyFunctor
-          (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O)) q).obj M) :=
+          (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O)) q).obj
+            M) :=
   (DerivedCategory.homologyFunctor
         (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O)) q).mapIso
       (derivedPullbackObjIso f M) ≪≫
@@ -300,7 +303,8 @@ private theorem isZero_homologyFunctor_obj_mapDerivedCategory_pullback
 /-- **The derived pullback preserves boundedness below.** It is degreewise, and an exact functor
 commutes with the cohomology functors. -/
 theorem isGE_derivedPullback_obj
-    (M : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) (n : ℤ)
+    (M : DerivedCategory (SheafOfModules.{u}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) (n : ℤ)
     (hM : M.IsGE n) :
     ((leftDerivedPullbackOfIsIsoFSharp f).functor.obj M).IsGE n := by
   have := hM
@@ -312,7 +316,8 @@ theorem isGE_derivedPullback_obj
 
 /-- **The derived pullback preserves boundedness above**, by the same argument. -/
 theorem isLE_derivedPullback_obj
-    (M : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) (n : ℤ)
+    (M : DerivedCategory (SheafOfModules.{u}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) (n : ℤ)
     (hM : M.IsLE n) :
     ((leftDerivedPullbackOfIsIsoFSharp f).functor.obj M).IsLE n := by
   have := hM
@@ -326,7 +331,8 @@ theorem isLE_derivedPullback_obj
 `D^{≤n-1}`, and a morphism from an object `L` of `D^{≤n-1}` into `R a_*E` is adjoint to a morphism
 `La^*L ⟶ E` with `La^*L` again in `D^{≤n-1}`, hence zero. -/
 theorem isGE_derivedPushforward_obj
-    (M : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O))) (n : ℤ)
+    (M : DerivedCategory (SheafOfModules.{u}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O))) (n : ℤ)
     (hM : M.IsGE n) :
     ((derivedPushforward (X := X) (Y := Y) f).obj M).IsGE n := by
   have := hM
@@ -344,7 +350,8 @@ theorem isGE_derivedPushforward_obj
 
 /-! ### The two functors restrict to the bounded below subcategories -/
 
-variable (P : ObjectProperty (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O)))
+variable (P : ObjectProperty (SheafOfModules.{u}
+    ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O)))
   [P.IsClosedUnderIsomorphisms]
 
 /-- `D⁺(O_D)`: the bounded below derived category of sheaves of modules on the target, written as
@@ -353,20 +360,23 @@ modules, which is how the source reads it. The condition on the cohomology modul
 `CategoryTheory.SimplicialSiteSituation.Augmentation.derivedCategoryBPlus_top_iff`. -/
 @[sga "4 Vbis 1.3.8", sga "4½ Rapport 4.1" "D⁺(X"]
 abbrev derivedPlusTarget :
-    ObjectProperty (DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) :=
+    ObjectProperty (DerivedCategory (SheafOfModules.{u}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) :=
   DerivedCategoryB.derivedCategoryBPlus ⊤
 
 /-- `D⁺_𝒫(O_C)`: the bounded below objects of the derived category of sheaves of modules on the
 source all of whose cohomology modules lie in `𝒫`. -/
 @[sga "4 Vbis 1.3.8" "more general"]
 abbrev derivedPlusProperty :
-    ObjectProperty (DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O))) :=
+    ObjectProperty (DerivedCategory (SheafOfModules.{u}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O))) :=
   DerivedCategoryB.derivedCategoryBPlus P
 
 /-- **`R a_*` carries `D⁺_𝒫(O_C)` into `D⁺(O_D)`.** Only boundedness below is at stake, the class
 downstairs being all of `Mod(O_D)`. -/
 theorem derivedCategoryBPlus_derivedPushforward_obj
-    (M : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O)))
+    (M : DerivedCategory (SheafOfModules.{u}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O)))
     (hM : DerivedCategoryB.IsBoundedBelow M) :
     derivedPlusTarget (Y := Y) ((derivedPushforward (X := X) (Y := Y) f).obj M) := by
   obtain ⟨n, hGE⟩ := (DerivedCategoryB.isBoundedBelow_iff_exists_isGE M).1 hM
@@ -400,7 +410,8 @@ theorem isIso_derivedCounit_app_singleFunctor_obj
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (hM : P M) :
     IsIso ((derivedAdjunctionOfIsIsoFSharp f).counit.app
       ((DerivedCategory.singleFunctor
-        (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O)) 0).obj M)) := by
+        (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O)) 0).obj
+          M)) := by
   obtain ⟨N, ⟨e⟩⟩ := hsurj M hM
   have eL := derivedPullbackSingleFunctorObjIso f N ≪≫
     (DerivedCategory.singleFunctor
@@ -478,7 +489,8 @@ def derivedPullbackEquivalenceOfProperty (hP : ∀ N, P ((f.toModulesHom.pullbac
   (derivedAdjunctionBoundedBelow f P hP).toEquivalence
 
 /-- **The forward functor of the equivalence is `La^*`.** -/
-theorem derivedPullbackEquivalenceOfProperty_functor (hP : ∀ N, P ((f.toModulesHom.pullbackModules).obj N))
+theorem derivedPullbackEquivalenceOfProperty_functor
+    (hP : ∀ N, P ((f.toModulesHom.pullbackModules).obj N))
     (hunitPlus : derivedPlusTarget (Y := Y) ≤ (derivedAdjunctionOfIsIsoFSharp f).unitIsIso)
     (hcounitPlus : derivedPlusProperty P ≤ (derivedAdjunctionOfIsIsoFSharp f).counitIsIso) :
     (derivedPullbackEquivalenceOfProperty f P hP hunitPlus hcounitPlus).functor =
@@ -486,7 +498,8 @@ theorem derivedPullbackEquivalenceOfProperty_functor (hP : ∀ N, P ((f.toModule
   rfl
 
 /-- **The quasi-inverse of the equivalence is `R a_*`.** -/
-theorem derivedPullbackEquivalenceOfProperty_inverse (hP : ∀ N, P ((f.toModulesHom.pullbackModules).obj N))
+theorem derivedPullbackEquivalenceOfProperty_inverse
+    (hP : ∀ N, P ((f.toModulesHom.pullbackModules).obj N))
     (hunitPlus : derivedPlusTarget (Y := Y) ≤ (derivedAdjunctionOfIsIsoFSharp f).unitIsIso)
     (hcounitPlus : derivedPlusProperty P ≤ (derivedAdjunctionOfIsIsoFSharp f).counitIsIso) :
     (derivedPullbackEquivalenceOfProperty f P hP hunitPlus hcounitPlus).inverse =
@@ -537,8 +550,9 @@ variable {C : Type u} [SmallCategory C] [HasEqualizers C] [HasPullbacks C] (J : 
 `𝒜 ⊂ Mod(O)` of Stacks 0DA2 — read here only as a class of objects closed under isomorphism, the
 module half of Stacks 0D7J being unavailable. -/
 abbrev hypercoveringCartesianModules :
-    ObjectProperty (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := ((hypercoveringSituation J H).totalRingedTopos
-        (hypercoveringRingedAugmentation J H OC).O).J))
+    ObjectProperty (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (J := ((hypercoveringSituation J H).totalRingedTopos
+          (hypercoveringRingedAugmentation J H OC).O).J))
       ((hypercoveringSituation J H).totalRingedTopos
         (hypercoveringRingedAugmentation J H OC).O).O)) :=
   (hypercoveringSituation J H).IsModuleFiberTransitionIso
@@ -557,7 +571,8 @@ local instance isClosedUnderIsomorphisms_hypercoveringCartesianModules :
 /-- **Stacks 0D7H (3) for the ringed augmentation of a hypercovering**: every pullback `a^*N` of a
 sheaf of `O_C`-modules is a cartesian `O`-module. -/
 theorem isCartesianModule_pullbackModules_hypercovering
-    (N : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := (hypercoveringRingedAugmentation J H OC).augmentationRingedTopos.J))
+    (N : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (J := (hypercoveringRingedAugmentation J H OC).augmentationRingedTopos.J))
       (hypercoveringRingedAugmentation J H OC).augmentationRingedTopos.O)) :
     hypercoveringCartesianModules J H OC
       ((Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules

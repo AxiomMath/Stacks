@@ -119,7 +119,7 @@ theorem exists_relativeDimension_le (C : ChowSituation.{u}) {X : Scheme.{u}} (f 
   calc relativeDimension C.dimensionFunction f x
       ≤ relativeDimension C.dimensionFunction f hW.1.genericPoint :=
         relativeDimension_le_of_mem_closure C f hx
-    _ = g W := by simp only [g, dif_pos hW.1]
+    _ = g W := by simp only [g, dite_eq_left hW.1]
     _ ≤ hi := hhi ⟨W, hW, rfl⟩
 
 variable (C : ChowSituation.{u}) {X : Scheme.{u}} (f : X ⟶ C.S) [LocallyOfFiniteType f]
@@ -149,6 +149,7 @@ def IsDiagonalOnIntegral
 variable {C f}
 variable (ch : CoherentKZero X →+ DirectSum ℤ fun j => TensorProduct ℤ ℚ (chowGroup C f j))
 
+omit [AlgebraicGeometry.IsNoetherian X] in
 /-- Condition (1) extends from the generators of `F_k K'₀(X)` to all of it. -/
 theorem IsDimensionTriangular.apply_eq_zero (h1 : IsDimensionTriangular C f ch) {k j : ℤ}
     (hkj : k < j) {z : CoherentKZero X} (hz : z ∈ coherentKZeroFiltration C f k) : ch z j = 0 := by
@@ -179,7 +180,7 @@ theorem gradedDegreePart_chowToGradedCoherentKZero (h1 : IsDimensionTriangular C
   have hψ : (gradedDegreePart ch h1 k).comp (chowToGradedCoherentKZero C f k) =
       (TensorProduct.mk ℤ ℚ (chowGroup C f k) 1).toAddMonoidHom := by
     refine QuotientAddGroup.addMonoidHom_ext _ (cycleGroup_hom_ext C f k fun x hx => ?_)
-    show gradedDegreePart ch h1 k (chowToGradedCoherentKZero C f k
+    change gradedDegreePart ch h1 k (chowToGradedCoherentKZero C f k
         (QuotientAddGroup.mk' (rationalEquivalences C f k) _)) = _
     rw [chowToGradedCoherentKZero_mk_integralComponent C f k x hx]
     exact h2 k x hx
@@ -220,7 +221,7 @@ theorem bijective_rTensor_chowToGradedCoherentKZero (h1 : IsDimensionTriangular 
     induction z with
     | tmul q α =>
       rw [TensorProduct.map_tmul, TensorProduct.lift.tmul]
-      show q • ψ (chowToGradedCoherentKZero C f k α) = q ⊗ₜ[ℤ] α
+      change q • ψ (chowToGradedCoherentKZero C f k α) = q ⊗ₜ[ℤ] α
       rw [gradedDegreePart_chowToGradedCoherentKZero ch h1 h2, TensorProduct.smul_tmul',
         smul_eq_mul, mul_one]
     | add z w hz hw => rw [map_add, map_add, hz, hw]
@@ -246,17 +247,18 @@ theorem surjective_liftBaseChange (h1 : IsDimensionTriangular C f ch)
       obtain ⟨x, hx⟩ := toGradedCoherentKZero_surjective C f k (chowToGradedCoherentKZero C f k α)
       refine ⟨q ⊗ₜ[ℤ] (x : CoherentKZero X), ?_, fun j hj => ?_⟩
       · rw [LinearMap.liftBaseChange_tmul]
-        show q • (ch (x : CoherentKZero X)) k = _
+        change q • (ch (x : CoherentKZero X)) k = _
         rw [apply_self_eq_of_toGradedCoherentKZero_eq ch h1 h2 k α x hx, TensorProduct.smul_tmul',
           smul_eq_mul, mul_one]
       · rw [LinearMap.liftBaseChange_tmul]
-        show q • (ch (x : CoherentKZero X)) j = 0
+        change q • (ch (x : CoherentKZero X)) j = 0
         rw [h1.apply_eq_zero ch hj x.2, smul_zero]
     | add a b ha hb =>
       obtain ⟨v, hv1, hv2⟩ := ha
       obtain ⟨w, hw1, hw2⟩ := hb
       exact ⟨v + w, by simp [hv1, hw1], fun j hj => by simp [hv2 j hj, hw2 j hj]⟩
 
+omit [AlgebraicGeometry.IsNoetherian X] in
 /-- If `δ_{X/S}` is bounded below by `lo`, then `F_{lo-1} K'₀(X) = 0`: a coherent module whose
 support has delta-dimension at most `lo - 1` has empty support, hence is zero. -/
 theorem coherentKZeroFiltration_eq_bot (lo : ℤ)
@@ -332,6 +334,7 @@ theorem exists_zsmul_eq_zero_of_apply_eq_zero (h1 : IsDimensionTriangular C f ch
   rw [coherentKZeroFiltration_eq_bot lo hlo] at hma
   exact ⟨m, hm, (AddSubgroup.mem_bot).1 hma⟩
 
+omit [AlgebraicGeometry.IsNoetherian X] in
 /-- `ch` becomes injective after tensoring the source with `𝐐` as soon as every element killed
 by `ch` is torsion: an element of `𝐐 ⊗ K'₀(X)` is `s⁻¹ ⊗ a` for an integer `s ≠ 0`. -/
 theorem injective_liftBaseChange_of_torsion
@@ -428,7 +431,7 @@ theorem span_range_integralComponentRationalClass :
           (QuotientAddGroup.mk' (rationalEquivalences C f j))))
     have hφ : φ = 0 := cycleGroup_hom_ext C f j fun x hx => by
       subst hx
-      show S.mkQ (integralComponentRationalClass C f x) = 0
+      change S.mkQ (integralComponentRationalClass C f x) = 0
       rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
       exact Submodule.subset_span ⟨x, rfl⟩
     exact (Submodule.Quotient.mk_eq_zero S).1 (DFunLike.congr_fun hφ c)
@@ -467,7 +470,7 @@ theorem surjective_liftBaseChange_of_hasLeadingTermOnIntegral
         refine Submodule.span_le.2 ?_
         rintro _ ⟨y, ⟨hy, hyx⟩, rfl⟩
         refine ih y (lt_of_le_of_ne ?_ fun heq => hyx ?_)
-        · show closure {y} ⊆ closure {x}
+        · change closure {y} ⊆ closure {x}
           exact closure_minimal (Set.singleton_subset_iff.2 hy) isClosed_closure
         · have hxy : x ∈ closure {y} := by
             have := congrArg (fun T : TopologicalSpace.Closeds X => (T : Set X)) heq

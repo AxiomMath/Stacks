@@ -55,8 +55,8 @@ No Stacks-tag attribute appears below. Tag 08D4 is the statement for an arbitrar
 is proved here is the affine case; Tag 06Z0 is the equivalence, whose remaining half is essential
 surjectivity of derived sheafification — the counit — and is untouched here. The three formulations
 of that half are recorded in the *What is not done* section of
-`StacksFrontier/AlgebraicGeometry/DerivedTildeEquivalence/Quasicoherent.lean`; the first of the three
-listed there, through the unit, is discharged by this file.
+`StacksFrontier/AlgebraicGeometry/DerivedTildeEquivalence/Quasicoherent.lean`; the first of the
+three listed there, through the unit, is discharged by this file.
 
 ## Implementation notes
 

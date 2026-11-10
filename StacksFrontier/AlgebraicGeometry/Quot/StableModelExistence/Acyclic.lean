@@ -82,7 +82,7 @@ end AlgebraicGeometry.Scheme.Hom
 
 namespace AlgebraicGeometry.ContractionUniquenessComplete
 
-variable {Λ : Type u} [CommRing Λ] [IsLocalRing Λ] [IsNoetherianRing Λ]
+variable {Λ : Type u} [CommRing Λ] [IsLocalRing Λ]
   {X Y Z : Scheme.{u}} (fX : X ⟶ Spec (.of Λ)) (fY : Y ⟶ Spec (.of Λ)) (fZ : Z ⟶ Spec (.of Λ))
 
 /-- **The special fibre of a composite is the composite of the special fibres.** -/

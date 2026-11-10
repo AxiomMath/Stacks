@@ -11,7 +11,8 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.FibredCategory.Poin
 # Derived lower shriek computed by a fibrewise point resolution
 
 In the situation of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.FibredCategory.PointResolution.Basic`, for an abelian
+`StacksFrontier.CategoryTheory.Sites.Cohomology.FibredCategory.PointResolution.Basic`,
+for an abelian
 sheaf `F` on the total category, `Lπ_!(F)` is isomorphic to the complex of sheaves on the base
 whose term in degree `-n` is the sheafification of `V ↦ F(A_{n,V})`, and `L_nπ_!(F)` is the
 sheafification of `V ↦ H_n(F(A_{•,V}))`. This is the computation of Stacks 08VB and 08VL for an

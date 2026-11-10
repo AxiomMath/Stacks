@@ -117,7 +117,7 @@ theorem exists_overQuotientMap_comp_projectiveBundleMapOfEpi {T : Scheme.{u}} {g
   have n₂ := (Scheme.Modules.pullbackCongr hh).inv.naturality u
   have n₃ := (Scheme.Modules.pullbackComp h (projectiveBundleToBase X G)).inv.naturality u
   simp only [Functor.comp_map] at n₁ n₂ n₃
-  show ((Scheme.Modules.pullbackCongr hh₁).inv.app F ≫
+  change ((Scheme.Modules.pullbackCongr hh₁).inv.app F ≫
       (Scheme.Modules.pullbackComp (h ≫ projectiveBundleMapOfEpi u)
         (projectiveBundleToBase X F)).inv.app F ≫
       (Scheme.Modules.pullback (h ≫ projectiveBundleMapOfEpi u)).map (tautologicalDatumUniv F)) ≫
@@ -227,7 +227,7 @@ theorem exists_comp_projectiveBundleMapOfEpi_of_eq_zero {N : X.Modules} (σ : N 
     simp only [TautologicalDatum.overQuotient_q, Iso.refl_hom, Category.id_comp] at h₀
     exact h₀
   refine ⟨β ≪≫ γ, ?_⟩
-  show (Iso.refl _).hom ≫ (tautologicalDatum F).overQuotientMap _ hh₁ ≫ (β ≪≫ γ).hom =
+  change (Iso.refl _).hom ≫ (tautologicalDatum F).overQuotientMap _ hh₁ ≫ (β ≪≫ γ).hom =
     (Iso.refl _).hom ≫ (tautologicalDatum F).overQuotientMap f hg
   rw [Iso.refl_hom, Category.id_comp, Category.id_comp]
   exact (Category.assoc _ β.hom γ.hom).symm.trans ((congrArg (· ≫ γ.hom) hβ).trans

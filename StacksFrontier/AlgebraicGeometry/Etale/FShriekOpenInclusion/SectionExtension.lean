@@ -80,8 +80,7 @@ theorem over_pullbackComp_fst
       (Over.mapPullbackAdj (f ≫ g)).counit.app V := by
     simpa [Over.pullbackComp] using h
   have hl := congrArg (fun k => k.left) h'
-  simpa [Over.mapPullbackAdj_counit_app, Adjunction.comp_counit_app,
-    Over.mapComp, Over.pullbackComp] using hl
+  simp [Over.mapPullbackAdj_counit_app, Over.mapComp, Over.pullbackComp]
 
 private theorem supportSection_zero
     (B : BigEtaleSite.{u}) (X : Scheme.{u}) (hX : B.Contains X)
@@ -173,7 +172,7 @@ private theorem properSupportSections_neg
     (s : F.obj.obj (op ((smallEtaleBaseChange B f).obj V)))
     (hs : SmallEtale.properSupportSections B f F V s) :
     SmallEtale.properSupportSections B f F V (-s) := by
-  show IsProper ((Scheme.IdealSheafData.vanishingIdeal
+  change IsProper ((Scheme.IdealSheafData.vanishingIdeal
     (SmallEtale.zeroOpen B X.obj X.property F
       ((smallEtaleBaseChange B f).obj V) (-s)).compl).subschemeι ≫
       B.inclusion.map (pullback.fst V.obj.hom f))
@@ -292,7 +291,7 @@ private theorem openInclusionExtendSection_exists
     (SmallEtale.topology B X.obj X.property)
     (SmallEtale.topology B X'.obj X'.property)).obj F
   let : LocallyOfFiniteType (B.inclusion.map (j ≫ f)) := by
-    show LocallyOfFiniteType (B.inclusion.map j ≫ B.inclusion.map f)
+    change LocallyOfFiniteType (B.inclusion.map j ≫ B.inclusion.map f)
     infer_instance
   let W := (smallEtaleBaseChange B f).obj V
   let W' := (smallEtaleBaseChange B j).obj W
@@ -321,7 +320,7 @@ private theorem openInclusionExtendSection_exists
     rfl
   let φs : (SmallEtale.toScheme B X.obj X.property).obj U' ⟶
       (SmallEtale.toScheme B X.obj X.property).obj W := by
-    show (SmallEtale.toScheme B X.obj X.property).obj
+    change (SmallEtale.toScheme B X.obj X.property).obj
       ((postcompose B j).obj ((smallEtaleBaseChange B j).obj W)) ⟶ _
     exact (SmallEtale.toScheme B X.obj X.property).map φ
   have hInv : (SmallEtale.inclusion B X'.obj X'.property).map eInv =
@@ -345,7 +344,7 @@ private theorem openInclusionExtendSection_exists
     rw [congrArg (fun g => g.left) hInv]
     exact over_pullbackComp_fst j f V.obj
   have hInvS : eInvS = B.inclusion.map ((Over.pullbackComp j f).hom.app V.obj).left := by
-    show B.inclusion.map ((SmallEtale.inclusion B X'.obj X'.property).map eInv).left = _
+    change B.inclusion.map ((SmallEtale.inclusion B X'.obj X'.property).map eInv).left = _
     exact congrArg (fun g => B.inclusion.map g.left) hInv
   have hφs : φs = B.inclusion.map (pullback.fst W.obj.hom j) := by
     dsimp [φs, φ, openBaseChangeMap]
@@ -378,12 +377,12 @@ private theorem openInclusionExtendSection_exists
         B X'.obj X'.property F' Wold sOld⟩
   have hleft : eHomS ≫ eInvS = 𝟙 _ := by
     have h : eHom ≫ eInv = 𝟙 _ := by simp [eHom, eInv, e]
-    show T'.map eHom ≫ T'.map eInv = _
+    change T'.map eHom ≫ T'.map eInv = _
     rw [← T'.map_comp, h]
     simp
   have hright : eInvS ≫ eHomS = 𝟙 _ := by
     have h : eInv ≫ eHom = 𝟙 _ := by simp [eHom, eInv, e]
-    show T'.map eInv ≫ T'.map eHom = _
+    change T'.map eInv ≫ T'.map eHom = _
     rw [← T'.map_comp, h]
     simp
   let iOld := (Scheme.IdealSheafData.vanishingIdeal Zold).subschemeι
@@ -428,7 +427,7 @@ private theorem openInclusionExtendSection_exists
       SmallEtale.supportSection B X.obj X.property F U' t' =
         Set.range i.base := by
     rw [hTransfer, eSupport]
-    show Set.image eInvS.base (Zold : Set _) =
+    change Set.image eInvS.base (Zold : Set _) =
       Set.range (iOld ≫ eInvS).base
     rw [scheme_range_comp, hiOld]
   let : IsClosedImmersion iOld := inferInstance
@@ -453,7 +452,7 @@ private theorem openInclusionExtendSection_exists
     inclusion_map_pullback_fst_of_isStableUnderBaseChange B @IsSeparated V f inferInstance
   let : IsClosedImmersion (i ≫ (SmallEtale.toScheme B X.obj X.property).map φ) := by
     have hcompProper : IsProper (i ≫ (SmallEtale.toScheme B X.obj X.property).map φ ≫ p) := by
-      show IsProper ((iOld ≫ eInvToU) ≫ φs ≫ p)
+      change IsProper ((iOld ≫ eInvToU) ≫ φs ≫ p)
       have hcomp : (iOld ≫ eInvToU) ≫ φs ≫ p = iOld ≫ pOld := by
         calc
           _ = iOld ≫ ((eInvToU ≫ φs) ≫ p) :=
@@ -477,7 +476,7 @@ private theorem openInclusionExtendSection_exists
           (SmallEtale.topology B X.obj X.property)
           (SmallEtale.topology B X'.obj X'.property)).unit.app F).hom.app (op W) s := by
       simpa [eOpen, W'] using openRestrictionIso_unit_app B j F W s
-    show sNew = _
+    change sNew = _
     have h1 : sNew = eOpen.hom.hom.app (op W') (F.obj.map φ.op s) := by
       rw [hsOpen]
       exact hIsoApp.symm
@@ -496,7 +495,7 @@ private theorem openInclusionExtendSection_exists
         rfl
   have hsProper : SmallEtale.properSupportSections B f F V s := by
     have hproper : IsProperOver pOld Zold := by
-      show IsProper ((Scheme.IdealSheafData.vanishingIdeal Zold).subschemeι ≫ pOld)
+      change IsProper ((Scheme.IdealSheafData.vanishingIdeal Zold).subschemeι ≫ pOld)
       exact hsOld
     let Zimage : TopologicalSpace.Closeds _ :=
       ⟨k.base '' (Zold : Set _),
@@ -522,7 +521,7 @@ private theorem openInclusionExtendSection_exists
         SmallEtale.isClosed_supportSection
           B X.obj X.property F W s⟩ : TopologicalSpace.Closeds _) = Zimage :=
       TopologicalSpace.Closeds.ext hcarrier
-    show IsProper ((Scheme.IdealSheafData.vanishingIdeal
+    change IsProper ((Scheme.IdealSheafData.vanishingIdeal
       (⟨SmallEtale.supportSection B X.obj X.property F W s,
         SmallEtale.isClosed_supportSection
           B X.obj X.property F W s⟩ : TopologicalSpace.Closeds _)).subschemeι ≫ p)

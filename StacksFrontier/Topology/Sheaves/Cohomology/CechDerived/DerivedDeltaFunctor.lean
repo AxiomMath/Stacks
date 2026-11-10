@@ -146,7 +146,7 @@ lemma singlePlusδ_distinguished {S : ShortComplex A} (hS : S.ShortExact) :
       ?_ ?_ ?_)
   · exact (Plus.singleFunctorιIso A 0).hom.naturality S.f
   · exact (Plus.singleFunctorιIso A 0).hom.naturality S.g
-  · show (Plus.ι.map (singlePlusδ hS) ≫ (Plus.ι.commShiftIso (1 : ℤ)).hom.app
+  · change (Plus.ι.map (singlePlusδ hS) ≫ (Plus.ι.commShiftIso (1 : ℤ)).hom.app
           ((Plus.singleFunctor A 0).obj S.X₁)) ≫
         (shiftFunctor (DerivedCategory A) (1 : ℤ)).map
           (𝟙 ((singleFunctor A 0).obj S.X₁)) =

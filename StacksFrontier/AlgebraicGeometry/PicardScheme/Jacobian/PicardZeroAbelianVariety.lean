@@ -98,9 +98,9 @@ theorem exists_familyOfPoints_eq_of_isAlgClosed {S : Scheme.{u}} (X : Over S)
     set w' := pointOfClosedPoint q z hz
     have hw'q : w' ≫ q = 𝟙 _ := pointOfClosedPoint_comp _ _ _
     let x₀ : Over.mk g ⟶ X := Over.homMk (w' ≫ pullback.fst X.hom g) (by
-      show (w' ≫ pullback.fst X.hom g) ≫ X.hom = g
+      change (w' ≫ pullback.fst X.hom g) ≫ X.hom = g
       rw [Category.assoc, pullback.condition, ← Category.assoc]
-      show (w' ≫ q) ≫ g = g
+      change (w' ≫ q) ≫ g = g
       rw [hw'q, Category.id_comp])
     have hgraph_eq : pointGraph X (Over.mk g) x₀ = w' := by
       refine pullback.hom_ext (pullback.lift_fst _ _ _) ?_

@@ -63,7 +63,7 @@ theorem isGE_derivedSectionsWithSupportIn_single (A : Type u) [CommRing A]
   have : F.Additive := by dsimp [F]; infer_instance
   have hY : Y.IsGE 0 := by dsimp [Y]; infer_instance
   have hplus : ((derivedSectionsWithSupportInPlus.{u, v} A T).obj Y).IsGE 0 := by
-    show (F.rightDerivedFunctorPlus.obj Y).IsGE 0
+    change (F.rightDerivedFunctorPlus.obj Y).IsGE 0
     exact isGE_rightDerivedFunctorPlus_obj F Y 0
   have hinc : ((derivedSectionsWithSupportInPlus.{u, v} A T ⋙
       DerivedCategory.Plus.ι).obj Y).IsGE 0 :=

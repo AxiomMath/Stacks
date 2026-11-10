@@ -128,7 +128,7 @@ theorem exists_etaleApproximation_of_ringHom_completion {R E : Type u} [CommRing
   have hbase : φ.comp ((algebraMap E (Localization.AtPrime q)).comp (algebraMap R E)) =
       (toCompletion p).comp (algebraMap R R) := by
     refine RingHom.ext fun r => ?_
-    show φ (algebraMap E (Localization.AtPrime q) (algebraMap R E r)) = toCompletion p r
+    change φ (algebraMap E (Localization.AtPrime q) (algebraMap R E r)) = toCompletion p r
     rw [hφapply]
     exact RingHom.congr_fun hρ r
   exact ⟨q, hqprime, hqdef, φ, hφapply,

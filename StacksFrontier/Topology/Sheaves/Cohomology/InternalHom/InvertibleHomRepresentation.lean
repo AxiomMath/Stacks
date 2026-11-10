@@ -17,8 +17,9 @@ An invertible sheaf of modules is not such a global summand: on `P^1` there is n
 morphism `O(1) ⟶ O^{⊕n}` at all. It is however rank-one locally free ([Stacks, Tag 0B8M]) and so
 *locally* a direct summand of a finite free module, which is all the representation statement
 needs. This file reads off, for a ringed space, the two ringed-site statements that supply the
-local hypothesis: the single-degree one already in the library and the bounded one of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/StrictlyPerfect/LocallyFiniteFreeSummandBounded.lean`.
+local hypothesis: the single-degree one already in the library and the bounded one of the file
+`LocallyFiniteFreeSummandBounded.lean` in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/StrictlyPerfect/`.
 
 ## Main results
 

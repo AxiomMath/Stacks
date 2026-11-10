@@ -127,7 +127,7 @@ theorem mem_smul_top_iff_pullbackSection_fiberι_eq_zero {X S : Scheme.{u}} [IsA
     congrArg CommRingCat.Hom.hom (Scheme.Hom.appLE_eq_app g)
   have hsurj' : Function.Surjective (algebraMap Γ(S, ⊤) Γ(Spec (S.residueField s), ⊤)) := by
     rwa [halg]
-  show e ∈ RingHom.ker g.appTop.hom • (⊤ : Submodule Γ(S, ⊤) Γ(F, U)) ↔ _
+  change e ∈ RingHom.ker g.appTop.hom • (⊤ : Submodule Γ(S, ⊤) Γ(F, U)) ↔ _
   rw [← halg, ← affinePullbackSectionsBaseChangeIso_one_tmul ι F hU hUsaff le_rfl e]
   exact (extendScalarsIso_one_tmul_eq_zero_iff (R := Γ(S, ⊤))
     (T := Γ(Spec (S.residueField s), ⊤)) (B := Γ(X, U)) (C := Γ(f.fiber s, ι ⁻¹ᵁ U))
@@ -141,7 +141,7 @@ theorem Scheme.Modules.pullbackSection_map {X Y : Scheme.{u}} (f : Y ⟶ X) (F :
     ((Scheme.Modules.pullback f).obj F).presheaf.map (homOfLE hV).op
         (Scheme.Modules.pullbackSection f F U V h a) =
       Scheme.Modules.pullbackSection f F U' V' h' (F.presheaf.map (homOfLE hU').op a) := by
-  show ((Scheme.Modules.pullback f).obj F).val.map (homOfLE hV).op
+  change ((Scheme.Modules.pullback f).obj F).val.map (homOfLE hV).op
       (((Scheme.Modules.pullback f).obj F).val.map (homOfLE h).op _) =
     ((Scheme.Modules.pullback f).obj F).val.map (homOfLE h').op
       (((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app F).val.app (Opposite.op U')
@@ -153,10 +153,10 @@ theorem Scheme.Modules.pullbackSection_map {X Y : Scheme.{u}} (f : Y ⟶ X) (F :
         (((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app F).val.app (Opposite.op U) a) :=
     PresheafOfModules.naturality_apply _ _ a
   rw [hn]
-  show _ = ((Scheme.Modules.pullback f).obj F).val.map (homOfLE h').op
+  change _ = ((Scheme.Modules.pullback f).obj F).val.map (homOfLE h').op
     (((Scheme.Modules.pullback f).obj F).val.map (homOfLE (f.preimage_mono hU')).op _)
   set y := ((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app F).val.app (Opposite.op U) a
-  show (((Scheme.Modules.pullback f).obj F).presheaf.map (homOfLE h).op ≫
+  change (((Scheme.Modules.pullback f).obj F).presheaf.map (homOfLE h).op ≫
       ((Scheme.Modules.pullback f).obj F).presheaf.map (homOfLE hV).op) y =
     (((Scheme.Modules.pullback f).obj F).presheaf.map (homOfLE (f.preimage_mono hU')).op ≫
       ((Scheme.Modules.pullback f).obj F).presheaf.map (homOfLE h').op) y
@@ -201,7 +201,7 @@ theorem mem_smul_top_of_map_mem_smul_top {X S : Scheme.{u}} [IsAffine S] (f : X 
       rw [← ι.isEmbedding.specializes_iff, hιxs]
       exact hAss z hzass hzU
     have hxs : f.asFiber x ∈ ι ⁻¹ᵁ W := by
-      show ι (f.asFiber x) ∈ W
+      change ι (f.asFiber x) ∈ W
       rwa [hιxs]
     exact hspec.mem_open (ι ⁻¹ᵁ W).isOpen hxs)
   apply hinj
@@ -234,7 +234,7 @@ theorem exists_opens_associatedPoints_fiber_specializes {X S : Scheme.{u}} (f : 
   set E : Set X := ι '' {z | z ∈ Stacks.Divisors.associatedPoints Fs ∧ ¬ ι z ⤳ x} with hE
   have hEfin : E.Finite := (hfin.subset fun z hz => hz.1).image _
   refine ⟨⟨(closure E)ᶜ, isClosed_closure.isOpen_compl⟩, ?_, ?_⟩
-  · show x ∉ closure E
+  · change x ∉ closure E
     rw [← Set.biUnion_of_singleton E, hEfin.closure_biUnion]
     simp only [Set.mem_iUnion, not_exists]
     rintro _ ⟨z, hz, rfl⟩ hxz

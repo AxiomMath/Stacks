@@ -228,12 +228,12 @@ public theorem Module.Flat.quotient_ringEquiv_iff_of_isHenselization
   have hfac (a : C ⧸ I) :
       qm a = qe (algebraMap (C ⧸ I) (Tsh ⧸ I.map (algebraMap C Tsh)) a) := by
     obtain ⟨c, rfl⟩ := Ideal.Quotient.mk_surjective a
-    show Ideal.Quotient.mk J (γ c) = _
+    change Ideal.Quotient.mk J (γ c) = _
     rw [hγ]
     rfl
   let : IsScalarTower (C ⧸ I) (Tsh ⧸ I.map (algebraMap C Tsh)) N := by
     refine ⟨fun a b n => ?_⟩
-    show qe (a • b) • n = qm a • (qe b • n)
+    change qe (a • b) • n = qm a • (qe b • n)
     rw [Algebra.smul_def, map_mul, mul_smul, hfac]
   exact (Module.Flat.quotient_iff_of_isHenselization L hI N).trans
     (Module.Flat.quotient_ringEquiv_iff e _ J hJ' N)
@@ -343,7 +343,7 @@ public theorem Module.Flat.quotSMul_baseChange_linearEquiv_iff
     { toFun := eT
       map_add' := map_add eT
       map_smul' := fun r z => by
-        show eT (ρ' r • z) = ρ' r • eT z
+        change eT (ρ' r • z) = ρ' r • eT z
         obtain ⟨d, hd⟩ := Ideal.Quotient.mk_surjective (ρ' r)
         rw [← hd, quotIdealSMul_mk_smul, quotIdealSMul_mk_smul]
         exact eT.map_smul d z

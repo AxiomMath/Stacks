@@ -105,7 +105,7 @@ private theorem preservesColimitsOfShape_comp_piEval
         (Idx := Idx) R h1 h2 (V d.as) (hV d.as)
   have hsigma : PreservesColimitsOfShape Idx
       (abPresheafFunctor R ⋙ CechColimit.sigmaEval (A := AddCommGrpCat.{u}) T V) := by
-    show PreservesColimitsOfShape Idx
+    change PreservesColimitsOfShape Idx
       (Ψ ⋙ (colim : (Discrete T ⥤ AddCommGrpCat.{u}) ⥤ AddCommGrpCat.{u}))
     infer_instance
   exact preservesColimitsOfShape_of_natIso
@@ -144,7 +144,7 @@ theorem cechCohomologyIsZero_colimit
   have hc : IsColimit ((abPresheafFunctor R ⋙
       cechComplexFunctor (A := AddCommGrpCat.{u}) W.obj).mapCocone (colimit.cocone D)) :=
     isColimitOfPreserves _ (colimit.isColimit D)
-  show IsZero (((abPresheafFunctor R ⋙
+  change IsZero (((abPresheafFunctor R ⋙
     cechComplexFunctor (A := AddCommGrpCat.{u}) W.obj).obj (colimit D)).homology (m + 1))
   rw [← HomologicalComplex.exactAt_iff_isZero_homology]
   refine CechColimit.exactAt_succ_of_isColimit hc m fun i => ?_

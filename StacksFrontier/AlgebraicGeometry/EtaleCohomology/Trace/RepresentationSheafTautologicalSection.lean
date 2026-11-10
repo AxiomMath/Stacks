@@ -303,6 +303,7 @@ theorem representationFibreEquiv_scalar
       ρ).hom.hom.hom.hom.hom) a
     m
 
+omit [ConnectedSpace X.1] in
 /-- **The tautological sections are natural.** For a morphism `f : A ⟶ A'` of finite locally
 constant sheaves of sets on the site of Stacks 021B, `f` carries the tautological section of `A`
 over its representing cover to the restriction of the tautological section of `A'` along the

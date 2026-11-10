@@ -126,8 +126,7 @@ theorem exists_includeLeft_sub_mem :
       rw [this]
       exact M.mul_mem_left _ hx
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul o b =>
     obtain ⟨r, hr⟩ := hφ.surjective_residue (residue B b)
     have hn : b - algebraMap R B r ∈ maximalIdeal B := by
@@ -183,7 +182,7 @@ theorem map_maximalIdeal_and_surjective_of_isLocalization {O' : Type u} [CommRin
   have hQ : Q = M := le_antisymm hQM hMQ
   refine ⟨?_, ?_⟩
   · rw [← Ideal.map_map]
-    show Ideal.map ψ M = _
+    change Ideal.map ψ M = _
     rw [← hQ]
     exact IsLocalization.AtPrime.map_eq_maximalIdeal Q O'
   · intro z
@@ -200,7 +199,7 @@ theorem map_maximalIdeal_and_surjective_of_isLocalization {O' : Type u} [CommRin
     have hres : ∀ (u : O ⊗[R] B) (o : O), u - ι o ∈ M →
         residue O' (ψ u) = residue O' (ψ (ι o)) := by
       intro u o h
-      show Ideal.Quotient.mk _ (ψ u) = Ideal.Quotient.mk _ (ψ (ι o))
+      change Ideal.Quotient.mk _ (ψ u) = Ideal.Quotient.mk _ (ψ (ι o))
       rw [Ideal.Quotient.eq, ← map_sub]
       exact hMQ h
     refine ⟨ot * ↑(hosu.unit⁻¹), ?_⟩

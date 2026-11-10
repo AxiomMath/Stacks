@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.CohomologicalDescent.HypercoveringUnboundedEquivalence
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.CohomologicalDescent.HypercoveringUnboundedEquivalence
 public import StacksFrontier.AlgebraicGeometry.DerivedQCoh.DerivedEquivalence
 public import StacksFrontier.Algebra.Homology.DerivedCategory.MapDerivedCategoryComparisons
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.RingedToposPullbackLowerShriek

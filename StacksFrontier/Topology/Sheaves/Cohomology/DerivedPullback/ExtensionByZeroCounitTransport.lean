@@ -123,9 +123,8 @@ theorem Functor.mapDerivedCategoryIdIso_hom_app_Qh
       (HomotopyCategory.quotient C (ComplexShape.up ℤ)).map
         ((Functor.mapHomologicalComplexIdIso C (ComplexShape.up ℤ)).hom.app K) :=
     Category.id_comp _
-  simp only [Category.assoc, ← Functor.map_comp_assoc, ← Functor.map_comp, hq,
-    ← DerivedCategory.quotientCompQhIso_inv_naturality_assoc, Iso.inv_hom_id_app,
-    Category.comp_id]
+  simp only [Category.assoc, ← Functor.map_comp, hq,
+    ← DerivedCategory.quotientCompQhIso_inv_naturality_assoc]
   simp
 
 section

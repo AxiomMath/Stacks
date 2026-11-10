@@ -99,7 +99,8 @@ the clause needs exactly two statements, both proved at the end of
    *output* has to move down to the intersection, which is one application of
    `Stacks.Conormal.pullbackSection_restrict_source` together with naturality of the ideal-sheaf
    inclusion. Restating the formula — and with it the compatibility with restriction of
-   `Stacks.SheafOfModules.Invertible.sectionMulNegOne` — is **not** needed. What *is* needed is the compatibility with restriction of
+   `Stacks.SheafOfModules.Invertible.sectionMulNegOne` — is **not** needed. What *is* needed is the
+   compatibility with restriction of
    `Stacks.ProjectiveBundleConormal.tautologicalSectionOver`, for a different reason: the clause's
    ratio hypothesis is about the given `s` over the given `U`, and the chart lives over a smaller
    affine open, so the hypothesis has to be reindexed there. That is

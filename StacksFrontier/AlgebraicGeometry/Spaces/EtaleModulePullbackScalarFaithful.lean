@@ -69,7 +69,7 @@ theorem isScalarFaithful_etaleModulePullback (f : X ⟶ Y) (hf : IsEtale B S hS 
   have e1 : M.val.map σ.op (M.val.map g.op m) = m :=
     (PresheafOfModules.map_comp_apply M.val g.op σ.op m).symm.trans
       ((PresheafOfModules.congr_map_apply M.val hg m).trans (by
-        show M.val.presheaf.map (𝟙 _) m = m
+        change M.val.presheaf.map (𝟙 _) m = m
         simp only [CategoryTheory.Functor.map_id]
         rfl))
   have e2 : (R.obj.map σ.op).hom ((R.obj.map ((smallEtalePostcomp B S hS f hf).map u).op).hom s) =

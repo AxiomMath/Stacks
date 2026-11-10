@@ -119,7 +119,7 @@ theorem relativeSpaceIso_hom_app_relativeSection
   have hobj : (TwoFibreProductOver.reindex (p𝒴 := 𝒳.p) (G := F.toFunctor) θ hθ).obj o₁ =
       relativeObj F y₂ Z x hx α₂ hα₂ := by
     refine TwoFibreProductOver.obj_ext (Iso.ext ?_)
-    show θ.inv.app Z ≫ α₁.hom = α₂.hom
+    change θ.inv.app Z ≫ α₁.hom = α₂.hom
     rw [hα, ← Category.assoc]
     simp
   have h1 := PresheafOfCategories.hom_app_sectionOfObj_isoOfEquivalenceOver e₁ (E.trans e₂) o₁
@@ -130,7 +130,7 @@ theorem relativeSpaceIso_hom_app_relativeSection
     (Functor.congr_obj (TwoFibreProductOver.reindex_comp_fst
       (p𝒴 := 𝒳.p) (G := F.toFunctor) θ hθ) o₁)
     rfl (congrArg e₂.hom.functor.obj hobj)
-  show (PresheafOfCategories.isoOfEquivalenceOver e₁ (E.trans e₂)).hom.app (op Z)
+  change (PresheafOfCategories.isoOfEquivalenceOver e₁ (E.trans e₂)).hom.app (op Z)
       (PresheafOfCategories.sectionOfObj e₁ o₁ rfl) = _
   rw [h1, h2]
   exact h3

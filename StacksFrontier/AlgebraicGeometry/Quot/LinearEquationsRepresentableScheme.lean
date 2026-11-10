@@ -125,7 +125,7 @@ theorem fst_eq_homOfVector {T : Scheme.{u}} (t : T ⟶ C) (x : T ⟶ linEqScheme
   congr 1
   rw [Category.assoc, ← linMap_over M, ← Category.assoc (pullback.fst _ _), pullback.condition,
     Category.assoc]
-  show x ≫ pullback.snd _ _ ≫ homOfVector (𝟙 C) 0 ≫ _ = t
+  change x ≫ pullback.snd _ _ ≫ homOfVector (𝟙 C) 0 ≫ _ = t
   rw [homOfVector_over, Category.comp_id, hx]
 
 /-- **Morphisms into the scheme of solutions over `t : T ⟶ C` are the solutions over `T`.** -/
@@ -167,7 +167,7 @@ theorem linEqHomEquiv_comp {T T' : Scheme.{u}} (t : T ⟶ C) (g : T' ⟶ T)
     (linEqHomEquiv M (g ≫ t) ⟨g ≫ x.1, by rw [Category.assoc, x.2]⟩).1 =
       fun j => g.appTop ((linEqHomEquiv M t x).1 j) := by
   funext j
-  show (g ≫ x.1 ≫ pullback.fst _ _).appTop _ = _
+  change (g ≫ x.1 ≫ pullback.fst _ _).appTop _ = _
   simp only [Scheme.Hom.comp_appTop, CommRingCat.comp_apply]
   rfl
 

@@ -142,7 +142,7 @@ theorem Ideal.algebraMap_quotient_under_comp_mk (r : Ideal S) :
 private theorem liesOver_map_quotientMk (r q : Ideal S) (hrq : r ≤ q) :
     (q.map (Ideal.Quotient.mk r)).LiesOver (Ideal.under R q) := by
   refine ⟨?_⟩
-  show Ideal.under R q = Ideal.comap (algebraMap R (S ⧸ r)) (q.map (Ideal.Quotient.mk r))
+  change Ideal.under R q = Ideal.comap (algebraMap R (S ⧸ r)) (q.map (Ideal.Quotient.mk r))
   rw [show (algebraMap R (S ⧸ r)) = (Ideal.Quotient.mk r).comp (algebraMap R S) from rfl,
     ← Ideal.comap_comap, Ideal.comap_map_mk hrq, Ideal.under_def]
 
@@ -242,7 +242,7 @@ theorem toNat_trdeg_residue_map_quotientMk_eq [q.IsPrime] (hrq : r ≤ q) :
     refine IsScalarTower.of_algebraMap_eq' ?_
     have hcompose : (algebraMap (R ⧸ I) (S ⧸ r)).comp (algebraMap R (R ⧸ I))
         = algebraMap R (S ⧸ r) := (IsScalarTower.algebraMap_eq R (R ⧸ I) (S ⧸ r)).symm
-    show Ideal.ResidueField.map p q' (algebraMap R (S ⧸ r)) Ideal.LiesOver.over
+    change Ideal.ResidueField.map p q' (algebraMap R (S ⧸ r)) Ideal.LiesOver.over
       = (Ideal.ResidueField.map p' q' (algebraMap (R ⧸ I) (S ⧸ r)) Ideal.LiesOver.over).comp
           (Ideal.ResidueField.map p p' (algebraMap R (R ⧸ I)) Ideal.LiesOver.over)
     rw [residueField_map_comp p p' q' (algebraMap R (R ⧸ I)) (algebraMap (R ⧸ I) (S ⧸ r))

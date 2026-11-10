@@ -108,6 +108,10 @@ theorem pullbackUnitComplex_comp_pullbackTranspose
   exact ((extendRestrictAdjunction g).homEquiv_unit _ _ _).symm.trans
     (Equiv.apply_symm_apply _ _)
 
+omit [Y.J.HasSheafCompose (forget AddCommGrpCat)] [X.J.HasSheafCompose (forget AddCommGrpCat)]
+  [HasSheafify X.J AddCommGrpCat] [X.J.WEqualsLocallyBijective AddCommGrpCat]
+  [HasSheafify Y.J AddCommGrpCat] [Y.J.WEqualsLocallyBijective AddCommGrpCat]
+  [HasWeakSheafify X.J CommRingCat] in
 /-- The change of base ring `(f ∘ g)⁻¹𝒪_ℬ ≅ g⁻¹f⁻¹𝒪_ℬ` followed by the map of the square
 `g⁻¹f⁻¹𝒪_ℬ ≅ (f ∘ g)⁻¹𝒪_ℬ` over `g^♯` is the map of the square `𝟙` over `g^♯`. -/
 theorem baseIsoChange_comp_mapOfSquare :
@@ -255,7 +259,7 @@ theorem rhoClass_restrictExtClass
 
 section Solutions
 
-variable [Y.J.WEqualsLocallyBijective CommRingCat.{u}] [HasWeakSheafify Y.J AddCommGrpCat.{u}]
+variable [HasWeakSheafify Y.J AddCommGrpCat.{u}]
   {F : SheafOfModules.{u} ((sheafCompose X.J (forget₂ CommRingCat.{u} RingCat.{u})).obj X.O)}
   (QC : (ofTrivialBase f F).CompatibleFirstOrderThickening)
   (QD : (ofTrivialBase (f.comp g) G).CompatibleFirstOrderThickening)

@@ -110,7 +110,7 @@ lemma preservesZeroMorphisms_single_mapHomologicalComplex_eval
   by_cases h : n = i
   · subst n
     refine ⟨fun A B => ?_⟩
-    show S.map (((HomologicalComplex.single C c i).map (0 : A ⟶ B)).f i) = 0
+    change S.map (((HomologicalComplex.single C c i).map (0 : A ⟶ B)).f i) = 0
     simp
   · exact ⟨fun M N => (S.map_isZero
       (HomologicalComplex.isZero_single_obj_X c i M n h)).eq_of_src _ _⟩

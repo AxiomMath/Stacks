@@ -248,7 +248,7 @@ theorem totalFrom_totalTo (n : ℤ) : totalFrom W K P e n ≫ totalTo W K P e n 
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro (x : TotX W P n)
-  show (totalTo W K P e n).hom ((totalFrom W K P e n).hom x) = x
+  change (totalTo W K P e n).hom ((totalFrom W K P e n).hom x) = x
   rw [totalFrom_apply, map_sum]
   conv_rhs => rw [← Finset.univ_sum_single x]
   refine Finset.sum_congr rfl fun i _ => ?_
@@ -257,7 +257,7 @@ theorem totalFrom_totalTo (n : ℤ) : totalFrom W K P e n ≫ totalTo W K P e n 
       (x i)))
   rw [ConcreteCategory.comp_apply] at h
   refine h.trans ?_
-  show totSingle W P n i.1.1 i.1.2 i.2 ((cochainsIso W (P.X i.1.2) i.1.1).hom
+  change totSingle W P n i.1.1 i.1.2 i.2 ((cochainsIso W (P.X i.1.2) i.1.1).hom
     ((cechCochainsMap W R (e i.1.2).hom i.1.1).hom ((cechCochainsMap W R (e i.1.2).inv i.1.1).hom
       ((cochainsIso W (P.X i.1.2) i.1.1).inv (x i))))) = _
   rw [cechCochainsMap_inv_hom_apply, Iso.inv_hom_id_apply]
@@ -272,19 +272,19 @@ theorem totalTo_totalFrom (n : ℤ) : totalTo W K P e n ≫ totalFrom W K P e n 
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro z
-  show (totalFrom W K P e n).hom ((summandTo W K P e n p (b : ℤ) hpa).hom z) = _
+  change (totalFrom W K P e n).hom ((summandTo W K P e n p (b : ℤ) hpa).hom z) = _
   rw [totalFrom_apply, Finset.sum_eq_single (⟨(p, b), hpa⟩ : TotIndex n)]
   · rw [summandTo_natCast]
-    show (ιTotalCechTo W R K p b n hpa).hom ((cechCochainsMap W R (e b).inv p).hom
+    change (ιTotalCechTo W R K p b n hpa).hom ((cechCochainsMap W R (e b).inv p).hom
       ((cochainsIso W (P.X b) p).inv.hom (totSingle W P n p b hpa _ ⟨(p, b), hpa⟩))) = _
     rw [totSingle_apply_self]
-    show (ιTotalCechTo W R K p b n hpa).hom ((cechCochainsMap W R (e b).inv p).hom
+    change (ιTotalCechTo W R K p b n hpa).hom ((cechCochainsMap W R (e b).inv p).hom
       ((cochainsIso W (P.X b) p).inv ((cochainsIso W (P.X b) p).hom
         ((cechCochainsMap W R (e b).hom p).hom z)))) = _
     rw [Iso.hom_inv_id_apply, cechCochainsMap_hom_inv_apply]
   · intro i _ hi
     rw [summandTo_natCast]
-    show (ιTotalCechTo W R K i.1.1 (i.1.2 : ℤ) n i.2).hom
+    change (ιTotalCechTo W R K i.1.1 (i.1.2 : ℤ) n i.2).hom
       ((cechCochainsMap W R (e i.1.2).inv i.1.1).hom
         ((cochainsIso W (P.X i.1.2) i.1.1).inv.hom (totSingle W P n p b hpa _ i))) = 0
     rw [totSingle_apply_ne W P n p b hpa _ i hi]
@@ -317,7 +317,7 @@ theorem totalTo_comm (n : ℤ) :
     ((cechCochainsMap W R (K.d b (b + 1)) p).hom z)
   have h3 := ConcreteCategory.congr_hom (ιTotalCechTo_totalTo W K P e n p (b : ℤ) hpa) z
   simp only [ConcreteCategory.comp_apply] at hd h1 h2 h3
-  show (totalTo W K P e (n + 1)).hom
+  change (totalTo W K P e (n + 1)).hom
       ((((totalCechComplexFunctor W R).obj K).d n (n + 1)).hom
         ((ιTotalCechTo W R K p (b : ℤ) n hpa).hom z)) =
     ((cechTot W P).d n (n + 1)).hom ((totalTo W K P e n).hom
@@ -327,7 +327,7 @@ theorem totalTo_comm (n : ℤ) :
     LinearMap.smul_apply, ModuleCat.hom_comp, LinearMap.comp_apply, Units.smul_def,
     map_add, map_zsmul]
   rw [h1, h2]
-  show (summandTo W K P e (n + 1) (p + 1) (b : ℤ) _).hom _ +
+  change (summandTo W K P e (n + 1) (p + 1) (b : ℤ) _).hom _ +
       _ • (summandTo W K P e (n + 1) p ((b + 1 : ℕ) : ℤ) _).hom _ =
     ((cechTot W P).d n (n + 1)).hom ((summandTo W K P e n p (b : ℤ) hpa).hom z)
   rw [summandTo_natCast, summandTo_natCast, summandTo_natCast, cechTot_d_apply]

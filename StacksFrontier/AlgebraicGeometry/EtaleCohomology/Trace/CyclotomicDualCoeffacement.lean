@@ -77,6 +77,7 @@ theorem nonempty_compactificationOf_of_isCurve : Nonempty (CompactificationOf (O
   exact ⟨⟨StructuredArrow.mk (Y := Over.mk q) (Over.homMk (U := Over.mk f) j hjq),
     ⟨inferInstanceAs (IsOpenImmersion j), isProper_of_isProjectiveMorphism q hproj⟩⟩⟩
 
+omit [Smooth f] in
 /-- **The cyclotomic dual `M ↦ Hom(M, μ_n(k̄))`, `n = #Λ`, is an anti-equivalence** from finite
 `Λ`-modules with a continuous action of `π₁(X, η̄)` to finite `Λᵐᵒᵖ`-modules with a continuous
 action: it is the character dual of the Tate twist `M(-1)`, and the Tate twist is an

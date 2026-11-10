@@ -140,7 +140,7 @@ public theorem exists_mem_stabilizer_smul_sub_pow_mem
   let : SMulCommClass Gal(L/K) A (integralClosure A L) :=
     ⟨fun g a b ↦ by
       simp only [Algebra.smul_def]
-      show galRestrict A K L (integralClosure A L) g (algebraMap A _ a * b) =
+      change galRestrict A K L (integralClosure A L) g (algebraMap A _ a * b) =
         algebraMap A _ a * galRestrict A K L (integralClosure A L) g b
       rw [map_mul, AlgEquiv.commutes]⟩
   have hPA : P.under A = IsLocalRing.maximalIdeal A :=
@@ -267,7 +267,7 @@ public theorem exists_tameInertiaCharacter_finiteLevel
     have hker : (σ : Gal(L/K)) ^ (IsDiscreteValuationRing.tameRamificationIndex A F qF / n.1 *
         p ^ c) ∈ (AlgEquiv.restrictNormalHom E : Gal(L/K) →* Gal(E/K)).ker := by
       rw [MonoidHom.mem_ker, map_pow]
-      show (AlgEquiv.restrictNormal (σ : Gal(L/K)) (F : IntermediateField K L)) ^ _ = 1
+      change (AlgEquiv.restrictNormal (σ : Gal(L/K)) (F : IntermediateField K L)) ^ _ = 1
       rw [← hσF, ← Subgroup.coe_pow, hc, Subgroup.coe_one]
     rwa [IntermediateField.restrictNormalHom_ker E] at hker
   refine ⟨θ, horder, hcompat, hconj, fun n => ?_, hKey⟩
@@ -328,7 +328,7 @@ public theorem exists_ladicTameCharacter
     exact this.ne_zero
   obtain ⟨ζ, hζ, hζc⟩ := exists_compatible_isPrimitiveRoot hℓκ
   let nk : ℕ → N := fun k => ⟨ℓ ^ k, pow_pos (Fact.out : ℓ.Prime).pos k, Or.inr (hℓp.pow_left k)⟩
-  let u : I →* (ℕ → (B ⧸ P)ˣ) := Pi.monoidHom fun k => (Pi.evalMonoidHom _ (nk k)).comp θ
+  let u : I →* (ℕ → (B ⧸ P)ˣ) := MonoidHom.pi fun k => (Pi.evalMonoidHom _ (nk k)).comp θ
   have hu : ∀ σ k, u σ k ^ (ℓ ^ k) = 1 := fun σ k => horder σ (nk k)
   have huc : ∀ σ k, u σ (k + 1) ^ ℓ = u σ k := fun σ k => by
     have h := hcompat σ (nk k) (nk (k + 1)) (pow_dvd_pow ℓ k.le_succ)
@@ -342,7 +342,7 @@ public theorem exists_ladicTameCharacter
     have hset : {σ : I | PadicInt.toZModPow k (Multiplicative.toAdd (t σ)) = 0} =
         ((Pi.evalMonoidHom _ (nk k)).comp θ).ker := by
       ext σ
-      show _ ↔ θ σ (nk k) = 1
+      change _ ↔ θ σ (nk k) = 1
       have := ladicCharacter_spec hζ hζc u hu huc σ k
       refine ⟨fun h => ?_, fun h => ?_⟩
       · rw [h, ZMod.val_zero, pow_zero] at this
@@ -369,7 +369,7 @@ public theorem exists_ladicTameCharacter
         ((MulSemiringAction.toRingEquiv Gal(L/K) B) Fr) hFrP.symm) x = x ^ q := by
       intro x
       obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective x
-      show Ideal.Quotient.mk P (Fr • b) = _
+      change Ideal.Quotient.mk P (Fr • b) = _
       rw [← map_pow]
       exact Ideal.Quotient.eq.2 (hFr b)
     obtain ⟨τ, hτ⟩ : ∃ τ : I, τ = ρ * (σ ^ q)⁻¹ := ⟨_, rfl⟩

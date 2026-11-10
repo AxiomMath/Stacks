@@ -103,7 +103,7 @@ public theorem isRoot_charpoly_pow_of_isRoot_coinvariantsFrobenius (ι : F →+*
     | zero => simp [Matrix.map_one _ (map_zero ι) (map_one ι)]
     | succ k ih =>
       rw [pow_succ, map_mul, Units.val_mul, vecMul_map_mul, ih, Matrix.smul_vecMul]
-      show z ^ k • (v ᵥ* (τ φ : Matrix (Fin m) (Fin m) F).map (algebraMap F ℂ)) = _
+      change z ^ k • (v ᵥ* (τ φ : Matrix (Fin m) (Fin m) F).map (algebraMap F ℂ)) = _
       rw [hvφ, smul_smul, pow_succ]
   have hgv : v ᵥ* (τ g : Matrix (Fin m) (Fin m) F).map ι = z ^ d • v := by
     have hg' : g = φ ^ d * ((φ ^ d)⁻¹ * g) := by group

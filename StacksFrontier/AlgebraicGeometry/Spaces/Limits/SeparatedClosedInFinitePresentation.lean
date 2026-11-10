@@ -114,7 +114,7 @@ theorem exists_isSeparated_isFinitePresentation_closedImmersion_of_steps
     isAbsolutelyQuasiSeparated_of_isQuasiSeparated B S hS hZ hX hYqs
       (isQuasiSeparated_of_isSeparated B S hS hsep)
   obtain ⟨Z, g, i, hZalg, hgfp, hi, hig⟩ :=
-   exists_isFinitePresentation_isClosedImmersion_of_isLocallyOfFiniteType_of_noetherianApproximation
+    exists_isFinitePresentation_isClosedImmersion_of_isLocallyOfFiniteType_of_noetherian
       B S hS f hX hY hf.1 hXqc hXqs hYqc hYqs h07SU
   have hZqc : IsQuasiCompactSpace B S hS Z :=
     isQuasiCompactSpace_of_isFinitePresentation B S hS g hY hYqc hgfp

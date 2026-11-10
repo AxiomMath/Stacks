@@ -180,12 +180,12 @@ lemma sliceHomEquiv_apply (M : ModuleCat.{u} A) (H : Mod A B hX) (V : Site A B h
     Over.homMk (toProdTop A B hX V) (by rw [star_obj_top_hom]; exact toProdTop_fst A B hX V)
   have h2 := PresheafOfModules.naturality_apply φ.val f.op
     (E.val.map (prod.snd : V ⨯ top A B hX ⟶ top A B hX).op (unitSection A B hX M m))
-  show H.val.presheaf.map (toProdTop A B hX V).op
+  change H.val.presheaf.map (toProdTop A B hX V).op
       (φ.val.app (op ((Over.star V).obj (top A B hX)))
         (E.val.map (prod.snd : V ⨯ top A B hX ⟶ top A B hX).op (unitSection A B hX M m))) = _
   refine h2.symm.trans ?_
   congr 1
-  show (E.val.presheaf.map (prod.snd : V ⨯ top A B hX ⟶ top A B hX).op ≫
+  change (E.val.presheaf.map (prod.snd : V ⨯ top A B hX ⟶ top A B hX).op ≫
       E.val.presheaf.map (toProdTop A B hX V).op) (unitSection A B hX M m) = _
   rw [← CategoryTheory.Functor.map_comp, ← op_comp, toTop_eq A B hX (toProdTop A B hX V ≫ _)]
   rfl

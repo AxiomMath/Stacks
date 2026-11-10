@@ -66,7 +66,7 @@ public lemma kFlat_extend_cechComplex {A : Type u} [CommRing A] {r : ℕ} (f : F
   let K : CochainComplex (ModuleCat A) ℤ :=
     (Cech.cechComplex f A).extend ComplexShape.embeddingUpNat
   have ht (n : ℕ) : Module.Flat A ((Cech.cechComplex f A).X n) := by
-    show Module.Flat A (Cech.cechTerm f A n)
+    change Module.Flat A (Cech.cechTerm f A n)
     unfold Cech.cechTerm Cech.cechMod
     infer_instance
   have hz (q : ℤ) (hq : q < 0) : IsZero (K.X q) := by

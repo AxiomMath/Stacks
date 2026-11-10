@@ -9,7 +9,8 @@ public import StacksFrontier.LinearAlgebra.SymmetricPower.MonomialBasis
 # The symmetric and exterior powers of a finite free sheaf of modules are free
 
 Let `(C, J)` be a site, `O♯` a sheaf of commutative rings on it and `ι` a finite type.
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.FreePowerFree` settles the *sectionwise* half of the
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.FreePowerFree` settles the *sectionwise*
+half of the
 free case of Stacks Tag 00DN: over each object `V` separately, the sections
 `Symⁿ_{O♯(V)}((free ι)(V))` and `⋀ⁿ_{O♯(V)}((free ι)(V))` are free `O♯(V)`-modules of finite rank,
 on the degree-`n` multidegrees `{d : ι →₀ ℕ | d.degree = n}` and on the `n`-element subsets

@@ -297,8 +297,8 @@ theorem flat_glue_sections (hA : A.IsQuasicoherentOnSite) (hB : B'.IsQuasicohere
     @Module.Flat (chartRing B S hS ((schemeSpaceFunctor B S hS).obj Y').1
         ((schemeSpaceFunctor B S hS).obj Y').2 dT.V) ((pullback φ ψ).val.obj (op dT.U)) _ _
       (Module.compHom _ (chartDiagramRestrict B S hS p dT)) := by
-  have hTY := isAffine_smallBaseChange_obj B S hS _ E.rep_h E.isAffineHom_sp_h dT.V hV
-  have hTZ' := isAffine_smallBaseChange_obj B S hS _ E.rep_g E.isAffineHom_sp_g dT.V hV
+  have hTY := isAffine_smallBaseChange_obj B S hS _ (rep_h (h := h)) E.isAffineHom_sp_h dT.V hV
+  have hTZ' := isAffine_smallBaseChange_obj B S hS _ (rep_g (g := g)) E.isAffineHom_sp_g dT.V hV
   exact (E.isRelativeSquare dT hU hV).flat_of_isGlued (E.isBaseChangeAlong_glueα dT hU hA)
     (E.isBaseChangeAlong_glueβ dT hU (θ := θ) hB hθ) (E.isGlued dT hφ hψ)
     (flat_sections_of_isFlatOver_chartDiagram B S hS pV A hA hAf (E.dWYT dT)

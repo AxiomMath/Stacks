@@ -150,7 +150,7 @@ public theorem flat_atPrime_completedTensorProduct_of_quotient
     [TopologicalSpace R] [IsTopologicalRing R] [IsLinearTopology R R]
     [TopologicalSpace C] [IsTopologicalRing C] [IsLinearTopology C C]
     (π : R →ₐ[A] C) (hsurj : Function.Surjective π) (hcont : Continuous π)
-    (hopen : IsOpenMap π) (I : Ideal A) (hIdef : TopologicalRing.IsIdealOfDefinition I)
+    (hopen : IsOpenMap π) (I : Ideal A)
     (hJ : _root_.IsAdic (I.map (algebraMap A B)))
     (hK : _root_.IsAdic (I.map (algebraMap A R)))
     [IsNoetherianRing (CompletedTensorProduct (R := A) (M := B) (N := R))]
@@ -186,7 +186,7 @@ public theorem flat_atPrime_completedTensorProduct_of_quotient
       ≤ p.comap e.toRingHom := by
     obtain ⟨a, haI, hap⟩ : ∃ a ∈ I,
         algebraMap A (CompletedTensorProduct (R := A) (M := B) (N := C)) a ∉ p :=
-      SetLike.not_le_iff_exists.mp (Ideal.map_le_iff_le_comap.not.mp hpaway)
+      IsConcreteLE.not_le_iff_exists.mp (Ideal.map_le_iff_le_comap.not.mp hpaway)
     refine fun hle => hap ?_
     have hmem := hle (Ideal.mem_map_of_mem _ (Ideal.mem_map_of_mem (algebraMap A R) haI))
     rw [Ideal.mem_comap] at hmem
@@ -237,22 +237,21 @@ private theorem isNoetherianRing_completedTensorProduct_restrictedPowerSeries
     [IsLinearTopology B B] [IsNoetherianRing B] [Algebra A B]
     (h₀ : TopologicalRing.IsAdic A) (h₁ : TopologicalRing.IsAdic B)
     (hc₁ : Continuous (algebraMap A B)) (hP : Rig.RingHom.IsRigFlat (algebraMap A B))
-    (I : Ideal A) (hIadic : _root_.IsAdic I) (σ : Type u) [Finite σ]
+    (I : Ideal A) (σ : Type u) [Finite σ]
     [IsLinearTopology (RestrictedPowerSeries I σ) (RestrictedPowerSeries I σ)] :
     IsNoetherianRing
       (CompletedTensorProduct (R := A) (M := B) (N := RestrictedPowerSeries I σ)) := by
   obtain ⟨I₀, hI₀def, -⟩ := h₀.1
   let : IsNoetherianRing (RestrictedPowerSeries I σ) :=
     Rig.isNoetherianRing_restrictedPowerSeries I σ
-  exact completedTensorProduct_isNoetherianRing hc₁
-    (Rig.continuous_coefficientRingHom I hIadic (Ideal.fg_of_isNoetherianRing I) σ) h₁.1
+  exact completedTensorProduct_isNoetherianRing h₁.1
     (isAdic_restrictedPowerSeriesRing I σ).1
     ⟨topologicalNilradical_le_comap _ hc₁,
       Rig.isFiniteTypeOnReductions_of_isTaut_of_isTopologicallyOfFiniteType (algebraMap A B) hc₁
         ⟨I₀, hI₀def.1, fun x hx =>
           TopologicalRing.CompletionOver.isTopologicallyNilpotent_of_mem_isIdealOfDefinition
             hI₀def hx⟩
-        (_root_.RingHom.isTaut_of_isAdic (algebraMap A B) hc₁ hP.1) hP.2.1⟩
+        (_root_.RingHom.isTaut_of_isAdic (algebraMap A B) hP.1) hP.2.1⟩
 
 /-- `B ⊗̂_A A{σ}` is adic: Stacks 0GB4. -/
 private theorem isAdic_completedTensorProduct_restrictedPowerSeries
@@ -302,8 +301,7 @@ private theorem flat_atPrime_of_presentation
     (h₁ : TopologicalRing.IsAdic B) (hc₁ : Continuous (algebraMap A B))
     (hP : Rig.RingHom.IsRigFlat (algebraMap A B))
     (hAw : TopologicalRing.IsWeaklyAdmissible A)
-    (I : Ideal A) (hIadic : _root_.IsAdic I)
-    (hIdef : TopologicalRing.IsIdealOfDefinition I) (σ : Type u) [Finite σ]
+    (I : Ideal A) (hIadic : _root_.IsAdic I) (σ : Type u) [Finite σ]
     [IsLinearTopology (RestrictedPowerSeries I σ) (RestrictedPowerSeries I σ)]
     [IsAdicComplete I A] (hJ : _root_.IsAdic (I.map (algebraMap A B)))
     [IsAdicComplete (I.map (algebraMap A B)) B]
@@ -327,7 +325,7 @@ private theorem flat_atPrime_of_presentation
   exact flat_atPrime_completedTensorProduct_of_quotient (A := A) (B := B)
     (R := RestrictedPowerSeries I σ) (C := C)
     { π with commutes' := fun a => DFunLike.congr_fun hπcomp a }
-    hsurj hπcont hπopen I hIdef hJ hcoef
+    hsurj hπcont hπopen I hJ hcoef
     (isAdic_completedTensorProduct_restrictedPowerSeries h₁ hc₁ I hIadic σ)
     (Rig.isNaivelyRigFlat_completedTensorProduct_restrictedPowerSeries
       I hIadic hJ σ hc₁ hP.2.1 hAw hP)
@@ -347,7 +345,7 @@ private theorem isNaivelyRigFlat_of_presentation
     [IsLinearTopology C C] [Algebra A B] [Algebra A C] [IsNoetherianRing A]
     [IsNoetherianRing B] [IsNoetherianRing C]
     (h₀ : TopologicalRing.IsAdic A) (h₁ : TopologicalRing.IsAdic B)
-    (hc₁ : Continuous (algebraMap A B)) (hc₂ : Continuous (algebraMap A C))
+    (hc₁ : Continuous (algebraMap A B))
     (hP : Rig.RingHom.IsRigFlat (algebraMap A B))
     (hQadic : _root_.RingHom.IsAdic (algebraMap A C))
     (hAw : TopologicalRing.IsWeaklyAdmissible A)
@@ -360,8 +358,7 @@ private theorem isNaivelyRigFlat_of_presentation
     (hDft : TopologicalRing.IsTopologicallyOfFiniteType
       (algebraMap C (CompletedTensorProduct (R := A) (M := B) (N := C))))
     (I₂ : Ideal C) (hI₂adic : _root_.IsAdic I₂)
-    (I : Ideal A) (hIadic : _root_.IsAdic I)
-    (hIdef : TopologicalRing.IsIdealOfDefinition I) (σ : Type u) [Finite σ]
+    (I : Ideal A) (hIadic : _root_.IsAdic I) (σ : Type u) [Finite σ]
     [IsLinearTopology (RestrictedPowerSeries I σ) (RestrictedPowerSeries I σ)]
     (π : RestrictedPowerSeries I σ →+* C) (hsurj : Function.Surjective π)
     (hπcont : Continuous π) (hπopen : IsOpenMap π)
@@ -374,17 +371,17 @@ private theorem isNaivelyRigFlat_of_presentation
   have := isAdicComplete_of_isAdic h₁ hJ
   let : IsNoetherianRing
       (CompletedTensorProduct (R := A) (M := B) (N := RestrictedPowerSeries I σ)) :=
-    isNoetherianRing_completedTensorProduct_restrictedPowerSeries h₀ h₁ hc₁ hP I hIadic σ
+    isNoetherianRing_completedTensorProduct_restrictedPowerSeries h₀ h₁ hc₁ hP I σ
   have hADadic : _root_.RingHom.IsAdic
       (algebraMap A (CompletedTensorProduct (R := A) (M := B) (N := C))) := by
     rw [IsScalarTower.algebraMap_eq A C (CompletedTensorProduct (R := A) (M := B) (N := C))]
     exact _root_.RingHom.isAdic_comp (algebraMap A C)
-      (algebraMap C (CompletedTensorProduct (R := A) (M := B) (N := C))) hc₂ hDcont hQadic hDadic
+      (algebraMap C (CompletedTensorProduct (R := A) (M := B) (N := C))) hQadic hDadic
   exact isNaivelyRigFlat_of_flat_atPrime hDcont hCw hDw
     ⟨I₂, hI₂adic, Ideal.fg_of_isNoetherianRing I₂⟩
     ⟨_, _root_.RingHom.isAdic_map_of_isAdic _ hDadic hI₂adic,
       (Ideal.fg_of_isNoetherianRing I₂).map _⟩ hDadic hDft
-    (fun p hp hpaway => flat_atPrime_of_presentation h₁ hc₁ hP hAw I hIadic hIdef σ hJ
+    (fun p hp hpaway => flat_atPrime_of_presentation h₁ hc₁ hP hAw I hIadic σ hJ
       (isAdic_coefficientIdeal I (Ideal.fg_of_isNoetherianRing I) σ) π hsurj hπcont hπopen hπcomp
       (isIdealOfDefinition_of_isAdic (_root_.RingHom.isAdic_map_of_isAdic _ hADadic hIadic))
       p hp hpaway)
@@ -426,14 +423,14 @@ public theorem isNaivelyRigFlat_completedTensorProduct_of_adicFiniteType
   obtain ⟨I, hIdef, σ, _, π, hsurj, hπcont, hπopen, hπcomp⟩ :=
     Rig.exists_restrictedPowerSeriesQuotientMap h₀ h₂
       ⟨I₀, hI₀def, Ideal.fg_of_isNoetherianRing I₀⟩
-      ⟨I₂, hI₂def, Ideal.fg_of_isNoetherianRing I₂⟩ hc₂ hQ.1 hQ.2
+      ⟨I₂, hI₂def, Ideal.fg_of_isNoetherianRing I₂⟩ hQ.1 hQ.2
   have hIadic : _root_.IsAdic I := (Rig.isIdealOfDefinition_iff_isAdic ⟨I₀, hI₀adic⟩ I).1 hIdef
   let : IsLinearTopology (RestrictedPowerSeries I σ) (RestrictedPowerSeries I σ) :=
     isLinearTopology_restrictedPowerSeries I (Ideal.fg_of_isNoetherianRing I) σ
-  exact isNaivelyRigFlat_of_presentation h₀ h₁ hc₁ hc₂ hP hQ.1
+  exact isNaivelyRigFlat_of_presentation h₀ h₁ hc₁ hP hQ.1
     (Rig.weaklyAdmissible_of_isAdicRing h₀) hCw
     (completedTensorProduct_isWeaklyAdmissible (B := A) (A := B) (C := C) hBw.1 hCw.1)
-    continuous_algebraMap_completedTensorProduct_right hDadic hDft I₂ hI₂adic I hIadic hIdef σ
+    continuous_algebraMap_completedTensorProduct_right hDadic hDft I₂ hI₂adic I hIadic σ
     π hsurj hπcont hπopen hπcomp
 
 /-- **The naive form of the base-change assertion of Stacks 0GGR**, quantified over all triples

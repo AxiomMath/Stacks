@@ -132,7 +132,7 @@ theorem surjective_chowBundleProj {S : Scheme.{u}} (E : S.Modules) (r : ℕ)
   obtain ⟨σ, hσ⟩ :=
     Stacks.ProjectiveBundleSplitting.exists_section_of_restrict_free E (bundlePieces E) r U hiso
   refine ⟨σ ⟨x, hxU⟩, ?_⟩
-  show (σ ≫ Stacks.Chow.bundleProj E) ⟨x, hxU⟩ = x
+  change (σ ≫ Stacks.Chow.bundleProj E) ⟨x, hxU⟩ = x
   rw [show σ ≫ Stacks.Chow.bundleProj E = U.ι from hσ]
   rfl
 
@@ -201,17 +201,17 @@ theorem equidimensionalPushforward_diagonalClass_bundle {d : ℕ}
           (Over.w (bundleProj X E r).hom) := by
     apply pullback.hom_ext
     · refine (Category.assoc _ _ _).trans ?_
-      show (SmoothProjectiveScheme.diag (bundle X E r)).hom.left ≫
+      change (SmoothProjectiveScheme.diag (bundle X E r)).hom.left ≫
           (prodMap (𝟙 (bundle X E r)) (bundleProj X E r) ≫
             SmoothProjectiveScheme.fst (bundle X E r) X).hom.left = _
       rw [prodMap_fst, Category.comp_id, graphToProd, pullback.lift_fst]
       exact pullback.diagonal_fst _
     · refine (Category.assoc _ _ _).trans ?_
-      show (SmoothProjectiveScheme.diag (bundle X E r)).hom.left ≫
+      change (SmoothProjectiveScheme.diag (bundle X E r)).hom.left ≫
           (prodMap (𝟙 (bundle X E r)) (bundleProj X E r) ≫
             SmoothProjectiveScheme.snd (bundle X E r) X).hom.left = _
       rw [prodMap_snd, graphToProd, pullback.lift_snd]
-      show pullback.diagonal _ ≫ pullback.snd _ _ ≫ _ = _
+      change pullback.diagonal _ ≫ pullback.snd _ _ ≫ _ = _
       rw [pullback.diagonal_snd_assoc]
   have hgr : IsClosedImmersion (graphToProd (bundle X E r).obj.hom X.obj.hom
       (bundleProj X E r).hom.left (Over.w (bundleProj X E r).hom) :
@@ -324,7 +324,7 @@ theorem cycleClassSeries_smoothGysinRingHom {X Y : (SmoothProjectiveScheme k).Fu
   obtain ⟨x, rfl⟩ := (rationalChernCharacterAlgEquiv (isRegular_of_smooth_over_field Y.obj.hom)
     (exists_bounds_relativeDimension_fieldChowSituation k Y.obj.hom)).surjective y
   rw [smoothGysinRingHom_rationalChernCharacterAlgEquiv, cycleClassSeries, cycleClassSeries]
-  simp only [AlgHom.comp_apply, AlgEquiv.coe_algHom, AlgEquiv.symm_apply_apply]
+  simp only [AlgHom.comp_apply, AlgEquiv.coe_toAlgHom, AlgEquiv.symm_apply_apply]
   exact (h.map_rationalLift f x).symm
 
 /-- **`γ(c₁(ℒ) ∩ [Y]) = c₁^H(ℒ)`**, as a power series concentrated in degree one. -/
@@ -349,11 +349,11 @@ theorem cycleClassSeries_rationalFirstChernClass (hA1 : 𝔇.CoproductAxiom)
   refine PowerSeries.ext fun n => Subtype.ext ?_
   rw [← κ_cycleClassMap, PowerSeries.coeff_monomial]
   rcases eq_or_ne n 1 with rfl | hn
-  · rw [if_pos rfl, coe_c₁A, rationalFirstChernClass,
+  · rw [ite_eq_left rfl, coe_c₁A, rationalFirstChernClass,
       h.cycleClassMap_rationalChernCharacterComponentCap hA1 hA3,
       h.cycleClassMap_rationalChernCharacterAlgEquiv]
     exact congrArg (𝔇.κ Y 1) ((congrFun (h.2.2.2.2.2 Y L hL) 1).trans (expTw_one Y _))
-  · rw [if_neg hn, (h.cycleClassMap_mem hA1 hA3 Y _ hmem).2 n hn, map_zero,
+  · rw [ite_eq_right hn, (h.cycleClassMap_mem hA1 hA3 Y _ hmem).2 n hn, map_zero,
       ZeroMemClass.coe_zero]
 
 end FirstChernClassData.IsCohomologicalChernCharacter

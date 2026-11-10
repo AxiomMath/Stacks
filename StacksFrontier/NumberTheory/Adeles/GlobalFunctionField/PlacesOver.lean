@@ -260,7 +260,7 @@ public theorem finite_quotient_polySubalg (q : Ideal (polySubalg k x)) (hq : q �
     intro h
     apply hq
     rw [← Ideal.map_comap_of_surjective g (polySubalgMap_surjective (k := k) x) q]
-    show Ideal.map g I = ⊥
+    change Ideal.map g I = ⊥
     rw [h, Ideal.map_bot]
   obtain ⟨f, hf⟩ := (Submodule.IsPrincipal.principal I)
   have hf0 : f ≠ 0 := by
@@ -284,7 +284,7 @@ public theorem finite_quotient_intClosure (P : Ideal (intClosure k x)) [P.IsPrim
   let p := P.under (polySubalg k x)
   have hp : p ≠ ⊥ := by
     obtain ⟨b, hb, hb0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hP
-    exact Ideal.comap_ne_bot_of_integral_mem hb0 hb (Algebra.IsIntegral.isIntegral b)
+    exact Ideal.under_ne_bot_of_integral_mem hb0 hb (Algebra.IsIntegral.isIntegral b)
   have := finite_quotient_polySubalg k x p hp
   exact finite_quotient_of_finite_under (A := polySubalg k x) P
 
@@ -299,6 +299,8 @@ public theorem finite_residueField_of_mem (v : Place K) (hx : x ∈ v.1) :
 section FundamentalInequality
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search for the algebra and module structures on `intClosure k x`
+omit [Finite k] in
 /-- The rank of the integral closure of `k[x]` over `k[x]` is `[K : k(x)]`. -/
 public theorem finrank_intClosure :
     Module.finrank (polySubalg k x) (intClosure k x) = Module.finrank k⟮x⟯ K := by
@@ -321,11 +323,12 @@ public theorem card_quotient_span_polySubalgMap (hx : Transcendental k x) {f : k
     rfl
   rw [Nat.card_congr (Ideal.quotientEquiv _ _ e hmap).toEquiv.symm]
   have := (AdjoinRoot.powerBasis hf).finite
-  show Nat.card (AdjoinRoot f) = _
+  change Nat.card (AdjoinRoot f) = _
   rw [Module.natCard_eq_pow_finrank (K := k), (AdjoinRoot.powerBasis hf).finrank,
     AdjoinRoot.powerBasis_dim]
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search for the algebra and module structures on `intClosure k x`
 /-- The fundamental inequality at a prime polynomial: for any finite set `s` of places containing
 `x`, `∏_{v ∈ s} q_v ^ ord_v (f(x)) ≤ #k ^ ([K : k(x)] · deg f)`. -/
 public theorem prod_resCard_pow_ord_le_of_prime (hx : Transcendental k x) {f : k[X]}

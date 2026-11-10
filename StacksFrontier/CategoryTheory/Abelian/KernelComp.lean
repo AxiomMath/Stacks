@@ -118,7 +118,7 @@ theorem shortExact_kernelComp {N B A L : C} {n : N ⟶ B} {a : B ⟶ A} (hna : n
            exact := ShortComplex.exact_of_f_is_kernel _ ?_ }
   refine Limits.KernelFork.IsLimit.ofι' _ _ fun {A'} k hk => ⟨hT.exact.lift
     (k ≫ Limits.kernel.ι (a ≫ b)) ?_, ?_⟩
-  · show (k ≫ Limits.kernel.ι (a ≫ b)) ≫ a = 0
+  · change (k ≫ Limits.kernel.ι (a ≫ b)) ≫ a = 0
     rw [Category.assoc, ← kernelCompQuot_ι a b, ← Category.assoc, hk, Limits.zero_comp]
   · rw [← cancel_mono (Limits.kernel.ι (a ≫ b)), Category.assoc, kernelCompSub_ι]
     exact hT.exact.lift_f _ _

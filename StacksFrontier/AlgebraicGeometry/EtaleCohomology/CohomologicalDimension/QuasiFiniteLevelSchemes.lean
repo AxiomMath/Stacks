@@ -2,8 +2,7 @@ module
 
 public import Mathlib.AlgebraicGeometry.GammaSpecAdjunction
 public import Mathlib.CategoryTheory.Limits.Constructions.Over.Connected
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.CohomologicalDimension.QuasiFiniteSubalgebraSystem
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.CohomologicalDimension.QuasiFiniteSubalgebraSystem
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.CohomologicalDimension.ResidueFieldIntegral
 
@@ -80,7 +79,7 @@ abbrev levelVertexHom : Spec (.of O) ⟶ T :=
 theorem levelStructure_fac (D : (QFSubalgebras (R := Γ(T, ⊤)) T₀)ᵒᵖ) :
     (Scheme.Spec.mapCone (levelRingCocone (R := Γ(T, ⊤)) (T₀ := T₀) ψ).op).π.app D ≫
       (levelStructure T T₀ ψ).app D = levelVertexHom T (O := O) := by
-  show Spec.map _ ≫ Spec.map _ ≫ _ = _
+  change Spec.map _ ≫ Spec.map _ ≫ _ = _
   rw [← Category.assoc, ← Spec.map_comp]
   rfl
 

@@ -89,11 +89,11 @@ public theorem map_linearFunctionalPoint (g : LinearMap.GeneralLinearGroup k V)
       linearFunctionalPoint k V ((g : V →ₗ[k] V).dualMap f) hgf := by
   apply ProjectiveSpectrum.ext
   ext z
-  show SymPow.symAlgMap (g : V →ₗ[k] V) z ∈
+  change SymPow.symAlgMap (g : V →ₗ[k] V) z ∈
       (linearFunctionalPoint k V f hf).asHomogeneousIdeal ↔
     z ∈ (linearFunctionalPoint k V ((g : V →ₗ[k] V).dualMap f) hgf).asHomogeneousIdeal
   rw [linearFunctionalPoint_mem, linearFunctionalPoint_mem]
-  show SymPow.symAlgMap f (SymPow.symAlgMap (g : V →ₗ[k] V) z) = 0 ↔
+  change SymPow.symAlgMap f (SymPow.symAlgMap (g : V →ₗ[k] V) z) = 0 ↔
     SymPow.symAlgMap (f ∘ₗ (g : V →ₗ[k] V)) z = 0
   rw [SymPow.symAlgMap_comp_apply]
 
@@ -159,7 +159,7 @@ public theorem map_eq_map_iff [Nontrivial V] (g h : LinearMap.GeneralLinearGroup
   · rintro ⟨c, hc⟩
     have hr : ((g * h⁻¹ : LinearMap.GeneralLinearGroup k V) : V →ₗ[k] V) =
         (c : k) • LinearMap.id := by
-      show (g : V →ₗ[k] V) * (h⁻¹ : LinearMap.GeneralLinearGroup k V) = _
+      change (g : V →ₗ[k] V) * (h⁻¹ : LinearMap.GeneralLinearGroup k V) = _
       rw [hc]
       simp [Units.smul_def]
       rfl
@@ -249,7 +249,7 @@ public theorem dualEndClosedPointsEquiv_apply [IsAlgClosed k] [Module.Finite k V
   have hmem := closedPointOfDual_ι_mem k (Module.Dual k (V →ₗ[k] V)) q φ
   rw [hp] at hmem
   refine hmem.trans ?_
-  show q.rep φ = 0 ↔
+  change q.rep φ = 0 ↔
     φ ((Projectivization.mapEquiv (Module.evalEquiv k (V →ₗ[k] V)).symm q).rep) = 0
   rw [Projectivization.apply_mapEquiv_rep_eq_zero_iff]
   exact Iff.of_eq (congrArg (· = 0)

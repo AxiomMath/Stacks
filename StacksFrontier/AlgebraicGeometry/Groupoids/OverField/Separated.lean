@@ -54,7 +54,7 @@ public theorem isSeparated_arrows_of_objects_isSpec_field
   have : IsAffine G.objects.left := .of_isIso h.hom
   have : IsAffineHom G.objects.hom := isAffineHom_of_isSpec_field G.objects.hom h
   have : IsAffine (MonoidalCategory.tensorObj G.objects G.objects).left := by
-    show IsAffine (pullback G.objects.hom G.objects.hom)
+    change IsAffine (pullback G.objects.hom G.objects.hom)
     exact isAffine_of_isAffineHom (pullback.snd G.objects.hom G.objects.hom)
   have hstabAbs : (stabilizer G).left.IsSeparated := by
     let F := (Over.mapIso h).functor

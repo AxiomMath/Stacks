@@ -65,7 +65,7 @@ theorem exists_openImmersion_surjective_etale_of_atlas
   refine MorphismProperty.of_relative_map (P := MorphismProperty.inverseImage
     (@_root_.AlgebraicGeometry.IsOpenImmersion.{u} : MorphismProperty Scheme.{u})
     (BigFppfOver.toScheme B S hS)) (F := yoneda) ?_
-  show IsOpenImmersion B S hS (yoneda.map (hsurj.rep.fst' g))
+  change IsOpenImmersion B S hS (yoneda.map (hsurj.rep.fst' g))
   rw [Functor.relativelyRepresentable.map_fst']
   exact MorphismProperty.IsStableUnderBaseChange.of_isPullback hsq.flip hg
 

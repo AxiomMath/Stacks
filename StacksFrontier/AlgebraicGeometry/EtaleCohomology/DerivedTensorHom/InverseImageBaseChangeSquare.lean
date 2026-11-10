@@ -7,8 +7,7 @@ public import StacksFrontier.CategoryTheory.Adjunction.TransportedBaseChangeSqua
 public import
   StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.BraidingIsoEqCanonicalBraiding
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.RelativeCupProductBaseChange
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.DerivedPullbackTensorSquareCompatible
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.DerivedPullbackTensorSquareCompatible
 
 /-!
 # Base change squares on `D(X_étale, Λ)`

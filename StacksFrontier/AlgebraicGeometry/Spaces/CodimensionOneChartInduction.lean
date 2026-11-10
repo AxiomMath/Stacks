@@ -142,18 +142,18 @@ theorem exists_add_one_eq_and_isFiniteLocallyFreeOfRank_of_isCompl {K : Type u} 
   have hψ : ∀ x, ψ x = (e₁.appTop x, e₂.appTop x) := by
     intro x
     refine Prod.ext ?_ ?_
-    · show ((limit.isoLimitCone ⟨_, CommRingCat.prodFanIsLimit _ _⟩).hom ≫
+    · change ((limit.isoLimitCone ⟨_, CommRingCat.prodFanIsLimit _ _⟩).hom ≫
           (CommRingCat.prodFan _ _).fst) ((Scheme.coprodPresheafObjIso ⊤).hom
             (c.hom.appTop x)) = _
       rw [limit.isoLimitCone_hom_π]
-      show ((Scheme.coprodPresheafObjIso ⊤).hom ≫ prod.fst) (c.hom.appTop x) = _
+      change ((Scheme.coprodPresheafObjIso ⊤).hom ≫ prod.fst) (c.hom.appTop x) = _
       rw [Scheme.coprodPresheafObjIso_hom_fst, ← hc₁]
       rfl
-    · show ((limit.isoLimitCone ⟨_, CommRingCat.prodFanIsLimit _ _⟩).hom ≫
+    · change ((limit.isoLimitCone ⟨_, CommRingCat.prodFanIsLimit _ _⟩).hom ≫
           (CommRingCat.prodFan _ _).snd) ((Scheme.coprodPresheafObjIso ⊤).hom
             (c.hom.appTop x)) = _
       rw [limit.isoLimitCone_hom_π]
-      show ((Scheme.coprodPresheafObjIso ⊤).hom ≫ prod.snd) (c.hom.appTop x) = _
+      change ((Scheme.coprodPresheafObjIso ⊤).hom ≫ prod.snd) (c.hom.appTop x) = _
       rw [Scheme.coprodPresheafObjIso_hom_snd, ← hc₂]
       rfl
   have hψbij : Function.Bijective ψ := ConcreteCategory.bijective_of_isIso ψ
@@ -200,6 +200,7 @@ namespace AlgebraicGeometry.Space
 attribute [local instance] pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 instance hasPullbacks_presheaf_CodimensionOneChartInduction
@@ -328,7 +329,7 @@ theorem notMem_range_pointsMap_of_chartRankAtCodimZeroLE_zero
         subsingleton_points_yoneda_of_isoSpec_toScheme B S hS p.siteObject (Iso.refl _)
       rw [Subsingleton.elim t (p₀.class B S hS _), hξ, pointsMap_comp_apply]
       convert hdim using 3
-      show FieldValuedPoint.class B S hS _ (FieldValuedPoint.map B S hS _ _ p₀) = _
+      change FieldValuedPoint.class B S hS _ (FieldValuedPoint.map B S hS _ _ p₀) = _
       congr 1)
   obtain rfl : r = 0 := Nat.le_zero.1 hr
   obtain ⟨s, -, hs⟩ := hsq.exists_lift (yoneda.map p.value) (𝟙 _) (by rw [Category.id_comp])

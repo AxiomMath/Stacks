@@ -129,12 +129,12 @@ private lemma false_of_quasiFiniteAt_away {R A : Type*} [CommRing R] [CommRing A
   let qA : Ideal A := Ideal.comap (algebraMap A (Localization.Away a)) qD
   have : qA.IsPrime := Ideal.comap_isPrime _ _
   have hqAavoid : a ∉ qA := by
-    show algebraMap A (Localization.Away a) a ∉ qD
+    change algebraMap A (Localization.Away a) a ∉ qD
     exact qD.notMem_of_isUnit
       (IsLocalization.map_units (Localization.Away a) ⟨a, Submonoid.mem_powers a⟩)
   have hqAover : qA.LiesOver p := by
     refine ⟨?_⟩
-    show p = Ideal.under R (Ideal.under A qD)
+    change p = Ideal.under R (Ideal.under A qD)
     rw [Ideal.under_under]
     exact hqD.over
   exact hno qA hqAover hqAavoid
@@ -170,7 +170,7 @@ private lemma positive_dim_of_no_quasiFiniteAt {R A : Type*} [CommRing R] [CommR
   have hqfF : Algebra.QuasiFiniteAt p.ResidueField x.asIdeal :=
     Algebra.QuasiFiniteAt.of_isOpen_singleton (R := p.ResidueField) x hopenx
   have hqD_eq : Ideal.comap Algebra.TensorProduct.includeRight.toRingHom x.asIdeal = qD := by
-    show ((PrimeSpectrum.primesOverOrderIsoFiber R (Localization.Away a) p).symm x :
+    change ((PrimeSpectrum.primesOverOrderIsoFiber R (Localization.Away a) p).symm x :
       Ideal (Localization.Away a)) = _
     exact (PrimeSpectrum.coe_primesOverOrderIsoFiber_symm_apply p x).symm
   exact false_of_quasiFiniteAt_away p a hno qD

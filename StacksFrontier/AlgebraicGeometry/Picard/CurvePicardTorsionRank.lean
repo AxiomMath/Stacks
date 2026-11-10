@@ -71,7 +71,7 @@ theorem nonempty_torsionBy_addEquiv_pi_zmod_genus (n : ℕ) (hn : IsUnit (n : k)
   let F : Submodule.torsionBy ℤ (ofScheme X) (n : ℤ) ≃+
       AddSubgroup.torsionBy (Additive (𝟙_ (Over (Spec (.of k))) ⟶ J)) n :=
     { toFun := fun x => ⟨E.symm ⟨M x.1, hdeg x⟩, by
-        show _ ∈ Submodule.torsionBy ℤ _ _
+        change _ ∈ Submodule.torsionBy ℤ _ _
         rw [Submodule.mem_torsionBy_iff, zsmul_equiv_eq_zero_iff]
         exact Subtype.ext (hM x)⟩
       invFun := fun y => ⟨M.symm (E y.1).1, by
@@ -79,15 +79,15 @@ theorem nonempty_torsionBy_addEquiv_pi_zmod_genus (n : ℕ) (hn : IsUnit (n : k)
         exact congrArg Subtype.val ((zsmul_equiv_eq_zero_iff E).2 y.2)⟩
       left_inv := fun x => by
         apply Subtype.ext
-        show M.symm (E (E.symm _)).1 = x.1
+        change M.symm (E (E.symm _)).1 = x.1
         rw [AddEquiv.apply_symm_apply, AddEquiv.symm_apply_apply]
       right_inv := fun y => by
         apply Subtype.ext
-        show E.symm ⟨M (M.symm (E y.1).1), _⟩ = y.1
+        change E.symm ⟨M (M.symm (E y.1).1), _⟩ = y.1
         simp only [AddEquiv.apply_symm_apply, Subtype.coe_eta, AddEquiv.symm_apply_apply]
       map_add' := fun x y => by
         apply Subtype.ext
-        show E.symm ⟨M (x.1 + y.1), _⟩ = E.symm ⟨M x.1, _⟩ + E.symm ⟨M y.1, _⟩
+        change E.symm ⟨M (x.1 + y.1), _⟩ = E.symm ⟨M x.1, _⟩ + E.symm ⟨M y.1, _⟩
         rw [← map_add]
         congr 1
         exact Subtype.ext (map_add M x.1 y.1) }

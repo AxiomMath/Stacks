@@ -104,7 +104,7 @@ theorem modificationFibreAtInfinityMap_eq :
 instance isProper_modificationFibreAtInfinityMap [IsProper g] :
     IsProper (modificationFibreAtInfinityMap f b g) := by
   rw [modificationFibreAtInfinityMap_eq]
-  haveI : IsProper (pullback.snd g (modificationInclusionAtInfinity f b)) :=
+  have : IsProper (pullback.snd g (modificationInclusionAtInfinity f b)) :=
     MorphismProperty.of_isPullback (IsPullback.of_hasPullback g _) (P := @IsProper) inferInstance
   infer_instance
 

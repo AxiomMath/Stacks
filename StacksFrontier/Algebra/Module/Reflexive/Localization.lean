@@ -90,11 +90,11 @@ theorem reflexive_localized_iff_map_bijective
       have h2 := congrArg (IsLocalizedModule.iso S (IsLocalizedModule.mapExtendScalars S
           (LocalizedModule.mkLinearMap S M) (Algebra.linearMap R Rₚ) Rₚ)) h
       simp only [LinearEquiv.apply_symm_apply] at h2
-      show (iso1 (LocalizedModule.mk ξ 1)) (LocalizedModule.mk m 1) = _
+      change (iso1 (LocalizedModule.mk ξ 1)) (LocalizedModule.mk m 1) = _
       have hiso1eq : iso1 (LocalizedModule.mk ξ 1) =
           (IsLocalizedModule.mapExtendScalars S (LocalizedModule.mkLinearMap S M)
             (Algebra.linearMap R Rₚ) Rₚ) ξ := by
-        show (LinearEquiv.extendScalarsOfIsLocalization S Rₚ _) _ = _
+        change (LinearEquiv.extendScalarsOfIsLocalization S Rₚ _) _ = _
         rw [LinearEquiv.extendScalarsOfIsLocalization_apply, ← h2]
       rw [hiso1eq, IsLocalizedModule.mapExtendScalars_apply_apply,
         show (LocalizedModule.mk m 1 : Mₚ) = LocalizedModule.mkLinearMap S M m from rfl,
@@ -119,7 +119,7 @@ theorem reflexive_localized_iff_map_bijective
         refine IsLocalizedModule.ext S
           (@LocalizedModule.mkLinearMap R _ S (Module.Dual R M)
             LinearMap.addCommGroup.toAddCommMonoid LinearMap.module) huR (LinearMap.ext fun ξ => ?_)
-        show (IsLocalizedModule.map S _ (Algebra.linearMap R Rₚ) (Module.Dual.eval R M m))
+        change (IsLocalizedModule.map S _ (Algebra.linearMap R Rₚ) (Module.Dual.eval R M m))
               ((@LocalizedModule.mkLinearMap R _ S (Module.Dual R M)
                 LinearMap.addCommGroup.toAddCommMonoid LinearMap.module) ξ)
             = (iso1 ((@LocalizedModule.mkLinearMap R _ S (Module.Dual R M)
@@ -138,14 +138,14 @@ theorem reflexive_localized_iff_map_bijective
       rw [Module.Dual.eval_apply]
       have he1 : e (LocalizedModule.mk m 1) =
           LocalizedModule.mk (Module.Dual.eval R M m) 1 := by
-        show (IsLocalizedModule.map S _ _ (Module.Dual.eval R M)) (LocalizedModule.mk m 1) = _
+        change (IsLocalizedModule.map S _ _ (Module.Dual.eval R M)) (LocalizedModule.mk m 1) = _
         rw [show (LocalizedModule.mk m 1 : Mₚ) = LocalizedModule.mkLinearMap S M m from rfl,
           IsLocalizedModule.map_apply]
         rfl
       rw [he1]
-      show (iso1.dualMap.symm (iso2 (LocalizedModule.mk (Module.Dual.eval R M m) 1))) φ = _
+      change (iso1.dualMap.symm (iso2 (LocalizedModule.mk (Module.Dual.eval R M m) 1))) φ = _
       rw [LinearEquiv.dualMap_symm]
-      show (iso2 (LocalizedModule.mk (Module.Dual.eval R M m) 1)) (iso1.symm φ) = _
+      change (iso2 (LocalizedModule.mk (Module.Dual.eval R M m) 1)) (iso1.symm φ) = _
       have hiso2 : iso2 (LocalizedModule.mk (Module.Dual.eval R M m) 1) =
           (IsLocalizedModule.mapExtendScalars S
             (@LocalizedModule.mkLinearMap R _ S (Module.Dual R M)
@@ -156,7 +156,7 @@ theorem reflexive_localized_iff_map_bijective
             (@LocalizedModule.mkLinearMap R _ S (Module.Dual R M)
               LinearMap.addCommGroup.toAddCommMonoid LinearMap.module)
             (Algebra.linearMap R Rₚ) Rₚ) (Module.Dual.eval R M m)
-        show (LinearEquiv.extendScalarsOfIsLocalization S Rₚ _) _ = _
+        change (LinearEquiv.extendScalarsOfIsLocalization S Rₚ _) _ = _
         rw [LinearEquiv.extendScalarsOfIsLocalization_apply,
           show (LocalizedModule.mk (Module.Dual.eval R M m) 1) = _ from h.symm,
           LinearEquiv.apply_symm_apply]

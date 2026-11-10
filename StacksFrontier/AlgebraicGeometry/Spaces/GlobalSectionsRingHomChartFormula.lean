@@ -63,10 +63,10 @@ theorem sheafCompose_forget_map_smallEtaleRingedToposModulesHom_fSharp (f : X �
       (smallEtaleRingedTopos B S hS X).forgetRing.map
         (smallEtaleRingedToposHom B S hS f).fSharpInverseImage :=
     Sheaf.hom_ext_sections fun _ _ ↦ rfl
-  show _ = (sheafCompose (SmallEtale.topology B S hS Y.1) (forget RingCat.{u})).map
+  change _ = (sheafCompose (SmallEtale.topology B S hS Y.1) (forget RingCat.{u})).map
     (structureSharp B S hS f)
   rw [h3]
-  show (sheafCompose (SmallEtale.topology B S hS Y.1) (forget RingCat.{u})).map
+  change (sheafCompose (SmallEtale.topology B S hS Y.1) (forget RingCat.{u})).map
     (smallEtaleRingedToposHom B S hS f).ringFsharp = _
   exact (smallEtaleRingedToposHom B S hS f).ringSheafMap_ringFsharp.trans
     ((congrArg (fun m ↦ ((smallEtaleRingedToposHom B S hS f).toToposHom.adj.homEquiv _ _) m)

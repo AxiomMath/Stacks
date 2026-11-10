@@ -177,12 +177,12 @@ theorem isEffectiveCartierDivisor_hasPropertySk
     (k : ℕ) (hk : 1 ≤ k) (hX : HasPropertySk X k) :
     @HasPropertySk I.subscheme
       (LocallyOfFiniteType.isLocallyNoetherian I.subschemeι) (k - 1) := by
-  show ∀ y : I.subscheme, hasPropertySkAt I.subscheme y (k - 1)
+  change ∀ y : I.subscheme, hasPropertySkAt I.subscheme y (k - 1)
   intro y
   let x : X := I.subschemeι y
   have hxSupport : x ∈ I.supportSet := by
     rw [I.mem_supportSet_iff_mem_support]
-    show x ∈ (I.support : Set X)
+    change x ∈ (I.support : Set X)
     rw [← I.range_subschemeι]
     exact ⟨y, rfl⟩
   obtain ⟨U, hU, hxU, f, hf, e, he⟩ :=
@@ -201,14 +201,14 @@ theorem isEffectiveCartierDivisor_hasPropertySk
       (pullback.condition (f := I.subschemeι) (g := U.ι))
     simpa [Scheme.Hom.comp_base, TopCat.coe_comp] using hh
   have hu : (u : X) = x := by
-    show (U.ι.base.hom) ((pullback.snd I.subschemeι U.ι).base.hom z) =
+    change (U.ι.base.hom) ((pullback.snd I.subschemeι U.ι).base.hom z) =
       (I.subschemeι.base.hom) y
     rw [← hz]
     exact hpull.symm
   let qpt : PrimeSpectrum (A ⧸ Ideal.span {f}) := e.hom z
   have hspec : hU.primeIdealOf u = qpt.comap mk := by
     have hh := congrArg (fun g ↦ g.base.hom z) he
-    show (hU.isoSpec.hom.base.hom) ((pullback.snd I.subschemeι U.ι).base.hom z) =
+    change (hU.isoSpec.hom.base.hom) ((pullback.snd I.subschemeι U.ι).base.hom z) =
       (Spec.map (CommRingCat.ofHom mk)).base.hom ((e.hom).base.hom z)
     simpa [Scheme.Hom.comp_base, TopCat.coe_comp] using hh
   let p : Ideal A := qpt.asIdeal.comap mk
@@ -218,7 +218,7 @@ theorem isEffectiveCartierDivisor_hasPropertySk
   let _ : Algebra A (X.presheaf.stalk (u : X)) :=
     X.presheaf.algebra_section_stalk ⟨(u : X), u.2⟩
   let _ : IsLocalization.AtPrime (X.presheaf.stalk (u : X)) p := by
-    show IsLocalization.AtPrime (X.presheaf.stalk (u : X)) (qpt.comap mk).asIdeal
+    change IsLocalization.AtPrime (X.presheaf.stalk (u : X)) (qpt.comap mk).asIdeal
     simpa only [← hspec] using hU.isLocalization_stalk u
   let R := Localization.AtPrime p
   let eX := IsLocalization.algEquiv p.primeCompl R (X.presheaf.stalk (u : X))
@@ -229,7 +229,7 @@ theorem isEffectiveCartierDivisor_hasPropertySk
   let fR : R := algebraMap A R f
   have hfmax : fR ∈ IsLocalRing.maximalIdeal R :=
     (IsLocalization.AtPrime.to_map_mem_maximal_iff R p f).2 (by
-      show mk f ∈ qpt.asIdeal
+      change mk f ∈ qpt.asIdeal
       simp [mk])
   have hfreg : fR ∈ nonZeroDivisors R :=
     IsLocalization.map_nonZeroDivisors_le p.primeCompl R

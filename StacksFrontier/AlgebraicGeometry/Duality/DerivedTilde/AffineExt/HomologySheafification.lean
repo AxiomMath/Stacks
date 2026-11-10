@@ -83,7 +83,7 @@ instance isLocallyInjective_toHomologySheaf :
     Presheaf.IsLocallyInjective J ((PresheafOfModules.toPresheaf R.obj).map (toHomologySheaf K n))
         := by
   rw [toPresheaf_map_toHomologySheaf]
-  haveI : Presheaf.IsLocallyInjective J ((PresheafOfModules.toPresheaf R.obj).map
+  have : Presheaf.IsLocallyInjective J ((PresheafOfModules.toPresheaf R.obj).map
       ((PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).unit.app (homologyPresheaf K n))) :=
     (inferInstance : Presheaf.IsLocallyInjective J
       (CategoryTheory.toSheafify J (homologyPresheaf K n).presheaf))
@@ -95,7 +95,7 @@ instance isLocallySurjective_toHomologySheaf :
     Presheaf.IsLocallySurjective J ((PresheafOfModules.toPresheaf R.obj).map (toHomologySheaf K
         n)) := by
   rw [toPresheaf_map_toHomologySheaf]
-  haveI : Presheaf.IsLocallySurjective J ((PresheafOfModules.toPresheaf R.obj).map
+  have : Presheaf.IsLocallySurjective J ((PresheafOfModules.toPresheaf R.obj).map
       ((PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).unit.app (homologyPresheaf K n))) :=
     (inferInstance : Presheaf.IsLocallySurjective J
       (CategoryTheory.toSheafify J (homologyPresheaf K n).presheaf))

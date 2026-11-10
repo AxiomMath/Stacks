@@ -114,8 +114,7 @@ private lemma cotangent_map_toComp_injective_of_localCompleteIntersection
         (Algebra.Extension.Cotangent.map (Q'.toComp P).toExtensionHom).liftBaseChange B := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul b x =>
       simp only [LinearMap.comp_apply, LinearMap.liftBaseChange_tmul, map_smul]
@@ -334,7 +333,7 @@ private lemma localized_presentation_differentials_equiv
   have hSplitPa : ∃ s : Pa.toExtension.CotangentSpace →ₗ[L] Pa.toExtension.Cotangent,
       s.comp Pa.toExtension.cotangentComplex = LinearMap.id := by
     let : Algebra.FormallySmooth R Pa.toExtension.Ring := by
-      show Algebra.FormallySmooth R (MvPolynomial (Fin 1 ⊕ Fin n) R)
+      change Algebra.FormallySmooth R (MvPolynomial (Fin 1 ⊕ Fin n) R)
       infer_instance
     exact (Algebra.Extension.formallySmooth_iff_split_injection Pa.toExtension).mp hFormal
   obtain ⟨sPa, hsPa⟩ := hSplitPa
@@ -358,8 +357,7 @@ private lemma localized_presentation_differentials_equiv
       Pa.toExtension.cotangentComplex ∘ₗ fCotL := by
     apply LinearMap.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp [fSpaceL, fCotL]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul l x =>
       simp only [fSpaceL, fCotL, LinearMap.comp_apply, LinearMap.baseChange_tmul,
@@ -383,9 +381,9 @@ private lemma localized_presentation_differentials_equiv
   let q := eDiff.toLinearMap ∘ₗ LinearMap.baseChange L P.toExtension.toKaehler
   have hExact₀ : Function.Exact dL
       (LinearMap.baseChange L P.toExtension.toKaehler) := by
-    show Function.Exact (LinearMap.baseChange L P.toExtension.cotangentComplex)
+    change Function.Exact (LinearMap.baseChange L P.toExtension.cotangentComplex)
       (LinearMap.baseChange L P.toExtension.toKaehler)
-    simpa only [LinearMap.baseChange_eq_ltensor] using
+    simpa only [LinearMap.baseChange_eq_lTensor] using
       Module.Flat.lTensor_exact L P.toExtension.exact_cotangentComplex_toKaehler
   have hExact : Function.Exact dL q := by
     intro x
@@ -397,7 +395,7 @@ private lemma localized_presentation_differentials_equiv
     · intro hx
       obtain ⟨y, hy⟩ := hx
       rw [← hy]
-      show eDiff ((LinearMap.baseChange L P.toExtension.toKaehler) (dL y)) = 0
+      change eDiff ((LinearMap.baseChange L P.toExtension.toKaehler) (dL y)) = 0
       simpa only [map_zero] using congrArg eDiff ((hExact₀ (dL y)).mpr ⟨y, rfl⟩)
   have hq : Function.Surjective q :=
     eDiff.surjective.comp (LinearMap.baseChange_surjective L P.toExtension.toKaehler_surjective)
@@ -470,13 +468,11 @@ private noncomputable def symmetricAlgebra_cotangent_baseChange_equiv_of_flat
           LinearMap.baseChange B i ∘ₗ cK := by
       apply LinearMap.ext
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
         simpa only [map_add] using congrArg₂ (· + ·) hx hy
       | tmul b z =>
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | add x y hx hy =>
           rw [TensorProduct.tmul_add, map_add, map_add, hx, hy]
         | tmul c k =>
@@ -521,7 +517,7 @@ private noncomputable def symmetricAlgebra_cotangent_baseChange_equiv_of_flat
             cK.symm.toLinearMap) h0
       _ = _ := hNat
   have hiB : Function.Injective (LinearMap.baseChange B i) := by
-    simpa only [LinearMap.baseChange_eq_ltensor] using
+    simpa only [LinearMap.baseChange_eq_lTensor] using
       (Module.Flat.lTensor_preserves_injective_linearMap (M := B) i hi)
   have hφinj : Function.Injective φ := by
     have hφker : φ.ker = ⊥ := by
@@ -691,13 +687,13 @@ theorem exists_finiteType_retraction_improving_presentation
     toRingHom := augA.toRingHom
     commutes' := by
       intro r
-      show augA (algebraMap R C r) = algebraMap R A r
+      change augA (algebraMap R C r) = algebraMap R A r
       rw [show algebraMap R C = (algebraMap A C).comp (algebraMap R A) from rfl]
       simp [augA] }
   let AtoC : A →ₐ[R] C := @IsScalarTower.toAlgHom R A C _ _ _ _ _ _ hTower
   have hsection : g.comp AtoC = AlgHom.id R A := by
     ext a
-    show augA (algebraMap A C a) = a
+    change augA (algebraMap A C a) = a
     exact augA.commutes a
   have hfiniteM₀ : Module.Finite A M₀ :=
     Algebra.Extension.Cotangent.finite P.fg_ker_of_finitePresentation
@@ -720,14 +716,14 @@ theorem exists_finiteType_retraction_improving_presentation
     apply SymmetricAlgebra.algHom_ext
     apply LinearMap.ext
     intro x
-    show eForward (eBackward (SymmetricAlgebra.ι A M₀ x)) = _
+    change eForward (eBackward (SymmetricAlgebra.ι A M₀ x)) = _
     rw [heBackward, heForward, qequiv.apply_symm_apply]
     simp
   have hBackwardForward : eBackward.comp eForward = AlgHom.id A _ := by
     apply SymmetricAlgebra.algHom_ext
     apply LinearMap.ext
     intro x
-    show eBackward (eForward (SymmetricAlgebra.ι A M x)) = _
+    change eBackward (eForward (SymmetricAlgebra.ι A M x)) = _
     rw [heForward, heBackward, qequiv.symm_apply_apply]
     rfl
   let e : C ≃ₐ[A] SymmetricAlgebra A M₀ :=
@@ -748,7 +744,7 @@ theorem exists_finiteType_retraction_improving_presentation
     exact (Algebra.Generators.cotangent_finite_projective_of_isLocalCompleteIntersection
       P hlci).2
   · intro c
-    show augA c = SymmetricAlgebra.algebraMapInv (e c)
+    change augA c = SymmetricAlgebra.algebraMapInv (e c)
     have he : augA = (SymmetricAlgebra.algebraMapInv (R := A) (M := M₀)).comp e := by
       apply SymmetricAlgebra.algHom_ext
       apply LinearMap.ext
@@ -795,8 +791,7 @@ theorem exists_finiteType_retraction_improving_presentation
         TensorProduct.AlgebraTensorModule.lTensor B B p
       have hpB : Function.Surjective pB := by
         intro x
-        induction x using TensorProduct.induction_on with
-        | zero => exact ⟨0, by simp [pB]⟩
+        induction x using TensorProduct.inductionOn with
         | add x y hx hy =>
             obtain ⟨u, rfl⟩ := hx
             obtain ⟨v, rfl⟩ := hy
@@ -871,14 +866,14 @@ theorem exists_finiteType_retraction_improving_presentation
           (IsScalarTower.toAlgHom R PlocFin.toExtension.Ring B).comp eRen.toAlgHom =
             IsScalarTower.toAlgHom R Ploc.toExtension.Ring B := by
         ext i
-        show algebraMap PlocFin.Ring B (eRen (X i)) = algebraMap Ploc.Ring B (X i)
+        change algebraMap PlocFin.Ring B (eRen (X i)) = algebraMap Ploc.Ring B (X i)
         rw [PlocFin.algebraMap_apply, Ploc.algebraMap_apply]
         simp [eRen, PlocFin, Algebra.Generators.reindex_val]
       have hRenSymm :
           (IsScalarTower.toAlgHom R Ploc.toExtension.Ring B).comp eRen.symm.toAlgHom =
             IsScalarTower.toAlgHom R PlocFin.toExtension.Ring B := by
         ext i
-        show algebraMap Ploc.Ring B (eRen.symm (X i)) = algebraMap PlocFin.Ring B (X i)
+        change algebraMap Ploc.Ring B (eRen.symm (X i)) = algebraMap PlocFin.Ring B (X i)
         rw [Ploc.algebraMap_apply, PlocFin.algebraMap_apply]
         simp [eRen, PlocFin, Algebra.Generators.reindex_val]
       let renHom : Ploc.toExtension.Hom PlocFin.toExtension :=
@@ -888,12 +883,12 @@ theorem exists_finiteType_retraction_improving_presentation
       have hRenId : renHomSymm.comp renHom = Algebra.Extension.Hom.id _ := by
         apply Algebra.Extension.Hom.ext
         ext i
-        show eRen.symm (eRen i) = i
+        change eRen.symm (eRen i) = i
         exact eRen.symm_apply_apply i
       have hRenIdSymm : renHom.comp renHomSymm = Algebra.Extension.Hom.id _ := by
         apply Algebra.Extension.Hom.ext
         ext i
-        show eRen (eRen.symm i) = i
+        change eRen (eRen.symm i) = i
         exact eRen.apply_symm_apply i
       have hCotLeft :
           (Algebra.Extension.Cotangent.map renHomSymm) ∘ₗ

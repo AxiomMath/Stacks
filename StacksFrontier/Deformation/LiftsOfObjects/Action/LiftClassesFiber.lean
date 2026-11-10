@@ -77,9 +77,9 @@ public theorem residueFieldMorphism_surjective
   obtain ⟨a, ha⟩ := residue_surjective
     (B.residueEquiv.symm (ULift.algEquiv (R := Λ) (A := k) y))
   refine ⟨a, ?_⟩
-  show ULift.up (B.residueEquiv (residue B a)) = y
+  change ULift.up (B.residueEquiv (residue B a)) = y
   apply ULift.ext
-  show B.residueEquiv (residue B a) = y.down
+  change B.residueEquiv (residue B a) = y.down
   rw [ha]
   exact B.residueEquiv.apply_symm_apply y.down
 
@@ -121,7 +121,7 @@ public theorem homLift_unique_to_specialFiber
   let := hb
   let : Subsingleton (x₀ ⟶ x₀) := specialFiber_hom_subsingleton p hp
   have hbase : 𝟙 (Opposite.op (p.obj x₀.1)) ≫ p.op.map a.op = p.op.map b.op := by
-    show (𝟙 (Opposite.op (p.obj x₀.1))) ≫ Opposite.op (p.map a) =
+    change (𝟙 (Opposite.op (p.obj x₀.1))) ≫ Opposite.op (p.map a) =
       Opposite.op (p.map b)
     have hab : p.map a = p.map b := by
       rw [CategoryTheory.IsHomLift.fac' p r a, CategoryTheory.IsHomLift.fac' p r b]

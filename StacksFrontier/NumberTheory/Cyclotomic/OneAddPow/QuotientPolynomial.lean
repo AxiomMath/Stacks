@@ -690,7 +690,7 @@ theorem shapeProp_Pcand : shapeProp f (Pcand f) := by
       (by simpa [hdeg] using hmonic.coeff_natDegree)⟩
   intro i hi0 hip
   rw [← Ideal.Quotient.eq_zero_iff_mem]
-  show q _ = 0
+  change q _ = 0
   simp only []
   by_cases h1 : i = 1
   · subst h1

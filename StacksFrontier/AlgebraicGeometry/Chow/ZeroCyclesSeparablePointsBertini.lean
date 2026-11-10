@@ -165,7 +165,7 @@ theorem integralComplementaryCycles (k : Type u) [Field k] : IntegralComplementa
     rw [Stacks.GenericFlatness.support_vanishingIdeal]
     rfl
   have hxI : x ∈ I.support := by
-    show x ∈ (I.support : Set X)
+    change x ∈ (I.support : Set X)
     rw [hIsupp]; rfl
   have hIstalk := AlgebraicGeometry.IdealSheafData.stalk_vanishingIdeal_singleton x hx
   -- Stacks 0FD5 for `x` and for the empty subscheme, and Step 3 (d)

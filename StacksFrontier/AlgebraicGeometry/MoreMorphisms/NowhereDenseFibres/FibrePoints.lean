@@ -106,7 +106,7 @@ theorem range_fiberMapComp {T X S : Scheme.{u}} (i : T ⟶ X) (f : X ⟶ S) (s :
     Set.range (fiberMapComp i f s).base = (f.fiberι s).base ⁻¹' Set.range i.base := by
   let e := pullbackRightPullbackFstIso f (S.fromSpecResidueField s) i
   have hsurj : Function.Surjective e.inv.base := fun x => ⟨e.hom.base x, by simp⟩
-  show Set.range ((pullback.snd i (pullback.fst f (S.fromSpecResidueField s))).base ∘
+  change Set.range ((pullback.snd i (pullback.fst f (S.fromSpecResidueField s))).base ∘
       e.inv.base) =
     (pullback.fst f (S.fromSpecResidueField s)).base ⁻¹' Set.range i.base
   rw [Set.range_comp, hsurj.range_eq, Set.image_univ, Scheme.Pullback.range_snd]
@@ -156,7 +156,7 @@ theorem genericPoints_preimage_of_isOpenImmersion {A B : Scheme.{u}} (j : A ⟶ 
   have hpre : j ⁻¹' closure ({j a} : Set B) ∈ irreducibleComponents A :=
     preimage_mem_irreducibleComponents ha j.isOpenEmbedding
       ⟨j a, subset_closure (Set.mem_singleton _), ⟨a, rfl⟩⟩
-  show closure ({a} : Set A) ∈ irreducibleComponents A
+  change closure ({a} : Set A) ∈ irreducibleComponents A
   rw [j.isOpenEmbedding.closure_eq_preimage_closure_image]
   simpa using hpre
 

@@ -214,7 +214,7 @@ private theorem isUnit_det_of_span_eq_top {κ V : Type*} [Field κ] [AddCommGrou
       Submodule.span_le]
     rintro _ ⟨j, rfl⟩
     exact ⟨v j, by rw [hv j, Pi.basisFun_apply]⟩
-  rw [← Matrix.isUnit_iff_isUnit_det, ← Matrix.linearIndependent_rows_iff_isUnit]
+  rw [← Matrix.isUnit_iff_isUnit_det, ← Matrix.linearIndependent_row_iff_isUnit]
   refine linearIndependent_of_top_le_span_of_card_eq_finrank ?_ (by simp)
   change ⊤ ≤ Submodule.span κ (Set.range fun j => f (w j))
   rw [show (Set.range fun j => f (w j)) = f '' Set.range w by rw [← Set.range_comp]; rfl,
@@ -742,7 +742,7 @@ theorem exists_right_inverse_of_jacobian_isUnit {K : Type*} [CommRing K] [IsDoma
         Finsupp.degree e ≤ q → MvPowerSeries.coeff e bi = MvPowerSeries.coeff e (B (q + 1) i) := by
       intro e he
       rw [MvPowerSeries.coeff_apply, hbidef]
-      show B (Finsupp.degree e + 1) i e = MvPowerSeries.coeff e (B (q + 1) i)
+      change B (Finsupp.degree e + 1) i e = MvPowerSeries.coeff e (B (q + 1) i)
       rw [MvPowerSeries.coeff_apply]
       have hst := hstab (Finsupp.degree e + 1) (q + 1) i (by omega) e (by omega)
       rw [MvPowerSeries.coeff_apply, MvPowerSeries.coeff_apply] at hst
@@ -1110,7 +1110,7 @@ theorem isUnit_det_jacobian_of_rsop_cohen {Λ : Type*} [CommRing Λ] [IsDomain �
         have hdvp1 : dvp ⟨MvPowerSeries.C p₀, hpmem⟩ = 1 := by
           refine mul_left_cancel₀ hp0ne ?_
           rw [← hdvp ⟨MvPowerSeries.C p₀, hpmem⟩]
-          show MvPowerSeries.constantCoeff (MvPowerSeries.C p₀ : B) = _
+          change MvPowerSeries.constantCoeff (MvPowerSeries.C p₀ : B) = _
           rw [MvPowerSeries.constantCoeff_C, mul_one]
         rw [hdvp1, MvPowerSeries.C.map_one, map_one, Pi.single_eq_same]
       · intro i
@@ -1137,7 +1137,7 @@ theorem isUnit_det_jacobian_of_rsop_cohen {Λ : Type*} [CommRing Λ] [IsDomain �
         have hdvp0 : dvp ⟨MvPowerSeries.X i, hXmem i⟩ = 0 := by
           refine mul_left_cancel₀ hp0ne ?_
           rw [← hdvp ⟨MvPowerSeries.X i, hXmem i⟩]
-          show MvPowerSeries.constantCoeff (MvPowerSeries.X i : B) = _
+          change MvPowerSeries.constantCoeff (MvPowerSeries.X i : B) = _
           rw [MvPowerSeries.constantCoeff_X, mul_zero]
         rw [hdvp0, MvPowerSeries.C.map_zero, map_zero]
         rw [Pi.single_eq_of_ne (Fin.succ_ne_zero i).symm]
@@ -1160,7 +1160,7 @@ theorem isUnit_det_jacobian_of_rsop_cohen {Λ : Type*} [CommRing Λ] [IsDomain �
   -- Row 0 of T.
   have hTrow0 : T 0 = Pi.single 0 1 := by
     rw [hTrow]
-    show Λκ (m.toCotangent ((Fin.cons p y : Fin (n + 1) → maximalIdeal B) 0)) = _
+    change Λκ (m.toCotangent ((Fin.cons p y : Fin (n + 1) → maximalIdeal B) 0)) = _
     rw [Fin.cons_zero]
     have hpeq : m.toCotangent p = m.toCotangent ⟨MvPowerSeries.C p₀, hpmem⟩ := by
       congr 1; exact Subtype.ext hpC
@@ -1173,7 +1173,7 @@ theorem isUnit_det_jacobian_of_rsop_cohen {Λ : Type*} [CommRing Λ] [IsDomain �
       T i.succ k = (Fin.cons (0 : κ) (fun j => Mbar i j) : Fin (n + 1) → κ) k := by
     intro i k
     rw [hTrow]
-    show Λκ (m.toCotangent ((Fin.cons p y : Fin (n + 1) → maximalIdeal B) i.succ)) k = _
+    change Λκ (m.toCotangent ((Fin.cons p y : Fin (n + 1) → maximalIdeal B) i.succ)) k = _
     rw [Fin.cons_succ, Λκ_toCotangent]
     refine Fin.cases ?_ ?_ k
     · rw [Λ₀_apply0, Fin.cons_zero]

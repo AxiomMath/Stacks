@@ -270,7 +270,7 @@ private theorem squareZero_kernelFactor_fac
   apply (TopCat.Sheaf.forget AddCommGrpCat X).map_injective
   ext U x
   let U' : (Opens X)ᵒᵖ := Opposite.op U
-  show E.ι U' (squareZero_kernelFactorElement E q hq U' x) = q.hom.app U' x
+  change E.ι U' (squareZero_kernelFactorElement E q hq U' x) = q.hom.app U' x
   exact squareZero_kernelFactorElement_spec E q hq U' x
 
 private theorem squareZero_kernelFactor_unique
@@ -314,7 +314,7 @@ private theorem squareZero_quotientSheafMap_epi
   have htype : TopCat.Presheaf.IsLocallySurjective
       (Functor.whiskerRight (squareZero_quotientSheafMap E).hom
         (forget AddCommGrpCat.{u})) := by
-    show TopCat.Presheaf.IsLocallySurjective
+    change TopCat.Presheaf.IsLocallySurjective
       (Functor.whiskerRight E.π.hom (forget CommRingCat.{u}))
     exact (CategoryTheory.Presheaf.isLocallySurjective_iff_whisker_forget
       (Opens.grothendieckTopology (X : TopCat)) E.π.hom).mp E.locallySurjective_π
@@ -443,7 +443,7 @@ theorem squareZero_stalk_kernel_eq_range
     exact TopCat.Presheaf.germ_res_apply E.A.presheaf iVU x hxV b
   · rintro ⟨U, hxU, z, hza⟩
     rw [← hza, TopCat.Presheaf.stalkFunctor_map_germ_apply]
-    show TopCat.Presheaf.germ X.sheaf.obj U x hxU
+    change TopCat.Presheaf.germ X.sheaf.obj U x hxU
       ((E.π.hom.app (Opposite.op U)).hom (E.ι (Opposite.op U) z)) = 0
     rw [E.mem_kernel]
     simp
@@ -577,11 +577,11 @@ private theorem canonicalInclusionSheafedSpace_stalkMap
     {X S : Scheme.{u}} {f : X ⟶ S} (E : SquareZeroExtension f) (x : X) :
     (canonicalInclusionSheafedSpace E).hom.stalkMap x =
       (TopCat.Presheaf.stalkFunctor CommRingCat x).map E.π.hom := by
-  show (TopCat.Presheaf.stalkFunctor CommRingCat x).map E.π.hom ≫
+  change (TopCat.Presheaf.stalkFunctor CommRingCat x).map E.π.hom ≫
       TopCat.Presheaf.stalkPushforward CommRingCat (𝟙 (X : TopCat)) X.presheaf x =
     (TopCat.Presheaf.stalkFunctor CommRingCat x).map E.π.hom
   rw [TopCat.Presheaf.stalkPushforward.id]
-  show (TopCat.Presheaf.stalkFunctor CommRingCat x).map E.π.hom ≫
+  change (TopCat.Presheaf.stalkFunctor CommRingCat x).map E.π.hom ≫
       (TopCat.Presheaf.stalkFunctor CommRingCat x).map
       (TopCat.Presheaf.Pushforward.id X.presheaf).hom =
     (TopCat.Presheaf.stalkFunctor CommRingCat x).map E.π.hom
@@ -620,7 +620,7 @@ theorem canonicalInclusionLocallyRingedSpace_stalkMap
     {X S : Scheme.{u}} {f : X ⟶ S} (E : SquareZeroExtension f) (x : X) :
     (canonicalInclusionLocallyRingedSpace E).stalkMap x =
       (TopCat.Presheaf.stalkFunctor CommRingCat x).map E.π.hom := by
-  show (canonicalInclusionSheafedSpace E).hom.stalkMap x = _
+  change (canonicalInclusionSheafedSpace E).hom.stalkMap x = _
   exact canonicalInclusionSheafedSpace_stalkMap E x
 
 end Stacks.Thickenings

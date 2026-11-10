@@ -149,7 +149,7 @@ private lemma range_morphismRestrict_comp_ι_eq_diff {W T : Scheme.{u}} {Y : W.O
     obtain ⟨s, hs⟩ := hmZ
     have hs' : i.base s = N.ι.base m := hYinj (by simpa using hs)
     have hsN : s ∈ i ⁻¹ᵁ N := by
-      show i.base s ∈ N
+      change i.base s ∈ N
       rw [hs']
       exact m.2
     refine ⟨⟨s, hsN⟩, ?_⟩

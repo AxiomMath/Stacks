@@ -217,7 +217,7 @@ theorem gluingPullbackIso_hom_snd_structureMap (f : X ⟶ S)
   change ((Over.mk f).prodLeftIsoPullback ((Over.map f).obj (D.obj ()))).hom ≫
     pullback.snd f ((D.obj ()).hom ≫ f) = Over.Hom.left prod.snd at hp
   rw [reassoc_of% hp]
-  show (((Over.map f).obj (D.obj ())).prodLeftIsoPullback (Over.mk f)).inv ≫
+  change (((Over.map f).obj (D.obj ())).prodLeftIsoPullback (Over.mk f)).inv ≫
     Over.Hom.left (Over.Hom.left (D.gluing () ()).hom) ≫
       Over.Hom.left prod.snd ≫ Over.Hom.left (structureMap f (D.obj ())) = _
   rw [he]
@@ -373,17 +373,17 @@ theorem etaleDescentFunctor_fullyFaithful_of_submersive_baseChange (f : X ⟶ S)
       let l := k ≫ ((P.functor.obj D).gluingPullbackIso () ()).hom ≫ pullback.snd f (d ≫ f)
       have hl : l ≫ e.hom.left = y := by
         apply pullback.hom_ext
-        · show k ≫ ((P.functor.obj D).gluingPullbackIso () ()).hom ≫
+        · change k ≫ ((P.functor.obj D).gluingPullbackIso () ()).hom ≫
               pullback.snd f (d ≫ f) ≫ e.hom.left ≫ pullback.fst g₁ f =
             y ≫ pullback.fst g₁ f
           rw [hDcoord]
-          show k ≫ pullback.fst (d ≫ f) f ≫ e.hom.left ≫ pullback.fst g₁ f = _
+          change k ≫ pullback.fst (d ≫ f) f ≫ e.hom.left ≫ pullback.fst g₁ f = _
           have hk : k ≫ pullback.fst (d ≫ f) f = x ≫ e.inv.left := pullback.lift_fst _ _ _
           rw [reassoc_of% hk]
           rw [← Category.assoc e.inv.left, ← Over.comp_left, Iso.inv_hom_id, Over.id_left,
             Category.id_comp]
           exact hxy
-        · show k ≫ ((P.functor.obj D).gluingPullbackIso () ()).hom ≫
+        · change k ≫ ((P.functor.obj D).gluingPullbackIso () ()).hom ≫
               pullback.snd f (d ≫ f) ≫ e.hom.left ≫ pullback.snd g₁ f =
             y ≫ pullback.snd g₁ f
           rw [heh, DescentData.gluingPullbackIso_hom_snd_structureMap]
@@ -407,18 +407,18 @@ theorem etaleDescentFunctor_fullyFaithful_of_submersive_baseChange (f : X ⟶ S)
     have hv : v ≫ gamma = z ≫ qB := pullback.condition
     have hb : b ≫ r = z := by
       apply pullback.hom_ext
-      · show b ≫ r ≫ qB = z ≫ qB
+      · change b ≫ r ≫ qB = z ≫ qB
         rw [hrFst]
         apply pullback.hom_ext
         · have hv' : v ≫ pullback.fst g₁ f = z ≫ qB ≫ pB := by
             simpa only [Category.assoc, hgammaFst] using congrArg (fun k => k ≫ pB) hv
-          show b ≫ gamma ≫ pB = z ≫ qB ≫ pB
+          change b ≫ gamma ≫ pB = z ≫ qB ≫ pB
           rw [hgammaFst]
           exact hvb.symm.trans hv'
         · have he := congrArg (fun k => k ≫ pullback.snd g₁ g₂) hv
           simp only [gamma, Category.assoc, pullback.lift_snd] at he ⊢
           exact (hinv v b hvb).symm.trans he
-      · show b ≫ r ≫ pullback.snd gB f = z ≫ pullback.snd gB f
+      · change b ≫ r ≫ pullback.snd gB f = z ≫ pullback.snd gB f
         rw [hrSnd]
         dsimp [b]
         rw [Category.assoc, hpVSnd]
@@ -470,7 +470,7 @@ theorem etaleDescentFunctor_fullyFaithful_of_submersive_baseChange (f : X ⟶ S)
     have ha : a ≫ g₂ = g₁ := by
       dsimp [a]
       rw [Category.assoc, Category.assoc, ← pullback.condition, ← Category.assoc O.ι]
-      show inv p ≫ p ≫ g₁ = g₁
+      change inv p ≫ p ≫ g₁ = g₁
       simp
     have hs' : pullback.fst g₁ f ≫ inv p = s := by
       rw [← cancel_mono p]
@@ -498,7 +498,7 @@ theorem etaleDescentFunctor_fullyFaithful_of_submersive_baseChange (f : X ⟶ S)
     have hm' : (P.functor.map (T.map aS)).hom () = α.hom () := by
       rw [← cancel_mono (P.objIso E).hom, ← hm]
       simp [aOver]
-    show (P.functor.map (T.map (G.map aEt))).hom () = α.hom ()
+    change (P.functor.map (T.map (G.map aEt))).hom () = α.hom ()
     simpa [aEt] using hm'⟩
   exact ⟨Functor.FullyFaithful.ofFullyFaithful F⟩
 

@@ -24,8 +24,8 @@ by, and can be built from, its values on any cofinal sieve of charts
 (`AlgebraicGeometry.ChartModuleSystem.existsUnique_sectionsSubgroup`).
 
 This route was preferred over gluing the tilde sheaves of the chart modules along their overlaps
-(`StacksFrontier/AlgebraicGeometry/SchemeModuleGlue`): the overlaps of two charts are not charts, and
-the comparison isomorphisms there would themselves have to be glued from the charts inside the
+(`StacksFrontier/AlgebraicGeometry/SchemeModuleGlue`): the overlaps of two charts are not charts,
+and the comparison isomorphisms there would themselves have to be glued from the charts inside the
 overlaps, with a cocycle condition to check.
 
 Morphisms out of `S.sheaf` are built with Stacks 009U
@@ -112,7 +112,7 @@ theorem smul_mem_sectionsSubgroup (W : Y.Opens) (r : Γ(Y, W)) (s : S.sectionsSu
     (fun c : {c : I.ι // (I.V c).1 ≤ W} => (Y.presheaf.map (homOfLE c.2).op).hom r • s.1 c) ∈
       S.sectionsSubgroup W := by
   intro c' c h hc hc'
-  show S.ρ h ((Y.presheaf.map (homOfLE hc).op).hom r • s.1 ⟨c, hc⟩) = _
+  change S.ρ h ((Y.presheaf.map (homOfLE hc).op).hom r • s.1 ⟨c, hc⟩) = _
   rw [map_smulₛₗ, res_map, sectionsSubgroup_compat]
 
 /-- **The compatible families over `W` form a `Γ(Y, W)`-module**, a function acting on the
@@ -168,7 +168,7 @@ theorem presheafAb_map_smul ⦃W W' : Y.Opensᵒᵖ⦄ (f : W ⟶ W') (r : Y.rin
     (s : S.presheafAb.obj W) :
     S.presheafAb.map f (r • s) = Y.ringCatSheaf.obj.map f r • S.presheafAb.map f s := by
   refine Subtype.ext (funext fun c => ?_)
-  show (Y.presheaf.map (homOfLE (c.2.trans f.unop.le)).op).hom r • s.1 ⟨c.1, _⟩ =
+  change (Y.presheaf.map (homOfLE (c.2.trans f.unop.le)).op).hom r • s.1 ⟨c.1, _⟩ =
     (Y.presheaf.map (homOfLE c.2).op).hom ((Y.presheaf.map f).hom r) • s.1 ⟨c.1, _⟩
   exact (congrArg (· • s.1 ⟨c.1, c.2.trans f.unop.le⟩)
     (presheaf_map_map_apply f (homOfLE c.2).op r)).symm
@@ -390,7 +390,7 @@ theorem isCompatibleOnBasis_homOfFamilyApp :
   choose k₃ hy₃ h₁ h₂ hφ₁ hφ₂ using hloc
   refine Stacks.BasisRestriction.moduleSheafSection_ext_of_cover H (fun y => (I.V (κ (k₃ y))).1)
     (fun y => I.le_of_refines (h₂ y)) (fun y hy => ⟨⟨y, hy⟩, hy₃ ⟨y, hy⟩⟩) _ _ fun y => ?_
-  show H.presheaf.map (homOfLE (I.le_of_refines (h₂ y))).op
+  change H.presheaf.map (homOfLE (I.le_of_refines (h₂ y))).op
       (φ b (S.sectionsEquiv (κ b) (S.sheaf.presheaf.map (homOfLE hba).op s))) =
     H.presheaf.map (homOfLE (I.le_of_refines (h₂ y))).op
       (H.presheaf.map (homOfLE hba).op (φ a (S.sectionsEquiv (κ a) s)))

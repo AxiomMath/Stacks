@@ -118,7 +118,7 @@ private theorem extendedIdeal_le_comap_ofTarget (f : B →+* A)
   rw [TopologicalRing.extendedIdeal, Ideal.map_le_iff_le_comap]
   intro b hb
   refine hK ?_
-  show TopologicalRing.CompletionOver.projection f J
+  change TopologicalRing.CompletionOver.projection f J
     (TopologicalRing.CompletionOver.ofTarget f (f b)) = 0
   rw [TopologicalRing.CompletionOver.projection_ofTarget]
   exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem f hb)
@@ -144,11 +144,11 @@ private theorem quotientStageMap_surjective (f : B →+* A)
     (TopologicalRing.CompletionOver.projection f J c)
   have hdiff : c - TopologicalRing.CompletionOver.ofTarget f a ∈
       RingHom.ker (TopologicalRing.CompletionOver.projection f J) := by
-    show TopologicalRing.CompletionOver.projection f J
+    change TopologicalRing.CompletionOver.projection f J
       (c - TopologicalRing.CompletionOver.ofTarget f a) = 0
     rw [map_sub, TopologicalRing.CompletionOver.projection_ofTarget, ← ha, sub_self]
   refine ⟨Ideal.Quotient.mk _ a, ?_⟩
-  show Ideal.Quotient.mk K (TopologicalRing.CompletionOver.ofTarget f a) =
+  change Ideal.Quotient.mk K (TopologicalRing.CompletionOver.ofTarget f a) =
     Ideal.Quotient.mk K c
   refine Ideal.Quotient.eq.mpr ?_
   simpa [sub_eq_add_neg] using K.neg_mem (hK hdiff)
@@ -624,11 +624,11 @@ private theorem isPushout_quotientMap {S T : Type u} [CommRing S] [CommRing T] (
       ∀ a ∈ K, (s.inr.hom.comp (Ideal.Quotient.mk L)) a = 0 := by
     have hJ : J.map φ ≤ RingHom.ker (s.inr.hom.comp (Ideal.Quotient.mk L)) := by
       refine Ideal.map_le_iff_le_comap.mpr fun j hj ↦ ?_
-      show s.inr.hom (Ideal.Quotient.mk L (φ j)) = 0
+      change s.inr.hom (Ideal.Quotient.mk L (φ j)) = 0
       rw [← key _ s.inl s.inr s.condition j,
         Ideal.Quotient.eq_zero_iff_mem.mpr hj, map_zero]
     have hLker : L ≤ RingHom.ker (s.inr.hom.comp (Ideal.Quotient.mk L)) := fun z hz ↦ by
-      show s.inr.hom (Ideal.Quotient.mk L z) = 0
+      change s.inr.hom (Ideal.Quotient.mk L z) = 0
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr hz, map_zero]
     exact fun a ha ↦ hK.trans (sup_le hJ hLker) ha
   refine IsPushout.of_isColimit (Limits.PushoutCocone.IsColimit.mk hcomm
@@ -663,7 +663,7 @@ theorem le_comap_ker_projection {B A : Type u} [CommRing B] [TopologicalSpace B]
     J.1 ≤ Ideal.comap (TopologicalRing.CompletionOver.canonicalMap f)
       (RingHom.ker (TopologicalRing.CompletionOver.projection f J)) := by
   intro b hb
-  show TopologicalRing.CompletionOver.projection f J
+  change TopologicalRing.CompletionOver.projection f J
     (TopologicalRing.CompletionOver.canonicalMap f b) = 0
   rw [TopologicalRing.CompletionOver.projection_canonicalMap]
   exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem f hb)
@@ -792,7 +792,7 @@ private theorem mono_formalSpectrumDiagram_map (D : QuotientSystem 𝔅 S hS A)
     Mono ((formalSpectrumDiagram D).map v) := by
   have hclosed : IsClosedImmersion ((BigFppfOver.toScheme 𝔅 S hS).map
       ((BigAffineFppf.inclusion 𝔅 S hS).map (D.diagram.map v))) := by
-    show IsClosedImmersion (Spec.map (CommRingCat.ofHom
+    change IsClosedImmersion (Spec.map (CommRingCat.ofHom
       (Ideal.Quotient.factor (show (K.1 : Ideal A) ≤ J.1 from leOfHom v))))
     exact IsClosedImmersion.spec_of_surjective _
       (Ideal.Quotient.factor_surjective (show (K.1 : Ideal A) ≤ J.1 from leOfHom v))
@@ -947,7 +947,7 @@ private theorem exists_factor_stage_pullback
   have hL'K : L'.1 ≤ (kerProjectionIdeal f J).1 := inf_le_right
   have hMopen : IsOpen ((Ideal.comap
       (TopologicalRing.CompletionOver.canonicalMap f) L'.1 : Ideal B) : Set B) := by
-    show IsOpen (TopologicalRing.CompletionOver.canonicalMap f ⁻¹'
+    change IsOpen (TopologicalRing.CompletionOver.canonicalMap f ⁻¹'
       (L'.1 : Set (TopologicalRing.CompletionOver f)))
     exact L'.2.1.preimage (TopologicalRing.continuous_canonicalMap f)
   let M : TopologicalRing.WeakIdealOfDefinitionIndex B :=

@@ -466,7 +466,7 @@ private theorem isClosedImmersion_map_of_isPullback_of_compactSpace
     have hmonoj : Mono (j ≫ (BigFppfOver.toScheme B S hS).map n) := mono_comp j _
     have hclosedComp : IsClosed ({(j ≫ (BigFppfOver.toScheme B S hS).map n) z'} :
         Set ((BigFppfOver.toScheme B S hS).obj U)) := by
-      show IsClosed {(BigFppfOver.toScheme B S hS).map n (j z')}
+      change IsClosed {(BigFppfOver.toScheme B S hS).map n (j z')}
       rw [hz]
       exact hpointClosed z
     have hcomp : _root_.AlgebraicGeometry.IsClosedImmersion
@@ -533,7 +533,7 @@ theorem exists_fieldValuedPoint_isClosedImmersion
       Over.homMk (ObjectProperty.homMk
         (V : ((BigFppfOver.toScheme B S hS).obj U).Opens).ι) rfl
     have hvEt : Etale ((BigFppfOver.toScheme B S hS).map v) := by
-      show Etale (V : ((BigFppfOver.toScheme B S hS).obj U).Opens).ι
+      change Etale (V : ((BigFppfOver.toScheme B S hS).obj U).Opens).ι
       infer_instance
     have haV : (MorphismProperty.inverseImage
         (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u})

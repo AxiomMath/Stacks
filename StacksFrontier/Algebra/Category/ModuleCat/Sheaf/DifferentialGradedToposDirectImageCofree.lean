@@ -322,7 +322,7 @@ theorem toposCofreeDesc_f (Q : DifferentialGradedModule.{w, w, w} B) (n : ℤ) :
     (toposCofreeDesc G ψ hψ Q).toHomologicalComplex.f n =
       biprod.lift (G.map (cofreeFstHom (gradedShiftDown Q) n))
         (G.map (cofreeSndHom (gradedShiftDown Q) n)) := by
-  show biprod.lift (G.map (cofreeFstHom (gradedShiftDown Q) n))
+  change biprod.lift (G.map (cofreeFstHom (gradedShiftDown Q) n))
     (G.map ((Cofree.cofree (gradedShiftDown Q)).complex.d n (n + 1)) ≫
       G.map (cofreeFstHom (gradedShiftDown Q) (n + 1))) = _
   rw [← G.map_comp, cofree_d_comp_fstHom]
@@ -369,7 +369,7 @@ theorem toposCofreeDesc_comp_counit (Q : DifferentialGradedModule.{w, w, w} B) :
     toposCofreeDesc G ψ hψ Q ≫ cofreeCounit ((toposPushforward G ψ hψ).obj Q) =
       (toposPushforward G ψ hψ).map (cofreeCounit Q) := by
   refine Hom.ext fun n => ?_
-  show (toposCofreeDesc G ψ hψ Q).toHomologicalComplex.f n ≫
+  change (toposCofreeDesc G ψ hψ Q).toHomologicalComplex.f n ≫
       (cofreeCounit ((toposPushforward G ψ hψ).obj Q)).toHomologicalComplex.f n =
     G.map ((cofreeCounit Q).toHomologicalComplex.f n)
   rw [toposCofreeDesc_f, cofreeCounit_f]
@@ -447,7 +447,7 @@ theorem toposCofreeDescGraded_f (Q : DifferentialGradedModule.{w, w, w} B) (n : 
     (toposCofreeDescGraded G ψ hψ Q).toHomologicalComplex.f n =
       biprod.lift (G.map (cofreeFstHom (GradedModule.ofDifferentialGraded Q) n))
         (G.map (cofreeSndHom (GradedModule.ofDifferentialGraded Q) n)) := by
-  show biprod.lift (G.map (cofreeFstHom (GradedModule.ofDifferentialGraded Q) n))
+  change biprod.lift (G.map (cofreeFstHom (GradedModule.ofDifferentialGraded Q) n))
     (G.map ((Cofree.cofree (GradedModule.ofDifferentialGraded Q)).complex.d n (n + 1)) ≫
       G.map (cofreeFstHom (GradedModule.ofDifferentialGraded Q) (n + 1))) = _
   rw [← G.map_comp, cofree_d_comp_fstHom]
@@ -513,7 +513,7 @@ theorem toposGradedPushMap_id (X : DifferentialGradedModule.{w, w, w} B) :
     toposGradedPushMap G ψ hψ (𝟙 (GradedModule.ofDifferentialGraded X)) =
       𝟙 (GradedModule.ofDifferentialGraded ((toposPushforward G ψ hψ).obj X)) :=
   GradedModule.Hom.ext fun n => by
-    show G.map (𝟙 (X.complex.X n)) = 𝟙 _
+    change G.map (𝟙 (X.complex.X n)) = 𝟙 _
     rw [G.map_id]
 
 /-- The direct image of a composite is the composite of the direct images. -/
@@ -525,7 +525,7 @@ theorem toposGradedPushMap_comp {X Y Z : DifferentialGradedModule.{w, w, w} B}
     toposGradedPushMap G ψ hψ (Φ.comp Φ') =
       (toposGradedPushMap G ψ hψ Φ).comp (toposGradedPushMap G ψ hψ Φ') :=
   GradedModule.Hom.ext fun n => by
-    show G.map (Φ.app n ≫ Φ'.app n) = G.map (Φ.app n) ≫ G.map (Φ'.app n)
+    change G.map (Φ.app n ≫ Φ'.app n) = G.map (Φ.app n) ≫ G.map (Φ'.app n)
     rw [G.map_comp]
 
 /-- The direct image of the underlying homomorphism of a morphism of right differential graded
@@ -555,7 +555,7 @@ theorem toposPushforward_cofreeUnitGraded (Q : DifferentialGradedModule.{w, w, w
       cofreeUnitGraded ((toposPushforward G ψ hψ).obj Q) := by
   refine lowerHom_injective _ (GradedModule.Hom.ext fun n => ?_)
   rw [lowerHom_app, comp_f, Category.assoc, toposCofreeDescGraded_comp_fst]
-  show G.map ((cofreeUnitGraded Q).toHomologicalComplex.f n) ≫
+  change G.map ((cofreeUnitGraded Q).toHomologicalComplex.f n) ≫
       G.map (cofreeFstHom (GradedModule.ofDifferentialGraded Q) n) =
     (Cofree.lowerHom _ (cofreeUnitGraded ((toposPushforward G ψ hψ).obj Q))).app n
   rw [← G.map_comp, cofreeUnitGraded_comp_fst, lowerHom_app, cofreeUnitGraded_comp_fst]
@@ -575,7 +575,7 @@ theorem lowerHom_map_liftDgHom {X : DifferentialGradedModule.{w, w, w} B}
       toposGradedPushMap G ψ hψ Φ := by
   refine GradedModule.Hom.ext fun n => ?_
   rw [lowerHom_app, comp_f, Category.assoc, toposCofreeDescGraded_comp_fst]
-  show G.map ((Cofree.liftDgHom (GradedModule.ofDifferentialGraded Q) Φ).toHomologicalComplex.f n)
+  change G.map ((Cofree.liftDgHom (GradedModule.ofDifferentialGraded Q) Φ).toHomologicalComplex.f n)
       ≫ G.map (cofreeFstHom (GradedModule.ofDifferentialGraded Q) n) = G.map (Φ.app n)
   rw [← G.map_comp]
   exact congrArg G.map (liftHom_comp_fstHom Φ n)

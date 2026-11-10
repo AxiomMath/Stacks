@@ -251,7 +251,7 @@ private theorem iteratedVariableAlgebra_existsUnique_lift {R : Type u} [CommRing
       (dg 0) (hdg 0) B g₀ (t 0) (ht 0)
     refine ⟨g, ⟨?_, ?_⟩, ?_⟩
     · intro a
-      show g.hom ((oneVariableExtension
+      change g.hom ((oneVariableExtension
         (iteratedVariableAlgebra A n (fun i => dg (i + 1)) fun i => hdg (i + 1))
         (dg 0) (hdg 0)).coefficient.hom
           ((iteratedVariableCoefficient A n (fun i => dg (i + 1))
@@ -260,7 +260,7 @@ private theorem iteratedVariableAlgebra_existsUnique_lift {R : Type u} [CommRing
     · intro i
       refine Fin.cases ?_ (fun i => ?_) i
       · exact hg.2
-      · show g.hom ((oneVariableExtension
+      · change g.hom ((oneVariableExtension
           (iteratedVariableAlgebra A n (fun i => dg (i + 1)) fun i => hdg (i + 1))
           (dg 0) (hdg 0)).coefficient.hom
             (iteratedVariableGenerator A n (fun i => dg (i + 1))
@@ -490,11 +490,11 @@ private theorem finiteVariableMap_comp {R : Type u} [CommRing R]
       finiteVariableMap A deg hdeg (h.trans k) := by
   apply finiteVariableAlgebra_hom_ext A deg hdeg S
   · intro a
-    show (finiteVariableMap A deg hdeg k).hom
+    change (finiteVariableMap A deg hdeg k).hom
       ((finiteVariableMap A deg hdeg h).hom ((finiteVariableCoefficient A deg hdeg S).hom a)) = _
     simp only [finiteVariableMap_coefficient]
   · intro i
-    show (finiteVariableMap A deg hdeg k).hom
+    change (finiteVariableMap A deg hdeg k).hom
       ((finiteVariableMap A deg hdeg h).hom (finiteVariableGenerator A deg hdeg S i)) = _
     simp only [finiteVariableMap_generator]
 
@@ -514,12 +514,12 @@ private theorem finiteVariableMap_injective {R : Type u} [CommRing R]
       GradedDPHom.id (finiteVariableAlgebra A deg hdeg S) := by
     apply finiteVariableAlgebra_hom_ext A deg hdeg S
     · intro a
-      show r.hom ((finiteVariableMap A deg hdeg h).hom
+      change r.hom ((finiteVariableMap A deg hdeg h).hom
         ((finiteVariableCoefficient A deg hdeg S).hom a)) = _
       rw [finiteVariableMap_coefficient, hr.1]
       rfl
     · intro i
-      show r.hom ((finiteVariableMap A deg hdeg h).hom
+      change r.hom ((finiteVariableMap A deg hdeg h).hom
         (finiteVariableGenerator A deg hdeg S i)) = _
       rw [finiteVariableMap_generator, hr.2]
       simp only [t, dite_eq_left i.property]

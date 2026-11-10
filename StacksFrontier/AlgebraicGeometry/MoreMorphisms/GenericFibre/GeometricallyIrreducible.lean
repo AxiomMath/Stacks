@@ -198,7 +198,7 @@ private lemma separable_scaleRoots_of_isUnit {K : Type u} [Field K]
   have hrootsep : IsSeparable K (AdjoinRoot.root P) := by
     have h1 := minpoly_smul_root_eq_scaleRoots hP hmonic isUnit_one
     rw [one_smul, Polynomial.scaleRoots_one] at h1
-    show (minpoly K (AdjoinRoot.root P)).Separable
+    change (minpoly K (AdjoinRoot.root P)).Separable
     rwa [h1]
   have hscaledsep : IsSeparable K (c • AdjoinRoot.root P) := by
     rw [Algebra.smul_def]
@@ -270,7 +270,7 @@ private lemma etale_awayMap_of_etale_awayTarget
       (Localization.Away (algebraMap R S r)) := by
     apply IsScalarTower.of_algebraMap_eq
     intro z
-    show algebraMap R _ z = φ (algebraMap R (Localization.Away r) z)
+    change algebraMap R _ z = φ (algebraMap R (Localization.Away r) z)
     simpa [φ, Localization.awayMap, IsLocalization.Away.map] using
       (IsScalarTower.algebraMap_apply R S (Localization.Away (algebraMap R S r)) z)
   exact Algebra.Etale.of_restrictScalars R _ _
@@ -414,7 +414,7 @@ private lemma spec_residueFieldMap_natural
     refine RingHom.ext fun z => ?_
     obtain ⟨z, rfl⟩ := Ideal.Quotient.mk_surjective z
     simp [IsLocalRing.ResidueField.map, hring]
-  show (Scheme.Spec.residueFieldIso (.of R) p).hom ≫
+  change (Scheme.Spec.residueFieldIso (.of R) p).hom ≫
       CommRingCat.ofHom (Ideal.ResidueField.map p.asIdeal q.asIdeal φ rfl) =
     (Spec.map (CommRingCat.ofHom φ)).residueFieldMap q ≫
       (Scheme.Spec.residueFieldIso (.of S) q).hom
@@ -521,7 +521,7 @@ private lemma geometricallyIrreducible_components_of_iso
     simp
   let eSub : I.subscheme ≅ J.subscheme := ⟨t, v, htv, hvt⟩
   have : IsIso t := eSub.isIso_hom
-  show GeometricallyIrreducible (I.subschemeι ≫ f)
+  change GeometricallyIrreducible (I.subschemeι ≫ f)
   have htfg : t ≫ (J.subschemeι ≫ g) = I.subschemeι ≫ f := by
     rw [← Category.assoc, ht, Category.assoc, hfg]
   rw [← htfg]
@@ -635,7 +635,7 @@ theorem exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFi
   have hPp : Pp.Monic := hPmonic.map eK.symm.toRingHom
   have hPpsep : Pp.Separable := hPsep.map
   have hPpirred : Irreducible Pp := by
-    show Irreducible ((Polynomial.mapEquiv eK.symm) P)
+    change Irreducible ((Polynomial.mapEquiv eK.symm) P)
     exact hPirred.map (Polynomial.mapEquiv eK.symm)
   obtain ⟨c, hc, Q, hQmonic, hQmap⟩ := exists_monic_lift_scaled p Pp hPp
   have hQgenericIrred : Irreducible (Q.map (algebraMap Γ(Y, V₀) p.ResidueField)) := by
@@ -667,9 +667,9 @@ theorem exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFi
       (Q.map (algebraMap Γ(Y, V₀) p.ResidueField)) (Pp.scaleRoots c) hQmap
     let eSc := adjoinRoot_scaleRootsEquiv Pp c hc.ne_zero
     let eMap := AdjoinRoot.mapRingEquiv eK Pp P (hPpmap ▸ Associated.refl P)
-    show e (eMap (eSc (eEq (eT (algebraMap p.ResidueField (p.Fiber B) z))))) = _
+    change e (eMap (eSc (eEq (eT (algebraMap p.ResidueField (p.Fiber B) z))))) = _
     rw [eT.commutes z, eEq.commutes z, eSc.commutes z]
-    show e (eMap ((AdjoinRoot.of Pp) z)) = _
+    change e (eMap ((AdjoinRoot.of Pp) z)) = _
     rw [AdjoinRoot.coe_mapRingEquiv, AdjoinRoot.map_of]
     exact e.commutes (eK z)
   have hBfree : Module.Free Γ(Y, V₀) B := hQmonic.free_adjoinRoot
@@ -729,7 +729,7 @@ theorem exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFi
   have hVne : V.1.Nonempty := by
     have hx : hAffine₀.primeIdealOf η₀ ∈ PrimeSpectrum.basicOpen r :=
       (PrimeSpectrum.mem_basicOpen _ _).mpr hr
-    show (Y.basicOpen r).1.Nonempty
+    change (Y.basicOpen r).1.Nonempty
     rw [← hAffine₀.fromSpec_image_basicOpen]
     exact ⟨_, ⟨_, hx, rfl⟩⟩
   let g₀ : Spec (.of B) ⟶ V₀.toScheme :=
@@ -817,7 +817,7 @@ theorem exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFi
       (SpecMapRestrictBasicOpenIso
         (CommRingCat.ofHom (algebraMap Γ(Y, V₀) B)) r)).mpr hSpecAway
   have hpreU : hAffine₀.isoSpec.inv ⁻¹ᵁ U = PrimeSpectrum.basicOpen r := by
-    show hAffine₀.isoSpec.inv ⁻¹ᵁ
+    change hAffine₀.isoSpec.inv ⁻¹ᵁ
       V₀.toScheme.basicOpen (V₀.topIso.inv r) = PrimeSpectrum.basicOpen r
     rw [Scheme.preimage_basicOpen_top]
     rw [← basicOpen_eq_of_affine]
@@ -893,7 +893,7 @@ theorem exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFi
       rw [hqGeneric]
       exact hg₀η₀
     have hβη : β η = η₀ := by
-      show g₀ ((g₀ ⁻¹ᵁ U).ι η) = η₀
+      change g₀ ((g₀ ⁻¹ᵁ U).ι η) = η₀
       rw [hηq]
       exact hgq
     have hFiberPB := isPullback_fiberToSpecResidueField_of_isPullback hξ η
@@ -913,14 +913,14 @@ theorem exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFi
     let qSpec : Spec (.of B) := ⟨q, inferInstance⟩
     have hqbase : hAffine₀.isoSpec.inv (s qSpec) = η₀ := hgq
     have hsq : s qSpec = hAffine₀.primeIdealOf η₀ := by
-      show s qSpec = hAffine₀.isoSpec.hom η₀
+      change s qSpec = hAffine₀.isoSpec.hom η₀
       simpa using congrArg hAffine₀.isoSpec.hom hqbase
     have hnat := spec_residueFieldMap_natural (algebraMap Γ(Y, V₀) B) qSpec
     have hcancel := residueFieldMap_iso_cancel hAffine₀.isoSpec η₀ (s qSpec) hqbase
     have hopen :
         (g₀ ⁻¹ᵁ U).ι.residueFieldMap η ≫ CommRingCat.ofHom eOpen.toRingHom =
         𝟙 ((Spec (.of B)).residueField ((g₀ ⁻¹ᵁ U).ι η)) := by
-      show (g₀ ⁻¹ᵁ U).ι.residueFieldMap η ≫
+      change (g₀ ⁻¹ᵁ U).ι.residueFieldMap η ≫
         (asIso ((g₀ ⁻¹ᵁ U).ι.residueFieldMap η)).inv = 𝟙 _
       exact (asIso ((g₀ ⁻¹ᵁ U).ι.residueFieldMap η)).hom_inv_id
     let j : Y' ⟶ Spec (.of B) := (g₀ ⁻¹ᵁ U).ι
@@ -981,7 +981,7 @@ theorem exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFi
           rw [show j.residueFieldMap η ≫ o = 𝟙 _ from hopen]
           cat_disch
         _ = _ := by
-          show CommRingCat.ofHom eK.toRingHom ≫
+          change CommRingCat.ofHom eK.toRingHom ≫
             (V₀.toScheme.residueFieldCongr hβη).inv ≫
             (s ≫ hAffine₀.isoSpec.inv).residueFieldMap (j η) ≫ eSpecHom = _
           rw [Scheme.residueFieldMap_comp]
@@ -1005,7 +1005,7 @@ theorem exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFi
                       (V₀.toScheme.residueFieldCongr hβη).inv ≫ t ≫
                       s.residueFieldMap qSpec ≫
                       (Scheme.Spec.residueFieldIso (.of B) qSpec).hom)
-                    hAffineNat using 1 <;> cat_disch
+                    hAffineNat using 1
                 _ = CommRingCat.ofHom eK.toRingHom ≫
                     (V₀.toScheme.residueFieldCongr hqbase).inv ≫
                     hAffine₀.isoSpec.inv.residueFieldMap (s qSpec) ≫
@@ -1063,7 +1063,7 @@ theorem exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFi
         change eSpec (eOpen (θ (eK w))) =
           (Ideal.ResidueField.map p q (algebraMap Γ(Y, V₀) B) (q.over_def p)) w at hh
         exact hh
-      show eFiber ((fiberEquivResidueField p q hBfiberField).symm
+      change eFiber ((fiberEquivResidueField p q hBfiberField).symm
         (eSpec (eOpen (θ (eK w))))) = _
       rw [hbase]
       congr 1
@@ -1082,14 +1082,14 @@ theorem exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFi
         (algebraMap (V₀.toScheme.residueField η₀) k') = θ.hom := by
       ext z
       apply eResidue.injective
-      show eResidue (eResidue.symm
+      change eResidue (eResidue.symm
         ((algebraMap (V₀.toScheme.residueField η₀) k') z)) = eResidue (θ z)
       rw [eResidue.apply_symm_apply]
       exact (RingHom.congr_fun hθ z).symm
     have hSpecθ : Spec.map θ = eBase.hom ≫
         Spec.map (CommRingCat.ofHom
           (algebraMap (V₀.toScheme.residueField η₀) k')) := by
-      show Spec.map θ =
+      change Spec.map θ =
         Spec.map (CommRingCat.ofHom eResidue.symm.toRingHom) ≫
           Spec.map (CommRingCat.ofHom (algebraMap (V₀.toScheme.residueField η₀) k'))
       rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
@@ -1100,7 +1100,7 @@ theorem exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFi
             (algebraMap (V₀.toScheme.residueField η₀) k'))) :=
       asIso (pullback.map _ _ _ _ (𝟙 _) eBase.hom (𝟙 _)
         (by simp) (by
-          show Spec.map θ ≫ 𝟙 _ = eBase.hom ≫
+          change Spec.map θ ≫ 𝟙 _ = eBase.hom ≫
             Spec.map (CommRingCat.ofHom (algebraMap (V₀.toScheme.residueField η₀) k'))
           simpa only [Category.comp_id] using hSpecθ))
     let eTotal := eFiberPB ≪≫ ePullPoint ≪≫ ePullField
@@ -1122,7 +1122,7 @@ theorem exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFi
         (pullback.fst (g ≫ V.ι) f).fiberToSpecResidueField η ≫ eBase.hom := by
       calc
         _ = (eFiberPB.hom ≫ ePullPoint.hom) ≫ (ePullField.hom ≫ pullback.snd _ _) := by
-              show (eFiberPB.hom ≫ (ePullPoint.hom ≫ ePullField.hom)) ≫
+              change (eFiberPB.hom ≫ (ePullPoint.hom ≫ ePullField.hom)) ≫
                 pullback.snd _ _ = _
               cat_disch
         _ = (eFiberPB.hom ≫ ePullPoint.hom) ≫ (pullback.snd _ _ ≫ eBase.hom) := by

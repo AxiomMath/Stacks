@@ -132,7 +132,7 @@ theorem changeOfFieldMap_comp_algebraMap
     (e : A ⟶ (Deformation.comparisonFunctor T).functor.obj C) :
     (changeOfFieldMap T e).comp (algebraMap T.Λ A) = algebraMap T.Λ C := by
   ext a
-  show (((Deformation.comparisonFunctor T).pullbackEquiv C)
+  change (((Deformation.comparisonFunctor T).pullbackEquiv C)
     (e.hom (algebraMap T.Λ A a))).val.1 = _
   rw [e.hom.commutes a]
   exact (Deformation.comparisonFunctor T).algebraMap_fst C a
@@ -141,7 +141,7 @@ theorem changeOfFieldMap_comp_algebraMap
 theorem residueMap_comp_algebraMap :
     (Deformation.residueMap T C).comp (algebraMap T.Λ C) = algebraMap T.Λ T.l := by
   ext a
-  show C.residueEquiv (residue C (algebraMap T.Λ C a)) = algebraMap T.Λ T.l a
+  change C.residueEquiv (residue C (algebraMap T.Λ C a)) = algebraMap T.Λ T.l a
   calc
     C.residueEquiv (residue C (algebraMap T.Λ C a)) =
         C.residueEquiv (algebraMap C (ResidueField C) (algebraMap T.Λ C a)) := by
@@ -165,7 +165,7 @@ theorem residueMap_comp_changeOfFieldMap
       algebraMap T.k T.l
         (((Deformation.comparisonFunctor T).pullbackEquiv C) (e.hom a)).val.2 :=
     (((Deformation.comparisonFunctor T).pullbackEquiv C) (e.hom a)).property
-  show Deformation.residueMap T C
+  change Deformation.residueMap T C
       (((Deformation.comparisonFunctor T).pullbackEquiv C) (e.hom a)).val.1 = _
   rw [hprop, hsnd]
   rfl
@@ -188,7 +188,7 @@ theorem changeOfFieldMap_naturality {A' : ArtinianLocalAlgCat.{u, u, u} T.Λ T.k
   have hstep : e'.hom (g.hom a) =
       ((Deformation.comparisonFunctor T).functor.map h).hom (e.hom a) :=
     congrArg (fun m : A ⟶ (Deformation.comparisonFunctor T).functor.obj C' => m.hom a) hcomm
-  show (((Deformation.comparisonFunctor T).pullbackEquiv C') (e'.hom (g.hom a))).val.1 = _
+  change (((Deformation.comparisonFunctor T).pullbackEquiv C') (e'.hom (g.hom a))).val.1 = _
   rw [hstep]
   exact (Deformation.comparisonFunctor T).map_fst h (e.hom a)
 
@@ -470,7 +470,7 @@ theorem algebraBaseMap_id (C : ArtinianLocalAlgCat.{u, u, u} T.Λ T.l) :
       𝟙 (Over.mk (Spec.map (CommRingCat.ofHom (algebraMap T.Λ C)) ≫ iΛ) : Over S) := by
   apply Over.OverMorphism.ext
   rw [algebraBaseMap_left]
-  show Spec.map (CommRingCat.ofHom (RingHom.id C)) = _
+  change Spec.map (CommRingCat.ofHom (RingHom.id C)) = _
   rw [CommRingCat.ofHom_id, Spec.map_id]
   rfl
 
@@ -647,7 +647,7 @@ theorem changeOfFieldMorphismArrow_id (a : Deformation.ChangeOfFieldsCategory T 
       (restrictionFiberObj T iΛ c (D.objects a.fst) (changeOfFieldIso T iΛ D a)).property ?_
     simp [CategoricalPullback.id_snd]
   rw [changeOfFieldMorphismArrow_fac, Category.id_comp]
-  show _ ≫ (D.morphisms a.fst a.fst (𝟙 a.fst)).arrow = _
+  change _ ≫ (D.morphisms a.fst a.fst (𝟙 a.fst)).arrow = _
   rw [D.reversed_identity, Category.comp_id]
 
 /-- The arrow `changeOfFieldMorphismArrow` of a composite is the composite in the reverse
@@ -665,7 +665,7 @@ theorem changeOfFieldMorphismArrow_comp
     simp
   rw [changeOfFieldMorphismArrow_fac, Category.assoc, changeOfFieldMorphismArrow_fac,
     ← Category.assoc, changeOfFieldMorphismArrow_fac, Category.assoc]
-  show _ ≫ (D.morphisms a.fst b'.fst (f.fst ≫ g.fst)).arrow = _
+  change _ ≫ (D.morphisms a.fst b'.fst (f.fst ≫ g.fst)).arrow = _
   rw [D.reversed_composition]
 
 end Functor

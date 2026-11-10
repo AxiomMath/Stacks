@@ -113,7 +113,7 @@ private theorem nontrivial_generic_homology_localization_iff
   have hprimeCompl :
       (P.comap (algebraMap A R)).primeCompl = (⊥ : Ideal A).primeCompl := by
     ext x
-    show x ∉ P.comap (algebraMap A R) ↔ x ∉ (⊥ : Ideal A)
+    change x ∉ P.comap (algebraMap A R) ↔ x ∉ (⊥ : Ideal A)
     rw [hcomap]
   have eTwice : LocalizedModule (⊥ : Ideal A).primeCompl M ≃ₗ[A]
       LocalizedModule P.primeCompl (LocalizedModule T M) :=
@@ -128,7 +128,7 @@ private theorem nontrivial_generic_homology_localization_iff
       T (A := R) i).app (U.mapDerivedCategory.obj K)
   have eLocType : (ModuleCat.restrictScalars (algebraMap A R)).obj N ≅
       ModuleCat.of A (LocalizedModule T M) := by
-    show (ModuleCat.restrictScalars (algebraMap A R)).obj
+    change (ModuleCat.restrictScalars (algebraMap A R)).obj
       ((DerivedCategory.homologyFunctor (ModuleCat.{max v u} R) i).obj
         ((derivedExtensionScalars (algebraMap A R)).obj K)) ≅ _
     exact eLoc ≪≫ eLift ≪≫ eULift
@@ -156,7 +156,7 @@ private theorem comap_quotientPrime {A : Type u} [CommRing A] (p q : PrimeSpectr
     (hpq : p.asIdeal ≤ q.asIdeal) :
     PrimeSpectrum.comap (Ideal.Quotient.mk p.asIdeal) (quotientPrime p q hpq) = q := by
   apply PrimeSpectrum.ext
-  show Ideal.comap (Ideal.Quotient.mk p.asIdeal)
+  change Ideal.comap (Ideal.Quotient.mk p.asIdeal)
     (Ideal.map (Ideal.Quotient.mk p.asIdeal) q.asIdeal) = q.asIdeal
   rw [Ideal.comap_map_of_surjective (Ideal.Quotient.mk p.asIdeal)
     (Ideal.Quotient.mk_surjective (I := p.asIdeal)) q.asIdeal, ← RingHom.ker_eq_comap_bot,
@@ -168,7 +168,7 @@ private theorem quotientBot_comap {A : Type u} [CommRing A] (p : PrimeSpectrum A
     PrimeSpectrum.comap (Ideal.Quotient.mk p.asIdeal)
       (⊥ : PrimeSpectrum (A ⧸ p.asIdeal)) = p := by
   apply PrimeSpectrum.ext
-  show Ideal.comap (Ideal.Quotient.mk p.asIdeal) ⊥ = p.asIdeal
+  change Ideal.comap (Ideal.Quotient.mk p.asIdeal) ⊥ = p.asIdeal
   rw [← RingHom.ker_eq_comap_bot, Ideal.mk_ker]
 
 /-- An immediate specialization `p ⤳ q` becomes an immediate specialization from the generic
@@ -205,12 +205,12 @@ private theorem quotient_immediate {A : Type u} [CommRing A] (p q : PrimeSpectru
     · left
       apply (PrimeSpectrum.comap_injective_of_surjective f
         (Ideal.Quotient.mk_surjective (I := p.asIdeal)))
-      show PrimeSpectrum.comap f z = PrimeSpectrum.comap f (⊥ : PrimeSpectrum (A ⧸ p.asIdeal))
+      change PrimeSpectrum.comap f z = PrimeSpectrum.comap f (⊥ : PrimeSpectrum (A ⧸ p.asIdeal))
       exact hEq.trans (quotientBot_comap p).symm
     · right
       apply (PrimeSpectrum.comap_injective_of_surjective f
         (Ideal.Quotient.mk_surjective (I := p.asIdeal)))
-      show PrimeSpectrum.comap f z = PrimeSpectrum.comap f qbar
+      change PrimeSpectrum.comap f z = PrimeSpectrum.comap f qbar
       exact hEq.trans hcq.symm
 
 /-- A prime of a Noetherian domain that is an immediate specialization of the generic point has

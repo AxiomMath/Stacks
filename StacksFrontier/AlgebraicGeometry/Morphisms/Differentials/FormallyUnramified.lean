@@ -94,7 +94,7 @@ theorem universalRelativeDerivation_d_eq_zero (f : X ⟶ S) [FormallyUnramified 
   have hUW' : U ≤ W ⊓ f ⁻¹ᵁ V := hUW
   have hUW'' : U ≤ W := hUW'.trans inf_le_left
   refine ⟨U, hUW'', hxU, ?_⟩
-  show (relativeDifferentials f).val.map (homOfLE hUW'').op
+  change (relativeDifferentials f).val.map (homOfLE hUW'').op
       ((universalRelativeDerivation f).d s) =
     (relativeDifferentials f).val.map (homOfLE hUW'').op 0
   rw [map_zero]
@@ -116,7 +116,7 @@ theorem isZero_relativeDifferentials_of_formallyUnramified (f : X ⟶ S) [Formal
   have hzero : (0 : relativeDifferentials f ⟶ relativeDifferentials f) = c := by
     refine hu _ ?_
     ext U x
-    show ((0 : relativeDifferentials f ⟶ relativeDifferentials f).val.app U).hom
+    change ((0 : relativeDifferentials f ⟶ relativeDifferentials f).val.app U).hom
       ((universalRelativeDerivation f).d x) = (universalRelativeDerivation f).d x
     rw [universalRelativeDerivation_d_eq_zero f U.unop x, map_zero]
   exact (IsZero.iff_id_eq_zero _).mpr (hid.trans hzero.symm)

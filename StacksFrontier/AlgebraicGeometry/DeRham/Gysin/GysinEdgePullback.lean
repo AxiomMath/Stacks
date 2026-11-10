@@ -116,7 +116,7 @@ theorem singleHomologyToOfIsGE_comp_truncGEIsoSingleHomology (K : DerivedCategor
   rw [Functor.map_comp, homologyFunctor_map_singleHomologyToOfIsGE, CategoryTheory.Functor.map_id]
   rw [← cancel_mono ((singleFunctorCompHomologyFunctorIso C c).hom.app
     ((homologyFunctor C c).obj K)), Category.assoc]
-  show _ ≫ (homologyFunctor C c).map ((TStructure.t.truncGEπ c).app K ≫
+  change _ ≫ (homologyFunctor C c).map ((TStructure.t.truncGEπ c).app K ≫
     (TStructure.t.truncGE c).map (asIso ((TStructure.t.truncLTι (c + 1)).app K)).inv ≫
       (truncGELTIsoHomologyFunctorCompSingleFunctor c).hom.app K) ≫ _ = _
   rw [hκ]
@@ -231,7 +231,7 @@ theorem homEquiv_derivedToOrdinaryPullbackSingle (a : ℤ)
     simp only [Category.assoc, Iso.hom_inv_id_app]
     exact (Category.comp_id _).symm
   rw [Functor.map_comp, ← reassoc_of% hn1, ← Functor.map_comp_assoc]
-  show DerivedCategory.Qh.map (_ ≫ _) ≫ _ = _
+  change DerivedCategory.Qh.map (_ ≫ _) ≫ _ = _
   rw [hu', Functor.map_comp, Category.assoc]
 
 /-- **The derived `g`-map of [Stacks, Tag 01F8] is the transpose of the comparison followed by
@@ -347,7 +347,7 @@ theorem supportedGysinEdgeFrontHomology_eq {Y : RingedSpace.{u, u}} (Z : Set Y.c
   have key : supportedGysinEdgeFrontHomology Z hZ c K hvan ≫
       E.hom.app
         ((derivedSupportedSectionsOnClosed Y Z hZ).obj K) = 𝟙 _ := by
-    show ((singleFunctorCompHomologyFunctorIso (RModules Y) c).inv.app (Fp.obj L) ≫
+    change ((singleFunctorCompHomologyFunctorIso (RModules Y) c).inv.app (Fp.obj L) ≫
       (homologyFunctor (RModules Y) c).map
         ((Fp.mapDerivedCategorySingleFunctor c).inv.app L ≫
           Fp.mapDerivedCategory.map (localCohomologySingleToDerived Z hZ c K hvan))) ≫ _ = _

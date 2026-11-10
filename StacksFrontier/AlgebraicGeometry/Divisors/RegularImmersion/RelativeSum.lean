@@ -116,7 +116,7 @@ theorem flat_quotient_mul_of_isRegular {A B : Type u} [CommRing A] [CommRing B]
     J.liftQ (K.mkQ.comp (LinearMap.mulLeft B a)) (by
       intro b hb
       apply LinearMap.mem_ker.mpr
-      show K.mkQ (a * b) = 0
+      change K.mkQ (a * b) = 0
       apply (Submodule.Quotient.eq K).2
       simpa [K, P] using Ideal.mul_mem_mul (Ideal.mem_span_singleton_self a) hb)
   let GB : (B ⧸ K) →ₗ[B] (B ⧸ P) := K.factor (show K ≤ P from Ideal.mul_le_left)
@@ -189,7 +189,7 @@ theorem flat_mul_of_isEffectiveCartierDivisor {X S : Scheme.{u}} (f : X ⟶ S)
       (flat_quotient_map_of_flat_subscheme f J hflatJ U V hUV) hIflat
   let T : K.subscheme.Opens := K.subschemeι ⁻¹ᵁ (U : X.Opens)
   have hTV : T ≤ g ⁻¹ᵁ (V : S.Opens) := by
-    show K.subschemeι.base ⁻¹' (U : Set X) ⊆ K.subschemeι.base ⁻¹' (f.base ⁻¹' (V : Set S))
+    change K.subschemeι.base ⁻¹' (U : Set X) ⊆ K.subschemeι.base ⁻¹' (f.base ⁻¹' (V : Set S))
     exact Set.preimage_mono hUV
   refine ⟨V.1, T, hxU, hTV, ?_⟩
   let _ : IsAffine T.toScheme := U.2.preimage K.subschemeι

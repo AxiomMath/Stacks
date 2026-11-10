@@ -334,11 +334,11 @@ public theorem nonempty_artinAxiomsFunctor_iff_exists_isCompact_open
     let gFin : Fin (Fintype.card ι) → A := g ∘ E.symm
     let cFin : Fin (Fintype.card ι) → A := c ∘ E.symm
     have hsumFin : (∑ i, gFin i * cFin i) = z' := by
-      show (∑ i : Fin (Fintype.card ι), g (E.symm i) * c (E.symm i)) = z'
+      change (∑ i : Fin (Fintype.card ι), g (E.symm i) * c (E.symm i)) = z'
       rw [E.symm.sum_comp (fun i => g i * c i)]
       simpa only [mul_comm] using hc
     refine ⟨⟨⟨Fintype.card ι, gFin, a, b, cFin, ?_, fun i => he (E.symm i)⟩⟩⟩
-    show s * a + t * b + ∑ i, gFin i * cFin i = 1
+    change s * a + t * b + ∑ i, gFin i * cFin i = 1
     calc
       s * a + t * b + ∑ i, gFin i * cFin i = a * s + (b * t + z') := by
         rw [mul_comm s a, mul_comm t b, hsumFin]; ring

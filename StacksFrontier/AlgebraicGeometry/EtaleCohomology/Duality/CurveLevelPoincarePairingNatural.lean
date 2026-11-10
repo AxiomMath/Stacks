@@ -180,7 +180,7 @@ theorem LAdicSheaf.levelExtEquiv_naturality [Finite k] {F G : LAdicSheaf B X ℓ
           ((etaleModuleExtensionByZero.{u, 0} (ZMod (ℓ ^ (n + 1))) j.immersion).map
             (LAdicSheaf.etaleLevelMap B X ℓ φ n)))) (add_zero i) :=
     fun z => congrArg (fun g => g.hom z) h₃
-  show (e₃ G).hom.hom ((e₂ G).inv.hom ((e₁ G).hom.hom ((H.map ((padicCoefficientComplex B X ℓ).map
+  change (e₃ G).hom.hom ((e₂ G).inv.hom ((e₁ G).hom.hom ((H.map ((padicCoefficientComplex B X ℓ).map
       (LAdicSheaf.padicLevelMap φ n))).hom x))) = ((e₃ F).hom.hom ((e₂ F).inv.hom
         ((e₁ F).hom.hom x))).comp _ (add_zero i)
   rw [s₁, s₂]
@@ -260,7 +260,7 @@ theorem LAdicSheaf.levelExtEquiv_frobenius (F : LAdicSheaf B X ℓ) (i n : ℕ)
   have hB : ((compactSupportFrobeniusSingleIsoExt (ZMod (ℓ ^ (n + 1))) f j kbar K i).inv).hom
       (e₃ y) = y := e₃.symm_apply_apply y
   rw [hB] at h₃
-  show e₃ (e₂.hom.hom (e₁.hom.hom _)) = _
+  change e₃ (e₂.hom.hom (e₁.hom.hom _)) = _
   rw [h₁]
   exact (congrArg (fun z => e₃ z) (h₂' (e₁.hom.hom x))).trans h₃
 
@@ -450,7 +450,7 @@ theorem LAdicSheaf.curveLevelPairing_map [Finite k]
   have := Fintype.ofFinite k
   obtain ⟨_, _, _⟩ := tensorRight_exact_of_flat _ (hflat₁ n)
   obtain ⟨_, _, _⟩ := tensorRight_exact_of_flat _ (hflat₂ n)
-  show t n (Stacks.ExtCup.cup.{u + 1, _, _}
+  change t n (Stacks.ExtCup.cup.{u + 1, _, _}
       (inverseImageConstantPairing
         (fieldBaseChangeProj (Over.mk j.toBase) kbar) (ℓ ^ (n + 1)) (μ₂ n))
       (LAdicSheaf.levelExtEquiv B X ℓ f j kbar F₂ 1 n
@@ -595,7 +595,7 @@ theorem LAdicSheaf.curveLevelPairing_bounds [IsAlgClosed kbar]
             ((padicCoefficientComplex B X ℓ).obj (LAdicSheaf.padicLevel B X ℓ F' n)) 1).hom y) =
         t n (constantExtRestriction (ZMod (ℓ ^ (n + 1))) πb 2
           (Stacks.ExtCup.cup.{u + 1, _, _} (μY n) (φ n x) (φ' n y) hji)) := by
-      show t n (Stacks.ExtCup.cup.{u + 1, _, _} (μY n) (φ n _) (φ' n _) hji) = _
+      change t n (Stacks.ExtCup.cup.{u + 1, _, _} (μY n) (φ n _) (φ' n _) hji) = _
       rw [← key]
       exact congrArg₂ (fun a b => t n (Stacks.ExtCup.cup.{u + 1, _, _} (μY n) a b hji))
         (LAdicSheaf.levelExtEquiv_frobenius B X ℓ f j kbar p q hcard F 1 n x)

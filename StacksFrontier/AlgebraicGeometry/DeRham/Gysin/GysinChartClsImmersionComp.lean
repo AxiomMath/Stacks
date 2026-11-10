@@ -319,7 +319,7 @@ theorem chartCls_homOfLE (i : Z ⟶ X) [IsClosedImmersion i] (π : X ⟶ S) {d :
     (congrArg (fun U => W.ι ''ᵁ U) (image_chartOpen_self e)).trans (ι_image_chartOpen W e)
   have hC : (X.homOfLE e ≫ W.ι) ''ᵁ chartOpen V le_rfl = V :=
     (Scheme.Hom.comp_image (X.homOfLE e) W.ι (chartOpen V le_rfl)).trans hA
-  show chartClsOn i π p W (restrictEquations W f) hTW hTfW V (chartOpen W e)
+  change chartClsOn i π p W (restrictEquations W f) hTW hTfW V (chartOpen W e)
       (ι_image_chartOpen W e) y = _
   rw [chartClsOn_congr i π p W (restrictEquations W f) hTW hTfW V (chartOpen W e)
     (X.homOfLE e ''ᵁ chartOpen V le_rfl) (ι_image_chartOpen W e) hA]
@@ -330,10 +330,7 @@ theorem chartCls_homOfLE (i : Z ⟶ X) [IsClosedImmersion i] (π : X ⟶ S) {d :
     (Scheme.Modules.Hom.app ψ (chartOpen V le_rfl))
       (((Scheme.Hom.relativeDifferentialForms π
         ((p : ℤ) + ((d + 1 : ℕ) : ℤ))).presheaf.map (homOfLE hC.le).op) y)) heq
-  simp only [Stacks.Perfect.ExtendedAlternatingCech.comp_app_apply,
-    Scheme.Modules.restrictFunctorCongr_hom_app_app,
-    Scheme.Modules.restrictFunctorComp_hom_app_app,
-    Scheme.Modules.restrictFunctorComp_inv_app_app] at E
+  simp only at E
   exact sandwich (Scheme.Hom.relativeDifferentialForms π ((p : ℤ) + ((d + 1 : ℕ) : ℤ)))
     (gysinTarget i π (d + 1) p)
     (fun z => (Scheme.Modules.Hom.app

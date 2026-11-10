@@ -161,13 +161,12 @@ function on `V(D')`.
 
 The short exact sequence `0 ⟶ 𝒪_X(-D)|_C ⟶ 𝒪_{D'} ⟶ 𝒪_D ⟶ 0` is [Stacks, Tag 0C4T]. -/
 theorem surjective_inclusion_appTop (D D' C : X.IdealSheafData)
-    (hD : IsEffectiveCartierDivisor D) (hD' : IsEffectiveCartierDivisor D')
-    (hC : IsEffectiveCartierDivisor C) (hsub : D' ≤ D) (hsum : D' = D * C)
+    (hD : IsEffectiveCartierDivisor D) (hsub : D' ≤ D) (hsum : D' = D * C)
     (h : IsZero (((Stacks.Cohomology.sectionsFunctor X ⊤).rightDerived 1).obj
       ((Scheme.Modules.pushforward C.subschemeι).obj
         ((Scheme.Modules.pullback C.subschemeι).obj (negativeTwist D))))) :
     Function.Surjective (inclusion hsub).appTop.hom := by
-  obtain ⟨_, _, hse⟩ := addEffectiveCartierDivisor_shortExact D D' C hD hD' hC hsub hsum
+  obtain ⟨_, _, hse⟩ := addEffectiveCartierDivisor_shortExact D D' C hD hsub hsum
   intro b
   obtain ⟨a, ha⟩ :=
     Stacks.Cohomology.surjective_sections_of_isZero_firstCohomology X ⊤ hse h b
@@ -186,8 +185,8 @@ theorem surjective_thickeningRestriction (D : X.IdealSheafData) [IsEffectiveCart
       ((Scheme.Modules.pushforward D.subschemeι).obj
         ((Scheme.Modules.pullback D.subschemeι).obj (negativeTwist (D ^ (n + 1))))))) :
     Function.Surjective (thickeningRestriction D n) :=
-  surjective_inclusion_appTop (D ^ (n + 1)) (D ^ (n + 2)) D inferInstance inferInstance
-    inferInstance (pow_succ_le_pow_succ D (Nat.le_succ n)) (pow_succ D (n + 1)) h
+  surjective_inclusion_appTop (D ^ (n + 1)) (D ^ (n + 2)) D inferInstance
+    (pow_succ_le_pow_succ D (Nat.le_succ n)) (pow_succ D (n + 1)) h
 
 /-! ### Lifting a function through the whole tower of thickenings -/
 
@@ -252,7 +251,7 @@ theorem surjective_formalNeighborhoodProjection (D : X.IdealSheafData)
   intro a
   refine ⟨⟨fun m => thickeningRestrictionLE D (Nat.le_add_left m n)
     (thickeningLiftTower D hsurj a m), fun m => ?_⟩, ?_⟩
-  · show thickeningRestriction D m (thickeningRestrictionLE D (Nat.le_add_left (m + 1) n)
+  · change thickeningRestriction D m (thickeningRestrictionLE D (Nat.le_add_left (m + 1) n)
           (thickeningLiftTower D hsurj a (m + 1))) =
         thickeningRestrictionLE D (Nat.le_add_left m n) (thickeningLiftTower D hsurj a m)
     rw [← thickeningRestrictionLE_succ,

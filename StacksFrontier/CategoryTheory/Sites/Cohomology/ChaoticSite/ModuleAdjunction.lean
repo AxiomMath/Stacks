@@ -50,7 +50,8 @@ universe of the module sections, and the point of a chaotic site is never of tha
 `C : Type u` the point is `Discrete PUnit.{u + 1}`, one universe up. So the univLE
 generalisation is what makes the instance available here at all.
 
-Even with it available, instance *search* does not find it at the spelling the tagged statements use. Both
+Even with it available, instance *search* does not find it at the spelling the tagged statements
+use. Both
 Stacks 08PF's module half and Stacks 08Q6 write the structure map of `p^*` as `𝟙 (p^{-1} R)`,
 and the implicit sheaves of rings of `SheafOfModules.pushforward` would then have to be read
 off that identity: the goal is `pushforward (𝟙 (p^{-1} R))` while the available conclusion is
@@ -60,7 +61,8 @@ the result with `R` and `S` given explicitly and the identity type-ascribed, whi
 `Stacks.Sites.ExtensionByZero.presheafRestrictionIsRightAdjoint_of_univLE` performs exactly the
 same step for `Over.forget U`, for the same reason.
 
-**The restatement has to be redone per spelling of the constant ring sheaf.** `pointRestriction_isRightAdjoint` below is *not* derived from
+**The restatement has to be redone per spelling of the constant ring sheaf.**
+`pointRestriction_isRightAdjoint` below is *not* derived from
 `pointModule_isRightAdjoint`: the two differ by `constantRing (liftedSite C B) (LiftedRing C B)`
 against `(Functor.star _).sheafPushforwardContinuous _ _ _ |>.obj (pointRing C B)`, which are
 equal by `rfl` — `constantRing_eq_pointInverseImageRing` records that — but only at default

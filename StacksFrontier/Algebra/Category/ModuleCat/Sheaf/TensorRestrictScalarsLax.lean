@@ -153,8 +153,7 @@ private theorem comp_tmul_ext {R M N X Y Z F₁ G₁ F₂ G₂ : Type*} [CommSem
     [AddMonoidHomClass F₂ (M ⊗[R] N) Y] [FunLike G₂ Y Z] [AddMonoidHomClass G₂ Y Z]
     (f₁ : F₁) (g₁ : G₁) (f₂ : F₂) (g₂ : G₂) (h : ∀ m n, g₁ (f₁ (m ⊗ₜ n)) = g₂ (f₂ (m ⊗ₜ n)))
     (t : M ⊗[R] N) : g₁ (f₁ t) = g₂ (f₂ t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul m n => exact h m n
   | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
 
@@ -185,8 +184,7 @@ theorem sectionMap_smul (V : (Opens ↥Y)ᵒᵖ) (a : A.obj.obj V)
     (t : TensorProduct (A.obj.obj V) (((restrictScalarsPresheaf A B ρ).obj M).obj V)
       (((restrictScalarsPresheaf A B ρ).obj N).obj V)) :
     sectionMap A B ρ M N V (a • t) = ((ρ.hom.app V).hom a) • sectionMap A B ρ M N V t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul m n => rfl
   | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
 
@@ -340,7 +338,7 @@ theorem laxLeg_naturality (φ : F ⟶ F') (ψ : G ⟶ G') :
               PresheafOfModules.restrictScalars (𝟙 (Tensor.ringSheaf B).obj)).map
             ((Functor.uncurry.obj (Tensor.sheafTensor.{u, u, u, u, u} B)).map
               (X := (F, G)) (Y := (F', G')) (φ, ψ))) := by
-  show PresheafOfModules.tensorHom (O := A.obj) ((restrictScalarsPresheaf A B ρ).map φ.val)
+  change PresheafOfModules.tensorHom (O := A.obj) ((restrictScalarsPresheaf A B ρ).map φ.val)
         ((restrictScalarsPresheaf A B ρ).map ψ.val) ≫
       (presheafComparison A B ρ F'.val G'.val ≫
         (restrictScalarsPresheaf A B ρ).map

@@ -132,7 +132,7 @@ projection is the first projection of `X ×_S T`. -/
 lemma baseChangeSigmaMap_ι_fst (f : X ⟶ S) (g : T ⟶ S) (σ : G) :
     Sigma.ι (fun _ : G ↦ pullback f g) σ ≫ baseChangeSigmaMap (G := G) f g ≫
         pullback.fst f (Sigma.desc fun _ : G ↦ g) = pullback.fst f g := by
-  rw [← Category.assoc, baseChangeSigmaMap, Sigma.ι_desc, pullback.lift_fst, Category.comp_id]
+  rw [← Category.assoc, baseChangeSigmaMap, Sigma.ι_comp_desc, pullback.lift_fst, Category.comp_id]
 
 omit [Finite G] in
 /-- On the summand indexed by `σ`, the map `baseChangeSigmaMap` followed by the second
@@ -143,7 +143,7 @@ lemma baseChangeSigmaMap_ι_snd (f : X ⟶ S) (g : T ⟶ S) (σ : G) :
     Sigma.ι (fun _ : G ↦ pullback f g) σ ≫ baseChangeSigmaMap (G := G) f g ≫
         pullback.snd f (Sigma.desc fun _ : G ↦ g) =
       pullback.snd f g ≫ Sigma.ι (fun _ : G ↦ T) σ := by
-  rw [← Category.assoc, baseChangeSigmaMap, Sigma.ι_desc, pullback.lift_snd]
+  rw [← Category.assoc, baseChangeSigmaMap, Sigma.ι_comp_desc, pullback.lift_snd]
 
 /-- **Base change commutes with a finite coproduct.**  The map
 `Stacks.Descent.baseChangeSigmaMap` is an isomorphism. -/
@@ -184,10 +184,10 @@ instance isIso_baseChangeSigmaMap (f : X ⟶ S) (g : T ⟶ S) :
     apply pullback.hom_ext
     · rw [Category.assoc, baseChangeSigmaMap_ι_fst, ← Category.assoc, ← Category.assoc, hι]
       dsimp only [c, a]
-      simp [fU, fUmap, gG, gGmap, pullback.map, pullback.lift_fst, pullback.lift_fst_assoc]
+      simp [fU, fUmap, gG, gGmap, pullback.map]
     · rw [Category.assoc, baseChangeSigmaMap_ι_snd, ← Category.assoc, ← Category.assoc, hι]
       dsimp only [c, a]
-      simp [fU, fUmap, gG, gGmap, pullback.map, pullback.lift_snd]
+      simp [fU, fUmap, gG, gGmap, pullback.map]
   rw [hfac]
   infer_instance
 
@@ -282,7 +282,7 @@ lemma baseChangeAction_comp_fst (σ : (K ≃ₐ[k] K)ᵐᵒᵖ) :
     ((galoisActionOnBaseChange k K Z).ρ σ).asHom ≫ baseChangeProjection k K Z =
       baseChangeProjection k K Z := by
   dsimp [galoisActionOnBaseChange, SchemeOver.baseChange]
-  simp [pullback.map, pullback.lift_fst]
+  simp [pullback.map]
 
 /-- A twist `id_X × Spec σ` acts on the `Spec K` coordinate by `Spec σ`. -/
 lemma baseChangeAction_comp_snd (σ : (K ≃ₐ[k] K)ᵐᵒᵖ) :
@@ -329,7 +329,7 @@ lemma galoisCoverComparison_spec_comp_fst :
         pullback.fst (specOfExtension k K) (specOfExtension k K) =
       Sigma.desc fun _ : K ≃ₐ[k] K ↦ 𝟙 (Spec (.of K)) := by
   classical
-  exact Sigma.hom_ext _ _ fun σ ↦ by rw [Sigma.ι_desc, galoisCoverComparison_ι_fst]
+  exact Sigma.hom_ext _ _ fun σ ↦ by rw [Sigma.ι_comp_desc, galoisCoverComparison_ι_fst]
 
 /-- The Galois cover comparison of `Spec K ⟶ Spec k` followed by the second projection is
 `Spec σ` on the summand indexed by `σ`. -/
@@ -340,7 +340,7 @@ lemma galoisCoverComparison_spec_comp_snd :
   classical
   apply Sigma.hom_ext
   intro σ
-  rw [Sigma.ι_desc, galoisCoverComparison_ι_snd]
+  rw [Sigma.ι_comp_desc, galoisCoverComparison_ι_snd]
   rfl
 
 /-- The Galois cover comparison over the base field, composed with the projection, is the map
@@ -423,7 +423,7 @@ lemma isIso_galoisCoverComparison_spec :
   classical
   have : IsIso (Spec.map (CommRingCat.ofHom
       (IsGalois.tensorProductEquivPi k K).toRingEquiv.toRingHom)) := by
-    show IsIso (Spec.map
+    change IsIso (Spec.map
       (RingEquiv.toCommRingCatIso (IsGalois.tensorProductEquivPi k K).toRingEquiv).hom)
     infer_instance
   have : IsIso (galoisCoverComparison (specOfExtension k K) (specGaloisOverAction k K) ≫

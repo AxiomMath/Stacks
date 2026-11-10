@@ -104,7 +104,7 @@ theorem disjointPhi_self (k : K) (V : BigFppfOver B S hS) (a b : (T' k).obj.obj 
     (h : (e k).hom.app _ a = (e k).hom.app _ b) :
     disjointPhi e hinj hdisj F k k V a b h = eqToHom (congrArg
       (fun z => (F k).hom.hom.obj (elt.{u, w} (T' k) V z)) (hinj k V a b h)) := by
-  rw [disjointPhi, dif_pos rfl]
+  rw [disjointPhi, dite_eq_left rfl]
 
 /-- Each morphism `disjointPhi e hinj hdisj F k l V a b h` lies over the identity of `V`. -/
 theorem isHomLift_disjointPhi (k l : K) (V : BigFppfOver B S hS)
@@ -115,7 +115,7 @@ theorem isHomLift_disjointPhi (k l : K) (V : BigFppfOver B S hS)
   · subst hkl
     rw [disjointPhi_self]
     exact IsHomLift.eqToHom_domain_lift_id _ (BasedFunctor.w_obj (F k).hom.hom _)
-  · rw [disjointPhi, dif_neg hkl]
+  · rw [disjointPhi, dite_eq_right hkl]
     exact (AlgebraicStacks.existsUnique_hom_of_isEmpty 𝒴 (hdisj k l hkl V a b h)
       (BasedFunctor.w_obj (F k).hom.hom _)
       (BasedFunctor.w_obj (F l).hom.hom _)).exists.choose_spec

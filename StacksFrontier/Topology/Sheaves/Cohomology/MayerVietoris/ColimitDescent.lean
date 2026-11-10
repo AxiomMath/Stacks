@@ -95,7 +95,7 @@ theorem exact_comp {n : ℕ} {S : ComposableArrows D n} (hS : S.Exact) :
     ComposableArrows.Exact (S ⋙ G) :=
   ComposableArrows.Exact.mk
     (ComposableArrows.IsComplex.mk fun i hi => by
-      show G.map (S.map' i (i + 1)) ≫ G.map (S.map' (i + 1) (i + 2)) = 0
+      change G.map (S.map' i (i + 1)) ≫ G.map (S.map' (i + 1) (i + 2)) = 0
       rw [← G.map_comp, hS.toIsComplex.zero i hi, G.map_zero])
     fun i hi => (hS.exact i hi).map G
 

@@ -117,7 +117,7 @@ public theorem residueFieldPoint_site_contains
   let u₀' : U := u₀
   let f := U.fromSpecResidueField u₀'
   have : IsPreimmersion f := by
-    show IsPreimmersion (Spec.map (U.residue u₀') ≫ U.fromSpecStalk u₀')
+    change IsPreimmersion (Spec.map (U.residue u₀') ≫ U.fromSpecStalk u₀')
     rw [IsPreimmersion.comp_iff]
     infer_instance
   have hmono : Mono f := SurjectiveOnStalks.mono_of_injective f.isEmbedding.injective
@@ -162,7 +162,7 @@ theorem residueFieldSlicePoint_base_eq_stalk
   let Usite := (p.obj x).left
   let V := B.obj hκ
   let m : V ⟶ Usite := B.inclusion.preimage (U.left.fromSpecResidueField u₀)
-  show Over.mk
+  change Over.mk
       (B.inclusion.map m ≫ U.hom) =
     Over.mk (Spec.map (CommRingCat.ofHom (algebraMap R k)) ≫
       S'.fromSpecStalk (g (IsLocalRing.closedPoint k)))
@@ -264,12 +264,12 @@ theorem finite_residueField_over_localRing
   let : Algebra K k := q.2.hom.toAlgebra
   let : Algebra R k := (Scheme.stalkClosedPointTo g).hom.toAlgebra
   let : IsScalarTower R K k := IsScalarTower.of_algebraMap_eq' (by
-    show (q.2.hom.comp (S'.residue (g (IsLocalRing.closedPoint k))).hom) =
+    change (q.2.hom.comp (S'.residue (g (IsLocalRing.closedPoint k))).hom) =
       (Scheme.stalkClosedPointTo g).hom
     exact congrArg CommRingCat.Hom.hom (S'.residue_descResidueField
       (Scheme.stalkClosedPointTo g)))
   let : Module.Finite R K := by
-    show Module.Finite R (IsLocalRing.ResidueField R)
+    change Module.Finite R (IsLocalRing.ResidueField R)
     infer_instance
   have hK : Module.Finite K k :=
     finite_residueFieldExtension_over_image B S hS p x hU u₀ hu₀
@@ -300,7 +300,7 @@ theorem stalk_map_fieldExtension
     rw [← CommRingCat.ofHom_comp]
   have hfactor :
       Spec.map (CommRingCat.ofHom (algebraMap R k)) ≫ S.fromSpecStalk (gk z) = gk := by
-    show Spec.map (Scheme.stalkClosedPointTo gk) ≫ S.fromSpecStalk (gk z) = gk
+    change Spec.map (Scheme.stalkClosedPointTo gk) ≫ S.fromSpecStalk (gk z) = gk
     simpa [z] using Scheme.Spec_stalkClosedPointTo_fromSpecStalk gk
   calc
     Spec.map (CommRingCat.ofHom (algebraMap R l)) ≫ S.fromSpecStalk
@@ -323,10 +323,6 @@ noncomputable def stalkChangeOfFieldsSituation
     (hu₀ : AlgebraicGeometry.IsFiniteTypePoint u₀)
     [Algebra (((p ⋙ Over.post B.inclusion).obj x).left.residueField u₀) l]
     [Module.Finite (((p ⋙ Over.post B.inclusion).obj x).left.residueField u₀) l] :
-    let U := (p ⋙ Over.post B.inclusion).obj x
-    let S' := B.inclusion.obj (B.obj hS)
-    let k := U.left.residueField u₀
-    let g : Spec (.of k) ⟶ S' := U.left.fromSpecResidueField u₀ ≫ U.hom
     Deformation.ChangeOfFieldsSituation.{u, u, u} := by
   let U := (p ⋙ Over.post B.inclusion).obj x
   let S' := B.inclusion.obj (B.obj hS)
@@ -375,7 +371,7 @@ public theorem residueFieldSlicePoint_fieldPointMap
         (((p ⋙ Over.post B.inclusion).obj x).left.residueField u₀))) ≫ iΛ)) :
     fieldPointMap B S hS p x iΛ (residueFieldSlicePoint B S hS p x u₀ hκ) huκ =
       ((p ⋙ Over.post B.inclusion).obj x).left.fromSpecResidueField u₀ := by
-  show (𝟙 _) ≫ B.inclusion.map (B.inclusion.preimage
+  change (𝟙 _) ≫ B.inclusion.map (B.inclusion.preimage
     (X := B.obj hκ) (Y := (p.obj x).left)
     (((p ⋙ Over.post B.inclusion).obj x).left.fromSpecResidueField u₀)) = _
   simpa only [Category.id_comp] using
@@ -429,7 +425,7 @@ public theorem exists_sliceArrow_of_fieldPointMap
     simpa only [eqToHom_refl, Category.id_comp, fieldPointMap, Category.assoc] using
       hpoint.symm
   refine ⟨Over.homMk f hw, ?_⟩
-  show eqToHom _ ≫ (Q.map f).left ≫ eqToHom _ = e
+  change eqToHom _ ≫ (Q.map f).left ≫ eqToHom _ = e
   rw [hf]
   simp [a, Over.comp_left, Over.eqToHom_left]
 

@@ -146,7 +146,7 @@ private lemma exists_distTriang_isIso_derivedSectionsWithSupportInUnit
   · have hg : DerivedCategory.Qh.map (CochainComplex.mappingCone.triangleh φ).mor₁ =
         eX.hom ≫ f ≫ eY.inv := hgh
     rw [hg]
-    show eX.hom ≫ f = (eX.hom ≫ f ≫ eY.inv) ≫ eY.hom
+    change eX.hom ≫ f = (eX.hom ≫ f ≫ eY.inv) ≫ eY.hom
     simp
 
 /-- **Derived sections with support in `T` are a triangulated functor.** The total right derived

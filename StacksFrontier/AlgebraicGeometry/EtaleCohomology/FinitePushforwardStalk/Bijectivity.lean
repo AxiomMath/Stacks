@@ -101,7 +101,7 @@ private theorem exists_etale_partition_subsingleton_geometric_fibers
       have hg := congrArg (fun a => a default) g₁.2
       exact hg.trans hqp
     have hp : f ((D none).ι ≫ pullback.fst f U.toBase <| g₁.1 default) = s := by
-      show (f ∘ ((D none).ι ≫ pullback.fst f U.toBase)) (g₁.1 default) = s
+      change (f ∘ ((D none).ι ≫ pullback.fst f U.toBase)) (g₁.1 default) = s
       have hw := congrArg (fun a => a (g₁.1 default))
         (congrArg (fun a => (D none).ι ≫ a) (pullback.condition (f := f) (g := U.toBase)))
       exact hw.trans ((congrArg U.toBase he).trans U.map_point)
@@ -276,7 +276,7 @@ private theorem exists_open_neighborhood_lift
   have hO : Set.range z ⊆ Set.range O.ι := by
     rintro _ ⟨p, rfl⟩
     refine ⟨⟨z p, ?_⟩, rfl⟩
-    show r (z p) ∈ Set.range k
+    change r (z p) ∈ Set.range k
     exact ⟨w p, (congrArg (fun a => a p) hzr).symm⟩
   let z' := IsOpenImmersion.lift O.ι z hO
   have hz' : z' ≫ O.ι = z := IsOpenImmersion.lift_fac _ _ _
@@ -289,12 +289,12 @@ private theorem exists_open_neighborhood_lift
     rw [Category.assoc, hl, ← Category.assoc, hz', hzr]
   let Wobj : SmallEtale B X.1 X.property :=
     ⟨Over.mk (ObjectProperty.homMk (O.ι ≫ ρ) : B.obj O hsize ⟶ X), by
-      show Etale (O.ι ≫ ρ)
+      change Etale (O.ι ≫ ρ)
       infer_instance⟩
   let W : (geometricPointFiber B X.1 X.property
       (geometricPointLift (B.inclusion.map f) y x)).Elements :=
     Functor.elementsMk _ Wobj ⟨z', by
-      show z' ≫ (O.ι ≫ ρ) = x.1
+      change z' ≫ (O.ι ≫ ρ) = x.1
       rw [← Category.assoc, hz']
       exact (liftedEtaleNeighborhood B f y x V).2.2⟩
   let a : W.1 ⟶ T := ObjectProperty.homMk
@@ -306,10 +306,10 @@ private theorem exists_open_neighborhood_lift
     ⟨ObjectProperty.homMk (Over.homMk (ObjectProperty.homMk (l ≫ h))
       (by apply ObjectProperty.hom_ext; exact hlh)), by
       apply Subtype.ext
-      show z' ≫ (l ≫ h) = U.2.1
+      change z' ≫ (l ≫ h) = U.2.1
       rw [← Category.assoc, hzl, hwh]⟩
   refine ⟨V, W, a, b, inferInstanceAs (IsOpenImmersion O.ι), ?_⟩
-  show z' ≫ O.ι ≫ π = V.2.1
+  change z' ≫ O.ι ≫ π = V.2.1
   rw [← Category.assoc, hz']
   exact liftedEtaleNeighborhood_point_fst B f y x V
 
@@ -418,7 +418,7 @@ private theorem smallEtale_map_structure
     {U V : SmallEtale B S hS} (a : U ⟶ V) :
     (SmallEtale.toScheme B S hS).map a ≫ B.inclusion.map V.obj.hom =
       B.inclusion.map U.obj.hom := by
-  show B.inclusion.map a.hom.left ≫ _ = _
+  change B.inclusion.map a.hom.left ≫ _ = _
   rw [← Functor.map_comp]
   exact congrArg B.inclusion.map (Over.w a.hom)
 
@@ -507,7 +507,7 @@ private theorem exists_partition_of_disjoint_neighborhoods
     Functor.elementsMk _ (W' x) ⟨q x, by
       have h : T.map (pullback.fst (a x) d) ≫ B.inclusion.map (W x).1.obj.hom =
           B.inclusion.map (W' x).obj.hom := by
-        show B.inclusion.map (pullback.fst (a x) d).hom.left ≫ _ = _
+        change B.inclusion.map (pullback.fst (a x) d).hom.left ≫ _ = _
         rw [← Functor.map_comp, Over.w]
       rw [← h, ← Category.assoc, hq₁]
       exact (W x).2.2⟩
@@ -548,7 +548,7 @@ private theorem finitePushforwardStalkComponent_surjective_of_partitions
     Function.Surjective (fun z x => finitePushforwardStalkComponent B f y F x z) := by
   classical
   intro t
-  let D (x) := (CategoryOfElements.π (geometricPointFiber B X.1 X.property
+  let D (x) := (Functor.Elements.π (geometricPointFiber B X.1 X.property
     (geometricPointLift (B.inclusion.map f) y x))).op ⋙ F.obj
   have hrep (x) := Types.jointly_surjective_of_isColimit (colimit.isColimit (D x)) (t x)
   choose U s hs using hrep
@@ -568,7 +568,7 @@ private theorem finitePushforwardStalkComponent_surjective_of_partitions
   obtain ⟨s', hs'⟩ := exists_section_of_disjoint_cover B X.1 X.property F _ E hE
     (fun i j hij => Q.disjoint (fun he => hij (ULift.ext he)))
     (fun i => F.obj.map (Q.toNeighborhood i.down).1.op (s i.down))
-  let D' := (CategoryOfElements.π
+  let D' := (Functor.Elements.π
     (geometricPointFiber B Y.1 Y.property y)).op ⋙
       (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (u + 1))
         (SmallEtale.topology B Y.1 Y.property)
@@ -577,7 +577,7 @@ private theorem finitePushforwardStalkComponent_surjective_of_partitions
   refine (finitePushforwardStalkComponent_germ_of_hom B f y F x
     (Q.neighborhood x) Q.base (Q.toBase x) (Q.point_toBase x) s').trans ?_
   rw [hs' ⟨x⟩]
-  show colimit.ι (D x) (op (Q.neighborhood x))
+  change colimit.ι (D x) (op (Q.neighborhood x))
       ((D x).map (Q.toNeighborhood x).op (s x)) = t x
   rw [← ConcreteCategory.comp_apply, colimit.w]
   exact hs x
@@ -617,7 +617,7 @@ private theorem exists_etaleNeighborhoodPartition
     rintro _ ⟨p, rfl⟩
     refine ⟨⟨z x p, ?_, ?_⟩, rfl⟩
     · have he := congrArg (fun a => a p) (hz₀ x)
-      show r₀ (z x p) ∈ O₀ x
+      change r₀ (z x p) ∈ O₀ x
       change r₀ (z x p) = (liftedEtaleNeighborhood B f y x V₀).2.1 p at he
       rw [he, Subsingleton.elim p (default : y.source)]
       exact hp₀ x
@@ -642,12 +642,12 @@ private theorem exists_etaleNeighborhoodPartition
     (Scheme.size_coe_opens_le _ (O x)).trans_lt (C.obj V.1).obj.left.property
   let Nobj (x) : SmallEtale B X.1 X.property :=
     ⟨Over.mk (ObjectProperty.homMk ((O x).ι ≫ ρ) : B.obj (O x) (hsize x) ⟶ X), by
-      show Etale ((O x).ι ≫ ρ)
+      change Etale ((O x).ι ≫ ρ)
       infer_instance⟩
   let N (x) : (geometricPointFiber B X.1 X.property
       (geometricPointLift (B.inclusion.map f) y x)).Elements :=
     Functor.elementsMk _ (Nobj x) ⟨p x, by
-      show p x ≫ ((O x).ι ≫ ρ) = x.1
+      change p x ≫ ((O x).ι ≫ ρ) = x.1
       exact (Category.assoc _ _ _).symm.trans
         ((congrArg (fun m => m ≫ ρ) (hp x)).trans
           (liftedEtaleNeighborhood B f y x V).2.2)⟩
@@ -667,18 +667,18 @@ private theorem exists_etaleNeighborhoodPartition
       (by apply ObjectProperty.hom_ext; exact hlw x)), Subtype.ext (hpl x)⟩
   have hm (x) : Mono (a x) := by
     apply T.mono_of_mono_map
-    show Mono (O x).ι
+    change Mono (O x).ι
     infer_instance
   apply exists_partition_of_disjoint_neighborhoods B f y U V N a (fun x => b x ≫ bx x)
   · intro x
-    show p x ≫ (O x).ι ≫ _ = V.2.1
+    change p x ≫ (O x).ι ≫ _ = V.2.1
     rw [← Category.assoc, hp]
     exact liftedEtaleNeighborhood_point_fst B f y x V
   · intro x x' hxx
     apply Set.disjoint_left.mpr
     rintro q ⟨p, rfl⟩ ⟨p', he⟩
     apply Set.disjoint_left.mp (hd₀ hxx) p.property.1
-    show r₀ ((O x).ι p) ∈ O₀ x'
+    change r₀ ((O x).ι p) ∈ O₀ x'
     change (O x').ι p' = (O x).ι p at he
     rw [← he]
     exact p'.property.1

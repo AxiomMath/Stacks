@@ -105,7 +105,7 @@ theorem isAlgebraicSpace_quadraticGaloisTwistedDoubledOrigin
       (quadraticGaloisTwistedDoubledOrigin k K hdegree σ hσ B hS).obj :=
   @Space.isAlgebraicSpace_quotientSheaf_of_isAffineHom B (base k) hS
     (coverSiteObject k K B hS) _ _ (twistedRelation k K σ)
-    (twistedRelation_isEtaleEquivalenceRelation k K hdegree σ hσ) _
+    (twistedRelation_isEtaleEquivalenceRelation k K hdegree σ hσ)
     (isAffineHom_twistedRelation_left k K hdegree σ hσ)
 
 /-- **The quotient map of the twisted doubled origin is surjective**, with no descent
@@ -124,7 +124,7 @@ theorem surjective_toQuotientSheaf_twistedRelation
           (𝟙 ((Over.post B.inclusion).obj (coverSiteObject k K B hS))))) :=
   @Space.surjective_toQuotientSheaf_of_isAffineHom B (base k) hS
     (coverSiteObject k K B hS) _ _ (twistedRelation k K σ)
-    (twistedRelation_isEtaleEquivalenceRelation k K hdegree σ hσ) _
+    (twistedRelation_isEtaleEquivalenceRelation k K hdegree σ hσ)
     (isAffineHom_twistedRelation_left k K hdegree σ hσ)
 
 /-- **The quotient map of the twisted doubled origin is étale**, with no descent
@@ -143,7 +143,7 @@ theorem etale_toQuotientSheaf_twistedRelation
           (𝟙 ((Over.post B.inclusion).obj (coverSiteObject k K B hS))))) :=
   @Space.etale_toQuotientSheaf_of_isAffineHom B (base k) hS
     (coverSiteObject k K B hS) _ _ (twistedRelation k K σ)
-    (twistedRelation_isEtaleEquivalenceRelation k K hdegree σ hσ) _
+    (twistedRelation_isEtaleEquivalenceRelation k K hdegree σ hσ)
     (isAffineHom_twistedRelation_left k K hdegree σ hσ)
 
 /-- **The Galois twist of the affine line with zero doubled is quasi-compact as an algebraic

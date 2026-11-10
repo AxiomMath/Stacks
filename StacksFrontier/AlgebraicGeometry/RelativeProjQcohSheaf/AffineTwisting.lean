@@ -116,7 +116,7 @@ def algebraOne : Γ(pieceMod A (0 * d), ⊤) :=
 factor. -/
 theorem laurentMul_zero_left (i j : ℤ) (y : laurentSections f L j) :
     laurentMul f L i j 0 y = 0 := by
-  show ((laurent L).mul i j).app ((opensMap (ringedSpaceHom f)).op.obj (op ⊤)) 0 y = 0
+  change ((laurent L).mul i j).app ((opensMap (ringedSpaceHom f)).op.obj (op ⊤)) 0 y = 0
   rw [map_zero]
   rfl
 
@@ -124,7 +124,7 @@ theorem laurentMul_zero_left (i j : ℤ) (y : laurentSections f L j) :
 factor. -/
 theorem laurentMul_zero_right (i j : ℤ) (x : laurentSections f L i) :
     laurentMul f L i j x 0 = 0 := by
-  show ((laurent L).mul i j).app ((opensMap (ringedSpaceHom f)).op.obj (op ⊤)) x 0 = 0
+  change ((laurent L).mul i j).app ((opensMap (ringedSpaceHom f)).op.obj (op ⊤)) x 0 = 0
   rw [map_zero]
 
 /-- The unit of the Laurent algebra, on global sections, is the function `1`. -/
@@ -134,7 +134,7 @@ theorem laurentOne_eq_one : laurentOne f L = (1 : Γ(T, ⊤)) := rfl
 zero left factor. -/
 theorem algebraMul_zero_left (i j : ℤ) (t : Γ(pieceMod A (j * d), ⊤)) :
     algebraMul A d i j 0 t = 0 := by
-  show (eqToHom (congrArg A.piece (by ring : i * d + j * d = (i + j) * d))).val.app (op ⊤)
+  change (eqToHom (congrArg A.piece (by ring : i * d + j * d = (i + j) * d))).val.app (op ⊤)
     ((A.mul (i * d) (j * d)).app (op ⊤) 0 t) = 0
   rw [map_zero]
   exact map_zero _
@@ -143,7 +143,7 @@ theorem algebraMul_zero_left (i j : ℤ) (t : Γ(pieceMod A (j * d), ⊤)) :
 zero right factor. -/
 theorem algebraMul_zero_right (i j : ℤ) (s : Γ(pieceMod A (i * d), ⊤)) :
     algebraMul A d i j s 0 = 0 := by
-  show (eqToHom (congrArg A.piece (by ring : i * d + j * d = (i + j) * d))).val.app (op ⊤)
+  change (eqToHom (congrArg A.piece (by ring : i * d + j * d = (i + j) * d))).val.app (op ⊤)
     ((A.mul (i * d) (j * d)).app (op ⊤) s 0) = 0
   rw [map_zero, map_zero]
 

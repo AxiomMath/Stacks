@@ -71,7 +71,7 @@ public theorem bigZariskiPrecoverage_eq_comap (B : AlgebraicGeometry.BigZariskiS
     B.precoverage = Scheme.zariskiPretopology.toPrecoverage.comap B.inclusion := by
   ext X R
   rw [Precoverage.mem_comap_iff]
-  show (∃ E : PreZeroHypercover X, B.IsCovering ⟨X, E⟩ ∧ R = E.presieve₀) ↔ _
+  change (∃ E : PreZeroHypercover X, B.IsCovering ⟨X, E⟩ ∧ R = E.presieve₀) ↔ _
   constructor
   · rintro ⟨E, hE, hR⟩
     rw [hR, ← PreZeroHypercover.presieve₀_map]
@@ -85,7 +85,7 @@ public theorem bigZariskiPrecoverage_eq_comap (B : AlgebraicGeometry.BigZariskiS
       rintro ⟨i⟩
       exact i.2
     have hZ : AlgebraicGeometry.IsZariskiCovering ⟨X, E⟩ := by
-      show (E.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology _
+      change (E.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology _
       rw [PreZeroHypercover.presieve₀_map, hE]
       exact hR
     obtain ⟨E', hE', hXE, hcomb⟩ := B.covering_representative ⟨X, E⟩ hZ
@@ -113,7 +113,7 @@ public theorem bigZariskiOver_precoverage_eq_comap
       cases E
       rfl
     refine ⟨E', eq_presieve₀_of_map_eq _ overForget_presieve_map_injective hmap hR, ?_⟩
-    show B.IsCovering
+    change B.IsCovering
       ⟨(Over.forget (⟨S.obj, S.property⟩ : B.Schemes)).obj U,
         (E'.map (Over.forget (⟨S.obj, S.property⟩ : B.Schemes)))⟩
     simpa [BigZariskiOver.IsCovering, hmap] using hE
@@ -239,11 +239,11 @@ public theorem smallZariski_precoverage_eq_comap
       hZ.2 ((E.map (BigZariskiOver.toScheme B T.obj T.property)).presieve₀_f i)
     let E' : PreZeroHypercover.{u + 1} X :=
       ⟨E.I₀, fun i => ⟨E.X i, by
-        show IsOpenImmersion (B.inclusion.map (E.X i).hom)
+        change IsOpenImmersion (B.inclusion.map (E.X i).hom)
         have hcomp :
             (BigZariskiOver.toScheme B T.obj T.property).map (E.f i) ≫
               B.inclusion.map X.obj.hom = B.inclusion.map (E.X i).hom := by
-          show B.inclusion.map ((E.f i).left ≫ X.obj.hom) =
+          change B.inclusion.map ((E.f i).left ≫ X.obj.hom) =
             B.inclusion.map (E.X i).hom
           exact congrArg B.inclusion.map (Over.w (E.f i))
         rw [← hcomp]
@@ -256,7 +256,7 @@ public theorem smallZariski_precoverage_eq_comap
       cases E
       rfl
     refine ⟨E', eq_presieve₀_of_map_eq _ smallZariski_presieve_map_injective hmap hR, ?_⟩
-    show B.IsCovering
+    change B.IsCovering
       ⟨(Over.forget (⟨T.obj, T.property⟩ : B.Schemes)).obj X.obj,
         (E'.map (SmallZariski.inclusion B T.obj T.property)).map
           (Over.forget (⟨T.obj, T.property⟩ : B.Schemes))⟩

@@ -87,8 +87,8 @@ theorem exists_natCast_pow_mul_eq_algebraMap₂ (e : E) :
   · rw [map_mul, ← ho, pow_add, map_pow, map_natCast, mul_assoc]
   · rw [map_mul, ← ho', pow_add, map_pow, map_natCast, mul_assoc, mul_comm ((ℓ : E) ^ a)]
 
-omit [Algebra ℚ_[ℓ] E] [IsLocalization (Submonoid.powers (ℓ : O)) E]
-  [IsLocalization (Submonoid.powers (ℓ : O')) E] in
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [Algebra ℚ_[ℓ] E]
+  [IsLocalization (Submonoid.powers (ℓ : O)) E] [IsLocalization (Submonoid.powers (ℓ : O')) E] in
 include hφ in
 /-- The map induced by `φ` commutes with the actions of `o ∈ O`, `o' ∈ O'` with the same image
 in `E`. -/
@@ -113,6 +113,7 @@ theorem rationalIsogeny_rationalIntegralRingHom (o : O) (o' : O')
       ← LAdicSheaf.geometricCompactlySupportedCohomologyMap_comp, hφ o o' h]
   exact congrArg (fun t => t.hom v) key
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [Algebra ℚ_[ℓ] E] in
 include hφ in
 /-- **The map induced by `φ` is `E`-linear.** -/
 theorem rationalIsogeny_rationalRingHom (e : E)
@@ -166,6 +167,7 @@ public def rationalIsogenyLinearEquiv :
     left_inv := c.left_inv
     right_inv := c.right_inv }
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [Algebra ℚ_[ℓ] E] in
 public theorem rationalIsogenyLinearEquiv_apply
     (v : LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar F.toLAdicSheaf i) :
     rationalIsogenyLinearEquiv F F' f j kbar i E φ ψ N h₁ h₂ hφ v =
@@ -175,6 +177,7 @@ public theorem rationalIsogenyLinearEquiv_apply
 
 variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [Algebra ℚ_[ℓ] E] in
 /-- **The `E`-linear isogeny isomorphism commutes with `π_X^*`.** -/
 public theorem rationalIsogenyLinearEquiv_frobenius
     (v : LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar F.toLAdicSheaf i) :
@@ -186,6 +189,7 @@ public theorem rationalIsogenyLinearEquiv_frobenius
     j kbar φ ψ N h₁ h₂ i (canonicalCompactSupportFrobeniusNatTrans.{u, 0} ℤ_[ℓ] f j kbar p q hcard)
   exact (congrArg (fun t => t.hom v) h).symm
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [Algebra ℚ_[ℓ] E] in
 include h₁ h₂ hφ in
 /-- **Isogenous sheaves with coefficients have the same `E`-linear Frobenius characteristic
 polynomials on `Hⁱ_c(X_k̄, - ⊗ ℚ_ℓ)`**, for an isogeny commuting with the actions of the two

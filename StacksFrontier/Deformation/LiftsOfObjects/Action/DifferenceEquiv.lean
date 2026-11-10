@@ -249,7 +249,7 @@ public noncomputable def tangentPairEquiv
       (.inl h𝓕.predeformation)
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
     let V := FGModuleCat.of k (RingHom.ker f.hom.toRingHom)
     {e : (LiftClasses 𝓕.p f x × LiftClasses 𝓕.p f x) ≃
         (LiftClasses 𝓕.p f x × TensorProduct k
@@ -265,7 +265,7 @@ public noncomputable def tangentPairEquiv
   letI : Module.Finite k (RingHom.ker f.hom.toRingHom) := kernelModule_finite f hann
   letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
   letI : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
   let E := pairLiftEquiv 𝓕 h𝓕 f hf hann x
   let e := E.1.trans (Equiv.prodCongr (Equiv.refl _) (tensorCoordinate 𝓕 h𝓕 V))
   have hd (a b) : (e (a, b)).2 = tensorCoordinate 𝓕 h𝓕 V

@@ -78,13 +78,13 @@ theorem unitToPushforwardAdditiveSheafBase_comp_additiveSmulBase (a : Γ(X, ⊤)
   have h1 : (globalSmul a (SheafOfModules.unit X.ringCatSheaf)).app V.unop x =
       restrictTop a V.unop * x :=
     globalSmul_app a (SheafOfModules.unit X.ringCatSheaf) V.unop x
-  show (id (etaleFunction ((opensToEtale X).obj V.unop) a) : Γ(V.unop, ⊤)) *
+  change (id (etaleFunction ((opensToEtale X).obj V.unop) a) : Γ(V.unop, ⊤)) *
       (Scheme.Opens.ι V.unop).appLE V.unop ⊤ (Scheme.Opens.ι_preimage_self V.unop).ge x =
     (Scheme.Opens.ι V.unop).appLE V.unop ⊤ (Scheme.Opens.ι_preimage_self V.unop).ge
       ((globalSmul a (SheafOfModules.unit X.ringCatSheaf)).app V.unop x)
   rw [h1, map_mul]
   congr 1
-  show (Scheme.Opens.ι V.unop).appTop.hom a = _
+  change (Scheme.Opens.ι V.unop).appTop.hom a = _
   simp only [Scheme.Opens.ι_appTop, Scheme.Opens.ι_appLE, restrictTop]
   exact (presheaf_map_map_eq_map _ _ _ a).symm
 
@@ -124,7 +124,7 @@ theorem etaleHAdditiveSheafAddEquivObjectUniverse_map (n : ℕ)
       ((SheafOfModules.toSheaf X.ringCatSheaf).map ψ) mBase h₂ n)
   have h5' := (inv_comp_eq_comp_inv_of_hom_comp_eq
     (moduleCohomologyIsoAbelian_hom_naturality X ψ n)).symm
-  show (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
+  change (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
       ((abelianCohomologyIsoEtaleH X n).inv
         ((smallEtaleSheafHUliftAddEquiv X (additiveSheafBase X) n).symm
           ((Stacks.Cohomology.CoefficientLift.sheafHIsoCongr.{u + 1, u + 1}
@@ -135,7 +135,7 @@ theorem etaleHAdditiveSheafAddEquivObjectUniverse_map (n : ℕ)
       (additiveSheafBaseUliftIso X) n).symm x)
   have h4' := ConcreteCategory.congr_hom h4 z
   have h5'' := ConcreteCategory.congr_hom h5' ((abelianCohomologyIsoEtaleH X n).inv z)
-  show (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
+  change (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
     ((AddCommGrpCat.ofHom (Sheaf.H.map mBase n) ≫ (abelianCohomologyIsoEtaleH X n).inv) z) = _
   rw [← h4']
   exact h5''
@@ -155,7 +155,7 @@ theorem etaleHAdditiveSheafAddEquiv_additiveSmul
       (extChgUnivAddEquiv.{w, u + 1} _ _ n x).comp
         (Ext.mk₀ (additiveSmul.{u, u + 1} X a)) (add_zero n) :=
     @ext_chgUniv_comp_mk₀ _ _ _ _ (hasExt_smallEtale_objectUniverse X) _ _ _ _ x _
-  show etaleHAdditiveSheafAddEquivObjectUniverse X n (extChgUnivAddEquiv.{w, u + 1} _ _ n
+  change etaleHAdditiveSheafAddEquivObjectUniverse X n (extChgUnivAddEquiv.{w, u + 1} _ _ n
     (Sheaf.H.map (additiveSmul.{u, u + 1} X a) n x)) = _
   rw [h1]
   exact etaleHAdditiveSheafAddEquivObjectUniverse_map X n _ (additiveSmulBase X a) _

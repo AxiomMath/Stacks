@@ -80,11 +80,9 @@ theorem presheafMap_mulSec (U : ((Spec R).Opens)ᵒᵖ) (i j : ℤ)
       mulSec (intExtend ℬ) U i j
         (AffineBaseChange.presheafMapₗ (pieceModuleMap 𝒜 ℬ φ hφ i) U.unop x)
         (AffineBaseChange.presheafMapₗ (pieceModuleMap 𝒜 ℬ φ hφ j) U.unop y) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a x =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul b y =>
           rw [mulSec_tmul, AffineBaseChange.presheafMapₗ_tmul,
             AffineBaseChange.presheafMapₗ_tmul, AffineBaseChange.presheafMapₗ_tmul,

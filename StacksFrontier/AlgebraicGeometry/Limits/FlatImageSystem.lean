@@ -73,15 +73,14 @@ an isomorphism of systems at every late stage.
 
 ## The input from Tag 01ZM part (1)
 
-The three main results of this file are stated with Stacks Tag 01ZM part (1) as the explicit
-hypothesis `AlgebraicGeometry.LimitDescent.HasFinitePresentationModels`, and are therefore not
-themselves tagged with `0CNT`.  That hypothesis is **now proved**, as
+The three main results of this file no longer carry Stacks Tag 01ZM part (1),
+`AlgebraicGeometry.LimitDescent.HasFinitePresentationModels`, as a hypothesis: their proofs do
+not use it.  They are not themselves tagged with `0CNT`.  That hypothesis is **now proved**, as
 `AlgebraicGeometry.LimitDescent.exists_isPullback_of_finitePresentation` in
 `StacksFrontier.AlgebraicGeometry.LimitDescentGlueing.Glueing`, and discharged as
 `AlgebraicGeometry.LimitDescent.hasFinitePresentationModels`; the unconditional, tagged forms of
 the three results are
-`StacksFrontier.AlgebraicGeometry.Limits.FlatImageSystemModels`.  The hypothesis is kept here so
-that this file does not depend on the glueing argument.
+`StacksFrontier.AlgebraicGeometry.Limits.FlatImageSystemModels`.
 
 ## Implementation notes
 
@@ -652,7 +651,7 @@ private lemma isPullback_limit_of_isPullback_transition
   · intro T l l' hl hl'
     apply hA'.hom_ext
     intro j
-    show l ≫ cA.π.app j.left = l' ≫ cA.π.app j.left
+    change l ≫ cA.π.app j.left = l' ≫ cA.π.app j.left
     apply (hp j.hom).hom_ext
     · rw [Category.assoc, Category.assoc, hf, ← Category.assoc, ← Category.assoc, hl]
     · simpa only [Category.assoc, cA.w] using hl'
@@ -670,7 +669,7 @@ private lemma isPullback_limit_of_isPullback_transition
         app := l
         naturality := by
           intro j j' t
-          show 𝟙 T ≫ l j' = l j ≫ A.map t.left
+          change 𝟙 T ≫ l j' = l j ≫ A.map t.left
           rw [Category.id_comp]
           apply (hp j'.hom).hom_ext
           · rw [Category.assoc, φ.naturality, ← Category.assoc, hl₁, hl₁,
@@ -679,7 +678,7 @@ private lemma isPullback_limit_of_isPullback_transition
     refine ⟨hA'.lift d, ?_, ?_⟩
     · apply hB'.hom_ext
       intro j
-      show (hA'.lift d ≫ f) ≫ cB.π.app j.left = a ≫ cB.π.app j.left
+      change (hA'.lift d ≫ f) ≫ cB.π.app j.left = a ≫ cB.π.app j.left
       rw [Category.assoc, ← hf, ← Category.assoc]
       have h := hA'.fac d j
       change hA'.lift d ≫ cA.π.app j.left = d.π.app j at h
@@ -788,22 +787,20 @@ private lemma exists_eventual_model_comparison
   have hFX : IsIso (FX.maps.app j) := by
     let q : Over (op iX) := (Over.map ((homOfLE kIX).op)).obj j
     have hq := hIsoX q
-    show IsIso (FX₀.maps.app q)
+    change IsIso (FX₀.maps.app q)
     exact ⟨GX₀.maps.app q, hq.1, hq.2⟩
   have hFY : IsIso (FY.maps.app j) := by
     let q : Over (op iY) := (Over.map ((homOfLE kIY).op)).obj j
     have hq := hIsoY q
-    show IsIso (FY₀.maps.app q)
+    change IsIso (FY₀.maps.app q)
     exact ⟨GY₀.maps.app q, hq.1, hq.2⟩
   exact ⟨hFX, hFY, hnat j hj⟩
 
-/-- **Stacks Project, Tag 0CNT, eventual flatness**, conditional on Tag 01ZM part (1).
+/-- **Stacks Project, Tag 0CNT, eventual flatness**.
 
 The morphisms of the image systems of a flat morphism of finite presentation are flat at every
-sufficiently late stage.  The hypothesis `hmod` is Tag 01ZM part (1), which this library does not
-prove; everything else is the statement of the tag. -/
+sufficiently late stage. -/
 theorem eventually_flat_morphismAt_of_hasFinitePresentationModels'
-    (hmod : LimitDescent.HasFinitePresentationModels.{u})
     (D : LimitNoetherianSituation.{v, u} I)
     {X Y : Scheme.{u}} {pX : X ⟶ D.limitScheme} {pY : Y ⟶ D.limitScheme}
     (f : X ⟶ Y) (hf : f ≫ pY = pX)
@@ -829,7 +826,7 @@ theorem eventually_flat_morphismAt_of_hasFinitePresentationModels'
   let _ : IsIso (FX.maps.app j₁) := hc.1
   let _ : IsIso (FY.maps.app j₁) := hc.2.1
   have hg : Flat ((MorphismAt.restrict D f GM H kH M).maps.app j₁) := by
-    show Flat (M.maps.app jH)
+    change Flat (M.maps.app jH)
     exact flat_modelImageMap_smallnessFree f hf H Z hZ e hflat jH
   let _ : Flat ((MorphismAt.restrict D f GM H kH M).maps.app j₁) := hg
   have hh : Flat ((MorphismAt.restrict D f GX GY k₀ F).maps.app j₁) :=
@@ -837,13 +834,11 @@ theorem eventually_flat_morphismAt_of_hasFinitePresentationModels'
   change Flat (F.maps.app ((Over.map ((homOfLE k₀).op)).obj j₁)) at hh
   rwa [overMap_overAt k₀ j (h₁₂.trans hj)] at hh
 
-/-- **Stacks Project, Tag 0CNT, cartesian transition squares**, conditional on Tag 01ZM
-part (1).
+/-- **Stacks Project, Tag 0CNT, cartesian transition squares**.
 
 On a sufficiently late tail every transition square of the morphism of image systems of a flat
 morphism of finite presentation is cartesian. -/
 theorem eventually_isPullback_morphismAt_of_hasFinitePresentationModels'
-    (hmod : LimitDescent.HasFinitePresentationModels.{u})
     (D : LimitNoetherianSituation.{v, u} I)
     {X Y : Scheme.{u}} {pX : X ⟶ D.limitScheme} {pY : Y ⟶ D.limitScheme}
     (f : X ⟶ Y) (hf : f ≫ pY = pX)
@@ -884,7 +879,7 @@ theorem eventually_isPullback_morphismAt_of_hasFinitePresentationModels'
       ((Over.map ((homOfLE kM).op) ⋙ GoodDiagram.imageSystem GM).map a₁)
       ((Over.map ((homOfLE kH).op) ⋙ GoodDiagram.imageSystem H).map a₁)
       (MR.maps.app k₁) := by
-    show IsPullback (M.maps.app ((Over.map ((homOfLE kH).op)).obj j₁))
+    change IsPullback (M.maps.app ((Over.map ((homOfLE kH).op)).obj j₁))
       ((GoodDiagram.imageSystem GM).map ((Over.map ((homOfLE kM).op)).map a₁))
       ((GoodDiagram.imageSystem H).map b)
       (M.maps.app ((Over.map ((homOfLE kH).op)).obj k₁))
@@ -892,7 +887,7 @@ theorem eventually_isPullback_morphismAt_of_hasFinitePresentationModels'
       apply CostructuredArrow.hom_ext
       rfl
     rw [hb]
-    show IsPullback
+    change IsPullback
       (modelImageMap f hf H Z hZ e ((Over.map ((homOfLE kH).op)).obj j₁))
       (GoodDiagram.imageTransition GM b)
       (GoodDiagram.imageTransition H b)
@@ -918,12 +913,11 @@ theorem eventually_isPullback_morphismAt_of_hasFinitePresentationModels'
   simp only [haEq] at hp
   exact hp
 
-/-- **Stacks Project, Tag 0CNT, cartesian limit square**, conditional on Tag 01ZM part (1).
+/-- **Stacks Project, Tag 0CNT, cartesian limit square**.
 
 The square relating a flat morphism of finite presentation to each sufficiently late morphism of
 the image systems is cartesian. -/
 theorem eventually_isPullback_limit_morphismAt_of_hasFinitePresentationModels'
-    (hmod : LimitDescent.HasFinitePresentationModels.{u})
     (D : LimitNoetherianSituation.{v, u} I)
     {X Y : Scheme.{u}} {pX : X ⟶ D.limitScheme} {pY : Y ⟶ D.limitScheme}
     (f : X ⟶ Y) (hf : f ≫ pY = pX)
@@ -940,7 +934,7 @@ theorem eventually_isPullback_limit_morphismAt_of_hasFinitePresentationModels'
           ((GoodDiagram.imageCone GY).π.app ((Over.map ((homOfLE hY).op)).obj j))
           (F.maps.app j) := by
   obtain ⟨i₃, hi₃, hp⟩ :=
-    eventually_isPullback_morphismAt_of_hasFinitePresentationModels' hmod D f hf hfp
+    eventually_isPullback_morphismAt_of_hasFinitePresentationModels' D f hf hfp
       GX GY i₀ hX hY F
   let cX := (GoodDiagram.imageCone GX).whisker (Over.map ((homOfLE hX).op))
   let cY := (GoodDiagram.imageCone GY).whisker (Over.map ((homOfLE hY).op))
@@ -959,13 +953,11 @@ section Main
 variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)] [FinallySmall.{u} I]
 
 omit [FinallySmall.{u} I] in
-/-- **Stacks Project, Tag 0CNT, eventual flatness**, conditional on Tag 01ZM part (1).
+/-- **Stacks Project, Tag 0CNT, eventual flatness**.
 
 The morphisms of the image systems of a flat morphism of finite presentation are flat at every
-sufficiently late stage.  The hypothesis `hmod` is Tag 01ZM part (1), which this library does not
-prove; everything else is the statement of the tag. -/
+sufficiently late stage. -/
 theorem eventually_flat_morphismAt_of_hasFinitePresentationModels
-    (hmod : LimitDescent.HasFinitePresentationModels.{u})
     (D : LimitNoetherianSituation.{v, u} I)
     {X Y : Scheme.{u}} {pX : X ⟶ D.limitScheme} {pY : Y ⟶ D.limitScheme}
     (f : X ⟶ Y) (hf : f ≫ pY = pX)
@@ -978,16 +970,14 @@ theorem eventually_flat_morphismAt_of_hasFinitePresentationModels
     ∃ (i₃ : I) (_ : i₀ ≤ i₃),
       ∀ (j : Over (op i₀)), i₃ ≤ unop j.left → Flat (F.maps.app j) :=
   eventually_flat_morphismAt_of_hasFinitePresentationModels'
-    hmod D f hf hfp GX GY i₀ hX hY F
+    D f hf hfp GX GY i₀ hX hY F
 
 omit [FinallySmall.{u} I] in
-/-- **Stacks Project, Tag 0CNT, cartesian transition squares**, conditional on Tag 01ZM
-part (1).
+/-- **Stacks Project, Tag 0CNT, cartesian transition squares**.
 
 On a sufficiently late tail every transition square of the morphism of image systems of a flat
 morphism of finite presentation is cartesian. -/
 theorem eventually_isPullback_morphismAt_of_hasFinitePresentationModels
-    (hmod : LimitDescent.HasFinitePresentationModels.{u})
     (D : LimitNoetherianSituation.{v, u} I)
     {X Y : Scheme.{u}} {pX : X ⟶ D.limitScheme} {pY : Y ⟶ D.limitScheme}
     (f : X ⟶ Y) (hf : f ≫ pY = pX)
@@ -1005,15 +995,14 @@ theorem eventually_isPullback_morphismAt_of_hasFinitePresentationModels
             ((Over.map ((homOfLE hY).op) ⋙ GoodDiagram.imageSystem GY).map a)
             (F.maps.app k) :=
   eventually_isPullback_morphismAt_of_hasFinitePresentationModels'
-    hmod D f hf hfp GX GY i₀ hX hY F
+    D f hf hfp GX GY i₀ hX hY F
 
 omit [FinallySmall.{u} I] in
-/-- **Stacks Project, Tag 0CNT, cartesian limit square**, conditional on Tag 01ZM part (1).
+/-- **Stacks Project, Tag 0CNT, cartesian limit square**.
 
 The square relating a flat morphism of finite presentation to each sufficiently late morphism of
 the image systems is cartesian. -/
 theorem eventually_isPullback_limit_morphismAt_of_hasFinitePresentationModels
-    (hmod : LimitDescent.HasFinitePresentationModels.{u})
     (D : LimitNoetherianSituation.{v, u} I)
     {X Y : Scheme.{u}} {pX : X ⟶ D.limitScheme} {pY : Y ⟶ D.limitScheme}
     (f : X ⟶ Y) (hf : f ≫ pY = pX)
@@ -1030,7 +1019,7 @@ theorem eventually_isPullback_limit_morphismAt_of_hasFinitePresentationModels
           ((GoodDiagram.imageCone GY).π.app ((Over.map ((homOfLE hY).op)).obj j))
           (F.maps.app j) :=
   eventually_isPullback_limit_morphismAt_of_hasFinitePresentationModels'
-    hmod D f hf hfp GX GY i₀ hX hY F
+    D f hf hfp GX GY i₀ hX hY F
 
 end Main
 

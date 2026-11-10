@@ -186,7 +186,7 @@ theorem conormalExtensionHom_comp {i j k : SimplexCategoryᵒᵖ} (f : i ⟶ j) 
     conormalExtensionHom A B (f ≫ g) =
       (conormalExtensionHom A B g).comp (conormalExtensionHom A B f) := by
   apply Algebra.Extension.Hom.ext
-  show ((standardResolution A B).left.map (f ≫ g)).hom.toRingHom = _
+  change ((standardResolution A B).left.map (f ≫ g)).hom.toRingHom = _
   rw [(standardResolution A B).left.map_comp]
   rfl
 
@@ -194,7 +194,7 @@ theorem conormalExtensionHom_comp {i j k : SimplexCategoryᵒᵖ} (f : i ⟶ j) 
 theorem conormalExtensionHom_id (i : SimplexCategoryᵒᵖ) :
     conormalExtensionHom A B (𝟙 i) = Algebra.Extension.Hom.id (conormalExtension A B i) := by
   apply Algebra.Extension.Hom.ext
-  show ((standardResolution A B).left.map (𝟙 i)).hom.toRingHom = _
+  change ((standardResolution A B).left.map (𝟙 i)).hom.toRingHom = _
   rw [(standardResolution A B).left.map_id]
   rfl
 

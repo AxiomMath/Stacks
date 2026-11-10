@@ -136,7 +136,7 @@ theorem holdsOnEveryEtaleChart_closedSubspaceOfIdeal_ι_comp {P : MorphismProper
     (inferInstanceAs (Mono J.subschemeι))
   have hι : (Subfunctor.range (yoneda.map j)).ι = inv (Subfunctor.toRange (yoneda.map j)) ≫
       yoneda.map j := (IsIso.eq_inv_comp _).2 (Subfunctor.toRange_ι _).symm
-  show HoldsOnEveryEtaleChart B S hS P ((Subfunctor.range (yoneda.map j)).ι ≫ yoneda.map m)
+  change HoldsOnEveryEtaleChart B S hS P ((Subfunctor.range (yoneda.map j)).ι ≫ yoneda.map m)
   rw [hι, Category.assoc, ← Functor.map_comp]
   refine holdsOnEveryEtaleChart_iso_comp _ _
     (holdsOnEveryEtaleChart_yoneda_map B S hS hP _ ?_)
@@ -190,7 +190,7 @@ theorem openComplement_preimage_le_closedSubspaceOfIdeal_strictTransform
       hpts] at h1
     refine h1.trans ?_
     ext x
-    show ¬ pointsToScheme B S hS T (pointsMap B S hS (yoneda.obj (blowUpObj T K))
+    change ¬ pointsToScheme B S hS T (pointsMap B S hS (yoneda.obj (blowUpObj T K))
         (yoneda.map (blowUpObjHom T K)) (pointsMap B S hS (yoneda.obj (blowUpChartObj g K))
           (yoneda.map (blowUpChartSnd g K)) x)) ∈ (K.support : Set _) ↔
       pointsToScheme B S hS (blowUpChartObj g K) x ∈
@@ -198,7 +198,7 @@ theorem openComplement_preimage_le_closedSubspaceOfIdeal_strictTransform
     rw [pointsToScheme_pointsMap, pointsToScheme_pointsMap B S hS (blowUpChartSnd g K) x, hmdef,
       Functor.map_comp]
     exact Iff.rfl
-  show C.1 ≤ _
+  change C.1 ≤ _
   rw [hC, openSubspaceOfPoints_preimage_pointsToScheme]
   refine (range_le_schemeTheoreticImageSubfunctor B S hS _).trans ?_
   rw [schemeTheoreticImageSubfunctor_yoneda_openSubHom, preimage_eq_exceptionalComplement g O K hK,

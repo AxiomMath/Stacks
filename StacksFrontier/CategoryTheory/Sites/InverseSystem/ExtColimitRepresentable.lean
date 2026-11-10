@@ -437,6 +437,9 @@ variable {D : InverseSystemOfFiniteSites.{v, u, max u v w}} {C : Type (max u v w
 
 variable {i : D.I}
 
+omit [∀ j, PreservesFiniteLimits (colimitPullback.{v, u, w} D uC K j)]
+  [∀ j, EnoughInjectives (Sheaf (D.J j) Ab.{max u v w})]
+  [HasExt.{max u v w} (Sheaf K.toGrothendieck Ab.{max u v w})] in
 /-- The degree-zero transition of an `Ext` diagram, as a morphism. -/
 theorem homEquiv₀_extTransition (𝒜 : FirstVariable.{v, u, w} D uC hu K i)
     (F : AbelianSheafSystem.{v, u, max u v w, max u v w} D) {A B : Over i} (f : A ⟶ B)
@@ -446,6 +449,7 @@ theorem homEquiv₀_extTransition (𝒜 : FirstVariable.{v, u, w} D uC hu K i)
   rw [extTransition_apply]
   exact homEquiv₀_extConj_mapExactFunctor (pb.{v, u, w} D f.left) (𝒜.map f) x (F.map f.left)
 
+omit [∀ j, EnoughInjectives (Sheaf (D.J j) Ab.{max u v w})] in
 /-- The degree-zero leg of an `Ext` cocone, as a morphism. -/
 theorem homEquiv₀_extLeg (𝒜 : FirstVariable.{v, u, w} D uC hu K i)
     (F : AbelianSheafSystem.{v, u, max u v w, max u v w} D)
@@ -480,6 +484,9 @@ theorem CorepSections.ext_eq_zero_of_pointwise_injective (S : CorepSections hu K
     (n + 1) n.succ_pos
   exact ext_eq_zero_of_iso e (AddCommGrpCat.subsingleton_of_isZero hz) y
 
+omit [∀ j, PreservesFiniteLimits (colimitPullback.{v, u, w} D uC K j)]
+  [∀ j, EnoughInjectives (Sheaf (D.J j) Ab.{max u v w})]
+  [HasExt.{max u v w} (Sheaf K.toGrothendieck Ab.{max u v w})] in
 /-- The degree-zero transitions on the corepresenting sections, for `Ext` classes. -/
 theorem CorepSections.sec_extTransition (S : CorepSections hu K 𝒜 X)
     (F : AbelianSheafSystem.{v, u, max u v w, max u v w} D) {A B : Over i} (f : A ⟶ B)
@@ -491,6 +498,7 @@ theorem CorepSections.sec_extTransition (S : CorepSections hu K 𝒜 X)
   rw [homEquiv₀_extTransition]
   exact S.sec_transition F f (Ext.homEquiv₀ x)
 
+omit [∀ j, EnoughInjectives (Sheaf (D.J j) Ab.{max u v w})] in
 /-- The degree-zero legs on the corepresenting sections, for `Ext` classes. -/
 theorem CorepSections.top_extLeg (S : CorepSections hu K 𝒜 X)
     (F : AbelianSheafSystem.{v, u, max u v w, max u v w} D)
@@ -560,7 +568,7 @@ theorem CorepSections.nonempty_isColimit_stdCocone_zero (S : CorepSections hu K 
     obtain ⟨k, b, hb⟩ := hsep i X A.unop.left A.unop.hom _ 0 (hι.trans (map_zero _).symm)
     let f : Over.mk (b ≫ A.unop.hom) ⟶ A.unop := Over.homMk b rfl
     refine ⟨op (Over.mk (b ≫ A.unop.hom)), f.op, ?_⟩
-    show extTransition 𝒜 F 0 f x' = 0
+    change extTransition 𝒜 F 0 f x' = 0
     apply (hlev (Over.mk (b ≫ A.unop.hom))).1
     have hT := S.sec_extTransition F f x'
     have hE0 : (Ext.homEquiv₀ (0 : Ext.{max u v w} (𝒜.obj (Over.mk (b ≫ A.unop.hom)))
@@ -602,6 +610,10 @@ def topSection : (pullbackFirstVariable D uC hu K P).top.obj.obj (op ((uC i).obj
   colUnitSection uC K i P s
 
 variable (hu) in
+omit [∀ j, PreservesFiniteLimits (colimitPullback.{v, u, w} D uC K j)]
+  [∀ j, EnoughInjectives (Sheaf (D.J j) Ab.{max u v w})]
+  [∀ j, HasExt.{max u v w} (Sheaf (D.J j) Ab.{max u v w})]
+  [HasExt.{max u v w} (Sheaf K.toGrothendieck Ab.{max u v w})] in
 /-- The transition of the pullback first variable along `f : A ⟶ B` in direct-image form sends
 the section over `u_{B.hom}(X)` to the section over `u_{A.hom}(X)`. -/
 theorem φ_levelSection {A B : Over i} (f : A ⟶ B) :
@@ -621,6 +633,10 @@ theorem φ_levelSection {A B : Over i} (f : A ⟶ B) :
     ((pb.{v, u, w} D A.hom).obj P) (op X)) (levelSection hu K X P s A)
 
 variable (hu) in
+omit [∀ j, PreservesFiniteLimits (colimitPullback.{v, u, w} D uC K j)]
+  [∀ j, EnoughInjectives (Sheaf (D.J j) Ab.{max u v w})]
+  [∀ j, HasExt.{max u v w} (Sheaf (D.J j) Ab.{max u v w})]
+  [HasExt.{max u v w} (Sheaf K.toGrothendieck Ab.{max u v w})] in
 /-- The leg of the pullback first variable in direct-image form sends the section over
 `u_{A.hom}(X)` to the section over `u_i(X)`, transported. -/
 theorem lg_levelSection (A : Over i) :
@@ -645,6 +661,10 @@ theorem lg_levelSection (A : Over i) :
 variable {P X s}
 
 variable (hu K) in
+omit [∀ j, PreservesFiniteLimits (colimitPullback.{v, u, w} D uC K j)]
+  [∀ j, EnoughInjectives (Sheaf (D.J j) Ab.{max u v w})]
+  [∀ j, HasExt.{max u v w} (Sheaf (D.J j) Ab.{max u v w})]
+  [HasExt.{max u v w} (Sheaf K.toGrothendieck Ab.{max u v w})] in
 /-- If `s` corepresents the sections of `P` over `X`, then its image under the unit corepresents
 the sections of the level `A` of the pullback first variable over `u_{A.hom}(X)`. -/
 theorem isCorepresentingSection_levelSection (hs : IsCorepresentingSection P X s) (A : Over i) :
@@ -654,6 +674,10 @@ theorem isCorepresentingSection_levelSection (hs : IsCorepresentingSection P X s
   exact hs.pullback (D.u A.hom) (abelianSheafAdjunction.{v, u, max u v w, max u v w} D A.hom)
 
 variable (hu K) in
+omit [∀ j, PreservesFiniteLimits (colimitPullback.{v, u, w} D uC K j)]
+  [∀ j, EnoughInjectives (Sheaf (D.J j) Ab.{max u v w})]
+  [∀ j, HasExt.{max u v w} (Sheaf (D.J j) Ab.{max u v w})]
+  [HasExt.{max u v w} (Sheaf K.toGrothendieck Ab.{max u v w})] in
 /-- If `s` corepresents the sections of `P` over `X`, then its image under the unit corepresents
 the sections of the top of the pullback first variable over `u_i(X)`. -/
 theorem isCorepresentingSection_topSection (hs : IsCorepresentingSection P X s) :

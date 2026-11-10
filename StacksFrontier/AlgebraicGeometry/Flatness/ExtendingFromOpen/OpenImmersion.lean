@@ -95,7 +95,7 @@ private theorem isSchemeTheoreticallyDominant_of_isSchemeTheoreticallyDense {S :
 private theorem quasiCompact_ι_of_isRetrocompact {S : Scheme.{u}} (U : S.Opens)
     (hU : IsRetrocompact (U : Set S)) : QuasiCompact U.ι := by
   rw [quasiCompact_iff_isSpectralMap]
-  show IsSpectralMap (Subtype.val : ↑U → S)
+  change IsSpectralMap (Subtype.val : ↑U → S)
   exact IsRetrocompact_iff_isSpectralMap_subtypeVal.mp hU
 
 /-! ### Flatness over the target -/

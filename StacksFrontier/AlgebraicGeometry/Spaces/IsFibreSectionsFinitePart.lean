@@ -86,6 +86,7 @@ local instance (priority := high) hasPullback_presheaf_IsFibreSectionsFinitePart
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_IsFibreSectionsFinitePart :
@@ -224,7 +225,7 @@ theorem isAlgebraicSpace_range_pairLift (p : RestrictionPair B S hS x z (yoneda.
 theorem isOpenImmersion_range_pairLift (hx : IsEtale B S hS x.hom)
     (p : RestrictionPair B S hS x z (yoneda.obj T)) :
     IsOpenImmersion B S hS (Subfunctor.range (pairLift p)).ι := by
-  show (MorphismProperty.inverseImage
+  change (MorphismProperty.inverseImage
     (@_root_.AlgebraicGeometry.IsOpenImmersion.{u} : MorphismProperty Scheme.{u})
     (BigFppfOver.toScheme B S hS)).presheaf (Subfunctor.range (pairLift p)).ι
   rw [← MorphismProperty.cancel_left_of_respectsIso

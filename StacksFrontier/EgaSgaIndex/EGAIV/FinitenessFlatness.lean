@@ -526,8 +526,12 @@ add_to_ega "IV 2.3.5" "(iii), special case"
   AlgebraicGeometry.GeometricallyIrreducible.irreducibleSpace
 add_to_ega "IV 2.3.5" "(ii), special case"
   AlgebraicGeometry.Scheme.Hom.irreducibleComponentsEquiv_apply_coe
-add_to_ega "IV 2.3.5" "(iii), special case"
-  AlgebraicGeometry.instIrreducibleSpaceCarrierCarrierCommRingCatPullbackSchemeOfGeometricallyIrreducibleOfUniversallyOpen
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry <|
+    "instIrreducibleSpaceCarrierCarrierCommRingCatPullbackScheme" ++
+      "OfGeometricallyIrreducibleOfUniversallyOpen"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_ega "IV 2.3.5" "(iii), special case" $decl:ident))
 add_to_ega "IV 2.3.5" "(iii), special case" IsIrreducible.preimage_of_isPreirreducible_fiber
 add_to_ega "IV 2.3.5" "(ii), special case" image_mem_irreducibleComponents_of_isPreirreducible_fiber
 add_to_ega "IV 2.3.6" "(iii), special case" Algebra.QuasiFinite.iff_finite_comap_preimage_singleton
@@ -663,10 +667,18 @@ add_to_ega "IV 2.7.1" "(x)"
   AlgebraicGeometry.descendsAlong_isOpenImmersion_surjective_inf_flat_inf_quasicompact'
 add_to_ega "IV 2.7.1" "(viii)"
   AlgebraicGeometry.descendsAlong_isomorphisms_surjective_inf_flat_inf_quasicompact
-add_to_ega "IV 2.7.1" "(iv)"
-  AlgebraicGeometry.instDescendsAlongSchemeLocallyOfFinitePresentationMinMorphismPropertySurjectiveFlatQuasiCompact
-add_to_ega "IV 2.7.1" "(iii)"
-  AlgebraicGeometry.instDescendsAlongSchemeLocallyOfFiniteTypeMinMorphismPropertySurjectiveFlatQuasiCompact
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry <|
+    "instDescendsAlongSchemeLocallyOfFinitePresentation" ++
+      "MinMorphismPropertySurjectiveFlatQuasiCompact"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_ega "IV 2.7.1" "(iv)" $decl:ident))
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry <|
+    "instDescendsAlongSchemeLocallyOfFiniteType" ++
+      "MinMorphismPropertySurjectiveFlatQuasiCompact"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_ega "IV 2.7.1" "(iii)" $decl:ident))
 add_to_ega "IV 2.7.1" "(ii)" AlgebraicGeometry.instQuasiSeparatedFstScheme
 add_to_ega "IV 2.7.1" "(ii)" AlgebraicGeometry.instQuasiSeparatedSndScheme
 add_to_ega "IV 2.7.1" "special case" RingHom.FinitePresentation.codescendsAlong_faithfullyFlat

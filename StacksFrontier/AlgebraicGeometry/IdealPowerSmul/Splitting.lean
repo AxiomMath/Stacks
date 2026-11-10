@@ -49,7 +49,8 @@ exactly the assertion of 01YD — for every coherent `F` with `supp F = Z₁ ∪
 with `ShortComplex.exact_of_g_is_cokernel`, as
 `Stacks.AlgebraicGeometry.DevissageNoetherian.isIdealDevissable_of_isCoherent` assembles it.
 
-The other two theorems below carry a hypothesis that the statement of Tag 01YG does not have, so they are left
+The other two theorems below carry a hypothesis that the statement of Tag 01YG does not have, so
+they are left
 untagged: the covering-set rule forbids labelling an assertion that does.
 
 ## References

@@ -162,7 +162,7 @@ theorem exists_isElementary_specStalkHom_of_fromSpecStalk_eq {S : Scheme.{u}} {s
       map_point := by rw [← Category.assoc, Scheme.Hom.comp_apply, hau, V.map_point] }
   have hUres : IsIso (U.toBase.residueFieldMap (Spec.map b wT)) := by
     refine Scheme.Hom.isIso_residueFieldMap_of_isPreimmersion_comp (Spec.map b) U.toBase wT ?_
-    show IsIso ((Spec.map b ≫ (Spec.map a ≫ hV₀.fromSpec ≫ V.toBase)).residueFieldMap wT)
+    change IsIso ((Spec.map b ≫ (Spec.map a ≫ hV₀.fromSpec ≫ V.toBase)).residueFieldMap wT)
     rw [reassoc_of% hbase, Scheme.residueFieldMap_comp]
     exact IsIso.comp_isIso' ((Scheme.Hom.isIso_residueFieldMap_congr _ hwT).mpr
       (isIso_residueFieldMap_toBase_comp_fromSpecStalk V hV hz W hW))
@@ -171,7 +171,7 @@ theorem exists_isElementary_specStalkHom_of_fromSpecStalk_eq {S : Scheme.{u}} {s
   let cP : ↥(Spec (U.scheme.presheaf.stalk U.point)) := closedPoint _
   have hpUcP : pU cP = Spec.map b wT := Scheme.fromSpecStalk_closedPoint
   obtain ⟨κ, hκb, hκ⟩ := exists_lift_of_isPullback_fromSpecStalk hgf hpb pU (by
-    show (pU ≫ Spec.map a ≫ hV₀.fromSpec) cP = V.point
+    change (pU ≫ Spec.map a ≫ hV₀.fromSpec) cP = V.point
     rw [Scheme.Hom.comp_apply, hpUcP, hau])
   have hκcP : κ cP = wT := by
     refine (Spec.map b).isEmbedding.injective ?_

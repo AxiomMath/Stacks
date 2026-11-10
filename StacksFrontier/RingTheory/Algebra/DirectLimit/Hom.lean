@@ -68,7 +68,8 @@ generator computation of item (1) on both sides.
 Item (3) is proved through
 `Stacks.DirectLimit.AlgebraMapDescent.exists_lift_of_finitePresentation`, which produces the
 `A`-algebra map `C → R_i ⊗_A B` rather than the `R_i`-algebra map `R_i ⊗_A C → R_i ⊗_A B`; the
-latter is recovered by `Algebra.TensorProduct.lift`, and the commuting square asked for in the statement
+latter is recovered by `Algebra.TensorProduct.lift`, and the commuting square asked for in the
+statement
 is exactly the statement that the two maps agree on the elements `1 ⊗ c`. Item (4) uses the same
 `A`-algebra map, so it does not go through item (3)'s conclusion.
 

@@ -78,7 +78,7 @@ theorem ofSchemeHomOfEq_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z)
           (f ≫ g) x = g (f x) := by rw [← Scheme.Hom.comp_apply]
           _ = g y := congrArg g hxy
           _ = z := hyz) := by
-  show comp (mk _) (mk _) = _
+  change comp (mk _) (mk _) = _
   rw [comp_mk]
   let fr : Representative ⟨X, x⟩ ⟨Y, y⟩ :=
     { source := ⊤
@@ -99,14 +99,14 @@ theorem ofSchemeHomOfEq_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z)
           (f ≫ g) x = g (f x) := by rw [← Scheme.Hom.comp_apply]
           _ = g y := congrArg g hxy
           _ = z := hyz }
-  show mk (compRepresentative fr gr) = mk rr
+  change mk (compRepresentative fr gr) = mk rr
   let _ : IsOpenImmersion X.topIso.hom := inferInstance
   let hC : (⊤ : X.Opens) = (compRepresentative fr gr).source := by
     simp [compRepresentative, fr, gr]
   have hR : (⊤ : X.Opens) = rr.source := rfl
   apply mk_eq_mk_iff.mpr
   refine ⟨⊤, by simp, hC.le, hR.le, ?_⟩
-  show X.homOfLE hC.le ≫ (compRepresentative fr gr).hom =
+  change X.homOfLE hC.le ≫ (compRepresentative fr gr).hom =
     X.homOfLE hR.le ≫ rr.hom
   have hpre : fr.hom ⁻¹ᵁ gr.source = ⊤ := by simp [fr, gr]
   have hImage : fr.source.ι ''ᵁ (fr.hom ⁻¹ᵁ gr.source) =

@@ -137,7 +137,7 @@ theorem flatOverAt_iff_closedPushforward
   obtain ⟨e⟩ :=
     AlgebraicGeometry.stalk_isomorphic_pushforward_of_finite_singleton_fiber
       i z hfiber G
-  show Module.Flat R (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) M₁.presheaf (i z)) ↔
+  change Module.Flat R (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) M₁.presheaf (i z)) ↔
     Module.Flat R (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) M₂.presheaf z)
   let e' : (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) M₁.presheaf (i z)) ≃ₗ[A]
       (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) M₂.presheaf z) := e.toLinearEquiv.symm
@@ -161,7 +161,7 @@ theorem flatOverAt_iff_of_iso
     Module.compHom _ (f.stalkMap x).hom
   let : Module (S.presheaf.stalk (f x)) (G.presheaf.stalk x) :=
     Module.compHom _ (f.stalkMap x).hom
-  show Module.Flat (S.presheaf.stalk (f x)) (F.presheaf.stalk x) ↔
+  change Module.Flat (S.presheaf.stalk (f x)) (F.presheaf.stalk x) ↔
     Module.Flat (S.presheaf.stalk (f x)) (G.presheaf.stalk x)
   let e' := Stacks.ModuleStalk.equivOfIso e x
   exact flat_compHom_iff_of_semilinearEquiv (f.stalkMap x).hom (f.stalkMap x).hom
@@ -228,7 +228,7 @@ lemma exists_finiteTypeAffineClosedImmersion {X S : Scheme.{u}}
     have hc : ψ.toRingHom.comp (algebraMap R (MvPolynomial (Fin n) R)) =
         (f.appLE U.1 V.1 hVU).hom := by
       ext r
-      show ψ (algebraMap R (MvPolynomial (Fin n) R) r) = algebraMap R B r
+      change ψ (algebraMap R (MvPolynomial (Fin n) R) r) = algebraMap R B r
       rw [ψ.commutes r]
     calc
       (hV.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom ψ.toRingHom)) ≫

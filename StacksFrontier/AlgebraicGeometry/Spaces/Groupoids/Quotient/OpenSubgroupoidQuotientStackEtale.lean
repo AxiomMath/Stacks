@@ -196,7 +196,7 @@ theorem hasRelativeProperty_etale_quotientStackMap {H : GroupoidInAlgebraicSpace
         (StacksRepresentableCFG.EquivalenceOver.refl _)
         (StacksRepresentableCFG.EquivalenceOver.refl _) a) :
         (⟨X.obj, X.property⟩ : AlgebraicSpaces C S hS) ⟶ ⟨H.objects.obj, H.objects.property⟩) := by
-    show Space.IsEtale C S hS (representingMap C S hS _ _ _ _ _ _ a)
+    change Space.IsEtale C S hS (representingMap C S hS _ _ _ _ _ _ a)
     rw [representingMap_associatedMap]
     exact isEtale_auxQuotientSheafToBase φ hobj hopen hsflat hslfp
   exact hasRelativeProperty_of_baseChange.{u, u + 1, u + 1, u} C S hS _ _ _

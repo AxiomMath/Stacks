@@ -50,9 +50,9 @@ theorem iSup_imageSieve_mem_of_isLocallySurjective_sigmaDesc
   let d : A ⟶ X := ⟨sheafifyLift J q X.property⟩
   have had : Sigma.desc a ≫ d = Sigma.desc f := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    simp only [Sigma.ι_desc_assoc, Sigma.ι_desc]
+    simp only [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
     apply Sheaf.hom_ext
-    show (incl i ≫ toSheafify J Q) ≫ sheafifyLift J q X.property = (f i).hom
+    change (incl i ≫ toSheafify J Q) ≫ sheafifyLift J q X.property = (f i).hom
     rw [Category.assoc, toSheafify_sheafifyLift]
     rfl
   have _ : Sheaf.IsLocallySurjective d :=

@@ -47,7 +47,7 @@ theorem mapDerivedNatTrans_id : mapDerivedNatTrans (𝟙 T) = 𝟙 _ := by
 theorem mapDerivedCategoryPlusNatTrans_id_app (K : DerivedCategory.Plus A) :
     (mapDerivedCategoryPlusNatTrans (𝟙 T)).app K = 𝟙 _ := by
   ext
-  show (mapDerivedNatTrans (𝟙 T)).app K.obj = 𝟙 _
+  change (mapDerivedNatTrans (𝟙 T)).app K.obj = 𝟙 _
   rw [mapDerivedNatTrans_id]
   rfl
 

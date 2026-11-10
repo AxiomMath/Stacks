@@ -223,7 +223,7 @@ private lemma schemePredicates_iff_of_openCover (X : Scheme.{u})
     [IsLocallyNoetherian X] (𝒰 : X.OpenCover) :
     (HasPropertySk X 1 ∧ IsRegularInCodimension X 0) ↔
       ∀ i, HasPropertySk (𝒰.X i) 1 ∧ IsRegularInCodimension (𝒰.X i) 0 := by
-  show ((∀ x, hasPropertyS1At X x) ∧ ∀ x, isRegularInCodimensionZeroAt X x) ↔
+  change ((∀ x, hasPropertyS1At X x) ∧ ∀ x, isRegularInCodimensionZeroAt X x) ↔
     ∀ i, (∀ x, hasPropertyS1At (𝒰.X i) x) ∧ ∀ x, isRegularInCodimensionZeroAt (𝒰.X i) x
   refine ⟨fun ⟨hs, hr⟩ i ↦ ⟨fun x ↦ (hasPropertyS1At_iff_of_stalkMap (𝒰.f i) x).mpr (hs _),
       fun x ↦ (isRegularInCodimensionZeroAt_iff_of_stalkMap (𝒰.f i) x).mpr (hr _)⟩,
@@ -238,7 +238,7 @@ private lemma schemePredicates_iff_of_iso {X Y : Scheme.{u}}
     [IsLocallyNoetherian X] [IsLocallyNoetherian Y] (e : X ≅ Y) :
     (HasPropertySk X 1 ∧ IsRegularInCodimension X 0) ↔
       (HasPropertySk Y 1 ∧ IsRegularInCodimension Y 0) := by
-  show ((∀ x, hasPropertyS1At X x) ∧ IsRegularInCodimension X 0) ↔
+  change ((∀ x, hasPropertyS1At X x) ∧ IsRegularInCodimension X 0) ↔
     ((∀ y, hasPropertyS1At Y y) ∧ IsRegularInCodimension Y 0)
   constructor
   · rintro ⟨hs, hr⟩

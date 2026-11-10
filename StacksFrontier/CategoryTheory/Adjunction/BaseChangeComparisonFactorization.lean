@@ -229,10 +229,10 @@ theorem map_mapHomotopyCategory (K : HomologicalComplex B c) :
         (Functor.mapHomotopyCategoryCompIso e₁ c) (Functor.mapHomotopyCategoryCompIso e₂ c)
         ((HomotopyCategory.quotient B c).obj K) =
       (HomotopyCategory.quotient A' c).map
-        ((NatTrans.mapHomologicalComplex (twoSquare af af' e₁ e₂).natTrans c).app K) := by
+        ((NatTrans.mapHomologicalComplex (twoSquare af af' e₁ e₂) c).app K) := by
   apply ((Adjunction.mapHomotopyCategoryAdjunction af' c).homEquiv _ _).symm.injective
   rw [homEquiv_symm_map]
-  show (HomotopyCategory.quotient B' c).map
+  change (HomotopyCategory.quotient B' c).map
       ((NatTrans.mapHomologicalComplex e₁.hom c).app ((Qf.mapHomologicalComplex c).obj K) ≫
         (NatTrans.mapHomologicalComplex e₂.inv c).app ((Qf.mapHomologicalComplex c).obj K) ≫
           (Pg'.mapHomologicalComplex c).map
@@ -241,7 +241,7 @@ theorem map_mapHomotopyCategory (K : HomologicalComplex B c) :
       (((Adjunction.mapHomologicalComplexAdjunction af' c).homEquiv
         ((Pg.mapHomologicalComplex c).obj ((Qf.mapHomologicalComplex c).obj K))
         ((Pg'.mapHomologicalComplex c).obj K)).symm
-          ((NatTrans.mapHomologicalComplex (twoSquare af af' e₁ e₂).natTrans c).app K))
+          ((NatTrans.mapHomologicalComplex (twoSquare af af' e₁ e₂) c).app K))
   congr 1
   ext n
   have h := homEquiv_symm_map af af' e₁ e₂ (K.X n)

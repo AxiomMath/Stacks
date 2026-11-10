@@ -338,7 +338,7 @@ public theorem SequentialPostnikovSystem.hom_ext_π {X : ℕ → D} {d : ∀ n, 
     obtain ⟨c, hc⟩ := (Triangle.mk (P.π (j + 1)) (P.p j) (P.δ j)).invRotate.coyoneda_exact₂
       (inv_rot_of_distTriang _ (P.distinguished j)) (f - g)
       (by
-        show (f - g) ≫ P.π (j + 1) = 0
+        change (f - g) ≫ P.π (j + 1) = 0
         rw [Preadditive.sub_comp, h, sub_self])
     have hz : c = 0 := hom_to_neg_shift_eq_zero (P.hom_shift_obj_eq_zero A hA j) c
     have h0 : f - g = 0 := hc.trans (by rw [hz]; exact zero_comp)
@@ -573,11 +573,11 @@ public theorem split_telescope_distinguished (F : ℕ ⥤ D) [HasCoproduct F.obj
   let p : ∐ F.obj ⟶ A := Sigma.desc r
   have hav (n : ℕ) : a n ≫ v = - ∑ j ∈ Finset.range n, a j := by
     dsimp only [a, v]
-    simp only [Category.assoc, Sigma.ι_desc, Preadditive.comp_sub, reassoc_of% (hs n)]
+    simp only [Category.assoc, Sigma.ι_comp_desc, Preadditive.comp_sub, reassoc_of% (hs n)]
     abel
   have htl (n : ℕ) : a n ≫ telescopeMap F = a n - a (n + 1) := by
     dsimp only [a, telescopeMap]
-    simp only [Category.assoc, Sigma.ι_desc, Preadditive.comp_sub, ht, reassoc_of% (hs n)]
+    simp only [Category.assoc, Sigma.ι_comp_desc, Preadditive.comp_sub, ht, reassoc_of% (hs n)]
   have hsum (n : ℕ) : (∑ j ∈ Finset.range n, a j) ≫ telescopeMap F = a 0 - a n := by
     induction n with
     | zero => simp
@@ -586,26 +586,26 @@ public theorem split_telescope_distinguished (F : ℕ ⥤ D) [HasCoproduct F.obj
       abel
   have hlv : telescopeMap F ≫ v = 𝟙 _ := by
     refine Sigma.hom_ext _ _ fun n => ?_
-    simp only [telescopeMap, Sigma.ι_desc_assoc, Preadditive.sub_comp, ht, Category.assoc,
+    simp only [telescopeMap, Sigma.ι_comp_desc_assoc, Preadditive.sub_comp, ht, Category.assoc,
       Category.comp_id]
     rw [← Category.assoc (s (n + 1)) (Sigma.ι F.obj (n + 1)) v]
-    show (Sigma.ι F.obj n ≫ v) - r n ≫ (a (n + 1) ≫ v) = _
+    change (Sigma.ι F.obj n ≫ v) - r n ≫ (a (n + 1) ≫ v) = _
     rw [hav]
-    simp only [v, Sigma.ι_desc, Finset.sum_range_succ, Preadditive.comp_neg,
+    simp only [v, Sigma.ι_comp_desc, Finset.sum_range_succ, Preadditive.comp_neg,
       Preadditive.comp_add]
     abel
   have hvl : v ≫ telescopeMap F + p ≫ a 0 = 𝟙 _ := by
     refine Sigma.hom_ext _ _ fun n => ?_
-    simp only [Preadditive.comp_add, v, p, Sigma.ι_desc_assoc, Preadditive.sub_comp,
+    simp only [Preadditive.comp_add, v, p, Sigma.ι_comp_desc_assoc, Preadditive.sub_comp,
       Category.assoc, htl, hsum, Preadditive.comp_sub, Category.comp_id]
-    simp only [telescopeMap, Sigma.ι_desc, ht, Category.assoc]
-    show (Sigma.ι F.obj n - r n ≫ a (n + 1)) - (r n ≫ a n - r n ≫ a (n + 1)) -
+    simp only [telescopeMap, Sigma.ι_comp_desc, ht, Category.assoc]
+    change (Sigma.ι F.obj n - r n ≫ a (n + 1)) - (r n ≫ a n - r n ≫ a (n + 1)) -
       (r n ≫ a 0 - r n ≫ a n) + r n ≫ a 0 = _
     abel
   have hlp : telescopeMap F ≫ p = 0 := by
     refine Sigma.hom_ext _ _ fun n => ?_
-    simp only [telescopeMap, p, Sigma.ι_desc_assoc, Preadditive.sub_comp, ht, Category.assoc,
-      Sigma.ι_desc, hs, Category.comp_id, sub_self, comp_zero]
+    simp only [telescopeMap, p, Sigma.ι_comp_desc_assoc, Preadditive.sub_comp, ht, Category.assoc,
+      Sigma.ι_comp_desc, hs, Category.comp_id, sub_self, comp_zero]
   have hip : a 0 ≫ p = 𝟙 A := by simp [a, p, hs]
   have hiv : a 0 ≫ v = 0 := by simpa using hav 0
   let e : ∐ F.obj ≅ (∐ F.obj) ⊞ A :=
@@ -617,14 +617,14 @@ public theorem split_telescope_distinguished (F : ℕ ⥤ D) [HasCoproduct F.obj
           simp [Category.assoc, hlv, hlp, hip, hiv] }
   refine isomorphic_distinguished _ (binaryBiproductTriangle_distinguished (∐ F.obj) A) _ ?_
   refine Triangle.isoMk _ _ (Iso.refl _) e (Iso.refl _) ?_ ?_ ?_
-  · show telescopeMap F ≫ biprod.lift v p = 𝟙 (∐ F.obj) ≫ biprod.inl
+  · change telescopeMap F ≫ biprod.lift v p = 𝟙 (∐ F.obj) ≫ biprod.inl
     rw [Category.id_comp]
     refine biprod.hom_ext _ _ ?_ ?_
     · rw [Category.assoc, biprod.lift_fst, hlv, biprod.inl_fst]
     · rw [Category.assoc, biprod.lift_snd, hlp, biprod.inl_snd]
-  · show Sigma.desc r ≫ 𝟙 A = biprod.lift v p ≫ biprod.snd
+  · change Sigma.desc r ≫ 𝟙 A = biprod.lift v p ≫ biprod.snd
     rw [Category.comp_id, biprod.lift_snd]
-  · show (0 : A ⟶ (∐ F.obj)⟦(1 : ℤ)⟧) ≫ (𝟙 (∐ F.obj))⟦(1 : ℤ)⟧' = 𝟙 A ≫ 0
+  · change (0 : A ⟶ (∐ F.obj)⟦(1 : ℤ)⟧) ≫ (𝟙 (∐ F.obj))⟦(1 : ℤ)⟧' = 𝟙 A ≫ 0
     rw [zero_comp, comp_zero]
 
 /-- Two telescope triangles over isomorphic systems have isomorphic cofibres, compatibly with
@@ -639,7 +639,7 @@ public theorem exists_iso_homotopyColimit [HasCoproductsOfShape ℕ D] {F G : �
   have hs : telescopeMap F ≫ s.hom = s.hom ≫ telescopeMap G := by
     refine Sigma.hom_ext _ _ fun n => ?_
     simp only [telescopeMap, s, Sigma.ι_mapIso_hom_assoc, Sigma.ι_mapIso_hom,
-      Sigma.ι_desc_assoc, Sigma.ι_desc, Preadditive.sub_comp, Preadditive.comp_sub,
+      Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Preadditive.sub_comp, Preadditive.comp_sub,
       Category.assoc, Iso.app_hom]
     rw [e.hom.naturality_assoc]
   obtain ⟨f, _, hf⟩ := exists_iso_of_arrow_iso _ _ h h' (Arrow.isoMk s s hs.symm)
@@ -712,7 +712,7 @@ private theorem exists_split_sequence_of_contraction (F : ℕ ⥤ D) (A : D) (C 
   let b : ∀ n, B n := Nat.rec b₀ (fun n b => (step n b).choose)
   refine ⟨fun n => (b n).val.1, fun n => (b n).val.2, rfl, rfl, fun n => (b n).property.1,
     fun n => (step n (b n)).choose_spec.1, fun n => ?_⟩
-  show F.map (homOfLE (Nat.le_succ n)) = (b n).val.1 ≫ ((step n (b n)).choose).val.2
+  change F.map (homOfLE (Nat.le_succ n)) = (b n).val.1 ≫ ((step n (b n)).choose).val.2
   rw [(step n (b n)).choose_spec.2]
   exact (b n).property.2.2
 
@@ -898,8 +898,8 @@ private theorem telescopeMap_sigmaComparison (F : C ⥤ D) [F.Additive] (X : ℕ
   have hι (n : ℕ) : Sigma.ι (X ⋙ F).obj n ≫ sigmaComparison F X.obj = F.map (Sigma.ι X.obj n) :=
     ι_comp_sigmaComparison F X.obj n
   refine Sigma.hom_ext _ _ fun n => ?_
-  simp only [telescopeMap, Sigma.ι_desc_assoc, Preadditive.sub_comp, Category.assoc, hι,
-    reassoc_of% (hι n), Functor.comp_map, ← F.map_comp, Sigma.ι_desc, Functor.map_sub]
+  simp only [telescopeMap, Sigma.ι_comp_desc_assoc, Preadditive.sub_comp, Category.assoc, hι,
+    reassoc_of% (hι n), Functor.comp_map, ← F.map_comp, Sigma.ι_comp_desc, Functor.map_sub]
 
 omit [HasZeroObject C] [Preadditive C] [∀ t : ℤ, (shiftFunctor C t).Additive]
   [Pretriangulated C] [HasZeroObject D] [Preadditive D]
@@ -930,10 +930,10 @@ public theorem homotopyColimit_map_distinguished (F : C ⥤ D) [F.Additive] [F.C
     (Triangle.isoMk _ _ (PreservesCoproduct.iso F X.obj).symm
       (PreservesCoproduct.iso F X.obj).symm (Iso.refl _)
       (telescopeMap_sigmaComparison F X) ?_ ?_)
-  · show (sigmaComparison F X.obj ≫ F.map p) ≫ 𝟙 (F.obj K) =
+  · change (sigmaComparison F X.obj ≫ F.map p) ≫ 𝟙 (F.obj K) =
       sigmaComparison F X.obj ≫ F.map p
     rw [Category.comp_id]
-  · show (F.map q ≫ (F.commShiftIso (1 : ℤ)).hom.app (∐ X.obj) ≫
+  · change (F.map q ≫ (F.commShiftIso (1 : ℤ)).hom.app (∐ X.obj) ≫
         ((PreservesCoproduct.iso F X.obj).hom)⟦(1 : ℤ)⟧') ≫
         ((PreservesCoproduct.iso F X.obj).inv)⟦(1 : ℤ)⟧' =
       𝟙 (F.obj K) ≫ F.map q ≫ (F.commShiftIso (1 : ℤ)).hom.app (∐ X.obj)
@@ -980,7 +980,7 @@ public theorem exists_iso_of_split_restriction [HasCoproductsOfShape ℕ C]
   have hι : F.map (Sigma.ι P.sequence.obj 0 ≫ p) ≫ γ.hom = r' 0 := by
     rw [F.map_comp, Category.assoc, ← ι_comp_sigmaComparison F P.sequence.obj 0,
       Category.assoc, ← Category.assoc (sigmaComparison F P.sequence.obj), hγ',
-      Sigma.ι_desc]
+      Sigma.ι_comp_desc]
   have key : (F.commShiftIso (((0 : ℕ)) : ℤ)).hom.app (P.obj 0) ≫
       (shiftFunctorZero D ℤ).hom.app (F.obj (P.obj 0)) =
       F.map ((shiftFunctorZero C ℤ).hom.app (P.obj 0)) :=
@@ -1111,7 +1111,8 @@ theorem SequentialPostnikovSystem.eq_zero_of_isHomotopyColimit
     have h1 : Sigma.ι P.sequence.obj m ≫ (Sigma.desc fun m' ↦ Sigma.ι P.sequence.obj m' -
         P.sequence.map (homOfLE (Nat.le_succ m')) ≫ Sigma.ι P.sequence.obj (m' + 1)) ≫ p = 0 := by
       rw [hp, comp_zero]
-    rw [← Category.assoc, Sigma.ι_desc, Preadditive.sub_comp, Category.assoc, sub_eq_zero] at h1
+    rw [← Category.assoc, Sigma.ι_comp_desc, Preadditive.sub_comp, Category.assoc,
+      sub_eq_zero] at h1
     exact h1
   -- First induction: `f` annihilates every coprojection.
   have hstep : ∀ n : ℕ, (Sigma.ι P.sequence.obj n ≫ p) ≫ f = 0 := by
@@ -1174,7 +1175,7 @@ public theorem extraDegeneracy_contraction (X : SimplicialObject.Augmented D)
       Fin.val_one, pow_one, neg_smul, one_smul, Preadditive.add_comp, Preadditive.neg_comp,
       SimplicialObject.δ_naturality, SimplicialObject.δ_naturality]
     exact add_neg_cancel _
-  · show _ + ed.s 0 ≫ (∑ j : Fin 2, (-1 : ℤ) ^ (j : ℕ) • X.left.δ j) = _
+  · change _ + ed.s 0 ≫ (∑ j : Fin 2, (-1 : ℤ) ^ (j : ℕ) • X.left.δ j) = _
     rw [Fin.sum_univ_two]
     simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_smul, neg_smul,
       Preadditive.comp_add, Preadditive.comp_neg, ed.s_comp_δ₀, ed.s₀_comp_δ₁]

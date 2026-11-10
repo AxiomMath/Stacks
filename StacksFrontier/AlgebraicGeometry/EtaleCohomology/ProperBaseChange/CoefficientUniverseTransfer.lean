@@ -96,7 +96,8 @@ namespace Stacks.EtaleCohomology
 
 section BaseChangeMapInstances
 
-/- The statements of `StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.BaseChangeMap`
+/- The statements of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.BaseChangeMap`
 reach the `Preadditive` structure on abelian sheaves through `CategoryTheory.Abelian.toPreadditive`
 of `CategoryTheory.sheafIsAbelian` at `AlgebraicGeometry.Scheme.hasSheafify_smallEtaleTopology`.
 Among this module's imports `Stacks.SheafOfModules.coefficientSheafification` is a second
@@ -134,7 +135,7 @@ private theorem isIso_mapHomologicalComplex_app {E : Type*} [Category* E] [Pread
     [Preadditive E] {F G : D ⥤ E} [F.PreservesZeroMorphisms] [G.PreservesZeroMorphisms]
     (α : F ⟶ G) [IsIso α] {ι : Type*} (c : ComplexShape ι) (K : HomologicalComplex D c) :
     IsIso ((NatTrans.mapHomologicalComplex α c).app K) := by
-  show IsIso ((NatIso.mapHomologicalComplex (asIso α) c).app K).hom
+  change IsIso ((NatIso.mapHomologicalComplex (asIso α) c).app K).hom
   infer_instance
 
 end Abstract
@@ -305,7 +306,7 @@ abbrev etaleAbelianInverseImageCoefficientSquare {X Y : Scheme.{u}} (i : Y ⟶ X
 abbrev etaleAbelianInverseImageCoefficient {X Y : Scheme.{u}} (i : Y ⟶ X) :
     sheafCompose X.smallEtaleTopology Φ ⋙ etaleAbelianInverseImage.{u, v} i ⟶
       etaleAbelianInverseImage.{u, v₀} i ⋙ sheafCompose Y.smallEtaleTopology Φ :=
-  (etaleAbelianInverseImageCoefficientSquare Φ i).natTrans
+  etaleAbelianInverseImageCoefficientSquare Φ i
 
 /-- The comparison `etaleAbelianInverseImageCoefficient Φ i : Φ ⋙ i⁻¹ ⟶ i⁻¹ ⋙ Φ` is an
 isomorphism. -/
@@ -334,11 +335,13 @@ omit [∀ S : Scheme.{u}, S.smallEtaleTopology.PreservesSheafification Φ]
 private theorem coefficientPushforwardTwoSquare_app_eq_id {X Y : Scheme.{u}} (i : X ⟶ Y)
     (c : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v₀}) :
     (coefficientPushforwardTwoSquare (smallEtaleBaseChange i) Y.smallEtaleTopology
-      X.smallEtaleTopology Φ).natTrans.app c = 𝟙 _ := rfl
+      X.smallEtaleTopology Φ).app c = 𝟙 _ := rfl
 
 variable {X X' Y Y' : Scheme.{u}} (f : X ⟶ Y) (g : Y' ⟶ Y) (g' : X' ⟶ X) (f' : X' ⟶ Y')
   (h : g' ≫ f = f' ≫ g)
 
+omit [∀ S : Scheme.{u}, S.smallEtaleTopology.PreservesSheafification Φ]
+  [∀ {S T : Scheme.{u}} (i : T ⟶ S), Φ.PreservesLeftKanExtensions (smallEtaleBaseChange i).op] in
 /-- **The underived base change map commutes with a change of coefficients**: after applying
 `Φ`, the base change map `g⁻¹ f_* ⟶ f'_* (g')⁻¹` of the source coefficients is that of the target
 coefficients, up to the comparisons `etaleAbelianInverseImageCoefficientSquare` of the inverse
@@ -347,14 +350,14 @@ after `Φ` on sections, so this is the cube identity
 `Stacks.CategoryTheory.mateEquiv_symm_hComp_eq_app`. -/
 theorem etaleAbelianBaseChange_sheafCompose
     (c : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v₀}) :
-    (etaleAbelianInverseImageCoefficientSquare Φ g).natTrans.app
+    (etaleAbelianInverseImageCoefficientSquare Φ g).app
           ((etaleAbelianDirectImage.{u, v₀} f).obj c) ≫
         (sheafCompose Y'.smallEtaleTopology Φ).map
           ((etaleAbelianBaseChange.{u, v₀} f g g' f' h).app c) =
       (etaleAbelianBaseChange.{u, v} f g g' f' h).app
           ((sheafCompose X.smallEtaleTopology Φ).obj c) ≫
         (etaleAbelianDirectImage.{u, v} f').map
-          ((etaleAbelianInverseImageCoefficientSquare Φ g').natTrans.app c) := by
+          ((etaleAbelianInverseImageCoefficientSquare Φ g').app c) := by
   rw [etaleAbelianBaseChange_eq_mateEquiv_symm_directImageCompIso.{u, v₀} f g g' f' h (g' ≫ f)
     rfl h, etaleAbelianBaseChange_eq_mateEquiv_symm_directImageCompIso.{u, v} f g g' f' h
     (g' ≫ f) rfl h]
@@ -366,7 +369,7 @@ theorem etaleAbelianBaseChange_sheafCompose
     (etaleAbelianInverseImageCoefficientSquare Φ g')
     (etaleAbelianInverseImageCoefficientSquare Φ g)
     (coefficientPushforwardTwoSquare (smallEtaleBaseChange f) Y.smallEtaleTopology
-      X.smallEtaleTopology Φ).natTrans
+      X.smallEtaleTopology Φ)
     (coefficientDirectImageInv Φ f')
     (smallEtaleDirectImageSquare f g g' f' h AddCommGrpCat.{max (u + 1) v₀})
     (smallEtaleDirectImageSquare f g g' f' h AddCommGrpCat.{max (u + 1) v}) (by
@@ -378,11 +381,10 @@ theorem etaleAbelianBaseChange_sheafCompose
               T.smallEtaleTopology Φ :=
         fun _ ↦ mateEquiv_coefficientPullbackTwoSquare _ _ _ _
       rw [hm g', hm g]
-      refine TwoSquare.ext _ _ fun d => ?_
+      refine NatTrans.ext (funext fun d => ?_)
       rw [ts_whiskerLeft_app, ts_whiskerRight_app, ts_vComp_app, ts_vComp_app]
-      simp only [coefficientPushforwardTwoSquare_app_eq_id, coefficientDirectImageInv_app,
-        CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id]
-      show _ = (sheafCompose Y.smallEtaleTopology Φ).map
+      simp only [coefficientPushforwardTwoSquare_app_eq_id, coefficientDirectImageInv_app]
+      change _ = (sheafCompose Y.smallEtaleTopology Φ).map
         ((smallEtalePushforwardComp' g' f (g' ≫ f) rfl _).hom.app d ≫
           (smallEtalePushforwardComp' f' g (g' ≫ f) h _).inv.app _)
       rw [Functor.map_comp, sheafCompose_map_smallEtalePushforwardComp'_hom,
@@ -390,10 +392,10 @@ theorem etaleAbelianBaseChange_sheafCompose
       rfl) c
   refine key.trans ?_
   simp only [coefficientPushforwardTwoSquare_app_eq_id, coefficientDirectImageInv_app]
-  show (etaleAbelianInverseImage.{u, v} g).map (𝟙 ((sheafCompose Y.smallEtaleTopology Φ).obj
+  change (etaleAbelianInverseImage.{u, v} g).map (𝟙 ((sheafCompose Y.smallEtaleTopology Φ).obj
     ((etaleAbelianDirectImage.{u, v₀} f).obj c))) ≫ _ ≫ _ ≫ 𝟙 _ = _
   rw [CategoryTheory.Functor.map_id, Category.id_comp]
-  show _ ≫ _ ≫ 𝟙 ((etaleAbelianDirectImage.{u, v} f').obj
+  change _ ≫ _ ≫ 𝟙 ((etaleAbelianDirectImage.{u, v} f').obj
     ((sheafCompose X'.smallEtaleTopology Φ).obj ((etaleAbelianInverseImage.{u, v₀} g').obj c))) = _
   rw [Category.comp_id]
   rfl
@@ -455,7 +457,7 @@ private theorem coefficient_complex_square
             t) := by
   subst htb
   ext n : 1
-  show βb.app _ ≫ (etaleAbelianDirectImage.{u, v} f').map (τ'.app (I.X n) ≫
+  change βb.app _ ≫ (etaleAbelianDirectImage.{u, v} f').map (τ'.app (I.X n) ≫
       ((sheafCompose X'.smallEtaleTopology Φ)).map (t.f n)) =
     τ.app _ ≫ ((sheafCompose Y'.smallEtaleTopology Φ)).map (βs.app (I.X n) ≫
       (etaleAbelianDirectImage.{u, v₀} f').map (t.f n))

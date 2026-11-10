@@ -63,10 +63,10 @@ public theorem levelUnitStalkMap_pow_smul_eq_zero_of_levelAdjunctStalkMap_eq_zer
     (hw : (levelAdjunctStalkMap f s F F' χ n).hom w = 0) :
     (levelUnitStalkMap f F s n).hom ((ℓ ^ a) • w) = 0 := by
   have h0 : (levelAdjunctPadicStalkMap f s F F' χ n).hom w = 0 := by
-    show ((directImageStalkBridge f s ℓ).hom.app (LAdicSheaf.padicLevel B X ℓ F' n)).hom
+    change ((directImageStalkBridge f s ℓ).hom.app (LAdicSheaf.padicLevel B X ℓ F' n)).hom
       ((preservesColimitIso
         (ModuleCat.restrictScalars.{u + 1} (PadicInt.toZModPow (p := ℓ) (n + 1)))
-        ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+        ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
           ((levelPushforward f n).obj (F'.level n)).obj)).hom.hom
         ((levelAdjunctStalkMap f s F F' χ n).hom w)) = 0
     rw [hw]
@@ -81,6 +81,7 @@ public theorem levelUnitStalkMap_pow_smul_eq_zero_of_levelAdjunctStalkMap_eq_zer
 end Kernel
 
 set_option maxHeartbeats 400000 in
+-- elaborating the long statement and the many-argument applications of the input hypotheses
 /-- **The specialization injection at the origin of Laumon's degeneration, along an isogeny**
 (piece P5 of `Stacks.EtaleCohomology.LaumonDegenerationFamilyInput`,
 [Tag 03VH](https://stacks.math.columbia.edu/tag/03VH)). In the setting of

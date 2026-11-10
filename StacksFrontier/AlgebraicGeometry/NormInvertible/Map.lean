@@ -150,10 +150,10 @@ theorem localGeneratorMap_generator {U V : Opens X.carrier} (h : V ≤ U)
     localGeneratorMap L L' h s t b (L.val.restrictₛₗ (homOfLE h).op s.val) =
       b • L'.val.restrictₛₗ (homOfLE h).op t.val := by
   have hS : generatorLinearEquiv L h s 1 = L.val.restrictₛₗ (homOfLE h).op s.val := by
-    show (1 : (structureSheaf X.sheaf).obj.obj (op V)) •
+    change (1 : (structureSheaf X.sheaf).obj.obj (op V)) •
       L.val.restrictₛₗ (homOfLE h).op s.val = _
     rw [one_smul]
-  show (generatorLinearEquiv L' h t)
+  change (generatorLinearEquiv L' h t)
       ((LinearMap.mulRight ((structureSheaf X.sheaf).obj.obj (op V)) b)
         ((generatorLinearEquiv L h s).symm (L.val.restrictₛₗ (homOfLE h).op s.val))) =
     b • L'.val.restrictₛₗ (homOfLE h).op t.val
@@ -208,7 +208,7 @@ theorem localGeneratorMap_restrict_apply {U V : Opens X.carrier} (h : V ≤ U)
   have e2 : L.val.map (homOfLE h).op (r • s.val) =
       ((structureSheaf X.sheaf).obj.map (homOfLE h).op r) • (generatorRestrict L h s).val :=
     L.val.map_smul _ _ _
-  show L'.val.map (homOfLE h).op
+  change L'.val.map (homOfLE h).op
       (localGeneratorMap L L' (le_rfl : U ≤ U) s t b (r • s.val)) =
     localGeneratorMap L L' (le_rfl : V ≤ V) (generatorRestrict L h s)
       (generatorRestrict L' h t) ((structureSheaf X.sheaf).obj.map (homOfLE h).op b)
@@ -512,7 +512,7 @@ theorem normMapOfCover_generator (U : Y.Opens)
         (normGenerator f N L hL U s) (normGenerator f N L' hL' U t) (N.app U a) := by
     dsimp only [normChartMap]
     rw [hc]
-  show normSection f N L L' hL hL' φ U (normGenerator f N L hL U s).val = _
+  change normSection f N L L' hL hL' φ U (normGenerator f N L hL U s).val = _
   rw [h, hmap]
   exact hg
 

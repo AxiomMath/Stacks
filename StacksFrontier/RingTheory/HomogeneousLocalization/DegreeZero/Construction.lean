@@ -219,14 +219,14 @@ theorem mem_MLoc_iff (hf : f ∈ 𝒜 d) (y : MLocAll f (M := M)) :
       (hsmul_mem (SetLike.pow_mem_graded n hf) hy'), ?_⟩
     · rw [add_comm n m]
       exact hsmul_mem (SetLike.pow_mem_graded m hf) hx
-    · show deg0frac f n x + deg0frac f m y' = deg0frac f (n + m) _
+    · change deg0frac f n x + deg0frac f m y' = deg0frac f (n + m) _
       unfold deg0frac
       rw [LocalizedModule.mk_add_mk]
       exact congrArg _ (Subtype.ext (pow_add f _ _).symm)
   · rintro c z _ ⟨n, x, hx, rfl⟩
     obtain ⟨m, a, ha, rfl⟩ := HomogeneousLocalization.Away.mk_surjective 𝒜 hf c
     refine ⟨m + n, a • x, hsmul_mem ha hx, ?_⟩
-    show (HomogeneousLocalization.Away.mk 𝒜 hf m a ha).val • deg0frac f n x =
+    change (HomogeneousLocalization.Away.mk 𝒜 hf m a ha).val • deg0frac f n x =
       deg0frac f (m + n) (a • x)
     rw [HomogeneousLocalization.Away.val_mk]
     unfold deg0frac

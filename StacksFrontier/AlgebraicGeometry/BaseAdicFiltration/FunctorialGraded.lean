@@ -224,13 +224,13 @@ theorem adicQuotientComparison_comm :
 variable (hSEU : ((gradedShortComplex pU I n FU).map
   (Scheme.Modules.pushforward g)).ShortExact)
 
-include hg hSEU in
+include hg in
 /-- The composite `Iⁿ(ℱ_V/Iⁿ⁺¹ℱ_V) ⟶ ℱ_V/Iⁿ⁺¹ℱ_V ⟶ g_*(ℱ_U/Iⁿ⁺¹ℱ_U)` lands in the kernel of the
 second map of the direct image sequence. -/
 theorem gradedShortComplex_f_comp_comparison_comp_g :
     ((gradedShortComplex pV I n FV).f ≫ adicQuotientComparison pV hg I (n + 1) φ) ≫
       ((gradedShortComplex pU I n FU).map (Scheme.Modules.pushforward g)).g = 0 := by
-  show ((gradedShortComplex pV I n FV).f ≫ adicQuotientComparison pV hg I (n + 1) φ) ≫
+  change ((gradedShortComplex pV I n FV).f ≫ adicQuotientComparison pV hg I (n + 1) φ) ≫
       (Scheme.Modules.pushforward g).map ((gradedShortComplex pU I n FU).g) = 0
   refine Eq.trans (Category.assoc _ _ _) ?_
   refine Eq.trans (congrArg (fun ψ => (gradedShortComplex pV I n FV).f ≫ ψ)
@@ -251,7 +251,7 @@ def gradedPieceComparison :
       ((gradedShortComplex pU I n FU).map (Scheme.Modules.pushforward g)).X₁ :=
   haveI := hSEU.mono_f
   hSEU.exact.lift ((gradedShortComplex pV I n FV).f ≫ adicQuotientComparison pV hg I (n + 1) φ)
-    (gradedShortComplex_f_comp_comparison_comp_g pV hg I n φ hSEU)
+    (gradedShortComplex_f_comp_comparison_comp_g pV hg I n φ)
 
 include hg in
 /-- The comparison of the graded pieces is compatible with their inclusions: this is `comm₁₂` of

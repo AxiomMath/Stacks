@@ -12,7 +12,8 @@ public import StacksCore.Tactic.StacksAttribute
 # Local properties of a cyclic cover
 
 Let `p : X ⟶ Z_S` be the cyclic cover `Spec_{Z_S}(Sym(L_S)/(φ - c))` of
-`StacksFrontier.AlgebraicGeometry.SemistableReduction.CyclicCover.Construction`. Over the affine opens
+`StacksFrontier.AlgebraicGeometry.SemistableReduction.CyclicCover.Construction`. Over the affine
+opens
 `U_S` of `Z_S` with `U` an affine open of `Z` on which `L` is trivial, `p` is
 `Spec (A ⊗_k S)[x]/(xⁿ - c f) ⟶ Spec (A ⊗_k S)`
 (`Stacks.CyclicCover.coverMapArrowIso`). This file reads off properties of `p` local on the

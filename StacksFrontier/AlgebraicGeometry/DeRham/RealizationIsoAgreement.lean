@@ -178,7 +178,7 @@ theorem forgetComparisonIso_hom_app (Y : DerivedCategory.Plus (ModuleCat.{u} R))
       Stacks.Cohomology.RealizationShift.forgetPlusUnit, NatTrans.comp_app,
       Functor.whiskerLeft_app, Functor.whiskerRight_app, γ, Category.assoc,
       Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp]
-    show _ = _ ≫ DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map
+    change _ = _ ≫ DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map
       ((forget₂ (ModuleCat.{u} R)
         AddCommGrpCat.{u}).rightDerivedFunctorPlusIsoMapDerivedCategoryPlus.hom.app
           (DerivedCategory.Plus.Qh.obj K))
@@ -188,8 +188,7 @@ theorem forgetComparisonIso_hom_app (Y : DerivedCategory.Plus (ModuleCat.{u} R))
       Category.comp_id, RealizationShift.presentationIso, RealizationShift.mapPlusCompιIso,
       Iso.trans_hom, Iso.symm_hom, Functor.isoWhiskerRight_hom, Functor.isoWhiskerLeft_hom,
       NatTrans.comp_app, Functor.associator_inv_app, Functor.whiskerRight_app,
-      Functor.associator_hom_app, Functor.whiskerLeft_app, Category.id_comp, ObjectProperty.ι_map,
-      Category.assoc]
+      Functor.associator_hom_app, Functor.whiskerLeft_app, Category.id_comp, ObjectProperty.ι_map]
     rw [CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id, Category.comp_id,
       Category.id_comp]
     rfl
@@ -340,7 +339,7 @@ theorem realizationIso_hom_comp_derivedSectionsFunctorIso
         (DerivedCategory.Plus.Q.obj N))
   have he := mapDerivedCategoryHomologyIso_eq
     (forget₂ (ModuleCat.{u} ((structureSheafRing X).obj.obj (op ⊤))) AddCommGrpCat.{u}) n
-  show _ = (DerivedCategory.homologyFunctor AddCommGrpCat.{u} n).map
+  change _ = (DerivedCategory.homologyFunctor AddCommGrpCat.{u} n).map
       ((Stacks.Cohomology.RealizationShift.realizationTotal X).app N) ≫ _
   rw [realizationTotal_app]
   simp only [Stacks.Cech.Hypercohomology.realizationIso,

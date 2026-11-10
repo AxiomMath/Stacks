@@ -88,7 +88,7 @@ theorem leftOrthogonal_cancel_trW {P Q X : C} (hP : 𝒩.leftOrthogonal P) {t : 
     (ht : 𝒩.trW t) {a b : P ⟶ Q} (hab : a ≫ t = b ≫ t) : a = b := by
   obtain ⟨Y, f, g, hT, hY⟩ := (𝒩.trW_iff' t).1 ht
   obtain ⟨e, he⟩ := (Triangle.mk f t g).coyoneda_exact₂ hT (a - b) (by
-    show (a - b) ≫ t = 0
+    change (a - b) ≫ t = 0
     rw [Preadditive.sub_comp, hab, sub_self])
   rw [← sub_eq_zero, he, hP e hY, zero_comp]
 

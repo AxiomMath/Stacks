@@ -104,7 +104,7 @@ theorem hasSurjectiveLevelTransitions_crisModuleInverseImage07Q9
       (crisInverseImageBaseChange f g h F (Φ.τ ⦋n⦌ e))
   have hK : ∀ q, q ∈ K := by
     intro q
-    refine TensorProduct.induction_on (motive := fun q ↦ q ∈ K) q (zero_mem K)
+    refine TensorProduct.inductionOn (motive := fun q ↦ q ∈ K) q
       (fun t s ↦ ?_) (fun q q' hq hq' ↦ add_mem hq hq')
     obtain ⟨t₀, ht₀⟩ := hring n e t
     obtain ⟨s₀, hs₀⟩ := hsF (ULift.up s)
@@ -113,7 +113,7 @@ theorem hasSurjectiveLevelTransitions_crisModuleInverseImage07Q9
       congrArg ULift.down hs₀
     refine ⟨(show (structureSheaf S).obj.obj (op ((T.obj (op ⦋n⦌)).obj (e + 1))) from t₀) •
       crisInverseImageRestrict f g h F (Φ.τ ⦋n⦌ (e + 1)) s₁, ?_⟩
-    show ((crisModuleInverseImage f g h).obj ((moduleULift S').obj F)).val.restrictₛₗ
+    change ((crisModuleInverseImage f g h).obj ((moduleULift S').obj F)).val.restrictₛₗ
         ((T.obj (op ⦋n⦌)).map (homOfLE (Nat.le_succ e))).op (t₀ •
           crisInverseImageRestrict f g h F (Φ.τ ⦋n⦌ (e + 1)) s₁) =
       crisInverseImageBaseChange f g h F (Φ.τ ⦋n⦌ e)

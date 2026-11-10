@@ -212,7 +212,7 @@ theorem hasRelativeProperty_etale_quotientStackMap_of_auxGroupoid (φ : Hom G H)
         (StacksRepresentableCFG.EquivalenceOver.refl _)
         (StacksRepresentableCFG.EquivalenceOver.refl _) a) :
         (⟨X.obj, X.property⟩ : AlgebraicSpaces C S hS) ⟶ ⟨H.objects.obj, H.objects.property⟩) := by
-    show Space.IsEtale C S hS (representingMap C S hS _ _ _ _ _ _ a)
+    change Space.IsEtale C S hS (representingMap C S hS _ _ _ _ _ _ a)
     rw [representingMap_associatedMap]
     exact Space.isEtale_quotientSheafToBase_of_isOpenImmersion hflat hlfp hopen
   exact hasRelativeProperty_of_baseChange.{u, u + 1, u + 1, u} C S hS _ _ _

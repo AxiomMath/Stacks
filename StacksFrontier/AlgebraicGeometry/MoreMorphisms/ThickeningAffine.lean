@@ -199,7 +199,7 @@ theorem isAffine_of_isThickening_of_surjective_appTop [IsAffine X] {i : X ⟶ X'
     intro y _
     obtain ⟨b, hyb⟩ := Opens.mem_iSup.mp (hcov (show i y ∈ (⊤ : X'.Opens) from trivial))
     refine Opens.mem_iSup.mpr ⟨⟨i.appTop.hom (b : Γ(X', (⊤ : X'.Opens))), b, b.2, rfl⟩, ?_⟩
-    show y ∈ X.basicOpen (i.appTop (b : Γ(X', (⊤ : X'.Opens))))
+    change y ∈ X.basicOpen (i.appTop (b : Γ(X', (⊤ : X'.Opens))))
     rw [← Scheme.preimage_basicOpen_top]
     exact hyb
   have hsup : Ideal.span {b : Γ(X', (⊤ : X'.Opens)) | IsAffineOpen (X'.basicOpen b)} ⊔

@@ -102,7 +102,7 @@ theorem regularVectorBundleKZeroAddEquiv_classOf (X : Scheme.{u}) [CompactSpace 
   have := isLocallyNoetherian_of_isRegular hX
   have : IsNoetherian X := ⟨⟩
   have := AlgebraicGeometry.IsRegular.hasResolutionProperty X hX
-  show (exists_addEquiv_K0_coherentKZero_of_isRegular X hX).choose
+  change (exists_addEquiv_K0_coherentKZero_of_isRegular X hX).choose
     (vectorBundleKZeroAddEquiv X (VectorBundleKZero.classOf X F.obj)) = _
   rw [vectorBundleKZeroAddEquiv_classOf X F.obj hF]
   exact (exists_addEquiv_K0_coherentKZero_of_isRegular X hX).choose_spec.2.1 F _ (Iso.refl _)

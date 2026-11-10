@@ -50,7 +50,8 @@ inputs as open. Each of them is available.
    already proved **at the scheme-level spelling this area uses**, in both directions, as
    `Stacks.AlgebraicGeometry.TwistMultTransport.comparison_pullbackComp` and
    `comparison_pullbackComp_hom`
-   (`StacksFrontier/AlgebraicGeometry/TwistMultTransport/Structural.lean:209` and `:348`) — stated for
+   (`StacksFrontier/AlgebraicGeometry/TwistMultTransport/Structural.lean:209` and `:348`) —
+   stated for
    `AlgebraicGeometry.Scheme.Modules.pullbackComp`, `Stacks.PullbackTensorIso.pullbackTensorIso`
    and `Stacks.SheafOfModules.TensorStalkRingedSpace.tensorSheafMap`, which are the three spellings
    `TwistMul.lean` is written in. It is not obtained from `comparison_tensor`: it is proved
@@ -196,8 +197,8 @@ True by `rfl`: `restrictTensorIso` is *defined* as that composite, and the Tag 0
 definition — `Stacks.AlgebraicGeometry.RestrictionSections.comparisonIsoApp`, over a morphism of
 ringed spaces — is the same term as `Stacks.PullbackTensorIso.pullbackTensorIso`'s component over
 the underlying morphism of schemes. So the ringed-space/scheme spelling crossing that the
-implementation notes of `StacksFrontier/AlgebraicGeometry/PullbackTensorIso/Composite.lean` report as
-unaffordable *at the level of morphisms* is, for this pair of spellings, free. -/
+implementation notes of `StacksFrontier/AlgebraicGeometry/PullbackTensorIso/Composite.lean` report
+as unaffordable *at the level of morphisms* is, for this pair of spellings, free. -/
 public theorem restrictTensorIso_hom_chart :
     (restrictTensorIso ((relativeProj A).chart U.1 U.2)
           (relativeTwist A m) (relativeTwist A n)).hom =

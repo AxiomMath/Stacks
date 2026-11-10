@@ -67,6 +67,7 @@ namespace AlgebraicGeometry.Artin.ContractionSituation
 attribute [local instance] Space.pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site needs more heartbeats
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ContractionWitnessOfProper
@@ -80,6 +81,7 @@ local instance (priority := high) hasPullback_presheaf_ContractionWitnessOfPrope
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of fppf sheaves on the big fppf site needs more heartbeats
 /-- Pullbacks of fppf sheaves (instance search times out without this shortcut). -/
 local instance hasPullbacks_fppfSheaf_ContractionWitnessOfProper
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
@@ -270,7 +272,7 @@ theorem nonempty_compatibilityWitness_of_isProper {V : BigFppfOver B S hS}
         (BigFppfOver.topology B S hS).toSheafify _ ≫
           (Space.completionSheafMap B S hS h (Space.pointsMap B S hS V₃ p ⁻¹' Z)).hom :=
       (BigFppfOver.topology B S hS).toSheafify_naturality _
-    haveI : Mono ((BigFppfOver.topology B S hS).toSheafify (c.X' ⋙ uliftFunctor.{u + 1})) :=
+    have : Mono ((BigFppfOver.topology B S hS).toSheafify (c.X' ⋙ uliftFunctor.{u + 1})) :=
       IsIso.mono_of_iso _
     rw [← cancel_mono ((BigFppfOver.topology B S hS).toSheafify (c.X' ⋙ uliftFunctor.{u + 1}))]
     refine (Category.assoc _ _ _).trans
@@ -336,7 +338,7 @@ theorem completionSheafRestrict_comp_xhat_eq_of_hom {V : BigFppfOver B S hS}
   have hsub : Space.pointsMap B S hS w₁.V' w₁.p ⁻¹' Z ⊆
       Space.pointsMap B S hS w₁.V' a ⁻¹' (Space.pointsMap B S hS w₂.V' w₂.p ⁻¹' Z) := by
     intro x hx
-    show Space.pointsMap B S hS w₂.V' w₂.p (Space.pointsMap B S hS w₁.V' a x) ∈ Z
+    change Space.pointsMap B S hS w₂.V' w₂.p (Space.pointsMap B S hS w₁.V' a x) ∈ Z
     rw [← Space.pointsMap_comp_apply, hap]
     exact hx
   let ah := Space.completionSheafRestrict B S hS a _ _ hsub

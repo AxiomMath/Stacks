@@ -117,21 +117,20 @@ lemma singleNatShiftIso_hom_f
       (neg_add_cancel _)).symm.hom.app N =
       ((CochainComplex.singleFunctors _).shiftIso (-(c : ℤ)) (c : ℤ) 0
         (neg_add_cancel _)).inv.app N := rfl
-  simp only [singleNatShiftIso, Iso.trans_hom, HomologicalComplex.comp_f, Iso.app_hom, e₁,
-    Functor.mapIso_hom, Iso.symm_hom, CochainComplex.shiftFunctor_map_f',
-    HomologicalComplex.extendSingleIso_hom_f]
+  simp only [singleNatShiftIso, Iso.trans_hom, HomologicalComplex.comp_f, Iso.app_hom,
+    Functor.mapIso_hom, Iso.symm_hom, CochainComplex.shiftFunctor_map_f']
   rw [AlgebraicGeometry.SheafOfModules.singleFunctors_shiftIso_inv_app_f _ _ _ _ _ _
     ((HomologicalComplex.single_obj_X_self (ComplexShape.up ℤ) (c : ℤ) _).trans (by
-      show _ = ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj N).X ((c : ℤ) + -(c : ℤ))
+      change _ = ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj N).X ((c : ℤ) + -(c : ℤ))
       rw [add_neg_cancel]
       exact (HomologicalComplex.single_obj_X_self (ComplexShape.up ℤ) 0 _).symm))]
-  simp only [HomologicalComplex.extendSingleIso, HomologicalComplex.mkHomFromSingle,
-    HomologicalComplex.mkHomToSingle_f, dif_pos (show (c : ℤ) + -(c : ℤ) = 0 by omega),
-    HomologicalComplex.singleObjXSelf, HomologicalComplex.singleObjXIsoOfEq,
-    HomologicalComplex.extendXIso, HomologicalComplex.extend.XIso, HomologicalComplex.XIsoOfEq,
-    eqToIso.hom, eqToIso.inv, eqToHom_trans, Category.assoc]
-  repeat (first | exact ⟨_, rfl⟩ | apply AlgebraicGeometry.SheafOfModules.exists_eqToHom_comp)
-  all_goals omega
+  · simp only [HomologicalComplex.extendSingleIso, HomologicalComplex.mkHomFromSingle,
+      HomologicalComplex.mkHomToSingle_f, dite_eq_left (show (c : ℤ) + -(c : ℤ) = 0 by omega),
+      HomologicalComplex.singleObjXSelf, HomologicalComplex.singleObjXIsoOfEq,
+      HomologicalComplex.extendXIso, HomologicalComplex.extend.XIso, HomologicalComplex.XIsoOfEq,
+      eqToIso.hom, eqToIso.inv, Category.assoc]
+    repeat (first | exact ⟨_, rfl⟩ | apply AlgebraicGeometry.SheafOfModules.exists_eqToHom_comp)
+  · omega
 
 /-- **The multiplication of `F[0]` and `G[-c]` is the shift of that of `F[0]` and `G[0]`**,
 through `singleNatShiftIso` and the commutation of the total tensor complex with the shift of
@@ -180,7 +179,7 @@ theorem multiplicationInt_singleTensorMult_shift
     (Eq.trans ?_ (chase_R _ _ _ _ _ _ _ _ _ _ (ι_singleTensorMult_f μ 0 0 0 _ _)).symm)
   rw [e₁, e₂]
   simp only [HomologicalComplex.singleObjXSelf, HomologicalComplex.singleObjXIsoOfEq,
-    HomologicalComplex.extendXIso, HomologicalComplex.extend.XIso, HomologicalComplex.XIsoOfEq,
+    HomologicalComplex.extendXIso, HomologicalComplex.extend.XIso,
     eqToIso.hom, eqToIso.inv]
   have hA : ∀ {P Q : _root_.SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.sheaf)} (e : P = Q) (Z : _),

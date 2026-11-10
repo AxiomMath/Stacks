@@ -305,7 +305,7 @@ lemma toSpanSingleton_eq_mulLeftRestrictScalars {R A : Type u} [CommRing R] [Com
           ((ModuleCat.restrictScalars φ).obj (ModuleCat.of A A)) (1 : A)) ≫
         mulLeftRestrictScalars φ a := by
   refine ModuleCat.hom_ext (LinearMap.ext fun r => ?_)
-  show φ r * a = a * (φ r * 1)
+  change φ r * a = a * (φ r * 1)
   rw [mul_one, mul_comm]
 
 variable {R₀ R A : Type u} [CommRing R₀] [CommRing R] [CommRing A]
@@ -339,9 +339,6 @@ theorem bijective_fromExtendScalars_of_mulLeft
         ((ModuleCat.Hom.hom j.inv) x))) :
     Function.Bijective (ModuleCat.ExtendRestrictScalarsAdj.HomEquiv.fromExtendScalars ρ al) := by
   subst hρ
-  have hzero : Xi 0 = 0 := by
-    have h := hadd 0 0
-    simpa using h.symm
   have key : ∀ z : (ModuleCat.extendScalars ((φ : R →+* A).comp (σ : R₀ →+* R))).obj M₀,
       (ModuleCat.ExtendRestrictScalarsAdj.HomEquiv.fromExtendScalars
           ((φ : R →+* A).comp (σ : R₀ →+* R)) al) z =
@@ -351,16 +348,7 @@ theorem bijective_fromExtendScalars_of_mulLeft
           (F.obj (ModuleCat.of R R))
           ((ModuleCat.ExtendScalars.congrBaseHom σ φ j) z))) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      refine (map_zero _).trans (Eq.symm ?_)
-      refine Eq.trans (congrArg (fun w => Xi (Stacks.EilenbergWatts.linearEquiv F
-        ((ModuleCat.restrictScalars φ).obj (ModuleCat.of A A))
-        (TensorProduct.comm R ((ModuleCat.restrictScalars φ).obj (ModuleCat.of A A))
-          (F.obj (ModuleCat.of R R)) w))) (map_zero _)) ?_
-      refine Eq.trans (congrArg (fun w => Xi (Stacks.EilenbergWatts.linearEquiv F
-        ((ModuleCat.restrictScalars φ).obj (ModuleCat.of A A)) w)) (map_zero _)) ?_
-      exact (congrArg Xi (map_zero _)).trans hzero
+    induction z using TensorProduct.inductionOn with
     | tmul a m =>
       refine (ModuleCat.ExtendScalars.fromExtendScalars_tmul _ al a m).trans ?_
       refine (ModuleCat.ExtendScalars.smul_congr (R₀ := R₀) (A := A) (Y := N)
@@ -655,7 +643,7 @@ def topDegreeFunctorObjIsoCohomologyUpstairs :
           (preimage_le_preimage_of_isPullback hsq hWV) F' inferInstance S.d).symm ≪≫
       (ModuleCat.restrictScalars (h'.resLE (S.f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W)
           (preimage_le_preimage_of_isPullback hsq hWV)).appTop.hom).mapIso
-        (restrictPullbackRightDerivedPlusIso (h := h) h'
+        (restrictPullbackRightDerivedPlusIso h'
           (preimage_le_preimage_of_isPullback hsq hWV) F' S.d).symm)
 
 include hsq in

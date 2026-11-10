@@ -78,8 +78,7 @@ theorem Module.annihilator_baseChange (A B M : Type*) [CommRing A] [CommRing B] 
     refine le_antisymm ?_ ?_
     · rw [Submodule.map_le_iff_le_comap]
       rintro z ⟨w, rfl⟩
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul b a =>
           rw [Submodule.mem_comap, LinearEquiv.coe_coe,
             TensorProduct.AlgebraTensorModule.lTensor_tmul,

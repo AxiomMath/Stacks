@@ -147,7 +147,7 @@ private theorem fieldValuedPointULift_map_restrict
         ⟨p.carrier, p.contained, p.toBase, X'.map p.value.op x⟩ =
       (⟨p.carrier, p.contained, p.toBase, X.map p.value.op (f.app (Opposite.op U) x)⟩ :
         FieldValuedPointULift.{u + 1} B S hS X) := by
-  show (⟨p.carrier, p.contained, p.toBase,
+  change (⟨p.carrier, p.contained, p.toBase,
     f.app _ (X'.map p.value.op x)⟩ : FieldValuedPointULift.{u + 1} B S hS X) = _
   rw [NatTrans.naturality_apply f p.value.op x]
 
@@ -270,7 +270,7 @@ private theorem completionSubfunctorULift_square_isPullback
   obtain ⟨y, hy⟩ := y
   obtain rfl : f.app U x = y := h
   refine ⟨⟨x, ?_⟩, rfl, rfl⟩
-  show HasImageInULift B S hS X' T' U.unop x
+  change HasImageInULift B S hS X' T' U.unop x
   intro p
   apply hsup
   rw [Set.mem_preimage, pointsMapULift_class,

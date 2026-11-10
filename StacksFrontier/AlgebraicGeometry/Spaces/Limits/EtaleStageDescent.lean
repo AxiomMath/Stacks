@@ -1112,7 +1112,7 @@ theorem exists_etaleStageModel [IsCofiltered I] (hc : IsLimit c)
             Category.assoc])
       f₂_p := pullback.lift_snd _ _ _
       mQ_f₂ := by
-        show pullback.lift (f := d₀.k) (g := P.relation.map e₁) d₀.mQ
+        change pullback.lift (f := d₀.k) (g := P.relation.map e₁) d₀.mQ
             (k' ≫ P.relationCone.π.app i₁) _ ≫
           pullback.lift (g₁ ≫ pullback.fst _ _) (pullback.snd _ _ ≫ P.tgt.app i₁) _ =
           f₂' ≫ pullback.lift (f := p₀) (g := P.atlas.map e₁) m₀ (w' ≫ P.atlasCone.π.app i₁) _
@@ -1145,7 +1145,7 @@ theorem exists_etaleStageModel [IsCofiltered I] (hc : IsLimit c)
   -- the quotient
   have h₂ := EtaleStage.isPullback_f₂ s hσ
   obtain ⟨W₀, q, w₀, hW₀, hq_surj, hq_et, hker, hcart, hw₀⟩ :=
-    exists_quotient_of_isPullback_relation B S hS (hD i₄) (P.surjective_atlasMap i₄)
+    exists_quotient_of_isPullback_relation B S hS (hD i₄)
       (P.etale_atlasMap i₄) (P.isPullback_relation i₄) d.etale_p (d.isPullback_f₁.map yoneda)
       (h₂.map yoneda) ⟨d.rho, d.rho_f₁, hρ⟩ ⟨d.sigma s, EtaleStage.sigma_f₁ s, hσ⟩
       ⟨d.tau s, EtaleStage.tau_f₁ s, hτ⟩

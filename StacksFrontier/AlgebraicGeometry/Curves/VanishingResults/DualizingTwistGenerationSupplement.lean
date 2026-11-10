@@ -25,8 +25,8 @@ public import StacksFrontier.AlgebraicGeometry.Curves.VanishingResults.Dualizing
 # Further results on `DualizingTwistGeneration`
 
 Results about the objects of
-`StacksFrontier.AlgebraicGeometry.Curves.VanishingResults.DualizingTwistGeneration` that need imports
-beyond those of that module.
+`StacksFrontier.AlgebraicGeometry.Curves.VanishingResults.DualizingTwistGeneration` that need
+imports beyond those of that module.
 -/
 
 @[expose] public noncomputable section

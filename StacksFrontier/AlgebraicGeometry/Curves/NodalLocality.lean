@@ -182,7 +182,7 @@ public theorem relativeSingularIdeal_comp_etale_base {X S' S : Scheme.{u}} (f : 
   have hlfpg : LocallyOfFinitePresentation g := locallyOfFinitePresentation_of_etale g
   have hiso : IsIso (Scheme.Hom.toRelativeDifferentials f g) :=
     Scheme.Hom.isIso_toRelativeDifferentials_of_etale f g
-  show fittingIdeal (Scheme.Hom.relativeDifferentials (f ≫ g)) 1 =
+  change fittingIdeal (Scheme.Hom.relativeDifferentials (f ≫ g)) 1 =
     fittingIdeal (Scheme.Hom.relativeDifferentials f) 1
   exact fittingIdeal_congr (asIso (Scheme.Hom.toRelativeDifferentials f g)) 1
 
@@ -275,7 +275,7 @@ private theorem unramified_relativeSingular_of_etale_cover {X S : Scheme.{u}} (f
       hcovers hmap
   refine MorphismProperty.IsLocalAtSource.of_zeroHypercover (P := @Unramified.{u}) 𝒱 fun i => ?_
   have := hg i
-  show Unramified (φ i ≫ ((relativeSingularIdeal f).subschemeι ≫ f))
+  change Unramified (φ i ≫ ((relativeSingularIdeal f).subschemeι ≫ f))
   rw [subschemeι_comap_comp f (g i) (relativeSingularIdeal f),
     relativeSingularIdeal_comap_etale f (g i)]
   exact h i

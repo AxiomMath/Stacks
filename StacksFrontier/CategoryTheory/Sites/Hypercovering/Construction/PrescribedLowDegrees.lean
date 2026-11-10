@@ -62,7 +62,7 @@ private theorem nonempty_splitting_const {X : C} (T : FormalCoproduct.{w} (Over 
     Nonempty ((SimplicialObject.const _).obj T).Splitting := by
   apply (split_iff_components_of_epi ((SimplicialObject.const _).obj T)).2
   intro m n f hf i
-  show IsIso (𝟙 (T.obj i))
+  change IsIso (𝟙 (T.obj i))
   infer_instance
 
 private lemma exists_attachment_step (J : Pretopology C) (B : Set C)
@@ -111,7 +111,7 @@ private lemma exists_hypercovering_of_sequence (J : Pretopology C) (B : Set C) {
     have := isIso_truncation_map_of_isIso_app (ι (n + 1)) n fun m hm ↦
       hι (n + 1) _ (Nat.le_succ_of_le hm)
     have : IsIso ((SimplicialObject.cosk n).map (ι (n + 1))) := by
-      show IsIso ((SimplicialObject.Truncated.cosk n).map
+      change IsIso ((SimplicialObject.Truncated.cosk n).map
         ((SimplicialObject.truncation n).map (ι (n + 1))))
       infer_instance
     have hc := (hcovF n).comp_isIso J
@@ -170,7 +170,7 @@ private lemma exists_hypercovering_of_attachment (J : Pretopology C) (B : Set C)
       Functor.ofSequence_map_homOfLE_succ _ n]
     cases n with
     | zero =>
-      show IsIso ((SimplicialObject.truncation 0).map ι)
+      change IsIso ((SimplicialObject.truncation 0).map ι)
       exact isIso_truncation_map_of_isIso_app ι 0 fun m hm ↦ hlo m (Nat.lt_succ_of_le hm)
     | succ m => exact htr (m + 1) (seq m)
   have hcovF : ∀ n, IsCoveringOver J
@@ -258,8 +258,8 @@ theorem exists_hypercovering_with_objects_in_of_lowDegrees
       (if k = 0 then f₀ else f₁) ≫ ι.app (op ⦋0⦌) ≫ φ.app (op ⦋0⦌) := by
     rw [Category.assoc, ← φ.naturality, ← Category.assoc,
       comp_map_δ_of_attachment T N f₀ f₁ q hqf L ι p e hfp heq k, Category.assoc]
-  exact ⟨K, hK, hKB, _, _, (h 0).trans (by rw [if_pos rfl]),
-    (h 1).trans (by rw [if_neg (by decide)])⟩
+  exact ⟨K, hK, hKB, _, _, (h 0).trans (by rw [ite_eq_left rfl]),
+    (h 1).trans (by rw [ite_eq_right (by decide)])⟩
 
 end Generic
 
@@ -335,7 +335,7 @@ private lemma isCoveringOver_zeroMatchingLift_spans (J : Pretopology D)
   let g₁ := spanSnd B
   let K₀ : SimplicialObject (FormalCoproduct.{u} (Over (⊤_ (Dᵒᵖ ⥤ Type u)))) :=
     (SimplicialObject.const _).obj (G'.obj TB)
-  show IsCoveringOver _ (zeroMatchingLift K₀ (G'.map g₀) (G'.map g₁))
+  change IsCoveringOver _ (zeroMatchingLift K₀ (G'.map g₀) (G'.map g₁))
   refine isCoveringOver_of_homLocallySurjective J _ fun V s ↦ ?_
   let σ : ∀ k : Fin 2, (FormalCoproduct.incl D).obj V ⟶ (mapFormalCoproduct i).obj TB :=
     fun k ↦ hY.preimage (s ≫ zeroMatchingπ K₀ k)
@@ -350,10 +350,10 @@ private lemma isCoveringOver_zeroMatchingLift_spans (J : Pretopology D)
       if m = 0 then G'.map g₀ else G'.map g₁ := zeroMatchingLift_π K₀ _ _ m
   have hs : s ≫ zeroMatchingπ K₀ m = Yo.map (σ m) := (hY.map_preimage _).symm
   rw [Category.assoc, hπ, Category.assoc, hs]
-  show _ = Yo.map ((FormalCoproduct.incl D).map (g k)) ≫ _
+  change _ = Yo.map ((FormalCoproduct.incl D).map (g k)) ≫ _
   rw [← Yo.map_comp]
   rcases (by decide : ∀ j : Fin 2, j = 0 ∨ j = 1) m with rfl | rfl <;>
-    [rw [if_pos rfl]; rw [if_neg (by decide)]] <;>
+    [rw [ite_eq_left rfl]; rw [ite_eq_right (by decide)]] <;>
   · change Yo.map _ ≫ Yo.map ((mapFormalCoproduct i).map _) = _
     rw [← Yo.map_comp]
     congr 1
@@ -417,11 +417,11 @@ private lemma exists_lift_of_hypercovering (J : Pretopology D) (i : B ⥤ D)
   let ιN : (FormalCoproduct.incl B).obj U ⟶ NB := FormalCoproduct.Hom.fromIncl (Y := NB) ω (𝟙 U)
   have k₀ : ιN ≫ g₀ = (FormalCoproduct.incl B).map a ≫ ιT V :=
     FormalCoproduct.hom_ext rfl fun _ ↦ by
-      show (𝟙 U ≫ a) ≫ 𝟙 V = a ≫ 𝟙 V
+      change (𝟙 U ≫ a) ≫ 𝟙 V = a ≫ 𝟙 V
       simp
   have k₁ : ιN ≫ g₁ = ιT U :=
     FormalCoproduct.hom_ext rfl fun _ ↦ by
-      show (𝟙 U ≫ 𝟙 U) ≫ 𝟙 U = 𝟙 U
+      change (𝟙 U ≫ 𝟙 U) ≫ 𝟙 U = 𝟙 U
       simp
   refine ⟨hG'.preimage (G'.map ιN ≫ e ≫ Φ.inv.app (op ⦋1⦌)), ?_, ?_⟩
   · apply hG'.map_injective

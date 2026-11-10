@@ -222,7 +222,7 @@ theorem isZero_sheafCohomology_bigFppfTotal_pullbackModules
             u + 1, u + 1, u + 1} f.ringedToposHom.toModulesHom).obj G))) p
       ((SpacesEtale.inclusion T.schemeSite S T.scheme_mem (U.obj (op n))).obj W)) :=
     isZero_H'_of_iso ((SheafOfModules.toSheaf _).mapIso
-      ((asIso (α.natTrans.app G)).symm ≪≫ β.app _)) h₁
+      ((asIso (NatTrans.app α G)).symm ≪≫ β.app _)) h₁
   have : ((SimplicialOver.situation T.topology U).componentFunctor n).IsContinuous
       (BigFppfSpaceOver.topology T (U.obj (op n)))
       (SimplicialOver.situation T.topology U).totalTopology := slicesι_isContinuous U n

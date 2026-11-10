@@ -52,7 +52,7 @@ universe u
 namespace Stacks.EtaleCohomology.EtaleCoefficients
 
 -- `derivedPullback` and `derivedPushforward` (`StacksFrontier/CategoryTheory/Sites/Cohomology/
--- StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean:394`), through `pullback` and `pushforward`,
+-- DerivedPushforward/AdjunctionForRingedTopoi.lean:394`), through `pullback` and `pushforward`,
 -- are stated for the standard model of the derived category.
 attribute [local instance] HasDerivedCategory.standard
 
@@ -75,7 +75,7 @@ theorem isFlat_of_fact_prime
       (ringedTopos (ULift.{u + 1} (ZMod ℓ)) X).O)) :
     AlgebraicGeometry.SheafOfModules.IsFlat.{u + 1, u + 1, u + 1, u + 1}
       (O := (ringedTopos (ULift.{u + 1} (ZMod ℓ)) X).O) M := by
-  haveI : HasSheafify (topology X) CommRingCat.{u + 1} :=
+  have : HasSheafify (topology X) CommRingCat.{u + 1} :=
     AlgebraicGeometry.SheafOfModules.hasSheafify_commRingCat.{u + 1, u + 1, u + 1} _
   let a := Stacks.ConstantSheaf.constantRingSheafMap (topology X)
     (ULift.{u + 1, 0} (ZMod ℓ) : Type (u + 1))

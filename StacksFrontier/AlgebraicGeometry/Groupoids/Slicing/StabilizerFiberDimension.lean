@@ -123,7 +123,7 @@ public theorem topologicalKrullDim_stabilizerFiber_le_sourceFiberIdentity {S : S
     (GroupoidScheme.restrict G (residueChart G u)).groupoid e (eIso.inv z)
   rw [topologicalKrullDimAt_eq_of_homeomorph eIso.hom.homeomorph] at hLU
   have hz : eIso.hom.homeomorph (eIso.inv z) = z := by
-    show (eIso.inv ≫ eIso.hom) z = z
+    change (eIso.inv ≫ eIso.hom) z = z
     simp
   rw [hz] at hLU
   calc topologicalKrullDim ((stabilizer G).hom.fiber u)

@@ -116,7 +116,7 @@ theorem formsDirectImageComparison_zero {X Y S : Scheme.{u}} (f : Y ⟶ X) (π :
   have hcomm : f ≫ π = (f ≫ π) ≫ 𝟙 S := by simp
   refine Scheme.Modules.hom_ext _ _ fun U => ?_
   ext x
-  show (relativeDifferentialFormsZeroIso (f ≫ π)).hom.val.app (op (f ⁻¹ᵁ U))
+  change (relativeDifferentialFormsZeroIso (f ≫ π)).hom.val.app (op (f ⁻¹ᵁ U))
         (relativeDifferentialFormsPullback f π (f ≫ π) (𝟙 S) hcomm 0 U x) =
       (f.app U).hom ((relativeDifferentialFormsZeroIso π).hom.val.app (op U) x)
   obtain ⟨r, hr⟩ : ∃ r : Γ(X, U),

@@ -30,11 +30,12 @@ namespace CochainComplex
 
 variable {A : Type*} [Category* A] [Abelian A]
 
+omit [Abelian A] in
 /-- The functor `ℕ ⥤ A` all of whose transition maps are `𝟙 K` sends every morphism to `𝟙 K`. -/
 lemma ofSequence_id_map (K : A) {i j : ℕ} (h : i ⟶ j) :
     (Functor.ofSequence (fun _ : ℕ => 𝟙 K)).map h = 𝟙 K := by
   obtain ⟨⟨hij⟩⟩ := h
-  show Functor.OfSequence.map (fun _ : ℕ => 𝟙 K) i j hij = 𝟙 K
+  change Functor.OfSequence.map (fun _ : ℕ => 𝟙 K) i j hij = 𝟙 K
   induction j with
   | zero =>
     obtain rfl : i = 0 := by lia
@@ -59,7 +60,7 @@ lemma isPCellular_of_isStrictlyLE (P : ObjectProperty A) (K : CochainComplex A �
   have hc : IsColimit c :=
     { desc := fun s => s.ι.app 0
       fac := fun s j => by
-        show 𝟙 K ≫ s.ι.app 0 = s.ι.app j
+        change 𝟙 K ≫ s.ι.app 0 = s.ι.app j
         have h := s.w (homOfLE (Nat.zero_le j))
         rw [ofSequence_id_map] at h
         exact (Category.id_comp _).trans (h.symm.trans (Category.id_comp _))
@@ -67,7 +68,7 @@ lemma isPCellular_of_isStrictlyLE (P : ObjectProperty A) (K : CochainComplex A �
   refine ⟨fun _ => K, fun _ => 𝟙 K, c, hc, Iso.refl _,
     fun n => CochainComplex.isStrictlyLE_of_le K 0 n (by lia), fun _ i => hK i,
     fun n i _ => ?_⟩
-  show QuasiIsoAt (𝟙 K ≫ 𝟙 K) i
+  change QuasiIsoAt (𝟙 K ≫ 𝟙 K) i
   rw [Category.comp_id]
   infer_instance
 

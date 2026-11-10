@@ -106,7 +106,7 @@ private lemma relativeMorphismYonedaEquiv_natural
   rw [pullbackHomEquiv_natural yoneda a z x t b hb, ← Category.assoc]
   congr 1
   apply pullback.hom_ext <;>
-    simp [pullback.map, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc]
+    simp [pullback.map]
 
 /-- **The sections of a representing object of the relative morphism functor on the slice are the
 pairs of Stacks 05Y1.** A morphism `T ⟶ W.left` is the same as a morphism `Over.mk a ⟶ W` for

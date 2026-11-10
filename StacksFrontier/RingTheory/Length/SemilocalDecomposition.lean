@@ -64,7 +64,8 @@ Stacks 0EAT is stated for a one-dimensional Noetherian local ring that need not 
 the statements are reproved here at the generality their proofs have. The off-diagonal vanishing
 is obtained from `IsArtinian.exists_pow_succ_smul_dvd` applied to a cyclic submodule rather than
 from a descending chain of submodules in the order dual, which is what the version in
-`StacksFrontier/RingTheory/OrderOfVanishing/Norm.lean` needs a `backward.isDefEq.respectTransparency`
+`StacksFrontier/RingTheory/OrderOfVanishing/Norm.lean` needs a
+`backward.isDefEq.respectTransparency`
 escape for. The residue degree is spelled `Module.finrank (ResidueField A) (ResidueField B_𝔮)`
 rather than `Ideal.inertiaDeg'`, which is deprecated and whose uses in that file are behind a
 `linter.deprecated` option; the two agree, and the `finrank` spelling is the one the norm of an
@@ -101,7 +102,7 @@ theorem subsingleton_localizedModule_localizedModule
     have hne : v.asIdeal ≠ w.asIdeal := fun h => hvw (MaximalSpectrum.ext h)
     have hnle : ¬ v.asIdeal ≤ w.asIdeal := fun hle =>
       hne (v.isMaximal.eq_of_le w.isMaximal.ne_top hle)
-    rw [SetLike.not_le_iff_exists] at hnle
+    rw [IsConcreteLE.not_le_iff_exists] at hnle
     obtain ⟨s, hsv, hsw⟩ := hnle
     exact ⟨s, hsv, hsw⟩
   rw [LocalizedModule.subsingleton_iff]

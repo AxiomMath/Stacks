@@ -281,7 +281,7 @@ private theorem exists_essFP_surjective_of_essFiniteType (R : Type u) (S : Type 
       simpa [Algebra.EssFiniteType.submonoid, IsUnit.submonoid] using t.2
     have hψw : (ψ : MvPolynomial (Fin n) R →+* S) w
         = algebraMap (Algebra.EssFiniteType.subalgebra R S) S t := by
-      show (Algebra.EssFiniteType.subalgebra R S).val (f w) = _
+      change (Algebra.EssFiniteType.subalgebra R S).val (f w) = _
       rw [hw]; rfl
     have hwq : w ∈ q.primeCompl := fun hmem => by
       have hmem' : (ψ : MvPolynomial (Fin n) R →+* S) w ∈ maximalIdeal S := hmem
@@ -292,7 +292,7 @@ private theorem exists_essFP_surjective_of_essFiniteType (R : Type u) (S : Type 
       (M := q.primeCompl) hunit from rfl, IsLocalization.lift_mk'_spec]
     have hψp : (ψ : MvPolynomial (Fin n) R →+* S) p
         = algebraMap (Algebra.EssFiniteType.subalgebra R S) S a := by
-      show (Algebra.EssFiniteType.subalgebra R S).val (f p) = _
+      change (Algebra.EssFiniteType.subalgebra R S).val (f p) = _
       rw [hp]; rfl
     rw [hψp, hψw, ← hs, mul_comm]
   have hRB : IsLocalHom (algebraMap R (Localization.AtPrime q)) :=

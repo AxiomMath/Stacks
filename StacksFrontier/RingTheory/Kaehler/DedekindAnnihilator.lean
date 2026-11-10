@@ -141,8 +141,7 @@ theorem span_singleton_one_tmul_eq_top (P : Ideal A) [P.IsPrime] [Module.Finite 
   refine Submodule.le_of_le_smul_of_le_jacobson_bot Module.Finite.fg_top
     (IsLocalRing.maximalIdeal_le_jacobson _) ?_
   rintro z -
-  induction z using TensorProduct.induction_on with
-  | zero => exact Submodule.zero_mem _
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => exact Submodule.add_mem _ ha hb
   | tmul s m =>
     have hsm : (s ⊗ₜ[A] m : S ⊗[A] Ω[A⁄R]) = s • (1 ⊗ₜ[A] m) := by
@@ -190,8 +189,7 @@ theorem annihilator_eq_fittingIdeal_zero_kaehlerDifferential [IsDedekindDomain A
   intro a ha
   rw [Ideal.mem_comap, Module.mem_annihilator]
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [smul_add, hx, hy, add_zero]
   | tmul s m =>
     rw [algebraMap_smul, ← TensorProduct.tmul_smul, Module.mem_annihilator.mp ha m,

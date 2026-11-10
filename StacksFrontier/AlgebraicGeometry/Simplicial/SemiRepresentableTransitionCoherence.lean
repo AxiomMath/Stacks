@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Simplicial.SemiRepresentableTransitionRestriction
 public import
-    StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.ModuleSumFormulaLegCaseBSections
+  StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.ModuleSumFormulaLegCaseBSections
 public import StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.DerivedCocycleSystem
 public import StacksFrontier.CategoryTheory.Sites.Cocontinuous.CocontinuousCompMate
 public import StacksFrontier.CategoryTheory.Adjunction.ConjugateOfUnitComm

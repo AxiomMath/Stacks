@@ -63,7 +63,8 @@ quasi-coherent — for an arbitrary index type and with no hypothesis on `f`.
   it is `𝒢 ↦ 𝒜 ⊗_{𝒪_X} 𝒢` — preserves quasi-coherence.  That statement is clause (5) of Stacks
   03M1 once the two constructions of the tensor product are identified, by
   `AlgebraicGeometry.Space.restrictScalarsExtendScalarsIsoTensorModule`
-  (`StacksFrontier/AlgebraicGeometry/Spaces/DirectImageAlgebraExtendScalarsTensor.lean`).  The result
+  (`StacksFrontier/AlgebraicGeometry/Spaces/DirectImageAlgebraExtendScalarsTensor.lean`).  The
+  result
   is `AlgebraicGeometry.Space.isQuasicoherentOnSite_directImageAlgebraPullback`, which is what
   `AlgebraicGeometry.Space.affineDirectImageEquivalence_of_isIso_unit_counit` below takes for its
   `hL`.

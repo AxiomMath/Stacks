@@ -61,7 +61,7 @@ theorem slice_smul (b : ℕ) (W : Over (⊤ : X.Opens)) (r : Γ(S, ⊤))
     r • x = (show ((overComplex p.sectionsDeRhamComplex).X b).obj (op W) from
       letI := baseModule p (Scheme.Hom.relativeDifferentialForms p (b : ℤ)) W.left
       (r • (show Γ(Scheme.Hom.relativeDifferentialForms p (b : ℤ), W.left) from x))) := by
-  show (show Γ(X, W.left) from (inverseImageStructureMap p).hom.app (op W.left)
+  change (show Γ(X, W.left) from (inverseImageStructureMap p).hom.app (op W.left)
       ((baseSheaf p).obj.map (homOfLE (le_top : W.left ≤ ⊤)).op
         (Scheme.Hom.inverseImageGlobalSections p r))) •
       (show Γ(Scheme.Hom.relativeDifferentialForms p (b : ℤ), W.left) from x) = _
@@ -193,7 +193,7 @@ theorem acyclic_deRhamPlus [IsAffineHom (pullback.diagonal (terminal.from X))]
       Stacks.Cech.Hypercohomology.isZero_rightDerived_singlePlus_restrictScalars_of_isAffineOpen
         X (SheafOfModules.underlyingRingHom (φ := inverseImageStructureMap p)) U hUaff
         (Scheme.Hom.relativeDifferentialForms p (n : ℤ)) 0 r s m hm
-    show IsZero (((SheafOfModules.evaluation.{u} (ringSheaf (baseSheaf p))
+    change IsZero (((SheafOfModules.evaluation.{u} (ringSheaf (baseSheaf p))
       (op (⨅ k, U (s k)))).rightDerived m).obj ((SheafOfModules.deRhamComplexInt
         (Scheme.Hom.deRhamAlgebras p)
           (SheafOfModules.deRhamDifferential (Scheme.Hom.deRhamAlgebras p))).X (n : ℤ)))

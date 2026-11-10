@@ -76,7 +76,9 @@ The Čech complex vanishes above degree `r` (`isZero_extendedAlternatingCech_X_o
 cohomologically `≤ r`; a sheaf in degree zero is cohomologically `≥ 0`; and the derived internal
 Hom of a cohomologically `≤ d` object into a cohomologically `≥ b` one is cohomologically
 `≥ b - d`, which is
-`AlgebraicGeometry.RingedSite.isGE_derivedSheafHom` of `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedHomBoundedBelow.lean`. So `ℱ^∧`
+`AlgebraicGeometry.RingedSite.isGE_derivedSheafHom` of
+`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedHomBoundedBelow.lean`. So
+`ℱ^∧`
 is cohomologically `≥ -r`, and `DerivedCategory.exists_iso_Q_obj_of_isGE` turns that into an
 honest bounded below complex together with the isomorphism. Nothing about `ℱ` is used beyond its
 being a sheaf.

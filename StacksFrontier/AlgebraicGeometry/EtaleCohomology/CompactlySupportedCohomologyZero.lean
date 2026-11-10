@@ -173,7 +173,7 @@ theorem mono_etaleModuleLan_map_app
         Limits.Sigma.ι
           (fun ψ : V ⟶ smallEtaleSource j => H.obj (op (sourceDescend j ψ))) φ ≫
           (extensionByZeroPresheafSectionIso j H V).hom = extensionByZeroSummandInclusion j H φ :=
-      fun H => Limits.Sigma.ι_desc (fun ψ => extensionByZeroSummandInclusion j H ψ) φ
+      fun H => Limits.Sigma.ι_comp_desc (fun ψ => extensionByZeroSummandInclusion j H ψ) φ
     rw [← Category.assoc, hι, extensionByZeroSummandInclusion_naturality, ← hι F',
       Limits.Sigma.ι_map_assoc]
   have hσ : Mono (Limits.Sigma.map

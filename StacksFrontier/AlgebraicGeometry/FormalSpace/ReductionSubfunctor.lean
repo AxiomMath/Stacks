@@ -339,7 +339,7 @@ theorem isLocallySurjective_of_comp_eq_etaleCover {Z : FppfSheaf B S hS} {ι : T
         (fun x => by have := hp x; infer_instance) hcov)
   let a' : ∐ (fun x ↦ Y.obj (V x)) ⟶ Y.obj W := Sigma.desc fun x ↦ Y.map (a x)
   have hafac : a' ≫ q = (Sigma.desc fun x ↦ Y.map (p x)) ≫ t :=
-    Sigma.hom_ext _ _ fun x ↦ by simpa only [a', Sigma.ι_desc_assoc] using ha x
+    Sigma.hom_ext _ _ fun x ↦ by simpa only [a', Sigma.ι_comp_desc_assoc] using ha x
   have : Presheaf.IsLocallySurjective J (a' ≫ q) := by
     rw [hafac]
     infer_instance
@@ -477,6 +477,7 @@ theorem app_mem_reductionSubfunctor_iff (i : I) {T : BigFppfOver B S hS}
   rintro ⟨z, rfl⟩
   exact app_mem_reductionSubfunctor hrep het hr (hr i).algebraic (hr i).reduced (r i ≫ f i) z
 
+omit het in
 /-- The reduction subfunctor is an fppf sheaf. -/
 theorem isSheaf_reductionSubfunctor :
     Presieve.IsSheaf (BigFppfOver.topology B S hS) (reductionSubfunctor f r).toFunctor := by
@@ -495,34 +496,36 @@ theorem isSheaf_reductionSubfunctor :
     rw [NatTrans.naturality_apply, hy]
     simp only [op_id, Functor.map_id_apply, op_comp, Functor.map_comp_apply])
 
+variable (f) in
 /-- The reduction subfunctor, as an fppf sheaf. -/
 def reductionSheaf : FppfSheaf B S hS :=
   ⟨(reductionSubfunctor f r).toFunctor,
-    (isSheaf_iff_isSheaf_of_type _ _).2 (isSheaf_reductionSubfunctor hrep het hr)⟩
+    (isSheaf_iff_isSheaf_of_type _ _).2 (isSheaf_reductionSubfunctor hr)⟩
 
+variable (f) in
 /-- The inclusion of the reduction sheaf into `X`. -/
-def reductionSheafι : reductionSheaf hrep het hr ⟶ X := ⟨(reductionSubfunctor f r).ι⟩
+def reductionSheafι : reductionSheaf f hr ⟶ X := ⟨(reductionSubfunctor f r).ι⟩
 
 /-- The morphism `Rᵢ ⟶ X_red` through which `Rᵢ ⟶ Xᵢ ⟶ X` factors. -/
-def reductionSheafLift (i : I) : R i ⟶ reductionSheaf hrep het hr :=
+def reductionSheafLift (i : I) : R i ⟶ reductionSheaf f hr :=
   ⟨Subfunctor.lift ((r i).hom ≫ (f i).hom) (by
     rintro T _ ⟨z, rfl⟩
     exact (app_mem_reductionSubfunctor_iff hrep het hr i ((r i).hom.app T z)).2 ⟨z, rfl⟩)⟩
 
 /-- The composite `Rᵢ ⟶ X_red ⟶ X` is `Rᵢ ⟶ Xᵢ ⟶ X`. -/
 theorem reductionSheafLift_comp_ι (i : I) :
-    reductionSheafLift hrep het hr i ≫ reductionSheafι hrep het hr = r i ≫ f i := rfl
+    reductionSheafLift hrep het hr i ≫ reductionSheafι f hr = r i ≫ f i := rfl
 
 /-- `Rᵢ` is the base change of the reduction sheaf along the chart `Xᵢ ⟶ X`. -/
 theorem isPullback_reductionSheaf (i : I) :
-    IsPullback (r i) (reductionSheafLift hrep het hr i) (f i) (reductionSheafι hrep het hr) := by
+    IsPullback (r i) (reductionSheafLift hrep het hr i) (f i) (reductionSheafι f hr) := by
   let J := BigFppfOver.topology B S hS
   have _ : Mono (r i).hom := mono_of_isRepresentableThickeningULift B S hS
     (hr i).isRepresentableThickening
   have hpre : IsPullback (r i).hom (reductionSheafLift hrep het hr i).hom (f i).hom
-      (reductionSheafι hrep het hr).hom := by
+      (reductionSheafι f hr).hom := by
     refine IsPullback.of_isLimit (c := PullbackCone.mk (f := (f i).hom)
-      (g := (reductionSheafι hrep het hr).hom) (r i).hom (reductionSheafLift hrep het hr i).hom
+      (g := (reductionSheafι f hr).hom) (r i).hom (reductionSheafLift hrep het hr i).hom
       rfl) ?_
     refine evaluationJointlyReflectsLimits _ fun U ↦ ?_
     refine (PullbackCone.isLimitMapConeEquiv _ ((evaluation _ _).obj U)).symm ?_
@@ -545,10 +548,10 @@ theorem isClosedImmersion_reductionSheafι
     (hsurj : letI : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) :=
         Sheaf.instHasColimitsOfSize
       Sheaf.IsLocallySurjective (Sigma.desc f)) :
-    IsClosedImmersion B S hS (reductionSheafι hrep het hr) := by
+    IsClosedImmersion B S hS (reductionSheafι f hr) := by
   refine isClosedImmersion_of_locallySurjectiveFamily B S hS I Xi f hsurj fun i ↦ ?_
   have sq := (isPullback_reductionSheaf hrep het hr i).flip
-  rw [show pullback.snd (reductionSheafι hrep het hr) (f i) = sq.isoPullback.inv ≫ r i by
+  rw [show pullback.snd (reductionSheafι f hr) (f i) = sq.isoPullback.inv ≫ r i by
     rw [Iso.eq_inv_comp, sq.isoPullback_hom_snd]]
   exact isClosedImmersion_comp B S hS _ _ (isClosedImmersion_of_isIso B S hS _)
     (hr i).isClosedImmersion
@@ -569,7 +572,7 @@ theorem isRepresentableThickeningULift_reductionSheafι
     (hsurj : letI : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) :=
         Sheaf.instHasColimitsOfSize
       Sheaf.IsLocallySurjective (Sigma.desc f)) :
-    Space.IsRepresentableThickeningULift.{u + 1} B S hS (reductionSheafι hrep het hr).hom := by
+    Space.IsRepresentableThickeningULift.{u + 1} B S hS (reductionSheafι f hr).hom := by
   have hrel := relative_closedImmersionOfSite_of_isClosedImmersion B S hS _
     (isClosedImmersion_reductionSheafι hrep het hr hsurj)
   refine ⟨hrel.rep, fun a b g fst snd sq ↦ ⟨hrel.property g fst snd sq, ?_⟩⟩
@@ -581,11 +584,11 @@ theorem isRepresentableThickeningULift_reductionSheafι
   have hKred : IsReduced ((BigFppfOver.toScheme B S hS).obj K) :=
     inferInstanceAs (IsReduced (Spec (.of (A.residueField t))))
   let ξK : X.obj.obj (op K) := X.obj.map k.op (uliftYonedaEquiv.{u + 1} g)
-  let c : (uliftYoneda.{u + 1}).obj K ⟶ (reductionSheaf hrep het hr).obj :=
+  let c : (uliftYoneda.{u + 1}).obj K ⟶ (reductionSheaf f hr).obj :=
     uliftYonedaEquiv.{u + 1}.symm
       (⟨ξK, mem_reductionSubfunctor_of_isReduced hrep het hr hKred ξK⟩ :
         (reductionSubfunctor f r).toFunctor.obj (op K))
-  have hw : c ≫ (reductionSheafι hrep het hr).hom = (uliftYoneda.{u + 1}).map k ≫ g := by
+  have hw : c ≫ (reductionSheafι f hr).hom = (uliftYoneda.{u + 1}).map k ≫ g := by
     apply uliftYonedaEquiv.{u + 1}.injective
     rw [uliftYonedaEquiv_comp, show uliftYonedaEquiv.{u + 1} c =
       ⟨ξK, mem_reductionSubfunctor_of_isReduced hrep het hr hKred ξK⟩ from

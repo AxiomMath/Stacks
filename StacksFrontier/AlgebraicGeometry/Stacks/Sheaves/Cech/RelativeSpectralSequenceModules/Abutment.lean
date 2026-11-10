@@ -149,7 +149,7 @@ private lemma extendDoubleComplexMap_quasiIso
       ((HomologicalComplex.homologyFunctor _ _ j).map_isZero
         (extendDoubleComplex_isZero₁ L i hi)) _
   · lift i to ℕ using (by omega : 0 ≤ i)
-    show QuasiIso ((HomologicalComplex.extendMap _ ComplexShape.embeddingUpNat).f (i : ℤ))
+    change QuasiIso ((HomologicalComplex.extendMap _ ComplexShape.embeddingUpNat).f (i : ℤ))
     rw [HomologicalComplex.extendMap_f _ _ (show (i : ℤ) = i from rfl)]
     have : QuasiIso (g.f i) := hg i
     have : QuasiIso (HomologicalComplex.extendMap (g.f i) ComplexShape.embeddingUpNat) :=
@@ -157,7 +157,7 @@ private lemma extendDoubleComplexMap_quasiIso
     have : QuasiIso
         ((((ComplexShape.embeddingUpNat.extendFunctor A).mapHomologicalComplex
           (ComplexShape.up ℕ)).map g).f i) := by
-      show QuasiIso (HomologicalComplex.extendMap (g.f i) ComplexShape.embeddingUpNat)
+      change QuasiIso (HomologicalComplex.extendMap (g.f i) ComplexShape.embeddingUpNat)
       infer_instance
     infer_instance
 
@@ -412,8 +412,8 @@ private lemma abutsTo_of_iso
   · intro n
     obtain ⟨a, b, hab, ha, hb⟩ := hfinite n
     refine ⟨a, b, hab, ?_, ?_⟩
-    · show (φ n) (F n a) = ⊤; simp [ha]
-    · show (φ n) (F n b) = ⊥; simp [hb]
+    · change (φ n) (F n a) = ⊤; simp [ha]
+    · change (φ n) (F n b) = ⊥; simp [hb]
   · intro p q
     obtain ⟨i⟩ := hgraded p q
     exact ⟨i.trans (Subobject.cokernelMapIso (e (p + q))

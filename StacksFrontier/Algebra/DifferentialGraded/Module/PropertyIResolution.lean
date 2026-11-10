@@ -171,12 +171,12 @@ def towerFactor (i : ℕ) : DifferentialGradedModule A := shift (J i) (-(o + i))
 /-- The degree-`n` part of the `i`-th factor of the totalization is `Jᵢ^{n - o - i}`. -/
 theorem towerFactor_grading (i : ℕ) (n : ℤ) :
     (towerFactor J o i).grading n = (J i).grading (n - (o + i)) := by
-  show (J i).grading (n + -(o + i)) = (J i).grading (n - (o + i))
+  change (J i).grading (n + -(o + i)) = (J i).grading (n - (o + i))
   rw [sub_eq_add_neg]
 
 /-- The differential of the `i`-th factor of the totalization is `(-1)^{o + i} d_{Jᵢ}`. -/
 theorem towerFactor_d (i : ℕ) : (towerFactor J o i).d = (o + i).negOnePow • (J i).d := by
-  show (-(o + i)).negOnePow • (J i).d = (o + i).negOnePow • (J i).d
+  change (-(o + i)).negOnePow • (J i).d = (o + i).negOnePow • (J i).d
   rw [Int.negOnePow_neg]
 
 /-- The underlying graded module `∏ᵢ Jᵢ[-o-i]` of the totalization, carrying the *componentwise*

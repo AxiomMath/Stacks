@@ -128,7 +128,7 @@ public lemma finiteLevel_factor_morphism
     rw [T.projection_ker, DividedPowers.pAdicIdeal, Ideal.span_singleton_pow]
     refine Ideal.span_le.mpr ?_
     rintro x ⟨rfl⟩
-    show f.hom.toRingHom ((S.p : X.ring) ^ (T.cutoff + e)) = 0
+    change f.hom.toRingHom ((S.p : X.ring) ^ (T.cutoff + e)) = 0
     rwa [map_pow, map_natCast]
   let lift := Ideal.Quotient.lift (RingHom.ker (T.projection e).toRingHom)
     f.hom.toRingHom (fun x hx => RingHom.mem_ker.mp (hker hx))
@@ -157,7 +157,7 @@ public lemma finiteLevel_factor_morphism
     obtain ⟨x, rfl⟩ := T.projection_surjective e y
     have hx : Ideal.Quotient.mk X.ring.ideal x = 0 := by
       apply hqq
-      show Ideal.Quotient.mk (T.term e).obj.ring.ideal ((T.projection e) x) = qq 0
+      change Ideal.Quotient.mk (T.term e).obj.ring.ideal ((T.projection e) x) = qq 0
       rw [map_zero]
       exact Ideal.Quotient.eq_zero_iff_mem.mpr hy
     exact Ideal.mem_map_of_mem _ (Ideal.Quotient.eq_zero_iff_mem.mp hx)
@@ -175,7 +175,7 @@ public lemma finiteLevel_factor_morphism
     DividedPowers.DPMorphism.ext (congrArg DFunLike.coe hmRing)
   have hb : m.comp (T.term e).obj.fromBase = Y.obj.fromBase := by
     rw [← T.projection_fromBase e]
-    show (m.comp (T.projection e)).comp X.fromBase = _
+    change (m.comp (T.projection e)).comp X.fromBase = _
     rw [hm]
     exact f.fromBase_comp
   let qm := DividedPowerRing.quotientRingHom
@@ -184,12 +184,12 @@ public lemma finiteLevel_factor_morphism
       DividedPowerRing.quotientRingHom f.hom := by
     refine RingHom.ext fun z => ?_
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective z
-    show Ideal.Quotient.mk Y.obj.ring.ideal (m ((T.projection e) x)) =
+    change Ideal.Quotient.mk Y.obj.ring.ideal (m ((T.projection e) x)) =
       Ideal.Quotient.mk Y.obj.ring.ideal (f.hom x)
     exact congrArg (Ideal.Quotient.mk Y.obj.ring.ideal) (DFunLike.congr_fun hm x)
   have hc : qm.comp (T.term e).obj.toQuotient = Y.obj.toQuotient := by
     rw [← T.projection_toQuotient e, ← RingHom.comp_assoc]
-    show (qm.comp qq).comp X.toQuotient = _
+    change (qm.comp qq).comp X.toQuotient = _
     rw [hq]
     exact f.toQuotient_comp
   exact ⟨e, ⟨{ hom := m, fromBase_comp := hb, toQuotient_comp := hc }⟩,

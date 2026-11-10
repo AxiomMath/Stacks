@@ -101,7 +101,7 @@ private lemma finite_ext_from_single_shift (M : ModuleCat.{u} R) [Module.Finite 
     (shiftHomLinearEquiv (S0⟦-d⟧) (L⟦i⟧) d).trans (Linear.homCongr R eDom eCod)
   have hfin : Module.Finite R (S0 ⟶ L⟦i + d⟧) := by
     simpa [DerivedCategory.Ext] using finite_ext_of_isGE M L a hL (i + d)
-  show Module.Finite R (Sd ⟶ L⟦i⟧)
+  change Module.Finite R (Sd ⟶ L⟦i⟧)
   exact Module.Finite.equiv (eShift.trans eBoth).symm
 
 /-- Finiteness of `Hom(X, L⟦i⟧)` for `X` concentrated in degree `d` with finite cohomology. -/
@@ -171,7 +171,7 @@ public lemma finite_ext_of_isLE_of_isGE (K L : DerivedCategory (ModuleCat.{u} R)
   · have : Subsingleton (K ⟶ L⟦i⟧) :=
       ⟨fun f g => (TStructure.t.zero f d (b - i) hd).trans
         (TStructure.t.zero g d (b - i) hd).symm⟩
-    show Module.Finite R (K ⟶ L⟦i⟧)
+    change Module.Finite R (K ⟶ L⟦i⟧)
     infer_instance
   · let a := b - i - 1
     let T := (TStructure.t.triangleLEGE a (a + 1) rfl).obj K
@@ -193,7 +193,7 @@ public lemma finite_ext_of_isLE_of_isGE (K L : DerivedCategory (ModuleCat.{u} R)
     have h₃ : Module.Finite R (T.obj₃ ⟶ L⟦i⟧) :=
       finite_ext_of_bounded_source (a + 1) n T.obj₃ L hCge hCle'
         (finite_homology_truncGE K hK (a + 1)) b hLge hL i
-    show Module.Finite R (K ⟶ L⟦i⟧)
+    change Module.Finite R (K ⟶ L⟦i⟧)
     exact finite_hom_middle_of_source_triangle (T := T) hT (L⟦i⟧) h₁ h₃
 
 end BoundedAbove
@@ -237,8 +237,8 @@ private lemma finite_homology_homComplex_of_finite_hom
     ((cocycleHomLinearMap P I n).comp e.toLinearMap)
   have hf : LinearMap.ker f = LinearMap.range S.moduleCatToCycles := by
     ext z
-    show f z = 0 ↔ _
-    show DerivedCategory.Qh.map (CohomologyClass.toHom (CohomologyClass.mk (e z))) = 0 ↔ _
+    change f z = 0 ↔ _
+    change DerivedCategory.Qh.map (CohomologyClass.toHom (CohomologyClass.mk (e z))) = 0 ↔ _
     rw [← Functor.map_zero DerivedCategory.Qh,
       (CochainComplex.IsKInjective.Qh_map_bijective _ _).injective.eq_iff,
       CohomologyClass.toHom_mk_eq_zero_iff, mem_coboundaries_iff (e z) (n - 1) (by omega)]

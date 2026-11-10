@@ -149,7 +149,7 @@ theorem hom_singleFunctor_structureModule_eq_zero_of_hasTorAmplitude_yoneda
   have h0 : Φ.map e.inv ≫ ε.hom ≫ t ≫ ι.inv = 0 := by
     rw [← (representedAffineDerivedAssociatedFullyFaithful B S hS U).map_preimage
       (Φ.map e.inv ≫ ε.hom ≫ t ≫ ι.inv)]
-    show Φ.map s = 0
+    change Φ.map s = 0
     rw [hs, Functor.map_zero]
   rw [← cancel_mono ι.inv, Limits.zero_comp, ← cancel_epi (Φ.mapIso e.symm ≪≫ ε).hom,
     Limits.comp_zero]

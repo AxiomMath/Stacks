@@ -96,7 +96,7 @@ theorem isIso_sliceTransitionPullback_app_iff (M : SheafOfModules.{u} R) :
   have := f.isIso_localizedPullbackMate V
   have : IsIso ((f.localizedPullbackMate V).app
       ((SheafOfModules.pushforward.{u} (F := G') ψ').obj M)) :=
-    inferInstanceAs (IsIso ((f.localizedPullbackMate V).natTrans.app _))
+    inferInstanceAs (IsIso (NatTrans.app (f.localizedPullbackMate V) _))
   rw [e₁, ← isIso_comp_right_iff _ (eqToHom (f.sliceRight_obj_restriction R τ V ψ M)), ← h,
     isIso_comp_left_iff, isIso_comp_left_iff]
 

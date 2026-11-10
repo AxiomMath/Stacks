@@ -147,7 +147,7 @@ theorem finrank_cohomologyOverField_curveTwistSheaf_zero (n : ℕ)
       (exceptionalDivisorToCentre (Stacks.Blowup.residuePoint S.A)).appLE ⊤ ⊤ (by simp)).hom
   let : IsScalarTower S.A (ResidueField S.A) Γ(curveTwistSheaf S.A (n : ℤ), ⊤) :=
     IsScalarTower.of_algebraMap_smul fun a x => by
-      show ((Scheme.ΓSpecIso (.of (ResidueField S.A))).inv ≫
+      change ((Scheme.ΓSpecIso (.of (ResidueField S.A))).inv ≫
           (exceptionalDivisorToCentre (Stacks.Blowup.residuePoint S.A)).appLE ⊤ ⊤
             (by simp)).hom (residue S.A a) • x =
         ((Scheme.ΓSpecIso (.of S.A)).inv ≫
@@ -176,7 +176,7 @@ private theorem finrank_restrictScalars_eq_one {k R : Type u} [Field k] [CommRin
       { toFun := fun c => g c
         map_add' := fun c c' => map_add g c c'
         map_smul' := fun c x => map_mul g c x } hg
-  show Module.finrank k R = 1
+  change Module.finrank k R = 1
   rw [← e.finrank_eq, Module.finrank_self]
 
 /-! ### Instances for the exceptional curve over the residue field -/

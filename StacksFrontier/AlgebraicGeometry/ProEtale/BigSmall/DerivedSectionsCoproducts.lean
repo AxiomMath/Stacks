@@ -59,7 +59,7 @@ private lemma isZero_cofan_pt_of_isZero {ι : Type*} {A : ι → 𝒞} [HasZeroM
   rw [IsZero.iff_id_eq_zero]
   refine hc.hom_ext ?_
   rintro ⟨i⟩
-  show inj i ≫ 𝟙 S = inj i ≫ 0
+  change inj i ≫ 𝟙 S = inj i ≫ 0
   rw [(h i).eq_of_src (inj i) 0, Limits.zero_comp, Limits.zero_comp]
 
 /-- Each injection into a coproduct is a split monomorphism: the cofan whose `i`-th leg is the

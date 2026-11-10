@@ -49,10 +49,10 @@ second on modules of finite type, is locally constant of finite type.
 product of sheaves of modules over `R`,
 `Stacks.SheafOfModules.Tensor.sheafTensor`, which is the bifunctor the derived tensor product of
 Stacks 06YU is built from. `Stacks.ConstantSheaf.constantSheafTensorIso` of
-`StacksFrontier.CategoryTheory.Sites.LocallyConstant.TensorFiniteType`, and the finite type statement
-`Stacks.ConstantSheaf.isFiniteTypeLocallyConstantModuleSheaf_tensor` beside it, are about a
-*different* bifunctor: the sheafified tensor product of `ModuleCat Λ`-valued sheaves given by
-`CategoryTheory.Sheaf.monoidalCategory`. That the two agree under the identification of the two
+`StacksFrontier.CategoryTheory.Sites.LocallyConstant.TensorFiniteType`, and the finite type
+statement `Stacks.ConstantSheaf.isFiniteTypeLocallyConstantModuleSheaf_tensor` beside it, are
+about a *different* bifunctor: the sheafified tensor product of `ModuleCat Λ`-valued sheaves given
+by `CategoryTheory.Sheaf.monoidalCategory`. That the two agree under the identification of the two
 readings of a sheaf of `Λ`-modules is not in the library and is not proved here; the route taken
 instead is the finite free one, which needs no comparison of the two tensor products.
 
@@ -194,13 +194,15 @@ theorem isFiniteTypeLocallyConstantModules_constSheafOfModules (N : ModuleCat.{u
 
 /-- If `B` is locally constant of finite type, then so is the tensor product over `R` of the
 constant sheaf of modules on `I → Λ` with `B`, for a finite type `I`. -/
-theorem isFiniteTypeLocallyConstantModules_sheafTensor_pi (I : Type u) [Fintype I] [DecidableEq I]
+theorem isFiniteTypeLocallyConstantModules_sheafTensor_pi (I : Type u) [Finite I]
     (B : _root_.SheafOfModules.{u} (Tensor.ringSheaf.{u, u, u} R))
     (hB : isFiniteTypeLocallyConstantModules Λ R α B) :
     isFiniteTypeLocallyConstantModules Λ R α
       (((Tensor.sheafTensor.{u, u, u} R).obj
-        ((constSheafOfModules.{u} Λ J α).obj (ModuleCat.of Λ (I → Λ)))).obj B) :=
-  ObjectProperty.prop_of_iso (isFiniteTypeLocallyConstantModules Λ R α)
+        ((constSheafOfModules.{u} Λ J α).obj (ModuleCat.of Λ (I → Λ)))).obj B) := by
+  classical
+  have := Fintype.ofFinite I
+  exact ObjectProperty.prop_of_iso (isFiniteTypeLocallyConstantModules Λ R α)
     (constSheafOfModulesPiTensorIso Λ R α I B).symm
     (ObjectProperty.prop_coproduct (isFiniteTypeLocallyConstantModules Λ R α)
       (fun _ : I => hB))

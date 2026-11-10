@@ -138,7 +138,7 @@ theorem factorsThrough_universalSyntomicOpen_iff (T : Scheme.{u})
     simpa only [Scheme.Opens.range_ι] using ht
   have hRange : Set.range g.base ⊆ (U : Set _) ↔ Syntomic p := by
     rw [Set.range_subset_iff]
-    show (∀ t : T, g t ∈ (U : Set _)) ↔ ∀ z : (pullback π g : Scheme), SyntomicAt p z
+    change (∀ t : T, g t ∈ (U : Set _)) ↔ ∀ z : (pullback π g : Scheme), SyntomicAt p z
     rw [universalSyntomicOpen_coe_eq.{u} d]
     have hbaseAt (z : (pullback π g : Scheme)) :
         SyntomicAt p z ↔ SyntomicAt π ((pullback.fst π g).base z) := by

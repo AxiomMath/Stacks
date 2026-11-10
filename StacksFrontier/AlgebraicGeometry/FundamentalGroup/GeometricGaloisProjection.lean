@@ -107,6 +107,7 @@ def geometricGaloisProjection :
         (y.map (fieldBaseChangeObjProj B X f kbar
           (contains_fieldBaseChange_of_isCurve B X f kbar)).hom)) }
 
+omit [Smooth f] in
 /-- `π₁(X, η̄) ⟶ Aut(k̄/k)` is surjective. -/
 theorem surjective_geometricGaloisProjection :
     Function.Surjective (geometricGaloisProjection B X f kbar y) := by
@@ -115,6 +116,7 @@ theorem surjective_geometricGaloisProjection :
   exact (geometricQuotientGaloisEquiv B X f kbar y).surjective.comp
     (QuotientGroup.mk'_surjective _)
 
+omit [Smooth f] in
 /-- **The kernel of `π₁(X, η̄) ⟶ Aut(k̄/k)` is the image of `π₁(X_k̄, η̄)`.** -/
 theorem ker_geometricGaloisProjection :
     letI := connectedSpace_of_isCurve B X f
@@ -125,9 +127,10 @@ theorem ker_geometricGaloisProjection :
   let := connectedSpace_of_isCurve B X f
   let := connectedSpace_fieldBaseChange f kbar
   ext γ
-  show geometricQuotientGaloisEquiv B X f kbar y (QuotientGroup.mk γ) = 1 ↔ _
+  change geometricQuotientGaloisEquiv B X f kbar y (QuotientGroup.mk γ) = 1 ↔ _
   rw [MulEquiv.map_eq_one_iff, QuotientGroup.eq_one_iff]
 
+omit [Smooth f] in
 /-- The image of `γ` in `Aut(k̄/k)` is its class in `π₁(X, η̄) ⧸ π₁(X_k̄, η̄) ≃* Aut(k̄/k)`. -/
 theorem geometricGaloisProjection_apply
     (γ : letI := connectedSpace_of_isCurve B X f

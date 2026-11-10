@@ -50,8 +50,7 @@ private noncomputable def bimoduleTensorMap {A B K X Y : Type u}
   toFun := TensorProduct.map LinearMap.id f
   map_add' := (TensorProduct.map LinearMap.id f).map_add
   map_smul' b z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp [hz, hw]
     | tmul k x => simp only [TensorProduct.smul_tmul', TensorProduct.map_tmul,
         LinearMap.id_apply, RingHom.id_apply]
@@ -66,8 +65,7 @@ private noncomputable def bimoduleTensorFunctor (A B K : Type u)
     ext z
     change TensorProduct.map LinearMap.id (g.hom.comp f.hom) z =
       TensorProduct.map LinearMap.id g.hom (TensorProduct.map LinearMap.id f.hom z)
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp [hz, hw]
     | tmul k x => rfl
 
@@ -106,8 +104,7 @@ private noncomputable def scalarTensorIso (A B S : Type u)
           (TensorProduct.comm S _ _ z))
     let : Module S (↑((ModuleCat.restrictScalars f).obj (ModuleCat.of S S)) ⊗[A] ↑X) :=
       ((ModuleCat.extendScalars f).obj X).isModule
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw =>
       refine (congrArg _ (congrArg _ (map_add _ z w))).trans ?_
       refine (congrArg _ (map_add _ _ _)).trans ?_
@@ -117,8 +114,7 @@ private noncomputable def scalarTensorIso (A B S : Type u)
       refine (congrArg _ (map_add _ _ _).symm).trans ?_
       exact congrArg _ (congrArg _ (map_add _ z w).symm)
     | tmul sx k =>
-      induction sx using TensorProduct.induction_on with
-      | zero => rfl
+      induction sx using TensorProduct.inductionOn with
       | add sx sy hx hy =>
         have hadd : (sx + sy) ⊗ₜ[S] k = sx ⊗ₜ[S] k + sy ⊗ₜ[S] k :=
           TensorProduct.add_tmul _ _ _
@@ -180,8 +176,7 @@ private theorem smulCommClass_rightTensorAction (A B C : Type u) [CommRing A] [C
     SMulCommClass A C (K ⊗[B] K') := by
   let : Module C (K ⊗[B] K') := rightTensorAction (C := C) K K'
   refine ⟨fun a c z => ?_⟩
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => simp [hz, hw]
   | tmul k k' => rfl
 
@@ -217,12 +212,10 @@ private noncomputable def bimoduleTensorAssocIso (A B C S : Type u)
       map_add' := e.map_add
       map_smul' := by
         intro c z
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | add z w hz hw => simp [hz, hw]
         | tmul q x =>
-          induction q using TensorProduct.induction_on with
-          | zero => simp
+          induction q using TensorProduct.inductionOn with
           | add q q' hq hq' =>
             simpa only [smul_add, TensorProduct.add_tmul, map_add] using
               congrArg₂ (· + ·) hq hq'
@@ -237,12 +230,10 @@ private noncomputable def bimoduleTensorAssocIso (A B C S : Type u)
       TensorProduct.map LinearMap.id (bimoduleTensorMap h.hom)
         (TensorProduct.comm B _ _
           ((TensorProduct.AlgebraTensorModule.rightComm A B S K K' X) z))
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp [hz, hw]
     | tmul q x =>
-      induction q using TensorProduct.induction_on with
-      | zero => simp
+      induction q using TensorProduct.inductionOn with
       | add q q' hq hq' =>
         simpa only [TensorProduct.add_tmul, map_add] using congrArg₂ (· + ·) hq hq'
       | tmul k k' => rfl
@@ -290,8 +281,7 @@ public lemma moduleTensorFunctor_comp
   let : Module C (K ⊗[B] K') := rightTensorAction (C := C) K K'
   have : IsScalarTower R C (K ⊗[B] K') := by
     refine ⟨fun r c z => ?_⟩
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp [hz, hw]
     | tmul k k' =>
       simp [rightTensorAction_tmul, TensorProduct.smul_tmul', TensorProduct.tmul_smul]
@@ -303,22 +293,20 @@ public lemma moduleTensorFunctor_comp
       Algebra.TensorProduct.includeLeftRingHom (R := R) (A := A) (B := C) a • z =
         a • z := by
     intro a z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => rw [smul_add, smul_add, hz, hw]
     | tmul k k' =>
-      show TensorProduct.Algebra.moduleAux (a ⊗ₜ[R] (1 : C))
+      change TensorProduct.Algebra.moduleAux (a ⊗ₜ[R] (1 : C))
         (k ⊗ₜ[B] k') = _
       rw [TensorProduct.Algebra.moduleAux_apply, one_smul]
   have hC : ∀ (c : C) (z : Q),
       (Algebra.TensorProduct.includeRight (R := R) (A := A) (B := C)).toRingHom c • z =
         c • z := by
     intro c z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => rw [smul_add, smul_add, hz, hw]
     | tmul k k' =>
-      show TensorProduct.Algebra.moduleAux ((1 : A) ⊗ₜ[R] c)
+      change TensorProduct.Algebra.moduleAux ((1 : A) ⊗ₜ[R] c)
         (k ⊗ₜ[B] k') = _
       rw [TensorProduct.Algebra.moduleAux_apply, one_smul]
   have iQ : (moduleTensorFunctor R A C).obj Q ≅

@@ -96,6 +96,7 @@ theorem preservesFiniteLimits_sheafCompose_forget₂ :
   have := (sheafExtendScalarsFromIntAdj J R).isRightAdjoint
   inferInstance
 
+omit [HasWeakSheafify J (ModuleCat.{max r t} R)] in
 /-- The forgetful functor from sheaves of `R`-modules to abelian sheaves preserves finite
 colimits: it is induced by the forgetful functor of coefficient categories, which is left adjoint
 to coextension of scalars from `ℤ` to `R`. -/
@@ -136,7 +137,7 @@ theorem ext_eq_zero_of_isTorsionFree (I : Sheaf J (ModuleCat.{max r t} R)) [Inje
     (ModuleSheafCohomology.exists_isTorsionFree_epi J) ?_ I n X hX e
   intro S hS hP
   have := hS.mono_f
-  show Mono ((presheafToSheaf J (ModuleCat.{max r t} R)).map _)
+  change Mono ((presheafToSheaf J (ModuleCat.{max r t} R)).map _)
   have (U : Cᵒᵖ) : Mono ((Functor.whiskerRight S.f.hom
       (ModuleCat.extendScalarsFromInt.{t} R)).app U) := by
     let E := sheafToPresheaf J AddCommGrpCat.{max r t} ⋙
@@ -181,7 +182,7 @@ theorem isZero_rightDerived_sheafSections_of_injective
   have hX : ∀ V, Module.IsTorsionFree ℤ
       (((Stacks.Cohomology.FreeYonedaUnivLE.freeYoneda.{max t r} K).obj U).obj.obj V) :=
     ModuleSheafCohomology.isTorsionFree_sheafify K _ fun V ↦ by
-      show Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{max t r} (V.unop ⟶ U)))
+      change Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{max t r} (V.unop ⟶ U)))
       exact Module.Flat.isTorsionFree
   have : Subsingleton (Ext.{max v' t r}
       ((Stacks.Cohomology.FreeYonedaUnivLE.freeYoneda.{max t r} K).obj U)

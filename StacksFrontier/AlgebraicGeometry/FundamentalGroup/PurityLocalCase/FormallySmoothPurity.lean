@@ -137,7 +137,7 @@ public theorem essSurj_finiteEtaleBaseChange_of_formallySmoothNAdic (A B : Type 
     refine hV₁ (PrimeSpectrum.comap b q) fun hcontract =>
       hq (le_antisymm (le_maximalIdeal (Ideal.IsPrime.ne_top inferInstance)) ?_)
     rw [maximalIdeal_uniformCompletion_eq_map hAfg, Ideal.map_le_iff_le_comap]
-    show maximalIdeal A ≤ (q.asIdeal.comap fhat).comap a
+    change maximalIdeal A ≤ (q.asIdeal.comap fhat).comap a
     rw [Ideal.comap_comap, hcomm, ← Ideal.comap_comap]
     exact hcontract.ge
   let qhat : PrimeSpectrum (Completion B) :=
@@ -145,7 +145,7 @@ public theorem essSurj_finiteEtaleBaseChange_of_formallySmoothNAdic (A B : Type 
       isPrime_map_maximalIdeal_of_formallySmoothNAdic _
         (formallySmoothNAdic_completion_mapRingHom (algebraMap A B) hsmooth)⟩
   have hgeneric : qhat.asIdeal = ((maximalIdeal A).map (algebraMap A B)).map b := by
-    show (maximalIdeal (Completion A)).map fhat = _
+    change (maximalIdeal (Completion A)).map fhat = _
     rw [maximalIdeal_uniformCompletion_eq_map hAfg, Ideal.map_map, hcomm, ← Ideal.map_map]
   have : Module.FaithfullyFlat (Completion A) (Completion B) := by
     have : Module.Flat (Completion A) (Completion B) :=
@@ -156,7 +156,7 @@ public theorem essSurj_finiteEtaleBaseChange_of_formallySmoothNAdic (A B : Type 
         maximalIdeal (Completion A) := by
     refine ⟨qhat, hV₂ (PrimeSpectrum.comap b qhat) ?_,
       Ideal.comap_map_eq_self_of_faithfullyFlat _⟩
-    show qhat.asIdeal.comap b = _
+    change qhat.asIdeal.comap b = _
     rw [hgeneric]
     have : Module.FaithfullyFlat B (Completion B) :=
       RingHom.faithfullyFlat_algebraMap_iff.mp hflatB

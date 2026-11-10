@@ -260,7 +260,7 @@ lemma pullbackSectionAlongHom_directImageBaseChange
     ConcreteCategory.comp_apply] at hnat htri
   rw [hdef]
   refine hnat.trans ?_
-  show ((abPullback.{u, v} B p).obj G).obj.map ((smallEtaleBaseChange B f').map arr).op
+  change ((abPullback.{u, v} B p).obj G).obj.map ((smallEtaleBaseChange B f').map arr).op
       ((directImageBaseChange.{u, v} B p f' f g sq G).hom.app
         (op ((smallEtaleBaseChange B g).obj W))
         (abPullbackUnit.{u, v} B g (directImageSheaf B f G) W s)) = _

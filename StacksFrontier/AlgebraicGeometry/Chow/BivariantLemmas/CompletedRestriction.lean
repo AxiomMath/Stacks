@@ -52,8 +52,7 @@ namespace Stacks.Chow
 
 section Components
 
-variable {X Y Y' : Scheme.{u}} (f : X ⟶ Y) (h : Y' ⟶ Y) [LocallyConnectedSpace X]
-  [LocallyConnectedSpace Y] [LocallyConnectedSpace Y'] [LocallyConnectedSpace ↥(pullback f h)]
+variable {X Y Y' : Scheme.{u}} (f : X ⟶ Y) (h : Y' ⟶ Y)
 
 /-- A connected component `X'_k` of `X' = X ×_Y Y'` lies over a connected component of `X` and
 one of `Y'`, and both lie over the same connected component of `Y`. -/
@@ -64,6 +63,8 @@ theorem connectedComponentsMap_pullbackSnd_eq (k : ConnectedComponents ↥(pullb
         ((pullback.fst f h).continuous.connectedComponentsMap k) := by
   rw [← Scheme.Hom.connectedComponentsMap_comp, ← Scheme.Hom.connectedComponentsMap_comp,
     pullback.condition]
+
+variable [LocallyConnectedSpace Y] [LocallyConnectedSpace Y']
 
 /-- `h` carries the connected component of `Y'` below `X'_k` into the connected component of `Y`
 below the image of `X'_k` in `X`. -/
@@ -157,7 +158,7 @@ theorem bivariantConnectedComponentRestriction_bivariantRestriction_eq_zero
     (pieceComparisonCongr_comp_structureMorphism _ _ _ _ _ _ _ _ hm sX),
     chowGroupCongr_chowGroupCongr] at h0
   -- the goal, unfolded
-  show bivariantPieceRestrictionCap C G (pullback.fst f h ≫ sX) (h ≫ sY) (pullback.snd f h)
+  change bivariantPieceRestrictionCap C G (pullback.fst f h ≫ sX) (h ≫ sY) (pullback.snd f h)
     (pullbackSnd_comp_structureMorphism_eq C sX sY f hf h) p
     (pullback f h).connectedComponentOpens Y'.connectedComponentOpens
     (pullback.snd f h).continuous.connectedComponentsMap

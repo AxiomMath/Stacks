@@ -146,7 +146,7 @@ theorem firstChern_pointClass (x : ClosedPoint C) :
     rw [hmax] at hc
     have hirr : Irreducible c := (IsDiscreteValuationRing.irreducible_iff_uniformizer c).2 hc
     exact (Stacks.BombieriStepanov.ord_algebraMap_irreducible hZ1 hirr).symm
-  · rw [Finsupp.single_apply, if_neg (Ne.symm hZx)]
+  · rw [Finsupp.single_apply, ite_eq_right (Ne.symm hZx)]
     have hnot : Z.genericPoint ∉ (pointIdeal x).support := by
       intro h
       have h' : Z.genericPoint ∈ ((pointIdeal x).support : Set C) := h
@@ -169,7 +169,7 @@ theorem firstChern_divisorClass (D : ClosedPoint C →₀ ℤ) :
     rw [← QuotientAddGroup.mk_zsmul]
     congr 1
     refine Subtype.ext (funext fun Z => ?_)
-    show n * (Finsupp.single x 1) (closedPointOfPrimeDivisor g Z) =
+    change n * (Finsupp.single x 1) (closedPointOfPrimeDivisor g Z) =
       (Finsupp.single x n) (closedPointOfPrimeDivisor g Z)
     classical
     by_cases h : x = closedPointOfPrimeDivisor g Z

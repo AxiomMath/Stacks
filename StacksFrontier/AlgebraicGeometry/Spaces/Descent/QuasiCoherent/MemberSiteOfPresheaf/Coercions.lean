@@ -143,7 +143,8 @@ faithfulness of `CategoryTheory.yoneda`, because its left component is a `yoneda
 Written as `ObjectProperty.homMk (CostructuredArrow.homMk b.hom.left rfl)` both
 `.memberChartSpaceHom_postcomp` and `.memberChartSpaceHom_postcomp_comp` are `rfl`.
 
-**The route of the composition law.**  Every ingredient compiles on its own.  The route, for `g : p ⟶ q` and `h : q ⟶ r` of
+**The route of the composition law.**  Every ingredient compiles on its own.  The route, for
+`g : p ⟶ q` and `h : q ⟶ r` of
 the site with underlying morphisms `a` and `b` of the charts of `X`, is: the naturality
 `.memberTransitionSect_restrict` of the transition from `p` to `q` in the chart, along
 `.memberChartSpaceHom`; then the change of test space
@@ -267,7 +268,8 @@ thing being avoided, and it times out.  Carrying the two sections as separate va
 by `HEq` — as `.transitionLegsForm_congr` does — makes `subst` and `cases` leave one term, and
 the proof is syntactic.
 
-**The composition law with the bundle.**  The leg respelling works.  At the two concrete bundles of the composition law — the one
+**The composition law with the bundle.**  The leg respelling works.  At the two concrete bundles of
+the composition law — the one
 spelled with the composite legs `chartMap X b ≫ memberChartMap V V' a`, `chartMap X b ≫
 memberChartMap V' V' (𝟙 _)` and the one spelled `memberChartMap V V'' (b ≫ a)`,
 `memberChartMap V' V'' b`:
@@ -337,7 +339,9 @@ Four things are needed in bringing that application down to the charts of the me
 Two further facts.  A `HEq` between the sections
 of an **étale restriction** over a chart and the sections of the module over the composite chart
 cannot be eliminated: `eq_of_heq` on it exhausts the recursion depth, which is the rule of the
-implementation notes of `StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/MemberSitePresheaf.lean` that those two spellings may not meet in a
+implementation notes of
+`StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/MemberSitePresheaf.lean` that those
+two spellings may not meet in a
 unification, met at `HEq`.  And splitting `.transitionEtaleForm_base_comp` into its two halves
 and rejoining them by `.apply_congr` costs *more* than the single application, not less.
 
@@ -483,7 +487,8 @@ reason, one level up: with the weaker assumption the `AddMonoidHom` it builds an
 `AddCommGrpCat.ofHom` expects differ in their `AddZeroClass`, and reconciling those is a
 deterministic timeout of the kernel.
 
-Five further facts about the five chart proofs inside the restriction map.  Those five -- two `.isEtale_memberChartMap`, `.memberChartPair_fst` and
+Five further facts about the five chart proofs inside the restriction map.  Those five -- two
+`.isEtale_memberChartMap`, `.memberChartPair_fst` and
 `.memberChartPair_snd'` -- are proofs whose arguments are not local variables, so inside a `def`
 they too become auxiliary constants; the kernel accepts them, but a consumer that has to identify
 the unfolded definition with a freshly written copy of the same text then faces proof irrelevance

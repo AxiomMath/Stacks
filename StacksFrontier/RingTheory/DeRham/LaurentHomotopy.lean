@@ -345,8 +345,7 @@ private theorem apply_mapBaseChange {M : Type*} [AddCommGroup M] [Module A[T;T�
     (f : Ω[A[T;T⁻¹]⁄R] →ₗ[A[T;T⁻¹]] M) (h : A[T;T⁻¹] ⊗[A] Ω[A⁄R] →ₗ[A[T;T⁻¹]] M)
     (hf : ∀ ω, f (map R R A A[T;T⁻¹] ω) = h ((1 : A[T;T⁻¹]) ⊗ₜ[A] ω))
     (ξ : A[T;T⁻¹] ⊗[A] Ω[A⁄R]) : f (mapBaseChange R A A[T;T⁻¹] ξ) = h ξ := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using TensorProduct.inductionOn with
   | tmul g ω =>
       rw [mapBaseChange_tmul, map_smul, hf, ← map_smul, TensorProduct.smul_tmul', smul_eq_mul,
         mul_one]
@@ -495,7 +494,7 @@ theorem kaehlerProdEquiv_symm_comp_inl :
 theorem kaehlerProdEquiv_symm_zero_one :
     (kaehlerProdEquiv R A).symm.toLinearMap
         ((0, 1) : (A[T;T⁻¹] ⊗[A] Ω[A⁄R]) × A[T;T⁻¹]) = dlogT R A := by
-  show (kaehlerProdEquiv R A).symm (0, 1) = _
+  change (kaehlerProdEquiv R A).symm (0, 1) = _
   rw [kaehlerProdEquiv_symm_apply]
   simp
 

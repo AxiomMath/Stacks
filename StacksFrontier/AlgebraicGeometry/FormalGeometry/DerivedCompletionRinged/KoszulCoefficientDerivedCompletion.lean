@@ -34,9 +34,11 @@ exactly the model in which the sheaf side
   derived completion come in.
 * `KoszulCompletion.completionFunctor_isDerivedComplete` and
   `KoszulCompletion.completionUnit_hom_bijective`: the Koszul construction
-  `KoszulCompletion.completionFunctor` of `StacksFrontier/Homology/DerivedComplete/AdicKoszulCompletion.lean` *is* a reflection into the
+  `KoszulCompletion.completionFunctor` of
+  `StacksFrontier/Homology/DerivedComplete/AdicKoszulCompletion.lean` *is* a reflection into the
   derived-complete objects. Both were available only as `private` declarations of
-  `StacksFrontier/Homology/DerivedComplete/NoetherianCompletePrincipalIdeal.lean`; they are re-proved here from the public inputs
+  `StacksFrontier/Homology/DerivedComplete/NoetherianCompletePrincipalIdeal.lean`; they are
+  re-proved here from the public inputs
   `koszulPowerCompletion_complete`, `canonicalCompletion_criterion`,
   `canonicalCompletion_map_unit_isIso` and
   `AdicKoszulAdjunction.completion_hom_bijective`, so nothing has to be re-exported.
@@ -149,7 +151,8 @@ abbrev IsComplete {r : ℕ} (f : Fin r → A) :
 `koszulPowerCompletion_complete` at the canonical derived tensor product and at the
 localization-of-the-strict-construction completion data `KoszulCompletion.completionData`.
 
-The same statement is a `private` declaration of `StacksFrontier/Homology/DerivedComplete/NoetherianCompletePrincipalIdeal.lean`; all of
+The same statement is a `private` declaration of
+`StacksFrontier/Homology/DerivedComplete/NoetherianCompletePrincipalIdeal.lean`; all of
 its inputs are public, so it is re-proved rather than re-exported. -/
 theorem completionFunctor_isDerivedComplete {r : ℕ} (f : Fin r → A)
     (K : DerivedCategory (ModuleCat.{u} A)) :

@@ -80,6 +80,7 @@ variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_InvariantStabilizerLocus :
@@ -284,7 +285,7 @@ private theorem conjugateLoopInv_conjugateLoop
         (groupoidCompose G u (a ≫ groupoidInverse G) wX) hXt.symm) a wZ ≫ G.target.hom := by
     rw [hias, groupoidCompose_target, hYt]
   -- `a⁻¹ ∘ (a ∘ u) = u`
-  show groupoidCompose G (a ≫ groupoidInverse G)
+  change groupoidCompose G (a ≫ groupoidInverse G)
     (groupoidCompose G (groupoidCompose G a
       (groupoidCompose G u (a ≫ groupoidInverse G) wX) hXt.symm) a wZ) wR = u
   refine (groupoidCompose_congr G wR wFinal rfl hZ).trans ?_
@@ -351,7 +352,7 @@ private theorem conjugateLoop_conjugateLoopInv
         (groupoidCompose G u a hu) wY) (a ≫ groupoidInverse G) wZ ≫ G.target.hom := by
     rw [groupoidCompose_target, hYt]
   -- `a ∘ (a⁻¹ ∘ u) = u`
-  show groupoidCompose G a
+  change groupoidCompose G a
     (groupoidCompose G (groupoidCompose G (a ≫ groupoidInverse G)
       (groupoidCompose G u a hu) wY) (a ≫ groupoidInverse G) wZ) wR = u
   refine (groupoidCompose_congr G wR wFinal rfl hZ).trans ?_
@@ -606,7 +607,7 @@ private theorem conjugation_hom_inv_id :
       ((conjugationSourceToTarget G).hom ≫ targetArrowPart G) ≫ G.target.hom := by
     rw [hloop, harrow, sourceConjugate_target]
   refine ObjectProperty.hom_ext _ ?_
-  show (conjugationSourceToTarget G).hom ≫ (conjugationTargetToSource G).hom =
+  change (conjugationSourceToTarget G).hom ≫ (conjugationTargetToSource G).hom =
     𝟙 (AlgebraicSpaces.fiberProduct C S hS (stabilizerToObjects G) G.source).obj
   refine sourceBaseChange_hom_ext G _ _ ?_ ?_
   · refine stabilizerOverBase_hom_ext G _ _ ?_
@@ -639,7 +640,7 @@ private theorem conjugation_inv_hom_id :
       ((conjugationTargetToSource G).hom ≫ sourceArrowPart G) ≫ G.source.hom := by
     rw [hloop, harrow, targetConjugate_target]
   refine ObjectProperty.hom_ext _ ?_
-  show (conjugationTargetToSource G).hom ≫ (conjugationSourceToTarget G).hom =
+  change (conjugationTargetToSource G).hom ≫ (conjugationSourceToTarget G).hom =
     𝟙 (AlgebraicSpaces.fiberProduct C S hS (stabilizerToObjects G) G.target).obj
   refine targetBaseChange_hom_ext G _ _ ?_ ?_
   · refine stabilizerOverBase_hom_ext G _ _ ?_
@@ -674,7 +675,7 @@ private theorem conjugationIso_inv_fiberProductSnd :
     (conjugationIso G).inv ≫ fiberProductSnd (stabilizerToObjects G) G.source =
       fiberProductSnd (stabilizerToObjects G) G.target := by
   refine ObjectProperty.hom_ext _ ?_
-  show (conjugationTargetToSource G).hom ≫ sourceArrowPart G = targetArrowPart G
+  change (conjugationTargetToSource G).hom ≫ sourceArrowPart G = targetArrowPart G
   exact conjugationTargetToSource_arrow G
 
 end Stabilizer

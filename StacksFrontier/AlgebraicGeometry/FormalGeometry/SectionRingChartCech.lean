@@ -191,7 +191,7 @@ theorem exists_chartLift_eq_mk {e : ℕ} (he : 0 < e) (β : powSections L e) {x 
       ((divisionEquiv L hL F he β).symm y)
   obtain ⟨t, rfl⟩ := Stacks.TwistedSections.mem_moduleGrading_natCast_iff.1 hm
   refine ⟨n, t, ?_, hzm⟩
-  show localizedEquivOfEq hx ((divisionEquiv L hL F he β).symm y).1 = _
+  change localizedEquivOfEq hx ((divisionEquiv L hL F he β).symm y).1 = _
   rw [hzm, localizedEquivOfEq_mk]
 
 /-- **The lift is compatible with restriction.** Let `x = β` and `x' = β'` be homogeneous of
@@ -238,7 +238,7 @@ theorem chartLift_restrict {e e' j : ℕ} (he : 0 < e) (he' : 0 < e') (β : powS
         DirectSum.of (twistSections F L) (n * e) t ∈
           Stacks.TwistedSections.moduleGrading F L ((n * e : ℕ) : ℤ))
     convert h1 using 2
-    show (0 : ℤ) + n • (e' : ℤ) = ((j * n : ℕ) : ℤ) + ((n * e : ℕ) : ℤ)
+    change (0 : ℤ) + n • (e' : ℤ) = ((j * n : ℕ) : ℤ) + ((n * e : ℕ) : ℤ)
     rw [← hj]
     push_cast
     ring
@@ -250,10 +250,10 @@ theorem chartLift_restrict {e e' j : ℕ} (he : 0 < e) (he' : 0 < e') (β : powS
   rw [hy] at hchange
   have : (divisionEquiv L hL F he' β').symm (F.presheaf.map i.op y) = ⟨_, hmem⟩ :=
     (AddEquiv.symm_apply_eq _).2 hchange.symm
-  show localizedEquivOfEq hx' ((divisionEquiv L hL F he' β').symm
+  change localizedEquivOfEq hx' ((divisionEquiv L hL F he' β').symm
     (F.presheaf.map i.op y)).1 = _
   rw [this]
-  show localizedEquivOfEq hx' (LocalizedModule.mk _ ⟨(DirectSum.of (powSections L) e' β') ^ n,
+  change localizedEquivOfEq hx' (LocalizedModule.mk _ ⟨(DirectSum.of (powSections L) e' β') ^ n,
     n, rfl⟩) = _
   rw [localizedEquivOfEq_mk, hc]
 
@@ -406,7 +406,7 @@ theorem tupleLift_face {p : ℕ} (σ : CechCochains.OrdIndex (I := ULift.{u} (Fi
     (fun m n => Cech.cechι_mk_pow (gen L α) hST m n)
     (F.presheaf.map (eqToHom (inter_eq_nvOpen_prodSec L α σj).symm).op y)
   refine Eq.trans ?_ key
-  show chartLift L hL F _ _ _ (F.presheaf.map _ (F.presheaf.map _ y)) =
+  change chartLift L hL F _ _ _ (F.presheaf.map _ (F.presheaf.map _ y)) =
     chartLift L hL F _ _ _ (F.presheaf.map _ (F.presheaf.map _ y))
   simp only [← ConcreteCategory.comp_apply, ← Functor.map_comp]
   rfl
@@ -473,7 +473,7 @@ theorem mem_range_ordCochainLift (p : ℕ) (z : Cech.cechTerm (gen L α) (twistM
   · rintro ⟨s, rfl⟩ t
     obtain ⟨σ, rfl⟩ := (ordIndexEquiv p).surjective t
     have := cechComponent_ordCochainLift L hL F hd α p s σ
-    show (ordCochainLift L hL F hd α p s) (ordIndexEquiv p σ) ∈ _
+    change (ordCochainLift L hL F hd α p s) (ordIndexEquiv p σ) ∈ _
     rw [show (ordCochainLift L hL F hd α p s) (ordIndexEquiv p σ) =
       cechComponent (gen L α) (ModuleCat.of (sectionRing L) (twistModule F L)) (p + 1)
         (ordIndexEquiv p σ) (ordCochainLift L hL F hd α p s) from rfl, this]

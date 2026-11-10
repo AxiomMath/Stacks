@@ -38,11 +38,13 @@ that comparison alone.
 
 **That comparison is the chart-wise identification of the glued twists of [Stacks, Tag 01NR] with
 the absolute universal family of [Stacks, Tag 01N9].** It is carried out, at `T` itself rather
-than on `U_d`, in `StacksFrontier.AlgebraicGeometry.RelativeProjTwistChartBridge.TwistQuadrupleChart`,
+than on `U_d`, in
+`StacksFrontier.AlgebraicGeometry.RelativeProjTwistChartBridge.TwistQuadrupleChart`,
 and the whole tag is `...RelativeProjTwistChartBridge.tag01O1`. Its two named halves are
 `...RelativeProjTwists.TwistData.psiTransposeNat_chart` and
 `...ProjClassifyingPullback.classifyingHom_universalVeroneseSections`; see the module docstring of
-`StacksFrontier.AlgebraicGeometry.RelativeProjTwistChartBridge.ThetaTriangle` for the full account of
+`StacksFrontier.AlgebraicGeometry.RelativeProjTwistChartBridge.ThetaTriangle` for the full account
+of
 what is owed. The point of this file is that *nothing else* is owed: no degree-one datum, no
 recognition comparison, no induction on the degree, no unit law and no surjectivity — those were
 all consequences of the comparison, and the three previous statements of the obligation that
@@ -191,7 +193,7 @@ public theorem tag01O1_of_universalComparison (D : TwistData A) (hd : 0 < d)
     (triangleCommutes_of_gradedIso D (thetaMorphism hd P) P
       (thetaMorphism_mem_degreeOpen hd P) (thetaMorphism_comp_toBase hd P) (c₀ ≪≫ γ) ?_)
   intro n
-  show D.psiLegVeronese (thetaMorphism hd P) (thetaMorphism_comp_toBase hd P) (d : ℤ) n ≫
+  change D.psiLegVeronese (thetaMorphism hd P) (thetaMorphism_comp_toBase hd P) (d : ℤ) n ≫
     c₀.hom.app n ≫ γ.hom.app n = P.twisting.app n
   rw [← Category.assoc, hc₀ n]
   exact hθ n

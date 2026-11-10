@@ -79,7 +79,7 @@ private theorem finite_irreducibleComponents_geometricFiber
     AlgebraicGeometry.locallyOfFiniteType_isStableUnderBaseChange.of_isPullback
       (IsPullback.of_hasPullback g h) inferInstance
   have hcompact : CompactSpace (geometricFiber f y K) := by
-    show CompactSpace (Limits.pullback (C := Scheme) g h)
+    change CompactSpace (Limits.pullback (C := Scheme) g h)
     infer_instance
   have hlocal : IsLocallyNoetherian (geometricFiber f y K) :=
     @LocallyOfFiniteType.isLocallyNoetherian _ _ (pullback.snd g h) hlt inferInstance
@@ -233,7 +233,7 @@ private theorem geometricCount_eq_of_overIso
   let e₃ : geometricFiber f y K ≅ geometricFiber g y K :=
     (Over.forget _).mapIso e₂
   let h := Scheme.homeoOfIso e₃
-  show (irreducibleComponents (geometricFiber f y K)).encard =
+  change (irreducibleComponents (geometricFiber f y K)).encard =
     (irreducibleComponents (geometricFiber g y K)).encard
   exact Set.encard_congr (Equiv.symm
     (irreducibleComponentsEquivOfIsPreirreducibleFiber h h.continuous h.isOpenMap
@@ -277,7 +277,7 @@ private theorem closure_of_fiber_component_range
     simpa using (Scheme.Pullback.range_snd I.subschemeι (f.fiberι η))
   rw [hrange, I.range_subschemeι,
     Scheme.IdealSheafData.coe_support_vanishingIdeal]
-  show (f.fiberι η).base ⁻¹' closure ((f.fiberι η).base '' (C : Set _)) = _
+  change (f.fiberι η).base ⁻¹' closure ((f.fiberι η).base '' (C : Set _)) = _
   rw [← (f.fiberι η).isEmbedding.closure_eq_preimage_closure_image,
     (isClosed_of_mem_irreducibleComponents (C : Set (f.fiber η)) C.2).closure_eq]
 
@@ -293,7 +293,7 @@ theorem geometricallyIrreducible_fiber_comp_of_pullback
   have hPullArrow : Arrow.mk (pullback.snd j (f.fiberι η) ≫ f.fiberToSpecResidueField η) ≅
       Arrow.mk (pullback.snd (j ≫ f) spec) := by
     refine Arrow.isoMk ePull (Iso.refl _) ?_
-    show ePull.hom ≫ pullback.snd (j ≫ f) spec =
+    change ePull.hom ≫ pullback.snd (j ≫ f) spec =
       pullback.snd j (f.fiberι η) ≫ f.fiberToSpecResidueField η
     exact pullbackRightPullbackFstIso_hom_snd f spec j
   exact (MorphismProperty.arrow_mk_iso_iff
@@ -527,7 +527,7 @@ public theorem exists_open_geometricIrreducibleComponentCount_eq
   · intro z
     let zZ : Z := h.symm z.1
     have hzZ : zZ ∈ UZ := by
-      show h.symm z.1 ∈ UZ
+      change h.symm z.1 ∈ UZ
       simpa [V, UZ] using z.2
     have hzEq : i.base zZ = z.1.1 := by
       have hval : (h zZ).1 = i.base zZ := by

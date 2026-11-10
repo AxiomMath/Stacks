@@ -264,7 +264,7 @@ private theorem continuous_restrictedPolynomialPDeriv {A : Type u} [CommRing A]
   let basis := restrictedPolynomialRingFilterBasis A σ
   let : TopologicalSpace R := restrictedPolynomialTopology A σ
   let : IsTopologicalRing R := restrictedPolynomialIsTopologicalRing A σ
-  show Continuous (MvPolynomial.pderiv i)
+  change Continuous (MvPolynomial.pderiv i)
   let d : Derivation A R R := MvPolynomial.pderiv i
   apply continuous_of_tendsto_nhds_zero d.toLinearMap.toAddMonoidHom
   apply (basis.toAddGroupFilterBasis.nhds_zero_hasBasis.tendsto_iff
@@ -282,7 +282,7 @@ private theorem continuous_restrictedPolynomialPDeriv {A : Type u} [CommRing A]
   · exact ⟨J, rfl⟩
   · intro p hp
     change p ∈ K at hp
-    show MvPolynomial.pderiv i p ∈ K
+    change MvPolynomial.pderiv i p ∈ K
     rw [hK] at hp
     refine Submodule.span_induction ?_ ?_ ?_ ?_ hp
     · intro x hx
@@ -293,7 +293,7 @@ private theorem continuous_restrictedPolynomialPDeriv {A : Type u} [CommRing A]
     · intro x y hx hy hdx hdy
       simpa using K.add_mem hdx hdy
     · intro r x hx hdx
-      show d (r * x) ∈ K
+      change d (r * x) ∈ K
       rw [d.leibniz]
       have hxK : x ∈ K := by rw [hK]; exact hx
       exact K.add_mem (K.mul_mem_left _ hdx) (K.mul_mem_right _ hxK)
@@ -340,7 +340,7 @@ private theorem continuous_restrictedPowerSeriesPDerivFun {σ : Type v} (i : σ)
   let R := MvPolynomial σ A
   let : TopologicalSpace R := restrictedPolynomialTopology A σ
   let : UniformSpace R := restrictedPolynomialUniformSpace A σ
-  show Continuous (UniformSpace.Completion.extension
+  change Continuous (UniformSpace.Completion.extension
     (polynomialToRestrictedPowerSeries A σ ∘
       (MvPolynomial.pderiv i : MvPolynomial σ A → MvPolynomial σ A)))
   exact UniformSpace.Completion.continuous_extension
@@ -495,11 +495,11 @@ public theorem nonempty_restrictedNaiveCotangentComplex
     have hfun : ⇑D = ⇑(restrictedPowerSeriesPDeriv i) :=
       hd.equalizer hD (continuous_restrictedPowerSeriesPDerivFun i) (by
         funext f
-        show D (polynomialToRestrictedPowerSeries A (Fin P.variableCount) f) =
+        change D (polynomialToRestrictedPowerSeries A (Fin P.variableCount) f) =
           restrictedPowerSeriesPDeriv i
             (polynomialToRestrictedPowerSeries A (Fin P.variableCount) f)
         rw [hpoly]
-        show (polynomialToRestrictedPowerSeries A (Fin P.variableCount))
+        change (polynomialToRestrictedPowerSeries A (Fin P.variableCount))
             (MvPolynomial.pderiv i f) =
           restrictedPowerSeriesPDerivFun i
             (polynomialToRestrictedPowerSeries A (Fin P.variableCount) f)
@@ -534,7 +534,6 @@ of finite type can be written as `B = A{x₁, …, x_r} / J`, so that the constr
 it. This is condition (7) of Lemma 0GBW. -/
 @[stacks 0GBX "every adic, topologically finite type arrow has a presentation"]
 public theorem nonempty_restrictedPowerSeriesPresentation
-    (hcont : Continuous (algebraMap A B))
     (hA : TopologicalRing.IsAdic A) (hB : TopologicalRing.IsAdic B)
     (hAfg : ∃ I : Ideal A, TopologicalRing.IsIdealOfDefinition I ∧ I.FG)
     (hBfg : ∃ J : Ideal B, TopologicalRing.IsIdealOfDefinition J ∧ J.FG)
@@ -544,7 +543,7 @@ public theorem nonempty_restrictedPowerSeriesPresentation
   rw [nonempty_restrictedPowerSeriesPresentation_iff]
   have h : _root_.RingHom.IsAdic (algebraMap A B) ∧
       TopologicalRing.IsTopologicallyOfFiniteType (algebraMap A B) := ⟨hadic, hft⟩
-  exact ((adicFiniteType_tfae (algebraMap A B) hcont hA hB hAfg hBfg).out 1 7).mp h
+  exact ((adicFiniteType_tfae (algebraMap A B) hA hB hAfg hBfg).out 1 7).mp h
 
 end Existence
 

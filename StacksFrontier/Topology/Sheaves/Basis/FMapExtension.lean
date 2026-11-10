@@ -367,7 +367,7 @@ lemma exists_fmap_extending
     TopCat.Sheaf.extend_hom_app G.obj
       ((TopCat.Sheaf.pushforward C f).obj F) hBY_range α ⟨V, hV⟩
   rw [hext]
-  show Φ.φ V hV U hU hfU = appOnBasis hBX Φ V hV ≫ F.obj.map (homOfLE hfU).op
+  change Φ.φ V hV U hU hfU = appOnBasis hBX Φ V hV ≫ F.obj.map (homOfLE hfU).op
   rw [appOnBasis_restrict hBX Φ V hV U hU hfU]
 
 end Existence

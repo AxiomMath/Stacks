@@ -80,10 +80,10 @@ private theorem isMaximal_span_chartX_chartY (c : Fin 3) :
     (Ideal.span {chartX c, chartY c}).IsMaximal := by
   fin_cases c
   · exact isMaximal_span_C_π _ irreducible_red_X_sq_sub
-  · show (Ideal.span {X ^ 2 - C tR, C π}).IsMaximal
+  · change (Ideal.span {X ^ 2 - C tR, C π}).IsMaximal
     rw [Set.pair_comm]
     exact isMaximal_span_C_π _ irreducible_red_X_sq_sub
-  · show (Ideal.span {chartX 2, chartY 2}).IsMaximal
+  · change (Ideal.span {chartX 2, chartY 2}).IsMaximal
     have : Ideal.span {chartX 2, chartY 2} = Ideal.span {C π, 1 - C tR * X ^ 2} := by
       refine le_antisymm ?_ ?_
       · rw [Ideal.span_le, Set.pair_subset_iff]
@@ -128,7 +128,7 @@ private theorem isRelPrime_chartX_chartY (c : Fin 3) : IsRelPrime (chartX c) (ch
   fin_cases c
   · exact h0
   · exact h0.symm
-  · show IsRelPrime (1 - C tR * X ^ 2) (C π * X ^ 2)
+  · change IsRelPrime (1 - C tR * X ^ 2) (C π * X ^ 2)
     refine IsRelPrime.mul_right ?_ (IsRelPrime.pow_right ?_)
     · exact (prime_C_π.irreducible.isRelPrime_iff_not_dvd.mpr
         (not_C_π_dvd_of_coeff (i := 0) (by simp [coeff_C]))).symm

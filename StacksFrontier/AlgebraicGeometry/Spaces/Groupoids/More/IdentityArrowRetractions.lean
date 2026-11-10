@@ -226,7 +226,7 @@ theorem comp_etaleLocalRingMap_apply_eq_zero_of_factors
     rwa [hfield, Ideal.mem_bot] at hmem
   refine (etaleLocalRingMap_comp_apply_of_comp_eq hF hH j p _ hjp x v).trans
     ((DFunLike.congr_fun (etaleLocalRingMap_comp hF hG a b x) w).symm.trans ?_)
-  show etaleLocalRingMap hF a x (etaleLocalRingMap hG b (geometricPointMap a x) w) = 0
+  change etaleLocalRingMap hF a x (etaleLocalRingMap hG b (geometricPointMap a x) w) = 0
   rw [hzero, map_zero]
 
 end AlgebraicGeometry.Space

@@ -66,7 +66,7 @@ public theorem restrictModulePushforwardComparison_comp :
       restrictModulePushforwardComparison B E h S hS p hp (φ ≫ ψ) τ hτ F := by
   refine PresheafOfModules.hom_ext fun W => ?_
   refine ModuleCat.hom_ext (@LinearMap.ext _ _ _ _ _ _ _ _ (_) (_) _ _ _ fun n => ?_)
-  show (restrictModuleToSmallEtale B E h S hS p hp x τ hτ F).map
+  change (restrictModuleToSmallEtale B E h S hS p hp x τ hτ F).map
       ((NatIso.op (smallEtaleBaseChangeCompIso B E h S hS p φ ψ).symm).hom.app W)
       ((restrictModulePushforwardComparison B E h S hS p hp φ τ hτ F).app
         ((smallEtaleBaseChange E (smallEtaleBaseMorphism B E h S hS p ψ)).op.obj W)

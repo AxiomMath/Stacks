@@ -179,7 +179,7 @@ theorem mem_supportLocus_iff (hπ : π ≫ D.f = bX) (hopen : IsOpenImmersion B 
           (CostructuredArrow.mk ((schemeSpaceFunctor B S hS).map g ≫ y.toBase))).hom :=
     congrArg (fun k => k.hom) (AlgebraicGeometry.Space.baseChangeMap_comp_projection D.f
       (QuotFamilyOver.restrict g y.toBase))
-  show _ ↔ D.IsSupportedIn hπ
+  change _ ↔ D.IsSupportedIn hπ
     (CostructuredArrow.mk ((schemeSpaceFunctor B S hS).map g ≫ y.toBase))
     (D.quotientPullback (QuotFamilyOver.restrict g y.toBase) y.subobject)
   rw [hL, IsSupportedIn, hsupp]

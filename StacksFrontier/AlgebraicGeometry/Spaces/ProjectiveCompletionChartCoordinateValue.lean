@@ -127,7 +127,7 @@ theorem pullbackUnitIso_inv_comp_map_app_top_one {X Y : Scheme.{u}} (g : Y ⟶ X
         (Scheme.Modules.pullback g).obj (Scheme.unitModule X) => k.app ⊤
           (pullbackSectionHom g (Scheme.unitModule X) ⊤ ⊤ le_top (1 : Γ(X, ⊤))))
         (Scheme.Modules.pullbackUnitIso g).hom_inv_id)
-  show ((Scheme.Modules.pullback g).map φ).app ⊤
+  change ((Scheme.Modules.pullback g).map φ).app ⊤
     ((Scheme.Modules.pullbackUnitIso g).inv.app ⊤ (1 : Γ(Y, ⊤))) = _
   rw [h2]
   exact pullbackSectionHom_naturality_apply g φ ⊤ ⊤ le_top _

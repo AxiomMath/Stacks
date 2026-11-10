@@ -217,7 +217,7 @@ theorem nonempty_thickeningStageSystem (X : AlgebraicSpaces B S hS)
       rw [hKpow, ← Ideal.zero_eq_bot, map_zero, Scheme.IdealSheafData.zero_eq_bot]
     rw [map_pow] at h
     exact h
-  · show ⨆ i, chartKer B S hS X (stage i) φ = chartKer B S hS X G φ
+  · change ⨆ i, chartKer B S hS X (stage i) φ = chartKer B S hS X G φ
     rw [hGker]
     refine Scheme.IdealSheafData.ext_of_isAffine ?_
     rw [Scheme.IdealSheafData.ideal_iSup, iSup_apply]

@@ -360,7 +360,7 @@ theorem formallySmoothNAdic_algebraMap_iff_of_formallySmoothNAdic {Λ A A' : Typ
     IsScalarTower.of_algebraMap_eq fun a => (RingHom.congr_fun hφO a).symm
   let : Algebra O A' := (f.toRingHom.comp φO).toAlgebra
   have : IsScalarTower Λ O A' := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap Λ A' a = f.toRingHom (φO (algebraMap Λ O a))
+    change algebraMap Λ A' a = f.toRingHom (φO (algebraMap Λ O a))
     rw [← RingHom.comp_apply φO, hφO, ← RingHom.comp_apply, hfΛ]
   have hOm : (maximalIdeal O).map φO ≤ maximalIdeal A := by
     rw [← Localization.AtPrime.map_eq_maximalIdeal, Ideal.map_map, hφO]

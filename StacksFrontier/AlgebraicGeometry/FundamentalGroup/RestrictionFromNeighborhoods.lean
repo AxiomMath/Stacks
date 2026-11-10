@@ -97,7 +97,8 @@ the corresponding morphism of covers of `T` along `h`, agree up to the compariso
 between base change along `k` and base change along `g` followed by base change along `h`.
 
 This is the two-step form of `prodHomEquivBaseChangeHom_prod_map`, which is the case `g = 𝟙 S`. -/
-private theorem prodHomEquivBaseChangeHom_prod_map_comp {S T T' : Scheme.{u}} (A B : FiniteEtaleOver S)
+private theorem prodHomEquivBaseChangeHom_prod_map_comp {S T T' : Scheme.{u}}
+    (A B : FiniteEtaleOver S)
     (g : T ⟶ S) (h : T' ⟶ T) (k : T' ⟶ S) (hk : k = h ≫ g)
     (ξ : (Over.mk A.hom ⨯ Over.mk g : Over S) ⟶ Over.mk B.hom) :
     prodHomEquivBaseChangeHom A B k (prod.map (𝟙 (Over.mk A.hom : Over S))
@@ -129,7 +130,7 @@ private theorem prodHomEquivBaseChangeHom_prod_map_comp {S T T' : Scheme.{u}} (A
     · rw [Category.assoc, Category.assoc, prodLeftIsoBaseChange_hom_hom, ← Over.comp_left,
         prod.map_snd,
         Over.comp_left, ← Category.assoc, prodLeftIsoBaseChange_inv_snd]
-      show ((finiteEtaleBaseChange k).obj A).hom ≫ h
+      change ((finiteEtaleBaseChange k).obj A).hom ≫ h
         = ((finiteEtaleBaseChangeComp h g k hk).hom.app A).left ≫
             finiteEtaleBaseChangeProj h ((finiteEtaleBaseChange g).obj A) ≫
             ((finiteEtaleBaseChange g).obj A).hom
@@ -147,19 +148,19 @@ private theorem prodHomEquivBaseChangeHom_prod_map_comp {S T T' : Scheme.{u}} (A
   rw [MorphismProperty.Comma.comp_left, MorphismProperty.Comma.comp_left, Category.assoc,
     Category.assoc, Category.assoc]
   rw [finiteEtaleBaseChangeComp_hom_app_left_proj h g k hk B]
-  show baseChangeLift B k _ ≫ finiteEtaleBaseChangeProj k B
+  change baseChangeLift B k _ ≫ finiteEtaleBaseChangeProj k B
       = ((finiteEtaleBaseChangeComp h g k hk).hom.app A).left ≫
           (((finiteEtaleBaseChange h).map (prodHomEquivBaseChangeHom A B g ξ)).left ≫
             finiteEtaleBaseChangeProj h ((finiteEtaleBaseChange g).obj B)) ≫
           finiteEtaleBaseChangeProj g B
   rw [baseChangeLift_proj, finiteEtaleBaseChangeProj_naturality]
-  show (prodLeftIsoBaseChange A k).inv ≫
+  change (prodLeftIsoBaseChange A k).inv ≫
       (prod.map (𝟙 (Over.mk A.hom : Over S))
         (Over.homMk h hk.symm : (Over.mk k : Over S) ⟶ Over.mk g) ≫ ξ).left
     = ((finiteEtaleBaseChangeComp h g k hk).hom.app A).left ≫
         (finiteEtaleBaseChangeProj h ((finiteEtaleBaseChange g).obj A) ≫
           (prodHomEquivBaseChangeHom A B g ξ).left) ≫ finiteEtaleBaseChangeProj g B
-  show (prodLeftIsoBaseChange A k).inv ≫
+  change (prodLeftIsoBaseChange A k).inv ≫
       (prod.map (𝟙 (Over.mk A.hom : Over S))
         (Over.homMk h hk.symm : (Over.mk k : Over S) ⟶ Over.mk g) ≫ ξ).left
     = ((finiteEtaleBaseChangeComp h g k hk).hom.app A).left ≫

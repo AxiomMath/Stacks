@@ -166,11 +166,11 @@ theorem powExact_locallyConstantMaps {ℓ M : ℕ} [Fact ℓ.Prime] (X : Scheme.
   let x' : LocallyConstant U.unop.left N₀ := x
   have hx' : ℓ ^ a • x' = 0 := hx
   refine ⟨(x'.map s : LocallyConstant U.unop.left N₀), ?_⟩
-  show ℓ ^ (M - a) • x'.map s = x'
+  change ℓ ^ (M - a) • x'.map s = x'
   refine LocallyConstant.ext fun t => ?_
   have hxt : ℓ ^ a • x' t = 0 := congrArg (fun f : LocallyConstant _ N₀ => f t) hx'
-  show ℓ ^ (M - a) • s (x' t) = x' t
-  rw [show s (x' t) = Classical.choose (h a ha (x' t) hxt) from dif_pos hxt]
+  change ℓ ^ (M - a) • s (x' t) = x' t
+  rw [show s (x' t) = Classical.choose (h a ha (x' t) hxt) from dite_eq_left hxt]
   exact Classical.choose_spec (h a ha (x' t) hxt)
 
 /-! ### The group ring is coinduced -/

@@ -94,7 +94,7 @@ public theorem extendsDeformationAtArtinianBase_of_extendsAtArtinianBase
     ExtendsDeformationAtArtinianBase B S hS p hx₀ r₀ A := by
   intro z hz i hi
   refine hext x₀ z hx₀ hz i hi r₀ ?_
-  show Spec.map (𝟙 (CommRingCat.of k)) ≫
+  change Spec.map (𝟙 (CommRingCat.of k)) ≫
       schemeMap (p ⋙ Over.post B.inclusion) hx₀ hx r₀ =
     schemeMap (p ⋙ Over.post B.inclusion) hx₀ hx r₀
   simp
@@ -164,7 +164,7 @@ section General
 
 variable (R : Deformation.CompleteLocalAlgCat.{u, u, u} Λ k)
     (H : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (Deformation.restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (Deformation.restrictedCoyoneda R)))
       (BasedCategory.ofFunctor C.projection))
     (r : H.toFunctor.op ⋙ deformationForget C ⟶ (Functor.const _).obj x)
     (g : Spec (.of R) ⟶ U.left)

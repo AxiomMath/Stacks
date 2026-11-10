@@ -218,7 +218,7 @@ theorem restrictPoly_surjective (T : Over S) [IsAffine T.left] (I : (ambient T).
 polynomials vanishing on it. -/
 theorem ker_restrictPoly (T : Over S) [IsAffine T.left] (I : (ambient T).IdealSheafData) :
     RingHom.ker (restrictPoly T I) = polyIdeal T I := by
-  show RingHom.ker (I.subschemeι.appTop.hom.comp (evalPoly T)) = _
+  change RingHom.ker (I.subschemeι.appTop.hom.comp (evalPoly T)) = _
   rw [← RingHom.comap_ker, polyIdeal]
   congr 1
   exact I.ker_subschemeι_app ⟨⊤, isAffineOpen_top _⟩
@@ -312,7 +312,7 @@ theorem existsUnique_eq_monicFamily (T : Over S) [IsAffine T.left] {d : ℕ}
     · rintro rfl
       exact polyIdeal_zeroIdeal T _
     · refine HilbertFamily.ext (Scheme.IdealSheafData.ext_of_isAffine ?_)
-      show (zeroIdeal T _).ideal ⟨⊤, isAffineOpen_top _⟩ = D.ideal.ideal ⟨⊤, isAffineOpen_top _⟩
+      change (zeroIdeal T _).ideal ⟨⊤, isAffineOpen_top _⟩ = D.ideal.ideal ⟨⊤, isAffineOpen_top _⟩
       have hD : D.ideal.ideal ⟨⊤, isAffineOpen_top _⟩ =
           Ideal.map (evalPoly T) (polyIdeal T D.ideal) :=
         (Ideal.map_comap_of_surjective _ (bijective_evalPoly T).2 _).symm
@@ -343,7 +343,7 @@ theorem coeffsOf_homOfCoeffs (T : Over S) {d : ℕ} (c : Fin d → Γ(T.left, �
 theorem hom_ext_of_coeffsOf {T : Over S} {d : ℕ} {g g' : T ⟶ space S d}
     (h : coeffsOf g = coeffsOf g') : g = g' := by
   refine Over.OverMorphism.ext (AffineSpace.hom_ext ?_ fun i ↦ congrFun h i.down)
-  show g.left ≫ (space S d).hom = g'.left ≫ (space S d).hom
+  change g.left ≫ (space S d).hom = g'.left ≫ (space S d).hom
   rw [Over.w g, Over.w g']
 
 /-- The coefficients classified by `f ≫ g` are those classified by `g`, pulled back along `f`. -/

@@ -106,7 +106,7 @@ theorem comp {χ : H ⟶ G} {ι : G ⟶ F} (hχ : IsOpenSubfunctorHom χ) (hι :
       rwa [← V₁.ι.isOpenEmbedding.injective this]
     obtain ⟨c, hc⟩ := (hV₂ T' g₁).mpr hr
     refine ⟨c, ?_⟩
-    show ι.app _ (χ.app _ c) = _
+    change ι.app _ (χ.app _ c) = _
     rw [hc, ← hfac, key]
 
 end IsOpenSubfunctorHom
@@ -160,7 +160,7 @@ theorem isOpenImmersion_presheaf {C : Scheme.{u}} {χ : yoneda.obj C ⟶ F}
       obtain ⟨φ, hφ⟩ := exists_comp_ι_eq_of_range_subset V ψ hr
       refine ⟨φ, ?_, hφ⟩
       apply h.injective
-      show χ.app _ (φ ≫ c) = _
+      change χ.app _ (φ ≫ c) = _
       rw [app_comp_eq_map, hc, e, ← hφ, op_comp, Functor.map_comp_apply]
 
 end IsOpenSubfunctorHom
@@ -181,8 +181,8 @@ theorem isLocallySurjective_sigmaDesc_of_covers {ι : Type u} {C : ι → Scheme
   rintro _ _ ⟨t⟩
   obtain ⟨c, hc⟩ := hin t
   refine ⟨(Sigma.ι (fun j => yoneda.obj (C j)) (i t)).app _ c, ?_⟩
-  show ((Sigma.ι (fun j => yoneda.obj (C j)) (i t)) ≫ Sigma.desc χ).app _ c = _
-  rwa [Sigma.ι_desc]
+  change ((Sigma.ι (fun j => yoneda.obj (C j)) (i t)) ≫ Sigma.desc χ).app _ c = _
+  rwa [Sigma.ι_comp_desc]
 
 /-- **Stacks Tag 01JJ, for a family of open subfunctors.** A Zariski sheaf on schemes covered
 locally by a family of open subfunctors out of representable presheaves is representable. -/
@@ -207,7 +207,7 @@ theorem inImage_of_openCover (hF : Presheaf.IsSheaf Scheme.zariskiTopology F) {C
   have hcompat : ∀ i j, pullback.fst (𝒰.f i) (𝒰.f j) ≫ c i = pullback.snd (𝒰.f i) (𝒰.f j) ≫ c j :=
     fun i j => by
       apply hinj (op (pullback (𝒰.f i) (𝒰.f j)))
-      show χ.app (op (pullback (𝒰.f i) (𝒰.f j))) (pullback.fst (𝒰.f i) (𝒰.f j) ≫ c i) =
+      change χ.app (op (pullback (𝒰.f i) (𝒰.f j))) (pullback.fst (𝒰.f i) (𝒰.f j) ≫ c i) =
         χ.app (op (pullback (𝒰.f i) (𝒰.f j))) (pullback.snd (𝒰.f i) (𝒰.f j) ≫ c j)
       rw [app_comp_eq_map, app_comp_eq_map, hc i, hc j, ← Functor.map_comp_apply,
         ← Functor.map_comp_apply, ← op_comp, ← op_comp, pullback.condition]
@@ -263,11 +263,11 @@ theorem isOpenSubfunctor_of_affine (hF : Presheaf.IsSheaf Scheme.zariskiTopology
           Scheme.Opens.range_ι]
         rfl)
       have he : e.inv ≫ O.ι ≫ W.ι = (W.ι ''ᵁ O).ι := IsOpenImmersion.isoOfRangeEq_inv_fac _ _ _
-      show InImage χ (F.map (W.ι ''ᵁ O).ι.op p)
+      change InImage χ (F.map (W.ι ''ᵁ O).ι.op p)
       rw [← he, op_comp, Functor.map_comp_apply, op_comp, Functor.map_comp_apply]
       exact hOim.map _
     · refine ⟨g' ⟨t', ht'W'⟩, hO, ?_⟩
-      show (g' ≫ W.ι) ⟨t', ht'W'⟩ = g t'
+      change (g' ≫ W.ι) ⟨t', ht'W'⟩ = g t'
       rw [hg']
       rfl
   · have hcov : ∀ t' : T', ∃ O : T.Opens, InImage χ (F.map O.ι.op p) ∧ g t' ∈ O :=
@@ -276,7 +276,7 @@ theorem isOpenSubfunctor_of_affine (hF : Presheaf.IsSheaf Scheme.zariskiTopology
     let 𝒰 : T'.OpenCover := Scheme.Cover.mkOfCovers T' (fun t' => (g ⁻¹ᵁ O t').toScheme)
       (fun t' => (g ⁻¹ᵁ O t').ι) (fun t' => ⟨t', ⟨t', hgO t'⟩, rfl⟩)
     refine inImage_of_openCover hF hinj' _ 𝒰 fun t' => ?_
-    show InImage χ (F.map (g ⁻¹ᵁ O t').ι.op (F.map g.op p))
+    change InImage χ (F.map (g ⁻¹ᵁ O t').ι.op (F.map g.op p))
     rw [← Functor.map_comp_apply, ← op_comp, ← morphismRestrict_ι, op_comp,
       Functor.map_comp_apply]
     exact (hO t').map _

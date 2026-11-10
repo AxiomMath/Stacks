@@ -218,7 +218,7 @@ private theorem fiberDimension_le_of_away_and_quotient
         Ideal.mk_ker]
       intro q hq
       change PrimeSpectrum.comap f q = p at hq
-      show Ideal.span {s} ≤ q.asIdeal
+      change Ideal.span {s} ≤ q.asIdeal
       rw [Ideal.span_singleton_le_iff_mem, ← hs]
       exact show r ∈ (PrimeSpectrum.comap f q).asIdeal from hq ▸ hr
   · rw [← fiberDimension_comp_eq_of_isEmbedding f
@@ -228,7 +228,7 @@ private theorem fiberDimension_le_of_away_and_quotient
     · rw [PrimeSpectrum.localization_away_comap_range (Localization.Away s) s]
       intro q hq
       change PrimeSpectrum.comap f q = p at hq
-      show s ∉ q.asIdeal
+      change s ∉ q.asIdeal
       rw [← hs]
       exact show r ∉ (PrimeSpectrum.comap f q).asIdeal from hq ▸ hr
 
@@ -249,7 +249,7 @@ private theorem fiberDimension_comp_eq_of_comap_injective
   have hs : PrimeSpectrum.comap (g.comp f) ⁻¹' {PrimeSpectrum.comap f p} =
       PrimeSpectrum.comap g ⁻¹' {p} := by
     ext q
-    show PrimeSpectrum.comap f (PrimeSpectrum.comap g q) = PrimeSpectrum.comap f p ↔ _
+    change PrimeSpectrum.comap f (PrimeSpectrum.comap g q) = PrimeSpectrum.comap f p ↔ _
     exact hf.eq_iff
   exact (topologicalKrullDim_fiber_eq _ _).trans
     ((congrArg (fun Z : Set (PrimeSpectrum S) ↦ topologicalKrullDim Z) hs).trans
@@ -390,12 +390,12 @@ private theorem exists_pow_add_fiberDimension_le
   apply fiberDimension_le_of_away_and_quotient
     (Polynomial.aeval (R := R) (a ^ n + b)).toRingHom (Polynomial.C r)
     (s := algebraMap R S r) (Polynomial.aeval_C _ _) d
-  · show ∀ p : Spec (.of (Polynomial R)), topologicalKrullDim
+  · change ∀ p : Spec (.of (Polynomial R)), topologicalKrullDim
       ((Spec.map (CommRingCat.ofHom
         (l.toRingHom.comp (Polynomial.aeval (R := R) (a ^ n + b)).toRingHom))).fiber p) ≤ _
     rw [comp_aeval_eq_aeval_map l, map_add, map_pow]
     exact hn₀ n (le_max_left _ _)
-  · show ∀ p : Spec (.of (Polynomial R)), topologicalKrullDim
+  · change ∀ p : Spec (.of (Polynomial R)), topologicalKrullDim
       ((Spec.map (CommRingCat.ofHom
         (q.toRingHom.comp (Polynomial.aeval (R := R) (a ^ n + b)).toRingHom))).fiber p) ≤ _
     rw [comp_aeval_eq_aeval_map q, hqb]
@@ -431,7 +431,7 @@ private theorem comap_preimage_subset_localization_range
   refine Set.disjoint_left.mpr ?_
   rintro s ⟨r, hr, rfl⟩ hs
   have hC : Polynomial.C r ∈ (PrimeSpectrum.comap f q').asIdeal := by
-    show f (Polynomial.C r) ∈ q'.asIdeal
+    change f (Polynomial.C r) ∈ q'.asIdeal
     rw [hf]
     exact hs
   rw [show PrimeSpectrum.comap f q' = _ from hq'] at hC
@@ -474,7 +474,7 @@ private theorem exists_fiberDimension_aeval_le_away_of_localization
         (Polynomial.aeval (R := R) (algebraMap S L a)).toRingHom from
           comp_aeval_eq_aeval_map (IsScalarTower.toAlgHom R S L) a]
       exact ha p
-    show Algebra.relativeDimensionAt A
+    change Algebra.relativeDimensionAt A
       (PrimeSpectrum.comap (algebraMap S L) qL).asIdeal ≤ _
     exact le_of_eq_of_le
       (AlgebraicGeometry.affine_fiberDimensionAt_eq (CommRingCat.ofHom f)
@@ -659,19 +659,19 @@ private theorem exists_quasiFinite_mvPolynomial_tensorProduct
   have : IsScalarTower P (P ⊗[R₀] R) (S₀ ⊗[R₀] R) :=
     IsScalarTower.of_algebraMap_eq (R := P) (S := P ⊗[R₀] R)
       (A := S₀ ⊗[R₀] R) fun x ↦ by
-        show φ x ⊗ₜ[R₀] 1 = f (x ⊗ₜ[R₀] 1)
+        change φ x ⊗ₜ[R₀] 1 = f (x ⊗ₜ[R₀] 1)
         simp [f]
   have : Algebra.IsPushout P S₀ (P ⊗[R₀] R) (S₀ ⊗[R₀] R) :=
     Algebra.IsPushout.tensorProduct_tensorProduct R₀ R P S₀ (by
       ext r
-      show f (1 ⊗ₜ[R₀] r) = 1 ⊗ₜ[R₀] r
+      change f (1 ⊗ₜ[R₀] r) = 1 ⊗ₜ[R₀] r
       simp [f])
   have hqf : f.toRingHom.QuasiFinite :=
     RingHom.QuasiFinite.isStableUnderBaseChange P S₀ (P ⊗[R₀] R) (S₀ ⊗[R₀] R) hφ
   let fR : P ⊗[R₀] R →ₐ[R] S₀ ⊗[R₀] R :=
     { __ := f.toRingHom
       commutes' r := by
-        show f (1 ⊗ₜ[R₀] r) = 1 ⊗ₜ[R₀] r
+        change f (1 ⊗ₜ[R₀] r) = 1 ⊗ₜ[R₀] r
         simp [f] }
   let e₀ : P ⊗[R₀] R ≃ₐ[R] R ⊗[R₀] P :=
     { Algebra.TensorProduct.comm R₀ P R with commutes' := fun r ↦ rfl }
@@ -707,7 +707,7 @@ private theorem exists_quasiFinite_mvPolynomial_of_adjoin_eq_top
   let gR : B ⊗[A] R →ₐ[R] S :=
     { __ := g.toRingHom
       commutes' r := by
-        show g (1 ⊗ₜ[A] r) = algebraMap R S r
+        change g (1 ⊗ₜ[A] r) = algebraMap R S r
         simp [g] }
   have hgen : (B : Set S) ⊆ gR.range := fun b hb ↦ ⟨⟨b, hb⟩ ⊗ₜ[A] 1, by simp [gR, g]⟩
   have hg : Function.Surjective gR := by
@@ -758,7 +758,7 @@ private theorem quasiFinite_of_fiberDimension_le_zero
     obtain ⟨g, hg, ψ, _, hψ⟩ :=
       exists_quasiFinite_localization_of_fiberDimension_le 0 hdim q
     have hgU : g ∈ U := by
-      show (algebraMap R (Localization.Away g)).QuasiFinite
+      change (algebraMap R (Localization.Away g)).QuasiFinite
       have hC : (algebraMap R (MvPolynomial (Fin 0) R)).QuasiFinite :=
         quasiFinite_of_surjective (MvPolynomial.isEmptyAlgEquiv R (Fin 0)).symm.surjective
       have hψC : ψ.toRingHom.comp (algebraMap R (MvPolynomial (Fin 0) R)) =
@@ -824,7 +824,7 @@ private theorem exists_fiberDimension_aeval_le_of_quasiFinite_mvPolynomial
     hφ.comp (quasiFinite_of_surjective e.symm.surjective)
   have hf : Polynomial.aeval (R := R) (f Polynomial.X) = f := by ext; simp
   refine ⟨f Polynomial.X, fun p ↦ ?_⟩
-  show topologicalKrullDim ((Spec.map (CommRingCat.ofHom
+  change topologicalKrullDim ((Spec.map (CommRingCat.ofHom
     (Polynomial.aeval (R := R) (f Polynomial.X)).toRingHom)).fiber p) ≤ _
   rw [hf]
   exact fiberDimension_le_of_quasiFinite_mvPolynomial d ψ hψ p
@@ -932,7 +932,7 @@ private theorem le_ker_algebraMap_of_isScalarTower
     [Algebra S T] [IsScalarTower R S T] {I : Ideal R} (hI : I ≤ RingHom.ker (algebraMap R S)) :
     I ≤ RingHom.ker (algebraMap R T) := by
   intro x hx
-  show algebraMap R T x = 0
+  change algebraMap R T x = 0
   rw [IsScalarTower.algebraMap_apply R S T, hI hx, map_zero]
 
 private theorem fiberDimension_away_le
@@ -974,7 +974,8 @@ private theorem exists_fiberDimension_aeval_le_of_noetherian_generic
     ∃ a : S, ∀ p : Spec (.of (Polynomial R)), topologicalKrullDim
       ((AlgebraicGeometry.specMapAeval a).fiber p) ≤ (d : WithBot ℕ∞) := by
   classical
-  have : WellFoundedGT (Ideal R) := IsNoetherian.wellFoundedGT (h := (inferInstance : IsNoetherian R R))
+  have : WellFoundedGT (Ideal R) :=
+    IsNoetherian.wellFoundedGT (h := (inferInstance : IsNoetherian R R))
   have hwf : WellFounded ((· > ·) : Ideal R → Ideal R → Prop) := wellFounded_gt
   induction I using hwf.induction generalizing S with
   | h I ih =>

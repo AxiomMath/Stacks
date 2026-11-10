@@ -629,8 +629,7 @@ private theorem exists_diagonal_differentials_parameterChart
   clear_value eSource eTarget
   have hcommute (z : B ⊗[A] Ω[A⁄R]) :
       eTarget (φ z) = KaehlerDifferential.mapBaseChange R C B (eSource z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul x y =>
         rw [hφ, heTargetTmul, heSourceTmul, KaehlerDifferential.mapBaseChange_tmul]

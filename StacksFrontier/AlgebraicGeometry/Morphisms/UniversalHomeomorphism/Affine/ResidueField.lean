@@ -134,7 +134,7 @@ lemma idealResidueFieldMap_id_isIso
   have hm : Ideal.ResidueField.map I I (RingHom.id R) rfl = RingHom.id _ := by
     apply Ideal.ResidueField.ringHom_ext
     ext r
-    show Ideal.ResidueField.map I I (RingHom.id R) rfl
+    change Ideal.ResidueField.map I I (RingHom.id R) rfl
         (algebraMap R I.ResidueField r) = algebraMap R I.ResidueField r
     simpa using (Ideal.ResidueField.map_algebraMap I I (RingHom.id R) rfl r)
   rw [hm]

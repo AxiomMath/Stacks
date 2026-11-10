@@ -59,7 +59,7 @@ public theorem exceptionalSupport_baseChange {X X' Y : Scheme.{u}} (I : X.IdealS
   rw [← Scheme.IdealSheafData.comap_comp, Scheme.IdealSheafData.support_comap,
     Scheme.IdealSheafData.support_comap]
   ext x
-  show (pullback.fst f b ≫ f).base x ∈ I.support ↔ (pullback.snd f b ≫ b).base x ∈ I.support
+  change (pullback.fst f b ≫ f).base x ∈ I.support ↔ (pullback.snd f b ≫ b).base x ∈ I.support
   rw [pullback.condition (f := f) (g := b)]
 
 /-- The fibre product `Y ×_X C`, as a scheme over `Y`, is the base change of `C` along `f`
@@ -160,7 +160,7 @@ public theorem isAlmostBlowUpSquare_baseChange {X X' Y : Scheme.{u}} (I : X.Idea
     have hset : i.base ⁻¹' EP = q.base ⁻¹' ZB := by
       ext x
       simp only [hEP, E, ZB, exceptionalIdeal, Set.mem_preimage, coe_support_comap]
-      show (i ≫ p₂ ≫ b).base x ∈ I.support ↔
+      change (i ≫ p₂ ≫ b).base x ∈ I.support ↔
         (q ≫ pullback.snd f (blowUpToBase I) ≫ blowUpToBase I).base x ∈ I.support
       rw [hbase]
     have hmapK : K.map i = D := by

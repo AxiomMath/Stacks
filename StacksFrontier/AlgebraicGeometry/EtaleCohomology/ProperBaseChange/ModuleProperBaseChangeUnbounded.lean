@@ -98,7 +98,8 @@ abelian presheaves on small étale sites through
 `Stacks.EtaleCohomology.additive_etaleAbelianDirectImage`; the two instances switched off here
 would give the terms built in this file different (propositionally equal) instance arguments,
 which the kernel can only compare by unfolding, as in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ModuleDerivedProperBaseChange`. -/
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ModuleDerivedProperBaseChange`.
+-/
 attribute [-instance] Stacks.SheafOfModules.coefficientSheafification
 attribute [-instance] Stacks.EtaleCohomology.etaleAbelianDirectImage_additive
 attribute [-instance] AlgebraicGeometry.RingedSite.moduleHasSheafify
@@ -123,7 +124,7 @@ theorem torsionSheafProperty_etaleModuleForgetUniv_obj (Λ : Type w) [Ring Λ]
   obtain ⟨n, hn, hΛ⟩ := hΛ
   intro V x
   refine ⟨⊤, X.smallEtaleTopology.top_mem V, fun W φ _ ↦ ⟨n, hn, ?_⟩⟩
-  show n • (M.obj.map φ.op).hom x = 0
+  change n • (M.obj.map φ.op).hom x = 0
   rw [← Nat.cast_smul_eq_nsmul Λ, hΛ, zero_smul]
 
 /-! ### Forgetting the module structure -/

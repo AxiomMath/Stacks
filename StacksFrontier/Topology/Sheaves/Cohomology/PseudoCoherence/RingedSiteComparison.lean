@@ -4,8 +4,7 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.StrictlyPerfectRestrict
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.PseudoCoherent.LocalNature
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.PseudoCoherent.PseudoCoherentObjects
 public import StacksFrontier.AlgebraicGeometry.PseudoCoherent.SheafLevel
-public import
-  StacksFrontier.Topology.Sheaves.Cohomology.HomComplexAndStrictPerfection.InternalHomComplexQuasiIso
+public import StacksFrontier.Topology.Sheaves.Cohomology.HomComplexAndStrictPerfection.InternalHomComplexQuasiIso
 
 /-!
 # Pseudo-coherence on a ringed space is pseudo-coherence on its site of opens

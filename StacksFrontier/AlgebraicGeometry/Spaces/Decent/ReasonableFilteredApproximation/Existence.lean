@@ -62,7 +62,7 @@ private theorem exists_factorization_through_site_open_envelope
     ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f) P hP
   refine ⟨A, hA, Over.homMk (ObjectProperty.homMk g) ?_, ?_⟩
   · apply ObjectProperty.hom_ext
-    show g ≫ (A.ι ≫ R.hom.hom) = T.hom.hom
+    change g ≫ (A.ι ≫ R.hom.hom) = T.hom.hom
     rw [← Category.assoc, hg]
     exact congrArg (fun f => f.hom) f.w
   · apply Over.OverMorphism.ext
@@ -130,7 +130,7 @@ private theorem isLocalIso_of_comp_surjective_etale
   apply IsZariskiLocalAtSource.of_openCover (P := @IsLocalIso) V'
   intro x
   let : _root_.AlgebraicGeometry.IsOpenImmersion ((V'.f x) ≫ f) := by
-    show _root_.AlgebraicGeometry.IsOpenImmersion (((A x).ι ≫ q) ≫ f)
+    change _root_.AlgebraicGeometry.IsOpenImmersion (((A x).ι ≫ q) ≫ f)
     simpa only [Category.assoc] using hA x
   exact ⟨fun y => ⟨⊤, trivial, inferInstance⟩⟩
 
@@ -166,9 +166,9 @@ private theorem presheaf_isLocallySurjective_sigma_of_cover
   intro A g hg
   obtain ⟨i, k, hk⟩ := (Sieve.mem_ofArrows_iff W v (g ≫ t)).mp hg
   refine ⟨(Limits.Sigma.ι (fun i => yoneda.obj (W i)) i).app (op A) k, ?_⟩
-  show ((Limits.Sigma.ι (fun i => yoneda.obj (W i)) i ≫
+  change ((Limits.Sigma.ι (fun i => yoneda.obj (W i)) i ≫
     Limits.Sigma.desc (fun i => yoneda.map (v i))).app (op A)) k = g ≫ t
-  rw [Limits.Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
   exact hk.symm
 
 /-- An algebraic space covered by a jointly locally surjective family of open immersions from
@@ -383,6 +383,7 @@ private theorem exists_affine_surjective_localIso_cover
       ⟨fun x => ⟨⊤, trivial, inferInstance⟩⟩)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over the big fppf site (morphism-property instances on the chart) is expensive
 /-- A quasi-compact algebraic space has an affine surjective étale chart which is moreover a local
 isomorphism whenever `X` is representable, by taking the chart to be an affine Zariski cover in
 that case. This is the input for clause (3). -/
@@ -524,12 +525,12 @@ theorem exists_correctedDirectedApproximation
   let tt : RR ⟶ (Functor.const I).obj (H.obj U) := {
     app A := H.map (ι A ≫ t)
     naturality {A A'} f := by
-      show H.map (Ro.map f) ≫ H.map (ι A' ≫ t) = H.map (ι A ≫ t) ≫ 𝟙 _
+      change H.map (Ro.map f) ≫ H.map (ι A' ≫ t) = H.map (ι A ≫ t) ≫ 𝟙 _
       rw [← H.map_comp, ← Category.assoc, hι, Category.comp_id] }
   let ss : RR ⟶ (Functor.const I).obj (H.obj U) := {
     app A := H.map (ι A ≫ s)
     naturality {A A'} f := by
-      show H.map (Ro.map f) ≫ H.map (ι A' ≫ s) = H.map (ι A ≫ s) ≫ 𝟙 _
+      change H.map (Ro.map f) ≫ H.map (ι A' ≫ s) = H.map (ι A ≫ s) ≫ 𝟙 _
       rw [← H.map_comp, ← Category.assoc, hι, Category.comp_id] }
   let (A : I) : Stacks.Groupoids.IsEtaleEquivalenceRelation
       (relation B S hS (ι A ≫ s) (ι A ≫ t)) :=
@@ -560,14 +561,14 @@ theorem exists_correctedDirectedApproximation
   have het' : (MorphismProperty.inverseImage (@Etale.{u}) G).presheaf φ := by
     apply het U (𝟙 _) (presheafProperty_id _ (fun {_ _} f hf => by
       let := hf
-      show Etale (G.map f)
+      change Etale (G.map f)
       infer_instance) _)
   have hpw : H.map t ≫ p = H.map s ≫ p := Sheaf.hom_ext hR.w
   let hpcol : IsColimit (Cofork.ofπ p hpw) :=
     sheafKernelPairIsColimit _ _ _ _ hR
       (atlas_isLocallySurjective B S hS (Y := Y) φ hsurj het')
   have hpi (A : I) : tt.app A ≫ p = ss.app A ≫ p := by
-    show H.map (ι A ≫ t) ≫ p = H.map (ι A ≫ s) ≫ p
+    change H.map (ι A ≫ t) ≫ p = H.map (ι A ≫ s) ≫ p
     rw [H.map_comp, H.map_comp, Category.assoc, Category.assoc, hpw]
   let D := quotientDiagram RR (H.obj U) tt ss Q q hqw hqcol
   let c := quotientCocone RR (H.obj U) tt ss Q q hqw hqcol p hpi
@@ -583,7 +584,7 @@ theorem exists_correctedDirectedApproximation
       intro A
       have h := congrArg (fun f => f.hom) (ha A)
       change yoneda.map (ι A ≫ t) ≫ a.hom = yoneda.map (ι A ≫ s) ≫ a.hom at h
-      show yoneda.map (ι A) ≫ (yoneda.map t ≫ a.hom) =
+      change yoneda.map (ι A) ≫ (yoneda.map t ≫ a.hom) =
         yoneda.map (ι A) ≫ (yoneda.map s ≫ a.hom)
       have h' : (yoneda.map (ι A) ≫ yoneda.map t) ≫ a.hom =
           (yoneda.map (ι A) ≫ yoneda.map s) ≫ a.hom := by
@@ -654,7 +655,7 @@ theorem exists_correctedDirectedApproximation
     have hd : H.map v ≫ d = H.map w ≫ q k := Cofork.IsColimit.π_desc' hvcol _ _
     have hdp : d ≫ c.ι.app k = (⟨ξ'⟩ : H.obj T ⟶ Y) := by
       apply Cofork.IsColimit.hom_ext hvcol
-      show H.map v ≫ (d ≫ c.ι.app k) = H.map v ≫ (⟨ξ'⟩ : H.obj T ⟶ Y)
+      change H.map v ≫ (d ≫ c.ι.app k) = H.map v ≫ (⟨ξ'⟩ : H.obj T ⟶ Y)
       rw [← Category.assoc, hd, Category.assoc, hqι]
       exact Sheaf.hom_ext hw
     refine ⟨k, d.hom.app (op T) (𝟙 T), ?_⟩
@@ -672,7 +673,7 @@ theorem exists_correctedDirectedApproximation
     have heq' : η' ≫ c.ι.app i = θ' ≫ c.ι.app j := by
       apply Sheaf.hom_ext
       apply yonedaEquiv.injective
-      show yonedaEquiv (yonedaEquiv.symm η ≫ (c.ι.app i).hom) =
+      change yonedaEquiv (yonedaEquiv.symm η ≫ (c.ι.app i).hom) =
         yonedaEquiv (yonedaEquiv.symm θ ≫ (c.ι.app j).hom)
       rwa [yonedaEquiv_comp, yonedaEquiv_comp, Equiv.apply_symm_apply, Equiv.apply_symm_apply]
     obtain ⟨W₁, v₁, w₁, hW₁, hv₁s, hv₁e, hw₁⟩ :=
@@ -690,14 +691,14 @@ theorem exists_correctedDirectedApproximation
     let y := v₂ ≫ w₁
     have hy : H.map y ≫ q i = H.map v ≫ η' := by
       apply Sheaf.hom_ext
-      show yoneda.map (v₂ ≫ w₁) ≫ (q i).hom = yoneda.map (v₂ ≫ v₁) ≫ η'.hom
+      change yoneda.map (v₂ ≫ w₁) ≫ (q i).hom = yoneda.map (v₂ ≫ v₁) ≫ η'.hom
       rw [yoneda.map_comp, yoneda.map_comp, Category.assoc, Category.assoc, hw₁]
     have hz : H.map w₂ ≫ q j = H.map v ≫ θ' := by
       apply Sheaf.hom_ext
-      show yoneda.map w₂ ≫ (q j).hom = yoneda.map (v₂ ≫ v₁) ≫ θ'.hom
+      change yoneda.map w₂ ≫ (q j).hom = yoneda.map (v₂ ≫ v₁) ≫ θ'.hom
       rwa [yoneda.map_comp, Category.assoc]
     have hyz : yoneda.map y ≫ φ = yoneda.map w₂ ≫ φ := by
-      show (H.map y ≫ p).hom = (H.map w₂ ≫ p).hom
+      change (H.map y ≫ p).hom = (H.map w₂ ≫ p).hom
       congr 1
       calc
         H.map y ≫ p = H.map y ≫ (q i ≫ c.ι.app i) := congrArg _ (hqι i).symm
@@ -717,7 +718,7 @@ theorem exists_correctedDirectedApproximation
       let : Surjective (G.map v) := inferInstanceAs (Surjective (G.map v₂ ≫ G.map v₁))
       let : Etale (G.map v) := inferInstanceAs (Etale (G.map v₂ ≫ G.map v₁))
       apply Cofork.IsColimit.hom_ext (sheafIsColimitOfSurjectiveEtale B S hS v)
-      show H.map v ≫ (η' ≫ D.map (fi ≫ fk)) = H.map v ≫ (θ' ≫ D.map (fj ≫ fk))
+      change H.map v ≫ (η' ≫ D.map (fi ≫ fk)) = H.map v ≫ (θ' ≫ D.map (fj ≫ fk))
       rwa [← Category.assoc, ← Category.assoc, ← hy, ← hz, Category.assoc, Category.assoc,
         hqmap, hqmap]
     refine ⟨k, fi ≫ fk, fj ≫ fk, ?_⟩

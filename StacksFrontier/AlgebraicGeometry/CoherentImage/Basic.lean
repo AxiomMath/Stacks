@@ -60,8 +60,8 @@ semilinear, so an affine neighbourhood of each point suffices. The forward passa
 
 **The equivalence is assembled, not constructed.** `ObjectProperty.lift` gives the functor,
 `ObjectProperty.liftCompιIso` is `Iso.refl` and hence discharges the second component of the
-statement outright, and `Functor.asEquivalence` turns full + faithful + essentially surjective into an
-equivalence. Fullness of the lift comes from `Functor.Full.of_comp_faithful`, since the
+statement outright, and `Functor.asEquivalence` turns full + faithful + essentially surjective into
+an equivalence. Fullness of the lift comes from `Functor.Full.of_comp_faithful`, since the
 composite with the inclusion is `ι ⋙ i_*`.
 
 **Spelling.** `SheafOfModules.IsCoherent` of

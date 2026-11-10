@@ -23,9 +23,9 @@ is a proper intersection, computed by the formula of Stacks 0FFD as the class of
 over `Y_e`, which is the open and closed piece `Z_n ∩ g⁻¹(Y_e) ∩ (f ∘ g)⁻¹(X_d)` of
 `Γ_{f ∘ g} ∩ (X_d × Z_n)`; and these pieces, for `e` varying, partition it.
 
-As in `StacksFrontier.AlgebraicGeometry.WeilCohomology.Correspondences.DiagonalUnit`, the intersection
-products are formed with a family of diagonal classes `Δ`, and the results hold for every family
-satisfying the proper-intersection formula
+As in `StacksFrontier.AlgebraicGeometry.WeilCohomology.Correspondences.DiagonalUnit`, the
+intersection products are formed with a family of diagonal classes `Δ`, and the results hold for
+every family satisfying the proper-intersection formula
 `Stacks.WeilCohomology.DiagonalClassFamily.ProperIntersectionFormula`.
 
 ## Main definitions
@@ -95,7 +95,7 @@ theorem cycleAssociatedToClosedSubscheme_eq_sum_of_isOpenImmersion {C : ChowSitu
       cycleAssociatedToClosedSubscheme C p c k := by
   classical
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-  simp only [AddSubgroup.val_finset_sum, Function.locallyFinsuppWithin.coe_sum, Finset.sum_apply]
+  simp only [AddSubgroup.val_finsetSum, Function.locallyFinsuppWithin.coe_sum, Finset.sum_apply]
   by_cases hx : ∃ ξ : genericPoints W, c ξ.1 = x ∧ relativeDimension C.dimensionFunction p x = k
   · obtain ⟨ξ, rfl, hk⟩ := hx
     obtain ⟨i₀, hi₀, ζ, hζ⟩ := hcover ξ.1
@@ -372,7 +372,7 @@ theorem mem_range_graphFibreι_iff (z : (((dimPart sZ n).ι ≫ g ≫ f) ⁻¹�
         (pullback.snd (graphPiece k sX sY f hf d e ≫ pullback.snd _ _)
           (graphPiece k sY sZ g hg e n ≫ pullback.fst _ _)) := by
       rw [IsOpenImmersion.range_pullbackSnd, SetLike.mem_coe, Scheme.Hom.mem_preimage]
-      show _ ∈ Set.range _
+      change _ ∈ Set.range _
       rw [graphPiece_snd, graphPiece_fst, Scheme.Opens.range_ι, SetLike.mem_coe,
         Scheme.Hom.mem_preimage,
         ← Scheme.Hom.comp_apply, morphismRestrict_ι_assoc, Scheme.Hom.comp_apply, hb,
@@ -424,6 +424,7 @@ variable (k : Type u) [Field k] {X Y Z : Scheme.{u}}
   [Smooth sX] [Smooth sY] [Smooth sZ] [IsSeparated sX] [IsSeparated sY] [IsSeparated sZ]
   {Δ : DiagonalClassFamily k}
 
+omit [IsSeparated sX] [IsSeparated sY] [IsSeparated sZ] in
 /-- Composition of a pure block `c ∈ Corrʳ(X_d, Y_e)` with a finite sum of pure blocks
 `c'_{e', m} ∈ Corrˢ(Y_{e'}, Z_m)`: only the blocks with `e' = e` contribute, and
 `(Σ_{e', m} c'_{e', m}) ∘ c = Σ_m c'_{e, m} ∘ c`. -/
@@ -444,6 +445,7 @@ theorem comp_lof_lof_sum_sum [IsProper sY] (Δ : DiagonalClassFamily k) (r s : �
     exact Finset.sum_eq_zero fun m _ ↦
       comp_lof_lof_lof_of_ne k sX sY sZ Δ r s d e e' (Ne.symm hne) _ _
 
+omit [IsSeparated sX] [IsSeparated sY] [IsSeparated sZ] in
 /-- Composition of two finite sums of pure blocks, `c = Σ_{d, e} c_{d, e}` and
 `c' = Σ_{e, m} c'_{e, m}` with the middle indices running over the same finite set:
 `(c' ∘ c)_{d, m} = Σ_e c'_{e, m} ∘ c_{d, e}`. -/
@@ -463,6 +465,8 @@ theorem comp_sum_lof_lof [IsProper sY] (Δ : DiagonalClassFamily k) (r s : ℤ) 
   exact Finset.sum_congr rfl fun m _ ↦ by rw [map_sum, map_sum]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the nested `DirectSum` module structures on the correspondence blocks
+omit [IsSeparated sX] [IsSeparated sY] in
 /-- Transport along an equality of degrees of a finite sum of pure blocks is blockwise. -/
 theorem corrCongr_sum_lof_lof {r r' : ℤ} (h : r = r') (D E : Finset ℕ)
     (c : ∀ d e : ℕ, Correspondence (fieldChowSituation k) (partBase sX d) (partBase sY e) e r) :

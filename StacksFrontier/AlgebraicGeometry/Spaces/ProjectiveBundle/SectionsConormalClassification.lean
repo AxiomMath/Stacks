@@ -110,8 +110,8 @@ theorem projectiveBundle_sectionConormalIso :
         (comm : σ' ≫ (projectiveBundleBaseChange X E hE hb g hb') = g ≫ σ)
         (Q : InvertibleQuotient X E)
         (hQ : projectiveBundleSectionsEquiv X E hE hb ⟨σ, hσ⟩ = Quotient.mk _ Q)
-        (φ : sectionConormalSource X E Q ≅ sectionConormalTarget X E hE hb σ hσ)
-        (hφ : ∀ U : SmallEtale B S hS X.1, (chartModuleRestriction B S hS X U).map φ.hom =
+        (φ : sectionConormalSource X E Q ≅ sectionConormalTarget X E hE hb σ hσ),
+        (∀ U : SmallEtale B S hS X.1, (chartModuleRestriction B S hS X U).map φ.hom =
             (sectionConormalChartFamilyOf X E hE Q hb σ hσ
             (fun (T : BigFppfOver B S hS) (x : yoneda.obj T ⟶ X.1) =>
           (haveI : IsInvertible (structureCommRings B S hS X) (structureRingSheaf B S hS X).property
@@ -139,11 +139,12 @@ theorem projectiveBundle_sectionConormalIso :
               (Stacks.SheafOfModules.Invertible.tensorPower (structureCommRings B S hS X)
               (structureRingSheaf B S hS X).property Q.L (-1))))).hom))
           (kernelPointReadingHom X E hE Q T x) (inversePointReadingIso X T x Q.L).hom)))
-            (fun T x hx => isIso_conormalSourcePointReading_of_isEtale X E hE Q T x hx) hQ U).hom)
-        (φ' : sectionConormalSource X' ((modulePullback B S hS g).obj E) (Q.baseChange g (Iso.refl
+            (fun T x hx => isIso_conormalSourcePointReading_of_isEtale X E hE Q T x hx)
+            hQ U).hom) →
+        ∀ (φ' : sectionConormalSource X' ((modulePullback B S hS g).obj E) (Q.baseChange g (Iso.refl
             _)) ≅ sectionConormalTarget X' ((modulePullback B S hS g).obj E)
-            (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g) hb' σ' hσ')
-        (hφ' : ∀ V : SmallEtale B S hS X'.1, (chartModuleRestriction B S hS X' V).map φ'.hom =
+            (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g) hb' σ' hσ'),
+        (∀ V : SmallEtale B S hS X'.1, (chartModuleRestriction B S hS X' V).map φ'.hom =
             (sectionConormalChartFamilyOf X' ((modulePullback B S hS g).obj E)
                 (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g) (Q.baseChange g
                 (Iso.refl _)) hb' σ' hσ'
@@ -184,7 +185,7 @@ theorem projectiveBundle_sectionConormalIso :
             (fun T x hx => isIso_conormalSourcePointReading_of_isEtale X' ((modulePullback B S hS
                 g).obj E) (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g)
                 (Q.baseChange g (Iso.refl _)) T x hx) (projectiveBundleSectionsEquiv_baseChange_mk X
-                E hE hb g hb' σ hσ σ' hσ' comm Q hQ) V).hom),
+                E hE hb g hb' σ hσ σ' hσ' comm Q hQ) V).hom) →
       (@CategoryStruct.comp _ _ ((modulePullback B S hS g).obj
           (haveI : IsInvertible (structureCommRings B S hS X) (structureRingSheaf B S hS X).property
               Q.L := Q.invertible.toAlgebraicGeometry; (MonoidalCategory.tensorObj (C := Modules.{u,

@@ -218,13 +218,13 @@ theorem exists_schemeImage_site' {A V : BigFppfOver B S hS} (f : A ⟶ V) :
       ((BigFppfOver.toScheme B S hS).map f).toImage,
       B.inclusion.map_preimage (X := B.obj hI) (Y := V.left)
         ((BigFppfOver.toScheme B S hS).map f).imageι]
-    show ((BigFppfOver.toScheme B S hS).map f).toImage ≫
+    change ((BigFppfOver.toScheme B S hS).map f).toImage ≫
       ((BigFppfOver.toScheme B S hS).map f).imageι = (BigFppfOver.toScheme B S hS).map f
     rw [Scheme.Hom.toImage_imageι]
   refine ⟨Over.mk (qI ≫ V.hom), Over.homMk qI, Over.homMk lI (by
-    show lI ≫ (qI ≫ V.hom) = A.hom
+    change lI ≫ (qI ≫ V.hom) = A.hom
     rw [← Category.assoc, hlI, f.w]), eqToIso (by rfl), ?_, ?_⟩
-  · show B.inclusion.map qI = _
+  · change B.inclusion.map qI = _
     rw [B.inclusion.map_preimage (X := B.obj hI) (Y := V.left)
       ((BigFppfOver.toScheme B S hS).map f).imageι]
     simp

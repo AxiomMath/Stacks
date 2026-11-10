@@ -194,7 +194,6 @@ theorem exists_etaleSchemeSystem_of_isLimit
     (hDft : ∀ j, IsFiniteType B (⊤_ Scheme.{u}) hZ
       (terminal.from (viewOverIntegers B (⊤_ Scheme.{u}) hZ hZ (D.obj j))))
     {Y : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u}
-    (hY : IsAlgebraicSpace B (⊤_ Scheme.{u}) hZ Y)
     (uπ : (Functor.const Iᵒᵖ).obj Y ⟶ D) (huπ : IsLimit (Cone.mk Y uπ))
     (W : BigFppfOver B (⊤_ Scheme.{u}) hZ)
     (hWc : CompactSpace ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).obj W))
@@ -336,7 +335,7 @@ theorem exists_etaleSchemeSystem_of_isLimit
     have _ : (pullback (M.baseAtToInitial j₂.1 j₂.2) Y₀.hom).IsRepresentable := hj₂
     have hcomm : D.map (homOfLE (hk₂.trans j.unop.2)).op ≫ M.baseAtToInitial j₂.1 j₂.2 =
         t.app j := by
-      show D.map _ ≫ D.map _ = D.map _
+      change D.map _ ≫ D.map _ = D.map _
       rw [← D.map_comp]
       rfl
     let f := baseChangeOverMap B (⊤_ Scheme.{u}) hZ (t.app j) (M.baseAtToInitial j₂.1 j₂.2)
@@ -353,7 +352,7 @@ theorem exists_etaleSchemeSystem_of_isLimit
     intro j
     have h := M.isEtale_mapAt_of_le hi₁ (hk₁.trans j.unop.2) hEt₁
     have hfst := M.mapAt_fst j.unop.1 (hi₁.trans (hk₁.trans j.unop.2))
-    show IsEtale B (⊤_ Scheme.{u}) hZ (pullback.fst (t.app j) Y₀.hom)
+    change IsEtale B (⊤_ Scheme.{u}) hZ (pullback.fst (t.app j) Y₀.hom)
     change _ ≫ pullback.fst (t.app j) (𝟙 (D.obj i₀)) = pullback.fst (t.app j) Y₀.hom at hfst
     have _ : IsIso (𝟙 (D.obj i₀)) := inferInstance
     have _ : IsIso (pullback.fst (t.app j) (𝟙 (D.obj i₀))) :=
@@ -391,7 +390,7 @@ theorem exists_etaleSchemeSystem_of_isLimit
   obtain ⟨Ws, g, wπ, h₁, h₂, h₃, h₄, h₅, h₆, h₈, h₇⟩ :=
     exists_etaleSchemeSystem_of_stages D hconv hD hAff hDft uπ W gW k E p hpb hrep hEqc hEet
       (bc.extend hsq'.flip.isoPullback.hom).π hc (fun j => by
-        show (hsq'.flip.isoPullback.hom ≫ baseChangeOverMap B (⊤_ Scheme.{u}) hZ _ _ _ (hg j)
+        change (hsq'.flip.isoPullback.hom ≫ baseChangeOverMap B (⊤_ Scheme.{u}) hZ _ _ _ (hg j)
           Y₀.hom) ≫ pullback.fst (t.app j) Y₀.hom = _
         rw [Category.assoc, baseChangeOverMap_fst, ← Category.assoc,
           IsPullback.isoPullback_hom_fst]

@@ -147,7 +147,7 @@ theorem siteContainsBaseChangeLimits_iff :
   · exact (C.limitBridgeOfLimitInSite
       (C.limitInSite_of_siteContainsBaseChangeLimits h)).exists_cone
   · obtain ⟨c₀, ⟨hc₀⟩, hcont⟩ := h i Z g ⟨W, e⟩
-    show c.pt.size < B.cutoff
+    change c.pt.size < B.cutoff
     rw [Scheme.size_congr (hc.conePointUniqueUpToIso hc₀)]
     exact hcont
 

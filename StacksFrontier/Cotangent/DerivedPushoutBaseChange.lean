@@ -169,7 +169,7 @@ lemma extendXMapIso_comm (K : HomologicalComplex A c) (o p : Option ι) :
       rw [HomologicalComplex.extend.d_none_eq_zero' _ _ _ rfl,
         HomologicalComplex.extend.d_none_eq_zero' _ _ _ rfl, F.map_zero, zero_comp, comp_zero]
   | some a, some b =>
-      show F.map (K.d a b) ≫ 𝟙 _ = 𝟙 _ ≫ F.map (K.d a b)
+      change F.map (K.d a b) ≫ 𝟙 _ = 𝟙 _ ≫ F.map (K.d a b)
       rw [Category.comp_id, Category.id_comp]
 
 /-- **An additive functor commutes with extension of complexes along an embedding of complex

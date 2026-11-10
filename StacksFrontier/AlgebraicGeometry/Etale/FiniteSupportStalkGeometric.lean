@@ -147,7 +147,7 @@ public theorem exists_open_preimage_isOpenImmersion_of_finite_comp
   obtain ⟨O, hw, hO⟩ :=
     AlgebraicGeometry.exists_open_restrict_isIso_of_finite_etale_fiber_eq_singleton
       h (h w) w hf (by
-        show (((T.residueFieldCongr (show h w = h w from rfl)).inv ≫
+        change (((T.residueFieldCongr (show h w = h w from rfl)).inv ≫
           h.residueFieldMap w).hom).IsPurelyInseparable
         simpa using hp)
   let : IsIso (h ∣_ O) := hO
@@ -201,10 +201,10 @@ public theorem exists_etale_finite_open_of_geometricPoint
     U.toBase s.hom U.point U.map_point
   let z := pullback.lift p q (hp.trans hq.symm)
   have hzfst : (pullback.fst f U.toBase) (z default) = p default := by
-    show (z ≫ pullback.fst f U.toBase) default = _
+    change (z ≫ pullback.fst f U.toBase) default = _
     exact congrArg (fun h : s.source ⟶ X => h default) (pullback.lift_fst p q _)
   have hzsnd : (pullback.snd f U.toBase) (z default) = U.point := by
-    show (z ≫ pullback.snd f U.toBase) default = _
+    change (z ≫ pullback.snd f U.toBase) default = _
     exact (congrArg (fun h : s.source ⟶ U.scheme => h default)
       (pullback.lift_snd p q _)).trans hqpoint
   obtain ⟨j, hj⟩ := hcover 0 (z default) hzsnd hzfst
@@ -214,12 +214,12 @@ public theorem exists_etale_finite_open_of_geometricPoint
   obtain ⟨hfinite, hfiber, _, hwp, _, hpure⟩ := hV 0 j
   let d := W.ι ≫ pullback.snd f U.toBase
   have hrd : r ≫ d = q := by
-    show (r ≫ W.ι) ≫ pullback.snd f U.toBase = q
+    change (r ≫ W.ι) ≫ pullback.snd f U.toBase = q
     rw [hr]
     exact pullback.lift_snd p q _
   have hpoint (r' : s.source ⟶ W) (h : r' ≫ d = q) : r' default = w 0 j := by
     have hh : r' default ∈ d ⁻¹' {U.point} := by
-      show (r' ≫ d) default = U.point
+      change (r' ≫ d) default = U.point
       rw [h, hqpoint]
     change d ⁻¹' {U.point} = {w 0 j} at hfiber
     rw [hfiber] at hh
@@ -232,10 +232,10 @@ public theorem exists_etale_finite_open_of_geometricPoint
     rw [hpoint r hrd]
     exact residueFieldMap_isPurelyInseparable_of_congr d (w 0 j) U.point hwp hpure
   refine ⟨U.scheme, U.toBase, inferInstance, q, hq, W, r, hfinite, ?_, hrd, ?_, hpure', ?_⟩
-  · show (r ≫ W.ι) ≫ pullback.fst f U.toBase = p
+  · change (r ≫ W.ι) ≫ pullback.fst f U.toBase = p
     rw [hr]
     exact pullback.lift_fst p q _
-  · show d ⁻¹' {q default} = {r default}
+  · change d ⁻¹' {q default} = {r default}
     rw [← hdr]
     exact hfib'
   · intro r' hr'
@@ -468,7 +468,7 @@ public theorem exists_finite_open_neighborhood
     refine ⟨Over.homMk (B.inclusion.preimage (k ≫ j)) ?_⟩
     apply B.inclusion.map_injective
     simp only [Over.mk_hom, Functor.map_comp, Functor.map_preimage]
-    show (k ≫ j) ≫ h = O.ι ≫ B.inclusion.map (pullback.snd gb f)
+    change (k ≫ j) ≫ h = O.ι ≫ B.inclusion.map (pullback.snd gb f)
     rw [Category.assoc, ← hi'X, ← Category.assoc, Scheme.Hom.isoOpensRange_inv_comp]
   have ht₀ : (SmallEtale.toScheme B X.obj X.property).map t₀ = k ≫ j :=
     B.inclusion.map_preimage _
@@ -476,11 +476,11 @@ public theorem exists_finite_open_neighborhood
   have hr₀ : r₀ ≫ O.ι = r ≫ i' := by
     simp only [r₀, O, Category.assoc, Scheme.Hom.isoOpensRange_hom_ι]
   refine ⟨U, O, r₀, t₀, ?_, ?_, ?_, ?_⟩
-  · show IsFinite (O.ι ≫ B.inclusion.map (pullback.fst gb f))
+  · change IsFinite (O.ι ≫ B.inclusion.map (pullback.fst gb f))
     rw [← Scheme.Hom.isoOpensRange_inv_comp i', Category.assoc, hi'V]
     let : IsFinite (i ≫ pullback.snd (B.inclusion.map f) (B.inclusion.map gb)) := hfin
     infer_instance
-  · show r₀ ≫ O.ι ≫ B.inclusion.map (pullback.fst gb f) = q
+  · change r₀ ≫ O.ι ≫ B.inclusion.map (pullback.fst gb f) = q
     rw [← Category.assoc, hr₀, Category.assoc, hi'V]
     exact hrV
   · rw [ht₀]
@@ -490,11 +490,11 @@ public theorem exists_finite_open_neighborhood
     have H : r' ≫ k = r := by
       apply huniq
       rw [← hi'V]
-      show (r' ≫ i'.isoOpensRange.inv) ≫ i' ≫
+      change (r' ≫ i'.isoOpensRange.inv) ≫ i' ≫
         B.inclusion.map (pullback.fst gb f) = q
       rw [Category.assoc, Scheme.Hom.isoOpensRange_inv_comp_assoc]
       exact hr'
-    show r' = r ≫ i'.isoOpensRange.hom
+    change r' = r ≫ i'.isoOpensRange.hom
     rw [← H]
     simp only [k, Category.assoc, Iso.inv_hom_id, Category.comp_id]
 

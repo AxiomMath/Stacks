@@ -21,6 +21,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_ChartPresentation :
@@ -334,7 +335,7 @@ theorem coordinateHom_comp_quotientMap (L : AffineChartSystem.LimitBridge C)
             (op m)).appTop).hom).comp
           (coordinateHom g' (D.stageChartHom C hchart m) y hyrel) := by
   refine Ideal.Quotient.ringHom_ext (MvPolynomial.ringHom_ext (fun a => ?_) (fun k => ?_))
-  · show (coordinateHom (fun k => MvPolynomial.map (D.modelProjection m.1) (g' k))
+  · change (coordinateHom (fun k => MvPolynomial.map (D.modelProjection m.1) (g' k))
         (D.limitChartHom C hchart L) t hrel)
           (Ideal.quotientMap _ (MvPolynomial.map (D.modelProjection m.1))
             (span_range_le_comap_map_span_range (D.modelProjection m.1) g')
@@ -351,7 +352,7 @@ theorem coordinateHom_comp_quotientMap (L : AffineChartSystem.LimitBridge C)
       (RingHom.congr_fun (coordinateHom_comp_presentationStructureHom g'
         (D.stageChartHom C hchart m) y hyrel) a)).trans
       (D.appTop_stagesSchemeCone_π_stageChartHom C hchart L m a)).symm
-  · show (coordinateHom (fun k => MvPolynomial.map (D.modelProjection m.1) (g' k))
+  · change (coordinateHom (fun k => MvPolynomial.map (D.modelProjection m.1) (g' k))
         (D.limitChartHom C hchart L) t hrel)
           (Ideal.quotientMap _ (MvPolynomial.map (D.modelProjection m.1))
             (span_range_le_comap_map_span_range (D.modelProjection m.1) g')

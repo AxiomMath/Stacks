@@ -105,7 +105,7 @@ noncomputable def smallQuotientStackMapSquare :
 /-- The 1-morphism between small models is faithful when the 1-morphism of quotient stacks is. -/
 theorem faithful_smallQuotientStackMap (hfaith : (quotientStackMap φ).toFunctor.Faithful) :
     (CatFiberedInGroupoids.homFunctor (smallQuotientStackMap.{u, w} φ hG hH).hom).Faithful := by
-  show ((smallQuotientStackEquivalence G).functor.toFunctor ⋙
+  change ((smallQuotientStackEquivalence G).functor.toFunctor ⋙
     (quotientStackMap φ).toFunctor ⋙ (smallQuotientStackEquivalence H).inverse.toFunctor).Faithful
   infer_instance
 
@@ -196,7 +196,7 @@ theorem pointsMap_smallQuotientStackMap_point (z : Space.points C S hS G.objects
         (fibredCategory C S hS H.objects.obj).property (smallQuotientStackCFG H).property
         (smallQuotientStackProjection H).hom :=
     pointsMap_congr_of_obj_eq _ _ _ _ fun _ => rfl
-  show pointsMap C S hS _ _ _ (smallQuotientStackMap.{u, w} φ hG hH).hom.hom
+  change pointsMap C S hS _ _ _ (smallQuotientStackMap.{u, w} φ hG hH).hom.hom
       (pointsMap C S hS _ _ _ (smallQuotientStackProjection G).hom _) = pointsMap C S hS _ _ _ _ _
   rw [h1]
   refine (congrFun h3 _).trans ?_
@@ -239,7 +239,7 @@ theorem pointsMap_smallQuotientStackLift_point (G : GroupoidInAlgebraicSpaces C 
         (BasedFunctor.comp (quotientStackProjection G) X)
         (spacePointMap C S hS G.objects.obj (fibredCategory C S hS G.objects.obj)
           (BasedFunctor.id _) z) := by
-  show pointsMap C S hS _ _ _ (smallQuotientStackLift.{u, w} G hG X).hom.hom
+  change pointsMap C S hS _ _ _ (smallQuotientStackLift.{u, w} G hG X).hom.hom
       (pointsMap C S hS _ _ _ (smallQuotientStackProjection G).hom _) = _
   rw [pointsMap_comp]
   exact congrFun (pointsMap_smallQuotientStackProjection_comp G 𝒳.val.val 𝒳.val.property X) _

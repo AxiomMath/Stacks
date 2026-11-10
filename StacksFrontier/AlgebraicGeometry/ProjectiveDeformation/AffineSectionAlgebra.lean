@@ -92,7 +92,7 @@ theorem free_finite_sections_of_isFiniteLocallyFree {S : Scheme.{u}} (s₀ : S)
 /-- Sections over `⊤` are transported along an isomorphism of modules. -/
 def sectionsTopLinearEquiv {S : Scheme.{u}} {M N : S.Modules} (e : M ≅ N) :
     Γ(M, ⊤) ≃ₗ[Γ(S, ⊤)] Γ(N, ⊤) :=
-  LinearEquiv.ofLinear (Scheme.Modules.sectionsLinearMap e.hom ⊤)
+  LinearEquiv.ofLinearMap (Scheme.Modules.sectionsLinearMap e.hom ⊤)
     (Scheme.Modules.sectionsLinearMap e.inv ⊤)
     (by ext x; exact Stacks.AlgebraicGeometry.ProjChartRatioPullbackLocalMul.hom_app_inv_app e ⊤ x)
     (by
@@ -313,7 +313,7 @@ theorem sectionRingHom_smul (b : R₂ ⟶ R₁)
     sectionRingHom φ (r • x) = b.hom r • sectionRingHom φ x := by
   let := sectionRingAlgebraOver D₂ ρ₂
   let := sectionRingAlgebraOver D₁ ρ₁
-  show sectionRingHom φ (algebraMap Γ(D₂.S', ⊤) _ (ρ₂ r) * x) =
+  change sectionRingHom φ (algebraMap Γ(D₂.S', ⊤) _ (ρ₂ r) * x) =
     algebraMap Γ(D₁.S', ⊤) _ (ρ₁ (b.hom r)) * sectionRingHom φ x
   rw [map_mul, Stacks.SymGraded.AffinePieces.algebraMap_sectionRingAlgebra,
     Stacks.SymGraded.AffinePieces.algebraMap_sectionRingAlgebra, sectionRingHom_strHom, hb]
@@ -360,12 +360,12 @@ theorem isBaseChange_sectionRingHom [IsAffine D₁.S'] [IsAffine D₂.S'] (hρ�
     (fun n => (degreeBoundData P).isIso_algebraPullbackHom φ n)
   have : IsScalarTower R₂ Γ(D₁.S', ⊤) (D₁.sectionAlgebra.sectionRing ⊤) :=
     IsScalarTower.of_algebraMap_smul fun r x => by
-      show ρ₁ (b.hom r) • x =
+      change ρ₁ (b.hom r) • x =
         algebraMap Γ(D₁.S', ⊤) (D₁.sectionAlgebra.sectionRing ⊤) (ρ₁ (b.hom r)) * x
       exact (Algebra.smul_def _ _)
   have : IsScalarTower R₂ Γ(D₂.S', ⊤) (D₁.sectionAlgebra.sectionRing ⊤) :=
     IsScalarTower.of_algebraMap_smul fun r x => by
-      show ρ₂ r • x =
+      change ρ₂ r • x =
         algebraMap Γ(D₁.S', ⊤) (D₁.sectionAlgebra.sectionRing ⊤) (ρ₁ (b.hom r)) * x
       rw [← hb, ← Algebra.smul_def]
       rfl

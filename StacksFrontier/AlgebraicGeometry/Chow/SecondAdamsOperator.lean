@@ -524,7 +524,7 @@ theorem secondAdamsAddHom_pullback (f : X ⟶ Y)
     refine addHom_ext fun E hE => ?_
     have hsym := hY.isFiniteLocallyFree_sym E hE
     have halt := hY.isFiniteLocallyFree_alt E hE
-    show secondAdamsAddHom hX (p (classOf Y E)) = p (secondAdamsAddHom hY (classOf Y E))
+    change secondAdamsAddHom hX (p (classOf Y E)) = p (secondAdamsAddHom hY (classOf Y E))
     rw [hp E hE, secondAdamsAddHom_classOf hX _ (hflf E hE), secondAdamsAddHom_classOf hY E hE,
       map_sub, hp _ hsym, hp _ halt,
       classOf_eq_of_iso (pullbackSecondSymmetricPowerIso f E) (hflf _ hsym),

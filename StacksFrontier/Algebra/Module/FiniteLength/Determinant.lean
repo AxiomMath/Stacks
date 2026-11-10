@@ -846,12 +846,12 @@ private theorem multiplication_det_eq_norm_pow_length_restrict
     [Module.Finite (IsLocalRing.ResidueField R) (IsLocalRing.ResidueField R')]
     (M : Type w) [AddCommGroup M] [Module R' M]
     (hM : IsFiniteLength R' M) (u : R') :
-    letI : Module R M := Module.compHom M (algebraMap R R')
+    (letI : Module R M := Module.compHom M (algebraMap R R')
     letI : IsScalarTower R R' M := IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
     FiniteLengthEndomorphism.det R (finiteLength_restrictScalars R R' M hM)
         ((LinearMap.lsmul R' M u).restrictScalars R) =
       Algebra.norm (IsLocalRing.ResidueField R) (IsLocalRing.residue R' u) ^
-        (Module.length R' M).toNat := by
+        (Module.length R' M).toNat) := by
   let : Module R M := Module.compHom M (algebraMap R R')
   let : IsScalarTower R R' M := IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
   induction hM with
@@ -956,13 +956,13 @@ section
 universe u v w
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
 open scoped TensorProduct
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the module structures on the base-changed tensor products is slow
 private theorem finiteLength_baseChange
     {R : Type u} {S : Type v} [CommRing R] [CommRing S]
     [IsLocalRing R] [IsLocalRing S] [Algebra R S]
@@ -977,6 +977,8 @@ private theorem finiteLength_baseChange
   exact ne_of_lt (WithTop.mul_lt_top
     (lt_top_iff_ne_top.mpr (Module.length_ne_top_iff.mpr hM)) (ENat.natCast_lt_top m))
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the module structures on the base-changed tensor products is slow
 private theorem det_congr
     {R : Type u} [CommRing R] [IsLocalRing R]
     {M : Type*} {N : Type*} [AddCommGroup M] [Module R M]
@@ -1001,6 +1003,8 @@ private theorem det_congr
     e.injective hexact hg hφ hcomm
   simpa using h.symm
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the module structures on the base-changed tensor products is slow
 private theorem det_exact_baseChange
     {R : Type u} {S : Type v} [CommRing R] [CommRing S]
     [IsLocalRing R] [IsLocalRing S] [Algebra R S]
@@ -1025,13 +1029,13 @@ private theorem det_exact_baseChange
       FiniteLengthEndomorphism.det S (finiteLength_baseChange m hm h₃)
         (LinearMap.baseChange S φ₃) := by
   have hfi : Function.Injective (LinearMap.baseChange S f) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap f hf
   have hge : Function.Surjective (LinearMap.baseChange S g) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective S hg
   have he : Function.Exact (LinearMap.baseChange S f) (LinearMap.baseChange S g) := by
-    simp only [LinearMap.baseChange_eq_ltensor]
+    simp only [LinearMap.baseChange_eq_lTensor]
     exact lTensor_exact S hexact hg
   have hfc : (LinearMap.baseChange S f).comp (LinearMap.baseChange S φ₁) =
       (LinearMap.baseChange S φ₂).comp (LinearMap.baseChange S f) := by
@@ -1052,6 +1056,8 @@ open scoped TensorProduct
 open TensorProduct.AlgebraTensorModule
 open IsLocalRing
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the module structures on the base-changed tensor products is slow
 private theorem finiteLength_of_exact
     {A : Type*} [Ring A] {L M N : Type*}
     [AddCommGroup L] [AddCommGroup M] [AddCommGroup N]
@@ -1063,6 +1069,8 @@ private theorem finiteLength_of_exact
   exact ne_of_lt (WithTop.add_lt_top.mpr ⟨(Module.length_ne_top_iff.mpr hL).lt_top,
     (Module.length_ne_top_iff.mpr hN).lt_top⟩)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the module structures on the base-changed tensor products is slow
 /-- `rTensor` along a `B`-linear map commutes with `lTensor` of an endomorphism of `V`. -/
 private theorem rTensor_comp_lTensor_restrictScalars
     {K S B V : Type*} [Field K] [CommRing S] [CommRing B] [Algebra S B] [Algebra K B]
@@ -1075,8 +1083,7 @@ private theorem rTensor_comp_lTensor_restrictScalars
       ((lTensor B Q φ).restrictScalars S).comp ((rTensor K V u).restrictScalars S) := by
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x y => rfl
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -1091,6 +1098,8 @@ variable {N V : Type*} [AddCommGroup N] [Module B N] [Module S N]
   [SMulCommClass K S N]
   [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the module structures on the base-changed tensor products is slow
 private theorem det_tensor_simple
     (hSB : Function.Surjective (algebraMap S B)) [IsSimpleModule B N]
     (φ : Module.End K V) :
@@ -1112,11 +1121,12 @@ private theorem det_tensor_simple
   · rw [FiniteLengthEndomorphism.det_residue, LinearMap.det_baseChange]
   · apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul x y => rfl
     | add x y hx hy => simp only [map_add, hx, hy]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the module structures on the base-changed tensor products is slow
 set_option backward.isDefEq.respectTransparency false in
 private theorem det_tensor_finiteLength
     (hSB : Function.Surjective (algebraMap S B))
@@ -1176,6 +1186,8 @@ private theorem det_tensor_finiteLength
     · exact ENat.one_ne_top
 end Fibre
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the module structures on the base-changed tensor products is slow
 set_option backward.isDefEq.respectTransparency false in
 private theorem det_baseChange_residue
     {R S : Type*} [CommRing R] [CommRing S] [IsLocalRing R] [IsLocalRing S]
@@ -1227,12 +1239,10 @@ private theorem det_baseChange_residue
   · simpa only [hlen, ENat.toNat_natCast] using hd
   · apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul b v =>
-      induction b using TensorProduct.induction_on with
-      | zero => simp
+      induction b using TensorProduct.inductionOn with
       | add b c hb hc => simp only [TensorProduct.add_tmul, map_add, hb, hc]
       | tmul s k =>
         change s ⊗ₜ[R] (k • φ v) = s ⊗ₜ[R] φ (k • v)
@@ -1240,6 +1250,8 @@ private theorem det_baseChange_residue
 
 open Polynomial
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the module structures on the base-changed tensor products is slow
 set_option backward.isDefEq.respectTransparency false in
 private theorem det_baseChange_simple
     {R S : Type*} [CommRing R] [CommRing S] [IsLocalRing R] [IsLocalRing S]
@@ -1267,6 +1279,8 @@ private theorem det_baseChange_simple
   rw [FiniteLengthEndomorphism.det_residue]
   exact hd
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the module structures on the base-changed tensor products is slow
 set_option backward.isDefEq.respectTransparency false in
 private theorem det_baseChange_polynomial
     {R S : Type*} [CommRing R] [CommRing S] [IsLocalRing R] [IsLocalRing S]
@@ -1317,6 +1331,8 @@ private theorem det_baseChange_polynomial
         N.subtype_injective hex N.mkQ_surjective hfφ hgφ,
       map_mul, mul_pow]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the module structures on the base-changed tensor products is slow
 /-- **Stacks 0GT0.** Under a flat local homomorphism `R → S` whose closed fibre has finite
 length `m`, the determinant of a finite-length module endomorphism after scalar extension is the
 image in the residue field of `S` of the original determinant raised to the power `m`. -/
@@ -1358,7 +1374,6 @@ public theorem map_det_pow_eq_det_baseChange
   exact map_pow _ _ _
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
 open scoped TensorProduct
 

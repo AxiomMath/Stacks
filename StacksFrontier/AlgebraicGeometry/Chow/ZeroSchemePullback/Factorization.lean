@@ -301,7 +301,7 @@ private theorem pullbackGlobalSections_local_frame_iff
     (L.presheaf.map (homOfLE le_top).op s)) ?_
   refine Iff.trans (pullbackGlobalSections_eq_zero_iff_frame_appTop g (L.restrict U.ι) e
     (L.presheaf.map (homOfLE le_top).op s)) ?_
-  show g.app ⊤ (e.hom.app ⊤ (L.presheaf.map (homOfLE le_top).op s)) = 0 ↔
+  change g.app ⊤ (e.hom.app ⊤ (L.presheaf.map (homOfLE le_top).op s)) = 0 ↔
     f.app (U.ι ''ᵁ ⊤) (e.hom.app ⊤ (L.presheaf.map (homOfLE le_top).op s)) = 0
   dsimp only [g]
   rw [morphismRestrict_app]
@@ -353,7 +353,7 @@ private theorem ideal_le_ker_of_locally
   classical
   apply Scheme.IdealSheafData.le_ofIdeals_iff.mpr
   intro W a ha
-  show f.app W.1 a = 0
+  change f.app W.1 a = 0
   have hlocal (y : f ⁻¹ᵁ W.1) := h W (f y.1) y.2
   choose U hy hUW hker using hlocal
   let V (y : f ⁻¹ᵁ W.1) : Y.Opens := f ⁻¹ᵁ (U y).1
@@ -365,7 +365,7 @@ private theorem ideal_le_ker_of_locally
   have hz := hker y (I.ideal_le_comap_ideal (hUW y) ha)
   change f.app (U y).1 (X.presheaf.map (homOfLE (hUW y)).op a) = 0 at hz
   have hn := congrArg (fun φ => φ a) (f.naturality (homOfLE (hUW y)).op)
-  show (Y.presheaf.map (homOfLE (hV y)).op) (f.app W.1 a) =
+  change (Y.presheaf.map (homOfLE (hV y)).op) (f.app W.1 a) =
     (Y.presheaf.map (homOfLE (hV y)).op) 0
   rw [map_zero]
   refine Eq.trans ?_ hz

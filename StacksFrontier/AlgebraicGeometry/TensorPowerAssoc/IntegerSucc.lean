@@ -253,6 +253,7 @@ private theorem zigzag_comp_free {A B D Lb : C} (pr : A ⟶ B) (xi xi' : B ⟶ D
     ((pr ≫ xi) ▷ Lb) ≫ cc = rhs := by
   rw [hxi, MonoidalCategory.comp_whiskerRight, Category.assoc, hz, Category.comp_id, hrhs]
 
+omit [MonoidalCategory C] in
 /-- Two identities stripped off the two ends of a composite. -/
 private theorem strip_two_free {A B D : C} (f : A ⟶ B) (i : B ⟶ B) (g : A ⟶ D) (t : D ⟶ B)
     (u : B ⟶ B) (hi : i = 𝟙 B) (hu : u = 𝟙 B) (key : f ≫ i = g ≫ t ≫ u) : g ≫ t = f := by

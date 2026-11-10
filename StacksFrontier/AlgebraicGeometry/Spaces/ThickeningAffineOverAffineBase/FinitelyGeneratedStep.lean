@@ -84,7 +84,7 @@ presentation along a surjection `f : E ⟶ D₀` with nil kernel compatible with
 then the localized quotient maps to `E`. -/
 theorem exists_liftOfRoots {P C₀ D₀ E : Type u} [CommRing P] [CommRing C₀] [CommRing D₀]
     [CommRing E] [Algebra C₀ D₀] {τ σ : Type} [Finite τ] [Finite σ]
-    (P₀ : Algebra.SubmersivePresentation C₀ D₀ τ σ) (hcard : Nat.card τ = Nat.card σ)
+    (P₀ : Algebra.SubmersivePresentation C₀ D₀ τ σ)
     (g' : σ → MvPolynomial τ P) (φ : P →+* C₀) (hrel : ∀ j, (g' j).map φ = P₀.relation j)
     (θ : P →+* E) (f : E →+* D₀) (hf : Function.Surjective f)
     (hnil : ∀ x ∈ RingHom.ker f, IsNilpotent x) (hθ₀ : f.comp θ = (algebraMap C₀ D₀).comp φ)
@@ -112,7 +112,7 @@ theorem exists_liftOfRoots {P C₀ D₀ E : Type u} [CommRing P] [CommRing C₀]
   refine ⟨(Algebra.LocalizedQuotient.liftOfRoots g' P₀.map P₀.map_inj v hv' hu).toRingHom,
     (Algebra.LocalizedQuotient.liftOfRoots g' P₀.map P₀.map_inj v hv' hu).comp_algebraMap,
     fun i ↦ ?_⟩
-  show f (Algebra.LocalizedQuotient.liftOfRoots g' P₀.map P₀.map_inj v hv' hu
+  change f (Algebra.LocalizedQuotient.liftOfRoots g' P₀.map P₀.map_inj v hv' hu
     (algebraMap (Algebra.LocalizedQuotient.quot g') _ (Ideal.Quotient.mk _ (MvPolynomial.X i)))) =
       P₀.val i
   rw [Algebra.LocalizedQuotient.liftOfRoots_algebraMap, Algebra.LocalizedQuotient.quotLift_mk,
@@ -221,9 +221,7 @@ theorem isAffineSpace_pullback_quotientLevel_of_lifts_aux {U : (BigFppfOver B S 
     (hwe : (MorphismProperty.presheaf (MorphismProperty.inverseImage
       (@Etale.{u} : MorphismProperty Scheme.{u}) (BigFppfOver.toScheme B S hS))) w)
     {s t : R ⟶ W} (hR : IsPullback (yoneda.map s) (yoneda.map t) w w)
-    (c₀ : levelChart π w k ⟶ O₀) (hc₀y : yoneda.map c₀ = levelChartMap π w k ≫ e₀.hom)
-    (hsq₀ : IsPullback (yoneda.map (pullback.fst (levelChartBase π w) k)) (yoneda.map c₀) w
-      (e₀.inv ≫ pullback.fst π (yoneda.map k)))
+    (c₀ : levelChart π w k ⟶ O₀)
     [IsAffine ((BigFppfOver.toScheme B S hS).obj (levelChart π w k))]
     {τ σ : Type} [Finite τ] [Finite σ]
     [Algebra Γ((BigFppfOver.toScheme B S hS).obj O₀, ⊤)
@@ -421,7 +419,7 @@ theorem isAffineSpace_pullback_quotientLevel_of_lifts_aux {U : (BigFppfOver B S 
     exact (mem_nilradical.mp (hle hy)).map ρK
   obtain ⟨θ', hθ', hθ'₀⟩ := exists_liftOfRoots
     (E := Γ((BigFppfOver.toScheme B S hS).obj (levelChart π w ι), ⊤))
-    P₀ hcard g' (coefSpecialization B S hS ρ x₀' coef) hrel' θ
+    P₀ g' (coefSpecialization B S hS ρ x₀' coef) hrel' θ
     ((BigFppfOver.toScheme B S hS).map ι₀').appTop.hom hsurj₀ hnil₀ hθ₀ (fun i ↦ ρK (q i)) hv
     (fun i ↦ (hρW (q i)).trans (hq i))
   subst hwK hρ
@@ -523,8 +521,8 @@ theorem isAffineSpace_pullback_quotientLevel_of_lifts {U : (BigFppfOver B S hS)�
     ⟨O₀, inferInstance, ⟨hx₀'.isoPullback.symm⟩⟩
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj (quotientLevel B S hS T K)) :=
     isAffine_of_isAffineHom ((BigFppfOver.toScheme B S hS).map (quotientLevelι B S hS T K))
-  exact isAffineSpace_pullback_quotientLevel_of_lifts_aux B S hS hU k hk π e₀ w hws hwe hR c₀ hc₀y
-    hsq₀ hc₀ P₀ hcard coef g hrel p hp q hq K (quotientLevelι B S hS T K)
+  exact isAffineSpace_pullback_quotientLevel_of_lifts_aux B S hS hU k hk π e₀ w hws hwe hR c₀
+    hc₀ P₀ hcard coef g hrel p hp q hq K (quotientLevelι B S hS T K)
     (ker_appTop_quotientLevelι B S hS T K).ge he1 he2 hjth hx₀'s hx₀'f hsq₀' hι₀'f hUK₀
 
 /-- **Stacks 07SQ along the finitely generated ideals of a thickening of an affine base.**  An
@@ -577,11 +575,11 @@ theorem exists_isFiniteOrderThickening_isAffineSpace_pullback
       (yoneda.map (levelKernelMap π w t hR.w.symm k)) (yoneda.map c₀) (yoneda.map c₀) := by
     refine (isPullback_levelKernel π w hR k).of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e₀
       (by simp) (by simp) (by simp [hc₀y]) (by simp [hc₀y])
-  letI : PreservesLimitsOfShape WalkingCospan (BigFppfOver.forget B S hS) := inferInstance
-  letI : PreservesLimitsOfShape WalkingCospan B.inclusion := inferInstance
-  letI : PreservesLimitsOfShape WalkingCospan (BigFppfOver.toScheme B S hS) :=
+  let : PreservesLimitsOfShape WalkingCospan (BigFppfOver.forget B S hS) := inferInstance
+  let : PreservesLimitsOfShape WalkingCospan B.inclusion := inferInstance
+  let : PreservesLimitsOfShape WalkingCospan (BigFppfOver.toScheme B S hS) :=
     comp_preservesLimitsOfShape _ _
-  haveI : PreservesLimit (cospan c₀ c₀) (BigFppfOver.toScheme B S hS) :=
+  have : PreservesLimit (cospan c₀ c₀) (BigFppfOver.toScheme B S hS) :=
     PreservesLimitsOfShape.preservesLimit
   have hR₀sch := (IsPullback.of_map_of_faithful yoneda hR₀y).map (BigFppfOver.toScheme B S hS)
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj R₀) := .of_isPullback hR₀sch
@@ -671,7 +669,7 @@ theorem exists_isFiniteOrderThickening_isAffineSpace_pullback
     intro j
     rw [hI]
     refine hρWker ▸ RingHom.mem_ker.mpr ?_
-    show ρW (eval₂ θt q (g j)) = 0
+    change ρW (eval₂ θt q (g j)) = 0
     rw [MvPolynomial.hom_eval₂, hρθt]
     have hq' : (fun i ↦ ρW (q i)) = P₀.val := funext hq
     rw [hq', ← MvPolynomial.eval₂_map, show MvPolynomial.map

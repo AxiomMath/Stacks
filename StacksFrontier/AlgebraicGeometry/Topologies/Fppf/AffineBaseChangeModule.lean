@@ -99,7 +99,7 @@ public theorem structureAlgebraMap_naturality {X Y : (BigAffineFppf B (Spec A) h
       ((toOver B A hS).map φ.unop).left.appTop =
       ((toOver B A hS).obj Y.unop).hom.appTop := by
     rw [← Scheme.Hom.comp_appTop, Over.w]
-  show (Scheme.ΓSpecIso A).inv ≫ ((toOver B A hS).obj X.unop).hom.appTop ≫
+  change (Scheme.ΓSpecIso A).inv ≫ ((toOver B A hS).obj X.unop).hom.appTop ≫
       ((toOver B A hS).map φ.unop).left.appTop =
     (Scheme.ΓSpecIso A).inv ≫ ((toOver B A hS).obj Y.unop).hom.appTop
   rw [h]
@@ -117,8 +117,7 @@ private theorem tensorAddHom_ext {R M N P : Type u} [CommRing R] [AddCommGroup M
     {f g : TensorProduct R M N →+ P}
     (h : ∀ (m : M) (n : N), f (m ⊗ₜ[R] n) = g (m ⊗ₜ[R] n)) : f = g := by
   refine AddMonoidHom.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul m n => exact h m n
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -193,25 +192,19 @@ public theorem baseChangePresheaf_map_smul (M : ModuleCat.{u} A)
   let _ : Module T.right (TensorProduct A T M) := inferInstance
   let f := CommRingCat.toAlgHom ((coordinateAlgebra B A hS).map φ)
   let r' : R.right := r
-  show (TensorProduct.map f.toLinearMap LinearMap.id)
+  change (TensorProduct.map f.toLinearMap LinearMap.id)
       (r' • (m : TensorProduct A R M)) =
     f r' • (TensorProduct.map f.toLinearMap LinearMap.id) (m : TensorProduct A R M)
-  induction m using TensorProduct.induction_on with
-  | zero =>
-      show (TensorProduct.map f.toLinearMap LinearMap.id)
-          (r' • (0 : TensorProduct A R M)) =
-        f r' • (TensorProduct.map f.toLinearMap LinearMap.id)
-          (0 : TensorProduct A R M)
-      simp
+  induction m using TensorProduct.inductionOn with
   | tmul b m =>
-      show (TensorProduct.map f.toLinearMap LinearMap.id)
+      change (TensorProduct.map f.toLinearMap LinearMap.id)
           (r' • (b ⊗ₜ[A] m)) =
         f r' • (TensorProduct.map f.toLinearMap LinearMap.id) (b ⊗ₜ[A] m)
       rw [TensorProduct.smul_tmul', TensorProduct.map_tmul,
         TensorProduct.map_tmul, TensorProduct.smul_tmul']
       simp [map_mul]
   | add x y hx hy =>
-      show (TensorProduct.map f.toLinearMap LinearMap.id) (r' • (x + y)) =
+      change (TensorProduct.map f.toLinearMap LinearMap.id) (r' • (x + y)) =
         f r' • (TensorProduct.map f.toLinearMap LinearMap.id) (x + y)
       simp only [map_add, smul_add]
       exact congrArg₂ (· + ·) hx hy
@@ -442,7 +435,7 @@ private lemma pullbackSectionUnit_naturality (M : ModuleCat A)
         (eqToHom (show (⊤ : X.left.Opens) = g.left ⁻¹ᵁ ⊤ by simp)).op := rfl
   rw [hunfold, Scheme.Modules.presheaf_map_top_eq_id g.left _
     ((Scheme.Modules.pullback X.hom).obj (tilde M))]
-  show (((Scheme.Modules.pullbackCongr (Over.w g)).hom.app (tilde M)).app ⊤)
+  change (((Scheme.Modules.pullbackCongr (Over.w g)).hom.app (tilde M)).app ⊤)
       ((((Scheme.Modules.pullbackComp g.left Y.hom).hom.app (tilde M)).app ⊤)
         (((Scheme.Modules.pullbackPushforwardAdjunction g.left).unit.app
           ((Scheme.Modules.pullback Y.hom).obj (tilde M))).app ⊤
@@ -516,14 +509,14 @@ private lemma tensorPullbackSections_specMap (C : CommRingCat.{u}) (f : A ⟶ C)
   let N := (ModuleCat.extendScalars f.hom).obj M
   let η : N →ₗ[C] Γ(tilde N, ⊤) := (tilde.toOpen N ⊤).hom
   let C' : Under A := Under.mk f
-  show b • η ((1 : C') ⊗ₜ[A] m) =
+  change b • η ((1 : C') ⊗ₜ[A] m) =
     η (((Scheme.ΓSpecIso C).hom b : C') ⊗ₜ[A] m)
   let t0 : N := (1 : C') ⊗ₜ[A] m
   calc
     b • η t0 = (Scheme.ΓSpecIso C).hom b • η t0 := by
       rw [Scheme.Modules.smul_Spec_def]
       simp only [Iso.hom_inv_id_apply]
-      show b • η t0 = ((Spec C).presheaf.map (𝟙 (op ⊤))) b • η t0
+      change b • η t0 = ((Spec C).presheaf.map (𝟙 (op ⊤))) b • η t0
       rw [CategoryTheory.Functor.map_id]
       rfl
     _ = η ((Scheme.ΓSpecIso C).hom b • t0) := (η.map_smul _ _).symm

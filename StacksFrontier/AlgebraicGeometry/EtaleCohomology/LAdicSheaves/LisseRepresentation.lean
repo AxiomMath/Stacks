@@ -167,14 +167,14 @@ public theorem forget₂_finiteLevelStalkTransition (F : LAdicSheaf.{u, u + 1} B
       (etaleStalkForget₂Iso B X.1 X.2 s (ZMod (ℓ ^ (n + 1 + 1))) (F.level (n + 1))).hom ≫
         (abelianEtaleStalkFunctor.{u, u + 1} B X.1 X.2 s).map
           (underlyingLAdicTransition B X ℓ F n) := by
-  let π := (CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op
+  let π := (Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op
   let f₁ := forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1 + 1)))) AddCommGrpCat.{u + 1}
   let f₀ := forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) AddCommGrpCat.{u + 1}
   let res := ModuleCat.restrictScalars.{u + 1} (finiteLevelRingHom ℓ n)
   let D₁ := π ⋙ (F.level (n + 1)).obj
   let D₀ := π ⋙ (F.level n).obj
   refine (isColimitOfPreserves f₁ (colimit.isColimit D₁)).hom_ext fun j => ?_
-  show f₁.map (colimit.ι D₁ j) ≫ _ = f₁.map (colimit.ι D₁ j) ≫ _
+  change f₁.map (colimit.ι D₁ j) ≫ _ = f₁.map (colimit.ι D₁ j) ≫ _
   have hT : colimit.ι D₁ j ≫ colim.map (Functor.whiskerLeft π (F.transition n).hom) ≫
         (preservesColimitIso res D₀).inv =
       (F.transition n).hom.app (π.obj j) ≫ res.map (colimit.ι D₀ j) := by
@@ -270,7 +270,7 @@ public theorem lisseTorsionFreeStalkIso_transition (n : ℕ)
       (Iso.refl (finiteEtaleFiberFunctor x))).hom.naturality (lisseTorsionFreeTransition F hF n))
     ((etaleStalkForget₂Iso B X.1 X.2 x (ZMod (ℓ ^ (n + 1 + 1)))
       ((torsionFreeModel F (torsionBound F)).level (n + 1))).hom y)
-  show (finiteLocallyConstantAbelianStalkIso B X (Iso.refl (finiteEtaleFiberFunctor x))).hom.app
+  change (finiteLocallyConstantAbelianStalkIso B X (Iso.refl (finiteEtaleFiberFunctor x))).hom.app
       (lisseTorsionFreeLevel F hF n) ((etaleStalkForget₂Iso B X.1 X.2 x (ZMod (ℓ ^ (n + 1)))
         ((torsionFreeModel F (torsionBound F)).level n)).hom
           ((forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1 + 1)))) AddCommGrpCat.{u + 1}).map
@@ -309,7 +309,7 @@ public theorem lisseTorsionFreeCoordinates_transition (n : ℕ)
       ((lisseTorsionFreeStalkIso x F hF (n + 1)).inv y) = y :=
     ConcreteCategory.congr_hom (lisseTorsionFreeStalkIso x F hF (n + 1)).inv_hom_id y
   rw [hy] at h
-  show ((LAdicSheaf.flatLevelTrivialization _ x
+  change ((LAdicSheaf.flatLevelTrivialization _ x
       (isPowExact_finiteLevelStalk_torsionFreeModel x F)).equiv n)
       ((lisseTorsionFreeStalkIso x F hF n).inv
         ((lisseTorsionFreeFibreTransition x F hF n).hom.hom.hom.hom.hom y)) = _

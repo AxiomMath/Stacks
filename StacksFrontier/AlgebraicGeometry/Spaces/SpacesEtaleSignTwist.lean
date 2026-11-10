@@ -153,8 +153,7 @@ def presheafTensorUnitApp {C : Type*} [Category C] (F : Cᵒᵖ ⥤ AddCommGrpCa
       map_add' := fun x y => TensorProduct.add_tmul _ _ _ }
   hom_inv_id := by
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
         exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
     | tmul x y =>
@@ -181,8 +180,7 @@ def presheafTensorUnitIso {C : Type*} [Category C] (F : Cᵒᵖ ⥤ AddCommGrpCa
   NatIso.ofComponents (presheafTensorUnitApp F) (by
     intro V W f
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
         exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
     | tmul x y =>
@@ -224,7 +222,7 @@ lemma presheafTensorInsert_eq {C : Type*} [Category C] (F : Cᵒᵖ ⥤ AddCommG
     (s : (Functor.const Cᵒᵖ).obj (AddCommGrpCat.of (ULift.{u + 1} ℤ)) ⟶ L) :
     presheafTensorInsert F s = (presheafTensorUnitIso F).inv ≫ presheafTensorMap (𝟙 F) s := by
   ext V x
-  show x ⊗ₜ[ℤ] s.app V (ULift.up 1) =
+  change x ⊗ₜ[ℤ] s.app V (ULift.up 1) =
     (presheafTensorMap (𝟙 F) s).app V ((presheafTensorUnitApp F V).inv x)
   rw [presheafTensorUnitApp_inv_apply, presheafTensorMap_app_tmul]
   rfl
@@ -239,13 +237,13 @@ theorem presheafTensorInsert_mem {C : Type u₁} [Category.{u₂} C] [UnivLE.{ma
     J.W (presheafTensorInsert F s) := by
   let : MonoidalCategory AddCommGrpCat.{u + 1} := monoidalCategory.{u + 1}
   let : (uliftIntEquivalence.{u + 1}).inverse.Monoidal := by
-    show (Monoidal.equivalenceTransported (uliftIntEquivalence.{u + 1})).inverse.Monoidal
+    change (Monoidal.equivalenceTransported (uliftIntEquivalence.{u + 1})).inverse.Monoidal
     infer_instance
   let : (uliftIntEquivalence.{u + 1}).functor.Monoidal := by
-    show (Monoidal.equivalenceTransported (uliftIntEquivalence.{u + 1})).functor.Monoidal
+    change (Monoidal.equivalenceTransported (uliftIntEquivalence.{u + 1})).functor.Monoidal
     infer_instance
   let : BraidedCategory AddCommGrpCat.{u + 1} := by
-    show BraidedCategory (Monoidal.Transported (uliftIntEquivalence.{u + 1}))
+    change BraidedCategory (Monoidal.Transported (uliftIntEquivalence.{u + 1}))
     infer_instance
   let : MonoidalClosed AddCommGrpCat.{u + 1} :=
     MonoidalClosed.ofEquiv (uliftIntEquivalence.{u + 1}).inverse
@@ -302,8 +300,7 @@ theorem tensorAbelian_map_smul {V W : Cᵒᵖ} (f : V ⟶ W) (a : R.obj.obj V)
         (L.map f).hom.toIntLinearMap (a • z) =
       (R.obj.map f) a • TensorProduct.map (F.val.presheaf.map f).hom.toIntLinearMap
         (L.map f).hom.toIntLinearMap z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
   | tmul x y =>
     rw [TensorProduct.smul_tmul', TensorProduct.map_tmul, TensorProduct.map_tmul,
@@ -369,7 +366,7 @@ theorem isQuasicoherentOnSite_of_locally_iso {M N : SheafOfModules.{u + 1} R}
   obtain ⟨I, Z, f, hf, he⟩ := h V
   choose K Y g hg hp using fun i => hM.locally_hasGlobalPresentation (Z i)
   refine ⟨Σ i, K i, fun p => Y p.1 p.2, fun p => g p.1 p.2 ≫ f p.1, ?_, ?_⟩
-  · show Sieve.generate (Presieve.ofArrows _ _) ∈ J V
+  · change Sieve.generate (Presieve.ofArrows _ _) ∈ J V
     rw [← Presieve.bindOfArrows_ofArrows]
     exact J.bindOfArrows hf hg
   · intro p
@@ -415,7 +412,7 @@ theorem nonempty_over_iso_of_tensor_generator [UnivLE.{max u₁ u₂, u + 1}]
     presheafTensorInsert (F.over U).val.presheaf s ≫ Functor.whiskerLeft (Over.forget U).op η
   let f : F.over U ⟶ M.over U := ⟨PresheafOfModules.homMk a (by
     intro V b x
-    show η.app ((Over.forget U).op.obj V) ((b • x) ⊗ₜ[ℤ] s.app V (ULift.up 1)) =
+    change η.app ((Over.forget U).op.obj V) ((b • x) ⊗ₜ[ℤ] s.app V (ULift.up 1)) =
       b • (show (M.over U).val.obj V from
         η.app ((Over.forget U).op.obj V) (x ⊗ₜ[ℤ] s.app V (ULift.up 1)))
     exact hlinear _ b x _)⟩
@@ -846,7 +843,7 @@ instance splitDoubleCoverMulAction (T : (BigFppfOver B S hS)ᵒᵖ) :
 /-- The unit `1` acts trivially on the points of the split double cover. -/
 theorem splitDoubleCover_one_smul (T : (BigFppfOver B S hS)ᵒᵖ)
     (x : (splitDoubleCoverPresheaf B S hS X).obj T) : (1 : ℤˣ) • x = x := by
-  show splitDoubleCoverSmul B S hS X T 1 x = x
+  change splitDoubleCoverSmul B S hS X T 1 x = x
   simp [splitDoubleCoverSmul]
 
 /-- The unit `-1` acts by the swap on the points of the split double cover. -/
@@ -854,7 +851,7 @@ theorem splitDoubleCover_neg_one_smul (T : (BigFppfOver B S hS)ᵒᵖ)
     (x : (splitDoubleCoverPresheaf B S hS X).obj T) :
     (-1 : ℤˣ) • x = splitDoubleCoverPointSwap B S hS X T x := by
   have hne : ¬ ((-1 : ℤˣ) = 1) := by decide
-  show splitDoubleCoverSmul B S hS X T (-1) x = _
+  change splitDoubleCoverSmul B S hS X T (-1) x = _
   simp [splitDoubleCoverSmul, hne]
 
 /-- The action of `ℤˣ` on the split double cover of `X` is compatible with restriction. -/
@@ -983,9 +980,9 @@ theorem mem_characterSections_splitDoubleCover_iff
     exact h.trans (neg_one_zsmul s)
   · rcases Int.units_eq_one_or u with rfl | rfl
     · rw [splitDoubleCoverActionEtale_one]
-      show F.obj.map (𝟙 (Opposite.op (splitDoubleCover B S hS X))) s = _
+      change F.obj.map (𝟙 (Opposite.op (splitDoubleCover B S hS X))) s = _
       rw [CategoryTheory.Functor.map_id]
-      show s = _
+      change s = _
       exact (one_zsmul s).symm
     · rw [splitDoubleCoverActionEtale_neg_one]
       exact hs.trans (neg_one_zsmul s).symm

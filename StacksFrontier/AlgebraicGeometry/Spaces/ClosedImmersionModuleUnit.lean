@@ -107,7 +107,6 @@ namespace Stacks.SheafOfModules
 section AbstractTensor
 
 variable {C : Type u'} [Category.{v'} C] (J : GrothendieckTopology C)
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
   {Osharp : Sheaf J CommRingCat.{u}}
 
@@ -144,7 +143,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 stalk at the geometric point, for values in any universe. -/
 private def fiberColimitEquivStalkSet.{w} (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
     (x : GeometricPoint B S hS F) (P : (SmallEtale B S hS F)ᵒᵖ ⥤ Type w) :
-    ((CategoryOfElements.π (geometricFiber B S hS F x)).op ⋙ P).ColimitType ≃ stalkSet x P where
+    ((Functor.Elements.π (geometricFiber B S hS F x)).op ⋙ P).ColimitType ≃ stalkSet x P where
   toFun := Quot.map
     (fun a => ⟨op ((fiberElementsToNeighborhood B S hS F x).obj a.1.unop), a.2⟩)
     (by
@@ -182,8 +181,8 @@ theorem subsingleton_moduleStalkLarge_of_subsingleton_stalkSet
   let J : D ⥤ p.fiber.Elementsᵒᵖ := FinallySmall.fromFilteredFinalModel _
   let P0 := F.val.presheaf
   let P := P0 ⋙ AddCommGrpCat.uliftFunctor.{u} ⋙ forget AddCommGrpCat
-  let G := (CategoryOfElements.π p.fiber).op ⋙ P0 ⋙ AddCommGrpCat.uliftFunctor.{u}
-  let GType := (CategoryOfElements.π p.fiber).op ⋙ P
+  let G := (Functor.Elements.π p.fiber).op ⋙ P0 ⋙ AddCommGrpCat.uliftFunctor.{u}
+  let GType := (Functor.Elements.π p.fiber).op ⋙ P
   let _ : HasColimit G := Functor.Final.hasColimit_of_comp J
   let up : stalkSet x (P0 ⋙ forget AddCommGrpCat.{m}) → stalkSet x P :=
     Quot.map (fun a => by
@@ -199,7 +198,7 @@ theorem subsingleton_moduleStalkLarge_of_subsingleton_stalkSet
   have : Subsingleton (stalkSet x (P0 ⋙ forget AddCommGrpCat.{m})) := h
   have hStalk : Subsingleton (stalkSet x P) := hup.subsingleton
   let e : GType.ColimitType ≃ stalkSet x P := by
-    show ((CategoryOfElements.π p.fiber).op ⋙ P).ColimitType ≃ _
+    change ((Functor.Elements.π p.fiber).op ⋙ P).ColimitType ≃ _
     rw [hp]
     exact fiberColimitEquivStalkSet B S hS X.1 x P
   let cG := colimit.cocone G
@@ -214,7 +213,7 @@ theorem subsingleton_moduleStalkLarge_of_subsingleton_stalkSet
       _ = 0 := by simp
   have hId : (𝟙 cG.pt : cG.pt ⟶ cG.pt) = 0 := colimit.hom_ext fun j ↦ by
     ext a
-    show cG.ι.app j a = 0
+    change cG.ι.app j a = 0
     exact hι j a
   exact ((forget AddCommGrpCat).mapIso
       (Functor.Final.colimitIso J G)).toEquiv.subsingleton_congr.mpr

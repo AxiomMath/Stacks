@@ -161,7 +161,7 @@ theorem exists_genusOne_semistableReduction_of_statements
       have hA : IsUnit (ℓ : A) := by
         simpa using (hℓR.map (algebraMap R (integralClosure R K'))).map
           (algebraMap (integralClosure R K') A)
-      show (ℓ : IsLocalRing.ResidueField A) ≠ 0
+      change (ℓ : IsLocalRing.ResidueField A) ≠ 0
       rw [← map_natCast (IsLocalRing.residue A)]
       exact (IsLocalRing.residue_ne_zero_iff_isUnit _).mpr hA
     have hτ : Nonempty (AddSubgroup.torsionBy (Stacks.Picard.ofScheme S.C) (ℓ : ℤ) ≃+

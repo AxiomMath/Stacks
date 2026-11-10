@@ -433,7 +433,7 @@ theorem exists_flat_model (algX : IsAlgebraicSpace B S hS X)
     have h3 : (ml ≫ pullback.fst π0 (𝟙 (Yr.obj m))) ≫
         inv (pullback.fst π0 (𝟙 (Yr.obj m))) = ml := by
       rw [Category.assoc, IsIso.hom_inv_id, Category.comp_id]
-    show IsFlat B S hS ml
+    change IsFlat B S hS ml
     rw [← h3, h1]
     exact isFlat_comp B S hS algP Dm.limit_isAlgebraicSpace algP' _ _ hfst
       (isFlat_of_isIso _ algP')
@@ -815,7 +815,7 @@ lemma range_q_le (algY : IsAlgebraicSpace B S hS Y) (small : Cardinal.mk I < B.c
     have hy : (M.q l c).app U ((M.d l).app U y) =
         (stageMap GX ((Over.map (homOfLE leX).op).obj l.left)).app U y := by
       simpa using congrArg (fun g => g.app U y) (M.d_q l c)
-    show (M.q l c).app U ((M.d l).app U y) ∈ (stageImage GX _).obj U
+    change (M.q l c).app U ((M.d l).app U y) ∈ (stageImage GX _).obj U
     rw [hy]
     exact range_le_schemeTheoreticImageSubfunctor B S hS _ U ⟨_, rfl⟩
   have htop := schemeTheoreticImageSubfunctor_le B S hS (M.d l) hZc hle
@@ -1038,7 +1038,7 @@ theorem exists_isFlat_isPullback (algX : IsAlgebraicSpace B S hS X)
       (Iso.refl _) ?_ ((Category.comp_id _).trans (Category.id_comp _).symm) ?_
       ((Category.comp_id _).trans (Category.id_comp _).symm)
     · rw [Iso.refl_hom, Category.id_comp, ← M.π_T lk (ak ≫ b), Category.assoc]
-      show _ ≫ (Φ lk ak).inv ≫ (Φ lk ak).hom = _
+      change _ ≫ (Φ lk ak).inv ≫ (Φ lk ak).hom = _
       rw [Iso.inv_hom_id, Category.comp_id]
       rfl
     · rw [Iso.refl_hom, Category.comp_id]

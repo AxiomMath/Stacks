@@ -102,7 +102,7 @@ public theorem degreeZeroFraction_surjective {f : A} {d : ℕ} (hf : f ∈ 𝒜 
       refine ⟨n + m, a • b, ?_, ?_⟩
       · convert SetLike.GradedSMul.smul_mem (A := 𝒜) (B := 𝒨) ha hb using 1
         simp [Nat.cast_mul, add_mul]
-      · show (HomogeneousLocalization.Away.mk 𝒜 hf n a ha).val •
+      · change (HomogeneousLocalization.Away.mk 𝒜 hf n a ha).val •
           LocalizedModule.mk (S := Submonoid.powers f) b ⟨f ^ m, ⟨m, rfl⟩⟩ = _
         rw [HomogeneousLocalization.Away.val_mk, LocalizedModule.mk_smul_mk]
         congr 1
@@ -130,32 +130,32 @@ public theorem flat_degreeZeroLocalization {R : Type*} [CommRing R] (φ : R →+
         (pow_smul_mem_nsmul 𝒜 𝒨 hf (by omega) ((hG i _).mp x.2))⟩
       map_add' := fun x y => Subtype.ext (smul_add _ _ _)
       map_smul' := fun r x => Subtype.ext (by
-        show f ^ (j - i) • ((φ r : A) • (x : M)) = (φ r : A) • f ^ (j - i) • (x : M)
+        change f ^ (j - i) • ((φ r : A) • (x : M)) = (φ r : A) • f ^ (j - i) • (x : M)
         rw [smul_smul, smul_smul, mul_comm]) }
   let _ : DirectedSystem (fun i => G i) (fun i j h => T i j h) := by
     refine ⟨fun i x => Subtype.ext (by simp [T]), fun k j i hij hjk x => Subtype.ext ?_⟩
-    show f ^ (k - j) • f ^ (j - i) • (x : M) = f ^ (k - i) • (x : M)
+    change f ^ (k - j) • f ^ (j - i) • (x : M) = f ^ (k - i) • (x : M)
     rw [smul_smul, ← pow_add, show k - j + (j - i) = k - i by omega]
   let g : ∀ i, G i →ₗ[R] P := fun i =>
     { toFun := fun x => degreeZeroFraction 𝒜 𝒨 hf (N + i) (x : M) ((hG i _).mp x.2)
       map_add' := by
         intro x y
         refine Subtype.ext ?_
-        show LocalizedModule.mk (S := Submonoid.powers f) ((x : M) + y) _ =
+        change LocalizedModule.mk (S := Submonoid.powers f) ((x : M) + y) _ =
           LocalizedModule.mk (x : M) _ + LocalizedModule.mk (y : M) _
         rw [LocalizedModule.mk_add_mk, LocalizedModule.mk_eq]
         exact ⟨1, by simp [Submonoid.smul_def, smul_add, smul_smul]⟩
       map_smul' := by
         intro r x
         refine Subtype.ext ?_
-        show LocalizedModule.mk (S := Submonoid.powers f) ((φ r : A) • (x : M)) _ =
+        change LocalizedModule.mk (S := Submonoid.powers f) ((φ r : A) • (x : M)) _ =
           (Localization.mk (φ r : A) 1 : Localization (Submonoid.powers f)) •
             LocalizedModule.mk (S := Submonoid.powers f) (x : M) _
         rw [LocalizedModule.mk_smul_mk, one_mul] }
   have hg : ∀ i j (h : i ≤ j) (x : G i), g j (T i j h x) = g i x := by
     intro i j hij x
     refine Subtype.ext ?_
-    show LocalizedModule.mk (S := Submonoid.powers f) (f ^ (j - i) • (x : M))
+    change LocalizedModule.mk (S := Submonoid.powers f) (f ^ (j - i) • (x : M))
         ⟨f ^ (N + j), ⟨N + j, rfl⟩⟩ =
       LocalizedModule.mk (S := Submonoid.powers f) (x : M) ⟨f ^ (N + i), ⟨N + i, rfl⟩⟩
     refine LocalizedModule.mk_eq.mpr ⟨1, ?_⟩
@@ -171,7 +171,7 @@ public theorem flat_degreeZeroLocalization {R : Type*} [CommRing R] (φ : R →+
     refine ⟨Module.DirectLimit.of R ℕ (fun i => G i) T n ⟨f ^ N • a, hmem⟩, ?_⟩
     rw [hq]
     refine Subtype.ext ?_
-    show LocalizedModule.mk (S := Submonoid.powers f) (f ^ N • a)
+    change LocalizedModule.mk (S := Submonoid.powers f) (f ^ N • a)
         ⟨f ^ (N + n), ⟨N + n, rfl⟩⟩ =
       LocalizedModule.mk (S := Submonoid.powers f) a ⟨f ^ n, ⟨n, rfl⟩⟩
     refine LocalizedModule.mk_eq.mpr ⟨1, ?_⟩
@@ -190,7 +190,7 @@ public theorem flat_degreeZeroLocalization {R : Type*} [CommRing R] (φ : R →+
     change f ^ k = (a : A) at hk
     have ht : T i (i + k) (Nat.le_add_right i k) x = 0 := by
       refine Subtype.ext ?_
-      show f ^ (i + k - i) • (x : M) = 0
+      change f ^ (i + k - i) • (x : M) = 0
       rw [Nat.add_sub_cancel_left, hk]
       simpa only [one_smul, smul_zero, Submonoid.smul_def] using ha
     rw [← Module.DirectLimit.of_f (hij := Nat.le_add_right i k), ht, map_zero]

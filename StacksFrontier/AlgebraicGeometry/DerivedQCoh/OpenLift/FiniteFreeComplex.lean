@@ -245,7 +245,7 @@ private lemma exists_finite_principal_cover_of_compact_open
   let ι : Type u := {r // r ∈ s}
   refine ⟨ι, hs.to_subtype, fun i => i.1, ?_, ?_⟩
   · intro i
-    show (X.basicOpen i.1 : Set X) ⊆ (U : Set X)
+    change (X.basicOpen i.1 : Set X) ⊆ (U : Set X)
     intro x hx
     rw [hUs]
     exact Set.mem_iUnion₂.mpr ⟨i.1, i.2, hx⟩
@@ -379,7 +379,7 @@ private lemma exists_finite_free_epi_after_localization
   let p : P ⟶ M := ModuleCat.ofHom (Finsupp.linearCombination R g)
   refine ⟨P, inferInstance, inferInstance, p, fun i => ?_⟩
   let S := Localization.Away (f i)
-  show Epi (let := (algebraMap R S).toAlgebra;
+  change Epi (let := (algebraMap R S).toAlgebra;
     ModuleCat.ofHom (p.hom.baseChange S))
   rw [toAlgebra_algebraMap]
   let e := (LocalizedModule.equivTensorProduct (Submonoid.powers (f i)) M).symm
@@ -387,9 +387,9 @@ private lemma exists_finite_free_epi_after_localization
   have hgen (j : J) : e (q (1 ⊗ₜ[R] Finsupp.single j 1)) =
       LocalizedModule.mkLinearMap (Submonoid.powers (f i)) M (g j) := by
     have hsingle : p.hom (Finsupp.single j 1) = g j := by
-      show (Finsupp.linearCombination R g) (Finsupp.single j 1) = _
+      change (Finsupp.linearCombination R g) (Finsupp.single j 1) = _
       rw [Finsupp.linearCombination_single, one_smul]
-    show e (1 ⊗ₜ[R] p.hom (Finsupp.single j 1)) = _
+    change e (1 ⊗ₜ[R] p.hom (Finsupp.single j 1)) = _
     rw [hsingle]
     exact LocalizedModule.equivTensorProduct_symm_apply_tmul_one (Submonoid.powers (f i)) (g j)
   have hsurj : Function.Surjective (e.toLinearMap.comp q) := by
@@ -426,11 +426,11 @@ private lemma localizationAway_homologyMap_epi_and_isIso
   let : PreservesFiniteColimits F := inferInstance
   let h := mapDerivedCategoryCompHomologyFunctorIso F n
   refine ⟨fun hα => ?_, fun hα => ?_⟩
-  · show Epi ((F.mapDerivedCategory ⋙ DerivedCategory.homologyFunctor _ n).map α)
+  · change Epi ((F.mapDerivedCategory ⋙ DerivedCategory.homologyFunctor _ n).map α)
     rw [← NatIso.naturality_2 h α]
     dsimp only [Functor.comp_map]
     infer_instance
-  · show IsIso ((F.mapDerivedCategory ⋙ DerivedCategory.homologyFunctor _ n).map α)
+  · change IsIso ((F.mapDerivedCategory ⋙ DerivedCategory.homologyFunctor _ n).map α)
     rwa [NatIso.isIso_map_iff h]
 
 private lemma exists_local_top_approximation
@@ -565,7 +565,7 @@ private lemma exists_next_local_approximation
   let S := DerivedCategory.Q.mapTriangle.obj (CochainComplex.mappingCone.triangle δ)
   have hS : S ∈ distTriang _ := DerivedCategory.mappingCone_triangle_distinguished δ
   have hsq : S.mor₁ ≫ 𝟙 _ = g ≫ T.mor₁ := by
-    show DerivedCategory.Q.map δ ≫ 𝟙 _ = g ≫ T.mor₁
+    change DerivedCategory.Q.map δ ≫ 𝟙 _ = g ≫ T.mor₁
     rw [Category.comp_id]
     exact hδ
   obtain ⟨ψ, hψ₁, hψ₂⟩ := complete_distinguished_triangle_morphism S T hS hT g (𝟙 _) hsq
@@ -601,27 +601,27 @@ private lemma exists_next_local_approximation
     let G := localizationAwayFunctorAux (f k)
     apply _root_.PseudoCoherence.isIso_homology_of_triangleMorphism
       (G.map_distinguished S hS) (G.map_distinguished T hT) (G.mapTriangle.map φ) i
-    · show Epi ((DerivedCategory.homologyFunctor _ i).map (G.map g))
+    · change Epi ((DerivedCategory.homologyFunctor _ i).map (G.map g))
       rcases (show n ≤ i by omega).eq_or_lt with rfl | h
       · exact hgepi k
       · have := hgiso k i h
         infer_instance
-    · show IsIso ((DerivedCategory.homologyFunctor _ i).map (G.map (𝟙 _)))
+    · change IsIso ((DerivedCategory.homologyFunctor _ i).map (G.map (𝟙 _)))
       infer_instance
     · exact hgiso k (i + 1) (by omega)
-    · show Mono ((DerivedCategory.homologyFunctor _ (i + 1)).map (G.map (𝟙 _)))
+    · change Mono ((DerivedCategory.homologyFunctor _ (i + 1)).map (G.map (𝟙 _)))
       infer_instance
   · intro k
     rw [hQβ]
     let G := localizationAwayFunctorAux (f k)
     apply _root_.PseudoCoherence.epi_homology_of_triangleMorphism
       (G.map_distinguished S hS) (G.map_distinguished T hT) (G.mapTriangle.map φ) (n - 1)
-    · show Epi ((DerivedCategory.homologyFunctor _ (n - 1)).map (G.map (𝟙 _)))
+    · change Epi ((DerivedCategory.homologyFunctor _ (n - 1)).map (G.map (𝟙 _)))
       infer_instance
-    · show Epi ((DerivedCategory.homologyFunctor _ (n - 1 + 1)).map (G.map g))
+    · change Epi ((DerivedCategory.homologyFunctor _ (n - 1 + 1)).map (G.map g))
       rw [sub_add_cancel]
       exact hgepi k
-    · show Mono ((DerivedCategory.homologyFunctor _ (n - 1 + 1)).map (G.map (𝟙 _)))
+    · change Mono ((DerivedCategory.homologyFunctor _ (n - 1 + 1)).map (G.map (𝟙 _)))
       infer_instance
 
 /-- An approximation accurate above a degree on a finite family of principal opens. -/
@@ -697,7 +697,7 @@ private lemma exists_local_finiteFree_resolution
   let D : ℕ ⥤ CochainComplex (ModuleCat.{max u v} R) ℤ :=
     Functor.ofSequence (fun k => trans k (a k))
   let coc : Cocone D := ⟨K, NatTrans.ofSequence (fun k => (a k).map) (fun k => by
-    show D.map (homOfLE (Nat.le_succ k)) ≫ (a (k + 1)).map = (a k).map ≫ 𝟙 _
+    change D.map (homOfLE (Nat.le_succ k)) ≫ (a (k + 1)).map = (a k).map ≫ 𝟙 _
     rw [Category.comp_id]
     dsimp only [D]
     rw [Functor.ofSequence_map_homOfLE_succ]
@@ -710,7 +710,7 @@ private lemma exists_local_finiteFree_resolution
     rw [heq]
     apply isIso_map_of_nat
     intro j hj
-    show IsIso ((D.map (homOfLE (Nat.le_succ j))).f i)
+    change IsIso ((D.map (homOfLE (Nat.le_succ j))).f i)
     rw [show D.map (homOfLE (Nat.le_succ j)) = trans j (a j) from
       Functor.ofSequence_map_homOfLE_succ (fun k => trans k (a k)) j]
     exact hf j (a j) i (by omega)
@@ -745,7 +745,7 @@ private lemma exists_local_finiteFree_resolution
     have hq := quasiIsoAt_of_isIso_components (colimit.ι D k) i
     have hmap : IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} R) i).map
         (DerivedCategory.Q.map (colimit.ι D k))) := by
-      show IsIso ((DerivedCategory.Q ⋙ DerivedCategory.homologyFunctor _ i).map _)
+      change IsIso ((DerivedCategory.Q ⋙ DerivedCategory.homologyFunctor _ i).map _)
       rw [NatIso.isIso_map_iff (DerivedCategory.homologyFunctorFactors _ i)]
       exact (quasiIsoAt_iff_isIso_homologyMap _ _).mp hq
     have hmapLocal := (localizationAway_homologyMap_epi_and_isIso (f l)
@@ -879,7 +879,7 @@ private lemma isIso_of_restriction_cover
     obtain ⟨i, x, rfl⟩ := hcover y
     have := hα i
     rw [← NatIso.isIso_map_iff (Scheme.Modules.restrictStalkNatIso (j i) x)]
-    show IsIso ((TopCat.Presheaf.stalkFunctor Ab.{u} x).map
+    change IsIso ((TopCat.Presheaf.stalkFunctor Ab.{u} x).map
       ((Scheme.Modules.toPresheaf (X i)).map ((Scheme.Modules.restrictFunctor (j i)).map α)))
     infer_instance
   let : ∀ y : Y, IsIso ((TopCat.Presheaf.stalkFunctor Ab.{u} y).map
@@ -887,7 +887,7 @@ private lemma isIso_of_restriction_cover
   have hsheaf : IsIso ((SheafOfModules.toSheaf Y.ringCatSheaf).map α) :=
     TopCat.Presheaf.isIso_of_stalkFunctor_map_iso _
   have : IsIso ((Scheme.Modules.toPresheaf Y).map α) := by
-    show IsIso ((TopCat.Sheaf.forget Ab.{u} _).map
+    change IsIso ((TopCat.Sheaf.forget Ab.{u} _).map
       ((SheafOfModules.toSheaf Y.ringCatSheaf).map α))
     exact @Functor.map_isIso _ _ _ _ _ _ _ _ hsheaf
   exact isIso_of_reflects_iso α (Scheme.Modules.toPresheaf Y)
@@ -959,7 +959,7 @@ private lemma exists_principal_cover_of_open_immersion
     have hya' : j y ∈ Set.range (g a) := by rwa [hg]
     obtain ⟨x, hx⟩ := hya'
     refine ⟨⟨a, ha⟩, x, j.isOpenEmbedding.injective ?_⟩
-    show (l ⟨a, ha⟩ ≫ j) x = j y
+    change (l ⟨a, ha⟩ ≫ j) x = j y
     rw [IsOpenImmersion.lift_fac]
     exact hx
 

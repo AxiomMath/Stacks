@@ -50,9 +50,9 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
   (Λ : Type) [Ring Λ] [Fintype Λ]
   (y : GeometricPoint (fieldBaseChange (Over.mk f) kbar)) (j : CompactificationOf (Over.mk f))
 
-omit [IsAlgClosure k kbar] in
+omit [IsAlgClosure k kbar] [Fintype Λ] in
 /-- **`H⁰_c(X_k̄, ℱ_ρ) = 0` when `X_k̄` is not proper** (Tag 03VL). -/
-theorem subsingleton_compactSupportRepresentationHomology_two_of_not_isProper
+theorem subsingleton_compactSupportRepresentationHomology_two_of_not_isProper [Finite Λ]
     (hnp : ¬ IsProper (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)))
     (M : letI := connectedSpace_of_isCurve B X f
       FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1
@@ -102,9 +102,13 @@ variable [CompactSpace X.1] [QuasiSeparatedSpace X.1] (hn : IsUnit ((Fintype.car
     letI := connectedSpace_fieldBaseChange f kbar
     IsIso (geometricComparison B X Λᵐᵒᵖ f kbar (contains_fieldBaseChange_of_isCurve B X f kbar) y))
 
-include hcomp j in
+omit [Fintype Λ] in
+include j in
 /-- **`#H⁰_c(X_k̄, ℱ_M) = #M^{π₁(X_k̄)}`, finite**, for `X_k̄` proper. -/
-theorem finite_and_natCard_compactSupportRepresentationHomology_two_of_isProper
+theorem finite_and_natCard_compactSupportRepresentationHomology_two_of_isProper [Finite Λ]
+    (hcomp : letI := connectedSpace_of_isCurve B X f
+      letI := connectedSpace_fieldBaseChange f kbar
+      IsIso (geometricComparison B X Λ f kbar (contains_fieldBaseChange_of_isCurve B X f kbar) y))
     (hp : IsProper (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)))
     (M : letI := connectedSpace_of_isCurve B X f
       FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1
@@ -189,10 +193,10 @@ theorem natCard_geometricGroupHomology_two_of_isProper
         DM).toLinearEquiv.toEquiv
 
 omit [Smooth f] [IsAlgClosed kbar] [IsAlgClosure k kbar] [CompactSpace X.1]
-  [QuasiSeparatedSpace X.1] in
+  [QuasiSeparatedSpace X.1] [Fintype Λ] in
 /-- **`#M^{π₁(X_k̄)} = #(M^∨)_{π₁(X_k̄)}`**: invariant characters of `M^∨` are characters of its
 coinvariants, and `M ≅ (M^∨)^∨`. -/
-theorem natCard_invariants_eq_natCard_coinvariants_dual
+theorem natCard_invariants_eq_natCard_coinvariants_dual [Finite Λ]
     (M : letI := connectedSpace_of_isCurve B X f
       FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1
       (y.map (fieldBaseChangeObjProj B X f kbar
@@ -220,7 +224,7 @@ theorem natCard_invariants_eq_natCard_coinvariants_dual
   have h1 : Nat.card ((continuousModuleRingInvariants.{0, u + 1, u + 1} Λ _).obj
       ((finiteTypeContinuousModuleToRes Λ φ).obj M)) = Nat.card {v // ∀ g, σ g v = v} :=
     Nat.card_congr (Equiv.subtypeEquivRight fun _ ↦ Iff.rfl)
-  show _ = Nat.card (Stacks.Trace.coinvariants (finiteTypeContinuousModuleRepresentation Λᵐᵒᵖ _
+  change _ = Nat.card (Stacks.Trace.coinvariants (finiteTypeContinuousModuleRepresentation Λᵐᵒᵖ _
       ((finiteTypeContinuousModuleRes Λᵐᵒᵖ φ).obj
         ((finiteTypeContinuousModuleDual Λ _).obj (Opposite.op M)))))
   rw [hrep, h1]

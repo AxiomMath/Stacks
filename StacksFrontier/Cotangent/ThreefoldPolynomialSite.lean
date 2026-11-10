@@ -404,10 +404,10 @@ theorem towerBaseChangeMap_tmul {X Y : TowerComma A B C} (g : X ⟶ Y) (b : B)
     (q : ↑(towerRightAlgebra X)) :
     towerBaseChangeMap g (b ⊗ₜ[↑(towerLeftAlgebra X)] q) =
       b ⊗ₜ[↑(towerLeftAlgebra Y)] (CommAlgCat.Hom.hom g.right.left) q := by
-  show algebraMap B ↑(towerBaseChangeAlgebra Y) b *
+  change algebraMap B ↑(towerBaseChangeAlgebra Y) b *
       (1 ⊗ₜ[↑(towerLeftAlgebra Y)] (CommAlgCat.Hom.hom g.right.left) q) = _
   rw [Algebra.TensorProduct.algebraMap_def]
-  show (b ⊗ₜ[↑(towerLeftAlgebra Y)] (1 : ↑(towerRightAlgebra Y))) *
+  change (b ⊗ₜ[↑(towerLeftAlgebra Y)] (1 : ↑(towerRightAlgebra Y))) *
       (1 ⊗ₜ[↑(towerLeftAlgebra Y)] (CommAlgCat.Hom.hom g.right.left) q) = _
   rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
 
@@ -427,10 +427,9 @@ theorem towerBaseChangeMap_comp_augmentation {X Y : PolynomialTower A B C} (g : 
   apply CommAlgCat.hom_ext
   apply AlgHom.ext
   intro z
-  show (towerBaseChangeAugmentation Y) ((towerBaseChangeMap g.hom) z) =
+  change (towerBaseChangeAugmentation Y) ((towerBaseChangeMap g.hom) z) =
     (towerBaseChangeAugmentation X) z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b q =>
       rw [towerBaseChangeMap_tmul, towerBaseChangeAugmentation_tmul,
         towerBaseChangeAugmentation_tmul, towerRightAugmentation_hom_apply]
@@ -465,8 +464,7 @@ def towerBaseChangeOver : PolynomialTower A B C ⥤ Over (towerRelativeAlgebra B
     apply AlgHom.ext
     intro z
     change (towerBaseChangeMap (𝟙 X.obj)) z = z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b q =>
         rw [towerBaseChangeMap_tmul]
         rfl
@@ -478,8 +476,7 @@ def towerBaseChangeOver : PolynomialTower A B C ⥤ Over (towerRelativeAlgebra B
     intro z
     change (towerBaseChangeMap (g.hom ≫ h.hom)) z =
       (towerBaseChangeMap h.hom) ((towerBaseChangeMap g.hom) z)
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b q =>
         rw [towerBaseChangeMap_tmul, towerBaseChangeMap_tmul, towerBaseChangeMap_tmul]
         rfl

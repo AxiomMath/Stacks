@@ -123,7 +123,7 @@ theorem isLocallyFree_of_forall_iso_free {M : _root_.SheafOfModules.{u} R}
       (R := R.over (X i)) (K i)).π := by
     rw [_root_.SheafOfModules.free.generatingSections_π]
     exact IsIso.id _
-  show IsIso ((_root_.SheafOfModules.free.generatingSections (K i)).ofEpi (E i).inv).π
+  change IsIso ((_root_.SheafOfModules.free.generatingSections (K i)).ofEpi (E i).inv).π
   rw [_root_.SheafOfModules.GeneratingSections.ofEpi_π]
   exact @IsIso.comp_isIso _ _ _ _ _ _ _ h₀ inferInstance
 

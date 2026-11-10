@@ -111,7 +111,8 @@ section OnePresentation
 variable (E : Functor Cᵒᵖ (Type w)) (α : E ⟶ underlyingPresheaf J B)
   [Presheaf.IsLocallySurjective J (presentation J A B a E α).hom]
 
-omit [J.WEqualsLocallyBijective CommRingCat.{w}] in
+omit [J.WEqualsLocallyBijective CommRingCat.{w}]
+  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The final step: one arrow of the vanishing sieve.**  Let `q` be a polynomial over `V`
 lying in the square of the kernel of the polynomial model, and let the conormal class of the
 image of `q` in `A[E]` be the restriction along `n` of a section `y` of the conormal sheaf.
@@ -202,6 +203,8 @@ theorem conormalClass_freeAlgebraMap_eq_zero {X Y : C}
     ((presentationConormalSequence.{v, u, w, z} J A B a E₂ α₂).X₁.val.map g.op).hom
 
 include hα in
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [Presheaf.IsLocallySurjective J (presentation J A B a E₂ α₂).hom] in
 /-- **The fourth covering: descending the square membership.**  A polynomial `q` over `W` in the
 kernel of the first model, all of whose partial derivatives lie in that kernel and whose
 renaming lies in the square of the kernel of the second model, and whose conormal class is the
@@ -235,6 +238,7 @@ theorem covers_vanishingSieve_of_forall_pderiv_mem {X W : C}
     (hker V m hm)
 
 include hα in
+omit [Presheaf.IsLocallySurjective J (presentation J A B a E₂ α₂).hom] in
 /-- **The third covering: the derivative criterion and the square on the polynomial model.**  A
 polynomial `q` over `Z` in the kernel of the first model whose image in `A[E₁]` has vanishing
 universal differential, whose renaming has its image in `A[E₂]` in the square of the second
@@ -339,7 +343,8 @@ theorem vanishingSieve_presentationConormal_mem (X : C)
 
 variable [hsh : HasSheafify J AddCommGrpCat.{max w u v z}]
 
-include hα hsh in
+include hα in
+omit hsh in
 /-- **Stacks 08TY in degree `-1`, local injectivity.**  The map on the kernels of the two
 conormal maps induced by a morphism of polynomial presentations is locally injective.  This is
 `Stacks.Sites.Conormal.isLocallyInjective_kernelMapOfFac` applied to
@@ -362,7 +367,8 @@ theorem isLocallyInjective_presentationKernelMap :
     (freeAlgebraSheafCoefficientMap_comp_freeAlgebraMap J A E₁ E₂ h)
     (vanishingSieve_presentationConormal_mem.{v, u, w, z} J A B a E₁ E₂ h α₁ α₂ hα)
 
-include hα hsh in
+include hα in
+omit hsh in
 /-- **Stacks 08TY in degree `-1`.**  The map on the kernels of the two conormal maps induced by
 a morphism of polynomial presentations is an isomorphism.  A morphism of sheaves of modules
 which is locally injective and locally surjective is an isomorphism, and both halves are now

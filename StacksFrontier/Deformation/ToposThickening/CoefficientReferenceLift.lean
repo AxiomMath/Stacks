@@ -86,7 +86,8 @@ variable {C : Type (u + 1)} [Category.{u} C] {J : GrothendieckTopology C}
   {k : Type u} [Field k] {O₀ : Sheaf J CommRingCat.{u}}
   (θ : Stacks.TensorByBaseModule.constantRingPresheaf (C := C) k ⟶ O₀.obj)
 
-omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The section `O₀ ⟶ O₀[M]` is compatible with the maps `O₀[M] ⟶ O₀[N]` induced by morphisms
 `M ⟶ N`. -/
 theorem sqZeroExtSheafAnySiteSection_comp_map

@@ -69,13 +69,13 @@ variable {e}
 /-- If `e² = 0`, then multiplication by `e` composed with itself is zero. -/
 theorem mulE_comp_mulE (he : e * e = 0) : mulE e ≫ mulE e = 0 := by
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show e * (e * x) = 0
+  change e * (e * x) = 0
   rw [← mul_assoc, he, zero_mul]
 
 /-- Multiplication by `e` followed by the augmentation `A ⟶ A/eA` is zero. -/
 theorem mulE_comp_augmentation : mulE e ≫ augmentation e = 0 := by
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show Submodule.mkQ (Ideal.span {e}) (e * x) = 0
+  change Submodule.mkQ (Ideal.span {e}) (e * x) = 0
   rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
   exact Ideal.mul_mem_right x _ (Ideal.mem_span_singleton_self e)
 
@@ -133,9 +133,9 @@ theorem quasiIso_periodic :
         have hx' : (augmentation e).hom x = 0 := by rwa [← hπ]
         obtain ⟨y, hy⟩ := (ShortComplex.moduleCat_exact_iff _).1 exact_mulE_augmentation x hx'
         refine ⟨y, ?_⟩
-        show ((periodic he).d 1 0).hom y = x
+        change ((periodic he).d 1 0).hom y = x
         rwa [periodic_d he 0]
-      · show Epi (((ChainComplex.toSingle₀Equiv (periodic he) (residue e)).symm
+      · change Epi (((ChainComplex.toSingle₀Equiv (periodic he) (residue e)).symm
           ⟨augmentation e, periodic_d_comp_augmentation he⟩).f 0)
         rw [hπ]
         exact (ModuleCat.epi_iff_surjective _).2 (Submodule.mkQ_surjective _)
@@ -150,7 +150,7 @@ theorem quasiIso_periodic :
     rw [periodic_d he i] at hx
     obtain ⟨y, hy⟩ := hker x hx
     refine ⟨y, ?_⟩
-    show ((periodic he).d (i + 1 + 1) (i + 1)).hom y = x
+    change ((periodic he).d (i + 1 + 1) (i + 1)).hom y = x
     rwa [periodic_d he (i + 1)]
 
 /-- The periodic resolution `⋯ --e--> A --e--> A ⟶ A/eA`. -/
@@ -173,7 +173,7 @@ the identifications of both terms with `A`. -/
 theorem P_d (j : ℕ) (n₁ n₂ : ℤ) (h₁ : -((j + 1 : ℕ) : ℤ) = n₁) (h₂ : -(j : ℤ) = n₂) :
     (P he hker).d n₁ n₂ = (eX he hker n₁ (j + 1) h₁).hom ≫ mulE e ≫ (eX he hker n₂ j h₂).inv := by
   rw [ProjectiveResolution.cochainComplex_d _ n₁ n₂ (j + 1) j h₁ h₂]
-  show _ ≫ (periodic he).d (j + 1) j ≫ _ = _
+  change _ ≫ (periodic he).d (j + 1) j ≫ _ = _
   rw [periodic_d]
 
 end DualNumberLike
@@ -244,13 +244,13 @@ theorem exactAt_dual (n : ℤ) (hn : 0 < n) : (dual he hker).ExactAt n := by
   set b := (eX he hker _ (m + 1) (by push_cast; ring)).inv ≫ a with hb
   have hbc : b = mulE e ≫ (c • 𝟙 (ModuleCat.of A A)) := by
     refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-    show b.hom x = c • (e * x)
+    change b.hom x = c • (e * x)
     rw [smul_eq_mul, show c * (e * x) = x * (e * c) by ring, hc, ← smul_eq_mul,
       ← b.hom.map_smul, smul_eq_mul, mul_one]
   have h₃ : -(m : ℤ) + m = 0 := by omega
   refine ⟨((m : ℤ) + 1).negOnePow •
     Cochain.toSingleMk ((eX he hker (-(m : ℤ)) m rfl).hom ≫ (c • 𝟙 (ModuleCat.of A A))) h₃, ?_⟩
-  show δ (m : ℤ) ((m : ℤ) + 1) _ = _
+  change δ (m : ℤ) ((m : ℤ) + 1) _ = _
   rw [δ_units_smul, Cochain.δ_toSingleMk _ h₃ ((m : ℤ) + 1) (-((m : ℤ) + 1)) h₁, smul_smul,
     Int.units_mul_self, one_smul, P_d he hker m _ _ (by push_cast; ring) rfl]
   congr 1
@@ -289,7 +289,7 @@ theorem toDualZero_apply (c : A) : (toDualZero he hker).hom c =
 /-- If `c * e = 0`, then `c` times multiplication by `e` is zero. -/
 theorem smul_mulE_eq_zero (c : A) (hc : c * e = 0) : c • mulE e = 0 := by
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show c • (e * x) = 0
+  change c • (e * x) = 0
   rw [smul_eq_mul, ← mul_assoc, hc, zero_mul]
 
 /-- If `c * e = 0`, then the image of `c` under `toDualZero` is a cocycle. -/
@@ -314,7 +314,7 @@ theorem coaugmentationZero_comp_d (j : ℤ) (hj : (ComplexShape.up ℤ).Rel 0 j)
   obtain rfl : j = 1 := by simpa using hj.symm
   refine ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
   obtain ⟨a, rfl⟩ := Submodule.Quotient.mk_surjective _ t
-  show δ 0 1 ((toDualZero he hker).hom ((coaugmentationA he).hom (Submodule.Quotient.mk a))) = 0
+  change δ 0 1 ((toDualZero he hker).hom ((coaugmentationA he).hom (Submodule.Quotient.mk a))) = 0
   rw [coaugmentationA_mk]
   exact δ_toDualZero he hker _ (by rw [mul_comm e a, mul_assoc, he, mul_zero])
 
@@ -370,21 +370,21 @@ theorem quasiIso_coaugmentation : QuasiIso (coaugmentation he hker) := by
         set b := (eX he hker 0 0 (by simp)).inv ≫ a with hb
         refine ⟨(HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (residue e)).inv
           (Submodule.Quotient.mk a₀), ?_⟩
-        show ((coaugmentation he hker).f 0).hom _ = _
+        change ((coaugmentation he hker).f 0).hom _ = _
         rw [hf]
-        show (coaugmentationZero he hker).hom
+        change (coaugmentationZero he hker).hom
           (((HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (residue e)).inv ≫
             (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (residue e)).hom).hom
               (Submodule.Quotient.mk a₀)) = _
         rw [Iso.inv_hom_id]
-        show (toDualZero he hker).hom ((coaugmentationA he).hom (Submodule.Quotient.mk a₀)) = _
+        change (toDualZero he hker).hom ((coaugmentationA he).hom (Submodule.Quotient.mk a₀)) = _
         rw [coaugmentationA_mk, toDualZero_apply, ha₀]
         congr 1
         rw [← cancel_epi (eX he hker 0 0 (by simp)).inv, Linear.comp_smul, Iso.inv_hom_id]
         refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-        show b.hom 1 • x = b.hom x
+        change b.hom 1 • x = b.hom x
         rw [smul_eq_mul, mul_comm, ← smul_eq_mul, ← b.hom.map_smul, smul_eq_mul, mul_one]
-      · show Mono ((coaugmentation he hker).f 0)
+      · change Mono ((coaugmentation he hker).f 0)
         rw [hf, ModuleCat.mono_iff_injective]
         exact (injective_toDualZero he hker).comp ((injective_coaugmentationA he hker).comp
           (ConcreteCategory.bijective_of_isIso
@@ -416,9 +416,9 @@ include hf in
 theorem extendScalars_map_mulE : (ModuleCat.extendScalars f).map (mulE e) = 0 := by
   let M := (ModuleCat.restrictScalars f).obj (ModuleCat.of B B)
   refine ModuleCat.ExtendScalars.hom_ext (fun m => ?_)
-  show (show ↑M from (1 : B)) ⊗ₜ[A] (e • m : ↑(ModuleCat.of A A)) = 0
+  change (show ↑M from (1 : B)) ⊗ₜ[A] (e • m : ↑(ModuleCat.of A A)) = 0
   have : (e • (show ↑M from (1 : B)) : ↑M) = 0 := by
-    show f e * 1 = 0
+    change f e * 1 = 0
     rw [hf, zero_mul]
   rw [← TensorProduct.smul_tmul, this, TensorProduct.zero_tmul]
 
@@ -430,7 +430,7 @@ include hf in
 /-- If `f e = 0`, every differential of `B ⊗_A P` from degree `-(j + 1)` to `-j` is zero. -/
 theorem reducedResolution_d (j : ℕ) (n₁ n₂ : ℤ) (h₁ : -((j + 1 : ℕ) : ℤ) = n₁)
     (h₂ : -(j : ℤ) = n₂) : (reducedResolution he hker f).d n₁ n₂ = 0 := by
-  show (ModuleCat.extendScalars f).map ((P he hker).d n₁ n₂) = 0
+  change (ModuleCat.extendScalars f).map ((P he hker).d n₁ n₂) = 0
   rw [P_d he hker j n₁ n₂ h₁ h₂, Functor.map_comp, Functor.map_comp, extendScalars_map_mulE f hf,
     zero_comp, comp_zero]
 

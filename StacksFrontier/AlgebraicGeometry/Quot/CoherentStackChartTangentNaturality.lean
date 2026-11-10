@@ -278,7 +278,7 @@ theorem chartTangentEquiv_map_of_tangentLiftDifferencePullback
   rw [chartTangentEquiv, chartTangentEquiv]
   simp only [Equiv.trans_apply]
   rw [← ha, ← hb]
-  show tangentLiftDifference hY hx N hflat (D.fiberLiftClass hY (Quotient.mk _ b')) =
+  change tangentLiftDifference hY hx N hflat (D.fiberLiftClass hY (Quotient.mk _ b')) =
     D.extGroupMap x (D.chartRingEquiv x hx) f.hom 1
       (tangentLiftDifference hY hx M hflat (D.fiberLiftClass hY (Quotient.mk _ a')))
   exact (congrArg (tangentLiftDifference hY hx N hflat) hnat).trans

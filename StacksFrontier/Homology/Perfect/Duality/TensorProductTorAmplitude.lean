@@ -122,10 +122,10 @@ private lemma tensor_X_finite_projective {S : Type u} [CommRing S]
   let J := {pq : ℤ × ℤ // pq.1 + pq.2 = i}
   let F : J → ModuleCat.{u} S := fun pq ↦ P.X pq.1.1 ⊗ Q.X pq.1.2
   have hFfin : ∀ j, Module.Finite S (F j) := fun j ↦ by
-    show Module.Finite S (TensorProduct S (P.X j.1.1) (Q.X j.1.2))
+    change Module.Finite S (TensorProduct S (P.X j.1.1) (Q.X j.1.2))
     infer_instance
   have hFproj : ∀ j, Module.Projective S (F j) := fun j ↦ by
-    show Module.Projective S (TensorProduct S (P.X j.1.1) (Q.X j.1.2))
+    change Module.Projective S (TensorProduct S (P.X j.1.1) (Q.X j.1.2))
     exact Module.Projective.tensorProduct
   have hsupport : ∀ j ∉ (((Finset.Icc a b) ×ˢ (Finset.Icc c d)).subtype
       (fun pq : ℤ × ℤ ↦ pq.1 + pq.2 = i)), Subsingleton (F j) := by

@@ -99,7 +99,7 @@ colimit over all neighbourhoods, which is the stalk of the lifted sections as a 
 abelian groups. -/
 noncomputable abbrev moduleStalkLargeFinalIso :=
   Functor.Final.colimitIso (FinallySmall.fromFilteredFinalModel.{w} p.fiber.Elementsᵒᵖ)
-    ((CategoryOfElements.π p.fiber).op ⋙ liftedSectionPresheaf.{m} O F)
+    ((Functor.Elements.π p.fiber).op ⋙ liftedSectionPresheaf.{m} O F)
 
 /-- The germ map `F(U) →+ F_p` attached to a neighbourhood `(U, x)` of a point `p` of a site:
 a section over `U` is sent to its class in the stalk. -/
@@ -134,7 +134,7 @@ theorem moduleStalkLargeGerm_jointly_surjective (z : moduleStalkLarge.{m} p O F)
   obtain ⟨U, x, ⟨a⟩, ha⟩ := p.toPresheafFiber_jointly_surjective
     (P := liftedSectionPresheaf.{m} O F) ((moduleStalkLargeFinalIso.{m} p O F).hom z)
   refine ⟨U, x, a, ?_⟩
-  show (moduleStalkLargeFinalIso.{m} p O F).inv
+  change (moduleStalkLargeFinalIso.{m} p O F).inv
     (p.toPresheafFiber U x (liftedSectionPresheaf.{m} O F) (ULift.up a)) = z
   rw [ha]
   exact ConcreteCategory.congr_hom (moduleStalkLargeFinalIso.{m} p O F).hom_inv_id z
@@ -147,23 +147,23 @@ theorem moduleStalkLargeGerm_smul (U : C) (x : p.fiber.obj U)
       p.toPresheafFiber U x O.obj r • moduleStalkLargeGerm p O F U x s := by
   let K : FinallySmall.FilteredFinalModel.{w} (p.fiber.Elementsᵒᵖ) ⥤ p.fiber.Elementsᵒᵖ :=
     FinallySmall.fromFilteredFinalModel _
-  let R₀ := (CategoryOfElements.π p.fiber).op ⋙ (commRingSheafToRingSheaf O).obj
+  let R₀ := (Functor.Elements.π p.fiber).op ⋙ (commRingSheafToRingSheaf O).obj
   let R := K ⋙ R₀
-  let M := K ⋙ (CategoryOfElements.π p.fiber).op ⋙ liftedSectionPresheaf.{m} O F
+  let M := K ⋙ (Functor.Elements.π p.fiber).op ⋙ liftedSectionPresheaf.{m} O F
   let (j : _) : Module (R.obj j) (M.obj j) := by
-    show Module _ (ULift (F.val.obj _))
+    change Module _ (ULift (F.val.obj _))
     let : Module ((commRingSheafToRingSheaf O).obj.obj
-        ((CategoryOfElements.π p.fiber).op.obj (K.obj j)))
-        (F.val.obj ((CategoryOfElements.π p.fiber).op.obj (K.obj j))) :=
+        ((Functor.Elements.π p.fiber).op.obj (K.obj j)))
+        (F.val.obj ((Functor.Elements.π p.fiber).op.obj (K.obj j))) :=
       (F.val.obj _).isModule
     infer_instance
   have H : ∀ {j k} (f : j ⟶ k) (a : R.obj j) (b : M.obj j),
       M.map f (a • b) = R.map f a • M.map f b := by
     intro j k f a b
     let : Module (R.obj j)
-        (F.val.presheaf.obj ((CategoryOfElements.π p.fiber).op.obj (K.obj j))) :=
+        (F.val.presheaf.obj ((Functor.Elements.π p.fiber).op.obj (K.obj j))) :=
       (F.val.obj _).isModule
-    show ULift.up (F.val.map _ (a • b.down)) = ULift.up (_ • F.val.map _ b.down)
+    change ULift.up (F.val.map _ (a • b.down)) = ULift.up (_ • F.val.map _ b.down)
     exact congrArg ULift.up (F.val.map_smul _ _ _)
   let : Module (colimit R : RingCat.{w}) (colimit M : AddCommGrpCat.{max w m}) :=
     IsColimit.module R M (fun f a b => H f a b) (colimit.isColimit R) (colimit.isColimit M)
@@ -171,12 +171,12 @@ theorem moduleStalkLargeGerm_smul (U : C) (x : p.fiber.obj U)
       ((p.presheafFiber (A := CommRingCat.{w})).obj O.obj) :=
     Functor.Final.colimitIso K R₀ ≪≫
       (preservesColimitIso (forget₂ CommRingCat RingCat)
-        ((CategoryOfElements.π p.fiber).op ⋙ O.obj)).symm
+        ((Functor.Elements.π p.fiber).op ⋙ O.obj)).symm
   have heM : ∀ (j : _) (b : F.val.obj (op (K.obj j).unop.1)),
       moduleStalkLargeGerm p O F (K.obj j).unop.1 (K.obj j).unop.2 b =
         colimit.ι M j (ULift.up b) := fun j b =>
     ConcreteCategory.congr_hom (Functor.Final.ι_colimitIso_inv K
-      ((CategoryOfElements.π p.fiber).op ⋙ liftedSectionPresheaf.{m} O F) j) (ULift.up b)
+      ((Functor.Elements.π p.fiber).op ⋙ liftedSectionPresheaf.{m} O F) j) (ULift.up b)
   have heR : ∀ (j : _) (a : R.obj j),
       eR.inv (p.toPresheafFiber (K.obj j).unop.1 (K.obj j).unop.2 O.obj a) =
         colimit.ι R j a := by
@@ -184,15 +184,15 @@ theorem moduleStalkLargeGerm_smul (U : C) (x : p.fiber.obj U)
     apply (ConcreteCategory.bijective_of_isIso eR.hom).1
     simp only [← ConcreteCategory.comp_apply, eR.inv_hom_id, ConcreteCategory.id_apply]
     symm
-    show (colimit.ι R j ≫ (Functor.Final.colimitIso K R₀).hom ≫
+    change (colimit.ι R j ≫ (Functor.Final.colimitIso K R₀).hom ≫
       (preservesColimitIso (forget₂ CommRingCat RingCat)
-        ((CategoryOfElements.π p.fiber).op ⋙ O.obj)).inv) a = _
-    show _ = ((forget₂ CommRingCat RingCat).map
-      (colimit.ι ((CategoryOfElements.π p.fiber).op ⋙ O.obj) (K.obj j))) a
+        ((Functor.Elements.π p.fiber).op ⋙ O.obj)).inv) a = _
+    change _ = ((forget₂ CommRingCat RingCat).map
+      (colimit.ι ((Functor.Elements.π p.fiber).op ⋙ O.obj) (K.obj j))) a
     apply ConcreteCategory.congr_hom
     exact (Functor.Final.ι_colimitIso_hom_assoc K R₀ j _).trans
       (ι_preservesColimitIso_inv (forget₂ CommRingCat RingCat)
-        ((CategoryOfElements.π p.fiber).op ⋙ O.obj) (K.obj j))
+        ((Functor.Elements.π p.fiber).op ⋙ O.obj) (K.obj j))
   let (j : _) : Module (R.obj j) (F.val.obj (op (K.obj j).unop.1)) := (F.val.obj _).isModule
   have hfinal : ∀ (j : _) (a : R.obj j) (b : F.val.obj (op (K.obj j).unop.1)),
       moduleStalkLargeGerm p O F (K.obj j).unop.1 (K.obj j).unop.2 (a • b) =
@@ -200,7 +200,7 @@ theorem moduleStalkLargeGerm_smul (U : C) (x : p.fiber.obj U)
           moduleStalkLargeGerm p O F (K.obj j).unop.1 (K.obj j).unop.2 b := by
     intro j a b
     rw [heM, heM]
-    show colimit.ι M j (ULift.up (a • b)) =
+    change colimit.ι M j (ULift.up (a • b)) =
       eR.inv (p.toPresheafFiber (K.obj j).unop.1 (K.obj j).unop.2 O.obj a) •
         colimit.ι M j (ULift.up b)
     rw [heR]

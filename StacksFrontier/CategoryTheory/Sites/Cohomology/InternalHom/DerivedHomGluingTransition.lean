@@ -164,9 +164,9 @@ theorem exists_cycles_sectionsIso_eq_ofHom {U : X.C}
   obtain ⟨z, hz⟩ := (ShortComplex.mk (K.iCycles 0) (K.d 0 1) (K.iCycles_d 0 1)).ab_exact_iff.mp
     (ShortComplex.exact_of_f_is_kernel _ (K.cyclesIsKernel 0 1 (by simp))) y hy
   refine ⟨z, ?_⟩
-  show φ.hom.f 0 (K.iCycles 0 z) = _
+  change φ.hom.f 0 (K.iCycles 0 z) = _
   rw [hz]
-  show (φ.inv ≫ φ.hom).f 0 (Cochain.ofHom g) = _
+  change (φ.inv ≫ φ.hom).f 0 (Cochain.ofHom g) = _
   rw [φ.inv_hom_id]
   rfl
 
@@ -190,6 +190,7 @@ theorem sectionsIso_sectionComplexRes_ofHom {U Z : X.C} (a : Z ⟶ U)
   rw [Cochain.ofHom_v]
   exact h1.symm
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Restricting a local class corresponds to restricting the morphism.** Under Stacks 0A94 over
 `U` and over `Z`, the restriction along `a : Z ⟶ U` of a degree-zero class of sections over `U`
 of `SheafHom(L, I)` is the restriction along `a` of the corresponding morphism of `D(𝒪_U)`. -/

@@ -127,7 +127,7 @@ private lemma isLocalRing_of_square_le_maximal (R C : Type*) [CommRing R] [IsLoc
   have ha : algebraMap R C a ∈ q := by
     simpa using q.sub_mem hx (hJle q hq hj)
   have hap : algebraMap R C a ∈ p := by
-    show a ∈ p.comap (algebraMap R C)
+    change a ∈ p.comap (algebraMap R C)
     rwa [comap_eq_maximalIdeal_of_isMaximal R C p hp,
       ← comap_eq_maximalIdeal_of_isMaximal R C q hq]
   exact p.add_mem hap (hJle p hp hj)
@@ -175,13 +175,13 @@ private lemma isLocalization_of_subalgebra_denominator (R C : Type*) [CommRing R
   constructor
   · rintro ⟨s, hs⟩
     obtain ⟨r, hr, rfl⟩ := hs
-    show IsUnit ((algebraMap R C) r)
+    change IsUnit ((algebraMap R C) r)
     exact hunit ⟨r, hr⟩
   constructor
   · intro c
     obtain ⟨s, hs⟩ := hden c
     refine ⟨⟨⟨algebraMap R C s * c, hs⟩, ⟨algebraMap R T s, ⟨s, s.property, rfl⟩⟩⟩, ?_⟩
-    show c * algebraMap R C s = algebraMap R C s * c
+    change c * algebraMap R C s = algebraMap R C s * c
     exact mul_comm _ _
   · intro x y hxy
     have heq : x = y := Subtype.ext hxy
@@ -261,7 +261,7 @@ private lemma boundedDenominatorProjection_isLocalization
       exists_boundedDenominator_lift t q hq hq_ne hq_inj hV Bᵢ htorsion i b
     let z : D := ⟨x, n, hx⟩
     refine ⟨⟨z, ⟨algebraMap A D v, ⟨v, v.property, rfl⟩⟩⟩, ?_⟩
-    show b * algebraMap A (Bᵢ i) v = f z
+    change b * algebraMap A (Bᵢ i) v = f z
     rw [boundedDenominatorProjection_apply]
     simpa [ambientProjection_apply, z, f, mul_comm] using hv.symm
   · intro x y hxy
@@ -390,7 +390,7 @@ private lemma exists_fg_submodule_clearing_localization
   obtain ⟨u, hu⟩ := (IsLocalizedModule.eq_iff_exists S f).mp heq
   change (u : R) • m = (u : R) • ((s : R) • c) at hu
   refine ⟨u * s, ?_⟩
-  show ((u : R) * (s : R)) • c ∈ M
+  change ((u : R) * (s : R)) • c ∈ M
   rw [mul_smul, ← hu]
   exact M.smul_mem _ hm
 
@@ -511,7 +511,7 @@ private lemma localization_restrict_subalgebra
   constructor
   · rintro ⟨s, hs⟩
     obtain ⟨r, hr, rfl⟩ := hs
-    show IsUnit (f (algebraMap R C r))
+    change IsUnit (f (algebraMap R C r))
     exact IsLocalization.map_units B
       (⟨algebraMap R C r, ⟨r, hr, rfl⟩⟩ : S.map (algebraMap R C))
   constructor
@@ -521,7 +521,7 @@ private lemma localization_restrict_subalgebra
     obtain ⟨u, hu⟩ := hden c
     let z : T := ⟨algebraMap R C u * c, hu⟩
     refine ⟨⟨z, ⟨algebraMap R T (r * u), ⟨r * u, S.mul_mem hr u.property, rfl⟩⟩⟩, ?_⟩
-    show b * f (algebraMap R C (r * u)) = f (algebraMap R C u * c)
+    change b * f (algebraMap R C (r * u)) = f (algebraMap R C u * c)
     rw [map_mul, map_mul, map_mul]
     have hs' : b * f (algebraMap R C r) = f c := by
       change b * f (s : C) = f c at hs
@@ -554,8 +554,8 @@ lemma localization_equiv_source
   constructor
   · rintro ⟨s, hs⟩
     obtain ⟨r, hr, rfl⟩ := hs
-    show IsUnit (g (algebraMap R B r))
-    show IsUnit (f (e (algebraMap R B r)))
+    change IsUnit (g (algebraMap R B r))
+    change IsUnit (f (e (algebraMap R B r)))
     rw [e.commutes]
     exact IsLocalization.map_units C
       (⟨algebraMap R T r, ⟨r, hr, rfl⟩⟩ : S.map (algebraMap R T))
@@ -564,8 +564,8 @@ lemma localization_equiv_source
     obtain ⟨⟨x, s⟩, hs⟩ := IsLocalization.surj (S.map (algebraMap R T)) z
     obtain ⟨r, hr, hsr⟩ := s.property
     refine ⟨⟨e.symm x, ⟨algebraMap R B r, ⟨r, hr, rfl⟩⟩⟩, ?_⟩
-    show z * g (algebraMap R B r) = g (e.symm x)
-    show z * f (e (algebraMap R B r)) = f (e (e.symm x))
+    change z * g (algebraMap R B r) = g (e.symm x)
+    change z * f (e (algebraMap R B r)) = f (e (e.symm x))
     rw [e.commutes, e.apply_symm_apply]
     change z * f (s : T) = f x at hs
     rwa [← hsr] at hs
@@ -574,7 +574,7 @@ lemma localization_equiv_source
     obtain ⟨s, hs⟩ := (IsLocalization.eq_iff_exists (S.map (algebraMap R T)) C).mp hxyT
     obtain ⟨r, hr, hsr⟩ := s.property
     refine ⟨⟨algebraMap R B r, ⟨r, hr, rfl⟩⟩, ?_⟩
-    show (algebraMap R B r) * x = (algebraMap R B r) * y
+    change (algebraMap R B r) * x = (algebraMap R B r) * y
     apply e.injective
     simpa only [map_mul, e.commutes, hsr] using hs
 
@@ -705,7 +705,7 @@ private lemma exists_pow_torsion_of_fg {A C : Type*} [CommRing A] [CommRing C] [
   refine ⟨n, fun b => ?_⟩
   obtain ⟨a, ha⟩ := Submodule.mem_one.mp (hr b b.property)
   refine ⟨a, Subtype.ext ?_⟩
-  show algebraMap A (boundedDenominatorAlgebra A C t) a =
+  change algebraMap A (boundedDenominatorAlgebra A C t) a =
     algebraMap A (boundedDenominatorAlgebra A C t) (t ^ n) *
       (b : boundedDenominatorAlgebra A C t)
   rw [hn]
@@ -716,7 +716,7 @@ ideal. -/
 private lemma exists_mem_maximalIdeal_pow_notMem {A : Type*} [CommRing A] [IsLocalRing A]
     (p : Ideal A) (hp : p.IsPrime) (hne : p ≠ IsLocalRing.maximalIdeal A) (c : ℕ) :
     ∃ a ∈ IsLocalRing.maximalIdeal A ^ c, a ∉ p := by
-  obtain ⟨a, ham, hap⟩ := SetLike.not_le_iff_exists.mp fun h =>
+  obtain ⟨a, ham, hap⟩ := IsConcreteLE.not_le_iff_exists.mp fun h =>
     hne (le_antisymm (IsLocalRing.le_maximalIdeal hp.ne_top) h)
   exact ⟨a ^ c, Ideal.pow_mem_pow ham _, fun h => hap (hp.mem_of_pow_mem _ h)⟩
 
@@ -789,7 +789,7 @@ lemma exists_finite_glued_subalgebra
       convert Submodule.smul_mem_smul haI hs using 1
       simp only [Algebra.smul_def, map_mul]
       ring
-    show algebraMap A D (a * s) * x ∈ T
+    change algebraMap A D (a * s) * x ∈ T
     rw [← Subalgebra.mem_toSubmodule, subalgebraOfIdealSmul_toSubmodule]
     exact (show I • M ≤ (1 : Submodule A D) ⊔ I • M from le_sup_right) hmem
   obtain ⟨hTlocal, hTlocalHom, hTresidue⟩ :=

@@ -131,6 +131,7 @@ variable {S : Scheme.{u}} [CompactSpace S] [QuasiSeparatedSpace S]
   {I : Type u} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
   {F : I ⥤ AlgebraSheaf S} (hFqc : ∀ i, (F.obj i).IsQuasicoherent)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- Every stage of the inverse system of relative spectra is a quasi-compact space, the base
 being quasi-compact and the structure morphism affine. -/
 theorem compactSpace_affineDiagram_leftOp (i : Iᵒᵖ) :
@@ -140,6 +141,7 @@ theorem compactSpace_affineDiagram_leftOp (i : Iᵒᵖ) :
   rw [← quasiCompact_iff_compactSpace ((affineDiagram F hFqc).leftOp.obj i).hom]
   infer_instance
 
+omit [CompactSpace S] [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- Every stage of the inverse system of relative spectra is a quasi-separated space, the base
 being quasi-separated and the structure morphism affine, hence separated. -/
 theorem quasiSeparatedSpace_affineDiagram_leftOp (i : Iᵒᵖ) :
@@ -149,6 +151,7 @@ theorem quasiSeparatedSpace_affineDiagram_leftOp (i : Iᵒᵖ) :
   have : IsSeparated ((affineDiagram F hFqc).leftOp.obj i).hom := IsSeparated.of_isAffineHom _
   exact quasiSeparatedSpace_of_quasiSeparated ((affineDiagram F hFqc).leftOp.obj i).hom
 
+omit [CompactSpace S] [QuasiSeparatedSpace S] [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- Every transition morphism of the inverse system of relative spectra is affine: both its source
 and its target are affine over the base, and it commutes with the structure morphisms. -/
 theorem isAffineHom_affineDiagram_leftOp_map (i j : Iᵒᵖ) (g : i ⟶ j) :
@@ -238,7 +241,7 @@ theorem presentableAlong_of_isFinitePresentation {A : AlgebraSheaf S} (hAqc : A.
     obtain ⟨ψ₂, hψ₂⟩ := hex g₂
     have hπψ : (Cone.mk L π).π.app (op i) ≫ ψ₁ = (Cone.mk L π).π.app (op i) ≫ ψ₂ := by
       refine (hbij L).1 ?_
-      show (pushforwardAlgebraFunctor S).map (π.app (op i) ≫ ψ₁).op
+      change (pushforwardAlgebraFunctor S).map (π.app (op i) ≫ ψ₁).op
         = (pushforwardAlgebraFunctor S).map (π.app (op i) ≫ ψ₂).op
       rw [op_comp, op_comp, (pushforwardAlgebraFunctor S).map_comp,
         (pushforwardAlgebraFunctor S).map_comp, hψ₁, hψ₂, hcompat i]
@@ -247,7 +250,7 @@ theorem presentableAlong_of_isFinitePresentation {A : AlgebraSheaf S} (hAqc : A.
             = eB.hom ≫ (g ≫ t.app i) ≫ eA.inv := by
         intro g
         simp only [Category.assoc, Iso.inv_hom_id_app_assoc]
-      show (eB.hom ≫ g₁ ≫ (affineDiagramIso F hFqc).inv.app i) ≫
+      change (eB.hom ≫ g₁ ≫ (affineDiagramIso F hFqc).inv.app i) ≫
           ((affineDiagramIso F hFqc).hom.app i ≫ t.app i ≫ eA.inv)
             = (eB.hom ≫ g₂ ≫ (affineDiagramIso F hFqc).inv.app i) ≫
           ((affineDiagramIso F hFqc).hom.app i ≫ t.app i ≫ eA.inv)

@@ -514,12 +514,12 @@ theorem isCountablyIndexedAndClassical_iff_of_surjective_flat {X Y : FppfSheaf B
     (relative_isAffineHom_of_isRepresentableByAlgebraicSpaces B S hS f hX hY hf)⟩
   obtain ⟨hrep, hflat'⟩ := hflat
   obtain ⟨hXci, -, C, hCR, hCT, hCTR, hCLT, hCpres, hCadm⟩ := hXc
-  obtain ⟨A, hAR, hAT, hATR, hALT, φ, hYmcq, hApres, hφcont, hφtaut, hφquot⟩ :=
+  obtain ⟨A, hAR, hAT, hATR, hALT, φ, hYmcq, hApres, -, hφtaut, hφquot⟩ :=
     exists_isTaut_faithfullyFlat_presentingRing_of_surjective_flat B S hS f hX hY hrep hsurj
       hflat' hXci C hCR hCT hCTR hCLT hCpres
   exact ⟨isCountablyIndexed_target_of_surjective_flat B S hS f hX hY hrep hsurj hflat' hXci,
     hYmcq, A, hAR, hAT, hATR, hALT, hApres,
-    TopologicalRing.isPreAdmissible_of_isTaut_of_faithfullyFlat_quotient φ hφcont hφtaut hφquot
+    TopologicalRing.isPreAdmissible_of_isTaut_of_faithfullyFlat_quotient φ hφtaut hφquot
       hCadm.1, hApres.1.2.2, hApres.1.2.1⟩
 
 /-- **Stacks 0GXS.** Let `f : X ⟶ Y` be a morphism of affine formal algebraic spaces over `S`

@@ -136,7 +136,7 @@ theorem AlgebraSheaf.mk_sections_le_mk_pi_affineOpens (A : AlgebraSheaf.{u, u} B
     · obtain ⟨U', hU', hxU', -⟩ := (TopologicalSpace.Opens.isBasis_iff_nbhd.mp
         (chartScheme V).isBasis_affineOpens) (show x ∈ (⊤ : (chartScheme V).Opens) from trivial)
       refine ⟨⟨U', hU'⟩, ?_⟩
-      show x ∈ Set.range (Scheme.Opens.ι (X := chartScheme V) U')
+      change x ∈ Set.range (Scheme.Opens.ι (X := chartScheme V) U')
       rwa [Scheme.Opens.range_ι]
     · exact inferInstanceAs
         (_root_.AlgebraicGeometry.Etale (W' : (chartScheme V).Opens).ι)

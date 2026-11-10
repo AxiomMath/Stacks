@@ -53,7 +53,7 @@ private lemma finite_of_constructible_partition
   have hO : ∀ i, IsOpen (O i) := by
     intro i
     apply WithConstructibleTopology.isOpen_iff.mpr
-    show @IsOpen Y (constructibleTopology Y) (E i)
+    change @IsOpen Y (constructibleTopology Y) (E i)
     rw [constructibleTopology_eq_generateFrom_isConstructible]
     exact TopologicalSpace.isOpen_generateFrom_of_mem (hE i)
   obtain ⟨t, ht⟩ := isCompact_univ.elim_finite_subcover O hO (by

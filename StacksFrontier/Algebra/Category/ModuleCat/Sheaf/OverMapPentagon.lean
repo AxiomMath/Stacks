@@ -56,7 +56,9 @@ is where `Stacks.SheafOfModules.overMapCongrIso` lives; when that is moved to th
 library the import should be inverted.
 
 **Why the comparisons are computed on underlying abelian groups.**  Each of the four comparisons
-above is `rfl`, and `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/RestrictCompCoherence.lean` already records them *on individual sections*.
+above is `rfl`, and
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/RestrictCompCoherence.lean` already
+records them *on individual sections*.
 Those forms cannot drive the pentagon: a rewrite that puts `M.val.map` of a slice arrow next to a
 section of a *threefold* restriction makes the elaborator identify the ring of sections of `R`
 restricted three times with the ring of sections of `R`, and that identification — definitional,
@@ -97,7 +99,9 @@ with nothing else in the declaration.  Both routes away from it are exhausted:
   unaffordable at three; naming the shifted ring does not help, because the cost is not in the
   ring's name but in `CategoryTheory.Sheaf.over` being reducible, which no name in this file can
   change.  Going through sections first (`ConcreteCategory.ext_apply` and the four `_val_app` `rfl`
-  lemmas of `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/RestrictCompCoherence.lean`, in every order) reduces four of the five factors inside
+  lemmas of
+  `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/RestrictCompCoherence.lean`, in every
+  order) reduces four of the five factors inside
   budget and leaves the fifth needing the same identification.
 * *Making the fifth factor like the other four.*  The three factors that rewrite cheaply are the
   ones whose module argument is `M` itself or whose object argument is a single shift; the

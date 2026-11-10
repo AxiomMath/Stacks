@@ -46,8 +46,8 @@ multiplication.
 ## What is not claimed
 
 No `stacks` attribute is attached. [Stacks, Tag 01MP] is the construction of the graded ring map,
-and is formalized at `Stacks.AlgebraicGeometry.ProjTwistSectionRing.globalSectionsRingMap`; that it is
-an isomorphism is a property of particular graded rings and is not part of the tag.
+and is formalized at `Stacks.AlgebraicGeometry.ProjTwistSectionRing.globalSectionsRingMap`; that it
+is an isomorphism is a property of particular graded rings and is not part of the tag.
 
 ## References
 
@@ -86,7 +86,7 @@ theorem bijective_sumSectionsRingHom
   have key : (sumSectionsRingHom 𝒮).toAddMonoidHom
       = (DFinsupp.mapRange.addEquiv (degreeSectionEquiv 𝒮 h)).toAddMonoidHom := by
     refine DirectSum.addHom_ext fun i y => ?_
-    show sumSectionsRingHom 𝒮 (DirectSum.of (fun j => 𝒮 j) i y)
+    change sumSectionsRingHom 𝒮 (DirectSum.of (fun j => 𝒮 j) i y)
         = (DFinsupp.mapRange.addEquiv (degreeSectionEquiv 𝒮 h))
             (DirectSum.of (fun j => 𝒮 j) i y)
     rw [sumSectionsRingHom_of, DFinsupp.mapRange.addEquiv_apply,

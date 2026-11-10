@@ -90,7 +90,7 @@ theorem componentDivisorSum_eq_sectionWeilDivisor_of_isIntegralSpace
   obtain ⟨dX, hdX⟩ := exists_dimensionFunction_deltaValue_of_isGood D sX hX
   have hinv := Stacks.SheafOfModules.IsInvertible.ofAlgebraicGeometry _ _ _ hL
   refine Subtype.ext (funext fun Z => ?_)
-  show _ = divisorCycleCoefficients D sX hX hintX.2.1 _ _ _ Z
+  change _ = divisorCycleCoefficients D sX hX hintX.2.1 _ _ _ Z
   have htfae := fun Z => (isPrimeDivisor_tfae_of_isIntegralSpace D sX hX hintX dX hdX hnX Z).out 2 3
   by_cases hcod : codimension (integralClosedSubspaceSupport D.site D.base D.base_mem hX.1 Z) = 1
   · rw [divisorCycleCoefficients_of_codimension_eq_one D sX hX hintX.2.1 _ _ _ hcod]

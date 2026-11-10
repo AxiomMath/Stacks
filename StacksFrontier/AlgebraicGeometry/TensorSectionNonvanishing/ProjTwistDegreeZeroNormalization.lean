@@ -119,7 +119,7 @@ theorem twistZeroCoord_eq_one {c : ℤ} (hc : c = 0)
     (W : Opens (ProjectiveSpectrum.top 𝒮)) (s : (twistingSheaf 𝒮 c).val.obj (op W))
     (hs : ∀ x : W, (s.1 x) = 1) :
     twistZeroCoord 𝒮 hc W s = 1 := by
-  show (twistingSheafIsoUnitOfEq 𝒮 hc).hom.val.app (op W) s =
+  change (twistingSheafIsoUnitOfEq 𝒮 hc).hom.val.app (op W) s =
     (1 : (ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj.obj (op W))
   subst hc
   have h : (twistingSheafIsoUnitOfEq 𝒮 (rfl : (0 : ℤ) = 0)).hom.val.app (op W) s =
@@ -169,7 +169,7 @@ variable {f : S} {d : ℕ}
 theorem trivializingSection_zero_apply (hf : f ∈ 𝒮 d)
     {W : Opens (ProjectiveSpectrum.top 𝒮)} (hW : W ≤ ProjectiveSpectrum.basicOpen 𝒮 f) (x : W) :
     ((trivializingSection 𝒮 hf 0 hW).1 x) = 1 := by
-  show trivializingFun 𝒮 0 hW x = 1
+  change trivializingFun 𝒮 0 hW x = 1
   rw [trivializingFun, ← Localization.mk_one]
   exact Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq (by simp))
 
@@ -256,7 +256,7 @@ private theorem mulTrivSection_localComparison_degreeZero
   refine Eq.trans (congrArg (mulTrivSection 𝒮 hp 0 F (le_refl _))
     (congrFun (congrArg (fun φ => (ModuleCat.Hom.hom φ).toFun)
       (positiveChartHom_eq_chartHom 𝒮 F hsmul p hp he)) _)) ?_
-  refine mulTrivSection_chartHom 𝒮 F hsmul hp he _ 0 m.1 (by simpa using m.2) ?_
+  refine mulTrivSection_chartHom 𝒮 F hsmul hp he _ 0 m.1 (by simp) ?_
   exact congrArg Subtype.val
     (degreeZeroToGlobalSections_basicOpen 𝒮 (twistedGlobalSectionsGrading 𝒮 F) hp he m)
 

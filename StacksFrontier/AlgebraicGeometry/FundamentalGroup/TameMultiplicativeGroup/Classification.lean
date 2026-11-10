@@ -81,7 +81,7 @@ theorem mem_levelField_of_le {m m' : ℕ} (h : m ≤ m') {z : Omega k} (hz : z �
     · rw [Set.mem_singleton_iff.mp hx]
       obtain ⟨r, hr⟩ := exists_towerRoot_pow_eq k h
       rw [← hr]
-      show towerRoot k m' ^ r ∈ levelField k m'
+      change towerRoot k m' ^ r ∈ levelField k m'
       exact pow_mem (IntermediateField.mem_adjoin_simple_self (towerField k m') (towerRoot k m')) r
   exact hle hz
 

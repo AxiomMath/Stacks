@@ -95,7 +95,9 @@ ring `A` the stalk of `Spec A` at the closed point is `A` (Mathlib's
 `Module.Flat.trans` (the comparison makes `𝒪_{Spec A, f x}` a free `A`-module of rank one) and
 essential finiteness by `Algebra.EssFiniteType.comp`; no new transfer principle is proved. The
 module and algebra structures are supplied in `letI` binders rather than as instances, for the
-reason recorded in `StacksFrontier/AlgebraicGeometry/Scheme/Points/ModuleStalkSpecialization.lean`: a global instance would put an `A`-module
+reason recorded in
+`StacksFrontier/AlgebraicGeometry/Scheme/Points/ModuleStalkSpecialization.lean`: a global
+instance would put an `A`-module
 structure on the stalk of every module at every point of every scheme over every local ring.
 
 ## References
@@ -298,7 +300,7 @@ theorem apply_fiberι_comp {X S Y : Scheme.{u}} (f : X ⟶ S) (ι : Y ⟶ X) (s 
 /-- A point lies in the support of the vanishing ideal of the closure of its own singleton. -/
 theorem mem_support_vanishingIdeal_closure {X : Scheme.{u}} (y : X) :
     y ∈ (Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({y} : Set X))).support := by
-  show y ∈ ((Scheme.IdealSheafData.vanishingIdeal
+  change y ∈ ((Scheme.IdealSheafData.vanishingIdeal
     (Closeds.closure ({y} : Set X))).support : Set X)
   rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
   exact subset_closure rfl

@@ -320,7 +320,7 @@ public theorem veroneseShiftedSheafIsoAny_degreeZeroToGlobalSections (d : ℕ) (
   let mb : veroneseSubmodule 𝒮 (shiftedGrading 𝒨 (n * d)) d :=
     (veroneseModuleShiftEquiv 𝒮 𝒨 d n).symm ⟨m, hmV⟩
   have hmb : mb ∈ veroneseModuleGrading 𝒮 (shiftedGrading 𝒨 (n * d)) d 0 := by
-    show m ∈ 𝒨 (0 * (d : ℤ) + n * d)
+    change m ∈ 𝒨 (0 * (d : ℤ) + n * d)
     simpa only [zero_mul, zero_add] using hm
   refine (congrArg (fun t => (((SheafOfModules.pullback.{max u v}
       (veroneseProjIso 𝒮 d hd).hom.toRingCatSheafHom).map

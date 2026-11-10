@@ -44,7 +44,7 @@ private lemma epi_productDifference_of_finite {R : Type u} [Ring R]
   refine ⟨x, ?_⟩
   apply (ModuleCat.piIsoPi X).toLinearEquiv.injective
   funext n
-  show (ModuleCat.piIsoPi X).hom.hom _ n = (ModuleCat.piIsoPi X).hom.hom y n
+  change (ModuleCat.piIsoPi X).hom.hom _ n = (ModuleCat.piIsoPi X).hom.hom y n
   rw [ModuleCat.piIsoPi_hom_ker_subtype_apply,
     ModuleCat.piIsoPi_hom_ker_subtype_apply]
   -- Stated at the goal's shape: `congrArg` alone phrases the left side through the composite
@@ -53,7 +53,7 @@ private lemma epi_productDifference_of_finite {R : Type u} [Ring R]
       (Pi.π X n - Pi.π X (n + 1) ≫ t n).hom x :=
     congrArg (fun f => f.hom x) (Pi.lift_comp_π (fun n => Pi.π X n - Pi.π X (n + 1) ≫ t n) n)
   rw [hd]
-  show (Pi.π X n).hom x - (t n).hom ((Pi.π X (n + 1)).hom x) = _
+  change (Pi.π X n).hom x - (t n).hom ((Pi.π X (n + 1)).hom x) = _
   dsimp only [x]
   rw [ModuleCat.piIsoPi_inv_kernel_ι_apply, ModuleCat.piIsoPi_inv_kernel_ι_apply]
   dsimp only [σ]
@@ -176,10 +176,10 @@ private lemma exists_perfect_limit_with_homology {ℓ : ℕ} [Fact ℓ.Prime]
       rw [Functor.map_comp]
       exact hq m
     refine ⟨e, fun n => ?_⟩
-    show e.hom ≫ (limitCohomologyCone T i).π.app ⟨n⟩ = _
+    change e.hom ≫ (limitCohomologyCone T i).π.app ⟨n⟩ = _
     dsimp only [e, Iso.trans_hom, asIso_hom]
     rw [Category.assoc, Category.assoc, IsLimit.conePointUniqueUpToIso_hom_comp]
-    show q ≫ (HasLimit.isoOfNatIso (cohomologyDiagramIso T i)).hom ≫
+    change q ≫ (HasLimit.isoOfNatIso (cohomologyDiagramIso T i)).hom ≫
       limit.π (cohomologyDiagram T i) ⟨n⟩ = _
     rw [HasLimit.isoOfNatIso_hom_π, ← Category.assoc, hq' n]
     rfl
@@ -190,7 +190,7 @@ private lemma trace_eq_of_intertwining {R : Type u} [CommRing R]
     LinearMap.trace R X f.hom = LinearMap.trace R Y g.hom := by
   have hg : e.inv ≫ f ≫ e.hom = g := by rw [h, e.inv_hom_id_assoc]
   rw [← LinearMap.trace_conj' f.hom e.toLinearEquiv]
-  show LinearMap.trace R Y (e.inv ≫ f ≫ e.hom).hom = _
+  change LinearMap.trace R Y (e.inv ≫ f ≫ e.hom).hom = _
   rw [hg]
 
 /-- `Hⁱ` of an endomorphism of a derived object intertwines with the homology of a lift. -/
@@ -256,7 +256,7 @@ lemma alternatingTrace_eval_eq_sum_trace {R : Type} [CommRing R]
     have : Subsingleton (P.X i) := ModuleCat.subsingleton_of_isZero hzero
     have hzero' := projectiveTrace_zero_of_subsingleton (P.X i) (g.f i).hom
     simp [t, hzero'] at hi
-  show commutativeAdditiveCommutatorQuotientEval R (∑ᶠ i, t i) = _
+  change commutativeAdditiveCommutatorQuotientEval R (∑ᶠ i, t i) = _
   rw [AddMonoidHom.map_finsum _ ht]
   apply finsum_congr
   intro i
@@ -319,7 +319,7 @@ private lemma limitCohomology_iso_endo {ℓ : ℕ} [Fact ℓ.Prime] (T : Perfect
   let H := DerivedCategory.homologyFunctor (ModuleCat.{v} ℤ_[ℓ]) i
   apply (limitCohomologyConeIsLimit T i).hom_ext
   rintro ⟨n⟩
-  show (H.map κ ≫ e.hom) ≫ ModuleCat.ofHom (limitCohomologyProjection T i n) =
+  change (H.map κ ≫ e.hom) ≫ ModuleCat.ofHom (limitCohomologyProjection T i n) =
     (e.hom ≫ ModuleCat.ofHom (limitCohomologyEndo T i)) ≫
       ModuleCat.ofHom (limitCohomologyProjection T i n)
   have hproj : ModuleCat.ofHom (limitCohomologyEndo T i) ≫

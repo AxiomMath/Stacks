@@ -112,7 +112,7 @@ lemma evaluationCochain_app_slice (U : X.C) (W : (Over U)ᵒᵖ) (t r s a p : �
           (applyHomSection X (sheafHomComplex X K L) W.unop.left s r a hra ψ
             ((K.X r).val.map W.unop.hom.op k)) := by
   subst hra
-  show ((r + (-(r + s)) * r).negOnePow •
+  change ((r + (-(r + s)) * r).negOnePow •
       (evaluateHomSectionMap X (sheafHomComplex X K L) U s r (r + s) rfl k ≫
         ((sheafHomComplex X L M).sectionsEquiv U t φ).v (r + s) p (by omega))).val.app W ψ = _
   rw [units_zsmul_val_app_apply, comp_val_app_apply, evaluateHomSectionMap_app']
@@ -224,7 +224,7 @@ private lemma evaluationSection_add_of_cochain (U : X.C) (t r : ℤ)
       evaluationCochain X U t r φ₁ k₁ + evaluationCochain X U t r φ₂ k₂) :
     evaluationSection X U t r φ k =
       evaluationSection X U t r φ₁ k₁ + evaluationSection X U t r φ₂ k₂ := by
-  show ((sheafHomComplex X (sheafHomComplex X K L).obj M).sectionsEquiv U (t + r)).symm
+  change ((sheafHomComplex X (sheafHomComplex X K L).obj M).sectionsEquiv U (t + r)).symm
       (evaluationCochain X U t r φ k) = _
   rw [h, map_add]
   rfl

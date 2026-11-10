@@ -162,7 +162,8 @@ unit generator of `α.hom^* Q` attached to `t` back to `t`.
 So on global sections the comparison *inverts* the unit of `α.hom^* ⊣ α.hom _*`. This is the
 description that
 `StacksFrontier.AlgebraicGeometry.ConormalAffineShape.PullbackIso` records as absent — no
-description of it on a named section is given there — and it is `unit_comp_map_pullbackIsoPushforwardInv` read over `⊤` with the
+description of it on a named section is given there — and it is
+`unit_comp_map_pullbackIsoPushforwardInv` read over `⊤` with the
 right-hand side computed by `pushforwardEquivalence_unit_app_top`. -/
 theorem pullbackIsoPushforwardInv_hom_app_top (Q : A.Modules) (t : Γ(Q, (⊤ : A.Opens))) :
     ((pullbackIsoPushforwardInv α).hom.app Q).app ⊤

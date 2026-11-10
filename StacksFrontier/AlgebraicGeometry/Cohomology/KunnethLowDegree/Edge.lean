@@ -156,10 +156,10 @@ theorem exact_leray₁_leray₂ (G : W.Modules) :
   refine ShortComplex.exact_of_iso ?_ h
   refine ShortComplex.isoMk (Iso.refl _) ((rightDerivedPushforwardCompIso p 1).app G).symm
     (Iso.refl _) ?_ ?_
-  · show _ ≫ (rightDerivedPushforwardCompIso p 1).inv.app G = 𝟙 _ ≫ leray₁ p G
+  · change _ ≫ (rightDerivedPushforwardCompIso p 1).inv.app G = 𝟙 _ ≫ leray₁ p G
     rw [Category.id_comp]
     rfl
-  · show (rightDerivedPushforwardCompIso p 1).inv.app G ≫ leray₂ p G = _ ≫ 𝟙 _
+  · change (rightDerivedPushforwardCompIso p 1).inv.app G ≫ leray₂ p G = _ ≫ 𝟙 _
     rw [Category.comp_id, leray₂, ← Category.assoc, Iso.inv_hom_id_app, Category.id_comp]
 
 end Stacks.KunnethLowDegree

@@ -291,7 +291,7 @@ theorem paths_comp_eq (W : MorphismProperty C₀) [Q₀.IsLocalization W]
           Φ₂.map_comp]
         simp only [Category.assoc] }
   have key : γ₁ = γ₂ := by
-    haveI := hX
+    have := hX
     refine Functor.leftDerived_ext (X ⋙ Φ₂) ((Functor.associator _ _ _).inv ≫
       Functor.whiskerRight κ Φ₂) W _ γ₁ γ₂ (NatTrans.ext (funext fun K => ?_))
     simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.associator_inv_app,

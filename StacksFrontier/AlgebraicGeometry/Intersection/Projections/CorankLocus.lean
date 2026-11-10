@@ -218,10 +218,10 @@ private theorem submatrix_rankDropWitness :
   classical
   ext i j
   rw [Matrix.submatrix_apply, toMatrix_rankDropWitness,
-    if_neg (val_leadingIndex_succ_ne k V j), Matrix.one_apply]
+    ite_eq_right (val_leadingIndex_succ_ne k V j), Matrix.one_apply]
   by_cases hij : i = j
-  · rw [if_pos (congrArg (leadingIndex k V) hij), if_pos hij]
-  · rw [if_neg (fun h => hij (leadingIndex_injective k V h)), if_neg hij]
+  · rw [ite_eq_left (congrArg (leadingIndex k V) hij), ite_eq_left hij]
+  · rw [ite_eq_right (fun h => hij (leadingIndex_injective k V h)), ite_eq_right hij]
 
 omit [IsAlgClosed k] in
 private theorem det_rankDropWitness (h2 : 2 ≤ Module.finrank k V) :
@@ -233,7 +233,7 @@ private theorem det_rankDropWitness (h2 : 2 ≤ Module.finrank k V) :
       by change Module.finrank k V - 1 + 1 = Module.finrank k V; omega⟩
   rw [← LinearMap.det_toMatrix (Module.finBasis k V)]
   refine Matrix.det_eq_zero_of_column_eq_zero l fun i => ?_
-  rw [toMatrix_rankDropWitness, if_pos hl]
+  rw [toMatrix_rankDropWitness, ite_eq_left hl]
 
 omit [IsAlgClosed k] in
 private theorem rankDropWitness_ne_zero (h2 : 2 ≤ Module.finrank k V) :
@@ -243,7 +243,7 @@ private theorem rankDropWitness_ne_zero (h2 : 2 ≤ Module.finrank k V) :
   have hzlt : 0 < Module.finrank k V := by omega
   obtain ⟨z, hz⟩ : ∃ z : Fin (Module.finrank k V), (z : ℕ) = 0 := ⟨⟨0, hzlt⟩, rfl⟩
   have h : rankDropWitness k V (Module.finBasis k V z) = Module.finBasis k V z := by
-    rw [rankDropWitness, Module.Basis.constr_basis, if_neg (by rw [hz]; omega)]
+    rw [rankDropWitness, Module.Basis.constr_basis, ite_eq_right (by rw [hz]; omega)]
   rw [hzero] at h
   simp only [LinearMap.zero_apply] at h
   exact (Module.finBasis k V).ne_zero z h.symm

@@ -44,8 +44,8 @@ supported on `T`.
   an arbitrary right derived functor of `j_*`.
 * `isZero_Q_restrictPush_of_supported` is the vanishing of `j_*(K|_A)` on an open `A` disjoint
   from the support, at a K-injective representative of `K`.
-* `isIso_derived_of_isIso_restrictions_on_cover_of_exact_jStar`: a morphism of the derived category whose
-  restrictions to two opens covering the space are invertible is invertible.
+* `isIso_derived_of_isIso_restrictions_on_cover_of_exact_jStar`: a morphism of the derived category
+  whose restrictions to two opens covering the space are invertible is invertible.
 
 ## Implementation notes
 
@@ -182,7 +182,7 @@ lemma isZero_stalk_jShriek_of_supported
       (((jShriek U O).obj M).val.presheaf) x) := by
   by_cases hxU : x ∈ U
   · let y : Usp U := ⟨x, hxU⟩
-    letI := isIso_jShriekAdjunction_unit U O
+    let := isIso_jShriekAdjunction_unit U O
     have hz : IsZero (TopCat.Presheaf.stalk (X := Usp U)
         (((jStar U O).obj ((jShriek U O).obj M)).val.presheaf) y) :=
       (hM y hx).of_iso
@@ -202,12 +202,12 @@ lemma isZero_sheafOfModules_of_stalk_isZero
     IsZero M := by
   let f : M ⟶ (0 : SheafOfModules.{u} O) := 0
   have hf : IsIso f := isIso_of_stalk_isIso O f fun x => by
-    letI : HasZeroMorphisms (TopCat.Presheaf AddCommGrpCat.{u} X) :=
+    let : HasZeroMorphisms (TopCat.Presheaf AddCommGrpCat.{u} X) :=
       inferInstanceAs (HasZeroMorphisms ((Opens X)ᵒᵖ ⥤ AddCommGrpCat.{u}))
     have hpres : (toAb O).PreservesZeroMorphisms := by
       change (SheafOfModules.forget O ⋙ PresheafOfModules.toPresheaf O.obj).PreservesZeroMorphisms
       infer_instance
-    letI := hpres
+    let := hpres
     apply (hM x).isIso
     exact Functor.map_isZero _ (Functor.map_isZero (toAb O) (isZero_zero _))
   exact (isZero_zero _).of_iso (asIso f)
@@ -228,8 +228,8 @@ lemma isZero_jStar_obj_of_stalk_isZero
 -- definitions that stood here were byte-identical to
 -- `Stacks.Cohomology.SupportedComplexes.exactFunctorHomologyIso` and
 -- `...exactFunctorDerivedHomologyIso`
--- (`StacksFrontier/Topology/Sheaves/Cohomology/SupportedComplexes/ClosedSubsetPushforward.lean`:115,
--- :130), which this module now imports and whose names the uses below resolve to.
+-- (`StacksFrontier/Topology/Sheaves/Cohomology/SupportedComplexes/ClosedSubsetPushforward.lean`
+-- :115, :130), which this module now imports and whose names the uses below resolve to.
 
 /-- Exact extension by zero preserves cohomological support inside a subset of the open. -/
 lemma cohomologySupportedOn_jShriek
@@ -327,8 +327,8 @@ private lemma isZero_homotopy_restrict_of_supported
     (hI : CohomologySupportedOn O T (DerivedCategory.Q.obj I)) :
     IsZero ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj
       (((jStar V O).mapHomologicalComplex (ComplexShape.up ℤ)).obj I)) := by
-  letI := hKI
-  letI : CochainComplex.IsKInjective
+  let := hKI
+  let : CochainComplex.IsKInjective
       (((jStar V O).mapHomologicalComplex (ComplexShape.up ℤ)).obj I) :=
     isKInjective_jStar O V I
   exact isZero_homotopyCategory_of_acyclic_isKInjective _
@@ -376,7 +376,7 @@ private noncomputable def restrictionCoverFst
     (U V : Opens X) :
     restrictionCoverMiddle O U V ⟶ restrictPush O U where
   app _ := biprod.fst
-  naturality _ _ f := biprod.map_fst _ _
+  naturality _ _ _ := biprod.map_fst _ _
 
 /-- The projection of the Mayer--Vietoris middle term onto its `V` factor. -/
 private noncomputable def restrictionCoverSnd
@@ -384,7 +384,7 @@ private noncomputable def restrictionCoverSnd
     (U V : Opens X) :
     restrictionCoverMiddle O U V ⟶ restrictPush O V where
   app _ := biprod.snd
-  naturality _ _ f := biprod.map_snd _ _
+  naturality _ _ _ := biprod.map_snd _ _
 
 /-- The inclusion of the `U` factor into the Mayer--Vietoris middle term. -/
 private noncomputable def restrictionCoverInl
@@ -392,7 +392,7 @@ private noncomputable def restrictionCoverInl
     (U V : Opens X) :
     restrictPush O U ⟶ restrictionCoverMiddle O U V where
   app _ := biprod.inl
-  naturality _ _ f := (biprod.inl_map _ _).symm
+  naturality _ _ _ := (biprod.inl_map _ _).symm
 
 /-- The inclusion of the `V` factor into the Mayer--Vietoris middle term. -/
 private noncomputable def restrictionCoverInr
@@ -400,7 +400,7 @@ private noncomputable def restrictionCoverInr
     (U V : Opens X) :
     restrictPush O V ⟶ restrictionCoverMiddle O U V where
   app _ := biprod.inr
-  naturality _ _ f := (biprod.inr_map _ _).symm
+  naturality _ _ _ := (biprod.inr_map _ _).symm
 
 /-- The first map of the Mayer--Vietoris sequence followed by the projection onto the `U`
 factor is the unit of restriction and pushforward along `U`. -/
@@ -433,7 +433,7 @@ private lemma isIso_Q_map_restrictPush_unit_of_supported
   let c := ComplexShape.up ℤ
   let V : Opens X := ⟨Tᶜ, hT.isOpen_compl⟩
   have hUV : U ⊔ V = ⊤ := open_sup_compl_closed_eq_top U T hT hTU
-  letI : ∀ n : ℤ, Injective (I.X n) := hInj
+  let : ∀ n : ℤ, Injective (I.X n) := hInj
   -- the short exact sequence of complexes, from the sheaf half of 08BV
   have hSE : (restrictionCoverShortComplex O U V I).ShortExact :=
     restrictionCoverShortExact O U V hUV I
@@ -458,11 +458,11 @@ private lemma isIso_Q_map_restrictPush_unit_of_supported
   set Inr := (NatTrans.mapHomologicalComplex (restrictionCoverInr O U V) c).app I with hInrDef
   have htotal : Fst ≫ Inl + Snd ≫ Inr = 𝟙 _ := by
     refine HomologicalComplex.hom_ext _ _ (fun n => ?_)
-    show biprod.fst ≫ biprod.inl + biprod.snd ≫ biprod.inr = 𝟙 _
+    change biprod.fst ≫ biprod.inl + biprod.snd ≫ biprod.inr = 𝟙 _
     exact biprod.total
   have hinlfst : Inl ≫ Fst = 𝟙 _ := by
     refine HomologicalComplex.hom_ext _ _ (fun n => ?_)
-    show biprod.inl ≫ biprod.fst = 𝟙 _
+    change biprod.inl ≫ biprod.fst = 𝟙 _
     exact biprod.inl_fst
   have hQsnd : DerivedCategory.Q.map Snd = 0 := hV.eq_of_tgt _ _
   have hFstIso : IsIso (DerivedCategory.Q.map Fst) := by
@@ -479,8 +479,8 @@ private lemma isIso_Q_map_restrictPush_unit_of_supported
       (NatTrans.mapHomologicalComplex (jStarAdjunction U O).unit c).app I := by
     rw [hFstDef, ← NatTrans.comp_app, ← NatTrans.mapHomologicalComplex_comp,
       restrictionCoverFirst_comp_fst]
-  haveI := hf'
-  haveI := hFstIso
+  have := hf'
+  have := hFstIso
   rw [← hcomp, CategoryTheory.Functor.map_comp]
   exact IsIso.comp_isIso
 
@@ -493,7 +493,7 @@ private lemma exists_quasiIso_isKInjective_sheafOfModules
     ∀ K : CochainComplex (SheafOfModules.{u} O) ℤ,
       ∃ (I : CochainComplex (SheafOfModules.{u} O) ℤ) (f : K ⟶ I),
         I.IsKInjective ∧ QuasiIso f := by
-  letI : IsGrothendieckAbelian.{u} (SheafOfModules.{u} O) := inferInstance
+  let : IsGrothendieckAbelian.{u} (SheafOfModules.{u} O) := inferInstance
   let R := (Stacks.Injectives.exists_functorial_quasiIso_isKInjective
     (SheafOfModules.{u} O)).some
   intro K
@@ -506,7 +506,7 @@ lemma exists_quasiIso_isKInjective_injective_sheafOfModules
     (K : CochainComplex (SheafOfModules.{u} O) ℤ) :
     ∃ (I : CochainComplex (SheafOfModules.{u} O) ℤ) (f : K ⟶ I),
       I.IsKInjective ∧ (∀ n : ℤ, Injective (I.X n)) ∧ QuasiIso f := by
-  letI : IsGrothendieckAbelian.{u} (SheafOfModules.{u} O) := inferInstance
+  let : IsGrothendieckAbelian.{u} (SheafOfModules.{u} O) := inferInstance
   let R := (Stacks.Injectives.exists_functorial_quasiIso_isKInjective
     (SheafOfModules.{u} O)).some
   exact ⟨R.functor.obj K, R.inclusion.app K, R.isKInjective K,
@@ -705,7 +705,7 @@ private lemma isIso_derivedPushforwardRestrictionUnit_at_isKInjective
     (NatIso.isIso_map_iff (DerivedCategory.quotientCompQhIso (SheafOfModules.{u} O))
       ((NatTrans.mapHomologicalComplex (jStarAdjunction U O).unit
         (ComplexShape.up ℤ)).app I)).mpr hQu
-  letI := hKI
+  let := hKI
   have hKI' : CochainComplex.IsKInjective
       (((jStar U O).mapHomologicalComplex (ComplexShape.up ℤ)).obj I) :=
     isKInjective_jStar O U I
@@ -727,8 +727,8 @@ private lemma isIso_derivedPushforwardRestrictionUnit_at_isKInjective
     whiskerLeft ((jStar U O).mapHomotopyCategory (ComplexShape.up ℤ)) αj ≫
     whiskerRight (jStar U O).mapDerivedCategoryFactorsh.inv Rj
   have hθ : IsIso (θ.app K) := by
-    letI := hQhu
-    letI := hα
+    let := hQhu
+    let := hα
     simp only [θ, NatTrans.comp_app, whiskerRight_app, whiskerLeft_app]
     infer_instance
   have heq : whiskerLeft DerivedCategory.Qh
@@ -762,7 +762,7 @@ theorem isIso_derivedPushforwardRestriction_unit_of_supported
   let K := Q.objPreimage E
   obtain ⟨I, f, hKI, hInj, hf⟩ :=
     exists_quasiIso_isKInjective_injective_sheafOfModules O K
-  letI := hf
+  let := hf
   let e : E ≅ Q.obj I := (Q.objObjPreimageIso E).symm ≪≫ asIso (Q.map f)
   have hI : CohomologySupportedOn O T (Q.obj I) :=
     cohomologySupportedOn_of_iso O T e hE
@@ -816,7 +816,7 @@ private lemma isIso_jStar_map_leftToRight
     [(jPush U O).Full] [(jPush U O).Faithful]
     (M : SheafOfModules.{u} (resRing U O)) :
     IsIso ((jStar U O).map ((openImmersionTriple U O).leftToRight.app M)) := by
-  letI := isIso_jShriekAdjunction_unit U O
+  let := isIso_jShriekAdjunction_unit U O
   have hunit : IsIso ((jStar U O).map
       ((jStarAdjunction U O).unit.app ((jShriek U O).obj M))) := by
     have hcomp : IsIso ((jStar U O).map
@@ -827,7 +827,7 @@ private lemma isIso_jStar_map_leftToRight
         ((jShriek U O).obj M)
       rw [htri]
       infer_instance
-    letI := hcomp
+    let := hcomp
     exact IsIso.of_isIso_comp_right
       ((jStar U O).map ((jStarAdjunction U O).unit.app ((jShriek U O).obj M)))
       ((jStarAdjunction U O).counit.app
@@ -848,7 +848,7 @@ private lemma isIso_jStar_map_complex_leftToRight
   let f := ((jStar U O).mapHomologicalComplex (ComplexShape.up ℤ)).map
     ((NatTrans.mapHomologicalComplex (openImmersionTriple U O).leftToRight
       (ComplexShape.up ℤ)).app I)
-  haveI : ∀ i : ℤ, IsIso (f.f i) := fun i =>
+  have : ∀ i : ℤ, IsIso (f.f i) := fun i =>
     isIso_jStar_map_leftToRight O U (I.X i)
   exact HomologicalComplex.Hom.isIso_of_components f
 
@@ -901,12 +901,12 @@ private lemma isIso_jStar_extensionByZeroToDerivedPushforward_at_isKInjective
       ((extensionByZeroToDerivedPushforward O U Rj αj).app
         (DerivedCategory.Qh.obj
           ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj I)))) := by
-  letI : (jShriek U O).Full := (jShriekFullyFaithful U O).full
-  letI : (jShriek U O).Faithful := (jShriekFullyFaithful U O).faithful
-  letI := isIso_jStarAdjunction_counit U O
-  letI : (jPush U O).Full :=
+  let : (jShriek U O).Full := (jShriekFullyFaithful U O).full
+  let : (jShriek U O).Faithful := (jShriekFullyFaithful U O).faithful
+  let := isIso_jStarAdjunction_counit U O
+  let : (jPush U O).Full :=
     (jStarAdjunction U O).fullyFaithfulROfIsIsoCounit.full
-  letI : (jPush U O).Faithful :=
+  let : (jPush U O).Faithful :=
     (jStarAdjunction U O).fullyFaithfulROfIsIsoCounit.faithful
   let K := (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj I
   have hα : IsIso (αj.app K) := isIso_alpha_j_at_isKInjective O U Rj αj I hKI
@@ -915,8 +915,8 @@ private lemma isIso_jStar_extensionByZeroToDerivedPushforward_at_isKInjective
     whiskerRight (NatTrans.mapHomotopyCategory (openImmersionTriple U O).leftToRight
       (ComplexShape.up ℤ)) DerivedCategory.Qh ≫ αj
   have hθ : IsIso ((jStar U O).mapDerivedCategory.map (θ.app K)) := by
-    letI := hα
-    letI := hraw
+    let := hα
+    let := hraw
     dsimp [θ]
     rw [Functor.map_comp, Functor.map_comp]
     infer_instance
@@ -960,7 +960,7 @@ theorem isIso_extensionByZeroToDerivedPushforward_app_of_supported
   let K := Q.objPreimage F
   obtain ⟨I, f, hKI, hf⟩ := exists_quasiIso_isKInjective_sheafOfModules
     (resRing U O) K
-  letI := hf
+  let := hf
   let e : F ≅ Q.obj I := (Q.objObjPreimageIso F).symm ≪≫ asIso (Q.map f)
   have hI : CohomologySupportedOn (resRing U O)
       ((fun x : Usp U ↦ x.1) ⁻¹' T) (Q.obj I) :=

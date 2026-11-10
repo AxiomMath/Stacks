@@ -38,8 +38,7 @@ variable {C : Type u} [Category.{v} C] {R : Cᵒᵖ ⥤ CommRingCat.{r}}
 private theorem addMonoidHom_apply_eq_of_tmul_eq {R M N P : Type*} [CommSemiring R]
     [AddCommMonoid M] [AddCommMonoid N] [AddCommMonoid P] [Module R M] [Module R N]
     (f g : M ⊗[R] N →+ P) (h : ∀ m n, f (m ⊗ₜ n) = g (m ⊗ₜ n)) (t : M ⊗[R] N) : f t = g t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, ha, hb]
   | tmul m n => exact h m n
 

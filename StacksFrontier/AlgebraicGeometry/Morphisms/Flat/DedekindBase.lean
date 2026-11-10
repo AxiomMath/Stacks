@@ -103,7 +103,7 @@ theorem exists_genericPoint_stalkSpecializes_ne_zero {Z : Scheme.{u}} [IsReduced
   have hcomm : (Z.presheaf.stalkSpecializes hspec)
       (algebraMap Γ(Z, U) (Z.presheaf.stalk z) s) =
       algebraMap Γ(Z, U) (Z.presheaf.stalk η.1.1) s := by
-    show (Z.presheaf.germ U z hzU ≫ Z.presheaf.stalkSpecializes hspec) s = _
+    change (Z.presheaf.germ U z hzU ≫ Z.presheaf.stalkSpecializes hspec) s = _
     rw [Z.presheaf.germ_stalkSpecializes hzU hspec]
     rfl
   rw [← hcomm, ← hst, map_mul, h0, zero_mul]
@@ -133,7 +133,7 @@ private theorem flat_of_forall_stalkMap_mul_eq_zero (q : Z ⟶ Spec (.of A))
       simpa [Algebra.smul_def, RingHom.algebraMap_toAlgebra, ψ] using hrm
     exact (h z (e.symm r) m hrm').imp_left fun hr => by simpa using congrArg e hr
   have hψ : ψ.Flat := (inferInstance : Module.Flat L (Z.presheaf.stalk z))
-  show φ.Flat
+  change φ.Flat
   rw [show φ = ψ.comp e.toRingHom by ext a; simp [ψ]]
   exact RingHom.Flat.comp (RingHom.Flat.of_bijective e.bijective) hψ
 

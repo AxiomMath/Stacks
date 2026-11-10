@@ -25,7 +25,8 @@ The implementation notes of
 étale-to-Zariski direction of Descent 03DX "is not in this library"; that is no longer so, and
 was already not so when those notes were written —
 `AlgebraicGeometry.Space.isQuasicoherent_restrictToChartScheme` of
-`StacksFrontier/AlgebraicGeometry/Spaces/ChartSchemeRestrictionQuasicoherent.lean` is that direction,
+`StacksFrontier/AlgebraicGeometry/Spaces/ChartSchemeRestrictionQuasicoherent.lean` is that
+direction,
 proved, and the same notes' claim that the two available clauses of Stacks 03DX "neither of which
 compares the two" sites overlooks it.  The hypothesis-carrying forms are left in place, since they
 are consumed elsewhere; what is added here is the discharged form.

@@ -204,7 +204,7 @@ separably closed field, `f : X ⟶ Spec k` a quasi-compact and quasi-separated m
 `D((Spec k)_étale, Λ)`. -/
 @[sga "4 XVIII 2.13" "special case"]
 theorem isIso_projectionFormulaMap_of_isSepClosed (f : X ⟶ Spec (.of k)) [QuasiCompact f]
-    [QuasiSeparated f] (hcd : f.etaleCohomologicalDimension < ⊤) (hΛ : AddMonoid.IsTorsion Λ)
+    [QuasiSeparated f] (hcd : f.etaleCohomologicalDimension < ⊤) (hΛ : IsAddTorsion Λ)
     (E : DerivedModules Λ X) (K : DerivedModules Λ (Spec (.of k))) :
     IsIso (projectionFormulaMap Λ f E K) := by
   let := HasDerivedCategory.standard (SheafOfModules.{u + 1}

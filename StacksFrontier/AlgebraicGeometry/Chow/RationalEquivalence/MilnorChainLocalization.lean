@@ -175,7 +175,7 @@ theorem milnorKTransport_eq_milnorKOneTransport {k₁ k₂ : Type u} [Field k₁
   show milnorKUnitsMap (φ : k₁ →+* k₂) (milnorKTheoryOneAddEquiv k₁ y) =
     milnorKTheoryOneAddEquiv k₂ (milnorKOneTransport φ y)
   rw [milnorKOneTransport]
-  show milnorKUnitsMap (φ : k₁ →+* k₂) (milnorKTheoryOneAddEquiv k₁ y) =
+  change milnorKUnitsMap (φ : k₁ →+* k₂) (milnorKTheoryOneAddEquiv k₁ y) =
     milnorKTheoryOneAddEquiv k₂
       ((milnorKTheoryOneAddEquiv k₂).symm
         ((MonoidHom.toAdditive (Units.map (φ : k₁ →+* k₂).toMonoidHom))
@@ -360,7 +360,7 @@ theorem milnorChainExtendAtHom_of_eq {m : ℤ} {n : ℕ} (x : pointsOfDimension 
     milnorChainExtendAtHom C p f hbij x (n := n) =
       milnorChainExtendHomOf C p f hbij x z hz := by
   classical
-  rw [milnorChainExtendAtHom, dif_pos ⟨z, hz⟩]
+  rw [milnorChainExtendAtHom, dite_eq_left ⟨z, hz⟩]
   exact milnorChainExtendHomOf_congr C p f hinj hbij x _ z _ hz
 
 /-- At a point of `X` that is not the image of any point of `Z`, the extension by zero vanishes. -/
@@ -368,7 +368,7 @@ theorem milnorChainExtendAtHom_of_notMem {m : ℤ} {n : ℕ} (x : pointsOfDimens
     (hx : ∀ z, immersionPoint C p f hbij m z ≠ x) :
     milnorChainExtendAtHom C p f hbij x (n := n) = 0 := by
   classical
-  rw [milnorChainExtendAtHom, dif_neg]
+  rw [milnorChainExtendAtHom, dite_eq_right]
   rintro ⟨z, hz⟩
   exact hx z hz
 
@@ -536,7 +536,7 @@ theorem milnorChainExtend_milnorChainComap_add
         (milnorChainComap C p j (injective_base_of_isOpenImmersion j)
           (bijective_residueFieldMap_openImmersion j) m n a) = a := by
   refine Subtype.ext (funext fun x ↦ ?_)
-  show milnorChainExtendAtHom C p i (bijective_residueFieldMap_closedImmersion i) x
+  change milnorChainExtendAtHom C p i (bijective_residueFieldMap_closedImmersion i) x
         (milnorChainComap C p i (injective_base_of_isClosedImmersion i)
           (bijective_residueFieldMap_closedImmersion i) m n a).1 +
       milnorChainExtendAtHom C p j (bijective_residueFieldMap_openImmersion j) x
@@ -566,7 +566,8 @@ from `Y` and restriction to `U`. -/
 one Milnor degree n: the locally finite direct sums of Stacks 0GU2 for the closed subscheme, the \
 ambient scheme and the complementary open subscheme, together with the extension-by-zero map \
 from the closed subscheme and the restriction map to the open subscheme, as a short complex of \
-abelian groups; its compatibility with the two boundary maps of Stacks 0GU9, and the six-term exact sequence \
+abelian groups; its compatibility with the two boundary maps of Stacks 0GU9, and the six-term \
+exact sequence \
 the snake lemma yields from it, are proved not here but in \
 Stacks.Chow.milnorChowLocalization_exact, \
 Stacks.Chow.milnorChainComap_pointwiseMilnorBoundary, \

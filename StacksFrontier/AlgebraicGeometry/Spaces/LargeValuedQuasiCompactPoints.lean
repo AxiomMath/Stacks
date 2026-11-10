@@ -87,7 +87,7 @@ theorem isQuasiCompactSpaceULift_uliftYoneda (T : BigFppfOver B S hS)
     relative_id_of_isomorphisms B S hS _
       (fun _ _ φ hφ ↦ by
         have := hφ
-        show AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map φ)
+        change AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map φ)
         infer_instance) T,
     fun _ φ hφ ↦ by simpa using hφ⟩
 

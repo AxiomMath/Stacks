@@ -56,6 +56,7 @@ private theorem isIso_homMk_of_isIso {C : Type*} [Category* C] {J : Grothendieck
 /-! ### Lifting sections with image in the closed set -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of sheaves on the big fppf site is slow
 /-- Pullbacks of fppf sheaves of sets, supplied directly (instance search times out). -/
 local instance hasPullbacks_sheaf_etaleAwayFromClosedFactorization :
     HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type u)) :=
@@ -67,12 +68,14 @@ local instance (priority := high) hasPullback_sheaf_etaleAwayFromClosedFactoriza
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for strict initial objects of sheaves on the big fppf site is slow
 /-- Strict initial objects of fppf sheaves of sets (instance search times out). -/
 local instance (priority := high)
     hasStrictInitialObjects_sheaf_etaleAwayFromClosedFactorization :
     HasStrictInitialObjects (Sheaf (BigFppfOver.topology B S hS) (Type u)) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site (instance search times out). -/
 local instance hasPullbacks_presheaf_etaleAwayFromClosedFactorization :
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
@@ -116,19 +119,19 @@ private theorem existsUnique_app_eq_of_hasImageIn
   have hxs : xs ≫ g = ys := by
     rw [Category.assoc, ← pullback.condition, IsIso.inv_hom_id_assoc]
   refine ⟨yonedaEquiv xs.hom, ?_, fun x hx ↦ ?_⟩
-  · show g.hom.app (op W) (yonedaEquiv xs.hom) = y
+  · change g.hom.app (op W) (yonedaEquiv xs.hom) = y
     rw [← yonedaEquiv_comp]
     exact (congrArg (fun k ↦ yonedaEquiv k.hom) hxs).trans (Equiv.apply_symm_apply _ _)
   · let xh : Wsh ⟶ F := ObjectProperty.homMk (yonedaEquiv.symm x)
     have hxh : xh ≫ g = ys := ObjectProperty.hom_ext _ (by
-      show yonedaEquiv.symm x ≫ g.hom = yonedaEquiv.symm y
+      change yonedaEquiv.symm x ≫ g.hom = yonedaEquiv.symm y
       rw [yonedaEquiv_symm_naturality_right, hx])
     let l : Wsh ⟶ pullback ys g := pullback.lift (𝟙 Wsh) xh (by rw [Category.id_comp, hxh])
     have hl : l = inv (pullback.fst ys g) :=
       IsIso.eq_inv_of_inv_hom_id (pullback.lift_fst _ _ _)
     have hxl : xh = xs := by
       rw [← pullback.lift_snd (𝟙 Wsh) xh (by rw [Category.id_comp, hxh])]
-      show l ≫ _ = _
+      change l ≫ _ = _
       rw [hl]
     rw [← hxl]
     exact (Equiv.apply_symm_apply _ x).symm
@@ -159,7 +162,7 @@ private theorem isIso_completionMap_of_isPushout
           W.unop x := by
         rw [Space.hasImageIn_iff_range_subset]
         rintro _ ⟨w, rfl⟩
-        show Space.pointsMap B S hS F.obj g.hom
+        change Space.pointsMap B S hS F.obj g.hom
           (Space.pointsMap B S hS _ (yonedaEquiv.symm x) w) ∈ T
         rw [← Space.pointsMap_comp_apply, hxg]
         exact (Space.hasImageIn_iff_range_subset B S hS T W.unop y.1.down).mp y.2 ⟨w, rfl⟩
@@ -240,10 +243,10 @@ theorem exists_factorization_isIso_completionSheafMap
       hqEt hqSurj ?_
     refine Space.isLocallyOfFiniteType_of_isColimit_binaryCofan B S hS hX' hUalg hY hX
       coprod.inl coprod.inr (coprodIsCoprod _ _) _ ?_ ?_
-    · show Space.IsLocallyOfFiniteType B S hS ((coprod.inl ≫ coprod.desc g i ≫ p).hom)
+    · change Space.IsLocallyOfFiniteType B S hS ((coprod.inl ≫ coprod.desc g i ≫ p).hom)
       rw [coprod.inl_desc_assoc, hgp]
       exact hf
-    · show Space.IsLocallyOfFiniteType B S hS ((coprod.inr ≫ coprod.desc g i ≫ p).hom)
+    · change Space.IsLocallyOfFiniteType B S hS ((coprod.inr ≫ coprod.desc g i ≫ p).hom)
       rw [coprod.inr_desc_assoc, hip]
       exact Space.isLocallyOfFiniteType_of_isEtale' B S hS _
         (Space.isEtale_of_isOpenImmersion B S hS Uo.2.2)

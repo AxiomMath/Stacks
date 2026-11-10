@@ -140,7 +140,7 @@ public theorem mul_firstOrderThickeningInr (W : (Opens ↑T.scheme)ᵒᵖ)
       firstOrderThickeningInr T Y f W (sqZeroExtFst a • ω) :=
   sqZeroExt_ext (mul_zero (sqZeroExtFst a))
     (by
-      show sqZeroExtFst a • ω + (0 : ↑(T.scheme.sheaf.obj.obj W)) • sqZeroExtSnd a =
+      change sqZeroExtFst a • ω + (0 : ↑(T.scheme.sheaf.obj.obj W)) • sqZeroExtSnd a =
         sqZeroExtFst a • ω
       rw [zero_smul, add_zero])
 
@@ -405,7 +405,7 @@ public theorem sheafApp_eq_zero_of_mem_baseSections (W : T.scheme.Opens)
     {b : Γ(T.scheme, W)} (hb : b ∈ baseSections T Y f W) : sheafApp T Y f W b = 0 := by
   have hd : (presheafD T Y f W).d b = 0 :=
     dpConstD_base (baseAppLE T Y f W) (T.dividedPowers.dividedPowers (op W)) hb
-  show (dpDifferentialsToSheaf T Y f).app (op W) ((presheafD T Y f W).d b) = 0
+  change (dpDifferentialsToSheaf T Y f).app (op W) ((presheafD T Y f W).d b) = 0
   rw [hd]
   exact map_zero _
 
@@ -555,7 +555,7 @@ public theorem firstOrderThickeningIdealSheaf_eq_moduleKernel :
   intro W
   apply Submodule.ext
   intro x
-  show sqZeroExtFst x ∈ A.thickening.target.ideal.obj
+  change sqZeroExtFst x ∈ A.thickening.target.ideal.obj
       (firstOrderThickeningOpen A.thickening.target S.S.scheme A.toBase.hom W) ↔
     A.thickening.immersion.c.app
       (firstOrderThickeningOpen A.thickening.target S.S.scheme A.toBase.hom W)

@@ -93,7 +93,7 @@ end Braided
 
 section UnitSpellings
 
-open scoped TensorProduct
+open scoped _root_.TensorProduct
 
 variable {C' : Type u} [Category.{v} C'] {J' : GrothendieckTopology C'}
   [J'.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]

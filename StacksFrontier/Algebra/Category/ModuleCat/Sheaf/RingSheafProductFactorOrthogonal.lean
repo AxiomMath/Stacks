@@ -103,8 +103,7 @@ public theorem subsingleton_tensorProduct_of_smul {A : Type*} [CommRing A]
     (e : A) (hM : ∀ m : M, e • m = m) (hN : ∀ n : N, e • n = 0) :
     Subsingleton (TensorProduct A M N) := by
   refine subsingleton_of_forall_eq 0 fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => rfl
+  induction x using TensorProduct.inductionOn with
   | tmul a b => rw [← hM a, TensorProduct.smul_tmul, hN b, TensorProduct.tmul_zero]
   | add x y hx hy => rw [hx, hy, add_zero]
 

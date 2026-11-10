@@ -198,7 +198,7 @@ theorem isIntegral_of_fg_stable
     | succ k ih =>
       have hcomp : (φ ^ (k+1)) ⟨1, h1⟩ = φ ((φ^k) ⟨1, h1⟩) := by rw [pow_succ']; rfl
       rw [hcomp]
-      show (α * ((φ ^ k) ⟨1, h1⟩ : B)) = α ^ (k+1)
+      change (α * ((φ ^ k) ⟨1, h1⟩ : B)) = α ^ (k+1)
       rw [ih, ← pow_succ']
   have hval : (((Polynomial.aeval φ) p) ⟨1, h1⟩ : B) = (Polynomial.aeval α) p := by
     rw [Polynomial.aeval_endomorphism]
@@ -278,7 +278,7 @@ private theorem mem_bot_of_mem_adjoin_of_intClosed
       commutes' := fun r => IsLocalization.Away.lift_eq z hg r }
   -- φ injective, both localization maps out of `R` being injective
   have hφinj : Function.Injective φ := by
-    show Function.Injective (IsLocalization.Away.lift z hg)
+    change Function.Injective (IsLocalization.Away.lift z hg)
     unfold IsLocalization.Away.lift
     rw [IsLocalization.lift_injective_iff]
     exact fun a b ↦ (IsLocalization.injective (Localization.Away z)

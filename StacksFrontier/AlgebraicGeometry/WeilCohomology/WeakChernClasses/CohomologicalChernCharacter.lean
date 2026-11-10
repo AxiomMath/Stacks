@@ -247,13 +247,13 @@ theorem exists_cohomologicalChernCharacter
     refine VectorBundleKZero.addHom_ext fun M hM => ?_
     simp only [AddMonoidHom.coe_comp, Function.comp_apply, QuotientAddGroup.mk'_apply,
       AddMonoidHom.zero_apply, QuotientAddGroup.eq_zero_iff]
-    show ch X (VectorBundleKZero.classOf (S.obj X) M) ∈ gradedPowerSeries 𝔚 X
+    change ch X (VectorBundleKZero.classOf (S.obj X) M) ∈ gradedPowerSeries 𝔚 X
     rw [hch X M hM]
     exact hgrade X M
   · refine DFunLike.congr_fun (VectorBundleKZero.addHom_ext
       (φ := (PowerSeries.map (𝔚.pull f)).toAddMonoidHom.comp (ch Y).toAddMonoidHom)
       (ψ := (ch X).toAddMonoidHom.comp (κ f).toAddMonoidHom) fun E hE => ?_) α
-    show PowerSeries.map (𝔚.pull f) (ch Y (VectorBundleKZero.classOf (S.obj Y) E)) =
+    change PowerSeries.map (𝔚.pull f) (ch Y (VectorBundleKZero.classOf (S.obj Y) E)) =
       ch X (κ f (VectorBundleKZero.classOf (S.obj Y) E))
     rw [hch Y E hE, hκ f E hE, hch X _ (hflf f E hE), hpullM f E hE]
   · have := hL
@@ -352,7 +352,7 @@ theorem eq_of_cohomologicalChernCharacter'
   classical
   refine DFunLike.congr_fun (VectorBundleKZero.addHom_ext
     (φ := (ch X).toAddMonoidHom) (ψ := (ch' X).toAddMonoidHom) fun E hE => ?_) α
-  show ch X (VectorBundleKZero.classOf (S.obj X) E) =
+  change ch X (VectorBundleKZero.classOf (S.obj X) E) =
     ch' X (VectorBundleKZero.classOf (S.obj X) E)
   obtain ⟨ι, -, P, p, r, -, hrank, hinj⟩ := 𝔚.exists_clopenRankPieces X E
     ((Stacks.FiniteLocallyFree.isFiniteLocallyFree_iff_algebraicGeometry E).mp hE)

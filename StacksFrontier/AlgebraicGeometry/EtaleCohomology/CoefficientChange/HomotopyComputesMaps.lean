@@ -84,7 +84,7 @@ theorem forgetToAbelian_precomp_bijective_of_isTorsionFree
     ((etaleAbelianExtendForgetAdj.{u, r} Λ X).mapHomotopyCategory (.up ℤ))
   have hiso : IsIso (DerivedCategory.Qh.map (F.map (Q.map q))) := by
     apply Localization.inverts DerivedCategory.Qh (HomotopyCategory.quasiIso _ (.up ℤ))
-    show HomotopyCategory.quasiIso _ (.up ℤ)
+    change HomotopyCategory.quasiIso _ (.up ℤ)
       ((HomotopyCategory.quotient _ (.up ℤ)).map
         (((etaleAbelianSheafExtend.{u, r} Λ X).mapHomologicalComplex (.up ℤ)).map q))
     rw [HomotopyCategory.quotient_map_mem_quasiIso_iff]

@@ -89,7 +89,7 @@ def globalSectionToEnd (f : (R.obj ⋙ forget RingCat).sections) :
   induction n generalizing x with
   | zero => simp [End.one_asHom]
   | succ n ih =>
-    show (((globalSectionToEnd R f) ^ n).asHom.app M).val.app U (f.val U • x) = _
+    change (((globalSectionToEnd R f) ^ n).asHom.app M).val.app U (f.val U • x) = _
     rw [ih, ← mul_smul, ← pow_succ]
 
 /-- The product of two of these endomorphisms acts on local sections by the product of the two
@@ -99,7 +99,7 @@ local scalars. -/
     (M : _root_.SheafOfModules.{m} R) (U : Cᵒᵖ) (x : M.val.obj U) :
     ((globalSectionToEnd R f * globalSectionToEnd R g).asHom.app M).val.app U x =
       (f.val U * g.val U) • x := by
-  show f.val U • g.val U • x = _
+  change f.val U • g.val U • x = _
   rw [mul_smul]
 
 /-- **Multiplication by a global section is multiplicative in the section.** Stated with the

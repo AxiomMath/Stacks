@@ -66,7 +66,7 @@ lemma pushforwardId_inv_app_comp_etaleModuleDirectImageComp_id_right
           ((etaleModuleDirectImage.{u, 0} Λ c).obj N) ≫
       (etaleModuleDirectImageComp.{u, 0} Λ c (𝟙 Y) (c ≫ 𝟙 Y) rfl).hom.app N = 𝟙 _ := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U => ?_))
-  show N.obj.map ((smallEtaleBaseChange c).map
+  change N.obj.map ((smallEtaleBaseChange c).map
       ((smallEtaleBaseChangeId Y).hom.app U.unop)).op ≫
     N.obj.map ((smallEtaleBaseChangeComp' c (𝟙 Y) (c ≫ 𝟙 Y) rfl).hom.app U.unop).op = 𝟙 _
   rw [← Functor.map_comp, ← op_comp, smallEtaleBaseChangeComp'_id_right_hom_app]
@@ -144,7 +144,7 @@ theorem etaleModuleInverseImageCompIso_id_right_hom_app (G : EtaleModules.{u, 0}
       (etaleModuleInverseImage.{u, 0} Λ c).map
         ((etaleModuleInverseImageIdIso.{u, 0} Λ Y).inv.app G) := by
   apply ((etaleModuleInverseImageAdj.{u, 0} Λ (c ≫ 𝟙 Y)).homEquiv _ _).injective
-  show (etaleModuleInverseImageAdj.{u, 0} Λ (c ≫ 𝟙 Y)).unit.app G ≫
+  change (etaleModuleInverseImageAdj.{u, 0} Λ (c ≫ 𝟙 Y)).unit.app G ≫
       (etaleModuleDirectImage.{u, 0} Λ (c ≫ 𝟙 Y)).map
         ((etaleModuleInverseImageCompIso.{u, 0} Λ c (𝟙 Y)).hom.app G) =
     (etaleModuleInverseImageAdj.{u, 0} Λ c).unit.app G ≫
@@ -211,14 +211,14 @@ theorem etaleModuleDerivedInverseImagePlusCompIso_id_right_hom_app
           ((Functor.mapHomotopyCategoryPlusNatIso
             (etaleModuleInverseImageIdIso.{u, 0} Λ Y)).hom.app K) := by
       apply (HomotopyCategory.Plus.ι _).map_injective
-      show (NatTrans.mapHomotopyCategory
+      change (NatTrans.mapHomotopyCategory
           (etaleModuleInverseImageCompIso.{u, 0} Λ c (𝟙 Y)).symm.hom
           (ComplexShape.up ℤ)).app K.obj =
         ((etaleModuleInverseImage.{u, 0} Λ c).mapHomotopyCategory (ComplexShape.up ℤ)).map
           ((NatTrans.mapHomotopyCategory (etaleModuleInverseImageIdIso.{u, 0} Λ Y).hom
             (ComplexShape.up ℤ)).app K.obj)
       obtain ⟨K₀⟩ := K.obj
-      show (HomotopyCategory.quotient _ _).map
+      change (HomotopyCategory.quotient _ _).map
           ((NatTrans.mapHomologicalComplex
             (etaleModuleInverseImageCompIso.{u, 0} Λ c (𝟙 Y)).symm.hom
             (ComplexShape.up ℤ)).app K₀) =
@@ -247,7 +247,7 @@ theorem etaleModuleInverseImageCompIso_id_comp_hom_app (G : EtaleModules.{u, 0} 
         ((etaleModuleInverseImage.{u, 0} Λ d).obj G) := by
   let N := (etaleModuleInverseImage.{u, 0} Λ d).obj G
   apply ((etaleModuleInverseImageAdj.{u, 0} Λ (𝟙 W ≫ d)).homEquiv _ _).injective
-  show (etaleModuleInverseImageAdj.{u, 0} Λ (𝟙 W ≫ d)).unit.app G ≫
+  change (etaleModuleInverseImageAdj.{u, 0} Λ (𝟙 W ≫ d)).unit.app G ≫
       (etaleModuleDirectImage.{u, 0} Λ (𝟙 W ≫ d)).map
         ((etaleModuleInverseImageCompIso.{u, 0} Λ (𝟙 W) d).hom.app G) =
     (etaleModuleInverseImageAdj.{u, 0} Λ d).unit.app G ≫
@@ -292,14 +292,14 @@ theorem etaleModuleDerivedInverseImagePlusCompIso_id_comp_hom_app
         (Functor.mapHomotopyCategoryPlusNatIso (etaleModuleInverseImageIdIso.{u, 0} Λ W)).hom.app
           ((etaleModuleInverseImage.{u, 0} Λ d).mapHomotopyCategoryPlus.obj K) := by
       apply (HomotopyCategory.Plus.ι _).map_injective
-      show (NatTrans.mapHomotopyCategory
+      change (NatTrans.mapHomotopyCategory
           (etaleModuleInverseImageCompIso.{u, 0} Λ (𝟙 W) d).symm.hom
           (ComplexShape.up ℤ)).app K.obj =
         (NatTrans.mapHomotopyCategory (etaleModuleInverseImageIdIso.{u, 0} Λ W).hom
           (ComplexShape.up ℤ)).app (((etaleModuleInverseImage.{u, 0} Λ d).mapHomotopyCategory
             (ComplexShape.up ℤ)).obj K.obj)
       obtain ⟨K₀⟩ := K.obj
-      show (HomotopyCategory.quotient _ _).map
+      change (HomotopyCategory.quotient _ _).map
           ((NatTrans.mapHomologicalComplex
             (etaleModuleInverseImageCompIso.{u, 0} Λ (𝟙 W) d).symm.hom
             (ComplexShape.up ℤ)).app K₀) =

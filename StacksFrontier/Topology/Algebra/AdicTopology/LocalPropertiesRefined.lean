@@ -99,8 +99,7 @@ public theorem and
       [IsLinearTopology R R], Prop}
     (hP : IsomorphismInvariant P C) (hQ : IsomorphismInvariant Q C) :
     IsomorphismInvariant (fun f => P f ∧ Q f) C := by
-  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  intro eB eA heB heB' heA heA' f hf hB hA hB' hA'
+  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ eB eA heB heB' heA heA' f hf hB hA hB' hA'
   exact and_congr (hP eB eA heB heB' heA heA' f hf hB hA hB' hA')
     (hQ eB eA heB heB' heA heA' f hf hB hA hB' hA')
 
@@ -121,8 +120,7 @@ public theorem of_comp_of_ringEquiv
       [IsLinearTopology Y Y] (e : X ≃+* Y), C X → C Y → Continuous e → Continuous e.symm →
       P e.toRingHom) :
     IsomorphismInvariant P C := by
-  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  intro eB eA heB heBs heA heAs f hf hB hA hB' hA'
+  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ eB eA heB heBs heA heAs f hf hB hA hB' hA'
   refine ⟨fun h ↦ hcomp hA' hB hB' (eA.toRingHom.comp f) eB.symm.toRingHom (heA.comp hf) heBs
     (hcomp hA' hA hB eA.toRingHom f heA hf (hiso eA hA hA' heA heAs) h)
     (hiso eB.symm hB' hB heBs heB), fun h ↦ ?_⟩
@@ -269,15 +267,6 @@ public structure AdicStarPropertyIsStableUnderBaseChange'
       Continuous (algebraMap B A) → Continuous (algebraMap B C) →
       P (algebraMap B A) →
         P (algebraMap C (TopologicalRing.CompletedTensorProduct (R := B) (M := A) (N := C)))
-
-end
-
-section
-
-add_to_stacks 0GBE "completed_tensor_adic_star"
-    TopologicalRing.completedTensorProduct_isWeaklyAdmissible
-add_to_stacks 0GBE "completed_tensor_adic_star" TopologicalRing.completedTensorProduct_isAdic
-add_to_stacks 0GBE "completed_tensor_adic_star" TopologicalRing.exists_fg_ideal_of_definition
 
 end
 

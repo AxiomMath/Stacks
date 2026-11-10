@@ -213,8 +213,8 @@ public theorem sigmaLeftIso_hom_comp_left_sigmaDesc {S : Scheme.{u}} {T : Over S
     (X : I → Over S) (f : ∀ i, X i ⟶ T) [HasCoproduct X] [HasCoproduct (fun i ↦ (X i).left)] :
     (sigmaLeftIso S X).hom ≫ (Sigma.desc f).left = Sigma.desc (fun i ↦ (f i).left) := by
   refine Sigma.hom_ext _ _ fun i ↦ ?_
-  rw [Sigma.ι_desc, ← Category.assoc, sigmaIota_comp_sigmaLeftIso_hom]
-  exact congrArg (fun g : X i ⟶ T ↦ g.left) (Sigma.ι_desc f i)
+  rw [Sigma.ι_comp_desc, ← Category.assoc, sigmaIota_comp_sigmaLeftIso_hom]
+  exact congrArg (fun g : X i ⟶ T ↦ g.left) (Sigma.ι_comp_desc f i)
 
 /-- The total space of the morphism induced by a family in `Over S` factors the morphism induced
 by the family of total spaces through `AlgebraicGeometry.sigmaLeftIso`.  This is the shape in
@@ -237,7 +237,7 @@ public theorem IsStandardCovering.flat_left_sigmaDesc {T : Over S} [IsAffine T.l
   have : Finite E.I₀ := h.finite_index
   have : Flat (Sigma.desc (fun i ↦ (E.f i).left)) :=
     h.flat_sigmaDesc τ (fun i ↦ (E.X i).left) (fun i ↦ (E.f i).left)
-  show Flat ((Sigma.desc E.f).left)
+  change Flat ((Sigma.desc E.f).left)
   rw [← left_sigmaDesc_eq E.X E.f]
   infer_instance
 
@@ -251,7 +251,7 @@ public theorem IsStandardCovering.surjective_left_sigmaDesc {T : Over S} [IsAffi
   have : Finite E.I₀ := h.finite_index
   have : Surjective (Sigma.desc (fun i ↦ (E.f i).left)) :=
     h.surjective_sigmaDesc τ (fun i ↦ (E.X i).left) (fun i ↦ (E.f i).left)
-  show Surjective ((Sigma.desc E.f).left)
+  change Surjective ((Sigma.desc E.f).left)
   rw [← left_sigmaDesc_eq E.X E.f]
   infer_instance
 

@@ -17,9 +17,9 @@ neighbourhoods in `X`, where the cohomology is that of the *underlying abelian s
 restricted to `Z`.
 
 This is the form in which [Stacks, Tag 09V5] needs the vanishing of
-`StacksFrontier/Topology/Sheaves/Cohomology/CompactSubset/RestrictionVanishing.lean`. That file proves
-it for a sheaf which is injective *as an abelian sheaf*; the coefficient sheaf of Tag 09V5 is the
-underlying abelian
+`StacksFrontier/Topology/Sheaves/Cohomology/CompactSubset/RestrictionVanishing.lean`. That file
+proves it for a sheaf which is injective *as an abelian sheaf*; the coefficient sheaf of Tag 09V5
+is the underlying abelian
 sheaf of an injective sheaf of modules, which is **not** injective as an abelian sheaf. The
 bridge is flasqueness: an injective sheaf of modules has surjective restriction maps
 ([Stacks, Tag 01EA]), hence its underlying abelian sheaf is flasque, and the flasque form

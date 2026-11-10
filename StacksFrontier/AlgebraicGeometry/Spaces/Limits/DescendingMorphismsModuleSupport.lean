@@ -67,6 +67,7 @@ namespace AlgebraicGeometry.Space.MorphismDescentSituation
 attribute [local instance] pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep (see the docstring)
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_descendingMorphismsModuleSupport

@@ -123,6 +123,7 @@ theorem isIso_twistDerivedMap_blowupTwistDivisor (hint : interior (Set.range i.b
   · obtain ⟨c, hzc, -⟩ := exists_blowupEtaleChart f i z ⊤ trivial
     exact ⟨c, hzc, c.comap_blowupTwistDivisor⟩
 
+omit [Smooth f] [Smooth (i ≫ f)] in
 /-- **The higher direct images are pushed forward from the centre**, granted clause (3) of
 [Stacks, Tag 0FUU]: for `q ≥ 1`,
 `R^qb_*Ω^a_{X'/S} ≅ H^q(i_*Rp_*Ω^a_{E/S}) ≅ i_*R^qp_*Ω^a_{E/S}`. -/

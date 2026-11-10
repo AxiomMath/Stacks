@@ -104,7 +104,7 @@ lemma sigmaSpec_comp_specMap_algebraMap (ι : Type u) [Finite ι] (T : Type u) [
         Spec.map (CommRingCat.ofHom (algebraMap T (ι → T))) =
       Limits.Sigma.desc (fun _ ↦ 𝟙 (Spec (CommRingCat.of T))) := by
   refine Limits.Sigma.hom_ext _ _ fun i ↦ ?_
-  rw [← Category.assoc, ι_sigmaSpec, ← Spec.map_comp, Limits.Sigma.ι_desc]
+  rw [← Category.assoc, ι_sigmaSpec, ← Spec.map_comp, Limits.Sigma.ι_comp_desc]
   convert Spec.map_id (CommRingCat.of T) using 2
   ext t
   simp

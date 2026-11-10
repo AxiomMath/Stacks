@@ -61,7 +61,7 @@ theorem contract_mem_smul_top_of_mem_smul_top (I : Ideal R)
     {y : Twist β (Ext α X)} (hy : y ∈ (maximalIdeal R) • (⊤ : Submodule R (Twist β (Ext α X)))) :
     contractT α β ψ hψα X y ∈ I • (⊤ : Submodule R X) := by
   refine Submodule.smul_induction_on hy (fun r hr y _ => ?_) (fun x y hx hy => ?_)
-  · show contractT α β ψ hψα X (β r • y) ∈ _
+  · change contractT α β ψ hψα X (β r • y) ∈ _
     rw [contractT_smul]
     exact Submodule.smul_mem_smul (hI r hr) Submodule.mem_top
   · rw [map_add]
@@ -88,10 +88,7 @@ include hker in
 theorem sub_mem_smul_top {X : Type u} [AddCommGroup X] [Module R X] (y : Ext α X) :
     Twist.mk β y - Twist.mk β (Twist.mk α (1 : B) ⊗ₜ contract α ψ hψα X y : Ext α X) ∈
       (maximalIdeal R) • (⊤ : Submodule R (Twist β (Ext α X))) := by
-  induction y using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero, TensorProduct.tmul_zero, sub_self]
-    exact Submodule.zero_mem _
+  induction y using TensorProduct.inductionOn with
   | tmul b x =>
     obtain ⟨b, rfl⟩ : ∃ b' : B, Twist.mk α b' = b := ⟨b, rfl⟩
     have hb : b - α (ψ b) ∈ Ideal.map β (maximalIdeal R) :=
@@ -285,7 +282,7 @@ theorem flat_twist_ext_of_smul_top [IsLocalRing R] [IsNoetherianRing R] [IsLocal
   have : IsLocalHom (algebraMap R B) := ‹IsLocalHom β›
   have : IsScalarTower R B (Twist β (Ext α M)) :=
     ⟨fun r b y => by
-      show (β r * b) • y = β r • b • y
+      change (β r * b) • y = β r • b • y
       rw [mul_smul]⟩
   have : Module.Finite B (Ext α M) := finite_ext α M
   have : Module.Finite B (Twist β (Ext α M)) := Module.Finite.equiv (Twist.of β (Ext α M))

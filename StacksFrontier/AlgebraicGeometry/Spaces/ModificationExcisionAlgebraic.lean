@@ -64,7 +64,7 @@ theorem isAlgebraicSpace_of_isZariskiCover_pullback
   set gsh : (∐ Fs) ⟶ (⟨N, hN⟩ : Sheaf (BigFppfOver.topology B S hS) (Type u)) :=
     Sigma.desc fun i ↦ ObjectProperty.homMk (pullback.fst g (Ufam i).ι)
   have hιdesc : ∀ i, (Sigma.ι Fs i).hom ≫ gsh.hom = pullback.fst g (Ufam i).ι := fun i ↦
-    Sheaf.hom_ext_iff.mp (Sigma.ι_desc (fun i ↦ ObjectProperty.homMk
+    Sheaf.hom_ext_iff.mp (Sigma.ι_comp_desc (fun i ↦ ObjectProperty.homMk
       (pullback.fst g (Ufam i).ι) :
         ∀ i, Fs i ⟶ (⟨N, hN⟩ : Sheaf (BigFppfOver.topology B S hS) (Type u))) i)
   have _ := hcov.2
@@ -77,7 +77,7 @@ theorem isAlgebraicSpace_of_isZariskiCover_pullback
     obtain ⟨⟨i⟩, t', rfl⟩ :=
       FunctorToTypes.jointly_surjective' (Discrete.functor fun i ↦ (Ufam i).toFunctor) (op Z) t
     have hdesc : Sigma.ι (fun j ↦ (Ufam j).toFunctor) i ≫ (Sigma.desc fun j ↦ (Ufam j).ι) =
-        (Ufam i).ι := Sigma.ι_desc _ i
+        (Ufam i).ι := Sigma.ι_comp_desc _ i
     have htt : (Ufam i).ι.app (op Z) t' = g.app (op Z) (N.map φ.op s) := by
       rw [NatTrans.naturality_apply g φ.op s, ← ht, ← hdesc]
       rfl

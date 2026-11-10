@@ -334,7 +334,7 @@ lemma eq_zero_of_comp_eq_zero_of_isColimitCofan (G : ℕ → D)
     rw [AddMonoidHom.coe_comp, Function.comp_apply, cofanMap_of, AddMonoidHom.coe_comp,
       Function.comp_apply, AddMonoidHom.sub_apply, AddMonoidHom.id_apply, hTof, map_sub,
       cofanMap_of, cofanMap_of]
-    show (g ≫ σ k.down) ≫ a = _
+    change (g ≫ σ k.down) ≫ a = _
     rw [Category.assoc, ha, Preadditive.comp_sub, Category.assoc]
   have hxS : x = shiftUp T x := by
     have h : (cofanMap K fun k : ULift.{w} ℕ ↦ σ k.down) (x - shiftUp T x)
@@ -393,7 +393,7 @@ private noncomputable def telescope (F : ℕ ⥤ D) : ∐ F.obj ⟶ ∐ F.obj :=
 private lemma ι_comp_telescope (F : ℕ ⥤ D) (n : ℕ) :
     Limits.Sigma.ι F.obj n ≫ telescope F
       = Limits.Sigma.ι F.obj n - F.map (homOfLE (Nat.le_succ n)) ≫ Limits.Sigma.ι F.obj (n + 1) :=
-  Limits.Sigma.ι_desc _ _
+  Limits.Sigma.ι_comp_desc _ _
 
 /-- The telescope map is killed by the map out of `∐ F.obj` induced by a compatible family of
 morphisms `a n : F.obj n ⟶ X`. -/
@@ -463,7 +463,7 @@ omit [HasZeroObject D] [∀ n : ℤ, (shiftFunctor D n).Additive] [Pretriangulat
 private lemma ι_comp_deadCellAttach (E : ι → D) {Z X : D} (a : Z ⟶ X)
     (t : DeadCellIndex E a) :
     Limits.Sigma.ι (deadCellObj E a) t ≫ deadCellAttach E a = t.1.2.2 :=
-  Limits.Sigma.ι_desc _ _
+  Limits.Sigma.ι_comp_desc _ _
 
 omit [HasZeroObject D] [∀ n : ℤ, (shiftFunctor D n).Additive] [Pretriangulated D] in
 private lemma deadCellAttach_comp (E : ι → D) {Z X : D} (a : Z ⟶ X) :
@@ -569,7 +569,7 @@ private lemma exists_cellTower (E : ι → D) (X : D) :
   · rw [cellTower_map_succ]
     exact (stepData E (tower E (baseStage E X) n)).comm
   · exact ⟨Limits.Sigma.ι (fun t : CellIndex E X ↦ cellObj E t) ⟨i, m, ψ⟩,
-      (Limits.Sigma.ι_desc (fun t : CellIndex E X ↦ (t.2.2 : cellObj E t ⟶ X)) ⟨i, m, ψ⟩).symm⟩
+      (Limits.Sigma.ι_comp_desc (fun t : CellIndex E X ↦ (t.2.2 : cellObj E t ⟶ X)) ⟨i, m, ψ⟩).symm⟩
   · rw [cellTower_map_succ]
     exact comp_stepData_hom_eq_zero E _ i m ρ hρ
   · rw [cellTower_obj_zero]
@@ -616,7 +616,7 @@ omit [Preadditive D] [HasZeroObject D] [HasShift D ℤ]
 compatible family `a n : F.obj n ⟶ X` is `a n`. -/
 private lemma ι_comp_comp_eq {a : ∀ n : ℕ, F.obj n ⟶ X} {b : K ⟶ X}
     (hb : Limits.Sigma.desc a = p ≫ b) (n : ℕ) : Limits.Sigma.ι F.obj n ≫ p ≫ b = a n := by
-  rw [← hb, Limits.Sigma.ι_desc]
+  rw [← hb, Limits.Sigma.ι_comp_desc]
 
 /-- A map from a compact object to a derived colimit of `F` factors through `∐ F.obj`: the third
 map of the defining triangle annihilates it, because `1 - fₙ` is injective on maps out of a

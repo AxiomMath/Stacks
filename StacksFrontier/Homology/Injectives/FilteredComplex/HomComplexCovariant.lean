@@ -351,7 +351,7 @@ private lemma homologyExtAlongQuasiIso_naturality
     simp only [← Category.assoc, IsIso.hom_inv_id, Category.id_comp]
     rw [← Functor.map_comp, ← h, Functor.map_comp, Category.assoc,
       IsIso.hom_inv_id, Category.comp_id]
-  show (e.inv ≫ homologyExtOfIsKInjective P J' n
+  change (e.inv ≫ homologyExtOfIsKInjective P J' n
       (HomologicalComplex.homologyMap (homComplexPostcomp P b) n x)) ≫
         (inv (DerivedCategory.Q.map f'))⟦n⟧' =
     ((e.inv ≫ homologyExtOfIsKInjective P J n x) ≫

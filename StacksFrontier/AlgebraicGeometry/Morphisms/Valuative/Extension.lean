@@ -96,7 +96,7 @@ private lemma isDominant_specMap_algebraMap_comp_fromSpecStalkOfMem {X : Scheme.
       (FractionRing (X.presheaf.stalk x)))) ≫ A.fromSpecStalkOfMem x hxA) ≫
         hA.isoSpec.hom) := by
     rw [hA.isoSpec_hom, hqSpec, isDominant_iff]
-    show DenseRange (PrimeSpectrum.comap φ.hom)
+    change DenseRange (PrimeSpectrum.comap φ.hom)
     exact (PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical _).2
       (((RingHom.injective_iff_ker_eq_bot φ.hom).mp fun _ _ hab =>
         hinj (IsFractionRing.injective (X.presheaf.stalk x) _ hab)).le.trans bot_le)

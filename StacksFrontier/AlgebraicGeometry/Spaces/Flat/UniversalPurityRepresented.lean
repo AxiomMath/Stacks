@@ -63,6 +63,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 attribute [local instance] pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_UniversalPurityRepresented :
@@ -175,6 +176,7 @@ private theorem closure_inter_range_fiberι_eq_empty_of_represented
     rwa [pointsToScheme_pointsMap_yoneda, hsz]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over modules and fibre products on the big fppf site is slow
 /-- **Universal purity over a represented base is universal purity of the underlying schemes.**
 Let `P` be a situation of Stacks 0CV6 together with identifications `φ : h_W ≅ X` and
 `ψ : h_V ≅ Y` of its source and base with the algebraic spaces of schemes `W`, `V` of the site,
@@ -230,7 +232,7 @@ theorem isUniversallyPureAbove_of_isUniversallyPureAlong_represented
       t := pointsToScheme B S hS D.T D.t
       specializes := D.specializes
       mapsToChosenPoint := by
-        show (BigFppfOver.toScheme B S hS).map γ (pointsToScheme B S hS D.T D.t) = _
+        change (BigFppfOver.toScheme B S hS).map γ (pointsToScheme B S hS D.T D.t) = _
         rw [← pointsToScheme_pointsMap_yoneda, hγmap, pointsMap_comp_apply,
           D.mapsToChosenPoint]
       X_T := (BigFppfOver.toScheme B S hS).obj (pullback γ α)

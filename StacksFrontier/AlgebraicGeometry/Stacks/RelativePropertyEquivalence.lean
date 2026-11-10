@@ -130,7 +130,7 @@ theorem hasRelativeProperty_iff_of_equivalences
         have := hεa X
         exact hbB X (f.hom.toFunctor.map (εa.hom.app X))
           (Functor.isHomLift_map_of_comp_eq f.hom.w (𝟙 (𝒳.val.p.obj X)) (εa.hom.app X))
-      show 𝒴'.val.p.IsHomLift (𝟙 (𝒳.val.p.obj X))
+      change 𝒴'.val.p.IsHomLift (𝟙 (𝒳.val.p.obj X))
         (ηb.inv.app (f'.hom.obj (aInv.obj X)) ≫ bInv.map (α₀.inv.app (aInv.obj X)) ≫
           (f.hom.toFunctor ⋙ bInv).map (εa.hom.app X))
       exact @IsHomLift.comp_of_lift_id _ _ _ _ 𝒴'.val.p (𝒳.val.p.obj X) _ _ _

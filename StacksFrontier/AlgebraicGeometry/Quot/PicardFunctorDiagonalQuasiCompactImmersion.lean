@@ -77,7 +77,7 @@ theorem isImmersion_and_isQuasiCompact_diagonal_of_iso_picardFunctor
   have he : ∀ (T U : s.SchemesOver) (g : T ⟶ U) (ξ : s.picardFunctor.obj (op U)),
       (e T (s.picardFunctor.map g.op ξ)).val = H.1.map g.left.op (e U ξ).val := by
     intro T U g ξ
-    show (c.inv.app (op T) (s.picardFunctor.map g.op ξ)).down.1 = _
+    change (c.inv.app (op T) (s.picardFunctor.map g.op ξ)).down.1 = _
     rw [NatTrans.naturality_apply]
     rfl
   exact ⟨(s.isImmersion_picardEqualizer_and_isLocallySeparated hflat hfp hproper h).2 H.1 p.hom e

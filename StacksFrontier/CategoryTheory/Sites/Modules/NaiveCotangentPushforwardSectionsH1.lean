@@ -78,7 +78,7 @@ theorem pushforwardFreeAlgebraMap_freeAlgebraSectionsMap (X : C₀ᵒᵖ)
       ((ψ.hom.app X).hom r)
     refine ((congrArg ((pushforwardFreeAlgebraMap J₀ J F A B).hom.app X).hom h₁).trans
       h₂).trans ?_
-    show _ = freeAlgebraSectionsMap J A B (op (F.obj X.unop))
+    change _ = freeAlgebraSectionsMap J A B (op (F.obj X.unop))
       (MvPolynomial.eval₂ (MvPolynomial.C.comp (ψ.hom.app X).hom)
         (fun s => MvPolynomial.X ((β.hom.app X).hom s)) (MvPolynomial.C r))
     rw [MvPolynomial.eval₂_C]
@@ -99,16 +99,16 @@ theorem pushforwardFreeAlgebraMap_freeAlgebraSectionsMap (X : C₀ᵒᵖ)
         (underlyingPresheafMap J₀ B₀ _ β))
     refine (congrArg ((pushforwardFreeAlgebraMap J₀ J F A B).hom.app X).hom h₄).trans
       (h₃.trans ?_)
-    show _ = freeAlgebraSectionsMap J A B (op (F.obj X.unop))
+    change _ = freeAlgebraSectionsMap J A B (op (F.obj X.unop))
       (MvPolynomial.eval₂ (MvPolynomial.C.comp (ψ.hom.app X).hom)
         (fun s => MvPolynomial.X ((β.hom.app X).hom s)) (MvPolynomial.X s))
     rw [MvPolynomial.eval₂_X]
     rfl
 
-variable [J₀.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] (a : A ⟶ B) (a₀ : A₀ ⟶ B₀)
+variable [J₀.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] (a : A ⟶ B) (a₀ : A₀ ⟶ B₀)
   (hsq : a₀ ≫ β = ψ ≫ (F.sheafPushforwardContinuous CommRingCat.{w} J₀ J).map a)
 
+omit [J₀.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- In degree `-1`, `NL_{F_*B/F_*A} ⟶ F_*NL_{B/A}` is the map of conormal sheaves. -/
 theorem naiveCotangentComplexPushforwardMap_f_negOne :
     (naiveCotangentComplexPushforwardMap.{v₀, u₀, v, u, w, z} J₀ J F A B a).f (-1) =
@@ -134,6 +134,7 @@ theorem naiveCotangentComplexPushforwardMap_f_negOne :
   unfold naiveCotangentComplexPushforwardMap
   apply HomologicalComplex.mkHomFromDouble_f₀
 
+omit [J₀.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- In degree `0`, `NL_{F_*B/F_*A} ⟶ F_*NL_{B/A}` is the map of the terms
 `F_*B ⊗ Ω_{(F_*A)[F_*B]/F_*A} ⟶ F_*(B ⊗ Ω_{A[B]/A})`. -/
 theorem naiveCotangentComplexPushforwardMap_f_zero :
@@ -161,8 +162,7 @@ theorem naiveCotangentComplexPushforwardMap_f_zero :
   apply HomologicalComplex.mkHomFromDouble_f₁
 
 omit [HasWeakSheafify J₀ CommRingCat.{w}] [HasWeakSheafify J CommRingCat.{w}]
-  [J₀.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+  [J₀.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 include hsq in
 /-- The square on sections over `X`: `A₀(X) → B₀(X) → B(F X)` is `A₀(X) → A(F X) → B(F X)`. -/
 theorem sectionsSquare_pushforward (X : C₀ᵒᵖ) (r : ToType (A₀.obj.obj X)) :
@@ -200,7 +200,7 @@ theorem pushforwardConormalMap_conormalMapOfSquare_sectionsH1Comparison (X : C�
         (S' := ToType (B.obj.obj (op (F.obj X.unop)))) _ _
         (sectionsSquare_pushforward J₀ J F A B A₀ B₀ ψ β a a₀ hsq X) g⟩
     (by
-      show cotangentMapOfSquare (R' := ToType (A.obj.obj (op (F.obj X.unop))))
+      change cotangentMapOfSquare (R' := ToType (A.obj.obj (op (F.obj X.unop))))
         (S' := ToType (B.obj.obj (op (F.obj X.unop)))) (ψ.hom.app X).hom (β.hom.app X).hom
         (sectionsSquare_pushforward J₀ J F A B A₀ B₀ ψ β a a₀ hsq X) z.1 = _
       rw [← hg]
@@ -345,7 +345,7 @@ theorem app_of_comp_eq_naiveCotangentComplexPushforwardSquareMap_f_negOne
             (algebraSections J A B a (op (F.obj X.unop))) (ψ.hom.app X).hom (β.hom.app X).hom
             (sectionsSquare_pushforward J₀ J F A B A₀ B₀ ψ β a a₀ hsq X) z)) := by
   refine (congrArg (fun g => g.val.app X m) hκ).trans ?_
-  show ((naiveCotangentComplexPushforwardSquareMap.{v₀, u₀, v, u, w, z} J₀ J F A B a A₀ B₀ a₀
+  change ((naiveCotangentComplexPushforwardSquareMap.{v₀, u₀, v, u, w, z} J₀ J F A B a A₀ B₀ a₀
     ψ β hsq).f (-1)).val.app X (ι₀.val.app X m) = _
   rw [hm]
   exact naiveCotangentComplexPushforwardSquareMap_f_negOne_sectionsH1Comparison J₀ J F A B A₀ B₀

@@ -247,7 +247,7 @@ theorem sum_twistedCount_eq [IsAlgClosed Ω] (hn : n ≠ 0) (hQE : ∀ e : E, e 
   have key := sum_ncard_twisted_eq (H := (constantFixing B E G)) ρ (pointsFrobenius p n hQE)
     (pointsFrobenius p n hQE) (fun φ => rfl)
     (fun σ φ => Subtype.ext <| RingHom.ext fun r => by
-      show φ.1 (((σ⁻¹ : (constantFixing B E G)) : G) • algebraMap E[X] B r) =
+      change φ.1 (((σ⁻¹ : (constantFixing B E G)) : G) • algebraMap E[X] B r) =
         φ.1 (algebraMap E[X] B r)
       rw [hfixP _ (σ⁻¹ : (constantFixing B E G)).2])
     (fun w w' hw hww' => by
@@ -294,7 +294,7 @@ theorem sum_twistedCount_le {k BH : Type*} [Field k] [CommRing BH] [Algebra k E]
   have key := sum_ncard_twisted_eq (H := (H ⊓ constantFixing B E G : Subgroup G)) ρ
     (pointsFrobenius p n hQE) (pointsFrobenius p n hQk) (fun φ => rfl)
     (fun σ φ => Subtype.ext <| RingHom.ext fun c => by
-      show φ.1 ((((σ⁻¹ : (H ⊓ constantFixing B E G : Subgroup G)) : G)) •
+      change φ.1 ((((σ⁻¹ : (H ⊓ constantFixing B E G : Subgroup G)) : G)) •
         algebraMap BH B c) = φ.1 (algebraMap BH B c)
       rw [hH _ (σ⁻¹ : (H ⊓ constantFixing B E G : Subgroup G)).2.1])
     (fun w w' hw hww' => by

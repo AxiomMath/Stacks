@@ -187,11 +187,11 @@ theorem IsDerivedLimit.of_iso {F G : ℕᵒᵖ ⥤ D} [HasProduct fun n : ℕ =>
     piMap_familyDifference (fun n => c.hom.app ⟨n⟩) fun n => (c.hom.naturality _).symm
   refine ⟨p ≫ e.hom, e.inv ≫ δ, isomorphic_distinguished _ hT _ (Triangle.isoMk _ _ (Iso.refl _)
     e.symm e.symm ?_ ?_ ?_)⟩
-  · show (p ≫ e.hom) ≫ e.inv = 𝟙 _ ≫ p
+  · change (p ≫ e.hom) ≫ e.inv = 𝟙 _ ≫ p
     rw [Category.assoc, Iso.hom_inv_id, Category.comp_id, Category.id_comp]
-  · show familyDifference _ _ ≫ e.inv = e.inv ≫ familyDifference _ _
+  · change familyDifference _ _ ≫ e.inv = e.inv ≫ familyDifference _ _
     rw [Iso.comp_inv_eq, Category.assoc, ← he, Iso.inv_hom_id_assoc]
-  · show (e.inv ≫ δ) ≫ (𝟙 K)⟦(1 : ℤ)⟧' = e.inv ≫ δ
+  · change (e.inv ≫ δ) ≫ (𝟙 K)⟦(1 : ℤ)⟧' = e.inv ≫ δ
     rw [Functor.map_id, Category.comp_id]
 
 namespace TriangulatedTower
@@ -230,7 +230,7 @@ theorem tower_familyDifference (X : C) :
     familyDifference (fun n : ℕ => (tower F τ X).obj ⟨n⟩)
         (fun n => (tower F τ X).map (homOfLE (Nat.le_succ n)).op) =
       familyDifference (fun n => (F n).obj X) fun n => (τ n).app X := by
-  show familyDifference (fun n => (F n).obj X) _ = _
+  change familyDifference (fun n => (F n).obj X) _ = _
   congr 1
   funext n
   exact tower_map_succ F τ X n

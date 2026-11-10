@@ -131,7 +131,7 @@ public theorem two_le_depth_globalSections_of_isIso_unit (A : Type u) [CommRing 
       map_add' := map_add _
       map_smul' := by
         intro a s
-        show TopCat.Presheaf.germ G.val.presheaf ⊤ (closedPoint A) trivial
+        change TopCat.Presheaf.germ G.val.presheaf ⊤ (closedPoint A) trivial
             (SMul.smul (M := Γ(Spec (CommRingCat.of A), ⊤)) (α := Γ(G, ⊤))
               ((Scheme.ΓSpecIso (CommRingCat.of A)).inv a) s) =
           e a • TopCat.Presheaf.germ G.val.presheaf ⊤ (closedPoint A) trivial s
@@ -177,7 +177,7 @@ public theorem CoherentTriple.eulerCharacteristic_eq_length_cokernel (A : Type u
     letI := puncturedSectionsModule A T.F
     letI := puncturedClosedFibreSectionsModule A f
       ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj T.F₀)
-    T.eulerCharacteristic hf hreg =
+    T.eulerCharacteristic =
       ((Module.length A
         (Γ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj T.F₀, ⊤) ⧸
           LinearMap.range (globalSectionsMap A f T))).toNat : ℤ) := by
@@ -198,7 +198,7 @@ public theorem CoherentTriple.eulerCharacteristic_eq_length_cokernel (A : Type u
       (two_le_depth_globalSections_of_isIso_unit A P.F' hunit))
   have hsub : Subsingleton (kernel P.closedFibreMap).carrier :=
     ModuleCat.isZero_iff_subsingleton.mp (isZero_kernel_of_mono _)
-  rw [T.eulerCharacteristic_eq_of_preparedExtension hf hreg P]
+  rw [T.eulerCharacteristic_eq_of_preparedExtension hf P]
   unfold PreparedExtension.eulerCharacteristic
   rw [Module.length_eq_zero (R := A) (M := (kernel P.closedFibreMap).carrier),
     ENat.toNat_zero, Int.natCast_zero, sub_zero]
@@ -216,7 +216,7 @@ public theorem CoherentTriple.eulerCharacteristic_nonneg (A : Type u) [CommRing 
     [AlgebraicGeometry.SheafOfModules.IsInvertible (closedFibre A f).presheaf
       (closedFibre A f).ringCatSheaf.2 T.F₀]
     (hdepth : 3 ≤ Module.depth A (maximalIdeal A) A) :
-    0 ≤ T.eulerCharacteristic hf hreg := by
+    0 ≤ T.eulerCharacteristic := by
   rw [CoherentTriple.eulerCharacteristic_eq_length_cokernel A f hf hreg T hdepth]
   exact Int.natCast_nonneg _
 

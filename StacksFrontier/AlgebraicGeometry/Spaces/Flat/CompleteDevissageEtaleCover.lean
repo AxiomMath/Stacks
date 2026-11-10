@@ -226,7 +226,7 @@ theorem exists_siteObjects_completeDevissage_cover {U₀ Y₁ Y' : BigFppfOver B
       (e i ≫ pullback.fst ((𝒯).map ĝ) ((𝒯).map ι'))).trans_lt U₀.left.property
   have hw : ∀ {P Q : BigFppfOver B S hS} (g : P ⟶ Q),
       (𝒯).map g ≫ B.inclusion.map Q.hom = B.inclusion.map P.hom := fun g => by
-    show B.inclusion.map g.left ≫ _ = _
+    change B.inclusion.map g.left ≫ _ = _
     rw [← Functor.map_comp]
     exact congrArg _ (Over.w g)
   have hw' : ∀ i, (e i ≫ pullback.snd ((𝒯).map ĝ) ((𝒯).map ι')) ≫ B.inclusion.map Y'.hom =
@@ -245,7 +245,7 @@ theorem exists_siteObjects_completeDevissage_cover {U₀ Y₁ Y' : BigFppfOver B
   have hk : ∀ i, b i ≫ ĝ = a i ≫ ι' := fun i => by
     refine (𝒯).map_injective ?_
     rw [Functor.map_comp, Functor.map_comp]
-    show (e i ≫ pullback.fst ((𝒯).map ĝ) ((𝒯).map ι')) ≫ (𝒯).map ĝ =
+    change (e i ≫ pullback.fst ((𝒯).map ĝ) ((𝒯).map ι')) ≫ (𝒯).map ĝ =
       (e i ≫ pullback.snd ((𝒯).map ĝ) ((𝒯).map ι')) ≫ (𝒯).map ι'
     rw [Category.assoc, Category.assoc, pullback.condition]
   let k : ∀ i, W i ⟶ pullback ĝ ι' := fun i => pullback.lift (b i) (a i) (hk i)
@@ -269,7 +269,7 @@ theorem exists_siteObjects_completeDevissage_cover {U₀ Y₁ Y' : BigFppfOver B
     rw [hkT]
     infer_instance
   · have := he i
-    show Etale (e i ≫ pullback.fst ((𝒯).map ĝ) ((𝒯).map ι'))
+    change Etale (e i ≫ pullback.fst ((𝒯).map ĝ) ((𝒯).map ι'))
     infer_instance
   · have hzz : isoP.hom z ∈ pullback.snd ((𝒯).map ĝ) ((𝒯).map ι') ⁻¹' {t'} := by
       rw [Set.mem_preimage, Set.mem_singleton_iff, ← Scheme.Hom.comp_apply, hisosnd, hz]
@@ -370,7 +370,7 @@ theorem exists_affine_etale_completeDevissage_cover (B : BigFppfSite.{u}) (S : S
   have hĝmap : yoneda.map ĝ = c ≫ pullback.fst q₁ f := yoneda.map_preimage _
   have hsq : yoneda.map ĝ ≫ q₁ = U.obj.hom ≫ f := by
     rw [hĝmap]
-    show (c ≫ pullback.fst q₁ f) ≫ q₁ = (c ≫ pullback.snd q₁ f) ≫ f
+    change (c ≫ pullback.fst q₁ f) ≫ q₁ = (c ≫ pullback.snd q₁ f) ≫ f
     rw [Category.assoc, Category.assoc, pullback.condition]
   have hlft : LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map ĝ) :=
     hf.1 U.obj.left Y₁ U.obj.hom q₁ ĝ hUP hq₁et hsq
@@ -413,7 +413,7 @@ theorem exists_affine_etale_completeDevissage_cover (B : BigFppfSite.{u}) (S : S
   -- The chart `U ×_{Y₁} Y'` of `X ×_Y Y'`: it is the base change of `c`.
   have hcond : yoneda.map (pullback.snd ĝ ι') ≫ q =
       yoneda.map (pullback.fst ĝ ι') ≫ U.obj.hom ≫ f := by
-    show yoneda.map (pullback.snd ĝ ι') ≫ yoneda.map ι' ≫ q₁ = _
+    change yoneda.map (pullback.snd ĝ ι') ≫ yoneda.map ι' ≫ q₁ = _
     rw [← Category.assoc, ← yoneda.map_comp, ← pullback.condition, yoneda.map_comp,
       Category.assoc, hsq]
   let φ : yoneda.obj (pullback ĝ ι') ⟶ pullback q f :=
@@ -440,14 +440,14 @@ theorem exists_affine_etale_completeDevissage_cover (B : BigFppfSite.{u}) (S : S
   obtain ⟨Wo, b, a, k, hkb, hka, hkE, hbE, hl', hq', ht', hD', hcov'⟩ := hpc
   let hmor : ∀ i, yoneda.obj (Wo i) ⟶ pullback q f := fun i => yoneda.map (k i) ≫ φ
   have hfst : ∀ i, hmor i ≫ pullback.fst q f = yoneda.map (a i) := fun i => by
-    show (yoneda.map (k i) ≫ φ) ≫ _ = _
+    change (yoneda.map (k i) ≫ φ) ≫ _ = _
     rw [Category.assoc, hφfst, ← yoneda.map_comp, hka]
   have hsnd : ∀ i, hmor i ≫ pullback.snd q f = yoneda.map (b i) ≫ U.obj.hom := fun i => by
-    show (yoneda.map (k i) ≫ φ) ≫ _ = _
+    change (yoneda.map (k i) ≫ φ) ≫ _ = _
     rw [Category.assoc, hφsnd, ← Category.assoc, ← yoneda.map_comp, hkb]
   have hWc : ∀ i, IsEtaleChart B S hS X (CostructuredArrow.mk (hmor i ≫ pullback.snd q f)) :=
     fun i => by
-      show (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
+      change (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
         (BigFppfOver.toScheme B S hS)).presheaf (hmor i ≫ pullback.snd q f)
       rw [hsnd]
       exact etale_comp_of_scheme B S hS (b i) U.obj.hom (hbE i) U.property
@@ -485,7 +485,7 @@ theorem exists_affine_etale_completeDevissage_cover (B : BigFppfSite.{u}) (S : S
       rw [pointsToScheme_pointsMap_yoneda,
         show pointsToScheme B S hS (Wo i) ((pointsEquivScheme B S hS (Wo i)).symm w') = w' from
           (pointsEquivScheme B S hS (Wo i)).apply_symm_apply w', hw']
-    show pointsMap B S hS _ (yoneda.map (k i) ≫ φ) _ = x
+    change pointsMap B S hS _ (yoneda.map (k i) ≫ φ) _ = x
     rw [pointsMap_comp_apply, hk', hp]
 
 end AlgebraicGeometry.Space

@@ -197,7 +197,7 @@ theorem range_subset_preimage_chartOpensRange {A D : BigFppfOver B S hS} (k : A 
   have := hk
   rw [Set.range_subset_iff]
   intro y
-  show gg.base (a.base y) ∈ chartOpensRange B S hS k hk
+  change gg.base (a.base y) ∈ chartOpensRange B S hS k hk
   refine ⟨b.base y, ?_⟩
   have hy := congrArg (fun f : A' ⟶ (BigFppfOver.toScheme B S hS).obj D ↦ f.base y) h
   simpa using hy.symm

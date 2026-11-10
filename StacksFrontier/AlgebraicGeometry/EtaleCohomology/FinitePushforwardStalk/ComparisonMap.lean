@@ -48,7 +48,7 @@ private theorem finite_sections_of_isFinite_affine {X : Scheme.{u}} [IsAffine X]
       (fun a b h => Subtype.ext ((cancel_mono e.hom).mp (congrArg Subtype.val h)))
   let φ := Spec.homEquiv (e.inv ≫ f)
   have hf : IsFinite (Spec.map φ) := by
-    show IsFinite (Spec.map (Spec.homEquiv (e.inv ≫ f)))
+    change IsFinite (Spec.map (Spec.homEquiv (e.inv ≫ f)))
     simpa using (inferInstance : IsFinite (e.inv ≫ f))
   let := φ.hom.toAlgebra
   have : Module.Finite Ω Γ(X, ⊤) := (IsFinite.SpecMap_iff φ).mp hf
@@ -58,7 +58,7 @@ private theorem finite_sections_of_isFinite_affine {X : Scheme.{u}} [IsAffine X]
       commutes' := by
         intro r
         have hg := congrArg (fun k => Spec.homEquiv k) g.2
-        show ((Spec.homEquiv g.1).hom) (φ.hom r) = r
+        change ((Spec.homEquiv g.1).hom) (φ.hom r) = r
         simpa [φ] using congrArg (fun k => k.hom r) hg }
   exact Finite.of_injective t (by
     intro a b h
@@ -146,11 +146,11 @@ public theorem pushforwardEtaleStalkComponent_germ
       eqToHom (congrArg (fun q : GeometricPoint Y.1 => q.source) h) ≫ U.2.1)
     (s : F.obj.obj (op ((smallEtaleBaseChange B f).obj U.1))) :
     pushforwardEtaleStalkComponent B f x y h F
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
           (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (u + 1))
         (SmallEtale.topology B Y.1 Y.property)
         (SmallEtale.topology B X.1 X.property)).obj F).obj) (op U) s) =
-      colimit.ι ((CategoryOfElements.π
+      colimit.ι ((Functor.Elements.π
         (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj) (op V) (F.obj.map t.op s) := by
   subst y
   let adj := (smallEtaleBaseChange B f).sheafAdjunctionContinuous (Type (u + 1))
@@ -158,12 +158,12 @@ public theorem pushforwardEtaleStalkComponent_germ
   let P := ((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (u + 1))
         (SmallEtale.topology B Y.1 Y.property)
         (SmallEtale.topology B X.1 X.property)).obj F
-  let D := (CategoryOfElements.π (geometricPointFiber B Y.1 Y.property
+  let D := (Functor.Elements.π (geometricPointFiber B Y.1 Y.property
     (x.map (B.inclusion.map f)))).op ⋙ P.obj
   let L := ((smallEtaleBaseChange B f).sheafPullback (Type (u + 1))
     (SmallEtale.topology B Y.1 Y.property) (SmallEtale.topology B X.1 X.property)).obj P
-  let E := (CategoryOfElements.π (geometricPointFiber B X.1 X.property x)).op ⋙ L.obj
-  let Q := (CategoryOfElements.π (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj
+  let E := (Functor.Elements.π (geometricPointFiber B X.1 X.property x)).op ⋙ L.obj
+  let Q := (Functor.Elements.π (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj
   let e := (smallEtalePullbackStalkIso B f x).app P
   simp only [eqToHom_refl, Category.id_comp] at ht
   have hg := smallEtalePullbackStalkIso_germ B f x P V U t ht s
@@ -171,14 +171,14 @@ public theorem pushforwardEtaleStalkComponent_germ
       colimit.ι E (op V) (pullbackSectionAlong B f P U.1 V.1 t s) := by
     rw [← hg]
     exact ConcreteCategory.congr_hom e.hom_inv_id _
-  show (etaleStalkFunctor.{u, u + 1} B X.1 X.property x).map (adj.counit.app F)
+  change (etaleStalkFunctor.{u, u + 1} B X.1 X.property x).map (adj.counit.app F)
     (e.inv (colimit.ι D (op U) s)) = colimit.ι Q (op V) (F.obj.map t.op s)
   rw [hi]
-  show (colimit.ι E (op V) ≫ colim.map
-    (Functor.whiskerLeft (CategoryOfElements.π
+  change (colimit.ι E (op V) ≫ colim.map
+    (Functor.whiskerLeft (Functor.Elements.π
       (geometricPointFiber B X.1 X.property x)).op (adj.counit.app F).hom)) _ = _
   rw [colimit.ι_map]
-  show colimit.ι Q (op V)
+  change colimit.ι Q (op V)
     ((adj.counit.app F).hom.app (op V.1) (pullbackSectionAlong B f P U.1 V.1 t s)) = _
   congr 1
   unfold pullbackSectionAlong
@@ -187,7 +187,7 @@ public theorem pushforwardEtaleStalkComponent_germ
   have hn' := ConcreteCategory.congr_hom hn
   have htri' := ConcreteCategory.congr_hom htri s
   dsimp at hn' htri'
-  show (adj.counit.app F).hom.app (op V.1)
+  change (adj.counit.app F).hom.app (op V.1)
     (L.obj.map t.op ((adj.unit.app P).hom.app (op U.1) s)) = F.obj.map t.op s
   change (adj.counit.app F).hom.app (op ((smallEtaleBaseChange B f).obj U.1))
     ((adj.unit.app P).hom.app (op U.1) s) = s at htri'
@@ -223,7 +223,7 @@ public theorem pushforwardEtaleStalkComponent_natural
       iso.inv.app (PF.obj F) ≫ SX.map (adj.counit.app F) ≫ SX.map α := by
     rw [← Category.assoc, iso.inv.naturality (PF.map α), Category.assoc]
     congr 1
-    show SX.map (PB.map (PF.map α)) ≫ SX.map (adj.counit.app G) = _
+    change SX.map (PB.map (PF.map α)) ≫ SX.map (adj.counit.app G) = _
     rw [← Functor.map_comp, ← Functor.map_comp]
     exact congrArg SX.map (adj.counit.naturality α)
   exact congrArg (fun k => k z) key
@@ -281,11 +281,11 @@ public theorem finitePushforwardStalkComponent_germ
     (U : (geometricPointFiber B Y.1 Y.property y).Elements)
     (s : F.obj.obj (op ((smallEtaleBaseChange B f).obj U.1))) :
     finitePushforwardStalkComponent B f y F x
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
           (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (u + 1))
             (SmallEtale.topology B Y.1 Y.property)
             (SmallEtale.topology B X.1 X.property)).obj F).obj) (op U) s) =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property
         (geometricPointLift (B.inclusion.map f) y x))).op ⋙ F.obj)
         (op (liftedEtaleNeighborhood B f y x U)) s := by
   let := hasPullbacks_bigEtaleSite B
@@ -301,7 +301,7 @@ public theorem finitePushforwardStalkComponent_germ
     (geometricPointLift_map (B.inclusion.map f) y x) F U
     (liftedEtaleNeighborhood B f y x U) (𝟙 _) ht s
   refine h.trans (congrArg (fun v => colimit.ι
-    ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+    ((Functor.Elements.π (geometricPointFiber B X.1 X.property
       (geometricPointLift (B.inclusion.map f) y x))).op ⋙ F.obj)
     (op (liftedEtaleNeighborhood B f y x U)) v) ?_)
   exact ConcreteCategory.congr_hom
@@ -342,11 +342,11 @@ public theorem finitePushforwardStalkToProduct_germ
     (s : F.obj.obj (op ((smallEtaleBaseChange B f).obj U.1)))
     (x : {g : y.source ⟶ X.1 // g ≫ B.inclusion.map f = y.hom}) :
     finitePushforwardStalkToProduct B f y F
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
           (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (u + 1))
             (SmallEtale.topology B Y.1 Y.property)
             (SmallEtale.topology B X.1 X.property)).obj F).obj) (op U) s) x =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property
         (geometricPointLift (B.inclusion.map f) y x))).op ⋙ F.obj)
         (op (liftedEtaleNeighborhood B f y x U)) s :=
   finitePushforwardStalkComponent_germ B f y F x U s

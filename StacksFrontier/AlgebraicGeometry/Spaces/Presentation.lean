@@ -163,7 +163,7 @@ public theorem singleton_mem_bigFppf_topology
     exact (Scheme.singleton_mem_precoverage_iff (@Etale.{u} : MorphismProperty Scheme.{u})
       (B.inclusion.map g)).2 ⟨Scheme.Hom.surjective _, he⟩
   have hE : IsFppfCovering (⟨X, PreZeroHypercover.singleton g⟩ : Covering B.Schemes) := by
-    show (PreZeroHypercover.singleton g).presieve₀.map B.inclusion ∈
+    change (PreZeroHypercover.singleton g).presieve₀.map B.inclusion ∈
       Scheme.fppfPrecoverage (B.inclusion.obj X)
     simpa only [PreZeroHypercover.presieve₀_singleton, Presieve.map_singleton] using
       Scheme.etalePrecoverage_le_fppfPrecoverage _ hEt
@@ -229,7 +229,7 @@ theorem isLocallySurjective_of_surjective_etale
       _ = W.hom := Over.w k)
   have hak : a ≫ q = k := Over.OverMorphism.ext hfac₀
   refine ⟨yonedaEquiv (yoneda.map (a ≫ α)), ?_⟩
-  show f.app (op W) (yonedaEquiv (yoneda.map (a ≫ α))) = F.map k.op ξ
+  change f.app (op W) (yonedaEquiv (yoneda.map (a ≫ α))) = F.map k.op ξ
   rw [← yonedaEquiv_comp]
   have hξ : yonedaEquiv g = ξ := yonedaEquiv.apply_symm_apply ξ
   rw [← hξ, yonedaEquiv_naturality]

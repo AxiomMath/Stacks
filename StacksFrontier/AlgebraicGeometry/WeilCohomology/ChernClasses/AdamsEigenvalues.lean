@@ -39,7 +39,7 @@ variable {C : Type w} [Category.{v₁} C] {S : C ⥤ Scheme.{u}}
 
 /-- For `i + j = n`, the product of `2^i • a` with the degree-`j` coefficient of `1 + 2x` is
 `2^n` times the product of `a` with the degree-`j` coefficient of `1 + x`. -/
-private theorem nsmul_mul_degreeOneFactor {A : Type*} [Ring A] (a x : A) {i j n : ℕ}
+theorem nsmul_mul_degreeOneFactor {A : Type*} [Ring A] (a x : A) {i j n : ℕ}
     (h : i + j = n) :
     (2 ^ i : ℕ) • a * (if j = 0 then 1 else if j = 1 then 2 • x else 0) =
       (2 ^ n : ℕ) • (a * (if j = 0 then 1 else if j = 1 then x else 0)) := by

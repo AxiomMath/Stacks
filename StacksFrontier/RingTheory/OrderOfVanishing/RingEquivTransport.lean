@@ -29,7 +29,7 @@ theorem ord_eq_of_ringEquiv {R S : Type*} [CommRing R] [CommRing S] (e : R ≃+*
     simp only [Ideal.mem_comap, Ideal.mem_span_singleton]
     refine ⟨fun ⟨c, hc⟩ ↦ ⟨e.symm c, ?_⟩, fun ⟨c, hc⟩ ↦ ⟨e c, by simp [hc]⟩⟩
     simpa using congrArg e.symm hc
-  show Module.length R (R ⧸ Ideal.span {r}) = Module.length S (S ⧸ Ideal.span {e r})
+  change Module.length R (R ⧸ Ideal.span {r}) = Module.length S (S ⧸ Ideal.span {e r})
   rw [Module.length_quotient, Module.length_quotient, ← h]
   exact Order.coheight_orderIso e.idealComapOrderIso (Ideal.span {e r})
 

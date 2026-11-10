@@ -110,7 +110,7 @@ private theorem exists_later_stage_factorization_of_locallyOfFinitePresentation
         exact Over.w α }
   have hcompat : c'.π ≫ t = (Functor.const E).map (a ≫ f) := by
     ext j
-    show c.π.app (p.obj j) ≫ D.map j.hom = a ≫ f
+    change c.π.app (p.obj j) ≫ D.map j.hom = a ≫ f
     exact (c.w j.hom).trans ha
   obtain ⟨j, u, hu, hu'⟩ :=
     Scheme.exists_π_app_comp_eq_of_locallyOfFinitePresentation D' t f c' hc' a hcompat
@@ -197,7 +197,7 @@ private theorem finitePresentation_of_spec_retract
   have hsr : sr ≫ r = 𝟙 A := by
     apply Under.UnderMorphism.ext
     apply Spec.map_injective
-    show Spec.map (s' ≫ r.right) = Spec.map (𝟙 A.right)
+    change Spec.map (s' ≫ r.right) = Spec.map (𝟙 A.right)
     rw [Spec.map_comp, hs', Spec.map_id]
     exact hr
   let re : Retract A T := { i := sr, r := r, retract := hsr }
@@ -297,7 +297,7 @@ private theorem exists_later_stage_lift_etale
   have he : Etale (T.map (e.snd ξ)) := hp.property_snd ξ
   have : ∀ j, IsAffine ((D ⋙ T).obj j) := by
     intro j
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj (D.obj j))
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj (D.obj j))
     infer_instance
   have hπ : (T.mapCone c).π.app (Opposite.op i) = T.map aE ≫ T.map (e.snd ξ) := by
     rw [← T.map_comp]
@@ -369,7 +369,7 @@ theorem isLocallyOfFinitePresentation_of_affineLimit_surjective
   let a : U ⟶ V := e.fst' (p ≫ f)
   let b : U ⟶ W := e.snd (p ≫ f)
   have : PreservesLimitsOfShape WalkingCospan T := by
-    show PreservesLimitsOfShape WalkingCospan ((Over.forget (B.obj hS)) ⋙ B.inclusion)
+    change PreservesLimitsOfShape WalkingCospan ((Over.forget (B.obj hS)) ⋙ B.inclusion)
     have : PreservesLimitsOfShape WalkingCospan B.inclusion := inferInstance
     apply comp_preservesLimitsOfShape
   let QEtale := MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u}) T
@@ -402,7 +402,7 @@ theorem isLocallyOfFinitePresentation_of_affineLimit_surjective
     presheaf_yoneda_map_comp_of_isPullback QSurjective hpb hqSurj hpSurj
   refine ⟨U, V, yoneda.map b ≫ p, q, a, hsrcEtale, hqEtale, hsrcSurj, ?_, ?_⟩
   · simpa only [a, b, e.map_fst', Functor.map_comp, Category.assoc] using e.w (p ≫ f)
-  · show LocallyOfFinitePresentation (T.map a)
+  · change LocallyOfFinitePresentation (T.map a)
     refine LocallyOfFinitePresentation.mk ?_
     intro V₀ hV₀ U₀ hU₀ hVU
     let R : CommRingCat := CommRingCat.of Γ(T.obj V, V₀)
@@ -421,7 +421,7 @@ theorem isLocallyOfFinitePresentation_of_affineLimit_surjective
         _ = V₀.toScheme.size := (Scheme.size_congr hV₀.isoSpec).symm
         _ < B.cutoff := hV₀small
     have hA : (Spec A.right).size < B.cutoff := by
-      show (Spec (CommRingCat.of Γ(T.obj U, U₀))).size < B.cutoff
+      change (Spec (CommRingCat.of Γ(T.obj U, U₀))).size < B.cutoff
       calc
         (Spec (CommRingCat.of Γ(T.obj U, U₀))).size = U₀.toScheme.size :=
           (Scheme.size_congr hU₀.isoSpec).symm
@@ -438,14 +438,14 @@ theorem isLocallyOfFinitePresentation_of_affineLimit_surjective
       exact isLimitOfPreserves (Over.forget (Spec R)) hcSpec
     have hStages : ∀ j, B.Contains (D.obj j).left := by
       intro j
-      show (Spec (F.obj j.unop).right).size < B.cutoff
+      change (Spec (F.obj j.unop).right).size < B.cutoff
       exact spec_size_lt_cutoff_of_finitePresentation B hR (F.obj j.unop) (hFP j.unop)
     let Dsite := liftOverDiagramToSite B S hS D hStages
     let cSite := liftOverConeToSite B S hS cOver hStages hA
     let U₀site := openObjectOverSite B S hS U U₀
     have hlimU₀Scheme :
         hU₀.isoSpec.inv ≫ B.inclusion.map U₀site.hom = B.inclusion.map cSite.pt.hom := by
-      show hU₀.fromSpec ≫ B.inclusion.map U.hom =
+      change hU₀.fromSpec ≫ B.inclusion.map U.hom =
         (Spec.map ((T.map a).appLE V₀ U₀ hVU) ≫ hV₀.fromSpec) ≫ vToS
       rw [IsAffineOpen.SpecMap_appLE_fromSpec (T.map a) hV₀ hU₀ hVU, Category.assoc]
       congr 1
@@ -462,7 +462,7 @@ theorem isLocallyOfFinitePresentation_of_affineLimit_surjective
       (overSpec.obj oi₀).hom ≫ hV₀.fromSpec
     have hstageToV :
         stageToVScheme ≫ B.inclusion.map V.hom = B.inclusion.map (Dsite.obj oi₀).hom := by
-      show ((overSpec.obj oi₀).hom ≫ hV₀.fromSpec) ≫ vToS =
+      change ((overSpec.obj oi₀).hom ≫ hV₀.fromSpec) ≫ vToS =
         (overSpec.obj oi₀).hom ≫ toS
       simp [toS, Category.assoc]
     let stageToV : Dsite.obj oi₀ ⟶ V :=
@@ -472,7 +472,7 @@ theorem isLocallyOfFinitePresentation_of_affineLimit_surjective
     let y : colimit (Dsite.op ⋙ Y) :=
       colimit.ι (Dsite.op ⋙ Y) (Opposite.op oi₀) ystage
     have hcSiteScheme : IsLimit (T.mapCone cSite) := by
-      show IsLimit ((Over.forget S).mapCone cOver)
+      change IsLimit ((Over.forget S).mapCone cOver)
       exact isLimitOfPreserves (Over.forget S) hcOver
     have hchart : yoneda.map b ≫ p ≫ f = yoneda.map a ≫ q := by
       simpa only [a, b, e.map_fst', Functor.map_comp, Category.assoc] using
@@ -480,13 +480,13 @@ theorem isLocallyOfFinitePresentation_of_affineLimit_surjective
     have hlimToV : limToU ≫ a = cSite.π.app oi₀ ≫ stageToV := by
       apply Over.OverMorphism.ext
       apply ObjectProperty.hom_ext
-      show hU₀.fromSpec ≫ T.map a =
+      change hU₀.fromSpec ≫ T.map a =
         (cSpec.π.app oi₀).left ≫ (overSpec.obj oi₀).hom ≫ hV₀.fromSpec
       rw [← Category.assoc, (cSpec.π.app oi₀).w]
       exact (IsAffineOpen.SpecMap_appLE_fromSpec (T.map a) hV₀ hU₀ hVU).symm
     have hDsiteAffine : ∀ j, IsAffine (T.obj (Dsite.obj j)) := by
       intro j
-      show IsAffine (Spec (F.obj j.unop).right)
+      change IsAffine (Spec (F.obj j.unop).right)
       infer_instance
     have htarget : f.app (Opposite.op cSite.pt) x =
         colimit.desc (Dsite.op ⋙ Y) (Y.mapCocone cSite.op) y := by
@@ -505,7 +505,7 @@ theorem isLocallyOfFinitePresentation_of_affineLimit_surjective
       rw [hdesc, hxchart, hlimToV]
       simpa [ystage] using q.naturality_apply (cSite.π.app oi₀).op stageToV
     have hptAffine : IsAffine (T.obj cSite.pt) := by
-      show IsAffine (Spec A.right)
+      change IsAffine (Spec A.right)
       infer_instance
     obtain ⟨z, hzX, hzY⟩ :=
       hsurj Jᵒᵖ Dsite cSite hcSiteScheme hDsiteAffine hptAffine x y htarget
@@ -536,7 +536,7 @@ theorem isLocallyOfFinitePresentation_of_affineLimit_surjective
       rw [colimit.ι_desc] at hzX
       exact hzX
     have hzkAtLimit : X.map (cSite.π.app ok).op zik = x := by
-      show ((X.map (Dsite.map fik.unop).op ≫ X.map (cSite.π.app ok).op) zi) = x
+      change ((X.map (Dsite.map fik.unop).op ≫ X.map (cSite.π.app ok).op) zi) = x
       rw [← X.map_comp, ← op_comp, cSite.w fik.unop]
       exact hziAtLimit
     let ξk : yoneda.obj (Dsite.obj ok) ⟶ X := yonedaEquiv.symm zik
@@ -567,7 +567,7 @@ theorem isLocallyOfFinitePresentation_of_affineLimit_surjective
       · rw [Category.assoc, e.lift'_snd]
         exact hwj
     have hopen : QEtale chartToU := by
-      show Etale U₀.ι
+      change Etale U₀.ι
       infer_instance
     have hlimOpen : yoneda.map limU₀ ≫ yoneda.map chartToU =
         yoneda.map (cSite.π.app (Opposite.op j)) ≫ yoneda.map uj := by
@@ -580,7 +580,7 @@ theorem isLocallyOfFinitePresentation_of_affineLimit_surjective
       apply yoneda.map_injective
       simpa only [Functor.map_comp] using htlU
     have hvjBase : T.map vj = (overSpec.obj (Opposite.op j)).hom ≫ hV₀.fromSpec := by
-      show (overSpec.map g.op).left ≫ (overSpec.map fi₀k.unop).left ≫
+      change (overSpec.map g.op).left ≫ (overSpec.map fi₀k.unop).left ≫
         (overSpec.obj oi₀).hom ≫ hV₀.fromSpec = _
       rw [← Category.assoc (overSpec.map fi₀k.unop).left, (overSpec.map fi₀k.unop).w,
         ← Category.assoc, (overSpec.map g.op).w]
@@ -596,7 +596,7 @@ theorem isLocallyOfFinitePresentation_of_affineLimit_surjective
           rw [T.map_comp, Category.assoc, ← T.map_comp, hujV]
         _ = _ := by
           rw [hmap, hvjBase]
-          show (overSpec.map gjl.op).left ≫
+          change (overSpec.map gjl.op).left ≫
             (overSpec.obj (Opposite.op j)).hom ≫ hV₀.fromSpec =
             (overSpec.obj (Opposite.op l)).hom ≫ hV₀.fromSpec
           simpa only [Category.assoc] using

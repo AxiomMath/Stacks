@@ -93,7 +93,7 @@ theorem topologicalKrullDimAt_fiber_eq_ringKrullDim_stalk {X S : Scheme.{u}} (f 
     topologicalKrullDimAt (f.fiber (f x)) (f.asFiber x) =
       ringKrullDim ((f.fiber (f x)).presheaf.stalk (f.asFiber x)) := by
   have hft : LocallyOfFiniteType (f.fiberToSpecResidueField (f x)) := by
-    show LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField (f x)))
+    change LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField (f x)))
     infer_instance
   exact topologicalKrullDimAt_eq_krullDimOfRing_stalk (S.residueField (f x)) (f.fiber (f x))
     (f.fiberToSpecResidueField (f x)) (f.asFiber x) hclosed

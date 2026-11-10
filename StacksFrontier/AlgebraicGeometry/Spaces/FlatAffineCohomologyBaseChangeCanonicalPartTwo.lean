@@ -341,7 +341,7 @@ theorem baseChartBaseRingHom_smul (hV₀ : IsTerminal V₀) (hV₀' : IsTerminal
       globalSectionsRingHomSite B S hS D.g (baseChartBaseRingHom B S hS D.Y hV₀ a) *
         baseChartBaseRingHom B S hS D.Y' hV₀' b := by
   let _ := baseChartAlgebra B S hS D.g V₀ V₀'
-  show baseChartBaseRingHom B S hS D.Y' hV₀'
+  change baseChartBaseRingHom B S hS D.Y' hV₀'
       (algebraMap (baseChartRing B S hS D.Y V₀) (baseChartRing B S hS D.Y' V₀') a * b) = _
   rw [map_mul, D.baseChartBaseRingHom_algebraMap V₀ V₀' hV₀ hV₀' a]
 
@@ -495,10 +495,10 @@ theorem chartTensorToSource_surjective (i : ℕ) :
   have := hasInjectiveResolutions_modules B S hS D.X.1 D.X.2
   let hV₀' : IsTerminal V₀' := isTerminal_of_isIso_chart B S hS D.Y' V₀'
   let _ := baseChartAlgebra B S hS D.g V₀ V₀'
-  show Function.Surjective (D.chartTensorToSource V₀ V₀' i)
+  change Function.Surjective (D.chartTensorToSource V₀ V₀' i)
   intro w
-  refine TensorProduct.induction_on
-    (motive := fun w => ∃ z, D.chartTensorToSource V₀ V₀' i z = w) w ⟨0, map_zero _⟩ ?_ ?_
+  refine TensorProduct.inductionOn
+    (motive := fun w => ∃ z, D.chartTensorToSource V₀ V₀' i z = w) w ?_ ?_
   · intro s m
     refine ⟨m ⊗ₜ[baseChartRing B S hS D.Y V₀]
       globalSectionsChartRingEquiv B S hS D.Y' hV₀' s, ?_⟩

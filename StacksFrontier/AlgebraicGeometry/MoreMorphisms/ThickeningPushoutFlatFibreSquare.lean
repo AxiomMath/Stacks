@@ -58,9 +58,9 @@ theorem isPullback_appTop_of_isPushout (hpo : IsPushout i f g h) (hi : IsThicken
   let := hpo.hasPushout
   refine (pushout_structureSheaf_isPullback' i f hi ⊤).of_iso (Scheme.Γ.mapIso hpo.isoPushout.op)
     (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
-  · show (pushout.inr i f).appTop ≫ 𝟙 _ = hpo.isoPushout.hom.appTop ≫ h.appTop
+  · change (pushout.inr i f).appTop ≫ 𝟙 _ = hpo.isoPushout.hom.appTop ≫ h.appTop
     rw [Category.comp_id, ← Scheme.Hom.comp_appTop, hpo.inr_isoPushout_hom]
-  · show (pushout.inl i f).appTop ≫ 𝟙 _ = hpo.isoPushout.hom.appTop ≫ g.appTop
+  · change (pushout.inl i f).appTop ≫ 𝟙 _ = hpo.isoPushout.hom.appTop ≫ g.appTop
     rw [Category.comp_id, ← Scheme.Hom.comp_appTop, hpo.inl_isoPushout_hom]
   · rfl
   · simp only [Iso.refl_hom]

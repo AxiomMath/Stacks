@@ -67,10 +67,10 @@ theorem prodRightEquiv_wedgeLeft (n : ℕ) (z : ⋀[R]^(n + 1) (M × R)) :
       (0, map (n + 1) (LinearMap.fst R M R) z) := by
   rw [prodRightEquiv_apply]
   refine Prod.ext ?_ ?_
-  · show map (n + 2) (LinearMap.fst R M R) (wedgeLeft ((0, 1) : M × R) (n + 1) z) = 0
+  · change map (n + 2) (LinearMap.fst R M R) (wedgeLeft ((0, 1) : M × R) (n + 1) z) = 0
     rw [← LinearMap.comp_apply, map_comp_wedgeLeft (LinearMap.fst R M R) _ rfl (n + 1),
       LinearMap.zero_apply]
-  · show map (n + 1) (LinearMap.fst R M R)
+  · change map (n + 1) (LinearMap.fst R M R)
       (contraction (LinearMap.snd R M R) (n + 1) (wedgeLeft ((0, 1) : M × R) (n + 1) z)) =
         map (n + 1) (LinearMap.fst R M R) z
     have hk := DFunLike.congr_fun
@@ -121,17 +121,17 @@ theorem exists_section_coord (a : P →ₗ[R] M) (g : M →ₗ[R] Q) (ha : Funct
   · have hdv : (LinearEquiv.ofInjective a ha).symm (d (a (b 0))) = b 0 := by
       refine ha ?_
       rw [hpre, hga, σ.map_zero, sub_zero]
-    show b.coord 0 ((LinearEquiv.ofInjective a ha).symm (d (a (b 0)))) = 1
+    change b.coord 0 ((LinearEquiv.ofInjective a ha).symm (d (a (b 0)))) = 1
     rw [hdv, Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_eq_same]
   · refine LinearMap.ext fun q ↦ ?_
     have hdq : (LinearEquiv.ofInjective a ha).symm (d (σ q)) = 0 := by
       refine ha ?_
       rw [hpre, map_zero, ← LinearMap.comp_apply g σ, hσ, LinearMap.id_apply, sub_self]
-    show b.coord 0 ((LinearEquiv.ofInjective a ha).symm (d (σ q))) = 0
+    change b.coord 0 ((LinearEquiv.ofInjective a ha).symm (d (σ q))) = 0
     rw [hdq, map_zero]
   · have h := congrArg a (hrepr ((LinearEquiv.ofInjective a ha).symm (d v)))
     rw [hpre, map_smul] at h
-    show v = σ (g v) + b.coord 0 ((LinearEquiv.ofInjective a ha).symm (d v)) • a (b 0)
+    change v = σ (g v) + b.coord 0 ((LinearEquiv.ofInjective a ha).symm (d v)) • a (b 0)
     rw [← h, add_sub_cancel]
 
 /-- **The exterior powers of a module with a free rank-one submodule.** Let
@@ -150,18 +150,18 @@ theorem injective_and_range_eq_ker_of_wedgeLeft (a : P →ₗ[R] M) (g : M →�
   have hga := map_eq_zero_of_range_eq_ker hex
   -- the splitting `M ≃ Q × R`
   let Ψ : M ≃ₗ[R] Q × R :=
-    LinearEquiv.ofLinear (g.prod φ) ((σ.coprod (LinearMap.toSpanSingleton R M e)))
+    LinearEquiv.ofLinearMap (g.prod φ) ((σ.coprod (LinearMap.toSpanSingleton R M e)))
       (by
         refine LinearMap.prod_ext (LinearMap.ext fun q ↦ ?_) (LinearMap.ext fun c ↦ ?_)
         · refine Prod.ext ?_ ?_
-          · show g (σ q + (0 : R) • e) = q
+          · change g (σ q + (0 : R) • e) = q
             rw [zero_smul, add_zero, ← LinearMap.comp_apply, hσ, LinearMap.id_apply]
-          · show φ (σ q + (0 : R) • e) = 0
+          · change φ (σ q + (0 : R) • e) = 0
             rw [zero_smul, add_zero, ← LinearMap.comp_apply, hφσ, LinearMap.zero_apply]
         · refine Prod.ext ?_ ?_
-          · show g (σ 0 + c • e) = 0
+          · change g (σ 0 + c • e) = 0
             rw [map_zero, zero_add, map_smul, he, hga, smul_zero]
-          · show φ (σ 0 + c • e) = c
+          · change φ (σ 0 + c • e) = c
             rw [map_zero, zero_add, map_smul, hφe, smul_eq_mul, mul_one])
       (LinearMap.ext fun v ↦ (hv v).symm)
   have hΨ1 : (LinearMap.fst R Q R).comp Ψ.toLinearMap = g := rfl
@@ -171,7 +171,7 @@ theorem injective_and_range_eq_ker_of_wedgeLeft (a : P →ₗ[R] M) (g : M →�
     · exact hφe
   -- the decomposition of `⋀ᵏ⁺² M`
   let mΨ : ⋀[R]^(k + 2) M ≃ₗ[R] ⋀[R]^(k + 2) (Q × R) :=
-    LinearEquiv.ofLinear (map (k + 2) Ψ.toLinearMap) (map (k + 2) Ψ.symm.toLinearMap)
+    LinearEquiv.ofLinearMap (map (k + 2) Ψ.toLinearMap) (map (k + 2) Ψ.symm.toLinearMap)
       (by rw [← map_comp, show Ψ.toLinearMap ∘ₗ Ψ.symm.toLinearMap = LinearMap.id from
         LinearMap.ext Ψ.apply_symm_apply, map_id])
       (by rw [← map_comp, show Ψ.symm.toLinearMap ∘ₗ Ψ.toLinearMap = LinearMap.id from
@@ -180,11 +180,11 @@ theorem injective_and_range_eq_ker_of_wedgeLeft (a : P →ₗ[R] M) (g : M →�
     mΨ.trans (prodRightEquiv R Q (k + 1))
   have hΘ1 : ∀ w, (Θ w).1 = map (k + 2) g w := by
     intro w
-    show map (k + 2) (LinearMap.fst R Q R) (map (k + 2) Ψ.toLinearMap w) = _
+    change map (k + 2) (LinearMap.fst R Q R) (map (k + 2) Ψ.toLinearMap w) = _
     rw [← LinearMap.comp_apply, ← map_comp, hΨ1]
   have hΘwedge : ∀ y, Θ (wedgeLeft e (k + 1) y) = (0, map (k + 1) g y) := by
     intro y
-    show prodRightEquiv R Q (k + 1) (map (k + 2) Ψ.toLinearMap (wedgeLeft e (k + 1) y)) = _
+    change prodRightEquiv R Q (k + 1) (map (k + 2) Ψ.toLinearMap (wedgeLeft e (k + 1) y)) = _
     rw [map_wedgeLeft, LinearEquiv.coe_coe, hΨe, prodRightEquiv_wedgeLeft,
       ← LinearMap.comp_apply, ← map_comp, hΨ1]
   -- `P ⊗ ⋀ᵏ⁺¹ Q` is `⋀ᵏ⁺¹ Q`, through `b 0`
@@ -199,8 +199,7 @@ theorem injective_and_range_eq_ker_of_wedgeLeft (a : P →ₗ[R] M) (g : M →�
   have hrepr := eq_coord_smul b
   have hsurjτ : ∀ t : P ⊗[R] ⋀[R]^(k + 1) Q, ∃ z, t = b 0 ⊗ₜ z := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, (tmul_zero _ _).symm⟩
+    induction t using TensorProduct.inductionOn with
     | tmul p y =>
         refine ⟨b.coord 0 p • y, ?_⟩
         conv_lhs => rw [hrepr p]

@@ -56,8 +56,8 @@ thing as a morphism `w` of the underlying simplicial algebras with `w ≫ ε' = 
 `CommAlgCat.resolutionOverForget` is the passage from `ψ` to `w`, and
 `CommAlgCat.resolutionOverMap_resolutionOverForget` says that
 `CommAlgCat.resolutionOverMap` inverts it. Only the first direction is available from
-`StacksFrontier/Cotangent/ResolutionCotangentDerivedNaturality.lean`, and the arrow-level statement is
-wanted for an arbitrary `ψ`, which is the form in which a comparison of resolutions presents it.
+`StacksFrontier/Cotangent/ResolutionCotangentDerivedNaturality.lean`, and the arrow-level statement
+is wanted for an arbitrary `ψ`, which is the form in which a comparison of resolutions presents it.
 
 ## References
 

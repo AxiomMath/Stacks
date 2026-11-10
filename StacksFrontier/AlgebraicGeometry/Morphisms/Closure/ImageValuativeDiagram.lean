@@ -87,7 +87,7 @@ private theorem exists_valuationRing_diagram_of_comap_le
   let h : Spec (.of A) ⟶ Spec (.of R) := Spec.map (CommRingCat.ofHom r)
   have hcomm : (algebraMap A K).comp r = (algebraMap S K).comp φ := by
     ext x
-    show (IsLocalRing.residue (Localization.AtPrime q.asIdeal))
+    change (IsLocalRing.residue (Localization.AtPrime q.asIdeal))
         (θ (algebraMap R (Localization.AtPrime p.asIdeal) x)) = algebraMap S K (φ x)
     have hθ : θ.comp (algebraMap R (Localization.AtPrime p.asIdeal)) =
         (algebraMap S (Localization.AtPrime q.asIdeal)).comp φ :=
@@ -100,16 +100,16 @@ private theorem exists_valuationRing_diagram_of_comap_le
       _ = algebraMap S K (φ x) :=
         IsScalarTower.algebraMap_apply S (Localization.AtPrime q.asIdeal) K (φ x)
   have hclosed : h (closedPoint A) = p := by
-    show PrimeSpectrum.comap r (IsLocalRing.closedPoint A) = p
+    change PrimeSpectrum.comap r (IsLocalRing.closedPoint A) = p
     rw [PrimeSpectrum.comap_comp]
-    show PrimeSpectrum.comap (algebraMap R (Localization.AtPrime p.asIdeal))
+    change PrimeSpectrum.comap (algebraMap R (Localization.AtPrime p.asIdeal))
       (PrimeSpectrum.comap ρ (IsLocalRing.closedPoint A)) = p
     rw [IsLocalRing.comap_closedPoint ρ]
     exact PrimeSpectrum.ext
       (IsLocalization.AtPrime.under_maximalIdeal (Localization.AtPrime p.asIdeal) p.asIdeal)
   refine ⟨A, inferInstance, inferInstance, inferInstance,
     K, inferInstance, inferInstance, inferInstance, g, h, ?_, hclosed⟩
-  show Spec.map (CommRingCat.ofHom (algebraMap S K)) ≫
+  change Spec.map (CommRingCat.ofHom (algebraMap S K)) ≫
       Spec.map (CommRingCat.ofHom φ) =
     Spec.map (CommRingCat.ofHom (algebraMap A K)) ≫ Spec.map (CommRingCat.ofHom r)
   rw [← Spec.map_comp, ← Spec.map_comp]
@@ -154,7 +154,7 @@ public theorem exists_valuationRing_diagram_of_mem_support_ker
     let g := g' ≫ pullback.fst f (𝒰.f i)
     let h := h' ≫ 𝒰.f i
     refine ⟨A, hA, hAd, hAv, K, hK, hAK, hAF, g, h, ?_, ?_⟩
-    · show g' ≫ pullback.fst f (𝒰.f i) ≫ f =
+    · change g' ≫ pullback.fst f (𝒰.f i) ≫ f =
         Spec.map (CommRingCat.ofHom (algebraMap A K)) ≫ h' ≫ 𝒰.f i
       rw [pullback.condition, reassoc_of% hcomm]
     · exact congrArg (𝒰.f i) hclosed
@@ -201,7 +201,7 @@ public theorem exists_valuationRing_of_image_point
     have hs : (f.toImage.ker.support : Set f.image) = Set.univ := by
       rw [Scheme.Hom.support_ker]
       exact f.toImage.denseRange.closure_range
-    show (z : f.image) ∈ (f.toImage.ker.support : Set f.image)
+    change (z : f.image) ∈ (f.toImage.ker.support : Set f.image)
     rw [hs]
     exact Set.mem_univ z
   exact exists_valuationRing_diagram_of_mem_support_ker f.toImage z hz

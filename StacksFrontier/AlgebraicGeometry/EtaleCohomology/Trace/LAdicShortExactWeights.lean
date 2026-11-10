@@ -97,11 +97,12 @@ public theorem exact_geometricCompactSupportPadicCohomology_map [Finite k]
 
 variable {f j kbar}
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **Exactness of `Hⁱ_c(X_k̄, - ⊗ ℚ_ℓ)` in the middle.**  For morphisms `φ : F₁ ⟶ F₂` and
 `ψ : F₂ ⟶ F₃` of ℓ-adic sheaves which form a short exact sequence at every finite level, and with
 every `Hⁱ_c(X_k̄, F₁,ₙ)` finite,
 `Hⁱ_c(X_k̄, F₁ ⊗ ℚ_ℓ) → Hⁱ_c(X_k̄, F₂ ⊗ ℚ_ℓ) → Hⁱ_c(X_k̄, F₃ ⊗ ℚ_ℓ)` is exact. -/
-public theorem LAdicSheaf.exact_rationalGeometricCompactlySupportedCohomologyMap
+public theorem LAdicSheaf.exact_rationalGeometricCompactlySupportedCohomologyMap [Finite k]
     {F₁ F₂ F₃ : LAdicSheaf B X ℓ} (φ : F₁ ⟶ F₂) (ψ : F₂ ⟶ F₃)
     (hw : ∀ n, LAdicSheaf.padicLevelMap φ n ≫ LAdicSheaf.padicLevelMap ψ n = 0)
     (hS : ∀ n, (ShortComplex.mk _ _ (hw n)).ShortExact) (i : ℤ)
@@ -118,6 +119,7 @@ public theorem LAdicSheaf.exact_rationalGeometricCompactlySupportedCohomologyMap
     (fun n => exact_geometricCompactSupportPadicCohomology_map f j kbar (hS n.unop) i)
     (fun n => hfin n.unop)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **Weights along a short exact sequence of ℓ-adic sheaves.**  For morphisms `φ : F₁ ⟶ F₂` and
 `ψ : F₂ ⟶ F₃` of ℓ-adic sheaves which form a short exact sequence at every finite level, with every
 `Hⁱ_c(X_k̄, F₁,ₙ)` finite: if the complex roots, read along `ι`, of the characteristic polynomials

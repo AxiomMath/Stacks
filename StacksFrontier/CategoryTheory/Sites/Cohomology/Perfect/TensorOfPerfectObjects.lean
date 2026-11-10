@@ -99,7 +99,7 @@ private theorem kFlat_restrictComplex_of_isColimit (V : X.C)
     (hLE : ∀ n : ℕ, ∃ b : ℤ, (D.obj n).IsStrictlyLE b)
     (hflat : ∀ (n : ℕ) (i : ℤ), AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u}
       (O := X.O) ((D.obj n).X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat (X.O.over V) (restrictComplex X c.pt V) := by
+    Stacks.SheafOfModules.KFlat (X.O.over V) (restrictComplex X c.pt V) := by
   have h₁ : PreservesColimitsOfSize.{u, u}
       (Stacks.SheafOfModules.KFlatRestriction.restriction X.O V) :=
     Stacks.SheafOfModules.pushforward_preservesColimits
@@ -129,8 +129,8 @@ private theorem exists_sliceKFlat_resolution
     (E : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ) :
     ∃ (A : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
       (f : A ⟶ E),
-      QuasiIso f ∧ Stacks.SheafOfModules.KFlat.KFlat X.O A ∧
-        ∀ V : X.C, Stacks.SheafOfModules.KFlat.KFlat (X.O.over V) (restrictComplex X A V) := by
+      QuasiIso f ∧ Stacks.SheafOfModules.KFlat X.O A ∧
+        ∀ V : X.C, Stacks.SheafOfModules.KFlat (X.O.over V) (restrictComplex X A V) := by
   obtain ⟨D, f, hLE, hflat, hqis, -⟩ :=
     Stacks.SheafOfModules.KFlatResolution.exists_resolution_colimit X.O E
   exact ⟨colimit D, f, hqis,
@@ -205,12 +205,12 @@ class of `Tot(A ⊗_O B)|_V` because restriction commutes with the total tensor 
 private def localModelIso (V : X.C)
     (TV : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct (X.O.over V))
     (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
-    (hAV : Stacks.SheafOfModules.KFlat.KFlat (X.O.over V) (restrictComplex X A V))
-    (hBV : Stacks.SheafOfModules.KFlat.KFlat (X.O.over V) (restrictComplex X B V))
+    (hAV : Stacks.SheafOfModules.KFlat (X.O.over V) (restrictComplex X A V))
+    (hBV : Stacks.SheafOfModules.KFlat (X.O.over V) (restrictComplex X B V))
     (P₁ P₂ : CochainComplex
       (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over V)) ℤ)
-    (hP₁ : Stacks.SheafOfModules.KFlat.KFlat (X.O.over V) P₁)
-    (hP₂ : Stacks.SheafOfModules.KFlat.KFlat (X.O.over V) P₂)
+    (hP₁ : Stacks.SheafOfModules.KFlat (X.O.over V) P₁)
+    (hP₂ : Stacks.SheafOfModules.KFlat (X.O.over V) P₂)
     (e₁ : DerivedCategory.Q.obj P₁ ≅ DerivedCategory.Q.obj (restrictComplex X A V))
     (e₂ : DerivedCategory.Q.obj P₂ ≅ DerivedCategory.Q.obj (restrictComplex X B V)) :
     DerivedCategory.Q.obj (((tensorComplex (X.O.over V)).obj P₁).obj P₂) ≅

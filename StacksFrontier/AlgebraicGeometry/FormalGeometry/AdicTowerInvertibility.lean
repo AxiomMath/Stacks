@@ -61,7 +61,7 @@ lemma mem_smul_top_of_one_tmul_eq_zero {S : Type u} [CommRing S] [Algebra R S]
     TensorProduct.congr e.symm.toLinearEquiv (LinearEquiv.refl R M) ≪≫ₗ
       TensorProduct.quotTensorEquivQuotSMul M K
   have h1 : φ ((1 : S) ⊗ₜ[R] y) = Submodule.Quotient.mk y := by
-    show TensorProduct.quotTensorEquivQuotSMul M K (e.symm 1 ⊗ₜ[R] y) = _
+    change TensorProduct.quotTensorEquivQuotSMul M K (e.symm 1 ⊗ₜ[R] y) = _
     rw [map_one, ← map_one (Ideal.Quotient.mk K),
       TensorProduct.quotTensorEquivQuotSMul_mk_tmul, one_smul]
   rw [hy, map_zero] at h1
@@ -168,7 +168,7 @@ a function invertible at the point, by the affine-local description of the ideal
 theorem ker_stalkMap_le_map (hker : k.ker = Stacks.Cohomology.FormalFunctions.baseIdealSheaf A J fX)
     (y : W) : RingHom.ker (k.stalkMap y).hom ≤ stalkIdeal A J fX (k y) := by
   intro s hs
-  obtain ⟨V, hxV, t, rfl⟩ := X.presheaf.germ_exist s
+  obtain ⟨V, hxV, t, rfl⟩ := X.presheaf.exists_germ_eq s
   obtain ⟨U₀, hU₀, hxU, hUV⟩ :=
     (Opens.isBasis_iff_nbhd.mp X.isBasis_affineOpens) hxV
   let U : X.affineOpens := ⟨U₀, hU₀⟩
@@ -185,7 +185,7 @@ theorem ker_stalkMap_le_map (hker : k.ker = Stacks.Cohomology.FormalFunctions.ba
   have hU' : IsAffineOpen (k ⁻¹ᵁ U.1) := U.2.preimage k
   obtain ⟨c, hcO, hyc⟩ := hU'.exists_basicOpen_le ⟨y, hyO⟩ hyU
   have hres : (k.app U.1 t') |_ (W.basicOpen c) = 0 := by
-    show W.presheaf.map (homOfLE (W.basicOpen_le c)).op (k.app U.1 t') = 0
+    change W.presheaf.map (homOfLE (W.basicOpen_le c)).op (k.app U.1 t') = 0
     rw [show (homOfLE (W.basicOpen_le c)).op = iO.op ≫ (homOfLE hcO).op from rfl,
       Functor.map_comp, CommRingCat.comp_apply, hO, map_zero]
   obtain ⟨m, hm⟩ := exists_pow_mul_eq_zero_of_res_basicOpen_eq_zero_of_isAffineOpen W hU' _ c hres
@@ -238,7 +238,7 @@ omit fX in
 /-- The image of `Sₙ ⟶ Spec A` is `V(I)`. -/
 lemma range_adicThickeningι (n : ℕ) :
     Set.range (adicThickeningι A I n) = PrimeSpectrum.zeroLocus (I : Set A) := by
-  show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk (I ^ (n + 1)))) = _
+  change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk (I ^ (n + 1)))) = _
   rw [range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective, Ideal.mk_ker,
     PrimeSpectrum.zeroLocus_pow I (Nat.succ_ne_zero n)]
 

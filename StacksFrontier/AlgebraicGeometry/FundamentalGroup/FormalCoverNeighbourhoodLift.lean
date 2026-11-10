@@ -266,7 +266,7 @@ public theorem exists_factor (n : ℕ) :
   have hφ : (Scheme.Modules.pushforward z).map φ.hom = ψ.hom :=
     (Stacks.ClosedImmersion.fullyFaithfulPushforward z).map_preimage ψ.hom
   rw [hφ, ← hQi]
-  show D.p n = cokernel.π (C := V.toScheme.Modules) (idealPowerMultiple K 1 G).ι ≫ Qi.hom ≫
+  change D.p n = cokernel.π (C := V.toScheme.Modules) (idealPowerMultiple K 1 G).ι ≫ Qi.hom ≫
     (Qi.inv ≫ d ≫ comp.inv) ≫ comp.hom
   simp only [Category.assoc, Iso.hom_inv_id_assoc]
   exact hd.symm
@@ -312,7 +312,7 @@ public theorem comp_openModuleTrans {E : V.toScheme.Modules}
     ∀ k : ℕ, q (n + k) ≫ openModuleTrans i A V hV n k = q n
   | 0 => Category.comp_id _
   | k + 1 => by
-    show q (n + k + 1) ≫ openModuleStep i A V hV (n + k) ≫ openModuleTrans i A V hV n k = _
+    change q (n + k + 1) ≫ openModuleStep i A V hV (n + k) ≫ openModuleTrans i A V hV n k = _
     rw [← Category.assoc, hq, comp_openModuleTrans q hq n k]
 
 namespace FormalDatum

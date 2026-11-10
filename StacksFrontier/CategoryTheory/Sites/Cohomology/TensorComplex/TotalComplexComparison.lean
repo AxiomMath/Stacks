@@ -279,6 +279,7 @@ theorem mapBifunctorMap_eq_totalMapSheafify (f : A ⟶ A') (g : B ⟶ B') :
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).map_comp _ _).symm
 
 set_option maxHeartbeats 400000 in
+-- `exact h` unifies large sheafified total complexes of the presheaf tensor bicomplex
 /-- The comparison of the two total tensor-product complexes is natural in both arguments. -/
 theorem tensorTotalIsoTensorComplex_naturality (f : A ⟶ A') (g : B ⟶ B') :
     (tensorTotalIsoTensorComplex X A B).inv ≫ tensorTotalMap X f g =

@@ -97,9 +97,9 @@ discrimination tree that instance search uses, and `structureSheafRing` is
 presheaves of rings are equal by `rfl`, so this is that same instance, named at a key search
 does find.
 
-It carries NO reducibility attribute: `@[instance_reducible]` here would let elaboration see
-through the two spellings of the presheaf of rings, which is a spelling bridge by attribute and is
-not allowed. It is supplied to the proofs below as a local instance instead (next line). -/
+It is `@[instance_reducible]`, as an instance should be, and is supplied to the proofs below as a
+local instance (next line); the presheaves of rings themselves keep their reducibility. -/
+@[instance_reducible]
 noncomputable def presheafModuleMonoidalCategory :
     MonoidalCategory (presheafModuleCategory X) :=
   inferInstanceAs (MonoidalCategory
@@ -523,7 +523,7 @@ private theorem sheafModuleUnitIso_hom :
       (PresheafOfModules.sheafificationAdjunction
         (𝟙 (structureSheafRing X).obj)).counit.app
           (SheafOfModules.unit (structureSheafRing X)) := by
-  show (sheafModuleSheafification X).map
+  change (sheafModuleSheafification X).map
       (𝟙 ((sheafModuleForget X).obj (SheafOfModules.unit (structureSheafRing X)))) ≫
       (asIso ((PresheafOfModules.sheafificationAdjunction
         (𝟙 (structureSheafRing X).obj)).counit.app
@@ -581,7 +581,7 @@ theorem hom_ext_of_locally {A B : SheafOfModules.{u} (structureSheafRing X)} (f 
     intro x hx
     obtain ⟨W, hxW, hW⟩ := h x
     refine ⟨W ⊓ U.unop, homOfLE inf_le_right, ?_, hxW, hx⟩
-    show (B.val.map (homOfLE (inf_le_right : W ⊓ U.unop ≤ _)).op).hom ((f.val.app U).hom s) =
+    change (B.val.map (homOfLE (inf_le_right : W ⊓ U.unop ≤ _)).op).hom ((f.val.app U).hom s) =
       (B.val.map (homOfLE (inf_le_right : W ⊓ U.unop ≤ _)).op).hom ((g.val.app U).hom s)
     rw [← PresheafOfModules.naturality_apply, ← PresheafOfModules.naturality_apply,
       hW (W ⊓ U.unop) (homOfLE inf_le_left)]
@@ -688,7 +688,7 @@ theorem monoidal_tensorHom {A A' B B' : SheafOfModules.{u} (structureSheafRing X
       (tensorHom_tmul X f g U a b).trans
         (tensorSheafMap_app_toTensorSheafSection X A B A' B' f g U.unop a b).symm
   refine Eq.trans ?_ key
-  show (𝟙 _ ≫ (f ⊗ₘ g) ≫ 𝟙 _) = _
+  change (𝟙 _ ≫ (f ⊗ₘ g) ≫ 𝟙 _) = _
   rw [Category.id_comp, Category.comp_id]
 
 /-- Whiskering a morphism on the right, on a local pure tensor. -/

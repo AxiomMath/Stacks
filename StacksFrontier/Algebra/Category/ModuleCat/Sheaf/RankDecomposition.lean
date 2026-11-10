@@ -121,7 +121,7 @@ theorem finiteLocallyFreeRank_eq_card
     (i : q.I) (x : X) (hx : x ∈ q.X i) :
     finiteLocallyFreeRank F hO x = Nat.card (q.generators i).I := by
   have h := LocallyFreeRank.locallyFreeRank_eq_mk_generators F hO q hq i x hx
-  show Cardinal.toNat (LocallyFreeRank.locallyFreeRank F hO x) = _
+  change Cardinal.toNat (LocallyFreeRank.locallyFreeRank F hO x) = _
   rw [h, Nat.card]
 
 /-- The locus `X_i` where a finite locally free sheaf of modules has rank `i`, as an open subset

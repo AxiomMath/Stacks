@@ -256,7 +256,7 @@ theorem isConstructibleEtaleModule_directImage_of_isFinite {X Y : B.Scheme} (f :
       trivial
     obtain ⟨U, hyU⟩ := TopologicalSpace.Opens.mem_iSup.1 hy
     refine Set.mem_iUnion.2 ⟨U, ?_⟩
-    show y ∈ Set.range (U : (B.inclusion.obj Y).Opens).ι.base
+    change y ∈ Set.range (U : (B.inclusion.obj Y).Opens).ι.base
     rw [Scheme.Opens.range_ι]
     exact hyU
   refine isConstructibleModuleSheaf_congr B Λ _

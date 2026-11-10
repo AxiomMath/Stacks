@@ -87,7 +87,7 @@ private theorem eq_zero_of_app_hom_eq_zero {X : Scheme.{u}} {L M : X.Modules} (e
   have h2 := congrArg (Scheme.Modules.Hom.app e.inv ⊤) h
   rw [map_zero] at h2
   refine Eq.trans ?_ h2
-  show s = (Scheme.Modules.Hom.app e.hom ⊤ ≫ Scheme.Modules.Hom.app e.inv ⊤) s
+  change s = (Scheme.Modules.Hom.app e.hom ⊤ ≫ Scheme.Modules.Hom.app e.inv ⊤) s
   rw [← Scheme.Modules.Hom.comp_app, Iso.hom_inv_id]
   rfl
 
@@ -124,9 +124,9 @@ theorem isInvertible_jz (z : Spec (.of k) ⟶ A.left) (hzk : z ≫ A.hom = 𝟙 
 /-- The section `Scheme.Modules.sectionsTopEquiv L x` evaluates to `x` on `⊤`. -/
 theorem sections_eval_top {X : Scheme.{u}} (L : X.Modules) (x : Γ(L, ⊤)) :
     (Scheme.Modules.sectionsTopEquiv L x).eval (op ⊤) = x := by
-  show (Scheme.Modules.sectionsTopEquiv L x).val (op ⊤) = x
+  change (Scheme.Modules.sectionsTopEquiv L x).val (op ⊤) = x
   rw [Scheme.Modules.sectionsTopEquiv_val]
-  show L.presheaf.map (𝟙 _) x = x
+  change L.presheaf.map (𝟙 _) x = x
   rw [CategoryTheory.Functor.map_id]
   rfl
 
@@ -167,7 +167,7 @@ section Propagation
 
 variable [IsAlgClosed k] [IsAbelianVariety k A] (N)
   [hN : AlgebraicGeometry.SheafOfModules.IsInvertible (P A).presheaf (P A).ringCatSheaf.property N]
-  {ι : Type u} [Fintype ι] [DecidableEq ι] {U : ι → A.left.Opens} {a₀ : ι}
+  {ι : Type u} [Finite ι] {U : ι → A.left.Opens} {a₀ : ι}
   (ha₀ : eA (A := A) ⁻¹ᵁ U a₀ = ⊤) (hUaff : ∀ a, IsAffineOpen (U a))
   (hUcov : (⊤ : A.left.Opens) = ⨆ a, U a)
   {g₁ : Γ((Scheme.Modules.pullback (face₁ A)).obj N, ⊤)} (hg₁ : IsGen _ g₁)

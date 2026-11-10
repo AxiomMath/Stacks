@@ -115,7 +115,7 @@ theorem nonempty_iso_unit_of_finrank_moduleSpecΓFunctor_eq_one (M : (Spec (.of 
   by_cases hV : V = ⊤
   · subst hV
     have hev : s.eval (op ⊤) = (show M.val.obj (op ⊤) from s₀) := by
-      show M.val.map (homOfLE (le_top (a := (⊤ : (Spec (.of K)).Opens)))).op s₀ = s₀
+      change M.val.map (homOfLE (le_top (a := (⊤ : (Spec (.of K)).Opens)))).op s₀ = s₀
       rw [show (homOfLE (le_top (a := (⊤ : (Spec (.of K)).Opens)))).op = 𝟙 _ from
         Subsingleton.elim _ _, M.val.map_id]
       rfl
@@ -144,7 +144,7 @@ theorem nonempty_derivedPushforwardModule_iso_single_unit {Y : Scheme.{u}}
         (_root_.SheafOfModules.unit (Spec (.of K)).ringCatSheaf)) := by
   set E := ProperFlatFibreEulerCharacteristic.derivedPushforwardModule q N with hE
   have hGE : E.IsGE 0 := isGE_derivedPushforward_obj q _ 0 (by
-    show ((DerivedCategory.singleFunctor Y.Modules 0).obj N).IsGE 0
+    change ((DerivedCategory.singleFunctor Y.Modules 0).obj N).IsGE 0
     infer_instance)
   have hLE : E.IsLE 0 := by
     rw [DerivedCategory.isLE_iff]
@@ -192,7 +192,7 @@ theorem coe_normalize_spec_field (K : Type u) [Field K] (α : Spec (.of K) ⟶ S
     (a : Stacks.Picard.ofScheme (pullback f (Over.mk α).hom)) :
     (normalize f σ hσ (Over.mk α) a).1 = a := by
   have := subsingleton_ofScheme_spec_field K
-  show a - Stacks.Picard.schemePullbackClassHom (pullback.snd f (Over.mk α).hom)
+  change a - Stacks.Picard.schemePullbackClassHom (pullback.snd f (Over.mk α).hom)
     (Stacks.Picard.schemePullbackClassHom (sectionAt f σ hσ (Over.mk α)) a) = a
   rw [show Stacks.Picard.schemePullbackClassHom (sectionAt f σ hσ (Over.mk α)) a = 0 from
     @Subsingleton.elim (Stacks.Picard.ofScheme (Spec (.of K))) this _ _, map_zero, sub_zero]
@@ -264,7 +264,7 @@ theorem exists_add_mem_rankOneLocus [IsSepClosed k] [IsCurve k f] [IsProjectiveV
     exact pullback.lift_fst _ _ _
   have hrK : (picardFunctor f σ hσ).map φ.op r =
       normalize f σ hσ (Over.mk α) (Stacks.Picard.schemePullbackClass (pullback.fst f α) ℓ₀) := by
-    show kernelMap f σ hσ φ r = _
+    change kernelMap f σ hσ φ r = _
     rw [hr, kernelMap_normalize, Stacks.Picard.schemePullbackClass_comp, hfst]
   set N := baseChangeTwist (pullback.fst f α) L.obj L₀ with hN
   have hpinv : Stacks.SheafOfModules.IsInvertible (pullback f α).presheaf
@@ -291,7 +291,7 @@ theorem exists_add_mem_rankOneLocus [IsSepClosed k] [IsCurve k f] [IsProjectiveV
   have hsum : ((picardFunctor f σ hσ).map φ.op r + c :
         kernelAt f σ hσ (Over.mk α)).1 =
       Stacks.SheafOfModules.picardClass _ _ N hNinv := by
-    show ((picardFunctor f σ hσ).map φ.op r :
+    change ((picardFunctor f σ hσ).map φ.op r :
         kernelAt f σ hσ (Over.mk α)).1 + (c : kernelAt f σ hσ (Over.mk α)).1 = _
     rwa [hrK, coe_normalize_spec_field f σ hσ K α]
   have hdim : topologicalKrullDim (pullback f α : Scheme.{u}) ≤ ((1 : ℕ) : WithBot ℕ∞) := by

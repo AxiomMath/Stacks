@@ -82,7 +82,7 @@ theorem bijective_pullbackToGlobalFunctions_of_bijective_fSharp_app
       (congrArg (fun φ : (structureSheaf B S hS Y'.1 Y'.2).obj.obj (op Vs) →+*
           (pushforwardAlgebra B S hS (Over.mk f')).right.obj.obj (op Vs) => φ r)
         (pushforwardAlgebra_algebraMap B S hS (Over.mk f') (op Vs))).symm
-    show (directImageSectionsToGlobalFunctions B S hS f' Vs
+    change (directImageSectionsToGlobalFunctions B S hS f' Vs
       (((smallEtaleRingedToposHom B S hS f').fSharp.hom.app (op Vs)).hom r)).val c' = _
     rw [h1, directImageSectionsToGlobalFunctions_algebraMap]
     rfl

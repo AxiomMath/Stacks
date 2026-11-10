@@ -103,12 +103,12 @@ theorem natTensorPowCongr_trans {A B D : AlgebraSheaf T} (e₁ : A ≅ B) (e₂ 
     ∀ n : ℕ, natTensorPowCongr (e₁ ≪≫ e₂) n = natTensorPowCongr e₁ n ≪≫ natTensorPowCongr e₂ n
   | 0 => by
     refine Iso.ext ?_
-    show 𝟙 (Stacks.TensorPowers.natTensorPow A 0) = 𝟙 _ ≫ 𝟙 _
+    change 𝟙 (Stacks.TensorPowers.natTensorPow A 0) = 𝟙 _ ≫ 𝟙 _
     rw [Category.comp_id]
   | n + 1 => by
     refine Iso.ext ?_
     have ih := natTensorPowCongr_trans e₁ e₂ n
-    show (natTensorPowCongr (e₁ ≪≫ e₂) n).hom ⊗ₘ (e₁.hom ≫ e₂.hom)
+    change (natTensorPowCongr (e₁ ≪≫ e₂) n).hom ⊗ₘ (e₁.hom ≫ e₂.hom)
       = ((natTensorPowCongr e₁ n).hom ⊗ₘ e₁.hom) ≫ ((natTensorPowCongr e₂ n).hom ⊗ₘ e₂.hom)
     rw [tensorHom_comp_tensorHom, ih]
     rfl
@@ -122,7 +122,7 @@ theorem natTensorPowCongr_inv_comp_hom {A B : AlgebraSheaf T} (M₁ M₂ : A ≅
       = natTensorPowCongr M₁ n ≪≫ natTensorPowCongr (M₁.symm ≪≫ M₂) n := by
     rw [← natTensorPowCongr_trans]
     refine congrArg (fun e : A ≅ B => natTensorPowCongr e n) (Iso.ext ?_)
-    show M₂.hom = M₁.hom ≫ M₁.inv ≫ M₂.hom
+    change M₂.hom = M₁.hom ≫ M₁.inv ≫ M₂.hom
     rw [M₁.hom_inv_id_assoc]
   calc (natTensorPowCongr M₁ n).inv ≫ (natTensorPowCongr M₂ n).hom
       = (natTensorPowCongr M₁ n).inv ≫ (natTensorPowCongr M₁ n).hom ≫

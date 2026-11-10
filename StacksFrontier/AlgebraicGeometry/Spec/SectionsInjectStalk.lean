@@ -135,7 +135,7 @@ theorem eq_zero_of_restrict_eq_zero (q : PrimeSpectrum R)
   have hgk : (g ^ k) • u = 0 := by
     refine IsLocalizedModule.smul_injective (S := Submonoid.powers a) (toOpen M U).hom
       ⟨a ^ (n + k), n + k, rfl⟩ ?_
-    show (a ^ (n + k)) • ((g ^ k) • u) = (a ^ (n + k)) • (0 : _)
+    change (a ^ (n + k)) • ((g ^ k) • u) = (a ^ (n + k)) • (0 : _)
     rw [smul_zero, ← mul_smul]
     exact key
   -- An element outside `q` is injective on the localization `Γ(U, M^~)` of `M`.
@@ -185,7 +185,7 @@ theorem eq_zero_of_germ_eq_zero (q : PrimeSpectrum R)
   refine eq_zero_of_restrict_eq_zero M q hM (g := g) (a := a)
     ((PrimeSpectrum.mem_basicOpen g q).mp hqg)
     (specBasicOpen a) (specBasicOpen (g * a)) hle' _ ?_
-  show (tilde M).presheaf.map (homOfLE hle').op ((tilde M).presheaf.map (homOfLE haW').op t) = 0
+  change (tilde M).presheaf.map (homOfLE hle').op ((tilde M).presheaf.map (homOfLE haW').op t) = 0
   rw [e1, hres]
   exact _root_.map_zero _
 

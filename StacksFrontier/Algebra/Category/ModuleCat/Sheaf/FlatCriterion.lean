@@ -295,7 +295,7 @@ lemma relSubmodule_map_relGen {U V : C} (f : V ⟶ U) {n : ℕ}
       = (⟨relGen a (op V) f i, relGen_mem a (op V) f i⟩ :
           ((relSubmodule a).toPresheafOfModules).obj (op V)) := by
   refine Subtype.ext ?_
-  show (freeOn O U).map f.op (relGen a (op U) (𝟙 U) i) = relGen a (op V) f i
+  change (freeOn O U).map f.op (relGen a (op U) (𝟙 U) i) = relGen a (op V) f i
   rw [freeOn_map_relGen, Category.comp_id]
   rfl
 

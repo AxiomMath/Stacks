@@ -92,7 +92,7 @@ private lemma iteratedSplitting_ind_etale (A : Type u) [CommRing A] :
   intro n
   induction n with
   | zero =>
-      show (CommAlgCat.etale A).ind.{u} (CommAlgCat.of A A)
+      change (CommAlgCat.etale A).ind.{u} (CommAlgCat.of A A)
       apply ObjectProperty.le_ind
       exact inferInstance
   | succ n ih =>
@@ -104,7 +104,7 @@ private lemma iteratedSplitting_ind_etale (A : Type u) [CommRing A] :
         IsScalarTower.of_algebraMap_smul (by intro a x; rfl)
       have hB : (CommAlgCat.etale A).ind.{u} (CommAlgCat.of A B) := by
         simpa [B, iteratedSplittingAlgObject] using ih
-      show (CommAlgCat.etale A).ind.{u} (CommAlgCat.of A (splittingAlgebra B))
+      change (CommAlgCat.etale A).ind.{u} (CommAlgCat.of A (splittingAlgebra B))
       exact CommAlgCat.ind_etale_comp (A := A) (B := B) (C := splittingAlgebra B)
         hB (splittingAlgebra_ind_etale B)
 
@@ -141,7 +141,7 @@ private lemma iteratedSplitting_diagram_map_compat (A : Type u) [CommRing A]
           Subsingleton.elim _ _
         rw [hu, D.map_comp, F.map_comp]
         ext x
-        show (D.map (homOfLE (Nat.le_add_right j 1))).hom
+        change (D.map (homOfLE (Nat.le_add_right j 1))).hom
             ((D.map (homOfLE hij)).hom x) =
           (F.map (homOfLE (Nat.le_add_right j 1))).hom.toRingHom
             ((F.map (homOfLE hij)).hom.toRingHom x)
@@ -323,12 +323,12 @@ theorem iteratedSplittingColimit_splits_etale (A : Type u) [CommRing A] :
     (colimit.isColimit F)
   let p : d.pt ⟶ CommRingCat.of B := CommRingCat.ofHom (algebraMap C B)
   have hpEt : CommRingCat.etale.{u} p := by
-    show (algebraMap C B).Etale
+    change (algebraMap C B).Etale
     exact RingHom.etale_algebraMap.mpr hEt
   obtain ⟨n, Z, g, q, hpush, hgEt⟩ := exists_isPushout_etale hd p hpEt
   let k : ℕ := E.obj n
   have hleg : (d.ι.app n).hom.FaithfullyFlat := by
-    show (c.ι.app k).hom.FaithfullyFlat
+    change (c.ι.app k).hom.FaithfullyFlat
     exact iteratedSplittingColimit_leg_faithfullyFlat A k
   have hgFF : g.hom.FaithfullyFlat :=
     faithfullyFlat_of_isPushout (d.ι.app n) g p q hpush hleg hCB
@@ -346,10 +346,10 @@ theorem iteratedSplittingColimit_splits_etale (A : Type u) [CommRing A] :
     have hgψ : g ≫ ψ' = F.map step := by
       apply CommRingCat.hom_ext
       ext x
-      show ψ (g.hom x) = (F.map step).hom x
+      change ψ (g.hom x) = (F.map step).hom x
       exact (ψ.commutes x).trans (congrArg (fun f : CommRingCat.Hom _ _ ↦ f.hom x)
         (iteratedSplittingDiagram_map_succ _ k)).symm
-    show g ≫ (ψ' ≫ c.ι.app (k + 1)) = d.ι.app n
+    change g ≫ (ψ' ≫ c.ι.app (k + 1)) = d.ι.app n
     rw [← Category.assoc, hgψ]
     simp [d, E, k, c.ι.naturality step]
   obtain ⟨s, hs⟩ := exists_retraction_of_isPushout (d.ι.app n) g p q hpush φ hφ

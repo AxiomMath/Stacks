@@ -294,12 +294,13 @@ every one of its terms is right acyclic for `f'_*`. -/
 theorem isIso_degreewiseComparison_app_of_affineOpenCover (H : IsPullback g' f' f g)
     [AlgebraicGeometry.IsAffineHom (pullback.diagonal (terminal.from X))]
     [AlgebraicGeometry.IsAffineHom (pullback.diagonal (terminal.from S))]
-    (T : X.AffineOpenCover.{u, u}) [Fintype T.I₀]
+    (T : X.AffineOpenCover.{u, u}) [Finite T.I₀]
     (G : SheafOfModules.{u} (structureSheafRing S'.toRingedSpace)) [G.IsQuasicoherent]
     (hG : AlgebraicGeometry.IsFlatOver g.toLRSHom.toShHom G)
     (F : SheafOfModules.{u} (structureSheafRing X.toRingedSpace)) [hF : F.IsQuasicoherent]
     (i : ℕ) :
     IsIso ((degreewiseComparison H G hG i).app F) := by
+  have := Fintype.ofFinite T.I₀
   let Fq : (_root_.SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory := ⟨F, hF⟩
   exact isIso_degreewiseComparison_app_of_degreewise H G hG F
     ((HomotopyCategory.Plus.quotient X.Modules).obj ((absoluteCechComplexPlus T).obj Fq))

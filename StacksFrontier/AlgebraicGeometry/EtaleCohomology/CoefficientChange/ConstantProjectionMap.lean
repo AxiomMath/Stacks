@@ -231,7 +231,7 @@ lemma sheafPushforwardTensorMap_naturality {S S' T T' : Sheaf K A} (f : S ⟶ S'
   simp only [ObjectProperty.FullSubcategory.comp_hom]
   rw [← tensorSectionMap_naturality_assoc, tensorSectionMap_sheafPushforwardTensorMap,
     tensorSectionMap_sheafPushforwardTensorMap_assoc]
-  show Functor.whiskerLeft G.op (f.hom ⊗ₘ g.hom) ≫
+  change Functor.whiskerLeft G.op (f.hom ⊗ₘ g.hom) ≫
       Functor.whiskerLeft G.op (tensorSectionMap K S' T') =
     Functor.whiskerLeft G.op (tensorSectionMap K S T) ≫ Functor.whiskerLeft G.op (f ⊗ₘ g).hom
   rw [← Functor.whiskerLeft_comp, ← Functor.whiskerLeft_comp, tensorSectionMap_naturality]
@@ -347,7 +347,7 @@ lemma constantProjectionMap_rightUnitor (S : Sheaf K A) :
   refine (J.W.whiskerLeft_mem ((G.sheafPushforwardContinuous A J K).obj S).obj _
     (J.W_toSheafify ((Functor.const Cᵒᵖ).obj (𝟙_ A))) _
     (ObjectProperty.FullSubcategory.property _)).1 ?_
-  show ((G.sheafPushforwardContinuous A J K).obj S).obj ◁ constantToSheafify J (𝟙_ A) ≫ _ =
+  change ((G.sheafPushforwardContinuous A J K).obj S).obj ◁ constantToSheafify J (𝟙_ A) ≫ _ =
     ((G.sheafPushforwardContinuous A J K).obj S).obj ◁ constantToSheafify J (𝟙_ A) ≫ _
   simp only [constantProjectionMap, ObjectProperty.FullSubcategory.comp_hom, Category.assoc]
   rw [whiskerLeft_toSheafify_tensorSectionMap_rightUnitor J

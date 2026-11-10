@@ -62,7 +62,7 @@ linear and bijective, so multiplication by the image is multiplication by the ba
 it. -/
 theorem IsStalkBasis.mapStalkLinearMap [IsIso f] (x : X) {m : L.presheaf.stalk x}
     (hm : IsStalkBasis L x m) : IsStalkBasis N x (stalkLinearMap L N f x m) := by
-  show Function.Bijective fun r : X.presheaf.stalk x ↦ r • stalkLinearMap L N f x m
+  change Function.Bijective fun r : X.presheaf.stalk x ↦ r • stalkLinearMap L N f x m
   have hcomp : (fun r : X.presheaf.stalk x ↦ r • stalkLinearMap L N f x m) =
       (stalkLinearMap L N f x) ∘ fun r : X.presheaf.stalk x ↦ r • m :=
     funext fun r ↦ (map_smul (stalkLinearMap L N f x) r m).symm

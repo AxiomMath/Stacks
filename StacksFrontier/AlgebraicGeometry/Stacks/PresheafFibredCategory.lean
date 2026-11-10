@@ -176,7 +176,7 @@ theorem associatedMap_comp {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (a : 
       (associatedMap B S hS a).1 ≫ (associatedMap B S hS b).1 := by
   refine hom_ext_of_obj B S hS fun x => ?_
   rw [associatedMap_obj]
-  show _ = (associatedMap B S hS b).1.hom.obj ((associatedMap B S hS a).1.hom.obj x)
+  change _ = (associatedMap B S hS b).1.hom.obj ((associatedMap B S hS a).1.hom.obj x)
   rw [associatedMap_obj, associatedMap_obj]
   rfl
 

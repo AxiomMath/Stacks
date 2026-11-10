@@ -67,8 +67,8 @@ is what a general `K` has to be reached through.
 nothing about the `A'`-action the clause needs in degree zero; the generator is therefore a
 hypothesis of the statement below, in the shape
 `Dualizing.homRestrictedUnitSingleLinearEquiv` converts.  It is **not** a residue of the proof:
-`StacksFrontier.RingTheory.Dualizing.RelativeBaseChangeDegreeZero` discharges it from the degree-zero
-output of the same chase, through the `B'`-linear reading of the assembly in
+`StacksFrontier.RingTheory.Dualizing.RelativeBaseChangeDegreeZero` discharges it from the
+degree-zero output of the same chase, through the `B'`-linear reading of the assembly in
 `StacksFrontier.RingTheory.Dualizing.RelativeBaseChangeAssemblyLinear`, and
 `Dualizing.isRelativeDualizingComplex_baseChange_of_residueFieldHomology_of_isIso_cyclesComparison`
 is the statement below with `h0` gone.

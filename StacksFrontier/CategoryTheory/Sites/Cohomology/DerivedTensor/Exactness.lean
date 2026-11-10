@@ -187,7 +187,7 @@ theorem kFlatQuasiIso_hasLeftCalculusOfFractions :
         (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))).inverseImage
           (kFlatObjects.{c, u, u} X.O).ι).trW := by
     ext Y Z f
-    show HomotopyCategory.quasiIso _ (ComplexShape.up ℤ)
+    change HomotopyCategory.quasiIso _ (ComplexShape.up ℤ)
       ((kFlatObjects X.O).ι.map f) ↔ _
     rw [HomotopyCategory.quasiIso_eq_trW_subcategoryAcyclic]
     exact ((HomotopyCategory.subcategoryAcyclic

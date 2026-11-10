@@ -73,7 +73,8 @@ theorem monomial_one_dvd_iff_forall_le {d : σ →₀ ℕ} {f : MvPolynomial σ 
   constructor
   · intro h n hn
     by_contra hle
-    exact mem_support_iff.mp hn (by rw [← coeff_modMonomial_of_not_le f hle, h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply])
+    exact mem_support_iff.mp hn (by
+      rw [← coeff_modMonomial_of_not_le f hle, h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply])
   · intro h
     ext n
     rw [AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
@@ -96,7 +97,8 @@ theorem X_pow_mul_left_injective (i : σ) (k : ℕ) :
     Function.Injective fun f : MvPolynomial σ R => (X i : MvPolynomial σ R) ^ k * f := by
   intro f g h
   ext n
-  simpa [X_pow_eq_monomial, coeff_monomial_mul] using congrArg (fun p : MvPolynomial σ R => p.coeff (Finsupp.single i k + n)) h
+  simpa [X_pow_eq_monomial, coeff_monomial_mul] using
+    congrArg (fun p : MvPolynomial σ R => p.coeff (Finsupp.single i k + n)) h
 
 /-! ### Denominators at distinct variables -/
 
@@ -128,7 +130,7 @@ theorem exists_eq_mul_X_pow_of_mul_X_pow_eq_mul_X_pow {i j : σ} (hij : i ≠ j)
     ∃ w : MvPolynomial σ R, f = X i ^ k * w ∧ g = X j ^ l * w := by
   obtain ⟨w, hw⟩ := X_pow_dvd_of_mul_X_pow_eq_mul_X_pow hij h
   refine ⟨w, hw, X_pow_mul_left_injective i k ?_⟩
-  show (X i : MvPolynomial σ R) ^ k * g = X i ^ k * (X j ^ l * w)
+  change (X i : MvPolynomial σ R) ^ k * g = X i ^ k * (X j ^ l * w)
   rw [mul_comm ((X i : MvPolynomial σ R) ^ k) g, ← h, hw, mul_assoc,
     mul_comm w ((X j : MvPolynomial σ R) ^ l)]
 

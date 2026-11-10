@@ -93,13 +93,13 @@ def cofanPtIsoBiproduct {J : Type} {f : J → D} {c : Cofan f} (hc : IsColimit c
     (hz : ∀ j ∉ S, IsZero (f j)) : c.pt ≅ ⨁ fun j : S ↦ f j := by
   let ι : ∀ j, f j ⟶ ⨁ fun j : S ↦ f j := fun j ↦
     if h : j ∈ S then biproduct.ι (fun j : S ↦ f j) ⟨j, h⟩ else 0
-  have hι : ∀ j : S, ι j = biproduct.ι (fun j : S ↦ f j) j := fun j ↦ dif_pos j.2
+  have hι : ∀ j : S, ι j = biproduct.ι (fun j : S ↦ f j) j := fun j ↦ dite_eq_left j.2
   have hs : IsColimit (Cofan.mk _ ι) := by
     refine Cofan.IsColimit.mk _ (fun t ↦ biproduct.desc fun j ↦ t.inj j) ?_ ?_
     · intro t j
       by_cases h : j ∈ S
       · exact (congrArg (· ≫ _) (hι ⟨j, h⟩)).trans (biproduct.ι_desc _ _)
-      · rw [cofan_mk_inj, show ι j = 0 from dif_neg h, zero_comp]
+      · rw [cofan_mk_inj, show ι j = 0 from dite_eq_right h, zero_comp]
         exact (hz j h).eq_of_src _ _
     · intro t m hm
       refine biproduct.hom_ext' _ _ fun j ↦ ?_
@@ -115,6 +115,7 @@ section Biproduct
 variable {T : Scheme.{u}}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the biproduct and cokernel in `T.Modules` is heavy
 /-- The biproduct of a family indexed by `ι` is an extension of the biproduct of the family
 restricted to `ι ∖ {i}` by its `i`-th member. -/
 theorem shortExact_biproduct_ι {ι : Type} [Finite ι] (f : ι → T.Modules) (i : ι) :
@@ -401,10 +402,10 @@ theorem chernPairOf_mul {x y : TotalChowClass C sT} (hx : HasChernUnitParts C sT
     (hy0 : TotalChowClass.homComponent 0 y = 1) :
     chernPairOf C sT (x * y) (hx.mul C sT hy) = chernPairOf C sT x hx + chernPairOf C sT y hy := by
   refine ChernPair.ext (Subtype.ext ?_) (Subtype.ext ?_)
-  · show TotalChowClass.homComponent 1 (x * y) =
+  · change TotalChowClass.homComponent 1 (x * y) =
       TotalChowClass.homComponent 1 x + TotalChowClass.homComponent 1 y
     simp [TotalChowClass.homComponent_mul_sum, Finset.sum_range_succ, hx0, hy0]
-  · show TotalChowClass.homComponent 2 (x * y) =
+  · change TotalChowClass.homComponent 2 (x * y) =
       TotalChowClass.homComponent 2 x + TotalChowClass.homComponent 2 y +
         TotalChowClass.homComponent 1 x * TotalChowClass.homComponent 1 y
     simp [TotalChowClass.homComponent_mul_sum, Finset.sum_range_succ, hx0, hy0]
@@ -488,10 +489,10 @@ theorem moduleChernPair_sheafTensor (M N : T.Modules) (r s : ℕ)
       isFiniteLocallyFreeOfRank_tensor hM hN
   obtain ⟨h₁, h₂⟩ := tensorChernRelations_totalChern C r s sT M N
   refine ChernPair.ext (Subtype.ext ?_) (Subtype.ext ?_)
-  · show TotalChowClass.homComponent 1 (totalChern C sT _ (r * s)) = _
+  · change TotalChowClass.homComponent 1 (totalChern C sT _ (r * s)) = _
     rw [h₁]
     simp [ChernPair.tensor, moduleChernPair, chernPairOf]
-  · show TotalChowClass.homComponent 2 (totalChern C sT _ (r * s)) = _
+  · change TotalChowClass.homComponent 2 (totalChern C sT _ (r * s)) = _
     rw [h₂]
     simp [ChernPair.tensor, moduleChernPair, chernPairOf, Ring.choose_natCast]
 
@@ -867,7 +868,7 @@ theorem chernPairOf_complexChernBounded_tensorTotal (τ : ℤ →₀ ℕ)
         ∑ a ∈ ρ'.support, (a.negOnePow : ℤ) • ((ρ' a : ℤ), F a) := fun ρ' F ↦ by
     refine Prod.ext ?_ ?_ <;> simp [alternatingRank, Prod.fst_sum, Prod.snd_sum]
   rw [hx ρ, hx σ, ← ChernPair.tensorHom_apply]
-  simp only [map_sum, map_zsmul, AddMonoidHom.finset_sum_apply, AddMonoidHom.smul_apply,
+  simp only [map_sum, map_zsmul, AddMonoidHom.finsetSum_apply, AddMonoidHom.smul_apply,
     Finset.smul_sum, smul_smul, ChernPair.tensorHom_apply]
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun b _ ↦ Finset.sum_congr rfl fun a _ ↦ ?_

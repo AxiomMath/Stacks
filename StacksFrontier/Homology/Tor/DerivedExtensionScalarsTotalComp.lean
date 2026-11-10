@@ -161,7 +161,7 @@ private lemma extendScalarsCompInv_id (f : A →+* B)
             (ComplexShape.up ℤ)).obj P) ≫
         extendScalarsCompInv.{u, v} f (RingHom.id B) P = 𝟙 _ := by
   ext i : 1
-  show (ModuleCat.extendScalarsId.{u, max u v} B).inv.app
+  change (ModuleCat.extendScalarsId.{u, max u v} B).inv.app
         ((ModuleCat.extendScalars.{u, u, max u v} f).obj (P.X i)) ≫
       (ModuleCat.extendScalarsComp.{u, max u v} f (RingHom.id B)).inv.app (P.X i) = 𝟙 _
   refine (congrArg (fun t ↦ t ≫ (ModuleCat.extendScalarsComp.{u, max u v} f
@@ -374,7 +374,7 @@ public theorem totalDerivedExtensionScalarsComp_assoc (f : A →+* B) (g : B →
   simpa [α, β] using app_eq_of_comp_comparisonApp.{u, v} (h.comp (g.comp f)) α β (fun P ↦ by
     dsimp [α, β]
     simp only [Category.id_comp, Category.assoc]
-    show (totalDerivedExtensionScalars.{u, u, v} h).functor.map
+    change (totalDerivedExtensionScalars.{u, u, v} h).functor.map
           (compHomApp.{u, v} f g (DerivedCategory.Q.obj P)) ≫
         compHomApp.{u, v} (g.comp f) h (DerivedCategory.Q.obj P) ≫
           comparisonApp.{u, v} (h.comp (g.comp f)) P =
@@ -473,7 +473,7 @@ public theorem totalDerivedExtensionScalarsComp_comp_id (f : A →+* B)
   exact app_eq_of_comp_comparisonApp.{u, v} f α (𝟙 _) (fun P ↦ by
     dsimp [α]
     simp only [Category.id_comp, Category.assoc]
-    show unitApp.{u, v} B ((totalDerivedExtensionScalars.{u, u, v} f).functor.obj
+    change unitApp.{u, v} B ((totalDerivedExtensionScalars.{u, u, v} f).functor.obj
           (DerivedCategory.Q.obj P)) ≫
         compHomApp.{u, v} f (RingHom.id B) (DerivedCategory.Q.obj P) ≫
           comparisonApp.{u, v} f P =

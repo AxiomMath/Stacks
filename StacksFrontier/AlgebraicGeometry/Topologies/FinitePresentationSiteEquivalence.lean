@@ -254,10 +254,8 @@ section CoveringPresentation
 
 variable {C : Type u} [Category.{v} C] {C' : Type u} [Category.{v} C']
   {J : GrothendieckTopology C} {J' : GrothendieckTopology C'}
-  (e : C' ≌ C) [e.functor.IsContinuous J' J] [e.inverse.IsContinuous J J']
+  (e : C' ≌ C) [e.functor.IsContinuous J' J]
   (R : Sheaf J RingCat.{w})
-  [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
-  [HasWeakSheafify J' AddCommGrpCat.{w}] [J'.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [∀ U : C, HasSheafify (J.over U) AddCommGrpCat.{w}]
   [∀ U : C, (J.over U).WEqualsLocallyBijective AddCommGrpCat.{w}]
   [∀ U : C', HasSheafify (J'.over U) AddCommGrpCat.{w}]
@@ -277,9 +275,7 @@ private theorem isFinitePresentation_of_finitePresentation {D : Type*} [Category
   have := hP
   SliceFinite.isFinitePresentation_of_presentation P
 
-omit [e.inverse.IsContinuous J J'] [HasWeakSheafify J AddCommGrpCat.{w}]
-  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J' AddCommGrpCat.{w}]
-  [J'.WEqualsLocallyBijective AddCommGrpCat.{w}] [e.functor.IsDenseSubsite J' J] in
+omit [e.functor.IsDenseSubsite J' J] in
 /-- **Reindexing along an equivalence of sites preserves finite presentation.** -/
 theorem isFinitePresentation_reindex (M : _root_.SheafOfModules.{w} R)
     (h : M.IsFinitePresentation) :
@@ -314,9 +310,6 @@ theorem isFinitePresentation_reindex (M : _root_.SheafOfModules.{w} R)
     (LocalCokernel.mapFinitePresentation P T (Iso.refl _))
     (LocalCokernel.mapFinitePresentation_isFinite P T (Iso.refl _))
 
-omit [e.inverse.IsContinuous J J'] [HasWeakSheafify J AddCommGrpCat.{w}]
-  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J' AddCommGrpCat.{w}]
-  [J'.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **Reindexing along an equivalence of sites reflects finite presentation.** -/
 theorem isFinitePresentation_of_reindex (M : _root_.SheafOfModules.{w} R)
     (h : ((_root_.SheafOfModules.pushforward.{w}

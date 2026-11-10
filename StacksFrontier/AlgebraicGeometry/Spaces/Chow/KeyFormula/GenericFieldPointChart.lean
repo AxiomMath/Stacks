@@ -86,7 +86,7 @@ theorem exists_affine_etaleChart_factor_of_isDenseOpenSubspace
     (pD.class B S hS D.toFunctor)
   have := ElementaryEtaleNeighborhood.mono_neighborhoodFieldPoint B S hS D.toFunctor hDalg _ E
   have : Mono (yonedaEquiv.symm pD.value) := by
-    show Mono (fieldMorphism B S hS D.toFunctor pD)
+    change Mono (fieldMorphism B S hS D.toFunctor pD)
     rw [hpD]
     infer_instance
   obtain ⟨e, he⟩ := iso_of_mono_of_point_eq B S hS D.toFunctor hDalg
@@ -94,7 +94,7 @@ theorem exists_affine_etaleChart_factor_of_isDenseOpenSubspace
     (neighborhoodFieldPoint_class B S hS _ hDalg _ E)
   have hrel : yoneda.map e.hom ≫ fieldMorphism B S hS D.toFunctor pD =
       fieldMorphism B S hS D.toFunctor (neighborhoodFieldPoint B S hS D.toFunctor hDalg _ E) := by
-    show yoneda.map e.hom ≫ yonedaEquiv.symm pD.value = yonedaEquiv.symm _
+    change yoneda.map e.hom ≫ yonedaEquiv.symm pD.value = yonedaEquiv.symm _
     rw [yonedaEquiv_symm_naturality_left e.hom D.toFunctor pD.value, he]
   let r : (neighborhoodFieldPoint B S hS D.toFunctor hDalg _ E).siteObject B S hS D.toFunctor ⟶
       E.scheme := residueFieldMap B S hS E.scheme E.point E.residueField_contained
@@ -104,7 +104,7 @@ theorem exists_affine_etaleChart_factor_of_isDenseOpenSubspace
   refine ⟨⟨CostructuredArrow.mk (E.toSpace ≫ D.ι), ?_⟩, E.toSpace, e.inv ≫ r, hEaff, rfl, ?_⟩
   · exact (isEtale_iff_presheaf_of_yoneda B S hS _).1
       (isEtale_comp B S hS E.etale_toSpace (isEtale_of_isOpenImmersion B S hS hD.1.2))
-  · show yoneda.map (e.inv ≫ r) ≫ E.toSpace ≫ D.ι = _
+  · change yoneda.map (e.inv ≫ r) ≫ E.toSpace ≫ D.ι = _
     rw [yoneda.map_comp, Category.assoc, ← Category.assoc (yoneda.map r), h1, Category.assoc,
       ← Category.assoc (yoneda.map e.inv), ← yoneda.map_comp, e.inv_hom_id, yoneda.map_id,
       Category.id_comp, hj]
@@ -140,7 +140,7 @@ theorem pullbacksMeromorphicSections_fieldMorphism_of_class_eq_genericPoint
     PullbacksMeromorphicSections B S hS (fieldMorphism B S hS F p) := by
   have hgen : genericPoint B S hS hF hFint ∈ genericPoints (points B S hS F) := by
     have : IrreducibleSpace (points B S hS F) := hFint.2.2
-    show closure {genericPoint B S hS hF hFint} ∈ irreducibleComponents (points B S hS F)
+    change closure {genericPoint B S hS hF hFint} ∈ irreducibleComponents (points B S hS F)
     rw [isGenericPoint_genericPoint B S hS hF hFint, irreducibleComponents_eq_singleton]
     exact rfl
   have hdim := (mem_genericPoints_iff_localRingDimension_eq_zero B S hS hF hFint.2.1 _).1 hgen

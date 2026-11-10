@@ -180,7 +180,7 @@ theorem fibreCohomologyVanishes_of_isZero_homology_baseChange {R R' : Type u} [C
   -- The field extension `κ(q' ∩ R) → κ(q')` is faithfully flat.
   let : Algebra p.ResidueField q'.ResidueField := e.toAlgebra
   have hflat : e.Flat := by
-    show Module.Flat p.ResidueField q'.ResidueField
+    change Module.Flat p.ResidueField q'.ResidueField
     infer_instance
   have := ModuleCat.preservesFiniteLimits_extendScalars_of_flat hflat
   let F := ModuleCat.extendScalars.{u, u, u} e

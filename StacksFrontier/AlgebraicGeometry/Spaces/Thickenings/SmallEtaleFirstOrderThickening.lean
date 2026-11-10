@@ -156,7 +156,7 @@ theorem isFirstOrderThickening_smallEtaleRingedToposHom {Z Z' : AlgebraicSpaces 
     intro U x hx
     have h0 := fSharp_app_eq_zero_of_comp B S hS _ (IsThickening.inclusion B S hS hG) hret i
       (homMk_toRange_comp_inclusion B S hS i hi) U x hx
-    show ((structureSharp B S hS (IsThickening.inclusion B S hS hG)).hom.app U).hom x = 0
+    change ((structureSharp B S hS (IsThickening.inclusion B S hS hG)).hom.app U).hom x = 0
     rw [← map_structureSharpCommRing]
     exact h0
   have hzero : ∀ (U : (SmallEtale B S hS Z'.1)ᵒᵖ)

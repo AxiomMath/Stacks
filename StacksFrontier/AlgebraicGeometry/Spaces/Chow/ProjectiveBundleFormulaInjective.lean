@@ -571,13 +571,7 @@ theorem bundleFormulaSurjective_projectiveBundleFiberProduct
             (isQuasicoherentOnSite_of_isFiniteLocallyFreeOfRank X.2 hr)
             hr.isFiniteLocallyFreeOnSite)) := by
   have := isIso_projectiveBundlePullbackIso_inv_hom D E n hr g
-  exact BundleFormulaSurjective.of_iso D (g.hom ≫ sX) hX' _ _ _ _ _ rfl _ rfl n _ _
-    (@isProper_projectiveBundleProj D.site D.base D.base_mem X' _
-        (isQuasicoherentOnSite_of_isFiniteLocallyFreeOfRank X'.2
-        (isFiniteLocallyFreeOfRank_modulePullback D.site D.base D.base_mem g E (n + 1) hr))
-        (isFiniteLocallyFreeOfRank_modulePullback D.site D.base D.base_mem g E (n + 1)
-        hr).isFiniteLocallyFreeOnSite)
-    _ _ (isProper_projectiveBundleFiberProductProj D sX hX E n hr g hX') _ _ _ _
+  exact BundleFormulaSurjective.of_iso D (g.hom ≫ sX) hX' _ _ _ _ _ rfl _ rfl n _ _ _ _ _ _ _ _
     (projectiveBundlePullbackIso (hE := (isQuasicoherentOnSite_of_isFiniteLocallyFreeOfRank X.2
         hr)) g E hr.isFiniteLocallyFreeOnSite).inv.hom
     (by rw [← Category.assoc, projectiveBundlePullbackIso_inv_comp_proj D E n hr g])

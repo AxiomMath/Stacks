@@ -197,7 +197,7 @@ theorem supportOfSheaf_modulePushforward_structureSheaf_eq_univ (f : X ⟶ Y)
         ((modulePushforward B S hS f).obj
           (SheafOfModules.unit (structureRingSheaf B S hS X)))) = Set.univ := by
   refine Set.eq_univ_of_forall fun x ↦ ?_
-  show x ∈ supportOfSheaf B S hS Y.1
+  change x ∈ supportOfSheaf B S hS Y.1
     (toAddCommGrp B S hS Y.1 (structureRingSheafDirectImage B S hS f))
   obtain ⟨A, a, hsurj, hetale⟩ := Y.2.exists_atlas
   let C : SmallEtale B S hS Y.1 := ⟨CostructuredArrow.mk a, hetale⟩

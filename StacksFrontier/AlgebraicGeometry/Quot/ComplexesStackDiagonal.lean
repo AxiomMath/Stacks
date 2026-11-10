@@ -51,6 +51,7 @@ attribute [local instance] complexesCategory
 /-! ### The equalizer of two morphisms from a scheme to an algebraic space -/
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search for the binary product `Y.1 ⨯ Y.1` of presheaves on the big fppf site is heavy
 omit D in
 /-- **The equalizer of two morphisms from a scheme to an algebraic space is a scheme.**  For
 `a, b : U ⟶ Y` with `U` a scheme of the site and `Y` an algebraic space over `S`, there is a

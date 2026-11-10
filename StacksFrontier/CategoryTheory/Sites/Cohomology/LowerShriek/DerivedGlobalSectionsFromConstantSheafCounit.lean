@@ -178,7 +178,7 @@ theorem isIso_derivedAbelianLowerShriekComparison_app_single
       (ComplexShape.up ℤ)).app ((CochainComplex.singleFunctor _ 0).obj Z)
     have : ∀ n, IsIso (v.f n) := by
       intro n
-      show IsIso ((abelianAdjunction.{max u₁ v w} J K f).counit.app
+      change IsIso ((abelianAdjunction.{max u₁ v w} J K f).counit.app
         (((CochainComplex.singleFunctor _ 0).obj Z).X n))
       by_cases hn : n = 0
       · subst hn
@@ -189,7 +189,7 @@ theorem isIso_derivedAbelianLowerShriekComparison_app_single
         exact isIso_of_source_target_iso_zero _
           ((R ⋙ abelianLowerShriek.{max u₁ v w} J K f).map_isZero hX).isoZero hX.isoZero
     have : IsIso v := HomologicalComplex.Hom.isIso_of_components _
-    show IsIso ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map v)
+    change IsIso ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map v)
     infer_instance
   have h4 : IsIso ((derivedAbelianLowerShriekComparison.{max u₁ v w} J K f).app
         ((abelianRestrictionOnHomotopy.{max u₁ v w} J K f).obj N) ≫

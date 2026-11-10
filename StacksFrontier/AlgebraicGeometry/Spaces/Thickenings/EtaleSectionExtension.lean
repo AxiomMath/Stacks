@@ -138,7 +138,7 @@ theorem isIso_of_isEtale_of_isSurjective_baseChange_isIso
   have huPts : IsSurjective B S hS u :=
     (presheafSurjective_iff_isSurjective_yoneda B S hS A' hA' U u).mp hu
   have hgZ : IsSurjective B S hS (u ≫ p) := by
-    show Function.Surjective (pointsMap B S hS (yoneda.obj U) (u ≫ p))
+    change Function.Surjective (pointsMap B S hS (yoneda.obj U) (u ≫ p))
     rw [pointsMap_comp]
     exact hp.comp huPts
   have hui : UniversallyInjective B S hS (pullback.snd g (u ≫ p)) := by

@@ -64,21 +64,21 @@ theorem totalFun_zero (n : ℤ) : totalFun M U 0 n = 0 := rfl
 @[simp]
 theorem totalFun_add (t t' : M.toPresheafGradedModule.Total U) (n : ℤ) :
     totalFun M U (t + t') n = totalFun M U t n + totalFun M U t' n := by
-  show (show DirectSum ℤ fun k => ((M.piece k).val.obj U : Type w) from t + t') n = _
+  change (show DirectSum ℤ fun k => ((M.piece k).val.obj U : Type w) from t + t') n = _
   exact DFinsupp.add_apply _ _ n
 
 /-- The degree-`n` component of the inclusion of a degree-`n` section `x` is `x`. -/
 @[simp]
 theorem totalFun_incl (n : ℤ) (x : (M.piece n).val.obj U) :
     totalFun M U (M.toPresheafGradedModule.incl n x) n = x := by
-  show (DirectSum.of (fun k => ((M.piece k).val.obj U : Type w)) n x) n = x
+  change (DirectSum.of (fun k => ((M.piece k).val.obj U : Type w)) n x) n = x
   exact DirectSum.of_eq_same (β := fun k => ((M.piece k).val.obj U : Type w)) n x
 
 /-- For `k ≠ n`, the degree-`n` component of the inclusion of a degree-`k` section is zero. -/
 theorem totalFun_incl_of_ne {k n : ℤ} (h : k ≠ n) (x : (M.piece k).val.obj U) :
     totalFun M U (M.toPresheafGradedModule.incl k x) n = 0 := by
   classical
-  show (DirectSum.of (fun j => ((M.piece j).val.obj U : Type w)) k x) n = 0
+  change (DirectSum.of (fun j => ((M.piece j).val.obj U : Type w)) k x) n = 0
   exact DirectSum.of_eq_of_ne (β := fun j => ((M.piece j).val.obj U : Type w)) k n x (by omega)
 
 /-- Two sections of the total module with the same homogeneous components in every degree are

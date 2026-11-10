@@ -162,10 +162,7 @@ theorem exists_mem_nonvanishingLocus_of_isPullback {V T Y W : Scheme.{u}} [IsAff
       ((((Scheme.Modules.pullback pr).obj F).presheaf.Γgerm w)).hom (e z)
         ∈ Stacks.ModuleStalk.maximalSmul ((Scheme.Modules.pullback pr).obj F) w := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-        rw [map_zero, map_zero]
-        exact Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul b a =>
         rw [he b a]
         have hsm : (b • pullbackSectionsHom pr F ⊤ ⊤ (le_preimage_top pr ⊤) a :

@@ -6,7 +6,8 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.HigherDirectImage.I
 /-!
 # Acyclicity of an injective sheaf of modules, at the morphism universe of the site
 
-`StacksFrontier/CategoryTheory/Sites/Cohomology/HigherDirectImage/InjectiveModuleSheafAcyclicity.lean`
+The module
+`StacksFrontier.CategoryTheory.Sites.Cohomology.HigherDirectImage.InjectiveModuleSheafAcyclicity`
 proves that the underlying abelian sheaf of an injective sheaf of `R`-modules on a site `(𝒞, K)`
 has vanishing higher cohomology over every object of the site, with coefficients
 `AddCommGrpCat.{max u₁ v₁ t}`: the coefficient universe there dominates the universe `u₁` of the
@@ -71,7 +72,7 @@ theorem ext_eq_zero_of_injective_toSheafAtMorphismUniverse (V : C) (n : ℕ)
   Stacks.Cohomology.ObjectSections.ext_eq_zero_of_isTorsionFree K R I _
     (ModuleSheafCohomology.isTorsionFree_sheafify K
       (uliftYoneda.{t}.obj V ⋙ AddCommGrpCat.free) (fun point => by
-        show Module.IsTorsionFree ℤ
+        change Module.IsTorsionFree ℤ
           (FreeAbelianGroup (ULift.{t} (point.unop ⟶ V)))
         exact Module.Flat.isTorsionFree)) n e
 

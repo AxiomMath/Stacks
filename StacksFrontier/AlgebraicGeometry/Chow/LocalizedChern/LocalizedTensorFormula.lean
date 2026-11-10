@@ -211,7 +211,6 @@ theorem mem_range_pullbackSnd_graphZeroSubschemeι (h : S.IsZeroOnComplement) :
       (S.finiteLocallyFreeRank_graphSubscheme_eq_zero h))
 
 omit [IsProper b] in
-include hb in
 /-- The pullback `Lg^*Q` of the object of the graph construction restricts to zero on the inverse
 image in `W'_∞` of the closed subscheme `T'`. -/
 theorem isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι :
@@ -220,7 +219,7 @@ theorem isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι :
         (modificationInclusionAtInfinity S.a b ≫ g) ≫
           modificationInclusionAtInfinity S.a b).toLRSHom.toShHom).obj
       ((derivedPullback g.toLRSHom.toShHom).obj (graphObject S.a S.E S.perfect))) :=
-  isZero_derivedPullback_derivedPullback_pullbackSnd S.a g hb _
+  isZero_derivedPullback_derivedPullback_pullbackSnd S.a g _
     (isZero_derivedPullback_graphZeroLocus S.a S.E S.perfect S.graphSubschemeι
       S.isFiniteLocallyFree_graphObjectRestrictHomology)
 
@@ -237,7 +236,7 @@ theorem modificationPowerSum_derivedPullback_graphObject (h : S.IsZeroOnCompleme
           (modificationInclusionAtInfinity S.a b ≫ g))
         (S.hasDefinedChernClasses_graphObject.derivedPullback g) p
         (S.mem_range_pullbackSnd_graphZeroSubschemeι b g hb h)
-        (S.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b g hb) =
+        (S.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b g) =
       S.localizedPowerSum h p :=
   S.modificationPowerSum_eq_localizedPowerSum b hA _
     (RingedSpace.KFlatDerivedPullback.isPerfect_derivedPullback _ _
@@ -324,8 +323,8 @@ theorem localizedPowerSum_derivedTensor_of_isLocallyBoundedFiniteLocallyFree (p 
     S₂.isClosedImmersion_pullbackSnd_graphZeroSubschemeι b (pullback.snd b₁ b₂)
   have hm₁ := S₁.mem_range_pullbackSnd_graphZeroSubschemeι b (pullback.fst b₁ b₂) rfl h₁
   have hm₂ := S₂.mem_range_pullbackSnd_graphZeroSubschemeι b (pullback.snd b₁ b₂) hb₂ h₂
-  have hz₁ := S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b (pullback.fst b₁ b₂) rfl
-  have hz₂ := S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b (pullback.snd b₁ b₂) hb₂
+  have hz₁ := S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b (pullback.fst b₁ b₂)
+  have hz₂ := S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b (pullback.snd b₁ b₂)
   have hQp₁ := RingedSpace.KFlatDerivedPullback.isPerfect_derivedPullback
     (pullback.fst b₁ b₂).toLRSHom.toShHom _ (isPerfect_graphObject C f E₁ hE₁)
   have hQp₂ := RingedSpace.KFlatDerivedPullback.isPerfect_derivedPullback

@@ -241,7 +241,7 @@ theorem exists_mem_centralizer_sub_mem_of_mem_normalizer
     refine (Subalgebra.mem_centralizer_iff K).mpr fun x hx => ?_
     have hcR : (⟨⁅b, x⁆, hbnorm x hx⟩ : g) ∈ R := by
       refine mem_traceRadical.mpr fun y => ?_
-      show LinearMap.trace K V ((y : Module.End K V) * (b * x - x * b)) = 0
+      change LinearMap.trace K V ((y : Module.End K V) * (b * x - x * b)) = 0
       rw [LinearMap.trace_mul_comm, sub_mul, map_sub, mul_assoc, mul_assoc,
         LinearMap.trace_mul_comm K x, mul_assoc, ← map_sub, ← mul_sub]
       exact hbperp ⟨⁅x, (y : Module.End K V)⁆, g.lie_mem hx y.2⟩

@@ -141,11 +141,11 @@ public theorem cplxBaseChange_comp_fracTermTop {c : ℕ} (f : Fin c → Γ(X, �
       fracTermTop (fun j => g.appTop (f j)) ((Scheme.Modules.pullback g).obj F) := by
   cases c with
   | zero =>
-    show (Scheme.Modules.pullback g).map (𝟙 F) ≫
+    change (Scheme.Modules.pullback g).map (𝟙 F) ≫
         𝟙 ((Scheme.Modules.pullback g).obj F) = 𝟙 ((Scheme.Modules.pullback g).obj F)
     rw [CategoryTheory.Functor.map_id, Category.id_comp]
   | succ p =>
-    show (Scheme.Modules.pullback g).map (fracTerm f F) ≫ prodTermBaseChange g f F p =
+    change (Scheme.Modules.pullback g).map (fracTerm f F) ≫ prodTermBaseChange g f F p =
         fracTerm (fun j => g.appTop (f j)) ((Scheme.Modules.pullback g).obj F)
     refine Limits.Pi.hom_ext _ _ fun t => ?_
     rw [Category.assoc, prodTermBaseChange_π, ← Category.assoc,

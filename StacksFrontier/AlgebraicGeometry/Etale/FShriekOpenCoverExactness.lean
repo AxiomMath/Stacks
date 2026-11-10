@@ -271,7 +271,7 @@ private theorem ι_comp_cechStalkSuccIso_hom (n : ℕ) (t : Fin (n + 1) → I)
       Sigma.desc fun y' => Sigma.ι (fun p : Σ t' : Fin (n + 1) → I,
           GeometricFiberPoint B (openSchemeι B (coverOpen B U t') ≫ f) s =>
         cechSummandStalkFamily.{u, v} B f U s F p.1 p.2) ⟨t, y'⟩ :=
-    Sigma.ι_desc _ t
+    Sigma.ι_comp_desc _ t
   have h5 : Sigma.ι (fun p : Σ t' : Fin (n + 1) → I,
           GeometricFiberPoint B (openSchemeι B (coverOpen B U t') ≫ f) s =>
         cechSummandStalkFamily.{u, v} B f U s F p.1 p.2) ⟨t, y⟩ ≫
@@ -310,7 +310,7 @@ private theorem ι_comp_cechStalkSuccIso_hom (n : ℕ) (t : Fin (n + 1) → I)
       Sigma.ι (cechStalkFamily.{u, v} B f U s F (n + 1))
         (coverFiberTupleEquiv.{u, v} B f s U (n + 1) ⟨t, y⟩) := by
     rw [comp_assoc_eq h1, comp_assoc_eq h2, comp_assoc_eq₂ h3, Iso.inv_hom_id_assoc,
-      comp_assoc_eq h4, ← Category.assoc, Sigma.ι_desc, h5]
+      comp_assoc_eq h4, ← Category.assoc, Sigma.ι_comp_desc, h5]
   exact hchain
 
 /-- **Stacks 0F6S, part (1), on the Čech stalk decompositions.** The covariance map of an

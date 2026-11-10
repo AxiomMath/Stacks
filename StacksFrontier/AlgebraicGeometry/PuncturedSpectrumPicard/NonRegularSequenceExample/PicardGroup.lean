@@ -62,7 +62,7 @@ private theorem specMap_preimage_puncturedSpectrum {A B : Type u} [CommRing A] [
     (Spec.map (CommRingCat.ofHom q)) ⁻¹ᵁ Stacks.Divisors.puncturedSpectrum A =
       Stacks.Divisors.puncturedSpectrum B := by
   ext x
-  show PrimeSpectrum.comap q x ≠ IsLocalRing.closedPoint A ↔
+  change PrimeSpectrum.comap q x ≠ IsLocalRing.closedPoint A ↔
     x ≠ IsLocalRing.closedPoint B
   let : IsLocalHom q := IsLocalHom.of_surjective q hq
   rw [← IsLocalRing.comap_closedPoint q]
@@ -214,7 +214,7 @@ private theorem affine_squareZero_kernel
       map_smul' := by
         intro a b
         change Γ(Spec (.of B), ⊤) at b
-        show γA (w * σ (γB.symm (f.appTop.hom (γA a) * b))) =
+        change γA (w * σ (γB.symm (f.appTop.hom (γA a) * b))) =
           γA a * γA (w * σ (γB.symm b))
         rw [hnat, map_mul γB.symm, γB.symm_apply_apply, map_mul σ, ← map_mul γA]
         congr 1
@@ -231,7 +231,7 @@ private theorem affine_squareZero_kernel
   have hz : β ≫ φ = 0 := by
     apply affine_hom_ext hPiso
     ext b
-    show f.appTop.hom (β.val.app (op ⊤) b) = 0
+    change f.appTop.hom (β.val.app (op ⊤) b) = 0
     rw [hβapply b, hnat, map_mul, hqw, zero_mul, map_zero]
   have hmono : Mono (moduleSpecΓFunctor.map β) := by
     rw [hβtop]
@@ -242,7 +242,7 @@ private theorem affine_squareZero_kernel
     apply affine_exact_of_top (S := ShortComplex.mk β φ hz) hPiso hOiso hPiso
     apply (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).mpr
     intro x
-    show f.appTop.hom x = 0 ↔ ∃ b, β.val.app (op ⊤) b = x
+    change f.appTop.hom x = 0 ↔ ∃ b, β.val.app (op ⊤) b = x
     obtain ⟨a, rfl⟩ := γA.surjective x
     rw [hnat, map_eq_zero_iff γB γB.injective]
     constructor
@@ -324,7 +324,7 @@ private theorem restrictPushforwardUnitIso_compat {X Y : Scheme.{u}} (f : X ⟶ 
   apply LinearMap.ext
   intro s
   change Γ(U.toScheme, W.unop) at s
-  show (X.presheaf.map (eqToHom (image_morphismRestrict_preimage f U W.unop)).op).hom
+  change (X.presheaf.map (eqToHom (image_morphismRestrict_preimage f U W.unop)).op).hom
       ((f.app (U.ι ''ᵁ W.unop)).hom ((U.ι.appIso W.unop).inv s)) =
     ((f ∣_ U).app W.unop).hom s
   simp only [Scheme.Opens.ι_appIso, Iso.refl_inv, morphismRestrict_app]
@@ -343,7 +343,7 @@ private theorem restrict_squareZero_kernel {X Y : Scheme.{u}} (f : X ⟶ Y) (U :
       Stacks.ClosedImmersion.idealSheaf (f ∣_ U).toLRSHom.toShHom) := by
   let F := Scheme.Modules.restrictFunctor U.ι
   let : PreservesFiniteLimits (F ⋙ Scheme.Modules.toPresheaf U.toScheme) := by
-    show PreservesFiniteLimits (Scheme.Modules.toPresheaf Y ⋙
+    change PreservesFiniteLimits (Scheme.Modules.toPresheaf Y ⋙
       (Functor.whiskeringLeft _ _ AddCommGrpCat.{u}).obj U.ι.opensFunctor.op)
     let : PreservesFiniteLimits (Scheme.Modules.toPresheaf Y) := inferInstance
     let : PreservesFiniteLimits
@@ -579,7 +579,7 @@ private theorem surjective_units_appTop_puncturedSpectrum
   intro v
   refine ⟨Units.map (γA.comp σ).toMonoidHom (Units.map eB.symm.toMonoidHom v), ?_⟩
   apply Units.ext
-  show i.appTop.hom (γA (σ (eB.symm (v : Γ(V.toScheme, ⊤))))) = v
+  change i.appTop.hom (γA (σ (eB.symm (v : Γ(V.toScheme, ⊤))))) = v
   rw [hc, hσ]
   exact eB.apply_symm_apply _
 
@@ -607,7 +607,7 @@ private theorem not_subsingleton_picardGroup_of_firstOrderThickening
     obtain ⟨a, rfl⟩ := hunits b
     exact (Stacks.Thickenings.exact_unitsToSubCohomology i hi 0).apply_apply_eq_zero a
   have hu0 : ∀ c, Stacks.Thickenings.unitsToIdealCohomology i hi c = 0 := fun c => by
-    show (Stacks.Thickenings.idealCohomologyEquiv i hi 1).symm
+    change (Stacks.Thickenings.idealCohomologyEquiv i hi 1).symm
       (Stacks.Thickenings.thickeningBoundary i hi 0 c) = 0
     rw [hb0 c, map_zero]
   have hx0 : ∀ x : CategoryTheory.Sheaf.H.{u}
@@ -661,7 +661,7 @@ public theorem exists_puncturedSpectrum_firstOrderThickening (k : Type u) [Field
     obtain ⟨a, ha⟩ := (hex x).mp hx
     obtain ⟨b, hb⟩ := (hex y).mp hy
     rw [← ha, ← hb]
-    show squareZeroCoordinate k * ι a * (squareZeroCoordinate k * ι b) = 0
+    change squareZeroCoordinate k * ι a * (squareZeroCoordinate k * ι b) = 0
     calc
       _ = squareZeroCoordinate k ^ 2 * (ι a * ι b) := by ring
       _ = 0 := by rw [squareZeroCoordinate_sq, zero_mul]

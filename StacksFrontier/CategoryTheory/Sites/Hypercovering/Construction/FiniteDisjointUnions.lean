@@ -213,13 +213,13 @@ noncomputable def isColimitCofanOfSubtype [HasInitial C] {ι : Type*} (Q : ι �
   refine Cofan.IsColimit.mk _ (fun t ↦ Sigma.desc (fun i ↦ (e i).inv ≫ t.inj i.1))
     (fun t i ↦ ?_) (fun t m hm ↦ ?_)
   · by_cases h : S i
-    · simp only [cofan_mk_inj, dif_pos h, Category.assoc, Sigma.ι_desc,
+    · simp only [cofan_mk_inj, dite_eq_left h, Category.assoc, Sigma.ι_comp_desc,
         Iso.hom_inv_id_assoc]
-    · simp only [cofan_mk_inj, dif_neg h]
+    · simp only [cofan_mk_inj, dite_eq_right h]
       exact (hS i h).hom_ext _ _
   · refine Sigma.hom_ext (f := R) _ _ (fun i ↦ ?_)
     have h := hm i.1
-    simp only [cofan_mk_inj, dif_pos i.2, Category.assoc] at h
+    simp only [cofan_mk_inj, dite_eq_left i.2, Category.assoc] at h
     simp [← h]
 
 variable [HasPullbacks C] [FinitaryExtensive C]
@@ -302,7 +302,7 @@ lemma isPullback_sigmaMap' {A B Z : FormalCoproduct.{w} C} (f : A ⟶ Z) (g : B 
     rw [Cofan.IsColimit.fac]
     by_cases h : f.f q.1 = g.f q.2
     · simp [h, IsPullback.isoPullback_inv_fst_assoc, IsPullback.isoPullback_inv_snd_assoc]
-    · simp only [cofan_mk_inj, dif_neg h]
+    · simp only [cofan_mk_inj, dite_eq_right h]
       exact (hinit q h).hom_ext _ _
 
 variable [HasTerminal C] [HasFiniteCoproducts C]

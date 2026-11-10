@@ -96,7 +96,7 @@ theorem CompletedEnvelopeThickening.presentationMap_C (X : CompletedEnvelopeThic
   rcases X with ⟨hp, ⟨R, b, hc, t, ht, hbij⟩, hr, m, hm, ha, hq⟩
   dsimp only at hr hm ha ⊢
   subst R
-  show m (algebraMap s.A (MvPolynomial ι s.A) a) = b.toRingHom a
+  change m (algebraMap s.A (MvPolynomial ι s.A) a) = b.toRingHom a
   rw [eq_of_heq hm, eq_of_heq ha]
   exact congrArg
     (algebraMap (polynomialDividedPowerEnvelope s g).object
@@ -112,7 +112,7 @@ theorem CompletedEnvelopeThickening.toQuotient_apply (X : CompletedEnvelopeThick
   rcases X with ⟨hp, ⟨R, b, hc, t, ht, hbij⟩, hr, m, hm, ha, hq⟩
   dsimp only at hr hm hq ⊢
   subst R
-  show t (g q) = Ideal.Quotient.mk (completedEnvelopeDPRing s g hg hp).ideal (m q)
+  change t (g q) = Ideal.Quotient.mk (completedEnvelopeDPRing s g hg hp).ideal (m q)
   rw [eq_of_heq hm]
   exact eq_of_heq (hq q)
 
@@ -229,7 +229,7 @@ theorem envelopeCosimplicialRingMapThickening_coprojection {n m : SimplexCategor
   apply completedEnvelope_hom_ext s g hg (completedEnvelopeThickening s g hg)
   apply RingHom.ext
   intro p
-  show envelopeCosimplicialRingMapHom s g hg φ
+  change envelopeCosimplicialRingMapHom s g hg φ
       ((completedEnvelopeCoprojection s g hg n.len j).hom.toRingHom
         ((completedEnvelopeThickening s g hg).presentationMap p)) =
     (completedEnvelopeCoprojection s g hg m.len (φ.toOrderHom j)).hom.toRingHom

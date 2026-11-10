@@ -182,10 +182,10 @@ theorem coneShiftLinearMap_d (f : K ⟶ L) (n : ℤ) (x : L.M × K.M) :
   rw [coneObject_d_apply, coneObject_d_apply, coneShiftLinearMap_apply,
     coneShiftLinearMap_apply]
   refine Prod.ext ?_ ?_
-  · show (n.negOnePow : ℤ) • (L.d x.1 + f.toFun x.2) =
+  · change (n.negOnePow : ℤ) • (L.d x.1 + f.toFun x.2) =
       (shift L n).d x.1 + (shiftMap f n).toFun ((n.negOnePow : ℤ) • x.2)
     rw [shift_d_apply, shiftMap_toFun, map_zsmul, smul_add]
-  · show (n.negOnePow : ℤ) • (n.negOnePow : ℤ) • -K.d x.2 =
+  · change (n.negOnePow : ℤ) • (n.negOnePow : ℤ) • -K.d x.2 =
       -(shift K n).d ((n.negOnePow : ℤ) • x.2)
     rw [shift_d_apply, map_zsmul, smul_neg, smul_neg, negOnePow_smul_smul]
 
@@ -195,7 +195,7 @@ theorem coneShiftLinearMap_smul (K L : DifferentialGradedModule.{u, v, w} A) (n 
     coneShiftLinearMap K L n (MulOpposite.op c • x) =
       MulOpposite.op c • coneShiftLinearMap K L n x := by
   refine Prod.ext rfl ?_
-  show (n.negOnePow : ℤ) • (MulOpposite.op c • x.2) =
+  change (n.negOnePow : ℤ) • (MulOpposite.op c • x.2) =
     MulOpposite.op c • ((n.negOnePow : ℤ) • x.2)
   exact (map_zsmul (DistribSMul.toAddMonoidHom K.M (MulOpposite.op c))
     (n.negOnePow : ℤ) x.2).symm
@@ -264,7 +264,7 @@ theorem shiftFunctor_coneIncl_coneShiftHom (f : K ⟶ L) (n : ℤ) :
   apply Hom.ext
   refine LinearMap.ext fun x => ?_
   refine Prod.ext rfl ?_
-  show (n.negOnePow : ℤ) • (0 : K.M) = 0
+  change (n.negOnePow : ℤ) • (0 : K.M) = 0
   rw [smul_zero]
 
 /-- Multiplication by the sign of a shift, as an automorphism of a differential graded
@@ -323,7 +323,7 @@ theorem shiftedConeTriangle_comm₂ (f : K ⟶ L) (n : ℤ) :
   simp only [Hom.comp_toFun_apply, Hom.hom_zsmul_toFun, Hom.id_toFun_apply,
     shiftFunctor_map_toFun, coneShiftHom_toFun, coneIncl_toFun_apply]
   refine Prod.ext rfl ?_
-  show (n.negOnePow : ℤ) • (n.negOnePow : ℤ) • (0 : K.M) = 0
+  change (n.negOnePow : ℤ) • (n.negOnePow : ℤ) • (0 : K.M) = 0
   rw [smul_zero, smul_zero]
 
 /-- The third square of the comparison between the shift of a cone triangle and the cone

@@ -179,7 +179,8 @@ variable {C : Type u} [Category.{u} C] {C' : Type u} [Category.{u} C']
   {A' : DifferentialGradedAlgebra.{u, m} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp')}
   (φ : DifferentialGradedAlgebra.InverseImageHom F σ A A')
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The plain comparison map of the pullback is the plain transpose of the restriction
 homomorphism of its presheaf of section modules, read through the identification of the
 sections. -/
@@ -194,12 +195,13 @@ theorem plainSectionComparison_pullbackFunctor (P : DifferentialGradedModule.{u,
           (pullbackRestr φ P a) := by
   have h := (pullbackSystem φ P).sectionModuleRestriction_sectionsIso a
   let adj := DifferentialGraded.Bimodule.tensorRegularAdjRestrictScalars (A'.sectionRestriction a)
-  show (adj.homEquiv _ _).symm (((pullbackFunctor φ).obj P).sectionModuleRestriction a) ≫ _ =
+  change (adj.homEquiv _ _).symm (((pullbackFunctor φ).obj P).sectionModuleRestriction a) ≫ _ =
     _ ≫ (adj.homEquiv _ _).symm (pullbackRestr φ P a)
   exact (adj.homEquiv_naturality_right_symm _ _).symm.trans
     ((congrArg (adj.homEquiv _ _).symm h).trans (adj.homEquiv_naturality_left_symm _ _))
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The sections of the pullback of a K-projective module are K-projective**: they are
 `P(u U') ⊗_{A(u U')} A'(U')`, and extension of scalars preserves K-projectivity. -/
 theorem leftOrthogonal_sectionModule_pullbackFunctor (P : DifferentialGradedModule.{u, m, m} A)
@@ -215,7 +217,8 @@ theorem leftOrthogonal_sectionModule_pullbackFunctor (P : DifferentialGradedModu
       ((pullbackSystem φ P).sectionsIso U')).symm
     (DifferentialGraded.Bimodule.leftOrthogonal_tensorCompFunctor_obj (φ.sectionHom U') hP)
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The pullback of a K-projective module satisfying the quasi-coherence condition satisfies
 it.** Over a morphism `a' : V' ⟶ U'` of `C'ᵒᵖ` the comparison map of `g^*P` is, up to the
 identifications of its source, the comparison map of `P` along `u a'` tensored with `A'(U')`. -/

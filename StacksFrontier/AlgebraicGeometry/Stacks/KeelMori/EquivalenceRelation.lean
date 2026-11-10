@@ -403,7 +403,7 @@ theorem isPreEquivalenceRelation_rel : IsPreEquivalenceRelation (rel hC) := by
     have hl₂ : l ≫ (BigFppfOver.toScheme B S hS).map (q₂ hC) =
         (r'.left : T.left ⟶ (BigFppfOver.toScheme B S hS).obj (R hC)) := hQ.lift_snd _ _ _
     refine ⟨Over.homMk (l ≫ (BigFppfOver.toScheme B S hS).map (compR hC)) ?_, ?_, ?_⟩
-    · show (l ≫ (BigFppfOver.toScheme B S hS).map (compR hC)) ≫ B.inclusion.map (R hC).hom = _
+    · change (l ≫ (BigFppfOver.toScheme B S hS).map (compR hC)) ≫ B.inclusion.map (R hC).hom = _
       calc (l ≫ (BigFppfOver.toScheme B S hS).map (compR hC)) ≫ B.inclusion.map (R hC).hom
           = l ≫ B.inclusion.map (Q hC).hom := by
             rw [Category.assoc, BigFppfOver.toScheme_map_comp_hom]
@@ -414,13 +414,13 @@ theorem isPreEquivalenceRelation_rel : IsPreEquivalenceRelation (rel hC) := by
         _ = T.hom := Over.w r
     · rw [ht, ← h₁]
       apply Over.OverMorphism.ext
-      show (l ≫ (BigFppfOver.toScheme B S hS).map (compR hC)) ≫
+      change (l ≫ (BigFppfOver.toScheme B S hS).map (compR hC)) ≫
         (BigFppfOver.toScheme B S hS).map (sR hC) = (r.left : T.left ⟶
           (BigFppfOver.toScheme B S hS).obj (R hC)) ≫ (BigFppfOver.toScheme B S hS).map (sR hC)
       rw [Category.assoc, ← Functor.map_comp, compR_sR, Functor.map_comp, ← Category.assoc, hl₁]
     · rw [hs, ← h₂']
       apply Over.OverMorphism.ext
-      show (l ≫ (BigFppfOver.toScheme B S hS).map (compR hC)) ≫
+      change (l ≫ (BigFppfOver.toScheme B S hS).map (compR hC)) ≫
         (BigFppfOver.toScheme B S hS).map (tR hC) = (r'.left : T.left ⟶
           (BigFppfOver.toScheme B S hS).obj (R hC)) ≫ (BigFppfOver.toScheme B S hS).map (tR hC)
       rw [Category.assoc, ← Functor.map_comp, compR_tR, Functor.map_comp, ← Category.assoc, hl₂]

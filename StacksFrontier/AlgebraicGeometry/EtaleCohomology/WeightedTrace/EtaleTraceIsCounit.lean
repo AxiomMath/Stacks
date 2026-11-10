@@ -108,17 +108,17 @@ variable (s : GeometricPoint X) (x : SmallEtale.GeometricFiberPoint B U.obj.hom 
 /-- The stalk map at a geometric point is functorial for composition of sheaf morphisms. -/
 private theorem stalkMap_comp
     {G H K : Sheaf (SmallEtale.topology B X hX) AddCommGrpCat.{u + 1}} (f : G ⟶ H) (g : H ⟶ K) :
-    colim.map (Functor.whiskerLeft (CategoryOfElements.π
+    colim.map (Functor.whiskerLeft (Functor.Elements.π
         (geometricPointFiber B X hX s)).op (f ≫ g).1) =
-      colim.map (Functor.whiskerLeft (CategoryOfElements.π
+      colim.map (Functor.whiskerLeft (Functor.Elements.π
         (geometricPointFiber B X hX s)).op f.1) ≫
-      colim.map (Functor.whiskerLeft (CategoryOfElements.π
+      colim.map (Functor.whiskerLeft (Functor.Elements.π
         (geometricPointFiber B X hX s)).op g.1) :=
   (etaleStalkPresheafFunctor B X hX s AddCommGrpCat.{u + 1}).map_comp _ _
 
 /-- The stalk map at a geometric point of an identity morphism is the identity. -/
 private theorem stalkMap_id (G : Sheaf (SmallEtale.topology B X hX) AddCommGrpCat.{u + 1}) :
-    colim.map (Functor.whiskerLeft (CategoryOfElements.π
+    colim.map (Functor.whiskerLeft (Functor.Elements.π
         (geometricPointFiber B X hX s)).op (𝟙 G : G ⟶ G).1) = 𝟙 _ :=
   (etaleStalkPresheafFunctor B X hX s AddCommGrpCat.{u + 1}).map_id _
 
@@ -137,15 +137,15 @@ public theorem fShriekStalkSummand_natural
     {G H : Sheaf (SmallEtale.topology B U.obj.left.1 U.obj.left.property) AddCommGrpCat.{u + 1}}
     (φ : G ⟶ H) :
     fShriekStalkSummand B X hX U s x G ≫
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B X hX s)).op
           ((SmallEtale.fShriekFunctor.{u, u + 1} B U.obj.hom).map φ).1) =
-      colim.map (Functor.whiskerLeft (CategoryOfElements.π
+      colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B U.obj.left.1 U.obj.left.property
             (x.toGeometricPoint B U.obj.hom s))).op φ.1) ≫
         fShriekStalkSummand B X hX U s x H := by
   have hiso : (SmallEtale.fShriekStalkIso.{u, u + 1} B U.obj.hom s G).inv ≫
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B X hX s)).op
           ((SmallEtale.fShriekFunctor.{u, u + 1} B U.obj.hom).map φ).1) =
       AddCommGrpCat.ofHom (SmallEtale.fiberStalksMap.{u, u + 1} B U.obj.hom s φ) ≫
@@ -157,7 +157,7 @@ public theorem fShriekStalkSummand_natural
           ((SmallEtale.fShriekStalkIso.{u, u + 1} B U.obj.hom s G).inv_hom_id_assoc _)))
   have hsummand : SmallEtale.fiberStalkOf.{u, u + 1} B U.obj.hom s G x ≫
         AddCommGrpCat.ofHom (SmallEtale.fiberStalksMap.{u, u + 1} B U.obj.hom s φ) =
-      colim.map (Functor.whiskerLeft (CategoryOfElements.π
+      colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B U.obj.left.1 U.obj.left.property
             (x.toGeometricPoint B U.obj.hom s))).op φ.1) ≫
         SmallEtale.fiberStalkOf.{u, u + 1} B U.obj.hom s H x := by
@@ -179,7 +179,7 @@ public theorem fShriekStalkSummand_eq_extensionUnitStalkMap
       AddCommGrpCat.{u + 1}) :
     fShriekStalkSummand B X hX U s x G =
       extensionUnitStalkMap B X hX U s x G ≫
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B X hX s)).op
           ((SmallEtale.abelianExtensionByZeroIsoFShriek B X hX U).hom.app G).1) :=
   ((Iso.eq_comp_inv _).2
@@ -190,18 +190,18 @@ public theorem fShriekStalkSummand_eq_extensionUnitStalkMap
 the adjunction is transported. -/
 public theorem stalkMap_counit_app_eq
     (F : Sheaf (SmallEtale.topology B X hX) AddCommGrpCat.{u + 1}) :
-    colim.map (Functor.whiskerLeft (CategoryOfElements.π
+    colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B X hX s)).op
           ((etaleFShriekAbPullbackAdjunction B X hX U).counit.app F).1) =
-      colim.map (Functor.whiskerLeft (CategoryOfElements.π
+      colim.map (Functor.whiskerLeft (Functor.Elements.π
             (geometricPointFiber B X hX s)).op
             ((SmallEtale.fShriekFunctor.{u, u + 1} B U.obj.hom).map
               ((etaleRestrictionIso B X hX U).hom.app F)).1) ≫
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        colim.map (Functor.whiskerLeft (Functor.Elements.π
             (geometricPointFiber B X hX s)).op
             ((SmallEtale.abelianExtensionByZeroIsoFShriek B X hX U).inv.app
               ((abelianRestriction B X hX U).obj F)).1) ≫
-          colim.map (Functor.whiskerLeft (CategoryOfElements.π
+          colim.map (Functor.whiskerLeft (Functor.Elements.π
             (geometricPointFiber B X hX s)).op
             ((abelianExtensionByZeroAdjunction B X hX U).counit.app F).1) := by
   rw [etaleFShriekAbPullbackAdjunction_counit_app, stalkMap_comp, stalkMap_comp]
@@ -210,10 +210,10 @@ public theorem stalkMap_counit_app_eq
 public theorem stalkMap_abelianExtensionByZeroIsoFShriek_hom_inv
     (G : Sheaf (SmallEtale.topology B U.obj.left.1 U.obj.left.property)
       AddCommGrpCat.{u + 1}) :
-    colim.map (Functor.whiskerLeft (CategoryOfElements.π
+    colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B X hX s)).op
           ((SmallEtale.abelianExtensionByZeroIsoFShriek B X hX U).hom.app G).1) ≫
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B X hX s)).op
           ((SmallEtale.abelianExtensionByZeroIsoFShriek B X hX U).inv.app G).1) =
       𝟙 _ := by
@@ -228,16 +228,16 @@ public theorem fShriekStalkSummand_comp_counit
     (F : Sheaf (SmallEtale.topology B X hX) AddCommGrpCat.{u + 1}) :
     fShriekStalkSummand B X hX U s x
           ((SmallEtale.abPullback.{u, u + 1} B U.obj.hom).obj F) ≫
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B X hX s)).op
           ((etaleFShriekAbPullbackAdjunction B X hX U).counit.app F).1) =
       (SmallEtale.fiberPointPullbackStalkIso.{u, u + 1} B U.obj.hom s F x).hom := by
   have hinner : fShriekStalkSummand B X hX U s x ((abelianRestriction B X hX U).obj F) ≫
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        colim.map (Functor.whiskerLeft (Functor.Elements.π
             (geometricPointFiber B X hX s)).op
             ((SmallEtale.abelianExtensionByZeroIsoFShriek B X hX U).inv.app
               ((abelianRestriction B X hX U).obj F)).1) ≫
-          colim.map (Functor.whiskerLeft (CategoryOfElements.π
+          colim.map (Functor.whiskerLeft (Functor.Elements.π
             (geometricPointFiber B X hX s)).op
             ((abelianExtensionByZeroAdjunction B X hX U).counit.app F).1) =
       restrictionStalkMap B X hX U s x F := by

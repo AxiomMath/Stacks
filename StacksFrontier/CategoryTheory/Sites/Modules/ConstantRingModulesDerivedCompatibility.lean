@@ -50,8 +50,8 @@ Both squares are needed in this form, not in the underived one:
   localisation functor, and nothing in `Dualizing.mapDerivedCategoryCompNatIso` says what the lift
   does to the class of a complex, so no equation written through a `mapDerivedCategoryFactors` can
   be carried across. This is the junction of the kind
-  `StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.RestrictionToASliceJunction` supplies
-  for the derived tensor product.
+  `StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.RestrictionToASliceJunction`
+  supplies for the derived tensor product.
 
 ## Implementation notes
 

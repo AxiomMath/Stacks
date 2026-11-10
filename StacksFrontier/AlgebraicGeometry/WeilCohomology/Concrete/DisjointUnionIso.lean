@@ -55,8 +55,7 @@ theorem surjective_of_surjective_rTensor {F : Type w} [Field F] {M N V : Type w}
     (TensorProduct.rid F P).toLinearMap ∘ₗ LinearMap.lTensor P φ
   have hnat : ∀ t : M ⊗[F] V, ρ N (LinearMap.rTensor V f t) = f (ρ M t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul m x => simp [ρ]
     | add s t hs ht => rw [map_add, map_add, hs, ht, map_add, map_add]
   intro n
@@ -173,10 +172,10 @@ theorem exists_retraction_coprodObj {X Y Z X' Y' : (SmoothProjectiveScheme k).Fu
   have hDr : coprodInr X' Y' ≫ γ = gY ≫ j :=
     (isColimitCoprodCofan X' Y').fac _ ⟨WalkingPair.right⟩
   refine ⟨σ, γ, BinaryCofan.IsColimit.hom_ext hc ?_ ?_, hDl, hDr⟩
-  · show i ≫ σ ≫ γ = i ≫ 𝟙 Z
+  · change i ≫ σ ≫ γ = i ≫ 𝟙 Z
     rw [reassoc_of% hSl, hDl, reassoc_of% hX]
     exact (Category.comp_id _).symm
-  · show j ≫ σ ≫ γ = j ≫ 𝟙 Z
+  · change j ≫ σ ≫ γ = j ≫ 𝟙 Z
     rw [reassoc_of% hSr, hDr, reassoc_of% hY]
     exact (Category.comp_id _).symm
 

@@ -85,7 +85,7 @@ theorem unit_endomorphisms_comm (X : Scheme.{u})
     g ≫ h = h ≫ g := by
   ext U
   let R := X.ringCatSheaf.obj.obj U
-  show (h.val.app U).hom ((g.val.app U).hom (1 : R)) =
+  change (h.val.app U).hom ((g.val.app U).hom (1 : R)) =
     (g.val.app U).hom ((h.val.app U).hom (1 : R))
   have key : ∀ (k : SheafOfModules.unit X.ringCatSheaf ⟶ SheafOfModules.unit X.ringCatSheaf)
       (y : R), (k.val.app U).hom y = y • (k.val.app U).hom (1 : R) := fun k y =>

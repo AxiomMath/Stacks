@@ -136,8 +136,7 @@ noncomputable def TensorProduct.piLeftOfPiRing (R : Type*) {ι : Type*} [Fintype
     (TensorProduct.comm R _ _).trans ((TensorProduct.piRight R R M A).trans
       (LinearEquiv.piCongrRight fun i ↦ TensorProduct.comm R M (A i)))
   refine e.toAddEquiv.toLinearEquiv fun a x ↦ ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [smul_add, map_add, hx, hy]
   | tmul b m =>
     ext i

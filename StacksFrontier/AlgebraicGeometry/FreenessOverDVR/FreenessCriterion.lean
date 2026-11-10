@@ -84,7 +84,7 @@ theorem finrank_cohomology_adicFiltration_zero [IsDomain A] (hπ : π ≠ 0) (F 
       intro z _
       obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ z
       refine ⟨⟨π ^ k, mem_nonZeroDivisors_of_ne_zero (pow_ne_zero k hπ)⟩, ?_⟩
-      show π ^ k • (Submodule.Quotient.mk y : cohomologyOver A f 0 F ⧸ LinearMap.range g) = 0
+      change π ^ k • (Submodule.Quotient.mk y : cohomologyOver A f 0 F ⧸ LinearMap.range g) = 0
       rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
       exact hrange y
     rw [← rank_quotient_eq_of_le_torsion hle]

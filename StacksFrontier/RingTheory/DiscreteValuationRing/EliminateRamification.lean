@@ -143,7 +143,7 @@ private lemma scaled_power_lift
     by_cases hzone : v z ≤ 1
     · calc
         v (algebraMap B K π) ^ n * v z ^ i ≤ 1 ^ n * 1 ^ i := by
-          gcongr <;> exact bot_le
+          gcongr
         _ = 1 := by simp
     · have hzgt : 1 < v z := lt_of_not_ge hzone
       rw [valuation_eval₂_eq_pow_of_monic_of_one_lt P hP z hzgt, hdeg, map_pow] at hbound

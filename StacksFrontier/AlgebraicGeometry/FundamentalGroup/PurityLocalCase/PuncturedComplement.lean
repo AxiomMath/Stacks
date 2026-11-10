@@ -69,7 +69,7 @@ ideal. -/
 theorem puncturedSpectrum_eq_complementZeroLocus (A : Type u) [CommRing A] [IsLocalRing A] :
     Stacks.Divisors.puncturedSpectrum A = complementZeroLocus A (maximalIdeal A) :=
   Opens.ext (by
-    show ({closedPoint A} : Set (PrimeSpectrum A))ᶜ =
+    change ({closedPoint A} : Set (PrimeSpectrum A))ᶜ =
       (PrimeSpectrum.zeroLocus (maximalIdeal A : Set A))ᶜ
     exact congrArg compl (zeroLocus_maximalIdeal_eq_singleton A).symm)
 
@@ -151,7 +151,7 @@ instance isNoetherian_U : IsNoetherian S.U :=
 theorem ker_U₀ToU :
     S.U₀ToU.ker = Scheme.IdealSheafData.ofIdealTop (Ideal.span
       {((Scheme.ΓSpecIso (CommRingCat.of S.A)).inv ≫ S.UOpen.ι.appTop).hom S.f}) := by
-  show (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk S.principalIdeal)) ∣_ S.UOpen).ker = _
+  change (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk S.principalIdeal)) ∣_ S.UOpen).ker = _
   rw [ker_morphismRestrict_spec_quotientMk, LocalLefschetzSituation.principalIdeal,
     Ideal.map_span, Set.image_singleton]
 

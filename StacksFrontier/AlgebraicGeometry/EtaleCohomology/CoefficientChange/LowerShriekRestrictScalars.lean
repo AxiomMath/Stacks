@@ -162,7 +162,7 @@ def etaleModuleExtensionByZeroRestrictScalarsIso :
       etaleModuleRestrictScalarsUniv.{u, r} φ U ⋙ etaleModuleExtensionByZero.{u, r} Λ₁ j :=
   (asIso (coefficientPullbackTwoSquare (Scheme.Etale.smallEtaleCompose j)
     U.smallEtaleTopology X.smallEtaleTopology
-    (ModuleCat.restrictScalars.{max (u + 1) r} φ)).natTrans).symm
+    (ModuleCat.restrictScalars.{max (u + 1) r} φ) : _ ⋙ _ ⟶ _ ⋙ _)).symm
 
 /-- **The unbounded derived extension by zero commutes with restriction of coefficients.**
 `j_!` is exact, so the hypothesis on the derivation unit is automatic. -/

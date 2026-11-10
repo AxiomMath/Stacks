@@ -235,7 +235,7 @@ theorem nonempty_topLowerShriekTrace (hN : IsUnit (N : k)) {U S : Scheme.{u}}
     have : LocallyOfFiniteType fbar := IsProper.toLocallyOfFiniteType
     rw [← hjf]; infer_instance
   have : NeZero (N : k) := ⟨hN.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k N
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k N
   exact ⟨topLowerShriekTraceOfCompactification N hN (q := q) (f := f) (j := j) (fbar := fbar)
     (hjf := hjf) (i := i) (hij := by rw [hrange, compl_compl]) (jf := jf) (hζ := hζ)⟩
 

@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.Completion.AdicQuotientSliceTowerDescent
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulAdicQuotientTowerOffset
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulAdicQuotientTowerOffset
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulAdicAffineSliceDerivedLimit
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.GlobalSectionsCompletionGenerated
 public import StacksCore.Tactic.StacksAttribute
@@ -163,6 +162,7 @@ theorem isDerivedComplete_restrict_single_adicQuotientSystem_obj (V : X.Opens) (
     (isDerivedComplete_single_adicQuotientSystem_obj I ℱ n)
   exact h
 
+omit [_root_.SheafOfModules.IsCoherent ℱ] in
 /-- **`Stacks.Algebraization.restrictCompletionToAdicQuotient` is the only map out of `(ℱ|_V)^∧`
 restricting along the completion unit of the slice to the restriction of the quotient projection
 `ℱ ⟶ ℱ/𝓘ⁿℱ`.** The restricted term is derived complete along `𝓘|_V`
@@ -204,6 +204,7 @@ theorem eq_restrictCompletionToAdicQuotient (V : X.Opens) (n : ℕ)
 
 /-! ### The slice's own canonical maps, pinned -/
 
+omit [_root_.SheafOfModules.IsCoherent ℱ] in
 /-- **The slice's canonical map `(ℱ|_V)^∧ ⟶ ((ℱ|_V)/(𝓘|_V)ⁿ(ℱ|_V))[0]`, pinned.** Composing it
 with the completion unit of the slice gives the comparison
 `((ℱ|_V)[0]) ≅ (ℱ[0])|_V` of [Stacks, Tag 0942] followed by the quotient projection

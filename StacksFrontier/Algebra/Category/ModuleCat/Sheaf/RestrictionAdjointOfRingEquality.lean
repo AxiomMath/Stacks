@@ -57,7 +57,7 @@ theorem homEquiv_id_eq_sheafUnit :
         (𝟙 _) = sheafUnit w JX JY OY := by
   apply ObjectProperty.hom_ext
   rw [Functor.sheafAdjunctionCocontinuous_homEquiv_apply_hom]
-  show ((w.op.ranAdjunction RingCat.{r}).homEquiv OY.obj (w.op ⋙ OY.obj)) (𝟙 _) =
+  change ((w.op.ranAdjunction RingCat.{r}).homEquiv OY.obj (w.op ⋙ OY.obj)) (𝟙 _) =
     (w.op.ranAdjunction RingCat.{r}).unit.app OY.obj
   rw [Adjunction.homEquiv_unit, CategoryTheory.Functor.map_id]
   exact Category.comp_id _
@@ -128,7 +128,7 @@ theorem structureMapSquare_homEquiv_eqToHom (hsq : u' ⋙ v = v' ⋙ u)
   simp only [StructuredArrow.mk_hom_eq_self, TwoSquare.op, Functor.map_comp]
   refine (Category.comp_id (obj := RingCat.{r}) _).trans ?_
   refine congrArg (fun t => OD.obj.map (v.op.map j.hom) ≫ t) ?_
-  simp only [TwoSquare.natTrans, NatTrans.op_app, eqToHom_app, eqToHom_op, eqToHom_map]
+  simp only [NatTrans.op_app, eqToHom_app, eqToHom_op, eqToHom_map]
   rfl
 
 end Square

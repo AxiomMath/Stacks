@@ -170,7 +170,7 @@ public theorem etaleGraphMap_isOpenImmersion
     IsOpenImmersion (B.inclusion.map (etaleGraphMap B X hX U W)) := by
   have hdiag : @Etale ≤ (@IsOpenImmersion : MorphismProperty Scheme).diagonal := by
     intro A C g hg
-    show IsOpenImmersion (pullback.diagonal g)
+    change IsOpenImmersion (pullback.diagonal g)
     have : Etale g := hg
     infer_instance
   have : IsOpenImmersion.HasOfPostcompProperty (@Etale) :=
@@ -184,7 +184,7 @@ public theorem etaleGraphMap_isOpenImmersion
     (B.inclusion.map (etaleGraphMap B X hX U W))
     (B.inclusion.map
       (pullback.fst ((smallEtalePostcompose B X hX U).obj W).obj.hom U.obj.hom)) hfst ?_
-  show IsOpenImmersion (B.inclusion.map (etaleGraphMap B X hX U W ≫
+  change IsOpenImmersion (B.inclusion.map (etaleGraphMap B X hX U W ≫
     pullback.fst ((smallEtalePostcompose B X hX U).obj W).obj.hom U.obj.hom))
   rw [etaleGraphMap_fst]
   exact MorphismProperty.id_mem IsOpenImmersion _
@@ -553,7 +553,7 @@ public theorem etaleGraphSection_naturality
       etaleGraphSection B X hX U G W (φ.hom.app (op W) s) := by
   refine etaleGraphSection_ext B X hX U G W _ _ ?_
   rw [etaleGraphSection_restrict]
-  show G.obj.map (etaleGraphIntoSupportOpen B X hX U W).op
+  change G.obj.map (etaleGraphIntoSupportOpen B X hX U W).op
     (φ.hom.app _ (etaleGraphSection B X hX U F W s).val) = _
   rw [← ConcreteCategory.comp_apply, ← φ.hom.naturality, ConcreteCategory.comp_apply,
     etaleGraphSection_restrict]

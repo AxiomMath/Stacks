@@ -206,7 +206,7 @@ theorem mulCompat_of_eq {n m n' m' : ℤ} (hn : n = n') (hm : m = m')
 
 /-- **Multiplicativity in the bidegree `(n, 1)`, for every integer `n`.** -/
 theorem mulCompat_one (n : ℤ) : MulCompat R L β hmul hinv n 1 := by
-  show SheafOfModules.GradedAlgebra.mulSheaf R n 1 ≫ (pieceIso R L β hmul hinv (n + 1)).hom =
+  change SheafOfModules.GradedAlgebra.mulSheaf R n 1 ≫ (pieceIso R L β hmul hinv (n + 1)).hom =
     ((pieceIso R L β hmul hinv n).hom ⊗ₘ (pieceIso R L β hmul hinv 1).hom) ≫ (mulIso L n 1).hom
   rw [mulIso_one_right L n, ← Category.assoc, ← MonoidalCategory.id_tensorHom,
     MonoidalCategory.tensorHom_comp_tensorHom, Category.comp_id,

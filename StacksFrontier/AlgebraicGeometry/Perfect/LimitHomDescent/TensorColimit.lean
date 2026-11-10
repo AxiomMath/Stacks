@@ -62,8 +62,7 @@ theorem isStagesColimit_rTensor
       (ι i).rTensor M y = eΦ.toLinearMap.rTensor M (E.symm
         (Module.DirectLimit.of R J (G · ⊗[R] M) (fun i j h => (f i j h).rTensor M) i y)) := by
     intro i y
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul x m =>
       simp only [E, directLimitLeft_symm_of_tmul, LinearMap.rTensor_tmul, LinearEquiv.coe_coe]
       congr 1

@@ -106,7 +106,7 @@ public theorem exists_admissible_generator
         (show N.mkQ y ∈ R ∙ N.mkQ x by rw [hspanQ]; exact Submodule.mem_top)
       have hyN : y - a • x ∈ N := by
         apply (Submodule.Quotient.mk_eq_zero N).mp
-        show N.mkQ (y - a • x) = 0
+        change N.mkQ (y - a • x) = 0
         rw [map_sub, map_smul, ha, sub_self]
       simpa using S.add_mem (hNmem ⟨y - a • x, hyN⟩) (S.smul_mem a hxS)
     have hadm0 : IsAdmissibleSequence (R := R) e0 := by
@@ -115,7 +115,7 @@ public theorem exists_admissible_generator
       · intro r hr
         have hrxN : r • x ∈ N := by
           apply (Submodule.Quotient.mk_eq_zero N).mp
-          show N.mkQ (r • x) = 0
+          change N.mkQ (r • x) = 0
           rw [map_smul, maximalIdeal_smul_eq_zero_of_simple hr (N.mkQ x)]
         let rxN : N := ⟨r • x, hrxN⟩
         have hz : rxN ∈ Submodule.span R (Set.range eN.1) := by

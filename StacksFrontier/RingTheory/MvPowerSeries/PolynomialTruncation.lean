@@ -92,12 +92,12 @@ private theorem sum_leastVarPart (f : MvPowerSeries (Fin n) R)
       exact absurd (d.support.min'_le j (Finsupp.mem_support_iff.mpr hj0)) (not_le.mpr hj)
     refine (Finset.sum_eq_single i₀ (fun i _ hi => ?_)
       (fun h => absurd (Finset.mem_univ i₀) h)).trans ?_
-    · rw [coeff_leastVarPart, if_neg]
+    · rw [coeff_leastVarPart, ite_eq_right]
       rintro ⟨hall, hne'⟩
       rcases lt_or_gt_of_ne hi with h | h
       · exact hne' (hlt i h)
       · exact hi₀ne (hall i₀ h)
-    · rw [coeff_leastVarPart, if_pos ⟨hlt, hi₀ne⟩]
+    · rw [coeff_leastVarPart, ite_eq_left ⟨hlt, hi₀ne⟩]
 
 private theorem coeff_single_add_X_mul (i : Fin n) (g : MvPowerSeries (Fin n) R)
     (e : Fin n →₀ ℕ) :
@@ -201,7 +201,7 @@ theorem exists_polynomial_sub_mem_pow_span_range_X (t : ℕ) (f : MvPowerSeries 
       (fun _ _ => Nat.zero_le _) (Finset.mem_univ i)
     simp only [Finsupp.equivFunOnFinite_symm_apply_apply]
     omega
-  rw [map_sub, MvPolynomial.coeff_coe, MvPowerSeries.coeff_trunc', if_pos hle, sub_self]
+  rw [map_sub, MvPolynomial.coeff_coe, MvPowerSeries.coeff_trunc', ite_eq_left hle, sub_self]
 
 /-- **The kernel of `MvPolynomial (Fin n) R → MvPowerSeries (Fin n) R ⧸ Jᵗ`** is the `t`-th power
 of the ideal of variables of the polynomial ring. -/

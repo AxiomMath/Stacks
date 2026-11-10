@@ -259,7 +259,7 @@ include hg in
 theorem isIso_pullbackKoszulPowerSystemMap :
     IsIso (pullbackKoszulPowerSystemMap f t g hg) := by
   have hi (n : ℕ) : IsIso ((pullbackKoszulPowerSystemMap f t g hg).app n) := by
-    show IsIso (pullbackKoszulPowerComplexIso f t g hg n).hom
+    change IsIso (pullbackKoszulPowerComplexIso f t g hg n).hom
     infer_instance
   exact NatIso.isIso_of_isIso_app _
 

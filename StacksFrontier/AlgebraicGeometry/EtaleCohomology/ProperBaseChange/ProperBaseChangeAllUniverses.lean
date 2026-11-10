@@ -51,7 +51,8 @@ theorem cohomologyCommutesWithBaseChange_of_isProper_allUniverses {X Y : Scheme.
   haveI : IsClosedImmersion (pullback.diagonal f) := IsSeparated.isClosedImmersion_diagonal
   haveI : QuasiSeparated f := ⟨⟨fun _ _ hc ↦
     (pullback.diagonal f).isClosedEmbedding.isCompact_preimage hc⟩⟩
-  have h0 : CohomologyCommutesWithBaseChange.{u, 0} f := cohomologyCommutesWithBaseChange_of_isProper f
+  have h0 : CohomologyCommutesWithBaseChange.{u, 0} f :=
+    cohomologyCommutesWithBaseChange_of_isProper f
   h0.of_univ_zero
 
 end Stacks.EtaleCohomology

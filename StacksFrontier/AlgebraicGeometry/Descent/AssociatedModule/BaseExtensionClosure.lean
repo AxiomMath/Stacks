@@ -122,8 +122,9 @@ it along that covering is the vanishing of `H^1` of `C.X₁` on it.
 
 The vanishing itself **is** proved at `τ = fppf`, over an arbitrary affine object of this very
 site: `AlgebraicGeometry.isZero_sheafCohomology_baseAssociatedSheaf_affine`
-(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/FppfEtaleComparison/QuasiCoherentPushforward.lean`
-`:364`) gives `IsZero (Sheaf.H' ((SheafOfModules.toSheaf _).obj (baseAssociatedSheaf B S hS 𝓖
+(`QuasiCoherentPushforward.lean:364`, in
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/FppfEtaleComparison/`) gives
+`IsZero (Sheaf.H' ((SheafOfModules.toSheaf _).obj (baseAssociatedSheaf B S hS 𝓖
 .fppf)) p W)` for every `W : BigFppfOver B S hS` with `IsAffineOver B S hS W` and every `p > 0`.
 The `@[stacks 03DW]`/`@[stacks 03P2]` carrier
 `AlgebraicGeometry.bigOverQuasiCoherentGlobalCohomologyIso` is *not* the useful form here: it
@@ -192,7 +193,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 coproducts, hence binary biproducts. -/
 public instance additive_baseAssociatedModule (τ : SiteKind) :
     (baseAssociatedModule B S hS τ).Additive := by
-  haveI := preservesBinaryBiproducts_of_preservesBinaryCoproducts
+  have := preservesBinaryBiproducts_of_preservesBinaryCoproducts
     (baseAssociatedModule B S hS τ)
   exact Functor.additive_of_preservesBinaryBiproducts _
 

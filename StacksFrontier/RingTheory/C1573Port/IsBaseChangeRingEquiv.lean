@@ -48,18 +48,18 @@ theorem C1573.of_ringEquiv_of_equiv_comm {S' M' N' : Type*} [CommSemiring S'] [A
     (h : IsBaseChange S' f') : IsBaseChange S f := by
   let : Module S' N := Module.compHom N σ.symm.toRingHom
   have : IsScalarTower R S' N := IsScalarTower.of_algebraMap_smul fun r n => by
-    show σ.symm (algebraMap R S' r) • n = r • n
+    change σ.symm (algebraMap R S' r) • n = r • n
     rw [← hσ, RingEquiv.symm_apply_apply, algebraMap_smul]
   let eN' : N ≃ₗ[S'] N' :=
     { eN with
       map_smul' := fun s' n => by
-        show eN (σ.symm s' • n) = s' • eN n
+        change eN (σ.symm s' • n) = s' • eN n
         rw [heN, RingEquiv.apply_symm_apply] }
   have h' : IsBaseChange S' f := (IsBaseChange.iff_of_equiv_comm eM eN'
     (LinearMap.ext fun m => comm m)).mpr h
   exact IsBaseChange.of_algEquiv (AlgEquiv.ofRingEquiv (f := σ) hσ)
     (fun s n => by
-      show σ.symm (σ s) • n = s • n
+      change σ.symm (σ s) • n = s • n
       rw [RingEquiv.symm_apply_apply]) h'
 
 /-- **A base change transported along isomorphisms of the coefficient ring and of the modules.**

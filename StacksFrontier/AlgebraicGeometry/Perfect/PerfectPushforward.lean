@@ -583,10 +583,12 @@ modules flat over `S`, not over `𝒪_X` — need not be resolved. -/
 private def tensorKFlatRepresentativeIso
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.toRingedSpace.sheaf)
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
+    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
     [∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     (E : DerivedCategory (OXMod.{u, u} X.toRingedSpace))
     (A G : CochainComplex (OXMod.{u, u} X.toRingedSpace) ℤ)
     (hA : AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.KFlat X.toRingedSpace A)
@@ -678,10 +680,12 @@ shape every locality principle in this chapter asks for. -/
 theorem exists_local_tensorComplex_models
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.toRingedSpace.sheaf)
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
+    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
     [∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     (E : DerivedCategory (OXMod.{u, u} X.toRingedSpace))
     (G : CochainComplex (OXMod.{u, u} X.toRingedSpace) ℤ)
     (hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E) :
@@ -766,7 +770,8 @@ factor, on a scheme; this file needs the right factor, since `𝒢` is the right
 `A ⊗_{𝒪_X} 𝒢`, and needs it on a ringed space. -/
 private theorem subsingleton_grpStalk_tensorSheaf_of_right {Y : RingedSpace.{u, u}}
     (F G : OXMod.{u, u} Y) (x : Y.carrier) (hG : Subsingleton (grpStalk Y G.val x)) :
-    Subsingleton (grpStalk Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} ⟨((Y)).presheaf, ((Y)).IsSheaf⟩).obj (F)).obj (G))).val x) := by
+    Subsingleton (grpStalk Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+        ⟨((Y)).presheaf, ((Y)).IsSheaf⟩).obj (F)).obj (G))).val x) := by
   have iF : Module (ringStalk Y x) (grpStalk Y F.val x) := stalkModule Y F.val x
   have iG : Module (ringStalk Y x) (grpStalk Y G.val x) := stalkModule Y G.val x
   have hT : Subsingleton (TensorProduct (ringStalk Y x)
@@ -828,10 +833,12 @@ because its right factor does. -/
 private theorem subsingleton_grpStalk_tensorComplex_X
     (A G : CochainComplex (OXMod.{u, u} X.toRingedSpace) ℤ)
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
+    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
     [∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     (x : X) (hG : ∀ q : ℤ, Subsingleton (grpStalk X.toRingedSpace (G.X q).val x)) (n : ℤ) :
     Subsingleton (grpStalk X.toRingedSpace
       ((((Stacks.SheafOfModules.Tensor.tensorComplex
@@ -857,10 +864,12 @@ from. -/
 theorem supp_homology_derivedTensor_subset
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.toRingedSpace.sheaf)
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
+    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
     [∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     (E : DerivedCategory (OXMod.{u, u} X.toRingedSpace))
     (G : CochainComplex (OXMod.{u, u} X.toRingedSpace) ℤ)
     (hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E)
@@ -1009,10 +1018,12 @@ coherence clause through
 private def restrictHomologyLocalModelIso
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.toRingedSpace.sheaf)
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
+    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
     [∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     (E : DerivedCategory (OXMod.{u, u} X.toRingedSpace))
     (G A : CochainComplex (OXMod.{u, u} X.toRingedSpace) ℤ)
     (eA : DerivedCategory.Q.obj
@@ -1061,10 +1072,12 @@ cohomology sheaf with the cohomology of `Tot(P ⊗_{𝒪_U} 𝒢|_U)`, and the l
 private theorem exists_isZero_restrictModules_homology
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.toRingedSpace.sheaf)
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
+    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
     [∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     (E : DerivedCategory (OXMod.{u, u} X.toRingedSpace))
     (G A : CochainComplex (OXMod.{u, u} X.toRingedSpace) ℤ) (aG bG : ℤ)
     (hG : ∀ q : ℤ, q < aG ∨ bG < q → IsZero (G.X q))
@@ -1149,10 +1162,12 @@ terms of `𝒢` play no part in this clause. -/
 theorem exists_isZero_homology_derivedTensor [IsNoetherian S] [LocallyOfFiniteType f]
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.toRingedSpace.sheaf)
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
+    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
     [∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     (E : DerivedCategory (OXMod.{u, u} X.toRingedSpace))
     (G : CochainComplex (OXMod.{u, u} X.toRingedSpace) ℤ)
     (hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E)
@@ -1206,12 +1221,12 @@ private def sigmaSubtypeIsoOfIsZero {C : Type*} [Category C] [Preadditive C]
     if hj : p j then Sigma.ι (fun k : Subtype p => M k.1) ⟨j, hj⟩ else 0
   hom_inv_id := by
     refine Sigma.hom_ext _ _ fun j => ?_
-    rw [Sigma.ι_desc_assoc, Sigma.ι_desc, dite_eq_left j.2, Category.comp_id]
+    rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, dite_eq_left j.2, Category.comp_id]
   inv_hom_id := by
     refine Sigma.hom_ext _ _ fun j => ?_
-    rw [Sigma.ι_desc_assoc, Category.comp_id]
+    rw [Sigma.ι_comp_desc_assoc, Category.comp_id]
     by_cases hj : p j
-    · rw [dite_eq_left hj, Sigma.ι_desc]
+    · rw [dite_eq_left hj, Sigma.ι_comp_desc]
     · rw [dite_eq_right hj, zero_comp]
       exact (h j hj).eq_of_src _ _
 
@@ -1348,10 +1363,12 @@ are crossed by `SheafOfModules.IsCoherent.stacksIsCoherent` and
 theorem isCoherent_homology_derivedTensor [IsNoetherian S] [LocallyOfFiniteType f]
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.toRingedSpace.sheaf)
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
+    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
     [∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     (E : DerivedCategory (OXMod.{u, u} X.toRingedSpace))
     (G : CochainComplex (OXMod.{u, u} X.toRingedSpace) ℤ)
     (hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E)
@@ -1441,10 +1458,12 @@ theorem TensorPushforwardData.isCoherent [IsNoetherian S] [LocallyOfFiniteType f
       (RingedSpace.inverseImage S.toRingedSpace f.base)}
     {T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.toRingedSpace.sheaf}
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
+    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
     [∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     {E : DerivedCategory (OXMod.{u, u} X.toRingedSpace)}
     {G : CochainComplex (OXMod.{u, u} X.toRingedSpace) ℤ}
     (h : TensorPushforwardData f D T E G) (i : ℤ) :
@@ -1463,10 +1482,12 @@ theorem TensorPushforwardData.bounded [IsNoetherian S] [LocallyOfFiniteType f]
       (RingedSpace.inverseImage S.toRingedSpace f.base)}
     {T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.toRingedSpace.sheaf}
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
+    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
     [∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     {E : DerivedCategory (OXMod.{u, u} X.toRingedSpace)}
     {G : CochainComplex (OXMod.{u, u} X.toRingedSpace) ℤ}
     (h : TensorPushforwardData f D T E G) :
@@ -1490,10 +1511,12 @@ theorem TensorPushforwardData.input [IsNoetherian S] [LocallyOfFiniteType f]
       (RingedSpace.inverseImage S.toRingedSpace f.base)}
     {T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.toRingedSpace.sheaf}
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
+    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
     [∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     {E : DerivedCategory (OXMod.{u, u} X.toRingedSpace)}
     {G : CochainComplex (OXMod.{u, u} X.toRingedSpace) ℤ}
     (h : TensorPushforwardData f D T E G) :
@@ -1545,10 +1568,12 @@ theorem isPerfect_derivedPushforward_derivedTensor [IsNoetherian S] [LocallyOfFi
       (RingedSpace.inverseImage S.toRingedSpace f.base))
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.toRingedSpace.sheaf)
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
+    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
     [∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     (hcoh : PushforwardCoherenceResidue f (derivedPushforwardOX f))
     (htor : PushforwardTorDimensionResidue f D (derivedPushforwardOX f))
     (E : DerivedCategory (OXMod.{u, u} X.toRingedSpace))
@@ -1632,7 +1657,7 @@ private theorem flat_compHom_of_addEquiv {A B C : Type u} [CommRing A] [CommRing
   let _ : Module A B := Module.compHom B φ
   let _ : Module A C := Module.compHom C φ
   refine Module.Flat.of_linearEquiv (M := B) (N := C) { ε with map_smul' := fun a c => ?_ }
-  show ε (φ a • c) = φ a • ε c
+  change ε (φ a • c) = φ a • ε c
   rw [hε, smul_eq_mul]
 
 /-- **A subsingleton module is flat**, whatever its module structure: it is free, being a
@@ -1673,7 +1698,7 @@ private theorem unitStalk_smul_eq {Y : TopCat.{u}} (R : TopCat.Presheaf CommRing
   have h1 := SemilinearStalk.comm_smul_eq R y
     (PresheafOfModules.unit (R ⋙ forget₂ CommRingCat.{u} RingCat.{u})) (e1.symm b) m
   rw [hs] at h1
-  show e1 (e0 (b • m)) = b * e1 (e0 m)
+  change e1 (e0 (b • m)) = b * e1 (e0 m)
   rw [h1, map_smul e0, smul_eq_mul, map_mul, hs]
 
 /-- **A zero `𝒪_X`-module is flat over `S`.**  Its stalk at a point is a zero object of
@@ -1762,11 +1787,15 @@ by `DerivedCategory.singleFunctor`; `DerivedCategory.singleFunctorIsoCompQ` is t
 that with the localization of `HomologicalComplex.single`. -/
 def tensorStructureComplexIso
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.toRingedSpace.sheaf)
-    [tensorAdditive : (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [tensorObjAdditive : ∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
-    [tensorTotalization : ∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
+    [tensorAdditive : (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).Additive]
+    [tensorObjAdditive : ∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
+    [tensorTotalization : ∀ K L :
+      CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     (E : DerivedCategory (OXMod.{u, u} X.toRingedSpace)) :
     (T.tensor.obj E).obj (DerivedCategory.Q.obj (structureComplex X)) ≅ E :=
   (T.tensor.obj E).mapIso
@@ -1935,10 +1964,12 @@ theorem isPerfect_derivedPushforward_of_flatProper [IsNoetherian S] [Flat f] [Is
       (RingedSpace.inverseImage S.toRingedSpace f.base))
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.toRingedSpace.sheaf)
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).Additive]
-    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf).obj M).Additive]
+    [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.toRingedSpace.sheaf).obj M).Additive]
     [∀ K L : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules X.toRingedSpace.sheaf) ℤ,
       HomologicalComplex.HasMapBifunctor K L
-        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf) (ComplexShape.up ℤ)]
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.toRingedSpace.sheaf)
+        (ComplexShape.up ℤ)]
     (hcoh : PushforwardCoherenceResidue f (derivedPushforwardOX f))
     (htor : PushforwardTorDimensionResidue f D (derivedPushforwardOX f))
     (E : DerivedCategory (OXMod.{u, u} X.toRingedSpace))

@@ -56,7 +56,7 @@ public theorem sheafTensorRight_exact_iff_preservesMonomorphisms
     (F : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} O)) :
     IsFlat F ↔
       ((Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj F).PreservesMonomorphisms := by
-  show exactFunctor _ _ ((Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj F) ↔ _
+  change exactFunctor _ _ ((Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj F) ↔ _
   rw [exactFunctor_iff]
   constructor
   · rintro ⟨_, _⟩
@@ -88,7 +88,7 @@ public theorem isFlat_iff_stalk_flat {X : TopCat.{u}}
                 (O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u})).presheaf) x))
         Module.Flat (TopCat.Presheaf.stalk (C := CommRingCat.{u}) (X := X) O.obj x)
           (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) (X := X) F.val.presheaf x) := by
-  show IsFlat F ↔ OXModule.FlatStalkwise (X := ringedSpaceOfSheaf O) F
+  change IsFlat F ↔ OXModule.FlatStalkwise (X := ringedSpaceOfSheaf O) F
   exact (sheafTensorRight_exact_iff_preservesMonomorphisms O F).trans
     (OXModule.flat_iff_flat_stalk (X := ringedSpaceOfSheaf O) F)
 

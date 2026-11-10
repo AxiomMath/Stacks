@@ -327,10 +327,10 @@ theorem representedPushforwardSquare_comp {X Y Z : BigFppfOver B S hS} (p : Y �
       (representedPushforwardSquare q ≫ₕ representedPushforwardSquare p).whiskerTop
         (spacesEtaleSheafPushforwardComp B S hS ((schemeSpaceFunctor B S hS).map q)
           ((schemeSpaceFunctor B S hS).map p)).hom := by
-  refine TwoSquare.ext _ _ fun M => ?_
+  refine NatTrans.ext (funext fun M => ?_)
   apply ObjectProperty.hom_ext
   refine NatTrans.ext (funext fun U => ?_)
-  show M.obj.map ((representedChartBaseChangeIso (q ≫ p)).hom.app U.unop).op ≫
+  change M.obj.map ((representedChartBaseChangeIso (q ≫ p)).hom.app U.unop).op ≫
       M.obj.map ((representedSchemeChartFunctor Z).map
         ((smallEtaleBaseChange_compIso (associatedBigEtaleSite B) _ _ _ q.left p.left).val.hom.app
           U.unop)).op =
@@ -355,10 +355,10 @@ theorem representedPushforwardSquare_id (X : BigFppfOver B S hS) :
           (representedSchemeTopology B S hS X)).hom) =
       (TwoSquare.hId (representedRestriction X (Type (u + 1)))).whiskerTop
         (spacesEtaleSheafPushforwardId B S hS ((schemeSpaceFunctor B S hS).obj X)).hom := by
-  refine TwoSquare.ext _ _ fun M => ?_
+  refine NatTrans.ext (funext fun M => ?_)
   apply ObjectProperty.hom_ext
   refine NatTrans.ext (funext fun U => ?_)
-  show M.obj.map ((representedChartBaseChangeIso (𝟙 X)).hom.app U.unop).op ≫
+  change M.obj.map ((representedChartBaseChangeIso (𝟙 X)).hom.app U.unop).op ≫
       M.obj.map ((representedSchemeChartFunctor X).map
         ((smallEtaleBaseChange_idIso (associatedBigEtaleSite B) X.left).inv.app U.unop)).op =
     M.obj.map ((spacesBaseChange_id B S hS (yonedaSpace B S hS X)).inv.app
@@ -368,6 +368,7 @@ theorem representedPushforwardSquare_id (X : BigFppfOver B S hS) :
   exact congrArg (fun k => M.obj.map k.op) (representedChartBaseChangeIso_id_app X U.unop)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over the sheaf categories of the étale sites exceeds the default
 /-- **The comparison of the two pseudofunctors of inverse images on representable algebraic
 spaces**: a strong transformation from the spaces-étale one to the small étale one, whose
 components are the restrictions along the chart functors and whose naturality constraints are
@@ -396,8 +397,9 @@ theorem representedComparison_app (V : BigFppfOver B S hS) :
       Cat.Hom.ofFunctor (representedRestriction V (Type (u + 1))) :=
   rfl
 
-variable (B S hS) in
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over the sheaf categories of the étale sites exceeds the default
+variable (B S hS) in
 /-- **Descent along proper surjections of representable algebraic spaces is fully faithful, as
 soon as it is for schemes.** If, for every proper surjection of schemes `h` of a big étale site,
 the functor sending a small étale sheaf to its canonical descent datum along `h` is fully
@@ -417,7 +419,7 @@ theorem properSurjectivePrestackOverSchemes_of_fullyFaithful
     ProperSurjectivePrestackOverSchemes B S hS := by
   intro V W m hprop hsurj
   rw [Pseudofunctor.IsPrestackFor_generate_iff, Pseudofunctor.isPrestackFor_ofArrows_iff]
-  show Nonempty ((spacesEtalePseudofunctor B S hS).toDescentData
+  change Nonempty ((spacesEtalePseudofunctor B S hS).toDescentData
     (fun _ : Unit ↦ (schemeSpaceFunctor B S hS).map m)).FullyFaithful
   let g : Unit → (W ⟶ V) := fun _ ↦ m
   -- the scheme case

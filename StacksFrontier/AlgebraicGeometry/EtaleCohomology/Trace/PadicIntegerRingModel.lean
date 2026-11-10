@@ -130,14 +130,14 @@ public theorem mulVec_mem_modelLattice (g : G) {v : Fin m → E} (hv : v ∈ mod
       obtain ⟨u, hu, rfl⟩ := hv
       refine Submodule.subset_span ⟨(restrictScalarsRep b σ g).val *ᵥ u,
         mulVec_mem_stableLattice _ g hu, ?_⟩
-      show restrictScalarsEquiv b m (restrictScalarsMatrix b (σ g).val *ᵥ u) = _
+      change restrictScalarsEquiv b m (restrictScalarsMatrix b (σ g).val *ᵥ u) = _
       rw [restrictScalarsEquiv_mulVec]
       rfl
   | zero => rw [Matrix.mulVec_zero]; exact Submodule.zero_mem _
   | add v w _ _ hv hw => rw [Matrix.mulVec_add]; exact Submodule.add_mem _ hv hw
   | smul a v _ hv =>
       have h : (σ g).val *ᵥ (a • v) = a • ((σ g).val *ᵥ v) := by
-        show (σ g).val *ᵥ ((a : E) • v) = (a : E) • ((σ g).val *ᵥ v)
+        change (σ g).val *ᵥ ((a : E) • v) = (a : E) • ((σ g).val *ᵥ v)
         rw [Matrix.mulVec_smul]
       rw [h]
       exact Submodule.smul_mem _ a hv
@@ -276,7 +276,7 @@ public theorem restrictScalarsMatrix_map_padicIntegerRing {m : ℕ} (M : Matrix 
   rw [restrictScalarsMatrix_apply, Matrix.map_apply, Matrix.map_apply,
     coefficientMatrixRingHom_apply, Algebra.leftMulMatrix_eq_repr_mul,
     Algebra.leftMulMatrix_eq_repr_mul, padicIntegerRingBasisRatOf_apply]
-  show (padicIntegerRingBasisRatOf b).repr ((M i j * padicIntegerRingBasisOf b l' : 𝒪) : E) l = _
+  change (padicIntegerRingBasisRatOf b).repr ((M i j * padicIntegerRingBasisOf b l' : 𝒪) : E) l = _
   rw [padicIntegerRingBasisRatOf_repr]
   rfl
 
@@ -328,7 +328,7 @@ public theorem modelEquiv_mulVec_rep (g : G) (w : Fin (m * d) → ℚ_[ℓ]) :
     intro x
     rw [map_modelRep, Basis.equivFun_apply, Basis.equivFun_apply, ← Matrix.toLin'_apply,
       LinearMap.toMatrix_mulVec_repr]
-  show (restrictScalarsEquiv (padicIntegerRingBasisRatOf b) m).symm
+  change (restrictScalarsEquiv (padicIntegerRingBasisRatOf b) m).symm
       ((modelBasisE b σ hσ).equivFun (restrictScalarsEquiv b m
         ((restrictScalarsRep b σ g).val *ᵥ w))) = _
   rw [h1, h2, restrictScalarsEquiv_symm_mulVec, restrictScalarsMatrix_map_padicIntegerRing]
@@ -340,7 +340,7 @@ public theorem modelEquiv_mulVec_scalar (e : E) (w : Fin (m * d) → ℚ_[ℓ]) 
     modelEquiv b σ hσ (restrictScalarsMatrix b (Matrix.scalar (Fin m) e) *ᵥ w) =
       restrictScalarsMatrix (padicIntegerRingBasisRatOf b) (Matrix.scalar (Fin m) e) *ᵥ
         modelEquiv b σ hσ w := by
-  show (restrictScalarsEquiv (padicIntegerRingBasisRatOf b) m).symm
+  change (restrictScalarsEquiv (padicIntegerRingBasisRatOf b) m).symm
       ((modelBasisE b σ hσ).equivFun (restrictScalarsEquiv b m
         (restrictScalarsMatrix b (Matrix.scalar (Fin m) e) *ᵥ w))) = _
   rw [restrictScalarsEquiv_mulVec, padicModel_scalar_mulVec_eq_smul, map_smul,

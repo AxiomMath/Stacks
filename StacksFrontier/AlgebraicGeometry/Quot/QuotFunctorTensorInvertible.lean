@@ -219,7 +219,7 @@ theorem baseChangeComparison_eq_pullbackModulesCompIso {T' T : SchemesOver D.Y} 
           (smallEtaleCompPushforwardIso B S hS (D.relativeMap h) (D.sourceProjection T))
           (fSharpSetComp_smallEtaleCompPushforwardIso B S hS (D.relativeMap h)
             (D.sourceProjection T)) := by
-  show modulePullbackTriangle B S hS (baseChangeMap_comp_projection D.f h) = _
+  change modulePullbackTriangle B S hS (baseChangeMap_comp_projection D.f h) = _
   rw [modulePullbackTriangle_eq, modulePullbackCompIso_eq_pullbackModulesCompIso]
   rfl
 
@@ -240,7 +240,7 @@ theorem tensorQuotient_quotientPullback {T' T : SchemesOver D.Y} (h : T' ⟶ T)
     (fSharpSetComp_smallEtaleCompPushforwardIso B S hS (D.relativeMap h) (D.sourceProjection T))
     D.F L K (D.preservesEpimorphisms_tensorBaseChange L T)
     (modulePullback_preservesEpimorphisms (D.relativeMap h))
-  show Functor.conjSubobject (D.baseChangeComparison h) (D.tensorQuotient L T K) =
+  change Functor.conjSubobject (D.baseChangeComparison h) (D.tensorQuotient L T K) =
     Functor.conjSubobject (D.tensorComparison L T')
       (Functor.conjSubobject (D.baseChangeComparison h) K)
   rw [baseChangeComparison_eq_pullbackModulesCompIso]

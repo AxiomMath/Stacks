@@ -121,7 +121,7 @@ lemma pullback_map_base_isPullback {X S T T' : Scheme.{u}}
   let m := pullback.map f h f g (𝟙 X) q (𝟙 S) (by simp) (by simpa using hq.symm)
   have ht : IsPullback (m ≫ pullback.fst f g) (pullback.snd f h) f (q ≫ g) := by
     simpa [m, pullbackMap_fst, hq] using IsPullback.of_hasPullback f h
-  exact ht.of_right (by simp [m, pullbackMap_snd]) (IsPullback.of_hasPullback f g)
+  exact ht.of_right (by simp [m]) (IsPullback.of_hasPullback f g)
 
 lemma isCompl_ranges_coprod_desc {X Y B : Scheme.{u}}
     (f : X ⟶ B) (g : Y ⟶ B) [IsIso (coprod.desc f g)] :
@@ -153,7 +153,7 @@ lemma isIso_coprod_desc_pullback {X Y B B' : Scheme.{u}}
     convert (isCompl_ranges_coprod_desc f g).map (CompleteLatticeHom.setPreimage a) using 1
     simp [isCompl_iff, disjoint_iff, codisjoint_iff, ← TopologicalSpace.Opens.coe_inj]
   obtain ⟨hc⟩ := nonempty_isColimit_binaryCofanMk_of_isCompl _ _ h
-  show IsIso ((coprodIsCoprod _ _).coconePointUniqueUpToIso hc).hom
+  change IsIso ((coprodIsCoprod _ _).coconePointUniqueUpToIso hc).hom
   infer_instance
 
 /-- On generalized points, composing two arrows of a subgroupoid given by compatible maps and
@@ -185,9 +185,9 @@ def subgroupoidOfCompatibleMaps
     Stacks.Groupoids.GroupoidScheme S := by
   let k := pullback.map s t G.source G.target jR jR jU hs ht
   have hkf : k ≫ pullback.fst G.source G.target = pullback.fst s t ≫ jR := by
-    simp [k, pullbackMap_fst]
+    simp [k]
   have hks : k ≫ pullback.snd G.source G.target = pullback.snd s t ≫ jR := by
-    simp [k, pullbackMap_snd]
+    simp [k]
   have map_rel {T : Over S} (a b : T ⟶ R) (w : a ≫ s = b ≫ t) :
       (a ≫ jR) ≫ G.source = (b ≫ jR) ≫ G.target := by
     simpa only [Category.assoc, hs, ht] using congrArg (· ≫ jU) w
@@ -303,9 +303,9 @@ def subgroupoidOfCompatibleMapsAlong
   let k := pullbackComparison F s t ≫
       pullback.map (F.map s) (F.map t) G.source G.target jR jR jU hs ht
   have hkf : k ≫ pullback.fst G.source G.target = F.map (pullback.fst s t) ≫ jR := by
-    simp [k, pullbackMap_fst]
+    simp [k]
   have hks : k ≫ pullback.snd G.source G.target = F.map (pullback.snd s t) ≫ jR := by
-    simp [k, pullbackMap_snd]
+    simp [k]
   have map_rel {Z : Over T} (a b : Z ⟶ R) (w : a ≫ s = b ≫ t) :
       (F.map a ≫ jR) ≫ G.source = (F.map b ≫ jR) ≫ G.target := by
     simpa only [Functor.map_comp, Category.assoc, hs, ht] using congrArg (fun z => F.map z ≫ jU) w
@@ -443,11 +443,11 @@ def subgroupoidOfCompatibleMapsAlongHomOver
   congr 1
   apply pullback.hom_ext
   · have hk : k ≫ pullback.fst G.source G.target = F.map (pullback.fst s t) ≫ jR := by
-      simp [k, pullbackMap_fst]
+      simp [k]
     rw [Category.assoc, hk, ← Category.assoc, ← F.map_comp, pullback.lift_fst,
       pullback.lift_fst]
   · have hk : k ≫ pullback.snd G.source G.target = F.map (pullback.snd s t) ≫ jR := by
-      simp [k, pullbackMap_snd]
+      simp [k]
     rw [Category.assoc, hk, ← Category.assoc, ← F.map_comp, pullback.lift_snd,
       pullback.lift_snd]
 
@@ -573,8 +573,7 @@ def groupoidOfStableOpenPieces
       (by simpa using hs') (by simpa using ht')
   have hak : a ≫ k₀ = k := by
     apply pullback.hom_ext <;>
-      simp [a, k₀, k, pullbackMap_fst, pullbackMap_fst_assoc, pullbackMap_snd,
-        pullbackMap_snd_assoc]
+      simp [a, k₀, k]
   have hck : Set.range (k ≫ G.comp).left ⊆ Set.range jR.left := by
     rintro z ⟨w, rfl⟩
     apply hc
@@ -618,7 +617,7 @@ lemma target_mem_orbit_of_source_mem
   change (pullback.fst G.source G.target).left z = r at hzr
   change (pullback.snd G.source G.target).left z = a at hza
   refine ⟨G.comp.left z, ?_, ?_⟩
-  · show G.source.left (G.comp.left z) = u
+  · change G.source.left (G.comp.left z) = u
     have h := congrArg (fun f : pullback G.source G.target ⟶ G.objects => f.left z) G.source_comp
     have hu' : G.source.left ((pullback.snd G.source G.target).left z) = u := by
       rwa [hza]
@@ -673,7 +672,7 @@ lemma exists_open_stable_pieces
       rwa [over_hom_left_apply]
     have hs := (hR (jR.left r) hp).mp ⟨r, rfl⟩
     have ht := hstable (jR.left r) hp hs
-    show (G.source.left (jR.left r) ∈ Set.range jU.left ∧
+    change (G.source.left (jR.left r) ∈ Set.range jU.left ∧
       G.target.left (jR.left r) ∈ Set.range jU.left) ∧
       G.inverse.left (jR.left r) ∈ Set.range jR.left
     refine ⟨⟨hs, ht⟩, (hR _ ?_).mpr ?_⟩
@@ -681,7 +680,7 @@ lemma exists_open_stable_pieces
     · simpa only [← Scheme.Hom.comp_apply, Category.assoc, ← Over.comp_left,
         G.source_inverse] using ht
   have hb (x : U.left) (hx : U.hom x = p) : x ∈ B := by
-    show G.identity.left (jU.left x) ∈ Set.range jR.left
+    change G.identity.left (jU.left x) ∈ Set.range jR.left
     apply (hR _ ?_).mpr
     · have h := congrArg Over.Hom.left G.source_identity
       simpa only [← Scheme.Hom.comp_apply, Category.assoc, ← Over.comp_left,
@@ -694,9 +693,9 @@ lemma exists_open_stable_pieces
     apply (hR _ hp).mpr
     have hsource : k ≫ G.comp ≫ G.source =
         pullback.snd (jR ≫ G.source) (jR ≫ G.target) ≫ jR ≫ G.source := by
-      simp [k, pullbackMap_snd_assoc, G.source_comp]
+      simp [k, G.source_comp]
     have h := congrArg (fun f => f.left z) hsource
-    show G.source.left ((k ≫ G.comp).left z) ∈ Set.range jU.left
+    change G.source.left ((k ≫ G.comp).left z) ∈ Set.range jU.left
     rw [show G.source.left ((k ≫ G.comp).left z) =
       G.source.left (jR.left ((pullback.snd (jR ≫ G.source) (jR ≫ G.target)).left z)) from h]
     apply (hR _ ?_).mp ⟨_, rfl⟩
@@ -759,8 +758,7 @@ def restrictStablePieces
     jR jR (𝟙 _) (by simp) (by simp)
   have hak : a ≫ k = k' := by
     apply pullback.hom_ext <;>
-      simp [a, k, k', jR', pullbackMap_fst, pullbackMap_fst_assoc, pullbackMap_snd,
-        pullbackMap_snd_assoc]
+      simp [a, k, k', jR']
   have hc : Set.range (k' ≫ G.comp).left ⊆ Set.range jR'.left := by
     rintro z ⟨w, rfl⟩
     change (k' ≫ G.comp).left w ∈ Set.range ((R.hom ⁻¹ᵁ V).ι ≫ jR.left)

@@ -143,7 +143,7 @@ theorem _root_.AlgebraicGeometry.exists_fiberι_eq_of_isPullback {P X T W : Sche
     (hz : snd z = t) : ∃ c, ψ.fiberι w c = fst z ∧ (R z ↔ Q c) := by
   obtain ⟨c, hc⟩ : fst z ∈ Set.range (ψ.fiberι w) := by
     rw [Scheme.Hom.range_fiberι]
-    show ψ (fst z) = w
+    change ψ (fst z) = w
     rw [← Scheme.Hom.comp_apply, sq.w, Scheme.Hom.comp_apply, hz, ht]
   refine ⟨c, hc, (hR z hz).trans ⟨?_, fun h => ⟨c, h, hc⟩⟩⟩
   rintro ⟨c', hc', hc'z⟩

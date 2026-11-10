@@ -92,7 +92,7 @@ theorem map_chartIdealPullbackHom_baseIdealSheaf_le (I : Ideal A)
       (baseIdealSheaf A Y I).obj (op ((smallBaseChange B (Spec (.of A)) hA f hf).obj V)) := by
   have hle : baseIdealSheaf A X I ≤ baseIdealComap A f hf I := by
     refine Stacks.SheafOfModules.sheafifySubmodule_le fun W a ha => ?_
-    show chartIdealPullbackHom B (Spec (.of A)) hA f hf W.unop a ∈
+    change chartIdealPullbackHom B (Spec (.of A)) hA f hf W.unop a ∈
       (baseIdealSheaf A Y I).obj (op ((smallBaseChange B (Spec (.of A)) hA f hf).obj W.unop))
     refine le_baseIdealSheaf A Y I _ ?_
     have : Ideal.map (chartIdealPullbackHom B (Spec (.of A)) hA f hf W.unop)
@@ -188,7 +188,7 @@ theorem sectionsOverBasePushforwardIso_hom_mem_sectionsKer
   have h0 : (sectionsOverBase A B hA X.1 X.2).map
       ((modulePushforward B (Spec (.of A)) hA f).map πY) s = 0 := by
     rw [← hfac, Functor.map_comp]
-    show ((sectionsOverBase A B hA X.1 X.2).map _).hom
+    change ((sectionsOverBase A B hA X.1 X.2).map _).hom
       (((sectionsOverBase A B hA X.1 X.2).map _).hom s) = 0
     rw [show ((sectionsOverBase A B hA X.1 X.2).map (cokernel.π (idealPowerMultiple B (Spec (.of A))
       hA X.1 X.2 (baseIdealSheaf A X I) n ((modulePushforward B (Spec (.of A)) hA f).obj N)).ι)).hom

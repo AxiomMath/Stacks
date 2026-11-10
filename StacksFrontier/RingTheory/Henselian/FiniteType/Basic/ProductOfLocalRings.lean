@@ -67,7 +67,7 @@ lemma fibre_idempotent_lift_of_primitive
   -- idempotents of an Artinian ring are determined by their residues.
   classical
   set π := Ideal.Quotient.mk ((IsLocalRing.maximalIdeal R).map (algebraMap R A)) with hπ
-  show ∃ e : A, IsIdempotentElem e ∧ π e = ex
+  change ∃ e : A, IsIdempotentElem e ∧ π e = ex
   -- Ā = A/𝔪A is Artinian.
   have hart : IsArtinianRing (A ⧸ (IsLocalRing.maximalIdeal R).map (algebraMap R A)) :=
     closedFibre_isArtinian' R A
@@ -145,7 +145,7 @@ lemma fibre_idempotent_lift_of_primitive
       refine ⟨e' + G m₀ - e' * G m₀, ?_, ?_⟩
       · have h1 : e'*e' = e' := he'idem
         have h2 : G m₀ * G m₀ = G m₀ := hbidem
-        show (e' + G m₀ - e'*G m₀)*(e' + G m₀ - e'*G m₀) = e' + G m₀ - e'*G m₀
+        change (e' + G m₀ - e'*G m₀)*(e' + G m₀ - e'*G m₀) = e' + G m₀ - e'*G m₀
         linear_combination (1 - 2*G m₀ + G m₀*G m₀) * h1 + (1 - 2*e' + e'*e') * h2 +
           (G m₀ - G m₀*G m₀) * h1
       · intro p hp

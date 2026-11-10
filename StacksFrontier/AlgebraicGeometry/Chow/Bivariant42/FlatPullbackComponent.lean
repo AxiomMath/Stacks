@@ -181,7 +181,7 @@ theorem componentMultiplicity_eq_of_iso {X A B : Scheme.{u}}
   let _ : IsScalarTower R S N := by
     constructor
     intro a b n
-    show ρNj (eBase.toRingHom a * b) * n =
+    change ρNj (eBase.toRingHom a * b) * n =
       ρNj (eBase.toRingHom a) * (ρNj b * n)
     rw [map_mul]
     simp [mul_assoc]
@@ -198,15 +198,15 @@ theorem componentMultiplicity_eq_of_iso {X A B : Scheme.{u}}
       map_add' := eStalk.symm.map_add
       map_smul' := by
         intro r n
-        show eStalk.symm (ρM r * n) = ρN r * eStalk.symm n
+        change eStalk.symm (ρM r * n) = ρN r * eStalk.symm n
         rw [hmap r]
-        show eStalk.symm (eStalk.toRingHom (ρN r) * n) =
+        change eStalk.symm (eStalk.toRingHom (ρN r) * n) =
           ρN r * eStalk.symm n
         simp }
   have hlen : Module.length R M = Module.length R N := eM.length_eq
   have hlenBase : Module.length R N = Module.length S N :=
     Module.length_eq_of_surjective (S := R) (R := S) (M := N) eBase.surjective
-  show componentMultiplicity (e.hom ≫ j) ξ = componentMultiplicity j η
+  change componentMultiplicity (e.hom ≫ j) ξ = componentMultiplicity j η
   unfold componentMultiplicity
   dsimp only [η]
   simpa [R, S, M, N, ρM, ρNj, eBase, ρN] using
@@ -269,7 +269,7 @@ private lemma flat_generalizingMap {X Y : Scheme.{u}} (f : X ⟶ Y) [Flat f] :
     GeneralizingMap f := by
   have := HasRingHomProperty.of_isZariskiLocalAtSource_of_isZariskiLocalAtTarget.{u}
     (topologically GeneralizingMap)
-  show topologically GeneralizingMap f
+  change topologically GeneralizingMap f
   rw [HasRingHomProperty.iff_appLE (P := topologically GeneralizingMap)]
   intro U V e
   algebraize [(f.appLE U V e).hom]

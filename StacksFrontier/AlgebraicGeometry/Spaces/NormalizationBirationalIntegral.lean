@@ -66,7 +66,7 @@ theorem GenericChart.exists_compatible {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
   let p := FieldValuedPoint.map B S hS _ (c.immersion ≫ f) c.point
   have heq : (FieldValuedPoint.map B S hS _ d.immersion d.point).class B S hS G =
       p.class B S hS G := by
-    show pointsMap B S hS _ d.immersion (d.point.class B S hS (yoneda.obj d.U)) =
+    change pointsMap B S hS _ d.immersion (d.point.class B S hS (yoneda.obj d.U)) =
       pointsMap B S hS _ (c.immersion ≫ f) (c.point.class B S hS (yoneda.obj c.U))
     rw [pointsMap_comp, Function.comp_apply, c.mapsTo, d.mapsTo, hfx]
   obtain ⟨s, hs⟩ := exists_lift_fieldPoint_of_isOpenImmersion B S hS d.immersion d.isOpen
@@ -96,7 +96,7 @@ theorem GenericChart.exists_compatible {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
     ⟨W, yoneda.map a ≫ c.immersion, hc', cp, by
       rw [pointsMap_comp, Function.comp_apply, hca, c.mapsTo]⟩
   refine ⟨c', b, ?_, ?_⟩
-  · show (yoneda.map a ≫ c.immersion) ≫ f = yoneda.map b ≫ d.immersion
+  · change (yoneda.map a ≫ c.immersion) ≫ f = yoneda.map b ≫ d.immersion
     rw [Category.assoc, hb, hpb.w]
   · exact (schemePoint_map_yoneda B S hS b cp).symm.trans
       (schemePoint_eq_of_class_eq B S hS _ _ _ (hb ▸ hcb))

@@ -67,7 +67,7 @@ open Limits Opposite
 
 universe ringLevel moduleLevel
 
-private abbrev termProduct (rings : ℕᵒᵖ ⥤ RingCat.{ringLevel})
+public abbrev termProduct (rings : ℕᵒᵖ ⥤ RingCat.{ringLevel})
     (system : PresheafOfModules.{moduleLevel} rings) :=
   ∏ᶜ fun index : ℕ => (moduleDiagram rings system).obj (op index)
 
@@ -104,7 +104,7 @@ private theorem prefixRestricted_smul
     ((((moduleDiagram rings (prefixSystem rings system)).obj stage).smul scalar).asHom.hom
       values) index =
       (((moduleDiagram rings system).obj (op index.val)).smul scalar).asHom.hom (values index) := by
-  show (rings.map (homOfLE (Nat.le_of_lt_succ index.isLt)).op)
+  change (rings.map (homOfLE (Nat.le_of_lt_succ index.isLt)).op)
       ((limit.π rings stage).hom scalar) • values index =
     ((limit.π rings (op index.val)).hom scalar) • values index
   rw [limit_π_map_eq]
@@ -231,7 +231,7 @@ private theorem prefixUnitMap_restricted_last
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro value
-  show system.map (homOfLE (le_refl index)).op value = value
+  change system.map (homOfLE (le_refl index)).op value = value
   exact map_homOfLE_op_refl_apply system _ value
 
 private theorem prefixLimitIso_identifies_unit
@@ -316,7 +316,7 @@ private theorem shortPrefixSystem_isMittagLeffler
   refine ⟨fun index => if bound : index.val < target.unop then
     values ⟨index.val, bound⟩ else 0, ?_⟩
   funext index
-  show (if bound : index.val < target.unop then values ⟨index.val, bound⟩ else 0) = values index
+  change (if bound : index.val < target.unop then values ⟨index.val, bound⟩ else 0) = values index
   simp [index.isLt]
 
 private def transitionAddHom
@@ -392,11 +392,11 @@ private theorem prefixUnitMap_finiteDifference
     prefixUnitMap rings system ≫ finiteDifference rings system = 0 := by
   ext stage value
   funext index
-  show transitionAddHom system (homOfLE (Nat.le_of_lt index.isLt)).op value -
+  change transitionAddHom system (homOfLE (Nat.le_of_lt index.isLt)).op value -
     transitionAddHom system (homOfLE (Nat.le_succ index.val)).op
       (transitionAddHom system (homOfLE (Nat.le_of_lt_succ index.succ.isLt)).op value) = 0
   rw [sub_eq_zero]
-  show system.map (homOfLE (Nat.le_of_lt index.isLt)).op value =
+  change system.map (homOfLE (Nat.le_of_lt index.isLt)).op value =
     system.map (homOfLE (Nat.le_succ index.val)).op
       (system.map (homOfLE (Nat.le_of_lt_succ index.succ.isLt)).op value)
   exact map_homOfLE_op_comp_apply system _ _ _ value
@@ -412,7 +412,7 @@ private theorem finiteDifference_app_surjective
         transitionAddHom system (homOfLE (Nat.le_succ index.val)).op value)
   refine ⟨values, ?_⟩
   funext index
-  show values ⟨index.val, Nat.lt_succ_of_lt index.isLt⟩ -
+  change values ⟨index.val, Nat.lt_succ_of_lt index.isLt⟩ -
     transitionAddHom system (homOfLE (Nat.le_succ index.val)).op (values index.succ) = target index
   rw [sub_eq_iff_eq_add]
   exact Fin.reverseInduction_castSucc index
@@ -454,7 +454,7 @@ private theorem finiteDifference_shortExact
   have : Epi sequence.g :=
     PresheafOfModules.epi_of_surjective (finiteDifference_app_surjective rings system)
   refine ⟨?_⟩
-  show sequence.Exact
+  change sequence.Exact
   apply sequence.exact_iff_isZero_homology.mpr
   apply (IsZero.iff_id_eq_zero _).mpr
   ext stage value
@@ -472,7 +472,7 @@ private theorem shortPrefixRestricted_smul
     ((((moduleDiagram rings (shortPrefixSystem rings system)).obj stage).smul scalar).asHom.hom
       values) index =
       (((moduleDiagram rings system).obj (op index.val)).smul scalar).asHom.hom (values index) := by
-  show (rings.map (homOfLE (Nat.le_of_lt index.isLt)).op)
+  change (rings.map (homOfLE (Nat.le_of_lt index.isLt)).op)
       ((limit.π rings stage).hom scalar) • values index =
     ((limit.π rings (op index.val)).hom scalar) • values index
   rw [limit_π_map_eq]
@@ -591,7 +591,7 @@ private theorem shortPrefixLimitIso_hom_projection
   rw [← cancel_epi (shortPrefixLimitIso rings system).inv, Iso.inv_hom_id_assoc,
     ← Category.assoc, shortPrefixLimitIso_inv_projection, shortPrefixLimitCone_projection]
 
-private def productDelta
+public def productDelta
     (rings : ℕᵒᵖ ⥤ RingCat.{ringLevel}) (system : PresheafOfModules.{moduleLevel} rings) :
     termProduct rings system ⟶ termProduct rings system :=
   𝟙 _ - Pi.lift (fun index =>
@@ -721,7 +721,7 @@ private theorem inverseLimit_unbounded_twoTerm_model
     comparison ≪≫ DerivedCategory.Q.mapIso (finiteResolutionLimitIso rings system)⟩
 
 
-private theorem inverseLimit_unbounded_twoTerm_model_data
+public theorem inverseLimit_unbounded_twoTerm_model_data
     (rings : ℕᵒᵖ ⥤ RingCat.{u})
     (derivedFunctor : DerivedCategory (PresheafOfModules.{v} rings) ⥤
       DerivedCategory (ModuleCat.{v} (limit rings : RingCat.{u})))

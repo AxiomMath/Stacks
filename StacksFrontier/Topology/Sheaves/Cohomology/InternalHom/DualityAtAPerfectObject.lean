@@ -123,6 +123,7 @@ def derivedSheafHomIsoDerivedTensorOfDual
   (derivedDualTensorIsoDerivedSheafHom X M F hF).symm ≪≫
     ((Stacks.SheafOfModules.derivedTensorProductFunctor X).obj M).mapIso e
 
+omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})] in
 /-- `AlgebraicGeometry.RingedSite.derivedSheafHomIsoDerivedTensorOfDual` is natural in `M`: the
 morphism induced by `g : M ⟶ N` on the derived internal Hom corresponds to `g ⊗ 𝟙 D`.
 
@@ -171,6 +172,7 @@ def homAddEquivHomologyDerivedTensorOfDual
       ((derivedModuleGlobalSections X).mapIso
         (derivedSheafHomIsoDerivedTensorOfDual X F D hF e M))).addCommGroupIsoToAddEquiv)
 
+omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})] in
 /-- **The duality identification of Stacks 0G02 is functorial in `M`.** For `g : M ⟶ N` and
 `a : F ⟶ M` the class attached to `a ≫ g` is the image of the class attached to `a` under the map
 induced on degree-zero cohomology of derived global sections by `g ⊗ 𝟙 D`.

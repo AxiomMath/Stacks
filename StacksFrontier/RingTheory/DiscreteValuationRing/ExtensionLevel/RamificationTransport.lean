@@ -214,9 +214,9 @@ private theorem exists_component_localizationEquiv
       apply (IsLocalization.map_eq_zero_iff prime.primeCompl
         (Localization.AtPrime prime) element).mpr
       refine ⟨⟨comparison.symm (Pi.single index 1), ?_⟩, ?_⟩
-      · show comparison.symm (Pi.single index 1) ∉ prime
+      · change comparison.symm (Pi.single index 1) ∉ prime
         rw [pullback]
-        show projection (comparison.symm (Pi.single index 1)) ∉ componentPrime.asIdeal
+        change projection (comparison.symm (Pi.single index 1)) ∉ componentPrime.asIdeal
         simpa [projection] using componentPrime.isPrime.one_notMem
       · apply comparison.injective
         ext coordinate
@@ -265,7 +265,7 @@ private theorem exists_component_equiv_atMaximal
     componentPrime.asIdeal.primeCompl (S := Localization.AtPrime componentPrime.asIdeal) units
   refine ⟨index, localComparison.trans unitComparison.symm.toRingEquiv, ?_⟩
   intro element
-  show unitComparison.symm (localComparison (algebraMap Source _ element)) = _
+  change unitComparison.symm (localComparison (algebraMap Source _ element)) = _
   rw [comparisonEquation]
   exact unitComparison.symm.commutes (comparison element index)
 
@@ -288,7 +288,7 @@ theorem exists_component_algEquiv_atMaximal
     exists_component_equiv_atMaximal Source Component comparison.toRingEquiv maximal
   refine ⟨index, { ringComparison with commutes' := ?_ }, comparisonEquation⟩
   intro scalar
-  show ringComparison (algebraMap Base (Localization.AtPrime maximal) scalar) = _
+  change ringComparison (algebraMap Base (Localization.AtPrime maximal) scalar) = _
   rw [IsScalarTower.algebraMap_apply Base Source (Localization.AtPrime maximal),
     comparisonEquation]
   exact congrFun (comparison.commutes scalar) index
@@ -316,7 +316,7 @@ theorem quotient_length_eq_of_ringEquiv
       map_add' := quotientComparison.map_add
       map_smul' := by
         intro scalar element
-        show quotientComparison (Ideal.Quotient.mk sourceIdeal scalar * element) =
+        change quotientComparison (Ideal.Quotient.mk sourceIdeal scalar * element) =
           Ideal.Quotient.mk targetIdeal (comparison scalar) * quotientComparison element
         rw [map_mul]
         rfl }
@@ -411,7 +411,7 @@ theorem ramificationIdx_eq_one_of_integral_tower [IsLocalRing Base]
       (comparison.restrictScalars Base)]
     exact IsLocalRing.maximalIdeal_comap (algebraMap Base Component)
   have intermediateMaximal : (sourcePrime.under Intermediate).IsMaximal := by
-    apply Ideal.IsIntegral.isMaximal_of_isMaximal_comap (R := Base)
+    apply Ideal.IsIntegral.isMaximal_of_isMaximal_under (R := Base)
     show ((sourcePrime.under Intermediate).under Base).IsMaximal
     rw [Ideal.under_under, bottomContraction]
     infer_instance
@@ -512,7 +512,7 @@ theorem weak_indices_through_equivalence
   let : Algebra First Target := (comparison.toRingHom.comp (secondMap.comp firstMap)).toAlgebra
   have weak : (IsLocalRing.maximalIdeal First).map (algebraMap First Target) =
       IsLocalRing.maximalIdeal Target := by
-    show (IsLocalRing.maximalIdeal First).map
+    change (IsLocalRing.maximalIdeal First).map
       (comparison.toRingHom.comp (secondMap.comp firstMap)) = _
     rw [← Ideal.map_map, ← Ideal.map_map, firstWeak, secondWeak]
     exact IsLocalRing.map_maximalIdeal_of_surjective comparison.toRingHom comparison.surjective
@@ -539,7 +539,7 @@ theorem scalarTower_of_injective_square
   apply IsScalarTower.of_algebraMap_eq
   intro element
   apply injective
-  show algebraMap Target Ambient (algebraMap Base Target element) =
+  change algebraMap Target Ambient (algebraMap Base Target element) =
     algebraMap Target Ambient (scalarMap (algebraMap Base First element))
   rw [← IsScalarTower.algebraMap_apply Base Target Ambient, square,
     ← IsScalarTower.algebraMap_apply Base First Fraction, homomorphism.commutes]

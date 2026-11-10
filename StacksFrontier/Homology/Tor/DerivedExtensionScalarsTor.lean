@@ -128,7 +128,7 @@ theorem projectiveResolutionIsoSingle_hom_naturality {M N : ModuleCat.{u} R} (g 
       (projectiveResolutionIsoSingle P).hom ≫
         (DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).map g := by
   dsimp only [projectiveResolutionIsoSingle, asIso_hom]
-  show DerivedCategory.Q.map ψ ≫ DerivedCategory.Q.map P'.π' =
+  change DerivedCategory.Q.map ψ ≫ DerivedCategory.Q.map P'.π' =
     DerivedCategory.Q.map P.π' ≫
       DerivedCategory.Q.map ((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).map g)
   rw [← Functor.map_comp, ← Functor.map_comp, hψ]
@@ -161,6 +161,7 @@ def extendComplexIso (f : R →+* R') (K : ChainComplex (ModuleCat.{u} R) ℕ) (
     (HomologicalComplex.mapHomologicalComplexExtendIso (ModuleCat.extendScalars.{u, u, u} f)
       K ComplexShape.embeddingDownNat).symm n
 
+omit [HasDerivedCategory.{w} (ModuleCat.{u} R)] [HasDerivedCategory.{w} (ModuleCat.{u} R')] in
 /-- `extendComplexIso` is natural in the chain complex. -/
 theorem extendComplexIso_hom_naturality (f : R →+* R')
     {K K' : ChainComplex (ModuleCat.{u} R) ℕ} (φ : K ⟶ K') (n : ℤ) :
@@ -190,6 +191,7 @@ def isoLeftDerivedObjHomology (f : R →+* R') {M : ModuleCat.{u} R} (P : Projec
       ((ModuleCat.extendScalars.{u, u, u} f).leftDerived i).obj M :=
   (P.isoLeftDerivedObj (ModuleCat.extendScalars.{u, u, u} f) i).symm
 
+omit [HasDerivedCategory.{w} (ModuleCat.{u} R)] [HasDerivedCategory.{w} (ModuleCat.{u} R')] in
 /-- `isoLeftDerivedObjHomology` is natural in `M`, along a morphism `φ` of projective resolutions
 lifting `g : M ⟶ N`. -/
 theorem isoLeftDerivedObjHomology_hom_naturality (f : R →+* R') {M N : ModuleCat.{u} R}
@@ -279,6 +281,7 @@ theorem singleDerivedExtensionIsoLeftDerivedOfResolution_hom_naturality (f : R �
   simp only [Category.assoc]
   rw [reassoc_of% k1, reassoc_of% k2, reassoc_of% k3, reassoc_of% k4, reassoc_of% k5, k6]
 
+omit [HasDerivedCategory.{w} (ModuleCat.{u} R)] in
 /-- The canonical lift of `g` to the chosen projective resolutions, extended to cochain
 complexes, is compatible with the two quasi-isomorphisms to `M[0]` and `N[0]`. -/
 theorem extendMap_lift_comp_π' {M N : ModuleCat.{u} R} (g : M ⟶ N)

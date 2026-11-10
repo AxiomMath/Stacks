@@ -358,7 +358,7 @@ theorem leftMulHom_restrict {p : ℤ} {U U' : C} (q : U' ⟶ U)
     (a : (A.complex.X p).val.obj (Opposite.op U)) :
     (S.leftMulHom a).restrict q = S.leftMulHom (restrictAlong (A.complex.X p) q a) :=
   LocalHom.ext fun i j hij V x => by
-    show (S.leftMulHom a).app i j hij (Over.mk (V.hom ≫ q)) x = _
+    change (S.leftMulHom a).app i j hij (Over.mk (V.hom ≫ q)) x = _
     rw [leftMulHom_app, leftMulHom_app, restrictAlong_comp]
     rfl
 

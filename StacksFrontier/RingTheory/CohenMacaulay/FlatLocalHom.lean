@@ -146,9 +146,9 @@ a consequence: a finite algebra is integral and a faithfully flat one is injecti
 
 Cohen–Macaulayness of a Noetherian local ring `A` (Definition 00N8: `A` is Cohen–Macaulay as a
 module over itself) is spelled `Module.IsMaximalCohenMacaulay A A`, that is
-`depth_{𝔪_A}(A) = dim(A)` (tag 00NF), as in the companion statements for tags 00NA and 00NB. For `M = A`
-the module notion of Definition 00N3, `dim(Supp(M)) = depth(M)`, agrees with the maximal one
-because `Supp(A) = Spec(A)`.
+`depth_{𝔪_A}(A) = dim(A)` (tag 00NF), as in the companion statements for tags 00NA and 00NB.
+For `M = A` the module notion of Definition 00N3, `dim(Supp(M)) = depth(M)`, agrees with the maximal
+one because `Supp(A) = Spec(A)`.
 
 The local homomorphism `R → S` is an `Algebra R S` structure with `IsLocalHom (algebraMap R S)`,
 and `S` flat over `R` is `Module.Flat R S`; this is the shape used by tag 00LM, whose statement

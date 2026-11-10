@@ -208,7 +208,7 @@ theorem associatedModuleSheafStalk_exists_germ
     apply hleft.injective
     calc
       eHom (Limits.colimit.ι F i s) = c.ι.app i s := by
-        show (Limits.colimit.ι F i ≫ eHom) s = c.ι.app i s
+        change (Limits.colimit.ι F i ≫ eHom) s = c.ι.app i s
         rw [Limits.colimit.ι_desc]
       _ = eHom z := hs
   cases i with
@@ -260,7 +260,7 @@ theorem associatedModuleSheafGerm_eq_of_apply_eq (x : ProjectiveSpectrum.top �
   have hrestr : F.map iWU.op s = F.map iWV.op t := by
     apply Subtype.ext
     funext y
-    show s.1 (iWU y) = t.1 (iWV y)
+    change s.1 (iWU y) = t.1 (iWV y)
     have hvsy : s.1 (iWU y) = LocalizedModule.mk ms ⟨ss, hns (iWs y)⟩ := by
       simpa [iWU, iWs] using hvs (iWs y)
     have hvty : t.1 (iWV y) = LocalizedModule.mk mt ⟨st, hnt (iWt y)⟩ := by
@@ -341,7 +341,7 @@ theorem smul_mem_closure_homogeneousFractions (x : ProjectiveSpectrum.top 𝒮)
         LocalizedModule.mk ((c.num : S) • m)
           ⟨(c.den : S) * (s : S),
             x.asHomogeneousIdeal.toIdeal.primeCompl.mul_mem hcden s.2⟩ := by
-      show HomogeneousLocalization.val (HomogeneousLocalization.mk c) •
+      change HomogeneousLocalization.val (HomogeneousLocalization.mk c) •
           LocalizedModule.mk m s = _
       rw [HomogeneousLocalization.val_mk]
       exact LocalizedModule.mk_smul_mk _ _ _ _
@@ -386,7 +386,7 @@ theorem exists_associatedModuleSheafStalkEval_eq_mk (x : ProjectiveSpectrum.top 
   refine ⟨associatedModuleSheafGerm 𝒮 𝒨 x (ProjectiveSpectrum.basicOpen 𝒮 g) hxg a, ?_⟩
   rw [associatedModuleSheafStalkEval_germ 𝒮 𝒨 x
     (ProjectiveSpectrum.basicOpen 𝒮 g) hxg a]
-  show aFun ⟨x, hxg⟩ = _
+  change aFun ⟨x, hxg⟩ = _
   exact LocalizedModule.mk_eq.mpr ⟨1, by simp only [smul_smul, Submonoid.smul_def, g]⟩
 
 omit [Decomposition 𝒨] in
@@ -508,7 +508,7 @@ theorem associatedModuleSheafStalkEquiv_germ_smul
       (HomogeneousLocalization.AtPrime 𝒮 x.asHomogeneousIdeal.toIdeal)
       (Localization x.asHomogeneousIdeal.toIdeal.primeCompl))
   apply Subtype.ext
-  show (((associatedModuleSheafStalkEquiv 𝒮 𝒨 x).toFun
+  change (((associatedModuleSheafStalkEquiv 𝒮 𝒨 x).toFun
       (associatedModuleSheafGerm 𝒮 𝒨 x U hx (r • s)) :
         degreeZeroModuleAt 𝒮 𝒨 x) : ProjectiveSpectrum.Proj.ModuleFiber (M := M) 𝒮 x) =
     ((Proj.stalkIso' 𝒮 x

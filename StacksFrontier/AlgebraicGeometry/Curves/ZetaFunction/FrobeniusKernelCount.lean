@@ -207,7 +207,7 @@ theorem exists_normForm_natCard_ker_twistedFrobenius
     have hequiv : {x : 𝟙_ (Over (Spec (.of k))) ⟶ A //
         x ≫ Stacks.Groupoids.endPolyEval F R = 1} ≃ (aeval (Stacks.Picard.asEnd u) R).ker :=
       Equiv.subtypeEquiv (Additive.ofMul.trans E'.toEquiv) fun x => by
-        show _ ↔ aeval (Stacks.Picard.asEnd u) R (E' (Additive.ofMul x)) = 0
+        change _ ↔ aeval (Stacks.Picard.asEnd u) R (E' (Additive.ofMul x)) = 0
         rw [← endPolyEval_comp_eq_aeval F E' u hE' R x, AddEquiv.map_eq_zero_iff]
         exact ⟨fun h => by rw [h]; rfl, fun h => Additive.ofMul.injective h⟩
     rw [← Nat.card_congr hequiv, hcount]
@@ -221,7 +221,7 @@ theorem exists_normForm_natCard_ker_twistedFrobenius
     exact
       { toFun := fun c => ⟨E'.symm c.1, by
           have hc := (Submodule.mem_torsionBy_iff _ _).mp c.2
-          show (((ℓ ^ N : ℕ) : ℤ)) • E'.symm c.1 = 0
+          change (((ℓ ^ N : ℕ) : ℤ)) • E'.symm c.1 = 0
           rw [← map_zsmul, Nat.cast_pow, hc, map_zero]⟩
         invFun := fun x => ⟨E' x.1, by
           have hx : (((ℓ ^ N : ℕ) : ℤ)) • x.1 = 0 := x.2

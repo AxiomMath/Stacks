@@ -200,9 +200,9 @@ theorem isIso_quasicoherentDerivedRightAdjointBaseChangeMap_app_of_isIso
       right_inv := fun u => eD.hom_inv_id_assoc u }
   have key : (fun map : P ⟶ _ => map ≫ α) = (e _).symm ∘ (fun u => u ≫ α.hom) ∘ e _ := by
     funext map
-    show map ≫ α = ObjectProperty.homMk (eD.inv ≫ ((eD.hom ≫ map.hom) ≫ α.hom))
+    change map ≫ α = ObjectProperty.homMk (eD.inv ≫ ((eD.hom ≫ map.hom) ≫ α.hom))
     ext
-    show map.hom ≫ α.hom = eD.inv ≫ (eD.hom ≫ map.hom) ≫ α.hom
+    change map.hom ≫ α.hom = eD.inv ≫ (eD.hom ≫ map.hom) ≫ α.hom
     exact comp_eq_inv_comp_hom_comp_comp eD map.hom α.hom
   rw [key]
   exact (e _).symm.bijective.comp (hD.comp (e _).bijective)

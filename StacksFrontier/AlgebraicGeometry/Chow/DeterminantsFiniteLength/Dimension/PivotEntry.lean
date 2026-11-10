@@ -47,7 +47,7 @@ lemma exists_nonzero_socle_element
   have hstep : s i.castSucc ⋖ s i.succ := s.step i
   have hcover : (⊥ : Submodule R M) ⋖ S := by
     rw [← hhead]
-    show s i.castSucc ⋖ s i.succ
+    change s i.castSucc ⋖ s i.succ
     exact hstep
   have hsimple : IsSimpleModule R S := by
     rw [isSimpleModule_iff_isAtom]
@@ -106,7 +106,7 @@ lemma socle_quotient_length
   have hlen : Module.length R M = 1 + Module.length R (M ⧸ S) := by
     rw [hlen', hSlen]
   refine ⟨hQfin, ?_⟩
-  show (Module.length R (M ⧸ S)).toNat + 1 = (Module.length R M).toNat
+  change (Module.length R (M ⧸ S)).toNat + 1 = (Module.length R M).toNat
   rw [hlen]
   rw [ENat.toNat_add (by simp) (Module.length_ne_top_iff.mpr hQfin)]
   simp only [ENat.toNat_one]
@@ -513,7 +513,7 @@ lemma pivotUnitEntry_residue_eq
       rwa [hcoeff]
     have hmul1 : (↑a⁻¹ : R) * ((p.unit : R) - (p'.unit : R)) = 1 := by
       rw [← ha]
-      show (↑(a⁻¹ * a) : R) = 1
+      change (↑(a⁻¹ * a) : R) = 1
       exact congrArg (fun z : Rˣ => (z : R)) (inv_mul_cancel a)
     simpa only [smul_smul, hmul1, one_smul] using hmem'
   exact p.pivotMin hfprev

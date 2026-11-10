@@ -286,7 +286,7 @@ omit [IsProper (B.inclusion.map f)] in
 theorem picardFunctor_map_zero {T T' : BigFppfOver B (Spec (.of k)) hk} (g : T' ⟶ T) :
     (picardFunctor B hX hk f).map g.op 0 = 0 := by
   rw [← toPicardFunctor_app_zero B hX hk f T]
-  show (picardFunctor B hX hk f).map g.op (toPicardFunctorHom B hX hk f T 0) = _
+  change (picardFunctor B hX hk f).map g.op (toPicardFunctorHom B hX hk f T 0) = _
   rw [picardFunctor_map_toPicardFunctorHom]
   exact (congrArg (toPicardFunctorHom B hX hk f T') (map_zero (picardMapHom B hX hk f g))).trans
     (map_zero _)
@@ -608,7 +608,7 @@ theorem exists_comp_picardSchemeDegreeComponentι_iff {T : BigFppfOver B (Spec (
       apply B.inclusion.map_injective
       rw [Functor.map_comp, e1, inclusion_map_degreeLocusHom, hℓ]
     refine ⟨Over.homMk ℓ' ?_, Over.OverMorphism.ext hleft⟩
-    show ℓ' ≫ (degreeLocusHom B hX hk f σ hσ d ≫ (picardSchemeOver B hX hk f).hom) = T.hom
+    change ℓ' ≫ (degreeLocusHom B hX hk f σ hσ d ≫ (picardSchemeOver B hX hk f).hom) = T.hom
     rw [← Category.assoc, hleft]
     exact Over.w φ
 

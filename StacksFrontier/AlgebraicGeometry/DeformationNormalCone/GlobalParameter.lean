@@ -138,7 +138,7 @@ theorem extReesLaurent_apply_coeff (W : X.Opens)
     exact (extReesAmbient_zero I n W).symm
   | incl k x =>
     rw [extReesLaurent_incl, ← LaurentPolynomial.single_eq_C_mul_T, AddMonoidAlgebra.coeff_single]
-    show (Finsupp.single k (extReesAmbient I k W x)) n = extReesAmbient I n W
+    change (Finsupp.single k (extReesAmbient I k W x)) n = extReesAmbient I n W
       ((DirectSum.of (fun k => ((extReesGradedAlgebra I).piece k).val.obj (op W)) k x) n)
     by_cases h : k = n
     · subst h
@@ -242,7 +242,7 @@ theorem paramUngraded_restrict {W W' : X.Opens} (h : W' ≤ W) :
         (extReesGradedAlgebra_mul_comm I))).naturality (homOfLE h).op)
     ((extReesGradedAlgebra I).toPresheafGradedAlgebra.incl (-1) (paramPiece I W))
   refine hnat.symm.trans ?_
-  show (ungradedCommUnit X (extReesGradedAlgebra I) (extReesGradedAlgebra_mul_comm I) W').hom
+  change (ungradedCommUnit X (extReesGradedAlgebra I) (extReesGradedAlgebra_mul_comm I) W').hom
       ((extReesGradedAlgebra I).toPresheafGradedAlgebra.totalRestrict (homOfLE h).op
         ((extReesGradedAlgebra I).toPresheafGradedAlgebra.incl (-1) (paramPiece I W))) = _
   exact congrArg
@@ -285,7 +285,7 @@ theorem paramGlobal_restrict (W : X.Opens) :
     (deformationSpace I).presheaf.map (homOfLE le_top :
         deformationSpaceToBase I ⁻¹ᵁ W ⟶ ⊤).op (paramGlobal I) = paramChartOf I W := by
   refine Eq.trans ?_ (paramChartOf_restrict I (le_top : W ≤ ⊤))
-  show ((deformationSpace I).presheaf.map _ ≫ (deformationSpace I).presheaf.map _).hom _ = _
+  change ((deformationSpace I).presheaf.map _ ≫ (deformationSpace I).presheaf.map _).hom _ = _
   rw [← Functor.map_comp]
   rfl
 

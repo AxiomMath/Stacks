@@ -3,8 +3,7 @@ module
 public import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 public import StacksFrontier.Algebra.Category.ModuleCat.Presheaf.ShortExact
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.AwaySections
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.VanishingCriterionCoextension
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.VanishingCriterionCoextension
 public import StacksFrontier.RingTheory.Localization.Glueing.AwaySum
 public import StacksCore.Tactic.StacksAttribute
 
@@ -130,7 +129,6 @@ theorem shortExact_of_biprodData
     (i₁ : B₁ ⟶ W) (i₂ : B₂ ⟶ W) (p₁ : W ⟶ B₁) (p₂ : W ⟶ B₂)
     (α₁ : A ⟶ B₁) (α₂ : A ⟶ B₂) (β₁ : B₁ ⟶ D) (β₂ : B₂ ⟶ D)
     (f : A ⟶ W) (g : W ⟶ D) (hfg : f ≫ g = 0)
-    (h11 : i₁ ≫ p₁ = 𝟙 B₁) (h22 : i₂ ≫ p₂ = 𝟙 B₂)
     (htot : p₁ ≫ i₁ + p₂ ≫ i₂ = 𝟙 W)
     (hf₁ : f ≫ p₁ = α₁) (hf₂ : f ≫ p₂ = α₂)
     (hg₁ : i₁ ≫ g = β₁) (hg₂ : i₂ ≫ g = -β₂)
@@ -176,14 +174,14 @@ theorem shortExact_of_biprodData
     intro z
     obtain ⟨x, y, hxy⟩ := hsurj z
     refine ⟨i₁ x + i₂ y, ?_⟩
-    show g (i₁ x + i₂ y) = z
+    change g (i₁ x + i₂ y) = z
     rw [map_add, hgi₁, hgi₂, ← hxy, sub_eq_add_neg]
 
 end CategoryTheory.ShortComplex
 
 namespace AlgebraicGeometry.RingedSite
 
-variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}]
+variable (X : RingedSite.{u, u, u})
 
 section Sum
 
@@ -429,9 +427,7 @@ theorem shortExact_awayModulePresheafAddComplex_map (U : X.Cᵒᵖ) :
     (e.map (biprod.fst : B₁ ⊞ B₂ ⟶ B₁)) (e.map (biprod.snd : B₁ ⊞ B₂ ⟶ B₂))
     (e.map α₁) (e.map α₂) (e.map β₁) (e.map β₂)
     (e.map (biprod.lift α₁ α₂)) (e.map (biprod.desc β₁ (-β₂)))
-    ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_
-  · rw [← e.map_comp, biprod.inl_fst, e.map_id]
-  · rw [← e.map_comp, biprod.inr_snd, e.map_id]
+    ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_
   · rw [← e.map_comp, ← e.map_comp, ← e.map_add, biprod.total, e.map_id]
   · rw [← e.map_comp, biprod.lift_fst]
   · rw [← e.map_comp, biprod.lift_snd]
@@ -498,8 +494,8 @@ def awayModuleAddComplexX₁Iso :
 /-- Sheaves of `𝒪`-modules have binary biproducts, being a preadditive category with binary
 products. Instance search does not reach this on its own within its budget. (The base's
 `AlgebraicGeometry.RingedSite.hasBinaryBiproducts_sheafOfModules` of
-`StacksFrontier/AlgebraicGeometry/Duality/EffectiveCartierIdealDualTensor.lean` is a `local instance`,
-so it is not available here, and its name is taken.) -/
+`StacksFrontier/AlgebraicGeometry/Duality/EffectiveCartierIdealDualTensor.lean` is a
+`local instance`, so it is not available here, and its name is taken.) -/
 instance hasBinaryBiproducts_sheafOfModules_ringSheaf :
     HasBinaryBiproducts (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :=
   HasBinaryBiproducts.of_hasBinaryProducts
@@ -662,8 +658,7 @@ theorem isRightOrthogonalAway_addGlobalSection
 site.** A section of `𝒪` over `U` is a global section of the structure sheaf of the localized
 ringed site `AlgebraicGeometry.RingedSite.over X U`, on which
 `AlgebraicGeometry.RingedSite.memVanishingIdeal_addGlobalSection` applies as it stands: that
-theorem assumes nothing of the ringed site beyond the ambient sheafification hypothesis, and a
-slice of a ringed site is again one.
+theorem assumes nothing of the ringed site, and a slice of a ringed site is again one.
 
 This is the form in which the local-generation argument of [Stacks, Tag 099F] consumes
 additivity, a local section of a finitely generated ideal sheaf being only locally an

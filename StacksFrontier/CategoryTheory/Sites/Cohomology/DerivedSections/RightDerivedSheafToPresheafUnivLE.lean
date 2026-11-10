@@ -122,7 +122,7 @@ theorem homComplexSingleIsoCoyoneda_naturality_obj {X' X : A} (g : X' ⟶ X)
   simp only [HomologicalComplex.comp_f, Locality.homComplexSingleIsoCoyoneda,
     Locality.precompCM, HomologicalComplex.Hom.isoOfComponents_hom_f, AddCommGrpCat.hom_comp,
     NatTrans.mapHomologicalComplex_app_f]
-  show (CochainComplex.HomComplex.Cochain.fromSingleEquiv (by ring : (0 : ℤ) + j = j))
+  change (CochainComplex.HomComplex.Cochain.fromSingleEquiv (by ring : (0 : ℤ) + j = j))
       ((CochainComplex.HomComplex.Cochain.ofHom
           ((CochainComplex.singleFunctor A 0).map g)).comp
         (CochainComplex.HomComplex.Cochain.fromSingleMk f (by ring : (0 : ℤ) + j = j))
@@ -323,7 +323,7 @@ theorem coyonedaIsoSections_naturality {Y U : C} (g : Y ⟶ U) :
         Functor.whiskerLeft (sheafToPresheaf J AddCommGrpCat.{max u t})
           ((evaluation Cᵒᵖ AddCommGrpCat.{max u t}).map g.op) := by
   ext F (α : (freeYoneda.{t} J).obj U ⟶ F)
-  show sectionsEquiv.{t} Y F ((freeYoneda.{t} J).map g ≫ α) =
+  change sectionsEquiv.{t} Y F ((freeYoneda.{t} J).map g ≫ α) =
     F.obj.map g.op (sectionsEquiv.{t} U F α)
   exact sectionsEquiv_naturality_left.{t} g F α
 

@@ -41,8 +41,8 @@ Widening the interval is `hasTorAmplitudeCanonical_widen` below, kept `private`.
 the canonical derived tensor product is by definition the vanishing of cohomology outside the
 interval, so the proof is one term; the same term appears inline in
 `AlgebraicGeometry.locallyHasFiniteTorDimension_iff_hasFiniteTorDimension` of
-`StacksFrontier.AlgebraicGeometry.RelativeTorAmplitudeAffine`, and under other names in several other
-files, none of them exported.
+`StacksFrontier.AlgebraicGeometry.RelativeTorAmplitudeAffine`, and under other names in several
+other files, none of them exported.
 
 Compactness is taken as `IsCompact` on a subset rather than as `CompactSpace` on the source: an
 affine open of `X` is a compact subset of `X`, and passing to it as a space would change the

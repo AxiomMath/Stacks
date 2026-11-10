@@ -183,7 +183,7 @@ noncomputable def freeAlgebraSheafULiftHom :
   ((mateEquiv (freeAlgebraSheafAdjunction.{v, u, w} J A)
     (freeAlgebraSheafAdjunction.{v, u, max w w'} J
       ((sheafCompose J commRingCatULift.{max u v w, w'}).obj A))).symm
-        (TwoSquare.mk _ _ _ _ (forgetAlgebraSheafULiftIso.{u, v, w, w'} J A).inv)).natTrans
+        (TwoSquare.mk _ _ _ _ (forgetAlgebraSheafULiftIso.{u, v, w, w'} J A).inv))
 
 /-- The comparison of the free algebra sheaves carries the unit of the free–forgetful adjunction
 of `↑A` to the lift of the unit of that of `A`. -/

@@ -145,7 +145,7 @@ theorem exists_isIso_fieldMorphism_iff_hasMonomorphicFieldRepresentative
               contained := p.contained
               toBase := p.toBase
               value := yonedaEquiv g }, ?_⟩
-    show IsIso (yonedaEquiv.symm (yonedaEquiv _))
+    change IsIso (yonedaEquiv.symm (yonedaEquiv _))
     rw [Equiv.symm_apply_apply]
     exact (isEmpty_points_or_isIso_of_mono_of_hasFinitePresentationCover B S hS hTalg hZ g
       hcover).resolve_left

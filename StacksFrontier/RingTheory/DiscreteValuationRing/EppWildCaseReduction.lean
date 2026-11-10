@@ -363,7 +363,7 @@ theorem isSeparable_of_separable {K : Type*} [Field K] {q : K[X]} [Fact (Irreduc
   rw [← IntermediateField.isSeparable_top, ← htop,
     IntermediateField.isSeparable_adjoin_iff_isSeparable]
   rintro x rfl
-  show (minpoly K (AdjoinRoot.root q)).Separable
+  change (minpoly K (AdjoinRoot.root q)).Separable
   rwa [hmin]
 
 end AdjoinRoot

@@ -253,7 +253,7 @@ theorem exists_sitePointFiber_stalk (F : Sheaf J (Type w)) (t : p.inverseImage.o
     exact p.inverseImage.map_id _
   refine ⟨X, x, (presheafToSheaf J (Type w)).map η ≫ ε, ?_⟩
   rw [Functor.map_comp]
-  show p.inverseImage.map ε (p.presheafStalkFunctor.map η x) = t
+  change p.inverseImage.map ε (p.presheafStalkFunctor.map η x) = t
   rw [hx]
   exact ConcreteCategory.congr_hom hinv t
 
@@ -266,7 +266,7 @@ theorem sitePointFiber_map_preimage {P : Cᵒᵖ ⥤ Type w} {Z X : C}
     (z : p.sitePointFiber.obj Z) :
     p.sitePointFiber.map ((fullyFaithfulShrinkYoneda C).preimage (η ≫ α)) z =
       p.presheafStalkFunctor.map α (p.presheafStalkFunctor.map η z) := by
-  show p.presheafStalkFunctor.map
+  change p.presheafStalkFunctor.map
     (shrinkYoneda.{w}.map ((fullyFaithfulShrinkYoneda C).preimage (η ≫ α))) z = _
   rw [(fullyFaithfulShrinkYoneda C).map_preimage, Functor.map_comp]
   rfl
@@ -359,7 +359,7 @@ theorem isCofiltered_sitePointFiber_elements : IsCofiltered p.sitePointFiber.Ele
       ⟨(fullyFaithfulShrinkYoneda C).preimage (η ≫ h.1),
         by rw [p.sitePointFiber_map_preimage, hη]; exact h.2⟩, ?_⟩
     refine Functor.Elements.hom_ext (shrinkYoneda.{w}.map_injective ?_)
-    show shrinkYoneda.{w}.map ((fullyFaithfulShrinkYoneda C).preimage (η ≫ h.1) ≫ φ.1) =
+    change shrinkYoneda.{w}.map ((fullyFaithfulShrinkYoneda C).preimage (η ≫ h.1) ≫ φ.1) =
       shrinkYoneda.{w}.map ((fullyFaithfulShrinkYoneda C).preimage (η ≫ h.1) ≫ ψ.1)
     rw [Functor.map_comp, Functor.map_comp, (fullyFaithfulShrinkYoneda C).map_preimage,
       Category.assoc, Category.assoc]
@@ -427,7 +427,7 @@ theorem map_op_comp_presheafStalkSection {X Y : C} (f : X ⟶ Y) (x : p.sitePoin
     P.map f.op ≫ p.presheafStalkSection x P =
       p.presheafStalkSection (p.sitePointFiber.map f x) P := by
   ext z
-  show p.presheafStalkFunctor.map (shrinkYonedaEquiv.symm (P.map f.op z)) x =
+  change p.presheafStalkFunctor.map (shrinkYonedaEquiv.symm (P.map f.op z)) x =
     p.presheafStalkFunctor.map (shrinkYonedaEquiv.symm z) (p.sitePointFiber.map f x)
   rw [shrinkYonedaEquiv_symm_map, Functor.map_comp]
   rfl
@@ -438,7 +438,7 @@ theorem presheafStalkSection_comp_map {X : C} (x : p.sitePointFiber.obj X)
     p.presheafStalkSection x P ≫ p.presheafStalkFunctor.map g =
       g.app (op X) ≫ p.presheafStalkSection x Q := by
   ext z
-  show p.presheafStalkFunctor.map g
+  change p.presheafStalkFunctor.map g
       (p.presheafStalkFunctor.map (shrinkYonedaEquiv.symm z) x) =
     p.presheafStalkFunctor.map (shrinkYonedaEquiv.symm (g.app (op X) z)) x
   rw [← Presheaf.shrinkYonedaEquiv_symm_comp_eq, Functor.map_comp]

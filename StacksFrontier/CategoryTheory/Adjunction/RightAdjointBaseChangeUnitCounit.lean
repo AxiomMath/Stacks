@@ -48,21 +48,21 @@ theorem mateEquiv_symm_app_leftAdjointUniq {C D E F : Type*} [Category C] [Categ
     [Category E] [Category F] {G : C ⥤ E} {H : D ⥤ F} {L₁ L₁' : C ⥤ D} {R₁ : D ⥤ C}
     {L₂ L₂' : E ⥤ F} {R₂ : F ⥤ E} (adj₁ : L₁ ⊣ R₁) (adj₁' : L₁' ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (adj₂' : L₂' ⊣ R₂) (x : TwoSquare R₁ H G R₂) (K : C) :
-    ((mateEquiv adj₁' adj₂').symm x).natTrans.app K =
+    ((mateEquiv adj₁' adj₂').symm x).app K =
       (Adjunction.leftAdjointUniq adj₂' adj₂).hom.app (G.obj K) ≫
-        ((mateEquiv adj₁ adj₂).symm x).natTrans.app K ≫
+        ((mateEquiv adj₁ adj₂).symm x).app K ≫
           H.map ((Adjunction.leftAdjointUniq adj₁ adj₁').hom.app K) := by
   have e : ∀ {L₁ : C ⥤ D} {L₂ : E ⥤ F} (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (K : C),
-      ((mateEquiv adj₁ adj₂).symm x).natTrans.app K =
-      L₂.map (G.map (adj₁.unit.app K)) ≫ L₂.map (x.natTrans.app (L₁.obj K)) ≫
+      ((mateEquiv adj₁ adj₂).symm x).app K =
+      L₂.map (G.map (adj₁.unit.app K)) ≫ L₂.map (x.app (L₁.obj K)) ≫
         adj₂.counit.app (H.obj (L₁.obj K)) := fun _ _ K => by simp [mateEquiv]
   set u := Adjunction.leftAdjointUniq adj₁ adj₁'
   set u' := Adjunction.leftAdjointUniq adj₂' adj₂
   have n₁ : ∀ {P Q : E} (φ : P ⟶ Q), u'.hom.app P ≫ L₂.map φ = L₂'.map φ ≫ u'.hom.app Q :=
     fun φ => (u'.hom.naturality φ).symm
-  have n₂ : x.natTrans.app (L₁.obj K) ≫ R₂.map (H.map (u.hom.app K)) =
-      G.map (R₁.map (u.hom.app K)) ≫ x.natTrans.app (L₁'.obj K) :=
-    (x.natTrans.naturality (u.hom.app K)).symm
+  have n₂ : x.app (L₁.obj K) ≫ R₂.map (H.map (u.hom.app K)) =
+      G.map (R₁.map (u.hom.app K)) ≫ x.app (L₁'.obj K) :=
+    (x.naturality (u.hom.app K)).symm
   have n₃ : L₂'.map (R₂.map (H.map (u.hom.app K))) ≫ adj₂'.counit.app (H.obj (L₁'.obj K)) =
       adj₂'.counit.app (H.obj (L₁.obj K)) ≫ H.map (u.hom.app K) :=
     adj₂'.counit.naturality _
@@ -85,38 +85,38 @@ variable {S : Type*} {T : Type*} {S' : Type*} {T' : Type*}
   (adjf : Lf ⊣ Rf) (adjf' : Lf' ⊣ Rf') (adjg : Lg ⊣ Rg) (adjg' : Lg' ⊣ Rg')
   (eg : Lg ⋙ Lf' ≅ Lc) (ef : Lf ⋙ Lg' ≅ Lc)
   {a : S ⥤ T} {a' : S' ⥤ T'} (adja : Rf ⊣ a) (adja' : Rf' ⊣ a')
-  [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans]
+  [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja')]
 
-omit [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans] in
+omit [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja')] in
 /-- The conjugate identity of `ξ` and `β` on counits: `β` at `Rg'(a' N)` followed by the counit
 of `Lg' ⋙ Rf' ⊣ a' ⋙ Rg'` is `Lg(Rf(ξ_N))` followed by the counit of `Rf ⋙ Lg ⊣ Rg ⋙ a`. -/
 private lemma twoSquare_app_comp_counit_aux (N : S') :
-    (twoSquare adjf adjf' eg ef).natTrans.app (Rg'.obj (a'.obj N)) ≫
+    (twoSquare adjf adjf' eg ef).app (Rg'.obj (a'.obj N)) ≫
         Rf'.map (adjg'.counit.app (a'.obj N)) ≫ adja'.counit.app N =
       Lg.map (Rf.map
-          ((rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans.app N)) ≫
+          ((rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').app N)) ≫
         Lg.map (adja.counit.app (Rg.obj N)) ≫ adjg.counit.app N := by
   have h := conjugateEquiv_counit (adjg'.comp adja') (adja.comp adjg)
-    (twoSquare adjf adjf' eg ef).natTrans N
+    (twoSquare adjf adjf' eg ef) N
   rw [← rightAdjointSquare_natTrans_eq] at h
   simpa only [Adjunction.comp_counit_app, Functor.comp_map, Functor.comp_obj] using h.symm
 
 /-- **The base change map of right adjoints at an object**: `α_K` is `Lg'` of `a` of the unit of
 `Lg ⊣ Rg` at `K`, then `Lg'` of `ξ⁻¹` at `Lg K`, then the counit of `Lg' ⊣ Rg'`. -/
 theorem rightAdjointBaseChange_app_eq (K : S) :
-    (rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').natTrans.app K =
+    (rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app K =
       Lg'.map (a.map (adjg.unit.app K)) ≫
-        Lg'.map ((inv (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans).app
+        Lg'.map ((inv (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja')).app
           (Lg.obj K)) ≫
         adjg'.counit.app (a'.obj (Lg.obj K)) := by
   set α := rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja'
   set ξ := rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja'
-  have h₁ : Lg'.map ((inv ξ.natTrans).app (Lg.obj K)) ≫ adjg'.counit.app (a'.obj (Lg.obj K)) =
-      α.natTrans.app (Rg.obj (Lg.obj K)) ≫ a'.map (adjg.counit.app (Lg.obj K)) :=
-    mateEquiv_counit_symm adjg adjg' (TwoSquare.mk _ _ _ _ (inv ξ.natTrans)) (Lg.obj K)
-  have h₂ : Lg'.map (a.map (adjg.unit.app K)) ≫ α.natTrans.app (Rg.obj (Lg.obj K)) =
-      α.natTrans.app K ≫ a'.map (Lg.map (adjg.unit.app K)) :=
-    α.natTrans.naturality (adjg.unit.app K)
+  have h₁ : Lg'.map ((inv ξ).app (Lg.obj K)) ≫ adjg'.counit.app (a'.obj (Lg.obj K)) =
+      α.app (Rg.obj (Lg.obj K)) ≫ a'.map (adjg.counit.app (Lg.obj K)) :=
+    mateEquiv_counit_symm adjg adjg' (TwoSquare.mk _ _ _ _ (inv ξ)) (Lg.obj K)
+  have h₂ : Lg'.map (a.map (adjg.unit.app K)) ≫ α.app (Rg.obj (Lg.obj K)) =
+      α.app K ≫ a'.map (Lg.map (adjg.unit.app K)) :=
+    α.naturality (adjg.unit.app K)
   rw [h₁, reassoc_of% h₂, ← a'.map_comp, adjg.left_triangle_components, a'.map_id,
     Category.comp_id]
 
@@ -125,21 +125,21 @@ maps.** `Lg` of the counit of `Rf ⊣ a` at `K` is the base change map `β` at `
 `Rf'` of the base change map `α` at `K` and the counit of `Rf' ⊣ a'` at `Lg K`. -/
 theorem map_counit_eq_twoSquare_comp_map_rightAdjointBaseChange (K : S) :
     Lg.map (adja.counit.app K) =
-      (twoSquare adjf adjf' eg ef).natTrans.app (a.obj K) ≫
-        Rf'.map ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').natTrans.app K) ≫
+      (twoSquare adjf adjf' eg ef).app (a.obj K) ≫
+        Rf'.map ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app K) ≫
           adja'.counit.app (Lg.obj K) := by
   set ξ := rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja'
   set β := twoSquare adjf adjf' eg ef
   set N := Lg.obj K
   rw [rightAdjointBaseChange_app_eq, Functor.map_comp, Functor.map_comp]
   simp only [Category.assoc]
-  have n₁ : Lg.map (Rf.map (a.map (adjg.unit.app K))) ≫ β.natTrans.app (a.obj (Rg.obj N)) =
-      β.natTrans.app (a.obj K) ≫ Rf'.map (Lg'.map (a.map (adjg.unit.app K))) :=
-    β.natTrans.naturality _
-  have n₂ : Lg.map (Rf.map ((inv ξ.natTrans).app N)) ≫ β.natTrans.app (Rg'.obj (a'.obj N)) =
-      β.natTrans.app (a.obj (Rg.obj N)) ≫ Rf'.map (Lg'.map ((inv ξ.natTrans).app N)) :=
-    β.natTrans.naturality _
-  have hinv : Lg.map (Rf.map ((inv ξ.natTrans).app N)) ≫ Lg.map (Rf.map (ξ.natTrans.app N)) =
+  have n₁ : Lg.map (Rf.map (a.map (adjg.unit.app K))) ≫ β.app (a.obj (Rg.obj N)) =
+      β.app (a.obj K) ≫ Rf'.map (Lg'.map (a.map (adjg.unit.app K))) :=
+    β.naturality _
+  have n₂ : Lg.map (Rf.map ((inv ξ).app N)) ≫ β.app (Rg'.obj (a'.obj N)) =
+      β.app (a.obj (Rg.obj N)) ≫ Rf'.map (Lg'.map ((inv ξ).app N)) :=
+    β.naturality _
+  have hinv : Lg.map (Rf.map ((inv ξ).app N)) ≫ Lg.map (Rf.map (ξ.app N)) =
       𝟙 _ := by
     rw [← Lg.map_comp, ← Rf.map_comp, ← NatTrans.comp_app, IsIso.inv_hom_id, NatTrans.id_app,
       Rf.map_id, Lg.map_id]
@@ -156,28 +156,28 @@ theorem map_counit_eq_twoSquare_comp_map_rightAdjointBaseChange (K : S) :
 the base change map `β` at `M`, is the unit of `Rf' ⊣ a'` at `Lg' M`. -/
 theorem map_unit_comp_rightAdjointBaseChange_comp_map_twoSquare (M : T) :
     Lg'.map (adja.unit.app M) ≫
-        (rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').natTrans.app (Rf.obj M) ≫
-          a'.map ((twoSquare adjf adjf' eg ef).natTrans.app M) =
+        (rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app (Rf.obj M) ≫
+          a'.map ((twoSquare adjf adjf' eg ef).app M) =
       adja'.unit.app (Lg'.obj M) := by
   set ξ := rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja'
   set β := twoSquare adjf adjf' eg ef
   rw [rightAdjointBaseChange_app_eq]
-  have n₁ : Lg'.map (Rg'.map (a'.map (β.natTrans.app M))) ≫
+  have n₁ : Lg'.map (Rg'.map (a'.map (β.app M))) ≫
       adjg'.counit.app (a'.obj (Rf'.obj (Lg'.obj M))) =
-      adjg'.counit.app (a'.obj (Lg.obj (Rf.obj M))) ≫ a'.map (β.natTrans.app M) :=
+      adjg'.counit.app (a'.obj (Lg.obj (Rf.obj M))) ≫ a'.map (β.app M) :=
     adjg'.counit.naturality _
-  have n₂ : a.map (Rg.map (β.natTrans.app M)) ≫ (inv ξ.natTrans).app (Rf'.obj (Lg'.obj M)) =
-      (inv ξ.natTrans).app (Lg.obj (Rf.obj M)) ≫ Rg'.map (a'.map (β.natTrans.app M)) :=
-    (inv ξ.natTrans).naturality (β.natTrans.app M)
+  have n₂ : a.map (Rg.map (β.app M)) ≫ (inv ξ).app (Rf'.obj (Lg'.obj M)) =
+      (inv ξ).app (Lg.obj (Rf.obj M)) ≫ Rg'.map (a'.map (β.app M)) :=
+    (inv ξ).naturality (β.app M)
   have hu : adjg'.unit.app M ≫ Rg'.map (adja'.unit.app (Lg'.obj M)) ≫
-      ξ.natTrans.app (Rf'.obj (Lg'.obj M)) =
-      adja.unit.app M ≫ a.map (adjg.unit.app (Rf.obj M)) ≫ a.map (Rg.map (β.natTrans.app M)) := by
-    have h := unit_conjugateEquiv (adjg'.comp adja') (adja.comp adjg) β.natTrans M
+      ξ.app (Rf'.obj (Lg'.obj M)) =
+      adja.unit.app M ≫ a.map (adjg.unit.app (Rf.obj M)) ≫ a.map (Rg.map (β.app M)) := by
+    have h := unit_conjugateEquiv (adjg'.comp adja') (adja.comp adjg) β M
     rw [← rightAdjointSquare_natTrans_eq] at h
     simpa only [Adjunction.comp_unit_app, Functor.comp_map, Functor.comp_obj,
       Category.assoc] using h
   have key : adja.unit.app M ≫ a.map (adjg.unit.app (Rf.obj M)) ≫
-      a.map (Rg.map (β.natTrans.app M)) ≫ (inv ξ.natTrans).app (Rf'.obj (Lg'.obj M)) =
+      a.map (Rg.map (β.app M)) ≫ (inv ξ).app (Rf'.obj (Lg'.obj M)) =
       adjg'.unit.app M ≫ Rg'.map (adja'.unit.app (Lg'.obj M)) := by
     rw [← reassoc_of% hu, ← NatTrans.comp_app, IsIso.hom_inv_id, NatTrans.id_app]
     simp
@@ -186,10 +186,10 @@ theorem map_unit_comp_rightAdjointBaseChange_comp_map_twoSquare (M : T) :
       adjg'.counit.app (Lg'.obj M) ≫ adja'.unit.app (Lg'.obj M) :=
     adjg'.counit.naturality _
   calc Lg'.map (adja.unit.app M) ≫ (Lg'.map (a.map (adjg.unit.app (Rf.obj M))) ≫
-          Lg'.map ((inv ξ.natTrans).app (Lg.obj (Rf.obj M))) ≫
-            adjg'.counit.app (a'.obj (Lg.obj (Rf.obj M)))) ≫ a'.map (β.natTrans.app M)
+          Lg'.map ((inv ξ).app (Lg.obj (Rf.obj M))) ≫
+            adjg'.counit.app (a'.obj (Lg.obj (Rf.obj M)))) ≫ a'.map (β.app M)
       = Lg'.map (adja.unit.app M ≫ a.map (adjg.unit.app (Rf.obj M)) ≫
-          (inv ξ.natTrans).app (Lg.obj (Rf.obj M)) ≫ Rg'.map (a'.map (β.natTrans.app M))) ≫
+          (inv ξ).app (Lg.obj (Rf.obj M)) ≫ Rg'.map (a'.map (β.app M))) ≫
             adjg'.counit.app (a'.obj (Rf'.obj (Lg'.obj M))) := by
         simp only [Functor.map_comp, Category.assoc]
         rw [n₁]

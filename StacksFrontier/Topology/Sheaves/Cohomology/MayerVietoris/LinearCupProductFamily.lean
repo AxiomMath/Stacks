@@ -388,7 +388,7 @@ theorem totalMap_naturality_functor :
         (NatTrans.mapHomologicalComplex η c).app (B.total c) := by
   refine HomologicalComplex.hom_ext _ _ (fun n => ?_)
   refine HomologicalComplex₂.total.hom_ext c (fun i₁ i₂ hi => ?_)
-  show (HomologicalComplex₂.mapBicomplex Φ B).ιTotal c i₁ i₂ n hi ≫
+  change (HomologicalComplex₂.mapBicomplex Φ B).ιTotal c i₁ i₂ n hi ≫
       ((HomologicalComplex₂.total.map (mapBicomplexNatTrans η B) c).f n ≫
         HomologicalComplex₂.totalMapf Φ' B n) =
     (HomologicalComplex₂.mapBicomplex Φ B).ιTotal c i₁ i₂ n hi ≫
@@ -565,7 +565,7 @@ theorem mapBifunctorMap_comp :
     HomologicalComplex.mapBifunctorMap f₁ f₂ Eb c ≫
         HomologicalComplex.mapBifunctorMap g₁ g₂ Eb c =
       HomologicalComplex.mapBifunctorMap (f₁ ≫ g₁) (f₂ ≫ g₂) Eb c := by
-  show HomologicalComplex₂.total.map _ c ≫ HomologicalComplex₂.total.map _ c =
+  change HomologicalComplex₂.total.map _ c ≫ HomologicalComplex₂.total.map _ c =
     HomologicalComplex₂.total.map _ c
   rw [← HomologicalComplex₂.total.map_comp,
     bifunctor_app_map_comp (Eb.mapBifunctorHomologicalComplex c₁ c₂) f₁ g₁ f₂ g₂]

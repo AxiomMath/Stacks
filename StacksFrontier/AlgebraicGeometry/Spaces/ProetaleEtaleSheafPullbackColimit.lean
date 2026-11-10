@@ -159,7 +159,7 @@ public theorem Scheme.bigEtaleInverseImage_jointly_surjective_of_isLimit
   have hh : ∀ a, (e a ≫ (κ (kk a)).left) ≫ (U (kk a)).hom =
       pullback.fst (c'.π.app i) (p a) ≫ c'.π.app i ≫ τ.app i := by
     intro a
-    show (e a ≫ (κ (kk a)).left) ≫ (U (kk a)).hom =
+    change (e a ≫ (κ (kk a)).left) ≫ (U (kk a)).hom =
       pullback.fst (c'.π.app i) (p a) ≫ c'.π.app i ≫ (D.obj i).hom
     rw [Category.assoc, hκ, ← Category.assoc, he, hcπ]
   choose j f g hg₁ hg₂ using fun a => exists_hom_pullback_comp_eq_of_isLimit D' c' hc τ
@@ -174,7 +174,7 @@ public theorem Scheme.bigEtaleInverseImage_jointly_surjective_of_isLimit
       intro x _
       obtain ⟨a, z, rfl⟩ := hcov x
       refine (hV₀ _).2 ⟨a, pullback.snd (c'.π.app i) (p a) z, ?_⟩
-      show (pullback.snd (c'.π.app i) (p a) ≫ p a) z = (pullback.fst _ _ ≫ c'.π.app i) z
+      change (pullback.snd (c'.π.app i) (p a) ≫ p a) z = (pullback.fst _ _ ≫ c'.π.app i) z
       rw [pullback.condition])
   -- A common stage where the étale schemes cover and the morphisms are defined.
   obtain ⟨w₁, hw₁⟩ := common_stage_of_finite i (J := Option A)
@@ -200,7 +200,7 @@ public theorem Scheme.bigEtaleInverseImage_jointly_surjective_of_isLimit
       (by rw [Category.assoc, ← D'.map_comp, hψ]; exact pullback.condition)
   let G (a : A) : B₁ a ⟶ U (kk a) :=
     Over.homMk (tr a ≫ g a) (by
-      show (tr a ≫ g a) ≫ (U (kk a)).hom = pullback.fst _ _ ≫ (D.obj w₁.left).hom
+      change (tr a ≫ g a) ≫ (U (kk a)).hom = pullback.fst _ _ ≫ (D.obj w₁.left).hom
       calc (tr a ≫ g a) ≫ (U (kk a)).hom
           = tr a ≫ pullback.fst (D'.map (f a)) (p a) ≫ τ.app (j a) := by
             rw [Category.assoc, hg₂]
@@ -217,7 +217,7 @@ public theorem Scheme.bigEtaleInverseImage_jointly_surjective_of_isLimit
       Z a ⟶ Over.mk (pullback.fst (D'.map m) (p a) ≫ (D.obj k).hom) :=
     Over.homMk (pullback.lift (pullback.fst _ _ ≫ c'.π.app k) (pullback.snd _ _)
       (by rw [Category.assoc, c'.w, pullback.condition])) (by
-        show _ ≫ pullback.fst _ _ ≫ _ = _
+        change _ ≫ pullback.fst _ _ ≫ _ = _
         rw [pullback.lift_fst_assoc, Category.assoc, hcπ]
         rfl)
   let L (a : A) : Z a ⟶ B₁ a := Lg a w₁.left w₁.hom
@@ -225,11 +225,11 @@ public theorem Scheme.bigEtaleInverseImage_jointly_surjective_of_isLimit
     intro a
     let e' : Z a ⟶ Over.mk (E.f (kk a) ≫ c.pt.hom) :=
       Over.homMk (e a) (by
-        show e a ≫ E.f (kk a) ≫ c.pt.hom = _
+        change e a ≫ E.f (kk a) ≫ c.pt.hom = _
         rw [← Category.assoc, he]
         rfl)
     refine (map_map_eq_of_left P (L a) (G a) e' (κ (kk a)) ?_ (t (kk a))).trans ?_
-    · show pullback.lift _ _ _ ≫ tr a ≫ g a = e a ≫ (κ (kk a)).left
+    · change pullback.lift _ _ _ ≫ tr a ≫ g a = e a ≫ (κ (kk a)).left
       rw [← hg₁ a, ← Category.assoc]
       congr 1
       apply pullback.hom_ext
@@ -254,7 +254,7 @@ public theorem Scheme.bigEtaleInverseImage_jointly_surjective_of_isLimit
     Over.homMk (pullback.fst _ _) (Category.assoc _ _ _).symm
   let T₂ (q : A × A) : To q ⟶ B₁ q.2 :=
     Over.homMk (pullback.snd _ _) (by
-      show pullback.snd _ _ ≫ pullback.fst _ _ ≫ _ = (pullback.fst _ _ ≫ pullback.fst _ _) ≫ _
+      change pullback.snd _ _ ≫ pullback.fst _ _ ≫ _ = (pullback.fst _ _ ≫ pullback.fst _ _) ≫ _
       rw [← pullback.condition_assoc, Category.assoc])
   choose W hW using fun q : A × A => Scheme.bigEtaleInverseImage_openEq_over.{u, v} X F (To q)
     (P.map (T₁ q).op (σ q.1)) (P.map (T₂ q).op (σ q.2))
@@ -265,7 +265,7 @@ public theorem Scheme.bigEtaleInverseImage_jointly_surjective_of_isLimit
     let Xq : Over X := Over.mk (pullback.snd (c'.π.app w₁.left) (rT q) ≫ (To q).hom)
     let gq : Xq ⟶ To q := Over.homMk (pullback.snd _ _) rfl
     have hXq : pullback.fst (c'.π.app w₁.left) (rT q) ≫ c.pt.hom = Xq.hom := by
-      show _ = pullback.snd _ _ ≫ rT q ≫ (D.obj w₁.left).hom
+      change _ = pullback.snd _ _ ≫ rT q ≫ (D.obj w₁.left).hom
       rw [← pullback.condition_assoc, hcπ]
     let fq : Xq ⟶ c.pt := Over.homMk (pullback.fst _ _) hXq
     have side : ∀ (b : A) (Tb : To q ⟶ B₁ b) (_ : Tb.left ≫ pullback.fst _ _ = rT q),
@@ -276,10 +276,10 @@ public theorem Scheme.bigEtaleInverseImage_jointly_surjective_of_isLimit
           rw [Category.assoc, Category.assoc, ← pullback.condition, ← Category.assoc Tb.left,
             hTb, ← pullback.condition_assoc, c'.w]))
         (by
-          show _ ≫ pullback.fst _ _ ≫ c.pt.hom = _
+          change _ ≫ pullback.fst _ _ ≫ c.pt.hom = _
           rw [pullback.lift_fst_assoc, hXq])
       refine (map_map_eq_of_left P gq Tb M (L b) ?_ (σ b)).trans ?_
-      · show pullback.snd _ _ ≫ Tb.left = M.left ≫ pullback.lift _ _ _
+      · change pullback.snd _ _ ≫ Tb.left = M.left ≫ pullback.lift _ _ _
         apply pullback.hom_ext
         · simp only [M, Category.assoc, pullback.lift_fst, pullback.lift_fst_assoc, hTb,
             Over.homMk_left]
@@ -310,7 +310,7 @@ public theorem Scheme.bigEtaleInverseImage_jointly_surjective_of_isLimit
     (pullback.lift (pullback.fst _ _ ≫ D'.map v.hom) (pullback.snd _ _)
       (by rw [Category.assoc, ← D'.map_comp]; exact pullback.condition))
     (by
-      show pullback.lift _ _ _ ≫ pullback.fst _ _ ≫ _ = pullback.fst _ _ ≫ _
+      change pullback.lift _ _ _ ≫ pullback.fst _ _ ≫ _ = pullback.fst _ _ ≫ _
       rw [pullback.lift_fst_assoc, Category.assoc, hDm])
   let σf (a : A) : P.obj (op (Bf a)) := P.map (trf a).op (σ a)
   have hcompat : Presieve.Arrows.Compatible P bf σf := by
@@ -327,19 +327,19 @@ public theorem Scheme.bigEtaleInverseImage_jointly_surjective_of_isLimit
     have hm₁ : m ≫ pullback.fst _ _ = l.left ≫ (trf a).left := pullback.lift_fst _ _ _
     have hm₂ : m ≫ pullback.snd _ _ = l'.left ≫ (trf a').left := pullback.lift_snd _ _ _
     let mo : Zc ⟶ To q := Over.homMk m (by
-      show m ≫ (pullback.fst _ _ ≫ pullback.fst _ _) ≫ _ = Zc.hom
+      change m ≫ (pullback.fst _ _ ≫ pullback.fst _ _) ≫ _ = Zc.hom
       rw [Category.assoc, ← Category.assoc m, hm₁]
       exact Over.w (l ≫ trf a))
     have hm : Set.range m ⊆ (W q : Set (To q).left) := by
       refine Set.Subset.trans ?_ (hv q)
       rintro _ ⟨z, rfl⟩
       refine ⟨pullback.lift (l.left ≫ pullback.fst _ _) m ?_ z, ?_⟩
-      · show _ = m ≫ pullback.fst _ _ ≫ pullback.fst _ _
+      · change _ = m ≫ pullback.fst _ _ ≫ pullback.fst _ _
         rw [← Category.assoc m, hm₁]
         simp only [Category.assoc]
         exact congrArg (l.left ≫ ·) (pullback.lift_fst _ _ _).symm
       · rw [← Scheme.Hom.comp_apply, pullback.lift_snd]
-    show P.map l.op (P.map (trf a).op (σ a)) = P.map l'.op (P.map (trf a').op (σ a'))
+    change P.map l.op (P.map (trf a).op (σ a)) = P.map l'.op (P.map (trf a').op (σ a'))
     rw [map_map_eq_of_left P l (trf a) mo (T₁ q) hm₁.symm, (hW q Zc mo).mpr hm,
       map_map_eq_of_left P mo (T₂ q) l' (trf a') hm₂]
   have hcov' : Sieve.ofArrows Bf bf ∈ (Scheme.etaleTopology.over X) (D.obj jf) := by
@@ -352,13 +352,13 @@ public theorem Scheme.bigEtaleInverseImage_jointly_surjective_of_isLimit
         intro y
         obtain ⟨a, ha⟩ := (hV₀ _).1 (hw₁c (D'.map v.hom y))
         refine ⟨_, _, Presieve.ofArrows.mk a, ?_⟩
-        show y ∈ Set.range (pullback.fst (D'.map ρ) (p a))
+        change y ∈ Set.range (pullback.fst (D'.map ρ) (p a))
         have h2 : ∀ y' : D'.obj jf, D'.map ρ y' = D'.map w₁.hom (D'.map v.hom y') := fun y' => by
           rw [← Scheme.Hom.comp_apply, ← D'.map_comp]
         rw [Scheme.Pullback.range_fst]
         exact (show D'.map ρ y ∈ Set.range (p a) from (h2 y).symm ▸ ha)
       · rintro _ _ ⟨a⟩
-        show Etale (pullback.fst (D'.map ρ) (p a))
+        change Etale (pullback.fst (D'.map ρ) (p a))
         exact MorphismProperty.of_isPullback (IsPullback.of_hasPullback _ _).flip inferInstance
     exact (Scheme.etaleTopology).superset_covering
       ((Sieve.generate_le_iff _ _).mpr (by
@@ -387,7 +387,7 @@ public theorem Scheme.bigEtaleInverseImage_jointly_surjective_of_isLimit
       rw [map_map_eq_of_left P (zfst a) (c.π.app jf) Lf (bf a) (pullback.lift_fst _ _ _).symm,
         htf a]
       refine (map_map_eq_map_of_left P Lf (trf a) (L a) ?_ (σ a)).trans (key a)
-      show pullback.lift _ _ _ ≫ pullback.lift _ _ _ = pullback.lift _ _ _
+      change pullback.lift _ _ _ ≫ pullback.lift _ _ _ = pullback.lift _ _ _
       apply pullback.hom_ext
       · simp only [Category.assoc, pullback.lift_fst, pullback.lift_fst_assoc]
         rw [c'.w]

@@ -444,7 +444,7 @@ theorem termToTotHom_comp_totProjHom (a : ℤ) :
       HomologicalComplex.singleObjXSelf, HomologicalComplex.singleObjXIsoOfEq,
       HomologicalComplex.XIsoOfEq]
   ext
-  show (((singleShiftIso a (L.X a)).inv.f 0 ≫
+  change (((singleShiftIso a (L.X a)).inv.f 0 ≫
         (CochainComplex.homOfDegreewiseSplit (shiftedTruncShortComplex L a)
           (shiftedTruncSplitting L a)).f 0) ≫
       (((shiftFunctorAdd' (CochainComplex A ℤ) a 1 (a + 1) rfl).app
@@ -490,13 +490,13 @@ theorem truncTriangleAt_distinguished (a : ℤ) :
     rot_of_distTriang _ (distinguished_mapTriangle_degreewiseSplit _ (shiftedTruncSplitting L a))
   refine isomorphic_distinguished _ hT _ (Triangle.isoMk _ _ (Iso.refl _)
     (DerivedCategory.Q.mapIso (singleShiftIso a (L.X a))).symm (totShiftIso L a) ?_ ?_ ?_)
-  · show DerivedCategory.Q.map (totProjHom L a) ≫
+  · change DerivedCategory.Q.map (totProjHom L a) ≫
         DerivedCategory.Q.map (singleShiftIso a (L.X a)).inv =
       𝟙 _ ≫ DerivedCategory.Q.map (shiftedTruncShortComplex L a).g
     rw [Category.id_comp, ← CategoryTheory.Functor.map_comp, totProjHom, Category.assoc,
       Iso.hom_inv_id, Category.comp_id]
     rfl
-  · show DerivedCategory.Q.map (termToTotHom L a) ≫
+  · change DerivedCategory.Q.map (termToTotHom L a) ≫
         (DerivedCategory.Q.map ((shiftFunctorAdd' (CochainComplex A ℤ) a 1 (a + 1) rfl).app
               (L.stupidTrunc (embeddingUpIntGE (a + 1)))).hom ≫
           (DerivedCategory.Q.commShiftIso (1 : ℤ)).hom.app
@@ -507,7 +507,7 @@ theorem truncTriangleAt_distinguished (a : ℤ) :
           (DerivedCategory.Q.commShiftIso (1 : ℤ)).hom.app (shiftedTruncShortComplex L a).X₁)
     rw [reassoc_of% Q_termToTotHom_comp_shiftFunctorAdd']
     exact Category.assoc _ _ _
-  · show totConnectingAt L a ≫ (shiftFunctor (DerivedCategory A) (1 : ℤ)).map (𝟙 _) =
+  · change totConnectingAt L a ≫ (shiftFunctor (DerivedCategory A) (1 : ℤ)).map (𝟙 _) =
       (totShiftIso L a).hom ≫
         (-((DerivedCategory.Q.map (shiftedTruncShortComplex L a).f)⟦(1 : ℤ)⟧'))
     rw [CategoryTheory.Functor.map_id, Category.comp_id, totConnectingAt]
@@ -570,7 +570,7 @@ theorem termToTot_comp_totProj (n : ℕ) :
       (((n : ℤ) + 1).negOnePow : ℤ) •
         (termToTotAt L (-((n : ℤ) + 1)) ≫ eqToHom (congrArg (totAt L) h) ≫
           totProjAt L (-(n : ℤ))) := by
-    show ((((n : ℤ) + 1).negOnePow : ℤ) •
+    change ((((n : ℤ) + 1).negOnePow : ℤ) •
         (termToTotAt L (-((n : ℤ) + 1)) ≫ eqToHom (congrArg (totAt L) h))) ≫
           totProjAt L (-(n : ℤ)) = _
     rw [Preadditive.zsmul_comp, Category.assoc]

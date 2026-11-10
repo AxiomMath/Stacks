@@ -116,7 +116,7 @@ private theorem isPureAlong_of_forall_specializes_mem_range
     { scheme := B, point := t, toBase := 𝟙 B, map_point := by simp }
   have hNt : Nt.IsElementary := by
     rw [EtaleNeighborhood.isElementary_iff]
-    show IsIso (Scheme.Hom.residueFieldMap (𝟙 B) t)
+    change IsIso (Scheme.Hom.residueFieldMap (𝟙 B) t)
     rw [Scheme.residueFieldMap_id]
     exact IsIso.id _
   have hcomm : l ≫ q = p ≫ Nt.toBase := hl.trans (Category.comp_id p).symm
@@ -291,7 +291,7 @@ public theorem isOpen_setOf_isPureAlong
       (pullback.snd f N.toBase) _ t z).mp hz
     have hspec : (pullback.snd f N.toBase) ((pullback.snd f N.toBase).fiberι t z) ⤳ N.point := by
       rw [Scheme.Hom.apply_fiberι]; exact ht
-    show (pullback.snd f N.toBase).fiberι t z ∈ (W : Set ↥(pullback f N.toBase))
+    change (pullback.snd f N.toBase).fiberι t z ∈ (W : Set ↥(pullback f N.toBase))
     rw [hWdef]
     exact hrange _ hmem hspec
   have hEnhds := mem_nhds_of_isLocallyConstructible_of_specializes_subset hE hsubE
@@ -315,7 +315,7 @@ public theorem isOpen_setOf_isPureAlong
     have hmemW : z ∈ (W : Set ↥(pullback f N.toBase)) := hz₀eq ▸ hVE htz hz₀
     rwa [hWdef] at hmemW
   have hflatpi : IsFlatAt N.toBase.toLRSHom.toShHom t := by
-    show (N.toBase.stalkMap t).hom.Flat
+    change (N.toBase.stalkMap t).hom.Flat
     exact Flat.stalkMap N.toBase t
   exact isPureAlong_of_flatPointedBaseChange
     { X := X, S := S, f := f, F := F, s := N.toBase t, S' := N.scheme, s' := t,

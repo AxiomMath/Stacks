@@ -105,7 +105,7 @@ public theorem laumonAffineLineInput_of_absIrr (h : LaumonAffineLineAbsIrrInput.
   have := hE₁
   have : CharZero K := charZero_of_injective_algebraMap (algebraMap ℚ_[ℓ] K).injective
   have : NeZero ((p : ℕ) : K) := ⟨Nat.cast_ne_zero.2 (Fact.out : p.Prime).ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot K p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot K p
   let E₂ : IntermediateField E K := E₁ ⊔ IntermediateField.adjoin E {ζ}
   have hζint : IsIntegral E ζ := Algebra.IsIntegral.isIntegral ζ
   have : FiniteDimensional E (IntermediateField.adjoin E {ζ}) :=
@@ -188,7 +188,7 @@ public theorem laumonAffineLineInput_of_absIrr (h : LaumonAffineLineAbsIrrInput.
     rw [h2] at h1
     obtain ⟨r, hr⟩ := Polynomial.map_dvd ι'' h1
     rw [Polynomial.map_map] at hr
-    show Polynomial.eval z _ = 0
+    change Polynomial.eval z _ = 0
     rw [hr, Polynomial.eval_mul, hz.eq_zero, zero_mul]
   have hblk : ∀ (t : ℤ) (a : ℕ) (e₀ : Fin a → Fin m), Function.Injective e₀ →
       (∀ i, δ i = t ↔ ∃ j', e₀ j' = i) → Pb a fun g => (Y g).val.submatrix e₀ e₀ := by
@@ -213,13 +213,13 @@ public theorem laumonAffineLineInput_of_absIrr (h : LaumonAffineLineAbsIrrInput.
           ((gradedDiag δ (X g)).toSquareBlock δ t).submatrix eq eq := fun g => by
         ext j₁ j₂
         rw [Matrix.map_apply, submatrix_apply]
-        show _ = gradedDiag δ (X g) (e₀ j₁) (e₀ j₂)
-        rw [gradedDiag, if_pos (((hre _).2 ⟨j₁, rfl⟩).trans ((hre _).2 ⟨j₂, rfl⟩).symm)]
+        change _ = gradedDiag δ (X g) (e₀ j₁) (e₀ j₂)
+        rw [gradedDiag, ite_eq_left (((hre _).2 ⟨j₁, rfl⟩).trans ((hre _).2 ⟨j₂, rfl⟩).symm)]
         exact congrFun (congrFun (hYK g) (e₀ j₁)) (e₀ j₂)
       set W' : Submodule K ({i // δ i = t} → K) := W.comap (LinearMap.funLeft K K eq) with hW'
       have hW'st : ∀ g, ∀ v ∈ W', (gradedDiag δ (X g)).toSquareBlock δ t *ᵥ v ∈ W' := by
         intro g v hv
-        show (fun j' => ((gradedDiag δ (X g)).toSquareBlock δ t *ᵥ v) (eq j')) ∈ W
+        change (fun j' => ((gradedDiag δ (X g)).toSquareBlock δ t *ᵥ v) (eq j')) ∈ W
         rw [show (fun j' => ((gradedDiag δ (X g)).toSquareBlock δ t *ᵥ v) (eq j')) =
             ((gradedDiag δ (X g)).toSquareBlock δ t).submatrix eq eq *ᵥ (v ∘ eq) by
           rw [submatrix_mulVec_equiv, Function.comp_assoc, Equiv.self_comp_symm, Function.comp_id]
@@ -242,7 +242,7 @@ public theorem laumonAffineLineInput_of_absIrr (h : LaumonAffineLineAbsIrrInput.
         exact one_dvd _
   obtain ⟨_, hYw⟩ := isCharpolyNormMixedOfWeightLE_restrictScalarsRep_of_isGradedUpper_blocks B U x
     f j kbar p n hcard b₂ 1 (q := p ^ n) (ι := ι) (w := w + 1) Pb hPb (fun τ hτ => hFD τ hτ)
-    (fun τ hτ N' => curveFiniteLevelInput B U ℓ k f j kbar p n hcard hℓp x τ hτ 1 N') hbase m Y δ
+    (fun τ hτ N' => curveFiniteLevelInput B U ℓ k f j kbar p hℓp x τ hτ 1 N') hbase m Y δ
     hYup hYc hblk
   have := hFD (restrictScalarsRep b₂ σ₂) hσ₂c
   have hPP : P₂.val * P₂⁻¹.val = 1 := by rw [← Units.val_mul, mul_inv_cancel, Units.val_one]

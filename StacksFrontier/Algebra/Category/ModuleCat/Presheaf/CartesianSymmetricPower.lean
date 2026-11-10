@@ -114,7 +114,7 @@ theorem symBaseChangeRingHom_eq_mapₛₗ (e : A ⊗[R] M →ₗ[A] N) (u : M �
     symBaseChangeRingHom e = SymmetricAlgebra.mapₛₗ (algebraMap R A) u := by
   refine SymmetricAlgebra.ringHom_ext (fun r => ?_) (fun m => ?_)
   · rw [SymmetricAlgebra.mapₛₗ_algebraMap]
-    show SymmetricAlgebra.mapₛₗ (RingHom.id A) e
+    change SymmetricAlgebra.mapₛₗ (RingHom.id A) e
         ((SymmetricAlgebra.symmetricAlgebraBaseChange R A M).symm
           ((1 : A) ⊗ₜ algebraMap R (SymmetricAlgebra R M) r)) = _
     have h : (1 : A) ⊗ₜ[R] algebraMap R (SymmetricAlgebra R M) r =
@@ -126,7 +126,7 @@ theorem symBaseChangeRingHom_eq_mapₛₗ (e : A ⊗[R] M →ₗ[A] N) (u : M �
       rfl
     rw [h, AlgEquiv.commutes, SymmetricAlgebra.mapₛₗ_algebraMap]
     rfl
-  · show SymmetricAlgebra.mapₛₗ (RingHom.id A) e
+  · change SymmetricAlgebra.mapₛₗ (RingHom.id A) e
         ((SymmetricAlgebra.symmetricAlgebraBaseChange R A M).symm
           ((1 : A) ⊗ₜ SymmetricAlgebra.ι R M m)) = _
     rw [SymmetricAlgebra.symmetricAlgebraBaseChange_symm_tmul_ι, SymmetricAlgebra.mapₛₗ_ι,
@@ -208,8 +208,7 @@ private theorem bijective_restrictionBaseChange_symPowInt_ofNat (k : ℕ)
     (LinearEquiv.baseChange (O.obj X) (O.obj Y) _ _ ιX).toLinearMap
   have hΦ : Φ = Ψ := by
     refine LinearMap.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
     | tmul c x =>
       refine PresheafOfModules.symPowIntVal_injective _ _ ?_
@@ -220,7 +219,7 @@ private theorem bijective_restrictionBaseChange_symPowInt_ofNat (k : ℕ)
         (fun m => restrictionBaseChange_one_tmul F f m) c (ιX x)]
       exact congrArg PresheafOfModules.symPowIntVal (restrictionBaseChange_tmul
         (PresheafOfModules.symPowInt (Int.ofNat k) F) f c x)
-  show Function.Bijective Φ
+  change Function.Bijective Φ
   rw [hΦ]
   exact (ιY.symm.bijective.comp (SymPow.bijective_symPowBaseChangeHom k e he)).comp
     (LinearEquiv.baseChange (O.obj X) (O.obj Y) _ _ ιX).bijective
@@ -239,8 +238,7 @@ private theorem bijective_restrictionBaseChange_symPowInt_negSucc (k : ℕ)
   have hz : ∀ z : (ModuleCat.extendScalars (O.map f).hom).obj
       ((PresheafOfModules.symPowInt (Int.negSucc k) F).obj X), z = 0 := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | add a b ha hb => rw [ha, hb]; exact add_zero _
     | tmul c x => rw [hs X x 0]; exact TensorProduct.tmul_zero _ _
   exact ⟨fun z z' _ => (hz z).trans (hz z').symm, fun y => ⟨0, hs Y _ _⟩⟩

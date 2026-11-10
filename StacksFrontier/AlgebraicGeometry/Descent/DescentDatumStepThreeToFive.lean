@@ -103,12 +103,14 @@ variable {S X : Scheme.{u}} {f : X ⟶ S} (D : DescentDatum f) (E : Set D.over.l
 /-- **The hypothesis `h₁` of steps 4 and 5 of the proof of
 [Stacks, Tag 0APK](https://stacks.math.columbia.edu/tag/0APK), from invariance of `E`.**  The
 gluing isomorphism carries `E ×_S X` into `X ×_S E`. -/
-alias subset_preimage_transitionPullbackIso_hom_of_invariantSet := subset_preimage_transitionPullbackIso_hom
+alias subset_preimage_transitionPullbackIso_hom_of_invariantSet :=
+  subset_preimage_transitionPullbackIso_hom
 
 /-- **The hypothesis `h₂` of steps 4 and 5 of the proof of
 [Stacks, Tag 0APK](https://stacks.math.columbia.edu/tag/0APK), from invariance of `E`.**  The
 inverse of the gluing isomorphism carries `X ×_S E` into `E ×_S X`. -/
-alias subset_preimage_transitionPullbackIso_inv_of_invariantSet := subset_preimage_transitionPullbackIso_inv
+alias subset_preimage_transitionPullbackIso_inv_of_invariantSet :=
+  subset_preimage_transitionPullbackIso_inv
 
 end DescentDatum
 

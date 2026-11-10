@@ -60,7 +60,7 @@ private theorem finiteOpen_baseChange_algebraMap_tmul
   let : Algebra A F.middle := F.algebraMiddle
   let : Algebra F.middle B := F.algebraTarget
   let : IsScalarTower A F.middle B := F.scalarTower
-  show (Algebra.TensorProduct.map (AlgHom.id A A₁)
+  change (Algebra.TensorProduct.map (AlgHom.id A A₁)
     (IsScalarTower.toAlgHom A F.middle B)) (a ⊗ₜ[A] c) = _
   simp [Algebra.TensorProduct.map_tmul]
 
@@ -89,7 +89,7 @@ private theorem baseChange_kernel_pow_torsion
     toRingHom := Localization.awayMap f.toRingHom g
     commutes' := by
       intro a
-      show Localization.awayMap f.toRingHom g (algebraMap A Cg a) = _
+      change Localization.awayMap f.toRingHom g (algebraMap A Cg a) = _
       rw [IsScalarTower.algebraMap_apply A C Cg, hmap, f.commutes,
         ← IsScalarTower.algebraMap_apply A B Bg] }
   let e := AlgEquiv.ofBijective f' hg
@@ -102,14 +102,14 @@ private theorem baseChange_kernel_pow_torsion
   have hcomm : eS.toAlgHom.comp lC =
       lB.comp (Algebra.TensorProduct.map (AlgHom.id S S) f) := by
     ext c
-    show (1 : S) ⊗ₜ[A] f' (algebraMap C Cg c) = (1 : S) ⊗ₜ[A] algebraMap B Bg (f c)
+    change (1 : S) ⊗ₜ[A] f' (algebraMap C Cg c) = (1 : S) ⊗ₜ[A] algebraMap B Bg (f c)
     rw [show f' (algebraMap C Cg c) = algebraMap B Bg (f c) from hmap c]
   have hlC : lC z = 0 := by
     apply eS.injective
     rw [map_zero]
-    show (eS.toAlgHom.comp lC) z = 0
+    change (eS.toAlgHom.comp lC) z = 0
     rw [hcomm]
-    show lB (Algebra.TensorProduct.map (AlgHom.id S S) f z) = 0
+    change lB (Algebra.TensorProduct.map (AlgHom.id S S) f z) = 0
     rw [hz, map_zero]
   let eL := IsLocalization.Away.tensorProductEquivTMulRight A S g Cg
   have hloc : eL.toAlgHom.comp lC =
@@ -117,9 +117,9 @@ private theorem baseChange_kernel_pow_torsion
     ext c
     exact IsLocalization.Away.tensorProductEquivTMulRight_tmul (R := A) (S := S) C g Cg 1 c
   have hzero : algebraMap (S ⊗[A] C) (Localization.Away ((1 : S) ⊗ₜ[A] g)) z = 0 := by
-    show (IsScalarTower.toAlgHom S (S ⊗[A] C) _ ) z = 0
+    change (IsScalarTower.toAlgHom S (S ⊗[A] C) _ ) z = 0
     rw [← hloc]
-    show eL (lC z) = 0
+    change eL (lC z) = 0
     rw [hlC, map_zero]
   obtain ⟨n, hn⟩ := IsLocalization.Away.exists_of_eq ((1 : S) ⊗ₜ[A] g)
     (hzero.trans (map_zero _).symm)
@@ -199,22 +199,16 @@ private theorem baseChange_refinement
         (IsScalarTower.toAlgHom A H.middle B) r) c
     rw [hcomp] at hh
     exact hh.symm
-  induction ω using TensorProduct.induction_on with
-  | zero =>
-    show dualizingModuleEquiv H₁ F₁
-      (dualizingModule.baseChange H S (0 : dualizingModule H)) =
-      dualizingModule.baseChange F S
-        (dualizingModuleEquiv H F (0 : dualizingModule H))
-    simp only [map_zero]
+  induction ω using TensorProduct.inductionOn with
   | add ω η hω hη =>
     change dualizingModule H at ω η
-    show dualizingModuleEquiv H₁ F₁
+    change dualizingModuleEquiv H₁ F₁
       (dualizingModule.baseChange H S (ω + η)) =
       dualizingModule.baseChange F S (dualizingModuleEquiv H F (ω + η))
     simp only [map_add]
     exact congrArg₂ (· + ·) hω hη
   | tmul φ b =>
-    show dualizingModuleEquiv H₁ F₁
+    change dualizingModuleEquiv H₁ F₁
       (dualizingModule.baseChange H S (dualizingModule.tmul H φ b)) =
       dualizingModule.baseChange F S
         (dualizingModuleEquiv H F (dualizingModule.tmul H φ b))
@@ -226,7 +220,7 @@ private theorem baseChange_refinement
       dualizingModule.baseChange_tmul]
     have hdual : (φ.baseChange S).comp r₁.toLinearMap =
         Module.Dual.baseChange S (φ.comp r.toLinearMap) := by
-      show (φ.baseChange S).comp
+      change (φ.baseChange S).comp
           (Algebra.TensorProduct.map (AlgHom.id S S) r).toLinearMap = _
       ext s
       simp [Module.Dual.baseChange_apply_tmul]

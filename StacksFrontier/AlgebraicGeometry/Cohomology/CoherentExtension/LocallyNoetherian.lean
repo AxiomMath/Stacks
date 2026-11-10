@@ -333,7 +333,7 @@ private theorem restrictFunctor_map_fst_comp_eq_snd_of_obj_eq {F G : X.Modules} 
   have hkeyW := congrArg (fun m => m.app W' x) hkey
   change φ.app W' ((C.arrow ≫ (biprod.fst : F ⊞ G ⟶ F)).app (U.ι ''ᵁ W') x) =
     (C.arrow ≫ (biprod.snd : F ⊞ G ⟶ G)).app (U.ι ''ᵁ W') x at hkeyW
-  show φ.app W' ((biprod.fst : F ⊞ G ⟶ F).app (U.ι ''ᵁ W') a.1) =
+  change φ.app W' ((biprod.fst : F ⊞ G ⟶ F).app (U.ι ''ᵁ W') a.1) =
     (biprod.snd : F ⊞ G ⟶ G).app (U.ι ''ᵁ W') a.1
   rw [← hx]
   exact hkeyW

@@ -136,7 +136,7 @@ theorem homologyAddEquiv_conj {A : Type u} [Category.{v} A] [Abelian A]
     have h3 := ConcreteCategory.congr_hom h.cyclesIso_hom_comp_i z
     simp only [ConcreteCategory.comp_apply] at h1 h2 h3
     refine h1.trans (h2.trans ?_)
-    show (Cochain.ofHom f).comp
+    change (Cochain.ofHom f).comp
         ((((K.HomComplex L).iCycles n) z).comp (Cochain.ofHom g) (add_zero n)) (zero_add n) =
       (Cochain.ofHom f).comp ((a.1).comp (Cochain.ofHom g) (add_zero n)) (zero_add n)
     congr 2
@@ -478,7 +478,7 @@ lemma homComplexConj_v {A : Type u} [Category.{v} A] [Abelian A]
     (z : Cochain K L n) (p q : ℤ) (hpq : p + n = q) :
     (AddCommGrpCat.Hom.hom ((homComplexConj f g).f n) z).v p q hpq =
       f.f p ≫ z.v p q hpq ≫ g.f q := by
-  show ((Cochain.ofHom f).comp (z.comp (Cochain.ofHom g) (add_zero n)) (zero_add n)).v
+  change ((Cochain.ofHom f).comp (z.comp (Cochain.ofHom g) (add_zero n)) (zero_add n)).v
     p q hpq = _
   rw [Cochain.comp_v _ _ (zero_add n) p p q (add_zero p) hpq,
     Cochain.comp_v z _ (add_zero n) p q q hpq (add_zero q), Cochain.ofHom_v, Cochain.ofHom_v]

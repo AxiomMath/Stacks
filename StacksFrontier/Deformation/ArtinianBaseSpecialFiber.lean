@@ -104,7 +104,7 @@ theorem finiteType_of_isPushout_specialFiber
   let : Algebra k (A ⧸ I) := e₁.symm.toRingHom.toAlgebra
   let : Algebra (A ⧸ I) P := ((algebraMap k P).comp e₁.toRingHom).toAlgebra
   have : IsScalarTower k (A ⧸ I) P := IsScalarTower.of_algebraMap_eq fun x => by
-    show algebraMap k P x = algebraMap k P (e₁ (e₁.symm x))
+    change algebraMap k P x = algebraMap k P (e₁ (e₁.symm x))
     rw [e₁.apply_symm_apply]
   have hftP : Algebra.FiniteType (A ⧸ I) P :=
     Algebra.FiniteType.of_restrictScalars_finiteType k (A ⧸ I) P
@@ -115,7 +115,7 @@ theorem finiteType_of_isPushout_specialFiber
   have hx : (RingHom.quotientKerEquivOfSurjective hsurjQ)
       (Ideal.Quotient.mk (RingHom.ker (algebraMap Q P)) (algebraMap A Q a)) =
       algebraMap A P a := (IsScalarTower.algebraMap_apply A Q P a).symm
-  show (Ideal.quotEquivOfEq hkerQ)
+  change (Ideal.quotEquivOfEq hkerQ)
       ((RingHom.quotientKerEquivOfSurjective hsurjQ).symm
         (algebraMap k P (e₁ (Ideal.Quotient.mk I a)))) = _
   rw [he₁ a, ← IsScalarTower.algebraMap_apply A k P, ← hx, RingEquiv.symm_apply_apply]
@@ -161,7 +161,7 @@ theorem smooth_localizationAway_specialFiber
   let : Algebra (Localization.Away h) (Localization.Away (algebraMap Q P h)) := φ.toAlgebra
   have htQ : IsScalarTower Q (Localization.Away h) (Localization.Away (algebraMap Q P h)) :=
     IsScalarTower.of_algebraMap_eq' <| by
-      show _ = φ.comp (algebraMap Q (Localization.Away h))
+      change _ = φ.comp (algebraMap Q (Localization.Away h))
       rw [hφ]
       exact IsScalarTower.algebraMap_eq Q P (Localization.Away (algebraMap Q P h))
   have : IsScalarTower A Q (Localization.Away (algebraMap Q P h)) :=

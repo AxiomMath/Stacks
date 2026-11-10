@@ -100,7 +100,7 @@ theorem isNormal_of_weaklyEtale {X Y : Scheme.{u}} (f : X ⟶ Y) [IsNormal Y] [W
   have hφ : φ.toRingHom.comp ((residue Ysh).comp (algebraMap R Ysh)) =
       (residue Xsh).comp (algebraMap R Xsh) := by
     ext a
-    show φ (residue Ysh (algebraMap R Ysh a)) = residue Xsh (algebraMap R Xsh a)
+    change φ (residue Ysh (algebraMap R Ysh a)) = residue Xsh (algebraMap R Xsh a)
     rw [← hresY a, φ.commutes]
     exact ResidueField.map_residue (algebraMap R Xsh) a
   have : HenselianLocalRing Xsh :=

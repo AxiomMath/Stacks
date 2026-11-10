@@ -162,9 +162,9 @@ theorem tensorSections_derivedLimit_triangle
       fun n => D.derivedSystem.map (homOfLE (Nat.le_succ n)).op
   refine ⟨e.inv ≫ T₃.mor₃, isomorphic_distinguished _ h₃ _
     (Triangle.isoMk _ _ (Iso.refl _) e.symm e.symm ?_ ?_ ?_)⟩
-  · show (G.map p ≫ e.hom) ≫ e.inv = 𝟙 _ ≫ G.map p
+  · change (G.map p ≫ e.hom) ≫ e.inv = 𝟙 _ ≫ G.map p
     simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id, Category.id_comp]
-  · show d' ≫ e.inv = e.inv ≫ G.map d
+  · change d' ≫ e.inv = e.inv ≫ G.map d
     rw [← cancel_epi e.hom, e.hom_inv_id_assoc, ← Category.assoc, ← hd, Category.assoc,
       e.hom_inv_id, Category.comp_id]
   · exact (congrArg (fun z => (e.inv ≫ T₃.mor₃) ≫ z)

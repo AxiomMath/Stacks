@@ -407,7 +407,7 @@ private theorem squarePolynomialMap_X :
 private theorem squarePolynomialMap_C (r : k) :
     squarePolynomialMap k (MvPolynomial.C r) =
       (MvPolynomial.C r : MvPolynomial PUnit.{u + 1} k) := by
-  show MvPolynomial.aeval _ (MvPolynomial.C r) = _
+  change MvPolynomial.aeval _ (MvPolynomial.C r) = _
   rw [MvPolynomial.aeval_C, MvPolynomial.algebraMap_eq]
 
 section
@@ -433,7 +433,7 @@ private theorem squarePolynomialMap_isIntegral :
       subst hi
       have hX2 : ψ (MvPolynomial.X PUnit.unit : R) =
           ULift.up ((MvPolynomial.X PUnit.unit : R) ^ 2) := by
-        show (ULift.ringEquiv (R := R)).symm
+        change (ULift.ringEquiv (R := R)).symm
             (squarePolynomialMap k (MvPolynomial.X PUnit.unit)) =
           ULift.up ((MvPolynomial.X PUnit.unit : R) ^ 2)
         rw [squarePolynomialMap_X]
@@ -453,11 +453,11 @@ private theorem squarePolynomialMap_isIntegral :
       apply top_unique
       intro x hx
       clear hx
-      show ULift.up x.down ∈ A
+      change ULift.up x.down ∈ A
       induction x.down using MvPolynomial.induction_on with
       | C r =>
           have hC : ψ (MvPolynomial.C r : R) = ULift.up (MvPolynomial.C r : R) := by
-            show (ULift.ringEquiv (R := R)).symm
+            change (ULift.ringEquiv (R := R)).symm
                 (squarePolynomialMap k (MvPolynomial.C r)) =
               ULift.up (MvPolynomial.C r : R)
             rw [squarePolynomialMap_C]
@@ -465,10 +465,10 @@ private theorem squarePolynomialMap_isIntegral :
           rw [← hC]
           simpa [hAlgMap] using A.algebraMap_mem (MvPolynomial.C r : R)
       | add p q hp hq =>
-          show (ULift.up p + ULift.up q) ∈ A
+          change (ULift.up p + ULift.up q) ∈ A
           exact A.add_mem hp hq
       | mul_X p i hp =>
-          show (ULift.up p * ULift.up (MvPolynomial.X i : R)) ∈ A
+          change (ULift.up p * ULift.up (MvPolynomial.X i : R)) ∈ A
           exact A.mul_mem hp (Algebra.subset_adjoin (Set.mem_range_self i))
     have hA : Algebra.IsIntegral R A :=
       Algebra.IsIntegral.adjoin (fun x hx => by
@@ -483,7 +483,7 @@ private theorem squarePolynomialMap_isIntegral :
     apply RingHom.ext
     intro x
     simp [ψ]
-  show φ.IsIntegral
+  change φ.IsIntegral
   intro x
   rw [← hcomp]
   have hx := (RingHom.IsIntegralElem.map_iff
@@ -504,7 +504,7 @@ private theorem affineLineSquare_left_eq_specMap :
   let R : CommRingCat.{u} := .of (MvPolynomial PUnit.{u + 1} k)
   let e := AffineSpace.SpecIso PUnit.{u + 1} (.of k)
   let φ : R ⟶ R := CommRingCat.ofHom (squarePolynomialMap k)
-  show e.hom ≫ Spec.map φ ≫ e.inv = (affineLineSquare k).left
+  change e.hom ≫ Spec.map φ ≫ e.inv = (affineLineSquare k).left
   refine AffineSpace.hom_ext ?_ ?_
   · dsimp only [e]
     simp only [Category.assoc, AffineSpace.SpecIso_inv_over]
@@ -525,7 +525,7 @@ private theorem affineLineSquare_left_eq_specMap :
             simp [affineLineSquare]
   · intro i
     obtain rfl : i = PUnit.unit := Subsingleton.elim _ _
-    show e.hom.appTop ((Spec.map φ).appTop
+    change e.hom.appTop ((Spec.map φ).appTop
       (e.inv.appTop (AffineSpace.coord (Spec (.of k)) PUnit.unit))) =
       (affineLineSquare k).left.appTop (AffineSpace.coord (Spec (.of k)) PUnit.unit)
     dsimp only [e]
@@ -569,7 +569,7 @@ private theorem surjective_specMap_squarePolynomialMap :
   have hcl : IsClosedMap (Spec.map (CommRingCat.ofHom (squarePolynomialMap k))) :=
     Scheme.Hom.isClosedMap _
   have hdense : DenseRange (Spec.map (CommRingCat.ofHom (squarePolynomialMap k))) := by
-    show DenseRange (PrimeSpectrum.comap (squarePolynomialMap k))
+    change DenseRange (PrimeSpectrum.comap (squarePolynomialMap k))
     rw [PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical,
       (RingHom.injective_iff_ker_eq_bot (squarePolynomialMap k)).mp
         (squarePolynomialMap_injective k)]
@@ -634,7 +634,7 @@ private theorem toQuotientSheaf_comp_squaringMap_eq_conj (hk : B.Contains (Spec 
   rw [← cancel_epi (affineLinePointsIso B k hk).inv, Iso.inv_hom_id_assoc,
     toQuotientSheaf_comp_squaringMap k B hk]
   ext X y
-  show (Over.post (X := B.obj hk) B.inclusion).map y ≫ affineLineSquare k =
+  change (Over.post (X := B.obj hk) B.inclusion).map y ≫ affineLineSquare k =
     (Over.post (X := B.obj hk) B.inclusion).map (y ≫ affineLineChartSquare B k hk)
   rw [Functor.map_comp, post_map_affineLineChartSquare]
   rfl
@@ -677,7 +677,7 @@ theorem universallyClosed_toQuotientSheaf_comp_squaringMap (hk : B.Contains (Spe
   have hA := isAlgebraicSpace_points_affineLine B k hk
   have hsq : AlgebraicGeometry.UniversallyClosed
       ((BigFppfOver.toScheme B (Spec (.of k)) hk).map (affineLineChartSquare B k hk)) := by
-    show AlgebraicGeometry.UniversallyClosed (affineLineSquare k).left
+    change AlgebraicGeometry.UniversallyClosed (affineLineSquare k).left
     infer_instance
   have hprop := presheaf_toQuotientSheaf_comp_squaringMap B k
     AlgebraicGeometry.universallyClosed_isStableUnderBaseChange hk hsq
@@ -697,7 +697,7 @@ private theorem presheafSurjective_toQuotientSheaf_comp_squaringMap
           (Over.post (X := B.obj hk) B.inclusion) (involutionRelation k) ≫
         squaringMap k B hk) := by
   refine presheaf_toQuotientSheaf_comp_squaringMap B k inferInstance hk ?_
-  show _root_.AlgebraicGeometry.Surjective (affineLineSquare k).left
+  change _root_.AlgebraicGeometry.Surjective (affineLineSquare k).left
   infer_instance
 
 /-- Every base change of the descended squaring map `X ⟶ 𝐀¹_k` is surjective on points.

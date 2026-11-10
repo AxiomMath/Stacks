@@ -138,10 +138,10 @@ theorem globalTheta_thetaSections
   have hle : (relativeTwistIso L 𝒜).hom ''ᵁ ((relativeProj (twist 𝒜 L)).toBase ⁻¹ᵁ V) ≤
       (relativeProj 𝒜).toBase ⁻¹ᵁ V := by
     rintro _ ⟨x, hx, rfl⟩
-    show ((relativeTwistIso L 𝒜).hom ≫ (relativeProj 𝒜).toBase) x ∈ V
+    change ((relativeTwistIso L 𝒜).hom ≫ (relativeProj 𝒜).toBase) x ∈ V
     rw [relativeTwistIso_hom_comp_toBase]
     exact hx
-  show ((targetAlgebra L 𝒜).piece (k : ℤ)).val.map _
+  change ((targetAlgebra L 𝒜).piece (k : ℤ)).val.map _
       ((globalThetaIso L 𝒜 Φ k).hom.val.app _
         (((Scheme.Modules.pullbackPushforwardAdjunction (relativeTwistHom L 𝒜)).unit.app
           (Tag07ZGTwist.relativeTwist (twist 𝒜 L) k)).val.app _ _)) = _

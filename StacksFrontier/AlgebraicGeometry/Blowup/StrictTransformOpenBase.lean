@@ -142,7 +142,7 @@ public theorem exists_strictTransformBlowUp_iso_restrict (F : X.Modules) :
         hBl.base ((pullback.snd (pullback.snd f V.ι)
           (blowUpToBase (K.comap V.ι))).base x) := by
       rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, hjSecond]
-    show (pullback.snd (pullback.snd f V.ι) (blowUpToBase (K.comap V.ι))).base x ∈
+    change (pullback.snd (pullback.snd f V.ι) (blowUpToBase (K.comap V.ι))).base x ∈
         ((exceptionalIdeal (K.comap V.ι)).support : Set (blowUp (K.comap V.ι))) ↔
       (pullback.snd f (blowUpToBase K)).base (j.base x) ∈
         ((exceptionalIdeal K).support : Set (blowUp K))

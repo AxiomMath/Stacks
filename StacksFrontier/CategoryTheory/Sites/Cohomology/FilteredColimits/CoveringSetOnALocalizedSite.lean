@@ -123,12 +123,12 @@ public lemma isLocallySurjective_prod_map_right {C : Type u} [SmallCategory C]
     (X.obj.map f.op x) y'
   refine ⟨z', ?_⟩
   apply prod_section_ext J X W (Opposite.op V)
-  · show (prod.map (𝟙 X) g ≫ prod.fst).hom.app _ z' = _
+  · change (prod.map (𝟙 X) g ≫ prod.fst).hom.app _ z' = _
     rw [prod.map_fst, Category.comp_id, hz₁]
     exact (NatTrans.naturality_apply _ f.op z).symm
-  · show (prod.map (𝟙 X) g ≫ prod.snd).hom.app _ z' = _
+  · change (prod.map (𝟙 X) g ≫ prod.snd).hom.app _ z' = _
     rw [prod.map_snd]
-    show g.hom.app _ ((prod.snd : X ⨯ Z ⟶ Z).hom.app _ z') = _
+    change g.hom.app _ ((prod.snd : X ⨯ Z ⟶ Z).hom.app _ z') = _
     rw [hz₂, hy']
     exact (NatTrans.naturality_apply _ f.op z).symm
 

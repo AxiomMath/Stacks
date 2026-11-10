@@ -154,7 +154,7 @@ theorem map_principalWeilDivisors :
   · rintro ⟨f, rfl⟩
     refine ⟨principalDivisor X ((rationalFunctionsUnitsMulEquiv X).symm (Additive.toMul f)),
       ⟨_, rfl⟩, ?_⟩
-    show weilDivisorAddEquivClosedPointDivisor g _ = _
+    change weilDivisorAddEquivClosedPointDivisor g _ = _
     rw [weilDivisorAddEquivClosedPointDivisor_principalDivisor, MulEquiv.apply_symm_apply]
     rfl
 
@@ -231,7 +231,7 @@ theorem ord_of_stalk_vanishingIdeal_closure_singleton_eq_span (x : closedPoints 
     X.ord (algebraMap (X.presheaf.stalk z) X.functionField c) z = if z = x.1 then 1 else 0 := by
   obtain ⟨x, hx⟩ := x
   change IsClosed ({x} : Set X) at hx
-  show _ = if z = x then 1 else 0
+  change _ = if z = x then 1 else 0
   split_ifs with h
   · subst h
     have hdvr : IsDiscreteValuationRing (X.presheaf.stalk z) :=
@@ -273,8 +273,8 @@ theorem weilDivisorClassOfInvertibleSheaf_closedPoint [AlgebraicGeometry.IsNoeth
     exact h.symm
   rw [hval, Finsupp.single_apply]
   by_cases h : Z.genericPoint = x.1
-  · rw [if_pos h, if_pos (Subtype.ext h.symm)]
-  · rw [if_neg h, if_neg fun h' => h (congrArg Subtype.val h').symm]
+  · rw [ite_eq_left h, ite_eq_left (Subtype.ext h.symm)]
+  · rw [ite_eq_right h, ite_eq_right fun h' => h (congrArg Subtype.val h').symm]
 
 /-- **Under `Cl(X) ≅ Pic(X)` the class of a closed point `x` is the class of `𝒪_X(x)`.** -/
 theorem closedPointClassGroupAddEquivSchemePicard_single [AlgebraicGeometry.IsNoetherian X]
@@ -296,12 +296,12 @@ theorem closedPointClassGroupAddEquivSchemePicard_single [AlgebraicGeometry.IsNo
   have h2 : (closedPointClassGroupAddEquivSchemePicard g).symm (divisorSchemePicardClass
         (Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({x.1} : Set X)))) =
       (QuotientAddGroup.mk (Finsupp.single x 1) : closedPointClassGroup X) := by
-    show weilDivisorClassGroupAddEquivClosedPointClassGroup g
+    change weilDivisorClassGroupAddEquivClosedPointClassGroup g
       (picardToWeilDivisorClassGroup X ((Stacks.SheafOfModules.picardGroupShrinkAddEquiv
         X.sheaf.obj X.ringCatSheaf.property).symm (divisorSchemePicardClass
           (Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({x.1} : Set X)))))) = _
     rw [h1]
-    show weilDivisorClassGroupAddEquivClosedPointClassGroup g
+    change weilDivisorClassGroupAddEquivClosedPointClassGroup g
       (weilDivisorClassOfPicardClass X _) = _
     refine (congrArg (weilDivisorClassGroupAddEquivClosedPointClassGroup g)
       ((@weilDivisorClassOfPicardClass_picardClass X _ _ _
@@ -454,6 +454,7 @@ def curveClassGroupAddEquivSchemePicard : curveClassGroup g ≃+ schemePicard X 
   haveI := Stacks.ProjectiveSpaceSections.isNoetherian_of_isCurve g
   closedPointClassGroupAddEquivSchemePicard g
 
+omit [IsAlgClosed k] in
 /-- Under `Cl(X) ≅ Pic(X)` the class of a closed point `x` is the class of `𝒪_X(x)`. -/
 theorem curveClassGroupAddEquivSchemePicard_single (x : closedPoints X) :
     curveClassGroupAddEquivSchemePicard g

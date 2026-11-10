@@ -259,7 +259,7 @@ public theorem Scheme.Hom.isPseudoCoherentFrom_iff_derivedPushforward
     refine ⟨ι, V, hVtop, fun i => ?_⟩
     obtain ⟨κ, W, hWcover, hW⟩ := hV i
     refine ⟨κ, fun j => ⟨π ⁻¹ᵁ (W j).1, (W j).2.preimage π⟩, ?_, fun j => ?_⟩
-    · show (⨆ j, π ⁻¹ᵁ (W j).1) = f ⁻¹ᵁ (V i).1
+    · change (⨆ j, π ⁻¹ᵁ (W j).1) = f ⁻¹ᵁ (V i).1
       rw [← π.preimage_iSup, hWcover, ← hπ]
       rfl
     · obtain ⟨hWV, hsec⟩ := hW j

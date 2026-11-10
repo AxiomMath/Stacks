@@ -33,13 +33,13 @@ theorem adicThickeningι_zero_apply (R : Type u) [CommRing R] [IsLocalRing R]
     (z : Spec (.of (R ⧸ maximalIdeal R ^ (0 + 1)))) :
     adicThickeningι R (maximalIdeal R) 0 z = closedPoint R := by
   apply PrimeSpectrum.ext
-  show Ideal.comap (Ideal.Quotient.mk (maximalIdeal R ^ (0 + 1))) z.asIdeal = maximalIdeal R
+  change Ideal.comap (Ideal.Quotient.mk (maximalIdeal R ^ (0 + 1))) z.asIdeal = maximalIdeal R
   refine ((maximalIdeal.isMaximal R).eq_of_le (Ideal.IsPrime.ne_top inferInstance) ?_).symm
   intro a ha
   have : Ideal.Quotient.mk (maximalIdeal R ^ (0 + 1)) a = 0 := by
     rw [Ideal.Quotient.eq_zero_iff_mem, zero_add, pow_one]
     exact ha
-  show Ideal.Quotient.mk (maximalIdeal R ^ (0 + 1)) a ∈ z.asIdeal
+  change Ideal.Quotient.mk (maximalIdeal R ^ (0 + 1)) a ∈ z.asIdeal
   rw [this]
   exact z.asIdeal.zero_mem
 
@@ -74,7 +74,7 @@ theorem exists_isVersalAt_of_affineChart [IsLocallyNoetherian S]
         letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor
             (predeformationCategory iΛ (𝒳.val.p ⋙ Over.post B.inclusion) x₀
               hx₀).projection).p) := ⟨hD.predeformation⟩
-        letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+        letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
             (BasedCategory.ofFunctor
               (predeformationCategory iΛ (𝒳.val.p ⋙ Over.post B.inclusion) x₀ hx₀).projection)
             hD.predeformation.cofibered))) := ⟨tangentConditionS2 hD⟩
@@ -123,7 +123,7 @@ theorem exists_isVersalAt_of_affineChart [IsLocallyNoetherian S]
     (algA := algA) s rfl hΛ
   have hring : algebraMap Λ k = (completeResidueMap ξ.base).comp (algebraMap Λ ξ.base) := by
     ext a
-    show _ = ξ.base.residueEquiv (algebraMap Λ (ResidueField ξ.base) a)
+    change _ = ξ.base.residueEquiv (algebraMap Λ (ResidueField ξ.base) a)
     exact (ξ.base.residueEquiv.commutes a).symm
   have : IsLocalHom (completeResidueMap ξ.base) := by
     unfold completeResidueMap
@@ -137,7 +137,7 @@ theorem exists_isVersalAt_of_affineChart [IsLocallyNoetherian S]
       _ = (Spec.map (CommRingCat.ofHom (completeResidueMap ξ.base)) ≫
           Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base)) ≫ iΛ) (closedPoint k) := rfl
       _ = _ := by conv_rhs => rw [hring, CommRingCat.ofHom_comp, Spec.map_comp, Category.assoc]
-  obtain ⟨U, u₀, V, hV, x, hx, hlft, hqc, hu₀, -, hversal, xR, e, r, eR, -, hr⟩ :=
+  obtain ⟨U, u₀, V, hV, x, hx, hlft, hqc, hu₀, -, hversal, xR, ⟨e⟩, r, eR, -, hr⟩ :=
     exists_finiteType_versal_approximation B S hS 𝒳 ξ' (heff ξ') s rfl (hs ▸ hG) hlimit
       (S.fromSpecStalk s) rfl hΛ hver
   obtain ⟨r', hbase, -, -, -, hsch⟩ := (approximationFunctorData B S hS p hp).2
@@ -173,7 +173,7 @@ theorem exists_isVersalAt_of_affineChart [IsLocallyNoetherian S]
     rw [h1]
     simp only [Category.assoc]
     rfl
-  show (T.map (p.map (a₀ ≫ e.hom.app 0 ≫ r' xR 0 ≫ r)) ≫ eqToHom (congrArg Over.left hx)) w =
+  change (T.map (p.map (a₀ ≫ e.hom.app 0 ≫ r' xR 0 ≫ r)) ≫ eqToHom (congrArg Over.left hx)) w =
     u₀
   rw [hmain]
   have := hlft
@@ -317,20 +317,20 @@ theorem exists_isRelativelySmooth_of_isVersalAt [IsLocallyNoetherian S]
     simp [Over.comp_left, Over.eqToHom_left, g]
   let j := B.inclusion.map (p.map ρ).left
   have hj : IsOpenImmersion j := by
-    show IsOpenImmersion (B.inclusion.map (p.map ρ).left)
+    change IsOpenImmersion (B.inclusion.map (p.map ρ).left)
     rw [hmap]
     exact @IsOpenImmersion.comp _ _ _ (eqToHom hy) W'.ι (IsOpenImmersion.of_isIso _)
       W'.instIsOpenImmersionι
   have hj_apply : ∀ u, j u = W'.ι ((eqToHom hy) u) := by
     intro u
-    show (B.inclusion.map (p.map ρ).left) u = _
+    change (B.inclusion.map (p.map ρ).left) u = _
     rw [hmap]
     rfl
   have hrange : Set.range j.base = W'.1 := by
     ext t
     constructor
     · rintro ⟨u, rfl⟩
-      show j u ∈ W'
+      change j u ∈ W'
       rw [hj_apply]
       exact Subtype.property ((eqToHom hy) u)
     · intro ht
@@ -384,7 +384,7 @@ theorem exists_isRelativelySmooth_of_isVersalAt [IsLocallyNoetherian S]
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
     rw [Over.comp_left, Functor.map_comp]
-    show f₀ = B.inclusion.map (B.inclusion.preimage l) ≫ j
+    change f₀ = B.inclusion.map (B.inclusion.preimage l) ≫ j
     rw [Functor.map_preimage, hl]
   have : p.IsStronglyCartesian (p.map ρ) ρ := hp.isStronglyCartesian_homLift (p.map ρ) ρ
   exact ⟨Functor.IsStronglyCartesian.map p (p.map ρ) ρ hfac a⟩
@@ -429,7 +429,7 @@ theorem exists_isRelativelySmooth_objectMorphism_of_fieldPoint [IsLocallyNoether
         letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor
             (predeformationCategory iΛ (𝒳.val.p ⋙ Over.post B.inclusion) x₀
               hx₀).projection).p) := ⟨hD.predeformation⟩
-        letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+        letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
             (BasedCategory.ofFunctor
               (predeformationCategory iΛ (𝒳.val.p ⋙ Over.post B.inclusion) x₀ hx₀).projection)
             hD.predeformation.cofibered))) := ⟨tangentConditionS2 hD⟩

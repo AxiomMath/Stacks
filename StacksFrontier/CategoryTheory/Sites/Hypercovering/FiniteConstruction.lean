@@ -129,7 +129,7 @@ private theorem finite_indices_of_isLimit {D : Type u} [Category.{v} D]
     rw [h₁, h₂, Category.comp_id] at hpc
     refine FormalCoproduct.hom_ext (funext fun _ => hija) ?_
     intro k
-    show (pullback.fst (limit.lift G ci) (limit.lift G cj) ≫ (c.π.app a).φ i) ≫
+    change (pullback.fst (limit.lift G ci) (limit.lift G cj) ≫ (c.π.app a).φ i) ≫
         eqToHom (congrArg (F.obj a).obj hija) =
       pullback.snd (limit.lift G ci) (limit.lift G cj) ≫ (c.π.app a).φ j
     refine (congrArg (fun z ↦ z ≫ eqToHom (congrArg (F.obj a).obj hija)) hpc).trans ?_
@@ -343,7 +343,7 @@ private noncomputable def attachInclusion : K ⟶ attach K S R T b hb where
 private theorem finite_attach_indices (a : A)
     [Finite (K.obj a).I] [Finite (S.obj a)] [Finite T.I] :
     Finite ((attach K S R T b hb).obj a).I := by
-  show Finite ((K.obj a).I ⊕ ({s : S.obj a // s ∉ R.obj a} × T.I))
+  change Finite ((K.obj a).I ⊕ ({s : S.obj a // s ∉ R.obj a} × T.I))
   infer_instance
 
 private theorem attach_obj_mem (B : Set D) (hK : ∀ a i, (K.obj a).obj i ∈ B)
@@ -457,15 +457,15 @@ private theorem exists_finite_matching_extension
       isIso_attachInclusion_app K S R T b₀ hb₀ _ (by
         ext s
         simp only [Set.mem_univ, iff_true]
-        show up _ s ∈ Rh.obj _
+        change up _ s ∈ Rh.obj _
         exact (Sh.skeleton_obj_eq_top (Nat.lt_succ_of_le a.unop.property)) ▸ Set.mem_univ _)
     apply NatIso.isIso_of_isIso_app
   · apply NatTrans.ext
     funext a
     exact attachInl_desc K S R T c t a
-  · show attachCell K S R T _ x hx ≫ attachDescApp K S R T c t _ = q
+  · change attachCell K S R T _ x hx ≫ attachDescApp K S R T c t _ = q
     rw [attachCell_desc]
-    show q ≫ ((SimplicialObject.cosk n).obj K).map (𝟙 (op ⦋n + 1⦌)) = q
+    change q ≫ ((SimplicialObject.cosk n).obj K).map (𝟙 (op ⦋n + 1⦌)) = q
     simp
   · exact fun _ _ h => congrArg Prod.snd (Sum.inr.inj h)
   · exact fun _ => IsIso.id _
@@ -528,9 +528,9 @@ private theorem exists_finite_cover_formalCoproduct
         exact Presieve.ofArrows.mk' i (hobj i) (harrow i)
       · rintro ⟨k⟩
         exact Presieve.ofArrows.mk' k (hobj k).symm (by rw [harrow k]; simp)
-    show Presieve.ofArrows Z a ∈ J (A.obj j).left
+    change Presieve.ofArrows Z a ∈ J (A.obj j).left
     rw [hpres]
-    show Presieve.ofArrows (U j ∘ e) (fun i => f j (e i)) ∈ J (A.obj j).left
+    change Presieve.ofArrows (U j ∘ e) (fun i => f j (e i)) ∈ J (A.obj j).left
     rw [Presieve.ofArrows_comp_eq_of_surjective (f j) e.surjective]
     exact hcover j
 
@@ -850,7 +850,7 @@ private theorem initial_cover
   let q : A ⟶ Z :=
     { f := fun _ => PUnit.unit
       φ := fun i => Over.homMk (f i) (by
-        show f i ≫ (Over.mk (𝟙 X)).hom = (Over.mk (f i)).hom
+        change f i ≫ (Over.mk (𝟙 X)).hom = (Over.mk (f i)).hom
         simp) }
   have hq : IsCoveringOver J q := by
     have : Subsingleton Z.I := inferInstanceAs (Subsingleton PUnit)
@@ -942,7 +942,7 @@ theorem exists_finite_hypercovering
     apply covering_of_factorization J B hadjoin ((ι 0).app (op ⦋0⦌)) _
       (hK _).2 (fun i => isIso_component _ i)
     rw [terminal.comp_from]
-    show IsCoveringOver J (terminal.from T)
+    change IsCoveringOver J (terminal.from T)
     exact initial_cover J B hadjoin U f hB hJ
   · intro n
     have : ∀ a, IsIso (((SimplicialObject.truncation n).map (ι (n + 1))).app a) :=

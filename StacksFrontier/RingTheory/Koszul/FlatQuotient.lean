@@ -126,7 +126,7 @@ private lemma flat_quotient_of_flat_subquotient
   let G : (B ⧸ Q) →ₗ[B] B ⧸ P := Submodule.factor hQP
   have hI : Function.Injective I := by
     rw [← LinearMap.ker_eq_bot]
-    show I.ker = ⊥
+    change I.ker = ⊥
     rw [show I.ker = (Submodule.comap P.subtype Q).map
         (Submodule.comap P.subtype Q).mkQ from Submodule.ker_mapQ _ _ _ _]
     exact Submodule.mkQ_map_self _
@@ -201,7 +201,7 @@ private theorem isBaseChange_of_submodule_of_flat_quotient
       (LinearEquiv.ofEq _ _ hmap))) ?_
   intro x
   apply Subtype.ext
-  show (hbc.equiv : A' ⊗[A] M →ₗ[A'] N)
+  change (hbc.equiv : A' ⊗[A] M →ₗ[A'] N)
     (((P.toBaseChange A') (1 ⊗ₜ[A] x) : P.baseChange A') : A' ⊗[A] M) = (g x : N)
   rw [Submodule.coe_toBaseChange_tmul]
   simpa using (hg x).symm
@@ -227,7 +227,7 @@ private theorem isBaseChange_of_quotient
   induction x using Submodule.Quotient.induction_on with
   | H m =>
       rw [LinearEquiv.trans_apply, AlgebraTensorModule.tensorQuotientEquiv_apply_tmul, hg]
-      show Submodule.Quotient.mk ((hbc.equiv : A' ⊗[A] M →ₗ[A'] N) (1 ⊗ₜ[A] m)) = _
+      change Submodule.Quotient.mk ((hbc.equiv : A' ⊗[A] M →ₗ[A'] N) (1 ⊗ₜ[A] m)) = _
       simp
 
 /-- Base-change statement for the map on quotients by a `B`-submodule and a `B ⊗[A] A'`-submodule
@@ -280,7 +280,7 @@ private theorem map_mem_JpowM (f : Fin r → B) (n : ℕ) (b : B)
   | mem y hy =>
       obtain ⟨e, m, he, rfl⟩ := hy
       subst he
-      show (KoszulH1.inclLeft (A := A) (A' := A')) (fpow f e * m) ∈ _
+      change (KoszulH1.inclLeft (A := A) (A' := A')) (fpow f e * m) ∈ _
       rw [map_fpow_mul]
       exact fpow_smul_mem _ e _
   | zero => simp
@@ -288,7 +288,7 @@ private theorem map_mem_JpowM (f : Fin r → B) (n : ℕ) (b : B)
       rw [map_add]
       exact Submodule.add_mem _ ha hb
   | smul b a _ ha =>
-      show (KoszulH1.inclLeft (A := A) (A' := A')) (b * a) ∈ _
+      change (KoszulH1.inclLeft (A := A) (A' := A')) (b * a) ∈ _
       rw [map_mul]
       exact Submodule.smul_mem _ _ ha
 
@@ -307,7 +307,7 @@ private theorem mul_mem_span_image_JpowM (f : Fin r → B) (n : ℕ) (c x : B �
       induction hx using Submodule.span_induction with
       | mem y hy =>
           obtain ⟨i, hi, rfl⟩ := hy
-          show KoszulH1.inclLeft (A := A) (A' := A') b *
+          change KoszulH1.inclLeft (A := A) (A' := A') b *
             KoszulH1.inclLeft (A := A) (A' := A') i ∈ _
           rw [← map_mul]
           exact Submodule.subset_span ⟨b * i, (JpowM B f n).smul_mem b hi, rfl⟩
@@ -516,7 +516,7 @@ private theorem tgtMap_imgTargetLin (f : Fin r → B) (e : Fin r →₀ ℕ) (b 
         (KoszulH1.inclLeft (A := A) (A' := A') b) := by
   simp only [imgTargetLin, imgClassLin, LinearMap.coe_comp, Function.comp_apply,
     Submodule.mkQ_apply, tgtMap]
-  show (DirectSum.lmap (fun n => tgtMapComp (A := A) (A' := A') f n))
+  change (DirectSum.lmap (fun n => tgtMapComp (A := A) (A' := A') f n))
       ((DirectSum.lof A ℕ (fun n => Tcomp B f n) (qrMdeg e))
         (Submodule.Quotient.mk ((fpowSmulRestrict f e) b))) =
     (DirectSum.lof A ℕ
@@ -603,7 +603,7 @@ private theorem quasiRegular_baseChange_of_quotient_flat
       ((quasiRegularCanonicalMap (M := B ⊗[A] A')
         (KoszulH1.fp (A := A) (A' := A') f)).restrictScalars A')
       (quasiRegularCanonicalMap_srcMap (A := A) (A' := A') f)
-  show Function.Bijective (quasiRegularCanonicalMap (M := B ⊗[A] A')
+  change Function.Bijective (quasiRegularCanonicalMap (M := B ⊗[A] A')
     (fun i : Fin (List.ofFn (KoszulH1.fp (A := A) (A' := A') f)).length =>
       (List.ofFn (KoszulH1.fp (A := A) (A' := A') f))[i]))
   exact (bijective_quasiRegularCanonicalMap_congr
@@ -618,7 +618,7 @@ private theorem h1Regular_baseChange_of_quotient_flat
     (hf : Koszul.IsH1Regular f) :
     Koszul.IsH1Regular (KoszulH1.fp (A := A) (A' := A') f) := by
   change CategoryTheory.Limits.IsZero ((Koszul.seqComplex f).homology 1) at hf
-  show CategoryTheory.Limits.IsZero
+  change CategoryTheory.Limits.IsZero
     ((Koszul.seqComplex (KoszulH1.fp (A := A) (A' := A') f)).homology 1)
   rw [ModuleCat.isZero_iff_subsingleton] at hf ⊢
   have : Subsingleton (KoszulH1.H1 f) :=
@@ -674,7 +674,7 @@ private lemma flat_quotient_of_flat_localizations
         J.map (algebraMap S (Localization.AtPrime Q)) := by
     rw [Submodule.localized'_eq_span]
     rfl
-  show Module.Flat R (_ ⧸ _)
+  change Module.Flat R (_ ⧸ _)
   rw [he]
   exact h Q
 
@@ -818,7 +818,7 @@ public lemma isRegular_fiber
     (bs := (List.ofFn (fun i ↦ algebraMap S T (f i))).map (algebraMap T D))
     (List.forall₂_map_right_iff.mpr (List.forall₂_same.mpr
       (fun t _ x ↦ by
-        show t • x = algebraMap T D t • x
+        change t • x = algebraMap T D t • x
         exact (algebraMap_smul D t x).symm)))
   have hlist : (List.ofFn (fun i ↦ algebraMap S T (f i))).map (algebraMap T D) =
       List.ofFn (fun i ↦ Ideal.Quotient.mk (m.map (algebraMap P T))
@@ -845,12 +845,12 @@ public lemma essentiallyOfFinitePresentation_localization
   let : Algebra A T := ψ.toRingHom.toAlgebra
   let : Algebra S A := Algebra.TensorProduct.rightAlgebra
   have : IsScalarTower S A T := .of_algebraMap_eq fun s ↦ by
-    show algebraMap S T s = ψ (1 ⊗ₜ[R] s)
-    show algebraMap S T s = algebraMap P T 1 * algebraMap S T s
+    change algebraMap S T s = ψ (1 ⊗ₜ[R] s)
+    change algebraMap S T s = algebraMap P T 1 * algebraMap S T s
     simp
   have : IsScalarTower P A T := .of_algebraMap_eq fun p ↦ by
-    show algebraMap P T p = ψ (p ⊗ₜ[R] 1)
-    show algebraMap P T p = algebraMap P T p * algebraMap S T 1
+    change algebraMap P T p = ψ (p ⊗ₜ[R] 1)
+    change algebraMap P T p = algebraMap P T p * algebraMap S T 1
     simp
   have : IsLocalization (Algebra.algebraMapSubmonoid S M) A := inferInstance
   have : IsLocalization (N.map (algebraMap S A)) T :=

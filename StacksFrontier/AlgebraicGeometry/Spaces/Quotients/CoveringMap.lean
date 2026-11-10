@@ -194,7 +194,7 @@ theorem isSurjective_toQuotientSheaf (j : PreRelation R U) :
     rw [pointsMap_class]
     apply FieldValuedPoint.class_eq_class_of_hasCommonExtension
     refine ⟨_, FieldValuedPoint.dominates_refl _ _ _ _ _, m, ?_⟩
-    show (quotientSheaf j).obj.map m.op p.value =
+    change (quotientSheaf j).obj.map m.op p.value =
       (toQuotientSheaf j).app (op r) (U.left.map i'.op a)
     calc (quotientSheaf j).obj.map m.op p.value
         = (quotientSheaf j).obj.map i'.op ((quotientSheaf j).obj.map g.op p.value) := by
@@ -299,7 +299,7 @@ private theorem holdsOnEveryEtaleChart_pullbackSnd_of_isPullback
       (houter.of_right (sq.lift_fst _ _ _) sq.flip).flip ha
   have hid : E.presheaf (𝟙 (yoneda.obj W)) := by
     have hh : E (𝟙 W) := by
-      show AlgebraicGeometry.Etale (T.map (𝟙 W))
+      change AlgebraicGeometry.Etale (T.map (𝟙 W))
       infer_instance
     simpa using MorphismProperty.relative_map (F := yoneda) (P := E) hh
   have hsq := (IsPullback.of_hasPullback h k).map T

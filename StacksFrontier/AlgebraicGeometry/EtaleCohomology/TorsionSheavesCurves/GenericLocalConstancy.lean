@@ -75,7 +75,7 @@ private theorem isIso_of_comp_opensι_eq_of_subset_range {X Y : Scheme.{u}} [IsR
   rintro ⟨x, hx⟩
   obtain ⟨y, rfl⟩ := h x hx
   refine ⟨y, U.ι.isOpenEmbedding.injective ?_⟩
-  show (l ≫ U.ι).base y = _
+  change (l ≫ U.ι).base y = _
   rw [hl]
   rfl
 
@@ -145,7 +145,7 @@ theorem exists_isOpen_mem_subset_closure_of_mem_irreducibleComponents {α : Type
   classical
   set K : Set α := ⋃₀ (irreducibleComponents α \ {closure {η}})
   have hK : IsClosed K :=
-    ((NoetherianSpace.finite_irreducibleComponents).subset Set.diff_subset).isClosed_sUnion
+    ((NoetherianSpace.finite_irreducibleComponents).subset Set.sdiff_subset).isClosed_sUnion
       fun C hC => isClosed_of_mem_irreducibleComponents C hC.1
   refine ⟨Kᶜ, hK.isOpen_compl, ?_, ?_⟩
   · rintro ⟨C, ⟨hC, hCne⟩, hηC⟩

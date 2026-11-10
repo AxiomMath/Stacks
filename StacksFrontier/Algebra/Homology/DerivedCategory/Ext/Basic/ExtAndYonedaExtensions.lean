@@ -6,7 +6,7 @@ public import Mathlib.Algebra.Homology.DerivedCategory.TStructure
 public import Mathlib.CategoryTheory.Abelian.Projective.Dimension
 import Mathlib.CategoryTheory.Triangulated.TStructure.TruncLEGT
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Data.Int.Interval
 public import StacksFrontier.Algebra.Homology.DerivedCategory.SingleDegreeHom
 import Mathlib.RingTheory.WittVector.IsPoly

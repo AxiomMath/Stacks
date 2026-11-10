@@ -242,10 +242,12 @@ theorem isAffineHom_commonRestriction : IsAffineHom B S hS (commonRestriction i 
       (isAffineHom_of_isThickeningHom B S hS i hi))
     (isAffineHom_ambientRestriction i f g hi hf)
 
+omit hi in
 /-- If `f` is affine, then the morphism `U ⟶ V` over `f` is affine. -/
 theorem isAffineHom_commonToTarget : IsAffineHom B S hS (commonToTarget i f g).hom :=
   isAffineHom_snd_of_isPullback (isPullback_commonToTarget i f g) hf
 
+omit hf in
 /-- If `i` is a thickening, then the morphism `U ⟶ U'` is affine. -/
 theorem isAffineHom_commonToAmbient : IsAffineHom B S hS (commonToAmbient i f g).hom :=
   isAffineHom_snd_of_isPullback (isPullback_commonToAmbient i f g)

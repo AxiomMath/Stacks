@@ -53,7 +53,7 @@ public theorem map_mem_minimalPrimes {p : Ideal A} (hp : p ∈ minimalPrimes A)
     (hd : Disjoint (M : Set A) (p : Set A)) :
     p.map (algebraMap A Aₘ) ∈ minimalPrimes Aₘ := by
   rw [Stacks.StalkMinimalPrimes.Basic.minimalPrimes_eq_preimage_under_of_isLocalization M Aₘ]
-  show (p.map (algebraMap A Aₘ)).under A ∈ minimalPrimes A
+  change (p.map (algebraMap A Aₘ)).under A ∈ minimalPrimes A
   rwa [IsLocalization.under_map_of_isPrime_disjoint M Aₘ hp.1.1 hd]
 
 /-- The minimal primes of a localization are in bijection with the minimal primes of the base

@@ -196,7 +196,7 @@ theorem isReduction_of_factor_through_mono
   refine ⟨hi.algebraic, hi.reduced, hth.rep, hth.property, fun U hU hUred f ↦ ?_⟩
   obtain ⟨g, hg, hgu⟩ := hi.universal U hU hUred (f ≫ ι)
   refine ⟨g, (cancel_mono ι).1 (by rw [Category.assoc, hs, hg]), fun g' hg' ↦ hgu g' ?_⟩
-  show g' ≫ i = f ≫ ι
+  change g' ≫ i = f ≫ ι
   rw [← hs, ← Category.assoc, hg']
 
 /-! ### The universe lift of a thickening of algebraic spaces -/
@@ -390,9 +390,9 @@ that an algebraic space receiving a surjective closed immersion from an affine s
 affine: `AlgebraicGeometry.FormalSpace.isAffineOfSurjectiveClosedImmersion`, the closed-immersion
 case of Stacks 07VS, proved in
 `StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.AffineOfAffineThickening`. -/
-@[stacks 0DE8 "affineness of the reduction rendered as its being the sheaf of an object of the site \
-with affine underlying scheme, the shape Stacks 0AIN delivers in the affine case; stated for an \
-arbitrary reduction i : X_red -> X, which generalizes the source's canonical one"]
+@[stacks 0DE8 "affineness of the reduction rendered as its being the sheaf of an object of the \
+site with affine underlying scheme, the shape Stacks 0AIN delivers in the affine case; stated for \
+an arbitrary reduction i : X_red -> X, which generalizes the source's canonical one"]
 theorem isAffineFormalAlgebraicSpace_iff_isAffine_reduction
     {X Xred : FppfSheaf B S hS} (hX : IsFormalAlgebraicSpace B S hS X)
     {i : Xred ⟶ X} (hi : IsReduction B S hS X Xred i) :

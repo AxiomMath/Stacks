@@ -140,7 +140,7 @@ public theorem exists_chainColimitDifferential
     (fun n => (chainColimitInclusion B step n).hom.toAddMonoidHom.comp (d n).toAddMonoidHom)
     (by
       intro n x
-      show (chainColimitInclusion B step (n + 1)).hom (d (n + 1) ((step n).hom x)) =
+      change (chainColimitInclusion B step (n + 1)).hom (d (n + 1) ((step n).hom x)) =
         (chainColimitInclusion B step n).hom (d n x)
       rw [hstep n x]
       exact chainColimitInclusion_step B step n (d n x))

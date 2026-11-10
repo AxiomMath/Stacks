@@ -224,7 +224,7 @@ theorem map_generatedSubgroup_le (s : Finset (Σ U : X.Etale, F.obj.obj (Opposit
   rw [AddSubgroup.map_le_iff_le_comap, generatedSubgroup, AddSubgroup.closure_le]
   rintro _ ⟨x, hx, f, rfl⟩
   refine AddSubgroup.subset_closure ⟨x, hx, g.unop ≫ f, ?_⟩
-  show F.obj.map (f.op ≫ g) x.2 = F.obj.map g (F.obj.map f.op x.2)
+  change F.obj.map (f.op ≫ g) x.2 = F.obj.map g (F.obj.map f.op x.2)
   rw [Functor.map_comp]
   rfl
 
@@ -242,7 +242,7 @@ theorem small_generatedSubgroup (s : Finset (Σ U : X.Etale, F.obj.obj (Opposite
     rw [generatedSubgroup, AddSubgroup.closure_le]
     rintro _ ⟨x, hx, f, rfl⟩
     refine ⟨FreeAbelianGroup.of (equivShrink ι ⟨⟨x, hx⟩, f⟩), ?_⟩
-    show FreeAbelianGroup.lift _ (FreeAbelianGroup.of _) = φ ⟨⟨x, hx⟩, f⟩
+    change FreeAbelianGroup.lift _ (FreeAbelianGroup.of _) = φ ⟨⟨x, hx⟩, f⟩
     rw [FreeAbelianGroup.lift_apply_of]
     exact congrArg φ (Equiv.symm_apply_apply _ _)
   exact small_of_injective (f := fun y : generatedSubgroup F s V ↦
@@ -391,7 +391,7 @@ theorem subsingleton_sheafH_of_isColimit_max (q : ℕ)
     Subsingleton (Sheaf.H.{max (u + 1) v} c.pt q) := by
   have := preservesColimitsOfShape_functorH_smallEtale_max X q I
   have hF := isColimitOfPreserves (smallEtaleFunctorHMax.{v} X q) hc
-  show Subsingleton ((smallEtaleFunctorHMax.{v} X q).obj c.pt)
+  change Subsingleton ((smallEtaleFunctorHMax.{v} X q).obj c.pt)
   refine AddCommGrpCat.isZero_iff_subsingleton.1 ((IsZero.iff_id_eq_zero _).2 ?_)
   refine hF.hom_ext fun j ↦ ?_
   exact (AddCommGrpCat.isZero_iff_subsingleton.2 (h j)).eq_of_src _ _
@@ -431,7 +431,7 @@ theorem surjective_etaleCohomologyRestrictionMap_of_isColimit_max {Y : Scheme.{u
   refine (AddCommGrpCat.epi_iff_surjective (α.app c.pt)).1 ⟨fun {Z} u v huv ↦ ?_⟩
   refine hG.hom_ext fun j ↦ ?_
   rw [← cancel_epi (α.app (D.obj j))]
-  show α.app (D.obj j) ≫ G.map (c.ι.app j) ≫ u = α.app (D.obj j) ≫ G.map (c.ι.app j) ≫ v
+  change α.app (D.obj j) ≫ G.map (c.ι.app j) ≫ u = α.app (D.obj j) ≫ G.map (c.ι.app j) ≫ v
   rw [← Category.assoc, ← α.naturality, Category.assoc,
     show α.app (((Functor.const I).obj c.pt).obj j) = α.app c.pt from rfl, huv,
     ← Category.assoc]
@@ -499,7 +499,7 @@ theorem curveStatements_partial_of_torsionSheafProperty {k : Type u} [Field k] [
     (hF : Stacks.Torsion.torsionSheafProperty X.smallEtaleTopology F)
     [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})] :
     IsVanishingAboveDegreeTwo.{u, v, w} F ∧ IsAffineVanishingAboveDegreeOne.{u, v, w} F ∧
-      (∀ (p : ℕ) [CharP k p], IsPrimePowerTorsionVanishing.{u, v, w} π p F) ∧
+      (∀ (p : ℕ) [CharP k p], IsPrimePowerTorsionVanishing.{u, v, w} k p F) ∧
       (Stacks.Torsion.IsPrimeToCharacteristicTorsion X.smallEtaleTopology (ringExpChar k) F →
         ∀ (k' : Type u) [Field k'] [Algebra k k'] [IsAlgClosed k']
           [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})]

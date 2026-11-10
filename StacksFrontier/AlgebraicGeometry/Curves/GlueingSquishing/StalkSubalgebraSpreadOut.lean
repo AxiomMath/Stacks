@@ -348,7 +348,7 @@ theorem isLocalizedModule_germPreimage (A : AlgebraSheaf X) [A.IsQuasicoherent] 
     · obtain ⟨v, hv⟩ := hunit.exists_left_inv
       refine ⟨v • z, ?_⟩
       rw [Module.algebraMap_end_apply]
-      show (X.presheaf.map (homOfLE hle).op a) • v • z = z
+      change (X.presheaf.map (homOfLE hle).op a) • v • z = z
       rw [smul_smul, mul_comm, hv, one_smul]
   · intro z
     obtain ⟨n, s, hs⟩ := IsLocalizedModule.Away.surj (restrictₗ F hle) a (mofval A z.1)
@@ -379,7 +379,7 @@ theorem isLocalizedModule_germPreimage (A : AlgebraSheaf X) [A.IsQuasicoherent] 
         exact hmE _ ((IsLocalRing.mem_maximalIdeal _).mpr
           fun hu => hxa ((Scheme.mem_basicOpen X a x hxU).mpr hu)) _
     · refine Subtype.ext ?_
-      show (A.hom.hom.app (op (X.basicOpen a))).hom
+      change (A.hom.hom.app (op (X.basicOpen a))).hom
             (X.presheaf.map (homOfLE hle).op (a ^ (n + 1))) * z.1 =
           (A.right.obj.map (homOfLE hle).op).hom
             ((A.hom.hom.app (op U)).hom a * mval A s)
@@ -434,7 +434,7 @@ theorem isFinite_subalg [IsLocallyNoetherian X] {A : AlgebraSheaf X} (C : Subalg
   have : Module.Finite Γ(X, U) (sections A U) := hA U hU
   have : IsNoetherian Γ(X, U) (sections A U) := isNoetherian_of_isNoetherianRing_of_finite _ _
   let := algebraSections (Subalg.toAlgebraSheaf C) U
-  show Module.Finite Γ(X, U) (sections (Subalg.toAlgebraSheaf C) U)
+  change Module.Finite Γ(X, U) (sections (Subalg.toAlgebraSheaf C) U)
   exact Module.Finite.of_injective
     ({ toFun := Subtype.val, map_add' := fun _ _ => rfl, map_smul' := fun _ _ => rfl } :
       sections (Subalg.toAlgebraSheaf C) U →ₗ[Γ(X, U)] sections A U) Subtype.val_injective

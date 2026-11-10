@@ -66,7 +66,7 @@ theorem extendInvertsQuasiIso : ExtendInvertsQuasiIso (liftedPowSheafAlgebra f) 
       (_root_.SheafOfModules.DifferentialGradedModule.HomotopyCategory.quotient
         (liftedPowSheafAlgebra f)).map ((extendFunctor (liftedPowAlg f)).map g) :=
     Functor.congr_hom (quotient_comp_homotopyExtend (castAlg (liftedPowSheafAlgebra f))) g
-  show IsIso ((_root_.SheafOfModules.DifferentialGradedModule.toDerivedCategory.{u, u, u}
+  change IsIso ((_root_.SheafOfModules.DifferentialGradedModule.toDerivedCategory.{u, u, u}
     (liftedPowSheafAlgebra f)).map ((HomotopyCategory.quotient (ModuleCat.{u} R)
       (ComplexShape.up ℤ) ⋙ homotopyExtend' (liftedPowSheafAlgebra f)).map g))
   rw [e]

@@ -210,7 +210,7 @@ theorem baseChangeSectionsIso_restrict (c : Γ(U'.toScheme, ⊤)) :
     (baseChangeSectionsIso hpb L').hom.hom ((g ∣_ U').appTop.hom c) =
       reducedTensorLeft (A := ↥(baseSectionsRing S)) (map_ideal_le f) (L'.equiv c) :=
   ConcreteCategory.congr_hom (IsPushout.inl_isoIsPushout_hom _ _ (isPushout_sections hpb U')
-    (isPushout_reducedTensor_sections hpb L')) c
+    (isPushout_reducedTensor_sections L')) c
 
 /-- The image of `1 ⊗ b` in the thickened scheme `g⁻¹ U'` is the pullback along `g` of the
 section of `U'` which `b` lifts. -/
@@ -224,7 +224,7 @@ theorem immersion_appTop_changeBaseRingHom (c : Γ(U'.toScheme, ⊤)) (b : L'.ri
   refine appTop_specQuotientImmersion_eq (isNilpotent_prime_over S (g ⁻¹ᵁ U').ι hp)
     ((L'.baseChange hpb).thickening hp) (β := (1 : baseSectionsRing S) ⊗ₜ[baseSectionsRing S'] b)
     ?_
-  show _ = (baseChangeSectionsIso hpb L').hom.hom ((g ∣_ U').appTop.hom c)
+  change _ = (baseChangeSectionsIso hpb L').hom.hom ((g ∣_ U').appTop.hom c)
   rw [baseChangeSectionsIso_restrict, ← hb]
   rfl
 
@@ -342,7 +342,7 @@ theorem appTop_toClosedFiber_eq :
         (closedFiberSectionsEquiv S).toRingHom := by
   refine RingHom.ext fun z ↦ ?_
   obtain ⟨a, rfl⟩ := surjective_closedFiberSectionsMap S z
-  show _ = L.equiv.symm (algebraMap _ _ (closedFiberSectionsEquiv S (closedFiberSectionsMap S a)))
+  change _ = L.equiv.symm (algebraMap _ _ (closedFiberSectionsEquiv S (closedFiberSectionsMap S a)))
   rw [closedFiberSectionsEquiv_apply]
   exact (RingEquiv.eq_symm_apply _).2 (L.equiv_sourceToBase a)
 
@@ -389,7 +389,7 @@ theorem isScalarTower_interQuotient :
   let := interAlgebra U
   let := interQuotientAlgebra U
   refine IsScalarTower.of_algebraMap_eq fun a ↦ ?_
-  show (sourceToBase (overSituation S (inter U).ι)).appTop.hom a =
+  change (sourceToBase (overSituation S (inter U).ι)).appTop.hom a =
     quotientSectionsMap ((inter U).ι ≫ S.toClosedFiber) (Ideal.Quotient.mk _ a)
   rw [quotientSectionsMap_mk]
 
@@ -445,12 +445,12 @@ theorem envelopeTransport_symm_comp (h₂₁ : J₂.map e.symm.toRingHom ≤ J�
       DividedPowers.DPMorphism.id D₁.object.dividedPowers := by
   refine envelopeHom_ext D₁ D₁.object _ _ ?_ ?_
   · refine DividedPowers.DPMorphism.ext (funext fun a ↦ ?_)
-    show (envelopeTransport e.symm h₂₁ D₂ D₁).toRingHom
+    change (envelopeTransport e.symm h₂₁ D₂ D₁).toRingHom
       ((envelopeTransport e h₁₂ D₁ D₂).toRingHom (D₁.structureMap.toRingHom a)) =
         D₁.structureMap.toRingHom a
     rw [envelopeTransport_structureMap, envelopeTransport_structureMap]
   · refine RingHom.ext fun x ↦ ?_
-    show (envelopeTransport e.symm h₂₁ D₂ D₁).toRingHom
+    change (envelopeTransport e.symm h₂₁ D₂ D₁).toRingHom
       ((envelopeTransport e h₁₂ D₁ D₂).toRingHom (D₁.algebraMap.toRingHom x)) =
         D₁.algebraMap.toRingHom x
     rw [envelopeTransport_algebraMap, envelopeTransport_algebraMap, AlgEquiv.symm_apply_apply]
@@ -483,7 +483,7 @@ theorem changeBase_targetHom_appTop_toBase (a : Γ(S'.S.scheme, ⊤)) :
     m.targetHom.hom.appTop.hom (P'.toBase.hom.appTop.hom a) =
       P.toBase.hom.appTop.hom (baseChangeRingHom f a) := by
   refine (targetHom_appTop_toBase m a).trans ?_
-  show ((P.toBase ≫ f).hom.appTop.hom a) = _
+  change ((P.toBase ≫ f).hom.appTop.hom a) = _
   simp only [DividedPowerScheme.Hom.comp_hom, Scheme.Hom.comp_appTop, CommRingCat.hom_comp,
     RingHom.comp_apply]
   rfl
@@ -602,7 +602,7 @@ theorem isBaseChange_changeBaseValuesMap (hN : N.IsQuasicoherentOnSite)
   have hρ : IsBaseChange (ringAlong m) ρ :=
     IsBaseChange.of_equiv (extensionSectionsLinearEquivAlong N m hN) fun x ↦ by
       rw [extensionSectionsLinearEquivAlong_tmul]
-      show (1 : ringAlong m) • moduleSiteRestrict N m x = _
+      change (1 : ringAlong m) • moduleSiteRestrict N m x = _
       exact one_smul _ _
   exact isBaseChange_restrictScalars_of_isPushout (A' := Γ(S'.S.scheme, ⊤))
     (A := Γ(S.S.scheme, ⊤)) (R' := crysSheafRing S' P') (R := ringAlong m) (towR'RN := hR'R) hρ
@@ -704,14 +704,14 @@ theorem isPushout_interTensorQuotient :
     (closedFiberSectionsEquiv S).symm.toCommRingCatIso (Iso.refl _) ?_ ?_ ?_ ?_
   · rfl
   · ext a
-    show (closedFiberSectionsEquiv S).symm (Ideal.Quotient.mk _ (baseSectionsRingHom f a)) =
+    change (closedFiberSectionsEquiv S).symm (Ideal.Quotient.mk _ (baseSectionsRingHom f a)) =
       (DividedPowerScheme.closedFiberMap f).appTop.hom
         ((closedFiberSectionsEquiv S').symm (Ideal.Quotient.mk _ a))
     rw [closedFiberSectionsEquiv_symm_mk, closedFiberSectionsEquiv_symm_mk,
       closedFiberMap_appTop_closedFiberSectionsMap]
   · rfl
   · refine CommRingCat.hom_ext (RingHom.ext fun z ↦ ?_)
-    show Algebra.TensorProduct.includeLeftRingHom z = Algebra.TensorProduct.includeLeftRingHom
+    change Algebra.TensorProduct.includeLeftRingHom z = Algebra.TensorProduct.includeLeftRingHom
       ((closedFiberSectionsEquiv S) ((closedFiberSectionsEquiv S).symm z))
     rw [RingEquiv.apply_symm_apply]
 
@@ -749,7 +749,7 @@ theorem interTensorQuotientIso_tmul_one
     (isPushout_interTensorQuotient U') (isPushout_sections hpb (inter U')))
     ((closedFiberSectionsEquiv S).symm z)
   refine Eq.trans ?_ h
-  show _ = (interTensorQuotientIso hpb U').hom.hom
+  change _ = (interTensorQuotientIso hpb U').hom.hom
     (((closedFiberSectionsEquiv S) ((closedFiberSectionsEquiv S).symm z)) ⊗ₜ 1)
   rw [RingEquiv.apply_symm_apply]
 
@@ -762,7 +762,7 @@ theorem inter_preimage : (inter fun k ↦ g ⁻¹ᵁ U' k) = g ⁻¹ᵁ inter U'
   rw [TopologicalSpace.Opens.coe_iInf]
   ext x
   simp only [Set.mem_iInter]
-  show (∀ k, g.base x ∈ U' k) ↔ g.base x ∈ ((⨅ k, U' k : S'.X.Opens) : Set S'.X)
+  change (∀ k, g.base x ∈ U' k) ↔ g.base x ∈ ((⨅ k, U' k : S'.X.Opens) : Set S'.X)
   rw [TopologicalSpace.Opens.coe_iInf, Set.mem_iInter]
   rfl
 
@@ -834,7 +834,7 @@ theorem tensorMap_baseChange_eq :
         (tensorQuotientMap (tensorMap L') (ideal_le_comap f) (a ⊗ₜ 1))) := fun a ↦ by
     rw [tensorQuotientMap_tmul, map_one, interTensorQuotientIso_tmul_one,
       closedFiberSectionsEquiv_symm_mk, interPreimageRestrict_toBase]
-    show tensorMap (baseChangeFamily hpb L') (piTensorBaseChangeEquiv ↥(baseSectionsRing S')
+    change tensorMap (baseChangeFamily hpb L') (piTensorBaseChangeEquiv ↥(baseSectionsRing S')
         ↥(baseSectionsRing S) (fun k ↦ (L' k).ring) (algebraMap _ _ a)) = _
     rw [AlgEquiv.commutes]
     exact (tensorMap (baseChangeFamily hpb L')).commutes a
@@ -844,13 +844,13 @@ theorem tensorMap_baseChange_eq :
         algebraMap (baseSectionsRing S') (tensorRing L') a' =
         algebraMap (baseSectionsRing S') (baseSectionsRing S) a' ⊗ₜ 1 :=
       (Algebra.TensorProduct.tmul_one_eq_one_tmul a').symm
-    show tensorMap (baseChangeFamily hpb L') (piTensorBaseChangeEquiv ↥(baseSectionsRing S')
+    change tensorMap (baseChangeFamily hpb L') (piTensorBaseChangeEquiv ↥(baseSectionsRing S')
         ↥(baseSectionsRing S) (fun k ↦ (L' k).ring) (1 ⊗ₜ algebraMap _ _ a')) =
       interPreimageRestrict g U' ((interTensorQuotientIso hpb U').hom.hom
         (tensorQuotientMap (tensorMap L') (ideal_le_comap f) (1 ⊗ₜ algebraMap _ _ a')))
     rw [e]
     exact hA _
-  · show tensorMap (baseChangeFamily hpb L') (piTensorBaseChangeEquiv ↥(baseSectionsRing S')
+  · change tensorMap (baseChangeFamily hpb L') (piTensorBaseChangeEquiv ↥(baseSectionsRing S')
         ↥(baseSectionsRing S) (fun k ↦ (L' k).ring) (1 ⊗ₜ PiTensorProduct.singleAlgHom k b)) =
       interPreimageRestrict g U' ((interTensorQuotientIso hpb U').hom.hom
         (tensorQuotientMap (tensorMap L') (ideal_le_comap f)
@@ -864,7 +864,7 @@ theorem tensorMap_baseChange_eq :
     have hc' : ((baseChangeFamily hpb L') k).equiv.symm (Ideal.Quotient.mk _ (1 ⊗ₜ b)) =
         (g ∣_ U' k).appTop.hom c := by
       refine (RingEquiv.symm_apply_eq _).2 ?_
-      show _ = (baseChangeSectionsIso hpb (L' k)).hom.hom ((g ∣_ U' k).appTop.hom c)
+      change _ = (baseChangeSectionsIso hpb (L' k)).hom.hom ((g ∣_ U' k).appTop.hom c)
       rw [baseChangeSectionsIso_restrict, hc, RingEquiv.apply_symm_apply]
       rfl
     rw [hc']
@@ -985,7 +985,7 @@ theorem tensorIdeal_map_le_ker :
   have := isScalarTower_interQuotient U'
   refine Ideal.map_le_iff_le_comap.mpr fun y hy ↦ ?_
   refine (tensorMap_baseChange_eq_zero_iff hpb L' _).mp ?_
-  show tensorMap (baseChangeFamily hpb L') ((piTensorBaseChangeEquiv ↥(baseSectionsRing S')
+  change tensorMap (baseChangeFamily hpb L') ((piTensorBaseChangeEquiv ↥(baseSectionsRing S')
     ↥(baseSectionsRing S) fun k ↦ (L' k).ring) ((piTensorBaseChangeEquiv ↥(baseSectionsRing S')
       ↥(baseSectionsRing S) fun k ↦ (L' k).ring).symm y)) = 0
   exact (congrArg (tensorMap (baseChangeFamily hpb L'))
@@ -1026,7 +1026,7 @@ theorem bijective_envelopeBaseChangeRingHom :
   let := baseSectionsAlgebra f
   let := quotientAlgebraOfLE (ideal_le_comap f)
   have := isScalarTower_interQuotient U'
-  show Function.Bijective (_ ∘ _)
+  change Function.Bijective (_ ∘ _)
   exact (bijective_envelopeTransport _ (map_ker_le_tensorIdeal hpb L') _ _
     (tensorIdeal_map_le_ker hpb L')).comp (bijective_baseChangeTensorEnvelope f hp' L')
 
@@ -1052,7 +1052,7 @@ theorem envelopeBaseChangeRingHom_tmul (a : baseSectionsRing S) (d : (envelope L
   let := baseSectionsAlgebra f
   let := quotientAlgebraOfLE (ideal_le_comap f)
   have := isScalarTower_interQuotient U'
-  show (baseChangeEnvelopeTransport hpb L').toRingHom
+  change (baseChangeEnvelopeTransport hpb L').toRingHom
     ((baseChangeTensorEnvelope f L').structureMap.toRingHom a * _) = _
   rw [map_mul]
   exact congrArg (· * _) (envelopeTransport_structureMap _ _ _ _ a)
@@ -1065,7 +1065,7 @@ theorem envelopeBaseChangePsi_structureMap (a : baseSectionsRing S') :
   let := baseSectionsAlgebra f
   let := quotientAlgebraOfLE (ideal_le_comap f)
   have := isScalarTower_interQuotient U'
-  show (baseChangeEnvelopeTransport hpb L').toRingHom ((envelopeBaseChangePairMap
+  change (baseChangeEnvelopeTransport hpb L').toRingHom ((envelopeBaseChangePairMap
     (globalSectionsDPMorphism f) rfl (includeRight_tensorIdeal_le f L') (envelope L')
       (baseChangeTensorEnvelope f L')).toRingHom ((envelope L').structureMap.toRingHom a)) = _
   refine (congrArg (baseChangeEnvelopeTransport hpb L').toRingHom
@@ -1084,7 +1084,7 @@ theorem envelopeBaseChangePsi_algebraMap (x : tensorRing L') :
   let := baseSectionsAlgebra f
   let := quotientAlgebraOfLE (ideal_le_comap f)
   have := isScalarTower_interQuotient U'
-  show (baseChangeEnvelopeTransport hpb L').toRingHom ((envelopeBaseChangePairMap
+  change (baseChangeEnvelopeTransport hpb L').toRingHom ((envelopeBaseChangePairMap
     (globalSectionsDPMorphism f) rfl (includeRight_tensorIdeal_le f L') (envelope L')
       (baseChangeTensorEnvelope f L')).toRingHom ((envelope L').algebraMap.toRingHom x)) = _
   refine (congrArg (baseChangeEnvelopeTransport hpb L').toRingHom
@@ -1133,7 +1133,7 @@ theorem legTensorMap_envelopeChangeBase :
         algebraMap (baseSectionsRing S) (↥(baseSectionsRing S) ⊗[↥(baseSectionsRing S')]
           tensorRing L') (algebraMap (baseSectionsRing S') (baseSectionsRing S) a') :=
       (Algebra.TensorProduct.tmul_one_eq_one_tmul a').symm
-    show (legTensorMap hp' L' (envelopeChangeBaseLegs hpb h hp hp' L')) (algebraMap _ _ a') =
+    change (legTensorMap hp' L' (envelopeChangeBaseLegs hpb h hp hp' L')) (algebraMap _ _ a') =
       (Scheme.ΓSpecIso _).inv.hom
       ((envelope (baseChangeFamily hpb L')).algebraMap.toRingHom
         ((piTensorBaseChangeEquiv ↥(baseSectionsRing S') ↥(baseSectionsRing S)
@@ -1142,7 +1142,7 @@ theorem legTensorMap_envelopeChangeBase :
     refine Eq.trans ?_ (congrArg (Scheme.ΓSpecIso _).inv.hom
       (RingHom.congr_fun (envelope (baseChangeFamily hpb L')).algebraMap_comp _).symm)
     exact changeBaseObject_envelope_toBase_appTop hpb h hp L' a'
-  · show (legTensorMap hp' L' (envelopeChangeBaseLegs hpb h hp hp' L'))
+  · change (legTensorMap hp' L' (envelopeChangeBaseLegs hpb h hp hp' L'))
       (PiTensorProduct.singleAlgHom k b) = (Scheme.ΓSpecIso _).inv.hom
       ((envelope (baseChangeFamily hpb L')).algebraMap.toRingHom
         ((piTensorBaseChangeEquiv ↥(baseSectionsRing S') ↥(baseSectionsRing S)
@@ -1158,7 +1158,7 @@ theorem legTensorMap_envelopeChangeBase :
     refine (targetHom_appTop_comp ((changeBase S S' f g h).map
       (proj hp (baseChangeFamily hpb L') k)) (changeBaseHom hpb h hp hp' (L' k)) _).trans ?_
     rw [h1]
-    show (proj hp (baseChangeFamily hpb L') k).targetHom.hom.appTop.hom
+    change (proj hp (baseChangeFamily hpb L') k).targetHom.hom.appTop.hom
       ((Scheme.ΓSpecIso _).inv.hom (1 ⊗ₜ b)) = _
     refine (proj_targetHom_appTop hp _ k _).trans ?_
     refine (congrArg (projRingHom hp _ k) (DividedPowerScheme.ΓSpecIso_hom_inv_apply
@@ -1217,7 +1217,7 @@ theorem sectionsEnvelopeEquiv_structureMap (a : baseSectionsRing S) :
     sectionsEnvelopeEquiv hpb hp L' iP
         ((envelope (baseChangeFamily hpb L')).structureMap.toRingHom a) =
       P.toBase.hom.appTop.hom a := by
-  show iP.hom.targetHom.hom.appTop.hom ((Scheme.ΓSpecIso _).inv.hom
+  change iP.hom.targetHom.hom.appTop.hom ((Scheme.ΓSpecIso _).inv.hom
     ((envelope (baseChangeFamily hpb L')).structureMap a)) = _
   refine (congrArg iP.hom.targetHom.hom.appTop.hom
     (envelopeObject_toBase_appTop hp (baseChangeFamily hpb L') a).symm).trans ?_
@@ -1229,7 +1229,7 @@ theorem sectionsEnvelopeEquiv'_toBase (a : baseSectionsRing S') :
       (envelope L').structureMap.toRingHom a := by
   have h1 : iP'.inv.targetHom.hom.appTop.hom (P'.toBase.hom.appTop.hom a) =
       (envelopeObject hp' L').toBase.hom.appTop.hom a := targetHom_appTop_toBase iP'.inv a
-  show (Scheme.ΓSpecIso (CommRingCat.of (envelope L').object)).hom.hom
+  change (Scheme.ΓSpecIso (CommRingCat.of (envelope L').object)).hom.hom
     (iP'.inv.targetHom.hom.appTop.hom (P'.toBase.hom.appTop.hom a)) = _
   refine (congrArg (Scheme.ΓSpecIso (CommRingCat.of (envelope L').object)).hom.hom
     (h1.trans (envelopeObject_toBase_appTop hp' L' a))).trans ?_
@@ -1323,12 +1323,11 @@ theorem isPushout_changeBase_of_iso :
         (LinearEquiv.refl Γ(S'.S.scheme, ⊤) Γ(S.S.scheme, ⊤))
         (sectionsEnvelopeLinearEquiv' hp' L' (iP' := iP'))).bijective)
   refine (congrArg Function.Bijective (funext fun z ↦ ?_)).mpr hG
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul a r =>
     rw [TensorProduct.lift.tmul]
-    show a • algebraMap (crysSheafRing S' P') (ringAlong m) r = _
+    change a • algebraMap (crysSheafRing S' P') (ringAlong m) r = _
     rw [Algebra.smul_def]
     refine Eq.trans ?_ (congrArg (sectionsEnvelopeEquiv hpb hp L' iP)
       (envelopeBaseChangeRingHom_tmul hpb L' a

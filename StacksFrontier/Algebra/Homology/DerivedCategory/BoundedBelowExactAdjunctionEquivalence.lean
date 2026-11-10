@@ -227,7 +227,7 @@ theorem isIso_derivedPlusHomologyInAdjunction_unit_app [P.IsClosedUnderIsomorphi
     (hP : ∀ M, P (L.obj M)) (hunit : ∀ K, IsIso ((derivedPlusAdjunction adj).unit.app K))
     (K : DerivedCategory.Plus A) :
     IsIso ((derivedPlusHomologyInAdjunction adj P hP).unit.app K) := by
-  show IsIso ((𝟭 _).map ((derivedPlusHomologyInAdjunction adj P hP).unit.app K))
+  change IsIso ((𝟭 _).map ((derivedPlusHomologyInAdjunction adj P hP).unit.app K))
   rw [derivedPlusHomologyInAdjunction, Adjunction.map_restrictFullyFaithful_unit_app]
   have := hunit K
   dsimp

@@ -53,7 +53,7 @@ theorem exists_unique_cofibered_factor {p : F ⥤ C} (hp : IsCofiberedInGroupoid
     {a b c : F} (φ : a ⟶ b) (ψ : a ⟶ c) (f : p.obj b ⟶ p.obj c)
     (h : p.map φ ≫ f = p.map ψ) : ∃! χ : b ⟶ c, p.map χ = f ∧ φ ≫ χ = ψ := by
   have hop : f.op ≫ p.op.map φ.op = p.op.map ψ.op := by
-    show (p.map φ ≫ f).op = (p.map ψ).op
+    change (p.map φ ≫ f).op = (p.map ψ).op
     exact congrArg Opposite.op h
   obtain ⟨χop, hχ, hχuniq⟩ := hp.unique_lift φ.op ψ.op f.op hop
   exact ⟨χop.unop, ⟨Opposite.op_injective hχ.1, Opposite.op_injective hχ.2⟩,

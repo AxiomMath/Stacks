@@ -307,7 +307,7 @@ public lemma transportAut_id (A : Under (p.obj x)) (a : Aut (P.obj A)) :
   apply Aut.ext
   apply Iso.ext
   apply Functor.Fiber.hom_ext
-  show P.transportHom (𝟙 A) a = a.asIso.hom.val
+  change P.transportHom (𝟙 A) a = a.asIso.hom.val
   simpa only [P.map_id, Category.id_comp, Category.comp_id] using
     P.map_transportHom (𝟙 A) a
 
@@ -317,7 +317,7 @@ public lemma transportAut_comp {A B D : Under (p.obj x)} (f : A ⟶ B) (g : B �
   apply Aut.ext
   apply Iso.ext
   apply Functor.Fiber.hom_ext
-  show P.transportHom (f ≫ g) a =
+  change P.transportHom (f ≫ g) a =
     P.transportHom g (P.transportAut f a)
   let := P.map_cocartesian (f ≫ g)
   let := P.transportHom_isHomLift (f ≫ g) a
@@ -326,7 +326,7 @@ public lemma transportAut_comp {A B D : Under (p.obj x)} (f : A ⟶ B) (g : B �
     (𝟙 D.right)
   rw [P.map_transportHom (f ≫ g) a, P.map_comp f g,
     Category.assoc, P.map_transportHom g (P.transportAut f a)]
-  show a.asIso.hom.val ≫ (P.map f ≫ P.map g) =
+  change a.asIso.hom.val ≫ (P.map f ≫ P.map g) =
     P.map f ≫ (P.transportHom f a ≫ P.map g)
   simp only [← Category.assoc, P.map_transportHom f a]
 

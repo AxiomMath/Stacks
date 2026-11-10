@@ -194,7 +194,7 @@ lemma d₁_int₁₂XIso_inv (i₁ : I₁) (i₂ : I₂) (i₁₂' : I₁₂) :
     K.asBicomplex.d₁ c₁₂ i₁ i₂ i₁₂' ≫ (K.int₁₂XIso c₁₂ i₁₂').inv =
       ComplexShape.ε₁ c₁ c₂ c₁₂ (i₁, i₂) •
         ((K.d i₁ (c₁.next i₁)).f i₂ ≫ K.ιInt₁₂OrZero c₁₂ (c₁.next i₁) i₂ i₁₂') := by
-  show (ComplexShape.ε₁ c₁ c₂ c₁₂ (i₁, i₂) • ((K.d i₁ (c₁.next i₁)).f i₂ ≫
+  change (ComplexShape.ε₁ c₁ c₂ c₁₂ (i₁, i₂) • ((K.d i₁ (c₁.next i₁)).f i₂ ≫
     K.asBicomplex.ιTotalOrZero c₁₂ (c₁.next i₁) i₂ i₁₂')) ≫ _ = _
   rw [Linear.units_smul_comp, Category.assoc, ιTotalOrZero_int₁₂XIso_inv]
 
@@ -205,7 +205,7 @@ lemma d₂_int₁₂XIso_inv (i₁ : I₁) (i₂ : I₂) (i₁₂' : I₁₂) :
     K.asBicomplex.d₂ c₁₂ i₁ i₂ i₁₂' ≫ (K.int₁₂XIso c₁₂ i₁₂').inv =
       ComplexShape.ε₂ c₁ c₂ c₁₂ (i₁, i₂) •
         ((K.X i₁).d i₂ (c₂.next i₂) ≫ K.ιInt₁₂OrZero c₁₂ i₁ (c₂.next i₂) i₁₂') := by
-  show (ComplexShape.ε₂ c₁ c₂ c₁₂ (i₁, i₂) • ((K.X i₁).d i₂ (c₂.next i₂) ≫
+  change (ComplexShape.ε₂ c₁ c₂ c₁₂ (i₁, i₂) • ((K.X i₁).d i₂ (c₂.next i₂) ≫
     K.asBicomplex.ιTotalOrZero c₁₂ i₁ (c₂.next i₂) i₁₂')) ≫ _ = _
   rw [Linear.units_smul_comp, Category.assoc, ιTotalOrZero_int₁₂XIso_inv]
 

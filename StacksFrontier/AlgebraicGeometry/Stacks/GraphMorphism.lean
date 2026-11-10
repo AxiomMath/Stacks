@@ -259,7 +259,7 @@ theorem isHomLift_graphBaseIso_hom_app (g : 𝒳 ⟶ 𝒴) (p : 𝒳 ⟶ 𝒯) (
     (x : 𝒳.val.val.obj) :
     𝒯.val.val.p.IsHomLift (𝟙 (𝒳.val.val.p.obj x))
       ((graphBaseIso B S hS g p q η).hom.app x) := by
-  show 𝒯.val.val.p.IsHomLift (𝟙 (𝒳.val.val.p.obj x)) (η.hom.hom.hom.toNatTrans.app x)
+  change 𝒯.val.val.p.IsHomLift (𝟙 (𝒳.val.val.p.obj x)) (η.hom.hom.hom.toNatTrans.app x)
   exact η.hom.hom.hom.isHomLift' x
 
 /-- **The canonical cone morphism defining the graph**, including the two projection
@@ -349,7 +349,7 @@ def graphIdentitySection (g : 𝒳 ⟶ 𝒴) :
 /-- `AlgebraicGeometry.Stack.graphIdentitySection` is an equivalence on underlying categories. -/
 theorem graphIdentitySection_isEquivalence (g : 𝒳 ⟶ 𝒴) :
     Functor.IsEquivalence (graphIdentitySection B S hS g).hom.hom.toFunctor := by
-  show Functor.IsEquivalence (TwoFibreProductOver.pointOfFunctor 𝒳.val.val.p 𝒴.val.val.p
+  change Functor.IsEquivalence (TwoFibreProductOver.pointOfFunctor 𝒳.val.val.p 𝒴.val.val.p
     𝒴.val.val.p (𝟭 𝒴.val.val.obj) rfl g.hom.hom.toFunctor g.hom.hom.w)
   exact (TwoFibreProductOver.identityGraphEquivalence 𝒳.val.val.p 𝒴.val.val.p
     g.hom.hom.toFunctor g.hom.hom.w).isEquivalence_inverse

@@ -102,7 +102,7 @@ private lemma epi_pullback_iff_range_subset {S T : Scheme.{u}} {M N : S.Modules}
   rw [Preadditive.epi_iff_isZero_cokernel,
     ← (PreservesCokernel.iso P p).isZero_iff, isZero_iff_supp_eq_empty,
     Stacks.Modules.supp_pullback]
-  show f ⁻¹' SheafOfModules.supp (cokernel p) = ∅ ↔
+  change f ⁻¹' SheafOfModules.supp (cokernel p) = ∅ ↔
     Set.range f ⊆ (SheafOfModules.supp (cokernel p))ᶜ
   simp only [Set.eq_empty_iff_forall_notMem, Set.mem_preimage, Set.range_subset_iff,
     Set.mem_compl_iff]
@@ -198,7 +198,7 @@ private lemma coordinateChartSubfunctor_open (k n : ℕ) (ι : Fin (n - k) ↪ F
       (((functorData.{u} k n).objEquiv S).symm ⟦q⟧) := by
     rw [← he]
     exact (map_yonedaEquiv g f).symm
-  show coordinateChartCondition k n ι T (g.app (op T) f) ↔ _
+  change coordinateChartCondition k n ι T (g.app (op T) f) ↔ _
   rw [hg, coordinateChartCondition_map_iff_epi_pullback,
     epi_pullback_iff_range_subset]
 
@@ -373,7 +373,7 @@ private lemma gammaFreeMap_basis {r n : ℕ} (f : Fin r → Fin n) (i : Fin r) :
         (fun j : ULift.{u} (Fin r) => ULift.up (f j.down))) (gammaFreeBasis R r i) =
       gammaFreeBasis R n (f i) := by
   rw [gammaFreeBasis_apply, gammaFreeBasis_apply]
-  show ((moduleSpecΓFunctor (R := R)).map (SheafOfModules.ιFree (ULift.up i)) ≫
+  change ((moduleSpecΓFunctor (R := R)).map (SheafOfModules.ιFree (ULift.up i)) ≫
     (moduleSpecΓFunctor (R := R)).map (SheafOfModules.freeMap _))
       ((gammaUnitLinearEquiv R).symm 1) = _
   rw [← Functor.map_comp, SheafOfModules.ιFree_freeMap]
@@ -454,13 +454,13 @@ private lemma exists_epi_coordinateSubmap_spec_field (K : Type u) [Field K]
     apply (gammaFreeBasis R (n - k)).ext
     intro j
     have hg : (G.map p).hom (gammaFreeBasis R (n - k) j) = v (ι j) := by
-      show (G.map (coordinateSubmap (Spec R) k n ι ≫ q.map)).hom _ = _
+      change (G.map (coordinateSubmap (Spec R) k n ι ≫ q.map)).hom _ = _
       rw [Functor.map_comp, ModuleCat.hom_comp, LinearMap.comp_apply]
-      show (G.map q.map).hom (G.map (SheafOfModules.freeMap _) _) = _
+      change (G.map q.map).hom (G.map (SheafOfModules.freeMap _) _) = _
       rw [gammaFreeMap_basis]
       rfl
     rw [hg]
-    show v (ι j) = b.repr.symm ((gammaFreeBasis R (n - k)).repr
+    change v (ι j) = b.repr.symm ((gammaFreeBasis R (n - k)).repr
       (gammaFreeBasis R (n - k) j))
     rw [Module.Basis.repr_self, Module.Basis.repr_symm_single]
     simpa using (hb j).symm
@@ -528,13 +528,13 @@ private lemma coordinateChartMap_isLocallySurjective (k n : ℕ) :
     yoneda.obj (coordinateChartScheme.{u} j.down)) (ULift.up (i s))).app (op (U s : Scheme)) a,
     ?_⟩
   have h := congrArg (fun t => t.app (op (U s : Scheme)) a)
-    (Sigma.ι_desc f (ULift.up (i s)))
+    (Sigma.ι_comp_desc f (ULift.up (i s)))
   exact h.trans ((coordinateChartMap_apply k n (i s) (U s) a).trans
     (congrArg Subtype.val ((coordinateChartPointsEquiv (U s) k n (i s)).apply_symm_apply y)))
 
-/-- The Grassmannian functor `G(k, n)` is representable by a scheme when `0 < k < n`. -/
+/-- The Grassmannian functor `G(k, n)` is representable by a scheme. -/
 @[stacks 089T, sga "6 VI 4.1" "Grassmannian, free case"]
-public theorem functor_isRepresentable (k n : ℕ) (hk : 0 < k) (hkn : k < n) :
+public theorem functor_isRepresentable (k n : ℕ) :
     (functor.{u} k n).IsRepresentable := by
   let := coordinateChartMap_isLocallySurjective.{u} k n
   exact Scheme.LocalRepresentability.isRepresentable
@@ -660,7 +660,7 @@ public theorem chartQuotientMap_coeff {T : Scheme.{u}} (k n : ℕ) (ι : Fin (n 
   have h1 := freeSectionsEquiv_unitHom_apply T (n - k)
     (SheafOfModules.ιFree (R := T.ringCatSheaf) (ULift.up j) ≫ chartQuotientMap k n ι g) i
   rw [Category.assoc] at h1
-  show unitSectionsEquiv T ((SheafOfModules.unit T.ringCatSheaf).unitHomEquiv
+  change unitSectionsEquiv T ((SheafOfModules.unit T.ringCatSheaf).unitHomEquiv
     (SheafOfModules.ιFree (R := T.ringCatSheaf) (ULift.up.{u} j) ≫ chartQuotientMap k n ι g ≫
       SheafOfModules.freeProjection (ULift.up.{u} i))) = _
   rw [← h1]
@@ -690,7 +690,7 @@ private lemma objEquiv_homEquiv_comp_chartMap {T : Scheme.{u}} (k n : ℕ)
     (functorData.{u} k n).objEquiv T ((representableBy.{u} k n).homEquiv (g ≫ chartMap k n ι)) =
       ⟦normalizedQuotientPresentation T k n ι (chartNormalizedQuotient k n ι g)⟧ := by
   rw [homEquiv_comp_chartMap]
-  show (functorData.{u} k n).objEquiv T
+  change (functorData.{u} k n).objEquiv T
     (((functorData.{u} k n).objEquiv T).symm ⟦normalizedQuotientPresentation T k n ι
       (chartNormalizedQuotient k n ι g)⟧) = _
   rw [Equiv.apply_symm_apply]
@@ -726,10 +726,10 @@ public theorem exists_comp_chartMap_eq_of_isIso {T : Scheme.{u}} {k n : ℕ}
   have hcond : coordinateChartCondition k n ι T
       ((coordinateChartPointsEquiv T k n κ h).1) := by
     refine ⟨q, ?_, ?_⟩
-    · show (functorData.{u} k n).objEquiv T
+    · change (functorData.{u} k n).objEquiv T
         (((functorData.{u} k n).objEquiv T).symm ⟦q⟧) = _
       rw [Equiv.apply_symm_apply]
-    · show Epi (SheafOfModules.freeMap (R := T.ringCatSheaf)
+    · change Epi (SheafOfModules.freeMap (R := T.ringCatSheaf)
         (fun i : ULift.{u} (Fin (n - k)) => ULift.up (ι i.down)) ≫ chartQuotientMap k n κ h)
       infer_instance
   let y : (coordinateChartSubfunctor.{u} k n ι).obj (op T) :=

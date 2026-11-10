@@ -107,7 +107,7 @@ theorem subsingleton_sheafH_of_isPullback_of_cohomologyCommutesWithBaseChange
   let K := (DerivedCategory.singleFunctor (Sheaf X.smallEtaleTopology
     AddCommGrpCat.{max (u + 1) v}) 0).obj F
   have hKge : K.IsGE 0 := by
-    show ((DerivedCategory.singleFunctor _ 0).obj F).IsGE 0
+    change ((DerivedCategory.singleFunctor _ 0).obj F).IsGE 0
     infer_instance
   obtain ⟨δ, hδ⟩ :=
     exists_longExactSequence_of_isPullback_of_cohomologyCommutesWithBaseChange.{u, v}

@@ -149,7 +149,7 @@ there. -/
 theorem residueDegree_eq_one_of_bijective_residueFieldMap {X Y : Scheme.{u}} (h : X ⟶ Y) (x : X)
     (hx : Function.Bijective (h.residueFieldMap x).hom) : h.residueDegree x = 1 := by
   let _ := (h.residueFieldMap x).hom.toAlgebra
-  show Module.finrank (Y.residueField (h.base x)) (X.residueField x) = 1
+  change Module.finrank (Y.residueField (h.base x)) (X.residueField x) = 1
   exact Module.finrank_of_bijective_algebraMap hx
 
 /-- A closed subscheme has multiplicity one at a component whose local ring is a field: the local
@@ -196,7 +196,7 @@ theorem fundamentalCycle_eq_zero_of_ne (C : ChowSituation.{u}) {T : Scheme.{u}} 
   have hgen : ∀ ξ : genericPoints T, (ξ : T) = η := fun ξ ↦
     (Set.eq_singleton_iff_unique_mem.mp hsingle).2 _ ξ.2
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun y ↦ ?_)
-  show (cycleAssociatedToClosedSubscheme C sT (𝟙 T) k).1 y = 0
+  change (cycleAssociatedToClosedSubscheme C sT (𝟙 T) k).1 y = 0
   refine cycleAssociatedToClosedSubscheme_apply_eq_zero C sT (𝟙 T) k y ?_
   rintro ⟨ξ, hξ, hd⟩
   exact hdim ((hξ.symm.trans (hgen ξ) : y = η) ▸ hd)
@@ -338,7 +338,7 @@ theorem eq_finsetSum_cycleAssociatedToIntegralComponentAt (C : ChowSituation.{u}
       map_zero' := rfl
       map_add' := fun _ _ ↦ rfl }
   have hev : ∀ a : CycleGroup C sT k, ev a = a.1 y := fun _ ↦ rfl
-  show ev α = ev _
+  change ev α = ev _
   rw [map_sum]
   have hterm : ∀ x ∈ hfin.toFinset,
       ev (α.1 x • cycleAssociatedToClosedSubscheme C sT (integralComponentAt x).subschemeι k) =
@@ -490,7 +490,7 @@ theorem BivariantClass.cap_mk_eq_zero_of_finite_support
     (α : CycleGroup C (g ≫ sY) k) (hfin : (Function.support (α.1 : T → ℤ)).Finite) :
     c.cap g k (QuotientAddGroup.mk' (rationalEquivalences C (g ≫ sY) k) α) = 0 := by
   set F := (c.cap g k).comp (QuotientAddGroup.mk' (rationalEquivalences C (g ≫ sY) k)) with hF
-  show F α = 0
+  change F α = 0
   rw [eq_finsetSum_cycleAssociatedToIntegralComponentAt C (g ≫ sY) k α hfin, map_sum]
   refine Finset.sum_eq_zero fun x _ ↦ ?_
   rw [map_zsmul, show F (cycleAssociatedToClosedSubscheme C (g ≫ sY)
@@ -642,7 +642,7 @@ theorem BivariantClass.cap_mk_eq_zero_of_integralPresentation
   have hproper : IsProper (Sigma.desc v) := isProper_sigmaDesc_of_locallyFinite Z v hlf
   -- the summand inclusions, and the base morphisms of the summands
   have hti : ∀ i, (Sigma.ι Z i ≫ (Sigma.desc v ≫ g)) ≫ sY = v i ≫ (g ≫ sY) := fun i ↦ by
-    rw [← Category.assoc, Sigma.ι_desc, Category.assoc]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Category.assoc]
   have hassoc : ∀ i, Sigma.ι Z i ≫ ((Sigma.desc v ≫ g) ≫ sY) =
       (Sigma.ι Z i ≫ (Sigma.desc v ≫ g)) ≫ sY := fun i ↦ (Category.assoc _ _ _).symm
   -- the fundamental cycle of a summand sits in degree `k`
@@ -653,7 +653,7 @@ theorem BivariantClass.cap_mk_eq_zero_of_integralPresentation
   have hcoeff : ∀ i, ∀ z : Z i,
       (β.1 (i : T) • fundamentalCycle C ((Sigma.ι Z i ≫ (Sigma.desc v ≫ g)) ≫ sY) k).1 z =
         if z = genericPoint (Z i) then β.1 (i : T) else 0 := fun i z ↦ by
-    show β.1 (i : T) •
+    change β.1 (i : T) •
       (fundamentalCycle C ((Sigma.ι Z i ≫ (Sigma.desc v ≫ g)) ≫ sY) k).1 z = _
     rw [fundamentalCycle_eq_single C ((Sigma.ι Z i ≫ (Sigma.desc v ≫ g)) ≫ sY)
       genericPoints_eq_singleton (hdim i) (Field.toIsField _)]
@@ -670,7 +670,7 @@ theorem BivariantClass.cap_mk_eq_zero_of_integralPresentation
       ((Sigma.desc v).stalkMap_surjective x)
   have hepoint : ∀ i, (Sigma.desc v).base (Sigma.ι Z i (genericPoint (Z i))) = (i : T) :=
     fun i ↦ by
-      rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+      rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
       exact hv i
   have hpush : properPushforward C ((Sigma.desc v ≫ g) ≫ sY) (g ≫ sY) (Sigma.desc v)
       (Category.assoc _ _ _).symm k γ = β := by

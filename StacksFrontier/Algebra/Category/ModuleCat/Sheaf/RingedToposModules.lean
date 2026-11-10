@@ -887,10 +887,12 @@ structure RingedToposHom (X : RingedTopos.{v, u, w}) (Y : RingedTopos.{v', u', w
   /-- The underlying morphism of topoi. -/
   toToposHom : MorphismOfTopoi X.Topos Y.Topos
   /-- The direct-image form of the structure map, `O_D ⟶ f_*O_C`. -/
-  fSharp : Stacks.SheafOfModules.Tensor.ringSheaf Y.O ⟶ pushforwardRingSheaf toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+  fSharp : Stacks.SheafOfModules.Tensor.ringSheaf Y.O ⟶
+    pushforwardRingSheaf toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
   /-- The inverse-image form of the structure map, `f⁻¹O_D ⟶ O_C`. -/
   fSharpInverseImage :
-    inverseImageRingSheaf toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ⟶ Stacks.SheafOfModules.Tensor.ringSheaf X.O
+    inverseImageRingSheaf toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ⟶
+      Stacks.SheafOfModules.Tensor.ringSheaf X.O
   /-- The two forms of the structure map are adjunct to one another. -/
   fSharp_adjunct :
     (sheafCompose Y.J (forget RingCat.{w'})).map fSharp =
@@ -909,15 +911,15 @@ variable {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', u', w'}}
 /-- The inverse image of the structure sheaf of the target, as a presheaf of commutative
 rings on the source site. -/
 noncomputable abbrev inverseImageStructureCommRing : X.Cᵒᵖ ⥤ CommRingCat.{w} :=
-  inverseImageCommRingPresheaf X.J f.toToposHom.inverseImage (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
-    (ringSheaf_mul_comm Y)
+  inverseImageCommRingPresheaf X.J f.toToposHom.inverseImage
+    (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) (ringSheaf_mul_comm Y)
 
 /-- The inverse-image form of the structure map, read as a morphism of presheaves of
 commutative rings. -/
 noncomputable def fSharpCommRing : inverseImageStructureCommRing f ⟶ X.O.obj where
   app Z :=
-    letI := inverseImageSectionsCommRing X.J f.toToposHom.inverseImage (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
-      (ringSheaf_mul_comm Y) Z
+    letI := inverseImageSectionsCommRing X.J f.toToposHom.inverseImage
+      (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) (ringSheaf_mul_comm Y) Z
     CommRingCat.ofHom (f.fSharpInverseImage.hom.app Z).hom
   naturality {Z Z'} g := by
     refine CommRingCat.hom_ext (RingHom.ext fun x ↦ ?_)
@@ -944,14 +946,16 @@ lemma fSharp_underlying :
           (ringUnit f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ≫
         f.toToposHom.pushforward.map
           ((sheafCompose X.J (forget RingCat.{w})).map f.fSharpInverseImage) := by
-  rw [f.fSharp_adjunct, ringSheafMap_ringUnit f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)]
+  rw [f.fSharp_adjunct,
+    ringSheafMap_ringUnit f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)]
   rfl
 
 omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
   [Y.J.HasSheafCompose (forget AddCommGrpCat.{w'})] in
 /-- The direct-image form of the structure map, read on sections. -/
 lemma fSharp_sections (Z : Y.Cᵒᵖ)
-    (r : (Sheaf.sectionsFunctor Y.J Z).obj (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))) :
+    (r : (Sheaf.sectionsFunctor Y.J Z).obj
+      (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))) :
     (f.toToposHom.pushforward ⋙ Sheaf.sectionsFunctor Y.J Z).map
         ((sheafCompose X.J (forget RingCat.{w})).map f.fSharpInverseImage)
         ((Sheaf.sectionsFunctor Y.J Z).map
@@ -970,25 +974,32 @@ direct-image form `f♯ : O_D ⟶ f_*O_C` of the structure map of the direct-ima
 Stacks 03D1 (`pushforwardModules_smul`). -/
 @[stacks 03D6 "part (1)"]
 noncomputable def pushforwardModules :
-    SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⥤ SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) :=
+    SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⥤
+      SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) :=
   SheafOfModules.restrictScalars f.fSharpInverseImage ⋙
     directImageModules f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
 
 /-- The underlying sheaf of sets of the pushforward of a sheaf of modules along a morphism of
 ringed topoi is the direct image of the underlying sheaf of sets. -/
-lemma moduleSheaf_pushforwardModules (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
-    Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ((pushforwardModules f).obj F) =
-      f.toToposHom.pushforward.obj (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O) F) :=
+lemma moduleSheaf_pushforwardModules
+    (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
+    Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
+        ((pushforwardModules f).obj F) =
+      f.toToposHom.pushforward.obj
+        (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O) F) :=
   rfl
 
 /-- The scalar action on the pushforward of a sheaf of modules along a morphism of ringed
 topoi is the restriction, along the direct-image form `f♯ : O_D ⟶ f_*O_C` of the structure
 map, of the direct-image action `f_*O_C × f_*F ⟶ f_*F` of Stacks 03D1. This is the module
 structure prescribed by Stacks 03D6, part (1). -/
-lemma pushforwardModules_smul (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (Z : Y.Cᵒᵖ)
-    (r : (Sheaf.sectionsFunctor Y.J Z).obj (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))
+lemma pushforwardModules_smul (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
+    (Z : Y.Cᵒᵖ)
+    (r : (Sheaf.sectionsFunctor Y.J Z).obj
+      (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))
     (x : (Sheaf.sectionsFunctor Y.J Z).obj
-      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ((pushforwardModules f).obj F))) :
+      (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
+        ((pushforwardModules f).obj F))) :
     r • x =
       Sheaf.moduleSMulObj (Stacks.SheafOfModules.Tensor.ringSheaf X.O) F
         (f.toToposHom.pushforward ⋙ Sheaf.sectionsFunctor Y.J Z)
@@ -999,7 +1010,8 @@ lemma pushforwardModules_smul (F : SheafOfModules.{w} (Stacks.SheafOfModules.Ten
     ((Sheaf.sectionsFunctor Y.J Z).map
       ((sheafCompose Y.J (forget RingCat.{w'})).map
         (ringUnit f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))) r) x
-  change Sheaf.moduleSMulObj (inverseImageRingSheaf f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+  change Sheaf.moduleSMulObj
+      (inverseImageRingSheaf f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
       ((SheafOfModules.restrictScalars f.fSharpInverseImage).obj F)
       (f.toToposHom.pushforward ⋙ Sheaf.sectionsFunctor Y.J Z)
       ((Sheaf.sectionsFunctor Y.J Z).map
@@ -1013,7 +1025,8 @@ variable [HasWeakSheafify X.J AddCommGrpCat.{w}]
 /-- Extension of scalars along the inverse-image form of the structure map of a morphism of
 ringed topoi. -/
 noncomputable def extendScalarsFSharp :
-    SheafOfModules.{w} (inverseImageRingSheaf f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ⥤
+    SheafOfModules.{w}
+        (inverseImageRingSheaf f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ⥤
       SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
   extendScalars X.J (fSharpCommRing f)
     (inverseImageRingSheaf f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).property
@@ -1040,7 +1053,8 @@ extension of scalars along the inverse-image form of the structure map. -/
 noncomputable def pullbackModules :
     SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf.{u', v', w'} Y.O) ⥤
       SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} X.O) :=
-  inverseImageModules f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ⋙ extendScalarsFSharp f
+  inverseImageModules f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ⋙
+    extendScalarsFSharp f
 
 end RingedToposHom
 

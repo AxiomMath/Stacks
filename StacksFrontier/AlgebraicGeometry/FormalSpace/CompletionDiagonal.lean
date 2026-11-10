@@ -106,7 +106,7 @@ theorem sheafifiedULiftMap_comp (g : X' ⟶ Y) (h : Y ⟶ X) :
       sheafifiedULiftMap B S hS g ≫ sheafifiedULiftMap B S hS h := by
   apply ObjectProperty.hom_ext
   unfold sheafifiedULiftMap
-  show (BigFppfOver.topology B S hS).sheafifyMap
+  change (BigFppfOver.topology B S hS).sheafifyMap
       (Functor.whiskerRight (g ≫ h) uliftFunctor.{u + 1}) = _
   rw [Functor.whiskerRight_comp,
     CategoryTheory.GrothendieckTopology.sheafifyMap_comp]

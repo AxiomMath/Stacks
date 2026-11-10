@@ -191,7 +191,7 @@ lemma prodRing_decomp (U : Cᵒᵖ) (r : (prodRing J B D).obj.obj U) :
 lemma prodIdemFst_map {U V : Cᵒᵖ} (g : U ⟶ V) :
     (prodRing J B D).obj.map g (prodIdemFst J (B := B) (D := D) U) =
       prodIdemFst J (B := B) (D := D) V := by
-  show (B ⨯ D).obj.map g (prodSection J U 1 0) = prodSection J V 1 0
+  change (B ⨯ D).obj.map g (prodSection J U 1 0) = prodSection J V 1 0
   rw [prodSection_map, map_one, map_zero]
 
 /-- `d ↦ (0, d)` is compatible with restriction. -/
@@ -357,7 +357,7 @@ lemma prodIdemFst_mul_self (U : Cᵒᵖ) :
 lemma prodMulFst_comp_self (M : targetModules.{u, v, w} J (B ⨯ D)) :
     prodMulFst.{u, v, w} J M ≫ prodMulFst.{u, v, w} J M = prodMulFst.{u, v, w} J M := by
   ext U m
-  show prodIdemFst.{u, v, w} J (B := B) (D := D) U •
+  change prodIdemFst.{u, v, w} J (B := B) (D := D) U •
       prodIdemFst.{u, v, w} J (B := B) (D := D) U • m =
     prodIdemFst.{u, v, w} J (B := B) (D := D) U • m
   rw [smul_smul, prodIdemFst_mul_self]
@@ -388,7 +388,7 @@ lemma ι_prodSndKernelLift (M : targetModules.{u, v, w} J (B ⨯ D)) :
 lemma prodMulFst_prodRestrictSnd (N : targetModules.{u, v, w} J D) :
     prodMulFst.{u, v, w} J ((prodRestrictSnd J B D).obj N) = 0 := by
   ext U n
-  show ((prodSndApp J U) (prodIdemFst.{u, v, w} J (B := B) (D := D) U)) •
+  change ((prodSndApp J U) (prodIdemFst.{u, v, w} J (B := B) (D := D) U)) •
     (show N.val.obj U from n) = (0 : N.val.obj U)
   rw [prodSndApp_prodIdemFst, zero_smul]
 
@@ -396,7 +396,7 @@ lemma prodMulFst_prodRestrictSnd (N : targetModules.{u, v, w} J D) :
 lemma prodMulFst_prodRestrictFst (N : targetModules.{u, v, w} J B) :
     prodMulFst.{u, v, w} J ((prodRestrictFst J B D).obj N) = 𝟙 _ := by
   ext U n
-  show ((prodFstApp J U) (prodIdemFst.{u, v, w} J (B := B) (D := D) U)) •
+  change ((prodFstApp J U) (prodIdemFst.{u, v, w} J (B := B) (D := D) U)) •
     (show N.val.obj U from n) = (show N.val.obj U from n)
   rw [prodFstApp_prodIdemFst, one_smul]
 

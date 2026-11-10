@@ -126,7 +126,7 @@ theorem relocalizeBaseChangeOverIso_hom_fst (V : SmallEtale B T hT Z.1) :
           ((smallBaseChange B T hT φ hφ).obj V)).obj.hom =
       (relocalizeRep B hT hS g φ hφ).fst
         ((SmallEtale.relocalize B hT hS g Z.1 Z.2).functor.obj V).obj.hom := by
-  show yoneda.map ((Yoneda.fullyFaithful (C := BigFppfOver B S hS)).preimage _) ≫ _ = _
+  change yoneda.map ((Yoneda.fullyFaithful (C := BigFppfOver B S hS)).preimage _) ≫ _ = _
   rw [(Yoneda.fullyFaithful (C := BigFppfOver B S hS)).map_preimage]
   exact ((relocalizeRep B hT hS g φ hφ).isPullback _).isoIsPullback_hom_fst _ _
     (isPullback_relocalize_baseChange' B hT hS g φ hφ V)
@@ -138,7 +138,7 @@ theorem relocalizeBaseChangeOverIso_hom_snd (V : SmallEtale B T hT Z.1) :
       (relocalizeRep B hT hS g φ hφ).snd
         ((SmallEtale.relocalize B hT hS g Z.1 Z.2).functor.obj V).obj.hom := by
   refine (Yoneda.fullyFaithful (C := BigFppfOver B S hS)).map_injective ?_
-  show yoneda.map ((Yoneda.fullyFaithful (C := BigFppfOver B S hS)).preimage _ ≫ _) = _
+  change yoneda.map ((Yoneda.fullyFaithful (C := BigFppfOver B S hS)).preimage _ ≫ _) = _
   rw [Functor.map_comp, (Yoneda.fullyFaithful (C := BigFppfOver B S hS)).map_preimage]
   exact ((relocalizeRep B hT hS g φ hφ).isPullback _).isoIsPullback_hom_snd _ _
     (isPullback_relocalize_baseChange' B hT hS g φ hφ V)

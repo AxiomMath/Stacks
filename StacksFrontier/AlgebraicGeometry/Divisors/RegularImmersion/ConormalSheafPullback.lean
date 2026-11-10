@@ -242,7 +242,7 @@ lemma le_coborderRange_of_closed : U ≤ i.coborderRange := by
   intro x hx
   have hcl' : IsClosed (U.ι.base ⁻¹' Set.range i.base) := by
     rw [← range_openLift i U hsub]; exact hcl
-  show x ∈ coborder (Set.range i.base)
+  change x ∈ coborder (Set.range i.base)
   simp only [coborder, Set.mem_compl_iff, Set.mem_sdiff, not_and, not_not]
   intro hxcl
   have hy : (⟨x, hx⟩ : U.toScheme) ∈ U.ι.base ⁻¹' closure (Set.range i.base) := hxcl
@@ -412,7 +412,7 @@ theorem openChartMap_smul (n : ℕ) (r : Γ(X, V)) (a b : ↥(chartIdeal i V ^ n
           openSectionEquiv U V hVU r) •
         openPowerEquiv i U hsub hcl V hVU n a := by
     refine Subtype.ext ?_
-    show openSectionEquiv U V hVU ((r • a : ↥(chartIdeal i V ^ n)) : Γ(X, V)) =
+    change openSectionEquiv U V hVU ((r • a : ↥(chartIdeal i V ^ n)) : Γ(X, V)) =
       openSectionEquiv U V hVU r * openSectionEquiv U V hVU (a : Γ(X, V))
     rw [SetLike.val_smul, smul_eq_mul, map_mul]
   rw [openChartMap_apply, openChartMap_apply, hp,
@@ -558,7 +558,7 @@ def chartCompare (V : X.affineOpens) (hVU : V.1 ≤ U) (n : ℕ) :
     (P.map_surjective V hVU n) (Q.map_surjective V hVU n)
     (fun a => (P.map_eq_zero_iff V hVU n a).trans (Q.map_eq_zero_iff V hVU n a).symm)
 
-omit [IsImmersion i] in
+omit [IsImmersion i] hsub in
 /-- The comparison carries the section of a representative to the section of the same
 representative. -/
 theorem chartCompare_map (V : X.affineOpens) (hVU : V.1 ≤ U) (n : ℕ)
@@ -566,7 +566,7 @@ theorem chartCompare_map (V : X.affineOpens) (hVU : V.1 ≤ U) (n : ℕ)
     chartCompare i U P Q V hVU n (P.map V hVU n a) = Q.map V hVU n a :=
   Stacks.addEquivOfSurjectiveKerEq_apply _ _ _ _ _ a
 
-omit [IsImmersion i] in
+omit [IsImmersion i] hsub in
 /-- The comparison is linear over the functions on the chart. -/
 theorem chartCompare_smul (V : X.affineOpens) (hVU : V.1 ≤ U) (n : ℕ)
     (s : Z.ringCatSheaf.obj.obj (op (i ⁻¹ᵁ V.1)))
@@ -578,10 +578,10 @@ theorem chartCompare_smul (V : X.affineOpens) (hVU : V.1 ≤ U) (n : ℕ)
   have hmem : r * (a : Γ(X, V)) ∈ chartIdeal i V ^ n :=
     (chartIdeal i V ^ n).mul_mem_left r a.2
   rw [← hr, ← P.map_smul V hVU n r a ⟨r * (a : Γ(X, V)), hmem⟩ rfl,
-    chartCompare_map i U hsub _ _, chartCompare_map i U hsub _ _]
+    chartCompare_map i U _ _, chartCompare_map i U _ _]
   exact Q.map_smul V hVU n r a ⟨r * (a : Γ(X, V)), hmem⟩ rfl
 
-omit [IsImmersion i] in
+omit [IsImmersion i] hsub in
 /-- The comparison is multiplicative. -/
 theorem chartCompare_mul (V : X.affineOpens) (hVU : V.1 ≤ U) (n m : ℕ)
     (x : (A.piece (n : ℤ)).val.obj (op (i ⁻¹ᵁ V.1)))
@@ -596,18 +596,18 @@ theorem chartCompare_mul (V : X.affineOpens) (hVU : V.1 ≤ U) (n m : ℕ)
     rw [pow_add]
     exact Ideal.mul_mem_mul a.2 b.2
   rw [← P.map_mul V hVU n m a b ⟨(a : Γ(X, V)) * (b : Γ(X, V)), hmem⟩ rfl,
-    chartCompare_map i U hsub _ _, chartCompare_map i U hsub _ _, chartCompare_map i U hsub _ _]
+    chartCompare_map i U _ _, chartCompare_map i U _ _, chartCompare_map i U _ _]
   exact Q.map_mul V hVU n m a b ⟨(a : Γ(X, V)) * (b : Γ(X, V)), hmem⟩ rfl
 
-omit [IsImmersion i] in
+omit [IsImmersion i] hsub in
 /-- The comparison carries the unit to the unit. -/
 theorem chartCompare_one (V : X.affineOpens) (hVU : V.1 ≤ U) :
     chartCompare i U P Q V hVU 0 (A.one.eval (op (i ⁻¹ᵁ V.1))) =
       B.one.eval (op (i ⁻¹ᵁ V.1)) := by
-  rw [← P.map_one V hVU ⟨1, by simp⟩ rfl, chartCompare_map i U hsub _ _]
+  rw [← P.map_one V hVU ⟨1, by simp⟩ rfl, chartCompare_map i U _ _]
   exact Q.map_one V hVU ⟨1, by simp⟩ rfl
 
-omit [IsImmersion i] in
+omit [IsImmersion i] hsub in
 /-- The comparison commutes with restriction to a smaller chart of the same ambient open. -/
 theorem chartCompare_restrict_le (V W : X.affineOpens) (hVU : V.1 ≤ U) (hWU : W.1 ≤ U)
     (hWV : W.1 ≤ V.1) (hZ : i ⁻¹ᵁ W.1 ≤ i ⁻¹ᵁ V.1) (n : ℕ)
@@ -618,14 +618,14 @@ theorem chartCompare_restrict_le (V W : X.affineOpens) (hVU : V.1 ≤ U) (hWU : 
   obtain ⟨a, rfl⟩ := P.map_surjective V hVU n x
   have hmem : X.presheaf.map (homOfLE hWV).op (a : Γ(X, V)) ∈ chartIdeal i W ^ n :=
     map_mem_chartIdeal_pow i hWV n a.2
-  rw [chartCompare_map i U hsub _ _,
+  rw [chartCompare_map i U _ _,
     P.map_naturality V W hVU hWU hWV hZ n a
       ⟨X.presheaf.map (homOfLE hWV).op (a : Γ(X, V)), hmem⟩ rfl,
-    chartCompare_map i U hsub _ _]
+    chartCompare_map i U _ _]
   exact Q.map_naturality V W hVU hWU hWV hZ n a
     ⟨X.presheaf.map (homOfLE hWV).op (a : Γ(X, V)), hmem⟩ rfl
 
-omit [IsImmersion i] in
+omit [IsImmersion i] hsub in
 /-- The comparison commutes with every restriction between the preimages of two charts of `U`,
 even when neither chart contains the other. -/
 theorem chartCompare_restrict (V W : X.affineOpens) (hVU : V.1 ≤ U) (hWU : W.1 ≤ U)
@@ -655,9 +655,9 @@ theorem chartCompare_restrict (V W : X.affineOpens) (hVU : V.1 ≤ U) (hWU : W.1
       ((C.piece (n : ℤ)).val.map_comp_apply (homOfLE hZ).op (homOfLE (hle T)).op z).symm.trans
         ((C.piece (n : ℤ)).val.congr_map_apply (Subsingleton.elim _ _) z)
     rw [hcomp B,
-      chartCompare_restrict_le i U hsub P Q V T.1 hVU hTU (le_trans T.2 inf_le_right) hTV n x,
+      chartCompare_restrict_le i U P Q V T.1 hVU hTU (le_trans T.2 inf_le_right) hTV n x,
       ← hcomp A x]
-    exact (chartCompare_restrict_le i U hsub P Q W T.1 hWU hTU (le_trans T.2 inf_le_left)
+    exact (chartCompare_restrict_le i U P Q W T.1 hWU hTU (le_trans T.2 inf_le_left)
       (hle T) n ((A.piece (n : ℤ)).val.map (homOfLE hZ).op x)).symm
 
 /-! ### The comparison in every integer degree -/
@@ -666,47 +666,47 @@ theorem chartCompare_restrict (V W : X.affineOpens) (hVU : V.1 ≤ U) (hWU : W.1
 def chartCompareIso (V : X.affineOpens) (hVU : V.1 ≤ U) (n : ℕ) :
     (A.piece (n : ℤ)).val.obj (op (i ⁻¹ᵁ V.1)) ≅ (B.piece (n : ℤ)).val.obj (op (i ⁻¹ᵁ V.1)) :=
   (AddEquiv.toLinearEquiv (chartCompare i U P Q V hVU n)
-    (chartCompare_smul i U hsub P Q V hVU n)).toModuleIso
+    (chartCompare_smul i U P Q V hVU n)).toModuleIso
 
-omit [IsImmersion i] in
+omit [IsImmersion i] hsub in
 /-- The isomorphism `chartCompareIso` acts as the chartwise comparison. -/
 @[simp]
 theorem chartCompareIso_hom_apply (V : X.affineOpens) (hVU : V.1 ≤ U) (n : ℕ)
     (x : (A.piece (n : ℤ)).val.obj (op (i ⁻¹ᵁ V.1))) :
-    (chartCompareIso i U hsub P Q V hVU n).hom x =
+    (chartCompareIso i U P Q V hVU n).hom x =
       chartCompare i U P Q V hVU n x :=
   rfl
 
 /-- The chartwise comparison in every integer degree; in a negative degree both sides vanish. -/
 def chartCompareIsoInt (V : X.affineOpens) (hVU : V.1 ≤ U) : ∀ n : ℤ,
     (A.piece n).val.obj (op (i ⁻¹ᵁ V.1)) ≅ (B.piece n).val.obj (op (i ⁻¹ᵁ V.1))
-  | (n : ℕ) => chartCompareIso i U hsub P Q V hVU n
+  | (n : ℕ) => chartCompareIso i U P Q V hVU n
   | Int.negSucc n =>
       haveI hneg : (Int.negSucc n) < 0 := Int.negSucc_lt_zero n
       have hz : ∀ z : (A.piece (Int.negSucc n)).val.obj (op (i ⁻¹ᵁ V.1)), z = 0 := fun z =>
         Stacks.SheafOfModules.section_eq_zero_of_isZero (P.negative_isZero _ hneg) _ z
       have hz' : ∀ z : (B.piece (Int.negSucc n)).val.obj (op (i ⁻¹ᵁ V.1)), z = 0 := fun z =>
         Stacks.SheafOfModules.section_eq_zero_of_isZero (Q.negative_isZero _ hneg) _ z
-      (LinearEquiv.ofLinear 0 0 (LinearMap.ext fun z => (hz' z).symm)
+      (LinearEquiv.ofLinearMap 0 0 (LinearMap.ext fun z => (hz' z).symm)
         (LinearMap.ext fun z => (hz z).symm)).toModuleIso
 
-omit [IsImmersion i] in
+omit [IsImmersion i] hsub in
 /-- In a nonnegative degree, `chartCompareIsoInt` is `chartCompareIso`. -/
 theorem chartCompareIsoInt_natCast (V : X.affineOpens) (hVU : V.1 ≤ U) (n : ℕ) :
-    chartCompareIsoInt i U hsub P Q V hVU (n : ℤ) =
-      chartCompareIso i U hsub P Q V hVU n :=
+    chartCompareIsoInt i U P Q V hVU (n : ℤ) =
+      chartCompareIso i U P Q V hVU n :=
   rfl
 
-omit [IsImmersion i] in
+omit [IsImmersion i] hsub in
 /-- The comparison is multiplicative in every pair of integer degrees. -/
 theorem chartCompareIsoInt_mul (V : X.affineOpens) (hVU : V.1 ≤ U) : ∀ (p q : ℤ)
     (x : (A.piece p).val.obj (op (i ⁻¹ᵁ V.1))) (y : (A.piece q).val.obj (op (i ⁻¹ᵁ V.1))),
-    (chartCompareIsoInt i U hsub P Q V hVU (p + q)).hom
+    (chartCompareIsoInt i U P Q V hVU (p + q)).hom
         ((A.mul p q).app (op (i ⁻¹ᵁ V.1)) x y) =
       (B.mul p q).app (op (i ⁻¹ᵁ V.1))
-        ((chartCompareIsoInt i U hsub P Q V hVU p).hom x)
-        ((chartCompareIsoInt i U hsub P Q V hVU q).hom y)
-  | (n : ℕ), (m : ℕ), x, y => chartCompare_mul i U hsub P Q V hVU n m x y
+        ((chartCompareIsoInt i U P Q V hVU p).hom x)
+        ((chartCompareIsoInt i U P Q V hVU q).hom y)
+  | (n : ℕ), (m : ℕ), x, y => chartCompare_mul i U P Q V hVU n m x y
   | Int.negSucc n, q, x, y => by
       have hx : x = 0 :=
         Stacks.SheafOfModules.section_eq_zero_of_isZero
@@ -720,15 +720,15 @@ theorem chartCompareIsoInt_mul (V : X.affineOpens) (hVU : V.1 ≤ U) : ∀ (p q 
       subst hy
       simp only [map_zero]
 
-omit [IsImmersion i] in
+omit [IsImmersion i] hsub in
 /-- The comparison commutes with restriction, in every integer degree. -/
 theorem chartCompareIsoInt_restrict (V W : X.affineOpens) (hVU : V.1 ≤ U) (hWU : W.1 ≤ U)
     (hZ : i ⁻¹ᵁ W.1 ≤ i ⁻¹ᵁ V.1) : ∀ (n : ℤ) (x : (A.piece n).val.obj (op (i ⁻¹ᵁ V.1))),
-    (chartCompareIsoInt i U hsub P Q W hWU n).hom
+    (chartCompareIsoInt i U P Q W hWU n).hom
         ((A.piece n).val.map (homOfLE hZ).op x) =
       (B.piece n).val.map (homOfLE hZ).op
-        ((chartCompareIsoInt i U hsub P Q V hVU n).hom x)
-  | (n : ℕ), x => (chartCompare_restrict i U hsub P Q V W hVU hWU hZ n x).symm
+        ((chartCompareIsoInt i U P Q V hVU n).hom x)
+  | (n : ℕ), x => (chartCompare_restrict i U P Q V W hVU hWU hZ n x).symm
   | Int.negSucc n, x => by
       have hz' : ∀ z : (B.piece (Int.negSucc n)).val.obj (op (i ⁻¹ᵁ W.1)), z = 0 := fun z =>
         Stacks.SheafOfModules.section_eq_zero_of_isZero
@@ -741,16 +741,16 @@ theorem chartCompareIsoInt_restrict (V W : X.affineOpens) (hVU : V.1 ≤ U) (hWU
 associated-graded presentation over the same open. -/
 def gradedAlgebraIsoOfChartPresentations : A ≅ B :=
   Stacks.BasisRestriction.gradedAlgebraIsoOfSectionIsoOnBasis A B (innerChartOpens i U)
-    (fun n V => chartCompareIsoInt i U hsub P Q V.1 V.2 n)
+    (fun n V => chartCompareIsoInt i U P Q V.1 V.2 n)
     (innerChart_isBasis i U hsub)
-    (fun n V W h x => chartCompareIsoInt_restrict i U hsub P Q V.1 W.1 V.2 W.2 h n x)
-    (fun p q V x y => chartCompareIsoInt_mul i U hsub P Q V.1 V.2 p q x y)
+    (fun n V W h x => chartCompareIsoInt_restrict i U P Q V.1 W.1 V.2 W.2 h n x)
+    (fun p q V x y => chartCompareIsoInt_mul i U P Q V.1 V.2 p q x y)
 
 /-- The degree-`n` component of the identification over the preimage of a chart is the
 chartwise comparison. -/
 theorem gradedAlgebraIsoOfChartPresentations_hom_app_app (n : ℤ) (V : InnerChart U) :
     ((gradedAlgebraIsoOfChartPresentations i U hsub P Q).hom.app n).val.app
-        (op (i ⁻¹ᵁ V.1.1)) = (chartCompareIsoInt i U hsub P Q V.1 V.2 n).hom :=
+        (op (i ⁻¹ᵁ V.1.1)) = (chartCompareIsoInt i U P Q V.1 V.2 n).hom :=
   Stacks.BasisRestriction.gradedAlgebraIsoOfSectionIsoOnBasis_hom_app_app _ _ _ _ _ _ _ n V
 
 /-- The identification `Stacks.Conormal.gradedAlgebraIsoOfChartPresentations` carries the graded
@@ -765,7 +765,7 @@ theorem gradedAlgebraIsoOfChartPresentations_one (W : Z.Opens) :
     PresheafOfModules.sections_property A.one (homOfLE hle).op,
     PresheafOfModules.sections_property B.one (homOfLE hle).op,
     gradedAlgebraIsoOfChartPresentations_hom_app_app]
-  exact chartCompare_one i U hsub P Q V.1 V.2
+  exact chartCompare_one i U P Q V.1 V.2
 
 end Compare
 
@@ -796,7 +796,7 @@ theorem conormalIsoReesPullback_one (W : Z.Opens) :
 /-- The degree-`n` component of the identification over the preimage of a chart. -/
 theorem conormalIsoReesPullback_hom_app_app (n : ℤ) (V : InnerChart U) :
     ((conormalIsoReesPullback i U hsub hcl).hom.app n).val.app (op (i ⁻¹ᵁ V.1.1)) =
-      (chartCompareIsoInt i U hsub (conormalChartPresentation i U hsub hcl)
+      (chartCompareIsoInt i U (conormalChartPresentation i U hsub hcl)
         (openReesChartPresentation i U hsub hcl) V.1 V.2 n).hom :=
   gradedAlgebraIsoOfChartPresentations_hom_app_app i U hsub _ _ n V
 
@@ -829,7 +829,7 @@ theorem openChartAssociatedGradedEquiv_mk (V : X.affineOpens) (hVU : V.1 ≤ U) 
       openChartMap i U hsub hcl V hVU n ⟨(a : Γ(X, V)), by simpa using a.property⟩ := by
   rw [openChartAssociatedGradedEquiv_eq,
     (affineSectionsEquiv i V (closedImmersion_chart i U hsub hcl V hVU)).map_mk]
-  exact chartCompare_map i U hsub _ _ V hVU n _
+  exact chartCompare_map i U _ _ V hVU n _
 
 /-- Products of homogeneous classes correspond to products of sections. -/
 theorem openChartAssociatedGradedEquiv_mul (V : X.affineOpens) (hVU : V.1 ≤ U) (n m : ℕ)
@@ -842,7 +842,7 @@ theorem openChartAssociatedGradedEquiv_mul (V : X.affineOpens) (hVU : V.1 ≤ U)
         (openChartAssociatedGradedEquiv i U hsub hcl V hVU m y) := by
   rw [openChartAssociatedGradedEquiv_eq,
     (affineSectionsEquiv i V (closedImmersion_chart i U hsub hcl V hVU)).map_mul n m x y,
-    chartCompare_mul i U hsub _ _]
+    chartCompare_mul i U _ _]
   rfl
 
 /-- The degree-zero unit is respected. -/
@@ -854,7 +854,7 @@ theorem openChartAssociatedGradedEquiv_one (V : X.affineOpens) (hVU : V.1 ≤ U)
       (openReesPullback i U hsub).one.eval (op (i ⁻¹ᵁ V.1)) := by
   rw [openChartAssociatedGradedEquiv_eq,
     (affineSectionsEquiv i V (closedImmersion_chart i U hsub hcl V hVU)).map_one]
-  exact chartCompare_one i U hsub _ _ V hVU
+  exact chartCompare_one i U _ _ V hVU
 
 /-- The identification is linear over the quotient map on chart sections. -/
 theorem openChartAssociatedGradedEquiv_smul (V : X.affineOpens) (hVU : V.1 ≤ U) (n : ℕ)
@@ -864,7 +864,7 @@ theorem openChartAssociatedGradedEquiv_smul (V : X.affineOpens) (hVU : V.1 ≤ U
         openChartAssociatedGradedEquiv i U hsub hcl V hVU n x := by
   rw [openChartAssociatedGradedEquiv_eq,
     (affineSectionsEquiv i V (closedImmersion_chart i U hsub hcl V hVU)).map_smul n r x,
-    chartCompare_smul i U hsub _ _]
+    chartCompare_smul i U _ _]
   rfl
 
 /-- The identification commutes with restriction between charts. -/

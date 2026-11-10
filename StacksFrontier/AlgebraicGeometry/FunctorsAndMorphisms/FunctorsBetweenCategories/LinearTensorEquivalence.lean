@@ -117,7 +117,7 @@ private lemma functorValueModule_smul
     (functorValueModule R A B F M).isModule.smul (a ⊗ₜ[R] b) x =
       b • (F.map (scalarMul A M a)) x := by
   dsimp [functorValueModule]
-  show (imageAction A B F M a) (b • x) =
+  change (imageAction A B F M a) (b • x) =
     b • (imageAction A B F M a) x
   exact map_smul (imageAction A B F M a) b x
 
@@ -138,10 +138,7 @@ private noncomputable def functorValueModuleHom
     map_smul' := ?_ }
   intro c x
   change F.obj M at x
-  induction c using TensorProduct.induction_on with
-  | zero =>
-      change φ ((0 : A ⊗[R] B) • x) = (0 : A ⊗[R] B) • φ x
-      simp
+  induction c using TensorProduct.inductionOn with
   | tmul a b =>
       change φ ((functorValueModule R A B F M).isModule.smul (a ⊗ₜ[R] b) x) =
         (functorValueModule R A B G N).isModule.smul (a ⊗ₜ[R] b) (φ x)
@@ -249,7 +246,7 @@ private lemma functorValueModule_restrict_smul
     (((ModuleCat.restrictScalars
         (Algebra.TensorProduct.includeRight (R := R) (A := A) (B := B)).toRingHom).obj
       (functorValueModule R A B F M)).isModule).smul b x = b • x := by
-  show (functorValueModule R A B F M).isModule.smul
+  change (functorValueModule R A B F M).isModule.smul
     ((Algebra.TensorProduct.includeRight (R := R) (A := A) (B := B)) b) x = b • x
   rw [Algebra.TensorProduct.includeRight_apply, functorValueModule_smul]
   rw [scalarMul_one, F.map_id]
@@ -337,7 +334,7 @@ private lemma functorValueModule_includeLeft_smul
     (functorValueModule R A B F (ModuleCat.of A A)).isModule.smul
       ((Algebra.TensorProduct.includeLeftRingHom (R := R) (A := A) (B := B)) a) k =
         F.map (regularMul A a) k := by
-  show (functorValueModule R A B F (ModuleCat.of A A)).isModule.smul
+  change (functorValueModule R A B F (ModuleCat.of A A)).isModule.smul
     (a ⊗ₜ[R] (1 : B)) k = F.map (regularMul A a) k
   rw [functorValueModule_smul, regularMul_eq_scalarMul]
   simp
@@ -370,41 +367,34 @@ private lemma tensorFunctorRegularValueIso_natural
     ((T.map (regularMul A a) ≫ e.hom).hom)
   let R' : T.obj (ModuleCat.of A A) →ₗ[B] F.obj (ModuleCat.of A A) :=
     ((e.hom ≫ F.map (regularMul A a)).hom)
-  show L = R'
+  change L = R'
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => exact (L.map_zero).trans (R'.map_zero).symm
+  induction x using TensorProduct.inductionOn with
   | tmul s k =>
-    induction s using TensorProduct.induction_on with
-    | zero =>
-      show e.hom (T.map (regularMul A a) (0 ⊗ₜ[A ⊗[R] B] k)) =
-        F.map (regularMul A a) (e.hom (0 ⊗ₜ[A ⊗[R] B] k))
-      rw [TensorProduct.zero_tmul]
-      exact (by simp : e.hom ((T.map (regularMul A a)) 0) =
-        F.map (regularMul A a) (e.hom 0))
+    induction s using TensorProduct.inductionOn with
     | tmul t z =>
       change A ⊗[R] B at t
       change A at z
       let : Module (A ⊗[R] B) (F.obj (ModuleCat.of A A)) :=
         (functorValueModule R A B F (ModuleCat.of A A)).isModule
-      show e.hom
+      change e.hom
           (((ModuleCat.extendScalars
               (Algebra.TensorProduct.includeLeftRingHom (R := R) (A := A) (B := B))).map
                 (regularMul A a) (t ⊗ₜ[A] z)) ⊗ₜ[A ⊗[R] B] k) =
         (F.map (regularMul A a)).hom
           (e.hom ((t ⊗ₜ[A] z) ⊗ₜ[A ⊗[R] B] k))
-      show e.hom ((t ⊗ₜ[A] (a * z)) ⊗ₜ[A ⊗[R] B] k) =
+      change e.hom ((t ⊗ₜ[A] (a * z)) ⊗ₜ[A ⊗[R] B] k) =
         (F.map (regularMul A a)).hom
           (e.hom ((t ⊗ₜ[A] z) ⊗ₜ[A ⊗[R] B] k))
       rw [tensorFunctorRegularValueIso_hom_tmul,
         tensorFunctorRegularValueIso_hom_tmul]
-      show (functorValueModule R A B F (ModuleCat.of A A)).isModule.smul
+      change (functorValueModule R A B F (ModuleCat.of A A)).isModule.smul
           ((Algebra.TensorProduct.includeLeftRingHom (R := R) (A := A) (B := B)) (a * z) * t) k =
         (F.map (regularMul A a)).hom
           ((functorValueModule R A B F (ModuleCat.of A A)).isModule.smul
             ((Algebra.TensorProduct.includeLeftRingHom (R := R) (A := A) (B := B)) z * t) k)
       let iL := Algebra.TensorProduct.includeLeftRingHom (R := R) (A := A) (B := B)
-      show (iL (a * z) * t) • k =
+      change (iL (a * z) * t) • k =
         (F.map (regularMul A a)).hom ((iL z * t) • k)
       calc
         (iL (a * z) * t) • k = (iL z * t) • (iL a • k) := by
@@ -524,24 +514,10 @@ private noncomputable def reconstructedTensorModuleIso
       e.hom ((F.map (scalarMul A (ModuleCat.of A A) a)).hom x) =
         iL a • e.hom x := by
     change E ⊗[A ⊗[R] B] K at x
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      change e.hom.hom 0 = iL a • e.hom.hom 0
-      rw [e.hom.hom.map_zero, smul_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul s k =>
       change E at s
-      induction s using TensorProduct.induction_on with
-      | zero =>
-        -- Each additivity step here is applied as a term: the `change`s above restate the goal
-        -- with instances that `rw` and `simp` cannot match against the ones in the pure tensors.
-        have h0 : (0 : E) ⊗ₜ[A ⊗[R] B] k = 0 := TensorProduct.zero_tmul _ k
-        refine (congrArg _ (congrArg _ h0)).trans ?_
-        refine (congrArg _ (map_zero
-          (F.map (scalarMul A (ModuleCat.of A A) a)).hom)).trans ?_
-        refine (map_zero e.hom.hom).trans ?_
-        refine (smul_zero (iL a)).symm.trans ?_
-        refine (congrArg _ (map_zero e.hom.hom).symm).trans ?_
-        exact congrArg _ (congrArg _ h0).symm
+      induction s using TensorProduct.inductionOn with
       | tmul t z =>
         change A ⊗[R] B at t
         change e.hom
@@ -581,9 +557,7 @@ private noncomputable def reconstructedTensorModuleIso
     map_add' := e.hom.hom.map_add
     map_smul' := by
       intro c x
-      induction c using TensorProduct.induction_on with
-      | zero =>
-        exact (map_zero e.hom.hom).trans (zero_smul (A ⊗[R] B) _).symm
+      induction c using TensorProduct.inductionOn with
       | tmul a b =>
         change e.hom.hom
           ((functorValueModule R A B F (ModuleCat.of A A)).isModule.smul

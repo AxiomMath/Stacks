@@ -6,15 +6,11 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Sweep.EtaleStalkF
 public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFreeRank.LocalAtTarget
 public import StacksFrontier.AlgebraicGeometry.Topologies.BigEtale.SmallEtaleFunctoriality
 public import StacksFrontier.AlgebraicGeometry.Topologies.Etale
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.FiniteUniversalHomeomorphismPushforward
-import all
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.FiniteUniversalHomeomorphismPushforward
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.FiniteUniversalHomeomorphismPushforward
+import all StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.FiniteUniversalHomeomorphismPushforward
 
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.FiniteEtalePushforwardConstructible
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.FiniteEtalePushforwardConstructibleUnconditional
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.FiniteEtalePushforwardConstructible
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.FiniteEtalePushforwardConstructibleUnconditional
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FinitePushforwardBaseChange
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FinitePushforwardBaseChangeUnconditional
 public import StacksFrontier.AlgebraicGeometry.Topologies.EtaleUniversalHomeomorphism
@@ -60,7 +56,7 @@ public theorem isIso_of_isIso_smallInverseImage_of_surjective {X Y : B.Scheme} (
   refine (NatIso.isIso_map_iff (Functor.isoWhiskerLeft (sheafToPresheaf _ _)
     (etaleStalkPresheafFunctorIsoOfEqBase B Y.1 Y.property hx (Type (u + 1)))) α).1 ?_
   refine (NatIso.isIso_map_iff (smallEtalePullbackStalkIsoUniv.{u, 0} B f x) α).1 ?_
-  show IsIso ((etaleStalkFunctor.{u, u + 1} B X.1 X.property x).map
+  change IsIso ((etaleStalkFunctor.{u, u + 1} B X.1 X.property x).map
     ((B.smallInverseImage f (Type (u + 1))).map α))
   infer_instance
 

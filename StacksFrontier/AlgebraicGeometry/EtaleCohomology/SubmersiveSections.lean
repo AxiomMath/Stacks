@@ -314,7 +314,7 @@ private def smallEtaleSkyscraperIso
       Ψ.skyscraperPresheafFunctor :=
     (Iso.refl _) ≪≫
       (flipFunctor _ _ _).mapIso
-        (Functor.isoWhiskerRight (NatIso.op e.symm) piFunctor.flip)
+        (Functor.isoWhiskerRight (NatIso.op e.symm) piConst.flip)
   exact (show Φ.skyscraperSheafFunctor (A := A) ⋙
       G.sheafPushforwardContinuous A S.smallEtaleTopology X.smallEtaleTopology ≅
       Ψ.skyscraperSheafFunctor from

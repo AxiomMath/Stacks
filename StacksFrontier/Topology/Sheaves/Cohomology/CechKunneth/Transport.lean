@@ -121,11 +121,11 @@ theorem transportCochain_d (p : ℕ) (c : Cochain (m.op ⋙ R) U p) :
     d R (m.obj ∘ U) p (transportCochain m R U hm p c) =
       transportCochain m R U hm (p + 1) (d (m.op ⋙ R) U p c) := by
   funext s
-  show _ = res R _ (∑ j : Fin (p + 2), _)
+  change _ = res R _ (∑ j : Fin (p + 2), _)
   rw [d_apply, map_sum]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [map_zsmul, res_comp]
-  show _ • res R _ (res R _ (c _)) = _ • res R _ (res R _ (c _))
+  change _ • res R _ (res R _ (c _)) = _ • res R _ (res R _ (c _))
   rw [res_res, res_res]
 
 /-- **Čech cohomology of `m^* R` for `U` is Čech cohomology of `R` for `m ∘ U`**, when `m` carries

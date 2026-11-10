@@ -182,7 +182,7 @@ def chernSeriesOfModule (X : C) (E : (S.obj X).Modules) : UnitalCentralSeries (�
 theorem chernSeriesOfModule_of_not (X : C) (E : (S.obj X).Modules)
     (hE : ¬ AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
       (R := (S.obj X).ringCatSheaf) E) : 𝔗.chernSeriesOfModule X E = 1 :=
-  dif_neg hE
+  dite_eq_right hE
 
 /-- The `n`-th component of the total Chern class of a finite locally free module is
 `Stacks.WeilCohomology.Weak.ChernSituation.patchedCoeff`. -/
@@ -190,7 +190,7 @@ theorem coeff_chernSeriesOfModule (X : C) (E : (S.obj X).Modules)
     (hE : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
       (R := (S.obj X).ringCatSheaf) E) (n : ℕ) :
     (𝔗.chernSeriesOfModule X E).coeff n = 𝔗.patchedCoeff X E hE n := by
-  rw [chernSeriesOfModule, dif_pos hE, UnitalCentralSeries.coeff_ofCoeff]
+  rw [chernSeriesOfModule, dite_eq_left hE, UnitalCentralSeries.coeff_ofCoeff]
 
 /-- Along a morphism making `ℰ` of constant rank, the components of the arbitrary-rank total
 Chern class restrict to those of the constant-rank one. -/

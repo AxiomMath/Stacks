@@ -75,7 +75,7 @@ that factor under a `congrArg` — keeps every defeq check small.
 
 *Why the summand-inclusion lemmas carry their source and target functors explicitly.* Applied
 under a `congrArg`, the natural isomorphism argument of
-`CategoryTheory.Limits.HasColimit.isoOfNatIso_ι_inv` is a metavariable when its `HasColimit`
+`CategoryTheory.Limits.HasColimit.ι_isoOfNatIso_inv` is a metavariable when its `HasColimit`
 instances are synthesized, and synthesis then fails on an incomplete functor. Supplying the
 functors by name leaves nothing to synthesize against.
 
@@ -121,7 +121,7 @@ theorem ι_componentModuleLowerShriekUnitRestrictionSum_inv_sigma (φ : n ⟶ m)
   refine Eq.trans (Category.assoc _ _ _).symm ?_
   refine Eq.trans (congrArg (fun g => g ≫ _) (Category.assoc _ _ _).symm) ?_
   refine Eq.trans (congrArg (fun g => (g ≫ _) ≫ _)
-    (HasColimit.isoOfNatIso_ι_inv_assoc
+    (HasColimit.ι_isoOfNatIso_inv_assoc
       (F := Discrete.functor (C := (S.componentRingedTopos O m).Modules)
         (((evaluation (SheafOfModules.{u}
                   (S.componentRingSheaf
@@ -133,7 +133,7 @@ theorem ι_componentModuleLowerShriekUnitRestrictionSum_inv_sigma (φ : n ⟶ m)
         fun _ : n ⟶ m => SheafOfModules.unit (S.componentRingSheaf (S.totalRingSheaf O) m))
       _ (Discrete.mk φ) _)) ?_
   refine Eq.trans (congrArg (fun g => ((_ ≫ g) ≫ _) ≫ _)
-    (HasColimit.isoOfNatIso_ι_inv
+    (HasColimit.ι_isoOfNatIso_inv
       (F := (Discrete.functor fun ψ : n ⟶ m => S.transitionPullbackModules' O ψ) ⋙
         (evaluation (SheafOfModules.{u}
               (S.componentRingSheaf
@@ -211,7 +211,7 @@ theorem biproduct_ι_componentModuleLowerShriekUnitTensorRestrictionSum_inv (φ 
   simp only [componentModuleLowerShriekUnitTensorRestrictionSum]
   simp only [Functor.comp_obj, Functor.whiskeringLeft_obj_obj, Iso.trans_inv, Iso.symm_inv,
     biproduct.isoCoproduct_hom, Category.assoc, Functor.mapIso_inv, Functor.comp_map,
-    Functor.whiskeringLeft_obj_map, biproduct.ι_desc_assoc, HasColimit.isoOfNatIso_ι_inv_assoc,
+    Functor.whiskeringLeft_obj_map, biproduct.ι_desc_assoc, HasColimit.ι_isoOfNatIso_inv_assoc,
     Discrete.functor_obj_eq_as, Discrete.natIso_inv_app, ι_preservesColimitIso_inv_assoc,
     Iso.cancel_iso_inv_left]
   simp only [Discrete.compNatIsoDiscrete, Functor.comp_obj, Functor.whiskeringLeft_obj_obj,

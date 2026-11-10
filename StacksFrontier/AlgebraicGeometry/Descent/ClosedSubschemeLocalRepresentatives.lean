@@ -59,7 +59,7 @@ theorem exists_lift (hΦ : IsStableUnderPullback Φ) {V : Scheme.{u}} (r : V ⟶
     Over.isoMk (Iso.refl _) (by simpa [V'] using (Over.w a).symm)
   obtain ⟨b⟩ := (hZ V').mp (hΦ e.hom hT)
   refine ⟨Over.homMk b.left ?_, Over.OverMorphism.ext (Over.w b)⟩
-  show b.left ≫ Z.hom ≫ r = T.hom
+  change b.left ≫ Z.hom ≫ r = T.hom
   rw [← Category.assoc, Over.w b]
   exact Over.w a
 
@@ -225,7 +225,7 @@ theorem liesInFamily_map_iff
       (pullback.lift_snd _ _ _).symm
     rw [this]
     exact h'.trans (ker_le_ker_comp _ _)
-  · show J j ≤ (pullback.snd (T.hom ≫ q i) (q j)).ker
+  · change J j ≤ (pullback.snd (T.hom ≫ q i) (q j)).ker
     let m : pullback (T.hom ≫ q i) (q j) ⟶ pullback (q i) (q j) :=
       pullback.map _ _ _ _ T.hom (𝟙 _) (𝟙 _) (by simp) (by simp)
     have hm : pullback.snd (T.hom ≫ q i) (q j) = m ≫ pullback.snd (q i) (q j) := by

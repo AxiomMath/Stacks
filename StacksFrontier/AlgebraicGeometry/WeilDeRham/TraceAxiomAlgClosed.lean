@@ -140,7 +140,7 @@ private theorem irreducibleSpace_clopen_connectedComponentOpens
     obtain ⟨z, rfl⟩ := ConnectedComponents.surjective_coe i
     have hz : (X.obj.left.connectedComponentOpens (ConnectedComponents.mk z) : Set X.obj.left) =
         connectedComponent z := by
-      show ConnectedComponents.mk ⁻¹' {ConnectedComponents.mk z} = _
+      change ConnectedComponents.mk ⁻¹' {ConnectedComponents.mk z} = _
       rw [connectedComponents_preimage_singleton]
     exact isConnected_iff_connectedSpace.1 (hz ▸ isConnected_connectedComponent)
   have h := irreducibleSpace_of_smooth_of_connectedSpace_of_compactSpace
@@ -168,7 +168,7 @@ theorem pointEval_traceContract_diagonalClass {d : ℕ} (hd : RelativeDimension 
       l (h.cycleClassGrade hA1 hA3 X d (pointChowClass x hx d)) := by
   have hjp := prodLift_fst (toPoint X ≫ pointHom x hx) (𝟙 X)
   have hjq := prodLift_snd (toPoint X ≫ pointHom x hx) (𝟙 X)
-  show pointEval hA5 (pointHom x hx) (contractRight (𝔇.untwistTrace X d l)
+  change pointEval hA5 (pointHom x hx) (contractRight (𝔇.untwistTrace X d l)
     ((𝔇.kunnethEquiv hA5 X X).symm
       (𝔇.untwistClass X d (h.codimensionCycleClass (prod X X) d (diagonalClass X d))))) = _
   rw [pointEval_contractRight_eq hA5 (pointHom x hx) hjp hjq,

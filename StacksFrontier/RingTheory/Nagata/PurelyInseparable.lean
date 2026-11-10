@@ -4,7 +4,7 @@ public import Mathlib.Algebra.CharP.Algebra
 public import Mathlib.Algebra.Lie.OfAssociative
 public import Mathlib.Algebra.Order.Ring.Star
 public import Mathlib.Analysis.Normed.Ring.Lemmas
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.RingTheory.AdjoinRoot
 public import Mathlib.RingTheory.Derivation.Basic
 public import Mathlib.RingTheory.Henselian

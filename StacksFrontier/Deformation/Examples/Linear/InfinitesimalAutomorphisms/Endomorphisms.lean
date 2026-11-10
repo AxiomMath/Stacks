@@ -386,7 +386,7 @@ private lemma dualNumberLift_exists_linearEquiv_of_end
     change (m - T m) + T (m - T m) = m
     rw [map_sub, hTT]
     abel
-  let f : X.carrier ≃ₗ[DualNumber k] X.carrier := LinearEquiv.ofLinear A B hAB hBA
+  let f : X.carrier ≃ₗ[DualNumber k] X.carrier := LinearEquiv.ofLinearMap A B hAB hBA
   refine ⟨f, fun m => ?_, fun m => ⟨q m, ?_, ?_⟩⟩
   · have hρT (m : X.carrier) : X.reduction (T m) = 0 :=
       (dualNumberLift_reduction_eq_zero_iff X _).mpr ⟨q m, rfl⟩

@@ -162,7 +162,7 @@ public lemma torIndependent_congr
         right_inv := e.right_inv
         map_add' := e.map_add
         map_smul' := fun r a ↦ by
-          show e (r • a) = (eR r) • e a
+          change e (r • a) = (eR r) • e a
           rw [Algebra.smul_def, Algebra.smul_def, e.map_mul, h] })
   let iA := iso A A' eA hA
   let iB := iso B B' eB hB
@@ -198,14 +198,14 @@ private lemma torIndependent_arrowIso
   let eB : B ≃+* B' := (asIso iB.hom.right).commRingCatIsoToRingEquiv
   have hA : ∀ r, eA (algebraMap R A r) = algebraMap R' A' (eR r) := by
     intro r
-    show iA.hom.right.hom (algebraMap R A r) =
+    change iA.hom.right.hom (algebraMap R A r) =
       algebraMap R' A' (iA.hom.left.hom r)
     simpa [hf, hf'] using (DFunLike.congr_fun (CommRingCat.hom_ext_iff.mp iA.hom.w) r).symm
   have hB : ∀ r, eB (algebraMap R B r) = algebraMap R' B' (eR r) := by
     intro r
     have hh := DFunLike.congr_fun (CommRingCat.hom_ext_iff.mp iB.hom.w) r
     rw [← hbase] at hh
-    show iB.hom.right.hom (algebraMap R B r) =
+    change iB.hom.right.hom (algebraMap R B r) =
       algebraMap R' B' (iA.hom.left.hom r)
     simpa [hg, hg'] using hh.symm
   exact torIndependent_congr R A B R' A' B' eR eA eB hA hB
@@ -328,7 +328,7 @@ private lemma torIndependent_at_affine_points_iff
   let iBraw := IsAffineOpen.arrowStalkMapIso g W hW V hV hVW hy
   have hprimeCompl : r.primeCompl = rG.primeCompl := by
     ext a
-    show a ∉ (hW.primeIdealOf ⟨f.base x, hUW hx⟩).asIdeal ↔
+    change a ∉ (hW.primeIdealOf ⟨f.base x, hUW hx⟩).asIdeal ↔
       a ∉ (hW.primeIdealOf ⟨g.base y, hVW hy⟩).asIdeal
     rw [hr]
   let : IsLocalization r.primeCompl (Localization.AtPrime rG) := by
@@ -347,7 +347,7 @@ private lemma torIndependent_at_affine_points_iff
   have hLocAlgMap (a : Γ(S, W)) :
       eLoc.hom (algebraMap Γ(S, W) (Localization.AtPrime rG) a) =
         algebraMap Γ(S, W) (Localization.AtPrime r) a := by
-    show IsLocalization.ringEquivOfRingEquiv (Localization.AtPrime rG)
+    change IsLocalization.ringEquivOfRingEquiv (Localization.AtPrime rG)
       (Localization.AtPrime r) (RingEquiv.refl Γ(S, W)) hmapPrimeComplSymm _ = _
     rw [IsLocalization.ringEquivOfRingEquiv_eq]
     simp
@@ -358,7 +358,7 @@ private lemma torIndependent_at_affine_points_iff
     apply CommRingCat.hom_ext_iff.mpr
     apply IsLocalization.ringHom_ext rG.primeCompl
     ext a
-    show Localization.localRingHom r q (g.appLE W V hVW).hom hqOver
+    change Localization.localRingHom r q (g.appLE W V hVW).hom hqOver
         (eLoc.hom (algebraMap Γ(S, W) (Localization.AtPrime rG) a)) =
       _
     rw [hLocAlgMap]
@@ -367,7 +367,7 @@ private lemma torIndependent_at_affine_points_iff
       (Localization.localRingHom r q (g.appLE W V hVW).hom hqOver)) :=
     Arrow.isoMk' _ _ (asIso iBraw.hom.left ≪≫ eLoc)
       (asIso iBraw.hom.right) (by
-        show iBraw.hom.left ≫ eLoc.hom ≫ CommRingCat.ofHom
+        change iBraw.hom.left ≫ eLoc.hom ≫ CommRingCat.ofHom
             (Localization.localRingHom r q (g.appLE W V hVW).hom hqOver) =
           (g.stalkMap y) ≫ iBraw.hom.right
         calc
@@ -532,7 +532,7 @@ theorem torIndependent_tfae {S X Y : Scheme.{u}} (f : X ⟶ S) (g : Y ⟶ S) :
     obtain ⟨J, U, hUcover, hUaff, K, V, hVcover, hVaff, htor⟩ := hdata i
     have hxInv : x ∈ f ⁻¹ᵁ W i := hi
     have hyInv : y ∈ g ⁻¹ᵁ W i := by
-      show g.base y ∈ W i
+      change g.base y ∈ W i
       rw [← hxy]
       exact hi
     obtain ⟨j, hj⟩ := Opens.mem_iSup.mp (show x ∈ ⨆ j, U j by rwa [hUcover])

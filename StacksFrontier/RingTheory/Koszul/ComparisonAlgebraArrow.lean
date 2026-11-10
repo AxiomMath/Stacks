@@ -125,7 +125,7 @@ element `ι (v₀, 0)` of `B_{N,t}`. -/
 theorem koszulToComparisonX_ι (f : R) {N t : ℕ} (h : t ≤ N) (v : Fin 1 → R) :
     (koszulToComparisonX f h).toAlgebraHom (ExteriorAlgebra.ι R v) =
       comparisonInclusion R (ExteriorAlgebra.ι R (Pi.single 0 (v 0))) := by
-  show comparisonInclusion R
+  change comparisonInclusion R
       (ExteriorAlgebra.map (comparisonXInclusion R) (ExteriorAlgebra.ι R v)) = _
   rw [ExteriorAlgebra.map_apply_ι, comparisonXInclusion_apply]
 
@@ -145,14 +145,14 @@ theorem comparisonToKoszul_comp_koszulToComparisonX (f : R) {N t : ℕ} (h : t �
   have hcomp : (comparisonToKoszul f h).toAlgebraHom
       (comparisonInclusion R (ExteriorAlgebra.ι R (Pi.single 0 (v 0)))) =
       ExteriorAlgebra.ι R v := by
-    show comparisonLift f N t
+    change comparisonLift f N t
         (EvenVariableAlgebra.coeffEmbedding (ExteriorAlgebra.ι R (Pi.single 0 (v 0)))) = _
     rw [comparisonLift_coeffEmbedding, comparisonExteriorMap, ExteriorAlgebra.map_apply_ι]
     congr 1
     funext i
     rw [comparisonProj_apply, Pi.single_eq_same, Pi.single_eq_of_ne (by decide), mul_zero,
       add_zero, Subsingleton.elim i 0]
-  show (comparisonToKoszul f h).toAlgebraHom
+  change (comparisonToKoszul f h).toAlgebraHom
       ((koszulToComparisonX f h).toAlgebraHom (ExteriorAlgebra.ι R v)) = ExteriorAlgebra.ι R v
   rw [koszulToComparisonX_ι, hcomp]
 
@@ -285,7 +285,7 @@ theorem comparisonToTensor_comparisonInclusion (f : R) {N n t : ℕ} (h : t ≤ 
     (a : comparisonExterior R) :
     (comparisonToTensor f h hN).toAlgebraHom (comparisonInclusion R a) =
       powPairToTensorAlgHom f n t (comparisonPairExteriorMap f N n a) := by
-  show powPairToTensorAlgHom f n t
+  change powPairToTensorAlgHom f n t
       (comparisonPairLift f N n t (EvenVariableAlgebra.coeffEmbedding a)) = _
   rw [comparisonPairLift_coeffEmbedding]
 
@@ -338,7 +338,7 @@ theorem comparisonToTensor_comp_koszulToComparison (f : R) {N n t : ℕ} (h : t 
     fin_cases j <;> simp
   have hleft : (koszulToComparison f h).toAlgebraHom (ExteriorAlgebra.ι R v) =
       comparisonInclusion R (ExteriorAlgebra.ι R (Pi.single 1 (v 0))) := by
-    show comparisonInclusion R
+    change comparisonInclusion R
         (ExteriorAlgebra.map (zInclusion R) (ExteriorAlgebra.ι R v)) = _
     rw [ExteriorAlgebra.map_apply_ι, zInclusion_apply]
   have hlhs : (comparisonToTensor f h hN).toAlgebraHom

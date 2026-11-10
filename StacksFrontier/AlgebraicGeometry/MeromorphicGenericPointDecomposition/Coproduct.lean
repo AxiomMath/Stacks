@@ -98,7 +98,7 @@ noncomputable def sigmaPiComparison (M : ι → C) [HasProduct M] [HasCoproduct 
 @[reassoc (attr := simp)]
 lemma ι_comp_sigmaPiComparison (M : ι → C) [HasProduct M] [HasCoproduct M] (i : ι) :
     Sigma.ι M i ≫ sigmaPiComparison M = toPiSingle M i :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The entry of the comparison morphism from the `i`-th summand of the coproduct to the `j`-th
 factor of the product is the identity when `i = j` and zero otherwise. -/

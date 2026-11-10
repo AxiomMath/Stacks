@@ -90,7 +90,7 @@ theorem nonempty_basis_of_isLocalizedModule_away (r : A) [IsLocalization.Away r 
   let : Module (Localization.Away r) N := Module.compHom N e.toRingEquiv.toRingHom
   have : IsScalarTower A (Localization.Away r) N := by
     refine IsScalarTower.of_algebraMap_smul fun a n => ?_
-    show e.toRingEquiv.toRingHom (algebraMap A (Localization.Away r) a) • n = a • n
+    change e.toRingEquiv.toRingHom (algebraMap A (Localization.Away r) a) • n = a • n
     rw [show e.toRingEquiv.toRingHom (algebraMap A (Localization.Away r) a) =
       algebraMap A R' a from e.commutes a, algebraMap_smul]
   let φ : LocalizedModule (Submonoid.powers r) M ≃ₗ[A] N :=

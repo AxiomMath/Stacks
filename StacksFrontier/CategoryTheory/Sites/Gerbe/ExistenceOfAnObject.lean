@@ -411,7 +411,7 @@ private lemma pairBoundary_of {C : Type u} [Category.{v} C] (P : Cᵒᵖ ⥤ Typ
     (V : Cᵒᵖ) (a b : P.obj V) :
     ((pairBoundary P).app V).hom (FreeAbelianGroup.of (a, b)) =
       FreeAbelianGroup.of b - FreeAbelianGroup.of a := by
-  show FreeAbelianGroup.map _root_.Prod.snd (FreeAbelianGroup.of (a, b)) -
+  change FreeAbelianGroup.map _root_.Prod.snd (FreeAbelianGroup.of (a, b)) -
     FreeAbelianGroup.map _root_.Prod.fst (FreeAbelianGroup.of (a, b)) = _
   simp
 
@@ -422,10 +422,10 @@ private lemma pairBoundary_augmentation {C : Type u} [Category.{v} C]
   apply AddCommGrpCat.hom_ext
   apply FreeAbelianGroup.lift_ext
   rintro ⟨a, b⟩
-  show ((freeAbelianPresheafAugmentation P).app V).hom
+  change ((freeAbelianPresheafAugmentation P).app V).hom
     (((pairBoundary P).app V).hom (FreeAbelianGroup.of (a, b))) = 0
   rw [pairBoundary_of]
-  show (FreeAbelianGroup.lift (fun _ : P.obj V => (⟨1⟩ : ULift.{w} ℤ)))
+  change (FreeAbelianGroup.lift (fun _ : P.obj V => (⟨1⟩ : ULift.{w} ℤ)))
     (FreeAbelianGroup.of b - FreeAbelianGroup.of a) = 0
   simp
 
@@ -487,7 +487,7 @@ private lemma pairBoundaryToKernel_surjective {C : Type u} [Category.{v} C]
   · have : IsEmpty (P.obj V) := ⟨fun a => hp ⟨a⟩⟩
     refine ⟨0, hinj ?_⟩
     have : Subsingleton ((freeAbelianPresheaf P).obj V) := by
-      show Subsingleton (FreeAbelianGroup (P.obj V))
+      change Subsingleton (FreeAbelianGroup (P.obj V))
       infer_instance
     simpa only [map_zero] using (Subsingleton.elim 0 (ι.hom z))
 
@@ -542,7 +542,7 @@ private lemma pairKernelCocycleAt_eq {C : Type u} [Category.{v} C]
           simp only [pairBoundaryToKernel, Category.assoc, kernel.lift_ι]
         _ = 0 := by rw [kernel.condition, zero_comp]
     exact ConcreteCategory.congr_hom (congrArg (fun k => k.app V) h) q
-  simp only [pairKernelCocycleAt, dif_pos (show Nonempty (P.obj V) from ⟨a⟩),
+  simp only [pairKernelCocycleAt, dite_eq_left (show Nonempty (P.obj V) from ⟨a⟩),
     AddMonoidHom.comp_apply]
   exact sub_eq_zero.mp ((cocycleEvaluation_change_base P V (z V) (hz V) a
     (Classical.choice (show Nonempty (P.obj V) from ⟨a⟩)) _).trans
@@ -574,7 +574,7 @@ private lemma pairKernelCocycleAt_naturality {C : Type u} [Category.{v} C]
   · have : IsEmpty (P.obj V) := ⟨fun a => hp ⟨a⟩⟩
     have : Subsingleton ((freeAbelianPresheaf
         (FunctorToTypes.prod P P)).obj V) := by
-      show Subsingleton (FreeAbelianGroup (P.obj V × P.obj V))
+      change Subsingleton (FreeAbelianGroup (P.obj V × P.obj V))
       infer_instance
     have hq : q = 0 :=
       (AddCommGrpCat.mono_iff_injective (ι.app V)).mp inferInstance
@@ -628,10 +628,10 @@ private lemma pairBoundaryComplex_shortExact {C : Type u} [Category.{v} C]
     (AddCommGrpCat.epi_iff_surjective _).mpr (pairBoundaryToKernel_surjective P V)
   have : Epi (pairBoundaryToKernel P) := NatTrans.epi_of_epi_app _
   have : Mono (pairBoundaryComplex P).f := by
-    show Mono (kernel.ι (pairBoundaryToKernel P))
+    change Mono (kernel.ι (pairBoundaryToKernel P))
     infer_instance
   have : Epi (pairBoundaryComplex P).g := by
-    show Epi (pairBoundaryToKernel P)
+    change Epi (pairBoundaryToKernel P)
     infer_instance
   exact ⟨ShortComplex.exact_of_f_is_kernel _ (kernelIsKernel _)⟩
 
@@ -655,7 +655,7 @@ private lemma freeAbelianAugmentation_shortExact {C : Type u} [Category.{v} C]
     intro V f hf
     obtain ⟨a⟩ := hP f hf
     refine ⟨y.down • FreeAbelianGroup.of a, ?_⟩
-    show (FreeAbelianGroup.lift (fun _ : P.obj (op V) =>
+    change (FreeAbelianGroup.lift (fun _ : P.obj (op V) =>
       (⟨1⟩ : ULift.{w} ℤ))) (y.down • FreeAbelianGroup.of a) = y
     rw [map_zsmul, FreeAbelianGroup.lift_apply_of]
     obtain ⟨n⟩ := y
@@ -664,7 +664,7 @@ private lemma freeAbelianAugmentation_shortExact {C : Type u} [Category.{v} C]
     sheafify_map_epi_of_locallySurjective
       (freeAbelianPresheafAugmentation P)
   have : Mono ((S.map (presheafToSheaf J AddCommGrpCat.{w})).f) := by
-    show Mono ((presheafToSheaf J AddCommGrpCat.{w}).map S.f)
+    change Mono ((presheafToSheaf J AddCommGrpCat.{w}).map S.f)
     infer_instance
   exact ⟨(freeAbelianPresheafAugmentationComplex_exact P).map_of_mono_of_preservesKernel
     (presheafToSheaf J AddCommGrpCat.{w}) (by infer_instance) (by infer_instance)⟩
@@ -783,7 +783,7 @@ private lemma freeAbelianFamily_lift {C : Type u} [Category.{v} C]
       naturality := by
         intro V W f
         ext s
-        show I.obj.map (f.unop ≫ s.φ PUnit.unit).op (t (s.f PUnit.unit)) =
+        change I.obj.map (f.unop ≫ s.φ PUnit.unit).op (t (s.f PUnit.unit)) =
           I.obj.map f (I.obj.map (s.φ PUnit.unit).op (t (s.f PUnit.unit)))
         rw [op_comp, I.obj.map_comp]
         rfl }
@@ -791,7 +791,7 @@ private lemma freeAbelianFamily_lift {C : Type u} [Category.{v} C]
   refine ⟨(adj.homEquiv _ _).symm b₀, ?_⟩
   apply (adj.homEquiv _ _).injective
   rw [adj.homEquiv_naturality_right, (adj.homEquiv _ _).apply_symm_apply]
-  show b₀ ≫ g.hom = q₀
+  change b₀ ≫ g.hom = q₀
   ext V : 2
   apply AddCommGrpCat.hom_ext
   apply FreeAbelianGroup.lift_ext
@@ -810,9 +810,9 @@ private lemma freeAbelianFamily_lift {C : Type u} [Category.{v} C]
       Q.obj.map (s.φ PUnit.unit).op (a (s.f PUnit.unit)) := by
     rw [FreeAbelianGroup.map_of_apply] at hq
     exact (congrArg (fun t => (q₀.app V).hom (FreeAbelianGroup.of t)) hs).symm.trans hq
-  show (g.hom.app V).hom (FreeAbelianGroup.lift (j.app V) (FreeAbelianGroup.of s)) = _
+  change (g.hom.app V).hom (FreeAbelianGroup.lift (j.app V) (FreeAbelianGroup.of s)) = _
   rw [FreeAbelianGroup.lift_apply_of]
-  show (g.hom.app V).hom (I.obj.map (s.φ PUnit.unit).op (t (s.f PUnit.unit))) = _
+  change (g.hom.app V).hom (I.obj.map (s.φ PUnit.unit).op (t (s.f PUnit.unit))) = _
   exact ((NatTrans.naturality_apply g.hom (s.φ PUnit.unit).op
     (t (s.f PUnit.unit))).trans (congrArg _ (ht _))).trans hq'.symm
 
@@ -844,7 +844,7 @@ private lemma sections_surjective_of_H1_vanishing
     (hH1.elim _ _)
   refine ⟨Sheaf.H.equiv₀ S.X₂ hT b, ?_⟩
   rw [Sheaf.H.equiv₀_naturality]
-  show Sheaf.H.equiv₀ S.X₃ hT (b.comp (Abelian.Ext.mk₀ S.g) (add_zero 0)) = a
+  change Sheaf.H.equiv₀ S.X₃ hT (b.comp (Abelian.Ext.mk₀ S.g) (add_zero 0)) = a
   rw [hb]
   exact (Sheaf.H.equiv₀ S.X₃ hT).apply_symm_apply a
 

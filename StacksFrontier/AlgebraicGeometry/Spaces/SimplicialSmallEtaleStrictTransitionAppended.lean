@@ -184,7 +184,8 @@ abbrev componentAppendedTwoIso {m n : SimplexCategory} (φ : m ⟶ n)
       (b.comp ((componentRingedToposHom S O m).comp (S.transitionRingedToposHom O φ))) :=
   ((S.componentRingedTwoMorphism O φ).whiskerRight b).toTwoIso h
 
-omit [HasSheafify Z.J (Type u)] in
+omit [HasSheafify Z.J AddCommGrpCat] [Z.J.WEqualsLocallyBijective AddCommGrpCat]
+  [HasSheafify Z.J (Type u)] in
 /-- **The transition of a pullback along `b`, on sheaves of modules.** The transition
 `f_φ^*(b^*M)_m ⟶ (b^*M)_n` between the restrictions, read through the identifications
 `g_k^* ≅ (-)_k`, the composition isomorphisms of Stacks 03D8 and the pullback isomorphism of
@@ -221,7 +222,8 @@ theorem componentModulesTransition_app_pullbackModules {m n : SimplexCategory} (
   exact CategoryTheory.comp_inv_comp_inv_comp_hom_eq (Iso.hom_inv_id_app _ _)
     (Iso.hom_inv_id_app _ _) (Iso.inv_hom_id_app _ _) e1 e2 h2
 
-omit [HasSheafify Z.J (Type u)] in
+omit [HasSheafify Z.J AddCommGrpCat] [Z.J.WEqualsLocallyBijective AddCommGrpCat]
+  [HasSheafify Z.J (Type u)] in
 /-- `CategoryTheory.SimplicialSiteSituation.componentModulesTransition_app_pullbackModules` on
 homotopy categories, at the degreewise pullback along `b` of a complex. -/
 theorem mapHomotopyCategoryTransition_app_pullbackMapHomotopy {m n : SimplexCategory}
@@ -270,11 +272,7 @@ end CategoryTheory.SimplicialSiteSituation
 namespace Stacks.Cohomology.DerivedPullbackOfToposHom
 
 variable {Z : RingedTopos.{u, u, u}}
-  [Z.J.HasSheafCompose (forget RingCat.{u})]
-  [Z.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [Z.J.HasSheafCompose (forget AddCommGrpCat.{u})]
   [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [HasSheafify Z.J (Type u)]
 
 /-- Two natural transformations out of the derived category of a ringed topos agree as soon as
 they agree at the K-flat complexes with flat terms, which resolve every object (Stacks 06YS). -/

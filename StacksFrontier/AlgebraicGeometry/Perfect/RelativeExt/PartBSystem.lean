@@ -139,7 +139,7 @@ theorem partBApprox_map_comp_c (n : ℕ) :
   have h0 := comp_distTriang_mor_zero₁₂ _ hT
   have h1 := congrArg (fun k ↦ Limits.Sigma.ι D.sys.obj n ≫ k) h0
   simp only [Triangle.mk_mor₁, Triangle.mk_mor₂, comp_zero] at h1
-  rw [← Category.assoc, Limits.Sigma.ι_desc, Preadditive.sub_comp, Category.assoc, hc, hc,
+  rw [← Category.assoc, Limits.Sigma.ι_comp_desc, Preadditive.sub_comp, Category.assoc, hc, hc,
     sub_eq_zero] at h1
   exact h1.symm
 

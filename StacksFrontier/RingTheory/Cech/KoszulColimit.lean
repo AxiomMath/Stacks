@@ -102,7 +102,7 @@ private lemma exteriorBasis_apply {R : Type u} [CommRing R] {r q : ℕ}
     exteriorBasis R r q s =
       ⟨ExteriorAlgebra.ιMulti R q (fun k ↦ Pi.single (s.1.orderEmbOfFin s.2 k) 1),
         Koszul.ιMulti_mem q _⟩ := by
-  show (Pi.basisFun R (Fin r)).exteriorPower q
+  change (Pi.basisFun R (Fin r)).exteriorPower q
     (⟨s.1, s.2⟩ : Set.powersetCard (Fin r) q) = _
   rw [exteriorPower.basis_apply]
   apply Subtype.ext
@@ -214,7 +214,7 @@ private lemma degreeIso_d {R : Type u} [CommRing R] {r : ℕ}
       ((-1 : ℤ) ^ r) • (ModuleCat.ofHom (Koszul.d (Koszul.seqDual
         (fun i ↦ f i ^ (n + 1))) q) ≫
           (degreeIso f n (p + 1) q (by omega)).hom) := by
-  show _ ≫ ((-(r : ℤ)).negOnePow •
+  change _ ≫ ((-(r : ℤ)).negOnePow •
     ((Koszul.seqComplex (fun i ↦ f i ^ (n + 1))).extend
       ComplexShape.embeddingDownNat).d ((p : ℤ) + -(r : ℤ)) (↑(p + 1) + -(r : ℤ))) = _
   rw [HomologicalComplex.extend_d_eq _ _
@@ -229,7 +229,7 @@ private lemma degreeIso_transition {R : Type u} [CommRing R] {r : ℕ}
     (degreeIso f n p q h).hom ≫
       ((koszulRegradingFunctor R r).map (powerTransition f n)).f p =
     (powerTransition f n).f q ≫ (degreeIso f (n + 1) p q h).hom := by
-  show _ ≫ (HomologicalComplex.extendMap _ _).f _ = _
+  change _ ≫ (HomologicalComplex.extendMap _ _).f _ = _
   rw [HomologicalComplex.extendMap_f _ _
     (show -(q : ℤ) = (p : ℤ) + -(r : ℤ) by omega)]
   simp only [degreeIso, Iso.symm_hom, Iso.inv_hom_id_assoc]
@@ -239,7 +239,7 @@ private lemma isZero_degree {R : Type u} [CommRing R] {r : ℕ}
     IsZero ((koszulPowerCochainComplex f n).X p) := by
   apply HomologicalComplex.isZero_extend_X
   intro q
-  show -(q : ℤ) ≠ (p : ℤ) + -(r : ℤ)
+  change -(q : ℤ) ≠ (p : ℤ) + -(r : ℤ)
   omega
 
 private alias card_filter_orderEmb := Koszul.card_filter_orderEmbOfFin
@@ -293,7 +293,7 @@ private lemma cechι_fraction {R : Type*} [CommRing R] {r : ℕ}
   apply IsLocalizedModule.smul_injective (LocalizedModule.mkLinearMap
     (Cech.cechSub f (insert i s)) R)
     (⟨(∏ j ∈ insert i s, f j) ^ n, n, rfl⟩ : Cech.cechSub f (insert i s))
-  show (∏ j ∈ insert i s, f j) ^ n •
+  change (∏ j ∈ insert i s, f j) ^ n •
     Cech.cechι f R (Finset.subset_insert i s) (fraction (∏ j ∈ s, f j) x n) =
     (∏ j ∈ insert i s, f j) ^ n • fraction (∏ j ∈ insert i s, f j) (f i ^ n * x) n
   rw [fraction_cancel]
@@ -373,7 +373,7 @@ private lemma fraction_succ {R : Type*} [CommRing R] (g x : R) (n : ℕ) :
   have he : (⟨g ^ (n + 1), n + 1, rfl⟩ : Submonoid.powers g) =
       ⟨g, 1, pow_one g⟩ * ⟨g ^ n, n, rfl⟩ :=
     Subtype.ext (pow_succ' g n)
-  show LocalizedModule.mk (S := Submonoid.powers g) (g * x)
+  change LocalizedModule.mk (S := Submonoid.powers g) (g * x)
     ⟨g ^ (n + 1), n + 1, rfl⟩ = _
   rw [he]
   exact LocalizedModule.mk_cancel_common_left
@@ -418,7 +418,7 @@ private lemma isZero_cechTerm {R : Type u} [CommRing R] {r : ℕ}
     have := Finset.card_le_univ s.1
     simp only [Fintype.card_fin, s.2] at this
     omega⟩
-  show IsZero (ModuleCat.of R (Cech.cechTerm f R p))
+  change IsZero (ModuleCat.of R (Cech.cechTerm f R p))
   exact ModuleCat.isZero_of_subsingleton _
 
 private def cechLeg {R : Type u} [CommRing R] {r : ℕ}
@@ -464,7 +464,7 @@ private lemma map_basis_add {R : Type*} [CommRing R] {I : Type*}
         homOfLE (Nat.le_add_right n k) ≫ homOfLE (Nat.le_succ (n + k)) := Subsingleton.elim _ _
     rw [he, F.map_comp]
     simp only [ModuleCat.comp_apply, ih, map_smul]
-    show g i ^ k • F.map (homOfLE (Nat.le_succ (n + k))) (B (n + k) i) =
+    change g i ^ k • F.map (homOfLE (Nat.le_succ (n + k))) (B (n + k) i) =
       g i ^ (k + 1) • B ((n + k) + 1) i
     rw [h, smul_smul, pow_succ]
 
@@ -581,7 +581,7 @@ private lemma cechLeg_basis {R : Type u} [CommRing R] {r : ℕ}
     (s : {s : Finset (Fin r) // s.card = q}) :
     (cechLeg f n).f p ((degreeIso f n p q h).hom (exteriorBasis R r q s)) =
       cechFraction f n (complementIndex h s) (orientation s.1ᶜ) := by
-  show (cechLegComponent f n p) ((degreeIso f n p q h).hom _) = _
+  change (cechLegComponent f n p) ((degreeIso f n p q h).hom _) = _
   rw [← ModuleCat.comp_apply, cechLegComponent_degreeIso]
   exact localizeExterior_basis f n p q h s
 
@@ -615,7 +615,7 @@ private lemma cechLeg_naturality {R : Type u} [CommRing R] {r : ℕ}
   · apply ModuleCat.hom_ext
     apply (degreeBasis f n p hp).ext
     intro t
-    show (cechLeg f (n + 1)).f p
+    change (cechLeg f (n + 1)).f p
       (((koszulRegradingFunctor R r).map (powerTransition f n)).f p (degreeBasis f n p hp t)) =
         (cechLeg f n).f p (degreeBasis f n p hp t)
     rw [transition_degreeBasis, map_smul, cechLeg_degreeBasis, cechLeg_degreeBasis]

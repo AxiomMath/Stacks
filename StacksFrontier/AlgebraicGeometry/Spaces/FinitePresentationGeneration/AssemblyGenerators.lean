@@ -285,7 +285,7 @@ theorem exists_isFilteredColimit_isFinitePresentation_essentiallySmall
   intro k
   have := hHfp k.i
   have := hGfp k.j
-  show (cokernel k.α).IsFinitePresentation
+  change (cokernel k.α).IsFinitePresentation
   infer_instance
 
 end AlgebraicGeometry.Space

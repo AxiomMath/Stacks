@@ -252,7 +252,7 @@ theorem exists_isEtale_of_isRepresentableEtale {T₀ : BigFppfOver B S hS}
   have hp₀ : H.map p₀ = eW.hom ≫ p.hom := (liftFullyFaithful B S hS).map_preimage _
   refine ⟨W₀, hW₀, eW, p₀, ?_, hp₀⟩
   refine (Space.isEtaleULift_whiskerRight_iff B S hS p₀).mp ?_
-  show Space.IsEtaleULift.{u + 1} B S hS (H.map p₀)
+  change Space.IsEtaleULift.{u + 1} B S hS (H.map p₀)
   rw [hp₀]
   exact (Space.isEtaleULift_isIso_comp_iff B S hS eW.hom p.hom).mpr hpet
 

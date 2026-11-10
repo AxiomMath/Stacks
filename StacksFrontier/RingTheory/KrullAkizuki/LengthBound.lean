@@ -311,7 +311,7 @@ lemma length_quotSMulTop_fg_le (x : R) (hx : x ≠ 0) (hxu : ¬ IsUnit x)
   have hμapp : ∀ y : FractionRing R, μ y = (d : R) • y := by
     intro y
     rw [hμ]
-    show u • y = _
+    change u • y = _
     rw [Units.smul_def, hu, IsUnit.unit_spec, ← algebra_compatible_smul]
   -- map μ N = d • N
   have hmapeq : Submodule.map μ.toLinearMap N = (d : R) • N := by
@@ -319,7 +319,7 @@ lemma length_quotSMulTop_fg_le (x : R) (hx : x ≠ 0) (hxu : ¬ IsUnit x)
     simp only [Submodule.mem_map]
     constructor
     · rintro ⟨y, hy, rfl⟩
-      show μ y ∈ _
+      change μ y ∈ _
       rw [hμapp]
       exact Submodule.smul_mem_pointwise_smul y (d:R) N hy
     · intro hz
@@ -371,7 +371,7 @@ theorem length_quotSMulTop_le_base (M : Submodule R (FractionRing R)) (x : R) (h
     have hsmul : x • (⊤ : Submodule R ↥M) = ⊤ := by
       rw [eq_top_iff]; rintro n -; obtain ⟨u, rfl⟩ := hxu
       refine ⟨(↑u⁻¹ : R) • n, trivial, ?_⟩
-      show (u : R) • (↑u⁻¹ : R) • n = n
+      change (u : R) • (↑u⁻¹ : R) • n = n
       rw [smul_smul]
       simp
     have hsub : Subsingleton (QuotSMulTop x ↥M) := by

@@ -326,7 +326,7 @@ public theorem objectsInclusion_spec (F : FinitePartUniversalOpen G) :
 presheaf is the classifying morphism of the twisted pair. -/
 public theorem target_comp_objectsInclusion (F : FinitePartUniversalOpen G) :
     F.target.hom ≫ F.objectsInclusion = F.targetClassify := by
-  show (Subfunctor.lift F.targetClassify F.targetClassify_range ≫ F.objectsEquiv.inv) ≫
+  change (Subfunctor.lift F.targetClassify F.targetClassify_range ≫ F.objectsEquiv.inv) ≫
     F.objectsEquiv.hom ≫
       (finitePartWithSection C S hS G.source F.unit F.unit_source).toSubfunctor.ι = _
   rw [Category.assoc, ← Category.assoc F.objectsEquiv.inv, Iso.inv_hom_id, Category.id_comp,
@@ -757,7 +757,7 @@ public theorem comp_over (F : FinitePartUniversalOpen G) :
   have h : F.comp.hom ≫ F.arrowMap.hom ≫ G.arrowsToBase.hom =
       F.compFst ≫ F.arrowMap.hom ≫ G.arrowsToBase.hom := by
     ext V p
-    show G.arrowsToBase.hom.app V (F.arrowMap.hom.app V (F.comp.hom.app V p)) =
+    change G.arrowsToBase.hom.app V (F.arrowMap.hom.app V (F.comp.hom.app V p)) =
       G.arrowsToBase.hom.app V (F.arrowMap.hom.app V (F.compFst.app V p))
     rw [F.comp_arrowMap_app V p]
     exact arrowsToBase_compose_app G V _ _ (F.comp_composable_app V p)
@@ -891,7 +891,7 @@ public theorem sourceUnitSection_comp_baseChangeAmbient (F : FinitePartUniversal
     F.sourceUnitSection ≫ F.baseChangeAmbient = F.source.hom ≫ F.unitAmbient := by
   apply pullback.hom_ext
   · simp only [Category.assoc, F.baseChangeAmbient_fst, reassoc_of% F.sourceUnitSection_fst,
-      Category.id_comp, F.unitAmbient_fst, Category.comp_id]
+      F.unitAmbient_fst, Category.comp_id]
   · simp only [Category.assoc, F.baseChangeAmbient_snd, F.sourceUnitSection_snd,
       F.unitAmbient_snd]
     rw [ObjectProperty.FullSubcategory.comp_hom, Category.assoc]
@@ -934,7 +934,7 @@ public theorem inverseSection_comp_untwistPair_comp (F : FinitePartUniversalOpen
   have hbase : (F.source ≫ F.universalOpen.toBase).hom.app V y =
       G.source.hom.app V (F.arrowMap.hom.app V y) :=
     (congrArg (fun k : F.arrows ⟶ G.objects => k.hom.app V y) F.arrowMap_comp_source').symm
-  show G.comp.hom.app V
+  change G.comp.hom.app V
       ((untwistPair G F.arrowMap F.targetPair.toBase F.targetPair_toBase.symm).app V
         (F.inverseSection.app V y)) =
     F.unit.hom.app V ((F.source ≫ F.universalOpen.toBase).hom.app V y)
@@ -1030,7 +1030,7 @@ public theorem inverseMap_over (F : FinitePartUniversalOpen G) :
     congrArg (fun k : G.arrows ⟶ B => k.hom) G.target_over
   have hG : inverseHom G ≫ G.arrowsToBase.hom = G.arrowsToBase.hom := by
     rw [← htgt, ← Category.assoc, inverseHom_comp_target, htgt, hsrc]
-  show F.inverseMap.hom ≫ F.arrowMap.hom ≫ G.arrowsToBase.hom =
+  change F.inverseMap.hom ≫ F.arrowMap.hom ≫ G.arrowsToBase.hom =
     F.arrowMap.hom ≫ G.arrowsToBase.hom
   rw [← Category.assoc, F.inverseMap_comp_arrowMap, Category.assoc, hG]
 

@@ -216,7 +216,7 @@ theorem exists_isRationalPoint_smoothAt_toSpecΓ_of_componentIntersection_eq_wei
   have hrat : IsRationalPoint (S.specialFiberComponentIdeal Z).subscheme.toSpecΓ c := by
     refine isRationalPoint_of_isIso_Γevaluation _ c ?_
     rw [Scheme.toSpecΓ_appTop]
-    show IsIso ((Scheme.ΓSpecIso Γ((S.specialFiberComponentIdeal Z).subscheme, ⊤)).inv ≫
+    change IsIso ((Scheme.ΓSpecIso Γ((S.specialFiberComponentIdeal Z).subscheme, ⊤)).inv ≫
       (Scheme.ΓSpecIso Γ((S.specialFiberComponentIdeal Z).subscheme, ⊤)).hom ≫
         (S.specialFiberComponentIdeal Z).subscheme.Γevaluation c)
     rw [Iso.inv_hom_id_assoc, ConcreteCategory.isIso_iff_bijective]

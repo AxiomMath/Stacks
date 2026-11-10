@@ -184,7 +184,7 @@ theorem exists_morToArr_eq {C : SmallAlg (ringOf B S hS T') B.cutoff} (g : Arr a
   let F : ξF a ι (h.comp (vtx₀ P)) ⟶ ξF a ι (h.comp (vtx₁ P)) := ⟨φ, hl⟩
   refine ⟨h, (pairCmp a ι h (vtx₀ P)).inv ≫ F ≫ (pairCmp a ι h (vtx₁ P)).hom, ?_⟩
   refine Arr.ext_heq rfl rfl (heq_of_eq ?_)
-  show ((pairCmp a ι h (vtx₀ P)).hom ≫ ((pairCmp a ι h (vtx₀ P)).inv ≫ F ≫
+  change ((pairCmp a ι h (vtx₀ P)).hom ≫ ((pairCmp a ι h (vtx₀ P)).inv ≫ F ≫
     (pairCmp a ι h (vtx₁ P)).hom) ≫ (pairCmp a ι h (vtx₁ P)).inv).1 = F.1
   simp only [Iso.hom_inv_id_assoc, Category.assoc, Iso.hom_inv_id, Category.comp_id]
 
@@ -247,7 +247,7 @@ theorem map_morToArr {C D : SmallAlg (ringOf B S hS T') B.cutoff} (f : C ⟶ D)
   refine @Functor.IsStronglyCartesian.ext _ _ _ _ 𝒳.val.p _ _ _ _
     (specOverMap (SmallAlg.homMk h)) (trans a ι (SmallAlg.homMk h) (vtx₁ P))
     inferInstance _ _ (specOverMap f) _ _ k₁ k₂ ?_
-  show (((pairCmp a ι (f.hom.hom.comp h) (vtx₀ P)).hom.1 ≫
+  change (((pairCmp a ι (f.hom.hom.comp h) (vtx₀ P)).hom.1 ≫
       (Functor.morRestrict 𝒳.val.p (pairObj₀ a ι) (pairObj₁ a ι) (pairOverMap f h) m).1 ≫
       (pairCmp a ι (f.hom.hom.comp h) (vtx₁ P)).inv.1) ≫ trans a ι f (h.comp (vtx₁ P))) ≫
       trans a ι (SmallAlg.homMk h) (vtx₁ P) =

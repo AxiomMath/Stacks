@@ -82,8 +82,6 @@ theorem bijective_comp_of_distTriang_of_isLeftOrthogonalShifts {E : D}
       exact neg_eq_zero.mpr (hC (-1) _))
     exact ⟨ψ, hψ.symm⟩
 
-variable [∀ n : ℤ, (shiftFunctor D n).Linear A]
-
 /-- **The reflection criterion.** Let `T` be a tower of objects derived complete along
 `I = (f₁, …, f_r)`, `red` compatible maps from `K`, `L` a derived limit of `T` with projections
 `π`, and `η : K ⟶ L` with `η ≫ πₙ = redₙ`. Let `Φ` be an exact functor commuting with countable

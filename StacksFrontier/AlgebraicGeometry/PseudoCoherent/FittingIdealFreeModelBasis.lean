@@ -168,9 +168,8 @@ private theorem semilinear_apply_eq_sum_repr [Fintype ι] (φ : R →+* S) (ρ :
 basis.** The hypothesis is a *pair* of bases matched by `ρ`: the image of an arbitrary basis `b`
 differs from `f` by the base change along `φ` of the change-of-basis matrix from `e` to `b`,
 which is invertible because that matrix is. -/
-noncomputable def basisOfSemilinearImage [Fintype ι] [DecidableEq ι] (φ : R →+* S) (ρ : M →+ N)
-    (hρ : ∀ (r : R) (x : M), ρ (r • x) = φ r • ρ x) (e : Module.Basis ι R M)
-    (f : Module.Basis ι S N) (hef : ∀ k, ρ (e k) = f k) (b : Module.Basis ι R M) :
+noncomputable def basisOfSemilinearImage [Fintype ι] [DecidableEq ι] (φ : R →+* S)
+    (e : Module.Basis ι R M) (f : Module.Basis ι S N) (b : Module.Basis ι R M) :
     Module.Basis ι S N :=
   f.map (Matrix.toLinearEquiv f ((e.toMatrix b).map φ)
     (by
@@ -185,7 +184,7 @@ noncomputable def basisOfSemilinearImage [Fintype ι] [DecidableEq ι] (φ : R �
 theorem basisOfSemilinearImage_apply [Fintype ι] [DecidableEq ι] (φ : R →+* S) (ρ : M →+ N)
     (hρ : ∀ (r : R) (x : M), ρ (r • x) = φ r • ρ x) (e : Module.Basis ι R M)
     (f : Module.Basis ι S N) (hef : ∀ k, ρ (e k) = f k) (b : Module.Basis ι R M) (k : ι) :
-    basisOfSemilinearImage φ ρ hρ e f hef b k = ρ (b k) := by
+    basisOfSemilinearImage φ e f b k = ρ (b k) := by
   rw [semilinear_apply_eq_sum_repr φ ρ hρ e f hef (b k),
     basisOfSemilinearImage, Module.Basis.map_apply, Matrix.toLinearEquiv_apply,
     Matrix.toLin_self]
@@ -197,7 +196,7 @@ theorem basisOfSemilinearImage_repr [Fintype ι] [DecidableEq ι] (φ : R →+* 
     (hρ : ∀ (r : R) (x : M), ρ (r • x) = φ r • ρ x) (e : Module.Basis ι R M)
     (f : Module.Basis ι S N) (hef : ∀ k, ρ (e k) = f k) (b : Module.Basis ι R M) (x : M)
     (j : ι) :
-    (basisOfSemilinearImage φ ρ hρ e f hef b).repr (ρ x) j = φ (b.repr x j) := by
+    (basisOfSemilinearImage φ e f b).repr (ρ x) j = φ (b.repr x j) := by
   rw [semilinear_apply_eq_sum_repr φ ρ hρ b _
     (fun k => (basisOfSemilinearImage_apply φ ρ hρ e f hef b k).symm) x, Module.Basis.repr_sum_self]
 
@@ -444,16 +443,17 @@ theorem exists_restrict (M : DerivedFreeModel K U) {V : X.Opens} (hVU : V ≤ U)
   choose g g' hgg using fun i => M.exists_basis_pair hVU i
   set φ : Γ(X, U) →+* Γ(X, V) := (X.presheaf.map (homOfLE hVU).op).hom with hφ
   set c : ∀ i : ℤ, Module.Basis (Fin (M.rank i)) Γ(X, V) Γ(M.model.X i, V) := fun i =>
-    Stacks.basisOfSemilinearImage φ (Scheme.Modules.resAddHom (M.model.X i) hVU)
-      (Scheme.Modules.resAddHom_smul (M.model.X i) hVU) (g i) (g' i) (hgg i) (M.basis i)
+    Stacks.basisOfSemilinearImage φ (g i) (g' i) (M.basis i)
     with hcdef
   have hc' : ∀ (i : ℤ) (j : Fin (M.rank i)),
       c i j = (M.model.X i).presheaf.map (homOfLE hVU).op (M.basis i j) := fun i j =>
-    Stacks.basisOfSemilinearImage_apply _ _ _ _ _ _ _ j
+    Stacks.basisOfSemilinearImage_apply _ _ (Scheme.Modules.resAddHom_smul (M.model.X i) hVU) _ _
+      (hgg i) _ j
   have hc : ∀ (i : ℤ) (x : Γ(M.model.X i, U)) (j : Fin (M.rank i)),
       (c i).repr ((M.model.X i).presheaf.map (homOfLE hVU).op x) j =
         φ ((M.basis i).repr x j) := fun i x j =>
-    Stacks.basisOfSemilinearImage_repr _ _ _ _ _ _ _ x j
+    Stacks.basisOfSemilinearImage_repr _ _ (Scheme.Modules.resAddHom_smul (M.model.X i) hVU) _ _
+      (hgg i) _ x j
   let M' : DerivedFreeModel K V :=
     { model := M.model
       rank := M.rank

@@ -218,7 +218,7 @@ public theorem residueField_image_smul_id_eq_zero [IsNoetherianRing A]
   let X := finiteModuleObject A E
   have hE : r • (𝟙 E) = 0 := by
     ext x
-    show r • x = 0
+    change r • x = 0
     rw [Algebra.smul_def, Ideal.algebraMap_residueField_eq_zero.mpr hr, zero_mul]
   let S := DerivedCategory.singleFunctor (ModuleCat.{u} A) 0
   have hsingle : r • (𝟙 (S.obj E)) = 0 := by
@@ -338,7 +338,7 @@ public theorem isIso_homology_map_truncGEπ
     IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) n).map
       ((DerivedCategory.TStructure.t.truncGEπ n).app K)) := by
   let T := (DerivedCategory.TStructure.t.triangleLTGE n).obj K
-  show IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) n).map T.mor₂)
+  change IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) n).map T.mor₂)
   have hT : T ∈ distTriang _ := DerivedCategory.TStructure.t.triangleLTGE_distinguished n K
   have h₁ : Epi ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) n).map T.mor₂) := by
     rw [DerivedCategory.HomologySequence.epi_homologyMap_mor₂_iff T hT n (n + 1) (by omega)]
@@ -354,7 +354,7 @@ public theorem isIso_homology_map_truncLTι
     IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).map
       ((DerivedCategory.TStructure.t.truncLTι n).app K)) := by
   let T := (DerivedCategory.TStructure.t.triangleLTGE n).obj K
-  show IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).map T.mor₁)
+  change IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).map T.mor₁)
   have hT : T ∈ distTriang _ := DerivedCategory.TStructure.t.triangleLTGE_distinguished n K
   have h₁ : Epi ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).map T.mor₁) := by
     rw [DerivedCategory.HomologySequence.epi_homologyMap_mor₁_iff T hT i]

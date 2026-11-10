@@ -461,7 +461,7 @@ public lemma spanRangeLift_apply_of_val_eq {ι : Type*} (a : ι → M) (b : ι �
       ⟨Finsupp.linearCombination A b cf, ⟨cf, rfl⟩⟩ = Submodule.Quotient.mk cf :=
     (LinearEquiv.symm_apply_eq _).mpr
       (Subtype.ext (LinearMap.quotKerEquivRange_apply_mk _ cf).symm)
-  show (Submodule.liftQ _ (Finsupp.linearCombination A a) hker)
+  change (Submodule.liftQ _ (Finsupp.linearCombination A a) hker)
     ((Finsupp.linearCombination A b).quotKerEquivRange.symm
       ⟨Finsupp.linearCombination A b cf, ⟨cf, rfl⟩⟩) = _
   rw [hq]

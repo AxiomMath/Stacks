@@ -581,7 +581,7 @@ smaller open, is its own restriction.**  The generalisation of
 restriction maps of `𝒪_X` between opens of `X`. -/
 theorem chartScalar_restrictScalarHom (V : X.Opens) {U : X.Opens} (hU : U ≤ V) (r : Γ(X, V)) :
     chartScalar V hU (restrictScalarHom V r) = X.presheaf.map (homOfLE hU).op r := by
-  show X.presheaf.map _ (V.toScheme.presheaf.map _ (X.presheaf.map _ r)) = _
+  change X.presheaf.map _ (V.toScheme.presheaf.map _ (X.presheaf.map _ r)) = _
   refine Eq.trans (presheaf_map_comp_apply _ _ _) ?_
   refine Eq.trans (presheaf_map_comp_apply _ _ r) ?_
   exact presheaf_map_congr _ _ r
@@ -605,7 +605,7 @@ theorem localFormWedgeHom_add (V : X.Opens)
       localFormWedgeHom π p (c := c) V ω + localFormWedgeHom π p (c := c) V ω' := by
   refine Scheme.Modules.hom_ext _ _ fun U => ?_
   refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun y => ?_)
-  show (localFormWedgeHom π p (c := c) V (ω + ω')).val.app (op U) y =
+  change (localFormWedgeHom π p (c := c) V (ω + ω')).val.app (op U) y =
     (localFormWedgeHom π p (c := c) V ω).val.app (op U) y +
       (localFormWedgeHom π p (c := c) V ω').val.app (op U) y
   refine Eq.trans (localFormWedgeHom_val_app π p V (ω + ω') U y)

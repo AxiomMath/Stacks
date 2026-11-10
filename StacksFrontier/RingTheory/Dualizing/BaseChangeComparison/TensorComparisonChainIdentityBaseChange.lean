@@ -32,6 +32,7 @@ attribute [local instance] extendScalarsAdditiveOfRingHom
 variable {R : Type uR} {A : Type uA} {R' : Type uRp} [CommRing R] [CommRing A] [CommRing R']
   [Algebra R A] [Algebra R R']
 
+set_option linter.checkUnivs false in
 /-- The tensor base-change isomorphism on pure tensors `(1 ⊗ k) ⊗ (1 ⊗ z)`. -/
 theorem isTensorBaseChangeIso_apply_bcTmulC (K P : CochainComplex (ModuleCat.{max v uR uA uRp} R) ℤ)
     (e : tensorComplex.{uRp, max uR (max v uA)}

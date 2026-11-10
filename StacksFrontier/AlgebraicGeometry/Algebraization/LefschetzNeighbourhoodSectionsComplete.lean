@@ -56,7 +56,7 @@ public theorem mem_sections_of_succ {D : ℕᵒᵖ ⥤ Type*} (σ : ∀ n : ℕ,
   obtain ⟨n⟩ := j'
   have hnm : n ≤ m := leOfHom f.unop
   obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le hnm
-  show D.map f (σ (n + k)) = σ n
+  change D.map f (σ (n + k)) = σ n
   induction k with
   | zero =>
     have : f = 𝟙 _ := Subsingleton.elim _ _
@@ -169,7 +169,7 @@ public theorem isInfinitesimalSectionsComplete_of_isIso_comparison (F : X.Module
     have h3 : τ ≫ (φ (n + 1)).hom = (φ (n + 2)).hom ≫
         (IdealTower.system J hK F).map (homOfLE (Nat.le_succ (n + 1))).op := by
       rw [hτdef, Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id]
-    show ((IdealTower.system J hK F).map (homOfLE (Nat.le_succ (n + 1))).op).app ⊤
+    change ((IdealTower.system J hK F).map (homOfLE (Nat.le_succ (n + 1))).op).app ⊤
       ((φ (n + 2)).hom.app ⊤ y) = (φ (n + 1)).hom.app ⊤ _
     rw [← capp, ← h3, capp, h2]
   have hmap : ∀ {M N : X.Modules} (f : M ⟶ N) (x : ToType Γ(M, ⊤)),
@@ -207,7 +207,7 @@ public theorem isInfinitesimalSectionsComplete_of_isIso_comparison (F : X.Module
       ht (op (n + 1))
     exact e1.trans (hF n)
   · obtain ⟨k⟩ := j
-    show ((IdealTower.cone J hK F).π.app (op k)).app ⊤ t' = σ k
+    change ((IdealTower.cone J hK F).π.app (op k)).app ⊤ t' = σ k
     rw [hconeπ, (hB t').mp ht' k]
 
 

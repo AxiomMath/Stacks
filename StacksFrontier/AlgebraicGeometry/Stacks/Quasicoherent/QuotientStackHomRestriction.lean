@@ -134,7 +134,7 @@ theorem chartedExtension_map
         (H.val.map_smul ((chartedPointFunctor G).map m).op r _) }
   have := FibredSite.semilinearMap_ext_of_restriction F hF c₂.chartMap c₂.hW c₂.hT
     (θ₁ := L₁) (θ₂ := L₂) (fun x => by
-      show chartedExtension φ hF c₁ (F.val.map ((chartedPointFunctor G).map m).op
+      change chartedExtension φ hF c₁ (F.val.map ((chartedPointFunctor G).map m).op
           (F.val.map c₂.chartMap.op x)) =
         H.val.map ((chartedPointFunctor G).map m).op (chartedExtension φ hF c₂
           (F.val.map c₂.chartMap.op x))

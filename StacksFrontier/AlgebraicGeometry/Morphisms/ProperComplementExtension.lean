@@ -83,8 +83,8 @@ theorem coprodIsoSigma_inv_comp_coprodDesc :
   obtain ⟨i⟩ := i
   rw [← Category.assoc]
   cases i
-  · rw [ι_left_coprodIsoSigma_inv, coprod.inl_desc, Sigma.ι_desc]
-  · rw [ι_right_coprodIsoSigma_inv, coprod.inr_desc, Sigma.ι_desc]
+  · rw [ι_left_coprodIsoSigma_inv, coprod.inl_desc, Sigma.ι_comp_desc]
+  · rw [ι_right_coprodIsoSigma_inv, coprod.inr_desc, Sigma.ι_comp_desc]
 
 /-- A property holding for `a` and `b` holds for every member of `coprodDescFamily a b`. -/
 private theorem prop_coprodDescFamily (P : MorphismProperty Scheme.{u}) (ha : P a) (hb : P b)

@@ -92,13 +92,13 @@ theorem spaceSpecialToX_comp_spaceXToSpecial :
       𝟙 _ := by
   apply ObjectProperty.hom_ext
   refine (cancel_mono (spacePointSpecial B hΛ hSpec X hX toK xε.1).1.ι).1 ?_
-  show ((spacePointSpecial B hΛ hSpec X hX toK xε.1).1.ι ≫
+  change ((spacePointSpecial B hΛ hSpec X hX toK xε.1).1.ι ≫
       (spaceRetraction B hΛ hSpec X hX toK i).hom ≫
       spaceSpecialMapToSpecial B hΛ hSpec X hX toK xε.1) ≫
       (spacePointSpecial B hΛ hSpec X hX toK xε.1).1.ι =
     𝟙 _ ≫ (spacePointSpecial B hΛ hSpec X hX toK xε.1).1.ι
   rw [Category.id_comp]
-  show (spacePointSpecial B hΛ hSpec X hX toK xε.1).1.ι ≫
+  change (spacePointSpecial B hΛ hSpec X hX toK xε.1).1.ι ≫
       (spaceRetraction B hΛ hSpec X hX toK i).hom ≫ spaceSpecialMap B hΛ hSpec X hX toK xε.1 =
     (spacePointSpecial B hΛ hSpec X hX toK xε.1).1.ι
   refine spaceTotal_hom_ext B hΛ hSpec X hX toK i ?_ ?_

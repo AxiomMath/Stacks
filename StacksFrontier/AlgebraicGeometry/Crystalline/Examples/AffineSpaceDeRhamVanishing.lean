@@ -176,7 +176,7 @@ variable (T : AffineSpaceCrystallineSetup)
 /-- The divided power differential of `D` is additive. -/
 public theorem differential_add (x y : T.D) :
     T.differential (x + y) = T.differential x + T.differential y := by
-  show (dividedPowerDifferentialRelations (A := T.A) T.completedDividedPowers).mkQ
+  change (dividedPowerDifferentialRelations (A := T.A) T.completedDividedPowers).mkQ
       (KaehlerDifferential.D T.A T.D (x + y)) = _
   rw [map_add, map_add]
   rfl
@@ -184,7 +184,7 @@ public theorem differential_add (x y : T.D) :
 /-- The divided power differential of `D` satisfies the Leibniz rule. -/
 public theorem differential_mul (x y : T.D) :
     T.differential (x * y) = x • T.differential y + y • T.differential x := by
-  show (dividedPowerDifferentialRelations (A := T.A) T.completedDividedPowers).mkQ
+  change (dividedPowerDifferentialRelations (A := T.A) T.completedDividedPowers).mkQ
       (KaehlerDifferential.D T.A T.D (x * y)) = _
   rw [Derivation.leibniz, map_add, map_smul, map_smul]
   rfl
@@ -192,7 +192,7 @@ public theorem differential_mul (x y : T.D) :
 /-- The divided power differential of `D` kills the image of the crystalline base. -/
 public theorem differential_algebraMap (a : T.A) :
     T.differential (algebraMap T.A T.D a) = 0 := by
-  show (dividedPowerDifferentialRelations (A := T.A) T.completedDividedPowers).mkQ
+  change (dividedPowerDifferentialRelations (A := T.A) T.completedDividedPowers).mkQ
       (KaehlerDifferential.D T.A T.D (algebraMap T.A T.D a)) = _
   rw [Derivation.map_algebraMap, map_zero]
 
@@ -262,7 +262,7 @@ public theorem differentials_eq_span_sup (e : ℕ) :
     have hb : b = algebraMap T.P T.D f + (T.p : T.D) ^ e * w := by
       rw [← hw]
       ring
-    show T.differential b ∈ ↑(T.coordinateSpan ⊔ Ideal.span {(T.p : T.D) ^ e} • ⊤)
+    change T.differential b ∈ ↑(T.coordinateSpan ⊔ Ideal.span {(T.p : T.D) ^ e} • ⊤)
     rw [hb, T.differential_add]
     refine Submodule.add_mem _
       (Submodule.mem_sup_left (T.differential_algebraMap_mem_coordinateSpan f))

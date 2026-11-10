@@ -109,7 +109,7 @@ theorem GeometricPoint.sourceAutElement_hom_eq_finiteEtaleFiberMap {S : Scheme.{
     (z.sourceAutElement α hα).asIso.hom = finiteEtaleFiberMap a := by
   ext V q
   apply Subtype.ext
-  show α.hom ≫ q.1 = a.hom ≫ q.1
+  change α.hom ≫ q.1 = a.hom ≫ q.1
   rw [ha]
 
 /-- An automorphism of the source of a geometric point that fixes the geometric point also fixes
@@ -117,7 +117,7 @@ its image under any morphism. -/
 private theorem GeometricPoint.comp_map_hom_of_comp_hom {X Y : Scheme.{u}} (t : GeometricPoint X)
     (f : X ⟶ Y) (α : t.source ≅ t.source) (hαt : α.hom ≫ t.hom = t.hom) :
     α.hom ≫ (t.map f).hom = (t.map f).hom := by
-  show α.hom ≫ t.hom ≫ f = t.hom ≫ f
+  change α.hom ≫ t.hom ≫ f = t.hom ≫ f
   rw [← Category.assoc, hαt]
 
 end Generic

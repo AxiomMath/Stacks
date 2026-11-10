@@ -437,7 +437,7 @@ def etaleModelDerivedSheafHomIso
     (etaleModelRestriction_isKInjective B S hS f hf) A C
 
 /- The abelian structure of the modules is the one `DerivedCategory.Qh` and the derived pullback
-read, as in the file `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/RelativelyPerfectHomDescentLocalization.lean` of
+read, as in the file `RelativelyPerfectHomDescentLocalization.lean` of
 `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent`. -/
 attribute [local instance 2000] SheafOfModules.instAbelian
 attribute [local instance 3000] Abelian.toPreadditive

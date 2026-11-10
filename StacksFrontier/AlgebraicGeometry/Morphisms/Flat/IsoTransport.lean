@@ -110,7 +110,7 @@ theorem isFlatOverAt_of_moduleIso {X Y : AlgebraicGeometry.RingedSpace.{u, u}} (
         let em : TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) N.presheaf x := e' m
         have hGsmul := comm_smul_eq_universe X.presheaf x G.val s em
         rw [hs] at hFsmul hGsmul
-        show e' (((p.hom.stalkMap x).hom r) • m) =
+        change e' (((p.hom.stalkMap x).hom r) • m) =
           ((p.hom.stalkMap x).hom r) • em
         rw [hFsmul, hGsmul]
         exact e'.map_smul s m }

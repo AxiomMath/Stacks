@@ -242,7 +242,7 @@ theorem etaObjectFunctor_inverts [HasDerivedCategory.{w} (ModuleCat.{u} A)] (f :
   have hq : QuasiIso ((underlyingComplex.{u, u} f).map a) := ha
   have h : QuasiIso ((etaObjectFunctor f).map ((underlyingComplex.{u, u} f).map a)) :=
     Stacks.Eta.QuasiIsoPreservation.quasiIso_etaPow_of_quasiIso hf (etaLiftEtaFunctor f) a hq
-  show IsIso (DerivedCategory.Q.map ((etaObjectFunctor f).map
+  change IsIso (DerivedCategory.Q.map ((etaObjectFunctor f).map
     ((underlyingComplex.{u, u} f).map a)))
   infer_instance
 

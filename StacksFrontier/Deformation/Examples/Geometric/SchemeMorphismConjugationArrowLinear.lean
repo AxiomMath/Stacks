@@ -211,6 +211,7 @@ theorem globalLiftsOverBaseAutPairConj_vadd (g : globalLiftsOverBaseAutPair pX p
       ℓ.2.2 (globalLiftsOverBaseAutPairConj f pX pY g ℓ).2.2 (hcomp ℓ)
   exact Subtype.ext (by rw [← cancel_mono (CategoryTheory.inv g.1.2), key, hcomp])
 
+omit [IsIso e] in
 /-- Translation by the named action is injective in the translating element. -/
 theorem globalLiftsOverBaseVAdd_left_injective (ℓ₀ ℓ : globalLiftsOverBase f P Q e) :
     Function.Injective fun θ : Stacks.Smooth.pullbackCotangentSheaf pY f ⟶
@@ -239,12 +240,13 @@ theorem globalLiftsOverBaseDerivationVAdd_conjDerivation_eq (ℓ₀ : globalLift
   congr 1
   exact globalLiftsOverBaseDerivationVAdd_conjDerivation f pX pY hf eC hm ℓ₀ g
 
+omit [IsIso e] in
 /-- Translation by the third term is injective in the translating derivation. -/
 theorem globalLiftsOverBaseDerivationVAdd_left_injective (ℓ₀ ℓ : globalLiftsOverBase f P Q e) :
     Function.Injective fun D : schemeMorphismDerivations f pY =>
       globalLiftsOverBaseDerivationVAdd f pX pY hf eC hm ℓ₀ D ℓ :=
-  fun _ _ h => (schemeMorphismDerivationsEquivHom f pY P.specialMap eC).injective
-    (globalLiftsOverBaseVAdd_left_injective f pX pY hf hm ℓ₀ ℓ h)
+  (globalLiftsOverBaseVAdd_left_injective f pX pY hf hm ℓ₀ ℓ).comp
+    (schemeMorphismDerivationsEquivHom f pY P.specialMap eC).injective
 
 end Commute
 
@@ -322,10 +324,10 @@ theorem globalLiftsOverBaseConjDerivationLocalizedTangentCross_add
     simp only [Category.assoc]
   refine (add_comm _ _).symm.trans ?_ |>.symm
   refine globalLiftsOverBaseDerivationVAdd_left_injective f pX pY hf hm eC ℓ₀ ℓ₀ ?_
-  show globalLiftsOverBaseDerivationVAdd f pX pY hf eC hm ℓ₀ _ ℓ₀ =
+  change globalLiftsOverBaseDerivationVAdd f pX pY hf eC hm ℓ₀ _ ℓ₀ =
     globalLiftsOverBaseDerivationVAdd f pX pY hf eC hm ℓ₀ _ ℓ₀
   rw [globalLiftsOverBaseDerivationVAdd_add]
-  show globalLiftsOverBaseDerivationVAdd f pX pY hf eC hm ℓ₀
+  change globalLiftsOverBaseDerivationVAdd f pX pY hf eC hm ℓ₀
       (globalLiftsOverBaseConjDerivation f pX pY hf eC hm ℓ₀ (G t'))
       (globalLiftsOverBaseDerivationVAdd f pX pY hf eC hm ℓ₀
         (globalLiftsOverBaseConjDerivation f pX pY hf eC hm ℓ₀ (G t)) ℓ₀) =
@@ -375,7 +377,7 @@ theorem globalLiftsOverBasePushforward_crossScaling_conj
     rw [IsIso.inv_comp_eq, ← Category.assoc, hα, Category.assoc, IsIso.hom_inv_id,
       Category.comp_id]
   refine (eq_globalLiftsOverBasePushforward f pX pY hf _ _ _ _ _ ?_).symm
-  show (CategoryTheory.inv (G (c • t)).1.1 ≫ _ ≫ (G (c • t)).1.2) ≫ (crossScaling QY c).map =
+  change (CategoryTheory.inv (G (c • t)).1.1 ≫ _ ≫ (G (c • t)).1.2) ≫ (crossScaling QY c).map =
     (crossScaling QX c).map ≫ CategoryTheory.inv (G t).1.1 ≫ ℓ.1 ≫ (G t).1.2
   rw [Category.assoc, Category.assoc, hβ, ← Category.assoc _ (crossScaling QY c).map,
     globalLiftsOverBasePushforward_fac, ← Category.assoc, ← Category.assoc, hinv]
@@ -414,7 +416,7 @@ theorem globalLiftsOverBaseConjDerivationLocalizedTangentCross_smul
     (schemeMorphismDerivationsLinearEquivHom f pY (firstOrderPushforwardCross QX).specialMap
       eC).map_smul c D
   refine globalLiftsOverBaseDerivationVAdd_left_injective f pX pY hf hm eC ℓ₀ (π ℓ₀) ?_
-  show globalLiftsOverBaseDerivationVAdd f pX pY hf eC hm ℓ₀
+  change globalLiftsOverBaseDerivationVAdd f pX pY hf eC hm ℓ₀
       (globalLiftsOverBaseConjDerivation f pX pY hf eC hm ℓ₀ (G (c • t))) (π ℓ₀) =
     globalLiftsOverBaseVAdd f pX pY hf hm ℓ₀ (E' (c • globalLiftsOverBaseConjDerivation f pX pY hf
       eC hm ℓ₀ (G t))) (π ℓ₀)

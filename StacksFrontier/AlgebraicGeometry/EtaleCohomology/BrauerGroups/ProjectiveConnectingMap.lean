@@ -134,7 +134,7 @@ theorem isLocallyConstant_glMap (M : GL n Ω) :
   apply Units.ext
   ext i j
   rw [Matrix.GeneralLinearGroup.map_apply, Matrix.GeneralLinearGroup.map_apply]
-  show (σ * a) ((M : Matrix n n Ω) i j) = σ ((M : Matrix n n Ω) i j)
+  change (σ * a) ((M : Matrix n n Ω) i j) = σ ((M : Matrix n n Ω) i j)
   rw [AlgEquiv.mul_apply, ha _ (Finset.mem_image.2 ⟨(i, j), Finset.mem_univ _, rfl⟩)]
 
 /-- The defect of a locally constant family of lifts is locally constant. -/

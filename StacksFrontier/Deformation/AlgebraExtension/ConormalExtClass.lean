@@ -69,6 +69,7 @@ variable {E₁ E₂ : Cᵒᵖ ⥤ Type u} (h : E₁ ⟶ E₂) {α₁ : E₁ ⟶ 
   [Presheaf.IsLocallySurjective J (presentation J A O a E₁ α₁).hom]
   [Presheaf.IsLocallySurjective J (presentation J A O a E₂ α₂).hom]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Naturality of the chain-map class in the presentation.** -/
 theorem presentationConormalExtClass_naturality
     (δ : (presentationConormalSequence.{u, u, u, u} J A O a E₂ α₂).X₁ ⟶ G) :
@@ -85,6 +86,7 @@ theorem presentationConormalExtClass_naturality
     Stacks.SheafOfModules.presentationNaiveCotangentComplexMap_f_negOne]
   simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Naturality of the two-term class in the presentation.** -/
 theorem conormalExtClass_naturality
     (δ : (presentationConormalSequence.{u, u, u, u} J A O a E₂ α₂).X₁ ⟶ G) :

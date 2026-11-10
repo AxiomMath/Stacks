@@ -387,14 +387,14 @@ theorem not_injective_specMap_of_range_constants {R : Type u} [CommRing R]
     intro h
     have hp : (LaurentPolynomial.T 1 : LaurentPolynomial k) - 1 ∈
         (PrimeSpectrum.comap (axisEvalOne k) (⊥ : PrimeSpectrum k)).asIdeal := by
-      show axisEvalOne k (LaurentPolynomial.T 1 - 1) = 0
+      change axisEvalOne k (LaurentPolynomial.T 1 - 1) = 0
       simp
     rw [← h, PrimeSpectrum.asIdeal_bot, Ideal.mem_bot] at hp
     exact T_one_sub_one_ne_zero k hp
   refine hne (hinj ?_)
-  show PrimeSpectrum.comap f _ = PrimeSpectrum.comap f _
+  change PrimeSpectrum.comap f _ = PrimeSpectrum.comap f _
   refine PrimeSpectrum.ext (Ideal.ext fun r => ?_)
-  show f r = 0 ↔ axisEvalOne k (f r) = 0
+  change f r = 0 ↔ axisEvalOne k (f r) = 0
   obtain ⟨c, hc⟩ := hf r
   have hiff : algebraMap k (LaurentPolynomial k) c = 0 ↔ c = 0 := by
     rw [← map_zero (algebraMap k (LaurentPolynomial k))]
@@ -411,7 +411,7 @@ theorem not_isQuasiAffine : ¬ Scheme.IsQuasiAffine (pinchedPlane k) := by
     ((pushoutInr (pinchingSituation k)).appTop ≫
       (Scheme.ΓSpecIso (.of (LaurentPolynomial k))).hom).hom
     (exists_algebraMap_eq_appTop k) ?_
-  show Function.Injective (Spec.map ((pushoutInr (pinchingSituation k)).appTop ≫
+  change Function.Injective (Spec.map ((pushoutInr (pinchingSituation k)).appTop ≫
     (Scheme.ΓSpecIso (.of (LaurentPolynomial k))).hom))
   rw [Spec.map_comp, SpecMap_ΓSpecIso_hom, ← Scheme.toSpecΓ_naturality]
   exact (pinchedPlane k).toSpecΓ.isOpenEmbedding.injective.comp

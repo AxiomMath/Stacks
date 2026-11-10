@@ -249,7 +249,7 @@ theorem not_exists_isReduced_represents_autFunctor_gluedCurve :
   have hne : E₁.symm Φ ≠ E₁.symm one := fun h ↦
     gluedCurveDualNumbersAut_ne_one k pts hpts (E₁.symm.injective h)
   have hΦ : F.map (dualNumbersClosedPoint k).op Φ = F.map (dualNumbersClosedPoint k).op one := by
-    show (Scheme.autFunctor (gluedCurveOver k pts hpts)).map (dualNumbersClosedPoint k).op
+    change (Scheme.autFunctor (gluedCurveOver k pts hpts)).map (dualNumbersClosedPoint k).op
       (gluedCurveDualNumbersAut k pts hpts) =
         Scheme.autBaseChange _ (dualNumbersClosedPoint k) 1
     rw [autFunctor_map_gluedCurveDualNumbersAut, map_one]

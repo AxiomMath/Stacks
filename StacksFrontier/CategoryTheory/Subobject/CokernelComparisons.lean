@@ -115,7 +115,7 @@ objects. -/
 lemma underlyingMapIso_arrow {C : Type*} [Category C] {X Y : C} (e : X ≅ Y) (P : Subobject X) :
     (underlyingMapIso e P).hom ≫ (Subobject.mapIsoToOrderIso e P).arrow = P.arrow ≫ e.hom := by
   let η := (Subobject.lowerCompRepresentativeIso (MonoOver.map e.hom)).app P
-  show η.inv.hom.left ≫ (Subobject.representative.obj
+  change η.inv.hom.left ≫ (Subobject.representative.obj
       ((Subobject.mapIsoToOrderIso e P))).obj.hom =
     (Subobject.representative.obj P).obj.hom ≫ e.hom
   exact MonoOver.w η.inv
@@ -129,7 +129,7 @@ lemma underlyingMapIso_ofLE {C : Type*} [Category C] {X Y : C} (e : X ≅ Y) (P 
           ((Subobject.mapIsoToOrderIso e).map_rel_iff'.2 h) := by
   let φ := Subobject.mapIsoToOrderIso e
   have h' : φ P ≤ φ Q := φ.map_rel_iff'.2 h
-  show (P.ofLE Q h) ≫ (underlyingMapIso e Q).hom =
+  change (P.ofLE Q h) ≫ (underlyingMapIso e Q).hom =
       (underlyingMapIso e P).hom ≫ (φ P).ofLE (φ Q) h'
   apply (cancel_mono (φ Q).arrow).1
   simp only [Category.assoc, Subobject.ofLE_arrow]

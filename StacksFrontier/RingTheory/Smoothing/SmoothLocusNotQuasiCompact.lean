@@ -188,14 +188,14 @@ private lemma not_smoothAt_of_all_y_mem (z : PrimeSpectrum (quotientRing k))
       (IsLocalization.map_surjective_of_surjective M Rₘ Sₘ Ideal.Quotient.mk_surjective)).mp
     simpa [RingHom.algebraMap_toAlgebra] using hformal
   have hxker : xₘ ∈ RingHom.ker ψ := by
-    show (ψ.comp (algebraMap R Rₘ)) x = 0
+    change (ψ.comp (algebraMap R Rₘ)) x = 0
     rw [← hcomp]
     have hxmap : algebraMap R Sₘ x = algebraMap A Sₘ (π x) :=
       congrArg (fun f => f x) (IsScalarTower.algebraMap_eq R A Sₘ)
     rw [hxmap, hπx]
     simp
   have hker : RingHom.ker ψ = Ideal.span {xₘ} := by
-    show RingHom.ker (IsLocalization.map Sₘ π (Submonoid.le_comap_map M)) = _
+    change RingHom.ker (IsLocalization.map Sₘ π (Submonoid.le_comap_map M)) = _
     rw [IsLocalization.ker_map (Q := Sₘ) (g := π) (hT := rfl), Ideal.mk_ker]
     simp [xIdeal, xₘ, x, Ideal.map_span]
   have hxSq : xₘ ∈ RingHom.ker ψ * RingHom.ker ψ := by rwa [hidem]
@@ -248,7 +248,7 @@ private lemma smooth_away (i : ℕ) :
     RingHom.Smooth.holdsForLocalizationAway
       (Localization.Away (Ideal.Quotient.mk (relationIdeal k) (MvPolynomial.X (some i))))
       (Ideal.Quotient.mk (relationIdeal k) (MvPolynomial.X (some i)))
-  show (algebraMap (baseRing k) (Localization.Away (y k i))).Smooth
+  change (algebraMap (baseRing k) (Localization.Away (y k i))).Smooth
   let r : baseRing k := Ideal.Quotient.mk (relationIdeal k) (MvPolynomial.X (some i))
   let π : baseRing k →+* quotientRing k := Ideal.Quotient.mk (xIdeal k)
   have hpow : Submonoid.powers r ≤ (Submonoid.powers (π r)).comap π := by

@@ -92,7 +92,7 @@ some complex, since `DerivedCategory.Q` is essentially surjective, and that comp
 quasi-isomorphism from a K-flat one by Tag 06YS. -/
 theorem exists_kFlatRepresentative (A : DerivedModules X.sheaf) :
     ∃ P : CochainComplex (Mod X.sheaf) ℤ,
-      Stacks.SheafOfModules.KFlat.KFlat X.sheaf P ∧
+      Stacks.SheafOfModules.IsKFlat X.sheaf P ∧
         Nonempty ((DerivedCategory.Q (C := Mod X.sheaf)).obj P ≅ A) := by
   obtain ⟨P, p, hP, hp⟩ :=
     exists_kFlat_resolution X.sheaf ((DerivedCategory.Q (C := Mod X.sheaf)).objPreimage A)

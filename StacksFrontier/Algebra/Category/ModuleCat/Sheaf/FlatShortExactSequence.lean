@@ -489,7 +489,7 @@ theorem germCompatibleModule_unique (F : SheafOfModules (structureSheafRing X)) 
     rw [TopCat.Presheaf.germ_res_apply]; exact hm
   have e1 := h₁ U hxU r' m'
   have e2 := h₂ U hxU r' m'
-  show @SMul.smul _ _ inst₁.toSMul ρ s = @SMul.smul _ _ inst₂.toSMul ρ s
+  change @SMul.smul _ _ inst₁.toSMul ρ s = @SMul.smul _ _ inst₂.toSMul ρ s
   have key1 : @SMul.smul _ _ inst₁.toSMul ρ s
       = abGerm F U hxU (sectionSMul F U r' m') := by
     rw [← hgr, ← hgm]; exact e1.symm
@@ -678,12 +678,12 @@ theorem stalkShortExact
     intro s
     have := DFunLike.congr_fun sq1 s
     simpa only [AddMonoidHom.coe_comp, Function.comp_apply, AddEquiv.coe_toAddMonoidHom,
-      AddMonoidHom.coe_coe, LinearMap.toAddMonoidHom_coe] using this.symm
+      AddMonoidHom.coe_ofClass, LinearMap.toAddMonoidHom_coe] using this.symm
   have hpt2 : ∀ s, e₃ (stalkLinearMap S.g x s) = (S.map (stalkF x)).g.hom (e₂ s) := by
     intro s
     have := DFunLike.congr_fun sq2 s
     simpa only [AddMonoidHom.coe_comp, Function.comp_apply, AddEquiv.coe_toAddMonoidHom,
-      AddMonoidHom.coe_coe, LinearMap.toAddMonoidHom_coe] using this.symm
+      AddMonoidHom.coe_ofClass, LinearMap.toAddMonoidHom_coe] using this.symm
   refine ⟨stalkLinearMap S.f x, stalkLinearMap S.g x, ?_, ?_, ?_⟩
   · -- Injectivity: `stalkLinearMap S.f x = e₂.symm ∘ (S.map _).f ∘ e₁`.
     have hf : Function.Injective ⇑(S.map (stalkF x)).f.hom :=

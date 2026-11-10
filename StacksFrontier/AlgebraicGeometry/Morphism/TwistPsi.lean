@@ -119,7 +119,7 @@ theorem legIso_hom_app_unitApp (k : W ⟶ Z) (h : Z ⟶ Y) (ρ : W ⟶ T) (hU : 
   let C3 := (Scheme.Modules.pullbackComp ρ (hU ≫ c)).inv.app M
   let C2 := (Scheme.Modules.pullbackCongr e).hom.app M
   have hle : (k ≫ h) ⁻¹ᵁ O ≤ (ρ ≫ hU ≫ c) ⁻¹ᵁ O := by rw [e]
-  show Φ'.app ((k ≫ h) ⁻¹ᵁ O) (C3.app ((k ≫ h) ⁻¹ᵁ O) (C2.app ((k ≫ h) ⁻¹ᵁ O)
+  change Φ'.app ((k ≫ h) ⁻¹ᵁ O) (C3.app ((k ≫ h) ⁻¹ᵁ O) (C2.app ((k ≫ h) ⁻¹ᵁ O)
       (((Scheme.Modules.pullbackComp k h).hom.app M).app (k ⁻¹ᵁ h ⁻¹ᵁ O)
         (unitApp k ((Scheme.Modules.pullback h).obj M) (h ⁻¹ᵁ O) (unitApp h M O s))))) = _
   refine (congrArg (fun z => Φ'.app ((k ≫ h) ⁻¹ᵁ O) (C3.app ((k ≫ h) ⁻¹ᵁ O)

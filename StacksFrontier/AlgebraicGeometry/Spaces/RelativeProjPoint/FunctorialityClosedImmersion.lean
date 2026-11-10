@@ -66,7 +66,7 @@ theorem isLocallySurjective_smallPresentationMap_app (g : UnitalHom A B) (n : �
     (g.app n).val.app (op V) x = (B.piece n).val.map i.op (smallPieceEquiv B n (op U) s) at hi
   obtain ⟨x, hx⟩ := hi
   refine ⟨(smallPieceEquiv A n (op V)).symm x, ?_⟩
-  show (smallPieceEquiv B n (op V)).symm ((g.app n).val.app (op V)
+  change (smallPieceEquiv B n (op V)).symm ((g.app n).val.app (op V)
       (smallPieceEquiv A n (op V) ((smallPieceEquiv A n (op V)).symm x))) =
     (smallPiece B n).val.map i.op s
   rw [LinearEquiv.apply_symm_apply, hx]

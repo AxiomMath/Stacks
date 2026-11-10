@@ -487,9 +487,9 @@ private theorem functorPi_leftFraction_map_apply {J : Type t} {C : J → Type*} 
       = (MorphismProperty.LeftFraction.mk (φ.f j) (φ.s j) (φ.hs j)).map (L j)
           (Localization.inverts (L j) (W j)) := by
   have : IsIso ((Functor.pi L).map φ.s) := hinv φ.s φ.hs
-  show ((Functor.pi L).map φ.f ≫ inv ((Functor.pi L).map φ.s)) j = _
+  change ((Functor.pi L).map φ.f ≫ inv ((Functor.pi L).map φ.s)) j = _
   have : IsIso ((L j).map (φ.s j)) := Localization.inverts (L j) (W j) _ (φ.hs j)
-  show ((Functor.pi L).map φ.f) j ≫ (inv ((Functor.pi L).map φ.s)) j
+  change ((Functor.pi L).map φ.f) j ≫ (inv ((Functor.pi L).map φ.s)) j
       = (L j).map (φ.f j) ≫ inv ((L j).map (φ.s j))
   rw [Functor.pi_map]
   congr 1
@@ -566,7 +566,7 @@ private theorem functorPi_lift_isEquivalence {J : Type t} {C : J → Type*} {D :
   have invQG' : (MorphismProperty.pi W).IsInvertedBy (Q ⋙ G') := by
     intro X Y s hs
     have := invQ s hs
-    show IsIso (G'.map (Q.map s))
+    change IsIso (G'.map (Q.map s))
     infer_instance
   have keymap : ∀ {X Y : ∀ j, C j} (φ : (MorphismProperty.pi W).LeftFraction X Y),
       G'.map (φ.map Q invQ)
@@ -824,7 +824,7 @@ private theorem isSplitMono_of_cofan {F : ℕ → C} {X : C}
   refine ⟨⟨⟨ρ, ?_⟩⟩⟩
   apply hc.hom_ext
   rintro ⟨p⟩
-  show ι p ≫ (a ≫ ρ) = ι p ≫ 𝟙 X
+  change ι p ≫ (a ≫ ρ) = ι p ≫ 𝟙 X
   rw [← Category.assoc, ha, Preadditive.sub_comp, Category.assoc, hρ, hρ]
   have hrec : inc p ≫ r (p + 1) = r p - ι p := by
     have := hsplit p
@@ -884,7 +884,7 @@ private noncomputable def fromCell {X : CochainComplex (ModuleCat.{v} R) ℤ}
   have h := Cochain.congr_v (fromCell_cochain n x hx) n n (add_zero n)
   simp only [Cochain.ofHom_v, Cochain.fromSingleMk_v] at h
   rw [h]
-  show ((singleObjXSelf (.up ℤ) n (regular (R := R))).inv ≫
+  change ((singleObjXSelf (.up ℤ) n (regular (R := R))).inv ≫
     (singleObjXSelf (.up ℤ) n (regular (R := R))).hom ≫ regularMap x) regularOne = x
   rw [Iso.inv_hom_id_assoc]
   exact regularMap_one x
@@ -957,7 +957,7 @@ private lemma attachmentNullhomotopy_δ {F M : CochainComplex (ModuleCat.{v} R) 
   apply cochain_ext (fun z : Attachment f => cell (R := R) (z.n + 1))
   intro z
   rw [← δ_ofHom_comp, attachmentNullhomotopy, cochainDesc_ι]
-  rw [← Cochain.ofHom_comp, attachmentMap, Sigma.ι_desc_assoc,
+  rw [← Cochain.ofHom_comp, attachmentMap, Sigma.ι_comp_desc_assoc,
     Cochain.ofHom_comp, fromCell_cochain, ← Cochain.fromSingleMk_postcomp,
     Cochain.δ_fromSingleMk _ _ _ (z.n + 1) (add_zero _)]
   simp [z.boundary]
@@ -1025,14 +1025,14 @@ private theorem quasiIso_of_colimit_kills_kernels {R : Type u} [Ring R]
     have hy' : H.map (Limits.colimit.ι D m) y = x := hy
     have hz : H.map (c.ι.app m) y = 0 := by
       rw [← hfac]
-      show H.map (Limits.colimit.desc D c) (H.map (Limits.colimit.ι D m) y) = 0
+      change H.map (Limits.colimit.desc D c) (H.map (Limits.colimit.ι D m) y) = 0
       rwa [hy']
     have hk := hkill m n y hz
     change H.map (D.map (homOfLE (Nat.le_succ m))) y = 0 at hk
     have hw := congrArg H.map (Limits.colimit.w D (homOfLE (Nat.le_succ m)))
     rw [H.map_comp] at hw
     rw [← hy', ← hw]
-    show H.map (Limits.colimit.ι D (m + 1))
+    change H.map (Limits.colimit.ι D (m + 1))
       (H.map (D.map (homOfLE (Nat.le_succ m))) y) = 0
     rw [hk, map_zero]
   · intro x
@@ -1099,7 +1099,7 @@ private theorem bottomMap_epi_homology (M : CochainComplex (ModuleCat.{v} R) ℤ
   let c : (bottom M).cycles n :=
     ((bottom M).liftCycles (regularMap a) (n + 1) (by simp) (by simp [ha])) regularOne
   have hc : (bottom M).iCycles n c = a := by
-    show (((bottom M).liftCycles _ _ _ _ ≫ (bottom M).iCycles n)) regularOne = a
+    change (((bottom M).liftCycles _ _ _ _ ≫ (bottom M).iCycles n)) regularOne = a
     rw [liftCycles_i]
     exact regularMap_one a
   refine ⟨(bottom M).homologyπ n c, ?_⟩
@@ -1197,7 +1197,7 @@ private noncomputable def cellIso (n : ℤ) :
 finds them within the default budget. -/
 private local instance hasCoproductsCochainComplex :
     HasCoproducts.{v} (CochainComplex (ModuleCat.{v} R) ℤ) := fun J => by
-  haveI : HasColimitsOfShape (Discrete J) (ModuleCat.{v} R) := inferInstance
+  have : HasColimitsOfShape (Discrete J) (ModuleCat.{v} R) := inferInstance
   exact ⟨fun F => ⟨⟨⟨_, HomologicalComplex.isColimitCoconeOfHasColimitEval F⟩⟩⟩⟩
 
 private noncomputable def cellsIso {I : Type v} (n : I → ℤ) :

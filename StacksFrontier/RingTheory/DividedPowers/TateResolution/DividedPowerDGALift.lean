@@ -116,7 +116,7 @@ private theorem zerothHomology_gradeZero_eq_boundary
   have hp_id {a : A} (ha : a ∈ 𝒜 0) : (p₀ a : A) = a :=
     DirectSum.decompose_of_mem_same 𝒜 ha
   have hrel : RingConGen.Rel r x 0 := by
-    show (ringConGen r) x 0
+    change (ringConGen r) x 0
     exact (RingCon.eq (ringConGen r)).1 hzero
   have hboundary : ∀ {a b : A}, RingConGen.Rel r a b →
       ∃ z : A, z ∈ 𝒜 1 ∧ d z = (p₀ a : A) - p₀ b := by
@@ -126,7 +126,7 @@ private theorem zerothHomology_gradeZero_eq_boundary
         rcases hab with ⟨rfl, hgen⟩
         rcases hgen with ⟨n, hn, ha⟩ | ⟨z, hz, hdz⟩
         · have hp0 : (p₀ a : A) = 0 := by
-            show GradedRing.projZeroRingHom 𝒜 a = 0
+            change GradedRing.projZeroRingHom 𝒜 a = 0
             rw [GradedRing.projZeroRingHom_apply]
             exact DirectSum.decompose_of_mem_ne 𝒜 ha (Nat.ne_of_gt hn)
           refine ⟨0, (𝒜 1).zero_mem, ?_⟩
@@ -203,7 +203,7 @@ public theorem finiteVariableStage_erase_high
   let S'' : Finset (Σ k : ℕ, hA.indices k) := by
     let : DecidableEq (Σ k : ℕ, hA.indices k) := Classical.decEq _
     exact insert j S'
-  show x ∈ T S'
+  change x ∈ T S'
   have hjnot : j ∉ S' := Finset.notMem_erase j S
   rcases hA.successor S' j hjnot with
     ⟨aS, -, Sᵢ, gS, cS, δS, hδ, hodd, heven⟩
@@ -254,7 +254,7 @@ public theorem finiteVariableStage_erase_high
       hxu.symm.trans ((congrArg (fun y : EvenVariableAlgebra (T S') =>
         ((e y : T S'') : A)) hu_eq.symm).trans (hebase (u.coeff 0)))
     rw [hxval]
-    show (u.coeff 0 : A) ∈ T S'
+    change (u.coeff 0 : A) ∈ T S'
     exact (u.coeff 0).property
   · have hdOdd : Odd d := Nat.not_even_iff_odd.mp hd
     rcases hodd hdOdd with ⟨e, hebase, hgen, hgrade, hdpow⟩
@@ -276,7 +276,7 @@ public theorem finiteVariableStage_erase_high
           u.fst = u := by
       apply TrivSqZeroExt.ext
       · rfl
-      · show (0 : T S') = (show T S' from u.snd)
+      · change (0 : T S') = (show T S' from u.snd)
         exact husnd.symm
     have hxu : ((e u : T S'') : A) = x := by
       simp [u]
@@ -284,7 +284,7 @@ public theorem finiteVariableStage_erase_high
       hxu.symm.trans ((congrArg (fun y : OddVariableExtension Sᵢ d =>
         ((e y : T S'') : A)) hu_eq.symm).trans (hebase u.fst))
     rw [hxval]
-    show (u.fst : A) ∈ T S'
+    change (u.fst : A) ∈ T S'
     exact u.fst.property
 
 /-- A homogeneous element in a finite stage can be represented in the substage
@@ -415,7 +415,7 @@ private theorem gradedComponent_mul
       ∑ ij ∈ Finset.antidiagonal n,
         gradedComponent 𝒜 x ij.1 * gradedComponent 𝒜 y ij.2 := by
   classical
-  show ((DirectSum.decompose 𝒜 (x * y) n : 𝒜 n) : A) = _
+  change ((DirectSum.decompose 𝒜 (x * y) n : 𝒜 n) : A) = _
   rw [DirectSum.decompose_mul, DirectSum.coe_mul_apply_eq_sum_antidiagonal]
   simp [gradedComponent]
 
@@ -435,7 +435,7 @@ private theorem homogeneous_mem_positiveEven_degree
       intro y hy
       rw [LinearMap.mem_ker]
       apply Subtype.ext
-      show ((DirectSum.decompose 𝒜 y) n : A) = 0
+      change ((DirectSum.decompose 𝒜 y) n : A) = 0
       apply DirectSum.decompose_of_mem_ne 𝒜 hy
       intro heq
       apply hn
@@ -490,7 +490,7 @@ private theorem positiveEvenPart_map
   have hmem := (Submodule.mem_iSup _).1 ha
   apply hmem (Submodule.comap f.toLinearMap N)
   intro k x hx
-  show f x ∈ N
+  change f x ∈ N
   exact hN k (hf_grade _ _ hx)
 
 private theorem dgaMap_chain_dpow
@@ -748,7 +748,7 @@ private theorem degreeZero_quotient_compat
   have hEq : F x = G x := by
     refine RingHom.eqOn_set_closure (f := F.toRingHom) (g := G.toRingHom) ?_ hxcl
     rintro y ⟨p, rfl⟩
-    show φ₀ ((zerothHomologyCongruence 𝒜 dA).mk' (ι p)) =
+    change φ₀ ((zerothHomologyCongruence 𝒜 dA).mk' (ι p)) =
       (zerothHomologyCongruence ℬ dB).mk' (f (ι p))
     rw [hcoeff p, hfP p]
   simpa [F, G, qA, qB] using hEq
@@ -816,10 +816,10 @@ private theorem exists_degreeZeroCoefficientLift
   refine ⟨f, ?_, ?_⟩
   · intro p
     dsimp [f]
-    show ((fS p : S) : B) ∈ S
+    change ((fS p : S) : B) ∈ S
     exact (fS p).property
   · intro p
-    show qB (f p) = φ₀ (qA (ι p))
+    change qB (f p) = φ₀ (qA (ι p))
     have hmap : qB.comp f = φ₀.comp (qA.comp ι) := by
       apply MvPolynomial.algHom_ext
       intro s
@@ -944,18 +944,18 @@ public theorem exists_dividedPowerDGAMap_lift
     have ht' : ∀ j, t' j ∈ ℬ (j.1 + 1) := by
       intro j
       by_cases hjn : j.1 + 1 ≤ n
-      · show (if h : j.1 + 1 ≤ n then t j
+      · change (if h : j.1 + 1 ≤ n then t j
           else if h' : j.1 + 1 = n + 1 then Classical.choose (hLift j h') else 0)
             ∈ ℬ (j.1 + 1)
         rw [dite_eq_left hjn]
         exact ht j hjn
       · by_cases hjeq : j.1 + 1 = n + 1
-        · show (if h : j.1 + 1 ≤ n then t j
+        · change (if h : j.1 + 1 ≤ n then t j
             else if h' : j.1 + 1 = n + 1 then Classical.choose (hLift j h') else 0)
               ∈ ℬ (j.1 + 1)
           rw [dite_eq_right hjn, dite_eq_left hjeq]
           simpa [hjeq] using (Classical.choose_spec (hLift j hjeq)).1
-        · show (if h : j.1 + 1 ≤ n then t j
+        · change (if h : j.1 + 1 ≤ n then t j
             else if h' : j.1 + 1 = n + 1 then Classical.choose (hLift j h') else 0)
               ∈ ℬ (j.1 + 1)
           rw [dite_eq_right hjn, dite_eq_right hjeq]
@@ -977,7 +977,7 @@ public theorem exists_dividedPowerDGAMap_lift
       calc
         f' (hA.generator j) = t' j := hf'gen j
         _ = t j := by
-          show (if h : j.1 + 1 ≤ n then t j
+          change (if h : j.1 + 1 ≤ n then t j
             else if h' : j.1 + 1 = n + 1 then Classical.choose (hLift j h') else 0) = _
           rw [dite_eq_left hjn]
         _ = f (hA.generator j) := (hgen j hjn).symm
@@ -986,7 +986,7 @@ public theorem exists_dividedPowerDGAMap_lift
         dB (t' j) = f (dA (hA.generator j)) := by
       have hnot : ¬ j.1 + 1 ≤ n := by omega
       have htval : t' j = Classical.choose (hLift j hdeg) := by
-        show (if h : j.1 + 1 ≤ n then t j
+        change (if h : j.1 + 1 ≤ n then t j
           else if h' : j.1 + 1 = n + 1 then Classical.choose (hLift j h') else 0) = _
         rw [dite_eq_right hnot, dite_eq_left hdeg]
       rw [htval]
@@ -1020,7 +1020,7 @@ public theorem exists_dividedPowerDGAMap_lift
   have hstep_keep (n : ℕ) (s : StageData n) (j : Σ k : ℕ, hA.indices k)
       (hj : j.1 + 1 ≤ n) : (step n s).1 j = s.1 j := by
     rcases s with ⟨t, f, hp⟩
-    show (step n ⟨t, ⟨f, hp⟩⟩).1 j = t j
+    change (step n ⟨t, ⟨f, hp⟩⟩).1 j = t j
     simp [step, hj]
   have hstable : ∀ n (j : Σ k : ℕ, hA.indices k), j.1 + 1 ≤ n →
       (stages n).1 j = (stages (j.1 + 1)).1 j := by
@@ -1033,7 +1033,7 @@ public theorem exists_dividedPowerDGAMap_lift
         intro j hj
         by_cases hjn : j.1 + 1 ≤ n
         · have hcopy : (stages (n + 1)).1 j = (stages n).1 j := by
-            show (step n (stages n)).1 j = (stages n).1 j
+            change (step n (stages n)).1 j = (stages n).1 j
             exact hstep_keep n (stages n) j hjn
           rw [show n + 1 = Nat.succ n by omega, hcopy]
           exact ih j hjn
@@ -1098,10 +1098,10 @@ public theorem exists_dividedPowerDGAMap_lift
     obtain ⟨S, hS⟩ := hA.finite_support a
     refine ringHom_eq_on_finiteVariableStage γA ι hA.generator F.toRingHom G.toRingHom S
       (fun p => ?_) (fun j _ => ?_) (fun j _ m => ?_) hS
-    · show φ₀ (cA.mk' (ι p)) = cB.mk' (φ (ι p))
+    · change φ₀ (cA.mk' (ι p)) = cB.mk' (φ (ι p))
       rw [hφcoeff p, hfPquot p]
     · exact hpos (m := j.1 + 1) (Nat.zero_lt_succ _) (hA.generator_mem j)
-    · show φ₀ (cA.mk' (γA.dpow m (hA.generator j))) =
+    · change φ₀ (cA.mk' (γA.dpow m (hA.generator j))) =
         cB.mk' (φ (γA.dpow m (hA.generator j)))
       by_cases hp : hA.generator j ∈ positiveEvenPart 𝒜
       · by_cases hm : m = 0

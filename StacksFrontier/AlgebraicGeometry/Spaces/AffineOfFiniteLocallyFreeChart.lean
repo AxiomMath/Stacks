@@ -126,7 +126,7 @@ theorem exists_iso_yoneda_of_isPullback_of_isFiniteLocallyFree
   have hwp : tf ≫ pf = sf ≫ pf := by
     apply Sheaf.hom_ext
     ext V g
-    show p.app V ((yoneda.map t).app V g) = p.app V ((yoneda.map s).app V g)
+    change p.app V ((yoneda.map t).app V g) = p.app V ((yoneda.map s).app V g)
     obtain ⟨V⟩ := V
     rw [show ((yoneda.map t).app (op V) g) = g ≫ t from rfl,
       show ((yoneda.map s).app (op V) g) = g ≫ s from rfl]
@@ -141,7 +141,7 @@ theorem exists_iso_yoneda_of_isPullback_of_isFiniteLocallyFree
       ((Over.post B.inclusion).op.whiskerLeft (yoneda.map π)) :=
     isLocallySurjective_pointsMap_of_flat_locallyOfFinitePresentation_surjective B S hS π
   have hlocsurj : Presheaf.IsLocallySurjective J pf.hom := by
-    show Presheaf.IsLocallySurjective J p
+    change Presheaf.IsLocallySurjective J p
     rw [hp]
     infer_instance
   obtain ⟨hcolimM⟩ := Sheaf.nonempty_isColimitCoforkOfKernelPair tf sf pf hwp hker hlocsurj

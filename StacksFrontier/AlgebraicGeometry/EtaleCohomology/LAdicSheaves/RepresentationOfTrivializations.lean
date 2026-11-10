@@ -137,11 +137,13 @@ public def trivializationLinearMap (n : ℕ) (g : G) :
     ((c n).toAddMonoidHom.comp
       (((V n).obj.obj.obj.ρ g).asHom.hom.comp (c n).symm.toAddMonoidHom))
 
+omit [Fact ℓ.Prime] [IsTopologicalGroup G] in
 public theorem trivializationLinearMap_apply (n : ℕ) (g : G) (y : Fin r → ZMod (ℓ ^ (n + 1))) :
     trivializationLinearMap V c n g y =
       c n (((V n).obj.obj.obj.ρ g).asHom.hom ((c n).symm y)) :=
   rfl
 
+omit [Fact ℓ.Prime] [IsTopologicalGroup G] in
 public theorem trivializationLinearMap_mul (n : ℕ) (g h : G) :
     trivializationLinearMap V c n (g * h) =
       trivializationLinearMap V c n g ∘ₗ trivializationLinearMap V c n h := by
@@ -149,12 +151,14 @@ public theorem trivializationLinearMap_mul (n : ℕ) (g h : G) :
   rw [LinearMap.comp_apply, trivializationLinearMap_apply, trivializationLinearMap_apply,
     trivializationLinearMap_apply, AddEquiv.symm_apply_apply, finiteModule_act_mul]
 
+omit [Fact ℓ.Prime] [IsTopologicalGroup G] in
 public theorem trivializationLinearMap_one (n : ℕ) :
     trivializationLinearMap V c n (1 : G) = LinearMap.id := by
   refine LinearMap.ext fun y => ?_
   rw [trivializationLinearMap_apply, finiteModule_act_one, AddEquiv.apply_symm_apply,
     LinearMap.id_apply]
 
+omit [Fact ℓ.Prime] [IsTopologicalGroup G] in
 include hc in
 /-- The matrices of the action at consecutive levels are compatible under reduction. -/
 public theorem levelRingHom_toMatrix'_trivializationLinearMap (n : ℕ) (g : G) (i j : Fin r) :
@@ -178,6 +182,7 @@ public def trivializationMatrix (g : G) : Matrix (Fin r) (Fin r) ℤ_[ℓ] :=
     (fun n => LinearMap.toMatrix' (trivializationLinearMap V c n g) i j)
     (fun n => levelRingHom_toMatrix'_trivializationLinearMap V T c hc n g i j)).choose
 
+omit [IsTopologicalGroup G] in
 public theorem map_trivializationMatrix (n : ℕ) (g : G) :
     (trivializationMatrix V T c hc g).map (PadicInt.toZModPow (n + 1)) =
       LinearMap.toMatrix' (trivializationLinearMap V c n g) := by
@@ -186,6 +191,7 @@ public theorem map_trivializationMatrix (n : ℕ) (g : G) :
     (fun n => LinearMap.toMatrix' (trivializationLinearMap V c n g) i j)
     (fun n => levelRingHom_toMatrix'_trivializationLinearMap V T c hc n g i j)).choose_spec n
 
+omit [IsTopologicalGroup G] in
 /-- The reductions of `ρ(g)` act on the levels as `g`. -/
 public theorem map_trivializationMatrix_mulVec (n : ℕ) (g : G) (v : (V n).obj.obj.obj.V) :
     (trivializationMatrix V T c hc g).map (PadicInt.toZModPow (n + 1)) *ᵥ c n v =
@@ -208,10 +214,12 @@ discrete `G`-modules. -/
 public def trivializationRepresentation : G →* GL (Fin r) ℤ_[ℓ] :=
   (trivializationMatrixHom V T c hc).toHomUnits
 
+omit [IsTopologicalGroup G] in
 public theorem trivializationRepresentation_val (g : G) :
     (trivializationRepresentation V T c hc g).val = trivializationMatrix V T c hc g :=
   rfl
 
+omit [IsTopologicalGroup G] in
 /-- The entries of `ρ(g)` are continuous in `g`. -/
 public theorem continuous_trivializationMatrix :
     Continuous (trivializationMatrix V T c hc) := by
@@ -224,7 +232,7 @@ public theorem continuous_trivializationMatrix :
     ext g
     have h := congrFun (congrFun (map_trivializationMatrix V T c hc n g) i) j
     simp only [Matrix.map_apply] at h
-    simp only [Set.mem_setOf_eq, Set.mem_iUnion, exists_prop, h, LinearMap.toMatrix'_apply,
+    simp only [Set.mem_ofPred_eq, Set.mem_iUnion, exists_prop, h, LinearMap.toMatrix'_apply,
       trivializationLinearMap_apply]
     exact ⟨fun h => ⟨_, h, rfl⟩, fun ⟨v, hv, hg⟩ => hg ▸ hv⟩
   rw [this]
@@ -242,6 +250,7 @@ public theorem continuous_trivializationRepresentation :
   rw [this]
   exact (continuous_trivializationMatrix V T c hc).comp continuous_inv
 
+omit [IsTopologicalGroup G] in
 /-- The level representation of `ρ` at level `n + 1` is the action on `Vₙ`. -/
 public theorem levelRepresentation_trivializationRepresentation (n : ℕ) (g : G)
     (v : (V n).obj.obj.obj.V) :

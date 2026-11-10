@@ -75,7 +75,7 @@ lemma isFinite_biprodObj (C : Type u) [Category.{v} C] [Preadditive C]
   let : IsIso g := B.filtration.isIso_ι_app_of_le (min_le_right nA nB) hnB
   refine .of_exists ⟨min nA nB, ?_⟩ ⟨max mA mB, ?_⟩
   · rw [FilteredObject.biprodObj_ι_app]
-    show IsIso ((biprod.mapIso (asIso f) (asIso g)).hom)
+    change IsIso ((biprod.mapIso (asIso f) (asIso g)).hom)
     infer_instance
   · exact (biprod_isZero_iff _ _).2
       ⟨A.filtration.isZero_obj_of_le (le_max_left mA mB) hmA,

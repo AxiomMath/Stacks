@@ -371,8 +371,9 @@ theorem exists_ideal_pullback_epi_of_isLimit (hc : IsLimit c) (I : c.pt.Modules)
   have hcompat : (Scheme.Modules.pullback (X := c.pt) (c.π.app k)).map θₖ ≫
       (β ≪≫ eFᵢ.symm).hom =
         (Scheme.Modules.pullbackUnitIso (X := c.pt) (c.π.app k)).hom ≫ cokernel.π inclusion := by
-    simp only [Iso.trans_hom, Iso.symm_hom, reassoc_of% hβ, φ, Uᵢ, Iso.hom_inv_id,
-      Category.comp_id]
+    rw [Iso.trans_hom, Iso.symm_hom, reassoc_of% hβ]
+    dsimp only [φ, Uᵢ]
+    simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id]
     exact congrArg (_ ≫ ·) (Iso.inv_hom_id_assoc _ _)
   obtain ⟨descend, hdesc_epi, hdesc⟩ :=
     exists_epi_map_kernel_to_kernel (Scheme.Modules.pullback (X := c.pt) (c.π.app k)) θₖ inclusion

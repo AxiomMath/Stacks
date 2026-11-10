@@ -105,7 +105,7 @@ private theorem compactSpace_of_affineCoverPolynomial_closed
     apply TopologicalSpace.Opens.mem_iSup.mpr
     refine ⟨𝒰.idx (p z), ?_⟩
     constructor
-    · show fT z ∈ Ti (𝒰.idx (p z))
+    · change fT z ∈ Ti (𝒰.idx (p z))
       rw [hzt]
       exact ht _
     · simpa [U] using 𝒰.covers (p z)
@@ -193,7 +193,7 @@ theorem BigFppfSite.contains_affineSpace (B : BigFppfSite.{u})
     exact max_lt B.aleph0_lt_cutoff (Cardinal.mk_le_aleph0.trans_lt B.aleph0_lt_cutoff)
   have hA : (Spec (.of A)).size < B.cutoff :=
     Scheme.size_Spec_lt_of_finiteType B.aleph0_lt_cutoff B.cutoff_isStrongPrelimit R A hR
-  show (pullback (terminal.from X) (terminal.from (Spec (.of A)))).size < B.cutoff
+  change (pullback (terminal.from X) (terminal.from (Spec (.of A)))).size < B.cutoff
   exact Scheme.size_pullback_lt _ _ hX hA
 
 /-- If the base change of `f` along `g` is a closed map, so is the second projection of any

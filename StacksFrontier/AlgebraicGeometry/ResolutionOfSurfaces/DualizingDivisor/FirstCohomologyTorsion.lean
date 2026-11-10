@@ -56,7 +56,7 @@ theorem topologicalKrullDim_fiber_le_zero (hdim : ringKrullDim A = 2) {X : Schem
   let U : (Spec (.of A)).Opens := V.puncturedSpectrumOpen
   have : IsIso (f ∣_ U) := V.isIso_morphismRestrict_puncturedSpectrumOpen
   have hmem : ∀ a : f ⁻¹' {y}, (a : X) ∈ f ⁻¹ᵁ U := fun a => by
-    show f a ∈ ({IsLocalRing.closedPoint A}ᶜ : Set (Spec (.of A)))
+    change f a ∈ ({IsLocalRing.closedPoint A}ᶜ : Set (Spec (.of A)))
     rw [show f a = y from a.2]
     exact hy
   have : Subsingleton (f ⁻¹' {y}) := by

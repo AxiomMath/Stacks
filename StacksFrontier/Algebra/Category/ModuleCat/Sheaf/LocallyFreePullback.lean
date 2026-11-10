@@ -299,7 +299,7 @@ theorem pullback_isLocallyFree {X Y : AlgebraicGeometry.RingedSpace.{u, u}} (f :
     rw [show Set.range (ConcreteCategory.hom (F.map jV).base) = (V : Set Y) from
       Opens.set_range_inclusion' V, Set.range_subset_iff, F.map_comp]
     intro u
-    show (ConcreteCategory.hom (F.map f).base) ((ConcreteCategory.hom (F.map jU).base) u) ∈ V
+    change (ConcreteCategory.hom (F.map f).base) ((ConcreteCategory.hom (F.map jU).base) u) ∈ V
     exact (Opens.set_range_inclusion' U).subset (Set.mem_range_self u)
   -- The corestriction `f' : X.restrict U ⟶ Y.restrict V`, obtained by lifting `jU ≫ f`
   -- along the open immersion `jV`, transported back to `RingedSpace` via full faithfulness

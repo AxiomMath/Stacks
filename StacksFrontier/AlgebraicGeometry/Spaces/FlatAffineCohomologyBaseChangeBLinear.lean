@@ -180,8 +180,7 @@ def baseLinearEquivOfEquivariant {A : Type u} [CommRing A] {R : Type u} [CommRin
     φ.toLinearMap ∘ₗ (TensorProduct.comm A R P).toLinearMap with hψ
   have hsmul : ∀ (b : R) (z : R ⊗[A] P), ψ (b • z) = b • ψ z := by
     intro b z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul c x =>
       rw [TensorProduct.smul_tmul']
       change φ ((TensorProduct.comm A R P) ((b * c) ⊗ₜ[A] x)) =
@@ -438,8 +437,7 @@ theorem pushforwardTensorComparison_globalSmul (hV₀' : IsTerminal V₀')
             ((smallBaseChangeModulePushforward B S hS D.g' hg').map
               (D.pulledBackMul V₀' hV₀' b))) := by
   refine PresheafOfModules.hom_ext fun W => ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
-  induction t using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
   | tmul s n => exact D.pushforwardTensorApp_globalSmul_tmul hg' V₀ V₀' hV₀' b s n

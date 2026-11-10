@@ -61,7 +61,7 @@ public theorem apply_genericPoint_eq_genericPoint {X S : Scheme.{u}} (f : X ⟶ 
     [IrreducibleSpace X] [IrreducibleSpace S] [IsDominant f] :
     f (genericPoint X) = genericPoint S := by
   refine IsGenericPoint.eq (S := Set.univ) ?_ (genericPoint_spec S)
-  show closure {f (genericPoint X)} = (Set.univ : Set S)
+  change closure {f (genericPoint X)} = (Set.univ : Set S)
   refine Set.eq_univ_of_univ_subset ?_
   rw [← f.denseRange.closure_range]
   refine closure_minimal ?_ isClosed_closure

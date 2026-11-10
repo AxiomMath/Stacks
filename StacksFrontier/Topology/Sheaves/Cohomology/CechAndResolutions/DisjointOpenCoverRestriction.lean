@@ -275,7 +275,7 @@ theorem eq_zero_of_forall_mapDerivedCategory_map_eq_zero
     (fun r => openInclusionSiteRestriction X (U r))
     (fun r I hI => by
       have := hI
-      show CochainComplex.IsKInjective
+      change CochainComplex.IsKInjective
         (((ExtensionByZeroModules.jStar (U r) (structureSheafRing X)).mapHomologicalComplex
           (ComplexShape.up ℤ)).obj I)
       infer_instance)
@@ -340,7 +340,7 @@ def rangeIso (r : ι) : Y r ≅ X.restrict (rangeOpen k r).isOpenEmbedding :=
 /-- `rangeIso k r` followed by the inclusion of the open subspace on the image is `k r`. -/
 theorem rangeIso_hom_comp (r : ι) :
     (rangeIso k r).hom ≫ X.ofRestrict (rangeOpen k r).isOpenEmbedding = k r := by
-  show ((SheafedSpace.IsOpenImmersion.isoRestrict (k r)).hom ≫
+  change ((SheafedSpace.IsOpenImmersion.isoRestrict (k r)).hom ≫
       (openImmersionRangeIso (k r)).hom) ≫
     X.ofRestrict (rangeOpen k r).isOpenEmbedding = k r
   exact (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) (openImmersionRangeIso_comp (k r))).trans
@@ -362,7 +362,7 @@ instance (r : ι) : (modulePullback (rangeIso k r).hom).IsEquivalence :=
 /-- A point lies in `rangeOpen k r` if and only if it lies in the image of `k r`. -/
 theorem mem_rangeOpen_iff (r : ι) (x : (X : TopCat)) :
     x ∈ rangeOpen k r ↔ x ∈ Set.range (k r).hom.base := by
-  show x ∈ (IsOpenMap.functor _).obj ⊤ ↔ _
+  change x ∈ (IsOpenMap.functor _).obj ⊤ ↔ _
   rw [← SetLike.mem_coe, IsOpenMap.coe_functor_obj]
   simp
 

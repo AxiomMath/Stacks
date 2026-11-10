@@ -238,8 +238,7 @@ private noncomputable abbrev sg (J : Ideal R') (X : Type*) [AddCommGroup X] [Mod
 
 private theorem sg_eq_rTensor (J : Ideal R') (X : Type*) [AddCommGroup X] [Module R X]
     (y : ↥J ⊗[R] X) : sg J X y = LinearMap.rTensor X (J.subtype.restrictScalars R) y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul a x => simp
   | add a b ha hb => rw [map_add, map_add, ha, hb]
 
@@ -262,8 +261,7 @@ private theorem sg_injective (J : Ideal R') (X : Type*) [AddCommGroup X] [Module
 private theorem sg_tau (I : Ideal R) (J : Ideal R') (hJ : ∀ a ∈ I, algebraMap R R' a ∈ J)
     (X : Type*) [AddCommGroup X] [Module R X] (θ : ↥I ⊗[R] X) :
     sg J X (LinearMap.rTensor X (incl I J hJ) θ) = 1 ⊗ₜ[R] (sm I θ) := by
-  induction θ using TensorProduct.induction_on with
-  | zero => simp
+  induction θ using TensorProduct.inductionOn with
   | tmul a
     x =>
     simp only [LinearMap.rTensor_tmul, AlgebraTensorModule.map_tmul, LinearMap.id_coe, id_eq,
@@ -275,8 +273,7 @@ private theorem atm_map_id_eq_lTensor {W X Y : Type*} [AddCommGroup W] [Module R
     [IsScalarTower R R' W] [AddCommGroup X] [Module R X] [AddCommGroup Y] [Module R Y]
     (g : X →ₗ[R] Y) (y : W ⊗[R] X) :
     AlgebraTensorModule.map (LinearMap.id : W →ₗ[R'] W) g y = LinearMap.lTensor W g y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul w x => simp
   | add a b ha hb => rw [map_add, map_add, ha, hb]
 
@@ -285,16 +282,14 @@ private theorem sg_natural (J : Ideal R') {X Y : Type*} [AddCommGroup X] [Module
     [AddCommGroup Y] [Module R Y] (g : X →ₗ[R] Y) (w : ↥J ⊗[R] X) :
     sg J Y (AlgebraTensorModule.map (LinearMap.id : ↥J →ₗ[R'] ↥J) g w) =
       AlgebraTensorModule.map (LinearMap.id : R' →ₗ[R'] R') g (sg J X w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul a x => simp
   | add a b ha hb => simp only [map_add, ha, hb]
 
 /-- Composing `sg` with the reduction `R' → R'/J` kills everything. -/
 private theorem mk_sg (J : Ideal R') (X : Type*) [AddCommGroup X] [Module R X] (w : ↥J ⊗[R] X) :
     LinearMap.rTensor X (J.mkQ.restrictScalars R) (sg J X w) = 0 := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul a
     x =>
     simp only [AlgebraTensorModule.map_tmul, LinearMap.id_coe, id_eq, Submodule.coe_subtype,
@@ -308,8 +303,7 @@ private theorem rTensor_subtype_lTensor (I : Ideal R) {F M : Type*} [AddCommGrou
     [AddCommGroup M] [Module R M] (π : F →ₗ[R] M) (θ : ↥I ⊗[R] F) :
     TensorProduct.lid R M (LinearMap.rTensor M I.subtype (LinearMap.lTensor ↥I π θ)) =
       π (sm I θ) := by
-  induction θ using TensorProduct.induction_on with
-  | zero => simp [sm]
+  induction θ using TensorProduct.inductionOn with
   | tmul a x => simp [sm_tmul]
   | add a b ha hb => simp only [map_add, ha, hb]
 
@@ -318,8 +312,7 @@ private theorem lTensor_incl_natural (I : Ideal R) (J : Ideal R')
     [AddCommGroup M] [Module R M] (π : F →ₗ[R] M) (θ : ↥I ⊗[R] F) :
     AlgebraTensorModule.map (LinearMap.id : ↥J →ₗ[R'] ↥J) π (LinearMap.rTensor F (incl I J hJ) θ) =
       LinearMap.rTensor M (incl I J hJ) (LinearMap.lTensor ↥I π θ) := by
-  induction θ using TensorProduct.induction_on with
-  | zero => simp
+  induction θ using TensorProduct.inductionOn with
   | tmul a x => simp
   | add a b ha hb => simp only [map_add, ha, hb]
 
@@ -408,11 +401,9 @@ private theorem ker_lTensor_le_range_of_flat_quotient {A W Zm F M : Type*} [Comm
   set eF := AlgebraTensorModule.cancelBaseChange A B B W F with heF
   have hsq : ∀ x : W ⊗[B] (B ⊗[A] Zm), eF (LinearMap.lTensor W u x) = ι.lTensor W (eZ x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul w ν =>
-      induction ν using TensorProduct.induction_on with
-      | zero => simp
+      induction ν using TensorProduct.inductionOn with
       | tmul a z => simp [heZ, heF, hu]
       | add ν₁ ν₂ h1 h2 => rw [TensorProduct.tmul_add, map_add, map_add, map_add, map_add, h1, h2]
     | add x y h1 h2 => rw [map_add, map_add, map_add, map_add, h1, h2]
@@ -428,8 +419,7 @@ private theorem ker_lTensor_le_range_of_flat_quotient {A W Zm F M : Type*} [Comm
       eZ ((LinearMap.ker u).subtype.lTensor W y) ∈
         LinearMap.range (((I • (⊤ : Submodule A F)).comap ι).subtype.lTensor W) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul w
       ν =>
       obtain ⟨z, hz⟩ := TensorProduct.mk_surjective A Zm B Ideal.Quotient.mk_surjective ν.1
@@ -515,8 +505,7 @@ private theorem key_aux {M Q F Zm : Type*} [AddCommGroup M] [Module R M] [AddCom
           sg J F w =
             LinearMap.lTensor R' (ι ∘ₗ ((I • (⊤ : Submodule R F)).comap ι).subtype) x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp, by simp⟩
+    induction x using TensorProduct.inductionOn with
     | tmul r'
       z₀ =>
       have hy1 : ι (((I • (⊤ : Submodule R F)).comap ι).subtype z₀) ∈ I • (⊤ : Submodule R F) :=
@@ -544,8 +533,7 @@ private theorem key_aux {M Q F Zm : Type*} [AddCommGroup M] [Module R M] [AddCom
     intro d
     refine ⟨AlgebraTensorModule.map (LinearMap.id : ↥J →ₗ[R'] ↥J) ι d, ?_, ?_⟩
     · have h0 : PF (AlgebraTensorModule.map (LinearMap.id : ↥J →ₗ[R'] ↥J) ι d) = 0 := by
-        induction d using TensorProduct.induction_on with
-        | zero => simp
+        induction d using TensorProduct.inductionOn with
         | tmul a zz =>
           rw [AlgebraTensorModule.map_tmul, hPF, AlgebraTensorModule.map_tmul]
           rw [show π (ι zz) = 0 from hex.apply_apply_eq_zero zz]
@@ -604,8 +592,7 @@ private theorem bc_tmul {j : M →ₗ[R] N} (hj : IsBaseChange R' j) (P : Type*)
 
 private theorem bc_sg {j : M →ₗ[R] N} (hj : IsBaseChange R' j) (J : Ideal R') (v : ↥J ⊗[R] M) :
     LinearMap.lTensor N J.subtype (bc hj ↥J v) = bc hj R' (sg J M v) := by
-  induction v using TensorProduct.induction_on with
-  | zero => simp
+  induction v using TensorProduct.inductionOn with
   | tmul a m => simp [bc_tmul]
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
 

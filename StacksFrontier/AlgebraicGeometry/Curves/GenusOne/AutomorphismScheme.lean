@@ -183,7 +183,7 @@ theorem comparisonToAut_autToComparison {T : Over (Spec (.of k))}
     comparisonToAut (autToComparison f p hp ψ) rfl (autPoint_comp f p hp ψ) = ψ := by
   apply Iso.ext
   ext1
-  show ((pointedFamily f p hp).pullbackIsoOfEq rfl).inv ≫ (ψ.hom.left ≫
+  change ((pointedFamily f p hp).pullbackIsoOfEq rfl).inv ≫ (ψ.hom.left ≫
     (diagonalFamilyPullbackIso f _ T.hom (autPoint_comp f p hp ψ)).inv) ≫
     (diagonalFamilyPullbackIso f _ T.hom (autPoint_comp f p hp ψ)).hom = ψ.hom.left
   rw [PointedFamily.pullbackIsoOfEq_inv, PointedFamily.pullbackIsoOfEq_self_hom,
@@ -195,7 +195,7 @@ theorem autPoint_comparisonToAut {T : Over (Spec (.of k))}
     (x : Comparison (pointedFamily f p hp) (diagonalFamily f) T.left)
     (h₁ : x.fst = T.hom) (h₂ : x.snd ≫ f = T.hom) :
     autPoint f p hp (comparisonToAut x h₁ h₂) = x.snd := by
-  show basePointAt f p hp T ≫ (((pointedFamily f p hp).pullbackIsoOfEq h₁).inv ≫ x.iso.hom ≫
+  change basePointAt f p hp T ≫ (((pointedFamily f p hp).pullbackIsoOfEq h₁).inv ≫ x.iso.hom ≫
     (diagonalFamilyPullbackIso f x.snd T.hom h₂).hom) ≫ pullback.fst f T.hom = x.snd
   rw [PointedFamily.pullbackIsoOfEq_inv]
   simp only [Category.assoc]
@@ -209,7 +209,7 @@ theorem autToComparison_comparisonToAut {T : Over (Spec (.of k))}
     (h₁ : x.fst = T.hom) (h₂ : x.snd ≫ f = T.hom) :
     autToComparison f p hp (comparisonToAut x h₁ h₂) = x := by
   refine Comparison.ext_of_eq h₁.symm (autPoint_comparisonToAut f p hp x h₁ h₂) ?_
-  show ((((pointedFamily f p hp).pullbackIsoOfEq h₁).inv ≫ x.iso.hom ≫
+  change ((((pointedFamily f p hp).pullbackIsoOfEq h₁).inv ≫ x.iso.hom ≫
     (diagonalFamilyPullbackIso f x.snd T.hom h₂).hom) ≫
     (diagonalFamilyPullbackIso f (autPoint f p hp (comparisonToAut x h₁ h₂)) T.hom
       (autPoint_comp f p hp _)).inv) ≫

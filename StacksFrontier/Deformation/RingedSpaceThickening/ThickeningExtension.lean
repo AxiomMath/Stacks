@@ -173,7 +173,7 @@ omit hi in
 theorem idealSheafι_injective (V : (Opens X'.carrier)ᵒᵖ) :
     Function.Injective ((kernel.ι (structureSheafModuleHom i)).val.app V) := by
   apply (ModuleCat.mono_iff_injective _).mp
-  show Mono ((SheafOfModules.evaluation (R := structureSheafRing X') V).map
+  change Mono ((SheafOfModules.evaluation (R := structureSheafRing X') V).map
     (kernel.ι (structureSheafModuleHom i)))
   infer_instance
 
@@ -220,7 +220,7 @@ theorem thickeningIdealIso_hom_app
     (fun φ => φ.val.app (op V) ((baseIdealPushforwardIso hi).inv.val.app (op V) y))
     (modulePushforward_map_thickeningIdealIso_hom hi G κ)
   refine h1.trans ?_
-  show κ.hom.val.app (op V) (((baseIdealPushforwardIso hi).inv ≫
+  change κ.hom.val.app (op V) (((baseIdealPushforwardIso hi).inv ≫
     (baseIdealPushforwardIso hi).hom).val.app (op V) y) = _
   rw [Iso.inv_hom_id]
   rfl

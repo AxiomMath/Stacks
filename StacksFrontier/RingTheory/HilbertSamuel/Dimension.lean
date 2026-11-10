@@ -32,7 +32,8 @@ Noetherian local ring `R ⧸ 𝔭`.
 
 ## Implementation notes
 
-The proof in the Stacks project runs the induction by hand over the filtration of Lemma 00L0 and closes the
+The proof in the Stacks project runs the induction by hand over the filtration of Lemma 00L0 and
+closes the
 support side by identifying the minimal primes of `Supp(M)` among the `𝔭ᵢ` (Lemma 00L7). Here the
 filtration and the induction over it are Mathlib's
 `IsNoetherianRing.induction_on_isQuotientEquivQuotientPrime`, which is exactly Lemma 00L0 packaged

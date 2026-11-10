@@ -302,11 +302,10 @@ private lemma tensorComplexFunctor_map_comp
   let := (g.comp f).toAlgebra
   ext n z
   change B ⊗[A] (E.X n) at z
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   | tmul b m =>
-    show g b ⊗ₜ[A, g.comp f] m =
+    change g b ⊗ₜ[A, g.comp f] m =
       (ModuleCat.extendScalarsComp.{u, max u v} f g).inv.app (E.X n)
         ((1 : C) ⊗ₜ[B, g] (b ⊗ₜ[A, f] m))
     exact (extendScalarsComp_inv_app_one_tmul_tmul f g (E.X n) b m).symm
@@ -376,7 +375,7 @@ private lemma tensorComplexHomologyEquiv_comp
   let UA := (forget₂ (ModuleCat.{max u v} A) Ab).mapHomologicalComplex (.up ℤ)
   let φ : EB ⟶ EC := (tensorComplexFunctor E).map (CommAlgCat.ofHom q)
   have hs : eB.hom ≫ τ = UA.map φ ≫ eC.hom := by
-    show 𝟙 _ ≫ τ = UA.map φ ≫ 𝟙 _
+    change 𝟙 _ ≫ τ = UA.map φ ≫ 𝟙 _
     rw [Category.id_comp, Category.comp_id]
     exact (tensorComplexFunctor_map_comp f g E).symm
   have hh := congrArg (fun η ↦ homologyForgetMap (E := EB) (F := Efg.obj E) η i) hs
@@ -492,7 +491,7 @@ private lemma homComplexBaseChangeHomologyEquivLeftDerivedHom_comp
     HomologicalComplex.homologyMap (homComplexBaseChange (g.comp f) P F) 0
       (homologyForgetMap (E := Ef.obj (CochainComplex.HomComplexR A P F))
         (F := Efg.obj (CochainComplex.HomComplexR A P F)) τ 0 x) at hx
-  show Iso.homCongr
+  change Iso.homCongr
       (asIso ((totalDerivedExtensionScalars.{u, u, v} (g.comp f)).comparison.app P)).symm
       (asIso ((totalDerivedExtensionScalars.{u, u, v} (g.comp f)).comparison.app F)).symm
       (homComplexRHomologyEquivDerivedHom (Efg.obj P) (Efg.obj F) h'
@@ -668,8 +667,8 @@ lemma isIso_tensorBaseChange_comparison_app_of_flat
     Algebra.TensorProduct.congr (AlgEquiv.refl : S ≃ₐ[S] S) ULift.algEquiv
   have hp : Algebra.IsPushout R S A' B := Algebra.IsPushout.of_equiv e (by
     ext x
-    show e (1 ⊗ₜ[R] x) = f x
-    show (Algebra.TensorProduct.map (AlgHom.id S S)
+    change e (1 ⊗ₜ[R] x) = f x
+    change (Algebra.TensorProduct.map (AlgHom.id S S)
       (ULift.algEquiv : A' ≃ₐ[R] A).toAlgHom) (1 ⊗ₜ[R] x) = _
     rw [Algebra.TensorProduct.map_tmul]
     rfl)

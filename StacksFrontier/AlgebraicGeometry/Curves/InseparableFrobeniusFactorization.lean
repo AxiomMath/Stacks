@@ -199,7 +199,7 @@ theorem existsUnique_morphism_of_fromSpecStalk_genericPoint
   apply (toRationalMap_bijective k X Y).injective
   apply Subtype.ext
   apply Scheme.RationalMap.eq_of_fromFunctionField_eq
-  show f'.left.toRationalMap.fromFunctionField = f.left.toRationalMap.fromFunctionField
+  change f'.left.toRationalMap.fromFunctionField = f.left.toRationalMap.fromFunctionField
   simpa [Scheme.PartialMap.fromFunctionField,
     Scheme.PartialMap.fromSpecStalkOfMem_toPartialMap] using hf'.trans hf₀.symm
 
@@ -212,7 +212,7 @@ theorem specMap_frobenius_eq_absoluteFrobenius (K : Type u) [Field K] (p : ℕ) 
   apply (cancel_epi (Scheme.ΓSpecIso (.of K)).inv).mp
   rw [← Scheme.ΓSpecIso_inv_naturality]
   ext a
-  show (Scheme.ΓSpecIso (.of K)).inv.hom (a ^ p) =
+  change (Scheme.ΓSpecIso (.of K)).inv.hom (a ^ p) =
     (absoluteFrobenius _ p h).appTop.hom ((Scheme.ΓSpecIso (.of K)).inv.hom a)
   rw [map_pow]
   exact (absoluteFrobenius_appLE_apply (Spec (.of K)) p h ⊤
@@ -284,7 +284,7 @@ theorem exists_comp_eq_relativeFrobenius_of_pow_mem_range
   have hγ : φSpec ≫ γ = ηX ≫ absoluteFrobenius X p hX := by
     dsimp only [φSpec, γ]
     rw [← Spec.map_comp_assoc]
-    show Spec.map (CommRingCat.ofHom (φ.comp ρ)) ≫ ηX = _
+    change Spec.map (CommRingCat.ofHom (φ.comp ρ)) ≫ ηX = _
     rw [hρ, specMap_frobenius_eq_absoluteFrobenius X.functionField p
       (@Stacks.Frobenius.isInCharacteristic_of_over X.functionField _ p hcp
         (Over.mk (𝟙 (Spec X.functionField))))]
@@ -336,7 +336,7 @@ theorem isIso_of_residueDegree_eq_one
   have hfg : f ≫ g = 𝟙 X := Over.OverMorphism.ext hg
   have hgf : g ≫ f = 𝟙 Y := by
     apply overHom_ext_of_isDominant f.left
-    show f.left ≫ (g.left ≫ f.left) = f.left ≫ 𝟙 Y.left
+    change f.left ≫ (g.left ≫ f.left) = f.left ≫ 𝟙 Y.left
     rw [← Category.assoc, show f.left ≫ g.left = 𝟙 X.left from
       congrArg (fun t : X ⟶ X => t.left) hfg, Category.id_comp, Category.comp_id]
   exact ⟨⟨g, hfg, hgf⟩⟩
@@ -374,10 +374,10 @@ theorem existsUnique_iso_frobeniusTwist_of_inseparable_degree_prime
   have _ : IsDominant f := isDominant_of_nontrivial_range_of_isCurve pX pY f hnonconstant
   have _ : IsNormal Y := isNormal_of_isRegular Y hYreg
   have _ : Smooth T.hom := by
-    show Smooth (Limits.pullback.snd pX (absoluteFrobenius S p hS))
+    change Smooth (Limits.pullback.snd pX (absoluteFrobenius S p hS))
     infer_instance
   have _ : IsProper T.hom := by
-    show IsProper (Limits.pullback.snd pX (absoluteFrobenius S p hS))
+    change IsProper (Limits.pullback.snd pX (absoluteFrobenius S p hS))
     infer_instance
   have _ : IsNormal T.left :=
     isNormal_of_isRegular T.left (isRegular_of_smooth_over_field T.hom)

@@ -52,7 +52,7 @@ site. -/
 def extensionByZeroUliftIso :
     etaleUlift.{r} U ⋙ extensionByZero.{u, r} j ≅ extensionByZero.{u, 0} j ⋙ etaleUlift.{r} X :=
   asIso (coefficientPullbackTwoSquare (Scheme.Etale.smallEtaleCompose j) U.smallEtaleTopology
-    X.smallEtaleTopology AddCommGrpCat.uliftFunctor.{r, u + 1}).natTrans
+    X.smallEtaleTopology AddCommGrpCat.uliftFunctor.{r, u + 1})
 
 /-- The universe lift of `j_!(A̲)` is `j_!` of the constant sheaf on the universe lift of `A`. -/
 def etaleAbelianShriekConstantUliftIso :
@@ -156,7 +156,7 @@ theorem finite_rightDerived_etaleAbelianShriekConstant_zmod {k : Type u} [Field 
   have hA : ((ℓ : ℤ) • 𝟙 A₀) = 0 := by
     refine AddCommGrpCat.ext fun x => ?_
     apply ULift.ext
-    show (ℓ : ℤ) • x.down = 0
+    change (ℓ : ℤ) • x.down = 0
     rw [zsmul_eq_mul, Int.cast_natCast, ZMod.natCast_self, zero_mul]
   have hG : ((ℓ : ℤ) • 𝟙 G₀) = 0 := by
     rw [← CategoryTheory.Functor.map_id, ← Functor.map_zsmul, hA, Functor.map_zero]

@@ -288,7 +288,7 @@ private lemma cohomologyPresheaf_isZero_on_restricted_source
           iSup A' = e ⁻¹ᵁ iSup A := (Scheme.Hom.preimage_iSup e A).symm
           _ = VI := by rw [hA_cover, hpre]
       have hminVI : AffineCoveringNumber.minimalAffineCoverCardinality VI ≤ m := by
-        show sInf {q : ℕ | ∃ B : Fin q → Xj.Opens,
+        change sInf {q : ℕ | ∃ B : Fin q → Xj.Opens,
           (∀ k, IsAffineOpen (B k)) ∧ iSup B = VI} ≤ m
         exact Nat.sInf_le ⟨A', hA'_affine, hA'_cover⟩
       simpa [VI, UI, m] using hminVI
@@ -301,7 +301,7 @@ private lemma cohomologyPresheaf_isZero_on_restricted_source
     have hlocal : I.card + AffineCoveringNumber.minimalAffineCoverCardinality
         ((C.f ⁻¹ᵁ C.baseOpen j) ⊓ I.inf (C.fiberOpen j)) ≤ C.localBound j := by
       unfold FiniteAffineCoversWithBound.localBound
-      show I.card + AffineCoveringNumber.minimalAffineCoverCardinality
+      change I.card + AffineCoveringNumber.minimalAffineCoverCardinality
           ((C.f ⁻¹ᵁ C.baseOpen j) ⊓ I.inf (C.fiberOpen j)) ≤
         Finset.univ.powerset.sup (fun K : Finset (Fin (C.fiberCard j)) ↦
           K.card + AffineCoveringNumber.minimalAffineCoverCardinality
@@ -335,7 +335,7 @@ private lemma isZero_quasicoherent_module_of_isZero_sections
     dsimp [M', Scheme.Modules.restrictFunctor, SheafOfModules.pushforward,
       PresheafOfModules.pushforward, PresheafOfModules.pushforward₀,
       PresheafOfModules.pushforward₀Obj]
-    show Subsingleton (M.val.obj (op (e.inv ''ᵁ (⊤ : (Spec Γ(T, ⊤)).Opens))))
+    change Subsingleton (M.val.obj (op (e.inv ''ᵁ (⊤ : (Spec Γ(T, ⊤)).Opens))))
     rw [Scheme.Hom.image_top_eq_opensRange, Scheme.Hom.opensRange_of_isIso]
     exact hΓcarrier
   have hΓmodule : IsZero
@@ -347,7 +347,7 @@ private lemma isZero_quasicoherent_module_of_isZero_sections
   have hM' : IsZero M' := IsZero.of_iso htilde (asIso M'.fromTildeΓ).symm
   have hM'' : IsZero ((Scheme.Modules.restrictFunctor e.inv ⋙
       Scheme.Modules.restrictFunctor e.hom).obj M) := by
-    show IsZero ((Scheme.Modules.restrictFunctor e.hom).obj M')
+    change IsZero ((Scheme.Modules.restrictFunctor e.hom).obj M')
     exact Functor.map_isZero _ hM'
   have hMcomp : IsZero ((Scheme.Modules.restrictFunctor (e.hom ≫ e.inv)).obj M) :=
     IsZero.of_iso hM'' ((Scheme.Modules.restrictFunctorComp e.hom e.inv).app M)
@@ -383,14 +383,14 @@ private lemma isZero_evaluation_of_isZero_Hgroup_zero
   let E := SheafOfModules.evaluation (ringCatSheaf RT) (op (⊤ : T.Opens))
   let G := forget₂ (ModuleCat ((ringCatSheaf RT).obj.obj (op (⊤ : T.Opens)))) AddCommGrpCat
   have : PreservesFiniteLimits (secF T.ringCatSheaf ⊤) := by
-    show PreservesFiniteLimits (E ⋙ G)
+    change PreservesFiniteLimits (E ⋙ G)
     infer_instance
   have h' : IsZero (((secF T.ringCatSheaf ⊤).rightDerived 0).obj M) := h
   have hΓ : IsZero ((secF T.ringCatSheaf ⊤).obj M) :=
     IsZero.of_iso h' ((secF T.ringCatSheaf ⊤).rightDerivedZeroIsoSelf.app M).symm
   have hΓ' : IsZero (G.obj (E.obj M)) := hΓ
   apply ModuleCat.isZero_iff_subsingleton.mpr
-  show Subsingleton (G.obj (E.obj M))
+  change Subsingleton (G.obj (E.obj M))
   exact AddCommGrpCat.isZero_iff_subsingleton.mp hΓ'
 
 /-- A module sheaf whose restrictions to the members of an open cover vanish is zero. -/
@@ -415,7 +415,7 @@ private lemma isZero_module_of_isZero_ringedRestrictions
       have hz₁ := Functor.map_isZero (SheafOfModules.toSheaf (ringCatSheaf T)) (hrest i)
       have hz₂ := Functor.map_isZero (sheafToPresheaf J Ab) hz₁
       have hz₃ := Functor.map_isZero (TopCat.Presheaf.stalkFunctor.{u} Ab y) hz₂
-      show IsZero ((TopCat.Presheaf.stalkFunctor Ab y).obj P)
+      change IsZero ((TopCat.Presheaf.stalkFunctor Ab y).obj P)
       simpa only [P] using hz₃
     have e := TopCat.Presheaf.stalkRestrictIso (U i) M.presheaf y
     have hm : (U i).inclusion' y = x := rfl
@@ -429,7 +429,7 @@ private lemma isZero_module_of_isZero_ringedRestrictions
     Functor.map_isZero (TopCat.Sheaf.forget Ab (TopCat.of S)) hF
   apply (IsZero.iff_id_eq_zero M).mpr
   apply Functor.map_injective (Scheme.Modules.toPresheaf S)
-  show 𝟙 ((Scheme.Modules.toPresheaf S).obj M) = 0
+  change 𝟙 ((Scheme.Modules.toPresheaf S).obj M) = 0
   exact (IsZero.iff_id_eq_zero _).mp hM
 
 /-- For a quasi-compact and quasi-separated morphism of schemes whose target is quasi-compact
@@ -478,7 +478,7 @@ theorem exists_isZero_rightDerived_pushforward {X S : Scheme.{u}} (f : X ⟶ S)
       intro a b ha
       let Q := ((Scheme.Modules.pushforward (fj j)).rightDerived b).obj (Fj j)
       have : Q.IsQuasicoherent := isQuasicoherent_rightDerived_pushforward (fj j) (Fj j) b
-      show IsZero (Hgroup (ringCatSheaf RSj) ⊤ a Q)
+      change IsZero (Hgroup (ringCatSheaf RSj) ⊤ a Q)
       exact Stacks.Cohomology.Cech.isZero_hgroup_of_isAffineOpen (Sj j) Q ⊤
         (isAffineOpen_top (Sj j)) a ha
     obtain ⟨e⟩ :=
@@ -501,7 +501,7 @@ theorem exists_isZero_rightDerived_pushforward {X S : Scheme.{u}} (f : X ⟶ S)
         (Xj j).toLocallyRingedSpace.toRingedSpace := rfl
     have hRSj : openSubspace RS (Uj j) = (Sj j).toLocallyRingedSpace.toRingedSpace := rfl
     have hEjApp (W : (Xj j).Opens) : (ej j).appIso W = Iso.refl _ := by
-      show (Scheme.Opens.ι (C.f ⁻¹ᵁ Uj j)).appIso W = Iso.refl _
+      change (Scheme.Opens.ι (C.f ⁻¹ᵁ Uj j)).appIso W = Iso.refl _
       exact Scheme.Opens.ι_appIso (C.f ⁻¹ᵁ Uj j) W
     have hmap : (fj j).toLRSHom.toShHom = restrictedMorphism g (Uj j) := by
       cases hRXj
@@ -516,7 +516,7 @@ theorem exists_isZero_rightDerived_pushforward {X S : Scheme.{u}} (f : X ⟶ S)
         rw [Scheme.Hom.comp_toLRSHom, Scheme.Hom.comp_toLRSHom] at hs
         have hs' := congrArg LocallyRingedSpace.Hom.toShHom hs
         rw [LocallyRingedSpace.comp_toShHom, LocallyRingedSpace.comp_toShHom] at hs'
-        show (fj j).toLRSHom.toShHom ≫ (Uj j).ι.toLRSHom.toShHom =
+        change (fj j).toLRSHom.toShHom ≫ (Uj j).ι.toLRSHom.toShHom =
           (C.f ⁻¹ᵁ Uj j).ι.toLRSHom.toShHom ≫ C.f.toLRSHom.toShHom
         exact hs'
       exact (cancel_mono (openSubspaceInclusion RS (Uj j))).1

@@ -60,13 +60,13 @@ def killFirst : MvPowerSeries (Fin n ⊕ Fin n) K →+* MvPowerSeries (Fin n) K 
 
 /-- The diagonal restricted along `left` is the identity of `K[[x]]`. -/
 theorem diag_left (r : MvPowerSeries (Fin n) K) : diag K n (left K n r) = r := by
-  show rename _ (rename _ r) = r
+  change rename _ (rename _ r) = r
   rw [rename_rename]
   exact rename_id_apply r
 
 /-- The diagonal restricted along `right` is the identity of `K[[x]]`. -/
 theorem diag_right (r : MvPowerSeries (Fin n) K) : diag K n (right K n r) = r := by
-  show rename _ (rename _ r) = r
+  change rename _ (rename _ r) = r
   rw [rename_rename]
   exact rename_id_apply r
 
@@ -78,7 +78,7 @@ theorem killFirst_left (r : MvPowerSeries (Fin n) K) : killFirst K n (left K n r
 theorem ker_killFirst_eq_map_span_X :
     RingHom.ker (killFirst K n) = Ideal.map (right K n)
       (Ideal.span (Set.range (X : Fin n → MvPowerSeries (Fin n) K))) := by
-  show RingHom.ker (killCompl (R := K) (Function.Embedding.inr : Fin n ↪ Fin n ⊕ Fin n)) = _
+  change RingHom.ker (killCompl (R := K) (Function.Embedding.inr : Fin n ↪ Fin n ⊕ Fin n)) = _
   rw [ker_killCompl_inr, Ideal.map_span, ← Set.range_comp]
   congr 1
   ext i
@@ -88,7 +88,7 @@ theorem ker_killFirst_eq_map_span_X :
 theorem swap_right : (renameEquiv K (Equiv.sumComm (Fin n) (Fin n))).toRingEquiv.toRingHom.comp
     (right K n) = left K n := by
   ext r : 1
-  show rename (Equiv.sumComm (Fin n) (Fin n))
+  change rename (Equiv.sumComm (Fin n) (Fin n))
     (rename (Function.Embedding.inl : Fin n ↪ Fin n ⊕ Fin n) r) =
       rename (Function.Embedding.inr : Fin n ↪ Fin n ⊕ Fin n) r
   rw [rename_rename]

@@ -94,7 +94,7 @@ theorem isPerfectComplex_of_isKInjective_of_isFiniteTypeLocallyConstant
         ((StacksDraft.DerivedCategoryHomology.mapDerivedCategoryHomologyIso F n).app
           (DerivedCategory.Q.obj E)).symm) (hE n)
   intro U
-  obtain ⟨T, e, I, V, f, hcov, hloc⟩ :=
+  obtain ⟨T, ⟨e⟩, I, V, f, hcov, hloc⟩ :=
     Stacks.ConstantSheaf.exists_cover_constantComplex_representation X.J Λ U K hK
   refine ⟨Presieve.ofArrows V f, hcov, ?_⟩
   rintro W g ⟨i⟩

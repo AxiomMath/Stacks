@@ -100,7 +100,7 @@ def representedEpsilonBaseRingAdjunct :
   ((commRingImageAdjunction (representedToSchemeZariskiRingedToposHom B S hS U).toToposHom).homEquiv
       _ _ (representedEpsilonBaseRingMap B S hS φ)) ≫
     (@restrictionCommRingIso _ _ _ _ ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedTopos.J
-      (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).J _ _
+      (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).J _
       (representedEpsilonFunctor B S hS U) (isContinuous_representedEpsilonFunctor B S hS U)
       ((inverseImageCommRingFunctor
           (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS φ)).toToposHom).obj
@@ -135,8 +135,10 @@ theorem representedEpsilonPushforwardSquare_commutes :
     (representedToSchemeZariskiRingedToposHom B S hS U).fSharp
     (representedEpsilonBaseRingMap B S hS φ)
     (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS φ)).fSharpInverseImage
-    (restrictionCommRingIso.{u} _ _ (representedEpsilonFunctor B S hS U) _).hom
-    (restrictionCommRingIso.{u} _ _ (representedEpsilonFunctor B S hS U) _).hom
+    (@restrictionCommRingIso.{u} _ _ _ _ _ _ _ (representedEpsilonFunctor B S hS U)
+      (isContinuous_representedEpsilonFunctor B S hS U) _).hom
+    (@restrictionCommRingIso.{u} _ _ _ _ _ _ _ (representedEpsilonFunctor B S hS U)
+      (isContinuous_representedEpsilonFunctor B S hS U) _).hom
     ((representedEpsilonCommRingPushforward B S hS U).map
       (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS φ)).fSharpInverseImage)
     (@restrictionCommRingIso_naturality _ _ _ _
@@ -205,7 +207,7 @@ def representedEpsilonNaiveCotangentPushforwardMap :
     ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedTopos.J
     (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).J
     (representedEpsilonFunctor B S hS U) (isContinuous_representedEpsilonFunctor B S hS U)
-    _ _ _ _
+    _ _ _
     ((inverseImageCommRingFunctor
         (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS φ)).toToposHom).obj
       (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS V)).O)

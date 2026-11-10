@@ -271,7 +271,7 @@ public theorem mapO_scalar (o : (integralAdeles K)ˣ) :
       scalarGL (Units.map (integralAdeles K).subtype.toMonoidHom o) := by
   ext i j : 2
   rw [coe_mapO_apply]
-  simp only [coe_scalarGL, Units.coe_map, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+  simp only [coe_scalarGL, Units.coe_map, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_ofClass,
     Matrix.scalar_apply, Matrix.diagonal_apply]
   split_ifs <;> simp
 
@@ -339,7 +339,7 @@ section ReductionLemmas
 
 include k
 
-omit [Field k] [Finite k] [Algebra k K] [Algebra (RatFunc k) K] [IsScalarTower k (RatFunc k) K]
+omit k [Field k] [Finite k] [Algebra k K] [Algebra (RatFunc k) K] [IsScalarTower k (RatFunc k) K]
   [FunctionField k K] in
 /-- `O · A(E) ⊆ A(E)`. -/
 public theorem integral_mul_mem_adeleLattice {o y : AdeleRing K} (ho : o ∈ integralAdeles K)
@@ -347,7 +347,7 @@ public theorem integral_mul_mem_adeleLattice {o y : AdeleRing K} (ho : o ∈ int
   intro v
   have hv := hy v
   rw [Place.mem_ball] at hv ⊢
-  show Valued.v (o v * y v) ≤ _
+  change Valued.v (o v * y v) ≤ _
   rw [map_mul]
   exact (mul_le_of_le_one_left zero_le (ho v)).trans hv
 
@@ -388,7 +388,7 @@ public theorem idelDiv_det_mapO (κ : GL (Fin 2) (integralAdeles K)) :
     ext1
     rw [Matrix.GeneralLinearGroup.val_det_apply, Units.coe_map,
       Matrix.GeneralLinearGroup.val_det_apply]
-    show ((integralAdeles K).subtype.mapMatrix (κ : Matrix (Fin 2) (Fin 2) _)).det =
+    change ((integralAdeles K).subtype.mapMatrix (κ : Matrix (Fin 2) (Fin 2) _)).det =
       (integralAdeles K).subtype (κ : Matrix (Fin 2) (Fin 2) _).det
     rw [RingHom.map_det]
   rw [this]
@@ -400,7 +400,7 @@ public theorem idelDiv_det_mapO (κ : GL (Fin 2) (integralAdeles K)) :
   rw [map_inv, idelDiv_inv] at h2
   exact le_antisymm (neg_nonneg.1 h2) (key _)
 
-omit [Field k] [Finite k] [Algebra k K] [Algebra (RatFunc k) K] [IsScalarTower k (RatFunc k) K]
+omit k [Field k] [Finite k] [Algebra k K] [Algebra (RatFunc k) K] [IsScalarTower k (RatFunc k) K]
   [FunctionField k K] in
 /-- `det (α, β; 0, δ) = α δ`. -/
 public theorem det_upperGL (α δ : (AdeleRing K)ˣ) (β : AdeleRing K) :
@@ -602,7 +602,7 @@ public theorem le_idelDiv_of_reduction {κ₀ κ₁ : GL (Fin 2) (integralAdeles
   have hM10 : ((upperGL α₀ δ₀ β₀ * g : GL (Fin 2) (AdeleRing K)) :
       Matrix (Fin 2) (Fin 2) (AdeleRing K)) 1 0 = (δ₀ : AdeleRing K) * d₂ := by
     rw [Matrix.GeneralLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two, hg0, hg1]
-    show 0 * d₁ + (δ₀ : AdeleRing K) * d₂ = _
+    change 0 * d₁ + (δ₀ : AdeleRing K) * d₂ = _
     rw [zero_mul, zero_add]
   have h00 : (α₁ : AdeleRing K) =
       (N : Matrix (Fin 2) (Fin 2) (AdeleRing K)) 0 0 * ((α₀ : AdeleRing K) * d₁ + β₀ * d₂) +
@@ -627,8 +627,8 @@ public theorem le_idelDiv_of_reduction {κ₀ κ₁ : GL (Fin 2) (integralAdeles
     idele_mul_mem_adeleLattice_neg k δ₀ hd₂
   have hα₁ : (α₁ : AdeleRing K) ∈ adeleLattice K (-E) := by
     rw [h00]
-    exact add_mem (integral_mul_mem_adeleLattice k (hN 0 0) hfirst)
-      (integral_mul_mem_adeleLattice k (hN 0 1) hsecond)
+    exact add_mem (integral_mul_mem_adeleLattice (hN 0 0) hfirst)
+      (integral_mul_mem_adeleLattice (hN 0 1) hsecond)
   exact le_idelDiv_of_mem_adeleLattice_neg k α₁ hα₁
 
 /-- The determinant identity of the reduction step. -/
@@ -641,7 +641,7 @@ public theorem idelDiv_add_of_reduction {κ₀ κ₁ : GL (Fin 2) (integralAdele
   have h := congrArg (fun g => idelDiv k K (GeneralLinearGroup.det g)) hy
   simp only [map_mul, idelDiv_mul k, idelDiv_det_mapO k, zero_add, det_mapK_gammaK k,
     idelDiv_diagUnit k] at h
-  rw [det_upperGL k, det_upperGL k, idelDiv_mul k, idelDiv_mul k] at h
+  rw [det_upperGL, det_upperGL, idelDiv_mul k, idelDiv_mul k] at h
   exact h.symm
 
 /-- **Reduction theory**: every `x ∈ GL₂(A)` is `k · (α, β; 0, δ) · γ` with `k ∈ GL₂(O)`,

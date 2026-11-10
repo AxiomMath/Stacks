@@ -181,6 +181,7 @@ variable {F : Type*} [Field F] {A B : Type*} [Ring A] [Algebra F A] [Ring B] [Al
   {𝒜 : ℤ → Submodule F A} [_root_.GradedAlgebra 𝒜] {ℬ : ℤ → Submodule F B}
   [_root_.GradedAlgebra ℬ]
 
+omit [_root_.GradedAlgebra 𝒜] in
 /-- The degreewise projective bundle map is additive. -/
 theorem degreewiseMap_add {φ : A →ₐ[F] B} (hφ : ∀ n, ∀ a ∈ 𝒜 n, φ a ∈ ℬ n) {ξ : B}
     (hξ : ξ ∈ ℬ 2) (r : ℕ) (n : ℤ) (a a' : ∀ i : Fin r, 𝒜 (n - 2 * ((i : ℕ) : ℤ))) :
@@ -191,6 +192,7 @@ theorem degreewiseMap_add {φ : A →ₐ[F] B} (hφ : ∀ n, ∀ a ∈ 𝒜 n, �
   simp only [Stacks.WeilDeRham.coe_degreewiseMap, Submodule.coe_add, Pi.add_apply, map_add,
     mul_add, Finset.sum_add_distrib]
 
+omit [_root_.GradedAlgebra 𝒜] in
 /-- On a family `(a_j)` concentrated in the index `i`, the degreewise projective bundle map is
 `ξ^i φ(a_i)`. -/
 theorem coe_degreewiseMap_of_forall_ne {φ : A →ₐ[F] B} (hφ : ∀ n, ∀ a ∈ 𝒜 n, φ a ∈ ℬ n)
@@ -201,6 +203,7 @@ theorem coe_degreewiseMap_of_forall_ne {φ : A →ₐ[F] B} (hφ : ∀ n, ∀ a 
       rw [ha j hj, ZeroMemClass.coe_zero, map_zero, mul_zero])
     (by simp)]
 
+omit [_root_.GradedAlgebra 𝒜] in
 /-- Additivity of the degreewise projective bundle map, in the form of an induction step. -/
 theorem coe_degreewiseMap_eq_add {φ : A →ₐ[F] B} (hφ : ∀ n, ∀ a ∈ 𝒜 n, φ a ∈ ℬ n) {ξ : B}
     (hξ : ξ ∈ ℬ 2) (r : ℕ) (n : ℤ) {a a' a'' : ∀ i : Fin r, 𝒜 (n - 2 * ((i : ℕ) : ℤ))}
@@ -210,6 +213,7 @@ theorem coe_degreewiseMap_eq_add {φ : A →ₐ[F] B} (hφ : ∀ n, ∀ a ∈ �
     (Stacks.WeilDeRham.degreewiseMap 𝒜 ℬ hφ hξ r n a'' : B) = x'' := by
   rw [h, hx, degreewiseMap_add, Submodule.coe_add, ha, ha']
 
+omit [_root_.GradedAlgebra 𝒜] in
 /-- The degreewise projective bundle map vanishes on `0`. -/
 theorem coe_degreewiseMap_eq_zero {φ : A →ₐ[F] B} (hφ : ∀ n, ∀ a ∈ 𝒜 n, φ a ∈ ℬ n) {ξ : B}
     (hξ : ξ ∈ ℬ 2) (r : ℕ) (n : ℤ) {a : ∀ i : Fin r, 𝒜 (n - 2 * ((i : ℕ) : ℤ))} (h : a = 0)

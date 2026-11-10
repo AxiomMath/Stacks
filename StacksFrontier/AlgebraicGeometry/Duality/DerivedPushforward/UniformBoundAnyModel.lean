@@ -63,7 +63,8 @@ is scoped to `section Standard`, so the arbitrary-model statements after it are 
 
 **The comparison `f_* ⟶ Rf_*` is rebuilt here rather than imported.**
 `Stacks.Duality.DerivedPushforward.derivedPushforwardUnit` of
-`StacksFrontier/AlgebraicGeometry/Duality/DerivedPushforward/QuasiCoherentDirectSums.lean` is the same
+`StacksFrontier/AlgebraicGeometry/Duality/DerivedPushforward/QuasiCoherentDirectSums.lean` is the
+same
 total right derived unit, but that file installs `HasDerivedCategory.standard` at raised priority
 for the whole of it, so its statement is pinned. The definition below is the same term with the
 model left as a binder, and the K-injective criterion of [Stacks, Tag 070K] applies to it because

@@ -105,14 +105,14 @@ public theorem smoothAt_of_isRegularLocalRing_of_isGeometricallyReduced_residueF
   let : Algebra (↑A) (↑B) := X.presheaf.algebra_section_stalk ⟨x, hxU⟩
   let : IsScalarTower k (↑A) (↑B) := IsScalarTower.of_algebraMap_eq' (by
     ext c
-    show (f.stalkMap x).hom
+    change (f.stalkMap x).hom
         (algebraMap k ((Spec (CommRingCat.of k)).presheaf.stalk (f.base x)) c) =
       X.presheaf.germ U x hxU (halg c)
     calc
       _ = X.presheaf.germ (f ⁻¹ᵁ (⊤ : (Spec (CommRingCat.of k)).Opens)) x (by simp)
           ((f.app ⊤) ((Scheme.ΓSpecIso (CommRingCat.of k)).inv.hom c)) := by
         rw [hbase]
-        show (f.stalkMap x).hom (baseGerm.hom c) = _
+        change (f.stalkMap x).hom (baseGerm.hom c) = _
         dsimp [baseGerm]
         exact Scheme.Hom.germ_stalkMap_apply f ⊤ x (by simp)
           ((Scheme.ΓSpecIso (CommRingCat.of k)).inv.hom c)
@@ -139,7 +139,7 @@ public theorem smoothAt_of_isRegularLocalRing_of_isGeometricallyReduced_residueF
   have : Algebra.FormallyEtale k R :=
     Algebra.FormallyEtale.of_isLocalization (f x).asIdeal.primeCompl
   apply InfinitesimalLifting.formallySmooth_stalkMap_smoothAt f x
-  show Algebra.FormallySmooth R B
+  change Algebra.FormallySmooth R B
   exact Algebra.FormallySmooth.of_restrictScalars k R B
 
 /-- **Flatness together with a smooth fibre implies smoothness at a point.** A morphism locally of

@@ -259,7 +259,7 @@ theorem sumSheafMultiplicity_le_pushforward {W X : Scheme.{u}} (g : W ⟶ X)
       ∑ z : ↥{z : W | g.base z = x ∧ z ∈ SheafOfModules.supp N},
         Stacks.Chow.sheafMultiplicity N z.1 :=
     Finset.sum_subtype _ (fun z => by
-      simp only [Finset.mem_filter, Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+      simp only [Finset.mem_filter, Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
       tauto) _
   have hcast : ((∑ z ∈ hfin.toFinset.filter (fun z => g.base z = x),
         (Stacks.Chow.sheafMultiplicity N z).toNat : ℕ) : ℤ) ≤

@@ -35,7 +35,7 @@ omit [NeZero n] in
 lemma dualRepHom_act (h : H) (y : N) (φ : DualRep (restrictRep (A := ZMod n) ρ)) :
     dualRepHom (restrictRep (A := ZMod n) ρ) (ρ h y) φ =
       dualRepHom (restrictRep (A := ZMod n) ρ) y φ * single h⁻¹ 1 := by
-  show ∑ g : H, single g (DualRep.equiv _ φ (ρ g (ρ h y))) =
+  change ∑ g : H, single g (DualRep.equiv _ φ (ρ g (ρ h y))) =
     (∑ g : H, single g (DualRep.equiv _ φ (ρ g y))) * single h⁻¹ 1
   rw [sum_mul]
   simp only [single_mul_single, mul_one]
@@ -140,16 +140,16 @@ theorem bijective_homSectionLinear [Finite N] (W : U.Etale) :
   have ht₀ : t₀ ∈ G.equivariantMaps Λ N ρ W := by
     intro h z
     apply hb.1
-    show ψ (ψinv (L ((G.pullbackAct W h).base z))) = ψ (ρ h (ψinv (L z)))
+    change ψ (ψinv (L ((G.pullbackAct W h).base z))) = ψ (ρ h (ψinv (L z)))
     refine LinearMap.ext fun φ => ?_
     rw [hψ]
-    show ((Φ'.hom φ).1 ((G.pullbackAct W h).base z)).down = ψ (ρ h (ψinv (L z))) φ
+    change ((Φ'.hom φ).1 ((G.pullbackAct W h).base z)).down = ψ (ρ h (ψinv (L z))) φ
     have h2 : dualRepHom (restrictRep (A := ZMod n) ρ) (ψinv (L z)) = L z := hψ (L z)
     rw [(Φ'.hom φ).2 h z, dualRepHom_act, h2]
     rfl
   refine ⟨⟨t₀, ht₀⟩, ModuleCat.hom_ext (LinearMap.ext fun φ =>
     Subtype.ext (LocallyConstant.ext fun z => ULift.ext ?_))⟩
-  show ψ (ψinv (L z)) φ = ((Φ'.hom φ).1 z).down
+  change ψ (ψinv (L z)) φ = ((Φ'.hom φ).1 z).down
   rw [hψ]
   rfl
 

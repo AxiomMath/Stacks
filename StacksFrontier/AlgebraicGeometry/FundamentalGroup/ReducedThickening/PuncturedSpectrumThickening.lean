@@ -111,7 +111,7 @@ theorem preimage_complementZeroLocus_specMap_quotientMk (a : Ideal A) :
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I)) ⁻¹ᵁ complementZeroLocus A a =
       complementZeroLocus (A ⧸ I) (a.map (Ideal.Quotient.mk I)) := by
   apply TopologicalSpace.Opens.ext
-  show PrimeSpectrum.comap (Ideal.Quotient.mk I) ⁻¹'
+  change PrimeSpectrum.comap (Ideal.Quotient.mk I) ⁻¹'
       (PrimeSpectrum.zeroLocus (a : Set A))ᶜ =
     (PrimeSpectrum.zeroLocus ((a.map (Ideal.Quotient.mk I) : Ideal (A ⧸ I)) : Set (A ⧸ I)))ᶜ
   rw [Set.preimage_compl, PrimeSpectrum.preimage_comap_zeroLocus, Ideal.map,
@@ -198,7 +198,7 @@ theorem map_appTop_baseIdeal_complementZeroLocus :
           (complementZeroLocus (A ⧸ I) (a.map (Ideal.Quotient.mk I))).ι.appTop) := by
     rw [Category.assoc, ← Scheme.Hom.comp_appTop, complementZeroLocusQuotientMap_ι,
       Scheme.Hom.comp_appTop, ← Category.assoc, ← Scheme.ΓSpecIso_inv_naturality, Category.assoc]
-  show Ideal.map (complementZeroLocusQuotientMap A I a).appTop.hom
+  change Ideal.map (complementZeroLocusQuotientMap A I a).appTop.hom
       (Ideal.map ((Scheme.ΓSpecIso (CommRingCat.of A)).inv ≫
         (complementZeroLocus A a).ι.appTop).hom J) = _
   rw [Ideal.map_map, ← CommRingCat.hom_comp, hhom, CommRingCat.hom_comp, ← Ideal.map_map,

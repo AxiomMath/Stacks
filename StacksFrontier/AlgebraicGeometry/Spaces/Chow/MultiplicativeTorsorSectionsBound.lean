@@ -38,9 +38,10 @@ namespace Cardinal
 
 /-- A countable direct sum of types of size at most an infinite cardinal `κ` has size at most
 `κ`. -/
-theorem mk_directSum_le {ι : Type} [Countable ι] [DecidableEq ι] (M : ι → Type u)
+theorem mk_directSum_le {ι : Type} [Countable ι] (M : ι → Type u)
     [∀ i, AddCommMonoid (M i)] {κ : Cardinal.{u}} (hκ : ℵ₀ ≤ κ) (hM : ∀ i, #(M i) ≤ κ) :
     #(DirectSum ι M) ≤ κ := by
+  classical
   let f : List (Σ i, M i) → DirectSum ι M := fun l => (l.map fun x => DirectSum.of M x.1 x.2).sum
   have hf : Function.Surjective f := by
     intro z
@@ -92,7 +93,7 @@ theorem mk_sections_laurentAlgebraSheaf_le_of_isAffine
   have hfin := module_finitePresentation_sections_of_isFinitePresentationOnSite
     (B := D.site) (S := D.base) (hS := D.base_mem) (F := X) (hF := hp.1) G
     (SheafOfModules.isQuasicoherentOnSite_of_isFinitePresentationOnSite G) hfp W hW
-  show #(G.val.obj (op W)) ≤ _
+  change #(G.val.obj (op W)) ≤ _
   exact mk_le_of_module_finite
 
 /-- The Laurent algebra `⨁_{n ∈ ℤ} ℒ^{⊗ n}` of an invertible `𝒪_X`-module has fewer than

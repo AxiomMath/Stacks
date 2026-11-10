@@ -204,7 +204,7 @@ theorem exists_section_of_isColimit_cofan_of_emptySupport {I : Type v} {R : Over
   refine ⟨hd.desc (Cofan.mk (D i₀) e), hd.hom_ext ?_⟩
   rintro ⟨k⟩
   have hdesc : d k ≫ hd.desc (Cofan.mk (D i₀) e) = e k := hd.fac _ ⟨k⟩
-  show d k ≫ hd.desc (Cofan.mk (D i₀) e) ≫ d i₀ = d k ≫ 𝟙 _
+  change d k ≫ hd.desc (Cofan.mk (D i₀) e) ≫ d i₀ = d k ≫ 𝟙 _
   rw [← Category.assoc, hdesc, he, Category.comp_id]
 
 /-! ### Splitting off the summand met by a connected point -/
@@ -221,14 +221,14 @@ private theorem exists_representableOver_sections {I : Type v} {A V : BigFppfOve
   refine ⟨fun i => Over.homMk (ObjectProperty.homMk (yoneda.map (v i))) ?_,
     Over.homMk (ObjectProperty.homMk (yoneda.map fold)) ?_, ?_, fun _ => rfl, rfl⟩
   · apply ObjectProperty.hom_ext
-    show yoneda.map (v i) ≫ yoneda.map fold ≫ b = b
+    change yoneda.map (v i) ≫ yoneda.map fold ≫ b = b
     rw [← Functor.map_comp_assoc, hvfold, CategoryTheory.Functor.map_id, Category.id_comp]
   · apply ObjectProperty.hom_ext
     rfl
   · intro i
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show yoneda.map (v i) ≫ yoneda.map fold = 𝟙 _
+    change yoneda.map (v i) ≫ yoneda.map fold = 𝟙 _
     rw [← Functor.map_comp, hvfold, CategoryTheory.Functor.map_id]
 
 /-- The representable algebraic space of an object of the site with connected underlying scheme,
@@ -256,7 +256,7 @@ private theorem exists_section_of_isColimit_cofan_of_connectedSpace {I : Type v}
     ⟨hd.desc (Cofan.mk _ fun i => d i ≫ vi i), fun i => hd.fac _ ⟨i⟩⟩
   have hfπ : f ≫ π = 𝟙 _ := by
     refine hd.hom_ext fun ⟨i⟩ => ?_
-    show d i ≫ f ≫ π = d i ≫ 𝟙 _
+    change d i ≫ f ≫ π = d i ≫ 𝟙 _
     rw [← Category.assoc, hf, Category.assoc, hviπ]
   obtain ⟨f₀, hf₀eq⟩ := yoneda.map_surjective (X := A) (Y := V) f.left.hom
   have hfl : (Over.Hom.left (f ≫ π)).hom

@@ -65,7 +65,7 @@ open TopologicalSpace
 theorem exists_base_eq_of_isIso {A B : Scheme.{u}} (f : A ⟶ B) [IsIso f] (b : B) :
     ∃ a : A, f.base a = b := by
   refine ⟨(inv f).base b, ?_⟩
-  show ((inv f ≫ f) b) = b
+  change ((inv f ≫ f) b) = b
   rw [IsIso.inv_hom_id]
   rfl
 
@@ -259,7 +259,7 @@ theorem flatPullbackChow_chowPushforwardOfIso (C : ChowSituation.{u})
         (flatPullbackChow C sA₁ sA₀ d hd r hdr k hfacd α) := by
   induction α using QuotientAddGroup.induction_on with
   | H z =>
-    show flatPullbackChow C sB₁ sB₀ v hv r hvr k hfacv
+    change flatPullbackChow C sB₁ sB₀ v hv r hvr k hfacv
         (chowPushforwardOfIso C sA₀ sB₀ u₀ hu₀ k
           (QuotientAddGroup.mk' (rationalEquivalences C sA₀ k) z)) =
       chowPushforwardOfIso C sA₁ sB₁ u₁ hu₁ (k + (r : ℤ))

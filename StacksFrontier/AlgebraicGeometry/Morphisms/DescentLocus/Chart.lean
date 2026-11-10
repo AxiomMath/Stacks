@@ -41,7 +41,7 @@ theorem isUnit_of_range_specMap_subset {A B : Type u} [CommRing A] [CommRing B] 
 /-- The image of the closed point of `Spec K` under `Spec φ` is the kernel of `φ`. -/
 theorem specMap_closedPoint_asIdeal {A K : Type u} [CommRing A] [Field K] (φ : A →+* K) :
     (Spec.map (CommRingCat.ofHom φ) (IsLocalRing.closedPoint K)).asIdeal = RingHom.ker φ := by
-  show (PrimeSpectrum.comap φ (IsLocalRing.closedPoint K)).asIdeal = RingHom.ker φ
+  change (PrimeSpectrum.comap φ (IsLocalRing.closedPoint K)).asIdeal = RingHom.ker φ
   ext a
   simp [IsLocalRing.closedPoint, IsLocalRing.maximalIdeal_eq_bot]
 
@@ -96,7 +96,7 @@ theorem exists_residueFieldPoint (x : Spec Γ(S, V)) :
     exact ⟨x, by rw [Scheme.fromSpecResidueField_apply]⟩
   refine ⟨IsOpenImmersion.lift hV.fromSpec _ hr, IsOpenImmersion.lift_fac _ _ _, ?_⟩
   apply hV.fromSpec.isOpenEmbedding.injective
-  show (IsOpenImmersion.lift hV.fromSpec _ hr ≫ hV.fromSpec) (IsLocalRing.closedPoint _) = _
+  change (IsOpenImmersion.lift hV.fromSpec _ hr ≫ hV.fromSpec) (IsLocalRing.closedPoint _) = _
   rw [IsOpenImmersion.lift_fac]
   exact Scheme.fromSpecResidueField_apply _ _
 
@@ -234,7 +234,7 @@ theorem hasChart [Flat f] [IsProper f] [LocallyOfFinitePresentation f]
   · -- clause (d)
     intro K _ k m hk ⟨e⟩
     have h := (hfield K k _ rfl (by
-      show (k ≫ Spec.map (CommRingCat.ofHom St.φ)) (IsLocalRing.closedPoint K) ∈ _
+      change (k ≫ Spec.map (CommRingCat.ofHom St.φ)) (IsLocalRing.closedPoint K) ∈ _
       rw [hk]; exact hgp)).2 hk
     unfold finrankSections at h
     rw [finrank_sections_of_iso_free _ (bijective_globalRingHom_snd f hO _) e] at h

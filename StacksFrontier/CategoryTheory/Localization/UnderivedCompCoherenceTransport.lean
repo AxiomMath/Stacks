@@ -256,7 +256,7 @@ theorem mapHomotopyCategoryUnderivedIso_hom_app_quotient {ε : C ⥤ D} {ε' : C
         (Functor.mapHomotopyCategoryCompIso (Iso.refl (r ⋙ ε')) c).symm).hom.app
           ((HomotopyCategory.quotient C c).obj K) =
       (HomotopyCategory.quotient D' c).map ((NatTrans.mapHomologicalComplex u.hom c).app K) := by
-  show (HomotopyCategory.quotient D' c).map
+  change (HomotopyCategory.quotient D' c).map
       ((Functor.mapHomologicalComplexCompIso (Iso.refl (ε ⋙ p)) c).hom.app K) ≫
     (HomotopyCategory.quotient D' c).map ((NatTrans.mapHomologicalComplex u.hom c).app K) ≫
     (HomotopyCategory.quotient D' c).map
@@ -434,7 +434,7 @@ theorem mapHomotopyCategoryCompIso_hom_app_quotient_natTrans {F : V ⥤ W} {G : 
     [F.Additive] [G.Additive] [H.Additive] (e : F ⋙ G ≅ H) (K : HomologicalComplex V c) :
     (Functor.mapHomotopyCategoryCompIso e c).hom.app ((HomotopyCategory.quotient V c).obj K) =
       (HomotopyCategory.quotient W' c).map ((NatTrans.mapHomologicalComplex e.hom c).app K) := by
-  show (HomotopyCategory.quotient W' c).map
+  change (HomotopyCategory.quotient W' c).map
     ((Functor.mapHomologicalComplexCompIso e c).hom.app K) = _
   congr 1
 
@@ -450,7 +450,7 @@ theorem mapHomotopyCategoryCompIso_trans_eqToIso_hom_app_quotient {ι : Sort*}
       (HomotopyCategory.quotient W' c).map
         ((NatTrans.mapHomologicalComplex ((e ≪≫ t) ≪≫ eqToIso (congrArg P h)).hom c).app K) := by
   subst h
-  show (HomotopyCategory.quotient W' c).map
+  change (HomotopyCategory.quotient W' c).map
       ((Functor.mapHomologicalComplexCompIso e c).hom.app K) ≫
     (HomotopyCategory.quotient W' c).map ((NatTrans.mapHomologicalComplex t.hom c).app K) ≫ 𝟙 _ = _
   rw [Category.comp_id, ← Functor.map_comp]

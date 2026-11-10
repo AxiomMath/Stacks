@@ -59,7 +59,7 @@ lemma weaklyAssociatedPoints_subset_of_mono {X : Scheme.{u}} {F G : X.Modules} (
   intro x hx
   rw [Stacks.Divisors.mem_weaklyAssociatedPoints_iff] at hx ⊢
   change IsWeaklyAssociatedPrime _ (OXModule.stalk F x) _ at hx
-  show IsWeaklyAssociatedPrime _ (OXModule.stalk G x) _
+  change IsWeaklyAssociatedPrime _ (OXModule.stalk G x) _
   exact Module.weaklyAssociatedPrimes_subset_of_injective
     (f := OXModule.stalkLinearMap F G i x) (stalk_map_injective_of_mono i x) hx
 

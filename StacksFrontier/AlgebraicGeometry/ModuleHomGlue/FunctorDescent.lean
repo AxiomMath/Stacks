@@ -83,10 +83,10 @@ down up to isomorphism.
 ## Implementation notes
 
 **Why this reduces to Tag 00AM rather than redoing it.** Stacks 00AM for sheaves of `𝒪`-modules
-is formalized in `StacksFrontier/Topology/Sheaves/Modules/ModuleGlueing/Basic.lean`, and crucially it
-is formalized in the *directed, section-level* form: `Stacks.SheafOfModules.OModuleGlueData` indexes its
-local data by the opens `V` of the ambient space together with a proof `V ≤ U i`, and its
-comparison isomorphisms `trans i j` are indexed by an open `V` of the ambient space with
+is formalized in `StacksFrontier/Topology/Sheaves/Modules/ModuleGlueing/Basic.lean`, and crucially
+it is formalized in the *directed, section-level* form: `Stacks.SheafOfModules.OModuleGlueData`
+indexes its local data by the opens `V` of the ambient space together with a proof `V ≤ U i`, and
+its comparison isomorphisms `trans i j` are indexed by an open `V` of the ambient space with
 `V ≤ U i` and `V ≤ U j`. Both sides of such a comparison are modules over the *same* ring
 `𝒪_S(V)`, so the datum carries no transport. This file inherits that: a `FunctorGlueData` is
 exactly an `𝒪`-module descent datum in each object of `C`, plus naturality of the comparisons in
@@ -344,7 +344,7 @@ private theorem chartInv_eq_of_chartHom_eq (D : FunctorGlueData S C f) (A : C) (
 theorem chartHom_comp_chartInv (D : FunctorGlueData S C f) (A : C) (i : ι) {V : S.Opens}
     (hV : V ≤ (f i).opensRange) :
     D.chartHom A i hV ≫ D.chartInv A i hV = 𝟙 Γ(D.gluedObj A, V) := by
-  show sectionsOfHom ((D.toModulesGlueData A).chartSectionsIso i hV).hom ≫
+  change sectionsOfHom ((D.toModulesGlueData A).chartSectionsIso i hV).hom ≫
       sectionsOfHom ((D.toModulesGlueData A).chartSectionsIso i hV).inv = _
   rw [← sectionsOfHom_comp, Iso.hom_inv_id, sectionsOfHom_id]
 
@@ -353,7 +353,7 @@ theorem chartInv_comp_chartHom (D : FunctorGlueData S C f) (A : C) (i : ι) {V :
     (hV : V ≤ (f i).opensRange) :
     D.chartInv A i hV ≫ D.chartHom A i hV
       = 𝟙 Γ(push (f i) ((D.functor i).obj A), V) := by
-  show sectionsOfHom ((D.toModulesGlueData A).chartSectionsIso i hV).inv ≫
+  change sectionsOfHom ((D.toModulesGlueData A).chartSectionsIso i hV).inv ≫
       sectionsOfHom ((D.toModulesGlueData A).chartSectionsIso i hV).hom = _
   rw [← sectionsOfHom_comp, Iso.inv_hom_id, sectionsOfHom_id]
 
@@ -580,7 +580,7 @@ theorem chartIso_naturality (D : FunctorGlueData S C f)
         ((D.toModulesGlueData B).chartIso i).hom
       = ((D.toModulesGlueData A).chartIso i).hom ≫ (D.functor i).map φ := by
   refine Scheme.Modules.hom_ext _ _ fun W => ?_
-  show (D.gluedMap hU φ).app ((f i) ''ᵁ W) ≫
+  change (D.gluedMap hU φ).app ((f i) ''ᵁ W) ≫
         (D.chartHom B i ((f i).image_le_opensRange W) ≫ counitApp (f i) ((D.functor i).obj B) W)
       = (D.chartHom A i ((f i).image_le_opensRange W) ≫ counitApp (f i) ((D.functor i).obj A) W)
         ≫ ((D.functor i).map φ).app W
@@ -729,7 +729,7 @@ theorem isIso_natTrans (e : ChartComparison D G)
     (hU : IsOpenCover fun i => (f i).opensRange) : IsIso (e.natTrans hU) :=
   (e.compatibleFamily hU).isIso_glue hU fun A i V hV => by
     have := e.isIso_hom A i hV
-    show IsIso (e.hom A i hV ≫ D.chartInv A i hV)
+    change IsIso (e.hom A i hV ≫ D.chartInv A i hV)
     infer_instance
 
 /-- **Uniqueness of the glued functor.** A functor `G : C ⥤ S.Modules` carrying comparison data

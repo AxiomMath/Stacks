@@ -554,7 +554,7 @@ theorem C1573.ChowDatum.ofViewOverIntegers {X : AlgebraicSpaces B S hS}
     exact d.hc1
   have htp : (BigFppfOver.toScheme B S hS).map tVS ≫ B.inclusion.map ψV =
       (BigFppfOver.toScheme B S hS).map pTS ≫ B.inclusion.map ψT := by
-    show B.inclusion.map d.tV.left ≫ B.inclusion.map ψV =
+    change B.inclusion.map d.tV.left ≫ B.inclusion.map ψV =
       B.inclusion.map d.pT.left ≫ B.inclusion.map ψT
     rw [← Functor.map_comp, ← Functor.map_comp]
     exact congrArg _ ((Over.w tVS).trans (Over.w pTS).symm)

@@ -165,11 +165,11 @@ public noncomputable def quotientTangentEquiv
     letI : Fact (IsPredeformationCategory 𝓤.p) := ⟨h𝓤⟩
     letI : Fact (IsPredeformationCategory 𝓠.p) := ⟨h𝓠⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓡 h𝓡.cofibered))) := ⟨s2𝓡⟩
+      (Functor.Elements.π (isomorphismClasses 𝓡 h𝓡.cofibered))) := ⟨s2𝓡⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓤 h𝓤.cofibered))) := ⟨s2𝓤⟩
+      (Functor.Elements.π (isomorphismClasses 𝓤 h𝓤.cofibered))) := ⟨s2𝓤⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓠 h𝓠.cofibered))) := ⟨s2𝓠⟩
+      (Functor.Elements.π (isomorphismClasses 𝓠 h𝓠.cofibered))) := ⟨s2𝓠⟩
     let TR := artinianTangentSpace Λ k (isomorphismClasses 𝓡 h𝓡.cofibered)
     let TU := artinianTangentSpace Λ k (isomorphismClasses 𝓤 h𝓤.cofibered)
     let TQ := artinianTangentSpace Λ k (isomorphismClasses 𝓠 h𝓠.cofibered)
@@ -205,11 +205,11 @@ public noncomputable def quotientTangentEquiv
   letI : Fact (IsPredeformationCategory 𝓤.p) := ⟨h𝓤⟩
   letI : Fact (IsPredeformationCategory 𝓠.p) := ⟨h𝓠⟩
   letI : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓡 h𝓡.cofibered))) := ⟨s2𝓡⟩
+    (Functor.Elements.π (isomorphismClasses 𝓡 h𝓡.cofibered))) := ⟨s2𝓡⟩
   letI : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓤 h𝓤.cofibered))) := ⟨s2𝓤⟩
+    (Functor.Elements.π (isomorphismClasses 𝓤 h𝓤.cofibered))) := ⟨s2𝓤⟩
   letI : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓠 h𝓠.cofibered))) := ⟨s2𝓠⟩
+    (Functor.Elements.π (isomorphismClasses 𝓠 h𝓠.cofibered))) := ⟨s2𝓠⟩
   let TR := artinianTangentSpace Λ k (isomorphismClasses 𝓡 h𝓡.cofibered)
   let TU := artinianTangentSpace Λ k (isomorphismClasses 𝓤 h𝓤.cofibered)
   let TQ := artinianTangentSpace Λ k (isomorphismClasses 𝓠 h𝓠.cofibered)

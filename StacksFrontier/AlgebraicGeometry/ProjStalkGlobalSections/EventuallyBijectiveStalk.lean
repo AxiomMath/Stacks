@@ -114,10 +114,10 @@ theorem bijOn_degreeZeroModuleAt_of_eventually_bijective
     induction ha using Submodule.span_induction with
     | mem z hz =>
         obtain ⟨d, m, s, hm, hs, rfl⟩ := hz
-        show g (LocalizedModule.mk m s) ∈ degreeZeroModuleAt 𝒮 𝒩 x
+        change g (LocalizedModule.mk m s) ∈ degreeZeroModuleAt 𝒮 𝒩 x
         rw [hg, LocalizedModule.map_mk]
         exact Submodule.subset_span ⟨d, φ m, s, hφ d m hm, hs, rfl⟩
-    | zero => simpa using Submodule.zero_mem _
+    | zero => simp
     | add a b _ _ iha ihb => simpa [map_add] using Submodule.add_mem _ iha ihb
     | smul c a _ iha => rw [hsmul]; exact Submodule.smul_mem _ c iha
   · -- SurjOn
@@ -139,7 +139,7 @@ theorem bijOn_degreeZeroModuleAt_of_eventually_bijective
         refine ⟨LocalizedModule.mk m (⟨e ^ k, hekT⟩ * s), ?_, ?_⟩
         · exact Submodule.subset_span ⟨k * e_deg + d, m, ⟨e ^ k, hekT⟩ * s, by
             simpa using hm, by simpa using SetLike.mul_mem_graded hepow hs, rfl⟩
-        · show g (LocalizedModule.mk m (⟨e ^ k, hekT⟩ * s)) = LocalizedModule.mk n s
+        · change g (LocalizedModule.mk m (⟨e ^ k, hekT⟩ * s)) = LocalizedModule.mk n s
           rw [hg, LocalizedModule.map_mk, hφm]
           exact LocalizedModule.mk_cancel_common_left ⟨e ^ k, hekT⟩ s (n : N)
     | zero => exact ⟨0, Submodule.zero_mem _, map_zero g⟩

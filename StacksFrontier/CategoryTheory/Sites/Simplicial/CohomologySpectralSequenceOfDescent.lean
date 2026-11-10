@@ -88,10 +88,10 @@ theorem cohomologySpectralSequence_abutsTo_of_iso (F : Sheaf S.totalTopology Ab.
       (fun n => if 0 ≤ n then H n.toNat else AddCommGrpCat.of PUnit) := by
   refine (S.cohomologySpectralSequence_abutsTo F).of_iso fun n => ?_
   by_cases hn : 0 ≤ n
-  · rw [if_pos hn]
+  · rw [ite_eq_left hn]
     exact eqToIso (by rw [Int.toNat_of_nonneg hn]) ≪≫
       S.totalCohomologyZ_iso_rightDerived F n.toNat ≪≫ e n.toNat
-  · rw [if_neg hn]
+  · rw [ite_eq_right hn]
     exact (S.isZero_totalCohomologyZ_of_neg F n (by omega)).iso
       (AddCommGrpCat.isZero_of_subsingleton _)
 

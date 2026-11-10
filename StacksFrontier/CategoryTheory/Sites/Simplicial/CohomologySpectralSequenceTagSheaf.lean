@@ -278,7 +278,7 @@ theorem resolutionSectionsIsoRightDerived_hom_naturality {F F' : Sheaf S.totalTo
       (InjectiveResolution.desc f (injectiveResolution F') (injectiveResolution F))
       (InjectiveResolution.desc_commutes_zero f (injectiveResolution F')
         (injectiveResolution F)) (S.componentSectionsFunctor ⦋n⦌) q).symm
-  show HomologicalComplex.homologyMap _ (q : ℤ) ≫ HomologicalComplex.homologyMap _ (q : ℤ) =
+  change HomologicalComplex.homologyMap _ (q : ℤ) ≫ HomologicalComplex.homologyMap _ (q : ℤ) =
     HomologicalComplex.homologyMap _ (q : ℤ) ≫ HomologicalComplex.homologyMap _ (q : ℤ)
   rw [← HomologicalComplex.homologyMap_comp, ← HomologicalComplex.homologyMap_comp]
   exact congrArg (fun u => HomologicalComplex.homologyMap u (q : ℤ))

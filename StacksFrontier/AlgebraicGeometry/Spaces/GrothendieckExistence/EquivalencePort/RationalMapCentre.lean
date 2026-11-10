@@ -78,7 +78,7 @@ theorem C1573.map_centre_appTop (p : Y ⟶ V) [Flat p] (hU : IsCompact (U : Set 
     .of_algebraMap_eq fun z => rfl
   have h2 : IsScalarTower Γ(V, ⊤) Γ(V, U) Γ(Y, p ⁻¹ᵁ U) := by
     refine .of_algebraMap_eq fun z => ?_
-    show (p.appTop ≫ Y.presheaf.map (homOfLE le_top).op) z =
+    change (p.appTop ≫ Y.presheaf.map (homOfLE le_top).op) z =
       (V.presheaf.map (homOfLE le_top).op ≫ p.app U) z
     rw [Scheme.Hom.appTop, Scheme.Hom.naturality]
     rfl

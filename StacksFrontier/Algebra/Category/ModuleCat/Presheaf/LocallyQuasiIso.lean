@@ -134,7 +134,7 @@ theorem isLocallyInjective_of_exists_mem_sieve
   equalizerSieve_mem {X} x y hxy := by
     obtain ⟨S, hS, hinj⟩ := h X.unop
     refine J.superset_covering (fun Y a ha => ?_) hS
-    show F₁.map a.op x = F₁.map a.op y
+    change F₁.map a.op x = F₁.map a.op y
     refine hinj a ha ?_
     rw [NatTrans.naturality_apply, NatTrans.naturality_apply, hxy]
 

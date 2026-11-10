@@ -198,7 +198,7 @@ theorem modByMonic {Ψ : R[X][Y]} (hΨ : Ψ.Monic) (hΨw : WeightedDegreeLE w (w
   have ht0 : t ≠ 0 := fun h => hlc (by rw [← htlc, h, leadingCoeff_zero])
   have hdeg : (g - t).natDegree < g.natDegree := by
     refine (natDegree_lt_iff_degree_lt hz).mpr ?_
-    refine (degree_eq_natDegree hg0).symm ▸ degree_sub_lt ?_ hg0 htlc.symm
+    refine (degree_eq_natDegree hg0).symm ▸ degree_sub_lt_left ?_ hg0 htlc.symm
     rw [degree_eq_natDegree hg0, degree_eq_natDegree ht0, htdeg]
   exact ih _ (hd ▸ hdeg) (hg.sub ht) rfl
 
@@ -227,7 +227,7 @@ theorem eq_zero_of_sum_smul_monomialXY_eq_zero {K : Type*} [Field K] {s : Finset
     {c : ℕ × ℕ → K} (h : ∑ ij ∈ s, c ij • (monomialXY ij : K[X][Y]) = 0) {ij : ℕ × ℕ}
     (hij : ij ∈ s) : c ij = 0 := by
   have := congrArg (fun g : K[X][Y] => (g.coeff ij.2).coeff ij.1) h
-  simp only [finset_sum_coeff, coeff_smul, smul_eq_mul, coeff_coeff_monomialXY, mul_ite,
+  simp only [finsetSum_coeff, coeff_smul, smul_eq_mul, coeff_coeff_monomialXY, mul_ite,
     mul_one, mul_zero, Finset.sum_ite_eq', Polynomial.coeff_zero, Prod.mk.eta] at this
   simpa [hij] using this
 

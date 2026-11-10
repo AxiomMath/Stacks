@@ -142,7 +142,7 @@ theorem exists_dimensionFunction_of_isDualizingComplex_chart
     (((schemePointsHomeomorph B S hS U).symm.isOpenEmbedding.generalizingMap).comp
       (generalizingMap_pointsMap_of_isDecentSpace B S hS X hX hXdec U φ hφEtale)) δ dU ?_
   intro w
-  show dU w = δ (pointsMap B S hS (yoneda.obj U) φ ((pointsEquivScheme B S hS U).symm w))
+  change dU w = δ (pointsMap B S hS (yoneda.obj U) φ ((pointsEquivScheme B S hS U).symm w))
   rw [hdU w]
   exact hshift w
 
@@ -287,9 +287,9 @@ theorem isNormalizedDualizingComplex_geometricDerivedStalk_associatedShiftFuncti
     refine congrArg (pointsMap B S hS (yoneda.obj U) φ) ?_
     apply (pointsEquivScheme B S hS U).injective
     rw [Equiv.apply_symm_apply]
-    show pointsToScheme B S hS U (pointsMap B S hS _ (yoneda.map q) _) = y
+    change pointsToScheme B S hS U (pointsMap B S hS _ (yoneda.map q) _) = y
     rw [pointsToScheme_pointsMap_yoneda]
-    show (BigFppfOver.toScheme B S hS).map q ((pointsEquivScheme B S hS W')
+    change (BigFppfOver.toScheme B S hS).map q ((pointsEquivScheme B S hS W')
       ((pointsEquivScheme B S hS W').symm y')) = y
     rw [Equiv.apply_symm_apply]
     rfl
@@ -314,7 +314,7 @@ theorem isNormalizedDualizingComplex_geometricDerivedStalk_associatedShiftFuncti
     Γ((BigFppfOver.toScheme B S hS).obj U, W) hW.isoSpec p
   let N := selfNeighborhood B S hS W' p
   have hz : chartPoint B S hS (yoneda.obj W') N = y' := by
-    show pointsToScheme B S hS W' p.image = y'
+    change pointsToScheme B S hS W' p.image = y'
     rw [hp]
     exact (pointsEquivScheme B S hS W').apply_symm_apply y'
   let α : Γ((BigFppfOver.toScheme B S hS).obj U, W) →+*

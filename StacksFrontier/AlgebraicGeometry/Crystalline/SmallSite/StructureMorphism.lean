@@ -408,7 +408,8 @@ morphism along `S₀ ⟶ S`.  This is the route the remark takes as the definiti
 it does not assume `p` locally nilpotent on `S₀`. -/
 @[stacks 07IM "the structure morphism τ_{X/S} is the lower route of the diagram, u_{X/S} followed
   by f_small and then by the trailing arrow, as an invertible 2-morphism of topoi,
-  with no hypothesis on p.  The diagram's upper square u_{S₀/S} ∘ f_cris ≅ f_small ∘ u_{X/S} is a separate
+  with no hypothesis on p.  The diagram's upper square u_{S₀/S} ∘ f_cris ≅ f_small ∘ u_{X/S} is a \
+  separate
   clause of the remark and is registered separately, on
   Crystalline.GlobalCrystallineSituation.closedFiberCrisUpperSquare of SmallSite/UpperSquare.lean"]
 def structureToposMorphism_isoLowerRoute :
@@ -453,7 +454,8 @@ unconditional, and is to the square of [Stacks, Tag 07MH] what
 [Stacks, Tag 07IM]: it is the part of the square that does not meet the obstruction (★). -/
 @[stacks 07MH "the lower route of the remark's square: the structure morphism τ_{X/S} followed by
   the Zariski morphism along S ⟶ S' is u_{X/S} followed by the small Zariski route X ⟶ Y ⟶ S', as
-  an invertible 2-morphism of topoi, with no further hypothesis.  NOT the remark's square itself, which is
+  an invertible 2-morphism of topoi, with no further hypothesis.  NOT the remark's square itself, \
+  which is
   nowhere covered"]
 def changeBaseSmallStructureLowerRoute (S S' : GlobalCrystallineSituation.{u}) (f : S.S ⟶ S'.S)
     (g : S.X ⟶ S'.X)
@@ -482,7 +484,8 @@ module docstring.  The small-Zariski reading of the remark's square has its lowe
 unconditional. -/
 @[stacks 07MH "the remark's square in its displayed corners: the structure morphism of the big
   crystalline site read on (X/S)_cris along i_X, the big Zariski morphism along S ⟶ S', and
-  f_CRIS ∘ i_X on top, for every f and g with no further hypothesis.  Composing the top arrow with the
+  f_CRIS ∘ i_X on top, for every f and g with no further hypothesis.  Composing the top arrow \
+  with the
   retraction π_Y, so that it becomes f_cris of Stacks 07IK and lands in (Y/S')_cris, is NOT
   covered: that reduces to (★), that i_{Y,!}(u⁻¹ h_V) ⟶ U⁻¹ h_{V/Y} is an isomorphism, and the
   cofinality route to (★) is FALSE — over S = Spec ℤ_(p) with divided power ideal (p),

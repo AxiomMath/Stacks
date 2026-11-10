@@ -227,7 +227,7 @@ theorem IsQuasiCompactSpace.hasFiniteFormalAtlas {X : FppfSheaf B S hS}
   have hc : Epi c := (Sheaf.isLocallySurjective_iff_epi c).mp hsurjective
   have hcomp : Epi (Sigma.ι (fun _ : PUnit.{u + 2} ↦ Z) PUnit.unit ≫
       Sigma.desc (fun _ : PUnit.{u + 2} ↦ c)) := by
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact hc
   exact (Sheaf.isLocallySurjective_iff_epi _).mpr
     (epi_of_epi (Sigma.ι (fun _ : PUnit.{u + 2} ↦ Z) PUnit.unit) _)

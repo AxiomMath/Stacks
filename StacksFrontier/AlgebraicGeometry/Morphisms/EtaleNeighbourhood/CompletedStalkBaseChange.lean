@@ -186,7 +186,7 @@ private theorem bijective_adicCompletionMap_of_retraction
     refine ⟨einv.comp (adicCompletionMap ρ (maximalIdeal B)
       (maximalIdeal (AdicCompletion (maximalIdeal A) A)) (map_maximalIdeal_le ρ)),
       fun c => ?_⟩
-    show einv (adicCompletionMap ρ _ _ _ (algebraMap B _ c)) = ρ c
+    change einv (adicCompletionMap ρ _ _ _ (algebraMap B _ c)) = ρ c
     rw [adicCompletionMap_apply_algebraMap]
     exact heinv (ρ c)
   have hidA : (maximalIdeal A).map (RingHom.id A) ≤ maximalIdeal A :=
@@ -197,7 +197,7 @@ private theorem bijective_adicCompletionMap_of_retraction
       (map_maximalIdeal_le h)) = RingHom.id (AdicCompletion (maximalIdeal A) A) := by
     refine eq_of_apply_algebraMap_eq (RingHom.id A) (maximalIdeal A) (maximalIdeal A) hidA
       (maximalIdeal A).fg_of_isNoetherianRing _ _ (fun a => ?_) (fun _ => rfl)
-    show ρhat (adicCompletionMap h _ _ _
+    change ρhat (adicCompletionMap h _ _ _
       (algebraMap A (AdicCompletion (maximalIdeal A) A) a)) = _
     rw [adicCompletionMap_apply_algebraMap, hρhat (h a)]
     exact RingHom.congr_fun hρh a
@@ -205,7 +205,7 @@ private theorem bijective_adicCompletionMap_of_retraction
       (map_maximalIdeal_le h)).comp ρhat = RingHom.id (AdicCompletion (maximalIdeal B) B) := by
     refine eq_of_apply_algebraMap_eq (RingHom.id B) (maximalIdeal B) (maximalIdeal B) hidB
       (maximalIdeal B).fg_of_isNoetherianRing _ _ (fun c => ?_) (fun _ => rfl)
-    show adicCompletionMap h (maximalIdeal A) (maximalIdeal B) (map_maximalIdeal_le h)
+    change adicCompletionMap h (maximalIdeal A) (maximalIdeal B) (map_maximalIdeal_le h)
       (ρhat (algebraMap B (AdicCompletion (maximalIdeal B) B) c)) = _
     rw [hρhat c]
     exact RingHom.congr_fun hhρ c
@@ -297,7 +297,7 @@ public theorem exists_point_bijective_completionMapAt_pullback_fst
       (((pullback.fst f b).stalkHomAt hxσ).comp (f.stalkHomAt hfx))
       (maximalIdeal (S.presheaf.stalk s)) (maximalIdeal ((pullback f b).presheaf.stalk xσ)) hτle
       (maximalIdeal (S.presheaf.stalk s)).fg_of_isNoetherianRing _ _ (fun a => ?_) (fun a => ?_)
-    · show (pullback.fst f b).completionMapAt hxσ
+    · change (pullback.fst f b).completionMapAt hxσ
         (f.completionMapAt hfx (algebraMap (S.presheaf.stalk s) _ a)) = _
       rw [completionMapAt_algebraMap f hfx a,
         completionMapAt_algebraMap (pullback.fst f b) hxσ (f.stalkHomAt hfx a)]
@@ -307,7 +307,7 @@ public theorem exists_point_bijective_completionMapAt_pullback_fst
             (AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s)) a) =
           b.stalkHomAt hbs a :=
         (RingHom.congr_fun (congrArg CommRingCat.Hom.hom hbstalk) a).symm
-      show algebraMap ((pullback f b).presheaf.stalk xσ) _
+      change algebraMap ((pullback f b).presheaf.stalk xσ) _
         ((pullback.snd f b).stalkHomAt hπ
           ((stalkClosedPointIso (completedStalkObj S s)).inv.hom
             (algebraMap (S.presheaf.stalk s) _ a))) = _

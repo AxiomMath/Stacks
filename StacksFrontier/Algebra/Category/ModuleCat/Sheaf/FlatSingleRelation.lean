@@ -149,7 +149,7 @@ lemma tensorObj_map_relGen_tmul (s : Fin n → G.obj (op U)) {V : C} (f : V ⟶ 
       ⊗ₜ[(ringPresheaf O.obj).obj (op V)] G.map f.op (s i) from rfl) ?_
   refine congrArg (fun y ↦ y ⊗ₜ[(ringPresheaf O.obj).obj (op V)] G.map f.op (s i))
     (Subtype.ext ?_)
-  show (freeOn O U).map f.op (relGen a (op U) (𝟙 U) i) = relGen a (op V) f i
+  change (freeOn O U).map f.op (relGen a (op U) (𝟙 U) i) = relGen a (op V) f i
   exact (freeOn_map_relGen a f.op (𝟙 U) i).trans
     (congrArg (fun g ↦ relGen a (op V) g i) (Category.comp_id f))
 

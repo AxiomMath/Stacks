@@ -94,7 +94,7 @@ theorem subsingleton_hom_of_isIso_smul_of_isDerivedCompleteAt
     simp only [d, s, Category.assoc, oneSubSmulShift_π, Pi.lift_comp_π, Preadditive.comp_sub,
       Linear.comp_smul, zero_comp]
     rw [← Category.id_comp (q (n + 1)), ← Linear.smul_comp]
-    show q n - a ≫ q (n + 1) = 0
+    change q n - a ≫ q (n + 1) = 0
     rw [show q (n + 1) = inv a ≫ q n by simp [q], IsIso.hom_inv_id_assoc]
     simp
   simpa [s, q] using congrArg (fun t => t ≫ Pi.π (fun _ : ℕ => E) 0)

@@ -198,7 +198,7 @@ theorem gradedD_gradedMulSigned {k m : ℕ} (a : ⋀[A]^k (Ω[A⁄R]))
       refine Subtype.ext ?_
       rw [exteriorPower.coe_wedgeLeftMul, coe_map_tensorBaseChange_one_tmul,
         mapExteriorPower_deRhamDifferential]
-      show ((deRhamDifferential (A := R) (k + m)
+      change ((deRhamDifferential (A := R) (k + m)
           (exteriorPower.wedgeLeftMul (mapBaseChange R A B) rfl ρ y) : ⋀[B]^(k + m + 1) _) :
             ExteriorAlgebra B (Ω[B⁄R])) - ((((-1 : A) ^ k) • exteriorPower.wedgeLeftMul
               (mapBaseChange R A B) (rfl : k + (m + 1) = k + m + 1) ρ

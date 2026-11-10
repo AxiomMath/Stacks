@@ -231,8 +231,7 @@ private lemma module_finite_fiber {A K σ τ : Type*} [CommRing A] [Field K] (ρ
     refine Submodule.smul_mem _ _ (Submodule.sum_mem _ fun m hm => Submodule.smul_mem _ _ ?_)
     exact Submodule.subset_span (Finset.mem_coe.mpr (Finset.mem_image_of_mem _ hm))
   refine ⟨⟨M.image (fun m => ι (ℓ m)), eq_top_iff.mpr fun x _ => ?_⟩⟩
-  induction x using TensorProduct.induction_on with
-  | zero => exact zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul c a =>
     rw [show c ⊗ₜ[MvPolynomial σ A] a = c • ι a by
       rw [show ι a = 1 ⊗ₜ a from rfl, TensorProduct.smul_tmul', smul_eq_mul, mul_one]]

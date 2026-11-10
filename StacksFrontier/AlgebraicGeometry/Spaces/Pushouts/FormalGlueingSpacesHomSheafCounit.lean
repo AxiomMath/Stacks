@@ -52,7 +52,7 @@ theorem comp_natTransOfYoneda {C : Type w} [Category.{v} C] {F F' : Cᵒᵖ ⥤ 
     x ≫ natTransOfYoneda Ψ hΨ = Ψ W x := by
   apply yonedaEquiv.injective
   rw [yonedaEquiv_comp]
-  show yonedaEquiv (Ψ W (yonedaEquiv.symm (yonedaEquiv x))) = _
+  change yonedaEquiv (Ψ W (yonedaEquiv.symm (yonedaEquiv x))) = _
   rw [Equiv.symm_apply_apply]
 
 end AlgebraicGeometry.Space
@@ -82,7 +82,7 @@ under the Yoneda equivalence, to the image of `s` under the projection to `X`. -
 theorem homPresheaf_symm_fst {W : BigFppfOver B S hS} (s : (homPresheaf D G).obj (op W)) :
     ((equivShrink (glueSections D G W)).symm s).1 =
       yonedaEquiv.symm ((homPresheafProjection D G).app (op W) s) := by
-  show _ = yonedaEquiv.symm (yonedaEquiv ((equivShrink _).symm s).1)
+  change _ = yonedaEquiv.symm (yonedaEquiv ((equivShrink _).symm s).1)
   rw [Equiv.symm_apply_apply]
 
 /-- The pair underlying the restriction of a section of `homPresheaf D G` along `g` is the
@@ -91,7 +91,7 @@ theorem homPresheaf_symm_map {W W' : BigFppfOver B S hS} (g : W' ⟶ W)
     (s : (homPresheaf D G).obj (op W)) :
     (equivShrink (glueSections D G W')).symm ((homPresheaf D G).map g.op s) =
       ((equivShrink (glueSections D G W)).symm s).restrict g := by
-  show (equivShrink _).symm (equivShrink _ _) = _
+  change (equivShrink _).symm (equivShrink _ _) = _
   rw [Equiv.symm_apply_apply]
   rfl
 
@@ -248,12 +248,12 @@ theorem legEval_toHomPresheaf
         (z ≫ pullback.fst T.obj.hom j) ≫ toHomPresheaf D T ≫ homPresheafMap D θ := by
       rw [Category.assoc, toHomPresheafPullback, pullback.lift_fst, Category.assoc]
     rw [e1]
-    show (equivShrink _).symm (equivShrink _ (((equivShrink _).symm (equivShrink _
+    change (equivShrink _).symm (equivShrink _ (((equivShrink _).symm (equivShrink _
       (glueSectionsOfSpace D T (yonedaEquiv.symm (yonedaEquiv
         (z ≫ pullback.fst T.obj.hom j)))))).postcomp D θ)) = _
     rw [Equiv.symm_apply_apply, Equiv.symm_apply_apply, Equiv.symm_apply_apply]
   rw [legEvalYoneda_eq j M leg _ _ hsec (by
-    show (z ≫ pullback.fst T.obj.hom j) ≫ T.obj.hom = _
+    change (z ≫ pullback.fst T.obj.hom j) ≫ T.obj.hom = _
     simp only [toHomPresheafPullback, Category.assoc, pullback.lift_snd_assoc,
       pullback.condition])]
   refine (legEval₀_ofSpace j M leg hleg (A₀ := T.obj) θ.hom (z ≫ pullback.fst T.obj.hom j)

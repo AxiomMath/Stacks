@@ -177,7 +177,7 @@ def coevRestrictionMate {U' V' : C'ᵒᵖ} (a' : V' ⟶ U') :
   (mateEquiv (coevaluationAdjunction.{r, v', u', w} R U')
     (coevaluationAdjunction.{r, v', u', w} R V')
     (TwoSquare.mk (𝟭 _) _ _ _
-      ((Functor.leftUnitor _).hom ≫ PresheafOfModules.restriction R a'))).natTrans
+      ((Functor.leftUnitor _).hom ≫ PresheafOfModules.restriction R a')))
 
 /-- **The mate of the restriction transformation is reindexing along `· ≫ a'`.** A family of
 sections of the coevaluation over `U'` goes to the family over `V'` whose value at `d : W' ⟶ V'`
@@ -207,7 +207,7 @@ def dCoevRestrictionMate {U' V' : C'ᵒᵖ} (a' : V' ⟶ U') :
   (mateEquiv (dCoevaluationAdjunction.{r, v', u', w} R U')
     (dCoevaluationAdjunction.{r, v', u', w} R V')
     (TwoSquare.mk (𝟭 _) _ _ _
-      ((Functor.leftUnitor _).hom ≫ restrictionNatTrans.{w} R a'))).natTrans
+      ((Functor.leftUnitor _).hom ≫ restrictionNatTrans.{w} R a')))
 
 /-- **The unit identity characterizing the derived mate.** The unit of the derived coevaluation
 adjunction over `U'` followed by the mate is the unit over `V'` followed by the derived

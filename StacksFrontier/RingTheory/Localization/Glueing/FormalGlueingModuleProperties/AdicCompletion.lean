@@ -122,7 +122,7 @@ public theorem finiteAdicCompletionIsoExtensionOfScalars_hom_app_of
     (M : FGModuleCat.{max u v} R) (m : M) :
     (finiteAdicCompletionIsoExtensionOfScalars R I).hom.app M (AdicCompletion.of I M m) =
       (1 : AdicCompletion I R) ⊗ₜ[R] m := by
-  show (adicCompletionTensorEquiv R I M).symm (AdicCompletion.of I M m) = _
+  change (adicCompletionTensorEquiv R I M).symm (AdicCompletion.of I M m) = _
   apply (adicCompletionTensorEquiv R I M).injective
   rw [LinearEquiv.apply_symm_apply]
   exact (one_smul (AdicCompletion I R) (AdicCompletion.of I M m)).symm
@@ -392,13 +392,13 @@ public theorem exists_adicCompletionGlueingEquivalence
     (finiteExtensionOfScalars S Sf) ≪≫ efin
   refine ⟨c, ?_, ?_⟩
   · intro M m s
-    show e.hom.app M.obj (s ⊗ₜ[S]
+    change e.hom.app M.obj (s ⊗ₜ[S]
       ((finiteAdicCompletionIsoExtensionOfScalars R I).hom.app M
         (AdicCompletion.of I M m))) = _
     rw [finiteAdicCompletionIsoExtensionOfScalars_hom_app_of]
     let φ : TensorProduct S Sf (TensorProduct R S M) →ₗ[Sf]
         TensorProduct Rf Sf (TensorProduct R Rf M) := (e.hom.app M.obj).hom
-    show φ (s ⊗ₜ[S] ((1 : S) ⊗ₜ[R] m)) = _
+    change φ (s ⊗ₜ[S] ((1 : S) ⊗ₜ[R] m)) = _
     have hc' : φ ((1 : Sf) ⊗ₜ[S] ((1 : S) ⊗ₜ[R] m)) =
         (1 : Sf) ⊗ₜ[Rf] ((1 : Rf) ⊗ₜ[R] m) := hc M.obj m
     simpa only [← φ.map_smul, TensorProduct.smul_tmul', smul_eq_mul, mul_one] using

@@ -149,7 +149,7 @@ private theorem surjective_base_of_isIso_val_app {X Z : LocallyRingedSpace.{u}} 
   have htarget : Subsingleton
       (((SheafOfModules.pushforward.{u} (structureSheafHom g.toShHom)).obj
         (SheafOfModules.unit (structureSheafRing X.toRingedSpace))).val.obj (op U)) := by
-    show Subsingleton (X.presheaf.obj (op ((Opens.map g.base).obj U)))
+    change Subsingleton (X.presheaf.obj (op ((Opens.map g.base).obj U)))
     rw [hpre]
     exact CommRingCat.subsingleton_of_isTerminal (X.sheaf.isTerminalOfEqEmpty rfl)
   have hsource : Subsingleton
@@ -178,7 +178,7 @@ private theorem isIso_of_isIso_val_app {X Z : LocallyRingedSpace.{u}} (g : X ⟶
   have hgc : IsIso g.toShHom.hom.c := by
     rw [NatTrans.isIso_iff_isIso_app]
     refine fun U ↦ (ConcreteCategory.isIso_iff_bijective _).2 ?_
-    show Function.Bijective ((SheafOfModules.unitToPushforwardObjUnit
+    change Function.Bijective ((SheafOfModules.unitToPushforwardObjUnit
       (structureSheafHom g.toShHom)).val.app U)
     exact (ConcreteCategory.isIso_iff_bijective _).1 (h U.unop)
   have hgPresheafedIso : IsIso (SheafedSpace.forgetToPresheafedSpace.map

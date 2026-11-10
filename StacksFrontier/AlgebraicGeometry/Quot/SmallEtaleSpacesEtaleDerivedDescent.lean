@@ -112,8 +112,9 @@ theorem exists_smallEtaleSpacesEtaleDerivedFunctor_obj_iso_of_fppfCovering
   have hflat : IsFlat B S hS f.hom := hf.flat ()
   have hsurj : IsSurjective B S hS f.hom :=
     (isJointlySurjective_const_iff B S hS (I := Unit) f.hom).1 hf.jointly_surjective
-  have := preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
-    f hflat
+  have := (
+  preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+    f hflat)
   have := RingedToposHom.pullbackModules_preservesFiniteColimits (spacesEtaleRingedToposHom f)
   have := RingedToposHom.pullbackModules_additive (spacesEtaleRingedToposHom f)
   have := preservesFiniteLimits_toSpacesEtaleModules B S hS Y

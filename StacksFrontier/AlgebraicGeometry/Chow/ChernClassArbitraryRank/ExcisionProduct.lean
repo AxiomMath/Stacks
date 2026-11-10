@@ -95,7 +95,7 @@ theorem idRule_idRule_eq_zero_of_chowCohomologyRestriction_eq_zero {p q : ℤ}
   have : LocallyOfFiniteType (pullback.fst ι g ≫ ι) := by
     rw [pullback.condition]
     infer_instance
-  show a.idRule C sY (gysinSystemOfInvertible C) g (k - q)
+  change a.idRule C sY (gysinSystemOfInvertible C) g (k - q)
     (chowPush C ((pullback.fst ι g ≫ ι) ≫ sY) (g ≫ sY) i hi (k - q) δ) = 0
   rw [idRule_chowPush_of_eq C sY a g (i ≫ g) i rfl ((pullback.fst ι g ≫ ι) ≫ sY)
     (by rw [← pullback.condition]) hi (k - q) δ,

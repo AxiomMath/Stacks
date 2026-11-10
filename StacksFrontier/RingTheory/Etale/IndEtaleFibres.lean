@@ -142,11 +142,11 @@ theorem Ring.DirectLimit.exists_ringEquiv {B : Type*} [CommRing B] [Algebra A B]
     obtain ⟨j, h, hfj⟩ := hinj i x 0 (by rw [map_zero]; exact hz)
     rw [map_zero] at hfj
     rw [← Ring.DirectLimit.of_f (f := fun i j h => ((f i j h : G i →+* G j) : G i → G j)) h]
-    show Ring.DirectLimit.of G _ j (f i j h x) = 0
+    change Ring.DirectLimit.of G _ j (f i j h x) = 0
     rw [hfj, map_zero]
   refine ⟨(RingEquiv.ofBijective Lift ⟨hLinj, hLsurj⟩).symm, fun i w => ?_⟩
   rw [RingEquiv.symm_apply_eq]
-  show g i w = Lift (Ring.DirectLimit.of G _ i w)
+  change g i w = Lift (Ring.DirectLimit.of G _ i w)
   rw [hLift, Ring.DirectLimit.lift_of]
   rfl
 
@@ -159,7 +159,7 @@ theorem Ring.DirectLimit.exists_ringHom_baseChange_left :
   obtain ⟨ip⟩ := (inferInstance : Nonempty ι)
   refine ⟨(Ring.DirectLimit.of _ _ ip).comp (algebraMap K _), fun i a => ?_⟩
   obtain ⟨k, hik, hjk⟩ := directed_of (· ≤ ·) ip i
-  show Ring.DirectLimit.of _ _ ip (algebraMap K _ a) = _
+  change Ring.DirectLimit.of _ _ ip (algebraMap K _ a) = _
   rw [← Ring.DirectLimit.of_f hik, ← Ring.DirectLimit.of_f hjk]
   congr 1
   exact ((Algebra.TensorProduct.map (AlgHom.id K K) (f ip k hik)).commutes a).trans
@@ -179,7 +179,7 @@ theorem Ring.DirectLimit.exists_ringHom_baseChange_right {B : Type*} [CommRing B
     G i →ₐ[A] K ⊗[A] G i) : G i →+* K ⊗[A] G i)) fun i j h => ?_).comp e.toRingHom,
     fun i w => ?_⟩
   · ext w
-    show (Algebra.TensorProduct.includeRight : G j →ₐ[A] K ⊗[A] G j) (f i j h w)
+    change (Algebra.TensorProduct.includeRight : G j →ₐ[A] K ⊗[A] G j) (f i j h w)
         = Algebra.TensorProduct.map (AlgHom.id K K) (f i j h)
             ((Algebra.TensorProduct.includeRight : G i →ₐ[A] K ⊗[A] G i) w)
     rw [Algebra.TensorProduct.includeRight_apply, Algebra.TensorProduct.includeRight_apply,
@@ -213,11 +213,11 @@ theorem Ring.DirectLimit.exists_ringHom_tensorProduct {B : Type*} [CommRing B] [
     fun _ => rfl
   let fK : K →ₐ[A] L := { fKr with
     commutes' := fun a => by
-      show fKr (algebraMap A K a) = algebraMap A L a
+      change fKr (algebraMap A K a) = algebraMap A L a
       rw [hfKr ip, halgL, ← IsScalarTower.algebraMap_apply] }
   let fB : B →ₐ[A] L := { fBr with
     commutes' := fun a => by
-      show fBr (algebraMap A B a) = algebraMap A L a
+      change fBr (algebraMap A B a) = algebraMap A L a
       rw [← (g ip).commutes a, hfBr ip, halgL]
       congr 1
       rw [← Algebra.TensorProduct.includeRight_apply, AlgHom.commutes] }
@@ -225,13 +225,12 @@ theorem Ring.DirectLimit.exists_ringHom_tensorProduct {B : Type*} [CommRing B] [
   have key : ∀ i (x : K ⊗[A] G i),
       Ψ (Algebra.TensorProduct.map (AlgHom.id K K) (g i) x) = Ring.DirectLimit.of _ _ i x := by
     intro i x
-    induction x using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul a w =>
         rw [Algebra.TensorProduct.map_tmul]
-        show Algebra.TensorProduct.lift fK fB _ ((AlgHom.id K K a) ⊗ₜ[A] (g i w)) = _
+        change Algebra.TensorProduct.lift fK fB _ ((AlgHom.id K K a) ⊗ₜ[A] (g i w)) = _
         rw [Algebra.TensorProduct.lift_tmul]
-        show fKr a * fBr (g i w) = _
+        change fKr a * fBr (g i w) = _
         rw [hfKr i a, hfBr i w, ← map_mul]
         congr 1
         rw [Algebra.TensorProduct.algebraMap_apply, Algebra.TensorProduct.tmul_mul_tmul]
@@ -278,10 +277,7 @@ theorem IsFilteredColimitEtale.baseChange {A : Type u} {B : Type v} (K : Type w)
     fun i => Algebra.TensorProduct.map (AlgHom.id K K) (g i),
     fun i j h x => Algebra.TensorProduct.map_map_apply K (hcocone i j h) x, fun c => ?_,
     fun i₀ x₁ x₂ hx => ?_⟩
-  · induction c using TensorProduct.induction_on with
-    | zero =>
-        obtain ⟨i₀⟩ := (inferInstance : Nonempty ι)
-        exact ⟨i₀, 0, by rw [map_zero]⟩
+  · induction c using TensorProduct.inductionOn with
     | tmul a b =>
         obtain ⟨i, x, hx⟩ := hsurj b
         exact ⟨i, a ⊗ₜ[A] x, by rw [Algebra.TensorProduct.map_tmul, AlgHom.id_apply, hx]⟩
@@ -453,7 +449,7 @@ theorem Ideal.nonempty_fiber_residue_algEquiv {A : Type u} {B : Type v} [CommRin
       = algebraMap p.ResidueField (q:Ideal B).ResidueField r := by
     intro r
     rw [Algebra.TensorProduct.algebraMap_apply]
-    show Φ_A (r ⊗ₜ[A] 1) = _
+    change Φ_A (r ⊗ₜ[A] 1) = _
     rw [Algebra.TensorProduct.lift_tmul]
     simp only [map_one, mul_one]
     rfl
@@ -466,7 +462,7 @@ theorem Ideal.nonempty_fiber_residue_algEquiv {A : Type u} {B : Type v} [CommRin
   have hBmem : ∀ b : B, algebraMap B (q:Ideal B).ResidueField b ∈ R := by
     intro b
     refine ⟨Algebra.TensorProduct.includeRight b, ?_⟩
-    show Φ_A ((1 : p.ResidueField) ⊗ₜ[A] b) = _
+    change Φ_A ((1 : p.ResidueField) ⊗ₜ[A] b) = _
     rw [Algebra.TensorProduct.lift_tmul]
     simp [φ2, IsScalarTower.toAlgHom_apply]
   have hQmem : ∀ c : B ⧸ (q:Ideal B),
@@ -500,7 +496,7 @@ theorem Ideal.isNoetherianRing_fiber {A : Type u} [CommRing A] (p : Ideal A) [p.
     IsLocalization.isNoetherianRing (Algebra.algebraMapSubmonoid B p.primeCompl) _ inferInstance
   have hsurj : Function.Surjective
       ⇑(IsScalarTower.toAlgHom A (Localization.AtPrime p) p.ResidueField) := by
-    show Function.Surjective (IsLocalRing.residue (Localization.AtPrime p))
+    change Function.Surjective (IsLocalRing.residue (Localization.AtPrime p))
     exact IsLocalRing.residue_surjective
   have hmap : Function.Surjective
       ⇑(Algebra.TensorProduct.map (S := A)
@@ -587,6 +583,6 @@ theorem IsFilteredColimitEtale.exists_fiber_algEquiv_pi_residueField
       fun ⟨i, h⟩ => h ▸ Ideal.primesOver.liesOver p (qm (e.symm i))⟩
     let x : ↑(p.primesOver B) := ⟨q', hq', hlo'⟩
     refine ⟨e ⟨(Θ x).asIdeal, Ring.krullDimLE_zero_iff.mp hCdim _ (Θ x).isPrime⟩, ?_⟩
-    show (qm (e.symm (e _)) : Ideal B) = q'
+    change (qm (e.symm (e _)) : Ideal B) = q'
     rw [e.symm_apply_apply]
     exact congrArg Subtype.val (Θ.symm_apply_apply x)

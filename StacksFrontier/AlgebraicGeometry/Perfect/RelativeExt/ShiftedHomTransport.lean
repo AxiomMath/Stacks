@@ -99,11 +99,11 @@ theorem commShiftIso_inv_comp_map_shift {E : Type*} [Category E] [HasShift E ℤ
       (δ.map F)⟦n⟧' ≫ (shiftFunctorAdd' E 1 n m h).inv.app (F.obj N₁) ≫
         (F.commShiftIso m).inv.app N₁ := by
   rw [← cancel_mono ((F.commShiftIso m).hom.app N₁)]
-  simp only [assoc, Iso.inv_hom_id_app, comp_id]
+  simp only [assoc, Iso.inv_hom_id_app]
   rw [F.commShiftIso_add' h, Functor.CommShift.isoAdd'_hom_app, Functor.map_comp, assoc,
     ← Functor.map_comp_assoc F ((shiftFunctorAdd' C 1 n m h).inv.app N₁), Iso.inv_hom_id_app,
     Functor.map_id, id_comp, ← assoc (F.map (δ⟦n⟧')), Functor.commShiftIso_hom_naturality]
-  simp only [assoc, Iso.inv_hom_id_app_assoc, comp_id, ShiftedHom.map, Functor.map_comp]
+  simp only [assoc, Iso.inv_hom_id_app_assoc, ShiftedHom.map, Functor.map_comp]
   exact (congrArg _ (congrArg _ (comp_id _))).symm
 
 /-- **The identification of shifted Hom-groups is compatible with connecting maps.** For

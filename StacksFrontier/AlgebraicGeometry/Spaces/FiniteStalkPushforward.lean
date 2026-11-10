@@ -443,7 +443,7 @@ theorem geometricLiftsEquivOfIsPullback_apply {X' V : AlgebraicSpaces B S hS}
     (v : GeometricPoint B S hS V.1) (w : GeometricLifts B S hS f' v) :
     (geometricLiftsEquivOfIsPullback B S hS π sq v w).1 =
       i.hom.app (Opposite.op v.val.siteObject) w.1 := by
-  show (liftsPullbackObjEquiv B S hS π sq v w.1).1.1 = _
+  change (liftsPullbackObjEquiv B S hS π sq v w.1).1.1 = _
   exact liftsPullbackObjEquiv_fst B S hS π sq v w.1
 
 /-- The inverse of the bijection of lift sets sends a lift of the image point to the unique

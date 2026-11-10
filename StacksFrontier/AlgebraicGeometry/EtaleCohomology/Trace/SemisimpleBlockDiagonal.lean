@@ -110,7 +110,7 @@ public theorem exists_blockDiagonal'_conj_irreducible (X : A → Matrix (Fin m) 
   have hind : iSupIndep Y := (Finset.SupIndep.independent hs).comp e.injective
   have hYsup : iSup Y = ⊤ := by
     rw [← hsup, Finset.sup_eq_iSup]
-    show (⨆ i, ((e i : s) : Submodule K (Fin m → K))) = _
+    change (⨆ i, ((e i : s) : Submodule K (Fin m → K))) = _
     rw [e.iSup_comp (g := fun x : s => (x : Submodule K (Fin m → K))), iSup_subtype']
     rfl
   have hint : DirectSum.IsInternal Y :=

@@ -98,7 +98,7 @@ lemma pullbacksMeromorphicSections_of_mapsTo_genericPoints
   let p : PrimeSpectrum Γ(X, U) := ⟨q, hq.isPrime⟩
   let x : X := hU.fromSpec p
   have hxU : x ∈ U := by
-    show x ∈ (U : Set X)
+    change x ∈ (U : Set X)
     rw [← hU.range_fromSpec]
     exact Set.mem_range_self p
   have hqx : q = (hU.primeIdealOf ⟨x, hxU⟩).asIdeal :=
@@ -114,7 +114,7 @@ lemma pullbacksMeromorphicSections_of_mapsTo_genericPoints
     simpa [Module.annihilator_eq_bot.mpr (inferInstance : FaithfulSMul Γ(Y, V) Γ(Y, V))]
       using primeIdealOf_mem_minimalPrimes_of_mem_genericPoints V hV (f x) hfxV (hf hxwa))
   rw [← IsAffineOpen.comap_primeIdealOf_appLE V hV U hU hUV hxU]
-  show f.appLE V U hUV s ∈ (hU.primeIdealOf ⟨x, hxU⟩).asIdeal
+  change f.appLE V U hUV s ∈ (hU.primeIdealOf ⟨x, hxU⟩).asIdeal
   rw [← hqx]
   apply hq.1.2
   rw [Submodule.mem_annihilator_span_singleton]

@@ -359,11 +359,11 @@ theorem bijective_adicSectionsModuleULiftMap (K : Modules.{u, u} B S hS F hF) :
     Function.Bijective (adicSectionsModuleULiftMap B S hS F hF 𝓘 K) := by
   refine Function.bijective_iff_has_inverse.2 ⟨adicSectionsModuleULiftInv B S hS F hF 𝓘 K,
     fun t => Subtype.ext (funext fun n => ?_), fun t => Subtype.ext (funext fun n => ?_)⟩
-  · show sectionsModuleULiftEquiv B S hS F hF _ (SheafOfModules.sectionsMap _
+  · change sectionsModuleULiftEquiv B S hS F hF _ (SheafOfModules.sectionsMap _
       (SheafOfModules.sectionsMap _ _)) = _
     rw [← SheafOfModules.sectionsMap_comp, Iso.inv_hom_id, SheafOfModules.sectionsMap_id,
       Equiv.apply_symm_apply]
-  · show SheafOfModules.sectionsMap _ ((sectionsModuleULiftEquiv B S hS F hF _).symm
+  · change SheafOfModules.sectionsMap _ ((sectionsModuleULiftEquiv B S hS F hF _).symm
       (sectionsModuleULiftEquiv B S hS F hF _ (SheafOfModules.sectionsMap _ _))) = _
     rw [Equiv.symm_apply_apply, ← SheafOfModules.sectionsMap_comp, Iso.hom_inv_id,
       SheafOfModules.sectionsMap_id]
@@ -375,7 +375,7 @@ theorem adicSectionsOfSections_moduleULift (K : Modules.{u, u} B S hS F hF)
       adicSectionsModuleULiftMap B S hS F hF 𝓘 K
         (adicSectionsOfSections B S hS F hF 𝓘 K (sectionsModuleULiftEquiv B S hS F hF K σ)) := by
   refine Subtype.ext (funext fun n => ?_)
-  show _ = SheafOfModules.sectionsMap _ ((sectionsModuleULiftEquiv B S hS F hF _).symm
+  change _ = SheafOfModules.sectionsMap _ ((sectionsModuleULiftEquiv B S hS F hF _).symm
     (SheafOfModules.sectionsMap _ (sectionsModuleULiftEquiv B S hS F hF K σ)))
   rw [sectionsModuleULiftEquiv_symm_sectionsMap, Equiv.symm_apply_apply,
     ← SheafOfModules.sectionsMap_comp,

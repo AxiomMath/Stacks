@@ -225,7 +225,7 @@ public theorem tensorOverRingIso_naturality
   -- the fourth square: the scalar transport of the total tensor complex
   have q4 : x ≫ d Y' = d Y ≫ y := scalarEquivalenceTensorComplexIso_naturality.{u, 0} A f (𝟙 P)
   -- the pasting of the four squares
-  show u ≫ a Y' ≫ b Y' ≫ c Y' ≫ d Y' = (a Y ≫ b Y ≫ c Y ≫ d Y) ≫ y
+  change u ≫ a Y' ≫ b Y' ≫ c Y' ≫ d Y' = (a Y ≫ b Y ≫ c Y ≫ d Y) ≫ y
   rw [reassoc_of% q1, reassoc_of% q2, reassoc_of% q3, q4]
   simp only [Category.assoc]
 
@@ -344,7 +344,7 @@ private theorem qhComparison_naturality (M : DerivedCategory (ModuleCat.{u} A))
   have s3 : k ≫ r' = r ≫ n :=
     DerivedCategory.quotientCompQhIso_inv_naturality (C := ModuleCat.{u} A) (f ⊗ₘ 𝟙 P)
   -- the pasting of the three squares
-  show m ≫ p' ≫ q' ≫ r' = (p ≫ q ≫ r) ≫ n
+  change m ≫ p' ≫ q' ≫ r' = (p ≫ q ≫ r) ≫ n
   rw [reassoc_of% s1, reassoc_of% s2, s3]
   simp only [Category.assoc]
 

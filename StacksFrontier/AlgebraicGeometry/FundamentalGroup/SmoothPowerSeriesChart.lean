@@ -124,10 +124,10 @@ public theorem exists_flat_quasiSection_of_isClosed_asFiber {X S : Scheme.{u}} (
     simp only [RingHom.coe_comp, Function.comp_apply, RingEquiv.toRingHom_eq_coe,
       RingEquiv.coe_toRingHom] at h2
     rw [h1] at h2
-    show Φ (algebraMap S₁ (ResidueFieldAtPrime S₁ q₁) (φ₁ a)) = _
+    change Φ (algebraMap S₁ (ResidueFieldAtPrime S₁ q₁) (φ₁ a)) = _
     rw [IsScalarTower.algebraMap_apply S₁ (S₁ ⧸ q₁) (ResidueFieldAtPrime S₁ q₁)]
     refine h2.trans ?_
-    show ρ (e₀.symm (algebraMap A₀ (ResidueFieldAtPrime A₀ m₀) a)) = _
+    change ρ (e₀.symm (algebraMap A₀ (ResidueFieldAtPrime A₀ m₀) a)) = _
     congr 1
     apply e₀.injective
     rw [RingEquiv.apply_symm_apply]
@@ -160,7 +160,7 @@ public theorem exists_flat_quasiSection_of_isClosed_asFiber {X S : Scheme.{u}} (
     refine ((Scheme.Hom.comp_apply ψ f₁ _).symm.trans
       (congrArg (fun g : Spec (X.residueField z) ⟶ Spec (.of S₁) => g _) hψ)).trans ?_
     refine PrimeSpectrum.ext ?_
-    show (maximalIdeal (X.residueField z)).comap χ = q₁
+    change (maximalIdeal (X.residueField z)).comap χ = q₁
     rw [IsLocalRing.maximalIdeal_eq_bot, ← RingHom.ker_eq_comap_bot, hχker]
   have hDsurj : Function.Surjective
       (@Scheme.descResidueField _ _ _ _ (Scheme.stalkClosedPointTo (ψ ≫ f₁))
@@ -210,9 +210,9 @@ public theorem exists_flat_quasiSection_of_isClosed_asFiber {X S : Scheme.{u}} (
   have hα₁s₁ : α₁ s₁ = s := by
     have hcomap : (Spec.map (CommRingCat.ofHom φ₁)) s₁ = IsLocalRing.closedPoint A₀ := by
       refine PrimeSpectrum.ext ?_
-      show q₁.comap φ₁ = maximalIdeal A₀
+      change q₁.comap φ₁ = maximalIdeal A₀
       exact hpq.symm
-    show S.fromSpecStalk s ((Spec.map (CommRingCat.ofHom φ₁)) s₁) = s
+    change S.fromSpecStalk s ((Spec.map (CommRingCat.ofHom φ₁)) s₁) = s
     rw [hcomap]
     exact Scheme.fromSpecStalk_closedPoint
   refine ⟨Z, inferInstance, z₀, i ≫ f₁ ≫ α₁, i ≫ pullback.fst f α₁, ?_, ?_, ?_, ?_, ?_⟩
@@ -230,7 +230,7 @@ public theorem exists_flat_quasiSection_of_isClosed_asFiber {X S : Scheme.{u}} (
     have huA : (Spec.map (CommRingCat.ofHom φ₁)) u = IsLocalRing.closedPoint A₀ := by
       apply (S.fromSpecStalk s).isEmbedding.injective
       rw [Scheme.fromSpecStalk_closedPoint]
-      show ((i ≫ f₁) ≫ α₁) w = s
+      change ((i ≫ f₁) ≫ α₁) w = s
       rwa [Category.assoc]
     have : u.asIdeal.IsPrime := u.isPrime
     have humax : u.asIdeal.IsMaximal :=
@@ -239,7 +239,7 @@ public theorem exists_flat_quasiSection_of_isClosed_asFiber {X S : Scheme.{u}} (
       refine PrimeSpectrum.ext (humax.eq_of_le hmax₁.ne_top ?_)
       exact (PrimeSpectrum.le_iff_specializes u s₁).2 hu
     have hmem : w ∈ {z' : Z | (i ≫ f₁) z' = f₁ z₁} := by
-      show u = f₁ z₁
+      change u = f₁ z₁
       rw [hus, hs₁]
     rw [hfib] at hmem
     exact hmem
@@ -333,7 +333,7 @@ public theorem exists_flat_powerSeries_chart {X S : Scheme.{u}} (f : X ⟶ S) [S
     rw [h1, ← Spec.map_comp_assoc, ← Spec.map_comp_assoc]
     congr 2
     refine CommRingCat.hom_ext (RingHom.ext fun a => ?_)
-    show eAdic (algebraMap A (AdicCompletion I Γ(X'', V)) a) = _
+    change eAdic (algebraMap A (AdicCompletion I Γ(X'', V)) a) = _
     rw [AlgEquiv.commutes, MvPowerSeries.algebraMap_apply, Algebra.algebraMap_self,
       RingHom.id_apply]
     rfl
@@ -344,7 +344,7 @@ public theorem exists_flat_powerSeries_chart {X S : Scheme.{u}} (f : X ⟶ S) [S
     RingHom.ker_isMaximal_of_surjective _
       (IsLocalRing.residue_surjective.comp hsecsurj)
   have hImB : I ≤ mB := fun x hx => by
-    show IsLocalRing.residue A (sectionHom x) = 0
+    change IsLocalRing.residue A (sectionHom x) = 0
     rw [show sectionHom x = 0 from hx, map_zero]
   have : Nontrivial (AdicCompletion I Γ(X'', V)) := eAdic.toEquiv.nontrivial
   have : IsLocalRing (AdicCompletion I Γ(X'', V)) :=
@@ -362,20 +362,20 @@ public theorem exists_flat_powerSeries_chart {X S : Scheme.{u}} (f : X ⟶ S) [S
   let pA'' : Spec A'' := IsLocalRing.closedPoint A''
   have h4 : (Spec.map e₁.hom) pT = pAdic := by
     refine PrimeSpectrum.ext ?_
-    show (maximalIdeal _).comap e₁.hom.hom = _
+    change (maximalIdeal _).comap e₁.hom.hom = _
     exact IsLocalRing.eq_maximalIdeal
       (Ideal.comap_isMaximal_of_surjective _ (ConcreteCategory.bijective_of_isIso e₁.hom).2)
   have h5 : (Spec.map (CommRingCat.ofHom (algebraMap Γ(X'', V) (AdicCompletion I Γ(X'', V)))))
       pAdic = ⟨mB, hmB.isPrime⟩ := by
     refine PrimeSpectrum.ext ?_
-    show (maximalIdeal _).comap (algebraMap Γ(X'', V) (AdicCompletion I Γ(X'', V))) = mB
+    change (maximalIdeal _).comap (algebraMap Γ(X'', V) (AdicCompletion I Γ(X'', V))) = mB
     rw [hmaxAdic]
     exact (hmB.eq_of_le (Ideal.IsPrime.comap _).ne_top Ideal.le_comap_map).symm
   have h6 : hV.fromSpec ⟨mB, hmB.isPrime⟩ = σ pA'' := by
     have hsq6 := IsAffineOpen.SpecMap_appLE_fromSpec σ hV hU hUV
     have hpt : (Spec.map (σ.appLE V ⊤ hUV)) pA = ⟨mB, hmB.isPrime⟩ := by
       refine PrimeSpectrum.ext ?_
-      show (maximalIdeal A).comap (σ.appLE V ⊤ hUV).hom = mB
+      change (maximalIdeal A).comap (σ.appLE V ⊤ hUV).hom = mB
       rw [← hsec]
       ext x
       simp [mB, IsLocalRing.residue_eq_zero_iff]
@@ -384,7 +384,7 @@ public theorem exists_flat_powerSeries_chart {X S : Scheme.{u}} (f : X ⟶ S) [S
       ((congrArg (fun g : Spec Γ(Spec A'', ⊤) ⟶ X'' => g pA) hsq6).trans
         ((Scheme.Hom.comp_apply _ _ pA).trans (congrArg σ hfromc)))
   have hφc : φ pT = z := by
-    show (pullback.fst f α'') (hV.fromSpec ((Spec.map (CommRingCat.ofHom
+    change (pullback.fst f α'') (hV.fromSpec ((Spec.map (CommRingCat.ofHom
       (algebraMap Γ(X'', V) (AdicCompletion I Γ(X'', V))))) ((Spec.map e₁.hom) pT))) = z
     rw [h4, h5, h6]
     exact (Scheme.Hom.comp_apply σ _ pA'').symm.trans

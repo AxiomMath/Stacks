@@ -8,8 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.DeRham.HodgeWeil.KunnethCechModel
 public import StacksFrontier.AlgebraicGeometry.Cohomology.Cech.RestrictScalarsCechComputes
 public import StacksFrontier.Topology.Sheaves.Cohomology.CechTotalComplex.HypercohomologyCechTransfer
 public import StacksFrontier.Topology.Sheaves.Cohomology.CechTotalComplex.HypercohomologyGlobalScalars
-public import
-  StacksFrontier.Topology.Sheaves.Cohomology.CechTotalComplex.HypercohomologyAbelianDegreeOneNaturality
+public import StacksFrontier.Topology.Sheaves.Cohomology.CechTotalComplex.HypercohomologyAbelianDegreeOneNaturality
 public import
   StacksFrontier.Topology.Sheaves.Cohomology.CechTotalComplex.HypercohomologySinglePairingAtCompat
 public import StacksFrontier.Topology.Sheaves.Cohomology.CechTotalComplex.HypercohomologyCupNaturality
@@ -504,13 +503,13 @@ theorem hodgeFirstChernClassModule_projectiveTwistingSheafOne_ne_zero (hr : 1 �
       (Stacks.AlgebraicGeometry.ProjEulerSequence.projDifferentials k r)) (map_zero _).symm).trans
       (e.trans (e2.trans (zero_smul _ _)))
   have h0 : projectiveHodgeFirstChernClassModule k r = 0 := by
-    show Stacks.Cech.Hypercohomology.abelianToModuleH1 _
+    change Stacks.Cech.Hypercohomology.abelianToModuleH1 _
       (Scheme.Hom.hodgeFirstChernClass (projToSpecCoeff k r)
         (projectiveTwistingSheafOnePicardClass k r)) = 0
     rw [hc]
     exact hz
   have h1 : projectiveChernPowR2 k r 1 = 0 := by
-    show Stacks.Cech.Hypercohomology.cup (projectiveSpace k r).sheaf
+    change Stacks.Cech.Hypercohomology.cup (projectiveSpace k r).sheaf
       (cechComputesSheaf_projectiveForms k r 0) (cechComputesSheaf_projDifferentials k r)
       (projectiveWedgePairing k r 0) 0 1 ((0 + 1 : ℕ) : ℤ) _ (projectiveChernPowR2 k r 0)
       (projectiveHodgeFirstChernClassModule k r) = 0

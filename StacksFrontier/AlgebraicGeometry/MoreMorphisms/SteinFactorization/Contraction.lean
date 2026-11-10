@@ -79,7 +79,7 @@ theorem isConnected_preimage_singleton_of_isIso_app [IsProper c]
       rfl
     · intro hx
       have hxU : x ∈ c ⁻¹ᵁ U := by
-        show c x ∈ U
+        change c x ∈ U
         rw [Set.mem_singleton_iff.1 hx]
         exact hyU
       refine ⟨⟨x, hxU⟩, ?_, rfl⟩

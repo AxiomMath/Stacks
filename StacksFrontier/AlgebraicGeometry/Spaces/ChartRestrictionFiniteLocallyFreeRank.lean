@@ -92,7 +92,7 @@ theorem isFiniteLocallyFreeOfRank_restrictToChartScheme (X : AlgebraicSpaces B S
   have hmem := Stacks.Chow.SectionZeroScheme.mem_rankLocus_of_isFiniteLocallyFreeOfRank_pullback
     (restrictToChartSchemeModules B S hS X.1 X.2 M V) (chartSchemeMap (j ≫ g₁)) r w₀
   have hpt : (chartSchemeMap (j ≫ g₁)) w₀ = v := by
-    show (chartSchemeMap g₁) ((chartSchemeMap j) w₀) = v
+    change (chartSchemeMap g₁) ((chartSchemeMap j) w₀) = v
     rw [show (chartSchemeMap j) w₀ = z₁ from hw₀]
     exact hz₁
   rw [hpt] at hmem

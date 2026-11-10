@@ -56,8 +56,8 @@ is bijective for an invertible module.
   K-flat complex. The conclusion holds with no hypothesis beyond
   the two above, at every module universe, as
   `nonempty_derivedHom_iso_derivedTensor_conormalInverseShift_anyModuleUniverse` of
-  `StacksFrontier.RingTheory.Dualizing.TrivialDualityInvertibleKernelAnyModuleUniverse` — and, in the
-  universe of the rings themselves,
+  `StacksFrontier.RingTheory.Dualizing.TrivialDualityInvertibleKernelAnyModuleUniverse` — and, in
+  the universe of the rings themselves,
   `Dualizing.InvertibleKernel.nonempty_derivedHom_iso_derivedTensor_conormalInverseShift` of
   `StacksFrontier.RingTheory.Dualizing.UpperShriek.PolynomialEvalDualityProof`.
 * `Dualizing.InvertibleKernel.surjective_and_invertible_ker_quotient` — the hypotheses hold for
@@ -181,8 +181,7 @@ theorem eq_zero_of_mul_kernel_eq_zero
     (hr : ∀ x : RingHom.ker (algebraMap R A), r * (x : R) = 0) : r = 0 := by
   let e := Module.Invertible.linearEquiv R (RingHom.ker (algebraMap R A))
   have hzero : r • e.symm 1 = 0 := by
-    induction e.symm 1 using TensorProduct.induction_on with
-    | zero => simp
+    induction e.symm 1 using TensorProduct.inductionOn with
     | tmul φ x =>
         have hx : r • x = 0 := Subtype.ext (by simpa using hr x)
         rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul, hx]

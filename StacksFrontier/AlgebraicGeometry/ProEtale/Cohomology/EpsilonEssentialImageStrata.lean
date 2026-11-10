@@ -69,7 +69,7 @@ theorem exists_finset_determinedBy_of_isConstructible {Y : Scheme.{u}} [IsAffine
     (fun g ↦ ((isAffineOpen_top Y).basicOpen g).isCompact) (fun g s hs ↦ ?_)
     (fun s _ t _ ⟨E₁, h₁⟩ ⟨E₂, h₂⟩ ↦ ⟨E₁ ∪ E₂, fun x y hxy ↦ ?_⟩) T hT
   · refine ⟨insert g hs.toFinset, fun x y hxy ↦ ?_⟩
-    simp only [Set.mem_diff, Set.mem_iUnion, exists_prop, not_exists, not_and, SetLike.mem_coe]
+    simp only [Set.mem_sdiff, Set.mem_iUnion, exists_prop, not_exists, not_and, SetLike.mem_coe]
     rw [hxy g (Finset.mem_insert_self _ _)]
     refine and_congr Iff.rfl (forall_congr' fun h ↦ imp_congr_right fun hh ↦ ?_)
     exact not_congr (hxy h (Finset.mem_insert_of_mem (by simpa using hh)))
@@ -92,7 +92,7 @@ theorem Scheme.range_zeroLocusImmersion (Y : Scheme.{u}) [IsAffine Y] (f : Γ(Y,
     Set.range (Y.zeroLocusImmersion f) = (Y.basicOpen f : Set Y)ᶜ := by
   have h₂ : Set.range (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {f})))) =
       (PrimeSpectrum.zeroLocus ((Ideal.span {f} : Ideal Γ(Y, ⊤)) : Set Γ(Y, ⊤))) := by
-    show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk (Ideal.span {f}))) = _
+    change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk (Ideal.span {f}))) = _
     rw [_root_.range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective]
     simp [Ideal.mk_ker]
   ext x
@@ -175,7 +175,7 @@ theorem epsilonInverseImage_essImage_of_determinedBy (n : ℕ) :
         by_cases hef : e = f
         · subst hef; exact (hp x).trans (hp y).symm
         · have := hxy (g.appTop e) (Finset.mem_image_of_mem _ (Finset.mem_erase.2 ⟨hef, he⟩))
-          show x ∈ g ⁻¹ᵁ Y.basicOpen e ↔ y ∈ g ⁻¹ᵁ Y.basicOpen e
+          change x ∈ g ⁻¹ᵁ Y.basicOpen e ↔ y ∈ g ⁻¹ᵁ Y.basicOpen e
           rw [Scheme.preimage_basicOpen_top]
           exact this
       · refine (epsilonInverseImage.{u, v} _).essImage.prop_of_iso

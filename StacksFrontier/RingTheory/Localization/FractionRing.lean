@@ -122,7 +122,7 @@ private theorem exists_local_indicator
       have hjne : j ≠ i := by
         simp only [hs, Finset.mem_filter] at hjs; exact hjs.right
       exact hjne (hincomp j hji)
-    rw [SetLike.not_le_iff_exists] at hnotle
+    rw [IsConcreteLE.not_le_iff_exists] at hnotle
     obtain ⟨f, hfin, hfout⟩ := hnotle
     refine ⟨f, hfout, ?_⟩
     intro j hj

@@ -40,8 +40,7 @@ theorem exists_eq_tmul_of_generator {B : Type u} [CommRing B] (ψ : A →+* B)
     {M : ModuleCat.{u} A} (e₀ : M) (hgen : ∀ m : M, ∃ r : A, m = r • e₀)
     (x : (ModuleCat.extendScalars.{u, u, u} ψ).obj M) :
     ∃ c : B, x = c ⊗ₜ[A, ψ] e₀ := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, (TensorProduct.zero_tmul _ _).symm⟩
+  induction x using TensorProduct.inductionOn with
   | tmul b m =>
     obtain ⟨r, rfl⟩ := hgen m
     exact ⟨ψ r * (show B from b), (TensorProduct.smul_tmul (R := A) r b e₀).symm⟩
@@ -109,10 +108,10 @@ private theorem baseAlternatingCechComplex_d_sectionsToAlternatingₗ (s : Γ(X,
       LinearMap.ker (Stacks.Cech.alternatingCechModuleD f U O 0) :=
     Stacks.Cech.range_sectionsToAlternatingₗ f U O (fun _ => le_top) hU.le ▸
       LinearMap.mem_range_self _ _
-  show (baseAlternatingCechComplex f U hU O).d ((0 : ℕ) : ℤ) ((0 + 1 : ℕ) : ℤ) _ = 0
+  change (baseAlternatingCechComplex f U hU O).d ((0 : ℕ) : ℤ) ((0 + 1 : ℕ) : ℤ) _ = 0
   refine (congr($(baseAlternatingCechComplexXIso_inv_comp_d f U hU O 0)
     (Stacks.Cech.sectionsToAlternatingₗ f U O (fun _ => le_top) (show Γ(O, ⊤) from s)))).trans ?_
-  show (baseAlternatingCechComplexXIso f U hU O (0 + 1)).inv
+  change (baseAlternatingCechComplexXIso f U hU O (0 + 1)).inv
     (Stacks.Cech.alternatingCechModuleD f U O 0 _) = 0
   rw [LinearMap.mem_ker.1 hm]
   exact ((baseAlternatingCechComplexXIso f U hU O (0 + 1)).inv).hom.map_zero
@@ -142,7 +141,7 @@ private theorem pullbackUnitIso_pullbackSections_one {X' : Scheme.{u}} (g : X' �
 theorem baseRingHom_top_apply {B : Type u} [CommRing B] {Y : Scheme.{u}}
     (h : Y ⟶ Spec (.of B)) (b : B) :
     (Stacks.Cech.baseRingHom h ⊤).hom b = (Stacks.Cech.globalRingHom h).hom b := by
-  show (Y.presheaf.map (homOfLE (le_top : (⊤ : Y.Opens) ≤ ⊤)).op).hom
+  change (Y.presheaf.map (homOfLE (le_top : (⊤ : Y.Opens) ≤ ⊤)).op).hom
     ((Stacks.Cech.globalRingHom h).hom b) = _
   rw [show (homOfLE (le_top : (⊤ : Y.Opens) ≤ ⊤)).op = 𝟙 _ from rfl, CategoryTheory.Functor.map_id]
   rfl
@@ -163,7 +162,7 @@ private theorem smul_globalSections_unit_eq_mul (r : A)
     letI := Stacks.Cech.sectionsModule f (SheafOfModules.unit X.ringCatSheaf) ⊤
     (show Γ(X, ⊤) from r • t) =
       (Stacks.Cech.globalRingHom f).hom r * (show Γ(X, ⊤) from t) := by
-  show (Stacks.Cech.baseRingHom f ⊤).hom r * _ = _
+  change (Stacks.Cech.baseRingHom f ⊤).hom r * _ = _
   rw [baseRingHom_top_apply]
 
 /-- The unit model map kills the elements of `A` that vanish as global functions on `X`. -/
@@ -176,7 +175,7 @@ private theorem unitModelMap_f_zero_eq_zero_of_globalRingHom_eq_zero {I : Type u
   let := Stacks.Cech.sectionsModule f O ⊤
   set one : Γ(O, ⊤) := (show Γ(O, ⊤) from (1 : Γ(X, ⊤)))
   have : r • one = 0 := by
-    show (show Γ(X, ⊤) from r • one) = 0
+    change (show Γ(X, ⊤) from r • one) = 0
     rw [smul_globalSections_unit_eq_mul, hr, zero_mul]
   refine (unitModelMap_f_zero_apply f U hU hcov r).trans ((unitCochain_apply f U hU r).trans ?_)
   exact (congrArg (fun t => (baseAlternatingCechComplexXIso f U hU O 0).inv
@@ -285,7 +284,7 @@ private theorem fibreTransport_extendScalarsCxMap_unitModelMap_f_zero (c : p.Res
       c • (show (ModuleCat.extendScalars.{u, u, u} ψ).obj
         ((baseAlternatingCechComplex f U hU O).X 0) from
           (1 : p.ResidueField) ⊗ₜ[A, ψ] unitCochain f U hU (1 : A)) := by
-    show ((ModuleCat.extendScalars.{u, u, u} ψ).map (u.f 0)).hom _ = _
+    change ((ModuleCat.extendScalars.{u, u, u} ψ).map (u.f 0)).hom _ = _
     rw [ModuleCat.ExtendScalars.map_tmul, unitModelMap_f_zero_apply]
     refine Eq.trans ?_ (ModuleCat.ExtendScalars.smul_tmul ψ c 1 _).symm
     rw [mul_one]
@@ -367,7 +366,7 @@ private theorem exists_extendScalarsCxMap_unitModelMap_f_zero_eq
   intro y hy
   have hd0 : Stacks.Cech.alternatingCechModuleD fp Up Op 0 ((τ 0).hom y) = 0 := by
     refine (fibreTransport_d_apply ψ hsq O U hU hUaff 0 y).symm.trans ?_
-    show (τ (0 + 1)).hom ((StacksDraft.Perfect.extendScalarsCx ψ D).d 0 1 y) = 0
+    change (τ (0 + 1)).hom ((StacksDraft.Perfect.extendScalarsCx ψ D).d 0 1 y) = 0
     rw [hy, map_zero]
   obtain ⟨s', hs'⟩ : (τ 0).hom y ∈ LinearMap.range ι' :=
     Stacks.Cech.range_sectionsToAlternatingₗ fp Up Op hUp

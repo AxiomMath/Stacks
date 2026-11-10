@@ -298,7 +298,7 @@ private theorem bijOn_genericPoints_toScheme_map_of_charts
         hbir hu hv hudense hvdense hcomm).comp
       (bijOn_genericPoints_homeomorph (schemePointsHomeomorph B S hS A).symm))
   refine hcomp.congr fun a _ => ?_
-  show pointsToScheme B S hS C (pointsMap B S hS (yoneda.obj A) (yoneda.map g)
+  change pointsToScheme B S hS C (pointsMap B S hS (yoneda.obj A) (yoneda.map g)
     ((schemePointsHomeomorph B S hS A).symm a)) = _
   have hback : pointsToScheme B S hS A ((schemePointsHomeomorph B S hS A).symm a) = a :=
     (schemePointsHomeomorph B S hS A).apply_symm_apply a
@@ -541,7 +541,7 @@ theorem exists_dense_isOpenSubspace_isIso_of_isBirational
       rw [hiArange] at hrange
       exact hrange
     have hmemV := hU'V' hmemU
-    show T.map (iA ≫ g) w ∈ (V' : Set (T.obj C))
+    change T.map (iA ≫ g) w ∈ (V' : Set (T.obj C))
     rw [T.map_comp]
     exact hmemV
   obtain ⟨g', hg'⟩ := hiCuniv (iA ≫ g) hsub
@@ -597,7 +597,7 @@ theorem exists_dense_isOpenSubspace_isIso_of_isBirational
   · rw [DenseRange, range_pointsMap_ι_range B S hS vC]
     exact hdenseChart Y C C' v iC V' hiCrange hV'dense hvdense
   · have hg'comm : yoneda.map g' ≫ vC = uA ≫ f := by
-      show yoneda.map g' ≫ yoneda.map iC ≫ v = (yoneda.map iA ≫ u) ≫ f
+      change yoneda.map g' ≫ yoneda.map iC ≫ v = (yoneda.map iA ≫ u) ≫ f
       rw [← Category.assoc, ← Functor.map_comp, hg', Functor.map_comp, Category.assoc, hcomm,
         ← Category.assoc]
     calc (inv (Subfunctor.toRange uA) ≫ yoneda.map g' ≫ Subfunctor.toRange vC) ≫

@@ -567,20 +567,20 @@ private theorem propertyRk_after_finiteExtensions_of_finite_isSeparable
   have : Algebra.Smooth A R := by
     let : Algebra R A := Algebra.TensorProduct.rightAlgebra
     have : IsScalarTower R A R := .of_algebraMap_eq fun x => by
-      show x = algebraMap k' R 1 * x
+      change x = algebraMap k' R 1 * x
       simp only [map_one, one_mul]
     have : Algebra.FormallyUnramified k k' :=
       Algebra.FormallyUnramified.of_isSeparable k k'
     let e : (R ⊗[k] k') ≃ₐ[R] A :=
       { (Algebra.TensorProduct.comm k R k').toRingEquiv with
         commutes' r := by
-          show (Algebra.TensorProduct.comm k R k') (r ⊗ₜ[k] 1) = 1 ⊗ₜ[k] r
+          change (Algebra.TensorProduct.comm k R k') (r ⊗ₜ[k] 1) = 1 ⊗ₜ[k] r
           exact Algebra.TensorProduct.comm_tmul _ _ _ }
     have : Algebra.FormallyUnramified R A := Algebra.FormallyUnramified.of_equiv e
     have : Algebra.FormallySmooth A R := Algebra.FormallySmooth.of_restrictScalars R A R
     have : Algebra.FiniteType A R := Algebra.FiniteType.of_surjective
       (Algebra.ofId A R) (fun r => ⟨1 ⊗ₜ[k] r, by
-        show algebraMap k' R 1 * r = r
+        change algebraMap k' R 1 * r = r
         simp only [map_one, one_mul]⟩)
     exact ⟨inferInstance, Algebra.FinitePresentation.of_finiteType.mp inferInstance⟩
   let : Algebra k K := ((algebraMap k' K).comp (algebraMap k k')).toAlgebra

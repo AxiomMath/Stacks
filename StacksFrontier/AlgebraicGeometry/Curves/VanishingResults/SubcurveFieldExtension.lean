@@ -401,7 +401,7 @@ theorem baseChange_fractionRing_polynomial_subcurve_bound [IsProper f]
         isClosed_closure⟩, Closeds.ext ?_,
       (hT'c.image _
         (pullback.snd (specFractionRingPolynomial k) f).continuous.continuousOn).closure⟩
-    show (⇑(pullback.snd (specFractionRingPolynomial k) f)) ⁻¹'
+    change (⇑(pullback.snd (specFractionRingPolynomial k) f)) ⁻¹'
       closure ((⇑(pullback.snd (specFractionRingPolynomial k) f)) '' T') = T'
     rw [hopen.preimage_closure_eq_closure_preimage
       (pullback.snd (specFractionRingPolynomial k) f).continuous, hpre, T'.isClosed.closure_eq]

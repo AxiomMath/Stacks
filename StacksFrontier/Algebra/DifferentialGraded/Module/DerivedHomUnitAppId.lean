@@ -38,7 +38,8 @@ indexing step 3 consumes and forgotten along `DGCategory.endDerivedForget`:
   which is the only transport available: `DGCategory.derivedHomReflectorUnit` runs along
   `q = Φ'⁻¹ ⋙ Q` and the consumer wants a transformation along `DerivedCategory.Qh`, and
   `DGCategory.phiUnitIso` is the same comparison the transport of `φ` in
-  `StacksFrontier/CategoryTheory/DifferentialGraded/RightModule/DerivedHomPhiTransport.lean` conjugates by.
+  `StacksFrontier/CategoryTheory/DifferentialGraded/RightModule/DerivedHomPhiTransport.lean`
+  conjugates by.
 * `DGCategory.phiReflectorBeta` feeds that unit to
   `DGCategory.RightModule.derivedHomForgetUnitAtReflector`, i.e. composes its
   `DGCategory.endDerivedForget`-image with the identification
@@ -107,7 +108,8 @@ HomologicalComplex.homologyMap ((homEvaluationComparisonIso A K).hom.app Y) n �
 
 `DGCategory.RightModule.gradedCohomology_evaluation` is `rfl`, so the two indexings need no
 bridge; `HomologicalComplex.homologyπ` is epi and the two
-`homologyπ_gradedCohomologyIso_hom` (`StacksFrontier/CategoryTheory/DifferentialGraded/RightModule/YonedaHomCohomology.lean:359` and
+`homologyπ_gradedCohomologyIso_hom`
+(`StacksFrontier/CategoryTheory/DifferentialGraded/RightModule/YonedaHomCohomology.lean:359` and
 `HomCohomology.lean:221`) reduce it to the agreement of
 `CochainComplex.homEvaluationComparisonIso_hom_app_f_apply`
 (`HomEvaluationComplexIso.lean:228`) with `CochainComplex.homYonedaCocyclesEquiv_coe`, both being
@@ -123,7 +125,8 @@ is `E_n⁻¹ ∘ B_n ∘ Y_n⁻¹`, so
 `DGCategory.RightModule.homEquivDerivedYonedaOnK'_symm_eq_iff` turns the residual equation into
 `E_n(RHS) = B_n (Y_n⁻¹ (…))`, and
 `CategoryTheory.ObjectProperty.homEquivReflectorShift_apply_comp`
-(`StacksFrontier/CategoryTheory/DifferentialGraded/RightModule/LinkApplyLemmas.lean:317`) states `B_n` with the denominator cleared, so that postcomposing by
+(`StacksFrontier/CategoryTheory/DifferentialGraded/RightModule/LinkApplyLemmas.lean:317`) states
+`B_n` with the denominator cleared, so that postcomposing by
 the isomorphism `(Q η_y)⟦n⟧` and cancelling it leaves no `CategoryTheory.inv`. The reflector
 cancellation is purely categorical:
 
@@ -201,6 +204,9 @@ attribute [local implicit_reducible] DGCategory.K
 variable (hΦ : ∀ X, RightModule.yonedaInverseImage (CochainComplex.dgCategory A) (phiGen A) X →
   IsZero (((yonedaDGFunctor (CochainComplex.dgCategory A)).onK ⋙ L).obj X))
 
+omit [HasDerivedCategory.{w} (ModuleCat.{0} ℤ)]
+  [((yonedaDGFunctor (CochainComplex.dgCategory A)).onK).CommShift ℤ]
+  [((yonedaDGFunctor (CochainComplex.dgCategory A)).onK).IsTriangulated] in
 /-- Naturality of the inverse of `DGCategory.phiUnitIso`: for a morphism `s : X ⟶ Y` of the
 homotopy category, the image of `s` under the comparison localization followed by
 `(phiUnitIso A Y).inv` equals `(phiUnitIso A X).inv` followed by `DerivedCategory.Qh.map s`. -/
@@ -247,6 +253,7 @@ def phiReflectorBeta :
   RightModule.derivedHomForgetUnitAtReflector A K (phiReflector A K L hΦ)
     (phiReflectorLiftUnit A K L η hΦ)
 
+omit [HasDerivedCategory.{w} (ModuleCat.{0} ℤ)] in
 /-- The component of `DGCategory.phiReflectorLiftUnit` at `Y` is the component of the reflector
 unit at the image of `Y` in the homotopy category of complexes, followed by the image under the
 reflector of `(phiUnitIso A Y).inv`. -/
@@ -259,6 +266,7 @@ theorem phiReflectorLiftUnit_app (Y : HomotopyCategory A (ComplexShape.up ℤ)) 
           ((CochainComplex.homotopyCategoryEquivalence A).functor.obj Y) ≫
         (phiReflector A K L hΦ).map (phiUnitIso A Y).inv := rfl
 
+omit [HasDerivedCategory.{w} (ModuleCat.{0} ℤ)] in
 /-- **The transport cancels against the conjugation the transported `φ` performs.** -/
 theorem phiReflectorLiftUnit_app_comp (Y : HomotopyCategory A (ComplexShape.up ℤ)) :
     (phiReflectorLiftUnit A K L η hΦ).app Y ≫
@@ -280,7 +288,7 @@ theorem phiReflectorBeta_app (Y : HomotopyCategory A (ComplexShape.up ℤ)) :
       (CochainComplex.homDerivedLiftForgetIso A K).inv.app Y ≫
         (endDerivedForget (CochainComplex.dgCategory A) K).map
           ((phiReflectorLiftUnit A K L η hΦ).app Y) := by
-  show (CochainComplex.homDerivedLiftForgetIso A K).inv.app Y ≫
+  change (CochainComplex.homDerivedLiftForgetIso A K).inv.app Y ≫
       (endDerivedForget (CochainComplex.dgCategory A) K).map
         ((phiReflectorLiftUnit A K L η hΦ).app Y) ≫ 𝟙 _ = _
   exact CategoryTheory.comp_comp_id _ _

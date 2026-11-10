@@ -55,7 +55,7 @@ public theorem strictHenselizationToBase_weaklyEtale (s : GeometricPoint S) :
   have hspec : WeaklyEtale (Spec.map (CommRingCat.ofHom
       (structureSheafStalkFromLocalRing B S hS s))) :=
     (ProEtale.weaklyEtale_spec_iff _ _ _).2 (weaklyEtale_etaleLocalRing B S hS s)
-  show WeaklyEtale (Spec.map (CommRingCat.ofHom
+  change WeaklyEtale (Spec.map (CommRingCat.ofHom
     (structureSheafStalkFromLocalRing B S hS s)) ≫
       S.fromSpecStalk (s.hom (closedPoint s.residueField)))
   have : WeaklyEtale (S.fromSpecStalk (s.hom (closedPoint s.residueField))) :=
@@ -135,7 +135,7 @@ public theorem isSeparable_residueField_strictHenselizationToBase (sbar : Geomet
       eY.symm.toRingHom = eX.symm.toRingHom.comp
       (algebraMap p.ResidueField q.ResidueField) := by
     refine RingHom.ext fun z => eX.injective ?_
-    show eX ((f.residueFieldMap x).hom (eY.symm z)) =
+    change eX ((f.residueFieldMap x).hom (eY.symm z)) =
       eX (eX.symm ((algebraMap p.ResidueField q.ResidueField) z))
     rw [RingEquiv.apply_symm_apply]
     exact (RingHom.congr_fun hcompat (eY.symm z)).trans
@@ -203,11 +203,11 @@ public theorem exists_lift_toStrictHenselization_of_specializes
     equivQuotMaximalIdeal_comp_residueFieldMap f x
   have hfac : β.comp (f.residueFieldMap x).hom = a.hom := by
     ext z
-    show c ((eX.toRingHom.comp (f.residueFieldMap x).hom) z) = a.hom z
+    change c ((eX.toRingHom.comp (f.residueFieldMap x).hom) z) = a.hom z
     rw [RingHom.congr_fun hcompat z]
-    show c (algebraMap p.ResidueField q.ResidueField (eY z)) = a.hom z
+    change c (algebraMap p.ResidueField q.ResidueField (eY z)) = a.hom z
     rw [c.commutes]
-    show α (eY z) = a.hom z
+    change α (eY z) = a.hom z
     simp [α]
   have hmap : f.residueFieldMap x ≫ CommRingCat.ofHom β = a :=
     CommRingCat.hom_ext hfac
@@ -223,7 +223,7 @@ public theorem exists_lift_toStrictHenselization_of_specializes
       _ = tbar.hom := hs₀
   let lift : tbar.source ⟶ X := Spec.map (CommRingCat.ofHom β) ≫ X.fromSpecResidueField x
   refine ⟨lift, ?_, ?_⟩
-  · show Spec.map (CommRingCat.ofHom β) ≫ X.fromSpecResidueField x ≫ f = tbar.hom
+  · change Spec.map (CommRingCat.ofHom β) ≫ X.fromSpecResidueField x ≫ f = tbar.hom
     rw [← f.SpecMap_residueFieldMap_fromSpecResidueField x, ← hs', ← hmap, ← Category.assoc,
       ← Spec.map_comp]
     rfl

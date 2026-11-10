@@ -148,6 +148,7 @@ theorem map_mkHomFromSingle (G : C ⥤ D) [G.Additive] :
     Functor.mapHomologicalComplex_map_f, mkHomFromSingle_f, Category.assoc, ← G.map_comp,
     Iso.inv_hom_id_assoc]
 
+omit [HasZeroObject C] [HasZeroObject D] in
 include hφ in
 /-- If `φ` is killed by the differential of `K`, then `G₂.map (G₁.map φ ≫ g₁.f q) ≫ g₂.f q` is
 killed by the differential of `L₂`. -/

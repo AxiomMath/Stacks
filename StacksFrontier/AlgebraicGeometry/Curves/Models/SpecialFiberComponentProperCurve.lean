@@ -154,7 +154,7 @@ public theorem specialFiberComponentι_specialFiberι
       S.specialFiberι := S.specialFiberι.toImage_imageι
   have hinv : (asIso S.specialFiberι.toImage).inv ≫ S.specialFiberι =
       S.specialFiberIdeal.subschemeι := (Iso.inv_comp_eq _).2 he.symm
-  show (Scheme.IdealSheafData.inclusion (S.specialFiberIdeal_le_specialFiberComponentIdeal Z) ≫
+  change (Scheme.IdealSheafData.inclusion (S.specialFiberIdeal_le_specialFiberComponentIdeal Z) ≫
       (asIso S.specialFiberι.toImage).inv) ≫ S.specialFiberι = _
   rw [Category.assoc, hinv, Scheme.IdealSheafData.inclusion_subschemeι]
 
@@ -171,7 +171,7 @@ model morphism. -/
 public theorem specialFiberComponentToSpec_comp (Z : irreducibleComponents S.specialFiber) :
     S.specialFiberComponentToSpec Z ≫ Spec.map (CommRingCat.ofHom (algebraMap S.R S.k)) =
       (S.specialFiberComponentIdeal Z).subschemeι ≫ S.X_to_R := by
-  show (S.specialFiberComponentι Z ≫ S.specialFiberToSpec) ≫
+  change (S.specialFiberComponentι Z ≫ S.specialFiberToSpec) ≫
     Spec.map (CommRingCat.ofHom (algebraMap S.R S.k)) = _
   rw [Category.assoc, ← pullback.condition, ← Category.assoc,
     S.specialFiberComponentι_specialFiberι Z]

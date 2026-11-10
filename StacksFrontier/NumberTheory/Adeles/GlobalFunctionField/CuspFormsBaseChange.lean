@@ -327,7 +327,7 @@ public theorem IsCuspFormCentralChar.mapCoeffs {Λ' : Type*} [CommRing Λ'] {ι 
     have := hf.1.vanishing_constant_term x U hU hinv' s hs
     simp only [Stacks.Adeles.mapCoeffs, ← map_sum, this, map_zero]
   · rw [← map_natCast ι]
-    show ι _ * ι (f (a * x)) = ι (f x)
+    change ι _ * ι (f (a * x)) = ι (f x)
     rw [← map_mul]
     exact congrArg ι (hf.2 v a ha x)
 
@@ -404,7 +404,7 @@ public theorem linearIndependent_cuspFormsMap {ι : Type*} {b : ι → cuspForms
       Pi.zero_apply] at h
     have h2 := congrArg (fun z => B.repr z j) h
     simp only [map_sum, map_zero, Finsupp.coe_zero, Pi.zero_apply,
-      Finsupp.coe_finset_sum, Finset.sum_apply] at h2
+      Finsupp.coe_finsetSum, Finset.sum_apply] at h2
     simp only [Submodule.coe_sum, Submodule.coe_smul, Finset.sum_apply, Pi.smul_apply,
       smul_eq_mul, Submodule.coe_zero, Pi.zero_apply]
     rw [← h2]
@@ -462,7 +462,7 @@ public theorem exists_adeleLattice_le_of_isOpen {U : AddSubgroup (AdeleRing K)}
   set E : Place K →₀ ℤ := -(∑ v ∈ hI.toFinset, Finsupp.single v (m v : ℤ))
   have hE : ∀ v, -E v = if v ∈ I then (m v : ℤ) else 0 := by
     intro v
-    simp only [E, Finsupp.coe_neg, Pi.neg_apply, neg_neg, Finsupp.coe_finset_sum,
+    simp only [E, Finsupp.coe_neg, Pi.neg_apply, neg_neg, Finsupp.coe_finsetSum,
       Finset.sum_apply, Finsupp.single_apply]
     rw [Finset.sum_ite_eq']
     simp
@@ -480,7 +480,7 @@ public theorem exists_adeleLattice_le_of_isOpen {U : AddSubgroup (AdeleRing K)}
     intro v hv
     refine hm v (a' v) ?_
     have := ha v
-    rwa [hE v, if_pos hv] at this
+    rwa [hE v, ite_eq_left hv] at this
   rw [ha']
   exact hsub this
 
@@ -497,6 +497,7 @@ public theorem principalAdeles_toAddSubgroup :
     (principalAdeles K).toAddSubgroup = principal k K := by
   rw [principal, range_diag]
 
+omit k [Field k] [Finite k] in
 /-- If `φ` is invariant under `W ⊇ N` and `W₀ ⊇ N`, `N` of finite index in a group of exponent
 `p`, and the sums of `φ` over the transversals of `W₀` vanish, then so do its sums over the
 transversals of `W`, provided `p` is invertible. -/
@@ -518,6 +519,8 @@ public theorem sum_eq_zero_of_finer {G : Type*} [AddCommGroup G] {Λ : Type*} [C
   rw [hn, nsmul_eq_mul, Nat.cast_pow] at e1
   exact ((hp.pow n).mul_right_eq_zero).1 e1.symm
 
+omit k [Field k] [Finite k] [Algebra k K] [Algebra (RatFunc k) K]
+  [IsScalarTower k (RatFunc k) K] [FunctionField k K] in
 /-- The integrand of a right `GL₂(K)`-invariant function, invariant under `W`, is invariant under
 `K + W`. -/
 public theorem integrand_add_mem_sup {Λ : Type*} {f : GL (Fin 2) (AdeleRing K) → Λ}
@@ -555,18 +558,18 @@ public theorem isUnramifiedCuspForm_of_starCusp {Λ : Type w} [CommRing Λ]
   have hA : ∀ z, ∀ y ∈ (principalAdeles K).toAddSubgroup ⊔ U,
       f (x * GeneralLinearGroup.upperRightHom (z + y)) =
         f (x * GeneralLinearGroup.upperRightHom z) :=
-    fun z y hy => integrand_add_mem_sup k h2 x hinv z hy
+    fun z y hy => integrand_add_mem_sup h2 x hinv z hy
   have hB : ∀ z, ∀ y ∈ (principalAdeles K).toAddSubgroup ⊔ stabSubgroup K x,
       f (x * GeneralLinearGroup.upperRightHom (z + y)) =
         f (x * GeneralLinearGroup.upperRightHom z) :=
-    fun z y hy => integrand_add_mem_sup k h2 x
+    fun z y hy => integrand_add_mem_sup h2 x
       (fun z' y' hy' => left_inv_upperRight_add h1 x z' hy') z hy
   have hZ : ∀ s₀ : Finset (AdeleRing K), (∀ a, ∃! z ∈ s₀,
       a - z ∈ (principalAdeles K).toAddSubgroup ⊔ stabSubgroup K x) →
       ∑ z ∈ s₀, f (x * GeneralLinearGroup.upperRightHom z) = 0 :=
     fun s₀ hs₀ => hs x s₀ hs₀
   have hG := ringChar_nsmul_adele k (K := K)
-  exact sum_eq_zero_of_finer k hG hp (sup_le_sup_left inf_le_left _)
+  exact sum_eq_zero_of_finer hG hp (sup_le_sup_left inf_le_left _)
     (sup_le_sup_left inf_le_right _) hN hA hB hZ hsU
 
 
@@ -596,11 +599,11 @@ public theorem coord_mem_cuspFormsCentralChar (hp : IsUnit (ringChar k : Λ))
     (fun γ x => by simp only [hW.2.1 γ x]) (fun x s hs => ?_), fun v a ha x => ?_⟩
   · have := hS x s hs
     have h2 := congrArg (fun z => B.repr z j) this
-    simp only [map_sum, map_zero, Finsupp.coe_finset_sum, Finset.sum_apply,
+    simp only [map_sum, map_zero, Finsupp.coe_finsetSum, Finset.sum_apply,
       Finsupp.coe_zero, Pi.zero_apply] at h2
     exact h2
   · have h := congrArg (fun z => B.repr z j) (hW.2.2.1 v a ha x)
-    show ((v.residueCard : ℕ) : F) * B.repr (g (a * x)) j = B.repr (g x) j
+    change ((v.residueCard : ℕ) : F) * B.repr (g (a * x)) j = B.repr (g x) j
     rw [← h, show ((v.residueCard : ℕ) : Λ) * g (a * x) = (v.residueCard : ℕ) • g (a * x) by
       rw [nsmul_eq_mul], map_nsmul, Finsupp.smul_apply, nsmul_eq_mul]
 

@@ -156,7 +156,7 @@ theorem exists_pointPart (c : BivariantChowClass C sX (𝟙 C.S) sX (Category.co
       rw [Function.locallyFinsuppWithin.negPart_apply, h, negPart_zero])⟩
   have hbpn : b = bp - bn := by
     refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-    show b.1 x = (b.1 x)⁺ - (b.1 x)⁻
+    change b.1 x = (b.1 x)⁺ - (b.1 x)⁻
     exact (posPart_sub_negPart (b.1 x)).symm
   -- each part is a pushforward of a fundamental cycle of a scheme flat over the base
   have hpart : ∀ b' : CycleGroup C (pullback.fst sX (clopenPoints C).ι ≫ sX) (0 - -(r : ℤ)),
@@ -231,19 +231,19 @@ theorem exists_eq_dedekindExteriorClass_add
         0 := by
     rw [BivariantClass.eq_zero_iff_capsIntegral_canonical]
     intro T g _ _ k
-    show (c - dedekindExteriorClass hC sX p (bivariantChowClassCapBaseFundamentalClass sX p c) -
+    change (c - dedekindExteriorClass hC sX p (bivariantChowClassCapBaseFundamentalClass sX p c) -
       d).cap g k (fundamentalChowClass C (g ≫ 𝟙 C.S) k) = 0
     by_cases hT : g.base (genericPoint T) ∈ clopenPoints C
     · refine BivariantChowClass.cap_integral_eq_zero_of_mem_clopenPoints hC sX p _ ?_ g hT k
       rw [BivariantChowClass.sub_cap, BivariantChowClass.sub_cap]
-      show c.cap _ _ _ - (dedekindExteriorClass hC sX p
+      change c.cap _ _ _ - (dedekindExteriorClass hC sX p
         (bivariantChowClassCapBaseFundamentalClass sX p c)).cap _ _ _ - d.cap _ _ _ = 0
       rw [hd0, ← ha, dedekindExteriorClass_cap_eq_zero_of_mem_clopenPoints hC sX p a hsupp _
         ι_mem_clopenPoints, sub_zero, sub_self]
     · have hT' : ∀ t : T, g.base t ∉ clopenPoints C := fun t ht ↦
         hT (mem_clopenPoints_of_specializes ((genericPoint_specializes t).map g.continuous) ht)
       rw [BivariantChowClass.sub_cap]
-      show (c - dedekindExteriorClass hC sX p
+      change (c - dedekindExteriorClass hC sX p
         (bivariantChowClassCapBaseFundamentalClass sX p c)).cap _ _ _ - d.cap _ _ _ = 0
       rw [hd1 g hT' k, sub_zero]
       exact BivariantChowClass.cap_integral_eq_zero_of_not_mem_clopenPoints hC sX p _ hα g hT k

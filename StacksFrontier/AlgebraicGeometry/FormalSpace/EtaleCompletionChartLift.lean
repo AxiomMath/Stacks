@@ -132,7 +132,7 @@ theorem kerProjectionIdeal_sq_le {L L' : TopologicalRing.WeakIdealOfDefinitionIn
     exact Ideal.map_mono hsq (by rwa [pow_two, Ideal.map_mul])
   rw [pow_two, Ideal.mul_le]
   intro x hx y hy
-  show (x * y).1 L' = 0
+  change (x * y).1 L' = 0
   have : x.1 L' * y.1 L' ∈ P * P := Ideal.mul_mem_mul (hmem x hx) (hmem y hy)
   rwa [hPP, Ideal.mem_bot] at this
 
@@ -203,7 +203,7 @@ theorem exists_completion_lift_of_etale_chart
   obtain ⟨Q, g, hg⟩ := exists_completionOver_quotientSystem B S hS f hFT hA D hD
   have hker' : RingHom.ker (ψ : C →+* Γ(X, ⊤)) = TopologicalRing.extendedIdeal f J := by
     rw [hker]
-    show Ideal.map f (RingHom.ker (Ideal.Quotient.mk J.1)) = _
+    change Ideal.map f (RingHom.ker (Ideal.Quotient.mk J.1)) = _
     rw [Ideal.mk_ker]
   -- the tower of kernels of the projections
   let K : ℕ → TopologicalRing.WeakIdealOfDefinitionIndex (TopologicalRing.CompletionOver f) :=
@@ -230,7 +230,7 @@ theorem exists_completion_lift_of_etale_chart
         (RingHom.quotientKerEquivOfSurjective (f := (ψ : C →+* Γ(X, ⊤))) hψ))
   have he₀ : e₀.toRingHom.comp (Ideal.quotientMap (K 0).1 g.toRingHom hle) = h := by
     refine Ideal.Quotient.ringHom_ext (RingHom.ext fun r => ?_)
-    show e₀ (Ideal.quotientMap (K 0).1 g.toRingHom hle (Ideal.Quotient.mk _ r)) = _
+    change e₀ (Ideal.quotientMap (K 0).1 g.toRingHom hle (Ideal.Quotient.mk _ r)) = _
     rw [Ideal.quotientMap_mk]
     simp only [e₀, RingEquiv.trans_apply, hg]
     exact ψ.commutes r
@@ -261,7 +261,7 @@ theorem exists_completion_lift_of_etale_chart
   have hz₀ : z₀ ≫ φ = formalSpectrumInclusion Q (OrderDual.toDual (K 0)) ≫
       formalSpectrumMap hA g := by
     rw [formalSpectrumMap_spec hA g J (K 0) hle]
-    show ((Sheaf.sheafifiedYoneda Jt).map θ.inv ≫ e) ≫ φ = _
+    change ((Sheaf.sheafifiedYoneda Jt).map θ.inv ≫ e) ≫ φ = _
     rw [Category.assoc, he]
     refine (Category.assoc _ _ _).symm.trans ?_
     exact congrArg (fun c => c ≫ formalSpectrumInclusion D (OrderDual.toDual J))

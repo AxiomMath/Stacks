@@ -112,12 +112,12 @@ theorem isIso_app_colimit_of_isIso_app {J : Type v} [Category.{w} J] (D : J ⥤ 
     have hn := map_comp_app_eq η (colimit.ι D j)
     dsimp
     rw [← Category.assoc, hn, Category.assoc, colimit.ι_desc]
-    show η.app (D.obj j) ≫ inv (η.app (D.obj j)) ≫ A.map (colimit.ι D j) = _
+    change η.app (D.obj j) ≫ inv (η.app (D.obj j)) ≫ A.map (colimit.ι D j) = _
     rw [← Category.assoc, IsIso.hom_inv_id, Category.id_comp, Category.comp_id]
   · refine colimit.hom_ext fun j => ?_
     have hn := map_comp_app_eq η (colimit.ι D j)
     rw [← Category.assoc, colimit.ι_desc]
-    show (inv (η.app (D.obj j)) ≫ A.map (colimit.ι D j)) ≫ η.app (colimit D) = _
+    change (inv (η.app (D.obj j)) ≫ A.map (colimit.ι D j)) ≫ η.app (colimit D) = _
     rw [Category.assoc, hn, ← Category.assoc, IsIso.inv_hom_id, Category.id_comp]
     simp
 
@@ -194,7 +194,7 @@ theorem isIso_mapHomologicalComplexAdjunction_counit_app_colimit
   have : ∀ n : ℤ, IsIso (((Adjunction.mapHomologicalComplexAdjunction
       (jShriekAdjunction V (underlyingRingSheaf X))
         (ComplexShape.up ℤ)).counit.app (colimit F)).f n) := fun n => by
-    show IsIso ((jShriekAdjunction V (underlyingRingSheaf X)).counit.app ((colimit F).X n))
+    change IsIso ((jShriekAdjunction V (underlyingRingSheaf X)).counit.app ((colimit F).X n))
     exact isIso_counit_app_colimit_eval V W F I hsupp hWV n
   exact HomologicalComplex.Hom.isIso_of_components _
 

@@ -103,7 +103,7 @@ private theorem isMittagLeffler_successor (F : ℕᵒᵖ ⥤ Type u)
   rintro k g x ⟨y, rfl⟩
   apply hf (Stacks.AdicSystem.DerivedReductionProIso.successorOp.map g)
   refine ⟨F.map t y, ?_⟩
-  show (F.map t ≫ F.map f) y =
+  change (F.map t ≫ F.map f) y =
     F.map (Stacks.AdicSystem.DerivedReductionProIso.successorOp.map s) y
   rw [← F.map_comp]
   rfl

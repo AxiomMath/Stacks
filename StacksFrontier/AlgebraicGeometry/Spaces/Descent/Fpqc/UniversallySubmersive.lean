@@ -130,7 +130,7 @@ theorem isSubmersive_of_fpqcCovering {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y
         pointsMap B S hS X.obj f.hom ∘ pointsMap B S hS (Xi i).obj (q i).hom := by
     rw [← pointsMap_comp, ← pointsMap_comp]
     exact congrArg (pointsMap B S hS (Xi i).obj) pullback.condition
-  show Topology.IsQuotientMap (pointsMap B S hS X.obj f.hom)
+  change Topology.IsQuotientMap (pointsMap B S hS X.obj f.hom)
   rw [Topology.isQuotientMap_iff]
   refine ⟨Topology.isCoinducing_iff.mpr fun V ↦ ⟨fun hV ↦ ?_, fun hV ↦ ?_⟩, fun y ↦ ?_⟩
   · refine isOpen_of_fpqcCovering_preimages B S hS Y.property (fun i ↦ (g i).hom) hg V fun i ↦ ?_

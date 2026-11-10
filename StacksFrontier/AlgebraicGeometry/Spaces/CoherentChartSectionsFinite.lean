@@ -143,7 +143,7 @@ private theorem one_tmul_mkQ_eq_zero_of_restrict_mem_span {M : Modules.{u, m} B 
     intro x hx
     obtain ⟨n, hn, rfl⟩ := hx
     have hn0 : N.mkQ n = 0 := (Submodule.Quotient.mk_eq_zero N).2 hn
-    show LinearMap.baseChange (chartRing B S hS F hF z) N.mkQ
+    change LinearMap.baseChange (chartRing B S hS F hF z) N.mkQ
       ((1 : chartRing B S hS F hF z) ⊗ₜ[chartRing B S hS F hF A] n) = 0
     rw [LinearMap.baseChange_tmul, hn0, TensorProduct.tmul_zero]
   have h2 := hker h1
@@ -300,7 +300,7 @@ theorem moduleFinite_sections_of_isFiniteType {M : Modules.{u, m} B S hS F hF}
         (chartRestrictLinear M (φ j) '' (T j : Set (M.val.obj (op V)))) ≤ W := by
       rw [Submodule.span_le]
       rintro x ⟨nn, hnn, rfl⟩
-      show chartRestrictLinear M a (chartRestrictLinear M (φ j) nn) ∈ P
+      change chartRestrictLinear M a (chartRestrictLinear M (φ j) nn) ∈ P
       rw [← chartRestrictLinear_comp, hP]
       refine Submodule.subset_span ⟨nn, Submodule.subset_span ?_, rfl⟩
       exact Finset.mem_coe.2 (Finset.mem_biUnion.2 ⟨j, Finset.mem_univ j, Finset.mem_coe.1 hnn⟩)

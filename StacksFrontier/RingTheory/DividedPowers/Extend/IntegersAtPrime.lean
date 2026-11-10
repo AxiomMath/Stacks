@@ -66,7 +66,7 @@ private lemma isUnit_factorial_divMaxPow (p n : ℕ) [Fact p.Prime] :
   let _ := isPrime_span_natCast p
   have h : (n.factorial.divMaxPow p : ℤ) ∈
       (Ideal.span ({(p : ℤ)} : Set ℤ)).primeCompl := by
-    show (n.factorial.divMaxPow p : ℤ) ∉ Ideal.span ({(p : ℤ)} : Set ℤ)
+    change (n.factorial.divMaxPow p : ℤ) ∉ Ideal.span ({(p : ℤ)} : Set ℤ)
     simpa only [Ideal.mem_span_singleton, Int.natCast_dvd_natCast] using
       Nat.not_dvd_divMaxPow (Fact.out : p.Prime).one_lt n.factorial_ne_zero
   simpa only [map_natCast, Int.cast_natCast] using
@@ -124,7 +124,7 @@ private lemma factorial_mul_baseOperation (p : ℕ) [Fact p.Prime] (n : ℕ)
   have ha : (x : IntegersAtPrime p) = (p : IntegersAtPrime p) * a :=
     Classical.choose_spec (Ideal.mem_span_singleton.mp x.property)
   simp only [baseOperation, dite_eq_right (Nat.ne_of_gt hn), Subtype.coe_mk]
-  show (n.factorial : IntegersAtPrime p) * (primeCoefficient p n * a ^ n) = _
+  change (n.factorial : IntegersAtPrime p) * (primeCoefficient p n * a ^ n) = _
   rw [ha, mul_pow]
   rw [← mul_assoc, factorial_mul_primeCoefficient]
 
@@ -181,7 +181,7 @@ public theorem exists_dividedPowers_span_natCast
     DividedPowerRing.dividedPowers_extends_of_map_eq_bot_or_isPrincipal_or_flat
       D f (Or.inr (Or.inl (by change (Ideal.span {(p : R)}).IsPrincipal; infer_instance)))
   have hmap : D.ideal.map f = Ideal.span {(p : A)} := by
-    show (Ideal.span {(p : R)}).map (algebraMap R A) = Ideal.span {(p : A)}
+    change (Ideal.span {(p : R)}).map (algebraMap R A) = Ideal.span {(p : A)}
     rw [Ideal.map_span]
     simp
   obtain ⟨γ, hγ⟩ : ∃ γ : DividedPowers (Ideal.span {(p : A)}),

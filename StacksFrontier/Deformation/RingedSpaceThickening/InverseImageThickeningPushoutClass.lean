@@ -357,7 +357,7 @@ theorem pushoutConormalMap_comp :
         (modulePushforward (inverseImageProj g)).map (pushoutPresentationConormal P c) =
       sourcePresentationConormal P ≫ inverseImageIdealPush c := by
   refine Stacks.Sites.Conormal.conormal_hom_ext.{u, u, u, u} _ _ (fun U x ↦ ?_)
-  show ((modulePushforward (inverseImageProj g)).map (pushoutPresentationConormal P c)).val.app U
+  change ((modulePushforward (inverseImageProj g)).map (pushoutPresentationConormal P c)).val.app U
     ((pushoutConormalMap P c).val.app U _) = (inverseImageIdealPush c).val.app U
       ((sourcePresentationConormal P).val.app U _)
   let ψ := Stacks.SheafOfModules.freeAlgebraPushMap (inverseImageProj g).hom.base

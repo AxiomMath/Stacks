@@ -54,7 +54,7 @@ theorem rTensor_pow_inclusion_injective
   have hq_surj : Function.Surjective q := Submodule.mkQ_surjective _
   have hιq : Function.Exact ι q := by
     rw [LinearMap.exact_iff]
-    show LinearMap.ker (LinearMap.range ι).mkQ = LinearMap.range ι
+    change LinearMap.ker (LinearMap.range ι).mkQ = LinearMap.range ι
     rw [Submodule.ker_mkQ]
   have hN : I • (⊤ : Submodule R Nn) = ⊥ := by
     rw [Submodule.eq_bot_iff]
@@ -75,7 +75,7 @@ theorem rTensor_pow_inclusion_injective
   have hp_surj : Function.Surjective p := by
     intro z
     refine ⟨Finsupp.single z 1, ?_⟩
-    show (Finsupp.linearCombination R (id : Nn → Nn)) (Finsupp.single z 1) = z
+    change (Finsupp.linearCombination R (id : Nn → Nn)) (Finsupp.single z 1) = z
     rw [Finsupp.linearCombination_single, one_smul, id]
   have hκp : Function.Exact (LinearMap.ker p).subtype p := LinearMap.exact_subtype_ker_map p
   have hκinj : Function.Injective (LinearMap.rTensor M (LinearMap.ker p).subtype) :=
@@ -115,12 +115,11 @@ theorem mulPow_injective
         map_smul' := by intro c m; simp [TensorProduct.tmul_smul] }
     have hli : Function.LeftInverse g (mulPow (M := M) I 0) := by
       intro u
-      induction u using TensorProduct.induction_on with
-      | zero => simp
+      induction u using TensorProduct.inductionOn with
       | tmul a m =>
-          show g (mulPow (M := M) I 0 (TensorProduct.tmul R a m)) = TensorProduct.tmul R a m
+          change g (mulPow (M := M) I 0 (TensorProduct.tmul R a m)) = TensorProduct.tmul R a m
           rw [mulPow_tmul, map_smul]
-          show (a : R) • TensorProduct.tmul R (⟨1, _⟩ : (I ^ 0 : Ideal R)) m
+          change (a : R) • TensorProduct.tmul R (⟨1, _⟩ : (I ^ 0 : Ideal R)) m
               = TensorProduct.tmul R a m
           rw [TensorProduct.smul_tmul']
           congr 1

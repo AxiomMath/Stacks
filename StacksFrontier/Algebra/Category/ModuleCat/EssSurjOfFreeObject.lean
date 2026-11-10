@@ -41,7 +41,7 @@ instance epi_sigmaFreeDesc (M : ModuleCat.{u} A) : Epi (sigmaFreeDesc M) := by
   rw [ModuleCat.epi_iff_surjective]
   intro m
   refine ⟨(Sigma.ι (fun _ : M => ModuleCat.of A A) m) (1 : A), ?_⟩
-  rw [← ConcreteCategory.comp_apply, Sigma.ι_desc]
+  rw [← ConcreteCategory.comp_apply, Sigma.ι_comp_desc]
   simp
 
 variable {C : Type v} [Category.{w} C] [Preadditive C]

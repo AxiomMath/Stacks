@@ -164,7 +164,7 @@ theorem pushStalkMap_eq_mateEquiv_symm_pushSkyIso :
     (adj₃ := modulesStalkSkyAdjunction Y (f x))
     (adj₄ := modulesStalkSkyAdjunction X x)
     (TwoSquare.mk _ _ _ _ (pushSkyIso f x).hom)
-  simp only [Equiv.trans_apply, TwoSquare.equivNatTrans_symm_apply] at h
+  simp only at h
   rw [pushStalkMap, pullbackStalkIso_hom_eq_conjugateEquiv_symm, ← h]
   exact Equiv.apply_symm_apply _ _
 
@@ -174,8 +174,8 @@ theorem pullbackStalkIso_hom_eq_mateEquiv_symm_pushStalkMap :
     (pullbackStalkIso f x).hom =
       ((mateEquiv (Scheme.Modules.pullbackPushforwardAdjunction f)
         (ModuleCat.extendRestrictScalarsAdj (f.stalkMap x).hom)).symm
-        (pushStalkMap f x)).natTrans :=
-  congrArg TwoSquare.natTrans (Equiv.symm_apply_apply _ _).symm
+        (pushStalkMap f x)) :=
+  (Equiv.symm_apply_apply _ _).symm
 
 /-- **The transpose of `pushStalkMap`.**  Under the stalk-skyscraper adjunction at `f x`, the
 comparison `(f_*M)_{f x} ⟶ M_x` corresponds to `f_*` of the unit `M ⟶ sky_x(M_x)` followed by
@@ -189,7 +189,7 @@ theorem pushStalkMap_transpose (M : X.Modules) :
         (pushSkyIso f x).hom.app ((modulesStalkFunctor X x).obj M) := by
   have hfac : ((mateEquiv (modulesStalkSkyAdjunction X x)
         (modulesStalkSkyAdjunction Y (f x))).symm
-        (TwoSquare.mk _ _ _ _ (pushSkyIso f x).hom)).natTrans.app M =
+        (TwoSquare.mk _ _ _ _ (pushSkyIso f x).hom)).app M =
       (modulesStalkFunctor Y (f x)).map ((Scheme.Modules.pushforward f).map
           ((modulesStalkSkyAdjunction X x).unit.app M)) ≫
         (modulesStalkFunctor Y (f x)).map

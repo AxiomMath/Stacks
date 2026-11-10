@@ -61,7 +61,7 @@ theorem IsLocalization.isPrincipalIdealRing {R S : Type*} [CommRing R] [CommRing
   refine ⟨fun I => ?_⟩
   obtain ⟨g, hg⟩ := (IsPrincipalIdealRing.principal (I.comap (algebraMap R S))).principal
   refine ⟨⟨algebraMap R S g, ?_⟩⟩
-  rw [← IsLocalization.map_comap M S I, show Ideal.under R I = Ideal.span {g} from hg,
+  rw [← IsLocalization.map_under M S I, show Ideal.under R I = Ideal.span {g} from hg,
     Ideal.map_span, Set.image_singleton]
 
 /-- In a local ring, an element generating the maximal ideal has order of vanishing one. -/
@@ -189,8 +189,8 @@ noncomputable def polynomialRingEquiv : Polynomial k ≃+* Γ((affineLine k).lef
 /-- `polynomialRingEquiv` sends the variable `X` to the standard coordinate. -/
 theorem polynomialRingEquiv_X : polynomialRingEquiv k Polynomial.X = coordinate k := by
   rw [polynomialRingEquiv, RingEquiv.trans_apply, RingEquiv.symm_apply_eq,
-    globalSectionsEquiv_coordinate, ← Polynomial.monomial_one_one_eq_X, AlgEquiv.toRingEquiv_eq_coe,
-    AlgEquiv.coe_ringEquiv,
+    globalSectionsEquiv_coordinate, ← Polynomial.monomial_one_one_eq_X,
+    AlgEquiv.coe_toRingEquiv,
     show (1 : ℕ) = (Finsupp.single PUnit.unit 1 : PUnit.{u + 1} →₀ ℕ) PUnit.unit by simp,
     MvPolynomial.uniqueAlgEquiv_symm_monomial]
   rfl

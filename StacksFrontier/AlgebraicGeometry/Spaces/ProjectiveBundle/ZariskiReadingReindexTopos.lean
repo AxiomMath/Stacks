@@ -82,11 +82,14 @@ theorem conjugateEquiv_representedReindexPullbackIso_hom_topos (U : BigFppfOver 
 
 variable {T T' : BigFppfOver B S hS} (h : T' ⟶ T)
 
+set_option maxHeartbeats 400000 in
+-- Checking the proof term against the statement, which states the type of the same term, unfolds
+-- the categories of modules involved and takes more than the default budget.
 /-- The conjugate of `representedSquareModulePullbackIso` through the equivalences
 `AlgebraicGeometry.Space.representedReindexEquivalenceTopos`, as a term whose type fixes the
 spelling of the categories of modules. -/
-def conjugateEquivRepresentedSquareToposAux :=
-  Adjunction.conjugateEquiv_factorizationIso_hom_equivalence
+theorem conjugateEquivRepresentedSquareToposAux : type_of%
+  (Adjunction.conjugateEquiv_factorizationIso_hom_equivalence
     (pullbackAdjPushforwardModules (representedSquareHom B S hS h))
     (pullbackAdjPushforwardModules (representedSchemeBaseChangeHom B S hS h))
     (pullbackAdjPushforwardModules (representedReindexHom B S hS T'))
@@ -116,7 +119,38 @@ def conjugateEquivRepresentedSquareToposAux :=
       (relativelyRepresentable_yoneda_map B S hS h))
     (conjugateEquiv_pullbackModulesBaseChangeIso_hom B S hS h)
     (conjugateEquiv_representedReindexPullbackIso_hom_topos T')
-    (conjugateEquiv_representedReindexPullbackIso_hom_topos T)
+    (conjugateEquiv_representedReindexPullbackIso_hom_topos T)) :=
+  (Adjunction.conjugateEquiv_factorizationIso_hom_equivalence
+    (pullbackAdjPushforwardModules (representedSquareHom B S hS h))
+    (pullbackAdjPushforwardModules (representedSchemeBaseChangeHom B S hS h))
+    (pullbackAdjPushforwardModules (representedReindexHom B S hS T'))
+    (pullbackAdjPushforwardModules (representedReindexHom B S hS T))
+    (pullbackAdjPushforwardModules
+      (smallEtaleRingedToposModulesHom B S hS (representedSpaceMap B S hS h)))
+    (smallEtaleRingedSiteHom (associatedBigEtaleSite B)
+      h.left).toRingedToposSiteHom.pullbackPushforwardAdjunctionToposGeneral
+    (representedReindexEquivalenceTopos T) (representedReindexEquivalenceTopos T')
+    (representedSchemeRoutePullbackCompIso B S hS h)
+    (representedSpaceRoutePullbackCompIso B S hS h (relativelyRepresentable_yoneda_map B S hS h))
+    (pushforwardModulesCompIso (representedReindexHom B S hS T')
+      (representedSchemeBaseChangeHom B S hS h) (representedSquareHom B S hS h) (Iso.refl _)
+      (fSharpSetComp_representedSquareHom B S hS h))
+    (pushforwardModulesCompIso
+      (smallEtaleRingedToposModulesHom B S hS (representedSpaceMap B S hS h))
+      (representedReindexHom B S hS T) (representedSquareHom B S hS h)
+      (representedSquareDirectImageIso B S hS h (relativelyRepresentable_yoneda_map B S hS h))
+      (fSharpSetComp_representedSquareDirectImageIso B S hS h
+        (relativelyRepresentable_yoneda_map B S hS h)))
+    (representedSchemeBaseChangePullbackIso B S hS h)
+    (representedReindexPullbackIso B S hS T') (representedReindexPullbackIso B S hS T)
+    (representedSchemeBaseChangePushforwardIso B S hS h)
+    (representedReindexPushforwardIsoTopos T') (representedReindexPushforwardIsoTopos T)
+    (conjugateEquiv_representedSchemeRoutePullbackCompIso_hom B S hS h)
+    (conjugateEquiv_representedSpaceRoutePullbackCompIso_hom B S hS h
+      (relativelyRepresentable_yoneda_map B S hS h))
+    (conjugateEquiv_pullbackModulesBaseChangeIso_hom B S hS h)
+    (conjugateEquiv_representedReindexPullbackIso_hom_topos T')
+    (conjugateEquiv_representedReindexPullbackIso_hom_topos T) :)
 
 /-- **The conjugate of `representedSquareModulePullbackIso`** through the equivalences
 `AlgebraicGeometry.Space.representedReindexEquivalenceTopos` is the composite of the comparisons
@@ -142,11 +176,14 @@ theorem isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse (U : Bi
     ((representedReindexEquivalenceTopos U).inverse.obj F).IsQuasicoherentOnSite :=
   isQuasicoherentOnSite_representedSmallEtaleInverse B S hS U F hF
 
+set_option maxHeartbeats 400000 in
+-- Checking the proof term against the statement, which states the type of the same term, unfolds
+-- the categories of modules involved and takes more than the default budget.
 open Stacks.AlgebraicGeometry.RelativeProjQcohSheaf (ringedSpaceHom) in
 /-- The description of the transposed base change of the Zariski reading through
 `AlgebraicGeometry.Space.representedReindexEquivalenceTopos`, as a term whose type fixes the
 spelling of the categories of modules. -/
-def zariskiReadingPullbackHomAppToposAux := fun (hH : _)
+theorem zariskiReadingPullbackHomAppToposAux : type_of% fun (hH : _)
     (N : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
     (hN : N.IsQuasicoherentOnSite) =>
   Adjunction.comp_homEquiv_symm_eq_of_equivalenceMate _ (representedReindexEquivalenceTopos T) _
@@ -177,7 +214,39 @@ def zariskiReadingPullbackHomAppToposAux := fun (hH : _)
     hH N _
     (_root_.AlgebraicGeometry.SmallEtale.homEquiv_restrictModulePullbackObjIso_hom
       (associatedBigEtaleSite B) h.left _
-      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T N hN))
+      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T N hN)) :=
+  (fun (hH : _)
+    (N : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
+    (hN : N.IsQuasicoherentOnSite) =>
+  Adjunction.comp_homEquiv_symm_eq_of_equivalenceMate _ (representedReindexEquivalenceTopos T) _
+    (Stacks.RingedSpace.pullbackAdjunction (ringedSpaceHom ((BigFppfOver.toScheme B S hS).map h)))
+    (representedReindexEquivalenceTopos T') _
+    (_root_.AlgebraicGeometry.SmallEtale.restrictModule (associatedBigEtaleSite B)
+      ((BigFppfOver.toScheme B S hS).obj T) T.left.property)
+    (_root_.AlgebraicGeometry.SmallEtale.restrictModule (associatedBigEtaleSite B)
+      ((BigFppfOver.toScheme B S hS).obj T') T'.left.property)
+    (zariskiReadingIsoTopos T) (zariskiReadingIsoTopos T')
+    (Functor.whiskerRight
+      (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS h)).pushforwardModulesIso.hom
+      (SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS T)) ≫
+      zariskiDirectImageNatTrans h)
+    (SheafOfModules.pushforwardSquareIso.{u}
+      (_root_.AlgebraicGeometry.SmallEtale.schemeHom (associatedBigEtaleSite B)
+        h.left).toRingCatSheafHom
+      (_root_.AlgebraicGeometry.SmallEtale.structureMap (associatedBigEtaleSite B) _
+        T'.left.property)
+      (_root_.AlgebraicGeometry.SmallEtale.structureMap (associatedBigEtaleSite B) _
+        T.left.property)
+      (_root_.AlgebraicGeometry.SmallEtale.smallEtaleStructureMapRing (associatedBigEtaleSite B)
+        h.left)
+      (_root_.AlgebraicGeometry.SmallEtale.baseChangeOpensIso (associatedBigEtaleSite B) h.left)
+      (_root_.AlgebraicGeometry.SmallEtale.structureMap_comp_baseChangeOpensIso
+        (associatedBigEtaleSite B) h.left)) _
+    (conjugateEquiv_representedSquareFactorizationIso_hom_eq_comp_topos h)
+    hH N _
+    (_root_.AlgebraicGeometry.SmallEtale.homEquiv_restrictModulePullbackObjIso_hom
+      (associatedBigEtaleSite B) h.left _
+      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T N hN)) :)
 
 /-- **The base change of the Zariski reading through the comparisons of Stacks 04M0**, read
 through `AlgebraicGeometry.Space.representedReindexEquivalenceTopos`, granted the sections

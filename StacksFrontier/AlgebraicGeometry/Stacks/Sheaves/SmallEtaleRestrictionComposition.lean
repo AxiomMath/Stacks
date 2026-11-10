@@ -366,7 +366,7 @@ theorem restrictionPushforwardComparison_app_comp {𝒳 : Type v} [Category.{w} 
     map_comp_eq_map_comp E.inclusion
       (smallEtaleBaseChange_factoredCompIso_hom_app_fst E _ _ _ f g fg hfg W)
   have hεzIso : IsIso εz.hom.left := by
-    show IsIso ((Over.forget (q.obj z)).map εz.hom)
+    change IsIso ((Over.forget (q.obj z)).map εz.hom)
     infer_instance
   have hmapScheme :
       B.inclusion.map ((p.map β).left) ≫ B.inclusion.map ((p.map αc).left) =
@@ -472,7 +472,7 @@ theorem restrictionInverseImageComparison_comp {𝒳 : Type v} [Category.{w} �
     rw [hLHS, hRHS]
     exact restrictionPushforwardComparison_app_comp B E h S hS p hp φ ψ F.obj W.unop
   apply (adjψ.comp adjφ).homEquiv Sz Sx |>.injective
-  show (adjψ.comp adjφ).homEquiv Sz Sx
+  change (adjψ.comp adjφ).homEquiv Sz Sx
       ((Gφ.sheafPullback (Type (max (u + 1) t)) Jy Jx).map ((adjψ.homEquiv Sz Sy).symm cψ) ≫
         (adjφ.homEquiv Sy Sx).symm cφ) =
     (adjψ.comp adjφ).homEquiv Sz Sx (ePull.hom.app Sz ≫ (adjc.homEquiv Sz Sx).symm cc)

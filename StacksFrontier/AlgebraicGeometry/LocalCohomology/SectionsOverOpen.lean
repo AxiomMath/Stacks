@@ -360,7 +360,7 @@ public lemma exists_smulExtends_of_locally {I : X.IdealSheafData} {F : X.Modules
     intro p q
     have hlp : W' p ⊓ W' q ≤ W' p := inf_le_left
     have hlq : W' p ⊓ W' q ≤ W' q := inf_le_right
-    show F.presheaf.map (homOfLE hlp).op (t' p) =
+    change F.presheaf.map (homOfLE hlp).op (t' p) =
       F.presheaf.map (homOfLE hlq).op (t' q)
     have hp := (ht' p).restrict hlp
     have hq := (ht' q).restrict hlq
@@ -481,7 +481,7 @@ public theorem exists_idealPowerHom_of_section_of_noIdealTorsion
   have h := htf (op (idealComplement I))
     (complementUnitLift I N (idealComplement I) le_rfl)
     (idealComplement I) le_rfl le_rfl
-  show tf (op (idealComplement I))
+  change tf (op (idealComplement I))
     (complementUnitLift I N (idealComplement I) le_rfl) = s
   simpa [complementUnitLift] using h
 

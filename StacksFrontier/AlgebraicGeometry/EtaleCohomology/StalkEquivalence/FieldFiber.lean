@@ -82,7 +82,7 @@ public theorem etale_specMap_algebraMap_of_finite_separable (k E : Type u) [Fiel
     [Algebra k E] [Module.Finite k E] [Algebra.IsSeparable k E] :
     Etale (Spec.map (CommRingCat.ofHom (algebraMap k E))) := by
   rw [HasRingHomProperty.Spec_iff (P := @Etale)]
-  show (algebraMap k E).Etale
+  change (algebraMap k E).Etale
   rw [RingHom.etale_algebraMap]
   exact ⟨Algebra.FormallyEtale.of_isSeparable k E,
     Algebra.FinitePresentation.of_finiteType.mp inferInstance⟩
@@ -170,7 +170,7 @@ theorem exists_finite_separable_factorization (U : SmallEtale B (Spec (.of K)) h
     ↥(GeometricPoint.separableClosure sbar) e y.1
   refine ⟨E i, hEf i, hEa i, hEfin i, hEsep i,
     Sigma.ι (fun i ↦ Spec (.of (E i))) i ≫ e.inv, inferInstance, ?_, g, hg⟩
-  rw [Category.assoc, hinv, Sigma.ι_desc]
+  rw [Category.assoc, hinv, Sigma.ι_comp_desc]
 
 /-- **The stabilizer of a lift of a geometric point is open.** The stabilizer in the absolute
 Galois group of a point of the fibre of `sbar` at an object of the small étale site is open for
@@ -249,7 +249,7 @@ theorem exists_geometricPointFiber_base_eq (U : SmallEtale B (Spec (.of K)) hK)
       Sigma.ι (fun i ↦ Spec (.of (E i))) i ≫ e.inv) ≫ toResiduePoint B K hK sbar U =
       Spec.map (CommRingCat.ofHom (algebraMap
         ((Spec (CommRingCat.of K)).residueField (sbar.hom default)) sbar.residueField)) := by
-    rw [Category.assoc, Category.assoc, hinv, Sigma.ι_desc, ← Spec.map_comp,
+    rw [Category.assoc, Category.assoc, hinv, Sigma.ι_comp_desc, ← Spec.map_comp,
       ← CommRingCat.ofHom_comp]
     exact congrArg (fun r ↦ Spec.map (CommRingCat.ofHom r))
       (RingHom.ext fun a ↦ φ.commutes a)
@@ -262,7 +262,7 @@ theorem exists_geometricPointFiber_base_eq (U : SmallEtale B (Spec (.of K)) hK)
     exact specMap_algebraMap_comp_residuePointIso K sbar
   · have hdef : (Spec.map (CommRingCat.ofHom φ.toRingHom)).base default = z :=
       Subsingleton.elim _ _
-    show e.inv.base ((Sigma.ι (fun i ↦ Spec (.of (E i))) i).base
+    change e.inv.base ((Sigma.ι (fun i ↦ Spec (.of (E i))) i).base
       ((Spec.map (CommRingCat.ofHom φ.toRingHom)).base default)) = x
     rw [hdef, hz]
     simp
@@ -314,7 +314,7 @@ theorem exists_transitive_refinement (U : SmallEtale B (Spec (.of K)) hK)
   refine ⟨V, f, geometricPointFiberSepClosureEquiv B K hK sbar V q', ?_, ?_⟩
   · rw [geometricPointFiberSepClosureEquiv_map, ← hpy]
     refine congrArg _ (Subtype.ext ?_)
-    show g ≫ (SmallEtale.toScheme B (Spec (.of K)) hK).map f = y.1
+    change g ≫ (SmallEtale.toScheme B (Spec (.of K)) hK).map f = y.1
     rw [hfj, hgy]
   · intro r
     let r' := (geometricPointFiberSepClosureEquiv B K hK sbar V).symm r
@@ -359,7 +359,7 @@ theorem exists_fiber_point_stabilizer_le
   have hdim : FiniteDimensional ((Spec (CommRingCat.of K)).residueField (sbar.hom default))
       ↥E := by
     refine (InfiniteGalois.isOpen_iff_finite E).mp ?_
-    show IsOpen (E.fixingSubgroup : Set (GeometricPoint.absoluteGaloisGroup sbar))
+    change IsOpen (E.fixingSubgroup : Set (GeometricPoint.absoluteGaloisGroup sbar))
     rw [hfix]; exact hH
   have : Algebra.IsSeparable ((Spec (CommRingCat.of K)).residueField (sbar.hom default)) ↥E :=
     Algebra.isSeparable_tower_bot_of_isSeparable _ ↥E

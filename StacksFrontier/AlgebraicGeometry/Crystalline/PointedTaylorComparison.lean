@@ -305,7 +305,7 @@ section StepOne
 
 variable {S : AffineCrystallineSituation.{u, v}} {Dt : DividedPowerThickening.{u, v, w} S}
   {X : DividedPowerThickening.{u, v, w} S} (M : Type w) [AddCommGroup M]
-  [Module Dt.ring.carrier M] (p : ℕ) {ι : Type uI} [DecidableEq ι] {theta : ι → (M → M)}
+  [Module Dt.ring.carrier M] (p : ℕ) {ι : Type uI} {theta : ι → (M → M)}
   {thetaPow : (ι →₀ ℕ) → (M → M)}
   {delta : ι → (Dt.ring.carrier → Dt.ring.carrier)}
   {deltaPow : (ι →₀ ℕ) → (Dt.ring.carrier → Dt.ring.carrier)}
@@ -500,6 +500,7 @@ theorem hasPointedTaylorSum_pointedComparison_comp
   refine Eq.mpr (congrArg (HasPointedTaylorSum M p thetaPow h _ m) hcocycle) ?_
   exact hasPointedTaylorSum_sum M p thetaPow h _ hpB m s hvanish
 
+omit [DecidableEq ι] in
 /-- **The cocycle `c_{g,h} ∘ c_{f,g} = c_{f,h}` of the proof of [Stacks, Proposition 60.17.4,
 Tag 07JH], as an identity between the comparisons of the tag's own families.**
 
@@ -532,6 +533,7 @@ theorem pointedComparison_comp_eq (hDt : Function.Surjective Dt.toQuotient) (f g
       {L : ι →₀ ℕ | thetaPow L m ∉ pPowSmul p Dt.ring.carrier M N}.Finite) :
     (pointedComparison M g h T₂).comp (pointedComparison M f g T₁) =
       pointedComparison M f h T₃ := by
+  classical
   have key : ∀ m : M, pointedComparison M g h T₂ (T₁ m) = T₃ m := by
     intro m
     obtain ⟨L, hL⟩ := exists_Iic_thetaPow_mem_pPowSmul M p thetaPow (hfin m)
@@ -549,7 +551,7 @@ end StepTwo
 section Satisfiable
 
 variable {S : AffineCrystallineSituation.{u, v}} {Dt : DividedPowerThickening.{u, v, w} S}
-  {X : DividedPowerThickening.{u, v, w} S} {ι : Type uI} [DecidableEq ι]
+  {X : DividedPowerThickening.{u, v, w} S} {ι : Type uI}
   {delta : ι → (Dt.ring.carrier → Dt.ring.carrier)}
   {deltaPow : (ι →₀ ℕ) → (Dt.ring.carrier → Dt.ring.carrier)}
 

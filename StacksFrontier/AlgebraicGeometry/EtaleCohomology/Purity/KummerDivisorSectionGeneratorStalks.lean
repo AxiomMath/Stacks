@@ -362,9 +362,9 @@ theorem isIsoStalksOver_torsionSectionSheafHom_kummerDivisorSection :
       (HasDerivedCategory.standard (Sheaf (smallEtaleTopology U₀) Ab.{u + 1}))
       (HasDerivedCategory.standard (Sheaf (smallEtaleTopology U) Ab.{u + 1})) N (NeZero.ne N) hN₀
       hNU _ i _ hj.subset hcov)
-    (@nsmul_kummerDivisorSection _ _ j
+    (@nsmul_kummerDivisorSection _ _ j N
       (HasDerivedCategory.standard (Sheaf (smallEtaleTopology U₀) Ab.{u + 1}))
-      (HasDerivedCategory.standard (Sheaf (smallEtaleTopology U) Ab.{u + 1})) N (NeZero.ne N) hN₀
+      (HasDerivedCategory.standard (Sheaf (smallEtaleTopology U) Ab.{u + 1})) (NeZero.ne N) hN₀
       hNU _ i _ hj.subset hcov)
     (nsmul_kummerTarget_section j _)
   have hiso := isIso_rightDerivedModelComparison_app j
@@ -377,9 +377,9 @@ theorem isIsoStalksOver_torsionSectionSheafHom_kummerDivisorSection :
           (HasDerivedCategory.standard (Sheaf (smallEtaleTopology U₀) Ab.{u + 1}))
           (HasDerivedCategory.standard (Sheaf (smallEtaleTopology U) Ab.{u + 1})) N (NeZero.ne N)
           hN₀ hNU _ i _ hj.subset hcov)
-        (@nsmul_kummerDivisorSection _ _ j
+        (@nsmul_kummerDivisorSection _ _ j N
           (HasDerivedCategory.standard (Sheaf (smallEtaleTopology U₀) Ab.{u + 1}))
-          (HasDerivedCategory.standard (Sheaf (smallEtaleTopology U) Ab.{u + 1})) N (NeZero.ne N)
+          (HasDerivedCategory.standard (Sheaf (smallEtaleTopology U) Ab.{u + 1})) (NeZero.ne N)
           hN₀ hNU _ i _ hj.subset hcov) ≫
         (rightDerivedModelComparison (smallEtalePushforwardAb j)
           (HasDerivedCategory.standard (Sheaf (smallEtaleTopology U₀) Ab.{u + 1}))

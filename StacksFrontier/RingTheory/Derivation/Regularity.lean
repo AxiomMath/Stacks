@@ -228,7 +228,7 @@ private theorem nonempty_ringEquiv_localization_quotient {R : Type*} [CommRing R
   have hloc : IsLocalization (Algebra.algebraMapSubmonoid (R ⧸ I) p.primeCompl) (A ⧸ J) :=
     IsLocalization.of_surjective p.primeCompl A π Ideal.Quotient.mk_surjective
       (Ideal.Quotient.mk J) Ideal.Quotient.mk_surjective rfl (fun a ha => by
-        show a ∈ (RingHom.ker π).map (algebraMap R A)
+        change a ∈ (RingHom.ker π).map (algebraMap R A)
         rw [show RingHom.ker π = I from Ideal.mk_ker]
         exact Ideal.Quotient.eq_zero_iff_mem.mp ha)
   have hsub : Algebra.algebraMapSubmonoid (R ⧸ I) p.primeCompl = q.primeCompl := by
@@ -258,7 +258,7 @@ public theorem isRegularRing_quotient_span_singleton_of_isUnit_derivation
   have : p.IsPrime := Ideal.IsPrime.comap π
   let x : A := algebraMap R A f
   have hf : f ∈ p := by
-    show π f ∈ q
+    change π f ∈ q
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_span_singleton_self f)]
     exact q.zero_mem
   have hx : x ∈ maximalIdeal A := by
@@ -368,7 +368,7 @@ public theorem isRegularLocalRing_quotient_span_range_and_isRegular_of_isUnit_de
     have h3 := congrArg (Submodule.map (maximalIdeal R).subtype) hS
     rw [Submodule.map_span, Submodule.map_top, Submodule.range_subtype, Set.image_union,
       ← Set.range_comp, ← Set.range_comp, Ideal.submodule_span_eq] at h3
-    show Ideal.span {r : R | r ∈ xs} = maximalIdeal R
+    change Ideal.span {r : R | r ∈ xs} = maximalIdeal R
     rw [show {r : R | r ∈ xs} = Set.range ((maximalIdeal R).subtype ∘ fm) ∪
         Set.range ((maximalIdeal R).subtype ∘ y) by
       ext r
@@ -414,7 +414,7 @@ public theorem isRegularRing_quotient_polynomial_sub_C_of_isUnit_derivation
     (p.map (algebraMap ℤ R) - Polynomial.C f) (mapCoeffsDerivation D)
   have hp : mapCoeffsDerivation D (p.map (algebraMap ℤ R)) = 0 := by
     ext n
-    show D ((p.map (algebraMap ℤ R)).coeff n) = 0
+    change D ((p.map (algebraMap ℤ R)).coeff n) = 0
     simp
   have hf : mapCoeffsDerivation D (Polynomial.C f) = Polynomial.C (D f) := by
     ext n
@@ -475,10 +475,10 @@ private theorem exists_derivation_of_range
     map_add' := fun x y => hi (by simp only [map_add, hd])
     map_smul' := fun n x => hi (by simp only [map_zsmul, hd, RingHom.id_apply, D.map_smul])
     map_one_eq_zero' := hi (by
-      show algebraMap B K (d 1) = algebraMap B K 0
+      change algebraMap B K (d 1) = algebraMap B K 0
       rw [hd, D.map_one_eq_zero, map_zero])
     leibniz' := fun x y => hi (by
-      show algebraMap B K (d (x * y)) = algebraMap B K (x * d y + y * d x)
+      change algebraMap B K (d (x * y)) = algebraMap B K (x * d y + y * d x)
       simp only [map_add, map_mul, hd, D.leibniz, Algebra.smul_def])
     }, hd⟩
 
@@ -576,12 +576,12 @@ private theorem exists_derivation_apply_ne_zero_of_finite_extension
     intro i j
     obtain ⟨k, hk⟩ := hdir i j
     refine ⟨k, le_inf ?_ ?_⟩
-    · show S k ≤ S i
+    · change S k ≤ S i
       refine sup_le le_sup_left ?_
       rintro _ ⟨x, hx, rfl⟩
       exact (show (F i).toSubfield.map (algebraMap K L) ≤ S i from le_sup_right)
         ⟨x, (hk hx).1, rfl⟩
-    · show S k ≤ S j
+    · change S k ≤ S j
       refine sup_le le_sup_left ?_
       rintro _ ⟨x, hx, rfl⟩
       exact (show (F j).toSubfield.map (algebraMap K L) ≤ S j from le_sup_right)
@@ -619,7 +619,7 @@ private theorem exists_derivation_apply_ne_zero_of_subring_family
     .trans (inferInstance : Algebra.FiniteType (S i) A) inferInstance
   refine exists_derivation_apply_ne_zero_of_vanishes (A := S i) D ?_ f hDf
   intro a
-  show D (algebraMap B L (algebraMap A B (a : A))) = 0
+  change D (algebraMap B L (algebraMap A B (a : A))) = 0
   rw [← IsScalarTower.algebraMap_apply A B L, IsScalarTower.algebraMap_apply A K L]
   exact hD _ (hmem i a a.property)
 
@@ -730,7 +730,7 @@ private theorem exists_derivation_apply_ne_zero_of_finiteType_powerSeries
   have : IsScalarTower A B L := .of_algebraMap_eq fun _ => rfl
   have : IsScalarTower A S L := .of_algebraMap_eq fun _ => rfl
   have : IsScalarTower R A B := .of_algebraMap_eq fun r => by
-    show algebraMap R B r = S.val (MvPolynomial.aeval y (MvPolynomial.C r))
+    change algebraMap R B r = S.val (MvPolynomial.aeval y (MvPolynomial.C r))
     simp
   have : Algebra.FiniteType A B := .of_restrictScalars_finiteType R A B
   have : Module.Finite A S := hfin
@@ -1083,7 +1083,7 @@ private theorem isJ0_of_adjoin_eq_top
   let : Algebra Bf Sf :=
     (IsLocalization.Away.map Bf Sf (algebraMap B S) f).toAlgebra
   have : IsScalarTower B Bf Sf := IsScalarTower.of_algebraMap_eq' (by
-    show (algebraMap S Sf).comp (algebraMap B S) =
+    change (algebraMap S Sf).comp (algebraMap B S) =
       (IsLocalization.Away.map Bf Sf (algebraMap B S) f).comp (algebraMap B Bf)
     exact (IsLocalization.map_comp _).symm)
   have : FaithfulSMul B Sf :=
@@ -1204,7 +1204,7 @@ private lemma isJ0_of_finite_primeSpectrum (R : Type*) [CommRing R] [IsDomain R]
     exact Set.mem_singleton_iff.mpr (PrimeSpectrum.ext (le_bot_iff.mp hxp))
   refine ⟨{p}, hp, Set.singleton_nonempty p, ?_⟩
   rintro _ rfl
-  show IsRegularLocalRing (Localization.AtPrime (⊥ : Ideal R))
+  change IsRegularLocalRing (Localization.AtPrime (⊥ : Ideal R))
   have : IsFractionRing R (Localization.AtPrime (⊥ : Ideal R)) := by
     simpa [Ideal.primeCompl_bot] using
       (inferInstance : IsLocalization (⊥ : Ideal R).primeCompl
@@ -1258,7 +1258,7 @@ public lemma isJ2_of_isNagataRing_of_krullDimLE_one (R : Type u) [CommRing R]
   have : IsScalarTower R A L := by
     apply IsScalarTower.of_algebraMap_eq
     intro r
-    show (algebraMap K L) ((algebraMap R K) r) =
+    change (algebraMap K L) ((algebraMap R K) r) =
       (algebraMap K L) ((algebraMap A K) ((algebraMap R A) r))
     rw [IsScalarTower.algebraMap_apply R A K]
   let B := integralClosure A L
@@ -1273,11 +1273,11 @@ public lemma isJ2_of_isNagataRing_of_krullDimLE_one (R : Type u) [CommRing R]
   have : IsDedekindDomain B := {}
   let C : Subalgebra R L := B.restrictScalars R
   refine ⟨C, ?_, ?_, ?_⟩
-  · show Module.Finite R B
+  · change Module.Finite R B
     exact Module.Finite.trans A B
-  · show IsJ0 B
+  · change IsJ0 B
     exact isJ0_of_isRegularRing_07pj B
-  · show IsFractionRing B L
+  · change IsFractionRing B L
     exact integralClosure.isFractionRing_of_finite_extension K L
 
 @[ega "IV 6.12.6" "clause (i), affine case",
@@ -1309,7 +1309,7 @@ private lemma isJ2_of_isDedekindDomain_of_charZero (R : Type u) [CommRing R]
     apply IsFractionRing.of_ringEquiv_left f.toRingEquiv
     intro x
     obtain ⟨r, rfl⟩ := f.symm.surjective x
-    show (algebraMap C L) (f.symm r) = (algebraMap R L) (f (f.symm r))
+    change (algebraMap C L) (f.symm r) = (algebraMap R L) (f (f.symm r))
     rw [f.apply_symm_apply]
     rfl
   · have : p.asIdeal.IsMaximal := p.isPrime.isMaximal hp
@@ -1378,13 +1378,13 @@ private lemma isJ2_of_isPrecomplete_maximalIdeal (R : Type u) [CommRing R]
 public lemma isJ1_of_ringEquiv {R S : Type*} [CommRing R] [CommRing S]
     (e : R ≃+* S) (h : IsJ1 R) : IsJ1 S := by
   have hopen := h.preimage (PrimeSpectrum.continuous_comap e.toRingHom)
-  show IsOpen {p : PrimeSpectrum S | IsRegularLocalRing (Localization.AtPrime p.asIdeal)}
+  change IsOpen {p : PrimeSpectrum S | IsRegularLocalRing (Localization.AtPrime p.asIdeal)}
   convert hopen using 1
   ext p
   let f := IsLocalization.ringEquivOfRingEquiv
     (Localization.AtPrime (p.asIdeal.comap e)) (Localization.AtPrime p.asIdeal)
     e (e.map_primeCompl_comap_eq p.asIdeal)
-  show IsRegularLocalRing (Localization.AtPrime p.asIdeal) ↔
+  change IsRegularLocalRing (Localization.AtPrime p.asIdeal) ↔
     IsRegularLocalRing (Localization.AtPrime (p.asIdeal.comap e))
   exact ⟨fun _ => IsRegularLocalRing.of_ringEquiv f.symm,
     fun _ => IsRegularLocalRing.of_ringEquiv f⟩

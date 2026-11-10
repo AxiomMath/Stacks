@@ -85,12 +85,12 @@ theorem pushout_isPullback_appTop_of_schemeChartLift (hlift : C1573.SchemeChartL
   have hca' : IsPullback (yoneda.map A.a) A.p' (qm ≫ e.hom.hom) (pushout.inl i f).hom :=
     IsPullback.of_iso hca (Iso.refl _) (Iso.refl _) (Iso.refl _) ((ObjectProperty.ι _).mapIso e)
       (by simp) (by simp) (by simp) (by
-        show a.hom ≫ e.hom.hom = 𝟙 _ ≫ (pushout.inl i f).hom
+        change a.hom ≫ e.hom.hom = 𝟙 _ ≫ (pushout.inl i f).hom
         rw [Category.id_comp, ← hea]; rfl)
   have hcb' : IsPullback (yoneda.map A.b) A.q (qm ≫ e.hom.hom) (pushout.inr i f).hom :=
     IsPullback.of_iso hcb (Iso.refl _) (Iso.refl _) (Iso.refl _) ((ObjectProperty.ι _).mapIso e)
       (by simp) (by simp) (by simp) (by
-        show b.hom ≫ e.hom.hom = 𝟙 _ ≫ (pushout.inr i f).hom
+        change b.hom ≫ e.hom.hom = 𝟙 _ ≫ (pushout.inr i f).hom
         rw [Category.id_comp, ← heb]; rfl)
   have hqmS' : (MorphismProperty.presheaf (MorphismProperty.inverseImage
       (@AlgebraicGeometry.Surjective.{u} : MorphismProperty Scheme.{u})

@@ -66,11 +66,11 @@ theorem isCoreInclusion_frobeniusVectorBundleGroupoidFiberInclusion
     (a : LocallyDiscrete (BigHOver B S hS)ᵒᵖ) :
     (frobeniusVectorBundleGroupoidFiberInclusion B S hS p hpS a).IsCoreInclusion where
   faithful := ⟨fun h => ObjectProperty.hom_ext _ (Core.hom_ext (congrArg (·.hom) h))⟩
-  isIso_map {M N} g :=
+  isIso_map g :=
     ⟨ObjectProperty.homMk g.hom.iso.inv,
       ObjectProperty.hom_ext _ g.hom.iso.hom_inv_id,
       ObjectProperty.hom_ext _ g.hom.iso.inv_hom_id⟩
-  exists_map_eq {M N} e :=
+  exists_map_eq e :=
     ⟨ObjectProperty.homMk (Core.isoMk ((CategoryTheory.ObjectProperty.ι _).mapIso e)).hom, rfl⟩
   essSurj := ⟨fun N => ⟨⟨⟨N.obj⟩, N.property⟩, ⟨Iso.refl _⟩⟩⟩
 
@@ -92,8 +92,7 @@ def frobeniusVectorBundleGroupoidInclusionTrans :
           ((frobeniusColimitModulePseudofunctor B S hS p hpS).mapComp f g).hom.toNatTrans.app
             X.obj.of := by
         simp only [frobeniusVectorBundlePseudofunctor,
-          Pseudofunctor.ObjectProperty.fullsubcategory_mapComp, Cat.Hom.isoMk_hom,
-          Pseudofunctor.ObjectProperty.mapComp_hom_app, ObjectProperty.homMk_hom]
+          Pseudofunctor.ObjectProperty.fullsubcategory_mapComp, Cat.Hom.isoMk_hom]
         rfl
       have h2 : (((frobeniusVectorBundleGroupoidPseudofunctor B S hS p hpS).mapComp f
           g).hom.toNatTrans.app X).hom.iso.hom =

@@ -29,7 +29,8 @@ that kind, so
 is **false**, and no proof of [Stacks, Tag 01YF] can discharge it. This file records that as a
 theorem, replaces the predicate by the one the source states, and re-proves the dévissage engine
 and its 01YG corollary against the replacement, so that a proof of 01YF — in the shape of
-the tagged statement, a chain of subobjects indexed by `Fin (n + 1)` — plugs in with nothing left over.
+the tagged statement, a chain of subobjects indexed by `Fin (n + 1)` — plugs in with nothing left
+over.
 
 The bound `i < n` is what the induction consumes, and the other clauses are bounded to match:
 the chain is walked from `G 0` to `G n`, so only the monomorphisms, the coherence of the terms
@@ -333,7 +334,7 @@ theorem hasIdealFiltration_of_subobjectFiltration {F : X.Modules}
     (fun i _ => hcoh _) ?_ hq
   · -- The filtration starts at a zero module, because it starts at `⊥`.
     have h0 : g 0 = ⊥ := (hg 0 0 (by simp)).trans hbot
-    show IsZero (Subobject.underlying.obj (g 0))
+    change IsZero (Subobject.underlying.obj (g 0))
     rw [h0]
     exact (isZero_zero _).of_iso Subobject.botCoeIsoZero
   · -- The filtration ends at `F`, because it ends at `⊤`.

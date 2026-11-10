@@ -102,7 +102,7 @@ theorem exists_finset_bijective_awayMap {R A : Type u} [CommRing R] [CommRing A]
       add_mem' := by rintro _ _ ⟨x, rfl⟩ ⟨y, rfl⟩; exact ⟨x + y, map_add g x y⟩
       algebraMap_mem' := fun x => by
         refine ⟨algebraMap A' (Localization.Away r') (ψ x), ?_⟩
-        show g (algebraMap A' _ (ψ x)) = algebraMap A _ (φ x)
+        change g (algebraMap A' _ (ψ x)) = algebraMap A _ (φ x)
         rw [← hcomp]
         exact IsLocalization.map_eq _ _ }
   have hTS : (T : Set (Localization.Away (ι r'))) ⊆ Sg := by

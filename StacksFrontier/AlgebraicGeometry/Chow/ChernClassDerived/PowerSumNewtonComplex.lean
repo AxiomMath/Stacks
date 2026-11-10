@@ -127,7 +127,7 @@ theorem IsHomogeneous.commute_iff {i : ℕ} {x : TotalChowClass C sX} (hx : IsHo
   refine ⟨fun h n => ?_, fun h => ext_homPart fun m => ?_⟩
   · have h1 := homPart_mul_of_isHomogeneous_left hx c (n + i)
     have h2 := homPart_mul_of_isHomogeneous_right hx c (n + i)
-    rw [if_pos (by omega), Nat.add_sub_cancel] at h1 h2
+    rw [ite_eq_left (by omega), Nat.add_sub_cancel] at h1 h2
     rw [Commute, SemiconjBy, ← h1, ← h2, h.eq]
   · rw [homPart_mul_of_isHomogeneous_left hx, homPart_mul_of_isHomogeneous_right hx]
     split_ifs
@@ -171,7 +171,7 @@ theorem isNewtonPowerSums_of_powerSumEval {s : Set (TotalChowClass C sX)}
       (fun i => ⟨TotalChowClass.homComponent i c, hc i⟩) p : Subring.closure s) :
         TotalChowClass C sX)) :
     IsNewtonPowerSums c P := by
-  haveI := Subring.isMulCommutative_closure (s := s) fun x hx y hy _ => hs x hx y hy
+  have := Subring.isMulCommutative_closure (s := s) fun x hx y hy _ => hs x hx y hy
   intro p
   rw [hP (p + 1) (Nat.succ_ne_zero p), powerSumEval_succ]
   push_cast

@@ -159,7 +159,7 @@ public theorem isLocallySurjective_sheafifyUnit
     Presheaf.IsLocallySurjective (Stacks.SheafOfModules.TensorStalkRingedSpace.JX X)
       ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.TensorStalkRingedSpace.O X)).map
         (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X P)) := by
-  show Presheaf.IsLocallySurjective (Stacks.SheafOfModules.TensorStalkRingedSpace.JX X)
+  change Presheaf.IsLocallySurjective (Stacks.SheafOfModules.TensorStalkRingedSpace.JX X)
     (CategoryTheory.toSheafify (Stacks.SheafOfModules.TensorStalkRingedSpace.JX X)
       ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.TensorStalkRingedSpace.O X)).obj P))
   infer_instance

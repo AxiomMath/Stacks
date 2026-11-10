@@ -83,7 +83,7 @@ theorem isIso_graphDivisor_subschemeι_fst [IsSeparated f] (φ : C ⟶ C) (w : �
   have h : g.imageι ≫ pullback.fst f f = inv g.toImage := by
     rw [← cancel_epi g.toImage, IsIso.hom_inv_id, ← Category.assoc, g.toImage_imageι]
     exact graph_fst f φ w
-  show IsIso (g.imageι ≫ pullback.fst f f)
+  change IsIso (g.imageι ≫ pullback.fst f f)
   rw [h]
   infer_instance
 

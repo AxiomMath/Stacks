@@ -48,7 +48,7 @@ attribute [local instance] HasDerivedCategory.standard
 theorem derivedCohomology_map_smul_id {A : Type u} [CommRing A]
     (K : DerivedCategory (ModuleCat.{u} A)) (n : ℤ) (M : ModuleCat.{u} A) (a : A) :
     (derivedCohomology A K n).map (a • 𝟙 M) = a • 𝟙 _ := by
-  show (DerivedCategory.homologyFunctor (ModuleCat.{u} A) n).map
+  change (DerivedCategory.homologyFunctor (ModuleCat.{u} A) n).map
     ((CochainComplex.DerivedTensor.derivedTensorProduct K).map
       ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).map (a • 𝟙 M))) = _
   rw [Functor.map_smul, CategoryTheory.Functor.map_id,
@@ -189,7 +189,7 @@ theorem exists_dualDeformationSituation_of_groups
       tangentBijective := fun M => (Ψ₁ M.obj).symm.bijective.comp (τ M).bijective
       tangentNatural := by
         intro M N f t
-        show (Ψ₁ N.obj).symm (τ N (T.functor.map f t)) = _
+        change (Ψ₁ N.obj).symm (τ N (T.functor.map f t)) = _
         rw [hτ, symm_apply_of_natural _ _ (hΨ₁ _)]
         rfl
       obstruction := fun A' _ D => (Ψ₂ D.kernel).symm (ob A' D)
@@ -204,7 +204,7 @@ theorem exists_dualDeformationSituation_of_groups
   obtain ⟨hzero, hSq, hmem, s, ψ, hs, hψfst, hψsnd, dMap, lift₁, φ, h₁, h₂, h₃, h₄, h₅⟩ :=
     hV A₁ A₂ A₃ D₁ D₂ D₃ g₂₁ g₃₂ hexact lift₂
   refine ⟨hzero, hSq, hmem, s, ψ, hs, hψfst, hψsnd, dMap, lift₁, φ, h₁, h₂, h₃, h₄, ?_⟩
-  show (Ψ₂ D₃.kernel).symm (ob A₃ D₃) = boundaryMap A K hSq ((Ψ₁ D₁.kernel).symm _)
+  change (Ψ₂ D₃.kernel).symm (ob A₃ D₃) = boundaryMap A K hSq ((Ψ₁ D₁.kernel).symm _)
   rw [AddEquiv.symm_apply_eq]
   exact h₅.trans ((hΨδ hSq _).trans (congrArg (Vδ hSq) ((Ψ₁ _).apply_symm_apply _))).symm
 

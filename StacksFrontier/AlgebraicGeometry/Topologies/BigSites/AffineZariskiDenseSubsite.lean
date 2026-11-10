@@ -99,7 +99,7 @@ private theorem finite_standard_refinement
     X i := B.inclusion.obj (E.X i)
     f i := B.inclusion.map (E.f i)
     mem₀ := by
-      show (E.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology T'
+      change (E.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology T'
       exact hE.1 }
   obtain ⟨V, q, hfin, hbasic⟩ :=
     Scheme.OpenCover.exists_isStandardZariski_refinement U
@@ -113,11 +113,11 @@ private theorem finite_standard_refinement
         let : IsOpenImmersion (V.f i) := V.map_prop i
         exact Scheme.size_lt_of_isOpenImmersion (V.f i) T.property⟩ ⟶ T' from V.f i) }
   have hQ : IsZariskiCovering ⟨T, Q⟩ := by
-    show (Q.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology T'
+    change (Q.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology T'
     rw [PreZeroHypercover.presieve₀_map]
     have hmap : Q.presieve₀.map B.inclusion = V.presieve₀ := by
       rw [PreZeroHypercover.presieve₀, Presieve.map_ofArrows]
-      show Presieve.ofArrows V.X (fun i => B.inclusion.map (Q.f i)) =
+      change Presieve.ofArrows V.X (fun i => B.inclusion.map (Q.f i)) =
         Presieve.ofArrows V.X V.f
       congr 1
       funext i
@@ -129,7 +129,7 @@ private theorem finite_standard_refinement
   have hcomb' : PreZeroHypercover.CombinatoriallyEquivalent Q G := hcomb
   let F := deduplicateFamily Q
   have hFz : IsZariskiCovering ⟨T, F⟩ := by
-    show (F.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology T'
+    change (F.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology T'
     rw [PreZeroHypercover.presieve₀_map, deduplicateFamily_presieve₀,
       ← PreZeroHypercover.presieve₀_map]
     exact hQ
@@ -157,7 +157,7 @@ private theorem finite_standard_refinement
     refine ⟨j, g, ?_⟩
     have hq : B.inclusion.map (g ≫ E.f j) = V.f k := by
       rw [Functor.map_comp, Functor.map_preimage]
-      show q.h₀ k ≫ U.f (q.s₀ k) = V.f k
+      change q.h₀ k ≫ U.f (q.s₀ k) = V.f k
       exact q.w₀ k
     have hQf : B.inclusion.map (Q.f k) = V.f k := Functor.map_preimage _ _
     exact B.inclusion.map_injective (hq.trans hQf.symm)
@@ -168,9 +168,9 @@ private theorem finite_standard_refinement
     obtain ⟨k, rfl⟩ := hrep i
     obtain ⟨f, e, he⟩ := hbasic k
     refine ⟨f, e, ?_⟩
-    show B.inclusion.map (Q.f k) = e.hom ≫ (T'.basicOpen f).ι
+    change B.inclusion.map (Q.f k) = e.hom ≫ (T'.basicOpen f).ι
     rw [← he]
-    show B.inclusion.map (B.inclusion.preimage _) = _
+    change B.inclusion.map (B.inclusion.preimage _) = _
     rw [Functor.map_preimage]
   exact ⟨F, hF, inferInstance, hFaff, hFbasic, hFrefine⟩
 
@@ -228,14 +228,14 @@ private theorem inclusion_isCocontinuous
     ⟨F.map B.inclusion, hpre⟩
   have hstd : IsStandardZariskiCovering FCover := ⟨hFin, hBasic⟩
   have hVcover : BigAffineZariski.IsCovering B S hS ⟨X, V⟩ := by
-    show BigZariskiOver.IsStandardZariskiCovering B S hS
+    change BigZariskiOver.IsStandardZariskiCovering B S hS
       ⟨(BigAffineZariski.inclusion B S hS).obj X,
         (V.map (BigAffineZariski.inclusion B S hS))⟩
     exact ⟨hF, ⟨hpre, hstd⟩⟩
   refine mem_toGrothendieck_of_presieve_le (P := V.presieve₀) ⟨V, rfl, hVcover⟩ ?_
   rw [Presieve.ofArrows_le_iff]
   intro i
-  show R (u.map (vf i))
+  change R (u.map (vf i))
   exact (Sieve.overEquiv_iff R (F.f i)).mp (hFR _ _ ⟨i⟩)
 
 private theorem exists_affine_cover_refining_sieve
@@ -299,7 +299,7 @@ private theorem inclusion_isCoverDense
     ext <;> simp [V, vf, Vobj, u, BigZariskiOver.inclusion,
       BigAffineZariski.inclusion, PreZeroHypercover.map]
   have hV : BigZariskiOver.IsCovering B S hS ⟨X, V⟩ := by
-    show B.IsCovering ⟨
+    change B.IsCovering ⟨
       (BigZariskiOver.inclusion B S hS).obj X,
       V.map (BigZariskiOver.inclusion B S hS)⟩
     rw [hVE]
@@ -324,7 +324,7 @@ public theorem BigAffineZariski.inclusion_isSpecialCocontinuous
   let u := BigAffineZariski.inclusion B S hS
   let J := BigAffineZariski.topology B S hS
   let K := BigZariskiOver.topology B S hS
-  show Functor.IsCocontinuous u J K ∧ u.IsDenseSubsite J K
+  change Functor.IsCocontinuous u J K ∧ u.IsDenseSubsite J K
   refine ⟨inclusion_isCocontinuous B S hS, ?_⟩
   let : u.IsCocontinuous J K := inclusion_isCocontinuous B S hS
   let : u.IsCoverDense K := inclusion_isCoverDense B S hS

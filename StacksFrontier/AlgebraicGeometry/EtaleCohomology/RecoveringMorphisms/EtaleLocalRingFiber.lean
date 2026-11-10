@@ -170,7 +170,7 @@ theorem toPresheafFiber_comp_etaleLocalRingIsoCommFiber (B : BigEtaleSite.{u}) (
       (forget₂ CommRingCat.{u} RingCat.{u}).map
         ((geometricPointSitePoint B S hS s).toPresheafFiber W u
           (SmallEtale.commRingStructurePresheaf B S hS)) := by
-  show (geometricPointSitePoint B S hS s).toPresheafFiber W u
+  change (geometricPointSitePoint B S hS s).toPresheafFiber W u
         (SmallEtale.structureSheaf B S hS).obj ≫
       (eqToHom (congrArg ((geometricPointSitePoint B S hS s).presheafFiber
             (A := RingCat.{u})).obj

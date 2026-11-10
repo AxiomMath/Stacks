@@ -53,14 +53,14 @@ lemma exists_apply_eq_of_isIso_sigmaDesc {ι : Type} {R : ι → Scheme.{u}} {W 
   obtain ⟨⟨a⟩, y, rfl⟩ := Scheme.IsLocallyDirected.ι_jointly_surjective (Discrete.functor R) y
   refine ⟨a, y, ?_⟩
   change (Sigma.desc j) ((Sigma.ι R a) y) = _ at hy
-  rw [← hy, ← Scheme.Hom.comp_apply, Sigma.ι_desc]
+  rw [← hy, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
 
 /-- If `∐ R ⟶ W` is an isomorphism, points of distinct summands have distinct images. -/
 lemma eq_of_apply_eq_of_isIso_sigmaDesc {ι : Type} {R : ι → Scheme.{u}} {W : Scheme.{u}}
     (j : ∀ a, R a ⟶ W) [IsIso (Sigma.desc j)] {b c : ι} (p : R b) (q : R c)
     (hpq : j b p = j c q) : b = c := by
   have : (Sigma.ι R b ≫ Sigma.desc j) p = (Sigma.ι R c ≫ Sigma.desc j) q := by
-    simpa only [Sigma.ι_desc] using hpq
+    simpa only [Sigma.ι_comp_desc] using hpq
   rw [Scheme.Hom.comp_apply, Scheme.Hom.comp_apply] at this
   exact congrArg Sigma.fst ((sigmaι_eq_iff R b c p q).mp
     ((ConcreteCategory.bijective_of_isIso (Sigma.desc j).base).1 this))
@@ -86,7 +86,7 @@ lemma preimage_toNormalization_subset_or_subset (f : X ⟶ S) [IsProper f] [IsLo
   have hsub : f.toNormalization ⁻¹' {y} ⊆ f ⁻¹' {s} := by
     intro z hz
     rw [Set.mem_preimage, Set.mem_singleton_iff] at hz
-    show f z = s
+    change f z = s
     rw [← toNormalization_fromNormalization f, Scheme.Hom.comp_apply, hz, hy]
   exact isPreconnected_iff_subset_of_disjoint_closed.mp
     (f.toNormalization.isConnected_preimage_singleton y).isPreconnected P Q hP hQ

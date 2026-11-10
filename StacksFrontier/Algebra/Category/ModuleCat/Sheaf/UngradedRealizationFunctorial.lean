@@ -270,7 +270,7 @@ ring**, so it is a homomorphism of algebras over that ring. -/
 lemma structureHom_totalPresheafMap (f : UnitalHom A B) :
     A.structureHom ≫ totalPresheafMap f = B.structureHom := by
   ext X r
-  show totalRingHom f X (A.structureMap X r) = B.structureMap X r
+  change totalRingHom f X (A.structureMap X r) = B.structureMap X r
   rw [structureMap_eq_incl_zero, structureMap_eq_incl_zero, totalRingHom_incl]
   refine congrArg (B.incl 0) ?_
   rw [← f.map_one X]

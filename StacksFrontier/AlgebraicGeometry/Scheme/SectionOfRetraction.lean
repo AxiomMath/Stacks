@@ -85,7 +85,7 @@ theorem exists_section_of_ker_eq_span_isIdempotentElem {X Y : Scheme.{u}} [IsAff
   have hpt : ∀ x : X, Y.carrierEquivPrimeSpectrum (σ.base x) =
       PrimeSpectrum.comap τ (X.carrierEquivPrimeSpectrum x) := by
     intro x
-    show Y.isoSpec.hom.base (Y.isoSpec.inv.base ((Spec.map (CommRingCat.ofHom τ)).base
+    change Y.isoSpec.hom.base (Y.isoSpec.inv.base ((Spec.map (CommRingCat.ofHom τ)).base
       (X.isoSpec.hom.base x))) = PrimeSpectrum.comap τ (X.isoSpec.hom.base x)
     exact Y.carrierEquivPrimeSpectrum.apply_symm_apply _
   have hmem : ∀ y : Y, y ∈ Set.range σ.base ↔

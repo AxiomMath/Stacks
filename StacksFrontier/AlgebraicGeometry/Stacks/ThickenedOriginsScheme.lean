@@ -152,12 +152,12 @@ theorem chartHom_restrictionHom (n : ℕ) :
       (Localization.Away (X : Polynomial k)) (Localization.Away (xCoord k n))).symm.commutes p
   ext1
   refine Polynomial.ringHom_ext (fun a => ?_) ?_
-  · show (awayEquiv k n).symm (algebraMap _ _ (chartHom k n (C a))) = _
+  · change (awayEquiv k n).symm (algebraMap _ _ (chartHom k n (C a))) = _
     rw [chartHom_C, show Ideal.Quotient.mk (chartIdeal k n) (C (C a)) = xHom k n (C a) from rfl,
       show algebraMap _ (Localization.Away (xCoord k n)) (xHom k n (C a)) = awayHom k n (C a)
         from rfl, hsymm]
     simp
-  · show (awayEquiv k n).symm (algebraMap _ _ (chartHom k n X)) = _
+  · change (awayEquiv k n).symm (algebraMap _ _ (chartHom k n X)) = _
     rw [chartHom_X, algebraMap_epsilon_eq_zero, map_zero]
     simp
 
@@ -219,7 +219,7 @@ theorem toLine_apply (x : T k) : toLine k x = lineOrigin k := by
   refine PrimeSpectrum.ext ((Stacks.NodalCurve.isMaximal_span_X k).eq_of_le
     (PrimeSpectrum.comap _ y).isPrime.ne_top ?_).symm
   rw [Ideal.span_le, Set.singleton_subset_iff]
-  show chartHom k n X ∈ y.asIdeal
+  change chartHom k n X ∈ y.asIdeal
   rw [chartHom_X]
   exact y.isPrime.mem_of_pow_mem _ ((epsilon_pow_succ_eq_zero k n).symm ▸ y.asIdeal.zero_mem)
 
@@ -234,7 +234,7 @@ theorem toLine_appTop_injective : Function.Injective (toLine k).appTop := by
       ((chart k n).appTop z)) ha
     simp only [map_zero] at h
     rw [← h]
-    show _ = ((chart k n ≫ toLine k).appTop ≫ (Scheme.ΓSpecIso (chartRing k n)).hom) a
+    change _ = ((chart k n ≫ toLine k).appTop ≫ (Scheme.ΓSpecIso (chartRing k n)).hom) a
     rw [chart_toLine, Scheme.ΓSpecIso_naturality]
     rfl
   have h0 := eq_zero_of_forall_chartHom_eq_zero k _ hn
@@ -282,7 +282,7 @@ theorem chartGenericPoint_specializes (n : ℕ) (y : Spec (chartRing k n)) :
     chartGenericPoint k n ⤳ y := by
   refine (PrimeSpectrum.le_iff_specializes
     (chartGenericPoint k n : PrimeSpectrum (Polynomial (Polynomial k) ⧸ chartIdeal k n)) y).1 ?_
-  show Ideal.span {epsilon k n} ≤ y.asIdeal
+  change Ideal.span {epsilon k n} ≤ y.asIdeal
   rw [← nilradical_eq_span_epsilon]
   exact @nilradical_le_prime _ _ y.asIdeal y.isPrime
 
@@ -316,7 +316,7 @@ theorem one_le_topologicalKrullDimAt_of_specializes {Y : Type*} [TopologicalSpac
 theorem topologicalKrullDimAt_chart (n : ℕ) (y : Spec (chartRing k n)) :
     topologicalKrullDimAt (Spec (chartRing k n)) y = 1 := by
   refine le_antisymm ((topologicalKrullDimAt_le_topologicalKrullDim y).trans ?_) ?_
-  · show topologicalKrullDim (PrimeSpectrum (Polynomial (Polynomial k) ⧸ chartIdeal k n)) ≤ 1
+  · change topologicalKrullDim (PrimeSpectrum (Polynomial (Polynomial k) ⧸ chartIdeal k n)) ≤ 1
     rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, ringKrullDim_quotient_chartIdeal]
   · exact one_le_topologicalKrullDimAt_of_specializes (chartGenericPoint k n)
       (chartGenericPoint_specializes k n) (not_isClosed_chartGenericPoint k n) y
@@ -355,7 +355,7 @@ def lineGenericPoint : Spec (lineRing k) := ⟨⊥, Ideal.isPrime_bot⟩
 theorem topologicalKrullDimAt_line (y : Spec (lineRing k)) :
     topologicalKrullDimAt (Spec (lineRing k)) y = 1 := by
   refine le_antisymm ((topologicalKrullDimAt_le_topologicalKrullDim y).trans ?_) ?_
-  · show topologicalKrullDim (PrimeSpectrum (Polynomial k)) ≤ 1
+  · change topologicalKrullDim (PrimeSpectrum (Polynomial k)) ≤ 1
     rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, ringKrullDim_polynomial]
   · refine one_le_topologicalKrullDimAt_of_specializes (lineGenericPoint k) (fun z => ?_) ?_ y
     · exact (PrimeSpectrum.le_iff_specializes
@@ -371,7 +371,7 @@ theorem topologicalKrullDimAt_fiber_toLine (x : T k) :
     topologicalKrullDimAt ((toLine k).fiber (toLine k x)) ((toLine k).asFiber x) = 1 := by
   have huniv : (toLine k) ⁻¹' {toLine k x} = Set.univ :=
     Set.eq_univ_of_forall fun z => by
-      show toLine k z = toLine k x
+      change toLine k z = toLine k x
       rw [toLine_apply, toLine_apply]
   have hemb : Topology.IsOpenEmbedding (Subtype.val : (toLine k) ⁻¹' {toLine k x} → T k) :=
     (huniv ▸ isOpen_univ : IsOpen ((toLine k) ⁻¹' {toLine k x})).isOpenEmbedding_subtypeVal

@@ -96,8 +96,8 @@ noncomputable def baseChangeFunctorIsoPullback :
   NatIso.ofComponents (fun T ↦ pullbackSymmetry D.f T.hom) (by
     intro T T' g
     refine pullback.hom_ext ?_ ?_
-    · simp [baseChangeFunctor, transitionHom, pullback.lift_fst, pullback.lift_snd]
-    · simp [baseChangeFunctor, transitionHom, pullback.lift_fst, pullback.lift_snd])
+    · simp [baseChangeFunctor, transitionHom]
+    · simp [baseChangeFunctor, transitionHom])
 
 /-- Base change along the family preserves connected limits: pullback to the slice over the
 total space is a right adjoint, and the forgetful functor of that slice preserves connected

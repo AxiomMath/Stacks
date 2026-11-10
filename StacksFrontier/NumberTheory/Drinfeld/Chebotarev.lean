@@ -166,7 +166,7 @@ theorem exists_frobeniusData_element_mem_smul_of_finite (f : X ⟶ Spec (.of k))
       hom_inv_id := congrArg (fun φ : Z ⟶ Z => φ.left) σ.asIso.hom_inv_id
       inv_hom_id := congrArg (fun φ : Z ⟶ Z => φ.left) σ.asIso.inv_hom_id }
   have hσn : compPow σs.hom n = 𝟙 Z.left := by
-    show compPow σ.asIso.hom.left n = _
+    change compPow σ.asIso.hom.left n = _
     rw [compPow_left_eq_pow_left, pow_orderOf_eq_one]
     rfl
   -- the field of constants of `Z` and the action of `σ` on it
@@ -182,7 +182,7 @@ theorem exists_frobeniusData_element_mem_smul_of_finite (f : X ⟶ Spec (.of k))
   have hσr0 : σs.hom ≫ r ≫ Spec.map (CommRingCat.ofHom (algebraMap k κ)) =
       r ≫ Spec.map (CommRingCat.ofHom (algebraMap k κ)) := by
     rw [hr, ← Category.assoc]
-    show σ.asIso.hom.left ≫ Z.hom ≫ f = _
+    change σ.asIso.hom.left ≫ Z.hom ≫ f = _
     rw [← Category.assoc, MorphismProperty.Over.w σ.asIso.hom]
   obtain ⟨θ, hθ⟩ := exists_algHom_comp_specMap r σs.hom hσr0
   obtain ⟨c, hc, hθc⟩ := exists_algHom_eq_iterateFrobenius p e hq θ
@@ -218,7 +218,7 @@ theorem exists_frobeniusData_element_mem_smul_of_finite (f : X ⟶ Spec (.of k))
   set D := c * m
   have hDj : D₀ + M + 1 ≤ D := by
     have : j + 1 ≤ m := by
-      show j + 1 ≤ n * j + 1
+      change j + 1 ≤ n * j + 1
       have := Nat.le_mul_of_pos_left j hn
       omega
     calc D₀ + M + 1 = j + 1 := rfl
@@ -233,7 +233,7 @@ theorem exists_frobeniusData_element_mem_smul_of_finite (f : X ⟶ Spec (.of k))
   set T := {z : fieldValuedPoints r Ω // z.1 ≫ compPow σs.hom m =
     Spec.map (CommRingCat.ofHom (iterateFrobenius Ω p (E * m))) ≫ z.1}
   have hEm : E * m = e * D := by
-    show e * c * m = e * (c * m)
+    change e * c * m = e * (c * m)
     ring
   have hcompm : compPow σs.hom m = σs.hom := compPow_mul_add_one σs.hom hσn j
   have hbound := abs_natCard_semilinearFixed_sub_le r p (eκ' : ℕ) hqκ σs E hE hσθ hn hσn
@@ -247,7 +247,7 @@ theorem exists_frobeniusData_element_mem_smul_of_finite (f : X ⟶ Spec (.of k))
     rw [Real.sqrt_eq_iff_mul_self_eq (by positivity) (by positivity), ← mul_pow,
       Real.mul_self_sqrt (by positivity)]
   have hpc : p ^ E = q ^ c := by
-    show p ^ (e * c) = _
+    change p ^ (e * c) = _
     rw [hq, ← pow_mul]
   have hsqrtE : Real.sqrt (p ^ E : ℕ) ^ m = Real.sqrt q ^ D := by
     rw [hpc, Nat.cast_pow, hsqpow c, ← pow_mul]
@@ -268,7 +268,7 @@ theorem exists_frobeniusData_element_mem_smul_of_finite (f : X ⟶ Spec (.of k))
   -- every twisted point lies over `X(Ω)` and is fixed there by the Frobenius of degree `D`
   have hzX : ∀ z : T, z.1.1 ≫ Z.hom ≫ f = baseMap k Ω := fun z => by
     rw [← hr, ← Category.assoc, z.1.2]
-    show Spec.map _ ≫ Spec.map _ = Spec.map _
+    change Spec.map _ ≫ Spec.map _ = Spec.map _
     rw [← Spec.map_comp]
     congr 1
   have htw : ∀ z : T, z.1.1 ≫ σ.asIso.hom.left =
@@ -279,7 +279,7 @@ theorem exists_frobeniusData_element_mem_smul_of_finite (f : X ⟶ Spec (.of k))
     rw [Category.assoc]; exact hzX z⟩
   have hfixX : ∀ z : T, Spec.map (CommRingCat.ofHom (iterateFrobenius Ω p (e * D))) ≫ (tX z).1 =
       (tX z).1 := fun z => by
-    show _ ≫ z.1.1 ≫ Z.hom = z.1.1 ≫ Z.hom
+    change _ ≫ z.1.1 ≫ Z.hom = z.1.1 ≫ Z.hom
     rw [← Category.assoc, ← htw z, Category.assoc, MorphismProperty.Over.w σ.asIso.hom]
   -- a good point exists
   by_cases hgood : ∃ z : T, residueDegree f (Scheme.SpecToEquivOfField Ω X (tX z).1).1 = D
@@ -323,7 +323,7 @@ theorem exists_frobeniusData_element_mem_smul_of_finite (f : X ⟶ Spec (.of k))
       have hsK : Real.sqrt (Fintype.card K) = Real.sqrt q ^ d.1 := by
         rw [hcardK, pow_mul', Real.sqrt_sq (by positivity)]
       rw [hsK, hcardK] at hW
-      show (Nat.card (Fx d.1) : ℝ) ≤ _
+      change (Nat.card (Fx d.1) : ℝ) ≤ _
       rw [show Nat.card (Fx d.1) = _ from h1]
       have h2 : Real.sqrt q ^ (2 * d.1) ≤ s := pow_le_pow_right₀ hsq.le (by omega)
       have h3 : Real.sqrt q ^ d.1 ≤ s := pow_le_pow_right₀ hsq.le (by omega)

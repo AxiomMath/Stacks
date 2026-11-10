@@ -117,7 +117,7 @@ lemma parameterPowerAlgebraToTarget_X_inl {A : Type v} {Λ : Type w} [CommRing A
     (hπ' : ∀ i, π' i ^ (2 * N) = ∑ j, algebraMap A Λ (a j) * lam i j) (i : Fin d) :
     parameterPowerAlgebraToTarget N a π' lam hπ'
         (Ideal.Quotient.mk (parameterPowerIdeal d N a) (MvPolynomial.X (Sum.inl i))) = π' i := by
-  show MvPolynomial.aeval (Sum.elim π' fun ij : Fin d × Fin t => lam ij.1 ij.2)
+  change MvPolynomial.aeval (Sum.elim π' fun ij : Fin d × Fin t => lam ij.1 ij.2)
       (MvPolynomial.X (Sum.inl i)) = π' i
   simp
 
@@ -131,7 +131,7 @@ lemma parameterPowerAlgebraToTarget_X_inr {A : Type v} {Λ : Type w} [CommRing A
     parameterPowerAlgebraToTarget N a π' lam hπ'
         (Ideal.Quotient.mk (parameterPowerIdeal d N a) (MvPolynomial.X (Sum.inr (i, j)))) =
       lam i j := by
-  show MvPolynomial.aeval (Sum.elim π' fun ij : Fin d × Fin t => lam ij.1 ij.2)
+  change MvPolynomial.aeval (Sum.elim π' fun ij : Fin d × Fin t => lam ij.1 ij.2)
       (MvPolynomial.X (Sum.inr (i, j))) = lam i j
   simp
 
@@ -320,7 +320,7 @@ theorem mem_singularIdeal_algebraMap_of_smooth_away {kx B C : Type*} [CommRing k
     smooth_localization_away_of_mem_singularIdeal kx B hb
   have : IsScalarTower kx (Localization.Away b) (Localization.Away (algebraMap B C b)) := by
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
-    show _ = Localization.awayMap (algebraMap B C) b _
+    change _ = Localization.awayMap (algebraMap B C) b _
     rw [IsScalarTower.algebraMap_apply kx B (Localization.Away b),
       Localization.awayMap, IsLocalization.Away.map, IsLocalization.map_eq,
       ← IsScalarTower.algebraMap_apply kx B C,
@@ -413,7 +413,7 @@ theorem canBeResolved_of_canBeResolved_tensorProduct {k : Type u} {A : Type u} {
       (B := C)).toRingHom.comp (algebraMap A C)).toAlgebra
   have : IsScalarTower k A (R ⊗[MvPolynomial (Fin d) k] C) := by
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
-    show _ = Algebra.TensorProduct.includeRight (algebraMap A C (algebraMap k A x))
+    change _ = Algebra.TensorProduct.includeRight (algebraMap A C (algebraMap k A x))
     rw [← IsScalarTower.algebraMap_apply k A C,
       IsScalarTower.algebraMap_apply k (MvPolynomial (Fin d) k) C,
       Algebra.TensorProduct.includeRight.commutes,

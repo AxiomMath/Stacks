@@ -45,7 +45,7 @@ variable (T : DerivedTensorProduct X.O) (L : Modules X.O) (F : Modules X.O ⥤ M
 include hF in
 /-- A module `L` for which `- ⊗ L` is exact is K-flat when placed in degree zero. -/
 theorem kFlat_single_of_tensor_eq :
-    Stacks.SheafOfModules.KFlat.KFlat X.O
+    Stacks.SheafOfModules.KFlat X.O
       ((HomologicalComplex.single (Modules X.O) (ComplexShape.up ℤ) 0).obj L) := by
   subst hF
   exact CochainComplex.KFlatBifunctor.kFlat_single_of_exact

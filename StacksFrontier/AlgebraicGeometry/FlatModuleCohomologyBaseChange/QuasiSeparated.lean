@@ -241,7 +241,6 @@ private theorem isIso_derivedComparison_app_of_top (H : IsPullback g' f' f g)
     (G : SheafOfModules.{u} (structureSheafRing S'.toRingedSpace))
     (hG : AlgebraicGeometry.IsFlatOver g.toLRSHom.toShHom G)
     (K : HomotopyCategory.Plus (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)))
-    (hK : ∀ n : ℤ, Injective (K.obj.as.X n))
     (h : IsIso ((derivedComparison G H.w hG).app (DerivedCategory.Plus.Qh.obj
       ((modulePullback (⊤ : X.Opens).ι.toLRSHom.toShHom ⋙
         modulePushforward
@@ -252,7 +251,7 @@ private theorem isIso_derivedComparison_app_of_top (H : IsPullback g' f' f g)
         (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)) =>
       IsIso ((derivedComparison G H.w hG).app E))
     (isTriangulated_isIso_derivedComparison_app H.w G hG)
-    (isClosedUnderIsomorphisms_isIso_derivedComparison_app H.w G hG) K hK h
+    (isClosedUnderIsomorphisms_isIso_derivedComparison_app H.w G hG) K h
 
 /-- **The dévissage over a finite family of adapted opens.**  The derived comparison is invertible
 at the image of `j_{W,*} j_W^* K` for `W` the union of a finite family of adapted opens and one
@@ -330,7 +329,7 @@ theorem isIso_derivedComparison_app_single_of_isAffine_base (H : IsPullback g' f
     (fun E : DerivedCategory.Plus (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)) =>
       IsIso ((derivedComparison G H.w hG).app E))
     (isClosedUnderIsomorphisms_isIso_derivedComparison_app H.w G hG) _ _ e ?_
-  refine isIso_derivedComparison_app_of_top H G hG K hK ?_
+  refine isIso_derivedComparison_app_of_top H G hG K ?_
   refine isIso_derivedComparison_app_restrictPush_congr H G hG K htop ?_
   exact isIso_derivedComparison_app_restrictPush_sup H G hG F K hK e t _
     (fun U _ => isAdapted_of_isAffineOpen _ (U : X.affineOpens).2) ⊥

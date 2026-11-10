@@ -84,7 +84,7 @@ theorem Situation.ι_map_closedFormsShiftHom :
         D.residuePlusShiftHom) ≫
       ((SheafOfModules.toSheaf (structureSheafRing D.baseSpace)).mapHomologicalComplex _).map
         (((CochainComplex.Plus.ι _).commShiftIso (1 : ℤ)).hom.app D.deRhamPlus) = 𝟙 _ := by
-    show ((SheafOfModules.toSheaf (structureSheafRing D.baseSpace)).mapHomologicalComplex _).map
+    change ((SheafOfModules.toSheaf (structureSheafRing D.baseSpace)).mapHomologicalComplex _).map
         (((CochainComplex.Plus.ι _).commShiftIso (1 : ℤ)).inv.app D.deRhamPlus) ≫ _ = _
     rw [← Functor.map_comp, Iso.inv_hom_id_app, CategoryTheory.Functor.map_id]
     rfl
@@ -152,7 +152,7 @@ theorem Situation.shiftHomologyIso_cyclesRightDerivedOneMap :
   rw [← D.closedFormsShiftHom_eq] at hS
   refine ch_paste _ _ _ _ _ _ _ _ hs ?_ hS
   simp only [← Functor.map_comp]
-  show (DerivedCategory.Plus.homologyFunctor AddCommGrpCat.{u} 1).map
+  change (DerivedCategory.Plus.homologyFunctor AddCommGrpCat.{u} 1).map
     ((DerivedCategory.Plus.Q ⋙ (sectionsFunctor D.baseSpace.carrier ⊤).rightDerivedFunctorPlus).map
       (Stacks.Cohomology.RightDerivedBoundary.cyclesSingleHom D.deRhamShiftAbelianPlus) ≫
     (DerivedCategory.Plus.Q ⋙ (sectionsFunctor D.baseSpace.carrier ⊤).rightDerivedFunctorPlus).map
@@ -247,7 +247,7 @@ theorem sheafCohomologyOneIsoShiftedCohomologyTwo_hom_apply {Y : TopCat.{u}} (F 
         rw [← Iso.inv_eq_inv, Iso.symm_inv, Stacks.DerivedIndexing.rightDerivedIso_inv_eq])
     rw [e]
     rfl
-  show ((DerivedCategory.Plus.singleFunctorCompHomologyFunctorShiftIso
+  change ((DerivedCategory.Plus.singleFunctorCompHomologyFunctorShiftIso
       (sectionsFunctor Y ⊤).rightDerivedFunctorPlus 1 1).app F).inv
       ((Stacks.DerivedIndexing.rightDerivedIso (sectionsFunctor Y ⊤) 1).hom.app F y) = _
   rw [h]

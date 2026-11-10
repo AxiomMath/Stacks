@@ -62,7 +62,7 @@ variable [Finite G] in
 invertible. -/
 instance isIso_inverseImageCoefficientMate_invariants {X Y : Scheme.{u}} (f : X ⟶ Y) :
     IsIso (inverseImageSheafComposeCoefficientMate Λ G f
-      (ModuleCat.coextendScalars (groupRingAugmentation Λ G))).natTrans := by
+      (ModuleCat.coextendScalars (groupRingAugmentation Λ G))) := by
   have := Fintype.ofFinite G
   have := etaleModuleInverseImage_preservesFiniteLimits.{u, 0} Λ f
   have : ∀ i, Y.smallEtaleTopology.HasSheafCompose ((groupRingActionDiagram Λ G).obj i) :=
@@ -81,7 +81,7 @@ def etaleModuleInverseImageInvariants {X Y : Scheme.{u}} (f : X ⟶ Y) :
     etaleModuleInvariants Λ G Y ⋙ etaleModuleInverseImage.{u, 0} Λ f ≅
       etaleModuleInverseImage.{u, 0} (MonoidAlgebra Λ G) f ⋙ etaleModuleInvariants Λ G X :=
   asIso (inverseImageSheafComposeCoefficientMate Λ G f
-    (ModuleCat.coextendScalars (groupRingAugmentation Λ G))).natTrans
+    (ModuleCat.coextendScalars (groupRingAugmentation Λ G)))
 
 /-- The comparison of a coefficient functor with extension by zero along an étale `j`. -/
 abbrev extensionByZeroCoefficientMate {U X : Scheme.{u}} (j : U ⟶ X) [Etale j]
@@ -99,7 +99,7 @@ invertible. -/
 instance isIso_extensionByZeroCoefficientMate_invariants {U X : Scheme.{u}} (j : U ⟶ X)
     [Etale j] :
     IsIso (extensionByZeroCoefficientMate Λ G j
-      (ModuleCat.coextendScalars (groupRingAugmentation Λ G))).natTrans := by
+      (ModuleCat.coextendScalars (groupRingAugmentation Λ G))) := by
   have := Fintype.ofFinite G
   have : ∀ i, U.smallEtaleTopology.HasSheafCompose ((groupRingActionDiagram Λ G).obj i) :=
     fun _ => inferInstanceAs (U.smallEtaleTopology.HasSheafCompose
@@ -117,7 +117,7 @@ def etaleModuleExtensionByZeroInvariants {U X : Scheme.{u}} (j : U ⟶ X) [Etale
     etaleModuleInvariants Λ G U ⋙ etaleModuleExtensionByZero.{u, 0} Λ j ≅
       etaleModuleExtensionByZero.{u, 0} (MonoidAlgebra Λ G) j ⋙ etaleModuleInvariants Λ G X :=
   asIso (extensionByZeroCoefficientMate Λ G j
-    (ModuleCat.coextendScalars (groupRingAugmentation Λ G))).natTrans
+    (ModuleCat.coextendScalars (groupRingAugmentation Λ G)))
 
 end Stacks.EtaleCohomology
 

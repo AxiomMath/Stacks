@@ -53,7 +53,8 @@ it as data.
 terminality in the 2-category of *categories* fibred in groupoids, and the first does not formally
 give the second. `AlgebraicGeometry.Stack.QuotientAtlas.presentation`, in
 `StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/Quotient/QuotientAtlasPresentation.lean`, builds
-a `Presentation` from that Stacks 04M9 and the representability of `π` alone. The statements below take a `Presentation` as an argument, so
+a `Presentation` from that Stacks 04M9 and the representability of `π` alone. The statements
+below take a `Presentation` as an argument, so
 that what they assert is that **Stacks 04M9 together with the hypotheses of Stacks 06FH on `s` is
 sufficient**, every other input being discharged.
 
@@ -143,10 +144,10 @@ theorem isSurjective_of_sectionwise_lift {X Y : (BigFppfOver C S hS)ᵒᵖ ⥤ T
       toBase := p.toBase
       value := a }
   refine ⟨q.class C S hS X, ?_⟩
-  show (Space.FieldValuedPoint.map C S hS X f q).class C S hS Y = p.class C S hS Y
+  change (Space.FieldValuedPoint.map C S hS X f q).class C S hS Y = p.class C S hS Y
   apply Quot.sound
   refine ⟨p, ⟨𝟙 p.siteObject, ?_⟩, Space.FieldValuedPoint.dominates_refl C S hS Y p⟩
-  show Y.map (𝟙 p.siteObject).op (f.app (op p.siteObject) a) = p.value
+  change Y.map (𝟙 p.siteObject).op (f.app (op p.siteObject) a) = p.value
   simpa only [op_id, Functor.map_id_apply] using ha
 
 variable {B : AlgebraicSpaces C S hS}

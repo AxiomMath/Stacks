@@ -243,7 +243,7 @@ theorem reducedComponentsToReduction_sigmaι (Z : irreducibleComponents X)
     X.reducedComponentsToReduction
         (Sigma.ι (fun Z : irreducibleComponents X ↦ X.reducedComponent Z) Z w) =
       X.reducedComponentToReduction Z w := by
-  rw [← Scheme.Hom.comp_apply, reducedComponentsToReduction, Sigma.ι_desc]
+  rw [← Scheme.Hom.comp_apply, reducedComponentsToReduction, Sigma.ι_comp_desc]
 
 /-- The generic point of a reduced irreducible component of `X`, read in the reduction of `X` and
 then in `X`, is the generic point of that component of `X`. -/
@@ -350,7 +350,7 @@ theorem isBirational_reducedComponentsToReduction :
       (Sigma.ι (fun Z : irreducibleComponents X ↦ X.reducedComponent Z) Z ≫
         X.reducedComponentsToReduction)
       (X.reducedComponentToReduction Z)
-      (Sigma.ι_desc X.reducedComponentToReduction Z)
+      (Sigma.ι_comp_desc X.reducedComponentToReduction Z)
       (genericPoint (X.reducedComponent Z))
     rw [Scheme.Hom.stalkMap_comp] at hcongr
     have hcomp : IsIso (X.reducedComponentsToReduction.stalkMap

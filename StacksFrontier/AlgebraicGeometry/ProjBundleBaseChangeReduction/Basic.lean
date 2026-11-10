@@ -112,12 +112,13 @@ produce a `ChartFamily`. Neither of the two ways around this is available:
   of `A'` to `W` as a `SheafGradedAlgebra W.toScheme`. That restriction **does** exist —
   `Stacks.AlgebraicGeometry.RelativeProjBridge.SheafGradedAlgebra.restrict`, along any open
   immersion of the base, with `restrict_grading` making `(A'|_W).grading Z` definitionally
-  `A'.grading (W.ι ''ᵁ Z)`. What is missing is the step after it: the relative homogeneous spectrum of a
-  restricted algebra is nowhere compared with the corresponding preimage open —
+  `A'.grading (W.ι ''ᵁ Z)`. What is missing is the step after it: the relative homogeneous spectrum
+  of a restricted algebra is nowhere compared with the corresponding preimage open —
   `Stacks.AlgebraicGeometry.RelativeProj.relativeProj` is never applied to a restricted or
   pulled-back algebra anywhere in the library — so the per-`W` comparisons cannot yet be assembled.
 
-**The pullback of a graded algebra along a morphism of bases also exists**: `...RelativeProjBridge.SheafGradedAlgebra.pullback` takes a
+**The pullback of a graded algebra along a morphism of bases also exists**:
+`...RelativeProjBridge.SheafGradedAlgebra.pullback` takes a
 `SheafGradedAlgebra S` and an *arbitrary* `g : X ⟶ S` to a `SheafGradedAlgebra X`, with
 `pullback_piece` identifying its pieces with the inverse images of the pieces by `rfl`. For an
 open immersion the two spellings are compared by

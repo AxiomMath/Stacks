@@ -50,8 +50,8 @@ makes the comparison vacuous on the remaining generators `𝒪_X(-1), …, 𝒪_
 ## Implementation notes
 
 The derived-category model is the locally small one, as in
-`StacksFrontier/AlgebraicGeometry/ProjectiveSpace/Cohomology/TwistQuasiCoherentDerived.lean`; see the
-implementation notes there for why, and for why no isomorphism is transported between models.
+`StacksFrontier/AlgebraicGeometry/ProjectiveSpace/Cohomology/TwistQuasiCoherentDerived.lean`; see
+the implementation notes there for why, and for why no isomorphism is transported between models.
 
 `Stacks.DerivedFunctor.isZero_homology_totalRightDerived_obj` is stated for
 `Stacks.DerivedFunctor.totalRightDerived`, which is the same functor as

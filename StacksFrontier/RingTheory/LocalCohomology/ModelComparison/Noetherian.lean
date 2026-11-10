@@ -263,7 +263,7 @@ private lemma mem_primaryComponent_sup {A : Type*} [CommRing A] {M : Type*} [Add
     refine ⟨n + m, fun a => ?_⟩
     obtain ⟨b, hb, c, hc, hbc⟩ := Submodule.mem_sup.mp
       (Ideal.sup_pow_add_le_pow_sup_pow a.property)
-    show (a : A) • x = 0
+    change (a : A) • x = 0
     rw [← hbc, add_smul, hn ⟨b, hb⟩, hm ⟨c, hc⟩, add_zero]
 
 private lemma mem_primaryComponent_submodule {A : Type*} [CommRing A] {M : Type*}
@@ -281,7 +281,7 @@ private lemma primaryComponent_submodule_eq_comap {A : Type*} [CommRing A] (I J 
     Ideal.primaryComponent (Ideal.primaryComponent M I) J =
       (Ideal.primaryComponent M (I ⊔ J)).comap (Ideal.primaryComponent M I).subtype := by
   ext x
-  show x ∈ Ideal.primaryComponent (Ideal.primaryComponent M I) J ↔
+  change x ∈ Ideal.primaryComponent (Ideal.primaryComponent M I) J ↔
     (x : M) ∈ Ideal.primaryComponent M (I ⊔ J)
   rw [mem_primaryComponent_submodule, mem_primaryComponent_sup]
   exact ⟨fun h => ⟨x.property, h⟩, fun h => h.2⟩
@@ -588,7 +588,7 @@ theorem isIso_compareSectionsWithSupportLocalCohomology_app
   have h1 : IsIso ((compareTorsionFunctors.{u, v} A I hI).app K) :=
     TorsionCounit.isIso_compareTorsionFunctors_app.{u, v} A I hI K
   have := h1
-  show IsIso
+  change IsIso
     ((derivedSectionsWithSupportInIsoDerivedPowerTorsion.{u, v} A I hI).hom.app K ≫
       (Functor.isoWhiskerLeft (derivedPowerTorsion.{u, v} A I hI)
         (powerTorsionComparisonCompInclusionIso.{u, max u v} A I hI)).inv.app K ≫

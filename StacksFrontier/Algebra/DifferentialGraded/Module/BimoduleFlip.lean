@@ -85,7 +85,7 @@ def baseHom (A : DifferentialGradedAlgebra.{u, u} R) : (degreeZero R R).Hom A wh
   map_grading n a ha := by
     by_cases hn : n = 0
     · subst n
-      show algebraMap R A.A a ∈ A.grading 0
+      change algebraMap R A.A a ∈ A.grading 0
       rw [Algebra.algebraMap_eq_smul_one]
       exact (A.grading 0).smul_mem _ (SetLike.one_mem_graded A.grading)
     · have ha0 : a = 0 := by simpa [degreeZero, degreeZeroGrading, hn] using ha
@@ -93,7 +93,7 @@ def baseHom (A : DifferentialGradedAlgebra.{u, u} R) : (degreeZero R R).Hom A wh
       simp
   map_d a := by
     rw [show (degreeZero R R).d a = 0 from rfl, map_zero]
-    show (0 : A.A) = A.d (algebraMap R A.A a)
+    change (0 : A.A) = A.d (algebraMap R A.A a)
     rw [Algebra.algebraMap_eq_smul_one, map_smul, DifferentialGradedAlgebra.d_one, smul_zero]
 
 /-- The map `DifferentialGradedAlgebra.baseHom A` sends `r` to `algebraMap R A.A r`. -/
@@ -289,7 +289,7 @@ theorem oppLeftAction_mem_homogeneousMap (M : DifferentialGradedModule.{u, u, u}
         (toBaseModule M).M →ₗ[R] (toBaseModule M).M) ∈
       homogeneousMapSubmodule (degreeZero R R) (toBaseModule M) (toBaseModule M) n := by
   refine ⟨fun i y hy => ?_, fun c y => ?_⟩
-  · show oppLeftActionRingHom M (a : (Bimodule.oppAlgebra A).A) y ∈ M.grading (i + n)
+  · change oppLeftActionRingHom M (a : (Bimodule.oppAlgebra A).A) y ∈ M.grading (i + n)
     rw [oppLeftActionRingHom_apply_mem M a.property hy]
     exact Submodule.smul_mem _ _
       (M.smul_mem i n y _ hy (((opposite R A).mem_grading_iff n _).1 a.property))
@@ -324,7 +324,7 @@ theorem oppActionHom_differential (M : DifferentialGradedModule.{u, u, u} A) (n 
       homogeneousMapDifferential (degreeZero R R) (oppActionHom M n a) := by
   apply Subtype.ext
   refine LinearMap.ext fun x => ?_
-  show oppLeftActionRingHom M ((Bimodule.oppAlgebra A).d (a : (Bimodule.oppAlgebra A).A)) x =
+  change oppLeftActionRingHom M ((Bimodule.oppAlgebra A).d (a : (Bimodule.oppAlgebra A).A)) x =
     M.d (oppLeftActionRingHom M (a : (Bimodule.oppAlgebra A).A) x) -
       DifferentialGraded.gradedSign R n •
         oppLeftActionRingHom M (a : (Bimodule.oppAlgebra A).A) (M.d x)
@@ -429,7 +429,7 @@ homomorphism of the flipped bimodules: it is `R`-linear and commutes with the ri
 def flipMap {M M' : DifferentialGradedModule.{u, u, u} A} (f : M ⟶ M') : flip M ⟶ flip M' where
   rightHom := restrictScalarsHom (baseHom A) f
   map_left n p a x := by
-    show f.toFun (oppLeftActionRingHom M (a : (oppAlgebra A).A)
+    change f.toFun (oppLeftActionRingHom M (a : (oppAlgebra A).A)
         (x : (flip M).rightModule.M)) =
       oppLeftActionRingHom M' (a : (oppAlgebra A).A) (f.toFun (x : (flip M).rightModule.M))
     rw [oppLeftActionRingHom_apply_mem M a.property x.property,

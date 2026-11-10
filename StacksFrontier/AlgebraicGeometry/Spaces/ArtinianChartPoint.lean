@@ -102,7 +102,7 @@ theorem exists_lift_of_etale_of_isArtinianLocal {P₀ T₀ : Scheme.{u}} (q : P�
       commutes' := fun a ↦ by
         have h := DFunLike.congr_fun hι a
         simp only [RingHom.comp_apply] at h
-        show ι (residue S (algebraMap C S (algebraMap A C a))) = residue A₁ (π₀.appTop.hom a)
+        change ι (residue S (algebraMap C S (algebraMap A C a))) = residue A₁ (π₀.appTop.hom a)
         rw [← h, ← IsScalarTower.algebraMap_apply, ResidueField.algebraMap_residue] }
   let ℓ := Algebra.FormallySmooth.lift (maximalIdeal A₁) hnil g
   refine ⟨T₁.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom ℓ.toRingHom) ≫ hW.fromSpec, ?_⟩
@@ -111,7 +111,7 @@ theorem exists_lift_of_etale_of_isArtinianLocal {P₀ T₀ : Scheme.{u}} (q : P�
     exact ℓ.commutes a
   rw [Category.assoc, Category.assoc, ← IsAffineOpen.SpecMap_appLE_fromSpec q
     (isAffineOpen_top T₀) hW le_top, IsAffineOpen.fromSpec_top, ← Spec.map_comp_assoc]
-  show T₁.isoSpec.hom ≫ Spec.map (ψ ≫ CommRingCat.ofHom ℓ.toRingHom) ≫ T₀.isoSpec.inv = π₀
+  change T₁.isoSpec.hom ≫ Spec.map (ψ ≫ CommRingCat.ofHom ℓ.toRingHom) ≫ T₀.isoSpec.inv = π₀
   rw [hℓ, Scheme.isoSpec_hom_naturality_assoc, Iso.hom_inv_id, Category.comp_id]
 
 end AlgebraicGeometry

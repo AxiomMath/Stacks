@@ -171,6 +171,7 @@ private lemma homEquiv_comp_restrictScalarsRingCounitCompDirectImageIso_hom_app_
     ((Sheaf.moduleSheafFunctor (pushforwardRingSheaf f O)).map_id
       (SheafOfModules.unit (pushforwardRingSheaf f O))).symm
 
+omit [J.HasSheafCompose (forget AddCommGrpCat.{w})] in
 /-- The change-of-rings half of `homEquiv_tensorInverseImageObjUnitIso`: the transpose of
 `tensorInverseImageObjUnitIso` under the adjunction of Stacks 03CZ is the comparison
 `pullbackModuleUnitIso` followed by the canonical map to the restriction of scalars. -/

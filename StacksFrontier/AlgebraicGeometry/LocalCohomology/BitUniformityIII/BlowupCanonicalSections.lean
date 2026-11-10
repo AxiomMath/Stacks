@@ -273,7 +273,7 @@ commutative. -/
 theorem resSmulHom_smul (a : A) (m : resModule I n M) :
     resSmulHom I n M (a • m) = a • resSmulHom I n M m :=
   ModuleCat.hom_ext (LinearMap.ext fun x => by
-    show x • (Ideal.Quotient.mk (I ^ n) a • show (M : Type u) from m) =
+    change x • (Ideal.Quotient.mk (I ^ n) a • show (M : Type u) from m) =
       Ideal.Quotient.mk (I ^ n) a • (x • show (M : Type u) from m)
     rw [smul_smul, smul_smul, mul_comm])
 

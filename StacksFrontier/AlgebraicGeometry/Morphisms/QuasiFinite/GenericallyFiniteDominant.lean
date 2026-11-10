@@ -149,7 +149,7 @@ private theorem eq_bot_of_comap_eq_bot_of_isAlgebraic {A B K L : Type*} [CommRin
   refine eq_bot_iff.2 fun b hb => ?_
   rcases eq_or_ne b 0 with rfl | hb0
   · exact Ideal.zero_mem _
-  · exact absurd hq (Ideal.comap_ne_bot_of_algebraic_mem hb0 hb
+  · exact absurd hq (Ideal.under_ne_bot_of_algebraic_mem hb0 hb
       (Algebra.IsAlgebraic.isAlgebraic b))
 
 /-- For a pair of domains `A ⊆ B` with fraction fields `K ⊆ L`, if `B` is a finite-type

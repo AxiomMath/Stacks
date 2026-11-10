@@ -69,7 +69,7 @@ private theorem lineBaseChangeIso_hom_fst {S X : Scheme.{u}} (f : X ⟶ S) :
     pullback.fst f (lineProjection S) := by
   unfold AffineSpace
   have h : f ≫ terminal.from S = terminal.from X := terminalIsTerminal.hom_ext _ _
-  show (pullbackRightPullbackFstIso (terminal.from S) (terminal.from lineModel) f).hom ≫
+  change (pullbackRightPullbackFstIso (terminal.from S) (terminal.from lineModel) f).hom ≫
       (pullback.congrHom h rfl).hom ≫
         pullback.fst (terminal.from X) (terminal.from lineModel) = _
   have hcongr : (pullback.congrHom h rfl).hom ≫
@@ -91,7 +91,7 @@ private theorem lineBaseChangeIso_hom_snd {S X : Scheme.{u}} (f : X ⟶ S) :
       AffineSpace.toSpecMvPoly (ULift.{u} PUnit) S := by
   unfold AffineSpace AffineSpace.toSpecMvPoly
   have h : f ≫ terminal.from S = terminal.from X := terminalIsTerminal.hom_ext _ _
-  show (pullbackRightPullbackFstIso (terminal.from S) (terminal.from lineModel) f).hom ≫
+  change (pullbackRightPullbackFstIso (terminal.from S) (terminal.from lineModel) f).hom ≫
       (pullback.congrHom h rfl).hom ≫
         pullback.snd (terminal.from X) (terminal.from lineModel) = _
   have hcongr : (pullback.congrHom h rfl).hom ≫
@@ -193,14 +193,14 @@ private theorem lineBaseChange_comm {S : Scheme.{u}} (G : GroupoidScheme S)
   have harrsnd : (lineBaseChangeArrowsIso G).hom ≫ _ = _ :=
     isoPullback_lineBaseChangeIso_snd (lineBaseChange G).isPullback_arrows
   apply pullback.hom_ext
-  · show (f'.left ≫ (lineBaseChangeObjectsIso G).hom) ≫
+  · change (f'.left ≫ (lineBaseChangeObjectsIso G).hom) ≫
         (AffineSpace (ULift.{u} PUnit) G.objects.left ↘ G.objects.left) =
       ((lineBaseChangeArrowsIso G).hom ≫ AffineSpace.map _ f.left) ≫
         (AffineSpace (ULift.{u} PUnit) G.objects.left ↘ G.objects.left)
     rw [Category.assoc, hobjfst, Category.assoc, AffineSpace.map_over,
       ← Category.assoc, harrfst]
     exact hf.symm
-  · show (f'.left ≫ (lineBaseChangeObjectsIso G).hom) ≫
+  · change (f'.left ≫ (lineBaseChangeObjectsIso G).hom) ≫
         AffineSpace.toSpecMvPoly (ULift.{u} PUnit) G.objects.left =
       ((lineBaseChangeArrowsIso G).hom ≫ AffineSpace.map _ f.left) ≫
         AffineSpace.toSpecMvPoly (ULift.{u} PUnit) G.objects.left
@@ -225,7 +225,7 @@ private theorem lineBaseChangeSections_map {S : Scheme.{u}} (G : GroupoidScheme 
     rw [lineBaseChange_comm G f f' hf, Iso.inv_hom_id_assoc]
   have hs := congrArg (fun g => Scheme.Hom.appTop g x) hi
   simp only [Scheme.Hom.comp_appTop, CommRingCat.comp_apply] at hs
-  show affineLineSectionsEquiv (X := G.arrows.left)
+  change affineLineSectionsEquiv (X := G.arrows.left)
       ((lineBaseChangeArrowsIso G).inv.appTop (f'.left.appTop x)) = _
   rw [hs]
   have hm := RingHom.congr_fun (affineLineSectionsEquiv_map f.left)
@@ -293,7 +293,7 @@ private theorem exists_adjugate_projective
     exact (det_eq_det_toMatrix'_stabilization φ q i hqi).symm
   refine ⟨q.comp (adj.comp i), ?_⟩
   ext x
-  show φ (q (adj (i x))) = ProjectiveDeterminant.det φ • x
+  change φ (q (adj (i x))) = ProjectiveDeterminant.det φ • x
   calc
     _ = q (F (adj (i x))) := LinearMap.congr_fun hqF.symm _
     _ = q (A.det • i x) := congrArg q (LinearMap.congr_fun hF (i x))
@@ -376,7 +376,7 @@ theorem isIntegral_over_invariantRing {S : Scheme.{u}} (G : GroupoidScheme S)
   have hlin : Algebra.lmul A' B' (t y) =
       LinearMap.id + (-z) • Algebra.lmul A' B' (t a) := by
     ext v
-    show t y * v = v + s (-z) * (t a * v)
+    change t y * v = v + s (-z) * (t a * v)
     dsimp only [y]
     rw [map_sub, map_one, map_mul, ← hz, map_neg]
     ring
@@ -399,13 +399,13 @@ theorem isIntegral_over_invariantRing {S : Scheme.{u}} (G : GroupoidScheme S)
   have hpdiv : 1 - Polynomial.C x * Polynomial.X ∣ p := by
     obtain ⟨q, hq⟩ := hdiv
     refine ⟨eO q, ?_⟩
-    show eO d = _
+    change eO d = _
     rw [hq, map_mul]
     congr 1
     simp only [y, map_sub, map_one, map_mul, a, z, RingEquiv.apply_symm_apply]
   obtain ⟨N, hmonic, hroot⟩ := Polynomial.monic_relation_of_divisor x p hp0 hpdiv
   apply RingHom.isIntegral_of_monic_polynomial_invariant _ _ x (p.reflect N) hmonic hroot
-  show (p.reflect N).map G.source.left.appTop.hom =
+  change (p.reflect N).map G.source.left.appTop.hom =
     (p.reflect N).map G.target.left.appTop.hom
   rw [← Polynomial.reflect_map, ← Polynomial.reflect_map, hpInv]
 

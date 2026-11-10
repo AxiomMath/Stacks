@@ -193,7 +193,7 @@ theorem exists_representedEpsilonLocalDerivation
     (etale_representedStructureSheaf_map B S hS U j hZ hA) (M := ToType (T.val.obj (op A)))
     ((T.val.map j.op).hom.toAddMonoidHom.comp (representedEpsilonDerivationSeed B S hS φ T D₀ Z))
     fun x y => ?_
-  show T.val.map j.op (representedEpsilonDerivationSeed B S hS φ T D₀ Z (x * y)) = _
+  change T.val.map j.op (representedEpsilonDerivationSeed B S hS φ T D₀ Z (x * y)) = _
   rw [representedEpsilonDerivationSeed_mul, map_add]
   exact congrArg₂ (· + ·) (PresheafOfModules.map_smul T.val j.op x _)
     (PresheafOfModules.map_smul T.val j.op y _)
@@ -229,13 +229,12 @@ theorem representedEpsilonDerivationSeed_map {Z₁ Z₂ : ((BigFppfOver.toScheme
       ((representedToZariskiRingedToposSiteHom B S hS U).fSharp.hom.naturality (homOfLE hle).op)
       ((Scheme.Opens.topIso Z₁).hom.hom s)
   rw [representedToZariskiRingedToposSiteHom_fSharp_app_topIso_hom B S hS Z₁ s] at hnat
-  show D₀.d ((Scheme.Opens.topIso Z₂).hom.hom
+  change D₀.d ((Scheme.Opens.topIso Z₂).hom.hom
     ((smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).O.obj.map
       ((representedEpsilonFunctor B S hS U).map (homOfLE hle)).op s)) = _
   rw [← hnat, topIso_hom_representedToZariskiRingedToposSiteHom_fSharp_app]
   exact D₀.d_map (homOfLE hle).op _
 
-include φ in
 /-- **The affine charts over affine opens below `W` cover every chart mapping to `ε(W)`.**  The
 affine opens below `W` cover `W`, `ε` preserves covering sieves, and the affine opens of a chart
 mapping to `ε(Z₂)` cover it. -/
@@ -374,7 +373,7 @@ theorem representedEpsilonLocalDerivation_eq
   let k : A ⟶ (representedEpsilonFunctor B S hS U).obj (Z ⊓ Z') :=
     adj.homEquiv A (Z ⊓ Z') (homOfLE (le_inf (leOfHom ((adj.homEquiv A Z).symm j))
       (leOfHom ((adj.homEquiv A Z').symm j'))))
-  refine T.isSheaf.isSeparated A _ (generate_affineChart_le_mem B S hS φ k) _ _ ?_
+  refine T.isSheaf.isSeparated A _ (generate_affineChart_le_mem B S hS k) _ _ ?_
   rintro Y g ⟨Y', h, g', ⟨hY', Z₂, hZ₂, hle, ⟨j₂⟩⟩, rfl⟩
   have e₁ := representedEpsilonLocalDerivation_comp B S hS φ T D₀ g' j j₂ hZ hZ₂ hA hY'
     (hle.trans inf_le_left) r

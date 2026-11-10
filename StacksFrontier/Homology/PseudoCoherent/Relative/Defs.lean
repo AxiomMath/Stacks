@@ -39,7 +39,8 @@ Fixed-degree pseudo-coherence over the polynomial algebra is
 `StacksFrontier/Algebra/Homology/PseudoCoherent.lean`. It applies here unchanged: what is being
 tested is the restriction of scalars of `K` along the presentation, an object of the derived
 category of the polynomial algebra like any other. So this module carries no tag and imports
-no tagged module, and the four predicates it defines are stated entirely in the conceptual vocabulary.
+no tagged module, and the four predicates it defines are stated entirely in the conceptual
+vocabulary.
 
 ## References
 

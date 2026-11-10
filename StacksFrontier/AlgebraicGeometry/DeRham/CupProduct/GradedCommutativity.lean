@@ -49,7 +49,8 @@ The two laws are stated in two readings. The *degree-normalized* reading uses
 the two sides of either law then live in exterior powers whose degrees are equal but not
 syntactically so, and `AlgebraicGeometry.SheafOfModules.reindexForm` transports between them. The
 *total* reading places everything in the ring `totalForms` of all local forms of
-`StacksFrontier.AlgebraicGeometry.DeRham.CupProduct.GradedForms`, where no transport is needed because
+`StacksFrontier.AlgebraicGeometry.DeRham.CupProduct.GradedForms`, where no transport is needed
+because
 the degree is carried by the element.
 
 Graded commutativity is proved first for exact wedges, by induction on the degree of the second
@@ -322,7 +323,7 @@ private theorem swapFormProduct_smul_smul (p q : ℕ) (U : (Opens X.carrier)ᵒ�
     refine Eq.trans (congrArg (fun z => b • z)
       ((B.exterior.mul (q : ℤ) (p : ℤ)).map_smul_right U a η ω)) ?_
     exact smul_smul b a _
-  show (-1 : ℤ) ^ (p * q) • reindexForm B (Nat.add_comm q p) U
+  change (-1 : ℤ) ^ (p * q) • reindexForm B (Nat.add_comm q p) U
       ((B.exterior.mul (q : ℤ) (p : ℤ)).app U (b • η) (a • ω)) =
     (a * b) • ((-1 : ℤ) ^ (p * q) • reindexForm B (Nat.add_comm q p) U
       ((B.exterior.mul (q : ℤ) (p : ℤ)).app U η ω))

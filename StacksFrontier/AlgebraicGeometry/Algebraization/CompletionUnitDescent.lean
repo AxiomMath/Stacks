@@ -148,10 +148,10 @@ private theorem exists_iso_under_of_universal {C : Type*} [Category C] {X Y Y' :
   change c' ≫ q = c at hq
   refine ⟨⟨p, q, ?_, ?_⟩, hp⟩
   · apply h3
-    show c ≫ p ≫ q = c ≫ 𝟙 Y
+    change c ≫ p ≫ q = c ≫ 𝟙 Y
     rw [← Category.assoc, hp, hq, Category.comp_id]
   · apply h4
-    show c' ≫ q ≫ p = c' ≫ 𝟙 Y'
+    change c' ≫ q ≫ p = c' ≫ 𝟙 Y'
     rw [← Category.assoc, hq, hp, Category.comp_id]
 
 /-- Invertibility of the image of a unit under a functor transfers along an isomorphism of the
@@ -301,7 +301,7 @@ public theorem bijective_restrictScalars_map_of_derivedPowerTorsion (I : Ideal A
       ((derivedRestrictScalarsFunctor A B).obj L) E).symm g)
     refine ⟨m, ?_⟩
     change (derivedExtendRestrictAdjunction A B).counit.app L ≫ m = _ at hm
-    show (derivedRestrictScalarsFunctor A B).map m = g
+    change (derivedRestrictScalarsFunctor A B).map m = g
     rw [hkey m, hm, Equiv.apply_symm_apply]
 
 

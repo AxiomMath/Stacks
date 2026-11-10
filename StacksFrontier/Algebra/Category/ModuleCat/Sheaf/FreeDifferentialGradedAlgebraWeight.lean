@@ -114,10 +114,10 @@ theorem wt_lt_single_of_support {b : I →₀ ℕ} {k : I} (hb : ∀ j ∈ b.sup
     toColex b < toColex (Finsupp.single k 1) := by
   refine Finsupp.Colex.lt_iff.mpr ⟨k, fun j hj => ?_, ?_⟩
   · have hj' : j ∉ b.support := fun h => absurd (hb j h) (not_lt.mpr hj.le)
-    show b j = Finsupp.single k 1 j
+    change b j = Finsupp.single k 1 j
     rw [Finsupp.notMem_support_iff.mp hj', Finsupp.single_eq_of_ne hj.ne']
   · have hk : k ∉ b.support := fun h => lt_irrefl k (hb k h)
-    show b k < Finsupp.single k 1 k
+    change b k < Finsupp.single k 1 k
     rw [Finsupp.notMem_support_iff.mp hk, Finsupp.single_eq_same]
     exact Nat.one_pos
 

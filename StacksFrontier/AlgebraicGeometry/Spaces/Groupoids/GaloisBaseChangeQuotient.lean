@@ -337,7 +337,7 @@ private theorem galoisTensorPi_bijective [FiniteDimensional k k'] [IsGalois k k'
       ext h
       simp [M, ev]
     rwa [heq] at h'
-  have hMunit : IsUnit M := Matrix.linearIndependent_rows_iff_isUnit.mp hrows
+  have hMunit : IsUnit M := Matrix.linearIndependent_row_iff_isUnit.mp hrows
   refine ⟨fun x y hxy => e.injective
       (Matrix.mulVec_injective_iff_isUnit.mpr hMunit (funext fun g => ?_)), fun f => ?_⟩
   · rw [← heval x, ← heval y, hxy]

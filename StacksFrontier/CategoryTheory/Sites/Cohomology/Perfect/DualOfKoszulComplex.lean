@@ -178,6 +178,7 @@ omit [MonoidalPreadditive C] in
 theorem dualXIsoIn_eq (n : ℤ) (h : n + -n = 0) :
     dualXIsoIn K D D' q q' n (-n) h = dualXIsoAt K D D' q q' n := rfl
 
+omit [MonoidalPreadditive C] in
 /-- **The square comparing the two signed transposes commutes.** -/
 theorem signedTransposeAt_comp_dualXIsoAt (n : ℤ) :
     signedTransposeAt K D q n ≫ (dualXIsoAt K D D' q q' n).hom =
@@ -187,6 +188,7 @@ theorem signedTransposeAt_comp_dualXIsoAt (n : ℤ) :
   exact congrArg _ (mate_comp_mate_id_comm (dualPairing K D q n) (dualPairing K D' q' n)
     (dualPairing K D q (n + 1)) (dualPairing K D' q' (n + 1)) (K.d n (n + 1)))
 
+omit [MonoidalPreadditive C] in
 /-- **The square comparing the two signed transposes, at the degrees of the dual complexes.**
 The three integers are the degree `n` of `K` whose differential is transposed, read off the
 target degree `j'`, and the degrees `j`, `j'` of the dual complexes; the first argument `m` of

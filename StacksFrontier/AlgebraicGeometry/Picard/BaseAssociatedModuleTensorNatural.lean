@@ -195,7 +195,7 @@ public theorem baseAssociatedModuleTensorIso_naturality (τ : SiteKind)
       (X := ((basePullbackModules B S hS τ).obj M, (basePullbackModules B S hS τ).obj N))
       (Y := ((baseAssociatedModule B S hS τ).obj M',
         (baseAssociatedModule B S hS τ).obj N')) z) ?_
-    show ((basePullbackModules B S hS τ).map e.hom ≫
+    change ((basePullbackModules B S hS τ).map e.hom ≫
             (pullbackModulesIsoBaseAssociatedModule B S hS τ).hom.app M',
           (basePullbackModules B S hS τ).map f.hom ≫
             (pullbackModulesIsoBaseAssociatedModule B S hS τ).hom.app N') = _

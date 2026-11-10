@@ -63,8 +63,9 @@ All in the namespace `Stacks.EtaleCohomology.EtaleCoefficients`.
 ## Implementation notes
 
 The base change maps on both sides of the bridge `isIso_baseChangeMap_app_iff` are built on the
-standard model of the derived category (`StacksFrontier/CategoryTheory/Sites/Cohomology/
-StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean:394`), which fixes the model here.
+standard model of the derived category (line 394 of
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean`),
+which fixes the model here.
 
 ## References
 
@@ -82,8 +83,8 @@ universe u
 
 namespace Stacks.EtaleCohomology.EtaleCoefficients
 
--- `derivedPullback` (`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/
--- StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean:394`) is stated for the standard model of the derived category.
+-- `derivedPullback` is stated for the standard model of the derived category, at line 394 of
+-- `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean`
 attribute [local instance] HasDerivedCategory.standard
 
 attribute [local instance] Stacks.DerivedIndexing.commShiftRightDerivedFunctorPlus

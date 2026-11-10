@@ -93,7 +93,7 @@ with the generic fibre is an isomorphism. -/
 theorem isOpenImmersion_genericFiberToModel : IsOpenImmersion S.genericFiberToModel := by
   have : IsOpenImmersion (Spec.map (CommRingCat.ofHom (algebraMap S.R S.K))) :=
     Stacks.Models.genericFiberSpec_isOpenImmersion
-  show IsOpenImmersion (S.genericFiberIso.hom ≫ pullback.fst S.X_to_R
+  change IsOpenImmersion (S.genericFiberIso.hom ≫ pullback.fst S.X_to_R
     (Spec.map (CommRingCat.ofHom (algebraMap S.R S.K))))
   infer_instance
 
@@ -262,7 +262,7 @@ theorem exists_mem_supportSet_specialFiberComponentIdeal {x : S.X}
   rw [S.coe_support_specialFiberIdeal] at hx'
   obtain ⟨y, rfl⟩ := hx'
   refine ⟨⟨irreducibleComponent y, irreducibleComponent_mem_irreducibleComponents y⟩, ?_⟩
-  show S.specialFiberι.base y ∈
+  change S.specialFiberι.base y ∈
     ((S.toRegularModelSituation.specialFiberComponentIdeal _).support : Set S.X)
   rw [S.toRegularModelSituation.coe_support_specialFiberComponentIdeal]
   exact ⟨y, mem_irreducibleComponent, rfl⟩

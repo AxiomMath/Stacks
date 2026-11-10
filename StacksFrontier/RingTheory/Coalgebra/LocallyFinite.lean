@@ -54,8 +54,7 @@ private lemma rid_lTensor_assoc_symm_tmul (φ : C →ₗ[k] k) (m : C) (t : C �
     TensorProduct.rid k (C ⊗[k] C)
         (φ.lTensor (C ⊗[k] C) ((TensorProduct.assoc k C C C).symm (m ⊗ₜ t))) =
       m ⊗ₜ TensorProduct.rid k C (φ.lTensor C t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b => simp [tmul_smul]
   | add s t hs ht => simp only [tmul_add, map_add, hs, ht]
 
@@ -64,8 +63,7 @@ first factor. -/
 private lemma comul_rid_lTensor (φ : C →ₗ[k] k) (y : C ⊗[k] C) :
     comul (R := k) (TensorProduct.rid k C (φ.lTensor C y)) =
       TensorProduct.rid k (C ⊗[k] C) (φ.lTensor (C ⊗[k] C) ((comul (R := k)).rTensor C y)) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul a b => simp
   | add s t hs ht => simp only [map_add, hs, ht]
 

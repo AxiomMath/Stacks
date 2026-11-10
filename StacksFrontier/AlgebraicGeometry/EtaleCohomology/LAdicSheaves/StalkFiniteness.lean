@@ -224,7 +224,7 @@ public theorem LAdicSheaf.stalk_equiv_free_prod_torsion
         · have : Subsingleton (cyc i) :=
             Submodule.Quotient.subsingleton_iff.2 (by simp [Nat.eq_zero_of_not_pos hi])
           exact Subsingleton.elim _ _
-      right_inv := fun f => funext fun i => dif_pos i.2
+      right_inv := fun f => funext fun i => dite_eq_left i.2
       map_add' := fun _ _ => rfl
       map_smul' := fun _ _ => rfl }
   let eFin : Fin (Fintype.card good) ≃ good := (Fintype.equivFin good).symm

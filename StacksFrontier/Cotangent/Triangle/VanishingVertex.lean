@@ -73,7 +73,7 @@ namespace CommAlgCat
 section Display
 
 variable (A : Type u) [CommRing A] (B : Type (max u v)) [CommRing B] [Algebra A B]
-  (C : Type (max u v)) [CommRing C] [Algebra A C] [Algebra B C] [IsScalarTower A B C]
+  (C : Type (max u v)) [CommRing C] [Algebra A C] [Algebra B C]
   [HasDerivedCategory.{wB} (ModuleCat.{max u v} B)]
   [HasDerivedCategory.{wC} (ModuleCat.{max u v} C)]
 

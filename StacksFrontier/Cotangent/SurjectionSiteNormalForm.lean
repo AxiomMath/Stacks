@@ -247,11 +247,10 @@ theorem smallPolynomialAugmentationIdealPowNormalForm_symm_comp_baseChange {n m 
           (smallPolynomialAugmentationIdealPowSubmodule_antitone A B κ h X)).comp
         (smallPolynomialAugmentationIdealPowNormalForm A B κ m X h0).symm.toLinearMap := by
   refine LinearMap.ext fun y => ?_
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul b p =>
     refine Subtype.ext ((smallPolynomialQuotientAlgEquiv A B κ X).injective ?_)
-    show smallPolynomialQuotientAlgEquiv A B κ X
+    change smallPolynomialQuotientAlgEquiv A B κ X
         (((smallPolynomialAugmentationIdealPowNormalForm A B κ n X h0).symm
             (b ⊗ₜ Submodule.inclusion (MvPolynomial.degreeGE_antitone A _ h) p) :
           ↥(smallPolynomialAugmentationIdealPowSubmodule A B κ n X)) :

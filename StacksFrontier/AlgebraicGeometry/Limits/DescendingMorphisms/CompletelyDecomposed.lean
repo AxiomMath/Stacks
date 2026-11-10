@@ -75,10 +75,10 @@ private lemma isCompletelyDecomposed_of_surjective_family_with_sections
     rw [← hzx] at hz
     simpa [← Scheme.Hom.comp_apply] using hz
   have hfg : t ≫ f = g i := by
-    show s ≫ pullback.fst f (g i) ≫ f = g i
+    change s ≫ pullback.fst f (g i) ≫ f = g i
     rw [pullback.condition, ← Category.assoc, hs, Category.id_comp]
   have hty : f (t x) = y := by
-    show (t ≫ f) x = y
+    change (t ≫ f) x = y
     rwa [hfg]
   have hcomp : IsIso ((t ≫ f).residueFieldMap x) := by
     have : IsImmersion (g i) := himm i
@@ -212,7 +212,7 @@ private lemma exists_surjective_pullback_snd
   have : LocallyOfFinitePresentation f'.left := hW'.1
   have hlim : Surjective ((Over.pullback (c'.π.app a)).obj W').hom := by
     apply (property_pullback_comp_iff @Surjective.{u} _ _ W).mp
-    show Surjective ((Over.pullback (c.π.app a.left ≫ D.map a.hom)).obj W).hom
+    change Surjective ((Over.pullback (c.π.app a.left ≫ D.map a.hom)).obj W).hom
     rwa [c.w]
   have : Surjective ((Over.pullback (c'.π.app a)).map f').left :=
     (property_baseChange_to_identity_iff @Surjective.{u} _ W').mpr hlim
@@ -283,7 +283,7 @@ theorem exists_isCompletelyDecomposed_baseChange_of_limitBaseChange
   have hDaff (a : Over i₀) :
       IsAffineHom ((Over.pullback Y₀.hom).obj ((Over.post S).obj a)).hom := by
     apply MorphismProperty.pullback_snd
-    show IsAffineHom (S.map a.hom)
+    change IsAffineHom (S.map a.hom)
     infer_instance
   have hDcompact : ∀ a : Over i₀, CompactSpace (D.obj a) := fun a =>
     have := hDaff a
@@ -294,7 +294,7 @@ theorem exists_isCompletelyDecomposed_baseChange_of_limitBaseChange
   have hDaffine {a b : Over i₀} (q : a ⟶ b) : IsAffineHom (D.map q) := by
     dsimp [D]
     have hq : IsAffineHom ((Over.post S).map q).left := by
-      show IsAffineHom (S.map q.left)
+      change IsAffineHom (S.map q.left)
       infer_instance
     exact MorphismProperty.overPullbackMap (P := @IsAffineHom.{u}) Y₀.hom
       ((Over.post S).map q) hq
@@ -316,7 +316,7 @@ theorem exists_isCompletelyDecomposed_baseChange_of_limitBaseChange
             (Over.pullback (cD.π.app a)).obj W) :=
     let Zobj : Over cD.pt := Over.mk (g k ≫ β.inv)
     have hZfp : FinitePresentation Zobj.hom := by
-      show FinitePresentation (g k ≫ β.inv)
+      change FinitePresentation (g k ≫ β.inv)
       refine ⟨?_, ?_, ?_⟩
       · have : LocallyOfFinitePresentation (g k) := (hfp k).1
         infer_instance
@@ -339,7 +339,7 @@ theorem exists_isCompletelyDecomposed_baseChange_of_limitBaseChange
         let φ := (Over.pullback (W k).hom).map ((Over.post D).map q)
         let U₁ := (Over.pullback (W k).hom).obj ((Over.post D).obj b₁)
         let U₂ := (Over.pullback (W k).hom).obj ((Over.post D).obj b₂)
-        show φ.left ≫ U₂.hom ≫ (W k).hom ≫ pY k =
+        change φ.left ≫ U₂.hom ≫ (W k).hom ≫ pY k =
           U₁.hom ≫ (W k).hom ≫ pY k
         exact congrArg (fun z => z ≫ (W k).hom ≫ pY k) (Over.w φ) }
   have hWcompact (k : Fin n) : CompactSpace (W k).left :=
@@ -390,7 +390,7 @@ theorem exists_isCompletelyDecomposed_baseChange_of_limitBaseChange
       exact pullback.lift_snd _ _ _
     have hβfst : β.hom ≫ pullback.fst Y₀.hom (c.π.app i₀) =
         pullback.snd (c.π.app i₀) Y₀.hom := by
-      show (pullbackSymmetry (c.π.app i₀) Y₀.hom).hom ≫ _ = _
+      change (pullbackSymmetry (c.π.app i₀) Y₀.hom).hom ≫ _ = _
       exact pullbackSymmetry_hom_comp_fst _ _
     let top : Over (a k) := Over.mk (𝟙 (a k))
     have htopL : (cW.π.app top) ≫ (tW k).app top =
@@ -399,7 +399,7 @@ theorem exists_isCompletelyDecomposed_baseChange_of_limitBaseChange
         (((Over.conePost D (a k)).obj cD).π.app top)
       have hφ : φ.left ≫ pullback.snd (D.map (𝟙 (a k))) (W k).hom =
           pullback.snd (cD.π.app (a k)) (W k).hom := Over.w φ
-      show (φ.left ≫ pullback.snd (D.map (𝟙 (a k))) (W k).hom) ≫
+      change (φ.left ≫ pullback.snd (D.map (𝟙 (a k))) (W k).hom) ≫
           ((W k).hom ≫ pY k) =
         (pullback.fst (cD.π.app (a k)) (W k).hom ≫ cD.π.app (a k)) ≫ pY k
       rw [hφ]
@@ -407,10 +407,10 @@ theorem exists_isCompletelyDecomposed_baseChange_of_limitBaseChange
         (pullback.condition (f := cD.π.app (a k)) (g := (W k).hom)).symm
     have htopR : v.hom ≫ e.inv.left ≫ g k ≫ pullback.fst Y₀.hom (c.π.app i₀) =
         pullback.fst (cD.π.app (a k)) (W k).hom ≫ cD.π.app (a k) ≫ pY k := by
-      show (v.hom ≫ (e.inv.left ≫ g k)) ≫ pullback.fst Y₀.hom (c.π.app i₀) =
+      change (v.hom ≫ (e.inv.left ≫ g k)) ≫ pullback.fst Y₀.hom (c.π.app i₀) =
         (pullback.fst (cD.π.app (a k)) (W k).hom ≫ cD.π.app (a k)) ≫ pY k
       rw [heY]
-      show (v.hom ≫ pullback.snd (W k).hom (cD.π.app (a k))) ≫
+      change (v.hom ≫ pullback.snd (W k).hom (cD.π.app (a k))) ≫
           (β.hom ≫ pullback.fst Y₀.hom (c.π.app i₀)) =
         (pullback.fst (cD.π.app (a k)) (W k).hom ≫ cD.π.app (a k)) ≫ pY k
       rw [pullbackSymmetry_hom_comp_snd, hβfst, ← hpYlim]
@@ -483,7 +483,7 @@ theorem exists_isCompletelyDecomposed_baseChange_of_limitBaseChange
     have : QuasiSeparatedSpace (Yk k).left := hDqs (a k)
     have : LocallyOfFiniteType (fStage k).left := by
       have : LocallyOfFinitePresentation (W k).hom := (hWfp k).1
-      show LocallyOfFiniteType (W k).hom
+      change LocallyOfFiniteType (W k).hom
       infer_instance
     have hlim : IsImmersion ((Over.pullback (ck.π.app (Over.mk (𝟙 (a k))))).map
         (fStage k)).left := by
@@ -524,7 +524,7 @@ theorem exists_isCompletelyDecomposed_baseChange_of_limitBaseChange
         Dk ck hck (Over.mk (𝟙 (a k))) (W k) (Yk k) (fStage k)
     have hiEq : Over.Hom.left hi = b.hom := by simpa using hi.w
     have hmap : Dk.map hi = D.map b.hom := by
-      show D.map (Over.Hom.left hi) = D.map b.hom
+      change D.map (Over.Hom.left hi) = D.map b.hom
       rw [hiEq]
     exact ⟨b, by
       rw [← hmap]
@@ -597,7 +597,7 @@ theorem exists_isCompletelyDecomposed_baseChange_of_limitBaseChange
   have hrM (k : Fin n) : rM k ≫ f₀.left = (Wm k).hom ≫ pD m := by
     dsimp [rM]
     rw [Category.assoc, hrB]
-    show pullback.fst (Wb k).hom (D.map (q k)) ≫
+    change pullback.fst (Wb k).hom (D.map (q k)) ≫
         (Wb k).hom ≫ D.map (b k).hom ≫ pD (a k) = _
     rw [pullback.condition_assoc, hpD, hpD]
     rfl
@@ -624,7 +624,7 @@ theorem exists_isCompletelyDecomposed_baseChange_of_limitBaseChange
     have heq : Sigma.desc l ≫ pullback.snd F (cD.π.app m) = Sigma.desc g ≫ β.inv := by
       apply Sigma.hom_ext
       intro k
-      simp only [Sigma.ι_desc_assoc]
+      simp only [Sigma.ι_comp_desc_assoc]
       exact pullback.lift_snd _ _ _
     have : Surjective (Sigma.desc g) := hsurj
     have : Surjective (Sigma.desc l ≫ pullback.snd F (cD.π.app m)) := by
@@ -660,13 +660,13 @@ theorem exists_isCompletelyDecomposed_baseChange_of_limitBaseChange
         (pullback.condition (f := F) (g := D.map e))
       rw [Scheme.Hom.comp_apply, Scheme.Hom.comp_apply, hz, ← hx] at hh
       change F (Sigma.ι (fun k => (Wm k).left) k x) = D.map e y at hh
-      have hι : Sigma.ι (fun k => (Wm k).left) k ≫ F = (Wm k).hom := Sigma.ι_desc _ _
+      have hι : Sigma.ι (fun k => (Wm k).left) k ≫ F = (Wm k).hom := Sigma.ι_comp_desc _ _
       have hιx := congrArg (fun f : (Wm k).left ⟶ D.obj m => f x) hι
       change F (Sigma.ι (fun k => (Wm k).left) k x) = (Wm k).hom x at hιx
       exact hιx.symm.trans hh
     obtain ⟨w, -, hw⟩ := Scheme.Pullback.exists_preimage_pullback x y hxy
     refine ⟨Sigma.ι V k w, ?_⟩
-    have hι : Sigma.ι V k ≫ Sigma.desc v = v k := Sigma.ι_desc _ _
+    have hι : Sigma.ι V k ≫ Sigma.desc v = v k := Sigma.ι_comp_desc _ _
     exact (congrArg (fun f : V k ⟶ D.obj j => f w) hι).trans hw
   let δ : D.obj j ≅ ((Over.pullback (S.map j.hom)).obj Y₀).left :=
     pullbackSymmetry (S.map j.hom) Y₀.hom
@@ -680,7 +680,7 @@ theorem exists_isCompletelyDecomposed_baseChange_of_limitBaseChange
       rw [← f₀.w, ← Category.assoc, hr]
       have hcond : pD j ≫ Y₀.hom =
           pullback.fst (S.map j.hom) Y₀.hom ≫ S.map j.hom := by
-        show pullback.snd (S.map j.hom) Y₀.hom ≫ Y₀.hom =
+        change pullback.snd (S.map j.hom) Y₀.hom ≫ Y₀.hom =
           pullback.fst (S.map j.hom) Y₀.hom ≫ S.map j.hom
         exact (pullback.condition).symm
       calc

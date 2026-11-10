@@ -179,7 +179,7 @@ public theorem irrelevant_le_gradedBaseChange (W : s.base.affineOpens) (W' : s'.
     have hm : gradedBaseChange g Φ W.1 W'.1 h (DirectSum.of (s.sectionPieces W.1) i b)
         = DirectSum.of (s'.sectionPieces W'.1) i (pieceSectionHom g Φ i W.1 W'.1 h b) :=
       sectionRingBaseChange_of g Φ W.1 W'.1 h i b
-    show DirectSum.of (s'.sectionPieces W'.1) i (pieceSectionHom g Φ i W.1 W'.1 h b) ∈ _
+    change DirectSum.of (s'.sectionPieces W'.1) i (pieceSectionHom g Φ i W.1 W'.1 h b) ∈ _
     rw [← hm]
     exact Ideal.mem_map_of_mem _ (HomogeneousIdeal.mem_irrelevant_of_mem _ hi ⟨b, rfl⟩)
   · intro r b ih

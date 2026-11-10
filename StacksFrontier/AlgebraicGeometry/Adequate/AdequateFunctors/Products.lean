@@ -31,12 +31,12 @@ empty product.
 
 ## Contents
 
-* `StacksFrontier.AlgebraicGeometry.Adequate.AdequateFunctors.Products.Factors`: algebras and modules
-  over the factors of a finite product of rings.
-* `StacksFrontier.AlgebraicGeometry.Adequate.AdequateFunctors.Products.FamilyToProduct`: assembling a
-  family of functors over the factors into one adequate functor over the product.
-* `StacksFrontier.AlgebraicGeometry.Adequate.AdequateFunctors.Products.Equivalence`: the unit, counit
-  equivalence of categories.
+* `StacksFrontier.AlgebraicGeometry.Adequate.AdequateFunctors.Products.Factors`: algebras and
+  modules over the factors of a finite product of rings.
+* `StacksFrontier.AlgebraicGeometry.Adequate.AdequateFunctors.Products.FamilyToProduct`: assembling
+  a family of functors over the factors into one adequate functor over the product.
+* `StacksFrontier.AlgebraicGeometry.Adequate.AdequateFunctors.Products.Equivalence`: the unit,
+  counit equivalence of categories.
 
 ## References
 

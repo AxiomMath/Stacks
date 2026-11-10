@@ -144,7 +144,7 @@ public theorem isConstructibleEtaleAbelianSheaf_extensionByZero_etaleRestriction
   have hsub : ∀ i, A i ⊆ (W.1 : Set X) := by
     intro i; fin_cases i
     · exact Set.inter_subset_left
-    · exact Set.diff_subset
+    · exact Set.sdiff_subset
   have hι : ∀ x : W.1.toScheme, W.1.ι.base x ∈ (W.1 : Set X) := fun x => by
     rw [← Scheme.Opens.range_ι]; exact ⟨x, rfl⟩
   have hcon : ∀ i, Topology.IsConstructible (W.1.ι.base ⁻¹' A i) := by

@@ -107,7 +107,7 @@ private theorem trace_algebraMap_eq_map_finiteProjectiveTrace
   let iL : L →ₗ[K] FK := iK.comp e.symm.toLinearMap
   let pL : FK →ₗ[K] L := e.toLinearMap.comp pK
   have hpiL : pL.comp iL = LinearMap.id := LinearMap.ext fun z => by
-    show e (((p.baseChange K).comp (i.baseChange K)) (e.symm z)) = z
+    change e (((p.baseChange K).comp (i.baseChange K)) (e.symm z)) = z
     rw [← LinearMap.baseChange_comp, hpi, LinearMap.baseChange_id]
     exact e.apply_symm_apply z
   let : Module.Projective K L := Module.Projective.of_split iL pL hpiL
@@ -118,16 +118,15 @@ private theorem trace_algebraMap_eq_map_finiteProjectiveTrace
   let T : L →ₗ[K] L := Algebra.lmul K L x
   have heμ : e.symm.toLinearMap.comp (T.comp e.toLinearMap) = μK := by
     have hx : x = e (1 ⊗ₜ[A] b) := by
-      show algebraMap B (B ⊗[A] K) b =
+      change algebraMap B (B ⊗[A] K) b =
         Algebra.TensorProduct.commRight A K B (1 ⊗ₜ[A] b)
       simp
     rw [show μK = Algebra.lmul K M (1 ⊗ₜ[A] b) from Algebra.baseChange_lmul b]
     apply LinearMap.ext
     intro q
-    induction q using TensorProduct.induction_on with
-    | zero => simp
+    induction q using TensorProduct.inductionOn with
     | tmul k y =>
-      show e.symm (x * e (k ⊗ₜ[A] y)) = (1 ⊗ₜ[A] b) * (k ⊗ₜ[A] y)
+      change e.symm (x * e (k ⊗ₜ[A] y)) = (1 ⊗ₜ[A] b) * (k ⊗ₜ[A] y)
       rw [hx]
       apply e.injective
       simp
@@ -141,7 +140,7 @@ private theorem trace_algebraMap_eq_map_finiteProjectiveTrace
       _ = r.baseChange K := by
         dsimp [iK, pK, μK, r, μ]
         rw [LinearMap.baseChange_comp, LinearMap.baseChange_comp]
-  show contractLeft K L ((dualTensorHomEquiv K L L).symm T) =
+  change contractLeft K L ((dualTensorHomEquiv K L L).symm T) =
     algebraMap A K (finiteProjectiveTrace A B μ)
   rw [← finiteProjectiveTrace_eq_contract (R := K) (P := L) T,
     finiteProjectiveTrace_eq_trace_of_split K L FK pL iL hpiL T, hcomp,
@@ -198,7 +197,7 @@ private theorem selfFactorizationDualEquiv_finiteFlatTraceElement
         algebraMap A (FractionRing A)
           (finiteProjectiveTrace A B ((Algebra.lmul A B).toLinearMap b)) := by
       congr 1
-      show ((TensorProduct.lid B (Module.Dual A B))
+      change ((TensorProduct.lid B (Module.Dual A B))
         ((TensorProduct.comm B (Module.Dual A B) B)
           (((finiteProjectiveTrace A B).comp
             (Algebra.lmul A B).toLinearMap) ⊗ₜ (1 : B)))) b = _
@@ -272,7 +271,7 @@ theorem specGammaToOpenEquiv_map {X : Scheme.{u}} {U : X.Opens}
     M.restrictAppIso j ⊤ ≪≫ M.presheaf.mapIso (eqToIso hImage).op
   let eTopAbN : Γ(N.restrict j, ⊤) ≅ Γ(N, U) :=
     N.restrictAppIso j ⊤ ≪≫ N.presheaf.mapIso (eqToIso hImage).op
-  show eTopAbN.hom (((Scheme.Modules.restrictFunctor j).map φ).app ⊤ m) =
+  change eTopAbN.hom (((Scheme.Modules.restrictFunctor j).map φ).app ⊤ m) =
     φ.app U (eTopAbM.hom m)
   dsimp [eTopAbM, eTopAbN]
   simp only [Scheme.Modules.restrictAppIso]
@@ -379,7 +378,7 @@ theorem different_obj_affine_eq_dedekindDifferentIdeal (ω : RelativeDualizingMo
     complementaryModuleEquivDualizingModule setup
       ⟨1, one_mem_complementaryModule_of_flat setup⟩
   have hf : eM (FΓ.map fSpec (eO.symm 1)) = t := by
-    show selfFactorizationDualEquiv
+    change selfFactorizationDualEquiv
       (ω.localEquiv U V hVU F
         (specGammaToOpenEquiv V.2 ω.sheaf (FΓ.map fSpec (eO.symm 1)))) = t
     rw [specGammaToOpenEquiv_map V.2 φ (eO.symm 1)]
@@ -389,7 +388,7 @@ theorem different_obj_affine_eq_dedekindDifferentIdeal (ω : RelativeDualizingMo
     have htr : ((φ.val.app (op V.1)).hom) (1 : Γ(Y, V.1)) =
         (ω.sheaf.presheaf.map (homOfLE hle).op).hom τ.sect :=
       traceMorphism_app_one ω τ V.1
-    show selfFactorizationDualEquiv
+    change selfFactorizationDualEquiv
       (ω.localEquiv U V hVU F (((φ.val.app (op V.1)).hom) (1 : Γ(Y, V.1)))) = t
     rw [htr]
     have hunique : ω.localEquiv U V hVU F
@@ -412,9 +411,9 @@ theorem different_obj_affine_eq_dedekindDifferentIdeal (ω : RelativeDualizingMo
     refine LinearMap.ext fun r => ?_
     have hr : eOi.symm.hom r = r • eOi.symm.hom 1 := by
       simpa using eOi.symm.hom.hom.map_smul r (1 : Γ(Y, V.1))
-    show eM (fΓ (eOi.symm.hom r)) = LinearMap.toSpanSingleton R _ t (eOi.hom (eOi.symm.hom r))
+    change eM (fΓ (eOi.symm.hom r)) = LinearMap.toSpanSingleton R _ t (eOi.hom (eOi.symm.hom r))
     rw [hr]
-    show eM (fΓ.hom (r • eOi.symm.hom 1)) = _
+    change eM (fΓ.hom (r • eOi.symm.hom 1)) = _
     calc
       _ = r • t := by rw [fΓ.hom.map_smul, eM.map_smul]; exact congrArg (fun x => r • x) hf
       _ = LinearMap.toSpanSingleton R _ t (eOi.hom (r • eOi.symm.hom 1)) := by

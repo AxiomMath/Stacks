@@ -79,7 +79,7 @@ private theorem smallFamilyPlusEquiv_equivShrink_mk
     (x : FamilyPlusValue J F U) :
     smallFamilyPlusEquiv J F U (equivShrink (FamilyPlusValue J F U) x) =
       familyPlusEquiv J F U x := by
-  show familyPlusEquiv J F U
+  change familyPlusEquiv J F U
     ((equivShrink (FamilyPlusValue J F U)).symm
       (equivShrink (FamilyPlusValue J F U) x)) = familyPlusEquiv J F U x
   rw [Equiv.symm_apply_apply]
@@ -154,7 +154,7 @@ private lemma plus_mk_identityCover (x : F.obj (op U)) :
   let h : (⊤ : J.Cover U) ⟶ familyCover J U E := homOfLE (fun V f hf => by
     apply (Sieve.mem_ofArrows_iff E.toPreZeroHypercover.X E.toPreZeroHypercover.f f).2
     refine ⟨PUnit.unit, f, ?_⟩
-    show f = f ≫ 𝟙 U
+    change f = f ≫ 𝟙 U
     simp)
   apply (GrothendieckTopology.Plus.eq_mk_iff_exists
     (Meq.mk (J := J) ⊤ x)
@@ -163,16 +163,16 @@ private lemma plus_mk_identityCover (x : F.obj (op U)) :
   apply Meq.ext
   intro I
   rw [Meq.refine_apply, Meq.refine_apply]
-  show F.map I.f.op x =
+  change F.map I.f.op x =
     familyMatchingFamily J F U E (identityH0 J F U x)
       ⟨I.Y, I.f, (leOfHom h) _ I.hf⟩
   have heq : I.f = I.f ≫ E.toPreZeroHypercover.f PUnit.unit := by
-    show I.f = I.f ≫ 𝟙 U
+    change I.f = I.f ≫ 𝟙 U
     simp
   rw [Meq.congr_apply _ heq ((leOfHom h) _ I.hf)]
   have hid : (identityH0 J F U x).1 PUnit.unit = x := by
     dsimp [identityH0, identityCover, Precoverage.ZeroHypercover.singleton]
-    show F.map (𝟙 (op U)) x = x
+    change F.map (𝟙 (op U)) x = x
     exact F.map_id_apply _ _
   exact (congrArg (F.map I.f.op) hid.symm).trans (familyMatchingFamily_factor (J := J) (F := F)
     (U := U) E (identityH0 J F U x) PUnit.unit I.f).symm
@@ -237,7 +237,7 @@ end SmallModel
 theorem toFamilyPlusNatTrans_app (x : F.obj (op U)) :
     (toFamilyPlusNatTrans J F).app (op U) x = toSmallFamilyPlus J F U x := by
   apply (smallFamilyPlusEquiv J F U).injective
-  show (smallFamilyPlusEquiv J F U)
+  change (smallFamilyPlusEquiv J F U)
       ((smallFamilyPlusEquiv J F U).symm ((J.toPlus F).app (op U) x)) =
     (smallFamilyPlusEquiv J F U)
       (equivShrink (FamilyPlusValue J F U) (toFamilyPlus J F U x))

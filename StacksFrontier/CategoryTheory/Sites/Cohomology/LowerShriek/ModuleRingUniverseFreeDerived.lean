@@ -69,7 +69,8 @@ All in the namespace `Stacks.Cohomology.DerivedLowerShriek.FreeRingUniverse`.
 ## Implementation notes
 
 `Stacks.Cohomology.SiteModules.moduleSheavesAbelian` and its two companions are switched off, as
-in `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/ModuleRingUniverseFree.lean`; see the implementation notes there.
+in `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/ModuleRingUniverseFree.lean`; see the
+implementation notes there.
 
 The derived adjunction is `Stacks.Cohomology.UnboundedComplexes.derivedAdjunction`, Stacks 09T5
 with absoluteness of the right derived functor already discharged from Grothendieck abelianness.
@@ -338,10 +339,10 @@ theorem isIso_derivedLowerShriekAdjunction_unit
       (ComplexShape.up ℤ)).app X
     have : ∀ n, IsIso (v.f n) := by
       intro n
-      show IsIso ((adjunctionModules.{m} J K f O).unit.app (X.X n))
+      change IsIso ((adjunctionModules.{m} J K f O).unit.app (X.X n))
       infer_instance
     have : IsIso v := HomologicalComplex.Hom.isIso_of_components _
-    show IsIso ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).map v)
+    change IsIso ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).map v)
     infer_instance
   have : IsIso adjh.unit := NatIso.isIso_of_isIso_app _
   have : IsIso β := by rw [hβ]; infer_instance

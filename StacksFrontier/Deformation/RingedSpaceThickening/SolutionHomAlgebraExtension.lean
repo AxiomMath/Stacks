@@ -249,7 +249,7 @@ into `𝒪_{X'}` and restricted along the round trip of opens, lies in the ideal
 theorem incl_mem_kernelIdeal (Q : DeformationSolution t ht f G c) {U : (Opens X.carrier)ᵒᵖ}
     (g : ((modulePushforward Q.i).obj G).val.obj ((Opens.map Q.baseIso.inv).op.obj U)) :
     Q.incl g ∈ kernelIdeal Q.thickenedSheafReduction.hom U := by
-  show (Q.thickenedReduction.app U).hom (Q.incl g) = 0
+  change (Q.thickenedReduction.app U).hom (Q.incl g) = 0
   rw [thickenedReduction_app]
   exact (congrArg _ (Q.reduction_incl g)).trans (map_zero _)
 
@@ -373,7 +373,7 @@ def spaceMap : Q₂.toAlgebraExtension.space ⟶ Q₁.toAlgebraExtension.space :
 theorem spaceMap_base : e.spaceMap.hom.base = 𝟙 X.carrier := by
   have h : Q₂.baseIso.hom ≫ e.hom.hom.base = Q₁.baseIso.hom :=
     congrArg (fun k : X ⟶ Q₁.X' => k.hom.base) e.thickening_comm
-  show Q₂.baseIso.hom ≫ e.hom.hom.base ≫ Q₁.baseIso.inv = 𝟙 X.carrier
+  change Q₂.baseIso.hom ≫ e.hom.hom.base ≫ Q₁.baseIso.inv = 𝟙 X.carrier
   rw [← Category.assoc, h, Iso.hom_inv_id]
 
 /-- The morphism of spaces of extensions is a morphism under `X`. -/

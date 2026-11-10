@@ -264,10 +264,12 @@ variable [IsNoetherianRing Λ]
   [∀ U : X.ProEt,
     HasWeakSheafify ((Scheme.ProEt.topology X).over U) (ModuleCat.{max (u + 1) r w} (Λ ⧸ I))]
   [∀ U : (constantCoefficientRingedSite.{u, r, w} X (Λ ⧸ I)).C,
-    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r w, max (u + 1) r w, max (u + 1) r w}
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r w, max (u + 1) r w,
+      max (u + 1) r w}
       ((constantCoefficientRingedSite.{u, r, w} X (Λ ⧸ I)).over U).O).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, r, w} X (Λ ⧸ I)).C) M,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r w, max (u + 1) r w, max (u + 1) r w}
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r w, max (u + 1) r w,
+      max (u + 1) r w}
       ((constantCoefficientRingedSite.{u, r, w} X (Λ ⧸ I)).over U).O).obj M).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, r, w} X (Λ ⧸ I)).C)
     (P Q : CochainComplex (RingedSite.Modules.{u + 1, u, max (u + 1) r w}

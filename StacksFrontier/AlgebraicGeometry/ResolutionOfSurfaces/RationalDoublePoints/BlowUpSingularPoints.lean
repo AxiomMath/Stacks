@@ -40,7 +40,7 @@ theorem topologicalKrullDim_blowUp_maximalIdeal_le_two (A : Type u) [CommRing A]
     [IsDomain A] [IsNoetherianRing A] (hdim : ringKrullDim A = 2) :
     topologicalKrullDim (blowUp (maximalIdealSheaf A)) ≤ 2 := by
   rw [topologicalKrullDim_eq_of_isModification _ (isModification_blowUpToBase_maximalIdeal A hdim)]
-  show topologicalKrullDim (PrimeSpectrum A) ≤ 2
+  change topologicalKrullDim (PrimeSpectrum A) ≤ 2
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, hdim]
 
 /-- The support of the maximal ideal sheaf of a local ring is the closed point. -/

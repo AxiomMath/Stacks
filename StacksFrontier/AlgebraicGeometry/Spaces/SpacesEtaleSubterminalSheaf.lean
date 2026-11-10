@@ -194,7 +194,7 @@ theorem supportedOpenSubspace_has_section (F : Subfunctor (spacesEtaleTerminalSh
     refine ⟨⟨U, s, y⟩, y, ?_⟩
     dsimp [Wsite, openSubspaceObject, SpacesEtale.toSpaces] at x hxy ⊢
     apply pointsMap_injective_of_mono B S hS W.1.ι
-    show pointsMap B S hS W.1.toFunctor W.1.ι
+    change pointsMap B S hS W.1.toFunctor W.1.ι
         (pointsMap B S hS U.1.left.1 (g U s) y) =
       pointsMap B S hS W.1.toFunctor W.1.ι x
     simpa only [pointsMap_comp, Function.comp_apply] using
@@ -262,7 +262,7 @@ theorem existsUnique_openSubspace_of_subterminalSheaf
   let _ : TopologicalSpace (points B S hS X.1) := pointTopology B S hS X.1
   refine (openSubspacesOrderIso B S hS X.1 X.property).injective ?_
   ext x
-  show x ∈ (openSubspacesOrderIso B S hS X.1 X.property V).1 ↔
+  change x ∈ (openSubspacesOrderIso B S hS X.1 X.property V).1 ↔
     x ∈ (openSubspacesOrderIso B S hS X.1 X.property W).1
   rw [openSubspacesOrderIso_apply B S hS X.1 X.property V,
     openSubspacesOrderIso_apply B S hS X.1 X.property W,

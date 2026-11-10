@@ -70,9 +70,9 @@ theorem exists_eq_sum_freeBasisSection
     refine Cofan.IsColimit.hom_ext (SheafOfModules.isColimitFreeCofan ι) _ _ fun j => ?_
     change SheafOfModules.ιFree j ≫ _ = SheafOfModules.ιFree j ≫ _
     rw [Preadditive.comp_sum, Category.comp_id, Finset.sum_eq_single j]
-    · rw [← Category.assoc, hf, if_pos rfl, Category.id_comp]
+    · rw [← Category.assoc, hf, ite_eq_left rfl, Category.id_comp]
     · intro i _ hij
-      rw [← Category.assoc, hf, if_neg hij, zero_comp]
+      rw [← Category.assoc, hf, ite_eq_right hij, zero_comp]
     · simp
   refine ⟨fun i => Scheme.Modules.Hom.app (π i) ⊤ s, ?_⟩
   refine (congrArg (fun φ : freeModule (T := T) ι ⟶ freeModule (T := T) ι =>
@@ -99,9 +99,11 @@ theorem freeHomOfBasis_app_sum (c : ι → Γ(T, ⊤)) :
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [Scheme.Modules.Hom.app_smul, freeHomOfBasis_app_freeBasisSection]
 
+omit [Fintype ι] in
 /-- **A basis of the global sections of a quasi-coherent module on an affine scheme makes it
 free**: the morphism `𝒪_T^{⊕ ι} ⟶ G` of the basis is an isomorphism. -/
-instance isIso_freeHomOfBasis : IsIso (freeHomOfBasis G b) := by
+instance isIso_freeHomOfBasis [Finite ι] : IsIso (freeHomOfBasis G b) := by
+  have := Fintype.ofFinite ι
   have : (freeModule (T := T) ι).IsQuasicoherent :=
     Stacks.AlgebraicGeometry.AffineQcohEquivalence.isQuasicoherent_free ι
   refine Stacks.AlgebraicGeometry.AffineBaseChange.isIso_of_isIso_app_top _ ?_

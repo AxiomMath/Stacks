@@ -119,7 +119,7 @@ theorem formsDeRham_smul_d (B : CrystallineThickening S) (r c : crysFormRing S B
       (exteriorPower.oneEquiv_symm_apply _ _ _)
   · apply crysFormVal_injective
     rw [crysFormVal_formsWedge]
-    show ((exteriorPower.ιMulti (crysFormRing S B) 2 (fun j ↦ crysD S B (![r, c] j)) :
+    change ((exteriorPower.ιMulti (crysFormRing S B) 2 (fun j ↦ crysD S B (![r, c] j)) :
       ⋀[crysFormRing S B]^2 ((crysDifferentials S).obj (op B))) :
         ExteriorAlgebra (crysFormRing S B) ((crysDifferentials S).obj (op B))) = _
     rw [exteriorPower.ιMulti_apply_coe, ExteriorAlgebra.ιMulti_apply]

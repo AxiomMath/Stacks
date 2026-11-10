@@ -77,7 +77,7 @@ theorem bijective_geometricModuleStalkGerm_of_isInitial (X : AlgebraicSpaces B S
       intro u
       have hcomp : f.hom.op ≫ (h.to M).hom.op = 𝟙 (Opposite.op N₀.chart) := by
         rw [← op_comp]
-        show (h.to M ≫ f).hom.op = _
+        change (h.to M ≫ f).hom.op = _
         rw [h.hom_ext (h.to M ≫ f) (𝟙 N₀)]
         rfl
       refine (PresheafOfModules.map_comp_apply F.val f.hom.op (h.to M).hom.op u).symm.trans ?_
@@ -122,7 +122,7 @@ def strictHenselizationGeometricPoint :
 theorem strictHenselizationToSpace_app_lift :
     (strictHenselizationToSpace hY ybar).app (Opposite.op ybar.val.siteObject)
       (strictHenselizationLift hY ybar) = ybar.val.value := by
-  show (strictHenselizationNbhd hY ybar).chart.obj.hom.app _
+  change (strictHenselizationNbhd hY ybar).chart.obj.hom.app _
     (strictHenselizationLift hY ybar ≫ strictHenselizationToChart hY ybar) = _
   rw [strictHenselizationLift_comp_toChart]
   exact (strictHenselizationNbhd hY ybar).point_comp

@@ -379,9 +379,9 @@ private theorem D_coordinate_ne_zero :
   have hkill (q : P) (hq : φ q = 0) : φ (dP q) = 0 := by
     obtain ⟨r, rfl⟩ := (Ideal.mem_span_singleton.mp (Ideal.Quotient.eq_zero_iff_mem.mp hq))
     rw [dP.leibniz, hdf, smul_zero, add_zero]
-    show φ C.equation * φ (dP r) = 0
+    change φ C.equation * φ (dP r) = 0
     have hf : φ C.equation = 0 := by
-      show Ideal.Quotient.mk I C.equation = 0
+      change Ideal.Quotient.mk I C.equation = 0
       exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (by simp))
     simp [hf]
   let dA : Derivation k A A :=
@@ -398,7 +398,7 @@ private theorem D_coordinate_ne_zero :
   let Ψ : Ω[K⁄k] →ₗ[K] K := Λ.comp e.symm.toLinearMap
   have hdAx : dA (Ideal.Quotient.mk I (MvPolynomial.X (0 : Fin 2))) =
       φ (MvPolynomial.pderiv 1 C.equation) := by
-    show dA (φ (MvPolynomial.X (0 : Fin 2))) = _
+    change dA (φ (MvPolynomial.X (0 : Fin 2))) = _
     rw [hdA_apply]
     simp only [Fin.isValue, Derivation.coe_sub, Derivation.coe_smul, Pi.sub_apply,
       Pi.smul_apply, smul_eq_mul, MvPolynomial.pderiv_X_of_ne (by decide : (0 : Fin 2) ≠ 1),
@@ -406,7 +406,7 @@ private theorem D_coordinate_ne_zero :
     rw [MvPolynomial.pderiv_X_self, map_one, mul_one]
   have hdAy : dA (Ideal.Quotient.mk I (MvPolynomial.X (1 : Fin 2))) =
       -φ (MvPolynomial.pderiv 0 C.equation) := by
-    show dA (φ (MvPolynomial.X (1 : Fin 2))) = _
+    change dA (φ (MvPolynomial.X (1 : Fin 2))) = _
     rw [hdA_apply]
     simp only [Fin.isValue, Derivation.coe_sub, Derivation.coe_smul, Pi.sub_apply,
       Pi.smul_apply, MvPolynomial.pderiv_X_of_ne (by decide : (1 : Fin 2) ≠ 0), smul_eq_mul,
@@ -415,15 +415,15 @@ private theorem D_coordinate_ne_zero :
   have hΛ (a : A) : Λ (1 ⊗ₜ[A] KaehlerDifferential.D k A a) = algebraMap A K (dA a) := by
     simp only [Λ, LinearMap.comp_apply, Algebra.TensorProduct.lmul'',
       LinearMap.baseChange_tmul, Lk, L, Derivation.liftKaehlerDifferential_comp_D]
-    show (1 : K) * algebraMap A K (dA a) = _
+    change (1 : K) * algebraMap A K (dA a) = _
     simp
   have hx : Ψ (KaehlerDifferential.D k K C.x) = C.partialY := by
-    show Λ (e.symm (KaehlerDifferential.D k K
+    change Λ (e.symm (KaehlerDifferential.D k K
       (algebraMap A K (Ideal.Quotient.mk I (MvPolynomial.X (0 : Fin 2)))))) = C.partialY
     rw [KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale_symm_D_algebraMap, hΛ, hdAx]
     rfl
   have hy : Ψ (KaehlerDifferential.D k K C.y) = -C.partialX := by
-    show Λ (e.symm (KaehlerDifferential.D k K
+    change Λ (e.symm (KaehlerDifferential.D k K
       (algebraMap A K (Ideal.Quotient.mk I (MvPolynomial.X (1 : Fin 2)))))) = -C.partialX
     rw [KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale_symm_D_algebraMap, hΛ, hdAy,
       map_neg]

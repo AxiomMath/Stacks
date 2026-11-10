@@ -390,8 +390,7 @@ private lemma mem_map_comap_of_tmul_mem {R S : Type*} [CommRing R] [CommRing S]
       ((AlgebraTensorModule.lTensor S S f.ker.subtype) z) ∈
       (I.comap (algebraMap R S)).map (algebraMap R S) := by
     clear hz
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul s a =>
       have ha := a.property
       change Ideal.Quotient.mk I (algebraMap R S a.val) = 0 at ha

@@ -167,12 +167,8 @@ theorem injective_flatPullbackChowMapCanonical_vectorBundleProjection_of_bundleF
         (vectorBundleProjection D.site D.base D.base_mem X E).hom ≫ sX := by
     rw [← Category.assoc, hjq]
   have hD := BundleFormulaSurjective.of_iso D sX hX _ hQg _ hZg _ rfl _ rfl m _ _
-    (@isProper_projectiveBundleProj D.site D.base D.base_mem X E
-      (isQuasicoherentOnSite_of_isFiniteLocallyFreeOfRank X.2 hr) hr.isFiniteLocallyFreeOnSite)
     hE.2 (hasRelativeDimension_ι_comp D _ hPg sX hX _ rfl m
       (hasRelativeDimension_projectiveCompletionProj E hr) _ hE)
-    (isProper_vanishingLocus_ι_comp D sX hX _ hPg _ (isProper_projectiveCompletionProj E hr)
-      (projectiveCompletionTwist E hr).obj (projectiveCompletionSection E hr))
     _ _ _
     (modulePullbackInvertible (closedSubspaceHom D.site D.base D.base_mem hPg.1
       (vanishingLocus D _ hPg (projectiveCompletionTwist E hr).obj
@@ -213,7 +209,7 @@ theorem coe_flatPullbackMap_inv_flatPullbackMap (m n : ℤ) (hmn : m + ((0 : ℕ
       HasRelativeDimension 0 D.site D.base D.base_mem (inv π)) (α : CycleGroup D sX m) :
     (flatPullbackMap D sX hX sP hP (inv π) hψB 0 hψ.1 hψ.2 n m hnm
       (flatPullbackMap D sP hP sX hX π hπB 0 hflat hrel m n hmn α)).1 = α.1 := by
-  have hid := isFlat_and_hasRelativeDimension_zero_of_isIso D sX hX sX hX (𝟙 X)
+  have hid := isFlat_and_hasRelativeDimension_zero_of_isIso D sX hX (𝟙 X)
   have h1 := congrArg (fun ψ => (ψ α).1)
     (flatPullbackMap_comp D sX hX sP hP sX hX (inv π) π hψB hπB 0 0 hψ.1 hψ.2 hflat hrel m m
       (by simp))
@@ -233,7 +229,7 @@ theorem injective_flatPullbackChowMapCanonical_of_isIso (m n : ℤ)
   intro a ha
   obtain ⟨α, rfl⟩ := QuotientAddGroup.mk_surjective a
   have hψB : inv π ≫ sP = sX := by rw [← hπB, IsIso.inv_hom_id_assoc]
-  have hψ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sX hX (inv π)
+  have hψ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP (inv π)
   have h := isRationallyEquivalentToZeroCanonical_flatPullbackMap.{u + 1} D sX hX sP hP (inv π)
     hψB 0 hψ.1 hψ.2 n m (by omega)
     ((chowClassCanonical_eq_zero_iff.{u + 1} D sP hP n _).1 ha)

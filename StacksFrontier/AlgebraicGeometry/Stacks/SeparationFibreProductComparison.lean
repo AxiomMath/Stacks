@@ -165,8 +165,8 @@ theorem isHomLift_mapBaseNatIso_app
     (Functor.congr_obj (CatFiberedInGroupoids.homFunctor_comp_p f.hom) Q.x).trans Q.hx
   refine IsHomLift.of_fac' _ (𝟙 Q.base) ((mapBaseNatIso B S hS f g h).hom.app Q) hsource
     rfl ?_
-  show (TwoFibreProductOver.homDiagonal _ _ Q.iso.hom rfl).hbase = _
-  show eqToHom hsource = eqToHom hsource ≫ 𝟙 Q.base ≫ eqToHom (rfl : Q.base = Q.base)
+  change (TwoFibreProductOver.homDiagonal _ _ Q.iso.hom rfl).hbase = _
+  change eqToHom hsource = eqToHom hsource ≫ 𝟙 Q.base ≫ eqToHom (rfl : Q.base = Q.base)
   simp
 
 /-- **The square exhibiting `i` as a base change of the relative diagonal of `h`**:

@@ -77,7 +77,7 @@ theorem homEquiv_comp_modulePullbackCompUniq_hom (f : X ⟶ Y) (g : Y ⟶ Z)
   have hu := Adjunction.unit_leftAdjointUniq_hom_app
     (modulePullbackPushforwardAdjunction (f ≫ g)) adj2 M
   rw [Adjunction.homEquiv_unit, Functor.map_comp, ← Category.assoc]
-  show ((modulePullbackPushforwardAdjunction (f ≫ g)).unit.app M ≫
+  change ((modulePullbackPushforwardAdjunction (f ≫ g)).unit.app M ≫
     (modulePushforward (f ≫ g)).map
       (((modulePullbackPushforwardAdjunction (f ≫ g)).leftAdjointUniq adj2).hom.app M)) ≫ _ = _
   rw [hu]
@@ -182,7 +182,7 @@ theorem preimage_le (W : Opens D.S'.carrier) :
     (Opens.map D.i.hom.base).obj ((Opens.map D.f'.hom.base).obj W) ≤
       (Opens.map D.f.hom.base).obj ((Opens.map D.t.hom.base).obj W) := by
   intro x hx
-  show D.t.hom.base (D.f.hom.base x) ∈ W
+  change D.t.hom.base (D.f.hom.base x) ∈ W
   rw [← thickening_comm_apply D.i D.t D.f D.f' D.comm x]
   exact hx
 
@@ -211,7 +211,7 @@ theorem homEquiv_firstOrderSurjection_comp
     rw [Adjunction.homEquiv_unit, Functor.map_comp]
     rfl
   rw [h1]
-  show (modulePullbackPushforwardAdjunction D.f').homEquiv _ _
+  change (modulePullbackPushforwardAdjunction D.f').homEquiv _ _
     ((modulePullbackPushforwardAdjunction D.i).homEquiv _ _
       ((modulePullbackCompUniq D.i D.f').inv.app D.idealJ ≫
         (eqToHom (congrArg (fun h : D.X ⟶ D.S' => (modulePullback h).obj D.idealJ) D.comm) ≫
@@ -246,7 +246,7 @@ theorem firstOrderIdealMap_eq_iff
   have e : ∀ (W : Opens D.S'.carrier) (n : D.idealI.val.obj (op ((Opens.map D.f'.hom.base).obj W))),
       layerIdealIncl D.i G κ _ (κ.hom.val.app (op ((Opens.map D.f'.hom.base).obj W)) n) =
         idealι D.i _ n := fun W n => by
-    show idealι D.i _ ((κ.hom ≫ κ.inv).val.app _ n) = _
+    change idealι D.i _ ((κ.hom ≫ κ.inv).val.app _ n) = _
     rw [Iso.hom_inv_id]
     rfl
   refine ⟨fun h W j => ?_, fun h => ?_⟩

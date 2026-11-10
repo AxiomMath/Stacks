@@ -92,7 +92,7 @@ of `X`. -/
 lemma immersion_dominatingFstMap :
     (dominating c₁ c₂).immersion ≫ CompactificationOf.Hom.map (dominatingFst c₁ c₂) =
       c₁.immersion := by
-  show (dominatingLift c₁ c₂).toImage ≫ (dominatingLift c₁ c₂).imageι ≫
+  change (dominatingLift c₁ c₂).toImage ≫ (dominatingLift c₁ c₂).imageι ≫
     pullback.fst _ _ = c₁.immersion
   rw [Scheme.Hom.toImage_imageι_assoc, pullback.lift_fst]
 
@@ -102,7 +102,7 @@ of `X`. -/
 lemma immersion_dominatingSndMap :
     (dominating c₁ c₂).immersion ≫ CompactificationOf.Hom.map (dominatingSnd c₁ c₂) =
       c₂.immersion := by
-  show (dominatingLift c₁ c₂).toImage ≫ (dominatingLift c₁ c₂).imageι ≫
+  change (dominatingLift c₁ c₂).toImage ≫ (dominatingLift c₁ c₂).imageι ≫
     pullback.snd _ _ = c₂.immersion
   rw [Scheme.Hom.toImage_imageι_assoc, pullback.lift_snd]
 
@@ -125,7 +125,7 @@ morphisms to `S`. -/
 lemma dominatingSndMap_toBase :
     CompactificationOf.Hom.map (dominatingSnd c₁ c₂) ≫ c₂.toBase =
       (dominating c₁ c₂).toBase := by
-  show ((dominatingLift c₁ c₂).imageι ≫ pullback.snd _ _) ≫ c₂.toBase =
+  change ((dominatingLift c₁ c₂).imageι ≫ pullback.snd _ _) ≫ c₂.toBase =
     ((dominatingLift c₁ c₂).imageι ≫ pullback.fst _ _) ≫ c₁.toBase
   rw [Category.assoc, Category.assoc, pullback.condition]
 
@@ -159,7 +159,7 @@ theorem preimage_range_subset_of_comp_eq (c : CompactificationOf (Over.mk φ))
   have heq := eq_of_isSchemeTheoreticallyDominant_ι (S := S)
     (X := Over.mk (V.ι ≫ P.toBase)) (Y := Over.mk P.toBase)
     (Over.homMk V.ι rfl) (Over.homMk (r ≫ m) (by
-      show (r ≫ P.immersion) ≫ P.toBase = V.ι ≫ P.toBase
+      change (r ≫ P.immersion) ≫ P.toBase = V.ι ≫ P.toBase
       have h1 : P.immersion ≫ P.toBase = φ := CompactificationOf.immersion_toBase P
       have h2 : c.immersion ≫ c.toBase = φ := CompactificationOf.immersion_toBase c
       have h3 : r ≫ c.immersion = V.ι ≫ q := IsOpenImmersion.lift_fac _ _ _
@@ -213,13 +213,13 @@ theorem finite_setOf_pullback_fst_snd_eq {k : Type u} [Field k] {Y₁ Y₂ : Sch
   have hp : p ∈ Set.range ℓ.base := by
     rw [hrange]
     refine ⟨?_, ?_⟩
-    · show pullback.fst a₁ a₂ p ∈ Set.range b.base
+    · change pullback.fst a₁ a₂ p ∈ Set.range b.base
       rw [Scheme.range_fromSpecResidueField, hp₁]
       rfl
     · exact ⟨pullback.snd a₁ a₂ p, rfl⟩
   obtain ⟨w, rfl⟩ := hp
   refine ⟨w, ?_, rfl⟩
-  show (pullback.snd (b ≫ a₁) a₂).base w = z
+  change (pullback.snd (b ≫ a₁) a₂).base w = z
   rw [← hsnd, Scheme.Hom.comp_apply, hp₂]
 
 end Fibres

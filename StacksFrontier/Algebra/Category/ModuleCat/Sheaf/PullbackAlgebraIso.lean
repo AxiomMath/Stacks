@@ -66,8 +66,8 @@ genuine mathematical gap rather than an omission:
 * `SheafOfModules.TensorExteriorSymmetricAlgebras` records `⋀ⁿF` and `SymⁿF` only through the
   universal property of the whole graded algebra — there is no presentation of `⋀ⁿF` or `SymⁿF`
   in terms of tensor powers, so the induction above has no analogue for them.
-  `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PowerPresentationSequences` builds the two maps of
-  the Stacks 01CJ sequences but proves neither exactness nor epimorphy, so it cannot supply one.
+  `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PowerPresentationSequences` builds the two maps
+  of the Stacks 01CJ sequences but proves neither exactness nor epimorphy, so it cannot supply one.
 * The route through the universal property instead — build a graded-algebra structure on `f^*A`
   and invert `SheafOfModules.GradedAlgebra.pullbackComparison` by initiality of `⋀(f^*F)` — needs
   the multiplication `f^*(A_i) ⊗ f^*(A_j) ⟶ f^*(A_{i+j})` obtained by conjugating `A`'s

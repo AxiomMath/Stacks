@@ -195,7 +195,7 @@ from the global section it names. -/
   ega "II 6.5.3" "partial"]
 theorem unitHom_ofUnitHom (M : X.Modules) (φ : unitModule X ⟶ M) :
     unitHom M (ofUnitHom M φ) = φ := by
-  show M.unitHomEquiv.symm
+  change M.unitHomEquiv.symm
     ((Stacks.NonvanishingSpelling.sectionsEquiv X M).symm
       (Stacks.NonvanishingSpelling.sectionsEquiv X M (M.unitHomEquiv φ))) = φ
   rw [Equiv.symm_apply_apply]
@@ -218,7 +218,7 @@ theorem zeroAt_comp_unitHom_iff {M N : X.Modules} [IsInvertibleModule X N]
     refine Eq.trans ?_ hspec
     have h1 : (unitHom M g.val).val.app (op V) (1 : Γ(X, V)) = m.val :=
       unitHom_app_one M g.val V
-    show ψ.val.app (op V) ((unitHom M g.val).val.app (op V) (1 : Γ(X, V))) = _
+    change ψ.val.app (op V) ((unitHom M g.val).val.app (op V) (1 : Γ(X, V))) = _
     exact congrArg (fun z => ψ.val.app (op V) z) h1
   rw [zeroAt_iff_evaluation_eq_zero (unitModule X) N _ V x hxV (unitGenerator X V) t a hcomp,
     zeroAt_iff_generatorCoefficient_eq_zero M N ψ V x hxV m t]
@@ -423,7 +423,7 @@ theorem exists_isAmple_of_morphismNormMap (f : X ⟶ Y) [IsFinite f] (N : Morphi
       Stacks.AmpleFiniteAffineNonvanishing.exists_affine_nonvanishingOpen_containing_finite L hL
         (f.finite_preimage_singleton y) (f ⁻¹ᵁ (j ''ᵁ (⊤ : (Spec R).Opens)))
         (fun x hx => by
-          show f.base x ∈ j ''ᵁ (⊤ : (Spec R).Opens)
+          change f.base x ∈ j ''ᵁ (⊤ : (Spec R).Opens)
           rw [show f.base x = y from hx]
           exact hyV)
     exact ⟨n, j ''ᵁ (⊤ : (Spec R).Opens), s, hn, hVaff,

@@ -119,7 +119,7 @@ theorem closureIdeal_comap {U X : Scheme.{u}} (j : U ⟶ X) [IsOpenImmersion j]
   have hsupp : ((closureIdeal j I).comap j).support = I.support := by
     rw [Scheme.IdealSheafData.support_comap, closureIdeal_support]
     ext x
-    show x ∈ j.base ⁻¹' (closure (j.base '' (I.support : Set U)) : Set X) ↔ x ∈ I.support
+    change x ∈ j.base ⁻¹' (closure (j.base '' (I.support : Set U)) : Set X) ↔ x ∈ I.support
     rw [j.isOpenEmbedding.isOpenMap.preimage_closure_eq_closure_preimage j.continuous,
       Set.preimage_image_eq _ j.isOpenEmbedding.injective, I.support.isClosed.closure_eq]
     rfl
@@ -201,7 +201,7 @@ theorem open_comap_vanishingIdeal_eq {U X : Scheme.{u}} (j : U ⟶ X) [IsOpenImm
   unfold closureIdeal
   congr 2
   apply SetLike.coe_injective
-  show closure ({j.base x} : Set X) = closure (j.base '' closure ({x} : Set U))
+  change closure ({j.base x} : Set X) = closure (j.base '' closure ({x} : Set U))
   rw [closure_image_closure j.continuous]
   simp
 

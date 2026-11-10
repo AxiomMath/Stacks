@@ -83,7 +83,7 @@ theorem algebraicCycle_map_comp_relativeDimension (C : ChowSituation.{u}) {X Y Z
     refine finsum_mem_congr rfl fun x _ ↦ ?_
     by_cases hdim : wx x = wz (g.base (f.base x)) <;>
       simp [AlgebraicCycle.mapCoeff, hwfg, hdim]
-  show AlgebraicCycle.map g wy wz (AlgebraicCycle.map f wx wy c) z =
+  change AlgebraicCycle.map g wy wz (AlgebraicCycle.map f wx wy c) z =
     AlgebraicCycle.map (f ≫ g) wx wz c z
   rw [hmapf, hmapg, hmapfg]
   exact congrArg (fun d : AlgebraicCycle Z ℤ ↦ d z)

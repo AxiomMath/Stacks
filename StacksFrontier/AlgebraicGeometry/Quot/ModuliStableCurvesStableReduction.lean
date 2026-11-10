@@ -272,7 +272,7 @@ input `hlift` (the hypothesis of Stacks 0CQM for `𝓜_g ⟶ 𝓜̄_g ⟶ Spec(�
 `hred`, Stacks 0E98 (1) read in families of curves
 (`AlgebraicGeometry.denseTestExistence_moduliSmoothCurves_of_stableReduction`). The other inputs
 are the results the source cites, each an explicit hypothesis. -/
-theorem moduliStableCurves_isDeligneMumford_proper_smooth_of_stableReduction (g : ℕ) (hg : 2 ≤ g)
+theorem moduliStableCurves_isDeligneMumford_proper_smooth_of_stableReduction (g : ℕ)
     (hP : IsOpenCurvesLocus B hZ (IsStableGenusCurveFamily B hZ g))
     (hQ : IsOpenCurvesLocus B hZ (IsSmoothGenusCurveFamily B hZ g))
     (hcurves : Stack.AlgebraicStacks.IsQuasiSeparated B integerBase hZ
@@ -325,7 +325,7 @@ theorem moduliStableCurves_isDeligneMumford_proper_smooth_of_stableReduction (g 
           (Set.range (Stack.AlgebraicStacks.pointsMap B integerBase hZ
             (Stack.OpenSubstack.homOfLE B integerBase hZ (curvesSmallOpenSubstack B hZ h hQ)
               (curvesSmallOpenSubstack B hZ h hP) hle))) :=
-  moduliStableCurves_isDeligneMumford_proper_smooth_of B hZ h g hg hP hQ hcurves hDM hsmooth hopen
+  moduliStableCurves_isDeligneMumford_proper_smooth_of B hZ h g hP hQ hcurves hDM hsmooth hopen
     hsep hqc hchow (denseTestExistence_moduliSmoothCurves_of_stableReduction B hZ h g hP hQ _ hred)
 
 end AlgebraicGeometry

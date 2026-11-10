@@ -516,7 +516,7 @@ theorem flatPullback_torFormulaCycleIntersectionProduct_eq_of_add_eq
         (flatPullback (fieldChowSituation K) sX sY f hbase e hrel (s : ℤ) β).1 =
       ∑ v ∈ hα.toFinset, ∑ w ∈ hβ.toFinset, (α.1 v * β.1 w) •
         flatPullbackSubvarietyProductTotal K sX sY hX hY f hbase e he n v w := by
-    show cycleIntersectionProduct (torFormulaSubvarietyProductTotal (fieldChowSituation K) sX hX
+    change cycleIntersectionProduct (torFormulaSubvarietyProductTotal (fieldChowSituation K) sX hX
         (n + (e : ℤ))) _ _ = _
     rw [hpull _ α hα, hpull _ β hβ, cycleIntersectionProduct_sum_left]
     refine Finset.sum_congr rfl fun v hv => ?_

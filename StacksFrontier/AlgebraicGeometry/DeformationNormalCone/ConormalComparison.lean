@@ -56,7 +56,7 @@ theorem pullbackSection_eq_zero_of_mem (m : ℕ) (V : X.affineOpens)
       rfl
     have ha0 : (g.app V.1).hom a = 0 := by rwa [g.ker_apply V] at ha
     rw [hw', Stacks.Conormal.pullbackSection_smul g (reesPiece g.ker (m : ℤ)) V.1 a b']
-    show (show Z.ringCatSheaf.obj.obj (op (g ⁻¹ᵁ V.1)) from (g.app V.1).hom a) • _ = 0
+    change (show Z.ringCatSheaf.obj.obj (op (g ⁻¹ᵁ V.1)) from (g.app V.1).hom a) • _ = 0
     rw [ha0]
     exact zero_smul _ _
   · intro x hx y hy ihx ihy w hw
@@ -84,12 +84,12 @@ theorem reesPieceLower_comp_unit_eq_zero (m : ℕ) :
   refine Stacks.BasisRestriction.moduleSheafHom_ext_onBasis _ _ (fun V : X.affineOpens => V.1)
     (by rw [Subtype.range_coe]; exact X.isBasis_affineOpens) _ _ fun V => ?_
   ext y
-  show ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app
+  change ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app
       (reesPiece g.ker (m : ℤ))).val.app (op V.1) ((reesPieceLower g.ker (Nat.le_succ m)).val.app
         (op V.1) y) = 0
   refine (Stacks.Conormal.pullbackSection_self g (reesPiece g.ker (m : ℤ)) V.1 _).symm.trans
     (pullbackSection_eq_zero_of_mem g m V _ ?_)
-  show idealPowerKernelAmbient g.ker m V.1 _ ∈ _
+  change idealPowerKernelAmbient g.ker m V.1 _ ∈ _
   rw [reesPieceAmbient_reesPieceLower g.ker (Nat.le_succ m) V.1 y]
   have h := reesPieceAmbient_mem_affine g.ker ((m + 1 : ℕ) : ℤ) (Int.natCast_nonneg _) V y
   rwa [Int.toNat_natCast] at h

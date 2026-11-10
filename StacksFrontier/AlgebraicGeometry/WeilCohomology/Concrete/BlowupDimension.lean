@@ -161,7 +161,7 @@ theorem relativeDimension_of_smooth_of_relativeDimension {T Y : Scheme.{u}}
         have h' : ((a : ℕ∞) : WithBot ℕ∞) = (((b : ℕ∞) + ⊤ : ℕ∞) : WithBot ℕ∞) := by
           exact_mod_cast h
         rw [add_top] at h'
-        exact ENat.coe_ne_top a (WithBot.coe_injective h')
+        exact ENat.natCast_ne_top a (WithBot.coe_injective h')
       | coe m => exact ⟨m, rfl⟩
   rw [hm] at h ⊢
   have h' : a = b + m := by exact_mod_cast h
@@ -196,7 +196,7 @@ theorem dense_preimage_compl_support :
   have hsupp : (Stacks.Blowup.exceptionalIdeal i.hom.left.ker).supportSet =
       (Stacks.Blowup.blowUpToBase i.hom.left.ker).base ⁻¹'
         (i.hom.left.ker.support : Set X.obj.left) := by
-    show ((i.hom.left.ker.comap (Stacks.Blowup.blowUpToBase i.hom.left.ker)).support :
+    change ((i.hom.left.ker.comap (Stacks.Blowup.blowUpToBase i.hom.left.ker)).support :
       Set (Stacks.Blowup.blowUp i.hom.left.ker)) = _
     rw [Scheme.IdealSheafData.support_comap]
     rfl
@@ -330,13 +330,13 @@ theorem isNonemptyEquidimensional_exceptionalObj {n : ℕ} (hX : RelativeDimensi
   nonempty := by
     obtain ⟨z⟩ := ‹Nonempty Z.obj.left›
     have hdense : Dense ((i.hom.left.ker.support.compl : X.obj.left.Opens) : Set X.obj.left) := by
-      show Dense ((i.hom.left.ker.support : Set X.obj.left)ᶜ)
+      change Dense ((i.hom.left.ker.support : Set X.obj.left)ᶜ)
       rw [coe_support_ker]
       exact dense_compl_of_isClosed_of_isNowhereDense
         (IsClosedImmersion.isClosedEmbedding i.hom.left).isClosed_range hZ
     have hsurj := Stacks.Blowup.surjective_blowUpToBase hdense (I := i.hom.left.ker)
       ⟨inferInstance, inferInstance, inferInstance⟩ (by
-        show Disjoint (i.hom.left.ker.support : Set X.obj.left)ᶜ _
+        change Disjoint (i.hom.left.ker.support : Set X.obj.left)ᶜ _
         exact disjoint_compl_left)
     obtain ⟨x, hx⟩ := hsurj.surj (i.hom.left z)
     obtain ⟨e, -, -⟩ := Scheme.Pullback.exists_preimage_pullback x z hx

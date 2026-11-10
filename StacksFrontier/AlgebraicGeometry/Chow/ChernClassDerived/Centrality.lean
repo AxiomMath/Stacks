@@ -75,7 +75,8 @@ The ring it must be is the one the source itself works in:
 coefficients, which is a commutative group with no hypothesis on `A^*(X)` at all. The total Chern
 class reading of the clause is proved there, as
 `Stacks.Chow.totalChernClass_mem_center_of_envelopePresentation` of
-`StacksFrontier.AlgebraicGeometry.Chow.ChernClassDerived.CentralTotalChernClass`, by the same descent
+`StacksFrontier.AlgebraicGeometry.Chow.ChernClassDerived.CentralTotalChernClass`, by the same
+descent
 along an envelope as below. The power sum reading remains the one that needs no series ring at
 all, and it is the reading below.
 

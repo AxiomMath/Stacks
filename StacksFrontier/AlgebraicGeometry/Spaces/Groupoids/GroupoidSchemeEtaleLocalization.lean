@@ -24,7 +24,8 @@ Stacks 04RU carried as an explicit hypothesis,
 assumption: all three clauses of Stacks 04RU are proved in this library, clause (3) — the
 groupoid structure on the finite part together with its morphism to the given groupoid — in
 `StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/More/FinitePart/Groupoid.lean` at line 2036 and
-in `StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/More/FinitePart/GroupoidStructure.lean` at line 655, and
+in `StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/More/FinitePart/GroupoidStructure.lean` at
+line 655, and
 `AlgebraicGeometry.Space.finitePartSubgroupoid` discharges it.
 
 The scheme-to-space comparison the statement needs is
@@ -140,7 +141,7 @@ theorem contains_identityOnPoints_of_openFiniteSubgroupoid
   refine ⟨Space.FieldValuedPoint.class C S hS H.arrows.toFunctor
     { carrier := p.carrier, field := p.field, contained := p.contained,
       toBase := p.toBase, value := a }, ?_⟩
-  show Space.FieldValuedPoint.class C S hS G.arrows.obj
+  change Space.FieldValuedPoint.class C S hS G.arrows.obj
     { carrier := p.carrier, field := p.field, contained := p.contained,
       toBase := p.toBase, value := a.1 } = _
   rw [← hid]
@@ -163,7 +164,8 @@ projection and the universal finite open and closed subspace of `R ×_{s, U, g} 
 `StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/More/FinitePart/Groupoid.lean` at lines 277 and
 322, and clause (3) — the groupoid structure on that subspace and the morphism of groupoids to
 the given one — in the same file at line 2036 and in
-`StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/More/FinitePart/GroupoidStructure.lean` at line 655.  This structure packages what the
+`StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/More/FinitePart/GroupoidStructure.lean` at
+line 655.  This structure packages what the
 consumers below use, and `AlgebraicGeometry.Space.finitePartSubgroupoid` builds it. -/
 structure FinitePartSubgroupoid (G : GroupoidInAlgebraicSpaces C S hS B) where
   /-- The new space of objects `U'`. -/

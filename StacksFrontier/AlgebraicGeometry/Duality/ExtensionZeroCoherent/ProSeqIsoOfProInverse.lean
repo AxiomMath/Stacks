@@ -49,7 +49,7 @@ lemma app_proInverseAt (n : ℕ) :
   have hnat : tr A (Nat.le_succ (h n).choose) ≫ φ.app (op (h n).choose) =
       φ.app (op ((h n).choose + 1)) ≫ tr B (Nat.le_succ (h n).choose) :=
     φ.naturality _
-  show φ.app (op ((h n).choose + 1)) ≫ tr B (Nat.le_succ (h n).choose) ≫
+  change φ.app (op ((h n).choose + 1)) ≫ tr B (Nat.le_succ (h n).choose) ≫
       (h n).choose_spec.choose_spec.choose =
         tr A ((h n).choose_spec.choose.trans (Nat.le_succ (h n).choose))
   rw [← Category.assoc, ← hnat, Category.assoc]
@@ -59,7 +59,7 @@ lemma app_proInverseAt (n : ℕ) :
 lemma proInverseAt_app (n : ℕ) :
     proInverseAt φ h n ≫ φ.app (op n) = tr B (lt_proInverseNext φ h n).le := by
   have hs₂ := (h n).choose_spec.choose_spec.choose_spec.2
-  show (tr B (Nat.le_succ (h n).choose) ≫ (h n).choose_spec.choose_spec.choose) ≫
+  change (tr B (Nat.le_succ (h n).choose) ≫ (h n).choose_spec.choose_spec.choose) ≫
       φ.app (op n) = tr B ((h n).choose_spec.choose.trans (Nat.le_succ (h n).choose))
   rw [Category.assoc]
   exact (congrArg (tr B (Nat.le_succ (h n).choose) ≫ ·) hs₂).trans (ProIso.tr_trans B _ _)

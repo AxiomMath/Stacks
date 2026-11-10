@@ -47,6 +47,7 @@ public abbrev algebraRingDiagram (A : Type u) [CommRing A] :
   unopUnop (CommAlgCat.{max u v} A) ⋙ forget₂ (CommAlgCat.{max u v} A) CommRingCat.{max u v} ⋙
     forget₂ CommRingCat.{max u v} RingCat.{max u v}
 
+set_option linter.checkUnivs false in
 /-- Module-valued functors on the category of commutative `A`-algebras. The values may live in
 a universe independent of the algebra carriers. -/
 public abbrev ModuleValuedFunctor (A : Type u) [CommRing A] :=
@@ -202,8 +203,7 @@ public noncomputable def moduleExtensionMap (A : Type u) [CommRing A]
       map_add' := map_add _
       map_smul' := ?_ }
   intro b x
-  induction x using TensorProduct.induction_on with
-  | zero => rfl
+  induction x using TensorProduct.inductionOn with
   | tmul c m =>
     rw [TensorProduct.smul_tmul', TensorProduct.map_tmul]
     change f.hom (b * c) ⊗ₜ[A] m = (f.hom b * f.hom c) ⊗ₜ[A] m
@@ -221,8 +221,7 @@ public lemma moduleExtensionMap_id (A : Type u) [CommRing A]
         (congrArg CommRingCat.Hom.hom
           ((forget₂ (CommAlgCat.{max u v} A) CommRingCat.{max u v}).map_id B))).inv.app _ := by
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => rfl
+  induction x using TensorProduct.inductionOn with
   | tmul b m => rfl
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -235,8 +234,7 @@ public noncomputable def moduleExtension (A : Type u) [CommRing A]
   map_id X := moduleExtensionMap_id.{w, v} A M X.unop.unop
   map_comp f g := by
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul b m => rfl
     | add x y hx hy =>
       simpa only [map_add] using congrArg₂ (· + ·) hx hy
@@ -250,8 +248,7 @@ public noncomputable def moduleExtensionHom (A : Type u) [CommRing A]
   naturality := by
     intro X Y g
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul b m => rfl
     | add x y hx hy =>
       convert congrArg₂ (· + ·) hx hy using 1 <;> apply map_add
@@ -272,15 +269,13 @@ public noncomputable def moduleExtensionFunctor (A : Type u) [CommRing A] :
   map f := moduleExtensionHom.{w, v} A f
   map_id M := by
     ext B x
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul b m => rfl
     | add x y hx hy =>
-      convert congrArg₂ (· + ·) hx hy using 1 <;> apply map_add
+      convert congrArg₂ (· + ·) hx hy using 1; apply map_add
   map_comp f g := by
     ext B x
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul b m => rfl
     | add x y hx hy =>
       convert congrArg₂ (· + ·) hx hy using 1 <;> apply map_add
@@ -329,22 +324,20 @@ public lemma moduleExtension_natTrans_eq_map {A : Type u} [CommRing A]
   have hbase (z : TensorProduct A (ULift.{v} A) N) :
       (moduleExtension.{w, v} A N).map g.op.op z =
         (1 : X.unop.unop) ⊗ₜ[A] moduleExtensionAtBaseEquiv N z := by
-    induction z using TensorProduct.induction_on with
-    | zero => change (0 : TensorProduct A X.unop.unop N) = 1 ⊗ₜ[A] 0; simp
+    induction z using TensorProduct.inductionOn with
     | tmul a n =>
-      show algebraMap A X.unop.unop a.down ⊗ₜ[A] n = 1 ⊗ₜ[A] (a.down • n)
+      change algebraMap A X.unop.unop a.down ⊗ₜ[A] n = 1 ⊗ₜ[A] (a.down • n)
       rw [← TensorProduct.smul_tmul]
       simp [Algebra.smul_def]
     | add z t hz ht =>
       simp only [map_add, hz, ht, TensorProduct.tmul_add]
       rfl
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b m =>
     have hn := PresheafOfModules.naturality_apply η g.op.op ((1 : ULift.{v} A) ⊗ₜ[A] m)
     have hg : (moduleExtension.{w, v} A M).map g.op.op ((1 : ULift.{v} A) ⊗ₜ[A] m) =
         (1 : X.unop.unop) ⊗ₜ[A] m := by
-      show g.hom 1 ⊗ₜ[A] m = 1 ⊗ₜ[A] m
+      change g.hom 1 ⊗ₜ[A] m = 1 ⊗ₜ[A] m
       rw [map_one]
     rw [hg, hbase] at hn
     have ht : b • ((1 : X.unop.unop) ⊗ₜ[A] m) = b ⊗ₜ[A] m := by
@@ -359,7 +352,7 @@ public lemma moduleHomOfExtensionNatTrans_map {A : Type u} [CommRing A]
     {M N : ModuleCat.{w} A} (f : M ⟶ N) :
     moduleHomOfExtensionNatTrans ((moduleExtensionFunctor.{w, v} A).map f) = f := by
   ext m
-  show (1 : A) • f.hom m = f.hom m
+  change (1 : A) • f.hom m = f.hom m
   exact one_smul A _
 
 /-- Extension of scalars to module-valued functors is fully faithful. -/
@@ -382,8 +375,7 @@ public instance (A : Type u) [CommRing A] : (moduleExtensionFunctor.{w, v} A).Ad
   map_add := by
     intro M N f g
     ext X x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b m => exact TensorProduct.tmul_add b (f.hom m) (g.hom m)
     | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -426,8 +418,7 @@ public noncomputable def moduleExtensionEvaluationIso (A : Type u) [CommRing A]
       (LinearEquiv.refl A M)).toModuleIso
   · intro M N f
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction x using TensorProduct.inductionOn with
     | tmul b m => rfl
     | add x y hx hy =>
       exact ((map_add _ x y).trans (congrArg₂ (· + ·) hx hy)).trans (map_add _ x y).symm
@@ -545,7 +536,7 @@ public lemma isLinearlyAdequate_iff_exists_module_map {A : Type u} [CommRing A]
   constructor
   · rintro ⟨n, m, f, h⟩
     refine ⟨n, m, moduleHomOfExtensionNatTrans f, ?_⟩
-    show Nonempty (_ ≅ kernel ((moduleExtensionFunctor.{max u v w, v} A).map
+    change Nonempty (_ ≅ kernel ((moduleExtensionFunctor.{max u v w, v} A).map
       (moduleHomOfExtensionNatTrans f)))
     rwa [← moduleExtension_natTrans_eq_map f]
   · rintro ⟨n, m, f, h⟩

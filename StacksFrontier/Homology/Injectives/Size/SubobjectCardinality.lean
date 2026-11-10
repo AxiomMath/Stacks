@@ -103,7 +103,7 @@ theorem exists_morphism_between_subobjects {U X : C} (hU : IsSeparator U)
           (P.factorThru_arrow (h ≫ Q.arrow) hp).symm
       _ = 0 := by rw [Category.assoc, cokernel.condition, comp_zero]
   apply hh
-  show h ≫ (Q.arrow ≫ cokernel.π P.arrow) = 0
+  change h ≫ (Q.arrow ≫ cokernel.π P.arrow) = 0
   simpa only [Category.assoc] using hzero
 
 /-- The least index strictly above `i` in a well-ordered type, given that one exists. -/

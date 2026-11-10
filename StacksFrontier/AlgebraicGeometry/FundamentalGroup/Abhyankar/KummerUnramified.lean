@@ -130,10 +130,10 @@ theorem isUnramifiedWithRespectTo_of_tensor
   let : Algebra O L'' := ((algebraMap K L'').comp (algebraMap O K)).toAlgebra
   have : IsScalarTower O K L'' := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   have : IsScalarTower O K'' L'' := IsScalarTower.of_algebraMap_eq fun o ↦ by
-    show algebraMap K L'' (algebraMap O K o) = _
+    change algebraMap K L'' (algebraMap O K o) = _
     rw [IsScalarTower.algebraMap_apply K K'' L'', ← IsScalarTower.algebraMap_apply O K K'']
   have : IsScalarTower O L L'' := IsScalarTower.of_algebraMap_eq fun o ↦ by
-    show algebraMap K L'' (algebraMap O K o) = _
+    change algebraMap K L'' (algebraMap O K o) = _
     rw [IsScalarTower.algebraMap_apply O K L, ← IsScalarTower.algebraMap_apply K L L'']
   have hunr :=
     IsDiscreteValuationRing.isUnramifiedWithRespectTo_integralClosure_of_tensorProduct_quotient

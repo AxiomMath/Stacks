@@ -96,20 +96,20 @@ private lemma exists_factor_through_localizationAway_quotient
   let G := (Ideal.Quotient.mkₐ R J).comp E
   have hG : RingHom.ker F.toRingHom ≤ RingHom.ker G.toRingHom := by
     intro z hz
-    show Ideal.Quotient.mk J (E z) = 0
+    change Ideal.Quotient.mk J (E z) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem E.toRingHom hz)
   let q := F.liftOfSurjective hF G hG
   have ht : J ≤ RingHom.ker t.toRingHom := by
     rw [Ideal.map_le_iff_le_comap]
     intro z hz
-    show t (E z) = 0
+    change t (E z) = 0
     change F z = 0 at hz
     simpa [hz] using DFunLike.congr_fun hE z
   let t' : (Localization.Away s ⧸ J) →ₐ[R] K := Ideal.Quotient.liftₐ J t ht
   refine ⟨s, J, q, t', hker.map E.toRingHom, ?_⟩
   ext b
   obtain ⟨z, rfl⟩ := hF b
-  show t' (q (F z)) = φ (F z)
+  change t' (q (F z)) = φ (F z)
   rw [AlgHom.liftOfSurjective_apply]
   exact DFunLike.congr_fun hE z
 
@@ -122,13 +122,13 @@ private lemma exists_fraction_evaluation {X : Scheme} {U : X.Opens}
   obtain ⟨b, rfl⟩ := X.residue_surjective x a
   obtain ⟨⟨r, s⟩, e⟩ := IsLocalization.surj (hU.primeIdealOf x).asIdeal.primeCompl b
   refine ⟨r, s, ?_, ?_⟩
-  · show (IsLocalRing.residue (X.presheaf.stalk x))
+  · change (IsLocalRing.residue (X.presheaf.stalk x))
       (algebraMap Γ(X, U) (X.presheaf.stalk x) s) ≠ 0
     rw [Ne, IsLocalRing.residue_eq_zero_iff,
       IsLocalization.AtPrime.to_map_mem_maximal_iff _ (hU.primeIdealOf x).asIdeal]
     exact s.2
   · change b * X.presheaf.germ U x x.2 s = X.presheaf.germ U x x.2 r at e
-    show (X.residue x) b * (X.residue x) (X.presheaf.germ U x x.2 s) =
+    change (X.residue x) b * (X.residue x) (X.presheaf.germ U x x.2 s) =
       (X.residue x) (X.presheaf.germ U x x.2 r)
     rw [← map_mul, e]
 
@@ -148,7 +148,7 @@ private lemma SpecMap_evaluation_fromSpec {X : Scheme} {U : X.Opens}
     (hU : IsAffineOpen U) (x : U) :
     Spec.map (X.evaluation U x x.2) ≫ hU.fromSpec = X.fromSpecResidueField x := by
   rw [Scheme.evaluation, Spec.map_comp, Category.assoc]
-  show Spec.map (X.residue x) ≫ hU.fromSpecStalk x.2 = _
+  change Spec.map (X.residue x) ≫ hU.fromSpecStalk x.2 = _
   rw [hU.fromSpecStalk_eq_fromSpecStalk]
   rfl
 
@@ -193,7 +193,7 @@ private lemma exists_affine_immersion_lift_at {X Y : Scheme} (f : X ⟶ Y)
   have : Algebra.FinitePresentation R C := Algebra.FinitePresentation.quotient hJ
   have : LocallyOfFinitePresentation (Spec.map i) :=
     (LocallyOfFinitePresentation.SpecMap_iff i).mpr (by
-      show (algebraMap R C).FinitePresentation
+      change (algebraMap R C).FinitePresentation
       exact RingHom.finitePresentation_algebraMap.mpr inferInstance)
   refine ⟨C, g, l, inferInstance, inferInstance, inferInstance, inferInstance, ?_, ?_⟩
   · dsimp [l, g]
@@ -216,7 +216,7 @@ private lemma exists_affine_immersion_lift_at {X Y : Scheme} (f : X ⟶ Y)
         _ = Spec.map (Y.evaluation V (f x) hy) ≫ hV.fromSpec :=
           congrArg (fun k : R ⟶ Y.residueField (f x) => Spec.map k ≫ hV.fromSpec) hit
         _ = _ := SpecMap_evaluation_fromSpec hV ⟨f x, hy⟩
-    show (Spec.map (CommRingCat.ofHom t.toRingHom) ≫ g)
+    change (Spec.map (CommRingCat.ofHom t.toRingHom) ≫ g)
       (IsLocalRing.closedPoint (Y.residueField (f x))) = f x
     rw [hh]
     exact Y.fromSpecResidueField_apply (f x) _

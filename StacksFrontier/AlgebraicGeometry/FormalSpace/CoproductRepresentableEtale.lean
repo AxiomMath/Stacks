@@ -116,7 +116,7 @@ theorem exists_cofan_pullback_sigmaDesc {I : Type (u + 1)} [Finite I]
   have hp : IsPullback (pullback.snd (Sigma.ι Z i) t ≫ pullback.snd u ξ')
       (pullback.fst (Sigma.ι Z i) t) ξ' (Sigma.ι Z i ≫ u) :=
     (IsPullback.of_hasPullback (Sigma.ι Z i) t).flip.paste_horiz hApb.flip
-  rw [Sigma.ι_desc] at hp
+  rw [Sigma.ι_comp_desc] at hp
   exact isPullback_hom_of_sheaf' hp
 
 /-- The summands of a base change of `∐ Z ⟶ W` are algebraic spaces if the `g i` are
@@ -140,7 +140,7 @@ theorem isRepresentableByAlgebraicSpacesULift_sigmaDesc {I : Type (u + 1)} [Fini
     Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS (Sigma.desc g).hom := by
   let : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
   let : Small.{u} I := Countable.toSmall.{u} I
-  show Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS (Sigma.desc g).hom
+  change Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS (Sigma.desc g).hom
   intro T ξ
   obtain ⟨A, Ai, ιA, qA, rA, rAi, ⟨hA⟩, hpbA, hpbAi⟩ :=
     exists_cofan_pullback_sigmaDesc B S hS Z W g T ξ
@@ -163,7 +163,7 @@ theorem isEtaleULift_pullback_fst_sigmaDesc {I : Type (u + 1)} [Finite I]
   let : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
   let : Small.{u} I := Countable.toSmall.{u} I
   let : (BigFppfOver.topology B S hS).Subcanonical := bigFppfOver_subcanonical B S hS
-  show Space.IsEtaleULift.{u + 1} B S hS (pullback.fst ξ (Sigma.desc g).hom)
+  change Space.IsEtaleULift.{u + 1} B S hS (pullback.fst ξ (Sigma.desc g).hom)
   let J := BigFppfOver.topology B S hS
   let PP := (MorphismProperty.inverseImage
     (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u})

@@ -109,7 +109,7 @@ private lemma rightDerived_map_central {R : Type w} [CommRing R] (G : C ⥤ Modu
   have hφ : (G.mapHomologicalComplex (ComplexShape.up ℕ)).map φ = r • 𝟙 K :=
     HomologicalComplex.Hom.ext (funext fun _ => hη _)
   have hh : (HomologicalComplex.homologyMap (r • 𝟙 K) p : Z ⟶ Z) = r • 𝟙 Z := by
-    show ShortComplex.homologyMap (r • 𝟙 (K.sc p)) = _
+    change ShortComplex.homologyMap (r • 𝟙 (K.sc p)) = _
     rw [ShortComplex.homologyMap_smul, ShortComplex.homologyMap_id]
     rfl
   simp only [Functor.comp_map, hφ] at h
@@ -174,7 +174,7 @@ private lemma rightDerived_map_scalarSheafMap (X : Scheme.{u}) (A : Type u) [Com
       rfl
     exact hid
   have h := rightDerived_map_central G (scalarSheafNatTrans X (c a)) r₀ hcentral p M
-  show (ModuleCat.restrictScalars c).map ((G.rightDerived p).map _) = _
+  change (ModuleCat.restrictScalars c).map ((G.rightDerived p).map _) = _
   rw [h]
   rfl
 
@@ -221,9 +221,9 @@ private lemma tilde_map_smul_id (A : Type u) [CommRing A] (M : ModuleCat.{u} A) 
   ext U x
   apply Subtype.ext
   funext y
-  show (LocalizedModule.map y.1.asIdeal.primeCompl (a • LinearMap.id)) (x.val y) = _
+  change (LocalizedModule.map y.1.asIdeal.primeCompl (a • LinearMap.id)) (x.val y) = _
   rw [map_smul, LocalizedModule.map_id]
-  show a • x.val y = algebraMap A (Localization.AtPrime y.val.asIdeal) a • x.val y
+  change a • x.val y = algebraMap A (Localization.AtPrime y.val.asIdeal) a • x.val y
   exact (IsScalarTower.algebraMap_smul (Localization.AtPrime y.val.asIdeal) a (x.val y)).symm
 
 /-- Restricting a scalar endomorphism along an open immersion gives the scalar endomorphism
@@ -234,7 +234,7 @@ private lemma restrict_scalarSheafNatTrans {X Y : Scheme.{u}} (f : X ⟶ Y) [IsO
       (scalarSheafNatTrans X (f.appTop r)).app (M.restrict f) := by
   ext U x
   let z : Γ(M, f ''ᵁ U) := (M.restrictAppIso f U).hom x
-  show (Y.presheaf.map (homOfLE (show f ''ᵁ U ≤ ⊤ from le_top)).op r) • z =
+  change (Y.presheaf.map (homOfLE (show f ''ᵁ U ≤ ⊤ from le_top)).op r) • z =
     (f.appIso U).inv (X.presheaf.map U.leTop.op (f.appTop r)) • z
   congr 1
   have h : f.appTop ≫ X.presheaf.map U.leTop.op ≫ (f.appIso U).inv =
@@ -270,7 +270,7 @@ private lemma exists_smul_factorization_of_localized_projective {R : Type u} [Co
       simp only [LinearMap.coe_comp, LinearMap.coe_restrictScalars, Function.comp_apply,
         LocalizedModule.mkLinearMap_apply, LocalizedModule.map_mk]
     rw [hcomp, ← hsg]
-    show (LocalizedModule.map S q).comp ((s : R) • g) = _
+    change (LocalizedModule.map S q).comp ((s : R) • g) = _
     rw [LinearMap.comp_smul, hg]
   obtain ⟨t, ht⟩ := (IsLocalizedModule.eq_iff_exists S (LocalizedModule.map S)).mp heq
   refine ⟨t * s, (t : R) • g₀, ?_⟩
@@ -354,7 +354,7 @@ private lemma exists_pow_annihilates_linear_functor_obj {R : Type u} [CommRing R
       refine Module.mem_annihilator.mpr fun x => ?_
       have heq : H.map (ModuleCat.ofHom g) ≫ H.map (ModuleCat.ofHom q) = a.val • 𝟙 (H.obj M) := by
         rw [← H.map_comp]
-        show H.map (ModuleCat.ofHom (q.comp g)) = _
+        change H.map (ModuleCat.ofHom (q.comp g)) = _
         rw [hg]
         exact hH M a.val
       have hx : H.map (ModuleCat.ofHom q) (H.map (ModuleCat.ofHom g) x) = a.val • x :=
@@ -404,7 +404,7 @@ private lemma exists_basicOpen_localized_free (A : Type u) [CommRing A] (M : Mod
   refine ⟨f, hqf, (tilde_restrict_basicOpen_free_iff A M f).mp ⟨κ, ⟨?_⟩⟩⟩
   let g := V.ι ≫ U.ι
   have hrange : Set.range (specBasicOpen A f).ι ⊆ Set.range g := by
-    show Set.range (specBasicOpen A f).ι ⊆ Set.range (U.ι ∘ V.ι)
+    change Set.range (specBasicOpen A f).ι ⊆ Set.range (U.ι ∘ V.ι)
     rwa [Set.range_comp, Scheme.Opens.range_ι, Scheme.Opens.range_ι]
   let j := IsOpenImmersion.lift g (specBasicOpen A f).ι hrange
   have hj : j ≫ g = (specBasicOpen A f).ι := IsOpenImmersion.lift_fac _ _ _

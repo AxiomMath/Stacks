@@ -58,7 +58,8 @@ costs the intended consumer nothing: `Stacks.LocalCohomology.complementTilde` is
 `M̃|U` at an arbitrary module universe, but Stacks 0DWR part (1) produces its module in the
 ring's universe (`Stacks.LocalCohomology.exists_module_iso_restrict_tilde`), and the vanishing
 statement for `A`-modules in any universe is obtained from the one for `A` itself by the
-descending induction of `StacksFrontier/RingTheory/LocalCohomology/LongExactSequence/AllModules.lean`.
+descending induction of
+`StacksFrontier/RingTheory/LocalCohomology/LongExactSequence/AllModules.lean`.
 
 The comparison of step 3 depends on a chosen finite family of generators of `I`; since all four
 steps are isomorphisms, and the statements below are vanishing statements, the choice is

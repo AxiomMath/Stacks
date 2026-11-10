@@ -165,7 +165,7 @@ private theorem exists_affine_etale_factorization
     refine ⟨((BigFppfOver.toScheme B S hS).map (hαrep.fst' γ)) z, ?_⟩
     have h1 : ((BigFppfOver.toScheme B S hS).map (hαrep.fst' γ ≫ v)) z = x := by
       rw [htv]
-      show ((BigFppfOver.toScheme B S hS).map g)
+      change ((BigFppfOver.toScheme B S hS).map g)
         (((BigFppfOver.toScheme B S hS).map (hαrep.snd γ)) z) = x
       rw [hz]
       exact hw
@@ -300,7 +300,7 @@ private theorem exists_etale_cover_of_hasProperFormalAtlas
   have hσ : ∀ j, ρ j ≫ c (idx j) = ιj j ≫ ζ := by
     intro j
     refine Sheaf.hom_ext ?_
-    show r j ≫ (c (idx j)).hom =
+    change r j ≫ (c (idx j)).hom =
       (uliftYoneda.{u + 1}).map (jj j) ≫ (uliftYoneda.{u + 1}).map q ≫ ξ
     rw [hAfac j, ← Category.assoc, ← Functor.map_comp, hjq j]
   -- each summand of that base change is an algebraic space proper over an affine

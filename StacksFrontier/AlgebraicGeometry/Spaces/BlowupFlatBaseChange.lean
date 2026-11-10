@@ -149,7 +149,7 @@ theorem isBlowupAlong_preimage_of_isPullback_of_isFlat
     · rw [sq.lift_fst, hm]
     · rw [sq.lift_snd]
       refine hlu (m ≫ r) ?_
-      show (m ≫ r) ≫ b₂ = y ≫ g
+      change (m ≫ r) ≫ b₂ = y ≫ g
       rw [Category.assoc, ← sq.w, ← Category.assoc, hm]
 
 /-- **Stacks 085S for the chosen fibre product.** The first projection of the fibre product

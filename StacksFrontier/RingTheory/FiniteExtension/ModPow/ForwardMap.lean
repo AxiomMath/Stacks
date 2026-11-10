@@ -344,15 +344,15 @@ lemma bSubalg_phiFun_mul (A' : Type u) (A : Type v) [CommRing A'] [CommRing A] [
     rw [Subalgebra.coe_mul, e1, e2, e3]
     have hmm : Gm c₁ * Gm c₂ = G ^ t * Gm c'' := by
       rw [← map_mul, hmul, map_mul, map_pow]
-    show gPowInv B' g t * Gm c₁ * (gPowInv B' g t * Gm c₂) = gPowInv B' g t * Gm c''
+    change gPowInv B' g t * Gm c₁ * (gPowInv B' g t * Gm c₂) = gPowInv B' g t * Gm c''
     linear_combination (gPowInv B' g t * gPowInv B' g t) * hmm + (gPowInv B' g t * Gm c'') * hGt
   have hRHS : bSubalg_phiFun A' A f t n B' g φ' hinj ht hn2t hφ' a₁
         * bSubalg_phiFun A' A f t n B' g φ' hinj ht hn2t hφ' a₂
       = Ideal.Quotient.mk _ (mkB A' A f t n B' g φ' hinj ht hn2t hφ' c'' hN'') := by
-    show Ideal.Quotient.mk _ _ * Ideal.Quotient.mk _ _ = _
+    change Ideal.Quotient.mk _ _ * Ideal.Quotient.mk _ _ = _
     rw [← map_mul, hmkB_mul]
   rw [hRHS]
-  show Ideal.Quotient.mk _ (mkB A' A f t n B' g φ' hinj ht hn2t hφ'
+  change Ideal.Quotient.mk _ (mkB A' A f t n B' g φ' hinj ht hn2t hφ'
         (bSubalg_crep A' A f t n B' g φ' ht (a₁ * a₂))
         (bSubalg_crep_mem A' A f t n B' g φ' ht (a₁ * a₂))) = _
   set crep := bSubalg_crep A' A f t n B' g φ' ht (a₁ * a₂) with hcrepdef
@@ -437,7 +437,7 @@ lemma bSubalg_phiFun_add (A' : Type u) (A : Type v) [CommRing A'] [CommRing A] [
       hasum hcsum hNsum,
     bSubalg_phiFun_eq A' A f t n B' g φ' hinj ht0 ht hn2t hφ' a₁ ar1 c₁ hs1 hcs1.symm hN₁,
     bSubalg_phiFun_eq A' A f t n B' g φ' hinj ht0 ht hn2t hφ' a₂ ar2 c₂ hs2 hcs2.symm hN₂]
-  show Ideal.Quotient.mk _ _ = Ideal.Quotient.mk _ _ + Ideal.Quotient.mk _ _
+  change Ideal.Quotient.mk _ _ = Ideal.Quotient.mk _ _ + Ideal.Quotient.mk _ _
   rw [← map_add, hmkB_add]
 
 /-- `bSubalg_phiFun 1 = 1`. -/

@@ -17,7 +17,8 @@ identification, in each degree `n`, of the degree-`n` piece of the homology of `
 `Tor_n^R(S, T)`. This file supplies that identification.
 
 The three comparisons named in the module documentation of
-`StacksFrontier.RingTheory.DividedPowers.TateResolution.TorDividedPowers` are carried out as follows.
+`StacksFrontier.RingTheory.DividedPowers.TateResolution.TorDividedPowers` are carried out as
+follows.
 
 (a) `baseChangeGradeEquiv` identifies the degree-`n` piece `(𝒜 n).baseChange T` of `T ⊗[R] A`
 with `T ⊗[R] 𝒜 n`, and `baseChangeGradeEquiv_gradeDifferential` is the commuting square against
@@ -130,7 +131,7 @@ public def gradeProjection (n : ℕ) : A →ₗ[R] ↥(𝒜 n) :=
 public theorem gradeProjection_coe (n : ℕ) (x : ↥(𝒜 n)) :
     gradeProjection 𝒜 n (x : A) = x := by
   apply Subtype.ext
-  show GradedAlgebra.proj 𝒜 n (x : A) = (x : A)
+  change GradedAlgebra.proj 𝒜 n (x : A) = (x : A)
   rw [GradedAlgebra.proj_apply, DirectSum.decompose_of_mem_same 𝒜 x.property]
 
 /-- The degree-`n` piece is a direct summand: the projection retracts its inclusion. -/
@@ -375,8 +376,7 @@ public theorem rTensorGradeInclusion_rTensor {B : ℕ → Submodule R A} (m n : 
         (TensorProduct.comm R ↥(B n) T (LinearMap.rTensor T f u)) =
       LinearMap.baseChange T ((B n).subtype.comp f)
         (TensorProduct.comm R ↥(𝒜 m) T u) := by
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | tmul a t => simp
   | add x y hx hy => simp [hx, hy]
 
@@ -630,7 +630,7 @@ public theorem tensorComplex_d (n : ℕ) (v : ↥(Res.grade (n + 1)) ⊗[R] T) :
     (((((tensoringRight (ModuleCat.{u} R)).obj (ModuleCat.of R T)).mapHomologicalComplex
         (ComplexShape.down ℕ)).obj Res.complex).d (n + 1) n).hom v =
       LinearMap.rTensor T (Res.differentialAt n) v := by
-  show ((Res.complex.d (n + 1) n ▷ ModuleCat.of R T).hom) v = _
+  change ((Res.complex.d (n + 1) n ▷ ModuleCat.of R T).hom) v = _
   rw [ModuleCat.hom_whiskerRight]
   simp only [Resolution.complex, ChainComplex.of_d, ModuleCat.hom_ofHom]
   rfl

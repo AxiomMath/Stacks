@@ -94,14 +94,14 @@ theorem finiteDimensional_tangentModuleAt_of_artinianTangentSpace {Λ k : Type w
     (hfd :
       letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h.predeformation⟩
       letI : Fact (SchlessingerConditionS2
-        (CategoryOfElements.π (isomorphismClasses 𝓕 h.predeformation.cofibered))) :=
+        (Elements.π (isomorphismClasses 𝓕 h.predeformation.cofibered))) :=
         ⟨tangentConditionS2 h⟩
       FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses 𝓕
         h.predeformation.cofibered))) :
     FiniteDimensional k (tangentModuleAt.{w, w, w} 𝓕 h (FGModuleCat.of k (ULift.{w} k))) := by
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h.predeformation⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h.predeformation.cofibered))) :=
+    (Elements.π (isomorphismClasses 𝓕 h.predeformation.cofibered))) :=
     ⟨tangentConditionS2 h⟩
   have h1 := finiteDimensional_tangentSpaceArtinian_of_artinianTangentSpace 𝓕 h.predeformation
     (tangentConditionS2 h) hfd

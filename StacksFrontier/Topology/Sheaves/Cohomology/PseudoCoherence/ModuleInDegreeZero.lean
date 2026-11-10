@@ -114,11 +114,11 @@ theorem isIso_homologyMap_double {C : Type u'} [Category.{v'} C] [Preadditive C]
   let γ := ShortComplex.HomologyMapData.ofIsColimitCokernelCofork
     ((HomologicalComplex.shortComplexFunctor C (ComplexShape.up ℤ) 0).map α)
     hgD _ hc₁ hLd' _ hc₂ (𝟙 (L.X 0)) hcomm
-  show IsIso (ShortComplex.homologyMap
+  change IsIso (ShortComplex.homologyMap
     ((HomologicalComplex.shortComplexFunctor C (ComplexShape.up ℤ) 0).map α))
   rw [γ.left.homologyMap_eq]
   have : IsIso γ.left.φH := by
-    show IsIso (𝟙 (L.X 0))
+    change IsIso (𝟙 (L.X 0))
     infer_instance
   infer_instance
 
@@ -191,7 +191,7 @@ theorem epi_homologyMap_singleFunctor_map {C : Type*} [Category* C] [Abelian C]
       ((CochainComplex.singleFunctor C 0).map f) 0) := by
   refine (epi_comp_iff_of_isIso _
     (HomologicalComplex.singleObjHomologySelfIso (ComplexShape.up ℤ) 0 B).hom).mp ?_
-  show Epi (HomologicalComplex.homologyMap
+  change Epi (HomologicalComplex.homologyMap
     ((HomologicalComplex.single C (ComplexShape.up ℤ) 0).map f) 0 ≫
     (HomologicalComplex.singleObjHomologySelfIso (ComplexShape.up ℤ) 0 B).hom)
   rw [HomologicalComplex.singleObjHomologySelfIso_hom_naturality]

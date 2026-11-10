@@ -234,21 +234,21 @@ public theorem shortExact_appShortComplex_of_isPullback (I : 𝒜)
       (Fork.IsLimit.mono hk) (epi_of_epi_fac (biprod.inl_desc _ _ : biprod.inl ≫ S'.g = s₁.app I))
   refine ShortComplex.shortExact_of_iso ?_ hS'
   refine ShortComplex.isoMk (Iso.refl _) e.symm (Iso.refl _) ?_ ?_
-  · show 𝟙 _ ≫ (biprod.lift r₁ r₂).app I = biprod.lift (r₁.app I) (r₂.app I) ≫ e.inv
+  · change 𝟙 _ ≫ (biprod.lift r₁ r₂).app I = biprod.lift (r₁.app I) (r₂.app I) ≫ e.inv
     rw [Category.id_comp, Iso.eq_comp_inv]
     apply biprod.hom_ext
     · simp only [e, biprodObjIso_hom, Category.assoc, biprod.lift_fst]
       rw [← NatTrans.comp_app, biprod.lift_fst]
     · simp only [e, biprodObjIso_hom, Category.assoc, biprod.lift_snd]
       rw [← NatTrans.comp_app, biprod.lift_snd]
-  · show e.inv ≫ (biprod.desc s₁ (-s₂)).app I = biprod.desc (s₁.app I) (-s₂.app I) ≫ 𝟙 _
+  · change e.inv ≫ (biprod.desc s₁ (-s₂)).app I = biprod.desc (s₁.app I) (-s₂.app I) ≫ 𝟙 _
     rw [Category.comp_id]
     apply biprod.hom_ext'
-    · show biprod.inl ≫ biprod.desc ((biprod.inl : G₁ ⟶ G₁ ⊞ G₂).app I)
+    · change biprod.inl ≫ biprod.desc ((biprod.inl : G₁ ⟶ G₁ ⊞ G₂).app I)
         ((biprod.inr : G₂ ⟶ G₁ ⊞ G₂).app I) ≫
         (biprod.desc s₁ (-s₂)).app I = _
       rw [biprod.inl_desc_assoc, ← NatTrans.comp_app, biprod.inl_desc, biprod.inl_desc]
-    · show biprod.inr ≫ biprod.desc ((biprod.inl : G₁ ⟶ G₁ ⊞ G₂).app I)
+    · change biprod.inr ≫ biprod.desc ((biprod.inl : G₁ ⟶ G₁ ⊞ G₂).app I)
         ((biprod.inr : G₂ ⟶ G₁ ⊞ G₂).app I) ≫
         (biprod.desc s₁ (-s₂)).app I = _
       rw [biprod.inr_desc_assoc, ← NatTrans.comp_app, biprod.inr_desc, biprod.inr_desc,
@@ -421,7 +421,7 @@ public theorem openFamilyRestriction_comp {U V V' : X.left.obj.Opens} (h : U ≤
       openFamilyRestriction C W X π φ (h.trans h') := by
   refine NatTrans.ext (funext fun G => (PresheafOfModules.toPresheaf _).map_injective ?_)
   refine NatTrans.ext (funext fun Z => ?_)
-  show G.val.presheaf.map ((openFamilyHomOfLE C W X π h').app Z.unop).op ≫
+  change G.val.presheaf.map ((openFamilyHomOfLE C W X π h').app Z.unop).op ≫
       G.val.presheaf.map ((openFamilyHomOfLE C W X π h).app Z.unop).op =
     G.val.presheaf.map ((openFamilyHomOfLE C W X π (h.trans h')).app Z.unop).op
   rw [← Functor.map_comp, ← op_comp, ← NatTrans.comp_app, openFamilyHomOfLE_comp]

@@ -146,7 +146,7 @@ theorem deformationSpecialFiberMap_surjective
   refine ⟨q, ?_⟩
   rw [← hq]
   have hs : e.symm (X.hom.map.hom q) = q ⊗ₜ[A] (1 : k) := by
-    show e.symm (algebraMap Q P q) = q ⊗ₜ[A] (1 : k)
+    change e.symm (algebraMap Q P q) = q ⊗ₜ[A] (1 : k)
     exact Algebra.IsPushout.equiv_symm_algebraMap_left
       (R := A) (S := Q) (R' := k) (S' := P) q
   apply e.symm.injective
@@ -273,12 +273,12 @@ theorem deformationSpecialFiber_ker_le_map_maximalIdeal
   have hx' : et (e.symm (X.hom.map.hom x)) = 0 := by
     rw [hxf, map_zero, map_zero]
   have hpush : e.symm (X.hom.map.hom x) = x ⊗ₜ[A] (1 : k) := by
-    show e.symm (algebraMap Q P x) = x ⊗ₜ[A] (1 : k)
+    change e.symm (algebraMap Q P x) = x ⊗ₜ[A] (1 : k)
     exact Algebra.IsPushout.equiv_symm_algebraMap_left
       (R := A) (S := Q) (R' := k) (S' := P) x
   rw [hpush] at hx'
   have hcalc : et (x ⊗ₜ[A] (1 : k)) = (m • (⊤ : Submodule A Q)).mkQ x := by
-    show TensorProduct.tensorQuotEquivQuotSMul Q m
+    change TensorProduct.tensorQuotEquivQuotSMul Q m
       ((Algebra.TensorProduct.congr (AlgEquiv.refl : Q ≃ₐ[A] Q) ek.symm).toLinearEquiv
         (x ⊗ₜ[A] (1 : k))) = _
     have hcong :
@@ -313,14 +313,14 @@ theorem localizedMorphism_square (S : Submonoid P)
   let V := U.map v
   have hVU : V ≤ W := by
     rintro z ⟨x, hx, rfl⟩
-    show Y.hom.map.hom (g.left.map.hom x) ∈ S
+    change Y.hom.map.hom (g.left.map.hom x) ∈ S
     rw [deformationMorphism_map_comm g x]
     exact hx
   have hWdiv : ∀ y : R, y ∈ W → ∃ z : R, z ∈ V ∧ y ∣ z := by
     intro y hy
     obtain ⟨x, hx⟩ := deformationSpecialFiberMap_surjective X (fY y)
     have hxU : x ∈ U := by
-      show fX x ∈ S
+      change fX x ∈ S
       change fY y ∈ S at hy
       exact hx ▸ hy
     let d : R := y - v x

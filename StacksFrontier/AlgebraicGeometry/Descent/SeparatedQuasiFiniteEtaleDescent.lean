@@ -91,7 +91,8 @@ step is half-done: its refinement half is
 reduction to an affine *base* needs the Zariski glueing `AlgebraicGeometry.HasZariskiGluing`
 — which is no longer an obstacle, since that is proved outright as
 `AlgebraicGeometry.hasZariskiGluing` in
-`StacksFrontier.AlgebraicGeometry.Spaces.ZariskiGluingCover` (`StacksFrontier/AlgebraicGeometry/Spaces/ZariskiGluingCover.lean:437`).
+`StacksFrontier.AlgebraicGeometry.Spaces.ZariskiGluingCover`
+(`StacksFrontier/AlgebraicGeometry/Spaces/ZariskiGluingCover.lean:437`).
 
 What is left is therefore the **second** step, and it is the only one left: produce, for each
 quasi-compact open of the chart which is stable under the descent datum, an open subfunctor of

@@ -91,7 +91,7 @@ theorem schemePullbackClass_endoBaseChangeMap_picardMap {T U : BigFppfOver B (Sp
         (picardMap B hX hk f g x) =
       picardMap B hX hk f g
         (Stacks.Picard.schemePullbackClass (endoBaseChangeMap B hX hk f Ψ hΨ U) x) := by
-  show Stacks.Picard.schemePullbackClass (endoBaseChangeMap B hX hk f Ψ hΨ T)
+  change Stacks.Picard.schemePullbackClass (endoBaseChangeMap B hX hk f Ψ hΨ T)
       (Stacks.Picard.schemePullbackClass (baseChangeMap B hX hk f g) x) =
     Stacks.Picard.schemePullbackClass (baseChangeMap B hX hk f g)
       (Stacks.Picard.schemePullbackClass (endoBaseChangeMap B hX hk f Ψ hΨ U) x)
@@ -252,7 +252,7 @@ theorem degreeZeroHomAddEquiv_comp_endoJacobianHom {T : BigFppfOver B (Spec (.of
           (picardFunctor B hX hk f).obj (op T)) =
       (endoPicardMap B hX hk f Ψ hΨ).app (op T)
         (degreeZeroHomAddEquiv B hX hk f σ hσ T (Additive.ofMul x)) := by
-  show picardHomEquiv B hX hk f ((x ≫ endoJacobianHom B hX hk f Ψ hΨ σ hσ) ≫
+  change picardHomEquiv B hX hk f ((x ≫ endoJacobianHom B hX hk f Ψ hΨ σ hσ) ≫
       picardSchemeDegreeComponentι B hX hk f σ hσ 0) =
     (endoPicardMap B hX hk f Ψ hΨ).app (op T)
       (picardHomEquiv B hX hk f (x ≫ picardSchemeDegreeComponentι B hX hk f σ hσ 0))
@@ -308,9 +308,9 @@ attribute [local instance] CartesianMonoidalCategory.ofHasFiniteProducts
 /-- The endomorphism `Ψ^*` of the Jacobian is a homomorphism. -/
 instance isMonHom_jacobianPullback :
     IsMonHom (jacobianPullback B hX hk f Ψ hΨ σ hσ) := by
-  haveI := preservesFiniteProducts_overPost_bigFppfInclusion B (Spec (.of k)) hk
-  letI := jacobianGrpObj B hX hk f σ hσ
-  haveI := isMonHom_endoJacobianHom B hX hk f Ψ hΨ σ hσ
+  have := preservesFiniteProducts_overPost_bigFppfInclusion B (Spec (.of k)) hk
+  let := jacobianGrpObj B hX hk f σ hσ
+  have := isMonHom_endoJacobianHom B hX hk f Ψ hΨ σ hσ
   exact Functor.map.instIsMonHom (F := Over.post (X := B.obj hk) B.inclusion)
     (f := endoJacobianHom B hX hk f Ψ hΨ σ hσ)
 
@@ -331,7 +331,7 @@ theorem jacobianHomAddEquiv_comp_jacobianPullback (T : BigFppfOver B (Spec (.of 
         (endoJacobianHom B hX hk f Ψ hΨ σ hσ)) =
       hF.preimage z ≫ endoJacobianHom B hX hk f Ψ hΨ σ hσ :=
     hF.map_injective (by rw [hF.map_preimage, Functor.map_comp, hF.map_preimage])
-  show (degreeZeroHomAddEquiv B hX hk f σ hσ T
+  change (degreeZeroHomAddEquiv B hX hk f σ hσ T
       (Additive.ofMul (hF.preimage (z ≫ (Over.post (X := B.obj hk) B.inclusion).map
         (endoJacobianHom B hX hk f Ψ hΨ σ hσ)))) :
         (picardFunctor B hX hk f).obj (op T)) =
@@ -339,7 +339,8 @@ theorem jacobianHomAddEquiv_comp_jacobianPullback (T : BigFppfOver B (Spec (.of 
       (degreeZeroHomAddEquiv B hX hk f σ hσ T (Additive.ofMul (hF.preimage z)))
   rw [hpre, degreeZeroHomAddEquiv_comp_endoJacobianHom]
 
-omit [(picardFunctor B hX hk f).IsRepresentable] [IsSepClosed k] in
+omit [GeometricallyIrreducible (B.inclusion.map f)] [IsProper (B.inclusion.map f)]
+  [(picardFunctor B hX hk f).IsRepresentable] [IsSepClosed k] in
 /-- At `Spec k` the invertible module representing `Θ^*` of a point is `Θ^*` of the invertible
 module representing it. -/
 theorem picardAddEquivOfSubsingleton_symm_endoPicardMap

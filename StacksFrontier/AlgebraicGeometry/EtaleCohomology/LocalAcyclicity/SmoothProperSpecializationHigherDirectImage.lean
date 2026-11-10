@@ -77,7 +77,7 @@ theorem isIso_smallEtaleSpecializationStalkAb_app_homology (E : smallEtaleDerive
   have h3 : IsIso (HomologicalComplex.homologyMap ψ n) :=
     (quasiIsoAt_iff_isIso_homologyMap ψ n).1 (hψ.quasiIsoAt n)
   have h4 : IsIso (α.app (J.as.homology n)) := by
-    show IsIso (α.app (J.as.sc n).homology)
+    change IsIso (α.app (J.as.sc n).homology)
     rw [NatTrans.app_homology α (J.as.sc n)]
     have h3' : IsIso (ShortComplex.homologyMap ((J.as.sc n).mapNatTrans α)) := h3
     infer_instance

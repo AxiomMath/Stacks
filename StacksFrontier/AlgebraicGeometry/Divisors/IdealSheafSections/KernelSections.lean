@@ -26,8 +26,9 @@ This file records that computation in the form its consumers need: the inclusion
 
 The converse — that a section of `M` annihilated by `α` comes from a section of `kernel α` — is
 `Stacks.SheafOfModules.exists_kernel_section`, which lives in
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.StalkFreeCover` and is stated there for an arbitrary
-morphism of sheaves of modules. It is re-exported by the import above rather than restated here.
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.StalkFreeCover` and is stated there for an
+arbitrary morphism of sheaves of modules. It is re-exported by the import above rather than restated
+here.
 
 ## Implementation notes
 

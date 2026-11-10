@@ -145,6 +145,9 @@ theorem isZero_over_homology_sheafHomComplex_of_presentation (d : KoszulPresenta
       (h.of_iso (sheafHomHomologyOpenSubspaceIso d.U L I n)))
     ((openSubspaceEquiv d.U).unitIso.app _)
 
+omit [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Off the support of the quotient the quotient restricts to zero. -/
 theorem isZero_over_cokernel_of_one_mem (U : Opens Y.carrier)
     (h1 : (1 : Y.presheaf.obj (op U)) ∈ J.obj (op U)) :
@@ -164,6 +167,9 @@ theorem isZero_over_cokernel_of_one_mem (U : Opens Y.carrier)
   exact (isZero_cokernel_of_epi _).of_iso
     (PreservesCokernel.iso (_root_.SheafOfModules.overFunctor.{u} (structureSheafRing Y) U) J.ι)
 
+omit [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 include eL in
 /-- **Off the support of the quotient the cohomology sheaves of `𝓗om^•(L, M)` restrict to
 zero**, for every complex `M`. -/
@@ -206,6 +212,15 @@ def KoszulCoverIndex.U {r : ℕ} : KoszulCoverIndex J r → Opens Y.carrier
   | Sum.inl d => d.1.U
   | Sum.inr U => U.1
 
+omit [HasSheafify (Opens.grothendieckTopology Y.carrier) AddCommGrpCat.{u}]
+  [(Opens.grothendieckTopology Y.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    ((Opens.grothendieckTopology Y.carrier).over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- If near every point of the support of the quotient the ideal sheaf has a Koszul
 presentation of length `r`, these presentations and the opens off the support cover `Y`. -/
 theorem coversTop_koszulCoverIndex {r : ℕ}
@@ -255,6 +270,10 @@ def openSubspaceRestrictQuotientModelIso (d : KoszulPresentation Y J) :
       (koszulRestrictedQuotientIso d.U d.f J.ι
         (fun W => sectionIdeal_sliceIdealOfSections_eq d.U d.f J d.generated W)))
 
+omit [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    ((Opens.grothendieckTopology Y.carrier).over V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Two chain maps into a K-injective complex which agree in the derived category stay equal
 there after restriction to an open subspace: they are homotopic, and restriction carries
 homotopies to homotopies. -/
@@ -278,6 +297,8 @@ theorem Q_map_openSubspaceRestrictComplexMap_eq (U : Opens Y.carrier)
       ((_root_.SheafOfModules.overFunctor.{u} (structureSheafRing Y) U).mapHomotopy
         (HomotopyCategory.homotopyOfEq _ _ hK)))
 
+omit [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}] in
 /-- The identification of the restricted quotient with the Koszul quotient carries the
 restricted quotient map to the Koszul quotient map. -/
 theorem openSubspaceRestrict_π_comp_koszulRestrictedQuotientIso (d : KoszulPresentation Y J) :
@@ -290,6 +311,15 @@ theorem openSubspaceRestrict_π_comp_koszulRestrictedQuotientIso (d : KoszulPres
         fun j => sectionOnRestriction Y d.U (d.f j)) :=
   openSubspaceRestrict_π_comp_quotientIsoOfSlice d.U J.ι _ _
 
+omit [HasSheafify (Opens.grothendieckTopology Y.carrier) AddCommGrpCat.{u}]
+  [(Opens.grothendieckTopology Y.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    ((Opens.grothendieckTopology Y.carrier).over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Restriction of morphisms of complexes to an open subspace respects composition. -/
 theorem openSubspaceRestrictComplexMap_comp (U : Opens Y.carrier)
     {M M' M'' : CochainComplex (_root_.SheafOfModules.{u} (structureSheafRing Y)) ℤ}
@@ -495,11 +525,21 @@ def quotientModelHom : L ⟶ Qc :=
   haveI := hQc
   CochainComplex.realizeDerivedIso L Qc (DerivedCategory.Q.mapIso eL ≪≫ eQ)
 
+omit [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    ((Opens.grothendieckTopology Y.carrier).over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The morphism `quotientModelHom` is a quasi-isomorphism. -/
 theorem quasiIso_quotientModelHom : QuasiIso (quotientModelHom J eL Qc hQc eQ) :=
   have := hQc
   CochainComplex.quasiIso_realizeDerivedIso _ _ _
 
+omit [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The map of sheaf hom complexes `𝓗om^•(Q, Q) ⟶ 𝓗om^•(L, Q)` induced by `quotientModelHom` is a
 quasi-isomorphism. -/
 theorem quasiIso_homMap_quotientModelHom :

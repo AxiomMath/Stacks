@@ -85,11 +85,11 @@ theorem distTriang_comp_piMap_of_iso {Y Y' : ℕ → D} [HasProduct Y] [HasProdu
   have he := piMap_familyDifference (Y := Y) (Y' := Y') (t := t) (t' := t')
     (fun n => (f n).hom) hf
   refine isomorphic_distinguished _ hT _ (Triangle.isoMk _ _ (Iso.refl _) e.symm e.symm ?_ ?_ ?_)
-  · show (p ≫ e.hom) ≫ e.inv = 𝟙 _ ≫ p
+  · change (p ≫ e.hom) ≫ e.inv = 𝟙 _ ≫ p
     rw [Category.assoc, Iso.hom_inv_id, Category.comp_id, Category.id_comp]
-  · show familyDifference _ _ ≫ e.inv = e.inv ≫ familyDifference _ _
+  · change familyDifference _ _ ≫ e.inv = e.inv ≫ familyDifference _ _
     rw [Iso.comp_inv_eq, Category.assoc, ← he, Iso.inv_hom_id_assoc]
-  · show (e.inv ≫ δ) ≫ (𝟙 K)⟦(1 : ℤ)⟧' = e.inv ≫ δ
+  · change (e.inv ≫ δ) ≫ (𝟙 K)⟦(1 : ℤ)⟧' = e.inv ≫ δ
     rw [CategoryTheory.Functor.map_id, Category.comp_id]
 
 end Transport

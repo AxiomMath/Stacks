@@ -124,7 +124,7 @@ acts on a section of `M` over `W.ι ''ᵁ V` through `(W.ι.appIso V).inv`, whic
 public theorem restrictOpen_smul {M : X.Modules} (W : X.Opens) (V : W.toScheme.Opens)
     (r : Γ(W.toScheme, V)) (x : Γ((Scheme.Modules.restrictFunctor W.ι).obj M, V)) :
     r • x = (M.smul (U := W.ι ''ᵁ V) r).asHom.hom x := by
-  show (M.smul (U := W.ι ''ᵁ V) ((W.ι.appIso V).inv r)).asHom.hom x = _
+  change (M.smul (U := W.ι ''ᵁ V) ((W.ι.appIso V).inv r)).asHom.hom x = _
   rw [appIso_ι_inv_apply]
 
 namespace SheafGradedAlgebra

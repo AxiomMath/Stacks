@@ -202,25 +202,25 @@ public theorem exists_common_field_fiber_iso_mapping_point {S : Scheme.{u}}
   let y := (pullback.snd G.source G.target).left.asFiber ξ
   have hmap₂ := fiberBaseChangeIso_fiberι (isPullback_left_comp_snd G) q
   refine ⟨e₁.hom.left.base y, e₁.symm ≪≫ e₂, ?_, ?_⟩
-  · show ((e₁.hom.left ≫
+  · change ((e₁.hom.left ≫
         pullback.fst (G.source.left.fiberToSpecResidueField (G.target.left q))
           (Spec.map (G.target.left.residueFieldMap q)) ≫
         G.source.left.fiberι (G.target.left q)).base) y = r
     rw [fiberBaseChangeIso_fiberι (isPullback_left_fst_snd G) q]
-    show (pullback.fst G.source G.target).left
+    change (pullback.fst G.source G.target).left
       ((pullback.snd G.source G.target).left.fiberι q y) = r
     rw [Scheme.Hom.fiberι_asFiber]
     exact hfst
-  · show ((e₁.inv.left ≫ e₂.hom.left ≫
+  · change ((e₁.inv.left ≫ e₂.hom.left ≫
         pullback.fst (G.source.left.fiberToSpecResidueField (G.source.left q))
           (Spec.map (G.source.left.residueFieldMap q)) ≫
         G.source.left.fiberι (G.source.left q)).base) (e₁.hom.left.base y) = r'
     simp only at hmap₂ ⊢
     rw [hmap₂]
     have hcanc : e₁.inv.left.base (e₁.hom.left.base y) = y := by
-      show (e₁.hom.left ≫ e₁.inv.left).base y = y
+      change (e₁.hom.left ≫ e₁.inv.left).base y = y
       simp
-    show G.comp.left ((pullback.snd G.source G.target).left.fiberι q
+    change G.comp.left ((pullback.snd G.source G.target).left.fiberι q
       (e₁.inv.left.base (e₁.hom.left.base y))) = r'
     rw [hcanc, Scheme.Hom.fiberι_asFiber]
     exact hcomp

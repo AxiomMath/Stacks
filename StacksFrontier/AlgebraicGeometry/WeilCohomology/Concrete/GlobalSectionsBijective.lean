@@ -141,8 +141,7 @@ theorem decompose_kunnethMap_zero {X Y : (SmoothProjectiveScheme k).FullSubcateg
     (hY : ∀ e : W.H Y, e ∈ W.grade Y 0) (t : W.H X ⊗[F] W.H Y) :
     (DirectSum.decompose (W.grade (prod X Y)) (W.kunnethMap X Y t) 0 : W.H (prod X Y)) =
       W.kunnethMap X Y (LinearMap.rTensor _ (_root_.GradedAlgebra.proj (W.grade X) 0) t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a e =>
     rw [kunnethMap_tmul, LinearMap.rTensor_tmul, kunnethMap_tmul, _root_.GradedAlgebra.proj_apply,
       DirectSum.coe_decompose_mul_of_right_mem_zero _ (W.pull_grade _ 0 e (hY e)), pull_decompose]
@@ -165,8 +164,7 @@ omit [Field k] in
 theorem eq_sum_tmul_basis {M N : Type*} [AddCommGroup M] [Module F M] [AddCommGroup N]
     [Module F N] {ι : Type*} [Fintype ι] (b : Module.Basis ι F N) (t : M ⊗[F] N) :
     t = ∑ β, TensorProduct.rid F M (LinearMap.lTensor M (b.coord β) t) ⊗ₜ b β := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul m n =>
     simp only [LinearMap.lTensor_tmul, TensorProduct.rid_tmul, TensorProduct.smul_tmul,
       ← TensorProduct.tmul_sum]
@@ -194,8 +192,7 @@ theorem rid_lTensor_rTensor {M M' N : Type*} [AddCommGroup M] [Module F M] [AddC
     (t : M ⊗[F] N) :
     TensorProduct.rid F M' (LinearMap.lTensor M' l (LinearMap.rTensor N f t)) =
       f (TensorProduct.rid F M (LinearMap.lTensor M l t)) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul m n => simp
   | add t t' ht ht' => simp only [map_add, ht, ht']
 
@@ -309,8 +306,7 @@ factor along `X ⟶ Spec(k')`. -/
 theorem pull_baseChangeMap_kunnethMap (u : W.H (specGlobalSections X) ⊗[F] W.H (spec k E)) :
     W.pull (baseChangeMap X E) (W.kunnethMap _ _ u) =
       W.kunnethMap X _ (LinearMap.rTensor _ (W.pull (toSpecGlobalSections X)).toLinearMap u) := by
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | tmul s e =>
     rw [pull_kunnethMap_tmul_comp, SmoothProjectiveScheme.baseChangeMap_fst,
       SmoothProjectiveScheme.baseChangeMap_snd, LinearMap.rTensor_tmul, kunnethMap_tmul,

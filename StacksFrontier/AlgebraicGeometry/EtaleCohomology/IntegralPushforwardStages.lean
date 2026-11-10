@@ -101,7 +101,7 @@ def smallEtaleRestrictionStalkMap {K : Type u} [Field K] [IsAlgClosed K]
     (H : Sheaf (SmallEtale.topology B T.1 T.property) (Type (u + 1))) :
     etaleStalk B T'.1 T'.property ⟨K, x⟩ ((smallEtaleRestrictionAlong B k _).obj H).obj ⟶
       etaleStalk B T.1 T.property ⟨K, z⟩ H.obj :=
-  colimit.pre ((CategoryOfElements.π (geometricPointFiber B T.1 T.property ⟨K, z⟩)).op ⋙ H.obj)
+  colimit.pre ((Functor.Elements.π (geometricPointFiber B T.1 T.property ⟨K, z⟩)).op ⋙ H.obj)
     (smallEtaleRestrictionNeighborhoods B k x z hz).op
 
 /-- **The restriction stalk map on germs.** The germ at a neighbourhood `A` of `x` of a section
@@ -114,11 +114,11 @@ theorem smallEtaleRestrictionStalkMap_germ {K : Type u} [Field K] [IsAlgClosed K
     (s : H.obj.obj (op ((smallEtalePostcompose B T.1 T.property
       (SmallEtale.ofEtaleHom B k)).obj A.1))) :
     smallEtaleRestrictionStalkMap B k x z hz H
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B T'.1 T'.property ⟨K, x⟩)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B T'.1 T'.property ⟨K, x⟩)).op ⋙
           ((smallEtaleRestrictionAlong B k _).obj H).obj) (op A) s) =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B T.1 T.property ⟨K, z⟩)).op ⋙ H.obj)
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B T.1 T.property ⟨K, z⟩)).op ⋙ H.obj)
         (op ((smallEtaleRestrictionNeighborhoods B k x z hz).obj A)) s :=
-  ConcreteCategory.congr_hom (colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B T.1
+  ConcreteCategory.congr_hom (colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B T.1
     T.property ⟨K, z⟩)).op ⋙ H.obj) (smallEtaleRestrictionNeighborhoods B k x z hz).op (op A)) s
 
 end Restriction
@@ -149,7 +149,7 @@ theorem nonempty_etaleStalk_pushforward_of_isEmpty_lifts {X Y : B.Scheme} (k : X
   have hsize : B.Contains O := (Scheme.size_coe_opens_le _ O).trans_lt Y.property
   let W : SmallEtale B Y.1 Y.property :=
     ⟨Over.mk (ObjectProperty.homMk O.ι : B.obj O hsize ⟶ Y), by
-      show Etale O.ι
+      change Etale O.ι
       infer_instance⟩
   have hrange : Set.range z.hom ⊆ Set.range O.ι := by
     rintro _ ⟨a, rfl⟩
@@ -168,7 +168,7 @@ theorem nonempty_etaleStalk_pushforward_of_isEmpty_lifts {X Y : B.Scheme} (k : X
     rw [Scheme.Hom.comp_apply] at hp
     exact hO hp
   obtain ⟨s⟩ := nonempty_sections_of_isEmpty B X.1 X.property F _ hempty
-  exact ⟨colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property z)).op ⋙
+  exact ⟨colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property z)).op ⋙
     ((B.smallPushforward k _).obj F).obj) (op (Functor.elementsMk _ W w)) s⟩
 
 end Empty
@@ -302,7 +302,7 @@ theorem exists_stage_neighborhood (x : GeometricPoint X.1)
       exact (baseChangeEtalePointHom_fst B (P.proj.app i) rfl Wi ⟨w, hw⟩).trans (by simp [w])
     · rw [Category.assoc, hι₂, Category.assoc, he, hb]
       exact baseChangeEtalePointHom_snd B (P.proj.app i) rfl Wi ⟨w, hw⟩
-  show baseChangeEtalePointHom B (P.proj.app i) rfl Wi ⟨w, hw⟩ ≫
+  change baseChangeEtalePointHom B (P.proj.app i) rfl Wi ⟨w, hw⟩ ≫
     ((ι₀.hom ≫ eL.inv) ≫ (SmallEtale.toScheme B X.1 X.property).map r.1) = U.2.1
   rw [Category.assoc, reassoc_of% hlift, Iso.hom_inv_id_assoc]
   exact congrArg Subtype.val r.2

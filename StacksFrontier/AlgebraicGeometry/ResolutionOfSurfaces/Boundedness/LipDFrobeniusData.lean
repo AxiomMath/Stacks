@@ -3,7 +3,7 @@ module
 public import Mathlib.FieldTheory.PurelyInseparable.Basic
 public import StacksFrontier.AlgebraicGeometry.Properties.Normal
 public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.Boundedness.InseparableFrobeniusReconstruction
+StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.Boundedness.InseparableFrobeniusReconstruction
 public import
   StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.Boundedness.InseparableFrobeniusSplitting
 public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.Boundedness.InseparableFrobeniusSplittingLocalization

@@ -131,7 +131,7 @@ private lemma gluing_diagonal
         structureMap a (D.obj ()) := by
       have hh : φ ≫ prod.snd ≫ structureMap a (D.obj ()) = prod.snd := by
         simp [φ]
-      show δ ≫ φ ≫ prod.snd ≫ structureMap a (D.obj ()) = _
+      change δ ≫ φ ≫ prod.snd ≫ structureMap a (D.obj ()) = _
       rw [hh]
       simp [δ]
     have hleft :
@@ -211,13 +211,13 @@ private lemma gluingPullback_diagonal_snd
       d ≫ δ.left ≫ s.hom := by
     apply pullback.hom_ext
     · dsimp only [s]
-      show pullback.lift d (d ≫ (D.obj ()).hom) _ ≫ pullback.fst _ _ =
+      change pullback.lift d (d ≫ (D.obj ()).hom) _ ≫ pullback.fst _ _ =
         d ≫ δ.left ≫ (((Over.map a).obj (D.obj ())).prodLeftIsoPullback
           (Over.mk a)).hom ≫ pullback.fst _ _
       rw [Over.prodLeftIsoPullback_hom_fst, pullback.lift_fst]
       simp [hδfst]
     · dsimp only [s]
-      show pullback.lift d (d ≫ (D.obj ()).hom) _ ≫ pullback.snd _ _ =
+      change pullback.lift d (d ≫ (D.obj ()).hom) _ ≫ pullback.snd _ _ =
         d ≫ δ.left ≫ (((Over.map a).obj (D.obj ())).prodLeftIsoPullback
           (Over.mk a)).hom ≫ pullback.snd _ _
       rw [Over.prodLeftIsoPullback_hom_snd, pullback.lift_snd]
@@ -390,7 +390,7 @@ private lemma sourceMap_epi
   let i₁ := c₁.symm ≪≫ r₁.symm
   let q₁ := i₁.hom ≫ pullback.snd u (pullback.fst b a')
   have hq₁fst : q₁ ≫ pullback.fst b a' = pullback.fst b' a' ≫ u := by
-    show (c₁.inv ≫ (pullbackRightPullbackFstIso b a' u).inv) ≫
+    change (c₁.inv ≫ (pullbackRightPullbackFstIso b a' u).inv) ≫
       pullback.snd u (pullback.fst b a') ≫ pullback.fst b a' = _
     calc
       _ = c₁.inv ≫ ((pullbackRightPullbackFstIso b a' u).inv ≫
@@ -408,7 +408,7 @@ private lemma sourceMap_epi
           simp
         exact congrArg (fun k => k ≫ u) hfst
   have hq₁snd : q₁ ≫ pullback.snd b a' = pullback.snd b' a' := by
-    show (c₁.inv ≫ (pullbackRightPullbackFstIso b a' u).inv) ≫
+    change (c₁.inv ≫ (pullbackRightPullbackFstIso b a' u).inv) ≫
       pullback.snd u (pullback.fst b a') ≫ pullback.snd b a' = _
     calc
       _ = c₁.inv ≫ ((pullbackRightPullbackFstIso b a' u).inv ≫
@@ -437,7 +437,7 @@ private lemma sourceMap_epi
   let i₂ := r₂ ≪≫ c₂
   let q₂ := i₂.inv ≫ pullback.fst (pullback.snd b a) f
   have hq₂fst : q₂ ≫ pullback.fst b a = pullback.fst b a' := by
-    show (c₂.inv ≫ (pullbackLeftPullbackSndIso b a f).inv) ≫
+    change (c₂.inv ≫ (pullbackLeftPullbackSndIso b a f).inv) ≫
       pullback.fst (pullback.snd b a) f ≫ pullback.fst b a = _
     calc
       _ = c₂.inv ≫ ((pullbackLeftPullbackSndIso b a f).inv ≫
@@ -452,7 +452,7 @@ private lemma sourceMap_epi
         rw [pullback.lift_fst]
         simp
   have hq₂snd : q₂ ≫ pullback.snd b a = pullback.snd b a' ≫ f := by
-    show (c₂.inv ≫ (pullbackLeftPullbackSndIso b a f).inv) ≫
+    change (c₂.inv ≫ (pullbackLeftPullbackSndIso b a f).inv) ≫
       pullback.fst (pullback.snd b a) f ≫ pullback.snd b a = _
     calc
       _ = c₂.inv ≫ ((pullbackLeftPullbackSndIso b a f).inv ≫
@@ -650,7 +650,7 @@ public theorem pullbackFunctor_fullyFaithful_of_fpqc
               ((D' D).gluing_hom_snd_structureMap () ())
           have hforget : ((Over.forget S).mapIso ((D' D).gluingIso () ())).hom =
               ((D' D).gluingIso () ()).hom.left := rfl
-          show src.inv ≫ ((Over.forget S).mapIso ((D' D).gluingIso () ())).hom ≫
+          change src.inv ≫ ((Over.forget S).mapIso ((D' D).gluingIso () ())).hom ≫
               tgt.hom ≫ pullback.snd _ _ ≫ U.hom = pullback.snd _ _
           calc
             _ = src.inv ≫ ((D' D).gluingIso () ()).hom.left ≫
@@ -706,12 +706,12 @@ public theorem pullbackFunctor_fullyFaithful_of_fpqc
             _ = d := htransition_fst
             _ = (u₂ ≫ (eD D).hom.left) ≫ pullback.fst (D.obj ()).hom f := by
               rw [he₂map]
-              simp [pullback.lift_fst]
+              simp
         · calc
             _ = x₂ := htransition_snd
             _ = (u₂ ≫ (eD D).hom.left) ≫ pullback.snd (D.obj ()).hom f := by
               rw [he₂map]
-              simp [pullback.lift_snd]
+              simp
       let sD := Over.prodLeftIsoPullback ((Over.map a').obj ((D' D).obj ())) (Over.mk a')
       let sE := Over.prodLeftIsoPullback ((Over.map a').obj ((D' E).obj ())) (Over.mk a')
       let tE := Over.prodLeftIsoPullback (Over.mk a') ((Over.map a').obj ((D' E).obj ()))
@@ -923,7 +923,7 @@ public theorem pullbackFunctor_fullyFaithful_of_fpqc
           (prod.snd (X := Over.mk a')
             (Y := (Over.map a').obj ((D' D).obj ()))).left =
           ((D' D).gluingPullbackIso () ()).hom ≫ pullback.snd _ _ := by
-        show sD.inv ≫ Over.Hom.left ((D' D).gluing () ()).hom.left ≫
+        change sD.inv ≫ Over.Hom.left ((D' D).gluing () ()).hom.left ≫
             (prod.snd (X := Over.mk a')
               (Y := (Over.map a').obj ((D' D).obj ()))).left =
           sD.inv ≫ Over.Hom.left ((D' D).gluing () ()).hom.left ≫
@@ -934,7 +934,7 @@ public theorem pullbackFunctor_fullyFaithful_of_fpqc
           (prod.snd (X := Over.mk a')
             (Y := (Over.map a').obj ((D' E).obj ()))).left =
           ((D' E).gluingPullbackIso () ()).hom ≫ pullback.snd _ _ := by
-        show sE.inv ≫ Over.Hom.left ((D' E).gluing () ()).hom.left ≫
+        change sE.inv ≫ Over.Hom.left ((D' E).gluing () ()).hom.left ≫
             (prod.snd (X := Over.mk a')
               (Y := (Over.map a').obj ((D' E).obj ()))).left =
           sE.inv ≫ Over.Hom.left ((D' E).gluing () ()).hom.left ≫

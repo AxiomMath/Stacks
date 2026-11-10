@@ -32,7 +32,8 @@ restrictions `res₁(c') = res₂(c')` in `A^p(X' ×_X X' ⟶ Y' ×_Y Y')` agree
 ## Implementation notes
 
 Bivariant classes are stated against a `Stacks.Chow.GysinSystem`; see the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.Basic`. The tag is registered for the Gysin system of
+`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.Basic`.
+The tag is registered for the Gysin system of
 the first Chern class of an invertible module, for which the three naturality properties the
 construction uses are theorems: `Stacks.Chow.gysinSystemOfInvertible_isNaturalUnderBaseChangeIso`,
 `Stacks.Chow.gysinSystemOfInvertible_isNaturalUnderProperPushforward` (Stacks 02TA) and
@@ -123,7 +124,7 @@ theorem isBivariantRestriction_envelopeDescentClass (hprop : G.IsNaturalUnderPro
   have hα : chowGroupCongr C (Category.assoc v g sY).symm k α =
       envelopeLiftPush C sY g (v ≫ g) (𝟙 V) v hm k α := by
     rw [chowPush_id_eq_chowGroupCongr]
-  show _ = chowPushforwardOfIso C _ _ _ _ (k - p)
+  change _ = chowPushforwardOfIso C _ _ _ _ (k - p)
     (envelopeDescentCap C G sX sY f hf g p c' hgys hres hgE (v ≫ g) k
       (chowGroupCongr C (Category.assoc v g sY).symm k α))
   rw [hα, envelopeDescentCap_envelopeLiftPush, envelopeDescentPush_apply]

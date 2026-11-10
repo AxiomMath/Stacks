@@ -116,17 +116,17 @@ private theorem toScheme_map_prodLift_siteActionRelation (B : BigFppfSite.{u}) (
       (siteActionRelationSource G B hS V hR)) ≫ postProd.hom =
       actionRelation (underlyingOver B hS V) G a := by
     apply prod.hom_ext
-    · show (post.map _ ≫ prodComparison post V V) ≫ prod.fst = _
+    · change (post.map _ ≫ prodComparison post V V) ≫ prod.fst = _
       simp only [Category.assoc, prodComparison_fst, ← Functor.map_comp, prod.lift_fst,
         actionRelation]
       exact (prod.lift_fst _ _).symm
-    · show (post.map _ ≫ prodComparison post V V) ≫ prod.snd = _
+    · change (post.map _ ≫ prodComparison post V V) ≫ prod.snd = _
       simp only [Category.assoc, prodComparison_snd, ← Functor.map_comp, prod.lift_snd,
         actionRelation]
       exact (prod.lift_snd _ _).symm
   refine (MorphismProperty.cancel_right_of_respectsIso P _
     ((Over.forget S).mapIso postProd).hom).mp ?_
-  show P ((Over.forget S).map (post.map _) ≫ (Over.forget S).map postProd.hom)
+  change P ((Over.forget S).map (post.map _) ≫ (Over.forget S).map postProd.hom)
   rwa [← Functor.map_comp, hpost]
 
 /-- A property of scheme morphisms local at the target for the fpqc precoverage is local at the

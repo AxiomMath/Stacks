@@ -182,7 +182,7 @@ theorem idealQuotientMapOfLE_comp {A : AlgebraSheaf.{u, u} B S hS F hF}
 theorem idealQuotientMapOfLE_refl {A : AlgebraSheaf.{u, u} B S hS F hF} (I : A.IdealSheaf)
     (h : I ≤ I) : idealQuotientMapOfLE h = 𝟙 (A.idealQuotient I) := by
   refine Hom.ext ?_
-  show Stacks.Sites.quotientRingSheafMapOfLE.{u, u + 1, u} h =
+  change Stacks.Sites.quotientRingSheafMapOfLE.{u, u + 1, u} h =
     𝟙 (Stacks.Sites.quotientRingSheaf.{u, u + 1, u} I)
   have e : Stacks.Sites.quotientPresheafMapOfLE.{u, u + 1, u} h =
       𝟙 (Stacks.Sites.quotientPresheaf.{u, u + 1, u} I) := by
@@ -191,7 +191,7 @@ theorem idealQuotientMapOfLE_refl {A : AlgebraSheaf.{u, u} B S hS F hF} (I : A.I
     apply Ideal.Quotient.ringHom_ext
     ext a
     rfl
-  show (presheafToSheaf (SmallEtale.topology B S hS F) CommRingCat.{u}).map
+  change (presheafToSheaf (SmallEtale.topology B S hS F) CommRingCat.{u}).map
       (Stacks.Sites.quotientPresheafMapOfLE.{u, u + 1, u} h) = _
   rw [e]
   exact CategoryTheory.Functor.map_id _ _

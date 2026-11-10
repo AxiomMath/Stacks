@@ -71,7 +71,7 @@ private theorem property_spec_algebraMap_of_specOverToBase (P : MorphismProperty
   have e : (BigFppfOver.toScheme B S hS).map (specOverToBase C) ≫
       ((BigFppfOver.toScheme B S hS).obj T').isoSpec.hom =
         Spec.map (CommRingCat.ofHom (algebraMap (ringOf B S hS T') C.obj)) := by
-    show specToBase C ≫ _ = _
+    change specToBase C ≫ _ = _
     rw [specToBase, Category.assoc, Iso.inv_hom_id, Category.comp_id]
   rw [← e]
   exact (MorphismProperty.cancel_right_of_respectsIso (P := P) _ _).mpr h
@@ -129,7 +129,7 @@ theorem exists_lift_sectionsHom_of_etale_pullback (s : W ⟶ U₀)
     ((specOverMap (SmallAlg.homMk u) ≫ sectionsHom W'' (s'' ≫ pullback.snd _ _)) ≫ s'' ≫
       pullback.fst _ _) m'
     (by
-      show ((specOverMap (SmallAlg.homMk u) ≫ sectionsHom W'' (s'' ≫ pullback.snd _ _)) ≫ s'' ≫
+      change ((specOverMap (SmallAlg.homMk u) ≫ sectionsHom W'' (s'' ≫ pullback.snd _ _)) ≫ s'' ≫
         pullback.fst _ _) ≫ s = specOverMap e.q ≫ m'
       rw [hm']; simp only [Category.assoc])
   change specOverMap e.q ≫ g₁ = (specOverMap (SmallAlg.homMk u) ≫
@@ -145,7 +145,7 @@ theorem exists_lift_sectionsHom_of_etale_pullback (s : W ⟶ U₀)
     (specOverMap (SmallAlg.homMk u) ≫ sectionsHom W'' (s'' ≫ pullback.snd _ _))
     (pullback.lift g₁ (specOverToBase C') hy)
     (by
-      show (specOverMap (SmallAlg.homMk u) ≫ sectionsHom W'' (s'' ≫ pullback.snd _ _)) ≫ s'' =
+      change (specOverMap (SmallAlg.homMk u) ≫ sectionsHom W'' (s'' ≫ pullback.snd _ _)) ≫ s'' =
         specOverMap e.q ≫ pullback.lift _ _ _
       apply pullback.hom_ext
       · simp only [Category.assoc, pullback.lift_fst]
@@ -169,7 +169,7 @@ theorem exists_lift_sectionsHom_of_etale_pullback (s : W ⟶ U₀)
       rw [specOverMap_comp, ← cancel_mono (sectionsHom W'' (s'' ≫ pullback.snd _ _)),
         Category.assoc, hk', hg₂]
     exact congrArg (fun t ↦ t.hom.hom) hkq
-  · show specOverMap k ≫ sectionsHom W'' (s'' ≫ pullback.snd _ _) ≫ s'' ≫ pullback.fst _ _ ≫ s
+  · change specOverMap k ≫ sectionsHom W'' (s'' ≫ pullback.snd _ _) ≫ s'' ≫ pullback.fst _ _ ≫ s
       = m'
     rw [← Category.assoc, hk', ← Category.assoc, hg₂', ← Category.assoc, pullback.lift_fst, hg₁']
 

@@ -78,10 +78,10 @@ theorem regularSectionOf_apply {W : X.Etale} (t : LocallyConstant (G.fiberProd W
     (fun c : H => (ULift.up (MonoidAlgebra.single c (t ((G.pullbackAct W c).base z)).down) :
       ULift.{u + 1} (MonoidAlgebra A H))) Finset.univ
   rw [regularSectionOf, ← LocallyConstant.evalAddMonoidHom_apply, h₁]
-  show (AddEquiv.ulift (∑ c : H, (ULift.up (MonoidAlgebra.single c
+  change (AddEquiv.ulift (∑ c : H, (ULift.up (MonoidAlgebra.single c
     (t ((G.pullbackAct W c).base z)).down) : ULift.{u + 1} (MonoidAlgebra A H)))).coeff k = _
   rw [h₂, MonoidAlgebra.coeff_sum, Finsupp.finsetSum_apply]
-  show ∑ c : H, (Finsupp.single c (t ((G.pullbackAct W c).base z)).down) k = _
+  change ∑ c : H, (Finsupp.single c (t ((G.pullbackAct W c).base z)).down) k = _
   simp [Finsupp.single_apply]
 
 /-- The section `z ↦ ∑_h t(h · z) h` is equivariant: it is a section of the descent sheaf of
@@ -91,7 +91,7 @@ theorem regularSectionOf_mem {W : X.Etale} (t : LocallyConstant (G.fiberProd W) 
       (rightRegularRepULift.{u} A H) W := by
   intro h z
   ext k
-  show ((G.regularSectionOf t ((G.pullbackAct W h).base z)).down).coeff k =
+  change ((G.regularSectionOf t ((G.pullbackAct W h).base z)).down).coeff k =
     ((G.regularSectionOf t z).down * MonoidAlgebra.single h⁻¹ 1).coeff k
   rw [MonoidAlgebra.coeff_mul_single_apply, inv_inv, mul_one, regularSectionOf_apply,
     regularSectionOf_apply, ← Scheme.Hom.comp_apply, ← G.pullbackAct_mul]
@@ -103,7 +103,7 @@ theorem coeff_eq_coeff_one_pullbackAct {W : X.Etale}
       (rightRegularRepULift.{u} A H) W) (z : G.fiberProd W) (k : H) :
     ((x.1 z).down).coeff k = ((x.1 ((G.pullbackAct W k).base z)).down).coeff 1 := by
   rw [x.2 k z]
-  show _ = ((x.1 z).down * MonoidAlgebra.single k⁻¹ 1).coeff 1
+  change _ = ((x.1 z).down * MonoidAlgebra.single k⁻¹ 1).coeff 1
   rw [MonoidAlgebra.coeff_mul_single_apply, inv_inv, one_mul, mul_one]
 
 /-- **The sections of `D(A[H])|_A` as locally constant `A`-valued maps**: `s ↦ (z ↦ s(z)(1))`. -/
@@ -148,7 +148,7 @@ theorem bijective_regularSectionLinearMap [Finite H] (W : X.Etale) :
   · intro t
     refine ⟨⟨G.regularSectionOf t, G.regularSectionOf_mem t⟩, ?_⟩
     ext z
-    show ((G.regularSectionOf t z).down).coeff 1 = (t z).down
+    change ((G.regularSectionOf t z).down).coeff 1 = (t z).down
     rw [regularSectionOf_apply, G.pullbackAct_one]
     rfl
 
@@ -197,7 +197,7 @@ theorem regularDescentRestrictScalarsHom_groupElementAction [Finite H] (g : H) :
   ext W x
   refine LocallyConstant.ext fun z => ?_
   apply ULift.ext
-  show ((MonoidAlgebra.single g⁻¹ 1 * (x.1 z).down)).coeff 1 =
+  change ((MonoidAlgebra.single g⁻¹ 1 * (x.1 z).down)).coeff 1 =
     ((x.1 ((pullback.map W.unop.hom G.cover.hom W.unop.hom G.cover.hom (𝟙 _) (G.act g) (𝟙 _)
       (by simp) (by simp [G.act_comp_hom])).base z)).down).coeff 1
   rw [MonoidAlgebra.coeff_single_mul_apply, inv_inv, one_mul, mul_one]

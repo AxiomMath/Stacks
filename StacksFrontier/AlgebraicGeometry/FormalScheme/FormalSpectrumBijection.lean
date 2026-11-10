@@ -189,7 +189,7 @@ theorem spfPresheaf_obj_hom_ext {R : TopCommRingCat.{u}} {U : Opens (spfSpace A)
 term `𝒪_λ` is the component `A → A/I_λ ≅ Γ(Spec (A/I_λ), 𝒪)` of the canonical map. -/
 theorem spfGammaHomOn_comp_spfProjection_app_top (I : SpfIndex A P) :
     spfGammaHomOn A P ≫ (spfProjectionOn A I).app (op ⊤) = spfGammaComponentOn A I := by
-  show limit.lift ((spfDiagramOn A P ⋙ pseudoDiscreteFunctor) ⋙
+  change limit.lift ((spfDiagramOn A P ⋙ pseudoDiscreteFunctor) ⋙
         (evaluation ((Opens (spfSpace A))ᵒᵖ) TopCommRingCat.{u}).obj (op ⊤)) (spfGammaConeOn A P)
       ≫ (spfPresheafObjIsoOn A P ⊤).inv ≫ (spfProjectionOn A I).app (op ⊤)
     = spfGammaComponentOn A I

@@ -157,7 +157,7 @@ private lemma localLift_isLocallySurjective
   let p₀ := H.map p
   have hLp : Epi (L.map p₀) := by
     rw [← epi_comp_iff_of_isIso _ (adj.counit.app N)]
-    show Epi ((H ⋙ L).map p ≫ adj.counit.app N)
+    change Epi ((H ⋙ L).map p ≫ adj.counit.app N)
     rw [adj.counit.naturality p]
     infer_instance
   let F := A ⋙ presheafToSheaf J AddCommGrpCat.{v}
@@ -218,7 +218,7 @@ theorem exists_over_lift_of_free {C : Type u} [Category.{t} C] {J : Grothendieck
   let t : Fin n → Gf.sections := fun k =>
     PresheafOfModules.sectionsMk (fun Y => G.val.map Y.unop.hom.op (a k)) (by
       intro Y Z g
-      show G.val.map g.unop.left.op (G.val.map Y.unop.hom.op (a k)) =
+      change G.val.map g.unop.left.op (G.val.map Y.unop.hom.op (a k)) =
         G.val.map Z.unop.hom.op (a k)
       rw [← G.val.map_comp_apply, ← op_comp, Over.w g.unop])
   let H := SheafOfModules.overFunctor R W
@@ -232,13 +232,13 @@ theorem exists_over_lift_of_free {C : Type u} [Category.{t} C] {J : Grothendieck
     Cofan.mk Gf (fun i => η.inv ≫ Gf.unitHomEquiv.symm (t i))
   let k : (SheafOfModules.free (R := R) (Fin n)).over W ⟶ Gf := hc.desc d
   refine ⟨k, hc.hom_ext fun i => ?_⟩
-  show c.ι.app i ≫ k ≫ pF = c.ι.app i ≫ q.over W
+  change c.ι.app i ≫ k ≫ pF = c.ι.app i ≫ q.over W
   apply (cancel_epi η.hom).1
   have hsections : SheafOfModules.sectionsMap pF (t i.as) =
       (F.over W).unitHomEquiv (η.hom ≫ c.ι.app i ≫ q.over W) := by
     apply PresheafOfModules.sections_ext
     intro Y
-    show p.val.app (Opposite.op Y.unop.left) (G.val.map Y.unop.hom.op (a i.as)) = _
+    change p.val.app (Opposite.op Y.unop.left) (G.val.map Y.unop.hom.op (a i.as)) = _
     rw [PresheafOfModules.naturality_apply, ha i.as]
     refine ((F.freeHomEquiv q i.as).property Y.unop.hom.op).trans ?_
     simp [SheafOfModules.freeHomEquiv, η, c, H,
@@ -319,7 +319,7 @@ theorem exists_coveringSieve_lift (X : RingedSite.{u, t, 0}) (U : X.C)
     fun k => (Classical.choose_spec (hmem k)).trans ((s k).property gT.op)
   refine ⟨j.over (Over.mk f) ≫ k, ?_⟩
   rw [Category.assoc, hk]
-  show (SheafOfModules.overFunctor R (Over.mk f)).map (j ≫ r ≫ e) =
+  change (SheafOfModules.overFunctor R (Over.mk f)).map (j ≫ r ≫ e) =
     (SheafOfModules.overFunctor R (Over.mk f)).map e
   rw [← Category.assoc, hjr, Category.id_comp]
 

@@ -29,7 +29,7 @@ universe v₁ v₂ u₁ u₂
 
 namespace Stacks.Cohomology.RightDerivedDelta
 
-variable {B : Type u₁} [Category.{v₁} B] [Abelian B] [EnoughInjectives B]
+variable {B : Type u₁} [Category.{v₁} B] [Abelian B]
   {D : Type u₂} [Category.{v₂} D] [Abelian D] (Q : B ⥤ D) [Q.Additive] [PreservesFiniteLimits Q]
 
 /-- The short exact sequence `0 ⟶ ker e ⟶ X ⟶ Y ⟶ 0` of an epimorphism `e : X ⟶ Y`. -/
@@ -47,6 +47,8 @@ theorem shortExact_image_cokernel {X K : B} (f : X ⟶ K) :
       (fun k hk ↦ cokernel.desc f k (by rw [← image.fac f, assoc, hk, comp_zero]))
       (fun k hk ↦ cokernel.π_desc _ _ _) (fun k hk m hm ↦ coequalizer.hom_ext ?_))
     simpa using hm
+
+variable [EnoughInjectives B]
 
 /-- **A left exact functor preserves the left homology of a short complex `X₁ ⟶ X₂ ⟶ X₃`** as
 soon as `R¹Q X₁ = 0` and `R¹Q`, `R²Q` vanish on the kernel of `X₁ ⟶ X₂`. -/

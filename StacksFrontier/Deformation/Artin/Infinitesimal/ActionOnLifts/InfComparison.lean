@@ -252,19 +252,19 @@ private theorem fiberSquareComparison_isEquivalence (hRS : SatisfiesRSStar B S h
     (ObjectProperty.homMk i.right) (ObjectProperty.homMk j.right)
     (ObjectProperty.hom_ext _ ((Under.w i).trans (Under.w j).symm))
     (by
-      show IsPullback ((BigFppfOver.toScheme B S hS).map i.right).appTop
+      change IsPullback ((BigFppfOver.toScheme B S hS).map i.right).appTop
         ((BigFppfOver.toScheme B S hS).map j.right).appTop
         ((BigFppfOver.toScheme B S hS).map D.arrow).appTop
         ((BigFppfOver.toScheme B S hS).map E.arrow).appTop
       rw [hf, hg]
       exact hpb)
     (by
-      show Function.Surjective
+      change Function.Surjective
         (((BigFppfOver.toScheme B S hS).map E.arrow).appTop.hom)
       rw [hg]
       exact specMap_appTop_surjective _ hsurj)
     (by
-      show RingHom.ker (((BigFppfOver.toScheme B S hS).map E.arrow).appTop.hom) ^ 2 = ⊥
+      change RingHom.ker (((BigFppfOver.toScheme B S hS).map E.arrow).appTop.hom) ^ 2 = ⊥
       rw [hg]
       exact specMap_appTop_ker_sq _ hsq)
 
@@ -353,7 +353,7 @@ private theorem underMap_baseMap (R : AffineDeformation A B S hS toS hA)
   apply Under.UnderMorphism.ext
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
       ((TrivSqZeroExt.inlHom A (BasedRing.kernelSite R hq hsq).obj).comp R.aug)) =
     Spec.map (CommRingCat.ofHom
         (TrivSqZeroExt.inlHom A (BasedRing.kernelSite R hq hsq).obj)) ≫
@@ -510,7 +510,7 @@ private theorem exists_differenceMulEquiv (hRS : SatisfiesRSStar B S hS p hp)
   let fQ := (Equiv.ofBijective _ hbijTr).trans (Equiv.ofBijective _ hbijQ)
   have hfst : ∀ θ : v ⟶ v, (eP θ).1 = (fQ θ).1 := by
     intro θ
-    show fiberEndRestrict (Under.post p) hqg φ₁ hφ₁ θ =
+    change fiberEndRestrict (Under.post p) hqg φ₁ hφ₁ θ =
       fiberEndRestrict (Under.post p) hqg ψ₁ hψ₁
         (fiberEndRestrict (Under.post p) hqg lam hlam θ)
     rw [← fiberEndRestrict_comp (Under.post p) hqg lam hlam ψ₁ hψ₁ inferInstance]
@@ -523,7 +523,7 @@ private theorem exists_differenceMulEquiv (hRS : SatisfiesRSStar B S hS p hp)
   have hfQmul : ∀ θ θ' : v ⟶ v,
       fQ (θ ≫ θ') = ((fQ θ).1 ≫ (fQ θ').1, (fQ θ).2 ≫ (fQ θ').2) := by
     intro θ θ'
-    show (fiberEndRestrict (Under.post p) hqg ψ₁ hψ₁
+    change (fiberEndRestrict (Under.post p) hqg ψ₁ hψ₁
         (fiberEndRestrict (Under.post p) hqg lam hlam (θ ≫ θ')),
       fiberEndRestrict (Under.post p) hqg ψ₂ hψ₂
         (fiberEndRestrict (Under.post p) hqg lam hlam (θ ≫ θ'))) = _
@@ -533,7 +533,7 @@ private theorem exists_differenceMulEquiv (hRS : SatisfiesRSStar B S hS p hp)
   refine ⟨equivFromPairCoordinates eP fQ hfst (𝟙 x'), ?_,
     v, vQ, φ₁, φ₂, ψ₂, lam, hφ₁, hφ₂, hψ₂, hlam, ?_⟩
   · intro α β
-    show (fQ (eP.symm (𝟙 x', α ≫ β))).2 =
+    change (fQ (eP.symm (𝟙 x', α ≫ β))).2 =
       (fQ (eP.symm (𝟙 x', α))).2 ≫ (fQ (eP.symm (𝟙 x', β))).2
     have hsym : eP.symm (𝟙 x', α ≫ β) = eP.symm (𝟙 x', α) ≫ eP.symm (𝟙 x', β) := by
       apply eP.injective
@@ -543,13 +543,13 @@ private theorem exists_differenceMulEquiv (hRS : SatisfiesRSStar B S hS p hp)
   · intro α
     refine ⟨eP.symm (𝟙 x', α), ?_, ?_, ?_⟩
     · have h1 : fiberEndRestrict (Under.post p) hqg φ₁ hφ₁ (eP.symm (𝟙 x', α)) = 𝟙 x' := by
-        show (eP (eP.symm (𝟙 x', α))).1 = 𝟙 x'
+        change (eP (eP.symm (𝟙 x', α))).1 = 𝟙 x'
         rw [eP.apply_symm_apply]
       have hf := fiberEndRestrict_fac (Under.post p) hqg φ₁ hφ₁ (eP.symm (𝟙 x', α))
       rw [h1, CategoryTheory.Functor.map_id, Category.id_comp] at hf
       exact hf.symm
     · have h2 : fiberEndRestrict (Under.post p) hqg φ₂ hφ₂ (eP.symm (𝟙 x', α)) = α := by
-        show (eP (eP.symm (𝟙 x', α))).2 = α
+        change (eP (eP.symm (𝟙 x', α))).2 = α
         rw [eP.apply_symm_apply]
       have hf := fiberEndRestrict_fac (Under.post p) hqg φ₂ hφ₂ (eP.symm (𝟙 x', α))
       rw [h2] at hf

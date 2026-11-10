@@ -167,6 +167,7 @@ def properPushforwardGysinTerm (W' : IntegralClosedSubspace D.site D.base D.base
 
 include hp hp' hfbase hfqc hE hE' hgbase hgqc rule rule'
 
+omit hE' hgbase hgqc rule' in
 /-- The coefficient of `n_{W'} · i^* f_*[W']` at an integral closed subspace `T ⊆ E`. -/
 theorem gysinProperPushforwardTerm_coe
     (W' : IntegralClosedSubspace D.site D.base D.base_mem X')
@@ -177,12 +178,13 @@ theorem gysinProperPushforwardTerm_coe
           (gysinComponentCycle D p E hE k rule W).1 T := by
   rw [gysinProperPushforwardTerm]
   by_cases h : α'.1 W' = 0
-  · rw [dif_pos h, h, zero_mul]
+  · rw [dite_eq_left h, h, zero_mul]
     rfl
-  · rw [dif_neg h, AddSubgroup.coe_zsmul, Pi.smul_apply, smul_eq_mul,
-      gysinCoeff_properPushforward_integralCycle D p hp p' hp' hfbase hfqc E hE E' hE' hgbase
-        hgqc k rule rule' (α'.2.2 W' h) T]
+  · rw [dite_eq_right h, AddSubgroup.coe_zsmul, Pi.smul_apply, smul_eq_mul,
+      gysinCoeff_properPushforward_integralCycle D p hp p' hp' hfbase hfqc E hE k rule
+        (α'.2.2 W' h) T]
 
+omit hp hfbase hfqc rule in
 /-- The coefficient of `n_{W'} · g_* (i')^*[W']` at an integral closed subspace `T ⊆ E`. -/
 theorem properPushforwardGysinTerm_coe
     (W' : IntegralClosedSubspace D.site D.base D.base_mem X')
@@ -193,11 +195,11 @@ theorem properPushforwardGysinTerm_coe
           properCycleMult D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE g T' T := by
   rw [properPushforwardGysinTerm]
   by_cases h : α'.1 W' = 0
-  · rw [dif_pos h, h, zero_mul]
+  · rw [dite_eq_left h, h, zero_mul]
     rfl
-  · rw [dif_neg h, AddSubgroup.coe_zsmul, Pi.smul_apply, smul_eq_mul,
-      properPushforward_gysinCoeff_integralCycle D p hp p' hp' hfbase hfqc E hE E' hE' hgbase
-        hgqc k rule rule' (α'.2.2 W' h) T]
+  · rw [dite_eq_right h, AddSubgroup.coe_zsmul, Pi.smul_apply, smul_eq_mul,
+      properPushforward_gysinCoeff_integralCycle D p p' hp' E hE E' hE' hgbase hgqc k rule'
+        (α'.2.2 W' h) T]
 
 omit hE' hgbase hgqc rule rule' in
 /-- **Stacks 0ENZ and Stacks 0EP6.** The subsets of `|E|` carrying the summands form a locally
@@ -210,6 +212,7 @@ theorem locallyFinite_gysinProperPushforwardTermSupport :
   exact (locallyFinite_closure_image_pointsMap D p' hp' p hp hfbase hfqc
     (cycleSupportFamily D α'.1) (isClosed_cycleSupportFamily D p' hp' α'.1) α'.2.1).1
 
+omit hE' hgbase hgqc rule' in
 /-- The summand `n_{W'} · i^* f_*[W']` is carried by `|i|^{-1}(closure(|f|(|W'|)))`: only the
 closure `W` of the image of `W'` contributes to the pushforward, and the component cycle of `W`
 is carried by `i^{-1}(W)`. -/
@@ -219,8 +222,7 @@ theorem subspacePointSet_subset_of_gysinProperPushforwardTerm_ne_zero
     (hT : (gysinProperPushforwardTerm D p hp p' hp' hfbase hfqc E hE k rule α' W').1 T ≠ 0) :
     subspacePointSet D.site D.base D.base_mem E.1.toFunctor T.subspace ⊆
       gysinProperPushforwardTermSupport D f E α' W' := by
-  rw [gysinProperPushforwardTerm_coe D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc k rule
-    rule' α' W' T] at hT
+  rw [gysinProperPushforwardTerm_coe D p hp p' hp' hfbase hfqc E hE k rule α' W' T] at hT
   have hα : α'.1 W' ≠ 0 := left_ne_zero_of_mul hT
   have hsingle : (∑ᶠ V : IntegralClosedSubspace D.site D.base D.base_mem X,
       properCycleMult D p' hp' p hp f W' V *
@@ -244,6 +246,7 @@ theorem subspacePointSet_subset_of_gysinProperPushforwardTerm_ne_zero
     ← IntegralClosedSubspace.subspacePointSet_closureImage D.site D.base D.base_mem hp.1
       (D.isDecentSpace_of_isGood p hp) f W']
 
+omit hp hfbase hfqc rule in
 /-- The summand `n_{W'} · g_* (i')^*[W']` is carried by `|i|^{-1}(closure(|f|(|W'|)))`: a
 contributing `T' ⊆ E'` lies in `|i'|^{-1}(|W'|)` and has `T` for the closure of its image under
 `g`, and `i ∘ g = f ∘ i'`. -/
@@ -254,8 +257,7 @@ theorem subspacePointSet_subset_of_properPushforwardGysinTerm_ne_zero
     (hT : (properPushforwardGysinTerm D p p' E hE E' hE' hgbase hgqc k rule' α' W').1 T ≠ 0) :
     subspacePointSet D.site D.base D.base_mem E.1.toFunctor T.subspace ⊆
       gysinProperPushforwardTermSupport D f E α' W' := by
-  rw [properPushforwardGysinTerm_coe D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc k rule
-    rule' α' W' T] at hT
+  rw [properPushforwardGysinTerm_coe D p p' hp' E hE E' hE' hgbase hgqc k rule' α' W' T] at hT
   have hα : α'.1 W' ≠ 0 := left_ne_zero_of_mul hT
   have hsum : (∑ᶠ T' : IntegralClosedSubspace D.site D.base D.base_mem E'.1.toFunctor,
       (gysinComponentCycle D p' E' hE' k rule' W').1 T' *
@@ -305,35 +307,37 @@ theorem subspacePointSet_subset_of_properPushforwardGysinTerm_ne_zero
     rfl
   rw [h2, ← hsq.w, ← h1]
 
+omit hE' hgbase hgqc rule' in
 /-- The sum of the summands `n_{W'} · i^* f_*[W']` is `i^* f_* α'`. -/
 theorem locallyFiniteCycleSum_gysinProperPushforwardTerm :
     locallyFiniteCycleSum D (E.1.ι ≫ p) k (gysinProperPushforwardTermSupport D f E α')
         (locallyFinite_gysinProperPushforwardTermSupport D p hp p' hp' hfbase hfqc E hE k α')
         (gysinProperPushforwardTerm D p hp p' hp' hfbase hfqc E hE k rule α')
         (subspacePointSet_subset_of_gysinProperPushforwardTerm_ne_zero D p hp p' hp' hfbase hfqc
-          E hE E' hE' hgbase hgqc k rule rule' α') =
+          E hE k rule α') =
       gysinCycleMap D p E hE k rule
         (properCyclePushforward D p' hp' p hp hfbase hfqc (k + 1) α') := by
   refine Subtype.ext (funext fun T => ?_)
-  rw [locallyFiniteCycleSum_apply, gysinCoeff_properPushforward D p hp p' hp' hfbase hfqc E hE E'
-    hE' hgbase hgqc k rule rule' α' T]
-  exact finsum_congr fun W' => gysinProperPushforwardTerm_coe D p hp p' hp' hfbase hfqc E hE E'
-    hE' hgbase hgqc k rule rule' α' W' T
+  rw [locallyFiniteCycleSum_apply, gysinCoeff_properPushforward D p hp p' hp' hfbase hfqc E hE k
+    rule α' T]
+  exact finsum_congr fun W' => gysinProperPushforwardTerm_coe D p hp p' hp' hfbase hfqc E hE k
+    rule α' W' T
 
+omit rule in
 /-- The sum of the summands `n_{W'} · g_* (i')^*[W']` is `g_* (i')^* α'`. -/
 theorem locallyFiniteCycleSum_properPushforwardGysinTerm (hsq : IsPullback g E'.1.ι E.1.ι f) :
     locallyFiniteCycleSum D (E.1.ι ≫ p) k (gysinProperPushforwardTermSupport D f E α')
         (locallyFinite_gysinProperPushforwardTermSupport D p hp p' hp' hfbase hfqc E hE k α')
         (properPushforwardGysinTerm D p p' E hE E' hE' hgbase hgqc k rule' α')
-        (subspacePointSet_subset_of_properPushforwardGysinTerm_ne_zero D p hp p' hp' hfbase hfqc
-          E hE E' hE' hgbase hgqc k rule rule' α' hsq) =
+        (subspacePointSet_subset_of_properPushforwardGysinTerm_ne_zero D p p' hp' E hE E' hE'
+          hgbase hgqc k rule' α' hsq) =
       properCyclePushforward D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE hgbase hgqc k
         (gysinCycleMap D p' E' hE' k rule' α') := by
   refine Subtype.ext (funext fun T => ?_)
-  rw [locallyFiniteCycleSum_apply, properPushforward_gysinCoeff D p hp p' hp' hfbase hfqc E hE E'
-    hE' hgbase hgqc k rule rule' α' T]
-  exact finsum_congr fun W' => properPushforwardGysinTerm_coe D p hp p' hp' hfbase hfqc E hE E'
-    hE' hgbase hgqc k rule rule' α' W' T
+  rw [locallyFiniteCycleSum_apply, properPushforward_gysinCoeff D p p' hp' E hE E' hE' hgbase
+    hgqc k rule' α' T]
+  exact finsum_congr fun W' => properPushforwardGysinTerm_coe D p p' hp' E hE E' hE' hgbase
+    hgqc k rule' α' W' T
 
 /-- **Stacks 0ER5 in `CH_k(E)`, from the prime-cycle identity up to rational equivalence.**  If
 for every integral closed subspace `W' ⊆ X'` the two `k`-cycles `n_{W'} i^* f_*[W']` and
@@ -358,10 +362,9 @@ theorem chowClass_gysinCycleMap_properPushforward_eq_of_rationallyEquivalentOn
         (properCyclePushforward D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE hgbase hgqc k
           (gysinCycleMap D p' E' hE' k rule' α')) := by
   rw [chowClass_eq_iff_rationallyEquivalent,
-    ← locallyFiniteCycleSum_gysinProperPushforwardTerm D p hp p' hp' hfbase hfqc E hE E' hE'
-      hgbase hgqc k rule rule' α',
+    ← locallyFiniteCycleSum_gysinProperPushforwardTerm D p hp p' hp' hfbase hfqc E hE k rule α',
     ← locallyFiniteCycleSum_properPushforwardGysinTerm D p hp p' hp' hfbase hfqc E hE E' hE'
-      hgbase hgqc k rule rule' α' hsq]
+      hgbase hgqc k rule' α' hsq]
   exact rationallyEquivalent_locallyFiniteCycleSum D (E.1.ι ≫ p) hE k _
     (locallyFinite_gysinProperPushforwardTermSupport D p hp p' hp' hfbase hfqc E hE k α') _ _ _ _
       hre
@@ -409,9 +412,8 @@ theorem chowClass_gysinCycleMap_properPushforward_eq_of_contained
   by_cases hc : α'.1 W' ≠ 0 ∧ W'.subspace ≤ E'.1
   · exact hcont W' hc.1 hc.2
   · refine rationallyEquivalentOn_of_eq (E.1.ι ≫ p) hE k _ (Subtype.ext (funext fun T => ?_))
-    rw [gysinProperPushforwardTerm_coe D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc k rule
-      rule' α' W' T, properPushforwardGysinTerm_coe D p hp p' hp' hfbase hfqc E hE E' hE' hgbase
-      hgqc k rule rule' α' W' T]
+    rw [gysinProperPushforwardTerm_coe D p hp p' hp' hfbase hfqc E hE k rule α' W' T,
+      properPushforwardGysinTerm_coe D p p' hp' E hE E' hE' hgbase hgqc k rule' α' W' T]
     by_cases h0 : α'.1 W' = 0
     · rw [h0, zero_mul, zero_mul]
     · rw [hnot W' (α'.2.2 W' h0) (fun hle => hc ⟨h0, hle⟩) T]

@@ -80,7 +80,7 @@ theorem Scheme.ringKrullDim_stalk_eq_zero_of_specializes {Y : Scheme.{u}} {t z :
   rw [h1] at h2
   have h3 : Order.coheight t = 0 := by
     by_contra h0
-    have h1' : (1 : ℕ∞) ≤ Order.coheight t := ENat.one_le_iff_ne_zero.mpr h0
+    have h1' : (1 : ℕ∞) ≤ Order.coheight t := Order.one_le_iff_ne_zero.mpr h0
     have : (1 : ℕ∞) + 1 ≤ 1 := (add_le_add_left h1' 1).trans h2
     norm_num at this
   rw [h3]
@@ -92,7 +92,7 @@ theorem Scheme.finite_setOf_ringKrullDim_stalk_eq_zero (Y : Scheme.{u}) [IsNoeth
   refine (Scheme.finite_setOf_forall_specializes_eq Set.univ isClosed_univ).subset
     fun z hz ↦ ⟨trivial, fun t _ htz ↦ ?_⟩
   have hz' : Order.coheight z = 0 := by
-    rw [Set.mem_setOf_eq, ringKrullDim_stalk_eq_coheight] at hz
+    rw [Set.mem_ofPred_eq, ringKrullDim_stalk_eq_coheight] at hz
     exact_mod_cast hz
   exact (htz.antisymm (Order.coheight_eq_zero.mp hz' htz)).eq
 
@@ -296,14 +296,14 @@ theorem descendsAfterFrobenius_of_isNormal {X Y : Scheme.{u}} (f : X ⟶ Y) [Fla
   choose N₀f hN₀f using fun y : {y : Y // ringKrullDim (Y.presheaf.stalk y) = 0} ↦
     exists_isFreeOverLocalScheme_of_ringKrullDim_eq_zero f hX hE y.1 y.2
   let N₀ : ℕ := G₀.attach.sup fun y ↦ N₀f ⟨y.1, by
-    simpa only [G₀, Set.Finite.mem_toFinset, Set.mem_setOf_eq] using y.2⟩
+    simpa only [G₀, Set.Finite.mem_toFinset, Set.mem_ofPred_eq] using y.2⟩
   have hP₀ : ∀ y : Y, ringKrullDim (Y.presheaf.stalk y) = 0 →
       IsFreeOverLocalScheme f ((frobeniusPullbackIter X p hX N₀).obj E).obj y := by
     intro y hy
     have hyG : y ∈ G₀ := (Set.Finite.mem_toFinset _).mpr hy
     exact (hN₀f ⟨y, hy⟩).frobeniusPullbackIter_mono hX
       (Finset.le_sup (f := fun y : G₀ ↦ N₀f ⟨y.1, by
-        simpa only [G₀, Set.Finite.mem_toFinset, Set.mem_setOf_eq] using y.2⟩)
+        simpa only [G₀, Set.Finite.mem_toFinset, Set.mem_ofPred_eq] using y.2⟩)
         (Finset.mem_attach G₀ ⟨y, hyG⟩))
   -- the open set where this holds, and the finitely many points of codimension one outside it
   let O := {s : Y | IsFreeOverLocalScheme f ((frobeniusPullbackIter X p hX N₀).obj E).obj s}

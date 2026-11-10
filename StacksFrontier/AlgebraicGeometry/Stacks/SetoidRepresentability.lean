@@ -152,7 +152,7 @@ theorem isoClassComparison_obj_eq
   let rhs := BasedFunctor.comp f'.hom (isoClassBasedFunctor B S hS 𝒴)
   apply (PresheafOfCategories.objEquiv (G ⋙ typeToCat)).injective
   apply Sigma.ext
-  · show YG.val.p.obj (lhs.obj x) = YG.val.p.obj (rhs.obj x)
+  · change YG.val.p.obj (lhs.obj x) = YG.val.p.obj (rhs.obj x)
     calc
       YG.val.p.obj (lhs.obj x) = 𝒳.val.p.obj x := BasedFunctor.w_obj lhs x
       _ = (CatFiberedInSetoids.inclusion.obj 𝒳).val.p.obj x := rfl
@@ -185,7 +185,7 @@ theorem isoClassComparison_obj_eq
     have hrbase : (rhs.obj x).base = z.base := by
       calc
         (rhs.obj x).base = (CatFiberedInSetoids.inclusion.obj 𝒳).val.p.obj x := by
-          show YG.val.p.obj (rhs.obj x) = _
+          change YG.val.p.obj (rhs.obj x) = _
           exact BasedFunctor.w_obj rhs x
         _ = pX.obj x := rfl
         _ = z.base := hzbase.symm
@@ -203,7 +203,7 @@ theorem isoClassComparison_obj_eq
         have htype' := congrArg
           (fun U => Discrete (G.obj (Opposite.op U))) (hxU.symm.trans hxV)
         rw [hrhsfiber]
-        show cast htype (Discrete.mk (Functor.isoClassMk pY
+        change cast htype (Discrete.mk (Functor.isoClassMk pY
             (⟨f'.hom.obj x, hxU⟩ : pY.Fiber ((rhs.obj x).base)))) = _
         calc
           _ = cast htype' (Discrete.mk (Functor.isoClassMk pY

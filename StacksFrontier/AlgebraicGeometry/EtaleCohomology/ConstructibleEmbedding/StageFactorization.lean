@@ -130,7 +130,7 @@ theorem exists_sigma_comp_stageMap_eq {n : ℕ} {Wd : Fin n → Scheme.{u}} (e :
     rfl
   refine ⟨i₀, Sigma.desc fun k => (extensionByZeroConstantHomEquiv Λ (e k) _).symm (τ₀ k), ?_⟩
   refine sigma_hom_ext_extensionByZeroConstantHomEquiv Λ e fun k => ?_
-  rw [Sigma.ι_desc_assoc, extensionByZeroConstantHomEquiv_comp, Equiv.apply_symm_apply, hτ₀]
+  rw [Sigma.ι_comp_desc_assoc, extensionByZeroConstantHomEquiv_comp, Equiv.apply_symm_apply, hτ₀]
 
 /-- A morphism out of a finite direct sum of the sheaves `j_{l,!} Λ` at affine étale `X`-schemes
 into a stage `f_{i₀,*} 𝓛_{Y_{i₀}}(M)` that vanishes in `f_* 𝓛_Y(M)` already vanishes at some
@@ -157,7 +157,7 @@ theorem exists_comp_transitionMap_eq_zero {m : ℕ} {Wd' : Fin m → Scheme.{u}}
   let γ₀ : i₁ ⟶ i₀ := (hi₁ (Finset.mem_insert_self _ _)).some
   have hγ₀ : ∀ l, (transitionMap Λ M P γ₀).hom.app _ (ν l) = 0 := fun l => by
     rw [show γ₀ = δ l ≫ γ l from Subsingleton.elim _ _, ← transitionMap_comp]
-    show (transitionMap Λ M P (δ l)).hom.app _ ((transitionMap Λ M P (γ l)).hom.app _ (ν l)) = 0
+    change (transitionMap Λ M P (δ l)).hom.app _ ((transitionMap Λ M P (γ l)).hom.app _ (ν l)) = 0
     rw [hγ l, map_zero, map_zero]
   refine ⟨i₁, γ₀, sigma_hom_ext_extensionByZeroConstantHomEquiv Λ e' fun l => ?_⟩
   rw [comp_zero, extensionByZeroConstantHomEquiv_zero, ← Category.assoc,
@@ -188,7 +188,7 @@ theorem exists_comp_stageMap_eq {F : EtaleModules.{u, u + 1} Λ X} {n : ℕ}
     simpa only [Category.assoc] using hγ₀
   obtain ⟨φ', hφ'⟩ := Cofork.IsColimit.desc'
     (Abelian.epiIsCokernelOfKernel _ (kernelIsKernel p)) ψ' (by
-      show kernel.ι p ≫ ψ' = 0 ≫ ψ'
+      change kernel.ι p ≫ ψ' = 0 ≫ ψ'
       rw [hq, zero_comp])
   refine ⟨i₁, φ', ?_⟩
   rw [← cancel_epi p, ← Category.assoc, show p ≫ φ' = ψ' from hφ', Category.assoc,

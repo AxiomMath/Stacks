@@ -113,9 +113,9 @@ noncomputable def overInvariantTarget (G : GroupoidInAlgebraicSpaces C S hS B)
       { app := fun _ => ↾ fun p => p.1.2
         naturality := by intros; ext p; rfl }
     have hι₁ : ι ≫ pullback.fst G.source.hom G.target.hom = π₁ := by
-      simp [π₁, ι, composableToPullback, pullback.lift_fst]
+      simp [π₁, ι, composableToPullback]
     have hι₂ : ι ≫ pullback.snd G.source.hom G.target.hom = π₂ := by
-      simp [π₂, ι, composableToPullback, pullback.lift_snd]
+      simp [π₂, ι, composableToPullback]
     have hρι : ρ ≫ ι = 𝟙 _ := by
       refine pullback.hom_ext ?_ ?_
       · calc

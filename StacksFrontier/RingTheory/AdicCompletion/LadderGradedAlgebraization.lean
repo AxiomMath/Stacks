@@ -217,10 +217,9 @@ public theorem stableQuotTr_mk (k : ℕ) (x : H.obj (op (coverIndex m₀ m₁ (k
       Submodule.Quotient.mk (tr H (coverIndex_mono m₀ m₁ (Nat.le_succ k)) x) :=
   rfl
 
-variable (hW : IsAdicTower I W)
-  (hm₁ : ∀ j m : ℕ, m₁ j ≤ m → ∀ h : j ≤ m, LinearMap.range (tr H h) = L.stable j)
+variable (hm₁ : ∀ j m : ℕ, m₁ j ≤ m → ∀ h : j ≤ m, LinearMap.range (tr H h) = L.stable j)
 
-include hW hm₁
+include hm₁
 
 /-- **The transitions of the graded adic tower are surjective.** -/
 public theorem surjective_stableQuotTr (k : ℕ) :
@@ -329,13 +328,13 @@ public theorem finite_stableQuot [∀ j : ℕ, Module.Finite A (W.obj (op j))] (
 
 /-! ### The tower as an inverse system -/
 
-omit hW hm₁ hm₀ in
+omit hm₁ hm₀ in
 /-- `k ≤ coverIndex m₀ m₁ k`, the inequality that lets a term of the tower map down to the same
 level of `H`. -/
 public theorem le_coverIndex (k : ℕ) : k ≤ coverIndex m₀ m₁ k :=
   (le_stabIndex m₀ k).trans (stabIndex_le_coverIndex m₀ m₁ k)
 
-omit hW hm₁ hm₀ in
+omit hm₁ hm₀ in
 /-- The graded adic tower as an `ℕᵒᵖ`-indexed inverse system of `A`-modules. Its level `k` is the
 tower's level `k + 1`, so that the kernel of its one-step transition is the `(k+1)`-st power of
 `I`: that is the indexing convention of `Stacks.ProObject.IsAdicTower`. Every transition map is
@@ -358,7 +357,7 @@ public def stableQuotSystem : ℕᵒᵖ ⥤ ModuleCat.{v} A where
       Submodule.Quotient.mk (tr H _ (tr H _ x))
     rw [tr_tr]
 
-omit hW hm₁ hm₀ in
+omit hm₁ hm₀ in
 /-- **The transitions of the system are the transitions of `H`, read on the quotients.** -/
 public theorem tr_stableQuotSystem_mk {k k' : ℕ} (h : k ≤ k')
     (x : H.obj (op (coverIndex m₀ m₁ (k' + 1)))) :
@@ -367,7 +366,7 @@ public theorem tr_stableQuotSystem_mk {k k' : ℕ} (h : k ≤ k')
         (tr H (coverIndex_mono m₀ m₁ (Nat.add_le_add_right h 1)) x) :=
   rfl
 
-omit hW hm₁ hm₀ in
+omit hm₁ hm₀ in
 /-- The one-step transition of the system is the transition map of the tower. -/
 public theorem tr_stableQuotSystem_succ (k : ℕ) :
     tr (stableQuotSystem (H := H) m₀ m₁ I) (Nat.le_succ k) =
@@ -380,10 +379,10 @@ public theorem isAdicTower_stableQuotSystem :
     IsAdicTower I (stableQuotSystem (H := H) m₀ m₁ I) where
   surjective k := by
     rw [tr_stableQuotSystem_succ]
-    exact surjective_stableQuotTr m₀ m₁ I L hW hm₁ (k + 1)
+    exact surjective_stableQuotTr m₀ m₁ I L hm₁ (k + 1)
   ker k := by
     rw [tr_stableQuotSystem_succ]
-    exact ker_stableQuotTr m₀ m₁ I L hW hm₁ hm₀ (k + 1)
+    exact ker_stableQuotTr m₀ m₁ I L hm₁ hm₀ (k + 1)
 
 /-! ### The ladder between the tower and `H`
 
@@ -393,7 +392,7 @@ of elements dying at level `stabIndex (k+1)`, which is above `k`. Together with 
 `H_{coverIndex (k+1)} → N_{k+1}` this is a ladder, with both composites *equal* to transition
 maps; so the tower and `H` have the same inverse limit. -/
 
-omit hW hm₁ hm₀ in
+omit hm₁ hm₀ in
 /-- The kernel of the quotient presentation of level `k + 1` dies under the transition of `H` down
 to level `k`. -/
 public theorem stableQuotKer_le_ker_tr
@@ -413,7 +412,7 @@ public theorem stableQuotKer_le_ker_tr
     exact tr_eq_zero_of_tr_eq_zero H ((Nat.le_succ k).trans (le_stabIndex m₀ (k + 1)))
       (stabIndex_le_coverIndex m₀ m₁ (k + 1)) _ hx
 
-omit hW hm₁ hm₀ in
+omit hm₁ hm₀ in
 /-- **The tower maps down to `H`**: level `k + 1` of the tower maps to level `k` of `H`, by the
 transition map of `H`. -/
 public def stableQuotDown
@@ -422,7 +421,7 @@ public def stableQuotDown
   Submodule.liftQ _ (tr H ((Nat.le_succ k).trans (le_coverIndex m₀ m₁ (k + 1))))
     (stableQuotKer_le_ker_tr m₀ m₁ I hHann k)
 
-omit hW hm₁ hm₀ in
+omit hm₁ hm₀ in
 public theorem stableQuotDown_mk
     (hHann : ∀ j : ℕ, I ^ (j + 1) • (⊤ : Submodule A (H.obj (op j))) = ⊥) (k : ℕ)
     (x : H.obj (op (coverIndex m₀ m₁ (k + 1)))) :
@@ -430,7 +429,7 @@ public theorem stableQuotDown_mk
       tr H ((Nat.le_succ k).trans (le_coverIndex m₀ m₁ (k + 1))) x :=
   rfl
 
-omit hW hm₁ hm₀ in
+omit hm₁ hm₀ in
 /-- **The tower and `H` are linked by a ladder**, with both composites equal to transition maps on
 the nose: the ladder's maps are the maps down to `H` and the quotient presentations. -/
 public def stableQuotLadderData
@@ -482,7 +481,7 @@ public def stableQuotLadderData
         tr H ((Nat.le_succ n).trans (le_coverIndex m₀ m₁ (n + 1))) x
     simp only [stableQuotDown_mk, tr_self]
 
-omit hW hm₁ hm₀ in
+omit hm₁ hm₀ in
 /-- The tower is pro-isomorphic to `H`. -/
 public theorem hasProLadder_stableQuotSystem
     (hHann : ∀ j : ℕ, I ^ (j + 1) • (⊤ : Submodule A (H.obj (op j))) = ⊥) :
@@ -497,13 +496,13 @@ section GradedTower
 variable (𝒜) (𝓗 : ∀ j : ℕ, ℤ → AddSubgroup (H.obj (op j)))
   [∀ j : ℕ, DirectSum.Decomposition (𝓗 j)]
 
-omit hW hm₁ hm₀ in
+omit hm₁ hm₀ in
 /-- **The grading of the `k`-th term of the tower**: the images of the graded pieces of
 `H_{coverIndex k}`. -/
 public abbrev stableQuotPiece (k : ℕ) : ℤ → AddSubgroup (stableQuot (H := H) m₀ m₁ I k) :=
   Submodule.gradedQuotientPiece (𝓗 (coverIndex m₀ m₁ k)) (stableQuotKer (H := H) m₀ m₁ I k)
 
-omit hW hm₁ hm₀ in
+omit hm₁ hm₀ in
 /-- The grading of the `k`-th term of the tower is a `DirectSum.Decomposition`. -/
 @[instance_reducible] public noncomputable def stableQuotDecomposition
     (h𝓗 : ∀ (j i : ℕ) (d : ℤ) (a : A) (x : H.obj (op j)), a ∈ 𝒜 i → x ∈ 𝓗 j d →
@@ -515,7 +514,8 @@ omit hW hm₁ hm₀ in
   (Submodule.isInternal_gradedQuotientPiece _
     (isHomogeneous_stableQuotKer 𝒜 m₀ m₁ I 𝓗 h𝓗 hHtr hIhom k)).chooseDecomposition
 
-omit hW hm₁ hm₀ in
+omit hm₁ hm₀ [AddSubgroupClass σ A] [GradedRing 𝒜]
+  [(j : ℕ) → DirectSum.Decomposition (𝓗 j)] in
 /-- The grading of the tower is compatible with the grading of `A`. -/
 public theorem smul_mem_stableQuotPiece
     (h𝓗 : ∀ (j i : ℕ) (d : ℤ) (a : A) (x : H.obj (op j)), a ∈ 𝒜 i → x ∈ 𝓗 j d →
@@ -525,7 +525,7 @@ public theorem smul_mem_stableQuotPiece
     a • z ∈ stableQuotPiece (H := H) m₀ m₁ I 𝓗 k ((i : ℤ) + d) :=
   Submodule.smul_mem_gradedQuotientPiece 𝒜 _ (fun i d a x => h𝓗 _ i d a x) _ ha hz
 
-omit hW hm₁ hm₀ [(j : ℕ) → DirectSum.Decomposition (𝓗 j)] in
+omit hm₁ hm₀ [(j : ℕ) → DirectSum.Decomposition (𝓗 j)] in
 /-- **The transitions of the tower preserve degrees.** -/
 public theorem stableQuotTr_mem_stableQuotPiece
     (hHtr : ∀ (j j' : ℕ) (h : j ≤ j') (d : ℤ) (x : H.obj (op j')), x ∈ 𝓗 j' d →
@@ -537,7 +537,7 @@ public theorem stableQuotTr_mem_stableQuotPiece
   exact ⟨tr H (coverIndex_mono m₀ m₁ (Nat.le_succ k)) y, hHtr _ _ _ d y hy,
     (stableQuotTr_mk m₀ m₁ I k y).symm⟩
 
-omit hW hm₁ hm₀ [(j : ℕ) → DirectSum.Decomposition (𝓗 j)] in
+omit hm₁ hm₀ [(j : ℕ) → DirectSum.Decomposition (𝓗 j)] in
 /-- **The map down to `H` preserves degrees.** -/
 public theorem stableQuotDown_mem
     (hHtr : ∀ (j j' : ℕ) (h : j ≤ j') (d : ℤ) (x : H.obj (op j')), x ∈ 𝓗 j' d →

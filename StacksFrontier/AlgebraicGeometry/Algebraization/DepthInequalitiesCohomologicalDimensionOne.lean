@@ -89,7 +89,7 @@ private theorem one_le_krullDimToEInt {n : WithBot ℕ∞} (h : 1 ≤ n) :
     | top => exact le_top
     | coe n =>
       have hn : 1 ≤ n := by exact_mod_cast h
-      show ((1 : ℤ) : EInt) ≤ ((n : ℤ) : EInt)
+      change ((1 : ℤ) : EInt) ≤ ((n : ℤ) : EInt)
       exact WithBotTop.coe_le_coe.mpr (by omega)
 
 /-- A Krull dimension other than `⊥` has extended-integer image one exactly when it is one. -/
@@ -122,7 +122,7 @@ private theorem two_le_of_one_le_of_ne_one {c : EInt} (hc : c ≠ ⊥)
     | coe n =>
       have hn1 : (1 : ℤ) ≤ n := WithBotTop.coe_le_coe.mp h1
       have hnn : n ≠ 1 := fun h => hne (by rw [h]; rfl)
-      show ((2 : ℤ) : EInt) ≤ ((n : ℤ) : EInt)
+      change ((2 : ℤ) : EInt) ≤ ((n : ℤ) : EInt)
       exact WithBotTop.coe_le_coe.mpr (by omega)
 
 /-! ### The extended-integer arithmetic, exported -/
@@ -147,7 +147,7 @@ public alias two_le_of_one_le_of_ne_one' := two_le_of_one_le_of_ne_one
 /-- In the extended integers `s + 1 < x + 1` exactly when `s < x`. -/
 private theorem lt_add_one_iff_lt_of_int (s : ℤ) (x : EInt) :
     x + ((1 : ℤ) : EInt) > ((s + 1 : ℤ) : EInt) ↔ x > ((s : ℤ) : EInt) := by
-  show ((s + 1 : ℤ) : EInt) < x + ((1 : ℤ) : EInt) ↔ ((s : ℤ) : EInt) < x
+  change ((s + 1 : ℤ) : EInt) < x + ((1 : ℤ) : EInt) ↔ ((s : ℤ) : EInt) < x
   rw [Stacks.Chow.coe_add_coe_eq_coe_add, ← Stacks.Chow.eintAddRight_apply 1 x,
     ← Stacks.Chow.eintAddRight_apply 1 ((s : ℤ) : EInt)]
   exact (Stacks.Chow.eintAddRight 1).lt_iff_lt
@@ -329,7 +329,7 @@ private theorem cohomologicalDimension_completedLocalIdeal_le
     (algebraMap (S.U.toScheme.presheaf.stalk y)
       (completedLocalRing (idealOnOpen S) y)).comp (baseToPointStalk S y)
   have hmap : completedLocalIdeal (idealOnOpen S) y = S.I.map φ := by
-    show (IdealSheafData.stalk (idealOnOpen S) y).map
+    change (IdealSheafData.stalk (idealOnOpen S) y).map
         (algebraMap (S.U.toScheme.presheaf.stalk y)
           (completedLocalRing (idealOnOpen S) y)) = S.I.map φ
     rw [show S.I.map φ = (S.I.map (baseToPointStalk S y)).map

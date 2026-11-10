@@ -31,8 +31,8 @@ hypothesis `hcmp`, and all a caller has to supply here is the isomorphism `ε`.
 The uniformity is not an extra input. [Stacks, Tag 02O1] over the affine base `Spec R` produces
 one `d₀` serving every positive degree for the single coherent module `F'` upstairs
 (`Stacks.AlgebraicGeometry.ProperAmpleCohomology.exists_isZero_Hgroup_tensorPowTwist`), and the
-whole family `(Mₙ)` is accounted for by that one module. Three identifications from the library bring the
-vanishing down to `X` and a retract finishes it:
+whole family `(Mₙ)` is accounted for by that one module. Three identifications from the library
+bring the vanishing down to `X` and a retract finishes it:
 
 * `(π^* L) ^⊗ d ≅ π^*(L ^⊗ d)` by `Stacks.RelativeVeryAmple.pullbackTensorPowModuleIso`, so the
   twist [Stacks, Tag 02O1] is applied to can be read with the inverse image outside the power;
@@ -121,7 +121,7 @@ public def coprodRetraction {X : Scheme.{u}} (M : ℕ → X.Modules) (n : ℕ) :
 @[simp]
 public theorem ι_comp_coprodRetraction {X : Scheme.{u}} (M : ℕ → X.Modules) (n : ℕ) :
     Sigma.ι M n ≫ coprodRetraction M n = 𝟙 (M n) := by
-  rw [coprodRetraction, Sigma.ι_desc, dite_eq_left rfl]
+  rw [coprodRetraction, Sigma.ι_comp_desc, dite_eq_left rfl]
   simp
 
 /-! ### The uniform vanishing -/

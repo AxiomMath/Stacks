@@ -76,7 +76,7 @@ theorem exteriorAlgebraBaseChange_exteriorPowerBaseChangeMap (n : ℕ) (x : ↥(
         simp only [SetLike.val_smul, RingHom.id_apply, TensorProduct.tmul_smul] }
   have hfg : f = g := by
     refine exteriorPower.linearMap_ext (AlternatingMap.ext fun v => ?_)
-    show exteriorAlgebraBaseChange R A M
+    change exteriorAlgebraBaseChange R A M
         ((ExteriorAlgebra.exteriorPowerBaseChangeMap R A M n (exteriorPower.ιMulti R n v) :
           ExteriorAlgebra A (A ⊗[R] M))) =
       1 ⊗ₜ[R] ((exteriorPower.ιMulti R n v : ↥(⋀[R]^n M)) : ExteriorAlgebra R M)
@@ -96,7 +96,7 @@ private def exteriorPowerBaseChangeIntoAlgebra (n : ℕ) :
 private theorem exteriorPowerBaseChangeIntoAlgebra_tmul (n : ℕ) (a : A) (y : ↥(⋀[R]^n M)) :
     exteriorPowerBaseChangeIntoAlgebra R A M n (a ⊗ₜ[R] y) =
       a ⊗ₜ[R] (y : ExteriorAlgebra R M) := by
-  show exteriorAlgebraBaseChange R A M
+  change exteriorAlgebraBaseChange R A M
       ((ExteriorAlgebra.exteriorPowerBaseChange R A M n (a ⊗ₜ[R] y) :
         ExteriorAlgebra A (A ⊗[R] M))) = _
   rw [ExteriorAlgebra.exteriorPowerBaseChange_tmul, Submodule.coe_smul, map_smul,
@@ -127,8 +127,7 @@ theorem mul_exteriorPowerBaseChange_eq_zero (n : ℕ) (x : ↥(⋀[R]^n M))
   refine Eq.trans (congrArg (fun z => a • z) ?_) (smul_zero a)
   refine (EquivLike.injective (exteriorAlgebraBaseChange R A M)) ?_
   rw [map_mul, map_zero, exteriorAlgebraBaseChange_exteriorPowerBaseChangeMap]
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, zero_mul]
+  induction w using TensorProduct.inductionOn with
   | tmul b m =>
       rw [show (b ⊗ₜ[R] m : A ⊗[R] M) = b • ((1 : A) ⊗ₜ[R] m) by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one],

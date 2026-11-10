@@ -376,11 +376,11 @@ theorem isDeformationFunctor_twoFibreProductOver_self
     {F : Type u₃} [Category.{v₃} F]
     (pF : F ⥤ ArtinianLocalAlgCat.{u, max v w, w} Λ k)
     (f : U.Elements ⥤ F)
-    (hf : f ⋙ pF = CategoryOfElements.π U)
+    (hf : f ⋙ pF = Functor.Elements.π U)
     (hU : IsDeformationFunctor U)
     (hF : IsDeformationCategory pF) :
     let p𝒲 := TwoFibreProductOver.structureFunctor
-      (CategoryOfElements.π U) (CategoryOfElements.π U) pF f f
+      (Functor.Elements.π U) (Functor.Elements.π U) pF f f
     IsDeformationCategory p𝒲 ∧
       ∀ (hcof : IsCofiberedInGroupoids p𝒲)
         {A₀ Aε : ArtinianLocalAlgCat.{u, max v w, w} Λ k}
@@ -388,10 +388,10 @@ theorem isDeformationFunctor_twoFibreProductOver_self
         (g : A₀ ⟶ Aε) (e : Aε ⟶ A₀) (hpair : IsCanonicalDualNumberPair g e)
         (i : w₀.1 ⟶ wε.1) (hi : p𝒲.IsHomLift g i),
         infinitesimalAutomorphisms hcof g e hpair i hi = ⊥ := by
-  have hπU : IsDeformationCategory (CategoryOfElements.π U) :=
+  have hπU : IsDeformationCategory (Functor.Elements.π U) :=
     (isDeformationCategory_iff U).mpr hU
-  refine ⟨isDeformationCategory_twoFibreProductOver (CategoryOfElements.π U)
-    (CategoryOfElements.π U) pF f f hf hf hπU hπU hF, ?_⟩
+  refine ⟨isDeformationCategory_twoFibreProductOver (Functor.Elements.π U)
+    (Functor.Elements.π U) pF f f hf hf hπU hπU hF, ?_⟩
   intro hcof _ Aε _ _ g e hpair i hi
   exact infinitesimalAutomorphisms_eq_bot_of_isThin hcof g e hpair i hi
     (isThin_fibre_twoFibreProductOver (elementsFiber_isThin U Aε) (elementsFiber_isThin U Aε))

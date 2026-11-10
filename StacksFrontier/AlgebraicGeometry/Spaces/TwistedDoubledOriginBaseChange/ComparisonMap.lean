@@ -16,7 +16,8 @@ copies of the chart to it (an fppf covering), the base change `doubledRelation` 
 relation along `U ⟶ S`, and the proof that the comparison map `doubledSelfProductToGlued`
 coequalises its two legs.
 
-This is part of `StacksFrontier.AlgebraicGeometry.Spaces.TwistedDoubledOriginBaseChange`, whose module
+This is part of `StacksFrontier.AlgebraicGeometry.Spaces.TwistedDoubledOriginBaseChange`, whose
+module
 docstring describes the whole argument.
 -/
 
@@ -293,7 +294,7 @@ private def relationPullbackInl :
     pullback (coverMap k K) (coverMap k K) ⟶ pullback (coverMap k K) (relationOverBase k K).hom :=
   pullback.map (coverMap k K) (coverMap k K) (coverMap k K) (relationOverBase k K).hom
     (𝟙 (cover K)) coprod.inl (𝟙 (base k)) (by simp)
-    (by simp [relationOverBase, coprod.inl_desc])
+    (by simp [relationOverBase])
 
 /-- The second summand's inclusion into `U ×_S R`, read through `relationPullbackCoprodIso` as
 the component of the comparison isomorphism indexed by `⟨WalkingPair.right⟩`. -/
@@ -302,7 +303,7 @@ private def relationPullbackInr :
       pullback (coverMap k K) (relationOverBase k K).hom :=
   pullback.map (coverMap k K) ((puncturedCover K).ι ≫ coverMap k K) (coverMap k K)
     (relationOverBase k K).hom (𝟙 (cover K)) coprod.inr (𝟙 (base k)) (by simp)
-    (by simp [relationOverBase, coprod.inr_desc])
+    (by simp [relationOverBase])
 
 omit [FiniteDimensional k K] [IsGalois k K] in
 /-- The `⟨WalkingPair.left⟩` component of `relationPullbackCoprodIso` is
@@ -314,10 +315,10 @@ private theorem sigmaι_left_comp_relationPullbackCoprodIso_hom :
       (relationPullbackCoprodIso k K).hom = relationPullbackInl k K := by
   apply pullback.hom_ext
   · simp [Category.assoc, relationPullbackCoprodIso, Iso.trans_hom, asIso_hom,
-      pullback.congrHom_hom, relationPullbackInl, pullback.lift_fst, Category.comp_id,
+      pullback.congrHom_hom, relationPullbackInl, Category.comp_id,
       IsPullback.isoPullback_hom_fst]
   · simp [Category.assoc, relationPullbackCoprodIso, Iso.trans_hom, asIso_hom,
-      pullback.congrHom_hom, relationPullbackInl, pullback.lift_snd, pullback.lift_snd_assoc,
+      pullback.congrHom_hom, relationPullbackInl,
       ι_left_coprodIsoSigma_inv]
 
 omit [FiniteDimensional k K] [IsGalois k K] in
@@ -330,10 +331,10 @@ private theorem sigmaι_right_comp_relationPullbackCoprodIso_hom :
       (relationPullbackCoprodIso k K).hom = relationPullbackInr k K := by
   apply pullback.hom_ext
   · simp [Category.assoc, relationPullbackCoprodIso, Iso.trans_hom, asIso_hom,
-      pullback.congrHom_hom, relationPullbackInr, pullback.lift_fst, Category.comp_id,
+      pullback.congrHom_hom, relationPullbackInr, Category.comp_id,
       IsPullback.isoPullback_hom_fst]
   · simp [Category.assoc, relationPullbackCoprodIso, Iso.trans_hom, asIso_hom,
-      pullback.congrHom_hom, relationPullbackInr, pullback.lift_snd, pullback.lift_snd_assoc,
+      pullback.congrHom_hom, relationPullbackInr,
       ι_right_coprodIsoSigma_inv]
 
 omit [FiniteDimensional k K] [IsGalois k K] in
@@ -460,8 +461,8 @@ theorem isPullback_puncturedSelfProduct (hdegree : Module.finrank k K = 2) (σ :
         (asIso (pullback.snd (galoisAction k K σ) (puncturedCover K).ι)))
       (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ (by simp) (by simp)
     · apply coprod.hom_ext
-      · simp [hdiag, coprod.inl_desc]
-      · simp [htwist, coprod.inr_desc]
+      · simp [hdiag]
+      · simp [htwist]
     · apply coprod.hom_ext
       · simp
       · simp

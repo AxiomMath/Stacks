@@ -416,7 +416,7 @@ theorem projective_unitLinearPairPullbackOn : Projective (unitLinearPairPullback
     obtain ⟨y, hy⟩ := PresheafOfModules.surjective_of_epi e b.obj (f.app b.obj (unitElementOn hA b))
     refine ⟨unitHomOn hA b E y, PresheafOfModules.hom_ext fun D ↦ ?_⟩
     ext ℓ
-    show e.app D (unitScalarOn hA D ℓ • baseValueOn b E y D) = f.app D ℓ
+    change e.app D (unitScalarOn hA D ℓ • baseValueOn b E y D) = f.app D ℓ
     have h1 : e.app D (baseValueOn b E y D) =
         f.app D (baseValueOn b (unitLinearPairPullbackOn.{w} hA) (unitElementOn hA b) D) :=
       (PresheafOfModules.naturality_apply e (b.hom D.unop.unop).op.op y).trans
@@ -450,8 +450,7 @@ lemma dualCoefficientMap_algebraMap_smul (X : AlgebraModulePair.{max u v} A) (c 
         (SymmetricAlgebra (dualNumberPair X).algebra ((dualNumberPair X).module ⊗[A] N))
         ((dualNumberPairInl X).base c) • t) =
       algebraMap X.algebra (pairSym N X) c • dualCoefficientMap N M X t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s m =>
     rw [TensorProduct.smul_tmul', smul_eq_mul, dualCoefficientMap_tmul, dualCoefficientMap_tmul,
       dualExpandSnd_algebraMap_mul, TensorProduct.smul_tmul', smul_eq_mul]
@@ -463,8 +462,7 @@ lemma dualCoefficientMap_naturality {X Y : AlgebraModulePair.{max u v} A} (g : X
     dualCoefficientMap N M Y
         (TensorProduct.map (symPairMap N (dualNumberPairMap g)).toLinearMap LinearMap.id t) =
       TensorProduct.map (symPairMap N g).toLinearMap LinearMap.id (dualCoefficientMap N M X t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s m =>
     simp only [TensorProduct.map_tmul, dualCoefficientMap_tmul, AlgHom.toLinearMap_apply,
       LinearMap.id_apply, dualExpandSnd_naturality]

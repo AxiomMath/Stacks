@@ -140,7 +140,7 @@ private lemma smul_eq_zero_extendScalars {A B : Type u} [CommRing A] [CommRing B
       (LinearMap.lsmul B ((ModuleCat.extendScalars φ).obj M) (φ a)) =
       (0 : (ModuleCat.extendScalars φ).obj M ⟶ (ModuleCat.extendScalars φ).obj M) :=
     ModuleCat.ExtendScalars.hom_ext_one_tmul φ fun m => tmul_smul_eq_zero φ a h 1 m
-  show ModuleCat.ofHom (LinearMap.lsmul B ((ModuleCat.extendScalars φ).obj M) (φ a)) z = 0
+  change ModuleCat.ofHom (LinearMap.lsmul B ((ModuleCat.extendScalars φ).obj M) (φ a)) z = 0
   rw [hzero]
   rfl
 
@@ -242,23 +242,23 @@ private lemma two_lt_depth_add_ringKrullDim_adicCompletion (A : Type u) [CommRin
       cases y with
       | top => rfl
       | coe n =>
-        show (⊤ : EInt) = ((⊤ : WithTop ℤ) : WithBot (WithTop ℤ)) +
+        change (⊤ : EInt) = ((⊤ : WithTop ℤ) : WithBot (WithTop ℤ)) +
           (((n : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ))
         rw [← WithBot.coe_add, WithTop.top_add]
         rfl
     | coe m =>
       cases y with
       | top =>
-        show (⊤ : EInt) = (((m : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) +
+        change (⊤ : EInt) = (((m : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) +
           ((⊤ : WithTop ℤ) : WithBot (WithTop ℤ))
         rw [← WithBot.coe_add, WithTop.add_top]
         rfl
       | coe n =>
-        show enatToEInt ((m : ℕ∞) + (n : ℕ∞)) =
+        change enatToEInt ((m : ℕ∞) + (n : ℕ∞)) =
           (((m : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) +
             (((n : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ))
         rw [← WithBot.coe_add, ← WithTop.coe_add, ← Nat.cast_add]
-        show ((((m + n : ℕ) : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) = _
+        change ((((m + n : ℕ) : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) = _
         norm_cast
   have hcoe_add (x : ℕ∞) (y : WithBot ℕ∞) :
       krullDimToEInt ((x : WithBot ℕ∞) + y) = enatToEInt x + krullDimToEInt y := by
@@ -304,7 +304,7 @@ private lemma preimage_puncturedSpectrum_specMap_algebraMap (A : Type u) [CommRi
         Stacks.puncturedSpectrum A =
       Stacks.puncturedSpectrum (AdicCompletion (maximalIdeal A) A) := by
   ext x
-  show PrimeSpectrum.comap (algebraMap A (AdicCompletion (maximalIdeal A) A)) x ≠
+  change PrimeSpectrum.comap (algebraMap A (AdicCompletion (maximalIdeal A) A)) x ≠
       closedPoint A ↔ x ≠ closedPoint (AdicCompletion (maximalIdeal A) A)
   rw [← IsLocalRing.comap_closedPoint (algebraMap A (AdicCompletion (maximalIdeal A) A))]
   refine not_congr ⟨fun h => ?_, fun h => by rw [h]⟩

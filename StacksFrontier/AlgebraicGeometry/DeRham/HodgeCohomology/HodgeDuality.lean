@@ -766,11 +766,11 @@ theorem bijective_smul_hodgeUnitModule :
   obtain ⟨t, ht⟩ := hφ.2 ((hodgeCupModule f 0 0 0 rfl 0 0 0 rfl).hom (x₀ ⊗ₜ x₀))
   have hst : s * t = 1 := by
     refine hφ.1 ?_
-    show (s * t) • x₀ = (1 : baseRing X.toRingedSpace) • x₀
+    change (s * t) • x₀ = (1 : baseRing X.toRingedSpace) • x₀
     rw [one_smul, mul_smul]
-    show s • (fun g : baseRing X.toRingedSpace => g • x₀) t = x₀
+    change s • (fun g : baseRing X.toRingedSpace => g • x₀) t = x₀
     rw [ht, ← hodgeCupModule_smul_left]
-    show (hodgeCupModule f 0 0 0 rfl 0 0 0 rfl).hom
+    change (hodgeCupModule f 0 0 0 rfl 0 0 0 rfl).hom
       ((fun g : baseRing X.toRingedSpace => g • x₀) s ⊗ₜ x₀) = x₀
     rw [hs, hunit]
   have key : (fun g : baseRing X.toRingedSpace => g • hodgeUnitModule f) =
@@ -780,7 +780,7 @@ theorem bijective_smul_hodgeUnitModule :
     rw [← hs]
   rw [key]
   refine hφ.comp ⟨fun a b hab => ?_, fun a => ⟨a * t, by
-    show a * t * s = a
+    change a * t * s = a
     rw [mul_assoc, mul_comm t s, hst, mul_one]⟩⟩
   simpa [mul_assoc, hst] using congrArg (· * t) hab
 

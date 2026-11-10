@@ -91,11 +91,11 @@ theorem valuationRing_directLimit
     rcases mul_eq_zero.mp hl with h0 | h0
     · left
       rw [hxk, ← Ring.DirectLimit.of_f hkl a']
-      show (Ring.DirectLimit.of G F l) (f k l hkl a') = 0
+      change (Ring.DirectLimit.of G F l) (f k l hkl a') = 0
       rw [h0, map_zero]
     · right
       rw [hyk, ← Ring.DirectLimit.of_f hkl b']
-      show (Ring.DirectLimit.of G F l) (f k l hkl b') = 0
+      change (Ring.DirectLimit.of G F l) (f k l hkl b') = 0
       rw [h0, map_zero]
   have := hnt
   have := hnzd

@@ -82,7 +82,7 @@ private lemma eq_of_le_of_comap_eq_of_isIntegral
     (hcomap : q.comap (algebraMap R S) = q'.comap (algebraMap R S))
     (hsub : q ≤ q') : q = q' := by
   by_contra hne
-  obtain ⟨x, hx_mem, hx_nmem⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hsub hne)
+  obtain ⟨x, hx_mem, hx_nmem⟩ := IsConcreteLE.exists_of_lt (lt_of_le_of_ne hsub hne)
   have hmap_ne_bot : q'.map (Ideal.Quotient.mk q) ≠ ⊥ := fun hbot => hx_nmem <| by
     have hmem := Ideal.mem_map_of_mem (Ideal.Quotient.mk q) hx_mem
     rwa [hbot, Ideal.mem_bot, Ideal.Quotient.eq_zero_iff_mem] at hmem

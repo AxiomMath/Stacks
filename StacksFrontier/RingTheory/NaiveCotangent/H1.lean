@@ -48,13 +48,13 @@ theorem h1Cotangent_self_equiv_ofSurjective
     refine ⟨(MvPolynomial.aeval (fun b ↦ Function.surjInv h b) : P₁.Ring →ₐ[A] A).toRingHom,
       ?_, ?_⟩
     · intro x
-      show (MvPolynomial.aeval (fun b ↦ Function.surjInv h b))
+      change (MvPolynomial.aeval (fun b ↦ Function.surjInv h b))
         ((algebraMap A (MvPolynomial B A)) x) = _
       simp only [Algebra.algebraMap_self, MvPolynomial.algebraMap_eq, MvPolynomial.algHom_C,
         RingHom.id_apply]
       rfl
     · intro x
-      show (algebraMap A B) ((MvPolynomial.aeval (fun b ↦ Function.surjInv h b)) x)
+      change (algebraMap A B) ((MvPolynomial.aeval (fun b ↦ Function.surjInv h b)) x)
         = (algebraMap B B) ((MvPolynomial.aeval (R := A) (S₁ := B) (fun b ↦ b)) x)
       rw [Algebra.algebraMap_self, RingHom.id_apply]
       refine RingHom.congr_fun (MvPolynomial.ringHom_ext (fun a ↦ ?_) fun b ↦ ?_ :
@@ -67,7 +67,7 @@ theorem h1Cotangent_self_equiv_ofSurjective
     refine ⟨(algebraMap A P₁.Ring : P₀.Ring →+* P₁.Ring), fun x ↦ ?_, fun x ↦ ?_⟩
     · rw [Algebra.algebraMap_self]
       rfl
-    · show (algebraMap P₁.Ring B) ((algebraMap A P₁.Ring) x)
+    · change (algebraMap P₁.Ring B) ((algebraMap A P₁.Ring) x)
         = (algebraMap B B) ((algebraMap A B) x)
       rw [← IsScalarTower.algebraMap_apply A P₁.Ring B]
       rfl

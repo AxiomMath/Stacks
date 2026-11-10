@@ -364,7 +364,7 @@ lemma preservesColimit_moduleCatUliftFunctor {K : Type uK} [Category.{vK} K]
       hasColimitsOfShape_of_finallySmall K _
     have : PreservesColimit D (ModuleCat.uliftFunctor.{w'} R ⋙
         forget₂ (ModuleCat.{max w w'} R) AddCommGrpCat.{max w w'}) := by
-      show PreservesColimit D (forget₂ (ModuleCat.{w} R) AddCommGrpCat.{w} ⋙
+      change PreservesColimit D (forget₂ (ModuleCat.{w} R) AddCommGrpCat.{w} ⋙
         AddCommGrpCat.uliftFunctor.{w'})
       infer_instance
     exact preservesColimit_of_reflects_of_preserves (ModuleCat.uliftFunctor.{w'} R)
@@ -386,16 +386,16 @@ def uliftPointPresheafFiberIso :
       (ModuleCat.uliftFunctor.{w'} R).obj ((p.presheafFiber (A := ModuleCat.{w} R)).obj P) :=
   haveI : (Functor.Elements.ulift.{z'} p.fiber).Initial :=
     Functor.initial_of_adjunction (Functor.Elements.uliftEquiv.{z'} p.fiber).toAdjunction
-  haveI : PreservesColimit ((CategoryOfElements.π p.fiber).op ⋙ P)
+  haveI : PreservesColimit ((Functor.Elements.π p.fiber).op ⋙ P)
       (ModuleCat.uliftFunctor.{w'} R) :=
-    preservesColimit_moduleCatUliftFunctor R ((CategoryOfElements.π p.fiber).op ⋙ P)
+    preservesColimit_moduleCatUliftFunctor R ((Functor.Elements.π p.fiber).op ⋙ P)
   haveI hshape : HasColimitsOfShape ((p.ulift.{z'}).fiber.Elementsᵒᵖ)
       (ModuleCat.{max w w'} R) := hasColimitsOfShape_of_finallySmall _ _
   (@Functor.Final.colimitIso _ _ _ _ (Functor.Elements.ulift.{z'} p.fiber).op _ _ _
-      ((CategoryOfElements.π (p.ulift.{z'}).fiber).op ⋙ P ⋙
+      ((Functor.Elements.π (p.ulift.{z'}).fiber).op ⋙ P ⋙
         ModuleCat.uliftFunctor.{w'} R) (hshape.has_colimit _)).symm ≪≫
     (preservesColimitIso (ModuleCat.uliftFunctor.{w'} R)
-      ((CategoryOfElements.π p.fiber).op ⋙ P)).symm
+      ((Functor.Elements.π p.fiber).op ⋙ P)).symm
 
 /-- The comparison takes the germ at a lift of the point of a ulifted section to the uplift of
 the germ of that section. -/
@@ -405,20 +405,20 @@ lemma uliftPointPresheafFiberIso_hom_toPresheafFiber (X : C) (x : p.fiber.obj X)
       (ModuleCat.uliftFunctor.{w'} R).map (p.toPresheafFiber X x P) :=
   have : (Functor.Elements.ulift.{z'} p.fiber).Initial :=
     Functor.initial_of_adjunction (Functor.Elements.uliftEquiv.{z'} p.fiber).toAdjunction
-  have : PreservesColimit ((CategoryOfElements.π p.fiber).op ⋙ P)
+  have : PreservesColimit ((Functor.Elements.π p.fiber).op ⋙ P)
       (ModuleCat.uliftFunctor.{w'} R) :=
-    preservesColimit_moduleCatUliftFunctor R ((CategoryOfElements.π p.fiber).op ⋙ P)
+    preservesColimit_moduleCatUliftFunctor R ((Functor.Elements.π p.fiber).op ⋙ P)
   have hshape : HasColimitsOfShape ((p.ulift.{z'}).fiber.Elementsᵒᵖ)
       (ModuleCat.{max w w'} R) := hasColimitsOfShape_of_finallySmall _ _
   Eq.trans (Category.assoc _ _ _).symm
     (Eq.trans
       (congrArg (fun k => k ≫ (preservesColimitIso (ModuleCat.uliftFunctor.{w'} R)
-          ((CategoryOfElements.π p.fiber).op ⋙ P)).inv)
+          ((Functor.Elements.π p.fiber).op ⋙ P)).inv)
         (@Functor.Final.ι_colimitIso_inv _ _ _ _ (Functor.Elements.ulift.{z'} p.fiber).op _ _ _
-          ((CategoryOfElements.π (p.ulift.{z'}).fiber).op ⋙ P ⋙
+          ((Functor.Elements.π (p.ulift.{z'}).fiber).op ⋙ P ⋙
             ModuleCat.uliftFunctor.{w'} R) (hshape.has_colimit _) (op (Functor.elementsMk _ X x))))
       (ι_preservesColimitIso_inv (ModuleCat.uliftFunctor.{w'} R)
-        ((CategoryOfElements.π p.fiber).op ⋙ P) (op (Functor.elementsMk _ X x))))
+        ((Functor.Elements.π p.fiber).op ⋙ P) (op (Functor.elementsMk _ X x))))
 
 end UniverseLift
 
@@ -480,7 +480,7 @@ lemma presheafFiberOverIso_hom_toPresheafFiber (P : Cᵒᵖ ⥤ A) (W : Over V)
         ((GrothendieckTopology.Point.presheafFiberOverIso Φ x A).app P).hom =
       Φ.toPresheafFiber W.left y.val P :=
   Functor.Final.ι_colimitIso_hom (GrothendieckTopology.Point.overElements Φ x).op
-    ((CategoryOfElements.π Φ.fiber).op ⋙ P) (op (Functor.elementsMk _ W y))
+    ((Functor.Elements.π Φ.fiber).op ⋙ P) (op (Functor.elementsMk _ W y))
 
 /-- A morphism of presheaves which the fibre functor at `Φ` inverts is inverted, after
 restriction to the slice site over `V`, by the fibre functor at the lift `Φ.over x`: the two

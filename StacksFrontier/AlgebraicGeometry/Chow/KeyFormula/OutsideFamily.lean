@@ -116,7 +116,7 @@ theorem exists_isUnit_algebraMap_eq_of_isCoordinateAt_one {x : X}
   obtain ⟨u, hu, hmu⟩ := exists_isUnit_smul_eq hm hm'
   have key : a * algebraMap (X.presheaf.stalk x) X.functionField u = 1 := by
     refine (hm.toGenericStalk hL).injective ?_
-    show (a * algebraMap (X.presheaf.stalk x) X.functionField u) • toGenericStalk L x m =
+    change (a * algebraMap (X.presheaf.stalk x) X.functionField u) • toGenericStalk L x m =
       (1 : X.functionField) • toGenericStalk L x m
     rw [mul_smul, ← toGenericStalk_smul, ← hmu, ← hsa, ← hs1]
   obtain ⟨v, huv, hvu⟩ := isUnit_iff_exists.mp hu
@@ -146,7 +146,7 @@ theorem component_ne_ofCoheightOne {z : X} (hz : coheight z = 1)
     ℱ.component i ≠ PrimeDivisor.ofCoheightOne z hz := by
   intro hi
   refine hnot i ?_
-  show (ℱ.component i).genericPoint = z
+  change (ℱ.component i).genericPoint = z
   rw [hi, PrimeDivisor.genericPoint_ofCoheightOne]
 
 /-- **The ratio `f` is a unit along a prime divisor outside the family.** At a codimension-one

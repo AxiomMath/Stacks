@@ -145,6 +145,7 @@ variable {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', u', w}}
   [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   {i : AlgebraicGeometry.RingedToposHom X Y} (hi : FirstOrderThickening i)
 
+omit [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- `π^*i_*J ≅ J` is `π^*` of `i_*J ≅ π_*J` followed by the counit of `π^* ⊣ π_*`. -/
 theorem pullbackPushforwardModuleNatIso_hom_app
     (J : _root_.SheafOfModules.{w} (Tensor.ringSheaf X.O)) :

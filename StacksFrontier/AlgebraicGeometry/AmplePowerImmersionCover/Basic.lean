@@ -350,7 +350,7 @@ theorem hasImmersionTwistOver_morphismRestrict (f : X ⟶ S) (M : X.Modules) (V 
       refine pullback.hom_ext ?_ ?_
       · simp only [liftOver, Category.assoc, pullback.lift_fst, pullback.lift_fst_assoc,
           morphismRestrict_ι, hover]
-      · simp only [liftOver, Category.assoc, pullback.lift_snd, pullback.lift_snd_assoc]
+      · simp only [liftOver, Category.assoc, pullback.lift_snd]
     have hI : IsImmersion (liftOver (f ∣_ V)
         ((f ⁻¹ᵁ V).ι ≫ i ≫ projectiveSpaceOver.toIntegralAtUniverse n S) ≫
         liftOver (pullback.fst (terminal.from V.toScheme)
@@ -459,7 +459,8 @@ theorem isAmple_preimage_of_isRelativelyAmple_morphismRestrict (f : X ⟶ S) (L 
 base.** Let `f : X ⟶ S` be quasi-compact and let `S = ⋃ V_j` be an open covering such that
 `L|_{f⁻¹(V_j)}` is ample relative to `f ∣_ V_j` for every `j`. Then `L` is ample relative to `f`.
 
-The library's form of Tag 01VJ is the *pointwise affine* one — relative ampleness from ampleness over
+The library's form of Tag 01VJ is the *pointwise affine* one — relative ampleness from ampleness
+over
 the preimage of one affine open around each point of the base — and this is the passage from it to
 an arbitrary covering, which is the shape the source states. The refinement step is
 `Stacks.AmplePowerImmersionCover.isAmple_preimage_of_isRelativelyAmple_morphismRestrict`: the affine

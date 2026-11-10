@@ -223,7 +223,7 @@ identification `fstIso`, is `β`. -/
 @[simp]
 theorem fstIso_hom_comp_sndHom :
     (fstIso hp x a α).hom ≫ sndHom hp x x' (quadruple hp x x' a b hb α β) = β := by
-  show (fstIso hp x a α).hom ≫ ((fstIso hp x a α).symm ≪≫ fstIso hp x' b β).hom ≫
+  change (fstIso hp x a α).hom ≫ ((fstIso hp x a α).symm ≪≫ fstIso hp x' b β).hom ≫
     chosenHom hp x' b = β
   rw [Iso.trans_hom, Iso.symm_hom, Category.assoc, Iso.hom_inv_id_assoc]
   exact fstIso_hom_comp_chosenHom hp x' b β

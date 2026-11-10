@@ -174,7 +174,8 @@ private theorem exists_module_on_annihilatorIdeal :
 
 /-- **A quasi-coherent module of finite type is the direct image of a quasi-coherent module of
 finite type on its scheme-theoretic support** (part of [Stacks, Tag 05JU]). -/
-alias exists_isQuasicoherent_isFiniteType_pushforward_annihilatorIdeal := exists_module_on_annihilatorIdeal
+alias exists_isQuasicoherent_isFiniteType_pushforward_annihilatorIdeal :=
+  exists_module_on_annihilatorIdeal
 
 /-- Every closed subscheme of `X` from which `F` is a direct image contains the
 scheme-theoretic support of `F`. -/
@@ -314,7 +315,7 @@ private theorem algebraMap_bijective_of_faithful_invertible
     Function.Bijective (algebraMap A B) := by
   constructor
   · refine fun a₁ a₂ h ↦ (Module.Invertible.toModuleEnd_bijective A M).1 (LinearMap.ext fun m ↦ ?_)
-    show a₁ • m = a₂ • m
+    change a₁ • m = a₂ • m
     simpa only [IsScalarTower.algebraMap_smul] using congrArg (fun b : B => b • m) h
   · intro b
     obtain ⟨a, ha⟩ := (Module.Invertible.toModuleEnd_bijective A M).2
@@ -410,14 +411,14 @@ public theorem exists_section_iso_pushforward_of_invertible_pushforward
     let : IsScalarTower A B M := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
     let : SMulCommClass B A M := inferInstance
     have hInvM : Module.Invertible A M := by
-      show Module.Invertible A Γ(H, U)
+      change Module.Invertible A Γ(H, U)
       exact invertible_sections_of_rank_one H hHrank ⟨U, hU⟩
     let : Module.Invertible A M := hInvM
     have hAnn : Module.annihilator B M = ⊥ := by
       rw [← annihilatorIdeal_ideal G Vaff, annihilatorIdeal_on_support_eq_bot F G e]
       simp
     let : FaithfulSMul B M := Module.annihilator_eq_bot.mp hAnn
-    show Function.Bijective (g.app U).hom
+    change Function.Bijective (g.app U).hom
     exact algebraMap_bijective_of_faithful_invertible (A := A) (B := B) (M := M)
   exact exists_section_iso_of_isIso_map f i F G e hIso
 
@@ -509,7 +510,7 @@ private theorem finite_of_range_subset_section {X Y Z : Scheme.{u}}
       dsimp [k, qX]
       rw [pullback.lift_snd]
     have hkT' (t : T) : qT.base (k.base t) = t := by
-      show (k ≫ qT).base t = t
+      change (k ≫ qT).base t = t
       rw [hkT]
       rfl
     have : IsClosedImmersion (k ≫ qT) := by rw [hkT]; infer_instance
@@ -520,7 +521,7 @@ private theorem finite_of_range_subset_section {X Y Z : Scheme.{u}}
           (pullback.fst qX s ≫ qT ≫ k) ≫ qT =
               (pullback.fst qX s ≫ qT) ≫ (k ≫ qT) := Category.assoc _ _ _
           _ = pullback.fst qX s ≫ qT := by rw [hkT, Category.comp_id]
-      · show (pullback.fst qX s ≫ qT ≫ k) ≫ qX = pullback.fst qX s ≫ qX
+      · change (pullback.fst qX s ≫ qT ≫ k) ≫ qX = pullback.fst qX s ≫ qX
         calc
           (pullback.fst qX s ≫ qT ≫ k) ≫ qX =
               pullback.fst qX s ≫ qT ≫ (k ≫ qX) := by simp
@@ -531,7 +532,7 @@ private theorem finite_of_range_subset_section {X Y Z : Scheme.{u}}
                   pullback.fst qX s ≫ (qT ≫ g) ≫ s := by simp
               _ = pullback.fst qX s ≫ (qX ≫ f) ≫ s := by rw [pullback.condition]
               _ = pullback.fst qX s ≫ qX := by
-                show (pullback.fst qX s ≫ (qX ≫ f)) ≫ s =
+                change (pullback.fst qX s ≫ (qX ≫ f)) ≫ s =
                   pullback.fst qX s ≫ qX
                 calc
                   (pullback.fst qX s ≫ (qX ≫ f)) ≫ s =
@@ -543,11 +544,11 @@ private theorem finite_of_range_subset_section {X Y Z : Scheme.{u}}
       hom := pullback.lift k g hkX
       inv := pullback.fst qX s ≫ qT
       hom_inv_id := by
-        show (pullback.lift k g hkX ≫ pullback.fst qX s) ≫ qT = 𝟙 T
+        change (pullback.lift k g hkX ≫ pullback.fst qX s) ≫ qT = 𝟙 T
         rw [pullback.lift_fst, hkT]
       inv_hom_id := by
         apply pullback.hom_ext
-        · show (pullback.fst qX s ≫ qT ≫ pullback.lift k g hkX) ≫
+        · change (pullback.fst qX s ≫ qT ≫ pullback.lift k g hkX) ≫
             pullback.fst qX s = pullback.fst qX s
           calc
             (pullback.fst qX s ≫ qT ≫ pullback.lift k g hkX) ≫ pullback.fst qX s =
@@ -555,7 +556,7 @@ private theorem finite_of_range_subset_section {X Y Z : Scheme.{u}}
                   (pullback.lift k g hkX ≫ pullback.fst qX s) := by simp
             _ = pullback.fst qX s ≫ qT ≫ k := by rw [pullback.lift_fst]
             _ = pullback.fst qX s := hXT
-        · show pullback.fst qX s ≫ qT ≫ pullback.lift k g hkX ≫
+        · change pullback.fst qX s ≫ qT ≫ pullback.lift k g hkX ≫
             pullback.snd qX s = pullback.snd qX s
           rw [pullback.lift_snd]
           calc
@@ -565,15 +566,15 @@ private theorem finite_of_range_subset_section {X Y Z : Scheme.{u}}
                 _ = pullback.fst qX s ≫ (qX ≫ f) := by rw [pullback.condition]
                 _ = pullback.fst qX s ≫ qX ≫ f := by simp
             _ = pullback.snd qX s := by
-              show (pullback.fst qX s ≫ qX) ≫ f = pullback.snd qX s
+              change (pullback.fst qX s ≫ qX) ≫ f = pullback.snd qX s
               rw [pullback.condition]
               simp [Category.assoc, hs]
     }
     have he₁ : e.hom ≫ pullback.fst qX s = k := by
-      show pullback.lift k g hkX ≫ pullback.fst qX s = k
+      change pullback.lift k g hkX ≫ pullback.fst qX s = k
       exact pullback.lift_fst k g hkX
     have he₂ : e.hom ≫ pullback.snd qX s = g := by
-      show pullback.lift k g hkX ≫ pullback.snd qX s = g
+      change pullback.lift k g hkX ≫ pullback.snd qX s = g
       exact pullback.lift_snd k g hkX
     have hsq : IsPullback k g qX s := IsPullback.of_iso_pullback ⟨hkX⟩ e he₁ he₂
     have hkRange : Set.range k.base = qX.base ⁻¹' Set.range s.base := by
@@ -588,7 +589,7 @@ private theorem finite_of_range_subset_section {X Y Z : Scheme.{u}}
             have hinv : e.inv.base ≫ e.hom.base = 𝟙 _ :=
               congrArg (fun m : Limits.pullback qX s ⟶ Limits.pullback qX s => m.base) e.inv_hom_id
             refine ⟨e.inv.base x, ?_⟩
-            show (e.inv.base ≫ e.hom.base) x = x
+            change (e.inv.base ≫ e.hom.base) x = x
             simp
           rw [Set.range_comp, Set.range_eq_univ.mpr hsurj, Set.image_univ]
         _ = qX.base ⁻¹' Set.range s.base := Scheme.Pullback.range_fst qX s
@@ -629,13 +630,13 @@ private theorem finite_of_range_subset_section {X Y Z : Scheme.{u}}
     have hcanon : IsClosedMap (pullback.fst g (i ≫ f)).base := by
       have hcomp : topologically @IsClosedMap
           (hsqP.isoPullback.hom ≫ pullback.fst g (i ≫ f)) := by
-        show IsClosedMap (hsqP.isoPullback.hom ≫ pullback.fst g (i ≫ f)).base
+        change IsClosedMap (hsqP.isoPullback.hom ≫ pullback.fst g (i ≫ f)).base
         simpa [hsqP.isoPullback_hom_fst] using hr
       have h := MorphismProperty.cancel_left_of_respectsIso
         (P := topologically @IsClosedMap) hsqP.isoPullback.hom
         (pullback.fst g (i ≫ f))
       exact h.mp (by simpa [Scheme.Hom.comp_base] using hcomp)
-    show IsClosedMap (pullback.fst g (i ≫ f)).base
+    change IsClosedMap (pullback.fst g (i ≫ f)).base
     exact hcanon
   let : UniversallyClosed (i ≫ f) := huc
   let : LocallyOfFiniteType (i ≫ f) := inferInstance

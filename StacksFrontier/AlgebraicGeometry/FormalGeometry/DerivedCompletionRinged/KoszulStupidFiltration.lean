@@ -77,7 +77,7 @@ def koszulPowerTransLE {m m' : ℕ} (h : m ≤ m') :
     · by_cases hiS : i ∈ S
       · simp [koszulExp, koszulPowerTransExp, hiT, hiS, Finset.mem_sdiff]
       · simp only [koszulExp, koszulPowerTransExp, hiT, hiS, Finset.mem_sdiff, Pi.add_apply,
-          not_false_eq_true, and_self, if_true, if_false]
+          not_false_eq_true, and_self, ite_true, ite_false]
         omega
     · simp [koszulExp, koszulPowerTransExp, hiT, Finset.mem_sdiff,
         show i ∉ S from fun hiS => hiT (hST hiS)]
@@ -109,11 +109,11 @@ theorem koszulPowerSystem_map_eq {m m' : ℕ} (h : m ≤ m') :
         koszulPowerTransLE X f (hm.trans (m'.le_add_right 1)) := by
       refine NatTrans.ext (funext fun S => ?_)
       rw [NatTrans.comp_app, koszulPowerTransLE_app, koszulPowerTransLE_app]
-      show koszulScalar X f _ ≫ koszulScalar X f _ = _
+      change koszulScalar X f _ ≫ koszulScalar X f _ = _
       rw [koszulScalar_comp]
       refine koszulScalar_congr X f fun i => ?_
       by_cases hiS : i ∈ S
-      · simp only [koszulPowerTransExp, hiS, Pi.add_apply, if_true]
+      · simp only [koszulPowerTransExp, hiS, Pi.add_apply, ite_true]
         omega
       · simp [koszulPowerTransExp, hiS]
     rw [show homOfLE (hm.trans (m'.le_add_right 1)) = homOfLE hm ≫ homOfLE (m'.le_add_right 1)
@@ -212,7 +212,7 @@ theorem nonempty_splitting_koszulAugmentationShortComplex
         ((koszulPowerComplex X f n).stupidTrunc (embeddingUpIntGE (1 : ℤ))) 1 0 (by omega)
     · exact isIso_koszulCechComplexMap_comp_cechAugmentation_f_zero X f n
   · refine ⟨ShortComplex.Splitting.ofIsIsoOfIsZero _ ?_ ?_⟩
-    · show IsIso (((koszulPowerComplex X f n).ιStupidTrunc (embeddingUpIntGE (1 : ℤ))).f d)
+    · change IsIso (((koszulPowerComplex X f n).ιStupidTrunc (embeddingUpIntGE (1 : ℤ))).f d)
       by_cases hpd : 1 ≤ d
       · rw [StacksDraft.StupidTruncation.ιStupidTruncGE_f _ 1 d hpd]
         infer_instance

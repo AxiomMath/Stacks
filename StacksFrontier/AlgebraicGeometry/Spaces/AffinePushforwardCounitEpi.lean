@@ -87,8 +87,7 @@ theorem eq_of_forall_smallBaseChange {Z W : AlgebraicSpaces B S hS} (g : Z ⟶ W
     obtain ⟨t, rfl⟩ := (isCartesianOnAffineCharts_of_isQuasicoherentOnSite B S hS Z.1 Z.2 N hN
       A' A hA'aff hAaff a).2 x
     let _ := chartAlgebra (hF := Z.2) a
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul b y =>
       rw [chartBaseChange_tmul, chartRestrictLinear_apply]

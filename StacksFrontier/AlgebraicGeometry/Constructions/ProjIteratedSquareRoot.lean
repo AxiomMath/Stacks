@@ -109,7 +109,7 @@ public theorem basicOpen_x_zero_eq_top (s : Grading) :
     induction i with
     | zero => rfl
     | succ i ih =>
-        show ProjectiveSpectrum.basicOpen s.grading (x (i + 1)) =
+        change ProjectiveSpectrum.basicOpen s.grading (x (i + 1)) =
           ProjectiveSpectrum.basicOpen s.grading (x 0)
         exact (basicOpen_x_eq_basicOpen_succ s i).symm.trans ih
   exact top_le_iff.mp (hcover.ge.trans (iSup_le fun i => (heq i).le))

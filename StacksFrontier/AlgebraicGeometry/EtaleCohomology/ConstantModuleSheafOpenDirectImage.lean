@@ -67,7 +67,7 @@ theorem isIso_locallyConstantMapsModuleDirectImageMap_of_isOpenImmersion [IsInte
     have : UniversallyOpen V.hom := universallyOpen_of_flat_of_locallyOfFinitePresentation V.hom
     exact V.hom.isOpenMap
   have hdense : DenseRange (pullback.fst V.hom h).base := by
-    show Dense (Set.range (pullback.fst V.hom h).base)
+    change Dense (Set.range (pullback.fst V.hom h).base)
     rw [Scheme.Pullback.range_fst]
     obtain ⟨y⟩ := ‹Nonempty Y›
     exact (h.isOpenEmbedding.isOpen_range.dense ⟨_, y, rfl⟩).preimage hVo

@@ -183,7 +183,7 @@ private lemma ghostEndo_pow_zero
           have hhzero : (DerivedCategory.homologyFunctor 𝒜 i).map h = 0 := by
             apply (cancel_mono ((DerivedCategory.homologyFunctor 𝒜 i).map T.mor₁)).1
             simpa using hcomp
-          show (DerivedCategory.homologyFunctor 𝒜 i).map (T.mor₁ ≫ h) = 0
+          change (DerivedCategory.homologyFunctor 𝒜 i).map (T.mor₁ ≫ h) = 0
           rw [Functor.map_comp, hhzero, comp_zero]
         · exact (DerivedCategory.isZero_of_isLE T.obj₁ b i (by omega)).eq_of_src _ _
       have hqpow : q ^ (n + 1) = 0 := ih T.obj₁ q hq
@@ -443,7 +443,7 @@ theorem cohomologicalDimension_lt_of_isZero_homology_localCohomologyDerived
             rw [Functor.map_smul, Hi.map_id]
             apply ModuleCat.hom_ext
             ext x
-            show f • x = 0
+            change f • x = 0
             exact Module.mem_annihilator.mp (hfann i hi) x
           have hπ : IsIso (Hi.map T.mor₂) := by
             apply isIso_homology_mor₂ T hT i
@@ -455,29 +455,29 @@ theorem cohomologicalDimension_lt_of_isZero_homology_localCohomologyDerived
             simp [Linear.comp_smul, Linear.smul_comp]
           have hcomp : Hi.map T.mor₂ ≫ Hi.map (f • 𝟙 T.obj₃) = 0 := by
             rw [← Functor.map_comp, ← hnat, Functor.map_comp, hKzero, zero_comp]
-          show Hi.map (f • 𝟙 T.obj₃) = 0
+          change Hi.map (f • 𝟙 T.obj₃) = 0
           apply (cancel_epi (Hi.map T.mor₂)).1
           simpa using hcomp
     have hnil : fU ^ (n + 1) = 0 := ghostEndo_pow_zero lo n U fU hfU
     -- Nilpotency survives `RΓ_{V(I)}` and taking homology, where it reads as a power of `f`.
     let gU : End (RF.obj U) := RF.mapEnd U fU
     have hgU : gU ^ (n + 1) = 0 := by
-      show ((RF.mapEnd U) fU) ^ (n + 1) = 0
+      change ((RF.mapEnd U) fU) ^ (n + 1) = 0
       rw [map_end_pow RF U fU (n + 1), hnil]
       exact End.ext (RF.map_zero U U)
     let gm : End (Hm.obj (RF.obj U)) := Hm.mapEnd (RF.obj U) gU
     have hgmNil : gm ^ (n + 1) = 0 := by
-      show ((Hm.mapEnd (RF.obj U)) gU) ^ (n + 1) = 0
+      change ((Hm.mapEnd (RF.obj U)) gU) ^ (n + 1) = 0
       rw [map_end_pow Hm (RF.obj U) gU (n + 1), hgU]
       exact End.ext (Hm.map_zero _ _)
     have hgmApply : ∀ x : Hm.obj (RF.obj U), gm.asHom.hom x = f • x := by
       intro x
       have hscalar : gm.asHom = f • 𝟙 (Hm.obj (RF.obj U)) := by
-        show Hm.map (RF.map (f • 𝟙 U)) = _
+        change Hm.map (RF.map (f • 𝟙 U)) = _
         rw [Functor.map_smul, Functor.map_smul]
         simp
       rw [hscalar]
-      show (f • 𝟙 (Hm.obj (RF.obj U))).hom x = f • x
+      change (f • 𝟙 (Hm.obj (RF.obj U))).hom x = f • x
       rw [ModuleCat.hom_smul, ModuleCat.hom_id, LinearMap.smul_apply, LinearMap.id_apply]
     have hgmPow : ∀ (m : ℕ) (x : Hm.obj (RF.obj U)), (gm ^ m).asHom.hom x = f ^ m • x := by
       intro m
@@ -486,10 +486,11 @@ theorem cohomologicalDimension_lt_of_isZero_homology_localCohomologyDerived
       | succ m ih =>
           intro x
           rw [pow_succ', End.mul_asHom, ModuleCat.hom_comp]
-          show gm.asHom.hom ((gm ^ m).asHom.hom x) = _
+          change gm.asHom.hom ((gm ^ m).asHom.hom x) = _
           rw [hgmApply, ih, smul_smul, ← pow_succ']
     have hkillU : ∀ x : Hm.obj (RF.obj U), f ^ (n + 1) • x = 0 := fun x ↦
-      (hgmPow (n + 1) x).symm.trans (congrArg (fun q : End (Hm.obj (RF.obj U)) => q.asHom.hom x) hgmNil)
+      (hgmPow (n + 1) x).symm.trans
+        (congrArg (fun q : End (Hm.obj (RF.obj U)) => q.asHom.hom x) hgmNil)
     -- The connecting map of the truncation triangle transports that to the bottom truncation.
     let TR : Triangle (DerivedCategory C) := RF.mapTriangle.obj T
     have hTR : TR ∈ distinguishedTriangles := RF.map_distinguished T hT
@@ -528,13 +529,13 @@ theorem cohomologicalDimension_lt_of_isZero_homology_localCohomologyDerived
           (((DerivedCategory.singleFunctors C).shiftIso (d : ℤ) (-(d : ℤ)) 0 (by omega)).app
             M).symm) ≪≫ (RF.commShiftIso (d : ℤ)).app S0) ≪≫
         (H0.shiftIso (d : ℤ) 0 (d : ℤ) (by omega)).app (RF.obj S0)
-    show IsZero ((DerivedCategory.homologyFunctor C (d : ℤ)).obj (RF.obj S0))
+    change IsZero ((DerivedCategory.homologyFunctor C (d : ℤ)).obj (RF.obj S0))
     have htopKill : ∀ x : (DerivedCategory.homologyFunctor C (d : ℤ)).obj (RF.obj S0),
         f ^ (n + 1) • x = 0 := by
       intro x
       have hx : f ^ (n + 1) • eTop.inv.hom x = 0 := hkillA _
       have hInv : eTop.hom.hom (eTop.inv.hom x) = x := by
-        show (eTop.inv ≫ eTop.hom).hom x = x
+        change (eTop.inv ≫ eTop.hom).hom x = x
         rw [eTop.inv_hom_id]
         rfl
       rw [← hInv, ← map_smul eTop.hom.hom, hx, map_zero]

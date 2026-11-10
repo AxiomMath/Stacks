@@ -285,7 +285,7 @@ private theorem h1CotangentMap_liftBaseChange_bijective
   have hnat : g'.comp S'₁.toLinearMap = k'₁.toLinearMap.comp g := by
     unfold g g' S'₁ k'₁
     refine LinearMap.ext fun x => ?_
-    show Algebra.Extension.H1Cotangent.map
+    change Algebra.Extension.H1Cotangent.map
         ((Algebra.Generators.defaultHom (Algebra.Generators.self Λ S')
           (Algebra.Generators.self Λ k')).toExtensionHom)
         (Algebra.Extension.H1Cotangent.map
@@ -305,11 +305,11 @@ private theorem h1CotangentMap_liftBaseChange_bijective
   have hcomm : ((g'.liftBaseChange k').restrictScalars Λ).comp eIn =
       k'₁.toLinearMap.comp ((g.liftBaseChange k).restrictScalars Λ) := by
     refine TensorProduct.AlgebraTensorModule.ext fun a x => ?_
-    show (g'.liftBaseChange k') (eK a ⊗ₜ[Λ] S'₁ x) =
+    change (g'.liftBaseChange k') (eK a ⊗ₜ[Λ] S'₁ x) =
       k'₁ ((g.liftBaseChange k) (a ⊗ₜ[Λ] x))
     rw [LinearMap.liftBaseChange_tmul, LinearMap.liftBaseChange_tmul,
       show k'₁ (a • g x) = eK a • k'₁ (g x) by
-        show (Algebra.H1Cotangent.map Λ Λ k k') (a • g x) = _
+        change (Algebra.H1Cotangent.map Λ Λ k k') (a • g x) = _
         exact LinearMap.map_smul _ a (g x)]
     exact congrArg (fun z => eK a • z) (DFunLike.congr_fun hnat x)
   have hb : Function.Bijective (k'₁.toLinearMap ∘ₗ (g.liftBaseChange k).restrictScalars Λ) := by
@@ -343,7 +343,7 @@ public theorem conormalToH1Cotangent_baseChange_bijective
     refine TensorProduct.AlgebraTensorModule.ext fun a x => ?_
     simp only [LinearMap.comp_apply, LinearMap.baseChange_tmul,
       LinearMap.liftBaseChange_tmul]
-  show Function.Bijective ((g.comp f).liftBaseChange k)
+  change Function.Bijective ((g.comp f).liftBaseChange k)
   rw [hcomp]
   exact (h1CotangentMap_liftBaseChange_bijective h).comp hfb
 
@@ -356,7 +356,7 @@ public theorem conormalToH1Cotangent_bijective_of_surjective
       (conormalToH1Cotangent (Λ := Λ) (S := k) (k := k) h) := by
   have hout : Function.Bijective
       ((Algebra.H1Cotangent.map Λ Λ k k).restrictScalars Λ) := by
-    show Function.Bijective
+    change Function.Bijective
       ((Algebra.Extension.H1Cotangent.map
         (Algebra.Generators.defaultHom (Algebra.Generators.self Λ k)
           (Algebra.Generators.self Λ k)).toExtensionHom).restrictScalars Λ)
@@ -376,7 +376,7 @@ public theorem ker_algebraMap_le_comap_ker
     RingHom.ker (algebraMap Λ S) ≤
       (RingHom.ker (algebraMap A k)).comap (algebraMap Λ A) := by
   intro x hx
-  show (algebraMap A k) ((algebraMap Λ A) x) = 0
+  change (algebraMap A k) ((algebraMap Λ A) x) = 0
   rw [← IsScalarTower.algebraMap_apply Λ A k, IsScalarTower.algebraMap_apply Λ S k,
     RingHom.mem_ker.mp hx, map_zero]
 
@@ -412,7 +412,7 @@ public theorem conormalToH1Cotangent_comp
       algebraMap_toRingHom := by
         intro z
         change Λ at z
-        show (algebraMap A k) ((algebraMap Λ A) z) =
+        change (algebraMap A k) ((algebraMap Λ A) z) =
           (algebraMap S k) ((algebraMap Λ S) z)
         rw [← IsScalarTower.algebraMap_apply Λ A k,
           ← IsScalarTower.algebraMap_apply Λ S k] }
@@ -429,10 +429,10 @@ public theorem conormalToH1Cotangent_comp
     (J.toCotangent ⟨algebraMap Λ A y, hle y.2⟩)
   have hbridge : Algebra.Extension.H1Cotangent.map t zP = zQ := by
     apply Subtype.ext
-    show Algebra.Extension.Cotangent.map t (Algebra.Extension.Cotangent.of (I.toCotangent y)) =
+    change Algebra.Extension.Cotangent.map t (Algebra.Extension.Cotangent.of (I.toCotangent y)) =
       Algebra.Extension.Cotangent.of (J.toCotangent ⟨algebraMap Λ A y, hle y.2⟩)
     apply Algebra.Extension.Cotangent.ext
-    show Ideal.mapCotangent I J (Algebra.ofId Λ A) hle (I.toCotangent y) = _
+    change Ideal.mapCotangent I J (Algebra.ofId Λ A) hle (I.toCotangent y) = _
     rw [Ideal.mapCotangent_toCotangent]
     rfl
   let r :=

@@ -400,14 +400,14 @@ theorem tauAt_witnessObject :
     (toWitnessRing p ≫ (specSectionsRingIso (witnessRing p)).hom) ?_ ?_).symm
   · refine DFunLike.ext _ _ fun r => ?_
     have hR : ((p : ℕ) : Γ((witnessObject p).thickening.target.scheme, ⊤)) = 0 := by
-      show ((p : ℕ) : Γ(Spec (CommRingCat.of (DividedPowers.TorsionWitness.Witness p)), ⊤)) = 0
+      change ((p : ℕ) : Γ(Spec (CommRingCat.of (DividedPowers.TorsionWitness.Witness p)), ⊤)) = 0
       rw [← map_natCast (Scheme.ΓSpecIso (CommRingCat.of
         (DividedPowers.TorsionWitness.Witness p))).inv.hom, witnessRing_prime_eq_zero, map_zero]
     exact congrArg (fun φ : ℤ_[p] →+* Γ((witnessObject p).thickening.target.scheme, ⊤) => φ r)
       (padicInt_ringHom_ext p hR _ _)
   · intro i
     refine appTop_specQuotientImmersion_eq (prime_isNilpotent_sections p) (witnessThickening p) ?_
-    show Ideal.Quotient.mk _ (toWitnessRing p ((envelope p).algebraMap.toRingHom
+    change Ideal.Quotient.mk _ (toWitnessRing p ((envelope p).algebraMap.toRingHom
       (MvPolynomial.X i))) = witnessQuotient p
         ((Scheme.ΓSpecIso (CommRingCat.of (quotientRing p))).hom.hom
           ((Scheme.ΓSpecIso (CommRingCat.of (quotientRing p))).inv.hom
@@ -464,7 +464,7 @@ theorem tauAt_frobeniusChangeBase (B : Thickening (situation p)) [IsAffine B.thi
   · refine DFunLike.ext _ _ fun r => ?_
     have h1 := DFunLike.congr_fun hσ r
     have h2 := DFunLike.congr_fun (envelopeLift_comp_structureMap B) r
-    show toSections (envelopeLift B) (σ ((envelope p).structureMap r)) =
+    change toSections (envelopeLift B) (σ ((envelope p).structureMap r)) =
       ((B.toBase ≫ (fSituation p).specSigma).hom).appTop.hom ((baseUnit (p := p)) r)
     change σ ((envelope p).structureMap r) = (envelope p).structureMap r at h1
     change toSections (envelopeLift B) ((envelope p).structureMap r) =
@@ -484,7 +484,7 @@ theorem tauAt_frobeniusChangeBase (B : Thickening (situation p)) [IsAffine B.thi
       exact (SchemeThickening.mem_sectionsIdeal_iff B.thickening _).mp this
     rw [map_sub, map_sub, map_pow, map_pow, envelopeLift_coord, immersion_liftValues,
       sub_eq_zero] at hker
-    show B.thickening.immersion.appTop.hom (toSections (envelopeLift B)
+    change B.thickening.immersion.appTop.hom (toSections (envelopeLift B)
       (σ (envelopeCoord (envelope p) i))) =
         ((B.toX ≫ (fSituation p).frobenius)).appTop.hom (coordinate p i)
     rw [hker]
@@ -504,7 +504,7 @@ theorem cohomologyZeroEquiv_frobeniusPullback_tauClass
         (bigTauSection p)) := by
     simp only [frobeniusPullback, tauClass, AddMonoidHom.coe_comp, Function.comp_apply,
       AddEquiv.coe_toAddMonoidHom, AddEquiv.apply_symm_apply]
-    show bigSectionsRestrictEquiv p (FCrystalSituation.frobeniusSectionRingHom (fSituation p)
+    change bigSectionsRestrictEquiv p (FCrystalSituation.frobeniusSectionRingHom (fSituation p)
       ((bigSectionsRestrictEquiv p).symm (cohomologyZeroEquiv p
         ((cohomologyZeroEquiv p).symm tauSection)))) = _
     rw [AddEquiv.apply_symm_apply]
@@ -591,7 +591,7 @@ theorem frobeniusPullback_tauClass_eq_envelopeMapOfLift
   have hpE : (p : (envelope p).object) ∈ (envelope p).object.ideal := by
     simpa using (envelope p).structureMap.ideal_comp
       (Ideal.mem_map_of_mem (envelope p).structureMap.toRingHom (prime_mem_base_ideal p))
-  show envelopeMapOfLift p φ hφ (envelopeCoord (envelope p) i) - _ ∈ _
+  change envelopeMapOfLift p φ hφ (envelopeCoord (envelope p) i) - _ ∈ _
   rw [envelopeMapOfLift, hcoord, envelopeCoord, ← map_pow, ← map_sub]
   obtain ⟨c, hc⟩ := Ideal.mem_span_singleton.mp (hφ (MvPolynomial.X i))
   rw [hc, map_mul, map_natCast]
@@ -614,7 +614,7 @@ theorem tauClass_ne_zero : tauClass p ≠ 0 := by
   intro h
   apply tauSection_ne_zero p
   rw [← (cohomologyZeroEquiv p).apply_symm_apply tauSection]
-  show cohomologyZeroEquiv p (tauClass p) = 0
+  change cohomologyZeroEquiv p (tauClass p) = 0
   rw [h, map_zero]
 
 /-- **The class of `τ` is killed by `p`.** -/

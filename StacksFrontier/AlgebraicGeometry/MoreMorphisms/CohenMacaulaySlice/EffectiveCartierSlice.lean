@@ -299,7 +299,7 @@ theorem exists_affineOpen_effectiveCartierDivisor_of_isRegular_fiber (f : X ⟶ 
     obtain ⟨w, hw, hwz⟩ := hWV z.property
     refine ⟨⟨w, hw⟩, ?_⟩
     refine U.1.ι.isOpenEmbedding.injective ?_
-    show w.val = (jv z).val
+    change w.val = (jv z).val
     rw [show (jv z).val = z.val from X.homOfLE_apply hVU z]
     exact hwz
   let kv := IsOpenImmersion.lift V.ι jv hjvV
@@ -337,7 +337,7 @@ theorem exists_affineOpen_effectiveCartierDivisor_of_isRegular_fiber (f : X ⟶ 
     germ_comp_of_lift_of_eq U.1.ι jv Va.1.ι hjι ⟨x, hxW'⟩ hjz rfl h (a 0) (ha 0)
   have hsupp : (⟨x, hxW'⟩ : Va.1.toScheme) ∈ I.support := by
     rw [← hTj, Scheme.IdealSheafData.support_comap]
-    show jv (⟨x, hxW'⟩ : Va.1.toScheme) ∈ T.support
+    change jv (⟨x, hxW'⟩ : Va.1.toScheme) ∈ T.support
     rwa [hjz]
   exact ⟨Va, hxW', b, hgerm, hsupp, hECI, hflatI, inferInstance⟩
 
@@ -380,7 +380,7 @@ theorem exists_affineOpen_effectiveCartierDivisor_of_one_le_depth (f : X ⟶ S)
   have hh₀mem : h₀ ∈ IsLocalRing.maximalIdeal
       (X.presheaf.stalk (f.fiberι (f x) (f.asFiber x))) := by
     rw [← IsLocalRing.maximalIdeal_comap ((f.fiberι (f x)).stalkMap (f.asFiber x)).hom]
-    show ((f.fiberι (f x)).stalkMap (f.asFiber x)).hom h₀ ∈
+    change ((f.fiberι (f x)).stalkMap (f.asFiber x)).hom h₀ ∈
       IsLocalRing.maximalIdeal ((f.fiber (f x)).presheaf.stalk (f.asFiber x))
     rwa [hh₀]
   have hmem : (f.fiberι_asFiber x ▸ h₀ : X.presheaf.stalk x) ∈
@@ -406,7 +406,7 @@ theorem exists_affineOpen_effectiveCartierDivisor_of_one_le_depth (f : X ⟶ S)
     rwa [Scheme.IdealSheafData.range_subschemeι]
   obtain ⟨z, hz⟩ := hy'
   refine ⟨z, ?_⟩
-  show U.1.ι ((Scheme.IdealSheafData.ofIdealTop (Ideal.span {a})).subschemeι z) = x
+  change U.1.ι ((Scheme.IdealSheafData.ofIdealTop (Ideal.span {a})).subschemeι z) = x
   rw [hz]
   rfl
 

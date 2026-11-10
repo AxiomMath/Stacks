@@ -117,8 +117,8 @@ composite with the two cap operations — the step that turns a convolution of c
 Cauchy product of classes. The first two are available: the Chern classes as
 `Stacks.Chow.chernClass`, relative to the cap products of Stacks 0B7G, and the composite of two
 classes as `Stacks.Chow.bivariantComposite`. The degreewise product assembled from the composite,
-the laws it obeys and the cap-compatibility step are not, so the product form is not deduced here and
-the relation is assumed in the form the construction consumes.
+the laws it obeys and the cap-compatibility step are not, so the product form is not deduced here
+and the relation is assumed in the form the construction consumes.
 
 ### The degrees carry their own proofs
 

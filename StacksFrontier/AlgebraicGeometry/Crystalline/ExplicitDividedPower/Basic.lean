@@ -289,7 +289,7 @@ private theorem universalSecondOrderRing_torsionFree :
   have h' := congrArg UniversalSecondOrderRing.addEquiv h
   simp only [map_zsmul] at h'
   change r • x.coords = r • y.coords at h'
-  show x.coords = y.coords
+  change x.coords = y.coords
   exact (universalSecondOrderCarrier_torsionFree.isSMulRegular hr) h'
 
 /-- The structure map of the universal second-order extension in coordinates. -/
@@ -396,10 +396,10 @@ private theorem exists_universalBaseDPMorphism
 /-- Each of the two variables lies in the divided power ideal of the universal base. -/
 private lemma universalBase_variable_mem (i : Fin 2) :
     DividedPowers.dividedPowerPolynomialVariable ℤ i ∈ universalBase.ideal := by
-  show DividedPowers.dividedPowerPolynomialVariable ℤ i ∈
+  change DividedPowers.dividedPowerPolynomialVariable ℤ i ∈
     DividedPowers.dividedPowerPolynomialIdeal (⊥ : Ideal ℤ) (Fin 2)
   apply Ideal.mem_sup_right
-  show DividedPowers.dividedPowerPolynomialAugmentation ℤ (Fin 2)
+  change DividedPowers.dividedPowerPolynomialAugmentation ℤ (Fin 2)
     (DividedPowers.dividedPowerPolynomialVariable ℤ i) = 0
   simp [DividedPowers.dividedPowerPolynomialAugmentation,
     DividedPowers.dividedPowerPolynomialVariable,
@@ -487,8 +487,7 @@ private lemma universalTensorMap_smul
     (q : M →ₗ[A] M →ₗ[A] N) (z z' : M)
     (a : universalBase) (t : universalModuleSquare) :
     universalTensorMap f q z z' (a • t) = f a • universalTensorMap f q z z' t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul m m' =>
       rw [TensorProduct.smul_tmul', universalTensorMap_tmul,
         universalTensorMap_tmul, universalModuleMap_smul]
@@ -1053,16 +1052,16 @@ public theorem exists_dividedPowers_secondOrderExtension
         (hJ _).2 (by simpa only [halgebra] using ha)
       by_cases hn0 : n = 0
       · subst n
-        show secondOrderExtensionDpow I γ q e J 0 (algebraMap A B a) =
+        change secondOrderExtensionDpow I γ q e J 0 (algebraMap A B a) =
           algebraMap A B (γ.dpow 0 a)
         rw [secondOrderExtensionDpow_zero I γ q e halgebra J hJ hma,
           γ.dpow_zero ha, map_one]
       · by_cases hn1 : n = 1
         · subst n
-          show secondOrderExtensionDpow I γ q e J 1 (algebraMap A B a) =
+          change secondOrderExtensionDpow I γ q e J 1 (algebraMap A B a) =
             algebraMap A B (γ.dpow 1 a)
           rw [secondOrderExtensionDpow_one I γ q e J hma, γ.dpow_one ha]
-        · show secondOrderExtensionDpow I γ q e J n (algebraMap A B a) =
+        · change secondOrderExtensionDpow I γ q e J n (algebraMap A B a) =
             algebraMap A B (γ.dpow n a)
           apply e.injective
           rw [secondOrderExtensionDpow_formula I γ q e J (by omega) hma,

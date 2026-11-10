@@ -190,8 +190,7 @@ def tauKappaInv (W : B.thickening.target.scheme.Opens) :
 /-- `tauKappaInv` is a left inverse of `tauKappa`. -/
 lemma tauKappaInv_tauKappa (W : B.thickening.target.scheme.Opens)
     (q : (tauPresheaf F τ).obj (op W)) : tauKappaInv F τ W (tauKappa F τ W q) = q := by
-  induction q using TensorProduct.induction_on with
-  | zero => exact map_zero ((tauKappaInv F τ W).comp (tauKappa F τ W))
+  induction q using TensorProduct.inductionOn with
   | tmul t n =>
       exact congrArg (fun z ↦ Stacks.PullbackModel.tmul
           (Stacks.AlgebraicGeometry.BaseChangePresheaf.sectionsRingHom (tauRing τ) W).hom z n)
@@ -204,8 +203,7 @@ lemma tauKappaInv_tauKappa (W : B.thickening.target.scheme.Opens)
 lemma tauKappa_tauKappaInv (W : B.thickening.target.scheme.Opens)
     (y : diagramObj (CrystallineThickening.ι S) (crisCommRing S) (ulModel F)
       (CostructuredArrow.mk (tauIdx τ W))) : tauKappa F τ W (tauKappaInv F τ W y) = y := by
-  induction y using TensorProduct.induction_on with
-  | zero => exact map_zero ((tauKappa F τ W).comp (tauKappaInv F τ W))
+  induction y using TensorProduct.inductionOn with
   | tmul r m =>
       exact congrArg (fun z ↦ tmul ((crisCommRing S).map (tauIdx τ W)).hom z
           (upSection F m.down))
@@ -233,8 +231,7 @@ lemma tauKappa_map {W W' : B.thickening.target.scheme.Opens} (h : W' ≤ W)
       (crisCommRing S) (ulModel F) (CostructuredArrow.mk (tauIdx τ W')) :=
     (tauRestrict F τ h).hom.toAddMonoidHom.comp (tauKappa F τ W)
   change K₁ q = K₂ q
-  induction q using TensorProduct.induction_on with
-  | zero => exact (map_zero K₁).trans (map_zero K₂).symm
+  induction q using TensorProduct.inductionOn with
   | tmul t n =>
       exact congrArg (fun z ↦ tmul ((crisCommRing S).map (tauIdx τ W')).hom z (upSection F n))
         (ambientRingIso_naturality h (show Γ(B.thickening.target.scheme, W) from t))

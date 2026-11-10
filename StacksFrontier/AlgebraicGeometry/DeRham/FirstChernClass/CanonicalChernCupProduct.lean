@@ -261,7 +261,7 @@ theorem filteredChernProduct_eq (k : ℕ)
   induction k generalizing L with
   | zero => rfl
   | succ k ih =>
-    show hodgeFiltrationCup B D 1 (cupLength k) 2 (cupDegree k) _
+    change hodgeFiltrationCup B D 1 (cupLength k) 2 (cupDegree k) _
         (filteredChernProduct B D k (fun i => L (i + 1))) = _
     rw [ih]
     rfl
@@ -276,7 +276,7 @@ theorem deRhamChernProduct_eq (k : ℕ)
   induction k generalizing L with
   | zero => rfl
   | succ k ih =>
-    show deRhamCup B D 2 (cupDegree k) _ (deRhamChernProduct B D k (fun i => L (i + 1))) = _
+    change deRhamCup B D 2 (cupDegree k) _ (deRhamChernProduct B D k (fun i => L (i + 1))) = _
     rw [ih]
     rfl
 
@@ -290,7 +290,7 @@ theorem hodgeChernProduct_eq (k : ℕ)
   induction k generalizing L with
   | zero => rfl
   | succ k ih =>
-    show gradedPieceCup B D 1 (k + 1) 1 (cupLength k) rfl (cast_eq_cupLength k) 2 (cupDegree k) _
+    change gradedPieceCup B D 1 (k + 1) 1 (cupLength k) rfl (cast_eq_cupLength k) 2 (cupDegree k) _
         (hodgeChernProduct B D k (fun i => L (i + 1))) = _
     rw [ih]
     rfl

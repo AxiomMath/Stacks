@@ -54,7 +54,7 @@ theorem rightAcyclic_cycles_and_preservesLeftHomologyOf_sc_of_isStrictlyGE
     have hf : (K.sc a).f = 0 :=
       (K.isZero_of_isStrictlyGE a ((ComplexShape.up ℤ).prev a) (by simp)).eq_of_src _ _
     have : IsIso (K.homologyπ a) := by
-      show IsIso (K.sc a).homologyπ
+      change IsIso (K.sc a).homologyπ
       exact ShortComplex.isIso_homologyπ _ hf
     refine ⟨G.rightAcyclic.prop_of_iso (asIso (K.homologyπ a)).symm (hH a), ?_⟩
     exact G.preservesLeftHomology_of_zero_f (K.sc a) hf
@@ -63,7 +63,7 @@ theorem rightAcyclic_cycles_and_preservesLeftHomologyOf_sc_of_isStrictlyGE
     have hn' : (ComplexShape.up ℤ).next n = n + 1 := by simp
     let k : K.cycles n ⟶ (K.sc (n + 1)).X₁ := K.iCycles n ≫ (K.XIsoOfEq hp).inv
     have wk : k ≫ (K.sc (n + 1)).f = 0 := by
-      show (K.iCycles n ≫ (K.XIsoOfEq hp).inv) ≫ K.d _ (n + 1) = 0
+      change (K.iCycles n ≫ (K.XIsoOfEq hp).inv) ≫ K.d _ (n + 1) = 0
       rw [Category.assoc, K.XIsoOfEq_inv_comp_d, K.iCycles_d]
     have w : k ≫ (K.sc (n + 1)).toCycles = 0 := by
       rw [← cancel_mono (K.sc (n + 1)).iCycles, Category.assoc,
@@ -71,7 +71,7 @@ theorem rightAcyclic_cycles_and_preservesLeftHomologyOf_sc_of_isStrictlyGE
     have hk0 : IsLimit (KernelFork.ofι k wk) := by
       refine IsKernel.ofIso (K.d n (n + 1)) (K.cyclesIsKernel n (n + 1) hn')
         (KernelFork.ofι k wk) (K.XIsoOfEq hp).symm (Iso.refl _) (Iso.refl _) ?_ ?_
-      · show (K.XIsoOfEq hp).inv ≫ K.d _ _ = K.d n _ ≫ 𝟙 _
+      · change (K.XIsoOfEq hp).inv ≫ K.d _ _ = K.d n _ ≫ 𝟙 _
         simp
       · simp [k]
     have hk : IsLimit (KernelFork.ofι k w) :=

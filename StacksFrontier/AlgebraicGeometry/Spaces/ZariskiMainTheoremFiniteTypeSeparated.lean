@@ -171,7 +171,7 @@ theorem isOpenImmersion_and_isPullback_of_isIntegralHom
   let νP : P.obj ⟶ T :=
     (Sigma.desc (fun b => (ObjectProperty.homMk (νs b) : Ns b ⟶ ⟨T, hT.isSheaf⟩))).hom
   have hν : ∀ b, (Sigma.ι Ns b).hom ≫ νP = νs b := fun b =>
-    Sheaf.hom_ext_iff.1 (Sigma.ι_desc _ b)
+    Sheaf.hom_ext_iff.1 (Sigma.ι_comp_desc _ b)
   let f'' : X ⟶ P.obj :=
     (Cofan.IsColimit.desc hXc (fun b => ObjectProperty.homMk (fs b) ≫ Sigma.ι Ns b)).hom
   have hf' : ∀ b, (cond b V W).ι ≫ f'' = fs b ≫ (Sigma.ι Ns b).hom := fun b =>
@@ -331,7 +331,7 @@ theorem exists_isOpenSubspace_isIso_fromPreimage_and_range_pointsMap_preimage_eq
   have hq' : ∀ i, q' i ≫ U'.ι = q i := fun i => Subfunctor.lift_ι _ _
   have hlea : ∀ i, Subfunctor.range (a i) ≤ U'.preimage f' := by
     rintro i T _ ⟨y, rfl⟩
-    show f'.app T ((a i).app T y) ∈ U'.obj T
+    change f'.app T ((a i).app T y) ∈ U'.obj T
     rw [← NatTrans.comp_app_apply, (hpb i).w, Category.id_comp]
     exact hle i T ⟨y, rfl⟩
   let a' : ∀ i, Q i ⟶ (U'.preimage f').toFunctor := fun i => Subfunctor.lift (a i) (hlea i)

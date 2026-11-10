@@ -179,7 +179,7 @@ theorem kummerPointClass_ne_zero_of_injective (m : U ⟶ W) [IsOpenImmersion m] 
       ← L.map_comp, e.hom_inv_id, L.map_id, Category.comp_id]
   have hz0 : (Ext.mk₀ (z' ≫ L.map e.hom) : Ext _ _ 0) = 0 := by
     apply hinj
-    show _ = (0 : Ext _ _ 0).comp _ (zero_add _)
+    change _ = (0 : Ext _ _ 0).comp _ (zero_add _)
     rw [Ext.zero_comp]
     exact key.trans (by rw [h0, Ext.zero_comp])
   have hz'0 : z' = 0 := by
@@ -291,7 +291,7 @@ theorem exists_opens_support_chartDatum [IsSeparated f] (s : Spec (.of k) ⟶ X)
         rw [Scheme.Opens.range_ι]
         obtain ⟨t, ht⟩ := hy
         obtain ⟨t₀, ht₀⟩ := hv₀
-        show pr.base y ∈ V
+        change pr.base y ∈ V
         rw [← ht, Subsingleton.elim t t₀, ht₀]
         exact v₀.2
       · right
@@ -308,11 +308,11 @@ theorem exists_opens_support_chartDatum [IsSeparated f] (s : Spec (.of k) ⟶ X)
         change x ∈ Set.range (KummerFlag.zeroSchemeι (φ m)).base at hxm
         rw [KummerFlag.range_zeroSchemeι] at hxm
         apply hxm
-        show x ∈ U.toScheme.basicOpen ((pr ∣_ V).appTop
+        change x ∈ U.toScheme.basicOpen ((pr ∣_ V).appTop
           (π.appTop (AffineSpace.coord (Spec (.of k)) (ULift.up m))))
         rw [← Scheme.preimage_basicOpen_top]
         exact hm
-      show pr.base (U.ι.base x) ∈ Set.range s.base
+      change pr.base (U.ι.base x) ∈ Set.range s.base
       rw [← Scheme.Hom.comp_apply, ← morphismRestrict_ι, Scheme.Hom.comp_apply]
       exact hzero _ h1⟩
 
@@ -367,7 +367,7 @@ theorem rationalPointKummerClassNondivisible_of_kummerFlagPurity [IsAlgClosed kb
   obtain ⟨y₀, hy₀, -⟩ := Scheme.Pullback.exists_preimage_pullback (V.ι.base v₀)
     (default : Spec (.of kbar)) (f := f) (g := specAlgebraMap k kbar) (Subsingleton.elim _ _)
   have hy₀U : y₀ ∈ U := by
-    show (pullback.fst f (specAlgebraMap k kbar)).base y₀ ∈ V
+    change (pullback.fst f (specAlgebraMap k kbar)).base y₀ ∈ V
     rw [hy₀]
     exact v₀.2
   have : IrreducibleSpace U.toScheme := Subtype.irreducibleSpace
@@ -393,7 +393,7 @@ theorem rationalPointKummerClassNondivisible_of_kummerFlagPurity [IsAlgClosed kb
     rw [hψc]
     rfl
   have hprv : pr.base y₀ ∈ Set.range s.base := by
-    show (pullback.fst f (specAlgebraMap k kbar)).base y₀ ∈ _
+    change (pullback.fst f (specAlgebraMap k kbar)).base y₀ ∈ _
     rw [hy₀]
     exact ⟨t₀, ht₀⟩
   let y₀' : U.toScheme := ⟨y₀, hy₀U⟩

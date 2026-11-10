@@ -271,7 +271,7 @@ theorem C1573.adicSectionLimitRes_limitInv {V V' : (smallEtaleRingedSite B S hS 
       (LinearEquiv.ofBijective (adicSectionLimitMap B S hS F hF V' c) (hc V' hV')).symm
         (adicSectionLimitRes B S hS F hF V g z) := by
   rw [LinearEquiv.eq_symm_apply]
-  show adicSectionLimitMap B S hS F hF V' c (adicSectionLimitRes B S hS F hF V g _) = _
+  change adicSectionLimitMap B S hS F hF V' c (adicSectionLimitRes B S hS F hF V g _) = _
   rw [← adicSectionLimitRes_map]
   congr 1
   exact (LinearEquiv.ofBijective (adicSectionLimitMap B S hS F hF V c) (hc V hV)).apply_symm_apply z
@@ -445,7 +445,7 @@ theorem C1573.factorThroughLimitBijective_comp :
   refine NatTrans.ext (funext fun k ↦ ?_)
   obtain ⟨k⟩ := k
   refine modules_hom_ext_of_isAffine B S hS F hF fun V hV y ↦ ?_
-  show (c.app (op k)).val.app (op V)
+  change (c.app (op k)).val.app (op V)
       ((gluedFactorHom B S hS F hF 𝓘 hI c γ hc k).val.app (op V) y) =
         (γ.app (op k)).val.app (op V) y
   rw [gluedFactorHom_app_of_isAffine B S hS F hF 𝓘 hI c γ hc k hV]
@@ -457,7 +457,7 @@ theorem C1573.eq_factorThroughLimitBijective (α : G ⟶ P) (hα : α.hom ≫ c 
   refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun k ↦ ?_))
   obtain ⟨k⟩ := k
   refine modules_hom_ext_of_isAffine B S hS F hF fun V hV y ↦ ?_
-  show (α.hom.app (op k)).val.app (op V) y =
+  change (α.hom.app (op k)).val.app (op V) y =
     (gluedFactorHom B S hS F hF 𝓘 hI c γ hc k).val.app (op V) y
   rw [gluedFactorHom_app_of_isAffine B S hS F hF 𝓘 hI c γ hc k hV]
   obtain ⟨x, rfl⟩ := exists_adicSectionLimit_lift B S hS F hF 𝓘 hI hV k y
@@ -466,7 +466,7 @@ theorem C1573.eq_factorThroughLimitBijective (α : G ⟶ P) (hα : α.hom ≫ c 
       (LinearEquiv.ofBijective (adicSectionLimitMap B S hS F hF V c) (hc V hV)).symm
         (adicSectionLimitMap B S hS F hF V γ x) := by
     rw [LinearEquiv.eq_symm_apply]
-    show adicSectionLimitMap B S hS F hF V c (adicSectionLimitMap B S hS F hF V α.hom x) = _
+    change adicSectionLimitMap B S hS F hF V c (adicSectionLimitMap B S hS F hF V α.hom x) = _
     rw [← adicSectionLimitMap_comp, hα]
   exact congrArg (fun z : adicSectionLimit B S hS F hF V P.obj ↦ z.1 (k + 1)) hlim
 

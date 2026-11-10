@@ -195,7 +195,7 @@ theorem subsingleton_obj_of_generate_singleton_mem {C : Type*} [Category* C]
   refine ⟨fun s t => ?_⟩
   refine ((SheafOfModules.isSheaf_sections M).isSheafFor _ hα).isSeparatedFor.ext ?_
   rintro Y g ⟨Z, k, -, ⟨⟩, rfl⟩
-  show M.val.map (k ≫ α).op s = M.val.map (k ≫ α).op t
+  change M.val.map (k ≫ α).op s = M.val.map (k ≫ α).op t
   rw [op_comp, PresheafOfModules.map_comp_apply, PresheafOfModules.map_comp_apply,
     hz.elim (M.val.map α.op s) (M.val.map α.op t)]
 
@@ -385,7 +385,7 @@ theorem subsingleton_of_hom_presentation_unit_etale
     Functor.congr_obj f.hom.w (Over.mk (𝟙 W))
   let g : 𝒳.val.val.p.obj o ⟶ W := 𝒳.val.val.p.map ψ ≫ eqToHom h0
   have hg : Etale ((BigFppfOver.toScheme B S hS).map g) := by
-    show Etale (B.inclusion.map (𝒳.val.val.p.map ψ ≫ eqToHom h0).left)
+    change Etale (B.inclusion.map (𝒳.val.val.p.map ψ ≫ eqToHom h0).left)
     rw [Over.comp_left, Functor.map_comp, Over.eqToHom_left, eqToHom_map]
     infer_instance
   let c : Space.SmallEtale B S hS (ofScheme f hf hsmooth hsurj eR).G.objects.obj :=

@@ -70,7 +70,7 @@ theorem exists_map_appTop_eq_zero_of_isLimit {J : Type u} [Category.{u} J] [IsCo
   have hcolT := isColimitOfPreserves (forget CommRingCat.{u}) hcol
   obtain ⟨j, f, hf⟩ := (Types.FilteredColimit.isColimit_eq_iff' hcolT
     (i := op k) t 0).mp (by
-      show (c.π.app k).appTop t = (c.π.app k).appTop 0
+      change (c.π.app k).appTop t = (c.π.app k).appTop 0
       rw [ht, map_zero])
   refine ⟨j.unop, f.unop, ?_⟩
   change (F.map f.unop).appTop t = (F.map f.unop).appTop 0 at hf
@@ -135,7 +135,7 @@ theorem nonempty_limitBridge_of_forall_appTop_eq_zero (C : AffineChartSystem B S
       rw [hπ, Scheme.Hom.comp_appTop]; exact hs
     obtain ⟨k', g, hg⟩ := h L k t ht
     rw [← e.w g, Scheme.Hom.comp_appTop]
-    show (e.π.app k').appTop ((C.schemeDiagram.map g).appTop t) = 0
+    change (e.π.app k').appTop ((C.schemeDiagram.map g).appTop t) = 0
     rw [hg, map_zero]
   have : IsIso ι := IsClosedImmersion.isIso_of_injective_of_isAffine (f := ι) hinj
   exact ⟨{ L with
@@ -328,23 +328,23 @@ theorem nonempty_limitBridge_of_hasChartLimitBridges {hZ : B.Contains (⊤_ Sche
         (LV.schemeIsLimit.lift (Vc s)) (hlift s)
       fac := fun s j => by
         refine (hQpb v' (bV j)).hom_ext ?_ ?_
-        · show (hT.lift _ _ (hlift s) ≫ Q.map (tW j)) ≫ Q.map (pullback.fst v' (bV j)) = _
+        · change (hT.lift _ _ (hlift s) ≫ Q.map (tW j)) ≫ Q.map (pullback.fst v' (bV j)) = _
           rw [Category.assoc, ← Q.map_comp, htWfst, hT.lift_fst, hconst s j]
-        · show (hT.lift _ _ (hlift s) ≫ Q.map (tW j)) ≫ Q.map (pullback.snd v' (bV j)) = _
+        · change (hT.lift _ _ (hlift s) ≫ Q.map (tW j)) ≫ Q.map (pullback.snd v' (bV j)) = _
           rw [Category.assoc, ← Q.map_comp, htWsnd, Q.map_comp, ← Category.assoc, hT.lift_snd]
           exact LV.schemeIsLimit.fac (Vc s) j
       uniq := fun s m hm => by
         refine hT.hom_ext ?_ ?_
         · rw [hT.lift_fst, ← hm j₀]
-          show m ≫ Q.map (pullback.fst v' bL) = (m ≫ Q.map (tW j₀)) ≫ _
+          change m ≫ Q.map (pullback.fst v' bL) = (m ≫ Q.map (tW j₀)) ≫ _
           rw [Category.assoc, ← Q.map_comp, htWfst]
         · rw [hT.lift_snd]
           refine LV.schemeIsLimit.hom_ext fun j => ?_
           rw [LV.schemeIsLimit.fac]
-          show (m ≫ Q.map (pullback.snd v' bL)) ≫ Q.map (LV.cone.π.app j) =
+          change (m ≫ Q.map (pullback.snd v' bL)) ≫ Q.map (LV.cone.π.app j) =
             s.π.app j ≫ Q.map (pullback.snd v' (bV j))
           rw [← hm j]
-          show _ = (m ≫ Q.map (tW j)) ≫ _
+          change _ = (m ≫ Q.map (tW j)) ≫ _
           rw [Category.assoc, Category.assoc, ← Q.map_comp, ← Q.map_comp, htWsnd] }
   -- a function on a chart vanishing on the limit vanishes on a later chart
   refine C.nonempty_limitBridge_of_forall_appTop_eq_zero hlim (hD i₀) fun L k t ht => ?_

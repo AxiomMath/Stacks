@@ -162,7 +162,7 @@ public theorem completedRingHom_apply_eq_mapRingHom
     (PAdicCompletion.mapAddHom_eq_of_val p B C f.toRingHom.toAddMonoidHom
       (completedRingHom p f).toAddMonoidHom
       fun n z y hz ↦ by
-        show adicQuotientMap (ringHomₛₗ f.toRingHom) (map_pAdicIdeal_le p f.toRingHom) n
+        change adicQuotientMap (ringHomₛₗ f.toRingHom) (map_pAdicIdeal_le p f.toRingHom) n
             (z.val n) = _
         rw [hz]
         rfl)

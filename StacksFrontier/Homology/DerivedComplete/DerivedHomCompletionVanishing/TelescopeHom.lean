@@ -79,7 +79,7 @@ private theorem telescopeHom_d_zero
     (((HomComplexR A (telescopeResolution A f) I).d n (n + 1)).hom z).v
         0 (n + 1) (by omega) =
       z.v 0 n (by omega) ≫ I.d n (n + 1) := by
-  show (δ n (n + 1) (z : Cochain (telescopeResolution A f) I n)).v
+  change (δ n (n + 1) (z : Cochain (telescopeResolution A f) I n)).v
     0 (n + 1) (by omega) = _
   rw [δ_v n (n + 1) rfl z 0 (n + 1) (by omega) n 1 (by omega) rfl]
   have hd0 : (telescopeResolution A f).d 0 1 = 0 :=
@@ -95,7 +95,7 @@ private theorem telescopeHom_d_negOne
       z.v (-1) (n - 1) (by omega) ≫ I.d (n - 1) n +
         (n + 1).negOnePow •
           (telescopeResolution A f).d (-1) 0 ≫ z.v 0 n (by omega) := by
-  show (δ n (n + 1) (z : Cochain (telescopeResolution A f) I n)).v
+  change (δ n (n + 1) (z : Cochain (telescopeResolution A f) I n)).v
     (-1) n (by omega) = _
   rw [δ_v n (n + 1) rfl z (-1) n (by omega) (n - 1) 0 (by omega) rfl]
 
@@ -167,7 +167,7 @@ private theorem telescopeCochain_ext
     have ht : (⟨-1, -1 + n, by omega⟩ : Triplet n) =
         ⟨-1, n - 1, by omega⟩ := by
       congr 1
-    show z ⟨-1, -1 + n, by omega⟩ = z' ⟨-1, -1 + n, by omega⟩
+    change z ⟨-1, -1 + n, by omega⟩ = z' ⟨-1, -1 + n, by omega⟩
     rw [ht]
     exact hneg
   by_cases hpzero : p = 0
@@ -177,7 +177,7 @@ private theorem telescopeCochain_ext
     have ht : (⟨0, 0 + n, by omega⟩ : Triplet n) =
         ⟨0, n, by omega⟩ := by
       congr 1
-    show z ⟨0, 0 + n, by omega⟩ = z' ⟨0, 0 + n, by omega⟩
+    change z ⟨0, 0 + n, by omega⟩ = z' ⟨0, 0 + n, by omega⟩
     rw [ht]
     exact hzero
   exact (HomologicalComplex.isZero_double_X
@@ -228,9 +228,9 @@ private theorem telescopeHom_two_component_surjective
       exact eZero.hom ≫ ModuleCat.ofHom b
     exact 0
   refine ⟨z, Prod.ext ?_ ?_⟩
-  · show (eNeg.inv ≫ z.v (-1) (n - 1) (by omega)).hom = a
+  · change (eNeg.inv ≫ z.v (-1) (n - 1) (by omega)).hom = a
     simp [z, Cochain.v, tNeg, tZero, ← Category.assoc]
-  · show (eZero.inv ≫ z.v 0 n (by omega)).hom = b
+  · change (eZero.inv ≫ z.v 0 n (by omega)).hom = b
     simp [z, Cochain.v, tNeg, tZero, ← Category.assoc]
 
 private noncomputable def telescopeHom_two_component_linear
@@ -288,7 +288,7 @@ private theorem telescopeHom_zero_differential
   let e : (telescopeResolution A f).X 0 ≅ ModuleCat.of A (ℕ →₀ A) :=
     HomologicalComplex.doubleXIso₁ (ModuleCat.ofHom (telescopeDifferential A f))
       (show (ComplexShape.up ℤ).Rel (-1) 0 by simp) (by norm_num)
-  show (e.inv ≫ (((HomComplexR A (telescopeResolution A f) I).d n (n + 1)).hom z).v
+  change (e.inv ≫ (((HomComplexR A (telescopeResolution A f) I).d n (n + 1)).hom z).v
       0 (n + 1) (by omega)).hom =
     (e.inv ≫ z.v 0 n (by omega) ≫ I.d n (n + 1)).hom
   rw [telescopeHom_d_zero]
@@ -376,7 +376,7 @@ private theorem telescopeHom_pair_second_differential
     ((telescopeHom_product_equiv A f I (n + 1))
       (((HomComplexR A (telescopeResolution A f) I).d n (n + 1)).hom z)).2 index =
       (I.d n (n + 1)).hom ((telescopeHom_product_equiv A f I n z).2 index) := by
-  show freeHomProductEquiv A (I.X (n + 1))
+  change freeHomProductEquiv A (I.X (n + 1))
       (telescopeHom_zero_lin A f I (n + 1)
         (((HomComplexR A (telescopeResolution A f) I).d n (n + 1)).hom z))
       index =
@@ -463,7 +463,7 @@ private theorem telescopeHom_neg_index_cast
   let eNeg := HomologicalComplex.doubleXIso₀
     (ModuleCat.ofHom (telescopeDifferential A f))
     (show (ComplexShape.up ℤ).Rel (-1) 0 by simp)
-  show cast (congrArg (fun degree : ℤ => (I.X degree : Type u))
+  change cast (congrArg (fun degree : ℤ => (I.X degree : Type u))
         (show n + 1 - 1 = n by omega))
       (((w : Cochain (telescopeResolution A f) I (n + 1)).v (-1)
         (n + 1 - 1) (by omega)).hom (eNeg.inv.hom (Finsupp.single index 1))) =
@@ -484,7 +484,7 @@ private theorem telescopeHom_pair_first_differential_normalized
         ((telescopeHom_product_equiv A f I n z).2 index -
           f • (telescopeHom_product_equiv A f I n z).2 (index + 1)) := by
   rw [telescopeHom_next_index_iso_fst]
-  show cast (congrArg (fun M : ModuleCat.{u} A => (M : Type u))
+  change cast (congrArg (fun M : ModuleCat.{u} A => (M : Type u))
       (congrArg I.X (show n + 1 - 1 = n by omega)))
       (freeHomProductEquiv A (I.X (n + 1 - 1))
         (telescopeHom_neg_lin A f I (n + 1)
@@ -498,7 +498,7 @@ private theorem telescopeHom_pair_first_differential_normalized
     (show (ComplexShape.up ℤ).Rel (-1) 0 by simp) (by norm_num)
   have h := telescopeHom_neg_differential_index A f I n eNeg eZero
     (telescopeDouble_diff_iso A f) (z : Cochain (telescopeResolution A f) I n) index
-  show (eNeg.inv ≫ (δ n (n + 1) (z : Cochain (telescopeResolution A f) I n)).v
+  change (eNeg.inv ≫ (δ n (n + 1) (z : Cochain (telescopeResolution A f) I n)).v
       (-1) n (by omega)).hom (Finsupp.single index 1) =
     (I.d (n - 1) n).hom
       ((eNeg.inv ≫ (z : Cochain (telescopeResolution A f) I n).v (-1) (n - 1)

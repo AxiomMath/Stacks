@@ -64,7 +64,7 @@ theorem bijective_val_app_of_injective_of_locallySurjective {M N : SheafOfModule
     fun V g hg => s V g hg
   have hfam : x.Compatible := by
     intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ h₁ h₂ fac
-    show M.val.map g₁.op (s Y₁ f₁ h₁) = M.val.map g₂.op (s Y₂ f₂ h₂)
+    change M.val.map g₁.op (s Y₁ f₁ h₁) = M.val.map g₂.op (s Y₂ f₂ h₂)
     apply hinj (g₁ ≫ f₁)
     rw [PresheafOfModules.naturality_apply, PresheafOfModules.naturality_apply, hs, hs,
       ← PresheafOfModules.map_comp_apply, ← PresheafOfModules.map_comp_apply, ← op_comp,
@@ -73,7 +73,7 @@ theorem bijective_val_app_of_injective_of_locallySurjective {M N : SheafOfModule
   refine N.isSheaf.isSeparated T Sv hSv _ _ fun W g hg => ?_
   have key : M.val.map g.op (hsh.amalgamate x hfam) = s W g hg :=
     hsh.isAmalgamation hfam g hg
-  show N.val.map g.op (φ.val.app (op T) _) = N.val.map g.op t
+  change N.val.map g.op (φ.val.app (op T) _) = N.val.map g.op t
   refine (PresheafOfModules.naturality_apply φ.val g.op _).symm.trans ?_
   rw [key, hs]
 
@@ -89,7 +89,7 @@ theorem eq_of_forall_ofArrows (M : SheafOfModules.{v} R) {T : C} {I : Type*} (Ti
     (h : ∀ k, M.val.map (fi k).op x = M.val.map (fi k).op y) : x = y := by
   refine M.isSheaf.isSeparated T _ hcov x y fun W g hg => ?_
   obtain ⟨k, b, rfl⟩ := (Sieve.mem_ofArrows_iff _ _ _).1 hg
-  show M.val.map (b ≫ fi k).op x = M.val.map (b ≫ fi k).op y
+  change M.val.map (b ≫ fi k).op x = M.val.map (b ≫ fi k).op y
   rw [val_map_comp_apply, val_map_comp_apply, h k]
 
 /-- **Injectivity over everything over `c`, from enough objects.** If `J` has enough `P`
@@ -153,8 +153,7 @@ theorem bijective_val_app_of_bijective_affineChart_of_isAffine
   have hsq : ∀ z, φ.val.app (op T) (sectionsBaseChange M f z) =
       sectionsBaseChange N f (LinearEquiv.lTensor (chartRing B S hS F hF T) φc z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b x =>
       rw [LinearEquiv.lTensor_tmul, chartBaseChange_tmul, chartBaseChange_tmul,
         chartRestrictLinear_apply, chartRestrictLinear_apply]

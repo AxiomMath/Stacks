@@ -165,6 +165,7 @@ theorem presheafIdealSmul_eq_presheafSmul (I : IdealSubsheaf O) (N : M.val.Submo
     presheafIdealSmul I N = presheafSmul I.toSubmodule N :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **Closing up the ideal first costs nothing**: the product of the closure of an objectwise
 sheaf of ideals with a submodule of a sheaf of modules is the closure of the objectwise product.
 

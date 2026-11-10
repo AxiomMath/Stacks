@@ -116,7 +116,7 @@ private lemma unitHomEvalAddEquiv_naturality
     {M N : SheafOfModules.{u} R} (f : SheafOfModules.unit R ⟶ M) (g : M ⟶ N) :
     unitHomEvalAddEquiv R t ht N (f ≫ g) =
       (SheafOfModules.evaluation R (op t)).map g (unitHomEvalAddEquiv R t ht M f) := by
-  show (N.unitHomEquiv (f ≫ g)).val (op t) = _
+  change (N.unitHomEquiv (f ≫ g)).val (op t) = _
   rw [SheafOfModules.unitHomEquiv_comp_apply]
   rfl
 
@@ -184,7 +184,7 @@ private lemma zeroHomClassEquiv_postcomp
     (a : CochainComplex.HomComplex.CohomologyClass K I 0) :
     zeroHomClassEquiv K I' (cohomologyClassPostcomp K f 0 a) =
       zeroHomClassEquiv K I a ≫ (HomotopyCategory.quotient C _).map f := by
-  show (𝟙 _ ≫ CochainComplex.HomComplex.CohomologyClass.toHom
+  change (𝟙 _ ≫ CochainComplex.HomComplex.CohomologyClass.toHom
       (cohomologyClassPostcomp K f 0 a)) ≫
       (HomotopyCategory.quotient C _).map ((shiftFunctorZero (CochainComplex C ℤ) ℤ).hom.app I') =
     ((𝟙 _ ≫ CochainComplex.HomComplex.CohomologyClass.toHom a) ≫
@@ -259,12 +259,12 @@ private lemma homComplexSingleCoyonedaIso_naturality
         ((preadditiveCoyoneda.obj (op M)).mapHomologicalComplex (.up ℤ)).map f := by
   ext n x
   obtain ⟨g, rfl⟩ := CochainComplex.HomComplex.Cochain.fromSingleMk_surjective x n (by omega)
-  show (CochainComplex.HomComplex.Cochain.fromSingleEquiv (by omega : (0 : ℤ) + n = n))
+  change (CochainComplex.HomComplex.Cochain.fromSingleEquiv (by omega : (0 : ℤ) + n = n))
       ((CochainComplex.HomComplex.Cochain.fromSingleMk g (by omega : (0 : ℤ) + n = n)).comp
         (CochainComplex.HomComplex.Cochain.ofHom f) (add_zero n)) = _
   rw [← CochainComplex.HomComplex.Cochain.fromSingleMk_postcomp,
     CochainComplex.HomComplex.Cochain.fromSingleEquiv_fromSingleMk]
-  show g ≫ f.f n =
+  change g ≫ f.f n =
     (CochainComplex.HomComplex.Cochain.fromSingleEquiv (by omega : (0 : ℤ) + n = n))
       (CochainComplex.HomComplex.Cochain.fromSingleMk g (by omega : (0 : ℤ) + n = n)) ≫ f.f n
   rw [CochainComplex.HomComplex.Cochain.fromSingleEquiv_fromSingleMk]
@@ -307,7 +307,7 @@ private lemma homologyCoyonedaEquiv_naturality
   simp only [HomologicalComplex.homologyMap_comp, ConcreteCategory.comp_apply] at he'
   let eS := (DerivedCategory.quotientCompQhIso C).app S ≪≫
     ((DerivedCategory.singleFunctorIsoCompQ C 0).app M).symm
-  show (eS.inv ≫ DerivedCategory.Qh.map (zeroHomClassEquiv S L
+  change (eS.inv ≫ DerivedCategory.Qh.map (zeroHomClassEquiv S L
     (CochainComplex.HomComplex.homologyAddEquiv S L 0
       (HomologicalComplex.homologyMap (homComplexSingleCoyonedaIso M L).inv 0
         (HomologicalComplex.homologyMap
@@ -480,13 +480,13 @@ private lemma compact_of_preservesCoyoneda
     (by
       intro s i
       ext x
-      show (DirectSum.toAddMonoid (fun j => (s.inj j).hom))
+      change (DirectSum.toAddMonoid (fun j => (s.inj j).hom))
         (DirectSum.of (fun j => (M ⟶ E j)) i x) = (s.inj i).hom x
       exact DirectSum.toAddMonoid_of (fun j => (s.inj j).hom) i x)
     (by
       intro s f hf
       refine AddCommGrpCat.hom_ext (DirectSum.addHom_ext fun i y => ?_)
-      show f.hom (DirectSum.of (fun j => M ⟶ E j) i y) =
+      change f.hom (DirectSum.of (fun j => M ⟶ E j) i y) =
         (DirectSum.toAddMonoid (fun j => (s.inj j).hom))
           (DirectSum.of (fun j => M ⟶ E j) i y)
       exact (ConcreteCategory.congr_hom (hf i) y).trans

@@ -325,10 +325,10 @@ private theorem exists_isQuasicoherentOnSite_subobject_bijective_large
     by simpa using isQuasicoherentOnSite_imageSubobject B S hS X hX g f⟩ with hi
   refine ⟨factorThruImageSubobject f ≫ (Subobject.isoOfEq _ (E.symm i.1) (by simp [hi])).hom ≫
     Sigma.ι F i ≫ factorThruImageSubobject ψ, ?_⟩
-  show (factorThruImageSubobject f ≫ _ ≫ Sigma.ι F i ≫ factorThruImageSubobject ψ) ≫
+  change (factorThruImageSubobject f ≫ _ ≫ Sigma.ι F i ≫ factorThruImageSubobject ψ) ≫
     (imageSubobject ψ).arrow = f
   rw [Category.assoc, Category.assoc, Category.assoc, imageSubobject_arrow_comp, hψ,
-    Sigma.ι_desc, Subobject.isoOfEq_hom, Subobject.ofLE_arrow, imageSubobject_arrow_comp]
+    Sigma.ι_comp_desc, Subobject.isoOfEq_hom, Subobject.ofLE_arrow, imageSubobject_arrow_comp]
 
 /-- **The construction of Stacks 04CK.**  Inside a quasi-coherent `𝒪_X`-module, every submodule
 contains a quasi-coherent submodule through which every map from a quasi-coherent module
@@ -379,7 +379,7 @@ private theorem exists_isQuasicoherentOnSite_subobject_bijective
     rw [hlDef, ← hι]
     simpa only [Category.assoc, Iso.inv_hom_id_assoc, he] using hc
   refine ⟨SheafOfModules.mapOfUliftMap l ≫ (Subobject.underlyingIso D.ι).inv, ?_⟩
-  show (SheafOfModules.mapOfUliftMap l ≫ (Subobject.underlyingIso D.ι).inv) ≫
+  change (SheafOfModules.mapOfUliftMap l ≫ (Subobject.underlyingIso D.ι).inv) ≫
     (Subobject.mk D.ι).arrow = f
   rw [Category.assoc, Subobject.underlyingIso_arrow]
   ext U x

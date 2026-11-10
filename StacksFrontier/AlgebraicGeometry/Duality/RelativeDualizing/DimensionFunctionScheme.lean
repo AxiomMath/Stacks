@@ -177,6 +177,7 @@ def IsNormalizedShiftAt {U : X.Opens} (hU : IsAffineOpen U)
     (((StacksDraft.PseudoCoherence.derivedExtensionScalars
       (algebraMap Γ(X, U) ↥(X.presheaf.stalk y.1))).obj ω)⟦-n⟧)
 
+omit [HasDerivedCategory X.Modules] in
 /-- **The two readings of the condition on `δ` agree.** The shift normalizing `ω^•_{X,y}` is the
 value at the prime of `y` of the dimension function of the model, [Stacks, Tag 0A7W]. -/
 theorem isNormalizedShiftAt_iff_eq_dualizingDimension {U : X.Opens} (hU : IsAffineOpen U)

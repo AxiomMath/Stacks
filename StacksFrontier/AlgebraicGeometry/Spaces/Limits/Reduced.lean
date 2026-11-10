@@ -68,7 +68,6 @@ preimages of the affine opens of the stage `j`, each of which is an affine limit
 slice at `j`, so `b * b = b` bounds everything. Which hypotheses make `b` available is the
 only thing the two forms below differ in. -/
 private theorem size_cofilteredLimit_le
-    (B : AlgebraicGeometry.BigFppfSite.{u})
     {J : Type u} [Category.{u} J] [IsCofiltered J]
     (E : J ⥤ Scheme.{u})
     [∀ {j k : J} (f : j ⟶ k), IsAffineHom (E.map f)]
@@ -89,7 +88,7 @@ private theorem size_cofilteredLimit_le
   have (k : Over j) : CompactSpace (O.obj k) := inferInstance
   have (k : Over j) : QuasiSeparatedSpace (O.obj k) := inferInstance
   have : IsAffine oC.pt := Scheme.isAffine_of_isLimit oC hoC
-  show oC.pt.size ≤ b
+  change oC.pt.size ≤ b
   rw [Scheme.size_of_isAffine]
   refine max_le hb0 ?_
   let F : (Over j)ᵒᵖ ⥤ CommRingCat.{u} := O.op ⋙ Scheme.Γ
@@ -107,7 +106,7 @@ private theorem size_cofilteredLimit_le
   rw [Cardinal.mk_sigma]
   calc
     _ ≤ Cardinal.sum (fun _ : (Over j)ᵒᵖ => b) := Cardinal.sum_le_sum _ _ (fun k => by
-      show Cardinal.mk Γ(O.obj k.unop, ⊤) ≤ b
+      change Cardinal.mk Γ(O.obj k.unop, ⊤) ≤ b
       exact (Scheme.mk_sections_le_size _ ⟨⊤, isAffineOpen_top _⟩).trans
         ((Scheme.size_coe_opens_le _ _).trans (hbE k.unop.left)))
     _ = Cardinal.mk ((Over j)ᵒᵖ) * b := Cardinal.sum_const' _ _
@@ -129,7 +128,7 @@ private theorem size_cofilteredLimit_lt
     (hE : ∀ j, (E.obj j).size < B.cutoff) : c.pt.size < B.cutoff := by
   classical
   obtain ⟨j⟩ := IsCofiltered.nonempty (C := J)
-  refine (size_cofilteredLimit_le B E c hc j (le_max_left _ _)
+  refine (size_cofilteredLimit_le E c hc j (le_max_left _ _)
     ((le_max_left _ _).trans (le_max_right _ _))
     (fun k => (le_ciSup Cardinal.bddAbove_of_small k).trans
       ((le_max_right _ _).trans (le_max_right _ _)))).trans_lt ?_
@@ -153,7 +152,7 @@ private theorem size_cofilteredLimit_lt_of_size_le
     (hE : ∀ j, (E.obj j).size ≤ μ) : c.pt.size < B.cutoff := by
   classical
   obtain ⟨j⟩ := IsCofiltered.nonempty (C := J)
-  refine (size_cofilteredLimit_le B E c hc j (le_max_left _ _)
+  refine (size_cofilteredLimit_le E c hc j (le_max_left _ _)
     ((le_max_left _ _).trans (le_max_right _ _))
     (fun k => (hE k).trans ((le_max_right _ _).trans (le_max_right _ _)))).trans_lt ?_
   exact max_lt B.aleph0_lt_cutoff
@@ -356,7 +355,7 @@ private theorem Space.isReduced_limit_of_relativelyRepresentable_of_preservesLim
       bmap q ≫ (hrel k.hom).snd f₀ = (hrel j.hom).snd f₀ := by
     apply yoneda.map_injective
     rw [Functor.map_comp]
-    show yoneda.map (yoneda.preimage
+    change yoneda.map (yoneda.preimage
       (((hrel k.hom).isPullback f₀).lift
         (pd j ≫ D.map q.left) (pu j) (bmapCondition q))) ≫
         yoneda.map ((hrel k.hom).snd f₀) = yoneda.map ((hrel j.hom).snd f₀)
@@ -364,7 +363,7 @@ private theorem Space.isReduced_limit_of_relativelyRepresentable_of_preservesLim
     exact (hrel k.hom).isPullback f₀ |>.lift_snd _ _ (bmapCondition q)
   have bmap_snd' {j k : Over i} (q : j ⟶ k) :
       yoneda.map (bmap q) ≫ pu k = pu j := by
-    show yoneda.map (bmap q) ≫ yoneda.map ((hrel k.hom).snd f₀) =
+    change yoneda.map (bmap q) ≫ yoneda.map ((hrel k.hom).snd f₀) =
       yoneda.map ((hrel j.hom).snd f₀)
     rw [← Functor.map_comp, bmap_snd]
   let E : Over i ⥤ AlgebraicGeometry.BigFppfOver B S hS :=

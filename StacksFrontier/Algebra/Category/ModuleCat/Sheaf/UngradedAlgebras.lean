@@ -235,7 +235,7 @@ lemma directSum_hom_ext {T : PresheafOfModules.{w} R} {h h' : directSum P ⟶ T}
 lemma inclHom_directSumDesc {T : PresheafOfModules.{w} R} (g : ∀ i, P i ⟶ T) (i : ι) :
     inclHom P i ≫ directSumDesc P g = g i := by
   refine PresheafOfModules.hom_ext fun X => ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show (DirectSum.toModule (R.obj X) ι ((T.obj X : Type w)) fun k => ((g k).app X).hom)
+  change (DirectSum.toModule (R.obj X) ι ((T.obj X : Type w)) fun k => ((g k).app X).hom)
     (DirectSum.of (fun j => ((P j).obj X : Type w)) i x) = (g i).app X x
   rw [← DirectSum.lof_eq_of (R.obj X), DirectSum.toModule_lof]
 
@@ -368,7 +368,7 @@ multiplication. -/
 lemma incl_mul_incl {X : Cᵒᵖ} (i j : ι) (x : (P i).obj X) (y : (P j).obj X) :
     A.incl i x * A.incl j y = A.incl (i + j) ((A.mul i j).app X x y) := by
   let _gr := A.gring X
-  show DirectSum.of (fun k => ((P k).obj X : Type w)) i x *
+  change DirectSum.of (fun k => ((P k).obj X : Type w)) i x *
       DirectSum.of (fun k => ((P k).obj X : Type w)) j y = _
   rw [DirectSum.of_mul_of]
   rfl
@@ -494,13 +494,13 @@ noncomputable def structureMap (X : Cᵒᵖ) : R.obj X →+* A.Total X where
 /-- The image of the structure map is central. -/
 lemma structureMap_commutes (X : Cᵒᵖ) (r : R.obj X) (a : A.Total X) :
     A.structureMap X r * a = a * A.structureMap X r := by
-  show r • (1 : A.Total X) * a = a * r • (1 : A.Total X)
+  change r • (1 : A.Total X) * a = a * r • (1 : A.Total X)
   rw [A.smul_mul_eq, _root_.one_mul, A.mul_smul_eq, _root_.mul_one]
 
 /-- The structure map is compatible with restriction. -/
 lemma structureMap_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y) (r : R.obj X) :
     A.totalRestrict f (A.structureMap X r) = A.structureMap Y (R.map f r) := by
-  show A.totalRestrict f (r • (1 : A.Total X)) = R.map f r • (1 : A.Total Y)
+  change A.totalRestrict f (r • (1 : A.Total X)) = R.map f r • (1 : A.Total Y)
   rw [A.totalRestrict_smul, A.totalRestrict_one]
 
 end GradedAlgebra

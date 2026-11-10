@@ -67,7 +67,7 @@ theorem isLocalization_atPrime_ker_fiberResidue [IsAffineHom f] (x : X)
       (X.presheaf.stalk x) := by
     refine IsScalarTower.of_algebraMap_eq' ?_
     rw [halg]
-    show (X.presheaf.germ (f ⁻¹ᵁ V) x hx).hom =
+    change (X.presheaf.germ (f ⁻¹ᵁ V) x hx).hom =
       (f.stalkPushforward x).hom.comp (f.pushforwardGerm V (f x) hx).hom
     rw [← CommRingCat.hom_comp]
     exact (congrArg CommRingCat.Hom.hom
@@ -105,7 +105,7 @@ theorem isLocalization_atPrime_fiberMaximalIdeal [IsIntegralHom f] (x : X)
   have := f.isLocalization_atPrime_ker_fiberResidue x halg
   exact isLocalization_atPrime_of_eq_under_maximalIdeal (X.presheaf.stalk x)
     (RingHom.ker (f.fiberResidue x).hom).primeCompl (by
-      show RingHom.ker (f.fiberResidueOfEq x rfl).hom = _
+      change RingHom.ker (f.fiberResidueOfEq x rfl).hom = _
       rw [fiberResidueOfEq_rfl, ker_fiberResidue, Ideal.under, halg])
 
 end Scheme.Hom

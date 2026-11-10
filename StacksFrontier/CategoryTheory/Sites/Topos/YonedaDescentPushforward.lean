@@ -142,7 +142,7 @@ theorem sectionsCompare_apply (F : Sheaf J (Type v)) (V : D')
     (φ : f.inverseImage.obj (K.yoneda.obj (ι.obj V)) ⟶ F) :
     sectionsCompare ι e F V (f.sectionsEquiv F (ι.obj V) φ) =
       g.sectionsEquiv F (ι.obj V) (e.inv.app V ≫ φ) := by
-  show g.sectionsEquiv F (ι.obj V) (e.inv.app V ≫ (f.sectionsEquiv F (ι.obj V)).symm
+  change g.sectionsEquiv F (ι.obj V) (e.inv.app V ≫ (f.sectionsEquiv F (ι.obj V)).symm
     (f.sectionsEquiv F (ι.obj V) φ)) = _
   rw [Equiv.symm_apply_apply]
 

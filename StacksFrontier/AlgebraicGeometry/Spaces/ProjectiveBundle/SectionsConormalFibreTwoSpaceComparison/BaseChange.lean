@@ -432,15 +432,15 @@ theorem pointFibreProjectiveBundleIso_hom_comp_projectiveBundleBaseChange_twoSpa
       ((BigFppfOver.toScheme B S hS).map (sectionFibreBaseChangeComparison X E hE hb g hb' u v h
       hvh) ≫ (pointFibreProjectiveBundleIso X E hE hb T u).hom)
       (pointFibreProjectiveBundleIso_hom_comp_projectiveBundleBaseChange_comp_toBase X E u g v h hvh
-      hE hb hb')
+      hE hb')
       (sectionFibreBaseChangeComparison_comp_pointFibreProjectiveBundleIso_hom_comp_toBase X E u g v
       h hvh hE hb hb')
-    (Quotient.exact ((overQuotient_comp_projectiveBundleBaseChange_twoSpace X E u g v h hvh hE hb
+    (Quotient.exact ((overQuotient_comp_projectiveBundleBaseChange_twoSpace X E u g v h hvh hE
         hb').trans
       ((overQuotient_baseChange_tautologicalDatum_twoSpace X E u g v h hvh hE hb').trans
-      ((overQuotient_pointFibreProjectiveBundleIso_eq_pointBundleSection X E u g v h hvh hE hb
+      ((overQuotient_pointFibreProjectiveBundleIso_eq_pointBundleSection X E u g v h hvh hE
           hb').trans
-      ((overQuotient_pointBundleSection_twoSpace_transport X E u g v h hvh hE hb hb' Q₀ hQ₀).trans
+      ((overQuotient_pointBundleSection_twoSpace_transport X E u g v h hvh hE hb' Q₀ hQ₀).trans
       ((zariskiReadingInvertibleQuotient_transport_pointTwoSpaceCompIso X E u g v h hvh hE hb'
           Q₀).trans
         (overQuotient_sectionFibreBaseChangeComparison X E u g v h hvh hE hb hb' Q₀ hQ₀).symm))))))

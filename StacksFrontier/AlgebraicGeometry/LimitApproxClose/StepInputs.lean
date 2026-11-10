@@ -91,7 +91,7 @@ lemma opensRange_comp_congr {X X' Y Z : Scheme.{u}} (a : X ⟶ Y) (a' : X' ⟶ Y
   have h' : Set.range a.base = Set.range a'.base :=
     congrArg (fun U : Y.Opens ↦ (U : Set Y)) h
   refine Opens.ext ?_
-  show Set.range (a ≫ b).base = Set.range (a' ≫ b).base
+  change Set.range (a ≫ b).base = Set.range (a' ≫ b).base
   simp only [Scheme.Hom.comp_base, TopCat.coe_comp]
   rw [Set.range_comp, Set.range_comp, h']
 

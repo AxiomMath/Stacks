@@ -99,7 +99,7 @@ theorem pullbackComplex_map_pullbackSingleUnitMap
     HomologicalComplex.single_map_f_self, NatTrans.mapHomologicalComplex_app_f,
     Functor.mapHomologicalComplex_map_f, Functor.map_comp, Category.assoc,
     Functor.mapHomologicalComplexCompIso_hom_app_f, Iso.symm_hom, Iso.inv_hom_id_assoc,
-    Iso.map_inv_hom_id_assoc]
+    Iso.inv_hom_id_map_assoc]
   rw [← reassoc_of% n₂, ← reassoc_of% n₁, reassoc_of% key]
 
 omit [Z.J.HasSheafCompose (forget RingCat.{u})]

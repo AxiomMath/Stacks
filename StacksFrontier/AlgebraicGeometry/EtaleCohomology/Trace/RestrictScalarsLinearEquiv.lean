@@ -80,7 +80,7 @@ public theorem charpoly_eq_of_restrictScalarsMatrix {V : Type*} [AddCommGroup V]
   let Φ : V ≃ₗ[E] (Fin m → E) :=
     { (Ψ.trans (restrictScalarsEquiv b m)) with
       map_smul' := fun e v => by
-        show restrictScalarsEquiv b m (Ψ (e • v)) = e • restrictScalarsEquiv b m (Ψ v)
+        change restrictScalarsEquiv b m (Ψ (e • v)) = e • restrictScalarsEquiv b m (Ψ v)
         rw [hΨ, restrictScalarsEquiv_mulVec, Matrix.scalar_apply]
         funext i
         rw [Matrix.mulVec_diagonal]
@@ -88,7 +88,7 @@ public theorem charpoly_eq_of_restrictScalarsMatrix {V : Type*} [AddCommGroup V]
   have hconj : Φ.conj T = Matrix.toLin' N := LinearMap.ext fun w => by
     obtain ⟨v, rfl⟩ := Φ.surjective w
     rw [LinearEquiv.conj_apply_apply, LinearEquiv.symm_apply_apply, Matrix.toLin'_apply]
-    show restrictScalarsEquiv b m (Ψ (T v)) = N *ᵥ restrictScalarsEquiv b m (Ψ v)
+    change restrictScalarsEquiv b m (Ψ (T v)) = N *ᵥ restrictScalarsEquiv b m (Ψ v)
     rw [hT, restrictScalarsEquiv_mulVec]
   rw [← LinearEquiv.charpoly_conj Φ T, hconj, Matrix.charpoly_toLin']
 

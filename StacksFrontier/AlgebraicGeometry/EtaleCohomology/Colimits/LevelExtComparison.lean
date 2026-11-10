@@ -73,7 +73,7 @@ theorem levelLeg_isCompatible_site (𝓝 : Sheaf (smallEtaleTopology d.pt) Ab.{m
       (levelSystem (affineEtaleSiteColimit D c B hD hX hc) d 𝓝)
       ((limitRestrict D c B hX).obj ((smallEtalePullbackAb p).obj 𝓝)).obj
       (levelLegSite D c B hD hX hc d p hp 𝓝) :=
-  @levelLeg_isCompatible _ _ _ _ _ _ _ _ _ (affineEtaleSiteColimit D c B hD hX hc) d p hp _ _ 𝓝
+  @levelLeg_isCompatible _ _ _ _ _ _ _ (affineEtaleSiteColimit D c B hD hX hc) d p hp _ _ 𝓝
 
 /-- The system leg at level `j` built from `levelLegSite` is an isomorphism. -/
 theorem isIso_systemLeg_levelLeg_site (𝓝 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})
@@ -84,7 +84,7 @@ theorem isIso_systemLeg_levelLeg_site (𝓝 : Sheaf (smallEtaleTopology d.pt) Ab
       (F := levelSystem (affineEtaleSiteColimit D c B hD hX hc) d 𝓝)
       (𝒢 := (limitRestrict D c B hX).obj ((smallEtalePullbackAb p).obj 𝓝))
       (levelLegSite D c B hD hX hc d p hp 𝓝) j) :=
-  isIso_legTranspose (hequivL := isEquivalence_limitMathlibRestrict D c B hX)
+  isIso_legTranspose (hequivL := isEquivalence_limitMathlibRestrict.{v, u} D c B hX)
     (affineEtaleSiteColimit D c B hD hX hc) d p hp 𝓝 j
 
 /-- **The first variable `𝒜(𝓝)`**: the inverse images `π_A⁻¹ 𝓝`, restricted to the levels below
@@ -96,8 +96,7 @@ def levelFirstVariable (𝓝 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})
   by
     have hP : ∀ {j k : (sys D c B hD hX hc).I} (a : j ⟶ k),
         IsIso ((levelSystem (affineEtaleSiteColimit D c B hD hX hc) d 𝓝).map a) := fun a =>
-      isIso_levelSystem_map (hequivL := isEquivalence_limitMathlibRestrict D c B hX)
-        (affineEtaleSiteColimit D c B hD hX hc) d 𝓝 a
+      isIso_levelSystem_map (affineEtaleSiteColimit D c B hD hX hc) d 𝓝 a
     have hκ := @levelLeg_isCompatible_site _ _ _ _ D c B hD hX hc _ d p hp 𝓝
     have hκiso := isIso_systemLeg_levelLeg_site D c B hD hX hc d p hp 𝓝
     exact systemFirstVariable.{v, v, max u v + 1} hP _ _ hκ hκiso i₀
@@ -113,6 +112,7 @@ theorem isColimitPresentation_levelLegSite (𝓜 : Sheaf (smallEtaleTopology d.p
       (levelLegSite D c B hD hX hc d p hp 𝓜) :=
   isColimitPresentation_levelLeg_site D c B hD hX hc d p hp 𝓜
 
+set_option linter.checkUnivs false in
 /-- The constant sheaf `ℤ` of the small étale site of a scheme. -/
 abbrev constZ (Y : Scheme.{max u v}) : Sheaf (smallEtaleTopology Y) Ab.{max u v + 1} :=
   (constantSheaf (smallEtaleTopology Y) Ab.{max u v + 1}).obj (AddCommGrpCat.of (ULift ℤ))
@@ -260,8 +260,7 @@ theorem homEquiv_levelSystem_map {j k : (sys D c B hD hX hc).I} (a : j ⟶ k) :
           (stageComp D c B hD hX hc d 𝓝 a).hom) ≫
         (levelMathlibSquare (affineEtaleSiteColimit D c B hD hX hc) a).inv.app _ := by
   rw [Iso.app_hom, homEquiv_smallEtalePullbackAbCompIso'_hom_app
-    (E := affineEtaleSiteColimit D c B hD hX hc)
-    (hequivL := isEquivalence_limitMathlibRestrict D c B hX)]
+    (E := affineEtaleSiteColimit D c B hD hX hc)]
   exact Equiv.apply_symm_apply _ _
 
 include hp in
@@ -270,8 +269,7 @@ system of levels along `f.left`. -/
 theorem levelFirstVariable_map (i₀ : (sys D c B hD hX hc).I) {A₁ A₂ : Over i₀} (f : A₁ ⟶ A₂) :
     (levelFirstVariable D c B hD hX hc d p hp 𝓝 i₀).map f =
       @inv _ _ _ _ ((levelSystem (affineEtaleSiteColimit D c B hD hX hc) d 𝓝).map f.left)
-        (isIso_levelSystem_map (hequivL := isEquivalence_limitMathlibRestrict D c B hX)
-          (affineEtaleSiteColimit D c B hD hX hc) d 𝓝 f.left) := by
+        (isIso_levelSystem_map (affineEtaleSiteColimit D c B hD hX hc) d 𝓝 f.left) := by
   dsimp only [FirstVariable.map, FirstVariable.ψ, levelFirstVariable, systemFirstVariable,
     pushforwardTransition]
   simp only [Equiv.symm_apply_apply]
@@ -297,8 +295,7 @@ theorem levelExtCompare_extTransition (i₀ : (sys D c B hD hX hc).I) {A₁ A₂
     (stageComp D c B hD hX hc d 𝓝 f.left).hom inferInstance
     (stageComp D c B hD hX hc d 𝓜 f.left).hom
     ((levelSystem (affineEtaleSiteColimit D c B hD hX hc) d 𝓝).map f.left)
-    (isIso_levelSystem_map (hequivL := isEquivalence_limitMathlibRestrict D c B hX)
-      (affineEtaleSiteColimit D c B hD hX hc) d 𝓝 f.left)
+    (isIso_levelSystem_map (affineEtaleSiteColimit D c B hD hX hc) d 𝓝 f.left)
     ((levelSystem (affineEtaleSiteColimit D c B hD hX hc) d 𝓜).map f.left)
     (homEquiv_levelSystem_map D c B hD hX hc d 𝓝 f.left)
     (homEquiv_levelSystem_map D c B hD hX hc d 𝓜 f.left) x
@@ -322,6 +319,7 @@ def limitSquareSite (j : (sys D c B hD hX hc).I) :
 /-- The left adjoint of restriction to the limit, with its adjunction. -/
 abbrev limitAdj := Adjunction.ofIsRightAdjoint (limitRestrict D c B hX)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- The counit of `limitAdj` is an isomorphism. -/
 theorem isIso_limitAdj_counit : IsIso (limitAdj D c B hX).counit := by
   have := (limitAdj D c B hX).isEquivalence_left_of_isEquivalence_right
@@ -329,6 +327,7 @@ theorem isIso_limitAdj_counit : IsIso (limitAdj D c B hX).counit := by
 
 attribute [local instance] isIso_limitAdj_counit
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- The left adjoint of restriction to the limit is additive and preserves finite limits and
 finite colimits. -/
 theorem exact_limitAdj_left :
@@ -345,15 +344,18 @@ theorem exact_limitAdj_left :
   have : L.PreservesZeroMorphisms := Functor.preservesZeroMorphisms_of_isLeftAdjoint _
   exact ⟨Functor.additive_of_preserves_binary_products _, inferInstance, inferInstance⟩
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- The left adjoint of restriction to the limit is additive. -/
 theorem additive_limitAdj_left : (Functor.leftAdjoint (limitRestrict D c B hX)).Additive :=
   (exact_limitAdj_left D c B hX).1
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- The left adjoint of restriction to the limit preserves finite limits. -/
 theorem preservesFiniteLimits_limitAdj_left :
     PreservesFiniteLimits (Functor.leftAdjoint (limitRestrict D c B hX)) :=
   (exact_limitAdj_left D c B hX).2.1
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- The left adjoint of restriction to the limit preserves finite colimits. -/
 theorem preservesFiniteColimits_limitAdj_left :
     PreservesFiniteColimits (Functor.leftAdjoint (limitRestrict D c B hX)) :=
@@ -393,8 +395,7 @@ theorem homEquiv_levelLegSite (j : (sys D c B hD hX hc).I) :
         ((smallEtaleAdjunctionAb (coneProj (affineEtaleSiteColimit D c B hD hX hc) j)).homEquiv _ _
           (legComp D c B hD hX hc d p hp 𝓝 j).hom) ≫
         (limitSquareSite D c B hD hX hc j).inv.app _ :=
-  homEquiv_legTranspose_eq (hequivL := isEquivalence_limitMathlibRestrict D c B hX)
-    (affineEtaleSiteColimit D c B hD hX hc) d p hp 𝓝 j
+  homEquiv_legTranspose_eq (affineEtaleSiteColimit D c B hD hX hc) d p hp 𝓝 j
 
 include hp in
 /-- The leg of `levelFirstVariable` at `A` is the inverse of the system leg built from

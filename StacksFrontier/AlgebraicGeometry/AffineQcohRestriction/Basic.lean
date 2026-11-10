@@ -238,7 +238,7 @@ public theorem opensMapComp_eq :
     Opens.map V.ι.base ⋙ Opens.map (resPreimage f V).base =
       Opens.map f.base ⋙ Opens.map (f ⁻¹ᵁ V).ι.base :=
   CategoryTheory.Functor.ext (fun W => by
-      show (resPreimage f V) ⁻¹ᵁ (V.ι ⁻¹ᵁ W) = (f ⁻¹ᵁ V).ι ⁻¹ᵁ (f ⁻¹ᵁ W)
+      change (resPreimage f V) ⁻¹ᵁ (V.ι ⁻¹ᵁ W) = (f ⁻¹ᵁ V).ι ⁻¹ᵁ (f ⁻¹ᵁ W)
       rw [← Scheme.Hom.comp_preimage, ← Scheme.Hom.comp_preimage, Scheme.Hom.resLE_comp_ι])
     fun _ _ _ => Subsingleton.elim _ _
 

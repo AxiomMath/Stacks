@@ -63,7 +63,7 @@ theorem yoneda_map_representingGrpObj_one (I : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
   let : (yoneda : BigFppfOver B S hS ⥤ _).Monoidal :=
     Functor.Monoidal.ofChosenFiniteProducts yoneda
   let : GrpObj (yoneda.obj I.reprX) := GrpObj.ofIso I.reprW.symm
-  show yoneda.map (Yoneda.fullyFaithful.preimage
+  change yoneda.map (Yoneda.fullyFaithful.preimage
     (Functor.OplaxMonoidal.η yoneda ≫ (η[I] ≫ I.reprW.symm.hom))) ≫ I.reprW.hom = _
   rw [Functor.FullyFaithful.map_preimage, Category.assoc, Category.assoc, Iso.symm_hom,
     Iso.inv_hom_id, Category.comp_id]
@@ -106,7 +106,7 @@ theorem yoneda_map_comp_reprW_hom_eq_one (I : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
       (toUnit_unique _ _)
   have h1 : t = toUnit V ≫ η[I.reprX] := by
     refine (fullyFaithful_overPost_bigFppfInclusion B S hS).map_injective (ht.trans ?_)
-    show toUnit _ ≫ (Functor.LaxMonoidal.ε (Over.post (X := B.obj hS) B.inclusion) ≫
+    change toUnit _ ≫ (Functor.LaxMonoidal.ε (Over.post (X := B.obj hS) B.inclusion) ≫
       (Over.post B.inclusion).map η[I.reprX]) = _
     rw [Functor.map_comp, hε, Category.assoc]
   rw [h1, Functor.map_comp, Category.assoc, yoneda_map_representingGrpObj_one, ← Category.assoc]
@@ -207,7 +207,7 @@ theorem exists_yonedaIso_autFunctor :
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
     let a : W.unop ⟶ integerSiteObject B hZ hG := α
-    show (((a.left ≫ 𝟙 _) ≫ I.reprX.hom) ≫ 𝟙 _).hom =
+    change (((a.left ≫ 𝟙 _) ≫ I.reprX.hom) ≫ 𝟙 _).hom =
       (a.left ≫ (integerSiteMap B hZ hG hk G.hom).left).hom
     rw [Category.comp_id, Category.comp_id]
     rfl
@@ -221,7 +221,7 @@ theorem exists_yonedaIso_autFunctor :
     let V : BigFppfOver B (Spec (.of k)) hk := Over.mk (a.left ≫ I.reprX.hom)
     let t : V ⟶ I.reprX := Over.homMk a.left rfl
     have hV : (a.left ≫ I.reprX.hom).hom = 𝟙 _ := by
-      show ((η[G]).left ≫ 𝟙 _) ≫ G.hom = 𝟙 _
+      change ((η[G]).left ≫ 𝟙 _) ≫ G.hom = 𝟙 _
       rw [Category.comp_id]
       exact Over.w (η[G])
     have ht : (Over.post B.inclusion).map t =
@@ -229,7 +229,7 @@ theorem exists_yonedaIso_autFunctor :
       apply Over.OverMorphism.ext
       have hu : (toUnit ((Over.post B.inclusion).obj V)).left = 𝟙 _ :=
         ((Category.comp_id _).symm.trans (Over.w (toUnit ((Over.post B.inclusion).obj V)))).trans hV
-      show (η[G]).left ≫ 𝟙 _ = (toUnit ((Over.post B.inclusion).obj V)).left ≫ (η[G]).left
+      change (η[G]).left ≫ 𝟙 _ = (toUnit ((Over.post B.inclusion).obj V)).left ≫ (η[G]).left
       rw [hu, Category.comp_id]
       exact (Category.id_comp _).symm
     have key := Space.yoneda_map_comp_reprW_hom_eq_one B (Spec (.of k)) hk I t ht
@@ -241,7 +241,7 @@ theorem exists_yonedaIso_autFunctor :
         integerSiteObject B hZ hk ⟶ U) ≫ eqToHom y.2.symm = 𝟙 _ := by
       apply Over.OverMorphism.ext
       apply ObjectProperty.hom_ext
-      show (a.left ≫ I.reprX.hom ≫ 𝟙 _).hom = 𝟙 _
+      change (a.left ≫ I.reprX.hom ≫ 𝟙 _).hom = 𝟙 _
       rw [Category.comp_id]
       exact hV
     exact congrArg (Space.RelativeMorphism.identity _)

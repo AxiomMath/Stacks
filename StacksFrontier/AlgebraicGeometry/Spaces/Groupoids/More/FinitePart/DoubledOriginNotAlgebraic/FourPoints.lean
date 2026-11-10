@@ -404,7 +404,7 @@ part `(X/Y)_fin` over the origin which lift to an étale neighbourhood of the or
 theorem setOf_isEtaleLiftablePoint (hn : 0 < n) :
     {T : Set (Fin 2) | IsEtaleLiftablePoint B k hk n T} = {∅, {0}, {1}} := by
   ext T
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · intro hT
     rcases set_fin_two_eq T with h | h | h | rfl

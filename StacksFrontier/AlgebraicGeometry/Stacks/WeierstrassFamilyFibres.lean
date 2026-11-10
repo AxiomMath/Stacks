@@ -188,7 +188,7 @@ theorem embeddingOf_projToSpecCoeff :
       CommRingCat.ofHom (Stacks.HomogeneousIdeal.quotientMk (cubicIdealOf C)).gradedZeroRingHom =
       CommRingCat.ofHom (toGradingZeroOf C) := by
     ext a
-    show Ideal.Quotient.mk _ (DirectSum.decompose (homogeneousSubmodule (Fin 3) R)
+    change Ideal.Quotient.mk _ (DirectSum.decompose (homogeneousSubmodule (Fin 3) R)
       (MvPolynomial.C a) 0 : MvPolynomial (Fin 3) R) = Ideal.Quotient.mk _ (MvPolynomial.C a)
     rw [DirectSum.decompose_of_mem_same _ (isHomogeneous_C _ _)]
   unfold Stacks.AlgebraicGeometry.ProjPolyChart.projToSpecCoeff

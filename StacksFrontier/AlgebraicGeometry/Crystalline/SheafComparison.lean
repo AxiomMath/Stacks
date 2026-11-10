@@ -361,7 +361,7 @@ theorem mem_ideal_iff_app_eq_zero (D : SchemeThickening.{u}) (V : D.target.schem
   obtain ⟨_, ⟨W, hW, rfl⟩, hxW, hWV⟩ :=
     D.target.scheme.isBasis_affineOpens.exists_subset_of_mem_open hx V.2
   refine ⟨W, homOfLE hWV, ?_, hxW⟩
-  show D.target.scheme.presheaf.map (homOfLE hWV).op s ∈ D.target.ideal.obj (op W)
+  change D.target.scheme.presheaf.map (homOfLE hWV).op s ∈ D.target.ideal.obj (op W)
   refine (haff ⟨W, hW⟩ _).mpr ?_
   have hnat := ConcreteCategory.congr_hom (D.immersion.naturality (homOfLE hWV).op) s
   rw [CommRingCat.comp_apply, CommRingCat.comp_apply] at hnat
@@ -377,7 +377,7 @@ theorem app_mem_ideal_of_square (D E : SchemeThickening.{u})
     γ.app U a ∈ E.target.ideal.obj (op (γ ⁻¹ᵁ U)) := by
   have ha0 := (D.mem_ideal_iff_app_eq_zero U a).mp ha
   have h2 : (k ≫ D.immersion).app U a = 0 := by
-    show k.app (D.immersion ⁻¹ᵁ U) (D.immersion.app U a) = 0
+    change k.app (D.immersion ⁻¹ᵁ U) (D.immersion.app U a) = 0
     rw [ha0, map_zero]
   have hce := ConcreteCategory.congr_hom (Scheme.Hom.congr_app h U) a
   rw [CommRingCat.comp_apply, h2, map_zero] at hce
@@ -462,7 +462,7 @@ variable {B : Thickening S} (g : A ⟶ B)
 through the restriction of its target to an open `W` is the preimage of `W`. -/
 theorem pullbackOpen_restrictOpenHom (W : B.thickening.target.scheme.Opens) :
     pullbackOpen (B.restrictOpenHom W) g = g.targetHom.hom ⁻¹ᵁ W := by
-  show g.targetHom.hom ⁻¹ᵁ W.ι.opensRange = g.targetHom.hom ⁻¹ᵁ W
+  change g.targetHom.hom ⁻¹ᵁ W.ι.opensRange = g.targetHom.hom ⁻¹ᵁ W
   rw [Scheme.Opens.opensRange_ι]
 
 /-- **The restriction of a morphism of `CRIS(X/S)` over an open of the ambient scheme of its
@@ -586,7 +586,7 @@ theorem isIso_of_isIso_sourceHom_targetHom [IsIso g.sourceHom] [IsIso g.targetHo
              base_naturality := ?_
              toX_naturality := ?_ }, ?_, ?_⟩⟩
   · refine DividedPowerScheme.Hom.ext ?_
-    show inv g.targetHom.hom ≫ A.toBase.hom = B.toBase.hom
+    change inv g.targetHom.hom ≫ A.toBase.hom = B.toBase.hom
     rw [← cancel_epi g.targetHom.hom]
     simpa using (congrArg DividedPowerScheme.Hom.hom g.base_naturality).symm
   · rw [← cancel_epi g.sourceHom]

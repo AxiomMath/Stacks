@@ -96,7 +96,7 @@ lemma isPCellular_map (H : B ⥤ A) [H.Additive] [PreservesFiniteLimits H]
   · have h := hstage n i hi
     have : c'.ι.app n ≫ (Hc.mapIso e).hom = Hc.map (c.ι.app n ≫ e.hom) := by
       have h1 : η.app n = 𝟙 _ := NatTrans.ofSequence_app _ _ n
-      show (η.app n ≫ Hc.map (c.ι.app n)) ≫ Hc.map e.hom = _
+      change (η.app n ≫ Hc.map (c.ι.app n)) ≫ Hc.map e.hom = _
       rw [h1]
       exact (congrArg (· ≫ Hc.map e.hom) (Category.id_comp _)).trans (Hc.map_comp _ _).symm
     rw [this]

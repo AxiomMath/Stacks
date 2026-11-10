@@ -65,6 +65,8 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [HasWeakSheafify (J.over U) AddCommGrpCat.{w}]
   [(J.over U).WEqualsLocallyBijective AddCommGrpCat.{w}]
 
+omit [HasWeakSheafify (J.over U) AddCommGrpCat.{w}]
+  [(J.over U).WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The restricted sheafification unit is natural in the presheaf of modules. -/
 theorem restrictedUnit_naturality {P P' : PresheafOfModules.{w} R.obj} (f : P ⟶ P') :
     (presheafOverFunctor.{w} R U).map f ≫ restrictedUnit.{w} R U P' =
@@ -165,9 +167,8 @@ section Single
 variable {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
   (R : Sheaf J RingCat.{u}) (U : C)
   [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [HasSheafify J AddCommGrpCat.{u}]
   [HasWeakSheafify (J.over U) AddCommGrpCat.{u}]
-  [(J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify (J.over U) AddCommGrpCat.{u}]
+  [(J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}]
 
 /-- Restriction of presheaves of modules to the slice at `U` is an additive functor. -/
 instance additive_presheafOverFunctor : (presheafOverFunctor.{u} R U).Additive :=
@@ -233,7 +234,7 @@ theorem sheafifyOverNatTrans_single_unit :
       (PresheafOfModules.unit (R.over U).obj))
   let e' := HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) (0 : ℤ)
     (SheafOfModules.unit (R.over U))
-  show (PresheafOfModules.sheafification.{u} (𝟙 (R.over U).obj)).map
+  change (PresheafOfModules.sheafification.{u} (𝟙 (R.over U).obj)).map
         (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0
           (PresheafOfModules.unit (R.over U).obj)).hom ≫
       sheafifyOverHom.{u} R U (PresheafOfModules.unit R.obj) ≫

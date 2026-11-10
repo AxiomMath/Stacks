@@ -305,7 +305,7 @@ algebras induced by `Koszul.appendInclRight`. -/
 theorem appendFromLeft_powVec (g : Fin r → R) (h : Fin s → R) (t : ℕ) (w : Fin r → R) :
     (appendFromLeft g h t).toAlgebraHom (powVec g t w) =
       powVec (Fin.append g h) t (Fin.append w 0) := by
-  show ExteriorAlgebra.map (appendInclLeft R r s) (ExteriorAlgebra.ι R w) =
+  change ExteriorAlgebra.map (appendInclLeft R r s) (ExteriorAlgebra.ι R w) =
     (ExteriorAlgebra.ι R (Fin.append w 0) : ExteriorAlgebra R (Fin (r + s) → R))
   rw [ExteriorAlgebra.map_apply_ι, appendInclLeft_apply]
 
@@ -313,7 +313,7 @@ theorem appendFromLeft_powVec (g : Fin r → R) (h : Fin s → R) (t : ℕ) (w :
 theorem appendFromRight_powVec (g : Fin r → R) (h : Fin s → R) (t : ℕ) (w : Fin s → R) :
     (appendFromRight g h t).toAlgebraHom (powVec h t w) =
       powVec (Fin.append g h) t (Fin.append 0 w) := by
-  show ExteriorAlgebra.map (appendInclRight R r s) (ExteriorAlgebra.ι R w) =
+  change ExteriorAlgebra.map (appendInclRight R r s) (ExteriorAlgebra.ι R w) =
     (ExteriorAlgebra.ι R (Fin.append 0 w) : ExteriorAlgebra R (Fin (r + s) → R))
   rw [ExteriorAlgebra.map_apply_ι, appendInclRight_apply]
 
@@ -627,7 +627,7 @@ theorem powAppendFromTensor_powAppendToTensor :
     (powAppendFromTensor g h t).toAlgebraHom.comp (powAppendToTensorAlgHom g h t) =
       AlgHom.id R (ExteriorAlgebra R (Fin (r + s) → R)) := by
   refine ExteriorAlgebra.hom_ext (LinearMap.ext fun v => ?_)
-  show (powAppendFromTensor g h t).toAlgebraHom
+  change (powAppendFromTensor g h t).toAlgebraHom
       (powAppendToTensorAlgHom g h t (ExteriorAlgebra.ι R v)) = ExteriorAlgebra.ι R v
   rw [powAppendToTensorAlgHom_ι, map_add, powAppendFromTensor_appendTensorLeft,
     powAppendFromTensor_appendTensorRight, ← map_add, append_zero_add_zero_append,
@@ -641,7 +641,7 @@ theorem powAppendToTensor_appendFromLeft (w : Fin r → R) :
         ((appendFromLeft g h t).toAlgebraHom (powVec g t w)) =
       appendTensorLeft g h t (appendInclLeft R r s w) := by
   rw [appendFromLeft_powVec]
-  show (powAppendToTensor g h t).toAlgebraHom
+  change (powAppendToTensor g h t).toAlgebraHom
       (powVec (Fin.append g h) t (Fin.append w 0)) = _
   rw [powAppendToTensor_powVec,
     show Fin.append w (0 : Fin s → R) = appendInclLeft R r s w from rfl,
@@ -655,7 +655,7 @@ theorem powAppendToTensor_appendFromRight (w : Fin s → R) :
         ((appendFromRight g h t).toAlgebraHom (powVec h t w)) =
       appendTensorRight g h t (appendInclRight R r s w) := by
   rw [appendFromRight_powVec]
-  show (powAppendToTensor g h t).toAlgebraHom
+  change (powAppendToTensor g h t).toAlgebraHom
       (powVec (Fin.append g h) t (Fin.append 0 w)) = _
   rw [powAppendToTensor_powVec,
     show Fin.append (0 : Fin r → R) w = appendInclRight R r s w from rfl,
@@ -668,13 +668,13 @@ theorem powAppendToTensor_powAppendFromTensor :
       AlgHom.id R (tensorProduct (powAlgebra g t) (powAlgebra h t)).A := by
   refine GradedTensorProduct.algHom_ext (powAlgebra g t).grading (powAlgebra h t).grading ?_ ?_
   · refine ExteriorAlgebra.hom_ext (LinearMap.ext fun w => ?_)
-    show powAppendToTensorAlgHom g h t ((powAppendFromTensor g h t).toAlgebraHom
+    change powAppendToTensorAlgHom g h t ((powAppendFromTensor g h t).toAlgebraHom
         ((tensorInclLeft (powAlgebra g t) (powAlgebra h t)).toAlgebraHom (powVec g t w))) =
       (tensorInclLeft (powAlgebra g t) (powAlgebra h t)).toAlgebraHom (powVec g t w)
     rw [powAppendFromTensor_inclLeft, powAppendToTensor_appendFromLeft, appendTensorLeft_def,
       coordLeft_appendInclLeft]
   · refine ExteriorAlgebra.hom_ext (LinearMap.ext fun w => ?_)
-    show powAppendToTensorAlgHom g h t ((powAppendFromTensor g h t).toAlgebraHom
+    change powAppendToTensorAlgHom g h t ((powAppendFromTensor g h t).toAlgebraHom
         ((tensorInclRight (powAlgebra g t) (powAlgebra h t)).toAlgebraHom (powVec h t w))) =
       (tensorInclRight (powAlgebra g t) (powAlgebra h t)).toAlgebraHom (powVec h t w)
     rw [powAppendFromTensor_inclRight, powAppendToTensor_appendFromRight, appendTensorRight_def,

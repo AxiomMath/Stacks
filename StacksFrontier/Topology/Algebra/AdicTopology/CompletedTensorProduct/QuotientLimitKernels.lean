@@ -95,7 +95,7 @@ public theorem projectionKernel_mono {i i' : ι} {j j' : κ}
     completedTensorProductRingEquivQuotientLimit I J bI bJ
   have hcompat := (e x).2 (i, j) (i', j') hi hj
   change (e x).1 (i, j) = 0 at hx
-  show (e x).1 (i', j') = 0
+  change (e x).1 (i', j') = 0
   rw [← hcompat, hx, map_zero]
 
 end

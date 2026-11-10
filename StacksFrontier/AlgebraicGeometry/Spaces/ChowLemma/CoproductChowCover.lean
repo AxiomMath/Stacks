@@ -172,9 +172,9 @@ theorem hasChowSchemeCover_of_isProper_pair
       (fun b => isAlgebraicSpace_yoneda B S hS (coprodPairObj B S hS X₁ X₂ b))
       (isAlgebraicSpace_yoneda B S hS (X₁ ⨿ X₂)) hX h.hom ?_
     rintro ⟨_ | _⟩
-    · show IsProper B S hS (yoneda.map (coprod.inl : X₁ ⟶ X₁ ⨿ X₂) ≫ h.hom)
+    · change IsProper B S hS (yoneda.map (coprod.inl : X₁ ⟶ X₁ ⨿ X₂) ≫ h.hom)
       rwa [hfac₁]
-    · show IsProper B S hS (yoneda.map (coprod.inr : X₂ ⟶ X₁ ⨿ X₂) ≫ h.hom)
+    · change IsProper B S hS (yoneda.map (coprod.inr : X₂ ⟶ X₁ ⨿ X₂) ≫ h.hom)
       rwa [hfac₂]
   · intro x
     rcases hcov x with ⟨y, hy⟩ | ⟨y, hy⟩

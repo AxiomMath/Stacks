@@ -123,7 +123,7 @@ theorem isPowAnnihilated_idealPowerQuotient (k : ℕ) (M : Modules.{u, u} B S hS
       cokernel.π (powAnnihilator B S hS F hF 𝓘 k
         (idealPowerQuotient B S hS F hF 𝓘 k M)).ι = 0 := by
     ext X y
-    show (cokernel.π (powAnnihilator B S hS F hF 𝓘 k
+    change (cokernel.π (powAnnihilator B S hS F hF 𝓘 k
         (idealPowerQuotient B S hS F hF 𝓘 k M)).ι).val.app X
       ((cokernel.π (idealPowerMultiple B S hS F hF 𝓘 k M).ι).val.app X y) = 0
     refine (cokernel_π_app_eq_zero_iff B S hS F hF _ X _).mpr ?_

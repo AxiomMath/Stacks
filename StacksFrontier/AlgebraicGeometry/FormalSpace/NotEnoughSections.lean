@@ -82,7 +82,7 @@ theorem mem_basicOpen_iff_of_isField {I : Type (u + 1)} [Category I]
     (x y : (BigAffineFppf.toScheme B S hS).obj (D.obj i)) :
     x ∈ ((BigAffineFppf.toScheme B S hS).obj (D.obj i)).basicOpen (f.1 (op i)) ↔
       y ∈ ((BigAffineFppf.toScheme B S hS).obj (D.obj i)).basicOpen (f.1 (op i)) := by
-  show x ∈ ((BigAffineFppf.toScheme B S hS).obj (D.obj i)).basicOpen
+  change x ∈ ((BigAffineFppf.toScheme B S hS).obj (D.obj i)).basicOpen
       (sectionsProjection B S hS D i f) ↔
     y ∈ ((BigAffineFppf.toScheme B S hS).obj (D.obj i)).basicOpen
       (sectionsProjection B S hS D i f)

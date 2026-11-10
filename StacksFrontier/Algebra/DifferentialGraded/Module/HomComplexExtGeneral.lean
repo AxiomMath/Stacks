@@ -191,7 +191,7 @@ theorem dgCategory_d'_val {m : ℤ} (f : ↥(HomogeneousMap A L M m)) {n : ℤ} 
 it is closed for the differential of the differential graded category. -/
 theorem homSc_g_eq_zero_iff (n : ℤ) (f : ↥((homSc A L M n).X₂)) :
     (homSc A L M n).g.hom f = 0 ↔ homogeneousMapDifferential A (scX₂ A L M n f) = 0 := by
-  show ((homComplex A L M).d n (n + 1)).hom f = 0 ↔ _
+  change ((homComplex A L M).d n (n + 1)).hom f = 0 ↔ _
   rw [(dgCategory.{u, v, w} A).homComplex_d_apply L M (show n + 1 = n + 1 from rfl) f]
   rfl
 

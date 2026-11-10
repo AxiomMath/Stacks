@@ -218,7 +218,7 @@ public theorem topologicalKrullDim_secantDirections_le [IsAlgClosed k] [FiniteDi
     (x : projectiveSpaceOfModule k V)
     (hx : IsClosed ({x} : Set (projectiveSpaceOfModule k V)))
     (hV : 2 ≤ Module.finrank k V) {X : Set (projectiveSpaceOfModule k V)}
-    (hXc : IsClosed X) (hXirr : IsIrreducible X) :
+    (hXc : IsClosed X) :
     topologicalKrullDim (secantDirections k V x X) ≤ topologicalKrullDim X := by
   have hVnt : Nontrivial V := Module.nontrivial_of_finrank_pos (R := k) (by omega)
   have hWnt : Nontrivial ↥(pointSubmodule k V x) := by
@@ -266,12 +266,12 @@ public theorem secantDirections_ne_univ_of_isIrreducible [IsAlgClosed k] [Finite
     {m : ℕ} (x : projectiveSpaceOfModule k V)
     (hx : IsClosed ({x} : Set (projectiveSpaceOfModule k V)))
     (hV : Module.finrank k V = m + 2) {X : Set (projectiveSpaceOfModule k V)}
-    (hXc : IsClosed X) (hXirr : IsIrreducible X)
+    (hXc : IsClosed X)
     (hdim : topologicalKrullDim X < (m : WithBot ℕ∞)) :
     secantDirections k V x X ≠ Set.univ :=
   secantDirections_ne_univ_of_topologicalKrullDim_lt k V x hx hV X
     (lt_of_le_of_lt
-      (topologicalKrullDim_secantDirections_le k V x hx (by omega) hXc hXirr) hdim)
+      (topologicalKrullDim_secantDirections_le k V x hx (by omega) hXc) hdim)
 
 /-- **A centre off the secant cone separates `x` from the rest of `X`.** Let `p` be a closed
 point outside the secant cone of `X` at a closed point `x`. A point of `X` lying, like `x`, in
@@ -414,7 +414,7 @@ public theorem exists_isOpen_nonempty_forall_eq_of_isIrreducible [IsAlgClosed k]
     [FiniteDimensional k V] {m : ℕ} (x : projectiveSpaceOfModule k V)
     (hx : IsClosed ({x} : Set (projectiveSpaceOfModule k V)))
     (hV : Module.finrank k V = m + 2) {X : Set (projectiveSpaceOfModule k V)}
-    (hXc : IsClosed X) (hXirr : IsIrreducible X)
+    (hXc : IsClosed X)
     (hdim : topologicalKrullDim X < (m : WithBot ℕ∞)) :
     ∃ U : Set (projectiveSpaceOfModule k V), IsOpen U ∧ U.Nonempty ∧
       ∀ p ∈ U, IsClosed ({p} : Set (projectiveSpaceOfModule k V)) → p ∉ X ∧
@@ -425,7 +425,7 @@ public theorem exists_isOpen_nonempty_forall_eq_of_isIrreducible [IsAlgClosed k]
             projection k V (pointSubmodule k V p) x' →
           (y.val : projectiveSpaceOfModule k V) = x :=
   exists_isOpen_nonempty_forall_eq_of_projection_eq k V x hx (by omega) X
-    (secantDirections_ne_univ_of_isIrreducible k V x hx hV hXc hXirr hdim)
+    (secantDirections_ne_univ_of_isIrreducible k V x hx hV hXc hdim)
 
 end AlgebraicGeometry.ProjectiveSpaceOfModule
 

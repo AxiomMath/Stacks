@@ -297,15 +297,15 @@ public theorem relIndex_adeleLattice_single (D : Place K →₀ ℤ) (v : Place 
       · rw [singleAdele_apply_ne hw]
         exact (w.ball _).zero_mem
     refine ⟨⟨_, hmem⟩, ?_⟩
-    show q ⟨singleAdele v (y : v.completion) v, _⟩ = q y
+    change q ⟨singleAdele v (y : v.completion) v, _⟩ = q y
     congr 1
     exact Subtype.ext (singleAdele_apply_self v _)
   have hker : φ.ker = (adeleLattice K D).addSubgroupOf (adeleLattice K D') := by
     ext a
     rw [AddMonoidHom.mem_ker, AddSubgroup.mem_addSubgroupOf]
-    show ((ev a : v.ball m) : v.ball m ⧸ (v.ball (m + 1)).addSubgroupOf (v.ball m)) = 0 ↔ _
+    change ((ev a : v.ball m) : v.ball m ⧸ (v.ball (m + 1)).addSubgroupOf (v.ball m)) = 0 ↔ _
     rw [QuotientAddGroup.eq_zero_iff, AddSubgroup.mem_addSubgroupOf, mem_adeleLattice]
-    show a.1 v ∈ v.ball (m + 1) ↔ _
+    change a.1 v ∈ v.ball (m + 1) ↔ _
     have hm1 : m + 1 = -D v := by ring
     rw [hm1]
     refine ⟨fun h w => ?_, fun h => h v⟩
@@ -573,7 +573,7 @@ public theorem ord_gen_inv (v : Place K) : v.ord (gen k K)⁻¹ = -v.ord (gen k 
   rw [mul_inv_cancel₀ h0, Place.ord, map_one, log_one, neg_zero] at this
   omega
 
-omit [Field k] [Finite k] [Algebra k K] [Algebra (RatFunc k) K] [IsScalarTower k (RatFunc k) K]
+omit k [Field k] [Finite k] [Algebra k K] [Algebra (RatFunc k) K] [IsScalarTower k (RatFunc k) K]
   [FunctionField k K] in
 /-- `N(D)` of a nonnegative divisor as a natural number. -/
 public theorem divNorm_eq_prod_toNat {D : Place K →₀ ℤ} (hD : 0 ≤ D) :
@@ -585,7 +585,7 @@ public theorem divNorm_eq_prod_toNat {D : Place K →₀ ℤ} (hD : 0 ≤ D) :
 /-- The pole divisor of `t` has norm at most `#k ^ [K : k(t)]`. -/
 public theorem divNorm_poleDivisor_le :
     divNorm K (poleDivisor k K) ≤ (Nat.card k : ℚ) ^ degree k K := by
-  rw [divNorm_eq_prod_toNat k (poleDivisor_nonneg k)]
+  rw [divNorm_eq_prod_toNat (poleDivisor_nonneg k)]
   have hs : ∀ v ∈ (poleDivisor k K).support, (gen k K)⁻¹ ∈ v.1 := by
     intro v hv
     have h : gen k K ∉ v.1 := fun h => (Finsupp.mem_support_iff.1 hv)
@@ -614,6 +614,7 @@ end Riemann
 section LowerBound
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the module structures on `intClosure k t` over `polySubalg k t`
 /-- With a basis `b` of the integral closure of `k[t]`, the elements `∑ a_{ij} t^j b_i`,
 `j ≤ m - c`, give `ℓ(m · D_∞) ≥ #k ^ ([K : k(t)] · (m - c + 1))`. -/
 public theorem exists_ell_poleDivisor_lower_bound : ∃ c : ℕ, ∀ m : ℕ, c ≤ m →
@@ -697,7 +698,7 @@ public theorem exists_ell_poleDivisor_lower_bound : ∃ c : ℕ, ∀ m : ℕ, c 
       rw [ZeroMemClass.coe_zero, ← hd]
       simp only [y, Fintype.sum_prod_type, AddSubmonoidClass.coe_finsetSum]
       refine Finset.sum_congr rfl fun i _ => ?_
-      show (α i : K) * (b i : K) = _
+      change (α i : K) * (b i : K) = _
       rw [coe_polySubalgMap, map_sum, Finset.sum_mul]
       refine Finset.sum_congr rfl fun j _ => ?_
       rw [map_mul, aeval_C, map_pow, aeval_X]
@@ -725,7 +726,7 @@ section RiemannInequality
 
 /-- For `D ≥ 0` there is a nonzero polynomial `f` with `ord_v f(t) ≥ D(v)` at every place
 containing `t`. -/
-public theorem exists_poly_ord_ge {D : Place K →₀ ℤ} (hD : 0 ≤ D) :
+public theorem exists_poly_ord_ge (D : Place K →₀ ℤ) :
     ∃ f : k[X], f ≠ 0 ∧ ∀ v : Place K, gen k K ∈ v.1 → D v ≤ v.ord (aeval (gen k K) f) := by
   classical
   set t := gen k K
@@ -787,7 +788,7 @@ public theorem divNorm_principalDivisor_mul_le {f : k[X]} (hf : f ≠ 0) :
   have hNZ : divNorm K Z = divNorm K (principalDivisor k K (aeval t f)) *
       divNorm K (poleDivisor k K) ^ f.natDegree := by
     rw [divNorm_add k, divNorm_nsmul k]
-  rw [← hNZ, divNorm_eq_prod_toNat k hZ0]
+  rw [← hNZ, divNorm_eq_prod_toNat hZ0]
   rw [Finset.prod_congr rfl fun v hv => by rw [hZv, ite_eq_left (hs v hv)]]
   exact_mod_cast key
 
@@ -800,12 +801,12 @@ public theorem exists_divNorm_le_mul_ell :
   set n := degree k K
   have hq1 : 1 ≤ q := by
     have : 1 ≤ Nat.card k := Nat.card_pos
-    show (1 : ℚ) ≤ (Nat.card k : ℚ)
+    change (1 : ℚ) ≤ (Nat.card k : ℚ)
     exact_mod_cast this
   have hq0 : 0 < q := zero_lt_one.trans_le hq1
   refine ⟨q ^ (n * c), by positivity, fun D hD => ?_⟩
   set t := gen k K
-  obtain ⟨f, hf0, hf⟩ := exists_poly_ord_ge k hD
+  obtain ⟨f, hf0, hf⟩ := exists_poly_ord_ge k D
   set y := aeval t f
   have hy0 : y ≠ 0 := aeval_ne_zero_of_transcendental (gen_transcendental k K) hf0
   set Sinf := (finite_setOf_gen_notMem k (K := K)).toFinset
@@ -856,7 +857,7 @@ public theorem exists_divNorm_le_mul_ell :
           ring
   have hmain : ND * q ^ (n * (m - c + 1)) ≤ ell k K D * q ^ (n * m) := by
     have h1 : (q ^ (n * (m - c + 1)) : ℚ) ≤ ell k K (m • poleDivisor k K) := by
-      show ((Nat.card k : ℚ)) ^ (n * (m - c + 1)) ≤ _
+      change ((Nat.card k : ℚ)) ^ (n * (m - c + 1)) ≤ _
       exact_mod_cast hlow
     calc ND * q ^ (n * (m - c + 1)) ≤ ND * ell k K (m • poleDivisor k K) :=
           mul_le_mul_of_nonneg_left h1 hND0.le

@@ -143,6 +143,8 @@ noncomputable def sheafifyQuotientHom :
   ((sheafificationAdjunction J CommRingCat.{w}).homEquiv _ B).symm
     (Conormal.quotientToTarget a.hom)
 
+omit [J.WEqualsLocallyBijective CommRingCat.{w}] [J.HasSheafCompose (forget CommRingCat.{w})]
+  [Presheaf.IsLocallySurjective J a.hom] in
 /-- The classifying homomorphism restricts on the objectwise quotient to the canonical
 inclusion. -/
 theorem toSheafify_comp_sheafifyQuotientHom :
@@ -218,7 +220,7 @@ theorem comp_desc : a ≫ desc a ψ hker = ψ := by
   have hι : Conormal.quotientToTarget a.hom ≫ (sheafifyQuotientIso a).inv.hom =
       toSheafify J (Conormal.quotientPresheaf a.hom) := by
     rw [← toSheafify_comp_sheafifyQuotientHom a, Category.assoc]
-    show _ ≫ ((sheafifyQuotientIso a).hom ≫ (sheafifyQuotientIso a).inv).hom = _
+    change _ ≫ ((sheafifyQuotientIso a).hom ≫ (sheafifyQuotientIso a).inv).hom = _
     rw [(sheafifyQuotientIso a).hom_inv_id]
     simp
   calc (a ≫ desc a ψ hker).hom
@@ -239,13 +241,13 @@ theorem eq_desc (φ : B ⟶ T) (hφ : a ≫ φ = ψ) : φ = desc a ψ hker := by
   have hq : Conormal.quotientToTarget a.hom ≫ φ.hom = quotientHom a ψ hker := by
     refine NatTrans.ext (funext fun X => CommRingCat.hom_ext (RingHom.ext fun z => ?_))
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective z
-    show φ.hom.app X (a.hom.app X x) = ψ.hom.app X x
+    change φ.hom.app X (a.hom.app X x) = ψ.hom.app X x
     exact congrArg (fun k : A ⟶ T => k.hom.app X x) hφ
   have hkey : (sheafifyQuotientIso a).hom ≫ φ = sheafifyDesc a ψ hker := by
     refine ((sheafificationAdjunction J CommRingCat.{w}).homEquiv
       (Conormal.quotientPresheaf a.hom) T).injective ?_
     rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit]
-    show toSheafify J (Conormal.quotientPresheaf a.hom) ≫
+    change toSheafify J (Conormal.quotientPresheaf a.hom) ≫
       ((sheafifyQuotientIso a).hom ≫ φ).hom = _
     rw [show ((sheafifyQuotientIso a).hom ≫ φ).hom =
         (sheafifyQuotientIso a).hom.hom ≫ φ.hom from rfl, ← Category.assoc,
@@ -271,7 +273,7 @@ theorem hom_ext_of_isLocallySurjective (a : A ⟶ B) [Presheaf.IsLocallySurjecti
   have hker : ∀ (X : Cᵒᵖ) (x : A.obj.obj X),
       a.hom.app X x = 0 → (a ≫ φ₁).hom.app X x = 0 := by
     intro X x hx
-    show φ₁.hom.app X (a.hom.app X x) = 0
+    change φ₁.hom.app X (a.hom.app X x) = 0
     rw [hx, map_zero]
   exact (eq_desc a (a ≫ φ₁) hker φ₁ rfl).trans (eq_desc a (a ≫ φ₁) hker φ₂ h.symm).symm
 

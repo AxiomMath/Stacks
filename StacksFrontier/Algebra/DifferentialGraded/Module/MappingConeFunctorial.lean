@@ -61,7 +61,7 @@ theorem exists_mappingConeMap_of_homotopic_square
       (a.toFun.comp (LinearMap.snd R L₁.M K₁.M))
     map_smul := by
       intro x r
-      show (b.toFun (MulOpposite.op r • x.1) + H.toLinearMap (MulOpposite.op r • x.2),
+      change (b.toFun (MulOpposite.op r • x.1) + H.toLinearMap (MulOpposite.op r • x.2),
         a.toFun (MulOpposite.op r • x.2)) = (MulOpposite.op r • (b.toFun x.1 +
         H.toLinearMap x.2), MulOpposite.op r • a.toFun x.2)
       simp [b.map_smul, a.map_smul, H.toLinearMap.map_smul, smul_add]
@@ -69,7 +69,7 @@ theorem exists_mappingConeMap_of_homotopic_square
       intro n x hx
       change L₁.M × K₁.M at x
       change x ∈ coneGrading K₁ L₁ n at hx
-      show (b.toFun x.1 + H.toLinearMap x.2, a.toFun x.2) ∈
+      change (b.toFun x.1 + H.toLinearMap x.2, a.toFun x.2) ∈
         coneGrading K₂ L₂ n
       rw [coneGrading_mem] at hx ⊢
       refine ⟨(L₂.grading n).add_mem (b.map_grading n x.1 hx.1) ?_,
@@ -78,7 +78,7 @@ theorem exists_mappingConeMap_of_homotopic_square
     map_d := by
       apply LinearMap.ext; intro x
       change L₁.M × K₁.M at x
-      show (b.toFun (L₁.d x.1 + f₁.toFun x.2) +
+      change (b.toFun (L₁.d x.1 + f₁.toFun x.2) +
           H.toLinearMap (-K₁.d x.2), a.toFun (-K₁.d x.2)) =
         (L₂.d (b.toFun x.1 + H.toLinearMap x.2) +
           f₂.toFun (a.toFun x.2), -K₂.d (a.toFun x.2))
@@ -94,13 +94,13 @@ theorem exists_mappingConeMap_of_homotopic_square
   }, ?_, ?_⟩
   · apply Hom.ext; ext x
     simp only [Hom.comp_toFun_apply]
-    show (b.toFun x + (H.toLinearMap.restrictScalars R) 0,
+    change (b.toFun x + (H.toLinearMap.restrictScalars R) 0,
         a.toFun 0) = (b.toFun x, (0 : K₂.M))
     simp
   · apply Hom.ext; ext x
     simp only [Hom.comp_toFun_apply]
     change L₁.M × K₁.M at x
-    show (b.toFun x.1 + (H.toLinearMap.restrictScalars R) x.2,
+    change (b.toFun x.1 + (H.toLinearMap.restrictScalars R) x.2,
         a.toFun x.2).2 = a.toFun x.2
     rfl
 

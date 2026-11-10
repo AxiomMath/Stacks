@@ -90,7 +90,7 @@ theorem smul_adicQuotientSystemShortComplex_X₁ {a : Λ} (ha : a ∈ I)
       change Submodule.Quotient.mk (p := I ^ n) y = 0 at hm
       exact (Submodule.Quotient.mk_eq_zero _).1 hm
     apply Subtype.ext
-    show a • Submodule.Quotient.mk (p := I ^ (n + 1)) y = 0
+    change a • Submodule.Quotient.mk (p := I ^ (n + 1)) y = 0
     rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero, pow_succ']
     exact Ideal.mul_mem_mul ha hy
 
@@ -108,7 +108,7 @@ theorem smul_adicQuotientSystem_obj {a : Λ} (ha : a ∈ I ^ n)
   change Λ ⧸ I ^ n at m
   induction m using Submodule.Quotient.induction_on with
   | H y =>
-    show a • Submodule.Quotient.mk (p := I ^ n) y = 0
+    change a • Submodule.Quotient.mk (p := I ^ n) y = 0
     rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
     exact Ideal.mul_mem_right y _ ha
 
@@ -138,7 +138,7 @@ theorem constantIdealSheaf_le_annihilator {I : Ideal Λ} (M : ModuleCat.{u} Λ)
   rw [h0, Functor.map_zero] at h2
   have h3 := congr_arg (fun f => f.val.app W y) h2
   change (0 : _) = constantSectionRingHom J Λ W p.1 • y at h3
-  show (Stacks.SheafOfModules.Tensor.ringSheaf (constant J Λ).O).obj.map g
+  change (Stacks.SheafOfModules.Tensor.ringSheaf (constant J Λ).O).obj.map g
       (constantSectionRingHom J Λ p.2 p.1) • y = 0
   rw [h1, ← h3]
 
@@ -243,7 +243,7 @@ theorem globalSectionToEnd_comp_cokernelπ {I : Ideal Λ} {a : Λ} (ha : a ∈ I
         (smul_eq_mul (α := R) _ _).trans (mul_comm _ _)
       exact e ▸ this
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show (cokernel.π (constantIdealSheaf J Λ I).ι).val.app U
+  change (cokernel.π (constantIdealSheaf J Λ I).ι).val.app U
     ((constantIdealSheaf J Λ I).ι.val.app U ⟨_, key x⟩) = 0
   exact Stacks.SheafOfModules.val_app_apply_eq_zero _ _ (cokernel.condition _) U _
 
@@ -260,7 +260,7 @@ theorem idealGeneratorsMap_comp_mkQ {r : ℕ} (g : Fin r → Λ) (I : Ideal Λ)
   refine biproduct.hom_ext' _ _ fun k => ?_
   rw [biproduct.ι_desc_assoc, comp_zero]
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show Submodule.mkQ I (g k • x) = 0
+  change Submodule.mkQ I (g k • x) = 0
   rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
   exact I.mul_mem_right x (hg ▸ Ideal.subset_span ⟨k, rfl⟩)
 

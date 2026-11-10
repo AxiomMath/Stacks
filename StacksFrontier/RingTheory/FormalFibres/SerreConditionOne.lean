@@ -62,7 +62,7 @@ the universe-lifted form of the condition is equivalent to the condition itself.
 public theorem serreConditionOneProperty_holds_iff {A B : Type u}
     [CommRing A] [CommRing B] (f : A →+* B) :
     serreConditionOneProperty.Holds.{u, u, 0, 0} f ↔ HasSerreCondition B 1 := by
-  show HasSerreCondition (ULift B) 1 ↔ HasSerreCondition B 1
+  change HasSerreCondition (ULift B) 1 ↔ HasSerreCondition B 1
   exact ⟨HasSerreCondition.of_ringEquiv ULift.ringEquiv,
     HasSerreCondition.of_ringEquiv ULift.ringEquiv.symm⟩
 

@@ -84,7 +84,7 @@ theorem exists_epi_isSumOfExtensionByZeroUnits_of_essentiallySmall [EssentiallyS
   intro N f g h
   have key (i : σ) : f.val.app (op (U i)) i.2 = g.val.app (op (U i)) i.2 := by
     have hh := Sigma.ι (fun i : σ => extensionByZeroUnit R (U i)) i ≫= h
-    simp only [← Category.assoc, Sigma.ι_desc] at hh
+    simp only [← Category.assoc, Sigma.ι_comp_desc] at hh
     have he := congrArg
       (Stacks.Sites.ExtensionByZero.extensionByZeroUnitHomEquiv J R (U i) N) hh
     rwa [Stacks.Sites.ExtensionByZero.extensionByZeroUnitHomEquiv_naturality,
@@ -96,7 +96,7 @@ theorem exists_epi_isSumOfExtensionByZeroUnits_of_essentiallySmall [EssentiallyS
     let ψ := (PresheafOfModules.toPresheaf R.obj).map g.val
     let P := (PresheafOfModules.toPresheaf R.obj).obj M.val
     let x' : P.obj (op Y) := x
-    show φ.app (op Y) x' = ψ.app (op Y) x'
+    change φ.app (op Y) x' = ψ.app (op Y) x'
     have hx : x' = P.map a.hom.op (P.map a.inv.op x') := by
       rw [← ConcreteCategory.comp_apply, ← Functor.map_comp, ← op_comp, a.hom_inv_id, op_id]
       simp
@@ -282,7 +282,7 @@ theorem isIso_totalLeftDerivedLowerShriekAdjunction_unit
     have (n : ℤ) : IsIso (v.f n) :=
       inferInstanceAs (IsIso ((adjunctionModules J K f O).unit.app (X.X n)))
     have : IsIso v := HomologicalComplex.Hom.isIso_of_components _
-    show IsIso ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).map v)
+    change IsIso ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).map v)
     infer_instance
   have : IsIso adjh.unit := NatIso.isIso_of_isIso_app _
   have : IsIso β := by

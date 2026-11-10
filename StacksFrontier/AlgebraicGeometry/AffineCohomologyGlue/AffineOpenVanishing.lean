@@ -119,10 +119,10 @@ theorem standardCovers_mem_affineOpens {W : OpenCover ↥X} (hW : W ∈ standard
       ∀ (p : ℕ) (s : Fin (p + 1) → W.ι), (⨅ k, W.obj (s k)) ∈ X.affineOpens := by
   obtain ⟨hU, n, g, e, -, hobj⟩ := hW
   refine ⟨hU, fun i ↦ ?_, fun p s ↦ ?_⟩
-  · show IsAffineOpen (W.obj i)
+  · change IsAffineOpen (W.obj i)
     rw [hobj]
     exact hU.basicOpen _
-  · show IsAffineOpen (⨅ k, W.obj (s k))
+  · change IsAffineOpen (⨅ k, W.obj (s k))
     rw [hobj, ← Cech.basicOpen_tupleProd g fun k ↦ e (s k)]
     exact hU.basicOpen _
 
@@ -177,7 +177,7 @@ theorem cechCohomologyIsZero_of_mem_standardCovers (F : X.Modules) [F.IsQuasicoh
     {W : OpenCover ↥X} (hW : W ∈ standardCovers X) (p : ℕ) (hp : 0 < p) :
     CechCohomologyIsZero.{u, u, u} X.ringCatSheaf F W p := by
   obtain ⟨hU, n, g, e, hgstd, hobj⟩ := hW
-  show IsZero (((cechComplexFunctor W.obj).obj
+  change IsZero (((cechComplexFunctor W.obj).obj
     ((SheafOfModules.toSheaf X.ringCatSheaf).obj F).obj).homology p)
   rw [hobj]
   exact CechReindex.isZero_homology_of_reindex (fun i : Fin n ↦ X.basicOpen (g i)) _ e p

@@ -171,7 +171,7 @@ local notation "e₀" => CommAlgCat.standardResolutionZeroAlgEquiv A (CommAlgCat
 
 /-- `ψ'(p) - ψ(p)` lies in the kernel of `P → B`. -/
 theorem ψ_sub_lsSection_mem (p : (𝒫).left.obj (op ⦋0⦌)) : c.ψ p - P.lsSection p ∈ P.ker := by
-  show algebraMap P.Ring B _ = 0
+  change algebraMap P.Ring B _ = 0
   rw [map_sub, c.algebraMap_ψ, P.algebraMap_lsSection, sub_self]
 
 /-- The biderivation `θ` read on `A[B]`. -/
@@ -197,14 +197,14 @@ def difference : (𝒫).left.obj (op ⦋0⦌) →ₗ[A] freeQuotient P :=
 theorem difference_mul (x y : (𝒫).left.obj (op ⦋0⦌)) :
     c.difference (x * y) = c.ψ x • c.difference y + P.lsSection y • c.difference x := by
   have h := c.differencePoly_spec.1 ((e₀) x) ((e₀) y)
-  simp only [AlgHom.comp_apply, AlgEquiv.coe_algHom, AlgEquiv.symm_apply_apply, ← map_mul] at h
+  simp only [AlgHom.comp_apply, AlgEquiv.coe_toAlgHom, AlgEquiv.symm_apply_apply, ← map_mul] at h
   exact h
 
 /-- `ρ ∘ θ = ψ' - ψ`. -/
 theorem freeQuotientRelationMap_difference (x : (𝒫).left.obj (op ⦋0⦌)) :
     freeQuotientRelationMap P (c.difference x) = c.ψ x - P.lsSection x := by
   have h := c.differencePoly_spec.2 ((e₀) x)
-  simp only [AlgHom.comp_apply, AlgEquiv.coe_algHom, AlgEquiv.symm_apply_apply] at h
+  simp only [AlgHom.comp_apply, AlgEquiv.coe_toAlgHom, AlgEquiv.symm_apply_apply] at h
   exact h
 
 /-- `θ(1) = 0`. -/
@@ -418,18 +418,18 @@ def homotopyHom (i j : ℤ) (hij : (ComplexShape.up ℤ).Rel j i) :
 /-- In degree `0`, the homotopy is `homotopyHomZero`. -/
 theorem homotopyHom_zero (h : (ComplexShape.up ℤ).Rel (-1) 0) :
     c.homotopyHom 0 (-1) h = c.homotopyHomZero := by
-  rw [homotopyHom, dif_pos rfl, eqToHom_refl, eqToHom_refl, Category.id_comp, Category.comp_id]
+  rw [homotopyHom, dite_eq_left rfl, eqToHom_refl, eqToHom_refl, Category.id_comp, Category.comp_id]
 
 /-- In degree `-1`, the homotopy is `homotopyHomOne`. -/
 theorem homotopyHom_negOne (h : (ComplexShape.up ℤ).Rel (-2) (-1)) :
     c.homotopyHom (-1) (-2) h = c.homotopyHomOne := by
-  rw [homotopyHom, dif_neg (by decide), dif_pos rfl, eqToHom_refl, eqToHom_refl,
+  rw [homotopyHom, dite_eq_right (by decide), dite_eq_left rfl, eqToHom_refl, eqToHom_refl,
     Category.id_comp, Category.comp_id]
 
 /-- In degrees other than `0` and `-1`, the homotopy vanishes. -/
 theorem homotopyHom_eq_zero (i j : ℤ) (h : (ComplexShape.up ℤ).Rel j i) (h0 : i ≠ 0)
     (h1 : i ≠ -1) : c.homotopyHom i j h = 0 := by
-  rw [homotopyHom, dif_neg h0, dif_neg h1]
+  rw [homotopyHom, dite_eq_right h0, dite_eq_right h1]
 
 /-- **The map of complexes `L_{B/A} → L` of the choice `c`**: `lsChainMap` corrected by the
 null-homotopic map of the homotopy `(θ, u)`. -/
@@ -444,7 +444,7 @@ def homotopy : Homotopy c.chainMap P.lsChainMap :=
 /-- The degree `0` component of `chainMap` is that of `lsChainMap` plus `d ∘ homotopyHomZero`. -/
 theorem chainMap_f_zero : c.chainMap.f 0 =
     P.lsChainMap.f 0 + c.homotopyHomZero ≫ (lichtenbaumSchlessingerComplex P).complex.d (-1) 0 := by
-  show P.lsChainMap.f 0 + (Homotopy.nullHomotopicMap' c.homotopyHom).f 0 = _
+  change P.lsChainMap.f 0 + (Homotopy.nullHomotopicMap' c.homotopyHom).f 0 = _
   rw [Homotopy.nullHomotopicMap'_f (k₂ := -1) (k₀ := 1) (by simp) (by simp),
     c.homotopyHom_eq_zero 1 0 _ (by decide) (by decide), Limits.comp_zero, zero_add,
     homotopyHom_zero]
@@ -454,14 +454,14 @@ theorem chainMap_f_zero : c.chainMap.f 0 =
 theorem chainMap_f_negOne : c.chainMap.f (-1) =
     P.lsChainMap.f (-1) + ((cotangentComplexULift.{u, v, w} A B).d (-1) 0 ≫ c.homotopyHomZero +
       c.homotopyHomOne ≫ (lichtenbaumSchlessingerComplex P).complex.d (-2) (-1)) := by
-  show P.lsChainMap.f (-1) + (Homotopy.nullHomotopicMap' c.homotopyHom).f (-1) = _
+  change P.lsChainMap.f (-1) + (Homotopy.nullHomotopicMap' c.homotopyHom).f (-1) = _
   rw [Homotopy.nullHomotopicMap'_f (k₂ := -2) (k₀ := 0) (by simp) (by simp), homotopyHom_zero,
     homotopyHom_negOne]
 
 /-- The degree `-2` component of `chainMap` is that of `lsChainMap` plus `homotopyHomOne ∘ d`. -/
 theorem chainMap_f_negTwo : c.chainMap.f (-2) =
     P.lsChainMap.f (-2) + (cotangentComplexULift.{u, v, w} A B).d (-2) (-1) ≫ c.homotopyHomOne := by
-  show P.lsChainMap.f (-2) + (Homotopy.nullHomotopicMap' c.homotopyHom).f (-2) = _
+  change P.lsChainMap.f (-2) + (Homotopy.nullHomotopicMap' c.homotopyHom).f (-2) = _
   rw [Homotopy.nullHomotopicMap'_f (k₂ := -3) (k₀ := -1) (by simp) (by simp), homotopyHom_negOne,
     c.homotopyHom_eq_zero (-2) (-3) _ (by decide) (by decide), Limits.zero_comp, add_zero]
 

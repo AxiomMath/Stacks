@@ -267,7 +267,7 @@ public theorem fiberStalkComponent_fiberBaseChangeSectionsMap
             (fiberBaseChangeSupport B p f' f g sq V E)) h' := by
       refine openObjectLift_ext B X'.obj X'.property (x.toGeometricPoint B f' t)
         (baseChange B f' (baseChange B g V)) _ _ _ ?_
-      show ((openObjectLift B X'.obj X'.property (x.toGeometricPoint B f' t)
+      change ((openObjectLift B X'.obj X'.property (x.toGeometricPoint B f' t)
             (baseChange B f' (baseChange B g V))
             (fiberPointElement B f' t (baseChange B g V)
               (geometricPointFiberBaseChangeEquiv B g t V u) x)

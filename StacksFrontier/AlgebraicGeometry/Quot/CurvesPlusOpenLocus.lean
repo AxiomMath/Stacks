@@ -275,7 +275,7 @@ theorem CurveFamily.mem_finiteSingularBaseLocus_iff (X : CurveFamily B hZ)
       ∀ z : Space.points B integerBase hZ Z.toFunctor,
         Space.pointsMap B integerBase hZ Z.toFunctor (Z.ι ≫ X.toBase.hom) z = y →
           Space.IsQuasiFiniteAt B integerBase hZ (Z.ι ≫ X.toBase.hom) z := by
-  show {x : Space.points B integerBase hZ X.total.1 |
+  change {x : Space.points B integerBase hZ X.total.1 |
     x ∈ CurveFamily.nonSmoothLocus B hZ X ∧
       Space.pointsMap B integerBase hZ X.total.1 X.toBase.hom x = y}.Finite ↔ _
   rw [← hZs, Space.finite_fibre_range_iff_of_isClosedSubspace B integerBase hZ Z hZc]
@@ -299,7 +299,7 @@ theorem CurveFamily.isOpen_finiteSingularBaseLocus (X : CurveFamily B hZ) :
     rw [Set.mem_compl_iff, CurveFamily.mem_finiteSingularBaseLocus_iff B hZ X Z
       (CurveFamily.isClosedSubspace_singularSubspace B hZ X)
       (CurveFamily.range_pointsMap_ι_singularSubspace B hZ X)]
-    simp only [Set.mem_image, Set.mem_compl_iff, Set.mem_setOf_eq, not_forall]
+    simp only [Set.mem_image, Set.mem_compl_iff, Set.mem_ofPred_eq, not_forall]
     exact ⟨fun ⟨z, hz, hq⟩ => ⟨z, hq, hz⟩, fun ⟨z, hq, hz⟩ => ⟨z, hz, hq⟩⟩
   rw [← isClosed_compl_iff, hcompl]
   exact Space.isClosed_of_universallyClosed B integerBase hZ (schemeSpace X.base).property _

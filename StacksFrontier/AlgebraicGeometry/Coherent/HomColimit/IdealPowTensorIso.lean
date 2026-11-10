@@ -152,7 +152,7 @@ public theorem mem_tensorMultipleToModule (I : X.IdealSheafData) (n m : ℕ) (G 
   rw [idealPowerMultiple_obj_affineOpen I (n + m) G V]
   have hgoal : (tensorMultipleToModule I n m G).app V.1 x
       = ∑ j, a j • (idealPowTensorToModule I n G).app V.1 (t j) := by
-    show (idealPowTensorToModule I n G).app V.1 (x.1) = _
+    change (idealPowTensorToModule I n G).app V.1 (x.1) = _
     rw [hsum, map_sum]
     exact Finset.sum_congr rfl fun j _ ↦ Scheme.Modules.Hom.app_smul _ _ _
   rw [hgoal]

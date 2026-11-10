@@ -103,7 +103,7 @@ basis. -/
 theorem eval_comp_classify :
     f.eval.comp (universalChartClassify A f.g) = (ofBasis f.basis f.basis_zero).classify := by
   refine RingHom.ext fun x => ?_
-  show f.eval (algebraMap _ f.Chart (universalChartBaseClassify.{u} f.g x)) = _
+  change f.eval (algebraMap _ f.Chart (universalChartBaseClassify.{u} f.g x)) = _
   rw [eval_algebraMap, chartMap, ← RingHom.comp_apply, chartOfBasis_comp]
 
 /-- The base change along the evaluation of the table of the chart is the table of the basis. -/

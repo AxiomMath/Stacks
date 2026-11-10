@@ -314,7 +314,7 @@ private theorem homEquiv_restrictFunctorIsoPullback_comp_pullbackObjUnitIso :
       (SheafOfModules.unit Y.ringCatSheaf))) ?_
   refine Eq.trans (Adjunction.homEquiv_unit
     (Scheme.Modules.pullbackPushforwardAdjunction f) _ _ _).symm ?_
-  haveI : (SheafOfModules.pushforward f.toRingCatSheafHom).IsRightAdjoint :=
+  have : (SheafOfModules.pushforward f.toRingCatSheafHom).IsRightAdjoint :=
     inferInstanceAs (Scheme.Modules.pushforward f).IsRightAdjoint
   exact SheafOfModules.pullbackPushforwardAdjunction_homEquiv_pullbackObjUnitToUnit
     f.toRingCatSheafHom

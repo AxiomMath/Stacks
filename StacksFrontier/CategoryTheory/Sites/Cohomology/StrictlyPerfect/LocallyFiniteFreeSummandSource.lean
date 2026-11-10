@@ -170,7 +170,7 @@ theorem homMap_single_quasiIso_of_isLocallyFiniteFreeSummand
             (restrictComplexMap X (V i) f)) ≫
         (sheafHomRestrictionComplexIso X (V i) E G).inv :=
     (Iso.eq_comp_inv _).2 (sheafHomRestrictionComplexIso_natural X (V i) (𝟙 E) f)
-  show QuasiIso (restrictComplexMap X (V i) (homMap X (𝟙 E) f))
+  change QuasiIso (restrictComplexMap X (V i) (homMap X (𝟙 E) f))
   rw [heq, hid]
   exact quasiIso_comp _ _
     (hφ := quasiIso_comp _ _

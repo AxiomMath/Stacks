@@ -116,7 +116,7 @@ theorem mem_nonvanishingLocus_of_iso_unit {Y : Scheme.{u}} (M : Y.Modules)
     exact ⟨⟨c, d, hd, by rw [mul_comm]; exact hd⟩, rfl⟩
   let gO : GeneratorSections Y.toRingedSpace (SheafOfModules.unit Y.ringCatSheaf) ⊤ :=
     ⟨c, fun V h => by
-      show Function.Bijective (fun r : Γ(Y, V) => r * Y.presheaf.map (homOfLE h).op c)
+      change Function.Bijective (fun r : Γ(Y, V) => r * Y.presheaf.map (homOfLE h).op c)
       exact IsUnit.isUnit_iff_mulRight_bijective.mp
         (hcu.map (Y.presheaf.map (homOfLE h).op).hom)⟩
   let gM : GeneratorSections Y.toRingedSpace M ⊤ :=
@@ -131,7 +131,7 @@ theorem mem_nonvanishingLocus_of_iso_unit {Y : Scheme.{u}} (M : Y.Modules)
   have h := Stacks.SheafOfModules.notMem_maximalIdeal_smul_top_of_generator M gM y
     (Opens.mem_top y)
   rw [hgM] at h
-  show _ ∉ _
+  change _ ∉ _
   rw [Stacks.NonvanishingSpelling.sectionsEquiv_symm_eval,
     show (homOfLE (le_top : (⊤ : Y.Opens) ≤ ⊤)).op = 𝟙 _ from rfl, CategoryTheory.Functor.map_id]
   exact h
@@ -212,7 +212,7 @@ theorem exists_generatorSections_of_forall_mem_nonvanishingLocus [IsProper π] (
         (IsLocalRing.closedPoint p.ResidueField) := by
       rw [hx]
       refine PrimeSpectrum.ext ?_
-      show p = Ideal.comap (algebraMap A p.ResidueField) (IsLocalRing.maximalIdeal _)
+      change p = Ideal.comap (algebraMap A p.ResidueField) (IsLocalRing.maximalIdeal _)
       rw [IsLocalRing.maximalIdeal_eq_bot, ← RingHom.ker_eq_comap_bot,
         Ideal.ker_algebraMap_residueField]
     obtain ⟨z, hz, -⟩ := Scheme.Pullback.exists_preimage_pullback x _ hq
@@ -228,7 +228,7 @@ theorem exists_generatorSections_of_forall_mem_nonvanishingLocus [IsProper π] (
     intro x hx
     by_contra hxZ
     exact hsub (hV hx) ⟨x, hxZ, rfl⟩
-  show Function.Bijective (fun r : Γ(X, V) => r • L.presheaf.map (homOfLE hV).op
+  change Function.Bijective (fun r : Γ(X, V) => r • L.presheaf.map (homOfLE hV).op
     (L.presheaf.map (homOfLE (le_top : π ⁻¹ᵁ PrimeSpectrum.basicOpen g ≤ ⊤)).op s))
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
   exact Stacks.NonvanishingSpelling.bijective_smul X L s hVnv

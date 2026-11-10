@@ -234,7 +234,7 @@ private lemma rightAdjointObjIsDefined_of_small_hom
           ((ObjectProperty.shrinkAb.{w} (F.op ⋙ preadditiveYoneda.obj Y)).map f.op)
           (ConcreteCategory.hom (e.inv.app (op W')) g) :=
       ConcreteCategory.congr_hom (e.inv.naturality f.op) g
-    show Shrink.addEquiv (ConcreteCategory.hom (e.inv.app (op W)) (f ≫ g)) =
+    change Shrink.addEquiv (ConcreteCategory.hom (e.inv.app (op W)) (f ≫ g)) =
       F.map f ≫ Shrink.addEquiv (ConcreteCategory.hom (e.inv.app (op W')) g)
     rw [show (f ≫ g) = ConcreteCategory.hom ((preadditiveYoneda.obj X).map f.op) g from rfl,
       hnat]

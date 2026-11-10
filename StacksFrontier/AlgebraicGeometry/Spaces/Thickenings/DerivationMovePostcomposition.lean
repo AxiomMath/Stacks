@@ -68,7 +68,7 @@ theorem pullbackRingSheafMap_sub_app_apply {A R : Sheaf J RingCat.{w₁}} (φ ψ
   have key : (pullbackRingSheafMap K Φ φ).hom.app Y y =
       (pullbackRingSheafMap K Φ ψ).hom.app Y y +
         (show ToType ((pullbackRingSheaf K Φ R).obj.obj Y) from (Φ.map δ).hom.app Y y) := by
-    show (Φ ⋙ Sheaf.sectionsFunctor K Y).map ((sheafCompose J (forget RingCat.{w₁})).map φ) y =
+    change (Φ ⋙ Sheaf.sectionsFunctor K Y).map ((sheafCompose J (forget RingCat.{w₁})).map φ) y =
       Sheaf.ringAddObj R (Φ ⋙ Sheaf.sectionsFunctor K Y)
         ((Φ ⋙ Sheaf.sectionsFunctor K Y).map ((sheafCompose J (forget RingCat.{w₁})).map ψ) y)
         ((Φ ⋙ Sheaf.sectionsFunctor K Y).map δ y)

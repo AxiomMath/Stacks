@@ -159,8 +159,7 @@ private theorem torsion_mapQ_injective (S : InjectiveModuloMaximalIdealSituation
       Subtype.val_injective (LinearMap.exact_subtype_mkQ T) T.mkQ_surjective).1
   have hcomm (z : C ⊗[S.A] T) :
       qmap (eT z) = eN (LinearMap.lTensor C (T.subtype.restrictScalars S.A) z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp [eT, eN, qmap]
+    induction z using TensorProduct.inductionOn with
     | tmul r t =>
         obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective r
         simp only [eT, eN, LinearMap.lTensor_tmul]

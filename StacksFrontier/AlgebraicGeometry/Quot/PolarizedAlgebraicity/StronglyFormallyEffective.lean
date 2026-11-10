@@ -157,7 +157,7 @@ theorem isStronglyFormallyEffective_polarizedSliceProjection [IsLocallyNoetheria
       simp only [Functor.const_obj_map, Over.comp_left] at h
       exact h
     · refine PolarizedFormal.heq_of_pullbackCongr_hom_app_comp (hj n) _ _ ?_
-      show (Scheme.Modules.pullbackCongr (hj n)).hom.app ℒ ≫ e' n =
+      change (Scheme.Modules.pullbackCongr (hj n)).hom.app ℒ ≫ e' n =
         (Scheme.Modules.pullbackComp _ _).inv.app ℒ ≫
           (Scheme.Modules.pullback (ξ.map (g n)).totalMap).map (e' (n + 1)) ≫
             (ξ.map (g n)).lineBundleIso.hom

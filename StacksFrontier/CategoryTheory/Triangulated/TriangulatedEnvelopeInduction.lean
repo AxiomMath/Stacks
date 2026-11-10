@@ -83,7 +83,7 @@ theorem triangEnvelope_singleton_le_of_sums_of_extensions_of_summands
       (T.prop_of_iso ((shiftFunctorCompIsoId C (-1 : ℤ) 1 (by ring)).symm.app X) hX)
   have hstable : T.IsStableUnderShift ℤ := by
     refine ⟨fun a => ⟨fun X hX => ?_⟩⟩
-    show T (X⟦a⟧)
+    change T (X⟦a⟧)
     induction a using Int.induction_on with
     | zero => exact T.prop_of_iso ((shiftFunctorZero C ℤ).symm.app X) hX
     | succ n ih =>

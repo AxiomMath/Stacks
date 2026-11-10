@@ -145,7 +145,7 @@ theorem dualizingExtSystemToLimit_comp_map_coneLift
             ((ModuleCat.extendScalars.{u, u, u} (algebraMap A S)).mapCone c)).op =
       (dualizingExtFunctor ω' i).map
         ((ModuleCat.extendScalars.{u, u, u} (algebraMap A S)).map (c.π.app (op n))).op := by
-  show (dualizingExtFunctor ω' i).map
+  change (dualizingExtFunctor ω' i).map
       (limit.π (M ⋙ ModuleCat.extendScalars.{u, u, u} (algebraMap A S)) (op n)).op ≫ _ = _
   have h : limit.lift (M ⋙ ModuleCat.extendScalars.{u, u, u} (algebraMap A S))
         ((ModuleCat.extendScalars.{u, u, u} (algebraMap A S)).mapCone c) ≫
@@ -262,7 +262,7 @@ theorem apply_eq_zero_dualizingExtSystemToLimit_of_baseChange
   have h0 : ((ModuleCat.extendScalars.{u, u, u} (algebraMap A S)).map
       ((dualizingExtFunctor ω i).map (c.π.app (op n)).op) ≫
         (dualizingExtFunctorBaseChange F comparison hf ω i).app (op c.pt)).hom x = 0 := by
-    show ((dualizingExtFunctorBaseChange F comparison hf ω i).app (op c.pt)).hom
+    change ((dualizingExtFunctorBaseChange F comparison hf ω i).app (op c.pt)).hom
       (((ModuleCat.extendScalars.{u, u, u} (algebraMap A S)).map
         ((dualizingExtFunctor ω i).map (c.π.app (op n)).op)).hom x) = 0
     rw [hx, map_zero]

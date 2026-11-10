@@ -21,9 +21,10 @@ characterized by clause (2) of the tag and compatible with base change, clause (
 This file does this with `X` an **algebraic space**, on the relative Proj that the library
 constructs (`AlgebraicGeometry.Space.RelativeProjSituation.relativeProjFunctor`, Situation 0849,
 Stacks 084A/084B).  The scheme case is
-`StacksFrontier/AlgebraicGeometry/Spaces/RelativeProjInvertibleMorphismPoints.lean`; the space case is
-reduced to it exactly as the source's hint reduces everything to Tag 01O9: a morphism of algebraic
-spaces out of `U(ψ)` is a transformation of functors on the big fppf site, so it is given by its
+`StacksFrontier/AlgebraicGeometry/Spaces/RelativeProjInvertibleMorphismPoints.lean`; the space case
+is reduced to it exactly as the source's hint reduces everything to Tag 01O9: a morphism of
+algebraic spaces out of `U(ψ)` is a transformation of functors on the big fppf site, so it is
+given by its
 values on the scheme points of `U(ψ)`, and at a scheme point `x : T ⟶ X` the value is the morphism
 `r_{x^*ℒ, x^*ψ}` of Tag 01O9 for the restriction of `(ℒ, ψ)` to `T`.  The naturality of these
 values is clause (3) of the scheme case for the square `T' ⟶ T`
@@ -285,7 +286,7 @@ theorem fieldPointMem_map_iff {A : BigFppfOver s.site s.base s.containsBase}
   have h : (yonedaEquiv.symm (q.app (op p.siteObject) p.value) :
       yoneda.obj p.siteObject ⟶ X) = yoneda.map p.value ≫ q :=
     yonedaEquiv.symm_apply_eq.2 (by rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map])
-  show R.locusOpen p.siteObject (yonedaEquiv.symm (q.app (op p.siteObject) p.value)) = ⊤ ↔ _
+  change R.locusOpen p.siteObject (yonedaEquiv.symm (q.app (op p.siteObject) p.value)) = ⊤ ↔ _
   rw [h, R.locusOpen_map]
   exact preimage_eq_top_iff_closedPoint_mem p _ _
 
@@ -325,7 +326,7 @@ theorem mem_locus_iff {T : BigFppfOver s.site s.base s.containsBase} (x : yoneda
     rwa [pointsMap_class, class_mem_locusPoints_iff, fieldPointMem_map_iff] at hp
   · rintro h _ ⟨w, rfl⟩
     obtain ⟨p, rfl⟩ := Quot.exists_rep w
-    show FieldValuedPoint.class _ _ _ _ _ ∈ R.locusPoints
+    change FieldValuedPoint.class _ _ _ _ _ ∈ R.locusPoints
     rw [class_mem_locusPoints_iff, fieldPointMem_map_iff, h]
     trivial
 
@@ -343,7 +344,7 @@ theorem preimage_locus (T : BigFppfOver s.site s.base s.containsBase) (x : yoned
   congr 1
   ext w
   obtain ⟨p, rfl⟩ := Quot.exists_rep w
-  show FieldValuedPoint.class _ _ _ _ _ ∈ R.locusPoints ↔ schemePoint _ _ _ T p ∈ R.locusOpen T x
+  change FieldValuedPoint.class _ _ _ _ _ ∈ R.locusPoints ↔ schemePoint _ _ _ T p ∈ R.locusOpen T x
   rw [class_mem_locusPoints_iff, fieldPointMem_map_iff]
 
 attribute [irreducible] locus
@@ -515,7 +516,7 @@ spaces f : X -> Y"]
 theorem invertibleMorphism_comp_π :
     R.invertibleMorphism ≫ s.relativeProjπ = R.locus.ι ≫ f := by
   ext U a
-  show s.relativeProjπ.app U
+  change s.relativeProjπ.app U
     (yonedaEquiv (R.point (yonedaEquiv.symm a.1) (R.locusOpen_eq_top_of_mem a.2)).1) = f.app U a.1
   rw [← yonedaEquiv_comp, (R.point _ _).2, CategoryTheory.Functor.map_id, Category.id_comp,
     yonedaEquiv_comp, Equiv.apply_symm_apply]
@@ -616,7 +617,7 @@ theorem eq_invertibleMorphism (Φ : R.locus.toFunctor ⟶ s.relativeProjFunctor)
   ext ⟨T⟩ ⟨a, ha⟩
   set x : yoneda.obj T ⟶ X := yonedaEquiv.symm a
   have hx : yonedaEquiv x ∈ R.locus.obj (op T) := by
-    show yonedaEquiv (yonedaEquiv.symm a) ∈ _
+    change yonedaEquiv (yonedaEquiv.symm a) ∈ _
     rwa [Equiv.apply_symm_apply]
   have hsub : (⟨yonedaEquiv x, hx⟩ : R.locus.toFunctor.obj (op T)) = ⟨a, ha⟩ :=
     Subtype.ext (Equiv.apply_symm_apply _ _)
@@ -639,12 +640,12 @@ theorem eq_invertibleMorphism (Φ : R.locus.toFunctor ⟶ s.relativeProjFunctor)
       ((BigFppfOver.toScheme s.site s.base s.containsBase).obj T).Opens :=
     fun p => (toGradedPowerMap (R.twisting T x)).openOfPositiveSection p
   have hO : IsOpenCover O := by
-    show ⨆ p, O p = ⊤
+    change ⨆ p, O p = ⊤
     rwa [← GradedPowerMap.coveringOpen_eq_iSup]
   refine Scheme.Cover.hom_ext
     (((BigFppfOver.toScheme s.site s.base s.containsBase).obj T).openCoverOfIsOpenCover O hO) _ _
     fun (p : PositiveSection (s.relativeProjPoints.algebra T (x ≫ f))) => ?_
-  show (O p).ι ≫ _ = (O p).ι ≫ _
+  change (O p).ι ≫ _ = (O p).ι ≫ _
   let Tp := openSiteObject s.site s.base s.containsBase T (O p)
   let ιp : Tp ⟶ T := openSiteObjectHom s.site s.base s.containsBase T (O p)
   have hιp : (BigFppfOver.toScheme s.site s.base s.containsBase).map ιp = (O p).ι :=

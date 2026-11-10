@@ -44,9 +44,10 @@ invertible coherent triple `L` over a Noetherian local ring, `n ↦ χ(T ⊗ L^{
 polynomial on `ℤ`. This is `Stacks.Algebraization.exists_polynomial_natDegree_le_dim_supp` with
 its bound on the degree forgotten. -/
 public theorem isCoherentTripleHilbertPolynomial : IsCoherentTripleHilbertPolynomial.{u} :=
-  fun _A _ _ _ _f hf hreg T L hL =>
-    let ⟨P, _, hP⟩ := exists_polynomial_natDegree_le_dim_supp hf hreg L hL T
-    ⟨P, hP⟩
+  by
+    rintro A _ _ _ f hf - T L hL
+    obtain ⟨P, -, hP⟩ := exists_polynomial_natDegree_le_dim_supp hf L hL T
+    exact ⟨P, hP⟩
 
 /-- **Stacks Project, Tag 0F2A.** Let `(A, 𝔪)` be a Noetherian local ring and let `f ∈ 𝔪` be a
 nonzerodivisor with `depth(A/fA) ≥ 2`. Let `U` be the punctured spectrum of `A` and `U₀` the

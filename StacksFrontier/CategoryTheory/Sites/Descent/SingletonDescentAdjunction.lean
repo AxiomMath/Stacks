@@ -192,7 +192,7 @@ theorem reconstruction_condition
   let eQ := Cat.Hom.toNatIso (F.mapComp' f.op.toLoc sq.p₂.op.toLoc sq.p.op.toLoc (by
     rw [← Quiver.Hom.comp_toLoc, ← op_comp, sq.hp₂]))
   let c : (F.map f.op.toLoc).toFunctor.obj N ⟶ D.obj () := φ.hom ()
-  show adj.homEquiv _ _ c ≫ adjK.homEquiv _ _
+  change adj.homEquiv _ _ c ≫ adjK.homEquiv _ _
       (eP.hom.app _ ≫ (F.map sq.p₁.op.toLoc).toFunctor.map (adj.counit.app _)) =
     adj.homEquiv _ _ c ≫ adjK.homEquiv _ _
       (eQ.hom.app _ ≫ (F.map sq.p₂.op.toLoc).toFunctor.map (adj.counit.app _) ≫
@@ -283,7 +283,7 @@ theorem singletonDescentAdjunction_counit_hom
       (F.map f.op.toLoc).toFunctor.map
         (equalizer.ι (reconstructionFirst F f sq adj adjK D)
           (reconstructionSecond F f sq adj adjK D)) ≫ adj.counit.app (D.obj ()) := by
-  show (F.map f.op.toLoc).toFunctor.map
+  change (F.map f.op.toLoc).toFunctor.map
     (𝟙 _ ≫ equalizer.ι (reconstructionFirst F f sq adj adjK D)
       (reconstructionSecond F f sq adj adjK D)) ≫ adj.counit.app (D.obj ()) = _
   rw [Category.id_comp]

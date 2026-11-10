@@ -67,7 +67,7 @@ theorem _root_.AlgebraicGeometry.BigEtaleSite.contains_spec_of_isAlgebraic (B : 
   exact (max_le le_rfl hk).trans_lt B.aleph0_lt_cutoff
 
 
-variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] [Fintype k]
+variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] [Finite k]
   (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   [IsAlgClosed kbar] [Algebra.IsAlgebraic k kbar]
@@ -113,7 +113,7 @@ theorem finite_compactSupportSheafCohomology_zmod_of_isConstructible (ℓ m : �
             (pullback.snd j.toBase (specAlgebraMap k kbar))).mapIso
               ((DerivedCategory.Plus.singleFunctor _ 0).mapIso e₁))) ≪≫
         derivedDirectImageSectionsExtensionByZeroIso f j kbar Λ _)
-  haveI : Module.Finite Λ ((compactSupportSheafCohomology Λ f j kbar i).obj G) :=
+  have : Module.Finite Λ ((compactSupportSheafCohomology Λ f j kbar i).obj G) :=
     Module.Finite.equiv e₂.symm.toLinearEquiv
   exact Module.finite_of_finite Λ
 

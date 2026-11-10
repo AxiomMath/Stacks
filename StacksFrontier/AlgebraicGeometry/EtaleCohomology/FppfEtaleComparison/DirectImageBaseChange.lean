@@ -84,7 +84,8 @@ universe u
 namespace AlgebraicGeometry
 
 -- Stacks 0EZF (2), `Stacks.ComparingTopologies.isIso_derivedComparisonBaseChange_app`
--- (`StacksFrontier/CategoryTheory/Sites/Cohomology/ChangeOfTopology/HigherDirectImageVanishing.lean:89`), and Stacks 0DDJ (2),
+-- (`StacksFrontier/CategoryTheory/Sites/Cohomology/ChangeOfTopology/`
+-- `HigherDirectImageVanishing.lean:89`), and Stacks 0DDJ (2),
 -- `AlgebraicGeometry.isIso_bigSmallEtaleDerivedBaseChange_app_of_isProper`
 -- (`ComparingBigSmall/ProperDirectImageCommutation.lean:124`), are stated in the standard model.
 attribute [local instance] HasDerivedCategory.standard smallEtaleSheaf_isGrothendieckAbelian

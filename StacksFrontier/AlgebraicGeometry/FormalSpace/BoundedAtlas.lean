@@ -181,10 +181,10 @@ theorem exists_isFormalAtlas_of_mk_lt_cutoff (X : FppfSheaf B S hS)
   have hc : c ≫ (Sigma.desc fun k : ULift.{u + 1} U.left.obj =>
       f (idx k.down)).hom = Sigma.desc (fun x : U.left.obj => (f (idx x)).hom) := by
     refine Sigma.hom_ext _ _ fun x => ?_
-    rw [← Category.assoc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc]
     change ((Sigma.ι (fun k : ULift.{u + 1} U.left.obj => Xi (idx k.down)) (ULift.up x)) ≫
       Sigma.desc fun k : ULift.{u + 1} U.left.obj => f (idx k.down)).hom = _
-    rw [Sigma.ι_desc, Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc, Sigma.ι_comp_desc]
   have : Presheaf.IsLocallySurjective J
       (c ≫ (Sigma.desc fun k : ULift.{u + 1} U.left.obj => f (idx k.down)).hom) := by
     rwa [hc]

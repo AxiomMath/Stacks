@@ -292,7 +292,7 @@ theorem modulePullbackChartSection_etaleUnit_readingTopChart (N : Modules.{u, u}
     (ChartDiagram.etaleUnit B S hS (chartToSpace B S hS Y W) (isEtale_chartToSpace B S hS Y W)
       (readingTopChart (chartFppfObject B S hS Y W)))
     (𝟙 _) (readingTopChartPostcomp W) ?_ x).trans ?_
-  · show 𝟙 _ ≫ (readingTopChartMap (chartFppfObject B S hS Y W) ≫ 𝟙 _) =
+  · change 𝟙 _ ≫ (readingTopChartMap (chartFppfObject B S hS Y W) ≫ 𝟙 _) =
       𝟙 _ ≫ readingTopChartMap (chartFppfObject B S hS Y W)
     rw [Category.comp_id]
   · exact chartReading_presheaf_map_id_apply _ _ _
@@ -380,7 +380,7 @@ theorem selfOpensStructureMap_top_apply (T : BigFppfOver B S hS)
     @Subsingleton.elim _ (_root_.AlgebraicGeometry.SmallEtale.subsingleton_hom_opensToSmallEtale
       (associatedBigEtaleSite B) ((BigFppfOver.toScheme B S hS).obj T) T.left.property _ ⊤)
       _ _
-  show (representedSchemeStructureSheaf B S hS T).obj.map
+  change (representedSchemeStructureSheaf B S hS T).obj.map
       ((representedSmallEtaleEquivalence B S hS T).counit.app
         (_root_.AlgebraicGeometry.SmallEtale.opensObj (associatedBigEtaleSite B)
           ((BigFppfOver.toScheme B S hS).obj T) T.left.property ⊤)).op
@@ -396,7 +396,7 @@ theorem selfOpensStructureMap_top_apply (T : BigFppfOver B S hS)
   refine (congrArg (fun k => RingCat.Hom.hom k
     (ConcreteCategory.hom ((CategoryTheory.forget₂ CommRingCat RingCat.{u}).map
       (Scheme.Opens.topIso ⊤).inv) c)) h2).trans ?_
-  show (Scheme.Opens.topIso ⊤).inv c =
+  change (Scheme.Opens.topIso ⊤).inv c =
     ((BigFppfOver.toScheme B S hS).map (readingTopChartMap T)).appTop c
   rw [toScheme_map_readingTopChartMap, Scheme.Opens.ι_appTop]
   exact congrArg (fun k => ((BigFppfOver.toScheme B S hS).obj T).presheaf.map k c)

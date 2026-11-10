@@ -74,7 +74,7 @@ theorem isFiniteType_reindex (e : C' ≌ C) [e.functor.IsContinuous J' J]
     obtain ⟨a, ha⟩ := hloc (e.functor.obj W') (e.functor.map g) hg
     refine ⟨a, Eq.trans ?_ ha⟩
     refine Finset.sum_congr rfl fun k _ => ?_
-    show a k • M.val.map (e.functor.map (g ≫ f)).op (M.val.map (e.counit.app (U i)).op (s k)) =
+    change a k • M.val.map (e.functor.map (g ≫ f)).op (M.val.map (e.counit.app (U i)).op (s k)) =
       a k • M.val.map (e.functor.map g ≫ e.functor.map f ≫ e.counit.app (U i)).op (s k)
     congr 1
     rw [← PresheafOfModules.map_comp_apply, ← op_comp, Functor.map_comp, Category.assoc]

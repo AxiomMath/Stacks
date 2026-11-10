@@ -88,7 +88,7 @@ theorem leftMulAdd_naturality (n : ℤ) {U V : Cᵒᵖ} (f : U ⟶ V)
     (b : (D.complex.X n).val.obj U) :
     (N.complex.X n).val.map f (leftMulAdd N x n U b) =
       leftMulAdd N x n V ((D.complex.X n).val.map f b) := by
-  show (N.complex.X n).val.map f
+  change (N.complex.X n).val.map f
         (castHom N.complex.X (zero_add n) U ((N.mul 0 n).app U (x.eval U) b)) =
       castHom N.complex.X (zero_add n) V
         ((N.mul 0 n).app V (x.eval V) ((D.complex.X n).val.map f b))
@@ -124,7 +124,7 @@ theorem leftMulAdd_d (n : ℤ) (U : Cᵒᵖ) (b : (D.complex.X n).val.obj U) :
   rw [hx U, map_zero ((N.mul (0 + 1) n).app U), AddMonoidHom.zero_apply,
     map_zero (castHom N.complex.X (add_right_comm (0 : ℤ) 1 n) U),
     Int.negOnePow_zero, Units.val_one, one_zsmul] at hl
-  show (N.complex.d n (n + 1)).val.app U
+  change (N.complex.d n (n + 1)).val.app U
         (castHom N.complex.X (zero_add n) U ((N.mul 0 n).app U (x.eval U) b)) =
       castHom N.complex.X (zero_add (n + 1)) U
         ((N.mul 0 (n + 1)).app U (x.eval U) ((D.complex.d n (n + 1)).val.app U b))
@@ -191,7 +191,7 @@ theorem regularModuleSection_closed (φ : regularModule D ⟶ N) (U : Cᵒᵖ) :
   have hc := congrArg (fun θ : (regularModule D).complex.X 0 ⟶ N.complex.X (0 + 1) =>
       θ.val.app U (D.one.eval U)) (φ.toHomologicalComplex.comm' 0 (0 + 1) rfl)
   refine hc.trans ?_
-  show (φ.toHomologicalComplex.f (0 + 1)).val.app U
+  change (φ.toHomologicalComplex.f (0 + 1)).val.app U
       (((regularModule D).complex.d 0 (0 + 1)).val.app U (D.one.eval U)) = 0
   rw [h0, map_zero]
 

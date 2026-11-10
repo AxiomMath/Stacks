@@ -60,7 +60,7 @@ theorem nsmul_id_rightDerivedPlus_one_eq_zero (F : C ⥤ AddCommGrpCat.{w}) [F.A
   obtain ⟨y', rfl⟩ := hsurj z
   obtain ⟨x, hx⟩ := hg ((iso.inv.app S.X₃).hom y')
   have hy' : e • y' = ((Δ.functor 0).map S.g).hom ((iso.hom.app S.X₂).hom x) := by
-    show e • y' = ((F.rightDerivedPlus 0).map S.g).hom ((iso.hom.app S.X₂).hom x)
+    change e • y' = ((F.rightDerivedPlus 0).map S.g).hom ((iso.hom.app S.X₂).hom x)
     rw [← hnat, hx, map_nsmul]
     congr 1
     exact (ConcreteCategory.congr_hom (iso.inv_hom_id_app S.X₃) y').symm
@@ -142,7 +142,7 @@ theorem nsmul_id_continuousGroupCohomology_one_eq_zero
     abel
   refine ⟨⟨e • x - fl m₀, hfix⟩, ?_⟩
   apply Subtype.ext
-  show gl (e • x - fl m₀) = (e • y).1
+  change gl (e • x - fl m₀) = (e • y).1
   rw [map_sub, hgfl, map_nsmul, hx, sub_zero]
   rfl
 

@@ -121,7 +121,7 @@ private lemma ιFree_comp_freeMatrix {I L : Type w} [Fintype I] [Fintype L]
       ∑ l, A i l ≫ _root_.SheafOfModules.ιFree (R := R) l := by
   apply (_root_.SheafOfModules.unitHomEquiv
     (_root_.SheafOfModules.free (R := R) L)).injective
-  show _root_.SheafOfModules.freeHomEquiv (_root_.SheafOfModules.free (R := R) L)
+  change _root_.SheafOfModules.freeHomEquiv (_root_.SheafOfModules.free (R := R) L)
       (freeMatrix A) i =
     (_root_.SheafOfModules.free (R := R) L).unitHomEquiv
       (∑ l, A i l ≫ _root_.SheafOfModules.ιFree (R := R) l)
@@ -176,7 +176,7 @@ private noncomputable def sectionsOfIsTerminal {M : _root_.SheafOfModules.{w} R}
 private lemma sectionsOfIsTerminal_val {M : _root_.SheafOfModules.{w} R}
     (T : C) (hT : IsTerminal T) (s : M.val.obj (op T)) :
     (sectionsOfIsTerminal T hT s).val (op T) = s := by
-  show (M.val.presheaf ⋙ forget AddCommGrpCat.{w}).map (hT.from T).op
+  change (M.val.presheaf ⋙ forget AddCommGrpCat.{w}).map (hT.from T).op
     (show (M.val.presheaf ⋙ forget AddCommGrpCat.{w}).obj (op T) from s) = _
   rw [hT.from_self, op_id, CategoryTheory.Functor.map_id]
   rfl
@@ -209,7 +209,7 @@ private lemma unitHomEquiv_comp_val_smul {M : _root_.SheafOfModules.{w} R}
       (1 : R.obj.obj T)) : R.obj.obj T) = r := hr.symm
   have hg : ((g.val.app T).hom (show (_root_.SheafOfModules.unit R).val.obj T from
       (1 : R.obj.obj T)) : M.val.obj T) = m := hm.symm
-  show (g.val.app T).hom ((a.val.app T).hom
+  change (g.val.app T).hom ((a.val.app T).hom
     (show (_root_.SheafOfModules.unit R).val.obj T from (1 : R.obj.obj T))) = r • m
   calc
     (g.val.app T).hom ((a.val.app T).hom
@@ -217,7 +217,7 @@ private lemma unitHomEquiv_comp_val_smul {M : _root_.SheafOfModules.{w} R}
         = (g.val.app T).hom
             (r • show (_root_.SheafOfModules.unit R).val.obj T from (1 : R.obj.obj T)) := by
       congr 1
-      show ((a.val.app T).hom (show (_root_.SheafOfModules.unit R).val.obj T from
+      change ((a.val.app T).hom (show (_root_.SheafOfModules.unit R).val.obj T from
         (1 : R.obj.obj T)) : R.obj.obj T) = r * (1 : R.obj.obj T)
       rw [ha, mul_one]
     _ = r • (g.val.app T).hom
@@ -308,7 +308,7 @@ private lemma scalarHomOfSection_comp_val (R : Sheaf J RingCat.{w}) (T : C)
     (op (Over.mk (𝟙 T))) (show (R.over T).obj.obj (op (Over.mk (𝟙 T))) from r)
     (show (_root_.SheafOfModules.unit (R.over T)).val.obj (op (Over.mk (𝟙 T))) from s)
     (scalarHomOfSection_val R T r).symm (scalarHomOfSection_val R T s).symm).trans ?_
-  show r • s = r * s
+  change r • s = r * s
   exact smul_eq_mul _ _
 
 /-- Restricting the endomorphism of the unit sheaf given by a section of the sheaf of rings
@@ -326,7 +326,7 @@ private lemma scalarHomOfSection_restrict (R : Sheaf J RingCat.{w}) {V W : C} (f
   rw [scalarHomOfSection_val]
   have h := ((_root_.SheafOfModules.unit (R.over W)).unitHomEquiv a).property
     (Over.homMk f (by simp) : Over.mk f ⟶ Over.mk (𝟙 W)).op
-  show (a.val.app (op (Over.mk (𝟙 V ≫ f)))).hom (1 : R.obj.obj (op V)) = _
+  change (a.val.app (op (Over.mk (𝟙 V ≫ f)))).hom (1 : R.obj.obj (op V)) = _
   rw [Category.id_comp]
   exact h.symm
 
@@ -342,7 +342,7 @@ private lemma moduleHom_restrict_val (F : _root_.SheafOfModules.{w} R) {V W : C}
           ((F.over W).unitHomEquiv g).val (op (Over.mk (𝟙 W)))) := by
   have h := (((F.over W).unitHomEquiv g).property
     (Over.homMk f (by simp) : Over.mk f ⟶ Over.mk (𝟙 W)).op).symm
-  show (g.val.app (op (Over.mk (𝟙 V ≫ f)))).hom (1 : R.obj.obj (op V)) = _
+  change (g.val.app (op (Over.mk (𝟙 V ≫ f)))).hom (1 : R.obj.obj (op V)) = _
   rw [Category.id_comp]
   exact h
 
@@ -509,7 +509,7 @@ private lemma exists_retract_free_of_factorization
   let q := (G.obj M).freeHomEquiv.symm (fun l ↦ (G.obj M).unitHomEquiv (t l))
   have hq (l : L) : _root_.SheafOfModules.ιFree l ≫ q = t l := by
     apply (G.obj M).unitHomEquiv.injective
-    show (G.obj M).freeHomEquiv q l = _
+    change (G.obj M).freeHomEquiv q l = _
     simp [q]
   have hgp : g ≫ q = G.map P.generators.π := by
     apply (cancel_epi eI.hom).1
@@ -633,7 +633,7 @@ theorem exists_coveringSieve_retract_free_of_presentation
     have hterm (k : L) :
         ((G.obj (F.over W)).unitHomEquiv (b k i ≫ t' k)).val
           (op (Over.mk (𝟙 V))) = B k.down (eI i) • t k.down := by
-      show ((F.over V).unitHomEquiv
+      change ((F.over V).unitHomEquiv
         (scalarHomOfSection (commRingSheafToRingSheaf O) V (B k.down (eI i)) ≫
           moduleHomOfSection V (t k.down))).val (op (Over.mk (𝟙 V))) = _
       exact scalarHomOfSection_comp_moduleHomOfSection_val V _ _
@@ -663,7 +663,7 @@ theorem exists_coveringSieve_retract_free_of_presentation
       simp only [A, Equiv.symm_apply_apply]
       exact ringSheaf_mul_comm O _ (B k.down (eI i))
     simp_rw [hterm]
-    show (∑ i, B k.down (eI i) *
+    change (∑ i, B k.down (eI i) *
       ((commRingSheafToRingSheaf O).obj.map f.op).hom (A (eI i) (eJ j)) :
         (commRingSheafToRingSheaf O).obj.obj (op V)) = 0
     exact (Equiv.sum_comp eI (fun i ↦ B k.down i *

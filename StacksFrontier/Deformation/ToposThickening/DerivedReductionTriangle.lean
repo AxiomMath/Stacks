@@ -64,8 +64,8 @@ place of a chosen K-flat model, the right factor `O[0]` being K-flat already
 
 The sections universe is free of the site. The unit law for the total tensor complex is taken
 in the form `Stacks.SheafOfModules.tensorComplexUnitIsoOfSize` of
-`StacksFrontier/CategoryTheory/Sites/Modules/TensorUnitOfSize.lean`, which reads the module-level unitor off the presheaf
-right unitor carried through sheafification, rather than
+`StacksFrontier/CategoryTheory/Sites/Modules/TensorUnitOfSize.lean`, which reads the module-level
+unitor off the presheaf right unitor carried through sheafification, rather than
 `Stacks.SheafOfModules.tensorComplexUnitIso`, which reads it off the monoidal structure of
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/MonoidalSheafTensor.lean` and is available only
 at `max u v`. The left unit law
@@ -258,6 +258,8 @@ variable (T : DerivedTensorProduct.{u, v, w, d} X)
   (I : IdealSubsheaf.{v, u, w} X.O)
 
 omit [HasDerivedCategory.{d} (Modules.{u, v, w} X)]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} X.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} X.O).obj M).Additive]
   [∀ (K L : CochainComplex (Modules.{u, v, w} X) ℤ),
     HomologicalComplex.HasMapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
       (ComplexShape.up ℤ)] in

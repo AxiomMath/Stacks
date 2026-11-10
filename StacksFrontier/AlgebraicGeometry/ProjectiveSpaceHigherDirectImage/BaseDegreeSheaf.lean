@@ -88,7 +88,8 @@ the assertion that it is one, and that assertion needs the surjectivity of the d
 section map over a general ring together with the compatibility of [Stacks, Tag 01XV] with base
 change at the level of sheaf cohomology. The vanishing row of the tag is carried by
 `StacksFrontier/AlgebraicGeometry/ProjectiveSpaceHigherDirectImage/MiddleVanishing.lean` and the
-degree-zero row at `d = 0` by `StacksFrontier/AlgebraicGeometry/ProjectiveSpaceHigherDirectImage/DegreeZero.lean`.
+degree-zero row at `d = 0` by
+`StacksFrontier/AlgebraicGeometry/ProjectiveSpaceHigherDirectImage/DegreeZero.lean`.
 
 ## References
 

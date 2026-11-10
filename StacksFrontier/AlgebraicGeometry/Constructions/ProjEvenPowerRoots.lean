@@ -279,7 +279,7 @@ private theorem normalForm_X_mul (i : Vars)
     (ψ := LinearMap.mulLeft k (X i) ∘ₗ normalForm k) fun m => by
       have hX : (X i : MvPolynomial Vars k) = monomial (Finsupp.single i 1) 1 := rfl
       simp only [LinearMap.comp_apply, LinearMap.mulLeft_apply, normalForm_monomial, hX,
-        monomial_mul, one_mul]
+        monomial_mul_monomial, one_mul]
       rw [add_comm, h, add_comm]
   exact LinearMap.congr_fun this p
 
@@ -317,7 +317,7 @@ theorem normalForm_mul_relation (q : MvPolynomial Vars k) (j : ℕ) :
   have := linearMap_ext k (φ := normalForm k ∘ₗ LinearMap.mulRight k (relation k j))
     (ψ := 0) fun m => by
       simp only [LinearMap.comp_apply, LinearMap.mulRight_apply, LinearMap.zero_apply,
-        relation, mul_sub, map_sub, X_pow_eq_monomial, monomial_mul, one_mul,
+        relation, mul_sub, map_sub, X_pow_eq_monomial, monomial_mul_monomial, one_mul,
         normalForm_monomial, reducedExp_add_single_u, reducedExp_add_single_z, sub_self]
   exact LinearMap.congr_fun this q
 
@@ -345,7 +345,7 @@ theorem mk_monomial_reducedExp (m : Vars →₀ ℕ) :
     rw [show monomial (Finsupp.single (Vars.z j) (m (Vars.z j) % 2) +
         Finsupp.single Vars.u (2 * (j + 1) * (m (Vars.z j) / 2))) (1 : k) =
         X (Vars.z j) ^ (m (Vars.z j) % 2) * X Vars.u ^ (2 * (j + 1) * (m (Vars.z j) / 2)) by
-      rw [X_pow_eq_monomial, X_pow_eq_monomial, monomial_mul, one_mul],
+      rw [X_pow_eq_monomial, X_pow_eq_monomial, monomial_mul_monomial, one_mul],
       ← X_pow_eq_monomial, map_mul, map_pow, map_pow, map_pow]
     have hrel : Ideal.Quotient.mk (Stacks.WeightedQuotient.relationIdeal (relation k))
         (X (Vars.z j)) ^ 2 =
@@ -446,7 +446,7 @@ theorem finite_weight_eq (n : ℕ) :
     {d : Vars →₀ ℕ | Finsupp.weight weight d = n}.Finite := by
   classical
   refine (Set.finite_Iic (∑ i ∈ lowVars n, Finsupp.single i n)).subset fun d hd => ?_
-  simp only [Set.mem_setOf_eq] at hd
+  simp only [Set.mem_ofPred_eq] at hd
   simp only [Set.mem_Iic, Finsupp.le_def]
   intro i
   by_cases hi : d i = 0
@@ -454,7 +454,7 @@ theorem finite_weight_eq (n : ℕ) :
   have hwi : weight i ≤ n := hd ▸ Finsupp.le_weight_of_ne_zero' weight hi
   have hdi : d i ≤ n := hd ▸ Finsupp.le_weight weight (weight_ne_zero i) d
   have hn : 1 ≤ n := le_trans (Nat.one_le_iff_ne_zero.mpr (weight_ne_zero i)) hwi
-  rw [Finsupp.finset_sum_apply, Finset.sum_eq_single i]
+  rw [Finsupp.finsetSum_apply, Finset.sum_eq_single i]
   · simpa using hdi
   · intro b _ hb
     exact Finsupp.single_eq_of_ne hb.symm

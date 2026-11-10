@@ -120,7 +120,7 @@ theorem chartFamily_factor {X : SmallEtale B S hS F} {I : Type w} {I' : Type w'}
       φ ≫ (chartFamily B S hS F Y' f' hf').f j = (chartFamily B S hS F Y f hf).f i := by
   have hcomm : g ≫ (Over.mk (f' j ≫ X.1.left.hom) : BigFppfOver B S hS).hom =
       (Over.mk (f i ≫ X.1.left.hom) : BigFppfOver B S hS).hom := by
-    show g ≫ f' j ≫ X.1.left.hom = f i ≫ X.1.left.hom
+    change g ≫ f' j ≫ X.1.left.hom = f i ≫ X.1.left.hom
     rw [← Category.assoc, hg]
   let ψ : (Over.mk (f i ≫ X.1.left.hom) : BigFppfOver B S hS) ⟶
       Over.mk (f' j ≫ X.1.left.hom) := Over.homMk g hcomm
@@ -170,7 +170,7 @@ theorem hasEnoughObjects_isAffineChart :
   -- its members are affine charts
   have haff : ∀ j, IsAffineChart B S hS F (Ea.X j) := by
     intro j
-    show IsAffine (A.openCover.X j)
+    change IsAffine (A.openCover.X j)
     exact Scheme.isAffine_affineOpenCover _ A j
   -- the same family at index universe `u + 1`, as an open cover of `T`
   let Ul : (B.inclusion.obj T).OpenCover.{u + 1} :=

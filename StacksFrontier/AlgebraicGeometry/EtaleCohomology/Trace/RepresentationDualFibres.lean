@@ -58,7 +58,7 @@ theorem isPowExact_of_powExact_moduleCat {M : ModuleCat.{v} (ZMod (p ^ m))}
     ext z
     obtain ⟨y, hy⟩ := z
     obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.1 hy
-    show p ^ a • (c • x) = 0
+    change p ^ a • (c • x) = 0
     rw [smul_comm, hx, smul_zero]
   obtain ⟨T, π, hπ, y, hy⟩ := hM a ha g hg
   obtain ⟨t, ht⟩ := (ModuleCat.epi_iff_surjective π).1 hπ

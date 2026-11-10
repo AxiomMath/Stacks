@@ -129,14 +129,14 @@ public def baseHom (U : s.base.Opens) :
 /-- The canonical map to the graded section ring lands in degree zero. -/
 public theorem sectionRingBaseMap_mem (U : s.base.Opens) (r : Γ(s.base, U)) :
     s.sectionRingBaseMap U r ∈ s.sectionRingGrading U 0 := by
-  show (sectionRingStructure s).baseMap U r ∈ _
+  change (sectionRingStructure s).baseMap U r ∈ _
   rw [(sectionRingStructure s).baseMap_apply U r]
   exact ⟨_, rfl⟩
 
 /-- The degree-zero identification is the canonical map, read inside the section ring. -/
 public theorem baseHom_apply_coe (U : s.base.Opens) (r : Γ(s.base, U)) :
     ((s.baseHom U) r : s.sectionRing U) = s.sectionRingBaseMap U r := by
-  show (GradedRing.projZeroRingHom' (s.sectionRingGrading U)
+  change (GradedRing.projZeroRingHom' (s.sectionRingGrading U)
     (s.sectionRingBaseMap U r) : s.sectionRing U) = _
   rw [GradedRing.projZeroRingHom'_apply_coe _
     (⟨s.sectionRingBaseMap U r, s.sectionRingBaseMap_mem U r⟩ : s.sectionRingGrading U 0)]
@@ -148,7 +148,7 @@ public theorem baseHom_gradedRestrict {U V : s.base.Opens} (h : U ≤ V) :
   refine CommRingCat.hom_ext (RingHom.ext fun r ↦ Subtype.ext ?_)
   rw [CommRingCat.comp_apply, CommRingCat.comp_apply, baseHom_apply_coe,
     CommRingCat.ofHom_apply]
-  show _ = s.gradedRestrict h ((s.baseHom V) r : s.sectionRing V)
+  change _ = s.gradedRestrict h ((s.baseHom V) r : s.sectionRing V)
   rw [gradedRestrict_apply, baseHom_apply_coe]
   exact ((sectionRingStructure s).restrict_baseMap U V h r).symm
 

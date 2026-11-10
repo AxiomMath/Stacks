@@ -80,12 +80,12 @@ theorem geometricPointStalkMap_comp_etaleStalkSmallEtalePullObjIso_hom
   have hg' := etaleStalkSmallEtalePullObjIso_germ B f x A F eU' eV'
     (𝟙 _) ((Category.assoc _ _ _).trans
       (congrArg (a.hom ≫ ·) (geometricPointFiberBaseChangeEquiv_ha B f x V w)))
-  have h1 := colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B T.obj T.property x)).op ⋙
+  have h1 := colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B T.obj T.property x)).op ⋙
     (((smallEtaleBaseChange B f).sheafPullback A
       (SmallEtale.topology B S.obj S.property)
       (SmallEtale.topology B T.obj T.property)).obj F).obj)
     (neighborhoodFunctor B T.obj T.property a).op (op eU)
-  have h2 := colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B S.obj S.property
+  have h2 := colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B S.obj S.property
     (x.map (B.inclusion.map f)))).op ⋙ F.obj)
     (neighborhoodFunctor B S.obj S.property (a.mapHom (B.inclusion.map f))).op (op eV)
   refine (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _) hinv).trans ?_)

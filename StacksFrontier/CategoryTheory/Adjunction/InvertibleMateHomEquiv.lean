@@ -91,9 +91,9 @@ latter is the iterated mate of `β`, which is its conjugate along the composite 
 `ℓ ⋙ H ⊣ RH ⋙ r` and `G ⋙ ℓ' ⊣ r' ⋙ RG` (`CategoryTheory.iterated_mateEquiv_conjugateEquiv`). -/
 theorem isIso_mateEquiv_symm_iff_isIso_mateEquiv {RG : E ⥤ C} {RH : F ⥤ D} (adjG : G ⊣ RG)
     (adjH : H ⊣ RH) :
-    IsIso ((mateEquiv adj adj').symm e).natTrans ↔ IsIso (mateEquiv adjH adjG e).natTrans := by
-  have h : (mateEquiv adjH adjG e).natTrans =
-      conjugateEquiv (adj.comp adjH) (adjG.comp adj') ((mateEquiv adj adj').symm e).natTrans := by
+    IsIso ((mateEquiv adj adj').symm e) ↔ IsIso (mateEquiv adjH adjG e) := by
+  have h : (mateEquiv adjH adjG e) =
+      conjugateEquiv (adj.comp adjH) (adjG.comp adj') ((mateEquiv adj adj').symm e) := by
     rw [← iterated_mateEquiv_conjugateEquiv, Equiv.apply_symm_apply]
   rw [h]
   exact ⟨fun _ => inferInstance, fun _ => conjugateEquiv_of_iso (adj.comp adjH) (adjG.comp adj') _⟩
@@ -134,17 +134,17 @@ theorem mateEquiv_app_eq_of_fac (a₀ : g₀ ⊣ g₀') (b₀ : h₀ ⊣ h₀') 
       QY.map (b₀.unit.app M) ≫ uh (h₀.obj M))
     (hcounit : ∀ K : KW', Lg.map (ug K) ≫ a.counit.app (QW'.obj K) =
       cg (g₀'.obj K) ≫ QW'.map (a₀.counit.app K))
-    (he : ∀ K : KW, e.natTrans.app (QW.obj K) ≫ Lj'.map (cg K) ≫ cj' (g₀.obj K) =
-      Lh.map (cj K) ≫ ch (j₀.obj K) ≫ QY'.map (e₀.natTrans.app K))
+    (he : ∀ K : KW, e.app (QW.obj K) ≫ Lj'.map (cg K) ≫ cj' (g₀.obj K) =
+      Lh.map (cj K) ≫ ch (j₀.obj K) ≫ QY'.map (e₀.app K))
     (K : KW') :
-    Lj.map (ug K) ≫ (mateEquiv a b e).natTrans.app (QW'.obj K) ≫ Rh.map (cj' K) =
-      cj (g₀'.obj K) ≫ QY.map ((mateEquiv a₀ b₀ e₀).natTrans.app K) ≫ uh (j₀'.obj K) := by
-  have hθ : (mateEquiv a b e).natTrans.app (QW'.obj K) =
-      b.unit.app (Lj.obj (Rg.obj (QW'.obj K))) ≫ Rh.map (e.natTrans.app (Rg.obj (QW'.obj K))) ≫
+    Lj.map (ug K) ≫ (mateEquiv a b e).app (QW'.obj K) ≫ Rh.map (cj' K) =
+      cj (g₀'.obj K) ≫ QY.map ((mateEquiv a₀ b₀ e₀).app K) ≫ uh (j₀'.obj K) := by
+  have hθ : (mateEquiv a b e).app (QW'.obj K) =
+      b.unit.app (Lj.obj (Rg.obj (QW'.obj K))) ≫ Rh.map (e.app (Rg.obj (QW'.obj K))) ≫
         Rh.map (Lj'.map (a.counit.app (QW'.obj K))) := by
     simp [mateEquiv_apply]
-  have hθ₀ : (mateEquiv a₀ b₀ e₀).natTrans.app K =
-      b₀.unit.app (j₀.obj (g₀'.obj K)) ≫ h₀'.map (e₀.natTrans.app (g₀'.obj K)) ≫
+  have hθ₀ : (mateEquiv a₀ b₀ e₀).app K =
+      b₀.unit.app (j₀.obj (g₀'.obj K)) ≫ h₀'.map (e₀.app (g₀'.obj K)) ≫
         h₀'.map (j₀'.map (a₀.counit.app K)) := by
     simp [mateEquiv_apply]
   rw [hθ, hθ₀]
@@ -153,7 +153,7 @@ theorem mateEquiv_app_eq_of_fac (a₀ : g₀ ⊣ g₀') (b₀ : h₀ ⊣ h₀') 
       uh (j₀'.obj (g₀.obj (g₀'.obj K))) ≫ Rh.map (QY'.map (j₀'.map (a₀.counit.app K))) :=
     huh _
   rw [reassoc_of% (b.unit_naturality (Lj.map (ug K))).symm, h4,
-    reassoc_of% (huh (e₀.natTrans.app (g₀'.obj K))),
+    reassoc_of% (huh (e₀.app (g₀'.obj K))),
     ← reassoc_of% (hunit (j₀.obj (g₀'.obj K))), reassoc_of% (b.unit_naturality (cj _)).symm]
   congr 1
   simp only [← Rh.map_comp]
@@ -161,7 +161,7 @@ theorem mateEquiv_app_eq_of_fac (a₀ : g₀ ⊣ g₀') (b₀ : h₀ ⊣ h₀') 
   have h6 : Lj'.map (QW'.map (a₀.counit.app K)) ≫ cj' K =
       cj' (g₀.obj (g₀'.obj K)) ≫ QY'.map (j₀'.map (a₀.counit.app K)) :=
     hcj' _
-  rw [reassoc_of% (e.natTrans.naturality (ug K)), ← Lj'.map_comp_assoc, hcounit, Lj'.map_comp,
+  rw [reassoc_of% (e.naturality (ug K)), ← Lj'.map_comp_assoc, hcounit, Lj'.map_comp,
     Category.assoc, h6, reassoc_of% (he (g₀'.obj K))]
 
 /-- **The derived base change morphism is invertible as soon as the underived one is, on enough
@@ -183,20 +183,20 @@ theorem isIso_mateEquiv_of_fac (a₀ : g₀ ⊣ g₀') (b₀ : h₀ ⊣ h₀') (
       QY.map (b₀.unit.app M) ≫ uh (h₀.obj M))
     (hcounit : ∀ K : KW', Lg.map (ug K) ≫ a.counit.app (QW'.obj K) =
       cg (g₀'.obj K) ≫ QW'.map (a₀.counit.app K))
-    (he : ∀ K : KW, e.natTrans.app (QW.obj K) ≫ Lj'.map (cg K) ≫ cj' (g₀.obj K) =
-      Lh.map (cj K) ≫ ch (j₀.obj K) ≫ QY'.map (e₀.natTrans.app K))
+    (he : ∀ K : KW, e.app (QW.obj K) ≫ Lj'.map (cg K) ≫ cj' (g₀.obj K) =
+      Lh.map (cj K) ≫ ch (j₀.obj K) ≫ QY'.map (e₀.app K))
     (hK : ∀ X : DW', ∃ K : KW', Nonempty (QW'.obj K ≅ X) ∧ IsIso (ug K) ∧
-      IsIso (cj (g₀'.obj K)) ∧ IsIso ((mateEquiv a₀ b₀ e₀).natTrans.app K) ∧
+      IsIso (cj (g₀'.obj K)) ∧ IsIso ((mateEquiv a₀ b₀ e₀).app K) ∧
       IsIso (uh (j₀'.obj K)) ∧ IsIso (cj' K)) :
-    IsIso (mateEquiv a b e).natTrans := by
+    IsIso (mateEquiv a b e) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro X
   obtain ⟨K, ⟨φ⟩, h₁, h₂, h₃, h₄, h₅⟩ := hK X
   have hfac := mateEquiv_app_eq_of_fac a₀ b₀ e₀ a b e cg ch cj cj' ug uh hcj' huh hunit hcounit
     he K
-  have : IsIso ((mateEquiv a b e).natTrans.app (QW'.obj K)) := by
-    have h : (mateEquiv a b e).natTrans.app (QW'.obj K) =
-        inv (Lj.map (ug K)) ≫ (cj (g₀'.obj K) ≫ QY.map ((mateEquiv a₀ b₀ e₀).natTrans.app K) ≫
+  have : IsIso ((mateEquiv a b e).app (QW'.obj K)) := by
+    have h : (mateEquiv a b e).app (QW'.obj K) =
+        inv (Lj.map (ug K)) ≫ (cj (g₀'.obj K) ≫ QY.map ((mateEquiv a₀ b₀ e₀).app K) ≫
           uh (j₀'.obj K)) ≫ inv (Rh.map (cj' K)) := by
       rw [← hfac]
       simp

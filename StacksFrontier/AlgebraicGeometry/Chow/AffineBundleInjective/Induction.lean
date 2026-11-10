@@ -83,7 +83,7 @@ theorem hasFibreProperties_of_isAffineSpaceBundle_of_affineSpaceOver (r : ℕ)
     intro x hx
     rw [Set.mem_preimage, Scheme.Opens.range_ι] at hx
     refine ⟨e.hom ⟨x, hx⟩, ?_⟩
-    show (e.hom ≫ e.inv ≫ (f ⁻¹ᵁ V).ι) ⟨x, hx⟩ = x
+    change (e.hom ≫ e.inv ≫ (f ⁻¹ᵁ V).ι) ⟨x, hx⟩ = x
     rw [Iso.hom_inv_id_assoc]
     rfl
   have hX : jX ≫ sX = (𝔸(ULift.{u} (Fin r); V.toScheme) ↘ V.toScheme) ≫ (V.ι ≫ sY) := by
@@ -128,7 +128,7 @@ theorem hasFibreProperties_affineSpaceOver_succ (r : ℕ)
   have hpre : (𝔸(ULift.{u} (Fin (r + 1)); T) ↘ T).base ⁻¹' Set.range (𝟙 T : T ⟶ T).base ⊆
       Set.range (affineSpaceSuccIso T r).inv.base := fun z _ ↦
     ⟨(affineSpaceSuccIso T r).hom z, by
-      show ((affineSpaceSuccIso T r).hom ≫ (affineSpaceSuccIso T r).inv) z = z
+      change ((affineSpaceSuccIso T r).hom ≫ (affineSpaceSuccIso T r).inv) z = z
       rw [Iso.hom_inv_id]
       rfl⟩
   have hX : (affineSpaceSuccIso T r).inv ≫ ((𝔸(ULift.{u} (Fin (r + 1)); T) ↘ T) ≫ sT) =

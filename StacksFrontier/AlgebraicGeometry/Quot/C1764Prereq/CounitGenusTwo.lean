@@ -100,7 +100,8 @@ theorem isZero_cohomology_baseChangeModule {X : CurveFamily B hZ}
         (by exact_mod_cast hdim) hn₁
     · obtain rfl : n = 1 := by lia
       exact h1
-  rwa [ModuleCat.isZero_iff_subsingleton] at hn' ⊢
+  rw [ModuleCat.isZero_iff_subsingleton] at hn' ⊢
+  assumption
 
 /-- **Cohomology and base change in degree zero at a fibre with vanishing `H¹`**: for an
 invertible module `𝓛` on the total space of a family of curves and a presentation `V` of the fibre

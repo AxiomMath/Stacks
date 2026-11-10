@@ -144,7 +144,7 @@ theorem congrFamily_app (n : ℤ) (O : P.Opens) (s : Γ(G.piece n, O)) :
         ((Θ n).app (r ⁻¹ᵁ O) (unitApp r (G.piece n) O s)) := by
   subst e
   have h : (Scheme.Modules.pullbackCongr (rfl : r' = r')).hom.app (G.piece n) = 𝟙 _ := rfl
-  show (Θ n).app _
+  change (Θ n).app _
     (((Scheme.Modules.pullbackCongr (rfl : r' = r')).hom.app (G.piece n)).app _ _) = _
   rw [h]
   have hid : (homOfLE (preimage_le_of_eq (rfl : r' = r') O)).op = 𝟙 (op (r' ⁻¹ᵁ O)) :=

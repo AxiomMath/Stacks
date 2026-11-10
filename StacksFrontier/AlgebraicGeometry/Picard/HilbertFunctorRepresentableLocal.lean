@@ -105,18 +105,18 @@ theorem bijective_baseChange_of_local (U : HilbertFamily X H d)
     let P : Over S := Over.mk (pullback.fst (i x).left (i y).left ≫ (V x).hom)
     let a : P ⟶ V x := Over.homMk (pullback.fst _ _) rfl
     let b : P ⟶ V y := Over.homMk (pullback.snd _ _) (by
-      show pullback.snd _ _ ≫ (V y).hom = pullback.fst _ _ ≫ (V x).hom
+      change pullback.snd _ _ ≫ (V y).hom = pullback.fst _ _ ≫ (V x).hom
       rw [← Over.w (i x), ← Over.w (i y), pullback.condition_assoc])
     have hab : a ≫ i x = b ≫ i y := Over.OverMorphism.ext pullback.condition
     have : a ≫ g x = b ≫ g y := inj P <| by
-      show baseChange X (a ≫ g x) U = baseChange X (b ≫ g y) U
+      change baseChange X (a ≫ g x) U = baseChange X (b ≫ g y) U
       rw [baseChange_comp, baseChange_comp, hg x, hg y, ← baseChange_comp, ← baseChange_comp, hab]
     exact congrArg CommaMorphism.left this
   let gl : T.left ⟶ H.left := 𝒰.glueMorphisms (fun t ↦ (g t).left) hcompat
   have hgl (t : T.left) : (i t).left ≫ gl = (g t).left := 𝒰.ι_glueMorphisms _ hcompat t
   have hover : gl ≫ H.hom = T.hom := by
     refine 𝒰.hom_ext _ _ fun t ↦ ?_
-    show (i t).left ≫ gl ≫ H.hom = (i t).left ≫ T.hom
+    change (i t).left ≫ gl ≫ H.hom = (i t).left ≫ T.hom
     rw [← Category.assoc, hgl, Over.w (g t), Over.w (i t)]
   refine ⟨Over.homMk gl hover, hilbertFamily_ext_of_baseChange_eq X i
     (fun t ↦ inferInstanceAs (Flat (i t).left)) (fun t ↦ ⟨t, v t, hv t⟩) fun t ↦ ?_⟩

@@ -71,7 +71,7 @@ theorem finiteType_chartRingHom (U : D.X.Opens) [IsAffine U.toScheme]
     rfl
   rw [hcomp]
   refine RingHom.FiniteType.comp ?_ (RingHom.FiniteType.of_surjective _ ?_)
-  · show ((U.ι ≫ D.toBase).app ⊤).hom.FiniteType
+  · change ((U.ι ≫ D.toBase).app ⊤).hom.FiniteType
     rw [← Scheme.Hom.appLE_eq_app (f := U.ι ≫ D.toBase) (U := ⊤)]
     exact HasRingHomProperty.appLE (P := @LocallyOfFiniteType) (Q := @RingHom.FiniteType)
       (U.ι ≫ D.toBase) inferInstance ⟨⊤, isAffineOpen_top _⟩ ⟨⊤, isAffineOpen_top _⟩ _

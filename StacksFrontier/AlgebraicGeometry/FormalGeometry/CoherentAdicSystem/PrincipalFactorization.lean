@@ -4,8 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.FormalGeometry.CoherentAdicSystem
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.PowerAnnihilated
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.AdicInverseSystem.IdealPowers
 public import StacksFrontier.AlgebraicGeometry.Duality.ExtensionZeroCoherent.SheafSubmodule
-public import
-  StacksFrontier.AlgebraicGeometry.LocalCohomology.CoherentPushforwardCriterion.PrincipalIdealExtension
+public import StacksFrontier.AlgebraicGeometry.LocalCohomology.CoherentPushforwardCriterion.PrincipalIdealExtension
 public import StacksFrontier.Topology.Sheaves.Cohomology.InverseSystems.TorsionFreeAndDivisibleSystems
 
 /-!
@@ -127,7 +126,7 @@ theorem mulSection_naturality (t : Γ(X, ⊤)) {M N : X.Modules} (g : M ⟶ N) :
   refine Scheme.Modules.hom_ext _ _ fun V => ?_
   ext x
   rw [Scheme.Modules.Hom.comp_app, Scheme.Modules.Hom.comp_app]
-  show g.app V ((mulSection t M).app V x) = (mulSection t N).app V (g.app V x)
+  change g.app V ((mulSection t M).app V x) = (mulSection t N).app V (g.app V x)
   rw [mulSection_app, mulSection_app, Scheme.Modules.Hom.app_smul]
 
 /-! ### Multiplication by `t` kills `ℐ ⁿ M` when `ℐ ⁿ⁺¹ M = 0` -/

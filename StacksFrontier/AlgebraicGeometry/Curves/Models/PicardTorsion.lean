@@ -84,7 +84,7 @@ private theorem isThickening_specMap_of_ker_le_nilradical {A B : Type u} [CommRi
     (hker : RingHom.ker f ≤ nilradical A) :
     Thickenings.IsThickening (Spec.map (CommRingCat.ofHom f)) := by
   refine ⟨IsClosedImmersion.spec_of_surjective (CommRingCat.ofHom f) hf, ?_⟩
-  show Function.Surjective (PrimeSpectrum.comap f)
+  change Function.Surjective (PrimeSpectrum.comap f)
   intro p
   have hp : p ∈ PrimeSpectrum.zeroLocus (RingHom.ker f : Set A) := fun x hx =>
     nilradical_le_prime p.asIdeal (hker hx)

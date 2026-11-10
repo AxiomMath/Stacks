@@ -241,13 +241,13 @@ public theorem determinantExactSequenceMap_comparison_apply
   have htotal : (cL.length_eq_finrank.symm.trans hlen).trans hsum = hdim :=
     Subsingleton.elim _ _
   rw [hKsymm, hMsymm, hmap]
-  show cL.equiv (symbol
+  change cL.equiv (symbol
     (⟨fun a ↦ Fin.append (fun b ↦ (i.restrictScalars R) (eSeq.1 b)) fR
       (Fin.cast hlen a), hadm⟩ : AdmissibleSequence R L)) = _
   rw [cL.equiv_symbol]
   congr 1
   funext a
-  show Fin.append (fun b => i (e (Fin.cast cK.length_eq_finrank b)) )
+  change Fin.append (fun b => i (e (Fin.cast cK.length_eq_finrank b)) )
       (fun b => f (Fin.cast cM.length_eq_finrank b))
       (Fin.cast hlen (Fin.cast cL.length_eq_finrank.symm a)) =
     Fin.append (fun b => i (e b)) f (Fin.cast hdim a)
@@ -255,7 +255,7 @@ public theorem determinantExactSequenceMap_comparison_apply
   have hq : Fin.cast hsum q = Fin.cast hdim a := by
     apply Fin.ext
     simp [q]
-  show Fin.append (fun b => i (e (Fin.cast cK.length_eq_finrank b)))
+  change Fin.append (fun b => i (e (Fin.cast cK.length_eq_finrank b)))
       (fun b => f (Fin.cast cM.length_eq_finrank b)) q =
     Fin.append (fun b => i (e b)) f (Fin.cast hdim a)
   rw [← hq]

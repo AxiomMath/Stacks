@@ -251,7 +251,7 @@ theorem exists_moduleCechDirectImageSpectralSequence_of_cover (τ : SiteKind)
   · let := Stacks.RelativeCech.moduleDirectImage_additive.{u, u + 1, u + 1, u, u, u + 1} B S hS
       𝒳.val.val.p 𝒴.val.val.p 𝒳.val.isFiberedInGroupoids 𝒴.val.isFiberedInGroupoids
       (CatFiberedInGroupoids.homFunctor g.hom) (CatFiberedInGroupoids.homFunctor_comp_p g.hom) τ
-    simp only [show ¬ ((n : ℤ) < 0) by omega, if_false, Int.toNat_natCast]
+    simp only [show ¬ ((n : ℤ) < 0) by omega, ite_false, Int.toNat_natCast]
     exact (Functor.rightDerivedIsoOfIso (relativeCechModuleDirectImageIso B S hS
       𝒳.val.val.p 𝒴.val.val.p 𝒳.val.isFiberedInGroupoids 𝒴.val.isFiberedInGroupoids
       (CatFiberedInGroupoids.homFunctor g.hom) (CatFiberedInGroupoids.homFunctor_comp_p g.hom)

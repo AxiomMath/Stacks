@@ -347,11 +347,11 @@ theorem tensorHomBijective_moduleSheafHomEvaluation :
   · refine moduleSheafHom_hom_ext J R F G fun U a x => ?_
     simp only [whiskerRight_comp_moduleSheafHomEvaluation] at hgg'
     exact Sheaf.tensorDesc_apply_eq_of_eq _ _ hgg' U a x
-  · show _ ▷ F ≫ moduleSheafHomEvaluation J R F G = b
+  · change _ ▷ F ≫ moduleSheafHomEvaluation J R F G = b
     rw [whiskerRight_comp_moduleSheafHomEvaluation]
     refine Eq.trans ?_ (Sheaf.eq_tensorDesc b).symm
     refine Sheaf.tensorDesc_congr _ _ fun U a x => ?_
-    show Sheaf.tensorBilinear b (op U.unop) (T.obj.map (𝟙 U.unop).op a) x =
+    change Sheaf.tensorBilinear b (op U.unop) (T.obj.map (𝟙 U.unop).op a) x =
       Sheaf.tensorBilinear b U a x
     have ha : T.obj.map (𝟙 U.unop).op a = a := ConcreteCategory.congr_hom (T.obj.map_id U) a
     exact congrArg (fun z => Sheaf.tensorBilinear b U z x) ha

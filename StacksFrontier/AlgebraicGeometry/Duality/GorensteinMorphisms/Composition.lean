@@ -87,7 +87,7 @@ private theorem isGorensteinLocalRing_quotientMap_iff {B C : Type*} [CommRing B]
   let _ : IsLocalHom qC := IsLocalHom.of_surjective qC Ideal.Quotient.mk_surjective
   have hcomp : γ.comp qB = qC.comp β := by
     ext b
-    show Ideal.quotientMap J β Ideal.le_comap_map (Ideal.Quotient.mk I b) = _
+    change Ideal.quotientMap J β Ideal.le_comap_map (Ideal.Quotient.mk I b) = _
     simp [qC]
   have hmaxD : IsLocalRing.maximalIdeal D = (IsLocalRing.maximalIdeal B).map qB :=
     (IsLocalRing.map_maximalIdeal_of_surjective qB Ideal.Quotient.mk_surjective).symm
@@ -127,7 +127,7 @@ private theorem stalkMap_flat_right_of_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (
   let _ : Algebra _ _ := β.toAlgebra
   let _ : Module.Flat _ _ := RingHom.flat_algebraMap_iff.mpr hβ
   let _ : IsLocalHom (algebraMap _ _) := by
-    show IsLocalHom β
+    change IsLocalHom β
     infer_instance
   let _ : Module.FaithfullyFlat (Y.presheaf.stalk (f x)) (X.presheaf.stalk x) :=
     Module.FaithfullyFlat.of_flat_of_isLocalHom
@@ -176,7 +176,7 @@ private theorem isGorensteinAt_comp_iff_of_flatAt {X Y Z : Scheme.{u}} (f : X �
   let _ : IsNoetherianRing (C ⧸ J) := isNoetherianRing_of_ringEquiv _ eC.symm
   let _ : Algebra B C := β.toAlgebra
   let _ : IsLocalHom (algebraMap B C) := by
-    show IsLocalHom β
+    change IsLocalHom β
     infer_instance
   let _ : Module.Flat B C := RingHom.flat_algebraMap_iff.mpr hflat
   have hI : I ≤ IsLocalRing.maximalIdeal B := IsLocalRing.map_maximalIdeal_le α
@@ -199,7 +199,7 @@ private theorem isGorensteinAt_comp_iff_of_flatAt {X Y Z : Scheme.{u}} (f : X �
       hGG.mp hGbase⟩
   · rintro ⟨⟨_, hGf⟩, ⟨hflatG, hGg⟩⟩
     refine ⟨?_, hGC.mp (hCrit.mpr ⟨hGG.mpr hGg, hGF.mpr hGf⟩)⟩
-    show ((f ≫ g).stalkMap x).hom.Flat
+    change ((f ≫ g).stalkMap x).hom.Flat
     rw [stalkMap_comp]
     exact RingHom.Flat.comp hflatG hflat
 

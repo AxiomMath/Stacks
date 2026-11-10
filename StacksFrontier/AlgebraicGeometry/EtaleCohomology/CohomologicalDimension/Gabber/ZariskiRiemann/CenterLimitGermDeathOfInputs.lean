@@ -188,8 +188,8 @@ def ProperModel.centerRangeMem {B : Type u} [CommRing B] [IsDomain B] (M : Prope
   ⟨M.centerRange V hV, M, rfl⟩
 
 /-- **Germs at the centers come from the levels** (Steps 0, 1 and 3
-of Gabber's proof, at an algebraically closed geometric point). Let `V` dominate the domain `B` and let
-`v̄ : Spec Ω ⟶ Spec V` be a geometric point at the closed point, `Ω` algebraically closed. There
+of Gabber's proof, at an algebraically closed geometric point). Let `V` dominate the domain `B` and
+let `v̄ : Spec Ω ⟶ Spec V` be a geometric point at the closed point, `Ω` algebraically closed. There
 are a center range system `S` and a `V`-algebra structure on its colimit, compatible with the
 maps `A_Y → R_a`, such that the colimit is strictly henselian, local and ind-étale over `V`, and:
 for every model `Y` and every germ `γ` of `R^q j_* F` at `v̄ ≫ c_Y` there is a class `c` on the

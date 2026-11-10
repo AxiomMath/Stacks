@@ -101,7 +101,7 @@ theorem Stack.isLimitPreserving_schemeStack_id (S : Scheme.{u}) (hS : B.Contains
   (Stack.AlgebraicStacks.isLimitPreserving_of_isLocallyOfFinitePresentation B S hS _
     (Stack.isLocallyOfFinitePresentation_structureMorphism_schemeStack B S hS _
       (by
-        show LocallyOfFinitePresentation (B.inclusion.map (𝟙 _))
+        change LocallyOfFinitePresentation (B.inclusion.map (𝟙 _))
         simp only [CategoryTheory.Functor.map_id]
         infer_instance))).1
 

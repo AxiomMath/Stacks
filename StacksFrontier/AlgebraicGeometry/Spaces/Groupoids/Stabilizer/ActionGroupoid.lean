@@ -118,8 +118,8 @@ noncomputable def ActionGroupoidData.evaluationGroupoid
   Hom x y := { a : T ⟶ G ⊗ X // a ≫ H.source = x ∧ a ≫ H.target = y }
   id x := ⟨x ≫ H.identity, by simp [H.source_identity], by simp [H.target_identity]⟩
   comp f g := ⟨pullback.lift g.1 f.1 (g.2.1.trans f.2.2.symm) ≫ H.comp,
-    by simp [H.source_comp, pullback.lift_snd_assoc, f.2.1],
-    by simp [H.target_comp, pullback.lift_fst_assoc, g.2.2]⟩
+    by simp [H.source_comp, f.2.1],
+    by simp [H.target_comp, g.2.2]⟩
   id_comp f := by
     apply Subtype.ext
     convert H.right_identity T f.1 (by
@@ -143,8 +143,8 @@ noncomputable def ActionGroupoidData.evaluationGroupoid
     apply Subtype.ext
     exact (H.assoc T h.1 g.1 f.1
       (h.2.1.trans g.2.2.symm) (g.2.1.trans f.2.2.symm)
-      (by simp [H.source_comp, pullback.lift_snd_assoc, g.2.1, f.2.2])
-      (by simp [H.target_comp, pullback.lift_fst_assoc, g.2.2, h.2.1])).symm
+      (by simp [H.source_comp, g.2.1, f.2.2])
+      (by simp [H.target_comp, g.2.2, h.2.1])).symm
   inv f := ⟨f.1 ≫ H.inverse, by simp [H.source_inverse, f.2.2],
     by simp [H.target_inverse, f.2.1]⟩
   inv_comp f := by
@@ -182,7 +182,7 @@ theorem ActionGroupoidData.arrow_base_of_map {T : BigFppfOver C S hS}
     (a : Y.left.obj (Opposite.op T)) (x : Z.left.obj (Opposite.op T))
     (h : f.left.app (Opposite.op T) a = x) :
     ActionGroupoidData.pointBase B Y a = ActionGroupoidData.pointBase B Z x := by
-  show yonedaEquiv.symm a ≫ Y.hom = yonedaEquiv.symm x ≫ Z.hom
+  change yonedaEquiv.symm a ≫ Y.hom = yonedaEquiv.symm x ≫ Z.hom
   rw [← Over.w f, ← Category.assoc, yonedaEquiv_symm_naturality_right, h]
 
 /-- The Yoneda correspondence over `B`: the `T`-points of `Y` lying over `b` are the morphisms
@@ -217,7 +217,7 @@ theorem ActionGroupoidData.pointFiberEquiv_app
     (x : {x : Y.left.obj (Opposite.op T) // ActionGroupoidData.pointBase B Y x = b}) :
     (ActionGroupoidData.pointFiberEquiv B T Y b x).left.app (Opposite.op T)
       (yonedaEquiv (𝟙 (yoneda.obj T))) = x.1 := by
-  show (yonedaEquiv.symm x.1).app (Opposite.op T)
+  change (yonedaEquiv.symm x.1).app (Opposite.op T)
     (𝟙 T) = x.1
   simp [CategoryTheory.yonedaEquiv_symm_app]
 
@@ -276,7 +276,7 @@ theorem ActionGroupoidData.pointwiseGroupoid_inverse_unique
       _ = g ≫ (f ≫ Groupoid.inv f) := by rw [Groupoid.comp_inv]
       _ = (g ≫ f) ≫ Groupoid.inv f := (Category.assoc _ _ _).symm
       _ = Groupoid.inv f := by rw [hgf, Category.id_comp]
-  show (P.arrowEquiv _ _ (Groupoid.inv f)).1 = qi.1
+  change (P.arrowEquiv _ _ (Groupoid.inv f)).1 = qi.1
   rw [← hg]
   exact congrArg Subtype.val (Equiv.apply_symm_apply _ qi)
 
@@ -293,7 +293,7 @@ theorem ActionGroupoidData.pointFiberEquiv_map
       ActionGroupoidData.pointFiberEquiv B T Y b x ≫ f := by
   apply Over.OverMorphism.ext
   apply yonedaEquiv.injective
-  show yonedaEquiv (yonedaEquiv.symm (f.left.app (Opposite.op T) x.1)) =
+  change yonedaEquiv (yonedaEquiv.symm (f.left.app (Opposite.op T) x.1)) =
     yonedaEquiv (yonedaEquiv.symm x.1 ≫ f.left)
   simp only [yonedaEquiv_comp, Equiv.apply_symm_apply]
 
@@ -408,7 +408,7 @@ theorem ActionGroupoidData.pointFiberArrowEquiv_app
       ActionGroupoidData.pointFiberTarget B G X H T b a = y}) :
     ((ActionGroupoidData.pointFiberArrowEquiv B G X H T b x y a).1).left.app
       (Opposite.op T) (yonedaEquiv (𝟙 (yoneda.obj T))) = a.1.1 := by
-  show (ActionGroupoidData.pointFiberEquiv B T (G ⊗ X) b a.1).left.app
+  change (ActionGroupoidData.pointFiberEquiv B T (G ⊗ X) b a.1).left.app
       (Opposite.op T) (yonedaEquiv (𝟙 (yoneda.obj T))) = a.1.1
   exact ActionGroupoidData.pointFiberEquiv_app B T (G ⊗ X) b a.1
 
@@ -757,7 +757,7 @@ theorem ActionGroupoidData.globalHomInv_val
       H.target.left.app (Opposite.op T) r = y}) :
     (ActionGroupoidData.globalHomInv B G X H T hy f).1 =
       H.inverse.left.app (Opposite.op T) f.1 := by
-  show yonedaEquiv (yonedaEquiv.symm f.1 ≫ H.inverse.left) = _
+  change yonedaEquiv (yonedaEquiv.symm f.1 ≫ H.inverse.left) = _
   simp only [yonedaEquiv_comp, Equiv.apply_symm_apply]
 
 omit [GrpObj G] [ModObj G X] in

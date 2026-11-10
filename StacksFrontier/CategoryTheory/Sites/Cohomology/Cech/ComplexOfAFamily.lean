@@ -88,9 +88,9 @@ lemma cechFormalCoproductMap_id (α : Type t)
   let : HasProduct (fun a ↦ Over.mk
       (E.f ((cechFormalCoproductMap E (id : α → α)).f i a))) := hα i
   refine ⟨rfl, ?_⟩
-  show (cechFormalCoproductMap E (id : α → α)).φ i ≫ 𝟙 _ = 𝟙 _
+  change (cechFormalCoproductMap E (id : α → α)).φ i ≫ 𝟙 _ = 𝟙 _
   rw [Category.comp_id]
-  show (Pi.lift fun a ↦ Pi.π (fun b : α ↦ Over.mk (E.f (i b))) a) = 𝟙 _
+  change (Pi.lift fun a ↦ Pi.π (fun b : α ↦ Over.mk (E.f (i b))) a) = 𝟙 _
   exact Pi.hom_ext _ _ fun a ↦ by simp
 
 /-- Reindexing is contravariantly functorial. -/
@@ -113,10 +113,10 @@ lemma cechFormalCoproductMap_comp {α β γ : Type t}
   let : HasProduct (fun a ↦ Over.mk
       (E.f ((cechFormalCoproductMap E (h ∘ g)).f i a))) := hα (fun a ↦ i (h (g a)))
   refine ⟨rfl, ?_⟩
-  show (cechFormalCoproductMap E (h ∘ g)).φ i ≫ 𝟙 _ =
+  change (cechFormalCoproductMap E (h ∘ g)).φ i ≫ 𝟙 _ =
     (cechFormalCoproductMap E h ≫ cechFormalCoproductMap E g).φ i
   rw [Category.comp_id]
-  show (Pi.lift fun a ↦ Pi.π (fun b : γ ↦ Over.mk (E.f (i b))) (h (g a))) =
+  change (Pi.lift fun a ↦ Pi.π (fun b : γ ↦ Over.mk (E.f (i b))) (h (g a))) =
     (Pi.lift fun b ↦ Pi.π (fun c : γ ↦ Over.mk (E.f (i c))) (h b)) ≫
       (Pi.lift fun a ↦ Pi.π (fun b : β ↦ Over.mk (E.f (i (h b)))) (g a))
   exact Pi.hom_ext _ _ fun a ↦ by simp

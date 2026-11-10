@@ -83,7 +83,7 @@ theorem isOpenHilbertSubfunctor_overOpen (X : Over S) (d : ℕ) (V : S.Opens) :
     IsOpenHilbertSubfunctor (overOpen X d V) := by
   intro T Z
   refine ⟨T.hom ⁻¹ᵁ V, fun T' g => ?_⟩
-  show Set.range T'.hom ⊆ V ↔ _
+  change Set.range T'.hom ⊆ V ↔ _
   rw [← Over.w g]
   constructor <;> rintro h _ ⟨t, rfl⟩ <;> exact h ⟨t, rfl⟩
 
@@ -99,7 +99,7 @@ theorem exists_mem_overOpen_of_specField (X : Over S) (d : ℕ) {ι : Type*} (V 
   obtain ⟨i, hi⟩ := hV (g x)
   refine ⟨i, ?_⟩
   rintro _ ⟨y, rfl⟩
-  show g y ∈ V i
+  change g y ∈ V i
   rwa [Subsingleton.elim (α := (Spec (CommRingCat.of k) : Type u)) y x]
 
 /-! ### Schemes over an open of the base -/
@@ -201,11 +201,11 @@ theorem familyBaseChangeMap_ambientLiftIso (X : Over S) {V : S.Opens} {T' T : Ov
     familyBaseChangeMap (baseRestrict X V) (liftToOpenMap f h' h) ≫ (ambientLiftIso X T h).hom =
       (ambientLiftIso X T' h').hom ≫ familyBaseChangeMap X f := by
   refine pullback.hom_ext ?_ ?_
-  · show _ ≫ _ ≫ familyProjection X T = _ ≫ _ ≫ familyProjection X T
+  · change _ ≫ _ ≫ familyProjection X T = _ ≫ _ ≫ familyProjection X T
     rw [ambientLiftIso_hom_familyProjection, ← Category.assoc,
       familyBaseChangeMap_comp_familyProjection, familyBaseChangeMap_comp_familyProjection,
       ambientLiftIso_hom_familyProjection]
-  · show _ ≫ _ ≫ ((Over.pullback T.hom).obj X).hom = _ ≫ _ ≫ ((Over.pullback T.hom).obj X).hom
+  · change _ ≫ _ ≫ ((Over.pullback T.hom).obj X).hom = _ ≫ _ ≫ ((Over.pullback T.hom).obj X).hom
     rw [ambientLiftIso_hom_hom, (isPullback_familyBaseChangeMap X f).w,
       ambientLiftIso_hom_hom_assoc]
     exact (isPullback_familyBaseChangeMap (baseRestrict X V) (liftToOpenMap f h' h)).w

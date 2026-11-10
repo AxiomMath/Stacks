@@ -161,11 +161,11 @@ lemma exists_linearEquiv_modColim :
       map_smul' := by
         intro a x
         simp only [RingHom.id_apply]
-        show Ring.DirectLimit.of A (fun i j h => (f i j h : A i → A j)) j.val
+        change Ring.DirectLimit.of A (fun i j h => (f i j h : A i → A j)) j.val
             ((f i₀ j.val j.property) a * x)
           = a • Ring.DirectLimit.of A (fun i j h => (f i j h : A i → A j)) j.val x
         rw [map_mul, Algebra.smul_def]
-        show Ring.DirectLimit.of A (fun i j h => (f i j h : A i → A j)) j.val
+        change Ring.DirectLimit.of A (fun i j h => (f i j h : A i → A j)) j.val
               ((f i₀ j.val j.property) a)
             * Ring.DirectLimit.of A (fun i j h => (f i j h : A i → A j)) j.val x
           = Ring.DirectLimit.of A (fun i j h => (f i j h : A i → A j)) i₀ a
@@ -176,7 +176,7 @@ lemma exists_linearEquiv_modColim :
   have Hg : ∀ (j k : {i : ι // i₀ ≤ i}) (hjk : j ≤ k) (x : A j.val),
       g k (gJ A f i₀ j k hjk x) = g j x := by
     intro j k hjk x
-    show Ring.DirectLimit.of A (fun i j h => (f i j h : A i → A j)) k.val (f j.val k.val hjk x)
+    change Ring.DirectLimit.of A (fun i j h => (f i j h : A i → A j)) k.val (f j.val k.val hjk x)
       = Ring.DirectLimit.of A (fun i j h => (f i j h : A i → A j)) j.val x
     exact Ring.DirectLimit.of_f (G := A) (f := fun i j h => (f i j h : A i → A j)) hjk x
   let Φ : ModColim A f i₀ →ₗ[A i₀] Colim A f :=
@@ -210,16 +210,16 @@ lemma exists_linearEquiv_modColim :
       (@Module.DirectLimit.of_f (A i₀) _ {i : ι // i₀ ≤ i} _ (fun j => A j.val)
         (fun j => inferInstance) (modJ A f i₀) (gJ A f i₀) _ j
           ⟨k, le_trans j.property hjk⟩ hjk' x).symm
-    show ModColim.of A f i₀ j x = 0
+    change ModColim.of A f i₀ j x = 0
     rw [hof]
     have : gJ A f i₀ j ⟨k, le_trans j.property hjk⟩ hjk' x = 0 := by
-      show f j.val k hjk x = 0
+      change f j.val k hjk x = 0
       exact hk0
     rw [this, map_zero]
   let e : ModColim A f i₀ ≃ₗ[A i₀] Colim A f := LinearEquiv.ofBijective Φ ⟨hinj, hsurj⟩
   refine ⟨e.symm, fun j x => ?_⟩
   rw [LinearEquiv.symm_apply_eq]
-  show Ring.DirectLimit.of A (fun i j h => (f i j h : A i → A j)) j.val x
+  change Ring.DirectLimit.of A (fun i j h => (f i j h : A i → A j)) j.val x
       = Φ (ModColim.of A f i₀ j x)
   rw [hΦof j x]
 
@@ -440,7 +440,7 @@ lemma exists_surjective_phiAt_of_surjective
     rintro _ ⟨b, rfl⟩
     rw [SetLike.mem_coe, hmemD]
     exact ⟨(1 : A K.val) ⊗ₜ[A i₀] b, by
-      show (phiAt A f i₀ B₀ C₀ φ₀ K.val K.property) ((1 : A K.val) ⊗ₜ[A i₀] b) = _
+      change (phiAt A f i₀ B₀ C₀ φ₀ K.val K.property) ((1 : A K.val) ⊗ₜ[A i₀] b) = _
       rfl⟩
   have hDt : t ⊆ (D : Set C₀) := by
     intro c hc
@@ -465,11 +465,11 @@ lemma exists_surjective_phiAt_of_surjective
   rw [SetLike.mem_coe, hac]
   refine Subalgebra.mul_mem _ ?_ ?_
   · refine ⟨a ⊗ₜ[A i₀] (1 : B₀), ?_⟩
-    show (phiAt A f i₀ B₀ C₀ φ₀ K.val K.property) (a ⊗ₜ[A i₀] (1 : B₀)) = a ⊗ₜ[A i₀] (1 : C₀)
-    show (LinearMap.lTensor (A K.val) (φ₀.toLinearMap)) (a ⊗ₜ[A i₀] (1 : B₀))
+    change (phiAt A f i₀ B₀ C₀ φ₀ K.val K.property) (a ⊗ₜ[A i₀] (1 : B₀)) = a ⊗ₜ[A i₀] (1 : C₀)
+    change (LinearMap.lTensor (A K.val) (φ₀.toLinearMap)) (a ⊗ₜ[A i₀] (1 : B₀))
       = a ⊗ₜ[A i₀] (1 : C₀)
     rw [LinearMap.lTensor_tmul]
-    show a ⊗ₜ[A i₀] (φ₀ (1 : B₀)) = a ⊗ₜ[A i₀] (1 : C₀)
+    change a ⊗ₜ[A i₀] (φ₀ (1 : B₀)) = a ⊗ₜ[A i₀] (1 : C₀)
     rw [map_one]
   · have : c ∈ D := by rw [hDtop]; exact Algebra.mem_top
     rwa [hmemD] at this
@@ -485,7 +485,7 @@ lemma surjective_phiAt_of_le
   let : Algebra (A j) (A k) := (f j k hjk).toAlgebra
   have : IsScalarTower (A i₀) (A j) (A k) := by
     refine IsScalarTower.of_algebraMap_eq (fun x => ?_)
-    show (f i₀ k hk) x = (f j k hjk) ((f i₀ j hj) x)
+    change (f i₀ k hk) x = (f j k hjk) ((f i₀ j hj) x)
     exact (DirectedSystem.map_map (F := A) (f := fun i j h => (f i j h : A i → A j))
       hj hjk x).symm
   have hk_eq : ⇑(phiAt A f i₀ B₀ C₀ φ₀ k hk) =
@@ -652,7 +652,7 @@ lemma exists_rTensor_eq_zero_of_mem_ker_phiAt
     rw [← LinearMap.rTensor_comp]
     congr 1
     refine LinearMap.ext fun a => ?_
-    show f j₀ K.val hj₀K a
+    change f j₀ K.val hj₀K a
         = f (kf g hg).val K.val hkfK (f j₀ (kf g hg).val (hkf_le g hg) a)
     exact (DirectedSystem.map_map (F := A) (f := fun i j h => (f i j h : A i → A j))
       (hkf_le g hg) hkfK a).symm
@@ -661,7 +661,7 @@ lemma exists_rTensor_eq_zero_of_mem_ker_phiAt
     apply LinearMap.ext; intro a; rfl
   have hTg : T.toRingHom g
       = LinearMap.rTensor B₀ (gJ A f i₀ j₀J K hj₀K) g := by
-    show T g = _
+    change T g = _
     rw [← hTfun, hgg]
   rw [hTg, hcocyc]
   simp only [LinearMap.coe_comp, Function.comp_apply, hg0, map_zero]
@@ -720,11 +720,11 @@ lemma exists_injective_phiAt_of_injective
             have h2 : (s ⊗ₜ[A i₀] b : TensorProduct (A i₀) (A j₀) B₀)
                 = b • (s ⊗ₜ[A i₀] (1 : B₀)) := by
               rw [Algebra.smul_def]
-              show s ⊗ₜ[A i₀] b = (1 ⊗ₜ[A i₀] b) * (s ⊗ₜ[A i₀] 1)
+              change s ⊗ₜ[A i₀] b = (1 ⊗ₜ[A i₀] b) * (s ⊗ₜ[A i₀] 1)
               rw [Algebra.TensorProduct.tmul_mul_tmul]; simp
             rw [h2, TensorProduct.smul_tmul]
             congr 1
-            show b • (1 : C₀) = φ₀ b
+            change b • (1 : C₀) = φ₀ b
             rw [Algebra.smul_def, mul_one]; rfl
       let e' : ((TensorProduct (A i₀) (A j₀) B₀) ⊗[B₀] C₀)
           ≃ₐ[(TensorProduct (A i₀) (A j₀) B₀)] (TensorProduct (A i₀) (A j₀) C₀) :=
@@ -788,13 +788,13 @@ lemma exists_injective_phiAt_of_injective
       | tmul s b =>
           rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul,
             LinearMap.rTensor_tmul]
-          show (s • (1 : A i)) ⊗ₜ[A i₀] b = (IsScalarTower.toAlgHom (A i₀) (A j₀) (A i)) s ⊗ₜ[A
+          change (s • (1 : A i)) ⊗ₜ[A i₀] b = (IsScalarTower.toAlgHom (A i₀) (A j₀) (A i)) s ⊗ₜ[A
               i₀] b
           rw [Algebra.smul_def, mul_one]
           rfl
     have hkmem : (k.val) ∈ RingHom.ker (phiAt A f i₀ B₀ C₀ φ₀ j₀ hj₀).toRingHom := by
       rw [RingHom.mem_ker]
-      show (phiAt A f i₀ B₀ C₀ φ₀ j₀ hj₀) (k.val) = 0
+      change (phiAt A f i₀ B₀ C₀ φ₀ j₀ hj₀) (k.val) = 0
       have : ⇑(phiAt A f i₀ B₀ C₀ φ₀ j₀ hj₀) = ⇑(LinearMap.lTensor (A j₀) (φ₀.toLinearMap)) := rfl
       rw [this, ← hψfun]
       exact k.property
@@ -804,9 +804,9 @@ lemma exists_injective_phiAt_of_injective
           B₀).injective
       rw [map_zero, hcbc]
       exact hkill (k.val) hkmem
-    show LinearMap.lTensor (A i) (LinearMap.ker ψ).subtype (a ⊗ₜ[A j₀] k) = 0
+    change LinearMap.lTensor (A i) (LinearMap.ker ψ).subtype (a ⊗ₜ[A j₀] k) = 0
     rw [LinearMap.lTensor_tmul]
-    show (a ⊗ₜ[A j₀] (k.val)
+    change (a ⊗ₜ[A j₀] (k.val)
         : TensorProduct (A j₀) (A i) (TensorProduct (A i₀) (A j₀) B₀)) = 0
     rw [show (a ⊗ₜ[A j₀] (k.val)
         : TensorProduct (A j₀) (A i) (TensorProduct (A i₀) (A j₀) B₀))

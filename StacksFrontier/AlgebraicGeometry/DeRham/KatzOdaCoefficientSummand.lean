@@ -493,7 +493,7 @@ theorem epi_coefficientSummandToTarget (c : ℕ) (M : Modules Y.toRingedSpace) (
         ((_root_.pullback (inverseImageBaseProjection f)).obj M)).map
           (formsToRelativeCochain f g q))) := by
     have h0 := @Stacks.SheafOfModules.TensorEncodings.epi_tensorSheafBifunctor_map _ _
-      (Opens.grothendieckTopology X.carrier) _ _ _ (inverseImageBase f).sheaf _ _ _ _ _
+      (Opens.grothendieckTopology X.carrier) _ _ _ (inverseImageBase f).sheaf _ _ _ _
       (𝟙 ((_root_.pullback (inverseImageBaseProjection f)).obj M)) (formsToRelativeCochain f g q)
       (@IsIso.epi_of_iso _ _ _ _ _ (IsIso.id _)) hq
     have : Epi (((Stacks.SheafOfModules.Tensor.sheafTensor (inverseImageBase f).sheaf).obj

@@ -578,7 +578,7 @@ private lemma selfMap_comp_map {n m : ℕ} (φ : (⦋m⦌ : SimplexCategory) ⟶
     selfMap F hF α ≫ f.cechNerve.map φ.op
       = f.cechNerve.map φ.op ≫ selfMap F hF (α ∘ φ.toOrderHom) := by
   refine WidePullback.hom_ext_of_π _ _ fun i => ?_
-  simp [Arrow.cechNerve_map, WidePullback.lift_π, WidePullback.lift_π_assoc, selfMap_π]
+  simp [Arrow.cechNerve_map, selfMap_π]
 
 private lemma selfMap_comp_δ {n : ℕ} (i : Fin (n + 2)) (α : Fin (n + 2) → Fin 2) :
     selfMap F hF α ≫ f.cechNerve.δ i

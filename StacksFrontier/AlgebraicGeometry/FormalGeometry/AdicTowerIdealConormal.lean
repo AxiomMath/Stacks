@@ -192,7 +192,7 @@ lemma isIso_idealConormalHom (n : ℕ) : IsIso (idealConormalHom q t hcart n) :=
       exact a.2
     obtain ⟨x, hx⟩ := (Stacks.Thickenings.exact_app_idealSheafModule (t n) V.1 a.1).1 ha
     refine ⟨x, ?_⟩
-    show (Stacks.Conormal.conormalAlgebra (incl t (n + 1))).localMap V
+    change (Stacks.Conormal.conormalAlgebra (incl t (n + 1))).localMap V
       (isClosedImmersion_resLE_incl t (n + 1) V.1) (n + 1) ⟨_, kernelι_mem q t hcart n V x⟩ = _
     exact congrArg ((Stacks.Conormal.conormalAlgebra (incl t (n + 1))).localMap V
       (isClosedImmersion_resLE_incl t (n + 1) V.1) (n + 1)) (Subtype.ext hx)

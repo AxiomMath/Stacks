@@ -174,8 +174,8 @@ theorem flatQuasicoherentOver_glue (T : TripleGluing.Triple
   exact (isFlatOverOnChartDiagram_iff_flat_sections B S hS g _ hq d hU hV).2
     (flat_glue_of_isMilnorCube (commonToTarget i f g) (targetRestriction i f g)
     (commonToAmbient i f g) (ambientRestriction i f g) (commonToAmbient_comp_eq i f g)
-    (rep_commonToTarget i f g hi hf) (rep_targetRestriction i f g hi hf)
-    (rep_commonToAmbient i f g hi hf) (rep_ambientRestriction i f g hi hf)
+    (rep_commonToTarget i f g hf) (rep_targetRestriction i f g hi hf)
+    (rep_commonToAmbient i f g hi) (rep_ambientRestriction i f g hi hf)
     (rep_commonTargetComp i f g hi hf) (rep_commonAmbientComp i f g hi hf) d.U T hT.1
     hT.2.2.1 hWV hWU' hWU
       (isMilnorCube_chart i f g hi hf d hU hV) hGflat hFflat)
@@ -203,8 +203,8 @@ theorem isIso_unit_app (M : (FlatQuasicoherentOver g).FullSubcategory) :
     ((FlatQuasicoherentOver g).ι.obj M) hM.1 d hU hV).1 (hM.2 d)
   exact bijective_squareUnit_app_of_isMilnorCube (commonToTarget i f g) (targetRestriction i f g)
     (commonToAmbient i f g) (ambientRestriction i f g) (commonToAmbient_comp_eq i f g)
-    (rep_commonToTarget i f g hi hf) (rep_targetRestriction i f g hi hf)
-    (rep_commonToAmbient i f g hi hf) (rep_ambientRestriction i f g hi hf)
+    (rep_commonToTarget i f g hf) (rep_targetRestriction i f g hi hf)
+    (rep_commonToAmbient i f g hi) (rep_ambientRestriction i f g hi hf)
     (rep_commonTargetComp i f g hi hf) (rep_commonAmbientComp i f g hi hf) d.U hWV hWU' hWU
     ((FlatQuasicoherentOver g).ι.obj M) hM.1 hU
     (isMilnorCube_chart i f g hi hf d hU hV) hflat
@@ -249,8 +249,8 @@ theorem isIso_counit_app (T : (FlatQuasicoherentTriple i f g).FullSubcategory) :
     obtain ⟨hWV, hWU', hWU⟩ := isAffine_smallBaseChange_obj_triple i f g hi hf d hW
     exact bijective_squareCounit_target_app_of_isMilnorCube (commonToTarget i f g)
       (targetRestriction i f g) (commonToAmbient i f g) (ambientRestriction i f g)
-      (commonToAmbient_comp_eq i f g) (rep_commonToTarget i f g hi hf)
-      (rep_targetRestriction i f g hi hf) (rep_commonToAmbient i f g hi hf)
+      (commonToAmbient_comp_eq i f g) (rep_commonToTarget i f g hf)
+      (rep_targetRestriction i f g hi hf) (rep_commonToAmbient i f g hi)
       (rep_ambientRestriction i f g hi hf) (rep_commonTargetComp i f g hi hf)
       (rep_commonAmbientComp i f g hi hf) d.U ((FlatQuasicoherentTriple i f g).ι.obj T) hT.1
       hT.2.2.1 hWV hWU'
@@ -280,8 +280,8 @@ theorem isIso_counit_app (T : (FlatQuasicoherentTriple i f g).FullSubcategory) :
     obtain ⟨hWV, hWU', hWU⟩ := isAffine_smallBaseChange_obj_triple i f g hi hf d hW
     exact bijective_squareCounit_ambient_app_of_isMilnorCube (commonToTarget i f g)
       (targetRestriction i f g) (commonToAmbient i f g) (ambientRestriction i f g)
-      (commonToAmbient_comp_eq i f g) (rep_commonToTarget i f g hi hf)
-      (rep_targetRestriction i f g hi hf) (rep_commonToAmbient i f g hi hf)
+      (commonToAmbient_comp_eq i f g) (rep_commonToTarget i f g hf)
+      (rep_targetRestriction i f g hi hf) (rep_commonToAmbient i f g hi)
       (rep_ambientRestriction i f g hi hf) (rep_commonTargetComp i f g hi hf)
       (rep_commonAmbientComp i f g hi hf) d.U ((FlatQuasicoherentTriple i f g).ι.obj T) hT.1
       hT.2.2.1 hWV hWU'

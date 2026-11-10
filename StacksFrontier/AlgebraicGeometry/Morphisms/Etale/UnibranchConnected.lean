@@ -173,7 +173,7 @@ theorem irreducibleSpace_of_unramified_of_dominant_component
     IrreducibleSpace X := by
   obtain ⟨Z, -, hZeq⟩ := dominant_component_eq_univ f hY hdom
   refine (irreducibleSpace_def X).mpr ?_
-  show IsIrreducible (Set.univ : Set X)
+  change IsIrreducible (Set.univ : Set X)
   rw [← hZeq]
   exact Z.2.1
 

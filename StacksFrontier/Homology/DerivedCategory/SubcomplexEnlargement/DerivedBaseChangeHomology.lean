@@ -61,7 +61,7 @@ variable {A B : Type u} [CommRing A] [CommRing B]
 /-- The chosen projective resolution of a module is a bounded above complex of projectives. -/
 private lemma projResComplex_projective {R : Type u} [CommRing R] (M : ModuleCat.{u} R)
     (n : ℤ) : Projective ((StacksDraft.TorAmplitude.FaithfullyFlat.projResComplex M).X n) := by
-  show Projective (((ProjectiveResolution.of M).complex.extend
+  change Projective (((ProjectiveResolution.of M).complex.extend
     ComplexShape.embeddingDownNat).X n)
   infer_instance
 
@@ -332,8 +332,8 @@ private noncomputable def tensorDegreeIso
           (ComplexShape.up ℤ)).f i ≫ _ = _
     rw [HomologicalComplex.ι_mapBifunctorMap_assoc]
     simp only [HomologicalComplex.ιMapBifunctor, HomologicalComplex₂.ιTotal,
-      GradedObject.ιMapObj, HasColimit.isoOfNatIso_ι_hom_assoc,
-      HasColimit.isoOfNatIso_ι_hom]
+      GradedObject.ιMapObj, HasColimit.ι_isoOfNatIso_hom_assoc,
+      HasColimit.ι_isoOfNatIso_hom]
     simp
     rfl)
 
@@ -347,7 +347,7 @@ private lemma tensorRightComplex_preservesColimitsOfShape
   have : PreservesColimitsOfShape J (tensorDegreeSummands P i) := by
     apply preservesColimitsOfShape_of_evaluation
     intro p
-    show PreservesColimitsOfShape J
+    change PreservesColimitsOfShape J
       (HomologicalComplex.eval (ModuleCat.{u} R) (ComplexShape.up ℤ) p.as.1.1 ⋙
         CategoryTheory.MonoidalCategory.tensorRight (P.X p.as.1.2))
     infer_instance
@@ -575,7 +575,7 @@ public lemma derivedBaseChangeHomology_preservesFilteredColimits_ulift
   let eq := (uA.mapHomologicalComplex (ComplexShape.up ℤ)).asEquivalence
   have : PreservesColimitsOfShape J eq.inverse := inferInstance
   have : PreservesColimitsOfShape J (eq.inverse ⋙ eq.functor ⋙ G ⋙ lB ⋙ U) := by
-    show PreservesColimitsOfShape J
+    change PreservesColimitsOfShape J
       (eq.inverse ⋙ uA.mapHomologicalComplex (ComplexShape.up ℤ) ⋙ G ⋙ lB ⋙ U)
     infer_instance
   have h₂ : PreservesColimitsOfShape J (G ⋙ lB ⋙ U) :=
@@ -658,11 +658,11 @@ private lemma mk_freeResolutionComplex_term_le
   let Λ := ModuleCat.projectiveResolution R
   let ι := (isProjective (ModuleCat.{u} R)).ι
   have hfree (N : ModuleCat.{u} R) (hN : #N ≤ κ) : #(ι.obj (Λ.F.obj N)) ≤ κ := by
-    show #(N →₀ R) ≤ κ
+    change #(N →₀ R) ≤ κ
     exact mk_finsupp_le_of_le hκ (by simpa using hN) (by simpa using hR)
   have hker {N P : ModuleCat.{u} R} (g : N ⟶ P) : #(kernel g : ModuleCat.{u} R) ≤ #N :=
     mk_le_of_injective ((ModuleCat.mono_iff_injective (kernel.ι g)).mp inferInstance)
-  show #(ι.obj ((Λ.chainComplex M).X n)) ≤ κ
+  change #(ι.obj ((Λ.chainComplex M).X n)) ≤ κ
   induction n using Nat.twoStepInduction with
   | zero =>
     rw [mk_congr (ι.mapIso (Λ.chainComplexXZeroIso M)).toLinearEquiv.toEquiv]
@@ -725,7 +725,7 @@ private lemma mk_tensor_projectiveResolution_homology_le
       (extendHomotopyEquiv
         ((ProjectiveResolution.of M).homotopyEquiv (freeProjectiveResolution M))
         ComplexShape.embeddingDownNat)
-  show #(((CategoryTheory.MonoidalCategory.tensorLeft K).obj
+  change #(((CategoryTheory.MonoidalCategory.tensorLeft K).obj
     ((ComplexShape.embeddingDownNat.extendFunctor (ModuleCat.{u} R)).obj
       (ProjectiveResolution.of M).complex)).homology i) ≤ κ
   rw [mk_congr (e.toHomologyIso i).toLinearEquiv.toEquiv]
@@ -749,7 +749,7 @@ private lemma mk_derivedBaseChange_homology_le
     (hK : ∀ j, #(K.X j) ≤ κ) (i : ℤ) :
     #((DerivedCategory.homologyFunctor (ModuleCat.{u} B) i).obj
       (T.obj (DerivedCategory.Q.obj K))) ≤ κ := by
-  show #((DerivedCategory.Q ⋙ T ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} B) i ⋙
+  change #((DerivedCategory.Q ⋙ T ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} B) i ⋙
     ModuleCat.restrictScalars f).obj K) ≤ κ
   rw [mk_congr ((derivedBaseChangeHomologyIso f T α i).app K).toLinearEquiv.toEquiv]
   exact mk_tensor_projectiveResolution_homology_le K
@@ -784,13 +784,13 @@ lemma mk_derivedBaseChange_homology_le_ulift
   let K' := F.objPreimage K
   let eK := F.objObjPreimageIso K
   have hK' (j : ℤ) : #(K'.X j) ≤ κ := by
-    show #((F.obj K').X j) ≤ κ
+    change #((F.obj K').X j) ≤ κ
     exact (mk_congr ((HomologicalComplex.eval _ _ j).mapIso eK).toLinearEquiv.toEquiv).le.trans
       (hK j)
   have hT' := mk_derivedBaseChange_homology_le (f.ulift.{max v w, max u w}) T' α'
     K' hκ (by simpa only [mk_uLift] using hA) (by simpa only [mk_uLift] using hB) hK' i
   let eH := e.app K' ≪≫ (G ⋙ lB ⋙ U).mapIso eK
-  show #((G ⋙ lB ⋙ U).obj K) ≤ κ
+  change #((G ⋙ lB ⋙ U).obj K) ≤ κ
   rw [← mk_congr eH.toLinearEquiv.toEquiv]
   exact hT'
 

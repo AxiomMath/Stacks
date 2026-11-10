@@ -19,12 +19,12 @@ restriction to `X_η` is `Z`.
 The source deduces this from the Noetherian case, [Stacks, Tag 0EYJ], by a limit argument. The
 Noetherian case is
 `AlgebraicGeometry.exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian`,
-whose named arguments `h0BMA` and `h0EYD` are carried here.
+whose named argument `h0EYD` is carried here.
 
 ## Main results
 
 * `AlgebraicGeometry.exists_finiteEtaleGaloisCover_extending_genericFiber`: Tag 0EZJ, granted
-  the inputs `h0BMA`, `h0EYD` of Tag 0EYJ.
+  the input `h0EYD` of Tag 0EYJ.
 
 ## Implementation notes
 
@@ -65,7 +65,6 @@ namespace GaloisCoverLimits
 
 /-- The Noetherian case read at a point equal to the generic point. -/
 theorem noetherianCase_at
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -85,7 +84,7 @@ theorem noetherianCase_at
       ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι y)).map (Y.action g).asIso.hom ≫ e.hom =
         e.hom ≫ (Z.action g).asIso.hom := by
   subst hy
-  exact exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian h0BMA h0EYD
+  exact exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian h0EYD
     f σ hσ G hG Z z hz
 
 /-- Pasting a cartesian square onto the base change of `y` along `pX` gives a cartesian square
@@ -115,7 +114,8 @@ private theorem exists_equivariant_iso_baseChange_of_isPullback {X A F : Scheme.
   have hpZ₁ : pZ ≫ pullback.fst Y'.obj.hom pX = n := pullback.lift_fst _ _ _
   have hpZ₂ : pZ ≫ pullback.snd Y'.obj.hom pX = Z.obj.hom ≫ q := pullback.lift_snd _ _ _
   have hpZ (g : Gᵐᵒᵖ) :
-      (Z.action g).asIso.hom.left ≫ pZ = pZ ≫ ((Y'.baseChange pX hconn).action g).asIso.hom.left := by
+      (Z.action g).asIso.hom.left ≫ pZ =
+        pZ ≫ ((Y'.baseChange pX hconn).action g).asIso.hom.left := by
     have hY : ((Y'.baseChange pX hconn).action g).asIso.hom.left ≫ pullback.snd Y'.obj.hom pX =
         pullback.snd Y'.obj.hom pX :=
       MorphismProperty.Over.w ((Y'.baseChange pX hconn).action g).asIso.hom
@@ -131,12 +131,12 @@ private theorem exists_equivariant_iso_baseChange_of_isPullback {X A F : Scheme.
         ((Category.assoc _ _ _).trans ((congrArg (pZ ≫ ·) hY).trans hpZ₂)).symm
   exact exists_equivariant_iso_of_isPullback q (Y'.baseChange pX hconn).obj Z.obj pZ
     (isPullback_pullbackLift_of_isPullback hn)
-    (fun g : Gᵐᵒᵖ ↦ ((Y'.baseChange pX hconn).action g).asIso.hom) (fun g : Gᵐᵒᵖ ↦ (Z.action g).asIso.hom) hpZ
+    (fun g : Gᵐᵒᵖ ↦ ((Y'.baseChange pX hconn).action g).asIso.hom)
+    (fun g : Gᵐᵒᵖ ↦ (Z.action g).asIso.hom) hpZ
 
 /-- A pointed Galois cover of the generic fibre of a smooth sectioned family over a Noetherian
 integral normal base, pulling back to `Z` along a map of generic fibres, extends `Z` to `X`. -/
 private theorem exists_extending_genericFiber_of_pointed_noetherian_model
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -159,7 +159,7 @@ private theorem exists_extending_genericFiber_of_pointed_noetherian_model
       ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).asIso.hom ≫
         e.hom = e.hom ≫ (Z.action g).asIso.hom := by
   classical
-  obtain ⟨Y', e', he'⟩ := noetherianCase_at h0BMA h0EYD fT σT hσT G hG y hy V w hw
+  obtain ⟨Y', e', he'⟩ := noetherianCase_at h0EYD fT σT hσT G hG y hy V w hw
   obtain ⟨n, hn, hnact⟩ := exists_equivariant_isPullback_of_iso (fT.fiberι y) Y'.obj V.obj e'
     (fun g : Gᵐᵒᵖ ↦ (Y'.action g).asIso.hom) (fun g : Gᵐᵒᵖ ↦ (V.action g).asIso.hom) he'
   have hchain : IsPullback (P ≫ n) Z.obj.hom Y'.obj.hom (f.fiberι (genericPoint S) ≫ pX) := by
@@ -211,13 +211,13 @@ private theorem stageBaseChangeSection_naturality {m m' : Over k} (g : m ⟶ m')
     (Over.forget k ⋙ D).map g ≫ stageBaseChangeSection D k X σ hσ m' =
       stageBaseChangeSection D k X σ hσ m ≫ (stageBaseChangeDiagram D k X).map g := by
   apply pullback.hom_ext
-  · show D.map g.left ≫ stageBaseChangeSection D k X σ hσ m' ≫ pullback.fst (D.map m'.hom) X.hom =
+  · change D.map g.left ≫ stageBaseChangeSection D k X σ hσ m' ≫ pullback.fst (D.map m'.hom) X.hom =
       stageBaseChangeSection D k X σ hσ m ≫ pullback.lift (pullback.fst _ _ ≫ D.map g.left)
         (pullback.snd _ _) _ ≫ pullback.fst (D.map m'.hom) X.hom
     rw [stageBaseChangeSection_fst, pullback.lift_fst, ← Category.assoc,
       stageBaseChangeSection_fst, Category.id_comp]
     exact Category.comp_id _
-  · show D.map g.left ≫ stageBaseChangeSection D k X σ hσ m' ≫ pullback.snd (D.map m'.hom) X.hom =
+  · change D.map g.left ≫ stageBaseChangeSection D k X σ hσ m' ≫ pullback.snd (D.map m'.hom) X.hom =
       stageBaseChangeSection D k X σ hσ m ≫ pullback.lift (pullback.fst _ _ ≫ D.map g.left)
         (pullback.snd _ _) _ ≫ pullback.snd (D.map m'.hom) X.hom
     rw [stageBaseChangeSection_snd, pullback.lift_snd, stageBaseChangeSection_snd,
@@ -229,7 +229,6 @@ end StageSection
 dominant projections, given a smooth model `X₁ ⟶ D k` of `f` with a section compatible with `σ`,
 on whose stage `|G|` is invertible. -/
 private theorem exists_extending_genericFiber_of_sectioned_model
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -296,7 +295,7 @@ private theorem exists_extending_genericFiber_of_sectioned_model
   have : IsDominant (c.π.app m.left) := hdom m.left
   have hGT (t : D.obj m.left) : IsUnit (Nat.card G : (D.obj m.left).residueField t) := by
     simpa using (hG (D.map m.hom t)).map ((D.map m.hom).residueFieldMap t).hom
-  exact exists_extending_genericFiber_of_pointed_noetherian_model h0BMA h0EYD f
+  exact exists_extending_genericFiber_of_pointed_noetherian_model h0EYD f
     (pullback.fst (D.map m.hom) X₁.hom) (stageBaseChangeSection D k X₁ σ₁ hσ₁ m)
     (stageBaseChangeSection_fst D k X₁ σ₁ hσ₁ m) G hGT _
     (genericPoint_eq_of_isDominant (X := S) (c.π.app m.left)) V w hw (cA.π.app m) _
@@ -305,7 +304,7 @@ private theorem exists_extending_genericFiber_of_sectioned_model
 end GaloisCoverLimits
 
 open GaloisCoverLimits NormalApproximation in
-/-- **Stacks Project, Tag 0EZJ**, granted the inputs of the Noetherian case Tag 0EYJ. Let `S` be a
+/-- **Stacks Project, Tag 0EZJ**, granted the input of the Noetherian case Tag 0EYJ. Let `S` be a
 quasi-compact and quasi-separated integral normal scheme with generic point `η`, let
 `f : X ⟶ S` be a quasi-compact and quasi-separated smooth morphism with geometrically connected
 fibres and `σ` a section of `f`. Let `Z ⟶ X_η` be a finite étale Galois cover with group `G` of
@@ -313,11 +312,10 @@ order invertible on `S` such that `Z` has a `κ(η)`-rational point mapping to `
 a finite étale Galois cover `Y ⟶ X` with group `G` whose restriction to `X_η` is `Z`,
 equivariantly.
 
-The named arguments `h0BMA` ([Stacks, Tag 0BMA] (1)) and `h0EYD` (the tame half of
-[Stacks, Tag 0EYD]) are those of the Noetherian case
+The named argument `h0EYD` (the tame half of
+[Stacks, Tag 0EYD]) is that of the Noetherian case
 `AlgebraicGeometry.exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian`. -/
 theorem exists_finiteEtaleGaloisCover_extending_genericFiber
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -358,7 +356,7 @@ theorem exists_finiteEtaleGaloisCover_extending_genericFiber
   have hX₁₃ : Smooth X₁.hom := inferInstanceAs (Smooth (pullback.snd f₀ (D.map e)))
   have hX₁₄ : GeometricallyConnected X₁.hom :=
     inferInstanceAs (GeometricallyConnected (pullback.snd f₀ (D.map e)))
-  exact exists_extending_genericFiber_of_sectioned_model h0BMA h0EYD π hc hdom f σ hσ k X₁ σ₁
+  exact exists_extending_genericFiber_of_sectioned_model h0EYD π hc hdom f σ hσ k X₁ σ₁
     hσ₁ p₁ hp₁ hs₁ G hGk Z z hz
 
 end AlgebraicGeometry

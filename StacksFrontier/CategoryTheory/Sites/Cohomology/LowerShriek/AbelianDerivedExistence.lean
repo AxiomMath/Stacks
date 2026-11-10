@@ -241,7 +241,7 @@ theorem exists_epi_isSumOfExtensionByZeroUnitsAb [Small.{max v₁ w} C]
   have key (i : ι) :
       f.hom.app (op (ev i).1) (ev i).2 = g.hom.app (op (ev i).1) (ev i).2 := by
     have hh := Sigma.ι (fun i : ι => extensionByZeroUnitAb.{w} J (U i)) i ≫= h
-    simp only [Sigma.ι_desc_assoc] at hh
+    simp only [Sigma.ι_comp_desc_assoc] at hh
     have he := congrArg (extensionByZeroUnitAbHomEquiv.{w} J (U i) N) hh
     rwa [extensionByZeroUnitAbHomEquiv_naturality, extensionByZeroUnitAbHomEquiv_naturality,
       Equiv.apply_symm_apply] at he
@@ -628,10 +628,10 @@ theorem isIso_derivedAbelianLowerShriekAdjunction_unit
       (ComplexShape.up ℤ)).app X
     have : ∀ n, IsIso (v.f n) := by
       intro n
-      show IsIso ((abelianAdjunction.{w} J K u).unit.app (X.X n))
+      change IsIso ((abelianAdjunction.{w} J K u).unit.app (X.X n))
       infer_instance
     have : IsIso v := HomologicalComplex.Hom.isIso_of_components _
-    show IsIso ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).map v)
+    change IsIso ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).map v)
     infer_instance
   have : IsIso adjh.unit := NatIso.isIso_of_isIso_app _
   have : IsIso β := by

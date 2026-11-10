@@ -148,7 +148,7 @@ private theorem isProper_isNoetherian_and_baseChange_spec_algebraMap
       HasAtWorstNodalSingularities E (pullback (C := Scheme.{u})
         (X ↘ Spec (.of k)) (Spec.map (CommRingCat.ofHom (algebraMap k E)))) := by
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
-  · show IsProper (pullback.snd (X ↘ Spec (.of k))
+  · change IsProper (pullback.snd (X ↘ Spec (.of k))
       (Spec.map (CommRingCat.ofHom (algebraMap k E))))
     infer_instance
   · have := QuasiCompact.compactSpace_of_compactSpace (pullback.snd (X ↘ Spec (.of k))
@@ -245,7 +245,7 @@ private theorem finrank_sup_complementaryCurveIdeal_eq_of_image_eq_of_normal
         (Spec.map (CommRingCat.ofHom (algebraMap k E))))) : Set _)
       = ((Closeds.closure T' : Closeds (pullback (C := Scheme.{u}) (X ↘ Spec (.of k))
         (Spec.map (CommRingCat.ofHom (algebraMap k E))))) : Set _) := by
-    show (galoisBaseChangeMap k E X (X ↘ Spec (.of k)) σ).base '' closure T = closure T'
+    change (galoisBaseChangeMap k E X (X ↘ Spec (.of k)) σ).base '' closure T = closure T'
     rw [(isClosed_of_mem_irreducibleComponents T hT).closure_eq,
       (isClosed_of_mem_irreducibleComponents T' hT').closure_eq]
     exact hσ

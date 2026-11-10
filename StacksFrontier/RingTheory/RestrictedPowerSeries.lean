@@ -199,7 +199,7 @@ public theorem continuous_idealSystem_iff {ι : Type w} [Preorder ι]
     Continuous f ↔ ∀ i, @Continuous X (MvPolynomial σ (A ⧸ J i))
       _ ⊥ (fun x ↦ idealSystemProjection J hJ σ i (f x)) := by
   let : ∀ i : ι, TopologicalSpace (MvPolynomial σ (A ⧸ J i)) := fun _ ↦ ⊥
-  show Continuous f ↔ ∀ i, Continuous (fun x ↦ (f x).val i)
+  change Continuous f ↔ ∀ i, Continuous (fun x ↦ (f x).val i)
   rw [continuous_induced_rng, continuous_pi_iff]
   rfl
 
@@ -323,7 +323,7 @@ public theorem polynomialTransition_projection (I : Ideal A) (σ : Type v) {m n 
       polynomialQuotientProjection I σ m := by
   apply DFunLike.ext _ _
   intro f
-  show polynomialTransition I σ hmn
+  change polynomialTransition I σ hmn
       (polynomialQuotientEquiv I σ n (coefficientProjection I σ n f)) = _
   rw [← polynomialQuotientEquiv_transition]
   exact congrArg (polynomialQuotientEquiv I σ m) (f.property hmn)
@@ -463,7 +463,7 @@ public theorem continuous_coefficientProjection (I : Ideal A) (σ : Type v) (n :
       (limitTopology I σ) ⊥ (coefficientProjection I σ n) := by
   let : ∀ n : ℕ, TopologicalSpace (MvPolynomial σ (A ⧸ I ^ n)) := fun _ ↦ ⊥
   let : ∀ n : ℕ, DiscreteTopology (MvPolynomial σ (A ⧸ I ^ n)) := fun _ ↦ ⟨rfl⟩
-  show Continuous (fun f : inverseLimitSubring I σ ↦ f.val n)
+  change Continuous (fun f : inverseLimitSubring I σ ↦ f.val n)
   exact (continuous_apply n).comp continuous_subtype_val
 
 /-- The finite polynomial-quotient projections are continuous for the limit topology. -/
@@ -677,7 +677,7 @@ public theorem existsUnique_continuousAlgHom_extends
   let : T2Space C := hC.1
   let : CompleteSpace C := hC.2
   have hdense : DenseRange e := by
-    show Dense (Set.range e)
+    change Dense (Set.range e)
     rw [dense_iff_closure_eq]
     apply Set.eq_univ_iff_forall.mpr
     intro x
@@ -704,7 +704,7 @@ public theorem existsUnique_continuousAlgHom_extends
       simpa [e, RestrictedPowerSeries.idealSystemPolynomialRingHom] using hp'.trans hx
     have heV : (fun i ↦ (e p).val i) ∈ V := by
       apply hIV
-      show ∀ i ∈ I, (e p).val i ∈ t i
+      change ∀ i ∈ I, (e p).val i ∈ t i
       intro i hi
       rw [hcoord i hi]
       exact mem_of_mem_nhds (ht i)
@@ -721,8 +721,8 @@ public theorem existsUnique_continuousAlgHom_extends
   let : IsUniformAddGroup C := isUniformAddGroup_of_addCommGroup
   have hfuc : UniformContinuous (f : MvPolynomial σ A → C) := by
     apply uniformContinuous_of_continuousAt_zero (f.toRingHom.toAddMonoidHom)
-    show ContinuousAt (f : MvPolynomial σ A → C) 0
-    show Filter.Tendsto (f : MvPolynomial σ A → C) (nhds 0) (nhds (f 0))
+    change ContinuousAt (f : MvPolynomial σ A → C) 0
+    change Filter.Tendsto (f : MvPolynomial σ A → C) (nhds 0) (nhds (f 0))
     rw [map_zero]
     apply Filter.tendsto_def.mpr
     intro U hU
@@ -756,8 +756,8 @@ public theorem existsUnique_continuousAlgHom_extends
         Ideal.comap f.toRingHom (N : Ideal C) := by
       rw [Ideal.map_le_iff_le_comap]
       intro a ha
-      show f (MvPolynomial.C a) ∈ N
-      show f (algebraMap A (MvPolynomial σ A) a) ∈ N
+      change f (MvPolynomial.C a) ∈ N
+      change f (algebraMap A (MvPolynomial σ A) a) ∈ N
       rw [f.commutes]
       exact hi ha
     exact hNU (hmap hpmem)
@@ -772,7 +772,7 @@ public theorem existsUnique_continuousAlgHom_extends
     { toRingHom := gR
       commutes' := by
         intro a
-        show gR (e (MvPolynomial.C a)) = algebraMap A C a
+        change gR (e (MvPolynomial.C a)) = algebraMap A C a
         exact ((RingHom.ext_iff.mp hcomp) (MvPolynomial.C a)).trans (f.commutes a) }
   have hgcomp : g.comp (idealSystemPolynomialAlgHom J hJ σ) = f :=
     AlgHom.ext fun p ↦ (RingHom.ext_iff.mp hcomp) p
@@ -814,7 +814,7 @@ public instance limitCompleteSpace {A : Type u} [CommRing A]
         {f : P | if h : q.1 ≤ q.2 then
           coefficientTransition I σ h (f q.2) = f q.1 else True} by
       ext f
-      simp only [Set.mem_iInter, Set.mem_setOf_eq]
+      simp only [Set.mem_iInter, Set.mem_ofPred_eq]
       constructor
       · intro hf ⟨m, n⟩
         split_ifs with h
@@ -856,17 +856,17 @@ private theorem mem_extendedIdeal_pow_iff_eval_eq_zero {A : Type u} [CommRing A]
   have hcomp : (algebraMap P C).comp (MvPolynomial.C : A →+* P) = algebraMap A C := by
     simpa only [MvPolynomial.C_eq_algebraMap] using (IsScalarTower.algebraMap_eq A P C).symm
   have hJ : J = Ideal.map (algebraMap P C) K := by
-    show I.map (algebraMap A C) = _
+    change I.map (algebraMap A C) = _
     rw [Ideal.map_map, hcomp]
   have hK : K.FG := hI.map _
   rw [hJ, ← Ideal.map_pow (algebraMap P C) K n]
-  show x ∈ (Submodule.restrictScalars P (Ideal.map (algebraMap P C) (K ^ n)) :
+  change x ∈ (Submodule.restrictScalars P (Ideal.map (algebraMap P C) (K ^ n)) :
     Submodule P C) ↔ _
   rw [← Ideal.smul_top_eq_map]
-  show x ∈ K ^ n • (⊤ : Submodule P C) ↔ AdicCompletion.evalₐ K n x = 0
+  change x ∈ K ^ n • (⊤ : Submodule P C) ↔ AdicCompletion.evalₐ K n x = 0
   have hquot : (K ^ n • (⊤ : Ideal P)) = K ^ n := by ext y; simp
   have heval : AdicCompletion.eval K P n x = 0 ↔ AdicCompletion.evalₐ K n x = 0 := by
-    show AdicCompletion.eval K P n x = 0 ↔
+    change AdicCompletion.eval K P n x = 0 ↔
       (Ideal.quotientEquivAlgOfEq P hquot) (AdicCompletion.eval K P n x) = 0
     exact (map_eq_zero_iff (Ideal.quotientEquivAlgOfEq P hquot)
       (AlgEquiv.injective (Ideal.quotientEquivAlgOfEq P hquot))).symm
@@ -952,7 +952,7 @@ private theorem continuous_adicCompletionEquiv_symm {A : Type u} [CommRing A]
     rw [continuous_iff_continuousAt]
     intro x
     rw [ContinuousAt, nhds_discrete Q, Filter.tendsto_pure]
-    show (AdicCompletion.evalₐ K n) ⁻¹' {(AdicCompletion.evalₐ K n) x} ∈ nhds x
+    change (AdicCompletion.evalₐ K n) ⁻¹' {(AdicCompletion.evalₐ K n) x} ∈ nhds x
     have hfiber : (AdicCompletion.evalₐ K n) ⁻¹' {(AdicCompletion.evalₐ K n) x} =
         (fun y ↦ x + y) '' ((J ^ n : Ideal C) : Set C) := by
       ext y

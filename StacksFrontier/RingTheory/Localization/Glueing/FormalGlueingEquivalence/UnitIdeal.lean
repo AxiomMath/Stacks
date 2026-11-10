@@ -232,13 +232,13 @@ private theorem exists_section_of_glued
     ⟨((f i) ^ N • g, fun j ↦ localSectionsProjection S f X j ((f i) ^ N • m')),
       ⟨by
         intro j
-        show genericComparison S f X j ((f i) ^ N • g) =
+        change genericComparison S f X j ((f i) ^ N • g) =
           (1 : S) ⊗ₜ[R] localSectionsProjection S f X j ((f i) ^ N • m')
         rw [map_smul, map_smul, TensorProduct.tmul_smul]
         exact sub_eq_zero.mp (by simpa only [smul_sub] using hN j),
       fun j k ↦ localSections_compatibility S f X ((f i) ^ N • m') j k⟩⟩
   refine ⟨N + n, x, ?_⟩
-  show (f i) ^ (N + n) • _ = localSectionsProjection S f X i ((f i) ^ N • m')
+  change (f i) ^ (N + n) • _ = localSectionsProjection S f X i ((f i) ^ N • m')
   simp only [m', map_smul, pow_add, mul_smul]
 
 private theorem sectionsLocalProjection_zero_torsion
@@ -248,9 +248,9 @@ private theorem sectionsLocalProjection_zero_torsion
   have := genericComparison_isLocalized S f X i
   have hg : genericComparison S f X i x.1.1 = genericComparison S f X i 0 := by
     rw [map_zero]
-    show X.alpha i (LocalizedModule.mkLinearMap _ _ x.1.1) = 0
+    change X.alpha i (LocalizedModule.mkLinearMap _ _ x.1.1) = 0
     rw [x.2.1 i]
-    show (1 : S) ⊗ₜ[R] sectionsLocalProjection S f X i x = 0
+    change (1 : S) ⊗ₜ[R] sectionsLocalProjection S f X i x = 0
     rw [hx, TensorProduct.tmul_zero]
   obtain ⟨⟨a, n, hn⟩, ha⟩ := IsLocalizedModule.exists_of_eq
     (S := Submonoid.powers (f i)) hg
@@ -272,12 +272,12 @@ private theorem sectionsLocalProjection_zero_torsion
   refine ⟨n + N, ?_⟩
   apply Subtype.ext
   apply Prod.ext
-  · show (f i) ^ (n + N) • x.1.1 = 0
+  · change (f i) ^ (n + N) • x.1.1 = 0
     rw [pow_add, mul_comm, mul_smul, hn]
     have ha' : a • x.1.1 = 0 := by simpa only [Submonoid.smul_def, smul_zero] using ha
     rw [ha', smul_zero]
   · funext j
-    show (f i) ^ (n + N) • x.1.2 j = 0
+    change (f i) ^ (n + N) • x.1.2 j = 0
     rw [pow_add, mul_smul, hN j, smul_zero]
 
 private theorem sectionsLocalProjection_isLocalized
@@ -288,7 +288,7 @@ private theorem sectionsLocalProjection_isLocalized
     obtain ⟨n, m, hm⟩ := localSectionsProjection_surj S f X i y
     obtain ⟨N, x, hx⟩ := exists_section_of_glued S f X m i
     refine ⟨⟨x, ⟨(f i) ^ (N + n), ⟨N + n, rfl⟩⟩⟩, ?_⟩
-    show (f i) ^ (N + n) • y = sectionsLocalProjection S f X i x
+    change (f i) ^ (N + n) • y = sectionsLocalProjection S f X i x
     rw [pow_add, mul_smul, hm]
     exact hx
   exists_of_eq {x y} h := by
@@ -406,7 +406,7 @@ private theorem pushoutTensorEquiv_symm_tmul
     [AddCommGroup M] [Module R M] [Module S M] [IsScalarTower R S M] (b : B) (m : M) :
     (pushoutTensorEquiv R S B C M).symm (b ⊗ₜ[R] m) =
       algebraMap B C b ⊗ₜ[S] m := by
-  show b • (1 ⊗ₜ[S] m : C ⊗[S] M) = _
+  change b • (1 ⊗ₜ[S] m : C ⊗[S] M) = _
   simp [smul_tmul', Algebra.smul_def]
 
 private theorem pushoutTensorEquiv_tmul
@@ -431,7 +431,7 @@ private theorem awayMap_tower {R : Type*} (B : Type*) [CommRing R] [CommRing B]
     (awayMap B a).toAlgebra
   apply IsScalarTower.of_algebraMap_eq'
   ext r
-  show algebraMap B (Localization.Away (algebraMap R B a)) (algebraMap R B r) =
+  change algebraMap B (Localization.Away (algebraMap R B a)) (algebraMap R B r) =
     awayMap B a (algebraMap R (Localization.Away a) r)
   symm
   exact IsLocalization.map_eq _ r
@@ -460,7 +460,7 @@ public theorem restrictScalars_tower {R S : Type*} [CommRing R] [CommRing S]
     IsScalarTower R S M := by
   let : Module R M := Module.compHom M (algebraMap R S)
   exact ⟨fun r s m ↦ by
-    show (r • s) • m = algebraMap R S r • (s • m)
+    change (r • s) • m = algebraMap R S r • (s • m)
     rw [Algebra.smul_def, mul_smul]⟩
 
 private noncomputable def awayTensorEquiv {R : Type*} (B : Type*)
@@ -746,8 +746,7 @@ private theorem pushoutTensorEquiv_naturality
       ((g.restrictScalars R).baseChange B).comp (pushoutTensorEquiv R S B C M).toLinearMap := by
   ext z
   obtain ⟨z, rfl⟩ := (pushoutTensorEquiv R S B C M).symm.surjective z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simpa only [map_add] using congrArg₂ (· + ·) hz hz'
   | tmul b m =>
     simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearMap.restrictScalars_apply,
@@ -771,7 +770,7 @@ private theorem localizationBaseChange_naturality
   simp only [LinearMap.comp_apply, LinearMap.restrictScalars_apply, LinearEquiv.coe_coe,
     LinearMap.baseChange_tmul, localizationBaseChange_mk]
   erw [LocalizedModule.map_mk]
-  show localizationBaseChange B T N
+  change localizationBaseChange B T N
     (LocalizedModule.mkLinearMap (Algebra.algebraMapSubmonoid B T) _ (b ⊗ₜ[A] g m)) = _
   rw [localizationBaseChange_mk]
   exact congrArg (TensorProduct.mk A B (LocalizedModule T N) b)

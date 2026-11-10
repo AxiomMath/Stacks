@@ -144,7 +144,7 @@ theorem exists_isPushout_isOpenImmersion_of_isOpenImmersion
     exact hpo.inl_isoIsPushout_hom _ _ hpo'.flip
   refine ⟨W, i₁, ObjectProperty.homMk (ε.hom ≫ Uw.ι), hpo, ?_, ?_, Uw, ε, rfl, hsq⟩
   · rw [hφ]
-    show IsOpenImmersion B S hS ((ε'.hom ≫ Uw'.ι) ≫ φ.inv.hom)
+    change IsOpenImmersion B S hS ((ε'.hom ≫ Uw'.ι) ≫ φ.inv.hom)
     exact isOpenImmersion_comp B S hS _ _
       (isOpenImmersion_comp B S hS _ _ (isOpenImmersion_of_isIso B S hS _)
         hsq'.isOpenSubspace.2)

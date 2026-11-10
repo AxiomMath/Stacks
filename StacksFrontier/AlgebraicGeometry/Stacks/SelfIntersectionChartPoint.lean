@@ -114,7 +114,7 @@ theorem exists_affineChart_subfield_of_comp_eq {S X Y : Scheme.{u}} {sX : X ⟶ 
   classical
   set y := g.base (closedPt (.of L)) with hy
   have hqy : q.base y = e.base (closedPt (.of l)) := by
-    show (g ≫ q).base (closedPt (.of L)) = _
+    change (g ≫ q).base (closedPt (.of L)) = _
     rw [h, Scheme.Hom.comp_base, TopCat.comp_app]
     exact congrArg e.base (Subsingleton.elim _ _)
   let O : Y.Opens := q ⁻¹ᵁ cX.U
@@ -127,7 +127,7 @@ theorem exists_affineChart_subfield_of_comp_eq {S X Y : Scheme.{u}} {sX : X ⟶ 
       isAffineOpen := U.2.basicOpen r
       mem := hyr
       le := fun z hz => by
-        show sY.base z ∈ Set.range iΛ.base
+        change sY.base z ∈ Set.range iΛ.base
         rw [← hq]
         exact cX.le (hrle hz).2 }
   have hle : ⊤ ≤ g ⁻¹ᵁ c.U := (Scheme.preimage_eq_top_of_closedPoint_mem g hyr).ge

@@ -78,14 +78,14 @@ theorem dominatesFiniteEtale_pullbackSnd_of_isSeparable (K : Type u) [Field K] [
   have : ∀ i : (Finset K)ᵒᵖ, CompactSpace ((AdjoinFinset.bcDiagram k K f).obj i) := by
     intro i
     have := hstage i
-    show CompactSpace ↥(pullback
+    change CompactSpace ↥(pullback
       (Spec.map (CommRingCat.ofHom (algebraMap k (Algebra.adjoin k (i.unop : Set K))))) f)
     exact QuasiCompact.compactSpace_of_compactSpace (pullback.snd
       (Spec.map (CommRingCat.ofHom (algebraMap k (Algebra.adjoin k (i.unop : Set K))))) f)
   have : ∀ i : (Finset K)ᵒᵖ, QuasiSeparatedSpace ((AdjoinFinset.bcDiagram k K f).obj i) := by
     intro i
     have := hstage i
-    show QuasiSeparatedSpace ↥(pullback
+    change QuasiSeparatedSpace ↥(pullback
       (Spec.map (CommRingCat.ofHom (algebraMap k (Algebra.adjoin k (i.unop : Set K))))) f)
     exact quasiSeparatedSpace_of_quasiSeparated (pullback.snd
       (Spec.map (CommRingCat.ofHom (algebraMap k (Algebra.adjoin k (i.unop : Set K))))) f)

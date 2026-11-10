@@ -468,7 +468,7 @@ private lemma exists_mem_support_homology {A : Type u} [CommRing A] [IsNoetheria
     have hnotle : ¬ (Module.annihilator A
         ((DerivedCategory.homologyFunctor (ModuleCat.{max v u} A) j).obj K) ≤ p.asIdeal) :=
       fun h => hcon j (Module.mem_support_iff_of_finite.2 h)
-    obtain ⟨t, ht, htp⟩ := SetLike.not_le_iff_exists.mp hnotle
+    obtain ⟨t, ht, htp⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
     exact ⟨t, htp, Module.mem_annihilator.mp ht⟩
   choose t htp hts using hwit
   set s := ∏ j ∈ Finset.Icc a b, t j with hsdef
@@ -596,7 +596,7 @@ theorem existsUnique_nontrivial_localized_homology
     have e : (ModuleCat.restrictScalars (algebraMap A B)).obj ((H j).obj Kloc) ≅
         ModuleCat.of A (LocalizedModule p.primeCompl
           ((DerivedCategory.homologyFunctor (ModuleCat.{v} A) j).obj K)) := by
-      show (ModuleCat.restrictScalars (algebraMap A B)).obj
+      change (ModuleCat.restrictScalars (algebraMap A B)).obj
           ((H j).obj
             ((CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, v}
               (algebraMap A B)).functor.obj Kbig)) ≅ _

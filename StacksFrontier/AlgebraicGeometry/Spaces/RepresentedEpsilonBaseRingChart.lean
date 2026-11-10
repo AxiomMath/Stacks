@@ -353,7 +353,7 @@ theorem forgetRing_map_representedEpsilonBaseRingAdjunct :
         (representedToSchemeZariskiRingedToposHom B S hS U).toToposHom).homEquiv
       _ _ (representedEpsilonBaseRingMap B S hS φ))
     (@restrictionCommRingIso _ _ _ _ ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedTopos.J
-      (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).J _ _
+      (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).J _
       (representedEpsilonFunctor B S hS U) (isContinuous_representedEpsilonFunctor B S hS U)
       ((inverseImageCommRingFunctor
           (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS φ)).toToposHom).obj

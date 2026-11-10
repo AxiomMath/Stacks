@@ -110,7 +110,7 @@ theorem preservesFiniteLimits_sheafPullback_of_span_and_coequalizer
     preservesFiniteLimits_lan_of_span_and_coequalizer u A h
   have : PreservesFiniteLimits
       (Functor.sheafPullbackConstruction.sheafPullback u A J K) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       (sheafToPresheaf J A ⋙ u.op.lan ⋙ presheafToSheaf K A)
     apply comp_preservesFiniteLimits
   exact preservesFiniteLimits_of_natIso

@@ -67,6 +67,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `inferInstance` search for `HasPullbacks` of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_QuasiAffineOpenImmersionAffineOver :
@@ -107,7 +108,7 @@ theorem isOpenImmersion_of_openCover_of_isPullback {T V W : Scheme.{u}} (g : V �
     (P := @_root_.AlgebraicGeometry.IsOpenImmersion) 𝒱
   intro i
   dsimp only [𝒱, Scheme.Cover.copy] at i ⊢
-  show _root_.AlgebraicGeometry.IsOpenImmersion (pullback.snd g (v i))
+  change _root_.AlgebraicGeometry.IsOpenImmersion (pullback.snd g (v i))
   rw [← (hg i).isoPullback_inv_snd]
   have := hr i
   infer_instance
@@ -162,7 +163,7 @@ theorem isIso_fSharp_app_smallBaseChange {X Y : AlgebraicSpaces B S hS} (f : X �
   have : IsIso (F.map a) := by
     rw [← NatIso.naturality_1 e a]
     infer_instance
-  show IsIso ((F.map a).hom.app (op V))
+  change IsIso ((F.map a).hom.app (op V))
   infer_instance
 
 /-- If the structure map of a representable morphism `f : X ⟶ Y` is an isomorphism on the
@@ -178,11 +179,11 @@ theorem isIso_appTop_cartesianProjection {X Y : AlgebraicSpaces B S hS} (f : X �
     have i1 : IsIso (((sheafCompose (SmallEtale.topology B S hS Y.1)
         (forget₂ CommRingCat.{u} RingCat.{u})).map
         (smallEtaleRingedToposHom B S hS f).fSharp).hom.app (op V)) := by
-      show IsIso ((forget₂ CommRingCat.{u} RingCat.{u}).map
+      change IsIso ((forget₂ CommRingCat.{u} RingCat.{u}).map
         ((smallEtaleRingedToposHom B S hS f).fSharp.hom.app (op V)))
       infer_instance
     have i2 : IsIso ((chartProjectionSharpDirectImage B S hS f hf).hom.app (op V)) := by
-      show IsIso ((sheafToPresheaf (SmallEtale.topology B S hS Y.1) RingCat.{u} ⋙
+      change IsIso ((sheafToPresheaf (SmallEtale.topology B S hS Y.1) RingCat.{u} ⋙
         (evaluation _ _).obj (op V)).map (chartProjectionSharpDirectImage B S hS f hf))
       infer_instance
     exact IsIso.comp_isIso' i1 i2
@@ -317,7 +318,7 @@ theorem isOpenImmersion_cartesianProjection {X Y Z : AlgebraicSpaces B S hS} (g 
       (@_root_.AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).presheaf (yoneda.map j) := by
     apply MorphismProperty.relative_map
-    show _root_.AlgebraicGeometry.Etale A.1.ι
+    change _root_.AlgebraicGeometry.Etale A.1.ι
     infer_instance
   let U : SmallEtale B S hS X.1 :=
     ⟨CostructuredArrow.mk (yoneda.map j ≫ U₀.1.hom),

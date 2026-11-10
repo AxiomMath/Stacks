@@ -58,7 +58,8 @@ separately and each point is handled on its own smaller open.
 
 The unit law is **not used**: the multiplication law together with condition (1) already forces
 the family, exactly as in the absolute rigidity statement. It is nevertheless carried in the
-statement, because the tagged statement states it and dropping a hypothesis from a `characterized by`
+statement, because the tagged statement states it and dropping a hypothesis from a
+`characterized by`
 assertion would change what is being claimed.
 
 ## References

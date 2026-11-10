@@ -18,9 +18,10 @@ three things about a crystal `ℱ` in quasi-coherent `𝒪_{X/S}`-modules:
    `∇ : ℱ_Y ⟶ ℱ_Y ⊗_{𝒪_Y} Ω_{Y/S}`;
 3. `RΓ(Cris(X/S), ℱ) = RΓ(Y, ℱ_Y ⊗_{𝒪_Y} Ω^•_{Y/S})` in `D(A)`.
 
-Part (1) is formalized, as `Crystalline.GlobalCrystallineSituation.smoothLiftingCrystallineThickening`
-of `StacksFrontier/AlgebraicGeometry/Crystalline/SmoothLifting.lean`.  **This file states part (3)**,
-as the proposition `DeRhamComparison07MW`, and reduces the perfectness remark
+Part (1) is formalized, as
+`Crystalline.GlobalCrystallineSituation.smoothLiftingCrystallineThickening`
+of `StacksFrontier/AlgebraicGeometry/Crystalline/SmoothLifting.lean`.  **This file states part
+(3)**, as the proposition `DeRhamComparison07MW`, and reduces the perfectness remark
 [Stacks, Tag 07MX] to it together with one further named proposition.
 
 ## The situation, and how it differs from the one of [Stacks, Tag 07MZ]

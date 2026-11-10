@@ -286,9 +286,6 @@ public theorem isIso_derivedHomBaseChange_iff_derivedTensorHomDiagonal
     ((ModuleCat.restrictScalars f).obj (ModuleCat.of A (ULift.{max uR uM} A)))
   refine Iff.trans
     (@Stacks.DerivedHom.BaseChangeIso.isIso_derivedHomBaseChange_iff_model.{uR, uA, uM} R A _ _ f
-      (ModuleCat.extendRestrictScalarsAdj.{max uR uM, uR, uA} f).isLeftAdjoint
-      (ModuleCat.extendRestrictScalarsAdj.{max uR uM, uR, uA} f).isRightAdjoint
-      (ModuleCat.restrictCoextendScalarsAdj.{max uR uM, uR, uA} f).isLeftAdjoint
       F comparison hF K M) ?_
   let f' : ULift.{max uR uA uM} R →+* ULift.{max uR uA uM} A :=
     (ULift.ringEquiv.symm.toRingHom.comp f).comp ULift.ringEquiv.toRingHom

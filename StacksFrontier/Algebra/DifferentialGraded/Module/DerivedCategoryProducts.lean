@@ -198,7 +198,7 @@ private lemma cycleClass_eq_zero (S : ShortComplex (ModuleCat.{u} R))
     (z : LinearMap.ker S.g.hom) :
     cycleClass S z = 0 ↔ ∃ x : S.X₁, S.f.hom x = z.val := by
   rw [cycleClass_eq]
-  show S.moduleCatHomologyIso.symm.toLinearEquiv
+  change S.moduleCatHomologyIso.symm.toLinearEquiv
     ((LinearMap.range S.moduleCatToCycles).mkQ z) = 0 ↔ _
   refine (show S.moduleCatHomologyIso.symm.toLinearEquiv
     ((LinearMap.range S.moduleCatToCycles).mkQ z) = 0 ↔
@@ -216,14 +216,14 @@ private lemma cycleClass_naturality {S T : ShortComplex (ModuleCat.{u} R)} (a : 
   have hc : (ShortComplex.cyclesMap a).hom (S.moduleCatCyclesIso.inv.hom x) =
       T.moduleCatCyclesIso.inv.hom y := by
     apply (ModuleCat.mono_iff_injective T.iCycles).mp inferInstance
-    show (S.moduleCatCyclesIso.inv ≫ ShortComplex.cyclesMap a ≫ T.iCycles).hom x =
+    change (S.moduleCatCyclesIso.inv ≫ ShortComplex.cyclesMap a ≫ T.iCycles).hom x =
       (T.moduleCatCyclesIso.inv ≫ T.iCycles).hom y
     rw [ShortComplex.cyclesMap_i, ← Category.assoc, S.moduleCatCyclesIso_inv_iCycles,
       T.moduleCatCyclesIso_inv_iCycles]
     exact h
-  show (S.moduleCatCyclesIso.inv ≫ S.homologyπ ≫ ShortComplex.homologyMap a).hom x = _
+  change (S.moduleCatCyclesIso.inv ≫ S.homologyπ ≫ ShortComplex.homologyMap a).hom x = _
   rw [ShortComplex.homologyπ_naturality]
-  show T.homologyπ.hom ((ShortComplex.cyclesMap a).hom
+  change T.homologyπ.hom ((ShortComplex.cyclesMap a).hom
     (S.moduleCatCyclesIso.inv.hom x)) = T.homologyπ.hom (T.moduleCatCyclesIso.inv.hom y)
   rw [hc]
 
@@ -492,7 +492,7 @@ theorem quasiIsomorphisms_homotopyProductFan_lift (F G : ι → HomotopyCategory
       = q.map (productMap φ₀) := by
     refine (isLimit_homotopyProductFan G).hom_ext fun ⟨i⟩ => ?_
     rw [IsLimit.fac]
-    show q.map (product.π (fun i => (F i).as) i) ≫ φ i
+    change q.map (product.π (fun i => (F i).as) i) ≫ φ i
       = q.map (productMap φ₀) ≫ q.map (product.π (fun i => (G i).as) i)
     rw [← q.map_comp, productMap_comp_π φ₀ i, q.map_comp, q.map_preimage]
   rw [he]

@@ -254,7 +254,7 @@ theorem exists_toNormalizationNonZeroDivisors_eq_mul
       rw [← Algebra.smul_def]; exact ha.symm
     exact nonZeroDivisors.ne_zero (toNormalizationNonZeroDivisors (F := F) ⟨d, hd⟩ * x).2 h2
   refine ⟨⟨d, hd⟩, ⟨a, mem_nonZeroDivisors_of_ne_zero ha0⟩, Subtype.ext ?_⟩
-  show algebraMap A ↥(integralClosure A F) a =
+  change algebraMap A ↥(integralClosure A F) a =
     algebraMap A ↥(integralClosure A F) d * (x : ↥(integralClosure A F))
   rw [← Algebra.smul_def]
   exact ha
@@ -377,7 +377,7 @@ theorem norm_quotient_normalizationUniformizer (m : MaximalSpectrum ↥(integral
     { normalizationQuotientEquiv A F hA m with
       commutes' := fun c ↦ by
         obtain ⟨a, rfl⟩ := IsLocalRing.residue_surjective c
-        show normalizationQuotientEquiv A F hA m (Ideal.Quotient.mk _ (algebraMap A _ a)) = _
+        change normalizationQuotientEquiv A F hA m (Ideal.Quotient.mk _ (algebraMap A _ a)) = _
         rw [normalizationQuotientEquiv_mk, IsLocalRing.ResidueField.algebraMap_residue,
           ← IsScalarTower.algebraMap_apply] }
   rw [← Algebra.norm_eq_of_algEquiv e]

@@ -93,7 +93,8 @@ theorem isZero_homology_of_forall_isAffineChart (Y : AlgebraicSpaces B S hS)
     Sheaf.hom_eq_zero_of_isCoveringFamily _ (isCoveringFamily_isAffineChart B S hS Y) fun V hV =>
       Stacks.Cohomology.DerivedSectionsVanishing.map_homologyπ_eq_zero
         (chartSectionsAb B S hS Y V) C q (h V hV)
-  have h0 : C.homologyπ q = 0 := (SheafOfModules.toSheaf R).map_injective (hφ.trans (Functor.map_zero _ _ _).symm)
+  have h0 : C.homologyπ q = 0 :=
+    (SheafOfModules.toSheaf R).map_injective (hφ.trans (Functor.map_zero _ _ _).symm)
   rw [IsZero.iff_id_eq_zero]
   exact (cancel_epi (C.homologyπ q)).1 (by rw [h0, zero_comp, comp_zero])
 

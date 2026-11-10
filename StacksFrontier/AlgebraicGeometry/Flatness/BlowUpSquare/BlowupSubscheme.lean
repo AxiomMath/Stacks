@@ -97,7 +97,7 @@ private theorem free_and_finite_of_tensorProduct (hbij : Function.Bijective (alg
     { toFun := eR.symm
       map_add' := fun s t => eR.symm.map_add s t
       map_smul' := fun r s => by
-        show eR.symm (r • s) = r • eR.symm s
+        change eR.symm (r • s) = r • eR.symm s
         rw [hsmul, map_mul, eR.symm_apply_apply, smul_eq_mul] }
   let eS : S ≃ₗ[R] R := LinearEquiv.ofBijective fS eR.symm.bijective
   let elid : TensorProduct R S N ≃ₗ[R] N :=
@@ -114,7 +114,7 @@ private theorem free_and_finite_of_tensorProduct (hbij : Function.Bijective (alg
       map_add' := fun _ _ => rfl
       map_smul' := by
         intro s z
-        show s • z = eR.symm s • z
+        change s • z = eR.symm s • z
         rw [← algebraMap_smul (A := S) (R := R) (eR.symm s) z, ← heR, eR.apply_symm_apply] }
   have hfreeR : Module.Free R (TensorProduct R S N) := Module.Free.of_equiv eScalar
   have _hSfin : Module.Finite R S := Module.Finite.equiv eS.symm
@@ -370,7 +370,8 @@ triple, as in Tag 0GTZ. Parts (2) and (3) specialize parts (2) and (3) of Tag 0G
 which need the chart-level comparison \
 AlgebraicGeometry.ComplexAndDivisorSituation.ChartDecalage over and above Tag 08DW --- that tag \
 being proved in both its parts. The tag over the morphism tag 0GTY produces is \
-AlgebraicGeometry.ComplexAndDivisorSituation.locallyOfFinitePresentation_and_comap_eq_bot_goodBlowupToBase"]
+AlgebraicGeometry.ComplexAndDivisorSituation.\
+locallyOfFinitePresentation_and_comap_eq_bot_goodBlowupToBase"]
 theorem locallyOfFinitePresentation_and_comap_eq_bot_of_isGoodOver
     {X' : Scheme.{u}} (b : X' ⟶ S.X) (hb : S.IsGoodOver b)
     (hflat : AlgebraicGeometry.Flat ((b ⁻¹ᵁ S.locallyFreeLocus).ι ≫ b))

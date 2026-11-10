@@ -189,7 +189,7 @@ theorem kunnethAxiom (h : 𝔇'.KunnethAxiom) : 𝔇.KunnethAxiom := by
       simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.baseChange_tmul,
         Algebra.linearMap_apply, LinearEquiv.coe_coe,
         TensorProduct.AlgebraTensorModule.rid_tmul, AlgHom.toLinearMap_apply, AlgHom.commutes]
-      show Φ.iso pt (c ⊗ₜ algebraMap F (𝔇.H pt) x) = algebraMap F' _ (x • c)
+      change Φ.iso pt (c ⊗ₜ algebraMap F (𝔇.H pt) x) = algebraMap F' _ (x • c)
       rw [Algebra.algebraMap_eq_smul_one, TensorProduct.tmul_smul, TensorProduct.smul_tmul',
         show (x • c) ⊗ₜ[F] (1 : 𝔇.H pt) = (x • c) • (1 : F' ⊗[F] 𝔇.H pt) by
           rw [Algebra.TensorProduct.one_def, TensorProduct.smul_tmul', smul_eq_mul, mul_one],
@@ -209,8 +209,7 @@ theorem kunnethAxiom (h : 𝔇'.KunnethAxiom) : 𝔇.KunnethAxiom := by
           e.toLinearMap := by
       refine LinearMap.ext fun x => x.inductionOn (fun c t => ?_)
         (fun x y hx hy => by simp only [map_add] at hx hy ⊢; rw [hx, hy])
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
       | tmul a b =>
         simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.baseChange_tmul, e,

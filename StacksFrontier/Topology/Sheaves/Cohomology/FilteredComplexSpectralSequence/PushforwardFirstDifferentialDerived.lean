@@ -100,7 +100,7 @@ theorem derivedGrConnecting_naturality {M N : Filtered C} (φ : M ⟶ N) (p n n'
     rw [← Functor.commShiftIso_hom_naturality, ← Functor.map_comp_assoc,
       ← Functor.map_comp_assoc]
     exact congrArg (fun x => G.map x ≫ _) hnat
-  show (DerivedCategory.homologyFunctor D 0).shiftMap _ n n' _ ≫
+  change (DerivedCategory.homologyFunctor D 0).shiftMap _ n n' _ ≫
       ((DerivedCategory.homologyFunctor D 0).shift n').map
         (G.map (DerivedCategory.Q.map ((FilteredObject.gr (p + 1)).map φ))) =
     ((DerivedCategory.homologyFunctor D 0).shift n).map
@@ -200,7 +200,7 @@ lemma pushforwardToHigherDirectImage_app_eq
     Functor.whiskerLeft_app, Functor.whiskerRight_app, Functor.associator_hom_app,
     Functor.associator_inv_app, Functor.comp_obj, Functor.comp_map,
     DerivedCategory.homologyFunctorFactorsh_inv_app_quotient_obj, Functor.map_comp,
-    Functor.map_id, Category.id_comp, Category.assoc, Iso.inv_hom_id_app_assoc]
+    Category.id_comp, Category.assoc, Iso.inv_hom_id_app_assoc]
 
 /-- **`R^nf_*` of the connecting morphism of the graded pieces**: for a filtered complex `K`, the
 map `R^nf_*gr^pK ⟶ R^{n'}f_*gr^{p + 1}K`, `n + 1 = n'`, induced by the connecting morphism
@@ -242,9 +242,8 @@ lemma pushforwardGrHomologyIso_hom_comp
   have := R.quasiIso_gr p
   have := R.isKInjective_gr p
   simp only [pushforwardGrHomologyIso, higherDirectImageIsoPushforwardHomology, Iso.trans_hom,
-    Iso.symm_hom, Iso.symm_inv, asIso_hom, Functor.mapIso_inv, asIso_inv, Category.assoc,
-    higherDirectImageMap, ← Functor.map_comp, IsIso.inv_hom_id, Functor.map_id,
-    Category.comp_id, Iso.symm_symm_eq]
+    Iso.symm_hom, Functor.mapIso_inv, asIso_inv, Category.assoc,
+    higherDirectImageMap, ← Functor.map_comp, IsIso.inv_hom_id]
   exact (congrArg (_ ≫ ·) ((congrArg (DerivedCategory.homologyFunctor _ n).map
     ((derivedPushforward f).map_id _)).trans (CategoryTheory.Functor.map_id _ _))).trans
     (Category.comp_id _)

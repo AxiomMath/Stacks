@@ -61,8 +61,8 @@ statement does not apply to it.
 *The derived category of `X.Modules` is the locally small one, and no model is pinned.*
 `DerivedCategory X.Modules` resolves by instance search to
 `AlgebraicGeometry.Scheme.Modules.hasDerivedCategory`, the global instance of
-`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`. That is the model the rest of the derived
-Spec–Γ development lives at — see the module docstring of
+`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`. That is the model the rest of the
+derived Spec–Γ development lives at — see the module docstring of
 `StacksFrontier/AlgebraicGeometry/Cohomology/TruncationTowerAnyModel.lean`, which freed [Stacks, Tag
 0D6M] from the standard model for exactly this reason — and it is the only model at which
 [Stacks, Tag 08D3] is available here, so nothing below takes a `HasDerivedCategory X.Modules`
@@ -162,7 +162,7 @@ private lemma isLE_obj_single_of_vanishing [R.CommShift ℤ]
     (R.obj ((DerivedCategory.singleFunctor A n).obj M)).IsLE (n + d) := by
   obtain ⟨e⟩ := Stacks.Perfect.CechAugmentation.nonempty_obj_iso_rightDerivedFunctorPlus
     F R β hcomp ((DerivedCategory.Plus.singleFunctor A 0).obj M) 0 (by
-      show ((DerivedCategory.singleFunctor A 0).obj M).IsGE 0
+      change ((DerivedCategory.singleFunctor A 0).obj M).IsGE 0
       infer_instance)
   have hzero : (R.obj ((DerivedCategory.singleFunctor A 0).obj M)).IsLE d := by
     rw [DerivedCategory.isLE_iff]

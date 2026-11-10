@@ -507,7 +507,7 @@ lemma moduleAddObj_pullbackModuleObj (P : Sheaf J (Type ww) ⥤ Type t)
     Sheaf.moduleAddObj (pullbackRingSheaf J Φ O) (pullbackModuleObj J Φ O G) P x y =
       Sheaf.moduleAddObj O G (Φ ⋙ P) x y := by
   have : PreservesFiniteProducts (Φ ⋙ P) := inferInstance
-  show P.map _ (Functor.prodObjMk x y) =
+  change P.map _ (Functor.prodObjMk x y) =
     (Φ ⋙ P).map (Sheaf.moduleAddHom O G) (Functor.prodObjMk (P := Φ ⋙ P) x y)
   refine Eq.symm (Eq.trans (congrArg
     (fun n ↦ P.map n (Functor.prodObjMk (P := Φ ⋙ P) x y)) (moduleAdd_map_aux' J Φ O G)) ?_)

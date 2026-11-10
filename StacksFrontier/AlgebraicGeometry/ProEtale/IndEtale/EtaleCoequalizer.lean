@@ -51,13 +51,13 @@ private theorem etale_tensorProduct_mul (A C : Type u) [CommRing A] [CommRing C]
       (Algebra.TensorProduct.lmul' A (S := C)).toRingHom.comp (algebraMap A T) =
         algebraMap A C := by
     ext a
-    show ((Algebra.TensorProduct.lmul' A (S := C)).comp
+    change ((Algebra.TensorProduct.lmul' A (S := C)).comp
       (Algebra.TensorProduct.includeLeft (R := A) (S := A))) (algebraMap A C a) = _
     rw [Algebra.TensorProduct.lmul'_comp_includeLeft]
     rfl
   have : IsScalarTower A T C := .of_algebraMap_eq fun a =>
     (congrArg (fun f : A →+* C => f a) hmap).symm
-  show Algebra.Etale T C
+  change Algebra.Etale T C
   exact Algebra.Etale.of_restrictScalars A T C
 
 /-- **Stacks Project, Tag 097P.** Two maps `f, g` of étale `A`-algebras `C → D`
@@ -83,17 +83,17 @@ public theorem etale_coequalize_maps (A C D : Type u) [CommRing A] [CommRing C]
   let qA : A →+* Q := iQ.hom.comp (algebraMap A D)
   let : Algebra A Q := qA.toAlgebra
   have hj : CommRingCat.etale j := by
-    show RingHom.Etale d.toRingHom
+    change RingHom.Etale d.toRingHom
     exact etale_tensorProduct_mul A C
   have hiQ : CommRingCat.etale iQ := MorphismProperty.pushout_inr j k hj
   have hAD : CommRingCat.etale (CommRingCat.ofHom (algebraMap A D)) := by
-    show RingHom.Etale (algebraMap A D)
+    change RingHom.Etale (algebraMap A D)
     exact RingHom.etale_algebraMap.mpr inferInstance
   have hAQ : CommRingCat.etale (CommRingCat.ofHom qA) := by
     simpa [qA] using MorphismProperty.comp_mem CommRingCat.etale
       (CommRingCat.ofHom (algebraMap A D)) iQ hAD hiQ
   have hEt : Algebra.Etale A Q := RingHom.etale_algebraMap.mp (by
-    show RingHom.Etale qA
+    change RingHom.Etale qA
     exact hAQ)
   let h : D →ₐ[A] Q := {
     toRingHom := iQ.hom
@@ -116,7 +116,7 @@ public theorem etale_coequalize_maps (A C D : Type u) [CommRing A] [CommRing C]
     commutes' := fun a => by
       have ha := h₁ (algebraMap A C a)
       rw [f.commutes a] at ha
-      show (Limits.pushout.inl j k).hom (algebraMap A C a) = qA a
+      change (Limits.pushout.inl j k).hom (algebraMap A C a) = qA a
       exact ha }
   refine ⟨h, q, AlgHom.ext fun c => (h₁ c).symm, AlgHom.ext fun c => (h₂ c).symm, ?_⟩
   intro F _ _ r s hrf hrg
@@ -139,9 +139,9 @@ public theorem etale_coequalize_maps (A C D : Type u) [CommRing A] [CommRing C]
   let kl : Q →ₐ[A] F := {
     toRingHom := kr.hom
     commutes' := fun a => by
-      show kr.hom (algebraMap A Q a) = algebraMap A F a
+      change kr.hom (algebraMap A Q a) = algebraMap A F a
       rw [← q.commutes a]
-      show (kr.hom.comp q.toRingHom) (algebraMap A C a) = _
+      change (kr.hom.comp q.toRingHom) (algebraMap A C a) = _
       rw [hkq]
       exact s.commutes a }
   refine ⟨kl, AlgHom.ext fun x => ?_, AlgHom.ext fun x => congrArg (fun φ : C →+* F => φ x) hkq⟩

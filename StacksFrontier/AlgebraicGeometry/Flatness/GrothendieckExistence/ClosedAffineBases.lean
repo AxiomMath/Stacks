@@ -59,11 +59,11 @@ theorem exists_cone_lift_of_compatible {J : Type u'} [SmallCategory J] {F : J �
     { app := fun j ↦ ofHom (FreeCommRing.lift (fun _ ↦ a j))
       naturality := fun i j f ↦ by
         ext1
-        show FreeCommRing.lift (fun _ ↦ a j) = _
+        change FreeCommRing.lift (fun _ ↦ a j) = _
         ext x
         simpa using (ha f).symm }
   refine ⟨(hc.lift s).hom (FreeCommRing.of PUnit.unit), fun j ↦ ?_⟩
-  show (hc.lift s ≫ c.π.app j).hom (FreeCommRing.of PUnit.unit) = a j
+  change (hc.lift s ≫ c.π.app j).hom (FreeCommRing.of PUnit.unit) = a j
   rw [hc.fac s j]
   exact FreeCommRing.lift_of ..
 

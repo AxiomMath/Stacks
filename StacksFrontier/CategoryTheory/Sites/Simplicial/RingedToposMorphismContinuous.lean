@@ -406,7 +406,7 @@ inverse of the comparison of Stacks 0D96. -/
 theorem componentRingedToposHom_twoIso_e_hom
     (h : RingedMorphism C C' (C.totalRingSheaf O) (C'.totalRingSheaf O')) (n : SimplexCategory) :
     (componentRingedToposHom_twoIso h n).e.hom = (h.hom.totalComponentPushforwardIso n).inv := by
-  show (conjugateIsoEquiv (h.hom.viaComponentMorphism n).adj (h.hom.viaTotalMorphism n).adj
+  change (conjugateIsoEquiv (h.hom.viaComponentMorphism n).adj (h.hom.viaTotalMorphism n).adj
     (h.hom.componentInverseImageIso n)).inv = _
   rw [Morphism.componentInverseImageIso_conjugate]
 
@@ -419,7 +419,7 @@ instance isIso_componentPushforwardModulesComparison
     IsIso (componentPushforwardModulesComparison h n) := by
   have hmate : IsIso ((mateEquiv (C.situation.componentRingedToposHom O n).toToposHom.adj
       (C'.situation.componentRingedToposHom O' n).toToposHom.adj).symm
-      (TwoSquare.mk _ _ _ _ (componentRingedToposHom_twoIso h n).e.hom)).natTrans := by
+      (TwoSquare.mk _ _ _ _ (componentRingedToposHom_twoIso h n).e.hom)) := by
     rw [componentRingedToposHom_twoIso_e_hom]
     exact Morphism.isIso_totalComponentPushforwardMate h.hom n
   exact RingedToposHom.isIso_mateEquiv_symm_pushforwardModules_of_isIso

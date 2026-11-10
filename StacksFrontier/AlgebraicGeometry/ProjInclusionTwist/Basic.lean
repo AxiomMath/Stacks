@@ -375,7 +375,8 @@ public theorem twistFactor₆_hom : (twistFactor₆ A U n).hom =
   Iso.app_hom _ _
 
 /-- **The comparison map is the tag's composite, written out.** This equation holds "by
-construction" but cannot be checked by a direct conversion; it is proved by applying the general `rfl` lemmas factor by factor and composing the results with
+construction" but cannot be checked by a direct conversion; it is proved by applying the general
+`rfl` lemmas factor by factor and composing the results with
 `comp_congr`, so that no conversion at these types is ever requested of the kernel. -/
 public theorem projInclusionTwistMap_eq : projInclusionTwistMap A U V h hU hV n =
     (Scheme.Modules.pullbackCongr (projInclusionMap_eq_comp A U V h hU hV)).inv.app

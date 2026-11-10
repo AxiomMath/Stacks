@@ -147,13 +147,12 @@ This is a corollary of Stacks 09US,
 branch of Stacks 0CSN,
 `Scheme.Hom.isPseudoCoherentFrom_iff_forall_derivedPullback_of_mem_fppfPrecoverage`:
 the member `g i` is flat and locally of finite presentation because the covering lies in the fppf
-precoverage, hence pseudo-coherent by Stacks 0695. The hypothesis `h09US` is not used. Joint
+precoverage, hence pseudo-coherent by Stacks 0695. Joint
 surjectivity of the covering is not used, and no hypothesis on the cohomology sheaves of `E` is
 needed: both enter only in the converse implication. -/
 public theorem isPseudoCoherentFrom_derivedPullback_of_mem_fppfPrecoverage
     {X S : Scheme.{u}} {ι : Type v} (Y : ι → Scheme.{u}) (g : ∀ i, Y i ⟶ X) (f : X ⟶ S)
     [LocallyOfFiniteType f] (hg : Presieve.ofArrows Y g ∈ Scheme.fppfPrecoverage X)
-    (h09US : RelativePseudoCoherencePullbackAlongPseudoCoherent.{u})
     (E : DerivedCategory X.Modules) (m : ℤ) (hE : f.IsPseudoCoherentFrom E m) (i : ι) :
     letI : LocallyOfFinitePresentation (g i) :=
       locallyOfFinitePresentation_of_mem_fppfPrecoverage Y g hg i

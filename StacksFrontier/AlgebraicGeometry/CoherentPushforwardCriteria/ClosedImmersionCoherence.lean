@@ -162,7 +162,7 @@ theorem moduleSpecΓ_pushforward_specMap {R S : CommRingCat.{u}} (φ : R ⟶ S)
   have h : ((Spec.map φ).appTop).hom.comp (Scheme.ΓSpecIso R).inv.hom
       = (Scheme.ΓSpecIso S).inv.hom.comp φ.hom :=
     congrArg CommRingCat.Hom.hom (Scheme.ΓSpecIso_inv_naturality φ).symm
-  show (ModuleCat.restrictScalars
+  change (ModuleCat.restrictScalars
       (((Spec.map φ).appTop).hom.comp (Scheme.ΓSpecIso R).inv.hom)).obj
         (N.val.obj (op (⊤ : (Spec S).Opens)))
     = (ModuleCat.restrictScalars

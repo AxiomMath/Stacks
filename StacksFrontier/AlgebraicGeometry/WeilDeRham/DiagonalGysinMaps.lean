@@ -76,18 +76,21 @@ instance : LocallyOfFinitePresentation (pullback.diagonal f) := by
     rw [pullback.diagonal_fst]; infer_instance
   exact locallyOfFinitePresentation_of_comp _ (pullback.fst f f)
 
+omit [IsProper f] in
 include n in
 /-- The first projection `p₁ : X ×_A X ⟶ X` is smooth. -/
 theorem smooth_fst : Smooth (pullback.fst f f) :=
   have := smoothOfRelativeDimension_fst f n
   SmoothOfRelativeDimension.smooth n _
 
+omit [IsProper f] in
 include n in
 /-- The second projection `p₂ : X ×_A X ⟶ X` is smooth. -/
 theorem smooth_snd : Smooth (pullback.snd f f) :=
   have := smoothOfRelativeDimension_snd f n
   SmoothOfRelativeDimension.smooth n _
 
+omit [IsProper f] in
 include n in
 /-- The structure morphism `π_W : X ×_A X ⟶ Spec A` is smooth. -/
 theorem smooth_prodStructure : Smooth (prodStructure f) :=
@@ -146,7 +149,7 @@ private theorem section_koszul_and_conormalRank {Y : Scheme.{u}} (i : X ⟶ Y) (
   exact ⟨isKoszulRegularImmersion_of_smooth_of_smooth _ π,
     conormalRank_of_formallyUnramified _ π n⟩
 
-omit [LocallyOfFinitePresentation σ] in
+omit [IsProper f] [LocallyOfFinitePresentation σ] in
 /-- `j = (σ ∘ f, id)` is Koszul regular with conormal sheaf locally free of rank `n`: it is a
 section of the smooth `p₂`. -/
 theorem sectionFst_koszul_and_conormalRank :
@@ -155,7 +158,7 @@ theorem sectionFst_koszul_and_conormalRank :
   have := smooth_snd f n
   section_koszul_and_conormalRank n (sectionFst f σ hσ) (pullback.snd f f) (pullback.lift_snd _ _ _)
 
-omit [LocallyOfFinitePresentation σ] in
+omit [IsProper f] [LocallyOfFinitePresentation σ] in
 /-- `j' = (id, σ ∘ f)` is Koszul regular with conormal sheaf locally free of rank `n`: it is a
 section of the smooth `p₁`. -/
 theorem sectionSnd_koszul_and_conormalRank :

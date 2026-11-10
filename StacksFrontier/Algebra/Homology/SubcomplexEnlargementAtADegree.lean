@@ -116,7 +116,7 @@ private theorem enlTau_self {G : A} (k : ℤ) (ee : G ⟶ M.X k) : enlTau k ee k
   simp [enlTau]
 
 private theorem enlTau_of_ne {G : A} (k : ℤ) (ee : G ⟶ M.X k) (n : ℤ) (h : k ≠ n) :
-    enlTau k ee n = 0 := dif_neg h
+    enlTau k ee n = 0 := dite_eq_right h
 
 /-- **The generating map of the enlarged complex in degree `n`**: `K^n ⊕ G ⟶ 𝓜^n`, the inclusion
 of `K^n` on the first summand and the prescribed map on the second. -/

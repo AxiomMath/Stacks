@@ -93,8 +93,8 @@ theorem exists_iso_comp_eq_of_transition_comparisons
   have hI : F₁.map γ.hom ≫ ι.hom ≫ F₀.map γ.inv ≫ c₀.app M = c₁.app M := by
     simp only [γ, Iso.trans_hom, Iso.trans_inv, Iso.symm_hom, Iso.symm_inv, Functor.mapIso_hom,
       Functor.mapIso_inv, Functor.map_comp, Category.assoc, hι, n₀]
-    simp only [Iso.map_hom_inv_id_assoc, reassoc_of% hp₀', reassoc_of% hp₁,
-      Iso.map_inv_hom_id_assoc, reassoc_of% n₁, Iso.map_hom_inv_id, Category.comp_id]
+    simp only [Iso.hom_inv_id_map_assoc, reassoc_of% hp₀', reassoc_of% hp₁,
+      Iso.inv_hom_id_map_assoc, reassoc_of% n₁, Iso.hom_inv_id_map, Category.comp_id]
   have hθ₀ : θ₀.hom = G₀.map Ψ₀.inv ≫ T₀.inv.app _ ≫ L₁.map (c₀.app M) ≫ Ψ₁.hom := by
     rw [hC₀]
     simp
@@ -115,7 +115,7 @@ theorem exists_iso_comp_eq_of_transition_comparisons
     simp
   rw [hθ₀, hθ₁]
   simp only [Iso.trans_hom, Iso.trans_inv, Iso.symm_hom, Iso.symm_inv, Functor.mapIso_hom,
-    Functor.mapIso_inv, Functor.map_comp, Category.assoc, Iso.map_hom_inv_id_assoc]
+    Functor.mapIso_inv, Functor.map_comp, Category.assoc, Iso.hom_inv_id_map_assoc]
   rw [reassoc_of% hα', reassoc_of% m₁, ← reassoc_of% m₀, Iso.hom_inv_id_app_assoc, ← hI]
   simp only [Functor.map_comp, Category.assoc]
 
@@ -199,6 +199,9 @@ theorem isFlat_map_const_last_of_isHypercoveringAugmentation
     exact isFlat_comp _ _ _ (U.obj _).2 (U.obj _).2 (U.obj _).2 _ _
       (isFlat_map_delta_of_isHypercoveringAugmentation h n 0) ih
 
+open AlgebraicGeometry.Space renaming
+preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+  → preservesFiniteLimits_pullbackModules_of_isFlat in
 /-- **Gluing along an fppf hypercovering, relative to transition comparisons.** Let
 `K₀ ∈ D_{QCoh}(𝒪_{U_0})` and `α : L(f_{δ¹₁})^* K₀ ≅ L(f_{δ¹₀})^* K₀` satisfy the cocycle condition
 on `U_2`, and let `Ext^i(K_n, K_n) = 0` for `i < 0`, where `K_n = L(f_{τⁿₙ})^* K₀`. Given
@@ -305,7 +308,7 @@ theorem exists_derivedPullback_degreeZero_iso_compatible_of_transitions
   have hface : ∀ (k : ℕ) (i : Fin (k + 2)), PreservesFiniteLimits
       (spacesEtaleRingedToposHom (U.map (SimplexCategory.δ i).op)).toModulesHom.pullbackModules :=
     fun k i ↦
-      preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+      preservesFiniteLimits_pullbackModules_of_isFlat
         _ (isFlat_map_delta_of_isHypercoveringAugmentation h k i)
   have hK : ∀ k : SimplexCategory, @DerivedCategoryB.derivedCategoryB _ _ _
       (HasDerivedCategory.standard _)
@@ -315,8 +318,7 @@ theorem exists_derivedPullback_degreeZero_iso_compatible_of_transitions
       ((derivedPullback (spacesEtaleRingedToposHom
           (U.map (SimplexCategory.const (SimplexCategory.mk 0) k (Fin.last k.len)).op))).obj K₀) :=
     fun k ↦
-      have :=
-        preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+      have := preservesFiniteLimits_pullbackModules_of_isFlat
           _ (isFlat_map_const_last_of_isHypercoveringAugmentation h k)
       open Stacks.Cohomology.CohomologicalDescent.OfRingedToposHom in
       derivedCategoryB_isQuasicoherentOnSite_derivedPullback_of_exact

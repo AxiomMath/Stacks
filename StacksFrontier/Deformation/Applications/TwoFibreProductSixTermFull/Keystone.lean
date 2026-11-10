@@ -307,7 +307,7 @@ public theorem eqToHom_comp_squareZeroCross {A B : ArtinianLocalAlgCat.{u, max v
       ((squareZeroAlgFunctor.{u, v, w} A).obj M).right) :
     eqToHom h ≫ squareZeroCross.{u, v, w} A M = squareZeroCross.{u, v, w} B M := by
   refine ArtinianLocalAlgCat.hom_ext (AlgHom.ext fun t => ?_)
-  show (squareZeroCross.{u, v, w} A M).hom ((eqToHom h).hom t) =
+  change (squareZeroCross.{u, v, w} A M).hom ((eqToHom h).hom t) =
     (squareZeroCross.{u, v, w} B M).hom t
   rw [squareZeroCross_hom, squareZeroCross_hom]
   exact eq_of_heq (hom_eqToHom_apply_heq.{u, v, w} h t)

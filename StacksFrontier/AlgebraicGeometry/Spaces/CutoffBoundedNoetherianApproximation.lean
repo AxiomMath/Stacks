@@ -119,7 +119,7 @@ theorem hasCutoffBoundedNoetherianApproximation_sheafify_bot
   have := isEmpty_of_hom_sheafify_bot X a
   refine ⟨NoetherianApproximation.const hY hqs
     (isFiniteType_viewOverIntegers_of_etaleChart hY a hsurj het), ?_⟩
-  show #PUnit.{u + 1} < B.cutoff
+  change #PUnit.{u + 1} < B.cutoff
   rw [Cardinal.mk_punit]
   exact one_lt_aleph0.trans B.aleph0_lt_cutoff
 

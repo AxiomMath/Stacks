@@ -105,13 +105,9 @@ theorem rationalCycleCoeff_supportedCoherentKZeroRatCycle_pushforward {Z : Close
     (forall_mem_closedImage_relativeDimension_le C a i hZ)
   set r₁ := rationalCycleCoeff C (i ≫ a) k ξ
   set r₂ := rationalCycleCoeff C a k (i.base ξ)
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    refine ((congrArg r₁ (map_zero c₁)).trans (map_zero r₁)).trans ?_
-    exact ((congrArg r₂ ((congrArg c₂ (map_zero e)).trans (map_zero c₂))).trans
-      (map_zero r₂)).symm
+  induction x using TensorProduct.inductionOn with
   | tmul q b =>
-    show r₁ (q ⊗ₜ[ℤ] supportedCoherentKZeroCycle C (i ≫ a) Z k hZ b) =
+    change r₁ (q ⊗ₜ[ℤ] supportedCoherentKZeroCycle C (i ≫ a) Z k hZ b) =
       r₂ (q ⊗ₜ[ℤ] supportedCoherentKZeroCycle C a (i.closedImage Z) k
         (forall_mem_closedImage_relativeDimension_le C a i hZ)
         (supportedCoherentKZeroPushforward i Z b))

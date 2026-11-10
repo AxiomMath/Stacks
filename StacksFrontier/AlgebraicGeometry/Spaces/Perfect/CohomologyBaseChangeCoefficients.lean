@@ -26,14 +26,15 @@ degree zero, in particular for `𝒪_X`, which is how Stacks 0CTM applies Stacks
 
 ## Main results
 
-* `AlgebraicGeometry.Space.hasProperSupport_of_isProper_of_isClosed_support`: for proper `f`, every abelian sheaf
-  with closed support has support proper over `Y`.
+* `AlgebraicGeometry.Space.hasProperSupport_of_isProper_of_isClosed_support`: for proper `f`, every
+  abelian sheaf with closed support has support proper over `Y`.
 * `AlgebraicGeometry.Space.isFlatOver_structureSheafModule`: for flat `f`, `𝒪_X` is flat over
   `Y`.
 * `𝒪_X` is of finite presentation by the instance
   `Stacks.SheafOfModules.Site.unit_isFinitePresentation`, since
   `AlgebraicGeometry.Space.structureSheafModule` is an abbreviation of `SheafOfModules.unit`.
-* `AlgebraicGeometry.Space.isFlatOver_of_isZero`, `AlgebraicGeometry.Space.isFinitePresentation_of_isZero`:
+* `AlgebraicGeometry.Space.isFlatOver_of_isZero`,
+  `AlgebraicGeometry.Space.isFinitePresentation_of_isZero`:
   the zero terms of a module placed in degree zero satisfy the conditions.
 -/
 

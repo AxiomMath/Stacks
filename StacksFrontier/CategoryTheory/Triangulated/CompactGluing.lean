@@ -175,11 +175,11 @@ lemma isIso_unit_app_of_isColimit {I : Type*} {A : I → C} {S : C} (j : ∀ i, 
     adj.unit.naturality (j i)
   refine ⟨ψ, ?_, ?_⟩
   · refine Cofan.IsColimit.hom_ext hc _ _ fun i => ?_
-    show j i ≫ _ = j i ≫ _
+    change j i ≫ _ = j i ≫ _
     rw [reassoc_of% (hnat i), hψ, IsIso.hom_inv_id_assoc]
     exact (comp_id _).symm
   · refine Cofan.IsColimit.hom_ext hc' _ _ fun i => ?_
-    show R.map (a.map (j i)) ≫ _ = R.map (a.map (j i)) ≫ _
+    change R.map (a.map (j i)) ≫ _ = R.map (a.map (j i)) ≫ _
     rw [reassoc_of% (hψ i), hnat, IsIso.inv_hom_id_assoc]
     exact (comp_id _).symm
 
@@ -317,7 +317,7 @@ theorem isCompactObject_of_isCompactObject_restrict [HasCoproducts.{w} T]
     IsCompactObject.{w} K := by
   constructor
   intro I _ E _
-  show Function.Bijective (cofanMap K (Limits.Sigma.ι E))
+  change Function.Bijective (cofanMap K (Limits.Sigma.ι E))
   refine ⟨injective_cofanMap K _ (coproductIsCoproduct E), ?_⟩
   choose N g h hT using fun i => distinguished_cocone_triangle (adjV.unit.app (E i))
   let Tt : I → Triangle T := fun i => Triangle.mk (adjV.unit.app (E i)) (g i) (h i)

@@ -123,7 +123,8 @@ theorem ringOrd_smul {m : ℕ} {a : sectionRing L} (ha : a ∈ gradingK L k m) {
   rw [smul_of, ringOrd_of, ringOrd_of, sectionOrd_unitScalarEquiv_symm_comp,
     IsDiscreteValuationRing.addVal_eq_zero_iff.mpr (isUnit_germ_baseRingHom x k hc), zero_add]
 
-omit [IsDomain (X.presheaf.stalk x)] [IsDiscreteValuationRing (X.presheaf.stalk x)] in
+omit [Stacks.Ample.IsInvertibleModule X L] [IsDomain (X.presheaf.stalk x)]
+  [IsDiscreteValuationRing (X.presheaf.stalk x)] in
 /-- The global section of a difference of homogeneous elements, one of them scaled by a
 function. -/
 theorem sectionGerm_sub_comp {m : ℕ} (s t : powSections L m) (c : Γ(X, ⊤)) :
@@ -136,7 +137,7 @@ theorem sectionGerm_sub_comp {m : ℕ} (s t : powSections L m) (c : Γ(X, ⊤)) 
         ((Stacks.SectionRingGeometric.unitScalarEquiv X).symm c ≫ t) :=
     map_sub (Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X (natTensorPow L m)) _ _
   rw [h, map_sub]
-  show _ - ((natTensorPow L m).presheaf.Γgerm x).hom
+  change _ - ((natTensorPow L m).presheaf.Γgerm x).hom
       (globalSection X _ ((Stacks.SectionRingGeometric.unitScalarEquiv X).symm c ≫ t)) = _
   rw [globalSection_unitScalarEquiv_symm_comp, Stacks.ModuleStalk.Γgerm_smul]
 
@@ -168,7 +169,7 @@ theorem exists_lt_ringOrd_sub [IsIntegral X]
     rw [Order.one_le_iff_pos, pos_iff_ne_zero]
     exact fun h0 =>
       (IsLocalRing.mem_maximalIdeal _).mp hc (IsDiscreteValuationRing.addVal_eq_zero_iff.mp h0)
-  show sectionOrd x L t < _ + sectionOrd x L t
+  change sectionOrd x L t < _ + sectionOrd x L t
   obtain ⟨n, hn⟩ := ENat.ne_top_iff_exists.mp htop
   rw [← hn]
   calc (n : ℕ∞) < 1 + n := by

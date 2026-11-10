@@ -137,7 +137,7 @@ private theorem proetaleBigOver_precoverage_eq_comap
       overForget_presieve_map_injective (U := U) (R := R)
         (Q := E'.presieve₀) (hR.symm.trans hpresieve.symm)
     refine ⟨E', hR', ?_⟩
-    show B.covering ⟨(Over.forget (⟨S, hS⟩ : B.Scheme)).obj U,
+    change B.covering ⟨(Over.forget (⟨S, hS⟩ : B.Scheme)).obj U,
       E'.map (Over.forget (⟨S, hS⟩ : B.Scheme))⟩
     simpa [hmap] using hE
 
@@ -248,7 +248,7 @@ private theorem smallProetale_precoverage_eq_comap :
         (E'.map (SmallProetale.inclusion B T.obj T.property)).f i =
           eqToHom (hobj i) ≫ E.f i := by
       apply Over.OverMorphism.ext
-      show (E.f i).left = (eqToHom (hobj i)).left ≫ (E.f i).left
+      change (E.f i).left = (eqToHom (hobj i)).left ≫ (E.f i).left
       simp only [Over.eqToHom_left]
       rfl
     have hpresieve : E'.presieve₀.map (SmallProetale.inclusion B T.obj T.property) =
@@ -333,7 +333,7 @@ private theorem proetaleBigOver_topology_eq
     (B : BigProetaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
     BigProetaleOver.topology B S hS =
       (proetaleBigOverPrecoverage B S hS).toGrothendieck := by
-  show B.precoverage.toGrothendieck.over (⟨S, hS⟩ : B.Scheme) =
+  change B.precoverage.toGrothendieck.over (⟨S, hS⟩ : B.Scheme) =
     (proetaleBigOverPrecoverage B S hS).toGrothendieck
   rw [proetaleBigOver_precoverage_eq_comap]
   exact over_toGrothendieck_eq_toGrothendieck_comap_forget
@@ -355,7 +355,7 @@ private theorem smallProetaleToBigProetale_preimage_isCovering
       (smallProetaleToBigProetaleFunctor B T S f).obj (E'.X i) = E.X i := by
     apply CostructuredArrow.obj_ext
       ((smallProetaleToBigProetaleFunctor B T S f).obj (E'.X i)) (E.X i) rfl
-    show (E.X i).hom = ((E.f i).left ≫ X.obj.hom) ≫ f
+    change (E.X i).hom = ((E.f i).left ≫ X.obj.hom) ≫ f
     simpa [Category.assoc] using (Over.w (E.f i)).symm
   refine ⟨E'.presieve₀,
     ⟨E', rfl, SmallProetale.isCovering_liftPreZeroHypercover B T hw hE⟩, ?_⟩

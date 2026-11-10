@@ -245,7 +245,7 @@ public theorem completedAeval_surjective (hI : I.FG)
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective b
     obtain ⟨z, hz⟩ := exists_mk_aeval_eq B r g hgen b
     refine ⟨algebraMap (MvPolynomial (Fin r) A) (completedPolynomialAlgebra I r) z, ?_⟩
-    show Ideal.Quotient.mk B.adicIdeal (completedAeval B r g (algebraMap _ _ z)) = _
+    change Ideal.Quotient.mk B.adicIdeal (completedAeval B r g (algebraMap _ _ z)) = _
     rw [completedAeval_algebraMap, hz]
   let T := completedPolynomialAlgebra I r
   let M : Ideal T := K.map (algebraMap (MvPolynomial (Fin r) A) T)
@@ -262,7 +262,7 @@ public theorem completedAeval_surjective (hI : I.FG)
     exact F.commutes a
   have : IsHausdorff (M.map F.toRingHom) B.carrier := hML.symm ▸ inferInstance
   apply surjective_of_mk_map_comp_surjective (I := M) (f := F.toRingHom)
-  show Function.Surjective ((Ideal.Quotient.mk (M.map F.toRingHom)).comp F.toRingHom)
+  change Function.Surjective ((Ideal.Quotient.mk (M.map F.toRingHom)).comp F.toRingHom)
   rwa [hML]
 
 /-- If the reductions of `g` generate `B / IB` over `A / I`, then every element of `B` differs

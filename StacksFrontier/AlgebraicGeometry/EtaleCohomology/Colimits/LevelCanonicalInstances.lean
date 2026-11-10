@@ -7,9 +7,9 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Colimits.AffineLi
 # The hypotheses of the transport at the canonical site system of Stacks 0EYL
 
 At the canonical site system `Stacks.EtaleCohomology.AffineLimitCohomology.sys` the hypotheses of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/LevelLimitTransport.lean` hold: the levels
-and the functors to the limit are continuous, restriction from Mathlib's small étale sites to the
-levels and to the raised site of the limit are equivalences (every functor involved is the
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/LevelLimitTransport.lean` hold: the
+levels and the functors to the limit are continuous, restriction from Mathlib's small étale sites to
+the levels and to the raised site of the limit are equivalences (every functor involved is the
 inclusion of a dense subsite), and inverse image to the raised site of the limit is left exact.
 -/
 
@@ -58,7 +58,7 @@ attribute [local instance] isContinuous_levelEtale isContinuous_levelToLimit
 /-- Restriction from Mathlib's small étale site of a stage to the level is an equivalence. -/
 theorem isEquivalence_levelMathlibRestrict (i : (sys D c B hD hX hc).I) :
     (levelMathlibRestrict (affineEtaleSiteColimit D c B hD hX hc) i).IsEquivalence := by
-  show ((AlgebraicGeometry.SmallEtale.toEtaleSite B (levelScheme D c B hD hX hc i)
+  change ((AlgebraicGeometry.SmallEtale.toEtaleSite B (levelScheme D c B hD hX hc i)
       (hD (levelIndex D c B hD hX hc i))).sheafPushforwardContinuous Ab.{max u v + 1}
         (AlgebraicGeometry.SmallEtale.topology B _ _) (smallEtaleTopology _) ⋙
       (AlgebraicGeometry.SmallAffineEtale.inclusion B _ _).sheafPushforwardContinuous
@@ -145,7 +145,7 @@ theorem isContinuous_toEtaleSite' :
 attribute [local instance] isContinuous_limitMathlib' isContinuous_toEtaleSite'
   isContinuous_limitSmallMathlib
 
-omit [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- Restriction from Mathlib's small étale site of the limit to the raised site is an
 equivalence. -/
 theorem isEquivalence_limitMathlibRestrict :

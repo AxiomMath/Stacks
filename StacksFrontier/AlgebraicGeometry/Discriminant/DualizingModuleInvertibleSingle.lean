@@ -53,7 +53,7 @@ attribute [local instance] algebraDualModule
 
 /-- A module isomorphic to the ring, placed in degree zero, is an invertible object of the
 derived category: it is isomorphic to the monoidal unit. -/
-private theorem isInvertible_single_of_linearEquiv {R : Type u} [CommRing R]
+theorem isInvertible_single_of_linearEquiv {R : Type u} [CommRing R]
     (M : ModuleCat.{u} R) (e : M ≃ₗ[R] R) :
     letI := (DerivedCategory.Invertible.derivedCategory_symmetricMonoidalCategory R).choose
     MonoidalCategory.IsInvertible

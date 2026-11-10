@@ -205,7 +205,7 @@ theorem property_source_of_isPullback_arrows (P : MorphismProperty Scheme.{u})
     refine MorphismProperty.IsLocalAtSource.of_forall_comp
       (P := P) a.left.singleton_mem_fppfPrecoverage ?_
     rintro _ _ ⟨⟩
-    show P ((a ≫ pullback.snd K.source F.mapObjects).left)
+    change P ((a ≫ pullback.snd K.source F.mapObjects).left)
     simpa only [ha, pullback.lift_snd] using hs
   refine MorphismProperty.IsLocalAtTarget.of_forall_pullbackSnd
     (P := P) F.mapObjects.left.singleton_mem_fppfPrecoverage ?_
@@ -248,18 +248,18 @@ theorem jointlyMono₂_of_isPullback_arrows [JointlyMono₂ G.target G.source] (
   let a : K.EvaluationHom ((F.evaluation _).obj x) ((F.evaluation _).obj y) :=
     { arrow := c ≫ r₁
       source_eq := by
-        show (c ≫ r₁) ≫ K.source = x ≫ F.mapObjects
+        change (c ≫ r₁) ≫ K.source = x ≫ F.mapObjects
         simpa only [Category.assoc] using hx.symm
       target_eq := by
-        show (c ≫ r₁) ≫ K.target = y ≫ F.mapObjects
+        change (c ≫ r₁) ≫ K.target = y ≫ F.mapObjects
         simpa only [Category.assoc] using hy.symm }
   let b : K.EvaluationHom ((F.evaluation _).obj x) ((F.evaluation _).obj y) :=
     { arrow := c ≫ r₂
       source_eq := by
-        show (c ≫ r₂) ≫ K.source = x ≫ F.mapObjects
+        change (c ≫ r₂) ≫ K.source = x ≫ F.mapObjects
         rw [Category.assoc, ← hs, hx]
       target_eq := by
-        show (c ≫ r₂) ≫ K.target = y ≫ F.mapObjects
+        change (c ≫ r₂) ≫ K.target = y ≫ F.mapObjects
         rw [Category.assoc, ← ht, hy] }
   have he : (hff _).some.preimage a = (hff _).some.preimage b :=
     EvaluationHom.ext (JointlyMono₂.right_cancellation (p₁ := G.target) (p₂ := G.source) _ _
@@ -294,10 +294,10 @@ theorem isPullback_identity_of_isPullback_arrows [JointlyMono₂ G.target G.sour
     let r : K.EvaluationHom ((F.evaluation P).obj s) ((F.evaluation P).obj t) :=
       { arrow := (s ≫ F.mapObjects) ≫ K.identity
         source_eq := by
-          show (s ≫ F.mapObjects) ≫ K.identity ≫ K.source = s ≫ F.mapObjects
+          change (s ≫ F.mapObjects) ≫ K.identity ≫ K.source = s ≫ F.mapObjects
           simp only [K.source_identity, Category.comp_id]
         target_eq := by
-          show (s ≫ F.mapObjects) ≫ K.identity ≫ K.target = t ≫ F.mapObjects
+          change (s ≫ F.mapObjects) ≫ K.identity ≫ K.target = t ≫ F.mapObjects
           simpa only [K.target_identity, Category.comp_id] using hkp.w.symm }
     let p := (hff P).some.preimage r
     have he : p.arrow = q := JointlyMono₂.right_cancellation (p₁ := G.target) (p₂ := G.source)

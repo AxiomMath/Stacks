@@ -79,6 +79,7 @@ theorem schemeTheoreticImageSubfunctor_comp_of_epi (e : W ⟶ X) [Epi e] (f : X 
   rw [range_comp_eq_range_of_epi e f]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the `pullback` of presheaves on the big fppf site in the statement
 /-- The scheme-theoretic closure of the preimage of a subfunctor `U` along `φ` is the
 scheme-theoretic image of the second projection of the pullback of `U.ι` along `φ`. -/
 private theorem schemeTheoreticClosure_preimage_eq_image_pullback_snd

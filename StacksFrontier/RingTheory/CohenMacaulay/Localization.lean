@@ -348,7 +348,7 @@ public theorem solution {R : Type*} [CommRing R]
   have hR' : (Module.depth R (IsLocalRing.maximalIdeal R) R : WithBot ℕ∞) = ringKrullDim R := hR
   have hM : (Module.depth R (IsLocalRing.maximalIdeal R) R : WithBot ℕ∞) = Module.supportDim R R :=
     hR'.trans (Module.supportDim_self_eq_ringKrullDim R).symm
-  show (Module.depth Rₚ (IsLocalRing.maximalIdeal Rₚ) Rₚ : WithBot ℕ∞) = ringKrullDim Rₚ
+  change (Module.depth Rₚ (IsLocalRing.maximalIdeal Rₚ) Rₚ : WithBot ℕ∞) = ringKrullDim Rₚ
   exact (Module.depth_eq_supportDim_of_isLocalizedModule R hM p Rₚ Rₚ
     (Algebra.linearMap R Rₚ)).trans (Module.supportDim_self_eq_ringKrullDim Rₚ)
 

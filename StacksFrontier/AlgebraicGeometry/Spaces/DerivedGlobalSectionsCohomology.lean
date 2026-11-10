@@ -78,9 +78,9 @@ theorem isZero_homology_derivedModuleGlobalSectionsSmallEtale_iff (Y : Algebraic
         ((derivedModuleGlobalSectionsSmallEtaleAtModel B S hS Y.1 Y.2).obj A)) ↔
       ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj K).ExactAt n := by
     rw [Iso.isZero_iff ((DerivedCategory.homologyFunctor R n).mapIso e₁)]
-    show IsZero ((DerivedCategory.Q ⋙ DerivedCategory.homologyFunctor R n).obj K) ↔ _
+    change IsZero ((DerivedCategory.Q ⋙ DerivedCategory.homologyFunctor R n).obj K) ↔ _
     rw [Iso.isZero_iff (((DerivedCategory.homologyFunctorFactors R n).app K))]
-    show IsZero (K.homology n) ↔ _
+    change IsZero (K.homology n) ↔ _
     rw [← HomologicalComplex.exactAt_iff_isZero_homology]
     exact ((K.sc n).exact_map_iff_of_faithful F).symm
   -- the abelian-group-valued complex is `Hom(𝒪_X, I)`

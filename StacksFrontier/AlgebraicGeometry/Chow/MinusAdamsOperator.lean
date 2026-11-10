@@ -222,13 +222,13 @@ variable {X}
 theorem classOfDual_of_isFiniteLocallyFree (M : X.Modules)
     (hM : IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M) :
     classOfDual X M = classOf X (dualSheaf X.toRingedSpace M) := by
-  rw [classOfDual, if_pos hM]
+  rw [classOfDual, ite_eq_left hM]
 
 /-- `classOfDual` vanishes off the finite locally free modules. -/
 theorem classOfDual_eq_zero (M : X.Modules)
     (hM : ¬ IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M) :
     classOfDual X M = 0 := by
-  rw [classOfDual, if_neg hM]
+  rw [classOfDual, ite_eq_right hM]
 
 /-- Additivity of `classOfDual` along a short exact sequence of finite locally free modules,
 granted that duality preserves finite local freeness and is exact. -/
@@ -393,7 +393,7 @@ theorem dualAddHom_pullback {Y : Scheme.{u}} (f : Y ⟶ X)
   have hcomp : (dualAddHom k₁ k₂).comp (p : VectorBundleKZero X →+ VectorBundleKZero Y) =
       (p : VectorBundleKZero X →+ VectorBundleKZero Y).comp (dualAddHom h₁ h₂) := by
     refine addHom_ext fun M hM => ?_
-    show dualAddHom k₁ k₂ (p (classOf X M)) = p (dualAddHom h₁ h₂ (classOf X M))
+    change dualAddHom k₁ k₂ (p (classOf X M)) = p (dualAddHom h₁ h₂ (classOf X M))
     rw [hp M hM, dualAddHom_classOf k₁ k₂ _ (isFiniteLocallyFree_pullback f M hM),
       dualAddHom_classOf h₁ h₂ M hM, hp _ (h₁ M hM)]
     exact (classOf_eq_of_iso (pullbackDualSheafIso f M hM)

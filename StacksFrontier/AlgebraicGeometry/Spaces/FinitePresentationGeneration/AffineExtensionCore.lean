@@ -97,11 +97,11 @@ theorem bijective_app_cokernel_desc {Xs Rs : Type u} {Q : Modules.{u, u} B S hS 
     have hle : Submodule.span (chartRing B S hS X hX W) (Set.range v) ≤ LinearMap.ker Ψ := by
       rw [Submodule.span_le]
       rintro _ ⟨k, rfl⟩
-      show (cokernel.π ρ).val.app (op W) (Stacks.Sites.freeSectionsMap
+      change (cokernel.π ρ).val.app (op W) (Stacks.Sites.freeSectionsMap
         (R := Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O)
           Xs (op W) _) = 0
       rw [← hρ]
-      show ((ρ ≫ cokernel.π ρ).val.app (op W)) _ = 0
+      change ((ρ ≫ cokernel.π ρ).val.app (op W)) _ = 0
       rw [cokernel.condition]
       rfl
     exact hle (hrel c₀ hc₀)
@@ -114,7 +114,7 @@ theorem bijective_app_cokernel_desc {Xs Rs : Type u} {Q : Modules.{u, u} B S hS 
       (R := Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O)
         Xs (op W) c₀), ?_⟩
     rw [← hφS]
-    show ((cokernel.π ρ ≫ cokernel.desc ρ φS hcond).val.app (op W)) _ = _
+    change ((cokernel.π ρ ≫ cokernel.desc ρ φS hcond).val.app (op W)) _ = _
     rw [hπψ]
 
 /-- A presentation `ρ` of free modules is killed by `φS` once the relations it encodes vanish at a
@@ -204,7 +204,7 @@ theorem exists_finset_generators_relations_of_isTerminal
         ((fun i : Xs => Q.val.map (hT₀.from W).op (i : Q.val.obj (op T₀)) :
               Xs → Q.val.obj (op W))) := by
     funext i
-    show Q.val.map f.op (Q.val.map f₁.op _) = Q.val.map (hT₀.from W).op _
+    change Q.val.map f.op (Q.val.map f₁.op _) = Q.val.map (hT₀.from W).op _
     rw [hfrom, op_comp]
     exact (PresheafOfModules.map_comp_apply Q.val f₁.op f.op _).symm
   have hv : (fun k : Rs => finsuppAlgebraMap (chartRing B S hS X hX W₁)
@@ -285,7 +285,7 @@ theorem exists_isFinitePresentation_bijective_of_isTerminal
       (smallEtaleRingedSite B S hS X hX) ρ, cokernel.desc ρ φS hcond,
     SheafOfModules.sectionsMap (cokernel.π ρ)
       (SheafOfModules.freeSection (⟨q.val (op T₀), hqX⟩ : Xs)), ?_, fun W hW h => ?_⟩
-  · show SheafOfModules.sectionsMap (cokernel.π ρ ≫ cokernel.desc ρ φS hcond) _ = q
+  · change SheafOfModules.sectionsMap (cokernel.π ρ ≫ cokernel.desc ρ φS hcond) _ = q
     rw [cokernel.π_desc, SheafOfModules.sectionsMap_freeHomEquiv_symm_freeSection]
     exact sectionsOfTerminal_eval hT₀ Q.val q
   · exact bijective_app_cokernel_desc B S hS hX ρ φS hcond

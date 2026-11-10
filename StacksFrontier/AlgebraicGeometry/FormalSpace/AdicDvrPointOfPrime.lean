@@ -104,7 +104,7 @@ theorem exists_dvr_ker_eq_of_isPrime {A : Type u} [CommRing A] [TopologicalSpace
   let mq : Ideal (A ⧸ q) := m.map (Ideal.Quotient.mk q)
   have _ : mq.IsPrime := Ideal.map_isPrime_of_surjective Ideal.Quotient.mk_surjective
     (by simpa [Ideal.mk_ker] using hqm)
-  obtain ⟨x₀, hx₀I, hx₀q⟩ := SetLike.not_le_iff_exists.mp hqI
+  obtain ⟨x₀, hx₀I, hx₀q⟩ := IsConcreteLE.not_le_iff_exists.mp hqI
   have hqne : mq ≠ ⊥ := by
     intro hbot
     refine hx₀q (Ideal.Quotient.eq_zero_iff_mem.mp ?_)
@@ -120,7 +120,7 @@ theorem exists_dvr_ker_eq_of_isPrime {A : Type u} [CommRing A] [TopologicalSpace
   have hnotField : ¬ IsField L := by
     rw [IsLocalRing.isField_iff_maximalIdeal_eq]
     intro hbot
-    obtain ⟨y, hymq, hy0⟩ := SetLike.not_le_iff_exists.mp fun h => hqne (le_bot_iff.mp h)
+    obtain ⟨y, hymq, hy0⟩ := IsConcreteLE.not_le_iff_exists.mp fun h => hqne (le_bot_iff.mp h)
     rw [Ideal.mem_bot] at hy0
     refine hy0 (hinjL ?_)
     have hy := hmemL y hymq
@@ -233,7 +233,7 @@ theorem exists_adic_completeDvr_point_of_isPrime {A : Type u} [CommRing A] [Topo
     hWcomplete, hWweak, DW, χ, by rw [hχ, hψdef, RingHom.ker_comp_of_injective _ hinj, hker], ?_⟩
   exact isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isTaut B S hS hAw hWweak
     D DW (hasLargeSite_of_mk_lt_cutoff DW hWcard) χ
-    (RingHom.isTaut_of_isAdic χ.toRingHom χ.continuous (by rw [hχ]; exact hψadic))
+    (RingHom.isTaut_of_isAdic χ.toRingHom (by rw [hχ]; exact hψadic))
 
 end AlgebraicGeometry.FormalSpace
 

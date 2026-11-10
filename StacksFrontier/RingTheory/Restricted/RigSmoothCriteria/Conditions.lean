@@ -132,7 +132,7 @@ private lemma completedNaiveCotangent_conormal_finitePresentation
     Module.FinitePresentation B.carrier P.extension.Cotangent := by
   let : IsNoetherianRing P.completedPolynomialRing := AdicCompletion.isNoetherianRing _
   let : IsNoetherianRing P.extension.Ring := by
-    show IsNoetherianRing P.completedPolynomialRing
+    change IsNoetherianRing P.completedPolynomialRing
     infer_instance
   have hker : P.extension.ker.FG := Ideal.fg_of_isNoetherianRing _
   have hfinite : Module.Finite B.carrier P.extension.Cotangent :=
@@ -323,7 +323,7 @@ private lemma exists_scalar_mul_mem_span_of_localized_span
     simpa [Function.comp_def, locM] using hspan
   let e := localizedQuotientEquiv S V
   have hquot : Subsingleton (LocalizedModule S M ⧸ V.localized S) := by
-    show Subsingleton (LocalizedModule S M ⧸ V.localized' (Localization S) S locM)
+    change Subsingleton (LocalizedModule S M ⧸ V.localized' (Localization S) S locM)
     rw [hlocV]
     infer_instance
   have : Subsingleton (LocalizedModule S Q) := e.subsingleton_congr.mp hquot
@@ -391,17 +391,17 @@ private lemma exists_local_jacobian_minor_of_split
           (K.partialDeriv (e i) (f (a j) : P.completedPolynomialRing))) := by
     rw [LinearMap.toMatrix_apply]
     rw [hb j]
-    show bE.repr (dloc (locD (Algebra.Extension.Cotangent.mk
+    change bE.repr (dloc (locD (Algebra.Extension.Cotangent.mk
       (P := P.extension) (hkerEq ▸ f (a j))))) (e i) = _
     rw [show dloc (locD (fD (a j))) = locE (K.differential (fD (a j))) by
-      show LocalizedModule.map q.primeCompl K.differential
+      change LocalizedModule.map q.primeCompl K.differential
         (LocalizedModule.mk (fD (a j)) 1) = _
       rw [LocalizedModule.map_mk]
       rfl]
-    show ((Pi.basisFun B.carrier (Fin P.variableCount)).ofIsLocalizedModule
+    change ((Pi.basisFun B.carrier (Fin P.variableCount)).ofIsLocalizedModule
       Tloc q.primeCompl locE).repr (locE (K.differential (fD (a j)))) (e i) = _
     rw [Module.Basis.ofIsLocalizedModule_repr_apply]
-    show algebraMap B.carrier Tloc
+    change algebraMap B.carrier Tloc
       ((Pi.basisFun B.carrier (Fin P.variableCount)).repr
         (K.differential (Algebra.Extension.Cotangent.mk (P := P.extension)
           (hkerEq ▸ f (a j)))) (e i)) = _
@@ -434,12 +434,12 @@ private lemma exists_local_jacobian_minor_of_split
     apply le_antisymm
     · apply Submodule.span_le.mpr
       rintro z ⟨i, rfl⟩
-      show locD (fD (a i)) ∈ _
+      change locD (fD (a i)) ∈ _
       rw [← hb i]
       exact Submodule.subset_span ⟨i, rfl⟩
     · apply Submodule.span_le.mpr
       rintro z ⟨i, rfl⟩
-      show b i ∈ _
+      change b i ∈ _
       rw [hb i]
       exact Submodule.subset_span ⟨i, rfl⟩
 
@@ -554,31 +554,31 @@ lemma exists_jacobian_chart_away_prime
     change h.comp (completedNaiveCotangentComplex B P).differential = α • LinearMap.id at hh
     rw [hh, map_smul, LocalizedModule.map_id]
     ext x
-    show α • x = (u.unit : Tloc) • x
+    change α • x = (u.unit : Tloc) • x
     rw [IsUnit.unit_spec]
     exact (IsScalarTower.algebraMap_smul (R := B.carrier) (A := Tloc) α x).symm
   let r := e.symm.toLinearMap.comp (LocalizedModule.map S h)
   have hsplit : r.comp (LocalizedModule.map S
       (completedNaiveCotangentComplex B P).differential) = LinearMap.id := by
-    show e.symm.toLinearMap.comp ((LocalizedModule.map S h).comp
+    change e.symm.toLinearMap.comp ((LocalizedModule.map S h).comp
       (LocalizedModule.map S (completedNaiveCotangentComplex B P).differential)) = _
     rw [he]
     ext x
     exact e.symm_apply_apply x
   let : IsNoetherianRing P.completedPolynomialRing := AdicCompletion.isNoetherianRing _
   let : IsNoetherianRing P.extension.Ring := by
-    show IsNoetherianRing P.completedPolynomialRing
+    change IsNoetherianRing P.completedPolynomialRing
     infer_instance
   have hkerFG : P.extension.ker.FG := Ideal.fg_of_isNoetherianRing _
   obtain ⟨k, f₀, hf₀⟩ := (Submodule.fg_iff_exists_fin_generating_family).mp hkerFG
   have hfker : Ideal.span (Set.range f₀) = P.ker := by
-    show Submodule.span P.extension.Ring (Set.range f₀) = P.extension.ker
+    change Submodule.span P.extension.Ring (Set.range f₀) = P.extension.ker
     exact hf₀
   let f : Fin k → P.ker := fun j => ⟨f₀ j,
     hfker.le (Ideal.subset_span ⟨j, rfl⟩)⟩
   have hspan : Submodule.span B.carrier
       (Set.range fun j => Algebra.Extension.Cotangent.mk (P := P.extension) (f j)) = ⊤ := by
-    show Submodule.span B.carrier
+    change Submodule.span B.carrier
       (Set.range fun j => Algebra.Extension.Cotangent.mk (P := P.extension)
         ⟨f₀ j, hfker.le (Ideal.subset_span ⟨j, rfl⟩)⟩) = ⊤
     exact Algebra.Extension.Cotangent.span_eq_top_of_span_eq_ker
@@ -611,7 +611,7 @@ lemma exists_jacobian_chart_away_prime
   let bE := lift * dE
   let b : P.completedPolynomialRing := bE
   have hbmap : P.toAlgHom b = denom.val * detB := by
-    show P.toAlgHom (lift * dE) = _
+    change P.toAlgHom (lift * dE) = _
     rw [map_mul]
     rw [show P.toAlgHom lift = denom.val from P.extension.algebraMap_σ _]
   refine ⟨b, ?_, m, T, g, ?_, ?_⟩
@@ -645,7 +645,7 @@ lemma exists_jacobian_chart_away_prime
       (Ideal.span (Set.range fun j : Fin m => (gE j : P.extension.Ring)) +
         P.extension.ker ^ 2).mul_mem_left dE hrel
     have heq : b * x = dE * (lift * xE.val) := by
-      show (lift * dE) * xE.val = dE * (lift * xE.val)
+      change (lift * dE) * xE.val = dE * (lift * xE.val)
       ring
     rw [heq]
     exact hmulE

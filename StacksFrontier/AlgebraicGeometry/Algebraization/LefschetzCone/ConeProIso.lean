@@ -59,6 +59,7 @@ abbrev coneFunctor : X.Modules ⥤ (coneSituation L s).U.toScheme.Modules :=
     GradedModuleCat.toModuleCat (grading L) ⋙ tilde.functor (CommRingCat.of (coneSituation L s).A) ⋙
       Scheme.Modules.restrictFunctor (coneSituation L s).U.ι
 
+omit [IsLocallyNoetherian X] in
 /-- `Ψ(G)` is coherent when `Γ_*(X, L, G)` is a finite module. -/
 theorem isCoherent_coneFunctor_obj (G : X.Modules)
     (hG : Module.Finite (sectionRing L) (Stacks.TwistedSections.twistModule G L)) :
@@ -78,6 +79,7 @@ def truncatedSystemπ (T : ℕᵒᵖ ⥤ GradedModuleCat.{u, u, u} (grading L)) 
   app n := powQuotientπ L s (T.obj n) (n.unop + 1)
   naturality _ _ _ := GradedModuleCat.hom_ext (LinearMap.ext fun _ => rfl)
 
+omit [IsLocallyNoetherian X] in
 /-- **`fⁿ⁺¹ Tₙ` is `A₊`-power torsion**, for `(Tₙ)` whose sheaves on `X` form a coherent adic
 system along the zero scheme of `s`. -/
 theorem isIPowerTorsion_ker_powQuotientπ (T : ℕᵒᵖ ⥤ GradedModuleCat.{u, u, u} (grading L))
@@ -104,6 +106,7 @@ theorem isIPowerTorsion_ker_powQuotientπ (T : ℕᵒᵖ ⥤ GradedModuleCat.{u,
         ch ⟨z, hz⟩)) y
   exact ⟨p, Subtype.ext hp⟩
 
+omit [IsLocallyNoetherian X] in
 /-- The points of the punctured cone lie off `V(A₊)`. -/
 theorem not_irrelevant_le_coneSituation (y : (coneSituation L s).U.toScheme) :
     ¬ (HomogeneousIdeal.irrelevant (grading L)).toIdeal ≤
@@ -128,6 +131,7 @@ def coneSystemPresIso (F : Stacks.Coherent.CoherentAdicSystems (zeroScheme X L s
     Functor.isoWhiskerLeft _ (Functor.isoWhiskerLeft _ (Functor.isoWhiskerLeft _
       (Scheme.Modules.restrictFunctorIsoPullback (coneSituation L s).U.ι).symm))
 
+omit [IsLocallyNoetherian X] in
 /-- `Ψ(Tₙ) ⟶ Ψ(Tₙ / fⁿ⁺¹ Tₙ)` is an isomorphism. -/
 theorem isIso_coneMap_powQuotientπ (T : ℕᵒᵖ ⥤ GradedModuleCat.{u, u, u} (grading L))
     (hT : Stacks.Coherent.IsCoherentAdicSystem (zeroScheme X L s)
@@ -140,6 +144,7 @@ theorem isIso_coneMap_powQuotientπ (T : ℕᵒᵖ ⥤ GradedModuleCat.{u, u, u}
     (not_irrelevant_le_coneSituation L s) (Submodule.mkQ_surjective _)
     (isIPowerTorsion_ker_powQuotientπ L hL s T hT n)
 
+omit [IsLocallyNoetherian X] in
 /-- `Ψ` inverts the projections onto the truncations. -/
 theorem isIso_whiskerRight_truncatedSystemπ (T : ℕᵒᵖ ⥤ GradedModuleCat.{u, u, u} (grading L))
     (hT : Stacks.Coherent.IsCoherentAdicSystem (zeroScheme X L s)

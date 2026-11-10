@@ -85,6 +85,7 @@ variable {S : Scheme.{u}} (E : S.Modules) [E.IsQuasicoherent]
   (D : TwistData (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc)) {n : ℕ} (hn : 1 ≤ n)
   (hfree : Scheme.Modules.IsFiniteLocallyFreeOfRank E (n + 1))
 
+omit [E.IsQuasicoherent] in
 include hfree in
 /-- For `E` finite locally free of rank `n + 1`, the degree `k` piece `Sym^k(E)` of the
 symmetric algebra of `E` is finite locally free. -/

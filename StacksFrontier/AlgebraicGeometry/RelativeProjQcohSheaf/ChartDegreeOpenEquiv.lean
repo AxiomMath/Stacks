@@ -162,7 +162,7 @@ theorem Fd.homDegreeOpen_surjective (hk : 0 < k) (W : Scheme.{u}) :
     refine ⟨(Fd.chartRelativeEquiv A a.1 P a.2 hk _).symm
       (IsOpenImmersion.lift (P.toBase ⁻¹ᵁ a.1 ⊓ P.degreeOpen k).ι
         ((g ⁻¹ᵁ a.1).ι ≫ φ ≫ (P.degreeOpen k).ι) (hrange a.1)), ?_⟩
-    show Fd.chartRelativeEquiv A a.1 P a.2 hk _ ((Fd.chartRelativeEquiv A a.1 P a.2 hk _).symm _)
+    change Fd.chartRelativeEquiv A a.1 P a.2 hk _ ((Fd.chartRelativeEquiv A a.1 P a.2 hk _).symm _)
           ≫ (P.toBase ⁻¹ᵁ a.1 ⊓ P.degreeOpen k).ι = _
     rw [Equiv.apply_symm_apply]
     exact IsOpenImmersion.lift_fac _ _ (hrange a.1)
@@ -234,7 +234,7 @@ theorem Fd.homDegreeOpen_scale (hk : 0 < k) {a : ℕ} (ha : 0 < a) (W : Scheme.{
     (Fd.chartClassInv_injective A U hscale))
   refine Eq.trans ?_ (Fd.chartHom_scale A U P hU hk ha _ (η U)).symm
   refine Eq.trans ?_ (Fd.ι_homDegreeOpen A P hk ξ U hU (η U) (hη U))
-  show (ξ.1 ⁻¹ᵁ U).ι ≫ (Fd.homDegreeOpen A P hk ξ ≫ P.scheme.homOfLE hle)
+  change (ξ.1 ⁻¹ᵁ U).ι ≫ (Fd.homDegreeOpen A P hk ξ ≫ P.scheme.homOfLE hle)
         ≫ (P.degreeOpen (a * k)).ι
       = (ξ.1 ⁻¹ᵁ U).ι ≫ Fd.homDegreeOpen A P hk ξ ≫ (P.degreeOpen k).ι
   rw [Category.assoc, Scheme.homOfLE_ι]

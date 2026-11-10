@@ -489,6 +489,7 @@ end AlgebraicGeometry
 
 namespace AlgebraicGeometry
 
+set_option linter.checkUnivs false in
 /-- The lifts `Φ.over x`, to the slice over `V`, of the universe lifts `Φ` of the geometric points
 of `X`, along the elements `x` of their fibres over `V`, are a conservative family of points of
 that slice. -/
@@ -545,7 +546,8 @@ variable [HasDerivedCategory.{d} (RingedSite.Modules.{u, v, w} Z)]
 attribute [local instance] RingedSite.sliceHasDerivedCategory sliceDerived
 
 variable
-  [∀ U : Z.C, (Stacks.SheafOfModules.Tensor.sheafTensor.{max u v, v, w, w, w} (Z.over U).O).Additive]
+  [∀ U : Z.C,
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{max u v, v, w, w, w} (Z.over U).O).Additive]
   [∀ (U : Z.C) M,
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{max u v, v, w, w, w} (Z.over U).O).obj M).Additive]
   [∀ (U : Z.C) (K L : CochainComplex (RingedSite.Modules.{max u v, v, w} (Z.over U)) ℤ),

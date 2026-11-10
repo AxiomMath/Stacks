@@ -196,21 +196,18 @@ private theorem cancelBaseChange_moduleExtensionMap
     (z : TensorProduct A B M) :
     TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C M (c ⊗ₜ[B] z) =
       c • (moduleExtensionMap A M f z : TensorProduct A C M) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      show 0 = c • (TensorProduct.map f.hom.toLinearMap LinearMap.id 0)
-      simp
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
       rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
-      show (b • c) ⊗ₜ[A] m =
+      change (b • c) ⊗ₜ[A] m =
         c • (TensorProduct.map f.hom.toLinearMap LinearMap.id (b ⊗ₜ[A] m))
       simp only [TensorProduct.map_tmul, LinearMap.id_apply,
         Algebra.smul_def, TensorProduct.smul_tmul']
-      show ((algebraMap B C b) * c) ⊗ₜ[A] m =
+      change ((algebraMap B C b) * c) ⊗ₜ[A] m =
         (c * f.hom.toLinearMap b) ⊗ₜ[A] m
       rw [show f.hom.toLinearMap b = f.hom b from rfl, ← hAlg b, mul_comm]
   | add z₁ z₂ h₁ h₂ =>
-      show TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C M
+      change TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C M
           (c ⊗ₜ[B] (z₁ + z₂)) =
         c • (TensorProduct.map f.hom.toLinearMap LinearMap.id (z₁ + z₂))
       change _ = c • (TensorProduct.map f.hom.toLinearMap LinearMap.id z₁) at h₁
@@ -319,12 +316,12 @@ public theorem moduleValuedFunctorBaseChangeMap_bijective {A : Type u} [CommRing
   have hAlg : ∀ b : ι.obj B, algebraMap (ι.obj B) (ι.obj C) b = (ι.map f).hom b := fun _ => rfl
   let : IsScalarTower A (ι.obj B) (ι.obj C) := IsScalarTower.of_algebraMap_smul fun a c => by
     rw [Algebra.smul_def, Algebra.smul_def]
-    show algebraMap (ι.obj B) (ι.obj C) (algebraMap A (ι.obj B) a) * c =
+    change algebraMap (ι.obj B) (ι.obj C) (algebraMap A (ι.obj B) a) * c =
       algebraMap A (ι.obj C) a * c
     rw [hAlg, (ι.map f).hom.commutes]
   have : Module.Flat (ι.obj B) (ι.obj C) := hf
   let : SMulCommClass (ι.obj B) (ι.obj C) (ι.obj C) := ⟨fun b c d => by
-    show (algebraMap (ι.obj B) (ι.obj C) b) * (c * d) =
+    change (algebraMap (ι.obj B) (ι.obj C) b) * (c * d) =
       c * ((algebraMap (ι.obj B) (ι.obj C) b) * d)
     ac_rfl⟩
   obtain ⟨M, N, g, hg⟩ := hF
@@ -340,16 +337,15 @@ public theorem moduleValuedFunctorBaseChangeMap_bijective {A : Type u} [CommRing
         ((cancelBaseChangeKernelEquiv (A := A) (B := ι.obj B) (C := ι.obj C) g.hom).trans eC.symm))
   have heq : eTotal.toLinearMap = moduleValuedFunctorBaseChangeMap ι F f := by
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul c x =>
         let y : F.obj xC := (F.map f.op.op).hom x
-        show eC.symm _ = c • y
+        change eC.symm _ = c • y
         refine eC.symm_apply_eq.mpr ?_
         rw [map_smul]
         apply Subtype.ext
         have hn := adequateValueKernelEquiv_naturality q i f.op.op x
-        show TensorProduct.AlgebraTensorModule.cancelBaseChange A (ι.obj B) (ι.obj C) (ι.obj C) M
+        change TensorProduct.AlgebraTensorModule.cancelBaseChange A (ι.obj B) (ι.obj C) (ι.obj C) M
             (c ⊗ₜ[ι.obj B] ((eB x : LinearMap.ker (q.app xB).hom) :
               ((moduleExtensionFunctorOn.{max u v w} ι).obj M).obj xB)) =
           c • ((eC ((F.map f.op.op) x) : LinearMap.ker (q.app xC).hom) :

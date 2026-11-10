@@ -138,7 +138,7 @@ private theorem generatesStalkIdeal_germ (Z : RingedSpace.{u})
   have hsmul : idealSection Z i (op W) bW = r' * idealSection Z i (op W) aW := by
     have hr' : bW = r' • aW := hr
     rw [hr']
-    show (i.val.app (op W)).hom (r' • aW) = _
+    change (i.val.app (op W)).hom (r' • aW) = _
     rw [map_smul]
     rfl
   calc c = ringGerm Z z V hzV (idealSection Z i (op V) b) := hb.symm

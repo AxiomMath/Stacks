@@ -140,7 +140,7 @@ theorem zeroComponent_compatible_pair {E : A} (s : E ⟶ ((cechComplexFunctor U)
       interLift U c ≫ interMap U y (fun _ ↦ k) = c k ≫ (interUnaryIso U (y k)).inv :=
     inter_hom_ext U fun a ↦ by
       rw [Category.assoc, interMap_comp_interπ, interLift_comp_interπ, Category.assoc]
-      show c k = c k ≫ (interUnaryIso U (y k)).inv ≫ interπ U (fun _ ↦ y k) a
+      change c k = c k ≫ (interUnaryIso U (y k)).inv ≫ interπ U (fun _ ↦ y k) a
       rw [interUnaryIso_inv_comp_interπ, Category.comp_id]
   rw [zeroComponent_comp_map, zeroComponent_comp_map, ← hk 0, ← hk 1]
   exact h1.symm

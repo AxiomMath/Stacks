@@ -687,7 +687,7 @@ variable {Z X Y : Scheme.{u}} (i : Z ⟶ X) (j : Z ⟶ Y) (p : X ⟶ Y)
 omit [IsImmersion i] [IsImmersion j] in
 private theorem preimage_eq_of_triangle (h : i ≫ p = j) (A : Y.Opens) :
     j ⁻¹ᵁ A = i ⁻¹ᵁ (p ⁻¹ᵁ A) := by
-  show _ = (i ≫ p) ⁻¹ᵁ A
+  change _ = (i ≫ p) ⁻¹ᵁ A
   rw [h]
 
 /-- **A section of the ideal sheaf of `g` pulls back along `q` to one of the ideal sheaf of `f`.**
@@ -1099,7 +1099,7 @@ theorem epi_conormalSequenceSecondArrow (h : i ≫ p = j) :
         (universalFirstOrderThickening i).inclusion (universalFirstOrderThickening j).inclusion
         (thickeningComparison i j p h) (inclusion_comp_thickeningComparison i j p h))
   have h0 : Epi (thirdTermIso i j p h).inv := IsIso.epi_of_iso _
-  show Epi (secondArrow (universalFirstOrderThickening i).inclusion
+  change Epi (secondArrow (universalFirstOrderThickening i).inclusion
     (thickeningComparison i j p h) ≫ (thirdTermIso i j p h).inv)
   exact epi_comp' hsa h0
 

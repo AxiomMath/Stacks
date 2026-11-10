@@ -101,7 +101,7 @@ theorem derivedPullbackCompIsoCanonical_assoc_app_locallySmall (f : X ⟶ Y) (g 
       (derivedPullbackCompIsoCanonical f (g ≫ h)).hom
   suffices hαβ : α = β from congr_app hαβ M
   refine natTrans_ext_of_equivalence E α β fun K => ?_
-  show (derivedPullbackCompIsoCanonical f g).hom.app ((derivedPullback h).obj (E.functor.obj K)) ≫
+  change (derivedPullbackCompIsoCanonical f g).hom.app ((derivedPullback h).obj (E.functor.obj K)) ≫
       (derivedPullbackCompIsoCanonical (f ≫ g) h).hom.app (E.functor.obj K) =
     (derivedPullback f).map ((derivedPullbackCompIsoCanonical g h).hom.app (E.functor.obj K)) ≫
       (derivedPullbackCompIsoCanonical f (g ≫ h)).hom.app (E.functor.obj K)

@@ -94,7 +94,7 @@ theorem pairing_eq_sum (n : ℕ) (e : L →+ L' →+ ZMod (p ^ n)) (a : L) (b : 
     e a b = ∑ i, ∑ j, PadicInt.toZModPow n (m.repr a i) * PadicInt.toZModPow n (m'.repr b j) *
         e (m i) (m' j) := by
   conv_lhs => rw [← m.sum_repr a, ← m'.sum_repr b]
-  rw [map_sum (e : L →+ L' →+ ZMod (p ^ n)), AddMonoidHom.finset_sum_apply]
+  rw [map_sum (e : L →+ L' →+ ZMod (p ^ n)), AddMonoidHom.finsetSum_apply]
   simp only [map_sum]
   refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
   rw [map_smul_eq_toZModPow_mul (e (m.repr a i • m i))]
@@ -177,10 +177,10 @@ theorem isGoodMod_of_succ {n : ℕ} {J : Matrix ι ι' ℤ_[p]}
     rwa [← RingHom.comp_apply, PadicInt.zmod_cast_comp_toZModPow _ _ n.le_succ,
       ← RingHom.comp_apply, PadicInt.zmod_cast_comp_toZModPow _ _ n.le_succ] at hc
 
-omit [DecidableEq ι] [DecidableEq ι'] in
+omit [Fintype ι] [Fintype ι'] [DecidableEq ι] [DecidableEq ι'] in
 include m m' in
 /-- **An equivariant pairing over `ℤ_p` from equivariant pairings modulo every `pⁿ`.** -/
-theorem exists_pairing_of_forall_zmodPow_of_basis
+theorem exists_pairing_of_forall_zmodPow_of_basis [Finite ι] [Finite ι']
     (h : ∀ n : ℕ, ∃ e : L →+ L' →+ ZMod (p ^ n),
       (∀ a, (∀ b, e a b = 0) → ∃ a', (p : ℤ_[p]) ^ K • a = (p : ℤ_[p]) ^ n • a') ∧
       (∀ b, (∀ a, e a b = 0) → ∃ b', (p : ℤ_[p]) ^ K • b = (p : ℤ_[p]) ^ n • b') ∧
@@ -188,6 +188,8 @@ theorem exists_pairing_of_forall_zmodPow_of_basis
     ∃ β : L →ₗ[ℤ_[p]] L' →ₗ[ℤ_[p]] ℤ_[p], (∀ a, (∀ b, β a b = 0) → a = 0) ∧
       (∀ b, (∀ a, β a b = 0) → b = 0) ∧ ∀ a b, β (f a) (g b) = c * β a b := by
   classical
+  have := Fintype.ofFinite ι
+  have := Fintype.ofFinite ι'
   let t : ℕ → Set (Matrix ι ι' ℤ_[p]) := fun n => {J | IsGoodMod m m' f g c K n J}
   have hcl : ∀ n, IsClosed (t n) := fun n =>
     isClosed_setOf_of_map_eq n _ fun J J' hJ => isGoodMod_congr m m' f g c K hJ
@@ -282,12 +284,10 @@ theorem rationalPairing_baseChange_baseChange (β : M →ₗ[ℤ_[p]] M' →ₗ[
     (w : ℚ_[p] ⊗[ℤ_[p]] M') :
     rationalPairing β (f.baseChange ℚ_[p] v) (g.baseChange ℚ_[p] w) =
       c * rationalPairing β v w := by
-  induction v using TensorProduct.induction_on with
-  | zero => simp
+  induction v using TensorProduct.inductionOn with
   | add v v' hv hv' => simp only [map_add, LinearMap.add_apply, hv, hv', mul_add]
   | tmul x a =>
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | add w w' hw hw' => simp only [map_add, hw, hw', mul_add]
     | tmul y b =>
       simp only [LinearMap.baseChange_tmul, rationalPairing_tmul, h]

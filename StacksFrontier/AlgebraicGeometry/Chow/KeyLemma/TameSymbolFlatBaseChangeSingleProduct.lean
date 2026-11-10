@@ -271,7 +271,7 @@ theorem exists_baseChangeFibreLocalizationAlgEquiv (q : MaximalSpectrum B)
     isLocalization_atPrime_of_eq _ h𝔭.symm
   have : IsScalarTower A' (A' ⊗[A] B) (Localization.AtPrime p.asIdeal) :=
     IsScalarTower.of_algebraMap_eq fun x => by
-      show algebraMap A' (Localization.AtPrime p.asIdeal) x =
+      change algebraMap A' (Localization.AtPrime p.asIdeal) x =
         algebraMap (A' ⊗[A] Localization.AtPrime q.asIdeal) (Localization.AtPrime p.asIdeal)
           (algebraMap (A' ⊗[A] B) (A' ⊗[A] Localization.AtPrime q.asIdeal)
             (algebraMap A' (A' ⊗[A] B) x))
@@ -283,11 +283,11 @@ theorem exists_baseChangeFibreLocalizationAlgEquiv (q : MaximalSpectrum B)
     (Localization.AtPrime 𝔭.asIdeal) (Localization.AtPrime p.asIdeal) with he₀
   refine ⟨AlgEquiv.ofRingEquiv (f := e₀.toRingEquiv) (fun x => ?_), fun z => ?_⟩
   · rw [IsScalarTower.algebraMap_apply A' (A' ⊗[A] B) (Localization.AtPrime 𝔭.asIdeal)]
-    show e₀ (algebraMap (A' ⊗[A] B) (Localization.AtPrime 𝔭.asIdeal)
+    change e₀ (algebraMap (A' ⊗[A] B) (Localization.AtPrime 𝔭.asIdeal)
       (algebraMap A' (A' ⊗[A] B) x)) = _
     rw [e₀.commutes, IsScalarTower.algebraMap_apply A' (A' ⊗[A] B)
       (Localization.AtPrime p.asIdeal)]
-  · show e₀ (algebraMap (A' ⊗[A] B) (Localization.AtPrime 𝔭.asIdeal) z) = _
+  · change e₀ (algebraMap (A' ⊗[A] B) (Localization.AtPrime 𝔭.asIdeal) z) = _
     rw [e₀.commutes]
     rfl
 
@@ -329,7 +329,7 @@ theorem units_map_norm_factorizationValue_baseChange
         (baseChangeLocalRingHom q 𝔭 hq)) ?_
     · exact DFunLike.congr_fun hring x
     · ext b
-      show baseChangeLocalizationHom A' p (algebraMap B (Localization.AtPrime q.asIdeal) b) =
+      change baseChangeLocalizationHom A' p (algebraMap B (Localization.AtPrime q.asIdeal) b) =
         e (baseChangeLocalRingHom q 𝔭 hq (algebraMap B (Localization.AtPrime q.asIdeal) b))
       rw [baseChangeLocalRingHom_algebraMap, he, algebraMap_right_eq_includeRight,
         baseChangeSemilocalization_includeRight, baseChangeLocalizationHom_apply]
@@ -352,6 +352,7 @@ variable {A : Type u} [CommRing A] [IsNoetherianRing A] [IsLocalRing A] [Ring.Kr
   [∀ q : MaximalSpectrum B, IsNoetherianRing (Localization.AtPrime q.asIdeal)]
   [∀ q : MaximalSpectrum B, Ring.KrullDimLE 1 (Localization.AtPrime q.asIdeal)]
 
+omit [IsNoetherianRing A] [Ring.KrullDimLE 1 A] in
 /-- **Stacks 0EPG for a general pair of nonzerodivisors, as a single product over the maximal
 ideals of the base change.** Let `(A, 𝔪, κ) → (A', 𝔪', κ')` be a flat local homomorphism of
 one-dimensional Noetherian local rings and let `m = length_{A'}(A' / 𝔪A')`. Let `A ⊆ B` be a
@@ -388,7 +389,7 @@ theorem map_symbolValue_pow_eq_prod_maximalSpectrum
     {m : ℕ} (hm : Module.length A' (A' ⧸ extendedMaximalIdeal A A') = m)
     {r : ℕ} {a : Fin r → A} (P : TameSymbolPreparation a B) (i j : Fin r)
     [∀ q : MaximalSpectrum B,
-      Fintype (Stacks.Length.tensorSupport A A' (P.parameter q.asIdeal))] :
+      Finite (Stacks.Length.tensorSupport A A' (P.parameter q.asIdeal))] :
     Units.map (ResidueField.map (algebraMap A A')).toMonoidHom (P.symbolValue i j) ^ m =
       ∏ 𝔭 : MaximalSpectrum (A' ⊗[A] B),
         Units.map (Algebra.norm (ResidueField A') :
@@ -400,6 +401,9 @@ theorem map_symbolValue_pow_eq_prod_maximalSpectrum
               (P.factorUnit (baseChangeUnder 𝔭).asIdeal j))
             (P.exponent (baseChangeUnder 𝔭).asIdeal i)
             (P.exponent (baseChangeUnder 𝔭).asIdeal j)) := by
+  have (q : MaximalSpectrum B) :
+      Fintype (Stacks.Length.tensorSupport A A' (P.parameter q.asIdeal)) :=
+    Fintype.ofFinite _
   have hfin : Module.length A' (A' ⧸ extendedMaximalIdeal A A') ≠ ⊤ := by
     rw [hm]; exact ENat.natCast_ne_top m
   have hart : ∀ q : MaximalSpectrum B,

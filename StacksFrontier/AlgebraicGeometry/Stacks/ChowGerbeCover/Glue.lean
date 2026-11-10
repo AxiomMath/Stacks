@@ -79,7 +79,7 @@ theorem exists_covering_sieve_of_points_cover {Z : (BigFppfOver B S hS)ᵒᵖ �
   have hfac : (Sigma.desc fun i => (U' i).ι) =
       Sigma.desc (fun i => Subfunctor.homOfLe (le_iSup U' i)) ≫ (⨆ i, U' i).ι := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Sigma.ι_desc, Sigma.ι_desc_assoc, Subfunctor.homOfLe_ι]
+    rw [Sigma.ι_comp_desc, Sigma.ι_comp_desc_assoc, Subfunctor.homOfLe_ι]
   have hmem : Z.map f.op z ∈ (⨆ i, U' i).obj (op V) := by
     rw [← ht, hfac]
     exact ((Sigma.desc fun i => Subfunctor.homOfLe (le_iSup U' i)).app (op V) t).2
@@ -115,7 +115,7 @@ private theorem app_fiber_eq_map_of_hom {Z Y₀ : (BigFppfOver B S hS)ᵒᵖ ⥤
     (⟨g.app (op a.base) a.fiber.as, ha⟩ : U.toFunctor.obj (op a.base)) =
       U.toFunctor.map m.base.op ⟨g.app (op b.base) b.fiber.as, hb⟩ := by
   refine Subtype.ext ?_
-  show g.app (op a.base) a.fiber.as = Y₀.map m.base.op (g.app (op b.base) b.fiber.as)
+  change g.app (op a.base) a.fiber.as = Y₀.map m.base.op (g.app (op b.base) b.fiber.as)
   rw [fibredCategory_fiber_eq m]
   exact NatTrans.naturality_apply g m.base.op b.fiber.as
 

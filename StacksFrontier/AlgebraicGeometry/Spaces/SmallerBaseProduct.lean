@@ -79,7 +79,7 @@ theorem isAlgebraicSpace_restrict_iff_product
           rfl }
     let δ : K ⟶ RH :=
       { app W := ↾fun γ => Over.homMk γ.left (by
-          show γ.left ≫ f = W.unop.hom ≫ f
+          change γ.left ≫ f = W.unop.hom ≫ f
           exact congrArg (· ≫ f) (Over.w γ))
         naturality := by
           intro W W' g
@@ -96,10 +96,10 @@ theorem isAlgebraicSpace_restrict_iff_product
         Equiv.mk (fun z => z.1.1.2)
           (fun s =>
             let x : RP.obj W := by
-              show H.obj (R.obj W) × F'.obj (R.obj W)
+              change H.obj (R.obj W) × F'.obj (R.obj W)
               exact (αBase W, s)
             ⟨(x, αW W), by
-              show x.1 = δ.app W (αW W)
+              change x.1 = δ.app W (αW W)
               rfl⟩)
           (by
             intro z

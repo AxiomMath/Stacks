@@ -200,7 +200,7 @@ theorem eq_of_relationSumAt_eq_zero (r : ℕ) (k : ℤ)
     b = b' := by
   set δ : ∀ j : Fin (r + 1), A (k - ((j : ℕ) : ℤ)) := fun j => b j - b' j with hδ
   have hδ0 : δ 0 = 0 := by
-    show b 0 - b' 0 = 0
+    change b 0 - b' 0 = 0
     rw [h0, sub_self]
   have hrel : relationSumAt e pull cap r k δ = 0 := by
     simp only [relationSumAt, hδ, relationTerm_sub, Finset.sum_sub_distrib] at hb hb' ⊢
@@ -291,7 +291,7 @@ theorem exists_relationSum_eq_zero (r : ℕ)
           ((Pi.evalAddMonoidHom (fun i => A (d k i)) ((Fin.rev j).castPred hj)).comp (ψ k))
   have hlast : ∀ k α, c 0 k α = degreeCast A (by simp) α := fun k α => by
     have hj : Fin.rev (0 : Fin (r + 1)) = Fin.last r := Fin.rev_zero r
-    simp only [c, dif_pos hj]
+    simp only [c, dite_eq_left hj]
   refine ⟨c, hlast, fun k α => ?_⟩
   · -- the summands of index `i < r` reassemble `ψ k α`; the last one is `-y k α`
     rw [relationSum, relationSumAt, Fin.sum_univ_castSucc,
@@ -311,7 +311,7 @@ theorem exists_relationSum_eq_zero (r : ℕ)
           ((-1 : ℤ) ^ (((Fin.rev (Fin.rev (Fin.castSucc i))).castPred hrev : Fin r) : ℕ)) •
             degreeCast A (existence_degree r k _ hrev)
               (ψ k α ((Fin.rev (Fin.rev (Fin.castSucc i))).castPred hrev)) := by
-        simp only [c, dif_neg hrev]
+        simp only [c, dite_eq_right hrev]
         rfl
       rw [relationTerm, hc, map_zsmul, pull_degreeCast, map_zsmul]
       have hpow : (((Fin.rev (Fin.rev (Fin.castSucc i))).castPred hrev : Fin r) : ℕ) =

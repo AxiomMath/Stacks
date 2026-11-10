@@ -168,11 +168,11 @@ private lemma pullbackArrowHom_isCompactification (f : X ⟶ Z) (g : Y ⟶ Z) :
   have hpg : IsProper (Arrow.Hom.right g.hom).left :=
     isProper_left_of_isProper (Arrow.Hom.right g.hom)
   have him : IsOpenImmersion (pullbackImmersion f g) := by
-    show IsOpenImmersion (pullback.map _ _ _ _ X.obj.hom.left Y.obj.hom.left Z.obj.hom.left
+    change IsOpenImmersion (pullback.map _ _ _ _ X.obj.hom.left Y.obj.hom.left Z.obj.hom.left
       (immersion_comp_right f) (immersion_comp_right g))
     infer_instance
   have hqc : QuasiCompact (pullbackImmersion f g) := by
-    show QuasiCompact (pullback.map _ _ _ _ X.obj.hom.left Y.obj.hom.left Z.obj.hom.left
+    change QuasiCompact (pullback.map _ _ _ _ X.obj.hom.left Y.obj.hom.left Z.obj.hom.left
       (immersion_comp_right f) (immersion_comp_right g))
     rw [pullback_map_eq_pullbackFstFstIso_inv]
     infer_instance
@@ -234,13 +234,13 @@ private lemma pullbackCompactification_condition (f : X ⟶ Z) (g : Y ⟶ Z) :
   apply ObjectProperty.hom_ext
   apply Arrow.hom_ext
   · apply Over.OverMorphism.ext
-    show pullback.fst (Arrow.Hom.left f.hom).left (Arrow.Hom.left g.hom).left ≫
+    change pullback.fst (Arrow.Hom.left f.hom).left (Arrow.Hom.left g.hom).left ≫
       (Arrow.Hom.left f.hom).left =
       pullback.snd (Arrow.Hom.left f.hom).left (Arrow.Hom.left g.hom).left ≫
       (Arrow.Hom.left g.hom).left
     exact pullback.condition
   · apply Over.OverMorphism.ext
-    show pullback.fst (Arrow.Hom.right f.hom).left (Arrow.Hom.right g.hom).left ≫
+    change pullback.fst (Arrow.Hom.right f.hom).left (Arrow.Hom.right g.hom).left ≫
       (Arrow.Hom.right f.hom).left =
       pullback.snd (Arrow.Hom.right f.hom).left (Arrow.Hom.right g.hom).left ≫
       (Arrow.Hom.right g.hom).left
@@ -331,7 +331,7 @@ private lemma equalizerCompactificationToX_mem {S : Scheme.{u}}
     have := isClosedImmersion_equalizer_ι_left_compactification f g
     infer_instance
   dsimp only [interiorIsomorphisms, equalizerCompactificationToX]
-  show IsIso (pullback.fst X.obj.hom.left e.left)
+  change IsIso (pullback.fst X.obj.hom.left e.left)
   rw [← hl]
   infer_instance
 
@@ -344,7 +344,7 @@ private lemma equalizerCompactificationToX_condition {S : Scheme.{u}}
   apply Arrow.hom_ext
   · apply Over.OverMorphism.ext
     dsimp only [equalizerCompactificationToX]
-    show pullback.fst X.obj.hom.left
+    change pullback.fst X.obj.hom.left
       (equalizer.ι (Arrow.Hom.right f.hom) (Arrow.Hom.right g.hom)).left ≫
       (Arrow.Hom.left f.hom).left =
       pullback.fst X.obj.hom.left
@@ -353,7 +353,7 @@ private lemma equalizerCompactificationToX_condition {S : Scheme.{u}}
     rw [h]
   · apply Over.OverMorphism.ext
     dsimp only [equalizerCompactificationToX]
-    show (equalizer.ι (Arrow.Hom.right f.hom) (Arrow.Hom.right g.hom)).left ≫
+    change (equalizer.ι (Arrow.Hom.right f.hom) (Arrow.Hom.right g.hom)).left ≫
       (Arrow.Hom.right f.hom).left =
       (equalizer.ι (Arrow.Hom.right f.hom) (Arrow.Hom.right g.hom)).left ≫
       (Arrow.Hom.right g.hom).left

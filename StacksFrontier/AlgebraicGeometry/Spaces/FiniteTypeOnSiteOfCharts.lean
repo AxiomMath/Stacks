@@ -9,8 +9,8 @@ import StacksFrontier.AlgebraicGeometry.CoherentFinite.Basic
 # Finite type on charts implies finite type on the small étale site
 
 Let `X` be an algebraic space and `M` a quasi-coherent `𝒪_X`-module on the small étale site.
-`StacksFrontier.AlgebraicGeometry.Spaces.ChartRestrictionFromSite` shows that if `M` is of finite type
-on the site then it is of finite type on charts.  This file proves the converse, so that for a
+`StacksFrontier.AlgebraicGeometry.Spaces.ChartRestrictionFromSite` shows that if `M` is of finite
+type on the site then it is of finite type on charts. This file proves the converse, so that for a
 quasi-coherent module the two readings of finite type agree.
 
 ## Main results

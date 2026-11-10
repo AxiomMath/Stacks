@@ -262,7 +262,7 @@ theorem ofHom_homOfLocal {f : ∀ U : C, LocalHom K L 0 U}
   refine LocalHom.ext fun i j hij V x => ?_
   obtain rfl : i = j := by omega
   rw [LocalHom.ofHom_app, castHom_self]
-  show (f V.left).app i i (add_zero i) (Over.mk (𝟙 V.left)) x = (f U).app i i hij V x
+  change (f V.left).app i i (add_zero i) (Over.mk (𝟙 V.left)) x = (f U).app i i hij V x
   refine Eq.trans ?_ (LocalGradedHom.app_mk_congr (f U).toLocalGradedHom i i hij
     (Category.id_comp V.hom) x)
   exact (LocalHom.app_congr (hf (U := U) (U' := V.left) V.hom) i i (add_zero i)
@@ -321,7 +321,7 @@ theorem tensorHomLocalEquiv_restrict (hT : IsTensorProduct M N T) (hH : IsSheafH
   have huniv : hT.universal L n U' (f.restrict g) = (hT.universal L n U f).restrict g :=
     LocalBalancedBilinear.ext fun i j k hijk V x y => by
       rw [LocalBalancedBilinear.restrict_app, hT.universal_restrict L n g f i j k hijk V x y]
-  show ofBalancedDg hH (hT.universal L n U' (f.restrict g)) = _
+  change ofBalancedDg hH (hT.universal L n U' (f.restrict g)) = _
   rw [huniv]
   exact (ofBalancedDg_restrict hH g (hT.universal L n U f)).symm
 

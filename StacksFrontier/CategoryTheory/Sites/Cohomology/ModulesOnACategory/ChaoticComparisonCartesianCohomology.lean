@@ -293,7 +293,7 @@ theorem isLE_derivedEpsilonPushforward_obj
   have hLB : DerivedCategoryB.derivedCategoryB (cartesianSheaves.{w} R) L := hL
   let tower := Stacks.DerivedLimit.truncGETower S L
   have htowerGE : ∀ n : ℕ, (tower.obj ⟨n⟩).IsGE (-(n : ℤ)) := fun n => by
-    show ((t.truncGE _).obj L).IsGE _
+    change ((t.truncGE _).obj L).IsGE _
     infer_instance
   -- every stage of the pushed-forward tower lives in degrees `≤ b`
   have hstage : ∀ n : ℕ, (G.obj (tower.obj ⟨n⟩)).IsLE b := by
@@ -302,7 +302,7 @@ theorem isLE_derivedEpsilonPushforward_obj
     have := htowerGE n
     have hGE : (tower.obj ⟨n⟩).IsGE a := t.isGE_of_ge _ a (-(n : ℤ)) (min_le_left _ _)
     have hLE : (tower.obj ⟨n⟩).IsLE b := by
-      show ((t.truncGE _).obj L).IsLE b
+      change ((t.truncGE _).obj L).IsLE b
       infer_instance
     simpa using Stacks.Cohomology.OlssonLaszlo.isLE_map_obj_of_bounded G
       (cartesianSheaves.{w} R) 0 hsingle (b - a).toNat (tower.obj ⟨n⟩)
@@ -322,7 +322,7 @@ theorem isLE_derivedEpsilonPushforward_obj
   have hq (n : ℕ) : qmap ≫ Pi.π (fun n : ℕ ↦ tower.obj ⟨n⟩) n =
       (t.truncGEπ (-(n : ℤ))).app L := Pi.lift_comp_π _ n
   have hzero : qmap ≫ T.mor₂ = 0 := by
-    show qmap ≫ diff = 0
+    change qmap ≫ diff = 0
     apply Pi.hom_ext
     intro n
     rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, hq n, ← Category.assoc, hq (n + 1),
@@ -428,13 +428,13 @@ theorem nonempty_iso_homology_derivedEpsilonPushforward_obj
   have hK'B : DerivedCategoryB.derivedCategoryB (cartesianSheaves.{w} R) K' :=
     derivedCategoryB_truncLT_obj.{w} R K hKB (j + 1)
   have : K'.IsLE j := by
-    show ((t.truncLT (j + 1)).obj K).IsLE j
+    change ((t.truncLT (j + 1)).obj K).IsLE j
     infer_instance
   let T₂ := (t.triangleLTGE j).obj K'
   have hT₂ : G.mapTriangle.obj T₂ ∈ distTriang _ :=
     G.map_distinguished _ (t.triangleLTGE_distinguished j K')
   have : T₂.obj₁.IsLE (j - 1) := by
-    show ((t.truncLT j).obj K').IsLE (j - 1)
+    change ((t.truncLT j).obj K').IsLE (j - 1)
     infer_instance
   have : (G.obj T₂.obj₁).IsLE (j - 1) :=
     isLE_derivedEpsilonPushforward_obj.{w} R hacyc T₂.obj₁
@@ -451,10 +451,10 @@ theorem nonempty_iso_homology_derivedEpsilonPushforward_obj
     exact isIso_of_mono_of_epi _
   -- `τ_{≥ j}K'` is a single object in degree `j`
   have : T₂.obj₃.IsGE j := by
-    show ((t.truncGE j).obj K').IsGE j
+    change ((t.truncGE j).obj K').IsGE j
     infer_instance
   have : T₂.obj₃.IsLE j := by
-    show ((t.truncGE j).obj K').IsLE j
+    change ((t.truncGE j).obj K').IsLE j
     infer_instance
   obtain ⟨M, ⟨e⟩⟩ := DerivedCategory.exists_iso_singleFunctor_obj_of_isGE_of_isLE T₂.obj₃ j
   have i₁ : IsIso ((HS j).map T₂.mor₂) :=
@@ -582,7 +582,7 @@ theorem homEquiv_baseChangeCounitApp (P : PresheafOfModules.{max t r} O) (V : C�
     (ModuleCat.extendRestrictScalarsAdj.{max t r, r, r} (rho O hX V)).homEquiv _ _
       (baseChangeCounitApp O hX P V) = P.map (iota hX V) := by
   ext x
-  show (1 : O.obj V) • (show P.obj V from (P.map (iota hX V)).hom x) =
+  change (1 : O.obj V) • (show P.obj V from (P.map (iota hX V)).hom x) =
     (show P.obj V from (P.map (iota hX V)).hom x)
   exact one_smul _ _
 

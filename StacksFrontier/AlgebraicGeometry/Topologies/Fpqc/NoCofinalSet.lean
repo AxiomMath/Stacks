@@ -111,12 +111,12 @@ private lemma separatorMap_faithfullyFlat (R : Type u) [CommRing R] [Nontrivial 
     obtain ⟨q', hq'⟩ : q ∈ Set.range (PrimeSpectrum.comap (algebraMap P T)) := by
       rw [PrimeSpectrum.localization_comap_range T S]; exact hdisjoint
     refine ⟨q', ?_⟩
-    show PrimeSpectrum.comap ((algebraMap P T).comp (MvPolynomial.C)) q' = p
+    change PrimeSpectrum.comap ((algebraMap P T).comp (MvPolynomial.C)) q' = p
     rw [PrimeSpectrum.comap_comp_apply, hq']
     apply PrimeSpectrum.ext
     ext r
     simp only [q, PrimeSpectrum.comap, Ideal.mem_comap]
-    show MvPolynomial.map (Ideal.Quotient.mk p.asIdeal) (MvPolynomial.C r) = 0 ↔ _
+    change MvPolynomial.map (Ideal.Quotient.mk p.asIdeal) (MvPolynomial.C r) = 0 ↔ _
     rw [MvPolynomial.map_C, MvPolynomial.C_eq_zero, Ideal.Quotient.eq_zero_iff_mem]
   exact RingHom.FaithfullyFlat.iff_flat_and_comap_surjective.mpr ⟨hflat, hsurj⟩
 

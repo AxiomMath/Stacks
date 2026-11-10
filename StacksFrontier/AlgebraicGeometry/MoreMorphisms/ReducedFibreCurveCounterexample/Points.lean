@@ -47,7 +47,7 @@ theorem mem_basicOpen_chartSection (r : R) (y : Spec R) :
       ⊤ ⊓ (Spec R).basicOpen (ι.app (ι ''ᵁ ⊤) (chartSection ι r)) := by
     rw [Scheme.Hom.appIso_hom, ConcreteCategory.comp_apply, Scheme.basicOpen_res]
   rw [chartSection, Iso.inv_hom_id_apply, basicOpen_eq_of_affine, top_inf_eq] at h2
-  show y ∈ (Spec R).basicOpen (ι.app (ι ''ᵁ ⊤) ((ι.appIso ⊤).inv ((Scheme.ΓSpecIso R).inv r))) ↔ _
+  change y ∈ (Spec R).basicOpen (ι.app (ι ''ᵁ ⊤) ((ι.appIso ⊤).inv ((Scheme.ΓSpecIso R).inv r))) ↔ _
   rw [← h2]
   exact PrimeSpectrum.mem_basicOpen _ _
 
@@ -59,7 +59,7 @@ theorem appLE_chartSection (F : Z' ⟶ Z) (φ : R ⟶ R') (h : ι' ≫ F = Spec.
     (hle : ι' ''ᵁ ⊤ ≤ F ⁻¹ᵁ (ι ''ᵁ ⊤)) (r : R) :
     F.appLE (ι ''ᵁ ⊤) (ι' ''ᵁ ⊤) hle (chartSection ι r) = chartSection ι' (φ r) := by
   apply (ι'.appIso ⊤).commRingCatIsoToRingEquiv.injective
-  show (ι'.appIso ⊤).hom (F.appLE (ι ''ᵁ ⊤) (ι' ''ᵁ ⊤) hle (chartSection ι r)) =
+  change (ι'.appIso ⊤).hom (F.appLE (ι ''ᵁ ⊤) (ι' ''ᵁ ⊤) hle (chartSection ι r)) =
     (ι'.appIso ⊤).hom (chartSection ι' (φ r))
   rw [show chartSection ι' (φ r) = (ι'.appIso ⊤).inv ((Scheme.ΓSpecIso R').inv (φ r)) from rfl,
     Iso.inv_hom_id_apply, ← ConcreteCategory.comp_apply,
@@ -68,7 +68,7 @@ theorem appLE_chartSection (F : Z' ⟶ Z) (φ : R ⟶ R') (h : ι' ≫ F = Spec.
       G.appLE (ι ''ᵁ ⊤) ⊤ e (chartSection ι r) = (Scheme.ΓSpecIso R').inv (φ r) := by
     rintro G rfl e
     have e' : ⊤ ≤ Spec.map φ ⁻¹ᵁ ι ⁻¹ᵁ ι ''ᵁ ⊤ := e
-    show ((Spec.map φ).appLE (ι ⁻¹ᵁ ι ''ᵁ ⊤) ⊤ e') (ι.app (ι ''ᵁ ⊤) (chartSection ι r)) = _
+    change ((Spec.map φ).appLE (ι ⁻¹ᵁ ι ''ᵁ ⊤) ⊤ e') (ι.app (ι ''ᵁ ⊤) (chartSection ι r)) = _
     rw [chartSection, ← ConcreteCategory.comp_apply _ (ι.app _), Scheme.Hom.appIso_inv_app,
       ← ConcreteCategory.comp_apply, Scheme.Hom.map_appLE,
       show ∀ h, (Spec.map φ).appLE ⊤ ⊤ h = (Spec.map φ).appTop from
@@ -174,14 +174,14 @@ origin of the line. -/
 theorem specMap_planeMap_specialPoint0 (n : ℕ) :
     Spec.map (CommRingCat.ofHom (planeMap k (n + 1)).toRingHom) (specialPoint0 k) = origin k := by
   apply PrimeSpectrum.ext
-  show Ideal.comap (planeMap k (n + 1)).toRingHom (Ideal.span {MvPolynomial.X 0}) =
+  change Ideal.comap (planeMap k (n + 1)).toRingHom (Ideal.span {MvPolynomial.X 0}) =
     Ideal.span {X}
   have := isMaximal_span_X k
   have : (Ideal.span {(MvPolynomial.X 0 : planeRing k)}).IsPrime := (specialPoint0 k).isPrime
   refine (Ideal.IsMaximal.eq_of_le inferInstance (Ideal.IsPrime.ne_top ?_) ?_).symm
   · exact Ideal.comap_isPrime _ _
   · rw [Ideal.span_singleton_le_iff_mem, Ideal.mem_comap]
-    show planeMap k (n + 1) X ∈ _
+    change planeMap k (n + 1) X ∈ _
     rw [planeMap, Polynomial.aeval_X, Ideal.mem_span_singleton, pow_succ,
       mul_comm _ (MvPolynomial.X 0), mul_assoc]
     exact dvd_mul_right _ _
@@ -207,7 +207,7 @@ theorem eq_specialPoint_of_specializes (n : ℕ) (a : total k)
   have h₀ := congrArg PrimeSpectrum.asIdeal ((baseι k n).isOpenEmbedding.injective hfa)
   change Ideal.comap (planeMap k (n + 1)).toRingHom a₀.asIdeal = Ideal.span {X} at h₀
   have hX : planeMap k (n + 1) X ∈ a₀.asIdeal := by
-    show X ∈ Ideal.comap (planeMap k (n + 1)).toRingHom a₀.asIdeal
+    change X ∈ Ideal.comap (planeMap k (n + 1)).toRingHom a₀.asIdeal
     rw [h₀]
     exact Ideal.subset_span rfl
   rw [planeMap, Polynomial.aeval_X] at hX

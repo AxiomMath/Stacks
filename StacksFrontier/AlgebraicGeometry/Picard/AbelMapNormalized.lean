@@ -47,9 +47,9 @@ theorem schemePullbackClass_baseChangeSection_normalize (T : BigFppfOver B S hS)
     Stacks.Picard.schemePullbackClass (baseChangeSection B hX hS f σ hσ T)
       (normalize B hX hS f σ hσ T x) = 0 := by
   rw [normalize]
-  show Stacks.Picard.schemePullbackClassHom (baseChangeSection B hX hS f σ hσ T) (x - _) = 0
+  change Stacks.Picard.schemePullbackClassHom (baseChangeSection B hX hS f σ hσ T) (x - _) = 0
   rw [map_sub]
-  show Stacks.Picard.schemePullbackClass (baseChangeSection B hX hS f σ hσ T) x -
+  change Stacks.Picard.schemePullbackClass (baseChangeSection B hX hS f σ hσ T) x -
     Stacks.Picard.schemePullbackClass (baseChangeSection B hX hS f σ hσ T) _ = 0
   rw [schemePullbackClass_baseChangeSection_baseChangeProj B hX hS f σ hσ T, sub_self]
 
@@ -75,7 +75,7 @@ theorem eq_of_toPicardFunctorHom_eq_of_normalized (T : BigFppfOver B S hS)
   rw [Stacks.Picard.schemePullbackClass_add, hx, zero_add,
     schemePullbackClass_baseChangeSection_baseChangeProj B hX hS f σ hσ T] at hx'
   rw [hx']
-  show x = x + Stacks.Picard.schemePullbackClassHom (baseChangeProj B hX hS f T) 0
+  change x = x + Stacks.Picard.schemePullbackClassHom (baseChangeProj B hX hS f T) 0
   rw [map_zero, add_zero]
 
 end Stacks.AbelMap

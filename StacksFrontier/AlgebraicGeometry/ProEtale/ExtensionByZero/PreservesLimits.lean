@@ -72,8 +72,7 @@ immersion — is not available.
 * `AlgebraicGeometry.ProEtale.preservesLimits_extensionByZero_unconditional`: **Stacks 09BP**,
   extension by zero of abelian pro-étale sheaves along a quasi-compact open immersion commutes
   with limits, with nothing assumed. `AlgebraicGeometry.ProEtale.preservesLimits_extensionByZero`
-  is the same conclusion in the shape the source's own proof gives it, carrying that proof's two
-  inputs as unused hypotheses.
+  is the same statement, under the name by which it is cited.
 
 ## Implementation notes
 
@@ -148,20 +147,20 @@ theorem preservesLimitsOfShape_of_isKernel_of_detectsZero
     uniq := ?_ }⟩
   · intro s i
     apply (cancel_mono (a.app (K.obj i))).1
-    show ((ha c.pt).lift (KernelFork.ofι (lift s) (lift_zero s)) ≫
+    change ((ha c.pt).lift (KernelFork.ofι (lift s) (lift_zero s)) ≫
       F.map (c.π.app i)) ≫ a.app (K.obj i) = _
     rw [Category.assoc, a.naturality, ← Category.assoc]
-    show ((ha c.pt).lift (KernelFork.ofι (lift s) (lift_zero s)) ≫
+    change ((ha c.pt).lift (KernelFork.ofι (lift s) (lift_zero s)) ≫
       (KernelFork.ofι (a.app c.pt) (w c.pt)).ι) ≫ _ = _
     rw [Fork.IsLimit.lift_ι]
     exact lift_fac s i
   · intro s m hm
     apply (cancel_mono (a.app c.pt)).1
-    show m ≫ a.app c.pt = (ha c.pt).lift (KernelFork.ofι (lift s) (lift_zero s)) ≫
+    change m ≫ a.app c.pt = (ha c.pt).lift (KernelFork.ofι (lift s) (lift_zero s)) ≫
       (KernelFork.ofι (a.app c.pt) (w c.pt)).ι
     rw [Fork.IsLimit.lift_ι]
     refine hG.hom_ext fun i ↦ ?_
-    show (m ≫ a.app c.pt) ≫ G.map (c.π.app i) = _
+    change (m ≫ a.app c.pt) ≫ G.map (c.π.app i) = _
     change ∀ i, m ≫ F.map (c.π.app i) = s.π.app i at hm
     rw [Category.assoc, ← a.naturality, ← Category.assoc, hm]
     exact (lift_fac s i).symm
@@ -403,26 +402,15 @@ end Conclusion
 
 section ConclusionWithHypotheses
 
-variable {Z U X : Scheme.{u}} (i : Z ⟶ X) (j : U ⟶ X)
+variable {U X : Scheme.{u}} (j : U ⟶ X)
 
 /-- **Stacks 09BP.** For a quasi-compact open immersion `j : U ⟶ X` of schemes, extension by
 zero `j_! : Ab(U_proétale) ⥤ Ab(X_proétale)` of abelian sheaves on the small pro-étale sites
 commutes with limits.
 
-Here `i : Z ⟶ X` is the inclusion of the closed complement of `U`, and the two inputs the
-source's own proof takes from elsewhere are carried as hypotheses: short exactness of the
-open-closed sequence of [Stacks, Tag 09AH](https://stacks.math.columbia.edu/tag/09AH), and the
-fact that `i^{-1}` commutes with limits, which is clause (1) of
-[Stacks, Tag 09AA](https://stacks.math.columbia.edu/tag/09AA).
-
-Neither is in fact needed, and none of the three hypotheses is used in the proof below: the
-conclusion is `preservesLimits_extensionByZero_unconditional`, which proves it with nothing
-assumed. This form is kept because it is the shape in which the statement is cited. -/
-theorem preservesLimits_extensionByZero [IsOpenImmersion j] [QuasiCompact j]
-    (hij : Set.range j.base = (Set.range i.base)ᶜ)
-    (hker : ∀ F : Sheaf (Scheme.ProEt.topology X) AddCommGrpCat.{max (u + 1) v},
-      (openClosedShortComplex.{u, v} i j hij F).ShortExact)
-    (hlim : PreservesLimits (Abelian.proetaleInverseImage.{u, v} i)) :
+This is `preservesLimits_extensionByZero_unconditional`, under the name by which the statement
+is cited. -/
+theorem preservesLimits_extensionByZero [IsOpenImmersion j] [QuasiCompact j] :
     PreservesLimits (Abelian.extensionByZero.{u, v} j) :=
   preservesLimits_extensionByZero_unconditional.{u, v} j
 

@@ -54,7 +54,7 @@ abbrev sectionsRingHom (U : X.Opens) : R ⟶ Γ(X, U) := φ ≫ X.presheaf.map (
 /-- The ring maps `R ⟶ Γ(X, U)` commute with the restriction maps of `𝒪_X`. -/
 theorem restrict_sectionsRingHom {U U' : X.Opens} (i : U' ⟶ U) (r : R) :
     (X.presheaf.map i.op).hom ((sectionsRingHom φ U).hom r) = (sectionsRingHom φ U').hom r := by
-  show ((φ ≫ X.presheaf.map (homOfLE le_top).op) ≫ X.presheaf.map i.op).hom r = _
+  change ((φ ≫ X.presheaf.map (homOfLE le_top).op) ≫ X.presheaf.map i.op).hom r = _
   rw [Category.assoc, ← Functor.map_comp]
   rfl
 
@@ -99,7 +99,7 @@ theorem isLocalizedModule_basePresheaf (hV : IsAffineOpen V) (g : Γ(X, V)) {U :
   let : Algebra Γ(X, V) Γ(X, U) := (X.presheaf.map (homOfLE hUV).op).hom.toAlgebra
   have : IsLocalization.Away g Γ(X, U) := hV.isLocalization_of_eq_basicOpen g (homOfLE hUV) hU
   have : IsScalarTower R Γ(X, V) Γ(X, U) := ⟨fun r a b => by
-    show (X.presheaf.map (homOfLE hUV).op).hom ((sectionsRingHom φ V).hom r * a) * b =
+    change (X.presheaf.map (homOfLE hUV).op).hom ((sectionsRingHom φ V).hom r * a) * b =
       (sectionsRingHom φ U).hom r * ((X.presheaf.map (homOfLE hUV).op).hom a * b)
     rw [map_mul, restrict_sectionsRingHom, mul_assoc]⟩
   have key := IsLocalizedModule.rTensor (R := R) (A := Γ(X, V)) (M := Γ(X, V))

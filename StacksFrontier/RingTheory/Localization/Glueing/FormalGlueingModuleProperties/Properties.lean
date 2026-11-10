@@ -53,8 +53,7 @@ private theorem baseChange_hom_ext
     (h : ∀ m, φ ((1 : S) ⊗ₜ[R] m) = ψ ((1 : S) ⊗ₜ[R] m)) : φ = ψ := by
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul s m =>
     have eq : s ⊗ₜ[R] m = s • ((1 : S) ⊗ₜ[R] m) := by
@@ -108,8 +107,7 @@ private noncomputable def finiteScalarExtensionMonoidal
             (AlgebraTensorModule.distribBaseChange R S M N ((1 : S) ⊗ₜ[R] t)) =
           AlgebraTensorModule.distribBaseChange R S M' N
             ((1 : S) ⊗ₜ[R] TensorProduct.map g.hom.hom LinearMap.id t)
-        induction t using TensorProduct.induction_on with
-        | zero => simp
+        induction t using TensorProduct.inductionOn with
         | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
         | tmul m n => rfl)
       (μIso_inv_natural_right := fun {N N'} M g ↦ by
@@ -120,8 +118,7 @@ private noncomputable def finiteScalarExtensionMonoidal
             (AlgebraTensorModule.distribBaseChange R S M N ((1 : S) ⊗ₜ[R] t)) =
           AlgebraTensorModule.distribBaseChange R S M N'
             ((1 : S) ⊗ₜ[R] TensorProduct.map LinearMap.id g.hom.hom t)
-        induction t using TensorProduct.induction_on with
-        | zero => simp
+        induction t using TensorProduct.inductionOn with
         | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
         | tmul m n => rfl)
       (oplax_associativity := fun M N K ↦ by
@@ -135,12 +132,10 @@ private noncomputable def finiteScalarExtensionMonoidal
           TensorProduct.map LinearMap.id (AlgebraTensorModule.distribBaseChange R S N K).toLinearMap
             (AlgebraTensorModule.distribBaseChange R S M (N ⊗[R] K)
               ((1 : S) ⊗ₜ[R] TensorProduct.assoc R M N K t))
-        induction t using TensorProduct.induction_on with
-        | zero => simp
+        induction t using TensorProduct.inductionOn with
         | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
         | tmul x k =>
-          induction x using TensorProduct.induction_on with
-          | zero => simp only [TensorProduct.zero_tmul, TensorProduct.tmul_zero, map_zero]
+          induction x using TensorProduct.inductionOn with
           | add x y hx hy => simp only [TensorProduct.add_tmul, TensorProduct.tmul_add, map_add, hx,
             hy]
           | tmul m n => rfl)
@@ -178,12 +173,10 @@ private noncomputable def finiteScalarExtensionBraided
       (TensorProduct.comm S (S ⊗[R] M) (S ⊗[R] N)).toLinearMap
   apply TensorProduct.ext'
   intro x y
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [TensorProduct.zero_tmul, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => simp only [TensorProduct.add_tmul, map_add, hx, hx']
   | tmul a m =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.tmul_zero, map_zero]
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => simp only [TensorProduct.tmul_add, map_add, hy, hy']
     | tmul b n =>
       simp only [LinearMap.comp_apply, LinearEquiv.coe_coe,
@@ -217,7 +210,7 @@ private theorem finiteScalarComparison_isMonoidal
   · apply FGModuleCat.hom_ext
     apply LinearMap.ext
     intro s
-    show τ.app (FGModuleCat.of R R) (s ⊗ₜ[S] ((1 : S) ⊗ₜ[R] (1 : R))) =
+    change τ.app (FGModuleCat.of R R) (s ⊗ₜ[S] ((1 : S) ⊗ₜ[R] (1 : R))) =
       s ⊗ₜ[T] ((1 : T) ⊗ₜ[R] (1 : R))
     have h := congrArg (fun x ↦ (show U from s) • x) (hτ (FGModuleCat.of R R) (1 : R))
     rw [← map_smul] at h
@@ -232,11 +225,10 @@ private theorem finiteScalarComparison_isMonoidal
     apply FGModuleCat.hom_ext
     apply doubleTensor_hom_ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.tmul_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
     | tmul m n =>
-      show (Functor.OplaxMonoidal.δ G M N)
+      change (Functor.OplaxMonoidal.δ G M N)
           (τ.app (M ⊗ N) ((1 : U) ⊗ₜ[S] ((1 : S) ⊗ₜ[R] (m ⊗ₜ[R] n)))) =
         (τ.app M ((1 : U) ⊗ₜ[S] ((1 : S) ⊗ₜ[R] m))) ⊗ₜ[U]
           (τ.app N ((1 : U) ⊗ₜ[S] ((1 : S) ⊗ₜ[R] n)))
@@ -249,11 +241,11 @@ set_option backward.isDefEq.respectTransparency false in
 structures and detection of finite generation, finite presentation, flatness, and projectivity. -/
 private theorem formalGlueing_equivalences :
     (∀ (R : Type u) (S : Type v) [CommRing R] [CommRing S] [Algebra R S]
-      (r : ℕ) (f : Fin r → R) (hflat : Module.Flat R S)
-      (hq : Function.Bijective
+      (r : ℕ) (f : Fin r → R), Module.Flat R S →
+      Function.Bijective
         (Ideal.quotientMap
           ((Ideal.span (Set.range f)).map (algebraMap R S))
-          (algebraMap R S) Ideal.le_comap_map)),
+          (algebraMap R S) Ideal.le_comap_map) →
       let c := moduleGlueingConstruction.{u, v, w} S f
       letI := c.category
       let G := ModuleGlueingDatum.{u, v, w} S f c.comparison
@@ -296,10 +288,10 @@ private theorem formalGlueing_equivalences :
           ∃ algebraEquivalence : CommMon (ModuleCat.{max u v w} R) ≌ CommMon G,
             algebraEquivalence = e.mapCommMon) ∧
     (∀ (R : Type u) (S : Type v) [CommRing R] [CommRing S] [Algebra R S]
-      (f : R) (hflat : Module.Flat R S)
-      (hq : Function.Bijective
+      (f : R), Module.Flat R S →
+      Function.Bijective
         (Ideal.quotientMap ((Ideal.span {f}).map (algebraMap R S))
-          (algebraMap R S) Ideal.le_comap_map)),
+          (algebraMap R S) Ideal.le_comap_map) →
       let Rf := Localization.Away f
       let Sf := Localization.Away (algebraMap R S f)
       let ρ := FormalGlueing.principalLocalizationMap R S f
@@ -553,14 +545,14 @@ private theorem formalGlueing_equivalences :
       have h' : c'.hom.IsMonoidal := by
         apply finiteScalarComparison_isMonoidal R Rhat Rf Sf c'.hom
         intro M m
-        show comparison.hom.app M
+        change comparison.hom.app M
           ((1 : Sf) ⊗ₜ[Rhat] (cIso.inv.app M ((1 : Rhat) ⊗ₜ[R] m))) = _
         rw [FormalGlueing.finiteAdicCompletionIsoExtensionOfScalars_inv_app_tmul, one_smul]
         exact hc M m 1
       have heq : comparison.hom = Functor.whiskerRight cIso.hom completionOverlap ≫ c'.hom := by
         apply NatTrans.ext
         funext M
-        show comparison.hom.app M = completionOverlap.map (cIso.hom.app M) ≫
+        change comparison.hom.app M = completionOverlap.map (cIso.hom.app M) ≫
           completionOverlap.map (cIso.inv.app M) ≫ comparison.hom.app M
         rw [← Functor.map_comp_assoc, Iso.hom_inv_id_app,
           CategoryTheory.Functor.map_id, Category.id_comp]
@@ -607,11 +599,11 @@ and 05ET. -/
 @[stacks 05EU]
 public theorem formalGlueing_preserves_moduleProperties_tensor_and_algebras :
     (∀ (R : Type u) (S : Type v) [CommRing R] [CommRing S] [Algebra R S]
-      (r : ℕ) (f : Fin r → R) (hflat : Module.Flat R S)
-      (hq : Function.Bijective
+      (r : ℕ) (f : Fin r → R), Module.Flat R S →
+      Function.Bijective
         (Ideal.quotientMap
           ((Ideal.span (Set.range f)).map (algebraMap R S))
-          (algebraMap R S) Ideal.le_comap_map)),
+          (algebraMap R S) Ideal.le_comap_map) →
       let c := moduleGlueingConstruction.{u, v, w} S f
       letI := c.category
       let G := ModuleGlueingDatum.{u, v, w} S f c.comparison
@@ -654,10 +646,10 @@ public theorem formalGlueing_preserves_moduleProperties_tensor_and_algebras :
           ∃ algebraEquivalence : CommMon (ModuleCat.{max u v w} R) ≌ CommMon G,
             algebraEquivalence = e.mapCommMon) ∧
     (∀ (R : Type u) (S : Type v) [CommRing R] [CommRing S] [Algebra R S]
-      (f : R) (hflat : Module.Flat R S)
-      (hq : Function.Bijective
+      (f : R), Module.Flat R S →
+      Function.Bijective
         (Ideal.quotientMap ((Ideal.span {f}).map (algebraMap R S))
-          (algebraMap R S) Ideal.le_comap_map)),
+          (algebraMap R S) Ideal.le_comap_map) →
       let Rf := Localization.Away f
       let Sf := Localization.Away (algebraMap R S f)
       let ρ := FormalGlueing.principalLocalizationMap R S f

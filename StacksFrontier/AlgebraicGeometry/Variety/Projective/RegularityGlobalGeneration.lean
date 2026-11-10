@@ -76,8 +76,9 @@ products of global sections of `ℱ(m)` with degree-one forms span `H⁰(ℙⁿ_
 statement is [Stacks, Tag 08A7], and the form of it that needs nothing beyond `m`-regularity,
 `AlgebraicGeometry.span_mulSections_eq_top_of_isMRegular_field`, is proved downstream of this
 file, since its reduction to an infinite base field goes through the multiplication maps of
-`StacksFrontier/AlgebraicGeometry/Variety/Projective/RegularitySectionMultiplicationFieldDescent.lean`
-(built from `AlgebraicGeometry.mulSectionOne` below). So the step takes the span as a
+`RegularitySectionMultiplicationFieldDescent.lean`, in
+`StacksFrontier/AlgebraicGeometry/Variety/Projective/` (built from
+`AlgebraicGeometry.mulSectionOne` below). So the step takes the span as a
 parameter and the file that assembles [Stacks, Tag 08A8] discharges it from `m`-regularity.
 
 ## Implementation notes

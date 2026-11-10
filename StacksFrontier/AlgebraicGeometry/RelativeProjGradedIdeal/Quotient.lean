@@ -132,14 +132,16 @@ Three claims one might expect to hold here are false.
   of `Stacks.AlgebraicGeometry.RelativeProjTwists.TwistData`
   (`StacksFrontier/AlgebraicGeometry/RelativeProjTwists/Statement.lean:238`), and
   `Stacks.AlgebraicGeometry.GluedTwistAlgebra.twistDataOfGradedAlgebra`
-  (`StacksFrontier/AlgebraicGeometry/GluedTwistAlgebra/Assemble.lean:521`) produces a `TwistData` for
+  (`StacksFrontier/AlgebraicGeometry/GluedTwistAlgebra/Assemble.lean:521`) produces a `TwistData`
+  for
   **every** quasi-coherent graded algebra on **every** scheme, with no hypothesis — it is the
   existence assertion of Tag 01NR.
 * *That Tag 03M9 is needed for the quasi-coherence of the kernel.* At the level of schemes it is
   not. With `ℐ_d` taken to be the kernel of `𝒜_d ⟶ p_*(i_*(i^*𝒪(d)))`, the unit of
   `AlgebraicGeometry.Scheme.Modules.pullbackPushforwardAdjunction` supplying `𝒪(d) ⟶ i_*i^*𝒪(d)`,
-  quasi-coherence is assembled from three results of the library: `isQuasicoherent_pullback`, Tag 01BG
-  (`StacksFrontier/AlgebraicGeometry/AffineBaseChange/Basic.lean:162`), `pushforward_isQuasicoherent`,
+  quasi-coherence is assembled from three results of the library: `isQuasicoherent_pullback`,
+  Tag 01BG (`StacksFrontier/AlgebraicGeometry/AffineBaseChange/Basic.lean:162`),
+  `pushforward_isQuasicoherent`,
   Tag 01LC (`StacksFrontier/AlgebraicGeometry/Scheme/FunctorialityQuasiCoherent/Basic.lean:3274`),
   applied to `i` — affine, hence quasi-compact and quasi-separated — and to `p`, quasi-compact by
   Tag 0801's own hypothesis and separated by
@@ -522,7 +524,7 @@ theorem mulQuot_assoc (i j k : ℤ) (U : S.Opens) (a : Γ(quotPiece 𝒜 ℐ i, 
     ((𝒜.mul i j).app Y.unop x y) z (restr_mulQuot_lift 𝒜 ℐ i j f a b x y hx hy).symm hz
   have hR := restr_mulQuot_lift 𝒜 ℐ i (j + k) f a ((mulQuot 𝒜 ℐ j k).app (op U) b c) x
     ((𝒜.mul j k).app Y.unop y z) hx (restr_mulQuot_lift 𝒜 ℐ j k f b c y z hy hz).symm
-  show Stacks.restr (quotPiece 𝒜 ℐ (i + (j + k))).val f _
+  change Stacks.restr (quotPiece 𝒜 ℐ (i + (j + k))).val f _
     = Stacks.restr (quotPiece 𝒜 ℐ (i + (j + k))).val f _
   refine (restr_degCast_eq_quotProj 𝒜 ℐ (add_assoc i j k) f hL).trans ?_
   exact (congrArg _ (Stacks.degCast_eq_of_heq _ (𝒜.mul_assoc i j k Y.unop x y z))).trans hR.symm
@@ -538,7 +540,7 @@ theorem mulQuot_comm (i j : ℤ) (U : S.Opens) (a : Γ(quotPiece 𝒜 ℐ i, U))
   intro Y f x y _ hx hy _
   have hL := restr_mulQuot_lift 𝒜 ℐ i j f a b x y hx hy
   have hR := restr_mulQuot_lift 𝒜 ℐ j i f b a y x hy hx
-  show Stacks.restr (quotPiece 𝒜 ℐ (j + i)).val f _
+  change Stacks.restr (quotPiece 𝒜 ℐ (j + i)).val f _
     = Stacks.restr (quotPiece 𝒜 ℐ (j + i)).val f _
   refine (restr_degCast_eq_quotProj 𝒜 ℐ (add_comm i j) f hL).trans ?_
   exact (congrArg _ (Stacks.degCast_eq_of_heq _ (𝒜.mul_comm i j Y.unop x y))).trans hR.symm
@@ -571,7 +573,7 @@ theorem mulQuot_one_mul (i : ℤ) (U : S.Opens) (a : Γ(quotPiece 𝒜 ℐ i, U)
   intro Y f x hx
   have hL := restr_mulQuot_lift 𝒜 ℐ 0 i f (quotOne 𝒜 ℐ U) a (𝒜.one Y.unop) x
     (restr_quotOne 𝒜 ℐ f).symm hx
-  show Stacks.restr (quotPiece 𝒜 ℐ i).val f _ = Stacks.restr (quotPiece 𝒜 ℐ i).val f _
+  change Stacks.restr (quotPiece 𝒜 ℐ i).val f _ = Stacks.restr (quotPiece 𝒜 ℐ i).val f _
   refine (restr_degCast_eq_quotProj 𝒜 ℐ (zero_add i) f hL).trans ?_
   exact (congrArg _ (Stacks.degCast_eq_of_heq _ (𝒜.one_mul i Y.unop x))).trans hx
 
@@ -585,7 +587,7 @@ theorem mulQuot_mul_one (i : ℤ) (U : S.Opens) (a : Γ(quotPiece 𝒜 ℐ i, U)
   intro Y f x hx
   have hL := restr_mulQuot_lift 𝒜 ℐ i 0 f a (quotOne 𝒜 ℐ U) x (𝒜.one Y.unop) hx
     (restr_quotOne 𝒜 ℐ f).symm
-  show Stacks.restr (quotPiece 𝒜 ℐ i).val f _ = Stacks.restr (quotPiece 𝒜 ℐ i).val f _
+  change Stacks.restr (quotPiece 𝒜 ℐ i).val f _ = Stacks.restr (quotPiece 𝒜 ℐ i).val f _
   refine (restr_degCast_eq_quotProj 𝒜 ℐ (add_zero i) f hL).trans ?_
   exact (congrArg _ (Stacks.degCast_eq_of_heq _ (𝒜.mul_one i Y.unop x))).trans hx
 

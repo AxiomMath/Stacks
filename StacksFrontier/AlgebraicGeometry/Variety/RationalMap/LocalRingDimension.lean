@@ -66,7 +66,7 @@ lemma topologicalKrullDimAt_baseChange_eq
   let : Algebra k Γ(X, U) :=
     ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U (by simp)).hom.toAlgebra
   have : Algebra.FiniteType k Γ(X, U) := by
-    show (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U (by simp)).hom).FiniteType
+    change (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U (by simp)).hom).FiniteType
     exact (f.finiteType_appLE (isAffineOpen_top _) hU _).comp
       (RingHom.FiniteType.of_surjective _
         (Scheme.ΓSpecIso (.of k)).symm.commRingCatIsoToRingEquiv.surjective)
@@ -126,12 +126,12 @@ theorem fiberLocalRing_dimension_add_localRing_dimension_eq
     Flat.SpecMap_iff.mpr (RingHom.Flat.of_isField (Field.toIsField k) _)
   let : Algebra R S := (g.stalkMap y).hom.toAlgebra
   have : Module.Flat R S := by
-    show (g.stalkMap y).hom.Flat
+    change (g.stalkMap y).hom.Flat
     exact AlgebraicGeometry.Flat.stalkMap g y
   have : IsLocalHom (algebraMap R S) := by
-    show IsLocalHom (g.stalkMap y).hom
+    change IsLocalHom (g.stalkMap y).hom
     infer_instance
-  show ringKrullDim (ClosedFibre R S) + ringKrullDim R = ringKrullDim S
+  change ringKrullDim (ClosedFibre R S) + ringKrullDim R = ringKrullDim S
   rw [add_comm]
   exact (ringKrullDim_eq_add_ringKrullDim_closedFibre R S inferInstance).symm
 

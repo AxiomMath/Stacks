@@ -117,7 +117,7 @@ theorem isSeparable_of_isSeparablyGenerated (k F : Type*) [Field k] [Field F] [A
   refine Algebra.IsSeparable.of_equiv_equiv
     (IntermediateField.botEquiv k F).toRingEquiv (RingEquiv.refl F) ?_
   ext y
-  show algebraMap k F ((IntermediateField.botEquiv k F) y) = y.1
+  change algebraMap k F ((IntermediateField.botEquiv k F) y) = y.1
   exact congrArg Subtype.val ((IntermediateField.botEquiv k F).symm_apply_apply y)
 
 /-- For a finite field extension, separability in the sense of `Algebra.IsSeparableExtension`
@@ -166,7 +166,7 @@ theorem algebraMap_stalk_apply (k : Type u) [Field k] {X : Scheme.{u}} (f : X �
     ∀ c : k, algebraMap k (X.presheaf.stalk x) c
       = X.presheaf.germ ⊤ x trivial (algebraMap k Γ(X, ⊤) c) := by
   intro c
-  show (f.stalkMap x) (StructureSheaf.toStalk k (f.base x) c) = _
+  change (f.stalkMap x) (StructureSheaf.toStalk k (f.base x) c) = _
   exact ConcreteCategory.congr_hom
     (Scheme.Hom.germ_stalkMap f (⊤ : (Spec (.of k)).Opens) x trivial)
     ((Scheme.ΓSpecIso (.of k)).inv c)
@@ -191,7 +191,7 @@ theorem GlobalSectionsFieldDecomposition.factor_isSeparable
   have hfinite : Module.Finite k (D.factor i) := D.factorModuleFinite i
   set e : Γ(X, ⊤) := D.algEquiv.symm (Pi.single i 1) with hedef
   have hidem : IsIdempotentElem e := by
-    show e * e = e
+    change e * e = e
     rw [hedef, ← map_mul, ← Pi.single_mul, one_mul]
   have hne : e ≠ 0 := by
     rw [hedef, Ne, map_eq_zero_iff _ D.algEquiv.symm.injective]

@@ -75,7 +75,7 @@ theorem isPerfPair_of_addEquiv {k M N M' N' : Type*} [Field k] [AddCommGroup M] 
     ring
   refine isPerfPair_of_linearEquiv P P' (e₁.toLinearEquiv h₁)
     ((e₂.toLinearEquiv h₂).trans (LinearEquiv.smulOfUnit u⁻¹)) (fun a b => ?_) hP'
-  show P' (e₁ a) ((u⁻¹ : kˣ) • e₂ b) = P a b
+  change P' (e₁ a) ((u⁻¹ : kˣ) • e₂ b) = P a b
   rw [Units.smul_def, map_smul, smul_eq_mul, h, ← mul_assoc, Units.inv_mul, one_mul]
 
 end LinearMap

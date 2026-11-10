@@ -995,6 +995,7 @@ private theorem exists_isImmersion_affineSpaceOver_of_stage (B : BigFppfSite.{u}
       (presheaf_prodMap_id B S hS (@_root_.AlgebraicGeometry.IsImmersion.{u}) X b hbi)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for binary products of presheaves on the big fppf site (see the docstring)
 /-- Binary products of presheaves on the big fppf site, supplied directly: instance search for
 them times out on Lean v4.35.0. -/
 local instance (priority := high) hasBinaryProducts_presheaf_EmbeddingIntoAffineSpace

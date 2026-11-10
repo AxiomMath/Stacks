@@ -184,7 +184,7 @@ lemma morPresheafEquiv_morRestrict {f₁ f₂ : Over U} (h : f₁ ⟶ f₂)
     (m : pullbackFiber p x f₂.hom ⟶ pullbackFiber p y f₂.hom) :
     (L.morPresheafEquiv y f₁ (morRestrict p x y h m)).1 =
       L.trans h ≫ (L.morPresheafEquiv y f₂ m).1 := by
-  show L.toChosen f₁ ≫ Fiber.fiberInclusion.map (morRestrict p x y h m) ≫
+  change L.toChosen f₁ ≫ Fiber.fiberInclusion.map (morRestrict p x y h m) ≫
       IsPreFibered.pullbackMap y.2 f₁.hom =
     L.trans h ≫ L.toChosen f₂ ≫ Fiber.fiberInclusion.map m ≫ IsPreFibered.pullbackMap y.2 f₂.hom
   rw [morRestrict_fac, L.toChosen_pullbackFiberMap_assoc]

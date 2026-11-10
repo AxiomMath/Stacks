@@ -396,7 +396,7 @@ theorem exists_fibreCoordinateTrivialization (V : Y.affineOpens)
     (e₀ ((lineBundlePullback Y M).presheaf.map (homOfLE le_top).op (fibreCoordinate Y M)))
     (ψ.symm (MvPolynomial.X 0)) hψreg (hA.symm.trans hideal)
   refine ⟨e₀.trans (LinearEquiv.smulOfUnit c⁻¹), ?_⟩
-  show ((c⁻¹ : _ˣ) : Γ(lineBundleSpace Y M, lineBundleProj Y M ⁻¹ᵁ (V.1 : Y.Opens))) •
+  change ((c⁻¹ : _ˣ) : Γ(lineBundleSpace Y M, lineBundleProj Y M ⁻¹ᵁ (V.1 : Y.Opens))) •
     e₀ ((lineBundlePullback Y M).presheaf.map (homOfLE le_top).op (fibreCoordinate Y M)) = _
   rw [smul_eq_mul, hc]
   exact Units.inv_mul_cancel_left c _
@@ -482,8 +482,8 @@ the first projection of the local equation `e₁ (z|_{q₁^{-1}V})` of the first
 coordinate. -/
 theorem zeroScheme_coord₁_ideal (V : Y.affineOpens)
     (e₁ : Γ(Stacks.LineBundle.lineBundlePullback Y L₁,
-          lineBundleProj Y L₁ ⁻¹ᵁ (V.1 : Y.Opens)) ≃ₗ[
-        Γ(Stacks.LineBundle.lineBundleSpace Y L₁, lineBundleProj Y L₁ ⁻¹ᵁ (V.1 : Y.Opens))]
+          lineBundleProj Y L₁ ⁻¹ᵁ (V.1 : Y.Opens)) ≃ₗ[Γ(Stacks.LineBundle.lineBundleSpace Y L₁,
+          lineBundleProj Y L₁ ⁻¹ᵁ (V.1 : Y.Opens))]
       Γ(Stacks.LineBundle.lineBundleSpace Y L₁, lineBundleProj Y L₁ ⁻¹ᵁ (V.1 : Y.Opens))) :
     (Stacks.Divisors.zeroScheme (totalSpace Y L₁ L₂)
           ((Scheme.Modules.pullback (totalProj Y L₁ L₂)).obj L₁) (coord₁ Y L₁ L₂)).ideal
@@ -515,8 +515,8 @@ preimage of `q₂^{-1}V`; that is why
 inside the preimage. -/
 theorem zeroScheme_coord₂_ideal (V : Y.affineOpens)
     (e₂ : Γ(Stacks.LineBundle.lineBundlePullback Y L₂,
-          lineBundleProj Y L₂ ⁻¹ᵁ (V.1 : Y.Opens)) ≃ₗ[
-        Γ(Stacks.LineBundle.lineBundleSpace Y L₂, lineBundleProj Y L₂ ⁻¹ᵁ (V.1 : Y.Opens))]
+          lineBundleProj Y L₂ ⁻¹ᵁ (V.1 : Y.Opens)) ≃ₗ[Γ(Stacks.LineBundle.lineBundleSpace Y L₂,
+          lineBundleProj Y L₂ ⁻¹ᵁ (V.1 : Y.Opens))]
       Γ(Stacks.LineBundle.lineBundleSpace Y L₂, lineBundleProj Y L₂ ⁻¹ᵁ (V.1 : Y.Opens))) :
     (Stacks.Divisors.zeroScheme (totalSpace Y L₁ L₂)
           ((Scheme.Modules.pullback (totalProj Y L₁ L₂)).obj L₂) (coord₂ Y L₁ L₂)).ideal

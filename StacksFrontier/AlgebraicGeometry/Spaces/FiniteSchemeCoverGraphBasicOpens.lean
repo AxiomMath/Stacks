@@ -161,7 +161,7 @@ theorem exists_basicOpens_mono_of_factorsZariskiLocallyThrough
   obtain ⟨z, rfl⟩ := hyy₀
   refine ⟨t.equivFin ⟨y₀, hy₀t⟩, ?_⟩
   have hσ : σ (t.equivFin ⟨y₀, hy₀t⟩) = y₀ := by simp only [σ, Equiv.symm_apply_apply]
-  show ∃ w, w ∈ Ws.basicOpen (q (σ (t.equivFin ⟨y₀, hy₀t⟩))) ∧ _
+  change ∃ w, w ∈ Ws.basicOpen (q (σ (t.equivFin ⟨y₀, hy₀t⟩))) ∧ _
   rw [hσ]
   refine ⟨schemePointsHomeomorph B S hS W (pointsMap B S hS _ (yoneda.map (openSubHom W _)) z),
     mem_of_points_openSub B S hS W _ z, ?_⟩

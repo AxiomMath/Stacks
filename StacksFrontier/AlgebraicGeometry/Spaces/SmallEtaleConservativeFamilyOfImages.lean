@@ -69,7 +69,7 @@ theorem isConservativeFamilyOfPoints_etaleSitePoint_of_forall_image {t : Type*}
   have hm : q'.val ≫ (SmallEtale.toOver B S hS X).map g = w := congrArg Subtype.val hq'
   rw [← Scheme.Hom.comp_apply, ← Functor.map_comp, hm, ← Scheme.Hom.comp_apply,
     ← Functor.map_comp, hcomp]
-  show (BigFppfOver.toScheme B S hS).map (fx ≫ q.1) ρ = z
+  change (BigFppfOver.toScheme B S hS).map (fx ≫ q.1) ρ = z
   rwa [Functor.map_comp, Scheme.Hom.comp_apply, Subsingleton.elim
     ((BigFppfOver.toScheme B S hS).map fx ρ) z']
 

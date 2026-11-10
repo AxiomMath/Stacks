@@ -118,7 +118,7 @@ private lemma restrict_supportedSectionsι_eq_zero {X : Scheme.{u}}
     (F : X.Modules) (Z : Set X) (U : X.Opens) (hU : Disjoint (U : Set X) Z) :
     (Scheme.Modules.restrictFunctor U.ι).map (supportedSectionsι Z F) = 0 := by
   ext V s
-  show (s.1 : Γ(F, U.ι ''ᵁ V)) = 0
+  change (s.1 : Γ(F, U.ι ''ᵁ V)) = 0
   apply TopCat.Presheaf.section_ext ⟨F.val.presheaf, F.isSheaf⟩
   intro x hx
   have hxZ : x ∉ Z := by
@@ -190,7 +190,7 @@ theorem isFiniteLocallyFreeOfRank_strictTransform_fittingBlowUp
       (Category.comp_id b).symm.trans (pullback.condition ..)
     exact (congrArg (I.comap ·) hb).trans (I.comap_comp p _)
   have hpiso : IsIso p := by
-    show IsIso (pullback.snd (𝟙 S) (show _ ⟶ S from blowUpToBase I))
+    change IsIso (pullback.snd (𝟙 S) (show _ ⟶ S from blowUpToBase I))
     infer_instance
   have hCartier : Stacks.Divisors.IsEffectiveCartierDivisor E := by
     rw [hE]
@@ -208,7 +208,7 @@ theorem isFiniteLocallyFreeOfRank_strictTransform_fittingBlowUp
     refine ⟨⟨b (V.ι x), ?_⟩, rfl⟩
     have hx := x.property
     change V.ι x ∉ E.support at hx
-    show b (V.ι x) ∉ I.support
+    change b (V.ι x) ∉ I.support
     change V.ι x ∉ (I.comap b).support at hx
     rw [Scheme.IdealSheafData.support_comap] at hx
     exact hx

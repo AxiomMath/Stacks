@@ -122,7 +122,7 @@ def subsiteRanSquare :
 /-- Each component of the 2-morphism of `subsiteRanSquare` is the identity. -/
 @[simp]
 theorem subsiteRanSquare_natTrans_app (x : (P.FullSubcategory)ᵒᵖ) :
-    (subsiteRanSquare f P hPQ).natTrans.app x = 𝟙 _ :=
+    (subsiteRanSquare f P hPQ).app x = 𝟙 _ :=
   rfl
 
 variable [∀ G : (P.FullSubcategory)ᵒᵖ ⥤ Type w,

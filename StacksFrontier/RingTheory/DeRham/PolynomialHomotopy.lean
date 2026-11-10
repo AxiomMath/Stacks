@@ -497,8 +497,7 @@ the latter is a split monomorphism. -/
 @[simp]
 theorem coeffProj_mapBaseChange (ξ : A[X] ⊗[A] Ω[A⁄R]) :
     coeffProj R A (mapBaseChange R A A[X] ξ) = ξ := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using TensorProduct.inductionOn with
   | tmul g ω =>
       rw [mapBaseChange_tmul, map_smul, coeffProj_map, TensorProduct.smul_tmul', smul_eq_mul,
         mul_one]
@@ -508,8 +507,7 @@ theorem coeffProj_mapBaseChange (ξ : A[X] ⊗[A] Ω[A⁄R]) :
 @[simp]
 theorem pderivX_mapBaseChange (ξ : A[X] ⊗[A] Ω[A⁄R]) :
     pderivX R A (mapBaseChange R A A[X] ξ) = 0 := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using TensorProduct.inductionOn with
   | tmul g ω => rw [mapBaseChange_tmul, map_smul, pderivX_map_incl, smul_zero]
   | add x y hx hy => rw [map_add, map_add, hx, hy, add_zero]
 
@@ -629,7 +627,7 @@ theorem exactAt_deRhamComplex_polynomial (p : ℕ) :
   intro η _
   obtain ⟨ξ, hξ⟩ := surjective_deRhamDifferential_polynomial A p η
   refine ⟨ξ, ?_⟩
-  show ((deRhamComplex A A[X]).d p (p + 1)).hom ξ = η
+  change ((deRhamComplex A A[X]).d p (p + 1)).hom ξ = η
   rwa [deRhamComplex_d]
 
 /-- Over a `ℚ`-algebra a degree-zero form on `A[X]` is closed exactly when it is constant. -/

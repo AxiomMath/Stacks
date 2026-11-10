@@ -368,7 +368,7 @@ public theorem isRegular_and_topologicalKrullDim_blowUp_vanishingIdeal_singleton
     intro w hw
     refine isIso_stalkMap_of_isIso_morphismRestrict (blowUpToBase I) hisoU
       (x := w) ?_
-    show blowUpToBase I w ∈ (I.support.compl : Y.Opens)
+    change blowUpToBase I w ∈ (I.support.compl : Y.Opens)
     have hnot : blowUpToBase I w ∉ (I.support : Set Y) := by
       rw [hsupp]; simpa using hw
     exact hnot

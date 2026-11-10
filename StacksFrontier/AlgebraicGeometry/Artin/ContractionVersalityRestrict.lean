@@ -141,7 +141,7 @@ theorem liftsAtResiduePoint_restrictElement_iff {Λ k : Type u} [CommRing Λ] [F
         refine Eq.trans ?_ ha'
         simp only [Deformation.Artin.schemeMap, Category.assoc]
         congr 2
-        show ((Over.post B.inclusion).map φ₁ ≫ (Over.post B.inclusion).map ι₁).left =
+        change ((Over.post B.inclusion).map φ₁ ≫ (Over.post B.inclusion).map ι₁).left =
           ((Over.post B.inclusion).map φ).left
         rw [← Functor.map_comp, hφ₁]
       exact (cancel_mono j).1 key

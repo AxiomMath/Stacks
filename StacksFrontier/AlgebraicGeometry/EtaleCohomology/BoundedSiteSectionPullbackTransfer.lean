@@ -129,7 +129,7 @@ public theorem coefficientPullbackTwoSquare_unit (c : Sheaf J A) :
     (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous uf B J K).unit.app
           ((sheafCompose J Gf).obj c) ≫
         (uf.sheafPushforwardContinuous B J K).map
-          ((Stacks.EtaleCohomology.coefficientPullbackTwoSquare uf J K Gf).natTrans.app c) =
+          ((Stacks.EtaleCohomology.coefficientPullbackTwoSquare uf J K Gf).app c) =
       (sheafCompose J Gf).map
         ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous uf A J K).unit.app c) :=
   (unit_mateEquiv_symm (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous uf A J K)
@@ -237,7 +237,7 @@ public theorem restrictionPullbackBaseChange_unit_apply
     ((restrictionPullbackBaseChange B AddCommGrpCat.{max (u + 1) v} p adjU
         ((smallEtaleBaseChange B p).sheafAdjunctionContinuous AddCommGrpCat.{max (u + 1) v}
           (SmallEtale.topology B X.obj X.property)
-          (SmallEtale.topology B P.obj P.property))).natTrans.app M).hom.app
+          (SmallEtale.topology B P.obj P.property))).app M).hom.app
         (op (SmallEtale.final B P.obj P.property))
       ((((smallEtaleBaseChange B p).sheafPullback AddCommGrpCat.{max (u + 1) v}
           (SmallEtale.topology B X.obj X.property) (SmallEtale.topology B P.obj P.property)).obj
@@ -258,12 +258,12 @@ public theorem restrictionPullbackBaseChange_unit_apply
   set α := restrictionPullbackBaseChange B AddCommGrpCat.{max (u + 1) v} p adjU adjB
   have h2 := sheafHom_app_apply_congr (unit_mateEquiv adjU adjB α M) (op V) t
   simp only [ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app] at h2
-  refine (NatTrans.naturality_apply (α.natTrans.app M).hom a.op _).trans ?_
-  have hm' : ((mateEquiv adjU adjB) α).natTrans.app (LU.obj M) =
+  refine (NatTrans.naturality_apply (α.app M).hom a.op _).trans ?_
+  have hm' : ((mateEquiv adjU adjB) α).app (LU.obj M) =
       (toEtaleSitePushforwardBaseChangeIso B p AddCommGrpCat.{max (u + 1) v}).hom.app (LU.obj M) :=
     NatTrans.congr_app
       (mateEquiv_restrictionPullbackBaseChange B AddCommGrpCat.{max (u + 1) v} p adjU adjB) _
-  have h3 : ConcreteCategory.hom ((α.natTrans.app M).hom.app
+  have h3 : ConcreteCategory.hom ((α.app M).hom.app
         (op ((smallEtaleBaseChange B p).obj V)))
         (ConcreteCategory.hom ((adjB.unit.app
           (((toEtaleSite B X.obj X.property).sheafPushforwardContinuous
@@ -289,7 +289,7 @@ public theorem baseChangeLift_condition (V : SmallEtale B X.obj X.property)
     (a : SmallEtale.final B P.obj P.property ⟶ (smallEtaleBaseChange B p).obj V) :
     B.inclusion.map (a.hom.left ≫ baseChangeObjProjection B p V) ≫
       ((toEtaleSite B X.obj X.property).obj V).hom = B.inclusion.map p := by
-  show B.inclusion.map _ ≫ B.inclusion.map V.obj.hom = _
+  change B.inclusion.map _ ≫ B.inclusion.map V.obj.hom = _
   rw [← B.inclusion.map_comp, Category.assoc, (isPullback_baseChangeObjProjection B p V).w,
     ← Category.assoc, Over.w a.hom]
   exact congrArg B.inclusion.map (Category.id_comp p)
@@ -381,12 +381,12 @@ public theorem exists_sectionPullback_transfer
   let η : G ≅ ((toEtaleSite B X.obj X.property).sheafPushforwardContinuous Ab JX KX).obj GU :=
     E.unitIso.app G
   let θ := ((smallEtaleBaseChange B p).sheafPullback Ab JX JP).mapIso η ≪≫
-    asIso (β.natTrans.app GU)
+    asIso (β.app GU)
   let τ : Scheme.Etale.mk (𝟙 P.obj) ≅ (toEtaleSite B P.obj P.property).obj
       (SmallEtale.final B P.obj P.property) :=
     MorphismProperty.Over.isoMk (Iso.refl _) (by simp [toEtaleSite, SmallEtale.final])
   let comp :=
-    (Stacks.EtaleCohomology.coefficientPullbackTwoSquare uU KX KP (forget Ab)).natTrans.app GU
+    (Stacks.EtaleCohomology.coefficientPullbackTwoSquare uU KX KP (forget Ab)).app GU
   let eX : ∀ U : SmallEtale B X.obj X.property,
       G.obj.obj (op U) ≃ H.obj.obj (op ((toEtaleSite B X.obj X.property).obj U)) := fun U =>
     ((forget Ab).mapIso (((sheafToPresheaf JX Ab).mapIso η).app (op U))).toEquiv
@@ -410,7 +410,7 @@ public theorem exists_sectionPullback_transfer
       ConcreteCategory.comp_apply] at hη
     refine (ConcreteCategory.comp_apply _ _ _).trans ?_
     refine (congrArg _ (NatTrans.naturality_apply (LB.map η.hom).hom a.op _)).trans ?_
-    refine (congrArg (fun z => ConcreteCategory.hom ((β.natTrans.app GU).hom.app
+    refine (congrArg (fun z => ConcreteCategory.hom ((β.app GU).hom.app
       (op (SmallEtale.final B P.obj P.property))) (ConcreteCategory.hom
         ((LB.obj (((toEtaleSite B X.obj X.property).sheafPushforwardContinuous Ab JX KX).obj
           GU)).obj.map a.op) z)) hη.symm).trans ?_

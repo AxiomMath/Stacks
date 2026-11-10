@@ -276,7 +276,7 @@ theorem mulGradedPieceEquiv_tmul (i j : ℕ) (x : gradedPiece R i M) (y : graded
   have h : TensorPower.mulEquiv (gradedPieceEquiv i x ⊗ₜ[R] gradedPieceEquiv j y) =
       gradedPieceEquiv (i + j) ⟨(x : TensorAlgebra R M) * (y : TensorAlgebra R M),
         mul_mem_gradedPiece x.2 y.2⟩ := (gradedPieceEquiv_mul i j x y).symm
-  show ((gradedPieceEquiv (i + j)).symm
+  change ((gradedPieceEquiv (i + j)).symm
     (TensorPower.mulEquiv (gradedPieceEquiv i x ⊗ₜ[R] gradedPieceEquiv j y)) :
       TensorAlgebra R M) = _
   rw [h, LinearEquiv.symm_apply_apply]

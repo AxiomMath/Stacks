@@ -463,7 +463,7 @@ lemma bijective_componentPresheafTwoFibreProductHom (hp : p.IsFiberedInGroupoids
             eqToHom (ξ₂.hx.trans ξ₂.hy.symm) := by
         rw [k]
         simp
-      show eqToHom _ ≫ (zS ⋙ p).map (eB.map β) ≫ eqToHom _ =
+      change eqToHom _ ≫ (zS ⋙ p).map (eB.map β) ≫ eqToHom _ =
         eqToHom _ ≫ (zS ⋙ p).map (eA.map α) ≫ eqToHom _
       rw [key]
       simp
@@ -516,7 +516,7 @@ lemma isLocallySurjective_componentPresheafMap {𝒜 : Type u₂} [Category.{v�
     let ψ := Functor.IsStronglyCartesian.map p (p.map (g ≫ φ)) (z.map α)
       (Category.id_comp _).symm (g ≫ φ)
     refine ⟨componentMk (e ⋙ z) ψ, ?_⟩
-    show componentMk z ψ = componentMk z (g ≫ φ)
+    change componentMk z ψ = componentMk z (g ≫ φ)
     rw [componentMk_eq_of_comp z ψ α, Functor.IsStronglyCartesian.fac]
 
 end LocallySurjective

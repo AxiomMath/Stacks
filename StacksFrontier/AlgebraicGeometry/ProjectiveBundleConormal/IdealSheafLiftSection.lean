@@ -44,8 +44,8 @@ morphism variable's type written out — the application of a composite to a sec
 composite of the applications by definition, so no step of the composite has to be performed — and
 the determination is `Stacks.Conormal.Locality.idealSheaf_section_injective` applied to it. See
 the implementation notes of
-`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartRatio` for why no `rw` occurs on this
-layer.
+`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartRatio` for why no `rw` occurs on
+this layer.
 
 The formula for `ṽ` is its definition — a whiskering followed by the evaluation pairing — with the
 two factors read on sections by

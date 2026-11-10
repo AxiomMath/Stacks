@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.ModuleProjectionRestrict
-public import
-  StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.CartesianDerivedModuleOfModuleSystem
+public import StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.CartesianDerivedModuleOfModuleSystem
 
 /-!
 # The summandwise comparison of Stacks 0D9E (2) in case (B) of Stacks 09WE
@@ -44,7 +43,8 @@ leg equation, and the leg equation is not what it needs. Its sheaf-level form is
 — but from two hypotheses, `…TransitionTensorCoherence` and `…TransitionUnitorCoherence`, which
 together are the assertion that the comparison of Stacks 03EL is monoidal against the pullback
 transition of Stacks 09WF. Neither is proved in this development, and the module docstring of
-`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/ModuleTransitionTensor.lean` records
+`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/ModuleTransitionTensor.lean`
+records
 why: `Stacks.SheafOfModules.pullbackTensorIso` carries naturality in its two sheaf variables and no
 composition law in the morphism of ringed topoi. So the leg equation and the monoidality are
 *independent* inputs of `proj_restrict`, consumed at different places, and discharging the first

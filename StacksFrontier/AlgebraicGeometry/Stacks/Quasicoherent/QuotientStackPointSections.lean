@@ -71,7 +71,7 @@ theorem Stacks.injective_one_tmul_of_bijective {R R' M : Type*} [CommRing R] [Co
       map_add' := fun c c' => by ext m; simp [add_smul]
       map_smul' := fun r c => by
         ext m
-        show e.symm (r • c) • m = r • (e.symm c • m)
+        change e.symm (r • c) • m = r • (e.symm c • m)
         rw [Algebra.smul_def, map_mul, he, smul_smul] }
   intro m m' h
   have hg := congrArg g h
@@ -201,7 +201,7 @@ def baseMap {T T' : BigFppfOver C S hS} (h : T' ⟶ T) :
 theorem arrowMap_source {X Y : PointwiseFibration G} (m : X ⟶ Y) :
     arrowMap G m ≫ G.source = pointMap G X := by
   refine ObjectProperty.hom_ext _ (yonedaEquiv.injective ?_)
-  show yonedaEquiv (yonedaEquiv.symm (pointwiseArrow G m) ≫ G.source.hom) =
+  change yonedaEquiv (yonedaEquiv.symm (pointwiseArrow G m) ≫ G.source.hom) =
     yonedaEquiv (yonedaEquiv.symm X.fiber)
   rw [yonedaEquiv_comp, Equiv.apply_symm_apply]
   exact (G.toGroupoidInFunctors.evaluationArrowEquiv (op X.base) _ _ m.fiber).2.1.trans
@@ -211,7 +211,7 @@ theorem arrowMap_source {X Y : PointwiseFibration G} (m : X ⟶ Y) :
 theorem arrowMap_target {X Y : PointwiseFibration G} (m : X ⟶ Y) :
     arrowMap G m ≫ G.target = baseMap m.base ≫ pointMap G Y := by
   refine ObjectProperty.hom_ext _ (yonedaEquiv.injective ?_)
-  show yonedaEquiv (yonedaEquiv.symm (pointwiseArrow G m) ≫ G.target.hom) =
+  change yonedaEquiv (yonedaEquiv.symm (pointwiseArrow G m) ≫ G.target.hom) =
     yonedaEquiv (yoneda.map m.base ≫ yonedaEquiv.symm Y.fiber)
   rw [yonedaEquiv_comp, yonedaEquiv_comp, Equiv.apply_symm_apply, yonedaEquiv_yoneda_map]
   exact (G.toGroupoidInFunctors.evaluationArrowEquiv (op X.base) _ _ m.fiber).2.2
@@ -258,6 +258,7 @@ theorem yoneda_map_comp_yonedaEquiv_symm {T T' : BigFppfOver C S hS}
     rw [yonedaEquiv_comp, Equiv.apply_symm_apply, yonedaEquiv_yoneda_map]; rfl)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is heavy
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_QuotientStackPointSections :
@@ -279,7 +280,7 @@ def pairMap {X Y Z : PointwiseFibration G} (m₁ : X ⟶ Y) (m₂ : Y ⟶ Z) :
 theorem pairMap_firstArrow {X Y Z : PointwiseFibration G} (m₁ : X ⟶ Y) (m₂ : Y ⟶ Z) :
     pairMap G m₁ m₂ ≫ GroupoidInAlgebraicSpaces.firstArrow G = baseMap m₁.base ≫ arrowMap G m₂ := by
   refine ObjectProperty.hom_ext _ ?_
-  show yonedaEquiv.symm _ ≫ pullback.fst G.source.hom G.target.hom =
+  change yonedaEquiv.symm _ ≫ pullback.fst G.source.hom G.target.hom =
     yoneda.map m₁.base ≫ yonedaEquiv.symm (pointwiseArrow G m₂)
   rw [yonedaEquiv_symm_comp', yoneda_map_comp_yonedaEquiv_symm,
     pullbackFst_app_composableToPullback]
@@ -289,7 +290,7 @@ theorem pairMap_firstArrow {X Y Z : PointwiseFibration G} (m₁ : X ⟶ Y) (m₂
 theorem pairMap_secondArrow {X Y Z : PointwiseFibration G} (m₁ : X ⟶ Y) (m₂ : Y ⟶ Z) :
     pairMap G m₁ m₂ ≫ GroupoidInAlgebraicSpaces.secondArrow G = arrowMap G m₁ := by
   refine ObjectProperty.hom_ext _ ?_
-  show yonedaEquiv.symm _ ≫ pullback.snd G.source.hom G.target.hom =
+  change yonedaEquiv.symm _ ≫ pullback.snd G.source.hom G.target.hom =
     yonedaEquiv.symm (pointwiseArrow G m₁)
   rw [yonedaEquiv_symm_comp', pullbackSnd_app_composableToPullback]
   rfl
@@ -299,7 +300,7 @@ theorem pairMap_secondArrow {X Y Z : PointwiseFibration G} (m₁ : X ⟶ Y) (m�
 theorem pairMap_comp {X Y Z : PointwiseFibration G} (m₁ : X ⟶ Y) (m₂ : Y ⟶ Z) :
     pairMap G m₁ m₂ ≫ G.comp = arrowMap G (m₁ ≫ m₂) := by
   refine ObjectProperty.hom_ext _ ?_
-  show yonedaEquiv.symm _ ≫ G.comp.hom = yonedaEquiv.symm (pointwiseArrow G (m₁ ≫ m₂))
+  change yonedaEquiv.symm _ ≫ G.comp.hom = yonedaEquiv.symm (pointwiseArrow G (m₁ ≫ m₂))
   exact (yonedaEquiv_symm_comp' _ _).trans
     (congrArg yonedaEquiv.symm (pointwiseArrow_comp G m₁ m₂).symm)
 
@@ -510,7 +511,7 @@ theorem injective_pointSectionRestrict_of_eq_id {X : PointwiseFibration G} (m : 
   have hbase : m.base = 𝟙 X.base := by subst hm; rfl
   have hφ : Function.Bijective (Space.chartDiagramRestrict C S hS (baseMap m.base)
       (Space.selfChartDiagram C S hS m.base)) := by
-    show Function.Bijective ((BigFppfOver.toScheme C S hS).map m.base).appTop.hom
+    change Function.Bijective ((BigFppfOver.toScheme C S hS).map m.base).appTop.hom
     rw [hbase]
     exact bijective_toScheme_map_id_appTop _
   exact injective_chartRestrict _ _ _ _ hiso _ hN ha ha hφ

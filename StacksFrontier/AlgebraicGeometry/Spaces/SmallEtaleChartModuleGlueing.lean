@@ -179,7 +179,8 @@ modulo the identification of the two composite étale restrictions, which is an 
 functors because `AlgebraicGeometry.Space.smallEtalePostcomp` composes strictly.
 
 That is `AlgebraicGeometry.Space.modulePullbackCompIso_hom_comp_etaleRestriction` in
-`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModulePullbackCompIsoEtaleRestriction.lean`, whose
+`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModulePullbackCompIsoEtaleRestriction.lean`,
+whose
 one hypothesis is that the two adjunctions of étale restriction along the composite — the one
 assembled from the two factors through
 `AlgebraicGeometry.Space.modulePushforwardCompIso`, which is
@@ -189,7 +190,8 @@ That hypothesis is proved for any composable pair of étale morphisms, with no r
 by `AlgebraicGeometry.Space.etaleModulePullbackCompAdjunction_unit` in
 `StacksFrontier/AlgebraicGeometry/Spaces/EtaleModuleUnitCompJoin.lean`.  The route through the chart
 projection, whose ingredients are in
-`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModulePullbackCompUnitEq.lean`, reached it only at
+`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModulePullbackCompUnitEq.lean`, reached it only
+at
 a representable morphism: both units are morphisms into the direct image along the composite,
 hence determined by their chart projections, and both chart projections are restriction of
 sections along the
@@ -204,7 +206,8 @@ hypothesis and states both squares unconditionally.
 On that the four-step assembly that the corresponding statement for sheaves of sets performs in
 `StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleChartGlueingEquivalence.lean` goes through for
 modules, in
-`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleChartModuleGlueingEquivalence.lean`: the chartwise
+`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleChartModuleGlueingEquivalence.lean`: the
+chartwise
 reading of a slice-indexed datum, its faithfulness and fullness from the fibrewise equivalence
 `AlgebraicGeometry.Space.isEquivalence_chartModuleSliceReindex`, its essential surjectivity from
 a quasi-inverse datum, and the identification of

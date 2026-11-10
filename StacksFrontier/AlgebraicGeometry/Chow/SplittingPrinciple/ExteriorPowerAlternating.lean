@@ -59,13 +59,13 @@ theorem IsHomogeneous.homComponent_eq_ite {i : ℕ} {c : TotalChowClass C sY}
     (hc : c.IsHomogeneous i) (m : ℕ) : homComponent m c = if m = i then c else 0 := by
   by_cases hm : m = i
   · subst hm
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     refine ext fun p => ?_
     rw [homComponent_apply]
     split_ifs with hp
     · rfl
     · exact (hc p hp).symm
-  · rw [if_neg hm]
+  · rw [ite_eq_right hm]
     refine ext fun p => ?_
     rw [homComponent_apply, zero_apply]
     split_ifs with hp
@@ -77,7 +77,7 @@ theorem IsHomogeneous.homComponent_eq_ite {i : ℕ} {c : TotalChowClass C sY}
 theorem IsHomogeneous.mul {i j : ℕ} {a b : TotalChowClass C sY} (ha : a.IsHomogeneous i)
     (hb : b.IsHomogeneous j) : (a * b).IsHomogeneous (i + j) := by
   intro p hp
-  have h : (a * b) p = homComponent p (a * b) p := by rw [homComponent_apply, if_pos rfl]
+  have h : (a * b) p = homComponent p (a * b) p := by rw [homComponent_apply, ite_eq_left rfl]
   rw [h, homComponent_mul, sum_apply]
   refine Finset.sum_eq_zero fun k hk => ?_
   have hk' : k ≤ p := Nat.lt_succ_iff.mp (mem_range.mp hk)
@@ -85,8 +85,8 @@ theorem IsHomogeneous.mul {i j : ℕ} {a b : TotalChowClass C sY} (ha : a.IsHomo
   by_cases h1 : p - k = i
   · by_cases h2 : k = j
     · exact absurd (by omega : p = i + j) hp
-    · rw [if_neg h2, mul_zero, zero_apply]
-  · rw [if_neg h1, zero_mul, zero_apply]
+    · rw [ite_eq_right h2, mul_zero, zero_apply]
+  · rw [ite_eq_right h1, zero_mul, zero_apply]
 
 end TotalChowClass
 
@@ -120,13 +120,13 @@ theorem homComponent_prod_one_add {ι : Type*} (p : Finset ι) (y : ι → chern
       ((∑ T ∈ p.powersetCard t, ∏ I ∈ T, y I : chernTotalSubring C sY) :
         TotalChowClass C sY) := by
   classical
-  rw [prod_one_add, AddSubmonoidClass.coe_finset_sum, map_sum,
-    AddSubmonoidClass.coe_finset_sum, powersetCard_eq_filter, sum_filter]
+  rw [prod_one_add, AddSubmonoidClass.coe_finsetSum, map_sum,
+    AddSubmonoidClass.coe_finsetSum, powersetCard_eq_filter, sum_filter]
   refine sum_congr rfl fun T _ => ?_
   rw [(isHomogeneous_prod C sY T y hy).homComponent_eq_ite]
   by_cases hT : T.card = t
-  · rw [if_pos hT.symm, if_pos hT]
-  · rw [if_neg (Ne.symm hT), if_neg hT]
+  · rw [ite_eq_left hT.symm, ite_eq_left hT]
+  · rw [ite_eq_right (Ne.symm hT), ite_eq_right hT]
 
 end Linear
 
@@ -228,7 +228,7 @@ theorem altChernOdd_eq_prod (h : HasQuotients Y r V L) :
 theorem isHomogeneous_subsetSum (x : Fin r → chernTotalSubring C sY)
     (hx : ∀ i, (x i : TotalChowClass C sY).IsHomogeneous 1) (I : Finset (Fin r)) :
     ((∑ i ∈ I, x i : chernTotalSubring C sY) : TotalChowClass C sY).IsHomogeneous 1 := by
-  rw [AddSubmonoidClass.coe_finset_sum]
+  rw [AddSubmonoidClass.coe_finsetSum]
   exact isHomogeneous_sum C sY _ _ fun i _ => hx i
 
 /-- The components of `c_+ - c_-` are the differences of the elementary symmetric functions of the

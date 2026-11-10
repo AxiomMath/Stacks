@@ -175,7 +175,7 @@ theorem fiberFormula_iff {R B : Type*} [CommRing R] [CommRing B]
       intro b hb
       have hz : Ideal.Quotient.mk (p₀.map (algebraMap R B)) b = 0 := by
         refine e.injective ?_
-        show e (algebraMap B _ b) = e 0
+        change e (algebraMap B _ b) = e 0
         rw [e.commutes, map_zero]
         exact hb
       exact Ideal.map_le_iff_le_comap.mpr (IsLocalRing.maximalIdeal_comap (algebraMap R B)).ge

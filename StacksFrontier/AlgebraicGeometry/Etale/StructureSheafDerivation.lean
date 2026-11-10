@@ -94,7 +94,7 @@ private theorem extendDerivationFormallyEtale_algebraMap
   let L : B ⊗[A] Ω[A⁄ℤ] →ₗ[B] C :=
     LinearMap.liftBaseChange B θB.liftKaehlerDifferential
   unfold extendDerivationFormallyEtale
-  show L (e.symm (KaehlerDifferential.D ℤ B (algebraMap A B a))) = _
+  change L (e.symm (KaehlerDifferential.D ℤ B (algebraMap A B a))) = _
   rw [KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale_symm_D_algebraMap]
   simp only [L, LinearMap.liftBaseChange_tmul, one_smul, θB,
     Derivation.liftKaehlerDifferential_comp_D]
@@ -119,7 +119,7 @@ private theorem extendDerivationFormallyEtale_unique
   have hp : p = θB.liftKaehlerDifferential := by
     apply LinearMap.ext
     intro ω
-    show p ω = θB.liftKaehlerDifferential ω
+    change p ω = θB.liftKaehlerDifferential ω
     have hmem : ω ∈ Submodule.span A (Set.range (KaehlerDifferential.D ℤ A)) := by
       rw [KaehlerDifferential.span_range_derivation]
       exact Submodule.mem_top
@@ -128,16 +128,16 @@ private theorem extendDerivationFormallyEtale_unique
       have he : e (1 ⊗ₜ[A] KaehlerDifferential.D ℤ A a) =
           KaehlerDifferential.D ℤ B (algebraMap A B a) := by
         simp [e]
-      show D.liftKaehlerDifferential (e (1 ⊗ₜ[A] KaehlerDifferential.D ℤ A a)) = _
+      change D.liftKaehlerDifferential (e (1 ⊗ₜ[A] KaehlerDifferential.D ℤ A a)) = _
       rw [he, Derivation.liftKaehlerDifferential_comp_D, hD,
         Derivation.liftKaehlerDifferential_comp_D]
       rfl
     · simp [p]
     · intro x y _ _ hx hy
-      show p (x + y) = θB.liftKaehlerDifferential (x + y)
+      change p (x + y) = θB.liftKaehlerDifferential (x + y)
       rw [map_add, map_add, hx, hy]
     · intro a x _ hx
-      show p (a • x) = θB.liftKaehlerDifferential (a • x)
+      change p (a • x) = θB.liftKaehlerDifferential (a • x)
       rw [map_smul, map_smul, hx]
   have hω (ω : Ω[A⁄ℤ]) :
       D.liftKaehlerDifferential (e (1 ⊗ₜ[A] ω)) = θB.liftKaehlerDifferential ω :=
@@ -145,20 +145,19 @@ private theorem extendDerivationFormallyEtale_unique
   have hcomp : D.liftKaehlerDifferential.comp e.toLinearMap = L := by
     apply LinearMap.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b ω =>
         have he : e (b ⊗ₜ[A] ω) = b • e (1 ⊗ₜ[A] ω) := by simp [e]
-        show D.liftKaehlerDifferential (e (b ⊗ₜ[A] ω)) = L (b ⊗ₜ[A] ω)
+        change D.liftKaehlerDifferential (e (b ⊗ₜ[A] ω)) = L (b ⊗ₜ[A] ω)
         rw [he, map_smul, hω, LinearMap.liftBaseChange_tmul]
     | add x y hx hy =>
-        show (D.liftKaehlerDifferential.comp e.toLinearMap) (x + y) = L (x + y)
+        change (D.liftKaehlerDifferential.comp e.toLinearMap) (x + y) = L (x + y)
         rw [map_add, L.map_add, hx, hy]
   have htarget : (extendDerivationFormallyEtale θ).liftKaehlerDifferential =
       L.comp e.symm.toLinearMap := by
     let E : (Ω[B⁄ℤ] →ₗ[B] C) ≃ₗ[B] Derivation ℤ B C :=
       KaehlerDifferential.linearMapEquivDerivation (R := ℤ) (S := B) (M := C)
-    show E.symm (E (L.comp e.symm.toLinearMap)) = _
+    change E.symm (E (L.comp e.symm.toLinearMap)) = _
     exact E.symm_apply_apply _
   have hlift : D.liftKaehlerDifferential =
       (extendDerivationFormallyEtale θ).liftKaehlerDifferential := by
@@ -187,7 +186,7 @@ private theorem extendDerivationFormallyEtale_restrict
       extendDerivationFormallyEtale (A := A) (B := B) (C := C) θ := by
   apply extendDerivationFormallyEtale_unique θ
   intro a
-  show algebraMap B C
+  change algebraMap B C
     (extendDerivationFormallyEtale (A := A) (B := B) (C := B) θ
       (algebraMap A B a)) = algebraMap A C (θ a)
   rw [extendDerivationFormallyEtale_algebraMap]
@@ -236,7 +235,7 @@ private theorem affineSectionsDerivation_extends_base
   let φ := eA.inv ≫ fU
   let : Algebra A B := φ.hom.toAlgebra
   have := affineSections_formallyEtale f U hU
-  show extendDerivationFormallyEtale θ (algebraMap A B a) = _
+  change extendDerivationFormallyEtale θ (algebraMap A B a) = _
   rw [extendDerivationFormallyEtale_algebraMap]
   rfl
 
@@ -258,7 +257,7 @@ private theorem affineSectionsDerivation_unique
   have := affineSections_formallyEtale f U hU
   have hD : ∀ a : A, d (algebraMap A B a) = algebraMap A B (θ a) := by
     intro a
-    show d (φ.hom a) = φ.hom (θ a)
+    change d (φ.hom a) = φ.hom (θ a)
     simpa [eA, fU, φ] using hd a
   have hext := extendDerivationFormallyEtale_unique θ d hD
   simpa only [affineSectionsDerivation] using hext
@@ -303,10 +302,10 @@ private theorem affineSectionsDerivation_naturality
       affineSectionsDerivation f θ W hW (φW.hom a) = φW.hom (θ a) :=
     affineSectionsDerivation_extends_base f θ W hW a
   have hD₁ (a : A) : D₁ (algebraMap A B a) = algebraMap A C (θ a) := by
-    show affineSectionsDerivation f θ W hW (r.hom (φU.hom a)) = φW.hom (θ a)
+    change affineSectionsDerivation f θ W hW (r.hom (φU.hom a)) = φW.hom (θ a)
     rw [hcompA, hbaseW]
   have hD₂ (a : A) : D₂ (algebraMap A B a) = algebraMap A C (θ a) := by
-    show r.hom (affineSectionsDerivation f θ U hU (φU.hom a)) = φW.hom (θ a)
+    change r.hom (affineSectionsDerivation f θ U hU (φU.hom a)) = φW.hom (θ a)
     rw [hbaseU, hcompA]
   have hD₁D₂ : D₁ = D₂ := (extendDerivationFormallyEtale_unique θ D₁ hD₁).trans
     (extendDerivationFormallyEtale_unique θ D₂ hD₂).symm
@@ -478,7 +477,7 @@ private theorem baseSection_restrict
     {A : Type u} [CommRing A] {V : Scheme.{u}} (f : V ⟶ Spec (.of A))
     {U W : V.Opens} (h : W ≤ U) (a : A) :
     V.presheaf.map (homOfLE h).op (baseSection f U a) = baseSection f W a := by
-  show (f.appLE ⊤ U (by simp) ≫ V.presheaf.map (homOfLE h).op).hom
+  change (f.appLE ⊤ U (by simp) ≫ V.presheaf.map (homOfLE h).op).hom
       ((Scheme.ΓSpecIso (.of A)).inv a) = _
   exact ConcreteCategory.congr_hom
     (f.appLE_map (U := ⊤) (V := U) (by simp) (homOfLE h).op)
@@ -497,7 +496,7 @@ private theorem gluedAffineSectionsOp_base
     {A : Type u} [CommRing A] {V : Scheme.{u}} (f : V ⟶ Spec (.of A))
     [Etale f] (θ : Derivation ℤ A A) (U : V.Opens) (a : A) :
     gluedAffineSectionsOp f θ U (baseSection f U a) = baseSection f U (θ a) := by
-  show (existsUnique_gluedAffineSections f θ U
+  change (existsUnique_gluedAffineSections f θ U
     (baseSection f U a)).choose = _
   apply (existsUnique_gluedAffineSections f θ U
     (baseSection f U a)).choose_eq_iff.mpr
@@ -676,16 +675,16 @@ private theorem SheafDerivation.toSheafHom_baseScalar_leibniz
       baseScalarSheafHom f (θ a) + D.toSheafHom ≫ baseScalarSheafHom f a := by
   ext U s
   change Γ(V, U.unop) at s
-  show D.onSections U.unop ((baseScalarSheafHom f a).hom.app U s) =
+  change D.onSections U.unop ((baseScalarSheafHom f a).hom.app U s) =
     (baseScalarSheafHom f (θ a)).hom.app U s +
       (baseScalarSheafHom f a).hom.app U (D.onSections U.unop s)
   rw [baseScalarSheafHom_apply f a U.unop s,
     baseScalarSheafHom_apply f (θ a) U.unop s,
     baseScalarSheafHom_apply f a U.unop (D.onSections U.unop s)]
-  show D.onSections U.unop (baseSection f U.unop a * s) =
+  change D.onSections U.unop (baseSection f U.unop a * s) =
     baseSection f U.unop (θ a) * s + baseSection f U.unop a * D.onSections U.unop s
   rw [(D.onSections U.unop).leibniz]
-  show baseSection f U.unop a * D.onSections U.unop s +
+  change baseSection f U.unop a * D.onSections U.unop s +
     s * D.onSections U.unop (baseSection f U.unop a) = _
   rw [show D.onSections U.unop (baseSection f U.unop a) =
     baseSection f U.unop (θ a) from D.extends_base U.unop a]
@@ -724,10 +723,10 @@ private theorem homologyMap_apply_of_scalar
   have hz : HomologicalComplex.cyclesMap g i z = r • z := by
     apply (ModuleCat.mono_iff_injective (K.iCycles i)).mp inferInstance
     rw [← ConcreteCategory.comp_apply, HomologicalComplex.cyclesMap_i]
-    show g.f i (K.iCycles i z) = K.iCycles i (r • z)
+    change g.f i (K.iCycles i z) = K.iCycles i (r • z)
     rw [hg, (K.iCycles i).hom.map_smul]
   rw [← ConcreteCategory.comp_apply, HomologicalComplex.homologyπ_naturality]
-  show K.homologyπ i (HomologicalComplex.cyclesMap g i z) = _
+  change K.homologyπ i (HomologicalComplex.cyclesMap g i z) = _
   rw [hz, (K.homologyπ i).hom.map_smul]
 
 /-- Derived module-valued evaluation sends multiplication by a base section to
@@ -784,7 +783,7 @@ private theorem inducedCohomology_baseScalar
           (((SheafOfModules.evaluation (V.ringCatSheaf) (op (⊤ : V.Opens))).rightDerived i).map
             (baseScalarModuleHom f a)) ≫ (cohomologyComparison f i).hom := hn.symm
     rw [← Category.assoc, hn', Category.assoc, Iso.hom_inv_id, Category.comp_id]
-  show ((cohomologyComparison f i).hom ≫ _ ≫ (cohomologyComparison f i).inv) x = _
+  change ((cohomologyComparison f i).hom ≫ _ ≫ (cohomologyComparison f i).inv) x = _
   rw [heq]
   exact rightDerived_baseScalarModuleHom f a i x
 
@@ -798,7 +797,7 @@ private theorem inducedCohomology_comp_apply
   let c := cohomologyComparison f i
   let F := (((sheafSections (Opens.grothendieckTopology V) AddCommGrpCat).obj
     (op (⊤ : V.Opens))).rightDerived i)
-  show c.inv (F.map (D ≫ E) (c.hom x)) = c.inv (F.map E (c.hom (c.inv (F.map D (c.hom x)))))
+  change c.inv (F.map (D ≫ E) (c.hom x)) = c.inv (F.map E (c.hom (c.inv (F.map D (c.hom x)))))
   rw [Iso.inv_hom_id_apply, F.map_comp]
   rfl
 
@@ -817,7 +816,7 @@ private theorem rightDerived_additive
           (HomotopyCategory.quotient C (ComplexShape.up ℕ)).map
             (InjectiveResolution.desc g (injectiveResolution Y) (injectiveResolution X)) :=
       (HomotopyCategory.quotient C (ComplexShape.up ℕ)).map_add
-    show (HomotopyCategory.quotient C (ComplexShape.up ℕ)).map
+    change (HomotopyCategory.quotient C (ComplexShape.up ℕ)).map
         (InjectiveResolution.desc (f + g) (injectiveResolution Y)
           (injectiveResolution X)) =
       (HomotopyCategory.quotient C (ComplexShape.up ℕ)).map
@@ -842,10 +841,10 @@ private theorem inducedCohomology_add_apply
   let F := (sheafSections (Opens.grothendieckTopology V) AddCommGrpCat).obj
     (op (⊤ : V.Opens))
   have : F.Additive := by
-    show (sheafToPresheaf _ _ ⋙ (evaluation _ _).obj (op (⊤ : V.Opens))).Additive
+    change (sheafToPresheaf _ _ ⋙ (evaluation _ _).obj (op (⊤ : V.Opens))).Additive
     infer_instance
   have : (F.rightDerived i).Additive := rightDerived_additive F i
-  show (cohomologyComparison f i).inv.hom
+  change (cohomologyComparison f i).inv.hom
     ((F.rightDerived i).map (D + E) ((cohomologyComparison f i).hom x)) = _
   rw [Functor.map_add]
   exact map_add _ _ _

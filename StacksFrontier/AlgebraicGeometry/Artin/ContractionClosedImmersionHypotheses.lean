@@ -306,7 +306,7 @@ theorem mem_U' {V : BigFppfOver B S hS} (x : c.X'.obj (Opposite.op V))
     (hV : Set.range (Space.pointsMap B S hS (yoneda.obj V) (terminal.from (yoneda.obj V))) ⊆
       h.Zᶜ) :
     x ∈ c.U'.obj (Opposite.op V) := by
-  show Set.range (Space.pointsMap B S hS (yoneda.obj V) (yonedaEquiv.symm x)) ⊆ c.T'ᶜ
+  change Set.range (Space.pointsMap B S hS (yoneda.obj V) (yonedaEquiv.symm x)) ⊆ c.T'ᶜ
   rw [← h.hT', ← Set.preimage_compl]
   exact (range_subset_preimage_iff _ h.Zᶜ x).2 hV
 
@@ -342,7 +342,7 @@ theorem selfChartHom_appTop (y : Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)) :
     ((BigFppfOver.toScheme B S hS).map (selfChartHom V)).appTop y =
       (Scheme.ΓSpecIso Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)).inv y := by
   let X := (BigFppfOver.toScheme B S hS).obj V
-  show X.isoSpec.inv.appTop y = _
+  change X.isoSpec.inv.appTop y = _
   have h1 : (Scheme.ΓSpecIso Γ(X, ⊤)).hom ≫ X.isoSpec.inv.appTop = 𝟙 _ := by
     rw [← Scheme.toSpecΓ_appTop, ← Scheme.Hom.comp_appTop,
       show X.isoSpec.inv ≫ X.toSpecΓ = 𝟙 _ from X.isoSpec.inv_hom_id, Scheme.Hom.id_appTop]

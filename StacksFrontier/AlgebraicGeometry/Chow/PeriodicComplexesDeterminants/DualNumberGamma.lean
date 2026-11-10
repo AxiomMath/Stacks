@@ -93,7 +93,7 @@ private lemma moduleLength_dualRange (k : Type u) [Field k] (a : kˣ) :
   have hinj : Function.Injective e := fun x y hxy ↦ by
     simpa [e, LinearMap.toSpanSingleton_apply, dualRangeEps] using
       congrArg (fun z : V ↦ (z : DualNumber k).snd) hxy
-  show (Module.length k V).toNat = 1
+  change (Module.length k V).toNat = 1
   rw [← (LinearEquiv.ofBijective e ⟨hinj, hsurj⟩).length_eq]
   simp
 
@@ -146,7 +146,7 @@ private lemma periodicGamma_unitMulT_formula
   have hlift : ∀ j, p (lift j) = (dualRangeGenerator k a).1 j := by
     intro j
     apply Subtype.ext
-    show unitMulT k a (algebraMap k (DualNumber k) (a⁻¹ : k)) = DualNumber.eps
+    change unitMulT k a (algebraMap k (DualNumber k) (a⁻¹ : k)) = DualNumber.eps
     simp [unitMulT, mul_comm, ← map_mul]
   obtain ⟨hlen, hadm, heq⟩ := hspec (dualRangeGenerator k b)
     (dualRangeGenerator k a) hKsym hNsym lift hlift
@@ -182,7 +182,7 @@ private lemma periodicGamma_unitMulT_formula
         intro h
         have hv := congrArg Fin.val h
         simp [iOne] at hv
-      show DualNumber.eps = Function.update (dualGenerator k).1 iOne
+      change DualNumber.eps = Function.update (dualGenerator k).1 iOne
         (algebraMap k (DualNumber k) (a⁻¹ : k))
           (Fin.cast (dualNumberModuleLength k).symm ⟨0, by decide⟩)
       rw [Function.update_of_ne hne]

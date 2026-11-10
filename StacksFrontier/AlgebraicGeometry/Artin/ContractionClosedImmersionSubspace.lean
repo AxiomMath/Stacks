@@ -73,7 +73,7 @@ theorem nonempty_subspace_iff (V : BigFppfOver B S hS) :
   constructor
   · rintro ⟨⟨t, r, -⟩⟩
     refine ⟨r, ?_⟩
-    show r ≫ h.closedHom = toBase V
+    change r ≫ h.closedHom = toBase V
     apply Over.OverMorphism.ext
     have h1 := Over.w (r ≫ h.closedHom)
     simp only [baseObj, Over.mk_hom] at h1
@@ -153,7 +153,7 @@ theorem kills_iff (U : S.affineOpens) {V : BigFppfOver B S hS}
     intro I
     have htop : (Scheme.IdealSheafData.ofIdealTop K).ideal ⟨⊤, isAffineOpen_top _⟩ = K := by
       rw [Scheme.IdealSheafData.ofIdealTop_ideal]
-      show K.map (((BigFppfOver.toScheme B S hS).obj (chartOf (hS := hS) U)).presheaf.map
+      change K.map (((BigFppfOver.toScheme B S hS).obj (chartOf (hS := hS) U)).presheaf.map
         (homOfLE le_top).op).hom = K
       rw [presheaf_map_top_op]
       exact Ideal.map_id K

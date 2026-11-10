@@ -58,9 +58,10 @@ Nothing is registered: every statement carries Stacks 0DKY as a hypothesis.
 ## Implementation notes
 
 Only `AlgebraicGeometry.Space.isGE_smallEtaleDerivedDual` pins the standard model of the derived
-category (at the priority of `StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleDerivedSheafHom.lean`,
-in its own section), as it works on the equi-universe model; everything else is elaborated at the
-instances of `StacksFrontier/AlgebraicGeometry/Quot/NegativeExtLocus.lean`, the objects of
+category (at the priority of
+`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleDerivedSheafHom.lean`, in its own section), as it
+works on the equi-universe model; everything else is elaborated at the instances of
+`StacksFrontier/AlgebraicGeometry/Quot/NegativeExtLocus.lean`, the objects of
 `D(𝒪)` being typed as `AlgebraicGeometry.Space.derivedModules` where an instance is searched.
 
 ## References

@@ -199,7 +199,7 @@ public theorem reindexMap_eq_presheafPullbackMap {U : Type uU} {X : Type uX} {C 
   let A := AddCommGrpCat.{max uU uX vX vU vC w}
   have hr : r ⋙ Pm = Pn := projection_reindex p f φ.toOrderHom
   apply ((Pn.op.ranAdjunction A).homEquiv _ _).symm.injective
-  show Functor.whiskerLeft Pn.op (reindexMap p f F φ) ≫ Pn.op.ranCounit.app (Pn.op ⋙ F) =
+  change Functor.whiskerLeft Pn.op (reindexMap p f F φ) ≫ Pn.op.ranCounit.app (Pn.op ⋙ F) =
     Functor.whiskerLeft Pn.op (presheafPullbackMap Pm r (Pm.op ⋙ F)) ≫
       Pn.op.ranCounit.app (Pn.op ⋙ F)
   rw [reindexMap_fac (p := p) (f := f) (F := F) (m := m) (n := n) φ]
@@ -261,7 +261,7 @@ public theorem sheafPullbackMap_natural {G H : Sheaf K A} (α : G ⟶ H) :
   let _ : ∀ P : Vᵒᵖ ⥤ A, (h.op ⋙ f.op).HasRightKanExtension P :=
     fun P => inferInstanceAs ((h ⋙ f).op.HasRightKanExtension P)
   apply (sheafToPresheaf L A).map_injective
-  show _ ≫ (sheafPullbackMap J K L f h H).hom = _ ≫ _
+  change _ ≫ (sheafPullbackMap J K L f h H).hom = _ ≫ _
   rw [sheafPullbackMap_hom J K L f h G, sheafPullbackMap_hom J K L f h H]
   exact presheafPullbackMap_natural f h α.hom
 

@@ -109,7 +109,8 @@ companions are assembled from `B`'s own cutoff and covering bound syntactically,
 affine objects over `S` are `AlgebraicGeometry.BigAffineFppf B S hS` on the nose and those four
 instances *are* statements about the inclusion of this file — and
 `AlgebraicGeometry.generate_affineOverPresieve_mem` uses them that way.  Nor is (7) ⇒ (8)
-specific to fppf, resting on Descent, Proposition 03DX (1) at `τ`: (7) ⇒ (1) ⇒ (8) avoids 03DX at `τ` altogether.)
+specific to fppf, resting on Descent, Proposition 03DX (1) at `τ`: (7) ⇒ (1) ⇒ (8) avoids 03DX at
+`τ` altogether.)
 
 The implication **(1) ⇒ (7)** of Stacks 0GZV, equivalently (6) ⇒ (7), is covered in
 `StacksFrontier.AlgebraicGeometry.Descent.BigAffineSiteModuleComparisonLemma`, which together with

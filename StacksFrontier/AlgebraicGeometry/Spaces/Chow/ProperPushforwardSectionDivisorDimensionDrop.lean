@@ -183,7 +183,7 @@ theorem properCyclePushforward_canonicalDivisorCycleAt_pullback_eq_zero_of_delta
     (pullbackMeromorphicSection D.site D.base D.base_mem g M hfm t) hgt hk with hcdef
   refine Subtype.ext (funext fun Z' => ?_)
   rw [properPushforward_apply]
-  show (∑ᶠ Z, (c : IntegralClosedSubspace D.site D.base D.base_mem W → ℤ) Z *
+  change (∑ᶠ Z, (c : IntegralClosedSubspace D.site D.base D.base_mem W → ℤ) Z *
     properCycleMult D sW hW sW' hW' g.hom Z Z') = 0
   refine finsum_eq_zero_of_forall_eq_zero fun Z => ?_
   by_contra hZ
@@ -201,7 +201,7 @@ theorem properCyclePushforward_canonicalDivisorCycleAt_pullback_eq_zero_of_delta
   have hδζ : D.deltaValue sW' (pointsMap D.site D.base D.base_mem W g.hom
       (Z.ambientGenericPoint D.site D.base D.base_mem)) = k := by
     rw [← hζ]
-    show deltaDimension D sW' Z' = k
+    change deltaDimension D sW' Z' = k
     rw [← himg, hδeq, hδZ]
   have _ : T0Space (points D.site D.base D.base_mem W') :=
     t0Space_points_of_isDecentSpace D.site D.base D.base_mem hW'.1 hdec'
@@ -235,7 +235,7 @@ theorem properCyclePushforward_canonicalDivisorCycleAt_pullback_eq_zero_of_delta
     D.site D.base D.base_mem (X := ⟨W, hW.1⟩) (Y := ⟨W', hW'.1⟩) hdec hWint hN hW'int hN' g hfm
     Z'' (by rw [hgenZ'']; exact hqz) M hM t ht
   refine hcZ ?_
-  show divisorCycleCoefficients D sW hW hdec _ _ _ Z = 0
+  change divisorCycleCoefficients D sW hW hdec _ _ _ Z = 0
   rw [divisorCycleCoefficients_of_codimension_eq_one D sW hW hdec _ _ _ hcod]
   exact hord
 

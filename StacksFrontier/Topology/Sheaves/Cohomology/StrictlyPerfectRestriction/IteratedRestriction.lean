@@ -301,7 +301,7 @@ free modules by
 theorem isStrictlyPerfect_restrictComplex (X : RingedSpace.{u, u}) (U : Opens X.carrier)
     {P : CochainComplex (OXMod.{u} X) ℤ} (hP : IsStrictlyPerfect P) :
     IsStrictlyPerfect (restrictComplex P U) :=
-  ⟨hP.bounded.subset fun i hi h => hi ((restrictModules.{u} X U).map_isZero h),
+  ⟨hP.bounded.subset fun _ hi h => hi ((restrictModules.{u} X U).map_isZero h),
     fun i => isDirectSummandOfFiniteFree_restrictModules X U _ (hP.directSummand i)⟩
 
 end StrictlyPerfect

@@ -80,7 +80,7 @@ theorem exists_closedSubspaces_viewOverIntegers (Y : AlgebraicSpaces B S hS) {ι
       (isAlgebraicSpace_relocalize B (B.obj hS) (B.obj hZ) k _ (Z i).2.1)
       (isClosedImmersion_relocalize B S hS hZ k (Z i).2.2)⟩, ?_, ?_, ?_⟩
   · intro i j hij
-    show Subfunctor.range (Λ.map (Z j).1.ι) ≤ Subfunctor.range (Λ.map (Z i).1.ι)
+    change Subfunctor.range (Λ.map (Z j).1.ι) ≤ Subfunctor.range (Λ.map (Z i).1.ι)
     rw [← Subfunctor.homOfLe_ι (hZmono hij), Λ.map_comp]
     exact Subfunctor.range_comp_le _ _
   · exact fun i => ⟨(asIso (Subfunctor.toRange (Λ.map (Z i).1.ι))).symm⟩

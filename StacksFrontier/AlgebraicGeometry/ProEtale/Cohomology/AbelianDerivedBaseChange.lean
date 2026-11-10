@@ -130,9 +130,9 @@ horizontal mate of the comparison of the composite direct images. -/
 def proetaleAbelianBaseChange :
     proetaleAbelianDirectImage f ⋙ proetaleAbelianInverseImage g ⟶
       proetaleAbelianInverseImage g' ⋙ proetaleAbelianDirectImage f' :=
-  ((mateEquiv (proetaleAbelianInverseImageAdjunction g')
+  (mateEquiv (proetaleAbelianInverseImageAdjunction g')
     (proetaleAbelianInverseImageAdjunction g)).symm
-      (TwoSquare.mk _ _ _ _ (proetaleAbelianDirectImageSquare f g f' g' w).hom)).natTrans
+      (TwoSquare.mk _ _ _ _ (proetaleAbelianDirectImageSquare f g f' g' w).hom)
 
 /-- **The base change map** `g⁻¹ Rf_* ⟶ Rf'_* (g')⁻¹` of pro-étale abelian sheaves. -/
 def proetaleAbelianDerivedBaseChange :

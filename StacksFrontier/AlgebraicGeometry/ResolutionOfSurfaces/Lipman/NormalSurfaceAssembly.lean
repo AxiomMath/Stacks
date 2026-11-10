@@ -155,7 +155,7 @@ theorem isModification_of_normalizedBlowUpSeq (A : Type u) [CommRing A] [IsLocal
   have hNagata : IsNagataScheme (Spec (.of A)) := isNagataScheme_spec_of_isNagataRing A hN
   have hY0 := finite_irreducibleComponents_of_isCompact (Spec (.of A))
   have hdimS : topologicalKrullDim (Spec (.of A)) = 2 := by
-    show topologicalKrullDim (PrimeSpectrum A) = 2
+    change topologicalKrullDim (PrimeSpectrum A) = 2
     rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, hdim]
   obtain ⟨-, hYnoeth, hYnormal, hfproper⟩ := hseq.properties hNagata
   obtain ⟨W, g, e, hchain, he⟩ :=

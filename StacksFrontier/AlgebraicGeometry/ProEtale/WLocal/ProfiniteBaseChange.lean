@@ -3,7 +3,7 @@ module
 public import Mathlib.Topology.Category.TopCat.Limits.Basic
 public import Mathlib.Topology.Category.TopCat.Limits.Pullbacks
 public import Mathlib.Topology.Homeomorph.Lemmas
-public import Mathlib.Topology.Separation.Profinite
+public import Mathlib.Topology.Separation.Regular
 public import Mathlib.Topology.Spectral.Basic
 public import StacksCore.Tactic.StacksAttribute
 public import StacksCore.Topology.Connected.ComponentSpace
@@ -141,7 +141,7 @@ private theorem projectionFiber_isConnected (S : ProfiniteBaseChangeOfComponentM
   have hset : {x' : S.X | S.componentMap x' = S.toConnectedComponents t} =
       connectedComponent x := by
     ext x'
-    show ((x' : ConnectedComponents S.X) = S.toConnectedComponents t) ↔
+    change ((x' : ConnectedComponents S.X) = S.toConnectedComponents t) ↔
       x' ∈ connectedComponent x
     rw [← hx]
     exact ConnectedComponents.coe_eq_coe'

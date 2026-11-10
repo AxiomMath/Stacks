@@ -85,13 +85,13 @@ theorem exists_stage_lift_quotSitePresheaf (hF : D.F.IsFinitePresentationOnSite)
   let zm : QuotFamilyOver D (Dg.obj m.left) :=
     ⟨((D.toCoherentSituation.stageTestSystem E g).obj m).hom, K', hK'⟩
   refine ⟨m.left, m.hom, zm, ?_, ?_⟩
-  · show yonedaEquiv ((yoneda (C := BigFppfOver B S hS)).map (Dg.map m.hom) ≫
+  · change yonedaEquiv ((yoneda (C := BigFppfOver B S hS)).map (Dg.map m.hom) ≫
       (yonedaEquiv (F := D.Y.1) (X := Dg.obj i)).symm y) = _
     rw [yonedaEquiv_symm_naturality_left, Equiv.apply_symm_apply]
-  · show zm.baseChange (c.π.app m.left) = _
+  · change zm.baseChange (c.π.app m.left) = _
     refine (D.quotFamily_eq_baseChange_of (c.π.app m.left) ⟨_, K, hK⟩ zm ?_
       ((D.toCoherentSituation.stageTestCone E cE g).π.app m) rfl hpull.symm).symm
-    show (schemeSpaceFunctor B S hS).map (c.π.app i) ≫ g =
+    change (schemeSpaceFunctor B S hS).map (c.π.app i) ≫ g =
       (schemeSpaceFunctor B S hS).map (c.π.app m.left) ≫
         (schemeSpaceFunctor B S hS).map (Dg.map m.hom) ≫ g
     rw [← Functor.map_comp_assoc, c.w]
@@ -99,7 +99,8 @@ theorem exists_stage_lift_quotSitePresheaf (hF : D.F.IsFinitePresentationOnSite)
 /-- If `F` is of finite presentation, then `Quot_{F/X/B} ⟶ B` is locally of finite presentation:
 the morphism of schemes underlying every commuting square of étale charts of the Quot presheaf over
 `B` is locally of finite presentation. -/
-@[stacks 0DM3 "the finite-presentation clause: if F is of finite presentation, Quot_{F/X/B} → B is locally of finite presentation"]
+@[stacks 0DM3 "the finite-presentation clause: if F is of finite presentation, \
+Quot_{F/X/B} → B is locally of finite presentation"]
 theorem isLocallyOfFinitePresentationULift_quotSitePresheafToBase
     (hF : D.F.IsFinitePresentationOnSite) :
     IsLocallyOfFinitePresentationULift.{u + 1} B S hS D.quotSitePresheafToBase :=

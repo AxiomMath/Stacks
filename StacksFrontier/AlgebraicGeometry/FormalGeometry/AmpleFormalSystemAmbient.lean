@@ -124,7 +124,7 @@ public lemma toAmbient_comp {Xn : ℕ → Scheme.{u}} (q : ∀ n, Xn n ⟶ adicT
       toAmbient (q n) (g n) := by
   refine pullback.hom_ext ?_ ?_
   · rw [Category.assoc]
-    show i n ≫ toAmbient (q (n + 1)) (g (n + 1)) ≫ ambientHom A N = _
+    change i n ≫ toAmbient (q (n + 1)) (g (n + 1)) ≫ ambientHom A N = _
     rw [toAmbient_ambientHom, ← Category.assoc, hq n, Category.assoc, adicThickeningSucc_ι]
     exact (toAmbient_ambientHom (q n) (g n)).symm
   · rw [Category.assoc, toAmbient_toIntegralAtUniverse, hg n,

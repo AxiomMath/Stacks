@@ -76,7 +76,7 @@ theorem subsingleton_colimit_of_subsingleton {J : Type u} [Category.{u} J] [IsFi
 restriction is trivial exactly when `φ ≫ θ = φ`. -/
 theorem eq_id_iff_of_comp_eq {C : Type*} [Category C] {X : Type*} [Category X] (p : X ⥤ C)
     (hp : p.IsFiberedInGroupoids) {R T : C} (f : R ⟶ T) {z x : X} (φ : z ⟶ x)
-    (hφ : p.IsHomLift f φ) (θ : x ⟶ x) (hθ : p.IsHomLift (𝟙 T) θ) (θ' : z ⟶ z)
+    (hφ : p.IsHomLift f φ) (θ : x ⟶ x) (θ' : z ⟶ z)
     (hθ' : p.IsHomLift (𝟙 R) θ') (h : φ ≫ θ = θ' ≫ φ) : θ' = 𝟙 z ↔ φ ≫ θ = φ := by
   have : p.IsStronglyCartesian f φ := hp.isStronglyCartesian_homLift f φ
   constructor
@@ -159,7 +159,7 @@ theorem exists_mono_locallyOfFiniteType_trivialLocus
   let π : ∀ T : BigFppfOver B P.left.1 P.left.2, Y.obj T ⟶ pt := fun T =>
     Functor.IsPreFibered.pullbackMap pt'.2 (g T)
   have hπ (T) : pZ.IsHomLift (g T) (π T) := by
-    show pZ.IsHomLift (g T) (Functor.IsPreFibered.pullbackMap pt'.2 (g T))
+    change pZ.IsHomLift (g T) (Functor.IsPreFibered.pullbackMap pt'.2 (g T))
     infer_instance
   have hπa (T : BigFppfOver B P.left.1 P.left.2) : 𝒳.val.p.IsHomLift (g T) (π T).a := by
     have h₁ := (π T).ha
@@ -182,7 +182,7 @@ theorem exists_mono_locallyOfFiniteType_trivialLocus
     rw [hFsupp T]
     have hc := comp_diagonalAut_hom hG (π T)
     rw [hdpt] at hc
-    exact eq_id_iff_of_comp_eq 𝒳.val.p hp (g T) (π T).a (hπa T) θ ‹_› _ (hvert T) hc
+    exact eq_id_iff_of_comp_eq 𝒳.val.p hp (g T) (π T).a (hπa T) θ _ (hvert T) hc
   -- local finite presentation of the support over the base
   have hlfp : Space.IsLocallyOfFinitePresentation B P.left.1 P.left.2
       (Space.toYonedaId B P.left.1 P.left.2 F) := by
@@ -201,7 +201,7 @@ theorem exists_mono_locallyOfFiniteType_trivialLocus
           { app := fun i => ObjectProperty.homMk ((Over.map P.hom).map (c.π.app i))
             naturality := fun i j f => by
               apply ObjectProperty.hom_ext
-              show 𝟙 _ ≫ (Over.map P.hom).map (c.π.app j) =
+              change 𝟙 _ ≫ (Over.map P.hom).map (c.π.app j) =
                 (Over.map P.hom).map (c.π.app i) ≫ (Over.map P.hom).map (D.map f)
               rw [Category.id_comp, ← Functor.map_comp, c.w f] } }
     have hc' : IsLimit ((BigAffineFppf.toScheme B S hS).mapCone c') := hc
@@ -228,7 +228,7 @@ theorem exists_mono_locallyOfFiniteType_trivialLocus
       (diagonalAut hG (Y.obj (D.obj i₀))).asIso.hom (𝟙 _) (hvert _) (hid _) (by
         have hc := comp_diagonalAut_hom hG (Y.map (c.π.app i₀))
         refine hc.trans ?_
-        show (diagonalAut hG (Y.obj c.pt)).asIso.hom ≫ _ = _
+        change (diagonalAut hG (Y.obj c.pt)).asIso.hom ≫ _ = _
         rw [hθpt, Category.id_comp, Category.comp_id])
     have hθk : (diagonalAut hG (Y.obj (D.obj k))).asIso.hom = 𝟙 _ := by
       have hmap : 𝒳.val.p.IsHomLift ((D ⋙ Over.map P.hom).map s) (Y.map (D.map s)).a :=
@@ -250,7 +250,7 @@ theorem exists_mono_locallyOfFiniteType_trivialLocus
         apply (cancel_epi v).mp
         rw [← Category.assoc, hv, hdxe, Category.comp_id]
       exact (eq_id_iff_of_comp_eq 𝒳.val.p hp ((D ⋙ Over.map P.hom).map s) (Y.map (D.map s)).a hmap
-        (diagonalAut hG (Y.obj (D.obj i₀))).asIso.hom (hvert _) _ (hvert _)
+        (diagonalAut hG (Y.obj (D.obj i₀))).asIso.hom _ (hvert _)
         (comp_diagonalAut_hom hG (Y.map (D.map s)))).mpr hres
     obtain ⟨w⟩ := (hFsupp (D.obj k)).mpr hθk
     refine ⟨colimit.ι (D.op ⋙ F) (op k) w, ?_, ?_⟩
@@ -308,7 +308,7 @@ theorem exists_mono_locallyOfFiniteType_trivialLocus
           e.hom ≫ Space.toYonedaId B P.left.1 P.left.2 F := by
         ext T m
         apply Over.OverMorphism.ext
-        show m.left ≫ Zo.hom = T.unop.hom
+        change m.left ≫ Zo.hom = T.unop.hom
         exact Over.w m
       rw [heq]
       have := Space.isLocallyOfFiniteType_respectsIso B P.left.1 P.left.2

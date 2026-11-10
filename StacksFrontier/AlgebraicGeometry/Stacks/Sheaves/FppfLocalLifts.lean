@@ -67,7 +67,7 @@ theorem functorPullback_mem_inheritedTopology (p : 𝒮 ⥤ 𝒞) [p.IsFibered]
   have hmem : Presieve.ofArrows Y' g ∈ p.inheritedPrecoverage J.toPrecoverage a := by
     refine ⟨fun _ _ ⟨i⟩ => hgc i, ?_⟩
     rw [GrothendieckTopology.mem_toPrecoverage_iff, Presieve.map_ofArrows]
-    show Sieve.ofArrows (fun i => p.obj (Y' i)) (fun i => p.map (g i)) ∈ J _
+    change Sieve.ofArrows (fun i => p.obj (Y' i)) (fun i => p.map (g i)) ∈ J _
     exact himg ▸ hR
   rw [Functor.inheritedTopology_eq]
   exact (p.inheritedTopology J).superset_covering

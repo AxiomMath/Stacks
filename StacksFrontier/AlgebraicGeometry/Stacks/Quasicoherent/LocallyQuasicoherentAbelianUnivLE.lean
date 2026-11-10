@@ -237,6 +237,7 @@ noncomputable def etaleSheafificationUnitUnivLE
     M ⟶ ((etaleSheafificationUnivLE B S hS p hp).obj M).val :=
   (etaleSheafificationAdjunctionUnivLE B S hS p hp).unit.app M
 
+omit [UnivLE.{u, m}] in
 /-- The unit of the sheafification adjunction of the associated étale site is natural. -/
 theorem etaleSheafificationUnit_naturality_univLE
     {M N : PresheafOfModules.{m} (ringStructureSheafCore B S hS p hp (etaleTopology B)

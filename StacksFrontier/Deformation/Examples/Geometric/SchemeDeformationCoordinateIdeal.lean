@@ -116,7 +116,7 @@ residue. -/
 theorem snd_mul_of_fst_eq_zero (x y : (coordBase (Λ := Λ) V : Type u))
     (hy : TrivSqZeroExt.fst y = 0) :
     TrivSqZeroExt.snd (x * y) = TrivSqZeroExt.fst x • TrivSqZeroExt.snd y := by
-  show (TrivSqZeroExt.fst x • TrivSqZeroExt.snd y + TrivSqZeroExt.fst y • TrivSqZeroExt.snd x :
+  change (TrivSqZeroExt.fst x • TrivSqZeroExt.snd y + TrivSqZeroExt.fst y • TrivSqZeroExt.snd x :
     V) = _
   rw [hy, zero_smul, add_zero]
 

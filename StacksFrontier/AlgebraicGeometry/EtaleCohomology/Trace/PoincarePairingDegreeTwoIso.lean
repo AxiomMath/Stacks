@@ -187,6 +187,7 @@ abbrev poincareTheta (i : letI := connectedSpace_of_isCurve B X f
     (poincareCocycleH0 B X f kbar Λ y j K₀ i _
         (galoisHomOpE_d_iCycles_zero B X f kbar Λ y j K₀ i z))
 
+omit [CompactSpace (kbar ≃ₐ[k] kbar)] in
 /-- The trace of the class of the pairing, by BC3. -/
 theorem trace_poincareCompactSupportClassK_eq (hn : IsUnit (((Fintype.card Λ) : ℕ) : kbar))
     (i : letI := connectedSpace_of_isCurve B X f
@@ -257,6 +258,7 @@ theorem trace_poincareCompactSupportClassK_eq (hn : IsUnit (((Fintype.card Λ) :
       (galoisCompactSupportResolutionIso_homologyπ_pair_eq_restrictScalarsMapOfBar B X f kbar
         Λ y j K₀ i x xΛ hx z zμ hzμ)
 
+omit [CompactSpace (kbar ≃ₐ[k] kbar)] in
 /-- The trace of the map induced by `θ_z`, by the S6a bridge. -/
 theorem trace_restrictScalarsMapOfBar_poincareTheta (hn : IsUnit (((Fintype.card Λ) : ℕ) : kbar))
     (i : letI := connectedSpace_of_isCurve B X f
@@ -294,6 +296,7 @@ theorem trace_restrictScalarsMapOfBar_poincareTheta (hn : IsUnit (((Fintype.card
     exact compactSupportCyclotomicTrace_restrictScalarsMapOfBar B X f kbar Λ y j hn i.M
       (poincareTheta B X f kbar Λ y j K₀ i z) (poincareCompactSupportClassI B X f kbar Λ y j i xΛ)
 
+omit [CompactSpace (kbar ≃ₐ[k] kbar)] in
 /-- **The trace of the class of the pairing is the degree-zero duality pairing** (BC3 and the
 trace formula of the S6a bridge): for a degree-two cycle `x` of `Γ^Gal(I)`, a degree-zero cycle `z`
 of `Γ^Gal(ℋom^•(I, K))` and the cocycle `zμ` of `Γ(X̄_k̄, K₀|)` with underlying element `⟨x, z⟩`,
@@ -364,7 +367,8 @@ theorem trace_poincareCompactSupportClassK_eq_compactSupportDegreeZeroPairing
   (trace_poincareCompactSupportClassK_eq B X f kbar Λ y j K₀ hn i x xΛ hx z zμ hzμ).trans
     (trace_restrictScalarsMapOfBar_poincareTheta B X f kbar Λ y j K₀ hn i xΛ z)
 
-omit [IsAlgClosed kbar] [CompactSpace (kbar ≃ₐ[k] kbar)] [Algebra (ZMod (Fintype.card Λ)) Λ] in
+omit [Smooth f] [GeometricallyConnected f] [IsAlgClosed kbar] [CompactSpace (kbar ≃ₐ[k] kbar)]
+  [Algebra (ZMod (Fintype.card Λ)) Λ] in
 /-- The class in `H²(Γ^Gal(I))` of a cycle `a`, read in `H²_c(X_k̄, ℱ_M)`, is the class of the
 same sections in `Γ(X̄_k̄, I|)`. -/
 theorem poincareAHomologyIso_hom_homologyπ (i : letI := connectedSpace_of_isCurve B X f
@@ -397,18 +401,16 @@ theorem poincareAHomologyIso_hom_homologyπ (i : letI := connectedSpace_of_isCur
   exact (congrArg (fun w => (forget₂ (ModuleCat Λ) AddCommGrpCat).map
     (galoisCompactSupportResolutionIso (f := f) kbar _ i.I 2).hom w) h).symm
 
-omit [IsAlgClosed kbar] [CompactSpace (kbar ≃ₐ[k] kbar)] [Algebra (ZMod (Fintype.card Λ)) Λ] in
+omit [Smooth f] [GeometricallyConnected f] [IsAlgClosed kbar] [CompactSpace (kbar ≃ₐ[k] kbar)]
+  [Fintype Λ] [Algebra (ZMod (Fintype.card Λ)) Λ] in
 /-- The cycle of `Γ(X̄_k̄, I|)` underlying a cycle `a` of `Γ^Gal(I)` has the same sections. -/
-theorem iCycles_mapCyclesIso_hom_poincare (i : letI := connectedSpace_of_isCurve B X f
-      haveI : NeZero (Fintype.card Λ) := ⟨Fintype.card_ne_zero⟩
+theorem iCycles_mapCyclesIso_hom_poincare [Finite Λ] (i : letI := connectedSpace_of_isCurve B X f
       PoincareIndex B X (y.map (fieldBaseChangeObjProj B X f kbar
         (contains_fieldBaseChange_of_isCurve B X f kbar)).hom) Λ f j)
     (a : letI := connectedSpace_of_isCurve B X f
-      haveI : NeZero (Fintype.card Λ) := ⟨Fintype.card_ne_zero⟩
       (Stacks.ContinuousCohomology.underlyingAb.{0, u, u + 1} Λ
         (galoisHomOpA (Over.mk j.toBase) kbar i.I.cocomplex)).cycles 2) :
     letI := connectedSpace_of_isCurve B X f
-    haveI : NeZero (Fintype.card Λ) := ⟨Fintype.card_ne_zero⟩
     (HomologicalComplex.iCycles (((etaleModuleGlobalSections.{u, 0} Λ
         (fieldBaseChange (Over.mk j.toBase) kbar)).mapHomologicalComplex _).obj
           (((etaleModuleInverseImage.{u, 0} Λ
@@ -422,7 +424,6 @@ theorem iCycles_mapCyclesIso_hom_poincare (i : letI := connectedSpace_of_isCurve
       ((Stacks.ContinuousCohomology.underlyingAb.{0, u, u + 1} Λ
         (galoisHomOpA (Over.mk j.toBase) kbar i.I.cocomplex)).iCycles 2).hom a := by
   let := connectedSpace_of_isCurve B X f
-  have : NeZero (Fintype.card Λ) := ⟨Fintype.card_ne_zero⟩
   exact ConcreteCategory.congr_hom (ShortComplex.mapCyclesIso_hom_iCycles
     (HomologicalComplex.sc (((etaleModuleGlobalSections.{u, 0} Λ
         (fieldBaseChange (Over.mk j.toBase) kbar)).mapHomologicalComplex _).obj
@@ -545,7 +546,7 @@ theorem poincarePairing_topDegreePairing_homologyπ (hn : IsUnit (((Fintype.card
   have hx := iCycles_mapCyclesIso_hom_poincare B X f kbar Λ y j i a
   have s1 :=
       @Stacks.ContinuousCohomology.postcomp_topDegreePairing_homologyπ_of_traceLift.{u, u + 1}
-    (kbar ≃ₐ[k] kbar) _ _ _ _ _ _ _ _ _ _ _ _ _
+    (kbar ≃ₐ[k] kbar) _ _ _ _ _ _ _ _ _ _ _
     (galoisHomOpComplexPairing (Over.mk j.toBase) kbar i.I.cocomplex
         (cyclotomicIntResolution B X f kbar y (Fintype.card Λ) j K₀)) 2
     (isLE_galoisHomOpG_cyclotomic B X f kbar y (Fintype.card Λ) j K₀)

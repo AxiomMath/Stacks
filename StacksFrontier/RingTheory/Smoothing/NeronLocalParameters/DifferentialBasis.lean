@@ -103,7 +103,7 @@ private lemma maximalIdealPreimage_residueField_isSeparableExtension
   have : IsScalarTower k K L := IsScalarTower.of_algebraMap_eq fun x => by
     obtain ⟨r, rfl⟩ :=
       (IsLocalRing.maximalIdeal S.R).algebraMap_residueField_surjective x
-    show (Ideal.ResidueField.map (IsLocalRing.maximalIdeal S.R)
+    change (Ideal.ResidueField.map (IsLocalRing.maximalIdeal S.R)
         (IsLocalRing.maximalIdeal S.Λ) (algebraMap S.R S.Λ)
         (IsLocalRing.maximalIdeal_comap (algebraMap S.R S.Λ)).symm)
         (algebraMap S.R k r) =
@@ -155,7 +155,7 @@ private lemma linearIndependent_differentials_of_regular_parameters
   let m := IsLocalRing.maximalIdeal U
   let κ := IsLocalRing.ResidueField U
   have hgm : ∀ i, g i ∈ m := fun i => by
-    show g i ∈ IsLocalRing.maximalIdeal U
+    change g i ∈ IsLocalRing.maximalIdeal U
     rw [← hgen]
     exact Ideal.subset_span ⟨i, rfl⟩
   let y : Fin c → m := fun i => ⟨g i, hgm i⟩
@@ -163,7 +163,7 @@ private lemma linearIndependent_differentials_of_regular_parameters
     apply Submodule.map_injective_of_injective
       (Submodule.injective_subtype m)
     rw [Submodule.map_span, Submodule.map_top, Submodule.range_subtype]
-    show Ideal.span ((m.subtype) '' Set.range y) = m
+    change Ideal.span ((m.subtype) '' Set.range y) = m
     rw [← Set.range_comp]
     exact hgen
   have hspanCot : Submodule.span κ
@@ -201,7 +201,7 @@ private lemma linearIndependent_differentials_of_regular_parameters
   have hli' := hli.map' φ (LinearMap.ker_eq_bot.mpr hφ)
   have hψg (i : Fin c) : ψ (m.toCotangent (y i)) =
       (1 : κ) ⊗ₜ[U] KaehlerDifferential.D k U (g i) := by
-    show (hker ▸ KaehlerDifferential.kerCotangentToTensor k U κ)
+    change (hker ▸ KaehlerDifferential.kerCotangentToTensor k U κ)
       (m.toCotangent ⟨g i, hgm i⟩) = _
     rw [cotangent_transport_apply hker
       (KaehlerDifferential.kerCotangentToTensor k U κ)
@@ -321,7 +321,7 @@ private lemma isRegular_away_mul
     simp only [List.map_map, Function.comp_def]
     congr 1
     funext x
-    show e (algebraMap A (Localization.Away (f * g)) x) = _
+    change e (algebraMap A (Localization.Away (f * g)) x) = _
     rw [e.commutes]
     exact (IsScalarTower.algebraMap_apply A B C x).symm
   rwa [hlist]
@@ -344,10 +344,10 @@ private lemma ideal_map_away_mul
       (algebraMap A (Localization.Away (f * g))) =
       (algebraMap B C).comp (algebraMap A B) := by
     ext x
-    show e (algebraMap A (Localization.Away (f * g)) x) = _
+    change e (algebraMap A (Localization.Away (f * g)) x) = _
     rw [e.commutes]
     exact (IsScalarTower.algebraMap_apply A B C x).symm
-  show Ideal.map e.toRingEquiv.toRingHom
+  change Ideal.map e.toRingEquiv.toRingHom
       (Ideal.map (algebraMap A (Localization.Away (f * g))) I) =
     Ideal.map e.toRingEquiv.toRingHom
       (Ideal.map (algebraMap A (Localization.Away (f * g))) J)
@@ -396,7 +396,7 @@ private lemma closedFibreAlgebra_isScalarTower (S : NeronSituation) (π : S.R)
     rfl
   let : Algebra (S.R ⧸ m) U :=
     Ideal.Quotient.algebraQuotientOfLEComap (maximalIdeal_le_comap_span_uniformizer S π hπ)
-  show algebraMap S.R U r =
+  change algebraMap S.R U r =
     (algebraMap (S.R ⧸ m) U) (e.symm (algebraMap S.R k r))
   rw [he]
   rfl
@@ -434,15 +434,15 @@ private lemma isSeparableExtension_residueField_closedFibre (S : NeronSituation)
       algebraMap k (IsLocalRing.ResidueField U) x := by
     obtain ⟨r, rfl⟩ :=
       (IsLocalRing.maximalIdeal S.R).algebraMap_residueField_surjective x
-    show eK ((Ideal.ResidueField.map (IsLocalRing.maximalIdeal S.R)
+    change eK ((Ideal.ResidueField.map (IsLocalRing.maximalIdeal S.R)
       S.maximalIdealPreimage (algebraMap S.R S.A)
       (maximalIdealPreimage_comap S).symm) (algebraMap S.R k r)) = _
     rw [Ideal.ResidueField.map_algebraMap]
-    show residueFieldEquivQuotient I (IsLocalRing.residue T (algebraMap S.R T r)) = _
+    change residueFieldEquivQuotient I (IsLocalRing.residue T (algebraMap S.R T r)) = _
     rw [residueFieldEquivQuotient_residue,
       IsScalarTower.algebraMap_apply k U (IsLocalRing.ResidueField U)]
     congr 1
-    show algebraMap S.R U r = algebraMap k U (algebraMap S.R k r)
+    change algebraMap S.R U r = algebraMap k U (algebraMap S.R k r)
     exact IsScalarTower.algebraMap_apply S.R k U r
   let eKa : K ≃ₐ[k] IsLocalRing.ResidueField U :=
     { __ := eK, commutes' := heK }
@@ -466,7 +466,7 @@ private lemma linearIndependent_one_tmul_D_of_quotient
   let κ := IsLocalRing.ResidueField U
   let gU : Fin c → U := fun i => Ideal.Quotient.mk I (g₀ i)
   have : IsScalarTower T U κ := ⟨fun t u x => by
-    show (algebraMap U κ (Ideal.Quotient.mk I t * u)) * x =
+    change (algebraMap U κ (Ideal.Quotient.mk I t * u)) * x =
       (algebraMap U κ (Ideal.Quotient.mk I t)) *
         ((algebraMap U κ u) * x)
     rw [map_mul, mul_assoc]⟩
@@ -497,26 +497,25 @@ private lemma linearIndependent_one_tmul_of_ringEquiv
   let eKT : K ≃ₗ[T] κ :=
     { __ := eK.toAddEquiv
       map_smul' := fun t x => by
-        show eK (t • x) = t • eK x
+        change eK (t • x) = t • eK x
         rw [Algebra.smul_def, Algebra.smul_def, map_mul, he] }
   let τ : TensorProduct T K M ≃ₗ[T] TensorProduct T κ M :=
     TensorProduct.congr eKT (LinearEquiv.refl T M)
   have hτ (r : K) (m : TensorProduct T K M) : τ (r • m) = eK r • τ m := by
-    induction m using TensorProduct.induction_on with
-    | zero => simp
+    induction m using TensorProduct.inductionOn with
     | tmul x y =>
-        show (eK (r * x)) ⊗ₜ[T] y = (eK r * eK x) ⊗ₜ[T] y
+        change (eK (r * x)) ⊗ₜ[T] y = (eK r * eK x) ⊗ₜ[T] y
         rw [map_mul]
     | add x y hx hy => simp [hx, hy, smul_add]
   have hli' := hli.map_of_injective_injectiveₛ
     eK τ.symm.toAddMonoidHom eK.injective τ.symm.injective (by
       intro r m
       apply τ.injective
-      show τ (τ.symm (eK r • m)) = τ (r • τ.symm m)
+      change τ (τ.symm (eK r • m)) = τ (r • τ.symm m)
       rw [τ.apply_symm_apply, hτ, τ.apply_symm_apply])
   have hs (i : ι) : τ.symm ((1 : κ) ⊗ₜ[T] v i) = (1 : K) ⊗ₜ[T] v i := by
     rw [τ.symm_apply_eq]
-    show _ = (eK 1) ⊗ₜ[T] v i
+    change _ = (eK 1) ⊗ₜ[T] v i
     rw [map_one]
   change LinearIndependent K (fun i => τ.symm ((1 : κ) ⊗ₜ[T] v i)) at hli'
   simpa only [hs] using hli'
@@ -551,7 +550,7 @@ private lemma linearIndependent_one_tmul_D_atPrime
     have hm := IsLocalRing.map_maximalIdeal_of_surjective
       (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective
     rw [← hm, hgen, Ideal.map_sup]
-    show Ideal.span (Set.range fun i => Ideal.Quotient.mk I (g₀ i)) =
+    change Ideal.span (Set.range fun i => Ideal.Quotient.mk I (g₀ i)) =
       Ideal.map (Ideal.Quotient.mk I) I ⊔
         Ideal.map (Ideal.Quotient.mk I) (Ideal.span (Set.range g₀))
     rw [Ideal.map_quotient_self, bot_sup_eq, Ideal.map_span, ← Set.range_comp]
@@ -640,7 +639,7 @@ private lemma exists_basis_extend_of_span_range {K V T : Type*} [Field K] [AddCo
     by_cases hz : ∃ i, j i = z
     · obtain ⟨i, rfl⟩ := hz
       rw [haTj, hβj]
-    · show β z = vT (Function.extend j g₀ a₀ z)
+    · change β z = vT (Function.extend j g₀ a₀ z)
       rw [Function.extend_apply' g₀ a₀ z hz]
       exact Classical.choose_spec (hβrange z)
   have : Finite ι := Module.Finite.finite_basis β

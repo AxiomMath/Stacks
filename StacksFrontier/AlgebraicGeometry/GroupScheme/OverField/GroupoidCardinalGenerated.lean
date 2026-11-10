@@ -73,11 +73,11 @@ private theorem essentiallySmall_fiber {S : Scheme.{u}}
       inv := ⟨f.inv, compat M₀ M e₀ e hα.symm⟩
       hom_inv_id := by
         apply QuasicoherentModule.Hom.ext
-        show f.hom ≫ f.inv = 𝟙 _
+        change f.hom ≫ f.inv = 𝟙 _
         simp [f]
       inv_hom_id := by
         apply QuasicoherentModule.Hom.ext
-        show f.inv ≫ f.hom = 𝟙 _
+        change f.inv ≫ f.hom = 𝟙 _
         simp [f] }
   exact ⟨M₀, ⟨a⟩, ⟨i⟩⟩
 

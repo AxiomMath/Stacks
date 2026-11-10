@@ -99,7 +99,7 @@ presentations. -/
 theorem towerConstMap_comp_presentation :
     towerConstMap J A B C a γ ≫ canonicalPresentation J B C b =
       canonicalPresentation J A B a ≫ β := by
-  show (canonicalPresentation J A B a ≫ γ ≫
+  change (canonicalPresentation J A B a ≫ γ ≫
     freeAlgebraSheafCoefficientMap J B (underlyingPresheaf J C)) ≫
       canonicalPresentation J B C b = _
   rw [Category.assoc, Category.assoc, canonicalPresentation_comp_coefficientMap, hβ]
@@ -111,7 +111,7 @@ theorem coefficientMap_comp_towerConstMap :
     f ≫ freeAlgebraSheafCoefficientMap J B (underlyingPresheaf J C) =
       freeAlgebraSheafCoefficientMap J A (underlyingPresheaf J B) ≫
         towerConstMap J A B C a γ := by
-  show _ = freeAlgebraSheafCoefficientMap J A (underlyingPresheaf J B) ≫
+  change _ = freeAlgebraSheafCoefficientMap J A (underlyingPresheaf J B) ≫
     (canonicalPresentation J A B a ≫ γ ≫
       freeAlgebraSheafCoefficientMap J B (underlyingPresheaf J C))
   rw [← Category.assoc, ← Category.assoc, canonicalPresentation_comp_coefficientMap, hf]
@@ -261,7 +261,7 @@ private theorem towerTargetComplex_d_negOne_zero :
           (canonicalConormalSequence.{v, u, w, z} J B C b).f ≫
         (_root_.SheafOfModules.restrictScalars.{max w u v z} (underlyingRingHomOfSite β)).map
           (eqToHom (naiveCotangentComplex_X_zero.{v, u, w, z} J B C b).symm) := by
-  show (_root_.SheafOfModules.restrictScalars.{max w u v z}
+  change (_root_.SheafOfModules.restrictScalars.{max w u v z}
     (underlyingRingHomOfSite β)).map ((naiveCotangentComplex.{v, u, w, z} J B C b).d (-1) 0) = _
   rw [naiveCotangentComplex_d_negOne_zero, Functor.map_comp, Functor.map_comp]
 

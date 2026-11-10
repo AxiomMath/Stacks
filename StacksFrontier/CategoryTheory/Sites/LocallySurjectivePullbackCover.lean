@@ -70,7 +70,7 @@ theorem isLocallySurjective_sigmaDesc_of_isPullback {F G : Sheaf J (Type max u v
   have key : (Limits.Sigma.map fun i ↦ (hP i).isoPullback.inv) ≫ Sigma.desc n =
       Sigma.desc fun i ↦ pullback.snd (ψ i) φ := by
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [← Category.assoc, Limits.Sigma.ι_map, Category.assoc, Sigma.ι_desc, Sigma.ι_desc]
+    rw [← Category.assoc, Limits.Sigma.ι_map, Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
     exact (hP i).isoPullback_inv_snd
   exact isLocallySurjective_of_fac key
 

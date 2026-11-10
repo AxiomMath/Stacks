@@ -96,7 +96,7 @@ private theorem hom_postcomp_bijective_of_acyclic
   · intro f₁ f₂ heq
     change f₁ ≫ s = f₂ ≫ s at heq
     have hd : (f₁ - f₂) ≫ (Triangle.mk s g h).mor₁ = 0 := by
-      show (f₁ - f₂) ≫ s = 0
+      change (f₁ - f₂) ≫ s = 0
       rw [Preadditive.sub_comp, heq, sub_self]
     obtain ⟨k, hk⟩ := Triangle.coyoneda_exact₂ (Triangle.mk s g h).invRotate
       (inv_rot_of_distTriang _ hT) (f₁ - f₂) hd

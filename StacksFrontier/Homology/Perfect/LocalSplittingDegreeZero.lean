@@ -135,9 +135,9 @@ theorem exists_derivedExtension_iso_single_biprod {R : Type u} [CommRing R] (p :
   let _ : Algebra (Localization.Away f) R' := ψ.toAlgebra
   refine ⟨(G.mapHomologicalComplex (ComplexShape.up ℤ)).obj P, b, inferInstance, inferInstance,
     fun j => ?_, fun j => ?_, ⟨?_⟩⟩
-  · show Module.Finite R' (TensorProduct (Localization.Away f) R' (P.X j))
+  · change Module.Finite R' (TensorProduct (Localization.Away f) R' (P.X j))
     infer_instance
-  · show Module.Projective R' (TensorProduct (Localization.Away f) R' (P.X j))
+  · change Module.Projective R' (TensorProduct (Localization.Away f) R' (P.X j))
     infer_instance
   have : (G.mapDerivedCategory).Additive := inferInstance
   have := preservesBinaryBiproducts_of_preservesBiproducts G.mapDerivedCategory

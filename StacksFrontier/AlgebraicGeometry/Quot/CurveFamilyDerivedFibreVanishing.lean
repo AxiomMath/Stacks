@@ -138,7 +138,7 @@ theorem primeResidueRingEquiv_comp :
         CommRingCat.ofHom (algebraMap _ p.ResidueField) := by
     have hrw := Scheme.Spec.map_residueFieldIso_inv_eq_fromSpecResidueField
       Γ((BigFppfOver.toScheme B S hS).obj U, ⊤) (primeSpecPoint B S hS U p)
-    show ((Spec Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)).fromSpecResidueField
+    change ((Spec Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)).fromSpecResidueField
       (primeSpecPoint B S hS U p) ≫
       ((BigFppfOver.toScheme B S hS).obj U).isoSpec.inv).appTop ≫
       (Scheme.ΓSpecIso _ ≪≫
@@ -314,7 +314,7 @@ theorem isZero_homology_derivedExtension_primeResidueMap_of_splitting {X : Curve
   have hw : gY ≫ Space.chartToSpace B integerBase hZ (schemeSpace X.base) V =
       schemeSpaceMap (X.baseChangeHom h).baseMap := by
     refine InducedCategory.hom_ext ?_
-    show yoneda.map g ≫ V.obj.hom = yoneda.map (g ≫ jV)
+    change yoneda.map g ≫ V.obj.hom = yoneda.map (g ≫ jV)
     rw [Functor.map_comp]
     congr 1
     exact (Functor.map_preimage yoneda

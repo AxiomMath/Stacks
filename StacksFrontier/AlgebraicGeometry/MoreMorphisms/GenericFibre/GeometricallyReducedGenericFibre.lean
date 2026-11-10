@@ -123,7 +123,7 @@ private theorem preimage_image_opens_eq_of_isHomeomorph {X Y : Scheme.{u}} (f : 
     (hf : IsHomeomorph f) (U : X.Opens) :
     f ⁻¹ᵁ ⟨f '' (U : Set X), hf.isOpenMap _ U.2⟩ = U := by
   apply SetLike.coe_injective
-  show f ⁻¹' (f '' (U : Set X)) = U
+  change f ⁻¹' (f '' (U : Set X)) = U
   exact Set.preimage_image_eq _ hf.injective
 
 private theorem isHomeomorph_of_universalHomeomorphism {X Y : Scheme.{u}} (f : X ⟶ Y)
@@ -299,7 +299,7 @@ private theorem isFractionRing_subalgebra_of_generators
     let b : S := algebraMap R S r
     have hb : (b : L) = algebraMap R L r := rfl
     refine ⟨a, b, ?_⟩
-    show x = (a : L) / (b : L)
+    change x = (a : L) / (b : L)
     rw [hb]
     dsimp [a]
     exact (eq_div_iff (algebraMap_tower_ne_zero_of_mem_nonZeroDivisors K
@@ -323,7 +323,7 @@ private theorem nilradical_comap_of_isOpenImmersion {X Y : Scheme.{u}}
     rw [Scheme.Hom.support_ker, Scheme.Pullback.range_fst, Scheme.IdealSheafData.range_subschemeι,
       Scheme.support_nilradical]
     simp
-  show i.ker = X.nilradical
+  change i.ker = X.nilradical
   exact ker_eq_nilradical_of_support_eq_top i hsupp
 
 private theorem isPurelyInseparable_residueFieldMap_specMap
@@ -377,7 +377,7 @@ private theorem isPurelyInseparable_residueFieldMap_specMap
     have heval' : eQ.toRingHom (((Spec.map f).residueFieldMap z).hom a) = idealMap (eP a) := by
       simpa only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe,
         RingEquiv.coe_toRingHom, RingEquiv.symm_apply_apply] using heval
-    show eQ.toRingHom (((Spec.map f).residueFieldMap z).hom a) =
+    change eQ.toRingHom (((Spec.map f).residueFieldMap z).hom a) =
       eQ.toRingHom (eQ.symm.toRingHom (idealMap (eP.toRingHom a)))
     exact heval'.trans (eQ.apply_symm_apply (idealMap (eP a))).symm
   rwa [hmap]
@@ -575,7 +575,7 @@ private theorem exists_spec_fractionRing_iso
     (a.toCommRingCatIso ≪≫ (Scheme.Spec.residueFieldIso (.of R) η).symm).op
   have he : e.hom ≫ Spec.map (CommRingCat.ofHom (algebraMap R L)) =
       (Spec (.of R)).fromSpecResidueField η := by
-    show Spec.map (CommRingCat.ofHom a.toRingHom ≫
+    change Spec.map (CommRingCat.ofHom a.toRingHom ≫
       (Scheme.Spec.residueFieldIso (.of R) η).inv) ≫ _ = _
     rw [Spec.map_comp, Category.assoc, ← Spec.map_comp]
     have ha : CommRingCat.ofHom (algebraMap R L) ≫ CommRingCat.ofHom a.toRingHom =
@@ -617,7 +617,7 @@ private theorem geometricallyReduced_genericFiber_of_fractionRing
   apply geometricallyReduced_reduction_baseChange f t _ hg
   exact comap_nilradical_fiberι f η
     (by
-      show closure {η} ∈ irreducibleComponents _
+      change closure {η} ∈ irreducibleComponents _
       rw [show closure {η} = Set.univ from genericPoint_spec _]
       exact ⟨IrreducibleSpace.isIrreducible_univ _, fun _ _ _ => Set.subset_univ _⟩)
 
@@ -946,7 +946,7 @@ private theorem flat_finitePresentation_geometricallyReduced_of_arrowIso
     ⟨eAllArrow.hom.left, eAllArrow.inv.left,
       Arrow.hom_inv_id_left eAllArrow, Arrow.inv_hom_id_left eAllArrow⟩
   have heRight : eAllArrow.hom.right = 𝟙 _ := by
-    show e.hom.right ≫ 𝟙 _ = 𝟙 _
+    change e.hom.right ≫ 𝟙 _ = 𝟙 _
     rw [he, Category.comp_id]
   have heAll : eLeft.hom ≫ fNested = f₂' := by
     have h := eAllArrow.hom.w
@@ -963,7 +963,7 @@ private theorem flat_finitePresentation_geometricallyReduced_of_arrowIso
         f₂' f₀' j :=
       hPullNested.flip.of_iso eLeft.symm (Iso.refl _)
         (Iso.refl _) (Iso.refl _) (by
-          show _ = eAllArrow.inv.left ≫ eAllArrow.hom.left ≫ _
+          change _ = eAllArrow.inv.left ≫ eAllArrow.hom.left ≫ _
           simp) (by
           apply (cancel_epi eLeft.hom).mp
           simpa only [Iso.refl_hom, Iso.symm_hom, Category.comp_id,

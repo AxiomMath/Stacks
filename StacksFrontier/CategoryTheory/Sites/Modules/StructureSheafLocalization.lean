@@ -145,7 +145,7 @@ localization presheaf followed by the sheafification map. -/
 private theorem hom_toLocalizationSheaf (S : MultiplicativeSubpresheaf X)
     [HasWeakSheafify X.J CommRingCat.{w}] :
     S.toLocalizationSheaf.hom = S.toLocalizationPresheaf ≫ toSheafify X.J _ := by
-  show (sheafificationIso X.O).hom.hom ≫ sheafifyMap X.J S.toLocalizationPresheaf = _
+  change (sheafificationIso X.O).hom.hom ≫ sheafifyMap X.J S.toLocalizationPresheaf = _
   rw [show (sheafificationIso X.O).hom.hom = toSheafify X.J X.O.obj by simp,
     ← toSheafify_naturality]
 
@@ -173,12 +173,12 @@ theorem existsUnique_lift_toLocalizationSheaf (S : MultiplicativeSubpresheaf X)
     apply NatTrans.ext
     funext U
     ext x
-    show (IsLocalization.lift (M := S.obj U) (hf U))
+    change (IsLocalization.lift (M := S.obj U) (hf U))
       (algebraMap (X.O.obj.obj U) (Localization (S.obj U)) x) = (f.hom.app U).hom x
     rw [IsLocalization.lift_eq]
   refine ⟨⟨sheafifyLift X.J (localizationPresheafLift S A f hf) A.property⟩, ?_, ?_⟩
   · apply Sheaf.hom_ext
-    show S.toLocalizationSheaf.hom ≫
+    change S.toLocalizationSheaf.hom ≫
       sheafifyLift X.J (localizationPresheafLift S A f hf) A.property = f.hom
     rw [hom_toLocalizationSheaf, Category.assoc, toSheafify_sheafifyLift, hψ]
   · intro g' hg'

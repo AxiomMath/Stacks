@@ -135,16 +135,16 @@ public theorem IsBaseChange.of_bijective_of_surjective_algebraMap
             map_smul' := ?_ }, ?_, ?_⟩
   · intro s n
     obtain ⟨r, rfl⟩ := hRS s
-    show g (e.symm (algebraMap R S r • n)) = algebraMap R S r • g (e.symm n)
+    change g (e.symm (algebraMap R S r • n)) = algebraMap R S r • g (e.symm n)
     rw [algebraMap_smul, algebraMap_smul, map_smul, map_smul]
   · refine LinearMap.ext fun m ↦ ?_
-    show g (e.symm (f m)) = g m
+    change g (e.symm (f m)) = g m
     rw [hef m]
   · intro h hh
     refine LinearMap.ext fun n ↦ ?_
     have key : h (f (e.symm n)) = g (e.symm n) :=
       congrArg (fun F : M →ₗ[R] Q ↦ F (e.symm n)) hh
-    show h n = g (e.symm n)
+    change h n = g (e.symm n)
     rw [← key, hfe' n]
 
 namespace Deformation.Examples
@@ -334,12 +334,12 @@ public theorem exists_gradedRingEquiv_of_bijective_presentations
     rw [eφ.apply_symm_apply, hφe, hφsmul, hinv]
   refine ⟨eφ.symm.trans (RingEquiv.ofBijective ψ hψ), ?_, ?_, ?_⟩
   · intro r x
-    show ψ (eφ.symm (r • x)) = (eqToHom hb).hom r • ψ (eφ.symm x)
+    change ψ (eφ.symm (r • x)) = (eqToHom hb).hom r • ψ (eφ.symm x)
     rw [hinvsmul, hψsmul]
   · intro d x hx
     exact hψmem d (eφ.symm x) (symm_mem_gradedPiece_of_addEquiv 𝒮 X.grading eφ.toAddEquiv hφmem hx)
   · intro s
-    show ψ (eφ.symm (φ s)) = ψ s
+    change ψ (eφ.symm (φ s)) = ψ s
     rw [← hφe, eφ.symm_apply_apply]
 
 /-- Two graded algebras whose bases are identified by an equality and which are related by a
@@ -365,12 +365,12 @@ public theorem exists_iso_of_gradedRingEquiv
             hom_inv_id := ?_
             inv_hom_id := ?_ }, rfl, rfl, fun _ ↦ rfl, fun _ ↦ rfl⟩
   · refine ProjectiveGradedAlgebra.Hom.ext ?_ ?_
-    · show eqToHom hb ≫ eqToHom hb.symm = 𝟙 X.base
+    · change eqToHom hb ≫ eqToHom hb.symm = 𝟙 X.base
       rw [eqToHom_trans, eqToHom_refl]
     · refine RingHom.ext fun x ↦ ?_
       exact e.symm_apply_apply x
   · refine ProjectiveGradedAlgebra.Hom.ext ?_ ?_
-    · show eqToHom hb.symm ≫ eqToHom hb = 𝟙 Y.base
+    · change eqToHom hb.symm ≫ eqToHom hb = 𝟙 Y.base
       rw [eqToHom_trans, eqToHom_refl]
     · refine RingHom.ext fun y ↦ ?_
       exact e.apply_symm_apply y
@@ -507,7 +507,7 @@ public theorem eqToHom_comp_specialFiber_base
     (HX : X ⟶ specialFiber (Λ := Λ) P grading) (HY : Y ⟶ specialFiber (Λ := Λ) P grading)
     (hb : X.base = Y.base) : eqToHom hb ≫ HY.base = HX.base := by
   refine ArtinianLocalAlgCat.hom_ext (AlgHom.ext fun r ↦ ?_)
-  show HY.base.hom ((eqToHom hb).hom r) = HX.base.hom r
+  change HY.base.hom ((eqToHom hb).hom r) = HX.base.hom r
   rw [specialFiber_base_hom_eq_residue HY, specialFiber_base_hom_eq_residue HX]
   exact (eqToHom hb).residue_comm r
 
@@ -532,18 +532,18 @@ public theorem exists_iso_over_of_gradedRingEquiv
   obtain ⟨i, hibase, hibase', himap, himap'⟩ := exists_iso_of_gradedRingEquiv hb e hsmul hmem
   have hcommF : i.hom ≫ Y.hom = X.hom := by
     refine ProjectiveGradedAlgebra.Hom.ext ?_ (RingHom.ext fun x ↦ ?_)
-    · show i.hom.base ≫ Y.hom.base = X.hom.base
+    · change i.hom.base ≫ Y.hom.base = X.hom.base
       rw [hibase]
       exact eqToHom_comp_specialFiber_base X.hom Y.hom hb
-    · show Y.hom.map (i.hom.map x) = X.hom.map x
+    · change Y.hom.map (i.hom.map x) = X.hom.map x
       rw [himap x]
       exact hcompat x
   have hcommG : i.inv ≫ X.hom = Y.hom := by
     refine ProjectiveGradedAlgebra.Hom.ext ?_ (RingHom.ext fun y ↦ ?_)
-    · show i.inv.base ≫ X.hom.base = Y.hom.base
+    · change i.inv.base ≫ X.hom.base = Y.hom.base
       rw [hibase']
       exact eqToHom_comp_specialFiber_base Y.hom X.hom hb.symm
-    · show X.hom.map (i.inv.map y) = Y.hom.map y
+    · change X.hom.map (i.inv.map y) = Y.hom.map y
       rw [himap' y]
       have h := hcompat (e.symm y)
       rw [e.apply_symm_apply] at h

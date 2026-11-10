@@ -13,7 +13,7 @@ public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
-public import Mathlib.Data.Nat.SuccPred
+public import Mathlib.Order.SuccPred.Nat
 public import Mathlib.Geometry.Euclidean.Altitude
 public import Mathlib.NumberTheory.Chebyshev
 public import Mathlib.NumberTheory.Height.NumberField
@@ -496,7 +496,7 @@ theorem isDiffOpOfOrder_comp
     induction j with
     | zero =>
       intro D₁ D₂ hD₁ hD₂ g m
-      show (D₁ + D₂) (g • m) = g • (D₁ + D₂) m
+      change (D₁ + D₂) (g • m) = g • (D₁ + D₂) m
       simp only [LinearMap.add_apply]
       rw [hD₁ g m, hD₂ g m, smul_add]
     | succ j ih =>
@@ -508,10 +508,10 @@ theorem isDiffOpOfOrder_comp
     match k', hD' with
     | 0, hD' =>
       intro g m
-      show D' (D (g • m)) = g • D' (D m)
+      change D' (D (g • m)) = g • D' (D m)
       rw [hD g m, hD' g (D m)]
     | (n + 1), hD' =>
-      show IsDiffOpOfOrder S ((0 + n) + 1) (D'.comp D)
+      change IsDiffOpOfOrder S ((0 + n) + 1) (D'.comp D)
       intro g
       rw [diffBracket_comp]
       have hzero : diffBracket g D = 0 := LinearMap.ext fun m => sub_eq_zero.2 (hD g m)
@@ -534,7 +534,7 @@ theorem isDiffOpOfOrder_comp
     · exact isDiffOpOfOrder_comp n k' (diffBracket g D) D' (hD g) hD'
 termination_by k + k'
 decreasing_by
-  all_goals (simp_wf; try omega)
+  all_goals simp_wf
 
 end
 

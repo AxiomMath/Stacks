@@ -530,7 +530,7 @@ theorem shriek_overPullbackCompSheafPullbackOverPostIso_hom_app_comp_counit
             ((overPullbackCompSheafPullbackOverPostIso J K u V hu).hom.app A) ≫
           ((Over.forget (u.obj V)).sheafAdjunctionContinuous (Type u) (K.over (u.obj V))
               K).counit.app ((u.sheafPullback (Type u) J K).obj A) := by
-    show ((sheafFunctorToOver (U := u.obj V) K).map
+    change ((sheafFunctorToOver (U := u.obj V) K).map
           ((overPullbackCompSheafPullbackOverPostIso J K u V hu).hom.app A)).left ≫
         (((overPullbackCompSheafFunctorToOverIso (U := u.obj V) K).hom.app
             ((u.sheafPullback (Type u) J K).obj A)).left ≫
@@ -553,7 +553,7 @@ theorem shriek_overPullbackCompSheafPullbackOverPostIso_hom_app_comp_counit
           (u.sheafPullback (Type u) J K).map
             (((Over.forget V).sheafAdjunctionContinuous (Type u) (J.over V) J).counit.app A) := by
     rw [hcomp]
-    show ((sheafFunctorToOverCompOverPostIso J K u V hu).hom.app
+    change ((sheafFunctorToOverCompOverPostIso J K u V hu).hom.app
           ((J.overPullback (Type u) V).obj A)).left ≫
         ((u.sheafPullback (Type u) J K).map
             (((overPullbackCompSheafFunctorToOverIso (U := V) J).hom.app A).left) ≫

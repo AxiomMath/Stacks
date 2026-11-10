@@ -113,7 +113,7 @@ theorem cechProductMap_singletonHomOver (ε : Over.mk h₁ ≅ Over.mk h₂) (n 
     apply Pi.hom_ext
     intro a
     dsimp [m, singletonProductIso]
-    simp only [Category.assoc, Pi.lift_π]
+    simp only [Category.assoc]
     apply Over.OverMorphism.ext
     simp [e]
   simpa [Over.comp_left, e] using congrArg (fun f ↦ f.left) hm

@@ -158,7 +158,7 @@ omit [Small.{u} G] in
 /-- If `σ` lies over the identity, then `secRes σ p` has the same base component as `p`. -/
 theorem secRes_fst (σ : A₁.Total (op A₁.base)) (hσ : σ.1 = 𝟙 _) {W : (BigFppfOver 𝒞 S hS)ᵒᵖ}
     (p : A₁.Total W) : (secRes ρ₀ σ p).1 = p.1 := by
-  show p.1 ≫ σ.1 = p.1
+  change p.1 ≫ σ.1 = p.1
   rw [hσ, Category.comp_id]
 
 /-- The section of the constant sheaf of groups carrying `σ` to `p`. -/
@@ -195,7 +195,7 @@ theorem ratio_map (σ : A₁.Total (op A₁.base)) (hσ : σ.1 = 𝟙 _) {W W' :
   change A₁.totalMap h (A₁.totalSmul _ _) =
     A₁.totalSmul _ (A₁.totalMap h (A₁.totalMap p.1.op σ)) at e
   change A₁.totalMap h (A₁.totalMap p.1.op σ) = A₁.totalMap (p.1.op ≫ h) σ at e'
-  show A₁.totalSmul _ (A₁.totalMap (p.1.op ≫ h) σ) = _
+  change A₁.totalSmul _ (A₁.totalMap (p.1.op ≫ h) σ) = _
   rw [← e', ← e, ratio_spec]
 
 omit [Small.{u} G] in
@@ -253,16 +253,16 @@ theorem exists_hom_of_sections (f : A₁.base ⟶ A.base) (σ : A₁.Total (op A
             bijOn_map := ?_
             totalToTarget_comp := ?_ }, rfl⟩
   · intro W W' k p
-    show A.totalSmul _ (A.totalMap (k.unop ≫ p.1).op s) =
+    change A.totalSmul _ (A.totalMap (k.unop ≫ p.1).op s) =
       A.totalMap k (A.totalSmul _ (A.totalMap p.1.op s))
     rw [totalMap_totalSmul', ratio_map, totalMap_comp']
     rfl
   · intro W c p
-    show A.totalSmul _ (A.totalMap p.1.op s) = A.totalSmul c (A.totalSmul _ _)
+    change A.totalSmul _ (A.totalMap p.1.op s) = A.totalSmul c (A.totalSmul _ _)
     rw [ratio_smul, totalSmul_mul']
   · intro W a
     refine ⟨fun p hp => ?_, fun p hp p' hp' hpp => ?_, fun q hq => ?_⟩
-    · show p.1 ≫ s.1 = a ≫ f
+    · change p.1 ≫ s.1 = a ≫ f
       rw [hs, show p.1 = a from hp]
     · rw [← ratio_spec ρ₀ σ hσ p, ← ratio_spec ρ₀ σ hσ p']
       obtain ⟨b, x⟩ := p
@@ -275,23 +275,23 @@ theorem exists_hom_of_sections (f : A₁.base ⟶ A.base) (σ : A₁.Total (op A
       rw [hu.unique rfl hpp.symm]
     · obtain ⟨c, hc, -⟩ := existsUnique_smul_total ρ₀ A (A.totalMap a.op s) q (by
         rw [show q.1 = a ≫ f from hq]
-        show a ≫ f = a ≫ s.1
+        change a ≫ f = a ≫ s.1
         rw [hs])
       refine ⟨A₁.totalSmul c (A₁.totalMap a.op σ), ?_, ?_⟩
-      · show a ≫ σ.1 = a
+      · change a ≫ σ.1 = a
         rw [hσ]
         exact Category.comp_id a
       · have hr := (ratio_unique ρ₀ σ hσ (A₁.totalSmul c (A₁.totalMap a.op σ)) c (by
-          show A₁.totalSmul c (A₁.totalMap (a ≫ σ.1).op σ) = _
+          change A₁.totalSmul c (A₁.totalMap (a ≫ σ.1).op σ) = _
           rw [hσ]
           simp only [Category.comp_id])).symm
-        show A.totalSmul _ (A.totalMap (a ≫ σ.1).op s) = q
+        change A.totalSmul _ (A.totalMap (a ≫ σ.1).op s) = q
         rw [hr, hσ]
         simp only [Category.comp_id]
         exact hc
   · intro W p
     apply ULift.ext
-    show (A.totalToTarget (op W.unop) (A.totalSmul _ _)).down = _
+    change (A.totalToTarget (op W.unop) (A.totalSmul _ _)).down = _
     rw [totalToTarget_totalSmul_down hG hX₀ ρ₀ A W.unop, hsec (𝟙 _) p.1]
     conv_rhs => rw [← ratio_spec ρ₀ σ hσ p]
     rw [totalToTarget_totalSmul_down hG hX₀ ρ₀ A₁ W.unop]
@@ -333,7 +333,7 @@ theorem trivialTorsorMap_unitSec (Xo : Over B) [ModObj Gr.obj.X Xo] (V : BigFppf
   have hm : baseChangePts Gr V b (Over.mk (𝟙 V)) k = 1 := map_one _
   let ξ' : (Over.mk (yoneda.map (Over.mk (𝟙 V)).hom ≫ b) : Over B) ⟶ Xo :=
     Over.homMk (yoneda.map (𝟙 V) ≫ ξ) (by
-      show yoneda.map (𝟙 V) ≫ ξ ≫ Xo.hom = yoneda.map (𝟙 V) ≫ b
+      change yoneda.map (𝟙 V) ≫ ξ ≫ Xo.hom = yoneda.map (𝟙 V) ≫ b
       rw [hb])
   have key : pbLeft Gr k ≫ trivialTorsorMap hB Gr Xo V ξ =
       (CartesianMonoidalCategory.lift (baseChangePts Gr V b (Over.mk (𝟙 V)) k)
@@ -350,9 +350,9 @@ theorem trivialTorsorMap_unitSec (Xo : Over B) [ModObj Gr.obj.X Xo] (V : BigFppf
       γ[Gr.obj.X, Xo]) = ξ' := by
     rw [hm, ← Hom.smul_def, one_smul]
   refine (yonedaEquiv_comp _ _).symm.trans ?_
-  show yonedaEquiv (pbLeft Gr k ≫ _) = _
+  change yonedaEquiv (pbLeft Gr k ≫ _) = _
   rw [key, h1]
-  show yonedaEquiv (yoneda.map (𝟙 V) ≫ ξ) = _
+  change yonedaEquiv (yoneda.map (𝟙 V) ≫ ξ) = _
   rw [CategoryTheory.Functor.map_id, Category.id_comp]
 
 end Trivial
@@ -423,7 +423,7 @@ theorem nonempty_isEquivalenceOver_of_constantGroupData :
   have hσ : σ.1 = 𝟙 V := unitSec_over Gr V _
   have htgt : Fz.totalToTarget (op V) σ = A.totalToTarget (op V) sT := by
     apply ULift.ext
-    show (trivialTorsorMap (isAlgebraicSpace_baseS 𝒞 S hS) Gr (overBaseS X₀) V ξ).app (op V)
+    change (trivialTorsorMap (isAlgebraicSpace_baseS 𝒞 S hS) Gr (overBaseS X₀) V ξ).app (op V)
       (unitSec Gr V (ξ ≫ (overBaseS X₀).hom)) = x₀
     rw [trivialTorsorMap_unitSec, hξ, Equiv.apply_symm_apply]
   obtain ⟨m, hm⟩ := AbstractGroupQuotientStack.exists_hom_of_sections hG hX.isSheaf ρ₀
@@ -431,7 +431,7 @@ theorem nonempty_isEquivalenceOver_of_constantGroupData :
   have := h₂.isFibered
   have hlift : q.IsHomLift f m :=
     IsHomLift.of_fac' _ f m rfl rfl (by
-      show AbstractGroupQuotientStack.Hom.base m = 𝟙 V ≫ f ≫ 𝟙 A.base
+      change AbstractGroupQuotientStack.Hom.base m = 𝟙 V ≫ f ≫ 𝟙 A.base
       exact hm.trans ((Category.comp_id f).symm.trans (Category.id_comp _).symm))
   have hpc := Functor.IsPreFibered.pullbackMap.IsCartesian (p := q) (rfl : q.obj A = A.base) f
   have hmc : q.IsCartesian f m := by

@@ -64,7 +64,7 @@ theorem isZero_rightDerived_obj_map_of_isZero [PreservesFiniteLimits F] (X : A) 
   have hGE : ∀ (L : DerivedCategory.Plus B) (a : ℤ), L.IsGE a → (Gd.obj L).IsGE a := by
     intro L a hL
     have := Functor.isGE_rightDerivedFunctorPlus_obj G L a
-    show (DerivedCategory.Plus.ι.obj (G.rightDerivedFunctorPlus.obj L)).IsGE a
+    change (DerivedCategory.Plus.ι.obj (G.rightDerivedFunctorPlus.obj L)).IsGE a
     infer_instance
   let T := (t.triangleLEGE 0 1 rfl).obj K
   have h₂ : IsZero ((DerivedCategory.homologyFunctor E n).obj (Gd.obj T.obj₂)) := by
@@ -74,7 +74,7 @@ theorem isZero_rightDerived_obj_map_of_isZero [PreservesFiniteLimits F] (X : A) 
         ((DerivedCategory.Plus.singleFunctor A 0).obj X)))).symm
   have h₃ : IsZero ((DerivedCategory.homologyFunctor E ((n : ℤ) - 1)).obj (Gd.obj T.obj₃)) := by
     have hthird : T.obj₃.IsGE 1 := by
-      show ((t.truncGE 1).obj K).IsGE 1
+      change ((t.truncGE 1).obj K).IsGE 1
       infer_instance
     refine isZero_homology_map_obj_of_isZero_single Gd hGE T.obj₃ 1 ((n : ℤ) - 1)
       fun q hq => (isZero_homology_rightDerivedFunctorPlus_single_iff G _ _ q).2 ?_
@@ -84,7 +84,7 @@ theorem isZero_rightDerived_obj_map_of_isZero [PreservesFiniteLimits F] (X : A) 
         (DerivedCategory.Plus.isZero_homology_of_isGE T.obj₃ 1 q hneg)
     · obtain ⟨q', rfl⟩ := Int.eq_ofNat_of_zero_le (by omega : 0 ≤ q)
       have hIso : IsIso ((DerivedCategory.Plus.homologyFunctor B q').map T.mor₂) := by
-        show IsIso ((DerivedCategory.Plus.homologyFunctor B q').map ((t.truncGEπ 1).app K))
+        change IsIso ((DerivedCategory.Plus.homologyFunctor B q').map ((t.truncGEπ 1).app K))
         simpa [t] using DerivedCategory.Plus.isIso_homologyMap_truncGEπ_app 1 q' hpos K
       rw [Stacks.DerivedIndexing.isZero_rightDerivedPlus_obj_iff G
         (show (n : ℤ) - 1 - q' = ((n - 1 - q' : ℕ) : ℤ) by omega)]
@@ -96,10 +96,10 @@ theorem isZero_rightDerived_obj_map_of_isZero [PreservesFiniteLimits F] (X : A) 
       (Gd.map_distinguished T (t.triangleLEGE_distinguished 0 1 rfl K)) ((n : ℤ) - 1) n
       (by omega)).isZero_X₂ (h₃.eq_of_src _ _) (h₂.eq_of_tgt _ _)
   have hfirstGE : T.obj₁.IsGE 0 := by
-    show ((t.truncLE 0).obj K).IsGE 0
+    change ((t.truncLE 0).obj K).IsGE 0
     infer_instance
   have hfirstLE : T.obj₁.IsLE 0 := by
-    show ((t.truncLE 0).obj K).IsLE 0
+    change ((t.truncLE 0).obj K).IsLE 0
     infer_instance
   obtain ⟨M, ⟨e⟩⟩ := Stacks.BoundedCohomologicalDimension.exists_iso_plus_singleFunctor_obj T.obj₁ 0
   have hM : IsZero ((G.rightDerivedPlus (n : ℤ)).obj M) := by

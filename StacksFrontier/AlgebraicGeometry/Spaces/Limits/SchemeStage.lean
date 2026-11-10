@@ -167,7 +167,7 @@ private theorem affineOpenInclusion_mono
   Mono (affineOpenInclusion B S hS X U) := by
   let G := AlgebraicGeometry.BigFppfOver.toScheme B S hS
   have hm : Mono (G.map (affineOpenInclusion B S hS X U)) := by
-    show Mono (Scheme.Opens.ι U)
+    change Mono (Scheme.Opens.ι U)
     let : Mono (Scheme.Opens.ι U) := inferInstance
     infer_instance
   exact G.mono_of_mono_map hm
@@ -325,7 +325,7 @@ private theorem affineOpenSubspace_isQuasiCompact
     let : IsIso snd := isIso_of_fully_faithful yoneda snd
     let : IsIso ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map snd) :=
       Functor.map_isIso _ snd
-    show Surjective ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map snd)
+    change Surjective ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map snd)
     infer_instance
   · let Q := (MorphismProperty.inverseImage
         (@Etale.{u} : MorphismProperty Scheme.{u})
@@ -365,21 +365,21 @@ private theorem exists_affineOpenSubspace_point
   let A := affineOpenObject B S hS F.reprX U
   let q := yoneda.map j ≫ F.reprW.hom
   have : IsOpenImmersion ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map j) := by
-    show IsOpenImmersion U.val.ι
+    change IsOpenImmersion U.val.ι
     infer_instance
   have hzj : z ∈ Set.range ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map j) := by
-    show z ∈ Set.range U.val.ι
+    change z ∈ Set.range U.val.ι
     rw [Scheme.Opens.range_ι]
     exact hU
   obtain ⟨r, hr⟩ := AlgebraicGeometry.PurelyTranscendentalDescent.fieldPoint_factors_through_open
     B S hS j p hzj
   refine ⟨U, AlgebraicGeometry.Space.pointsMap B S hS (yoneda.obj A) (Subfunctor.toRange q)
     (r.class B S hS (yoneda.obj A)), ?_⟩
-  show AlgebraicGeometry.Space.pointsMap B S hS (Subfunctor.range q).toFunctor
+  change AlgebraicGeometry.Space.pointsMap B S hS (Subfunctor.range q).toFunctor
     (Subfunctor.range q).ι _ = x
   dsimp only [affineOpenSubspace]
   rw [pointsMap_comp, Subfunctor.toRange_ι]
-  show AlgebraicGeometry.Space.pointsMap B S hS (yoneda.obj A)
+  change AlgebraicGeometry.Space.pointsMap B S hS (yoneda.obj A)
     (yoneda.map j ≫ F.reprW.hom) _ = x
   rw [← pointsMap_comp, hr]
   exact hp
@@ -392,7 +392,7 @@ private theorem affineOpenSubspace_isAffine
     AlgebraicGeometry.Space.IsAffineSpace B S hS
       (affineOpenSubspace B S hS F.reprW U).toFunctor := by
   refine ⟨affineOpenObject B S hS F.reprX U, ?_, ?_⟩
-  · show IsAffine U.1.toScheme; infer_instance
+  · change IsAffine U.1.toScheme; infer_instance
   · exact ⟨(affineOpenSubspaceIso B S hS U).symm⟩
 
 /-- **Stacks 07SQ along an open subspace of a stage.** If the inverse image in the limit of a
@@ -641,7 +641,7 @@ private theorem exists_top_of_covering_limit
   have hEaff {i j : Iᵒᵖ} (f : i ⟶ j) :
       AlgebraicGeometry.Space.IsAffineHom B S hS (E.map f) := by
     apply isAffineHom_of_comp_mono B S hS (E.map f) (Z j.unop).ι
-    show AlgebraicGeometry.Space.IsAffineHom B S hS (g f ≫ (Z j.unop).ι)
+    change AlgebraicGeometry.Space.IsAffineHom B S hS (g f ≫ (Z j.unop).ι)
     rw [hg]
     exact AlgebraicGeometry.Space.isAffineHom_comp B S hS _ _ (hιaff i.unop) (D.transition_affine f)
   have hEqc (i : Iᵒᵖ) : AlgebraicGeometry.Space.IsQuasiCompactSpace B S hS (E.obj i) :=

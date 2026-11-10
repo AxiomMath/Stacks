@@ -109,8 +109,7 @@ theorem surjective_one_tmul_henselization_of_pow_le_annihilator
     | add s t _ _ hs ht => rw [TensorProduct.add_tmul, hs, ht, add_zero]
     | smul c s _ hs => rw [← TensorProduct.smul_tmul', hs, smul_zero]
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, TensorProduct.tmul_zero _ _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul y x =>
     obtain ⟨q, hq⟩ := (hpow n).surjective (Ideal.Quotient.mk _ y)
     obtain ⟨y₀, rfl⟩ := Ideal.Quotient.mk_surjective q
@@ -118,7 +117,7 @@ theorem surjective_one_tmul_henselization_of_pow_le_annihilator
     have hmem : algebraMap B Bh y₀ - y ∈ (b ^ n).map (algebraMap B Bh) := by
       rw [Ideal.quotientMap_mk] at hq
       exact Ideal.Quotient.eq.mp hq
-    show (1 : Bh) ⊗ₜ[B] (y₀ • x) = y ⊗ₜ[B] x
+    change (1 : Bh) ⊗ₜ[B] (y₀ • x) = y ⊗ₜ[B] x
     rw [TensorProduct.tmul_smul, TensorProduct.smul_tmul',
       ← Algebra.algebraMap_eq_smul_one, ← sub_eq_zero, ← TensorProduct.sub_tmul]
     exact key x _ hmem
@@ -325,7 +324,7 @@ theorem surjective_precomp_cotangentComplex_of_formallySmooth
   obtain ⟨l, hl⟩ := (Algebra.Extension.formallySmooth_iff_split_injection P).mp ‹_›
   intro ψ
   refine ⟨ψ ∘ₗ l, ?_⟩
-  show (ψ ∘ₗ l) ∘ₗ P.cotangentComplex = ψ
+  change (ψ ∘ₗ l) ∘ₗ P.cotangentComplex = ψ
   rw [LinearMap.comp_assoc, hl, LinearMap.comp_id]
 
 /-- **Conversely, the vanishing of `Ext¹_S(NL_{S/R}, I/I²)` at the single coefficient module

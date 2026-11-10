@@ -320,7 +320,7 @@ public theorem asIdeal_isoSpec_hom_fiberι_eq_map {Y S : Scheme.{u}} (g : Y ⟶ 
       S.isoSpec.hom (g y) := by
     intro y
     rw [halg]
-    show Spec.map g.appTop (Y.isoSpec.hom y) = _
+    change Spec.map g.appTop (Y.isoSpec.hom y) = _
     rw [← Scheme.Hom.comp_apply, Scheme.isoSpec_hom_naturality g, Scheme.Hom.comp_apply]
   have hfib : ∀ ξ' : g.fiber s, g (g.fiberι s ξ') = s := by
     intro ξ'
@@ -335,7 +335,7 @@ public theorem asIdeal_isoSpec_hom_fiberι_eq_map {Y S : Scheme.{u}} (g : Y ⟶ 
       (Scheme.homeoOfIso Y.isoSpec).apply_symm_apply q'
     have hgy : g (Y.isoSpec.inv q') = s := by
       refine (Scheme.homeoOfIso S.isoSpec).injective ?_
-      show S.isoSpec.hom _ = S.isoSpec.hom s
+      change S.isoSpec.hom _ = S.isoSpec.hom s
       rw [← hnat, hhom, hq', hs]
     obtain ⟨ξ', hξ'⟩ : Y.isoSpec.inv q' ∈ Set.range (g.fiberι s) := by
       rw [g.range_fiberι s]

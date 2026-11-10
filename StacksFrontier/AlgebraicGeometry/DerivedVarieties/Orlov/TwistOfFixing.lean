@@ -42,7 +42,7 @@ so is `Φ_K`, by [Stacks, Tag 0FZV] (`AlgebraicGeometry.AreSiblingsPerfect.isEqu
 
 * `Stacks.AlgebraicGeometry.DerivedVarieties.Orlov.essSurj_of_fixes_zeroDimensional`:
   a fully faithful `F` fixing the zero-dimensional sheaves is essentially surjective.
-* `Stacks.AlgebraicGeometry.DerivedVarieties.Orlov.exists_areSiblingsPerfect_of_fixes_zeroDimensional`:
+* `Orlov.exists_areSiblingsPerfect_of_fixes_zeroDimensional`:
   [Stacks, Tag 0G27].
 * `Stacks.AlgebraicGeometry.DerivedVarieties.Orlov.twistOfFixingZeroDimensional`:
   `AlgebraicGeometry.TwistOfFixingZeroDimensional k` over an algebraically closed field.
@@ -50,7 +50,7 @@ so is `Φ_K`, by [Stacks, Tag 0FZV] (`AlgebraicGeometry.AreSiblingsPerfect.isEqu
   of `M ↦ Lf^*M ⊗^𝐋 ℒ`.
 * `Stacks.AlgebraicGeometry.DerivedVarieties.Orlov.perfectFourierMukaiOverInverseTwistIso`: its
   composite with a Fourier-Mukai functor is the Fourier-Mukai functor of the twisted kernel.
-* `Stacks.AlgebraicGeometry.DerivedVarieties.Orlov.exists_areSiblingsPerfectRegularSource_perfectFourierMukaiOver`:
+* `Orlov.exists_areSiblingsPerfectRegularSource_perfectFourierMukaiOver`:
   [Stacks, Tag 0G06].
 * `AlgebraicGeometry.exists_perfectFourierMukaiOver_agrees_zeroDimensional`: the functor `G` of
   [Stacks, Section 0G07], read in `D_perf(𝒪_Y)`.

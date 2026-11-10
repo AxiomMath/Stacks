@@ -251,15 +251,15 @@ theorem isContractionOfExceptionalCurve_of_openImmersion {X X' V' : Scheme.{u}} 
       rcases hmem (b.base x) with h | h
       · refine ⟨true, ?_⟩
         rw [Scheme.Opens.range_ι]
-        show x ∈ U₀
+        change x ∈ U₀
         rw [← hpre]
         exact h
       · exact ⟨false, by rw [Scheme.Opens.range_ι]; exact h⟩
     · cases t
-      · show D.comap (b ⁻¹ᵁ W).ι = (I.comap b).comap (b ⁻¹ᵁ W).ι
+      · change D.comap (b ⁻¹ᵁ W).ι = (I.comap b).comap (b ⁻¹ᵁ W).ι
         rw [hDW, ← Scheme.IdealSheafData.comap_comp, ← morphismRestrict_ι,
           Scheme.IdealSheafData.comap_comp, hIW, Scheme.IdealSheafData.comap_top]
-      · show D.comap U₀.ι = (I.comap b).comap U₀.ι
+      · change D.comap U₀.ι = (I.comap b).comap U₀.ι
         rw [hDc, ← Scheme.IdealSheafData.comap_comp, hjc, Scheme.IdealSheafData.comap_comp,
           hIj]
   have hcart : Stacks.Divisors.IsEffectiveCartierDivisor (I.comap b) := hDI ▸ hD
@@ -280,7 +280,7 @@ theorem isContractionOfExceptionalCurve_of_openImmersion {X X' V' : Scheme.{u}} 
     (top_le_iff.1 fun y _ => by
       rcases hmem ((blowUpToBase I).base y) with h | h
       · refine Or.inl ?_
-        show y ∈ Set.range hj.base
+        change y ∈ Set.range hj.base
         rw [hjrange]
         exact h
       · exact Or.inr h)
@@ -294,7 +294,7 @@ theorem isContractionOfExceptionalCurve_of_openImmersion {X X' V' : Scheme.{u}} 
     let C : X'.Opens := I.support.compl
     have hWle : W ≤ C := by
       intro y hy
-      show y ∉ (I.support : Set X')
+      change y ∉ (I.support : Set X')
       rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
       rintro rfl
       exact hzW hy
@@ -312,7 +312,7 @@ theorem isContractionOfExceptionalCurve_of_openImmersion {X X' V' : Scheme.{u}} 
     have hpreO : g ⁻¹ᵁ hj.opensRange = U₀ := by
       rw [← hpre]
       ext x
-      show g.base x ∈ Set.range hj.base ↔ _
+      change g.base x ∈ Set.range hj.base ↔ _
       rw [hjrange]
       rfl
     have hrange : Set.range (U₀.ι ≫ g).base ⊆ Set.range hj.base := by
@@ -326,7 +326,7 @@ theorem isContractionOfExceptionalCurve_of_openImmersion {X X' V' : Scheme.{u}} 
         Category.assoc, hjc]
     have hcart' : Stacks.Blowup.IsCartierOver
         (Scheme.IdealSheafData.vanishingIdeal (⟨{v}, hv⟩ : Closeds V')) (Over.mk c) := by
-      show Stacks.Divisors.IsEffectiveCartierDivisor
+      change Stacks.Divisors.IsEffectiveCartierDivisor
         ((Scheme.IdealSheafData.vanishingIdeal (⟨{v}, hv⟩ : Closeds V')).comap c)
       rw [← hDc]
       exact Stacks.Divisors.isPullbackDefined_of_flat U₀.ι D hD
@@ -336,7 +336,7 @@ theorem isContractionOfExceptionalCurve_of_openImmersion {X X' V' : Scheme.{u}} 
     have heq : g ∣_ hj.opensRange = (X.isoOfEq hpreO).hom ≫ g₀ ≫ hj.isoOpensRange.hom := by
       rw [← cancel_mono hj.opensRange.ι, morphismRestrict_ι, Category.assoc, Category.assoc,
         Scheme.Hom.isoOpensRange_hom_ι, IsOpenImmersion.lift_fac, Scheme.isoOfEq_hom_ι_assoc]
-    show IsIso (g ∣_ hj.opensRange)
+    change IsIso (g ∣_ hj.opensRange)
     rw [heq]
     infer_instance
 
@@ -378,7 +378,7 @@ theorem exists_isContractionOfExceptionalCurve_of_chart {X V' : Scheme.{u}} [IsN
     (Scheme.IdealSheafData.coe_support_vanishingIdeal _) ε hε
   let i₁ : O'.toScheme ⟶ V' := O'.ι ≫ c
   have : IsOpenImmersion i₁ := by
-    show IsOpenImmersion (O'.ι ≫ c)
+    change IsOpenImmersion (O'.ι ≫ c)
     rw [← morphismRestrict_ι c V'']
     infer_instance
   have hrange₂ : Set.range (O'.ι ≫ U₀.ι).base ⊆ Set.range W₀.ι.base := by
@@ -456,9 +456,9 @@ theorem exists_isContractionOfExceptionalCurve_of_chart {X V' : Scheme.{u}} [IsN
           (isOpenCover_cond_of_sup_eq_top hcovX'))]
       intro t
       cases t
-      · show IsLocallyNoetherian k.opensRange.toScheme
+      · change IsLocallyNoetherian k.opensRange.toScheme
         exact isLocallyNoetherian_of_isOpenImmersion k.isoOpensRange.inv
-      · show IsLocallyNoetherian j.opensRange.toScheme
+      · change IsLocallyNoetherian j.opensRange.toScheme
         exact isLocallyNoetherian_of_isOpenImmersion j.isoOpensRange.inv
     have : CompactSpace (pushout i₁ i₂ : Scheme.{u}) := by
       have hW₀c : CompactSpace W₀.toScheme :=

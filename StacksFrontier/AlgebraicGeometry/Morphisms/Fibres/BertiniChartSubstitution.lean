@@ -134,9 +134,9 @@ theorem exists_chart_substitution :
   obtain ⟨q, hq, hqdim⟩ := h.exists_ringKrullDim_quotient_add_two_eq_reducedChart c hZ
   refine ⟨fun i ↦ Ideal.Quotient.mk _ (chartFunction c.triv (W i)), w,
     fun i ↦ reducedChartEquation_substMatrix W c i, ?_, q, ?_, hqdim⟩
-  · show w * Ideal.Quotient.mk _ (chartFunction c.triv (W ⟨0, by omega⟩)) = 1
+  · change w * Ideal.Quotient.mk _ (chartFunction c.triv (W ⟨0, by omega⟩)) = 1
     rwa [hW₁]
-  · show q ∈ (Ideal.span {Ideal.Quotient.mk _ (chartFunction c.triv (W ⟨1, by omega⟩)),
+  · change q ∈ (Ideal.span {Ideal.Quotient.mk _ (chartFunction c.triv (W ⟨1, by omega⟩)),
       Ideal.Quotient.mk _ (chartFunction c.triv (W ⟨2, by omega⟩))}).minimalPrimes
     rwa [hW₂, hW₃]
 

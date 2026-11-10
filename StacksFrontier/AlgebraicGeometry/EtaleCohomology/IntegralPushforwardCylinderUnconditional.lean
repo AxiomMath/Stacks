@@ -104,7 +104,7 @@ abbrev cylinderGermGeneral (τ : F.obj.obj (op (cylinderObjGeneral B ιX P y' i 
     (hxi : x ≫ B.inclusion.map (P.proj.app i) = x₀ ≫ B.inclusion.map (P.proj.app i)) :
     etaleStalk B X.1 X.property (geometricPointLift (B.inclusion.map f)
       (y'.map (B.inclusion.map g)) (cartesianLiftEquiv B g' f' f g sq y' p)) F.obj :=
-  colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+  colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property
       (geometricPointLift (B.inclusion.map f) (y'.map (B.inclusion.map g))
         (cartesianLiftEquiv B g' f' f g sq y' p)))).op ⋙ F.obj)
     (op (Functor.elementsMk _ (cylinderObjGeneral B ιX P y' i x₀ W)
@@ -156,12 +156,12 @@ theorem exists_stage_forall_cylinderGerm_eq_univ
   let G := (B.smallInverseImage g' (Type (max (u + 1) v))).obj F
   let T := cylinderObjGeneral B ιX P y' i x₀ W
   obtain ⟨V'o, σ, hσ⟩ := Types.jointly_surjective_of_isColimit (colimit.isColimit
-    ((CategoryOfElements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
+    ((Functor.Elements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
       ((B.smallPushforward f' _).obj G).obj)) c
   subst hσ
   let V' := V'o.unop
   let D (p : {a : y'.source ⟶ X'.1 // a ≫ B.inclusion.map f' = y'.hom}) :=
-    (CategoryOfElements.π (geometricPointFiber B X'.1 X'.property
+    (Functor.Elements.π (geometricPointFiber B X'.1 X'.property
       (geometricPointLift (B.inclusion.map f') y' p))).op ⋙ G.obj
   let bP (p : {a : y'.source ⟶ X'.1 // a ≫ B.inclusion.map f' = y'.hom}) :
       (geometricPointFiber B X'.1 X'.property (geometricPointLift (B.inclusion.map f') y' p)).obj
@@ -170,7 +170,7 @@ theorem exists_stage_forall_cylinderGerm_eq_univ
   have hcomp (p : {a : y'.source ⟶ X'.1 // a ≫ B.inclusion.map f' = y'.hom}) :
       pushforwardEtaleStalkComponentUniv B f' (geometricPointLift (B.inclusion.map f') y' p) y'
         (geometricPointLift_map (B.inclusion.map f') y' p) G
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
           ((B.smallPushforward f' _).obj G).obj) V'o σ) =
       colimit.ι (D p) (op (Functor.elementsMk _ ((smallEtaleBaseChange B f').obj V'.1) (bP p))) σ :=
     pushforwardEtaleStalkComponent_germ_baseChange_univ B f'
@@ -204,17 +204,17 @@ theorem exists_stage_forall_cylinderGerm_eq_univ
       (hxi : x ≫ B.inclusion.map (P.proj.app i) = x₀ ≫ B.inclusion.map (P.proj.app i)) :
       cylinderGermGeneral B sq F ιX P y' i x₀ W τ p x hx hxi =
           pullbackStalkComponentUniv B sq F y'
-            (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
+            (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
               ((B.smallPushforward f' _).obj G).obj) V'o σ) p ↔
         colimit.ι (D p) (op (Functor.elementsMk _ Q (qP p x hx hxi))) τ' =
           colimit.ι (D p)
             (op (Functor.elementsMk _ ((smallEtaleBaseChange B f').obj V'.1) (bP p))) σ := by
     rw [← hiso p x hx hxi]
-    show _ = (smallEtalePullbackStalkIsoUniv B g'
+    change _ = (smallEtalePullbackStalkIsoUniv B g'
       (geometricPointLift (B.inclusion.map f') y' p)).hom.app F
       (pushforwardEtaleStalkComponentUniv B f' (geometricPointLift (B.inclusion.map f') y' p) y'
         (geometricPointLift_map (B.inclusion.map f') y' p) G
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y'.1 Y'.property y')).op ⋙
           ((B.smallPushforward f' _).obj G).obj) V'o σ)) ↔ _
     rw [hcomp p]
     exact ((smallEtalePullbackStalkIsoUniv B g' (geometricPointLift (B.inclusion.map f') y' p)).app

@@ -127,7 +127,7 @@ theorem pderiv_natAdd_inclPoly (N : ℕ) (j : Fin N) (p : MvPolynomial (Fin N) A
     have hne : (Fin.castAdd N i : Fin (N + N)) ≠ Fin.natAdd N j := by
       intro hc
       have := congrArg Fin.val hc
-      simp only [Fin.coe_castAdd, Fin.coe_natAdd] at this
+      simp only [Fin.val_castAdd, Fin.val_natAdd] at this
       omega
     rw [map_mul, inclPoly_X, Derivation.leibniz, h, MvPolynomial.pderiv_X_of_ne hne, smul_zero,
       smul_zero, add_zero]
@@ -254,7 +254,7 @@ theorem sum_mul_linear_eq {R : Type*} [CommRing R] {n : ℕ} (E : Matrix (Fin n)
   rw [Finset.sum_comm, ← Finset.sum_neg_distrib]
   refine Finset.sum_congr rfl fun j _ ↦ ?_
   simp only [Matrix.one_apply, sub_mul, mul_sub, Finset.sum_sub_distrib, ite_mul, one_mul,
-    zero_mul, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true, Finset.sum_mul]
+    zero_mul, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true, Finset.sum_mul]
   rw [neg_sub]
   congr 1
   · ring
@@ -565,7 +565,7 @@ theorem cl_add (g h : Amb a Pres.variableCount) (hg : g ∈ D.ideal) (hh : h ∈
 theorem cl_mul (x g : Amb a Pres.variableCount) (hg : g ∈ D.ideal)
     (hxg : x * g ∈ D.ideal := D.ideal.mul_mem_left x hg) :
     D.cl (x * g) hxg = D.π x • D.cl g hg := by
-  show _ = (show D.pres.extension.Ring from x) • D.cl g hg
+  change _ = (show D.pres.extension.Ring from x) • D.cl g hg
   ext1
   rw [Algebra.Extension.Cotangent.val_smul', cl, cl, Algebra.Extension.Cotangent.val_mk,
     Algebra.Extension.Cotangent.val_mk, ← map_smul]
@@ -824,7 +824,7 @@ theorem castAdd_ne_natAdd {N : ℕ} (i j : Fin N) :
     (Fin.castAdd N i : Fin (N + N)) ≠ Fin.natAdd N j := by
   intro h
   have := congrArg Fin.val h
-  simp only [Fin.coe_castAdd, Fin.coe_natAdd] at this
+  simp only [Fin.val_castAdd, Fin.val_natAdd] at this
   omega
 
 /-- The formal partial derivatives kill the entries of the identity matrix. -/
@@ -853,21 +853,21 @@ theorem partialDeriv_gGen (i : Fin Pres.variableCount)
 theorem d_gGen_castAdd (i j : Fin Pres.variableCount) :
     D.nl.differential (D.cl _ (D.gGen_mem i)) (Fin.castAdd Pres.variableCount j) =
       -(if i = j then 1 else 0) := by
-  rw [differential_cl_apply, partialDeriv_gGen, if_neg (castAdd_ne_natAdd j i).symm, mul_zero,
+  rw [differential_cl_apply, partialDeriv_gGen, ite_eq_right (castAdd_ne_natAdd j i).symm, mul_zero,
     sub_zero, map_neg]
   by_cases h : i = j
   · subst h; simp
-  · rw [if_neg (fun hc ↦ h (Fin.castAdd_injective _ _ hc)), if_neg h, map_zero]
+  · rw [ite_eq_right (fun hc ↦ h (Fin.castAdd_injective _ _ hc)), ite_eq_right h, map_zero]
 
 /-- The `Tⱼ`-coordinate of the differential of `[gᵢ]` is `−aᵏ δᵢⱼ`. -/
 theorem d_gGen_natAdd (i j : Fin Pres.variableCount) :
     D.nl.differential (D.cl _ (D.gGen_mem i)) (Fin.natAdd Pres.variableCount j) =
       -(D.sc D.k * if i = j then 1 else 0) := by
-  rw [differential_cl_apply, partialDeriv_gGen, if_neg (castAdd_ne_natAdd i j), neg_zero,
+  rw [differential_cl_apply, partialDeriv_gGen, ite_eq_right (castAdd_ne_natAdd i j), neg_zero,
     zero_sub, map_neg, map_mul]
   by_cases h : i = j
   · subst h; simp [sc, map_pow]
-  · rw [if_neg (fun hc ↦ h ((Fin.natAdd_inj _).mp hc)), if_neg h, map_zero]
+  · rw [ite_eq_right (fun hc ↦ h ((Fin.natAdd_inj _).mp hc)), ite_eq_right h, map_zero]
 
 /-- The `xⱼ'`-coordinate of the differential of `[fₗ]` is the Jacobian entry `∂fₗ/∂xⱼ`. -/
 theorem d_fGen_castAdd (l : Fin D.m) (j : Fin Pres.variableCount) :
@@ -886,7 +886,7 @@ theorem d_lGen_castAdd (i j : Fin Pres.variableCount) :
       -D.E1b i j := by
   rw [differential_cl_apply, lGen, map_sum, map_sum, E1b, ← Finset.sum_neg_distrib]
   refine Finset.sum_congr rfl fun l _ ↦ ?_
-  rw [Derivation.leibniz, D.partialDeriv_tv, if_neg (castAdd_ne_natAdd j l).symm, smul_zero,
+  rw [Derivation.leibniz, D.partialDeriv_tv, ite_eq_right (castAdd_ne_natAdd j l).symm, smul_zero,
     zero_add, map_sub, Derivation.leibniz, D.partialDeriv_one_apply, D.partialDeriv_algebraMap_A,
     smul_zero, smul_zero, add_zero, zero_sub, ambE, Matrix.map_apply, D.partialDeriv_castAdd_incl,
     smul_eq_mul, map_mul, map_neg]
@@ -909,12 +909,13 @@ theorem d_lGen_natAdd (i j : Fin Pres.variableCount) :
       ambE, Matrix.map_apply, D.partialDeriv_natAdd_incl, sub_zero, smul_zero, add_zero]
     by_cases h : l = j
     · subst h
-      rw [if_pos rfl, if_pos rfl, smul_eq_mul, mul_one, map_sub, map_mul, Matrix.one_apply]
+      rw [ite_eq_left rfl, ite_eq_left rfl, smul_eq_mul, mul_one, map_sub, map_mul,
+        Matrix.one_apply]
       by_cases hil : i = l
       · subst hil; simp [Eb, ambE, sc, map_pow]
       · simp [hil, Eb, ambE]
-    · rw [if_neg (fun hc ↦ h ((Fin.natAdd_inj _).mp hc)), if_neg h, smul_zero, map_zero]
-  simp only [hterm, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    · rw [ite_eq_right (fun hc ↦ h ((Fin.natAdd_inj _).mp hc)), ite_eq_right h, smul_zero, map_zero]
+  simp only [hterm, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 /-! ### Relations in the conormal module -/
 
@@ -940,7 +941,7 @@ theorem cl_fGen_relation (j : Fin D.m) :
     simp only [map_mul]
     split_ifs <;> simp [sc, map_pow]
   simp only [hcoef, sub_smul, Finset.sum_sub_distrib, ite_smul, zero_smul, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true] at h0
+    Finset.mem_univ, ite_true] at h0
   exact sub_eq_zero.mp h0
 
 /-- **Relation (R2)**: `∑ᵢ' Eᵢᵢ' [ℓᵢ'] = 0` in `𝔎 / 𝔎²`. -/
@@ -1059,14 +1060,14 @@ theorem matrix_dSum_κ :
       Matrix.one_apply]
     by_cases h : i = j
     · subst h; simp
-    · rw [if_neg h, if_neg (Ne.symm h)]
+    · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
   · rw [Matrix.of_apply, dSum_κ_inr_inl, kappaMatrix, Matrix.fromBlocks_apply₁₂,
       Matrix.transpose_apply, Matrix.sub_apply, Matrix.of_apply, Matrix.of_apply]
   · rw [Matrix.of_apply, dSum_κ_inl_inr, kappaMatrix, Matrix.fromBlocks_apply₂₁, Matrix.neg_apply,
       Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, sc_eq, k]
     by_cases h : i = j
     · subst h; simp
-    · rw [if_neg h, if_neg (Ne.symm h)]
+    · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
   · rw [Matrix.of_apply, dSum_κ_inr_inr, kappaMatrix, Matrix.fromBlocks_apply₂₂,
       Matrix.transpose_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
       smul_eq_mul, Matrix.of_apply, sc_eq]

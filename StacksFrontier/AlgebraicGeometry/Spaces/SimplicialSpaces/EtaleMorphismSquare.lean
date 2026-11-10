@@ -152,7 +152,7 @@ theorem totalFunctor_map_totalComponentSiteFunctor_map (h : A ⟶ A') (n : Simpl
     (((etaleAugmentation A').componentSiteFunctor n).map f)).trans ?_
   refine congrArg (Pseudofunctor.CoGrothendieck.ι (etaleSimplicialSite A).totalPseudofunctor
     (op n)).map ?_
-  show (mapFunctor h n).map ((transition (SimplexCategory.const (SimplexCategory.mk 0) n 0)).map
+  change (mapFunctor h n).map ((transition (SimplexCategory.const (SimplexCategory.mk 0) n 0)).map
       (augmentationFunctor.map f)) =
       (transition (SimplexCategory.const (SimplexCategory.mk 0) n 0)).map
         (augmentationFunctor.map ((spacesBaseChange B S hS h.right).functor.map f))
@@ -169,7 +169,7 @@ theorem totalFunctor_map_ιNatTrans_baseObj (h : A ⟶ A') {m n : SimplexCategor
       (Pseudofunctor.CoGrothendieck.ιNatTrans (etaleSimplicialSite A).totalPseudofunctor
           φ.op).app (Sum.inl ((spacesBaseChange B S hS h.right).functor.obj W) : Index A m) := by
   refine Pseudofunctor.CoGrothendieck.Hom.ext _ _ rfl ?_
-  show (mapFunctor h n).map (𝟙 _) ≫ eqToHom _ = 𝟙 _ ≫ eqToHom _
+  change (mapFunctor h n).map (𝟙 _) ≫ eqToHom _ = 𝟙 _ ≫ eqToHom _
   exact congrArg (· ≫ _) ((mapFunctor h n).map_id _)
 
 /-! ### The square of topoi -/

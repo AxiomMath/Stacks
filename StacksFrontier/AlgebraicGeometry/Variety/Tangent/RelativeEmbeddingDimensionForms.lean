@@ -80,7 +80,7 @@ theorem Scheme.Hom.isZero_relativeDifferentialForms_of_smoothOfRelativeDimension
     {Y S : Scheme.{u}} (g : Y ⟶ S) (e : ℕ) [SmoothOfRelativeDimension e g] (m : ℕ) (hm : e < m) :
     IsZero (Scheme.Hom.relativeDifferentialForms g (m : ℤ)) := by
   have := Stacks.Discriminant.isFiniteLocallyFreeOfRank_relativeDifferentials g e
-  show IsZero (Scheme.Modules.exteriorPower (Scheme.Hom.relativeDifferentials g) (m : ℤ))
+  change IsZero (Scheme.Modules.exteriorPower (Scheme.Hom.relativeDifferentials g) (m : ℤ))
   refine Stacks.SheafOfModules.isZero_of_isFiniteLocallyFreeOfRank_zero _ ?_
   simpa only [Nat.choose_eq_zero_of_lt hm] using
     Scheme.Modules.isFiniteLocallyFreeOfRank_exteriorPower

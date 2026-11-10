@@ -101,7 +101,7 @@ theorem chartSectionsEquiv_uniformizer :
     Scheme.Hom.appTop g).hom (PowerSeries.X : PowerSeries k)) h1
   simp only [Scheme.Hom.comp_appTop, ← Category.assoc, ← Scheme.ΓSpecIso_inv_naturality] at h2
   simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at h2
-  show (coverOpen f φ U (PowerSeries k) PowerSeries.X).topIso.hom
+  change (coverOpen f φ U (PowerSeries k) PowerSeries.X).topIso.hom
     ((coverOpenIso f φ U b (PowerSeries k) PowerSeries.X).hom.appTop
       ((Scheme.ΓSpecIso _).inv (chartRight k n (chartCoeff f φ U b) PowerSeries.X
         PowerSeries.X))) = _
@@ -168,8 +168,8 @@ theorem exists_chart_specialFibreIdeal [Smooth f] (hn : (n : k) ≠ 0) :
     have hreg := Module.Flat.isSMulRegular_of_nonZeroDivisors
       (M := chartRing k n (chartCoeff f φ U b) (PowerSeries.X : PowerSeries k)) hQt
     refine mem_nonZeroDivisors_iff.2 ⟨fun c hc => hreg ?_, fun c hc => hreg ?_⟩
-    · show _ • c = _ • 0; rw [smul_zero, Algebra.smul_def]; exact hc
-    · show _ • c = _ • 0; rw [smul_zero, Algebra.smul_def, mul_comm]; exact hc
+    · change _ • c = _ • 0; rw [smul_zero, Algebra.smul_def]; exact hc
+    · change _ • c = _ • 0; rw [smul_zero, Algebra.smul_def, mul_comm]; exact hc
   have hxB := root_mem_nonZeroDivisors _ hn0 hQu
   have hrad : (Ideal.span {AdjoinRoot.root (Polynomial.X ^ n - C (chartCoeff f φ U b ⊗ₜ[k]
       (PowerSeries.X : PowerSeries k)))}).IsRadical := by

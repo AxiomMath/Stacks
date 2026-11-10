@@ -237,7 +237,7 @@ theorem rootSectionOn_eq : rootSectionOn f φ U =
   refine (rootCoeff_spec f φ U b).symm.trans ?_
   refine Eq.trans ?_ (congrArg _ (pieceUnit_smul U _ _))
   rw [← (situation f L).symSectionsRingEquiv_coe]
-  show ((situation f L).symSectionsRingEquiv U) (((situation f L).polynomialAlgEquiv U b).symm
+  change ((situation f L).symSectionsRingEquiv U) (((situation f L).polynomialAlgEquiv U b).symm
     (monomial n (rootCoeff f φ U b))) = _
   rw [polynomialAlgEquiv_symm_monomial]
   rfl

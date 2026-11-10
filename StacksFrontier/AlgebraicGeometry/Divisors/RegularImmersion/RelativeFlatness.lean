@@ -72,7 +72,7 @@ theorem flat_of_regular_quotient_flat
   have hμ : Function.Injective μ := (isRegular_iff_mem_nonZeroDivisors.mpr hh).1
   have hmq : Function.Exact μ q := by
     intro b
-    show Ideal.Quotient.mk J b = 0 ↔ _
+    change Ideal.Quotient.mk J b = 0 ↔ _
     rw [Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton']
     exact exists_congr fun c => by rw [mul_comm]; rfl
   have hqsurj : Function.Surjective q := Ideal.Quotient.mk_surjective
@@ -96,8 +96,7 @@ theorem flat_of_regular_quotient_flat
   have hμsmul : ∀ {M : Type u} [AddCommGroup M] [Module A M] (y : B ⊗[A] M),
       μ.rTensor M y = h • y := by
     intro M _ _ y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul b n => simp [μ, TensorProduct.smul_tmul', smul_eq_mul]
     | add a b ha hb => simp [ha, hb]
   have hcommMul : ∀ y, fB (μN y) = μP (fB y) := by
@@ -105,8 +104,7 @@ theorem flat_of_regular_quotient_flat
     rw [show μN y = h • y from hμsmul y, show μP (fB y) = h • fB y from hμsmul _, map_smul]
   have hComm : ∀ z, fQ (qN z) = qP (fB z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp [qN, qP]
+    induction z using TensorProduct.inductionOn with
     | tmul b n => simp [fB, fQ, qN, qP, q, J]
     | add x y hx hy => simp [hx, hy]
   let K : Submodule B (B ⊗[A] N) := LinearMap.ker fB
@@ -144,8 +142,8 @@ theorem isRegular_cons_iff_quotient_span_singleton
     symm
     refine AddEquiv.isRegular_congr (e := e.toAddEquiv) ?_
     refine List.forall₂_map_left_iff.mpr (List.forall₂_same.mpr ?_)
-    intro a _ x
-    show e ((Ideal.Quotient.mk (Ideal.span {r}) a) • x) = a • e x
+    rintro a - x
+    change e ((Ideal.Quotient.mk (Ideal.span {r}) a) • x) = a • e x
     rw [← Ideal.Quotient.algebraMap_eq, algebraMap_smul, map_smul]
 
 private theorem flat_of_regularSequence_quotient_flat_aux (n : ℕ) :
@@ -292,12 +290,12 @@ theorem exists_germ_mem_definingIdealOfHom {Z X : Scheme.{u}}
   have hVW : V ≤ W := inf_le_left.trans inf_le_right
   have hVT : i ⁻¹ᵁ V ≤ T := by
     intro y hy
-    show y ∈ (T : Set Z)
+    change y ∈ (T : Set Z)
     rw [← hpre]
     exact hy.1.1
   let t : Γ(X, V) := X.presheaf.map (homOfLE hVW).op s
   refine ⟨V, hxV, inf_le_right, t, ?_, ?_⟩
-  · show i.app V t = 0
+  · change i.app V t = 0
     have hn := i.toLRSHom.toShHom.hom.c.naturality (homOfLE hVW).op
     have hn' := congrArg (fun g => g s) hn
     change i.app V t =
@@ -307,7 +305,7 @@ theorem exists_germ_mem_definingIdealOfHom {Z X : Scheme.{u}}
     have hfac : ((Opens.map i.base).map (homOfLE hVW)).op = a.op ≫ (homOfLE hVT).op :=
       Subsingleton.elim _ _
     rw [hfac, Z.presheaf.map_comp]
-    show Z.presheaf.map (homOfLE hVT).op (Z.presheaf.map a.op (i.app W s)) = 0
+    change Z.presheaf.map (homOfLE hVT).op (Z.presheaf.map a.op (i.app W s)) = 0
     rw [ha, map_zero]
   · exact X.presheaf.germ_res_apply (homOfLE hVW) (i z) hxV s
 
@@ -325,7 +323,7 @@ theorem ker_stalkMap_eq_span_of_isGeneratedByOn {Z X : Scheme.{u}}
     exact germ_mem_span_of_isGeneratedByOn _ U f hgen (i z) hx V hxV hVU s hs
   · apply Ideal.span_le.mpr
     rintro _ ⟨j, rfl⟩
-    show (i.stalkMap z) (X.presheaf.germ U (i z) hx (f j)) = 0
+    change (i.stalkMap z) (X.presheaf.germ U (i z) hx (f j)) = 0
     rw [Scheme.Hom.germ_stalkMap_apply]
     have hmem : f j ∈ (definingIdealOfHom i).obj (op U) := by
       rw [hgen U le_rfl]

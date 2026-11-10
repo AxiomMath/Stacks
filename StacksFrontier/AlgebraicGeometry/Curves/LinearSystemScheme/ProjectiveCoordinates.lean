@@ -85,12 +85,12 @@ theorem away_mk_eq_eval₂ (j : Fin (n + 1)) (m : ℕ) (p : MvPolynomial (Fin (n
   have hv : algebraMap R L (MvPolynomial.X j) * v = 1 := hunit.unit.mul_inv
   have hsc : ∀ c : k, (awayScalars k n j c).val = algebraMap k L c := by
     intro c
-    show (Localization.mk ((algebraMap k (coordGrading k n 0) c : R)) 1 : L) = _
+    change (Localization.mk ((algebraMap k (coordGrading k n 0) c : R)) 1 : L) = _
     rw [Localization.mk_one_eq_algebraMap]
     rfl
   have hch : ∀ i, (chartElem k n j i).val = v * algebraMap R L (MvPolynomial.X i) := by
     intro i
-    show (Localization.mk (MvPolynomial.X i : R)
+    change (Localization.mk (MvPolynomial.X i : R)
       ⟨(MvPolynomial.X j : R) ^ 1, ⟨1, rfl⟩⟩ : L) = _
     rw [Localization.mk_eq_mk', IsLocalization.mk'_eq_iff_eq_mul, mul_comm v, mul_assoc]
     simp only [pow_one]
@@ -104,7 +104,7 @@ theorem away_mk_eq_eval₂ (j : Fin (n + 1)) (m : ℕ) (p : MvPolynomial (Fin (n
         fun i => v * algebraMap R L (MvPolynomial.X i) := funext hch
     rw [h1, h2]
   rw [hval, hhom.eval₂_const_mul]
-  show (Localization.mk p ⟨(MvPolynomial.X j : R) ^ m, ⟨m, rfl⟩⟩ : L) = _
+  change (Localization.mk p ⟨(MvPolynomial.X j : R) ^ m, ⟨m, rfl⟩⟩ : L) = _
   rw [Localization.mk_eq_mk', IsLocalization.mk'_eq_iff_eq_mul]
   have he : MvPolynomial.eval₂ (algebraMap k L) (fun i => algebraMap R L (MvPolynomial.X i)) p =
       algebraMap R L p := by
@@ -113,7 +113,7 @@ theorem away_mk_eq_eval₂ (j : Fin (n + 1)) (m : ℕ) (p : MvPolynomial (Fin (n
     exact (MvPolynomial.eval₂_comp_left (algebraMap R L) MvPolynomial.C MvPolynomial.X p).symm.trans
       (by rw [MvPolynomial.eval₂_eta])
   rw [he]
-  show algebraMap R L p = v ^ m * algebraMap R L p * algebraMap R L (MvPolynomial.X j ^ m)
+  change algebraMap R L p = v ^ m * algebraMap R L p * algebraMap R L (MvPolynomial.X j ^ m)
   rw [map_pow, mul_comm (v ^ m), mul_assoc, ← mul_pow, mul_comm v, hv, one_pow, mul_one]
 
 /-! ### The morphism `[c₀ : … : cₙ]` -/

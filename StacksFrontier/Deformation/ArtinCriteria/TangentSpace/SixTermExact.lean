@@ -301,11 +301,6 @@ public theorem sixTermExact_twoFibreProduct
       hD𝒴.predeformation.cofibered (mF.toFunctor.obj (mA.toFunctor.obj w₀'.1))
     let PF' := Deformation.chosenPushforwardsAtOfCofiberedInGroupoids
       hD𝒴.predeformation.cofibered (data.rightFunctor.obj (mB.toFunctor.obj w₀'.1))
-    let PL := Deformation.transportChosenPushforwardsAt
-      (TwoFibreProductOver.lift (mF.toFunctor ⋙ D𝒴.projection)
-        (data.rightFunctor ⋙ D𝒴.projection) D𝒴.projection mF.toFunctor data.rightFunctor
-        D𝒲.projection mA.toFunctor mB.toFunctor hA' hB' data.filler data.filler_vertical)
-      (TwoFibreProductOver.lift_comp_structureFunctor ..) w₀'.1 PW
     letI := Deformation.naturalLocalizedTangentAddCommGroup PW hD𝒲.satisfiesRS
     letI := Deformation.naturalLocalizedTangentModule PW hD𝒲.satisfiesRS
     letI := Deformation.naturalLocalizedTangentAddCommGroup QH hH'.satisfiesRS
@@ -400,12 +395,17 @@ public theorem sixTermExact_twoFibreProduct
               (BasedCategory.ofFunctor (data.rightFunctor ⋙ D𝒴.projection)) hG'
               (FGModuleCat.of k (ULift.{u} k))))) := by
   intro hA hB hF hG hX hZ hY D𝒲 D𝒳 D𝒵 D𝒴 mA mB mF data hD𝒲 hD𝒳 hD𝒵 hD𝒴 hA' hB' hH' hG'
-    hlift' w₀' hw₀ PW QH QG PF PF' PL
+    hlift' w₀' hw₀ PW QH QG PF PF'
   let := D𝒲.category
   let := D𝒳.category
   let := D𝒵.category
   let := D𝒴.category
   let := hlift'
+  let PL := Deformation.transportChosenPushforwardsAt
+    (TwoFibreProductOver.lift (mF.toFunctor ⋙ D𝒴.projection)
+      (data.rightFunctor ⋙ D𝒴.projection) D𝒴.projection mF.toFunctor data.rightFunctor
+      D𝒲.projection mA.toFunctor mB.toFunctor hA' hB' data.filler data.filler_vertical)
+    (TwoFibreProductOver.lift_comp_structureFunctor ..) w₀'.1 PW
   let := Deformation.naturalLocalizedTangentAddCommGroup PW hD𝒲.satisfiesRS
   let := Deformation.naturalLocalizedTangentModule PW hD𝒲.satisfiesRS
   let := Deformation.naturalLocalizedTangentAddCommGroup QH hH'.satisfiesRS

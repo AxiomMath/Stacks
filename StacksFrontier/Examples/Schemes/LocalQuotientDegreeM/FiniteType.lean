@@ -135,7 +135,7 @@ public lemma locallyGenerated_off_line {V W : Opens (PrimeSpectrum.Top Poly)} (h
     ∃ (V' : Opens (PrimeSpectrum.Top Poly)) (hV' : V' ≤ V), q ∈ V' ∧
       ∃ c : Plane.ringCatSheaf.obj.obj (op V'),
         Fres hV' t = toSect c • Fres (hV'.trans hVW) h₀ := by
-  obtain ⟨u, hu, hu'⟩ := SetLike.not_le_iff_exists.mp hne
+  obtain ⟨u, hu, hu'⟩ := IsConcreteLE.not_le_iff_exists.mp hne
   exact ⟨V ⊓ basicOpen u, inf_le_left, Opens.mem_inf.mpr ⟨hq, hu'⟩, ofSect 0,
     Fres_eq_smul_of_coe _ _ t h₀ 0 fun hL => absurd hu (Opens.mem_inf.mp hL).2⟩
 
@@ -171,7 +171,7 @@ public lemma locallyGenerated_oneSec : LocallyGenerated (basicOpen yv) oneSec :=
 /-- `y - 1` does not vanish identically on the line `L = V(x)`. -/
 public lemma ysub1_notMem_pL : yv - 1 ∉ pL := by
   simp only [pL, yv, lineHom, RingHom.mem_ker, map_sub, map_one, AlgHom.toRingHom_eq_coe,
-    RingHom.coe_coe, MvPolynomial.aeval_X, if_neg (one_ne_zero' (Fin 2))]
+    RingHom.coe_coe, MvPolynomial.aeval_X, ite_eq_right (one_ne_zero' (Fin 2))]
   intro h
   simpa using congrArg (Polynomial.eval (0 : ℚ)) h
 

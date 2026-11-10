@@ -394,7 +394,7 @@ theorem liftAlongSectionApp_lift_eq (T : BigFppfOver B S hS) (ξ : LiftAlong B S
   have hv' : i.hom.app (Opposite.op T) v = ξ.base := by
     rw [hv, op_id, Functor.map_id_apply]
   refine LiftAlong.ext _ _ ?_ fun T' t w h h' ↦ ?_
-  · show i.hom.app (Opposite.op T) (p.hom.app (Opposite.op T) (ξ.lift T (𝟙 T) v hv)) = ξ.base
+  · change i.hom.app (Opposite.op T) (p.hom.app (Opposite.op T) (ξ.lift T (𝟙 T) v hv)) = ξ.base
     rw [ξ.lift_proj T (𝟙 T) v hv]
     exact hv'
   · have hc : i.hom.app (Opposite.op T') (I.obj.map t.op v)
@@ -571,9 +571,9 @@ theorem liftAlongBase_comp_liftAlongId :
     liftAlongBase B S hS i (𝟙 I) ≫ liftAlongId B S hS i
       = 𝟙 (liftAlong B S hS i (𝟙 I)) := by
   refine hom_ext_apply B S hS fun T ξ ↦ ?_
-  show liftAlongIdApp B S hS i T.unop ξ.base = ξ
+  change liftAlongIdApp B S hS i T.unop ξ.base = ξ
   refine LiftAlong.ext _ _ rfl fun T' t w h h' ↦ ?_
-  show w = ξ.lift T' t w h'
+  change w = ξ.lift T' t w h'
   simpa using (ξ.lift_proj T' t w h').symm
 
 /-- **The structure morphism of the dependent product of the identity is an isomorphism.** -/

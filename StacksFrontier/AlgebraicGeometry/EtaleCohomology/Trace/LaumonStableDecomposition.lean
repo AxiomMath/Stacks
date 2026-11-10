@@ -146,7 +146,7 @@ public theorem norm_eq_of_isRoot_charpoly_pullback_frobenius
     Spec.map (CommRingCat.ofHom (algebraMap k₀ (Polynomial k₀)))
   have hy : g.base y.1 ∈ closedPoints U := by
     have : JacobsonSpace U := LocallyOfFiniteType.jacobsonSpace f
-    exact g.closePoints_subset_preimage_closedPoints y.2
+    exact g.closedPoints_subset_preimage_closedPoints y.2
   obtain ⟨h, hh⟩ := exists_etaleFundamentalGroupMap_geometricFrobeniusFamily_eq_conj_pow g x₀ y hy
     f f₀
   change ((((σ (etaleFundamentalGroupMap g x₀ (geometricFrobeniusFamily f₀ x₀ y)) :

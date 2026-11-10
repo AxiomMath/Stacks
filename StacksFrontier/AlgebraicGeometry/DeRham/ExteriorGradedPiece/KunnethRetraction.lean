@@ -84,7 +84,7 @@ theorem sigmaι_comp_exteriorPowerProdIsoOfSplitting (sp : T.Splitting) (p q n :
     Sigma.ι (exteriorPowerProdSummand AF₁ AG₃ n) (ULift.up ⟨(p, q), h⟩) ≫
         (exteriorPowerProdIsoOfSplitting AF₁ AG₃ A₂ sp n).hom =
       prodWedgeHomOfEq AF₁ AG₃ A₂ T.f sp.s p q n h :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- **The retraction is a retraction**: the weight-`(p, q)` summand, included into `⋀ⁿT.X₂` by
 the wedge-product morphism and then projected back, is the identity. -/
@@ -96,7 +96,7 @@ theorem prodWedgeHomOfEq_comp_exteriorKunnethRetraction (sp : T.Splitting) (p q 
           Osharp)).obj (AF₁.exteriorPower p, AG₃.exteriorPower q)) := by
   rw [exteriorKunnethRetraction,
     ← sigmaι_comp_exteriorPowerProdIsoOfSplitting AF₁ AG₃ A₂ sp p q n h, Category.assoc,
-    Iso.hom_inv_id_assoc, biproduct.isoCoproduct_inv, ← Category.assoc, Sigma.ι_desc,
+    Iso.hom_inv_id_assoc, biproduct.isoCoproduct_inv, ← Category.assoc, Sigma.ι_comp_desc,
     biproduct.ι_π_self]
   rfl
 
@@ -112,7 +112,7 @@ theorem prodWedgeHomOfEq_comp_exteriorKunnethRetraction_of_ne (sp : T.Splitting)
     exact hne (congrArg Subtype.val (congrArg ULift.down hcon))
   rw [exteriorKunnethRetraction,
     ← sigmaι_comp_exteriorPowerProdIsoOfSplitting AF₁ AG₃ A₂ sp p' q' n h', Category.assoc,
-    Iso.hom_inv_id_assoc, biproduct.isoCoproduct_inv, ← Category.assoc, Sigma.ι_desc,
+    Iso.hom_inv_id_assoc, biproduct.isoCoproduct_inv, ← Category.assoc, Sigma.ι_comp_desc,
     biproduct.ι_π_ne (exteriorPowerProdSummand AF₁ AG₃ n) hidx]
 
 /-- **The section of a splitting is a section of the surjection of the presentation of

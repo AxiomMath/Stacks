@@ -31,8 +31,8 @@ hypothesis and with the compatibility with pullback read against the pullback ri
 
 The filtration and its graded pieces are those of
 `StacksFrontier.AlgebraicGeometry.DeRham.ExteriorPowerFiltration` and
-`StacksFrontier.AlgebraicGeometry.DeRham.ExteriorGradedPiece`, applied to the short exact sequence at
-hand. Three facts about them are used, each of which needs the sequence to split locally — which
+`StacksFrontier.AlgebraicGeometry.DeRham.ExteriorGradedPiece`, applied to the short exact sequence
+at hand. Three facts about them are used, each of which needs the sequence to split locally — which
 it does, the quotient `𝒢` being finite locally free
 (`AlgebraicGeometry.Scheme.Modules.exists_nonempty_splitting_restrict_of_isFiniteLocallyFree`):
 

@@ -309,8 +309,7 @@ theorem coordMap_eq_zero_of_mem (D : ChartData R W C) {y : C ⊗[R] A}
   have hle : chartIdeal C D ≤ K := by
     refine Ideal.span_le.mpr ?_
     rintro _ ⟨a, rfl⟩ x
-    induction x using TensorProduct.induction_on with
-    | zero => rw [zero_mul, map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => rw [add_mul, map_add, hx, hy, add_zero]
     | tmul c a' =>
       simp only [chartRelation, mul_sub, Finset.mul_sum, Algebra.TensorProduct.tmul_mul_tmul,
@@ -323,8 +322,7 @@ theorem coordMap_eq_zero_of_mem (D : ChartData R W C) {y : C ⊗[R] A}
 /-- Every element is congruent, modulo the chart ideal, to the expansion of its coordinates. -/
 theorem sub_markedSum_mem (D : ChartData R W C) (y : C ⊗[R] A) :
     y - ∑ l, coordMap D y l ⊗ₜ W l ∈ chartIdeal C D := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | add x y hx hy =>
     have := Ideal.add_mem _ hx hy
     convert this using 1

@@ -309,7 +309,7 @@ theorem pointsToScheme_pointsMap_subgroupoid (_hU'' : B.Contains U''.left)
           (Space.pointsMap B S hS _ (yoneda.map (Space.schemeSiteMap B hS hPU hRU
             P.inclusion.mapObjects)) z)) = g.left.base u'' := by
   rw [Space.pointsToScheme_pointsMap_yoneda, Space.pointsToScheme_pointsMap_yoneda, hz]
-  show (R.hom.mapObjects.left.base (P.inclusion.mapObjects.left.base
+  change (R.hom.mapObjects.left.base (P.inclusion.mapObjects.left.base
     ((eqToHom (P.objects_eq.trans R.objects_eq).symm).left.base u''))) = _
   rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, ← Over.comp_left, ← Over.comp_left,
     P.mapObjects_eq, R.mapObjects_eq, eqToHom_trans_assoc, eqToHom_trans_assoc, eqToHom_refl,

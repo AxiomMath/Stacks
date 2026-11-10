@@ -175,7 +175,6 @@ noncomputable abbrev closedSubspaceDirectImageStructureSheaf (f : X ⟶ Y) (Z : 
         (⟨X, hX.1⟩ : AlgebraicSpaces D.site D.base D.base_mem) ⟶ ⟨Y, hY.1⟩))).obj
     (SheafOfModules.unit _)
 
-include sY in
 /-- The direct image `i_*𝒪_Z` of the structure sheaf of a closed subspace is coherent, on a good
 algebraic space: it is the direct image of the structure sheaf along a closed immersion, Stacks
 07UH for the structure sheaf (`AlgebraicGeometry.Space.isCoherent_structureSheafPushforward`),
@@ -225,7 +224,7 @@ theorem properCyclePushforwardCoeff_closedSubspaceCycle_eq {f : X ⟶ Y} (hfB : 
     properCyclePushforwardCoeff D sX hX sY hY f (closedSubspaceCycle D sX hX Z hZ k hdim).1 =
       cycleCoeffOfModule D sY hY (closedSubspaceDirectImageStructureSheaf D sX hX sY hY f Z hZ) k
         γY := by
-  have := isCoherent_closedSubspacePushforwardStructureSheaf D sX hX sY Z hZ
+  have := isCoherent_closedSubspacePushforwardStructureSheaf D sX hX Z hZ
   have hdimF := deltaDimensionClosed_closedSubspacePushforwardStructureSheaf_le D sX hX Z hZ k
     hdim
   change properCyclePushforwardCoeff D sX hX sY hY f

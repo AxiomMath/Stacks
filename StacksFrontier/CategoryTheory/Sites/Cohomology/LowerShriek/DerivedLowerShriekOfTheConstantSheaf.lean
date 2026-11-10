@@ -186,7 +186,7 @@ theorem nonempty_iso_single_of_coyoneda_iso
     NatIso.ofComponents (fun T => (eh T).toIso) (by
       intro T T' f
       ext g
-      show eh T' (g ≫ f) = eh T g ≫ R.map f
+      change eh T' (g ≫ f) = eh T g ≫ R.map f
       apply SB.map_injective
       simp only [eh, Equiv.trans_apply, Functor.FullyFaithful.homEquiv_apply,
         Functor.FullyFaithful.homEquiv_symm_apply, Iso.homFromEquiv_apply,

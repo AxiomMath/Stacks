@@ -72,7 +72,7 @@ theorem exists_finiteTypeQuasicoherentSubobject_extension_of_isColimit (j : U ‚ü
   have hje : IsEtale B S hS j.hom := isEtale_of_isOpenImmersion B S hS hj
   -- the abelian structure of the two module categories, at the universe of the schemes
   have hesX : EssentiallySmall.{u} (smallEtaleRingedSite B S hS X.1 X.2).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS X.1)
+    change EssentiallySmall.{u} (SmallEtale B S hS X.1)
     infer_instance
   let habX : Abelian (Modules.{u, u} B S hS X.1 X.2) :=
     SheafOfModules.instAbelian.{u, u, u, u + 1}
@@ -80,7 +80,7 @@ theorem exists_finiteTypeQuasicoherentSubobject_extension_of_isColimit (j : U ‚ü
   have hgrX : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS X.1 X.2) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _
   have hesU : EssentiallySmall.{u} (smallEtaleRingedSite B S hS U.1 U.2).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS U.1)
+    change EssentiallySmall.{u} (SmallEtale B S hS U.1)
     infer_instance
   let habU : Abelian (Modules.{u, u} B S hS U.1 U.2) :=
     SheafOfModules.instAbelian.{u, u, u, u + 1}
@@ -152,7 +152,7 @@ theorem exists_finiteTypeQuasicoherentSubobject_extension_of_isColimit (j : U ‚ü
   -- the legs of the cocone are the subobject inclusions, hence monomorphisms
   have hŒπmono : ‚àÄ i, Mono (c'.Œπ.app i) := by
     intro i
-    show Mono (eqv.functor.obj i).obj.arrow
+    change Mono (eqv.functor.obj i).obj.arrow
     infer_instance
   have hDmono : ‚àÄ {i i' : SmallModel.{u} (FiniteTypeQuasicoherentSubobject B S hS X.1 X.2 H)}
       (f : i ‚ü∂ i'), Mono (D'.map f) := by

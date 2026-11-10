@@ -187,8 +187,8 @@ theorem algebraMap_X_pow_mul_eps_pow_ne_zero {n M : ℕ} (h : M ≤ n) (k : ℕ)
     Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton]
   rintro ⟨g, hg⟩
   have hc := congrArg (Polynomial.coeff · M) hg
-  simp only [coeff_C_mul_X_pow, if_true, coeff_X_pow_mul', show ¬ n + 1 ≤ M by omega,
-    if_false] at hc
+  simp only [coeff_C_mul_X_pow, ite_true, coeff_X_pow_mul', show ¬ n + 1 ≤ M by omega,
+    ite_false] at hc
   exact pow_ne_zero k PowerSeries.X_ne_zero hc
 
 /-- The subring of `∀ n, S n` of the families `f` for which there is `c : ℚ` with
@@ -218,7 +218,7 @@ def augR : R →+* ℚ :=
 /-- Every slot of an element `f` of `R` has the augmentation `augR f`. -/
 theorem aug_val (f : R) (n : ℕ) : aug n (f.1 n) = augR f := by
   obtain ⟨c, hc, -⟩ := f.2
-  show aug n (f.1 n) = aug 0 (f.1 0)
+  change aug n (f.1 n) = aug 0 (f.1 0)
   rw [hc, hc]
 
 /-- All but finitely many slots of an element `f` of `R` are the constant `augR f`. -/
@@ -235,7 +235,7 @@ theorem isUnit_of_augR_ne_zero {f : R} (hf : augR f ≠ 0) : IsUnit f := by
       rw [map_mul, map_one, aug_val] at this
       exact eq_inv_of_mul_eq_one_right this,
     (eventually_eq_algebraMap f).mono fun n h => by
-      show Ring.inverse (f.1 n) = _
+      change Ring.inverse (f.1 n) = _
       rw [h]
       have hc : IsUnit (algebraMap ℚ (S n) (augR f)) := (isUnit_iff_ne_zero.2 hf).map _
       simpa using (Ring.inverse_mul_eq_iff_eq_mul _ 1 (algebraMap ℚ (S n) (augR f)⁻¹) hc).2
@@ -292,8 +292,8 @@ theorem mem_of_forall_single_mem (I : Ideal R) (f : R) (hf : augR f = 0)
   rw [hf, Filter.eventually_cofinite] at hev
   have key : f = ∑ m ∈ hev.toFinset, single m (f.1 m) (by rw [aug_val, hf]) := by
     refine Subtype.ext <| funext fun k => ?_
-    rw [AddSubmonoidClass.coe_finset_sum, Finset.sum_apply]
-    simp only [single_val, Finset.sum_pi_single, Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+    rw [AddSubmonoidClass.coe_finsetSum, Finset.sum_apply]
+    simp only [single_val, Finset.sum_pi_single, Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
     split_ifs with hk
     · rfl
     · simpa using hk

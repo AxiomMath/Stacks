@@ -91,7 +91,7 @@ theorem ker_inclusion_pow_succ_eq_bot (I : X.IdealSheafData) (n : ℕ) :
     (fun V : X.affineOpens ↦ (⟨p ⁻¹ᵁ V.1, V.2.preimage p⟩ : (I ^ (n + 1)).subscheme.affineOpens))
     (by simpa using congrArg (fun V : X.Opens ↦ p ⁻¹ᵁ V) (iSup_affineOpens_eq_top X))
     fun V ↦ ?_
-  show (c.ker ^ (n + 1)).ideal ⟨p ⁻¹ᵁ V.1, V.2.preimage p⟩ = ⊥
+  change (c.ker ^ (n + 1)).ideal ⟨p ⁻¹ᵁ V.1, V.2.preimage p⟩ = ⊥
   have hKloc : I.ideal V = (c.ker.ideal ⟨p ⁻¹ᵁ V.1, V.2.preimage p⟩).comap (p.app V).hom :=
     (congrArg (fun K : X.IdealSheafData ↦ K.ideal V) hker).symm.trans
       (Scheme.IdealSheafData.ideal_map (I := c.ker) p V (V.2.preimage p))

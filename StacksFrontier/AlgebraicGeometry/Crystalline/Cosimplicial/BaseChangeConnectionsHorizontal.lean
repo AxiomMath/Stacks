@@ -56,8 +56,7 @@ theorem eq_zero_of_baseChangeInclusion (p : ℕ) {D : Type*} [CommRing D] {D' : 
     (x : CompletedConnection.baseChangeCarrier p D D' M) : g x = 0 := by
   have hof : ∀ t : D' ⊗[D] M, g (AdicCompletion.of (pAdicIdeal (A := D') p) (D' ⊗[D] M) t) = 0 := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul c m => rw [CompletedConnection.of_tmul_eq_smul_inclusion, hg, h0, smul_zero]
     | add a b ha hb => rw [map_add, map_add, ha, hb, add_zero]
   refine AdicCompletion.ext fun k => ?_
@@ -104,10 +103,9 @@ theorem isoValuesFwd_baseChangeValues (p : ℕ) {D : Type u} [CommRing D] {D' : 
     (TensorProduct.map (β.toLinearMap : _ →ₛₗ[(RingEquiv.refl D' : D' →+* D')] M')
       (LinearMap.id : Om' →ₗ[D'] Om'))
     (TensorProduct.map f ψ) _ _ _ (fun y => ?_) z
-  induction y using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul x ω =>
-    show f x ⊗ₜ[D'] ψ ω = β (CompletedConnection.baseChangeInclusion p D D' M x) ⊗ₜ[D'] ψ ω
+    change f x ⊗ₜ[D'] ψ ω = β (CompletedConnection.baseChangeInclusion p D D' M x) ⊗ₜ[D'] ψ ω
     rw [hf]
   | add y z hy hz => rw [map_add, map_add, map_add, hy, hz]
 
@@ -195,10 +193,10 @@ theorem baseChangeConnection_map_of_coprojection {m n : SimplexCategory} (φ : m
   refine eq_zero_of_baseChangeInclusion p (E.completedRingMap p φ)
     ((V.horizontalDefect nabla beta φ).comp (beta m.len).toLinearMap.toAddMonoidHom)
     (fun c x => ?_) (fun x => ?_) ((beta m.len).symm y)
-  · show V.horizontalDefect nabla beta φ (beta m.len (c • x)) = _
+  · change V.horizontalDefect nabla beta φ (beta m.len (c • x)) = _
     rw [map_smul, horizontalDefect_smul]
     rfl
-  · show V.horizontalDefect nabla beta φ (beta m.len
+  · change V.horizontalDefect nabla beta φ (beta m.len
       (CompletedConnection.baseChangeInclusion p _ _ _ x)) = 0
     rw [CompletedConnection.baseChangeInclusion_apply, hbeta, one_smul, horizontalDefect_apply,
       ← V.map_comp_apply, h, baseChangeConnection_map_coprojection V nabla beta hbeta,

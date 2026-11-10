@@ -171,7 +171,7 @@ instance isQuasicoherent_twistFamily (j : Fin (n + 1)) :
 /-- **The direct sum of the `n + 1` twists is quasi-coherent**: quasi-coherent modules form a
 weak Serre subcategory, hence are closed under finite direct sums. -/
 instance isQuasicoherent_twistSumModule : (twistSumModule A n).IsQuasicoherent := by
-  letI := Stacks.ConstantSheaf.isClosedUnderFiniteCoproducts_of_isWeakSerreClass
+  let := Stacks.ConstantSheaf.isClosedUnderFiniteCoproducts_of_isWeakSerreClass
     (SheafOfModules.isQuasicoherent (AlgebraicGeometry.Proj (polyGrading A n)).ringCatSheaf)
   exact (SheafOfModules.isQuasicoherent
       (AlgebraicGeometry.Proj (polyGrading A n)).ringCatSheaf).prop_of_iso

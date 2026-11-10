@@ -123,8 +123,7 @@ private noncomputable def symmetricKaehlerEquiv
         exact congrArg (fun d : Derivation A C (KaehlerDifferential A C) => d x) h)
     exact LinearMap.congr_fun h' w
   · intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp [f, g]
+    induction w using TensorProduct.inductionOn with
     | tmul c x =>
       simp [f, g, dι, symmetricDerivation_ι, TensorProduct.smul_tmul']
     | add x y hx hy =>
@@ -180,14 +179,14 @@ private theorem ker_presentation_eq_span_linearRelations
   have hcomp : φ.comp α = q := by
     apply MvPolynomial.algHom_ext
     intro j
-    show φ (α (MvPolynomial.X j)) = q (MvPolynomial.X j)
+    change φ (α (MvPolynomial.X j)) = q (MvPolynomial.X j)
     rw [hαX, show φ (ι (p ((Pi.basisFun A (Fin m)) j))) =
       g (p ((Pi.basisFun A (Fin m)) j)) from hC.lift_eq g _, hg,
       freeLinear_basis]
   have hαL : α.toLinearMap ∘ₗ freeLinear m = ι ∘ₗ p := by
     apply (Pi.basisFun A (Fin m)).ext
     intro j
-    show α (freeLinear m ((Pi.basisFun A (Fin m)) j)) =
+    change α (freeLinear m ((Pi.basisFun A (Fin m)) j)) =
       ι (p ((Pi.basisFun A (Fin m)) j))
     rw [freeLinear_basis, hαX]
   apply le_antisymm
@@ -198,7 +197,7 @@ private theorem ker_presentation_eq_span_linearRelations
     exact Ideal.Quotient.eq_zero_iff_mem.mp this
   · apply Ideal.span_le.mpr
     rintro x ⟨k, rfl⟩
-    show α (freeLinear m (i k)) = 0
+    change α (freeLinear m (i k)) = 0
     have h := LinearMap.congr_fun hαL (i k)
     simpa [hip.apply_apply_eq_zero] using h
 
@@ -241,7 +240,7 @@ theorem cotangentComplex_of_isSymmetricAlgebra
       eF (1 ⊗ₜ[P.Ring] KaehlerDifferential.D A P.Ring (MvPolynomial.X j)) =
         Pi.single j 1 := by
     have hb : b j = 1 ⊗ₜ[P.Ring] KaehlerDifferential.D A P.Ring (MvPolynomial.X j) := by
-      show ((KaehlerDifferential.mvPolynomialBasis A (Fin m)).baseChange C) j = _
+      change ((KaehlerDifferential.mvPolynomialBasis A (Fin m)).baseChange C) j = _
       rw [Basis.baseChange_apply, KaehlerDifferential.mvPolynomialBasis_apply]
       rfl
     rw [← hb]
@@ -271,7 +270,7 @@ theorem cotangentComplex_of_isSymmetricAlgebra
     have heq : lhs = rhs := by
       apply (Pi.basisFun A (Fin m)).ext
       intro j
-      show eF (1 ⊗ₜ[P.Ring]
+      change eF (1 ⊗ₜ[P.Ring]
         KaehlerDifferential.D A P.Ring (freeLinear m ((Pi.basisFun A (Fin m)) j))) =
         (TensorProduct.piScalarRight A C C (Fin m))
           (1 ⊗ₜ[A] ((Pi.basisFun A (Fin m)) j))
@@ -294,15 +293,14 @@ theorem cotangentComplex_of_isSymmetricAlgebra
     exact LinearMap.range_eq_top.mp (top_unique (hspan ▸ hle))
   · apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul c k =>
       have hbase :
           (eF.toLinearMap ∘ₗ P.cotangentComplex ∘ₗ eK) (1 ⊗ₜ[A] k) =
             ((TensorProduct.piScalarRight A C C (Fin m)).toLinearMap ∘ₗ i.baseChange C)
               (1 ⊗ₜ[A] k) := by
-        show eF (P.cotangentComplex (eK (1 ⊗ₜ[A] k))) =
+        change eF (P.cotangentComplex (eK (1 ⊗ₜ[A] k))) =
           (TensorProduct.piScalarRight A C C (Fin m))
             ((i.baseChange C) (1 ⊗ₜ[A] k))
         rw [heK, Algebra.Extension.cotangentComplex_mk, LinearMap.baseChange_tmul]
@@ -315,7 +313,7 @@ theorem cotangentComplex_of_isSymmetricAlgebra
     refine ⟨?_, ?_⟩
     · have hk' : freeLinear m (i k) ∈ P.ker := (rel k).property
       rwa [freeLinear_apply] at hk'
-    · show eK (1 ⊗ₜ[A] k) = Algebra.Extension.Cotangent.mk (P := P)
+    · change eK (1 ⊗ₜ[A] k) = Algebra.Extension.Cotangent.mk (P := P)
         ⟨∑ j, MvPolynomial.C (i k j) * MvPolynomial.X j, _⟩
       convert heK k using 1
       congr 1
@@ -367,7 +365,7 @@ private theorem symmetricAlgebra_finitePresentation_of_finite_projective
     apply LinearMap.ext
     intro x
     simp only [LinearMap.comp_apply]
-    show α (β (SymmetricAlgebra.ι A M x)) = SymmetricAlgebra.ι A M x
+    change α (β (SymmetricAlgebra.ι A M x)) = SymmetricAlgebra.ι A M x
     rw [SymmetricAlgebra.lift_ι_apply]
     simp only [LinearMap.comp_apply]
     have hx := LinearMap.congr_fun hαbasis (i x)
@@ -406,7 +404,7 @@ private theorem symmetricAlgebra_finitePresentation_of_finite_projective
       simpa [he0] using hall x
     · apply Ideal.span_le.mpr
       rintro _ ⟨j, rfl⟩
-      show α (MvPolynomial.X j - e (MvPolynomial.X j)) = 0
+      change α (MvPolynomial.X j - e (MvPolynomial.X j)) = 0
       rw [map_sub]
       apply sub_eq_zero.mpr
       exact (AlgHom.congr_fun hαβ (α (MvPolynomial.X j))).symm
@@ -432,7 +430,7 @@ private theorem augmentation_conormal_finite_projective
       simp [τ, σ, SymmetricAlgebra.algebraMapInv]
   let j : M →ₗ[A] I :=
     { toFun := fun x => ⟨SymmetricAlgebra.ι A M x, by
-          show σ (SymmetricAlgebra.ι A M x) = 0
+          change σ (SymmetricAlgebra.ι A M x) = 0
           exact SymmetricAlgebra.algebraMapInv_ι x⟩
       map_add' x y := Subtype.ext (by simp)
       map_smul' r x := Subtype.ext (by simp) }
@@ -440,7 +438,7 @@ private theorem augmentation_conormal_finite_projective
     (TrivSqZeroExt.sndHom A M).comp
       (τ.toLinearMap.comp (I.subtype.restrictScalars A))
   have hd (x y : I) : d (x * y) = 0 := by
-    show (τ ((x : S) * (y : S))).snd = 0
+    change (τ ((x : S) * (y : S))).snd = 0
     rw [map_mul, TrivSqZeroExt.snd_mul]
     have hx : (τ (x : S)).fst = 0 :=
       (AlgHom.congr_fun hfst (x : S)).trans (RingHom.mem_ker.mp x.property)

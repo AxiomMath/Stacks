@@ -239,7 +239,7 @@ theorem exists_valuation_base_change_generic_component
   let sA : S' := closedPoint A
   let g : S' ⟶ S := F ≫ f
   have hgs : g sA = s := by
-    show f (F sA) = s
+    change f (F sA) = s
     rw [hFclosed, ← hx]
     exact apply_fiberι (Y.subschemeι ≫ f) s ξ
   let p : pullback f g ⟶ X := pullback.fst f g

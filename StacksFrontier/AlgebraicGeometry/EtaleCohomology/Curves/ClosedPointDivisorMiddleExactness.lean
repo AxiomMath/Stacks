@@ -82,7 +82,7 @@ theorem exists_pullback_fst_fromSpecResidueField_eq {X Z : Scheme.{u}} (q : Z �
     {z : Z} (hz : q.base z = x) :
     ∃ p : ↥(pullback q (X.fromSpecResidueField x)),
       (pullback.fst q (X.fromSpecResidueField x)).base p = z := by
-  show z ∈ Set.range _
+  change z ∈ Set.range _
   rw [Scheme.Pullback.range_fst, Scheme.range_fromSpecResidueField]
   exact hz
 

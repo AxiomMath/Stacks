@@ -169,7 +169,7 @@ theorem mono_diagram_map {i i' : ULift.{u + 1} ℕ} (g : i ⟶ i') :
     have hle : i ≤ i' := leOfHom g
     have hI : I ^ (i'.down + 1) ≤ I ^ (i.down + 1) :=
       Ideal.pow_le_pow_right (Nat.add_le_add_right (show i.down ≤ i'.down from hle) 1)
-    show IsClosedImmersion (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hI)))
+    change IsClosedImmersion (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hI)))
     exact IsClosedImmersion.spec_of_surjective _ (Ideal.Quotient.factor_surjective hI)
   have : (BigFppfOver.toScheme B S hS).Faithful := by
     dsimp [BigFppfOver.toScheme]
@@ -187,7 +187,7 @@ theorem mono_diagram_map {i i' : ULift.{u + 1} ℕ} (g : i ⟶ i') :
 theorem mono_j (n : ℕ) : Mono (j B S hS f hA I n) := by
   have hclosed : IsClosedImmersion ((BigFppfOver.toScheme B S hS).map (j B S hS f hA I n)) := by
     have hI : I ^ (n + 1) ≤ I ^ n := Ideal.pow_le_pow_right (Nat.le_succ n)
-    show IsClosedImmersion (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hI)))
+    change IsClosedImmersion (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hI)))
     exact IsClosedImmersion.spec_of_surjective _ (Ideal.Quotient.factor_surjective hI)
   have : (BigFppfOver.toScheme B S hS).Faithful := by
     dsimp [BigFppfOver.toScheme]

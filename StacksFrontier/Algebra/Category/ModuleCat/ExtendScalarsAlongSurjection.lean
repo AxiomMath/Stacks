@@ -81,23 +81,22 @@ theorem bijective_one_tmul (hf : Function.Surjective f)
     { toFun := fun s => g s • LinearMap.id
       map_add' := fun s t => by
         ext m
-        show g (s + t) • m = g s • m + g t • m
+        change g (s + t) • m = g s • m + g t • m
         rw [← add_smul]
         exact smul_eq_smul_of_apply_eq f hM (by rw [hfg, map_add, hfg, hfg]) m
       map_smul' := fun r s => by
         ext m
-        show g (r • s) • m = r • (g s • m)
+        change g (r • s) • m = r • (g s • m)
         rw [smul_smul]
         exact smul_eq_smul_of_apply_eq f hM (by rw [hfg, map_mul, hfg, hsmul]) m }
   have hb : ∀ m : M, TensorProduct.lift b ((1 : S) ⊗ₜ[R,f] m) = m := fun m => by
-    show g (1 : S) • m = m
+    change g (1 : S) • m = m
     rw [smul_eq_smul_of_apply_eq f hM (a := g 1) (b := 1) (by rw [hfg, map_one]) m, one_smul]
   refine ⟨Function.LeftInverse.injective hb, fun x => ?_⟩
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
       refine ⟨g s • m, ?_⟩
-      show (1 : S) ⊗ₜ[R,f] (g s • m) = s ⊗ₜ[R,f] m
+      change (1 : S) ⊗ₜ[R,f] (g s • m) = s ⊗ₜ[R,f] m
       rw [← TensorProduct.smul_tmul]
       congr 1
       rw [hsmul, mul_one, hfg]

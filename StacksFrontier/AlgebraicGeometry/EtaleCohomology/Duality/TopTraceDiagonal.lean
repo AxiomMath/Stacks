@@ -93,7 +93,7 @@ theorem flatFibres_constantModuleSheaf {N : ℕ} (S : Scheme.{u}) :
   have : Module.Flat (ZMod N) (ULift.{u + 1} (ZMod N)) :=
     Module.Flat.of_linearEquiv (ULift.moduleEquiv (R := ZMod N) (M := ZMod N))
   let _ : PreservesFilteredColimitsOfSize.{u + 1, u + 1} (forget (ModuleCat.{u + 1} (ZMod N))) := by
-    show PreservesFilteredColimitsOfSize
+    change PreservesFilteredColimitsOfSize
       (forget₂ (ModuleCat.{u + 1} (ZMod N)) AddCommGrpCat.{u + 1} ⋙ forget AddCommGrpCat.{u + 1})
     infer_instance
   exact Module.Flat.of_linearEquiv (CategoryTheory.Sites.constantSheafFiberIso
@@ -206,7 +206,7 @@ private theorem classHom_constantModuleSheaf {Y : Scheme.{u}} {N : ℕ}
     classHom c (Stacks.Cohomology.GlobalSections.constantModuleSheaf (ZMod N)
       Y.smallEtaleTopology) hΛ =
       (c.mapExactFunctor (etaleModuleUnderlyingAbelian Y (ZMod N))).hom := by
-  show classHom c (𝟙_ _) hΛ = _
+  change classHom c (𝟙_ _) hΛ = _
   let := etaleModules_enoughInjectives.{u, 0} (ZMod N) Y
   have := hΛ.exact.1
   have := hΛ.exact.2.1
@@ -423,7 +423,7 @@ theorem isIso_edge_unit
         I₁.hom ≫ (DerivedCategory.homologyFunctor _ 0).map
           ((etaleAbelianDerivedInverseImage.{u, 0} y).map (diagonalEdge f (NeZero.ne N) hY)) ≫
             I₂.hom := by
-      show (intSheafInverseImageIso y).inv ≫ (etaleAbelianInverseImage.{u, 0} y).map
+      change (intSheafInverseImageIso y).inv ≫ (etaleAbelianInverseImage.{u, 0} y).map
         (ε ≫ (singleHomologyZeroIso _).hom ≫ (DerivedCategory.homologyFunctor _ 0).map
           (edgeHom (pullback.snd f f) (diagonalModuleClass f (NeZero.ne N) hY qY hζ)
             (Stacks.Cohomology.GlobalSections.constantModuleSheaf (ZMod N)

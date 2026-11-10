@@ -128,8 +128,9 @@ theorem exists_ringEquiv_of_ringHom_K1 (hπ : Irreducible (algebraMap A A₀ φ)
       rfl)
   have hτinj : Function.Injective τ := by
     rw [RingHom.injective_iff_ker_eq_bot]
-    apply Ideal.eq_bot_of_comap_eq_bot (R := Localization.Away φ)
-    rw [RingHom.ker_eq_comap_bot, Ideal.under_def, Ideal.comap_comap, hτρ, ← RingHom.ker_eq_comap_bot]
+    apply Ideal.eq_bot_of_under_eq_bot (R := Localization.Away φ)
+    rw [RingHom.ker_eq_comap_bot, Ideal.under_def, Ideal.comap_comap, hτρ,
+      ← RingHom.ker_eq_comap_bot]
     exact (RingHom.injective_iff_ker_eq_bot ρ).mp hρinj
   let τF : FractionRing B →+* K1 K (algebraMap A A₀ φ) e := IsFractionRing.lift hτinj
   have hτF : ∀ b, τF (algebraMap B (FractionRing B) b) = τ b :=
@@ -160,7 +161,7 @@ theorem exists_ringEquiv_of_ringHom_K1 (hπ : Irreducible (algebraMap A A₀ φ)
       IsScalarTower.algebraMap_apply A₀ K, IsScalarTower.algebraMap_apply A A₀ K]
   have hwd : w ^ d = algebraMap B (FractionRing B) (ιA φ) := by
     apply (IsFractionRing.lift hτinj).injective
-    show τF (w ^ d) = τF _
+    change τF (w ^ d) = τF _
     rwa [map_pow, hτF, hw]
   obtain ⟨b₀, hb₀⟩ := IsIntegrallyClosed.exists_algebraMap_eq_of_isIntegral_pow (R := B)
     (K := FractionRing B) hd0 (by rw [hwd]; exact isIntegral_algebraMap)
@@ -206,7 +207,7 @@ theorem exists_ringEquiv_of_ringHom_K1 (hπ : Irreducible (algebraMap A A₀ φ)
         algebraMap (Localization.Away φ) KA (IsLocalization.mk' (Localization.Away φ) (1 : A)
           (⟨φ ^ n, n, rfl⟩ : Submonoid.powers φ)) := by
       rw [IsLocalization.mk'_eq_iff_eq_mul]
-      show algebraMap C KA 1 = κ _ * algebraMap C KA ((algebraMap A C φ) ^ n)
+      change algebraMap C KA 1 = κ _ * algebraMap C KA ((algebraMap A C φ) ^ n)
       have h1 : IsLocalization.mk' (Localization.Away φ) (1 : A)
           (⟨φ ^ n, n, rfl⟩ : Submonoid.powers φ) * algebraMap A _ (φ ^ n) = 1 :=
         (IsLocalization.mk'_spec (Localization.Away φ) (1 : A)
@@ -217,9 +218,9 @@ theorem exists_ringEquiv_of_ringHom_K1 (hπ : Irreducible (algebraMap A A₀ φ)
     exact hc.mul isIntegral_algebraMap
   have hβinj : Function.Injective β := by
     rw [RingHom.injective_iff_ker_eq_bot]
-    apply Ideal.eq_bot_of_comap_eq_bot (R := Localization.Away φ)
+    apply Ideal.eq_bot_of_under_eq_bot (R := Localization.Away φ)
     rw [RingHom.ker_eq_comap_bot, Ideal.under_def, Ideal.comap_comap]
-    show Ideal.comap (β.comp κ) ⊥ = ⊥
+    change Ideal.comap (β.comp κ) ⊥ = ⊥
     rw [hβκ, ← RingHom.ker_eq_comap_bot]
     exact (RingHom.injective_iff_ker_eq_bot _).mp hRB
   have hmul : ∀ b : B, ∃ (c : KA) (s : A), s ≠ 0 ∧ β c = ιA s * b := by
@@ -248,7 +249,7 @@ theorem exists_ringEquiv_of_ringHom_K1 (hπ : Irreducible (algebraMap A A₀ φ)
             (algebraMap K _) y := by
       rw [eval₂_map]
     rw [h1, h2, hq, map_mul, hιA, ← hp]
-    show _ = _ * Polynomial.aeval y p
+    change _ = _ * Polynomial.aeval y p
     rw [Polynomial.aeval_def, Algebra.smul_def, Polynomial.eval₂_mul,
       IsScalarTower.algebraMap_apply A K K[X], ← Polynomial.C_eq_algebraMap, Polynomial.eval₂_C]
   let : Algebra KA (FractionRing B) := ((algebraMap B (FractionRing B)).comp β).toAlgebra
@@ -353,7 +354,7 @@ theorem isUnit_natCast_of_etale (A : Type u) [CommRing A] (φ : A) (d : ℕ) [Ne
   let tW : W := (1 : E) ⊗ₜ algebraMap C KA (root A φ d)
   have hφW : tW ^ d = algebraMap E W (ε (algebraMap A _ φ)) := by
     rw [Algebra.TensorProduct.tmul_pow, one_pow, ← map_pow, root_pow, ← hκ]
-    show (1 : E) ⊗ₜ[Localization.Away φ] algebraMap (Localization.Away φ) KA _ = _
+    change (1 : E) ⊗ₜ[Localization.Away φ] algebraMap (Localization.Away φ) KA _ = _
     exact (Algebra.TensorProduct.algebraMap_apply' _).symm.trans
       (IsScalarTower.algebraMap_apply (Localization.Away φ) E W _)
   let z : W := tW ^ m - algebraMap E W (c ^ m)
@@ -362,7 +363,7 @@ theorem isUnit_natCast_of_etale (A : Type u) [CommRing A] (φ : A) (d : ℕ) [Ne
   have hz0 : z = 0 := IsNilpotent.eq_zero ⟨ℓ, hz⟩
   have hΨz : Ψ z = AdjoinRoot.mk _ (X ^ m - Polynomial.C (c ^ m)) := by
     have htW : Ψ tW = AdjoinRoot.root _ := by
-      show Algebra.TensorProduct.lift _ _ _ ((1 : E) ⊗ₜ _) = _
+      change Algebra.TensorProduct.lift _ _ _ ((1 : E) ⊗ₜ _) = _
       rw [Algebra.TensorProduct.lift_tmul, map_one, one_mul]
       exact hψ
     simp only [z, map_sub, map_pow, htW, AlgHom.commutes, AdjoinRoot.mk_X, AdjoinRoot.mk_C]

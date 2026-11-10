@@ -130,7 +130,7 @@ theorem Scheme.homOfLE_ext {X Y : Scheme.{u}} {A : X.Opens} {ι : Type*} (F : ι
   obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.1 hp
   refine ⟨(X.homOfLE (inf_le_left : A ⊓ F i ≤ A)).opensRange, ?_, ?_⟩
   · rw [Scheme.opensRange_homOfLE]
-    show A.ι p ∈ A ⊓ F i
+    change A.ι p ∈ A ⊓ F i
     exact ⟨hpA, hi⟩
   · rw [← cancel_epi (X.homOfLE (inf_le_left : A ⊓ F i ≤ A)).isoOpensRange.hom,
       ← Category.assoc, ← Category.assoc, Scheme.Hom.isoOpensRange_hom_ι]
@@ -242,7 +242,7 @@ theorem openRingHom_naturality {V V' : Y.obj.Opens} (h : V' ≤ V) (b : ↥Γ(V.
     ((opensToBoundedEtale B X.obj X.property).obj (inverseImageOpen B X Y g V'))).symm.injective ?_
   refine hX.symm.trans ?_
   rw [smallEtaleSectionRingEquiv_symm_openRingHom, smallEtaleSectionRingEquiv_symm_openRingHom]
-  show _ = _ ≫ g.toToposHom.inverseImage.map
+  change _ = _ ≫ g.toToposHom.inverseImage.map
     ((smallEtaleSectionRingEquiv B Y.obj Y.property
       ((opensToBoundedEtale B Y.obj Y.property).obj V')).symm (smallEtaleRestrict B Y.obj Y.property
       ((opensToBoundedEtale B Y.obj Y.property).map (homOfLE h)) b)) ≫ _
@@ -350,7 +350,7 @@ theorem inverseImageOpen_le_preimage (V : Y.obj.affineOpens) :
     exact hx
   have h := congrArg (fun m => m y) (glueHom_spec g V)
   simp only [Scheme.Hom.comp_apply] at h
-  show B.inclusion.map (glueHom g) ((inverseImageOpen B X Y g V).ι y) ∈ (V : Y.obj.Opens)
+  change B.inclusion.map (glueHom g) ((inverseImageOpen B X Y g V).ι y) ∈ (V : Y.obj.Opens)
   rw [h]
   exact (openSchemeHom g V y).2
 

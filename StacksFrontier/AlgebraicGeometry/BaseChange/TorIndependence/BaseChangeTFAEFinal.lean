@@ -435,8 +435,6 @@ public theorem baseChangeCohomologyMap_sourceBridgeMap (ch : BaseChangeChart f g
       ((baseChangeCohomologyMap_one_tmul f g f' g' w (ch.incU' y) K K' φ n
         (ch.localRingsSourceMap y w K hK n m₀)).trans (hfac1 m₀))) ?_
     exact hR.symm
-  have hb0 : ch.sourceBridgeMap y w K hK n ε' h₁ h₂ 0 = 0 := by
-    simp only [hdef, map_zero]
   have hbadd : ∀ t₁ t₂, ch.sourceBridgeMap y w K hK n ε' h₁ h₂ (t₁ + t₂) =
       ch.sourceBridgeMap y w K hK n ε' h₁ h₂ t₁ +
         ch.sourceBridgeMap y w K hK n ε' h₁ h₂ t₂ := by
@@ -446,11 +444,6 @@ public theorem baseChangeCohomologyMap_sourceBridgeMap (ch : BaseChangeChart f g
       ((ModuleCat.extendScalars.{u, u, u} kc).obj HH) : Type u) → Prop := fun t =>
     BC.hom (ch.sourceBridgeMap y w K hK n ε' h₁ h₂ t) =
       RI.hom.hom (((ModuleCat.extendScalars.{u, u, u} pp).map RBC).hom t)
-  have hP0 : P 0 := by
-    refine Eq.trans (congrArg BC.hom hb0) ?_
-    refine Eq.trans BC.hom.map_zero ?_
-    exact Eq.symm (Eq.trans (congrArg RI.hom.hom
-      (((ModuleCat.extendScalars.{u, u, u} pp).map RBC).hom.map_zero)) RI.hom.hom.map_zero)
   have hPadd : ∀ t₁ t₂, P t₁ → P t₂ → P (t₁ + t₂) := by
     intro t₁ t₂ ht₁ ht₂
     refine Eq.trans (congrArg BC.hom (hbadd t₁ t₂)) ?_
@@ -461,8 +454,7 @@ public theorem baseChangeCohomologyMap_sourceBridgeMap (ch : BaseChangeChart f g
       (RI.hom.hom.map_add _ _))
   have key : ∀ v, P (io.hom.hom v) := by
     intro v
-    refine TensorProduct.induction_on (motive := fun t => P (io.hom.hom t)) v ?_ ?_ ?_
-    · exact Eq.mpr (congrArg P io.hom.hom.map_zero) hP0
+    refine TensorProduct.inductionOn (motive := fun t => P (io.hom.hom t)) v ?_ ?_
     · intro c m₀
       let cc : ToType ((Spec ch.A').presheaf.stalk y) := c
       refine Eq.mpr (congrArg P ?_) (hgen cc m₀)

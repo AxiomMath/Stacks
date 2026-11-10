@@ -48,7 +48,7 @@ theorem injective_app_of_cover (a : M ⟶ N)
   obtain ⟨k, b, rfl⟩ := (Sieve.mem_ofArrows_iff _ _ _).1 hg
   have key : M.val.map (f k).op x = M.val.map (f k).op y :=
     hinj k (by rw [PresheafOfModules.naturality_apply, PresheafOfModules.naturality_apply, hxy])
-  show M.val.map (b ≫ f k).op x = M.val.map (b ≫ f k).op y
+  change M.val.map (b ≫ f k).op x = M.val.map (b ≫ f k).op y
   rw [op_comp, PresheafOfModules.map_comp_apply, PresheafOfModules.map_comp_apply, key]
 
 /-- A morphism of sheaves of modules whose sections map is injective over the members of a

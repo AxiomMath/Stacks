@@ -254,12 +254,12 @@ theorem isRelativeWeaklyAssociatedPoint_baseChange_of_isAlgebraic_charts
     (pointsMap B S hS X'.1 f'.hom x') v hv.symm
   obtain ⟨v', hv'⟩ := φ'_surj z
   obtain ⟨x'', hx''ρ, hx''p⟩ := exists_point_of_isPullback B S hS sq₂ x' v' (by
-    show _ = pointsMap B S hS _ (φ'.hom ≫ prY.hom) v'
+    change _ = pointsMap B S hS _ (φ'.hom ≫ prY.hom) v'
     rw [pointsMap_comp, Function.comp_apply, hv', hz])
   obtain ⟨u, hu⟩ := φ_surj (pointsMap B S hS X''.1 p₁.hom x'')
   obtain ⟨w, hwu, hwx⟩ := exists_point_of_isPullback B S hS sq₁ u x'' hu
   have hρw : pointsMap B S hS _ ρ.hom w = x' := by
-    show pointsMap B S hS _ (ρ₁.hom ≫ ρ₂.hom) w = x'
+    change pointsMap B S hS _ (ρ₁.hom ≫ ρ₂.hom) w = x'
     rw [pointsMap_comp, Function.comp_apply, hwx, hx''ρ]
   let ι : schemeSpace U ⟶ X := φ ≫ prX
   have ι_et : IsEtale B S hS ι.hom := isEtale_comp B S hS φ_et prX_et
@@ -270,10 +270,10 @@ theorem isRelativeWeaklyAssociatedPoint_baseChange_of_isAlgebraic_charts
   have hρ₂fst : ρ₂ ≫ g' = p₁ ≫ prX := sqA.lift_fst _ _ _
   have hρ₂snd : ρ₂ ≫ f' = p₂ ≫ e' := sqA.lift_snd _ _ _
   have hfstι : schemeSpaceMap (pullback.fst α β) ≫ ι = ρ ≫ g' := by
-    show _ = ρ₁ ≫ ρ₂ ≫ g'
+    change _ = ρ₁ ≫ ρ₂ ≫ g'
     rw [hρ₂fst, reassoc_of% hρ₁fst]
   have hsnde : schemeSpaceMap (pullback.snd α β) ≫ e' = ρ ≫ f' := by
-    show _ = ρ₁ ≫ ρ₂ ≫ f'
+    change _ = ρ₁ ≫ ρ₂ ≫ f'
     rw [hρ₂snd, reassoc_of% hρ₁snd]
   have hιu : pointsMap B S hS _ ι.hom u = pointsMap B S hS X'.1 g'.hom x' := by
     have key := congrArg (fun k : schemeSpace (pullback α β) ⟶ X ↦

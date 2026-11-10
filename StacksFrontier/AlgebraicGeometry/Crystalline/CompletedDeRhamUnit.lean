@@ -142,8 +142,7 @@ theorem differential_differential_unitConnection_toCompletedTensor
     differential p D Om wedge deRham D (unitConnection p D (Om 1) dmap hadd hmul) hleib (i + 1)
       (differential p D Om wedge deRham D (unitConnection p D (Om 1) dmap hadd hmul) hleib i
         (toCompletedTensor p D (Om i) D y)) = 0 := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul m ω =>
     exact differential_differential_unitConnection_tmul p D Om wedge deRham dmap hadd hmul hleib
       hext hone hclosed i m ω

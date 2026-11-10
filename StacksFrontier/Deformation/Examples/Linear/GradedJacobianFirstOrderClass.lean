@@ -258,8 +258,7 @@ theorem relationComponent_rTensor
     relationComponent pres eV' j
         (LinearMap.rTensor ↥(𝒜 (pres.relDegree j)) (SquareZeroRetraction.kerMap φ hφ) t) =
       LinearMap.lTensor pres.jacobianCokernel f (relationComponent pres eV j t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul i p =>
       rw [LinearMap.rTensor_tmul, relationComponent_tmul, relationComponent_tmul,
         LinearMap.lTensor_tmul, hf]

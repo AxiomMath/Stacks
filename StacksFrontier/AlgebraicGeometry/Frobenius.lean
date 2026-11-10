@@ -211,7 +211,7 @@ lemma absoluteFrobenius_appLE_apply (X : Scheme.{u}) (p : ℕ) [Fact p.Prime]
     (hX : IsInCharacteristic X p) (U : X.Opens)
     (e : U ≤ (absoluteFrobenius X p hX) ⁻¹ᵁ U) (g : Γ(X, U)) :
     (absoluteFrobenius X p hX).appLE U U e g = g ^ p := by
-  show X.presheaf.map (𝟙 (op U)) ((absoluteFrobenius X p hX).app U g) = g ^ p
+  change X.presheaf.map (𝟙 (op U)) ((absoluteFrobenius X p hX).app U g) = g ^ p
   rw [X.presheaf.map_id, absoluteFrobenius_app_apply]
   simp
 
@@ -224,7 +224,7 @@ lemma eq_absoluteFrobenius (X : Scheme.{u}) (p : ℕ) [Fact p.Prime]
   apply Scheme.Hom.ext (hf.trans (absoluteFrobenius_base X p hX).symm)
   intro U
   ext g
-  show f.appLE U U (by simp [hf]) g = (absoluteFrobenius X p hX).app U g
+  change f.appLE U U (by simp [hf]) g = (absoluteFrobenius X p hX).app U g
   rw [hf', absoluteFrobenius_app_apply]
 
 /-- On global sections, the map induced by the `n`-fold absolute Frobenius raises sections to
@@ -236,7 +236,7 @@ lemma absoluteFrobenius_pow_appTop_apply (X : Scheme.{u}) (p : ℕ) [Fact p.Prim
   induction n with
   | zero => simp
   | succ n ih =>
-    rw [pow_succ, End.mul_def, Scheme.Hom.comp_appTop, CommRingCat.comp_apply, ih,
+    rw [pow_succ, End.mul_asHom, Scheme.Hom.comp_appTop, CommRingCat.comp_apply, ih,
       show (absoluteFrobenius X p hX).appTop (g ^ p ^ n) = (g ^ p ^ n) ^ p from
         absoluteFrobenius_app_apply X p hX ⊤ _, ← pow_mul, ← pow_succ]
 
@@ -244,7 +244,7 @@ lemma absoluteFrobenius_pow_appTop_apply (X : Scheme.{u}) (p : ℕ) [Fact p.Prim
 lemma isInCharacteristic_of_over {R : Type u} [CommRing R] {p : ℕ} [CharP R p]
     (X : Over (Spec (.of R))) : IsInCharacteristic X.left p := by
   let φ : R →+* Γ(X.left, ⊤) := ((Scheme.ΓSpecIso (.of R)).inv ≫ X.hom.appTop).hom
-  show (p : Γ(X.left, ⊤)) = 0
+  change (p : Γ(X.left, ⊤)) = 0
   rw [← map_natCast φ, CharP.cast_eq_zero R p]
   exact map_zero φ
 
@@ -260,7 +260,7 @@ lemma absoluteFrobenius_pow_comp_hom {k : Type u} [Field k] [Fintype k]
       ((Scheme.ΓSpecIso (.of k)).inv ≫ X.hom.appTop).hom a := by
     rw [← map_pow, ← hcard, FiniteField.pow_card]
   refine ext_to_Spec ?_
-  show ((Scheme.ΓSpecIso (.of k)).inv ≫
+  change ((Scheme.ΓSpecIso (.of k)).inv ≫
       (End.asHom (End.of (absoluteFrobenius X.left p (isInCharacteristic_of_over X)) ^ f) ≫
         X.hom).appTop : CommRingCat.of k ⟶ Γ(X.left, ⊤)) =
     (Scheme.ΓSpecIso (.of k)).inv ≫ X.hom.appTop
@@ -352,7 +352,7 @@ lemma pow_eq_pow_of_absoluteFrobenius_pow_eq {K : Type u} [CommRing K] {p : ℕ}
   set π : Γ(Spec (.of K), ⊤) →+* K := (Scheme.ΓSpecIso (.of K)).hom.hom
   have hπι : ∀ y : K, π (ι y) = y := by
     intro y
-    show ((Scheme.ΓSpecIso (.of K)).hom.hom.comp (Scheme.ΓSpecIso (.of K)).inv.hom) y = y
+    change ((Scheme.ΓSpecIso (.of K)).hom.hom.comp (Scheme.ΓSpecIso (.of K)).inv.hom) y = y
     rw [← CommRingCat.hom_comp, Iso.inv_hom_id, CommRingCat.hom_id, RingHom.id_apply]
   have key : ι x ^ p ^ m = ι x ^ p ^ n := by
     rw [← absoluteFrobenius_pow_appTop_apply (Spec (.of K)) p hK m (ι x),

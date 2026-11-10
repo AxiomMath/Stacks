@@ -308,6 +308,7 @@ variable (D : BaseSpaceDimensionSituation.{u})
 
 include hp hp' hfbase hfqc hE hE' hgbase hgqc rule rule'
 
+omit hfbase hfqc hE' hgbase hgqc rule' in
 /-- Only the closure of the image of `|W'|` contributes to the Gysin coefficient of `f_*[W']`:
 the multiplicity of Stacks 0EP1 vanishes at every other integral closed subspace of `X`. -/
 theorem hasFiniteSupport_properCycleMult_mul_gysinComponentCycle
@@ -322,6 +323,7 @@ theorem hasFiniteSupport_properCycleMult_mul_gysinComponentCycle
     left_ne_zero_of_mul (Function.mem_support.1 hW)
   exact Set.mem_singleton_iff.2 (((properCycleMult_ne_zero_iff D p' hp' p hp f W' W).1 h1).1).symm
 
+omit hE' hgbase hgqc rule' in
 /-- At a fixed integral closed subspace `T ⊆ E` only finitely many pairs `(W', W)` of an integral
 closed subspace of `X'` and one of `X` contribute to the Gysin coefficient of `f_*α'`.
 
@@ -358,6 +360,7 @@ theorem finite_properPushforwardGysinSupport (α' : CycleGroup D p' (k + 1))
   rw [← hWeq, ← closure_image_cycleSupportFamily D p hp f α'.1 hα] at hmem
   exact hmem
 
+omit hE' hgbase hgqc rule' in
 /-- **The Gysin map of a proper pushforward, expanded.** The coefficient of `i^* f_* α'` at an
 integral closed subspace `T ⊆ E` is the `α'`-weighted sum over the integral closed subspaces
 `W' ⊆ X'` of the coefficient of `i^* f_* [W']` there.
@@ -375,11 +378,10 @@ theorem gysinCoeff_properPushforward (α' : CycleGroup D p' (k + 1))
   exact finsum_finsum_mul_mul_comm α'.1 (properCycleMult D p' hp' p hp f · ·)
     (fun W => (gysinComponentCycle D p E hE k rule W).1 T)
     (hasFiniteSupport_properCycleMult D p' hp' p hp hfbase hfqc α'.1 α'.2.1)
-    (finite_properPushforwardGysinSupport D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc k
-      rule rule' α' T)
-    (hasFiniteSupport_properCycleMult_mul_gysinComponentCycle
-      D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc k rule rule' · T)
+    (finite_properPushforwardGysinSupport D p hp p' hp' hfbase hfqc E hE k rule α' T)
+    (hasFiniteSupport_properCycleMult_mul_gysinComponentCycle D p hp p' hp' E hE k rule · T)
 
+omit hp hp' hfbase hfqc rule in
 /-- Only finitely many integral closed subspaces of `E'` contribute to the coefficient at `T` of
 the pushforward along `g` of the component cycle of a single `W' ⊆ X'`: a contributing one has
 `T` for the closure of its image, and Stacks 0ENZ for `g` leaves finitely many of those in the
@@ -399,6 +401,7 @@ theorem hasFiniteSupport_gysinComponentCycle_mul_properCycleMult
     ((properCycleMult_ne_zero_iff D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE g T' T).1
       (right_ne_zero_of_mul h)).1⟩
 
+omit hp hfbase hfqc rule in
 /-- At a fixed integral closed subspace `T ⊆ E` only finitely many pairs `(W', T')` of an integral
 closed subspace of `X'` and one of `E'` contribute to the coefficient of `g_* (i')^* α'`.
 
@@ -426,7 +429,7 @@ theorem finite_gysinProperPushforwardSupport (α' : CycleGroup D p' (k + 1))
   simp only [mul_assoc]
   refine finite_mul_ne_zero_prod α'.1 _ hVfin
     (fun W' _ => hasFiniteSupport_gysinComponentCycle_mul_properCycleMult
-      D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc k rule rule' W' T) ?_
+      D p p' E hE E' hE' hgbase hgqc k rule' W' T) ?_
   intro W' T' hne
   have hα : α'.1 W' ≠ 0 := left_ne_zero_of_mul hne
   have hc : (gysinComponentCycle D p' E' hE' k rule' W').1 T' ≠ 0 :=
@@ -451,6 +454,7 @@ theorem finite_gysinProperPushforwardSupport (α' : CycleGroup D p' (k + 1))
     exact ⟨_, rfl⟩
   exact ⟨_, hmemW', mem_of_mem_nhds hV⟩
 
+omit hp hfbase hfqc rule in
 /-- **The pushforward of a Gysin map, expanded.** The coefficient of `g_* (i')^* α'` at an
 integral closed subspace `T ⊆ E` is the `α'`-weighted sum over the integral closed subspaces
 `W' ⊆ X'` of the coefficient of `g_* (i')^* [W']` there. -/
@@ -466,11 +470,11 @@ theorem properPushforward_gysinCoeff (α' : CycleGroup D p' (k + 1))
     (fun W' T' => (gysinComponentCycle D p' E' hE' k rule' W').1 T')
     (fun T' => properCycleMult D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE g T' T)
     (hasFiniteSupport_gysinCoeff D p' E' hE' k rule' α')
-    (finite_gysinProperPushforwardSupport D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc k
-      rule rule' α' T)
+    (finite_gysinProperPushforwardSupport D p p' hp' E hE E' hE' hgbase hgqc k rule' α' T)
     (hasFiniteSupport_gysinComponentCycle_mul_properCycleMult
-      D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc k rule rule' · T)
+      D p p' E hE E' hE' hgbase hgqc k rule' · T)
 
+omit hE' hgbase hgqc rule' in
 /-- The coefficient of `i^* f_* [W']` at an integral closed subspace `T ⊆ E`, for the cycle of a
 single integral closed subspace `W' ⊆ X'` of δ-dimension `k + 1`. -/
 theorem gysinCoeff_properPushforward_integralCycle
@@ -482,10 +486,11 @@ theorem gysinCoeff_properPushforward_integralCycle
       ∑ᶠ W : IntegralClosedSubspace D.site D.base D.base_mem X,
         properCycleMult D p' hp' p hp f W' W *
           (gysinComponentCycle D p E hE k rule W).1 T := by
-  rw [gysinCoeff_properPushforward D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc k rule rule'
+  rw [gysinCoeff_properPushforward D p hp p' hp' hfbase hfqc E hE k rule
       (integralCycle D p' (k + 1) W' hW') T,
     finsum_integralCycle_mul]
 
+omit hp hfbase hfqc rule in
 /-- The coefficient of `g_* (i')^* [W']` at an integral closed subspace `T ⊆ E`, for the cycle of
 a single integral closed subspace `W' ⊆ X'` of δ-dimension `k + 1`. -/
 theorem properPushforward_gysinCoeff_integralCycle
@@ -497,7 +502,7 @@ theorem properPushforward_gysinCoeff_integralCycle
       ∑ᶠ T' : IntegralClosedSubspace D.site D.base D.base_mem E'.1.toFunctor,
         (gysinComponentCycle D p' E' hE' k rule' W').1 T' *
           properCycleMult D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE g T' T := by
-  rw [properPushforward_gysinCoeff D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc k rule rule'
+  rw [properPushforward_gysinCoeff D p p' hp' E hE E' hE' hgbase hgqc k rule'
       (integralCycle D p' (k + 1) W' hW') T,
     finsum_integralCycle_mul]
 
@@ -533,17 +538,16 @@ theorem gysinCycleMap_properPushforward_eq (_hsq : IsPullback g E'.1.ι E.1.ι f
       properCyclePushforward D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE hgbase hgqc k
         (gysinCycleMap D p' E' hE' k rule' α') := by
   refine Subtype.ext (funext fun T => ?_)
-  rw [gysinCoeff_properPushforward D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc k rule
-      rule' α' T,
-    properPushforward_gysinCoeff D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc k rule rule'
+  rw [gysinCoeff_properPushforward D p hp p' hp' hfbase hfqc E hE k rule α' T,
+    properPushforward_gysinCoeff D p p' hp' E hE E' hE' hgbase hgqc k rule'
       α' T]
   refine finsum_congr fun W' => ?_
   by_cases h0 : α'.1 W' = 0
   · rw [h0, zero_mul, zero_mul]
-  · rw [← gysinCoeff_properPushforward_integralCycle D p hp p' hp' hfbase hfqc E hE E' hE' hgbase
-      hgqc k rule rule' (α'.2.2 W' h0) T,
-      ← properPushforward_gysinCoeff_integralCycle D p hp p' hp' hfbase hfqc E hE E' hE' hgbase
-        hgqc k rule rule' (α'.2.2 W' h0) T,
+  · rw [← gysinCoeff_properPushforward_integralCycle D p hp p' hp' hfbase hfqc E hE k rule
+        (α'.2.2 W' h0) T,
+      ← properPushforward_gysinCoeff_integralCycle D p p' hp' E hE E' hE' hgbase hgqc k rule'
+        (α'.2.2 W' h0) T,
       hprime W' (α'.2.2 W' h0)]
 
 /-- **Stacks 0ER5 for a prime cycle.**  On the cycle `[W']` of a single integral closed subspace
@@ -561,10 +565,8 @@ theorem gysinCycleMap_properPushforward_integralCycle_eq
       properCyclePushforward D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE hgbase hgqc k
         (gysinCycleMap D p' E' hE' k rule' (integralCycle D p' (k + 1) W' hW')) := by
   refine Subtype.ext (funext fun T => ?_)
-  rw [gysinCoeff_properPushforward_integralCycle D p hp p' hp' hfbase hfqc E hE E' hE' hgbase
-      hgqc k rule rule' hW' T,
-    properPushforward_gysinCoeff_integralCycle D p hp p' hp' hfbase hfqc E hE E' hE' hgbase
-      hgqc k rule rule' hW' T]
+  rw [gysinCoeff_properPushforward_integralCycle D p hp p' hp' hfbase hfqc E hE k rule hW' T,
+    properPushforward_gysinCoeff_integralCycle D p p' hp' E hE E' hE' hgbase hgqc k rule' hW' T]
   exact cmp.gysinCoeff_comm W' hW' T
 
 /-- **Stacks 0ER5.** In Situation 0EDT let `f : X' ⟶ X` be a proper morphism of good algebraic
@@ -660,6 +662,7 @@ variable (D : BaseSpaceDimensionSituation.{u})
 
 include hp hp' hfbase hflat hr hE hE' hgbase hgflat hgr rule rule'
 
+omit hE hgbase hgflat hgr rule in
 /-- Only finitely many integral closed subspaces of `X'` contribute to the Gysin coefficient at
 `T'` of the cycle `f^*[W]` of a single `W ⊆ X`: a contributing one occurs in that cycle and
 contains the image in `|X'|` of the generic point of `T'`, and the support of a cycle is locally
@@ -682,6 +685,7 @@ theorem hasFiniteSupport_flatPullbackMult_mul_gysinComponentCycle
     subspacePointSet_subset_of_gysinComponentCycle_ne_zero D p' E' hE' (k + (r : ℤ)) rule' W' T'
       (right_ne_zero_of_mul h) ⟨_, rfl⟩⟩
 
+omit hE hgbase hgflat hgr rule in
 /-- At a fixed integral closed subspace `T' ⊆ E'` only finitely many pairs `(W, W')` of an
 integral closed subspace of `X` and one of `X'` contribute to the Gysin coefficient of `f^*α`.
 
@@ -701,7 +705,7 @@ theorem finite_flatPullbackGysinSupport (α : CycleGroup D p (k + 1))
   simp only [mul_assoc]
   refine finite_mul_ne_zero_prod α.1 _ hVfin
     (fun W _ => hasFiniteSupport_flatPullbackMult_mul_gysinComponentCycle D p hp p' hp' hfbase r
-      hflat hr E hE E' hE' hgbase hgflat hgr k rule rule' W T') ?_
+      hflat hr E' hE' k rule' W T') ?_
   intro W W' hne
   have hα : α.1 W ≠ 0 := left_ne_zero_of_mul hne
   have hμ : flatPullbackMult D p' hp' p hp f hfbase r hflat hr W W' ≠ 0 :=
@@ -718,6 +722,7 @@ theorem finite_flatPullbackGysinSupport (α : CycleGroup D p (k + 1))
   exact ⟨hα, subspacePointSet_subset_of_flatPullbackMult_ne_zero D p' hp' p hp f hfbase r hflat
     hr W W' hμ hz⟩
 
+omit hE hgbase hgflat hgr rule in
 /-- **The Gysin map of a flat pullback, expanded.** The coefficient of `(i')^* f^* α` at an
 integral closed subspace `T' ⊆ E'` is the `α`-weighted sum over the integral closed subspaces
 `W ⊆ X` of the coefficient of `(i')^* f^* [W]` there. -/
@@ -735,11 +740,11 @@ theorem gysinCoeff_flatPullback (hkr : k + 1 + (r : ℤ) = k + (r : ℤ) + 1)
     (flatPullbackMult D p' hp' p hp f hfbase r hflat hr · ·)
     (fun W' => (gysinComponentCycle D p' E' hE' (k + (r : ℤ)) rule' W').1 T')
     (finite_support_flatPullbackTerm D p' hp' p hp f hfbase r hflat hr (k + 1) α)
-    (finite_flatPullbackGysinSupport D p hp p' hp' hfbase r hflat hr E hE E' hE' hgbase hgflat
-      hgr k rule rule' α T')
-    (hasFiniteSupport_flatPullbackMult_mul_gysinComponentCycle D p hp p' hp' hfbase r hflat hr E
-      hE E' hE' hgbase hgflat hgr k rule rule' · T')
+    (finite_flatPullbackGysinSupport D p hp p' hp' hfbase r hflat hr E' hE' k rule' α T')
+    (hasFiniteSupport_flatPullbackMult_mul_gysinComponentCycle D p hp p' hp' hfbase r hflat hr
+      E' hE' k rule' · T')
 
+omit hp hp' hfbase hflat hr rule' in
 /-- Only finitely many integral closed subspaces of `E` contribute to the coefficient at `T'` of
 the flat pullback along `g` of the component cycle of a single `W ⊆ X`: a contributing one occurs
 in that component cycle and contains the image under `|g|` of the generic point of `T'`. -/
@@ -761,6 +766,7 @@ theorem hasFiniteSupport_gysinComponentCycle_mul_flatPullbackMult
     D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE g hgbase r hgflat hgr T T'
     (right_ne_zero_of_mul h)⟩
 
+omit hp hp' hfbase hflat hr rule' in
 /-- At a fixed integral closed subspace `T' ⊆ E'` only finitely many pairs `(W, T)` of an integral
 closed subspace of `X` and one of `E` contribute to the coefficient of `g^* i^* α`.
 
@@ -780,8 +786,8 @@ theorem finite_gysinFlatPullbackSupport (α : CycleGroup D p (k + 1))
       (T'.ambientGenericPoint D.site D.base D.base_mem)))
   simp only [mul_assoc]
   refine finite_mul_ne_zero_prod α.1 _ hVfin
-    (fun W _ => hasFiniteSupport_gysinComponentCycle_mul_flatPullbackMult D p hp p' hp' hfbase r
-      hflat hr E hE E' hE' hgbase hgflat hgr k rule rule' W T') ?_
+    (fun W _ => hasFiniteSupport_gysinComponentCycle_mul_flatPullbackMult D p p' r E hE E' hE'
+      hgbase hgflat hgr k rule W T') ?_
   intro W T hne
   have hα : α.1 W ≠ 0 := left_ne_zero_of_mul hne
   have hc : (gysinComponentCycle D p E hE k rule W).1 T ≠ 0 :=
@@ -797,6 +803,7 @@ theorem finite_gysinFlatPullbackSupport (α : CycleGroup D p (k + 1))
   simp only [Set.mem_ite_empty_left]
   exact ⟨hα, subspacePointSet_subset_of_gysinComponentCycle_ne_zero D p E hE k rule W T hc ht⟩
 
+omit hp hp' hfbase hflat hr rule' in
 /-- **The flat pullback of a Gysin map, expanded.** The coefficient of `g^* i^* α` at an integral
 closed subspace `T' ⊆ E'` is the `α`-weighted sum over the integral closed subspaces `W ⊆ X` of
 the coefficient of `g^* i^* [W]` there. -/
@@ -812,11 +819,11 @@ theorem flatPullback_gysinCoeff (α : CycleGroup D p (k + 1))
     (fun W T => (gysinComponentCycle D p E hE k rule W).1 T)
     (fun T => flatPullbackMult D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE g hgbase r hgflat hgr T T')
     (hasFiniteSupport_gysinCoeff D p E hE k rule α)
-    (finite_gysinFlatPullbackSupport D p hp p' hp' hfbase r hflat hr E hE E' hE' hgbase hgflat
-      hgr k rule rule' α T')
-    (hasFiniteSupport_gysinComponentCycle_mul_flatPullbackMult D p hp p' hp' hfbase r hflat hr E
-      hE E' hE' hgbase hgflat hgr k rule rule' · T')
+    (finite_gysinFlatPullbackSupport D p p' r E hE E' hE' hgbase hgflat hgr k rule α T')
+    (hasFiniteSupport_gysinComponentCycle_mul_flatPullbackMult D p p' r E hE E' hE' hgbase hgflat
+      hgr k rule · T')
 
+omit hE hgbase hgflat hgr rule in
 /-- The coefficient of `(i')^* f^* [W]` at an integral closed subspace `T' ⊆ E'`, for the cycle of
 a single integral closed subspace `W ⊆ X` of δ-dimension `k + 1`. -/
 theorem gysinCoeff_flatPullback_integralCycle (hkr : k + 1 + (r : ℤ) = k + (r : ℤ) + 1)
@@ -829,10 +836,11 @@ theorem gysinCoeff_flatPullback_integralCycle (hkr : k + 1 + (r : ℤ) = k + (r 
       ∑ᶠ W' : IntegralClosedSubspace D.site D.base D.base_mem X',
         flatPullbackMult D p' hp' p hp f hfbase r hflat hr W W' *
           (gysinComponentCycle D p' E' hE' (k + (r : ℤ)) rule' W').1 T' := by
-  rw [gysinCoeff_flatPullback D p hp p' hp' hfbase r hflat hr E hE E' hE' hgbase hgflat hgr
-      k rule rule' hkr (integralCycle D p (k + 1) W hW) T',
+  rw [gysinCoeff_flatPullback D p hp p' hp' hfbase r hflat hr E' hE' k rule' hkr
+      (integralCycle D p (k + 1) W hW) T',
     finsum_integralCycle_mul]
 
+omit hp hp' hfbase hflat hr rule' in
 /-- The coefficient of `g^* i^* [W]` at an integral closed subspace `T' ⊆ E'`, for the cycle of a
 single integral closed subspace `W ⊆ X` of δ-dimension `k + 1`. -/
 theorem flatPullback_gysinCoeff_integralCycle
@@ -845,8 +853,8 @@ theorem flatPullback_gysinCoeff_integralCycle
       ∑ᶠ T : IntegralClosedSubspace D.site D.base D.base_mem E.1.toFunctor,
         (gysinComponentCycle D p E hE k rule W).1 T *
           flatPullbackMult D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE g hgbase r hgflat hgr T T' := by
-  rw [flatPullback_gysinCoeff D p hp p' hp' hfbase r hflat hr E hE E' hE' hgbase hgflat hgr
-      k rule rule' (integralCycle D p (k + 1) W hW) T',
+  rw [flatPullback_gysinCoeff D p p' r E hE E' hE' hgbase hgflat hgr k rule
+      (integralCycle D p (k + 1) W hW) T',
     finsum_integralCycle_mul]
 
 /-- **Stacks 0ER6.** In Situation 0EDT let `f : X' ⟶ X` be a flat morphism of relative dimension
@@ -886,17 +894,15 @@ theorem gysinCycleMap_flatPullbackMap_eq (hkr : k + 1 + (r : ℤ) = k + (r : ℤ
       flatPullbackMap D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE g hgbase r hgflat hgr k
         (k + (r : ℤ)) rfl (gysinCycleMap D p E hE k rule α) := by
   refine Subtype.ext (funext fun T' => ?_)
-  rw [gysinCoeff_flatPullback D p hp p' hp' hfbase r hflat hr E hE E' hE' hgbase hgflat hgr
-      k rule rule' hkr α T',
-    flatPullback_gysinCoeff D p hp p' hp' hfbase r hflat hr E hE E' hE' hgbase hgflat hgr
-      k rule rule' α T']
+  rw [gysinCoeff_flatPullback D p hp p' hp' hfbase r hflat hr E' hE' k rule' hkr α T',
+    flatPullback_gysinCoeff D p p' r E hE E' hE' hgbase hgflat hgr k rule α T']
   refine finsum_congr fun W => ?_
   by_cases h0 : α.1 W = 0
   · rw [h0, zero_mul, zero_mul]
-  · rw [← gysinCoeff_flatPullback_integralCycle D p hp p' hp' hfbase r hflat hr E hE E' hE'
-      hgbase hgflat hgr k rule rule' hkr (α.2.2 W h0) T',
-      ← flatPullback_gysinCoeff_integralCycle D p hp p' hp' hfbase r hflat hr E hE E' hE'
-        hgbase hgflat hgr k rule rule' (α.2.2 W h0) T',
+  · rw [← gysinCoeff_flatPullback_integralCycle D p hp p' hp' hfbase r hflat hr E' hE' k rule'
+        hkr (α.2.2 W h0) T',
+      ← flatPullback_gysinCoeff_integralCycle D p p' r E hE E' hE' hgbase hgflat hgr k rule
+        (α.2.2 W h0) T',
       hprime W (α.2.2 W h0)]
 
 /-- **Stacks 0ER6 for a prime cycle.**  On the cycle `[W]` of a single integral closed subspace
@@ -918,10 +924,9 @@ theorem gysinCycleMap_flatPullbackMap_integralCycle_eq
         (k + (r : ℤ)) rfl
         (gysinCycleMap D p E hE k rule (integralCycle D p (k + 1) W hW)) := by
   refine Subtype.ext (funext fun T' => ?_)
-  rw [gysinCoeff_flatPullback_integralCycle D p hp p' hp' hfbase r hflat hr E hE E' hE'
-      hgbase hgflat hgr k rule rule' hkr hW T',
-    flatPullback_gysinCoeff_integralCycle D p hp p' hp' hfbase r hflat hr E hE E' hE'
-      hgbase hgflat hgr k rule rule' hW T']
+  rw [gysinCoeff_flatPullback_integralCycle D p hp p' hp' hfbase r hflat hr E' hE' k rule' hkr
+      hW T',
+    flatPullback_gysinCoeff_integralCycle D p p' r E hE E' hE' hgbase hgflat hgr k rule hW T']
   exact cmp.gysinCoeff_comm W hW T'
 
 /-- **Stacks 0ER6.** In Situation 0EDT let `f : X' ⟶ X` be a flat morphism of relative dimension

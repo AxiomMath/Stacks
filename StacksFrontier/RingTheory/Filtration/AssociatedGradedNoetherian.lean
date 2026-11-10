@@ -98,7 +98,7 @@ theorem coeff_mul_reesGrading {i j : ℕ} (a : ↥(Stacks.Blowup.reesGrading I i
       ((a : reesAlgebra I) : A[X]) * ((b : reesAlgebra I) : A[X]) := rfl
   rw [hcoe]
   conv_lhs => rw [Stacks.Blowup.coe_eq_monomial I a.2, Stacks.Blowup.coe_eq_monomial I b.2]
-  rw [monomial_mul_monomial, coeff_monomial, if_pos rfl]
+  rw [monomial_mul_monomial, coeff_monomial, ite_eq_left rfl]
 
 /-! ### The ring homomorphism and its surjectivity -/
 

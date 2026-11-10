@@ -110,7 +110,7 @@ theorem exists_quotientData (hrep : ξ.base.obj.left.obj.IsRepresentable)
       let k : P ⟶ η.base.obj.left := hpbA.lift _ _ hP.w
       have hk₁ : k ≫ b₁ = ObjectProperty.homMk (pullback.fst _ _) := hpbA.lift_fst _ _ _
       have hk₂ : k ≫ b₂ = ObjectProperty.homMk (pullback.snd _ _) := hpbA.lift_snd _ _ _
-      show (ObjectProperty.homMk (pullback.fst _ _) : P ⟶ X) ≫ ξ.inclusion ≫ e =
+      change (ObjectProperty.homMk (pullback.fst _ _) : P ⟶ X) ≫ ξ.inclusion ≫ e =
         (ObjectProperty.homMk (pullback.snd _ _) : P ⟶ X) ≫ ξ.inclusion ≫ e
       rw [← hk₁, ← hk₂, Category.assoc, Category.assoc, ← reassoc_of% hw₁, ← reassoc_of% hw₂,
         hkp.w])

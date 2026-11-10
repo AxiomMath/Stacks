@@ -97,6 +97,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` searches for limits in the presheaf category on the big fppf site
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance (priority := high)
@@ -321,7 +322,7 @@ theorem ker_pow_eq_bot_closedChartHom_preimage {V W : BigFppfOver B S hS}
   have ha' : ((BigFppfOver.toScheme B S hS).map g).appTop.hom a = 0 :=
     RingHom.mem_ker.1 (hle ha)
   rw [Scheme.Hom.comp_appTop]
-  show V₀.1.ι.appTop.hom (((BigFppfOver.toScheme B S hS).map g).appTop.hom a) = 0
+  change V₀.1.ι.appTop.hom (((BigFppfOver.toScheme B S hS).map g).appTop.hom a) = 0
   rw [ha', map_zero]
 
 /-- The property of being represented by `n`th-order thickenings is the corresponding property
@@ -458,7 +459,7 @@ theorem mem_completionSubspaceSubfunctor_of_factor {A : Type u} [CommRing A]
       rw [Functor.map_comp, Scheme.Hom.comp_appTop]
       intro a ha
       refine RingHom.mem_ker.2 ?_
-      show ((BigFppfOver.toScheme B S hS).map t).appTop.hom
+      change ((BigFppfOver.toScheme B S hS).map t).appTop.hom
         (((BigFppfOver.toScheme B S hS).map (quotientToAffineOver B S hS str hA
           (closedChartRingIdeal B S hS str hA G hG ^ (n + 1)))).appTop.hom a) = 0
       rw [RingHom.mem_ker.1 ha, map_zero]
@@ -517,7 +518,7 @@ theorem exists_factor_of_mem_completionSubspaceSubfunctor {A : Type u} [CommRing
       rw [← RingHom.comp_apply, ← CommRingCat.hom_comp,
         (Scheme.ΓSpecIso (CommRingCat.of A)).hom_inv_id, CommRingCat.hom_id,
         RingHom.id_apply]
-    show sS.appTop.hom
+    change sS.appTop.hom
       ((Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom
         ((Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom b)) = 0
     rw [hinv, hb0]
@@ -543,7 +544,7 @@ theorem exists_factor_of_mem_completionSubspaceSubfunctor {A : Type u} [CommRing
     have hws : sS ≫ str = B.inclusion.map V.hom := by
       rw [hsS, ← Over.w s]
       rfl
-    show (((BigFppfOver.toScheme B S hS).obj V).toSpecΓ ≫ Spec.map ψ) ≫
+    change (((BigFppfOver.toScheme B S hS).obj V).toSpecΓ ≫ Spec.map ψ) ≫
       (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk
         (closedChartRingIdeal B S hS str hA G hG ^ (n + 1)))) ≫ str) = _
     rw [← Category.assoc, hfac]
@@ -579,7 +580,7 @@ theorem quotientOverTransition_comp_quotientToAffineOver {A : Type u} [CommRing 
       quotientToAffineOver B S hS str hA K := by
   refine (BigFppfOver.toScheme B S hS).map_injective ?_
   rw [Functor.map_comp]
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)) ≫
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J)) =
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K))
   rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, Ideal.Quotient.factor_comp_mk]

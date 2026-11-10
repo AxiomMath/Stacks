@@ -369,7 +369,7 @@ theorem isEquivalence_precomposeSnd_of_full_of_faithful {G : T ⥤ ℬ} {F : �
           simp [eqToHom_trans]) (by simp [Category.assoc])
     have hΦ : (TwoFibreProductOver.structureFunctor pT p𝒜 pℬ G F).IsHomLift (𝟙 P.base) Φ := by
       have hmap : (TwoFibreProductOver.structureFunctor pT p𝒜 pℬ G F).map Φ = 𝟙 P.base := by
-        show eqToHom P.hx.symm ≫ pT.map (𝟙 P.x) ≫ eqToHom P.hx = 𝟙 P.base
+        change eqToHom P.hx.symm ≫ pT.map (𝟙 P.x) ≫ eqToHom P.hx = 𝟙 P.base
         simp
       rw [← hmap]
       exact IsHomLift.map (TwoFibreProductOver.structureFunctor pT p𝒜 pℬ G F) Φ

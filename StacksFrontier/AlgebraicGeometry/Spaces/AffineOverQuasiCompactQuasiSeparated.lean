@@ -98,7 +98,7 @@ theorem isNoetherian_of_isFiniteType_viewOverIntegers
       (BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ)).presheaf b :=
     presheaf_of_isIso B (⊤_ Scheme.{u}) hZ (MorphismProperty.RespectsIso.inverseImage _ _)
       (fun W => by
-        show Etale ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map (𝟙 W))
+        change Etale ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map (𝟙 W))
         rw [CategoryTheory.Functor.map_id]
         exact MorphismProperty.id_mem _ _) b
   let k : (Over.map h).obj U ⟶ V := Over.homMk ((Over.map h).obj U).hom (Category.comp_id _)

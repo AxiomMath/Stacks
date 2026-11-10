@@ -267,7 +267,7 @@ variable {M N : Type*} [AddCommGroup M] [AddCommGroup N] (g : M →+ N)
 theorem intertwines_add {φ ψ : AddMonoid.End M} {φ' ψ' : AddMonoid.End N}
     (hφ : ∀ α, φ' (g α) = g (φ α)) (hψ : ∀ α, ψ' (g α) = g (ψ α)) (α : M) :
     (φ' + ψ') (g α) = g ((φ + ψ) α) := by
-  show φ' (g α) + ψ' (g α) = g (φ α + ψ α)
+  change φ' (g α) + ψ' (g α) = g (φ α + ψ α)
   rw [hφ, hψ, map_add]
 
 /-- Integer multiples of intertwined operations are intertwined. -/

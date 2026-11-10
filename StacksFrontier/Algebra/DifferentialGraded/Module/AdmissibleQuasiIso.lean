@@ -74,7 +74,7 @@ variable {R : Type u} [CommRing R] (A : DifferentialGradedAlgebra.{u, u} R)
 theorem comp_eq_zero_of_isAdmissibleShortExact {X Y Z : DifferentialGradedModule.{u, u, u} A}
     (i : X ⟶ Y) (p : Y ⟶ Z) (h : IsAdmissibleShortExact i p) : i ≫ p = 0 := by
   refine Hom.ext (LinearMap.ext fun x => ?_)
-  show p.toFun (i.toFun x) = 0
+  change p.toFun (i.toFun x) = 0
   have hx : i.toFun x ∈ LinearMap.range i.toFun := ⟨x, rfl⟩
   rw [h.exact] at hx
   exact hx
@@ -98,28 +98,28 @@ theorem admissibleCochainShortComplex_shortExact
   intro n
   refine { exact := ?_, mono_f := ?_, epi_g := ?_ }
   · rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact]
-    show Function.Exact (i.gradedMap n) (p.gradedMap n)
+    change Function.Exact (i.gradedMap n) (p.gradedMap n)
     intro y
     refine ⟨fun hy => ?_, ?_⟩
     · have hyv : p.toFun (y : Y.M) = 0 := congrArg Subtype.val hy
       have hy' : (y : Y.M) ∈ LinearMap.range i.toFun := by rw [h.exact]; exact hyv
       obtain ⟨x, hx⟩ := hy'
       refine ⟨DirectSum.decompose X.grading x n, Subtype.ext ?_⟩
-      show i.toFun ((DirectSum.decompose X.grading x n : X.M)) = (y : Y.M)
+      change i.toFun ((DirectSum.decompose X.grading x n : X.M)) = (y : Y.M)
       rw [← DirectSum.coe_decompose_apply_map X.grading Y.grading i.toFun
         (fun j z hz => i.map_grading j z hz) x n, hx,
         DirectSum.decompose_of_mem_same Y.grading y.property]
     · rintro ⟨x, rfl⟩
       refine Subtype.ext ?_
-      show p.toFun (i.toFun (x : X.M)) = 0
+      change p.toFun (i.toFun (x : X.M)) = 0
       exact congrArg (fun f : X ⟶ Z => f.toFun (x : X.M))
         (comp_eq_zero_of_isAdmissibleShortExact A i p h)
   · rw [ModuleCat.mono_iff_injective]
-    show Function.Injective (i.gradedMap n)
+    change Function.Injective (i.gradedMap n)
     intro x y hxy
     exact Subtype.ext (h.injective (congrArg Subtype.val hxy))
   · rw [ModuleCat.epi_iff_surjective]
-    show Function.Surjective (p.gradedMap n)
+    change Function.Surjective (p.gradedMap n)
     intro z
     obtain ⟨y, hy⟩ := h.surjective (z : Z.M)
     have hgraded := DirectSum.coe_decompose_apply_map Y.grading Z.grading p.toFun
@@ -147,9 +147,9 @@ theorem quasiIso_τ₂_of_shortExact {V : Type*} [Category V] [Abelian V]
         (by simp)).δ₀.δ₀)
       ((HomologicalComplex.HomologySequence.composableArrows₅_exact hT (n - 1) n
         (by simp)).δ₀.δ₀) ?_ ?_ ?_
-    · show Epi (HomologicalComplex.homologyMap f.τ₃ (n - 1)); infer_instance
-    · show Mono (HomologicalComplex.homologyMap f.τ₁ n); infer_instance
-    · show Mono (HomologicalComplex.homologyMap f.τ₃ n); infer_instance
+    · change Epi (HomologicalComplex.homologyMap f.τ₃ (n - 1)); infer_instance
+    · change Mono (HomologicalComplex.homologyMap f.τ₁ n); infer_instance
+    · change Mono (HomologicalComplex.homologyMap f.τ₃ n); infer_instance
   have hepi : Epi (HomologicalComplex.homologyMap f.τ₂ n) := by
     refine Abelian.epi_of_epi_of_epi_of_mono
       ((ComposableArrows.δlastFunctor ⋙ ComposableArrows.δlastFunctor).map
@@ -158,9 +158,9 @@ theorem quasiIso_τ₂_of_shortExact {V : Type*} [Category V] [Abelian V]
         (by simp)).δlast.δlast)
       ((HomologicalComplex.HomologySequence.composableArrows₅_exact hT n (n + 1)
         (by simp)).δlast.δlast) ?_ ?_ ?_
-    · show Epi (HomologicalComplex.homologyMap f.τ₁ n); infer_instance
-    · show Epi (HomologicalComplex.homologyMap f.τ₃ n); infer_instance
-    · show Mono (HomologicalComplex.homologyMap f.τ₁ (n + 1)); infer_instance
+    · change Epi (HomologicalComplex.homologyMap f.τ₁ n); infer_instance
+    · change Epi (HomologicalComplex.homologyMap f.τ₃ n); infer_instance
+    · change Mono (HomologicalComplex.homologyMap f.τ₁ (n + 1)); infer_instance
   exact isIso_of_mono_of_epi _
 
 /-- **The two-out-of-three principle for a morphism of functors into differential graded

@@ -84,7 +84,8 @@ equations are what the naturality square below proves, unconditionally, for the 
 of a module-valued functor on an algebra domain, the coface maps of the Čech conerve being its
 `v`. So the two compose and neither subsumes the other. Likewise
 `Stacks.CechSite.conerveSectionsMap_naturality`, in
-`StacksFrontier/AlgebraicGeometry/Descent/Module/CechAmitsurComparison.lean`, is the comparison for a
+`StacksFrontier/AlgebraicGeometry/Descent/Module/CechAmitsurComparison.lean`, is the comparison for
+a
 presheaf on a site, already cited for that role in the implementation notes of
 `FlatBaseChangeSections.lean`; it is not stated for `AdequateFunctor.ModuleValuedFunctorOn` and
 does not give the base-change form.
@@ -194,10 +195,7 @@ public theorem moduleValuedFunctorBaseChangeMap_naturality
   let : Algebra (ι.obj B) (ι.obj C) := (ι.map u).hom.toRingHom.toAlgebra
   let : Algebra (ι.obj B) (ι.obj E) := (ι.map (u ≫ v)).hom.toRingHom.toAlgebra
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero, map_zero, map_zero, map_zero]
-      rfl
+  induction z using TensorProduct.inductionOn with
   | tmul c x => exact moduleValuedFunctorBaseChangeMap_map_tmul ι F u v c x
   | add z w hz hw =>
       rw [map_add, map_add, map_add, map_add, hz, hw]

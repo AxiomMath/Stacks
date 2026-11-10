@@ -72,7 +72,7 @@ theorem isFpqcCovering_yoneda_map_of_flat_of_surjective {U V : BigFppfOver B S h
     exact (G.map (pullback.fst h b)).singleton_mem_fpqcPrecoverage
   · intro j
     refine ⟨PUnit.unit, yoneda.map (pullback.snd h b), ?_⟩
-    show yoneda.map (pullback.snd h b) ≫ yoneda.map b = yoneda.map (pullback.fst h b) ≫ g
+    change yoneda.map (pullback.snd h b) ≫ yoneda.map b = yoneda.map (pullback.fst h b) ≫ g
     rw [← hg, ← Functor.map_comp, ← Functor.map_comp, pullback.condition]
 
 /-- The residue-field morphism of the point under a field-valued point: for a field-valued
@@ -113,7 +113,7 @@ theorem isFpqcCovering_residueFieldLift (U : BigFppfOver B S hS)
     (inferInstanceAs (IsAffine (Spec (.of (U.left.1.residueField (schemePoint B S hS U r))))))
     (inferInstanceAs (Flat (Spec.map (Scheme.SpecToEquivOfField r.carrier U.left.1
       ((BigFppfOver.toScheme B S hS).map r.value)).2))) ?_
-  show Surjective (Spec.map (Scheme.SpecToEquivOfField r.carrier U.left.1
+  change Surjective (Spec.map (Scheme.SpecToEquivOfField r.carrier U.left.1
     ((BigFppfOver.toScheme B S hS).map r.value)).2)
   exact ⟨fun _ => ⟨IsLocalRing.closedPoint r.carrier, Subsingleton.elim _ _⟩⟩
 
@@ -155,7 +155,7 @@ theorem isRelativelyAmple_residueField_of_fieldValuedPoint
       (ObjectProperty.homMk (yonedaEquiv.symm r.value ≫ b) :
         representedAlgebraicSpace B S hS r.siteObject ⟶ Y) := by
     ext1
-    show yoneda.map (residueFieldLift U r) ≫ yoneda.map (residueFieldMap B S hS U _ _) ≫ b =
+    change yoneda.map (residueFieldLift U r) ≫ yoneda.map (residueFieldMap B S hS U _ _) ≫ b =
       yonedaEquiv.symm r.value ≫ b
     rw [← Category.assoc, ← Functor.map_comp, residueFieldLift_comp]
     rfl

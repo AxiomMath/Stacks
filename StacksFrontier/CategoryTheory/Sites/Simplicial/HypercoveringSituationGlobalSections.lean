@@ -23,7 +23,8 @@ site and with no hypothesis on `K`.
 ## Why it is a theorem and not an assumption
 
 The module docstring of
-`StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringDerivedGlobalSections.lean` says of `hΓ`
+`StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringDerivedGlobalSections.lean` says of
+`hΓ`
 that it "is not available in this library", on the ground that "nothing in Mathlib or in this
 development says that the inverse image of a morphism of topoi carries a constant abelian sheaf to
 a constant abelian sheaf". The first half of that account is the right reduction and the second

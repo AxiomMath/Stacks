@@ -62,7 +62,7 @@ private abbrev geometricPolynomial (r : R) (n : ℕ) : R[X] :=
 
 private lemma scaledVariable_coeff (r : R) (f : R[X]) (k : ℕ) :
     (scaledVariable r f).coeff k = f.coeff k * r ^ k := by
-  show (f.comp (r • X)).coeff k = _
+  change (f.comp (r • X)).coeff k = _
   rw [smul_eq_C_mul, comp_C_mul_X_coeff]
 
 private lemma geometricPolynomial_coeff (r : R) (n k : ℕ) :
@@ -150,10 +150,10 @@ private lemma geometricCompletion_mk_mem_pow (r : R)
   let φ := (AdicCompletion.map I (scaledVariable r)).restrictScalars R
   let S := LinearMap.range φ
   let a := AdicCompletion.of I R[X] (∑ i ∈ Finset.range n, (X : R[X]) ^ i)
-  show S.mkQ z ∈ I ^ n • (⊤ : Submodule R (_ ⧸ S))
+  change S.mkQ z ∈ I ^ n • (⊤ : Submodule R (_ ⧸ S))
   have heval : z - φ a ∈ I ^ n • (⊤ : Submodule R (AdicCompletion I R[X])) := by
     rw [AdicCompletion.pow_smul_top_eq_ker_eval (Submodule.fg_span_singleton r)]
-    show z.val n - (AdicCompletion.map I (scaledVariable r)
+    change z.val n - (AdicCompletion.map I (scaledVariable r)
       (AdicCompletion.of I R[X] (∑ i ∈ Finset.range n, (X : R[X]) ^ i))).val n = 0
     rw [AdicCompletion.map_of, scaledVariable_geometricPolynomial, AdicCompletion.of_apply, hz]
     exact sub_self _
@@ -200,7 +200,7 @@ theorem scaledVariableCompletionCokernel_isDerivedComplete_not_isAdicComplete
   let I : Ideal A := Ideal.span {(p : A)}
   let φ := (AdicCompletion.map I (scaledVariable (p : A))).restrictScalars A
   let M := AdicCompletion I A[X] ⧸ φ.range
-  show IsDerivedCompleteModule I (ModuleCat.of A M) ∧
+  change IsDerivedCompleteModule I (ModuleCat.of A M) ∧
     ¬ IsAdicComplete I M ∧ ∃ z : AdicCompletion I A[X],
       (∀ n, z.val n = Submodule.Quotient.mk (geometricPolynomial (p : A) n)) ∧
       Submodule.Quotient.mk z ≠ (0 : M) ∧

@@ -63,7 +63,7 @@ def isLimitNatConstCone (Y : D) : IsLimit (natConstCone Y) where
   lift s := s.π.app (op 0)
   fac s j := by
     have h := s.w ((homOfLE (Nat.zero_le j.unop)).op : j ⟶ op 0)
-    simp only [Functor.const_obj_map, Category.comp_id] at h
+    simp only [Functor.const_obj_map] at h
     simpa [natConstCone] using h.symm
   uniq s m h := (Category.comp_id m).symm.trans (h (op 0))
 
@@ -83,6 +83,7 @@ theorem limitNatConstIso_hom (Y : D) :
 
 variable {C : Type u₁} [Category.{v₁} C] (X : C) (F : Cᵒᵖ ⥤ D)
 
+omit [HasLimitsOfShape ℕᵒᵖ D] in
 /-- Every transition map of the inverse system of sections along a constant tower is the identity
 of the group of sections, the tower's own transition maps being identities. -/
 theorem constOp_comp_map {i j : ℕᵒᵖ} (f : i ⟶ j) :

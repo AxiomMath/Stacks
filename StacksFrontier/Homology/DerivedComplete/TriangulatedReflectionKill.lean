@@ -85,7 +85,7 @@ theorem isIso_map_unit_of_kills (I : Ideal A) (hI : I.FG)
   have hψ : adj.unit.app K ≫ ψ.hom = η :=
     (adj.homEquiv_unit K _ ψ).symm.trans (Equiv.apply_symm_apply _ η)
   have h1 : φ ≫ ψ.hom = 𝟙 R := (huniv R hR).1 (by
-    show η ≫ φ ≫ ψ.hom = η ≫ 𝟙 R
+    change η ≫ φ ≫ ψ.hom = η ≫ 𝟙 R
     rw [← Category.assoc, hφ, hψ, Category.comp_id])
   have h2 : ψ.hom ≫ φ = 𝟙 _ := by
     have := (adj.homEquiv K (L.obj K)).injective (a₁ := ψ ≫ ObjectProperty.homMk φ) (a₂ := 𝟙 _)

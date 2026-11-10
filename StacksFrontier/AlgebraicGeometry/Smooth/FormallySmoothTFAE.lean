@@ -263,7 +263,7 @@ theorem isLocallyProjective_relativeDifferentials_of_appLE {X S : Scheme.{u}} (f
       (iSup_congr fun V : S.affineOpens => iSup_affineOpens_le_eq X (f ⁻¹ᵁ (V : S.Opens)))
       (f.iSup_preimage_eq_top (iSup_affineOpens_eq_top S))
   · rintro ⟨V, U, hUV⟩
-    show Module.Projective Γ(X, (U : X.Opens))
+    change Module.Projective Γ(X, (U : X.Opens))
       Γ(Scheme.Hom.relativeDifferentials f, (U : X.Opens))
     have _ : IsAffine (U : X.Opens) := U.2
     have _ : IsAffine (V : S.Opens) := V.2
@@ -388,12 +388,12 @@ private theorem nonempty_of_homeomorph_action {Z W : TopCat.{u}} (e : Z ≅ W)
     { act := fun {V} g s => act (E.inverse.obj V) ((q V).hom g.toAdd) s
       one_act := by
         intro V s
-        show act _ ((q V).hom 0) s = s
+        change act _ ((q V).hom 0) s = s
         rw [map_zero]
         exact hzero _ _
       mul_act := by
         intro V g g' s
-        show act _ ((q V).hom
+        change act _ ((q V).hom
           ((show H.obj.obj (.op V) from g) + (show H.obj.obj (.op V) from g'))) s = _
         rw [map_add]
         exact hadd _ _ _ _
@@ -411,7 +411,7 @@ private theorem nonempty_of_homeomorph_action {Z W : TopCat.{u}} (e : Z ≅ W)
           (E.inverse.map (homOfLE hle)).le ((q V).hom (Multiplicative.toAdd g)) s
         rw [show homOfLE (E.inverse.map (homOfLE hle)).le =
           E.inverse.map (homOfLE hle) from Subsingleton.elim _ _] at hr
-        show F.obj.map ((E.inverse.map (homOfLE hle)).op)
+        change F.obj.map ((E.inverse.map (homOfLE hle)).op)
             (act _ ((q V).hom (Multiplicative.toAdd g)) s) = _
         rw [hr]
         congr 1 }
@@ -419,12 +419,12 @@ private theorem nonempty_of_homeomorph_action {Z W : TopCat.{u}} (e : Z ≅ W)
     refine ⟨fun V hV => ⟨hV, fun s t => ?_⟩, fun x => ?_⟩
     · obtain ⟨g, hg, hgu⟩ := hunique (E.inverse.obj V) s t
       refine ⟨Multiplicative.ofAdd ((q V).inv g), ?_, fun g' hg' => ?_⟩
-      · show act _ ((q V).hom ((q V).inv g)) s = t
+      · change act _ ((q V).hom ((q V).inv g)) s = t
         rw [(q V).inv_hom_id_apply g]
         exact hg
       · apply Multiplicative.toAdd.injective
         apply (ConcreteCategory.bijective_of_isIso (q V).hom).injective
-        show (q V).hom (Multiplicative.toAdd g') = (q V).hom ((q V).inv g)
+        change (q V).hom (Multiplicative.toAdd g') = (q V).hom ((q V).inv g)
         rw [(q V).inv_hom_id_apply g]
         exact hgu ((q V).hom (Multiplicative.toAdd g')) hg'
     · obtain ⟨V, hx, ⟨s⟩⟩ := hne (e.hom x)
@@ -497,8 +497,8 @@ noncomputable def deformationHomSectionsEquiv (V : T'.Opens) :
       Stacks.Thickenings.deformationHomSections i a (𝟙 X ≫ f) V where
   toFun θ := (pullbackRelativeDifferentialsIso f a).inv.over (i ⁻¹ᵁ V) ≫ θ
   invFun φ := (pullbackRelativeDifferentialsIso f a).hom.over (i ⁻¹ᵁ V) ≫ φ
-  left_inv θ := Iso.map_hom_inv_id_assoc (pullbackRelativeDifferentialsIso f a) _ θ
-  right_inv φ := Iso.map_inv_hom_id_assoc (pullbackRelativeDifferentialsIso f a) _ φ
+  left_inv θ := Iso.hom_inv_id_map_assoc (pullbackRelativeDifferentialsIso f a) _ θ
+  right_inv φ := Iso.inv_hom_id_map_assoc (pullbackRelativeDifferentialsIso f a) _ φ
   map_add' _ _ := Preadditive.comp_add _ _ _ _ _ _
 
 /-- **`Stacks.Smooth.deformationHomSectionsEquiv` commutes with restriction of sections**:

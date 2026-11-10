@@ -175,7 +175,7 @@ theorem hasFiniteProjectiveHomology_curveConstantCohomology (ℓ m : ℕ) [Fact 
     have hn := isUnit_natCast_pow_of_isUnit hℓ m
     obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hn
     obtain ⟨_, h2⟩ := module_free_finite_homology_curveConstantCohomology f ℓ m hℓ hζ
-      (ne_zero_of_isUnit_natCast f hn) j
+      (ne_zero_of_isUnit_natCast hn) j
     exact ⟨inferInstance, h2⟩
 
 include w in
@@ -190,7 +190,7 @@ theorem derivedHomologyTrace_curveConstantCohomologyEndo [IsIntegralHom φ] (ℓ
         ((etaleConstantCohomologyPullback φ (ZMod (ℓ ^ m)) i).toZModLinearMap (ℓ ^ m))) := by
   have hn := isUnit_natCast_pow_of_isUnit hℓ m
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hn
-  have hn0 := ne_zero_of_isUnit_natCast f hn
+  have hn0 := ne_zero_of_isUnit_natCast hn
   obtain ⟨_, _⟩ := module_free_finite_homology_curveConstantCohomology f ℓ m hℓ hζ hn0 i
   unfold derivedHomologyTrace
   rw [projectiveModuleTrace_eq_additiveCommutatorQuotientMk_trace]
@@ -242,7 +242,7 @@ theorem finsum_signedByDegree_derivedHomologyTrace_curveConstantCohomologyEndo [
         simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hi
         lia
       obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hn
-      have hn0 := ne_zero_of_isUnit_natCast f hn
+      have hn0 := ne_zero_of_isUnit_natCast hn
       have hs : Subsingleton (Sheaf.H.{u + 1} (rootsOfUnitySheaf.{u, 0} C (ℓ ^ m)) j) :=
         subsingleton_sheafH_rootsOfUnitySheaf_of_isCurve f hn j hj
       have : Subsingleton (Sheaf.H.{u + 1} (etaleConstantSheaf.{u, 0} C (ZMod (ℓ ^ m))) j) :=

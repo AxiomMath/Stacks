@@ -88,7 +88,7 @@ private theorem exists_cone_iso
   let j : Arrow.mk (DerivedCategory.Q.map β) ≅ Arrow.mk (H.mapDerivedCategory.map α) :=
     Arrow.isoMk (H.mapDerivedCategoryFactors.app P).symm
       (H.mapDerivedCategoryFactors.app Q).symm (by
-        show H.mapDerivedCategoryFactors.inv.app P ≫ H.mapDerivedCategory.map α =
+        change H.mapDerivedCategoryFactors.inv.app P ≫ H.mapDerivedCategory.map α =
           DerivedCategory.Q.map β ≫ H.mapDerivedCategoryFactors.inv.app Q
         apply (cancel_mono (H.mapDerivedCategoryFactors.hom.app Q)).mp
         simpa only [α, Functor.comp_obj, Category.assoc, Iso.inv_hom_id_app, Category.comp_id,
@@ -244,7 +244,7 @@ theorem isPerfect_obj₃_of_distinguished
   refine X.J.transitive (X.J.intersection_covering
     ((isPerfectComplex_iff_modelSieve X A).mp hA U)
     ((isPerfectComplex_iff_modelSieve X B).mp hB U)) (modelSieve X E U) fun {V} f hf => ?_
-  show modelSieve X E V ∈ X.J V
+  change modelSieve X E V ∈ X.J V
   obtain ⟨P, hP, p, hp⟩ := hf.1
   obtain ⟨Q, hQ, q, hq⟩ := hf.2
   let R := SheafOfModules.overFunctor.{0} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) V
@@ -258,7 +258,7 @@ theorem isPerfect_obj₃_of_distinguished
   obtain ⟨S, hS, hm⟩ :=
     exists_coveringSieve_complexMap X V hP (eP.hom ≫ T'.mor₁ ≫ eQ.inv)
   refine X.J.transitive hS (modelSieve X E V) fun {W} g hg => ?_
-  show modelSieve X E W ∈ X.J W
+  change modelSieve X E W ∈ X.J W
   obtain ⟨_, _, _, _, _, β, hβ⟩ := hm g hg
   let H := SheafOfModules.overMap.{0} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) g
   obtain ⟨c⟩ := exists_cone_iso H T' (R.mapDerivedCategory.map_distinguished T hT) eP eQ β hβ

@@ -272,7 +272,7 @@ theorem stalkSolutionFamily_compat ⦃U U' : SmallEtale B S hS⦄ (k : U ⟶ U')
     pres.sheaf.obj.map k.op ≫ pres.stalkSolutionFamily p x₀ k₀ U x =
       pres.stalkSolutionFamily p x₀ k₀ U' (p.fiber.map k x) := by
   refine TypeCat.homEquiv.injective (funext fun f => Subtype.ext (funext fun i => ?_))
-  show smallEtaleGermHom B S hS p U x ((pres.equiv U ((k ≫ f) ≫ pres.over) (k ≫ f)).1 i) =
+  change smallEtaleGermHom B S hS p U x ((pres.equiv U ((k ≫ f) ≫ pres.over) (k ≫ f)).1 i) =
     smallEtaleGermHom B S hS p U' (p.fiber.map k x) ((pres.equiv U' (f ≫ pres.over) f).1 i)
   rw [pres.equiv_congr _ _ (k ≫ f ≫ pres.over), pres.equiv_naturality k _ f i,
     ← smallEtaleGermHom_comp_restrict B S hS p k x]

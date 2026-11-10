@@ -95,9 +95,8 @@ theorem mateEquiv_overMapCommSquare (h : IsPullback g' f' f g) :
       TwoSquare.mk _ _ _ _ (overPullbackBaseChangeIso g' f' f g h).inv := by
   ext X
   apply pullback.hom_ext
-  · simp [overMapCommSquare, overPullbackBaseChangeIso, pullback.lift_fst,
-      pullback.lift_fst_assoc]
-  · simp [overMapCommSquare, overPullbackBaseChangeIso, pullback.lift_snd]
+  · simp [overMapCommSquare, overPullbackBaseChangeIso]
+  · simp [overMapCommSquare, overPullbackBaseChangeIso]
 
 end OverBeckChevalley
 
@@ -133,13 +132,13 @@ theorem mateEquiv_sheafPushforwardContinuousNatTrans (α : TwoSquare G L₁ L₂
           (L₂.sheafPushforwardContinuous A J₃ J₄)
           (L₁.sheafPushforwardContinuous A J₁ J₂)
           (G.sheafPushforwardContinuous A J₁ J₃)
-          (Functor.sheafPushforwardContinuousNatTrans α.natTrans A J₁ J₄)) =
+          (Functor.sheafPushforwardContinuousNatTrans α A J₁ J₄)) =
       TwoSquare.mk (R₂.sheafPushforwardContinuous A J₄ J₃)
         (G.sheafPushforwardContinuous A J₁ J₃)
         (H.sheafPushforwardContinuous A J₂ J₄)
         (R₁.sheafPushforwardContinuous A J₂ J₁)
         (Functor.sheafPushforwardContinuousNatTrans
-          (mateEquiv adj₁ adj₂ α).natTrans A J₂ J₃) := by
+          (mateEquiv adj₁ adj₂ α) A J₂ J₃) := by
   ext X
   simp
   rfl
@@ -189,20 +188,20 @@ isomorphisms, with the mate of `α'`. -/
 theorem mateEquiv_restrictFullyFaithful_app
     (α : TwoSquare G L₁ L₂ H) (α' : TwoSquare G' L₁' L₂' H')
     (hα : ∀ c : C, L₂'.map (cG.hom.app c) ≫ c₁₂.hom.app (G.obj c) ≫
-        iF.map (α.natTrans.app c) =
-      α'.natTrans.app (iC.obj c) ≫ H'.map (c₁₁.hom.app c) ≫ cH.hom.app (L₁.obj c))
+        iF.map (α.app c) =
+      α'.app (iC.obj c) ≫ H'.map (c₁₁.hom.app c) ≫ cH.hom.app (L₁.obj c))
     (d : D) :
     G'.map (c₂₁.hom.app d) ≫ cG.hom.app (R₁.obj d) ≫
         iE.map ((mateEquiv (adj₁'.restrictFullyFaithful hiC hiD c₁₁ c₂₁)
-          (adj₂'.restrictFullyFaithful hiE hiF c₁₂ c₂₂) α).natTrans.app d) =
-      (mateEquiv adj₁' adj₂' α').natTrans.app (iD.obj d) ≫ R₂'.map (cH.hom.app d) ≫
+          (adj₂'.restrictFullyFaithful hiE hiF c₁₂ c₂₂) α).app d) =
+      (mateEquiv adj₁' adj₂' α').app (iD.obj d) ≫ R₂'.map (cH.hom.app d) ≫
         c₂₂.hom.app (H.obj d) := by
   have nat12 : ∀ {Y Y' : E} (φ : Y ⟶ Y'),
       L₂'.map (iE.map φ) ≫ c₁₂.hom.app Y' = c₁₂.hom.app Y ≫ iF.map (L₂.map φ) :=
     fun φ => c₁₂.hom.naturality φ
   have natα' : ∀ {X Y : C'} (χ : X ⟶ Y),
-      L₂'.map (G'.map χ) ≫ α'.natTrans.app Y = α'.natTrans.app X ≫ H'.map (L₁'.map χ) :=
-    fun χ => α'.natTrans.naturality χ
+      L₂'.map (G'.map χ) ≫ α'.app Y = α'.app X ≫ H'.map (L₁'.map χ) :=
+    fun χ => α'.naturality χ
   have natH : ∀ {X Y : D} (ψ : X ⟶ Y),
       cH.hom.app X ≫ iF.map (H.map ψ) = H'.map (iD.map ψ) ≫ cH.hom.app Y :=
     fun ψ => (cH.hom.naturality ψ).symm

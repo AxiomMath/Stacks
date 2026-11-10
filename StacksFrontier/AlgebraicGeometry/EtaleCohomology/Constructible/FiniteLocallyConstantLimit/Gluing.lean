@@ -87,7 +87,8 @@ public theorem sieve_ofEtaleHom_memberHom (V : ι → SmallEtale B S.obj S.prope
     (hV : Sieve.ofArrows V (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from (V k)) ∈
       SmallEtale.topology B S.obj S.property (SmallEtale.final B S.obj S.property)) :
     Sieve.ofArrows (fun k => SmallEtale.ofEtaleHom B (memberHom B S V k))
-      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from _) ∈
+      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from
+        (SmallEtale.ofEtaleHom B (memberHom B S V k))) ∈
         SmallEtale.topology B S.obj S.property (SmallEtale.final B S.obj S.property) :=
   hV
 
@@ -104,7 +105,8 @@ small étale inverse images. -/
 public theorem isEquivalence_toDescentData_of_etale [HasLimitsOfSize.{u + 1, u + 1} A]
     {X : ι → B.Scheme} (f : ∀ k, X k ⟶ S) [∀ k, Etale (B.inclusion.map (f k))]
     (hf : Sieve.ofArrows (fun k => SmallEtale.ofEtaleHom B (f k))
-      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from _) ∈
+      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from
+        (SmallEtale.ofEtaleHom B (f k))) ∈
         SmallEtale.topology B S.obj S.property (SmallEtale.final B S.obj S.property)) :
     ((pseudofunctor B A).toDescentData f).IsEquivalence :=
   isEquivalence_toDescentData B A S (fun k => SmallEtale.ofEtaleHom B (f k)) hf
@@ -114,7 +116,8 @@ the pseudofunctor of small étale inverse images, for any coefficient category. 
 public theorem full_faithful_toDescentData_of_etale
     {X : ι → B.Scheme} (f : ∀ k, X k ⟶ S) [∀ k, Etale (B.inclusion.map (f k))]
     (hf : Sieve.ofArrows (fun k => SmallEtale.ofEtaleHom B (f k))
-      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from _) ∈
+      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from
+        (SmallEtale.ofEtaleHom B (f k))) ∈
         SmallEtale.topology B S.obj S.property (SmallEtale.final B S.obj S.property)) :
     ((pseudofunctor B A).toDescentData f).Full ∧
       ((pseudofunctor B A).toDescentData f).Faithful :=
@@ -131,7 +134,8 @@ members of a family of étale morphisms covering `S` are equal. -/
 public theorem smallEtaleSheafPullback_jointly_faithful
     {X : ι → B.Scheme} (f : ∀ k, X k ⟶ S) [∀ k, Etale (B.inclusion.map (f k))]
     (hf : Sieve.ofArrows (fun k => SmallEtale.ofEtaleHom B (f k))
-      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from _) ∈
+      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from
+        (SmallEtale.ofEtaleHom B (f k))) ∈
         SmallEtale.topology B S.obj S.property (SmallEtale.final B S.obj S.property))
     {F G : Sheaf (SmallEtale.topology B S.obj S.property) A} (ψ ψ' : F ⟶ G)
     (h : ∀ k, (smallEtaleSheafPullback B A (f k)).map ψ =
@@ -152,7 +156,8 @@ morphism of sheaves. No assumption is made on the coefficient category. -/
 public theorem smallEtaleSheafPullback_exists_map_eq_of_isPullback
     {X : ι → B.Scheme} (f : ∀ k, X k ⟶ S) [∀ k, Etale (B.inclusion.map (f k))]
     (hf : Sieve.ofArrows (fun k => SmallEtale.ofEtaleHom B (f k))
-      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from _) ∈
+      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from
+        (SmallEtale.ofEtaleHom B (f k))) ∈
         SmallEtale.topology B S.obj S.property (SmallEtale.final B S.obj S.property))
     {F G : Sheaf (SmallEtale.topology B S.obj S.property) A}
     (O : ι → ι → B.Scheme) (p : ∀ k l, O k l ⟶ X k) (q : ∀ k l, O k l ⟶ X l)
@@ -188,7 +193,8 @@ images being identified through the comparisons
 public theorem smallEtaleSheaf_exists_glue_of_isPullback [HasLimitsOfSize.{u + 1, u + 1} A]
     {X : ι → B.Scheme} (f : ∀ k, X k ⟶ S) [∀ k, Etale (B.inclusion.map (f k))]
     (hf : Sieve.ofArrows (fun k => SmallEtale.ofEtaleHom B (f k))
-      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from _) ∈
+      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from
+        (SmallEtale.ofEtaleHom B (f k))) ∈
         SmallEtale.topology B S.obj S.property (SmallEtale.final B S.obj S.property))
     (O : ι → ι → B.Scheme) (p : ∀ k l, O k l ⟶ X k) (q : ∀ k l, O k l ⟶ X l)
     (r : ∀ k l, O k l ⟶ S) (hO : ∀ k l, IsPullback (p k l) (q k l) (f k) (f l))
@@ -239,7 +245,8 @@ public theorem smallEtaleSheaf_exists_glue_constant_of_isPullback
     [∀ (S : B.Scheme), HasWeakSheafify (SmallEtale.topology B S.obj S.property) A]
     {X : ι → B.Scheme} (f : ∀ k, X k ⟶ S) [∀ k, Etale (B.inclusion.map (f k))]
     (hf : Sieve.ofArrows (fun k => SmallEtale.ofEtaleHom B (f k))
-      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from _) ∈
+      (fun k => (SmallEtale.finalIsTerminal B S.obj S.property).from
+        (SmallEtale.ofEtaleHom B (f k))) ∈
         SmallEtale.topology B S.obj S.property (SmallEtale.final B S.obj S.property))
     (O : ι → ι → B.Scheme) (p : ∀ k l, O k l ⟶ X k) (q : ∀ k l, O k l ⟶ X l)
     (r : ∀ k l, O k l ⟶ S) (hO : ∀ k l, IsPullback (p k l) (q k l) (f k) (f l))

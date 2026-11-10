@@ -179,8 +179,7 @@ theorem mulMap_injective [Module.Flat Λ R] (𝔫 : Ideal Λ) :
 /-- The multiplication map lands in `𝔫 R`. -/
 theorem mulMap_mem_map (𝔫 : Ideal Λ) (w : 𝔫 ⊗[Λ] R) :
     mulMap 𝔫 w ∈ 𝔫.map (algebraMap Λ R) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul a r =>
       rw [mulMap_tmul, Algebra.smul_def]
       exact Ideal.mul_mem_right _ _ (Ideal.mem_map_of_mem _ a.2)
@@ -191,8 +190,7 @@ private theorem lid_rTensor_lTensor_eq_mulMap (𝔫 : Ideal Λ) (𝔞 : Ideal R)
     TensorProduct.lid Λ (R ⧸ 𝔞) ((𝔫.subtype.rTensor (R ⧸ 𝔞))
       ((Ideal.Quotient.mkₐ Λ 𝔞).toLinearMap.lTensor 𝔫 w)) =
       (Ideal.Quotient.mkₐ Λ 𝔞).toLinearMap (mulMap 𝔫 w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul a r => simp
   | add u v hu hv => simp only [map_add, hu, hv]
 
@@ -215,15 +213,14 @@ theorem mem_range_mulMap_of_mem_mul (𝔫 : Ideal Λ) (𝔞 : Ideal R) {x : R}
           { toFun := fun a => ⟨c * a, 𝔞.mul_mem_left c a.2⟩
             map_add' := fun a b => Subtype.ext (mul_add _ _ _)
             map_smul' := fun t a => Subtype.ext (by
-              show c * (t • (a : R)) = t • (c * a)
+              change c * (t • (a : R)) = t • (c * a)
               rw [Algebra.smul_def, Algebra.smul_def]; ring) }
         refine ⟨((𝔞.restrictScalars Λ).subtype.lTensor 𝔫) ((μ.lTensor 𝔫) u),
           ⟨(μ.lTensor 𝔫) u, rfl⟩, ?_⟩
-        · induction u using TensorProduct.induction_on with
-          | zero => simp
+        · induction u using TensorProduct.inductionOn with
           | tmul a b =>
               simp only [LinearMap.lTensor_tmul, mulMap_tmul, smul_eq_mul]
-              show (a : Λ) • (c * (b : R)) = c * ((a : Λ) • (b : R))
+              change (a : Λ) • (c * (b : R)) = c * ((a : Λ) • (b : R))
               rw [Algebra.smul_def, Algebra.smul_def]; ring
           | add u v hu hv =>
               simp only [map_add, smul_eq_mul, mul_add] at hu hv ⊢
@@ -287,8 +284,7 @@ theorem flat_quotient_of_inf_le_mul [Module.Flat Λ R] (𝔫 : Ideal Λ)
 /-- Multiplying the right factor by `c` multiplies the product by `c`. -/
 theorem mulMap_lTensor_mulLeft (𝔠 : Ideal Λ) (c : R) (w : 𝔠 ⊗[Λ] R) :
     mulMap 𝔠 ((LinearMap.mulLeft Λ c).lTensor 𝔠 w) = c • mulMap 𝔠 w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul a r =>
       simp only [LinearMap.lTensor_tmul, mulMap_tmul, smul_eq_mul, LinearMap.mulLeft_apply]
       rw [Algebra.smul_def, Algebra.smul_def]; ring
@@ -297,8 +293,7 @@ theorem mulMap_lTensor_mulLeft (𝔠 : Ideal Λ) (c : R) (w : 𝔠 ⊗[Λ] R) :
 /-- The image of `𝔠 ⊗ 𝔞` lies in `𝔠R · 𝔞`. -/
 theorem mulMap_lTensor_mem_mul (𝔠 : Ideal Λ) (𝔞 : Ideal R) (u : 𝔠 ⊗[Λ] 𝔞.restrictScalars Λ) :
     mulMap 𝔠 ((𝔞.restrictScalars Λ).subtype.lTensor 𝔠 u) ∈ 𝔠.map (algebraMap Λ R) * 𝔞 := by
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | tmul a r =>
       simp only [LinearMap.lTensor_tmul, Submodule.subtype_apply, mulMap_tmul]
       rw [Algebra.smul_def]
@@ -516,7 +511,7 @@ theorem exists_isSolution_succ [IsNoetherianRing R] {k : ℕ} (hk : 1 ≤ k)
     have h𝔭 : 𝔭 ≤ 𝔠.radical := fun g hg => by
       obtain ⟨e, he⟩ := hT F G hsol g hg
       refine ⟨e, ?_⟩
-      show g ^ e • v ∈ solvable 𝔦 fh rh k
+      change g ^ e • v ∈ solvable 𝔦 fh rh k
       rw [hvdef]
       exact he
     obtain ⟨t, ht⟩ := Ideal.exists_pow_le_of_le_radical_of_fg h𝔭 (IsNoetherian.noetherian 𝔭)
@@ -757,7 +752,7 @@ theorem exists_isSolution_one_of_approx
   refine ⟨fun i => fh i + a i, fun j i => rh j i + c j i,
     ⟨fun i => by simpa using ha i, fun j i => by simpa using hc j i, fun j => ?_⟩, fun j => ?_⟩
   · rw [pow_one]
-    show ∑ i, (rh j i + c j i) * (fh i + a i) ∈ 𝔦
+    change ∑ i, (rh j i + c j i) * (fh i + a i) ∈ 𝔦
     have : ∑ i, (rh j i + c j i) * (fh i + a i) =
         ∑ i, rh j i * fh i + ∑ i, (rh j i * a i + c j i * (fh i + a i)) := by
       rw [← Finset.sum_add_distrib]; exact Finset.sum_congr rfl fun i _ => by ring
@@ -766,7 +761,7 @@ theorem exists_isSolution_one_of_approx
       Ideal.add_mem _ (Ideal.mul_mem_left _ _ (ha i)) (Ideal.mul_mem_right _ _ (hc j i)))
   · apply hcontr
     have hzero : ∑ i, Gt j i * Ft i = 0 := hrel j
-    show φ (∑ i, (rh j i + c j i) * (fh i + a i)) ∈ _
+    change φ (∑ i, (rh j i + c j i) * (fh i + a i)) ∈ _
     rw [map_sum]
     have : ∑ i, φ ((rh j i + c j i) * (fh i + a i)) =
         ∑ i, Gt j i * Ft i - ∑ i, ((Gt j i - φ (rh j i + c j i)) * Ft i +

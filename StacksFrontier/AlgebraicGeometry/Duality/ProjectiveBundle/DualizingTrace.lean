@@ -81,15 +81,15 @@ abbrev dualizingModule : (bundle E hqc).Modules :=
 
 section ProjectionFormula
 
-variable {n} (hn : 1 ≤ n) (hfree : Scheme.Modules.IsFiniteLocallyFreeOfRank E (n + 1))
-include hn hfree
+variable {n} (hfree : Scheme.Modules.IsFiniteLocallyFreeOfRank E (n + 1))
+include hfree
 
 /-- The projection formula for the determinant, in the indexing by injective resolutions. -/
 def rightDerivedDualizingModuleIso (q : ℕ) :
     ((bundlePushforward E hqc).rightDerived q).obj (dualizingModule E hqc D n) ≅
       (Stacks.ProjectionFormula.tensorRightInvertible S (det E n)).obj
         (((bundlePushforward E hqc).rightDerived q).obj (negTwist E hqc D (n + 1))) :=
-  haveI := Stacks.AlgebraicGeometry.ProjectiveBundleCohomology.isInvertible_det E hn hfree
+  haveI := Stacks.AlgebraicGeometry.ProjectiveBundleCohomology.isInvertible_det E hfree
   (Stacks.DerivedIndexing.rightDerivedIso (bundlePushforward E hqc) q).app _ ≪≫
     (Stacks.ProjectionFormula.higherDirectImageTensorRightIso (proj E hqc) (det E n) q).app
       (negTwist E hqc D (n + 1)) ≪≫
@@ -134,8 +134,8 @@ include hn hfree
 /-- **`R^q π_*(π^*𝓛(-n-1)) = 0` for `q ≠ n`.** -/
 theorem isZero_rightDerived_dualizingModule (q : ℕ) (hq : q ≠ n) :
     IsZero (((bundlePushforward E hqc).rightDerived q).obj (dualizingModule E hqc D n)) := by
-  have := Stacks.AlgebraicGeometry.ProjectiveBundleCohomology.isInvertible_det E hn hfree
-  refine IsZero.of_iso ?_ (rightDerivedDualizingModuleIso E hqc D hn hfree q)
+  have := Stacks.AlgebraicGeometry.ProjectiveBundleCohomology.isInvertible_det E hfree
+  refine IsZero.of_iso ?_ (rightDerivedDualizingModuleIso E hqc D hfree q)
   refine (Stacks.ProjectionFormula.tensorRightInvertible S (det E n)).map_isZero ?_
   refine IsZero.of_iso ?_
     ((Stacks.DerivedIndexing.rightDerivedIso (bundlePushforward E hqc) q).app _)
@@ -151,7 +151,7 @@ theorem isZero_rightDerived_dualizingModule (q : ℕ) (hq : q ≠ n) :
 def rightDerivedTopDualizingModuleIso :
     ((bundlePushforward E hqc).rightDerived n).obj (dualizingModule E hqc D n) ≅
       SheafOfModules.unit S.ringCatSheaf :=
-  rightDerivedDualizingModuleIso E hqc D hn hfree n ≪≫
+  rightDerivedDualizingModuleIso E hqc D hfree n ≪≫
     Stacks.AlgebraicGeometry.ProjectiveBundleCohomology.topTraceIso E hqc D hn hfree
 
 end Standard

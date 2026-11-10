@@ -89,13 +89,13 @@ tensoring on the right, up to the braiding. -/
 theorem IsFlatEtaleModule.preservesMonomorphisms_tensorLeft {F : EtaleModules.{u, r} Λ X}
     (hF : IsFlatEtaleModule F) : (tensorLeft F).PreservesMonomorphisms :=
   have : (tensorRight F).PreservesMonomorphisms := hF
-  Functor.preservesMonomorphisms.of_iso (BraidedCategory.tensorLeftIsoTensorRight F).symm
+  Functor.PreservesMonomorphisms.of_iso (BraidedCategory.tensorLeftIsoTensorRight F).symm
 
 /-- Flatness of étale sheaves of `Λ`-modules is invariant under isomorphism. -/
 theorem IsFlatEtaleModule.of_iso {F G : EtaleModules.{u, r} Λ X} (e : F ≅ G)
     (hF : IsFlatEtaleModule F) : IsFlatEtaleModule G :=
   have : (tensorRight F).PreservesMonomorphisms := hF
-  Functor.preservesMonomorphisms.of_iso ((tensoringRight _).mapIso e)
+  Functor.PreservesMonomorphisms.of_iso ((tensoringRight _).mapIso e)
 
 /-- A zero étale sheaf of `Λ`-modules is flat: tensoring with it is zero. -/
 theorem isFlatEtaleModule_of_isZero {F : EtaleModules.{u, r} Λ X} (hF : IsZero F) :
@@ -125,7 +125,7 @@ theorem isFlatEtaleModule_biprod {A B : EtaleModules.{u, r} Λ X} (hA : IsFlatEt
       h ≫ M ◁ π = 0 := by
     refine (cancel_mono (f ▷ P)).1 ?_
     rw [Category.assoc, whisker_exchange, ← Category.assoc]
-    show (h ≫ (tensorRight (A ⊞ B)).map f) ≫ _ = _
+    change (h ≫ (tensorRight (A ⊞ B)).map f) ≫ _ = _
     rw [hh, zero_comp, zero_comp]
   have : h = h ≫ M ◁ (biprod.fst ≫ biprod.inl + biprod.snd ≫ biprod.inr) := by
     rw [biprod.total]
@@ -212,7 +212,7 @@ theorem isFlatEtaleModule_colimit {J : Type} [SmallCategory J]
     simp only [Iso.inv_hom_id_assoc, ι_preservesColimitIso_inv_assoc, colim_map,
       ι_colimMap_assoc, ι_preservesColimitIso_inv]
     simpa [α] using whisker_exchange f (colimit.ι D j)
-  show Mono (f ▷ colimit D)
+  change Mono (f ▷ colimit D)
   rw [h]
   infer_instance
 
@@ -261,7 +261,7 @@ theorem isFlatEtaleModule_presheafToSheaf_obj (P : X.Etaleᵒᵖ ⥤ ModuleCat.{
     simp only [Functor.comp_map, Functor.id_map] at hc
     rw [IsIso.eq_inv_comp]
     exact hc.symm
-  show Mono (f ▷ L.obj P)
+  change Mono (f ▷ L.obj P)
   rw [h₂]
   infer_instance
 
@@ -277,7 +277,7 @@ theorem exists_epi_isFlatEtaleModule (G : EtaleModules.{u, r} Λ X) :
     { app U := Stacks.LargeModuleUniverse.freeLargeDesc (fun x ↦ x)
       naturality U V g := by
         refine Stacks.LargeModuleUniverse.freeLarge_hom_ext fun x ↦ ?_
-        show Stacks.LargeModuleUniverse.freeLargeDesc (M := G.obj.obj V) (fun y ↦ y)
+        change Stacks.LargeModuleUniverse.freeLargeDesc (M := G.obj.obj V) (fun y ↦ y)
             (Finsupp.mapDomain (G.obj.map g) (Finsupp.single x 1)) =
           G.obj.map g (Stacks.LargeModuleUniverse.freeLargeDesc (M := G.obj.obj U) (fun y ↦ y)
             (Stacks.LargeModuleUniverse.freeLargeMk x))

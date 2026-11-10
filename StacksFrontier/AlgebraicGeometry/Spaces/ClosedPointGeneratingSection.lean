@@ -246,7 +246,7 @@ theorem exists_mem_sectionGeneratingLocus_of_isClosed (hZ : B.Contains (⊤_ Sch
       (isInvertible_modulePullback_obj B S hS i N
         (Stacks.SheafOfModules.IsInvertible.toAlgebraicGeometry _ _ N hNinv))
   have hsub : Subsingleton (chartScheme (idEtaleChart B S hS p.siteObject)) := by
-    show Subsingleton (PrimeSpectrum p.carrier)
+    change Subsingleton (PrimeSpectrum p.carrier)
     infer_instance
   let t : chartScheme (idEtaleChart B S hS p.siteObject) :=
     pointsEquivScheme B S hS p.siteObject

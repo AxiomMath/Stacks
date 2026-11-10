@@ -69,7 +69,7 @@ projection of the chosen fibre product onto that scheme. -/
 lemma ofIsoCanonicalDatum_proj {D : DescentData f} (W : Over S)
     (e : D ≅ (canonicalFamilyDescentFunctor f).functor.obj W) (i : ι) :
     (ofIsoCanonicalDatum W e).proj i = (e.hom.hom i).left ≫ pullback.fst W.hom (f i) := by
-  show (e.hom.hom i).left ≫ (eqToHom ((canonicalFamilyDescentFunctor f).obj W i)).left ≫
+  change (e.hom.hom i).left ≫ (eqToHom ((canonicalFamilyDescentFunctor f).obj W i)).left ≫
       pullback.fst W.hom (f i) = _
   simp only [eqToHom_refl, Over.id_left, Category.id_comp]
 
@@ -198,7 +198,7 @@ lemma pulledBack_proj (F : MorphismOfSchemeFamilies.{u}) {E : DescentData F.targ
       pullbackFunctorCanonicalObjIsoOver_hom_hom]
   have h2 : (MorphismOfSchemeFamilies.pulledBackDatumObjIso F
       (CanonicalDatum.datum F.targetFamily.f C.base) i).hom.left = 𝟙 _ := rfl
-  show (ofIsoCanonicalDatum ((Over.pullback F.baseHom).obj C.base)
+  change (ofIsoCanonicalDatum ((Over.pullback F.baseHom).obj C.base)
       ((MorphismOfSchemeFamilies.pullbackFunctor F).functor.mapIso C.isoCanonicalDatum ≪≫
         pullbackFunctorCanonicalObjIsoOver F C.base)).proj i ≫ _ = _
   rw [ofIsoCanonicalDatum_proj, h1]

@@ -109,7 +109,7 @@ def squareIso (σ : E₂ ⋙ Q' ≅ P' ⋙ E₁) : Q ⋙ L₂ ≅ L₁ ⋙ P :=
 theorem conjugateEquiv_squareIso_hom (σ : E₂ ⋙ Q' ≅ P' ⋙ E₁) :
     conjugateEquiv (adj₁.comp adjP) (adjQ.comp adj₂) (squareIso adjP adjQ adj₁ adj₂ σ).hom =
       σ.inv := by
-  show (conjugateIsoEquiv (adj₁.comp adjP) (adjQ.comp adj₂)
+  change (conjugateIsoEquiv (adj₁.comp adjP) (adjQ.comp adj₂)
     ((conjugateIsoEquiv (adj₁.comp adjP) (adjQ.comp adj₂)).symm σ.symm)).hom = _
   rw [Equiv.apply_symm_apply]
   rfl

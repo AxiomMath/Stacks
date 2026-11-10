@@ -119,14 +119,14 @@ theorem contraction_comp_contraction (φ : M →ₗ[R] R) (n : ℕ) :
       AlternatingMap.alternatizeUncurryFin (LinearMap.smulRight φ w) u :=
     fun u ↦ alternatingMapLinearEquiv_apply_ιMulti _ u
   have h := DFunLike.congr_fun hzero v
-  rw [AlternatingMap.zero_apply] at h
+  rw [zero_apply] at h
   simp only [LinearMap.coe_comp, comp_apply,
     LinearMap.zero_apply, contraction_ιMulti, map_sum, map_zsmul, map_smul, key]
   rw [← h, AlternatingMap.alternatizeUncurryFin_apply]
   refine Finset.sum_congr rfl fun i _ ↦ ?_
   rw [LinearMap.comp_apply, AlternatingMap.alternatizeUncurryFinLM_apply, hb,
     LinearMap.smulRight_apply, AlternatingMap.alternatizeUncurryFin_smul,
-    AlternatingMap.smul_apply]
+    smul_apply]
 
 /-! ### Left wedge multiplication -/
 
@@ -279,9 +279,9 @@ theorem prodRightProj_comp_prodRightMk (n : ℕ) :
       (contraction_comp_wedgeLeft_comp_map (LinearMap.snd R M R) (LinearMap.inl R M R)
         ((0, 1) : M × R) rfl hsi n) z
   refine LinearMap.ext fun p ↦ Prod.ext ?_ ?_
-  · show map (n + 1) (LinearMap.fst R M R) (prodRightMk R M n p) = p.1
+  · change map (n + 1) (LinearMap.fst R M R) (prodRightMk R M n p) = p.1
     rw [prodRightMk, LinearMap.coprod_apply, map_add, hid, LinearMap.comp_apply, hwedge, add_zero]
-  · show map n (LinearMap.fst R M R)
+  · change map n (LinearMap.fst R M R)
       (contraction (LinearMap.snd R M R) n (prodRightMk R M n p)) = p.2
     rw [prodRightMk, LinearMap.coprod_apply, map_add, hcontr, LinearMap.comp_apply, hundo,
       zero_add, hid]
@@ -322,7 +322,7 @@ theorem prodRightMk_comp_prodRightProj (n : ℕ) :
         map (n + 1) (LinearMap.inl R M R) (map (n + 1) (LinearMap.fst R M R) w) +
           wedgeLeft e n (map n (LinearMap.inl R M R) (map n (LinearMap.fst R M R)
             (contraction (LinearMap.snd R M R) n w))) := rfl
-  show prodRightMk R M n (prodRightProj R M n (ιMulti R (n + 1) u)) = ιMulti R (n + 1) u
+  change prodRightMk R M n (prodRightProj R M n (ιMulti R (n + 1) u)) = ιMulti R (n + 1) u
   rw [hmk, hleft, hright, ← AlternatingMap.map_add_smul_const (ιMulti R (n + 1)) b t e, hu]
 
 /-- The splitting `⋀[R]^(n + 1) (M × R) ≃ₗ[R] ⋀[R]^(n + 1) M × ⋀[R]^n M` of the exterior power of a

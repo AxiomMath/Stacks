@@ -73,7 +73,7 @@ theorem epi_sigmaDesc_of_forall_exists_covering {ι : Type w} (A : ι → Sheaf 
   intro V g hg
   obtain ⟨i, a, ha⟩ := hfac g hg
   refine ⟨(Limits.Sigma.ι A i).hom.app (op V) a, ?_⟩
-  have hid : Limits.Sigma.ι A i ≫ Limits.Sigma.desc ψ = ψ i := Limits.Sigma.ι_desc ψ i
+  have hid : Limits.Sigma.ι A i ≫ Limits.Sigma.desc ψ = ψ i := Limits.Sigma.ι_comp_desc ψ i
   refine Eq.trans ?_ ha
   exact congrArg (fun m : A i ⟶ B => (ConcreteCategory.hom (m.hom.app (op V))) a) hid
 

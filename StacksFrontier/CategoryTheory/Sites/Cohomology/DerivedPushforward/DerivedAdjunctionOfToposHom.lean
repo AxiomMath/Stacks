@@ -76,7 +76,8 @@ isomorphism of the two pullbacks and is not constructed here; see the implementa
 `Lf^*` itself (`Stacks.Cohomology.DerivedPullbackOfToposHom.derivedPullback`), `Rf_*`
 (`Stacks.Cohomology.DerivedPushforward.derivedPushforward`) and the conditional statements of
 `PullbackAdjunction` all exist with the six universes of the two ringed topoi free.  The
-narrowing is the *exactness* half of the datum's, and it is **not** the resolving half's.  The resolving half is free: Stacks 06YS is
+narrowing is the *exactness* half of the datum's, and it is **not** the resolving half's.
+The resolving half is free: Stacks 06YS is
 `Stacks.SheafOfModules.KFlatResolution.exists_kFlatResolution_ofSize`, which resolves by flat
 modules at three independent universes rather than by a direct sum of extensions by zero indexed
 by sections over objects, and the class it resolves,

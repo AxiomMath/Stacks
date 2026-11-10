@@ -119,7 +119,7 @@ private theorem smallEtaleSheafPullbackConstantSheafIso_comp {X Y Z : B.Scheme} 
   ext N
   simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
     Functor.associator_inv_app, Category.comp_id, hσ]
-  show _ ≫ (e.inv.app N).hom.app (op (SmallEtale.final B Z.obj Z.property)) = _
+  change _ ≫ (e.inv.app N).hom.app (op (SmallEtale.final B Z.obj Z.property)) = _
   rw [he]
   refine ((N.obj.map_comp _ _).symm.trans ?_).trans (N.obj.map_comp _
     ((smallEtaleBaseChange B f).op.map (smallEtaleFinalBaseChangeIso B g).hom.op))

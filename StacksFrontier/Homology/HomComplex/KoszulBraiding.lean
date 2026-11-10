@@ -69,14 +69,14 @@ variable {R : Type u} [CommRing R]
 `(r • f) ▷ Z = r • (f ▷ Z)`. -/
 lemma units_smul_whiskerRight (r : ℤˣ) {X Y Z : ModuleCat R}
     (f : X ⟶ Y) : (r • f) ▷ Z = r • (f ▷ Z) := by
-  show (tensorRight Z).map (r • f) = r • (tensorRight Z).map f
+  change (tensorRight Z).map (r • f) = r • (tensorRight Z).map f
   exact Functor.map_units_smul (tensorRight Z) r f
 
 /-- Left whiskering in `ModuleCat R` commutes with scalar multiplication by a unit of `ℤ`:
 `Z ◁ (r • f) = r • (Z ◁ f)`. -/
 lemma units_smul_whiskerLeft (r : ℤˣ) {X Y Z : ModuleCat R}
     (f : X ⟶ Y) : Z ◁ (r • f) = r • (Z ◁ f) := by
-  show (tensorLeft Z).map (r • f) = r • (tensorLeft Z).map f
+  change (tensorLeft Z).map (r • f) = r • (tensorLeft Z).map f
   exact Functor.map_units_smul (tensorLeft Z) r f
 
 /-- The degree-`n` component of the Koszul braiding: on the summand `K^p ⊗ L^q` it is the
@@ -117,7 +117,7 @@ lemma braidingX_hom_comm (K L : CochainComplex (ModuleCat R) ℤ) (n m : ℤ)
     (hnm : (ComplexShape.up ℤ).Rel n m) :
     (braidingX K L n).hom ≫ (L ⊗ K).d n m =
       (K ⊗ L).d n m ≫ (braidingX K L m).hom := by
-  show (braidingX K L n).hom ≫
+  change (braidingX K L n).hom ≫
       (HomologicalComplex.mapBifunctor L K (curriedTensor (ModuleCat R))
         (ComplexShape.up ℤ)).d n m =
     (HomologicalComplex.mapBifunctor K L (curriedTensor (ModuleCat R))
@@ -131,10 +131,10 @@ lemma braidingX_hom_comm (K L : CochainComplex (ModuleCat R) ℤ) (n m : ℤ)
   have hp : (ComplexShape.up ℤ).Rel p (p + 1) := rfl
   have hq : (ComplexShape.up ℤ).Rel q (q + 1) := rfl
   have hA : (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (p + 1, q) = m := by
-    show p + 1 + q = m
+    change p + 1 + q = m
     omega
   have hB : (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (p, q + 1) = m := by
-    show p + (q + 1) = m
+    change p + (q + 1) = m
     omega
   simp only [Preadditive.comp_add, Preadditive.add_comp,
     HomologicalComplex.mapBifunctor.ι_D₁_assoc,
@@ -143,10 +143,10 @@ lemma braidingX_hom_comm (K L : CochainComplex (ModuleCat R) ℤ) (n m : ℤ)
     Linear.units_smul_comp, Category.assoc, HomologicalComplex.mapBifunctor.ι_D₁,
     HomologicalComplex.mapBifunctor.ι_D₂]
   have hL₁ : (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (q + 1, p) = m := by
-    show q + 1 + p = m
+    change q + 1 + p = m
     omega
   have hL₂ : (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (q, p + 1) = m := by
-    show q + (p + 1) = m
+    change q + (p + 1) = m
     omega
   rw [HomologicalComplex.mapBifunctor.d₁_eq (K₁ := L) (K₂ := K)
     (F := curriedTensor (ModuleCat R)) (c := ComplexShape.up ℤ) (i₁' := q + 1) hq p m hL₁]
@@ -200,7 +200,7 @@ lemma complexBraiding_naturality_left {K L : CochainComplex (ModuleCat R) ℤ}
     (f : K ⟶ L) (M : CochainComplex (ModuleCat R) ℤ) :
     f ▷ M ≫ (complexBraiding L M).hom =
       (complexBraiding K M).hom ≫ M ◁ f := by
-  show HomologicalComplex.tensorHom f (𝟙 M) ≫ (complexBraiding L M).hom =
+  change HomologicalComplex.tensorHom f (𝟙 M) ≫ (complexBraiding L M).hom =
     (complexBraiding K M).hom ≫ HomologicalComplex.tensorHom (𝟙 M) f
   apply HomologicalComplex.Hom.ext
   funext n
@@ -213,7 +213,7 @@ lemma complexBraiding_naturality_right (K : CochainComplex (ModuleCat R) ℤ)
     {L M : CochainComplex (ModuleCat R) ℤ} (f : L ⟶ M) :
     K ◁ f ≫ (complexBraiding K M).hom =
       (complexBraiding K L).hom ≫ f ▷ K := by
-  show HomologicalComplex.tensorHom (𝟙 K) f ≫ (complexBraiding K M).hom =
+  change HomologicalComplex.tensorHom (𝟙 K) f ≫ (complexBraiding K M).hom =
     (complexBraiding K L).hom ≫ HomologicalComplex.tensorHom f (𝟙 K)
   apply HomologicalComplex.Hom.ext
   funext n
@@ -230,7 +230,7 @@ lemma complexAssociator_hom_f (K L M : CochainComplex (ModuleCat R) ℤ)
       (HomologicalComplex.mapBifunctorAssociatorX
         (curriedAssociatorNatIso (ModuleCat R)) K L M
         (ComplexShape.up ℤ) (ComplexShape.up ℤ) (ComplexShape.up ℤ) n).hom := by
-  show (HomologicalComplex.associator K L M).hom.f n = _
+  change (HomologicalComplex.associator K L M).hom.f n = _
   rfl
 
 /-- Whiskering the inclusion of `K^p ⊗ L^q` with `M^r`, then including into `((K ⊗ L) ⊗ M)^n`,
@@ -360,12 +360,12 @@ lemma complexBraiding_hexagon_forward
       have houter :
           ComplexShape.π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (ComplexShape.up ℤ)
             (q + r, p) = n := by
-        show q + r + p = n
+        change q + r + p = n
         omega
       have hqpr :
           (ComplexShape.up ℤ).r (ComplexShape.up ℤ) (ComplexShape.up ℤ)
           (ComplexShape.up ℤ) (ComplexShape.up ℤ) (q, r, p) = n := by
-        show q + r + p = n
+        change q + r + p = n
         omega
       rw [ιTensorObj_whiskerRight_ιTensorObj L M K q r p (q + r) n rfl houter hqpr]
       simp only [Category.assoc, Linear.units_smul_comp, Linear.comp_units_smul]
@@ -413,7 +413,7 @@ lemma complexBraiding_hexagon_forward
       rw [hhexIncl]
       have hpqouter : ComplexShape.π (ComplexShape.up ℤ) (ComplexShape.up ℤ)
           (ComplexShape.up ℤ) (p + q, r) = n := by
-        show p + q + r = n
+        change p + q + r = n
         omega
       rw [← ιTensorObj_whiskerRight_ιTensorObj K L M p q r (p + q) n rfl hpqouter h]
       have hwhiskerKL :
@@ -497,7 +497,7 @@ lemma complexBraiding_symmetry
     SymmetricCategory.symmetry_assoc]
   rw [smul_smul, ← Int.negOnePow_add]
   rw [show p * q + q * p = 2 * (p * q) by ring, Int.negOnePow_two_mul, one_smul]
-  show HomologicalComplex.ιMapBifunctor K L (curriedTensor (ModuleCat R))
+  change HomologicalComplex.ιMapBifunctor K L (curriedTensor (ModuleCat R))
     (ComplexShape.up ℤ) p q _ h = _
   exact (Category.comp_id _).symm
 
@@ -529,7 +529,7 @@ private lemma complexBraiding_hexagon_reverse
           whiskerRightIso (complexBraiding K M) L := by
     simpa only [Iso.trans_assoc, Iso.trans_symm, complexBraiding_symm, whiskerLeftIso_symm,
       whiskerRightIso_symm] using congrArg Iso.symm hf
-  show ((α_ K L M).symm ≪≫ complexBraiding (K ⊗ L) M ≪≫
+  change ((α_ K L M).symm ≪≫ complexBraiding (K ⊗ L) M ≪≫
     (α_ M K L).symm).hom = _
   exact congrArg Iso.hom hr
 

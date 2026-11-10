@@ -89,7 +89,7 @@ public theorem spanNodeRing_eq_top :
       obtain ⟨a, b, hab⟩ := Submodule.mem_span_pair.1 ih
       have hab' : (a : Polynomial k) * 1 + (b : Polynomial k) * X = X ^ n := hab
       refine Submodule.mem_span_pair.2 ⟨b * u, a + b, ?_⟩
-      show ((b * u : nodeRing k) : Polynomial k) * 1
+      change ((b * u : nodeRing k) : Polynomial k) * 1
         + ((a + b : nodeRing k) : Polynomial k) * X = X ^ (n + 1)
       have hsucc : (X : Polynomial k) ^ (n + 1)
           = X * ((a : Polynomial k) * 1 + (b : Polynomial k) * X) := by
@@ -272,7 +272,7 @@ public theorem comap_nodeRingSubtype_image_eq_univ :
       simp at hc
     · rw [← hP]
       refine PrimeSpectrum.ext ?_
-      show Ideal.comap _ (Ideal.span {(X - 1 : Polynomial k)}) = Ideal.comap _ P.asIdeal
+      change Ideal.comap _ (Ideal.span {(X - 1 : Polynomial k)}) = Ideal.comap _ P.asIdeal
       rw [← eP, comap_span_X_eq_comap_span_X_sub_one]
   · exact ⟨P, hX, hP⟩
 

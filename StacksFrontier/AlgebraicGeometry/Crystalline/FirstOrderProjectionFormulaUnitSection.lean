@@ -193,7 +193,7 @@ theorem inlSheaf_whiskerRight_comp_projectionFormulaMap :
   have hsharp : Stacks.RingedSpace.sharp
         (firstOrderThickeningProjHom T Y f).toLRSHom.toShHom W r =
       PresheafOfModules.Hom.app (firstOrderThickeningInlSheaf T Y f).val W r := rfl
-  show PresheafOfModules.Hom.app
+  change PresheafOfModules.Hom.app
         (λ_ ((Scheme.Modules.pullback (firstOrderThickeningProjHom T Y f)).obj N)).hom.val
         ((RingedSpaceModuleAdjunction.opensMap
           (firstOrderThickeningProjHom T Y f).toLRSHom.toShHom).op.obj W)
@@ -244,7 +244,7 @@ theorem whiskerLeft_inlSheaf_comp_firstOrderThickeningProjectionFormulaMap :
     BraidedCategory.braiding_naturality_right N _
   have hun : (β_ N (schemeUnitModule T.scheme)).hom ≫ (λ_ N).hom = (ρ_ N).hom :=
     braiding_leftUnitor N
-  show (N ◁ firstOrderThickeningInlSheaf T Y f) ≫
+  change (N ◁ firstOrderThickeningInlSheaf T Y f) ≫
       (β_ N (firstOrderThickeningUnitRestriction T Y f)).hom ≫
         (Stacks.AlgebraicGeometry.ProjectionFormula.projectionFormulaMap
             (firstOrderThickeningProjHom T Y f)

@@ -116,7 +116,7 @@ theorem cotangentSpaceDesc_tmul (b : S) (p : P.Ring) :
   let : Module P.Ring N := Module.compHom N (algebraMap P.Ring S)
   let : Module R N := Module.compHom N (algebraMap R S)
   let : IsScalarTower R P.Ring N := IsScalarTower.of_algebraMap_smul fun r n => by
-    show (algebraMap P.Ring S (algebraMap R P.Ring r)) • n = (algebraMap R S r) • n
+    change (algebraMap P.Ring S (algebraMap R P.Ring r)) • n = (algebraMap R S r) • n
     rw [← IsScalarTower.algebraMap_apply R P.Ring S]
   let : IsScalarTower P.Ring S N := IsScalarTower.of_algebraMap_smul fun p n ↦ rfl
   exact congrArg (fun y : N ↦ b • y) (Derivation.liftKaehlerDifferential_comp_D _ p)

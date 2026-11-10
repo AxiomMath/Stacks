@@ -209,7 +209,7 @@ private theorem finiteTypeModulo_descent (D : LocalizationDiagram A B A' B')
   have hcAcont : Continuous (CompletionOver.canonicalMap D.toA') := continuous_canonicalMap _
   have hI : TopologicalRing.IsWeakIdealOfDefinition (Ideal.closure (J.map D.map)) :=
     ((RingHom.isTaut_iff_hasBasis_isWeakIdealOfDefinition D.map D.continuousMap
-      D.weaklyAdmissibleB D.weaklyAdmissibleA).mp hTaut).1 J hJ
+      D.weaklyAdmissibleB).mp hTaut).1 J hJ
   have hL : TopologicalRing.IsWeakIdealOfDefinition
       (Ideal.closure (J.map (CompletionOver.canonicalMap D.toB'))) := by
     rw [← ker_projection_eq_closure D.toB' ⟨J, hJ⟩]
@@ -253,8 +253,8 @@ private theorem finiteTypeModulo_descent (D : LocalizationDiagram A B A' B')
       (Ideal.map_le_iff_le_comap.mp subset_closure)) = w.comp u := by
     refine RingHom.ext fun x => ?_
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show Ideal.Quotient.mk _ (cA (D.map b)) = _
-    show _ = (Ideal.quotEquivOfEq hIdeal) (Ideal.Quotient.mk _ (D.completedMap (cB b)))
+    change Ideal.Quotient.mk _ (cA (D.map b)) = _
+    change _ = (Ideal.quotEquivOfEq hIdeal) (Ideal.Quotient.mk _ (D.completedMap (cB b)))
     rw [Ideal.quotEquivOfEq_mk]
     congr 1
     exact DFunLike.congr_fun D.commutes b
@@ -277,7 +277,7 @@ public theorem tautAndFiniteType_localizationPreserves :
   have hcA : RingHom.IsTaut (CompletionOver.canonicalMap D.toA') :=
     isTaut_canonicalMap D.toA' D.weaklyAdmissibleA.1
   have hcomp : RingHom.IsTaut ((CompletionOver.canonicalMap D.toA').comp D.map) :=
-    RingHom.isTaut_comp D.map _ D.continuousMap hcAcont hTaut hcA
+    RingHom.isTaut_comp D.map _ hcAcont hTaut hcA
   have hcompFT : TopologicalRing.IsTopologicallyOfFiniteType
       ((CompletionOver.canonicalMap D.toA').comp D.map) :=
     TopologicalRing.isTopologicallyOfFiniteType_comp _ D.map hcAcont
@@ -294,21 +294,20 @@ public theorem tautAndFiniteType_faithfullyFlatDescent :
       (fun φ => RingHom.IsTaut φ ∧ TopologicalRing.IsTopologicallyOfFiniteType φ) := by
   intro A B A' B' _ _ _ _ _ _ _ _ _ _ D _hA _hB hA' hB' hFF hP
   obtain ⟨hTaut', hFT'⟩ := hP
-  have hcBcont : Continuous (CompletionOver.canonicalMap D.toB') := continuous_canonicalMap _
   have hcB : RingHom.IsTaut (CompletionOver.canonicalMap D.toB') :=
     isTaut_canonicalMap D.toB' D.weaklyAdmissibleB.1
   have hcomp : RingHom.IsTaut (D.completedMap.comp (CompletionOver.canonicalMap D.toB')) :=
-    RingHom.isTaut_comp _ D.completedMap hcBcont D.continuousCompletedMap hcB hTaut'
+    RingHom.isTaut_comp _ D.completedMap D.continuousCompletedMap hcB hTaut'
   rw [← D.commutes] at hcomp
   have hTaut : RingHom.IsTaut D.map :=
     isTaut_of_isTaut_canonicalMap_comp D.toA' hFF D.weaklyAdmissibleA D.map hcomp
   have hP' : RingHom.IsTaut D.completedMap ∧
       TopologicalRing.IsTopologicallyOfFiniteType D.completedMap := ⟨hTaut', hFT'⟩
   have hmod' : TopologicalRing.FiniteTypeModuloEveryWeakIdeal D.completedMap :=
-    ((TopologicalRing.finiteType_tfae' D.completedMap D.continuousCompletedMap hB'.1 hA'.1
+    ((TopologicalRing.finiteType_tfae' D.completedMap hB'.1 hA'.1
       hB'.2).out 3 1).mp hP'
   have hmod := finiteTypeModulo_descent D hFF hTaut hmod'
-  exact ((TopologicalRing.finiteType_tfae' D.map D.continuousMap D.weaklyAdmissibleB
+  exact ((TopologicalRing.finiteType_tfae' D.map D.weaklyAdmissibleB
     D.weaklyAdmissibleA D.countableB).out 1 3).mp hmod
 
 /-- Tautness together with topological finite type is a local property of morphisms of

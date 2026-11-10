@@ -765,7 +765,7 @@ theorem TowerChartData.exists_glue (hst : 𝒳.val.p.IsStack (BigFppfOver.topolo
     rw [restriction_compTo_id] at e1 e2
     change ψir ≫ (xrij i j).hom = _ at e1
     change ψjr ≫ (xrji i j).hom = _ at e2
-    show ψir ≫ (xrij i j).hom ≫ inv (ψ i) ≫ (xr i).hom =
+    change ψir ≫ (xrij i j).hom ≫ inv (ψ i) ≫ (xr i).hom =
       ψir ≫ φ i j ≫ (xrji i j).hom ≫ inv (ψ j) ≫ (xr j).hom
     have hφ' : ψir ≫ φ i j = ψjr := hφ
     have L : ψir ≫ (xrij i j).hom ≫ inv (ψ i) ≫ (xr i).hom = xrij'.hom := by

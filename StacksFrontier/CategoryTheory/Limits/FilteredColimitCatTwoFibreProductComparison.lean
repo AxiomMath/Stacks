@@ -116,7 +116,7 @@ lemma twoFibreProductStage_obj_iso_hom (j : J)
       eqToHom (Functor.congr_obj (ι_colimMap_toFunctor α j) P.fst) ≫
         (colimit.ι Y j).toFunctor.map P.iso.hom ≫
           eqToHom (Functor.congr_obj (ι_colimMap_toFunctor γ j) P.snd).symm := by
-  show (eqToIso (ι_colimMap_toFunctor α j).symm).inv.app P.fst ≫
+  change (eqToIso (ι_colimMap_toFunctor α j).symm).inv.app P.fst ≫
       (colimit.ι Y j).toFunctor.map P.iso.hom ≫
         (eqToIso (ι_colimMap_toFunctor γ j)).inv.app P.snd = _
   simp only [CategoryTheory.eqToIso.inv]
@@ -221,7 +221,7 @@ lemma colimitTwoFibreProductComparison_ι [HasColimit (twoFibreProductDiagram α
     (colimit.ι (twoFibreProductDiagram α γ) j).toFunctor ⋙
         colimitTwoFibreProductComparison α γ =
       twoFibreProductStage α γ j := by
-  show ((colimit.ι (twoFibreProductDiagram α γ) j) ≫
+  change ((colimit.ι (twoFibreProductDiagram α γ) j) ≫
       colimit.desc (twoFibreProductDiagram α γ) (twoFibreProductCocone α γ)).toFunctor = _
   rw [colimit.ι_desc]
   rfl

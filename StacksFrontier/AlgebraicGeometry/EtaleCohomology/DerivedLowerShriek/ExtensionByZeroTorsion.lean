@@ -69,7 +69,7 @@ theorem span_iUnion_range_colimit_ι_eq_top (F : I ⥤ ModuleCat.{v₂} R) [HasC
   rw [eq_top_iff]
   intro x _
   have h : N.mkQ x = 0 := by
-    show q.hom x = 0
+    change q.hom x = 0
     rw [hq]
     rfl
   exact (Submodule.Quotient.mk_eq_zero N).1 h
@@ -192,7 +192,7 @@ theorem isLocallyTorsionModulePresheaf_leftKanExtension (hG : CoverPreserving J 
     have h := G.op.ι_leftKanExtensionObjIsoColimit_inv P (op U') i
     have hz' : e.inv (colimit.ι (CostructuredArrow.proj G.op (op U') ⋙ P) i y) =
         Q.map i.hom.unop.op (η.app (op (unop i.left)) y) := by
-      show (colimit.ι _ i ≫ e.inv) y = _
+      change (colimit.ι _ i ≫ e.inv) y = _
       rw [h]
       rfl
     rw [hz']

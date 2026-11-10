@@ -74,7 +74,7 @@ public theorem ext_one_annihilated_truncGE_derivedBaseChange
   let K' := ((DerivedCategory.TStructure.t (C := ModuleCat.{max u v} R')).truncGE (-1)).obj
     (derivedBaseChange.obj K)
   let : Algebra R R' := φ.toAlgebra
-  show ∀ (N : ModuleCat.{max u v} R') (a : R'), a ∈ Ideal.map φ I →
+  change ∀ (N : ModuleCat.{max u v} R') (a : R'), a ∈ Ideal.map φ I →
     ∀ ξ : DerivedCategory.Ext K'
       ((DerivedCategory.singleFunctor (ModuleCat.{max u v} R') 0).obj N) 1, a • ξ = 0
   obtain ⟨L, hLge, hLle, hLfree, ⟨e⟩, hfac⟩ :=
@@ -130,13 +130,13 @@ public theorem ext_one_annihilated_truncGE_derivedBaseChange
     intro b hb
     obtain ⟨h, eh⟩ := hfac b hb
     refine ⟨F.map h, ?_⟩
-    show F.map (L.d (-1) 0) ≫ F.map h = φ b • 𝟙 _
+    change F.map (L.d (-1) 0) ≫ F.map h = φ b • 𝟙 _
     rw [← F.map_comp, eh]
     apply ModuleCat.ExtendScalars.hom_ext
     intro x
-    show (1 : R') ⊗ₜ[R] (b • x) = φ b • ((1 : R') ⊗ₜ[R] x)
+    change (1 : R') ⊗ₜ[R] (b • x) = φ b • ((1 : R') ⊗ₜ[R] x)
     rw [TensorProduct.tmul_smul]
-    show (φ b * 1) ⊗ₜ[R] x = (φ b * 1) ⊗ₜ[R] x
+    change (φ b * 1) ⊗ₜ[R] x = (φ b * 1) ⊗ₜ[R] x
     rfl
   exact hmap ha
 

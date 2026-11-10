@@ -70,7 +70,7 @@ theorem smooth_generalLinearBaseChange (n : ℕ) (S : Scheme.{u}) :
     Smooth (generalLinearBaseChange.{u} n S).hom := by
   have _ : Smooth (generalLinearStructureMorphism.{u} n) :=
     smooth_generalLinearStructureMorphism n
-  show Smooth (pullback.snd (generalLinearStructureMorphism.{u} n) (specULiftZIsTerminal.from S))
+  change Smooth (pullback.snd (generalLinearStructureMorphism.{u} n) (specULiftZIsTerminal.from S))
   infer_instance
 
 /-- **The coordinate ring of `GL_n` over the integers is a domain.** It is a localization of the

@@ -119,7 +119,7 @@ theorem flat_stalkMap_zpow_id_left_unit [AlgebraicGeometry.IsAbelianVariety k A]
   have hdimeq : ringKrullDim (A.left.presheaf.stalk (f e)) =
       ringKrullDim (A.left.presheaf.stalk e) := by
     rw [hfix]
-  show Module.Flat (A.left.presheaf.stalk (f e)) (A.left.presheaf.stalk e)
+  change Module.Flat (A.left.presheaf.stalk (f e)) (A.left.presheaf.stalk e)
   apply Module.Flat.of_isMaximalCohenMacaulay_of_ringKrullDim_eq_add
     (IsRegularLocalRing.isRegular_and_isRegularLocalRing_quotient_and_isMaximalCohenMacaulay
       (A.left.presheaf.stalk e)).2

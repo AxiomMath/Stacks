@@ -391,7 +391,7 @@ theorem abelianCechConeNatTrans_comp {m n : SimplexCategory} (φ : m ⟶ n) :
         (abelianCosimplicialPushforward S D K a).map φ =
       (abelianConjugation S D K).map
         (Functor.mapCommGrpNatTrans (pushforwardProjectionNatTrans S D K a n)) := by
-  show (abelianConjugation S D K).map
+  change (abelianConjugation S D K).map
       (Functor.mapCommGrpNatTrans (pushforwardProjectionNatTrans S D K a m)) ≫
     (abelianConjugation S D K).map (Functor.mapCommGrpNatTrans
       (componentPushforwardTransition S D K a φ)) = _

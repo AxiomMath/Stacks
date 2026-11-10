@@ -78,14 +78,14 @@ theorem IsWeighting.eq_zero_of_specializes {X Y : Scheme.{u}} {f : X ⟶ Y}
     simpa only [Category.assoc] using hh
   have hlift : pullback.lift j g hcomm = V.ι := by
     apply pullback.hom_ext
-    · show pullback.lift j g hcomm ≫ fst = V.ι ≫ fst
+    · change pullback.lift j g hcomm ≫ fst = V.ι ≫ fst
       rw [pullback.lift_fst]
-    · show pullback.lift j g hcomm ≫ π = V.ι ≫ π
+    · change pullback.lift j g hcomm ≫ π = V.ι ≫ π
       rw [pullback.lift_snd]
   have hcenter : separableDegreeWeightedFiberSum g (w ∘ j) U.point = w x := by
     rw [separableDegreeWeightedFiberSum_eq_of_fiber_singleton g (w ∘ j) U.point (a j₀)
       hfiber ha hpure]
-    show w (j (a j₀)) = w x
+    change w (j (a j₀)) = w x
     rw [hsource]
   have hLC := hw.isLocallyConstant j g U.toBase hcomm inferInstance
     (by rw [hlift]; infer_instance) hfinite

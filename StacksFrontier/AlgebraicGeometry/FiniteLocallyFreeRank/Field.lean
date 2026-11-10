@@ -74,7 +74,7 @@ theorem bijective_mkLinearMap_of_le_isUnitSubmonoid {R : Type u} [CommRing R] {M
       refine ⟨(↑w⁻¹ : R) • m, ?_⟩
       rw [LocalizedModule.mkLinearMap_apply, LocalizedModule.mk_eq]
       refine ⟨1, ?_⟩
-      show (1 : R) • ((s : R) • ((↑w⁻¹ : R) • m)) = (1 : R) • ((1 : ↥S) : R) • m
+      change (1 : R) • ((s : R) • ((↑w⁻¹ : R) • m)) = (1 : R) • ((1 : ↥S) : R) • m
       rw [← hw]
       simp [smul_smul]
 
@@ -91,7 +91,7 @@ theorem isFiniteLocallyFreeOfRank_of_basis {R : Type u} [CommRing R] {M : Type v
   let ea : R ≃ₐ[R] Localization.Away (1 : R) :=
     IsLocalization.atUnits R (Submonoid.powers (1 : R)) hS
   refine ⟨(b.map e).mapCoeffs ea.toRingEquiv fun c x ↦ ?_⟩
-  show ea c • x = c • x
+  change ea c • x = c • x
   rw [show ea c = algebraMap R (Localization.Away (1 : R)) c from rfl, algebraMap_smul]
 
 /-- A finite locally free module of rank `r` is a finite module. -/

@@ -306,7 +306,8 @@ theorem deformationThickeningIso_hom_comp_subspaceInclusion :
 
 /-- The structure morphism `X₀ ⟶ Spec k` of the object `x₀` being deformed. -/
 abbrev baseStructureMap :
-    y₀.obj.obj.left ⟶ (schemeSpaceFunctor B S hS).obj ((cartesianProperFlatProjection B S hS).obj y₀) :=
+    y₀.obj.obj.left ⟶
+      (schemeSpaceFunctor B S hS).obj ((cartesianProperFlatProjection B S hS).obj y₀) :=
   commaHomAsSpaceMap y₀.obj.obj
 
 variable {x} (r : (cartesianProperFlatProjection B S hS).obj x.point ⟶

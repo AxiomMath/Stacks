@@ -131,7 +131,7 @@ theorem isLocalAtSource_etalePrecoverage (P : MorphismProperty Scheme.{u})
       refine ⟨U, V, a ≫ g, b, k, u, ?_, hb, ?_, ?_, hk⟩
       · let : Etale a := ha
         infer_instance
-      · show g (a u) = x
+      · change g (a u) = x
         simpa only [hu] using hz'
       · simpa only [Category.assoc] using hcomm
   }
@@ -163,7 +163,7 @@ theorem isLocalAtTarget (P : MorphismProperty Scheme.{u})
         infer_instance
       · let : Etale b := hb
         infer_instance
-      · show (Limits.pullback.fst f g).base (a.base u) = x
+      · change (Limits.pullback.fst f g).base (a.base u) = x
         rw [hu, hp_fst]
       · simpa only [Category.assoc, ← Limits.pullback.condition] using
           congrArg (· ≫ g) hcomm }

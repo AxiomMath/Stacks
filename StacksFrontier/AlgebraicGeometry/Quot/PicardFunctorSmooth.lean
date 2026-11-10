@@ -102,7 +102,7 @@ theorem picardEquivPoints_map (T U : s.SchemesOver) (g : T ⟶ U)
     (ξ : s.picardFunctor.obj (op U)) :
     (picardEquivPoints e T (s.picardFunctor.map g.op ξ)).val =
       H.1.map g.left.op (picardEquivPoints e U ξ).val := by
-  show (e.inv.app (op T) (s.picardFunctor.map g.op ξ)).down.1 = _
+  change (e.inv.app (op T) (s.picardFunctor.map g.op ξ)).down.1 = _
   rw [NatTrans.naturality_apply]
   rfl
 

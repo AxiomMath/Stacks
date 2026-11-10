@@ -82,12 +82,12 @@ public theorem finsum_residueDegree_le_of_isOpenImmersion_affineLine (p : ℕ) [
   obtain ⟨K, _, _, _, hfin⟩ := exists_finite_extension_finrank_eq (k := k) p N hN
   have hS : {y : closedPoints V | residueDegree f y.1 ∣ N}.Finite :=
     (finite_setOf_closedPoints_residueDegree_le f N).subset fun y hy => Nat.le_of_dvd hN hy
-  show ∑ᶠ y ∈ {y : closedPoints V | residueDegree f y.1 ∣ N}, (residueDegree f y.1 : ℝ) ≤ _
+  change ∑ᶠ y ∈ {y : closedPoints V | residueDegree f y.1 ∣ N}, (residueDegree f y.1 : ℝ) ≤ _
   rw [finsum_mem_eq_finite_toFinset_sum _ hS]
   have hset : hS.toFinset = (closedPointsDegreeLE f (Module.finrank k K)).filter
       (fun x => residueDegree f x.1 ∣ Module.finrank k K) := by
     ext y
-    simp only [Set.Finite.mem_toFinset, Set.mem_setOf_eq, Finset.mem_filter, closedPointsDegreeLE,
+    simp only [Set.Finite.mem_toFinset, Set.mem_ofPred_eq, Finset.mem_filter, closedPointsDegreeLE,
       hfin]
     exact ⟨fun h => ⟨Nat.le_of_dvd hN h, h⟩, fun h => h.2⟩
   rw [hset, ← Nat.cast_sum, ← natCard_fieldValuedPoints f K]

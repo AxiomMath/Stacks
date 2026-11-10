@@ -8,8 +8,8 @@ public import StacksFrontier.CategoryTheory.Sites.Stackification.TwoFibreProduct
 # The stackification of a 2-fibre product is the 2-fibre product of the stackifications
 
 This file is the last part of the proof of Stacks 04Y2, assembled in
-`StacksFrontier.CategoryTheory.Sites.Stackification.TwoFibreProductGroupoid`. It proves clause (2) for
-the 2-fibre product from its local form in
+`StacksFrontier.CategoryTheory.Sites.Stackification.TwoFibreProductGroupoid`. It proves clause (2)
+for the 2-fibre product from its local form in
 `StacksFrontier.CategoryTheory.Sites.Stackification.TwoFibreProductGroupoid.LocalEssentialImage`
 (`objClause`) and local injectivity of the map of morphism presheaves induced by `H`, and combines
 them with the local surjectivity of
@@ -67,9 +67,9 @@ carried by `α`, `β` and by the two comparison 2-isomorphisms `γ`, `δ` below.
 "`i` is a stackification" is spelled out from the two conditions of Stacks 02ZP rather than
 referred to a predicate, there being none in the tree yet — Stacks 02ZN is not formalized — and the
 two conditions are then repeated verbatim for the canonical 1-morphism in the conclusion, so that
-hypothesis and conclusion assert one and the same notion. The spelling is the one fixed by the statement
-of Stacks 06NS (`CategoryTheory.RelativeInertia.isStackification_functoriality`), which states the
-same notion for the inertia:
+hypothesis and conclusion assert one and the same notion. The spelling is the one fixed by the
+statement of Stacks 06NS (`CategoryTheory.RelativeInertia.isStackification_functoriality`), which
+states the same notion for the inertia:
 
 * Condition (1) is read through the canonical map of Stacks 042V,
   `CategoryTheory.Functor.IsFibredOneMorphism.morPresheafMap`, between the presheaves `Mor(x, y)`
@@ -89,8 +89,8 @@ same notion for the inertia:
   image of `𝒳_V ⥤ 𝒳'_V`"; and quantifying over all objects `x'` is quantifying over all `U` and all
   objects of the fibre `𝒳'_U`.
 
-Clause (2) is stated in the same form as in the statement of Stacks 06NS. The statement of Stacks 02ZN,
-which asserts the existence of the stackification, states it in the equivalent form
+Clause (2) is stated in the same form as in the statement of Stacks 06NS. The statement of Stacks
+02ZN, which asserts the existence of the stackification, states it in the equivalent form
 "`u^* x'` lies in the essential image of the functor on fibres"
 (`CategoryTheory.Functor.essImage` of `CategoryTheory.Functor.fiberFunctorOfCompEq` at
 `CategoryTheory.Functor.pullbackFiber`); the two agree because a morphism `i x ⟶ x'` strongly

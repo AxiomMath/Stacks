@@ -90,7 +90,7 @@ theorem bijective_etaleCohomologyRestrictionMap_constantSheaf_of_rootsOfUnity {�
     Function.Bijective (etaleCohomologyRestrictionMap.{u, 0, u + 1} (scalarExtensionFst k k' g)
       ((constantSheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}).obj E) q) := by
   obtain ⟨e⟩ := nonempty_constantSheaf_iso_rootsOfUnitySheaf.{u, u + 1} k g ℓ
-    (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast g hℓ)) hℓ E hE
+    (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast hℓ)) hℓ E hE
   have hμ : Function.Bijective (etaleCohomologyRestrictionMap.{u, u + 1, u + 1}
       (scalarExtensionFst k k' g) (rootsOfUnitySheaf.{u, u + 1} X ℓ) q) :=
     bijective_etaleCohomologyRestrictionMap_rootsOfUnitySheaf_of_bijective

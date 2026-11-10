@@ -161,13 +161,13 @@ theorem selfProductDiagonal_comp_sourceHom [IsOpenImmersion A.toX]
     refine hL.hom_ext ?_
     rintro ⟨j⟩
     cases j
-    · show (forget S).map (p₀ ≫ selfProductDiagonal h) ≫ (forget S).map p₀ = _
+    · change (forget S).map (p₀ ≫ selfProductDiagonal h) ≫ (forget S).map p₀ = _
       rw [← Functor.map_comp, Category.assoc, selfProductDiagonal_fst, Category.comp_id]
-      show _ = (forget S).map (𝟙 P) ≫ (forget S).map p₀
+      change _ = (forget S).map (𝟙 P) ≫ (forget S).map p₀
       rw [← Functor.map_comp, Category.id_comp]
-    · show (forget S).map (p₀ ≫ selfProductDiagonal h) ≫ (forget S).map p₁ = _
+    · change (forget S).map (p₀ ≫ selfProductDiagonal h) ≫ (forget S).map p₁ = _
       rw [← Functor.map_comp, Category.assoc, selfProductDiagonal_snd, Category.comp_id]
-      show _ = (forget S).map (𝟙 P) ≫ (forget S).map p₁
+      change _ = (forget S).map (𝟙 P) ≫ (forget S).map p₁
       rw [← Functor.map_comp, Category.id_comp]
       exact forget_map_eq_of_isOpenImmersion p₀ p₁
   simpa using congrArg (fun k => k.left) key

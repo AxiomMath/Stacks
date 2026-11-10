@@ -100,7 +100,7 @@ def awayDivide : A →+* Localization.Away t :=
 theorem awayDivide_of_mem {n : ℕ} {x : A} (hx : x ∈ 𝒜 n) :
     awayDivide 𝒜 χ t x =
       algebraMap B (Localization.Away t) (χ x) * IsLocalization.Away.invSelf t ^ n := by
-  show awayTwist 𝒜 χ t (DirectSum.decomposeRingEquiv 𝒜 x) = _
+  change awayTwist 𝒜 χ t (DirectSum.decomposeRingEquiv 𝒜 x) = _
   rw [show (DirectSum.decomposeRingEquiv 𝒜 x) = DirectSum.of _ n ⟨x, hx⟩ from
     DirectSum.decompose_of_mem 𝒜 hx]
   rw [awayTwist, DirectSum.liftRingHom_apply, DirectSum.toSemiring_of]

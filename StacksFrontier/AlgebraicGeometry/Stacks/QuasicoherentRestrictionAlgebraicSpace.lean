@@ -169,7 +169,7 @@ theorem isIso_restrictionStructureHom :
   let _ := restrictionFunctor_isContinuous B S hS X.1 p hp e
   let _ : IsIso ((sheafToPresheaf (SmallEtale.topology B S hS X.1) RingCat.{u}).map
       (restrictionStructureHom B S hS X p hp e)) := by
-    show IsIso (Functor.whiskerRight
+    change IsIso (Functor.whiskerRight
       (NatTrans.op (eqToHom (restrictionFunctor_comp B S hS X.1 p e)))
       (BigFppfOver.structureSheaf B S hS).obj)
     infer_instance
@@ -268,7 +268,7 @@ theorem bijective_quasicoherentRestriction_map
   obtain ⟨k, hk⟩ := hb.2 ((quasicoherentModulesProperty.{u, m} B S hS X).ι.map h)
   obtain ⟨f, hf⟩ := (FibredSite.toSiteModules B S hS p hp .etale).map_surjective k
   refine ⟨f, (quasicoherentModulesProperty.{u, m} B S hS X).ι.map_injective ?_⟩
-  show (moduleRestriction B S hS X p hp e).map
+  change (moduleRestriction B S hS X p hp e).map
       ((FibredSite.toSiteModules B S hS p hp .etale).map f) = _
   rwa [hf]
 

@@ -146,7 +146,7 @@ private theorem mem_annihilator_homology_quotient_iff
   have he (r : R ⧸ I) : algebraMap (A ⧸ J) (C ⧸ K) (e r) =
       algebraMap (R ⧸ I) (C ⧸ K) r := by
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective r
-    show Ideal.Quotient.mk K (algebraMap A C (algebraMap R A r)) =
+    change Ideal.Quotient.mk K (algebraMap A C (algebraMap R A r)) =
       Ideal.Quotient.mk K (algebraMap R C r)
     rw [← IsScalarTower.algebraMap_apply R A C]
   have h := annihilator_homology_naiveCotangentComplex_eq_of_ringEquiv e he n
@@ -191,9 +191,9 @@ private theorem bijective_quotientMap_pow_adicCompletion
       (I ^ n).map (algebraMap R (AdicCompletion I R)) := by
     ext x
     have he : (AdicCompletion.evalₐ I n x = 0) ↔ AdicCompletion.eval I R n x = 0 := by
-      show (Ideal.quotientEquivAlgOfEq R (by simp) (AdicCompletion.eval I R n x) = 0) ↔ _
+      change (Ideal.quotientEquivAlgOfEq R (by simp) (AdicCompletion.eval I R n x) = 0) ↔ _
       exact (Ideal.quotientEquivAlgOfEq R (by simp : I ^ n • ⊤ = I ^ n)).map_eq_zero_iff
-    show AdicCompletion.evalₐ I n x = 0 ↔ _
+    change AdicCompletion.evalₐ I n x = 0 ↔ _
     rw [he]
     have h := AdicCompletion.pow_smul_top_eq_ker_eval (M := R) (n := n) hI
     rw [Ideal.smul_top_eq_map] at h

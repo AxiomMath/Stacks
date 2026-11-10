@@ -175,7 +175,7 @@ private theorem section_eq_zero_of_sectionGerm_eq_zero {X : RingedSpace.{u, u}}
   · intro x hx
     exact ⟨V ⟨x, hx⟩, homOfLE (hV _), Sieve.ofArrows_mk _ _ _, hxV _⟩
   · rintro _ _ ⟨x⟩
-    show F.toPresheaf.map (homOfLE (hV x)).op s = F.toPresheaf.map (homOfLE (hV x)).op 0
+    change F.toPresheaf.map (homOfLE (hV x)).op s = F.toPresheaf.map (homOfLE (hV x)).op 0
     rw [show homOfLE (hV x) = j x from Subsingleton.elim _ _, hzero x, map_zero]
 
 /-- A section of the kernel ideal of the comorphism of `i : (Z, 𝒪_X|_Z) ⟶ (X, 𝒪_X)` has
@@ -221,7 +221,7 @@ theorem isAnnihilatedByKernelIdeal_supportedSectionsSheaf (X : RingedSpace.{u, u
     (ConcreteCategory.hom ((supportedSectionsSheafι Z F).val.app (op U))) m
   refine section_eq_zero_of_sectionGerm_eq_zero
     (AlgebraicGeometry.SheafOfModules.moduleSheafOfModules F) U (a • s) fun x hx => ?_
-  show TopCat.Presheaf.germ F.val.presheaf U x hx (a • s) = 0
+  change TopCat.Presheaf.germ F.val.presheaf U x hx (a • s) = 0
   rw [PresheafOfModules.germ_ringCat_smul]
   by_cases hxZ : x ∈ Z
   · have hscalar : (ConcreteCategory.hom

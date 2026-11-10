@@ -210,12 +210,12 @@ theorem mem_closure_chart (hL : IsAmple X L) (hd : 0 < d)
       T.comap (Stacks.SectionRingChartMap.chartRingMap L (b i) le_rfl) := by
     refine Subring.closure_le.mpr ?_
     rintro _ (⟨c, rfl⟩ | ⟨j, rfl⟩)
-    · show Stacks.SectionRingChartMap.chartRingMap L (b i) le_rfl _ ∈ T
+    · change Stacks.SectionRingChartMap.chartRingMap L (b i) le_rfl _ ∈ T
       rw [Stacks.SectionRingProjMorphism.ToSpecZero.chartRingMap_fromZero]
       obtain ⟨r, hr⟩ := hsurj (Stacks.SectionRingProjMorphism.ToSpecZero.degZeroRingHom L c)
       rw [← hr]
       exact Subring.subset_closure (Or.inl ⟨r, rfl⟩)
-    · show Stacks.SectionRingChartMap.chartRingMap L (b i) le_rfl _ ∈ T
+    · change Stacks.SectionRingChartMap.chartRingMap L (b i) le_rfl _ ∈ T
       rw [chartRingMap_mk_one]
       exact Subring.subset_closure (Or.inr ⟨j, rfl⟩)
   exact key hz
@@ -324,7 +324,7 @@ theorem exists_span_of_generators {r : ℕ} (g : Fin r → sectionRing L) (deg :
   have hc : c ∈ Set.range b₀ := by rw [hb₀]; exact hx
   obtain ⟨j, rfl⟩ := hc
   refine ⟨Fin.castSucc j, ?_⟩
-  simp only [Fin.coe_castSucc, j.isLt, dite_true]
+  simp only [Fin.val_castSucc, j.isLt, dite_true]
 
 /-- **A Veronese subring generated in degree one makes the twist very ample**, with the finite
 spanning family produced from finitely many homogeneous generators of positive degree. Let `k` be

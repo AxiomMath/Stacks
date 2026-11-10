@@ -67,7 +67,7 @@ theorem symmetricAlgebraSheafι_comp_symmetricAlgebraSheafMap {G : SheafOfModule
       f ≫ symmetricAlgebraSheafι G := by
   apply SheafOfModules.hom_ext
   refine PresheafOfModules.hom_ext fun W => ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show ((symmetricAlgebraSheafMap X f).right.hom.app W).hom
+  change ((symmetricAlgebraSheafMap X f).right.hom.app W).hom
       ((symmetricAlgebra X F).ungradedIncl 1 ((symmetricAlgebraGen X F).val.app W x)) =
     (symmetricAlgebra X G).ungradedIncl 1 ((symmetricAlgebraGen X G).val.app W (f.val.app W x))
   rw [symmetricAlgebraSheafMap_ungradedIncl]

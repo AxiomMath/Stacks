@@ -110,6 +110,9 @@ def torsionFreeModelLevelZeroIsoOfPowExact
       (image.isoStrongEpiMono _ _ (initialVerschiebung_scalar B X ℓ F N)).symm)
 
 variable (B X) in
+omit [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
+  HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
+    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))] in
 /-- **The underlying abelian sheaves of the levels of `ℱ_ρ` are flat**, for a continuous
 `ρ : π₁(X, x̄) → GL_r(ℤ_ℓ)`: the levels are
 (`Stacks.EtaleCohomology.powExact_representationLevelSheaf`), and forgetting the module structure

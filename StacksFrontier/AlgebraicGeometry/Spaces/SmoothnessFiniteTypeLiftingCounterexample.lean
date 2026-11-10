@@ -262,7 +262,7 @@ noncomputable abbrev baseObj : BigFppfOver B (Spec (.of k)) hS := Over.mk (𝟙 
 /-- The zero section of the affine line over `k`. -/
 noncomputable abbrev zeroSection : baseObj k B hS ⟶ lineObj k B hS := linePoint k B hS _ 0
 
-omit [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] in
+omit [CharZero k] [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] in
 /-- The zero section of the affine line over a field is not smooth: it pulls the coordinate,
 a nonzerodivisor of the ring of functions on the line, back to zero, so the field is not flat
 over that ring. -/

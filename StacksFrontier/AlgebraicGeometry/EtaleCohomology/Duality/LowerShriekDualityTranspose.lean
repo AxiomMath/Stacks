@@ -55,7 +55,7 @@ theorem isPerfect_iff_of_natIso (M : C) :
   let a := (e.app (M⟦i⟧)).addCommGroupIsoToAddEquiv
   refine bijective_iff_of_comp _ _ a a.bijective (AddMonoidHom.id _) Function.bijective_id
     (fun x y => ?_)
-  show τ' ((shiftHom H' D N y i h).hom ((e.hom.app (M⟦i⟧)).hom x)) =
+  change τ' ((shiftHom H' D N y i h).hom ((e.hom.app (M⟦i⟧)).hom x)) =
     τ' ((e.hom.app (D⟦N⟧)).hom ((shiftHom H D N y i h).hom x))
   rw [← AddCommGrpCat.comp_apply, ← AddCommGrpCat.comp_apply, shiftHom, shiftHom,
     e.hom.naturality]

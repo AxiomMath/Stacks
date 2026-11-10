@@ -246,7 +246,7 @@ private lemma homology_map_truncGE_isIso
   have hT : T ∈ distTriang (DerivedCategory A) :=
     t.triangleLEGE_distinguished (b - 1) b (by omega) X
   have hLE : T.obj₁.IsLE (b - 1) := by
-    show t.IsLE ((t.truncLE (b - 1)).obj X) (b - 1)
+    change t.IsLE ((t.truncLE (b - 1)).obj X) (b - 1)
     infer_instance
   have : T.obj₁.IsLE (b - 1) := hLE
   have hL0 : IsZero ((DerivedCategory.homologyFunctor A b).obj T.obj₁) := by
@@ -263,7 +263,7 @@ private lemma homology_map_truncGE_isIso
   have : Epi ((DerivedCategory.homologyFunctor A b).map T.mor₂) := hepi
   have : IsIso ((DerivedCategory.homologyFunctor A b).map T.mor₂) :=
     isIso_of_mono_of_epi _
-  show IsIso ((DerivedCategory.homologyFunctor A b).map T.mor₂)
+  change IsIso ((DerivedCategory.homologyFunctor A b).map T.mor₂)
   exact this
 
 /-- For `X` bounded above by `b`, the truncation of `X` in degrees at least `b` is the degree-`b`
@@ -1046,7 +1046,7 @@ private lemma intervalComparison_app_eq
         (hom_subsingleton_of_top_homology_vanish N hN)
     apply Iso.ext
     apply postcomp_hom_subsingleton_of_coyoneda_vanish (G.map_distinguished _ hT) hvan
-    show (c.app X hX).hom ≫ G.map p = (d.app X hX).hom ≫ G.map p
+    change (c.app X hX).hom ≫ G.map p = (d.app X hX).hom ≫ G.map p
     rw [← c.naturality X Y hX hY p, heY, d.naturality X Y hX hY p]
 
 /-- A comparison exists on every band `a ≤ b`. -/

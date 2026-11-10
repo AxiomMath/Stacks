@@ -43,7 +43,7 @@ private theorem schlessingerConditionS2_isomorphismClasses
     {𝓒 : BasedCategory.{_, _} (ArtinianLocalAlgCat.{u, w, w} Λ k)}
     (h𝓒 : IsDeformationCategory 𝓒.p) :
     SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓒 h𝓒.predeformation.cofibered)) :=
+      (Functor.Elements.π (isomorphismClasses 𝓒 h𝓒.predeformation.cofibered)) :=
   schlessingerConditionS2_of_isIsomorphismClasses 𝓒 h𝓒.predeformation.cofibered
     (schlessingerConditionS2_of_satisfiesRS h𝓒.satisfiesRS) (.inl h𝓒.predeformation)
 
@@ -76,9 +76,9 @@ private theorem mapLiftClasses_surjective_of_differential_surjective
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖.predeformation⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2𝓕⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2𝓕⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) := ⟨hS2𝓖⟩
+    (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) := ⟨hS2𝓖⟩
   let xG := (fiberFunctor φ A).obj x
   let := liftAction 𝓕 h𝓕 f hf hann x
   let := liftAction 𝓖 h𝓖 f hf hann xG

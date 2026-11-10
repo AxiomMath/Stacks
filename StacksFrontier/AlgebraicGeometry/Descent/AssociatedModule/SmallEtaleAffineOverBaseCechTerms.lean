@@ -123,7 +123,7 @@ public theorem isAffineHom_structureHom_piObj
     Stacks.Sites.preservesLimit_fibreProducts_overPost w E
       (fun _ _ _ ↦ inferInstance) (fun _ _ _ ↦ inferInstance) p i
   have hF : ∀ b, IsAffineHom ((Over.post (X := U) w).obj (A b)).hom := fun b ↦ by
-    show IsAffineHom (w.map (E.f (i b)))
+    change IsAffineHom (w.map (E.f (i b)))
     rw [toScheme_map_to_final B S hS (E.f (i b))]
     exact hX (i b)
   have hprod : IsAffineHom (∏ᶜ (fun b ↦ (Over.post (X := U) w).obj (A b))).hom :=

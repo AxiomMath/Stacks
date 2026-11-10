@@ -145,7 +145,7 @@ theorem exists_chernSeries_tensorObj_eq_prod
       (isFiniteLocallyFreeOfRank_one_of_isInvertibleModule (goodSpace hP) N.2)
     have h1' : IsFiniteLocallyFreeOfRank D sP hP (L.1 ⊗ N.1) 1 := Nat.mul_one 1 ▸ h1
     rw [invariant_congr (Z := goodSpace hP) c (Nat.mul_one 1) _ h1']
-    show PowerSeries.mk (chernCap.{u, v} (hX := hP) (L.1 ⊗ N.1) 1 h1') = _
+    change PowerSeries.mk (chernCap.{u, v} (hX := hP) (L.1 ⊗ N.1) 1 h1') = _
     rw [chernSeries_of_rank_one hvan _ h1', hc1]
   all_goals
     first | refine hcE.trans ?_ | refine hcF.trans ?_

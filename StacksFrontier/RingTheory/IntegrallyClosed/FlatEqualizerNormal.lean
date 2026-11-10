@@ -98,7 +98,7 @@ theorem RingHom.mem_nonZeroDivisors_of_flat {P Q : Type*} [CommRing P] [CommRing
   rw [mem_nonZeroDivisors_iff_right]
   intro q hq
   apply hreg
-  show ρ r * q = ρ r * 0
+  change ρ r * q = ρ r * 0
   rw [mul_zero, mul_comm, hq]
 
 /-- Two idempotents annihilating `x` with `x + e` a non-zero-divisor for each are equal: each is

@@ -154,7 +154,8 @@ What is **not** proved here:
   above.
 * Nothing here carries a `@[stacks]` attribute.  The assertions of [Stacks, Tag 07IL] about the
   forgetful functor and the morphism of topoi are carried in
-  `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ZariskiToposMorphism.lean`, and this module
+  `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ZariskiToposMorphism.lean`, and this
+  module
   only adds coefficients to that morphism.
 
 ## References

@@ -118,7 +118,7 @@ theorem exists_finite_affine_flat_refinement {Y : BigFppfOver B S hS}
       rwa [← (V i).range_ι] at hp
     refine ⟨i, q, ?_⟩
     rw [Functor.map_comp]
-    show ((toScheme B S hS).map (g (a i))) ((V i).ι q) = y
+    change ((toScheme B S hS).map (g (a i))) ((V i).ι q) = y
     rw [hq, hpe]
   refine ⟨m, Wo, fun i => v i ≫ g (a i), fun i => hVaff i, hwflat, ?_, ?_⟩
   · rw [Precoverage.mem_comap_iff, Presieve.map_ofArrows]
@@ -180,7 +180,7 @@ theorem isSheaf_fpqc_of_isSheafFor_of_isAffine (hF : IsAlgebraicSpace B S hS F)
       (CategoryTheory.sieve₁'_toPreOneHypercover_eq_top E₀ i j) ▸
         GrothendieckTopology.top_mem _ _)
   refine E.isSheafFor_of_pullback hFsheaf (fun i => ?_) (fun i j k => ?_)
-  · show Presieve.IsSheafFor F (Sieve.pullback (u i) (Sieve.generate R)).arrows
+  · change Presieve.IsSheafFor F (Sieve.pullback (u i) (Sieve.generate R)).arrows
     rw [← Sieve.pullbackArrows_comm, ← Presieve.isSheafFor_iff_generate]
     exact h _ (hZaff i) (Precoverage.pullbackArrows_mem _ hR)
   · exact isSeparatedFor_pullback_generate hF hR _

@@ -120,7 +120,7 @@ theorem newtonPowerSum_mul_of_commute_homComponent {a b : TotalChowClass C sY}
     TotalChowClass.op_mul, TotalChowClass.op_add]
   refine Stacks.Chow.newtonPowerSum_mul_of_commute_homComponent (op_apply_zero ha g)
     (op_apply_zero hb g) (fun i j => ?_) _ _ p
-  show Stacks.Chow.homComponent i (a.op g) * Stacks.Chow.homComponent j (b.op g) =
+  change Stacks.Chow.homComponent i (a.op g) * Stacks.Chow.homComponent j (b.op g) =
     Stacks.Chow.homComponent j (b.op g) * Stacks.Chow.homComponent i (a.op g)
   simpa only [TotalChowClass.op_mul, TotalChowClass.op_homComponent] using
     congrArg (fun c : TotalChowClass C sY => c.op g) (h i j)

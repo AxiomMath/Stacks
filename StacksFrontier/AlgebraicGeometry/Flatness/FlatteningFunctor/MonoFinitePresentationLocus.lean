@@ -223,7 +223,7 @@ private theorem exists_lift_of_localRepresentative {U' : Scheme.{u}} (q' : U' �
   let e : (Over.map q').obj V ⟶ T := Over.homMk (𝟙 _) (by simpa [V] using (Over.w a).symm)
   obtain ⟨b⟩ := (h V).mp (hP e hT)
   refine ⟨Over.homMk b.left ?_, Over.OverMorphism.ext (Over.w b)⟩
-  show b.left ≫ W'.hom ≫ q' = T.hom
+  change b.left ≫ W'.hom ≫ q' = T.hom
   rw [← Category.assoc, Over.w b]
   exact Over.w a
 
@@ -325,7 +325,7 @@ private theorem isCutOutByMonoFP_of_localRepresentatives
     refine MorphismProperty.IsLocalAtTarget.of_forall_pullbackSnd
       (P := MorphismProperty.monomorphisms Scheme.{u}) hq' ?_
     rintro V' g' _ ⟨i⟩
-    show Mono (pullback.snd Z.hom (q i))
+    change Mono (pullback.snd Z.hom (q i))
     rw [hsnd i]
     infer_instance
   have hZfp : AlgebraicGeometry.FinitePresentation Z.hom := by
@@ -352,7 +352,7 @@ private theorem isCutOutByMonoFP_of_localRepresentatives
       nonempty_iff_forall_of_subsingleton_sheaf (yoneda.obj Z) hZ
         (fun T' ↦ subsingleton_overHom_of_mono T' Z) Q a ha]
   refine forall_congr' fun i ↦ ?_
-  show Nonempty (PLift (P (Q i))) ↔ Nonempty (Q i ⟶ Z)
+  change Nonempty (PLift (P (Q i))) ↔ Nonempty (Q i ⟶ Z)
   rw [nonempty_plift, nonempty_prop, h i ((Over.pullback (q i)).obj T)]
   let adj := Over.mapPullbackAdj (q i)
   exact ⟨fun ⟨g⟩ ↦ ⟨(adj.homEquiv _ _).symm (g ≫ (ei i).inv)⟩,

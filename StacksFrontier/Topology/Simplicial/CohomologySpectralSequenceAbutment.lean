@@ -13,10 +13,10 @@ public import StacksFrontier.Topology.Simplicial.CohomologySpectralSequence
 # The convergence of the cohomology spectral sequence of a simplicial space
 
 Let `X` be a simplicial topological space and `F` an abelian sheaf on `X_Zar`.  The spectral
-sequence of `StacksFrontier/Topology/Simplicial/CohomologySpectralSequence.lean`, the second spectral
-sequence of the double complex `A^{q,p} = I^q(X_p)` of the chosen injective resolution `F → I^•`,
-has first page `E_1^{p,q} = H^q(X_p, F_p)`.  This file proves the remaining clause of Stacks 09W6:
-it converges to `H^{p+q}(X_Zar, F)`, functorially in `F`.
+sequence of `StacksFrontier/Topology/Simplicial/CohomologySpectralSequence.lean`, the second
+spectral sequence of the double complex `A^{q,p} = I^q(X_p)` of the chosen injective resolution
+`F → I^•`, has first page `E_1^{p,q} = H^q(X_p, F_p)`.  This file proves the remaining clause of
+Stacks 09W6: it converges to `H^{p+q}(X_Zar, F)`, functorially in `F`.
 
 The proof is the source's.  The rows `p ↦ I^q(X_p)` of the double complex are
 `Mor_{PAb}(ℤ_{X_p}, I^q)`, the Hom complex out of the resolution `… → ℤ_{X_1} → ℤ_{X_0} → ℤ` of
@@ -301,7 +301,7 @@ lemma freeRepresentable_map_gen {U : SimplicialOpen X} {V : (SimplicialOpen X)�
     (g : V.unop ⟶ U) :
     (((freeRepresentable.{u, w} X).obj U).map g.op).hom (freeRepresentableGen U) =
       uliftFreeGen (S := V.unop ⟶ U) g := by
-  show ULift.up (FreeAbelianGroup.map ((yoneda.obj U).map g.op) (FreeAbelianGroup.of (𝟙 U))) =
+  change ULift.up (FreeAbelianGroup.map ((yoneda.obj U).map g.op) (FreeAbelianGroup.of (𝟙 U))) =
     _
   rw [FreeAbelianGroup.map_of_apply]
   exact congrArg (fun h => ULift.up (FreeAbelianGroup.of h)) (Category.comp_id g)
@@ -310,7 +310,7 @@ lemma freeRepresentable_map_gen {U : SimplicialOpen X} {V : (SimplicialOpen X)�
 lemma freeRepresentable_map_app_gen {U U' : SimplicialOpen X} (g : U ⟶ U') :
     (((freeRepresentable.{u, w} X).map g).app (op U)).hom (freeRepresentableGen U) =
       uliftFreeGen (S := U ⟶ U') g := by
-  show ULift.up (FreeAbelianGroup.map (fun h => h ≫ g) (FreeAbelianGroup.of (𝟙 U))) = _
+  change ULift.up (FreeAbelianGroup.map (fun h => h ≫ g) (FreeAbelianGroup.of (𝟙 U))) = _
   rw [FreeAbelianGroup.map_of_apply]
   exact congrArg (fun h => ULift.up (FreeAbelianGroup.of h)) (Category.id_comp g)
 
@@ -501,7 +501,7 @@ private lemma isZero_extend_X_of_neg {C : Type*} [Category C] [HasZeroMorphisms 
     [HasZeroObject C] (K : CochainComplex C ℕ) {j : ℤ} (hj : j < 0) :
     IsZero ((K.extend ComplexShape.embeddingUpNat).X j) :=
   HomologicalComplex.isZero_extend_X _ ComplexShape.embeddingUpNat j
-    fun k => by show ((k : ℕ) : ℤ) ≠ j; omega
+    fun k => by change ((k : ℕ) : ℤ) ≠ j; omega
 
 /-- **The double complex of a sheaf vanishes outside the first quadrant.**  The inner index is
 the simplicial degree, extended by zero from `ℕ` by `sheafWholeSpaceSectionsComplex`, and the outer
@@ -1054,10 +1054,10 @@ theorem cohomologyDoubleComplexHypotheses
   exactAt_of_ne_zero q p hp := by
     rcases lt_trichotomy p 0 with h | h | h
     · exact HomologicalComplex.extend_exactAt _ ComplexShape.embeddingUpNat p
-        fun j => by show ((j : ℕ) : ℤ) ≠ p; omega
+        fun j => by change ((j : ℕ) : ℤ) ≠ p; omega
     · exact absurd h hp
     · have hk : ComplexShape.embeddingUpNat.f p.toNat = p := by
-        show ((p.toNat : ℕ) : ℤ) = p; omega
+        change ((p.toNat : ℕ) : ℤ) = p; omega
       refine (HomologicalComplex.extend_exactAt_iff _ ComplexShape.embeddingUpNat hk).2 ?_
       have := hinj q
       exact sheafWholeSpaceSectionsComplexNat_exactAt_of_injective.{u, w} X (Z.X q) p.toNat

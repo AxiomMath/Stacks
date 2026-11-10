@@ -60,8 +60,8 @@ theorem ranAdjunction_unit_comp_eq_simplicialSmallEtaleBigFppfRinged
   refine Functor.hom_ext_of_isRightKanExtension _ (u'.op.ranCounit.app _) _ _ ?_
   ext V
   have fac := Stacks.SheafOfModules.ranBaseChange_fac w.op PC V
-  have n₁ := (u.op.ran.map θ).naturality (w.op.natTrans.app V)
-  have u₁ := ((u.op.ranAdjunction A).unit.app PD).naturality (w.op.natTrans.app V)
+  have n₁ := (u.op.ran.map θ).naturality (w.op.app V)
+  have u₁ := ((u.op.ranAdjunction A).unit.app PD).naturality (w.op.app V)
   dsimp only [Functor.id_obj, Functor.comp_obj, Functor.whiskeringLeft_obj_obj] at u₁
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Category.assoc,
     AlgebraicGeometry.Space.SimplicialSpacesEtaleSite.ran_map_app_ranCounit_app]
@@ -95,7 +95,7 @@ theorem sheafIso_unit_comp_eq_simplicialSmallEtaleBigFppfRinged
           (u.sheafPushforwardCocontinuous A J K).map θ)) ≫
         (sheafIsoOfTwoSquareAndMorphismsTwoSquare A J' J K' K w).inv.app OC := by
   refine ObjectProperty.hom_ext _ ?_
-  show ((u'.sheafAdjunctionCocontinuous A J' K').unit.app OD').hom ≫ u'.op.ran.map ψ.hom =
+  change ((u'.sheafAdjunctionCocontinuous A J' K').unit.app OD').hom ≫ u'.op.ran.map ψ.hom =
     (χ.hom ≫ Functor.whiskerLeft v.op (((u.sheafAdjunctionCocontinuous A J K).unit.app OD).hom ≫
       u.op.ran.map θ.hom)) ≫
       ((sheafIsoOfTwoSquareAndMorphismsTwoSquare A J' J K' K w).inv.app OC).hom
@@ -148,6 +148,7 @@ abbrev bigFppfTotalRingedTopos : RingedTopos :=
   (SimplicialOver.situation T.topology U).totalRingedTopos (bigFppfTotalStructureSheaf a)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for `morphismOfTopoiOfCocontinuous` on the total and big fppf sites
 /-- The morphism of topoi `a_{fppf} : Sh((Spaces/U)_{fppf,total}) ⟶ Sh((Spaces/X)_fppf)` of the
 continuous and cocontinuous functor `V/U_n ↦ V/X`: its inverse image is restriction. -/
 def bigFppfAugmentationToposHom :
@@ -225,6 +226,7 @@ theorem forgetFSharp_bigFppfAugmentationRingedHom :
         (Category.comp_id _)))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for sheaves on the total topology in the exchange isomorphism
 /-- At a sheaf `F` on `(Spaces/U)_{fppf,total}`, the inverse of the exchange isomorphism
 `bigFppfExchangeIso a` is the base change transformation of the square `bigFppfTwoSquare a`. -/
 theorem bigFppfExchangeIso_inv_app_hom (F : Sheaf (SimplicialOver.totalTopology T.topology U)
@@ -234,6 +236,7 @@ theorem bigFppfExchangeIso_inv_app_hom (F : Sheaf (SimplicialOver.totalTopology 
     _ _ _ _ _ _ F
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis over the ringed topoi of the square, on the total and big fppf sites
 /-- **Stacks 0DHC.** Let `U` be a simplicial algebraic space with an augmentation `a : U → X`.
 The square of ringed topoi
 ```

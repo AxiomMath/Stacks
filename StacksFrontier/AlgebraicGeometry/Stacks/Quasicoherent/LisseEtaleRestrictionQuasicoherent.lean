@@ -11,8 +11,8 @@ Let `𝒳` be an algebraic stack and `F` a module on its étale site lying in `L
 the flat base change property of **Stacks 0762** read with the pullback of sheaves.  This file
 proves **Stacks 07B1** (1)(b): the restriction `g^{-1}F` of `F` to the lisse-étale site is a
 quasi-coherent module on that ringed site.  The argument is the one of
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/FlatFppfRestrictionQuasicoherent.lean` for the
-flat-fppf site, read for the étale topology: smooth objects are flat, so the comparison map of
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/FlatFppfRestrictionQuasicoherent.lean` for
+the flat-fppf site, read for the étale topology: smooth objects are flat, so the comparison map of
 Stacks 06WC is invertible along every arrow of the lisse-étale site, and the localization at a
 smooth object `y` is the restriction of the associated module `𝓕^a` on the big étale site of the
 scheme below `y`, which is quasi-coherent (Stacks 03DV).

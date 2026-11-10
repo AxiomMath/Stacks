@@ -349,7 +349,7 @@ private lemma affineHomCanonicalDegreeIso_inv_sections (R : CommRingCat.{u})
   have he : affineHomSectionsLinearMap R E J n
       (((affineHomCanonicalDegreeIso R E J a b hE hJ hfree n).inv).val.app (op ⊤)
         (tilde.toOpen ((CochainComplex.HomComplexR R E J).X n) ⊤ α)) = α := by
-    show affineHomSectionsLinearEquiv R E J n _ = α
+    change affineHomSectionsLinearEquiv R E J n _ = α
     convert (affineHomSectionsLinearEquiv R E J n).apply_symm_apply α using 1
     exact congrArg (affineHomSectionsLinearEquiv R E J n) hc
   have hv : (fullyFaithfulTildeOverTopSite R).preimage
@@ -450,7 +450,7 @@ private lemma affineHomComplexIso_inv_naturality (R : CommRingCat.{u})
     ConcreteCategory.congr_hom
       (tilde.toOpen_map_app
         ((Stacks.HomComplex.TensorHomComparison.HomCxMap E E' J J' f g).f n) ⊤) α
-  show ((RingedSite.sheafHomComplex (specSite R) ((tildeHC R).obj E')
+  change ((RingedSite.sheafHomComplex (specSite R) ((tildeHC R).obj E')
         ((tildeHC R).obj J')).sectionsEquiv (⊤ : Opens (PrimeSpectrum.Top R)) n
       (((affineHomComplexIso R E' J' a' b' hE' hJ' hfree').inv.f n).val.app (op ⊤)
         (((tildeH R).map

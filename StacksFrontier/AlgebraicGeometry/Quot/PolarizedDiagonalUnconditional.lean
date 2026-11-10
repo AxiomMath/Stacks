@@ -170,7 +170,7 @@ theorem isAffineHom_diagonal_polarizedStackUnconditional :
       Functor.vertHomPresheafIsoIsomPresheafOfPoint _ hp U y hy
   refine (Stack.prop_algebraicSpaceMap_iff B S hS
     (fun _ _ f => Space.IsAffineHom B S hS f.hom) U F hF).2 ?_
-  show Space.IsAffineHom B S hS (OverShriek.relocalizeToYoneda U.hom F)
+  change Space.IsAffineHom B S hS (OverShriek.relocalizeToYoneda U.hom F)
   have _ := isIso_relocalizeToYoneda_yonedaId B U.left.1 S U.left.2 hS U.hom
   rw [← relocalizeToYoneda_eq_map_toYonedaId B U.left.1 S U.left.2 hS U.hom F]
   refine Space.isAffineHom_comp_iso _
@@ -234,7 +234,7 @@ theorem isLocallyOfFinitePresentation_diagonal_polarizedStackUnconditional
         { app := fun i => ObjectProperty.homMk ((Over.map U.hom).map (c.π.app i))
           naturality := fun i j f => by
             apply ObjectProperty.hom_ext
-            show 𝟙 _ ≫ (Over.map U.hom).map (c.π.app j) =
+            change 𝟙 _ ≫ (Over.map U.hom).map (c.π.app j) =
               (Over.map U.hom).map (c.π.app i) ≫ (Over.map U.hom).map (D.map f)
             rw [Category.id_comp, ← Functor.map_comp, c.w f] } } with hc'def
   have hc' : IsLimit ((BigAffineFppf.toScheme B S hS).mapCone c') := hc

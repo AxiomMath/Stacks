@@ -165,11 +165,11 @@ theorem sectionContraction_app (s : L.sections) (W : Cᵒᵖ)
     exact Eq.trans (Iso.hom_inv_id_assoc (inverseSheafUnitIso O hO L) _) rfl
   have hmul : ((L.unitHomEquiv.symm s).val.app W).hom (1 : (structureSheaf O hO).obj.obj W) =
       s.eval W := by
-    show (1 : (structureSheaf O hO).obj.obj W) • s.eval W = s.eval W
+    change (1 : (structureSheaf O hO).obj.obj W) • s.eval W = s.eval W
     exact one_smul _ _
   refine Eq.trans
     (congrArg (fun z ↦ ((sectionContraction O hO L s).val.app W).hom z) hunit.symm) ?_
-  show (((inverseSheafUnitIso O hO L).hom ≫ sectionContraction O hO L s).val.app W).hom
+  change (((inverseSheafUnitIso O hO L).hom ≫ sectionContraction O hO L s).val.app W).hom
       ((toSheafify O hO (valPresheaf O hO (_root_.SheafOfModules.unit (structureSheaf O hO)) ⊗
         valPresheaf O hO (inverseSheaf O hO L))).app W
           ((1 : (structureSheaf O hO).obj.obj W) ⊗ₜ x)) = _
@@ -266,7 +266,7 @@ private theorem comp_eq_id_of_tensorPairing
       tensorPairing O hO G N H evN) :
     f ≫ g = 𝟙 (valPresheaf O hO M) := by
   refine (tensorHom_bijective O hO G M H evM (valPresheaf O hO M)).1 ?_
-  show ((f ≫ g) ▷ valPresheaf O hO G) ≫ tensorPairing O hO G M H evM =
+  change ((f ≫ g) ▷ valPresheaf O hO G) ≫ tensorPairing O hO G M H evM =
     (𝟙 (valPresheaf O hO M) ▷ valPresheaf O hO G) ≫ tensorPairing O hO G M H evM
   rw [comp_whiskerRight, id_whiskerRight, Category.assoc, hg, hf, Category.id_comp]
 

@@ -55,7 +55,7 @@ objects of its small model over a common `U`, `Isom_𝒳(y₁, y₂) ⟶ U` is s
 `Isom_U(Y, X) ⟶ U` (`hiso`). Finally suppose `Isom_V(Y, X) ⟶ V` is quasi-compact over Noetherian
 affine bases `V` (`hN`). Then the morphism `Curves → Spec(ℤ)` is quasi-separated and locally of
 finite presentation. -/
-theorem isQuasiSeparated_and_isLocallyOfFinitePresentation_structureMorphism_curvesAlgebraicStack_of_noetherian
+theorem isQuasiSeparated_and_isLocallyOfFinitePresentation_structureMorphism_curves_of_noetherian
     (h : Stack.IsAlgebraicStack.{u, w} B integerBase hZ (curvesFiberedCategory B hZ).val)
     (hlim : Deformation.Artin.IsLimitPreserving.{u, u, u, u + 1, u + 1} B integerBase hZ
       (curvesFiberedCategory B hZ))
@@ -85,8 +85,9 @@ theorem isQuasiSeparated_and_isLocallyOfFinitePresentation_structureMorphism_cur
       Stack.AlgebraicStacks.IsLocallyOfFinitePresentation B integerBase hZ
         (Stack.structureMorphism B integerBase hZ (curvesAlgebraicStack B hZ h)) :=
   isQuasiSeparated_and_isLocallyOfFinitePresentation_structureMorphism_curvesAlgebraicStack B hZ h
-    hlim (isSeparated_and_isRelativelyFinitePresentation_relativeDiagonal_curvesAlgebraicStack_of_noetherian
-      B hZ h hlim hsep hiso hN).2
+    hlim <| And.right <|
+  isSeparated_and_isRelativelyFinitePresentation_relativeDiagonal_curvesAlgebraicStack_of_noetherian
+    B hZ h hlim hsep hiso hN
 
 /-- **Stacks 0DSS from polarizations.** Suppose the stack of curves is algebraic (`h`, Stacks
 0D5A) and limit preserving (`hlim`, Stacks 0D55). Suppose also that, for every pair of objects
@@ -96,7 +97,7 @@ polarized (`hpol`, the shape of Stacks 0DQ0). Finally suppose `Isom_U(Y, X) ⟶ 
 over Noetherian affine `U` on which both families are projective (`hproj`, Stacks 0DPR with
 Riemann–Roch). Then the morphism `Curves → Spec(ℤ)` is quasi-separated and locally of finite
 presentation. -/
-theorem isQuasiSeparated_and_isLocallyOfFinitePresentation_structureMorphism_curvesAlgebraicStack_of_polarized
+theorem isQuasiSeparated_and_isLocallyOfFinitePresentation_structureMorphism_curves_of_polarized
     (h : Stack.IsAlgebraicStack.{u, w} B integerBase hZ (curvesFiberedCategory B hZ).val)
     (hlim : Deformation.Artin.IsLimitPreserving.{u, u, u, u + 1, u + 1} B integerBase hZ
       (curvesFiberedCategory B hZ))
@@ -135,8 +136,9 @@ theorem isQuasiSeparated_and_isLocallyOfFinitePresentation_structureMorphism_cur
       Stack.AlgebraicStacks.IsLocallyOfFinitePresentation B integerBase hZ
         (Stack.structureMorphism B integerBase hZ (curvesAlgebraicStack B hZ h)) :=
   isQuasiSeparated_and_isLocallyOfFinitePresentation_structureMorphism_curvesAlgebraicStack B hZ h
-    hlim (isSeparated_and_isRelativelyFinitePresentation_relativeDiagonal_curvesAlgebraicStack_of_polarized
-      B hZ h hlim hsep hiso hpol hproj).2
+    hlim <| And.right <|
+  isSeparated_and_isRelativelyFinitePresentation_relativeDiagonal_curvesAlgebraicStack_of_polarized
+    B hZ h hlim hsep hiso hpol hproj
 
 end AlgebraicGeometry
 

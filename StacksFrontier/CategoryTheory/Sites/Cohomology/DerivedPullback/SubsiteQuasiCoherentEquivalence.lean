@@ -295,7 +295,7 @@ instance isClosedUnderIsomorphisms_isCartesianPushforwardOn (Z : RingedSite.{u, 
 when the structure map is. -/
 instance isIso_fSharpPresheaf [IsIso f.fsharp] :
     IsIso f.toRingedToposSiteHom.fSharpPresheaf := by
-  haveI : IsIso ((sheafCompose Y.J (forget₂ CommRingCat.{u} RingCat.{u})).map f.fsharp) :=
+  have : IsIso ((sheafCompose Y.J (forget₂ CommRingCat.{u} RingCat.{u})).map f.fsharp) :=
     inferInstance
   exact inferInstanceAs (IsIso ((sheafToPresheaf _ _).map
     ((sheafCompose Y.J (forget₂ CommRingCat.{u} RingCat.{u})).map f.fsharp)))
@@ -690,7 +690,7 @@ theorem isCartesianPushforwardOn_smallDerivedPullback
   · refine (isIso_comparison_restriction_iff X x _ _).2 ?_
     have h : (Over.mkIdTerminal.from (Over.mk (D.π i))).left = D.π i := by
       simp
-    show IsIso (comparison.{u} _ (Over.mkIdTerminal.from (Over.mk (D.π i))).left.op _)
+    change IsIso (comparison.{u} _ (Over.mkIdTerminal.from (Over.mk (D.π i))).left.op _)
     rw [h]
     exact hπ i
   · refine ⟨(Sieve.overEquiv V).symm (Sieve.pullback V.hom (Sieve.ofArrows D.obj D.π)),

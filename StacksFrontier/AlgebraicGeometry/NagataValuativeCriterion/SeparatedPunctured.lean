@@ -62,7 +62,7 @@ theorem range_fractionRing_fromSpecStalk_subset_compl {C : Scheme.{u}} [IsIntegr
       Set.range (Scheme.Opens.ι (X := C) ⟨({c} : Set C)ᶜ, hc.isOpen_compl⟩) := by
   rw [Scheme.Opens.range_ι]
   rintro _ ⟨z, rfl⟩
-  show _ ∉ ({c} : Set C)
+  change _ ∉ ({c} : Set C)
   rw [NagataExtensionClosed.fractionRing_fromSpecStalk_apply c z, Set.mem_singleton_iff]
   intro h
   have h0 := ringKrullDim_stalk_genericPoint_eq_zero C

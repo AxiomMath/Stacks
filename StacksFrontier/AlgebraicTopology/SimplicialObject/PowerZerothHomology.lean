@@ -158,7 +158,7 @@ variable {B : Type u} [CommRing B]
 public lemma hom_d_one_zero (Y : SimplicialObject (ModuleCat.{u} B)) :
     (((alternatingFaceMapComplex (ModuleCat.{u} B)).obj Y).d 1 0).hom =
       (Y.δ (0 : Fin 2)).hom - (Y.δ (1 : Fin 2)).hom := by
-  show ((AlternatingFaceMapComplex.obj Y).d 1 0).hom = _
+  change ((AlternatingFaceMapComplex.obj Y).d 1 0).hom = _
   rw [AlternatingFaceMapComplex.obj_d_eq Y 0]
   simp [Fin.sum_univ_two, sub_eq_add_neg]
 

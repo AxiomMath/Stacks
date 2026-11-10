@@ -59,7 +59,7 @@ theorem mem_span_isIdempotentElem {k A : Type u} [Field k] [IsAlgClosed k] [Comm
     exact (IsAlgClosed.algebraMap_bijective_of_isIntegral (k := k)).2 _
   choose c hc using hc
   have he : ∀ I, IsIdempotentElem (E.symm (Pi.single I 1)) := fun I => by
-    show E.symm (Pi.single I 1) * E.symm (Pi.single I 1) = E.symm (Pi.single I 1)
+    change E.symm (Pi.single I 1) * E.symm (Pi.single I 1) = E.symm (Pi.single I 1)
     rw [← map_mul, ← Pi.single_mul, mul_one]
   have hz : z = ∑ I, c I • E.symm (Pi.single I 1) := by
     apply E.injective
@@ -72,10 +72,10 @@ theorem mem_span_isIdempotentElem {k A : Type u} [Field k] [IsAlgClosed k] [Comm
         IsArtinianRing.equivPi_apply]
       by_cases hIJ : I = J
       · obtain rfl := hIJ
-        rw [Pi.single_eq_same, mul_one, if_pos rfl]
+        rw [Pi.single_eq_same, mul_one, ite_eq_left rfl]
         rfl
-      · rw [Pi.single_eq_of_ne' hIJ, mul_zero, if_neg hIJ]
-    simp only [hterm, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      · rw [Pi.single_eq_of_ne' hIJ, mul_zero, ite_eq_right hIJ]
+    simp only [hterm, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rw [hc J, IsArtinianRing.equivPi_apply]
   rw [hz]
   exact Submodule.sum_mem _ fun I _ => Submodule.smul_mem _ _ (Submodule.subset_span (he I))
@@ -145,7 +145,7 @@ theorem mem_span_range_appTop_closedFibre {B : Type u} [CommRing B] [IsLocalRing
     Stacks.AlgebraicGeometry.ProperSectionsGeom.moduleFinite_globalSections_of_isProper T
       (fiberToSpec f (IsLocalRing.closedPoint B))
   have : IsAlgClosed T := ‹_›
-  show z ∈ Submodule.span T _
+  change z ∈ Submodule.span T _
   refine Submodule.span_mono ?_ (mem_span_isIdempotentElem (k := T) z)
   rintro e (he : IsIdempotentElem e)
   obtain ⟨U, hmU, a, ha⟩ :=
@@ -210,7 +210,7 @@ theorem fibreCochain_smul (t : T) (z : Γ(X', ⊤)) :
     ((Scheme.Modules.pullback g).obj (Scheme.unitModule X)) ⊤
   have h1 : (Scheme.Modules.pullbackUnitIso g).inv.app ⊤ (t • z) =
       t • (Scheme.Modules.pullbackUnitIso g).inv.app ⊤ z := by
-    show (Scheme.Modules.pullbackUnitIso g).inv.app ⊤
+    change (Scheme.Modules.pullbackUnitIso g).inv.app ⊤
         ((Stacks.Cech.globalRingHom f').hom t * z) =
       (Stacks.Cech.baseRingHom f' ⊤).hom t • (Scheme.Modules.pullbackUnitIso g).inv.app ⊤ z
     rw [baseRingHom_top_apply]
@@ -228,7 +228,7 @@ theorem fibreCochain_appTop (a : Γ(X, ⊤)) :
       AlgebraicGeometry.pullbackSectionHom g (Scheme.unitModule X) ⊤ ⊤ (by simp) a' := by
     rw [← pullbackUnitIso_hom_app_pullbackSectionHom g a' (by simp)]
     exact SectionsEqualizer.moduleIso_hom_inv_app (Scheme.Modules.pullbackUnitIso g).symm _
-  show (baseAlternatingCechComplexBaseChangeIso ψ hsq (Scheme.unitModule X) U hU hUaff).inv.f 0
+  change (baseAlternatingCechComplexBaseChangeIso ψ hsq (Scheme.unitModule X) U hU hUaff).inv.f 0
     (sectionsToModel f' _ _ _ ((Scheme.Modules.pullbackUnitIso g).inv.app ⊤ (g.appTop a))) = _
   rw [hpb, ← baseChangeIso_sectionsToModel ψ hsq (Scheme.unitModule X) U hU hUaff a']
   exact iso_inv_f_hom_f_apply _ 0 _
@@ -257,13 +257,13 @@ theorem d_fibreCochain (z : Γ(X', ⊤)) :
     (top_eq_iSup_preimage g U hU) ((Scheme.Modules.pullback g).obj (Scheme.unitModule X))
     ((Scheme.Modules.pullbackUnitIso g).inv.app ⊤ z))) (θ.inv.comm 0 1)
   simp only [ModuleCat.comp_apply] at hc
-  show _ = 0
+  change _ = 0
   refine hc.trans ?_
   have hd := (range_sectionsToModel f' (fun i => g ⁻¹ᵁ U i) (top_eq_iSup_preimage g U hU)
     ((Scheme.Modules.pullback g).obj (Scheme.unitModule X))).le
     (LinearMap.mem_range_self _ ((Scheme.Modules.pullbackUnitIso g).inv.app ⊤ z))
   rw [LinearMap.mem_ker] at hd
-  show θ.inv.f 1 _ = 0
+  change θ.inv.f 1 _ = 0
   rw [hd, map_zero]
 
 /-- Every degree-zero cocycle of the base changed Čech model is the cochain of a function. -/
@@ -279,14 +279,14 @@ theorem exists_fibreCochain_eq
     have hc := congrArg (fun m => m x) (θ.hom.comm 0 1)
     simp only [ModuleCat.comp_apply] at hc
     refine hc.trans ?_
-    show θ.hom.f 1 ((extendScalarsCx ψ (baseAlternatingCechComplex f U hU
+    change θ.hom.f 1 ((extendScalarsCx ψ (baseAlternatingCechComplex f U hU
       (Scheme.unitModule X))).d 0 1 x) = 0
     rw [hx, map_zero]
   obtain ⟨s, hs⟩ : θ.hom.f 0 x ∈ LinearMap.range (sectionsToModel f' (fun i => g ⁻¹ᵁ U i)
       (top_eq_iSup_preimage g U hU) ((Scheme.Modules.pullback g).obj (Scheme.unitModule X))) :=
     (range_sectionsToModel _ _ _ _).ge hθd
   refine ⟨(Scheme.Modules.pullbackUnitIso g).hom.app ⊤ s, ?_⟩
-  show θ.inv.f 0 (sectionsToModel f' _ _ _ ((Scheme.Modules.pullbackUnitIso g).inv.app ⊤
+  change θ.inv.f 0 (sectionsToModel f' _ _ _ ((Scheme.Modules.pullbackUnitIso g).inv.app ⊤
     ((Scheme.Modules.pullbackUnitIso g).hom.app ⊤ s))) = x
   have hinv : (Scheme.Modules.pullbackUnitIso g).inv.app ⊤
       ((Scheme.Modules.pullbackUnitIso g).hom.app ⊤ s) = s :=
@@ -322,7 +322,7 @@ theorem degreeZeroCyclesSurjective_of_mem_span
       rw [fibreCochain_appTop]
       refine ⟨(1 : T) ⊗ₜ[B, ψ] (baseAlternatingCechComplex f U hU (Scheme.unitModule X)).cyclesMk
         _ 1 (by simp) hσ, ?_⟩
-      show (ModuleCat.extendScalars.{u, u, u} ψ).map
+      change (ModuleCat.extendScalars.{u, u, u} ψ).map
         ((baseAlternatingCechComplex f U hU (Scheme.unitModule X)).iCycles 0)
         ((1 : T) ⊗ₜ[B, ψ] _) = _
       rw [ModuleCat.ExtendScalars.map_tmul]

@@ -152,7 +152,7 @@ theorem rationallyEquivalentOn_iff_sub_mem {T : Set (points D.site D.base D.base
     {α β : CycleGroup D sX k} :
     RationallyEquivalentOn.{v} D sX hX k T α β ↔
       α - β ∈ rationalEquivalencesOn.{v} D sX hX k T := by
-  show _ ↔ RationallyEquivalentOn.{v} D sX hX k T (α - β) 0
+  change _ ↔ RationallyEquivalentOn.{v} D sX hX k T (α - β) 0
   unfold RationallyEquivalentOn
   simp only [sub_zero]
 
@@ -274,7 +274,7 @@ theorem rationallyEquivalentOn_locallyFiniteCycleSum {I : Type v}
       ∑ᶠ j : J i, (integralClosedSubspacePushforward D sX hX (W i j) k (c i j)).1 Z := by
     intro i
     simpa using congrArg (fun γ : CycleGroup D sX k => γ.1 Z) (hsum i)
-  show (∑ᶠ i : I, (α i).1 Z) - (∑ᶠ i : I, (β i).1 Z) = _
+  change (∑ᶠ i : I, (α i).1 Z) - (∑ᶠ i : I, (β i).1 Z) = _
   rw [← finsum_sub_distrib hαfin hβfin]
   exact (finsum_congr hterm).trans (Stacks.Chow.finsum_sigma _ hsigfin).symm
 

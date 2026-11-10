@@ -97,10 +97,10 @@ theorem isIso_diagonalBaseComparison {X S S' : Scheme.{u}}
         simpa only [Category.assoc] using pullback.condition (f := f ≫ j) (g := f ≫ j))
   have hf : diagonalBaseComparison f j ≫ pullback.fst (f ≫ j) (f ≫ j) =
       pullback.fst f f := by
-    simp [diagonalBaseComparison, pullback.map, pullback.lift_fst]
+    simp [diagonalBaseComparison, pullback.map]
   have hs : diagonalBaseComparison f j ≫ pullback.snd (f ≫ j) (f ≫ j) =
       pullback.snd f f := by
-    simp [diagonalBaseComparison, pullback.map, pullback.lift_snd]
+    simp [diagonalBaseComparison, pullback.map]
   have h₁ : diagonalBaseComparison f j ≫ inv = 𝟙 _ := by
     apply pullback.hom_ext
     · rw [Category.assoc, pullback.lift_fst, hf]
@@ -139,7 +139,7 @@ theorem isThickening_diagonalTargetFst {X X' S S' : Scheme.{u}}
             (pullback.condition (f := f ≫ j) (g := f ≫ j))) ≫
       (pullbackSymmetry f' (f ≫ j)).hom := by
     apply pullback.hom_ext <;>
-      simp [diagonalTargetFst, pullback.map, pullback.lift_fst, pullback.lift_snd]
+      simp [diagonalTargetFst, pullback.map]
   rw [heq]
   exact isThickening_comp (isThickening_of_isIso _)
     (isThickening_comp (isThickening_pullback_lift_fst_comp i f' _ _ h hi)
@@ -179,8 +179,7 @@ theorem diagonal_comp_diagonalTargetMap {X X' S S' : Scheme.{u}}
     pullback.diagonal f ≫ diagonalTargetMap i f f' j h = i ≫ pullback.diagonal f' := by
   apply pullback.hom_ext <;>
     simp [diagonalTargetMap, diagonalBaseComparison, diagonalTargetFst,
-      diagonalTargetSnd, pullback.map, pullback.lift_fst, pullback.lift_snd,
-      pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+      diagonalTargetSnd, pullback.map]
 
 end Stacks.Thickenings
 

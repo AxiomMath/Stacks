@@ -90,11 +90,13 @@ variable {R M N : Type*} [CommRing R] [AddCommGroup M] [Module R M] [AddCommGrou
   (he : ∀ (n : ℕ) (x : A), e x ∈ SymPow.symmetricPower n R N ↔ x ∈ 𝒜 n)
   {t : A} (ht : t ∈ 𝒜 1) (het : e t = SymmetricAlgebra.ι R N S.t₀)
 
+omit [AddSubgroupClass σ A] [GradedRing 𝒜] in
 include he in
 theorem symm_mem_of_mem {n : ℕ} {y : SymmetricAlgebra R N}
     (hy : y ∈ SymPow.symmetricPower n R N) : e.symm y ∈ 𝒜 n :=
   (he n _).1 (by rwa [RingEquiv.apply_symm_apply])
 
+omit [AddSubgroupClass σ A] [GradedRing 𝒜] in
 include he in
 theorem symm_algebraMap_mem (r : R) :
     e.symm (algebraMap R (SymmetricAlgebra R N) r) ∈ 𝒜 0 :=
@@ -102,6 +104,7 @@ theorem symm_algebraMap_mem (r : R) :
     rw [SymPow.symmetricPower, pow_zero]
     exact Submodule.algebraMap_mem r)
 
+omit [AddSubgroupClass σ A] [GradedRing 𝒜] in
 include he in
 theorem symm_ι_mem (n : N) : e.symm (SymmetricAlgebra.ι R N n) ∈ 𝒜 1 :=
   symm_mem_of_mem 𝒜 e he (by

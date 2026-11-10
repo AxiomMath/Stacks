@@ -117,7 +117,7 @@ universe u w w'
 `Scheme.size_Spec` computes its size as `ℵ₀`, and the cutoff of a big fppf site is above `ℵ₀`. -/
 theorem contains_specULiftZ (B : BigFppfSite.{u}) :
     B.Contains (Spec (CommRingCat.of (ULift.{u} ℤ))) := by
-  show (Spec (CommRingCat.of (ULift.{u} ℤ))).size < B.cutoff
+  change (Spec (CommRingCat.of (ULift.{u} ℤ))).size < B.cutoff
   rw [Scheme.size_Spec]
   simpa using B.aleph0_lt_cutoff
 

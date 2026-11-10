@@ -92,7 +92,7 @@ theorem properPushforward_pullbackSymmetry_exteriorProduct (C : ChowSituation.{u
         CycleGroup C (pullback.fst sY sX ≫ sY) (n + m)) := by
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun w ↦ ?_)
   obtain ⟨z, rfl⟩ := (Scheme.homeoOfIso (pullbackSymmetry sX sY)).surjective w
-  show (properPushforward C (pullback.fst sX sY ≫ sX) (pullback.fst sY sX ≫ sY)
+  change (properPushforward C (pullback.fst sX sY ≫ sX) (pullback.fst sY sX ≫ sY)
       (pullbackSymmetry sX sY).hom (pullbackSymmetry_hom_comp_base sX sY) (n + m)
       (exteriorProduct C sX sY n m α β)).1 ((pullbackSymmetry sX sY).hom.base z) =
     (add_comm m n ▸ exteriorProduct C sY sX m n β α :
@@ -149,8 +149,7 @@ theorem chowPushforwardOfIso_pullbackSymmetry_chowExteriorProduct (C : ChowSitua
         (chowExteriorProduct C hδ sX sY n m t) =
       chowGroupDegreeEquiv C (pullback.fst sY sX ≫ sY) (add_comm m n)
         (chowExteriorProduct C hδ sY sX m n (TensorProduct.comm ℤ _ _ t)) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul α β =>
     rw [TensorProduct.comm_tmul]
     exact chowPushforwardOfIso_pullbackSymmetry_chowExteriorProduct_tmul C hδ sX sY n m α β

@@ -236,7 +236,7 @@ theorem isNilpotent_sub_sheafFiber_map_of_sections (Φ : J.Point.{w}) (φ ψ : O
   obtain ⟨U, z, p, hp⟩ := Φ.toPresheafFiber_jointly_surjective (P := O₁.obj)
     (show ToType ((Φ.presheafFiber (A := CommRingCat.{w})).obj O₁.obj) from a)
   subst hp
-  show IsNilpotent
+  change IsNilpotent
       (((Φ.presheafFiber (A := CommRingCat.{w})).map φ.hom).hom
           ((Φ.toPresheafFiber U z O₁.obj).hom p) -
         ((Φ.presheafFiber (A := CommRingCat.{w})).map ψ.hom).hom

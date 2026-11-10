@@ -138,20 +138,19 @@ theorem exact_rTensor_extend_iff {R : Type u} [CommRing R] (K : CochainComplex (
         (LinearMap.lTensor M (K.d j (j + 1)).hom).toAddMonoidHom := by
     intro j
     refine AddMonoidHom.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add] at hx hy ⊢; rw [hx, hy]
     | tmul a c =>
       have h₁ : e j (a ⊗ₜ c) = (K.extendXIso ComplexShape.embeddingUpNat
           (i := j) (i' := (j : ℤ)) rfl).inv c ⊗ₜ a := rfl
       have h₂ : e (j + 1) (a ⊗ₜ (K.d j (j + 1)) c) = (K.extendXIso ComplexShape.embeddingUpNat
           (i := j + 1) (i' := ((j + 1 : ℕ) : ℤ)) rfl).inv ((K.d j (j + 1)) c) ⊗ₜ a := rfl
-      simp only [AddMonoidHom.coe_comp, Function.comp_apply, AddMonoidHom.coe_coe,
+      simp only [AddMonoidHom.coe_comp, Function.comp_apply, AddMonoidHom.coe_ofClass,
         LinearMap.toAddMonoidHom_coe, LinearMap.lTensor_tmul, h₁, h₂, LinearMap.rTensor_tmul]
       congr 1
       rw [HomologicalComplex.extend_d_eq K ComplexShape.embeddingUpNat (i' := (j : ℤ))
         (j' := ((j + 1 : ℕ) : ℤ)) (i := j) (j := j + 1) rfl rfl]
-      show ((K.extendXIso ComplexShape.embeddingUpNat (i := j) (i' := (j : ℤ)) rfl).inv ≫
+      change ((K.extendXIso ComplexShape.embeddingUpNat (i := j) (i' := (j : ℤ)) rfl).inv ≫
         (K.extendXIso ComplexShape.embeddingUpNat (i := j) (i' := (j : ℤ)) rfl).hom ≫
           K.d j (j + 1) ≫ (K.extendXIso ComplexShape.embeddingUpNat (i := j + 1)
             (i' := ((j + 1 : ℕ) : ℤ)) rfl).inv) c = _
@@ -355,7 +354,7 @@ theorem toScheme_map_baseChartHom_specIdChart (V : SmallEtale B (Spec (.of A)) h
     (ObjectProperty.homMk f : (⟨X, hX⟩ : AlgebraicSpaces B (Spec (.of A)) hA) ⟶
       ⟨yoneda.obj (Over.mk (𝟙 (B.obj hA))), isAlgebraicSpace_yoneda _ _ _ _⟩)
     (specIdChart (hA := hA)) V)
-  show B.inclusion.map _ = _
+  change B.inclusion.map _ = _
   rw [← h]
   exact (congrArg B.inclusion.map (Category.comp_id _)).symm
 
@@ -379,7 +378,7 @@ theorem smul_unitSectionsOverBase (V : SmallEtale B (Spec (.of A)) hA X) (a : A)
         ⟨yoneda.obj (Over.mk (𝟙 (B.obj hA))), isAlgebraicSpace_yoneda _ _ _ _⟩
           (specIdChart (hA := hA))) (Γ(chartScheme V, ⊤) : Type u)
         ((Scheme.ΓSpecIso (.of A)).inv a) * (show (Γ(chartScheme V, ⊤) : Type u) from c) := by
-  show (((Scheme.ΓSpecIso (.of A)).inv ≫ Scheme.Γ.map ((B.inclusion.map
+  change (((Scheme.ΓSpecIso (.of A)).inv ≫ Scheme.Γ.map ((B.inclusion.map
     ((SmallEtale.toOver B (Spec (.of A)) hA X).obj V).hom).op)).hom a) * _ = _
   rw [← toScheme_map_baseChartHom_specIdChart hX f V]
   rfl
@@ -405,7 +404,7 @@ theorem algebraMap_specRingEquiv
         (specIdChart (hA := hA)))
       (baseChartRing B (Spec (.of A)) hA (specBaseChangeDiagram hX f g).Y' (specIdChart' g))
       ((Scheme.ΓSpecIso (.of A)).inv a) = (Scheme.ΓSpecIso (.of A')).inv (algebraMap A A' a) := by
-  show ((BigFppfOver.toScheme B (Spec (.of A)) hA).map (baseChartHom B (Spec (.of A)) hA
+  change ((BigFppfOver.toScheme B (Spec (.of A)) hA).map (baseChartHom B (Spec (.of A)) hA
     (specBaseChangeDiagram hX f g).g (specIdChart (hA := hA)) (specIdChart' g))).appTop.hom
       ((Scheme.ΓSpecIso (.of A)).inv a) = _
   rw [toScheme_map_baseChartHom_specIdChart_g hX f g hg]
@@ -485,8 +484,7 @@ theorem baseChangeChartTensorEquiv_naturality
           (Stacks.SheafOfModules.Tensor.ringSheaf
             (smallEtaleRingedSite B (Spec (.of A)) hA X hX).O)
           (baseRingHom A B hA X hX) (SheafOfModules.unit _) k.op).hom x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
   | tmul a c =>
     simp only [LinearMap.lTensor_tmul]
@@ -525,14 +523,13 @@ theorem cechChartEquiv_comm (hsep : HasAffineIntersections B (Spec (.of A)) hA X
         (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of A)) hA X hX).O)
         (baseRingHom A B hA X hX) (SheafOfModules.unit _)).d n (n + 1)).hom).toAddMonoidHom := by
   refine AddMonoidHom.ext fun x => ?_
-  show ((Stacks.CechTop.cechComplex U (baseChangeUnitPushforward hX f hg').val.presheaf).d
+  change ((Stacks.CechTop.cechComplex U (baseChangeUnitPushforward hX f hg').val.presheaf).d
       n (n + 1)) (cechChartEquiv hX f hg hg' hsep U hUa n x) =
     cechChartEquiv hX f hg hg' hsep U hUa (n + 1)
       (LinearMap.lTensor A' ((Stacks.CechTop.cechComplexOverBase U
         (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of A)) hA X hX).O)
         (baseRingHom A B hA X hX) (SheafOfModules.unit _)).d n (n + 1)).hom x)
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
   | tmul a c =>
     have h₁ := Stacks.CechTop.cechComplex_d_apply_eq_sum_moduleCat U

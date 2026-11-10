@@ -98,14 +98,14 @@ theorem isLocallySurjective_sigmaDesc_of_isPullback {I : Type u}
   have hsection : (ψ i).app (op T') u = Y.map g.op (f.app (op T) x) := by
     rw [← hsigma] at hs
     change ((Sigma.ι (fun i => yoneda.obj (V i)) i ≫ Sigma.desc ψ).app (op T')) u = _ at hs
-    simpa only [Sigma.ι_desc, NatTrans.comp_app] using hs
+    simpa only [Sigma.ι_comp_desc, NatTrans.comp_app] using hs
   have hcomm : yonedaEquiv.symm u ≫ ψ i = yonedaEquiv.symm (X.map g.op x) ≫ f := by
     apply yonedaEquiv.injective
     simpa [yonedaEquiv_comp] using hsection
   refine ⟨(Sigma.ι (fun i => yoneda.obj (U i)) i).app (op T')
     (yonedaEquiv ((hp i).lift (yonedaEquiv.symm u) (yonedaEquiv.symm (X.map g.op x)) hcomm)), ?_⟩
-  show ((Sigma.ι (fun i => yoneda.obj (U i)) i ≫ Sigma.desc p).app (op T')) _ = _
-  rw [Sigma.ι_desc, ← yonedaEquiv_comp, (hp i).lift_snd _ _ hcomm]
+  change ((Sigma.ι (fun i => yoneda.obj (U i)) i ≫ Sigma.desc p).app (op T')) _ = _
+  rw [Sigma.ι_comp_desc, ← yonedaEquiv_comp, (hp i).lift_snd _ _ hcomm]
   simp
 
 /-- Property `(ε)` of Stacks 03JX, very reasonableness, passes from the target of a representable

@@ -339,7 +339,7 @@ private lemma exists_milnorSequence (L : D) (F : ℕᵒᵖ ⥤ D)
     (z.app K) (z.app (systemProduct F) ≪≫ ec) (z.app (systemProduct F) ≪≫ ec)
     (by simp [p, ec, c])
     (by
-      show (H.shift (0 : ℤ)).map (systemDelta F) ≫ z.hom.app (systemProduct F) ≫ c =
+      change (H.shift (0 : ℤ)).map (systemDelta F) ≫ z.hom.app (systemProduct F) ≫ c =
         (z.hom.app (systemProduct F) ≫ c) ≫ Rlim.delta (homSystem L F)
       rw [← Category.assoc, z.hom.naturality, Category.assoc, hd, Category.assoc])
   obtain ⟨w, hw⟩ := shortExact_of_exact_four w₀ w₁ w₂ h₀ h₁ h₂
@@ -382,7 +382,7 @@ private lemma shiftedHomProductMap_comm [(shiftFunctor D (-1 : ℤ)).Additive] (
   rw [delta_eq_conjugate J F, delta_eq_conjugate J G]
   dsimp only [shiftedHomProductMap, shiftedHomProductComparison, J]
   simp only [Category.assoc, IsIso.hom_inv_id_assoc]
-  show inv (piComparison J _) ≫ J.map (systemDelta F) ≫ J.map g ≫ piComparison J _ =
+  change inv (piComparison J _) ≫ J.map (systemDelta F) ≫ J.map g ≫ piComparison J _ =
     inv (piComparison J _) ≫ J.map f ≫ J.map (systemDelta G) ≫ piComparison J _
   rw [← J.map_comp_assoc, h, J.map_comp_assoc]
 
@@ -397,7 +397,7 @@ private lemma homConnecting_naturality (L : D) (F G : ℕᵒᵖ ⥤ D)
   let H := preadditiveCoyoneda.obj (op L)
   dsimp only [shiftedHomProductMap, homConnecting]
   simp only [Category.assoc, IsIso.hom_inv_id_assoc]
-  show inv (shiftedHomProductComparison L F) ≫ (H.shift (-1 : ℤ)).map a.hom₃ ≫
+  change inv (shiftedHomProductComparison L F) ≫ (H.shift (-1 : ℤ)).map a.hom₃ ≫
       H.homologySequenceδ tG.triangle (-1) 0 _ ≫ (H.isoShiftZero ℤ).hom.app M =
     inv (shiftedHomProductComparison L F) ≫ H.homologySequenceδ t.triangle (-1) 0 _ ≫
       (H.isoShiftZero ℤ).hom.app K ≫ H.map a.hom₁
@@ -565,7 +565,7 @@ private lemma yonedaCoproductIsoProduct_map_difference
     Functor.comp_obj, Functor.op_obj]
   simp only [Category.assoc, yonedaCoproductIsoProduct_hom_π,
     Preadditive.comp_sub, Preadditive.sub_comp, Category.comp_id, Pi.lift_comp_π]
-  rw [← Functor.map_comp, ← op_comp, Sigma.ι_desc]
+  rw [← Functor.map_comp, ← op_comp, Sigma.ι_comp_desc]
   simp only [op_sub, Functor.map_sub, op_comp, Functor.map_comp, Functor.comp_map,
     Functor.op_map, Quiver.Hom.unop_op]
   simp only [← Category.assoc, yonedaCoproductIsoProduct_hom_π]
@@ -617,7 +617,7 @@ public theorem exists_shortExact_map_from_isHomotopyColimit
     yonedaCoproductIsoProduct_map_difference F (L⟦(-1 : ℤ)⟧)
   have w₀ : (Y.shift (0 : ℤ)).map T.mor₂ ≫ e₀.hom =
       e₀.hom ≫ Rlim.delta A₀ := by
-    show (Y.shift 0).map a.op ≫ ((Y.isoShiftZero ℤ).hom.app _ ≫
+    change (Y.shift 0).map a.op ≫ ((Y.isoShiftZero ℤ).hom.app _ ≫
       (yonedaCoproductIsoProduct F.obj L).hom) =
         ((Y.isoShiftZero ℤ).hom.app _ ≫ (yonedaCoproductIsoProduct F.obj L).hom) ≫ _
     rw [← Category.assoc, (Y.isoShiftZero ℤ).hom.naturality a.op, Category.assoc,

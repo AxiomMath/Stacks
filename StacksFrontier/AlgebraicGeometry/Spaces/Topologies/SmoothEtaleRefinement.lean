@@ -109,12 +109,12 @@ theorem exists_isEtaleCovering_refining_isSmoothCovering
   have hwsite : (ObjectProperty.homMk h : B.obj (hcontains j) ⟶ (W k).left) ≫ (W k).hom =
       (V j).hom := by
     apply ObjectProperty.hom_ext
-    show h ≫ B.inclusion.map (Over.hom (W k)) = p j ≫ B.inclusion.map (Over.hom T₀)
+    change h ≫ B.inclusion.map (Over.hom (W k)) = p j ≫ B.inclusion.map (Over.hom T₀)
     rw [← hw, ← Category.assoc, hh']
   let hsite : V j ⟶ W k := Over.homMk (ObjectProperty.homMk h) hwsite
   have hsited : hsite ≫ d ⟨k, uk⟩ = π j := Over.OverMorphism.ext (ObjectProperty.hom_ext _ hh')
   refine ⟨k, yoneda.map hsite ≫ w k ≫ (pr k).hom, ?_⟩
-  show (yoneda.map hsite ≫ w k ≫ (pr k).hom) ≫ f k = yoneda.map (π j) ≫ b
+  change (yoneda.map hsite ≫ w k ≫ (pr k).hom) ≫ f k = yoneda.map (π j) ≫ b
   rw [Category.assoc, Category.assoc, ← hsq, ← Category.assoc (w k) ((q k).hom) b,
     ← hd ⟨k, uk⟩, ← Category.assoc, ← Functor.map_comp, hsited]
 

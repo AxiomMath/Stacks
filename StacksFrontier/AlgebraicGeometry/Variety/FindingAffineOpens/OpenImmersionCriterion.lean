@@ -64,7 +64,7 @@ preimage of the closure of its image, and the preimage of an irreducible compone
 open range is an irreducible component. -/
 public lemma mem_genericPoints_of_isOpenImmersion_apply {A B : Scheme.{u}} (f : A ⟶ B)
     [IsOpenImmersion f] {x : A} (hx : f x ∈ genericPoints B) : x ∈ genericPoints A := by
-  show closure ({x} : Set A) ∈ irreducibleComponents A
+  change closure ({x} : Set A) ∈ irreducibleComponents A
   rw [f.isOpenEmbedding.closure_eq_preimage_closure_image]
   simpa only [Set.image_singleton] using
     preimage_mem_irreducibleComponents hx f.isOpenEmbedding
@@ -115,7 +115,7 @@ public lemma mem_range_diagonal_of_diagonal_mem_range {X Y W : Scheme.{u}} {f : 
   obtain ⟨q, rfl⟩ := hη
   obtain ⟨q', hq'⟩ := h
   obtain rfl : q' = q := (m ≫ pullback.fst f f).isOpenEmbedding.injective <| by
-    simp [Scheme.Hom.comp_apply, hq', pullback_fst_diagonal_apply]
+    simp [hq', pullback_fst_diagonal_apply]
   exact ⟨_, hq'.symm⟩
 
 /-- If `f` is locally an open immersion on an open cover of the source and injective on generic

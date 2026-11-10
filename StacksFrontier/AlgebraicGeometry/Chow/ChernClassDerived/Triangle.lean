@@ -87,7 +87,7 @@ theorem hasEnvelopeMapPresentation_of_hasMapPresentation {E₁ E₂ : DerivedCat
   let ι := Cohomology.DerivedPullbackAlongIso.derivedPullbackIdIso X.toRingedSpace
   refine ⟨X, 𝟙 X, ⟨inferInstance, isCompletelyDecomposed_id X⟩, P₁, P₂, α, e₁ ≪≫ (ι.app E₁).symm,
     e₂ ≪≫ (ι.app E₂).symm, h₁, h₂, ?_⟩
-  show DerivedCategory.Q.map α ≫ e₂.hom ≫ ι.inv.app E₂ = (e₁.hom ≫ ι.inv.app E₁) ≫ _
+  change DerivedCategory.Q.map α ≫ e₂.hom ≫ ι.inv.app E₂ = (e₁.hom ≫ ι.inv.app E₁) ≫ _
   exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ ι.inv.app E₂) w).trans
     ((Category.assoc _ _ _).trans ((congrArg (e₁.hom ≫ ·) (ι.inv.naturality a)).trans
       (Category.assoc _ _ _).symm)))
@@ -193,7 +193,7 @@ theorem perfectChernCharacter_obj₂_of_hasEnvelopeMapPresentation
   rw [perfectChernCharacterComponent, perfectChernCharacterComponent,
     perfectChernCharacterComponent, ← TensorProduct.tmul_add]
   congr 1
-  show perfectPowerSum C sX d₂ p p = perfectPowerSum C sX d₁ p p + perfectPowerSum C sX d₃ p p
+  change perfectPowerSum C sX d₂ p p = perfectPowerSum C sX d₁ p p + perfectPowerSum C sX d₃ p p
   rw [perfectPowerSum_obj₂_of_hasEnvelopeMapPresentation T hT h C sX d₁ d₂ d₃ p]
   rfl
 
@@ -230,10 +230,9 @@ theorem HasTriangleChernCondition.hasEnvelopeMapPresentation {E₁ E₂ : Derive
 variable (T : Triangle (DerivedCategory X.Modules)) (hT : T ∈ distTriang _)
   (h₁ : Cohomology.PerfectComplexes.IsPerfect (X := X.toRingedSpace) T.obj₁)
   (h₂ : Cohomology.PerfectComplexes.IsPerfect (X := X.toRingedSpace) T.obj₂)
-  (h₃ : Cohomology.PerfectComplexes.IsPerfect (X := X.toRingedSpace) T.obj₃)
   (h : HasTriangleChernCondition T.mor₁)
 
-include C sX hT h₁ h₂ h₃ h
+include C sX hT h₁ h₂ h
 
 /-- **Stacks 0F9F, definedness.** Let `E₁ ⟶ E₂ ⟶ E₃ ⟶ E₁[1]` be a distinguished triangle of
 perfect objects of `D(𝒪_X)` satisfying one of the conditions of Stacks 0F9F. Then the Chern

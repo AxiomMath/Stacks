@@ -278,7 +278,7 @@ public theorem val_homRestrict_app (I : X.IdealSheafData) {n : ℕ} {G F : X.Mod
     (φ : idealPowSmul I n G ⟶ F) (V : (Over U)ᵒᵖ) (g : Γ(G, V.unop.left)) :
     ((homRestrict I hU φ).val.app V).hom g
       = φ.app V.unop.left ⟨g, mem_idealPowerMultiple_of_le I n G hU (leOfHom V.unop.hom) g⟩ := by
-  show φ.app V.unop.left (((idealPowSmulOverIso I n G hU).inv.val.app V).hom g) = _
+  change φ.app V.unop.left (((idealPowSmulOverIso I n G hU).inv.val.app V).hom g) = _
   exact congrArg (φ.app V.unop.left)
     (Subtype.ext (coe_idealPowSmulOverIso_inv_val_app I hU V g))
 
@@ -287,7 +287,7 @@ public theorem homRestrict_add (I : X.IdealSheafData) {G F : X.Modules} {U : X.O
     (hU : Disjoint (U : Set X) (I.support : Set X)) {n : ℕ}
     (φ ψ : idealPowSmul I n G ⟶ F) :
     homRestrict I hU (φ + ψ) = homRestrict I hU φ + homRestrict I hU ψ := by
-  show (idealPowSmulOverIso I n G hU).inv ≫ (φ.over U + ψ.over U) = _
+  change (idealPowSmulOverIso I n G hU).inv ≫ (φ.over U + ψ.over U) = _
   rw [Preadditive.comp_add]
   rfl
 

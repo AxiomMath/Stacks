@@ -57,14 +57,14 @@ theorem exists_etale_surjective_factor_of_smooth {T : BigFppfOver B S hS}
       Cardinal.mk_le_aleph0 W'
   obtain ⟨d, hd⟩ := hdesc (M := (Over.mk (m ≫ T.hom) : BigFppfOver B S hS))
     (fun k => Over.homMk (cc (idx k)) (by
-      show cc (idx k) ≫ m ≫ T.hom = e (idx k) ≫ T.hom
+      change cc (idx k) ≫ m ≫ T.hom = e (idx k) ≫ T.hom
       rw [← Category.assoc, hcc]))
   refine ⟨c, d, ?_⟩
   have key : eiso.hom ≫ (BigFppfOver.toScheme B S hS).map (d ≫ Over.homMk m rfl) =
       Sigma.desc fun k => B.inclusion.map (e (idx k)) := by
     refine Sigma.hom_ext _ _ fun k => ?_
-    rw [← Category.assoc, he k, Sigma.ι_desc, ← Functor.map_comp, ← Category.assoc, hd k]
-    show B.inclusion.map (cc (idx k) ≫ m) = _
+    rw [← Category.assoc, he k, Sigma.ι_comp_desc, ← Functor.map_comp, ← Category.assoc, hd k]
+    change B.inclusion.map (cc (idx k) ≫ m) = _
     rw [hcc]
   have _ : IsZariskiLocalAtSource (@Etale.{u}) :=
     HasRingHomProperty.instIsZariskiLocalAtSource (Q := RingHom.Etale)
@@ -74,7 +74,7 @@ theorem exists_etale_surjective_factor_of_smooth {T : BigFppfOver B S hS}
     refine ht.trans (Set.iUnion₂_subset fun i hi => ?_)
     exact Set.subset_iUnion_of_subset (ULift.up (t.equivFin ⟨i, hi⟩))
       (fun y hy => by
-        show y ∈ Set.range (B.inclusion.map (e (t.equivFin.symm (t.equivFin ⟨i, hi⟩)).1))
+        change y ∈ Set.range (B.inclusion.map (e (t.equivFin.symm (t.equivFin ⟨i, hi⟩)).1))
         rw [Equiv.symm_apply_apply]
         exact hy)
   · rw [← MorphismProperty.cancel_left_of_respectsIso (P := @Etale.{u}) eiso.hom, key]

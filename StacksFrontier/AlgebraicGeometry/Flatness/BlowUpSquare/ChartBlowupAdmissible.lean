@@ -316,7 +316,7 @@ pullback to `U`, which is defined because the inclusion of an open subscheme is 
 the pullback along the blowup morphism, which is defined by Stacks tag 0809. -/
 theorem isPullbackDefined_chartBlowupToBase (C : AffineChart S) :
     Stacks.Divisors.IsPullbackDefined C.chartBlowupToBase S.D := by
-  show Stacks.Divisors.IsEffectiveCartierDivisor (S.D.comap C.chartBlowupToBase)
+  change Stacks.Divisors.IsEffectiveCartierDivisor (S.D.comap C.chartBlowupToBase)
   rw [chartBlowupToBase, Scheme.IdealSheafData.comap_comp]
   exact isPullbackDefined_blowUpToBase C.blowupCentreIdealSheaf
     (S.D.comap (C.U : S.X.Opens).ι) (S.isPullbackDefined_ι (C.U : S.X.Opens))

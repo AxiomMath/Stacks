@@ -80,7 +80,7 @@ theorem iInf_maximalIdeals : (⨅ j, maximalIdeals j) = Ideal.span {(6 : ℤ)} :
     le_antisymm (le_inf (iInf_le _ 0) (iInf_le _ 1))
       (le_iInf fun j ↦ by fin_cases j; exacts [inf_le_left, inf_le_right])
   rw [hpair]
-  show Ideal.span {(2 : ℤ)} ⊓ Ideal.span {(3 : ℤ)} = Ideal.span {(6 : ℤ)}
+  change Ideal.span {(2 : ℤ)} ⊓ Ideal.span {(3 : ℤ)} = Ideal.span {(6 : ℤ)}
   ext n
   simp only [Ideal.mem_span_singleton, Submodule.mem_inf]
   omega

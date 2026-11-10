@@ -106,7 +106,7 @@ theorem tildeExteriorPowerIso_natural_left (n : ℕ)
       B.exterior.toPresheafGradedAlgebra.homogeneousProd (specGlobalOpen R) n
         (fun i => B.exteriorGenerator.val.app (specGlobalOpen R)
           ((tilde.toOpen N ⊤).hom (f.hom (s i)))) := by
-  show (tildeExteriorPowerIso N B n).hom.val.app (specGlobalOpen R)
+  change (tildeExteriorPowerIso N B n).hom.val.app (specGlobalOpen R)
       ((tilde.map (ModuleCat.ofHom (R := R)
           (X := ModuleCat.of ↥R ↥(⋀[↥R]^n ↥M)) (Y := ModuleCat.of ↥R ↥(⋀[↥R]^n ↥N))
           (exteriorPower.map n f.hom))).val.app (specGlobalOpen R) _) = _
@@ -134,7 +134,7 @@ theorem tildeExteriorPowerIso_natural_right (n : ℕ)
       B.exterior.toPresheafGradedAlgebra.homogeneousProd (specGlobalOpen R) n
         (fun i => B.exteriorGenerator.val.app (specGlobalOpen R)
           ((tilde.toOpen N ⊤).hom (f.hom (s i)))) := by
-  show (g.app (n : ℤ)).val.app (specGlobalOpen R)
+  change (g.app (n : ℤ)).val.app (specGlobalOpen R)
       ((tildeExteriorPowerIso M A n).hom.val.app (specGlobalOpen R) _) = _
   rw [tildeExteriorPowerIso_hom_app_ιMulti]
   refine Eq.trans (SheafOfModules.GradedAlgebra.UnitalHom.app_homogeneousProd g

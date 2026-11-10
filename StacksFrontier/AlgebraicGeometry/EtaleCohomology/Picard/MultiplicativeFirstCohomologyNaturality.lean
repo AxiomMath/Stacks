@@ -473,7 +473,7 @@ theorem pullbackSectionsMap_baseChangeSectionsMap {A B : Over X} {T : Over Y} (g
       baseChangeSectionsMap π L ((Over.map π).map g ≫ p) s := by
   refine (congrArg (fun φ => φ (pullbackSectionsMap L p s))
     (Stacks.Sites.pullbackSectionsMap_baseChange L (Over.mk π) g)).symm.trans ?_
-  show (Stacks.Sites.baseChangeSectionsIso L (Over.mk π) B).hom
+  change (Stacks.Sites.baseChangeSectionsIso L (Over.mk π) B).hom
     (pullbackSectionsMap L ((Over.map π).map g) (pullbackSectionsMap L p s)) = _
   rw [← pullbackSectionsMap_comp_apply]
   rfl
@@ -537,7 +537,7 @@ theorem generatorPullback_naturality {U U' : Y.Etale} (f : U' ⟶ U)
       (generatorPresheaf ((Scheme.Modules.pullback π).obj L)).map
         ((Stacks.EtaleCohomology.smallEtaleBaseChange π).map f).op (generatorPullback π L U s) := by
   apply Subtype.ext
-  show sec ((Scheme.Modules.pullback π).obj L) (generatorPullback π L U'
+  change sec ((Scheme.Modules.pullback π).obj L) (generatorPullback π L U'
       ((generatorPresheaf L).map f.op s)) =
     sec ((Scheme.Modules.pullback π).obj L)
       ((generatorPresheaf ((Scheme.Modules.pullback π).obj L)).map
@@ -557,7 +557,7 @@ theorem generatorPullback_unitSmul (U : Y.Etale) (a : (Γ(U.left, ⊤))ˣ)
         (Units.map (pullback.fst U.hom π).appTop.hom.toMonoidHom a)
         (generatorPullback π L U s) := by
   apply Subtype.ext
-  show sec ((Scheme.Modules.pullback π).obj L) (generatorPullback π L U (unitSmul L a s)) =
+  change sec ((Scheme.Modules.pullback π).obj L) (generatorPullback π L U (unitSmul L a s)) =
     sec ((Scheme.Modules.pullback π).obj L) (unitSmul ((Scheme.Modules.pullback π).obj L)
         (Units.map (pullback.fst U.hom π).appTop.hom.toMonoidHom a) (generatorPullback π L U s))
   rw [sec_generatorPullback, sec_unitSmul]
@@ -672,7 +672,7 @@ theorem h1RootsOfUnityToPicard_naturality {X Y : Scheme.{u}} (π : X ⟶ Y)
     rw [Stacks.EtaleCohomology.rootsOfUnityPullbackMap_apply, ← Sheaf.H.map_comp_apply,
       rootsOfUnityInverseImageComparison_comp_rootsOfUnityι, Sheaf.H.map_comp_apply,
       etaleCohomologyRestrictionMap_sheafHMap]
-  show etaleH1MultiplicativeAddEquivPicard.{w, v, u} X
+  change etaleH1MultiplicativeAddEquivPicard.{w, v, u} X
     (Sheaf.H.map (rootsOfUnityι.{u, v} X n) 1
       (Stacks.EtaleCohomology.rootsOfUnityPullbackMap.{u, v, w} π n 1 x)) = _
   rw [key, etaleH1MultiplicativeAddEquivPicard_naturality]

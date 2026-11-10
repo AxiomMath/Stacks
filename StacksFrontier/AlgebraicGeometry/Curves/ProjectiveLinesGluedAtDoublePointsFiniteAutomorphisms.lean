@@ -236,7 +236,7 @@ theorem ne_of_range_comp_subset (φ : gluedCurve k pts hpts ≅ gluedCurve k pts
   rintro _ ⟨x, rfl⟩
   have hp : (gluedCurveComponent k pts hpts (!c₂)).base x =
       φ.hom.base (φ.inv.base ((gluedCurveComponent k pts hpts (!c₂)).base x)) := by
-    show _ = (φ.inv ≫ φ.hom).base _
+    change _ = (φ.inv ≫ φ.hom).base _
     rw [Iso.inv_hom_id]
     rfl
   obtain ⟨b, y, hy⟩ := gluedCurveComponent_jointly_surjective k pts hpts

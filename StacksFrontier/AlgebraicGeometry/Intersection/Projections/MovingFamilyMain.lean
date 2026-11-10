@@ -371,7 +371,7 @@ public theorem exists_isOpen_forall_closedPoint_movingFamily_of_inter_eq_empty
     exact closure_eq_univ_of_closedPoints_subset fun lam hlam =>
       mem_image_ambLine_of_movingFibre_nonempty k V L lam (mem_closedPoints_iff.mp hlam)
         (by
-          show (movingFibre k V L lam (mem_closedPoints_iff.mp hlam)
+          change (movingFibre k V L lam (mem_closedPoints_iff.mp hlam)
             (constantFamily k V L (C : Set (projectiveSpaceOfModule k V)))).Nonempty
           rw [hfib lam (mem_closedPoints_iff.mp hlam)]
           exact hCirr.nonempty)
@@ -380,7 +380,7 @@ public theorem exists_isOpen_forall_closedPoint_movingFamily_of_inter_eq_empty
       isIrreducible_constantFamily k V L _ X.isClosed' X.isIrreducible',
       isClosed_constantFamily k V L _ X.isClosed'⟩, rfl,
       intersectProperly_of_inter_eq_empty _ _ ?_⟩
-    show constantFamily k V L (C : Set (projectiveSpaceOfModule k V)) ∩
+    change constantFamily k V L (C : Set (projectiveSpaceOfModule k V)) ∩
       constantFamily k V L (X : Set (projectiveSpaceOfModule k V)) = ∅
     rw [constantFamily, constantFamily, lineProductConstant, lineProductConstant,
       ← Set.preimage_inter, hCX0, Set.preimage_empty]
@@ -564,7 +564,7 @@ public theorem exists_intersectProperly_and_not_exists_finrank_lineSpace_eq_two
         topologicalKrullDim (projectiveSpaceOfModule k V) :=
       IsHomeomorph.topologicalKrullDim_eq _
         (Homeomorph.Set.univ (projectiveSpaceOfModule k V)).isHomeomorph
-    show topologicalKrullDim ↥((Set.univ : Set (projectiveSpaceOfModule k V)) ∩ Set.univ) +
+    change topologicalKrullDim ↥((Set.univ : Set (projectiveSpaceOfModule k V)) ∩ Set.univ) +
         topologicalKrullDim (projectiveSpaceOfModule k V) ≤
       topologicalKrullDim ↥(Set.univ : Set (projectiveSpaceOfModule k V)) +
         topologicalKrullDim ↥(Set.univ : Set (projectiveSpaceOfModule k V))

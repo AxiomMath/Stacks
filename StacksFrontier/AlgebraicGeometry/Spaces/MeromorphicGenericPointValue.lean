@@ -105,7 +105,7 @@ theorem modulePullbackChartValue_add (d : ChartDiagram B S hS X.1 Y.1 f.hom)
     modulePullbackChartValue B S hS f M N τ d (s + s') =
       modulePullbackChartValue B S hS f M N τ d s +
         modulePullbackChartValue B S hS f M N τ d s' := by
-  show (τ.val.app (op d.U)).hom ((modulePullbackChartFMap B S hS f M).app d (s + s')) = _
+  change (τ.val.app (op d.U)).hom ((modulePullbackChartFMap B S hS f M).app d (s + s')) = _
   rw [(modulePullbackChartFMap B S hS f M).map_add d s s', map_add]
   rfl
 
@@ -117,7 +117,7 @@ theorem modulePullbackChartValue_smul (d : ChartDiagram B S hS X.1 Y.1 f.hom)
     (s : M.val.obj (op d.V)) :
     modulePullbackChartValue B S hS f M N τ d (r • s) =
       chartDiagramPullback B S hS f d r • modulePullbackChartValue B S hS f M N τ d s := by
-  show (τ.val.app (op d.U)).hom ((modulePullbackChartFMap B S hS f M).app d (r • s)) = _
+  change (τ.val.app (op d.U)).hom ((modulePullbackChartFMap B S hS f M).app d (r • s)) = _
   rw [(modulePullbackChartFMap B S hS f M).map_smul d r s, map_smul]
   rfl
 
@@ -129,7 +129,7 @@ theorem modulePullbackChartValue_map (d d' : ChartDiagram B S hS X.1 Y.1 f.hom)
     (s : M.val.obj (op d.V)) :
     modulePullbackChartValue B S hS f M N τ d' ((M.val.map j.op).hom s) =
       (N.val.map i.op).hom (modulePullbackChartValue B S hS f M N τ d s) := by
-  show (τ.val.app (op d'.U)).hom
+  change (τ.val.app (op d'.U)).hom
       ((modulePullbackChartFMap B S hS f M).app d' ((M.val.map j.op).hom s)) = _
   rw [(modulePullbackChartFMap B S hS f M).naturality d d' i j hij s]
   exact PresheafOfModules.naturality_apply τ.val i.op _

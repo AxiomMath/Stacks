@@ -178,7 +178,7 @@ theorem exists_branchResidues_existsUnique_extend_of_algEquiv
         (∀ a : A, D' (algebraMap A S a) = algebraMap A S (D a)) ∧
           NodalVectorFields.Fixes δ₁ D' ∧ NodalVectorFields.Fixes δ₂ D' := by
   let E' : S ≃ₐ[k] T := AlgEquiv.ofRingEquiv (f := E.toRingEquiv) fun c => by
-    show E (algebraMap k S c) = algebraMap k T c
+    change E (algebraMap k S c) = algebraMap k T c
     rw [htow c, E.commutes, ← IsScalarTower.algebraMap_apply k A T]
   have hE : ∀ a : A, E' (algebraMap A S a) = algebraMap A T a := E.commutes
   refine ⟨ε₁.comp (E' : S →ₐ[k] T), ε₂.comp (E' : S →ₐ[k] T), ?_, fun a => ?_, fun D => ?_⟩
@@ -187,7 +187,7 @@ theorem exists_branchResidues_existsUnique_extend_of_algEquiv
     have h : ε₁ (E' (E'.symm t)) = ε₂ (E' (E'.symm t)) :=
       congrArg (fun f : S →ₐ[k] k => f (E'.symm t)) hcon
     rwa [E'.apply_symm_apply] at h
-  · show ε₁ (E' (algebraMap A S a)) = ε₂ (E' (algebraMap A S a))
+  · change ε₁ (E' (algebraMap A S a)) = ε₂ (E' (algebraMap A S a))
     rw [hE]
     exact hres a
   · exact existsUnique_extend_of_algEquiv E' hE ε₁ ε₂ D (hext D)

@@ -62,7 +62,7 @@ theorem left_toMul_ofSchemeAddEquivRepresentingPoints {P : BigFppfOver B (Spec (
   have h1 : representingPointsAddEquiv R q = R.homEquiv t := AddEquiv.apply_symm_apply _ _
   have h2 : R.homEquiv ((fullyFaithfulToOver B hk).preimage
       ((Over.homMk (𝟙 _) (by
-        show 𝟙 (Spec (.of k)) ≫ 𝟙 (Spec (.of k)) = B.inclusion.map (𝟙 (B.obj hk))
+        change 𝟙 (Spec (.of k)) ≫ 𝟙 (Spec (.of k)) = B.inclusion.map (𝟙 (B.obj hk))
         rw [CategoryTheory.Functor.map_id, Category.comp_id]; rfl) :
         (BigFppfOver.toOver B (Spec (.of k)) hk).obj (terminalTest B hk) ⟶
           𝟙_ (Over (Spec (.of k)))) ≫ q.toMul)) = R.homEquiv t := h1
@@ -141,7 +141,7 @@ theorem isAbelianVariety_and_dimension_eq_genus_of_smoothOfRelativeDimension
     rfl
   have hconn : ConnectedSpace ((BigFppfOver.toOver B (Spec (.of k)) hk).obj Hb).left :=
     @IrreducibleSpace.connectedSpace _ _ hirr
-  refine @OpenSubgroupScheme.isAbelianVariety_carrier_of_closedPoints k _ _ G H₀ (genus f)
+  refine @OpenSubgroupScheme.isAbelianVariety_carrier_of_closedPoints k _ G H₀ (genus f)
     hsmooth _ hconn ((BigFppfOver.toOver B (Spec (.of k)) hk).obj Hb).hom hprop a ha
     (pt D₀) ?_ ?_
   · -- `D₀` goes to the identity
@@ -164,9 +164,9 @@ theorem isAbelianVariety_and_dimension_eq_genus_of_smoothOfRelativeDimension
       (ψ.symm (Additive.ofMul x') + c₀) (by rw [map_add, hdeg, hc₀, zero_add])
     refine ⟨pt D, ?_⟩
     rw [hpt, hD, map_add, AddEquiv.apply_symm_apply]
-    show (x' * y₀ * y₀⁻¹).left _ = _
+    change (x' * y₀ * y₀⁻¹).left _ = _
     rw [_root_.mul_inv_cancel_right]
-    show (H₀.ι.hom.hom.left) (x (IsLocalRing.closedPoint k)) = _
+    change (H₀.ι.hom.hom.left) (x (IsLocalRing.closedPoint k)) = _
     exact congrArg _ (pointOfClosedPoint_apply H₀.carrier.X.hom y hy _)
 
 end Stacks.PicardFunctor

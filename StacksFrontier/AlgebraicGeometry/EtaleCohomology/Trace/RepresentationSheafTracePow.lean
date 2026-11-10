@@ -67,11 +67,6 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
       (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
       (SmallEtale.topology B S.1 S.property)
       (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
-  [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
-    HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
-      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
-  [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
-    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   [IsNoetherian X.1]
   {k : Type u} [Field k] [Finite k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
   (ρ : EtaleFundamentalGroup X.1 x →* GL (Fin r) ℚ_[ℓ]) (hρ : Continuous ρ)

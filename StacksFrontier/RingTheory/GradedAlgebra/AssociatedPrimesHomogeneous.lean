@@ -64,7 +64,8 @@ reported rather than done here, because it would move a declaration out of a rev
 
 Extremal degrees are produced as existence statements rather than as `Finset.max'` of the support,
 so that the decidability instance `∀ i (y : 𝒜 i), Decidable (y ≠ 0)` stays inside the proofs where
-`classical` supplies it — the convention `StacksFrontier/AlgebraicGeometry/ProjIdealSheaf/HomogeneousGenerator.lean` already uses.
+`classical` supplies it — the convention
+`StacksFrontier/AlgebraicGeometry/ProjIdealSheaf/HomogeneousGenerator.lean` already uses.
 
 Saturation is written out as the hypothesis
 `∀ x, (∃ N, ∀ y ∈ 𝒜 N, y * x ∈ I) → x ∈ I` rather than introduced as a predicate. The notion

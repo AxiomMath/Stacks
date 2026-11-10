@@ -169,7 +169,7 @@ private theorem map_units_eq_one_iff_exists_onePlus (I : Ideal R) (hI : I * I = 
     simp [onePlusHomOfSqZero]
   · rintro ⟨x, rfl⟩
     apply Units.ext
-    show f (1 + (x : R)) = 1
+    change f (1 + (x : R)) = 1
     have hx : f (x : R) = 0 := RingHom.mem_ker.mp (hker ▸ x.2)
     rw [map_add, hx]
     simp
@@ -403,7 +403,7 @@ theorem idealSection_lift_affine (i : X ⟶ X') [QuasiCompact i] (U : X'.affineO
     ext z
     rfl⟩
   have hqa : (q.val.app (op U.1)).hom a = 0 := by
-    show (i.app U).hom a = 0
+    change (i.app U).hom a = 0
     exact RingHom.mem_ker.mp (by rwa [← Scheme.Hom.ker_apply])
   let κ : (kernel q).val.obj (op U.1) ≅ kernel (q.val.app (op U.1)) :=
     PreservesKernel.iso E q
@@ -415,7 +415,7 @@ theorem idealSection_lift_affine (i : X ⟶ X') [QuasiCompact i] (U : X'.affineO
       ((ModuleCat.kernelIsoKer (q.val.app (op U.1))).inv.hom sa)) hκ
   have hsub : (kernel.ι (q.val.app (op U.1))).hom
       ((ModuleCat.kernelIsoKer (q.val.app (op U.1))).inv.hom sa) = a := by
-    show ((ModuleCat.kernelIsoKer (q.val.app (op U.1))).inv ≫
+    change ((ModuleCat.kernelIsoKer (q.val.app (op U.1))).inv ≫
       kernel.ι (q.val.app (op U.1))).hom sa = a
     rw [ModuleCat.kernelIsoKer_inv_kernel_ι]
     rfl
@@ -461,7 +461,7 @@ theorem idealSectionOnePlusUnit_map_eq_one (i : X ⟶ X') [QuasiCompact i]
     (s : (idealModuleSheaf i).val.obj (op U)) :
     Units.map (i.app U).hom.toMonoidHom (idealSectionOnePlusUnit i hi U s) = 1 := by
   apply Units.ext
-  show (i.app U).hom (1 + idealSection i U s) = 1
+  change (i.app U).hom (1 + idealSection i U s) = 1
   rw [map_add, map_one, idealSection_map_zero, add_zero]
 
 /-- Over an affine open, a unit restricting to the identity on the closed subscheme is `1 + f`
@@ -474,7 +474,7 @@ theorem idealSectionOnePlus_affine_kernel (i : X ⟶ X') [QuasiCompact i]
   obtain ⟨s, hs⟩ := idealSection_lift_affine i U x x.2
   refine ⟨s, ?_⟩
   apply Units.ext
-  show (1 : Γ(X', U.1)) + idealSection i U.1 s = (u : Γ(X', U.1))
+  change (1 : Γ(X', U.1)) + idealSection i U.1 s = (u : Γ(X', U.1))
   rw [hs]
   exact congrArg Units.val hx
 
@@ -517,7 +517,7 @@ theorem idealSectionOnePlusHom_natural (i : X ⟶ X') [QuasiCompact i]
       idealSectionOnePlusHom i hi V (idealRestrict i h s) := by
   apply congrArg Additive.ofMul
   apply Units.ext
-  show ConcreteCategory.hom (X'.presheaf.map (homOfLE h).op)
+  change ConcreteCategory.hom (X'.presheaf.map (homOfLE h).op)
       ((1 : Γ(X', U)) + idealSection i U s) =
     (1 : Γ(X', V)) + idealSection i V (idealRestrict i h s)
   rw [map_add, map_one, idealSection_restrict]
@@ -604,7 +604,7 @@ theorem idealUnitsShortExact (i : X ⟶ X') [QuasiCompact i]
   let S := ShortComplex.mk f g h
   have : Mono S.f := idealToUnitsSheafHom_mono i hi
   have : Epi S.g := unitsRestrictionSheafHom_epi i hi
-  show S.ShortExact
+  change S.ShortExact
   refine { exact := ?_ }
   apply S.exact_iff_epi_kernel_lift.mpr
   apply (TopCat.Sheaf.isLocallySurjective_iff_epi _).mp
@@ -977,14 +977,14 @@ theorem surjOn_zsmul_of_exact (f : A →+ B) (g : B →+ C) (h : C →+ D)
   have hc0 : n • c = 0 := hc
   have hhc : h c = 0 := by
     apply hD
-    show n • h c = n • (0 : D)
+    change n • h c = n • (0 : D)
     rw [← map_zsmul, hc0, map_zero, smul_zero]
   obtain ⟨b, hb⟩ := (hgh c).mp hhc
   obtain ⟨a, ha⟩ := (hfg (n • b)).mp (by rw [map_zsmul, hb, hc0])
   obtain ⟨a', ha'⟩ := hA a
   have ha'' : n • a' = a := ha'
   refine ⟨b - f a', ?_, ?_⟩
-  · show n • (b - f a') = 0
+  · change n • (b - f a') = 0
     rw [smul_sub, ← map_zsmul, ha'', ha, sub_self]
   · rw [map_sub, hb, (hfg (f a')).mpr ⟨a', rfl⟩, sub_zero]
 
@@ -1013,7 +1013,7 @@ theorem bijOn_zsmul_of_exact (e : E →+ A) (f : A →+ B) (g : B →+ C) (h : C
     (hsat : ∀ a : A, n • a ∈ Set.range e → a ∈ Set.range e) :
     Set.BijOn g {b : B | n • b = 0} {c : C | n • c = 0} :=
   ⟨fun b hb => by
-      show n • g b = 0
+      change n • g b = 0
       rw [← map_zsmul, (hb : n • b = 0), map_zero],
     injOn_zsmul_of_exact e f g hef hfg n hsat,
     surjOn_zsmul_of_exact f g h hfg hgh n hA hD⟩
@@ -1055,7 +1055,7 @@ theorem bijective_zsmul_idealSections (i : X ⟶ X') (hi : IsThickening i) {n : 
   refine ⟨fun s t hst => ?_, fun t => ⟨Units.val v⁻¹ • t, ?_⟩⟩
   · rw [← key s, ← key t]
     exact congrArg (fun z => Units.val v⁻¹ • z) hst
-  · show n • (Units.val v⁻¹ • t) = t
+  · change n • (Units.val v⁻¹ • t) = t
     rw [← Int.cast_smul_eq_zsmul ((structureSheafRing X'.toSheafedSpace).obj.obj (op U)) n
       (Units.val v⁻¹ • t), ← hv, smul_smul, Units.mul_inv, one_smul]
 
@@ -1110,14 +1110,14 @@ theorem bijective_zsmul_cohomology_idealAddSheafOnSub (i : X ⟶ X')
       fun y : CategoryTheory.Sheaf.H.{u} (idealAddSheafOnSub i) k => n • y := by
   have h := bijective_zsmul_cohomology_idealAddSheaf i hi.isThickening hn k
   refine ⟨fun y₁ y₂ hy => (idealCohomologyEquiv i hi k).injective (h.1 ?_), fun y => ?_⟩
-  · show n • (idealCohomologyEquiv i hi k) y₁ = n • (idealCohomologyEquiv i hi k) y₂
+  · change n • (idealCohomologyEquiv i hi k) y₁ = n • (idealCohomologyEquiv i hi k) y₂
     rw [← map_zsmul, ← map_zsmul]
     exact congrArg (idealCohomologyEquiv i hi k) hy
   · obtain ⟨z, hz⟩ := h.2 (idealCohomologyEquiv i hi k y)
     have hz' : n • z = idealCohomologyEquiv i hi k y := hz
     refine ⟨(idealCohomologyEquiv i hi k).symm z, ?_⟩
     apply (idealCohomologyEquiv i hi k).injective
-    show (idealCohomologyEquiv i hi k) (n • (idealCohomologyEquiv i hi k).symm z) = _
+    change (idealCohomologyEquiv i hi k) (n • (idealCohomologyEquiv i hi k).symm z) = _
     rw [map_zsmul, AddEquiv.apply_symm_apply, hz']
 
 end InvertibleInteger
@@ -1175,7 +1175,7 @@ theorem injective_picardOfIdeal_of_surjective_unitsToSubCohomology (i : X ⟶ X'
   have hby : thickeningBoundary i hi 0 y = 0 :=
     (exact_unitsToSubCohomology i hi 0 y).mpr ⟨z, hz⟩
   rw [← hy]
-  show (idealCohomologyEquiv i hi 1).symm (thickeningBoundary i hi 0 y) = 0
+  change (idealCohomologyEquiv i hi 1).symm (thickeningBoundary i hi 0 y) = 0
   rw [hby, map_zero]
 
 /-- Surjectivity half of the statement of Tag 0C6S for a first-order thickening: for `n`

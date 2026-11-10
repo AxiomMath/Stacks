@@ -126,7 +126,7 @@ private theorem surjective_of_artinian_range_of_localization
     apply (mul_left_inj' hb).mp
     calc
       (av / bv : g.range).val * f (algebraMap R S b) = f (algebraMap R S a) := by
-        show ((av / bv) * bv : g.range).val = av.val
+        change ((av / bv) * bv : g.range).val = av.val
         rw [div_mul_cancel₀ _ fun h0 => hb (congrArg Subtype.val h0)]
       _ = f s * f (algebraMap R S b) := by
         rw [← map_mul, ← hs, IsLocalization.mk'_spec]
@@ -190,11 +190,10 @@ theorem residueTensorMap_surjective
     residue_surjective (residueTensorMap A B D C).toRingHom
   intro b₁
   obtain ⟨s, rfl⟩ := hg b₁
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | tmul b a =>
     refine ⟨residue D (algebraMap A₁ D a) ⊗ₜ[ResidueField A] residue B b, ?_⟩
-    show residueTensorMap A B D C _ = _
+    change residueTensorMap A B D C _ = _
     rw [residueTensorMap_tmul]
     have hmul : b ⊗ₜ[A] a =
         (Algebra.TensorProduct.includeLeft : B →ₐ[A] B ⊗[A] A₁) b *
@@ -257,7 +256,7 @@ theorem isLocalHom_of_integral_localization
     IsLocalHom (algebraMap A D) := by
   apply ((local_hom_TFAE (algebraMap A D)).out 5 1).mp
   rw [IsScalarTower.algebraMap_eq A R D, ← Ideal.comap_comap]
-  show ((IsLocalRing.maximalIdeal D).under R).comap (algebraMap A R) = IsLocalRing.maximalIdeal A
+  change ((IsLocalRing.maximalIdeal D).under R).comap (algebraMap A R) = IsLocalRing.maximalIdeal A
   rw [IsLocalization.AtPrime.under_maximalIdeal D q]
   exact eq_maximalIdeal (inferInstance : (q.under A).IsMaximal)
 

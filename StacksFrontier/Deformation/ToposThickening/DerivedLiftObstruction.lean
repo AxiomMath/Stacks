@@ -289,10 +289,12 @@ def Isomorphic (L₁ L₂ : DerivedLift T K₀) : Prop :=
   ∃ e : L₁.K.obj ≅ L₂.K.obj,
     T.baseChange.map e.hom ≫ L₂.identification.hom = L₁.identification.hom
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- A lift is isomorphic to itself. -/
 theorem Isomorphic.refl (L : DerivedLift T K₀) : Isomorphic L L :=
   ⟨Iso.refl _, by rw [Iso.refl_hom, CategoryTheory.Functor.map_id, Category.id_comp]⟩
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- Isomorphy of lifts is symmetric: the inverse isomorphism matches the identifications the
 other way round. -/
 theorem Isomorphic.symm {L₁ L₂ : DerivedLift T K₀} (h : Isomorphic L₁ L₂) :
@@ -302,6 +304,7 @@ theorem Isomorphic.symm {L₁ L₂ : DerivedLift T K₀} (h : Isomorphic L₁ L�
   rw [Iso.symm_hom, ← he, ← Category.assoc, ← CategoryTheory.Functor.map_comp,
     Iso.inv_hom_id, CategoryTheory.Functor.map_id, Category.id_comp]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- Isomorphy of lifts is transitive, by composing the two isomorphisms. -/
 theorem Isomorphic.trans {L₁ L₂ L₃ : DerivedLift T K₀} (h : Isomorphic L₁ L₂)
     (h' : Isomorphic L₂ L₃) : Isomorphic L₁ L₃ := by

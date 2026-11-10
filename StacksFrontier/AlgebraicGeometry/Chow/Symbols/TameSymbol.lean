@@ -84,7 +84,7 @@ theorem fractionGroupMap_mk {A : Type u} [CommRing A] [IsDomain A]
     fractionGroupMap (K := K) (Localization.mk a ⟨b, Submonoid.mem_top b⟩) =
       fractionUnitMap (K := K) a / fractionUnitMap (K := K) b := by
   rw [Localization.mk_eq_monoidOf_mk'_apply]
-  show (Localization.monoidOf ⊤).lift (g := fractionUnitMap (K := K))
+  change (Localization.monoidOf ⊤).lift (g := fractionUnitMap (K := K))
     (fun _ ↦ Group.isUnit _) ((Localization.monoidOf ⊤).mk' a
       ⟨b, Submonoid.mem_top b⟩) = _
   rw [Submonoid.LocalizationMap.lift_mk', div_eq_mul_inv]
@@ -263,10 +263,10 @@ theorem fractionGroupEquiv_symm_map_units {A : Type u} [CommRing A]
       (IsLocalization.map_units K a).unit = Algebra.GrothendieckGroup.of a := by
   apply (fractionGroupEquiv (A := A) (K := K)).injective
   rw [MulEquiv.apply_symm_apply]
-  show (IsLocalization.map_units K a).unit =
+  change (IsLocalization.map_units K a).unit =
     fractionGroupMap (K := K) (Localization.mk a (1 : (⊤ : Submonoid (RegularElements A))))
   rw [fractionGroupMap_mk]
-  show (IsLocalization.map_units K a).unit =
+  change (IsLocalization.map_units K a).unit =
     fractionUnitMap (K := K) a / fractionUnitMap (K := K) 1
   rw [map_one, div_one]
   exact Units.ext (fractionUnitMap_val (K := K) a).symm

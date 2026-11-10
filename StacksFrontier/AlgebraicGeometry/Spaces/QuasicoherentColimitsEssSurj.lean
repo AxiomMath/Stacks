@@ -33,7 +33,8 @@ Descent, Chapter 35**, which are the same two that
   `𝒪_F`-modules whose kernel is cartesian on affine charts.  It is Descent, Proposition 03DW for
   a cartesian, hence quasi-coherent, kernel.
 
-Nothing mathematical happens here: every result below is a composition of theorems already in the library, and
+Nothing mathematical happens here: every result below is a composition of theorems already in the
+library, and
 the file introduces no definition, structure, class or instance.
 
 ## Main results
@@ -91,7 +92,8 @@ sheafification of the cokernel of presheaves and its sections over a chart are t
 cokernel of the sections.
 
 **The module universe is the universe `u` of the schemes**, and it is forced three times
-over, all three reasons being recorded by the files composed: the statements name `CategoryTheory.Limits.cokernel`, so the category of
+over, all three reasons being recorded by the files composed: the statements name
+`CategoryTheory.Limits.cokernel`, so the category of
 modules has to have cokernels, which at this site holds at `m := u`; the sections of
 `AlgebraicGeometry.Space.SmallEtale.sliceAssociatedModule` lie in `Type u` by construction, so
 `hEss` is not statable at another module universe; and

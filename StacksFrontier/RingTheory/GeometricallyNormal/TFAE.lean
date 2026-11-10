@@ -66,7 +66,8 @@ transcendence basis it factors as `K ⊗[F(s)] (F(s) ⊗[F] T)`, and the two hal
 ## Implementation notes
 
 The basic API for the library's `IsNormalRing` that the proof needs is proved upstream, next to
-the definition in `StacksFrontier.RingTheory.IntegrallyClosed.Defs`: normality transports along a ring
+the definition in `StacksFrontier.RingTheory.IntegrallyClosed.Defs`: normality transports along a
+ring
 isomorphism (`IsNormalRing.congr`), passes to an arbitrary localization
 (`IsNormalRing.isLocalization`, which is Lemma 037C for a normal ring rather than for a normal
 domain), is read off at a prime through any model of the localization (`IsNormalRing.atPrime`), and
@@ -527,7 +528,8 @@ and of a polynomial ring over a normal ring (Lemma 00H1, `polynomial_ring_normal
 
 "Finitely generated field extension" is `Algebra.EssFiniteType k k'`, Mathlib's spelling of finite
 generation for field extensions (`IntermediateField.essFiniteType_iff`), as in the statement
-of Lemma 037X in the library; it is not `Algebra.FiniteType`, which for fields is the strictly stronger condition
+of Lemma 037X in the library; it is not `Algebra.FiniteType`, which for fields is the strictly
+stronger condition
 of being generated as a `k`-algebra, and would make item (2) miss `k(t)`.
 
 The test field of items (1)–(3) ranges over `Type u`, the universe of `k`, and this is the source's

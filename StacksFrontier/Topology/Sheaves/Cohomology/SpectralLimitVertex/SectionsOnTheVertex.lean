@@ -444,7 +444,7 @@ lemma colimit_ι_comp_stageSectionsVertexIso (j : J) (Z : Opens (S.E.obj j))
         (SheafedSpaceLimit.coleg c k).app
             (op ((Opens.map (conePointIso S c hc).hom).obj (S.limOpen Z))) ≫
           (S.legOpenIso c hc j Z).hom := by
-  rw [stageSectionsVertexIso_hom, HasColimit.isoOfNatIso_ι_hom_assoc, colimit.ι_post_assoc]
+  rw [stageSectionsVertexIso_hom, HasColimit.ι_isoOfNatIso_hom_assoc, colimit.ι_post_assoc]
   refine congrArg (fun z ↦ (S.sectionsCompareIso c hc j Z).hom.app (op k) ≫ z) ?_
   refine Eq.trans (Category.assoc _ _ _).symm ?_
   exact congrArg (fun z ↦ z ≫ (S.legOpenIso c hc j Z).hom)

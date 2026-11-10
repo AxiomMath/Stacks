@@ -136,7 +136,7 @@ theorem isPullback_fppfYoneda_map_preimage {X : FppfSheaf B S hS} {U V P : BigFp
   let K := sheafToPresheaf (BigFppfOver.topology B S hS) (Type (u + 1))
   let e := fppfYonedaCompSheafToPresheaf' B S hS
   refine (isPullback_fppfYoneda_map_iff B S hS _ _ p q).mpr ?_
-  show IsPullback _ _ (e.inv.app U ≫ K.map _) (e.inv.app V ≫ K.map _)
+  change IsPullback _ _ (e.inv.app U ≫ K.map _) (e.inv.app V ≫ K.map _)
   rwa [K.map_preimage (e.hom.app U ≫ a), K.map_preimage (e.hom.app V ≫ b),
     Iso.inv_hom_id_app_assoc, Iso.inv_hom_id_app_assoc]
 

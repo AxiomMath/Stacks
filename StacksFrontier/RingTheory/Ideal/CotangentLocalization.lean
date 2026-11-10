@@ -124,11 +124,11 @@ theorem isLocalizedModule_localizedCotangentMap (M : Submonoid R) (A : Type v) [
     obtain ⟨⟨⟨a, ha⟩, ⟨s, hs⟩⟩, heq⟩ := hw
     simp only at heq
     refine ⟨⟨I.toCotangent ⟨a, ha⟩, ⟨s, hs⟩⟩, ?_⟩
-    show s • ((I.map (algebraMap R A)).toCotangent ⟨_, _⟩) = _
+    change s • ((I.map (algebraMap R A)).toCotangent ⟨_, _⟩) = _
     rw [smulJ, localizedCotangentMap_toCotangent]
     congr 1
     apply Subtype.ext
-    show algebraMap R A s * _ = algebraMap R A a
+    change algebraMap R A s * _ = algebraMap R A a
     rw [mul_comm]
     exact heq
   · -- the kernel condition
@@ -148,7 +148,7 @@ theorem isLocalizedModule_localizedCotangentMap (M : Submonoid R) (A : Type v) [
     refine ⟨⟨c * s, mul_mem hc hs⟩, ?_⟩
     have hz : ((c * s : R)) • (x₁ - x₂) = 0 := by
       rw [← hrep, ← LinearMap.map_smul, ← LinearMap.mem_ker, Ideal.mem_toCotangent_ker]
-      show (c * s) * a ∈ I ^ 2
+      change (c * s) * a ∈ I ^ 2
       rw [show (c * s) * a = c * (a * s) by ring, hceq]
       exact Ideal.mul_mem_left _ _ hb
     rw [smul_sub, sub_eq_zero] at hz

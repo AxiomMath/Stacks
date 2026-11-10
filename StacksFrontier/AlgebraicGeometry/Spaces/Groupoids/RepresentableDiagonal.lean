@@ -67,7 +67,7 @@ theorem isRepresentableByAlgebraicSpaces_diagonal
   classical
   let C := BigFppfOver B S hS
   have : HasBinaryProducts C := hasBinaryProducts_of_hasTerminal_and_pullbacks C
-  show ∀ (U : C) (ξ : yoneda.obj U ⟶ pullback.diagonalObj a),
+  change ∀ (U : C) (ξ : yoneda.obj U ⟶ pullback.diagonalObj a),
     IsAlgebraicSpace B S hS (pullback ξ (pullback.diagonal a))
   intro U ξ
   let η : yoneda.obj U ⟶ pullback a a := ξ

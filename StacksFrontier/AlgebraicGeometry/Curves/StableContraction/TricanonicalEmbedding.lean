@@ -87,7 +87,7 @@ theorem surjectsOnDegreeTwo_of_iso {p : X ⟶ Spec (.of k)} {L L' : X.Modules} (
   obtain ⟨s, hs⟩ := h Z r hr hdeg (θr.inv.val.app (op ⊤) σ)
   refine ⟨θ.hom.val.app (op ⊤) s, ?_⟩
   rw [← pullbackSectionTop_naturality r θ.hom s, hs]
-  show (θr.inv ≫ θr.hom).val.app (op ⊤) σ = σ
+  change (θr.inv ≫ θr.hom).val.app (op ⊤) σ = σ
   rw [θr.inv_hom_id]
   rfl
 
@@ -104,7 +104,7 @@ theorem surjectsOnDegreeTwo_pullback_of_isIso (e : X' ⟶ X) [IsIso e] {p : X �
     (((Scheme.Modules.pullbackComp r e).hom.app L).val.app (op ⊤) σ)
   refine ⟨pullbackSectionTop e L s, ?_⟩
   rw [← pullbackSectionTop_comp r e L s, hs]
-  show ((Scheme.Modules.pullbackComp r e).hom.app L ≫
+  change ((Scheme.Modules.pullbackComp r e).hom.app L ≫
     (Scheme.Modules.pullbackComp r e).inv.app L).val.app (op ⊤) σ = σ
   rw [Iso.hom_inv_id_app]
   rfl
@@ -201,7 +201,7 @@ theorem finrank_globalSections_sup_le {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) 
       map_smul' := fun c a => by
         simp only [Algebra.smul_def, map_mul, RingHom.id_apply]
         congr 1
-        show (j.appTop).hom (((Scheme.ΓSpecIso (.of k)).inv ≫
+        change (j.appTop).hom (((Scheme.ΓSpecIso (.of k)).inv ≫
           (Z.subschemeι ≫ f).appTop).hom c) =
           ((Scheme.ΓSpecIso (.of k)).inv ≫ ((Z ⊔ Y).subschemeι ≫ f).appTop).hom c
         rw [hcomp]

@@ -40,8 +40,7 @@ namespace Stacks.HodgeWeil
 section Graded
 
 variable {F : Type*} [Field F] {A B : Type*} [Ring A] [Algebra F A] [Ring B] [Algebra F B]
-  {𝒜 : ℤ → Submodule F A} [_root_.GradedAlgebra 𝒜] {ℬ : ℤ → Submodule F B}
-  [_root_.GradedAlgebra ℬ]
+  {𝒜 : ℤ → Submodule F A} {ℬ : ℤ → Submodule F B} [_root_.GradedAlgebra ℬ]
 
 /-- The degreewise projective bundle map with `u • ξ` is that with `ξ` precomposed with
 `(a_i) ↦ (u^i • a_i)`. -/
@@ -105,14 +104,9 @@ theorem hodge_κ_one (X : (SmoothProjectiveScheme k).FullSubcategory)
     (x : tateTwist k k (hodgeAlgebraOf X) 1) :
     (hodgeFirstChernClassData k).κ X 1 x =
       hodgeTateScalar k • tateTwistCoordinates (LinearEquiv.refl k k) 1 x := by
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    exact ((hodgeFirstChernClassData k).κ X 1).map_zero.trans
-      (((congrArg (hodgeTateScalar k • ·)
-        (tateTwistCoordinates (V := hodgeAlgebraOf X) (LinearEquiv.refl k k) 1).map_zero).trans
-          (smul_zero _)).symm)
+  induction x using TensorProduct.inductionOn with
   | tmul v l =>
-    show tateTwistCoordinates (hodgeFirstChernClassData k).coord 1 (v ⊗ₜ l) =
+    change tateTwistCoordinates (hodgeFirstChernClassData k).coord 1 (v ⊗ₜ l) =
       hodgeTateScalar k • tateTwistCoordinates (LinearEquiv.refl k k) 1 (v ⊗ₜ l)
     refine (tateTwistCoordinates_tmul _ _ v l).trans ?_
     refine Eq.trans ?_ (congrArg (hodgeTateScalar k • ·) (tateTwistCoordinates_tmul _ _ v l)).symm

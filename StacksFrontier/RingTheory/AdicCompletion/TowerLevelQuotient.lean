@@ -130,7 +130,7 @@ public theorem exists_nsmul_of_towerLevel_eq_zero
       rho (e + j + 1) (x - c • (y + (p ^ j : ℕ) • g j y)) = 0 := by
     intro j y h
     rw [hgdef]
-    simp only [dif_pos h]
+    simp only [dite_eq_left h]
     exact (hnext j y h).choose_spec
   set Y : ℕ → M := fun j => Nat.rec (0 : M) (fun j yj => yj + (p ^ j : ℕ) • g j yj) j with hYdef
   have hYsucc : ∀ j : ℕ, Y (j + 1) = Y j + (p ^ j : ℕ) • g j (Y j) := fun _ => rfl
@@ -142,7 +142,7 @@ public theorem exists_nsmul_of_towerLevel_eq_zero
         rw [h0, smul_zero, sub_zero]
         exact hx
     | succ j ih =>
-        show rho (e + j + 1) (x - c • Y (j + 1)) = 0
+        change rho (e + j + 1) (x - c • Y (j + 1)) = 0
         rw [hYsucc j]
         exact hg j (Y j) ih
   -- The increments shrink, so the sequence is `p`-adically Cauchy.

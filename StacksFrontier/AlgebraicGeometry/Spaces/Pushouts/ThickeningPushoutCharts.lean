@@ -175,14 +175,17 @@ theorem isAffineHom_c : IsAffineHom B S hS c.hom :=
   IsAffineHom.of_isPullback (AlgebraicSpaces.isPullback_hom B S hS E.isPullback_c.flip)
     E.isAffineHom_sp_f
 
+omit E in
 /-- The morphism of sheaves underlying `Y ⟶ Y'` is relatively representable. -/
 theorem rep_h : yoneda.relativelyRepresentable ((schemeSpaceFunctor B S hS).map h).hom :=
   relativelyRepresentable_yoneda_map B S hS h
 
+omit E in
 /-- The morphism of sheaves underlying `Z' ⟶ Y'` is relatively representable. -/
 theorem rep_g : yoneda.relativelyRepresentable ((schemeSpaceFunctor B S hS).map g).hom :=
   relativelyRepresentable_yoneda_map B S hS g
 
+omit E in
 /-- The morphism of sheaves underlying `Z ⟶ Y` is relatively representable. -/
 theorem rep_f : yoneda.relativelyRepresentable ((schemeSpaceFunctor B S hS).map f).hom :=
   relativelyRepresentable_yoneda_map B S hS f
@@ -205,15 +208,17 @@ variable (dT : ChartDiagram B S hS P.1 ((schemeSpaceFunctor B S hS).obj Y').1 p.
 
 /-- The chart `T ×_{Y'} Y` of `Y`. -/
 abbrev TY : SmallEtale B S hS ((schemeSpaceFunctor B S hS).obj Y).1 :=
-  (smallBaseChange B S hS _ E.rep_h).obj dT.V
+  (smallBaseChange B S hS _
+    (relativelyRepresentable_of_isAffineHom B S hS _ E.isAffineHom_sp_h)).obj dT.V
 
 /-- The chart `T ×_{Y'} Z'` of `Z'`. -/
 abbrev TZ' : SmallEtale B S hS ((schemeSpaceFunctor B S hS).obj Z').1 :=
-  (smallBaseChange B S hS _ E.rep_g).obj dT.V
+  (smallBaseChange B S hS _
+    (relativelyRepresentable_of_isAffineHom B S hS _ E.isAffineHom_sp_g)).obj dT.V
 
 /-- The chart `T_Y ×_Y Z` of `Z`. -/
 abbrev TZ : SmallEtale B S hS ((schemeSpaceFunctor B S hS).obj Z).1 :=
-  (smallBaseChange B S hS _ E.rep_f).obj (E.TY dT)
+  (smallBaseChange B S hS _ (rep_f (f := f))).obj (E.TY dT)
 
 /-- The chart `W ×_P V` of `V`. -/
 abbrev WY : SmallEtale B S hS V.1 := (smallBaseChange B S hS a E.rep_a).obj dT.U
@@ -225,13 +230,16 @@ abbrev WZ' : SmallEtale B S hS U'.1 := (smallBaseChange B S hS b E.rep_b).obj dT
 abbrev WZ : SmallEtale B S hS U.1 := (smallBaseChange B S hS c E.rep_c).obj (E.WY dT)
 
 /-- `T_Y ⟶ T`. -/
-abbrev dTY := smallBaseChangeDiagram ((schemeSpaceFunctor B S hS).map h) E.rep_h dT.V
+abbrev dTY := smallBaseChangeDiagram ((schemeSpaceFunctor B S hS).map h)
+  (relativelyRepresentable_of_isAffineHom B S hS _ E.isAffineHom_sp_h) dT.V
 
 /-- `T_{Z'} ⟶ T`. -/
-abbrev dTZ' := smallBaseChangeDiagram ((schemeSpaceFunctor B S hS).map g) E.rep_g dT.V
+abbrev dTZ' := smallBaseChangeDiagram ((schemeSpaceFunctor B S hS).map g)
+  (relativelyRepresentable_of_isAffineHom B S hS _ E.isAffineHom_sp_g) dT.V
 
 /-- `T_Z ⟶ T_Y`. -/
-abbrev dTZ := smallBaseChangeDiagram ((schemeSpaceFunctor B S hS).map f) E.rep_f (E.TY dT)
+abbrev dTZ :=
+  smallBaseChangeDiagram ((schemeSpaceFunctor B S hS).map f) (rep_f (f := f)) (E.TY dT)
 
 /-- `W_Y ⟶ W`. -/
 abbrev dWY := smallBaseChangeDiagram a E.rep_a dT.U
@@ -244,31 +252,32 @@ abbrev dWZ := smallBaseChangeDiagram c E.rep_c (E.WY dT)
 
 /-- `W_Y ⟶ T_Y`, over `V ⟶ Y`. -/
 abbrev dWYT := chartDiagramOfSquare B S hS pV a ((schemeSpaceFunctor B S hS).map h) p
-  E.rep_h E.rep_a dT E.isPullback_a.w.symm
+  (rep_h (h := h)) E.rep_a dT E.isPullback_a.w.symm
 
 /-- `W_{Z'} ⟶ T_{Z'}`, over `U' ⟶ Z'`. -/
 abbrev dWZ'T := chartDiagramOfSquare B S hS pU' b ((schemeSpaceFunctor B S hS).map g) p
-  E.rep_g E.rep_b dT E.isPullback_b.w.symm
+  (rep_g (g := g)) E.rep_b dT E.isPullback_b.w.symm
 
 /-- `W_Z ⟶ T_Z`, over `U ⟶ Z`. -/
 abbrev dWZT := chartDiagramOfSquare B S hS pU c ((schemeSpaceFunctor B S hS).map f) pV
-  E.rep_f E.rep_c (E.dWYT dT) E.isPullback_c.w.symm
+  (rep_f (f := f)) E.rep_c (E.dWYT dT) E.isPullback_c.w.symm
 
 /-- The composites `T_Z ⟶ Z ⟶ Z' ⟶ Y'` and `T_Z ⟶ T_Y ⟶ T ⟶ Y'` agree. -/
 theorem TZ_cond :
     ((E.TZ dT).1.hom ≫ ((schemeSpaceFunctor B S hS).map i).hom) ≫
         ((schemeSpaceFunctor B S hS).map g).hom =
-      yoneda.map (E.rep_f.snd (E.TY dT).1.hom ≫ E.rep_h.snd dT.V.1.hom) ≫ dT.V.1.hom := by
+      yoneda.map ((rep_f (f := f)).snd (E.TY dT).1.hom ≫ (rep_h (h := h)).snd dT.V.1.hom) ≫
+        dT.V.1.hom := by
   have hw : ((schemeSpaceFunctor B S hS).map i).hom ≫ ((schemeSpaceFunctor B S hS).map g).hom =
       ((schemeSpaceFunctor B S hS).map f).hom ≫ ((schemeSpaceFunctor B S hS).map h).hom := by
-    show yoneda.map i ≫ yoneda.map g = yoneda.map f ≫ yoneda.map h
+    change yoneda.map i ≫ yoneda.map g = yoneda.map f ≫ yoneda.map h
     rw [← yoneda.map_comp, ← yoneda.map_comp, E.w]
-  exact fst_comp_comp_eq_of_comm hw E.rep_f E.rep_h dT.V.1.hom
+  exact fst_comp_comp_eq_of_comm hw (rep_f (f := f)) (rep_h (h := h)) dT.V.1.hom
 
 /-- The morphism `T_Z ⟶ T_{Z'}` over `Z ⟶ Z'`. -/
 def mapTZ :
     (SmallEtale.toOver B S hS _).obj (E.TZ dT) ⟶ (SmallEtale.toOver B S hS _).obj (E.TZ' dT) :=
-  E.rep_g.lift _ _ (E.TZ_cond dT)
+  (rep_g (g := g)).lift _ _ (E.TZ_cond dT)
 
 /-- `T_Z ⟶ T_{Z'}`, over `Z ⟶ Z'`. -/
 abbrev dTZZ' : ChartDiagram B S hS ((schemeSpaceFunctor B S hS).obj Z).1
@@ -276,7 +285,7 @@ abbrev dTZZ' : ChartDiagram B S hS ((schemeSpaceFunctor B S hS).obj Z).1
   U := E.TZ dT
   V := E.TZ' dT
   g := E.mapTZ dT
-  comm := (E.rep_g.lift_fst _ _ (E.TZ_cond dT)).symm
+  comm := ((rep_g (g := g)).lift_fst _ _ (E.TZ_cond dT)).symm
 
 /-- The composites `W_Z ⟶ U ⟶ U' ⟶ P` and `W_Z ⟶ W_Y ⟶ W ⟶ P` agree. -/
 theorem WZ_cond :
@@ -302,52 +311,59 @@ abbrev dWZZ' : ChartDiagram B S hS U.1 U'.1 d.hom where
 /-- The morphism of the site underlying the structure morphism of the chart `T` of `Y'`. -/
 abbrev tT : dT.V.1.left ⟶ Y' := yoneda.preimage dT.V.1.hom
 
+omit E in
 /-- The image of `tT dT` under the Yoneda embedding is the structure morphism of `T`. -/
 theorem yoneda_map_tT : yoneda.map (tT dT) = dT.V.1.hom := yoneda.map_preimage _
 
+omit E in
 /-- `T_Y = T ×_{Y'} Y`, in the site. -/
 theorem isPullback_TY_site :
-    IsPullback (E.rep_h.snd dT.V.1.hom) (E.rep_h.fst' dT.V.1.hom) (tT dT) h :=
-  isPullback_snd_fst'_of_map_eq E.rep_h (E.yoneda_map_tT dT)
+    IsPullback ((rep_h (h := h)).snd dT.V.1.hom) ((rep_h (h := h)).fst' dT.V.1.hom) (tT dT) h :=
+  isPullback_snd_fst'_of_map_eq (rep_h (h := h)) (yoneda_map_tT dT)
 
+omit E in
 /-- `T_{Z'} = T ×_{Y'} Z'`, in the site. -/
 theorem isPullback_TZ'_site :
-    IsPullback (E.rep_g.snd dT.V.1.hom) (E.rep_g.fst' dT.V.1.hom) (tT dT) g :=
-  isPullback_snd_fst'_of_map_eq E.rep_g (E.yoneda_map_tT dT)
+    IsPullback ((rep_g (g := g)).snd dT.V.1.hom) ((rep_g (g := g)).fst' dT.V.1.hom) (tT dT) g :=
+  isPullback_snd_fst'_of_map_eq (rep_g (g := g)) (yoneda_map_tT dT)
 
 /-- `T_Z = T_Y ×_Y Z`, in the site. -/
 theorem isPullback_TZ_site :
-    IsPullback (E.rep_f.snd (E.TY dT).1.hom) (E.rep_f.fst' (E.TY dT).1.hom)
-      (E.rep_h.fst' dT.V.1.hom) f :=
-  isPullback_snd_fst'_of_map_eq E.rep_f (E.rep_h.map_fst' dT.V.1.hom)
+    IsPullback ((rep_f (f := f)).snd (E.TY dT).1.hom) ((rep_f (f := f)).fst' (E.TY dT).1.hom)
+      ((rep_h (h := h)).fst' dT.V.1.hom) f :=
+  isPullback_snd_fst'_of_map_eq (rep_f (f := f)) ((rep_h (h := h)).map_fst' dT.V.1.hom)
 
 /-- The composite `T_Z ⟶ T_{Z'} ⟶ T` is `T_Z ⟶ T_Y ⟶ T`. -/
-theorem mapTZ_snd : E.mapTZ dT ≫ E.rep_g.snd dT.V.1.hom =
-    E.rep_f.snd (E.TY dT).1.hom ≫ E.rep_h.snd dT.V.1.hom :=
-  E.rep_g.lift_snd _ _ _
+theorem mapTZ_snd : E.mapTZ dT ≫ (rep_g (g := g)).snd dT.V.1.hom =
+    (rep_f (f := f)).snd (E.TY dT).1.hom ≫ (rep_h (h := h)).snd dT.V.1.hom :=
+  (rep_g (g := g)).lift_snd _ _ _
 
 /-- The composite `T_Z ⟶ T_{Z'} ⟶ Z'` is `T_Z ⟶ Z ⟶ Z'`. -/
-theorem mapTZ_fst : E.mapTZ dT ≫ E.rep_g.fst' dT.V.1.hom = E.rep_f.fst' (E.TY dT).1.hom ≫ i :=
+theorem mapTZ_fst :
+    E.mapTZ dT ≫ (rep_g (g := g)).fst' dT.V.1.hom = (rep_f (f := f)).fst' (E.TY dT).1.hom ≫ i :=
   yoneda.map_injective <| (yoneda.map_comp _ _).trans <|
-    (congrArg (yoneda.map (E.mapTZ dT) ≫ ·) (E.rep_g.map_fst' _)).trans <|
-    (E.rep_g.lift_fst _ _ _).trans <|
-    (congrArg (· ≫ yoneda.map i) (E.rep_f.map_fst' _).symm).trans (yoneda.map_comp _ _).symm
+    (congrArg (yoneda.map (E.mapTZ dT) ≫ ·) ((rep_g (g := g)).map_fst' _)).trans <|
+    ((rep_g (g := g)).lift_fst _ _ _).trans <|
+    (congrArg (· ≫ yoneda.map i) ((rep_f (f := f)).map_fst' _).symm).trans
+      (yoneda.map_comp _ _).symm
 
 /-- `T_Z = T_{Z'} ×_{Z'} Z`, in the site: cancel `T_{Z'} = T ×_{Y'} Z'` from the pasting of
 `T_Z = T_Y ×_Y Z` and `T_Y = T ×_{Y'} Y`. -/
 theorem isPullback_TZZ'_site :
-    IsPullback (E.mapTZ dT) (E.rep_f.fst' (E.TY dT).1.hom) (E.rep_g.fst' dT.V.1.hom) i := by
-  have outer := (E.isPullback_TZ_site dT).paste_horiz (E.isPullback_TY_site dT)
+    IsPullback (E.mapTZ dT) ((rep_f (f := f)).fst' (E.TY dT).1.hom)
+      ((rep_g (g := g)).fst' dT.V.1.hom) i := by
+  have outer := (E.isPullback_TZ_site dT).paste_horiz (isPullback_TY_site (h := h) dT)
   rw [← E.mapTZ_snd, E.w] at outer
-  exact IsPullback.of_right outer (E.mapTZ_fst dT) (E.isPullback_TZ'_site dT)
+  exact IsPullback.of_right outer (E.mapTZ_fst dT) (isPullback_TZ'_site (g := g) dT)
 
+omit E in
 /-- The structure morphism of `T` over `Y'` is étale, hence flat. -/
 theorem flat_tT : Flat ((BigFppfOver.toScheme B S hS).map (tT dT)) := by
   have h := dT.V.property
   change (MorphismProperty.presheaf (MorphismProperty.inverseImage
     (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u})
     (BigFppfOver.toScheme B S hS))) dT.V.1.hom at h
-  rw [← E.yoneda_map_tT] at h
+  rw [← yoneda_map_tT] at h
   have : Etale ((BigFppfOver.toScheme B S hS).map (tT dT)) :=
     (presheaf_yoneda_map_iff B S hS (P := @Etale.{u}) inferInstance (tT dT)).1 h
   infer_instance
@@ -366,34 +382,36 @@ theorem mapWZ_fst : yoneda.map (E.mapWZ dT) ≫ E.rep_b.fst dT.U.1.hom = (E.WZ d
 /-- The two composites `W_Z ⟶ T_{Z'}` agree. -/
 theorem mapWZ_comp_dWZ'T :
     (E.dWZZ' dT).g ≫ (E.dWZ'T dT).g = (E.dWZT dT).g ≫ (E.dTZZ' dT).g := by
-  let q := baseChangeChartSquareMap B S hS pU c _ pV E.rep_f E.rep_c (E.dWYT dT)
+  let q := baseChangeChartSquareMap B S hS pU c _ pV (rep_f (f := f)) E.rep_c (E.dWYT dT)
     E.isPullback_c.w.symm
-  have hq'f := baseChangeChartSquareMap_fst B S hS pU' b _ p E.rep_g E.rep_b dT
+  have hq'f := baseChangeChartSquareMap_fst B S hS pU' b _ p (rep_g (g := g)) E.rep_b dT
     E.isPullback_b.w.symm
-  have hqf := baseChangeChartSquareMap_fst B S hS pU c _ pV E.rep_f E.rep_c (E.dWYT dT)
+  have hqf := baseChangeChartSquareMap_fst B S hS pU c _ pV (rep_f (f := f)) E.rep_c (E.dWYT dT)
     E.isPullback_c.w.symm
-  have hq's := baseChangeChartSquareMap_snd B S hS pU' b _ p E.rep_g E.rep_b dT
+  have hq's := baseChangeChartSquareMap_snd B S hS pU' b _ p (rep_g (g := g)) E.rep_b dT
     E.isPullback_b.w.symm
-  have hqs := baseChangeChartSquareMap_snd B S hS pU c _ pV E.rep_f E.rep_c (E.dWYT dT)
+  have hqs := baseChangeChartSquareMap_snd B S hS pU c _ pV (rep_f (f := f)) E.rep_c (E.dWYT dT)
     E.isPullback_c.w.symm
-  have hq₀s := baseChangeChartSquareMap_snd B S hS pV a _ p E.rep_h E.rep_a dT
+  have hq₀s := baseChangeChartSquareMap_snd B S hS pV a _ p (rep_h (h := h)) E.rep_a dT
     E.isPullback_a.w.symm
   have hd : d.hom ≫ pU'.hom = pU.hom ≫ ((schemeSpaceFunctor B S hS).map i).hom :=
     congrArg (fun k => k.hom) E.comm_d
-  refine E.rep_g.hom_ext ?_ ?_
-  · exact ((congrArg (· ≫ E.rep_g.fst dT.V.1.hom) (yoneda.map_comp _ _)).trans
+  refine (rep_g (g := g)).hom_ext ?_ ?_
+  · exact ((congrArg (· ≫ (rep_g (g := g)).fst dT.V.1.hom) (yoneda.map_comp _ _)).trans
       ((Category.assoc _ _ _).trans ((congrArg (yoneda.map (E.mapWZ dT) ≫ ·) hq'f).trans
       ((Category.assoc _ _ _).symm.trans ((congrArg (· ≫ pU'.hom) (E.mapWZ_fst dT)).trans
       ((Category.assoc _ _ _).trans (congrArg ((E.WZ dT).1.hom ≫ ·) hd))))))).trans
-      ((congrArg (· ≫ E.rep_g.fst dT.V.1.hom) (yoneda.map_comp _ _)).trans
-      ((Category.assoc _ _ _).trans ((congrArg (yoneda.map q ≫ ·) (E.rep_g.lift_fst _ _ _)).trans
+      ((congrArg (· ≫ (rep_g (g := g)).fst dT.V.1.hom) (yoneda.map_comp _ _)).trans
+      ((Category.assoc _ _ _).trans
+      ((congrArg (yoneda.map q ≫ ·) ((rep_g (g := g)).lift_fst _ _ _)).trans
       ((Category.assoc _ _ _).symm.trans ((congrArg (· ≫ ((schemeSpaceFunctor B S hS).map
         i).hom) hqf).trans (Category.assoc _ _ _)))))).symm
   · exact ((Category.assoc _ _ _).trans ((congrArg (E.mapWZ dT ≫ ·) hq's).trans
       ((Category.assoc _ _ _).symm.trans ((congrArg (· ≫ dT.g) (E.mapWZ_snd dT)).trans
       (Category.assoc _ _ _))))).trans
       ((Category.assoc _ _ _).trans ((congrArg (q ≫ ·) (E.mapTZ_snd dT)).trans
-      ((Category.assoc _ _ _).symm.trans ((congrArg (· ≫ E.rep_h.snd dT.V.1.hom) hqs).trans
+      ((Category.assoc _ _ _).symm.trans
+      ((congrArg (· ≫ (rep_h (h := h)).snd dT.V.1.hom) hqs).trans
       ((Category.assoc _ _ _).trans (congrArg (E.rep_c.snd (E.WY dT).1.hom ≫ ·) hq₀s)))))).symm
 
 /-! ### The relative Milnor square of a chart diagram -/
@@ -421,27 +439,27 @@ theorem isRelativeSquare
       (chartDiagramRestrict B S hS d (E.dWZZ' dT))
       (chartDiagramRestrict B S hS pU (E.dWZT dT)) := by
   have hTZ' : IsAffine ((BigFppfOver.toScheme B S hS).obj (E.TZ' dT).1.left) :=
-    isAffine_smallBaseChange_obj B S hS _ E.rep_g E.isAffineHom_sp_g dT.V hV
-  have hTY := isAffine_smallBaseChange_obj B S hS _ E.rep_h E.isAffineHom_sp_h dT.V hV
+    isAffine_smallBaseChange_obj B S hS _ (rep_g (g := g)) E.isAffineHom_sp_g dT.V hV
+  have hTY := isAffine_smallBaseChange_obj B S hS _ (rep_h (h := h)) E.isAffineHom_sp_h dT.V hV
   have hWY := isAffine_smallBaseChange_obj B S hS a E.rep_a E.isAffineHom_a dT.U hU
   have hcomm : (BigFppfOver.toScheme B S hS).map (E.mapTZ dT) ≫
-      (BigFppfOver.toScheme B S hS).map (E.rep_g.snd dT.V.1.hom) =
-      (BigFppfOver.toScheme B S hS).map (E.rep_f.snd (E.TY dT).1.hom) ≫
-      (BigFppfOver.toScheme B S hS).map (E.rep_h.snd dT.V.1.hom) :=
+      (BigFppfOver.toScheme B S hS).map ((rep_g (g := g)).snd dT.V.1.hom) =
+      (BigFppfOver.toScheme B S hS).map ((rep_f (f := f)).snd (E.TY dT).1.hom) ≫
+      (BigFppfOver.toScheme B S hS).map ((rep_h (h := h)).snd dT.V.1.hom) :=
     (Functor.map_comp _ _ _).symm.trans ((congrArg (BigFppfOver.toScheme B S hS).map
       (E.mapTZ_snd dT)).trans (Functor.map_comp _ _ _))
   have := E.isAffineHom
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
-  · exact Stacks.Pushout.isFibreSquare_appTop_of_flat E.isPushout E.isThickening (E.flat_tT dT)
-      hcomm ((E.isPullback_TY_site dT).map (BigFppfOver.toScheme B S hS))
-      ((E.isPullback_TZ'_site dT).map (BigFppfOver.toScheme B S hS))
+  · exact Stacks.Pushout.isFibreSquare_appTop_of_flat E.isPushout E.isThickening (flat_tT dT)
+      hcomm ((isPullback_TY_site (h := h) dT).map (BigFppfOver.toScheme B S hS))
+      ((isPullback_TZ'_site (g := g) dT).map (BigFppfOver.toScheme B S hS))
       ((E.isPullback_TZ_site dT).map (BigFppfOver.toScheme B S hS))
       ((E.isPullback_TZZ'_site dT).map (BigFppfOver.toScheme B S hS)) hTZ'
-  · exact isPushout_appTop_chartSquare_of_isAffineHom B S hS pV a _ p E.rep_h E.rep_a dT
-      E.isPullback_a.flip E.isAffineHom_sp_h hU hV
-  · exact isPushout_appTop_chartSquare_of_isAffineHom B S hS pU' b _ p E.rep_g E.rep_b dT
-      E.isPullback_b.flip E.isAffineHom_sp_g hU hV
-  · exact isPushout_appTop_chartSquare_of_isAffineHom B S hS pU c _ pV E.rep_f E.rep_c
+  · exact isPushout_appTop_chartSquare_of_isAffineHom B S hS pV a _ p (rep_h (h := h)) E.rep_a
+      dT E.isPullback_a.flip E.isAffineHom_sp_h hU hV
+  · exact isPushout_appTop_chartSquare_of_isAffineHom B S hS pU' b _ p (rep_g (g := g)) E.rep_b
+      dT E.isPullback_b.flip E.isAffineHom_sp_g hU hV
+  · exact isPushout_appTop_chartSquare_of_isAffineHom B S hS pU c _ pV (rep_f (f := f)) E.rep_c
       (E.dWYT dT) E.isPullback_c.flip E.isAffineHom_sp_f hWY hTY
   · have e₀ : (E.dWZZ' dT).g ≫ (E.dWZ' dT).g = (E.dWZ dT).g ≫ (E.dWY dT).g := E.mapWZ_snd dT
     have e := congrArg (fun φ => ((BigFppfOver.toScheme B S hS).map φ).appTop.hom) e₀

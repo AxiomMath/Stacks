@@ -123,13 +123,13 @@ theorem isIso_app_obj₃ (T : Triangle D) (hT : T ∈ distTriang D)
   have := h₂'
   refine Abelian.isIso_of_epi_of_isIso_of_isIso_of_mono (homologyRow_exact H T hT)
     (homologyRow_exact H' T hT) (homologyRowHom θ T) ?_ ?_ ?_ ?_
-  · show Epi (θ.app T.obj₁)
+  · change Epi (θ.app T.obj₁)
     infer_instance
-  · show IsIso (θ.app T.obj₂)
+  · change IsIso (θ.app T.obj₂)
     infer_instance
-  · show IsIso (θ.app (T.obj₁⟦(1 : ℤ)⟧))
+  · change IsIso (θ.app (T.obj₁⟦(1 : ℤ)⟧))
     infer_instance
-  · show Mono (θ.app (T.obj₂⟦(1 : ℤ)⟧))
+  · change Mono (θ.app (T.obj₂⟦(1 : ℤ)⟧))
     infer_instance
 
 /-- The five lemma step, carried at every shift: if `θ` is invertible at every shift of the

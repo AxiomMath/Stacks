@@ -84,8 +84,6 @@ end CategoryTheory
 namespace CategoryTheory.Sheaf
 
 variable {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
-  [(projection C).IsCocontinuous (projectionTopology C J) J]
-  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)]
   {A B : Sheaf J CommRingCat.{u}} (f : A ⟶ B)
 
 /-- `ε : 𝒫 ⟶ π^{-1}ℬ`, the augmentation of the standard resolution read on `Δ × C`. -/

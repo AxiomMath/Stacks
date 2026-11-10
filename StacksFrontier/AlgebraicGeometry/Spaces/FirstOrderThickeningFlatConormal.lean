@@ -148,7 +148,7 @@ theorem exists_charts_of_isIso_conormalMapOfImmersions
   have hsqU : representedSpaceMap B S hS j ≫ representedSpaceMap B S hS α =
       representedSpaceMap B S hS f₀ ≫ representedSpaceMap B S hS k :=
     ObjectProperty.hom_ext _ (by
-      show yoneda.map j ≫ yoneda.map α = yoneda.map f₀ ≫ yoneda.map k
+      change yoneda.map j ≫ yoneda.map α = yoneda.map f₀ ≫ yoneda.map k
       rw [← Functor.map_comp, ← Functor.map_comp, hf₀k])
   have hc := isIso_conormalMapOfImmersions_chart_of_isIso B S hS
     (subspaceInclusion B S hS X' X) (subspaceInclusion B S hS Y' Y) f g
@@ -200,7 +200,7 @@ theorem isFlat_and_isPullback_of_isIso_conormalMapOfImmersions
     intro T x hx
     have := congrFun (congrArg (fun m => m.app T) h1) ⟨x, hx⟩
     change g.hom.app T x = (f.hom.app T ⟨x, hx⟩).1 at this
-    show g.hom.app T x ∈ Y.1.obj T
+    change g.hom.app T x ∈ Y.1.obj T
     exact this ▸ (f.hom.app T ⟨x, hx⟩).2
   -- The inclusion `X ⊆ g⁻¹(Y)` is locally surjective, by lifting along the atlas of `X'`.
   let φ := Subfunctor.homOfLe hle
@@ -223,7 +223,7 @@ theorem isFlat_and_isPullback_of_isIso_conormalMapOfImmersions
     refine ⟨p.app (Opposite.op T') w, Subtype.ext ?_⟩
     have h3 := congrFun (congrArg (fun m => m.app (Opposite.op T')) hpU.w) w
     change (p.app (Opposite.op T') w).1 = a'.app (Opposite.op T') (w ≫ j) at h3
-    show (p.app (Opposite.op T') w).1 = X'.1.map e.op s.1
+    change (p.app (Opposite.op T') w).1 = X'.1.map e.op s.1
     rwa [h3, hpbB.lift_fst]
   have hiso : IsIso φ := by
     let J := BigFppfOver.topology B S hS

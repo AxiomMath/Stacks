@@ -124,7 +124,7 @@ def IsFiniteDimensionalDeformationCategory : Prop :=
   ∃ hp : IsDeformationCategory.{u, v, w} p,
     (let _ : Fact (IsPredeformationCategory.{u, v, w} (BasedCategory.ofFunctor p).p) :=
       ⟨hp.predeformation⟩
-    let _ : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    let _ : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor p) hp.predeformation.cofibered))) :=
       ⟨tangentConditionS2.{u, v, w} hp⟩
     FiniteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k
@@ -286,7 +286,7 @@ theorem hasMinimalPresentation_of_isFiniteDimensionalDeformationCategory [IsNoet
   obtain ⟨hp, hT, hInf⟩ := h
   let hpre := hp.predeformation
   let _ : Fact (IsPredeformationCategory.{u, v, w} (BasedCategory.ofFunctor p).p) := ⟨hpre⟩
-  let _ : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let _ : Fact (SchlessingerConditionS2 (Functor.Elements.π
     (isomorphismClasses (BasedCategory.ofFunctor p) hpre.cofibered))) :=
     ⟨tangentConditionS2.{u, v, w} hp⟩
   let _ : FiniteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k
@@ -308,19 +308,19 @@ theorem hasMinimalPresentation_of_isFiniteDimensionalDeformationCategory [IsNoet
 deformation category over `𝒞_Λ`, is finite-dimensional, by Schlessinger's theorem. -/
 private theorem finiteDimensional_tangentModuleAt_of_isProrepresentable [IsNoetherianRing Λ]
     [Module.Finite Λ k] (F : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type (max v w))
-    (hF : IsProrepresentable F) (hπ : IsDeformationCategory.{u, v, w} (CategoryOfElements.π F)) :
+    (hF : IsProrepresentable F) (hπ : IsDeformationCategory.{u, v, w} (Functor.Elements.π F)) :
     FiniteDimensional k ↥(tangentModuleAt.{u, v, w}
-      (BasedCategory.ofFunctor (CategoryOfElements.π F)) hπ
+      (BasedCategory.ofFunctor (Functor.Elements.π F)) hπ
       (FGModuleCat.of k (ULift.{v} k))) := by
   obtain ⟨_, hfin, -⟩ := (isProrepresentable_iff_isDeformationFunctor.{u, v, w} F).mp hF
   let _ : Fact (IsPredeformationCategory.{u, v, w}
-      (BasedCategory.ofFunctor (CategoryOfElements.π F)).p) := ⟨hπ.predeformation⟩
-  let _ : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
-      (BasedCategory.ofFunctor (CategoryOfElements.π F)) hπ.predeformation.cofibered))) :=
+      (BasedCategory.ofFunctor (Functor.Elements.π F)).p) := ⟨hπ.predeformation⟩
+  let _ : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
+      (BasedCategory.ofFunctor (Functor.Elements.π F)) hπ.predeformation.cofibered))) :=
     ⟨tangentConditionS2.{u, v, w} hπ⟩
   let _ := hfin
   exact (associatedTangentSpaceCarrierLinearEquiv.{u, v, w}
-    (BasedCategory.ofFunctor (CategoryOfElements.π F)) hπ.predeformation
+    (BasedCategory.ofFunctor (Functor.Elements.π F)) hπ.predeformation
     (tangentConditionS2.{u, v, w} hπ)).symm.finiteDimensional
 
 /-- **The tangent space of the quotient of a smooth prorepresentable groupoid in functors is
@@ -339,7 +339,7 @@ private theorem finiteDimensional_tangentModuleAt_quotient [IsNoetherianRing Λ]
     FiniteDimensional k ↥(tangentModuleAt.{u, v, w}
       (BasedCategory.ofFunctor (Grothendieck.forget (evaluationFunctor G))) hQ
       (FGModuleCat.of k (ULift.{v} k))) := by
-  have hπU : IsDeformationCategory.{u, v, w} (CategoryOfElements.π G.objects) :=
+  have hπU : IsDeformationCategory.{u, v, w} (Functor.Elements.π G.objects) :=
     objectsBasedDeformationCategory G
       (GroupoidInFunctors.isDeformationFunctor_objects_of_isProrepresentable.{u, v, w} G hpro)
   have hTU := finiteDimensional_tangentModuleAt_of_isProrepresentable.{u, v, w} G.objects
@@ -502,7 +502,7 @@ theorem isFiniteDimensionalDeformationCategory_of_hasSmoothPresentation [IsNoeth
       (finiteDimensional_tangentModuleAt_quotient G hpro hQ)
   let _ : Fact (IsPredeformationCategory.{u, v, w} (BasedCategory.ofFunctor p).p) :=
     ⟨hp.predeformation⟩
-  let _ : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let _ : Fact (SchlessingerConditionS2 (Functor.Elements.π
     (isomorphismClasses (BasedCategory.ofFunctor p) hp.predeformation.cofibered))) :=
     ⟨tangentConditionS2.{u, v, w} hp⟩
   let _ := hTp

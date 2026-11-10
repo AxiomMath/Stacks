@@ -263,12 +263,14 @@ For the second set the obstruction is structural rather than an API gap.
   `ord_{Z,ℒ}(s) ≠ 0` is therefore not a function of `(ℒ, s)` at all, and no hypothesis on `s` —
   regularity included — can bound it; dropping `hgen` from
   `AlgebraicGeometry.Space.locallyFinite_divisorCoefficients_ne_zero` makes the statement false.
-  Constructing `ratio` canonically is still out of reach, but **not for a universe reason.** The germ API is quantified over an abstract henselization `R : Type u` of
+  Constructing `ratio` canonically is still out of reach, but **not for a universe reason.** The
+  germ API is quantified over an abstract henselization `R : Type u` of
   the Zariski stalk of `AlgebraicGeometry.Space.PrimeDivisor.genericChart`, whereas
   `AlgebraicGeometry.Space.PrimeDivisor.genericTotalFractionRing`, in which the ratio must take
   its value, is the fraction ring of
   `AlgebraicGeometry.Space.PrimeDivisor.genericHenselianLocalRing`, which is a
-  `CommRingCat.{u + 1}`, and the two are nevertheless comparable: both are henselizations of that one Zariski stalk with residue field its own residue
+  `CommRingCat.{u + 1}`, and the two are nevertheless comparable: both are henselizations of that
+  one Zariski stalk with residue field its own residue
   field — the second by Stacks 0EMY,
   `AlgebraicGeometry.Space.henselianLocalRing_isHenselization` — and two henselizations with the
   same residue extension are isomorphic over the base by Stacks 08HT, in **independent
@@ -309,7 +311,7 @@ For the second set the obstruction is structural rather than an API gap.
      is where the germ API reads everything.
 
      *The sheaf half does not need the functoriality of `𝒦` in its module at all.*
-     `AlgebraicGeometry.Space.CodimensionZeroPresentation.nonempty_uliftUnit_iso_meromorphicSectionSheaf`
+     `Space.CodimensionZeroPresentation.nonempty_uliftUnit_iso_meromorphicSectionSheaf`
      gives `𝒦_Y ≅ 𝒦_Y(M)` for an invertible `M` on any algebraic space `Y` satisfying
      hypotheses (a), (b) and (c) of Stacks 0ENA and trivialised at the codimension-zero points
      — the composite of `𝒦_Y(ℒ_ξ) ≅ 𝒦_Y(𝒪)` and `𝒦_Y(𝒪) ≅ 𝒦_Y` in one step, so the second of
@@ -370,7 +372,7 @@ For the second set the obstruction is structural rather than an API gap.
      argument above.
 
      (ii) *Regularity makes the ratio a unit.* Proved, as
-     `AlgebraicGeometry.Space.PrimeDivisor.isUnit_of_smul_toMeromorphicSectionValue_eq_genericMeromorphicGerm`
+     `Space.PrimeDivisor.isUnit_of_smul_toMeromorphicSectionValue_eq_genericMeromorphicGerm`
      (`StacksFrontier/AlgebraicGeometry/Spaces/Decent/GenericSectionRatio.lean`). It does not need
      `AlgebraicGeometry.Space.eq_zero_of_mul_eq_zero_of_eval_eq_tmul`: the pullback of a regular
      section along `c_ξ` is regular by Stacks 0ENC, part (2)

@@ -121,7 +121,7 @@ private theorem hasEtaleLocalProperty_isReduced_yoneda_siteObject
       (fun W : Scheme.{u} => IsReduced W) := by
   refine hasEtaleLocalProperty_of_representable B S hS _
     (fun W : Scheme.{u} => IsReduced W) (p.siteObject B S hS X) (Iso.refl _) ?_
-  show IsReduced (Spec (.of p.carrier))
+  change IsReduced (Spec (.of p.carrier))
   infer_instance
 
 /-- **Stacks 0H1M in the site.** A morphism of the big fppf site over `S` out of an object with
@@ -167,7 +167,7 @@ private theorem exists_comp_siteHom_schemePointRepresentative
       _ = B.inclusion.map A.hom := congrArg B.inclusion.map (Over.w h)
   · refine (BigFppfOver.toScheme B S hS).map_injective ?_
     rw [Functor.map_comp]
-    show B.inclusion.map (B.inclusion.preimage (X := A.left) (Y := Q.left) g) ≫
+    change B.inclusion.map (B.inclusion.preimage (X := A.left) (Y := Q.left) g) ≫
       B.inclusion.map (Over.Hom.left c) = (BigFppfOver.toScheme B S hS).map h
     rw [hpre, hcScheme]
     exact hg
@@ -315,7 +315,7 @@ theorem isResidualSpaceAt_fieldMorphism_of_mono
   · exact hasEtaleLocalProperty_isReduced_yoneda_siteObject B S hS p
   · refine hasEtaleLocalProperty_of_representable B S hS _
       (fun W : Scheme.{u} => IsLocallyNoetherian W) (p.siteObject B S hS X) (Iso.refl _) ?_
-    show IsLocallyNoetherian (Spec (.of p.carrier))
+    change IsLocallyNoetherian (Spec (.of p.carrier))
     infer_instance
   · rw [Subsingleton.elim z ((p.tautologicalPoint B S hS X).class B S hS
       (yoneda.obj (p.siteObject B S hS X))), pointsMap_fieldMorphism_tautologicalPoint]

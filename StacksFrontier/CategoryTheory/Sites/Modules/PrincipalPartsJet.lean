@@ -328,7 +328,7 @@ theorem isDiffOpOfOrder_zero_commutator_restrict (V : C) (g : O₂.obj.obj (op V
       have hcomp : h.left ≫ Z'.hom = Z.hom := Over.w h
       rw [← hcomp, op_comp, Functor.map_comp]
       rfl
-    show D (op Z.left) ((O₂.obj.map Z.hom.op) g • F.val.map h.left.op s) -
+    change D (op Z.left) ((O₂.obj.map Z.hom.op) g • F.val.map h.left.op s) -
         (O₂.obj.map Z.hom.op) g • D (op Z.left) (F.val.map h.left.op s) =
       G.val.map h.left.op (D (op Z'.left) ((O₂.obj.map Z'.hom.op) g • s) -
         (O₂.obj.map Z'.hom.op) g • D (op Z'.left) s)
@@ -518,11 +518,11 @@ action. -/
 theorem jetMapFun_smul {X Y : Cᵒᵖ} (f : X ⟶ Y) (b : R.obj X) (z : S.Sections X) :
     S.jetMapFun f (b • z) = (R.map f).hom b • S.jetMapFun f z := by
   refine Sections.ext' S ?_ ?_
-  · show A.restrictₛₗ f (b • Sections.diff S z + S.δ X b (Sections.base S z)) =
+  · change A.restrictₛₗ f (b • Sections.diff S z + S.δ X b (Sections.base S z)) =
       (R.map f).hom b • A.restrictₛₗ f (Sections.diff S z) +
         S.δ Y ((R.map f).hom b) (F.restrictₛₗ f (Sections.base S z))
     rw [map_add, S.map f b (Sections.base S z), map_smulₛₗ]
-  · show F.restrictₛₗ f (b • Sections.base S z) =
+  · change F.restrictₛₗ f (b • Sections.base S z) =
       (R.map f).hom b • F.restrictₛₗ f (Sections.base S z)
     rw [map_smulₛₗ]
 
@@ -723,12 +723,12 @@ theorem jetOp_bracket (X : Cᵒᵖ) (b r : O₂.obj.obj X) (x : F.val.obj X) :
     jetOp.{v, u, w, m} S X (b • r • x) - b • jetOp.{v, u, w, m} S X (r • x) =
       r • (jetOp.{v, u, w, m} S X (b • x) - b • jetOp.{v, u, w, m} S X x) := by
   refine OrderOneSymbol.Sections.ext' S ?_ ?_
-  · show (0 : A.val.obj X) - (b • (0 : A.val.obj X) + S.δ X b (r • x)) =
+  · change (0 : A.val.obj X) - (b • (0 : A.val.obj X) + S.δ X b (r • x)) =
       r • ((0 : A.val.obj X) - (b • (0 : A.val.obj X) + S.δ X b x)) +
         S.δ X r (b • x - b • x)
     simp only [smul_zero, zero_add, zero_sub, sub_self, S.δ_zero_right, add_zero,
       S.smul_right, smul_neg]
-  · show b • r • x - b • r • x = r • (b • x - b • x)
+  · change b • r • x - b • r • x = r • (b • x - b • x)
     rw [sub_self, sub_self, smul_zero]
 
 include phi in
@@ -741,7 +741,7 @@ theorem jetOp_isGlobalDiffOpOfOrder
   isGlobalDiffOpOfOrder_one_mk phi _ (fun _ _ f x ↦ jetOp_naturality.{v, u, w, m} S f x)
     (fun X b r x ↦ jetOp_bracket.{v, u, w, m} S X b r x)
     (fun X a x ↦ OrderOneSymbol.Sections.ext' S (by
-      show (0 : A.val.obj X) =
+      change (0 : A.val.obj X) =
         DiffOp.sectionRingHom phi X a • (0 : A.val.obj X) +
           S.δ X (DiffOp.sectionRingHom phi X a) x
       rw [hbase X a x, smul_zero, add_zero]) rfl)
@@ -1118,7 +1118,7 @@ theorem jetDesc_inclusion_toSheafify_tmul_d (X : Cᵒᵖ) (x : F.val.obj X)
     (Eq.trans hsm (congrArg (fun z ↦ b • z)
       (principalPartsJetDesc_universalDiffOp.{v, u, w, m} φ F X x)))) ?_
   refine OrderOneSymbol.Sections.ext' (principalPartsSymbolData.{v, u, w, m} φ F) ?_ ?_
-  · show (0 : (tensorDifferentials.{v, u, w, m} φ F).val.obj X) -
+  · change (0 : (tensorDifferentials.{v, u, w, m} φ F).val.obj X) -
         (b • (0 : (tensorDifferentials.{v, u, w, m} φ F).val.obj X) +
           principalPartsδ.{v, u, w, m} φ F X b x) =
       ((tensorDifferentialsUnit.{v, u, w, m} φ F).app X).hom
@@ -1126,7 +1126,7 @@ theorem jetDesc_inclusion_toSheafify_tmul_d (X : Cᵒᵖ) (x : F.val.obj X)
           (universalDerivationOfSite.{v, u, w, m} O₁ O₂ φ).d b)
     rw [smul_zero, zero_add, zero_sub, principalPartsδ]
     exact neg_neg _
-  · show b • x - b • x = (0 : F.val.obj X)
+  · change b • x - b • x = (0 : F.val.obj X)
     rw [sub_self]
 
 /-- **The retraction carries the inclusion of the sequence of principal parts to the

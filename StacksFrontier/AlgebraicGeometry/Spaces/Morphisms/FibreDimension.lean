@@ -207,14 +207,14 @@ private theorem hasResidueFieldTranscendenceDegree_comp_ofSchemeHom {X Y Z : Sch
     ((f ≫ g).residueFieldMap x).hom.toAlgebra
   have _ : IsScalarTower (Z.residueField (g (f x))) (Y.residueField (f x))
       (X.residueField x) := IsScalarTower.of_algebraMap_eq fun z => by
-    show ((f ≫ g).residueFieldMap x).hom z =
+    change ((f ≫ g).residueFieldMap x).hom z =
       (f.residueFieldMap x).hom ((g.residueFieldMap (f x)).hom z)
     rw [Scheme.residueFieldMap_comp]
     rfl
   have hadd := trdeg_add_eq (Z.residueField (g (f x))) (Y.residueField (f x))
     (A := X.residueField x)
   refine (hasResidueFieldTranscendenceDegree_ofSchemeHom_iff (f ≫ g) x (r + s)).mpr ?_
-  show Cardinal.toENat (Algebra.trdeg (Z.residueField (g (f x))) (X.residueField x)) = r + s
+  change Cardinal.toENat (Algebra.trdeg (Z.residueField (g (f x))) (X.residueField x)) = r + s
   rw [← hadd, map_add,
     (hasResidueFieldTranscendenceDegree_ofSchemeHom_iff g (f x) s).mp hs,
     (hasResidueFieldTranscendenceDegree_ofSchemeHom_iff f x r).mp hr, add_comm]
@@ -252,7 +252,7 @@ private theorem topologicalKrullDimAt_fiber_eq_of_subsingleton {U V : Scheme.{u}
   have hp : e (q.asFiber x) = x := by
     dsimp only [e, e₂, Homeomorph.trans_apply]
     rw [hfi]
-    show ((Homeomorph.setCongr hs) (⟨x, hxs⟩ : s) : Set.univ) = x
+    change ((Homeomorph.setCongr hs) (⟨x, hxs⟩ : s) : Set.univ) = x
     rfl
   rw [topologicalKrullDimAt_eq_of_homeomorph e (q.asFiber x), hp]
 
@@ -271,6 +271,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site over `S` is slow
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf_fibreDimension :
@@ -389,7 +390,7 @@ theorem hasTranscendenceDegreeAt_comp {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
     (@MorphismOfGerms.HasResidueFieldTranscendenceDegree.{u} (r + s))
     (MorphismOfGerms.residueFieldTranscendenceDegree_isEtaleLocalOnSourceAndTarget (r + s))
     (yoneda.map (α ≫ β)) (p.class B S hS (yoneda.obj U)) cαβ).mpr ?_)
-  show MorphismOfGerms.HasResidueFieldTranscendenceDegree (r + s)
+  change MorphismOfGerms.HasResidueFieldTranscendenceDegree (r + s)
     (MorphismOfGerms.ofSchemeHom (T.map (α ≫ β)) u₀)
   rw [T.map_comp]
   exact MorphismOfGerms.hasResidueFieldTranscendenceDegree_comp_ofSchemeHom
@@ -461,7 +462,7 @@ private theorem exists_chartMorphisms_reading_comp {X Y Z : (BigFppfOver B S hS)
   · refine (hdimComp d).trans ((holdsOnEveryEtaleChartAtPoint_iff_of_chart B S hS
       (@HasFiberDimensionAt.{u} d) (fiberDimensionAt_isEtaleLocalOnSourceAndTarget d)
       (yoneda.map (α ≫ β)) (p.class B S hS (yoneda.obj U)) cαβ).trans ?_)
-    show HasFiberDimensionAt d (MorphismOfGerms.ofSchemeHom (T.map (α ≫ β)) u₀) ↔ _
+    change HasFiberDimensionAt d (MorphismOfGerms.ofSchemeHom (T.map (α ≫ β)) u₀) ↔ _
     rw [T.map_comp]
   · exact hflat chartF
 
@@ -627,7 +628,7 @@ theorem exists_etaleChartAtPoint_pair_of_isPullback
       representative := FieldValuedPoint.map B S hS (yoneda.obj U') (yoneda.map pU) r
       point := IsLocalRing.closedPoint r.carrier
       maps_to := by
-        show pointsMap B S hS (yoneda.obj U) (a ≫ pullback.snd v f)
+        change pointsMap B S hS (yoneda.obj U) (a ≫ pullback.snd v f)
           (pointsMap B S hS (yoneda.obj U') (yoneda.map pU)
             (r.class B S hS (yoneda.obj U'))) = pointsMap B S hS X' g' x'
         calc
@@ -664,7 +665,7 @@ theorem exists_etaleChartAtPoint_pair_of_isPullback
   refine ⟨chartF, chartF', pU, q, hcharts,
     hf U V (a ≫ pullback.snd v f) v p hAEtale hvEtale hcommF,
     schemePoint_map_yoneda B S hS pU r, ?_⟩
-  show (c ≫ e.inv) ≫ g' = yoneda.map pU ≫ a ≫ pullback.snd v f
+  change (c ≫ e.inv) ≫ g' = yoneda.map pU ≫ a ≫ pullback.snd v f
   rw [Category.assoc, show e.inv ≫ g' = pullback.fst f g from
     IsPullback.isoPullback_inv_fst sq]
   exact hcX
@@ -694,7 +695,7 @@ theorem hasRelativeDimensionAt_iff_of_isPullback {X' X Y' Y : (BigFppfOver B S h
     exists_etaleChartAtPoint_pair_of_isPullback B S hS sq hX hY' hY hf x'
   have _ : LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map c.h) := hft
   have hfiber := topologicalKrullDimAt_fiber_eq_of_isPullback hsq (c'.sourcePoint B S hS)
-  show HoldsOnEveryEtaleChartAtPoint B S hS (@HasFiberDimensionAt.{u} d) f
+  change HoldsOnEveryEtaleChartAtPoint B S hS (@HasFiberDimensionAt.{u} d) f
       (pointsMap B S hS X' g' x') ↔
     HoldsOnEveryEtaleChartAtPoint B S hS (@HasFiberDimensionAt.{u} d) f' x'
   rw [holdsOnEveryEtaleChartAtPoint_iff_of_chart B S hS (@HasFiberDimensionAt.{u} d)
@@ -993,7 +994,7 @@ theorem exists_point_preserving_fiberLocalRingDimension_and_trdeg
           (T.map q (T.map c'.h u')) hw,
         ← ringKrullDim_stalk_fiberHomeo_symm (T.map c'.h) w (T.map c'.h u') hwV]
       exact hwdim.symm
-    show HoldsOnEveryEtaleChartAtPoint B S hS
+    change HoldsOnEveryEtaleChartAtPoint B S hS
         (@_root_.AlgebraicGeometry.HasFiberLocalRingDimension.{u} d) f
         (pointsMap B S hS X' g' x₀) ↔
       HoldsOnEveryEtaleChartAtPoint B S hS
@@ -1019,7 +1020,7 @@ theorem exists_point_preserving_fiberLocalRingDimension_and_trdeg
         (T.map q (T.map c'.h u')) hw).symm.trans (hwtr.trans
           (trdeg_residueFieldMap_congr (T.map c'.h) w (T.map c'.h u') hwV))).trans ?_
       exact trdeg_residueField_congr_point (T.map c'.h) hc''.symm
-    show HoldsOnEveryEtaleChartAtPoint B S hS
+    change HoldsOnEveryEtaleChartAtPoint B S hS
         (@MorphismOfGerms.HasResidueFieldTranscendenceDegree.{u} r) f
         (pointsMap B S hS X' g' x₀) ↔
       HoldsOnEveryEtaleChartAtPoint B S hS
@@ -1424,6 +1425,7 @@ theorem hasRelativeDimensionAt_zero_of_dimensionAtPoint_eq_zero
     ((BigFppfOver.toScheme B S hS).map c.h) (c.sourcePoint B S hS) hdimU
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the pullbacks of presheaves on the big fppf site in the statement is slow
 /-- A morphism of algebraic spaces over `S` which is locally of finite type is quasi-finite at
 the image of a point of a base change along a morphism from a represented object with
 subsingleton underlying scheme at which that base change has dimension `0`.
@@ -1460,6 +1462,7 @@ theorem isQuasiFiniteAt_of_dimensionAtPoint_eq_zero_of_subsingleton
     isLocallyQuasiFinite_locallyQuasiFinitePart B S hS hX hY f hf⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the pullbacks of presheaves on the big fppf site in the statement is slow
 /-- **Stacks 06LS.** Let `f : X ⟶ Y` be a morphism of algebraic spaces over `S` which is
 locally of finite type, let `p` be a field-valued point of `Y` — a morphism `Spec k ⟶ Y` from
 the spectrum of a field over `S` — and let `z` be a point of the fibre `X ×_Y Spec k` at which

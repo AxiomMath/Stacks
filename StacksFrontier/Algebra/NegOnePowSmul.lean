@@ -29,7 +29,7 @@ public theorem negOnePow_smul_eq {R : Type u} [CommRing R] {M : Type*} [AddCommG
 `(-1 : R) ^ n.natAbs`. -/
 public theorem units_negOnePow_smul_eq {R : Type u} [CommRing R] {M : Type*} [AddCommGroup M]
     [Module R M] (n : ℤ) (x : M) : n.negOnePow • x = ((-1 : R) ^ n.natAbs) • x := by
-  show ((n.negOnePow : ℤ)) • x = _
+  change ((n.negOnePow : ℤ)) • x = _
   exact negOnePow_smul_eq n x
 
 end

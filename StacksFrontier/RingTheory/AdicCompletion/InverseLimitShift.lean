@@ -296,13 +296,13 @@ theorem invLimitQuotientMap_surjective :
         rwa [sub_add_sub_cancel] at this
   refine ⟨⟨fun n ↦ towerDescend t (Nat.le_add_left n N) (z (N + n)), fun n ↦ ?_⟩,
     Subtype.ext (funext fun n ↦ ?_)⟩
-  · show t n (towerDescend t (Nat.le_add_left (n + 1) N) (z (N + (n + 1)))) = _
+  · change t n (towerDescend t (Nat.le_add_left (n + 1) N) (z (N + (n + 1)))) = _
     rw [← LinearMap.comp_apply,
       towerDescend_transition t (Nat.le_add_left (n + 1) N) (Nat.le_succ_of_le
         (Nat.le_add_left n N))]
     exact hstab n (N + n) (Nat.le_add_left n N) le_rfl
   · rw [invLimitQuotientMap_val]
-    show Submodule.Quotient.mk (towerDescend t (Nat.le_add_left n N) (z (N + n))) = _
+    change Submodule.Quotient.mk (towerDescend t (Nat.le_add_left n N) (z (N + n))) = _
     rw [← hz n]
     exact (Submodule.Quotient.eq _).2 (hclose n (N + n) (Nat.le_add_left n N))
 
@@ -342,7 +342,7 @@ theorem ker_proj_shift (hI : I.FG) (n : ℕ) :
       mem_pow_smul_top_of_proj_eq_zero_shift t N hsurj hker x.property hxz (Nat.le_add_left n N)
     have hker' : e x ∈ LinearMap.ker (S.proj (N + n)) := by
       rw [LinearMap.mem_ker]
-      show Submodule.Quotient.mk ((x : ∀ m, M m) (N + n)) = 0
+      change Submodule.Quotient.mk ((x : ∀ m, M m) (N + n)) = 0
       exact (Submodule.Quotient.mk_eq_zero _).2 hup
     rw [S.ker_proj hI (N + n)] at hker'
     have himg : e x ∈ Submodule.map (e : ↥(invLimit M t) →ₗ[A] ↥S.limit)
@@ -357,7 +357,7 @@ theorem ker_proj_shift (hI : I.FG) (n : ℕ) :
       Submodule.smul_mem_smul hr Submodule.mem_top
     rw [pow_smul_top_shift_eq_bot t N hsurj hker n, Submodule.mem_bot] at h0
     rw [LinearMap.mem_ker]
-    show r • (x : ∀ m, M m) n = 0
+    change r • (x : ∀ m, M m) n = 0
     exact h0
 
 include hsurj hker in

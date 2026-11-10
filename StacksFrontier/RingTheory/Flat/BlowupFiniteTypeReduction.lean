@@ -291,8 +291,7 @@ theorem Module.FinitePresentation.of_restrictScalars_of_finiteType (R S M : Type
     | mul s t _ _ hs ht => intro u hu; rw [mul_smul]; exact hs _ (ht u hu)
   have hall : ∀ z : S ⊗[R] M, q z ∈ V := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]; exact V.zero_mem
+    induction z using TensorProduct.inductionOn with
     | tmul s x =>
       rw [← hsmul]
       exact hstable s _ (hmemV x)

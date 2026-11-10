@@ -66,9 +66,9 @@ private theorem modulePseudoCoherentFrom_finiteFree {R : Type u} [Ring R]
   refine ⟨(CochainComplex.singleFunctor _ 0).obj N, isBoundedFiniteFree_single N 0,
     𝟙 _, ?_, ?_⟩
   · intro i _
-    show IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map (𝟙 _))
+    change IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map (𝟙 _))
     infer_instance
-  · show Epi ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) m).map (𝟙 _))
+  · change Epi ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) m).map (𝟙 _))
     infer_instance
 
 /-- Let `Q` be a class of `R`-modules consisting of finite modules and closed under taking the
@@ -86,7 +86,7 @@ private theorem modulePseudoCoherentFrom_neg_natCast {R : Type u} [Ring R] [Smal
   | zero =>
     intro M hM
     have := hfinite M hM
-    show IsModulePseudoCoherentFrom (R := R) M (0 : ℤ)
+    change IsModulePseudoCoherentFrom (R := R) M (0 : ℤ)
     exact (modulePseudoCoherent_iff_finiteness_and_resolutions_of_small
       (R := R) (M : Type v)).1.mpr inferInstance
   | succ n ih =>
@@ -149,7 +149,7 @@ public theorem finite_homology_of_finite_X {R : Type u} [Ring R] [IsNoetherianRi
     Module.Finite R
       ((HomologicalComplex.homologyFunctor (ModuleCat.{v} R)
         (ComplexShape.up ℤ) i).obj E) := by
-  show Module.Finite R (E.homology i)
+  change Module.Finite R (E.homology i)
   have : Module.Finite R (E.cycles i) := finite_of_mono (E.iCycles i)
   exact finite_of_epi (E.homologyπ i)
 

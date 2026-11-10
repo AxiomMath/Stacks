@@ -12,7 +12,8 @@ import StacksCore.Tactic.EgaSgaAttribute
 
 For a commutative ring `A` and `n ≥ 1`, `Γ(ℙⁿ_A, Ω^s_{ℙⁿ_A/A}) = 0` for every `s ≥ 1`. This is the
 degree-zero case of clause (1) of [Stacks, Tag 0FUK], which the development proves on the source's
-model `Proj A[T₀, …, Tₙ]` (`StacksFrontier.AlgebraicGeometry.DeRham.ProjectiveSpaceHodgeCohomology`),
+model `Proj A[T₀, …, Tₙ]`
+(`StacksFrontier.AlgebraicGeometry.DeRham.ProjectiveSpaceHodgeCohomology`),
 read on global sections and transported to the library's model `projectiveSpaceOverRing n A`, the
 base change of the integral model of projective space. It is the vanishing
 `pr_{1,*}pr_2^*Ω^s_{𝐏^{n-1}_S/S} = 0` for `s > 0` that the source's proof of clause (2) of

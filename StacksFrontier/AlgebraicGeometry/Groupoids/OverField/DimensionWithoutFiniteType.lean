@@ -409,8 +409,7 @@ theorem fromArrowRing_targetHom (b : RatFunc ℚ) : fromArrowRing (targetHom b) 
 
 theorem fromArrowRing_toArrowRing (z : TensorProduct ℚ (RatFunc ℚ) (RatFunc ℚ)) :
     fromArrowRing (toArrowRing z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a b =>
       have h : toArrowRing (a ⊗ₜ[ℚ] b) = sourceHom a * targetHom b := by
         simp [toArrowRing, Algebra.TensorProduct.lift_tmul]
@@ -563,7 +562,7 @@ theorem not_finiteType_sourceHom :
     ¬ (sourceHom : RatFunc ℚ →ₐ[ℚ] arrowRing).toRingHom.FiniteType := by
   classical
   intro h
-  letI : Algebra (RatFunc ℚ) arrowRing :=
+  let : Algebra (RatFunc ℚ) arrowRing :=
     (sourceHom : RatFunc ℚ →ₐ[ℚ] arrowRing).toRingHom.toAlgebra
   have hft : Algebra.FiniteType (RatFunc ℚ) arrowRing := h
   obtain ⟨s, hs⟩ := hft.out
@@ -611,7 +610,7 @@ theorem not_finiteType_sourceHom :
   obtain ⟨n, q, hq⟩ := hall (IsLocalization.mk' arrowRing 1 d)
   have hspec : IsLocalization.mk' arrowRing 1 d
       * algebraMap (Polynomial (RatFunc ℚ)) arrowRing (d : Polynomial (RatFunc ℚ)) = 1 := by
-    simpa using IsLocalization.mk'_spec arrowRing 1 d
+    simp
   -- Hence `q * (Y - a) = mⁿ` in `𝐐(x)[Y]`.
   have key : algebraMap (Polynomial (RatFunc ℚ)) arrowRing
         (q * (d : Polynomial (RatFunc ℚ)))
@@ -790,7 +789,7 @@ inclusion of `𝐐(x)` into `𝐐(x) ⊗_𝐐 𝐐(x)` as the right factor, whic
 @[stacks 04MR "s is not locally of finite type"]
 theorem not_locallyOfFiniteType_source : ¬ LocallyOfFiniteType groupoid.source.left := by
   intro hsrc
-  haveI : LocallyOfFiniteType (Limits.pullback.snd
+  have : LocallyOfFiniteType (Limits.pullback.snd
       (Spec.map (CommRingCat.ofHom (algebraMap ℚ (RatFunc ℚ))))
       (Spec.map (CommRingCat.ofHom (algebraMap ℚ (RatFunc ℚ))))) := hsrc
   have h : LocallyOfFiniteType ((pullbackSpecIso ℚ (RatFunc ℚ) (RatFunc ℚ)).inv ≫
@@ -803,7 +802,7 @@ inclusion of `𝐐(x)` into `𝐐(x) ⊗_𝐐 𝐐(x)` as the left factor, which
 @[stacks 04MR "t is not locally of finite type"]
 theorem not_locallyOfFiniteType_target : ¬ LocallyOfFiniteType groupoid.target.left := by
   intro htgt
-  haveI : LocallyOfFiniteType (Limits.pullback.fst
+  have : LocallyOfFiniteType (Limits.pullback.fst
       (Spec.map (CommRingCat.ofHom (algebraMap ℚ (RatFunc ℚ))))
       (Spec.map (CommRingCat.ofHom (algebraMap ℚ (RatFunc ℚ))))) := htgt
   have h : LocallyOfFiniteType ((pullbackSpecIso ℚ (RatFunc ℚ) (RatFunc ℚ)).inv ≫

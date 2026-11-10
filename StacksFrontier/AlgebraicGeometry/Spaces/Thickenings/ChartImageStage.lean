@@ -147,7 +147,7 @@ theorem definingIdealAt_schemeTheoreticImage_chart {Z : BigFppfOver B S hS} (ν 
       ((RingHom.ker (F.map ν).appTop.hom).map (F.map t).appTop.hom).comap
         (F.map s).appTop.hom := by
     rw [hπ₂, Scheme.Hom.comp_appTop]
-    show RingHom.ker ((F.map c).appTop.hom.comp (F.map s).appTop.hom) = _
+    change RingHom.ker ((F.map c).appTop.hom.comp (F.map s).appTop.hom) = _
     rw [← RingHom.comap_ker, hkerc']
   exact key
 

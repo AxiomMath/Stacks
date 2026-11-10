@@ -164,7 +164,7 @@ level-`k` evaluation of the completion. -/
 @[simp] theorem completionLift_of (k : ℕ) (phi : M →ₗ[R] N)
     (hN : I ^ k • (⊤ : Submodule R N) = ⊥) (x : M) :
     completionLift I k phi hN (AdicCompletion.of I M x) = phi x := by
-  show quotLift I k phi hN (AdicCompletion.eval I M k (AdicCompletion.of I M x)) = phi x
+  change quotLift I k phi hN (AdicCompletion.eval I M k (AdicCompletion.of I M x)) = phi x
   rw [AdicCompletion.eval_of]
   rfl
 
@@ -189,7 +189,7 @@ theorem completionLift_comp {j k : ℕ} (hjk : j ≤ k) (phi : M →ₗ[R] N) (p
   rw [completionLift_apply, completionLift_apply, ← transitionMap_eval I hjk w, ← hx]
   show psi (quotLift I k phi' hN' (Submodule.Quotient.mk x)) = _
   rw [quotLift_mk, hfac]
-  show _ = quotLift I j phi hN (Submodule.Quotient.mk x)
+  change _ = quotLift I j phi hN (Submodule.Quotient.mk x)
   rw [quotLift_mk]
 
 end CompletionLift
@@ -210,8 +210,7 @@ attribute [local instance] moduleMulOppositeOfCommRing
 
 /-- Over a commutative ring the canonical right action of
 `Crystalline.moduleMulOppositeOfCommRing` agrees with the left action. -/
-@[instance_reducible]
-def isCentralScalarOfCommRing (R : Type u) [CommRing R] (M : Type u) [AddCommGroup M]
+theorem isCentralScalarOfCommRing (R : Type u) [CommRing R] (M : Type u) [AddCommGroup M]
     [Module R M] : IsCentralScalar R M :=
   ⟨fun _ _ ↦ rfl⟩
 
@@ -269,7 +268,7 @@ which is the field `...SmallSite.LevelForms07JG.omegaMap_derivation`. -/
 theorem completedOmegaMap_derivation (e : ℕ) (a : (D : Type u)) :
     completedOmegaMap L hdp hbase huniv p k hkill e (completedDerivation d p a) =
       L.levelDerivationFun e a := by
-  show _root_.Crystalline.completionLift _ (k e) (universalLift L hdp hbase huniv (d := d) e)
+  change _root_.Crystalline.completionLift _ (k e) (universalLift L hdp hbase huniv (d := d) e)
       (hkill e) (AdicCompletion.of _ _ (d a)) = _
   rw [_root_.Crystalline.completionLift_of]
   exact universalLift_derivation L hdp hbase huniv e a
@@ -378,6 +377,7 @@ theorem pow_smul_top_wholeSpaceLevelDiffSections_eq_bot (n e : ℕ) :
       zero_smul]
   · exact Submodule.add_mem _ hy hz
 
+omit [WholeSpacePresentation S hp] [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- The family of cutoffs `k e = N + e` of
 `...SmallSite.pow_smul_top_wholeSpaceLevelDiffSections_eq_bot` is monotone, which is the other
 hypothesis `...SmallSite.LevelForms07JG.ofUniversalCompletion` asks of it. -/

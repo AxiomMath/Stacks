@@ -37,7 +37,7 @@ a middle bifunctor whose commutation datum is written in two equal ways.
 
 namespace CategoryTheory.NatTrans.CommShift₂
 
-open Category Functor
+open Category _root_.CategoryTheory.Functor
 
 variable {C' C C'' D E : Type*} [Category* C'] [Category* C] [Category* C''] [Category* D]
   [Category* E] {M : Type*} [AddCommMonoid M] [HasShift C' M] [HasShift C M] [HasShift C'' M]

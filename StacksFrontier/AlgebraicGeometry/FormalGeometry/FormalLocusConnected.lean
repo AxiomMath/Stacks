@@ -121,7 +121,7 @@ public theorem eq_empty_or_isConnected_zeroLocus_sdiff_of_isDualizingComplex (A 
         H p ∈ PrimeSpectrum.zeroLocus (I : Set A) \
           PrimeSpectrum.zeroLocus (a : Set A) := by
     intro p
-    show (I.map φ ≤ p.asIdeal ∧ ¬ a.map φ ≤ p.asIdeal) ↔
+    change (I.map φ ≤ p.asIdeal ∧ ¬ a.map φ ≤ p.asIdeal) ↔
       (I ≤ p.asIdeal.comap φ ∧ ¬ a ≤ p.asIdeal.comap φ)
     simp only [Ideal.map_le_iff_le_comap]
   have himage : H '' (PrimeSpectrum.zeroLocus ((I.map φ : Ideal B) : Set B) \

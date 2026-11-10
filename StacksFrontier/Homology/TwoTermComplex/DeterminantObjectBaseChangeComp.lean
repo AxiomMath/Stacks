@@ -88,7 +88,7 @@ theorem detPresentationIso_presentationTransport {R : Type u} [CommRing R]
   have h := (presentationTransport_comp P (presentation R K) P (Iso.refl K.obj)
       (Iso.refl K.obj)).trans
     (congrArg (fun c => presentationTransport P P c) (Iso.refl_trans (Iso.refl K.obj)))
-  show presentationTransport (presentation R K) P (Iso.refl K.obj)
+  change presentationTransport (presentation R K) P (Iso.refl K.obj)
     (presentationTransport P (presentation R K) (Iso.refl K.obj) v) = v
   rw [← LinearEquiv.trans_apply, h, presentationTransport_id]
   rfl

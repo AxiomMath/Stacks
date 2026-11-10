@@ -63,7 +63,8 @@ variable {C : Type uu} [Category.{vv} C] {D : Type uu'} [Category.{vv'} D]
   (Φ : Sheaf K (Type ww') ⥤ Sheaf J (Type ww)) [PreservesFiniteProducts Φ]
 
 omit [J.HasSheafCompose (forget RingCat.{ww})]
-  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})] in
+  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})] in
 /-- Forgetting the ring operations of the inverse image of a sheaf of commutative rings gives the
 image of the underlying sheaf of sets, on the nose. -/
 theorem forget_pullbackCommRingSheaf (O : Sheaf K CommRingCat.{ww'}) :

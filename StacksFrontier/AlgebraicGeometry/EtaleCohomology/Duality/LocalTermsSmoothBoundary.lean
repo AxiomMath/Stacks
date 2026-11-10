@@ -383,7 +383,7 @@ theorem LAdicSheaf.exists_localTermsKilledBy_of_smooth
     have h2 := hPm g
     have hmapv : ((Matrix.GeneralLinearGroup.map φQ (integralModel τ hτ g) : GL (Fin r) ℚ_[ℓ]) :
         Matrix (Fin r) (Fin r) ℚ_[ℓ]) *ᵥ vQ = vQ := by
-      show φQ.mapMatrix ((integralModel τ hτ g : GL (Fin r) ℤ_[ℓ]) :
+      change φQ.mapMatrix ((integralModel τ hτ g : GL (Fin r) ℤ_[ℓ]) :
         Matrix (Fin r) (Fin r) ℤ_[ℓ]) *ᵥ (φQ ∘ v) = φQ ∘ v
       funext i
       rw [RingHom.mapMatrix_apply, ← RingHom.map_mulVec, hg]

@@ -85,6 +85,10 @@ def lowerShriekULiftComparison :
     (Stacks.SheafOfModules.lowerShriekAdjunction.{max u₁ r} J K f O)).symm
       (TwoSquare.mk _ _ _ _ (restrictionULiftIso J K f O).hom)
 
+omit [HasWeakSheafify J AddCommGrpCat.{r}] [J.WEqualsLocallyBijective AddCommGrpCat.{r}]
+  [HasWeakSheafify K AddCommGrpCat.{r}] [K.WEqualsLocallyBijective AddCommGrpCat.{r}]
+  [HasWeakSheafify J AddCommGrpCat.{max u₁ r}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u₁ r}] in
 /-- The defining property of the comparison: after the unit of `g_! ⊣ g^*` at the raised
 universe, its restriction is the universe lift of the unit at the universe of the rings. -/
 theorem lowerShriekULiftComparison_unit (M : SheafOfModules.{r} (inverseImageRing J K f O)) :
@@ -176,7 +180,7 @@ theorem _root_.CategoryTheory.NatTrans.isIso_app_sigma {A B : Type*} [Category A
   have he : (IsColimit.coconePointsIsoOfNatIso h₁ h₂ w).hom = α.app (∐ X) := by
     refine h₁.hom_ext (fun i => ?_)
     rw [IsColimit.comp_coconePointsIsoOfNatIso_hom]
-    simp [w, h₁, h₂]
+    simp [w]
   rw [← he]
   infer_instance
 
@@ -204,11 +208,11 @@ theorem isIso_lowerShriekULiftComparison_app {M : SheafOfModules.{r} (inverseIma
   have : PreservesColimitsOfSize.{r, r}
       (Stacks.SheafOfModules.lowerShriek.{max u₁ r} J K f O) :=
     (Stacks.SheafOfModules.lowerShriekAdjunction.{max u₁ r} J K f O).leftAdjoint_preservesColimits
-  exact (NatTrans.isIso_app_iff_of_iso (lowerShriekULiftComparison J K f O).natTrans φ).1
+  exact (NatTrans.isIso_app_iff_of_iso (lowerShriekULiftComparison J K f O) φ).1
     (NatTrans.isIso_app_sigma (F₁ := sourceULift J K f O ⋙
         Stacks.SheafOfModules.lowerShriek.{max u₁ r} J K f O)
       (F₂ := lowerShriekModules J K f O ⋙ targetULift K O)
-      (lowerShriekULiftComparison J K f O).natTrans X
+      (lowerShriekULiftComparison J K f O) X
       (fun i => isIso_lowerShriekULiftComparison_app_extensionByZeroUnit J K f O (U i)))
 
 end Sums
@@ -219,6 +223,15 @@ section Lifted
 variable (O' : Sheaf K CommRingCat.{r}) [K.HasSheafCompose (forget₂ CommRingCat.{r} RingCat.{r})]
   [K.HasSheafCompose (forget₂ CommRingCat.{max r u₁} RingCat.{max r u₁})]
 
+omit [f.IsCocontinuous J K]
+  [HasWeakSheafify J AddCommGrpCat.{r}] [J.WEqualsLocallyBijective AddCommGrpCat.{r}]
+  [HasWeakSheafify K AddCommGrpCat.{r}] [K.WEqualsLocallyBijective AddCommGrpCat.{r}]
+  [HasWeakSheafify J AddCommGrpCat.{max u₁ r}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u₁ r}]
+  [HasWeakSheafify K AddCommGrpCat.{max u₁ r}]
+  [K.WEqualsLocallyBijective AddCommGrpCat.{max u₁ r}]
+  [K.HasSheafCompose (forget₂ CommRingCat.{r} RingCat.{r})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{max r u₁} RingCat.{max r u₁})] in
 /-- The transport of sheaves of modules to the raised structure sheaf preserves corepresenting
 sections: it is an equivalence acting as the identity on sections. -/
 theorem isCorepresentingSection_sourceModulesEquivalence
@@ -292,6 +305,12 @@ def extensionByZeroUnitULiftIso (U : C) :
   have : IsIso φ := Stacks.SheafOfModules.isIso_of_isCorepresentingSection hJ hΛ φ hφ
   exact asIso φ
 
+omit [f.IsCocontinuous J K]
+  [HasWeakSheafify K AddCommGrpCat.{r}] [K.WEqualsLocallyBijective AddCommGrpCat.{r}]
+  [HasWeakSheafify K AddCommGrpCat.{max u₁ r}]
+  [K.WEqualsLocallyBijective AddCommGrpCat.{max u₁ r}]
+  [K.HasSheafCompose (forget₂ CommRingCat.{r} RingCat.{r})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{max r u₁} RingCat.{max r u₁})] in
 /-- **S1: the universe lift of a direct sum of the `j_{U!} O_U`, read over the raised structure
 sheaf, is a direct sum of the `j_{U!} O_U` at the raised universe**, the hypothesis of
 `Stacks.Cohomology.DerivedLowerShriek.ULift.derivedLowerShriekObjQIso`. -/

@@ -163,7 +163,7 @@ theorem structureMapSquare_eq_homEquiv :
   refine (Category.assoc _ _ _).trans ?_
   refine (congrArg (fun t ↦ _ ≫ t) e2).trans ?_
   refine e3.trans ?_
-  simp only [squareIndex, StructuredArrow.mk_hom_eq_self, Functor.map_comp, TwoSquare.natTrans]
+  simp only [squareIndex, StructuredArrow.mk_hom_eq_self, Functor.map_comp]
   have h0 : (Stacks.Sites.CocontinuousExchange.twoSquare hsq).op.app j.right = 𝟙 _ := rfl
   have h0' : (ambientRingStructureSheaf B S hS 𝒴).obj.map
       ((Stacks.Sites.CocontinuousExchange.twoSquare hsq).op.app j.right) = 𝟙 _ :=

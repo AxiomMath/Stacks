@@ -190,7 +190,7 @@ theorem includeRight_comp_stageToLimitMap (i : D.LaterIndex) :
   let : Algebra Γ(W₀.toScheme, ⊤) Γ(V₀.toScheme, ⊤) :=
     ((D.X₀.hom.resLE W₀ V₀ hVW).appTop).hom.toAlgebra
   ext x
-  show (PseudoCoherence.stageToLimitMap (D.baseRingAlgCocone W₀) Γ(V₀.toScheme, ⊤) i)
+  change (PseudoCoherence.stageToLimitMap (D.baseRingAlgCocone W₀) Γ(V₀.toScheme, ⊤) i)
     ((1 : (D.baseRingAlgDiagram W₀).obj i) ⊗ₜ x) = 1 ⊗ₜ x
   simp [PseudoCoherence.stageToLimitMap]
 

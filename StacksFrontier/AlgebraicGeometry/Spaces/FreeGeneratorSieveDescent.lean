@@ -122,7 +122,7 @@ theorem bijective_smul_of_sieve (M : Modules.{u, u} B S hS X.1 X.2)
         chartRestrictLinear_smul M g (c k hk) (chartRestrictLinear M k n)]
     obtain ⟨r, hr⟩ := exists_chartRestrict_eq_of_sieve B S hS X V T hT c hc
     refine ⟨r, eq_of_modules_map_eq_of_sieve B S hS X M V T hT (r • n) m fun {W} k hk ↦ ?_⟩
-    show chartRestrictLinear M k (r • n) = chartRestrictLinear M k m
+    change chartRestrictLinear M k (r • n) = chartRestrictLinear M k m
     rw [chartRestrictLinear_smul M k r n, hr k hk, hcspec k hk]
 
 /-! ### The sieve of charts over which a meromorphic section is an honest free generator -/

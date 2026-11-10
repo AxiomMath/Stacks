@@ -329,7 +329,7 @@ theorem constToRoots_isLocallySurjective :
     let : NeZero n := ⟨Nat.ne_of_gt hn⟩
     let : NeZero (n : k) := ⟨hnk.ne_zero⟩
     let : HasEnoughRootsOfUnity k n := inferInstance
-    exact HasEnoughRootsOfUnity.exists_primitiveRoot k n
+    exact HasEnoughRootsOfUnity.exists_isPrimitiveRoot k n
   refine ⟨fun {T} s => ?_⟩
   have hnsmul : n • (((kernel.ι (powerSheaf (SmallEtale.topology B X hX)
         (SmallEtale.toScheme B X hX) (unitsPresheaf_isSheaf_smallEtale B X hX)

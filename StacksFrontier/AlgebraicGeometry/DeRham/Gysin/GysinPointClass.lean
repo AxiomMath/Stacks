@@ -73,6 +73,7 @@ def oneClass : Hgroup Z.ringCatSheaf ⊤ 0 (relativeDifferentialForms (i ≫ π)
     ((secF Z.ringCatSheaf ⊤).map (relativeDifferentialFormsZeroIso (i ≫ π)).inv
       (unitSection Z.toRingedSpace))
 
+omit [IsClosedImmersion i] in
 /-- The class `oneClass π i` of `1` in `H^0(Z, Ω^0_{Z/k})` is nonzero when `Z` is nonempty. -/
 theorem oneClass_ne_zero [Nonempty Z] : oneClass π i ≠ 0 := by
   have : Nonempty (⊤ : Z.Opens) := ⟨⟨Classical.arbitrary Z, trivial⟩⟩
@@ -99,6 +100,7 @@ theorem cohomologySupportedOn_pushforwardRelativeForms (π : X ⟶ Spec (.of k))
 abbrev globalScalars (π : X ⟶ Spec (.of k)) : k →+* Γ(X, ⊤) :=
   ((Scheme.ΓSpecIso (.of k)).inv ≫ π.appLE ⊤ ⊤ (by simp)).hom
 
+omit [IsClosedImmersion i] in
 /-- **The global sections of `i_*Ω^0_{Z/k}` form a one-dimensional `k`-vector space** when
 `Z ≅ Spec k` over `k`: every global section is a `k`-multiple of the one corresponding to `1`. -/
 theorem finrank_globalSections_pushforwardRelativeForms_zero [IsIso (i ≫ π)] :
@@ -129,7 +131,7 @@ theorem finrank_globalSections_pushforwardRelativeForms_zero [IsIso (i ≫ π)] 
     intro c
     let E1 := (_root_.SheafOfModules.evaluation Z.ringCatSheaf (op U)).obj
       (SheafOfModules.unit Z.ringCatSheaf)
-    show (show (Z.ringCatSheaf.obj.obj (op U) : Type u) from ψ c) •
+    change (show (Z.ringCatSheaf.obj.obj (op U) : Type u) from ψ c) •
         eθ.inv.hom (show (E1 : Type u) from (1 : Γ(Z, U))) =
       eθ.inv.hom (show (E1 : Type u) from ψ c)
     rw [← map_smul]
@@ -214,7 +216,8 @@ theorem gysinHodgeFormsMapOfConormalRank_oneClass_ne_zero_of_dualizingIso (d : �
 `H^0(Z, Ω^0_{Z/k}) ⟶ H^d(X, Ω^d_{X/k})` of [Stacks, Tag 0G8A] is nonzero. The identification
 `ω_X^• ≅ Ω^d_{X/k}[d]` the argument uses is [Stacks, Tag 0FVV], part (7). -/
 @[stacks 0G8E "for X irreducible smooth proper over a field k of dimension d and Z the reduced \
-closed subscheme of a k-rational point, the Gysin map H^0(Z, Omega^0_{Z/k}) -> H^d(X, Omega^d_{X/k}) \
+closed subscheme of a k-rational point, the Gysin map H^0(Z, Omega^0_{Z/k}) -> \
+H^d(X, Omega^d_{X/k}) \
 of 0G8A sends 1 to a nonzero class"]
 theorem gysinHodgeFormsMapOfConormalRank_oneClass_ne_zero (d : ℕ) [IsProper π] [Smooth π]
     [IrreducibleSpace X] (hd : topologicalKrullDim X = d) [IsIso (i ≫ π)] :

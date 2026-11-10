@@ -38,12 +38,12 @@ theorem SubschemeSmoothAt.comap_of_isOpenImmersion {Y' Y S : Scheme.{u}} (φ : Y
       Scheme.IdealSheafData.comapIso_hom_fst_assoc]
   obtain ⟨y'', hy''⟩ : y' ∈ Set.range (I.comap φ).subschemeι.base := by
     rw [Scheme.IdealSheafData.range_subschemeι, Scheme.IdealSheafData.support_comap]
-    show φ y' ∈ (I.support : Set Y)
+    change φ y' ∈ (I.support : Set Y)
     rw [← Scheme.IdealSheafData.range_subschemeι, ← hy]
     exact ⟨y, rfl⟩
   have hρy : ρ y'' = y := by
     apply I.subschemeι.isClosedEmbedding.injective
-    show (ρ ≫ I.subschemeι) y'' = I.subschemeι y
+    change (ρ ≫ I.subschemeι) y'' = I.subschemeι y
     rw [hρ, Scheme.Hom.comp_apply, hy'', hy]
   refine ⟨y'', hy'', ρ ⁻¹ᵁ U, show ρ y'' ∈ U from hρy ▸ hyU, ?_⟩
   have heq : (ρ ⁻¹ᵁ U).ι ≫ (I.comap φ).subschemeι ≫ φ ≫ q =

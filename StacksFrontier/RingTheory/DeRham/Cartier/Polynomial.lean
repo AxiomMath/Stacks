@@ -54,7 +54,7 @@ theorem frobeniusCoordinateMap_single (α : Fin n → Fin p) (f : MvPolynomial (
         (Pi.single α f : (Fin n → Fin p) → MvPolynomial (Fin n) A) =
       f ^ p * monomial X (fun j ↦ (α j : ℕ)) := by
   classical
-  show ∑ α', (Pi.single α f : (Fin n → Fin p) → MvPolynomial (Fin n) A) α' ^ p * _ = _
+  change ∑ α', (Pi.single α f : (Fin n → Fin p) → MvPolynomial (Fin n) A) α' ^ p * _ = _
   rw [Finset.sum_eq_single α]
   · simp
   · intro α' _ h
@@ -88,7 +88,7 @@ theorem coeff_frobeniusCoordinateMap (c : (Fin n → Fin p) → MvPolynomial (Fi
     conv_lhs => rw [f.as_sum]
     rw [sum_pow_char]
     exact Finset.sum_congr rfl fun δ _ ↦ by rw [MvPolynomial.monomial_pow]
-  show (∑ α', c α' ^ p * monomial X (fun j ↦ (α' j : ℕ))).coeff _ = _
+  change (∑ α', c α' ^ p * monomial X (fun j ↦ (α' j : ℕ))).coeff _ = _
   rw [coeff_sum, Finset.sum_eq_single α]
   · rw [hpow, monomial_X, Finset.sum_mul, coeff_sum]
     simp only [MvPolynomial.monomial_mul_monomial, mul_one, coeff_monomial]
@@ -130,7 +130,7 @@ theorem coeff_frobeniusCoordinateMap (c : (Fin n → Fin p) → MvPolynomial (Fi
 /-- **The variables of a polynomial algebra over a perfect ring are Frobenius coordinates.** -/
 theorem isFrobeniusCoordinates_mvPolynomial :
     IsFrobeniusCoordinates p (MvPolynomial (Fin n) A) (X (R := A)) := by
-  show Function.Bijective (frobeniusCoordinateMap p A (n := n))
+  change Function.Bijective (frobeniusCoordinateMap p A (n := n))
   constructor
   · rw [injective_iff_map_eq_zero]
     intro c hc
@@ -143,7 +143,7 @@ theorem isFrobeniusCoordinates_mvPolynomial :
     rw [Pi.zero_apply, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, ← h,
       zero_pow hp.out.ne_zero]
   · intro f
-    show f ∈ (frobeniusCoordinateMap p A (n := n)).range
+    change f ∈ (frobeniusCoordinateMap p A (n := n)).range
     induction f using MvPolynomial.induction_on' with
     | monomial β a => exact monomial_mem_range p A β a
     | add f g hf hg => exact add_mem hf hg

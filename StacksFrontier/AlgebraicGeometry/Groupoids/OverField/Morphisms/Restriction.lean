@@ -125,14 +125,14 @@ theorem restrictionArrowsMap_comp_restrictionArrowsToArrows (F : GroupoidScheme.
 `g`. -/
 theorem compose_comp_source (G : GroupoidScheme S) {T : Over S} {f g : T ⟶ G.arrows}
     (w : f ≫ G.source = g ≫ G.target) : G.compose f g w ≫ G.source = g ≫ G.source := by
-  show (pullback.lift f g w ≫ G.comp) ≫ G.source = _
+  change (pullback.lift f g w ≫ G.comp) ≫ G.source = _
   rw [Category.assoc, G.source_comp, ← Category.assoc, pullback.lift_snd]
 
 /-- The target of the composite of two composable generalized arrows `f` and `g` is the target of
 `f`. -/
 theorem compose_comp_target (G : GroupoidScheme S) {T : Over S} {f g : T ⟶ G.arrows}
     (w : f ≫ G.source = g ≫ G.target) : G.compose f g w ≫ G.target = f ≫ G.target := by
-  show (pullback.lift f g w ≫ G.comp) ≫ G.target = _
+  change (pullback.lift f g w ≫ G.comp) ≫ G.target = _
   rw [Category.assoc, G.target_comp, ← Category.assoc, pullback.lift_fst]
 
 /-- A morphism of groupoid schemes sends composable generalized arrows to composable ones. -/
@@ -172,7 +172,7 @@ theorem comp_identity_eq_of_fullyFaithful {H₁ H₂ : GroupoidScheme S} (a : Gr
       target_eq := hside _ _ htarget H₁.target_identity }
   have himage : (b.evaluation T').map hleft = (b.evaluation T').map hright := by
     apply GroupoidScheme.EvaluationHom.ext
-    show hleft.arrow ≫ b.mapArrows = hright.arrow ≫ b.mapArrows
+    change hleft.arrow ≫ b.mapArrows = hright.arrow ≫ b.mapArrows
     dsimp [hleft, hright]
     calc
       y ≫ H₂.identity ≫ b.mapArrows = y ≫ b.mapObjects ≫ G₂.identity := by
@@ -185,7 +185,7 @@ theorem comp_identity_eq_of_fullyFaithful {H₁ H₂ : GroupoidScheme S} (a : Gr
         simpa [Category.assoc] using congrArg (fun q => x' ≫ q ≫ F.mapArrows) a.map_identity
       _ = x' ≫ H₁.identity ≫ mapArr ≫ b.mapArrows := by
         simpa [Category.assoc] using congrArg (fun q => x' ≫ H₁.identity ≫ q) harrows.symm
-  show x ≫ (mapObj ≫ H₂.identity).left = x ≫ (H₁.identity ≫ mapArr).left
+  change x ≫ (mapObj ≫ H₂.identity).left = x ≫ (H₁.identity ≫ mapArr).left
   simpa [T', x', y, hleft, hright, Over.comp_left, Category.assoc] using
     congrArg Over.Hom.left
       (congrArg (fun q => q.arrow) ((Classical.choice (hff T')).map_injective himage))
@@ -216,7 +216,7 @@ theorem compose_comp_eq_of_fullyFaithful {H₁ H₂ : GroupoidScheme S} (a : Gro
     simp [harrows]
   have himage : (b.evaluation T).map leftHom = (b.evaluation T).map rightHom := by
     apply GroupoidScheme.EvaluationHom.ext
-    show leftHom.arrow ≫ b.mapArrows = rightHom.arrow ≫ b.mapArrows
+    change leftHom.arrow ≫ b.mapArrows = rightHom.arrow ≫ b.mapArrows
     dsimp [leftHom, rightHom]
     calc
       H₁.compose f g w ≫ mapArr ≫ b.mapArrows =

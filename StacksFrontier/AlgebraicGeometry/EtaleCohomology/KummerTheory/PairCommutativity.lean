@@ -149,7 +149,7 @@ theorem tensorTriv_braiding (X : RingedSite.{u, u, u})
     (bl : tpow X M n ≅ SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
     powerMap X (β_ L M) n ≪≫ tensorTriv X M L n bl al = tensorTriv X L M n al bl := by
   apply Iso.ext
-  show (powerMap X (β_ L M) n).hom ≫
+  change (powerMap X (β_ L M) n).hom ≫
       (((tpowTensorIso X M L n).hom ≫ (bl.hom ⊗ₘ al.hom)) ≫
         (ρ_ (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O))).hom) =
     ((tpowTensorIso X L M n).hom ≫ (al.hom ⊗ₘ bl.hom)) ≫

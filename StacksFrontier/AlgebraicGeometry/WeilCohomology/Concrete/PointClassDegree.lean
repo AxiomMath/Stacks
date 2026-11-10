@@ -135,7 +135,7 @@ theorem equidimensionalPushforward_closedSubschemeClass_specField
     have hpush := properPushforward_single (fieldChowSituation k) (partBase S.obj.hom e) T.obj.hom
       ((dimPart S.obj.hom e).ι ≫ f.hom.left) (by rw [Category.assoc, Over.w f.hom]) ((e : ℤ) - e)
       u0 _ hc
-    rw [hg, if_pos (by rw [hj, hn]), Chow.residueDegree_comp,
+    rw [hg, ite_eq_left (by rw [hj, hn]), Chow.residueDegree_comp,
       residueDegree_eq_one_of_isOpenImmersion (dimPart S.obj.hom e).ι,
       mul_one, hu0] at hpush
     have hcyc : properPushforward (fieldChowSituation k) (partBase S.obj.hom e) T.obj.hom

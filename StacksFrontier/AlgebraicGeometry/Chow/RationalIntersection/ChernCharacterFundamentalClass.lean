@@ -156,7 +156,7 @@ theorem cohomologySupportedOn_of_iso_single (F : X.Modules) (T : Set X)
     · let _ : HasZeroMorphisms (TopCat.Presheaf AddCommGrpCat.{u} X) :=
         inferInstanceAs (HasZeroMorphisms ((TopologicalSpace.Opens X)ᵒᵖ ⥤ AddCommGrpCat.{u}))
       have : (ExtensionByZeroModules.toAb X.ringCatSheaf).PreservesZeroMorphisms := by
-        show (_root_.SheafOfModules.forget X.ringCatSheaf ⋙
+        change (_root_.SheafOfModules.forget X.ringCatSheaf ⋙
           PresheafOfModules.toPresheaf X.ringCatSheaf.obj).PreservesZeroMorphisms
         infer_instance
       refine Functor.map_isZero _ (Functor.map_isZero (ExtensionByZeroModules.toAb _) ?_)
@@ -217,7 +217,7 @@ theorem exists_regularVectorBundleKZeroAddEquiv_symm_mk (X : Scheme.{u}) [Compac
   have h2 : (regularVectorBundleKZeroAddEquiv X hX).symm (KZero.mk _ F) =
       (vectorBundleKZeroAddEquiv X).symm (Pretriangulated.K0.cls K) := by
     rw [AddEquiv.symm_apply_eq]
-    show _ = (exists_addEquiv_K0_coherentKZero_of_isRegular X hX).choose
+    change _ = (exists_addEquiv_K0_coherentKZero_of_isRegular X hX).choose
       (vectorBundleKZeroAddEquiv X ((vectorBundleKZeroAddEquiv X).symm
         (Pretriangulated.K0.cls K)))
     rw [AddEquiv.apply_symm_apply,
@@ -298,11 +298,10 @@ theorem chernCharacterCap_apply_eq_zero (a : VectorBundleKZero X) (j : ℤ)
     by_cases hk : k - p = j'
     · have hzero : rationalChowCapComponent C (gysinSystemOfInvertible C) sX p k
           (chernCharacterVectorBundle C sX a p) t = 0 := by
-        induction t using TensorProduct.induction_on with
-        | zero => rw [map_zero]
+        induction t using TensorProduct.inductionOn with
         | add t t' ht ht' => rw [map_add, ht, ht', add_zero]
         | tmul q α =>
-          show rationalChowCapComponent C (gysinSystemOfInvertible C) sX p k
+          change rationalChowCapComponent C (gysinSystemOfInvertible C) sX p k
             (((Nat.factorial p : ℚ)⁻¹) ⊗ₜ[ℤ] powerSumKHom C sX p a p) (q ⊗ₜ[ℤ] α) = 0
           rw [rationalChowCapComponent_tmul_tmul, h p k α (by omega), TensorProduct.tmul_zero]
       rw [hzero, map_zero, DirectSum.zero_apply]
@@ -375,8 +374,7 @@ theorem rationalChernCharacterCapFundamentalClass_tmul (r : ℚ) (a : VectorBund
 theorem rationalChernCharacterCapFundamentalClass_apply (x : ℚ ⊗[ℤ] VectorBundleKZero X) :
     rationalChernCharacterCapFundamentalClass C sX x =
       rationalChernCharacterCap C sX x (rationalFundamentalClass C sX) := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, LinearMap.zero_apply]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, LinearMap.add_apply, hx, hy]
   | tmul r a =>
     rw [rationalChernCharacterCapFundamentalClass_tmul, rationalChernCharacterCap_tmul,
@@ -399,7 +397,7 @@ theorem coherentChernCharacterCapFundamentalClass_classOf (E : X.Modules)
           ⟨E, @isCoherent_of_isFiniteLocallyFree_of_isLocallyNoetherian X
             (isLocallyNoetherian_of_isRegular hX) E hE⟩) =
       chernCharacterCapFundamentalClass C sX (VectorBundleKZero.classOf X E) := by
-  show chernCharacterCapFundamentalClass C sX ((regularVectorBundleKZeroAddEquiv X hX).symm _) = _
+  change chernCharacterCapFundamentalClass C sX ((regularVectorBundleKZeroAddEquiv X hX).symm _) = _
   rw [← regularVectorBundleKZeroAddEquiv_classOf' X hX E hE, AddEquiv.symm_apply_apply]
 
 /-- **Bijectivity on `K'_0(X) ⊗ 𝐐` is bijectivity on `K_0(Vect(X)) ⊗ 𝐐`**: the `𝐐`-linear
@@ -415,8 +413,7 @@ theorem bijective_liftBaseChange_coherentChernCharacterCapFundamentalClass_iff :
   have h : (coherentChernCharacterCapFundamentalClass C sX hX).toIntLinearMap.liftBaseChange ℚ =
       rationalChernCharacterCapFundamentalClass C sX ∘ₗ e.toLinearMap := by
     refine LinearMap.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy]
     | tmul r a =>
       rw [LinearMap.liftBaseChange_tmul, LinearMap.comp_apply, LinearEquiv.coe_coe,
@@ -441,7 +438,7 @@ theorem isDimensionTriangular_coherentChernCharacterCapFundamentalClass :
   obtain ⟨K, E, ⟨eK⟩, hE, ⟨eE⟩, heq⟩ := exists_regularVectorBundleKZeroAddEquiv_symm_mk X hX F.obj
   have heq' : (regularVectorBundleKZeroAddEquiv X hX).symm (KZero.mk _ F.obj) =
       eulerCharComplex X E := heq
-  show chernCharacterCap C sX ((regularVectorBundleKZeroAddEquiv X hX).symm
+  change chernCharacterCap C sX ((regularVectorBundleKZeroAddEquiv X hX).symm
     (KZero.mk _ F.obj)) (rationalFundamentalClass C sX) j' = 0
   rw [heq']
   refine chernCharacterCap_apply_eq_zero C sX _ j (fun p k α hk => ?_) _ hjj'

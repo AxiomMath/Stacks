@@ -237,7 +237,7 @@ theorem exists_mem_range_relationSummand
   refine ⟨σ, x, ?_⟩
   have hx' : (Sigma.ι (fun _ : galoisGroup ↦ (galoisCover B hS hU).left) σ ≫
       (Space.actionRelationUnderlyingIso (galoisCover B hS hU) galoisGroup).inv) x = z := by
-    show (Space.actionRelationUnderlyingIso (galoisCover B hS hU) galoisGroup).inv
+    change (Space.actionRelationUnderlyingIso (galoisCover B hS hU) galoisGroup).inv
       (((AlgebraicGeometry.sigmaOpenCover
         (fun _ : galoisGroup ↦ (galoisCover B hS hU).left)).f σ) x) = z
     rw [hx]
@@ -252,9 +252,9 @@ theorem relationSummand_target (σ : galoisGroup) :
       Space.actionRelationTarget (galoisCover B hS hU) galoisGroup (galoisAction B hS hU) :=
     prod.lift_fst _ _
   rw [ht]
-  show (Sigma.ι (fun _ : galoisGroup ↦ galoisCover B hS hU) σ ≫
+  change (Sigma.ι (fun _ : galoisGroup ↦ galoisCover B hS hU) σ ≫
     Sigma.desc (fun h : galoisGroup ↦ (galoisAction B hS hU h).asIso.hom)).left = _
-  rw [Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
 
 /-- On every summand, the source map of the graph relation is the identity. -/
 theorem relationSummand_source (σ : galoisGroup) :
@@ -263,9 +263,9 @@ theorem relationSummand_source (σ : galoisGroup) :
       Space.actionRelationSource (galoisCover B hS hU) galoisGroup :=
     prod.lift_snd _ _
   rw [hs]
-  show (Sigma.ι (fun _ : galoisGroup ↦ galoisCover B hS hU) σ ≫
+  change (Sigma.ι (fun _ : galoisGroup ↦ galoisCover B hS hU) σ ≫
     Sigma.desc (fun _ : galoisGroup ↦ 𝟙 (galoisCover B hS hU))).left = _
-  rw [Sigma.ι_desc, Over.id_left]
+  rw [Sigma.ι_comp_desc, Over.id_left]
 
 /-- The graph of the action of the Galois element `σ`, a morphism
 `Spec ℚ̄ ⟶ Spec ℚ̄ ×_ℚ Spec ℚ̄`. -/
@@ -297,7 +297,7 @@ theorem finite_galoisGroup_of_rel
   have hrs' := congrArg Over.Hom.left hrs
   rw [Over.comp_left] at hrt' hrs'
   have : Subsingleton (galoisCover B hS hU).left := by
-    show Subsingleton (PrimeSpectrum (AlgebraicClosure ℚ))
+    change Subsingleton (PrimeSpectrum (AlgebraicClosure ℚ))
     infer_instance
   have hkey (σ τ : galoisGroup) (hmem : (galoisGraph B hS hU σ).left pt ∈ O τ) :
       σ = τ⁻¹ := by

@@ -40,7 +40,7 @@ public theorem quotient_length_eq_of_ringEquiv {R S : Type*} [CommRing R] [CommR
       map_add' := eQ.map_add
       map_smul' := by
         intro a z
-        show eQ (Ideal.Quotient.mk I a * z) =
+        change eQ (Ideal.Quotient.mk I a * z) =
           Ideal.Quotient.mk (I.map e.toRingHom) (e a) * eQ z
         rw [map_mul]
         rfl }

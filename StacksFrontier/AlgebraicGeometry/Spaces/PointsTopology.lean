@@ -60,7 +60,7 @@ theorem schemePoint_map_yoneda {U V : BigFppfOver B S hS} (h : U ⟶ V)
     schemePoint B S hS V
         (FieldValuedPoint.map B S hS (yoneda.obj U) (yoneda.map h) p) =
       (BigFppfOver.toScheme B S hS).map h (schemePoint B S hS U p) := by
-  show (BigFppfOver.toScheme B S hS).map (p.value ≫ h) _ = _
+  change (BigFppfOver.toScheme B S hS).map (p.value ≫ h) _ = _
   rw [Functor.map_comp]
   rfl
 

@@ -41,7 +41,7 @@ on triple overlaps. If a family `ρ i` of functions on the `k⁻¹(U i)` transfo
 `ρ i = (w i j)ⁿ ρ j` and `Y.basicOpen (ρ i) = k⁻¹(U i ⊓ U a)` for every `i`, then for some `N`
 there is a family `f i` of functions on the `U i` that transforms by `(w i j) ^ (n (N + 1))` with
 `k.app (U i) (f i) = ρ i ^ (N + 1)`. -/
-theorem exists_twisted_lift (hk : IsFirstOrderThickening k) {ι : Type*} [Fintype ι]
+theorem exists_twisted_lift (hk : IsFirstOrderThickening k) {ι : Type*} [Finite ι]
     (U : ι → Y'.Opens) (hUaff : ∀ i, IsAffineOpen (U i))
     (hPaff : ∀ i j, IsAffineOpen (U i ⊓ U j))
     (w : ∀ i j, Γ(Y', U i ⊓ U j))
@@ -136,7 +136,7 @@ theorem exists_twisted_lift (hk : IsFirstOrderThickening k) {ι : Type*} [Fintyp
       x i j ^ q * (x i j ^ M * (x i j - y i j) - (gx i j - gy i j)) = 0 := by
     intro i j
     have hQ : Q i j = Y'.basicOpen (x i j) := by
-      show Q i j = Y'.basicOpen (res inf_le_left (β i))
+      change Q i j = Y'.basicOpen (res inf_le_left (β i))
       rw [res_eq, basicOpen_restrict_eq, ← hWeq i]
       exact le_antisymm (le_inf inf_le_left (le_inf (inf_le_left.trans inf_le_left) inf_le_right))
         (le_inf inf_le_left (inf_le_right.trans inf_le_right))
@@ -159,12 +159,12 @@ theorem exists_twisted_lift (hk : IsFirstOrderThickening k) {ι : Type*} [Fintyp
       rw [← hcocQ, mul_pow, mul_assoc]
     refine exists_pow_mul_sub_eq_zero hk (hPaff i j) (hQP i j) (x i j) (y i j) (gx i j)
       (gy i j) (res (hQW i j) (g i)) M hQ (hxy i j) ?_ ?_ ?_
-    · show k.app (Q i j) (res (hQP i j) (y i j) - res (hQW i j) (g i)) = 0
+    · change k.app (Q i j) (res (hQP i j) (y i j) - res (hQW i j) (g i)) = 0
       rw [map_sub, app_res, hky, resY_res, app_res, hg i, resY_res, sub_self]
-    · show res (hQP i j) (gx i j) =
+    · change res (hQP i j) (gx i j) =
         (res (hQP i j) (x i j)) ^ M * (res (hQP i j) (x i j) - res (hQW i j) (g i))
       rw [hgxQ, hxQ, hGe i, map_mul, map_pow, map_sub]
-    · show res (hQP i j) (gy i j) =
+    · change res (hQP i j) (gy i j) =
         (res (hQP i j) (y i j)) ^ M * (res (hQP i j) (y i j) - res (hQW i j) (g i))
       rw [hgyQ, hGe j, hyQ, hgQ, map_mul, map_pow, map_sub]
       ring
@@ -175,9 +175,9 @@ theorem exists_twisted_lift (hk : IsFirstOrderThickening k) {ι : Type*} [Fintyp
   refine ⟨K + M, f, fun i j => ?_, fun i => ?_⟩
   · have key := corrected_lift_eq hk (hPaff i j) (x i j) (y i j) (gx i j) (gy i j) K M
       (hxy i j) (hgy0 i j) (Thickenings.pow_mul_eq_zero_of_le (hK (i, j)) (hq i j))
-    show res inf_le_left (f i) = w i j ^ (n * (K + M + 1)) * res inf_le_right (f j)
+    change res inf_le_left (f i) = w i j ^ (n * (K + M + 1)) * res inf_le_right (f j)
     simp only [f, map_sub, map_mul, map_pow, map_natCast]
-    show x i j ^ (K + M + 1) - ((K + M + 1 : ℕ) : Γ(Y', P i j)) * (x i j ^ K * gx i j) = _
+    change x i j ^ (K + M + 1) - ((K + M + 1 : ℕ) : Γ(Y', P i j)) * (x i j ^ K * gx i j) = _
     rw [key]
     simp only [y, gy]
     ring

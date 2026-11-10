@@ -214,7 +214,7 @@ theorem exists_epi_from_coproduct_extension (O : Cᵒᵖ ⥤ RingCat.{w})
   intro X x
   exact ⟨(Sigma.ι P ⟨X.unop, x⟩).app X (distinguishedSection.{v, u, w, z} O X.unop),
     (congrArg (fun f => f.app X (distinguishedSection.{v, u, w, z} O X.unop))
-      (Sigma.ι_desc fs ⟨X.unop, x⟩)).trans (extensionSectionMap_id_app O F X.unop x)⟩
+      (Sigma.ι_comp_desc fs ⟨X.unop, x⟩)).trans (extensionSectionMap_id_app O F X.unop x)⟩
 
 /-- **Stacks 03EV, part (1), for the lifted rank-one module.** The extension from the slice
 category over `U` of `uliftUnit` is a flat presheaf of modules. -/

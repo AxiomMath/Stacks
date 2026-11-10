@@ -50,8 +50,7 @@ private theorem coe_eq_of_tmul_eq {R M N P : Type*} [CommSemiring R] [AddCommMon
     [AddCommMonoid N] [AddCommMonoid P] [Module R M] [Module R N] (f g : TensorProduct R M N →+ P)
     (h : ∀ m n, f (TensorProduct.tmul R m n) = g (TensorProduct.tmul R m n)) : ⇑f = ⇑g := by
   funext z
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero f).trans (map_zero g).symm
+  induction z using TensorProduct.inductionOn with
   | tmul m n => exact h m n
   | add z w hz hw =>
     exact (map_add f z w).trans ((congrArg₂ (· + ·) hz hw).trans (map_add g z w).symm)
@@ -199,7 +198,7 @@ theorem smallEtaleFinalPullbackUnit_smul {x z : 𝒳} (φ : z ⟶ x)
   have h1 : unit.app (op (smallEtaleFinal B E h S hS p x)) (r • m) =
       r • unit.app (op (smallEtaleFinal B E h S hS p x)) m :=
     (unit.app (op (smallEtaleFinal B E h S hS p x))).hom.map_smul r m
-  show ((PresheafOfModules.pullback.{u}
+  change ((PresheafOfModules.pullback.{u}
       (smallEtaleStructureComparison B E h S hS p hp φ τ hτ)).obj M).map
         (finalToBaseChangeFinal B E h S hS p φ).op
         (unit.app (op (smallEtaleFinal B E h S hS p x)) (r • m)) = _
@@ -390,7 +389,7 @@ theorem finalStructureMap_hom_apply (r : (SmallEtale.structureSheaf E (p.obj x).
       (forget₂ CommRingCat RingCat).map (Scheme.Γ.map
         (E.inclusion.map (finalToBaseChangeFinal B E h S hS p ψ).hom.left).op) := rfl
   rw [hO, SmallEtale.smallEtaleStructureMapRing_hom_app]
-  show (Scheme.Γ.map (E.inclusion.map (finalToBaseChangeFinal B E h S hS p ψ).hom.left).op).hom
+  change (Scheme.Γ.map (E.inclusion.map (finalToBaseChangeFinal B E h S hS p ψ).hom.left).op).hom
       ((Scheme.Γ.map (E.inclusion.map (Limits.pullback.fst
         (smallEtaleFinal B E h S hS p x).obj.hom (smallEtaleBaseMorphism B E h S hS p ψ))).op).hom
           r) = _
@@ -568,7 +567,7 @@ theorem bijective_liftedSmallEtaleSheafInv_app_final_iff
   have hrbc := Stacks.PresheafOfModules.restrictionBaseChange_eq_extend F' ψ.op
   have hΛb : Function.Bijective Λ ↔ Function.Bijective
       ((liftedSmallEtaleSheafInv B E h S hS p hp F ψ 𝓖 hMx hMz e).val.app (op Wfin)) := by
-    show Function.Bijective ⇑ΛI ↔ _
+    change Function.Bijective ⇑ΛI ↔ _
     subst hΛI
     have b1 := ConcreteCategory.bijective_of_isIso ((Stacks.Sites.quasiCoherentPresheafBaseChangeIso
       𝓖 (Over.mk (B.inclusion.map (p.map ψ).left))).hom.app

@@ -4,7 +4,7 @@ public import Mathlib.Algebra.Category.ModuleCat.Sheaf.PullbackFree
 public import Mathlib.Algebra.Homology.Additive
 public import Mathlib.CategoryTheory.Limits.Shapes.Countable
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Geometry.RingedSpace.Basic
 public import StacksFrontier.Topology.Sheaves.RingedSpace.ModuleFunctors
 

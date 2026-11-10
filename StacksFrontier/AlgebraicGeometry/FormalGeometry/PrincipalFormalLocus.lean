@@ -85,7 +85,8 @@ constructed comparison map of locally fractional sections, and
 `Stacks.Algebraization.isIso_comparisonMap_principalTilde` for the map defined here.
 
 The injectivity half needs no associated-point hypothesis, such as the one of
-`isIso_principalComparisonMap_of_associatedPoints_of_realized`: the hypothesis is unnecessary, and it is not even available under 0EIH's own
+`isIso_principalComparisonMap_of_associatedPoints_of_realized`: the hypothesis is unnecessary, and
+it is not even available under 0EIH's own
 hypotheses — take `𝔞 = (f)`, so that `U ∩ V(f) = ∅` and no associated point of a nonzero
 `M̃|_U` specializes into the formal locus. Injectivity of a colimit over *shrinking*
 neighbourhoods never needed a section to vanish on the neighbourhood it started on: the locus

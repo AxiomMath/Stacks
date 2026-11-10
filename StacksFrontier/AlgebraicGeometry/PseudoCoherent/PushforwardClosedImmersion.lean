@@ -27,8 +27,8 @@ is a complete proof of Stacks 09VC from Stacks 09VA, with no further gap.
 
 ## Main results
 
-* `CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`: an isomorphism `F ⋙ G ≅ H` of exact functors
-  induces `F.mapDerivedCategory ⋙ G.mapDerivedCategory ≅ H.mapDerivedCategory`.
+* `CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`: an isomorphism `F ⋙ G ≅ H` of exact
+  functors induces `F.mapDerivedCategory ⋙ G.mapDerivedCategory ≅ H.mapDerivedCategory`.
 * `CategoryTheory.Functor.mapDerivedCategoryCongr`: isomorphic exact functors induce isomorphic
   functors on derived categories.
 * `AlgebraicGeometry.Scheme.Modules.mapDerivedCategoryPushforwardComp`: for closed immersions
@@ -41,7 +41,8 @@ is a complete proof of Stacks 09VC from Stacks 09VA, with no further gap.
 
 ## Implementation notes
 
-`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso` is **not** built here. The development already
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso` is **not** built here. The development
+already
 compares the degreewise action of a composite with the composite of the degreewise actions, in
 `Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso`, and already transports the
 degreewise action along an isomorphism of exact functors, in

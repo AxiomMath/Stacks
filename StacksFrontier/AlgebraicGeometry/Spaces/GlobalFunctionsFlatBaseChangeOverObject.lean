@@ -19,7 +19,8 @@ is the degree-zero case of part (2) of Stacks 073K for the structure sheaf, with
 arbitrary affine object of the site instead of `Spec A` with fibre products over the terminal
 object, and with the comparison map named.
 
-The proof is the one of `StacksFrontier/AlgebraicGeometry/Spaces/GlobalFunctionsFlatBaseChange.lean`,
+The proof is the one of
+`StacksFrontier/AlgebraicGeometry/Spaces/GlobalFunctionsFlatBaseChange.lean`,
 over a base object `Z` in place of the terminal object:
 
 * the base change of a chart `a : U ⟶ W`, with structure morphism `s : U ⟶ Z`, is the fibre
@@ -89,7 +90,7 @@ theorem bijective_of_tensor_equalizer {A T G C D G' C' D' : Type*} [CommRing A] 
   · obtain ⟨z, hz⟩ := hiC.2 (e' y)
     have hzeq : z ∈ AlgHom.equalizer (Algebra.TensorProduct.map (AlgHom.id A T) ρ)
         (Algebra.TensorProduct.map (AlgHom.id A T) σ) := by
-      show _ = _
+      change _ = _
       apply hiD
       rw [← hρ, ← hσ, hz, hcomp']
     obtain ⟨x, hx⟩ := (AlgHom.tensorEqualizerEquiv A T ρ σ).surjective ⟨z, hzeq⟩
@@ -322,10 +323,10 @@ theorem overObjectBaseChangeTensorRingEquiv_tmul {Z Z' U : BigFppfOver B S hS} (
   have h2 := congrArg (fun φ => CommRingCat.Hom.hom φ c)
     (IsPushout.inr_isoIsPushout_hom _ _ (hT' ▸ hU' ▸ ten) hpo.flip)
   simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at h1 h2
-  show (IsPushout.isoIsPushout _ _ (hT' ▸ hU' ▸ ten) hpo.flip).hom.hom (t ⊗ₜ c) = _
+  change (IsPushout.isoIsPushout _ _ (hT' ▸ hU' ▸ ten) hpo.flip).hom.hom (t ⊗ₜ c) = _
   rw [← h1, ← h2, ← map_mul]
   congr 1
-  show _ = (t ⊗ₜ 1) * (1 ⊗ₜ _)
+  change _ = (t ⊗ₜ 1) * (1 ⊗ₜ _)
   rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
 
 /-- Under `AlgebraicGeometry.Space.overObjectBaseChangeTensorRingEquiv`, restriction along the
@@ -509,7 +510,7 @@ theorem bijective_globalFunctions_baseChange_of_flat (hZ : B.Contains (⊤_ Sche
       Γ((BigFppfOver.toScheme B S hS).obj ((BigAffineFppf.inclusion B S hS).obj Vq), ⊤) :=
     { ((BigFppfOver.toScheme B S hS).map β).appTop.hom with
       commutes' := fun x => by
-        show _ = ((BigFppfOver.toScheme B S hS).map sV).appTop.hom x
+        change _ = ((BigFppfOver.toScheme B S hS).map sV).appTop.hom x
         rw [← hβ, appTop_comp_apply_toScheme]
         rfl }
   have hbij := bijective_globalFunctionsToEqualizer W αc βc hcov hkp
@@ -539,7 +540,7 @@ theorem bijective_globalFunctions_baseChange_of_flat (hZ : B.Contains (⊤_ Sche
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul t s =>
       rw [hΦ, map_mul, Algebra.TensorProduct.map_tmul]
-      show _ = overObjectBaseChangeTensorRingEquiv g sU hT rfl (t ⊗ₜ e s)
+      change _ = overObjectBaseChangeTensorRingEquiv g sU hT rfl (t ⊗ₜ e s)
       rw [overObjectBaseChangeTensorRingEquiv_tmul]
       congr 1
       · have hm : smallEtaleChartMapToBase B S hS r Uc' = pullback.snd sU g :=

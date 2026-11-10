@@ -197,7 +197,7 @@ theorem exists_niceChartSquare {X Y : Scheme.{u}} (f : Y ⟶ X)
   let _ : Algebra B₀ Γ(Y, V₁.1) := (E.toRingHom.comp (Algebra.TensorProduct.includeRight
     (R := MvPolynomial σ ℤ) (A := Γ(X, U.1)) (B := B₀)).toRingHom).toAlgebra
   have : IsScalarTower (MvPolynomial σ ℤ) B₀ Γ(Y, V₁.1) := .of_algebraMap_eq fun x ↦ by
-    show algebraMap (MvPolynomial σ ℤ) Γ(Y, V₁.1) x =
+    change algebraMap (MvPolynomial σ ℤ) Γ(Y, V₁.1) x =
       E ((1 : Γ(X, U.1)) ⊗ₜ[MvPolynomial σ ℤ] algebraMap (MvPolynomial σ ℤ) B₀ x)
     refine (E.commutes (algebraMap (MvPolynomial σ ℤ) Γ(X, U.1) x)).symm.trans (congrArg E ?_)
     exact (Algebra.TensorProduct.algebraMap_apply (R := MvPolynomial σ ℤ)

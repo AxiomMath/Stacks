@@ -83,7 +83,7 @@ private lemma hom_subsingleton_of_isIso_smul_of_derivedLimit_isZero
     simp only [d, s, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub,
       Linear.comp_smul, zero_comp]
     rw [← Category.id_comp (q (n + 1)), ← Linear.smul_comp]
-    show q n - a ≫ q (n + 1) = 0
+    change q n - a ≫ q (n + 1) = 0
     rw [show q (n + 1) = inv a ≫ q n by simp [q], IsIso.hom_inv_id_assoc]
     simp
   have hs_zero : s = 0 := (cancel_mono d).mp (by simpa using hs)
@@ -98,7 +98,7 @@ private theorem isZero_cechCompletion_aux (A : Type u) [CommRing A] {r : ℕ}
   obtain ⟨η, hcomplete, huniversal⟩ := cechCompletion_isReflection A g
   let C := (cechCompletionFunctor A g).obj K
   refine (IsZero.iff_id_eq_zero C).2 ((huniversal K C (hcomplete K)).1 ?_)
-  show η.app K ≫ 𝟙 C = η.app K ≫ 0
+  change η.app K ≫ 𝟙 C = η.app K ≫ 0
   exact (hom_subsingleton_of_isIso_smul_of_derivedLimit_isZero A K C x
     ((isDerivedCompleteAt_iff_exists_isDerivedLimit_isZero C x).mp
       (hcomplete K x hx))).elim _ _

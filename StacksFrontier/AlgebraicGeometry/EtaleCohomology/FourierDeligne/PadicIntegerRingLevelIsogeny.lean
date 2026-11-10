@@ -59,7 +59,7 @@ theorem levelModuleHom_comp (A : Matrix (Fin r') (Fin r) ℤ_[ℓ])
   apply finiteTypeContinuousModule_hom_ext
   intro y
   apply ULift.ext
-  show A'.map (PadicInt.toZModPow k) *ᵥ (A.map (PadicInt.toZModPow k) *ᵥ y.down) =
+  change A'.map (PadicInt.toZModPow k) *ᵥ (A.map (PadicInt.toZModPow k) *ᵥ y.down) =
     (A' * A).map (PadicInt.toZModPow k) *ᵥ y.down
   rw [Matrix.mulVec_mulVec, Matrix.map_mul]
 
@@ -79,7 +79,7 @@ theorem levelModuleHom_nsmul_one (N : ℕ)
   apply finiteTypeContinuousModule_hom_ext
   intro y
   apply ULift.ext
-  show (N • (1 : Matrix (Fin r) (Fin r) ℤ_[ℓ])).map (PadicInt.toZModPow k) *ᵥ y.down =
+  change (N • (1 : Matrix (Fin r) (Fin r) ℤ_[ℓ])).map (PadicInt.toZModPow k) *ᵥ y.down =
     (N : ZMod (ℓ ^ k)) • y.down
   rw [nsmul_one, ← RingHom.mapMatrix_apply, map_natCast, Matrix.natCast_mulVec,
     Nat.cast_smul_eq_nsmul]

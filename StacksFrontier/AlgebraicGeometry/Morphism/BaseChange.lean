@@ -165,16 +165,15 @@ theorem sectionBaseChange_comp_sectionHom (U : S.AffineZariskiSite) (U' : S'.Aff
   | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
 
 /-- **Induction along a morphism out of an extension of scalars**: a property of the values of
-`e : S ⊗_R M ⟶ N` closed under sums and holding at `0` holds everywhere once it holds at the images
-of the pure tensors. -/
+`e : S ⊗_R M ⟶ N` closed under sums holds everywhere once it holds at the images of the pure
+tensors. -/
 theorem extendScalars_hom_induction {R S : CommRingCat.{u}} (φ : R ⟶ S) {M : ModuleCat.{u} R}
     {N : ModuleCat.{u} S} (e : (ModuleCat.extendScalars φ.hom).obj M ⟶ N) (P : N → Prop)
-    (h0 : P 0) (hadd : ∀ x y, P x → P y → P (x + y))
+    (hadd : ∀ x y, P x → P y → P (x + y))
     (htmul : ∀ (t : S) (m : M), P (e (t ⊗ₜ[R,φ.hom] m)))
     (x : (ModuleCat.extendScalars φ.hom).obj M) : P (e x) := by
   let := φ.hom.toAlgebra
-  induction x using TensorProduct.induction_on with
-  | zero => exact (congrArg P (e.hom.map_zero)).mpr h0
+  induction x using TensorProduct.inductionOn with
   | tmul t m => exact htmul t m
   | add x y hx hy => exact (congrArg P (e.hom.map_add x y)).mpr (hadd _ _ hx hy)
 
@@ -182,10 +181,10 @@ theorem extendScalars_hom_induction {R S : CommRingCat.{u}} (φ : R ⟶ S) {M : 
 open**: for affine opens `V ⊆ f⁻¹U` the sections of `f^*F` over `V` are sums of functions on `V`
 times pullbacks of sections of `F` over `U`
 (`AlgebraicGeometry.affinePullbackSectionsBaseChangeIso`), so a property closed under sums which
-holds at `0` and at those products holds everywhere. -/
+holds at those products holds everywhere. -/
 theorem pullbackSection_induction {X Y : Scheme.{u}} (f : Y ⟶ X) (F : X.Modules)
     [F.IsQuasicoherent] {U : X.Opens} (hU : IsAffineOpen U) {V : Y.Opens} (hV : IsAffineOpen V)
-    (hVU : V ≤ f ⁻¹ᵁ U) (P : Γ((Scheme.Modules.pullback f).obj F, V) → Prop) (h0 : P 0)
+    (hVU : V ≤ f ⁻¹ᵁ U) (P : Γ((Scheme.Modules.pullback f).obj F, V) → Prop)
     (hadd : ∀ x y, P x → P y → P (x + y))
     (hsmul : ∀ (t : Γ(Y, V)) (a : Γ(F, U)),
       P (t • (show Γ((Scheme.Modules.pullback f).obj F, V) from
@@ -196,7 +195,7 @@ theorem pullbackSection_induction {X Y : Scheme.{u}} (f : Y ⟶ X) (F : X.Module
     (Iso.inv_hom_id_apply (affinePullbackSectionsBaseChangeIso f F hU hV hVU) s).symm
   rw [hs]
   refine extendScalars_hom_induction (f.appLE U V hVU)
-    (affinePullbackSectionsBaseChangeIso f F hU hV hVU).hom P h0 hadd (fun t m => ?_) _
+    (affinePullbackSectionsBaseChangeIso f F hU hV hVU).hom P hadd (fun t m => ?_) _
   rw [affinePullbackSectionsBaseChangeIso_tmul, affinePullbackSectionsBaseChangeIso_one_tmul]
   exact hsmul t m
 
@@ -214,8 +213,7 @@ theorem mem_span_sectionBaseChange (U : S.AffineZariskiSite) (U' : S'.AffineZari
   set I := Ideal.span ((fun c => sectionBaseChange A g U U' h c) ''
     ((A.grading U.toOpens k : Set (A.sectionRing U.toOpens))))
   refine pullbackSection_induction g (A.piece (k : ℤ)) (U := U.toOpens) U.2 (V := U'.toOpens) U'.2
-    h (fun s => DirectSum.of ((A.pullback g).sectionPieces U'.toOpens) k s ∈ I) ?_ ?_ ?_ y
-  · exact (congrArg (· ∈ I) (DirectSum.of _ k).map_zero).mpr I.zero_mem
+    h (fun s => DirectSum.of ((A.pullback g).sectionPieces U'.toOpens) k s ∈ I) ?_ ?_ y
   · intro x y hx hy
     exact (congrArg (· ∈ I) ((DirectSum.of _ k).map_add x y)).mpr (I.add_mem hx hy)
   · intro t m

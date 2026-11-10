@@ -194,7 +194,7 @@ theorem isTransitionInvariant_of_le
       (D.transitionPullbackIso.hom ((pullbackSymmetry f (D.over.hom ≫ f)).hom z)) ∈ W :=
     hle ⟨_, hz', rfl⟩
   refine ⟨D.transitionPullbackIso.inv z, ?_, ?_⟩
-  · show pullback.fst (D.over.hom ≫ f) f (D.transitionPullbackIso.inv z) ∈ W
+  · change pullback.fst (D.over.hom ≫ f) f (D.transitionPullbackIso.inv z) ∈ W
     rw [D.transitionPullbackIso_inv_eq]
     simpa only [Scheme.Hom.comp_apply, hswap] using hmem
   · exact (Scheme.homeoOfIso D.transitionPullbackIso).apply_symm_apply z

@@ -253,7 +253,7 @@ private theorem tor_vanishes_of_projectiveDimensionLE
         (((Tor_iso_Tor' R (p + 1)).app M).app N)
   | succ n ih =>
       have hP : Projective (Tor_iso_Tor'.syzygySC R M).X₂ := by
-        show Projective (Projective.over M)
+        change Projective (Projective.over M)
         infer_instance
       have hK : HasProjectiveDimensionLE (Tor_iso_Tor'.syzygy R M) n :=
         ((Tor_iso_Tor'.syzygySC_shortExact R M).hasProjectiveDimensionLT_X₃_iff

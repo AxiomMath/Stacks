@@ -233,7 +233,7 @@ namespace Stacks.Blowup
 
 section FiniteCover
 
-variable {R : Type u} [CommRing R] {I : Ideal R} {ι : Type*} [Fintype ι]
+variable {R : Type u} [CommRing R] {I : Ideal R} {ι : Type*} [Finite ι]
   (a : ι → R) (ha : ∀ i, a i ∈ I)
 
 /-- If the elements `a i` generate `I`, then the Rees algebra of `I` is generated over its degree
@@ -241,6 +241,7 @@ zero part by the degree-one elements `a i · t`. -/
 theorem adjoin_reesGradingZero_range_reesDegOne_eq_top
     (hspan : Ideal.span (Set.range a) = I) :
     Algebra.adjoin (reesGrading I 0) (Set.range fun i ↦ reesDegOne I (ha i)) = ⊤ := by
+  cases nonempty_fintype ι
   rw [← adjoin_reesGradingZero_reesGrading_one_eq_top I]
   refine le_antisymm (Algebra.adjoin_mono ?_) (Algebra.adjoin_le ?_)
   · rintro _ ⟨i, rfl⟩
@@ -283,7 +284,7 @@ end FiniteCover
 section SchemeCover
 
 variable {S : Scheme.{u}} (ℐ : S.IdealSheafData) (U : S.affineOpens)
-  {ι : Type*} [Fintype ι] (a : ι → Γ(S, U.1)) (ha : ∀ i, a i ∈ ℐ.ideal U)
+  {ι : Type*} [Finite ι] (a : ι → Γ(S, U.1)) (ha : ∀ i, a i ∈ ℐ.ideal U)
 
 /-- If the sections `a i` generate `ℐ(U)`, then the charts of the blowup attached to them cover
 the inverse image of `U`. -/

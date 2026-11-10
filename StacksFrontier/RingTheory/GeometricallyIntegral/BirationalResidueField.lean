@@ -92,7 +92,7 @@ theorem birationalOver_iff_generic_residueField_iso
     let d : C.GenericPointLocalMap i := by
       simpa [C, i, genericPointContext] using genericPointLocalMapOfResidueFieldIso sX sY h e he
     have hdIso : IsIso d.stalkMap := by
-      show IsIso eStalk.inv
+      change IsIso eStalk.inv
       infer_instance
     let data : ∀ j, C.GenericPointLocalMap j := fun j => by
       have hj : j = i := by

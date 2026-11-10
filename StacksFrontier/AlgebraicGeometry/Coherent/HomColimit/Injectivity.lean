@@ -151,7 +151,7 @@ theorem obj_idealPow_affineOpen (I : X.IdealSheafData) (n : ℕ) (V : X.affineOp
     (idealPowerMultiple I n (structureModule X)).toSubmodule.obj (op V.1)
       = (I.ideal V ^ n : Ideal Γ(X, V.1)) := by
   rw [idealPowerMultiple_obj_affineOpen I n (structureModule X) V]
-  show (I.ideal V ^ n) • (⊤ : Ideal Γ(X, V.1)) = _
+  change (I.ideal V ^ n) • (⊤ : Ideal Γ(X, V.1)) = _
   rw [Ideal.smul_eq_mul, Ideal.mul_top]
 
 /-- `idealPow I n` is the `n`-th power of `I` in the sense of Mathlib's `Pow` on
@@ -289,12 +289,12 @@ theorem res_basicOpen_eq_zero [F.IsQuasicoherent] (φ : idealPow I n ⟶ F)
     (idealPow I n).presheaf.map (homOfLE hDU).op (oneSection I n) with hw'
   have h2 : (idealPow I n).presheaf.map (homOfLE (X.basicOpen_le f)).op x = g ^ n • w := by
     apply Subtype.ext
-    show X.presheaf.map (homOfLE (X.basicOpen_le f)).op (f ^ n) = _
+    change X.presheaf.map (homOfLE (X.basicOpen_le f)).op (f ^ n) = _
     rw [map_pow]
-    show _ = g ^ n * (X.presheaf.map (homOfLE hDU).op (1 : Γ(X, (I.support.compl : X.Opens))))
+    change _ = g ^ n * (X.presheaf.map (homOfLE hDU).op (1 : Γ(X, (I.support.compl : X.Opens))))
     rw [map_one, mul_one]
   have hw : φ.app (X.basicOpen f) w = 0 := app_restrict_eq_zero φ hDU hφ
-  show F.presheaf.map (homOfLE (X.basicOpen_le f)).op (φ.app V.1 x) = 0
+  change F.presheaf.map (homOfLE (X.basicOpen_le f)).op (φ.app V.1 x) = 0
   rw [app_naturality φ (X.basicOpen_le f) x, h2, Scheme.Modules.Hom.app_smul, hw, smul_zero]
 
 /-- If `F` is quasi-coherent and the section of `F` over `X \ V(I)` attached to `φ` vanishes,
@@ -425,7 +425,7 @@ theorem comp_app_oneSection (I : X.IdealSheafData) (F : X.Modules) {m n : ℕ} (
     (idealPowMap I h ≫ φ : idealPow I n ⟶ F).app (I.support.compl : X.Opens) (oneSection I n)
       = φ.app (I.support.compl : X.Opens) (oneSection I m) := by
   rw [Scheme.Modules.Hom.comp_app]
-  show φ.app (I.support.compl : X.Opens)
+  change φ.app (I.support.compl : X.Opens)
     ((idealPowMap I h).app (I.support.compl : X.Opens) (oneSection I n)) = _
   rw [idealPowMap_app_oneSection]
 

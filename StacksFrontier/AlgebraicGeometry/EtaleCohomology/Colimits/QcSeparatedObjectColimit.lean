@@ -209,6 +209,7 @@ variable (B : AlgebraicGeometry.BigEtaleSite.{u}) {T R : Scheme.{u}}
     (AlgebraicGeometry.SmallEtale.toScheme B T hT).obj V₀) [IsAffineHom qR]
   (hVsq : IsPullback qR (B.inclusion.map VR.obj.hom) (B.inclusion.map V₀.obj.hom) g)
 
+omit [IsAffineHom g] in
 include hsq in
 /-- **The square the identification of an image asks for.** Given an identification `e` of the
 `T`-side image of `Y` with the object of an affine open `O` of `V₀`, the structure morphism of the
@@ -334,7 +335,7 @@ theorem map_comp_imageIso {Y Y' : C₀} (t : Y' ⟶ Y)
       Fst.app Y' ≫ (AlgebraicGeometry.SmallAffineEtale.toScheme B T hT).map (E.map t) :=
     Fst.naturality t
   refine (AlgebraicGeometry.SmallAffineEtale.toScheme B R hR).map_injective ?_
-  show (AlgebraicGeometry.SmallAffineEtale.toScheme B R hR).map (Ψ.map t) ≫
+  change (AlgebraicGeometry.SmallAffineEtale.toScheme B R hR).map (Ψ.map t) ≫
       imageIsoScheme B hT hR g V₀ E Ψ Fst hsq VR qR hVsq Y O hO e =
     imageIsoScheme B hT hR g V₀ E Ψ Fst hsq VR qR hVsq Y' O' hO' e' ≫
       ((AlgebraicGeometry.SmallEtale.toScheme B R hR).obj VR).homOfLE (qR.preimage_mono hle)
@@ -354,7 +355,7 @@ theorem map_comp_imageIso {Y Y' : C₀} (t : Y' ⟶ Y)
       rw [Category.assoc, ← AlgebraicGeometry.morphismRestrict_homOfLE, ← Category.assoc,
         imageIso_pin, Category.assoc]
     exact hL.trans hRgt.symm
-  · show ((AlgebraicGeometry.SmallAffineEtale.toScheme B R hR).map (Ψ.map t) ≫
+  · change ((AlgebraicGeometry.SmallAffineEtale.toScheme B R hR).map (Ψ.map t) ≫
         (AlgebraicGeometry.SmallAffineEtale.toScheme B R hR).map
           (imageIsoObjOfPreimageOver B hT hR g V₀ E Ψ Fst hsq VR qR hVsq Y O hO e).hom) ≫
       structMap B R hR (affObj B hR VR (qR ⁻¹ᵁ O) (hO.preimage qR)) =

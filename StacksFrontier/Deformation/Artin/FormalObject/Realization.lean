@@ -191,7 +191,7 @@ theorem truncationOverIso_hom_restrictionToBase {A A' : FormalBase S}
   apply B.inclusion.map_injective
   rw [Over.comp_left, Over.comp_left, Functor.map_comp, Functor.map_comp, Over.eqToHom_left,
     eqToHom_map]
-  show Spec.map (CommRingCat.ofHom (adicTruncationEquiv (baseRingEquiv B S hS h) n).toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom (adicTruncationEquiv (baseRingEquiv B S hS h) n).toRingHom) ≫
       adicThickeningι A'.R (maximalIdeal A'.R) n =
     adicThickeningι A.R (maximalIdeal A.R) n ≫ _
   rw [specMap_adicTruncationEquiv_comp_ι, specMap_baseRingEquiv]

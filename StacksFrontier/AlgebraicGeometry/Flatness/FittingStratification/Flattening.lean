@@ -136,7 +136,7 @@ structural morphism of the `r`-th stratum. -/
 private theorem ι_comp_flatnessStratificationHom (r : ℕ) :
     Sigma.ι (fun i : ℕ ↦ (fittingRankStratum F i).left) r ≫ flatnessStratificationHom F =
       (fittingRankStratum F r).hom :=
-  Sigma.ι_desc (fun i : ℕ ↦ (fittingRankStratum F i).hom) r
+  Sigma.ι_comp_desc (fun i : ℕ ↦ (fittingRankStratum F i).hom) r
 
 /-- Pointwise form of `ι_comp_flatnessStratificationHom`. -/
 private theorem flatnessStratificationHom_ι_apply (r : ℕ)
@@ -188,7 +188,7 @@ private theorem exists_generatorOpen_of_isCompact {K : Set S} (hK : IsCompact K)
   classical
   let U := fittingGeneratorOpen F
   have hcover : K ⊆ ⋃ n, (U n : Set S) := by
-    show K ⊆ ⋃ n : ℕ, (Set.range (fittingClosedSubscheme F (n : ℤ)).hom.base)ᶜ
+    change K ⊆ ⋃ n : ℕ, (Set.range (fittingClosedSubscheme F (n : ℤ)).hom.base)ᶜ
     rw [← Set.compl_iInter, fittingClosedSubscheme_iInter_range_eq_empty, Set.compl_empty]
     exact Set.subset_univ K
   obtain ⟨t, ht⟩ := hK.elim_finite_subcover (fun n ↦ (U n : Set S))
@@ -305,7 +305,7 @@ private theorem quasiCompact_flatnessStratificationHom :
         exact rankStratum_notMem_generatorOpen F (by omega) y (hn hy)
       exact Set.mem_iUnion₂.mpr ⟨r, Finset.mem_range.mpr hr, y, hy, rfl⟩
     · obtain ⟨r, -, y, hy, rfl⟩ := Set.mem_iUnion₂.mp hx
-      show flatnessStratificationHom F (Sigma.ι X r y) ∈ U
+      change flatnessStratificationHom F (Sigma.ι X r y) ∈ U
       rwa [flatnessStratificationHom_ι_apply]
   rw [heq]
   refine Finset.isCompact_biUnion _ fun r _ ↦ ?_

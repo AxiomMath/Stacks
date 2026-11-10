@@ -80,10 +80,10 @@ theorem etaleFiniteLocallyFreeDominates_of_hasLocallyQuasiFiniteRefinement {S : 
   classical
   obtain ⟨𝒵, ⟨r⟩, hprops⟩ := h𝒰
   have hmap (k : 𝒵.I₀) : Flat (𝒵.f k) ∧ LocallyOfFinitePresentation (𝒵.f k) := by
-    show (@Flat ⊓ @LocallyOfFinitePresentation) (𝒵.f k)
+    change (@Flat ⊓ @LocallyOfFinitePresentation) (𝒵.f k)
     exact 𝒵.map_prop k
   have : Scheme.JointlySurjective Scheme.fppfPrecoverage := by
-    show Scheme.JointlySurjective (Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation))
+    change Scheme.JointlySurjective (Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation))
     infer_instance
   have hcover (s : S) : ∃ k, s ∈ Set.range (𝒵.f k) := by
     obtain ⟨k, x, hx⟩ := 𝒵.exists_eq s

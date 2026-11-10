@@ -126,7 +126,7 @@ theorem globalSectionPullback_comp (g : RingedToposHom B C) (f : RingedToposHom 
         terminalComparison f.toToposHom.inverseImage :=
     terminal.hom_ext _ _
   rw [forgetFSharp_comp, htc, Category.assoc]
-  show (g.toToposHom.adj.comp f.toToposHom.adj).homEquiv _ _ _ = _
+  change (g.toToposHom.adj.comp f.toToposHom.adj).homEquiv _ _ _ = _
   rw [Adjunction.comp_homEquiv_apply, Adjunction.homEquiv_naturality_left,
     homEquiv_terminalComparison_comp_globalSectionPullback, ← Category.assoc,
     Adjunction.homEquiv_naturality_right, homEquiv_terminalComparison_comp_globalSectionPullback,
@@ -177,7 +177,7 @@ variable {X Y₁ Y₂ T : RingedTopos.{v, u, w}}
   [X.J.HasSheafCompose (forget CommRingCat.{w})] [Y₁.J.HasSheafCompose (forget CommRingCat.{w})]
   [Y₂.J.HasSheafCompose (forget CommRingCat.{w})] [T.J.HasSheafCompose (forget CommRingCat.{w})]
   (g₁ : RingedToposHom X Y₁) (g₂ : RingedToposHom X Y₂)
-  [g₁.toToposHom.pushforward.IsEquivalence] [g₂.toToposHom.pushforward.IsEquivalence]
+  [g₁.toToposHom.pushforward.IsEquivalence]
   (d : (inverseImageCommRingFunctor g₁.toToposHom).obj Y₁.O ≅
     (inverseImageCommRingFunctor g₂.toToposHom).obj Y₂.O)
 

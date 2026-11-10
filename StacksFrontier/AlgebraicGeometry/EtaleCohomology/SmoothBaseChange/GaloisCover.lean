@@ -84,7 +84,7 @@ theorem exists_isGalois_of_torsor {M : Type*} [AddGroup M] [Finite M] (X : C) (�
     obtain ⟨φ₁, hφ₁, -⟩ := key m₁ c₁ hm₁
     obtain ⟨φ₂, hφ₂, -⟩ := key m₂ c₂ hm₂
     refine ⟨Aut.of (φ₁.symm ≪≫ φ₂), ?_⟩
-    show F.map (φ₁.symm ≪≫ φ₂).hom c₁ = c₂
+    change F.map (φ₁.symm ≪≫ φ₂).hom c₁ = c₂
     rw [← hφ₁, ← hφ₂]
     simp [← FintypeCat.comp_apply]
   have hgal : IsGalois A := (isGalois_iff_pretransitive F A).2 htrans

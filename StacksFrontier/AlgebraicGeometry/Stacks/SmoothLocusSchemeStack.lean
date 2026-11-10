@@ -142,7 +142,7 @@ theorem IsSmoothLocus.property_schemeStack_iff (V : BigFppfOver B S hS)
     have hcf : AlgebraicStacks.IsSmooth B S hS (schemeStackMap.{u, w} B S hS g ≫
         structureMorphism B S hS (schemeStack.{u, w} B S hS V)) := by
       rw [comp_structureMorphism, isSmooth_structureMorphism_schemeStack_iff]
-      show Smooth (O.ι ≫ B.inclusion.map V.hom)
+      change Smooth (O.ι ≫ B.inclusion.map V.hom)
       exact (smooth_ι_comp_iff_preimage_smoothLocus_eq_top _ O).2 (Scheme.Opens.ι_preimage_self O)
     have hle := hW.2 _ (isSmooth_openImage_inclusion_comp B S hS _ _ hc hcf)
     have hrange : Set.range (B.inclusion.map z.hom.left).base ⊆ Set.range O.ι.base := by
@@ -152,7 +152,7 @@ theorem IsSmoothLocus.property_schemeStack_iff (V : BigFppfOver B S hS)
     let k : z.left ⟶ BigFppfOver.openSubObj B S hS V O := Over.homMk (ObjectProperty.homMk
       (IsOpenImmersion.lift O.ι (B.inclusion.map z.hom.left) hrange)) (by
         apply ObjectProperty.hom_ext
-        show IsOpenImmersion.lift O.ι (B.inclusion.map z.hom.left) hrange ≫
+        change IsOpenImmersion.lift O.ι (B.inclusion.map z.hom.left) hrange ≫
           (O.ι ≫ B.inclusion.map V.hom) = B.inclusion.map z.left.hom
         rw [← Category.assoc, IsOpenImmersion.lift_fac, ← Functor.map_comp, Over.w])
     have hk : k ≫ g = z.hom := by

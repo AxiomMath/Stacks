@@ -127,7 +127,7 @@ theorem finitePresentation_iff_piScalarRightHom_nat_bijective :
       ext n
       simp [sourceEquiv, eM, e, LinearEquiv.piCongrLeft, Function.comp_apply]
     apply (sourceEquiv.toEquiv.bijective_comp _).mp
-    show Function.Bijective (((TensorProduct.piScalarRightHom R R M ℕ).comp
+    change Function.Bijective (((TensorProduct.piScalarRightHom R R M ℕ).comp
       sourceEquiv.toLinearMap) : _ → _)
     rw [hnatural]
     exact eM.bijective.comp hbijA

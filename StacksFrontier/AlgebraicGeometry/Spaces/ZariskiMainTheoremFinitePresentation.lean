@@ -302,7 +302,7 @@ theorem exists_isOpenImmersion_isFinitePresentation_of_factorization
   have hVpre : ∀ {k l : {k : P.indexType // i₀ ≤ k}} (h : l ≤ k),
       V k = (V l).preimage (D.map (homOfLE h).op) := by
     intro k l h
-    show U.preimage (D.map (tr k)) = (U.preimage (D.map (tr l))).preimage _
+    change U.preimage (D.map (tr k)) = (U.preimage (D.map (tr l))).preimage _
     rw [← Subfunctor.preimage_comp, ← D.map_comp]
     congr 2
   let Dm : ∀ {k l : {k : P.indexType // i₀ ≤ k}} (_ : l ≤ k),
@@ -329,7 +329,7 @@ theorem exists_isOpenImmersion_isFinitePresentation_of_factorization
       Subfunctor.range (W.ι ≫ lc.app (op k.1)) ≤ V k := by
     intro k
     rw [Subfunctor.range_comp, Subfunctor.range_ι, Subfunctor.image_le_iff]
-    show U.preimage (lc.app (op i₀)) ≤ (U.preimage (D.map (tr k))).preimage (lc.app (op k.1))
+    change U.preimage (lc.app (op i₀)) ≤ (U.preimage (D.map (tr k))).preimage (lc.app (op k.1))
     rw [← Subfunctor.preimage_comp, hlcw]
   let cW : Cone D' :=
     { pt := W.toFunctor
@@ -337,7 +337,7 @@ theorem exists_isOpenImmersion_isFinitePresentation_of_factorization
         { app := fun k => Subfunctor.lift (W.ι ≫ lc.app (op k.unop.1)) (hWV k.unop)
           naturality := fun {k l} g => by
             rw [← cancel_mono (V l.unop).ι]
-            show _ = _ ≫ Dm (leOfHom g.unop) ≫ (V l.unop).ι
+            change _ = _ ≫ Dm (leOfHom g.unop) ≫ (V l.unop).ι
             rw [hDm]
             simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.id_comp,
               Subfunctor.lift_ι, Subfunctor.lift_ι_assoc, Category.assoc, hlcw] } }
@@ -359,7 +359,7 @@ theorem exists_isOpenImmersion_isFinitePresentation_of_factorization
         s.π.app (op k₀) ≫ (V k₀).ι := hlimR.fac (Cone.mk s.pt (s.π ≫ ιN)) (op k₀)
     have htop : U.preimage (V k₀).ι = ⊤ := by
       rw [Subfunctor.preimage_eq_top_iff, Subfunctor.range_ι]
-      show U.preimage (D.map (homOfLE (le_refl i₀)).op) ≤ U
+      change U.preimage (D.map (homOfLE (le_refl i₀)).op) ≤ U
       rw [show (homOfLE (le_refl i₀)).op = 𝟙 (op i₀) from Subsingleton.elim _ _, D.map_id,
         Subfunctor.preimage_id]
     rw [hfac', Subfunctor.preimage_comp, htop, Subfunctor.preimage_eq_top_iff]
@@ -375,7 +375,7 @@ theorem exists_isOpenImmersion_isFinitePresentation_of_factorization
         rw [← cancel_mono W.ι, Subfunctor.lift_ι]
         refine hlimR.hom_ext fun k => ?_
         rw [hlimR.fac]
-        show _ = s.π.app k ≫ (V k.unop).ι
+        change _ = s.π.app k ≫ (V k.unop).ι
         rw [← hm k]
         simp only [cW, Category.assoc, Subfunctor.lift_ι]
         rfl }
@@ -390,7 +390,7 @@ theorem exists_isOpenImmersion_isFinitePresentation_of_factorization
         have hn := P.structureMap.naturality
           (homOfLE (show l.unop.1 ≤ k.unop.1 from leOfHom g.unop)).op
         simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.comp_id] at hn ⊢
-        show Dm (leOfHom g.unop) ≫ (V l.unop).ι ≫ _ = _
+        change Dm (leOfHom g.unop) ≫ (V l.unop).ι ≫ _ = _
         rw [← Category.assoc, hDm, Category.assoc]
         exact congrArg (fun z => (V k.unop).ι ≫ z) hn }
   have hcommutes : cW.π ≫ t' = (Functor.const _).map (W.ι ≫ π) := by

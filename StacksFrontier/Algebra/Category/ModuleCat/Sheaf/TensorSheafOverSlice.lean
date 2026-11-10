@@ -75,7 +75,8 @@ restriction, in either direction. That is false in the direction that matters:
 `Stacks.SheafOfModules.TensorLocalProperties.tensor_over_congr`
 (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorLocallyFree.lean`) already proves that
 `(F ⊗ G)|_U` depends only on `F|_U` and `G|_U`, and its proof assembles exactly the four
-ingredients above. A grep for `moduleRestriction` misses it, because the restriction there is Mathlib's
+ingredients above. A grep for `moduleRestriction` misses it, because the restriction there is
+Mathlib's
 `SheafOfModules.overFunctor`, spelled `.over U`.
 
 **Why the downstream-site instances are hypotheses.** `HasWeakSheafify J'` and

@@ -115,7 +115,7 @@ private theorem finiteConnectedComponents_geometricFiber
   let h := Spec.map (CommRingCat.ofHom (algebraMap (Y.residueField y) K))
   have : CompactSpace (Spec (.of K)) := inferInstance
   have : LocallyOfFiniteType g := by
-    show LocallyOfFiniteType (pullback.snd f (Y.fromSpecResidueField y))
+    change LocallyOfFiniteType (pullback.snd f (Y.fromSpecResidueField y))
     exact AlgebraicGeometry.locallyOfFiniteType_isStableUnderBaseChange.of_isPullback
       (IsPullback.of_hasPullback f (Y.fromSpecResidueField y)) ‹LocallyOfFiniteType f›
   have hlt : LocallyOfFiniteType (pullback.snd g h) :=
@@ -124,7 +124,7 @@ private theorem finiteConnectedComponents_geometricFiber
   let : QuasiCompact g := inferInstance
   let : QuasiCompact (pullback.snd g h) := inferInstance
   have hcompact : CompactSpace (geometricFiber f y K) := by
-    show CompactSpace (Limits.pullback (C := Scheme) g h)
+    change CompactSpace (Limits.pullback (C := Scheme) g h)
     infer_instance
   let : IsLocallyNoetherian (Spec (.of K)) := inferInstance
   have hlocal : IsLocallyNoetherian (geometricFiber f y K) :=
@@ -207,7 +207,7 @@ private lemma geometricallyConnected_closedSubscheme_of_open_range
       (pullback.fst (C := Scheme) p q)).isOpenEmbedding.isEmbedding
   have hI : Topology.IsEmbedding I'.subschemeι := I'.subschemeι.isEmbedding
   have hrange : Set.range uMap = Set.range I'.subschemeι := by
-    show Set.range (pullback.snd (C := Scheme) U.ι
+    change Set.range (pullback.snd (C := Scheme) U.ι
       (pullback.fst (C := Scheme) p q)) =
       Set.range I'.subschemeι.base
     rw [AlgebraicGeometry.IsOpenImmersion.range_pullbackSnd,
@@ -235,7 +235,7 @@ private lemma geometricallyConnected_comap_map_of_isEmbedding
   apply geometricallyConnected_subscheme_of_support_eq k p I ((I.map i).comap i) ?_ hI
   rw [Scheme.IdealSheafData.support_comap, Scheme.IdealSheafData.support_map]
   ext x
-  show x ∈ (I.support : Set A) ↔
+  change x ∈ (I.support : Set A) ↔
     x ∈ i ⁻¹' closure (i '' (I.support : Set A))
   rw [← hi.isInducing.closure_eq_preimage_closure_image]
   simp [I.support.isClosed.closure_eq]
@@ -252,7 +252,7 @@ private lemma geometricallyConnected_subscheme_baseChange_iff
   let b := pullback.snd h g
   let e := comapSubschemeIso f g I
   have hcomm : e.hom ≫ b = a := by
-    show ((I.comapIso i).hom ≫
+    change ((I.comapIso i).hom ≫
       ((pullbackSymmetry i I.subschemeι).hom ≫
         (pullbackRightPullbackFstIso f g I.subschemeι).hom)) ≫ b = a
     calc
@@ -308,7 +308,7 @@ private theorem natCard_connectedComponents_pullback_le_of_cover
       ((I₂.subschemeι ≫ pK).surjective (Classical.choice ‹Nonempty Z›))⟩
     let : ConnectedSpace I₂.subscheme :=
       GeometricallyConnected.connectedSpace_of_subsingleton (I₂.subschemeι ≫ pK)
-    show _root_.IsConnected (↑I₂.support : Set (Limits.pullback (C := Scheme) f g))
+    change _root_.IsConnected (↑I₂.support : Set (Limits.pullback (C := Scheme) f g))
     rw [← Scheme.IdealSheafData.range_subschemeι, ← Set.image_univ]
     exact isConnected_univ.image I₂.subschemeι.base
       I₂.subschemeι.continuous.continuousOn
@@ -316,7 +316,7 @@ private theorem natCard_connectedComponents_pullback_le_of_cover
     intro z
     obtain ⟨i, hi⟩ := hcover (π.base z)
     refine ⟨i, ?_⟩
-    show z ∈ (↑((I i).comap π).support : Set _)
+    change z ∈ (↑((I i).comap π).support : Set _)
     rw [Scheme.IdealSheafData.support_comap]
     exact hi
   exact natCard_connectedComponents_le_of_finite_cover_connected S hconn hcover'
@@ -484,7 +484,7 @@ private theorem exists_open_fiber_covered_by_genericClosedSubsetClosures
   obtain ⟨i, hi⟩ := hnear y hy x
   refine ⟨i, ?_⟩
   change f.fiberι y x ∈ closure (f.fiberι η '' C i) at hi
-  show f.fiberι y x ∈
+  change f.fiberι y x ∈
     ((Scheme.IdealSheafData.vanishingIdeal ⟨C i, hclosed i⟩).map
       (f.fiberι η)).support
   rw [Scheme.IdealSheafData.support_map]
@@ -529,7 +529,7 @@ private theorem exists_open_fiber_controlled_by_generic_components
     rw [TopologicalSpace.Opens.coe_iInf]
     exact Set.mem_iInter.mpr hηU
   have hηV : η ∈ V := by
-    show η ∈ (Ucover : Set Y) ∩ ((⨅ c, U c : Y.Opens) : Set Y)
+    change η ∈ (Ucover : Set Y) ∩ ((⨅ c, U c : Y.Opens) : Set Y)
     rw [Set.mem_inter_iff]
     exact ⟨hηUcover, hηInf⟩
   refine ⟨V, ⟨⟨η, hηV⟩⟩, ?_⟩
@@ -595,7 +595,7 @@ private theorem natCard_connectedComponents_geometricFiber_le_of_control
       (Y.fromSpecResidueField y) (J c)).2 (hconn c)) fun x => ?_
   obtain ⟨c, hc⟩ := hcover x
   refine ⟨c, ?_⟩
-  show x ∈ (((J c).comap (f.fiberι y)).support : Set (f.fiber y))
+  change x ∈ (((J c).comap (f.fiberι y)).support : Set (f.fiber y))
   rw [Scheme.IdealSheafData.support_comap]
   exact hc
 

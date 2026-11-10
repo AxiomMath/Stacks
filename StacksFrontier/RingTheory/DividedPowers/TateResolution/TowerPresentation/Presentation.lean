@@ -77,7 +77,7 @@ private theorem stage_restriction_eq (S : Finset (Σ n : ℕ, Jdx n))
     (ρ.comp (finiteVariableStage δ ι T S).subtype) incl.hom.toRingHom (fun p => hρι p)
     (fun j hj => hρT j hj) ?_) b
   intro j hj n
-  show ρ (δ.dpow n (T j)) = incl.hom ⟨δ.dpow n (T j), _⟩
+  change ρ (δ.dpow n (T j)) = incl.hom ⟨δ.dpow n (T j), _⟩
   by_cases hpos : T j ∈ positiveEvenPart Cᵢ
   · have hb : (⟨T j, mem_finiteVariableStage_generator δ ι T hj⟩ :
         finiteVariableStage δ ι T S) ∈ positiveEvenPart (stageGrade δ ι T S) :=
@@ -192,10 +192,10 @@ private theorem stage_successor_odd (hmap : HasVariableMappingProperty δ ι T)
   have hcomp : ρ.comp k = RingHom.id (OddVariableExtension (stageGrade δ ι T S) (j₀.1 + 1)) := by
     refine (hwuniq (ρ.comp k) ⟨fun b => ?_, ?_, fun m x hx => ?_⟩).trans
       (hwuniq (RingHom.id _) ⟨fun _ => rfl, rfl, fun _ _ hx => hx⟩).symm
-    · show ρ (k (OddVariableExtension.inclusion (stageGrade δ ι T S) (j₀.1 + 1) b)) = _
+    · change ρ (k (OddVariableExtension.inclusion (stageGrade δ ι T S) (j₀.1 + 1) b)) = _
       rw [hk.1 b]
       exact hρb b
-    · show ρ (k (OddVariableExtension.generator (stageGrade δ ι T S) (j₀.1 + 1))) = _
+    · change ρ (k (OddVariableExtension.generator (stageGrade δ ι T S) (j₀.1 + 1))) = _
       rw [hk.2.1, hρT j₀, htj₀]
     · exact hρgrade m (k x) (hk.2.2 m x hx)
   have hρk : ∀ x, ρ (k x) = x := fun x => DFunLike.congr_fun hcomp x
@@ -348,10 +348,10 @@ private theorem stage_successor_even (hmap : HasVariableMappingProperty δ ι T)
       RingHom.id (EvenVariableAlgebra (finiteVariableStage δ ι T S)) := by
     refine (hwuniq (ρ.comp k) ⟨fun b => ?_, fun n => ?_, fun m x hx => ?_⟩).trans
       (hwuniq (RingHom.id _) ⟨fun _ => rfl, fun n => ?_, fun _ _ hx => hx⟩).symm
-    · show ρ (k (EvenVariableAlgebra.coeffEmbedding b)) = _
+    · change ρ (k (EvenVariableAlgebra.coeffEmbedding b)) = _
       rw [hk.1 b]
       exact hρb b
-    · show ρ (k (EvenVariableAlgebra.monomial n 1)) = _
+    · change ρ (k (EvenVariableAlgebra.monomial n 1)) = _
       rw [hk.2.1 n, ← hρdpow n (T j₀) hTpos, hρT j₀, htj₀]
       rfl
     · exact hρgrade m (k x) (hk.2.2 m x hx)
@@ -385,7 +385,7 @@ private theorem stage_successor_even (hmap : HasVariableMappingProperty δ ι T)
           ⟨δ.dpow n (T j), mem_finiteVariableStage_dpow_generator δ ι T hjS n⟩, hk.1 _⟩
   have hbij := codRestrict_bijective_of_leftInverse k _ hrange hρk hsurj
   refine ⟨RingEquiv.ofBijective _ hbij, fun b => hk.1 b, ?_, fun m x => ?_, fun n x hx => ?_⟩
-  · show k (EvenVariableAlgebra.monomial 1 1) = T j₀
+  · change k (EvenVariableAlgebra.monomial 1 1) = T j₀
     rw [hk.2.1 1, δ.dpow_one hTpos]
   · refine ⟨fun hx => hk.2.2 m x hx, fun hx => ?_⟩
     have hx' := hρgrade m (k x) hx
@@ -482,7 +482,7 @@ public theorem range_liftCoefficientAlgHom :
     exact ⟨(liftBaseEquiv R' σ R A).symm p, rfl⟩
   · obtain ⟨b, rfl⟩ := hy
     refine ⟨liftBaseEquiv R' σ R A b, ?_⟩
-    show (liftCoefficientHom (R' := R') hpoly).hom
+    change (liftCoefficientHom (R' := R') hpoly).hom
       ((liftBaseEquiv R' σ R A).symm (liftBaseEquiv R' σ R A b)) = _
     rw [AlgEquiv.symm_apply_apply]
 

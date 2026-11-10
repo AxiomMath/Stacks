@@ -59,7 +59,7 @@ theorem exists_covering_rename_eq_polynomialPresheaf_map [Presheaf.IsLocallySurj
   refine ⟨MvPolynomial.rename ℓ (MvPolynomial.map (A.obj.map g.op).hom p₀), ?_⟩
   have hfun : h.app (op Z) ∘ ℓ = E₂.map g.op ∘ ((↑) : s → E₂.obj (op X)) := funext hℓ
   rw [MvPolynomial.rename_rename, hfun]
-  show _ = (MvPolynomial.eval₂Hom (MvPolynomial.C.comp (A.obj.map g.op).hom)
+  change _ = (MvPolynomial.eval₂Hom (MvPolynomial.C.comp (A.obj.map g.op).hom)
     (fun x ↦ MvPolynomial.X (E₂.map g.op x))) (MvPolynomial.rename (↑) p₀)
   rw [polynomialPresheaf_map_eq_rename_comp_map]
   simp only [AlgHom.toRingHom_eq_coe, RingHom.coe_comp, RingHom.coe_coe, Function.comp_apply,
@@ -81,12 +81,12 @@ theorem polynomialUnit_comp_freeAlgebraMap (U : Cᵒᵖ) :
   apply MvPolynomial.ringHom_ext
   · intro a
     refine (polynomialEvaluation_app_C J A E₁ _ _ _ U a).trans ?_
-    show (polynomialUnit J A E₂).app U (MvPolynomial.C a) =
+    change (polynomialUnit J A E₂).app U (MvPolynomial.C a) =
       (polynomialUnit J A E₂).app U (MvPolynomial.rename (h.app U) (MvPolynomial.C a))
     rw [MvPolynomial.rename_C]
   · intro x
     refine (polynomialEvaluation_app_X J A E₁ _ _ _ U x).trans ?_
-    show (polynomialUnit J A E₂).app U (MvPolynomial.X (h.app U x)) =
+    change (polynomialUnit J A E₂).app U (MvPolynomial.X (h.app U x)) =
       (polynomialUnit J A E₂).app U (MvPolynomial.rename (h.app U) (MvPolynomial.X x))
     rw [MvPolynomial.rename_X]
 

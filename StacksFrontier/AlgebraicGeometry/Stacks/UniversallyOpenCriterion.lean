@@ -413,7 +413,7 @@ private theorem isOpenMorphism_pullback_fst_iff_representingMap_fst
     refine Arrow.isoMk (ObjectProperty.isoMk _ ((Presheaf.fibreProductIsoPullback _ _).symm ≪≫
       fibreProductIsoRepresenting B S hS 𝒳 𝒴 𝒵 F G H eF eG eH f g T eT)) (Iso.refl _) ?_
     apply ObjectProperty.hom_ext
-    show ((Presheaf.fibreProductIsoPullback _ _).symm ≪≫
+    change ((Presheaf.fibreProductIsoPullback _ _).symm ≪≫
         fibreProductIsoRepresenting B S hS 𝒳 𝒴 𝒵 F G H eF eG eH f g T eT).hom ≫
         representingMap B S hS
           (CatFiberedInGroupoids.twoFibreProductSquare.{u, u, u + 1, u + 1} f g).pt 𝒳 T F eT eF

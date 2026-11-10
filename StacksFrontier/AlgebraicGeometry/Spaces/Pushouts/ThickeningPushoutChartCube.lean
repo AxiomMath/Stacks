@@ -45,7 +45,8 @@ include hi hf in
 theorem rep_inl : yoneda.relativelyRepresentable (pushout.inl i f).hom :=
   relativelyRepresentable_of_isAffineHom B S hS _ (isAffineHom_pushout_inl i f hi hf)
 
-include hi hf in
+omit [HasPushout i f] in
+include hf in
 /-- The affine morphism `f : X ⟶ Y` is representable by schemes. -/
 theorem rep_f : yoneda.relativelyRepresentable f.hom :=
   relativelyRepresentable_of_isAffineHom B S hS _ hf
@@ -146,20 +147,20 @@ variable (W : SmallEtale B S hS V'.1)
 
 /-- The restriction from `W_V` to `W_U`. -/
 abbrev cubeED := cubeTargetRestrict (commonToTarget i f g) (targetRestriction i f g)
-  (rep_commonToTarget i f g hi hf) (rep_targetRestriction i f g hi hf)
+  (rep_commonToTarget i f g hf) (rep_targetRestriction i f g hi hf)
   (rep_commonTargetComp i f g hi hf) W
 
 /-- The restriction from `W_{U'}` to `W_U`. -/
 abbrev cubeEC' := cubeAmbientRestrict (commonToTarget i f g) (targetRestriction i f g)
   (commonToAmbient i f g) (ambientRestriction i f g) (commonToAmbient_comp_eq i f g)
-  (rep_commonToAmbient i f g hi hf) (rep_ambientRestriction i f g hi hf)
+  (rep_commonToAmbient i f g hi) (rep_ambientRestriction i f g hi hf)
   (rep_commonTargetComp i f g hi hf) (rep_commonAmbientComp i f g hi hf) W
 
 variable (Wy : SmallEtale B S hS (pushout i f).1)
 
 /-- The restriction from `W'_Y` to `W'_X`. -/
 abbrev cubeTB := cubeAmbientRestrict i (pushout.inl i f) f (pushout.inr i f)
-  pushout.condition.symm (rep_f i f hi hf) (rep_inr i f hi hf) (rep_i_inl i f hi hf)
+  pushout.condition.symm (rep_f f hf) (rep_inr i f hi hf) (rep_i_inl i f hi hf)
   (rep_f_inr i f hi hf) Wy
 
 /-- The restriction from `W'_{X'}` to `W'_X`. -/
@@ -198,7 +199,7 @@ abbrev cubeIDiagram :=
 /-- The chart `W'_X ⟶ W'_Y` over `f`. -/
 abbrev cubeFDiagram :=
   ambientDiagram i (pushout.inl i f) f (pushout.inr i f) pushout.condition.symm
-    (rep_f i f hi hf) (rep_inr i f hi hf) (rep_i_inl i f hi hf) (rep_f_inr i f hi hf) Wy
+    (rep_f f hf) (rep_inr i f hi hf) (rep_i_inl i f hi hf) (rep_f_inr i f hi hf) Wy
 
 /-- The chart `W'_X` is the base change of `W'_{X'}` along `i`. -/
 theorem cube_isPullback_i :
@@ -250,7 +251,7 @@ section Sides
 /-- The two routes `W_U ⟶ W'_Y`. -/
 theorem cube_sideD_g :
     (targetDiagram (commonToTarget i f g) (targetRestriction i f g)
-        (rep_commonToTarget i f g hi hf) (rep_targetRestriction i f g hi hf)
+        (rep_commonToTarget i f g hf) (rep_targetRestriction i f g hi hf)
         (rep_commonTargetComp i f g hi hf) d.U).g ≫ (cubeTargetDiagram i f g hi hf d).g =
       (cubeCommonDiagram i f g hi hf d).g ≫ (cubeFDiagram i f hi hf d.V).g := by
   refine (rep_inr i f hi hf).hom_ext ?_ ?_
@@ -260,7 +261,7 @@ theorem cube_sideD_g :
     have l1 := cartesianChartDiagram_g_fst B S hS (isPullback_target i f g)
       (rep_targetRestriction i f g hi hf) (rep_inr i f hi hf) d
     have l2 := (targetDiagram (commonToTarget i f g) (targetRestriction i f g)
-        (rep_commonToTarget i f g hi hf) (rep_targetRestriction i f g hi hf)
+        (rep_commonToTarget i f g hf) (rep_targetRestriction i f g hi hf)
         (rep_commonTargetComp i f g hi hf) d.U).comm
     have r1 := cartesianChartDiagram_g_fst B S hS (isPullback_common i f g)
       (rep_commonTargetComp i f g hi hf) (rep_i_inl i f hi hf) d
@@ -278,10 +279,10 @@ theorem cube_sideD_g :
     have r1 := cartesianChartDiagram_g_snd B S hS (isPullback_common i f g)
       (rep_commonTargetComp i f g hi hf) (rep_i_inl i f hi hf) d
     have l2 := targetDiagram_g_comp (commonToTarget i f g) (targetRestriction i f g)
-        (rep_commonToTarget i f g hi hf) (rep_targetRestriction i f g hi hf)
+        (rep_commonToTarget i f g hf) (rep_targetRestriction i f g hi hf)
         (rep_commonTargetComp i f g hi hf) d.U
     have r2 := ambientDiagram_g_comp i (pushout.inl i f) f (pushout.inr i f)
-      pushout.condition.symm (rep_f i f hi hf) (rep_inr i f hi hf) (rep_i_inl i f hi hf)
+      pushout.condition.symm (rep_f f hf) (rep_inr i f hi hf) (rep_i_inl i f hi hf)
       (rep_f_inr i f hi hf) d.V
     exact ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) l1).trans
       ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ d.g) l2)))).trans
@@ -291,7 +292,7 @@ theorem cube_sideD_g :
 theorem cube_sideC'_g :
     (ambientDiagram (commonToTarget i f g) (targetRestriction i f g)
         (commonToAmbient i f g) (ambientRestriction i f g) (commonToAmbient_comp_eq i f g)
-        (rep_commonToAmbient i f g hi hf) (rep_ambientRestriction i f g hi hf)
+        (rep_commonToAmbient i f g hi) (rep_ambientRestriction i f g hi hf)
         (rep_commonTargetComp i f g hi hf) (rep_commonAmbientComp i f g hi hf) d.U).g ≫
         (cubeAmbientDiagram i f g hi hf d).g =
       (cubeCommonDiagram i f g hi hf d).g ≫ (cubeIDiagram i f hi hf d.V).g := by
@@ -303,7 +304,7 @@ theorem cube_sideC'_g :
       (rep_ambientRestriction i f g hi hf) (rep_inl i f hi hf) d
     have l2 := (ambientDiagram (commonToTarget i f g) (targetRestriction i f g)
         (commonToAmbient i f g) (ambientRestriction i f g) (commonToAmbient_comp_eq i f g)
-        (rep_commonToAmbient i f g hi hf) (rep_ambientRestriction i f g hi hf)
+        (rep_commonToAmbient i f g hi) (rep_ambientRestriction i f g hi hf)
         (rep_commonTargetComp i f g hi hf) (rep_commonAmbientComp i f g hi hf) d.U).comm
     have r1 := cartesianChartDiagram_g_fst B S hS (isPullback_common i f g)
       (rep_commonTargetComp i f g hi hf) (rep_i_inl i f hi hf) d
@@ -322,7 +323,7 @@ theorem cube_sideC'_g :
       (rep_commonTargetComp i f g hi hf) (rep_i_inl i f hi hf) d
     have l2 := ambientDiagram_g_comp (commonToTarget i f g) (targetRestriction i f g)
         (commonToAmbient i f g) (ambientRestriction i f g) (commonToAmbient_comp_eq i f g)
-        (rep_commonToAmbient i f g hi hf) (rep_ambientRestriction i f g hi hf)
+        (rep_commonToAmbient i f g hi) (rep_ambientRestriction i f g hi hf)
         (rep_commonTargetComp i f g hi hf) (rep_commonAmbientComp i f g hi hf) d.U
     have r2 := targetDiagram_g_comp i (pushout.inl i f) hi.isClosedImmersion.rep
       (rep_inl i f hi hf) (rep_i_inl i f hi hf) d.V
@@ -336,8 +337,8 @@ theorem cube_sideD :
         (chartDiagramRestrict B S hS _ (cubeTargetDiagram i f g hi hf d)) =
       (chartDiagramRestrict B S hS _ (cubeCommonDiagram i f g hi hf d)).comp
         (cubeTB i f hi hf d.V) := by
-  show ((BigFppfOver.toScheme B S hS).map (targetDiagram (commonToTarget i f g)
-        (targetRestriction i f g) (rep_commonToTarget i f g hi hf)
+  change ((BigFppfOver.toScheme B S hS).map (targetDiagram (commonToTarget i f g)
+        (targetRestriction i f g) (rep_commonToTarget i f g hf)
         (rep_targetRestriction i f g hi hf) (rep_commonTargetComp i f g hi hf)
         d.U).g).appTop.hom.comp
       ((BigFppfOver.toScheme B S hS).map (cubeTargetDiagram i f g hi hf d).g).appTop.hom =
@@ -353,10 +354,10 @@ theorem cube_sideC' :
         (chartDiagramRestrict B S hS _ (cubeAmbientDiagram i f g hi hf d)) =
       (chartDiagramRestrict B S hS _ (cubeCommonDiagram i f g hi hf d)).comp
         (cubeTA' i f hi hf d.V) := by
-  show ((BigFppfOver.toScheme B S hS).map (ambientDiagram (commonToTarget i f g)
+  change ((BigFppfOver.toScheme B S hS).map (ambientDiagram (commonToTarget i f g)
         (targetRestriction i f g) (commonToAmbient i f g) (ambientRestriction i f g)
         (commonToAmbient_comp_eq i f g)
-        (rep_commonToAmbient i f g hi hf) (rep_ambientRestriction i f g hi hf)
+        (rep_commonToAmbient i f g hi) (rep_ambientRestriction i f g hi hf)
         (rep_commonTargetComp i f g hi hf) (rep_commonAmbientComp i f g hi hf)
         d.U).g).appTop.hom.comp
       ((BigFppfOver.toScheme B S hS).map (cubeAmbientDiagram i f g hi hf d).g).appTop.hom =
@@ -383,7 +384,7 @@ theorem cube_surj (hWy : IsAffine (chartScheme d.V)) :
     isAffine_smallBaseChange_obj B S hS _ _ (isAffineHom_pushout_inl i f hi hf) d.V hWy
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj
       ((SmallEtale.toOver B S hS X'.obj).obj (cubeIDiagram i f hi hf d.V).V)) := haff
-  show Function.Surjective
+  change Function.Surjective
     ((BigFppfOver.toScheme B S hS).map (cubeIDiagram i f hi hf d.V).g).appTop.hom
   exact Scheme.Hom.app_surjective _ ⊤ (isAffineOpen_top _)
 

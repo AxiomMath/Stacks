@@ -156,12 +156,12 @@ theorem associatedKTriangle_eq_of_same_sequence {x y z : A.Obj} (S : ShiftAxiomB
       S.toShift 1 z x 0 (A.d' (by lia : (0 : ℤ) + 1 = 1) g) = -A.d h := by
     simpa [h, g', Int.natAbs] using S.toShift_d 1 z x (-1) g'
   have hnegD : A.d' (by lia : (-1 : ℤ) + 1 = 0) (-h) = -A.d h := by
-    show A.d (-h) = -A.d h
+    change A.d (-h) = -A.d h
     rw [show -h = (-1 : R) • h by rw [neg_one_smul], A.d_smul, neg_one_smul]
   have hhomotopy : A.Homotopic (GradedSplitShortExact.connectingCocycle S E')
       (GradedSplitShortExact.connectingCocycle S E) := by
     refine ⟨-h, ?_⟩
-    show S.toShift 1 z x 0 (GradedSplitShortExact.connectingHom E') -
+    change S.toShift 1 z x 0 (GradedSplitShortExact.connectingHom E') -
       S.toShift 1 z x 0 (GradedSplitShortExact.connectingHom E) =
         A.d' (by lia : (-1 : ℤ) + 1 = 0) (-h)
     rw [hdiff, hshiftD', hnegD]

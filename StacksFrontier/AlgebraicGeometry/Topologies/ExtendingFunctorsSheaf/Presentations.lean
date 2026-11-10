@@ -314,7 +314,7 @@ theorem exists_openPresentation (hP1 : HasAffineOpens P)
         = ((e l).some.inv ≫ overOpenι (D.obj l).obj (openAt W l.unop))
           ≫ (D ⋙ (lfpPart P).ι).map φ := by
     intro l m φ
-    show ((e l).some.inv ≫ _ ≫ (e m).some.hom) ≫ _ = _
+    change ((e l).some.inv ≫ _ ≫ (e m).some.hom) ≫ _ = _
     refine Eq.trans (Category.assoc _ _ _) ?_
     refine Eq.trans ?_ (Category.assoc _ _ _).symm
     refine congrArg (fun k => (e l).some.inv ≫ k) ?_

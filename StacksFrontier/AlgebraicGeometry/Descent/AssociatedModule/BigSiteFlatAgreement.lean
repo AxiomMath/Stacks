@@ -213,6 +213,7 @@ private lemma exists_relation_over_open {X : TopCat.{u}}
       (Finset.sum_congr rfl fun i _ => (M.restrictₛₗ i₁.op).map_smulₛₗ (a₁ i) (s₁ i)))) ?_
     exact he.trans (map_zero (M.presheaf.map i₂.op).hom)
 
+omit [𝓗.IsQuasicoherent] in
 /-- **A relation over an open `U` of `S` pulls back to a relation at the object `U → S` of the
 big site.**  Pulling a section of `𝓗` back to the open subscheme `U` is semilinear over
 `AlgebraicGeometry.Scheme.Hom.appLE`, so it carries a relation to a relation. -/
@@ -270,6 +271,7 @@ private lemma app_top_appLE {U : S.Opens}
     (fun k : Γ(S, U) ⟶ Γ((toScheme B S hS).obj c, ⊤) => ConcreteCategory.hom k r)
     (Scheme.Hom.appLE_comp_appLE ((toScheme B S hS).map q) (Scheme.Opens.ι U) U ⊤ ⊤ hUle le_rfl)
 
+omit [𝓗.IsQuasicoherent] in
 /-- **Faithfully flat descent of a factorization, read at a point.**  Let `g : T ⟶ S` be flat,
 `y` a point of `T` and `U` an open of `S` containing its image and containing the whole of `T`.
 A relation among sections of `𝓗` over `U` whose pullback to `T` admits a finite free

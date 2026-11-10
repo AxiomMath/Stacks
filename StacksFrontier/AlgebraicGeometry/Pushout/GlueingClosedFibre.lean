@@ -178,7 +178,7 @@ theorem range_glueingPoint :
           ((glueingSituation f y).j ≫ glueingPoint f y) z := by
         rw [this]
       rw [Scheme.Hom.comp_apply, Scheme.Hom.comp_apply] at hcomm
-      show glueingPoint f y (pullback.snd f y z) = p
+      change glueingPoint f y (pullback.snd f y z) = p
       rw [← hcomm, hz1, hx]
     · exact h
 
@@ -375,12 +375,12 @@ theorem pushoutToBase_isIntegralHom [IsIntegralHom s.pX] [IsIntegralHom s.pY] :
   have hYbase : Vy ≤ s.pY ⁻¹ᵁ U := hVyEq.le
   have hZbase : Vz ≤ s.pZ ⁻¹ᵁ U := by
     intro z hz
-    show s.pZ z ∈ U
+    change s.pZ z ∈ U
     rw [← s.j_over]
     exact hYbase hz
   have hZxbase : s.i ⁻¹ᵁ Vx ≤ s.pZ ⁻¹ᵁ U := by
     intro z hz
-    show s.pZ z ∈ U
+    change s.pZ z ∈ U
     rw [← s.i_over]
     exact hXbase hz
   let R := Γ(s.S, U)
@@ -404,7 +404,7 @@ theorem pushoutToBase_isIntegralHom [IsIntegralHom s.pX] [IsIntegralHom s.pY] :
   let _ : Algebra R Pring := δ.toAlgebra
   have hfcomp : fRing.comp α = γ := by
     dsimp [fRing, α, γ]
-    show (s.pX.appLE U Vx hXbase ≫
+    change (s.pX.appLE U Vx hXbase ≫
       s.i.appLE Vx (s.i ⁻¹ᵁ Vx) le_rfl ≫
       eqToHom (congrArg (fun W : s.Z.Opens ↦ Γ(s.Z, W)) he)).hom =
       (s.pZ.appLE U Vz hZbase).hom

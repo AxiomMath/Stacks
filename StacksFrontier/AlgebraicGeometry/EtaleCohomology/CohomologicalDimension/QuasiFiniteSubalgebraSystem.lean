@@ -268,7 +268,7 @@ theorem isIntegral_residueFieldMap_levelAlg
   · apply Subtype.val_injective
     rw [← hp', Polynomial.coe_mapRingHom, Polynomial.eval_map] at hp
     rw [ZeroMemClass.coe_zero, ← hp]
-    show ((levelAlg ψ D.1).val : levelAlg ψ D.1 →+* O) _ = _
+    change ((levelAlg ψ D.1).val : levelAlg ψ D.1 →+* O) _ = _
     rw [Polynomial.hom_eval₂]
     rfl
 

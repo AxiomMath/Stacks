@@ -47,7 +47,7 @@ attribute [local implicit_reducible] TopCat.Sheaf CategoryTheory.sheafCompose
 
 namespace Stacks.DeRham.GysinCupHodge
 
-open DerivedCategory
+open _root_.Stacks.DerivedCategory _root_.CategoryTheory.DerivedCategory
 open scoped CategoryTheory.Prod
 
 /-- A functor applied to a factorisation, at variables. -/

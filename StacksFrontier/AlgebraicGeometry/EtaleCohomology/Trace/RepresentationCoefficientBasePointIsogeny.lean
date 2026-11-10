@@ -122,7 +122,7 @@ public theorem exists_basePoint_representationSheafCommutantCoefficientSheaf_iso
       (P⁻¹ * P')⁻¹.val * (PadicInt.Coe.ringHom (p := ℓ)).mapMatrix (τ₁ g).val * (P⁻¹ * P').val := by
     intro g
     rw [hP x' ρ' hρ' g]
-    show _ = _ * (PadicInt.Coe.ringHom (p := ℓ)).mapMatrix (integralModel ρ hρ (φ₀ g)).val * _
+    change _ = _ * (PadicInt.Coe.ringHom (p := ℓ)).mapMatrix (integralModel ρ hρ (φ₀ g)).val * _
     rw [hP x ρ hρ (φ₀ g), conj_inv_mul_conj]
     rfl
   have hMμ : ∀ (o₁ : conjIntegralSubring P α) (o₂ : conjIntegralSubring P' α),

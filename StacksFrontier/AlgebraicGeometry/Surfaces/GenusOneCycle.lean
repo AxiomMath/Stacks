@@ -72,7 +72,8 @@ remove. Its complement is the case in which some component meets exactly one oth
 component, and the enumeration of the ways the deleted component can be attached to each Dynkin
 diagram — the affine extensions, cases (17)-(24) and (26)-(34) of the source's list — is carried
 out in `StacksFrontier/AlgebraicGeometry/Surfaces/GenusOneChain.lean` and in
-`StacksFrontier/AlgebraicGeometry/Surfaces/GenusOneForkClassification.lean`. That reduction does *not*
+`StacksFrontier/AlgebraicGeometry/Surfaces/GenusOneForkClassification.lean`. That reduction does
+*not*
 need the strict properness hypothesis `k < T.componentCount` of
 `AlgebraicGeometry.NumericalType.no_positive_supported_kernel`, which indeed fails for the full
 index set: deleting a component leaves `T.componentCount - 1` of them, which is proper.
@@ -178,7 +179,7 @@ private lemma exists_spanning_chain_univ (T : NumericalType) (hn : 2 ≤ T.compo
   · exact fun a b hab => huadj _ _ hab
 
 /-- Reading the successor of a residue modulo the number of components. -/
-private lemma mod_succ_eq_iff (T : NumericalType) (hn : 1 ≤ T.componentCount) (x y : ℕ)
+private lemma mod_succ_eq_iff (T : NumericalType) (x y : ℕ)
     (hx : x < T.componentCount) (hy : y < T.componentCount) :
     (x + 1) % T.componentCount = y ↔
       (x + 1 = y ∨ (x + 1 = T.componentCount ∧ y = 0)) := by
@@ -375,8 +376,8 @@ public lemma exists_cyclic_ordering (T : NumericalType) (hn : 3 ≤ T.componentC
     intro a b
     rw [chain_intersection_ne_zero_iff_of_ends_meet T hn (fun i => (hdegc i).le) v hvinj hvadj
         i0 iL hi0 hiL hclose a b,
-      mod_succ_eq_iff T (by omega) a.val b.val a.isLt b.isLt,
-      mod_succ_eq_iff T (by omega) b.val a.val b.isLt a.isLt]
+      mod_succ_eq_iff T a.val b.val a.isLt b.isLt,
+      mod_succ_eq_iff T b.val a.val b.isLt a.isLt]
     have haLt := a.isLt
     have hbLt := b.isLt
     omega
@@ -513,7 +514,7 @@ private lemma vec5_eq_of_ne_four {R : Type*} (a b : R) (r : Fin 5) (hr : r.val �
 /-- If the last vertex of a Dynkin ordering of five consecutive components of a cycle meets
 only the fourth, then it is an end of the window: an interior position of the window meets two
 of the other four. -/
-private lemma dynkin_last_is_window_end (T : NumericalType) (hn : 1 < T.componentCount)
+private lemma dynkin_last_is_window_end (T : NumericalType)
     (c : Fin 5 → Fin T.componentCount)
     (hadj : ∀ p q : Fin 5, T.intersection (c p) (c q) ≠ 0 ↔
       (p.val + 1 = q.val ∨ q.val + 1 = p.val ∨ p.val = q.val))
@@ -600,7 +601,7 @@ public lemma weight_interior_eq_of_five_window (T : NumericalType) (hn : 5 < T.c
   · have hall := weight_eq_of_vec5_const T (c := c) (σ := σ) (a := w) (by simpa using hwts)
     exact ⟨w, hwpos, fun p _ _ => hall p, Or.inl (hall 0), Or.inl (hall 4)⟩
   all_goals
-    have hend := dynkin_last_is_window_end T (by omega) c hadj σ
+    have hend := dynkin_last_is_window_end T c hadj σ
       (by simpa using congrFun (congrFun hmat 4) 0)
       (by simpa using congrFun (congrFun hmat 4) 1)
       (by simpa using congrFun (congrFun hmat 4) 2)
@@ -1020,12 +1021,12 @@ private lemma cycle_adjacent_iff (T : NumericalType) (hn : 3 ≤ T.componentCoun
       (a + 1 = b ∨ (a + 1 = T.componentCount ∧ b = 0)) := by
     unfold Nat.ModEq
     rw [Nat.mod_eq_of_lt hj]
-    exact mod_succ_eq_iff T (by omega) a b hi hj
+    exact mod_succ_eq_iff T a b hi hj
   have e2 : (b + 1 ≡ a [MOD T.componentCount]) ↔
       (b + 1 = a ∨ (b + 1 = T.componentCount ∧ a = 0)) := by
     unfold Nat.ModEq
     rw [Nat.mod_eq_of_lt hi]
-    exact mod_succ_eq_iff T (by omega) b a hj hi
+    exact mod_succ_eq_iff T b a hj hi
   have e3 : (a ≡ b [MOD T.componentCount]) ↔ a = b := modEq_iff_eq_of_lt hi hj
   rw [hcadj, e1, e2, e3]
   omega
@@ -1040,7 +1041,7 @@ private lemma cycle_intersection_eq_weight (T : NumericalType) (hn : 3 ≤ T.com
       (k + 1 ≡ l [MOD T.componentCount] ∨ l + 1 ≡ k [MOD T.componentCount] ∨
         k ≡ l [MOD T.componentCount]))
     (hWc : ∀ j, T.weight (c j) = T.weight (c 0))
-    (a b : ℕ) (ha : a < T.componentCount) (hb : b < T.componentCount) (hab : a < b)
+    (a b : ℕ) (hb : b < T.componentCount)
     (hadj : b = a + 1 ∨ (a = 0 ∧ b = T.componentCount - 1)) :
     T.intersection (c a) (c b) = T.weight (c 0) := by
   rcases hadj with h | ⟨h0, h1⟩
@@ -1102,13 +1103,13 @@ private lemma matchesCoefficients_cycle (T : NumericalType) (n : ℕ)
       · have hval : T.intersection (c i.val) (c j.val) = T.weight (c 0) := by
           rcases Nat.lt_or_ge i.val j.val with h | h
           · exact cycle_intersection_eq_weight T (by omega) hminus c hceq hcadj hW i.val j.val
-              (hlt i) (hlt j) h (by omega)
+              (hlt j) (by omega)
           · rw [T.intersection_symm]
             exact cycle_intersection_eq_weight T (by omega) hminus c hceq hcadj hW j.val i.val
-              (hlt j) (hlt i) (by omega) (by omega)
+              (hlt i) (by omega)
         rw [hval]
         have hedge : GenusOne.longIntersection GenusOne.LongFamily.cycle n i j = 1 := by
-          simp only [GenusOne.longIntersection, GenusOne.longEdge, if_neg hij]
+          simp only [GenusOne.longIntersection, GenusOne.longEdge, ite_eq_right hij]
           rcases hcase with h | ⟨h0, h1⟩
           · simp [h]
           · simp [h0, h1]
@@ -1120,8 +1121,8 @@ private lemma matchesCoefficients_cycle (T : NumericalType) (n : ℕ)
         rw [hzero]
         have hedge : GenusOne.longIntersection GenusOne.LongFamily.cycle n i j = 0 := by
           simp only [GenusOne.longIntersection, GenusOne.longEdge]
-          rw [if_neg hij]
-          exact if_neg hcase
+          rw [ite_eq_right hij]
+          exact ite_eq_right hcase
         rw [hedge]
         ring
   · intro i
@@ -1266,7 +1267,7 @@ public lemma exists_dynkinConfiguration_of_erase_leaf (T : NumericalType)
         Set (Fin T.componentCount)) := by
       rw [← hvrange]
       exact ⟨r, rfl⟩
-    simp only [Finset.coe_erase, Set.mem_diff] at hmem
+    simp only [Finset.coe_erase, Set.mem_sdiff] at hmem
     exact hmem.2 (by simpa using hr)
   · intro y hy
     have hmem : y ∈ ((Finset.univ.erase l : Finset (Fin T.componentCount)) :

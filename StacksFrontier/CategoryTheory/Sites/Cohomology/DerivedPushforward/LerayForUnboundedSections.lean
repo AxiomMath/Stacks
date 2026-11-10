@@ -13,7 +13,9 @@ Let `f : (C, O_C) ⟶ (D, O_D)` be a morphism of ringed sites given by the conti
 that `RΓ(D, -) ∘ Rf_* = RΓ(C, -)` as functors `D(O_C) ⟶ D(Γ(O_D))`, and that
 `RΓ(V, -) ∘ Rf_* = RΓ(U, -)`. This file proves the second assertion for a **flat** `f`, and
 isolates the single input on which it depends; the first assertion is proved from the same
-input in the sibling module `LerayForUnboundedGlobalSections`.
+input in the sibling module `LerayForUnboundedGlobalSections`. File paths written `./…` or
+`../…` below are relative to this file's directory,
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/`.
 
 That input is `ComputesSecond f_* (Γ(V, -))`: that `f_* I` computes `RΓ(V, -)` for every
 K-injective complex `I` of `O_C`-modules. It is weaker than Stacks 093Y — that degreewise `f_*`
@@ -39,12 +41,12 @@ left over, as
 `Stacks.Cohomology.DerivedPushforwardCompositionOnTopoi.derivedPushforwardCompIsoUnconditional`
 and — in the form that mentions no derived category, which is the one a proof of 0D6H would
 quote — `quasiIso_mapHomotopyCategory_pushforward_of_isKInjective`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/CompositionOnRingedTopoiUnconditional.lean:541` and `:445`). Neither
+(`./CompositionOnRingedTopoiUnconditional.lean:541` and `:445`). Neither
 carries anything beyond the two `IsMorphismOfSites` witnesses that
 `AlgebraicGeometry.RingedSite.Hom` already stores. Nor is the unbounded derived pullback they
 rest on missing: it is
 `Stacks.Cohomology.DerivedPullbackOnRingedTopoi.hasLeftDerivedFunctor_pullbackOnHomotopy`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackExistence.lean:130`), built from
+(`../DerivedPullback/DerivedPullbackExistence.lean:130`), built from
 `pullbackInvertsQuasiIso_isKFlat` (`:119`) for every morphism of ringed topoi that comes from a
 morphism of sites.
 
@@ -53,7 +55,8 @@ morphisms of ringed topoi **presented by morphisms of sites**
 (`AlgebraicGeometry.RingedToposSiteHom`), and neither sections functor is presented that way.
 `Γ(V, -)` is the direct image along the functor `PUnit ⥤ D` picking `V`, and that functor is
 continuous but not in general a morphism of sites:
-`CategoryTheory.Functor.IsMorphismOfSites` (`StacksFrontier/CategoryTheory/Sites/MorphismOfSites.lean:58`)
+`CategoryTheory.Functor.IsMorphismOfSites`
+(`StacksFrontier/CategoryTheory/Sites/MorphismOfSites.lean:58`)
 demands that the sheaf pullback preserve finite limits, and it carries the one-point set to the
 sheafification of the representable on `V`, which is terminal only when `V` is a final object of
 the site. `Γ(D, -)` is worse: `Stacks.Cohomology.SiteModules.globalSectionsFunctor` is the limit
@@ -86,8 +89,8 @@ The unwinding itself is now available:
 (`StacksFrontier/CategoryTheory/Sites/Modules/SectionsOverObjectHomotopyCategory.lean:90`)
 identifies `Hⁿ(Γ(U, M^•))` with `Hom_{K(O)}((j_{U!} O_U)[0], M^•⟦n⟧)`, out of Stacks 0G1V in
 the additive form `coyonedaExtensionByZeroUnitIso`
-(`StacksFrontier/CategoryTheory/Sites/Modules/SectionsOverObjectCorepresentable.lean:112`) and the generic
-`CochainComplex.HomComplex.homComplexSingleIsoCoyonedaComplex`
+(`StacksFrontier/CategoryTheory/Sites/Modules/SectionsOverObjectCorepresentable.lean:112`) and the
+generic `CochainComplex.HomComplex.homComplexSingleIsoCoyonedaComplex`
 (`StacksFrontier/Algebra/Homology/HomotopyCategory/HomComplexFromSingle.lean:70`). So is the
 geometric step: `Stacks.Sites.ExtensionByZero.pullbackToposExtensionByZeroUnitIso`
 (`StacksFrontier/CategoryTheory/Sites/Modules/PullbackOfExtensionByZeroUnit.lean:114`) is
@@ -96,21 +99,22 @@ transposition `CategoryTheory.Adjunction.coyonedaAddIso` (`:65`).
 
 **The chase is done.** `Stacks.Cohomology.DerivedPullbackOnRingedTopoi.`
 `bijective_qh_map_pushforward_of_isKInjective`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/HomotopyHomIntoPushforwardOfKInjective.lean:148`) is exactly the
+(`./HomotopyHomIntoPushforwardOfKInjective.lean:148`) is exactly the
 displayed bijectivity, for any `P` at which the Stacks 06YY comparison `Lf^* ⟶ f^*` is
 invertible — which `(j_{V!} O_V)[0]` is, being a bounded above complex of flat modules
 (`Stacks.Cohomology.DerivedPullbackOnRingedTopoi.isIso_derivedPullbackComparison_app_boundedAbove`,
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackExistence.lean:165`, with the flatness of `j_{V!} O_V` from
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackExistence.lean:165`,
+with the flatness of `j_{V!} O_V` from
 Stacks 03EV). The two identifications of both sides with `Hom(f^* P, I)` agree by
 `derivedAdjunction_homEquiv_symm_qh_map` (`:89`), which is Stacks 0FPI
 (`Stacks.Cohomology.DerivedPullbackOnRingedTopoi.derivedAdjunction_counit_fac`,
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/OrdinaryAndDerivedCounit.lean:141`) applied at `I`, preceded by the
+`./OrdinaryAndDerivedCounit.lean:141`) applied at `I`, preceded by the
 naturality of the comparison at the morphism — so the inverse of the comparison is never
 computed, it living on the *counit* side.
 
 **And the clause is closed.** `Stacks.Cohomology.LerayUnbounded.`
 `computesSecond_pushforwardTopos_sectionsOverObject`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/LerayForUnboundedSectionsGeneral.lean:192`) discharges
+(`./LerayForUnboundedSectionsGeneral.lean:192`) discharges
 `ComputesSecond f_* (Γ(V, -))` for every morphism of ringed sites, so
 `derivedSectionsOverObjectPushforwardIsoGeneral` (`:235`) is this file's conclusion with no
 flatness, and it is where the `@[stacks 0D6H]` tag for this clause lives. The three steps
@@ -119,8 +123,8 @@ between the chase and the clause are formal, and each is a declaration of its ow
 1. the criterion turning `IsIso ((totalDerivedUnit (Γ(V, -))).app (f_* I))` into
    `QuasiIso (Γ(V, s))` for a K-injective resolution `s : f_* I ⟶ J` — the naturality square of
    the comparison at `s`, with `Stacks.Cohomology.Localization.derivedUnit_isIsoOnKInjective`
-   (`StacksFrontier/CategoryTheory/Sites/Cohomology/Localization/RestrictionOfModules.lean:154`) at `J` and
-   `Stacks.Cohomology.Localization.enoughKInjectives` (`:150`) producing `s`;
+   (`StacksFrontier/CategoryTheory/Sites/Cohomology/Localization/RestrictionOfModules.lean:154`) at
+   `J` and `Stacks.Cohomology.Localization.enoughKInjectives` (`:150`) producing `s`;
 2. `CochainComplex.HomComplex.homComplexSingleIsoCoyonedaComplex_naturality` and
    `isIso_homologyMap_coyonedaComplexMap`
    (`StacksFrontier/Algebra/Homology/HomotopyCategory/HomComplexFromSinglePostcomp.lean:58`
@@ -128,7 +132,7 @@ between the chase and the clause are formal, and each is a declaration of its ow
    (`StacksFrontier/Homology/Injectives/Ext/SpectralSequenceIntoFunctoriality.lean:131`);
 3. the shift bookkeeping, `Stacks.Cohomology.DerivedPullbackOnRingedTopoi.pushforwardShiftIso`
    and `bijective_postcomp_quotient_shift_of_isKInjective`
-   (`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/PostcompIntoPushforwardOfKInjective.lean:83` and `:112`).
+   (`./PostcompIntoPushforwardOfKInjective.lean:83` and `:112`).
 
 The global-sections clause is covered by the same three steps, in
 `LerayForUnboundedGlobalSectionsGeneral.lean`, with `Γ(D, -)` corepresented by the structure
@@ -151,8 +155,8 @@ The unwinding itself is now available:
 (`StacksFrontier/CategoryTheory/Sites/Modules/SectionsOverObjectHomotopyCategory.lean:90`)
 identifies `Hⁿ(Γ(U, M^•))` with `Hom_{K(O)}((j_{U!} O_U)[0], M^•⟦n⟧)`, out of Stacks 0G1V in
 the additive form `coyonedaExtensionByZeroUnitIso`
-(`StacksFrontier/CategoryTheory/Sites/Modules/SectionsOverObjectCorepresentable.lean:112`) and the generic
-`CochainComplex.HomComplex.homComplexSingleIsoCoyonedaComplex`
+(`StacksFrontier/CategoryTheory/Sites/Modules/SectionsOverObjectCorepresentable.lean:112`) and the
+generic `CochainComplex.HomComplex.homComplexSingleIsoCoyonedaComplex`
 (`StacksFrontier/Algebra/Homology/HomotopyCategory/HomComplexFromSingle.lean:70`). So is the
 geometric step: `Stacks.Sites.ExtensionByZero.pullbackToposExtensionByZeroUnitIso`
 (`StacksFrontier/CategoryTheory/Sites/Modules/PullbackOfExtensionByZeroUnit.lean:114`) is
@@ -161,15 +165,16 @@ transposition `CategoryTheory.Adjunction.coyonedaAddIso` (`:65`).
 
 **The chase is done.** `Stacks.Cohomology.DerivedPullbackOnRingedTopoi.`
 `bijective_qh_map_pushforward_of_isKInjective`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/HomotopyHomIntoPushforwardOfKInjective.lean:148`) is exactly the
+(`./HomotopyHomIntoPushforwardOfKInjective.lean:148`) is exactly the
 displayed bijectivity, for any `P` at which the Stacks 06YY comparison `Lf^* ⟶ f^*` is
 invertible — which `(j_{V!} O_V)[0]` is, being a bounded above complex of flat modules
 (`Stacks.Cohomology.DerivedPullbackOnRingedTopoi.isIso_derivedPullbackComparison_app_boundedAbove`,
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackExistence.lean:165`, with the flatness of `j_{V!} O_V` from
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackExistence.lean:165`,
+with the flatness of `j_{V!} O_V` from
 Stacks 03EV). The two identifications of both sides with `Hom(f^* P, I)` agree by
 `derivedAdjunction_homEquiv_symm_qh_map` (`:89`), which is Stacks 0FPI
 (`Stacks.Cohomology.DerivedPullbackOnRingedTopoi.derivedAdjunction_counit_fac`,
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/OrdinaryAndDerivedCounit.lean:141`) applied at `I`, preceded by the
+`./OrdinaryAndDerivedCounit.lean:141`) applied at `I`, preceded by the
 naturality of the comparison at the morphism — so the inverse of the comparison is never
 computed, it living on the *counit* side.
 
@@ -183,7 +188,8 @@ them mathematical content:
    `Stacks.Cohomology.Localization.enoughKInjectives`
    (`StacksFrontier/CategoryTheory/Sites/Cohomology/Localization/RestrictionOfModules.lean:150`).
 2. Naturality of `homComplexSingleIsoCoyonedaComplex` in the second variable, against
-   `homComplexPostcomp` (`StacksFrontier/CategoryTheory/Sites/Cohomology/Cech/RightDerivedSheafToPresheaf.lean:89`). That
+   `homComplexPostcomp`
+   (`StacksFrontier/CategoryTheory/Sites/Cohomology/Cech/RightDerivedSheafToPresheaf.lean:89`). That
    feeds `isIso_homologyMap_homComplexPostcomp`
    (`StacksFrontier/Homology/Injectives/Ext/SpectralSequenceIntoFunctoriality.lean:131`), which
    already turns bijectivity of postcomposition in the homotopy category into invertibility of
@@ -547,7 +553,7 @@ chain would be — see `**Why not the source's proof**` in the module docstring 
 **No tag: this clause is now covered in general.** The flatness here is a genuine restriction
 and the tag is carried by
 `Stacks.Cohomology.LerayUnbounded.derivedSectionsOverObjectPushforwardIsoGeneral`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/LerayForUnboundedSectionsGeneral.lean`), which is the same conclusion
+(`./LerayForUnboundedSectionsGeneral.lean`), which is the same conclusion
 for an arbitrary morphism of ringed sites. This flat form is kept because it is the one whose
 hypothesis is an instance — `PreservesFiniteLimits` on `f^*` — and so the one instance search
 finds without an argument. The source's other clause, the one about global sections into

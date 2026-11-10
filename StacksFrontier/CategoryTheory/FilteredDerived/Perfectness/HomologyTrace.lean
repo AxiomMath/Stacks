@@ -473,7 +473,7 @@ public theorem perfectDerivedTrace_eq_homologyTrace (K : PerfectDerivedCategory.
     refine (Category.assoc _ _ _).trans (hn'.symm.trans ?_)
     rw [← Functor.map_comp_assoc, Iso.inv_hom_id_assoc, Functor.map_comp_assoc]
     rfl
-  show Stacks.Trace.projectiveModuleTrace R (P.homology i)
+  change Stacks.Trace.projectiveModuleTrace R (P.homology i)
       (HomologicalComplex.homologyMap g i).hom = _
   rw [hmap]
   exact projectiveModuleTrace_conj R (E i).toLinearEquiv _

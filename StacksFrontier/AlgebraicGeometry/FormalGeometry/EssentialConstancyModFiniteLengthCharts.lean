@@ -168,7 +168,7 @@ public theorem isEssentiallyConstantModFiniteLength_of_transitionImage
     have hsm : (G.map (homOfLE hab)).hom (r • x) = r • (G.map (homOfLE hab)).hom x :=
       map_smul _ r x
     refine (Submodule.mem_bot A).mpr (Subtype.ext ?_)
-    show r • (y : G.obj (a + c)) = 0
+    change r • (y : G.obj (a + c)) = 0
     rw [← hx, ← hsm, hrx, map_zero]
   · -- compatibility with the transition maps
     intro m n h

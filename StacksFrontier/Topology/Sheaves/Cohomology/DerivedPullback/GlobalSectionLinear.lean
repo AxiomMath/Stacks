@@ -94,7 +94,7 @@ theorem modulePushforward_map_smul (a : Y.presheaf.obj (op ⊤))
   have h₂ := Stacks.SheafOfModules.smul_val_app (structureSheafRing Y) _ ⊤ isTerminalTop
     (RingHom.id _) a ((modulePushforward f).map ψ) U x
   refine h₁.trans (Eq.trans ?_ h₂.symm)
-  show _ = (f.hom.c.app U).hom (Y.presheaf.map (isTerminalTop.from U.unop).op a) •
+  change _ = (f.hom.c.app U).hom (Y.presheaf.map (isTerminalTop.from U.unop).op a) •
     ψ.val.app (op ((Opens.map f.hom.base).obj U.unop)) x
   congr 1
   have h := congrArg (fun φ : Y.presheaf.obj (op ⊤) ⟶ X.presheaf.obj
@@ -182,7 +182,7 @@ theorem derivedPullback_map_smul_id (a : Y.presheaf.obj (op ⊤))
     have hQ := map_smul_id DerivedCategory.Qh a M
     have hH := map_smul_id ((modulePullback f).mapHomotopyCategory (.up ℤ)) a M
     have hF : (pullbackOnHomotopy f).map (a • 𝟙 M) = a • 𝟙 ((pullbackOnHomotopy f).obj M) := by
-      show DerivedCategory.Qh.map (((modulePullback f).mapHomotopyCategory (.up ℤ)).map
+      change DerivedCategory.Qh.map (((modulePullback f).mapHomotopyCategory (.up ℤ)).map
         (a • 𝟙 M)) = _
       rw [hH]
       exact map_smul_id DerivedCategory.Qh a _

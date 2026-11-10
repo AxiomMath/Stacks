@@ -446,10 +446,10 @@ theorem nonempty_iso_unit_of_weilDivisorClassOfInvertibleSheaf_eq_zero [IsNormal
   refine ⟨⟨p, q, hom_ext_of_genericStalk X _ _ fun m => ?_,
     hom_ext_of_genericStalk X _ _ fun m => ?_⟩⟩
   · rw [stalkMapOfHom_comp_apply, hp, hq, stalkMapOfHom_id_apply]
-    show E (genericStructStalkEquiv X ((genericStructStalkEquiv X).symm (E.symm m))) = m
+    change E (genericStructStalkEquiv X ((genericStructStalkEquiv X).symm (E.symm m))) = m
     rw [LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
   · rw [stalkMapOfHom_comp_apply, hq, hp, stalkMapOfHom_id_apply]
-    show (genericStructStalkEquiv X).symm (E.symm (E (genericStructStalkEquiv X m))) = m
+    change (genericStructStalkEquiv X).symm (E.symm (E (genericStructStalkEquiv X m))) = m
     rw [LinearEquiv.symm_apply_apply, LinearEquiv.symm_apply_apply]
 
 /-! ### Injectivity of the first Chern class -/

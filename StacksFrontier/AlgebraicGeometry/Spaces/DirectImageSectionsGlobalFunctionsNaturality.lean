@@ -219,7 +219,7 @@ theorem directImageSectionsToGlobalFunctions_pushforwardAlgebraMap {p₁ : A₁ 
     have h2 : m.hom ≫ (chartBaseChangeInclusion B S hS p₂ V).hom =
         (chartBaseChangeInclusion B S hS p₁ V).hom ≫ a.hom :=
       congrArg (fun k => k.hom) (chartBaseChangeSpaceMap_inclusion B S hS a ha V)
-    show (a₁ ≫ (pullback.snd m i₂).hom) ≫ i₂.hom ≫
+    change (a₁ ≫ (pullback.snd m i₂).hom) ≫ i₂.hom ≫
         (chartBaseChangeInclusion B S hS p₂ V).hom = _
     simp only [Category.assoc]
     rw [reassoc_of% h1, h2]

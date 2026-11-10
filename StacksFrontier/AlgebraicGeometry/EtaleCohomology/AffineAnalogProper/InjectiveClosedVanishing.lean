@@ -9,8 +9,7 @@ public import
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.AffineAnalogProper.Gabber.Theorem
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.CohomologyVanishingTransport
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ClosedFibreProjectiveLineInjective
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ClosedFibreProjectiveLineInjective
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionInverseImage
 public import StacksFrontier.RingTheory.Henselian.Pair.Henselization
 import StacksCore.Tactic.StacksAttribute

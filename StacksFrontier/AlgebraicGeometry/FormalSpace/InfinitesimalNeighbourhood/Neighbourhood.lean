@@ -47,7 +47,7 @@ theorem mem_topology_of_affine {T : BigFppfOver B S hS} {R P : Sieve T}
   obtain ⟨ι, U, kk, haff, -, hmem⟩ := exists_affineOpenCover_mem V
   refine (BigFppfOver.topology B S hS).superset_covering ?_ hmem
   rintro V' _ ⟨V'', l, _, ⟨j⟩, rfl⟩
-  show P ((l ≫ kk j) ≫ g)
+  change P ((l ≫ kk j) ≫ g)
   rw [Category.assoc]
   exact P.downward_closed (h (kk j ≫ g) (haff j) (R.downward_closed hg (kk j))) l
 

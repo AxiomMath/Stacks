@@ -61,17 +61,17 @@ theorem exists_map_yonedaEquiv_symm_eq {F : Sheaf J (Type w)} {K : Type w} (V : 
     obtain ⟨k, φ, hφ⟩ := hTz i hi
     set φ' : (sectionsFunctor J (op W')).obj (J.yoneda.obj (V k)) := φ
     refine ⟨(sectionsFunctor J (op W')).map (Sigma.ι (fun k => J.yoneda.obj (V k)) k) φ', ?_⟩
-    show (sectionsFunctor J (op W')).map ψ
+    change (sectionsFunctor J (op W')).map ψ
       ((sectionsFunctor J (op W')).map (Sigma.ι _ k) φ') = _
-    rw [← Functor.map_comp_apply, Sigma.ι_desc]
+    rw [← Functor.map_comp_apply, Sigma.ι_comp_desc]
     exact hφ
   obtain ⟨τ, rfl⟩ := surjective_map_of_isLocallySurjective q ψ σ
   obtain ⟨⟨k⟩, σk, hσk⟩ := Types.jointly_surjective_of_isColimit
     (isColimitOfPreserves q (colimit.isColimit (Discrete.functor fun k => J.yoneda.obj (V k)))) τ
   refine ⟨k, σk, ?_⟩
   rw [← hσk]
-  show q.map (J.yonedaEquiv.symm (b k)) σk = q.map ψ (q.map (Sigma.ι _ k) σk)
-  rw [← q.map_comp_apply, Sigma.ι_desc]
+  change q.map (J.yonedaEquiv.symm (b k)) σk = q.map ψ (q.map (Sigma.ι _ k) σk)
+  rw [← q.map_comp_apply, Sigma.ι_comp_desc]
 
 /-- **Points of a left adjoint lift along a covering.** For a covering family `πₖ : Vₖ ⟶ W`,
 every element of `q(h_W)` is the image of an element of some `q(h_{Vₖ})`. -/

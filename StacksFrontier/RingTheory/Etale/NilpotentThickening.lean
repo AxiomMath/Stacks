@@ -147,8 +147,7 @@ theorem isBaseChange_ker_of_isBaseChange
   have hJN : ∀ (j : RingHom.ker (algebraMap B' B)) (n : N), (j : B') ⊗ₜ[A'] n = 0 := by
     intro j n
     obtain ⟨x, rfl⟩ := hLsurj j
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b i =>
       rw [hL, Submodule.coe_smul, hf, smul_eq_mul, mul_comm, ← Algebra.smul_def, smul_tmul,
         hIN, tmul_zero]
@@ -165,14 +164,12 @@ theorem isBaseChange_ker_of_isBaseChange
     intro x hx
     obtain ⟨y, rfl⟩ := (hex x).1 hx
     clear hx
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul j n => simpa using hJN ⟨j, j.2⟩ n
     | add y z hy hz => rw [map_add, hy, hz, add_zero]
   have hcommute : ∀ x, hres.equiv (κ₃ (κ₂ (κ₁ x))) = Φ (L x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b i =>
       rw [show κ₃ (κ₂ (κ₁ (b ⊗ₜ i))) = algebraMap B' B b ⊗ₜ[A] ρ.symm i from rfl,
         IsBaseChange.equiv_tmul, hL, hΦ, ← hcomp, LinearEquiv.apply_symm_apply]
@@ -232,7 +229,7 @@ theorem isBaseChange_ker_of_isBaseChange_of_glue
       rw [hAB', ha, map_zero]
       exact (Φ.symm (res n)).2
     refine ⟨⟨a, hak⟩, hresinj ?_⟩
-    show res (g _) = res n
+    change res (g _) = res n
     rw [hg, show f ⟨a, hak⟩ = Φ.symm (res n) from Subtype.ext ((hf _).trans ha),
       Φ.apply_symm_apply]
   let e := LinearEquiv.ofBijective gl ⟨hglinj, hglsurj⟩
@@ -273,8 +270,7 @@ theorem bijective_lift_of_isNilpotent [Algebra.FormallyEtale R B'] [Algebra.Form
   let π : B' ⊗[R] B' →ₐ[R] B ⊗[R] B := Algebra.TensorProduct.map p p
   have hψφ : ∀ x, ψ (φ x) = κ (π x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b b' =>
       have : φ (b ⊗ₜ b') = algebraMap B' C' b * t b' :=
         Algebra.TensorProduct.lift_tmul _ _ _ b b'
@@ -296,7 +292,7 @@ theorem bijective_lift_of_isNilpotent [Algebra.FormallyEtale R B'] [Algebra.Form
     rw [hC]
     refine hψ ?_
     rw [RingHom.mem_ker, map_sub]
-    show ψ y - ψ (φ x) = 0
+    change ψ y - ψ (φ x) = 0
     rw [hψφ, hx, LinearEquiv.apply_symm_apply, sub_self]
   · intro x hx
     rw [hT]
@@ -308,7 +304,7 @@ theorem bijective_lift_of_isNilpotent [Algebra.FormallyEtale R B'] [Algebra.Form
       intro g
       rw [show RingHom.ker p = RingHom.ker (p : B' →+* B) from rfl, hker,
         Ideal.map_le_iff_le_comap]
-      show I.map (algebraMap R B') ≤ _
+      change I.map (algebraMap R B') ≤ _
       rw [Ideal.map_le_iff_le_comap]
       intro r hr
       rw [Ideal.mem_comap, Ideal.mem_comap, AlgHom.commutes]
@@ -404,14 +400,14 @@ theorem etale_and_bijective_lift_of_isBaseChange [Algebra.Etale A B]
     let ψr : C' →+* B ⊗[A] B := iso.inv.hom.comp jR
     have hψ₁ : ∀ b, ψr (algebraMap B' C' b) = algebraMap B' B b ⊗ₜ 1 := by
       intro b
-      show iso.inv.hom (jR _) = _
+      change iso.inv.hom (jR _) = _
       rw [h₁]
       exact congrArg (fun φ : CommRingCat.of B ⟶ CommRingCat.of (B ⊗[A] B) ↦ φ.hom
         (algebraMap B' B b))
         (IsPushout.inl_isoIsPushout_inv _ _ (CommRingCat.isPushout_tensorProduct A B B) hpo)
     have hψ₂ : ∀ b, ψr (σ b) = 1 ⊗ₜ algebraMap B' B b := by
       intro b
-      show iso.inv.hom (jR _) = _
+      change iso.inv.hom (jR _) = _
       rw [h₂]
       exact congrArg (fun φ : CommRingCat.of B ⟶ CommRingCat.of (B ⊗[A] B) ↦ φ.hom
         (algebraMap B' B b))
@@ -419,7 +415,7 @@ theorem etale_and_bijective_lift_of_isBaseChange [Algebra.Etale A B]
     let ψ : C' →ₐ[A'] B ⊗[A] B :=
       { ψr with
         commutes' := fun a ↦ by
-          show ψr (algebraMap A' C' a) = _
+          change ψr (algebraMap A' C' a) = _
           rw [IsScalarTower.algebraMap_apply A' B' C', hψ₁, ← IsScalarTower.algebraMap_apply,
             Algebra.TensorProduct.algebraMap_apply] }
     have hψker : RingHom.ker (ψ : C' →+* B ⊗[A] B) ≤ I.map (algebraMap A' C') := by

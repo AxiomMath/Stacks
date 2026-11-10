@@ -93,7 +93,7 @@ theorem artinianAdicQuotient_composite
   | base => simp [adicTransitionComposite_id]
   | succ m h ih =>
     rw [adicTransitionComposite_succ _ h, ← Category.assoc]
-    show (artinianAdicQuotient A (m + 1) ≫
+    change (artinianAdicQuotient A (m + 1) ≫
       AdicTruncation.transition _ m) ≫ _ = _
     rw [artinianAdicQuotient_transition]
     exact ih
@@ -161,7 +161,7 @@ theorem evaluationLeg_eq_of_le
   have hj : j ≤ m := max_le (minimalEvaluationIndex_le p X m hm) hn
   have hj0 := maximalIdeal_pow_succ_eq_bot_of_le X.fst
     (le_max_left (minimalEvaluationIndex p X) n) (minimalEvaluationIndex_spec p X)
-  show (evaluationIsoAtLevel p hp X j hj0).hom ≫
+  change (evaluationIsoAtLevel p hp X j hj0).hom ≫
     formalLevelTransition X.snd j n (le_max_right _ _) = _
   rw [← evaluationIsoAtLevel_coherence p hp X hj hm hj0,
     Category.assoc, formalLevelTransition_comp]
@@ -319,7 +319,7 @@ theorem evaluationFunctor_faithful
     rw [← hf, ← hg, h]
   have hb : f.snd.base = g.snd.base := by
     apply (cancel_epi X.iso.hom).mp
-    show X.iso.hom ≫ FormalObject.projection.map f.snd =
+    change X.iso.hom ≫ FormalObject.projection.map f.snd =
       X.iso.hom ≫ FormalObject.projection.map g.snd
     rw [← f.w, ← g.w, ha]
   apply CategoricalPullback.hom_ext ha

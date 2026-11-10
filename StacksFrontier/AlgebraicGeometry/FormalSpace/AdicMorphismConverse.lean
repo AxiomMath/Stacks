@@ -180,7 +180,7 @@ theorem exists_cover_pullback_of_isAdicOnEveryAffineEtaleDiagram {X Y U V : Fppf
   have hrep : Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS
       (formalSpectrumMap hRw γ).hom :=
     isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isTaut B S hS hRw (hCw k) D' (Q k)
-      (hQ k) γ (RingHom.isTaut_of_isAdic γ.toRingHom γ.continuous hadic)
+      (hQ k) γ (RingHom.isTaut_of_isAdic γ.toRingHom hadic)
   rw [hsq]
   have htrep : IsAdicMorphism B S hS t := by
     rw [htγ, Iso.refl_hom, Category.id_comp]

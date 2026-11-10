@@ -54,9 +54,10 @@ variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The level comparison is natural in the morphisms of ℓ-adic sheaves.** -/
-theorem LAdicSheaf.geometricCohomologyLevelIso_map (F : LAdicSheaf B X ℓ) (ψ : F ⟶ F) (i : ℤ)
-    (n : ℕ) :
+theorem LAdicSheaf.geometricCohomologyLevelIso_map [Finite k] (F : LAdicSheaf B X ℓ)
+    (ψ : F ⟶ F) (i : ℤ) (n : ℕ) :
     (LAdicSheaf.geometricCompactlySupportedCohomologySystemMap f j kbar ψ i).app (op n) ≫
         (LAdicSheaf.geometricCohomologyLevelIso B X ℓ f j kbar F i n).hom =
       (LAdicSheaf.geometricCohomologyLevelIso B X ℓ f j kbar F i n).hom ≫
@@ -87,6 +88,7 @@ def integralCoinvariantsModuleMatrixEnd :
   ModuleCat.ofHom (ULift.moduleEquiv.symm.toLinearMap ∘ₗ coinvariantsMatrixMap H ρ A hA ∘ₗ
     ULift.moduleEquiv.toLinearMap)
 
+omit [H.Normal] in
 /-- The quotient isomorphism carries the endomorphism of an intertwiner to that of its
 reduction. -/
 theorem integralCoinvariantsQuotientEquiv_matrixEnd (n : ℕ)
@@ -140,6 +142,7 @@ abbrev integralCoinvariantsEndFamily :
   fun o => o.elim (integralCoinvariantsModuleEnd H (integralModel τ hτ) φ ((p ^ q : ℕ) : ℤ_[ℓ]))
     fun a => integralCoinvariantsModuleMatrixEnd ℓ H (integralModel τ hτ) (A a) (hA a)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **Level isomorphisms compatible with the Frobenius and natural in the intertwiners give an
 element of `levelIsoSetFamily` at level `n`.** -/
 theorem LAdicSheaf.nonempty_levelIsoSetFamily_representationSheaf (n : ℕ)
@@ -191,6 +194,7 @@ theorem LAdicSheaf.nonempty_levelIsoSetFamily_representationSheaf (n : ℕ)
       (LAdicSheaf.geometricCohomologyLevelIso_frobenius B X ℓ f j kbar p q hcard F 2 n)
     exact (congrArg e hI).trans (he (I.hom.hom t))
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include hτ in
 /-- **`H²_c(X_k̄, ℱ_τ ⊗ ℚ_ℓ) ≅ (ℚ_ℓ^r)_H`, carrying `π_X^*` to `q · τ(φ)` and the endomorphism of
 an intertwiner `A_a` of the integral model to that of `P A_a P⁻¹`, from the finite levels.** -/

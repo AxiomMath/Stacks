@@ -54,7 +54,7 @@ theorem isSmoothAt_quotient_span_of_reduction {R P : Type*} [CommRing R] [CommRi
   let JP := J.map (algebraMap R P)
   let JL' := JP.map (algebraMap P L)
   have hJL : J.map (algebraMap R L) = JL' := by
-    show _ = Ideal.map (algebraMap P L) (Ideal.map (algebraMap R P) J)
+    change _ = Ideal.map (algebraMap P L) (Ideal.map (algebraMap R P) J)
     rw [Ideal.map_map, ← IsScalarTower.algebraMap_eq]
   have hJLm : JL' ≤ maximalIdeal L := by
     rw [← hJL, Ideal.map_le_iff_le_comap]
@@ -91,13 +91,13 @@ theorem isSmoothAt_quotient_span_of_reduction {R P : Type*} [CommRing R] [CommRi
     have h1 := hq₀ ha
     rw [Ideal.mem_comap] at h1 ⊢
     obtain ⟨p, hp, hpa⟩ := (Ideal.mem_map_iff_of_surjective _ Ideal.Quotient.mk_surjective).1 h1
-    show ψ (φ a) ∈ _
+    change ψ (φ a) ∈ _
     rw [← hpa, hψmk]
     exact hmaxL p hp
   have hmin := FormallySmooth.minimal_of_flat f₀ q₀ hq₀' hrel
   have hfL0 : algebraMap Q (L ⧸ JL') ∘ f₀ = Ideal.Quotient.mk JL' ∘ fL := by
     funext i
-    show ψ (φ (f₀ i)) = _
+    change ψ (φ (f₀ i)) = _
     rw [hf₀, hψmk]
     rfl
   rw [hfL0] at hmin
@@ -115,7 +115,7 @@ theorem isSmoothAt_quotient_span_of_reduction {R P : Type*} [CommRing R] [CommRi
   have : IsScalarTower R (R ⧸ J) (L ⧸ JL') := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower (R ⧸ J) (P ⧸ JP) (L ⧸ JL') := IsScalarTower.of_algebraMap_eq fun x => by
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show Ideal.Quotient.mk JL' (algebraMap R L x) =
+    change Ideal.Quotient.mk JL' (algebraMap R L x) =
       Ideal.Quotient.mk JL' (algebraMap P L (algebraMap R P x))
     rw [← IsScalarTower.algebraMap_apply]
   have : FormallySmooth (R ⧸ J) (P ⧸ JP) :=
@@ -136,7 +136,7 @@ theorem isSmoothAt_quotient_span_of_reduction {R P : Type*} [CommRing R] [CommRi
       ((L ⧸ JL') ⧸ I₀.map (algebraMap (P ⧸ JP) (L ⧸ JL'))) :=
     IsScalarTower.of_algebraMap_eq fun x => by
       obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
-      show Ideal.Quotient.mk _ (Ideal.Quotient.mk JL' (algebraMap R L x)) =
+      change Ideal.Quotient.mk _ (Ideal.Quotient.mk JL' (algebraMap R L x)) =
         Ideal.Quotient.mk _ (Ideal.Quotient.mk JL' (algebraMap P L (algebraMap R P x)))
       rw [← IsScalarTower.algebraMap_apply]
   have : FormallySmooth (R ⧸ J)
@@ -168,14 +168,14 @@ theorem isSmoothAt_quotient_span_of_reduction {R P : Type*} [CommRing R] [CommRi
     refine ⟨?_, fun hp => ⟨p, hp, rfl⟩⟩
     rintro ⟨p', hp', hpp'⟩
     change Ideal.Quotient.mk I p' = _ at hpp'
-    show Ideal.Quotient.mk I p ∉ 𝔷
+    change Ideal.Quotient.mk I p ∉ 𝔷
     rw [← hpp']
     exact hp'
   have : IsLocalization 𝔷.primeCompl (L ⧸ I.map (algebraMap P L)) := by
     rw [← hsub]; infer_instance
   have : IsScalarTower R S (L ⧸ I.map (algebraMap P L)) :=
     IsScalarTower.of_algebraMap_eq fun x => by
-      show Ideal.Quotient.mk _ (algebraMap R L x) =
+      change Ideal.Quotient.mk _ (algebraMap R L x) =
         Ideal.Quotient.mk _ (algebraMap P L (algebraMap R P x))
       rw [← IsScalarTower.algebraMap_apply]
   let e := (IsLocalization.algEquiv 𝔷.primeCompl (Localization.AtPrime 𝔷)

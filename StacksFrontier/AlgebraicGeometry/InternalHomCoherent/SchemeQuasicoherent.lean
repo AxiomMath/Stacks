@@ -96,10 +96,10 @@ module is coherent. -/
 public theorem isCoherent_internalHomSheaf [IsLocallyNoetherian X] (F G : X.Modules)
     [_root_.SheafOfModules.IsCoherent F] [_root_.SheafOfModules.IsCoherent G] :
     _root_.SheafOfModules.IsCoherent (internalHomSheaf F G) := by
-  letI : _root_.SheafOfModules.IsFinitePresentation
+  let : _root_.SheafOfModules.IsFinitePresentation
       (R := (Stacks.SheafOfModules.Tensor.ringSheaf (spaceRingedSite X.sheaf).O)) F :=
     _root_.isFinitePresentation_of_isCoherent F
-  letI : _root_.SheafOfModules.IsCoherent
+  let : _root_.SheafOfModules.IsCoherent
       (R := (Stacks.SheafOfModules.Tensor.ringSheaf (spaceRingedSite X.sheaf).O)) G :=
     ‹_root_.SheafOfModules.IsCoherent G›
   exact isCoherent_sheafInternalHom' X.sheaf F G

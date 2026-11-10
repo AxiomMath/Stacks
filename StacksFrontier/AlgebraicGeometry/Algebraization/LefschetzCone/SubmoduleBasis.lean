@@ -38,7 +38,7 @@ every member `B i` of a basis of the topology of `X`, then `P ≤ Q`. -/
 public theorem submodule_le_of_isBasis {ι : Type*} {B : ι → X.Opens}
     (hB : Opens.IsBasis (Set.range B)) {P Q : M.Submodule}
     (h : ∀ i, P.obj (op (B i)) ≤ Q.obj (op (B i))) : P ≤ Q := by
-  show P.toSubmodule ≤ Q.toSubmodule
+  change P.toSubmodule ≤ Q.toSubmodule
   rw [PresheafOfModules.Submodule.le_iff]
   intro U s hs
   apply Q.isSheaf

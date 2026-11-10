@@ -175,11 +175,11 @@ theorem exists_section_of_span (hp𝒮 : p𝒮.IsFiberedInGroupoids) (hF : F ⋙
       w := hw }
   have hlnm : (fst p𝒳 p𝒴 p𝒮 F G).IsHomLift k nm :=
     IsHomLift.of_fac' _ _ _ rfl rfl (by
-      show k = eqToHom rfl ≫ k ≫ eqToHom rfl
+      change k = eqToHom rfl ≫ k ≫ eqToHom rfl
       simp)
   have hlmm : (fst p𝒳 p𝒴 p𝒮 F G).IsHomLift j mm :=
     IsHomLift.of_fac' _ _ _ rfl rfl (by
-      show j = eqToHom rfl ≫ j ≫ eqToHom rfl
+      change j = eqToHom rfl ≫ j ≫ eqToHom rfl
       simp)
   refine ⟨PresheafOfCategories.sectionOfObj e QV rfl, ?_⟩
   exact (PresheafOfCategories.sectionOfObj_map e (z := QV) (z' := QW) rfl rfl j mm hlmm).symm.trans

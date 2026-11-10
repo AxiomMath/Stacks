@@ -92,7 +92,7 @@ private theorem eq_bot_or_exists_natCast {D : WithBot ℕ∞} (hD : D ≠ ⊤) :
 
 private theorem excess_natCast (n c m : ℕ) : excess n c (m : WithBot ℕ∞) = m + n - c := by
   unfold excess
-  rw [if_neg (by exact_mod_cast WithBot.coe_ne_bot)]
+  rw [ite_eq_right (by exact_mod_cast WithBot.coe_ne_bot)]
   rfl
 
 private theorem excess_bot (n c : ℕ) : excess n c ⊥ = 0 := by
@@ -216,7 +216,7 @@ public theorem isMovableOff_pointCycle_of_isOpenImmersion (k V : Type u) [Field 
     rw [h, top_le_iff] at this
     exact absurd this (by
       intro h1; rw [← WithBot.coe_top] at h1
-      exact (ENat.coe_ne_top (dimN x)) (by exact_mod_cast h1))
+      exact (ENat.natCast_ne_top (dimN x)) (by exact_mod_cast h1))
   have hDpre : ∀ x y, D x y = topologicalKrullDim ↥(j₀.base ⁻¹' closure ({j₀.base x} : Set X) ∩
       j₀.base ⁻¹' closure ({j₀.base y} : Set X)) := fun x y ↦ by rw [hclpre, hclpre]
   set μ : Y → ℕ := fun x ↦ ∑ y ∈ hSfin.toFinset, excess n (r + dimN y) (D x y) with hμdef
@@ -237,7 +237,7 @@ public theorem isMovableOff_pointCycle_of_isOpenImmersion (k V : Type u) [Field 
     intro x y hx h
     rw [excess_eq_zero_iff (hDtop x y)] at h
     rw [AlgebraicGeometry.intersectProperly_iff]
-    show D x y + topologicalKrullDim Y ≤
+    change D x y + topologicalKrullDim Y ≤
       topologicalKrullDim ↥(closure ({x} : Set Y)) + topologicalKrullDim ↥(closure ({y} : Set Y))
     rw [hdimY, hdimN x, hdimN y, hx]
     exact_mod_cast h
@@ -263,7 +263,7 @@ public theorem isMovableOff_pointCycle_of_isOpenImmersion (k V : Type u) [Field 
     refine AlgebraicCycle.intersectProperly_of_forall_closure fun x y hx hy ↦ ?_
     have hxz : x = z := by
       by_contra hne
-      exact hx (by rw [pointCycle_apply, if_neg hne])
+      exact hx (by rw [pointCycle_apply, ite_eq_right hne])
     subst hxz
     exact hIP x y hzr ((Finset.sum_eq_zero_iff.mp hμ0) y (hSfin.mem_toFinset.mpr (hyS i y hy)))
   -- positive excess: then `r < n`
@@ -299,7 +299,7 @@ public theorem isMovableOff_pointCycle_of_isOpenImmersion (k V : Type u) [Field 
   have : LocallyOfFiniteType πY := locallyOfFiniteType_of_isVariety_comp k sY sP πY hπYs
   have : IsDominant π := by
     have : Surjective π := surjective_of_isFinite_of_topologicalKrullDim_le π
-      (by rw [hdimP]; exact (WithBot.coe_lt_coe.mpr (ENat.coe_lt_top n)).ne)
+      (by rw [hdimP]; exact (WithBot.coe_lt_coe.mpr (ENat.natCast_lt_top n)).ne)
       (by rw [hdimP, hdimX])
     infer_instance
   have : IsDominant j₀ := by
@@ -342,7 +342,7 @@ public theorem isMovableOff_pointCycle_of_isOpenImmersion (k V : Type u) [Field 
   -- `π^*[π(Z)]` is movable: `π^*γ` meets every `β i` properly
   have hPmov : IsMovableOff (fieldChowSituation k) sY (r : ℤ) β P := by
     refine ⟨pull γ, ?_, fun i ↦ ?_⟩
-    · show pull γ - P ∈ rationalEquivalences (fieldChowSituation k) sY (r : ℤ)
+    · change pull γ - P ∈ rationalEquivalences (fieldChowSituation k) sY (r : ℤ)
       rw [hPdef, hpull_sub]
       exact cycleGroupCongrDegree_mem_rationalEquivalences _ _ h00
         (flatPullbackFactorsThroughRationalEquivalence_general (fieldChowSituation k) sY sP πY
@@ -373,7 +373,7 @@ public theorem isMovableOff_pointCycle_of_isOpenImmersion (k V : Type u) [Field 
       have hle₁ : D x y ≤
           topologicalKrullDim ↥(closure ({πY.base x} : Set (projectiveSpaceOfModule k ↥W)) ∩
             π.base '' closure ({j₀.base y} : Set X)) := by
-        show topologicalKrullDim ↥(closure ({x} : Set Y) ∩ closure ({y} : Set Y)) ≤ _
+        change topologicalKrullDim ↥(closure ({x} : Set Y) ∩ closure ({y} : Set Y)) ≤ _
         rw [← topologicalKrullDim_image_eq_of_isEmbedding j₀.isOpenEmbedding.isEmbedding]
         exact (topologicalKrullDim_le_of_subset hsub).trans
           (topologicalKrullDim_preimage_le_of_isIntegralHom π hcl₁)
@@ -400,12 +400,12 @@ public theorem isMovableOff_pointCycle_of_isOpenImmersion (k V : Type u) [Field 
       rwa [← pointCycle_apply (fieldChowSituation k) sY (r : ℤ) z hz x]
     have hxz : x ≠ z := by
       rintro rfl
-      exact hRx' (by rw [hP1, if_pos rfl, sub_self])
+      exact hRx' (by rw [hP1, ite_eq_left rfl, sub_self])
     have hPx : P.1 x ≠ 0 := by simpa [hxz] using hRx'
     have hπx : πY.base x = πY.base z := by
       rw [hPdef, hpull_apply, pointCycle_apply] at hPx
       by_contra hne
-      exact hPx (by rw [if_neg hne, zero_mul])
+      exact hPx (by rw [ite_eq_right hne, zero_mul])
     have hxN : dimN x = r := hrel x hx
     have hW'sub : closure ({j₀.base x} : Set X) ⊆
         π.base ⁻¹' (π.base '' closure ({j₀.base z} : Set X)) := by

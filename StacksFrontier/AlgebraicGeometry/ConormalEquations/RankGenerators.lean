@@ -233,7 +233,7 @@ theorem cotangentStalk_smul_eq
     (r : ToType (i.coborderRange.toScheme.presheaf.stalk (i.liftCoborder.base z)))
     (m : (RingHom.ker (i.liftCoborder.stalkMap z).hom).Cotangent) :
     (i.liftCoborder.stalkMap z).hom r • m = r • m := by
-  show (RingHom.quotientKerEquivOfSurjective
+  change (RingHom.quotientKerEquivOfSurjective
     (i.liftCoborder.stalkMap_surjective z)).symm
       ((i.liftCoborder.stalkMap z).hom r) • m = r • m
   rw [RingHom.quotientKerEquivOfSurjective_symm_apply, ← Ideal.Quotient.algebraMap_eq,

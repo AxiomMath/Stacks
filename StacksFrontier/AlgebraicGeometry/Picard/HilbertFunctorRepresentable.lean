@@ -303,8 +303,8 @@ def hilbertFamilyBaseEquiv (T : Over V.toScheme) :
       HilbertFamily (openAmbient X U) ((Over.map V.ι).obj T) d where
   toFun := HilbertFamily.ofBase hUV
   invFun := HilbertFamily.toBase hUV
-  left_inv W := HilbertFamily.ext (comap_inv_comap_hom _ _)
-  right_inv Z := HilbertFamily.ext (comap_hom_comap_inv _ _)
+  left_inv W := HilbertFamily.ext (comap_inv_comap_hom _ W.ideal)
+  right_inv Z := HilbertFamily.ext (comap_hom_comap_inv _ Z.ideal)
 
 /-- The comparison isomorphism `U ×_V T ≅ U ×_S T` is compatible with base change of `T`. -/
 theorem ambientBaseIso_hom_comp_familyBaseChangeMap {T' T : Over V.toScheme} (g : T' ⟶ T) :
@@ -325,7 +325,7 @@ theorem hilbertFamilyBaseEquiv_naturality {T' T : Over V.toScheme} (g : T' ⟶ T
     hilbertFamilyBaseEquiv hUV T' (baseChange (openOverBase X V U hUV) g W) =
       baseChange (openAmbient X U) ((Over.map V.ι).map g) (hilbertFamilyBaseEquiv hUV T W) := by
   refine HilbertFamily.ext ?_
-  show (W.ideal.comap (familyBaseChangeMap (openOverBase X V U hUV) g)).comap
+  change (W.ideal.comap (familyBaseChangeMap (openOverBase X V U hUV) g)).comap
       (ambientBaseIso X V U hUV T').inv =
     (W.ideal.comap (ambientBaseIso X V U hUV T).inv).comap
       (familyBaseChangeMap (openAmbient X U) ((Over.map V.ι).map g))
@@ -613,7 +613,7 @@ theorem exists_baseChart_app_iff {T : Scheme.{u}}
     refine Eq.trans ?_ (totalPresheafMap_mk (hilbertFunctorOfRank X d) e.op hfst Z).symm
     refine congrArg (fun z => (⟨b ≫ i.V.ι, z⟩ :
       Σ c : T' ⟶ S, (hilbertFunctorOfRank X d).obj (op (Over.mk c)))) ?_
-    show chartFamily hX d i _ = baseChange X m Z
+    change chartFamily hX d i _ = baseChange X m Z
     rw [chartFamily, Equiv.apply_symm_apply,
       show HilbertFamily.ofBase i.hUV (HilbertFamily.toBase i.hUV W) = W from
         (hilbertFamilyBaseEquiv i.hUV (Over.mk b)).apply_symm_apply W,
@@ -666,7 +666,7 @@ theorem exists_isAffineOpen_le_mem_supportOpens {X : Over S} (d : ℕ)
   have hEV : (Z.toAmbient '' (Z.structural ⁻¹' {t}) : Set X.left) ⊆
       ((X.hom ⁻¹ᵁ V : X.left.Opens) : Set X.left) := by
     rintro _ ⟨z, hz, rfl⟩
-    show X.hom (Z.toAmbient z) ∈ V
+    change X.hom (Z.toAmbient z) ∈ V
     rw [Z.hom_toAmbient z, show Z.structural z = t from hz]
     exact hV
   obtain ⟨r, hrE, hrV⟩ := hU₀.exists_basicOpen_subset_of_finite hEfin hEU₀ (X.hom ⁻¹ᵁ V) hEV
@@ -681,7 +681,7 @@ variable {X : Over S}
 
 /-- **Every point of a test object lies in the open of some chart**, which is the covering
 condition (2)(c) of the criterion of Stacks 01JJ for the family of charts. -/
-theorem exists_mem_chartOpens (hX : FamiliesClosedInAmbient X) (d : ℕ)
+theorem exists_mem_chartOpens (d : ℕ)
     (hXd : ∀ (s : S) (x : Fin d → X.left), (∀ i, X.hom.base (x i) = s) →
       ∃ U : X.left.Opens, IsAffineOpen U ∧ ∀ i, x i ∈ U)
     {T : Scheme.{u}}
@@ -718,7 +718,7 @@ theorem locallySurjective_baseChart (hX : FamiliesClosedInAmbient X) (d : ℕ)
     (fun i => (chartOpens d i x).ι)
     (by
       intro t
-      obtain ⟨i, hi⟩ := exists_mem_chartOpens hX d hXd x t
+      obtain ⟨i, hi⟩ := exists_mem_chartOpens d hXd x t
       exact ⟨i, ⟨t, hi⟩, rfl⟩)
   refine Scheme.zariskiTopology.superset_covering ?_ 𝒰.mem_grothendieckTopology
   rw [Sieve.ofArrows, Sieve.generate_le_iff]
@@ -730,7 +730,7 @@ theorem locallySurjective_baseChart (hX : FamiliesClosedInAmbient X) (d : ℕ)
     (fun m : yoneda.obj ((BaseChartIndex.scheme i d).left) ⟶
         totalPresheaf (hilbertFunctorOfRank X d) =>
       m.app (op (chartOpens d i x).toScheme) k)
-    (Sigma.ι_desc (baseChart hX d) i)
+    (Sigma.ι_comp_desc (baseChart hX d) i)
   exact hc.trans hk
 
 end Cover
@@ -768,7 +768,7 @@ theorem nonempty_representsHilbertFunctorOfRank_of_familiesClosedInAmbient {X : 
     (hXd : ∀ (s : S) (x : Fin d → X.left), (∀ i, X.hom.base (x i) = s) →
       ∃ U : X.left.Opens, IsAffineOpen U ∧ ∀ i, x i ∈ U) :
     Nonempty (Σ H : Over S, RepresentsHilbertFunctorOfRank X H d) := by
-  letI : Presheaf.IsLocallySurjective Scheme.zariskiTopology.{u}
+  let : Presheaf.IsLocallySurjective Scheme.zariskiTopology.{u}
       (Sigma.desc (baseChart hX d)) := locallySurjective_baseChart hX d hXd
   have hrep : (totalPresheaf (hilbertFunctorOfRank X d)).IsRepresentable :=
     Scheme.LocalRepresentability.isRepresentable

@@ -135,7 +135,7 @@ public theorem toSubmodulesEquiv_fromZeroRingHom_comp (r : R) :
       algebraMap R (Away (toSubmodules 𝒜 h0) a) r := by
   refine val_injective _ ?_
   rw [val_toSubmodulesEquiv, val_algebraMap]
-  show Localization.mk (algebraMap R A r) 1 = _
+  change Localization.mk (algebraMap R A r) 1 = _
   rw [Localization.mk_one_eq_algebraMap, ← IsScalarTower.algebraMap_apply R A _]
 
 include h0 in

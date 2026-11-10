@@ -449,7 +449,7 @@ public theorem exists_compatible_representation {K : Type u} [Field K] {Γ : Typ
     { toFun := fun g => ⟨(ρ₂ g : Matrix (Fin 2) (Fin 2) L₂.carrier), hdetall g⟩
       map_one' := Subtype.ext (by simp)
       map_mul' := fun a b => Subtype.ext (by
-        show (ρ₂ (a * b) : Matrix (Fin 2) (Fin 2) L₂.carrier) =
+        change (ρ₂ (a * b) : Matrix (Fin 2) (Fin 2) L₂.carrier) =
           (ρ₂ a : Matrix (Fin 2) (Fin 2) L₂.carrier) *
             (ρ₂ b : Matrix (Fin 2) (Fin 2) L₂.carrier)
         rw [map_mul]

@@ -183,7 +183,7 @@ lemma fieldHomOfRationalMap_surjective {k : Type u} [Field k]
   refine ⟨@Variety.Hom.mk k ‹Field k› X Y q.1 hdom hqover, ?_⟩
   have hi : G q i = genericPointLocalMapOfFieldHom X Y φ := by
     simpa [d] using congrFun hq i
-  show fieldHomOfGenericPointLocalMap X Y (G q i) _ = φ
+  change fieldHomOfGenericPointLocalMap X Y (G q i) _ = φ
   simpa only [hi] using fieldHomOfGenericPointLocalMapOfFieldHom X Y φ
 
 /-- The `k`-algebra map extracted from a generic-point datum at the generic point of the target is,
@@ -245,7 +245,7 @@ lemma fieldHomOfRationalMap_specMap {k : Type u} [Field k]
       have : IsIso (g.domain.ι.stalkMap z) := by
         rw [← Scheme.Opens.stalkIso_inv]
         exact (g.domain.stalkIso z).isIso_inv
-      show Spec.map (g.domain.stalkIso z).hom ≫
+      change Spec.map (g.domain.stalkIso z).hom ≫
         (g.domain.toScheme.fromSpecStalk z ≫ g.hom) =
           (Spec.map (inv (g.domain.ι.stalkMap z)) ≫
             g.domain.toScheme.fromSpecStalk z) ≫ g.hom
@@ -256,14 +256,14 @@ lemma fieldHomOfRationalMap_comp {k : Type u} [Field k]
     (X Y Z : Variety k) (f : X ⟶ Y) (g : Y ⟶ Z) :
     fieldHomOfRationalMap X Z (f ≫ g) =
       (fieldHomOfRationalMap X Y f).comp (fieldHomOfRationalMap Y Z g) := by
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   suffices h : CommRingCat.ofHom (fieldHomOfRationalMap X Z (f ≫ g)).toRingHom =
       CommRingCat.ofHom ((fieldHomOfRationalMap X Y f).comp
         (fieldHomOfRationalMap Y Z g)).toRingHom from congrArg CommRingCat.Hom.hom h
   apply Spec.map_injective
   apply (cancel_mono (Z.toScheme.fromSpecStalk (genericPoint Z.toScheme))).mp
   rw [fieldHomOfRationalMap_specMap]
-  show (f.toRationalMap.comp g.toRationalMap).fromFunctionField = _
+  change (f.toRationalMap.comp g.toRationalMap).fromFunctionField = _
   have hp := fieldHomOfRationalMap_specMap X Y f
   rw [← g.toRationalMap.toRationalMap_representative,
     Scheme.RationalMap.comp_def,

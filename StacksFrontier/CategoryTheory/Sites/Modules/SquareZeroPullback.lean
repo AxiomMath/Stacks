@@ -227,7 +227,7 @@ theorem isSheaf_fibrePresheaf : Presheaf.IsSheaf K (fibrePresheaf p q) := by
     refine eq_of_locally_eq (isSheaf_forgetCommRing B) hS _ _ fun Y f hf => ?_
     have h1 : (A.obj.map f.op).hom a = (fibreVal p q (op Y) (x f hf)).1 := ha f hf
     have h2 : (D.obj.map f.op).hom d = (fibreVal p q (op Y) (x f hf)).2 := hd f hf
-    show (B.obj.map f.op).hom (p.hom.app (op X) a) = (B.obj.map f.op).hom (q.hom.app (op X) d)
+    change (B.obj.map f.op).hom (p.hom.app (op X) a) = (B.obj.map f.op).hom (q.hom.app (op X) d)
     rw [← NatTrans.naturality_apply p.hom f.op a, ← NatTrans.naturality_apply q.hom f.op d, h1, h2]
     exact fibreVal_mem p q (op Y) (x f hf)
   refine ⟨fibreMk p q (op X) a d hmem, fun Y f hf => ?_, fun y hy => ?_⟩
@@ -348,7 +348,7 @@ theorem fibreSnd_app_eq_zero_iff (X : Cᵒᵖ) (z : ↥((fibrePresheaf p q).obj 
       p.hom.app X (fibreVal p q X z).1 = 0 ∧ (fibreVal p q X z).2 = 0 := by
   refine ⟨fun h => ⟨?_, h⟩, fun h => h.2⟩
   rw [fibreVal_mem p q X z]
-  show q.hom.app X ((fibreSnd p q).hom.app X z) = 0
+  change q.hom.app X ((fibreSnd p q).hom.app X z) = 0
   rw [h, map_zero]
 
 /-- **Right exactness.**  The second projection of the fibre product is locally surjective

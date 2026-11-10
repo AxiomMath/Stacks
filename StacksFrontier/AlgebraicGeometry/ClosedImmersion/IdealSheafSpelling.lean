@@ -107,10 +107,10 @@ ideal sheaf**, with no hypothesis on the morphism.  The comparison
 isomorphism. -/
 theorem isIso_toIdealSheafOfKer (i : Z ⟶ X)
     (hJ : ∀ V : X.Opens, RingHom.ker (i.app V).hom = J.obj (op V)) :
-    IsIso (toIdealSheafOfKer J i fun V s hs => RingHom.mem_ker.1 ((hJ V).ge hs)) := by
+    IsIso (toIdealSheafOfKer J i fun V => (hJ V).ge) := by
   have hmem : ∀ (V : X.Opens) (s : Γ(X, V)), s ∈ J.obj (op V) ↔ i.app V s = 0 := fun V s => by
     rw [← hJ V]; exact RingHom.mem_ker
-  set φ := toIdealSheafOfKer J i fun V s hs => RingHom.mem_ker.1 ((hJ V).ge hs) with hφ
+  set φ := toIdealSheafOfKer J i fun V => (hJ V).ge with hφ
   have hfac : φ ≫ kernel.ι (structureModuleHom i) = J.ι := toIdealSheafOfKer_ι J i _
   have hmono : Mono φ := mono_of_mono_fac hfac
   have hepi : Epi φ := by
@@ -137,7 +137,7 @@ the ideal sheaf into `𝒪_X` to the inclusion of the given sheaf of ideals. -/
 theorem submoduleIsoIdealSheafOfKer_hom_comp_ι (i : Z ⟶ X)
     (hJ : ∀ V : X.Opens, RingHom.ker (i.app V).hom = J.obj (op V)) :
     (submoduleIsoIdealSheafOfKer J i hJ).hom ≫ kernel.ι (structureModuleHom i) = J.ι :=
-  toIdealSheafOfKer_ι J i fun V _ hs => RingHom.mem_ker.1 ((hJ V).ge hs)
+  toIdealSheafOfKer_ι J i fun V => (hJ V).ge
 
 end Stacks.Divisors
 

@@ -192,6 +192,9 @@ theorem preservesFiniteLimits_augmentationRingedToposHom_pullbackModules
     fun n => (exactFunctor_iff _).mp (RingedToposHom.pullbackModules_exact_of_isFlat
       (degreeRingedToposHom U n) (AlgebraicGeometry.SheafOfModules.isFlatMapULift_of_isIso
         (degreeRingedToposHom U n).fSharpInverseImage inferInstance))
+  have hflat := fun n : SimplexCategory ↦
+  preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+    (a.app (op n)) (isFlat_app_of_isHypercoveringAugmentation h n.len)
   refine Functor.preservesFiniteLimits_of_comp_jointlyConservative _
     (fun n : SimplexCategory => (degreeRingedToposHom U n).toModulesHom.pullbackModules)
     (fun n => (hex n).1) (fun n => (hex n).2) ?_ ?_
@@ -206,9 +209,7 @@ theorem preservesFiniteLimits_augmentationRingedToposHom_pullbackModules
         (degreeInclusion U n) (Stacks.SheafOfModules.Tensor.ringSheaf (ringedTopos U).O)).hom)
       h2 (Stacks.SheafOfModules.ChangeOfRings.reflectsIsomorphisms_restrictScalars _)
   · intro n
-    have hn :=
-      preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
-        (a.app (op n)) (isFlat_app_of_isHypercoveringAugmentation h n.len)
+    have hn := hflat n
     exact preservesFiniteLimits_of_natIso
       ((RingedToposHom.TwoIso.pullbackModulesIso (augmentationDegreeTwoIso a n)).symm ≪≫
         RingedToposHom.pullbackModulesCompIso (degreeRingedToposHom U n)

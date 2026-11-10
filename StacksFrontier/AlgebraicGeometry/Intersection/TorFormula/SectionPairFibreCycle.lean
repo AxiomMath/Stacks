@@ -125,8 +125,7 @@ theorem properPushforward_intersectionProductCycle_eq_sectionFiberCycle
 
 /-! ### The fibre cycles at a pair of such sections are rationally equivalent -/
 
-omit [IsAlgClosed Kf] [IsVariety Kf (p ≫ eqToHom hC)] in
-include hC in
+omit [Field Kf] [IsAlgClosed Kf] [IsVariety Kf (p ≫ eqToHom hC)] in
 /-- **The two fibre cycles of an integral `W` at a pair of sections presented as points of
 `ℙ¹_S` are rationally equivalent.** This is the content of part (2) for a prime cycle, read on
 the fibre cycles rather than on the intersection products. -/
@@ -195,7 +194,7 @@ theorem sub_properPushforward_intersectionProductCycle_sectionPair_mem_rationalE
   rw [properPushforward_intersectionProductCycle_eq_sectionFiberCycle C p Kf hC hY k h₁ W hDim
       hWD₁,
     properPushforward_intersectionProductCycle_eq_sectionFiberCycle C p Kf hC hY k h₂ W hDim hWD₂]
-  exact sub_cycleAssociatedToClosedSubscheme_comap_mem_rationalEquivalences C p Kf hC k h₁ h₂ W
+  exact sub_cycleAssociatedToClosedSubscheme_comap_mem_rationalEquivalences C p k h₁ h₂ W
     hDim hT₁ hT₂
 
 /-! ### The Tag 0B08 product with the fibre at such a section -/
@@ -351,7 +350,7 @@ theorem sub_properPushforward_torFormulaCycleProduct_sectionPair_mem_rationalEqu
           CycleGroup C (pullback.fst p (relativeProjectiveLine C.S ↘ C.S) ≫ p) k) := by
     intro s h hT
     refine Subtype.ext ?_
-    show torFormulaCycleIntersectionProduct C
+    change torFormulaCycleIntersectionProduct C
         (pullback.fst p (relativeProjectiveLine C.S ↘ C.S) ≫ p) hY k α.1
         (@Function.locallyFinsuppWithin.single (projectiveLineProduct p) _ ℤ
           (Classical.decEq _) _ (s (genericPoint X)) (1 : ℤ)) = _
@@ -369,7 +368,7 @@ theorem sub_properPushforward_torFormulaCycleProduct_sectionPair_mem_rationalEqu
       (hT₂ x.1 (hsupp x.1 x.2)) _ rfl]
   have : IsIntegral (integralComponentAt x.1).subscheme := isIntegral_integralComponentAt x.1
   exact AddSubgroup.zsmul_mem _
-    (sub_cycleAssociatedToClosedSubscheme_comap_mem_rationalEquivalences C p Kf hC k h₁ h₂
+    (sub_cycleAssociatedToClosedSubscheme_comap_mem_rationalEquivalences C p k h₁ h₂
       (integralComponentAt x.1)
       (relativeDimension_familyBase_integralComponentAt_genericPoints C p x.1 (hdimpt x.1 x.2))
       (hT₁ x.1 (hsupp x.1 x.2)) (hT₂ x.1 (hsupp x.1 x.2))) _

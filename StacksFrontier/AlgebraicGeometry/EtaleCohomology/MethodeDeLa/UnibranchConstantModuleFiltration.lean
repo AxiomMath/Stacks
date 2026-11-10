@@ -5,8 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.MethodeDeLa.Galoi
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.MethodeDeLa.ConstantModuleFiltration
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.FiniteLocallyConstant.GaloisTrivializationExists
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.FiniteLocallyConstant.GaloisTrivializationInverseImage
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FiniteLocallyConstant.GaloisTrivializationInverseImage
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ExtensionByZero.CoverTriangleModules
 public import StacksCore.Tactic.StacksAttribute
 
@@ -161,7 +160,7 @@ theorem descentSubmoduleMap_mem_constantFiniteModuleStep [IsNoetherianRing Λ]
   let q := K.mkQ
   have hq : ∀ g x, q (stableSubmoduleRep ρ N₂ h₂ g x) = (1 : P →* Module.End Λ Q) g (q x) := by
     intro g x
-    show K.mkQ _ = K.mkQ x
+    change K.mkQ _ = K.mkQ x
     rw [← sub_eq_zero, ← map_sub, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
     exact htriv g x x.2
   let w := G.descentSheafMap φ hφ
@@ -179,6 +178,7 @@ theorem descentSubmoduleMap_mem_constantFiniteModuleStep [IsNoetherianRing Λ]
   exact ⟨hmk, ModuleCat.of Λ Q, inferInstanceAs (Module.Finite Λ Q),
     ⟨iso₁ ≪≫ iso₂ ≪≫ iso₃⟩⟩
 
+omit [ConnectedSpace G.cover.left] in
 /-- The zero submodule gives the zero subobject. -/
 theorem isZero_underlying_descentSubmoduleMap {N₁ : Submodule Λ N}
     (h : ∀ g, ∀ x ∈ N₁, ρ g x ∈ N₁) (hbot : N₁ = ⊥) :
@@ -193,6 +193,7 @@ theorem isZero_underlying_descentSubmoduleMap {N₁ : Submodule Λ N}
     exact Subtype.ext (LocallyConstant.ext fun z ↦ Subsingleton.elim _ _)
   exact IsZero.of_iso hz (Subobject.underlyingIso _)
 
+omit [ConnectedSpace G.cover.left] in
 /-- The whole module gives the whole sheaf. -/
 theorem isIso_arrow_descentSubmoduleMap {N₁ : Submodule Λ N}
     (h : ∀ g, ∀ x ∈ N₁, ρ g x ∈ N₁) (htop : N₁ = ⊤) :
@@ -334,12 +335,12 @@ theorem exists_finiteEtale_primeToEll_constantModuleFiltration {ℓ n : ℕ} (h�
     ⟨Xs.length, fun i ↦ Subobject.mk (descentSubmoduleMap G ρ ι (Nsub (Xs i))
       (groupRingSubmodule_stable ρ _)), hstep⟩, ?_, ?_⟩
   · refine isZero_underlying_descentSubmoduleMap G ρ ι _ ?_
-    show Nsub Xs.head = ⊥
+    change Nsub Xs.head = ⊥
     rw [hhead]
     ext y
     simp [Nsub, mem_groupRingSubmodule]
   · refine isIso_arrow_descentSubmoduleMap G ρ ι _ ?_
-    show Nsub Xs.last = ⊤
+    change Nsub Xs.last = ⊤
     rw [hlast]
     ext y
     simp [Nsub, mem_groupRingSubmodule]

@@ -115,7 +115,8 @@ def rightTensorSection : M ⟶ Scheme.Modules.tensorObj M K :=
 /-- Tensoring with a global section, on global sections. -/
 theorem rightTensorSection_app (a : Γ(M, ⊤)) :
     (rightTensorSection M K s₀).val.app (op ⊤) a =
-      Stacks.SheafOfModules.tensorSectionsAt Q.sheaf.obj Q.ringCatSheaf.property (op ⊤) M K a s₀ := by
+      Stacks.SheafOfModules.tensorSectionsAt Q.sheaf.obj Q.ringCatSheaf.property
+        (op ⊤) M K a s₀ := by
   change (Stacks.AlgebraicGeometry.GradedAlgebraTwist.tensorMap Q.sheaf.obj Q.ringCatSheaf.property
       (𝟙 M) _).val.app (op ⊤)
     ((Stacks.SheafOfModules.Invertible.tensorProductRightUnitor Q.sheaf.obj Q.ringCatSheaf.property
@@ -200,7 +201,8 @@ instance epi_tensorTwistQuotient : Epi (tensorTwistQuotient (L := L) hqc) := by
   have h2 : Epi (((Stacks.SheafOfModules.Tensor.sheafTensor
       (relativeProj (schemeSheafGradedAlgebra E hqc)).scheme.toRingedSpace.sheaf).map
         (Stacks.ProjectiveBundleSplitting.tautologicalMap E hqc)).app
-      ((Scheme.Modules.pullback (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase).obj L)) := by
+      ((Scheme.Modules.pullback (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase).obj
+        L)) := by
     have h := @Stacks.SheafOfModules.TensorPresentations.tensorSheafMap_epi_of_epi_of_epi
       (relativeProj (schemeSheafGradedAlgebra E hqc)).scheme.toRingedSpace _ _ _ _
       (Stacks.ProjectiveBundleSplitting.tautologicalMap E hqc)
@@ -238,12 +240,15 @@ instance epi_tensorTwistQuotient : Epi (tensorTwistQuotient (L := L) hqc) := by
   have h3 : Epi (Stacks.Tag01VSPullbackTensor.schemePullbackTensorIso
       (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase E L).hom :=
     ⟨fun _ _ w ↦ (Iso.cancel_iso_hom_left _ _ _).1 w⟩
-  have h4 : Epi ((Scheme.Modules.pullback (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase).map
-      ((Scheme.Modules.pullbackId X).hom.app (Stacks.SymTwistChart.tensorObj E L))) :=
+  have h4 : Epi
+      ((Scheme.Modules.pullback (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase).map
+        ((Scheme.Modules.pullbackId X).hom.app (Stacks.SymTwistChart.tensorObj E L))) :=
     (((Scheme.Modules.pullback (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase).mapIso
-      ((Scheme.Modules.pullbackId X).app (Stacks.SymTwistChart.tensorObj E L))).isIso_hom).epi_of_iso
+      ((Scheme.Modules.pullbackId X).app
+        (Stacks.SymTwistChart.tensorObj E L))).isIso_hom).epi_of_iso
   exact epi_comp' h4 (epi_comp' h3 h2)
 
+omit [E.IsQuasicoherent] in
 /-- **Morphisms out of a module pulled back to a chart are determined by pulled-back
 sections.** On the chart of `𝐏(ℰ)` over an affine open `U`, two morphisms out of the pullback of
 a quasi-coherent `ℱ` on `X` agree as soon as they agree on the pullbacks of the sections of `ℱ`
@@ -251,7 +256,8 @@ over `U`. -/
 theorem chart_pullback_hom_ext {F : X.Modules} [F.IsQuasicoherent] {U : X.Opens}
     (hU : IsAffineOpen U) {N : (AlgebraicGeometry.Proj
       ((schemeSheafGradedAlgebra E hqc).grading U)).Modules}
-    (f g : (Scheme.Modules.pullback ((relativeProj (schemeSheafGradedAlgebra E hqc)).chart U hU)).obj
+    (f g :
+      (Scheme.Modules.pullback ((relativeProj (schemeSheafGradedAlgebra E hqc)).chart U hU)).obj
         ((Scheme.Modules.pullback (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase).obj
           ((Scheme.Modules.pullback (𝟙 X)).obj F)) ⟶ N)
     (hfg : ∀ y : Γ(F, U),
@@ -281,7 +287,7 @@ theorem chart_pullback_hom_ext {F : X.Modules} [F.IsQuasicoherent] {U : X.Opens}
       (Scheme.Modules.pullback ((relativeProj (schemeSheafGradedAlgebra E hqc)).chart U hU)).map
         ((Scheme.Modules.pullbackComp (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase
           (𝟙 X)).inv.app F)
-  haveI : IsIso κ :=
+  have : IsIso κ :=
     (((Scheme.Modules.pullbackComp ((relativeProj (schemeSheafGradedAlgebra E hqc)).chart U hU)
         ((relativeProj (schemeSheafGradedAlgebra E hqc)).toBase ≫ 𝟙 X)).app F).symm ≪≫
       (Scheme.Modules.pullback ((relativeProj (schemeSheafGradedAlgebra E hqc)).chart U hU)).mapIso
@@ -296,8 +302,9 @@ theorem chart_pullback_hom_ext {F : X.Modules} [F.IsQuasicoherent] {U : X.Opens}
         (unitSection (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase _ _
           (unitSection (𝟙 X) F U y)) :=
     (congrArg (((Scheme.Modules.pullback ((relativeProj (schemeSheafGradedAlgebra E hqc)).chart U
-        hU)).map ((Scheme.Modules.pullbackComp (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase
-          (𝟙 X)).inv.app F)).val.app _)
+        hU)).map
+          ((Scheme.Modules.pullbackComp (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase
+            (𝟙 X)).inv.app F)).val.app _)
       (pullbackComp_inv_unitSection _ _ F U y)).trans
       ((unitSection_pullback_map _ _ _ _).trans
         (congrArg _ (pullbackComp_inv_unitSection _ (𝟙 X) F U y)))
@@ -305,6 +312,7 @@ theorem chart_pullback_hom_ext {F : X.Modules} [F.IsQuasicoherent] {U : X.Opens}
     (Eq.trans ?_ ((comp_app_apply κ _ _ _).trans (congrArg _ hk)).symm)
   exact resTop_injective _ (top_le_chart_preimage _ hqc U hU) (hfg y)
 
+omit [E.IsQuasicoherent] in
 /-- **The twisted quotient at a pulled-back pure tensor.** -/
 theorem tensorTwistQuotient_unitSection {U : X.Opens} (m : Γ(E, U)) (ℓ : Γ(L, U)) :
     (tensorTwistQuotient (L := L) hqc).val.app
@@ -332,6 +340,7 @@ theorem tensorTwistQuotient_unitSection {U : X.Opens} (m : Γ(E, U)) (ℓ : Γ(L
   exact congrArg (fun z ↦ Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection _ _ _
     _ (z ⊗ₜ _)) (tautologicalMap_unitSection E hqc U m)
 
+omit [E.IsQuasicoherent] in
 /-- **The twisted quotient on a chart, at a pulled-back pure tensor.** On the chart of `𝐏(ℰ)`
 over an affine open `U`, the twisted tautological quotient carries the pullback of `m ⊗ ℓ` to the
 pullback of the homogeneous-section value of `m` tensored with the pullback of `ℓ`. -/
@@ -354,7 +363,8 @@ theorem tensorTwistQuotient_chart_apply {U : X.Opens} (hU : IsAffineOpen U) (m :
             L)).inv.val.app (op ⊤)
         (Stacks.SheafOfModules.tensorSectionsAt
           (AlgebraicGeometry.Proj ((schemeSheafGradedAlgebra E hqc).grading U)).sheaf.obj
-          (AlgebraicGeometry.Proj ((schemeSheafGradedAlgebra E hqc).grading U)).ringCatSheaf.property
+          (AlgebraicGeometry.Proj
+            ((schemeSheafGradedAlgebra E hqc).grading U)).ringCatSheaf.property
           (op ⊤) _ _
           (resTop _ (top_le_chart_preimage _ hqc U hU)
             (unitSection ((relativeProj (schemeSheafGradedAlgebra E hqc)).chart U hU)
@@ -417,6 +427,7 @@ variable [(Stacks.SymTwistChart.tensorObj E L).IsQuasicoherent]
       DirectSum.of ((schemeSheafGradedAlgebra E hqc).sectionPieces U) 1
         ((Scheme.Modules.symmetricAlgebraGen X E).val.app (op U) m))
 
+omit [E.IsQuasicoherent] in
 include hc hsurj hdeg in
 /-- **The local factorization of the twisted quotient.** On the chart of `𝐏(ℰ)` over an affine
 open `U` on which `ℓ` generates `ℒ`, and over which `h : 𝐏(ℰ) ⟶ 𝐏(ℰ ⊗ ℒ)` is `Proj` of a graded
@@ -608,14 +619,14 @@ theorem nonempty_pullback_inv_bundleTensorHom_iso :
       W.1.1 W.1.2).opensRange = ⊤ := by
     simp_rw [Stacks.AlgebraicGeometry.RelativeProjTwistQcoh.opensRange_chart]
     exact Stacks.AlgebraicGeometry.RelativeProjDescent.iSup_preimage_toOpens_eq_top L
-  haveI : (Stacks.SymTwistChart.tensorObj E L).IsQuasicoherent :=
+  have : (Stacks.SymTwistChart.tensorObj E L).IsQuasicoherent :=
     Stacks.SymProjectiveBundleTwist.isQuasicoherent_tensorObj E L
-  haveI : AlgebraicGeometry.SheafOfModules.IsInvertible
+  have : AlgebraicGeometry.SheafOfModules.IsInvertible
       (relativeProj (schemeSheafGradedAlgebra E (bundlePieces E))).scheme.sheaf.obj
       (relativeProj (schemeSheafGradedAlgebra E (bundlePieces E))).scheme.ringCatSheaf.property
       (Stacks.ProjectiveBundleSplitting.tautologicalTwist E (bundlePieces E)) :=
     Stacks.ProjectiveBundleSplitting.isInvertible_tautologicalTwist _ _
-  haveI : AlgebraicGeometry.SheafOfModules.IsInvertible
+  have : AlgebraicGeometry.SheafOfModules.IsInvertible
       (relativeProj (schemeSheafGradedAlgebra E (bundlePieces E))).scheme.sheaf.obj
       (relativeProj (schemeSheafGradedAlgebra E (bundlePieces E))).scheme.ringCatSheaf.property
       ((Scheme.Modules.pullback (relativeProj (schemeSheafGradedAlgebra E

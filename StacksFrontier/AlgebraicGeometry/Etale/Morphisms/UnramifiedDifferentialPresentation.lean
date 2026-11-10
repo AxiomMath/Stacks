@@ -114,8 +114,7 @@ theorem span_D_ker_eq_top_of_subsingleton
     have hzN : (TensorProduct.lid A Ω[A⁄R])
         (((Algebra.linearMap A B).ker.subtype.rTensor Ω[A⁄R]) z) ∈ N := by
       clear hz
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul a w => exact hmul a.1 a.2 w
       | add z z' hz hz' => simpa only [map_add] using N.add_mem hz hz'
     simpa only [hz, TensorProduct.lid_tmul, one_smul] using hzN
@@ -196,7 +195,7 @@ theorem formallyUnramified_comp_stalkMap_iff {U W V : Scheme.{u}} (i : U ⟶ W) 
   have : IsScalarTower ↥(V.presheaf.stalk (g (i z))) ↥(W.presheaf.stalk (i z))
       ↥(U.presheaf.stalk z) := by
     refine IsScalarTower.of_algebraMap_eq' ?_
-    show ((i ≫ g).stalkMap z).hom = (i.stalkMap z).hom.comp (g.stalkMap (i z)).hom
+    change ((i ≫ g).stalkMap z).hom = (i.stalkMap z).hom.comp (g.stalkMap (i z)).hom
     exact congrArg CommRingCat.Hom.hom (Scheme.Hom.stalkMap_comp i g z)
   have hsurj : Function.Surjective
       (algebraMap ↥(W.presheaf.stalk (i z)) ↥(U.presheaf.stalk z)) :=

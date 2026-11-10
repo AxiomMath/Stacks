@@ -318,7 +318,7 @@ theorem colimit_ι_comp_spfQuotientFppfPresheafComparison (hterm : IsTerminal S)
         (X := D.idealOfDefinitionSiteDiagram.obj I)
         (F := formalSchemeFppfPresheaf B S hS (spfFormalScheme A hA))).symm
           (ULift.up ((spfQuotientCocone A hA).ι.app I)) := by
-  rw [spfQuotientFppfPresheafComparison, HasColimit.isoOfNatIso_ι_hom_assoc,
+  rw [spfQuotientFppfPresheafComparison, HasColimit.ι_isoOfNatIso_hom_assoc,
     ι_preservesColimitIso_inv_assoc, restriction_map_colimit_ι_comp_spfQuotientFppfPointsColimitMap]
   ext T x
   rfl

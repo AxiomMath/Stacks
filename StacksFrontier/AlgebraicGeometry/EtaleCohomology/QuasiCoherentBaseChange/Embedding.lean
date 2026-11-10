@@ -103,8 +103,9 @@ section Embedding
 summand. -/
 theorem isZero_obj_obj_biproduct {C D E : Type*} [Category* C] [Category* D] [Category* E]
     [Preadditive C] [Preadditive D] [Preadditive E] (H : C ⥤ D) (H' : D ⥤ E) (hH : H.Additive)
-    (hH' : H'.Additive) {J : Type} [Fintype J] (f : J → C) [HasBiproduct f]
+    (hH' : H'.Additive) {J : Type} [Finite J] (f : J → C) [HasBiproduct f]
     (h : ∀ j, IsZero (H'.obj (H.obj (f j)))) : IsZero (H'.obj (H.obj (⨁ f))) := by
+  have := Fintype.ofFinite J
   rw [IsZero.iff_id_eq_zero, ← H'.map_id, ← H.map_id, ← biproduct.total, H.map_sum, H'.map_sum]
   refine Finset.sum_eq_zero fun j _ => ?_
   rw [H.map_comp, H'.map_comp, (h j).eq_of_tgt (H'.map (H.map (biproduct.π f j))) 0, zero_comp]
@@ -137,7 +138,7 @@ theorem hom_eq_zero_of_cover {n : ℕ} (U : Fin n → X.affineOpens)
     obtain ⟨i, hi⟩ := hU y
     exact Opens.mem_iSup.2 ⟨i, ⟨hy, hi⟩⟩
   · rw [map_zero]
-    show F.presheaf.map (homOfLE inf_le_left).op (φ.app V x) = 0
+    change F.presheaf.map (homOfLE inf_le_left).op (φ.app V x) = 0
     rw [← Scheme.Modules.Hom.app_presheaf_map, h i _ inf_le_right]
     rfl
 

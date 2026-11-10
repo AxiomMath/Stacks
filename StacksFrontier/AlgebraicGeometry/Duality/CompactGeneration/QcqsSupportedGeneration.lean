@@ -17,7 +17,8 @@ such a `G` is perfect, which is the statement of the tag.
 ## The proof
 
 The source runs the induction principle [Stacks, Tag 08DR]; as in
-`StacksFrontier/AlgebraicGeometry/Duality/CompactGeneration/QcqsCompactGeneration.lean` it is run here
+`StacksFrontier/AlgebraicGeometry/Duality/CompactGeneration/QcqsCompactGeneration.lean`
+it is run here
 as an induction on the number of affine opens covering `X`. Write `X = U ∪ V` with `U`
 quasi-compact, `V = Spec A`, `W = U ∩ V = D(f₁) ∪ … ∪ D(f_r)`, `Z = V ∖ U`, and let `P` generate
 `D_{QCoh,T ∩ U}(𝒪_U)`.
@@ -843,7 +844,7 @@ theorem hasCompactSupportedGenerators_of_affineCover : ∀ (n : ℕ) (Y : Scheme
       refine Fin.lastCases
         (motive := fun i => y ∈ V i → y ∈ U ∨ ∃ x, (hV (Fin.last n)).fromSpec x = y)
         (fun h => Or.inr ?_) (fun j h => Or.inl ?_) i hi
-      · show y ∈ Set.range (hV (Fin.last n)).fromSpec
+      · change y ∈ Set.range (hV (Fin.last n)).fromSpec
         rwa [(hV (Fin.last n)).range_fromSpec]
       · exact (TopologicalSpace.Opens.mem_iSup.mpr ⟨j, h⟩ : y ∈ U)
 

@@ -246,7 +246,7 @@ private lemma torsion_length_le_of_injective
     obtain ⟨r, hr⟩ := hx
     change (r : R) • x = 0 at hr
     refine ⟨r, ?_⟩
-    show (r : R) • f x = 0
+    change (r : R) • f x = 0
     rw [← map_smul, hr, map_zero]
   let g : Submodule.torsion R M →ₗ[R] Submodule.torsion R N :=
     (f.comp (Submodule.torsion R M).subtype).codRestrict _ (fun x => hmap x x.property)
@@ -291,18 +291,18 @@ private lemma mem_torsionSaturation_iff
     {R M : Type*} [CommRing R] [IsDomain R] [AddCommGroup M] [Module R M]
     (N : Submodule R M) (x : M) :
     x ∈ torsionSaturation N ↔ ∃ r : R, r ≠ 0 ∧ r • x ∈ N := by
-  show (∃ r : nonZeroDivisors R, r • N.mkQ x = 0) ↔ _
+  change (∃ r : nonZeroDivisors R, r • N.mkQ x = 0) ↔ _
   constructor
   · rintro ⟨r, hr⟩
     refine ⟨r, nonZeroDivisors.coe_ne_zero r, ?_⟩
     change (r : R) • N.mkQ x = 0 at hr
     exact (Submodule.Quotient.mk_eq_zero N).mp (by
-      show N.mkQ ((r : R) • x) = 0
+      change N.mkQ ((r : R) • x) = 0
       rw [map_smul]
       exact hr)
   · rintro ⟨r, hr, hx⟩
     exact ⟨⟨r, mem_nonZeroDivisors_of_ne_zero hr⟩, by
-      show r • N.mkQ x = 0
+      change r • N.mkQ x = 0
       rw [← map_smul]
       exact (Submodule.Quotient.mk_eq_zero N).mpr hx⟩
 
@@ -397,7 +397,7 @@ private lemma comap_torsionSaturation_map
     (N : Submodule R M) :
     (torsionSaturation (N.map f)).comap f = torsionSaturation N := by
   ext x
-  show f x ∈ torsionSaturation (N.map f) ↔ x ∈ torsionSaturation N
+  change f x ∈ torsionSaturation (N.map f) ↔ x ∈ torsionSaturation N
   rw [mem_torsionSaturation_iff, mem_torsionSaturation_iff]
   constructor
   · rintro ⟨r, hr, y, hy, hxy⟩
@@ -428,8 +428,7 @@ private lemma baseChange_comp_eq_smul
     (f : M →ₗ[R] N) (g : N →ₗ[R] M) (π : R) (hfg : ∀ x, f (g x) = π • x)
     (z : A ⊗[R] N) :
     LinearMap.baseChange A f (LinearMap.baseChange A g z) = algebraMap R A π • z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy, smul_add]
   | tmul a x =>
     rw [LinearMap.baseChange_tmul, LinearMap.baseChange_tmul, hfg,
@@ -446,7 +445,7 @@ private lemma baseChange_injective_of_mul_inverse
     Function.Injective (LinearMap.baseChange A f) := by
   intro x y hxy
   apply hπ
-  show algebraMap R A π • x = algebraMap R A π • y
+  change algebraMap R A π • x = algebraMap R A π • y
   rw [← baseChange_comp_eq_smul g f π hgf, ← baseChange_comp_eq_smul g f π hgf, hxy]
 
 /-- For an exact sequence `M → N → Q` with injective first map and `Q` killed by `π`, the base
@@ -522,13 +521,13 @@ private lemma free_quotient_of_uniformizer_saturated
     (hπ : IsLocalRing.maximalIdeal R = Ideal.span ({π} : Set R))
     (hN : ∀ x : M, π • x ∈ N → x ∈ N) : Module.Free R (M ⧸ N) := by
   have hreg : IsSMulRegular (M ⧸ N) π := by
-    show Function.Injective (π • LinearMap.id : (M ⧸ N) →ₗ[R] (M ⧸ N))
+    change Function.Injective (π • LinearMap.id : (M ⧸ N) →ₗ[R] (M ⧸ N))
     rw [injective_iff_map_eq_zero]
     intro x hx
     obtain ⟨y, rfl⟩ := N.mkQ_surjective x
     exact (Submodule.Quotient.mk_eq_zero N).mpr
       (hN y ((Submodule.Quotient.mk_eq_zero N).mp (by
-        show N.mkQ (π • y) = 0
+        change N.mkQ (π • y) = 0
         rw [map_smul]
         exact hx)))
   have := isTorsionFree_of_uniformizer_regular π hπ hreg
@@ -589,7 +588,7 @@ private lemma ringHom_ext_subalgebra_localization
   obtain ⟨n, x, hx⟩ := IsLocalization.Away.surj a (z : L)
   have hz : z * algebraMap A B a ^ n = algebraMap A B x := Subtype.ext hx
   apply (ha.pow n).right
-  show f z * f (algebraMap A B a) ^ n = g z * f (algebraMap A B a) ^ n
+  change f z * f (algebraMap A B a) ^ n = g z * f (algebraMap A B a) ^ n
   calc
     f z * f (algebraMap A B a) ^ n = f (algebraMap A B x) := by
       rw [← map_pow, ← map_mul, hz]
@@ -612,7 +611,7 @@ private lemma exists_kernel_numerator_subalgebra_localization
   refine ⟨n, x, ?_, by rw [← he, mul_comm]⟩
   apply hi
   rw [map_zero, ← h x, ← he, map_mul]
-  show g z * _ = 0
+  change g z * _ = 0
   rw [show g z = 0 from hz, zero_mul]
 
 /-- A surjection `A → B` of `R`-algebras induces a surjection of affine blowup charts
@@ -631,23 +630,23 @@ private lemma exists_surjective_affineBlowup_map
   have hy : Submonoid.powers a ≤ (Submonoid.powers b).comap f.toRingHom := by
     rintro x ⟨n, rfl⟩
     refine ⟨n, ?_⟩
-    show b ^ n = f (a ^ n)
+    change b ^ n = f (a ^ n)
     rw [map_pow, hab]
   let fL : Localization.Away a →ₐ[R] Localization.Away b :=
     { toRingHom := IsLocalization.map (Localization.Away b) f.toRingHom hy
       commutes' := fun r => by
-        show IsLocalization.map (Localization.Away b) f.toRingHom hy
+        change IsLocalization.map (Localization.Away b) f.toRingHom hy
           (algebraMap R (Localization.Away a) r) = _
         rw [IsScalarTower.algebraMap_apply R A (Localization.Away a),
           IsLocalization.map_eq]
-        show algebraMap B (Localization.Away b) (f (algebraMap R A r)) = _
+        change algebraMap B (Localization.Away b) (f (algebraMap R A r)) = _
         rw [f.commutes, ← IsScalarTower.algebraMap_apply R B (Localization.Away b)] }
   have hmap (x : A) : fL (algebraMap A (Localization.Away a) x) =
       algebraMap B (Localization.Away b) (f x) := IsLocalization.map_eq hy x
   have hfrac (x : A) :
       fL (IsLocalization.mk' (Localization.Away a) x ⟨a, Submonoid.mem_powers a⟩) =
         IsLocalization.mk' (Localization.Away b) (f x) ⟨b, Submonoid.mem_powers b⟩ := by
-    show IsLocalization.map (Localization.Away b) f.toRingHom hy _ = _
+    change IsLocalization.map (Localization.Away b) f.toRingHom hy _ = _
     rw [IsLocalization.map_mk']
     congr 1
     exact Subtype.ext hab
@@ -716,9 +715,9 @@ private lemma exists_kernel_division_of_mem_pow
     exact pow_le_pow_left' hJ n
   obtain ⟨g', he⟩ := Ideal.mem_span_singleton.mp (hmap (Ideal.mem_map_of_mem j hg))
   refine ⟨g', ?_, he⟩
-  show φ g' = 0
+  change φ g' = 0
   apply (hπ.pow n).left
-  show (φ π) ^ n * φ g' = (φ π) ^ n * 0
+  change (φ π) ^ n * φ g' = (φ π) ^ n * 0
   rw [mul_zero, ← map_pow, ← map_mul, ← he, hg0]
 
 /-- The differential of an element of `𝔭^n` dying in `C` is `π^n` times the differential of an
@@ -780,7 +779,7 @@ private lemma exists_surjective_affineBlowup_map_kernel_division
       Ideal.span {algebraMap R P' π} := by
     apply le_trans (Ideal.map_mono ?_) (map_ideal_le_span_affineBlowup (pA.comap f) _)
     intro x hx
-    show f x ∈ pA
+    change f x ∈ pA
     rw [show f x = 0 from hx]
     exact pA.zero_mem
   have hj : Function.Injective (algebraMap A A') :=
@@ -790,7 +789,7 @@ private lemma exists_surjective_affineBlowup_map_kernel_division
     obtain ⟨y, hy, he⟩ := exists_kernel_division_of_mem_pow (algebraMap P P')
       F.toRingHom (RingHom.ker f.toRingHom) (algebraMap R P' π) hFreg hmapI 1
       (by simpa using hx) (by
-        show F (algebraMap P P' x) = 0
+        change F (algebraMap P P' x) = 0
         rw [show F (algebraMap P P' x) = algebraMap A A' (f x) from hFcomp x,
           show f x = 0 from hx]
         exact map_zero _)

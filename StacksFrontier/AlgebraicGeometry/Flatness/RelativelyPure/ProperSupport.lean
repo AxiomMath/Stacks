@@ -96,7 +96,7 @@ theorem isUniversallyPureAlong_of_moduleIso {X S : Scheme.{u}} (f : X ⟶ S)
         ({ S := S, X := X, f := f, F := G, s := s } : PrePureSituation.{u}) := by
   intro h D hD
   refine h { D with } ⟨?_, hD.2⟩
-  show D.xi ∈ Stacks.Divisors.relativeAssassin D.toT ((Scheme.Modules.pullback D.toX).obj F)
+  change D.xi ∈ Stacks.Divisors.relativeAssassin D.toT ((Scheme.Modules.pullback D.toX).obj F)
   rw [relativeAssassin_eq_of_moduleIso D.toT ((Scheme.Modules.pullback D.toX).mapIso e)]
   exact hD.1
 

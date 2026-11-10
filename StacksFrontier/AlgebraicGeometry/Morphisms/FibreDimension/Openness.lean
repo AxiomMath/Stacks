@@ -85,7 +85,7 @@ public lemma isOpen_setOf_fiberDimensionAt_le {X S : Scheme.{u}} (f : X ⟶ S)
     dsimp only [Υ] at i ⊢
     have hopenTarget : IsOpenImmersion (S.affineCover.f i) := S.affineCover.map_prop i
     have hftPull : LocallyOfFiniteType (S.affineCover.pullbackHom f i) := by
-      show LocallyOfFiniteType (pullback.snd f (S.affineCover.f i))
+      change LocallyOfFiniteType (pullback.snd f (S.affineCover.f i))
       infer_instance
     convert this (S.affineCover.pullbackHom f i) ⟨_, rfl⟩ using 1
     ext x
@@ -105,7 +105,7 @@ public lemma isOpen_setOf_fiberDimensionAt_le {X S : Scheme.{u}} (f : X ⟶ S)
   have : RingHom.FiniteType φ.hom :=
     HasRingHomProperty.Spec_iff.mp (show LocallyOfFiniteType (Spec.map φ) from inferInstance)
   algebraize [φ.hom]
-  show @IsOpen (PrimeSpectrum T) PrimeSpectrum.zariskiTopology {x : PrimeSpectrum T |
+  change @IsOpen (PrimeSpectrum T) PrimeSpectrum.zariskiTopology {x : PrimeSpectrum T |
     topologicalKrullDimAt ((Spec.map φ).fiber (Spec.map φ x))
       ((Spec.map φ).asFiber x) ≤ (n : WithBot ℕ∞)}
   convert (Algebra.isOpen_setOf_relativeDimensionAt_le (R := R) (S := T) n) using 1
@@ -132,14 +132,14 @@ private lemma isCompact_inter_affineChart {X S : Scheme.{u}} (f : X ⟶ S)
     constructor
     · rintro ⟨q, hq, rfl⟩
       have hxV : V.2.fromSpec q ∈ V.1 := by
-        show (V.2.isoSpec.inv q).1 ∈ V.1
+        change (V.2.isoSpec.inv q).1 ∈ V.1
         exact (V.2.isoSpec.inv q).property
       refine ⟨?_, hxV⟩
-      show topologicalKrullDimAt (f.fiber (f (V.2.fromSpec q)))
+      change topologicalKrullDimAt (f.fiber (f (V.2.fromSpec q)))
           (f.asFiber (V.2.fromSpec q)) ≤ _
       rw [fiberDimensionAt_eq_relativeDimensionAt_chart f U V e _ hxV]
       have hqId : V.2.primeIdealOf ⟨V.2.fromSpec q, hxV⟩ = q := by
-        show V.2.isoSpec.hom ⟨V.2.fromSpec q, hxV⟩ = q
+        change V.2.isoSpec.hom ⟨V.2.fromSpec q, hxV⟩ = q
         have hsub : (⟨V.2.fromSpec q, hxV⟩ : V.1) = V.2.isoSpec.inv q := Subtype.ext rfl
         rw [hsub]
         simp
@@ -148,7 +148,7 @@ private lemma isCompact_inter_affineChart {X S : Scheme.{u}} (f : X ⟶ S)
       simpa only [hqId] using hq
     · rintro ⟨hxL, hxV⟩
       refine ⟨V.2.primeIdealOf ⟨x, hxV⟩, ?_, V.2.fromSpec_primeIdealOf ⟨x, hxV⟩⟩
-      show Algebra.relativeDimensionAt Γ(S, U.1) (V.2.primeIdealOf ⟨x, hxV⟩).asIdeal ≤ _
+      change Algebra.relativeDimensionAt Γ(S, U.1) (V.2.primeIdealOf ⟨x, hxV⟩).asIdeal ≤ _
       rwa [← fiberDimensionAt_eq_relativeDimensionAt_chart f U V e x hxV]
   rw [← hEq]
   exact ((Algebra.isCompact_isOpen_setOf_relativeDimensionAt_le n).1).image
@@ -187,7 +187,7 @@ public lemma isRetrocompact_setOf_fiberDimensionAt_le {X S : Scheme.{u}} (f : X 
   intro K hKcomp hKopen
   obtain ⟨s, hs, hK⟩ := isCompact_and_isOpen_iff_finite_and_eq_biUnion_affineOpens.mp
     ⟨hKcomp, hKopen⟩
-  show IsCompact (L ∩ K)
+  change IsCompact (L ∩ K)
   rw [hK]
   simp only [Set.inter_iUnion]
   exact hs.isCompact_biUnion fun W _ => hAffine W

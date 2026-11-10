@@ -291,7 +291,7 @@ theorem hasPropertyOnSomeSmoothDiagram_of_hasRelativeProperty
     (Space.surjectiveMorphismProperty B S hS) R' hR' hp hpsu
   -- and then across the exchange of the two factors
   have hswEquiv : Functor.IsEquivalence (twoFibreProductSwapMap B S hS f pMor).hom.toFunctor := by
-    show Functor.IsEquivalence (TwoFibreProductOver.swap _ _ _ _ _)
+    change Functor.IsEquivalence (TwoFibreProductOver.swap _ _ _ _ _)
     infer_instance
   obtain ⟨hreprsnd, hsmsnd, hsusnd⟩ := exists_smooth_surjective_of_comp_isEquivalence B S hS
     (twoFibreProductSwapMap B S hS f pMor) R'.fst R.snd rfl hreprfst' hsmfst' hsufst'
@@ -471,7 +471,7 @@ theorem hasPropertyOnSomeSmoothDiagram_schemePointBaseChange
           CatFiberedInGroupoids.homFunctor f).obj uu) :=
       (Functor.congr_obj hcf uu).symm
     rw [hbb]
-    show 𝒴.val.p.IsHomLift _ (𝟙 ((CatFiberedInGroupoids.homFunctor a ⋙
+    change 𝒴.val.p.IsHomLift _ (𝟙 ((CatFiberedInGroupoids.homFunctor a ⋙
       CatFiberedInGroupoids.homFunctor f).obj uu))
     infer_instance
   set targetP := TwoFibreProductOver.structureFunctor (Over.map Z.hom)
@@ -518,7 +518,7 @@ theorem hasPropertyOnSomeSmoothDiagram_schemePointBaseChange
   have hFDequiv : Functor.IsEquivalence FD :=
     (CategoryTheory.Equivalence.mk cancD FD ηD.symm εD).symm.isEquivalence_functor
   have hcEquiv : Functor.IsEquivalence cMor.hom.toFunctor := by
-    show Functor.IsEquivalence (cancF ⋙ FD)
+    change Functor.IsEquivalence (cancF ⋙ FD)
     have h1 := TwoFibreProductOver.isEquivalence_cancelSnd (Over.map Z.hom)
       (fibredCategory B S hS V).val.p 𝒴.val.p (fibredCategory B S hS U).val.p z
       (CatFiberedInGroupoids.homFunctor b)
@@ -543,13 +543,13 @@ theorem hasPropertyOnSomeSmoothDiagram_schemePointBaseChange
         inv := Functor.whiskerLeft cancF (Functor.whiskerRight εD.hom fstT)
         hom_inv_id := by
           ext x
-          show fstT.map (εD.inv.app (cancF.obj x)) ≫
+          change fstT.map (εD.inv.app (cancF.obj x)) ≫
             fstT.map (εD.hom.app (cancF.obj x)) = _
           rw [← Functor.map_comp, Iso.inv_hom_id_app]
           exact fstT.map_id _
         inv_hom_id := by
           ext x
-          show fstT.map (εD.hom.app (cancF.obj x)) ≫
+          change fstT.map (εD.hom.app (cancF.obj x)) ≫
             fstT.map (εD.inv.app (cancF.obj x)) = _
           rw [← Functor.map_comp, Iso.hom_inv_id_app]
           exact fstT.map_id _ }

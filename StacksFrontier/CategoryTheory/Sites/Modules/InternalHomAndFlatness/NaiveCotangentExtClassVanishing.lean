@@ -56,7 +56,7 @@ theorem mkHomToSingle_comp_shiftIso_inv (f : X₀ ⟶ G)
   refine HomologicalComplex.hom_ext _ _ fun n => ?_
   by_cases hn : n = -1
   · subst hn
-    show _ = -((CochainComplex.doubleToMappingCone d upIntRelNegOneZero).f (-1) ≫
+    change _ = -((CochainComplex.doubleToMappingCone d upIntRelNegOneZero).f (-1) ≫
       (CochainComplex.mappingCone.triangle
         ((single C (ComplexShape.up ℤ) 0).map d)).mor₃.f (-1) ≫
       (((single C (ComplexShape.up ℤ) 0).map f)⟦(1 : ℤ)⟧').f (-1))

@@ -55,7 +55,8 @@ from either by the etale square along which they do ascend.  So the disjunction 
 **inside** the `forall i`.  `K₂` is produced once, from the wild sub-family, and the carried
 factors are *checked* against that same `K₂` — never given one of their own.
 
-**What makes the carried branch available.**  The engine returns `IsGalois K₁ K₂` and `IsTotallyRamifiedWithRespectTo R K₁ K₂`, and this
+**What makes the carried branch available.**  The engine returns `IsGalois K₁ K₂` and
+`IsTotallyRamifiedWithRespectTo R K₁ K₂`, and this
 statement **exposes both**.  That is not decoration: `IsGalois` gives separability and, with
 total ramification, these are exactly the inputs of
 `IsDiscreteValuationRing.exists_isWeakSolution_of_isWeaklyUnramified_of_totallyRamified`, the
@@ -493,7 +494,7 @@ theorem exists_finiteSeparableFieldFactors_of_package
     IsScalarTower.of_algebraMap_eq' rfl
   let hAK₁E : ∀ i, IsScalarTower A K₁ (E i) := fun i =>
     IsScalarTower.of_algebraMap_eq fun a => by
-      show algebraMap L (E i) (algebraMap B L (algebraMap A B a)) =
+      change algebraMap L (E i) (algebraMap B L (algebraMap A B a)) =
         e (algebraMap K₁ D.L₁ (algebraMap A K₁ a)) i
       rw [← IsScalarTower.algebraMap_apply A B L]
       have hs : algebraMap K₁ D.L₁ (algebraMap A K₁ a) =

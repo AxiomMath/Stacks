@@ -113,7 +113,7 @@ private theorem ker_stalkMap_eq_maximalIdeal {Z X : Scheme.{u}} (i : Z ⟶ X)
     rw [← maximalIdeal_stalk_eq_bot z hz]
     exact IsLocalRing.maximalIdeal.isMaximal _
   have hkerMax : (RingHom.ker (i.stalkMap z).hom).IsMaximal := by
-    show (Ideal.comap (i.stalkMap z).hom (⊥ : Ideal (Z.presheaf.stalk z))).IsMaximal
+    change (Ideal.comap (i.stalkMap z).hom (⊥ : Ideal (Z.presheaf.stalk z))).IsMaximal
     exact Ideal.comap_isMaximal_of_surjective _ (i.stalkMap_surjective z) (K := ⊥) (H := hbot)
   exact IsLocalRing.eq_maximalIdeal hkerMax
 

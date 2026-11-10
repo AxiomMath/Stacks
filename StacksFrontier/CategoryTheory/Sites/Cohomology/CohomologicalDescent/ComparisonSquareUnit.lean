@@ -299,7 +299,7 @@ omit [Abelian 𝒳] [Abelian 𝒰] [Abelian 𝒴] [Abelian 𝒯] [HasInjectiveRe
   [fDir.Additive] [bDir.Additive] [hInv.PreservesMonomorphisms] [fInv.PreservesMonomorphisms]
   [∀ n, (r n).Additive] [∀ n, (r n).PreservesHomology] [∀ n, (s n).Additive]
   [∀ n, PreservesFiniteLimits (s n)] [∀ n, PreservesFiniteColimits (s n)]
-  [∀ n, (s n).PreservesInjectiveObjects] in
+  [∀ n, (s n).PreservesInjectiveObjects] [Category 𝒴] aAdj fAdj bAdj e in
 include r s hnAdj α hcons hAcycU in
 /-- The unit of `h` is invertible at every `a⁻¹F`, from the degreewise units. -/
 theorem isIso_unit_app_inverseImage_of_degreewise (F : 𝒳) :
@@ -308,7 +308,7 @@ theorem isIso_unit_app_inverseImage_of_degreewise (F : 𝒳) :
 
 omit [Abelian 𝒳] [Abelian 𝒴] [HasInjectiveResolutions 𝒰] [HasInjectiveResolutions 𝒴]
   [aDir.Additive] [fDir.Additive] [bDir.Additive] [hInv.PreservesMonomorphisms]
-  [fInv.PreservesMonomorphisms] in
+  [fInv.PreservesMonomorphisms] aAdj fAdj bAdj in
 include r s hnAdj α hcons hAcycU in
 /-- `M = a'⁻¹h₋₁⁻¹F` is right acyclic for `h_*`: its restriction to degree `n` is
 `h_n⁻¹((a⁻¹F)|_n)` by the square and the inverse-image square of degree `n`, at which the higher
@@ -331,9 +331,8 @@ Stacks 0DGG on single objects for `h₋₁` and for every `h_n`, and the stateme
 theorem isIso_derivedPlusAdjunction_unit_app_of_degreewise (K : DerivedCategory.Plus 𝒳) :
     IsIso ((Stacks.ComparingTopologies.derivedPlusAdjunction aAdj).unit.app K) :=
   isIso_derivedPlusAdjunction_unit_app_of_comparisonSquare aAdj hAdj fAdj bAdj e
-    (isIso_unit_app_inverseImage_of_degreewise aAdj hAdj fAdj bAdj e r s hnAdj α hcons hAcycU)
-    (isZero_rightDerived_inverseImage_of_degreewise aAdj hAdj fAdj bAdj e r s hnAdj α hcons
-      hAcycU)
+    (isIso_unit_app_inverseImage_of_degreewise hAdj r s hnAdj α hcons hAcycU)
+    (isZero_rightDerived_inverseImage_of_degreewise hAdj e r s hnAdj α hcons hAcycU)
     (fun _ ↦ (hDescent _).1) (fun _ ↦ (hDescent _).2) (fun F ↦ (hAcycX F).1)
     (fun F ↦ (hAcycX F).2) K
 
@@ -348,9 +347,8 @@ pullback on derived global sections, through the factorization of Stacks 08J6. -
 def derivedGlobalSectionsIsoOfDegreewise :
     ΓX.rightDerivedFunctorPlus ≅ aInv.mapDerivedCategoryPlus ⋙ ΓU.rightDerivedFunctorPlus :=
   derivedGlobalSectionsIsoOfComparisonSquare aAdj hAdj fAdj bAdj e ΓX ΓU eΓ
-    (isIso_unit_app_inverseImage_of_degreewise aAdj hAdj fAdj bAdj e r s hnAdj α hcons hAcycU)
-    (isZero_rightDerived_inverseImage_of_degreewise aAdj hAdj fAdj bAdj e r s hnAdj α hcons
-      hAcycU)
+    (isIso_unit_app_inverseImage_of_degreewise hAdj r s hnAdj α hcons hAcycU)
+    (isZero_rightDerived_inverseImage_of_degreewise hAdj e r s hnAdj α hcons hAcycU)
     (fun _ ↦ (hDescent _).1) (fun _ ↦ (hDescent _).2) (fun F ↦ (hAcycX F).1)
     (fun F ↦ (hAcycX F).2)
 

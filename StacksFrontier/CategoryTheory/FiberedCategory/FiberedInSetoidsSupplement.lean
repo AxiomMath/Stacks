@@ -505,6 +505,7 @@ section
 variable [p𝒳.IsFibered] [p𝒴.IsFibered] [hp𝒵 : p𝒵.IsFiberedInSetoids]
   (hF : IsFibredOneMorphism p𝒳 p𝒵 F) (hG : IsFibredOneMorphism p𝒴 p𝒵 G)
 
+omit [p𝒳.IsFibered] [p𝒴.IsFibered] hp𝒵 in
 /-- The two components of an object of the fibre of the 2-fibre product over `U` have the same
 image in `Ob(𝒵_U)/≅`: the comparison isomorphism of the object is an isomorphism of the fibre
 over `U` between their images. -/
@@ -536,6 +537,7 @@ def twoFibreProductIsoClassMapUniv (U : 𝒞) :
       · exact isoClassMk_eq_of_iso ((twoFibreProductFiberSndUniv p𝒳 p𝒴 p𝒵 F G U).mapIso
           ((isIsomorphicSetoid_r_iff _ _).1 h).some))
 
+omit [p𝒳.IsFibered] [p𝒴.IsFibered] in
 /-- **Stacks 04SD**, injectivity. -/
 lemma twoFibreProductIsoClassMap_injective_univ (U : 𝒞) :
     Function.Injective (twoFibreProductIsoClassMapUniv hF hG U) := by
@@ -549,6 +551,7 @@ lemma twoFibreProductIsoClassMap_injective_univ (U : 𝒞) :
       obtain ⟨e⟩ := exists_iso_of_twoFibreProduct_components_univ hF hG α β
       exact isoClassMk_eq_of_iso e
 
+omit [p𝒳.IsFibered] [p𝒴.IsFibered] hp𝒵 in
 /-- **Stacks 04SD**, surjectivity: a pair of isomorphism classes with the same image in
 `Ob(𝒵_U)/≅` is the pair of components of an object of the 2-fibre product, built from a chosen
 vertical isomorphism between chosen representatives. -/

@@ -195,7 +195,7 @@ theorem sheafAdjunctionContinuous_unit_app_hom_app (B : Sheaf J (Type w)) (W : C
     ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous u (Type w) J K).unit.app
       B).hom.app W =
       (u.op.lanUnit.app B.obj).app W ≫ (toSheafify K (u.op.lan.obj B.obj)).app (u.op.obj W) := by
-  show ((sheafToPresheaf J (Type w)).map
+  change ((sheafToPresheaf J (Type w)).map
     ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous u (Type w) J K).unit.app B)).app
       W = _
   have h := Adjunction.map_restrictFullyFaithful_unit_app
@@ -268,7 +268,7 @@ theorem isLocallyFromImage_sheafPullback [RepresentablyFlat u] (B : Sheaf J (Typ
     refine ⟨g.left.unop, φ₀.left.unop, g.hom.unop,
       (toSheafify K F).app _ (α.app g.left (B.obj.map φ₁.left y)), hφ₀, ?_⟩
     rw [← hx, ← hσ, ← hφ₁, op_comp, F.map_comp, types_comp_apply]
-    show _ = (toSheafify K F).app _ (F.map g.hom (α.app g.left (B.obj.map φ₁.left y)))
+    change _ = (toSheafify K F).app _ (F.map g.hom (α.app g.left (B.obj.map φ₁.left y)))
     congr 2
     exact hα φ₁.left.unop y
   · intro W a b V g hab
@@ -368,7 +368,7 @@ theorem IsLocallyFromImage.of_locallyIso (hu : CoverPreserving J K u) (P : Dᵒ�
       refine (NatTrans.naturality_apply e.hom
         (Over.homMk k₁ (by simp) : Over.mk k₁ ⟶ Over.mk (𝟙 (u.obj W₁))).op _).symm.trans
         (congrArg (e.hom.app _) ?_)
-      show P.map k₁.op (P.map (u.map f₁).op c) = _
+      change P.map k₁.op (P.map (u.map f₁).op c) = _
       rw [← Functor.map_comp_apply, ← op_comp, hk₁]
     have hab₁ : P'.map k₁.op (e.hom.app (op (Over.mk (𝟙 _))) (P.map (u.map f₁).op a)) =
         P'.map k₁.op (e.hom.app (op (Over.mk (𝟙 _))) (P.map (u.map f₁).op b)) := by
@@ -385,7 +385,7 @@ theorem IsLocallyFromImage.of_locallyIso (hu : CoverPreserving J K u) (P : Dᵒ�
         refine Eq.trans ?_ (NatTrans.naturality_apply e.inv (Over.homMk (u.map p) (by simp) :
           Over.mk (u.map p) ⟶ Over.mk (𝟙 (u.obj W₁))).op _).symm
         rw [hih]
-        show _ = P.map (u.map p).op (P.map (u.map f₁).op c)
+        change _ = P.map (u.map p).op (P.map (u.map f₁).op c)
         rw [← Functor.map_comp_apply, ← op_comp, u.map_comp]
       rw [hc, hc]
       exact congrArg _ hp

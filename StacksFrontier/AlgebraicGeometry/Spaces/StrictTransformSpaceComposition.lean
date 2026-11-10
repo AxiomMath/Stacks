@@ -71,6 +71,7 @@ variable {A X A' A'' : AlgebraicSpaces B S hS} (f : X ⟶ A) (b : A' ⟶ A) (c :
 variable (Z : ClosedSubspaces B S hS A.1) (Z' : ClosedSubspaces B S hS A'.1)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the big fppf site is expensive
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance (priority := high) hasLimitsOfShape_discrete_strictTransformSpaceComposition
@@ -893,7 +894,7 @@ theorem exists_iteratedStrictTransformSpace_iso
     ((iteratedStrictTransformSpaceι B S hS f b c Z Z').hom ≫
     (iteratedStrictTransformPullbackIso B S hS f b c).hom.hom) hrange
   refine ⟨ObjectProperty.isoMk _ (@asIso _ _ _ _ _ hiso), ObjectProperty.hom_ext _ ?_⟩
-  show Subfunctor.lift
+  change Subfunctor.lift
     ((iteratedStrictTransformSpaceι B S hS f b c Z Z').hom ≫
     (iteratedStrictTransformPullbackIso B S hS f b c).hom.hom) (le_of_eq hrange) ≫
     (strictTransformSubfunctor B S hS f (c ≫ b) (Y.1.preimage (c ≫ b).hom)).ι = _

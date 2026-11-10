@@ -55,7 +55,7 @@ theorem prodFst_eq_counit (P : Cᵒᵖ ⥤ Type u) :
 presheaf of a restriction with `h_U × P` carries the projection onto `P` to `prodFst`. -/
 theorem restrictPresheafProdNatIso_hom_app_prod_snd (P : Cᵒᵖ ⥤ Type u) :
     (restrictPresheafProdNatIso U).hom.app P ≫ prod.snd = prodFst U P := by
-  show prod.lift (prodSnd U P) (prodFst U P) ≫ prod.snd = prodFst U P
+  change prod.lift (prodSnd U P) (prodFst U P) ≫ prod.snd = prodFst U P
   exact prod.lift_snd _ _
 
 /-- **`prod.fst` pulls back along Stacks 03CD to `prodSnd`.** The identification of the coproduct
@@ -63,7 +63,7 @@ presheaf of a restriction with `h_U × P` carries the projection onto `h_U` to `
 remembering only the index. -/
 theorem restrictPresheafProdNatIso_hom_app_prod_fst (P : Cᵒᵖ ⥤ Type u) :
     (restrictPresheafProdNatIso U).hom.app P ≫ prod.fst = prodSnd U P := by
-  show prod.lift (prodSnd U P) (prodFst U P) ≫ prod.fst = prodSnd U P
+  change prod.lift (prodSnd U P) (prodFst U P) ≫ prod.fst = prodSnd U P
   exact prod.lift_fst _ _
 
 variable (J : GrothendieckTopology C)
@@ -74,7 +74,7 @@ theorem overPullbackNatIso_hom_app (X : Sheaf J (Type u)) :
     (overPullbackNatIso U J).hom.app X =
       (sheafificationAdjunction (J.over U) (Type u)).counit.app
         ((localizationPullback U J).obj X) := by
-  show (sheafificationAdjunction (J.over U) (Type u)).counit.app
+  change (sheafificationAdjunction (J.over U) (Type u)).counit.app
       ((localizationPullback U J).obj X) ≫ 𝟙 _ = _
   exact Category.comp_id _
 

@@ -69,7 +69,7 @@ theorem isLocallyConstant_of_forall_mul_right_eq {α : Type*} (N : OpenSubgroup 
   rw [IsLocallyConstant.iff_exists_open]
   intro x
   refine ⟨(fun y : G ↦ x⁻¹ * y) ⁻¹' (N : Set G), N.isOpen.preimage (by fun_prop),
-    by simp [N.one_mem], fun y hy ↦ ?_⟩
+    by simp, fun y hy ↦ ?_⟩
   simp only [Set.mem_preimage, SetLike.mem_coe] at hy
   rw [← hφ x _ hy, mul_inv_cancel_left]
 
@@ -88,7 +88,7 @@ theorem vanishesTwo_lcFun [CompactSpace G] [TotallyDisconnectedSpace G] :
         fun f : lcFun G B ↦ (f : G → B) 1⟩
   refine ⟨b, isLocallyConstant_of_forall_mul_right_eq N fun g n hn ↦ ?_, funext fun p ↦ ?_⟩
   · refine Subtype.ext (funext fun x ↦ ?_)
-    show ((f (x, g * n) : lcFun G B) : G → B) 1 = ((f (x, g) : lcFun G B) : G → B) 1
+    change ((f (x, g * n) : lcFun G B) : G → B) 1 = ((f (x, g) : lcFun G B) : G → B) 1
     have := hN x g 1 n N.one_mem hn
     rw [mul_one] at this
     rw [this]
@@ -148,6 +148,7 @@ theorem exists_invariant_lift_of_vanishesOne (hM₂ : HasOpenStabilizers G M₂)
   rw [smul_sub, ← hi_smul, hmg, map_add, hc]
   abel
 
+omit [IsTopologicalGroup G] hp in
 /-- **`H ¹(G, M₁) = 0` at the cochain level from `H ¹(G, M₂) = 0` and lifting of invariants.**
 A locally constant `1`-cocycle `c` of `M₁` is `dZero z` in `M₂`; the image of `z` in `M₃` is
 invariant, so lifts to an invariant `w`, and `z - w` comes from a trivializing element of `M₁`. -/

@@ -105,7 +105,7 @@ theorem familyChartScalar_map {U V : SmallEtale B (Spec (.of Λ)) hΛ P.space} (
       Functor.map_preimage, ← Category.assoc]
     exact congrArg (· ≫ P.toBase)
       (CostructuredArrow.w ((SmallEtale.inclusion B (Spec (.of Λ)) hΛ P.space).map g))
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
       ((SmallEtale.toOver B (Spec (.of Λ)) hΛ P.space).map g)).op).hom
       ((Scheme.Γ.map ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
         (familyChartToBase B hΛ hSpec P U)).op).hom (baseFunction B hΛ hSpec P a)) =
@@ -146,7 +146,7 @@ theorem definingIdealAt_baseSpecial_idChart (f : P.base ⟶ residueFieldBase Λ 
   let hf := K.2.2.rep
   let h := (baseIdChart B hΛ hSpec P.base).obj.hom
   have hfst : IsIso (hf.fst h) := (hf.isPullback h).isIso_fst_of_isIso (by
-    show IsIso (𝟙 (yoneda.obj (spaceBaseOver B hΛ hSpec P.base)))
+    change IsIso (𝟙 (yoneda.obj (spaceBaseOver B hΛ hSpec P.base)))
     exact IsIso.id _)
   have hmono : Mono j := by
     have hm : Mono ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
@@ -375,7 +375,7 @@ theorem definingIdealSheaf_ι_comp_specialEpsilonMul
     ModuleCat.hom_ext (LinearMap.ext fun x => Subtype.ext ?_))
   let y : ToType ((structureRingSheaf B (Spec (.of Λ)) hΛ (spaceTotalSpace B hΛ hSpec P)).obj.obj
     U) := x.1
-  show familyChartScalar B hΛ hSpec P U.unop εA * y = 0
+  change familyChartScalar B hΛ hSpec P U.unop εA * y = 0
   exact mul_eq_zero_of_mem_definingIdealAt B (Spec (.of Λ)) hΛ
     (spaceSpecialSubspace B hΛ hSpec P f) hG
     (familyChartScalar_mem_definingIdealAt B hΛ hSpec P f εA hk U.unop) x.2
@@ -421,7 +421,7 @@ theorem epi_specialEpsilonMul :
     rwa [← definingIdealAt_spaceSpecialSubspace_affine B hΛ hSpec P f εA hk d.U]
   obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.1 hy'
   refine ⟨c, Subtype.ext ?_⟩
-  show familyChartScalar B hΛ hSpec P d.U εA * c = y'
+  change familyChartScalar B hΛ hSpec P d.U εA * c = y'
   let : CommRing (ToType ((structureRingSheaf B (Spec (.of Λ)) hΛ
       (spaceTotalSpace B hΛ hSpec P)).obj.obj (op d.U))) :=
     inferInstanceAs (CommRing ((smallEtaleRingedSite B (Spec (.of Λ)) hΛ P.space

@@ -117,13 +117,13 @@ def prodEquivTwist : (k × V) ≃ₗ[k] Twisted z where
 theorem prodEquivTwist_inr (v : V) :
     prodEquivTwist z hz (0, v) = inrTwist z hz v := by
   apply fromTwisted_injective z
-  show z 0 + TrivSqZeroExt.inr v = TrivSqZeroExt.inr v
+  change z 0 + TrivSqZeroExt.inr v = TrivSqZeroExt.inr v
   rw [map_zero, zero_add]
 
 /-- The first component of `prodEquivTwist z hz p` is `p.1`. -/
 theorem fstTwist_prodEquivTwist (p : k × V) :
     fstTwist z hz (prodEquivTwist z hz p) = p.1 := by
-  show TrivSqZeroExt.fst (z p.1 + TrivSqZeroExt.inr p.2) = p.1
+  change TrivSqZeroExt.fst (z p.1 + TrivSqZeroExt.inr p.2) = p.1
   simp [hz]
 
 /-- `inrTwist z hz` factors as `V ⟶ k × V ≃ k[V]` through `prodEquivTwist z hz`. -/

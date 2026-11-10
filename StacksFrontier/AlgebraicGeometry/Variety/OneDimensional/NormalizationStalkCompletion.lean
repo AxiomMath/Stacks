@@ -196,7 +196,7 @@ private theorem ofTensorProductAlgEquiv_includeLeft
           (A := AdicCompletion I A) (B := B) y) =
       adicCompletionMap (algebraMap A B) I (I.map (algebraMap A B)) le_rfl y := by
   refine AdicCompletion.ext_evalₐ fun n => ?_
-  show AdicCompletion.evalₐ _ n (ofTensorProductLinearEquiv I B (y ⊗ₜ[A] (1 : B))) = _
+  change AdicCompletion.evalₐ _ n (ofTensorProductLinearEquiv I B (y ⊗ₜ[A] (1 : B))) = _
   rw [ofTensorProductLinearEquiv_tmul_eval, evalₐ_adicCompletionMap]
   simp
 
@@ -209,7 +209,7 @@ private theorem ofTensorProductAlgEquiv_includeRight
         (Algebra.TensorProduct.includeRight (R := A) (A := AdicCompletion I A) (B := B) b) =
       algebraMap B (AdicCompletion (I.map (algebraMap A B)) B) b := by
   refine AdicCompletion.ext_evalₐ fun n => ?_
-  show AdicCompletion.evalₐ _ n
+  change AdicCompletion.evalₐ _ n
     (ofTensorProductLinearEquiv I B ((1 : AdicCompletion I A) ⊗ₜ[A] b)) = _
   rw [ofTensorProductLinearEquiv_tmul_eval]
   simp
@@ -277,7 +277,7 @@ private theorem exists_injective_range_eq_integralClosure_adicCompletion_of_dim_
         Algebra.TensorProduct.includeLeft_apply (R := A) (S := A) (A := D) (B := Ac),
         Algebra.TensorProduct.comm_tmul, Algebra.TensorProduct.congr_apply,
         Algebra.TensorProduct.map_tmul, AlgEquiv.refl_toAlgHom, AlgHom.id_apply]
-      show ofTensorProductAlgEquiv (maximalIdeal A) B
+      change ofTensorProductAlgEquiv (maximalIdeal A) B
         (Algebra.TensorProduct.includeRight (eNorm.symm (eNorm b))) = _
       rw [AlgEquiv.symm_apply_apply eNorm b]
       exact ofTensorProductAlgEquiv_includeRight (maximalIdeal A) B b
@@ -342,7 +342,7 @@ private theorem exists_injective_range_eq_integralClosure_adicCompletion_of_isFi
     have hB : eBhat.symm (algebraMap B C (algebraMap A B a)) = algebraMap A B a :=
       (AdicCompletion.ofAlgEquiv J).symm_apply_eq.mpr
         ((AdicCompletion.ofAlgEquiv J).commutes _).symm
-    show eAhat (eBA (eBhat.symm (algebraMap B C (algebraMap A B a)))) = _
+    change eAhat (eBA (eBhat.symm (algebraMap B C (algebraMap A B a)))) = _
     rw [hB, show eBA (algebraMap A B a) = a by simp [eBA], hae]
   refine ⟨qEq.toRingHom, fun a => ?_, gAlg.toRingHom, ?_, ?_, fun y => ?_, fun b => ?_⟩
   · rw [← eAhat.commutes a]
@@ -353,7 +353,7 @@ private theorem exists_injective_range_eq_integralClosure_adicCompletion_of_isFi
       eCA.surjective
   · simpa [gAlg] using congrArg (algebraMap Ac (FractionRing Ac)) (heCA y)
   · rw [show f b = algebraMap A (FractionRing A) (eBA b) from (eAK.apply_symm_apply (f b)).symm]
-    show algebraMap Ac (FractionRing Ac) (eCA (algebraMap B C b)) = _
+    change algebraMap Ac (FractionRing Ac) (eCA (algebraMap B C b)) = _
     rw [show eCA (algebraMap B C b) = eAhat (eBA b) by
       simp [eCA, eBhat, AdicCompletion.ofAlgEquiv]]
     exact (IsFractionRing.ringEquivOfRingEquiv_algebraMap eAhat.toRingEquiv (eBA b)).symm

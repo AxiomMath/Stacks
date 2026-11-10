@@ -100,7 +100,8 @@ the factorization of `F̄` through the localization. -/
 theorem rightDerivedFunctorPlusIsoMapDerivedCategoryPlus_inv_app_comp_inv_unit
     (K : HomotopyCategory.Plus A) [IsIso (F.rightDerivedFunctorPlusUnith.app K)] :
     (rightDerivedFunctorPlusIsoMapDerivedCategoryPlus F).inv.app
-        (DerivedCategory.Plus.Qh.obj K) ≫ CategoryTheory.inv (F.rightDerivedFunctorPlusUnith.app K) =
+        (DerivedCategory.Plus.Qh.obj K) ≫
+        CategoryTheory.inv (F.rightDerivedFunctorPlusUnith.app K) =
       F.mapDerivedCategoryPlusFactorsh.hom.app K := by
   rw [← cancel_mono (F.mapDerivedCategoryPlusFactorsh.inv.app K), Category.assoc,
     Iso.hom_inv_id_app, ← unit_comp_rightDerivedFunctorPlusIsoMapDerivedCategoryPlus_hom_app,
@@ -121,7 +122,7 @@ theorem mapDerivedCategoryPlusObjSingleIso_hom (X : A) :
   have : IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) :=
     NatIso.isIso_app_of_isIso F.rightDerivedFunctorPlusUnith _
-  show (rightDerivedFunctorPlusIsoMapDerivedCategoryPlus F).inv.app _ ≫
+  change (rightDerivedFunctorPlusIsoMapDerivedCategoryPlus F).inv.app _ ≫
     F.rightDerivedFunctorPlus.map ((singleFunctorPlusIsoCompQh (A := A) 0).hom.app X) ≫
     CategoryTheory.inv (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) ≫
@@ -155,7 +156,7 @@ theorem mapDerivedCategoryPlusFactorsh_inv_comp_idIso_hom_app {A : Type*} [Categ
     Functor.leftUnitor_hom_app, Functor.rightUnitor_inv_app]
   refine ((Category.comp_id _).trans (Category.comp_id _)).trans
     (congrArg DerivedCategory.Plus.Qh.map ?_)
-  show (mapHomotopyCategoryPlusNatIso e).hom.app L ≫
+  change (mapHomotopyCategoryPlusNatIso e).hom.app L ≫
     (mapHomotopyCategoryPlusIdIso A).hom.app L = _
   rw [mapHomotopyCategoryPlusIdIso_comp_hom]
   apply (HomotopyCategory.Plus.ι A).map_injective
@@ -276,7 +277,7 @@ theorem unit_comp_splitting_app (L : HomotopyCategory.Plus C) :
         (derivedSquareSplitting Γ r).app (DerivedCategory.Plus.Qh.obj L) =
       derivedSquareNu Γ r L := by
   have h1 := rightDerivedFunctorPlusComp_fac_app Γ r L
-  show (Γ ⋙ r).rightDerivedFunctorPlusUnith.app L ≫
+  change (Γ ⋙ r).rightDerivedFunctorPlusUnith.app L ≫
       (rightDerivedFunctorPlusComp Γ r).app (DerivedCategory.Plus.Qh.obj L) ≫
         (Functor.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus r).hom.app
           (Γ.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj L)) = _
@@ -449,7 +450,7 @@ theorem mapDerivedCategoryPlusCompTrans_app (τ : P ⟶ P₁ ⋙ P₂) (K : Homo
           P₂.mapDerivedCategoryPlusFactorsh.inv.app (P₁.mapHomotopyCategoryPlus.obj K) ≫
             P₂.mapDerivedCategoryPlus.map (P₁.mapDerivedCategoryPlusFactorsh.inv.app K) := by
   rw [mapDerivedCategoryPlusCompTrans, Localization.liftNatTrans_app]
-  show P.mapDerivedCategoryPlusFactorsh.hom.app K ≫
+  change P.mapDerivedCategoryPlusFactorsh.hom.app K ≫
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatTrans τ).app K ≫
         (mapHomotopyCategoryPlusCompIso (Iso.refl (P₁ ⋙ P₂))).inv.app K) ≫
       (P₂.mapDerivedCategoryPlusFactorsh.inv.app (P₁.mapHomotopyCategoryPlus.obj K) ≫
@@ -494,7 +495,7 @@ theorem mapHomotopyCategoryPlusObjSingleIso_comp (τ : P ⟶ P₁ ⋙ P₂) (X :
     (congrArg (P₂.mapHomotopyCategory _).map
       (mapHomotopyCategoryPlusObjSingleIso_hom_hom P₁ X)).trans rfl
   ext
-  show ((Functor.mapHomotopyCategoryPlusNatTrans τ).app
+  change ((Functor.mapHomotopyCategoryPlusNatTrans τ).app
         ((HomotopyCategory.Plus.singleFunctor C₀ 0).obj X)).hom ≫
       (P₂.mapHomotopyCategoryPlus.map (P₁.mapHomotopyCategoryPlusObjSingleIso 0 X).hom).hom ≫
         (P₂.mapHomotopyCategoryPlusObjSingleIso 0 (P₁.obj X)).hom.hom =

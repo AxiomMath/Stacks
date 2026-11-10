@@ -139,7 +139,7 @@ theorem exists_chartRetraction_of_formallySmooth
     hpb.w ht hu hA
   have hrange : Subfunctor.range (yoneda.map t) ≤ Z.preimage A.1.hom := by
     rintro T _ ⟨y, rfl⟩
-    show A.1.hom.app T ((yoneda.map t).app T y) ∈ Z.obj T
+    change A.1.hom.app T ((yoneda.map t).app T y) ∈ Z.obj T
     rw [← NatTrans.comp_app_apply, hpb.w]
     exact (u.app T y).2
   let lt := Subfunctor.lift (yoneda.map t) hrange
@@ -153,7 +153,7 @@ theorem exists_chartRetraction_of_formallySmooth
       ← Category.assoc (yoneda.map t) g, hg₁, Category.id_comp]
   refine ⟨ObjectProperty.homMk (g ≫ lt), ObjectProperty.hom_ext _ hι,
     ObjectProperty.hom_ext _ ?_⟩
-  show (g ≫ lt) ≫ (Z.preimage A.1.hom).ι ≫ A.1.hom ≫ (h' ≫ p).hom = A.1.hom ≫ (h' ≫ p).hom
+  change (g ≫ lt) ≫ (Z.preimage A.1.hom).ι ≫ A.1.hom ≫ (h' ≫ p).hom = A.1.hom ≫ (h' ≫ p).hom
   rw [Category.assoc, ← Category.assoc lt, hlt]
   exact hg₂
 

@@ -52,7 +52,7 @@ theorem derivedStructureSheaf_endomorphisms_commute
   obtain ⟨c₀, hc⟩ := (DerivedCategory.singleFunctor Z.Modules 0).map_surjective c.hom
   obtain ⟨d₀, hd⟩ := (DerivedCategory.singleFunctor Z.Modules 0).map_surjective d.hom
   refine ObjectProperty.hom_ext _ ?_
-  show c.hom ≫ d.hom = d.hom ≫ c.hom
+  change c.hom ≫ d.hom = d.hom ≫ c.hom
   rw [← hc, ← hd]
   exact ((DerivedCategory.singleFunctor Z.Modules 0).map_comp c₀ d₀).symm.trans
     ((congrArg (DerivedCategory.singleFunctor Z.Modules 0).map

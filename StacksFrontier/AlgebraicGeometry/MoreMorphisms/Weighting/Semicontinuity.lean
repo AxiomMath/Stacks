@@ -90,13 +90,13 @@ private lemma exists_isOpen_weight_le {X Y : Scheme.{u}} (f : X ⟶ Y)
   have hcenter : separableDegreeWeightedFiberSum g (w ∘ j) U.point = w x := by
     rw [separableDegreeWeightedFiberSum_eq_of_fiber_singleton g (w ∘ j) U.point (a j₀)
       hfiber ha hpure]
-    show w (j (a j₀)) = w x
+    change w (j (a j₀)) = w x
     rw [hax]
   have hLC := isLocallyConstant_fiberSum_of_isFinite_opens hw U.toBase V hfinite
   let W : Set U.scheme := {u | separableDegreeWeightedFiberSum g (w ∘ j) u = w x}
   have hWopen : IsOpen W := hLC.isOpen_fiber (w x)
   refine ⟨j '' (g ⁻¹' W), j.isOpenMap _ (hWopen.preimage g.continuous), ⟨a j₀, ?_, hax⟩, ?_⟩
-  · show g (a j₀) ∈ W
+  · change g (a j₀) ∈ W
     rw [ha]
     exact hcenter
   · rintro z ⟨z', hz'W, rfl⟩

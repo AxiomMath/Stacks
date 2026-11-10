@@ -161,7 +161,7 @@ private theorem coefficientQuotientMap_comp_subtype_surjective (n : ℕ)
   refine DFinsupp.ext fun d => ?_
   have hcoeff : (∑ e ∈ x.support, monomial e (rep e)).coeff d =
       if d ∈ x.support then rep d else 0 := by
-    simp [coeff_sum, coeff_monomial, Finset.sum_ite_eq' x.support d rep]
+    simp [coeff_monomial, Finset.sum_ite_eq' x.support d rep]
   simp only [LinearMap.coe_comp, Function.comp_apply, Submodule.coe_subtype,
     coefficientQuotientMap_apply, hcoeff]
   split_ifs with hd
@@ -180,9 +180,9 @@ theorem flat_quotientGrading (hK : Monotone K)
   have hflat' : ∀ d, Module.Flat R (R ⧸ K' d) := by
     intro d
     by_cases h : d.degree = n
-    · rw [hK' d, if_pos h]
+    · rw [hK' d, ite_eq_left h]
       exact hflat d
-    · rw [hK' d, if_neg h]
+    · rw [hK' d, ite_eq_right h]
       infer_instance
   set 𝒜 := homogeneousSubmodule σ R
   set J := coefficientIdeal K with hJ
@@ -210,7 +210,7 @@ theorem flat_quotientGrading (hK : Monotone K)
     simp only [LinearMap.mem_ker, h1, h2]
     exact hmem _ q.2
   have hgsurj : Function.Surjective g :=
-    coefficientQuotientMap_comp_subtype_surjective K' n fun d hd => by rw [hK' d, if_neg hd]
+    coefficientQuotientMap_comp_subtype_surjective K' n fun d hd => by rw [hK' d, ite_eq_right hd]
   have hrange : LinearMap.range h = quotientGrading 𝒜 J n := by
     rw [hh, LinearMap.range_comp, Submodule.range_subtype]
     rfl
@@ -239,7 +239,7 @@ theorem bijective_algebraMap_quotientGrading_zero (hK : Monotone K) (hK0 : K 0 =
       ext d
       rcases eq_or_ne d 0 with rfl | hd
       · simp
-      · rw [coeff_C, if_neg (Ne.symm hd),
+      · rw [coeff_C, ite_eq_right (Ne.symm hd),
           (mem_homogeneousSubmodule 0 p).mp hp |>.coeff_eq_zero
             (fun hdeg => hd ((Finsupp.degree_eq_zero_iff d).mp hdeg))]
     exact congrArg (Ideal.Quotient.mk (coefficientIdeal K)) hpC

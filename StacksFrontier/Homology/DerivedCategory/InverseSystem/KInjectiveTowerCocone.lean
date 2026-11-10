@@ -111,7 +111,7 @@ theorem exists_injective_tower_representative
       (K.obj (.op n)) a
     let J := (InjectiveObject.ι C).mapCochainComplexPlus.obj I
     have hJ : J.obj.IsStrictlyGE a := by
-      show CochainComplex.IsStrictlyGE
+      change CochainComplex.IsStrictlyGE
         (((InjectiveObject.ι C).mapHomologicalComplex (.up ℤ)).obj I.obj) a
       infer_instance
     have hinj (q : ℤ) : Injective (J.obj.X q) := inferInstanceAs (Injective (I.obj.X q).obj)
@@ -159,7 +159,7 @@ theorem isIso_piComparison_Q_of_isKInjective
   · apply (cancel_epi e.hom).1
     apply hb.injective
     funext n
-    show (e.hom ≫ f) ≫ Q.map (Pi.π X n) = (e.hom ≫ g) ≫ Q.map (Pi.π X n)
+    change (e.hom ≫ f) ≫ Q.map (Pi.π X n) = (e.hom ≫ g) ≫ Q.map (Pi.π X n)
     simpa only [Q, Category.assoc, piComparison_comp_π] using
       congrArg (fun h => e.hom ≫ h ≫ Pi.π (fun n => Q.obj (X n)) n) hfg
   · obtain ⟨g, hg⟩ := hb.surjective (fun n => e.hom ≫ f ≫
@@ -346,11 +346,11 @@ lemma map_mappingCocone_proj_comp_map
     have he : (HomologicalComplex.homologyFunctor B (.up ℤ) j).map
         ((E.mapHomologicalComplex (.up ℤ)).map (p ≫ d)) = 0 := by
       apply (cancel_epi (e.app _).hom).1
-      show e.hom.app _ ≫ _ = _
+      change e.hom.app _ ≫ _ = _
       rw [← e.hom.naturality]
-      show Hd.map (F.map (p ≫ d)) ≫ _ = _
+      change Hd.map (F.map (p ≫ d)) ≫ _ = _
       rw [hp, Hd.map_zero, zero_comp, comp_zero]
-    show G.map ((HomologicalComplex.homologyFunctor B (.up ℤ) j).map
+    change G.map ((HomologicalComplex.homologyFunctor B (.up ℤ) j).map
       ((E.mapHomologicalComplex (.up ℤ)).map (p ≫ d))) = 0
     rw [he, G.map_zero]
   have hstep (n : ℕ) : H.map (p ≫ Pi.π X (n + 1)) ≫
@@ -362,7 +362,7 @@ lemma map_mappingCocone_proj_comp_map
   intro m n hmn
   induction n, hmn using Nat.le_induction with
   | base =>
-      show H.map (p ≫ Pi.π X m) ≫ H.map (I.map (𝟙 _)) = H.map (p ≫ Pi.π X m)
+      change H.map (p ≫ Pi.π X m) ≫ H.map (I.map (𝟙 _)) = H.map (p ≫ Pi.π X m)
       rw [I.map_id, H.map_id, Category.comp_id]
   | succ n hmn ih =>
       have hmap : I.map (homOfLE (hmn.trans (Nat.le_succ n))).op =
@@ -414,7 +414,7 @@ theorem exists_mappingCocone_iso_of_isKInjective_tower
       Q.map (Pi.π X n) ≫ e.hom.app (.op n) := by
     dsimp only [a, Iso.trans_hom]
     rw [Category.assoc, HasLimit.isoOfNatIso_hom_π, ← Category.assoc]
-    show (piComparison Q X ≫ Pi.π (fun n => Q.obj (X n)) n) ≫ _ = _
+    change (piComparison Q X ≫ Pi.π (fun n => Q.obj (X n)) n) ≫ _ = _
     rw [piComparison_comp_π]
     rfl
   let pc : CochainComplex.mappingCocone d ⟶ ∏ᶜ X :=
@@ -446,7 +446,7 @@ theorem exists_mappingCocone_iso_of_isKInjective_tower
   refine ⟨et₁, fun n => ?_⟩
   have hc : Q.map pc ≫ a.hom = et₁.hom ≫ p :=
     (congrArg (fun u => T.mor₁ ≫ u) het₂).symm.trans et.hom.comm₁
-  show Q.map (pc ≫ Pi.π X n) ≫ _ = _
+  change Q.map (pc ≫ Pi.π X n) ≫ _ = _
   rw [Q.map_comp, Category.assoc, ← ha, ← Category.assoc, hc, Category.assoc]
 
 end Stacks.InverseSystem

@@ -61,7 +61,7 @@ theorem pullbackMapHomotopyCompIso_trans_hom_app_quotient {P : SheafOfModules.{w
       (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
         ((NatTrans.mapHomologicalComplex τ (ComplexShape.up ℤ)).app N) := by
   subst hτ
-  show (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
+  change (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
       ((Functor.mapHomologicalComplexCompIso (RingedToposHom.pullbackModulesCompIso f g).symm
         (ComplexShape.up ℤ)).hom.app N) ≫
     (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map

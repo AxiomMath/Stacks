@@ -185,7 +185,8 @@ theorem isIso_tensorAwayLocalizationFunctor_map (j : Fin r)
       IsUnit (((toAwaySheaf h).hom.app U).hom (globalSectionVal (f j) U)))
     {S T : Finset (Fin r)} (hST : S ⊆ T) (hTS : T ⊆ insert j S) :
     IsIso ((awayLocalizationFunctor X f ⋙
-      ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).flip.obj (awayModule X h))).map (homOfLE hST)) := by
+      ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).flip.obj
+        (awayModule X h))).map (homOfLE hST)) := by
   refine (NatIso.isIso_map_iff (awayLocalizationBaseChangeIso X.O f (toAwaySheaf h))
     (homOfLE hST)).2 ?_
   have : IsIso (awayModuleTransition (awayRingedSite X h)
@@ -207,10 +208,12 @@ extended alternating Čech complex of the base-changed localization system
 `Stacks.Sheaves.CechFlatNeighbourhood.tensorExtendedAlternatingCechIso`, whose flatness
 hypothesis is `isFlat_awayModule`. -/
 def tensorAwayExtendedAlternatingCechIso :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).flip.obj (awayModule X h))).mapHomologicalComplex
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).flip.obj
+      (awayModule X h))).mapHomologicalComplex
       (ComplexShape.up ℤ)).obj (extendedAlternatingCech X f) ≅
       AlternatingCech.complex (awayLocalizationFunctor X f ⋙
-        ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).flip.obj (awayModule X h))) :=
+        ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).flip.obj
+          (awayModule X h))) :=
   @tensorExtendedAlternatingCechIso X.C _ X.J _ _ _ _ X.O r f (awaySheaf h) (toAwaySheaf h)
     (isFlat_awayModule X h).1
 
@@ -222,10 +225,13 @@ theorem isZero_Q_tensorAwayModule_extendedAlternatingCech_of_isUnit (j : Fin r)
     (hj : ∀ U : X.Cᵒᵖ,
       IsUnit (((toAwaySheaf h).hom.app U).hom (globalSectionVal (f j) U))) :
     IsZero (DerivedCategory.Q.obj
-      (((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).flip.obj (awayModule X h))).mapHomologicalComplex
+      (((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).flip.obj
+        (awayModule X h))).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj (extendedAlternatingCech X f))) := by
   have hz : IsZero (DerivedCategory.Q.obj (AlternatingCech.complex
-      (awayLocalizationFunctor X f ⋙ ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).flip.obj (awayModule X h))))) :=
+      (awayLocalizationFunctor X f ⋙
+        ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).flip.obj
+          (awayModule X h))))) :=
     AlternatingCech.isZero_Q_complex _ j
       fun hST hTS => isIso_tensorAwayLocalizationFunctor_map X f h j hj hST hTS
   exact hz.of_iso (DerivedCategory.Q.mapIso (tensorAwayExtendedAlternatingCechIso X f h))
@@ -242,7 +248,8 @@ the commutativity constraint of [Stacks, Tag 0FPT]. -/
 theorem memVanishingIdeal_completionFunctor_of_isUnit (j : Fin r)
     (hj : ∀ U : X.Cᵒᵖ,
       IsUnit (((toAwaySheaf h).hom.app U).hom (globalSectionVal (f j) U)))
-    (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O))) :
+    (K : DerivedCategory
+      (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O))) :
     MemVanishingIdeal X ((completionFunctor X f).obj K) h := by
   have h1 : IsZero (((Stacks.SheafOfModules.derivedTensorProductFunctor X).obj
       (DerivedCategory.Q.obj (extendedAlternatingCech X f))).obj (derivedAwayModule X h)) :=
@@ -255,7 +262,8 @@ theorem memVanishingIdeal_completionFunctor_of_isUnit (j : Fin r)
   exact isZero_derivedSheafHom_completionFunctor_of_isZero_tensor X f
     (derivedAwayModule X h) K h2
 
-variable (L : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)))
+variable (L : DerivedCategory
+    (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)))
 
 /-- **Every non-empty subproduct of the generators lies in the vanishing locus of a completion**:
 `R𝑆heafHom_𝒪(𝒪_{f_S}, K^∧) = 0` for every `K` and every non-empty `S`, with no hypothesis.
@@ -389,7 +397,7 @@ augmentation induces, and `Φ` carries the second factor to an isomorphism by
 theorem isIso_completionFunctor_map_completionUnit_app :
     IsIso ((completionFunctor X f).map ((completionUnit X f).app L)) := by
   have haug := isIso_completionFunctor_map_derivedSheafHom_map_cechAugmentation X f L
-  show IsIso ((completionFunctor X f).map ((derivedStructureSheafHomIso X L).inv ≫
+  change IsIso ((completionFunctor X f).map ((derivedStructureSheafHomIso X L).inv ≫
     ((derivedSheafHomBifunctor X).flip.obj L).map
       (DerivedCategory.Q.map (cechAugmentation X f)).op))
   rw [Functor.map_comp]
@@ -406,7 +414,8 @@ by `Stacks.Algebraization.bijective_precomp_completionUnit`, whose two hypothese
 (`isIso_completionFunctor_map_completionUnit_app`); the target `Φ Φ K` satisfies the predicate
 by clause 1. -/
 theorem completionFunctor_map_completionUnit_app
-    (I : SheafOfModules.Submodule (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)))
+    (I : SheafOfModules.Submodule
+      (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)))
     (hI : ∀ (i : Fin r) (U : X.C),
       globalSectionVal (f i) (op U) ∈ I.toSubmodule.obj (op U))
     (hΦ : ∀ K, IsDerivedComplete.{u, u, u, u} X I ((completionFunctor X f).obj K)) :
@@ -425,7 +434,8 @@ derived-complete objects into `D(𝒪)` has a left adjoint: clause 2 is
 `isIso_completionUnit_app_of_isDerivedComplete` and clause 3 is
 `completionFunctor_map_completionUnit_app` above. -/
 theorem isRightAdjoint_ι_isDerivedComplete_of_isDerivedComplete_completion
-    (I : SheafOfModules.Submodule (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)))
+    (I : SheafOfModules.Submodule
+      (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)))
     (hI : ∀ (i : Fin r) (U : X.C),
       globalSectionVal (f i) (op U) ∈ I.toSubmodule.obj (op U))
     (hΦ : ∀ K, IsDerivedComplete.{u, u, u, u} X I ((completionFunctor X f).obj K)) :
@@ -504,7 +514,8 @@ bijection into an adjunction. -/
 @[stacks 099B "the tag's formula for the left adjoint: `K^∧ = R𝑆heafHom_𝒪(Č(f), K)`, with
   precomposition by `K ⟶ K^∧` bijective on morphisms into a derived-complete object"]
 theorem bijective_precomp_completionUnit_idealOfGlobalSections
-    {Z : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O))}
+    {Z : DerivedCategory
+      (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O))}
     (hZ : IsDerivedComplete.{u, u, u, u} X (idealOfGlobalSections X f) Z) :
     Function.Bijective
       (fun g : (completionFunctor X f).obj L ⟶ Z ↦ (completionUnit X f).app L ≫ g) :=

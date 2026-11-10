@@ -221,6 +221,7 @@ theorem representableRelocalizationSheafMapCompInverseImageIso_hom_app_split
   rfl
 
 set_option maxHeartbeats 1000000 in
+-- elaborating and unfolding the long composite of sheaf-equivalence and relocalization isos
 /-- `representableRelocalizationSheafMapCompInverseImageIso_hom_app_split` with every factor
 written through `CategoryTheory.OverShriek.sheafEquivalence`, and in the spelling of
 `AlgebraicGeometry.RingedTopos.localizationAtRelocalizationObjectInverseImageIso`. -/

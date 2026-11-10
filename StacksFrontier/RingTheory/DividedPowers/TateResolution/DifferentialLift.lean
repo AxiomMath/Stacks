@@ -185,22 +185,22 @@ public theorem exists_oddExtAlgHom_of_differential
     refine ⟨{ toFun := fun a => oddExtPair 𝒜 a (signRingEquiv 𝒜 1 (D a))
               map_one' := ?_, map_mul' := ?_, map_zero' := ?_, map_add' := ?_
               commutes' := ?_ }, fun _ => rfl⟩
-    · show oddExtPair 𝒜 1 (signRingEquiv 𝒜 1 (D 1)) = 1
+    · change oddExtPair 𝒜 1 (signRingEquiv 𝒜 1 (D 1)) = 1
       rw [hD0 1 (SetLike.one_mem_graded 𝒜), map_zero, oddExtPair_zero_right, map_one]
     · intro x y
-      show oddExtPair 𝒜 (x * y) (signRingEquiv 𝒜 1 (D (x * y))) =
+      change oddExtPair 𝒜 (x * y) (signRingEquiv 𝒜 1 (D (x * y))) =
         oddExtPair 𝒜 x (signRingEquiv 𝒜 1 (D x)) * oddExtPair 𝒜 y (signRingEquiv 𝒜 1 (D y))
       refine (OddVariableExtension.coefficients 𝒜 1).injective ?_
       rw [OddVariableExtension.coefficients_mul, coefficients_oddExtPair,
         coefficients_oddExtPair, coefficients_oddExtPair]
       refine Prod.ext rfl ?_
-      show signRingEquiv 𝒜 1 (D (x * y)) =
+      change signRingEquiv 𝒜 1 (D (x * y)) =
         x * signRingEquiv 𝒜 1 (D y) + signRingEquiv 𝒜 1 (D x) * signRingEquiv 𝒜 1 y
       rw [map_mul_of_leibniz 𝒜 D hDleibniz x y, map_add, map_mul, map_mul, hσinv]
-    · show oddExtPair 𝒜 0 (signRingEquiv 𝒜 1 (D 0)) = 0
+    · change oddExtPair 𝒜 0 (signRingEquiv 𝒜 1 (D 0)) = 0
       rw [map_zero, map_zero, oddExtPair_zero_right, map_zero]
     · intro x y
-      show oddExtPair 𝒜 (x + y) (signRingEquiv 𝒜 1 (D (x + y))) =
+      change oddExtPair 𝒜 (x + y) (signRingEquiv 𝒜 1 (D (x + y))) =
         oddExtPair 𝒜 x (signRingEquiv 𝒜 1 (D x)) + oddExtPair 𝒜 y (signRingEquiv 𝒜 1 (D y))
       refine (OddVariableExtension.coefficients 𝒜 1).injective ?_
       simp only [map_add, coefficients_oddExtPair, Prod.mk_add_mk]
@@ -233,7 +233,7 @@ public theorem exists_oddExtAlgHom_of_differential
   rw [coefficients_dpow 𝒜 γ n hn.ne' hΦa, hΦ (γ.dpow n a), hΦ a, coefficients_oddExtPair,
     coefficients_oddExtPair]
   refine Prod.ext rfl ?_
-  show signRingEquiv 𝒜 1 (D (γ.dpow n a)) = γ.dpow (n - 1) a * signRingEquiv 𝒜 1 (D a)
+  change signRingEquiv 𝒜 1 (D (γ.dpow n a)) = γ.dpow (n - 1) a * signRingEquiv 𝒜 1 (D a)
   rw [hDdpow n a hn.ne' ha, map_mul, signRingEquiv_one_of_mem_evenPart 𝒜 heven,
     mul_comm_of_mem_evenPart 𝒜 heven]
 
@@ -453,7 +453,7 @@ public theorem exists_differential_lift_gradedDividedPowerPolynomial
     ⟨{ toFun := d
        map_add' := d.map_add
        map_smul' := fun r' a => by
-         show d (r' • a) = r' • d a
+         change d (r' • a) = r' • d a
          rw [hsmul' r' a, hsmul' r' (d a), d.map_smul] }, fun _ => rfl⟩
   have hd'0 : ∀ a : A, a ∈ coefficientRestrictGrade q hsmul 𝒜 0 → d' a = 0 := by
     intro a ha

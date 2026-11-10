@@ -154,7 +154,7 @@ theorem exists_kernel_section {C : Type*} [Category* C] {J : GrothendieckTopolog
     ∃ y : (kernel a).obj.obj (op W), (kernel.ι a).hom.app (op W) y = z := by
   let E := sheafToPresheaf J Ab.{u + 1} ⋙ (evaluation Cᵒᵖ Ab.{u + 1}).obj (op W)
   refine ⟨(PreservesKernel.iso E a).inv ((AddCommGrpCat.kernelIsoKer (E.map a)).inv ⟨z, hz⟩), ?_⟩
-  show (E.map (kernel.ι a)) ((PreservesKernel.iso E a).inv
+  change (E.map (kernel.ι a)) ((PreservesKernel.iso E a).inv
     ((AddCommGrpCat.kernelIsoKer (E.map a)).inv ⟨z, hz⟩)) = z
   rw [← CategoryTheory.comp_apply, PreservesKernel.iso_inv_ι E a, ← CategoryTheory.comp_apply,
     AddCommGrpCat.kernelIsoKer_inv_comp_ι (E.map a)]

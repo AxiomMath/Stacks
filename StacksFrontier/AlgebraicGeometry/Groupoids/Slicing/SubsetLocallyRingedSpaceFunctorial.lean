@@ -102,7 +102,7 @@ lemma subsetPresheafedSpaceMap_comp_ofSubset {X Y : Scheme.{u}} (g : X ⟶ Y) (E
     subsetPresheafedSpaceMap g E E' h ≫ ofSubset Y.toLocallyRingedSpace E =
       ofSubset X.toLocallyRingedSpace E' ≫ g.toLRSHom.toHom := by
   refine PresheafedSpace.ext _ _ rfl ?_
-  show (subsetPresheafedSpaceMap g E E' h ≫ ofSubset Y.toLocallyRingedSpace E).c ≫
+  change (subsetPresheafedSpaceMap g E E' h ≫ ofSubset Y.toLocallyRingedSpace E).c ≫
       Functor.whiskerRight (𝟙 _) _ = _
   rw [Functor.whiskerRight_id']
   exact (Category.comp_id _).trans (congrArg (fun z : Y.toSheafedSpace.sheaf ⟶ _ => z.hom)
@@ -124,7 +124,7 @@ lemma stalkMap_subsetPresheafedSpaceMap {X Y : Scheme.{u}} (g : X ⟶ Y) (E : Se
   have H := PresheafedSpace.stalkMap.congr_hom _ _
     (subsetPresheafedSpaceMap_comp_ofSubset g E E' h) x
   refine H1.symm.trans (H.trans ?_)
-  show (𝟙 _ : _ ⟶ _) ≫ _ = _
+  change (𝟙 _ : _ ⟶ _) ≫ _ = _
   exact (Category.id_comp _).trans H2
 
 /-- **The induced morphism of restrictions is local on stalks.** Its stalk map is, through the

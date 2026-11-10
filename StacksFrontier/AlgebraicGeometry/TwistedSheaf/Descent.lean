@@ -70,7 +70,8 @@ of Tag 02P2, which is Tag 02P0, in
 `StacksFrontier/AlgebraicGeometry/Divisors/Meromorphic/`.
 
 No attribute for Tag 0BEM is attached: the tag sits on the unconditional
-Euler-characteristic theorem of the tagged statement, and the results here are conditional on the two inputs above.
+Euler-characteristic theorem of the tagged statement, and the results here are conditional on the
+two inputs above.
 
 ## References
 

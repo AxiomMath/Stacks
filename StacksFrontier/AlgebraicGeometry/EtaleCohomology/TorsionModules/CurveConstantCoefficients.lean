@@ -248,7 +248,7 @@ theorem module_finite_etaleCohomology_constantSheaf
   have hA : ((ℓ : ℤ) • 𝟙 A) = 0 := by
     refine AddCommGrpCat.ext fun x => ?_
     apply ULift.ext
-    show (ℓ : ℤ) • x.down = 0
+    change (ℓ : ℤ) • x.down = 0
     rw [zsmul_eq_mul, Int.cast_natCast, ZMod.natCast_self, zero_mul]
   have hF : ((ℓ : ℤ) • 𝟙 F) = 0 := by
     rw [← CategoryTheory.Functor.map_id, ← Functor.map_zsmul, hA, Functor.map_zero]

@@ -60,7 +60,7 @@ lemma rightDerivedCompObjIsoOfPreservesInjectiveObjects_hom_naturality {X Y : A}
   let φ := InjectiveResolution.desc f RY RX
   have hc : (mapInjectiveResolution G RX).ι ≫ (G.mapHomologicalComplex _).map φ =
       (CochainComplex.single₀ B).map (G.map f) ≫ (mapInjectiveResolution G RY).ι := by
-    show ((HomologicalComplex.singleMapHomologicalComplex G (ComplexShape.up ℕ) 0).inv.app X ≫
+    change ((HomologicalComplex.singleMapHomologicalComplex G (ComplexShape.up ℕ) 0).inv.app X ≫
         (G.mapHomologicalComplex _).map RX.ι) ≫ (G.mapHomologicalComplex _).map φ =
       (CochainComplex.single₀ B).map (G.map f) ≫
         ((HomologicalComplex.singleMapHomologicalComplex G (ComplexShape.up ℕ) 0).inv.app Y ≫

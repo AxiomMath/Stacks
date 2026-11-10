@@ -285,7 +285,7 @@ theorem finiteDimensional_tangentSpaceArtinian_of_injective [IsLocallyNoetherian
         letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor
             (predeformationCategory iΛ ((Stack.fibredCategory B S hS F).val.p ⋙
               Over.post B.inclusion) x₀ hx₀).projection).p) := ⟨hD.predeformation⟩
-        letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+        letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
             (BasedCategory.ofFunctor (predeformationCategory iΛ
               ((Stack.fibredCategory B S hS F).val.p ⋙ Over.post B.inclusion) x₀
                 hx₀).projection)
@@ -321,7 +321,7 @@ theorem finiteDimensional_tangentSpaceArtinian_of_injective [IsLocallyNoetherian
     inferInstance (φ.obj x₀) y₀ ⟨hLFT, hQC⟩
   let : Fact (IsPredeformationCategory (BasedCategory.ofFunctor Cy.projection).p) :=
     ⟨hDG.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
       (BasedCategory.ofFunctor Cy.projection) hDG.predeformation.cofibered))) :=
     ⟨tangentConditionS2 hDG⟩
   have hTG' : FiniteDimensional k ↥(tangentModuleAt (BasedCategory.ofFunctor Cy.projection) hDG

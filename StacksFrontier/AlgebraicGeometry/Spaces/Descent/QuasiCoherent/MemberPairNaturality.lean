@@ -285,6 +285,7 @@ theorem memberSheafOfLaws_val_map_apply (p q : (MemberSite B S hS Yi f hf)ᵒᵖ
   (memberSheafOfLaws_val_map_eq_memberFunctorOfLawsV B S hS Yi f hf D hL hM hsh p q g m).trans
     (memberDatumAbFunctor_map_apply B S hS Yi f hf D hL p q g m)
 
+omit [(memberFunctor B S hS Yi f hf).IsCoverDense (SmallEtale.topology B S hS X.1)] in
 /-- The transition factor of the restriction map, read on a section, is the reading of the
 transition at the test space of the arrow. -/
 theorem memberDatumAbTransHom_val_app_reading (p q : (MemberSite B S hS Yi f hf)ᵒᵖ) (g : p ⟶ q)

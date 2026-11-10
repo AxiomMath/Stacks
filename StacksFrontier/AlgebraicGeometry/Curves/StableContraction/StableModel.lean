@@ -76,7 +76,7 @@ so its ring of sections is that of the empty open of `X`, which is zero, and the
 theorem isDominant_of_isIso_unitToPushforwardObjUnit
     (hO : IsIso (SheafOfModules.unitToPushforwardObjUnit c.toRingCatSheafHom)) : IsDominant c := by
   refine ⟨?_⟩
-  show Dense (Set.range c)
+  change Dense (Set.range c)
   rw [dense_iff_inter_open]
   intro W hW hne
   by_contra hempty

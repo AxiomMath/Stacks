@@ -80,7 +80,7 @@ theorem isIso_restrictionBaseChange_comoduleSubsheaf
       (etaleTopology B) (etaleTopology_le_topology B)).obj.map φ.op).hom.Flat := by
     have : IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒳.val.val.p.obj x)) := hx
     have : IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒳.val.val.p.obj z)) := hz
-    show RingHom.Flat ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map φ)).appTop.hom
+    change RingHom.Flat ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map φ)).appTop.hom
     exact HasRingHomProperty.appTop (P := @Flat) _ hflat
   exact Stacks.PresheafOfModules.isIso_restrictionBaseChange_submodule
     (R := (AlgebraicGeometry.Stack.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
@@ -141,7 +141,7 @@ theorem exists_quasicoherent_hom_range_eq_comoduleSubmodule
   have hb : Function.Bijective (ε.val.app (op u)) :=
     bijective_val_app_of_isIso _ ((NatIso.isIso_map_iff e ε).1 hpb)
       (op (⟨u, hflat⟩ : FlatFppf B S hS 𝒳))
-  show Set.range (fun y => (ε.val.app (op u) y).1) = _ ∧
+  change Set.range (fun y => (ε.val.app (op u) y).1) = _ ∧
     Function.Injective (fun y => (ε.val.app (op u) y).1)
   refine ⟨Set.ext fun x => ⟨?_, fun hx => ?_⟩, fun y y' h => hb.1 (Subtype.ext h)⟩
   · rintro ⟨y, rfl⟩

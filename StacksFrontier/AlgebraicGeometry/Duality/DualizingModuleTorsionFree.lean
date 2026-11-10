@@ -115,7 +115,7 @@ theorem isTorsionFree_of_isDualizingComplex_singleZero [IsDomain A] (M : ModuleC
     (mem_associatedPrimes_self_of_mem_associatedPrimes_maximalIdeal
       (ModuleCat.of B (LocalizedModule.AtPrime p M)) hMp hass)
   have hr : algebraMap A B r ∈ maximalIdeal B := by
-    rw [← Localization.AtPrime.comap_maximalIdeal (I := p)] at hrp
+    rw [← Localization.AtPrime.under_maximalIdeal (I := p)] at hrp
     exact hrp
   rw [hbot, Ideal.mem_bot] at hr
   exact h.1 ((IsLocalization.injective B p.primeCompl_le_nonZeroDivisors) (by simpa using hr))

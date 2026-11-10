@@ -169,7 +169,7 @@ theorem IsPresBelow.algRestrict {k : I} {n : ℤ} {U V : Cᵒᵖ} (f : U ⟶ V)
         exact Finsupp.mem_support_iff.mp hw''
       rw [map_add]
       refine IsPresBelow.add ?_ (ih hb')
-      show IsPresBelow 𝒮 k (SheafOfModules.algRestrict 𝒮 n f (algOf 𝒮 n w r))
+      change IsPresBelow 𝒮 k (SheafOfModules.algRestrict 𝒮 n f (algOf 𝒮 n w r))
       rw [algRestrict_algOf]
       exact isPresBelow_algOf _ ((wordBelow_wordMap k f w.1).2 hw') _
   exact key a ha

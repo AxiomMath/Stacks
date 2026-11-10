@@ -120,12 +120,12 @@ theorem rel_of_rel_after_extension_of_large_field (j : PreRelation R U)
     refine prod.hom_ext ?_ ?_
     · simp only [Category.assoc, hpairFst]
       refine Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_)
-      show (r ≫ j.target).left.hom = yoneda.map f ≫ y.1
+      change (r ≫ j.target).left.hom = yoneda.map f ≫ y.1
       rw [← hy, ← hrt]
       rfl
     · simp only [Category.assoc, hpairSnd]
       refine Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_)
-      show (r ≫ j.source).left.hom = yoneda.map f ≫ x.1
+      change (r ≫ j.source).left.hom = yoneda.map f ≫ x.1
       rw [← hx, ← hrs]
       rfl
   -- The point of `R` over the extension, and the point of `U ×_B U` over the field.
@@ -161,11 +161,11 @@ theorem rel_of_rel_after_extension_of_large_field (j : PreRelation R U)
     exact over_w_hom pair
   refine (rel_presheafPreRelation_iff j y x).mpr
     ⟨testPointOver ⟨yonedaEquiv.symm z, hzb⟩, Subtype.ext ?_, Subtype.ext ?_⟩
-  · show yonedaEquiv.symm z ≫ j.target.left.hom = y.1
+  · change yonedaEquiv.symm z ≫ j.target.left.hom = y.1
     rw [show j.target.left.hom = j.left.hom ≫ (prod.fst : U ⨯ U ⟶ U).left.hom from rfl,
       ← Category.assoc, hzj]
     exact congrArg (fun g : _ ⟶ U ↦ g.left.hom) hpairFst
-  · show yonedaEquiv.symm z ≫ j.source.left.hom = x.1
+  · change yonedaEquiv.symm z ≫ j.source.left.hom = x.1
     rw [show j.source.left.hom = j.left.hom ≫ (prod.snd : U ⨯ U ⟶ U).left.hom from rfl,
       ← Category.assoc, hzj]
     exact congrArg (fun g : _ ⟶ U ↦ g.left.hom) hpairSnd

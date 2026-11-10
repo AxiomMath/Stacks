@@ -412,8 +412,7 @@ private lemma interMap_injective (A₀ B T₀ : Type u) [CommRing A₀] [CommRin
   have hagree : ∀ z : ↥(interAlg A₀ B s) ⊗[A₀] T₀,
       interMap A₀ B T₀ s z = LinearMap.rTensor T₀ (interAlg A₀ B s).val.toLinearMap z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a t => simp [interMap]
     | add x y hx hy => simp [hx, hy]
   intro x y hxy
@@ -435,8 +434,7 @@ private lemma exists_interMap_eq {A₀ B T₀ : Type u} [CommRing A₀] [CommRin
     [Algebra A₀ B] [Algebra A₀ T₀] (ξ : B ⊗[A₀] T₀) :
     ∃ s : Finset B, ∃ x, interMap A₀ B T₀ s x = ξ := by
   classical
-  induction ξ using TensorProduct.induction_on with
-  | zero => exact ⟨∅, 0, by rw [map_zero]⟩
+  induction ξ using TensorProduct.inductionOn with
   | tmul b t =>
       refine ⟨{b}, (⟨b, Algebra.subset_adjoin (by simp)⟩ : ↥(interAlg A₀ B {b})) ⊗ₜ t, ?_⟩
       rw [interMap, Algebra.TensorProduct.map_tmul, AlgHom.id_apply, Subalgebra.val_apply]
@@ -485,8 +483,7 @@ private lemma adjoin_tmul_image_eq_top {A₀ A T₀ : Type u} [CommRing A₀] [C
         exact mul_mem hx hy
   have h2 : ∀ ξ : A ⊗[A₀] T₀, ξ ∈ C := by
     intro ξ
-    induction ξ using TensorProduct.induction_on with
-    | zero => exact zero_mem _
+    induction ξ using TensorProduct.inductionOn with
     | tmul a t =>
         rw [show a ⊗ₜ[A₀] t = (algebraMap A (A ⊗[A₀] T₀) a) * ((1 : A) ⊗ₜ[A₀] t) from by
           rw [Algebra.TensorProduct.algebraMap_apply, Algebra.TensorProduct.tmul_mul_tmul,
@@ -785,7 +782,7 @@ private theorem ind_localIso_iff_ind_algebraMap {R Λ : Type u} [CommRing R] [Co
   have hinv : (CommAlgCat.localIso.{u, u} R) = (CommRingCat.localIso.{u}).underObj.inverseImage
       (commAlgCatEquivUnder (CommRingCat.of R)).functor := by
     ext S
-    show Algebra.IsLocalIso R S ↔
+    change Algebra.IsLocalIso R S ↔
       RingHom.Locally RingHom.IsStandardOpenImmersion (algebraMap R S)
     exact Algebra.isLocalIso_iff_locally
   rw [MorphismProperty.ind_iff_ind_underMk,
@@ -845,7 +842,7 @@ private theorem isLocalIso_changeBase {A : Type u} {A' : Type*} {E : Type*} [Com
   have h1 : Algebra.IsStandardOpenImmersion A' A :=
     Algebra.IsStandardOpenImmersion.of_bijective eA.symm.bijective
   have h2 : IsScalarTower A' A E := IsScalarTower.of_algebraMap_eq fun a' ↦ by
-    show algebraMap A' E a' = algebraMap A E (eA.symm a')
+    change algebraMap A' E a' = algebraMap A E (eA.symm a')
     rw [he, eA.apply_symm_apply]
   exact Algebra.IsLocalIso.trans A' A E
 
@@ -862,7 +859,7 @@ private theorem ind_localIso_changeScalars {A : Type u} {B : Type v} {T : Type w
     refine ⟨J, inferInstance, inferInstance, pres.map E.functor, fun j ↦ ?_⟩
     exact @isLocalIso_changeBase A B (pres.diag.obj j) _ _ _ (pres.diag.obj j).algebra
       ((StacksDraft.commAlgChangeScalars e).obj (pres.diag.obj j)).algebra e (fun a ↦ by
-        show algebraMap A (pres.diag.obj j) a =
+        change algebraMap A (pres.diag.obj j) a =
           algebraMap A (pres.diag.obj j) (e.symm (e a))
         rw [e.symm_apply_apply]) (hp j)
   refine (CommAlgCat.localIso.{v, w} B).ind.prop_of_iso ?_ ht
@@ -871,7 +868,7 @@ private theorem ind_localIso_changeScalars {A : Type u} {B : Type v} {T : Type w
     { toRingEquiv := RingEquiv.refl T
       commutes' := by
         intro b
-        show algebraMap A T (e.symm b) = algebraMap B T b
+        change algebraMap A T (e.symm b) = algebraMap B T b
         rw [he, e.apply_symm_apply] }
 
 /-- Ind-Zariski-ness transports along a commuting square of ring equivalences, even when the two
@@ -899,16 +896,16 @@ private theorem isIndZariski_ofEquivAux {A B : Type u} {A' B' : Type v}
     { toRingHom := eB.symm.toRingHom.comp (f.toRingHom.comp eC.toRingEquiv.toRingHom)
       commutes' := by
         intro a
-        show eB.symm (f (eC (algebraMap A (Shrink C) a))) = _
+        change eB.symm (f (eC (algebraMap A (Shrink C) a))) = _
         rw [eC.commutes]
-        show eB.symm (f (algebraMap A' C (eA a))) = _
+        change eB.symm (f (algebraMap A' C (eA a))) = _
         rw [f.commutes, ← he, eB.symm_apply_apply] }
   let _ : Algebra.FinitePresentation A (Shrink.{u} C) :=
     Algebra.FinitePresentation.equiv eC.symm
   obtain ⟨E, _, _, hli, g, h, hgh⟩ := hi _ f'
   let _ : Algebra A' E := ((algebraMap A E).comp eA.symm.toRingHom).toAlgebra
   have hli' : Algebra.IsLocalIso A' E := isLocalIso_changeBase eA (fun a ↦ by
-    show algebraMap A E a = algebraMap A E (eA.symm (eA a))
+    change algebraMap A E a = algebraMap A E (eA.symm (eA a))
     rw [eA.symm_apply_apply])
   let _ : Algebra A' A := eA.symm.toRingHom.toAlgebra
   have htower : IsScalarTower A' A E := IsScalarTower.of_algebraMap_eq' rfl
@@ -926,22 +923,22 @@ private theorem isIndZariski_ofEquivAux {A B : Type u} {A' B' : Type v}
       commutes' := ?_ }, ?_⟩
   · intro a
     apply eE.injective
-    show eE (eE.symm (g (eC.symm (algebraMap A' C a)))) = _
+    change eE (eE.symm (g (eC.symm (algebraMap A' C a)))) = _
     rw [eE.apply_symm_apply, eE.commutes]
     have hc : algebraMap A' C a = algebraMap A C (eA.symm a) := by
-      show _ = algebraMap A' C (eA (eA.symm a))
+      change _ = algebraMap A' C (eA (eA.symm a))
       rw [eA.apply_symm_apply]
     rw [hc, eC.symm.commutes, g.commutes]
     rfl
   · intro a
-    show eB (h (eE (algebraMap A' (Shrink E) a))) = _
+    change eB (h (eE (algebraMap A' (Shrink E) a))) = _
     rw [eE.commutes]
-    show eB (h (algebraMap A E (eA.symm a))) = _
+    change eB (h (algebraMap A E (eA.symm a))) = _
     rw [h.commutes, he, eA.apply_symm_apply]
   · ext c
-    show eB (h (eE (eE.symm (g (eC.symm c))))) = f c
+    change eB (h (eE (eE.symm (g (eC.symm c))))) = f c
     rw [eE.apply_symm_apply, ← AlgHom.comp_apply, hgh]
-    show eB (eB.symm (f (eC (eC.symm c)))) = f c
+    change eB (eB.symm (f (eC (eC.symm c)))) = f c
     rw [eC.apply_symm_apply, eB.apply_symm_apply]
 
 /-- Ind-Zariski-ness of `A → B` is ind-Zariski-ness of the fully lifted map `ULift A → ULift B`,

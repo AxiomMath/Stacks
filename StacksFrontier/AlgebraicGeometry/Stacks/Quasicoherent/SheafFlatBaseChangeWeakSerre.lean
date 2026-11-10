@@ -287,6 +287,7 @@ private theorem exact_epi_shortExact_map_sheafRestrictComparison
     (inferInstance : Epi (P.map T.g)), hT.map_of_exact _⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `IsIso` and `Mono` on maps of short complexes of sheaves of modules
 /-- **The comparison map of sheaves is an isomorphism at an extension** of two modules at which
 it is an isomorphism. The source functor is right exact and the target functor exact, so the
 comparison is a map from a right exact sequence to a short exact one, isomorphic at the ends; the
@@ -306,6 +307,7 @@ theorem isIso_sheafRestrictComparison_app_of_shortExact
   exact ShortComplex.isIso₂_of_shortExact_of_isIso₁₃ ψ ⟨hPe⟩ hR
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `Mono` through the associated-module and pullback functors
 omit [HasWeakSheafify (associatedTopology B S hS p (etaleTopology B)) AddCommGrpCat.{u}]
   [(associatedTopology B S hS p (etaleTopology B)).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Along a flat morphism, the inverse image of sheaves of modules keeps the image `f^a` of a
@@ -324,12 +326,15 @@ private theorem mono_map_sheafifiedPullbackComparison_associatedModule
     (etaleTopology_le_topology B) φ
   have : Mono (N.hom.app _ ≫ (Scheme.Modules.pullback (B.inclusion.map (p.map φ).left) ⋙
       SmallEtale.associatedModule E (p.obj z).left.1 (contains_base B E h S hS p z)).map f) :=
-    mono_comp' (@IsIso.mono_of_iso _ _ _ _ (N.hom.app _) (Iso.isIso_hom (N.app _))) (Functor.map_mono _ _)
+    mono_comp' (@IsIso.mono_of_iso _ _ _ _ (N.hom.app _) (Iso.isIso_hom (N.app _)))
+      (Functor.map_mono _ _)
   rw [← N.hom.naturality f] at this
   exact @mono_of_mono _ _ _ _ _ _ (N.hom.app _) this
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `Mono` through the restriction functors is expensive
 set_option maxHeartbeats 800000 in
+-- instance search for `Mono` and finite-limit preservation through the restriction functors
 /-- **The inverse image of sheaves of modules along a flat morphism is injective on
 monomorphisms between quasi-coherent modules.** For `φ : z ⟶ x` over a flat morphism `a` and a
 monomorphism `ι : F₁ ⟶ F₂` of locally quasi-coherent étale sheaves of `𝒪_𝒳`-modules, the

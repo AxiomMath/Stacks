@@ -88,7 +88,7 @@ def commonSubalgebra_fromF
     F.middle →ₐ[A] commonSubalgebra F G := by
   let f := IsScalarTower.toAlgHom A F.middle B
   exact f.codRestrict (commonSubalgebra F G) (fun z =>
-    (SetLike.le_def.mp (show f.range ≤ commonSubalgebra F G from le_sup_left))
+    (IsConcreteLE.le_iff.mp (show f.range ≤ commonSubalgebra F G from le_sup_left))
       (f.mem_range_self z))
 
 /-- The second intermediate algebra maps to the common subalgebra. -/
@@ -99,7 +99,7 @@ def commonSubalgebra_fromG
     G.middle →ₐ[A] commonSubalgebra F G := by
   let g := IsScalarTower.toAlgHom A G.middle B
   exact g.codRestrict (commonSubalgebra F G) (fun z =>
-    (SetLike.le_def.mp (show g.range ≤ commonSubalgebra F G from le_sup_right))
+    (IsConcreteLE.le_iff.mp (show g.range ≤ commonSubalgebra F G from le_sup_right))
       (g.mem_range_self z))
 
 /-- The map of the first intermediate algebra into the common subalgebra is compatible with
@@ -279,7 +279,7 @@ theorem canonicalDualizingModuleEquiv_tmul_of_commonRefinement
   let eG := finiteSubalgebraChangeToF G C rGc (commonSubalgebra_fromG_comp_val F G) hfin
   let : Module C (Module.Dual A C) := algebraDualModule A C
   have hj (c : C) : algebraMap K B (j c) = C.val c := by
-    show (IsScalarTower.toAlgHom A K B) (D.val (e.symm c)) = c.val
+    change (IsScalarTower.toAlgHom A K B) (D.val (e.symm c)) = c.val
     exact congrArg C.val (e.apply_symm_apply c)
   have hjF (c : F.middle) : j (rFc c) = rF c := hK <| by
     rw [hj, hF]
@@ -368,8 +368,7 @@ theorem dualizingModuleEquiv_finiteAlgebraChangeToF
       (fun c => congrArg (fun f : F.middle →ₐ[A] B => f c) hcompF)
       (fun c => congrArg (fun f : G.middle →ₐ[A] B => f c) hcompG) φ b
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z₁ z₂ h₁ h₂ => rw [map_add, map_add, map_add, h₁, h₂]
   | tmul φ b =>
       have hF : finiteAlgebraChangeToF F hfin rF hcompF hinj (φ ⊗ₜ[D] b) =

@@ -132,7 +132,7 @@ private lemma range_under_localization {T : Type*} [CommRing T] [Algebra A T]
   · rintro ⟨hp, hdis⟩
     refine ⟨⟨Ideal.map (algebraMap A T) p,
       IsLocalization.isPrime_of_isPrime_disjoint (nonZeroSMulDivisors A M) T p hp hdis⟩, ?_⟩
-    show (Ideal.map (algebraMap A T) p).under A = p
+    change (Ideal.map (algebraMap A T) p).under A = p
     exact IsLocalization.under_map_of_isPrime_disjoint (nonZeroSMulDivisors A M) T hp hdis
 
 /-- For a module over `A ⧸ I`, the associated primes over `A` are the contractions of the
@@ -195,7 +195,7 @@ private lemma biUnion_assStacks_eq_compl_regular :
   rw [biUnion_assStacks_quotient_preimage (A := A) (M := M) I,
     biUnion_assStacks_quotient_eq_compl_regular (A := A) (M := M) I]
   ext y
-  show ¬ (Ideal.Quotient.mk I y ∈ nonZeroSMulDivisors (A ⧸ I) M) ↔
+  change ¬ (Ideal.Quotient.mk I y ∈ nonZeroSMulDivisors (A ⧸ I) M) ↔
     ¬ (y ∈ nonZeroSMulDivisors A M)
   exact not_congr <|
     (isSMulRegular_iff_mem_nonZeroSMulDivisors (M := M)).symm.trans <|
@@ -477,8 +477,7 @@ private lemma universallyInjectivePoly_tensorUnit_of_faithfullyFlat {R L Lp M : 
   have he (z : M ⊗[R] Q) :
       e (((((TensorProduct.mk L M Lp).flip) 1).restrictScalars R).rTensor Q z) =
         ((TensorProduct.mk L (M ⊗[R] Q) Lp).flip 1) z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul m q => simp [e, TensorProduct.AlgebraTensorModule.rightComm_tmul]
     | add a b ha hb => simp [map_add, ha, hb]
   intro a b hab
@@ -538,17 +537,17 @@ theorem universallyInjectivePoly_tensorUnit_of_flat {R : Type u} {S : Type v} {S
         (Algebra.algebraMapSubmonoid S' Sigma) Lp q' hq' hdq'
     refine ⟨⟨Q', hQ'⟩, ?_⟩
     apply (IsLocalization.orderEmbedding Sigma L).injective
-    show (Ideal.comap (algebraMap L Lp) Q').under S = q.asIdeal.under S
+    change (Ideal.comap (algebraMap L Lp) Q').under S = q.asIdeal.under S
     calc
       (Ideal.comap (algebraMap L Lp) Q').under S = Q'.under S := by
-        show Ideal.comap (algebraMap S L) (Ideal.comap (algebraMap L Lp) Q') =
+        change Ideal.comap (algebraMap S L) (Ideal.comap (algebraMap L Lp) Q') =
           Ideal.comap (algebraMap S Lp) Q'
         rw [Ideal.comap_comap, IsScalarTower.algebraMap_eq S L Lp]
       _ = Ideal.comap (algebraMap S S') q' := by
-        show Ideal.comap (algebraMap S Lp) Q' = Ideal.comap (algebraMap S S') q'
+        change Ideal.comap (algebraMap S Lp) Q' = Ideal.comap (algebraMap S S') q'
         rw [IsScalarTower.algebraMap_eq S S' Lp, ← Ideal.comap_comap]
         dsimp [Q']
-        show Ideal.comap (algebraMap S S') ((Ideal.map (algebraMap S' Lp) q').under S') =
+        change Ideal.comap (algebraMap S S') ((Ideal.map (algebraMap S' Lp) q').under S') =
           Ideal.comap (algebraMap S S') q'
         rw [IsLocalization.under_map_of_isPrime_disjoint
           (Algebra.algebraMapSubmonoid S' Sigma) Lp hq' hdq']

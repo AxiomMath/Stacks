@@ -31,7 +31,7 @@ inclusion of `K` with the projection onto the quotient by `K'`. -/
 theorem conjSubobject_le_conjSubobject_iff (hL : PreservesFiniteColimits L)
     (e : P₂ ≅ P₁ ⋙ L) {M : C} (K K' : Subobject (P₁.obj M)) :
     conjSubobject e K ≤ conjSubobject e K' ↔ L.map (K.arrow ≫ cokernel.π K'.arrow) = 0 := by
-  show kernelSubobject (conjQuotientProjection e K) ≤
+  change kernelSubobject (conjQuotientProjection e K) ≤
     kernelSubobject (conjQuotientProjection e K') ↔ _
   constructor
   · intro hle

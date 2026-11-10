@@ -85,7 +85,7 @@ theorem comp_mul' {P P' : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : P' ⟶ P)
     (u v : P ⟶ G.obj.X.left) : f ≫ (u * v) = (f ≫ u) * (f ≫ v) := by
   let : GrpObj G.obj.X := G.obj.grp
   apply (homEquiv G P').injective
-  show toOver G (f ≫ (u * v)) = toOver G ((f ≫ u) * (f ≫ v))
+  change toOver G (f ≫ (u * v)) = toOver G ((f ≫ u) * (f ≫ v))
   rw [toOver_mul, ← homMk_comp_toOver G f u, ← homMk_comp_toOver G f v, ← MonObj.comp_mul,
     ← toOver_mul]
   rfl
@@ -96,7 +96,7 @@ theorem comp_inv' {P P' : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : P' ⟶ P)
   rw [eq_inv_iff_mul_eq_one, ← comp_mul', inv_mul_cancel]
   let : GrpObj G.obj.X := G.obj.grp
   apply (homEquiv G P').injective
-  show toOver G (f ≫ 1) = toOver G 1
+  change toOver G (f ≫ 1) = toOver G 1
   have h1 : toOver G (1 : P ⟶ G.obj.X.left) = 1 := (homEquiv G P).apply_symm_apply 1
   have h1' : toOver G (1 : P' ⟶ G.obj.X.left) = 1 := (homEquiv G P').apply_symm_apply 1
   rw [← homMk_comp_toOver G f 1, h1, h1', MonObj.comp_one]

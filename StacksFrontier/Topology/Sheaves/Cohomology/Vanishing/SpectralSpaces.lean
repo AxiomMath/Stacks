@@ -272,7 +272,7 @@ private theorem subsingleton_sheafH'_bot
         uniq := fun f => (rep G).injective ((hsections G).elim _ _) }
     exact IsInitial.ofUnique P
   let hP : IsZero P := hPinit.isZero
-  show Subsingleton (Abelian.Ext.{u} P F n)
+  change Subsingleton (Abelian.Ext.{u} P F n)
   cases n with
   | zero =>
     let : Subsingleton (P ⟶ F) := ⟨fun f g => hP.eq_of_src f g⟩

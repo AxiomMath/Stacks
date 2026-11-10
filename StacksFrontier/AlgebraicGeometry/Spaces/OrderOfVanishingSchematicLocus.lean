@@ -126,9 +126,9 @@ theorem PrimeDivisor.exists_affine_schematic_neighborhood
   have hpt : W.ι.base (⟨V.point, hvW⟩ : W.toScheme) = V.point := rfl
   refine ⟨openRestrictionNeighborhood B S hS X hX (Z.genericPoint B S hS X) V W hvW, hW,
     ?_, ?_, ?_⟩
-  · show AlgebraicGeometry.IsIntegral W.toScheme
+  · change AlgebraicGeometry.IsIntegral W.toScheme
     exact AlgebraicGeometry.isIntegral_of_isOpenImmersion W.ι
-  · show IsLocallyNoetherian W.toScheme
+  · change IsLocallyNoetherian W.toScheme
     infer_instance
   · rw [← Scheme.coheight_opens W (⟨V.point, hvW⟩ : W.toScheme), hpt]
     exact hVcoh
@@ -143,17 +143,15 @@ agrees, on the image of the total ring of fractions of the global sections, with
 define the embedding of Stacks 0ENK. -/
 theorem PrimeDivisor.functionFieldToTotalFractionRing_totalFractionRingToFunctionField
     [IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
-    (hCofiltered :
-      IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X)))
     (U : ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X))
     [IsAffine U.scheme.left.1] [AlgebraicGeometry.IsIntegral U.scheme.left.1]
     (b : FractionRing Γ(U.scheme.left.1, ⊤)) :
     Z.functionFieldToTotalFractionRing B S hS hX hdec U
         (U.scheme.left.1.totalFractionRingToFunctionField U.point b) =
-      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U hCofiltered b := by
+      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U b := by
   have key : (Z.functionFieldToTotalFractionRing B S hS hX hdec U).comp
       (U.scheme.left.1.totalFractionRingToFunctionField U.point) =
-      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U hCofiltered := by
+      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U := by
     refine IsLocalization.ringHom_ext (Γ(U.scheme.left.1, ⊤))⁰ ?_
     ext a
     have h1 : Z.functionFieldToTotalFractionRing B S hS hX hdec U
@@ -164,7 +162,7 @@ theorem PrimeDivisor.functionFieldToTotalFractionRing_totalFractionRingToFunctio
           (stalkToHenselianLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec U
             ((U.scheme.left.1.presheaf.germ ⊤ U.point trivial) a)) :=
       IsLocalization.map_eq _ _
-    have h2 : Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U hCofiltered
+    have h2 : Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U
         (algebraMap Γ(U.scheme.left.1, ⊤) (FractionRing Γ(U.scheme.left.1, ⊤)) a) =
         algebraMap ↥(Z.genericHenselianLocalRing B S hS hX hdec)
           (Z.genericTotalFractionRing B S hS hX hdec)
@@ -199,8 +197,6 @@ theorem PrimeDivisor.ord_eq_scheme_ord_of_chart
     Z.isNoetherianRing_genericHenselianLocalRing B S hS hX hdec hInt hN
   have : Ring.KrullDimLE 1 ↥(Z.genericHenselianLocalRing B S hS hX hdec) :=
     Z.krullDimLE_genericHenselianLocalRing B S hS hX hdec hInt hN
-  have hCof := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-    (Z.genericPoint B S hS X) ⟨Z.genericChart B S hS hX hdec⟩
   set g := rationalFunctionsToFunctionField B S hS hX U.scheme U.point U.toSpace U.etale_toSpace
     (f : rationalFunctions B S hS hX) with hgdef
   have hg : g ≠ 0 :=
@@ -211,8 +207,8 @@ theorem PrimeDivisor.ord_eq_scheme_ord_of_chart
         (f : rationalFunctions B S hS hX) =
       Z.functionFieldToTotalFractionRing B S hS hX hdec U g := by
     rw [hgdef, rationalFunctionsToFunctionField, RingHom.comp_apply,
-      Z.functionFieldToTotalFractionRing_totalFractionRingToFunctionField B S hS hX hdec hCof U,
-      Z.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hX hdec hInt hN U hCof]
+      Z.functionFieldToTotalFractionRing_totalFractionRingToFunctionField B S hS hX hdec U,
+      Z.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hX hdec hInt hN U]
     rfl
   calc (genericFractionEmbedding B S hS hX hdec hInt hN).ord f Z
       = Z.ord B S hS hX hdec ((genericFractionEmbedding B S hS hX hdec hInt hN).emb Z

@@ -68,8 +68,7 @@ theorem LinearMap.baseChange_mul_self_eq_zero (f : M →ₗ[R] B) (hf : ∀ m, f
       ext a m
       simp [← TensorProduct.tmul_add, anti]
     simpa using congr($h x y)
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a m =>
     rw [LinearMap.baseChange_tmul, Algebra.TensorProduct.tmul_mul_tmul, hf, TensorProduct.tmul_zero]
   | add x₁ x₂ h₁ h₂ =>

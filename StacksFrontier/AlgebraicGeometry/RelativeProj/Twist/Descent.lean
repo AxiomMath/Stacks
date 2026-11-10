@@ -230,7 +230,7 @@ theorem bijective_sectionsMap_gradedSectionRestriction {W W' : s.base.Opens} (h 
   obtain ⟨g, hgle, hgy⟩ := exists_basicOpen_le_chartToBase s h hW hW' y
   refine ⟨⟨g, hgle⟩, ?_, x.2⟩
   rw [basicOpen_eq_chartToBase_preimage s hW' g]
-  show chartToBase s W' hW' x.1 ∈ s.base.basicOpen g
+  change chartToBase s W' hW' x.1 ∈ s.base.basicOpen g
   rw [← hy, ← base_projInclusionMap s W W' h hW hW' y, chartToBase_projInclusion s h hW hW' y]
   exact hgy
 

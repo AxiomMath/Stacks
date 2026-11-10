@@ -330,7 +330,7 @@ private theorem quotientTensorEquiv_symm_mk_algebraMap
         (Ideal.Quotient.mk (I.map (algebraMap B (B ⊗[A] T)))
           (algebraMap B (B ⊗[A] T) b)) =
       algebraMap (B ⧸ I) ((B ⧸ I) ⊗[A] T) (Ideal.Quotient.mk I b) := by
-  show (Algebra.TensorProduct.quotientTensorEquiv (R := A) (S := A) (A := B) (T := T) I).symm
+  change (Algebra.TensorProduct.quotientTensorEquiv (R := A) (S := A) (A := B) (T := T) I).symm
     (Ideal.Quotient.mk _ (b ⊗ₜ[A] (1 : T))) = _
   rw [Algebra.TensorProduct.quotientTensorEquiv_symm_apply_tmul]
   rfl
@@ -344,7 +344,7 @@ private theorem tensorBaseCompletionQuotientEquiv_mk
     tensorBaseCompletionQuotientEquiv hfg I n hI
       (Ideal.Quotient.mk _ (algebraMap B (B ⊗[A]
         AdicCompletion (IsLocalRing.maximalIdeal A) A) b)) = Ideal.Quotient.mk I b := by
-  show (tensorCompletionQuotientEquiv hfg I n hI).toRingEquiv
+  change (tensorCompletionQuotientEquiv hfg I n hI).toRingEquiv
     ((Algebra.TensorProduct.quotientTensorEquiv (R := A) (S := A)
       (A := B) (T := AdicCompletion (IsLocalRing.maximalIdeal A) A) I).toRingEquiv.symm
       (Ideal.Quotient.mk _ (algebraMap B (B ⊗[A]
@@ -386,9 +386,9 @@ private theorem prime_eq_map_of_quotientEquiv
   have hcomap : q₀.comap e.toRingHom = ⊥ := by
     ext y
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective y
-    show e (Ideal.Quotient.mk I r) ∈ q₀ ↔ Ideal.Quotient.mk I r ∈ (⊥ : Ideal (R ⧸ I))
+    change e (Ideal.Quotient.mk I r) ∈ q₀ ↔ Ideal.Quotient.mk I r ∈ (⊥ : Ideal (R ⧸ I))
     rw [he, ← Ideal.mem_comap, hq₀]
-    show r ∈ q.comap f ↔ Ideal.Quotient.mk I r ∈ (⊥ : Ideal (R ⧸ I))
+    change r ∈ q.comap f ↔ Ideal.Quotient.mk I r ∈ (⊥ : Ideal (R ⧸ I))
     rw [hq]
     simp [Ideal.Quotient.eq_zero_iff_mem]
   have hq₀bot : q₀ = ⊥ := by
@@ -397,7 +397,7 @@ private theorem prime_eq_map_of_quotientEquiv
     exact h.symm
   have hqle : q ≤ J := by
     have hqmap : q.map (Ideal.Quotient.mk J) ≤ ⊥ := by
-      show q₀ ≤ ⊥
+      change q₀ ≤ ⊥
       rw [hq₀bot]
     rw [Ideal.map_le_iff_le_comap] at hqmap
     simpa [← RingHom.ker_eq_comap_bot, Ideal.mk_ker] using hqmap
@@ -477,7 +477,7 @@ private theorem completionRingEquivOfLocalRingEquiv_commutes
   apply AdicCompletion.ext_evalₐ
   intro n
   let : IsLocalHom e.toRingHom := isLocalHom_of_leftInverse e.symm e.left_inv
-  show AdicCompletion.evalₐ (IsLocalRing.maximalIdeal S) n
+  change AdicCompletion.evalₐ (IsLocalRing.maximalIdeal S) n
       (adicCompletionMap e.toRingHom _ _ (IsLocalRing.map_maximalIdeal_le e.toRingHom)
         (algebraMap R (AdicCompletion (IsLocalRing.maximalIdeal R) R) r)) = _
   rw [AdicCompletion.algebraMap_apply, AdicCompletion.algebraMap_apply,
@@ -576,7 +576,7 @@ private theorem exists_adicCompletion_ringEquiv_localRingHom
     exact eBase.commutes r
   have hpT : pT.map eBase.toRingEquiv.toRingHom =
       p.map (algebraMap R S) := by
-    show (p.map (algebraMap R
+    change (p.map (algebraMap R
         (R ⊗[A] AdicCompletion (IsLocalRing.maximalIdeal A) A))).map eBase.toRingEquiv.toRingHom = _
     rw [Ideal.map_map, hBaseMap]
   let eTensorToS := quotientRingEquivOfRingEquiv eBase.toRingEquiv pT
@@ -665,7 +665,7 @@ private theorem exists_adicCompletion_ringEquiv_localRingHom
       ((algebraMap (S ⧸ qI ^ k) (Sq ⧸ (qI ^ k).map (algebraMap S Sq))).comp
         (eBaseLevel n).toRingHom).toAlgebra
     rw [hsource]
-    show localizationQuotientEquivOfQuotientEquiv (Rp := Rp) (Sq := Sq) p qI
+    change localizationQuotientEquivOfQuotientEquiv (Rp := Rp) (Sq := Sq) p qI
       (pI ^ k) (qI ^ k) (hIp n) (hIq n) (eBaseLevel n) (hLevelIdeal n)
         (algebraMap (R ⧸ pI ^ k) (Rp ⧸ (pI ^ k).map (algebraMap R Rp))
           (Ideal.Quotient.mk (pI ^ k) r)) = _
@@ -706,12 +706,12 @@ private theorem exists_adicCompletion_ringEquiv_localRingHom
       apply RingHom.ext
       intro y
       obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective y
-      show f (algebraMap (R ⧸ pI ^ k)
+      change f (algebraMap (R ⧸ pI ^ k)
         (Rp ⧸ (pI ^ k).map (algebraMap R Rp)) (Ideal.Quotient.mk (pI ^ k) r)) =
         g (algebraMap (R ⧸ pI ^ k)
         (Rp ⧸ (pI ^ k).map (algebraMap R Rp)) (Ideal.Quotient.mk (pI ^ k) r))
       rw [← hsource n r]
-      show Ideal.Quotient.factor (hIqowLE hmn)
+      change Ideal.Quotient.factor (hIqowLE hmn)
           ((eLocLevel n) (Ideal.Quotient.mk
             ((pI ^ (n + 1)).map (algebraMap R Rp)) (algebraMap R Rp r))) =
         (eLocLevel m) (Ideal.Quotient.factor (hIpowLE hmn)
@@ -781,7 +781,7 @@ private theorem exists_adicCompletion_ringEquiv_localRingHom
             hCastQ hmn (eTower (n + 1) z)
           _ = Ideal.Quotient.factor (hQFactor (Nat.add_le_add_right hmn' 1))
               (eLocLevel n (cPLevel (n + 1) z)) := by
-            show Ideal.Quotient.factor (hQFactor (Nat.add_le_add_right hmn' 1))
+            change Ideal.Quotient.factor (hQFactor (Nat.add_le_add_right hmn' 1))
               ((cQLevel (n + 1)).toRingEquiv (eTower (n + 1) z)) =
                 Ideal.Quotient.factor (hQFactor (Nat.add_le_add_right hmn' 1))
                   (eLocLevel n ((cPLevel (n + 1)).toRingEquiv z))
@@ -795,7 +795,7 @@ private theorem exists_adicCompletion_ringEquiv_localRingHom
             congrArg (eLocLevel m) (hCastP hmn z).symm
           _ = cQLevel (m + 1)
               (eTower (m + 1) (AdicCompletion.transitionMap pLoc Rp hmn z)) := by
-            show eLocLevel m
+            change eLocLevel m
               ((cPLevel (m + 1)).toRingEquiv
                 (AdicCompletion.transitionMap pLoc Rp hmn z)) =
                 (cQLevel (m + 1)).toRingEquiv
@@ -809,7 +809,7 @@ private theorem exists_adicCompletion_ringEquiv_localRingHom
         (Ideal.Quotient.mk ((qI ^ (n + 1)).map (algebraMap S Sq))).comp hLoc := by
     apply IsLocalization.ringHom_ext p.primeCompl
     ext r
-    show (eLocLevel n)
+    change (eLocLevel n)
         (Ideal.Quotient.mk ((pI ^ (n + 1)).map (algebraMap R Rp))
           (algebraMap R Rp r)) =
       Ideal.Quotient.mk ((qI ^ (n + 1)).map (algebraMap S Sq))
@@ -849,7 +849,7 @@ private theorem exists_adicCompletion_ringEquiv_localRingHom
         algebraMap Sq (AdicCompletion qLoc Sq) (hLoc r) := by
     apply AdicCompletion.ext
     intro n
-    show eTower n ((algebraMap Rp (AdicCompletion pLoc Rp) r).val n) =
+    change eTower n ((algebraMap Rp (AdicCompletion pLoc Rp) r).val n) =
       (algebraMap Sq (AdicCompletion qLoc Sq) (hLoc r)).val n
     simpa [AdicCompletion.algebraMap_apply, AdicCompletion.eval_of,
       AdicCompletion.eval_apply] using hTowerLocal n r
@@ -890,7 +890,7 @@ theorem stalkMap_adicCompletion_isomorphism
       Spec.map (CommRingCat.ofHom (algebraMap A Ahat))
     let Y : Scheme := pullback f g
     let π : Y ⟶ X := pullback.fst f g
-    show ∀ (q : Y), f.base (π.base q) =
+    change ∀ (q : Y), f.base (π.base q) =
         (⟨IsLocalRing.maximalIdeal A, inferInstance⟩ : PrimeSpectrum A) → _
     intro q hq
     let x : X := π.base q
@@ -946,16 +946,16 @@ theorem stalkMap_adicCompletion_isomorphism
         (CommRingCat.ofHom φ) (CommRingCat.ofHom ψ) :=
       hGammaPush.of_iso eΓ (Iso.refl _) eHat (Iso.refl _)
         (by
-          show f.appLE U₀ U hle = eΓ.hom ≫ α.unop
+          change f.appLE U₀ U hle = eΓ.hom ≫ α.unop
           dsimp [α]
           exact (Iso.hom_inv_id_assoc eΓ _).symm)
         (by
-          show g.appLE U₀ (⊤ : (Spec (.of Ahat)).Opens) hUST ≫ eHat.hom =
+          change g.appLE U₀ (⊤ : (Spec (.of Ahat)).Opens) hUST ≫ eHat.hom =
             eΓ.hom ≫ CommRingCat.ofHom (algebraMap A Ahat)
-          show g.appTop ≫ eHat.hom = eΓ.hom ≫ CommRingCat.ofHom (algebraMap A Ahat)
+          change g.appTop ≫ eHat.hom = eΓ.hom ≫ CommRingCat.ofHom (algebraMap A Ahat)
           exact Scheme.ΓSpecIso_naturality (CommRingCat.ofHom (algebraMap A Ahat)))
         rfl (by
-          show (pullback.snd f g).appLE (⊤ : (Spec (.of Ahat)).Opens) W
+          change (pullback.snd f g).appLE (⊤ : (Spec (.of Ahat)).Opens) W
               (by simp [W]) = eHat.hom ≫ eHat.inv ≫
                 (pullback.snd f g).appLE (⊤ : (Spec (.of Ahat)).Opens) W (by simp [W])
           exact (Iso.hom_inv_id_assoc eHat _).symm)
@@ -979,12 +979,12 @@ theorem stalkMap_adicCompletion_isomorphism
           (Scheme.isoSpec_Spec_inv (.of A))
     have htopPrime : PrimeSpectrum.comap eΓ.inv.hom
         (hU₀.primeIdealOf ⟨f x, by simp [U₀]⟩) = f x := by
-      show (Spec.map eΓ.inv) (hU₀.primeIdealOf ⟨f x, by simp [U₀]⟩) = f x
+      change (Spec.map eΓ.inv) (hU₀.primeIdealOf ⟨f x, by simp [U₀]⟩) = f x
       rw [← hbaseSpec']
       exact hU₀.fromSpec_primeIdealOf ⟨f x, by simp [U₀]⟩
     have hbasePrime : PrimeSpectrum.comap (algebraMap A R) pU =
         (⟨m, inferInstance⟩ : PrimeSpectrum A) := by
-      show PrimeSpectrum.comap
+      change PrimeSpectrum.comap
         ((CommRingCat.Hom.hom (f.appLE U₀ U hle)).comp eΓ.inv.hom) pU = _
       simp only [PrimeSpectrum.comap_comp, Function.comp_apply]
       rw [hprimef, htopPrime]
@@ -1013,7 +1013,7 @@ theorem stalkMap_adicCompletion_isomorphism
     refine ⟨eFinal, ?_⟩
     apply RingHom.ext
     intro r
-    show eTargetCompletionBack
+    change eTargetCompletionBack
         (eComp (eSourceCompletion
           (algebraMap (X.presheaf.stalk (π.base q))
             (AdicCompletion (IsLocalRing.maximalIdeal

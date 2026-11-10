@@ -87,7 +87,7 @@ public theorem restrictScalarsScalarAlgHom_commute {G : Type*} [Monoid G] {m : �
     (σ : G →* GL (Fin m) E) (e : E) (g : G) :
     restrictScalarsScalarAlgHom b m e * (restrictScalarsRep b σ g).val =
       (restrictScalarsRep b σ g).val * restrictScalarsScalarAlgHom b m e := by
-  show restrictScalarsMatrix b _ * restrictScalarsMatrix b _ =
+  change restrictScalarsMatrix b _ * restrictScalarsMatrix b _ =
     restrictScalarsMatrix b _ * restrictScalarsMatrix b _
   rw [← restrictScalarsMatrix_mul, ← restrictScalarsMatrix_mul,
     (Matrix.scalar_commute e (fun _ => mul_comm _ _) (σ g).val)]
@@ -268,7 +268,7 @@ public theorem laumonAffineLineInput_of_linear (h : LaumonAffineLineLinearInput.
   have : FiniteDimensional E (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B U ℓ f j
       kbar (restrictScalarsRepCoefficientSheaf B U x b σ hσ).toLAdicSheaf 1) :=
     Module.Finite.of_restrictScalars_finite ℚ_[ℓ] E _
-  show IsCharpolyNormMixedOfWeightLE (p ^ n) ι (w + 1)
+  change IsCharpolyNormMixedOfWeightLE (p ^ n) ι (w + 1)
     (((restrictScalarsRepCoefficientSheaf B U x b σ hσ).rationalGeometricCompactlySupportedFrobenius
       f j kbar 1 E p n hcard).restrictScalars ℚ_[ℓ])
   refine (isCharpolyNormMixedOfWeightLE_restrictScalars_iff _ _ ι _).2 fun ι' hι' => ?_

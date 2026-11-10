@@ -145,7 +145,7 @@ theorem flatPullbackWeight_opensι (C : ChowSituation.{u}) {X : Scheme.{u}} (f :
     simpa only [hgen] using h
   have he := congrArg (fun K : (U : Scheme.{u}).IdealSheafData ↦
     (cycleAssociatedToClosedSubscheme C (U.ι ≫ f) K.subschemeι j).1 z) hcomap
-  show (cycleAssociatedToClosedSubscheme C (U.ι ≫ f)
+  change (cycleAssociatedToClosedSubscheme C (U.ι ≫ f)
     ((Scheme.IdealSheafData.vanishingIdeal
       (Closeds.closure ({U.ι.base z} : Set X))).comap U.ι).subschemeι j).1 z = 1
   exact he.trans hkey

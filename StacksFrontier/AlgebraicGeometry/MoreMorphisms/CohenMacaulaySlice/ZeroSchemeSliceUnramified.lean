@@ -70,7 +70,7 @@ along the closed immersion, by
 theorem appTop_subschemeι_ofIdealTop_eq_zero_of_mem {X : Scheme.{u}} [IsAffine X]
     (I : Ideal Γ(X, ⊤)) {s : Γ(X, ⊤)} (hs : s ∈ I) :
     (Scheme.IdealSheafData.ofIdealTop I).subschemeι.appTop s = 0 := by
-  show (Scheme.IdealSheafData.ofIdealTop I).subschemeι.appTop.hom s = 0
+  change (Scheme.IdealSheafData.ofIdealTop I).subschemeι.appTop.hom s = 0
   refine RingHom.mem_ker.mp ?_
   rw [ker_appTop_subschemeι_ofIdealTop I]
   exact hs

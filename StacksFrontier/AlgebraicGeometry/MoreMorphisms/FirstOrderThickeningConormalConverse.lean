@@ -205,7 +205,7 @@ theorem ideal_comap_of_isAffineOpen (I : Y.IdealSheafData) (f : X ⟶ Y)
   have hmaps : V.topIso.inv ≫ g.appTop = f.appLE V U hUV ≫ U.topIso.inv := by
     rw [hgtop, Iso.inv_hom_id_assoc]
   refine ideal_map_hom_injective U.topIso.symm ?_
-  show Ideal.map U.topIso.inv.hom ((I.comap f).ideal ⟨U, hU⟩) =
+  change Ideal.map U.topIso.inv.hom ((I.comap f).ideal ⟨U, hU⟩) =
       Ideal.map U.topIso.inv.hom
         (Ideal.map (f.appLE V U hUV).hom (I.ideal ⟨V, hV⟩))
   rw [← e1, hcomap, e2, e3, Ideal.map_map, Ideal.map_map, ← CommRingCat.hom_comp,
@@ -329,13 +329,13 @@ theorem flat_and_ker_eq_of_addEquiv_chart
   let : IsScalarTower (R ⧸ RingHom.ker (algebraMap R A)) A B := .of_algebraMap_eq' (by
     refine Ideal.Quotient.ringHom_ext ?_
     ext x
-    show algebraMap R B x = algebraMap A B (algebraMap R A x)
+    change algebraMap R B x = algebraMap A B (algebraMap R A x)
     exact IsScalarTower.algebraMap_apply R A B x)
   have : Module.Flat (R ⧸ RingHom.ker (algebraMap R A)) A := by
     have e : (R ⧸ RingHom.ker (algebraMap R A)) ≃ₗ[R ⧸ RingHom.ker (algebraMap R A)] A :=
       { RingHom.quotientKerEquivOfSurjective hA with
         map_smul' := fun q p => by
-          show RingHom.quotientKerEquivOfSurjective hA (q * p) =
+          change RingHom.quotientKerEquivOfSurjective hA (q * p) =
             algebraMap (R ⧸ RingHom.ker (algebraMap R A)) A q *
               RingHom.quotientKerEquivOfSurjective hA p
           rw [map_mul]
@@ -527,7 +527,7 @@ theorem ideal_eq_and_flat_of_isIso_immersionConormalSheafMap (i : X ⟶ X') (j :
           (f.appLE (j ⁻¹ᵁ V) (i ⁻¹ᵁ U) hred).hom] n))) =
         (⟨(f'.appLE V U hUV).hom (eN n : Γ(S', V)), hmem⟩ : RingHom.ker (i.app U).hom) := by
       rw [hb, h2]
-      show ((RingHom.ker (i.app U).hom).cotangentEquivOfSqZero hI2)
+      change ((RingHom.ker (i.app U).hom).cotangentEquivOfSqZero hI2)
         (cI.toLinearEquiv (cI.toLinearEquiv.symm
           ((RingHom.ker (i.app U).hom).toCotangent _))) = _
       rw [LinearEquiv.apply_symm_apply, Ideal.cotangentEquivOfSqZero_toCotangent]
@@ -545,7 +545,7 @@ theorem ideal_eq_and_flat_of_isIso_immersionConormalSheafMap (i : X ⟶ X') (j :
           (f.appLE (j ⁻¹ᵁ V) (i ⁻¹ᵁ U) hred).hom] n) =
         b • (⟨(f'.appLE V U hUV).hom (eN n : Γ(S', V)), hmem⟩ :
           RingHom.ker (i.app U).hom) := by
-      show eM (e₄ (e₃ _)) = _
+      change eM (e₄ (e₃ _)) = _
       rw [hsc, map_smul]
       have h5 : ∀ m : Γ(H, i ⁻¹ᵁ U), (i.app U).hom b • m = b • m := fun _ => rfl
       rw [h5, map_smul, hone]

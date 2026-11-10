@@ -68,14 +68,14 @@ theorem relativeDimension_comp_of_bijective_residueFieldMap {X Z S : Scheme.{u}}
       (algebraMap (S.residueField (p.base (i.base z))) (X.residueField (i.base z)) r) =
       algebraMap (S.residueField (p.base (i.base z))) (Z.residueField z) r := by
     intro r
-    show (i.residueFieldMap z).hom ((p.residueFieldMap (i.base z)).hom r) =
+    change (i.residueFieldMap z).hom ((p.residueFieldMap (i.base z)).hom r) =
       ((i ≫ p).residueFieldMap z).hom r
     rw [Scheme.residueFieldMap_comp]
     rfl
   let e : X.residueField (i.base z) ≃ₐ[S.residueField (p.base (i.base z))] Z.residueField z :=
     { __ := RingEquiv.ofBijective (i.residueFieldMap z).hom hz
       commutes' := hcm }
-  show δ (p.base (i.base z)) +
+  change δ (p.base (i.base z)) +
       (Cardinal.toNat (Algebra.trdeg (S.residueField (p.base (i.base z)))
         (Z.residueField z)) : ℤ) =
     δ (p.base (i.base z)) +
@@ -218,7 +218,7 @@ theorem flatPullbackWeight_of_isOpenImmersion (C : ChowSituation.{u}) {X U : Sch
     simpa only [hgen] using h
   have he := congrArg (fun K : U.IdealSheafData ↦
     (cycleAssociatedToClosedSubscheme C sU K.subschemeι m).1 z) hcomap
-  show (cycleAssociatedToClosedSubscheme C sU
+  change (cycleAssociatedToClosedSubscheme C sU
     ((Scheme.IdealSheafData.vanishingIdeal
       (Closeds.closure ({j.base z} : Set X))).comap j).subschemeι m).1 z = 1
   exact he.trans hkey
@@ -276,7 +276,7 @@ theorem cycleGroupRestrict_surjective (C : ChowSituation.{u}) {X U : Scheme.{u}}
   have hfibre : j.base ⁻¹' {j.base z} = {z} := by
     rw [← Set.image_singleton, j.isOpenEmbedding.injective.preimage_image]
   rw [cycleGroupRestrict_apply]
-  show AlgebraicCycle.map j (relativeDimension C.dimensionFunction sU)
+  change AlgebraicCycle.map j (relativeDimension C.dimensionFunction sU)
     (relativeDimension C.dimensionFunction sX) d.1 (j.base z) = d.1 z
   rw [AlgebraicCycle.map, Function.locallyFinsupp.map_apply, hfibre, finsum_mem_singleton,
     AlgebraicCycle.mapCoeff,

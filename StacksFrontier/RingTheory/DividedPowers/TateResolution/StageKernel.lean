@@ -135,7 +135,7 @@ public theorem mem_ker_iff_mul_of_gradedDividedPowerPolynomial_map
         exact hπgen' k
       · rcases Nat.even_or_odd (k.1 + 1) with hev | hod
         · refine Subring.subset_closure (Or.inr ⟨Φ k, hSS' k hk, Or.inr ⟨n, ?_⟩⟩)
-          show π (δ.dpow n (hpolyB.generator k)) = _
+          change π (δ.dpow n (hpolyB.generator k)) = _
           rw [hπdpow n _ (hpos k hev), hπgen' k]
         · by_cases hposB : hpolyB.generator k ∈ positiveEvenPart ℬ
           · obtain ⟨m, hm⟩ := hod
@@ -143,13 +143,13 @@ public theorem mem_ker_iff_mul_of_gradedDividedPowerPolynomial_map
               refine eq_zero_of_mem_odd_grade_of_mem_positiveEvenPart ℬ (k := m) ?_ hposB
               have hgm := hpolyB.generator_mem k
               rwa [show (2 * m + 1 : ℕ) = k.1 + 1 from by omega]
-            show π (δ.dpow n (hpolyB.generator k)) ∈
+            change π (δ.dpow n (hpolyB.generator k)) ∈
               finiteVariableStage γ ι hpoly.generator S'
             rw [hz]
             rcases hdpowB_zero n with h | h
             · rw [h, map_zero]; exact zero_mem _
             · rw [h, map_one]; exact one_mem _
-          · show π (δ.dpow n (hpolyB.generator k)) ∈
+          · change π (δ.dpow n (hpolyB.generator k)) ∈
               finiteVariableStage γ ι hpoly.generator S'
             rw [δ.dpow_null hposB, map_zero]
             exact zero_mem _

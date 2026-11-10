@@ -132,8 +132,8 @@ def derivedTensorRestrictIsoOfKFlat
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.O)
     (TU : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct (X.O.over U))
     (A B : CochainComplex (Modules X.O) ℤ)
-    (hA : Stacks.SheafOfModules.KFlat.KFlat X.O A)
-    (hB : Stacks.SheafOfModules.KFlat.KFlat X.O B) :
+    (hA : Stacks.SheafOfModules.KFlat X.O A)
+    (hB : Stacks.SheafOfModules.KFlat X.O B) :
     (restriction X U).mapDerivedCategory.obj
         ((T.tensor.obj (DerivedCategory.Q.obj A)).obj (DerivedCategory.Q.obj B)) ≅
       (TU.tensor.obj (DerivedCategory.Q.obj ((restrictionComplex X U).obj A))).obj
@@ -152,8 +152,8 @@ def derivedTensorRestrictIsoOfKFlatModels
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct X.O)
     (TU : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct (X.O.over U))
     (A B : CochainComplex (Modules X.O) ℤ)
-    (hA : Stacks.SheafOfModules.KFlat.KFlat X.O A)
-    (hB : Stacks.SheafOfModules.KFlat.KFlat X.O B)
+    (hA : Stacks.SheafOfModules.KFlat X.O A)
+    (hB : Stacks.SheafOfModules.KFlat X.O B)
     {K : DerivedCategory (Modules X.O)} (eK : DerivedCategory.Q.obj A ≅ K)
     {L : DerivedCategory (Modules X.O)} (eL : DerivedCategory.Q.obj B ≅ L) :
     (restriction X U).mapDerivedCategory.obj ((T.tensor.obj K).obj L) ≅

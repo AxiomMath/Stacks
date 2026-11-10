@@ -102,7 +102,7 @@ theorem of_isPullback_of_isEtale_of_isSurjective
   have sqA := AlgebraicSpaces.isPullback_hom B S hS (IsPullback.of_hasPullback g' f')
   have he : (sq.isoIsPullback _ _ sqA).inv ≫ snd = (pullback.snd g' f').hom :=
     sq.isoIsPullback_inv_snd _ _ sqA
-  show Q (pullback.snd g' f').hom
+  change Q (pullback.snd g' f').hom
   rw [← he]
   exact hQiso (sq.isoIsPullback _ _ sqA).symm snd h
 
@@ -111,7 +111,7 @@ variable {B S hS} in
 theorem isFinite_yoneda_map_of_isFinite {C A : BigFppfOver B S hS} {p : C ⟶ A}
     (hp : _root_.AlgebraicGeometry.IsFinite ((BigFppfOver.toScheme B S hS).map p)) :
     IsFinite B S hS (schemeSpaceMap p).hom := by
-  show IsFinite B S hS (yoneda.map p)
+  change IsFinite B S hS (yoneda.map p)
   let Q := MorphismProperty.inverseImage
     (@_root_.AlgebraicGeometry.IsFinite.{u} : MorphismProperty Scheme.{u})
     (BigFppfOver.toScheme B S hS)
@@ -222,7 +222,7 @@ theorem isSurjective_of_injective_appTop_chart {X : AlgebraicSpaces B S hS}
   obtain ⟨W, p, q, hpb, -, hp⟩ := hN V.1.left hVaff V.1.hom
   obtain ⟨e, he⟩ := exists_iso_comp_toScheme_map_snd B S hS N.obj.hom hrep V.1.hom p q hpb
   have hsnd : _root_.AlgebraicGeometry.IsIntegralHom (F.map (hrep.snd V.1.hom)) := by
-    show _root_.AlgebraicGeometry.IsIntegralHom
+    change _root_.AlgebraicGeometry.IsIntegralHom
       ((BigFppfOver.toScheme B S hS).map (hrep.snd V.1.hom))
     rw [he]
     infer_instance
@@ -344,11 +344,11 @@ theorem exists_isFinite_isOpenImmersion_comp_of_isIntegralHom
     rw [happ, hφapp]
     rfl
   have hio1 : ∀ z, iso.inv.right.hom.app (op V) (iso.hom.right.hom.app (op V) z) = z := fun z => by
-    show ((iso.hom ≫ iso.inv).right.hom.app (op V)) z = z
+    change ((iso.hom ≫ iso.inv).right.hom.app (op V)) z = z
     rw [iso.hom_inv_id]
     rfl
   have hio2 : ∀ z, iso.hom.right.hom.app (op V) (iso.inv.right.hom.app (op V) z) = z := fun z => by
-    show ((iso.inv ≫ iso.hom).right.hom.app (op V)) z = z
+    change ((iso.inv ≫ iso.hom).right.hom.app (op V)) z = z
     rw [iso.inv_hom_id]
     rfl
   have hinj : Function.Injective (F.map m).appTop.hom := by
@@ -365,7 +365,7 @@ theorem exists_isFinite_isOpenImmersion_comp_of_isIntegralHom
     intro g hg
     obtain ⟨c, hc⟩ := hC (eV.inv g) (Finset.mem_image_of_mem _ hg)
     refine ⟨eV'.hom (iso.inv.right.hom.app (op V) c), ?_⟩
-    show (F.map m).appTop (eV'.hom (iso.inv.right.hom.app (op V) c)) = g
+    change (F.map m).appTop (eV'.hom (iso.inv.right.hom.app (op V) c)) = g
     refine (hpt _).trans ?_
     rw [Iso.hom_inv_id_apply, hio2, hc]
     exact ConcreteCategory.congr_hom eV.inv_hom_id g

@@ -85,8 +85,8 @@ It is still unproved, and the file measures why: in that shape it is the compati
 (`Dualizing.ProjectionFormula.canonicalProjInv_comp_restrict_evaluation`) and whose currying half
 is equivalent to the associativity of `μ`.  That last equivalence is itself a theorem now,
 `Dualizing.derivedTensorBaseChangeAssoc_iff_curryCompat` of
-`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.CurryingCoherence`, so the currying half has
-a name on both sides.
+`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.CurryingCoherence`, so the currying half
+has a name on both sides.
 
 No `@[stacks]` attribute is placed here: nothing in this file is unconditional, and the
 identities it proves belong to the tags of the morphisms they are about.

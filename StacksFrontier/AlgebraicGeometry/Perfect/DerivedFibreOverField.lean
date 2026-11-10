@@ -79,7 +79,7 @@ def pushforwardCompSectionsIso :
           rw [h₁]
           simp only [ObjectProperty.ι_obj, Functor.comp_obj, Functor.op_obj, Opens.map_top,
             RingHom.toMonoidHom_eq_coe, OneHom.toFun_eq_coe, CategoryTheory.Functor.map_id,
-            RingCat.hom_id, RingHom.coe_monoidHom_id, MonoidHom.toOneHom_coe, MonoidHom.coe_id,
+            RingCat.hom_id, RingHom.toMonoidHom_id, MonoidHom.toOneHom_coe, MonoidHom.coe_id,
             ZeroHom.coe_mk, id_eq, CommRingCat.hom_comp, Scheme.Hom.appLE, homOfLE_leOfHom, h₂,
             RingHom.id_apply]
           rfl }

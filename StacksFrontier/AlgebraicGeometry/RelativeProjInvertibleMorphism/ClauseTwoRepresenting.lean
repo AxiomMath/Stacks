@@ -42,12 +42,12 @@ theorem F.classifyingMorphism_mk {g : W ⟶ S} {k : ℕ} (hk : 0 < k)
     F.classifyingMorphism A (F.mk g (by exact_mod_cast hk) Q)
       = Fd.homDegreeOpen A (relativeProj A) hk (Fd.mk g Q)
           ≫ ((relativeProj A).degreeOpen k).ι ≫ (canonicalIso A (relativeProj A)).inv := by
-  show (F.representableByRelativeProjOfCharts A (relativeProj A)).homEquiv.symm
+  change (F.representableByRelativeProjOfCharts A (relativeProj A)).homEquiv.symm
         (F.toLim A (F.mk g (by exact_mod_cast hk) Q)) ≫ (canonicalIso A (relativeProj A)).inv = _
   rw [← Category.assoc]
   congr 1
   refine (Scheme.QcClassifying.eq_toHom _ _ _ fun V hV => ?_).symm
-  show V.ι ≫ Fd.homDegreeOpen A (relativeProj A) hk (Fd.mk g Q) ≫ _
+  change V.ι ≫ Fd.homDegreeOpen A (relativeProj A) hk (Fd.mk g Q) ≫ _
       = Fd.homDegreeOpen A (relativeProj A) hk (Fd.pullback V.ι (Fd.mk g Q)) ≫ _
   rw [Fd.homDegreeOpen_pullback']
   exact (Category.assoc _ _ _).symm

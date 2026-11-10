@@ -241,7 +241,7 @@ public noncomputable def locallyIdealPowSmul (I : X.IdealSheafData) (n : ℕ) (M
               idealPowSmulSections I n M (X.affineBasicOpen f) := hmem
         rw [hcomp] at hmem'
         exact hmem'
-      exact SetLike.le_def.mp (le_iSup (fun f : t ↦ X.basicOpen f.1) ⟨f, hft⟩) hxf
+      exact IsConcreteLE.le_iff.mp (le_iSup (fun f : t ↦ X.basicOpen f.1) ⟨f, hft⟩) hxf
     exact mem_idealPowSmulSections_of_span_eq_top I n M W t hspan u fun f ↦ f.2
 
 /-- The affine-local lower bound defining `I ^ n • M` holds for `locallyIdealPowSmul`: a

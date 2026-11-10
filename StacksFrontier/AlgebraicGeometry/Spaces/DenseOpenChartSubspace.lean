@@ -184,7 +184,7 @@ theorem range_pointsMap_openChart (C : SmallEtale B S hS F) (O : (chartScheme C)
         (openChart B S hS F C O).1.hom) =
       pointsMap B S hS (yoneda.obj C.obj.left) C.1.hom ''
         (pointsToScheme B S hS C.obj.left ⁻¹' (O : Set (chartScheme C))) := by
-  show Set.range (pointsMap B S hS (yoneda.obj (openSub C.obj.left O))
+  change Set.range (pointsMap B S hS (yoneda.obj (openSub C.obj.left O))
     (yoneda.map (openSubHom C.obj.left O) ≫ C.1.hom)) = _
   rw [pointsMap_comp, Set.range_comp, range_pointsMap_yoneda_map_openSubHom]
 
@@ -211,24 +211,23 @@ theorem denseRange_pointsMap_openChart (C : SmallEtale B S hS F)
     (O : (chartScheme C).Opens) (hO : Dense (O : Set (chartScheme C))) :
     DenseRange (pointsMap B S hS (yoneda.obj (openChart B S hS F C O).obj.left)
       (openChart B S hS F C O).1.hom) := by
-  show Dense (Set.range (pointsMap B S hS (yoneda.obj (openChart B S hS F C O).obj.left)
+  change Dense (Set.range (pointsMap B S hS (yoneda.obj (openChart B S hS F C O).obj.left)
     (openChart B S hS F C O).1.hom))
   rw [range_pointsMap_openChart]
   exact hdense.dense_image (continuous_pointsMap B S hS C.1.hom)
     (hO.preimage (isOpenMap_pointsToScheme_chart C))
 
-/-- **A chart with dense point set can be shrunk into any dense open subspace, by a dense
-Zariski open of its scheme.**
+/-- **An open-immersion chart can be shrunk into any dense open subspace, by a dense Zariski
+open of its scheme.**
 
 The preimage, under the point map of the chart, of the point set of the open subspace `W` is
-open by continuity and dense because the point map is open with dense range; transported to
+open by continuity and dense because the point map is open; transported to
 the chart scheme along the comparison homeomorphism it is a dense Zariski open `O`.  The point
 set of the Zariski-open chart cut out by `O` is then contained in that of `W`, so the chart
 morphism factors through `W` by
 `AlgebraicGeometry.Space.exists_lift_of_range_pointsMap_subset`. -/
 theorem exists_dense_open_le_of_isDenseOpenSubspace (C : SmallEtale B S hS F)
     (hC : IsOpenImmersion B S hS C.1.hom)
-    (hdense : DenseRange (pointsMap B S hS (yoneda.obj C.obj.left) C.1.hom))
     {W : Subfunctor F} (hWopen : IsOpenSubspace B S hS W)
     (hWdense : Dense (Set.range (pointsMap B S hS W.toFunctor W.ι))) :
     ∃ O : (chartScheme C).Opens, Dense (O : Set (chartScheme C)) ∧

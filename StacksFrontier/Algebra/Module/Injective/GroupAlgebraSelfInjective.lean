@@ -40,21 +40,22 @@ open scoped BigOperators
 
 namespace MonoidAlgebra
 
-variable {A : Type u} [CommRing A] {H : Type v} [Group H] [Fintype H]
+variable {A : Type u} [CommRing A] {H : Type v}
 
 /-- An element of a finite group algebra is the sum of its coefficients. -/
-theorem sum_single_coeff (x : MonoidAlgebra A H) : ∑ h : H, single h (x.coeff h) = x := by
+theorem sum_single_coeff [Fintype H] (x : MonoidAlgebra A H) :
+    ∑ h : H, single h (x.coeff h) = x := by
   classical
   ext g
-  simp [MonoidAlgebra.coeff_sum, MonoidAlgebra.coeff_single, Finsupp.single_apply]
+  simp [MonoidAlgebra.coeff_sum, MonoidAlgebra.coeff_single]
 
 /-- The coefficient of `h` is the coefficient of `1` in `h⁻¹ x`. -/
-theorem coeff_one_single_inv_mul (x : MonoidAlgebra A H) (h : H) :
+theorem coeff_one_single_inv_mul [Group H] (x : MonoidAlgebra A H) (h : H) :
     (single h⁻¹ (1 : A) * x).coeff 1 = x.coeff h := by
   rw [coeff_single_mul_apply, one_mul, inv_inv, mul_one]
 
 /-- The `A[H]`-linear map `r ↦ ∑_h g(h⁻¹ r) h` attached to an `A`-linear form `g` on `A[H]`. -/
-noncomputable def frobeniusLift (g : MonoidAlgebra A H →ₗ[A] A) :
+noncomputable def frobeniusLift [Group H] [Fintype H] (g : MonoidAlgebra A H →ₗ[A] A) :
     MonoidAlgebra A H →ₗ[MonoidAlgebra A H] MonoidAlgebra A H where
   toFun r := ∑ h : H, single h (g (single h⁻¹ (1 : A) * r))
   map_add' r s := by
@@ -78,12 +79,14 @@ noncomputable def frobeniusLift (g : MonoidAlgebra A H →ₗ[A] A) :
       simp only [smul_mul_assoc, mul_smul_comm, map_smul, ← smul_single, ← Finset.smul_sum, hs]
 
 /-- The value of `frobeniusLift g` at `r` is `∑_h g(h⁻¹ r) h`. -/
-theorem frobeniusLift_apply (g : MonoidAlgebra A H →ₗ[A] A) (r : MonoidAlgebra A H) :
+theorem frobeniusLift_apply [Group H] [Fintype H] (g : MonoidAlgebra A H →ₗ[A] A)
+    (r : MonoidAlgebra A H) :
     frobeniusLift g r = ∑ h : H, single h (g (single h⁻¹ (1 : A) * r)) := rfl
 
 /-- **Baer's criterion for a group algebra over a self-injective ring.** -/
-theorem baer_self (hA : Module.Baer A A) :
+theorem baer_self [Group H] [Finite H] (hA : Module.Baer A A) :
     Module.Baer (MonoidAlgebra A H) (MonoidAlgebra A H) := by
+  have := Fintype.ofFinite H
   intro I f
   let τ : MonoidAlgebra A H →ₗ[A] A :=
     { toFun := fun x => x.coeff 1
@@ -100,13 +103,13 @@ theorem baer_self (hA : Module.Baer A A) :
   simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.coe_restrictScalars,
     Submodule.coe_subtype] at this
   congr 1
-  show g (single h⁻¹ (1 : A) * x) = (f ⟨x, hx⟩).coeff h
+  change g (single h⁻¹ (1 : A) * x) = (f ⟨x, hx⟩).coeff h
   rw [this]
-  show (f (single h⁻¹ (1 : A) • ⟨x, hx⟩)).coeff 1 = _
+  change (f (single h⁻¹ (1 : A) • ⟨x, hx⟩)).coeff 1 = _
   rw [f.map_smul, smul_eq_mul, coeff_one_single_inv_mul]
 
 /-- **A group algebra over a self-injective ring is self-injective.** -/
-theorem injective_self (hA : Module.Baer A A) :
+theorem injective_self [Group H] [Finite H] (hA : Module.Baer A A) :
     Module.Injective (MonoidAlgebra A H) (MonoidAlgebra A H) :=
   (baer_self hA).injective
 
@@ -137,7 +140,7 @@ end Module
 
 namespace MonoidAlgebra
 
-variable {A : Type u} [CommRing A] {H : Type v} [Group H] [Fintype H]
+variable {A : Type u} [CommRing A] {H : Type v} [Group H] [Finite H]
 
 /-- **Over a group algebra of a finite group over a self-injective ring, finite projective
 modules are injective.** -/

@@ -86,7 +86,7 @@ theorem overArrow_eq {W : Cᵒᵖ} {d : CostructuredArrow (Over.forget V).op W} 
   have h₂ : (Over.forget V).op.map g.left = d.hom :=
     (Category.comp_id _).symm.trans (CostructuredArrow.w g)
   rw [← h₁]
-  show _ = d.hom.unop ≫ d.left.unop.hom
+  change _ = d.hom.unop ≫ d.left.unop.hom
   rw [← h₂]
   rfl
 
@@ -175,7 +175,7 @@ theorem mono_lanUnit_overForget (P : (Over V)ᵒᵖ ⥤ ModuleCat.{w} Λ) :
   have h : ((Stacks.InverseImageTensor.lanCocone (Over.forget V).op Λ P
       ((Over.forget V).op.obj Y)).whisker (overArrowsFunctor V _)).ι.app ⟨Y.unop.hom⟩ =
       ((Over.forget V).op.lanUnit.app P).app Y := by
-    show ((Over.forget V).op.lanUnit.app P).app Y ≫ ((Over.forget V).op.lan.obj P).map (𝟙 _) = _
+    change ((Over.forget V).op.lanUnit.app P).app Y ≫ ((Over.forget V).op.lan.obj P).map (𝟙 _) = _
     rw [CategoryTheory.Functor.map_id]
     exact Category.comp_id _
   rw [← h]
@@ -275,7 +275,7 @@ theorem lanProjMap_naturality_right (M : Cᵒᵖ ⥤ ModuleCat.{w} Λ)
   simp only [Functor.comp_obj, NatTrans.comp_app, Functor.whiskerLeft_app]
   rw [reassoc_of% hu.symm, lanUnit_app_lanProjMap_app,
     reassoc_of% (lanUnit_app_lanProjMap_app V Λ P M Y)]
-  show (M.obj (op ((Over.forget V).obj Y.unop)) ◁ g.app Y) ≫ _ = _ ≫
+  change (M.obj (op ((Over.forget V).obj Y.unop)) ◁ g.app Y) ≫ _ = _ ≫
     (M.obj (op ((Over.forget V).obj Y.unop)) ◁
       ((Over.forget V).op.lan.map g).app (op ((Over.forget V).obj Y.unop)))
   exact (MonoidalCategory.whiskerLeft_comp _ _ _).symm.trans
@@ -557,7 +557,7 @@ theorem kFlat_overPullback {P : CochainComplex (Sheaf J (ModuleCat.{w} Λ)) ℤ}
     inferInstanceAs (jV ⋙ tensorLeft a).Additive
   have : F.Additive := ⟨fun {_ _ f g} => by
     ext b : 2
-    show ((curriedTensor _).map (f + g)).app (jV.obj b) =
+    change ((curriedTensor _).map (f + g)).app (jV.obj b) =
       ((curriedTensor _).map f).app (jV.obj b) + ((curriedTensor _).map g).app (jV.obj b)
     rw [Functor.map_add]
     rfl⟩

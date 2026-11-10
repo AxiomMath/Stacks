@@ -214,7 +214,7 @@ private theorem isConstructibleEtaleModule_of_open_closed_aux {X : Scheme.{u}}
   refine isConstructibleEtaleModule_of_constructible_immersion_cover Λ F T j (fun b ↦ ?_) ?_
     (fun b ↦ ?_)
   · cases b
-    · show Topology.IsConstructible (Set.range i.base)
+    · change Topology.IsConstructible (Set.range i.base)
       rw [← compl_compl (Set.range i.base), ← hij]
       exact hcons.compl
     · exact hcons
@@ -222,7 +222,7 @@ private theorem isConstructibleEtaleModule_of_open_closed_aux {X : Scheme.{u}}
     by_cases hx : x ∈ Set.range jU.base
     · exact Set.mem_iUnion.2 ⟨true, hx⟩
     · refine Set.mem_iUnion.2 ⟨false, ?_⟩
-      show x ∈ Set.range i.base
+      change x ∈ Set.range i.base
       rw [hij, Set.mem_compl_iff, not_not] at hx
       exact hx
   · cases b
@@ -283,6 +283,7 @@ theorem isConstructibleEtaleModule_etaleModuleDirectImage_of_isClosedImmersion {
     exact (IsConstructibleEtaleModule Λ).prop_of_iso
       (asIso ((etaleModuleInverseImageAdj.{u, r} Λ i).counit.app F)).symm hF
 
+omit [IsNoetherianRing Λ] in
 /-- **The constant sheaf on a finite module is constructible.** For a Noetherian ring `Λ` and a
 finite `Λ`-module `E`, the constant sheaf `E̲` of `Λ`-modules on `X_étale` is constructible: it
 is locally constant of finite type, already over `X` itself. -/

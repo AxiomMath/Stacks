@@ -91,7 +91,7 @@ theorem inverseImage_frobeniusBaseChangeTwist_constant_comp_counit :
   have htw :=
     transportedConstantTwist_frobeniusBaseChangeTwist_eq_constantSelfMapTwist Λ Y kbar p q hcard M
   rw [← hcounit, ← Category.assoc, ← Functor.map_comp, Category.assoc, ← Adjunction.homEquiv_counit]
-  show (adj.homEquiv _ _).symm (transportedConstantTwist.{u, 0} Λ M (fieldBaseChangeProj Y kbar) π
+  change (adj.homEquiv _ _).symm (transportedConstantTwist.{u, 0} Λ M (fieldBaseChangeProj Y kbar) π
     ((frobeniusBaseChangeTwist.{u, 0} Λ Y kbar p q hcard).app
       (etaleModuleConstantSheaf Λ M Y.left))) = _
   rw [htw, constantSelfMapTwist, Equiv.symm_apply_apply]

@@ -38,8 +38,7 @@ theorem Stacks.eq_of_baseChange_surjective {R A M P Q : Type*} [CommRing R] [Com
     (act : A → Q → Q) (hL : ∀ a p, L (a • p) = act a (L p)) (hL' : ∀ a p, L' (a • p) = act a (L' p))
     (h : ∀ m, L (BC ((1 : A) ⊗ₜ[R] m)) = L' (BC ((1 : A) ⊗ₜ[R] m))) (p : P) : L p = L' p := by
   obtain ⟨t, rfl⟩ := hBC p
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul a m =>
     have e : a ⊗ₜ[R] m = a • ((1 : A) ⊗ₜ[R] m) := by
       rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]

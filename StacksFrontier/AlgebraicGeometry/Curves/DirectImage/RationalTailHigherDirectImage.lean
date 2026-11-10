@@ -167,7 +167,7 @@ public theorem base_const_of_isContractionOfRationalTail {hC : IsRationalTail k 
     (C.subschemeι ≫ c).base u = (C.subschemeι ≫ c).base v := by
   obtain ⟨-, p, -, hp⟩ := hc
   rw [hp]
-  show p.base ((canonicalMapToAttachingPoint hC).base u) =
+  change p.base ((canonicalMapToAttachingPoint hC).base u) =
     p.base ((canonicalMapToAttachingPoint hC).base v)
   congr 1
   exact Subsingleton.elim _ _

@@ -51,7 +51,7 @@ variable {C₁ C₂ D : Type*} [Category C₁] [Category C₂] [Category D]
   [HasMapBifunctor ((CochainComplex.singleFunctor C₁ 0).obj M)
     ((CochainComplex.singleFunctor C₂ 0).obj N') F (ComplexShape.up ℤ)]
 
-omit [HasMapBifunctor ((CochainComplex.singleFunctor C₁ 0).obj M)
+omit [HasZeroObject D] [HasMapBifunctor ((CochainComplex.singleFunctor C₁ 0).obj M)
     ((CochainComplex.singleFunctor C₂ 0).obj N') F (ComplexShape.up ℤ)] in
 /-- `Tot(F(M[0], N[0]))⁰ ≅ F(M, N)` on the summand `(0, 0)`. -/
 theorem ι_mapBifunctorSingleXZeroIso_hom (h) :
@@ -91,15 +91,15 @@ theorem mapBifunctorSingleIso_hom_naturality_right :
       have e1 : ((CochainComplex.singleFunctor D 0).map ((F.obj M).map g)).f 0 ≫
           (singleObjXSelf (ComplexShape.up ℤ) 0 ((F.obj M).obj N')).hom =
           (singleObjXSelf (ComplexShape.up ℤ) 0 ((F.obj M).obj N)).hom ≫ (F.obj M).map g := by
-        simp [CochainComplex.singleFunctor, CochainComplex.singleFunctors, single_map_f_self]
+        simp [CochainComplex.singleFunctor, single_map_f_self]
       have e2 : ((CochainComplex.singleFunctor C₂ 0).map g).f 0 =
           (singleObjXSelf (ComplexShape.up ℤ) 0 N).hom ≫ g ≫
             (singleObjXSelf (ComplexShape.up ℤ) 0 N').inv := by
-        simp [CochainComplex.singleFunctor, CochainComplex.singleFunctors, single_map_f_self]
+        simp [CochainComplex.singleFunctor, single_map_f_self]
       rw [e1, reassoc_of% (mapBifunctorSingleIso_hom_f_zero_comp_singleObjXSelf F M (N := N)),
         mapBifunctorSingleIso_hom_f_zero_comp_singleObjXSelf, ι_mapBifunctorSingleXZeroIso_hom,
         reassoc_of% (ι_mapBifunctorSingleXZeroIso_hom F M (N := N)), e2]
-      simp only [id_f, Functor.map_id, NatTrans.id_app, Category.id_comp]
+      simp only [id_f]
       rw [F.map_id, NatTrans.id_app, Category.id_comp]
       have h := (F.map (singleObjXSelf (ComplexShape.up ℤ) 0 M).hom).naturality
         ((singleObjXSelf (ComplexShape.up ℤ) 0 N).hom ≫ g ≫
@@ -181,7 +181,7 @@ theorem inv_comp_map_unitModuleMap_comp_mul :
             (PresheafOfModules (X.sheaf.obj ⋙ forget₂ CommRingCat RingCat)) _ _
             (moduleOfAlgebra A).val _ _ (unitModuleMap A).val).app V).hom
       (x ⊗ₜ (1 : X.sheaf.obj.obj V)))) h3).trans ?_
-  show (ModuleCat.Hom.hom ((presheafMul A).app V))
+  change (ModuleCat.Hom.hom ((presheafMul A).app V))
       (x ⊗ₜ[X.sheaf.obj.obj V] ((unitModuleMap A).val.app V).hom (1 : X.sheaf.obj.obj V)) = x
   refine (PresheafOfModules.ofBilinear_tmul (bilinearMul A) V x _).trans ?_
   refine (congrArg (fun y => (bilinearMul A).app V x y) (unitModuleMap_one A V)).trans ?_

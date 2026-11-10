@@ -92,6 +92,7 @@ theorem isIso_fppfToBigEtale_unit_app_of_isQuasicoherentOnSite
       U.property.2)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the sheaf-of-modules structures on the big étale ringed site is slow
 /-- The pullback along `ε_X` of a quasi-coherent module is quasi-coherent (Stacks 03DO). -/
 theorem isQuasicoherentOnSite_fppfToBigEtale_pullbackTopos
     (G : SheafOfModules.{u + 1}
@@ -158,6 +159,7 @@ theorem exists_isQuasicoherentOnSite_iso_pullback
       G hG
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the sheaf-of-modules structures on the spaces-étale ringed site is slow
 /-- The pullback along `π_X` of a quasi-coherent module is quasi-coherent (Stacks 03DO). -/
 theorem isQuasicoherentOnSite_spacesEtaleRestriction_pullbackTopos
     (F : SheafOfModules.{u + 1} (Stacks.SheafOfModules.Tensor.ringSheaf

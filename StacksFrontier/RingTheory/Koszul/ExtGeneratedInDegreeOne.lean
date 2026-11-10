@@ -108,7 +108,7 @@ theorem extEquivCohomologyClass_symm_comp {M N : C} (P : ProjectiveResolution M)
   let dy : ShiftedHom (DerivedCategory.Q.obj P.cochainComplex)
       (DerivedCategory.Q.obj ((singleFunctor C 0).obj N)) (b : ℤ) :=
     ShiftedHom.map (Cocycle.equivHomShift.symm y) DerivedCategory.Q
-  show ((ShiftedHom.mk₀ (0 : ℤ) rfl (inv q)).comp
+  change ((ShiftedHom.mk₀ (0 : ℤ) rfl (inv q)).comp
       (dx.comp (ShiftedHom.mk₀ 0 rfl q) (zero_add _)) (add_zero _)).comp
       ((ShiftedHom.mk₀ 0 rfl (inv q)).comp dy (add_zero _)) (by omega) =
     (ShiftedHom.mk₀ 0 rfl (inv q)).comp
@@ -184,7 +184,7 @@ theorem degreeOneCocycle_comp_extMk {M N : C} (P : ProjectiveResolution M)
   apply Cocycle.ext
   apply (Cochain.toSingleEquiv (show -((n + 1 : ℕ) : ℤ) + ((n + 1 : ℕ) : ℤ) = 0 by omega)).injective
   simp only [Cocycle.toSingleMk_coe, Cochain.toSingleEquiv_toSingleMk]
-  show ((P.degreeOneCochain c).comp
+  change ((P.degreeOneCochain c).comp
     (Cochain.toSingleMk ((P.cochainComplexXIso (-n) n rfl).hom ≫ g)
       (show -(n : ℤ) + n = 0 by omega))
       (show (1 : ℤ) + n = ((n + 1 : ℕ) : ℤ) by omega)).v
@@ -269,7 +269,7 @@ theorem d_comp_d_add_d_comp_d (φ ψ : Module.Dual R E) (n : ℕ) :
   apply LinearMap.ext
   intro x
   apply Subtype.ext
-  show contraction ψ (contraction φ (x : ExteriorAlgebra R E)) +
+  change contraction ψ (contraction φ (x : ExteriorAlgebra R E)) +
     contraction φ (contraction ψ (x : ExteriorAlgebra R E)) = 0
   rw [CliffordAlgebra.contractLeft_comm, neg_add_cancel]
 
@@ -294,7 +294,7 @@ theorem comp_d_seqDual_eq_zero (f : Fin r → R) (J : Ideal R) (hf : ∀ i, f i 
     LinearMap.smul_apply, map_sum, map_smul, LinearMap.zero_apply]
   apply Finset.sum_eq_zero
   intro i _
-  show (Ideal.Quotient.mk J (f i)) * _ = 0
+  change (Ideal.Quotient.mk J (f i)) * _ = 0
   rw [Ideal.Quotient.eq_zero_iff_mem.mpr (hf i), zero_mul]
 
 /-- The Koszul differential into degree `n` followed by any map to `R/J` is zero. -/
@@ -356,7 +356,7 @@ theorem closure_range_ext_comp_eq_top (f : Fin r → R) (hf : IsKoszulRegular f)
       Module.Dual R (Fin r → R) × ((⋀[R]^n (Fin r → R)) →ₗ[R] R ⧸ J) =>
         p.2.comp (d p.1 n))) := by
     rw [closure_range_comp_d]; trivial
-  show L (n + 1) g ∈ S
+  change L (n + 1) g ∈ S
   induction hg using AddSubgroup.closure_induction with
   | mem g hg =>
     obtain ⟨⟨φ, g⟩, rfl⟩ := hg

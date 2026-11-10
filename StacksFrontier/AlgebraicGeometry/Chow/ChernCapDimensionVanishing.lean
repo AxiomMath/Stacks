@@ -92,8 +92,8 @@ repository to be equated with zero.
 
 `Stacks.Chow.iteratedChernCapOnChow` is the repository's `c₁ ∩ ⋯ ∩ c₁ ∩ -`, indexed by a list of
 `Stacks.Chow.ChernCapOperator`s — the datum an invertible module provides once Stacks 02SJ and
-Stacks 02TI are formalized. Quantifying over all lists of operators of length at least `d + 1` is stronger
-than fixing the operators attached to a given tuple of invertible modules, so the statement
+Stacks 02TI are formalized. Quantifying over all lists of operators of length at least `d + 1` is
+stronger than fixing the operators attached to a given tuple of invertible modules, so the statement
 proved here does not depend on which cap operators an invertible module turns out to provide.
 
 That form mentions no invertible module, so the form that does is also proved:

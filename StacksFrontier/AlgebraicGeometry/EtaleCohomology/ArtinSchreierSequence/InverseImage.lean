@@ -118,7 +118,7 @@ theorem frobeniusMap_comp_additiveDirectImageComparison_general {p : ℕ} (hp : 
     ConcreteCategory.comp_apply]
   rw [frobeniusMap_app_ofSection, additiveDirectImageComparison_app_ofSection_general,
     additiveDirectImageComparison_app_ofSection_general]
-  show _ = ofSection (U := (smallEtaleBaseChange π).obj U.unop)
+  change _ = ofSection (U := (smallEtaleBaseChange π).obj U.unop)
     ((pullback.fst U.unop.hom π).appTop x ^ p)
   rw [map_pow]
 
@@ -151,7 +151,7 @@ theorem scalarMap_comp_additiveDirectImageComparison (c : Γ(X, ⊤)) :
     ConcreteCategory.comp_apply]
   rw [scalarMap_app_ofSection, additiveDirectImageComparison_app_ofSection_general,
     additiveDirectImageComparison_app_ofSection_general]
-  show _ = ofSection (U := (smallEtaleBaseChange π).obj U.unop)
+  change _ = ofSection (U := (smallEtaleBaseChange π).obj U.unop)
     ((pullback.snd U.unop.hom π).appTop (π.appTop c) *
     (pullback.fst U.unop.hom π).appTop x)
   rw [map_mul, pullback_fst_appTop_appTop]

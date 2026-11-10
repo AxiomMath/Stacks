@@ -178,13 +178,13 @@ theorem isWeaklyAssociatedPrime_maximalIdeal_tensorProduct_of_closedFibre
       apply le_maximalIdeal
       intro htop
       apply hcI
-      show c ∈ I
+      change c ∈ I
       rw [hmemI]
       have : (1 : R) ∈ K := htop ▸ Submodule.mem_top
       simpa [hK, Ideal.mem_torsionOf_iff] using this
     exact hνnot (Submodule.smul_mono_left hKle h5)
   -- conclusion
-  show WeaklyAssociated (maximalIdeal B) (N ⊗[R] M)
+  change WeaklyAssociated (maximalIdeal B) (N ⊗[R] M)
   refine weaklyAssociated_maximalIdeal_iff_exists_radical_eq.mpr ⟨z, le_antisymm ?_ ?_⟩
   · have hne : annihilatorOfElem_semiring (R := B) z ≠ ⊤ := by
       intro h

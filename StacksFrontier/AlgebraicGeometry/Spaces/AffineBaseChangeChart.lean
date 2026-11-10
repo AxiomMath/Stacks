@@ -80,7 +80,7 @@ theorem isAffine_smallBaseChange_obj {X Y : AlgebraicSpaces B S hS} (f : Y ⟶ X
       ((BigAffineFppf.inclusion B S hS).obj W)) := W.property
   have e := (BigFppfOver.toScheme B S hS).mapIso
     (yoneda.preimageIso (hpb.isoIsPullback _ _ (hf.isPullback Q.1.hom)))
-  show IsAffine ((BigFppfOver.toScheme B S hS).obj (hf.pullback Q.1.hom))
+  change IsAffine ((BigFppfOver.toScheme B S hS).obj (hf.pullback Q.1.hom))
   exact IsAffine.of_isIso e.inv
 
 end AlgebraicGeometry.Space

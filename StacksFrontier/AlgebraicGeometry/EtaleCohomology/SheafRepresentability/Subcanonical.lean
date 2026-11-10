@@ -113,7 +113,7 @@ theorem isSheaf_yoneda_obj (X : SmallEtale B S hS) :
       (P := (toScheme B S hS).op ⋙ yoneda.obj ((toScheme B S hS).obj X)) (R := R)
       (fun _ f hf ↦ (toScheme B S hS).map (x f hf)) := by
     intro V₁ V₂ W g₁ g₂ f₁ f₂ h₁ h₂ hcomm
-    show (toScheme B S hS).map g₁ ≫ (toScheme B S hS).map (x f₁ h₁) =
+    change (toScheme B S hS).map g₁ ≫ (toScheme B S hS).map (x f₁ h₁) =
       (toScheme B S hS).map g₂ ≫ (toScheme B S hS).map (x f₂ h₂)
     rw [← Functor.map_comp, ← Functor.map_comp]
     exact (toScheme B S hS).congr_map (hx g₁ g₂ h₁ h₂ hcomm)
@@ -123,7 +123,7 @@ theorem isSheaf_yoneda_obj (X : SmallEtale B S hS) :
   -- every restriction of the glued morphism lies over `S`, hence so does the morphism itself
   have hover : t ≫ B.inclusion.map X.obj.hom = B.inclusion.map U.obj.hom := by
     refine hsep.ext fun V f hf ↦ ?_
-    show (toScheme B S hS).map f ≫ t ≫ B.inclusion.map X.obj.hom =
+    change (toScheme B S hS).map f ≫ t ≫ B.inclusion.map X.obj.hom =
       (toScheme B S hS).map f ≫ B.inclusion.map U.obj.hom
     rw [← Category.assoc, htf f hf, toScheme_map_comp_hom, toScheme_map_comp_hom]
   refine ⟨ObjectProperty.homMk (Over.homMk (ObjectProperty.homMk t)
@@ -131,7 +131,7 @@ theorem isSheaf_yoneda_obj (X : SmallEtale B S hS) :
   · exact (toScheme B S hS).map_injective (htf f hf)
   · refine (toScheme B S hS).map_injective ?_
     refine hsheaf.isSeparatedFor.ext fun V f hf ↦ ?_
-    show (toScheme B S hS).map f ≫ (toScheme B S hS).map g =
+    change (toScheme B S hS).map f ≫ (toScheme B S hS).map g =
       (toScheme B S hS).map f ≫ t
     rw [← Functor.map_comp, (toScheme B S hS).congr_map (show f ≫ g = x f hf from hg f hf),
       htf f hf]

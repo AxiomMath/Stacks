@@ -224,7 +224,7 @@ theorem etale_quotientMap_bot {C : Type u} [CommRing C] (φ : A →+* C) (hφ : 
       ((Ideal.Quotient.mk (⊥ : Ideal C)).comp φ).comp eA.symm.toRingHom := by
     apply Ideal.Quotient.ringHom_ext
     ext a
-    show Ideal.quotientMap ⊥ φ h (Ideal.Quotient.mk ⊥ a) =
+    change Ideal.quotientMap ⊥ φ h (Ideal.Quotient.mk ⊥ a) =
       Ideal.Quotient.mk ⊥ (φ (eA.symm (eA a)))
     rw [RingEquiv.symm_apply_apply, Ideal.quotientMap_mk]
   rw [heq]
@@ -257,7 +257,7 @@ theorem isRepresentableEtale_formalSpectrumMap_of_bot [IsTopologicalRing A]
   refine IsRepresentableEtale.comp B S hS (isRepresentableEtale_of_isIso B S hS _)
     (IsRepresentableEtale.comp B S hS (isRepresentableEtale_sheafifiedYoneda_map B S hS _ ?_)
       (@isRepresentableEtale_of_isIso B S hS _ _ _ (Iso.isIso_hom _)))
-  show Etale (Spec.map (CommRingCat.ofHom (Ideal.quotientMap ⊥ g.toRingHom hle)))
+  change Etale (Spec.map (CommRingCat.ofHom (Ideal.quotientMap ⊥ g.toRingHom hle)))
   exact HasRingHomProperty.Spec_iff.mpr (etale_quotientMap_bot g.toRingHom het hle)
 
 end Discrete
@@ -356,7 +356,7 @@ theorem exists_vacuous_rigEtaleArrow_chart (B : BigFppfSite.{u}) (S : Scheme.{u}
   have hK : B.Contains (Spec (.of (FractionRing (Polynomial k)))) := by
     have : Epi (CommRingCat.ofHom ι) := IsLocalization.epi (nonZeroDivisors _) _
     have : Mono (Spec.map (CommRingCat.ofHom ι)) := by
-      show Mono (Scheme.Spec.map (CommRingCat.ofHom ι).op)
+      change Mono (Scheme.Spec.map (CommRingCat.ofHom ι).op)
       exact Functor.map_mono Scheme.Spec _
     exact Scheme.size_lt_of_mono_quasiCompact (Spec.map (CommRingCat.ofHom ι)) hP
   let fP := Spec.map (CommRingCat.ofHom fst) ≫ f
@@ -441,7 +441,7 @@ theorem not_sourceCoverImpliesEveryAffineEtaleDiagram_isRigEtaleArrow (k : Type 
   let : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
   have hsurj : Sheaf.IsLocallySurjective (Sigma.desc (fun _ : PUnit.{u + 2} ↦ 𝟙 U)) :=
     (Sheaf.isLocallySurjective_iff_epi _).mpr
-      (epi_of_epi_fac (Sigma.ι_desc (fun _ : PUnit.{u + 2} ↦ 𝟙 U) PUnit.unit))
+      (epi_of_epi_fac (Sigma.ι_comp_desc (fun _ : PUnit.{u + 2} ↦ 𝟙 U) PUnit.unit))
   have hcov : HasPropertyAfterSourceCover B S hS
       (fun R ↦ TopologicalRing.IsAdic R ∧ IsNoetherianRing R)
       (fun {R₁ R₂ : Type u} [CommRing R₁] [TopologicalSpace R₁] [IsTopologicalRing R₁]

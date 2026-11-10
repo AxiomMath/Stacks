@@ -82,7 +82,8 @@ the degree at hand.
 produces and the one `fourierMukaiDisplayIso` wants, and converted to
 `Stacks.FiniteLocallyFree.IsFiniteLocallyFree` by
 `Stacks.FiniteLocallyFree.isFiniteLocallyFree_iff_algebraicGeometry` where the perfectness and
-the K-flatness statements need it, exactly as in `StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/ProjectionDisplay.lean`.
+the K-flatness statements need it, exactly as in
+`StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/ProjectionDisplay.lean`.
 
 *The model of the derived categories.*  `CategoryTheory.HasDerivedCategory.standard` is
 activated as a local instance at high priority, as in
@@ -110,7 +111,7 @@ namespace Stacks.Duality
 
 attribute [local instance 100000] HasDerivedCategory.standard
 
-variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [Smooth f] [IsProper f]
+variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
 
 /-- **`R pr_{2,*}(K ⊗^𝐋 (ℰ ⊠ 𝒢)[0]) ≅ (ℰ ⊗ 𝒢)[0]`**, the second, third and fourth terms of the
 display of [Stacks, Tag 0G0E] identified: the derived projection formula at `pr_2` against the

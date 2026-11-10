@@ -65,7 +65,7 @@ private theorem exists_finite_etale_surjection_of_quotient
   let : Algebra P B := ((algebraMap (P ⧸ I) B).comp (Ideal.Quotient.mk I)).toAlgebra
   have : IsScalarTower P (P ⧸ I) B := .of_algebraMap_eq fun _ => rfl
   have : IsScalarTower k P B := .of_algebraMap_eq fun x => by
-    show _ = algebraMap (P ⧸ I) B (Ideal.Quotient.mk I (algebraMap k P x))
+    change _ = algebraMap (P ⧸ I) B (Ideal.Quotient.mk I (algebraMap k P x))
     rw [Ideal.Quotient.mk_algebraMap, ← IsScalarTower.algebraMap_apply]
   obtain ⟨C, _, _, hCet, τ, hτ, hτker⟩ :=
     etale_lift_along_surjection P (P ⧸ I) B Ideal.Quotient.mk_surjective
@@ -77,17 +77,17 @@ private theorem exists_finite_etale_surjection_of_quotient
   have hφ : φ.toRingHom.Etale := RingHom.etale_algebraMap.mpr hCet
   have hkerle : Ideal.map φ.toRingHom I ≤
       Ideal.comap (τ.restrictScalars k) (⊥ : Ideal B) := by
-    show Ideal.map (algebraMap P C) I ≤ RingHom.ker τ.toRingHom
+    change Ideal.map (algebraMap P C) I ≤ RingHom.ker τ.toRingHom
     exact hτker.symm.le
   let τbar : (C ⧸ Ideal.map φ.toRingHom I) →ₐ[k] B :=
     (AlgEquiv.quotientBot k B).toAlgHom.comp
       (Ideal.quotientMapₐ (⊥ : Ideal B) (τ.restrictScalars k) hkerle)
   have hτbar_mk (c : C) : τbar (Ideal.Quotient.mk _ c) = τ c := by
-    show (AlgEquiv.quotientBot k B)
+    change (AlgEquiv.quotientBot k B)
       (Ideal.quotientMapₐ (⊥ : Ideal B) (τ.restrictScalars k) hkerle
         (Ideal.Quotient.mk _ c)) = τ c
     rw [Ideal.quotient_map_mkₐ]
-    show (AlgEquiv.quotientBot k B) (Ideal.Quotient.mk ⊥ (τ c)) = τ c
+    change (AlgEquiv.quotientBot k B) (Ideal.Quotient.mk ⊥ (τ c)) = τ c
     rw [AlgEquiv.quotientBot_mk]
   have hτbar : Function.Surjective τbar := fun b => by
     obtain ⟨c, rfl⟩ := hτ b
@@ -131,7 +131,7 @@ private theorem exists_finite_etale_surjection_of_surjective
   let : Algebra k B := ((β.comp α).comp (algebraMap k P)).toAlgebra
   let : SMul k A₀ := Algebra.toSMul
   have : IsScalarTower k A₀ B := .of_algebraMap_eq (fun x => by
-    show (β.comp α) ((algebraMap k P) x) =
+    change (β.comp α) ((algebraMap k P) x) =
       (β.comp e.toRingHom) ((algebraMap k A₀) x)
     rw [← Ideal.Quotient.mk_algebraMap k I x]
     exact (congrArg β (RingHom.quotientKerEquivOfSurjective_apply_mk hα

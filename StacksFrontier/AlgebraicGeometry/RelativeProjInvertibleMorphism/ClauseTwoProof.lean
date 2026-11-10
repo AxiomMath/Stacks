@@ -133,7 +133,7 @@ theorem restrictPullIso_pullSection (m : ℕ) (y : Γ(natTensorPow L m, U))
     (pullbackNatTensorPowIso j ((Scheme.Modules.pullback U.ι).obj L) m) ⊤
     (Scheme.Modules.pullbackSection j _ ⊤ ⊤ hj (restrictPowSection L U m y))
   refine Eq.trans ?_ h5
-  show ((Scheme.Modules.pullbackComp j U.ι).hom.app F).val.app (op ⊤)
+  change ((Scheme.Modules.pullbackComp j U.ι).hom.app F).val.app (op ⊤)
       (((Scheme.Modules.pullback j).map
         ((powCompare ((Scheme.Modules.pullback U.ι).obj L) m).hom ≫
           (Stacks.TensorPowerPullback.pullbackIntPowIso (ringedSpaceHom U.ι) L
@@ -257,7 +257,7 @@ theorem coveringOpen_eq_top_of_family (ψ : GradedSections 𝒜 M) {k : ℕ} (hk
     (ψ.nonvanishingOpen_congr g.2 (Stacks.MorphismToProj.HomogeneousRatios.pow_mem g.2 1)
       (one_mul k).symm (pow_one _).symm).trans (Opens.ext h1.symm)
   refine ψ.nonvanishingOpenAt_le_coveringOpen_of_pos g.2 hk ?_
-  show x ∈ nonvanishingOpen Y (natTensorPow M k) (ψ.toFun k g)
+  change x ∈ nonvanishingOpen Y (natTensorPow M k) (ψ.toFun k g)
   rw [hT, ← Stacks.AlgebraicGeometry.MorphismToProjUniversal.nonvanishingOpen_psiSection]
   exact hg
 
@@ -282,7 +282,7 @@ theorem iso_iso_cancel {X : Scheme.{u}}
     {P Q R : SheafOfModules.{u} (structureRingSheaf X.toRingedSpace)} (e₁ : P ≅ Q) (e₂ : Q ≅ R)
     (U : (Opens X.toRingedSpace.carrier)ᵒᵖ) (x : P.val.obj U) :
     (e₂.inv ≫ e₁.inv).val.app U (e₂.hom.val.app U (e₁.hom.val.app U x)) = x := by
-  show ((e₁.hom ≫ e₂.hom) ≫ e₂.inv ≫ e₁.inv).val.app U x = x
+  change ((e₁.hom ≫ e₂.hom) ≫ e₂.inv ≫ e₁.inv).val.app U x = x
   simp
 
 section SectionHom
@@ -301,7 +301,7 @@ theorem Twisting.sectionHom_of_app_eq (χ' : Twisting f A d' L) (χ : Twisting f
     (U : (Opens S.toRingedSpace.carrier)ᵒᵖ) (a : (A.piece (i * d')).val.obj U) :
     χ'.sectionHom i U a = φ.val.app _ (χ.sectionHom j U (e.val.app U a)) := by
   rw [Twisting.sectionHom_apply, Twisting.sectionHom_apply, h]
-  show φ.val.app _ ((χ.app j).val.app _
+  change φ.val.app _ ((χ.app j).val.app _
       (((pullbackFunctor (ringedSpaceHom f)).map e).val.app _ (pullbackUnit _ _ U a))) = _
   rw [pullbackUnit_naturality]
 
@@ -326,7 +326,7 @@ theorem restrictQuadruple_sectionHom (n : ℕ) (U : (Opens S.toRingedSpace.carri
               (show (n : ℤ) * (k : ℤ) = (n : ℤ) * (k : ℤ) * 1 by ring))).val.app U y)) := by
   let := isInvertible_piece ((pullbackFunctor (ringedSpaceHom W.ι)).obj L) (k : ℤ)
   refine Twisting.sectionHom_of_app_eq _ (ψ.pullback W.ι) _ _ ?_ U y
-  show (pullbackFunctor (ringedSpaceHom (W.ι ≫ f))).map _ ≫
+  change (pullbackFunctor (ringedSpaceHom (W.ι ≫ f))).map _ ≫
       ((pullbackFunctor (ringedSpaceHom (W.ι ≫ f))).map _ ≫
         (ψ.pullback W.ι).app ((n : ℤ) * (k : ℤ)) ≫ _) = _
   rw [← Category.assoc, ← Functor.map_comp, eqToHom_trans]
@@ -529,7 +529,7 @@ theorem partFamily_toFun (V : S.affineOpens)
   refine Eq.trans ?_ (inv_app_hom_app_top (partPowIso L W k ((W.ι ≫ f) ⁻¹ᵁ V.1) n) _)
   refine Eq.trans ?_ (congrArg (fun z => (partPowIso L W k ((W.ι ≫ f) ⁻¹ᵁ V.1) n).inv.app ⊤ z)
     e2).symm
-  show (partPowIso L W k ((W.ι ≫ f) ⁻¹ᵁ V.1) n).inv.app ⊤
+  change (partPowIso L W k ((W.ι ≫ f) ⁻¹ᵁ V.1) n).inv.app ⊤
       (((Scheme.Modules.pullbackCongr (partInclusion_ι (W := W) (f := f) V.1)).hom.app _).val.app
         (op ⊤)
         ((restrictPullIso L (f ⁻¹ᵁ V.1) (partInclusion (W := W) V.1) (n * k)).hom.app ⊤

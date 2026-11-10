@@ -190,7 +190,7 @@ private theorem isIso_derivedSectionsOverOpen_map_Qh_pullbackUnitComplex_of_isKI
   have hΓ := isIso_sectionsOverOpen_map_pullbackUnitComplex h U hU I
   have hΓh : IsIso ((homotopySectionsOverOpen X U).map
       ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map (pullbackUnitComplex h I))) := by
-    show IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
+    change IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
       (((sectionsOverOpen X U).mapHomologicalComplex (ComplexShape.up ℤ)).map
         (pullbackUnitComplex h I))))
     infer_instance

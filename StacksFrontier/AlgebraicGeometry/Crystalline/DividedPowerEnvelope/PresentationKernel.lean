@@ -138,7 +138,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
     simpa using hh
   have hcoeff' (a : B) :
       ψ.toRingHom (algebraMap B P a) = D.structureMap.toRingHom a := by
-    show ψ.toRingHom (coeff.toRingHom a) = D.structureMap.toRingHom a
+    change ψ.toRingHom (coeff.toRingHom a) = D.structureMap.toRingHom a
     exact hcoeff a
   have hvar' (t : T) :
       ψ.toRingHom (dividedPowerPolynomialVariable B t) =
@@ -161,7 +161,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
     intro t ht
     rw [hcoeff', hvar']
   have hqker (t : T) : Q t ∈ RingHom.ker ψ.toRingHom := by
-    show ψ.toRingHom (Q t) = 0
+    change ψ.toRingHom (Q t) = 0
     rw [map_sub, hvar', hcoeff']
     exact sub_self _
   have hK_le : K ≤ RingHom.ker ψ.toRingHom := by
@@ -176,20 +176,20 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
       exact hqker t
     · rcases hx with ⟨n, r, r₀, hn, hr, rfl⟩
       have hbase : ψ.toRingHom (relation r r₀) = 0 := by
-        show ψ.toRingHom
+        change ψ.toRingHom
           (r.sum (fun t a => algebraMap B P a * dividedPowerPolynomialVariable B t) -
             algebraMap B P r₀) = 0
         rw [map_sub, hsum, hcoeff', hr]
         simp
       have hdp := ψ.dpow_comp (n := n) (relation r r₀) (hrelmem r r₀ hr)
-      show ψ.toRingHom (δ.dpow n (relation r r₀)) = 0
+      change ψ.toRingHom (δ.dpow n (relation r r₀)) = 0
       rw [← hdp, hbase]
       exact D.object.dividedPowers.dpow_eval_zero (Nat.ne_of_gt (by omega))
   have hmonI (t' : T) {m : ℕ} (hm : 0 < m) :
       dividedPowerPolynomialVariableMonomial B t' m ∈ Ipoly :=
     Ideal.mem_sup_right (variableMonomial_mem_positiveIdeal B t' (Nat.ne_of_gt hm))
   have hqmem (t : T) : Q t ∈ K := by
-    show Q t ∈ kernelPresentationIdeal B T f
+    change Q t ∈ kernelPresentationIdeal B T f
     unfold kernelPresentationIdeal
     apply Ideal.subset_span
     exact Or.inl ⟨t, rfl⟩
@@ -201,7 +201,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
     · rcases hx with ⟨n, r, r₀, hn, hr, rfl⟩
       have hn' : 1 ≤ n := Nat.one_le_iff_ne_zero.mpr (Nat.ne_of_gt hn)
       refine ⟨?_, δ.dpow_mem (Nat.ne_of_gt hn) (hrelmem r r₀ hr)⟩
-      show δ.dpow n (relation r r₀) ∈ kernelPresentationIdeal B T f
+      change δ.dpow n (relation r r₀) ∈ kernelPresentationIdeal B T f
       unfold kernelPresentationIdeal
       apply Ideal.subset_span
       right
@@ -253,7 +253,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
     (dividedPowerPolynomialAugmentation B T).commutes a
   have haugDP (n : ℕ) (m : T →₀ B) (hn : n ≠ 0) :
       aug (DividedPowerAlgebra.dp B n m) = 0 := by
-    show (DividedPowerAlgebra.lift (dividedPowersBot B) 0
+    change (DividedPowerAlgebra.lift (dividedPowersBot B) 0
       (fun _ => by simp)) (DividedPowerAlgebra.dp B n m) = 0
     rw [DividedPowerAlgebra.lift_apply_dp]
     simp only [LinearMap.zero_apply]
@@ -339,7 +339,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
   have haugQ (t : T) : aug (Q t) = -f t := by
     dsimp [Q]
     rw [map_sub, haugCoeff]
-    show aug (DividedPowerAlgebra.dp B 1 (Finsupp.single t 1)) - f t = -f t
+    change aug (DividedPowerAlgebra.dp B 1 (Finsupp.single t 1)) - f t = -f t
     rw [haugDP 1 (Finsupp.single t 1) (by decide)]
     simp
   have haugRcomb (r : T →₀ B) :
@@ -348,7 +348,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
     simp [Rcomb, Finsupp.linearCombination_apply, Finsupp.sum,
       Algebra.smul_def, haugQ, haugCoeff, Finset.sum_neg_distrib]
   have haugI : Ipoly.map aug ≤ B.ideal := by
-    show Ideal.map aug
+    change Ideal.map aug
       (Ideal.map (algebraMap B P) B.ideal ⊔
         dividedPowerPolynomialPositiveIdeal B T) ≤ B.ideal
     rw [Ideal.map_sup]
@@ -384,7 +384,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
     dsimp [Rcomb]
     rw [Finsupp.linearCombination_apply, Finsupp.sum, Finset.mul_sum]
     simp only [Algebra.smul_def]
-    show (∑ t ∈ r.support,
+    change (∑ t ∈ r.support,
       p * (algebraMap B P (r t) * Q t)) ∈ K'
     apply Submodule.sum_mem
     intro t ht
@@ -413,12 +413,12 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
       rcases hx with ⟨r, hr⟩
       refine ⟨aug a • r, ?_⟩
       rw [hRcomb_smul]
-      show a * x - (aug a) • Rcomb r ∈ K'
+      change a * x - (aug a) • Rcomb r ∈ K'
       rw [Algebra.smul_def]
       have hp : a - algebraMap B P (aug a) ∈
           dividedPowerPolynomialPositiveIdeal B T := by
         rw [dividedPowerPolynomialPositiveIdeal, RingHom.mem_ker]
-        show aug (a - algebraMap B P (aug a)) = 0
+        change aug (a - algebraMap B P (aug a)) = 0
         rw [map_sub]
         rw [haugCoeff]
         exact sub_self _
@@ -429,13 +429,13 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
   }
   have hRcombK (r : T →₀ B) : Rcomb r ∈ K := by
     classical
-    show (∑ t ∈ r.support, (r t) • Q t) ∈ K
+    change (∑ t ∈ r.support, (r t) • Q t) ∈ K
     apply Submodule.sum_mem
     intro t ht
     simpa [Algebra.smul_def] using K.mul_mem_left
       (algebraMap B P (r t)) (hqmem t)
   have hK_le_H : K ≤ H := by
-    show kernelPresentationIdeal B T f ≤ H
+    change kernelPresentationIdeal B T f ≤ H
     unfold kernelPresentationIdeal
     apply Ideal.span_le.2
     intro x hx
@@ -443,7 +443,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
       {y | ∃ (n : ℕ) (r : T →₀ B) (r₀ : B.ideal),
         1 ≤ n ∧ r.sum (fun t a => a * f t) = (r₀ : B) ∧
           y = δ.dpow n (relation r r₀)} at hx
-    show x ∈ H
+    change x ∈ H
     rcases hx with hx | hx
     · rcases hx with ⟨t, rfl⟩
       refine ⟨Finsupp.single t 1, ?_⟩
@@ -481,7 +481,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
             algebraMap B P (r t) * Q t by
           simp [Rcomb, Finsupp.linearCombination_apply, Finsupp.sum,
             Algebra.smul_def]]
-        show (∑ t ∈ r.support,
+        change (∑ t ∈ r.support,
             algebraMap B P (r t) *
               (dividedPowerPolynomialVariable B t - algebraMap B P (f t))) =
           (∑ t ∈ r.support,
@@ -577,12 +577,12 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
       dividedPowerPolynomialVariable B z := rfl
   have hcomp_coeff : (ret.comp sec).comp coeffR = coeffR := by
     ext a
-    show ret.toRingHom (sec.toRingHom (algebraMap B PR a)) = algebraMap B PR a
+    change ret.toRingHom (sec.toRingHom (algebraMap B PR a)) = algebraMap B PR a
     rw [hsec_coeff, hret_coeff]
   have hcomp_var (z : R) :
       (ret.comp sec) (dividedPowerPolynomialVariable B z) =
         dividedPowerPolynomialVariable B z := by
-    show ret (sec (dividedPowerPolynomialVariable B z)) = _
+    change ret (sec (dividedPowerPolynomialVariable B z)) = _
     rw [hsec_var, hret_var]
     have hi : i (chooseT z) = z := by
       apply Subtype.ext
@@ -607,10 +607,10 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
     apply Ideal.span_le.2
     rintro x (hx | hx)
     · rcases hx with ⟨z, rfl⟩
-      show sec.toRingHom (dividedPowerPolynomialVariable B z -
+      change sec.toRingHom (dividedPowerPolynomialVariable B z -
         algebraMap B PR (fR z)) ∈ K
       rw [map_sub]
-      show sec (dividedPowerPolynomialVariable B z) -
+      change sec (dividedPowerPolynomialVariable B z) -
         sec.toRingHom (algebraMap B PR (fR z)) ∈ K
       rw [hsec_var, hsec_coeff]
       have hfr : fR z = f (chooseT z) := by simpa [fR] using (hchoose z).symm
@@ -632,7 +632,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
         simp [relR, relation, map_sub, hsec_coeff, hpoly]
       have hmem : relR r r₀ ∈ IR := relation_mem_polynomialIdeal B r r₀
       have hdp := sec.dpow_comp (n := n) (relR r r₀) hmem
-      show sec.toRingHom (δR.dpow n (relR r r₀)) ∈ K
+      change sec.toRingHom (δR.dpow n (relR r r₀)) ∈ K
       rw [← hdp, hrel]
       apply Ideal.subset_span
       right
@@ -644,10 +644,10 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
     apply Ideal.span_le.2
     rintro x (hx | hx)
     · rcases hx with ⟨t, rfl⟩
-      show ret.toRingHom (dividedPowerPolynomialVariable B t -
+      change ret.toRingHom (dividedPowerPolynomialVariable B t -
         algebraMap B P (f t)) ∈ KR
       rw [map_sub]
-      show ret (dividedPowerPolynomialVariable B t) -
+      change ret (dividedPowerPolynomialVariable B t) -
         ret.toRingHom (algebraMap B P (f t)) ∈ KR
       rw [hret_var, hret_coeff]
       exact Ideal.subset_span (Or.inl ⟨i t, rfl⟩)
@@ -664,7 +664,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
         simp [relation, relR, map_sub, hret_coeff, hpoly]
       have hmem : relation r r₀ ∈ Ipoly := hrelmem r r₀ hr
       have hdp := ret.dpow_comp (n := n) (relation r r₀) hmem
-      show ret.toRingHom (δ.dpow n (relation r r₀)) ∈ KR
+      change ret.toRingHom (δ.dpow n (relation r r₀)) ∈ KR
       rw [← hdp, hrel]
       apply Ideal.subset_span
       right
@@ -697,7 +697,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
     DividedPowers.Quotient.isDPMorphism δR hKstableR
   have hrelRmem (z : R) :
       dividedPowerPolynomialVariable B z - algebraMap B PR (fR z) ∈ KR := by
-    show dividedPowerPolynomialVariable B z - algebraMap B PR (fR z) ∈
+    change dividedPowerPolynomialVariable B z - algebraMap B PR (fR z) ∈
       kernelPresentationIdeal B R fR
     apply Ideal.subset_span
     exact Or.inl ⟨z, rfl⟩
@@ -711,7 +711,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
   have hbJ : Ideal.map b J ≤ IR.map qR := by
     rw [hf, Ideal.map_sup]
     apply sup_le
-    · show Ideal.map (qR.comp (algebraMap B PR)) B.ideal ≤ IR.map qR
+    · change Ideal.map (qR.comp (algebraMap B PR)) B.ideal ≤ IR.map qR
       rw [← Ideal.map_map]
       exact (Ideal.map_mono coeffR.ideal_comp).trans hqRdp.ideal_comp
     · rw [Ideal.map_span]
@@ -720,7 +720,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
       rcases hx with ⟨t, rfl⟩
       have hvar : qR (dividedPowerPolynomialVariable B (i t)) ∈ IR.map qR :=
         Ideal.mem_map_of_mem _ (hvarIR (i t))
-      show qR (algebraMap B PR (f t)) ∈ IR.map qR
+      change qR (algebraMap B PR (f t)) ∈ IR.map qR
       rw [hqRvar]
       exact hvar
   let qRMorph : DividedPowers.DPMorphism δR dpQR := DividedPowers.DPMorphism.mk' hqRdp
@@ -749,19 +749,19 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
   let lambda : DividedPowers.DPMorphism δ dpQR := envMap.1.comp ψ
   have hrhoCoeff : rho.comp coeffT = a := by
     ext c
-    show qR (ret.toRingHom (algebraMap B P c)) =
+    change qR (ret.toRingHom (algebraMap B P c)) =
       qR (algebraMap B PR c)
     rw [hret_coeff]
   have hlambdaCoeff : lambda.comp coeffT = a := by
     ext c
-    show envMap.1.toRingHom (ψ.toRingHom (algebraMap B P c)) =
+    change envMap.1.toRingHom (ψ.toRingHom (algebraMap B P c)) =
       qR (algebraMap B PR c)
     rw [hcoeff', ← halg]
     exact hEnvMap c
   have hvarQR (t : T) :
       lambda (dividedPowerPolynomialVariable B t) =
         rho (dividedPowerPolynomialVariable B t) := by
-    show envMap.1.toRingHom (ψ.toRingHom (dividedPowerPolynomialVariable B t)) =
+    change envMap.1.toRingHom (ψ.toRingHom (dividedPowerPolynomialVariable B t)) =
       qR (ret.toRingHom (dividedPowerPolynomialVariable B t))
     rw [hvar', ← halg, hEnvMap, hret_var']
     exact hqRvar t
@@ -833,14 +833,14 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
       have hcompCoeff : (qTMorph.comp (sec.comp ret)).comp coeffT =
           qTMorph.comp coeffT := by
         ext c
-        show qT (sec.toRingHom (ret.toRingHom (algebraMap B P c))) =
+        change qT (sec.toRingHom (ret.toRingHom (algebraMap B P c))) =
           qT (algebraMap B P c)
         rw [hret_coeff, hsec_coeff]
       have hcompVar : ∀ t,
           (qTMorph.comp (sec.comp ret)) (dividedPowerPolynomialVariable B t) =
             (qT (dividedPowerPolynomialVariable B t) : CQT) := by
         intro t
-        show qT (sec.toRingHom (ret.toRingHom (dividedPowerPolynomialVariable B t))) = _
+        change qT (sec.toRingHom (ret.toRingHom (dividedPowerPolynomialVariable B t))) = _
         rw [hret_var', hsec_var']
         exact (hvarQT t).symm
       have hcomp : (qTMorph.comp (sec.comp ret)).comp coeffT = qTMorph.comp coeffT ∧
@@ -850,7 +850,7 @@ public theorem ker_surjectiveDividedPowerPolynomialMap
       have heq := (hu _ hcomp).trans (hu _ hid).symm
       have heq' : qTMorph.comp (sec.comp ret) = qTMorph := heq
       have hring := congrArg DividedPowers.DPMorphism.toRingHom heq'
-      show (qTMorph.comp (sec.comp ret)).toRingHom = qTMorph.toRingHom
+      change (qTMorph.comp (sec.comp ret)).toRingHom = qTMorph.toRingHom
       exact hring
     have hqTx : qT x = 0 := by
       have hh := congrArg (fun g : P →+* P ⧸ K => g x) hmapsQT

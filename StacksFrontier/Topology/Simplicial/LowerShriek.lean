@@ -174,7 +174,7 @@ private theorem hasPointwiseLeftKanExtension_of_hasAllLeftKanExtensions
   have hc : IsColimit c := by
     refine { desc := d, fac := ?_, uniq := ?_ }
     · intro s j
-      show ((L.leftKanExtensionUnit F).app j.left ≫
+      change ((L.leftKanExtensionUnit F).app j.left ≫
         (L.leftKanExtension F).map j.hom) ≫ (β s).app Y ≫
           (evaluationAdjunctionLeft E Y).counit.app s.pt = s.ι.app j
       rw [Category.assoc, (β s).naturality_assoc j.hom
@@ -199,7 +199,7 @@ private theorem hasPointwiseLeftKanExtension_of_hasAllLeftKanExtensions
         apply Pi.hom_ext
         intro g
         dsimp only [NatTrans.comp_app, Functor.whiskerLeft_app]
-        show ((L.leftKanExtensionUnit F).app a ≫ (β s).app (L.obj a)) ≫ Pi.π _ g =
+        change ((L.leftKanExtensionUnit F).app a ≫ (β s).app (L.obj a)) ≫ Pi.π _ g =
           ((L.leftKanExtensionUnit F).app a ≫ β'.app (L.obj a)) ≫ Pi.π _ g
         calc
           ((L.leftKanExtensionUnit F).app a ≫ (β s).app (L.obj a)) ≫ Pi.π _ g =
@@ -210,7 +210,7 @@ private theorem hasPointwiseLeftKanExtension_of_hasAllLeftKanExtensions
         _ = ((L.leftKanExtensionUnit F).app a ≫ β'.app (L.obj a)) ≫ Pi.π _ g := by
           rw [← hf (CostructuredArrow.mk (Y := a) g)]
           simp [β', c, E₀, Dgm, evaluationRightAdjoint, Category.assoc]
-      show f = d s
+      change f = d s
       dsimp [d]
       rw [hβ]
       simp [β', evaluationRightAdjoint, evaluationAdjunctionLeft_counit_app]

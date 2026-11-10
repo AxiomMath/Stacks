@@ -149,7 +149,7 @@ noncomputable def symmetricAlgebraPieceMap (n : ℤ) (φ : F ⟶ G) :
   app X := ModuleCat.ofHom
     (SymPow.symMapIntₛₗ n (RingHom.id ((O ⋙ forget₂ _ RingCat).obj X))
       (Hom.app φ X).hom)
-  naturality {X _Y} f := ModuleCat.hom_ext (LinearMap.ext fun x =>
+  naturality f := ModuleCat.hom_ext (LinearMap.ext fun x =>
     Subtype.ext (mapₛₗ_restrictₛₗ_comm φ f (symPowIntVal x)))
 
 /-- On sections over `X`, the degree-`n` symmetric power of `φ` is the restriction of the map of
@@ -394,7 +394,7 @@ theorem epi_symmetricDescHom_app [Epi p] (n : ℤ) : Epi ((symmetricDescHom J p)
   have hpm := PresheafOfModules.isLocallySurjective_symmetricAlgebraPieceMap J p.val hp n
   have hls : Presheaf.IsLocallySurjective J
       ((toPresheaf (toRingCat J Osharp).obj).map (symmetricDescFamily J p n)) := by
-    show Presheaf.IsLocallySurjective J ((toPresheaf (toRingCat J Osharp).obj).map
+    change Presheaf.IsLocallySurjective J ((toPresheaf (toRingCat J Osharp).obj).map
       (symmetricAlgebraPieceMap n p.val ≫
         sheafifyUnit (𝟙 (toRingCat J Osharp).obj) (symPowInt n M.val)))
     rw [Functor.map_comp]
@@ -429,7 +429,7 @@ theorem symmetricDescHom_gen :
       p ≫ sheafifiedSymmetricGenerator J M := by
   refine SheafOfModules.Hom.ext (PresheafOfModules.hom_ext fun U =>
     ModuleCat.hom_ext (LinearMap.ext fun s => ?_))
-  show ((symmetricDescHom J p).app 1).val.app U
+  change ((symmetricDescHom J p).app 1).val.app U
       ((sheafifiedSymmetricGenerator J M₁).val.app U s) =
     (sheafifiedSymmetricGenerator J M).val.app U (p.val.app U s)
   rw [sheafifiedSymmetricGenerator_apply, symmetricDescHom_unit,

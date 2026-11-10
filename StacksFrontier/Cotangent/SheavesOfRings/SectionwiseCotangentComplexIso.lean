@@ -257,7 +257,7 @@ theorem sectionwiseComplexIso_hom_unit (n : ℕ) (U : Cᵒᵖ)
       (sectionsCotangentComplexComparison J f U).f (-(n : ℤ)) x := by
   have hcomp : (sectionwiseComplexIso J f).hom.f (-(n : ℤ)) =
       sectionwiseDegreeComparison J f n := by
-    show (sectionwiseComplexDegreeIso J f (-(n : ℤ))).hom = _
+    change (sectionwiseComplexDegreeIso J f (-(n : ℤ))).hom = _
     rw [sectionwiseComplexDegreeIso_neg, sectionwiseDegreeComparisonIso_hom]
   rw [hcomp]
   exact sectionwiseDegreeComparison_unit_apply J f n U x

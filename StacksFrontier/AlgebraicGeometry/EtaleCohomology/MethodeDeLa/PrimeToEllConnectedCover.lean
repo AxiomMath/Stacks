@@ -79,7 +79,7 @@ theorem exists_connected_primeToEll_finiteEtale_relSeries_constantRankOneStep {�
       φ (σ • y₀) = (σ : EtaleFundamentalGroup S s ⧸ U.toSubgroup) := by
     intro σ
     rw [hφ, hφy₀]
-    show ((σ * 1 : EtaleFundamentalGroup S s) : EtaleFundamentalGroup S s ⧸ U.toSubgroup) = _
+    change ((σ * 1 : EtaleFundamentalGroup S s) : EtaleFundamentalGroup S s ⧸ U.toSubgroup) = _
     rw [mul_one]
   have htrans : ∀ z, ∃ σ : EtaleFundamentalGroup S s, σ • y₀ = z := fun z ↦ by
     obtain ⟨a, ha⟩ := QuotientGroup.mk_surjective (φ z)
@@ -116,7 +116,7 @@ theorem exists_connected_primeToEll_finiteEtale_relSeries_constantRankOneStep {�
     exact congrArg (fun g : Equiv.Perm _ ↦ g q) (congrArg Subtype.val h1 : ρ (τ ^ (ℓ ^ k)) = 1)
   let t : GeometricPoint T.left := { residueField := s.residueField, hom := y₀.1 }
   have hts : s = t.map T.hom := by
-    show s = GeometricPoint.mk s.residueField (y₀.1 ≫ T.hom)
+    change s = GeometricPoint.mk s.residueField (y₀.1 ≫ T.hom)
     rw [y₀.2]
     rfl
   have key : ∀ (s' : GeometricPoint S) (h : s = s') (τ : EtaleFundamentalGroup S s'),
@@ -137,7 +137,7 @@ theorem exists_connected_primeToEll_finiteEtale_relSeries_constantRankOneStep {�
   have hcardfib : Nat.card ((finiteEtaleFiberFunctor s).obj T) =
       Nat.card (EtaleFundamentalGroup S s ⧸ U.toSubgroup) := Nat.card_congr φ
   rw [hcardfib, ← Subgroup.index_eq_card]
-  show ¬ ℓ ∣ ((H : Subgroup Gρ).comap rb).index
+  change ¬ ℓ ∣ ((H : Subgroup Gρ).comap rb).index
   rw [Subgroup.index_comap_of_surjective _ hrbsurj]
   exact H.not_dvd_index
 

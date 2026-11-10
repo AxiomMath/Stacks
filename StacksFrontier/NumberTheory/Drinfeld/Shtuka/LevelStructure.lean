@@ -78,11 +78,13 @@ def leftMap (i : N ⟶ X) : product N S ⟶ product X S :=
   pullback.map N.hom S.hom X.hom S.hom i.left (𝟙 _) (𝟙 _)
     (by rw [Category.comp_id, Over.w]) (by simp)
 
+omit [Fintype k] in
 @[reassoc (attr := simp)]
 theorem leftMap_fst (i : N ⟶ X) :
     leftMap (S := S) i ≫ pullback.fst X.hom S.hom = pullback.fst N.hom S.hom ≫ i.left :=
   pullback.lift_fst _ _ _
 
+omit [Fintype k] in
 @[reassoc (attr := simp)]
 theorem leftMap_snd (i : N ⟶ X) :
     leftMap (S := S) i ≫ pullback.snd X.hom S.hom = pullback.snd N.hom S.hom :=

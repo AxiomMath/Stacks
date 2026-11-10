@@ -7,7 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeQuasiDM
 /-!
 # Residual gerbes of quasi-DM algebraic stacks, with Stacks 06S1 supplied
 
-`StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeQuasiDM` proves that a quasi-DM algebraic stack
+`StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeQuasiDM` proves that a quasi-DM algebraic
+stack
 has a residual gerbe at every point (**Stacks 06UI**) from two universally quantified inputs: the
 implication (1) ⟹ (2) of **Stacks 06MF** and **Stacks 06S1** in the form
 `AlgebraicGeometry.Stack.MonoLocallyQuasiFiniteOverField`. This file proves the second input, so
@@ -99,8 +100,8 @@ theorem isLocallyQuasiFinite_comp_of_mono_to_field {k : Type u} [Field k]
   let p : X.reprX ⟶ Y.reprX := yoneda.preimage (X.reprW.hom ≫ f ≫ Y.reprW.inv)
   have : Mono p := (Functor.mono_map_iff_mono yoneda p).1 (by
     rw [show yoneda.map p = X.reprW.hom ≫ f ≫ Y.reprW.inv from yoneda.map_preimage _]
-    haveI : Mono X.reprW.hom := IsIso.mono_of_iso _
-    haveI : Mono Y.reprW.inv := IsIso.mono_of_iso _
+    have : Mono X.reprW.hom := IsIso.mono_of_iso _
+    have : Mono Y.reprW.inv := IsIso.mono_of_iso _
     exact mono_comp _ (f ≫ Y.reprW.inv))
   have hft : IsLocallyOfFiniteType B S hS f :=
     (holdsOnEveryEtaleChart_iff_representable B S hS _

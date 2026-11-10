@@ -439,7 +439,7 @@ theorem sectionQuotientMap_comp_presentationClassifyingIso {σ : X ⟶ projectiv
     (hqe : (tautologicalDatum E).pullbackQuotientMap σ hσ ≫ e.hom = Q.q) :
     sectionQuotientMap E (presentationSection E σ) (presentationSection_comp_toBase E σ hσ) ≫
       (presentationClassifyingIso E Q e).hom = Q.q := by
-  show _ ≫ (presentationTwistIso E σ).inv ≫ e.hom = Q.q
+  change _ ≫ (presentationTwistIso E σ).inv ≫ e.hom = Q.q
   rw [← pullbackQuotientMap_comp_presentationTwistIso E σ hσ]
   exact (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) (Iso.hom_inv_id_assoc _ _)).trans hqe)
 

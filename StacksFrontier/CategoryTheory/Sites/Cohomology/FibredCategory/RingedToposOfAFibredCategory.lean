@@ -224,7 +224,7 @@ theorem isSheafFor_functorPullback_of_isFibered
       simpa [a, d] using (IsHomLift.fac' p (𝟙 (p.obj Y)) k)
     have hybase : G.map (p.map f).op t = G.map a.op (x e he) := by
       simpa [y, e, a, d] using ht (p.map f) hf
-    show G.map (p.map f).op t = x f hf
+    change G.map (p.map f).op t = x f hf
     rw [hybase, ← hpk]
     exact map_eq_of_comp_eq hx hke hf he
   · intro t₁ ht₁
@@ -268,7 +268,7 @@ theorem isContinuous_inheritedTopology_of_isFibered
     (J : GrothendieckTopology D) : p.IsContinuous (p.inheritedTopology J) J := by
   constructor
   intro G
-  show Presieve.IsSheaf
+  change Presieve.IsSheaf
     (p.inheritedPrecoverage J.toPrecoverage).toGrothendieck (p.op ⋙ G.obj)
   rw [(p.inheritedPrecoverage J.toPrecoverage).isSheaf_toGrothendieck_iff]
   intro X Y f R hR
@@ -277,7 +277,7 @@ theorem isContinuous_inheritedTopology_of_isFibered
     (J.toGrothendieck_toPrecoverage_le _ (Precoverage.generate_mem_toGrothendieck hR.2))
   have hEq : (Sieve.generate R).pullback f = B.functorPullback p := by
     ext Z g
-    show (Sieve.generate R) (g ≫ f) ↔
+    change (Sieve.generate R) (g ≫ f) ↔
       (Sieve.generate (R.map p)) (p.map g ≫ p.map f)
     rw [← p.map_comp]
     exact generate_mem_iff_map_generate p R

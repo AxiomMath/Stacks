@@ -150,7 +150,7 @@ theorem exists_locallyConstant_comap_eq_of_isLimit [IsCofiltered I]
       fun y' hy' => ?_⟩
     rw [hdisj _ _ y' (hμ y') hy']
   · ext x
-    show (μ (c.π.app k x)).1 = s x
+    change (μ (c.π.app k x)).1 = s x
     have hx : c.π.app k x ∈ W ⟨s x, hR x⟩ := by
       change x ∈ (c.π.app k ≫ D.map φ) ⁻¹ᵁ V₀ _
       rw [c.w, hV₀]

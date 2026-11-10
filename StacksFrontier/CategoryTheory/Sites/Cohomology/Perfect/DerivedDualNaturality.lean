@@ -95,7 +95,7 @@ theorem map_mate (F : C ⥤ D) [F.Monoidal] {A A' B B' : C} (pA : ExactPairing A
       mate (@ExactPairing.map C D _ _ _ _ F _ A A' pA)
         (@ExactPairing.map C D _ _ _ _ F _ B B' pB) (F.map f) := by
   refine eq_mate _ _ _ _ ?_
-  show F.map (mate pA pB f) ▷ F.obj A ≫ μ F A' A ≫ F.map pA.evaluation' ≫ η F =
+  change F.map (mate pA pB f) ▷ F.obj A ≫ μ F A' A ≫ F.map pA.evaluation' ≫ η F =
     F.obj B' ◁ F.map f ≫ μ F B' B ≫ F.map pB.evaluation' ≫ η F
   rw [μ_natural_left_assoc, ← Functor.map_comp_assoc, mate_comp_evaluation pA pB f,
     Functor.map_comp_assoc, ← μ_natural_right_assoc]
@@ -225,7 +225,7 @@ theorem derivedDualMap_comp_derivedDualToLeftDual (u : M ⟶ M') :
         ExactPairing.mate (inferInstance : ExactPairing M N)
           (inferInstance : ExactPairing M' N') u := by
   refine ExactPairing.eq_of_whiskerRight_comp_evaluation (inferInstance : ExactPairing M N) _ _ ?_
-  show (derivedDualMap X u ≫ derivedDualToLeftDual M N) ▷ M ≫ ε_ M N =
+  change (derivedDualMap X u ≫ derivedDualToLeftDual M N) ▷ M ≫ ε_ M N =
     (derivedDualToLeftDual M' N' ≫
       ExactPairing.mate (inferInstance : ExactPairing M N)
         (inferInstance : ExactPairing M' N') u) ▷ M ≫ ε_ M N

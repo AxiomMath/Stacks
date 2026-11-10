@@ -116,7 +116,7 @@ lemma endoConj_map_map {E E' : C} {a b : ℕ}
       F'.map (endoConj G e (G.map φ)) := by
   have h : G.map (F.map φ) ≫ e.hom.app ((F.endoIter b).obj E') =
       e.hom.app ((F.endoIter a).obj E) ≫ F'.map (G.map φ) := e.hom.naturality φ
-  show (F'.map (endoIterCommIso G e a E).inv ≫ e.inv.app ((F.endoIter a).obj E)) ≫
+  change (F'.map (endoIterCommIso G e a E).inv ≫ e.inv.app ((F.endoIter a).obj E)) ≫
       G.map (F.map φ) ≫ e.hom.app ((F.endoIter b).obj E') ≫
         F'.map (endoIterCommIso G e b E').hom = _
   rw [Category.assoc, reassoc_of% h, Iso.inv_hom_id_app_assoc]

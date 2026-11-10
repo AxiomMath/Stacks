@@ -140,7 +140,7 @@ private theorem geometricallyReducedMapProperty_holds_iff
     {k S : Type u} [Field k] [CommRing S] (f : k →+* S) :
     (geometricallyReducedMapProperty.{max u U}).Holds.{u, u, U, 0} f ↔
       @Algebra.IsGeometricallyReduced k S _ _ f.toAlgebra := by
-  show geometricallyReducedMapProperty.{max u U}
+  change geometricallyReducedMapProperty.{max u U}
     (RingHom.ulift.{max u U, max u U, u, u} f) ↔ _
   rw [geometricallyReducedMapProperty_iff.{max u U}
     (ULift.{max u U} k) (ULift.{max u U} S)
@@ -173,7 +173,7 @@ private theorem holds_of_equiv
       e'.toRingHom = RingHom.ulift.{max u U, max u U, u, u} g :=
     RingHom.ext fun c => ULift.ext
       ((congrArg (fun t : A →+* D => t (e.symm c.down)) h).trans (by simp))
-  show P (RingHom.ulift.{max u U, max u U, u, u} g)
+  change P (RingHom.ulift.{max u U, max u U, u, u} g)
   rwa [← heq]
 
 /-- The formal fibres of a local ring may equivalently be described by the structure maps of

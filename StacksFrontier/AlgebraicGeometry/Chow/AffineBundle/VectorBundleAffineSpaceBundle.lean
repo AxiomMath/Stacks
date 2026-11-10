@@ -157,11 +157,11 @@ theorem exists_iso_affineSpace_of_mvPolynomialSections {X : Scheme.{u}}
       (𝔸(ULift.{u} (Fin r); (V.1 : X.Opens).toScheme) ↘ (V.1 : X.Opens).toScheme) =
       (specSectionsToBase A).app V := by
     rw [he₂₃]
-    show Spec.map φ.inv ≫ (AffineSpace.isoSpecFinOfIso r V.2.isoSpec).inv ≫ _ = _
+    change Spec.map φ.inv ≫ (AffineSpace.isoSpecFinOfIso r V.2.isoSpec).inv ≫ _ = _
     rw [hover, ← Spec.map_comp_assoc, hC]
     rfl
   refine ⟨h1.isoIsPullback _ _ h2 ≪≫ e₂₃, ?_⟩
-  show ((h1.isoIsPullback _ _ h2).hom ≫ e₂₃.hom) ≫ _ = _
+  change ((h1.isoIsPullback _ _ h2).hom ≫ e₂₃.hom) ≫ _ = _
   rw [Category.assoc, hstep]
   exact h1.isoIsPullback_hom_fst _ _ h2
 
@@ -187,7 +187,7 @@ theorem symmetricAlgebraSectionsMvPolynomialEquiv_app {X : Scheme.{u}} (E : X.Mo
         (((Scheme.Modules.symmetricAlgebraSheaf X E).hom.hom.app (op V)).hom s) =
       MvPolynomial.C s := by
   rw [← Stacks.SymAlgSections.symSectionsRingEquiv_algebraMap E hV s]
-  show (SymmetricAlgebra.equivMvPolynomial b)
+  change (SymmetricAlgebra.equivMvPolynomial b)
       ((Stacks.SymAlgSections.symSectionsRingEquiv E hV).symm
         (Stacks.SymAlgSections.symSectionsRingEquiv E hV
           (algebraMap Γ(X, V) (SymmetricAlgebra Γ(X, V) Γ(E, V)) s))) = _

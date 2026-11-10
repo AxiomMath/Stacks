@@ -224,19 +224,19 @@ private lemma homStep_map_f_mono (f : A) {H H' : CochainComplex (ModuleCat.{v} A
   have hs : ∀ m, Mono (g.f m) → Mono ((seqComplexFunctor.map g).f m) := fun m hm => by
     rw [ModuleCat.mono_iff_injective] at hm ⊢
     exact seqFunctor_map_injective _ hm
-  show Mono ((homStepCone f g).f (n + -1))
+  change Mono ((homStepCone f g).f (n + -1))
   refine CochainComplex.mappingCone.mono_map_f _ _ _ _ _ _ ?_ ?_
   · refine CochainComplex.mappingCone.mono_map_f _ _ _ _ _ _ ?_
       (hs _ (by rwa [show n + -1 + 1 = n by omega]))
     exact hs _ (by rwa [show n + -1 + 1 + 1 = n + 1 by omega])
-  · show Mono (g.f (n + -1 + 1))
+  · change Mono (g.f (n + -1 + 1))
     rwa [show n + -1 + 1 = n by omega]
 
 private lemma homStep_map_f_isIso (f : A) {H H' : CochainComplex (ModuleCat.{v} A) ℤ}
     (g : H ⟶ H') (n : ℤ) (h₀ : IsIso (g.f n)) (h₁ : IsIso (g.f (n + 1))) :
     IsIso (((homStep f).map g).f n) := by
   have hs : ∀ m, IsIso (g.f m) → IsIso ((seqComplexFunctor.map g).f m) := fun m hm => by
-    show IsIso (seqFunctor.map (g.f m)); infer_instance
+    change IsIso (seqFunctor.map (g.f m)); infer_instance
   have e₀ : IsIso (g.f (n + -1 + 1)) := by rwa [show n + -1 + 1 = n by omega]
   have e₁ : IsIso ((seqComplexFunctor.map g).f (n + -1 + 1)) := hs _ e₀
   have e₂ : IsIso ((seqComplexFunctor.map g).f (n + -1 + 1 + 1)) :=
@@ -251,7 +251,7 @@ private lemma homStep_map_f_isIso (f : A) {H H' : CochainComplex (ModuleCat.{v} 
     unfold homStepConeMap
     exact isIso_of_mono_of_epi _
   have e₃ : IsIso ((g⟦(1 : ℤ)⟧').f (n + -1)) := e₀
-  show IsIso ((homStepCone f g).f (n + -1))
+  change IsIso ((homStepCone f g).f (n + -1))
   have := CochainComplex.mappingCone.mono_map_f _ _ _ _ (homStepMap_naturality f g) (n + -1)
     (inferInstanceAs (Mono ((homStepConeMap f g).f (n + -1 + 1))))
     (inferInstanceAs (Mono ((g⟦(1 : ℤ)⟧').f (n + -1))))
@@ -266,12 +266,12 @@ private lemma homStep_obj_X_isZero (f : A) (H : CochainComplex (ModuleCat.{v} A)
     IsZero (((homStep f).obj H).X n) := by
   have hs : ∀ m, IsZero (H.X m) → IsZero ((seqComplexFunctor.obj H).X m) := fun m hm =>
     seqFunctor.map_isZero hm
-  show IsZero ((CochainComplex.mappingCone (homStepMap f H)).X (n + -1))
+  change IsZero ((CochainComplex.mappingCone (homStepMap f H)).X (n + -1))
   rw [CochainComplex.mappingCone.isZero_X_iff, CochainComplex.mappingCone.isZero_X_iff]
   refine ⟨⟨hs _ ?_, hs _ ?_⟩, ?_⟩
   · rwa [show n + -1 + 1 + 1 = n + 1 by omega]
   · rwa [show n + -1 + 1 = n by omega]
-  · show IsZero (H.X (n + -1 + 1))
+  · change IsZero (H.X (n + -1 + 1))
     rwa [show n + -1 + 1 = n by omega]
 
 /-- The telescope Hom model sends a map that is a monomorphism in degrees `n, …, n + r` to a map
@@ -281,7 +281,7 @@ public lemma homModel_map_f_mono : ∀ {r : ℕ} (generators : Fin r → A)
     (∀ m : ℤ, n ≤ m → m ≤ n + r → Mono (g.f m)) → Mono (((homModel generators).map g).f n)
   | 0, _, _, _, g, n, h => h n le_rfl (by simp)
   | r + 1, generators, _, _, g, n, h => by
-    show Mono (((homStep (generators 0)).map ((homModel (Fin.tail generators)).map g)).f n)
+    change Mono (((homStep (generators 0)).map ((homModel (Fin.tail generators)).map g)).f n)
     refine homStep_map_f_mono _ _ _ ?_ ?_
     · exact homModel_map_f_mono _ g n fun m h₁ h₂ => h m h₁ (by push_cast; omega)
     · exact homModel_map_f_mono _ g (n + 1) fun m h₁ h₂ => h m (by omega) (by push_cast; omega)
@@ -293,7 +293,7 @@ public lemma homModel_map_f_isIso : ∀ {r : ℕ} (generators : Fin r → A)
     (∀ m : ℤ, n ≤ m → m ≤ n + r → IsIso (g.f m)) → IsIso (((homModel generators).map g).f n)
   | 0, _, _, _, g, n, h => h n le_rfl (by simp)
   | r + 1, generators, _, _, g, n, h => by
-    show IsIso (((homStep (generators 0)).map ((homModel (Fin.tail generators)).map g)).f n)
+    change IsIso (((homStep (generators 0)).map ((homModel (Fin.tail generators)).map g)).f n)
     refine homStep_map_f_isIso _ _ _ ?_ ?_
     · exact homModel_map_f_isIso _ g n fun m h₁ h₂ => h m h₁ (by push_cast; omega)
     · exact homModel_map_f_isIso _ g (n + 1) fun m h₁ h₂ => h m (by omega) (by push_cast; omega)
@@ -305,7 +305,7 @@ public lemma homModel_obj_X_isZero : ∀ {r : ℕ} (generators : Fin r → A)
     (∀ m : ℤ, n ≤ m → m ≤ n + r → IsZero (H.X m)) → IsZero (((homModel generators).obj H).X n)
   | 0, _, H, n, h => h n le_rfl (by simp)
   | r + 1, generators, H, n, h => by
-    show IsZero (((homStep (generators 0)).obj ((homModel (Fin.tail generators)).obj H)).X n)
+    change IsZero (((homStep (generators 0)).obj ((homModel (Fin.tail generators)).obj H)).X n)
     refine homStep_obj_X_isZero _ _ _ ?_ ?_
     · exact homModel_obj_X_isZero _ H n fun m h₁ h₂ => h m h₁ (by push_cast; omega)
     · exact homModel_obj_X_isZero _ H (n + 1) fun m h₁ h₂ => h m (by omega) (by push_cast; omega)
@@ -428,7 +428,7 @@ theorem filteredCompletionModel_isDegreewiseFinite {r : ℕ} (generators : Fin r
         (Subobject.arrow (Subobject.mk
           ((homModel generators).map (filtered.filtration.ι.app (op p))))).f degree := by
       simp [e, ← HomologicalComplex.comp_f]
-    show IsIso ((Subobject.arrow (Subobject.mk
+    change IsIso ((Subobject.arrow (Subobject.mk
       ((homModel generators).map (filtered.filtration.ι.app (op p))))).f degree)
     rw [← hc]
     infer_instance
@@ -566,14 +566,14 @@ private lemma nonempty_iso_reflection_of_bijective {D : Type*} [Category D]
     exact (adj.homEquiv_apply X ⟨Y, hY⟩ _).symm.trans ((adj.homEquiv X ⟨Y, hY⟩).apply_symm_apply η)
   refine ⟨⟨a, b, ?_, ?_⟩⟩
   · apply (h Y hY).1
-    show η ≫ a ≫ b = η ≫ 𝟙 Y
+    change η ≫ a ≫ b = η ≫ 𝟙 Y
     rw [reassoc_of% ha, hb, Category.comp_id]
   · have key : ∀ g g' : L.obj X ⟶ L.obj X,
         adj.unit.app X ≫ P.ι.map g = adj.unit.app X ≫ P.ι.map g' → g = g' := fun g g' hg =>
       (adj.homEquiv _ _).injective (by rw [adj.homEquiv_unit, adj.homEquiv_unit]; exact hg)
     have := key (P.fullyFaithfulι.preimage (b ≫ a)) (𝟙 _) (by
       rw [Functor.FullyFaithful.map_preimage, CategoryTheory.Functor.map_id]
-      show adj.unit.app X ≫ b ≫ a = adj.unit.app X ≫ 𝟙 _
+      change adj.unit.app X ≫ b ≫ a = adj.unit.app X ≫ 𝟙 _
       rw [reassoc_of% hb, ha, Category.comp_id])
     have h2 := congrArg P.ι.map this
     rwa [Functor.FullyFaithful.map_preimage, CategoryTheory.Functor.map_id] at h2
@@ -715,7 +715,7 @@ private lemma smul_seqShift (f : A) (H : CochainComplex (ModuleCat.{v} A) ℤ) :
     f • seqShift H = 𝟙 _ - seqComplexDifference f H := by
   ext i x
   funext n
-  show f • x (n + 1) = x n - (x n - f • x (n + 1))
+  change f • x (n + 1) = x n - (x n - f • x (n + 1))
   abel
 
 private lemma seqComplexDifference_seqShift (f : A) (H : CochainComplex (ModuleCat.{v} A) ℤ) :
@@ -763,7 +763,7 @@ private lemma exists_comp_difference_eq (y : Z ⟶ c.pt) : ∃ x : Z ⟶ c.pt, x
   refine ⟨Fan.IsLimit.lift hc xs, Fan.IsLimit.hom_ext hc _ _ fun n => ?_⟩
   rw [Category.assoc, hDm, Preadditive.comp_sub, Linear.comp_smul, Fan.IsLimit.fac,
     Fan.IsLimit.fac]
-  show xs n - f • (w ≫ (xs n - y ≫ c.proj n)) = _
+  change xs n - f • (w ≫ (xs n - y ≫ c.proj n)) = _
   rw [smul_inv_comp hZ]
   abel
 
@@ -838,16 +838,16 @@ private lemma bijective_comp_mor₃_proj {f : A} {E : DerivedCategory (ModuleCat
     obtain ⟨x, hx⟩ := Triangle.coyoneda_exact₃ _ hT k hk'
     obtain ⟨x', rfl⟩ := exists_comp_difference_eq hc hDm hZ x
     rw [hx]
-    show (x' ≫ Dm) ≫ g = 0
+    change (x' ≫ Dm) ≫ g = 0
     rw [Category.assoc, show Dm ≫ g = 0 from comp_distTriang_mor_zero₁₂ _ hT, comp_zero]
   · intro t
     obtain ⟨t', rfl⟩ := (adj.homEquiv Z _).surjective t
     obtain ⟨x', hx₁, hx₀⟩ := exists_comp_difference_eq_zero hc hDm hZ' t'
     obtain ⟨k, hk⟩ := Triangle.coyoneda_exact₁ _ hT (adj.homEquiv Z _ x') (by
-      show _ ≫ Dm⟦(1 : ℤ)⟧' = 0
+      change _ ≫ Dm⟦(1 : ℤ)⟧' = 0
       exact (hnat _ _).symm.trans ((congrArg _ hx₁).trans (h0 _)))
     refine ⟨k, ?_⟩
-    show k ≫ h ≫ _ = _
+    change k ≫ h ≫ _ = _
     rw [← Category.assoc]
     exact (congrArg (· ≫ (c.proj 0)⟦(1 : ℤ)⟧') hk.symm).trans
       ((hnat _ _).symm.trans (congrArg _ hx₀))
@@ -868,7 +868,7 @@ private lemma bijective_comp_shift {Z X Y : DerivedCategory (ModuleCat.{v} A)} (
   have e : (fun k : Z ⟶ X⟦n⟧ => k ≫ u⟦n⟧') =
       adj.homEquiv Z Y ∘ (fun k : Z⟦-n⟧ ⟶ X => k ≫ u) ∘ (adj.homEquiv Z X).symm := by
     funext k
-    show _ = adj.homEquiv Z Y ((adj.homEquiv Z X).symm k ≫ u)
+    change _ = adj.homEquiv Z Y ((adj.homEquiv Z X).symm k ≫ u)
     rw [adj.homEquiv_naturality_right]
     erw [Equiv.apply_symm_apply]
     rfl
@@ -970,7 +970,7 @@ private lemma IsSmulOrthogonal.exists_derivedLimit_isZero {f : A}
   have hp : p = 0 := hP hf p
   have hT' := inv_rot_of_distTriang _ hT
   obtain ⟨x, hx⟩ := Triangle.coyoneda_exact₂ _ hT' (𝟙 L) (by
-    show 𝟙 L ≫ p = 0
+    change 𝟙 L ≫ p = 0
     rw [hp, comp_zero])
   have hx0 : x = 0 := (hP.shift (-1)) hf x
   rw [IsZero.iff_id_eq_zero, hx, hx0]
@@ -1000,7 +1000,7 @@ private lemma isIso_smul_Q_mappingCone (f : A) (H : CochainComplex (ModuleCat.{v
         𝟙 _ - DerivedCategory.Q.map (seqComplexDifference f H) := by
       rw [← Functor.map_smul, smul_seqShift, Functor.map_sub, CategoryTheory.Functor.map_id]
     exact this
-  · show DerivedCategory.Q.map (seqComplexDifference f H) ≫ DerivedCategory.Q.map (seqShift H) =
+  · change DerivedCategory.Q.map (seqComplexDifference f H) ≫ DerivedCategory.Q.map (seqShift H) =
       DerivedCategory.Q.map (seqShift H) ≫ DerivedCategory.Q.map (seqComplexDifference f H)
     rw [← Functor.map_comp, ← Functor.map_comp, seqComplexDifference_seqShift]
 
@@ -1138,14 +1138,14 @@ private lemma exists_unit_homModel (P : DerivedCategory (ModuleCat.{v} A) → Pr
       ∀ E, P E → Function.Bijective fun k : _ ⟶ E => η ≫ k
   | 0, _, _, H => by
     refine ⟨𝟙 _, fun E _ => ?_⟩
-    show Function.Bijective (fun k : DerivedCategory.Q.obj H ⟶ E => 𝟙 _ ≫ k)
+    change Function.Bijective (fun k : DerivedCategory.Q.obj H ⟶ E => 𝟙 _ ≫ k)
     exact ⟨fun a b h => (Category.id_comp a).symm.trans (h.trans (Category.id_comp b)),
       fun k => ⟨k, Category.id_comp k⟩⟩
   | r + 1, g, hP, H => by
     obtain ⟨η₁, h₁⟩ := exists_unit_homModel P (Fin.tail g) (fun i => hP i.succ) H
     obtain ⟨η₂, h₂⟩ := exists_unit_homStep (g 0) ((homModel (Fin.tail g)).obj H) P (hP 0)
     refine ⟨η₁ ≫ η₂, fun E hE => ?_⟩
-    show Function.Bijective (fun k : DerivedCategory.Q.obj
+    change Function.Bijective (fun k : DerivedCategory.Q.obj
       ((homStep (g 0)).obj ((homModel (Fin.tail g)).obj H)) ⟶ E => (η₁ ≫ η₂) ≫ k)
     simpa only [Function.comp_def, Category.assoc] using (h₁ E hE).comp (h₂ E hE)
 
@@ -1284,11 +1284,11 @@ attribute [local instance] homStep_preservesZeroMorphisms
 private lemma homModel_preservesZeroMorphisms : ∀ {r : ℕ} (g : Fin r → A),
     (homModel g : CochainComplex (ModuleCat.{v} A) ℤ ⥤ _).PreservesZeroMorphisms
   | 0, _ => by
-    show (𝟭 _).PreservesZeroMorphisms
+    change (𝟭 _).PreservesZeroMorphisms
     infer_instance
   | r + 1, g => by
     have := homModel_preservesZeroMorphisms (Fin.tail g)
-    show (homModel (Fin.tail g) ⋙ homStep (g 0)).PreservesZeroMorphisms
+    change (homModel (Fin.tail g) ⋙ homStep (g 0)).PreservesZeroMorphisms
     infer_instance
 
 attribute [local instance] homModel_preservesZeroMorphisms
@@ -1314,12 +1314,12 @@ private lemma homStep_map_f_surjective (f : A) {H H' : CochainComplex (ModuleCat
     (a : H ⟶ H') (n : ℤ) (h₀ : Function.Surjective (a.f n))
     (h₁ : Function.Surjective (a.f (n + 1))) :
     Function.Surjective (((homStep f).map a).f n) := by
-  show Function.Surjective ((homStepCone f a).f (n + -1))
+  change Function.Surjective ((homStepCone f a).f (n + -1))
   apply coneMap_f_surjective
   · apply coneMap_f_surjective
     · exact seqFunctor_map_surjective (a.f _) (by rwa [show n + -1 + 1 + 1 = n + 1 by omega])
     · exact seqFunctor_map_surjective (a.f _) (by rwa [show n + -1 + 1 = n by omega])
-  · show Function.Surjective (a.f (n + -1 + 1))
+  · change Function.Surjective (a.f (n + -1 + 1))
     rwa [show n + -1 + 1 = n by omega]
 
 private lemma homStep_map_f_exact (f : A) {H H' H'' : CochainComplex (ModuleCat.{v} A) ℤ}
@@ -1327,12 +1327,12 @@ private lemma homStep_map_f_exact (f : A) {H H' H'' : CochainComplex (ModuleCat.
     (h₀ : Function.Exact (a.f n) (b.f n))
     (h₁ : Function.Exact (a.f (n + 1)) (b.f (n + 1))) :
     Function.Exact (((homStep f).map a).f n) (((homStep f).map b).f n) := by
-  show Function.Exact ((homStepCone f a).f (n + -1)) ((homStepCone f b).f (n + -1))
+  change Function.Exact ((homStepCone f a).f (n + -1)) ((homStepCone f b).f (n + -1))
   apply coneMap_f_exact
   · apply coneMap_f_exact
     · exact seqFunctor_map_exact (a.f _) (b.f _) (by rwa [show n + -1 + 1 + 1 = n + 1 by omega])
     · exact seqFunctor_map_exact (a.f _) (b.f _) (by rwa [show n + -1 + 1 = n by omega])
-  · show Function.Exact (a.f (n + -1 + 1)) (b.f (n + -1 + 1))
+  · change Function.Exact (a.f (n + -1 + 1)) (b.f (n + -1 + 1))
     rwa [show n + -1 + 1 = n by omega]
 
 private lemma homModel_map_f_surjective : ∀ {r : ℕ} (g : Fin r → A)
@@ -1340,7 +1340,7 @@ private lemma homModel_map_f_surjective : ∀ {r : ℕ} (g : Fin r → A)
     (∀ n, Function.Surjective (a.f n)) → ∀ n, Function.Surjective (((homModel g).map a).f n)
   | 0, _, _, _, _, h, n => h n
   | r + 1, g, _, _, a, h, n => by
-    show Function.Surjective (((homStep (g 0)).map ((homModel (Fin.tail g)).map a)).f n)
+    change Function.Surjective (((homStep (g 0)).map ((homModel (Fin.tail g)).map a)).f n)
     exact homStep_map_f_surjective _ _ _
       (homModel_map_f_surjective (Fin.tail g) a h n)
       (homModel_map_f_surjective (Fin.tail g) a h (n + 1))
@@ -1351,7 +1351,7 @@ private lemma homModel_map_f_exact : ∀ {r : ℕ} (g : Fin r → A)
       ∀ n, Function.Exact (((homModel g).map a).f n) (((homModel g).map b).f n)
   | 0, _, _, _, _, _, _, h, n => h n
   | r + 1, g, _, _, _, a, b, h, n => by
-    show Function.Exact (((homStep (g 0)).map ((homModel (Fin.tail g)).map a)).f n)
+    change Function.Exact (((homStep (g 0)).map ((homModel (Fin.tail g)).map a)).f n)
       (((homStep (g 0)).map ((homModel (Fin.tail g)).map b)).f n)
     exact homStep_map_f_exact _ _ _ _
       (homModel_map_f_exact (Fin.tail g) a b h n)
@@ -1369,7 +1369,7 @@ private lemma homModel_map_exact {r : ℕ} (g : Fin r → A)
       (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).1 (hs m).exact) n
   · have := hS.mono_f
     have := homModel_map_mono g S.f
-    show Mono (((homModel g).map S.f).f n)
+    change Mono (((homModel g).map S.f).f n)
     infer_instance
   · rw [ModuleCat.epi_iff_surjective]
     exact homModel_map_f_surjective g S.g (fun m => (hs m).moduleCat_surjective_g) n

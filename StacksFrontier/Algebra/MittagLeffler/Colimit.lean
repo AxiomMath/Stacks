@@ -30,8 +30,8 @@ element itself vanishes by 059M for `M i`.
 
 The canonical maps of a colimit cocone are universally injective as soon as the transition maps
 are, and this is where the work is. `Mathlib` computes a filtered colimit of modules elementwise
-only for a diagram indexed by a category in the universe of the modules, while the statement leaves the
-index type `J` in its own universe `w`; the two facts needed about `c` are therefore proved here
+only for a diagram indexed by a category in the universe of the modules, while the statement leaves
+the index type `J` in its own universe `w`; the two facts needed about `c` are therefore proved here
 from the universal property alone:
 
 * `Stacks.MittagLeffler.DirectedColimit.exists_legHom_rTensor_eq`: the legs of `c`, tensored with a

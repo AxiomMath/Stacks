@@ -185,7 +185,7 @@ theorem composition_target :
       _ = pullback.fst (snd G X) γ[G, X] ≫ snd G X := pullback.condition.symm
   calc
     composition G X ≫ γ[G, X] = (a * b) • x := by
-      show lift (lift a b ≫ μ[G]) x ≫ γ[G, X] = (a * b) • x
+      change lift (lift a b ≫ μ[G]) x ≫ γ[G, X] = (a * b) • x
       rw [← Hom.smul_def, Hom.mul_def]
     _ = a • (b • x) := mul_smul _ _ _
     _ = a • (pullback.fst (snd G X) γ[G, X] ≫ snd G X) := by rw [hb]

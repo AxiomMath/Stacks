@@ -186,7 +186,7 @@ theorem transfer_fibreComponentMap (φ : V ⟶ W) :
     transfer hV hW f (Descent.fibreComponentMap (fun _ : PUnit.{1} => f.hom) φ.hom PUnit.unit) =
       (spacesBaseChange B S hS f).functor.map (siteMap hV hW φ) := by
   refine ObjectProperty.hom_ext _ (Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_))
-  show (baseChangeIso f V hV).hom ≫
+  change (baseChangeIso f V hV).hom ≫
       (Descent.fibreComponentMap (fun _ : PUnit.{1} => f.hom) φ.hom PUnit.unit).left ≫
         (baseChangeIso f W hW).inv =
     ((spacesBaseChange B S hS f).functor.map (siteMap hV hW φ)).hom.left.hom
@@ -253,7 +253,7 @@ theorem compIso_self (A : SpacesEtale B S hS X) :
       𝟙 _ := by
     refine ObjectProperty.hom_ext _ (Over.OverMorphism.ext
       (((spacesBaseChange B S hS (g ≫ f)).isPullback A).hom_ext ?_ ?_))
-    · show (compIso f (g ≫ f) g rfl A).hom.hom.left ≫
+    · change (compIso f (g ≫ f) g rfl A).hom.hom.left ≫
           ((spacesBaseChange_comp B S hS g f).hom.app A).hom.left ≫
             (spacesBaseChange B S hS (g ≫ f)).projection.app A =
         𝟙 _ ≫ (spacesBaseChange B S hS (g ≫ f)).projection.app A
@@ -442,7 +442,7 @@ theorem compIso_conj_eq
           (transfer hV hW f ψ₀).hom.left ≫
             (spacesBaseChange B S hS f).projection.app (siteObj W hW) := by
     intro g hg
-    show (compIso f q g hg (siteObj V hV)).hom.hom.left ≫
+    change (compIso f q g hg (siteObj V hV)).hom.hom.left ≫
         ((spacesBaseChange B S hS g).functor.map (transfer hV hW f ψ₀)).hom.left ≫
           (compIso f q g hg (siteObj W hW)).inv.hom.left ≫
             (spacesBaseChange B S hS q).projection.app (siteObj W hW) = _
@@ -539,7 +539,7 @@ theorem bijective_fibreDescentMap_of_isEquivalence {X Y : AlgebraicSpaces B S hS
       Φ.map ((SpacesEtale.topology B S hS X).yoneda.map (siteMap hV hW φ)) := by
     intro φ
     refine Pseudofunctor.DescentData.hom_ext (fun _ => ?_)
-    show (baseChangeYonedaIso B S hS f (siteObj V hV)).hom ≫
+    change (baseChangeYonedaIso B S hS f (siteObj V hV)).hom ≫
         (SpacesEtale.topology B S hS Y).yoneda.map (transfer hV hW f
           (Descent.fibreComponentMap (fun _ : PUnit.{1} => f.hom) φ.hom PUnit.unit)) ≫
           (baseChangeYonedaIso B S hS f (siteObj W hW)).inv =
@@ -567,7 +567,7 @@ theorem bijective_fibreDescentMap_of_isEquivalence {X Y : AlgebraicSpaces B S hS
   · obtain ⟨α, hα⟩ := Φ.map_surjective (descentHom hV hW ψ)
     obtain ⟨g, hg⟩ := (SpacesEtale.topology B S hS X).yoneda.map_surjective α
     refine ⟨ofSiteMap hV hW g, hinj ?_⟩
-    show descentHom hV hW ((Descent.fibreDescentFunctor (fun _ : PUnit.{1} => f.hom)
+    change descentHom hV hW ((Descent.fibreDescentFunctor (fun _ : PUnit.{1} => f.hom)
       X.property (fun _ => Y.property)).map ((Descent.algebraicSpacesOverToSheaves
         (fun _ : PUnit.{1} => f.hom) X.property (fun _ => Y.property)).map
           (ofSiteMap hV hW g))) = descentHom hV hW ψ

@@ -89,7 +89,7 @@ theorem le_preimage_of_preimage_le {X X' Y Y' : Scheme.{u}} {i : X ⟶ X'} {j : 
   intro x hx
   obtain ⟨y, rfl⟩ := (isThickening_of_ker_pow_eq_bot i inferInstance (n := 1) hsq).2 x
   have hy : j (a y) ∈ W := hU hx
-  show a' (i y) ∈ W
+  change a' (i y) ∈ W
   rw [← Scheme.Hom.comp_apply, comm_a, Scheme.Hom.comp_apply]
   exact hy
 
@@ -186,7 +186,7 @@ theorem derivationActionGlobal_comp_of_correspond
   congr 1
   · exact appLE_comp_eq_of_comp_eq hcomp W (a₁ ⁻¹ᵁ W) V le_rfl hV g
   · have h := hθ W (a₁ ⁻¹ᵁ W) (preimage_le_of_comm ca₁ le_rfl) g
-    show _ = (X₂'.presheaf.map (homOfLE hV).op).hom ((w.app (a₁ ⁻¹ᵁ W)).hom _)
+    change _ = (X₂'.presheaf.map (homOfLE hV).op).hom ((w.app (a₁ ⁻¹ᵁ W)).hom _)
     rw [h, map_derivationSection]
 
 /-- **Two data acting compatibly on one pair of compatible lifts correspond.** -/
@@ -314,7 +314,7 @@ theorem isConormalMapOver_derivationActionGlobal_self (hsq : i.ker ^ 2 = ⊥) {q
   intro V s
   rw [derivationActionGlobal_app, derivationSection_eq_zero_of_mem_ker _ _ _
     (RingHom.mem_ker.mp (conormalSection_mem_ker hsq V s)), add_zero]
-  show conormalSection hsq V s = conormalSection hsq V
+  change conormalSection hsq V s = conormalSection hsq V
     ((conormalModules i).presheaf.map (𝟙 (Opposite.op (i ⁻¹ᵁ V))) s)
   rw [CategoryTheory.Functor.map_id]
   rfl

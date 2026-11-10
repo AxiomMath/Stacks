@@ -243,7 +243,7 @@ theorem exists_derivation_adicCompletion
     intro a b
     apply AdicCompletion.ext
     intro n
-    show (adicDerivFun D I (a * b)).val n
+    change (adicDerivFun D I (a * b)).val n
       = (a • adicDerivFun D I b + b • adicDerivFun D I a).val n
     simp only [smul_eq_mul, AdicCompletion.val_add_apply, AdicCompletion.val_mul, adicDerivFun_val]
     obtain ⟨r, hr⟩ := Submodule.Quotient.mk_surjective _ (a.val (n + 1))
@@ -255,7 +255,7 @@ theorem exists_derivation_adicCompletion
     rw [← hr, ← hs, han, hbn]
     have hleib2 : D (r * s) = r * D s + s * D r := by
       rw [Derivation.leibniz]; simp only [smul_eq_mul]
-    show Submodule.Quotient.mk (D (r * s))
+    change Submodule.Quotient.mk (D (r * s))
       = Submodule.Quotient.mk r * Submodule.Quotient.mk (D s)
         + Submodule.Quotient.mk s * Submodule.Quotient.mk (D r)
     rw [hleib2]
@@ -406,10 +406,10 @@ theorem exists_derivation_clear_denominators
   apply hιg_inj
   rw [hΔeval, hspec]
   rw [hΔg, clearDenomDeriv_algebraMap_algebraMap D g Rg R'g f hf_comm hf_iso r]
-  show g' ^ N • ιg ((algebraMap R R') (D r)) = ιg ((algebraMap R R') ((g ^ N • D) r))
+  change g' ^ N • ιg ((algebraMap R R') (D r)) = ιg ((algebraMap R R') ((g ^ N • D) r))
   rw [Algebra.smul_def (g' ^ N) (ιg ((algebraMap R R') (D r))), ← hιg, ← map_mul ιg]
   congr 1
-  show g' ^ N * (algebraMap R R') (D r) = (algebraMap R R') ((g ^ N • D) r)
+  change g' ^ N * (algebraMap R R') (D r) = (algebraMap R R') ((g ^ N • D) r)
   rw [hg', ← map_pow, ← map_mul]
   congr 1
 

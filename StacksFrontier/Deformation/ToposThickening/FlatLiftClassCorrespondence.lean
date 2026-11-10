@@ -130,6 +130,8 @@ section Inclusion
 variable (i : RingedToposHom X X') (hi : FirstOrderThickening i)
   (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)))
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat)]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat)] in
 /-- **A map of middle terms over `ℱ` between two extensions whose canonical action maps are the
 identity commutes with the two inclusions.** So the inclusion `I ⊗_O ℱ ⟶ ℱ'` of such an
 extension is determined by its middle term and its reduction: it is not extra data.
@@ -185,6 +187,8 @@ theorem yonedaExtension_f_comp_eq_of_fixedActionIdentity
 
 variable [HasExt.{e} (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X'.O))]
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat)]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat)] in
 /-- **Two extensions whose canonical action maps are the identity have the same `Ext¹_O` class
 exactly when their middle terms are isomorphic over `ℱ`.**
 
@@ -239,8 +243,7 @@ exactly when the first factor of the canonical map of Stacks 08MQ is.**
 The two differ by the identification `f^*𝒥 ≅ t^*𝒥` pulled back to the thickened topos, which is
 an isomorphism, so one is invertible exactly when the other is; that identification is
 `Deformation.ToposThickening.pullbackIdealIso_hom_comp_pullbackBaseIdealMap`. -/
-theorem isIso_idealTensorComparison_iff_isIso_canonicalFirstFactor
-    (hstrict : IsStrictPullbackIdealMap i t f f' hi ht comm) :
+theorem isIso_idealTensorComparison_iff_isIso_canonicalFirstFactor :
     IsIso (idealTensorComparison i t f f' hi ht comm F) ↔
       IsIso (canonicalFirstFactor i t f f' hi ht comm F) := by
   have hfac : idealTensorComparison i t f f' hi ht comm F =
@@ -274,6 +277,8 @@ variable (i : RingedToposHom X X') (t : RingedToposHom S S') (f : RingedToposHom
 
 include comm hstrict hF
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat)]
+  [S.J.HasSheafCompose (forget AddCommGrpCat)] in
 /-- **The second factor `I ⊗_O ℱ ⟶ I·ℱ'` of the canonical map of Stacks 08MQ is invertible for
 a flat lift `ℱ'` of `ℱ`.** This is the "moreover" clause of Stacks 08MQ,
 `Deformation.ToposThickening.isFlat_iff_isIso_canonicalMap`, applied to the ideal-product
@@ -296,6 +301,8 @@ noncomputable def FlatLift.fixedActionExtension (A : FlatLift i f' hi F) :
     (shortExact_canonicalSecondFactor_comp_ι i hi F A.module' A.π A.idealProduct_comp A.shortExact
       (isIso_canonicalSecondFactor_flatLift i t f f' hi ht comm F hstrict hF A))
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat)]
+  [S.J.HasSheafCompose (forget AddCommGrpCat)] in
 /-- The canonical action of the square-zero ideal on the extension attached to a flat lift is
 the identity. -/
 theorem FlatLift.extensionActionMap_fixedActionExtension (A : FlatLift i f' hi F) :
@@ -319,6 +326,8 @@ noncomputable def FlatLift.fixedActionExtensionClass (A : FlatLift i f' hi F) :
     A.fixedActionExtension i t f f' hi ht comm F hstrict hF,
     A.extensionActionMap_fixedActionExtension i t f f' hi ht comm F hstrict hF, rfl⟩
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat)]
+  [S.J.HasSheafCompose (forget AddCommGrpCat)] in
 /-- **Two flat lifts have the same attached class exactly when they are isomorphic.** The
 extension attached to a flat lift has the lift's own module for its middle term and the lift's
 own map to `i_*ℱ` for its reduction, so this is
@@ -355,6 +364,8 @@ noncomputable def flatLiftOfFixedActionIdentity
     isFlat_baseModule_of_fixedActionIdentity i t f f' hi ht comm F hstrict hF hcff E hE
   shortExact := shortExact_idealProduct hi F E hE
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat)]
+  [S.J.HasSheafCompose (forget AddCommGrpCat)] in
 /-- **The class attached to the flat lift of an extension with action map the identity is the
 class of that extension.** Both have the same middle term and the same reduction, so this is
 `Deformation.ToposThickening.extensionClass_eq_iff_exists_iso_of_fixedActionIdentity` applied to
@@ -446,8 +457,8 @@ theorem isFlatLiftClassCorrespondence
   have hF : AlgebraicGeometry.SheafOfModules.IsFlat (reducedBaseModule i t f f' comm F) :=
     isFlat_reducedBaseModule_of_isFlatOverBase i t f f' hi ht comm F hflat
   exact ⟨flatLiftClassEquivFixedActionExtensionClass i t f f' hi ht comm F hstrict hF
-    ((isIso_idealTensorComparison_iff_isIso_canonicalFirstFactor i t f f' hi ht comm F
-      hstrict).mp hiso)⟩
+    ((isIso_idealTensorComparison_iff_isIso_canonicalFirstFactor i t f f' hi ht comm
+      F).mp hiso)⟩
 
 end Statement
 

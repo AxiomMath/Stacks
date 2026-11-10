@@ -213,7 +213,7 @@ public theorem finitePresentation_tensorProductMap_id
   let := f.toRingHom.toAlgebra
   have := IsScalarTower.of_algebraMap_eq' f.comp_algebraMap.symm
   have : Algebra.FinitePresentation S S' := RingHom.finitePresentation_algebraMap.mp hf
-  show (Algebra.TensorProduct.map (Algebra.ofId S S')
+  change (Algebra.TensorProduct.map (Algebra.ofId S S')
     (AlgHom.id R T)).toRingHom.FinitePresentation
   convert_to (((Algebra.TensorProduct.comm _ _ _).trans
       (Algebra.TensorProduct.cancelBaseChange R S S S' T)).toAlgHom.comp
@@ -467,10 +467,7 @@ public lemma exists_le_range_of_fg (N : Submodule R ↥A) (hN : N.FG) :
 public lemma exists_rTensor_eq (M : Type*) [AddCommGroup M] [Module R M] (z : ↥A ⊗[R] M) :
     ∃ (i : J) (w : ↥(pres.diag.obj i) ⊗[R] M),
       LinearMap.rTensor M (pres.ι.app i).hom.toLinearMap w = z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      obtain ⟨i⟩ : Nonempty J := IsFiltered.nonempty
-      exact ⟨i, 0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul a m =>
       obtain ⟨i, x, hx⟩ := exists_app_eq pres a
       exact ⟨i, x ⊗ₜ m, by simp [hx]⟩
@@ -488,8 +485,7 @@ public lemma exists_map_rTensor_subtype_eq_zero (M : Type*) [AddCommGroup M] [Mo
     {k : J} (u : ↥(LinearMap.ker (pres.ι.app k).hom.toLinearMap) ⊗[R] M) :
     ∃ (k' : J) (g : k ⟶ k'), LinearMap.rTensor M (pres.diag.map g).hom.toLinearMap
       (LinearMap.rTensor M (LinearMap.ker (pres.ι.app k).hom.toLinearMap).subtype u) = 0 := by
-  induction u using TensorProduct.induction_on with
-  | zero => exact ⟨k, 𝟙 k, by simp⟩
+  induction u using TensorProduct.inductionOn with
   | tmul c m =>
       obtain ⟨k', g, hg⟩ := exists_map_eq_zero pres c.1 c.2
       exact ⟨k', g, by simp [hg]⟩
@@ -593,8 +589,7 @@ tensor product of the map with the identity. -/
 public lemma map_id_eq_rTensor {T T' : Type*} [CommRing T] [Algebra R T] [CommRing T']
     [Algebra R T'] (F : T →ₐ[R] T') (x : T ⊗[R] B) :
     Algebra.TensorProduct.map F (AlgHom.id R B) x = LinearMap.rTensor B F.toLinearMap x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul t b => simp
   | add x y hx hy => simp [hx, hy]
 
@@ -735,8 +730,7 @@ public lemma bcHom_rTensorAlgEquiv (hπC : ∀ b, π (MvPolynomial.C b) = φ b)
     (x : T ⊗[R] MvPolynomial σ B) :
     bcHom T φ π (MvPolynomial.rTensorAlgEquiv (R := R) (S := T) (N := B) (σ := σ) x) =
       Algebra.TensorProduct.map (AlgHom.id R T) π x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul t p =>
       have h1 : (t ⊗ₜ[R] p : T ⊗[R] MvPolynomial σ B) =
           (t ⊗ₜ[R] (1 : MvPolynomial σ B)) * ((1 : T) ⊗ₜ[R] p) := by
@@ -820,7 +814,7 @@ public theorem formallySmooth_bcHom_iff {n m : ℕ} (φ : B →ₐ[R] C)
     rw [← (ker_bcHom φ π hπC hπ f hker : RingHom.ker p = _)]
     exact Ideal.quotientKerAlgEquivOfSurjective (f := p) (bcHom_surjective φ π hπC hπ)
   rw [← formallySmooth_quotient_span_iff]
-  show Algebra.FormallySmooth (T ⊗[R] B) (T ⊗[R] C) ↔ _
+  change Algebra.FormallySmooth (T ⊗[R] B) (T ⊗[R] C) ↔ _
   exact ⟨fun _ => .of_equiv e.symm, fun _ => .of_equiv e⟩
 
 end BaseChangePresentation
@@ -1224,12 +1218,12 @@ theorem exists_descent_of_finiteType
     intro i x hx
     have h0 : (ConcreteCategory.hom (colimit.ι F i)) x
         = (ConcreteCategory.hom (colimit.ι F i)) (0 : F.obj i) := by
-      show (colimit.ι F i).hom x = (colimit.ι F i).hom (0 : F.obj i)
+      change (colimit.ι F i).hom x = (colimit.ι F i).hom (0 : F.obj i)
       rw [hx, map_zero]
     rw [Concrete.colimit_rep_eq_iff_exists] at h0
     obtain ⟨k, p, q, hpq⟩ := h0
     refine ⟨k, p, ?_⟩
-    show (ConcreteCategory.hom (F.map p)) x = 0
+    change (ConcreteCategory.hom (F.map p)) x = 0
     rw [hpq]; change (F.map q).hom (0 : F.obj i) = 0; simp
   -- Helper: representatives of finitely many colimit elements at a common stage.
   have reps_fin_at_stage : ∀ (m : ℕ) (z : Fin m → (colimit F : CommRingCat.{u})),
@@ -1255,7 +1249,7 @@ theorem exists_descent_of_finiteType
   have E1 : (colimit.ι F i₀).hom.comp ψ₀ = ι₀.comp f.toRingHom := by
     apply MvPolynomial.ringHom_ext
     · intro c
-      show (colimit.ι F i₀).hom (ψ₀ (MvPolynomial.C c)) = ι₀ (f.toRingHom (MvPolynomial.C c))
+      change (colimit.ι F i₀).hom (ψ₀ (MvPolynomial.C c)) = ι₀ (f.toRingHom (MvPolynomial.C c))
       rw [hψ₀, MvPolynomial.eval₂Hom_C]
       have h1 : f.toRingHom (MvPolynomial.C c) = algebraMap ℤ A₀ c := by
         have hc : MvPolynomial.C c = algebraMap ℤ (MvPolynomial (Fin n) ℤ) c := by
@@ -1263,7 +1257,7 @@ theorem exists_descent_of_finiteType
         rw [hc]; exact f.commutes c
       rw [h1]; simp only [algebraMap_int_eq, eq_intCast, map_intCast]
     · intro k
-      show (colimit.ι F i₀).hom (ψ₀ (MvPolynomial.X k)) = ι₀ (f.toRingHom (MvPolynomial.X k))
+      change (colimit.ι F i₀).hom (ψ₀ (MvPolynomial.X k)) = ι₀ (f.toRingHom (MvPolynomial.X k))
       rw [hψ₀, MvPolynomial.eval₂Hom_X', hr k]; rfl
   obtain ⟨gs, hgs⟩ := hkerfg
   classical
@@ -1284,7 +1278,7 @@ theorem exists_descent_of_finiteType
     rw [← hgs, Ideal.span_le]
     intro g hg
     rw [SetLike.mem_coe, RingHom.mem_ker]
-    show (F.map e).hom (ψ₀ g) = 0
+    change (F.map e).hom (ψ₀ g) = 0
     exact he (ψ₀ g) (Finset.mem_image_of_mem ψ₀ hg)
   obtain ⟨finv, hfinv⟩ := hsurj.hasRightInverse
   set φ : A₀ →+* F.obj i₁ := f.toRingHom.liftOfRightInverse finv hfinv ⟨ψ, E2⟩ with hφdef
@@ -1319,7 +1313,7 @@ theorem nonempty_algEquiv_tensorProduct_of_algEquiv (A₀ Ai A B₀ Bi : Type*)
   let e4 : A ⊗[Ai] Bi ≃ₐ[A] Bi ⊗[Ai] A := by
     refine AlgEquiv.ofRingEquiv (f := (Algebra.TensorProduct.comm Ai A Bi).toRingEquiv) ?_
     intro a
-    show (Algebra.TensorProduct.comm Ai A Bi) (algebraMap A _ a) = algebraMap A _ a
+    change (Algebra.TensorProduct.comm Ai A Bi) (algebraMap A _ a) = algebraMap A _ a
     rw [Algebra.TensorProduct.algebraMap_apply]
     simp [Algebra.TensorProduct.comm_tmul]
     rfl
@@ -1333,7 +1327,7 @@ theorem smooth_includeLeftRingHom (A₀ Ai B₀ : Type*) [CommRing A₀] [CommRi
   have hAi : (Algebra.TensorProduct.includeLeftRingHom (R := A₀) (A := Ai) (B := B₀)).toAlgebra
       = Algebra.TensorProduct.leftAlgebra (S := Ai) :=
     Algebra.algebra_ext _ _ fun _ => rfl
-  show @Algebra.Smooth Ai _ (Ai ⊗[A₀] B₀) _
+  change @Algebra.Smooth Ai _ (Ai ⊗[A₀] B₀) _
     (Algebra.TensorProduct.includeLeftRingHom (R := A₀) (A := Ai) (B := B₀)).toAlgebra
   rw [hAi]
   exact Algebra.Smooth.baseChange A₀ B₀ Ai

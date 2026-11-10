@@ -68,7 +68,7 @@ theorem tag02O6 : Tag02O6.{u} := by
     { toFun := id
       map_add' := fun _ _ => rfl
       map_smul' := fun a x => by
-        show g.appTop.hom a • (show cohomologyOf Y i G from x)
+        change g.appTop.hom a • (show cohomologyOf Y i G from x)
           = specAlgebraRingHom R g ((Scheme.ΓSpecIso (.of R)).hom a) •
             (show cohomologyOf Y i G from x)
         rw [key] }

@@ -225,7 +225,7 @@ theorem exists_isFiniteTypeQuasicoherentIdeal_idealZeroLocus_eq_compl_range
         ((smallEtalePostcomp B S hS j hje).obj V) (hJtop V)).comp (hmsurj V))
   refine ⟨I, ⟨SheafOfModules.IsQuasicoherentOnSite.of_iso eI hMq,
     Stacks.SheafOfModules.isFiniteTypeOnSite_of_isFiniteType _ (hMft.of_iso eI)⟩, ?_⟩
-  show T = idealZeroLocus B S hS X I
+  change T = idealZeroLocus B S hS X I
   refine Set.eq_of_subset_of_subset ?_ ?_
   · rw [← hJzero]
     exact idealZeroLocus_antitone B S hS X hIJ

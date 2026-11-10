@@ -67,7 +67,7 @@ theorem coordinateRingIdeal_le_irrelevant :
   intro x hx
   have h1 : x ∈ truncation (yGrading R m n) 1 :=
     (mem_coordinateRingIdeal_pow_iff R m n 1 x).1 (by rwa [pow_one])
-  show x ∈ HomogeneousIdeal.irrelevant (yGrading R m n)
+  change x ∈ HomogeneousIdeal.irrelevant (yGrading R m n)
   rw [HomogeneousIdeal.mem_irrelevant_iff]
   exact (mem_truncation_iff (yGrading R m n)).1 h1 0 one_pos
 
@@ -144,7 +144,7 @@ theorem projZeroRingHom'_X_inr (j : Fin n) :
     GradedRing.projZeroRingHom' (yGrading R m n) (X (Sum.inr j)) = 0 := by
   refine Subtype.ext ?_
   rw [ZeroMemClass.coe_zero]
-  show GradedRing.proj (yGrading R m n) 0 (X (Sum.inr j)) = 0
+  change GradedRing.proj (yGrading R m n) 0 (X (Sum.inr j)) = 0
   rw [GradedRing.proj_apply, DirectSum.decompose_of_mem_ne (yGrading R m n)
     (X_inr_mem_yGrading R m n j) one_ne_zero]
 
@@ -183,15 +183,15 @@ theorem rename_comp_coordinateProjection :
         (Stacks.MoreMorphisms.coordinateProjection R m n) =
       (coneCentreIncl R m n).comp (GradedRing.projZeroRingHom' (yGrading R m n)) := by
   refine MvPolynomial.ringHom_ext (fun r => ?_) (fun s => ?_)
-  · show rename Sum.inl (Stacks.MoreMorphisms.coordinateProjection R m n (C r)) =
+  · change rename Sum.inl (Stacks.MoreMorphisms.coordinateProjection R m n (C r)) =
       (GradedRing.projZeroRingHom' (yGrading R m n) (C r) : MvPolynomial (Fin m ⊕ Fin n) R)
     rw [coordinateProjection_C, rename_C, projZeroRingHom'_C]
   · rcases s with i | j
-    · show rename Sum.inl (Stacks.MoreMorphisms.coordinateProjection R m n (X (Sum.inl i))) =
+    · change rename Sum.inl (Stacks.MoreMorphisms.coordinateProjection R m n (X (Sum.inl i))) =
         (GradedRing.projZeroRingHom' (yGrading R m n) (X (Sum.inl i)) :
           MvPolynomial (Fin m ⊕ Fin n) R)
       rw [coordinateProjection_X_inl, rename_X, projZeroRingHom'_X_inl]
-    · show rename Sum.inl (Stacks.MoreMorphisms.coordinateProjection R m n (X (Sum.inr j))) =
+    · change rename Sum.inl (Stacks.MoreMorphisms.coordinateProjection R m n (X (Sum.inr j))) =
         (GradedRing.projZeroRingHom' (yGrading R m n) (X (Sum.inr j)) :
           MvPolynomial (Fin m ⊕ Fin n) R)
       rw [coordinateProjection_X_inr, map_zero, projZeroRingHom'_X_inr, ZeroMemClass.coe_zero]
@@ -202,9 +202,9 @@ theorem coordinateProjection_comp_rename :
         (rename Sum.inl : MvPolynomial (Fin m) R →ₐ[R] MvPolynomial (Fin m ⊕ Fin n) R).toRingHom =
       RingHom.id _ := by
   refine MvPolynomial.ringHom_ext (fun r => ?_) (fun i => ?_)
-  · show Stacks.MoreMorphisms.coordinateProjection R m n (rename Sum.inl (C r)) = C r
+  · change Stacks.MoreMorphisms.coordinateProjection R m n (rename Sum.inl (C r)) = C r
     rw [rename_C, coordinateProjection_C]
-  · show Stacks.MoreMorphisms.coordinateProjection R m n (rename Sum.inl (X i)) = X i
+  · change Stacks.MoreMorphisms.coordinateProjection R m n (rename Sum.inl (X i)) = X i
     rw [rename_X, coordinateProjection_X_inl]
 
 /-- **`R[x₁, …, x_m] ≃ A₀`**, by `p ↦ p(x)` read in degree zero, with inverse the restriction of
@@ -270,14 +270,14 @@ def coneCentreIso : Stacks.DeRham.coordinateBlowupCentre R m ≅ coneCentre R m 
 theorem coneCentreIso_hom_comp :
     (coneCentreIso R m n).hom ≫ coneCentreToAmbient R m n =
       Stacks.MoreMorphisms.coordinateEmbedding R m n := by
-  show Spec.map (CommRingCat.ofHom (coneCentreRingEquiv R m n).symm.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom (coneCentreRingEquiv R m n).symm.toRingHom) ≫
     Spec.map (CommRingCat.ofHom (GradedRing.projZeroRingHom' (yGrading R m n))) =
       Spec.map (CommRingCat.ofHom (Stacks.MoreMorphisms.coordinateProjection R m n))
   rw [← Spec.map_comp]
   congr 1
   ext1
   refine RingHom.ext fun x => ?_
-  show Stacks.MoreMorphisms.coordinateProjection R m n
+  change Stacks.MoreMorphisms.coordinateProjection R m n
     (coneCentreIncl R m n (GradedRing.projZeroRingHom' (yGrading R m n) x)) =
       Stacks.MoreMorphisms.coordinateProjection R m n x
   have h := RingHom.congr_fun (rename_comp_coordinateProjection R m n) x

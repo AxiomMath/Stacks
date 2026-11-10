@@ -238,7 +238,7 @@ theorem exists_idealPow_hom_eq_section (hZ : B.Contains (⊤_ Scheme.{u}))
     (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1
         Y.2).O)) G) z
   refine ⟨n, φ, fun P h => ?_⟩
-  show _ = ((SheafOfModules.unitHomEquiv _ (canonicalMapToHomRestrict B S hS Y J _ G
+  change _ = ((SheafOfModules.unitHomEquiv _ (canonicalMapToHomRestrict B S hS Y J _ G
     (Limits.colimit.ι (homSystem B S hS Y J _ G) n φ))).val (op P))
   refine Eq.trans ?_ (congrArg (fun t => (SheafOfModules.unitHomEquiv _ t).val (op P))
     (canonicalMapToHomRestrict_ι B S hS Y J _ G n φ)).symm
@@ -252,7 +252,7 @@ theorem exists_idealPow_hom_eq_section (hZ : B.Contains (⊤_ Scheme.{u}))
     rw [← hhom]
     exact congrArg (fun k => (k.val.app (op P)).hom ⟨_, h⟩)
       (idealPowRestrictIso B S hS Y J n O).hom_inv_id
-  show _ = ((restrictToIdealComplement B S hS Y J).map φ).val.app (op P)
+  change _ = ((restrictToIdealComplement B S hS Y J).map φ).val.app (op P)
     (((idealPowRestrictIso B S hS Y J n O).inv.val.app (op P)).hom one)
   rw [hinv]
   rfl
@@ -388,10 +388,10 @@ theorem val_app_sum_pi_π_comp_homOfLE {Y : AlgebraicSpaces B S hS}
   have hy : ((Stacks.SheafOfModules.Submodule.homOfLE (hle k)).val.app (op X)).hom y =
       SheafOfModules.unitVal y.1 • ⟨_, h1 k⟩ := by
     refine Subtype.ext ?_
-    show (y.1 : _) = SheafOfModules.unitVal y.1 •
+    change (y.1 : _) = SheafOfModules.unitVal y.1 •
       SheafOfModules.unitOf (1 : chartRing B S hS Y.1 Y.2 X)
     rw [SheafOfModules.unit_smul, mul_one]
-  show ((φ k).val.app (op X)).hom
+  change ((φ k).val.app (op X)).hom
     (((Stacks.SheafOfModules.Submodule.homOfLE (hle k)).val.app (op X)).hom y) = _
   rw [hy]
   exact ((φ k).val.app (op X)).hom.map_smul _ _

@@ -320,7 +320,7 @@ public theorem isIso_mate_smallEtaleSquarePushforwardIsoAt_of_isPullback
     (smallEtaleSquarePushforwardIsoAt e h g f w A).hom
     (smallEtaleSquarePushforwardIsoAt e h g f w A).hom (Iso.refl _) (Iso.refl _) ?_ F).mpr
     (isIso_restrictionMate_of_isPullback A e h g f w sq F)
-  refine TwoSquare.ext _ _ fun P => ?_
+  refine NatTrans.ext (funext fun P => ?_)
   simp [TwoSquare.whiskerBottom, TwoSquare.whiskerTop]
 
 end EtaleSquareBaseChange

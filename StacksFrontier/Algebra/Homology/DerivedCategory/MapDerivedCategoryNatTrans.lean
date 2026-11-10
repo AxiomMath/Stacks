@@ -60,7 +60,7 @@ theorem complexHomologyIso_naturality (τ : T ⟶ S) {ι : Type*} (c : ComplexSh
       (complexHomologyIso T c i).hom.app K ≫
         τ.app ((HomologicalComplex.homologyFunctor A c i).obj K) := by
   rw [complexHomologyIso_hom_app, complexHomologyIso_hom_app]
-  show ShortComplex.homologyMap ((K.sc i).mapNatTrans τ) ≫
+  change ShortComplex.homologyMap ((K.sc i).mapNatTrans τ) ≫
     ((K.sc i).mapHomologyIso S).hom = ((K.sc i).mapHomologyIso T).hom ≫ _
   rw [ShortComplex.homologyMap_mapNatTrans]
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]

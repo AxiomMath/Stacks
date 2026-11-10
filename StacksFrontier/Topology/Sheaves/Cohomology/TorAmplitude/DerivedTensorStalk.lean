@@ -89,7 +89,7 @@ so there the key stays `𝒪.obj`.
 
 The `CategoryTheory.GrothendieckTopology.WEqualsLocallyBijective` seatings are a different
 matter and are not a spelling problem: that instance is found in about 1500 heartbeats, but
-`Stacks.SheafOfModules.KFlat.KFlat` asks for
+`Stacks.SheafOfModules.KFlat` asks for
 `∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor R).obj M).Additive` and for the family of
 `HomologicalComplex.HasMapBifunctor`s, and each of those is a *single* synthesis goal inside
 whose binder the same search is repeated for every candidate tried; the 20000-heartbeat budget
@@ -181,7 +181,7 @@ theorem exists_kFlat_representative (E : DerivedCategory
     letI : (Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u} :=
       inferInstance
     ∃ K : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules R) ℤ,
-      Stacks.SheafOfModules.KFlat.KFlat R K ∧
+      Stacks.SheafOfModules.KFlat R K ∧
         Nonempty (DerivedCategory.Q.obj K ≅ E) := by
   let : (Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u} :=
     inferInstance
@@ -203,7 +203,7 @@ def kFlatModel (E : DerivedCategory (Stacks.DerivedTensor.RingedSite.Modules R))
 theorem kFlat_kFlatModel (E : DerivedCategory (Stacks.DerivedTensor.RingedSite.Modules R)) :
     letI : (Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u} :=
       inferInstance
-    Stacks.SheafOfModules.KFlat.KFlat R (kFlatModel R E) :=
+    Stacks.SheafOfModules.KFlat R (kFlatModel R E) :=
   (exists_kFlat_representative R E).choose_spec.1
 
 /-- The chosen K-flat complex does represent the object. -/
@@ -224,8 +224,8 @@ def derivedTensorStalkIsoOfKFlat
       (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} R) x
     letI := AlgebraicGeometry.SheafOfModules.stalkFunctor_preservesColimits
       (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} R) x
-    ∀ (_hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-      (_hP : Stacks.SheafOfModules.KFlat.KFlat R P),
+    ∀ (_hK : Stacks.SheafOfModules.KFlat R K)
+      (_hP : Stacks.SheafOfModules.KFlat R P),
     ((stalkDerivedTensor R x).obj
           ((AlgebraicGeometry.SheafOfModules.stalkFunctor
             (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} R) x).mapDerivedCategory.obj

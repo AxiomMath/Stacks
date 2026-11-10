@@ -261,7 +261,7 @@ lemma cyclesToExt_eq_zero_iff (n : ℕ) (f : LinearMap.ker ((homComplex M I).d n
       exact ⟨(hT.preimage g').hom, homComplex_d_preimage hT g' _ hg⟩
     · rintro ⟨y, hy⟩
       refine ⟨T.map (ModuleCat.ofHom (show M →ₗ[A] I.X p from y)), ?_⟩
-      show T.map _ ≫ T.map (I.d p (p + 1)) = _
+      change T.map _ ≫ T.map (I.d p (p + 1)) = _
       rw [← T.map_comp]
       congr 1
       apply ModuleCat.hom_ext
@@ -497,7 +497,7 @@ lemma homologyAddEquivExt_naturality_right {N' : ModuleCat.{v} A}
       ι_f_zero_comp_hom_f_zero := by
         rw [injectiveResolutionOfPure_ι_f_zero, injectiveResolutionOfPure_ι_f_zero,
           CochainComplex.single₀_map_f_zero]
-        show T.map _ ≫ T.map (F.f 0) = T.map g ≫ T.map _
+        change T.map _ ≫ T.map (F.f 0) = T.map g ≫ T.map _
         rw [← T.map_comp, ← T.map_comp]
         congr 1
         exact ModuleCat.hom_ext hF }

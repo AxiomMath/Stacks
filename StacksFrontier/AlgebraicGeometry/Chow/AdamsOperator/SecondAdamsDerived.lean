@@ -218,7 +218,7 @@ theorem isIso_cokernelFunctor_map_arrowSectionsMap [F'.IsQuasicoherent] [F.IsQua
     (Stacks.SectionEpiAffine.surjective_app_of_isAffineOpen Y v U U.2)
   · exact Stacks.CechElementChase.exists_app_map_f_eq _ _ hS U y hy
   · rintro ⟨x, rfl⟩
-    show ((u ≫ v).app (U : Y.Opens)).hom x = 0
+    change ((u ≫ v).app (U : Y.Opens)).hom x = 0
     rw [huv]
     rfl
 
@@ -966,7 +966,7 @@ theorem cycleCoeffHom_supportedCoherentKZeroCycle_secondAdamsSum (C : ChowSituat
     fun _ _ _ _ => supportedCoherentKZeroCycle_mk_apply_of_eq C a W k hW _ hy
   rw [secondAdamsSum, map_sum, map_sum]
   simp only [map_zsmul, map_sub, map_nsmul, hcyc]
-  show ∑ j ∈ Finset.range (N + 1), (-1 : ℤ) ^ j •
+  change ∑ j ∈ Finset.range (N + 1), (-1 : ℤ) ^ j •
     ((sheafMultiplicity (derivedTensorSquareSheaf F j) y : ℤ) -
       2 • (sheafMultiplicity (derivedExteriorSquareSheaf F j) y : ℤ)) = _
   simp only [hT, hΛ]
@@ -1058,8 +1058,7 @@ def supportedSecondAdamsRat (hY : IsRegular Y) :
   app W := ModuleCat.ofHom ((supportedSecondAdams hY W).toIntLinearMap.baseChange ℚ)
   naturality {W' W} f := by
     refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction x using TensorProduct.inductionOn with
     | tmul q a =>
       change q ⊗ₜ[ℤ] supportedSecondAdams hY W (supportedCoherentKZeroMap (leOfHom f) a) =
         q ⊗ₜ[ℤ] supportedCoherentKZeroMap (leOfHom f) (supportedSecondAdams hY W' a)
@@ -1118,16 +1117,13 @@ theorem rationalCycleCoeff_supportedCoherentKZeroRatCycle_supportedSecondAdamsRa
         (supportedCoherentKZeroRatCycle C a W k hW (((supportedSecondAdamsRat Y hY).app W).hom x)) =
       2 ^ n * rationalCycleCoeff C a k y (supportedCoherentKZeroRatCycle C a W k hW x) := by
   let G := (rationalCycleCoeff C a k y).comp (supportedCoherentKZeroRatCycle C a W k hW)
-  show G (((supportedSecondAdamsRat Y hY).app W).hom x) = 2 ^ n * G x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg G (map_zero ((supportedSecondAdamsRat Y hY).app W).hom)).trans
-      ((map_zero G).trans ((mul_zero _).symm.trans (congrArg _ (map_zero G).symm)))
+  change G (((supportedSecondAdamsRat Y hY).app W).hom x) = 2 ^ n * G x
+  induction x using TensorProduct.inductionOn with
   | tmul q b =>
     have h := cycleCoeffHom_supportedCoherentKZeroCycle_supportedSecondAdams C a hY W k hW b hy
       hn
     rw [cycleCoeffHom_apply, cycleCoeffHom_apply] at h
-    show rationalCycleCoeff C a k y (q ⊗ₜ[ℤ] supportedCoherentKZeroCycle C a W k hW
+    change rationalCycleCoeff C a k y (q ⊗ₜ[ℤ] supportedCoherentKZeroCycle C a W k hW
         (supportedSecondAdams hY W b)) =
       2 ^ n * rationalCycleCoeff C a k y (q ⊗ₜ[ℤ] supportedCoherentKZeroCycle C a W k hW b)
     rw [rationalCycleCoeff_tmul, rationalCycleCoeff_tmul, h]

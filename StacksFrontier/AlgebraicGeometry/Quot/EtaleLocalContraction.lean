@@ -275,7 +275,7 @@ theorem exists_isIso_residueFieldMap_of_comp_eq (T : BigFppfOver B integerBase h
     rw [← Functor.map_comp, hū]
     rfl
   refine ⟨(𝒯).map ū pt, ?_, ?_⟩
-  · show ((𝒯).map ū ≫ (𝒯).map e) pt = s
+  · change ((𝒯).map ū ≫ (𝒯).map e) pt = s
     rw [h𝒯]
     exact Scheme.fromSpecResidueField_apply _ _
   · refine isIso_residueFieldMap_of_isIso_comp ((𝒯).map ū) ((𝒯).map e) pt ?_

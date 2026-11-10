@@ -111,7 +111,7 @@ theorem pullbackIdealSubsheaf_eq_etaleIdealRestrict
         (smallEtaleRingSheaf B S hS X.1 X.2).obj.map (adj.counit.app Q).op a := by
       have := congrArg (fun t => t.hom a) hc
       exact this.symm
-    show chartIdealPullbackHom B S hS φ hrep Q a ∈
+    change chartIdealPullbackHom B S hS φ hrep Q a ∈
       J.obj (op ((smallEtalePostcomp B S hS φ hφ).obj ((smallBaseChange B S hS φ hrep).obj Q)))
     rw [hca]
     exact J.map_mem (adj.counit.app Q).op ha

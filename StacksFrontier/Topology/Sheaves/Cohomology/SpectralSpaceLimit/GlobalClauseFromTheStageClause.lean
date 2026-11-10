@@ -49,8 +49,8 @@ diagram to exist in `AddCommGrpCat.{u}` for both index shapes.  `OpenCone.whiske
 independent universes, the last one carrying the two colimit-existence hypotheses explicitly.
 
 The hypothesis of `isIso_comparison_global_of_stage` is the stage clause *for every
-presentation*, which is exactly how the clause is stated in the tagged statement: the presentation is an
-explicit argument with the chosen one as its default value.  The stage index `i` used in the
+presentation*, which is exactly how the clause is stated in the tagged statement: the presentation
+is an explicit argument with the chosen one as its default value.  The stage index `i` used in the
 proof is arbitrary — any object of `K` will do, and a cofiltered category has one.
 
 ## References

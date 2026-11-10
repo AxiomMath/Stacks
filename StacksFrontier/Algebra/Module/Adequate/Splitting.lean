@@ -97,7 +97,7 @@ private lemma adequate_preservesFlatBaseChange {A : Type u} [CommRing A]
   have hb := AdequateFunctor.moduleValuedFunctorBaseChangeMap_bijective.{u, 0, u, u, u + 1}
     ι F hF g hg
   refine ⟨LinearEquiv.ofBijective m hb, fun x => ?_⟩
-  show moduleValuedFunctorBaseChangeMap.{u, 0, u, u, u + 1} ι F g
+  change moduleValuedFunctorBaseChangeMap.{u, 0, u, u, u + 1} ι F g
     ((1 : ↑(ι.obj (CommAlgCat.of A C))) ⊗ₜ[↑(ι.obj (CommAlgCat.of A B))] x) =
       F.map g.op.op x
   simpa only [one_smul] using
@@ -225,7 +225,7 @@ private lemma gradedLaurentMap_symmetricPower06V7_mem (A V : Type u) [CommRing A
     (hx : x ∈ symmetricPower06V7 A V d) :
     Laurent.gradedLaurentMap A (SymmetricAlgebra A V) (symmetricPower06V7 A V) x =
       LaurentPolynomial.C x * LaurentPolynomial.T (d : ℤ) := by
-  show (DirectSum.liftRingHom _) (DirectSum.decompose (symmetricPower06V7 A V) x) = _
+  change (DirectSum.liftRingHom _) (DirectSum.decompose (symmetricPower06V7 A V) x) = _
   rw [DirectSum.decompose_of_mem (symmetricPower06V7 A V) hx]
   simp [DirectSum.liftRingHom_apply]
 
@@ -240,21 +240,20 @@ private lemma moduleExtension06V7_range_weightSpace (A B N : Type u)
     z ∈ AdequateFunctor.Laurent.weightSpace A B
       (moduleExtension A (ModuleCat.of A N)) 𝒜 (d : ℤ) := by
   obtain ⟨w, rfl⟩ := hz
-  show (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
+  change (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
       (TensorProduct.map (Laurent.constantLaurentMap A B).toLinearMap LinearMap.id)
         ((𝒜 d).subtype.rTensor N w) =
     (TensorProduct.map (Laurent.gradedLaurentMap A B 𝒜).toLinearMap LinearMap.id)
         ((𝒜 d).subtype.rTensor N w)
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x n =>
-      show (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
+      change (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
           (TensorProduct.map (Laurent.constantLaurentMap A B).toLinearMap LinearMap.id
             ((x : B) ⊗ₜ[A] n)) =
         TensorProduct.map (Laurent.gradedLaurentMap A B 𝒜).toLinearMap LinearMap.id
           ((x : B) ⊗ₜ[A] n)
       rw [TensorProduct.map_tmul, TensorProduct.map_tmul]
-      show (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
+      change (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
           (Laurent.constantLaurentMap A B (x : B) ⊗ₜ[A] n) =
         Laurent.gradedLaurentMap A B 𝒜 (x : B) ⊗ₜ[A] n
       rw [hg x.1 x.2, TensorProduct.smul_tmul', mul_comm, smul_eq_mul]
@@ -271,14 +270,9 @@ private lemma moduleExtension06V7_preservesFlatBaseChange (A N : Type u)
   let : Algebra B C := f.toRingHom.toAlgebra
   intro hflat
   refine ⟨TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C N, fun x => ?_⟩
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      show (TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C N)
-          (1 ⊗ₜ[B] (0 : TensorProduct A B N)) =
-        (TensorProduct.map f.toLinearMap LinearMap.id) 0
-      simp
+  induction x using TensorProduct.inductionOn with
   | tmul b n =>
-      show (TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C N)
+      change (TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C N)
           (1 ⊗ₜ[B] (b ⊗ₜ[A] n)) = f b ⊗ₜ[A] n
       rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
       simp [Algebra.smul_def]
@@ -288,7 +282,7 @@ private lemma moduleExtension06V7_preservesFlatBaseChange (A N : Type u)
           (1 ⊗ₜ[B] x) = (TensorProduct.map f.toLinearMap LinearMap.id) x at hx
       change (TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C N)
           (1 ⊗ₜ[B] y) = (TensorProduct.map f.toLinearMap LinearMap.id) y at hy
-      show (TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C N)
+      change (TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C N)
           (1 ⊗ₜ[B] (x + y)) = (TensorProduct.map f.toLinearMap LinearMap.id) (x + y)
       rw [TensorProduct.tmul_add, map_add, hx, hy, map_add]
 
@@ -311,7 +305,7 @@ private lemma moduleExtension06V7_weightOne_mem_degreeOne (A B N : Type u)
   have hGof (d : ℕ) (x : E d) :
       G (DirectSum.of (fun d : ℕ => E d) d x) =
         Finsupp.single (d : ℤ) (x : TensorProduct A B N) := by
-    show DirectSum.toAddMonoid
+    change DirectSum.toAddMonoid
       (fun e : ℕ => (Finsupp.singleAddHom (e : ℤ)).comp (E e).subtype.toAddMonoidHom)
       (DirectSum.of (fun d : ℕ => E d) d x) = _
     rw [DirectSum.toAddMonoid_of]
@@ -432,7 +426,7 @@ private lemma gradedLaurentMap_symmetricAlgebra_eq_degreeOne {A M : Type u}
   induction z using SymmetricAlgebra.induction with
   | algebraMap a => simp [symmetricAlgebraLaurentDegreeOneMap]
   | ι m =>
-      show (DirectSum.liftRingHom _)
+      change (DirectSum.liftRingHom _)
           (DirectSum.decompose 𝒜 (SymmetricAlgebra.ι A M m)) = _
       rw [DirectSum.decompose_of_mem 𝒜 (h𝒜 m)]
       simp [symmetricAlgebraLaurentDegreeOneMap, SymmetricAlgebra.lift_ι_apply,
@@ -450,7 +444,7 @@ private lemma weightSpace_one_iff_symmetricPower {A M : Type u} [CommRing A]
     x ∈ AdequateFunctor.Laurent.weightSpace A (SymmetricAlgebra A M) F 𝒜 1 ↔
       x ∈ AdequateFunctor.Laurent.weightSpace A (SymmetricAlgebra A M) F
         (symmetricPower06V7 A M) 1 := by
-  show _ = _ ↔ _ = _
+  change _ = _ ↔ _ = _
   rw [gradedLaurentMap_symmetricAlgebra_eq_degreeOne 𝒜 h𝒜,
     gradedLaurentMap_symmetricAlgebra_eq_degreeOne (symmetricPower06V7 A M)
       (symmetricAlgebra06V7_generator_mem_degree_one A M)]
@@ -464,8 +458,7 @@ private lemma tensor_symmetricAlgebra_map_degreeOne {A V W N : Type u} [CommRing
       LinearMap.id t ∈ DirectSum.decomposeTensor (symmetricPower06V7 A W) N 1 := by
   rw [DirectSum.decomposeTensor_apply] at ht ⊢
   obtain ⟨w, rfl⟩ := ht
-  induction w using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction w using TensorProduct.inductionOn with
   | tmul x n =>
       have hx : (x : SymmetricAlgebra A V) ∈ LinearMap.range (SymmetricAlgebra.ι A V) := by
         simpa only [symmetricPower06V7, pow_one] using x.property
@@ -494,14 +487,13 @@ private lemma tensor_symmetricAlgebra_factor_sum {A M N : Type u} [CommRing A]
   intro p₁ p₂ q₁ q₂
   rw [DirectSum.decomposeTensor_apply] at ht
   obtain ⟨w, rfl⟩ := ht
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x n =>
       have hx : (x : SymmetricAlgebra A (M × M)) ∈
           LinearMap.range (SymmetricAlgebra.ι A (M × M)) := by
         simpa only [symmetricPower06V7, pow_one] using x.property
       obtain ⟨m, hm⟩ := hx
-      show p₁ (q₁ (x : SymmetricAlgebra A (M × M))) ⊗ₜ[A] n +
+      change p₁ (q₁ (x : SymmetricAlgebra A (M × M))) ⊗ₜ[A] n +
           p₂ (q₂ (x : SymmetricAlgebra A (M × M))) ⊗ₜ[A] n =
         (x : SymmetricAlgebra A (M × M)) ⊗ₜ[A] n
       rw [← hm]
@@ -532,7 +524,7 @@ private lemma weightSpace_map_iff_of_mono {A B : Type u} [CommRing A] [CommRing 
   let Y := Opposite.op (Opposite.op (CommAlgCat.of A (LaurentPolynomial B)))
   have hinj : Function.Injective (η.app Y) :=
     (ModuleCat.mono_iff_injective (η.app Y)).mp inferInstance
-  show _ = _ ↔ _ = _
+  change _ = _ ↔ _ = _
   rw [← PresheafOfModules.naturality_apply, ← PresheafOfModules.naturality_apply]
   exact ⟨fun h => hinj ((app_smul_laurent η _ _).trans h),
     fun h => (app_smul_laurent η _ _).symm.trans (congrArg _ h)⟩
@@ -577,7 +569,7 @@ private lemma symmetricAlgebraZeroMap_mem_weightSpace_zero {A M : Type u}
       (CommAlgCat.of A (SymmetricAlgebra A M))))) :
     F.map ((CommAlgCat.ofHom (symmetricAlgebraZeroMap (A := A) (M := M))).op.op) x ∈
       AdequateFunctor.Laurent.weightSpace A (SymmetricAlgebra A M) F 𝒜 0 := by
-  show _ = _
+  change _ = _
   have hcomp :
       CommAlgCat.ofHom (symmetricAlgebraZeroMap (A := A) (M := M)) ≫
           CommAlgCat.ofHom (Laurent.constantLaurentMap A (SymmetricAlgebra A M)) =
@@ -669,7 +661,7 @@ public lemma weightOne_eq_add_images {A M : Type u} [CommRing A]
     apply hηinj
     refine Eq.trans ?_ (map_add (ConcreteCategory.hom (η.app Y))
       (F.map (CommAlgCat.ofHom p₁).op.op x) (F.map (CommAlgCat.ofHom p₂).op.op y)).symm
-    show η.app Y z = η.app Y (F.map (CommAlgCat.ofHom p₁).op.op x) +
+    change η.app Y z = η.app Y (F.map (CommAlgCat.ofHom p₁).op.op x) +
       η.app Y (F.map (CommAlgCat.ofHom p₂).op.op y)
     rw [PresheafOfModules.naturality_apply η (CommAlgCat.ofHom p₁).op.op x,
       PresheafOfModules.naturality_apply η (CommAlgCat.ofHom p₂).op.op y]
@@ -700,9 +692,7 @@ public lemma weightOne_images_disjoint {A M : Type u} [CommRing A]
     [AddCommGroup M] [Module A M] [Module.FinitePresentation A M]
     (F : Laurent.ModuleValuedFunctor A) (hF : AdequateFunctor.IsAdequate (𝟭 _) F)
     (𝒜 : ℕ → Submodule A (SymmetricAlgebra A M)) [GradedAlgebra 𝒜]
-    (ℬ : ℕ → Submodule A (SymmetricAlgebra A (M × M))) [GradedAlgebra ℬ]
-    (h𝒜 : ∀ m, SymmetricAlgebra.ι A M m ∈ 𝒜 1)
-    (hℬ : ∀ m, SymmetricAlgebra.ι A (M × M) m ∈ ℬ 1) :
+    (ℬ : ℕ → Submodule A (SymmetricAlgebra A (M × M))) [GradedAlgebra ℬ] :
     let p₁ : SymmetricAlgebra A M →ₐ[A] SymmetricAlgebra A (M × M) :=
       SymmetricAlgebra.lift ((SymmetricAlgebra.ι A (M × M)).comp (LinearMap.inl A M M))
     let p₂ : SymmetricAlgebra A M →ₐ[A] SymmetricAlgebra A (M × M) :=
@@ -816,7 +806,7 @@ private lemma adequate_hasWeightOneCoproduct {A : Type u} [CommRing A]
     have hsumB : z = b₁ + b₂ := by simpa [b₁, b₂] using hsum'
     have hzero : (a₁ - b₁) + (a₂ - b₂) = 0 := by
       rw [sub_add_sub_comm, ← hsumA, ← hsumB, sub_self]
-    have hxy0 := weightOne_images_disjoint F hF 𝒜 ℬ hgenA hgenB
+    have hxy0 := weightOne_images_disjoint F hF 𝒜 ℬ
       (x - xy.1) (y - xy.2)
       (a₁ - b₁) (a₂ - b₂)
       (weightSpace_sub F 𝒜 1 hx hx') (weightSpace_sub F 𝒜 1 hy hy')
@@ -905,8 +895,7 @@ private noncomputable def baseChangeEvaluation {A : Type u} [CommRing A]
       (show Module ((𝟭 (CommAlgCat.{u} A)).obj B)
         ((𝟭 (CommAlgCat.{u} A)).obj C) from hι.toModule)
     refine ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
-    induction t using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => simpa only [map_add] using congrArg₂ (· + ·) ht ht'
     | tmul c x =>
       change moduleValuedFunctorBaseChangeMap.{u, 0, u, u, u + 1} (𝟭 _) G f
@@ -952,18 +941,17 @@ private lemma baseChangeEvaluation_isIso {A : Type u} [CommRing A]
       e.toLinearMap := by
     apply LinearMap.ext
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul c x =>
       rw [moduleValuedFunctorBaseChangeMap_tmul]
-      show c • F.map f.op.op x = e (c ⊗ₜ[B] x)
+      change c • F.map f.op.op x = e (c ⊗ₜ[B] x)
       have h1 : c • ((1 : C) ⊗ₜ[B] x) = c ⊗ₜ[B] x := by
         rw [TensorProduct.smul_tmul']; simp
       refine Eq.symm (Eq.trans (congrArg e h1.symm) (Eq.trans (e.map_smul c _) ?_))
       exact congrArg _ (he x)
     | add t t' ht ht' => simp only [map_add, ht, ht']
   apply (ConcreteCategory.isIso_iff_bijective _).mpr
-  show Function.Bijective (moduleValuedFunctorBaseChangeMap.{u, 0, u, u, u + 1}
+  change Function.Bijective (moduleValuedFunctorBaseChangeMap.{u, 0, u, u, u + 1}
     (𝟭 _) F f)
   rw [hm]
   exact e.bijective
@@ -995,7 +983,7 @@ private lemma preservesFlatBaseChange_of_shortExact {A : Type u} [CommRing A]
       (↑((𝟭 (CommAlgCat.{u} A)).obj (CommAlgCat.of A C))) := g.hom.toRingHom.toAlgebra
   let m := moduleValuedFunctorBaseChangeMap.{u, 0, u, u, u + 1} (𝟭 _) S.X₂ g
   refine ⟨LinearEquiv.ofBijective m hb, fun x => ?_⟩
-  show moduleValuedFunctorBaseChangeMap.{u, 0, u, u, u + 1} (𝟭 _) S.X₂ g
+  change moduleValuedFunctorBaseChangeMap.{u, 0, u, u, u + 1} (𝟭 _) S.X₂ g
     ((1 : ↑((𝟭 (CommAlgCat.{u} A)).obj (CommAlgCat.of A C))) ⊗ₜ[
       ↑((𝟭 (CommAlgCat.{u} A)).obj (CommAlgCat.of A B))] x) = _
   rw [moduleValuedFunctorBaseChangeMap_tmul]
@@ -1086,11 +1074,11 @@ private lemma weightOne_unit_evaluation {A M B : Type u} [CommRing A]
     apply SymmetricAlgebra.algHom_ext
     apply LinearMap.ext
     intro m
-    show e (symmetricAlgebraLaurentDegreeOneMap (SymmetricAlgebra.ι A M m)) =
+    change e (symmetricAlgebraLaurentDegreeOneMap (SymmetricAlgebra.ι A M m)) =
       SymmetricAlgebra.lift ((t : B) • f) (SymmetricAlgebra.ι A M m)
     rw [symmetricAlgebraLaurentDegreeOneMap, SymmetricAlgebra.lift_ι_apply,
       SymmetricAlgebra.lift_ι_apply]
-    show LaurentPolynomial.eval₂ (SymmetricAlgebra.lift f).toRingHom t
+    change LaurentPolynomial.eval₂ (SymmetricAlgebra.lift f).toRingHom t
       (LaurentPolynomial.C (SymmetricAlgebra.ι A M m) * LaurentPolynomial.T 1) =
         (t : B) * f m
     simp only [map_mul, LaurentPolynomial.eval₂_C, LaurentPolynomial.eval₂_T,
@@ -1134,17 +1122,17 @@ private lemma weightOne_symmetricMap {A V W : Type u} [CommRing A]
     apply SymmetricAlgebra.algHom_ext
     apply LinearMap.ext
     intro v
-    show symmetricAlgebraLaurentDegreeOneMap
+    change symmetricAlgebraLaurentDegreeOneMap
         (symmetricMap f (SymmetricAlgebra.ι A V v)) =
       SymmetricAlgebra.lift ((t : LaurentPolynomial (SymmetricAlgebra A W)) • g)
         (SymmetricAlgebra.ι A V v)
     simp only [symmetricMap, symmetricAlgebraLaurentDegreeOneMap,
       SymmetricAlgebra.lift_ι_apply, LinearMap.comp_apply, LinearMap.mulRight_apply,
       LinearMap.smul_apply]
-    show LaurentPolynomial.C (SymmetricAlgebra.ι A W (f v)) * LaurentPolynomial.T 1 =
+    change LaurentPolynomial.C (SymmetricAlgebra.ι A W (f v)) * LaurentPolynomial.T 1 =
       LaurentPolynomial.T 1 * LaurentPolynomial.C (SymmetricAlgebra.ι A W (f v))
     exact mul_comm _ _
-  show (LaurentPolynomial.T 1 : LaurentPolynomial (SymmetricAlgebra A W)) •
+  change (LaurentPolynomial.T 1 : LaurentPolynomial (SymmetricAlgebra A W)) •
     algebraMapValue F (Laurent.constantLaurentMap A (SymmetricAlgebra A W))
       (algebraMapValue F (symmetricMap f) x) =
     algebraMapValue F (Laurent.gradedLaurentMap A (SymmetricAlgebra A W)
@@ -1198,7 +1186,7 @@ private lemma weightOne_eq_zero_of_projections {A M : Type u} [CommRing A]
     symmetricMap_comp, hsi, hsj, symmetricMap_id, algebraMapValue_id,
     weightOne_zeroMap F hflat x hx, zero_add] at h₂
   subst x y
-  show algebraMapValue F (symmetricMap (LinearMap.inl A M M)) 0 +
+  change algebraMapValue F (symmetricMap (LinearMap.inl A M M)) 0 +
     algebraMapValue F (symmetricMap (LinearMap.inr A M M)) 0 = 0
   simp only [map_zero, add_zero]
 
@@ -1259,7 +1247,7 @@ private lemma weightOne_lift_additive {A M : Type u} [CommRing A]
     apply (ModuleCat.mono_iff_injective (i.app
       (Opposite.op (Opposite.op (CommAlgCat.of A (SymmetricAlgebra A M)))))).mp inferInstance
     rw [algebraMapValue_naturality, (i.app _).hom.map_zero, hz]
-    show algebraMapValue E (symmetricMap q) (_ - _ - _) = 0
+    change algebraMapValue E (symmetricMap q) (_ - _ - _) = 0
     rw [map_sub, map_sub, algebraMapValue_comp, algebraMapValue_comp,
       algebraMapValue_comp, symmetricMap_comp, symmetricMap_comp, symmetricMap_comp, hqa]
     rcases hq with ⟨ha, hb⟩ | ⟨ha, hb⟩ <;>
@@ -1291,8 +1279,7 @@ private lemma tensorDual_bijective (A V B : Type u) [CommRing A]
       (dualTensorHomEquiv A (Module.Dual A V) B)
   have he : (tensorDual A V B).restrictScalars A = e.toLinearMap := by
     refine LinearMap.ext fun t => LinearMap.ext fun l => ?_
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul b v =>
       simp only [LinearMap.restrictScalars_apply, tensorDual_tmul, e,
         LinearEquiv.trans_apply, LinearEquiv.coe_coe, TensorProduct.congr_tmul,
@@ -1301,7 +1288,7 @@ private lemma tensorDual_bijective (A V B : Type u) [CommRing A]
         Module.evalEquiv_apply, Module.Dual.eval_apply, Algebra.smul_def]
       exact mul_comm _ _
     | add t t' ht ht' => simpa only [map_add, LinearMap.add_apply] using congrArg₂ (· + ·) ht ht'
-  show Function.Bijective ((tensorDual A V B).restrictScalars A)
+  change Function.Bijective ((tensorDual A V B).restrictScalars A)
   rw [he]
   exact e.bijective
 
@@ -1310,8 +1297,7 @@ private lemma tensorDual_baseChange {A V W B : Type u} [CommRing A]
     [CommRing B] [Algebra A B] (f : V →ₗ[A] W) (t : B ⊗[A] V)
     (l : Module.Dual A W) :
     tensorDual A W B (f.baseChange B t) l = tensorDual A V B t (l.comp f) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul b v => simp only [LinearMap.baseChange_tmul, tensorDual_tmul, LinearMap.comp_apply]
   | add t t' ht ht' => simpa only [map_add, LinearMap.add_apply] using congrArg₂ (· + ·) ht ht'
 
@@ -1321,8 +1307,7 @@ private lemma tensorDual_naturality {A V B C : Type u} [CommRing A]
     (l : Module.Dual A V) :
     tensorDual A V C (TensorProduct.map f.toLinearMap LinearMap.id t) l =
       f (tensorDual A V B t l) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul b v => simp only [TensorProduct.map_tmul, LinearMap.id_apply,
       AlgHom.toLinearMap_apply, tensorDual_tmul, map_mul, AlgHom.commutes]
   | add t t' ht ht' => simpa only [map_add, LinearMap.add_apply] using congrArg₂ (· + ·) ht ht'
@@ -1367,7 +1352,7 @@ private lemma kernelTensorDual_bijective {A V W B : Type u} [CommRing A]
     apply (tensorDual_bijective A W B).injective
     ext l
     rw [tensorDual_baseChange, ht]
-    show h ((LinearMap.range f.dualMap).mkQ (f.dualMap l)) = 0
+    change h ((LinearMap.range f.dualMap).mkQ (f.dualMap l)) = 0
     have hz : (LinearMap.range f.dualMap).mkQ (f.dualMap l) = 0 :=
       (Submodule.Quotient.mk_eq_zero (LinearMap.range f.dualMap)).mpr ⟨l, rfl⟩
     rw [hz, map_zero]
@@ -1419,7 +1404,7 @@ private lemma exists_linearRepresentation {A : Type u} [CommRing A]
       (LinearEquiv.ofBijective (kernelTensorDual f.hom) (kernelTensorDual_bijective f.hom))
   refine ⟨M, inferInstance, inferInstance, hM, r, fun B C g x => LinearMap.ext fun z => ?_⟩
   obtain ⟨l, rfl⟩ := Q.mkQ_surjective z
-  show tensorDual A V C (eB C (algebraMapValue L g.hom x)).val l =
+  change tensorDual A V C (eB C (algebraMapValue L g.hom x)).val l =
     g.hom (tensorDual A V B (eB B x).val l)
   rw [heB, heB, algebraMapValue_naturality η g.hom x]
   exact tensorDual_naturality g.hom _ l
@@ -1441,7 +1426,7 @@ private lemma evaluate_primitive_add {A M B : Type u} [CommRing A]
     apply SymmetricAlgebra.algHom_ext
     apply LinearMap.ext
     intro m
-    show h (symmetricMap j (SymmetricAlgebra.ι A M m)) =
+    change h (symmetricMap j (SymmetricAlgebra.ι A M m)) =
       SymmetricAlgebra.lift ((f.coprod g).comp j) (SymmetricAlgebra.ι A M m)
     simp only [h, symmetricMap, SymmetricAlgebra.lift_ι_apply, LinearMap.comp_apply]
   have he := congrArg (algebraMapValue E h) hx
@@ -1473,7 +1458,7 @@ private lemma exists_section_of_linearRepresentation {A M : Type u} [CommRing A]
   have heξ : e B ξ = SymmetricAlgebra.ι A M := (e B).apply_symm_apply _
   have hwξ : ξ ∈ AdequateFunctor.Laurent.weightSpace A (SymmetricAlgebra A M) L
       (symmetricPower06V7 A M) 1 := by
-    show (LaurentPolynomial.T 1 : LaurentPolynomial (SymmetricAlgebra A M)) •
+    change (LaurentPolynomial.T 1 : LaurentPolynomial (SymmetricAlgebra A M)) •
       algebraMapValue L (Laurent.constantLaurentMap A (SymmetricAlgebra A M)) ξ =
       algebraMapValue L (Laurent.gradedLaurentMap A (SymmetricAlgebra A M)
         (symmetricPower06V7 A M)) ξ
@@ -1481,7 +1466,7 @@ private lemma exists_section_of_linearRepresentation {A M : Type u} [CommRing A]
     rw [map_smul, hnat B _ (CommAlgCat.ofHom (Laurent.constantLaurentMap A _)),
       hnat B _ (CommAlgCat.ofHom (Laurent.gradedLaurentMap A _ _)), heξ]
     refine LinearMap.ext fun m => ?_
-    show LaurentPolynomial.T 1 * LaurentPolynomial.C (SymmetricAlgebra.ι A M m) =
+    change LaurentPolynomial.T 1 * LaurentPolynomial.C (SymmetricAlgebra.ι A M m) =
       Laurent.gradedLaurentMap A (SymmetricAlgebra A M) (symmetricPower06V7 A M)
         (SymmetricAlgebra.ι A M m)
     rw [gradedLaurentMap_symmetricAlgebra_eq_degreeOne _
@@ -1501,7 +1486,7 @@ private lemma exists_section_of_linearRepresentation {A M : Type u} [CommRing A]
       hnat B C (CommAlgCat.ofHom (symmetricMap _)),
       hnat B C (CommAlgCat.ofHom (symmetricMap _)), heξ]
     refine LinearMap.ext fun m => ?_
-    show symmetricMap _ (SymmetricAlgebra.ι A M m) =
+    change symmetricMap _ (SymmetricAlgebra.ι A M m) =
       symmetricMap _ (SymmetricAlgebra.ι A M m) + symmetricMap _ (SymmetricAlgebra.ι A M m)
     simp only [symmetricMap, SymmetricAlgebra.lift_ι_apply, LinearMap.comp_apply,
       LinearMap.add_apply, map_add]
@@ -1520,7 +1505,7 @@ private lemma exists_section_of_linearRepresentation {A M : Type u} [CommRing A]
         f.hom.comp (SymmetricAlgebra.lift (e D x)) := by
       apply SymmetricAlgebra.algHom_ext
       refine LinearMap.ext fun m => ?_
-      show SymmetricAlgebra.lift (f.hom.toLinearMap.comp (e D x)) (SymmetricAlgebra.ι A M m) =
+      change SymmetricAlgebra.lift (f.hom.toLinearMap.comp (e D x)) (SymmetricAlgebra.ι A M m) =
         f.hom (SymmetricAlgebra.lift (e D x) (SymmetricAlgebra.ι A M m))
       simp only [SymmetricAlgebra.lift_ι_apply, LinearMap.comp_apply, AlgHom.toLinearMap_apply]
     rw [hh]
@@ -1535,7 +1520,7 @@ private lemma exists_section_of_linearRepresentation {A M : Type u} [CommRing A]
       intro D x a
       rcases D with ⟨⟨D⟩⟩
       change Units D at a
-      show s D ((a : D) • x) = (a : D) • s D x
+      change s D ((a : D) • x) = (a : D) • s D x
       dsimp only [s]
       rw [map_smul]
       exact weightOne_unit_evaluation E θ hθ _ a)
@@ -1546,9 +1531,9 @@ private lemma exists_section_of_linearRepresentation {A M : Type u} [CommRing A]
   ext D x
   have hsx := congrArg (fun τ => (τ.app D).hom x) hs'
   change s'.app D x = s D.unop.unop x at hsx
-  show p.app D (s'.app D x) = x
+  change p.app D (s'.app D x) = x
   rw [hsx]
-  show p.app D (algebraMapValue E (SymmetricAlgebra.lift (e D.unop.unop x)) θ) = x
+  change p.app D (algebraMapValue E (SymmetricAlgebra.lift (e D.unop.unop x)) θ) = x
   rw [algebraMapValue_naturality, hpθ]
   apply (e D.unop.unop).injective
   rw [hnat B D.unop.unop (CommAlgCat.ofHom (SymmetricAlgebra.lift (e D.unop.unop x))), heξ]

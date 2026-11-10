@@ -91,7 +91,7 @@ private lemma isIso_cokernelπ_ι_of_obj_eq_bot {X : Scheme.{u}}
   refine cokernel.π_of_zero ?_
   ext W s
   have hs : s.1 ∈ N.obj W := s.2
-  show s.1 = 0
+  change s.1 = 0
   exact (Submodule.mem_bot _).mp ((h W).le hs)
 
 /-- **The universal relative derivation kills every global section of the base**, restricted to

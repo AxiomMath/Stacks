@@ -43,8 +43,7 @@ universe v w
 
 namespace Stacks.GroupCohomology
 
-variable {G : Type v} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
-  [TotallyDisconnectedSpace G]
+variable {G : Type v} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
 
 section ShortComplex
 
@@ -92,8 +91,10 @@ theorem coinductionBotShortComplex_shortExact :
     (coinductionBotShortComplex.{v, w} M).ShortExact :=
   shortExact_of_function_exact _ (coinductionBotUnit_injective.{v, w} M)
     (quotObjπ_surjective _ _ (coinductionBotRange_stable.{v, w} M)) fun y ↦ by
-      show (QuotientAddGroup.mk y : _ ⧸ coinductionBotRange.{v, w} M) = 0 ↔ y ∈ Set.range _
+      change (QuotientAddGroup.mk y : _ ⧸ coinductionBotRange.{v, w} M) = 0 ↔ y ∈ Set.range _
       exact QuotientAddGroup.eq_zero_iff (N := coinductionBotRange.{v, w} M) y
+
+variable [CompactSpace G] [TotallyDisconnectedSpace G]
 
 /-- The quotient `Coind_1^G M / M` of an `ℓ`-power torsion module is `ℓ`-power torsion. -/
 lemma exists_pow_smul_coinductionBotShortComplex_X₃_eq_zero {ℓ : ℕ}
@@ -103,6 +104,7 @@ lemma exists_pow_smul_coinductionBotShortComplex_X₃_eq_zero {ℓ : ℕ}
 
 end ShortComplex
 
+variable [CompactSpace G] [TotallyDisconnectedSpace G]
 variable [HasExt.{max v w} (ContinuousGModule.{v, max v w} G)]
   [HasExt.{max v w} (ContinuousGModule.{v, max v w} (⊥ : Subgroup G))]
 

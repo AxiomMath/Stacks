@@ -84,7 +84,7 @@ omit [IsAffine (chartScheme V)] in
 include hA in
 /-- The spectrum of `𝒜(V)` is an object of the site: it has fewer than `B.cutoff` points. -/
 theorem contains_spec_chart : B.Contains (Spec (A.right.obj.obj (op V))) := by
-  show (Spec (A.right.obj.obj (op V))).size < B.cutoff
+  change (Spec (A.right.obj.obj (op V))).size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff (hA V)
 
@@ -249,7 +249,7 @@ theorem relativeSpecPointsEquiv_affineChartSpecToPoints_app {T : BigFppfOver B S
     relativeSpecPointsEquiv B S hS A T
         ((affineChartSpecToPoints B S hS A hA V hsurj).app (op T) t) =
       (affineChartSpecPoint B S hS A hA V hsurj).map B S hS t := by
-  show relativeSpecPointsEquiv B S hS A T ((relativeSpecPoints B S hS A).map t.op
+  change relativeSpecPointsEquiv B S hS A T ((relativeSpecPoints B S hS A).map t.op
     ((relativeSpecPointsEquiv B S hS A _).symm (affineChartSpecPoint B S hS A hA V hsurj))) = _
   rw [relativeSpecPointsEquiv_map, Equiv.apply_symm_apply]
 

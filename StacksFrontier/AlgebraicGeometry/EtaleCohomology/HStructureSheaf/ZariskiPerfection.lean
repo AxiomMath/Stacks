@@ -158,7 +158,7 @@ theorem zariskiStage_app_apply (n : ℕ) (V : (Opens S)ᵒᵖ) (a : Γ(S, V.unop
 /-- `zariskiStage (n + 1)` sends `a ^ p` to the image of `a` under `zariskiStage n`. -/
 theorem zariskiStage_succ_apply_pow (n : ℕ) (V : (Opens S)ᵒᵖ) (a : Γ(S, V.unop)) :
     (zariskiStage B S hS p hSp (n + 1)).app V (a ^ p) = (zariskiStage B S hS p hSp n).app V a := by
-  show (perfectionStage B S hS p hSp (n + 1)).app (op ((opensToBigH B S hS).obj V.unop))
+  change (perfectionStage B S hS p hSp (n + 1)).app (op ((opensToBigH B S hS).obj V.unop))
       ((opensSectionsIso B S hS).inv.app V (a ^ p)) =
     (perfectionStage B S hS p hSp n).app (op ((opensToBigH B S hS).obj V.unop))
       ((opensSectionsIso B S hS).inv.app V a)

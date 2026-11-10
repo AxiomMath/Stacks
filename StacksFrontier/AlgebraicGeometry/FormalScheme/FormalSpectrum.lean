@@ -456,7 +456,7 @@ theorem isAdmissible_discrete : IsAdmissible R := by
   let _ : UniformSpace R := IsTopologicalAddGroup.rightUniformSpace R
   have : DiscreteUniformity R := by
     apply discreteUniformity_iff_setRelId_mem_uniformity.2
-    show SetRel.id ∈ Filter.comap (fun pair : R × R => pair.2 + -pair.1) (nhds 0)
+    change SetRel.id ∈ Filter.comap (fun pair : R × R => pair.2 + -pair.1) (nhds 0)
     rw [Filter.mem_comap]
     refine ⟨{0}, by simp, ?_⟩
     intro pair hpair

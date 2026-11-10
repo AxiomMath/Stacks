@@ -105,8 +105,7 @@ private theorem tensor_addMonoidHom_apply_eq {S A B P : Type*} [CommSemiring S] 
     [AddCommMonoid B] [Module S A] [Module S B] [AddCommMonoid P]
     (f g : TensorProduct S A B →+ P) (h : ∀ a b, f (a ⊗ₜ b) = g (a ⊗ₜ b))
     (z : TensorProduct S A B) : f z = g z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul a b => exact h a b
   | add z z' hz hz' => rw [map_add, map_add, hz, hz']
 
@@ -126,14 +125,14 @@ theorem exists_tensorMap_of_arrowIso (M : PresheafOfModules.{r} (R ⋙ forget₂
     (AddMonoidHom.mk'
       (fun c => AddMonoidHom.mk' (fun x => ((R.map β).hom c) ⊗ₜ[R.obj X₁] (sectionMap M α x))
         (fun x y => by
-          show _ ⊗ₜ[R.obj X₁] (sectionMap M α (x + y)) = _
+          change _ ⊗ₜ[R.obj X₁] (sectionMap M α (x + y)) = _
           rw [sectionMap_add, TensorProduct.tmul_add]))
       (fun c d => AddMonoidHom.ext fun x => by
-        show ((R.map β).hom (c + d)) ⊗ₜ[R.obj X₁] (sectionMap M α x) =
+        change ((R.map β).hom (c + d)) ⊗ₜ[R.obj X₁] (sectionMap M α x) =
           _ ⊗ₜ[R.obj X₁] _ + _ ⊗ₜ[R.obj X₁] _
         rw [map_add, TensorProduct.add_tmul]))
     (fun t c x => by
-      show ((R.map β).hom ((R.map g).hom t * c)) ⊗ₜ[R.obj X₁] (sectionMap M α x) =
+      change ((R.map β).hom ((R.map g).hom t * c)) ⊗ₜ[R.obj X₁] (sectionMap M α x) =
         ((R.map β).hom c) ⊗ₜ[R.obj X₁] (sectionMap M α (t • x))
       rw [map_mul, sectionMap_smul, show (R.map β).hom ((R.map g).hom t) =
           (R.map g₁).hom ((R.map α).hom t) by
@@ -186,7 +185,7 @@ theorem bijective_restrictionBaseChange_iff_of_arrowIso
       fun y => by rw [sectionMap_comp, IsIso.inv_hom_id, sectionMap_id]⟩
   have hfun : (sectionMap M β) ∘ (restrictionBaseChange M g).hom =
       (restrictionBaseChange M g₁).hom ∘ w := funext fun z => (hcomp z).symm
-  show Function.Bijective (restrictionBaseChange M g).hom ↔
+  change Function.Bijective (restrictionBaseChange M g).hom ↔
     Function.Bijective (restrictionBaseChange M g₁).hom
   rw [← Function.Bijective.of_comp_iff' hβ, hfun]
   exact Function.Bijective.of_comp_iff _
@@ -236,7 +235,7 @@ theorem bijective_restrictionBaseChange_restrictScalars_pushforward₀_iff
   have hfun : (⇑(restrictionBaseChange (R := R') NM g).hom)
       = (⇑(restrictionBaseChange (R := R) M (q.op.map g)).hom) ∘ (⇑u) :=
     funext fun z => (hcomp z).symm
-  show Function.Bijective (⇑(restrictionBaseChange (R := R') NM g).hom) ↔ _
+  change Function.Bijective (⇑(restrictionBaseChange (R := R') NM g).hom) ↔ _
   rw [hfun]
   exact Function.Bijective.of_comp_iff _ hu
 

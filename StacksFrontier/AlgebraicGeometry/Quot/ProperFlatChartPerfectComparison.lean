@@ -238,7 +238,7 @@ theorem exists_isPerfect_derivedCohomology_iso_cotangentExt_of_comparison
         (hαnat (hqc M) (hqc N) ((affineBaseTilde A B S hS toS hA).map g) i) ((a M i hi).symm w)
       simp only [ConcreteCategory.comp_apply] at h
       rw [h, ← ha M i hi, AddEquiv.apply_symm_apply]
-    show β N i ((a N i hi).symm ((γ N i).symm ((derivedCohomology A KA i).map g y))) =
+    change β N i ((a N i hi).symm ((γ N i).symm ((derivedCohomology A KA i).map g y))) =
       (cotangentExtFunctor (chartStructureMap x hx) (chartBaseRingHom x hx) i).map g
         (β M i ((a M i hi).symm ((γ M i).symm y)))
     rw [hγ, hα, hβnat]
@@ -253,7 +253,7 @@ theorem exists_isPerfect_derivedCohomology_iso_cotangentExt_of_comparison
   intro Sq hSq
   have h12 : (1 : ℤ) ≤ 2 := by norm_num
   ext y
-  show ε 2 le_rfl Sq.X₁ (boundaryMap A KA hSq y) =
+  change ε 2 le_rfl Sq.X₁ (boundaryMap A KA hSq y) =
     chartExtConnecting x hx hSq (ε 1 h12 Sq.X₃ y)
   obtain ⟨z, rfl⟩ := (γ Sq.X₃ 1).surjective y
   obtain ⟨w, rfl⟩ := (a Sq.X₃ 1 h12).surjective z
@@ -261,7 +261,7 @@ theorem exists_isPerfect_derivedCohomology_iso_cotangentExt_of_comparison
     (hαδ (Sq.map (affineBaseTilde A B S hS toS hA)) (hexact hSq) (hqc Sq.X₁) (hqc Sq.X₃) 1 2 rfl) w
   simp only [ConcreteCategory.comp_apply] at hδ
   rw [← hγδ hSq (hexact hSq)]
-  show β Sq.X₁ 2 ((a Sq.X₁ 2 le_rfl).symm ((γ Sq.X₁ 2).symm (γ Sq.X₁ 2 _))) =
+  change β Sq.X₁ 2 ((a Sq.X₁ 2 le_rfl).symm ((γ Sq.X₁ 2).symm (γ Sq.X₁ 2 _))) =
     chartExtConnecting x hx hSq
       (β Sq.X₃ 1 ((a Sq.X₃ 1 h12).symm ((γ Sq.X₃ 1).symm (γ Sq.X₃ 1 (a Sq.X₃ 1 h12 w)))))
   rw [AddEquiv.symm_apply_apply, AddEquiv.symm_apply_apply, AddEquiv.symm_apply_apply,

@@ -344,7 +344,7 @@ theorem preimage_comp_le_of_comm (U : W.Opens) : (Δ' ≫ g) ⁻¹ᵁ U ≤ j �
 theorem pushforwardModulePullMap_app (U : W.Opens) (x) :
     (pushforwardModulePullMap g j w).app U x = (j.appLE (Δ ⁻¹ᵁ U) ((Δ' ≫ g) ⁻¹ᵁ U)
         (preimage_comp_le_of_comm g j w U)) x := by
-  show ((pushforwardAlgebraPullMap g j w).right.hom.app (op U)) x = _
+  change ((pushforwardAlgebraPullMap g j w).right.hom.app (op U)) x = _
   rw [pushforwardAlgebraPullMap, pushforwardAlgebraMapAux_app Δ j _ w.symm U
       (preimage_comp_le_of_comm g j w U)]
   rfl
@@ -381,7 +381,7 @@ include w in
 /-- For a commutative square `Δ' ≫ g = j ≫ Δ`, `Δ'⁻¹(V) ≤ j⁻¹(Δ⁻¹(g(V)))`. -/
 theorem preimage_le_preimage_image_of_comm (V : W'.Opens) : Δ' ⁻¹ᵁ V ≤ j ⁻¹ᵁ Δ ⁻¹ᵁ (g ''ᵁ V) := by
   intro x hx
-  show Δ.base (j.base x) ∈ g ''ᵁ V
+  change Δ.base (j.base x) ∈ g ''ᵁ V
   rw [← Scheme.Hom.comp_apply, ← w, Scheme.Hom.comp_apply]
   exact ⟨_, hx, rfl⟩
 

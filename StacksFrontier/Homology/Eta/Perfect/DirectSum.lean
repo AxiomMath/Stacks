@@ -214,7 +214,7 @@ private lemma reduced_factorization
     (a.baseChange B) b' (c.baseChange B) (k.baseChange B) _ _ D hs
   · apply LinearMap.ext
     intro x
-    show e' ((b.baseChange B) (e.symm (e ((s.baseChange B) x)))) = _
+    change e' ((b.baseChange B) (e.symm (e ((s.baseChange B) x)))) = _
     rw [e.symm_apply_apply]
     have hb := congrArg (LinearMap.baseChange B) hbs
     simp only [LinearMap.baseChange_comp] at hb
@@ -229,10 +229,10 @@ private lemma reduced_factorization
     intro x
     have hx := congrArg e' (LinearMap.congr_fun h x)
     simp only [LinearMap.add_apply, LinearMap.comp_apply, map_add] at hx
-    show e' ((Stacks.SplitInjectionDirectSum.q₁.baseChange B) ((t.baseChange B) x)) = _
+    change e' ((Stacks.SplitInjectionDirectSum.q₁.baseChange B) ((t.baseChange B) x)) = _
     rw [hx]
     congr 1
-    show e' ((b.baseChange B) ((Stacks.SplitInjectionDirectSum.q₁.baseChange B)
+    change e' ((b.baseChange B) ((Stacks.SplitInjectionDirectSum.q₁.baseChange B)
       ((s.baseChange B) ((c.baseChange B) x)))) =
       e' ((b.baseChange B) (e.symm (Stacks.SplitInjectionDirectSum.q₁
         (e ((s.baseChange B) ((c.baseChange B) x))))))
@@ -304,7 +304,7 @@ private lemma reduced_graph_iff_eta
     (fpowEquiv f hN (i + 1)) _ B D
   ext x
   · rfl
-  · show fpowMap f N (i + 1) x.1.2 = fLoc f d (fpowMap f M i x.1.1)
+  · change fpowMap f N (i + 1) x.1.2 = fLoc f d (fpowMap f M i x.1.1)
     rw [fpowMap_succ]
     have hx : d x.1.1 = f • x.1.2 := sub_eq_zero.mp x.2
     simp only [fpowMap_apply, fLoc_zpow_smul, fLoc_toLoc, hx]
@@ -349,7 +349,7 @@ private lemma reduced_graph_of_homotopy (f : A)
     (LinearMap.prod (-(p.comp (h₀.comp ((LinearMap.fst A N₀ N₁).comp t)))) 0).codRestrict
       _ (by
         intro x
-        show e (-(p (h₀ x.1.1))) - f • (0 : N₁) = 0
+        change e (-(p (h₀ x.1.1))) - f • (0 : N₁) = 0
         have hh : e (p (h₀ x.1.1)) = 0 := LinearMap.congr_fun hp (h₀ x.1.1)
         rw [map_neg, hh]
         simp)
@@ -360,7 +360,7 @@ private lemma reduced_graph_of_homotopy (f : A)
   · have hx : e x.1.1 = f • x.1.2 := sub_eq_zero.mp x.2
     have hh := LinearMap.congr_fun hvu x.1.1
     change v₀ (u₀ x.1.1) = h₁ (e x.1.1) + p (h₀ x.1.1) + x.1.1 at hh
-    show x.1.1 = v₀ (u₀ x.1.1) + -(p (h₀ x.1.1)) + f • -(h₁ x.1.2)
+    change x.1.1 = v₀ (u₀ x.1.1) + -(p (h₀ x.1.1)) + f • -(h₁ x.1.2)
     rw [hh, hx, map_smul, smul_neg]
     abel
   · simp [Stacks.SplitInjectionDirectSum.q₁, s, t, c, k, w, graphMapOfComm]
@@ -423,11 +423,11 @@ private lemma isKProjective_toCochainComplex
     have hr : C.rank i = 0 := by
       by_contra h
       exact (not_le_of_gt hi) (hb h)
-    show Limits.IsZero (ModuleCat.of A (Fin (C.rank i) → A))
+    change Limits.IsZero (ModuleCat.of A (Fin (C.rank i) → A))
     rw [hr]
     exact ModuleCat.isZero_iff_subsingleton.mpr inferInstance
   have (i : ℤ) : Projective (C.toCochainComplex.X i) := by
-    show Projective (ModuleCat.of A (Fin (C.rank i) → A))
+    change Projective (ModuleCat.of A (Fin (C.rank i) → A))
     infer_instance
   exact CochainComplex.isKProjective_of_projective _ b
 
@@ -630,7 +630,7 @@ private theorem cyclesLiftAt_iff_bocksteinVanishesAt {A : Type u} [CommRing A]
   have key (i : ℤ) :=
     (Stacks.Eta.BocksteinVanishing.cyclesReduction_epi_iff_powerBocksteinOperator_eq_zero
       fₚ hfₚ.mem_nonZeroDivisors Cₚ (isSMulRegular_associatedComplex_X _ hfₚ) i).1
-  show (f ∈ p ∧ ∀ i, Epi _) ↔ (f ∈ p ∧ ∀ i h, _ = 0)
+  change (f ∈ p ∧ ∀ i, Epi _) ↔ (f ∈ p ∧ ∀ i h, _ = 0)
   refine and_congr_right fun _ => ⟨fun h i _ => ?_, fun h i => ?_⟩
   · exact (key i).mp (h i)
   · exact (key i).mpr (h i _)
@@ -647,7 +647,7 @@ private theorem cyclesLiftAt_of_free_homology {A : Type u} [CommRing A]
   let Cₚ := associatedComplex (C.baseChange (algebraMap A Aₚ))
   let fₚ := algebraMap A Aₚ f
   have hfₚ : IsRegular fₚ := isRegular_algebraMap_of_flat hf
-  show ∀ i : ℤ, Epi (HomologicalComplex.cyclesMap
+  change ∀ i : ℤ, Epi (HomologicalComplex.cyclesMap
     (Stacks.Eta.BocksteinVanishing.literalPowerQuotientShortComplex
       (Stacks.Eta.BocksteinVanishing.commonUniverseComplex Cₚ) (ULift.up fₚ)).g i)
   intro i
@@ -693,12 +693,12 @@ private theorem finite_projective_homology_of_splittings {R : Type u} [CommRing 
   let K := LinearMap.ker S.g.hom
   let r : S.X₂ →ₗ[R] K := (LinearMap.id - b ∘ₗ S.g.hom).codRestrict K (by
     intro x
-    show S.g (x - b (S.g x)) = 0
+    change S.g (x - b (S.g x)) = 0
     rw [map_sub]
     exact sub_eq_zero.mpr (LinearMap.congr_fun hb x).symm)
   have hr : r ∘ₗ K.subtype = LinearMap.id := by
     ext x
-    show (x : S.X₂) - b (S.g x) = x
+    change (x : S.X₂) - b (S.g x) = x
     rw [show S.g x = 0 from x.2, map_zero, sub_zero]
   let : Module.Projective R K := Module.Projective.of_split K.subtype r hr
   let : Module.Finite R K := Module.Finite.of_surjective r (fun x =>
@@ -708,7 +708,7 @@ private theorem finite_projective_homology_of_splittings {R : Type u} [CommRing 
   have he : T ≤ LinearMap.ker e := by
     rintro _ ⟨x, rfl⟩
     apply Subtype.ext
-    show S.f x - S.f (a (S.f x)) = 0
+    change S.f x - S.f (a (S.f x)) = 0
     exact sub_eq_zero.mpr (LinearMap.congr_fun ha x).symm
   let j : (K ⧸ T) →ₗ[R] K := T.liftQ e he
   have hj : T.mkQ ∘ₗ j = LinearMap.id := by
@@ -716,7 +716,7 @@ private theorem finite_projective_homology_of_splittings {R : Type u} [CommRing 
     intro x
     induction x using Submodule.Quotient.induction_on with
     | _ x =>
-      show T.mkQ (x - S.moduleCatToCycles (a x)) = T.mkQ x
+      change T.mkQ (x - S.moduleCatToCycles (a x)) = T.mkQ x
       rw [map_sub, show T.mkQ (S.moduleCatToCycles (a x)) = 0 from
         (Submodule.Quotient.mk_eq_zero T).mpr ⟨a x, rfl⟩, sub_zero]
   let : Module.Projective R (K ⧸ T) := Module.Projective.of_split j T.mkQ hj
@@ -773,7 +773,7 @@ private theorem baseChangeProdMap_isSplitInj {A B E P Q : Type*}
   refine ⟨π.baseChange B ∘ₗ (TensorProduct.prodRight A B B P Q).symm.toLinearMap, ?_⟩
   apply LinearMap.ext
   intro z
-  show π.baseChange B ((TensorProduct.prodRight A B B P Q).symm
+  change π.baseChange B ((TensorProduct.prodRight A B B P Q).symm
     ((TensorProduct.prodRight A B B P Q) (s.baseChange B z))) = z
   rw [LinearEquiv.symm_apply_apply]
   have h := congrArg (LinearMap.baseChange B) hπ
@@ -794,7 +794,7 @@ private theorem baseChange_eq_zero_of_algEquiv {A B D M N : Type*}
     (e : B ≃ₐ[A] D) (g : M →ₗ[A] N) (h : g.baseChange B = 0) :
     g.baseChange D = 0 := by
   ext m
-  show (1 : D) ⊗ₜ[A] g m = 0
+  change (1 : D) ⊗ₜ[A] g m = 0
   have hh := congrArg (TensorProduct.map e.toLinearMap (LinearMap.id : N →ₗ[A] N))
     (LinearMap.congr_fun h ((1 : B) ⊗ₜ[A] m))
   simpa only [LinearMap.baseChange_tmul, LinearMap.zero_apply, TensorProduct.map_tmul,
@@ -822,9 +822,9 @@ private theorem le_ker_algebraMap_iff_of_algEquiv {A B D : Type*}
     (e : B ≃ₐ[A] D) (J : Ideal A) :
     J ≤ RingHom.ker (algebraMap A B) ↔ J ≤ RingHom.ker (algebraMap A D) := by
   refine ⟨fun h x hx => ?_, fun h x hx => ?_⟩
-  · show algebraMap A D x = 0
+  · change algebraMap A D x = 0
     rw [← e.commutes x, show algebraMap A B x = 0 from h hx, map_zero]
-  · show algebraMap A B x = 0
+  · change algebraMap A B x = 0
     apply e.injective
     rw [e.commutes, map_zero]
     exact h hx
@@ -957,20 +957,16 @@ private theorem exists_cancelBaseChange_equivs {A R B E P Q : Type*}
   let eN := (TensorProduct.prodRight R B B (R ⊗[A] P) (R ⊗[A] Q)).trans
     (eP.prodCongr eQ)
   refine ⟨eE, eN, fun z => ?_, fun z => ?_, fun z => ?_⟩
-  · induction z using TensorProduct.induction_on with
-    | zero => simp
+  · induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw]
     | tmul b z =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add z w hz hw => simp only [TensorProduct.tmul_add, map_add, hz, hw]
       | tmul r z => simp [eN, eE, eP, eQ, baseChangeProdMap]
-  · induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]; rfl
+  · induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw, Prod.fst_add, Prod.mk_add_mk, add_zero]
     | tmul b z => simp [eN, Stacks.SplitInjectionDirectSum.q₁]
-  · induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]; rfl
+  · induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw, Prod.snd_add, Prod.mk_add_mk, add_zero]
     | tmul b z => simp [eN, Stacks.SplitInjectionDirectSum.q₂]
 
@@ -1022,8 +1018,7 @@ private theorem etaInclusion_baseChange_d {A B : Type u} [CommRing A] [CommRing 
     baseChangeProdMap B (etaInclusion f M (i + 1))
         ((EtaComplex.etaDifferential f M i).baseChange B x) =
       ((baseChangeProdMap B (etaInclusion f M i) x).2, 0) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]; rfl
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy, Prod.snd_add, Prod.mk_add_mk, add_zero]
   | tmul b x =>
     rw [LinearMap.baseChange_tmul, baseChangeProdMap_tmul, etaInclusion_d,
@@ -1041,7 +1036,7 @@ private theorem localizedModule_subsingleton_of_le_ker {A R B : Type*}
   obtain ⟨a, ha, he⟩ := s.2
   refine ⟨a, ha, ?_⟩
   apply Subtype.ext
-  show a • (x : R) = 0
+  change a • (x : R) = 0
   rw [Algebra.smul_def, he]
   exact hs
 
@@ -1059,8 +1054,7 @@ private def extendScalarsEquiv {A B : Type u} [CommRing A] [CommRing B]
   refine { t.toAddEquiv with map_smul' := ?_ }
   intro b z
   change t (b • z) = b • t z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul c n => rfl
   | add x y hx hy => simp only [smul_add, map_add, hx, hy]
 
@@ -1070,8 +1064,7 @@ private theorem extendScalarsEquiv_map {A B : Type u} [CommRing A] [CommRing B]
     (x : (ModuleCat.extendScalars (algebraMap A B)).obj N) :
     extendScalarsEquiv P ((ModuleCat.extendScalars (algebraMap A B)).map g x) =
       g.hom.baseChange B (extendScalarsEquiv N x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b n => rfl
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -1148,7 +1141,7 @@ private theorem finite_projective_etaHomology {A B : Type u} [CommRing A] [CommR
     apply generalizedInverse_congr (e i) (e (i + 1)) _
       ((EtaComplex.etaDifferential f M i).baseChange B)
     · intro x
-      show extendScalarsEquiv _
+      change extendScalarsEquiv _
         ((ModuleCat.extendScalars (algebraMap A B)).map
           ((EtaComplex.etaObject f M).d i (i + 1)) x) = _
       rw [EtaComplex.etaObject_d]
@@ -1168,7 +1161,7 @@ private theorem finite_projective_etaHomology {A B : Type u} [CommRing A] [CommR
       · exact etaInclusion_baseChange_d f M i
       · exact snd_mem_range_baseChangeProdMap (etaInclusion f M i)
           (etaReductionMap_eq C f i (hB i))
-  show ∀ i : ℤ, Module.Finite B (ηM.homology i) ∧ Module.Projective B (ηM.homology i)
+  change ∀ i : ℤ, Module.Finite B (ηM.homology i) ∧ Module.Projective B (ηM.homology i)
   intro i
   obtain ⟨hi1, hi2⟩ := hfin i
   let := hi1
@@ -1222,7 +1215,7 @@ private theorem exists_boundary_of_epi_cyclesMap {A : Type u} [CommRing A]
     exact (hker₁ (i + 1) (f • n)).mpr ⟨n, rfl⟩
   let z₁ : L₁.cycles i := (L₁.sc i).moduleCatCyclesIso.inv
     ⟨q₁.f i m, by
-      show L₁.d i ((ComplexShape.up ℤ).next i) (q₁.f i m) = 0
+      change L₁.d i ((ComplexShape.up ℤ).next i) (q₁.f i m) = 0
       rw [(ComplexShape.up ℤ).next_eq' (show (ComplexShape.up ℤ).Rel i (i + 1) from rfl)]
       exact hc⟩
   have hz₁ : L₁.iCycles i z₁ = q₁.f i m :=
@@ -1237,7 +1230,7 @@ private theorem exists_boundary_of_epi_cyclesMap {A : Type u} [CommRing A]
   obtain ⟨w, hw⟩ := (hker₂ (i + 1) _).mp hc'
   have hred : q₁.f i m' = q₁.f i m := by
     conv_lhs => rw [← hqr]
-    show r.f i (q₂.f i m') = q₁.f i m
+    change r.f i (q₂.f i m') = q₁.f i m
     rw [hm', ← ModuleCat.comp_apply, ← HomologicalComplex.cyclesMap_i,
       ModuleCat.comp_apply, hz₂, hz₁]
   obtain ⟨z, hz⟩ := (hker₁ i (m' - m)).mp (by rw [map_sub, hred, sub_self])
@@ -1265,7 +1258,7 @@ private theorem tensorCokernelProjection_surjective {A : Type u} [CommRing A]
   let : CategoryTheory.Limits.PreservesFiniteColimits F :=
     CategoryTheory.Limits.preservesFiniteColimits_of_natIso (tensorSingleEvalIso M i)
   have h : Epi (F.map (CategoryTheory.Limits.cokernel.π a)) := inferInstance
-  show Function.Surjective (F.map (CategoryTheory.Limits.cokernel.π a) ∘
+  change Function.Surjective (F.map (CategoryTheory.Limits.cokernel.π a) ∘
     (Stacks.Eta.BocksteinVanishing.tensorUnitComplexIso M).hom.f i)
   exact ((ModuleCat.epi_iff_surjective _).mp h).comp
     ((ModuleCat.epi_iff_surjective _).mp inferInstance)
@@ -1278,7 +1271,7 @@ private theorem tensorCokernelProjection_eq_zero_iff {A : Type u} [CommRing A]
     (tensorCokernelProjection M a).f i x = 0 ↔ ∃ z, f • z = x := by
   let F := tensorWithCochainComplex M ⋙ HomologicalComplex.eval (ModuleCat A) (ComplexShape.up ℤ) i
   let : F.PreservesZeroMorphisms := ⟨fun X Y => by
-    show ((tensorWithCochainComplex M).map (0 : X ⟶ Y)).f i = 0
+    change ((tensorWithCochainComplex M).map (0 : X ⟶ Y)).f i = 0
     rw [tensorWithCochainComplex_map_zero]
     rfl⟩
   let : CategoryTheory.Limits.PreservesFiniteColimits F :=
@@ -1286,7 +1279,7 @@ private theorem tensorCokernelProjection_eq_zero_iff {A : Type u} [CommRing A]
   let e := HomologicalComplex.eval (ModuleCat A) (ComplexShape.up ℤ) i |>.mapIso
     (Stacks.Eta.BocksteinVanishing.tensorUnitComplexIso M)
   have ha' : F.map a = f • 𝟙 _ := by
-    show ((tensorWithCochainComplex M).map a).f i = _
+    change ((tensorWithCochainComplex M).map a).f i = _
     rw [ha, Stacks.Eta.BocksteinVanishing.tensorWithCochainComplex_map_smul,
       CategoryTheory.Functor.map_id]
     rfl
@@ -1296,7 +1289,7 @@ private theorem tensorCokernelProjection_eq_zero_iff {A : Type u} [CommRing A]
     refine ⟨e.inv y, ?_⟩
     simpa [ha'] using congrArg e.inv hy
   · rintro ⟨z, rfl⟩
-    show F.map (CategoryTheory.Limits.cokernel.π a) (e.hom (f • z)) = 0
+    change F.map (CategoryTheory.Limits.cokernel.π a) (e.hom (f • z)) = 0
     rw [map_smul]
     have hh := ConcreteCategory.congr_hom
       (Functor.map_comp F a (CategoryTheory.Limits.cokernel.π a)).symm (e.hom z)
@@ -1320,7 +1313,7 @@ private theorem exists_boundary_of_literal_cycles_epi {A : Type u} [CommRing A]
     (tensorCokernelProjection_surjective M (a ≫ a) i)
     (tensorCokernelProjection_eq_zero_iff M a f ha)
     (tensorCokernelProjection_eq_zero_iff M (a ≫ a) (f * f) haa) hf m n hm
-  show ((Stacks.Eta.BocksteinVanishing.tensorUnitComplexIso M).hom ≫
+  change ((Stacks.Eta.BocksteinVanishing.tensorUnitComplexIso M).hom ≫
     (tensorWithCochainComplex M).map (CategoryTheory.Limits.cokernel.π (a ≫ a))) ≫
     (tensorWithCochainComplex M).map (quotientProjection a a) = _
   rw [Category.assoc, ← Functor.map_comp]
@@ -1364,7 +1357,7 @@ private theorem normalizedEtaInclusion_relation {A P Q : Type*} [CommRing A]
     (etaPowInclusion f d i x).1)
   have h₂ := congrArg Subtype.val ((fpowEquiv f hfQ (i + 1)).apply_symm_apply
     (etaPowInclusion f d i x).2)
-  show EtaPow.fpowMap f Q i (d _) = EtaPow.fpowMap f Q (i + 1) _
+  change EtaPow.fpowMap f Q i (d _) = EtaPow.fpowMap f Q (i + 1) _
   rw [show EtaPow.fpowMap f Q i (d (normalizedEtaInclusion f hfP hfQ d i x).1) =
     EtaPow.fLoc f d (EtaPow.fpowMap f P i (normalizedEtaInclusion f hfP hfQ d i x).1) by
       simp only [EtaPow.fpowMap_apply, EtaPow.fLoc_zpow_smul, EtaPow.fLoc_toLoc]]
@@ -1397,7 +1390,7 @@ private theorem normalizedEtaInclusion_shiftedEtaMap {A P Q : Type*} [CommRing A
       (fpowEquiv f hfQ (i + 1)).symm (etaPowInclusion f d i (shiftedEtaMap f d i x)).2 from rfl,
       LinearEquiv.apply_symm_apply]
     apply Subtype.ext
-    show EtaPow.fLoc f d (EtaPow.fpowMap f P (i + 1) x) = EtaPow.fpowMap f Q (i + 1) (d x)
+    change EtaPow.fLoc f d (EtaPow.fpowMap f P (i + 1) x) = EtaPow.fpowMap f Q (i + 1) (d x)
     simp only [EtaPow.fpowMap_apply, EtaPow.fLoc_zpow_smul, EtaPow.fLoc_toLoc]
 
 private abbrev furtherBaseChange {A D B : Type*} [CommRing A] [CommRing D] [CommRing B]
@@ -1420,8 +1413,7 @@ private theorem furtherBaseChange_map {A D B P Q : Type*}
     (d : P →ₗ[A] Q) (x : D ⊗[A] P) :
     furtherBaseChange (B := B) Q (d.baseChange D x) =
       d.baseChange B (furtherBaseChange (B := B) P x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul r x => simp [furtherBaseChange]
 
@@ -1441,14 +1433,13 @@ private theorem snd_mem_range_of_lifted_relation {A D B E P Q : Type*}
     (0, (baseChangeProdMap B s x).2) ∈ LinearMap.range (baseChangeProdMap B s) := by
   have hjB (z : B ⊗[A] P) :
       baseChangeProdMap B s (j.baseChange B z) = (0, d.baseChange B z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]; rfl
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw, Prod.mk_add_mk, add_zero]
     | tmul b z =>
       rw [LinearMap.baseChange_tmul, baseChangeProdMap_tmul, hj]
       have hfb : f • b = 0 := by rw [Algebra.smul_def, hf, zero_mul]
       apply Prod.ext
-      · show b ⊗ₜ[A] (f • z) = 0
+      · change b ⊗ₜ[A] (f • z) = 0
         calc
           b ⊗ₜ[A] (f • z) = (f • b) ⊗ₜ[A] z := (TensorProduct.smul_tmul f b z).symm
           _ = 0 := by rw [hfb, TensorProduct.zero_tmul]
@@ -1469,11 +1460,7 @@ private theorem snd_mem_range_of_lifted_relation {A D B E P Q : Type*}
         ← IsScalarTower.algebraMap_apply A D B f, hf, zero_smul]
     rw [hzero, add_zero] at hh
     exact hh.symm
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    refine ⟨0, ?_⟩
-    rw [map_zero]
-    rfl
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     simpa only [map_add, Prod.snd_add, Prod.mk_add_mk, zero_add] using
       (LinearMap.range (baseChangeProdMap B s)).add_mem hx hy
@@ -1495,8 +1482,7 @@ private theorem snd_mem_range_of_prodCongr {A B E P Q P' Q' : Type*}
   let e := (eP.baseChange A B _ _).prodCongr (eQ.baseChange A B _ _)
   have hn (z : B ⊗[A] E) : e (baseChangeProdMap B s z) =
       baseChangeProdMap B ((eP.prodCongr eQ).toLinearMap ∘ₗ s) z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw]
     | tmul b z => rfl
   obtain ⟨y, hy⟩ := h x
@@ -1547,7 +1533,7 @@ private theorem exists_boundary_atPrime {A : Type u} [CommRing A]
       (isSMulRegular_associatedComplex_X _ hg _)
   have hm' : K.d i (i + 1) (ULift.up.{u} m) = (ULift.up.{u} g) • ULift.up.{u} n := by
     apply ULift.ext
-    show M.d i (i + 1) m = g • n
+    change M.d i (i + 1) m = g • n
     rwa [associatedComplex_d]
   obtain ⟨z, w, hz⟩ := exists_boundary_of_literal_cycles_epi K (ULift.up.{u} g) i hreg
     (ULift.up.{u} m) (ULift.up.{u} n) hm'
@@ -1589,7 +1575,7 @@ private theorem etaReductionMap_identifiesDirectSum_atPrime {A : Type u} [CommRi
   let hfP : IsSMulRegular (Fin (C.rank i) → A) f := Module.Flat.isSMulRegular_of_isRegular hf
   let hfQ : IsSMulRegular (Fin (C.rank (i + 1)) → A) f :=
     Module.Flat.isSMulRegular_of_isRegular hf
-  show Stacks.SplitInjectionDirectSum.IdentifiesDirectSum
+  change Stacks.SplitInjectionDirectSum.IdentifiesDirectSum
     (baseChangeProdMap (A ⧸ Ideal.span {f}) (etaPowInclusion f (C.d i).mulVecLin i)) B
   apply identifiesDirectSum_of_snd_mem_range
   apply snd_mem_range_of_prodCongr _ (fpowEquiv f hfP i).symm (fpowEquiv f hfQ (i + 1)).symm
@@ -1597,7 +1583,7 @@ private theorem etaReductionMap_identifiesDirectSum_atPrime {A : Type u} [CommRi
     (shiftedEtaMap f (C.d i).mulVecLin i)
     (normalizedEtaInclusion_relation f hfP hfQ (C.d i).mulVecLin i)
     (normalizedEtaInclusion_shiftedEtaMap f hfP hfQ (C.d i).mulVecLin i)
-  · show (Ideal.Quotient.mk _).comp (algebraMap A D) f = 0
+  · change (Ideal.Quotient.mk _).comp (algebraMap A D) f = 0
     apply Ideal.Quotient.eq_zero_iff_mem.mpr
     exact Ideal.mem_map_of_mem _ (Ideal.subset_span (Set.mem_singleton f))
   · exact exists_boundary_baseChange_atPrime C f hf p hE i
@@ -1650,7 +1636,7 @@ public theorem exists_fg_obstructionIdeal_with_finiteProjective_etaHomology
     let D := Localization.AtPrime p
     let B := D ⧸ Ideal.map (algebraMap A D) (Ideal.span {f})
     let : IsLocalization (p.primeCompl.map (algebraMap A (A ⧸ Ideal.span {f}))) B := by
-      show IsLocalization (Algebra.algebraMapSubmonoid (A ⧸ Ideal.span {f}) p.primeCompl) B
+      change IsLocalization (Algebra.algebraMapSubmonoid (A ⧸ Ideal.span {f}) p.primeCompl) B
       exact IsLocalization.instQuotientIdealAlgebraMapSubmonoidMapRingHomAlgebraMap
         p.primeCompl D (Ideal.span {f})
     apply localizedModule_subsingleton_of_le_ker (B := B) p.primeCompl J
@@ -1664,7 +1650,7 @@ public theorem exists_fg_obstructionIdeal_with_finiteProjective_etaHomology
     have hB (i : ℤ) : Stacks.SplitInjectionDirectSum.IdentifiesDirectSum (etaReductionMap C f i) B
       := by
       apply (hJu i B).mp
-      show Jᵢ i ≤ RingHom.ker (Ideal.Quotient.mk J)
+      change Jᵢ i ≤ RingHom.ker (Ideal.Quotient.mk J)
       rw [Ideal.mk_ker, hsup]
       exact le_iSup Jᵢ i
     intro i
@@ -1761,8 +1747,7 @@ projection onto the first factor. -/
 private theorem prodRight_baseChange_q₁ (z : D ⊗[A] (P × Q)) :
     (TensorProduct.prodRight A D D P Q) ((q₁ (A := A) (N₁ := P) (N₂ := Q)).baseChange D z)
       = (((TensorProduct.prodRight A D D P Q) z).1, 0) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]; rfl
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => simp only [map_add, hz, hw, Prod.fst_add, Prod.mk_add_mk, add_zero]
   | tmul d x => simp [q₁]
 
@@ -1771,8 +1756,7 @@ projection onto the second factor. -/
 private theorem prodRight_baseChange_q₂ (z : D ⊗[A] (P × Q)) :
     (TensorProduct.prodRight A D D P Q) ((q₂ (A := A) (N₁ := P) (N₂ := Q)).baseChange D z)
       = (0, ((TensorProduct.prodRight A D D P Q) z).2) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]; rfl
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => simp only [map_add, hz, hw, Prod.snd_add, Prod.mk_add_mk, add_zero]
   | tmul d x => simp [q₂]
 
@@ -1812,20 +1796,16 @@ private theorem identifiesDirectSum_baseChangeProdMap_iff {R : Type*} [CommRing 
       ((TensorProduct.AlgebraTensorModule.cancelBaseChange A R D D P).prodCongr
         (TensorProduct.AlgebraTensorModule.cancelBaseChange A R D D Q)))
     (fun z => ?_) (fun z => ?_) (fun z => ?_)
-  · induction z using TensorProduct.induction_on with
-    | zero => simp
+  · induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw]
     | tmul d x =>
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
       | tmul r e => simp [ObstructionIdeal.baseChangeProdMap]
-  · induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]; rfl
+  · induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw, Prod.fst_add, Prod.mk_add_mk, add_zero]
     | tmul d x => simp [q₁]
-  · induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]; rfl
+  · induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw, Prod.snd_add, Prod.mk_add_mk, add_zero]
     | tmul d x => simp [q₂]
 
@@ -1843,10 +1823,10 @@ private theorem exists_preimage_of_baseChange_eq_zero [Module.Flat A B]
     ∃ w, (LinearMap.ker L).subtype.baseChange B w = z := by
   have hex := Module.Flat.lTensor_exact (M := B) (LinearMap.exact_subtype_ker_map L)
   have e1 : ∀ x, L.baseChange B x = LinearMap.lTensor B L x := fun x =>
-    congrFun (LinearMap.baseChange_eq_ltensor (A := B) L) x
+    congrFun (LinearMap.baseChange_eq_lTensor (A := B) L) x
   have e2 : ∀ x, (LinearMap.ker L).subtype.baseChange B x
       = LinearMap.lTensor B (LinearMap.ker L).subtype x := fun x =>
-    congrFun (LinearMap.baseChange_eq_ltensor (A := B) (LinearMap.ker L).subtype) x
+    congrFun (LinearMap.baseChange_eq_lTensor (A := B) (LinearMap.ker L).subtype) x
   obtain ⟨w, hw⟩ := (hex z).mp (by rw [← e1]; exact hz)
   exact ⟨w, by rw [e2]; exact hw⟩
 
@@ -1859,7 +1839,7 @@ private theorem baseChange_subtype_ker_injective [Module.Flat A B]
     (LinearMap.ker L).subtype Subtype.val_injective
   intro x y hxy
   refine hinj ?_
-  rw [← LinearMap.baseChange_eq_ltensor (A := B) (LinearMap.ker L).subtype]
+  rw [← LinearMap.baseChange_eq_lTensor (A := B) (LinearMap.ker L).subtype]
   exact hxy
 
 variable {M N K M' N' K' : Type*}
@@ -1927,8 +1907,7 @@ private theorem graphMap_baseChange_comm (f : A)
     eN ((graphMap f dA).baseChange B z)
       = graphMap (algebraMap A B f) dB
           ((eM.prodCongr eN) ((TensorProduct.prodRight A B B M N) z)) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => simp only [map_add, hz, hw]
   | tmul b x =>
     obtain ⟨m, n⟩ := x
@@ -1959,8 +1938,7 @@ private theorem identifiesDirectSum_ker_baseChange_iff [Module.Flat A B]
     ((TensorProduct.prodRight B D D (B ⊗[A] M) (B ⊗[A] N)).trans
       ((LinearEquiv.baseChange B D _ _ eM).prodCongr (LinearEquiv.baseChange B D _ _ eN)))
     (fun z => ?_) (fun z => ?_) (fun z => ?_)
-  · induction z using TensorProduct.induction_on with
-    | zero => simp
+  · induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw]
     | tmul d w =>
       have hv := kerBaseChangeEquiv_val L L' eM eN eK h w
@@ -1968,12 +1946,10 @@ private theorem identifiesDirectSum_ker_baseChange_iff [Module.Flat A B]
         TensorProduct.prodRight_tmul, LinearEquiv.prodCongr_apply,
         LinearEquiv.baseChange_tmul, ObstructionIdeal.baseChangeProdMap, LinearMap.coe_comp,
         Function.comp_apply, LinearEquiv.coe_coe, Submodule.subtype_apply, hv]
-  · induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]; rfl
+  · induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw, Prod.fst_add, Prod.mk_add_mk, add_zero]
     | tmul d x => simp [q₁]
-  · induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]; rfl
+  · induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw, Prod.snd_add, Prod.mk_add_mk, add_zero]
     | tmul d x => simp [q₂]
 
@@ -2123,8 +2099,7 @@ private theorem identifiesDirectSum_graph_unit_mul_iff (f : A) (u : Aˣ) (d : M 
     (LinearEquiv.baseChange A D _ _ (kerGraphUnitMulEquiv f u d))
     (LinearEquiv.baseChange A D _ _ (unitSndEquiv M N u))
     (fun z => ?_) (fun z => ?_) (fun z => ?_) <;>
-  · induction z using TensorProduct.induction_on with
-    | zero => simp
+  · induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw]
     | tmul a x => simp [q₁, q₂]
 

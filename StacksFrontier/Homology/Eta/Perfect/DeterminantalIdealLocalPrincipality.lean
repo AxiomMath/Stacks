@@ -78,7 +78,7 @@ finitely many degrees in which `M^•` is nonzero therefore contribute to a prod
 determinantal ideals over the degrees. -/
 theorem idealI_eq_top_of_rank_eq_zero {A : Type*} [CommRing A] (C : BoundedComplex A) (f : A)
     {i : ℤ} (h : C.rank i = 0) : idealI C f i = ⊤ := by
-  show minorIdealInjective (mapMatrix f (C.d i)) (C.rank i) = ⊤
+  change minorIdealInjective (mapMatrix f (C.d i)) (C.rank i) = ⊤
   simpa only [h] using minorIdealInjective_zero_eq_top (mapMatrix f (C.d i))
 
 namespace FreeHomology

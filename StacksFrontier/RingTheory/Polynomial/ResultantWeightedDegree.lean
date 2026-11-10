@@ -55,7 +55,7 @@ namespace Polynomial
 in `Ψ` has `X`-degree at most `w (deg_Y Ψ - i)` and that of `Yʲ` in `g` has `X`-degree at most
 `n - w j`, then `Res_Y(Ψ, g)` has `X`-degree at most `deg_Y Ψ * n`. -/
 theorem natDegree_resultant_le_of_weightedDegree_le {R : Type*} [CommRing R] {Ψ g : R[X][X]}
-    (hΨ : Ψ.Monic) {w n : ℕ}
+    {w n : ℕ}
     (hΨw : ∀ i, Ψ.coeff i ≠ 0 → (Ψ.coeff i).natDegree + w * i ≤ w * Ψ.natDegree)
     (hgw : ∀ j, g.coeff j ≠ 0 → (g.coeff j).natDegree + w * j ≤ n) :
     (resultant Ψ g).natDegree ≤ Ψ.natDegree * n := by

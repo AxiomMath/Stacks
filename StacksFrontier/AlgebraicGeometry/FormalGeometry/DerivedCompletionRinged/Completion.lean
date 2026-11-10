@@ -117,8 +117,8 @@ there.
    [Stacks, Tag 08J9], `AlgebraicGeometry.RingedSite.derivedCurryIso` of
    `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedCurrying.lean`, for
    arbitrary objects of `D(𝒪)` and with three-variable naturality in
-   `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedCurryingNaturality.lean`. Read at `B = Č(f)` it is
-   `AlgebraicGeometry.RingedSite.derivedSheafHom_completionFunctor_iso` of
+   `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedCurryingNaturality.lean`. Read
+   at `B = Č(f)` it is `AlgebraicGeometry.RingedSite.derivedSheafHom_completionFunctor_iso` of
    `CompletionCurry.lean`, `R𝑆heafHom_𝒪(A, K^∧) = R𝑆heafHom_𝒪(A ⊗^𝐋_𝒪 Č(f), K)`, with the
    consequence the completeness criterion consumes —
    `isZero_derivedSheafHom_completionFunctor_of_isZero_derivedTensor` — beside it. No
@@ -135,7 +135,9 @@ there.
 
    The interchange isomorphism
    `AlgebraicGeometry.RingedSite.isIso_derivedTensorHomInterchange_of_isFiniteFreeSummand` of
-   `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedTensorHomInterchangeStrictlyPerfect.lean` remains *unrelated* to all of this: it
+   `DerivedTensorHomInterchangeStrictlyPerfect.lean`
+   (in `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/`) remains *unrelated* to all
+   of this: it
    inverts [Stacks, Tag 0BYU]'s comparison `K ⊗^𝐋 R𝑆heafHom(C, L) ⟶ R𝑆heafHom(C, K ⊗^𝐋 L)`,
    whose tensor factor is in the target.
 
@@ -151,7 +153,8 @@ there.
    `AwayTensorNaturality.lean`).
 
    *Slice sites* — not needed. The argument does not use that the restriction of
-   `R𝑆heafHom_𝒪(Č(f), K)` to a slice is the Čech completion there: the vanishing at the generators is proved on the site itself and is
+   `R𝑆heafHom_𝒪(Č(f), K)` to a slice is the Čech completion there: the vanishing at the generators
+   is proved on the site itself and is
    carried to the slices by the restriction stability of the vanishing locus of
    [Stacks, Tag 0998].
 
@@ -388,6 +391,7 @@ theorem completionUnit_app
 
 /-! ### The dévissage of the Čech complex, and invertibility of the completion map -/
 
+omit [HasWeakSheafify X.J CommRingCat] in
 /-- **Vanishing of the derived internal Hom into `K` out of a sheaf placed in degree `i` does
 not depend on `i`.** The single functors of the derived category are compatible with the shift,
 and that vanishing is shift-stable in its contravariant variable by
@@ -452,7 +456,7 @@ theorem isZero_derivedSheafHom_stupidTruncGE_extendedAlternatingCech
     (extendedAlternatingCech X f)
     (by
       refine Set.Finite.subset (Set.finite_Icc (0 : ℤ) r) fun i hi ↦ ?_
-      simp only [Set.mem_setOf_eq] at hi
+      simp only [Set.mem_ofPred_eq] at hi
       refine Set.mem_Icc.mpr ⟨by_contra fun h ↦ hi ?_, by_contra fun h ↦ hi ?_⟩
       · exact isZero_extendedAlternatingCech_X_of_neg X f (by omega)
       · exact isZero_extendedAlternatingCech_X_of_lt X f (by omega)) 1

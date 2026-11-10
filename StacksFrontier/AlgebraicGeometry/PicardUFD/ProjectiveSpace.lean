@@ -185,7 +185,7 @@ theorem exists_eq_unit_mul_awayUnit_zpow [IsDomain A] {p : A} (hp : Prime p)
   have key : w * P ^ (s.2 : ℤ) = V u⁻¹ * P ^ (i : ℤ) := by
     apply Units.ext
     simp only [Units.val_mul, zpow_natCast, Units.val_pow_eq_pow_val, hP, awayUnit_val, hV,
-      Units.coe_map, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+      Units.coe_map, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_ofClass]
     rw [hs, ← map_pow, ← map_mul, hA]
   exact ⟨u⁻¹, (i : ℤ) - s.2, by rwa [zpow_sub, ← mul_assoc, eq_mul_inv_iff_mul_eq]⟩
 
@@ -465,7 +465,7 @@ theorem sectionsInfEquiv_algebraMap (i j : Fin (n + 1)) (p : MvPolynomial (Fin n
   have h3 := RingHom.congr_fun (CommRingCat.hom_ext_iff.mp key) (chartRingEquiv R i p)
   simp only [CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply,
     CommRingCat.hom_ofHom] at h3
-  show (AlgebraicGeometry.Proj
+  change (AlgebraicGeometry.Proj
         (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R)).presheaf.map
         (eqToHom (congrArg op (basicOpen_X_inf R i j).symm))
       (Proj.awayToSection (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R)
@@ -585,7 +585,7 @@ theorem trivializingFun_mem_degree_one (m : ℤ) (i : Fin (n + 1))
   refine ⟨W, x.2, 𝟙 _, (-m).toNat, MvPolynomial.X i ^ m.toNat,
     MvPolynomial.X i ^ (-m).toNat, ?_, pow_X_mem_degree R i _,
     fun y => y.1.asHomogeneousIdeal.toIdeal.primeCompl.pow_mem (hW y.2) _, fun _ => rfl⟩
-  show (MvPolynomial.X i : MvPolynomial (Fin (n + 1)) R) ^ m.toNat ∈
+  change (MvPolynomial.X i : MvPolynomial (Fin (n + 1)) R) ^ m.toNat ∈
     integerGrading (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R)
       ((((-m).toNat : ℕ) : ℤ) + m)
   rw [show ((((-m).toNat : ℕ) : ℤ) + m) = ((m.toNat : ℕ) : ℤ) by omega]
@@ -928,7 +928,7 @@ theorem sectionsChartEquiv_C_apply (i : Fin (n + 1)) (r : R)
     (sectionsChartEquiv R i (MvPolynomial.C r)).1 x =
       HomogeneousLocalization.mk ⟨0, ⟨MvPolynomial.C r, C_mem_degree_zero R n r⟩,
         1, one_mem _⟩ := by
-  show ((Proj.basicOpenIsoAway (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R)
+  change ((Proj.basicOpenIsoAway (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R)
       (MvPolynomial.X i) (X_mem_degree_one R i)
       (by omega)).commRingCatIsoToRingEquiv (chartRingEquiv R i (MvPolynomial.C r))).1 x = _
   rw [chartRingEquiv_C]
@@ -1306,7 +1306,7 @@ theorem sectionsChartEquiv_X_apply (i : Fin (n + 1)) (k : Fin n)
   have hL : ((sectionsChartEquiv R i (MvPolynomial.X k)).1 ⟨x.1, hWi x.2⟩).val =
       Localization.mk (MvPolynomial.X (i.succAbove k) ^ 1)
         ⟨MvPolynomial.X i ^ 1, Submonoid.pow_mem _ (hWi x.2) 1⟩ := by
-    show (((Proj.basicOpenIsoAway (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R)
+    change (((Proj.basicOpenIsoAway (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R)
         (MvPolynomial.X i) (X_mem_degree_one R i)
         (by omega)).commRingCatIsoToRingEquiv
           (chartRingEquiv R i (MvPolynomial.X k))).1 _).val = _

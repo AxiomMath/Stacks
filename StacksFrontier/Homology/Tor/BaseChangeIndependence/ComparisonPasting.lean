@@ -178,7 +178,7 @@ public theorem canonicalBaseChangeComparison_counit
           (canonicalUnderivedBaseChangeComparison.{u, w} f g h i sq)
           (ComplexShape.up ℤ)).app K) :=
   @derivedBaseChangeComparison_snd_app_comp_counit.{u, u, u, u, u, w, w, w, w}
-    R A R' A' _ _ _ _ _ _ _ _ f g h i _ _ sq
+    R A R' A' _ _ _ _ _ _ _ _ f g h i sq
     (totalDerivedExtensionScalars.{u, u, u} g).functor
     (totalDerivedExtensionScalars.{u, u, u} h).functor
     (totalDerivedExtensionScalars.{u, u, u} g).comparison
@@ -213,7 +213,7 @@ public theorem canonicalBaseChangeComparison_eq_of_counit
             (ComplexShape.up ℤ)).app K)) :
     tau = canonicalBaseChangeComparison.{u, w} f g h i sq :=
   @derivedBaseChangeComparison_snd_eq.{u, u, u, u, u, w, w, w, w}
-    R A R' A' _ _ _ _ _ _ _ _ f g h i _ _ sq
+    R A R' A' _ _ _ _ _ _ _ _ f g h i sq
     (totalDerivedExtensionScalars.{u, u, u} g).functor
     (totalDerivedExtensionScalars.{u, u, u} h).functor
     (totalDerivedExtensionScalars.{u, u, u} g).comparison

@@ -26,7 +26,7 @@ closed point of `Y`.
 A variety over `k` is of finite type over a field, hence a Jacobson scheme
 (`AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace`), and a morphism of varieties over `k` is
 locally of finite type; by Stacks 01TB such a morphism carries closed points to closed points
-(`AlgebraicGeometry.Scheme.Hom.closePoints_subset_preimage_closedPoints`). A variety is integral,
+(`AlgebraicGeometry.Scheme.Hom.closedPoints_subset_preimage_closedPoints`). A variety is integral,
 so nonempty, and a nonempty Jacobson space has a closed point.
 
 ## References
@@ -64,7 +64,7 @@ theorem isClosed_singleton_of_range_eq_singleton (k : Type u) [Field k] {X Y : S
   have : LocallyOfFiniteType f := locallyOfFiniteType_of_comp f sY
   obtain ⟨x, -, hx⟩ :=
     nonempty_inter_closedPoints (Set.univ_nonempty (α := X)) isClosed_univ.isLocallyClosed
-  have hfx : f.base x ∈ closedPoints Y := f.closePoints_subset_preimage_closedPoints hx
+  have hfx : f.base x ∈ closedPoints Y := f.closedPoints_subset_preimage_closedPoints hx
   have : f.base x = y := by
     have : f.base x ∈ Set.range f.base := ⟨x, rfl⟩
     rwa [hy] at this

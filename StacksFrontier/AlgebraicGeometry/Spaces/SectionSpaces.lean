@@ -144,7 +144,7 @@ private theorem exists_etale_cover_sections_of_isFinite {X Z U : Scheme.{u}} (π
     intro y
     obtain ⟨x, hx⟩ := f.surjective (eZ.inv y)
     refine ⟨x, ?_⟩
-    show eZ.hom (f x) = y
+    change eZ.hom (f x) = y
     rw [hx]
     simp
   let 𝒰 : P.Cover.{u} Scheme.etalePrecoverage :=
@@ -152,7 +152,7 @@ private theorem exists_etale_cover_sections_of_isFinite {X Z U : Scheme.{u}} (π
       X := fun _ => X
       f := fun _ => fP
       mem₀ := by
-        show Presieve.ofArrows (fun _ : PUnit.{u + 1} => X) (fun _ => fP) ∈
+        change Presieve.ofArrows (fun _ : PUnit.{u + 1} => X) (fun _ => fP) ∈
           Scheme.etalePrecoverage P
         rw [Presieve.ofArrows_pUnit]
         exact (Scheme.singleton_mem_precoverage_iff (P := @Etale) fP).2
@@ -216,7 +216,7 @@ private theorem exists_pointwise_affine_etale_sections {X Z U : Scheme.{u}} (π 
   refine ⟨Y, g, fun x => q x ≫ Classical.choose (hsections (i x)), hEtale, hsize,
     fun x => ⟨⟨y x, hA_mem x⟩, hy x⟩, fun x => ?_⟩
   rw [Category.assoc, Classical.choose_spec (hsections (i x))]
-  show pullback.lift (pullback.fst π (g x) ≫ 𝟙 Z) (pullback.snd π (g x) ≫ a x) _ ≫
+  change pullback.lift (pullback.fst π (g x) ≫ 𝟙 Z) (pullback.snd π (g x) ≫ a x) _ ≫
     pullback.fst π (𝒱.f (i x) ≫ 𝟙 U) = pullback.fst π (g x)
   rw [pullback.lift_fst, Category.comp_id]
 
@@ -233,7 +233,7 @@ private theorem exists_section_over_sigmaDesc {X Z U : Scheme.{u}} (π : Z ⟶ U
   let q : ∀ i : U, pullback π (g i) ⟶ pullback π τ := fun i =>
     pullback.map π (g i) π τ (𝟙 Z) (Sigma.ι Y i) (𝟙 U) (by simp) (by simp [τ])
   let d : (∐ fun i : U => pullback π (g i)) ⟶ pullback π τ := Sigma.desc q
-  have hdι (i : U) : Sigma.ι (fun i : U => pullback π (g i)) i ≫ d = q i := Sigma.ι_desc q i
+  have hdι (i : U) : Sigma.ι (fun i : U => pullback π (g i)) i ≫ d = q i := Sigma.ι_comp_desc q i
   have hqrange (i : U) :
       Set.range (q i) = pullback.snd π τ ⁻¹' Set.range (Sigma.ι Y i) := by
     dsimp [q]
@@ -277,7 +277,7 @@ private theorem exists_section_over_sigmaDesc {X Z U : Scheme.{u}} (π : Z ⟶ U
     obtain ⟨⟨i, v⟩, ha⟩ := (sigmaMk fun i : U => pullback π (g i)).surjective z
     refine ⟨pullback π (g i), Sigma.ι (fun i : U => pullback π (g i)) i, inferInstance,
       ⟨v, by simpa using ha⟩, ?_⟩
-    show IsOpenImmersion (Sigma.ι (fun i : U => pullback π (g i)) i ≫ Sigma.desc q)
+    change IsOpenImmersion (Sigma.ι (fun i : U => pullback π (g i)) i ≫ Sigma.desc q)
     rw [hdι]
     exact hq_open i
   have : IsOpenImmersion d := hd_open
@@ -286,7 +286,7 @@ private theorem exists_section_over_sigmaDesc {X Z U : Scheme.{u}} (π : Z ⟶ U
     (by ext z; exact ⟨fun _ => trivial, fun _ => (d.surjective z).imp fun _ h => h⟩)
   let e : (∐ fun i : U => pullback π (g i)) ≅ pullback π τ := asIso d
   have hqfst (i : U) : q i ≫ pullback.fst π τ = pullback.fst π (g i) := by
-    show pullback.lift (pullback.fst π (g i) ≫ 𝟙 Z) (pullback.snd π (g i) ≫ Sigma.ι Y i) _ ≫
+    change pullback.lift (pullback.fst π (g i) ≫ 𝟙 Z) (pullback.snd π (g i) ≫ Sigma.ι Y i) _ ≫
       pullback.fst π τ = _
     rw [pullback.lift_fst, Category.comp_id]
   refine ⟨e.inv ≫ Sigma.desc s, (cancel_epi d).1 (Sigma.hom_ext _ _ fun i => ?_)⟩
@@ -317,7 +317,7 @@ theorem exists_contains_surjective_etale_section_of_isFinite (B : BigFppfSite.{u
   obtain ⟨t, ht⟩ := exists_section_over_sigmaDesc π f Y g s hs
   refine ⟨∐ Y, contains_sigma_indexedByPoints B U hU Y hg_size, Sigma.desc g, ?_, ?_, t, ht⟩
   · refine ⟨fun x => ⟨sigmaMk Y ⟨x, Classical.choose (hg_points x)⟩, ?_⟩⟩
-    rw [sigmaMk_mk, ← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    rw [sigmaMk_mk, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
     exact Classical.choose_spec (hg_points x)
   · let : ∀ i, Etale (g i) := hg_etale
     let : IsZariskiLocalAtSource @Etale :=

@@ -234,7 +234,7 @@ lemma ringSheafOnOpensHom_comp_frobenius (f : X ⟶ Y) (hX : IsInCharacteristic 
   have h₂ : (RingCat.Hom.hom ((frobeniusRingSheafOnOpensHom Y p hY ≫
         f.ringSheafOnOpensHom).hom.app U)) g =
       ((RingCat.Hom.hom (f.ringSheafOnOpensHom.hom.app U)) g) ^ p := by
-    show (RingCat.Hom.hom (f.ringSheafOnOpensHom.hom.app U))
+    change (RingCat.Hom.hom (f.ringSheafOnOpensHom.hom.app U))
         ((RingCat.Hom.hom ((frobeniusRingSheafOnOpensHom Y p hY).hom.app U)) g) = _
     rw [e, map_pow]
   exact h₁.trans h₂.symm
@@ -287,7 +287,7 @@ lemma frobeniusColimitStructureSheafHom_id (X : Scheme.{u}) (p : ℕ) [Fact p.Pr
     (hX : IsInCharacteristic X p) :
     frobeniusColimitStructureSheafHom p (𝟙 X) hX hX = 𝟙 _ :=
   (eq_endoColimitDesc _ _ _ (𝟙 _) (fun n => by
-    show frobeniusColimitι X p hX n ≫ 𝟙 _ = 𝟙 _ ≫ frobeniusColimitι X p hX n
+    change frobeniusColimitι X p hX n ≫ 𝟙 _ = 𝟙 _ ≫ frobeniusColimitι X p hX n
     rw [Category.comp_id, Category.id_comp])).symm
 
 /-- **The canonical morphisms compose strictly.** The morphism of Frobenius colimits induced by
@@ -300,7 +300,7 @@ lemma frobeniusColimitStructureSheafHom_comp (f : X ⟶ Y) (g : Y ⟶ Z)
       frobeniusColimitStructureSheafHom p g hY hZ ≫
         (g.ringSheafPushforward).map (frobeniusColimitStructureSheafHom p f hX hY) :=
   (eq_endoColimitDesc _ _ _ _ (fun n => by
-    show frobeniusColimitι Z p hZ n ≫ (frobeniusColimitStructureSheafHom p g hY hZ ≫
+    change frobeniusColimitι Z p hZ n ≫ (frobeniusColimitStructureSheafHom p g hY hZ ≫
         (g.ringSheafPushforward).map (frobeniusColimitStructureSheafHom p f hX hY)) =
       Scheme.Hom.ringSheafOnOpensHom (f ≫ g) ≫
         ((f ≫ g).ringSheafPushforward).map (frobeniusColimitι X p hX n)

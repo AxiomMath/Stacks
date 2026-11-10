@@ -29,7 +29,8 @@ Jacobian determinant and with `Spec (M j[x] ⧸ (g)) ⟶ Spec (M j)` surjective.
 ## Implementation notes
 
 *Why the four clauses land at one index.* Each of them is descended by its own lemma of
-`StacksFrontier.RingTheory.Etale.DirectedColimitPresentation`, and each produces an index of its own;
+`StacksFrontier.RingTheory.Etale.DirectedColimitPresentation`, and each produces an index of its
+own;
 the clauses are then collected at the last of those indices. Three of the four transport upwards
 for free — the images of the polynomials and of the elements are unchanged by a further transition
 (`MvPolynomial.map_map_eq_of_comp` and the compatibility of the second system), the relations are

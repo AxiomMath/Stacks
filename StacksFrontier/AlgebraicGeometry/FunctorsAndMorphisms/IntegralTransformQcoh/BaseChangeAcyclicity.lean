@@ -383,7 +383,7 @@ theorem opensRange_baseChangeOpenTargetMap (T Y : Over (Spec (.of R))) (U : T.le
     (baseChangeOpenTargetMap R T Y U).opensRange = pullback.fst T.hom Y.hom ⁻¹ᵁ U := by
   rw [opensRange_of_isPullback
     (isPullback_sourceChangeMap R T (openSubOver R T U) Y (openSubOverHom R T U))]
-  show pullback.fst T.hom Y.hom ⁻¹ᵁ U.ι.opensRange = _
+  change pullback.fst T.hom Y.hom ⁻¹ᵁ U.ι.opensRange = _
   rw [Scheme.Opens.opensRange_ι]
 
 /-- `(U ×_R X) ×_R Y` is the open subscheme `pr_{13}^{-1}(U ×_R Y)` of `(T ×_R X) ×_R Y`. -/
@@ -393,11 +393,11 @@ theorem opensRange_baseChangeOpenTripleMap (T X Y : Over (Spec (.of R))) (U : T.
   rw [opensRange_of_isPullback (isPullback_sourceChangeMap R (baseChangeSourceOver R T X)
       (baseChangeSourceOver R (openSubOver R T U) X) Y (baseChangeOpenSourceHom R T X U)),
     opensRange_baseChangeOpenTargetMap]
-  show pullback.fst (baseChangeSourceOver R T X).hom Y.hom ⁻¹ᵁ
+  change pullback.fst (baseChangeSourceOver R T X).hom Y.hom ⁻¹ᵁ
       (sourceChangeMap R T (openSubOver R T U) X (openSubOverHom R T U)).opensRange = _
   rw [opensRange_of_isPullback
     (isPullback_sourceChangeMap R T (openSubOver R T U) X (openSubOverHom R T U))]
-  show pullback.fst (baseChangeSourceOver R T X).hom Y.hom ⁻¹ᵁ
+  change pullback.fst (baseChangeSourceOver R T X).hom Y.hom ⁻¹ᵁ
       (pullback.fst T.hom X.hom ⁻¹ᵁ U.ι.opensRange) = _
   rw [Scheme.Opens.opensRange_ι, ← Scheme.Hom.comp_preimage, ← Scheme.Hom.comp_preimage,
     sourceChangeMap_comp_fst R T (baseChangeSourceOver R T X) Y (baseChangeSourceOverFst R T X)]

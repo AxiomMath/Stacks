@@ -48,13 +48,12 @@ private theorem tensorProduct_comm_eq_id_of_finrank_eq_one
   obtain ⟨v, hv⟩ := exists_ne (0 : V)
   have hvspan := (finrank_eq_one_iff_of_nonzero' v hv).mp hV
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul x y =>
       obtain ⟨a, rfl⟩ := hvspan x
       obtain ⟨b, rfl⟩ := hvspan y
-      show TensorProduct.comm K V V ((a • v) ⊗ₜ[K] (b • v)) =
+      change TensorProduct.comm K V V ((a • v) ⊗ₜ[K] (b • v)) =
         (a • v) ⊗ₜ[K] (b • v)
       rw [TensorProduct.comm_tmul]
       simp only [TensorProduct.smul_tmul_smul, mul_comm]
@@ -72,7 +71,7 @@ theorem periodicDeterminant_self_eq_negOne_pow_range_length
   let D := determinant R (LinearMap.range φ)
   let a := moduleLength R (LinearMap.range φ)
   refine (eq_periodicDeterminant φ φ hφ hφ hM ?_).symm
-  show periodicGamma φ φ hφ hM ∘ₗ (TensorProduct.comm K D D).toLinearMap =
+  change periodicGamma φ φ hφ hM ∘ₗ (TensorProduct.comm K D D).toLinearMap =
     (((-1 : K) ^ (a * a) * (((-1 : Kˣ) ^ a : Kˣ) : K)) • periodicGamma φ φ hφ hM)
   rw [tensorProduct_comm_eq_id_of_finrank_eq_one (finrank_determinant_eq_one
     (hM.of_injective (LinearMap.range φ).subtype_injective)), LinearMap.comp_id]

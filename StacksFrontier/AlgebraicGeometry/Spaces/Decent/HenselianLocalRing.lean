@@ -222,7 +222,7 @@ theorem existsUnique_lift (hDecent : IsDecentSpace B S hS X) (R : Type v) [CommR
         (CommRingCat.Colimits.coconeMorphism G j).hom (F.map f (ULift.up s)) := by
       simpa [eCol, j, Cocone.whisker_ι, Functor.whiskerLeft_app,
         CommRingCat.Colimits.colimitCocone, RingHom.comp_apply] using he_apply
-    show ψ₀ (eCol.hom.hom ((colimit.ι F U).hom (ULift.up s))) = φ U s
+    change ψ₀ (eCol.hom.hom ((colimit.ι F U).hom (ULift.up s))) = φ U s
     rw [harg, hψ₀ j (F.map f (ULift.up s))]
     exact hφ f s
   refine ⟨ψ, hsection, ?_⟩

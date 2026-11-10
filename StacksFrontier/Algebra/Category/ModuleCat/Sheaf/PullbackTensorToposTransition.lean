@@ -47,10 +47,10 @@ characterisation it carries is that the chain sends it to the identity
 characterisation for `χ` out of the ones for `φ` and `ψ` needs each of the six steps to have a
 composition law, and all six now have one: `Stacks.SheafOfModules.pullbackTensorStep1_comp'`
 through `…Step5_comp`, in the five files
-`StacksDraft/Algebra/Category/ModuleCat/Sheaf/PullbackTensorStep⟨i⟩StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/MemberSiteOfPresheaf/CompositionLaw.lean`, and for
-the sixth step `Stacks.Sheaves.RingedToposModules.extendScalarsTensorIso_hom_eq_comp` in
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/ExtendScalarsTensorCompositionLaw.lean`. The three
-paragraphs below describe what shape each of them takes and what they rest on.
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PullbackTensorStep⟨i⟩CompositionLaw.lean`, and
+for the sixth step `Stacks.Sheaves.RingedToposModules.extendScalarsTensorIso_hom_eq_comp` in
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/ExtendScalarsTensorCompositionLaw.lean`. The
+three paragraphs below describe what shape each of them takes and what they rest on.
 
 Those six are still not a proof of the coherence stated here, and the gap between them and it is
 not one of further bookkeeping. Each of the six is a law at the *composite* morphism of ringed
@@ -72,10 +72,10 @@ variable — a compatibility of
 `AlgebraicGeometry.RingedToposHom.TwoMorphism.pullbackModulesMap` with `pullbackTensorIso` at its
 two parallel morphisms — and that law is available:
 `AlgebraicGeometry.RingedToposHom.TwoMorphism.pullbackTensorIso_hom_app_comp_pullbackModulesMap`
-in `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorTwoMorphismMonoidal`, which assumes
-no invertibility. It is not an instance of this file's coherence — a 2-morphism relates two
-parallel morphisms, where this file's `θ` relates an iterated pullback to a single one — but it
-combines with it:
+in `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorTwoMorphismMonoidal`, which
+assumes no invertibility. It is not an instance of this file's coherence — a 2-morphism
+relates two parallel morphisms, where this file's `θ` relates an iterated pullback to a single
+one — but it combines with it:
 `Stacks.SheafOfModules.pullbackTensorTransitionCoherence_comp_pullbackModulesMap`, in
 `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorTransitionTwoMorphism`, is the
 statement that the coherence of this file is stable under composing `θ` with the transformation of

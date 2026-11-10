@@ -75,7 +75,7 @@ theorem kummerMap_C (a : k) :
 theorem kummerPolyMap_injective {n} (hn : 0 < n) : Function.Injective (kummerPolyMap k F n) := by
   have : (kummerPolyMap k F n : k[X] → F[X]) = fun p ↦ expand F n (p.map (algebraMap k F)) := by
     funext p
-    simp only [kummerPolyMap, coe_eval₂RingHom, expand_eq_comp_X_pow, map_map]
+    simp only [kummerPolyMap, coe_eval₂RingHom, expand_eq_comp_X_pow]
     rw [eval₂_eq_eval_map, ← map_map, comp, eval_map]
   rw [this]
   exact (expand_injective hn).comp (map_injective _ (algebraMap k F).injective)
@@ -123,7 +123,7 @@ theorem adjoin_coord_basis_eq_top (hn : 0 < n) :
     have : algebraMap F (Ring F) (algebraMap k F ((Module.finBasis k F).repr a i)) =
         algebraMap (Ring k) (Ring F) (algebraMap k[X] (Ring k) (C ((Module.finBasis k F).repr a i)))
         := by
-      show _ = kummerMap k F n _
+      change _ = kummerMap k F n _
       rw [kummerMap_C k F n, IsScalarTower.algebraMap_apply F F[X] (Ring F),
         Polynomial.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply]
     rw [this]
@@ -195,6 +195,7 @@ theorem isIntegral_const (a : F) :
   refine ⟨g.map (algebraMap k (Ring k)), hg.map _, ?_⟩
   rw [← aeval_def, aeval_map_const, aeval_def, hga, map_zero]
 
+omit [FiniteDimensional k F] in
 /-- For `n > 0`, the coordinate `X` of `F[X]_X` is integral over `k[x]_x` via the Kummer map. -/
 theorem isIntegral_coord (hn : 0 < n) :
     letI := (kummerMap k F n).toAlgebra
@@ -202,7 +203,7 @@ theorem isIntegral_coord (hn : 0 < n) :
   let := (kummerMap k F n).toAlgebra
   refine ⟨X ^ n - C (coord k), monic_X_pow_sub_C _ hn.ne', ?_⟩
   rw [eval₂_sub, eval₂_X_pow, eval₂_C]
-  show coord F ^ n - kummerMap k F n (coord k) = 0
+  change coord F ^ n - kummerMap k F n (coord k) = 0
   rw [kummerMap_coord, sub_self]
 
 /-- **The Kummer map is finite.** -/
@@ -253,7 +254,7 @@ theorem kummerMap_formallyUnramified [Algebra.IsSeparable k F] (hn : IsUnit (n :
   have htop : (⊤ : Submodule (Ring F) Ω[Ring F⁄Ring k]) = ⊥ := by
     rw [← KaehlerDifferential.span_range_derivation (Ring k) (Ring F), Submodule.span_eq_bot]
     rintro _ ⟨y, rfl⟩
-    show D y = 0
+    change D y = 0
     rw [hD, Derivation.zero_apply]
   exact (Submodule.subsingleton_iff (Ring F)).mp (subsingleton_of_bot_eq_top htop.symm)
 
@@ -262,6 +263,7 @@ theorem isDedekindDomain_ring : IsDedekindDomain (Ring k) :=
   IsLocalization.isDedekindDomain k[X] (powers_le_nonZeroDivisors_of_noZeroDivisors X_ne_zero)
     (Ring k)
 
+omit [FiniteDimensional k F] in
 /-- The Kummer map makes `F[X]_X` a flat `k[x]_x`-module. -/
 theorem kummerMap_flat (hn0 : 0 < n) :
     letI := (kummerMap k F n).toAlgebra

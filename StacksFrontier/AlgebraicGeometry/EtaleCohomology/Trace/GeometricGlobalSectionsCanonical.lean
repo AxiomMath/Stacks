@@ -88,7 +88,7 @@ abbrev geometricFundamentalGroupRange :
   (etaleFundamentalGroupMap (fieldBaseChangeObjProj B X f kbar
     (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y).toMonoidHom.range
 
-omit [Fintype Λ] in
+omit [Fintype Λ] [Smooth f] in
 /-- **Restricted to `π₁(X_k̄)`, the inclusion `M^N ⟶ M` is a bijection on invariants**: the
 `π₁(X_k̄)`-invariants of `M` are `M^N`, all of which are `N`-invariant. -/
 theorem bijective_invariants_res_normalInvariantsι [Finite Λ]
@@ -112,7 +112,7 @@ theorem bijective_invariants_res_normalInvariantsι [Finite Λ]
     rintro n ⟨g, rfl⟩
     exact z.2 g
 
-omit [Fintype Λ] in
+omit [Fintype Λ] [Smooth f] in
 /-- **The inclusion `M^N ⟶ M` induces a bijection `Γ(X_k̄, ℱ_{ρ^N}|) ⟶ Γ(X_k̄, ℱ_ρ|)`.** Through
 the identification of both sides with `π₁(X_k̄)`-invariants (natural in the representation, for
 whichever choices it is built with), this is `bijective_invariants_res_normalInvariantsι`. -/
@@ -154,6 +154,7 @@ theorem normalInvariants_geometric_trivial [Finite Λ]
   intro g
   exact finiteTypeContinuousModuleNormalInvariants_rho_eq_one Λ _ ρ _ ⟨g, rfl⟩
 
+omit [Smooth f] in
 /-- **The evaluation at `η̄` of a global section of `ℱ_ρ|_{X_k̄}` factors through `M^N`**: it is
 the evaluation for `ρ^N` followed by the inclusion, along the bijection
 `Γ(X_k̄, ℱ_{ρ^N}|) ⟶ Γ(X_k̄, ℱ_ρ|)`. -/
@@ -180,6 +181,7 @@ theorem geometricGlobalSectionsEval_normalInvariantsι
         geometricGlobalSectionsEval B X f kbar Λ y _ w).1 :=
   geometricGlobalSectionsEval_naturality B X f kbar Λ y _ w
 
+omit [Smooth f] in
 /-- **Every global section of `ℱ_ρ|_{X_k̄}` comes from `ℱ_{ρ^N}|_{X_k̄}`.** -/
 theorem exists_globalSections_normalInvariantsι (ρ : letI := connectedSpace_of_isCurve B X f
       FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1
@@ -201,6 +203,7 @@ theorem exists_globalSections_normalInvariantsι (ρ : letI := connectedSpace_of
                   (geometricFundamentalGroupRange B X f kbar y)).app ρ))) w = z :=
   (bijective_globalSections_normalInvariantsι B X f kbar Λ y ρ).2 z
 
+omit [Smooth f] in
 /-- The evaluation at `η̄` of a global section of `ℱ_ρ|_{X_k̄}` is `π₁(X_k̄)`-invariant. -/
 theorem geometricGlobalSectionsEval_mem_invariants (ρ : letI := connectedSpace_of_isCurve B X f
       FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1
@@ -249,6 +252,7 @@ def geometricGlobalSectionsInvariantsMap
       map_smul' := geometricGlobalSectionsEval_smul B X f kbar Λ y ρ }
     (geometricGlobalSectionsEval_mem_invariants B X f kbar Λ y ρ)
 
+omit [Smooth f] in
 /-- **The evaluation at `η̄` identifies `Γ(X_k̄, ℱ_ρ|)` with the `π₁(X_k̄)`-invariants.** Through
 the bijection `Γ(X_k̄, ℱ_{ρ^N}|) ⟶ Γ(X_k̄, ℱ_ρ|)` it is the evaluation for the representation
 `ρ^N`, trivial on `π₁(X_k̄)`, which is bijective onto `M^N`. -/
@@ -279,7 +283,7 @@ theorem bijective_geometricGlobalSectionsInvariantsMap (ρ : letI := connectedSp
           (contains_fieldBaseChange_of_isCurve B X f kbar)).hom) Λ).map
             ((finiteTypeContinuousModuleNormalInvariantsι Λ
               (geometricFundamentalGroupRange B X f kbar y)).app ρ))) w, Subtype.ext ?_⟩
-    show geometricGlobalSectionsEval B X f kbar Λ y ρ _ = _
+    change geometricGlobalSectionsEval B X f kbar Λ y ρ _ = _
     rw [geometricGlobalSectionsEval_normalInvariantsι]
     exact congrArg Subtype.val hw
 
@@ -306,6 +310,7 @@ def geometricGlobalSectionsInvariantsEquiv (ρ : letI := connectedSpace_of_isCur
               y)).obj ρ)) :=
   LinearEquiv.ofBijective _ (bijective_geometricGlobalSectionsInvariantsMap B X f kbar Λ y ρ)
 
+omit [Smooth f] in
 /-- The identification is the evaluation at `η̄`. -/
 theorem geometricGlobalSectionsInvariantsEquiv_apply (ρ : letI := connectedSpace_of_isCurve B X f
       FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1
@@ -320,6 +325,7 @@ theorem geometricGlobalSectionsInvariantsEquiv_apply (ρ : letI := connectedSpac
       geometricGlobalSectionsEval B X f kbar Λ y ρ z :=
   rfl
 
+omit [Smooth f] in
 /-- **Stacks Project, Tag 03VL, degree zero: the identification is natural in `ρ`.** For
 `φ : ρ ⟶ ρ'`, it carries the map induced by `φ` on global sections to `φ` on invariants. -/
 @[stacks 03VL "H⁰(X_k̄, ℱ_ρ) = M^{π₁(X_k̄,η̄)} functorially in ρ"]
@@ -342,6 +348,7 @@ theorem geometricGlobalSectionsInvariantsEquiv_naturality
   rw [geometricGlobalSectionsInvariantsEquiv_apply, geometricGlobalSectionsInvariantsEquiv_apply]
   exact geometricGlobalSectionsEval_naturality B X f kbar Λ y φ z
 
+omit [Smooth f] in
 /-- **Stacks Project, Tag 03VL, degree zero: the identification is Galois-equivariant.** For
 `γ ∈ π₁(X, η̄)` with image `σ ∈ Aut(k̄/k) = π₁(X, η̄)/π₁(X_k̄, η̄)`, it carries the action of `σ`
 on `H⁰(X_k̄, ℱ_ρ)` (through `id × Spec σ` on `X_k̄`) to the action of `ρ(γ)` on

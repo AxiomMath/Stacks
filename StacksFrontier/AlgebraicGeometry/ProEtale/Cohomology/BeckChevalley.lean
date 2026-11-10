@@ -390,7 +390,7 @@ theorem isIso_smallProetaleBaseChangePushforwardMate (h : IsPullback g' f' f g) 
   have hsite : IsIso ((mateEquiv (smallProetaleCompose_adj B g hg)
       (smallProetaleCompose_adj B g' hg')
       (TwoSquare.mk _ _ _ _
-        (smallProetaleComposeBaseChangeIso B g' f' f g hg hg' h).inv)).natTrans) :=
+        (smallProetaleComposeBaseChangeIso B g' f' f g hg hg' h).inv))) :=
     isIso_smallProetaleSiteBaseChangeMate B g' f' f g hg hg' h
   exact Eq.mpr (congrArg IsIso e) (isIso_sheafPushforwardContinuousNatTrans _ _ _)
 

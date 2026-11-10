@@ -116,12 +116,12 @@ private lemma exists_isPrime_forall_mem_iff
   let Q : Ideal S :=
     { carrier := {x | e x ∈ P}
       zero_mem' := by
-        show e 0 ∈ P
+        change e 0 ∈ P
         rw [e_zero]
         exact P.zero_mem
       add_mem' := by
         intro x y hx hy
-        show e (x + y) ∈ P
+        change e (x + y) ∈ P
         rw [e_add]
         exact P.add_mem hx hy
       smul_mem' := fun c x hx => by
@@ -155,7 +155,7 @@ private lemma mem_range_comap_pullbackSnd_of_not_ker_le
     rw [hk0, map_zero] at hcompat
     exact hcompat.symm
   let e : A' → R := fun x ↦ ⟨(0, p₂ k * x), by
-    show f 0 = g (p₂ k * x)
+    change f 0 = g (p₂ k * x)
     simp [hgk]⟩
   have e_zero : e 0 = 0 := by
     apply Subtype.ext
@@ -166,28 +166,28 @@ private lemma mem_range_comap_pullbackSnd_of_not_ker_le
   have e_one : e 1 = k := by
     apply Subtype.ext
     apply Prod.ext
-    · show (0 : B) = p₁ k
+    · change (0 : B) = p₁ k
       exact hk0.symm
-    · show p₂ k * 1 = p₂ k
+    · change p₂ k * 1 = p₂ k
       simp
   have emul (x y : A') : e (x * y) * k = e x * e y := by
     apply Subtype.ext
     apply Prod.ext
-    · show (0 : B) * p₁ k = (0 : B) * 0
+    · change (0 : B) * p₁ k = (0 : B) * 0
       simp
-    · show (p₂ k * (x * y)) * p₂ k = (p₂ k * x) * (p₂ k * y)
+    · change (p₂ k * (x * y)) * p₂ k = (p₂ k * x) * (p₂ k * y)
       ring
   have ep₂ (r : R) : e (p₂ r) = k * r := by
     apply Subtype.ext
     apply Prod.ext
-    · show (0 : B) = p₁ k * p₁ r
+    · change (0 : B) = p₁ k * p₁ r
       rw [hk0, zero_mul]
     · rfl
   obtain ⟨Q, hQ, hQe⟩ :=
     exists_isPrime_forall_mem_iff q.asIdeal q.isPrime hk e e_zero e_add e_one emul
   refine ⟨⟨Q, hQ⟩, PrimeSpectrum.ext ?_⟩
   ext r
-  show p₂ r ∈ Q ↔ r ∈ q.asIdeal
+  change p₂ r ∈ Q ↔ r ∈ q.asIdeal
   rw [hQe, ep₂]
   exact ⟨fun h ↦ (q.isPrime.mem_or_mem h).resolve_left hk, q.asIdeal.mul_mem_left k⟩
 
@@ -229,7 +229,7 @@ private lemma ker_pullbackFst_le_comap_iff
   constructor
   · intro h a ha
     let r : f.pullback g := ⟨(0, a), by
-      show f 0 = g a
+      change f 0 = g a
       simpa using ha.symm⟩
     exact h (show (f.pullbackFst g) r = 0 from rfl)
   · intro h r hr
@@ -248,7 +248,7 @@ private lemma comap_pullbackSnd_mem_range_pullbackFst_iff
   let p₁ : f.pullback g →+* B := f.pullbackFst g
   have hp₁ : Function.Surjective p₁ :=
     RingHom.surjective_pullbackFst_of_surjective f g hg
-  show PrimeSpectrum.comap (f.pullbackSnd g) y ∈
+  change PrimeSpectrum.comap (f.pullbackSnd g) y ∈
     Set.range (PrimeSpectrum.comap p₁) ↔ RingHom.ker g ≤ y.asIdeal
   rw [range_comap_of_surjective B p₁ hp₁,
     PrimeSpectrum.mem_zeroLocus]
@@ -309,7 +309,7 @@ private lemma pullback_spectrum_snd_fiber
     have hgk : g k = 0 := hkker
     have heqmem (a' : A') : k * a' ∈ y.asIdeal ↔ k * a' ∈ y'.asIdeal := by
       let r : f.pullback g := ⟨(0, k * a'), by
-        show f 0 = g (k * a')
+        change f 0 = g (k * a')
         simp [hgk]⟩
       have hr := congrArg (fun q : PrimeSpectrum (f.pullback g) =>
         r ∈ q.asIdeal) h
@@ -348,10 +348,10 @@ private lemma mem_zeroLocus_of_comap_pullbackFst_mem
     simpa only [map_pow, pow_succ, map_mul] using (JA.map g).mul_mem_right (f b) hn
   obtain ⟨a, ha, hga⟩ := (Ideal.mem_map_iff_of_surjective g hg).mp hpowJA
   let r : f.pullback g := ⟨(b ^ (n + 1), a), by
-    show f (b ^ (n + 1)) = g a
+    change f (b ^ (n + 1)) = g a
     simpa only [map_pow] using hga.symm⟩
   have hrK : r ∈ JB.comap (f.pullbackFst g) ⊓ JA.comap (f.pullbackSnd g) := by
-    show b ^ (n + 1) ∈ JB ∧ a ∈ JA
+    change b ^ (n + 1) ∈ JB ∧ a ∈ JA
     exact ⟨by simpa only [pow_succ] using JB.mul_mem_left (b ^ n) hb, ha⟩
   exact x.isPrime.mem_of_pow_mem (n + 1) (hx hrK : b ^ (n + 1) ∈ x.asIdeal)
 
@@ -365,10 +365,10 @@ private lemma mem_zeroLocus_of_comap_pullbackSnd_mem
     y ∈ PrimeSpectrum.zeroLocus (JA : Set A') := by
   obtain ⟨k, hk, hky⟩ := Set.not_subset.mp hyker
   have hgk : g k = 0 := hk
-  show JA ≤ y.asIdeal
+  change JA ≤ y.asIdeal
   intro a ha
   let r : f.pullback g := ⟨(0, k * a), by
-    show f 0 = g (k * a)
+    change f 0 = g (k * a)
     simp [hgk]⟩
   have hrK : r ∈ JB.comap (f.pullbackFst g) ⊓ JA.comap (f.pullbackSnd g) :=
     ⟨JB.zero_mem, JA.mul_mem_left k ha⟩
@@ -396,7 +396,7 @@ private lemma eq_zeroLocus_inf_comap_of_preimage_eq
     rw [zeroLocus_map_ideal f JB, zeroLocus_map_ideal g JA]
     ext w
     have hsquare := comap_pullback_comm f g w
-    show (PrimeSpectrum.comap f w ∈ PrimeSpectrum.zeroLocus (JB : Set B)) ↔
+    change (PrimeSpectrum.comap f w ∈ PrimeSpectrum.zeroLocus (JB : Set B)) ↔
       (PrimeSpectrum.comap g w ∈ PrimeSpectrum.zeroLocus (JA : Set A'))
     rw [← hJB, ← hJA]
     exact Iff.of_eq (congrArg (fun z : PrimeSpectrum R ↦ z ∈ C) hsquare)
@@ -467,7 +467,7 @@ public theorem primeSpectrum_isPushout
         PrimeSpectrum.continuous_comap s.pullbackCone.fst.hom⟩)
       (TopCat.ofHom ⟨PrimeSpectrum.comap s.pullbackCone.snd.hom,
         PrimeSpectrum.continuous_comap s.pullbackCone.snd.hom⟩) := by
-  show IsPushout
+  change IsPushout
     (TopCat.ofHom ⟨PrimeSpectrum.comap toBase,
       PrimeSpectrum.continuous_comap toBase⟩)
     (TopCat.ofHom ⟨PrimeSpectrum.comap surjection,

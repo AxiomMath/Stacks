@@ -56,7 +56,7 @@ theorem etaleModuleBaseChangeTwist_app_eq (L : EtaleModules.{u, r} Λ Y) :
       (etaleModuleInverseImage.{u, r} Λ g).map (ψ.app L) ≫
         ((mateEquiv (etaleModuleInverseImageAdj.{u, r} Λ g)
             (etaleModuleInverseImageAdj.{u, r} Λ g)).symm
-          (etaleModuleDirectImageCompSquare Λ g a b w)).natTrans.app L := by
+          (etaleModuleDirectImageCompSquare Λ g a b w)).app L := by
   rw [etaleModuleBaseChangeTwist_app, Adjunction.homEquiv_counit]
   simp [etaleModuleBaseChangeTwistAdj, mateEquiv_symm_apply]
 

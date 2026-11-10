@@ -89,7 +89,7 @@ theorem connectedSpace_baseChange_of_stalk [Flat f] (s : S)
   let c := Spec.map (S.presheaf.stalkSpecializes (genericPoint_specializes s) ≫
     S.residue (genericPoint S))
   have hc : c ≫ ι = S.fromSpecResidueField (genericPoint S) := by
-    show Spec.map (_ ≫ _) ≫ _ = _
+    change Spec.map (_ ≫ _) ≫ _ = _
     rw [Spec.map_comp, Category.assoc, Scheme.SpecMap_stalkSpecializes_fromSpecStalk]
     rfl
   have hcgen := specMap_stalkSpecializes_residue_apply s
@@ -146,7 +146,7 @@ theorem connectedSpace_baseChange_of_stalk [Flat f] (s : S)
     intro y
     obtain ⟨y', hy'y, hφy'⟩ := Flat.generalizingMap φ (genericPoint_specializes (φ y))
     refine hy'y.mem_closed isClosed_closure (subset_closure ?_)
-    show y' ∈ Set.range (pullback.fst YV.hom a)
+    change y' ∈ Set.range (pullback.fst YV.hom a)
     rw [Scheme.Pullback.range_fst]
     obtain ⟨w, hw⟩ := hra' (V.ι (YV.hom y')) hφy'
     exact ⟨w, V.ι.isOpenEmbedding.injective (by rw [← hw, ← haι]; rfl)⟩
@@ -159,10 +159,10 @@ theorem connectedSpace_baseChange_of_stalk [Flat f] (s : S)
 whose proper generizations lie in `U`, so that `U` pulls back to the punctured spectrum of
 `𝒪_{S, s}`. Then the restriction of `Y` to the part of `X ×_S Spec 𝒪_{S, s}` over `U` is the
 restriction of a finite étale cover of `X ×_S Spec 𝒪_{S, s}`. If `dim 𝒪_{S, s} = 1` this is the
-discrete valuation ring case of Tag 0EYJ (`h0BMA`, `h0EYD`); otherwise it is the local claim at a
+discrete valuation ring case of Tag 0EYJ (`h0EYD`); otherwise it is the local claim at a
 point of codimension at least two, whose section over the punctured spectrum comes from
 the rational point of `Z` (`AlgebraicGeometry.exists_section_of_genericPoint`). -/
-theorem exists_finiteEtale_extension_to_stalk (h0BMA : PurityAtRegularLocalRings.{u})
+theorem exists_finiteEtale_extension_to_stalk
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -198,12 +198,12 @@ theorem exists_finiteEtale_extension_to_stalk (h0BMA : PurityAtRegularLocalRings
   have hk : k ≫ (f ⁻¹ᵁ U).ι = XP.ι ≫ pullback.fst f ι := morphismRestrict_ι _ _
   have hgenι : ι (genericPoint (Spec O)) = genericPoint S := fromSpecStalk_genericPoint s
   have hXP (x : ↥(pullback f ι)) : x ∈ XP ↔ ι (fO x) ∈ U := by
-    show f (pullback.fst f ι x) ∈ U ↔ _
+    change f (pullback.fst f ι x) ∈ U ↔ _
     rw [← Scheme.Hom.comp_apply, pullback.condition, Scheme.Hom.comp_apply]
   have hgenP : genericPoint (Spec O) ≠ IsLocalRing.closedPoint O := (hP _).1 (by rwa [hgenι])
   -- the section of `Y` over `U` through `σ`
   obtain ⟨σU, hσUι⟩ := exists_lift_opens_ι (f ⁻¹ᵁ U) (U.ι ≫ σ) fun x ↦ by
-    show (σ ≫ f) (U.ι x) ∈ U
+    change (σ ≫ f) (U.ι x) ∈ U
     rw [hσ]
     exact x.2
   obtain ⟨ηU, hηUι⟩ := exists_lift_opens_ι U (S.fromSpecResidueField (genericPoint S)) fun p ↦ by
@@ -246,10 +246,10 @@ theorem exists_finiteEtale_extension_to_stalk (h0BMA : PurityAtRegularLocalRings
     let V := fO ⁻¹ᵁ P
     have hVX : V = XP := by
       ext x
-      show fO x ∈ P ↔ x ∈ XP
+      change fO x ∈ P ↔ x ∈ XP
       rw [hPU, hXP]
     have hVgen (x) (hx : fO x = genericPoint (Spec O)) : x ∈ V := by
-      show fO x ∈ P
+      change fO x ∈ P
       rw [hx, hPU, hgenι]
       exact hη
     let q := (pullback f ι).homOfLE hVX.le ≫ k
@@ -258,7 +258,7 @@ theorem exists_finiteEtale_extension_to_stalk (h0BMA : PurityAtRegularLocalRings
     let YJ := Y.baseChange q (connectedSpace_baseChange_of_stalk f s hη Z Y.obj e V q hq hVgen)
     obtain ⟨PU, hPUι⟩ := exists_lift_opens_ι U (P.ι ≫ ι) fun p ↦ (hPU p.1).1 p.2
     obtain ⟨σP, hσPι⟩ := exists_lift_opens_ι V (P.ι ≫ σO) fun p ↦ by
-      show fO (σO (P.ι p)) ∈ P
+      change fO (σO (P.ι p)) ∈ P
       rw [show fO (σO (P.ι p)) = P.ι p by rw [← Scheme.Hom.comp_apply, hσO]; rfl]
       exact p.2
     have htw : (PU ≫ τ) ≫ Y.obj.hom = σP ≫ q := by
@@ -304,7 +304,7 @@ theorem exists_finiteEtale_extension_to_stalk (h0BMA : PurityAtRegularLocalRings
     have hrange : Set.range F = Set.range XP.ι := by
       rw [Scheme.Hom.range_fiberι, Scheme.Opens.range_ι]
       ext x
-      show fO x = genericPoint (Spec O) ↔ x ∈ XP
+      change fO x = genericPoint (Spec O) ↔ x ∈ XP
       rw [hXP, hP, hgen]
     let g := IsOpenImmersion.isoOfRangeEq F XP.ι hrange
     have hg : g.hom ≫ XP.ι = F := IsOpenImmersion.isoOfRangeEq_hom_fac _ _ _
@@ -338,7 +338,7 @@ theorem exists_finiteEtale_extension_to_stalk (h0BMA : PurityAtRegularLocalRings
     have hzO : zO ≫ ZO.obj.hom = genericFiberSection fO σO hσO := pullback.lift_snd _ _ _
     obtain ⟨Y', e', -⟩ :=
       @exists_finiteEtaleGaloisCover_extending_genericFiber_of_isDiscreteValuationRing O _
-        (IsNormal.stalk_isDomain s) hDVR _ fO h0BMA h0EYD _ _ σO hσO G _ _ hGres ZO zO hzO
+        (IsNormal.stalk_isDomain s) hDVR _ fO h0EYD _ _ σO hσO G _ _ hGres ZO zO hzO
     have hgι : g.inv ≫ F = XP.ι := IsOpenImmersion.isoOfRangeEq_inv_fac _ _ _
     have hgk : k = g.inv ≫ q₁ := by
       rw [Iso.inv_hom_id_assoc]

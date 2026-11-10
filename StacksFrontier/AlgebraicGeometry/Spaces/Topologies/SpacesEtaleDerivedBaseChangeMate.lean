@@ -142,7 +142,7 @@ def spacesToposInverseImageSquare (sq : IsPullback g' f' f g) :
 /-- The comparison of the composite inverse images is invertible: it is conjugate to the
 comparison of the two composite direct images. -/
 instance isIso_spacesToposInverseImageSquare (sq : IsPullback g' f' f g) :
-    IsIso (spacesToposInverseImageSquare T f g g' f' sq).natTrans := by
+    IsIso (spacesToposInverseImageSquare T f g g' f' sq) := by
   have key := iterated_mateEquiv_conjugateEquiv
     (Space.spacesToposAdjunction T.fppfSite S T.fppf_mem f)
     (Space.spacesToposAdjunction T.fppfSite S T.fppf_mem f')
@@ -164,11 +164,11 @@ instance isIso_spacesToposInverseImageSquare (sq : IsPullback g' f' f g) :
         (Space.spacesToposAdjunction T.fppfSite S T.fppf_mem g'))
       ((Space.spacesToposAdjunction T.fppfSite S T.fppf_mem g).comp
         (Space.spacesToposAdjunction T.fppfSite S T.fppf_mem f'))
-      (spacesToposInverseImageSquare T f g g' f' sq).natTrans =
+      (spacesToposInverseImageSquare T f g g' f' sq) =
       Space.spacesPushforwardCompSquare T.fppfSite S T.fppf_mem g' f' f g sq.w :=
     key.symm.trans ((congrArg (fun t => (mateEquiv
       (Space.spacesToposAdjunction T.fppfSite S T.fppf_mem g')
-      (Space.spacesToposAdjunction T.fppfSite S T.fppf_mem g) t).natTrans) h₁).trans h₂)
+      (Space.spacesToposAdjunction T.fppfSite S T.fppf_mem g) t)) h₁).trans h₂)
   have : IsIso (Space.spacesPushforwardCompSquare T.fppfSite S T.fppf_mem g' f' f g sq.w) := by
     dsimp only [Space.spacesPushforwardCompSquare]
     infer_instance
@@ -177,7 +177,7 @@ instance isIso_spacesToposInverseImageSquare (sq : IsPullback g' f' f g) :
         (Space.spacesToposAdjunction T.fppfSite S T.fppf_mem g'))
       ((Space.spacesToposAdjunction T.fppfSite S T.fppf_mem g).comp
         (Space.spacesToposAdjunction T.fppfSite S T.fppf_mem f'))
-      (spacesToposInverseImageSquare T f g g' f' sq).natTrans) := by
+      (spacesToposInverseImageSquare T f g g' f' sq)) := by
     rw [hc]
     infer_instance
   exact conjugateEquiv_of_iso
@@ -200,17 +200,17 @@ def spacesEtaleAbelianInverseImageSquare (sq : IsPullback g' f' f g) :
   ProEtale.liftSheafNatTrans (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem Y') _ _
     (Functor.whiskerLeft
       (sheafCompose (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem X) (forget Ab.{u + 1}))
-      (spacesToposInverseImageSquare T f g g' f' sq).natTrans)
+      (spacesToposInverseImageSquare T f g g' f' sq))
 
 /-- The comparison of the composite inverse images of abelian sheaves is invertible. -/
 instance isIso_spacesEtaleAbelianInverseImageSquare (sq : IsPullback g' f' f g) :
-    IsIso (spacesEtaleAbelianInverseImageSquare T f g g' f' sq).natTrans := by
+    IsIso (spacesEtaleAbelianInverseImageSquare T f g g' f' sq) := by
   have : HasBinaryBiproducts
       (Sheaf (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem X) Ab.{u + 1}) :=
     HasBinaryBiproducts.of_hasBinaryProducts
   have : IsIso (Functor.whiskerLeft
       (sheafCompose (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem X) (forget Ab.{u + 1}))
-      (spacesToposInverseImageSquare T f g g' f' sq).natTrans) := inferInstance
+      (spacesToposInverseImageSquare T f g g' f' sq)) := inferInstance
   exact @isIso_liftSheafNatTrans _ _ _ _ _ _ _ _ _ _ _ _ this
 
 /-- **The abelian base change map is a mate**: the base change map
@@ -221,7 +221,7 @@ are those of the adjunctions of sheaves of sets. -/
 theorem spacesEtaleAbelianBaseChange_eq_mateEquiv (sq : IsPullback g' f' f g) :
     spacesEtaleAbelianBaseChange T f g g' f' sq =
       (mateEquiv (smallEtaleAbelianAdjunction T f) (smallEtaleAbelianAdjunction T f')
-        (spacesEtaleAbelianInverseImageSquare T f g g' f' sq)).natTrans := by
+        (spacesEtaleAbelianInverseImageSquare T f g g' f' sq)) := by
   ext G : 2
   apply (sheafCompose (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem X')
     (forget Ab.{u + 1})).map_injective
@@ -253,7 +253,7 @@ invertible (`Stacks.Homology.DerivedSquare.isIso_derivedTwoSquare`). -/
 theorem spacesEtaleDerivedBaseChange_eq_mateEquiv (sq : IsPullback g' f' f g) :
     spacesEtaleDerivedBaseChange T f g g' f' sq =
       (mateEquiv (smallEtaleDerivedAdjunction T f) (smallEtaleDerivedAdjunction T f')
-        (derivedTwoSquare (spacesEtaleAbelianInverseImageSquare T f g g' f' sq))).natTrans := by
+        (derivedTwoSquare (spacesEtaleAbelianInverseImageSquare T f g g' f' sq))) := by
   have h := Stacks.Homology.DerivedSquare.derivedSquare_mateEquiv
     (smallEtaleAbelianAdjunction T f) (smallEtaleAbelianAdjunction T f')
     (spacesEtaleAbelianInverseImageSquare T f g g' f' sq)
@@ -264,7 +264,7 @@ theorem spacesEtaleDerivedBaseChange_eq_mateEquiv (sq : IsPullback g' f' f g) :
   have h₁ : spacesEtaleDerivedBaseChange T f g g' f' sq =
       Stacks.Homology.DerivedSquare.derivedSquare
         (mateEquiv (smallEtaleAbelianAdjunction T f) (smallEtaleAbelianAdjunction T f')
-          (spacesEtaleAbelianInverseImageSquare T f g g' f' sq)).natTrans := by
+          (spacesEtaleAbelianInverseImageSquare T f g g' f' sq)) := by
     rw [spacesEtaleDerivedBaseChange, spacesEtaleAbelianBaseChange_eq_mateEquiv]
   exact h₁.trans h
 

@@ -400,7 +400,7 @@ theorem isDiscreteValuationRing_of_directed_union
     · rintro ⟨u, hu⟩
       obtain ⟨i, hi⟩ := hcover (↑u⁻¹ : R)
       refine (hπ i).not_isUnit (isUnit_iff_exists_inv.mpr ⟨⟨↑u⁻¹, hi⟩, Subtype.ext ?_⟩)
-      show π * (↑u⁻¹ : R) = 1
+      change π * (↑u⁻¹ : R) = 1
       rw [← hu, Units.mul_inv]
     · intro a b hab
       obtain ⟨i, hi⟩ := hcover a

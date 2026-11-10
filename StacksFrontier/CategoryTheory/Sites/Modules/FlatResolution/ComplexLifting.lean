@@ -373,7 +373,7 @@ lemma enlarged_lift {n : ℤ} (S : LiftState B (n + 1)) (D : LiftCell B S)
   let e := pullback.snd D.q k
   let c := pullback.fst D.q k ≫ pairInr (B.complex.X n) D.Q₀
   refine ⟨pullback D.q k, e, inferInstance, c, ?_, ?_⟩
-  · simp [c, e, k, a', enlargedArrow, pullback.condition_assoc, pullback.lift_fst_assoc]
+  · simp [c, e, k, a', enlargedArrow, pullback.condition_assoc]
   · simp only [c, e, k, enlargedTerm, Category.assoc, pairInr_desc, pullback.condition_assoc]
     rw [pullback.lift_snd]
 
@@ -445,12 +445,12 @@ decreasing_by
 /-- Above the bound the tower is the prescribed data. -/
 lemma liftTower_of_gt (n : ℤ) (hn : N < n) :
     liftTower B hf hflat N n = initialState B hflat n := by
-  rw [liftTower, if_pos hn]
+  rw [liftTower, ite_eq_left hn]
 
 /-- Below the bound the tower is one step of enlargement. -/
 lemma liftTower_of_le (n : ℤ) (hn : n ≤ N) :
     liftTower B hf hflat N n = nextState B hf hflat (liftTower B hf hflat N (n + 1)) := by
-  rw [liftTower, if_neg (not_lt.mpr hn)]
+  rw [liftTower, ite_eq_right (not_lt.mpr hn)]
 
 /-- The next term carried by the tower's state at `n` is the term of its state at `n + 1`. -/
 lemma liftTower_next (n : ℤ) :

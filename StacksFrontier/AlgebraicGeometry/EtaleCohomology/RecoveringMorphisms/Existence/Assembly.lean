@@ -227,7 +227,7 @@ def goodRestrictionIso (F : Sheaf (SmallEtale.topology B X.obj X.property) (Type
     (SmallEtale.goodChartInclusion B Y.obj Y.property).op ⋙ (g.toToposHom.pushforward.obj F).obj ≅
       (SmallEtale.goodChartInclusion B Y.obj Y.property).op ⋙
         ((smallEtaleRingedToposHom B (glueHom g)).toToposHom.pushforward.obj F).obj :=
-  NatIso.ofComponents (fun V' => (goodSectionEquiv g hg F V'.unop).toIso) (fun {V₁ V₂} ι =>
+  NatIso.ofComponents (fun V' => (goodSectionEquiv g hg F V'.unop).toIso) (fun ι =>
     TypeCat.homEquiv.injective (funext fun s => goodSectionEquiv_naturality g hg F ι.unop s))
 
 /-- `goodSectionEquiv` is natural in the sheaf `F`. -/
@@ -282,13 +282,13 @@ theorem pushforwardIso_commutes :
       RingedToposHom.forgetFSharp (smallEtaleRingedToposHom B (glueHom g)) := by
   refine sheaf_hom_ext_goodChart ?_
   rw [ObjectProperty.FullSubcategory.comp_hom, Functor.whiskerLeft_comp]
-  show _ ≫ Functor.whiskerLeft _ (pushforwardIsoApp g hg _).hom.hom = _
+  change _ ≫ Functor.whiskerLeft _ (pushforwardIsoApp g hg _).hom.hom = _
   rw [whiskerLeft_pushforwardIsoApp]
   refine NatTrans.ext (funext fun V' => TypeCat.homEquiv.injective (funext fun s => ?_))
   let Jy := SmallEtale.topology B Y.obj Y.property
   let Jx := SmallEtale.topology B X.obj X.property
   let cI := goodComparisonIso g hg V'.unop
-  show goodSectionEquiv g hg _ V'.unop
+  change goodSectionEquiv g hg _ V'.unop
       ((RingedToposHom.forgetFSharp g).hom.app (op V'.unop.obj) s) =
     (show ↥Γ((SmallEtale.toScheme B X.obj X.property).obj
       ((smallEtaleBaseChange B (glueHom g)).obj V'.unop.obj), ⊤) from

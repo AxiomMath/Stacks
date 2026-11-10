@@ -45,7 +45,8 @@ The reduction is the specialisation of
 `Stacks.Algebraization.isRightAdjoint_ι_of_idempotentCompletionFunctor` to the object property
 `AlgebraicGeometry.RingedSite.IsDerivedComplete` of [Stacks, Tag 0999]. Its three hypotheses
 are exactly the three conditions the source's proof verifies, the third being the one that the
-two-object counterexample of `StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletion.lean`
+two-object counterexample of
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletion.lean`
 shows cannot be dropped. What is not reduced is the construction of `(Φ, η)` itself: that is
 [Stacks, Tag 099E], `AlgebraicGeometry.RingedSite.exists_isGlobalExtendedCech` of
 `FiniteTypeExtendedCech.lean`, and the tag is
@@ -215,7 +216,7 @@ theorem isDerivedComplete_of_forall_eq_zero
   let A := SheafOfModules.{max u v} RV
   let : Linear (CatCenter A) A := Linear.ofRingMorphism (RingHom.id (CatCenter A))
   let : ∀ W : (Over V)ᵒᵖ, IsMulCommutative (RV.obj.obj W) := fun W ↦ by
-    show IsMulCommutative (X.O.obj.obj (op W.unop.left))
+    change IsMulCommutative (X.O.obj.obj (op W.unop.left))
     infer_instance
   have hLim : PreservesFiniteLimits
       (SheafOfModules.overFunctor.{max u v} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) V) :=

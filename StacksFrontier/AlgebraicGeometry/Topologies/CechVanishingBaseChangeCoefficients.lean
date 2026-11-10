@@ -110,10 +110,10 @@ theorem overAffineAlgΓBase_algebraMap (Z : Over U.left)
     algebraMap (ULift.{u} (Γ(U.left, ⊤) : Type u))
         (((overAffineAlgΓBase U).obj Z).unop : Type u) c =
       (Scheme.Γ.map Z.hom.op).hom c.down := by
-  show (Scheme.Γ.map (Z.hom ≫ (specOverAffineBaseRingIso U).inv).op).hom
+  change (Scheme.Γ.map (Z.hom ≫ (specOverAffineBaseRingIso U).inv).op).hom
       ((Scheme.ΓSpecIso (overAffineBaseRing U)).inv.hom c) = _
   rw [op_comp, Scheme.Γ.map_comp]
-  show (Scheme.Γ.map Z.hom.op).hom
+  change (Scheme.Γ.map Z.hom.op).hom
     (((Scheme.ΓSpecIso (overAffineBaseRing U)).inv ≫
       Scheme.Γ.map (specOverAffineBaseRingIso U).inv.op).hom c) = _
   rw [ΓSpecIso_inv_comp_Γ_map_specOverAffineBaseRingIso_inv]

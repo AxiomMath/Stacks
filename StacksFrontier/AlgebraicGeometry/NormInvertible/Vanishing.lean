@@ -95,7 +95,7 @@ theorem evaluation_norm_ne_zero_of_no_zero_in_fibre (f : X ⟶ Y) [IsFinite f]
     rw [← B.ι_image_basicOpen_topIso_inv]
     exact ⟨fun h => ⟨z, h, rfl⟩, fun ⟨z', hz', h⟩ => by rwa [← Subtype.ext h]⟩
   have hyW : (⟨y, hy⟩ : U.toScheme) ∈ W := by
-    show (⟨y, hy⟩ : U.toScheme) ∉ g '' C
+    change (⟨y, hy⟩ : U.toScheme) ∉ g '' C
     rintro ⟨z, hzC, hzy⟩
     have hfy : f z.1 = y :=
       calc f z.1 = U.ι (g z) := (morphismRestrict_base_coe f U z).symm

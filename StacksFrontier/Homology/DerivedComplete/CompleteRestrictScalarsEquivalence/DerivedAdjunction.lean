@@ -253,15 +253,15 @@ theorem exists_adjunction_of_models
       E X' Y (F'.map f ≫ g) = f ≫ E X Y g := by
     apply (E X' Y).symm.injective
     rw [Equiv.symm_apply_apply]
-    show F'.map f ≫ g = F'.map (f ≫ E X Y g) ≫ ε Y
+    change F'.map f ≫ g = F'.map (f ≫ E X Y g) ≫ ε Y
     rw [F'.map_comp, Category.assoc]
     congr 1
     exact ((E X Y).symm_apply_apply g).symm
   refine ⟨Adjunction.rightAdjointOfEquiv E hE, Adjunction.adjunctionOfEquivRight E hE,
     fun Y => ⟨I Y, hP Y, i Y, Iso.refl _, ?_⟩⟩
-  show (E (G₀ Y) Y).symm (𝟙 _) = _
-  show F'.map (𝟙 _) ≫ ε Y = _
-  show F'.map (𝟙 (G₀ Y)) ≫ ε Y = F'.map (𝟙 (G₀ Y)) ≫ ε Y
+  change (E (G₀ Y) Y).symm (𝟙 _) = _
+  change F'.map (𝟙 _) ≫ ε Y = _
+  change F'.map (𝟙 (G₀ Y)) ≫ ε Y = F'.map (𝟙 (G₀ Y)) ≫ ε Y
   rfl
 
 
@@ -314,7 +314,7 @@ theorem bijective_postcomp_counit_iff_precomp_unit
     (adj₁ : L ⊣ F) (adj₂ : F ⊣ G) (X Y : C) :
     Function.Bijective (fun g : X ⟶ F.obj (G.obj Y) => g ≫ adj₂.counit.app Y) ↔
       Function.Bijective (fun g : F.obj (L.obj X) ⟶ Y => adj₁.unit.app X ≫ g) := by
-  show Function.Bijective (fun g : X ⟶ F.obj (G.obj Y) => (g ≫ adj₂.counit.app Y : X ⟶ Y)) ↔
+  change Function.Bijective (fun g : X ⟶ F.obj (G.obj Y) => (g ≫ adj₂.counit.app Y : X ⟶ Y)) ↔
     Function.Bijective (fun g : F.obj (L.obj X) ⟶ Y => (adj₁.unit.app X ≫ g : X ⟶ Y))
   let e := (adj₁.homEquiv X (G.obj Y)).symm.trans (adj₂.homEquiv (L.obj X) Y).symm
   have he : (fun g : X ⟶ F.obj (G.obj Y) => adj₁.unit.app X ≫ e g) =
@@ -536,11 +536,11 @@ private theorem bijective_precomp_bottomProjection
   have hS := shortExact_kernel_bottomProjection K a ha
   apply bijective_precomp_of_distinguished (DerivedCategory.triangleOfSES hS)
     (DerivedCategory.triangleOfSES_distinguished hS) E
-  · show Subsingleton (DerivedCategory.Q.obj L ⟶ E)
+  · change Subsingleton (DerivedCategory.Q.obj L ⟶ E)
     have := hLE 0
     exact (Iso.homCongr (Iso.refl _) ((shiftFunctorZero (DerivedCategory C) ℤ).app
       E).symm).injective.subsingleton
-  · show Subsingleton ((DerivedCategory.Q.obj L)⟦(1 : ℤ)⟧ ⟶ E)
+  · change Subsingleton ((DerivedCategory.Q.obj L)⟦(1 : ℤ)⟧ ⟶ E)
     let e : ((DerivedCategory.Q.obj L)⟦(1 : ℤ)⟧ ⟶ E) ≃
         (DerivedCategory.Q.obj L ⟶ E⟦(-1 : ℤ)⟧) :=
       (shiftEquiv (DerivedCategory C) (1 : ℤ)).toAdjunction.homEquiv
@@ -661,12 +661,12 @@ private lemma subsingleton_hom_single_of_isUnit_smul
     obtain ⟨w, hw⟩ := hu
     refine ⟨ModuleCat.ofHom w⁻¹.1, ?_, ?_⟩
     · ext m
-      show w⁻¹.1 (f • m) = m
+      change w⁻¹.1 (f • m) = m
       have := congrArg (fun g : Module.End A M => g m) w.inv_mul
       simp only [hw, Module.End.mul_apply, Module.End.one_apply] at this
       simpa [Module.algebraMap_end_apply] using this
     · ext m
-      show f • w⁻¹.1 m = m
+      change f • w⁻¹.1 m = m
       have := congrArg (fun g : Module.End A M => g m) w.mul_inv
       simp only [hw, Module.End.mul_apply, Module.End.one_apply] at this
       simpa [Module.algebraMap_end_apply] using this
@@ -678,7 +678,7 @@ private lemma subsingleton_hom_single_of_isUnit_smul
     funext q
     by_cases hq : q = p
     · subst hq
-      simp [S, HomologicalComplex.single_map_f_self]
+      simp [S]
     · exact (HomologicalComplex.isZero_single_obj_X _ p _ q hq).eq_of_src _ _
   rw [heq]
   infer_instance

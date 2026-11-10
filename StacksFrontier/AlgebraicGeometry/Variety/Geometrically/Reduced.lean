@@ -161,7 +161,6 @@ private lemma isReduced_stalk_iff_aux
       _root_.IsReduced ((pullback f (Spec.map (ofHom (algebraMap k K)))).presheaf.stalk t) →
       _root_.IsReduced (K ⊗[k] X.presheaf.stalk x)) := by
   intro _ _
-
   let g := Spec.map (ofHom (algebraMap k K))
   let pX := pullback.fst f g
   let pY := pullback.snd f g
@@ -184,10 +183,10 @@ private lemma isReduced_stalk_iff_aux
   have towerKRB : IsScalarTower k R B := IsScalarTower.of_algebraMap_eq'
     (stalkMap_spec_comp_algebraMap y (f x) h).symm
   have locR : IsLocalization.AtPrime R z.asIdeal := by
-    show IsLocalization.AtPrime ((structurePresheafInCommRingCat k).stalk z) z.asIdeal
+    change IsLocalization.AtPrime ((structurePresheafInCommRingCat k).stalk z) z.asIdeal
     infer_instance
   have locB : IsLocalization.AtPrime B y.asIdeal := by
-    show IsLocalization.AtPrime ((structurePresheafInCommRingCat K).stalk y) y.asIdeal
+    change IsLocalization.AtPrime ((structurePresheafInCommRingCat K).stalk y) y.asIdeal
     infer_instance
   have hr : Function.Bijective (algebraMap k R) :=
     Field.localization_map_bijective (M := z.asIdeal.primeCompl) (by simp)
@@ -276,7 +275,7 @@ public lemma isGeometricallyReducedAt_iff_isGeometricallyReduced_stalk
     intro K _ _ _ _
     exact isReduced_tensorProduct_of_forall_isReduced_stalk f x (hpoint K)
   · intro hgeom
-    show ∀ (K : Type u) [Field K] [Algebra k K]
+    change ∀ (K : Type u) [Field K] [Algebra k K]
       (t : (pullback f (Spec.map (ofHom (algebraMap k K))) : Scheme)),
       pullback.fst f (Spec.map (ofHom (algebraMap k K))) t = x →
         _root_.IsReduced ((pullback f (Spec.map (ofHom (algebraMap k K)))).presheaf.stalk t)

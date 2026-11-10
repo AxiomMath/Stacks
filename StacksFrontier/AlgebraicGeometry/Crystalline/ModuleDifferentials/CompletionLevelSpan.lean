@@ -142,7 +142,7 @@ public theorem exists_sub_mem_pAdicIdeal_pow_of {B : Type v} [CommRing B] (p k :
   refine Exists.elim (Ideal.Quotient.mk_surjective
     (AdicCompletion.evalₐ (DividedPowers.pAdicIdeal (A := B) p) k x)) fun b hb ↦ ⟨b, ?_⟩
   rw [pAdicIdeal_eq_ker_eval (B := B) p k, RingHom.mem_ker]
-  show (AdicCompletion.evalₐ (DividedPowers.pAdicIdeal (A := B) p) k) _ = 0
+  change (AdicCompletion.evalₐ (DividedPowers.pAdicIdeal (A := B) p) k) _ = 0
   rw [map_sub, AdicCompletion.evalₐ_of, ← hb, sub_self]
 
 variable {A : Type u} {B : Type v} [CommRing A] [CommRing B] [Algebra A B]

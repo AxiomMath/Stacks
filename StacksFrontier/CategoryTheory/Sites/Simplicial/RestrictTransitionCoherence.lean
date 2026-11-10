@@ -1036,7 +1036,7 @@ theorem system_naturality_id_app
         (G.naturality (𝟙 (⟨n⟩ : LocallyDiscrete SimplexCategory))).toNatTrans.app ⟨PUnit.unit⟩ =
       𝟙 _ := by
     refine h4.trans ?_
-    show 𝟙 _ ≫ 𝟙 _ ≫
+    change 𝟙 _ ≫ 𝟙 _ ≫
       (G.app (⟨n⟩ : LocallyDiscrete SimplexCategory)).toFunctor.map (𝟙 _) = 𝟙 _
     rw [Category.id_comp, Category.id_comp]
     exact CategoryTheory.Functor.map_id _ _

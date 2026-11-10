@@ -221,7 +221,8 @@ theorem about the construction, \
 of `ℐ'`, `AlgebraicGeometry.RingedToposHom.isFiniteType_inverseImageIdealSheaf`; no object is \
 excluded and no generating family is assumed global. The proof is the source's reduction to a \
 morphism of ringed sites by [Stacks, Tag 03CR], whose ringed-sites case is \
-`AlgebraicGeometry.RingedSite.isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isFiniteType`. \
+`AlgebraicGeometry.RingedSite.\
+isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isFiniteType`. \
 Two results make that reduction go through: the sheaves of ideals that the square's arrows build \
 agree where the applications meet, by \
 `AlgebraicGeometry.RingedToposHom.inverseImageIdealSheaf_denseSquare`, and the square's \

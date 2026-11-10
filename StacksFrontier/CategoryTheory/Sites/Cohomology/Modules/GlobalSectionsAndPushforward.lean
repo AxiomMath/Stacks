@@ -43,7 +43,8 @@ spectral sequence of a morphism of ringed topoi a Grothendieck spectral sequence
 * The pushforward of sheaves of modules along a morphism of ringed topoi is additive by
   `Stacks.Sheaves.RingedToposModules.additive_pushforwardModules`, and the direct image of
   Stacks 03D1 by `Stacks.Sheaves.ToposPushforward.additive_pushforwardModuleFunctor`; both are
-  instances of `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdditivityOfDirectAndInverseImage.lean`.
+  instances of the file `AdditivityOfDirectAndInverseImage.lean` in
+  `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/`.
 
 ## Implementation notes
 
@@ -164,7 +165,7 @@ lemma unitEnd_zero : unitEnd R 0 = 0 :=
 lemma unitEnd_mul (a b : RingCat.sectionsSubring R.obj) :
     unitEnd R (a * b) = unitEnd R a ≫ unitEnd R b := by
   refine unitEnd_ext R fun Z => ?_
-  show (1 : R.obj.obj Z) * (a * b).1 Z = (1 * a.1 Z) * b.1 Z
+  change (1 : R.obj.obj Z) * (a * b).1 Z = (1 * a.1 Z) * b.1 Z
   rw [one_mul, one_mul]
   rfl
 
@@ -172,7 +173,7 @@ lemma unitEnd_mul (a b : RingCat.sectionsSubring R.obj) :
 lemma unitEnd_add (a b : RingCat.sectionsSubring R.obj) :
     unitEnd R (a + b) = unitEnd R a + unitEnd R b := by
   refine unitEnd_ext R fun Z => ?_
-  show (1 : R.obj.obj Z) * (a + b).1 Z = 1 * a.1 Z + 1 * b.1 Z
+  change (1 : R.obj.obj Z) * (a + b).1 Z = 1 * a.1 Z + 1 * b.1 Z
   rw [one_mul, one_mul, one_mul]
   rfl
 
@@ -218,7 +219,7 @@ lemma unitHomEquiv_unitEnd_comp {M : SheafOfModules.{w} R}
   funext Z
   refine Eq.trans (congrArg (fun x : R.obj.obj Z => b.val.app Z x) ?_)
     ((b.val.app Z).hom.map_smul (a.1 Z) (1 : R.obj.obj Z))
-  show (1 : R.obj.obj Z) * a.1 Z = a.1 Z • (1 : R.obj.obj Z)
+  change (1 : R.obj.obj Z) * a.1 Z = a.1 Z • (1 : R.obj.obj Z)
   rw [smul_eq_mul, one_mul, mul_one]
 
 /-- The identification of `Γ(C, M)` with the morphisms out of the free module of rank one is
@@ -539,6 +540,7 @@ variable {X : RingedTopos.{v, max u t, max w t s}} {Y : RingedTopos.{v', max u s
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{max w t s}]
   (f : RingedToposHom X Y)
 
+set_option linter.checkUnivs false in
 /-- The comparison `Γ(D, f_*N) ≅ Γ(C, N)` of global sections as `Γ(D, O_D)`-modules, the right
 hand side taken with scalars restricted along `globalSectionsRingHom f`, for ringed topoi whose
 object universes may differ. -/
@@ -571,6 +573,7 @@ def globalSectionsPushforwardIsoAppGeneral
     refine ModuleCat.hom_ext (LinearMap.ext fun s ↦ ?_)
     exact (globalSectionsPushforwardEquiv f N).apply_symm_apply s
 
+set_option linter.checkUnivs false in
 /-- **Global sections of modules are unchanged by a pushforward along a morphism of ringed
 topoi**, as an isomorphism of functors, for ringed topoi whose object universes may differ:
 `Γ(C, -) = Γ(D, -) ∘ f_*` after restricting scalars along the induced ring map

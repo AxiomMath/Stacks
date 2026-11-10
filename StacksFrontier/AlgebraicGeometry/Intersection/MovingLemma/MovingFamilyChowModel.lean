@@ -51,6 +51,7 @@ abbrev Plane : Type u := Fin 2 → k
 /-- Its standard basis. -/
 abbrev planeBasis : Module.Basis (Fin 2) k (Plane k) := Pi.basisFun k (Fin 2)
 
+omit [IsAlgClosed k] in
 /-- The inverse of the identification `ℙ¹ ≅ 𝐏(k²)` commutes with the structure morphisms to
 `Spec k`. -/
 theorem inv_comp_relativeProjectiveLine_over :
@@ -71,6 +72,7 @@ def lineProductIsoProjectiveLineProduct :
       (relativeProjectiveLineIsoProjectiveSpaceOfModule k (Plane k) (planeBasis k)).inv (𝟙 _)
       (by simp) (by rw [inv_comp_relativeProjectiveLine_over, Category.comp_id]))
 
+omit [IsAlgClosed k] in
 /-- The isomorphism `lineProductIsoProjectiveLineProduct` commutes with the projections to
 `𝐏(V)`. -/
 @[reassoc (attr := simp)]
@@ -78,6 +80,7 @@ theorem lineProductIsoProjectiveLineProduct_hom_fst :
     (lineProductIsoProjectiveLineProduct k V).hom ≫ pullback.fst _ _ = lineProductPoint k V _ := by
   simp [lineProductIsoProjectiveLineProduct]
 
+omit [IsAlgClosed k] in
 /-- Composed with the projection to `ℙ¹`, the isomorphism `lineProductIsoProjectiveLineProduct`
 is the projection to `𝐏(k²)` followed by the identification `𝐏(k²) ≅ ℙ¹`. -/
 @[reassoc (attr := simp)]
@@ -87,6 +90,7 @@ theorem lineProductIsoProjectiveLineProduct_hom_snd :
         (relativeProjectiveLineIsoProjectiveSpaceOfModule k (Plane k) (planeBasis k)).inv := by
   simp [lineProductIsoProjectiveLineProduct]
 
+omit [IsAlgClosed k] in
 /-- Pointwise form of `lineProductIsoProjectiveLineProduct_hom_fst`. -/
 private theorem lineProductIsoProjectiveLineProduct_hom_fst_apply (x : lineProduct k V (Plane k)) :
     (pullback.fst (projectiveSpaceOfModuleToSpec k V)
@@ -94,6 +98,7 @@ private theorem lineProductIsoProjectiveLineProduct_hom_fst_apply (x : lineProdu
         ((lineProductIsoProjectiveLineProduct k V).hom x) = (lineProductPoint k V (Plane k)) x := by
   rw [← Scheme.Hom.comp_apply, lineProductIsoProjectiveLineProduct_hom_fst]
 
+omit [IsAlgClosed k] in
 /-- Pointwise form of `lineProductIsoProjectiveLineProduct_hom_snd`. -/
 private theorem lineProductIsoProjectiveLineProduct_hom_snd_apply (x : lineProduct k V (Plane k)) :
     (pullback.snd (projectiveSpaceOfModuleToSpec k V)
@@ -145,6 +150,7 @@ theorem pointOfClosedPoint_infinityPoint_comp_inv :
 
 variable [FiniteDimensional k V] [Nontrivial V]
 
+omit [FiniteDimensional k V] [Nontrivial V] in
 /-- **The fibre over `0` is the zero section.** -/
 theorem lineProductSection_zeroPoint_comp_hom :
     lineProductSection k V (Plane k) (zeroPoint k _ (planeBasis k))
@@ -157,6 +163,7 @@ theorem lineProductSection_zeroPoint_comp_hom :
       lineProductSection_comp_lineProductLine_assoc, pointOfClosedPoint_zeroPoint_comp_inv,
       Stacks.Chow.zeroSection_comp_snd]
 
+omit [FiniteDimensional k V] [Nontrivial V] in
 /-- **The fibre over `∞` is the infinity section.** -/
 theorem lineProductSection_infinityPoint_comp_hom :
     lineProductSection k V (Plane k) (infinityPoint k _ (planeBasis k))
@@ -175,7 +182,7 @@ theorem topologicalKrullDim_image_hom {A B : Scheme.{u}} (e : A ≅ B) (S : Set 
     topologicalKrullDim ↥(e.hom.base '' S) = topologicalKrullDim ↥S :=
   topologicalKrullDim_image_homeomorph (Scheme.homeoOfIso e) S
 
-omit [FiniteDimensional k V] [Nontrivial V] in
+omit [IsAlgClosed k] [FiniteDimensional k V] [Nontrivial V] in
 /-- The isomorphism `lineProductIsoProjectiveLineProduct` carries the constant family
 `lineProductConstant` of `X` onto the preimage of `X` in `𝐏(V) ×_k ℙ¹`. -/
 private theorem preimage_fst_eq_image_lineProductConstant (X : Set (projectiveSpaceOfModule k V)) :
@@ -189,14 +196,15 @@ private theorem preimage_fst_eq_image_lineProductConstant (X : Set (projectiveSp
   constructor
   · intro hy
     refine ⟨hh.symm y, ?_, hh.apply_symm_apply y⟩
-    show (lineProductPoint k V (Plane k)) (hh.symm y) ∈ X
+    change (lineProductPoint k V (Plane k)) (hh.symm y) ∈ X
     rwa [← lineProductIsoProjectiveLineProduct_hom_fst_apply, ← hhΦ, hh.apply_symm_apply]
   · rintro ⟨x, hx, rfl⟩
-    show (pullback.fst (projectiveSpaceOfModuleToSpec k V)
+    change (pullback.fst (projectiveSpaceOfModuleToSpec k V)
       (Stacks.Chow.relativeProjectiveLine (Spec (.of k)) ↘ Spec (.of k)))
         ((lineProductIsoProjectiveLineProduct k V).hom x) ∈ X
     rwa [lineProductIsoProjectiveLineProduct_hom_fst_apply]
 
+omit [FiniteDimensional k V] [Nontrivial V] in
 /-- The preimage along `Stacks.Chow.infinitySection` of the image of `S` under
 `lineProductIsoProjectiveLineProduct` is the fibre of `S` over `∞`. -/
 private theorem infinitySection_preimage_image_hom (S : Set (lineProduct k V (Plane k))) :
@@ -304,7 +312,7 @@ public theorem exists_movingFamily_projectiveLineProduct
     congr 2
     apply Closeds.ext
     ext x
-    show Φ.hom.base x ∈ Φ.hom.base '' (Cf : Set (lineProduct k V (Plane k))) ↔
+    change Φ.hom.base x ∈ Φ.hom.base '' (Cf : Set (lineProduct k V (Plane k))) ↔
       x ∈ (Cf : Set (lineProduct k V (Plane k)))
     rw [← himg, ← hhΦ, hh.injective.mem_set_image]
   · have hinter : (Φ.hom.base '' (Cf : Set (lineProduct k V (Plane k)))) ∩

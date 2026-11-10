@@ -229,7 +229,7 @@ theorem surjective_pointsMap_baseSpaceTransition (n : ℕ) :
   intro t
   obtain ⟨σ, hσ⟩ := hsurj (schemePointsHomeomorph D.B D.S D.containsLimitBase _ t)
   refine ⟨(schemePointsHomeomorph D.B D.S D.containsLimitBase _).symm σ, ?_⟩
-  show pointsMap D.B D.S D.containsLimitBase _
+  change pointsMap D.B D.S D.containsLimitBase _
     (yoneda.map (baseObjectTransition D.system D.B D.containsLimitBase D.containsBaseAt n))
     ((schemePointsHomeomorph D.B D.S D.containsLimitBase _).symm σ) = t
   rw [schemePointsHomeomorph_symm_naturality, hσ]
@@ -274,7 +274,7 @@ theorem isIso_stageComparison_of_range_subset
     D.X.left.2 (D.stage n).2 W hW (D.closedImmersion n).hom).2 hn
   have hle : Subfunctor.range (𝟙 (D.stage n).1) ≤ D.stagePreimage W n := by
     rintro U _ ⟨x, rfl⟩
-    show (D.closedImmersion n).hom.app U x ∈ W.obj U
+    change (D.closedImmersion n).hom.app U x ∈ W.obj U
     rw [← hg]
     exact (g.app U x).2
   let s : D.stage n ⟶ openSubspaceSpace D.B D.S D.containsLimitBase (D.stagePreimage W n)

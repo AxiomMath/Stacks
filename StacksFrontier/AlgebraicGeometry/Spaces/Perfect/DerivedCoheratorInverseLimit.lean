@@ -310,7 +310,7 @@ theorem isZero_homology_chartSections_of_isDerivedLimit_single
     intro n j hj
     let T := (DerivedCategory.singleFunctor AddCommGrpCat.{u} 0).obj
       ((chartSectionsAb B S hS X U).obj (𝓕.obj (op n)))
-    show IsZero ((DerivedCategory.homologyFunctor AddCommGrpCat.{u} j).obj T)
+    change IsZero ((DerivedCategory.homologyFunctor AddCommGrpCat.{u} j).obj T)
     rcases lt_or_gt_of_ne hj with hj | hj
     · exact T.isZero_of_isGE 0 j hj
     · exact T.isZero_of_isLE 0 j hj

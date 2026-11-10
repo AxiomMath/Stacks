@@ -275,7 +275,7 @@ theorem isIso_unitToPushforwardObjUnit_of_isIso {Z W : Scheme.{u}} (e : Z ⟶ W)
     IsIso (_root_.SheafOfModules.unitToPushforwardObjUnit e.toRingCatSheafHom) := by
   apply Scheme.Modules.Hom.isIso_iff_isIso_app.mpr
   intro U
-  show IsIso (((forget₂ CommRingCat RingCat) ⋙ forget₂ RingCat Ab).map (e.app U))
+  change IsIso (((forget₂ CommRingCat RingCat) ⋙ forget₂ RingCat Ab).map (e.app U))
   infer_instance
 
 /-- **The direct image of the structure sheaf along an isomorphism of schemes is the structure
@@ -575,14 +575,14 @@ theorem cycleStructureSheafClass_mem_range (p : DimensionCoefficients C f k) :
   have hpos : cyclePositivePart C f k (dimensionCoefficientsCycle C f k p) = p := by
     refine DimensionCoefficients.ext C f k ?_
     funext x
-    show ((p.1 x : ℤ)).toNat = p.1 x
+    change ((p.1 x : ℤ)).toNat = p.1 x
     omega
   have hneg : (cycleNegativePart C f k (dimensionCoefficientsCycle C f k p)).1 = 0 := by
     funext x
-    show (-(p.1 x : ℤ)).toNat = 0
+    change (-(p.1 x : ℤ)).toNat = 0
     omega
   rw [cycleDimensionLayerHom_apply]
-  show cycleStructureSheafClass C f k (cyclePositivePart C f k _) -
+  change cycleStructureSheafClass C f k (cyclePositivePart C f k _) -
     cycleStructureSheafClass C f k (cycleNegativePart C f k _) = _
   rw [hpos, cycleStructureSheafClass_eq_zero C f k _ hneg, sub_zero]
 

@@ -118,6 +118,7 @@ attribute [local instance] MorphismProperty.IsStableUnderBaseChange.respectsIso
   CategoryTheory.Functor.map_isIso
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site times out by default
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_Effectivity (B : BigFppfSite.{u}) (S : Scheme.{u})
@@ -390,8 +391,7 @@ private theorem isEffective_of_rebasedLevel_algebraization
     rw [R.map_comp, hj, hj]
     change i n ≫ ((e (n + 1)).hom ≫ _ ≫ _) = _
     rw [← Category.assoc, hcompat n]
-    simp [AlgebraicGeometry.Space.adicFibreSucc, Category.assoc,
-      pullback.lift_fst_assoc]
+    simp [AlgebraicGeometry.Space.adicFibreSucc, Category.assoc]
   let r (n : ℕ) : ξ.level n ⟶ C := {
     baseMap := (levelBaseIso B hZ ξ hA n).hom ≫ (Over.map a).map
       (AlgebraicGeometry.Space.adicThickeningMap ξ.base.R (maximalIdeal ξ.base.R) B hA ξ.contains n)

@@ -223,7 +223,7 @@ section General
 
 variable (R : Deformation.CompleteLocalAlgCat.{u, u, u} Λ k)
     (H : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (Deformation.restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (Deformation.restrictedCoyoneda R)))
       (BasedCategory.ofFunctor C.projection))
     (r : H.toFunctor.op ⋙ deformationForget C ⟶ (Functor.const _).obj x)
     (g : Spec (.of R) ⟶ U.left)
@@ -271,7 +271,7 @@ public theorem surjective_mapIsomorphismClasses_of_extendsAtArtinianBase
     (deformationPointBase C y.1 A hyA) (C.objects y.1).arrow
     (deformationObject_residueMap C y.1 A hyA)
     r₀ (by
-      show Spec.map (𝟙 (CommRingCat.of k)) ≫
+      change Spec.map (𝟙 (CommRingCat.of k)) ≫
           schemeMap (p ⋙ Over.post B.inclusion) hx₀ hx r₀ =
         schemeMap (p ⋙ Over.post B.inclusion) hx₀ hx r₀
       simp)

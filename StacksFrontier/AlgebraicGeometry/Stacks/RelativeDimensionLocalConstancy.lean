@@ -159,7 +159,7 @@ theorem isOpen_setOf_relativeDimensionAt_le
       {t : Space.points B S hS T | ∃ d : ℕ∞, d ≤ (n : ℕ∞) ∧
         Space.HasRelativeDimensionAt d B S hS g t} := by
     ext t
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     refine ⟨fun ht => ?_, fun ⟨d, hdn, hd⟩ => ?_⟩
     · obtain ⟨d, hd⟩ := Space.exists_hasRelativeDimensionAt B S hS hT hG g t
       rw [(relativeDimensionAt_eq_iff_hasRelativeDimensionAt.{u, w} B S hS hT hG g hf t d).mpr

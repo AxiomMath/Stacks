@@ -144,7 +144,7 @@ public theorem smul_eq_zero_of_idealPowerMultiple_eq_bot_of_le {X : Scheme.{u}}
       (X.presheaf.map (homOfLE (hWA.trans hAU)).op).hom r := by
     rw [← CommRingCat.comp_apply, ← X.presheaf.map_comp]
     rfl
-  show (M.presheaf.map (homOfLE hWA).op) _ = 0
+  change (M.presheaf.map (homOfLE hWA).op) _ = 0
   rw [Scheme.Modules.map_smul, hcomp]
   exact affine_sections_annihilated_of_idealPowerMultiple_eq_bot hM W hr' _
 

@@ -64,7 +64,7 @@ theorem kFlat_mapHomologicalComplex_of_isStrictlyGE (Φ : C ⥤ B) [Φ.Additive]
     ⟨fun {_} ↦ CochainComplex.KFlat.preservesColimit_mapHomologicalComplex _ Φ⟩
   refine kFlat_of_isColimit F _ (isColimitOfPreserves (Φ.mapHomologicalComplex _)
     (CochainComplex.KFlat.truncLECocone_isColimit K)) hF hexact (fun n ↦ ?_)
-  show KFlat F ((Φ.mapHomologicalComplex (ComplexShape.up ℤ)).obj (K.truncLE (n : ℤ)))
+  change KFlat F ((Φ.mapHomologicalComplex (ComplexShape.up ℤ)).obj (K.truncLE (n : ℤ)))
   refine kFlat_of_isStrictlyLE_of_isStrictlyGE F _ (n : ℤ) a (fun q ↦ ?_)
   rcases lt_trichotomy q (n : ℤ) with hq | rfl | hq
   · exact (hterm q).of_iso F ((single B (ComplexShape.up ℤ) q).mapIso

@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulDualCoefficientComplex
+StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulDualCoefficientComplex
 public import
   StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulPullbackDerived
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.ProjectionFormulaSingleUnit
@@ -213,7 +213,8 @@ private theorem map_comp_eq_map_comp_of_comp_eq {C D : Type*} [Category C] [Cate
   simp only [← F.map_comp, h]
 
 include hg in
-omit [HasWeakSheafify Y.J AddCommGrpCat.{u}] in
+omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
+  [HasWeakSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The identification is compatible with the transitions of the two dual towers**, which are
 the duals of the transitions of the two Koszul towers. -/
 theorem pullbackKoszulPowerDualComplexIso_naturality (m : ℕ) :
@@ -273,7 +274,8 @@ def pullbackKoszulSheafHomSystemMap :
     exact pullbackKoszulPowerDualComplexIso_naturality f t g hg m
 
 include hg in
-omit [HasWeakSheafify Y.J AddCommGrpCat.{u}] in
+omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
+  [HasWeakSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The map of towers `pullbackKoszulSheafHomSystemMap` from the inverse image of the tower of
 `𝒪`-duals of the Koszul complexes to the tower of `𝒪'`-duals is an isomorphism. -/
 theorem isIso_pullbackKoszulSheafHomSystemMap :

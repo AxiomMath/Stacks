@@ -115,7 +115,7 @@ private theorem finite_strictHenselization_of_essFiniteType
     IsLocalization.isLocalization_isLocalization_atPrime_isLocalization M S (maximalIdeal S)
   let : prime.LiesOver (maximalIdeal R) := by
     constructor
-    show maximalIdeal R = ((maximalIdeal S).comap (algebraMap A S)).comap
+    change maximalIdeal R = ((maximalIdeal S).comap (algebraMap A S)).comap
       (algebraMap R A)
     rw [Ideal.comap_comap, ← IsScalarTower.algebraMap_eq, maximalIdeal_comap]
   let equiv := AlgEquiv.restrictScalars R
@@ -186,7 +186,7 @@ private theorem exists_compatible_algEquivs_of_strictHenselizations
       ((residue R₁).comp (algebraMap R R₁)) =
       (residue R₂).comp (algebraMap R R₂) := by
     ext element
-    show factor (residue R₁ (algebraMap R R₁ element)) = _
+    change factor (residue R₁ (algebraMap R R₁ element)) = _
     rw [← ResidueField.algebraMap_residue, factor.commutes,
       ResidueField.algebraMap_residue]
     rfl
@@ -198,18 +198,18 @@ private theorem exists_compatible_algEquivs_of_strictHenselizations
   have hforward : (residue S₂).comp forward.toRingHom =
       residueHom.toRingHom.comp (residue R₁) := by
     ext element
-    show residue S₂ (equivS (algebraMap R₁ S₁ element)) =
+    change residue S₂ (equivS (algebraMap R₁ S₁ element)) =
       equivResidueS (inclusion₁ (residue R₁ element))
-    show residue S₂ (equivS (algebraMap R₁ S₁ element)) =
+    change residue S₂ (equivS (algebraMap R₁ S₁ element)) =
       equivResidueS (algebraMap (ResidueField R₁) (ResidueField S₁) (residue R₁ element))
     rw [ResidueField.algebraMap_residue]
     exact (ResidueField.mapAlgEquiv'_residue equivS _).symm
   have hbackward : (residue S₂).comp backward.toRingHom =
       residueHom.toRingHom.comp (residue R₁) := by
     ext element
-    show residue S₂ (algebraMap R₂ S₂ (equivR element)) = residueHom (residue R₁ element)
+    change residue S₂ (algebraMap R₂ S₂ (equivR element)) = residueHom (residue R₁ element)
     rw [← ResidueField.algebraMap_residue (R := R₂) (S := S₂)]
-    show inclusion₂ (residue R₂ (equivR element)) = residueHom (residue R₁ element)
+    change inclusion₂ (residue R₂ (equivR element)) = residueHom (residue R₁ element)
     have hequivApply : residue R₂ (equivR element) = factor (residue R₁ element) :=
       RingHom.congr_fun hequivR element
     rw [hequivApply]
@@ -218,7 +218,7 @@ private theorem exists_compatible_algEquivs_of_strictHenselizations
       ((residue R₁).comp (algebraMap R R₁)) =
       (residue S₂).comp (algebraMap R S₂) := by
     ext element
-    show residueHom (residue R₁ (algebraMap R R₁ element)) =
+    change residueHom (residue R₁ (algebraMap R R₁ element)) =
       residue S₂ (algebraMap R S₂ element)
     have hforwardApply : residueHom (residue R₁ (algebraMap R R₁ element)) =
         residue S₂ (forward (algebraMap R R₁ element)) :=
@@ -276,10 +276,10 @@ theorem existsUnique_minimalPrime_of_strictHenselization
         intro element
         obtain ⟨element, rfl⟩ := residue_surjective element
         apply quotientEquivSh.injective
-        show quotientEquivSh (quotientEquivSh.symm
+        change quotientEquivSh (quotientEquivSh.symm
           (hsh.residueFieldEquiv (algebraMap (ResidueField R) κ (residue R element)))) = _
         rw [quotientEquivSh.apply_symm_apply, ResidueField.algebraMap_residue]
-        show hsh.residueFieldEquiv
+        change hsh.residueFieldEquiv
           (algebraMap (maximalIdeal R).ResidueField κ
             (algebraMap R (maximalIdeal R).ResidueField element)) =
           algebraMap Rsh (maximalIdeal Rsh).ResidueField (algebraMap R Rsh element)
@@ -404,7 +404,7 @@ private theorem algHom_card_tensorProduct_eq_of_compatible_ringEquivs
     _ = Nat.card (S' →ₐ[R'] K') :=
       algHom_card_eq_of_compatible_ringEquivs R R' S S' K K'
         equivR equivS equivK hS (fun element => by
-          show equivK (algebraMap F K (algebraMap R F element)) = _
+          change equivK (algebraMap F K (algebraMap R F element)) = _
           rw [hK, hF]
           rfl)
     _ = Nat.card ((F' ⊗[R'] S') →ₐ[F'] K') :=
@@ -601,11 +601,11 @@ private theorem genericPointCount_eq_of_indEtale
   let : Algebra R Ssh := ((algebraMap S' Ssh).comp (algebraMap R S')).toAlgebra
   let : IsScalarTower R S' Ssh := .of_algebraMap_eq' rfl
   let : IsScalarTower R S Ssh := IsScalarTower.of_algebraMap_eq fun element => by
-    show algebraMap S' Ssh (algebraMap R S' element) =
+    change algebraMap S' Ssh (algebraMap R S' element) =
       algebraMap S' Ssh (algebraMap S S' (algebraMap R S element))
     rw [IsScalarTower.algebraMap_apply R S S']
   let : IsScalarTower R R' Ssh := IsScalarTower.of_algebraMap_eq fun element => by
-    show algebraMap S' Ssh (algebraMap R S' element) =
+    change algebraMap S' Ssh (algebraMap R S' element) =
       algebraMap S' Ssh (algebraMap R' S' (algebraMap R R' element))
     rw [IsScalarTower.algebraMap_apply R R' S']
   let : IsScalarTower R Rsh Ssh :=
@@ -692,9 +692,9 @@ private theorem algHom_factors_through_eval
   obtain ⟨i, q, hq⟩ := PrimeSpectrum.exists_comap_evalRingHom_eq p
   have hker : RingHom.ker (Pi.evalRingHom A i) ≤ RingHom.ker φ.toRingHom := by
     intro a ha
-    show a ∈ p.asIdeal
+    change a ∈ p.asIdeal
     rw [← hq]
-    show a i ∈ q.asIdeal
+    change a i ∈ q.asIdeal
     have hzero : a i = 0 := ha
     rw [hzero]
     exact q.asIdeal.zero_mem

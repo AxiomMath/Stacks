@@ -73,7 +73,7 @@ theorem milnorChainComap_pointwiseDivisorDifferential (k : ℤ) :
         (pointwiseDivisorDifferential C p k) := by
   refine AddMonoidHom.ext fun a ↦ Subtype.ext (funext fun u ↦ ?_)
   refine (milnorKTheoryZeroAddEquiv ↥(U.residueField u.1)).injective ?_
-  show milnorKTheoryZeroAddEquiv ↥(U.residueField u.1)
+  change milnorKTheoryZeroAddEquiv ↥(U.residueField u.1)
       ((pointwiseDivisorDifferential C (j ≫ p) k
         (milnorChainComap C p j (injective_base_of_isOpenImmersion j)
           (bijective_residueFieldMap_openImmersion j) (k + 1) 1 a)).1 u) =
@@ -90,7 +90,7 @@ theorem milnorChainComap_pointwiseDivisorDifferential (k : ℤ) :
       (immersionPoint_injective C p j (injective_base_of_isOpenImmersion j)
         (bijective_residueFieldMap_openImmersion j) (k + 1)) _ ?_]
   · refine finsum_congr fun w ↦ ?_
-    show pointClosureOrd C (j ≫ p) w.1
+    change pointClosureOrd C (j ≫ p) w.1
         ((milnorChainComap C p j (injective_base_of_isOpenImmersion j)
           (bijective_residueFieldMap_openImmersion j) (k + 1) 1 a).1 w) u.1 =
       pointClosureOrd C p (j.base w.1)
@@ -103,7 +103,7 @@ theorem milnorChainComap_pointwiseDivisorDifferential (k : ℤ) :
   · intro x hx
     have hxrange : (x.1 : X) ∉ Set.range j.base := fun hcon ↦
       hx (exists_immersionPoint_eq C p j (bijective_residueFieldMap_openImmersion j) x hcon)
-    show pointClosureOrd C p x.1 (a.1 x) (j.base u.1) = 0
+    change pointClosureOrd C p x.1 (a.1 x) (j.base u.1) = 0
     exact pointClosureOrd_eq_zero_of_notMem_closure C p x.1 (a.1 x)
       (fun hcon ↦ j.isOpenEmbedding.isOpen_range.not_specializes hxrange ⟨u.1, rfl⟩
         (specializes_iff_mem_closure.mpr hcon))
@@ -123,7 +123,7 @@ theorem pointwiseDivisorDifferential_milnorChainExtend_of_notMem_range (k : ℤ)
           (bijective_residueFieldMap_closedImmersion i) inferInstance (k + 1) 1 b)).1 x') = 0 := by
   rw [pointwiseDivisorDifferential_apply_eq_finsum, finsum_congr fun x ↦ ?_, finsum_zero]
   by_cases hx : (x.1 : X) ∈ Set.range i.base
-  · show pointClosureOrd C p x.1 _ x'.1 = 0
+  · change pointClosureOrd C p x.1 _ x'.1 = 0
     exact pointClosureOrd_eq_zero_of_notMem_closure C p x.1 _
       (fun hcon ↦ i.isClosedEmbedding.isClosed_range.not_specializes hx hx'
         (specializes_iff_mem_closure.mpr hcon))

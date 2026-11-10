@@ -159,13 +159,13 @@ theorem fiberCycleComponent_of_apply_ne_zero (c : FiberCycleGroup f s r) {x : f.
     (hx : (c : AlgebraicCycle (f.fiber s) ℤ) x ≠ 0) :
     fiberCycleComponent f s r c x =
       fiberCycleSingle f s r x (relativeDimension_of_fiberCycle_apply_ne_zero f s r c hx) :=
-  dif_pos hx
+  dite_eq_left hx
 
 /-- Where the coefficient vanishes the singleton component is zero. -/
 theorem fiberCycleComponent_of_apply_eq_zero (c : FiberCycleGroup f s r) {x : f.fiber s}
     (hx : (c : AlgebraicCycle (f.fiber s) ℤ) x = 0) :
     fiberCycleComponent f s r c x = 0 :=
-  dif_neg (not_not.2 hx)
+  dite_eq_right (not_not.2 hx)
 
 /-! ### The decomposition -/
 

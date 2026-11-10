@@ -110,7 +110,7 @@ theorem exists_stage_lift_of_relative_etale_uliftYoneda
         exact Over.w α }
   have hcompat : c'.π ≫ t = (Functor.const (Over i)).map (T.map aE ≫ T.map (e.snd ξ)) := by
     ext k
-    show T.map (c.π.app k.left) ≫ T.map (D.map k.hom) = T.map aE ≫ T.map (e.snd ξ)
+    change T.map (c.π.app k.left) ≫ T.map (D.map k.hom) = T.map aE ≫ T.map (e.snd ξ)
     rw [← T.map_comp, ← T.map_comp, c.w k.hom, e.lift'_snd]
   obtain ⟨k, β, hβ, hβ'⟩ :=
     Scheme.exists_π_app_comp_eq_of_locallyOfFinitePresentation D' t (T.map (e.snd ξ)) c' hc'
@@ -207,13 +207,13 @@ theorem holdsOnEveryEtaleChartULift_locallyOfFinitePresentation_of_exists_stage_
       exists_stage_lift_of_relative_etale_uliftYoneda B S hS D c hc hD a ha j ξ (x ≫ q) ha'
     have hlift' : yoneda.map (D.map (g' ≫ g) ≫ yi) ≫ b₀ = yoneda.map wk ≫ φ₀ := by
       apply yonedaEquiv.injective
-      show b₀.app (op (D.obj k)) (D.map (g' ≫ g) ≫ yi) = b₀.app (op (D.obj k)) (wk ≫ h)
+      change b₀.app (op (D.obj k)) (D.map (g' ≫ g) ≫ yi) = b₀.app (op (D.obj k)) (wk ≫ h)
       have h₁ : a.app (op (D.obj k)) ⟨wk⟩ = X.map (D.map g').op ζ := by
         have := congrArg uliftYonedaEquiv.{w} hwk₂
         simp only [uliftYonedaEquiv_comp, uliftYonedaEquiv_uliftYoneda_map] at this
         exact this
       rw [← hfa, h₁, NatTrans.naturality_apply f (D.map g').op ζ]
-      show b₀.app (op (D.obj k)) (D.map (g' ≫ g) ≫ yi) =
+      change b₀.app (op (D.obj k)) (D.map (g' ≫ g) ≫ yi) =
         Y.map (D.map g').op (f.app (op (D.obj j)) ζ).down
       rw [hζ₁, ← NatTrans.naturality_apply b₀ (D.map g).op yi,
         ← NatTrans.naturality_apply b₀ (D.map g').op, Functor.map_comp, Category.assoc]
@@ -221,14 +221,14 @@ theorem holdsOnEveryEtaleChartULift_locallyOfFinitePresentation_of_exists_stage_
     let z' : D.obj k ⟶ e.pullback φ₀ := e.lift' (D.map (g' ≫ g) ≫ yi) wk hlift'
     refine ⟨colimit.ι (D.op ⋙ yoneda.obj (e.pullback φ₀)) (op k) z', ?_, ?_⟩
     · rw [colimit.ι_desc_apply]
-      show c.π.app k ≫ z' = x
+      change c.π.app k ≫ z' = x
       apply e.hom_ext'
       · rw [Category.assoc, e.lift'_fst, ← Category.assoc, c.w]
         exact hxy'.symm
       · rw [Category.assoc, e.lift'_snd]
         exact hwk₁
     · rw [colimit.ι_map_apply]
-      show colimit.ι (D.op ⋙ yoneda.obj V) (op k) (z' ≫ p) = _
+      change colimit.ι (D.op ⋙ yoneda.obj V) (op k) (z' ≫ p) = _
       rw [e.lift'_fst]
       exact colimit.w_apply (D.op ⋙ yoneda.obj V) (g' ≫ g).op yi
   have hs : LocallyOfFinitePresentation (T.map s) := by
@@ -236,7 +236,7 @@ theorem holdsOnEveryEtaleChartULift_locallyOfFinitePresentation_of_exists_stage_
       rw [← T.map_comp, hsq, T.map_id]
       infer_instance
     exact locallyOfFinitePresentation_of_comp (T.map s) (T.map q)
-  show LocallyOfFinitePresentation (T.map h)
+  change LocallyOfFinitePresentation (T.map h)
   rw [← hsp, T.map_comp]
   infer_instance
 

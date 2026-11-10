@@ -159,7 +159,7 @@ theorem deltaDimension_le_of_subset_preimage {g : X ⟶ Y} (hg : g ≫ sY = sX)
   have hcomp :
       D.deltaValue sX ξ = D.deltaValue sY (pointsMap D.site D.base D.base_mem X g ξ) := by
     rw [← D.deltaValue_comp_of_isLocallyQuasiFinite hX.1 hY.1 g sY hgq hY.2.2 ξ, hg]
-  show D.deltaValue sX ξ ≤ D.deltaValue sY η
+  change D.deltaValue sX ξ ≤ D.deltaValue sY η
   rw [hcomp]
   by_cases he : η = pointsMap D.site D.base D.base_mem X g ξ
   · rw [he]

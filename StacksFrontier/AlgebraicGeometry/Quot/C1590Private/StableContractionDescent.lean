@@ -197,7 +197,7 @@ theorem IsFibrewiseStableContraction.of_cover {A D : AlgebraicSpaces B integerBa
   have hbot : yoneda.map ρ ≫ yonedaEquiv.symm P.value =
       yonedaEquiv.symm P'.value ≫ (schemeSpaceMap (u i)).hom := by
     rw [yonedaEquiv_symm_value P, yonedaEquiv_symm_value P']
-    show yoneda.map ρ ≫ yoneda.map t = yoneda.map (ν ≫ pullback.snd t (u i)) ≫ yoneda.map (u i)
+    change yoneda.map ρ ≫ yoneda.map t = yoneda.map (ν ≫ pullback.snd t (u i)) ≫ yoneda.map (u i)
     rw [← Functor.map_comp, ← Functor.map_comp]
     congr 1
     simp only [ρ, Category.assoc, pullback.condition]
@@ -260,7 +260,7 @@ theorem isPullback_toBase_comp_iff {X : CurveFamily B hZ} {U : BigFppfOver B int
     (yonedaEquiv_symm_naturality_right _ _ _).symm
   have hb : IsIso (yoneda.map b) := Functor.map_isIso yoneda b
   rw [hval]
-  show _ ↔
+  change _ ↔
     IsPullback q (yoneda.map v) X.toBase.hom (yonedaEquiv.symm P.value ≫ yoneda.map (inv b))
   rw [Functor.map_inv]
   exact @isPullback_comp_iso_iff _ _ _ _ _ _ _ q (yoneda.map v) X.toBase.hom (yoneda.map b) hb _
@@ -301,7 +301,7 @@ theorem isFibrewiseStableContraction_of_cover {g : ℕ} {X x : CurveFamily B hZ}
   · obtain ⟨i, y, hy⟩ := hsurj (T.map (inv b) s)
     refine ⟨i, T.map (bi i) y, ?_⟩
     rw [← Scheme.Hom.comp_apply, ← T.map_comp, hψb i, T.map_comp, Scheme.Hom.comp_apply, hy]
-    show (T.map (inv b) ≫ T.map b) s = s
+    change (T.map (inv b) ≫ T.map b) s = s
     rw [← T.map_comp, IsIso.inv_hom_id, T.map_id]
     rfl
   · rw [(hi i).comp_toBase, hc]

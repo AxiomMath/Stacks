@@ -112,7 +112,7 @@ theorem baseChangeSheafIsoGen_hom_val_app_unit (U : W.Opens) (y : F.val.obj (op 
       ((Scheme.Modules.pullbackPushforwardAdjunction (β ≫ p)).unit.app F).val.app (op U) y := by
   have key : (Scheme.Modules.pullbackComp β p).inv.app F ≫
       (baseChangeSheafIsoGen p (β ≫ p) F β rfl).hom = 𝟙 _ := by
-    show (Scheme.Modules.pullbackComp β p).inv.app F ≫
+    change (Scheme.Modules.pullbackComp β p).inv.app F ≫
       ((Scheme.Modules.pullbackComp β p).hom.app F ≫
         (Scheme.Modules.pullbackCongr (rfl : β ≫ p = β ≫ p)).hom.app F) = 𝟙 _
     rw [pullbackCongr_rfl_hom_app, Category.comp_id, Iso.inv_hom_id_app]

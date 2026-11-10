@@ -83,7 +83,7 @@ theorem subsingleton_sheafH_of_isColimit (q : ℕ)
     (h : ∀ j, Subsingleton (Sheaf.H.{u + 1} (D.obj j) q)) :
     Subsingleton (Sheaf.H.{u + 1} c.pt q) := by
   have := preservesColimitsOfShape_functorH_smallEtale X q I
-  show Subsingleton ((smallEtaleFunctorH X q).obj c.pt)
+  change Subsingleton ((smallEtaleFunctorH X q).obj c.pt)
   refine AddCommGrpCat.isZero_iff_subsingleton.1 ((IsZero.iff_id_eq_zero _).2 ?_)
   refine (isColimitOfPreserves (smallEtaleFunctorH X q) hc).hom_ext fun j ↦ ?_
   exact (AddCommGrpCat.isZero_iff_subsingleton.2 (h j)).eq_of_src _ _
@@ -102,6 +102,7 @@ theorem bijective_etaleCohomologyRestrictionMap_of_isColimit {Y : Scheme.{u}} [C
   exact (ConcreteCategory.isIso_iff_bijective _).1
     (isIso_app_coconePt_of_preservesColimit D (etaleCohomologyRestrictionNatTrans i q) c hc)
 
+omit [CompactSpace X] [QuasiSeparatedSpace X] in
 /-- **Surjectivity of restriction passes to filtered colimits.** -/
 theorem surjective_etaleCohomologyRestrictionMap_of_isColimit {Y : Scheme.{u}} [CompactSpace Y]
     [QuasiSeparatedSpace Y] (i : Y ⟶ X) (q : ℕ)
@@ -115,7 +116,7 @@ theorem surjective_etaleCohomologyRestrictionMap_of_isColimit {Y : Scheme.{u}} [
   refine (AddCommGrpCat.epi_iff_surjective (α.app c.pt)).1 ⟨fun {Z} u v huv ↦ ?_⟩
   refine (isColimitOfPreserves G hc).hom_ext fun j ↦ ?_
   rw [← cancel_epi (α.app (D.obj j))]
-  show α.app (D.obj j) ≫ G.map (c.ι.app j) ≫ u = α.app (D.obj j) ≫ G.map (c.ι.app j) ≫ v
+  change α.app (D.obj j) ≫ G.map (c.ι.app j) ≫ u = α.app (D.obj j) ≫ G.map (c.ι.app j) ≫ v
   rw [← Category.assoc, ← α.naturality, Category.assoc,
     show α.app (((Functor.const I).obj c.pt).obj j) = α.app c.pt from rfl, huv,
     ← Category.assoc]

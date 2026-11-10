@@ -82,7 +82,7 @@ theorem eq_zero_of_apply_eq_zero_of_notMem_smul_top {R B : Type u} [CommRing R] 
     simp only [smul_zero, smul_smul, Units.inv_mul, one_smul] at h3
     exact h3.symm
   refine ModuleCat.hom_ext (LinearMap.ext fun y => ?_)
-  show d y = 0
+  change d y = 0
   rw [hy y, map_smul, h1, smul_zero]
 
 section ExtendScalarsElements
@@ -146,11 +146,10 @@ theorem map_etm (g : M ⟶ N) (s : S) (m : M) :
 
 /-- Induction on the elements of an extension of scalars. -/
 theorem extendScalars_induction {P : (ModuleCat.extendScalars.{u, u, u} φ).obj M → Prop}
-    (h0 : P 0) (hadd : ∀ x y, P x → P y → P (x + y))
+    (hadd : ∀ x y, P x → P y → P (x + y))
     (htmul : ∀ (s : S) (m : M), P (etm φ s m))
     (x : (ModuleCat.extendScalars.{u, u, u} φ).obj M) : P x := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact h0
+  induction x using TensorProduct.inductionOn with
   | tmul s m => exact etm_eq_tmul φ s m ▸ htmul s m
   | add x y hx hy => exact hadd x y hx hy
 
@@ -160,7 +159,7 @@ theorem extendScalars_ext {T : Type u} [AddCommGroup T] [Module S T]
     {α β : (ModuleCat.extendScalars.{u, u, u} φ).obj M →ₗ[S] T}
     (h : ∀ m : M, α (etm φ 1 m) = β (etm φ 1 m)) : α = β := by
   ext x
-  refine extendScalars_induction φ (P := fun x => α x = β x) (by simp)
+  refine extendScalars_induction φ (P := fun x => α x = β x)
     (fun x y hx hy => by rw [map_add, map_add, hx, hy]) (fun s m => ?_) x
   rw [show etm φ s m = s • etm φ 1 m by rw [smul_etm, mul_one], map_smul, map_smul, h m]
 
@@ -189,7 +188,7 @@ theorem finrank_homology_baseChange_eq_residueField {K : Type u} [Field K] (χ :
     exact Ideal.ResidueField.lift_algebraMap q χ le_rfl hu r
   have hflat : ι.Flat := by
     let := ι.toAlgebra
-    show Module.Flat κ K
+    change Module.Flat κ K
     infer_instance
   have : Limits.PreservesFiniteLimits (ModuleCat.extendScalars.{u, u, u} ι) :=
     extendScalars_preservesFiniteLimits_of_flat' ι hflat
@@ -324,7 +323,7 @@ theorem baseChangeSelf_etm1 (r : R) :
       { toFun := fun r => (lam r : B)
         map_add' := map_add lam
         map_smul' := fun r r' => by
-          show lam (r * r') = lam r * lam r'
+          change lam (r * r') = lam r * lam r'
           exact map_mul lam r r' }))
 
 /-- `baseChangeSelf` sends `s ⊗ r` to `s * λ(r)`. -/
@@ -376,7 +375,7 @@ theorem exists_eq_smul_etm_of_rank_one {M : ModuleCat.{u} R}
     (e : M ≅ ModuleCat.of R (Fin 1 → R)) (y : (ModuleCat.extendScalars.{u, u, u} lam).obj M) :
     ∃ t : B, y = t • etm lam 1 (e.inv fun _ => 1) := by
   refine extendScalars_induction lam (P := fun y => ∃ t : B, y = t • etm lam 1
-    (e.inv fun _ => 1)) ⟨0, by rw [zero_smul]⟩ ?_ ?_ y
+    (e.inv fun _ => 1)) ?_ ?_ y
   · rintro x z ⟨t, rfl⟩ ⟨t', rfl⟩
     exact ⟨t + t', by rw [add_smul]⟩
   · intro s m
@@ -385,7 +384,7 @@ theorem exists_eq_smul_etm_of_rank_one {M : ModuleCat.{u} R}
       funext j
       have : j = 0 := Subsingleton.elim _ _
       subst this
-      show e.hom m 0 = e.hom m 0 * 1
+      change e.hom m 0 = e.hom m 0 * 1
       rw [mul_one]
     have hm : m = (e.hom m 0) • e.inv (fun _ => 1) := by
       calc m = e.inv (e.hom m) := (e.hom_inv_id_apply m).symm
@@ -599,7 +598,7 @@ theorem exists_vanishing_family_of_mono_homologyMap_one {K₀ : Type u} [Field K
     let w := (inv (((bcF lam).obj Q').homologyπ 0)) (θ'.symm 1)
     let x := ((bcF lam).obj Q').iCycles 0 w
     have hdx : ((bcF lam).obj Q').d 0 1 x = 0 := by
-      show (((bcF lam).obj Q').iCycles 0 ≫ ((bcF lam).obj Q').d 0 1) w = 0
+      change (((bcF lam).obj Q').iCycles 0 ≫ ((bcF lam).obj Q').d 0 1) w = 0
       rw [HomologicalComplex.iCycles_d]; rfl
     have hann : ∀ t : B, t • x = 0 → t = 0 := by
       intro t ht
@@ -607,7 +606,7 @@ theorem exists_vanishing_family_of_mono_homologyMap_one {K₀ : Type u} [Field K
         apply (ModuleCat.mono_iff_injective (((bcF lam).obj Q').iCycles 0)).1 inferInstance
         rw [map_smul, map_zero]; exact ht
       have h2 : ((bcF lam).obj Q').homologyπ 0 w = θ'.symm 1 := by
-        show (inv (((bcF lam).obj Q').homologyπ 0) ≫ ((bcF lam).obj Q').homologyπ 0)
+        change (inv (((bcF lam).obj Q').homologyπ 0) ≫ ((bcF lam).obj Q').homologyπ 0)
           (θ'.symm 1) = θ'.symm 1
         rw [IsIso.inv_hom_id]; rfl
       calc t = θ' (t • θ'.symm 1) := by rw [map_smul, LinearEquiv.apply_symm_apply, smul_eq_mul,
@@ -636,7 +635,7 @@ theorem exists_vanishing_family_of_mono_homologyMap_one {K₀ : Type u} [Field K
     have hd'B : ((bcF lam).obj Q').d 0 1 = 0 := by
       refine ModuleCat.hom_ext (LinearMap.ext fun y => ?_)
       obtain ⟨t, rfl⟩ := exists_eq_smul_etm_of_rank_one lam e0' y
-      show ((bcF lam).obj Q').d 0 1 (t • etm lam 1 g0') = 0
+      change ((bcF lam).obj Q').d 0 1 (t • etm lam 1 g0') = 0
       rw [map_smul, hdet, hzc', smul_zero]
     have hδu : IsUnit (lam δ) := by
       have h : IsUnit (lam (αR d0)) := hφd0
@@ -648,7 +647,7 @@ theorem exists_vanishing_family_of_mono_homologyMap_one {K₀ : Type u} [Field K
     let g0 : Q.X 0 := e0.inv (fun _ => 1)
     refine ⟨EB.hom.f 0 (etm lam 1 g0), ?_, ?_⟩
     · have h := EB.hom.comm 0 1
-      show (EB.hom.f 0 ≫ (baseChangeComplex (lam.comp αR) P).d 0 1) (etm lam 1 g0) = 0
+      change (EB.hom.f 0 ≫ (baseChangeComplex (lam.comp αR) P).d 0 1) (etm lam 1 g0) = 0
       rw [h, hdB, Limits.zero_comp]
       rfl
     · intro K _ χ τ hτ
@@ -657,7 +656,7 @@ theorem exists_vanishing_family_of_mono_homologyMap_one {K₀ : Type u} [Field K
       let z : ((bcF ν).obj Q).X 0 := etm ν 1 g0
       have hC1 : (ModuleCat.extendScalarsComp (lam.comp αR) χ).inv.app (P.X 0)
           (etm χ 1 (EB.hom.f 0 (etm lam 1 g0))) = EK.hom.f 0 z := by
-        show (ModuleCat.extendScalarsComp (lam.comp αR) χ).inv.app (P.X 0)
+        change (ModuleCat.extendScalarsComp (lam.comp αR) χ).inv.app (P.X 0)
           (etm χ 1 ((ModuleCat.extendScalarsComp αR lam).inv.app (P.X 0)
             ((ModuleCat.extendScalars.{u, u, u} lam).map (E.hom.f 0) (etm lam 1 g0)))) =
           (ModuleCat.extendScalarsComp αR ν).inv.app (P.X 0)
@@ -667,8 +666,7 @@ theorem exists_vanishing_family_of_mono_homologyMap_one {K₀ : Type u} [Field K
         refine extendScalars_induction αR (P := fun y =>
           (ModuleCat.extendScalarsComp (lam.comp αR) χ).inv.app (P.X 0)
             (etm χ 1 ((ModuleCat.extendScalarsComp αR lam).inv.app (P.X 0) (etm lam 1 y))) =
-          (ModuleCat.extendScalarsComp αR ν).inv.app (P.X 0) (etm ν 1 y)) ?_ ?_ ?_ y
-        · simp only [etm_zero_right, map_zero]
+          (ModuleCat.extendScalarsComp αR ν).inv.app (P.X 0) (etm ν 1 y)) ?_ ?_ y
         · intro y₁ y₂ h₁ h₂
           simp only [etm_add_right, map_add, h₁, h₂]
         · intro s' m
@@ -681,7 +679,7 @@ theorem exists_vanishing_family_of_mono_homologyMap_one {K₀ : Type u} [Field K
         have := congrArg (baseChangeCoord ν e0 0) hz
         rw [baseChangeCoord_etm, map_zero, one_mul] at this
         have h1 : e0.hom g0 0 = 1 := by
-          show (e0.inv ≫ e0.hom) (fun _ => (1 : R)) 0 = 1
+          change (e0.inv ≫ e0.hom) (fun _ => (1 : R)) 0 = 1
           rw [Iso.inv_hom_id]; rfl
         rw [h1, map_one] at this
         exact one_ne_zero this
@@ -691,7 +689,7 @@ theorem exists_vanishing_family_of_mono_homologyMap_one {K₀ : Type u} [Field K
         rw [hdB] at h1
         have h2 : ((bcF ν).obj Q).d 0 1 z = etm ν 1 (Q.d 0 1 g0) := map_etm ν (Q.d 0 1) 1 g0
         rw [h2, ← extendScalarsComp_inv_app_etm_one_etm_one lam χ (Q.X 1), ← h1]
-        show (ModuleCat.extendScalarsComp lam χ).inv.app (Q.X 1) (etm χ 1 0) = 0
+        change (ModuleCat.extendScalarsComp lam χ).inv.app (Q.X 1) (etm χ 1 0) = 0
         rw [etm_zero_right, map_zero]
       have hsub : Subsingleton (((bcF ν).obj Q).X (-1)) :=
         ModuleCat.subsingleton_of_isZero ((ModuleCat.extendScalars.{u, u, u} ν).map_isZero hzQ)

@@ -117,7 +117,7 @@ theorem ιMapBifunctor_naiveCupProduct_f (i j n : ℤ)
         (ComplexShape.up ℤ) i j n h) := by
   let adj := RingedSpaceModuleAdjunction.modulePullbackPushforwardAdjunction f
   rw [naiveCupProduct_eq_unit_comp, HomologicalComplex.comp_f]
-  show _ ≫ adj.unit.app _ ≫ (StacksDraft.KFlat.modulePushforward f).map
+  change _ ≫ adj.unit.app _ ≫ (StacksDraft.KFlat.modulePushforward f).map
     ((naiveCupProductTranspose f K M).f n) = _
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (· ≫ (StacksDraft.KFlat.modulePushforward f).map
@@ -126,7 +126,7 @@ theorem ιMapBifunctor_naiveCupProduct_f (i j n : ℤ)
         ((pushforwardComplex f).obj M) (Stacks.SheafOfModules.Tensor.sheafTensor Y.sheaf)
         (ComplexShape.up ℤ) i j n h))).trans ?_
   refine (Category.assoc _ _ _).trans ?_
-  show adj.unit.app _ ≫ (StacksDraft.KFlat.modulePushforward f).map
+  change adj.unit.app _ ≫ (StacksDraft.KFlat.modulePushforward f).map
       ((StacksDraft.KFlat.modulePullback f).map (HomologicalComplex.ιMapBifunctor
         ((pushforwardComplex f).obj K) ((pushforwardComplex f).obj M)
         (Stacks.SheafOfModules.Tensor.sheafTensor Y.sheaf) (ComplexShape.up ℤ) i j n h)) ≫

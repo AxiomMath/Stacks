@@ -87,7 +87,7 @@ public theorem glueingDifferential_apply_triple
     apply Subtype.ext; ext k; simp [eraseIndex, T, β]; omega
   have hec : eraseIndex 2 T γ = pairIndex (show a ≠ b by omega) := by
     apply Subtype.ext; ext k; simp [eraseIndex, T, γ]; omega
-  show glueingDifferential f M 2 z T = _
+  change glueingDifferential f M 2 z T = _
   simp only [glueingDifferential, LinearMap.pi_apply, LinearMap.sum_apply]
   rw [hT, Finset.sum_insert (by simp [hαβ, hαγ]), Finset.sum_pair hβγ]
   simp only [hsa, hsb, hsc, one_smul, neg_smul, LinearMap.neg_apply]
@@ -189,7 +189,7 @@ theorem exists_pow_smul_eq_cechι_singleton
   have hinj := IsLocalizedModule.smul_injective (S := cechSub f {i, j})
     (LocalizedModule.mkLinearMap (cechSub f {i, j}) M) ⟨(f i * f j) ^ e, e, by rw [hp]⟩
   have h3 : ρ (LocalizedModule.mk m pj) - f i ^ e • v = 0 := hinj <| by
-    show (f i * f j) ^ e • _ = (f i * f j) ^ e • (0 : cechMod f M {i, j})
+    change (f i * f j) ^ e • _ = (f i * f j) ^ e • (0 : cechMod f M {i, j})
     rw [h2, smul_zero]
   exact (sub_eq_zero.mp h3).symm
 
@@ -348,7 +348,7 @@ theorem exists_pow_smul_eq_glueingDifferential_of_cocycle
       rcases lt_or_gt_of_ne hne with h | h
       · exact ⟨a, b, h, rfl⟩
       · exact ⟨b, a, h, Finset.pair_comm a b⟩
-    show ∃ m : ℕ, f i ^ m • (glueingDifferential f M 1 w (pairIndex hab.ne) -
+    change ∃ m : ℕ, f i ^ m • (glueingDifferential f M 1 w (pairIndex hab.ne) -
       f i ^ E • z (pairIndex hab.ne)) = 0
     rw [glueingDifferential_apply_pair f w hab, hw, hw]
     apply exists_pow_smul_eq_zero_of_cechι_insert f i hab.ne

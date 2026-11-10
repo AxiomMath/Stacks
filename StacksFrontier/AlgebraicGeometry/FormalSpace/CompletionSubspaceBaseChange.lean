@@ -205,7 +205,7 @@ theorem mem_completionSubspaceSubfunctor_preimage {X' X : AlgebraicSpaces B S hS
     g ∈ (completionSubspaceSubfunctor B S hS X' (Z.preimage f.hom)).obj U ↔
       (ULift.up (f.hom.app U g.down) : (X.1 ⋙ uliftFunctor.{u + 1}).obj U) ∈
         (completionSubspaceSubfunctor B S hS X Z).obj U := by
-  show (∃ n, IsUniversalNthOrderThickening B S hS n U.unop
+  change (∃ n, IsUniversalNthOrderThickening B S hS n U.unop
       ((Z.preimage f.hom).preimage (yonedaEquiv.symm g.down))) ↔
     (∃ n, IsUniversalNthOrderThickening B S hS n U.unop
       (Z.preimage (yonedaEquiv.symm (f.hom.app (op U.unop) g.down))))
@@ -296,7 +296,7 @@ theorem isRepresentableByAlgebraicSpacesULift_completionSubspaceMap
     J.isoSheafify ((isAlgebraicSpaceULift_comp_uliftFunctor_iff B S hS Y.1).mpr Y.property).isSheaf
   have hcomm : (sheafifiedULiftMap B S hS f.hom).hom ≫ (e X).inv = (e X').inv ≫ H.map f.hom := by
     have hn' : H.map f.hom ≫ (e X).hom = (e X').hom ≫ (sheafifiedULiftMap B S hS f.hom).hom := by
-      show (Functor.whiskerRight f.hom uliftFunctor.{u + 1}) ≫
+      change (Functor.whiskerRight f.hom uliftFunctor.{u + 1}) ≫
           J.toSheafify (X.1 ⋙ uliftFunctor.{u + 1}) =
         J.toSheafify (X'.1 ⋙ uliftFunctor.{u + 1}) ≫
           J.sheafifyMap (Functor.whiskerRight f.hom uliftFunctor.{u + 1})

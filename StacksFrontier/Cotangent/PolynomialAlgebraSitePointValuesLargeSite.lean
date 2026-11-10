@@ -54,7 +54,8 @@ the equality at the footnote-restricted site keeps no `@[stacks 08QK]`.
 
 **Which site, and why the five existing registrations are not this.** The
 `CommAlgCat.derivedLowerShriekConstantIso` and its three companions in
-`StacksFrontier/Cotangent/PolynomialAlgebraSitePointValues.lean` are the same four identities read at
+`StacksFrontier/Cotangent/PolynomialAlgebraSitePointValues.lean` are the same four identities
+read at
 `CommAlgCat.smallBoundedPolynomialSite`, the small model of the *footnote-restricted* site: the
 footnote to the source's section cuts `C_{B/A}` down to the full subcategory of the augmentations
 whose set of variables has cardinality at most a fixed bound. Passing to a full subcategory changes
@@ -404,7 +405,7 @@ theorem quasiIso_mooreCochain_polynomialSiteAbelianAugmentation :
           (Functor.whiskerRight
             (Functor.whiskerRight (standardResolution.{u, u} A B).hom (algebraToAbelian A))
             AddCommGrpCat.uliftFunctor.{u + 1, u}) := by
-      show (alternatingFaceMapComplex AddCommGrpCat.{u + 1}).map
+      change (alternatingFaceMapComplex AddCommGrpCat.{u + 1}).map
           (Functor.whiskerRight
             (Functor.whiskerLeft U.op (polynomialAugmentationRing A B)) ringToAbelianLift) = _
       rw [polynomialAugmentationRing_comp_resolution A B (standardResolution.{u, u} A B).hom

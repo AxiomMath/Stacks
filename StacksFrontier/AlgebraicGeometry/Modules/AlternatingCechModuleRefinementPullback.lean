@@ -154,7 +154,7 @@ theorem cochainPullback_smul (p : ℕ) (a : A) (s : CechCochains.Cochain U F.pre
   have hb := congr($(baseRingHom_comp_app_of_comp f f' g hgf
     (CechCochains.inter U (π ∘ i))).hom a)
   rw [CommRingCat.hom_comp] at hb
-  show ((Scheme.Modules.pullback g).obj F).presheaf.map
+  change ((Scheme.Modules.pullback g).obj F).presheaf.map
       (homOfLE (inter_le_preimage_inter g U W π hW i)).op (_ • _) = _
   rw [show (g.app (CechCochains.inter U (π ∘ i))).hom
       ((baseRingHom f (CechCochains.inter U (π ∘ i))).hom a) =

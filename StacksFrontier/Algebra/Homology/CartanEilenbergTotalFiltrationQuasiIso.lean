@@ -133,9 +133,9 @@ lemma totalBrutalTruncRetraction_comp (n : ℤ) :
   rw [HomologicalComplex₂.ι_totalDesc, HomologicalComplex₂.ι_totalProjector]
   by_cases hi : p ≤ i
   · have := L.isIso_ιStupidTrunc_f_f p i j hi
-    rw [dif_pos hi, if_pos hi, Category.assoc, HomologicalComplex₂.ιTotal_map,
+    rw [dite_eq_left hi, ite_eq_left hi, Category.assoc, HomologicalComplex₂.ιTotal_map,
       ← Category.assoc, IsIso.inv_hom_id, Category.id_comp]
-  · rw [dif_neg hi, if_neg hi, zero_comp]
+  · rw [dite_eq_right hi, ite_eq_right hi, zero_comp]
 
 /-- The inclusion `Tot(σ_{≥ p}L) ⟶ Tot(L)` followed by the retraction is the identity: the
 inclusion is a split monomorphism in every degree. -/
@@ -151,7 +151,7 @@ lemma comp_totalBrutalTruncRetraction (n : ℤ) :
   rw [HomologicalComplex₂.ι_totalDesc]
   by_cases hi : p ≤ i
   · have := L.isIso_ιStupidTrunc_f_f p i j hi
-    rw [dif_pos hi, ← Category.assoc, IsIso.hom_inv_id, Category.id_comp]
+    rw [dite_eq_left hi, ← Category.assoc, IsIso.hom_inv_id, Category.id_comp]
   · exact (L.isZero_stupidTrunc_f_f p i j (by omega)).eq_of_src _ _
 
 /-- The map `Tot(σ_{≥ p}L)^n ⟶ Tot(L)^n` induced by the inclusion `σ_{≥ p}L ⟶ L` is a
@@ -317,7 +317,7 @@ theorem quasiIso_filteredTotalAugmentation_natTrans_app (hK : CochainComplex.plu
       have : QuasiIso ((((HomologicalComplex.single A (ComplexShape.up ℤ)
           0).mapHomologicalComplex (ComplexShape.up ℤ)).map
             (K.ιStupidTrunc (ComplexShape.embeddingUpIntGE p)) ≫ I.ε).f i) := by
-        show QuasiIso ((HomologicalComplex.single A (ComplexShape.up ℤ) 0).map
+        change QuasiIso ((HomologicalComplex.single A (ComplexShape.up ℤ) 0).map
           ((K.ιStupidTrunc (ComplexShape.embeddingUpIntGE p)).f i) ≫ I.ε.f i)
         infer_instance
       have : QuasiIso (fp.f i ≫

@@ -163,7 +163,7 @@ theorem pullbackPreservesFiniteLimits {A B : TopCat.{u}} (f : A ⟶ B) :
     PreservesFiniteLimits (TopCat.Sheaf.pullback (Type u) f) := by
   let _ : PreservesFiniteLimits
       ((Opens.map f).op.lan : ((Opens B)ᵒᵖ ⥤ Type u) ⥤ (Opens A)ᵒᵖ ⥤ Type u) := inferInstance
-  show PreservesFiniteLimits ((Opens.map f).sheafPullback (Type u)
+  change PreservesFiniteLimits ((Opens.map f).sheafPullback (Type u)
     (Opens.grothendieckTopology B) (Opens.grothendieckTopology A))
   exact Functor.sheafPullbackConstruction.preservesFiniteLimits _ _ _ _
 
@@ -293,7 +293,7 @@ private theorem skyscraperToConstantPushforward_top (S : Type u)
     (hg : ∀ z : A, g z ∈ closure ({y} : Set B)) :
     (skyscraperToConstantPushforward g y S hg).hom.app (op ⊤) =
       eqToHom (by simp) ≫ constantSection g S (op ⊤) := by
-  show (skyscraperToConstantPushforwardPresheaf g y S hg).app (op ⊤) = _
+  change (skyscraperToConstantPushforwardPresheaf g y S hg).app (op ⊤) = _
   simp only [skyscraperToConstantPushforwardPresheaf, unop_op,
     dite_eq_left (show y ∈ (⊤ : Opens B) from trivial)]
   rfl
@@ -418,7 +418,7 @@ private theorem pullbackSkyscraperToConstantPushforward_global_section (S : Type
     simpa [d] using skyscraperToConstantPushforward_top g y S hZ
   have hleft : (d ≫ constantSection g S (op ⊤)) (e s) =
       (constantSection g S (op ⊤)) s := by
-    show (e ≫ d ≫ constantSection g S (op ⊤)) s = _
+    change (e ≫ d ≫ constantSection g S (op ⊤)) s = _
     rw [← Category.assoc, hedge, Category.id_comp]
   have hconst : (constantSection g S (op ⊤)) s =
       (CategoryTheory.toSheafify (Opens.grothendieckTopology (TopCat.of Z))

@@ -127,11 +127,12 @@ section BiproductExt
 variable {C D : Type*} [Category C] [Category D] [Preadditive C] [Preadditive D]
   (Φ : C ⥤ D) [Φ.Additive] {J : Type*} [Fintype J] [DecidableEq J] (f : J → C) [HasBiproduct f]
 
-omit [DecidableEq J] in
+omit [Fintype J] [DecidableEq J] in
 /-- Morphisms into the image of a finite biproduct under an additive functor are determined by
 their composites with the images of the projections. -/
-theorem hom_ext_map_biproduct {A : D} {a b : A ⟶ Φ.obj (⨁ f)}
+theorem hom_ext_map_biproduct [Finite J] {A : D} {a b : A ⟶ Φ.obj (⨁ f)}
     (h : ∀ j, a ≫ Φ.map (biproduct.π f j) = b ≫ Φ.map (biproduct.π f j)) : a = b := by
+  have := Fintype.ofFinite J
   have ht : ∑ j, biproduct.π f j ≫ biproduct.ι f j = 𝟙 (⨁ f) :=
     IsBilimit.total (biproduct.isBilimit f)
   have e : ∀ c : A ⟶ Φ.obj (⨁ f),
@@ -263,14 +264,15 @@ theorem isSplitMono_map_augMap : IsSplitMono (Ψ.map (augMap A η)) :=
 
 variable [HasCokernel (augMap A η)]
 
-omit [DecidableEq ι] in
+omit [Fintype ι] [DecidableEq ι] in
 include hη k in
 /-- **The map from the cokernel of the augmentation to `⊕_{i,j} B_{ij}` is split injective after
 `Ψ`**, as soon as `Ψ` keeps the projection onto the cokernel an epimorphism: the contracting
 homotopy followed by that projection is a retraction. -/
-theorem isSplitMono_map_cokernelDesc [Epi (Ψ.map (cokernel.π (augMap A η)))] :
+theorem isSplitMono_map_cokernelDesc [Finite ι] [Epi (Ψ.map (cokernel.π (augMap A η)))] :
     IsSplitMono (Ψ.map (cokernel.desc (augMap A η) (diffMap A B fst snd)
       (augMap_diffMap A B η fst snd hη))) := by
+  have := Fintype.ofFinite ι
   refine IsSplitMono.mk' ⟨diffHomotopy A B snd Ψ k ≫ Ψ.map (cokernel.π (augMap A η)), ?_⟩
   rw [← cancel_epi (Ψ.map (cokernel.π (augMap A η))), ← Category.assoc, ← Ψ.map_comp,
     cokernel.π_desc, ← Category.assoc, map_diffMap_comp_diffHomotopy A B η fst snd hη Ψ k,

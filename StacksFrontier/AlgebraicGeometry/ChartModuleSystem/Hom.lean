@@ -250,7 +250,7 @@ theorem pushforwardApp_compat ⦃c' c : I.ι⦄ (h : I.Refines c' c) (x : S.M c)
   refine S'.eq_of_ρ_eq (fun j : J => j.1) (fun j => j.2.2) (fun y hy => ?_) fun j => ?_
   · obtain ⟨e₁, h₁, h₁e, hy₁⟩ := D.exists_over_refines (hle hy) hy
     exact ⟨⟨e₁, h₁, h₁e⟩, hy₁⟩
-  · show S'.ρ j.2.2 ((T.pushforwardSection c x).1 ⟨e, hle⟩) = _
+  · change S'.ρ j.2.2 ((T.pushforwardSection c x).1 ⟨e, hle⟩) = _
     rw [T.ρ_pushforwardSection c x hle j.2.1 j.2.2, ← T.ρ_τ (S.ρ h x) he j.2.2,
       T.τ_ρ j.2.1 (D.over_of_refines he j.2.2) h (I'.refines_refl _), S'.ρ_refl]
 

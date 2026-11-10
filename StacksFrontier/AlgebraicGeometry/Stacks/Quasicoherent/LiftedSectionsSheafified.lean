@@ -353,7 +353,7 @@ theorem overPostSectionsMapSheafified_naturality (hcoc : LiftedSectionsCocycleSh
         (overPostSectionsMapSheafified B E h S hS p hp F hlqc x V 𝓕 h𝓕 hMx eU hiso M s) := by
   have key := overPostSectionsIsoSheafified_naturality B E h S hS p hp F hlqc hcoc x r 𝓕 h𝓕 hMx eU
       hiso hiso'
-  show (s ≫ F.presheaf.map (((overPostEquivalence B S hS p hp x).inverse.map r).left).op) ≫
+  change (s ≫ F.presheaf.map (((overPostEquivalence B S hS p hp x).inverse.map r).left).op) ≫
       (overPostSectionsIsoSheafified B E h S hS p hp F hlqc x V' 𝓕 h𝓕 hMx eU hiso').hom =
     (s ≫ (overPostSectionsIsoSheafified B E h S hS p hp F hlqc x V 𝓕 h𝓕 hMx eU hiso).hom) ≫
       (overPostSectionsPresheaf B S hS p x 𝓕 h𝓕).map r.op

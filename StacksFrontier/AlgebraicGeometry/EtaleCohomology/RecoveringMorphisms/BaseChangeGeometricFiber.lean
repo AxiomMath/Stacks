@@ -127,7 +127,7 @@ theorem baseChangeHomEquivSolutions_naturality
         (SmallEtale.baseChangeHomEquiv B f V U a).1 := by
     rw [SmallEtale.baseChangeHomEquiv_apply_coe, SmallEtale.baseChangeHomEquiv_apply_coe,
       Functor.map_comp, Category.assoc]
-  show (homOverEquivSolutions _ _ _ _ P pres
+  change (homOverEquivSolutions _ _ _ _ P pres
       (SmallEtale.baseChangeHomEquiv B f V U' (k ≫ a))).1 i =
     ((SmallEtale.toScheme B X.obj X.property).map k).appTop.hom
       ((homOverEquivSolutions _ _ _ _ P pres (SmallEtale.baseChangeHomEquiv B f V U a)).1 i)

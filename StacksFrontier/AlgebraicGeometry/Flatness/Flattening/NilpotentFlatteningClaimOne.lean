@@ -82,7 +82,7 @@ theorem exists_flatStratification_of_presentation
     IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
   have : IsScalarTower S.A (MvPolynomial (Fin P.variableCount) S.A) S.N :=
     IsScalarTower.of_algebraMap_smul fun a x ↦ by
-      show algebraMap (MvPolynomial (Fin P.variableCount) S.A) S.B _ • x = _
+      change algebraMap (MvPolynomial (Fin P.variableCount) S.A) S.B _ • x = _
       rw [← IsScalarTower.algebraMap_apply S.A (MvPolynomial (Fin P.variableCount) S.A) S.B,
         algebraMap_smul]
   have : IsLocalizedModule P.prime.primeCompl

@@ -108,6 +108,7 @@ noncomputable def restriction (U : Cᵒᵖ)
       exact g.2
     exact h⟩
 
+omit hα in
 /-- The inclusion `ℳ ⟶ 𝒪'_P` sends the restriction of a lift at a relation `g` to the image of
 `g` under the homomorphism determined by the lift. -/
 theorem incl_restriction (U : Cᵒᵖ)
@@ -134,6 +135,7 @@ theorem comp_hom {φ : M ⟶ N} (k : MapAlong φ P Q) : (β.comp k).hom = β.hom
       ← Category.assoc, β.variable_hom]
     rfl
 
+omit hα in
 /-- **Step 2 of the proof of [Stacks Project, Tag 08UG].** Transporting a lift along a morphism
 of extensions along `φ` composes its restriction to the relations with `φ`. -/
 theorem restriction_comp {φ : M ⟶ N} (k : MapAlong φ P Q) (U : Cᵒᵖ)
@@ -142,7 +144,7 @@ theorem restriction_comp {φ : M ⟶ N} (k : MapAlong φ P Q) (U : Cᵒᵖ)
   refine Q.incl_injective ?_
   rw [incl_restriction, comp_hom]
   refine Eq.trans ?_ (k.kernel_comm U (β.restriction U g))
-  show k.hom.hom.app U (β.hom.hom.app U _) = k.hom.hom.app U (P.incl (β.restriction U g))
+  change k.hom.hom.app U (β.hom.hom.app U _) = k.hom.hom.app U (P.incl (β.restriction U g))
   rw [incl_restriction]
 
 variable [J.WEqualsLocallyBijective CommRingCat.{u}] [J.HasSheafCompose (forget CommRingCat.{u})]

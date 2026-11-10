@@ -57,19 +57,19 @@ theorem isFiniteTypePoint_of_locallyOfFiniteType_fieldPoint {l : Type u} [Field 
   have hres : (Scheme.SpecToEquivOfField k' X) g' = ⟨x, CommRingCat.ofHom (RingHom.id k')⟩ := by
     apply (Scheme.SpecToEquivOfField k' X).symm.injective
     rw [Equiv.symm_apply_apply]
-    show g' = Spec.map (𝟙 (.of k')) ≫ X.fromSpecResidueField x
+    change g' = Spec.map (𝟙 (.of k')) ≫ X.fromSpecResidueField x
     rw [Spec.map_id]
     exact (Category.id_comp _).symm
   refine ((finiteType_specField_tfae g').out 4 1).mp ?_
   refine ⟨W, ?_, w, ?_, hwc, ?_⟩
   · intro y _
     have h : g' y = x := Scheme.fromSpecResidueField_apply x y
-    show g' y ∈ W.1
+    change g' y ∈ W.1
     rw [h, hxdef, ← hw]
     exact w.2
   · rwa [hres]
   · rw [hres]
-    show Module.Finite k' k'
+    change Module.Finite k' k'
     infer_instance
 
 end Deformation.Artin

@@ -40,7 +40,8 @@ die at one stage (`CategoryTheory.Limits.exists_map_eq_zero_of_isColimit_of_isZe
 
 Part (1) is the reduction
 `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_support_notMem` of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ZeroStalkAtGenericPoint` with both of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ZeroStalkAtGenericPoint` with both
+of
 its inputs supplied: Stacks 03SA (2) for torsion abelian sheaves, in the local sense of torsion
 of Stacks 0DD7, is
 `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_of_qcqs`. Part (2) runs the
@@ -250,9 +251,7 @@ public theorem isZero_etaleStalk_of_moduleStalk_map_eq_zero (p : GeometricPoint 
   refine (IsZero.iff_id_eq_zero (S.obj K)).2 ?_
   rw [← cancel_mono (S.map m), Category.id_comp, hzero, zero_comp]
 
-variable [IsNoetherianRing Λ]
-
-/-- **Stacks 095P at a geometric point, for sheaves of `Λ`-modules.** Let `Λ` be a Noetherian ring
+/-- **Stacks 095P at a geometric point, for sheaves of `Λ`-modules.** Let `Λ` be a commutative ring
 and let `ℱ = colim Dᵢ` be a filtered colimit of constructible sheaves of `Λ`-modules on `X_étale`
 whose stalk at a geometric point `p` is zero. Then out of every stage `i` there is a transition
 map `Dᵢ ⟶ Dⱼ` whose stalk at `p` is zero: the stalk of `Dᵢ` is a finitely generated `Λ`-module,
@@ -276,6 +275,8 @@ public theorem exists_smallEtaleGeometricStalkModuleFunctor_map_eq_zero
     (isColimitOfPreserves S hc) hstalk i T
     fun g h hgh => ConcreteCategory.hom_ext _ _ fun x => LinearMap.congr_fun
       (LinearMap.ext_on hT (f := g.hom) (g := h.hom) hgh) x
+
+variable [IsNoetherianRing Λ]
 
 /-- **Stacks 0F0M (2).** Let `X` be a quasi-compact and quasi-separated scheme, let `η` be a
 generic point of an irreducible component of `X` and let `Λ` be a Noetherian ring. Let `ℱ` be a

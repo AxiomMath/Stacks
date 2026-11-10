@@ -130,7 +130,7 @@ private theorem exists_geometricPoint_above_cardinals
   let eOver : Over.mk (⟨b⟩ : B.obj hLsite ⟶ B.obj hS) ⟶ p₀.val.siteObject :=
     Over.homMk (⟨g⟩ : B.obj hLsite ⟶ B.obj p₀.val.contained) (by
       apply B.inclusion.map_injective
-      show g ≫ p₀.val.toBase = b
+      change g ≫ p₀.val.toBase = b
       rfl)
   let q : FieldValuedPoint B S hS F :=
     { carrier := L

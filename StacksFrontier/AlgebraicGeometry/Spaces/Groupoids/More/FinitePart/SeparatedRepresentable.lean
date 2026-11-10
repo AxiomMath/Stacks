@@ -72,6 +72,7 @@ namespace AlgebraicGeometry.Space
 attribute [local instance] pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on this presheaf category times out at the default
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_SeparatedRepresentable
@@ -86,6 +87,7 @@ local instance (priority := high) hasPullback_presheaf_SeparatedRepresentable
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits on this presheaf category times out at the default
 /-- Discrete limits of presheaves on the big fppf site, as a shortcut (instance search times
 out without it). -/
 local instance hasLimitsOfShape_discrete_presheaf_SeparatedRepresentable

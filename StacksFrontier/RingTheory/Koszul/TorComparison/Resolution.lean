@@ -145,7 +145,7 @@ theorem opcyclesQuot_fac (f : Fin r → R) :
       (ChainComplex.prev ℕ 0) ChainComplex.next_nat_zero)
   have h2 := ShortComplex.pOpcycles_comp_moduleCatOpcyclesIso_hom_apply
     ((Koszul.seqComplex f).sc' 1 0 0) x
-  show (quotRangeIso f).hom.hom
+  change (quotRangeIso f).hom.hom
       ((((Koszul.seqComplex f).sc' 1 0 0).moduleCatOpcyclesIso.hom).hom
         ((((Koszul.seqComplex f).opcyclesIsoSc' 1 0 0
             (ChainComplex.prev ℕ 0) ChainComplex.next_nat_zero).hom).hom
@@ -178,7 +178,7 @@ theorem augmentation_homologyMap_zero_isIso (f : Fin r → R) :
     change ⋀[R]^0 (Fin r → R) at x
     have hf := congrArg (fun (h : (Koszul.seqComplex f).X 0 ⟶ Q) => h.hom x)
       (homologyZeroIso_fac f)
-    show (Ideal.span (Set.range f)).mkQ ((exteriorPower.zeroEquiv R (Fin r → R)) x) =
+    change (Ideal.span (Set.range f)).mkQ ((exteriorPower.zeroEquiv R (Fin r → R)) x) =
       (homologyZeroIso f).hom.hom
         ((Koszul.seqComplex f).isoHomologyι₀.inv.hom
           (((Koszul.seqComplex f).pOpcycles 0).hom x))

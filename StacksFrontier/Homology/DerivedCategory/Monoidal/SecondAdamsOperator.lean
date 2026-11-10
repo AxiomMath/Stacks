@@ -326,7 +326,6 @@ theorem prop_Q_obj_tensorObj {K K' : CochainComplex A ℤ} (hK : KFlat (curriedT
     (htensor _ _ h h')
 
 variable [(kFlatQ (curriedTensor A)).IsLocalization (kFlatQuasiIso (curriedTensor A))]
-  [(kFlatQLeft (curriedTensor A)).IsLocalization (kFlatQuasiIsoLeft (curriedTensor A))]
 
 /-- The isomorphism `L ⊗^L L ≅ Q(Tot(K ⊗ K))` carries the switch of `D(A)` to the image of the
 switch of complexes. -/
@@ -431,8 +430,7 @@ theorem secondAdamsValue_eq (L : P.FullSubcategory) :
 
 /-! ### Closure properties -/
 
-omit [(kFlatQ (curriedTensor A)).IsLocalization (kFlatQuasiIso (curriedTensor A))]
-  [(kFlatQLeft (curriedTensor A)).IsLocalization (kFlatQuasiIsoLeft (curriedTensor A))] in
+omit [(kFlatQ (curriedTensor A)).IsLocalization (kFlatQuasiIso (curriedTensor A))] in
 include hsum htensor in
 /-- The invariants and the anti-invariants of the Koszul switch of `K ⊗ K` have their images
 in `P`, for a K-flat complex `K` whose image lies in `P`. -/

@@ -53,8 +53,8 @@ def directImage (A : DifferentialGradedAlgebra.{t, m} R) : DifferentialGradedAlg
   complex := ((sitePushforward F σ).mapHomologicalComplex (ComplexShape.up ℤ)).obj A.complex
   mul i j :=
     { app V := (A.mul i j).app (F.op.obj V)
-      map_smul_left V r x y := (A.mul i j).map_smul_left (F.op.obj V) _ x y
-      map_smul_right V r x y := (A.mul i j).map_smul_right (F.op.obj V) _ x y
+      map_smul_left V r x y := (A.mul i j).map_smul_left (F.op.obj V) (σ.app V r) x y
+      map_smul_right V r x y := (A.mul i j).map_smul_right (F.op.obj V) (σ.app V r) x y
       naturality f x y := (A.mul i j).naturality (F.op.map f) x y }
   one := ⟨fun V => A.one.eval (F.op.obj V), fun f => A.one.property (F.op.map f)⟩
   mul_assoc i j k V := A.mul_assoc i j k (F.op.obj V)
@@ -123,7 +123,7 @@ def restrictSectionRing (U' : C'ᵒᵖ) :
     (fun n ↦ (DirectSum.of (A.toGradedAlgebra.sectionsPiece (F.op.obj U')) n).comp
       (AddMonoidHom.id _))
     (DirectSum.of_zero_one _)
-    (fun {i j} p q ↦ (GradedAlgebra.of_mul_of_eq A.toGradedAlgebra (F.op.obj U') i j _ _).symm)
+    (fun {i j} p q ↦ (GradedAlgebra.of_mul_of_eq A.toGradedAlgebra (F.op.obj U') i j p q).symm)
 
 omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})]
   [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
@@ -144,7 +144,7 @@ def restrictSectionRingInv (U' : C'ᵒᵖ) :
     (fun n ↦ (DirectSum.of ((A.restrict F).toGradedAlgebra.sectionsPiece U') n).comp
       (AddMonoidHom.id _))
     (DirectSum.of_zero_one _)
-    (fun {i j} p q ↦ (GradedAlgebra.of_mul_of_eq (A.restrict F).toGradedAlgebra U' i j _ _).symm)
+    (fun {i j} p q ↦ (GradedAlgebra.of_mul_of_eq (A.restrict F).toGradedAlgebra U' i j p q).symm)
 
 omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})]
   [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
@@ -199,7 +199,7 @@ theorem restrictSectionHom_inv (U' : C'ᵒᵖ) (x : (A.sectionAlgebra (F.op.obj 
     (A.restrictSectionHom F U').toAlgebraHom ((A.restrictSectionInv F U').toAlgebraHom x) = x := by
   have key : (A.restrictSectionRing F U').comp (A.restrictSectionRingInv F U') = RingHom.id _ := by
     refine DirectSum.ringHom_ext fun n p => ?_
-    show A.restrictSectionRing F U' (A.restrictSectionRingInv F U' (DirectSum.of _ n p)) = _
+    change A.restrictSectionRing F U' (A.restrictSectionRingInv F U' (DirectSum.of _ n p)) = _
     rw [restrictSectionRingInv_of]
     exact A.restrictSectionRing_of F U' n p
   exact DFunLike.congr_fun key x
@@ -211,7 +211,7 @@ theorem restrictSectionInv_hom (U' : C'ᵒᵖ) (x : ((A.restrict F).sectionAlgeb
     (A.restrictSectionInv F U').toAlgebraHom ((A.restrictSectionHom F U').toAlgebraHom x) = x := by
   have key : (A.restrictSectionRingInv F U').comp (A.restrictSectionRing F U') = RingHom.id _ := by
     refine DirectSum.ringHom_ext fun n p => ?_
-    show A.restrictSectionRingInv F U' (A.restrictSectionRing F U' (DirectSum.of _ n p)) = _
+    change A.restrictSectionRingInv F U' (A.restrictSectionRing F U' (DirectSum.of _ n p)) = _
     rw [restrictSectionRing_of]
     exact A.restrictSectionRingInv_of F U' n p
   exact DFunLike.congr_fun key x
@@ -228,7 +228,7 @@ theorem restrictSectionHom_sectionRestriction {U' V' : C'ᵒᵖ} (a : V' ⟶ U')
   have key : (A.restrictSectionRing F U').comp ((A.restrict F).sectionRestrictRing a) =
       (A.sectionRestrictRing (F.op.map a)).comp (A.restrictSectionRing F V') := by
     refine DirectSum.ringHom_ext fun n p => ?_
-    show A.restrictSectionRing F U'
+    change A.restrictSectionRing F U'
         ((A.restrict F).sectionRestrictRing a (DirectSum.of _ n p)) =
       A.sectionRestrictRing (F.op.map a) (A.restrictSectionRing F V' (DirectSum.of _ n p))
     rw [sectionRestrictRing_of, restrictSectionRing_of, restrictSectionRing_of]

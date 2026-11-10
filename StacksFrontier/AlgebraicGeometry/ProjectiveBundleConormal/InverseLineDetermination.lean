@@ -81,8 +81,8 @@ the two general facts as well: its uniqueness is already available as
 `Stacks.Monoidal.eq_of_tensorHom_comp_eq`, and composing left pins is one
 `CategoryTheory.MonoidalCategory.tensorHom_comp_tensorHom` against one `whisker_exchange` here.
 The left calculus is
-`StacksFrontier.AlgebraicGeometry.ProjBundleInverseBaseChange.InvIsoLeftPin`. What is still missing of
-the geometry is in the
+`StacksFrontier.AlgebraicGeometry.ProjBundleInverseBaseChange.InvIsoLeftPin`. What is still missing
+of the geometry is in the
 "What is still owed" of
 `StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.SourceCoherence`.
 
@@ -123,7 +123,7 @@ theorem TensorInverse.ofIso_snake {L₁ L₂ : C} (b : TensorInverse L₂) (ε :
           (ρ_ (TensorInverse.ofIso ε b).inv).hom =
       (TensorInverse.ofIso ε b).mulIso'.hom ▷ (TensorInverse.ofIso ε b).inv ≫
         (λ_ (TensorInverse.ofIso ε b).inv).hom := by
-  show (α_ b.inv L₁ b.inv).hom ≫ b.inv ◁ (ε.hom ▷ b.inv ≫ b.mulIso.hom) ≫ (ρ_ b.inv).hom =
+  change (α_ b.inv L₁ b.inv).hom ≫ b.inv ◁ (ε.hom ▷ b.inv ≫ b.mulIso.hom) ≫ (ρ_ b.inv).hom =
     (b.inv ◁ ε.hom ≫ b.mulIso'.hom) ▷ b.inv ≫ (λ_ b.inv).hom
   rw [MonoidalCategory.whiskerLeft_comp, MonoidalCategory.comp_whiskerRight]
   simp only [Category.assoc]

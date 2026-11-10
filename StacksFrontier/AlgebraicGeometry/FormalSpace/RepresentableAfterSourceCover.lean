@@ -156,7 +156,7 @@ theorem isAlgebraicSpaceULift_of_etaleFamily
     (?_ : Presheaf.imageSieve (Yo.map (k ⟨i, a⟩) ≫ gi i) (uliftYonedaEquiv t')
       (pullback.snd (k ⟨i, a⟩) zz ≫ g))
   refine ⟨ULift.up (pullback.fst (k ⟨i, a⟩) zz), ?_⟩
-  show (gi i).app (op (Limits.pullback (k ⟨i, a⟩) zz))
+  change (gi i).app (op (Limits.pullback (k ⟨i, a⟩) zz))
     (ULift.up (pullback.fst (k ⟨i, a⟩) zz ≫ k ⟨i, a⟩)) = _
   rw [pullback.condition, op_comp, Functor.map_comp, types_comp_apply, ← hz]
   exact NatTrans.naturality_apply (gi i) (pullback.snd (k ⟨i, a⟩) zz).op z

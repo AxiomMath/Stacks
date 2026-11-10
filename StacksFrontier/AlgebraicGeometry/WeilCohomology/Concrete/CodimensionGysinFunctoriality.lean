@@ -271,7 +271,7 @@ theorem codimensionGysin_comp (i : ℤ) (γ : codimensionChowGroup k sZ i) :
   have : IsOpenImmersion ℓ := by dsimp only [ℓ]; infer_instance
   clear_value ℓ
   have hℓbase : ℓ ≫ dimPartPieceBase sX sZ (f ≫ g) d c = V.ι ≫ dimPartPieceBase sX sY f d e := by
-    show ℓ ≫ W'.ι ≫ partBase sX d = V.ι ≫ W.ι ≫ partBase sX d
+    change ℓ ≫ W'.ι ≫ partBase sX d = V.ι ≫ W.ι ≫ partBase sX d
     rw [← Category.assoc, hℓ, Category.assoc]
   -- the left-hand side is `res(c_Z) ∩ [V]`
   obtain ⟨cZ, hcZ⟩ := exists_chowCohomologyCapFundamentalClass_eq sZ c i (γ c)
@@ -299,7 +299,7 @@ theorem codimensionGysin_comp (i : ℤ) (γ : codimensionChowGroup k sZ i) :
     rfl
   have hle : V ≤ dimPartPieceHom sX sY f d e ⁻¹ᵁ Y' := by
     intro v hv
-    show g ((dimPart sY e).ι (dimPartPieceHom sX sY f d e v)) ∈ dimPart sZ c
+    change g ((dimPart sY e).ι (dimPartPieceHom sX sY f d e v)) ∈ dimPart sZ c
     rw [hpt]
     exact hv
   let ℓ' : V.toScheme ⟶ Y'.toScheme :=

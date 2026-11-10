@@ -78,7 +78,7 @@ public theorem uncurry_curry_map
     {C D E : Type*} [Category C] [Category D] [Category E]
     (F : C × D ⥤ E) {X Y : C × D} (f : X ⟶ Y) :
     (Functor.uncurry.obj (Functor.curry.obj F)).map f = F.map f := by
-  show F.map (CategoryTheory.Prod.mkHom f.1 (𝟙 X.2)) ≫
+  change F.map (CategoryTheory.Prod.mkHom f.1 (𝟙 X.2)) ≫
     F.map (CategoryTheory.Prod.mkHom (𝟙 Y.1) f.2) = F.map f
   rw [← F.map_comp]
   congr 1
@@ -367,7 +367,7 @@ public theorem restrictScalarsTensorComplexIso_naturality
   let b' := restrictScalarsTensorBicomplexIso e K' L'
   let t := HomologicalComplex₂.TotalMap.totalIso (c₁₂ := .up ℤ) E (tensorBicomplex S K L)
   let t' := HomologicalComplex₂.TotalMap.totalIso (c₁₂ := .up ℤ) E (tensorBicomplex S K' L')
-  show HomologicalComplex₂.total.map (tensorBicomplexMap (EC.map f) (EC.map g))
+  change HomologicalComplex₂.total.map (tensorBicomplexMap (EC.map f) (EC.map g))
       (.up ℤ) ≫ (HomologicalComplex₂.total.map b'.hom (.up ℤ) ≫ t'.hom) =
     (HomologicalComplex₂.total.map b.hom (.up ℤ) ≫ t.hom) ≫
       EC.map (HomologicalComplex₂.total.map (tensorBicomplexMap f g) (.up ℤ))

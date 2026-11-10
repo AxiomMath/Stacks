@@ -46,8 +46,7 @@ theorem linear : Functor.Linear R RF := by
     simp only [Functor.comp_map] at hnat
     simp only [γ₁, γ₂, NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
       NatTrans.app_smul, NatTrans.id_app, Functor.id_obj, hL, ← hnat, hF,
-      CategoryTheory.Linear.smul_comp, CategoryTheory.Linear.comp_smul, Category.id_comp,
-      Category.comp_id]
+      CategoryTheory.Linear.smul_comp, CategoryTheory.Linear.comp_smul, Category.id_comp]
     exact congrArg (r • ·) (Category.comp_id (α.app Y)).symm
   simpa [γ₁, γ₂] using congrArg (fun γ : RF ⟶ RF ↦ γ.app X) h
 

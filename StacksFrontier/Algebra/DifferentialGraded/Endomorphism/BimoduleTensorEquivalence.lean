@@ -68,11 +68,10 @@ theorem tensorProduct_induction (C D : DifferentialGradedAlgebra.{u, u} R)
       P ((a : C.A) ᵍ⊗ₜ[R] (b : D.A) : C.grading ᵍ⊗[R] D.grading))
     (t : (tensorProduct C D).A) : P t := by
   obtain ⟨t, rfl⟩ := (GradedTensorProduct.of R C.grading D.grading).surjective t
-  induction t using TensorProduct.induction_on with
-  | zero => exact hzero
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => exact hadd _ _ hx hy
   | tmul a b =>
-    show P (a ᵍ⊗ₜ[R] b : C.grading ᵍ⊗[R] D.grading)
+    change P (a ᵍ⊗ₜ[R] b : C.grading ᵍ⊗[R] D.grading)
     induction a using DirectSum.Decomposition.inductionOn C.grading with
     | zero => simpa [GradedTensorProduct.tmul] using hzero
     | add a a' ha ha' =>
@@ -363,7 +362,7 @@ theorem tensorActionApply_ofTensorModule (N : DifferentialGradedModule (tensorAl
       rw [tensorActionApply_tmul A B M a b x,
         leftActionTotal_commutes A B M.rightModule M.leftAction.1 M.leftAction.2 aa b x.val,
         ofTensorModule_leftActionTotal_apply A B N aa x]
-      show (m * p).negOnePow •
+      change (m * p).negOnePow •
           ((MulOpposite.op (GradedTensorProduct.includeRight (oppAlgebra A).grading B.grading b) :
               MulOpposite (tensorAlgebra A B).A) •
             ((m * p).negOnePow •
@@ -448,7 +447,7 @@ theorem nonempty_tensorEquivalence : Nonempty (TensorEquivalence A B) := by
     action := ?_ }⟩
   intro M m n p a b x
   let x' : M.rightModule.grading p := ⟨x.val, x.property⟩
-  show tensorActionApply A B M
+  change tensorActionApply A B M
     ((a : (oppAlgebra A).A) ᵍ⊗ₜ[R] (b : B.A) :
       (oppAlgebra A).grading ᵍ⊗[R] B.grading) x'.val = _
   rw [tensorActionApply_tmul A B M a b x',

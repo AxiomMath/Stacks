@@ -16,8 +16,8 @@ which is the equivalence **(1) ⇔ (3) of [Stacks, Tag 0DX7] at `d = 0`**.
 
 The implication from right to left is
 `Stacks.LocalCohomology.isZero_localCohomologyModule_of_isClopen_zeroLocus`, proved in
-`StacksFrontier.RingTheory.LocalCohomology.VanishingTFAE.ClopenVanishing`. What is proved here is the
-other one, and it is proved **algebraically**, not along the route of the source.
+`StacksFrontier.RingTheory.LocalCohomology.VanishingTFAE.ClopenVanishing`. What is proved here is
+the other one, and it is proved **algebraically**, not along the route of the source.
 
 The source deduces openness of `Y` by showing that `U = Spec A \ Y` is affine — Serre's criterion
 applied to the vanishing of `H^1(U, F)` for quasi-coherent `F` — and then that `U ⟶ Spec A` is a
@@ -181,7 +181,7 @@ theorem exists_sub_one_mem_and_pow_mul_eq_zero {r : ℕ} (f : Fin r → A) (I : 
     refine (cechTermOneEquiv f S.X₃).injective ?_
     rw [map_zero]
     funext i
-    show (cechTermOneEquiv f S.X₃) _ i = (0 : Cech.cechMod f (S.X₃ : Type _) {i})
+    change (cechTermOneEquiv f S.X₃) _ i = (0 : Cech.cechMod f (S.X₃ : Type _) {i})
     rw [cechTermOneEquiv_cechD_zero]
     rw [show (LocalizedModule.mkLinearMap (Cech.cechSub f {i}) (S.X₃ : Type _)) (S.g 1) =
         LocalizedModule.mk (S.g (1 : A)) 1 from rfl,
@@ -189,7 +189,7 @@ theorem exists_sub_one_mem_and_pow_mul_eq_zero {r : ℕ} (f : Fin r → A) (I : 
         (LocalizedModule.zero_mk 1).symm, LocalizedModule.mk_eq]
     refine ⟨⟨f i, by rw [hpow]; exact Submonoid.mem_powers _⟩, ?_⟩
     simp only [one_smul, smul_zero, Submonoid.smul_def]
-    show Submodule.mkQ I (f i * 1) = 0
+    change Submodule.mkQ I (f i * 1) = 0
     rw [mul_one, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
     exact hfmem i
   -- so it comes from a degree-one cochain of `I`, which is a cocycle, hence a coboundary
@@ -278,7 +278,7 @@ theorem isClopen_zeroLocus_of_exists_sub_one_mem {r : ℕ} (f : Fin r → A) (I 
     | zero => rw [pow_zero, mul_one]
     | succ j ih => rw [pow_succ, ← mul_assoc, ih, hfix z hz]
   have hidem : IsIdempotentElem t := by
-    show t * t = t
+    change t * t = t
     rw [ht]
     exact hpowfix _ htK (m + 1)
   have hKt : K ≤ Ideal.span {t} := by

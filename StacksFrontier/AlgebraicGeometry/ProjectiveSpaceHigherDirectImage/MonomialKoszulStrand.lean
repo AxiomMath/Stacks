@@ -112,8 +112,8 @@ theorem exists_eq_addOf {n : ℕ} {t t' : ℤ} (ht : 1 + t' = t) (b : MonomialIn
     ext y
     rw [Finsupp.add_apply, Finsupp.tsub_apply, Finsupp.single_apply]
     by_cases hy : ULift.up i = y
-    · subst hy; rw [if_pos rfl]; omega
-    · rw [if_neg hy]; omega
+    · subst hy; rw [ite_eq_left rfl]; omega
+    · rw [ite_eq_right hy]; omega
   have hdeg : (((b.1 - Finsupp.single (ULift.up i) 1).degree : ℤ)) = t' := by
     have h2 := congrArg Finsupp.degree hval
     rw [map_add, Finsupp.degree_single] at h2
@@ -164,7 +164,7 @@ theorem addOf_coordIndex_apply_of_ne {n : ℕ} {e₁ e₂ : ℤ} {k i : Fin (n +
     (c : MonomialIndex.{u} n e₁) (h : 1 + e₁ = e₂) :
     (MonomialIndex.addOf (coordIndex k) c h).1 (ULift.up i) = c.1 (ULift.up i) := by
   rw [MonomialIndex.addOf_val, Finsupp.add_apply, coordIndex, Finsupp.single_apply,
-    if_neg (fun hh => hki (ULift.up.inj hh)), zero_add]
+    ite_eq_right (fun hh => hki (ULift.up.inj hh)), zero_add]
 
 /-- The `i`-th exponent of `δᵢ` times a multidegree is one more than that of the
 multidegree. -/
@@ -207,8 +207,8 @@ private theorem biproduct_ι_π_ite {C : Type*} [Category C] [HasZeroMorphisms C
     biproduct.ι (fun _ : J => X) x ≫ biproduct.π _ y = if x = y then 𝟙 X else 0 := by
   rw [biproduct.ι_π]
   by_cases h : x = y
-  · rw [dif_pos h, if_pos h]; subst h; simp
-  · rw [dif_neg h, if_neg h]
+  · rw [dite_eq_left h, ite_eq_left h]; subst h; simp
+  · rw [dite_eq_right h, ite_eq_right h]
 
 /-- The component of a monomial sum at a multidegree, paired with the inclusion of another. -/
 @[reassoc] theorem monomialSum_ι_π (t : ℤ) (x y : MonomialIndex.{u} (m + 1) t) :
@@ -303,8 +303,8 @@ theorem koszulSign_singleton {N : ℕ} (k i : Fin N) :
     koszulSign k {i} = if i < k then -1 else 1 := by
   rw [koszulSign, Finset.filter_singleton]
   by_cases h : i < k
-  · rw [if_pos h, if_pos h, Finset.card_singleton, pow_one]
-  · rw [if_neg h, if_neg h, Finset.card_empty, pow_zero]
+  · rw [ite_eq_left h, ite_eq_left h, Finset.card_singleton, pow_one]
+  · rw [ite_eq_right h, ite_eq_right h, Finset.card_empty, pow_zero]
 
 /-- A Koszul sign squares to one. -/
 theorem koszulSign_mul_self {N : ℕ} (k : Fin N) (s : Finset (Fin N)) :
@@ -318,9 +318,9 @@ theorem koszulSign_mul_swap {N : ℕ} {i i' : Fin N} (h : i ≠ i') :
     koszulSign i {i'} * koszulSign i' {i} = -1 := by
   rw [koszulSign_singleton, koszulSign_singleton]
   rcases lt_trichotomy i i' with hlt | heq | hgt
-  · rw [if_neg (not_lt_of_gt hlt), if_pos hlt, one_mul]
+  · rw [ite_eq_right (not_lt_of_gt hlt), ite_eq_left hlt, one_mul]
   · exact absurd heq h
-  · rw [if_pos hgt, if_neg (not_lt_of_gt hgt), mul_one]
+  · rw [ite_eq_left hgt, ite_eq_right (not_lt_of_gt hgt), mul_one]
 
 /-- **The two Koszul signs of a pair of distinct coordinates sum to zero**, exactly one of the
 two orderings holding. -/
@@ -328,9 +328,9 @@ theorem koszulSign_add_swap {N : ℕ} {i i' : Fin N} (h : i ≠ i') :
     koszulSign i {i'} + koszulSign i' {i} = 0 := by
   rw [koszulSign_singleton, koszulSign_singleton]
   rcases lt_trichotomy i i' with hlt | heq | hgt
-  · rw [if_neg (not_lt_of_gt hlt), if_pos hlt]; ring
+  · rw [ite_eq_right (not_lt_of_gt hlt), ite_eq_left hlt]; ring
   · exact absurd heq h
-  · rw [if_pos hgt, if_neg (not_lt_of_gt hgt)]; ring
+  · rw [ite_eq_left hgt, ite_eq_right (not_lt_of_gt hgt)]; ring
 
 /-- Two one-element sets of coordinates agree exactly when the coordinates do. -/
 @[simp] theorem singletonIdx_inj {N : ℕ} {i i' : Fin N} :
@@ -489,9 +489,9 @@ def dualHomotopy (he : 1 ≤ e) (h1 : 1 + t₁ = e) (h2 : 1 + t₂ = t₁) :
       dualHomotopyEntry m S he h1 h2 i' c' := by
   rw [← Category.assoc, dualHomotopy, biproduct.lift_π, biproduct.lift_π]
   refine Eq.trans (Finset.sum_eq_single i' (fun l _ hl => ?_) (fun hi => ?_)) ?_
-  · exact if_neg (fun hcon => hl (Finset.singleton_inj.1 hcon).symm)
+  · exact ite_eq_right (fun hcon => hl (Finset.singleton_inj.1 hcon).symm)
   · exact absurd (Finset.mem_univ i') hi
-  · exact if_pos rfl
+  · exact ite_eq_left rfl
 
 /-- The column of the composite of the retraction with the first dual Koszul differential: it is
 the projection onto the summand of the chosen coordinate of `δ_{i'} · c'` and of the quotient
@@ -528,9 +528,9 @@ theorem dualRetraction_comp_add (he : 1 ≤ e) (h1 : 1 + t₁ = e) (h2 : 1 + t�
       have hsp := splitRest_spec he h1 (MonomialIndex.addOf (coordIndex i') c' h1)
       rw [hK] at hsp
       exact hsp
-    rw [dif_pos hK, hK, hW]
+    rw [dite_eq_left hK, hK, hW]
     simp
-  · rw [dif_neg hK]
+  · rw [dite_eq_right hK]
     simp only [Preadditive.comp_zsmul]
     rw [ι_dualDiff_one_π_assoc m S h2 hj1 i
       (pairIdx (splitIdx he (MonomialIndex.addOf (coordIndex i') c' h1)) i' hK)]

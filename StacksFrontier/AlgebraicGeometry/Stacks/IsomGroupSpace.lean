@@ -661,7 +661,7 @@ private theorem isomSpaceOver_lift_map_section
         (Functor.LaxMonoidal.μ E.inverse F G).left).app V t =
         ((a.left.app V) t, (b.left.app V) t) := by
     apply Prod.ext
-    · show ((CartesianMonoidalCategory.lift a b).left ≫
+    · change ((CartesianMonoidalCategory.lift a b).left ≫
         (Functor.LaxMonoidal.μ E.inverse F G).left ≫
         (E.inverse.map (CartesianMonoidalCategory.fst F G)).left).app V t = _
       have hμ := congrArg Over.Hom.left (Functor.Monoidal.μ_fst E.inverse F G)
@@ -671,7 +671,7 @@ private theorem isomSpaceOver_lift_map_section
         _ = ((CartesianMonoidalCategory.lift a b ≫
           CartesianMonoidalCategory.fst _ _).left.app V) t := hμt
         _ = _ := by simp
-    · show ((CartesianMonoidalCategory.lift a b).left ≫
+    · change ((CartesianMonoidalCategory.lift a b).left ≫
         (Functor.LaxMonoidal.μ E.inverse F G).left ≫
         (E.inverse.map (CartesianMonoidalCategory.snd F G)).left).app V t = _
       have hμ := congrArg Over.Hom.left (Functor.Monoidal.μ_snd E.inverse F G)
@@ -790,16 +790,16 @@ private lemma isomSpaceSmul_existsUnique
   let : IsIso p.1 := p.2
   let : IsIso q.1 := q.2
   refine ⟨⟨inv p.1 ≫ q.1, ?_⟩, ?_, ?_⟩
-  · show IsIso (inv p.1 ≫ q.1)
+  · change IsIso (inv p.1 ≫ q.1)
     infer_instance
   · apply Subtype.ext
-    show p.1 ≫ inv p.1 ≫ q.1 = q.1
+    change p.1 ≫ inv p.1 ≫ q.1 = q.1
     simp
   · intro g hg
     apply Subtype.ext
     have h := congrArg Subtype.val hg
     change p.1 ≫ g.1 = q.1 at h
-    show g.1 = inv p.1 ≫ q.1
+    change g.1 = inv p.1 ≫ q.1
     rw [← h]
     simp
 
@@ -831,7 +831,7 @@ theorem isomSpaceOver_isPseudoTorsor
     naturality := by
       intro V W f
       ext t
-      show g W (Q.left.map f t) = (isomSpace B S hS 𝒳 U y y).map f (g V t)
+      change g W (Q.left.map f t) = (isomSpace B S hS 𝒳 U y y).map f (g V t)
       apply (huniq W (Q.left.map f t) _ ?_).symm
       have hnat (r : Q ⟶ P) : r.left.app W (Q.left.map f t) =
           (isomSpace B S hS 𝒳 U x y).map f (r.left.app V t) :=

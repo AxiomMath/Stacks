@@ -56,13 +56,13 @@ public theorem isTopologicallyOfFiniteType_comp
   let F : MvPolynomial (Fin n) B →ₐ[B] A :=
     { toRingHom := F₀
       commutes' := fun b => by
-        show F₀ (MvPolynomial.C b) = algebraMap B A b
+        change F₀ (MvPolynomial.C b) = algebraMap B A b
         exact (DFunLike.congr_fun hFcomp b).trans
           (DFunLike.congr_fun (RingHom.algebraMap_toAlgebra f).symm b) }
   let G : MvPolynomial (Fin m) C →ₐ[C] B :=
     { toRingHom := G₀
       commutes' := fun c => by
-        show G₀ (MvPolynomial.C c) = algebraMap C B c
+        change G₀ (MvPolynomial.C c) = algebraMap C B c
         exact (DFunLike.congr_fun hGcomp c).trans
           (DFunLike.congr_fun (RingHom.algebraMap_toAlgebra g).symm c) }
   let vars : Fin m ⊕ Fin n → A :=
@@ -74,11 +74,11 @@ public theorem isTopologicallyOfFiniteType_comp
   let Q : MvPolynomial (Fin m) C →ₐ[C] A :=
     { toRingHom := f.comp G.toRingHom
       commutes' := fun c => by
-        show f (G (MvPolynomial.C c)) = algebraMap C A c
+        change f (G (MvPolynomial.C c)) = algebraMap C A c
         calc
           f (G (MvPolynomial.C c)) = f (g c) := by
             congr 1
-            show G₀ (MvPolynomial.C c) = g c
+            change G₀ (MvPolynomial.C c) = g c
             exact DFunLike.congr_fun hGcomp c
           _ = algebraMap C A c :=
             (DFunLike.congr_fun (RingHom.algebraMap_toAlgebra (f.comp g)) c).symm }
@@ -122,7 +122,7 @@ public theorem isTopologicallyOfFiniteType_comp
   refine ⟨m + n, H.toRingHom, ?_, ?_⟩
   · ext c
     simp [H, RingHom.algebraMap_toAlgebra]
-  · show DenseRange (H : MvPolynomial (Fin (m + n)) C → A)
+  · change DenseRange (H : MvPolynomial (Fin (m + n)) C → A)
     rw [denseRange_iff_closure_range, hH_range]
     simpa [S, Subalgebra.topologicalClosure_coe] using
       congrArg (fun T : Subalgebra C A => (T : Set A)) hS_top
@@ -134,12 +134,12 @@ public theorem isAdic_and_isTopologicallyOfFiniteType_comp
     {A B C : Type u} [CommRing A] [CommRing B] [CommRing C]
     [TopologicalSpace A] [TopologicalSpace B] [TopologicalSpace C]
     [IsTopologicalRing A] [IsTopologicalRing B] [IsTopologicalRing C]
-    (f : B →+* A) (g : C →+* B) (hf_cont : Continuous f) (hg_cont : Continuous g)
+    (f : B →+* A) (g : C →+* B) (hf_cont : Continuous f)
     (hf : RingHom.IsAdic f ∧ TopologicalRing.IsTopologicallyOfFiniteType f)
     (hg : RingHom.IsAdic g ∧ TopologicalRing.IsTopologicallyOfFiniteType g) :
     RingHom.IsAdic (f.comp g) ∧
       TopologicalRing.IsTopologicallyOfFiniteType (f.comp g) :=
-  ⟨RingHom.isAdic_comp g f hg_cont hf_cont hg.1 hf.1,
+  ⟨RingHom.isAdic_comp g f hg.1 hf.1,
     isTopologicallyOfFiniteType_comp f g hf_cont hf.2 hg.2⟩
 
 end

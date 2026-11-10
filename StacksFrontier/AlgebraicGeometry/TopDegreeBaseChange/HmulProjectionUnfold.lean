@@ -78,10 +78,10 @@ conjugate by transports exactly when they are heterogeneously equal.
 sides are definitionally equal but spelled differently, so the transport is the identity and the
 heterogeneous equality is an ordinary one. Reaching that by rewriting **in the concrete goal**
 fails: after the first rewrite the target is no longer type-correct at `implicit` transparency —
-the recorded obstruction — and every later `rw` reports that it cannot find its pattern. At variables of
-an abstract category nothing inside the objects can unfold and the rewrites are at default
-transparency, where they go through. The statement is at a general `e : X = Y`, not at `X = X`:
-the latter shape reads as a tautology to the adversarial scan, and it is also strictly less
+the recorded obstruction — and every later `rw` reports that it cannot find its pattern. At
+variables of an abstract category nothing inside the objects can unfold and the rewrites are at
+default transparency, where they go through. The statement is at a general `e : X = Y`, not at
+`X = X`: the latter shape reads as a tautology to the adversarial scan, and it is also strictly less
 general. -/
 theorem square_eqToHom {C : Type*} [Category C] {X Y : C} (e : X = Y) {m : X ⟶ X} {n : Y ⟶ Y}
     (hmn : m ≍ n) : m ≫ eqToHom e = eqToHom e ≫ n := by

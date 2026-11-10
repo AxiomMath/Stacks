@@ -84,7 +84,7 @@ theorem Algebra.IsPushout.of_bijective_productMap (R A C : Type u) [CommRing R] 
       (Algebra.TensorProduct.productLeftAlgHom (R := R) (Algebra.ofId A C) C₀.val) := h
   refine Algebra.IsPushout.of_equiv (AlgEquiv.ofBijective _ hb) ?_
   ext x
-  show Algebra.TensorProduct.productLeftAlgHom (R := R) (Algebra.ofId A C) C₀.val
+  change Algebra.TensorProduct.productLeftAlgHom (R := R) (Algebra.ofId A C) C₀.val
       ((1 : A) ⊗ₜ[R] x) = (x : C)
   simp
 

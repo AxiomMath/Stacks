@@ -54,6 +54,7 @@ attribute [local instance] pointTopology
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site goes deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_LocalToGlobalStep :
@@ -109,8 +110,8 @@ theorem exists_lift_isNormalizedBlowUpOutside (i : Fin n) {A : AlgebraicSpaces B
     ∃ (A' : AlgebraicSpaces B S hS) (g₁ : A' ⟶ A) (z : points B S hS A.obj)
       (hz : IsClosed ({z} : Set (points B S hS A.obj))),
       IsNormalizationOfBlowupAtClosedPoint B S hS z hz g₁ ∧ D.StageRep i (g₁ ≫ g) Z' ∧
-        ∀ {P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hP : IsAlgebraicSpace B S hS P)
-          (c : P ⟶ D.space.obj), IsEtale B S hS c →
+        ∀ {P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}, IsAlgebraicSpace B S hS P →
+          ∀ (c : P ⟶ D.space.obj), IsEtale B S hS c →
             (∀ p, pointsMap B S hS P c p ≠ D.point i) →
             ∃ e : pullback (g₁.hom ≫ g.hom) c ≅ pullback g.hom c,
               e.hom ≫ pullback.snd g.hom c = pullback.snd (g₁.hom ≫ g.hom) c := by
@@ -199,7 +200,7 @@ theorem exists_lift_isNormalizedBlowUpOutside (i : Fin n) {A : AlgebraicSpaces B
       (D.neighborhood i).etale_toSpace q Φ hΦ hWfin hw hfib
     obtain ⟨m, hm⟩ := exists_normalizedBlowUpScheme_iso_of_iso θ hWfin hZfin w hw hx
     refine ⟨N, q' ≫ q, e', ψ ≪≫ m ≪≫ e.symm, ?_, ?_⟩
-    · show e'.hom ≫ yoneda.map (q' ≫ q) = pullback.snd (g₁.hom ≫ g.hom) φ.hom
+    · change e'.hom ≫ yoneda.map (q' ≫ q) = pullback.snd (g₁.hom ≫ g.hom) φ.hom
       rw [Functor.map_comp]
       exact he'
     · have he₁ : e.inv ≫ Z'.hom = Stacks.Blowup.normalizedBlowUp _ hZfin _ hx ≫ Z.hom := by

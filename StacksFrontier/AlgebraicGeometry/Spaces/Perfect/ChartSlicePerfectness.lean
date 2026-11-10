@@ -129,12 +129,12 @@ theorem isPerfect_over_of_isPerfect_etaleModulePullback
   have hc1 : E.functor.IsContinuous
       (smallEtaleRingedSite B S hS (chartSpace B S hS X W).1 (chartSpace B S hS X W).2).J
       ((smallEtaleRingedSite B S hS X.1 X.2).over W).J := by
-    show E.functor.IsContinuous _ ((smallEtaleRingedSite B S hS X.1 X.2).J.over W)
+    change E.functor.IsContinuous _ ((smallEtaleRingedSite B S hS X.1 X.2).J.over W)
     exact isContinuous_chartLocalization_chartSpace B S hS X W
   have hc2 : E.inverse.IsContinuous
       ((smallEtaleRingedSite B S hS X.1 X.2).over W).J
       (smallEtaleRingedSite B S hS (chartSpace B S hS X W).1 (chartSpace B S hS X W).2).J := by
-    show E.inverse.IsContinuous ((smallEtaleRingedSite B S hS X.1 X.2).J.over W) _
+    change E.inverse.IsContinuous ((smallEtaleRingedSite B S hS X.1 X.2).J.over W) _
     exact isContinuous_chartLocalizationInverse_chartSpace B S hS X W
   have hT := RingedSite.isPerfect_pushforward_of_siteEquivalence
     (Y := smallEtaleRingedSite B S hS (chartSpace B S hS X W).1 (chartSpace B S hS X W).2)
@@ -145,7 +145,7 @@ theorem isPerfect_over_of_isPerfect_etaleModulePullback
   let Q := (chartLocalizationModuleEquivalence B S hS X W).inverse
   have := RingedSite.pushforward_additive_of_siteEquivalence
     (Y := smallEtaleRingedSite B S hS (chartSpace B S hS X W).1 (chartSpace B S hS X W).2)
-    (X := (smallEtaleRingedSite B S hS X.1 X.2).over W) E (hFc := hc1) (hIc := hc2) (𝟙 _)
+    (X := (smallEtaleRingedSite B S hS X.1 X.2).over W) E (hIc := hc2) (𝟙 _)
   have := RingedSite.preservesFiniteLimits_pushforward_of_siteEquivalence
     (Y := smallEtaleRingedSite B S hS (chartSpace B S hS X W).1 (chartSpace B S hS X W).2)
     (X := (smallEtaleRingedSite B S hS X.1 X.2).over W) E (hFc := hc1) (hIc := hc2) (𝟙 _) (𝟙 _)
@@ -217,12 +217,12 @@ theorem isPerfect_etaleModulePullback_chartToSpace (W : (smallEtaleRingedSite B 
   have hc1 : E.functor.IsContinuous
       (smallEtaleRingedSite B S hS (chartSpace B S hS X W).1 (chartSpace B S hS X W).2).J
       ((smallEtaleRingedSite B S hS X.1 X.2).over W).J := by
-    show E.functor.IsContinuous _ ((smallEtaleRingedSite B S hS X.1 X.2).J.over W)
+    change E.functor.IsContinuous _ ((smallEtaleRingedSite B S hS X.1 X.2).J.over W)
     exact isContinuous_chartLocalization_chartSpace B S hS X W
   have hc2 : E.inverse.IsContinuous
       ((smallEtaleRingedSite B S hS X.1 X.2).over W).J
       (smallEtaleRingedSite B S hS (chartSpace B S hS X W).1 (chartSpace B S hS X W).2).J := by
-    show E.inverse.IsContinuous ((smallEtaleRingedSite B S hS X.1 X.2).J.over W) _
+    change E.inverse.IsContinuous ((smallEtaleRingedSite B S hS X.1 X.2).J.over W) _
     exact isContinuous_chartLocalizationInverse_chartSpace B S hS X W
   have hT := RingedSite.isPerfect_pushforward_of_siteEquivalence
     (X := smallEtaleRingedSite B S hS (chartSpace B S hS X W).1 (chartSpace B S hS X W).2)

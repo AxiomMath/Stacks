@@ -90,7 +90,7 @@ lemma smulEnd_naturality {E E' : Mod A B hX} (f : E ⟶ E')
     (r : (O A B hX).obj.obj (op (top A B hX))) :
     smulEnd A B hX E r ≫ f = f ≫ smulEnd A B hX E' r := by
   ext W x
-  show f.val.app W ((O A B hX).obj.map (toTop A B hX W.unop).op r • x) =
+  change f.val.app W ((O A B hX).obj.map (toTop A B hX W.unop).op r • x) =
     (O A B hX).obj.map (toTop A B hX W.unop).op r • f.val.app W x
   exact map_smul (f.val.app W).hom _ x
 
@@ -112,11 +112,11 @@ lemma epsT_map_smul {M N : ModuleCat.{u} A} (h : M ⟶ N) (a : A) :
   have h2 := congrArg (fun g => g.hom m) ((epsTAdj A B hX).unit.naturality h)
   change ((epsTAdj A B hX).unit.app N).hom ((a • h).hom m) = _ at h1
   refine h1.symm.trans ?_
-  show ((epsTAdj A B hX).unit.app N).hom (a • h.hom m) = (smulEnd A B hX ((epsT A B hX).obj N)
+  change ((epsTAdj A B hX).unit.app N).hom (a • h.hom m) = (smulEnd A B hX ((epsT A B hX).obj N)
     (ρtop A B hX a)).val.app (op (top A B hX))
       (((epsT A B hX).map h).val.app (op (top A B hX)) (((epsTAdj A B hX).unit.app M).hom m))
   rw [map_smul, smulEnd_val_app, O_map_toTop_top]
-  show _ = ρtop A B hX a • (show ((epsT A B hX).obj N).val.obj (op (top A B hX)) from
+  change _ = ρtop A B hX a • (show ((epsT A B hX).obj N).val.obj (op (top A B hX)) from
     ((gammaTop A B hX).map ((epsT A B hX).map h)).hom (((epsTAdj A B hX).unit.app M).hom m))
   exact congrArg (fun y => ρtop A B hX a •
     (show ((epsT A B hX).obj N).val.obj (op (top A B hX)) from y)) h2

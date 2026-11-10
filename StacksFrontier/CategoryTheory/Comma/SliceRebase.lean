@@ -63,7 +63,7 @@ theorem sliceRebase_comp_forget_map (A : Over U.left) :
     obj_ext rfl (((Category.assoc _ _ _).trans (Over.w V.hom)).trans (Category.id_comp _).symm)
   refine CategoryTheory.Functor.ext hobj (fun V W i => ?_)
   refine PresheafOfCategories.over_hom_eq_conj (hobj V) (hobj W) rfl rfl _ _ ?_
-  show _ = 𝟙 _ ≫ _ ≫ 𝟙 _
+  change _ = 𝟙 _ ≫ _ ≫ 𝟙 _
   exact ((Category.id_comp _).trans (Category.comp_id _)).symm
 
 /-- The functor `sliceRebase U A` is natural in `A`: relocalizing a morphism `i : G ⟶ A` of
@@ -75,7 +75,7 @@ theorem sliceRebase_map {A G : Over U.left} (i : G ⟶ A) :
       ((Over.map ((Over.map U.hom).map i) ⋙ sliceRebase U A).obj V).left =
         ((sliceRebase U G ⋙ Over.map i).obj V).left := fun V => by
     refine obj_ext rfl ?_
-    show (V.hom.left ≫ i.left) ≫ A.hom = 𝟙 _ ≫ V.hom.left ≫ G.hom
+    change (V.hom.left ≫ i.left) ≫ A.hom = 𝟙 _ ≫ V.hom.left ≫ G.hom
     simp only [Category.id_comp, Category.assoc, Over.w i]
   have hobj : ∀ V : Over ((Over.map U.hom).obj G),
       (Over.map ((Over.map U.hom).map i) ⋙ sliceRebase U A).obj V =
@@ -89,7 +89,7 @@ theorem sliceRebase_map {A G : Over U.left} (i : G ⟶ A) :
   refine CategoryTheory.Functor.ext hobj (fun V W j => ?_)
   refine PresheafOfCategories.over_hom_eq_conj (hobj V) (hobj W) (hleft V) (hleft W) _ _ ?_
   refine PresheafOfCategories.over_hom_eq_conj (hleft V) (hleft W) rfl rfl _ _ ?_
-  show _ = 𝟙 _ ≫ _ ≫ 𝟙 _
+  change _ = 𝟙 _ ≫ _ ≫ 𝟙 _
   exact ((Category.id_comp _).trans (Category.comp_id _)).symm
 
 end CategoryTheory.Over

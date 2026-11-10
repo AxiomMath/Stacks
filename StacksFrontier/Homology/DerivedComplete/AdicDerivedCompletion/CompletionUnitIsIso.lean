@@ -512,7 +512,7 @@ private theorem completion_map_unit_isIso_of_stage_quasiIso
     (object : DerivedCategory (ModuleCat.{moduleLevel} ring)) :
     IsIso ((completionFunctor family).map ((completionUnit family).app object)) := by
   let transformation := Functor.whiskerRight (completionUnit family) (completionFunctor family)
-  show IsIso (transformation.app object)
+  change IsIso (transformation.app object)
   rw [← NatTrans.isIso_app_iff_of_iso transformation
     ((DerivedCategory.Q (C := ModuleCat.{moduleLevel} ring)).objObjPreimageIso object)]
   let complex := (DerivedCategory.Q (C := ModuleCat.{moduleLevel} ring)).objPreimage object
@@ -524,11 +524,11 @@ private theorem completion_map_unit_isIso_of_stage_quasiIso
       (DerivedCategory.Q.map ((coefficientCompletionUnit family).app complex))) :=
     (NatIso.isIso_map_iff (completionLocalIso family)
       ((coefficientCompletionUnit family).app complex)).mpr (by
-        show IsIso (DerivedCategory.Q.map
+        change IsIso (DerivedCategory.Q.map
           ((coefficientCompletionComplex family).map ((coefficientCompletionUnit family).app
             complex)))
         infer_instance)
-  show IsIso ((completionFunctor family).map
+  change IsIso ((completionFunctor family).map
     ((completionUnit family).app (DerivedCategory.Q.obj complex)))
   rw [completionUnit_representative, Functor.map_comp]
   infer_instance

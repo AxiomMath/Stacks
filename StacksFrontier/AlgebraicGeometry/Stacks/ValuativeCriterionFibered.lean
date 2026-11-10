@@ -288,7 +288,7 @@ theorem exists_lift_of_diagonal (q : FiberedValuativeSquare B S hS f) (a : 𝒳.
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
     simp only [Over.comp_left, Functor.map_comp, q.genericMap_left]
-    show Spec.map (CommRingCat.ofHom (RingHom.id q.K)) ≫
+    change Spec.map (CommRingCat.ofHom (RingHom.id q.K)) ≫
         Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) =
       Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) ≫
         Spec.map (CommRingCat.ofHom (RingHom.id q.R))
@@ -415,7 +415,7 @@ theorem FiberedValuativeSquare.exists_of_valuativeSquare {f : 𝒳 ⟶ 𝒴}
       congrArg (fun η => η.app (Over.mk (𝟙 KS))) (@IsIso.inv_hom_id _ _ _ _ δ hδiso)
     have hinv : inv (γQ.app (Over.mk (𝟙 KS))) = δ.app (Over.mk (𝟙 KS)) :=
       IsIso.inv_eq_of_hom_inv_id hcomp
-    show inv (γQ.app (Over.mk (𝟙 KS))) ≫ _ = c
+    change inv (γQ.app (Over.mk (𝟙 KS))) ≫ _ = c
     rw [hinv]
     exact hδfac
   obtain ⟨d, ⟨l⟩⟩ := H Q

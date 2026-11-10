@@ -146,15 +146,15 @@ theorem exists_cover_existsUnique_section_of_field {A : Type u₂} [Category.{v�
   let (i : I) : Algebra.IsSeparable k (K i) := hSep i
   have hetale (i : I) : Etale (Spec.map (CommRingCat.ofHom (algebraMap k (K i)))) := by
     rw [HasRingHomProperty.Spec_iff (P := @Etale)]
-    show (algebraMap k (K i)).Etale
+    change (algebraMap k (K i)).Etale
     rw [RingHom.etale_algebraMap]
     exact ⟨Algebra.FormallyEtale.of_isSeparable k (K i),
       Algebra.FinitePresentation.of_finiteType.mp inferInstance⟩
   let V (i : I) : (Spec (.of k)).Etale :=
     MorphismProperty.Over.mk ⊤ (Spec.map (CommRingCat.ofHom (algebraMap k (K i)))) (hetale i)
   have hw (i : I) : (Sigma.ι (fun i ↦ Spec (.of (K i))) i ≫ e.inv) ≫ W.hom = (V i).hom := by
-    show _ = Spec.map (CommRingCat.ofHom (algebraMap k (K i)))
-    rw [← he, Category.assoc, Iso.inv_hom_id_assoc, Sigma.ι_desc]
+    change _ = Spec.map (CommRingCat.ofHom (algebraMap k (K i)))
+    rw [← he, Category.assoc, Iso.inv_hom_id_assoc, Sigma.ι_comp_desc]
   let π (i : I) : V i ⟶ W := MorphismProperty.Over.homMk _ (hw i)
   have hlim := isLimitFanSectionsOfIsoSigma F π e fun i ↦ rfl
   refine ⟨I, V, π, ofArrows_mem_smallEtaleTopology_of_isoSigma π e fun i ↦ rfl,

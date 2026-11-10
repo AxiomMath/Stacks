@@ -56,6 +56,7 @@ variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 variable [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 variable (R : Sheaf J CommRingCat.{u})
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **A bounded above complex of flat modules is cellular.** -/
 theorem isFlatCellular_of_isStrictlyLE
     (K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R)) ℤ)
@@ -64,6 +65,7 @@ theorem isFlatCellular_of_isStrictlyLE
   isPCellular_of_isStrictlyLE_of_biprod_of_epi (flatObjects R) (flatObjects_biprod R)
     (flatObjects_cover R) K a hK
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The mapping cone of a map of complexes of flat modules is a complex of flat modules. -/
 theorem flatObjects_mappingCone_X
     {X Y : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R)) ℤ}
@@ -87,6 +89,7 @@ theorem isStrictlyLE_mappingCone
 variable [HasDerivedCategory.{d} (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R))]
 variable (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **Tensoring with `M` keeps a quasi-isomorphism of cellular complexes** (Tag 0794). -/
 theorem quasiIso_tensorRight_of_isPCellular
     {A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R)) ℤ}
@@ -96,7 +99,7 @@ theorem quasiIso_tensorRight_of_isPCellular
   have h := isIso_map_tensorRightHomotopy_of_cellular.{d} R M
     ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map q)
     ((HomotopyCategory.quotient_map_mem_quasiIso_iff q).2 (by
-      show QuasiIso q; infer_instance))
+      change QuasiIso q; infer_instance))
     (cellular_quotient_obj R hA) (cellular_quotient_obj R hB)
   rw [Functor.comp_map, Functor.mapHomotopyCategory_map] at h
   exact (HomotopyCategory.quotient_map_mem_quasiIso_iff _).1

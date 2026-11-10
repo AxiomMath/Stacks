@@ -143,7 +143,7 @@ public theorem affineComplementSectionsFunctor_map_restrictionToComplement (J : 
     ConcreteCategory.hom ((affineComplementSectionsFunctor A J).map f)
         (restrictionToComplement D M (complementTilde A J M) (Iso.refl _) m) =
       restrictionToComplement D N (complementTilde A J N) (Iso.refl _) (f m) := by
-  show moduleSectionsMap f ((complementZeroLocus A J).ι ''ᵁ ⊤)
+  change moduleSectionsMap f ((complementZeroLocus A J).ι ''ᵁ ⊤)
       (restrictionToComplement D M (complementTilde A J M) (Iso.refl _) m) =
     restrictionToComplement D N (complementTilde A J N) (Iso.refl _) (f m)
   rw [restrictionToComplement_refl_apply D M m,
@@ -286,7 +286,7 @@ public theorem adicComplementRestrictionNat_app_apply (n : ℕᵒᵖ)
     ConcreteCategory.hom ((adicComplementRestrictionNat A I J hJ D M).app n) x =
       restrictionToComplement D ((adicQuotientModuleSystem A I M).obj n)
         (complementTilde A J ((adicQuotientModuleSystem A I M).obj n)) (Iso.refl _) x := by
-  show ConcreteCategory.hom ((𝟙 _ : (adicQuotientModuleSystem A I M).obj n ⟶ _) ≫
+  change ConcreteCategory.hom ((𝟙 _ : (adicQuotientModuleSystem A I M).obj n ⟶ _) ≫
     (complementRestrictionNat A J hJ D).app ((adicQuotientModuleSystem A I M).obj n)) x = _
   rw [Category.id_comp]
   exact complementRestrictionNat_app_apply A J hJ D _ x
@@ -367,7 +367,7 @@ vanishes. -/
 public theorem adicLocalCohomologyZeroNat_comp_restriction :
     adicLocalCohomologyZeroNat A I J hJ M ≫ adicComplementRestrictionNat A I J hJ D M = 0 := by
   refine NatTrans.ext (funext fun n => ModuleCat.hom_ext (LinearMap.ext fun x => ?_))
-  show ConcreteCategory.hom ((adicComplementRestrictionNat A I J hJ D M).app n)
+  change ConcreteCategory.hom ((adicComplementRestrictionNat A I J hJ D M).app n)
       (ConcreteCategory.hom ((adicLocalCohomologyZeroNat A I J hJ M).app n) x) = 0
   rw [adicComplementRestrictionNat_app_apply, adicLocalCohomologyZeroNat_app]
   exact (exact_localCohomologyZeroToModule_restrictionToComplement D
@@ -378,7 +378,7 @@ vanishes. -/
 public theorem adicComplementRestriction_comp_boundary :
     adicComplementRestrictionNat A I J hJ D M ≫ adicComplementBoundaryNat A I J hJ D M = 0 := by
   refine NatTrans.ext (funext fun n => ModuleCat.hom_ext (LinearMap.ext fun x => ?_))
-  show ConcreteCategory.hom ((adicComplementBoundaryNat A I J hJ D M).app n)
+  change ConcreteCategory.hom ((adicComplementBoundaryNat A I J hJ D M).app n)
       (ConcreteCategory.hom ((adicComplementRestrictionNat A I J hJ D M).app n) x) = 0
   rw [adicComplementBoundaryNat_app_apply, adicComplementRestrictionNat_app_apply]
   exact (exact_restrictionToComplement_localizationBoundary D

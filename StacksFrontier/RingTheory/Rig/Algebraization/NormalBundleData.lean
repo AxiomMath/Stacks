@@ -104,7 +104,7 @@ theorem nonempty_data (B : AdicFiniteTypeAlgebra.{u, v} A (Ideal.span {a}))
       rw [cotangent_mk_eq_sum_smul fk _ g rfl]
       simp only [map_sub, sub_smul, Finset.sum_sub_distrib, ← hhdf, Matrix.one_apply,
         apply_ite Pres.toAlgHom, map_zero, ite_mul, one_mul, zero_mul, ite_smul,
-        zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true, sub_self]
+        zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true, sub_self]
     rw [← hker]
     exact (Cotangent.mk_eq_zero_iff g).1 hg
   exact ⟨Data.ofRel B Pres f hf c S hrel⟩

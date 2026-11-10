@@ -221,7 +221,7 @@ theorem app_app_eq_zero_of_square {Z Z' W W' : Scheme.{u}} {i : Z ⟶ Z'} {j : W
     exact hp2
   refine key (f ≫ j) hcomm ?_
   rw [Scheme.Hom.comp_app]
-  show (f.app (j ⁻¹ᵁ V)).hom ((j.app V).hom r) = 0
+  change (f.app (j ⁻¹ᵁ V)).hom ((j.app V).hom r) = 0
   rw [hr, map_zero]
 
 /-- **The map of conormal sheaves induced by a square of immersions carries conormal classes to
@@ -432,7 +432,7 @@ theorem cls_eq_conormalClass (U : Y.Opens) (b : Γ(Y, U)) :
   rw [conormalClass_eq_unit, deltaIdealSection_eq_idealSectionOf q U b,
     Subsingleton.elim (homOfLE (le_liftCoborder_preimage (pullback.diagonal q) (prodOpen q U)
       (le_diagonal_preimage_prodOpen q U))) (homOfLE (le_chart_preimage q U))]
-  show _ = (conormalSheaf (pullback.diagonal q)).val.map (homOfLE (le_chart_preimage q U)).op
+  change _ = (conormalSheaf (pullback.diagonal q)).val.map (homOfLE (le_chart_preimage q U)).op
     (((modulePullbackPushforwardAdjunction
           (pullback.diagonal q).liftCoborder.toLRSHom.toShHom).unit.app
         (Stacks.ClosedImmersion.idealSheaf

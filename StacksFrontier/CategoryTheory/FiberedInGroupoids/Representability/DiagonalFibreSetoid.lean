@@ -69,7 +69,7 @@ theorem exists_hom_of_sectOf {A B : TwoFibreProductOver p𝒯 p (ProdP p) Y (Dia
         ⟨sectOf A, isHomLift_sectOf hY A⟩ hh)⟩
   refine ⟨(unitIso hp hY).hom.app A ≫ (ofElements hp hY).map e ≫ (unitIso hp hY).inv.app B,
     ?_⟩
-  show 𝟙 A.x ≫ h ≫ 𝟙 B.x = h
+  change 𝟙 A.x ≫ h ≫ 𝟙 B.x = h
   rw [Category.id_comp, Category.comp_id]
 
 include hp hY in

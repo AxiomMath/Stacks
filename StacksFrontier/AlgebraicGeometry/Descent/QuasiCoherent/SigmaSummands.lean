@@ -101,7 +101,7 @@ variable {T : Scheme.{u}} {I : Type w} [Small.{u} I] {X : I → Scheme.{u}} {f :
 after composition with the coproduct morphism, over the corresponding morphism to the base. -/
 public theorem comp_desc_of_comp_sigmaι {Y : Scheme.{u}} {q : Y ⟶ ∐ X} {i : I} {g : Y ⟶ X i}
     (hg : g ≫ Sigma.ι X i = q) : g ≫ f i = q ≫ Sigma.desc f := by
-  rw [← hg, ← Sigma.ι_desc f i, Category.assoc]
+  rw [← hg, ← Sigma.ι_comp_desc f i, Category.assoc]
 
 /-- A quasi-coherent descent datum for a family `{X i ⟶ T}`, read as one for the covering of
 `∐ X i` by its summands. The component sheaves are unchanged, and the transition over a morphism
@@ -905,9 +905,9 @@ public noncomputable def sigmaDescentDataPullIso :
         (sigmaFamilyDescentData 𝒱 D N κ) ≅ D.obj :=
   Pseudofunctor.DescentData.isoMk (fun i ↦ κ i) (fun {Y} q {i₁ i₂} f₁ f₂ hf₁ hf₂ ↦ by
     have hu : (f₁ ≫ Sigma.ι 𝒱.X i₁) ≫ Sigma.desc 𝒱.f = q := by
-      rw [Category.assoc, Sigma.ι_desc]; exact hf₁
+      rw [Category.assoc, Sigma.ι_comp_desc]; exact hf₁
     have hv : (f₂ ≫ Sigma.ι 𝒱.X i₂) ≫ Sigma.desc 𝒱.f = q := by
-      rw [Category.assoc, Sigma.ι_desc]; exact hf₂
+      rw [Category.assoc, Sigma.ι_comp_desc]; exact hf₂
     rw [Pseudofunctor.DescentData.pullFunctorObj_hom,
       Pseudofunctor.DescentData.pullFunctorObjHom_eq (toSigmaFamily 𝒱).w₀
         (sigmaFamilyDescentData 𝒱 D N κ) (f₁ ≫ 𝒱.f i₁) f₁ f₂ q (f₁ ≫ Sigma.ι 𝒱.X i₁)

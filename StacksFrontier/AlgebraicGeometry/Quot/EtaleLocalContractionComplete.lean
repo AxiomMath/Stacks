@@ -95,10 +95,10 @@ private theorem ker_adicThickeningι (R : Type u) [CommRing R] (I : Ideal R) (n 
   apply Scheme.IdealSheafData.ext_of_isAffine
   simp only [Scheme.IdealSheafData.ideal_pow, Pi.pow_apply]
   rw [Scheme.Hom.ker_apply, Scheme.Hom.ker_apply]
-  show RingHom.ker (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (I ^ (n + 1))))).appTop.hom =
+  change RingHom.ker (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (I ^ (n + 1))))).appTop.hom =
     RingHom.ker (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))).appTop.hom ^ (n + 1)
   rw [Stacks.Smooth.ker_specMap_appTop, Stacks.Smooth.ker_specMap_appTop]
-  show (RingHom.ker (Ideal.Quotient.mk (I ^ (n + 1)))).comap _ =
+  change (RingHom.ker (Ideal.Quotient.mk (I ^ (n + 1)))).comap _ =
     ((RingHom.ker (Ideal.Quotient.mk I)).comap _) ^ (n + 1)
   rw [Ideal.mk_ker, Ideal.mk_ker]
   exact comap_pow_equiv (Scheme.ΓSpecIso (.of R)).commRingCatIsoToRingEquiv _ _
@@ -108,7 +108,7 @@ private theorem ker_pow_le_nthOrderToBase {X Y : Scheme.{u}}
     i.ker ^ (n + 1) ≤ (Stacks.Thickenings.nthOrderToBase i n).ker := by
   have hi : i.coborderRange = ⊤ := by
     ext x
-    show x ∈ coborder (Set.range i) ↔ x ∈ (Set.univ : Set Y)
+    change x ∈ coborder (Set.range i) ↔ x ∈ (Set.univ : Set Y)
     rw [i.isClosedEmbedding.isClosed_range.coborder_eq]
   have : IsIso i.coborderRange.ι := by
     apply isIso_of_isOpenImmersion_of_opensRange_eq_top
@@ -200,7 +200,7 @@ theorem fiberDimension_le_of_closedFibre
 
 private theorem fiberDimension_le_dimension {X Y : Scheme.{u}} (f : X ⟶ Y) (y : Y) :
     f.fiberDimension y ≤ topologicalKrullDim X := by
-  show topologicalKrullDim (f.fiber y) ≤ _
+  change topologicalKrullDim (f.fiber y) ≤ _
   rw [(f.fiberHomeo y).isHomeomorph.topologicalKrullDim_eq]
   exact Topology.IsInducing.topologicalKrullDim_le
     (Topology.IsEmbedding.subtypeVal.isInducing)

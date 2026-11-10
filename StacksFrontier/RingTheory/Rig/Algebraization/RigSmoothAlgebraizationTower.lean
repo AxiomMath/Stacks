@@ -118,6 +118,7 @@ section GeneratorDrop
 
 variable {A : Type u} [CommRing A] [IsNoetherianRing A]
 
+omit [IsNoetherianRing A] in
 /-- `I Ā` and `Ī` have the same radical in `Ā = A ⧸ (aᵐ)`. -/
 public theorem radical_map_span_insert_eq (s : Finset A) (a : A) {m : ℕ} (hm : 0 < m) :
     ((Ideal.span (insert a (s : Set A))).map (algebraMap A (A ⧸ Ideal.span {a ^ m}))).radical =
@@ -207,7 +208,7 @@ public theorem exists_level_of_isRigSmooth
   let γ : AdicCompletion K₂ C₀ ≃ₐ[Q]
       B.carrier ⧸ (Ideal.span {a ^ m}).map (algebraMap A B.carrier) :=
     AlgEquiv.ofRingEquiv (f := E₀.symm.toRingEquiv.trans β) fun y => by
-      rw [RingEquiv.trans_apply, AlgEquiv.toRingEquiv_eq_coe, AlgEquiv.coe_ringEquiv,
+      rw [RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv,
         AlgEquiv.commutes, hβ]
   refine ⟨Localization.Away g, inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, ?_, ⟨?_⟩⟩

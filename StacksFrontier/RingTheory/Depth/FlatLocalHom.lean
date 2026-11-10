@@ -523,7 +523,7 @@ private theorem isSMulRegular_and_flat_quotSMulTop [Module.Finite S N] [Module.F
       (Submodule.smul_top_le_comap_smul_top _ _)) := by
     intro x y hxy
     refine e.injective (hf ?_)
-    show f • e x = f • e y
+    change f • e x = f • e y
     rw [← hcomm, ← hcomm, hxy]
   obtain ⟨hinj, hflat⟩ :=
     Module.Flat.injective_and_flat_quotient_range_of_injective_mapQ_maximalIdeal_of_isNoetherianRing
@@ -657,7 +657,7 @@ private theorem depth_tensorProduct_eq_zero [Module.Finite R M] [Module.Finite S
     refine Submodule.smul_induction_on hx' ?_ ?_
     · intro a ha n _
       rw [LinearMap.mem_ker]
-      show (a • n) ⊗ₜ[R] z = 0
+      change (a • n) ⊗ₜ[R] z = 0
       rw [TensorProduct.smul_tmul, hz a ha, TensorProduct.tmul_zero]
     · intro u v hu hv
       exact Submodule.add_mem _ hu hv
@@ -669,7 +669,7 @@ private theorem depth_tensorProduct_eq_zero [Module.Finite R M] [Module.Finite S
         (n ⊗ₜ[R] (Submodule.Quotient.mk (1 : R) :
           R ⧸ (maximalIdeal R : Submodule R R))) = 0 := by
       rw [LinearMap.lTensor_tmul]
-      show n ⊗ₜ[R] (LinearMap.toSpanSingleton R M z) (1 : R) = 0
+      change n ⊗ₜ[R] (LinearMap.toSpanSingleton R M z) (1 : R) = 0
       rw [LinearMap.toSpanSingleton_apply, one_smul]
       exact hnz
     have h2 : n ⊗ₜ[R] (Submodule.Quotient.mk (1 : R) :
@@ -810,7 +810,7 @@ of Noetherian local rings, let `M` be a finite `R`-module and let `N` be a finit
 flat over `R`. Then `depth_S(N ⊗_R M) = depth_R(M) + depth_S(N/𝔪_R N)`. -/
 @[stacks 0338 "The fibre `N/𝔪_R N` has its depth taken over `S` along `𝔪_S` rather than over \
   `S/𝔪_R S`, which is the same value, and the tensor product is written with `N` on the left.", ega
-    "IV 6.3.1", ega "IV 6.3.1", ega "IV 6.3.4" "more general", sga "2 III 2.11" "special case"]
+    "IV 6.3.1", ega "IV 6.3.4" "more general", sga "2 III 2.11" "special case"]
 public theorem depth_tensorProduct_of_flat {R S M N : Type*} [CommRing R] [CommRing S]
     [IsNoetherianRing R] [IsNoetherianRing S] [IsLocalRing R] [IsLocalRing S] [Algebra R S]
     [IsLocalHom (algebraMap R S)] [AddCommGroup M] [Module R M] [Module.Finite R M]

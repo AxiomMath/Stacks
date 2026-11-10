@@ -163,7 +163,7 @@ theorem cotangentDiffOfSquare_mul (X : Cᵒᵖ) (x y : A₁.obj X) :
     cotangentDiffOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' X (x * y) =
       x • cotangentDiffOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' X y +
         y • cotangentDiffOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' X x := by
-  show (kernelIdeal φ₂ X).toCotangent (subOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' X (x * y)) =
+  change (kernelIdeal φ₂ X).toCotangent (subOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' X (x * y)) =
     Ideal.Quotient.mk (kernelIdeal φ₂ X) (ψ.app X x) •
         (kernelIdeal φ₂ X).toCotangent (subOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' X y) +
       Ideal.Quotient.mk (kernelIdeal φ₂ X) (ψ.app X y) •
@@ -174,7 +174,7 @@ theorem cotangentDiffOfSquare_mul (X : Cᵒᵖ) (x y : A₁.obj X) :
         (ψ.app X).hom y • subOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' X x :
           kernelIdeal φ₂ X) : A₂.obj X)) =
       -((ψ.app X x - ψ'.app X x) * (ψ.app X y - ψ'.app X y)) := by
-    show (ψ.app X (x * y) - ψ'.app X (x * y)) -
+    change (ψ.app X (x * y) - ψ'.app X (x * y)) -
       (ψ.app X x * (ψ.app X y - ψ'.app X y) + ψ.app X y * (ψ.app X x - ψ'.app X x)) = _
     simp only [map_mul]
     ring
@@ -195,7 +195,7 @@ theorem subOfSquare_structureMap (ha : ρ ≫ a₂ = a₁ ≫ ψ) (ha' : ρ ≫ 
     have h : ψ.app X (a₁.app X r) = ψ'.app X (a₁.app X r) :=
       (congrArg (fun t : R₁ ⟶ A₂ ↦ (t.app X).hom r) ha).symm.trans
         (congrArg (fun t : R₁ ⟶ A₂ ↦ (t.app X).hom r) ha')
-    show ψ.app X (a₁.app X r) - ψ'.app X (a₁.app X r) = ((0 : kernelIdeal φ₂ X) : A₂.obj X)
+    change ψ.app X (a₁.app X r) - ψ'.app X (a₁.app X r) = ((0 : kernelIdeal φ₂ X) : A₂.obj X)
     rw [h]
     simp)
 
@@ -251,7 +251,7 @@ theorem differentialsHomotopyOfSquare_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y)
       have h₁ : (differentialsPresheaf a₁).map f (CommRingCat.KaehlerDifferential.d x) =
           CommRingCat.KaehlerDifferential.d (f := a₁.app Y) (A₁.map f x) :=
         PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d a₁ f x
-      show differentialsHomotopyOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' a₁ a₂ ρ ha ha' Y
+      change differentialsHomotopyOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' a₁ a₂ ρ ha ha' Y
           ((differentialsPresheaf a₁).map f
             (CommRingCat.KaehlerDifferential.d (f := a₁.app X) x)) =
         (conormalPresheaf φ₂).map f
@@ -261,7 +261,7 @@ theorem differentialsHomotopyOfSquare_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y)
       refine Eq.trans ?_ (cotangentMap_toCotangent _ _ (A₂.map f).hom (map_kernel φ₂ f) _).symm
       congr 1
       refine Subtype.ext ?_
-      show ψ.app Y (A₁.map f x) - ψ'.app Y (A₁.map f x) = A₂.map f (ψ.app X x - ψ'.app X x)
+      change ψ.app Y (A₁.map f x) - ψ'.app Y (A₁.map f x) = A₂.map f (ψ.app X x - ψ'.app X x)
       rw [map_sub, NatTrans.naturality_apply ψ f x, NatTrans.naturality_apply ψ' f x]
   | zero => rw [map_zero, map_zero, map_zero, map_zero]
   | add x y hx hy ihx ihy => rw [map_add, map_add, map_add, map_add, ihx, ihy]
@@ -270,7 +270,7 @@ theorem differentialsHomotopyOfSquare_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y)
       refine congrArg (fun s : (quotientPresheaf φ₂).obj Y ↦
         s • (conormalPresheaf φ₂).restrictₛₗ f
           (differentialsHomotopyOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' a₁ a₂ ρ ha ha' X ω)) ?_
-      show Ideal.Quotient.mk (kernelIdeal φ₂ Y) (ψ.app Y (A₁.map f r)) =
+      change Ideal.Quotient.mk (kernelIdeal φ₂ Y) (ψ.app Y (A₁.map f r)) =
         (quotientPresheaf φ₂).map f (Ideal.Quotient.mk (kernelIdeal φ₂ X) (ψ.app X r))
       exact congrArg (Ideal.Quotient.mk (kernelIdeal φ₂ Y))
         (NatTrans.naturality_apply ψ f r)
@@ -317,8 +317,7 @@ theorem tensorHomotopyOfSquare_smul (X : Cᵒᵖ) (r : A₁.obj X ⧸ kernelIdea
     tensorHomotopyOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' a₁ a₂ ρ ha ha' X (r • t) =
       quotientMapOfSquare φ₁ φ₂ ψ β hsq X r •
         tensorHomotopyOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' a₁ a₂ ρ ha ha' X t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b ω =>
       rw [TensorProduct.smul_tmul', tensorHomotopyOfSquare_tmul, tensorHomotopyOfSquare_tmul,
         ← mul_smul]
@@ -333,8 +332,7 @@ theorem tensorHomotopyOfSquare_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y)
     tensorHomotopyOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' a₁ a₂ ρ ha ha' Y (tensorMapₛₗ φ₁ a₁ f t) =
       (conormalPresheaf φ₂).restrictₛₗ f
         (tensorHomotopyOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' a₁ a₂ ρ ha ha' X t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b ω =>
       rw [tensorMapₛₗ, TensorProduct.map_tmul, tensorHomotopyOfSquare_tmul,
         tensorHomotopyOfSquare_tmul, map_smulₛₗ, differentialsHomotopyOfSquare_naturality]
@@ -367,7 +365,7 @@ theorem tensorHomotopyOfSquare_conormalToTensorApp (X : Cᵒᵖ)
   refine (tensorHomotopyOfSquare_tmul φ₁ φ₂ ψ ψ' β hsq hsq' a₁ a₂ ρ ha ha' X _ _).trans ?_
   rw [differentialsHomotopyOfSquare_d, map_one (quotientMapOfSquare φ₁ φ₂ ψ β hsq X).hom]
   refine (one_smul (A₂.obj X ⧸ kernelIdeal φ₂ X) _).trans ?_
-  show (kernelIdeal φ₂ X).toCotangent (subOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' X (c : A₁.obj X)) =
+  change (kernelIdeal φ₂ X).toCotangent (subOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' X (c : A₁.obj X)) =
     (kernelIdeal φ₂ X).toCotangent
         ⟨ψ.app X (c : A₁.obj X),
           kernelIdeal_le_comap_square φ₁ φ₂ ψ β hsq X c.2⟩ -
@@ -394,7 +392,7 @@ theorem conormalToTensorApp_differentialsHomotopyOfSquare (X : Cᵒᵖ)
   induction mem using Submodule.span_induction with
   | mem x hx =>
       obtain ⟨x, rfl⟩ := hx
-      show conormalToTensorApp φ₂ a₂ X
+      change conormalToTensorApp φ₂ a₂ X
           (differentialsHomotopyOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' a₁ a₂ ρ ha ha' X
             (CommRingCat.KaehlerDifferential.d (f := a₁.app X) x)) =
         (1 : A₂.obj X ⧸ kernelIdeal φ₂ X) ⊗ₜ[A₂.obj X]
@@ -438,10 +436,7 @@ theorem conormalToTensorApp_tensorHomotopyOfSquare (X : Cᵒᵖ)
         (tensorHomotopyOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' a₁ a₂ ρ ha ha' X t) =
       tensorMapOfSquareₛₗ φ₁ φ₂ ψ β hsq a₁ a₂ ρ ha X t -
         tensorMapOfSquareₛₗ φ₁ φ₂ ψ' β hsq' a₁ a₂ ρ ha' X t := by
-  induction t using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero, map_zero, map_zero, map_zero, sub_self]
-      rfl
+  induction t using TensorProduct.inductionOn with
   | tmul b ω =>
       rw [tensorHomotopyOfSquare_tmul, map_smul,
         conormalToTensorApp_differentialsHomotopyOfSquare, tensorMapOfSquareₛₗ,
@@ -698,7 +693,8 @@ noncomputable def conormalHomotopyOfFac :
         (hom_of_comp_eq hψ') a₁.hom a₂.hom (hom_of_comp_eq ha) (hom_of_comp_eq ha') f t)).trans
       (toAssociatedModule_map.{v, u, w, z} J A₂ B φ₂ (conormalPresheaf φ₂.hom) f _)
 
-omit [HasWeakSheafify J CommRingCat.{w}] in
+omit [HasWeakSheafify J CommRingCat.{w}]
+  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 include hψ hψ' ha ha' in
 /-- The homotopy sends the local section `1 ⊗ d x` to the conormal class of
 `ψ(x) - ψ'(x)`. -/
@@ -725,7 +721,8 @@ theorem conormalHomotopyOfFac_tensorDifferential (X : Cᵒᵖ) (x : A₁.obj.obj
   exact one_smul _ _
 
 
-omit [HasWeakSheafify J CommRingCat.{w}] in
+omit [HasWeakSheafify J CommRingCat.{w}]
+  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 include hψ hψ' ha ha' in
 /-- The two maps of conormal sheaves induced by two factorisations of the same presentation
 differ by the homotopy precomposed with the left-hand map of the first conormal sequence. -/
@@ -772,7 +769,8 @@ theorem conormalSheafMapOfFac_eq_add :
       (by rw [tensorHomotopyOfFac_conormalToTensorApp]; exact (sub_add_cancel _ _).symm)).trans
     (toAssociatedModule_add.{v, u, w, z} J A₂ B φ₂ (conormalPresheaf φ₂.hom) X _ _)
 
-omit [HasWeakSheafify J CommRingCat.{w}] in
+omit [HasWeakSheafify J CommRingCat.{w}]
+  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 include hψ hψ' ha ha' in
 /-- The two maps of tensor terms induced by two factorisations of the same presentation differ
 by the homotopy postcomposed with the left-hand map of the second conormal sequence. -/
@@ -871,6 +869,7 @@ noncomputable def presentationNaiveCotangentHomotopyHom :
     presentationNullHomotopy.{v, u, w, z} J A E₁ E₂ h h' B a α₁ α₂ hα hα' ≫
       eqToHom (presentationNaiveCotangentComplex_X_negOne J A B a E₂ α₂).symm
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The two maps of conormal sheaves induced by two morphisms of presentations differ by the
 homotopy precomposed with the left-hand map of the first conormal sequence. -/
 theorem presentationConormalMap_eq_add :
@@ -890,6 +889,7 @@ theorem presentationConormalMap_eq_add :
     (freeAlgebraSheafCoefficientMap_comp_freeAlgebraMap J A E₁ E₂ h)
     (freeAlgebraSheafCoefficientMap_comp_freeAlgebraMap J A E₁ E₂ h')
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The two maps of tensor terms induced by two morphisms of presentations differ by the
 homotopy postcomposed with the left-hand map of the second conormal sequence. -/
 theorem presentationTensorMap_eq_add :
@@ -920,6 +920,7 @@ noncomputable def presentationNaiveCotangentHomotopyBigraded (i j : ℤ) :
           hij.2.symm)
   else 0
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The bigraded map underlying the homotopy vanishes outside bidegree `(0, -1)`. -/
 theorem presentationNaiveCotangentHomotopyBigraded_eq_zero (i j : ℤ)
     (hij : ¬(i = 0 ∧ j = -1)) :
@@ -927,6 +928,7 @@ theorem presentationNaiveCotangentHomotopyBigraded_eq_zero (i j : ℤ)
       hα hα' i j = 0 :=
   dite_eq_right hij
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- In bidegree `(0, -1)` the bigraded map underlying the homotopy is
 `presentationNaiveCotangentHomotopyHom`. -/
 theorem presentationNaiveCotangentHomotopyBigraded_zero_negOne :

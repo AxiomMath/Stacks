@@ -47,7 +47,7 @@ theorem prop_homology_obj₂_of_distTriang_plus (P : ObjectProperty C) [P.IsWeak
   have hT' : T' ∈ distTriang _ := DerivedCategory.Plus.ι.map_distinguished T hT
   have h₁' : ∀ i : ℤ, P ((DerivedCategory.homologyFunctor C i).obj T'.obj₁) := h₁
   have h₃' : ∀ i : ℤ, P ((DerivedCategory.homologyFunctor C i).obj T'.obj₃) := h₃
-  show P ((DerivedCategory.homologyFunctor C n).obj T'.obj₂)
+  change P ((DerivedCategory.homologyFunctor C n).obj T'.obj₂)
   exact ObjectProperty.prop_mid_of_exact₄
     (fun S hS a b c d => P.prop_obj₂_of_exact S hS a b c d)
     (f₀ := DerivedCategory.HomologySequence.δ T' (n - 1) n (by omega))
@@ -71,7 +71,7 @@ attribute [local instance] moduleCat_hasLimitsOfSize
 
 section NoetherianInduction
 
-variable (B : BigEtaleSite.{u}) (Λ : Type r) [CommRing Λ] [IsNoetherianRing Λ]
+variable (B : BigEtaleSite.{u}) (Λ : Type r) [CommRing Λ]
 
 /-- **Constructibility by Noetherian induction.** Let `S` be a scheme of `B` whose underlying space
 is Noetherian and `G` a sheaf of `Λ`-modules on `S`. Suppose that for every nonempty reduced closed
@@ -118,9 +118,9 @@ theorem isConstructibleEtaleModule_of_forall_isClosedImmersion (S : B.Scheme)
     · have : IsOpenImmersion (B.inclusion.map v) := hv
       have : IsClosedImmersion (B.inclusion.map iB) :=
         inferInstanceAs (IsClosedImmersion I.subschemeι)
-      show IsImmersion (B.inclusion.map v ≫ B.inclusion.map iB)
+      change IsImmersion (B.inclusion.map v ≫ B.inclusion.map iB)
       infer_instance
-    · show Set.range (B.inclusion.map v ≫ I.subschemeι).base = _
+    · change Set.range (B.inclusion.map v ≫ I.subschemeι).base = _
       rw [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp, ← hpre,
         Set.image_preimage_eq_inter_range, hrange, Set.inter_univ]
   have : NoetherianSpace (B.inclusion.obj S) := inferInstanceAs (NoetherianSpace S.obj)

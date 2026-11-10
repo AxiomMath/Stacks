@@ -108,6 +108,12 @@ variable (X : RingedSite.{u, u, u})
 
 /-! ### Naturality at the classes of complexes -/
 
+omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).Additive]
+  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)) (ComplexShape.up ℤ)),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+      (ComplexShape.up ℤ)] in
 /-- **Stacks 08JA on a K-injective internal Hom complex is natural in the target**, for the
 class of a morphism of complexes. -/
 theorem derivedSheafHomGlobalSectionsEquivOfKInjectiveHom_naturality_target
@@ -256,6 +262,12 @@ private lemma derivedSheafHomObjectsModelIso_natural_target
       (op (DerivedCategory.Q.obj (kFlatModel X L)))).map hconj
   exact CategoryTheory.square_comp s1 s2
 
+omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).Additive]
+  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)) (ComplexShape.up ℤ)),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+      (ComplexShape.up ℤ)] in
 /-- **A commuting square of `D(O)` read on a degree-zero global hypercohomology class.** Stated
 with all four objects and all four morphisms variables and applied by `exact`: at the objects of
 the clauses below, carrying a class of that size through a natural square by `rw` spends a
@@ -405,8 +417,9 @@ on the left to postcomposition with `m` on the right.
 That map is the degree-zero global hypercohomology of the canonical map
 `M ⊗^L_O L^∨ ⟶ RSheafHom(L, M)` followed by Stacks 08JA, so this is the naturality in `M` of
 those two pieces: `derivedTensorDualSectionsMap_naturality` for the first, and
-`derivedSheafHomGlobalSectionsEquiv_naturality_target` above for the second. No bijectivity of the map, hence no perfectness of `L`, is
-involved: this is functoriality of the comparison of Stacks 08JD, not Stacks 08DQ. -/
+`derivedSheafHomGlobalSectionsEquiv_naturality_target` above for the second. No bijectivity of the
+map, hence no perfectness of `L`, is involved: this is functoriality of the comparison of Stacks
+08JD, not Stacks 08DQ. -/
 @[stacks 08JD "functoriality in M of the map on degree-zero derived global sections"]
 theorem derivedTensorDualGlobalSectionsMap_naturality
     (L : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))

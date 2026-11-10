@@ -161,7 +161,7 @@ theorem subspaceFibreRingIdeal_add (U : (SmallEtale B S hS X.1)ᵒᵖ)
     subspaceFibreRingIdeal B S hS Z g U (x + y) =
         subspaceFibreRingIdeal B S hS Z g U x + subspaceFibreRingIdeal B S hS Z g U y :=
   Subtype.ext (by
-    show _ = (subspaceFibreRingIdeal B S hS Z g U x).1 + (subspaceFibreRingIdeal B S hS Z g U y).1
+    change _ = (subspaceFibreRingIdeal B S hS Z g U x).1 + (subspaceFibreRingIdeal B S hS Z g U y).1
     simp only [subspaceFibreRingIdeal_coe, map_add]
     abel)
 
@@ -172,7 +172,7 @@ theorem subspaceFibreRingIdeal_map {U V : (SmallEtale B S hS X.1)ᵒᵖ} (h : U 
       (definingIdealSheaf B S hS X Z).toSheafOfModules.val.map h
           (subspaceFibreRingIdeal B S hS Z g U x) := by
   refine Subtype.ext ?_
-  show _ = ((structureRingSheaf B S hS X).obj.map h).hom (subspaceFibreRingIdeal B S hS Z g U x).1
+  change _ = ((structureRingSheaf B S hS X).obj.map h).hom (subspaceFibreRingIdeal B S hS Z g U x).1
   have h1 := NatTrans.naturality_apply (subspaceFibreRingFst B S hS Z g).hom h x
   have h2 := NatTrans.naturality_apply (subspaceFibreRingSnd B S hS Z g).hom h x
   have h3 := NatTrans.naturality_apply (structureSharpRingInverseImage B S hS g).hom h
@@ -190,7 +190,7 @@ theorem subspaceFibreRingIdeal_mul (U : (SmallEtale B S hS X.1)ᵒᵖ)
           (((subspaceFibreRingSnd B S hS Z g).hom.app U).hom y) • subspaceFibreRingIdeal B S hS Z g
               U x := by
   refine Subtype.ext ?_
-  show ((subspaceFibreRingFst B S hS Z g).hom.app U).hom (x * y) -
+  change ((subspaceFibreRingFst B S hS Z g).hom.app U).hom (x * y) -
       ((structureSharpRingInverseImage B S hS g).hom.app U).hom
         (((subspaceFibreRingSnd B S hS Z g).hom.app U).hom (x * y)) =
     ((subspaceFibreRingFst B S hS Z g).hom.app U).hom x *
@@ -549,7 +549,7 @@ theorem idealSheafMap_comp_conormalSequenceIdealDifferential_eq_zero (q : X' ⟶
     g q (𝟙 Y) (Category.comp_id _).symm
   have hE := derivation_d_eq_zero_of_isZero_sheafOfDifferentials B S hS q hΩ _ E V s.1
   refine Eq.trans ?_ (hE.trans rfl)
-  show ((smallToposMorphismTypeU B S hS g).pushforward.map
+  change ((smallToposMorphismTypeU B S hS g).pushforward.map
       ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X)).map
         (conormalSequenceIdealDifferential B S hS Z (g ≫ q)))).hom.app V
       (((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X')).map
@@ -557,7 +557,7 @@ theorem idealSheafMap_comp_conormalSequenceIdealDifferential_eq_zero (q : X' ⟶
           (idealSheafMap B S hS Z W g f hsq))).hom.app V s) = _
   rw [moduleSheafFunctor_map_conormalSequenceIdealDifferential B S hS Z (g ≫ q),
     Functor.map_comp]
-  show ((smallToposMorphismTypeU B S hS g).pushforward.map
+  change ((smallToposMorphismTypeU B S hS g).pushforward.map
       (derivationHom B S hS (g ≫ q) _ (conormalSequenceUnitDerivation B S hS Z (g ≫ q)))).hom.app V
       (((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X')).map
         ((modulePullbackAdjunction B S hS g).homEquiv _ _ (idealSheafMap B S hS Z W g f hsq)) ≫

@@ -47,8 +47,9 @@ needs it and for what else that chain still lacks.
 * `AlgebraicGeometry.ProEtale.additive_constantGlobalSections`,
   `AlgebraicGeometry.ProEtale.preservesFiniteLimits_constantGlobalSections`,
   `AlgebraicGeometry.ProEtale.preservesFiniteColimits_constantGlobalSections` and
-  `AlgebraicGeometry.ProEtale.preservesFiniteColimits_constantGlobalSections_of_isWeaklyContractibleObj`:
-  `V` is additive and exact, the last taking weak contractibility in the big-site form.
+  `ProEtale.preservesFiniteColimits_constantGlobalSections_of_isWeaklyContractibleObj` (in
+  `AlgebraicGeometry`): `V` is additive and exact, the last taking weak contractibility in the
+  big-site form.
 
 ## Implementation notes
 

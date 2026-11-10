@@ -61,6 +61,7 @@ theorem exists_smallEtale_isAffine_surjective {X : AlgebraicSpaces B S hS}
   exact ⟨⟨CostructuredArrow.mk u, huet'⟩, hUaff, husurj⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_AffineOverChartSectionCriteria :
@@ -107,7 +108,7 @@ theorem isClosedImmersion_of_surjective_pushforwardRingMap_app {X : AlgebraicSpa
     obtain ⟨a, ha⟩ := hsurj U hUaff (σY.inv t)
     refine ⟨σZ.hom a, ?_⟩
     rw [← pushforwardRingMap_app_eq B S hS g hY hZ U]
-    show σY.hom (ρ (σZ.inv (σZ.hom a))) = t
+    change σY.hom (ρ (σZ.inv (σZ.hom a))) = t
     rw [Iso.hom_inv_id_apply, ha]
     exact Iso.inv_hom_id_apply σY t
   have hsq : IsPullback (hY.fst U.1.hom) (yoneda.map m) g.left.hom (hZ.fst U.1.hom) := by

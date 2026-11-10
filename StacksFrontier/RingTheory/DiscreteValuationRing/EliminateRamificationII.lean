@@ -76,7 +76,7 @@ theorem reducedTensorProduct_isArtinian
   have : Ring.KrullDimLE 0 R := Ring.KrullDimLE.mk₀ fun I hI => by
     let : I.IsPrime := hI
     have hcomap : (I.comap (algebraMap L R)).IsMaximal := by infer_instance
-    exact Ideal.IsIntegral.isMaximal_of_isMaximal_comap I hcomap
+    exact Ideal.IsIntegral.isMaximal_of_isMaximal_under I hcomap
   exact IsNoetherianRing.isArtinianRing_of_krullDimLE_zero
 
 /-- An integral algebra has no larger Krull dimension than its base. -/
@@ -84,7 +84,7 @@ private theorem krullDimLE_one_of_isIntegral
     (R S : Type*) [CommRing R] [CommRing S] [Algebra R S]
     [Algebra.IsIntegral R S] [Ring.KrullDimLE 1 R] : Ring.KrullDimLE 1 S :=
   Ring.krullDimLE_iff.mpr <| (Order.krullDim_le_of_strictMono (PrimeSpectrum.comap (algebraMap R S))
-    (fun _ _ h => Ideal.IsIntegral.comap_lt_comap h)).trans
+    (fun _ _ h => Ideal.IsIntegral.under_lt_under h)).trans
       (Ring.krullDimLE_iff.mp (inferInstance : Ring.KrullDimLE 1 R))
 
 /-- The algebraic field extension is the fraction field of the integral closure. -/
@@ -253,8 +253,7 @@ private theorem isFractionRing_range_of_tensorProduct
     rintro x ⟨d, rfl⟩
     exact Subfield.subset_closure ⟨j d, rfl⟩
   have hmem (t : L ⊗[K] E) : g t ∈ S := by
-    induction t using TensorProduct.induction_on with
-    | zero => simpa only [map_zero] using S.zero_mem
+    induction t using TensorProduct.inductionOn with
     | tmul l e =>
         have h : l ⊗ₜ[K] e =
             (Algebra.TensorProduct.includeLeft : L →ₐ[K] L ⊗[K] E) l *
@@ -347,7 +346,7 @@ private theorem residueFieldMap_essFiniteType_of_quasiFinite
   let p := q.asIdeal.under R
   let := Localization.AtPrime.algebraOfLiesOver p q.asIdeal
   have : Module.Finite p.ResidueField q.asIdeal.ResidueField := inferInstance
-  show (algebraMap p.ResidueField q.asIdeal.ResidueField).EssFiniteType
+  change (algebraMap p.ResidueField q.asIdeal.ResidueField).EssFiniteType
   exact RingHom.essFiniteType_algebraMap.mpr inferInstance
 
 private theorem residueFieldMap_essFiniteType_of_comp_quasiFinite
@@ -461,7 +460,7 @@ theorem integralClosure_reducedTensorProduct_isNoetherian_and_spec_surjective
   let f := baseChangeMap A B K L K'
   let : Algebra C R := f.toAlgebra
   have hf_left (b : B) : f (algebraMap B C b) = algebraMap B R b := by
-    show f (b ⊗ₜ[A] (1 : A')) =
+    change f (b ⊗ₜ[A] (1 : A')) =
       Ideal.Quotient.mk (nilradical T) ((algebraMap B L b) ⊗ₜ[K] (1 : K'))
     exact baseChangeMap_tmul A B K L K' b 1
   have hf_right (a : A') : f ((1 : B) ⊗ₜ[A] a) =
@@ -487,12 +486,12 @@ theorem integralClosure_reducedTensorProduct_isNoetherian_and_spec_surjective
     let g := (Ideal.Quotient.mk m.asIdeal).comp (Ideal.Quotient.mk (nilradical T))
     have hg : Function.Surjective g :=
       Ideal.Quotient.mk_surjective.comp Ideal.Quotient.mk_surjective
-    show IsFractionRing (algebraMap C (R ⧸ m.asIdeal)).range (R ⧸ m.asIdeal)
+    change IsFractionRing (algebraMap C (R ⧸ m.asIdeal)).range (R ⧸ m.asIdeal)
     apply isFractionRing_range_of_tensorProduct B A' C K L K' _
       (algebraMap B C) Algebra.TensorProduct.includeRight.toRingHom
       (algebraMap C (R ⧸ m.asIdeal)) g hg
     · ext b
-      show Ideal.Quotient.mk m.asIdeal (algebraMap B R b) =
+      change Ideal.Quotient.mk m.asIdeal (algebraMap B R b) =
         Ideal.Quotient.mk m.asIdeal (f (algebraMap B C b))
       rw [hf_left]
     · ext a
@@ -525,7 +524,7 @@ theorem integralClosure_reducedTensorProduct_isNoetherian_and_spec_surjective
     have hker : RingHom.ker i.toRingHom ≤ nilradical C := by
       intro x hx
       apply baseChangeMap_ker_le_nilradical A B K L K'
-      show f x = 0
+      change f x = 0
       rw [← hif, show i x = 0 from hx, map_zero]
     have : Module.FaithfullyFlat A B := Module.FaithfullyFlat.of_flat_of_isLocalHom
     exact (tensorProduct_includeRight_comap_surjective A B A').comp

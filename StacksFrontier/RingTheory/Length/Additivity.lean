@@ -323,7 +323,7 @@ public theorem solution {R M : Type*}
         rw [length_localizedModule_congr _ (hquot i).some]
         exact length_localizedModule_quotient_atPrime (p i) q
           fun hsub => le_antisymm hsub (hq.2 (hmem i) hsub)
-    show ({i | p i = q}.ncard : ℕ∞) = Module.length (Localization q.asIdeal.primeCompl)
+    change ({i | p i = q}.ncard : ℕ∞) = Module.length (Localization q.asIdeal.primeCompl)
       (LocalizedModule q.asIdeal.primeCompl M)
     rw [length_localizedModule_eq_sum_subquotient q.asIdeal.primeCompl N hle hbot htop,
       Finset.sum_congr rfl fun i _ => hone i, ncard_setOf_eq_sum_ite]

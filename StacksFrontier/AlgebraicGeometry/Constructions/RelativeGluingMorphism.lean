@@ -154,7 +154,7 @@ public theorem existsUnique_hom_of_compatible (hB : Opens.IsBasis B) (D D' : Bas
   have hw : ∀ {a b : B} (hab : a ⟶ b),
       (G.cover hB).trans hab ≫ (h b ≫ G'.chart b) = h a ≫ G'.chart a := by
     intro a b hab
-    show D.res (leOfHom hab) ≫ h b ≫ G'.chart b = h a ≫ G'.chart a
+    change D.res (leOfHom hab) ≫ h b ≫ G'.chart b = h a ≫ G'.chart a
     rw [← Category.assoc, hcompat (leOfHom hab), Category.assoc, G'.res_comp_chart]
   set k := (G.cover hB).glueMorphismsOfLocallyDirected (fun U => h U ≫ G'.chart U) hw
   have hchart : ∀ U : B, G.chart U ≫ k = h U ≫ G'.chart U := fun U =>

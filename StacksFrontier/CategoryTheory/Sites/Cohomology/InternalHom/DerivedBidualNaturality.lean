@@ -67,7 +67,7 @@ theorem derivedBidual_naturality
     (T.tensor.map (derivedStructureSheafHomIso X (derivedStructureSheaf X)).inv).naturality f
   have hev := derivedSheafHomEvaluation_natural X T (derivedInternalHomOfBifunctor X) f
     (𝟙 (derivedStructureSheaf X)) (𝟙 (derivedStructureSheaf X))
-  simp only [derivedSheafHomMap_id, derivedTensorMap, derivedSheafHomMap,
+  simp only [derivedTensorMap, derivedSheafHomMap,
     CategoryTheory.Functor.map_id, NatTrans.id_app, Category.id_comp, Category.comp_id,
     op_id] at hev
   let l := Stacks.DerivedTensor.RingedSite.DerivedTensorProduct.leftUnitIso X

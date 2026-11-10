@@ -78,7 +78,7 @@ theorem isZariskiCover_yonedaRangeFamily (j : ∀ i, U i ⟶ Z)
   refine ⟨(Sigma.ι (fun i ↦ (yonedaRangeFamily B S hS j i).toFunctor) i).app (op T')
     ⟨g ≫ x, ⟨(a : T' ⟶ U i), ha.symm⟩⟩, ?_⟩
   exact ConcreteCategory.congr_hom (NatTrans.congr_app
-    (Sigma.ι_desc (fun i ↦ (yonedaRangeFamily B S hS j i).ι) i) (op T')) _
+    (Sigma.ι_comp_desc (fun i ↦ (yonedaRangeFamily B S hS j i).ι) i) (op T')) _
 
 /-- The comparison isomorphism between the representable presheaf of `U i` and the image
 subfunctor of `yoneda.map (j i)`, for a family of open immersions of the site. -/

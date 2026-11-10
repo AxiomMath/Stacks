@@ -106,7 +106,7 @@ private lemma map_range_scalarMap {R : Type u} [CommRing R] {M N : Type u}
     exact ⟨e w, (map_smul e f w).symm⟩
   · rintro y ⟨w, rfl⟩
     exact ⟨f • e.symm w, ⟨e.symm w, rfl⟩, by
-      show e (f • e.symm w) = f • w
+      change e (f • e.symm w) = f • w
       rw [map_smul, e.apply_symm_apply]⟩
 
 /-- Postcomposition of a commuting square, with every object and morphism a variable: the one
@@ -321,7 +321,7 @@ private lemma map_cokernel_π_comp_stalk_d
     [Stacks.SheafOfModules.IsInvertible X.sheaf.obj (Oₓ).property I]
     (F : CochainComplex (SheafOfModules.{u} Oₓ) ℤ)
     (hF : ∀ k : ℤ, IsIdealTorsionFree X ι (F.X k))
-    (x : X) (f : ringStalk X x) (hf : GeneratesStalkIdeal X ι x f) (n : ℤ) :
+    (x : X) (n : ℤ) :
     (stalkModuleFunctor X x).map
           (cokernel.π (idealPowerIncl X I ι 0 (etaTerm X I ι F n))) ≫
         ((stalkComplexFunctor X x).obj (etaModIdealComplex X I ι F hF)).d n (n + 1) =
@@ -384,7 +384,7 @@ private lemma modIdealStalkTermIso_comm_step₃
           (modIdealStalkTermIso X I ι F hF x f hf (n + 1)).hom) :=
   comp_comp_comp_congr
     (map_cokernel_π_comp_modIdealStalkTermIso X I ι F hF x f hf (n + 1)).symm
-    (map_cokernel_π_comp_stalk_d X I ι F hF x f hf n).symm
+    (map_cokernel_π_comp_stalk_d X I ι F hF x n).symm
 
 /-- The degreewise comparisons commute with the differentials: both sides agree after the
 projection from the stalk of the décalage, where the square becomes Tag 0GT6's compatibility

@@ -65,7 +65,7 @@ theorem levelFunctor_coverPreserving (X : SimplicialObject TopCat.{u}) (n : Simp
     obtain ⟨V, f, hf, hxV⟩ := (Opens.mem_grothendieckTopology (X.obj n)).mp hS x hx
     refine ⟨V, leOfHom f, ⟨V, f, 𝟙 _, hf, ?_⟩, hxV⟩
     apply SimplicialOpen.Hom.ext
-    show (𝟙 n) = 𝟙 n ≫ 𝟙 n
+    change (𝟙 n) = 𝟙 n ≫ 𝟙 n
     simp
 
 /-- The inclusion of a simplicial degree preserves one-hypercovers: it preserves fibre products

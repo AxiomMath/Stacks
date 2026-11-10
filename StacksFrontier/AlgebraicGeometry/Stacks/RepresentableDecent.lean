@@ -111,6 +111,7 @@ attribute [local instance] Space.pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site needs the extra budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_RepresentableDecent :
@@ -493,7 +494,7 @@ theorem isDecent_of_representable_or_quasiSeparated
         refine ⟨V.left, Bicategory.InducedBicategory.mkHom
           { toFunctor := E ⋙ (Over.iteratedSliceEquiv V).functor
             w := by
-              show E ⋙ (Over.forget V ⋙ Over.forget q.base) = _
+              change E ⋙ (Over.forget V ⋙ Over.forget q.base) = _
               rw [← Functor.assoc, hE.isCartesianFunctor.comm]
               exact TwoFibreProductOver.fst_comp_eq }, ?_⟩
         exact Functor.isEquivalence_trans E (Over.iteratedSliceEquiv V).functor

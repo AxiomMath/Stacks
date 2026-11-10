@@ -88,7 +88,7 @@ lemma uncurry_map₂CochainComplex_map
     HomologicalComplex.mapBifunctor.hom_ext (fun p q hpq => ?_))
   refine Eq.trans ?_
     (HomologicalComplex.ι_mapBifunctorMap φ ψ F (ComplexShape.up ℤ) p q n hpq).symm
-  show HomologicalComplex.ιMapBifunctor K₁ K₂ F (ComplexShape.up ℤ) p q n hpq ≫
+  change HomologicalComplex.ιMapBifunctor K₁ K₂ F (ComplexShape.up ℤ) p q n hpq ≫
       (HomologicalComplex.mapBifunctorMap φ (𝟙 K₂) F (ComplexShape.up ℤ) ≫
         HomologicalComplex.mapBifunctorMap (𝟙 L₁) ψ F (ComplexShape.up ℤ)).f n =
     (F.map (φ.f p)).app (K₂.X q) ≫ (F.obj (L₁.X p)).map (ψ.f q) ≫

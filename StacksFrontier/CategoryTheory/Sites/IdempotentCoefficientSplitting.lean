@@ -213,7 +213,7 @@ public theorem sheafBinaryBicone_total (F : Sheaf J (ModuleCat.{max w r} Λ)) :
       sheafProj.{w} he.one_sub J F ≫ sheafIncl.{w} he.one_sub J F = 𝟙 F := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U => ?_))
   refine ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
-  show he.quotientSection 1 • m + he.one_sub.quotientSection 1 • m = m
+  change he.quotientSection 1 • m + he.one_sub.quotientSection 1 • m = m
   rw [← add_smul, he.quotientSection_one_add, one_smul]
 
 /-- **The splitting is a biproduct.** -/
@@ -285,9 +285,9 @@ public theorem isFiniteProjectiveLocallyConstant_sheafBaseChange
   obtain ⟨E, hfin, hproj, ⟨eE⟩⟩ := hloc i
   refine ⟨(Stacks.ModuleCat.baseChangeFunctor.{max w r} Λ (Λ ⧸ Ideal.span {1 - e})).obj E,
     ?_, ?_, ⟨?_⟩⟩
-  · show Module.Finite _ ((Λ ⧸ Ideal.span {1 - e}) ⊗[Λ] E)
+  · change Module.Finite _ ((Λ ⧸ Ideal.span {1 - e}) ⊗[Λ] E)
     infer_instance
-  · show Module.Projective _ ((Λ ⧸ Ideal.span {1 - e}) ⊗[Λ] E)
+  · change Module.Projective _ ((Λ ⧸ Ideal.span {1 - e}) ⊗[Λ] E)
     infer_instance
   · exact (constantSheafBaseChangeIso.{w} he (J.over (V i)) Over.mkIdTerminal).symm.app E ≪≫
       (sheafBaseChange.{w} he (J.over (V i))).mapIso eE ≪≫

@@ -162,7 +162,7 @@ lemma ι_comp_cechRelationsMap (p : 𝒰.I₀ × 𝒰.I₀) :
           Sigma.ι (fun i ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (𝒰.X i)) p.1 -
         extensionByZeroUnitMap.{u₁, v₁, w, t} R (pullback.snd (𝒰.f p.1) (𝒰.f p.2)) ≫
           Sigma.ι (fun i ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (𝒰.X i)) p.2 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The Čech relations are relations: they are killed by the map to `j_{U!} O_U`. -/
 lemma cechRelationsMap_comp_sigmaDesc :
@@ -170,7 +170,7 @@ lemma cechRelationsMap_comp_sigmaDesc :
         (Sigma.desc fun i ↦ extensionByZeroUnitMap.{u₁, v₁, w, t} R (𝒰.f i)) = 0 := by
   refine Sigma.hom_ext _ _ fun p ↦ ?_
   rw [comp_zero, ι_comp_cechRelationsMap_assoc, Preadditive.sub_comp, Category.assoc,
-    Category.assoc, Sigma.ι_desc, Sigma.ι_desc, ← extensionByZeroUnitMap_comp,
+    Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc, ← extensionByZeroUnitMap_comp,
     ← extensionByZeroUnitMap_comp, pullback.condition, sub_self]
 
 /-- **The Čech sequence of a covering family**, as a short complex
@@ -251,7 +251,7 @@ theorem exists_hom_of_cechRelationsMap_comp_eq_zero (h𝒰 : 𝒰.sieve₀ ∈ J
         (comp_eq_of_cechRelationsMap_comp_eq_zero.{u₁, v₁, w, t} R 𝒰 φ hφ gi gj hg))
   refine ⟨(extensionByZeroUnitHomEquiv.{u₁, v₁, w, t} R U N).symm s,
     Sigma.hom_ext _ _ fun i ↦ ?_⟩
-  rw [Sigma.ι_desc_assoc]
+  rw [Sigma.ι_comp_desc_assoc]
   refine (extensionByZeroUnitHomEquiv.{u₁, v₁, w, t} R (𝒰.X i) N).injective ?_
   rw [extensionByZeroUnitHomEquiv_map]
   exact (congrArg (fun x ↦ N.val.map (𝒰.f i).op x)

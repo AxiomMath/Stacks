@@ -103,7 +103,7 @@ theorem commutesWith_totalChern (F : Y.Modules) (r : ℕ)
       ((Scheme.Modules.pullback (pullback.snd g (m ≫ h) ≫ m)).obj F)
       ((Scheme.Modules.pullbackComp (pullback.snd g (m ≫ h)) m).app F).symm k jj
       (chowGroupCongr C (comp_structure_eq C sX h sY hY m) k α)
-    show capAlong C sX g c h sY hY m (k - jj) ((totalChern C sY F r).op m k jj α) ≍
+    change capAlong C sX g c h sY hY m (k - jj) ((totalChern C sY F r).op m k jj α) ≍
       (totalChern C sY F r).op (pullback.snd g (m ≫ h) ≫ m) (k - q) jj
         (capAlong C sX g c h sY hY m k α)
     rw [e₁, e₂]

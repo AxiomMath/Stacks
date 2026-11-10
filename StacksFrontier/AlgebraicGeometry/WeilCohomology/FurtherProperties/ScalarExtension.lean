@@ -153,8 +153,7 @@ multiplication by the image of `F' ⊗_F F'' → F''`, that is `(α · a) ⊗ (�
 theorem mapOfCompatibleSMul_tensorActionHom (z : A ⊗[F] B) :
     Algebra.TensorProduct.mapOfCompatibleSMul A F F M B (tensorActionHom F A B M z) =
       Algebra.TensorProduct.includeRight (tensorMulHom F A B z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, hz, hz']
   | tmul a b =>
     simp only [tensorActionHom_tmul, tensorMulHom_tmul,
@@ -173,8 +172,7 @@ theorem scalarExtensionHom_mapOfCompatibleSMul (fM : M →ₐ[A] N₁)
     (x : M ⊗[F] B) :
     scalarExtensionHom (B := B) fM
         (Algebra.TensorProduct.mapOfCompatibleSMul A F F M B x) = (kunneth x).1 := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy, Prod.fst_add]
   | tmul m b =>
     rw [Algebra.TensorProduct.mapOfCompatibleSMul_tmul, scalarExtensionHom_tmul, kunneth_tmul]

@@ -74,7 +74,7 @@ theorem exists_lift_of_localRepresentative'
   let e : (Over.map q).obj V ≅ T := Over.isoMk (Iso.refl _) (by simpa [V] using (Over.w a).symm)
   obtain ⟨b⟩ := (h V).mp (hP e.hom hT)
   refine ⟨Over.homMk b.left ?_, Over.OverMorphism.ext (Over.w b)⟩
-  show b.left ≫ W.hom ≫ q = T.hom
+  change b.left ≫ W.hom ≫ q = T.hom
   rw [← Category.assoc, Over.w b]
   exact Over.w a
 
@@ -354,7 +354,7 @@ theorem exists_representsOn_of_cover (W : S.Opens) {J : Type u} (V : J → S.Ope
   let PB : Over B → Prop := fun T ↦ P _ (T.hom ≫ W.ι)
   have hPB : ∀ {T T' : Over B}, (T' ⟶ T) → PB T → PB T' := by
     intro T T' g hT
-    show P _ (T'.hom ≫ W.ι)
+    change P _ (T'.hom ≫ W.ι)
     rw [← Over.w g, Category.assoc]
     exact hP g.left _ hT
   have hcovB : Presieve.ofArrows (fun j ↦ (O j).toScheme) q ∈ Scheme.fppfPrecoverage B := by
@@ -366,7 +366,7 @@ theorem exists_representsOn_of_cover (W : S.Opens) {J : Type u} (V : J → S.Ope
   have hloc : ∀ j, ∀ T : Over (O j).toScheme,
       PB ((Over.map (q j)).obj T) ↔ Nonempty (T ⟶ Wj j) := by
     intro j T
-    show P _ ((T.hom ≫ q j) ≫ W.ι) ↔ _
+    change P _ ((T.hom ≫ q j) ≫ W.ι) ↔ _
     rw [Category.assoc]
     rw [(hi j).2.2 T.left _ (range_comp_base_subset _ _ (hrange j).le), ← hw]
     exact (nonempty_overHom_iff_exists_comp_mono (q j ≫ W.ι) T (Wj j)).symm
@@ -427,13 +427,13 @@ theorem RepresentsOn.exists_factor {P : ∀ T : Scheme.{u}, (T ⟶ S) → Prop}
     have hcφ : c ≫ φ = O.ι := by
       rw [← cancel_mono i₀, Category.assoc, hφ, hc]
     refine ⟨c.base ⟨z, hzV⟩, ?_, ?_⟩
-    · show (c ≫ i).base ⟨z, hzV⟩ ∈ A
+    · change (c ≫ i).base ⟨z, hzV⟩ ∈ A
       rwa [hc]
-    · show (c ≫ φ).base ⟨z, hzV⟩ = z
+    · change (c ≫ φ).base ⟨z, hzV⟩ = z
       rw [hcφ]
       rfl
   · rintro ⟨w, hw, rfl⟩
-    show (φ ≫ i₀).base w ∈ A
+    change (φ ≫ i₀).base w ∈ A
     rwa [hφ]
 
 /-- The preimage under `i` of every affine open contained in `W` is compact. -/

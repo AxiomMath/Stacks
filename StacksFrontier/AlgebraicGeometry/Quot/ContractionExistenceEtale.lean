@@ -108,13 +108,13 @@ theorem exists_residueField_hom_of_etaleApproximation {R : Type u} [CommRing R]
   have : IsLocalHom Φ.symm.toRingHom := ⟨fun a ha => (isUnit_map_iff Φ.symm a).mp ha⟩
   refine ⟨(ResidueField.map Φ.symm.toRingHom).comp (ResidueField.map (ofLocalization pD)),
     fun e => ?_⟩
-  show ResidueField.map Φ.symm.toRingHom (ResidueField.map (ofLocalization pD)
+  change ResidueField.map Φ.symm.toRingHom (ResidueField.map (ofLocalization pD)
     (residue _ (algebraMap D (Localization.AtPrime pD) (χ e)))) = _
   rw [ResidueField.map_residue, ResidueField.map_residue]
   have he : (e : Completion p) = Φ.symm (Φ e) := (Φ.symm_apply_apply _).symm
   rw [he]
   refine Ideal.Quotient.eq.mpr ?_
-  show Φ.symm _ - Φ.symm _ ∈ _
+  change Φ.symm _ - Φ.symm _ ∈ _
   rw [← Φ.symm.map_sub]
   refine (IsLocalRing.mem_maximalIdeal _).mpr fun hu => ?_
   have hmem : ofLocalization pD (algebraMap D (Localization.AtPrime pD) (χ e)) - Φ e ∈
@@ -261,7 +261,7 @@ theorem exists_contraction_of_isGRing_localization
       Spec.map (CommRingCat.ofHom (algebraMap R p.ResidueField)) =
         closedPoint (Completion (Localization.AtPrime p)) ≫
           Spec.map (CommRingCat.ofHom (algebraMap R (Completion (Localization.AtPrime p)))) := by
-    show Spec.map (CommRingCat.ofHom
+    change Spec.map (CommRingCat.ofHom
       (AdicCompletion.residueFieldCompletionEquiv (Localization.AtPrime p)).toRingHom) ≫ _ = _
     rw [← Spec.map_comp, ← Spec.map_comp]
     rfl
@@ -323,7 +323,7 @@ theorem exists_contraction_of_isGRing_localization
   have hπρ0 : (BigAffineFppf.inclusion B integerBase hZ).map
       ((cone (Completion (Localization.AtPrime p)) R B hZ hΛ').π.app i) ≫
       localSubSiteMap B hZ p hR hΛ' i = localCompletionSiteMap B hZ p hR hΛ' := by
-    show integerSiteMap B hZ hΛ'
+    change integerSiteMap B hZ hΛ'
         (contains_sub (Completion (Localization.AtPrime p)) R B hΛ' i.unop)
         (Spec.map (CommRingCat.ofHom
           (sub (Completion (Localization.AtPrime p)) R i.unop).val.toRingHom)) ≫
@@ -350,7 +350,7 @@ theorem exists_contraction_of_isGRing_localization
       ((cone (Completion (Localization.AtPrime p)) R B hZ hΛ').π.app i))).toBaseYoneda =
       ((Fi.ofBaseEq hFi).pullback ((BigAffineFppf.inclusion B integerBase hZ).map
         ((cone (Completion (Localization.AtPrime p)) R B hZ hΛ').π.app i))).toBaseYoneda := by
-    show (iF.inv ≫ h' ≫ iG.hom) ≫ _ = _
+    change (iF.inv ≫ h' ≫ iG.hom) ≫ _ = _
     exact (Category.assoc _ _ _).trans ((congrArg (iF.inv ≫ ·) ((Category.assoc _ _ _).trans
       ((congrArg (h' ≫ ·) hiG1).trans hh''))).trans ((Iso.inv_comp_eq _).mpr hiF2.symm))
   obtain ⟨k, s, hk, εF, εG, hhk, hεF, hεG, hεFc, hεGc, hcomm⟩ :=
@@ -384,7 +384,7 @@ theorem exists_contraction_of_isGRing_localization
       Spec.map (CommRingCat.ofHom (algebraMap D pD.ResidueField)) =
       (residueSpecIso (Localization.AtPrime p)).hom ≫ Spec.map (CommRingCat.ofHom θ₁) ≫
         Spec.map (CommRingCat.ofHom (algebraMap D pD.ResidueField)) := by
-    show _ = Spec.map (CommRingCat.ofHom (AdicCompletion.residueFieldCompletionEquiv
+    change _ = Spec.map (CommRingCat.ofHom (AdicCompletion.residueFieldCompletionEquiv
       (Localization.AtPrime p)).symm.toRingHom) ≫ _
     simp only [← Spec.map_comp]
     rfl
@@ -423,7 +423,7 @@ theorem exists_contraction_of_isGRing_localization
       ((diagram (Completion (Localization.AtPrime p)) R B hZ hΛ').map s) ≫
         localSubSiteMap B hZ p hR hΛ' i =
         integerSiteMap B hZ hD hR (Spec.map (CommRingCat.ofHom (algebraMap R D))) := by
-    show integerSiteMap B hZ hD
+    change integerSiteMap B hZ hD
         (contains_sub (Completion (Localization.AtPrime p)) R B hΛ' k.unop)
         (Spec.map (CommRingCat.ofHom χ)) ≫
       integerSiteMap B hZ (contains_sub (Completion (Localization.AtPrime p)) R B hΛ' k.unop)
@@ -438,7 +438,7 @@ theorem exists_contraction_of_isGRing_localization
     rw [← Spec.map_comp, ← Spec.map_comp]
     congr 1
     ext x
-    show χ (Subalgebra.inclusion (Algebra.adjoin_mono (Finset.coe_subset.mpr (leOfHom s.unop)))
+    change χ (Subalgebra.inclusion (Algebra.adjoin_mono (Finset.coe_subset.mpr (leOfHom s.unop)))
       (algebraMap R (sub (Completion (Localization.AtPrime p)) R i.unop) x)) = algebraMap R D x
     rw [AlgHom.commutes]
     exact RingHom.congr_fun hχR x
@@ -518,7 +518,7 @@ theorem exists_contraction_of_isGRing_localization
         ((cone (Completion (Localization.AtPrime p)) R B hZ hΛ').π.app k)) =
         yoneda.map (integerSiteMap B hZ hκ hD (Spec.map (CommRingCat.ofHom θ) ≫
           Spec.map (CommRingCat.ofHom (algebraMap D pD.ResidueField)))) ≫ yoneda.map τ := by
-    show yoneda.map (integerSiteMap B hZ hκ hκ' (residueSpecIso (Localization.AtPrime p)).hom) ≫
+    change yoneda.map (integerSiteMap B hZ hκ hκ' (residueSpecIso (Localization.AtPrime p)).hom) ≫
         yoneda.map (integerSiteMap B hZ hκ' hΛ'
           (closedPoint (Completion (Localization.AtPrime p)))) ≫
           yoneda.map (integerSiteMap B hZ hΛ'
@@ -565,7 +565,7 @@ theorem exists_contraction_of_isGRing_localization
     K3, G, hG, h, by rwa [eG], ιD, hιDe, hιD, j, by rwa [eG], ?_⟩
   apply sqG.hom_ext
   · rw [Category.assoc, Category.assoc, hjτ, hlift1, reassoc_of% hιmF, hcomm']
-    show ι' ≫ iF.hom ≫ (iF.inv ≫ h' ≫ iG.hom) ≫ εG.totalMap.hom = _
+    change ι' ≫ iF.hom ≫ (iF.inv ≫ h' ≫ iG.hom) ≫ εG.totalMap.hom = _
     simp only [Category.assoc, Iso.hom_inv_id_assoc]
     rw [reassoc_of% hιh']
   · rw [Category.assoc, Category.assoc, hlift2, hj.w, hιD.w, ← yoneda.map_comp_assoc,

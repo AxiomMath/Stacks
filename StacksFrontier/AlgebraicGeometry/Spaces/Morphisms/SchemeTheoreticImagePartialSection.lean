@@ -82,6 +82,7 @@ section PartialSection
 variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site goes deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_SchemeTheoreticImagePartialSection :
@@ -93,6 +94,7 @@ local instance (priority := high) hasPullback_presheaf_SchemeTheoreticImageParti
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site goes deep
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasLimitsOfShape_discrete_presheaf_SchemeTheoreticImagePartialSection

@@ -50,17 +50,17 @@ private abbrev MixedFiniteLevelUpToSolvable (p : ℕ) [Fact p.Prime] (t : ℚ) :
     [CharZero K] [CharP (ResidueField A) p] [ExpChar (ResidueField B) p]
     [PerfectField (ResidueField A)]
     [IsAdicComplete (maximalIdeal A) A]
-    [IsAdicComplete (maximalIdeal B) B]
-    (hweak : IsDiscreteValuationRing.IsWeaklyUnramified A B)
-    (hepp : EppCondition A B p)
-    [Module.Finite L M]
-    (f : CyclotomicRing p ℤ ℚ →+* B) (P : Polynomial B)
-    (hP : intProp f P ∧ quotChar f P ∧ shapeProp f P ∧ funcEq f P)
-    (hfinite : Stacks.DegreePExtensionLevel.IsDegreePExtensionOfFiniteLevel B L M p f P)
-    (pi : B) (e : ℕ) (he : 0 < e)
-    (hne : (Stacks.DegreePExtensionLevel.extensionLevelNumerators B L M P pi).Nonempty)
-    (hpi : Irreducible pi) (hw : Associated (wElt f) (pi ^ e))
-    (hle : Stacks.DegreePExtensionLevel.extensionLevel B L M P pi e he hne ≤ t),
+    [IsAdicComplete (maximalIdeal B) B],
+    IsDiscreteValuationRing.IsWeaklyUnramified A B →
+    EppCondition A B p →
+    ∀ [Module.Finite L M]
+    (f : CyclotomicRing p ℤ ℚ →+* B) (P : Polynomial B),
+    intProp f P ∧ quotChar f P ∧ shapeProp f P ∧ funcEq f P →
+    Stacks.DegreePExtensionLevel.IsDegreePExtensionOfFiniteLevel B L M p f P →
+    ∀ (pi : B) (e : ℕ) (he : 0 < e)
+    (hne : (Stacks.DegreePExtensionLevel.extensionLevelNumerators B L M P pi).Nonempty),
+    Irreducible pi → Associated (wElt f) (pi ^ e) →
+    Stacks.DegreePExtensionLevel.extensionLevel B L M P pi e he hne ≤ t →
     ∃ (K2 : Type u) (_ : Field K2) (_ : Algebra K K2) (_ : Algebra A K2)
       (_ : IsScalarTower A K K2) (_ : Module.Finite K K2),
       ∃ D : IntegralClosureBaseChange.{u, u, u, u, u, u, u, u} A C K M K2,
@@ -90,18 +90,18 @@ private abbrev MixedFiniteNumeratorUpToSolvable
     [CharZero K] [CharP (ResidueField A) p] [ExpChar (ResidueField B) p]
     [PerfectField (ResidueField A)]
     [IsAdicComplete (maximalIdeal A) A]
-    [IsAdicComplete (maximalIdeal B) B]
-    (hweak : IsDiscreteValuationRing.IsWeaklyUnramified A B)
-    (hepp : EppCondition A B p)
-    [Module.Finite L M]
-    (f : CyclotomicRing p ℤ ℚ →+* B) (P : Polynomial B)
-    (hP : intProp f P ∧ quotChar f P ∧ shapeProp f P ∧ funcEq f P)
-    (hfinite : Stacks.DegreePExtensionLevel.IsDegreePExtensionOfFiniteLevel B L M p f P)
-    (pi : B) (e : ℕ) (he : 0 < e)
-    (hne : (Stacks.DegreePExtensionLevel.extensionLevelNumerators B L M P pi).Nonempty)
-    (hpi : Irreducible pi) (hw : Associated (wElt f) (pi ^ e))
-    (hsinf : sInf (Stacks.DegreePExtensionLevel.extensionLevelNumerators B L M P pi) = n)
-    (hle : Stacks.DegreePExtensionLevel.extensionLevel B L M P pi e he hne ≤ t),
+    [IsAdicComplete (maximalIdeal B) B],
+    IsDiscreteValuationRing.IsWeaklyUnramified A B →
+    EppCondition A B p →
+    ∀ [Module.Finite L M]
+    (f : CyclotomicRing p ℤ ℚ →+* B) (P : Polynomial B),
+    intProp f P ∧ quotChar f P ∧ shapeProp f P ∧ funcEq f P →
+    Stacks.DegreePExtensionLevel.IsDegreePExtensionOfFiniteLevel B L M p f P →
+    ∀ (pi : B) (e : ℕ) (he : 0 < e)
+    (hne : (Stacks.DegreePExtensionLevel.extensionLevelNumerators B L M P pi).Nonempty),
+    Irreducible pi → Associated (wElt f) (pi ^ e) →
+    sInf (Stacks.DegreePExtensionLevel.extensionLevelNumerators B L M P pi) = n →
+    Stacks.DegreePExtensionLevel.extensionLevel B L M P pi e he hne ≤ t →
     ∃ (K2 : Type u) (_ : Field K2) (_ : Algebra K K2) (_ : Algebra A K2)
       (_ : IsScalarTower A K K2) (_ : Module.Finite K K2),
       ∃ D : IntegralClosureBaseChange.{u, u, u, u, u, u, u, u} A C K M K2,
@@ -259,7 +259,7 @@ private theorem exists_finite_extension_isWeakSolution_of_mixedLevelStepOutcome
         Subtype.ext (IsScalarTower.algebraMap_apply A B (L ⊗[K] K1) a)
     let : IsScalarTower A K1 (L ⊗[K] K1) :=
       IsScalarTower.of_algebraMap_eq fun a => by
-        show (algebraMap A L a) ⊗ₜ[K] (1 : K1) =
+        change (algebraMap A L a) ⊗ₜ[K] (1 : K1) =
           (1 : L) ⊗ₜ[K] algebraMap A K1 a
         rw [IsScalarTower.algebraMap_apply A K L,
           IsScalarTower.algebraMap_apply A K K1]
@@ -268,7 +268,7 @@ private theorem exists_finite_extension_isWeakSolution_of_mixedLevelStepOutcome
         (integralClosure B (L ⊗[K] K1)) :=
       IsScalarTower.of_algebraMap_eq fun a => by
         apply Subtype.ext
-        show algebraMap A (L ⊗[K] K1) a =
+        change algebraMap A (L ⊗[K] K1) a =
           algebraMap (integralClosure B (L ⊗[K] K1)) (L ⊗[K] K1)
             (algebraMap (integralClosure A K1)
               (integralClosure B (L ⊗[K] K1)) (algebraMap A (integralClosure A K1) a))
@@ -301,7 +301,7 @@ performed simultaneously in every reduced tensor factor.  A factor either reache
 level drop, or its least numerator is strictly smaller and the strong induction hypothesis applies.
 -/
 private theorem mixedFiniteNumeratorUpToSolvable
-    (p : ℕ) [Fact p.Prime] (t : ℚ) (ht : 0 ≤ t) (htp : t < (p : ℚ))
+    (p : ℕ) [Fact p.Prime] (t : ℚ)
     (outer : MixedFiniteLevelUpToSolvable.{u} p
       (max 0 (max (t - 1) (2 * t - (p : ℚ)))))
     (n : ℕ) : MixedFiniteNumeratorUpToSolvable.{u} p t n := by
@@ -453,7 +453,7 @@ private theorem mixedFiniteNumeratorUpToSolvable
           eFH' (Ideal.Quotient.mk _
             ((Algebra.TensorProduct.includeRight : K1 →ₐ[K] L ⊗[K] K1) x)) j =
               algebraMap K1 (FH j) x := by
-        show eFH' (algebraMap K1 (ReducedTensorTower.Reduction (L ⊗[K] K1)) x) j = _
+        change eFH' (algebraMap K1 (ReducedTensorTower.Reduction (L ⊗[K] K1)) x) j = _
         rw [eFH'.commutes]
         rfl
       let : ∀ j, IsScalarTower K L (FH j) := fun j =>
@@ -478,7 +478,7 @@ private theorem mixedFiniteNumeratorUpToSolvable
           phi i (x ⊗ₜ[K] y) = algebraMap M (F i) x * algebraMap K1 (F i) y := by
         rw [show x ⊗ₜ[K] y = (x ⊗ₜ[K] (1 : K1)) * ((1 : M) ⊗ₜ[K] y) by
           simp only [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul], map_mul]
-        show decomp (Ideal.Quotient.mk _
+        change decomp (Ideal.Quotient.mk _
           ((Algebra.TensorProduct.includeLeft : M →ₐ[K] M ⊗[K] K1) x)) i *
             decomp (Ideal.Quotient.mk _
               ((Algebra.TensorProduct.includeRight : K1 →ₐ[K] M ⊗[K] K1) y)) i = _
@@ -524,7 +524,7 @@ private theorem mixedFiniteNumeratorUpToSolvable
       let : Algebra R E := ((algebraMap K1 E).comp (algebraMap R K1)).toAlgebra
       let : IsScalarTower R K1 E := IsScalarTower.of_algebraMap_eq' rfl
       let : IsScalarTower A K1 E := IsScalarTower.of_algebraMap_eq fun a => by
-        show algebraMap B E (algebraMap A B a) = algebraMap K1 E (algebraMap A K1 a)
+        change algebraMap B E (algebraMap A B a) = algebraMap K1 E (algebraMap A K1 a)
         exact algebraMap_reducedFactor_base_eq_of_tower A B K L K1 FH
           (eFH'.restrictScalars K) heFHleft heFHright (j i) a
       let : FaithfulSMul R E := (faithfulSMul_iff_algebraMap_injective R E).mpr
@@ -543,7 +543,7 @@ private theorem mixedFiniteNumeratorUpToSolvable
         Subtype.ext (IsScalarTower.algebraMap_apply A B E a)
       let : IsScalarTower A R S := IsScalarTower.of_algebraMap_eq fun a => by
         apply Subtype.ext
-        show algebraMap B E (algebraMap A B a) =
+        change algebraMap B E (algebraMap A B a) =
           algebraMap K1 E (algebraMap R K1 (algebraMap A R a))
         rw [← IsScalarTower.algebraMap_apply A B E,
           ← IsScalarTower.algebraMap_apply A R K1,
@@ -574,7 +574,7 @@ private theorem mixedFiniteNumeratorUpToSolvable
           IsScalarTower.algebraMap_apply R K1 E,
           IsScalarTower.algebraMap_apply K1 E FF]
       have hRSFF (r : R) : algebraMap R FF r = algebraMap S FF (algebraMap R S r) := by
-        show algebraMap K1 FF (algebraMap R K1 r) =
+        change algebraMap K1 FF (algebraMap R K1 r) =
           algebraMap E FF (algebraMap S E (algebraMap R S r))
         rw [IsScalarTower.algebraMap_apply K1 E FF,
           ← IsScalarTower.algebraMap_apply R K1 E,
@@ -583,12 +583,12 @@ private theorem mixedFiniteNumeratorUpToSolvable
       let algST : Algebra S T := (mapIntegralClosureOfTower B C E FF).toRingHom.toAlgebra
       let : Algebra S T := algST
       let hSTFFTower : IsScalarTower S T FF := IsScalarTower.of_algebraMap_eq fun x => by
-        show algebraMap E FF x.1 = algebraMap E FF x.1
+        change algebraMap E FF x.1 = algebraMap E FF x.1
         rfl
       let towerSTFFExact : @IsScalarTower S T FF algST.toSMul
           (inferInstance : Algebra T FF).toSMul algSFF.toSMul := hSTFFTower
       have hSTFF (x : S) : algebraMap S FF x = algebraMap T FF (algebraMap S T x) := by
-        show algebraMap E FF x.1 = algebraMap E FF x.1
+        change algebraMap E FF x.1 = algebraMap E FF x.1
         rfl
       have hRTFF (r : R) : algebraMap R FF r = algebraMap T FF (algebraMap R T r) :=
         IsScalarTower.algebraMap_apply R T FF r
@@ -652,8 +652,7 @@ private theorem mixedFiniteNumeratorUpToSolvable
         have hqsurj : Function.Surjective q := by
           intro x
           obtain ⟨v, rfl⟩ := hphisurj i x
-          induction v using TensorProduct.induction_on with
-          | zero => exact ⟨0, by rw [map_zero q, map_zero (phi i)]⟩
+          induction v using TensorProduct.inductionOn with
           | tmul m0 k0 =>
               refine ⟨algebraMap K1 E k0 ⊗ₜ[L] m0, ?_⟩
               rw [hq_tmul, ← IsScalarTower.algebraMap_apply K1 E FF, mul_comm,
@@ -670,7 +669,7 @@ private theorem mixedFiniteNumeratorUpToSolvable
             ((algebraMap E FF).comp (algebraMap S E)).comp (algebraMap B S) =
               ((algebraMap M FF).comp (algebraMap L M)).comp (algebraMap B L) := by
           ext b0
-          show algebraMap E FF (algebraMap S E (algebraMap B S b0)) =
+          change algebraMap E FF (algebraMap S E (algebraMap B S b0)) =
             algebraMap M FF (algebraMap L M (algebraMap B L b0))
           rw [← hBmap]
           exact (IsScalarTower.algebraMap_apply L E FF (algebraMap B L b0)).symm.trans
@@ -678,7 +677,7 @@ private theorem mixedFiniteNumeratorUpToSolvable
         have hPzF : Polynomial.aeval zF PS =
             algebraMap E FF (algebraMap L E xi) := by
           rw [Polynomial.aeval_def, Polynomial.eval₂_map]
-          show Polynomial.eval₂
+          change Polynomial.eval₂
             (((algebraMap E FF).comp (algebraMap S E)).comp (algebraMap B S)) zF P = _
           rw [hcoeff, hzFdef]
           have hz' := congrArg (algebraMap M FF) hPz
@@ -755,14 +754,14 @@ private theorem mixedFiniteLevelUpToSolvable_of_lt_prime
     MixedFiniteLevelUpToSolvable.{u} p t := by
   refine IsDiscreteValuationRing.induction_on_level
     (P := MixedFiniteLevelUpToSolvable.{u} p) (mixedFiniteLevelUpToSolvable_zero p) ?_ ht htp
-  intro x hx hxp ih
+  rintro x - - ih
   have outer : MixedFiniteLevelUpToSolvable.{u} p
       (max 0 (max (x - 1) (2 * x - (p : ℚ)))) :=
     ih _ (le_max_left _ _) le_rfl
   intro A B C K L M
   intros
   rename_i hweak hepp hfin f P hP hfinite pi e he hne hpi hw hle
-  exact mixedFiniteNumeratorUpToSolvable p x hx.le hxp outer
+  exact mixedFiniteNumeratorUpToSolvable p x outer
     (sInf (Stacks.DegreePExtensionLevel.extensionLevelNumerators B L M P pi))
     A B C K L M hweak hepp f P hP hfinite pi e he hne hpi hw rfl hle
 

@@ -202,13 +202,13 @@ theorem isClosedMorphism_pullback_fst_of_isAffine_of_locallyOfFinitePresentation
   have hja : j₀ ≫ a.left = χ.left := by
     refine B.inclusion.map_injective ?_
     rw [CategoryTheory.Functor.map_comp, hj₀]
-    show (i ≫ e.inv) ≫ (BigFppfOver.toScheme B S hS).map a = (BigFppfOver.toScheme B S hS).map χ
+    change (i ≫ e.inv) ≫ (BigFppfOver.toScheme B S hS).map a = (BigFppfOver.toScheme B S hS).map χ
     rw [hae, ← hiχ, Category.assoc, e.inv_hom_id_assoc]
   let j : Z ⟶ W := Over.homMk j₀ (by rw [← a.w, ← Category.assoc, hja, χ.w])
   have hjimm : IsImmersion B S hS (yoneda.map j) := by
     refine (presheaf_yoneda_map_iff B S hS
       AlgebraicGeometry.IsImmersion.isStableUnderBaseChange j).2 ?_
-    show AlgebraicGeometry.IsImmersion (B.inclusion.map j₀)
+    change AlgebraicGeometry.IsImmersion (B.inclusion.map j₀)
     rw [hj₀]
     infer_instance
   have hcomp : j ≫ a = χ := Over.OverMorphism.ext hja
@@ -434,7 +434,7 @@ theorem universallyClosed_of_isClosedMorphism_of_isLocallyOfFinitePresentation
     rw [← preimage_image_pointsMap_of_isPullback B S hS sqr _]
     refine (isOpenMap_pointsMap_of_isEtale B S hS p (isAlgebraicSpace_yoneda B S hS V) hZ
       hp).preimage_closure_subset_closure_preimage ?_
-    show pointsMap B S hS (yoneda.obj V) p v ∈ closure _
+    change pointsMap B S hS (yoneda.obj V) p v ∈ closure _
     rwa [hpv]
   have hinc : pointsMap B S hS _ (pullback.snd f (p ≫ g)) ''
       (pointsMap B S hS _ r ⁻¹'

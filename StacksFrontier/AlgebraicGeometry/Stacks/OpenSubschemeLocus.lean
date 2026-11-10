@@ -75,7 +75,7 @@ theorem subsingleton_hom_of_isOpenImmersion (U : BigFppfOver B S hS)
     (V : BigFppfOver B U.left.1 U.left.2) (hV : IsOpenImmersion V.hom.hom)
     (T : BigFppfOver B U.left.1 U.left.2) : Subsingleton (T ⟶ V) := by
   have : Mono V.hom := B.inclusion.mono_of_mono_map (by
-    show Mono V.hom.hom
+    change Mono V.hom.hom
     infer_instance)
   exact ⟨fun a b ↦ Over.OverMorphism.ext <|
     (cancel_mono V.hom).mp ((Over.w a).trans (Over.w b).symm)⟩
@@ -127,7 +127,7 @@ theorem isOpenImmersion_algebraicSpaceMap_of_iso_yoneda (U : BigFppfOver B S hS)
   have hk : Space.IsOpenImmersion B S hS (yoneda.map k) :=
     MorphismProperty.relative_map (P := MorphismProperty.inverseImage
       (@_root_.AlgebraicGeometry.IsOpenImmersion.{u}) (BigFppfOver.toScheme B S hS)) hV
-  show Space.IsOpenImmersion B S hS (OverShriek.relocalizeToYoneda U.hom P)
+  change Space.IsOpenImmersion B S hS (OverShriek.relocalizeToYoneda U.hom P)
   rw [← hj]
   exact (MorphismProperty.cancel_left_of_respectsIso
     (MorphismProperty.presheaf (MorphismProperty.inverseImage

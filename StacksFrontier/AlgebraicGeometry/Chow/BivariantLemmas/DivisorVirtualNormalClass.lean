@@ -94,7 +94,8 @@ the hypothesis `_hbundle`. The same choice is made in the statement of Stacks 0F
   The lemma `Stacks.Chow.gysinHomomorphismOfInvertible_of_le` gives the value as the
   pushforward of `Stacks.Chow.firstChernComponentClass`, which is a *component* rule of Stacks
   02SO and is not connected to any cap product on Chow groups: that connection is
-  `chernClassCapOnChow` of Stacks 0B7G, which is not formalized. Again it mentions no bivariant class for `D ⟶ X`.
+  `chernClassCapOnChow` of Stacks 0B7G, which is not formalized. Again it mentions no bivariant
+  class for `D ⟶ X`.
 * `Stacks.Chow.VirtualNormalCapFundamentalOnDivisor` is **Stacks 0FBM at full excess** for a
   zero scheme: `c(D ⟶ X, 𝒩) ∩ [Y]_n = c_top(𝒩) ∩ [D ×_X Y]_n`, the case where the conormal
   sheaf of `D ×_X Y ⟶ Y` has rank zero. Stacks 0FBM is proved, as
@@ -181,8 +182,8 @@ variable (C : ChowSituation.{u}) (G : GysinSystem C) {X NB : Scheme.{u}} (sX : X
 test scheme contained in `D`.
 
 It is carried rather than constructed because the cap product with the Chern classes is
-`chernClassCapOnChow` of Stacks 0B7G, which is not formalized; only its degree, one, enters below, and that is
-fixed by the typing. -/
+`chernClassCapOnChow` of Stacks 0B7G, which is not formalized; only its degree, one, enters below,
+and that is fixed by the typing. -/
 abbrev DivisorTopChernCapFamily : Type (u + 1) :=
   ∀ {Y : Scheme.{u}} (g : Y ⟶ X) [LocallyOfFiniteType g] (n : ℤ),
     chowGroup C (pullback.fst (gysinTripleInclusion L s) g ≫

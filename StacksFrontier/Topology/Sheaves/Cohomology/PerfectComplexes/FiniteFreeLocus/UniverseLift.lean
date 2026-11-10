@@ -238,7 +238,7 @@ private lemma sheafUlift_preservesFiniteLimits :
   let F := sheafCompose J AddCommGrpCat.uliftFunctor.{u, v}
   let G := sheafToPresheaf J Ab.{max u v}
   let : PreservesFiniteLimits (F ⋙ G) := by
-    show PreservesFiniteLimits (sheafToPresheaf J Ab.{v} ⋙
+    change PreservesFiniteLimits (sheafToPresheaf J Ab.{v} ⋙
       (Functor.whiskeringRight _ _ _).obj AddCommGrpCat.uliftFunctor.{u, v})
     infer_instance
   exact preservesFiniteLimits_of_reflects_of_preserves F G
@@ -303,7 +303,7 @@ private lemma moduleULift_preservesHomology (X : RingedSpace.{u, v}) :
 lemma liftModulesFunctor_additive (X : RingedSpace.{u, v}) :
     (liftModulesFunctor X).Additive := by
   let : (liftModuleScalars X).Additive := liftModuleScalars_additive X
-  show (moduleULift.{u, v} X ⋙ liftModuleScalars X).Additive
+  change (moduleULift.{u, v} X ⋙ liftModuleScalars X).Additive
   infer_instance
 
 attribute [local instance] liftModulesFunctor_additive
@@ -345,7 +345,7 @@ private def neighbourhoodColimitIsoPointFiber {X : TopCat.{v}} (x : X) :
     neighbourhoodColimitFunctor.{u} x ≅
       (Opens.pointGrothendieckTopology x).presheafFiber (A := Ab.{max u v}) := by
   let E := (openNhdsEquivPointElements x).functor.op
-  let P := (CategoryOfElements.π (Opens.pointGrothendieckTopology x).fiber).op
+  let P := (Functor.Elements.π (Opens.pointGrothendieckTopology x).fiber).op
   refine NatIso.ofComponents (fun M => Functor.Final.colimitIso E (P ⋙ M)) ?_
   intro M N f
   exact (Functor.Final.colimIso E (E := Ab.{max u v})).hom.naturality

@@ -80,7 +80,7 @@ theorem exists_unique_points_baseChange {X S S' : Scheme.{u}} (f : X ⟶ S) (F :
   have hpiz : D.toOneStepDevissage.π D.z = B.pY y' := D.π_z.trans hpy.symm
   obtain ⟨z', hpz, hpiz'⟩ := Scheme.exists_preimage_of_isPullback B.z_square D.z y' hpiz
   have hzs : (B.devissage.π ≫ B.devissage.g) z' = s' := by
-    show B.devissage.g (B.devissage.π z') = s'
+    change B.devissage.g (B.devissage.π z') = s'
     rw [hpiz']; exact hgy'
   have hfieldY : IsIso ((S.residueFieldCongr hgyb.symm).inv ≫ h.residueFieldMap s') := by
     simpa [hgyb, D.g_y] using (inferInstance :

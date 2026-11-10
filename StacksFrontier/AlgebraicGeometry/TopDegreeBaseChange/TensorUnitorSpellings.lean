@@ -64,7 +64,7 @@ theorem tensorFactorObjUnitIso_hom_eq (R : Type u) [CommRing R]
   let G : PresheafOfModules.{u} (structureRingPresheaf W.left.presheaf) := F.val
   let S := sheafify W.left.presheaf (ringSheafCond W.left)
   let c := (sheafifyForgetIso W.left.presheaf (ringSheafCond W.left)).hom.app F
-  show S.map (β_ G (𝟙_ (PresheafOfModules.{u} (structureRingPresheaf W.left.presheaf)))).hom ≫
+  change S.map (β_ G (𝟙_ (PresheafOfModules.{u} (structureRingPresheaf W.left.presheaf)))).hom ≫
       (S.map (λ_ G).hom ≫ c) =
     S.map (ρ_ G).hom ≫ (sheafifyValIso W.left.presheaf (ringSheafCond W.left) F).hom
   refine Eq.trans (Category.assoc _ _ _).symm ?_

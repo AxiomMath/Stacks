@@ -393,7 +393,7 @@ theorem chartProjIso_hom_toBase (U : S.AffineZariskiSite)
     (Category.assoc _ _ _).symm.trans (congrArg (fun f => f ≫ U.2.fromSpec)
       ((Spec.map_comp (𝒜.toGradedAlgebra.strZero U) _).symm.trans
         (congrArg Spec.map (strZero_comp_zeroHom_chartGradedHom 𝒜 L U e))))
-  show (chartProjIso 𝒜 L U e).hom ≫ AlgebraicGeometry.Proj.toSpecZero
+  change (chartProjIso 𝒜 L U e).hom ≫ AlgebraicGeometry.Proj.toSpecZero
         (𝒜.toGradedAlgebra.grading U) ≫ Spec.map (𝒜.toGradedAlgebra.strZero U) ≫ U.2.fromSpec =
       AlgebraicGeometry.Proj.toSpecZero ((twist 𝒜 L).toGradedAlgebra.grading U) ≫
         Spec.map ((twist 𝒜 L).toGradedAlgebra.strZero U) ≫ U.2.fromSpec
@@ -520,7 +520,7 @@ theorem res_comp_chartGradedHom {W' : S.Opens} (h : W' ≤ W) :
     ((twist 𝒜 L).res h).comp (chartGradedHom 𝒜 L e) =
       (chartGradedHom 𝒜 L (isoUnitOverOfHom L (homOfLE h) e)).comp (𝒜.res h) := by
   refine GradedRingHom.ext fun x => ?_
-  show (twist 𝒜 L).resRingHom h (chartRingHom 𝒜 L e x) =
+  change (twist 𝒜 L).resRingHom h (chartRingHom 𝒜 L e x) =
     chartRingHom 𝒜 L (isoUnitOverOfHom L (homOfLE h) e) (𝒜.resRingHom h x)
   induction x using DirectSum.induction_on with
   | zero => rw [map_zero, map_zero, map_zero, map_zero]

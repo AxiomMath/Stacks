@@ -133,7 +133,7 @@ isomorphism `(F E, n + 1) ≅ (E, n)` of Stacks Tag 0EXA is natural in `E`. -/
 lemma shiftStepHom_naturality' (F : C ⥤ C) (n : ℕ) {E G : C} (g : E ⟶ G) :
     stageHomOf F (n + 1) (F.map g) ≫ shiftStepHom F n G =
       shiftStepHom F n E ≫ stageHomOf F n g := by
-  show Hom.of (n + 1 + 0 + 0) _ = Hom.of (n + 0 + 0) _
+  change Hom.of (n + 1 + 0 + 0) _ = Hom.of (n + 0 + 0) _
   refine Hom.of_eq_of _ _ 0 1 (by omega) ?_
   simp only [compHom, endoRaise_zero, endoRaise_comp, endoRaise_endoHomCast,
     endoRaise_eqToHom, endoRaise_endoIter_map, endoHomCast_comp_rfl, endoHomCast_endoHomCast,
@@ -193,7 +193,7 @@ lemma endoRaise_eq_eqToHom_endoIter_map (F : C ⥤ C) {m n : ℕ} {E G : C}
       have ih := endoRaise_eq_eqToHom_endoIter_map F f N
         (endoIter_obj_endoIter_obj_of_eq F (by omega) E).symm
         (endoIter_obj_endoIter_obj_of_eq F (by omega) G)
-      show F.map (endoRaise f N) = _
+      change F.map (endoRaise f N) = _
       rw [ih, F.map_comp, F.map_comp, eqToHom_map, eqToHom_map]
       rfl
 
@@ -279,7 +279,7 @@ lemma objShiftIso_conj (F : C ⥤ C) (n k : ℕ) {E G : C}
       (F.endoIter (n + (n + k) + 0)).obj G :=
     endoIter_obj_endoIter_obj_of_eq F (show n + k + (n + 0) = n + (n + k) + 0 by omega) G
   rw [objShiftIso_inv_eq F n (n + k) E hp, objShiftIso_hom_eq F n (n + k) G hq, stageHomOf]
-  show Hom.of (n + (n + k) + 0 + (n + (n + k) + 0 + 0)) _ = _
+  change Hom.of (n + (n + k) + 0 + (n + (n + k) + 0 + 0)) _ = _
   refine Hom.of_eq_of _ _ 0 (4 * n + k) (by omega) ?_
   simp only [compHom, endoRaise_zero, endoRaise_comp, endoRaise_endoHomCast,
     endoRaise_eqToHom, endoRaise_endoIter_map, endoHomCast_comp_rfl, endoHomCast_endoHomCast,
@@ -324,7 +324,7 @@ lemma squareIter_hom_naturality : ∀ (k : ℕ) {E G : C} (g : E ⟶ G),
       have ih := squareIter_hom_naturality k g
       have hnat := α.inv.naturality ((F.endoIter k).map g)
       simp only [Functor.comp_map] at hnat
-      show F'.map ((F'.endoIter k).map (Φ.map g)) ≫
+      change F'.map ((F'.endoIter k).map (Φ.map g)) ≫
           (F'.map (squareIter F F' Φ α k G).hom ≫ α.inv.app ((F.endoIter k).obj G)) =
         (F'.map (squareIter F F' Φ α k E).hom ≫ α.inv.app ((F.endoIter k).obj E)) ≫
           Φ.map (F.map ((F.endoIter k).map g))
@@ -348,7 +348,7 @@ lemma map_transportHom (a : ℕ) {E G : C}
   have key : α.inv.app ((F.endoIter a).obj E) ≫ Φ.map (F.map f) ≫
       α.hom.app ((F.endoIter a).obj G) = F'.map (Φ.map f) := by
     rw [← Category.assoc, ← hnat, Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
-  show F'.map ((squareIter F F' Φ α a E).hom ≫ Φ.map f ≫ (squareIter F F' Φ α a G).inv) =
+  change F'.map ((squareIter F F' Φ α a E).hom ≫ Φ.map f ≫ (squareIter F F' Φ α a G).inv) =
     (F'.map (squareIter F F' Φ α a E).hom ≫ α.inv.app ((F.endoIter a).obj E)) ≫
       Φ.map (F.map f) ≫
         α.hom.app ((F.endoIter a).obj G) ≫ F'.map (squareIter F F' Φ α a G).inv
@@ -361,7 +361,7 @@ lemma endoRaise_transportHom (a : ℕ) {E G : C}
       transportHom F F' Φ α (a + j) (endoRaise f j)
   | 0 => rfl
   | j + 1 => by
-      show F'.map (endoRaise (transportHom F F' Φ α a f) j) =
+      change F'.map (endoRaise (transportHom F F' Φ α a f) j) =
         transportHom F F' Φ α (a + j + 1) (endoRaise (endoRaise f j) 1)
       rw [endoRaise_transportHom a f j]
       exact map_transportHom F F' Φ α (a + j) (endoRaise f j)
@@ -436,13 +436,13 @@ lemma mapPseudococone_iterObjIso_hom (n : ℕ) : ∀ (k : ℕ) (E : C),
       stageHomOf F' (n + k) (squareIter F F' Φ α k E).inv ≫
         (objShiftIso F' n k (Φ.obj E)).hom
   | 0, E => by
-      show 𝟙 _ = stageHomOf F' (n + 0) (𝟙 _) ≫ 𝟙 _
+      change 𝟙 _ = stageHomOf F' (n + 0) (𝟙 _) ≫ 𝟙 _
       rw [Category.comp_id, stageHomOf, Functor.map_id]
       exact (Hom.of_id _ 0).symm
   | k + 1, E => by
       rw [Pseudococone.iterObjIso_succ_hom, mapPseudococone_compatIter_hom,
         mapPseudococone_iterObjIso_hom n k E]
-      show (stageHomOf F' (n + k + 1) (squareApp F F' Φ α ((F.endoIter k).obj E)) ≫
+      change (stageHomOf F' (n + k + 1) (squareApp F F' Φ α ((F.endoIter k).obj E)) ≫
             shiftStepHom F' (n + k) (Φ.obj ((F.endoIter k).obj E))) ≫
           stageHomOf F' (n + k) (squareIter F F' Φ α k E).inv ≫
             (objShiftIso F' n k (Φ.obj E)).hom =

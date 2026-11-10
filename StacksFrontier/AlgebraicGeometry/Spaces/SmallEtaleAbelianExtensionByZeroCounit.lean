@@ -187,7 +187,7 @@ theorem stalkExtensionByZeroIso_inv_counit :
       Sigma.desc fun t : GeometricPointLift B S hS f.hom x =>
         (restrictionSheafFiberIso B S hS f hf t).hom.app G := by
   refine Sigma.hom_ext _ _ fun t => ?_
-  rw [Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
   exact liftedStalkι_stalkExtensionByZeroIso_inv_counit B S hS f hf x G t
 
 end Counit

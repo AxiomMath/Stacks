@@ -122,7 +122,7 @@ theorem annihilatorSectionCokernel_obj_affine_eq_dedekindDifferentIdeal
   let t : Module.Dual Γ(X, U.1) Γ(Y, V.1) :=
     complementaryModuleEquivDualizingModule setup ⟨1, h1⟩
   have hf : eM (FΓ.map fSpec (eO.symm 1)) = t := by
-    show selfFactorizationDualEquiv
+    change selfFactorizationDualEquiv
       (ω.localEquiv U V hVU F
         (specGammaToOpenEquiv V.2 ω.sheaf (FΓ.map fSpec (eO.symm 1)))) = t
     rw [specGammaToOpenEquiv_map V.2 φ (eO.symm 1)]
@@ -132,7 +132,7 @@ theorem annihilatorSectionCokernel_obj_affine_eq_dedekindDifferentIdeal
     have htr : ((φ.val.app (op V.1)).hom) (1 : Γ(Y, V.1)) =
         (ω.sheaf.presheaf.map (homOfLE (show V.1 ≤ ⊤ from le_top)).op).hom s :=
       sectionHom_app_one ω s V.1
-    show selfFactorizationDualEquiv
+    change selfFactorizationDualEquiv
       (ω.localEquiv U V hVU F (((φ.val.app (op V.1)).hom) (1 : Γ(Y, V.1)))) = t
     rw [htr]
     exact hs
@@ -150,9 +150,9 @@ theorem annihilatorSectionCokernel_obj_affine_eq_dedekindDifferentIdeal
     intro r
     have hr : eOi.symm.hom r = r • eOi.symm.hom 1 := by
       simpa using eOi.symm.hom.hom.map_smul r (1 : Γ(Y, V.1))
-    show eM (fΓ (eOi.symm.hom r)) = LinearMap.toSpanSingleton R _ t (eOi.hom (eOi.symm.hom r))
+    change eM (fΓ (eOi.symm.hom r)) = LinearMap.toSpanSingleton R _ t (eOi.hom (eOi.symm.hom r))
     rw [hr]
-    show eM (fΓ.hom (r • eOi.symm.hom 1)) = _
+    change eM (fΓ.hom (r • eOi.symm.hom 1)) = _
     have h1' : eOi.hom (eOi.symm.hom (1 : Γ(Y, V.1))) = 1 := by simp
     calc
       _ = r • t := by rw [fΓ.hom.map_smul, eM.map_smul, hf']
@@ -187,7 +187,7 @@ omit [IsLocallyNoetherian Y] in
 private theorem restrictₗ_restrictₗ_top (M : Y.Modules) {V : Y.Opens}
     (htop : (⊤ : Y.Opens) ≤ V) (x : Γ(M, V)) :
     restrictₗ M (show V ≤ ⊤ from le_top) (restrictₗ M htop x) = x := by
-  show (M.presheaf.map (homOfLE (show V ≤ ⊤ from le_top)).op)
+  change (M.presheaf.map (homOfLE (show V ≤ ⊤ from le_top)).op)
     ((M.presheaf.map (homOfLE htop).op) x) = x
   rw [← ConcreteCategory.comp_apply, ← M.presheaf.map_comp,
     show (homOfLE htop).op ≫ (homOfLE (show V ≤ ⊤ from le_top)).op = 𝟙 (op V) from

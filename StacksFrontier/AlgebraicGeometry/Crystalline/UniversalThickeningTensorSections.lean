@@ -94,7 +94,7 @@ theorem sheafTensor_braiding_hom
       (β_ ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj M)
         ((forget (Stacks.SheafOfModules.Tensor.ringSheaf R)).obj N)).hom := by
   rw [symmetricCategorySheafTensor, reseatSymmetric_braiding_hom]
-  show (sheafTensorIso R M N).inv ≫ (β_ M N).hom ≫ (sheafTensorIso R N M).hom = _
+  change (sheafTensorIso R M N).inv ≫ (β_ M N).hom ≫ (sheafTensorIso R N M).hom = _
   let : (J.W.inverseImage (PresheafOfModules.toPresheaf
       (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).IsMonoidal :=
     Stacks.SheafOfModules.isMonoidal_localIso (𝒪 := R.obj)

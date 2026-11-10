@@ -26,7 +26,7 @@ with the affine case, which is the Noetherian model of
 **The two carried hypotheses, and why they are carried here.** `hvan` is [Stacks, Tag 0E7D] for
 a general `d` — the vanishing of `R ʲ (g₀)_* G` above the fibre dimension — and `hbc` is the
 top-degree base change along the model. Neither is a hypothesis of [Stacks, Tag 0EX5], so the
-statement below carries no attribute and is `private`: it is the shape of the assembly, isolated
+statement below carries no attribute: it is the shape of the assembly, isolated
 so that the plumbing of the Noetherian model is checked independently of the two inputs.
 
 What the assembly does is small and entirely about matching the model to the base-change
@@ -63,7 +63,7 @@ cartesian square over such a stage.
 
 No `@[stacks 0EX5]` attribute: `hvan` and `hbc` are hypotheses the tag does not carry, and
 `IsAffine Y` is a hypothesis too. -/
-private theorem isFinitePresentation_rightDerived_affineBase_of_baseChange
+theorem isFinitePresentation_rightDerived_affineBase_of_baseChange
     {X Y : Scheme.{u}} (g : X ⟶ Y) [IsProper g] (hfp : AlgebraicGeometry.FinitePresentation g)
     [IsAffine Y] (d : ℕ)
     (hdim : ∀ y : Y, topologicalKrullDim (g.fiber y) ≤ (d : WithBot ℕ∞))
@@ -80,7 +80,7 @@ private theorem isFinitePresentation_rightDerived_affineBase_of_baseChange
         (((Scheme.Modules.pushforward g').rightDerived d).obj
           ((Scheme.Modules.pullback p).obj G₀)).IsFinitePresentation) :
     (((Scheme.Modules.pushforward g).rightDerived d).obj G).IsFinitePresentation := by
-  obtain ⟨X₀, S₀, g₀, hpr, _hfp₀, haff₀, hnoeth₀, hdim₀, G₀, hG₀, v, p, hsq, ⟨eG⟩⟩ :=
+  obtain ⟨X₀, S₀, g₀, hpr, -, haff₀, hnoeth₀, hdim₀, G₀, hG₀, v, p, hsq, ⟨eG⟩⟩ :=
     Stacks.AlgebraicGeometry.NoetherianModel.exists_noetherianModel g hfp d hdim G
   have hres := hbc X₀ S₀ X Y g₀ hpr haff₀ hnoeth₀ G₀ hG₀
     (hvan X₀ S₀ g₀ hpr haff₀ hnoeth₀ hdim₀) g p v inferInstance hsq
@@ -96,7 +96,7 @@ the affine case is the statement above.
 No `@[stacks 0EX5]` attribute: `hvan` and `hbc` are hypotheses the tag does not carry. Once
 [Stacks, Tag 0E7D] is available at a general `d` and top-degree base change is proved, both
 arguments are discharged and the attribute moves onto the resulting unconditional statement. -/
-private theorem isFinitePresentation_rightDerived_of_baseChange
+theorem isFinitePresentation_rightDerived_of_baseChange
     {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f] (hfp : AlgebraicGeometry.FinitePresentation f)
     (d : ℕ) (hdim : ∀ y : Y, topologicalKrullDim (f.fiber y) ≤ (d : WithBot ℕ∞))
     (F : X.Modules) [F.IsFinitePresentation]

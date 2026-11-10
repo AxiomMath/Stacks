@@ -106,7 +106,7 @@ theorem bijOn_genericPoints_blowUpToBase {X : Scheme.{u}} (I : X.IdealSheafData)
   · intro y hy z hz hyz
     have hgz : (b ∣_ U) ⟨y, hyV y hy⟩ = (b ∣_ U) ⟨z, hyV z hz⟩ := by
       apply Subtype.ext
-      show U.ι ((b ∣_ U) ⟨y, hyV y hy⟩) = U.ι ((b ∣_ U) ⟨z, hyV z hz⟩)
+      change U.ι ((b ∣_ U) ⟨y, hyV y hy⟩) = U.ι ((b ∣_ U) ⟨z, hyV z hz⟩)
       rwa [hcomp ⟨y, hyV y hy⟩, hcomp ⟨z, hyV z hz⟩]
     simpa using congrArg V.ι ((b ∣_ U).isOpenEmbedding.injective hgz)
   · rintro x ⟨hxgen, hxoutside⟩

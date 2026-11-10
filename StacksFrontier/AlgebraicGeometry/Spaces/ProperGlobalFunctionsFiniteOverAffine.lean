@@ -137,7 +137,7 @@ theorem closedUnderCoherentExtensions_hasNoetherianSectionsOverBase :
     choose t ht using hex
     refine ⟨⟨t, fun {X Y} g => ?_⟩, Subtype.ext (funext fun X => ht X)⟩
     apply SheafOfModules.injective_of_mono_sections E.f hE.mono_f Y
-    show E.f.val.app Y (E.X₁.val.map g (t X)) = E.f.val.app Y (t Y)
+    change E.f.val.app Y (E.X₁.val.map g (t X)) = E.f.val.app Y (t Y)
     rw [ht Y]
     refine (PresheafOfModules.naturality_apply E.f.val g (t X)).trans ?_
     rw [ht X]
@@ -145,7 +145,7 @@ theorem closedUnderCoherentExtensions_hasNoetherianSectionsOverBase :
   refine isNoetherian_of_range_eq_ker a b (le_antisymm ?_ hker)
   rintro _ ⟨s, rfl⟩
   refine LinearMap.mem_ker.mpr (Subtype.ext (funext fun X => ?_))
-  show (E.f ≫ E.g).val.app X (s.val X) = 0
+  change (E.f ≫ E.g).val.app X (s.val X) = 0
   rw [E.zero]
   rfl
 
@@ -160,11 +160,11 @@ theorem hasNoetherianSectionsOverBase_of_iso {M N : Modules.{u, u} B S hS W.1 W.
     { sectionsLinearMapOfHom B S hS q e.hom with
       invFun := sectionsLinearMapOfHom B S hS q e.inv
       left_inv := fun s => Subtype.ext (funext fun X => by
-        show (e.hom ≫ e.inv).val.app X (s.val X) = s.val X
+        change (e.hom ≫ e.inv).val.app X (s.val X) = s.val X
         rw [e.hom_inv_id]
         rfl)
       right_inv := fun s => Subtype.ext (funext fun X => by
-        show (e.inv ≫ e.hom).val.app X (s.val X) = s.val X
+        change (e.inv ≫ e.hom).val.app X (s.val X) = s.val X
         rw [e.inv_hom_id]
         rfl) }
   exact isNoetherian_of_linearEquiv l
@@ -246,7 +246,7 @@ theorem hasNoetherianSectionsOverBase_pushforwardModules {Z : AlgebraicSpaces B 
         (smallEtaleRingedToposModulesHom B S hS i)).obj N) := by
   let P : Modules.{u, u} B S hS W.1 W.2 := (Stacks.Sheaves.RingedToposModules.pushforwardModules
         (smallEtaleRingedToposModulesHom B S hS i)).obj N
-  show HasNoetherianSectionsOverBase B S hS q P
+  change HasNoetherianSectionsOverBase B S hS q P
   let := sectionsModuleOfHom B S hS (i ≫ q) N
   let := sectionsModuleOfHom B S hS q P
   have : _root_.IsNoetherian _ N.sections := h
@@ -309,7 +309,7 @@ theorem hasNoetherianSectionsOverBase_of_isZero (M : Modules.{u, u} B S hS W.1 W
     have ht : t.val X = (𝟙 M : M ⟶ M).val.app X (t.val X) := rfl
     rw [hs, ht, hM.eq_of_src (𝟙 M) 0]
     rfl)⟩
-  show _root_.IsNoetherian _ M.sections
+  change _root_.IsNoetherian _ M.sections
   infer_instance
 
 /-- A Noetherian affine scheme of the site is a Noetherian algebraic space. -/

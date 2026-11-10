@@ -214,7 +214,7 @@ theorem chartHom_surjective {n : ℕ} (i : Fin (n + 1)) :
     refine Finset.prod_congr rfl fun k _ => ?_
     rw [ratio_eq R i k]
     rcases finSuccEquiv' i k with _ | j <;> simp
-  show chartHom R i _ = _
+  change chartHom R i _ = _
   rw [hp]
   have hai' : ∑ k : Fin (n + 1), ai k = a := by simpa using hai
   apply HomogeneousLocalization.val_injective
@@ -236,22 +236,22 @@ theorem dehom_comp_chartHom {n : ℕ} (i : Fin (n + 1)) :
     (dehom R i).comp (chartHom R i).toRingHom = RingHom.id _ := by
   apply MvPolynomial.ringHom_ext
   · intro r
-    show dehom R i (chartHom R i (MvPolynomial.C r)) = MvPolynomial.C r
+    change dehom R i (chartHom R i (MvPolynomial.C r)) = MvPolynomial.C r
     rw [show (chartHom R i) (MvPolynomial.C r)
         = algebraMap (Deg0 R n) (ChartRing R n i) r from MvPolynomial.aeval_C _ _]
     dsimp only [dehom, RingHom.coe_comp, Function.comp_apply]
     rw [HomogeneousLocalization.algebraMap_eq]
-    show (IsLocalization.Away.lift (x := MvPolynomial.X i)
+    change (IsLocalization.Away.lift (x := MvPolynomial.X i)
       (g := dehomPolynomial R i) (dehomPolynomial_X_self R i))
       (Localization.mk r.1 (1 : Submonoid.powers (MvPolynomial.X i)))
       = MvPolynomial.C r
     rw [Localization.mk_one_eq_algebraMap, IsLocalization.Away.lift_eq]
-    show dehomPolynomial R i r.1 = MvPolynomial.C r
+    change dehomPolynomial R i r.1 = MvPolynomial.C r
     rw [coe_eq_C_degreeZeroEquiv R r]
     simp only [dehomPolynomial, MvPolynomial.eval₂Hom_C, RingHom.comp_apply,
       RingEquiv.symm_apply_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom]
   · intro j
-    show dehom R i (chartHom R i (MvPolynomial.X j)) = MvPolynomial.X j
+    change dehom R i (chartHom R i (MvPolynomial.X j)) = MvPolynomial.X j
     rw [show (chartHom R i) (MvPolynomial.X j) = ratio R i (i.succAbove j) from
       MvPolynomial.aeval_X _ _]
     simp [dehom, dehomPolynomial, ratio, HomogeneousLocalization.algebraMap_apply,

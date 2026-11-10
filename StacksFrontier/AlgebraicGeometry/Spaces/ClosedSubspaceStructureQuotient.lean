@@ -65,11 +65,11 @@ theorem supportOfSheaf_cokernel_definingIdealSheaf :
   refine (supportOfSheaf_eq_of_iso B S hS X (cokernelDefiningIdealSheafIso B S hS X Z)).trans ?_
   refine (supportOfSheaf_modulePushforward_eq_image_of_isClosedImmersion B S hS
     (subspaceInclusion B S hS X Z) Z.2.2 _ ?_).trans ?_
-  · show IsClosed (supportOfSheaf B S hS Z.1.toFunctor ((SheafOfModules.toSheaf _).obj
+  · change IsClosed (supportOfSheaf B S hS Z.1.toFunctor ((SheafOfModules.toSheaf _).obj
       (structureSheafModule B S hS ⟨Z.1.toFunctor, Z.2.1⟩)))
     rw [h]
     exact isClosed_univ
-  · show pointsMap B S hS Z.1.toFunctor Z.1.ι '' supportOfSheaf B S hS Z.1.toFunctor
+  · change pointsMap B S hS Z.1.toFunctor Z.1.ι '' supportOfSheaf B S hS Z.1.toFunctor
       ((SheafOfModules.toSheaf _).obj (structureSheafModule B S hS ⟨Z.1.toFunctor, Z.2.1⟩)) = _
     rw [h, Set.image_univ]
 

@@ -90,8 +90,7 @@ theorem bijective_restrictionBaseChange_of_isPushout
       c.symm.toAddEquiv).trans hbc.equiv.toAddEquiv).trans eY.symm
   have key : ∀ x, (restrictionBaseChange (R := RC) M f) x = Φ x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero Φ).symm
+    induction x using TensorProduct.inductionOn with
     | tmul s mm =>
       refine (restrictionBaseChange_tmul (R := RC) M f s mm).trans (eY.injective ?_)
       refine (heY (show RC.obj Y from s) _).trans ?_

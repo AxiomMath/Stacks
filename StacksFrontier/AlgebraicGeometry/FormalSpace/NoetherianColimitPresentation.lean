@@ -107,7 +107,7 @@ private theorem ker_specMap_factor_pow {R : Type u} [CommRing R] {K J J' : Ideal
   subst hJ'
   refine Scheme.IdealSheafData.ext_of_isAffine ?_
   simp only [Scheme.IdealSheafData.ideal_pow, Pi.pow_apply, Scheme.Hom.ker_apply]
-  show RingHom.ker (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hJ))).appTop.hom ^ n =
+  change RingHom.ker (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hJ))).appTop.hom ^ n =
     RingHom.ker (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hJn))).appTop.hom
   rw [Stacks.Smooth.ker_specMap_appTop, Stacks.Smooth.ker_specMap_appTop]
   simp only [CommRingCat.hom_ofHom]
@@ -191,17 +191,17 @@ theorem exists_finiteOrderThickening_presentation_formalSpectrum
   have hpow : ∀ {n m : ℕ}, n ≤ m → a ^ (m + 1) ≤ a ^ (n + 1) := fun h ↦
     Ideal.pow_le_pow_right (Nat.succ_le_succ h)
   refine ⟨powChain hdef hadic ⋙ D.diagram, ?_, ?_, ?_, ?_, ?_⟩
-  · show IsReduced (Spec (.of (A ⧸ a ^ (0 + 1))))
+  · change IsReduced (Spec (.of (A ⧸ a ^ (0 + 1))))
     have : _root_.IsReduced (A ⧸ a ^ (0 + 1)) :=
       (Ideal.isRadical_iff_quotient_reduced _).mp
         (by simpa using TopologicalRing.topologicalNilradical_isRadical (B := A))
     infer_instance
   · intro n
-    show IsLocallyNoetherian (Spec (.of (A ⧸ a ^ (n + 1))))
+    change IsLocallyNoetherian (Spec (.of (A ⧸ a ^ (n + 1))))
     infer_instance
   · intro n m f
     have hle := hpow (leOfHom f)
-    show Stacks.Thickenings.IsFiniteOrderThickening
+    change Stacks.Thickenings.IsFiniteOrderThickening
       (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hle)))
     refine ⟨IsClosedImmersion.spec_of_surjective _ (Ideal.Quotient.factor_surjective hle), m, ?_⟩
     refine ker_specMap_factor_pow_eq_bot hle ?_
@@ -210,7 +210,7 @@ theorem exists_finiteOrderThickening_presentation_formalSpectrum
   · intro n m hnm
     have hle0 := hpow (Nat.zero_le m)
     have hlen := hpow hnm
-    show (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hle0))).ker ^ (n + 1) =
+    change (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hle0))).ker ^ (n + 1) =
       (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hlen))).ker
     exact ker_specMap_factor_pow hle0 (by rw [zero_add, pow_one]) hlen
   · have := final_powChain hdef hadic

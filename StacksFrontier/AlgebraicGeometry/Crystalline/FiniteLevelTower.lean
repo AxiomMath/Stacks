@@ -394,7 +394,7 @@ theorem pAdicLevelStep_changeBase_condition {m e : ℕ} (hm : IsPAdicLevel I γ 
     (pAdicLevelSituation I γ p hm X toCF hX).toClosedFiber ≫
         closedFiberMap (pAdicLevelTransitionScheme I γ p hm he hme) =
       (𝟙 X : X ⟶ X) ≫ (pAdicLevelSituation I γ p he X toCF hX).toClosedFiber := by
-  show (toCF ≫ (pAdicLevelClosedFiberIso I γ p hm).inv) ≫
+  change (toCF ≫ (pAdicLevelClosedFiberIso I γ p hm).inv) ≫
       closedFiberMap (pAdicLevelTransitionScheme I γ p hm he hme) =
     (𝟙 X : X ⟶ X) ≫ toCF ≫ (pAdicLevelClosedFiberIso I γ p he).inv
   rw [closedFiberMap_pAdicLevelTransitionScheme, Category.assoc, Iso.inv_hom_id_assoc,

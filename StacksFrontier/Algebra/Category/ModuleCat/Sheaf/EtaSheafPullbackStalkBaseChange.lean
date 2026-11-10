@@ -98,7 +98,7 @@ theorem commStalkGermMap_comp :
       (SemilinearStalk.commStalkRingEquiv X.presheaf x).toRingHom.comp
         (stalkRingMap f x).hom := by
   refine RingHom.ext fun r => ?_
-  show (SemilinearStalk.commStalkRingEquiv X.presheaf x)
+  change (SemilinearStalk.commStalkRingEquiv X.presheaf x)
       ((stalkRingMap f x).hom ((SemilinearStalk.commStalkRingEquiv Y.presheaf
         (f.hom.base x)).symm ((SemilinearStalk.commStalkRingEquiv Y.presheaf
           (f.hom.base x)) r))) = _

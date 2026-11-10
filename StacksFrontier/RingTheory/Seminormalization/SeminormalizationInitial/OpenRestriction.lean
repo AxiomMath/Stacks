@@ -96,7 +96,7 @@ public abbrev affineImage (V : U.toScheme.AffineZariskiSite) : X.AffineZariskiSi
 public lemma affineImage_mono : Monotone (affineImage U) := by
   rintro V W ⟨r, hr⟩
   refine ⟨r, ?_⟩
-  show X.basicOpen r = U.ι ''ᵁ V.1
+  change X.basicOpen r = U.ι ''ᵁ V.1
   simpa [Scheme.image_basicOpen, Scheme.Opens.ι_appIso] using!
     congrArg (fun Q => U.ι ''ᵁ Q) hr
 
@@ -329,19 +329,19 @@ public theorem relativeSeminormalizationRestriction_isPullback :
     (relativeSeminormalizationRestriction_comp f U) ?_).flip
   rw [Scheme.Opens.opensRange_ι]
   ext x
-  show relativeSeminormalizationToBase f x ∈ U ↔
+  change relativeSeminormalizationToBase f x ∈ U ↔
     x ∈ Set.range (relativeSeminormalizationRestriction f U)
   constructor
   · intro hx
     obtain ⟨y, hy⟩ :=
       (relativeSeminormalizationToBase_isHomeomorph (f ∣_ U)).surjective ⟨_, hx⟩
     refine ⟨y, (relativeSeminormalizationToBase_isHomeomorph f).injective ?_⟩
-    show (relativeSeminormalizationRestriction f U ≫
+    change (relativeSeminormalizationRestriction f U ≫
       relativeSeminormalizationToBase f) y = _
     rw [relativeSeminormalizationRestriction_comp, Scheme.Hom.comp_apply, hy]
     rfl
   · rintro ⟨y, rfl⟩
-    show (relativeSeminormalizationRestriction f U ≫
+    change (relativeSeminormalizationRestriction f U ≫
       relativeSeminormalizationToBase f) y ∈ U
     rw [relativeSeminormalizationRestriction_comp, Scheme.Hom.comp_apply]
     exact (relativeSeminormalizationToBase (f ∣_ U) y).property
@@ -419,12 +419,12 @@ public theorem existsUnique_isPullback_seminormalizationFactorization_restrict
   have hs : FU.toMiddle ≫ h = (f ⁻¹ᵁ U).ι ≫ F.toMiddle := by
     dsimp only [h]
     rw [← Category.assoc]
-    show (FU.toMiddle ≫ eU.inv.hom) ≫ _ = _
+    change (FU.toMiddle ≫ eU.inv.hom) ≫ _ = _
     rw [eU.inv.toMiddle_hom]
-    show relativeSeminormalizationFromSource (f ∣_ U) ≫
+    change relativeSeminormalizationFromSource (f ∣_ U) ≫
       relativeSeminormalizationRestriction f U ≫ E.hom = _
     rw [← Category.assoc, relativeSeminormalizationFromSource_restriction, Category.assoc]
-    show (f ⁻¹ᵁ U).ι ≫ (relativeSeminormalizationFactorization f).toMiddle ≫ e.hom.hom = _
+    change (f ⁻¹ᵁ U).ι ≫ (relativeSeminormalizationFactorization f).toMiddle ≫ e.hom.hom = _
     rw [e.hom.toMiddle_hom]
   have hp : IsPullback h FU.toBase F.toBase U.ι := by
     refine (relativeSeminormalizationRestriction_isPullback f U).of_iso EU E

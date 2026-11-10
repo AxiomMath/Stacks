@@ -224,7 +224,7 @@ private theorem smul_id_singleFunctor_residueField_eq_zero {A : Type u} [CommRin
       (ModuleCat.of A (IsLocalRing.ResidueField A))) = 0 := by
   have h : a • 𝟙 (ModuleCat.of A (IsLocalRing.ResidueField A)) = 0 := by
     ext x
-    show a • x = 0
+    change a • x = 0
     rw [Algebra.smul_def, show algebraMap A (IsLocalRing.ResidueField A) a = 0 from
       Ideal.Quotient.eq_zero_iff_mem.mpr ha, zero_mul]
   rw [← CategoryTheory.Functor.map_id (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0),
@@ -349,7 +349,7 @@ private theorem exists_comp_secsOver_eq_of_preimage (V : VanishingSituation.{u})
       (ToType ((secsOver V.f).obj (SheafOfModules.unit V.X.ringCatSheaf)))
       (show ToType ((secsOver V.f).obj (SheafOfModules.unit V.X.ringCatSheaf)) from t)),
     ModuleCat.hom_ext (LinearMap.ext_ring ?_)⟩
-  show (toZeroSchemeStructureSheaf V.X V.f a).val.app (op (⊤ : V.X.Opens))
+  change (toZeroSchemeStructureSheaf V.X V.f a).val.app (op (⊤ : V.X.Opens))
       ((1 : V.A) • (show ToType ((secsOver V.f).obj
         (SheafOfModules.unit V.X.ringCatSheaf)) from t)) = b (1 : IsLocalRing.ResidueField V.A)
   rwa [one_smul]

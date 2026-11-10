@@ -61,7 +61,8 @@ hypothesis `Stacks.Chow.FlatPullbackFactorsThroughRationalEquivalence` that this
 threads everywhere, instantiated at the piece inclusions. That reduction is
 `Stacks.Chow.rationalEquivalenceDecomposes_mp`.
 
-The **reverse** half is proved unconditionally. It is `Stacks.Chow.rationalEquivalenceDecomposes_mpr`
+The **reverse** half is proved unconditionally. It is
+`Stacks.Chow.rationalEquivalenceDecomposes_mpr`
 (`Chow/ChowToolkit/RationalEquivalenceFinsum.lean:198`), which takes **no hypothesis at all** —
 not 02S2, not 02S1, not 02RZ. So `chowGroupClopenEquiv` follows from Stacks 02S1 at the piece
 inclusions alone, i.e. from the standing

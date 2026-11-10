@@ -55,7 +55,7 @@ theorem pullbackSelfHomeo_apply {A B : LocallyQuasiCompactHausdorff.{u}} (f : A 
     (z : (pullback f f).obj) :
     (pullbackSelfHomeo f z).1 = ((pullback.fst f f : _ → _) z, (pullback.snd f f : _ → _) z) := by
   let hc := (IsPullback.of_hasPullback f f).map locallyQuasiCompactHausdorffToTop
-  show ((TopCat.pullbackIsoProdSubtype _ _).hom (hc.isoPullback.hom z)).1 = _
+  change ((TopCat.pullbackIsoProdSubtype _ _).hom (hc.isoPullback.hom z)).1 = _
   rw [TopCat.pullbackIsoProdSubtype_hom_apply]
   have h1 := ConcreteCategory.congr_hom hc.isoPullback_hom_fst z
   have h2 := ConcreteCategory.congr_hom hc.isoPullback_hom_snd z
@@ -83,10 +83,10 @@ omit hyp in
 private theorem map_δ_eq_vertex (e : (U Y).obj (op ⦋1⦌)) (j : Fin 2) :
     (Y.map (SimplexCategory.δ j).op : _ → _) e = vertex (U Y) (1 - j) e := by
   fin_cases j
-  · show (Y.map (SimplexCategory.δ 0).op : _ → _) e = (Y.map _ : _ → _) e
+  · change (Y.map (SimplexCategory.δ 0).op : _ → _) e = (Y.map _ : _ → _) e
     rw [SimplexCategory.δ_zero_eq_const]
     rfl
-  · show (Y.map (SimplexCategory.δ 1).op : _ → _) e = (Y.map _ : _ → _) e
+  · change (Y.map (SimplexCategory.δ 1).op : _ → _) e = (Y.map _ : _ → _) e
     rw [SimplexCategory.δ_one_eq_const]
     rfl
 
@@ -241,7 +241,7 @@ private theorem exists_map_δ_eq_of_compatible (x : X.obj)
   have e₃ := congrArg (fun k => (k.left : point.obj → _) PUnit.unit) (hπ i)
   simp only [Over.comp_left, ConcreteCategory.comp_apply] at e₁ e₂
   refine e₁.symm.trans ?_
-  show _ = ((f i).left : point.obj → _) PUnit.unit
+  change _ = ((f i).left : point.obj → _) PUnit.unit
   rw [← e₃, ← e₂]
   exact congrArg _ hσ
 

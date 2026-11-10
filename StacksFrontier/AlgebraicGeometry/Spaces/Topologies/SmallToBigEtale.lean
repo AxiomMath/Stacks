@@ -134,7 +134,7 @@ theorem smallEtale_lifts_covering_sieve
     rw [Sieve.generate_le_iff]
     intro Z a ha
     obtain ⟨i⟩ := ha
-    show (Sieve.generate Q) (p₂ (lift i).1 ≫ g)
+    change (Sieve.generate Q) (p₂ (lift i).1 ≫ g)
     rw [(hpb (lift i).1).w.symm]
     exact (Sieve.generate Q).downward_closed
       (Sieve.le_generate Q (E.X (lift i).1) (E.f (lift i).1)

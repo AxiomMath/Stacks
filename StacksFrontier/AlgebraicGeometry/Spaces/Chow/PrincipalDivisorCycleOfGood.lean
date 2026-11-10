@@ -91,7 +91,7 @@ theorem isPrincipalDivisorCycleOfGood_neg (sY : Y ⟶ D.space) (hY : D.IsGood sY
   have key := principalDivisorCycleCoefficients_of_mul_eq_one D sY hY hint.isDecentSpace E.emb
     (↑w⁻¹ : rationalFunctions D.site D.base D.base_mem hY.1) f
     (fun W => w⁻¹.isUnit.map (E.emb W)) (fun W => (hw ▸ w.isUnit).map (E.emb W)) hgf
-  show ((-c : CycleGroup D sY k) :
+  change ((-c : CycleGroup D sY k) :
       IntegralClosedSubspace D.site D.base D.base_mem Y → ℤ) = _
   rw [show ((-c : CycleGroup D sY k) :
       IntegralClosedSubspace D.site D.base D.base_mem Y → ℤ) =

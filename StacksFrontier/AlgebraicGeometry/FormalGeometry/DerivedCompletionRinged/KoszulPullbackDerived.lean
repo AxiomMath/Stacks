@@ -130,7 +130,7 @@ the Koszul tower on `t` to the Koszul tower on `g` is an isomorphism. -/
 theorem isIso_derivedPullbackKoszulPowerSystemMap :
     IsIso (derivedPullbackKoszulPowerSystemMap f t g hg) := by
   have hi (n : ℕ) : IsIso ((derivedPullbackKoszulPowerSystemMap f t g hg).app n) := by
-    show IsIso (derivedPullbackKoszulPowerComplexIso f t g hg n).hom
+    change IsIso (derivedPullbackKoszulPowerComplexIso f t g hg n).hom
     infer_instance
   exact NatIso.isIso_of_isIso_app _
 

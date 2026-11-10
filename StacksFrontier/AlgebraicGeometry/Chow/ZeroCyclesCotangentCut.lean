@@ -147,7 +147,7 @@ theorem exists_affineOpen_linearEquiv_isStalkBasis (x : X) :
       (LinearMap.toSpanSingleton Γ(X, U) Γ(L, U) (L.presheaf.map (homOfLE hUW').op g)) :=
     hbij U hUW'
   refine ⟨⟨U, hUaff⟩, hxU, (LinearEquiv.ofBijective _ hbijU).symm, ?_⟩
-  show Stacks.Divisors.IsStalkBasis L x (L.presheaf.germ (U : X.Opens) x hxU _)
+  change Stacks.Divisors.IsStalkBasis L x (L.presheaf.germ (U : X.Opens) x hxU _)
   simp only [LinearEquiv.symm_symm, LinearEquiv.ofBijective_apply,
     LinearMap.toSpanSingleton_apply, one_smul]
   rw [L.presheaf.germ_res_apply (homOfLE hUW') x hxU g]

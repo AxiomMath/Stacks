@@ -336,7 +336,7 @@ theorem range_base_subset_range_preimage_ι {Y Z' : Scheme.{u}} {g : Y ⟶ X} {i
     Set.range i₂.base ⊆ Set.range (g ⁻¹ᵁ U).ι.base := by
   rintro _ ⟨z, rfl⟩
   rw [Scheme.Opens.range_ι]
-  show (i₂ ≫ g).base z ∈ U
+  change (i₂ ≫ g).base z ∈ U
   rw [w]
   exact ((g' ≫ i').base z).2
 

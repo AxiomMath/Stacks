@@ -136,7 +136,7 @@ theorem isRegularImmersion_baseChange_of_isRelativeH1RegularImmersion {S X Z S' 
         = i ((pullback.snd (pullback.snd g f) i) w) := by
       simpa using congrArg (fun k : pullback (pullback.snd g f) i ⟶ X => k w)
         (pullback.condition (f := pullback.snd g f) (g := i))
-    show pullback.snd g f ((pullback.fst (pullback.snd g f) i) w) ∈ (U : Set X)
+    change pullback.snd g f ((pullback.fst (pullback.snd g f) i) w) ∈ (U : Set X)
     rw [hw]
     exact hU ⟨_, rfl⟩
   · exact MorphismProperty.of_isPullback

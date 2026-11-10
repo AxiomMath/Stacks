@@ -82,7 +82,7 @@ theorem ringKrullDim_quotient_map_atPrime_of_mem_minimalPrimes {C : Type*} [Comm
   have hQ' : (Q.comap π).IsPrime := Ideal.comap_isPrime _ _
   have hKQ : K.map (algebraMap C Lc) ≤ Q.comap π := by
     intro a ha
-    show π a ∈ Q
+    change π a ∈ Q
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha]
     exact Q.zero_mem
   set Q₀ := (Q.comap π).comap (algebraMap C Lc)
@@ -95,7 +95,7 @@ theorem ringKrullDim_quotient_map_atPrime_of_mem_minimalPrimes {C : Type*} [Comm
   have hKQ₀ : K ≤ Q₀ := Ideal.map_le_iff_le_comap.mp hKQ
   have hQ₀eq : Q₀ = P'' := le_antisymm hQ₀le (hmin.2 ⟨hQ₀, hKQ₀⟩ hQ₀le)
   have hmax : Q.comap π = maximalIdeal Lc := by
-    rw [← IsLocalization.map_comap P''.primeCompl Lc (Q.comap π),
+    rw [← IsLocalization.map_under P''.primeCompl Lc (Q.comap π),
       ← Localization.AtPrime.map_eq_maximalIdeal]
     exact congrArg (Ideal.map (algebraMap C Lc)) hQ₀eq
   have hQeq : Q = (maximalIdeal Lc).map π := by
@@ -209,7 +209,7 @@ theorem depth_or_depth_add_dim_of_adicCompletion [IsLocalRing B]
   · right
     have hzero : Module.depth (Localization.AtPrime P) (maximalIdeal (Localization.AtPrime P))
         (LocalizedModule P.primeCompl N) = 0 := by
-      rwa [not_le, ENat.lt_one_iff_eq_zero] at hone
+      rwa [not_le, Order.lt_one_iff] at hone
     rw [hdepth_eq, hzero] at h hsum
     rcases h with h1 | h2
     · exact absurd h1 (by simp)
@@ -233,7 +233,7 @@ theorem smul_eq_zero_adicCompletion_of_forall_smul_eq_zero (J : Ideal B) {K : Ty
     rw [AdicCompletion.smul_eval, AdicCompletion.val_zero]
     obtain ⟨z, hz⟩ := Submodule.Quotient.mk_surjective _ (y.val n)
     rw [← hz]
-    show (algebraMap B (AdicCompletion J B) a).val n • Submodule.Quotient.mk z = 0
+    change (algebraMap B (AdicCompletion J B) a).val n • Submodule.Quotient.mk z = 0
     rw [show (algebraMap B (AdicCompletion J B) a).val n • (Submodule.Quotient.mk z :
         K ⧸ (J ^ n • ⊤ : Submodule B K)) = Submodule.Quotient.mk (a • z) from rfl, hK a ha z,
       Submodule.Quotient.mk_zero]

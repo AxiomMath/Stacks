@@ -265,7 +265,7 @@ theorem isoSpec_hom_comp_specMap_algebraMap {k : Type u} [Field k] {X : Scheme.{
   have hmap : CommRingCat.ofHom (algebraMap k Γ(X, U)) =
       (Scheme.ΓSpecIso (CommRingCat.of k)).inv ≫ f.appLE ⊤ U (by simp) := rfl
   rw [hmap, Spec.map_comp]
-  show U.toSpecΓ ≫ Spec.map (f.appLE ⊤ U (by simp)) ≫
+  change U.toSpecΓ ≫ Spec.map (f.appLE ⊤ U (by simp)) ≫
     Spec.map (Scheme.ΓSpecIso (CommRingCat.of k)).inv = U.ι ≫ f
   rw [← Category.assoc, Scheme.Opens.toSpecΓ_SpecMap_appLE f ⊤ U (by simp)]
   simp only [Category.assoc, Scheme.Opens.toSpecΓ_top, toSpecΓ_SpecMap_ΓSpecIso_inv,

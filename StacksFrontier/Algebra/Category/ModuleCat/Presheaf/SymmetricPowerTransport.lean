@@ -115,7 +115,7 @@ theorem unitalHom_app_symMapIntₛₗ (k : ℕ)
       (fun i => u (s i))
       (SymPow.symMapIntₛₗ (k : ℤ) φ u ⟨_, SymmetricAlgebra.prod_ι_mem _ s⟩)
       (by
-        show SymmetricAlgebra.mapₛₗ φ u (∏ i : Fin k, SymmetricAlgebra.ι _ _ (s i)) = _
+        change SymmetricAlgebra.mapₛₗ φ u (∏ i : Fin k, SymmetricAlgebra.ι _ _ (s i)) = _
         rw [map_prod]
         simp only [SymmetricAlgebra.mapₛₗ_ι])
     refine (congrArg (τ k) h₁).trans (Eq.trans ?_ h₂.symm)

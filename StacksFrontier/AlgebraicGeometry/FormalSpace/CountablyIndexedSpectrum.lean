@@ -226,7 +226,7 @@ private theorem isTopologicallyNilpotent_of_locallyNilpotent_chain {A : Type*} [
   obtain ⟨p, hp⟩ := hpow n
   filter_upwards [Filter.eventually_ge_atTop p] with k hk
   refine hsub ?_
-  show x ^ k ∈ (I n : Set A)
+  change x ^ k ∈ (I n : Set A)
   rw [← pow_sub_mul_pow x hk]
   exact (I n).mul_mem_left _ hp
 
@@ -519,7 +519,7 @@ private theorem isThickening_spec_quotient_factor {A : Type u} [CommRing A]
       exact p.2.mem_of_pow_mem n (hn ▸ Ideal.zero_mem _)
     refine ⟨⟨p.asIdeal.map (Ideal.Quotient.factor hKI),
       Ideal.map_isPrime_of_surjective hsurj hkerle⟩, PrimeSpectrum.ext ?_⟩
-    show Ideal.comap (Ideal.Quotient.factor hKI)
+    change Ideal.comap (Ideal.Quotient.factor hKI)
       (p.asIdeal.map (Ideal.Quotient.factor hKI)) = p.asIdeal
     rw [Ideal.comap_map_of_surjective _ hsurj, sup_eq_left]
     exact hkerle
@@ -544,7 +544,7 @@ private theorem isCountablyIndexed_of_countableWeakPresentation {X : FppfSheaf B
     exact exists_le_of_isWeakIdealOfDefinition hbasis K.2
   let H := BigAffineFppf.inclusion B S hS ⋙ Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)
   refine ⟨e ⋙ P.system.diagram, fun {i j} f ↦ ?_, ?_⟩
-  · show Stacks.Thickenings.IsThickening (Spec.map (CommRingCat.ofHom
+  · change Stacks.Thickenings.IsThickening (Spec.map (CommRingCat.ofHom
       (Ideal.Quotient.factor (show I j ≤ I i from hanti (leOfHom f)))))
     exact isThickening_spec_quotient_factor (hanti (leOfHom f)) (hweak i) (hweak j)
   · exact P.iso.map fun hX ↦
@@ -613,7 +613,8 @@ theorem QuotientSystem.hasLargeSite_of_isCountablyGenerated {A : Type u} [CommRi
 
 /-- `AlgebraicGeometry.FormalSpace.QuotientSystem.hasLargeSite_of_isCountablyGenerated`, under
 the name the rest of this file uses. -/
-private alias hasLargeSite_of_isCountablyGenerated := QuotientSystem.hasLargeSite_of_isCountablyGenerated
+private alias hasLargeSite_of_isCountablyGenerated :=
+    QuotientSystem.hasLargeSite_of_isCountablyGenerated
 
 /-- **Stacks 0AN1**, condition (2) implies condition (1). The formal spectrum of a weakly
 admissible ring over `S` is an affine formal algebraic space (**Stacks 0AIF**) once the site is

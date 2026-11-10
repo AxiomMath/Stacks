@@ -132,7 +132,7 @@ is connected for every finite separable field extension `K/k`. -/
   separable extensions of `k`. Condition (1) of the lemma is `Algebra.IsGeometricallyConnected`
   (Stacks 037T), which is that condition verbatim; `Spec` is `PrimeSpectrum` and `connected` is
   `ConnectedSpace`, which includes nonemptiness as the source's notion does.", ega "IV 8.4.5"
-    "affine case", ega "IV 8.4.5" "affine case"]
+    "affine case"]
 public theorem isGeometricallyConnected_iff_forall_finite_separable (k : Type u) (R : Type v)
     [Field k] [CommRing R] [Algebra k R] :
     IsGeometricallyConnected k R ↔

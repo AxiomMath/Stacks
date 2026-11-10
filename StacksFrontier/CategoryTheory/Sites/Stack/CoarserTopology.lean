@@ -23,8 +23,8 @@ is coarser than the big fppf topology.
 
 Monotonicity of the localized topology `CategoryTheory.GrothendieckTopology.over` is not restated
 here: it is `CategoryTheory.GrothendieckTopology.over_mono` of
-`StacksFrontier/AlgebraicGeometry/Spaces/ProetaleComparison.lean`, and the consumers of this file that
-need it are in `AlgebraicGeometry` and spell it out in one line rather than import that module.
+`StacksFrontier/AlgebraicGeometry/Spaces/ProetaleComparison.lean`, and the consumers of this file
+that need it are in `AlgebraicGeometry` and spell it out in one line rather than import that module.
 
 Only the groupoid-indexed rendering of Stacks 02ZJ is treated. The sieve-indexed
 `CategoryTheory.Functor.IsStack` of Stacks 026F is phrased through the sheaf condition for the

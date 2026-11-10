@@ -102,7 +102,7 @@ private theorem exists_pow_eq_appTop_absoluteWeakNormalizationHom {Z : Scheme.{u
     let awn : UniversalHomeomorphismOver Z := initial (UniversalHomeomorphismOver Z)
     refine (isIso_initialTo_iff_isAbsolutelyWeaklyNormal Z awn).mp ?_
     rw [show initial.to awn = 𝟙 awn from Subsingleton.elim _ _]
-    show IsIso (𝟙 awn.obj.left)
+    change IsIso (𝟙 awn.obj.left)
     infer_instance
   have halg : ∀ (A : Type u) [CommRing A] [Algebra (ZMod p) A]
       (r : Algebra.AbsoluteWeakNormalization A),
@@ -117,7 +117,7 @@ private theorem exists_pow_eq_appTop_absoluteWeakNormalizationHom {Z : Scheme.{u
     let ι0 : A →+* ↑(colimit D) := (colimit.ι D 0).hom
     let eR : ↑(colimit D) →+* Algebra.AbsoluteWeakNormalization A := e.hom.hom
     have hr : r = eR (ιn a) := by
-      show r = e.hom (colimit.ι D n a)
+      change r = e.hom (colimit.ι D n a)
       rw [ha]
       exact (Iso.inv_hom_id_apply e r).symm
     have h0 : eR (ι0 a) = algebraMap A (Algebra.AbsoluteWeakNormalization A) a :=
@@ -146,7 +146,7 @@ private theorem exists_pow_eq_appTop_absoluteWeakNormalizationHom {Z : Scheme.{u
   have hY₂ : IsAbsolutelyWeaklyNormal Y₂.obj.left := by
     intro x
     refine ⟨⟨⊤, isAffineOpen_top (Spec (.of R))⟩, Set.mem_univ _, ?_⟩
-    show IsAbsolutelyWeaklyNormalRing Γ(Spec (.of R), ⊤)
+    change IsAbsolutelyWeaklyNormalRing Γ(Spec (.of R), ⊤)
     exact absolutelyWeaklyNormalRing_of_ringEquiv
       ((Scheme.ΓSpecIso (.of R)).symm.commRingCatIsoToRingEquiv) hRawn
   let i₁ : Z.absoluteWeakNormalization ⟶ Y := (initial.to Y₁).hom.left
@@ -167,12 +167,12 @@ private theorem exists_pow_eq_appTop_absoluteWeakNormalizationHom {Z : Scheme.{u
     rfl
   have hqa : q.appTop a = j.appTop ((Scheme.ΓSpecIso (.of R)).inv (algebraMap A R a)) := by
     rw [← hj, Scheme.Hom.comp_appTop]
-    show j.appTop ((Spec.map φ).appTop (Z.isoSpec.inv.appTop a)) = _
+    change j.appTop ((Spec.map φ).appTop (Z.isoSpec.inv.appTop a)) = _
     rw [hinvSpec]
     congr 1
     exact (ConcreteCategory.congr_hom (Scheme.ΓSpecIso_inv_naturality φ) a).symm
   rw [hqa, ← hra, map_pow, map_pow]
-  show g ^ p ^ n = (j.appTop ((Scheme.ΓSpecIso (.of R)).inv
+  change g ^ p ^ n = (j.appTop ((Scheme.ΓSpecIso (.of R)).inv
     ((Scheme.ΓSpecIso (.of R)).hom ((inv j).appTop g)))) ^ p ^ n
   rw [Iso.hom_inv_id_apply, ← ConcreteCategory.comp_apply, ← Scheme.Hom.comp_appTop,
     IsIso.hom_inv_id]
@@ -193,7 +193,7 @@ private theorem appTop_apply_eq_of_comp_eq {A B C D : Scheme.{u}} {f : A ⟶ B} 
 private theorem preimage_basicOpen_eq_bot_of_appTop_eq_zero {X S : Scheme.{u}} (f : X ⟶ S)
     (a : Γ(S, ⊤)) (ha : f.appTop a = 0) : f ⁻¹ᵁ S.basicOpen a = ⊥ := by
   rw [Scheme.preimage_basicOpen]
-  show X.basicOpen (f.appTop a) = ⊥
+  change X.basicOpen (f.appTop a) = ⊥
   rw [ha, Scheme.basicOpen_zero]
 
 /-- A global function on a quasi-compact scheme whose pullback along a surjective morphism
@@ -262,7 +262,7 @@ theorem isNilpotent_fst_appTop_sub_snd_appTop {X V : Scheme.{u}} (f : X ⟶ V) [
   have hval (σ : Spec K ⟶ pullback f q) (π : pullback f f ⟶ X)
       (hσ : σ ≫ pullback.fst f q = ι ≫ π) :
       τ σ ((pullback.fst f q).appTop g) = (Scheme.ΓSpecIso K).hom (ι.appTop (π.appTop g)) := by
-    show (σ.appTop ≫ (Scheme.ΓSpecIso K).hom) ((pullback.fst f q).appTop g) = _
+    change (σ.appTop ≫ (Scheme.ΓSpecIso K).hom) ((pullback.fst f q).appTop g) = _
     rw [ConcreteCategory.comp_apply, appTop_apply_eq_of_comp_eq hσ]
   have heq : ι.appTop ((pullback.fst f f).appTop g - (pullback.snd f f).appTop g) = 0 := by
     have h₁ := hval σ₁ (pullback.fst f f) (pullback.lift_fst _ _ _)
@@ -306,7 +306,7 @@ theorem exists_pow_prime_pow_eq_appTop_of_geometricallyConnected (p : ℕ) [Fact
   obtain ⟨n, a, ha⟩ := exists_pow_eq_appTop_absoluteWeakNormalizationHom p hV t
   have hkey : πX.appTop (g ^ p ^ n - f.appTop a) = 0 := by
     rw [map_sub, map_pow, sub_eq_zero]
-    show s ^ p ^ n = _
+    change s ^ p ^ n = _
     rw [← ht, ← map_pow, ha]
     exact appTop_apply_eq_of_comp_eq (absoluteWeakNormalizationMap_spec f) a
   have : Surjective πX := surjective_absoluteWeakNormalizationHom X

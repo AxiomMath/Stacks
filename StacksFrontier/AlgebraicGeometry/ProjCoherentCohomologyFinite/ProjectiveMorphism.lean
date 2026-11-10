@@ -83,7 +83,7 @@ theorem isIso_projToSpecCoeff_zero : IsIso (projToSpecCoeff R 0) := by
       (algebraMap R (MvPolynomial (Fin (0 + 1)) R)))
       = Stacks.ProjectiveCohomology.polyDegreeZeroHom R 0 := by
     refine CommRingCat.hom_ext (RingHom.ext fun r => Subtype.ext ?_)
-    show ((DirectSum.decompose (MvPolynomial.homogeneousSubmodule (Fin (0 + 1)) R)
+    change ((DirectSum.decompose (MvPolynomial.homogeneousSubmodule (Fin (0 + 1)) R)
         (MvPolynomial.C r)) 0 : MvPolynomial (Fin (0 + 1)) R) = MvPolynomial.C r
     exact DirectSum.decompose_of_mem_same _
       ((MvPolynomial.mem_homogeneousSubmodule 0 _).2 (MvPolynomial.isHomogeneous_C _ r))

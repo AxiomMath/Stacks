@@ -98,17 +98,17 @@ variable {F : Type*} [Field F] {A : Type*} [Ring A] [Algebra F A]
 /-- `id ⊗ μ` commutes with `f ⊗ id`. -/
 theorem contractRight_rTensor (μ : A →ₗ[F] F) (f : A →ₗ[F] A) (t : A ⊗[F] A) :
     contractRight μ (LinearMap.rTensor A f t) = f (contractRight μ t) := by
-  induction t using TensorProduct.induction_on <;> simp_all
+  induction t using TensorProduct.inductionOn <;> simp_all
 
 /-- `id ⊗ μ` after `id ⊗ g` is `id ⊗ (μ ∘ g)`. -/
 theorem contractRight_lTensor (μ : A →ₗ[F] F) (g : A →ₗ[F] A) (t : A ⊗[F] A) :
     contractRight μ (LinearMap.lTensor A g t) = contractRight (μ ∘ₗ g) t := by
-  induction t using TensorProduct.induction_on <;> simp_all
+  induction t using TensorProduct.inductionOn <;> simp_all
 
 /-- **`ε((1 ⊗ μ)s) = μ((ε ⊗ 1)s)`** for linear forms `ε`, `μ` on `A` and `s ∈ A ⊗ A`. -/
 theorem apply_contractRight (ε μ : A →ₗ[F] F) (t : A ⊗[F] A) :
     ε (contractRight μ t) = μ (TensorProduct.lid F A (LinearMap.rTensor A ε t)) := by
-  induction t using TensorProduct.induction_on <;> simp_all [mul_comm]
+  induction t using TensorProduct.inductionOn <;> simp_all [mul_comm]
 
 end Contract
 
@@ -132,8 +132,7 @@ theorem map_proj_kunnethEquiv_symm_eq_zero {N : ℤ} {z : 𝔇.H (prod X Y)}
         (_root_.GradedAlgebra.proj (𝔇.grade Y) n)
         (κ.symm (_root_.GradedAlgebra.proj (𝔇.grade (prod X Y)) N (κ t))) = 0 := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => simp only [map_add, ht, ht', add_zero]
     | tmul x y =>
       induction x using DirectSum.Decomposition.inductionOn (ℳ := 𝔇.grade X) with
@@ -147,7 +146,7 @@ theorem map_proj_kunnethEquiv_symm_eq_zero {N : ℤ} {z : 𝔇.H (prod X Y)}
         | homogeneous y =>
           rename_i j
           have hmem : κ ((x : 𝔇.H X) ⊗ₜ (y : 𝔇.H Y)) ∈ 𝔇.grade (prod X Y) (i + j) := by
-            show 𝔇.pull (fst X Y) (x : 𝔇.H X) * 𝔇.pull (snd X Y) (y : 𝔇.H Y) ∈ _
+            change 𝔇.pull (fst X Y) (x : 𝔇.H X) * 𝔇.pull (snd X Y) (y : 𝔇.H Y) ∈ _
             exact SetLike.GradedMul.mul_mem (𝔇.pull_grade _ i _ x.2) (𝔇.pull_grade _ j _ y.2)
           by_cases hij : i + j = N
           · rw [← hij, gradedAlgebraProj_of_mem_same _ hmem, LinearEquiv.symm_apply_apply,
@@ -236,11 +235,10 @@ theorem pull_kunnethEquiv_eq_lid_rTensor_pointEval {X : (SmoothProjectiveScheme 
     (hjq : j ≫ snd X X = 𝟙 X) (s : 𝔇.H X ⊗[F] 𝔇.H X) :
     𝔇.pull j (𝔇.kunnethEquiv hA5 X X s) =
       TensorProduct.lid F (𝔇.H X) (LinearMap.rTensor (𝔇.H X) (pointEval hA5 x) s) := by
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | add s s' hs hs' => simp only [map_add, hs, hs']
   | tmul a b =>
-    show 𝔇.pull j (𝔇.pull (fst X X) a * 𝔇.pull (snd X X) b) = _
+    change 𝔇.pull j (𝔇.pull (fst X X) a * 𝔇.pull (snd X X) b) = _
     rw [map_mul, ← AlgHom.comp_apply, ← AlgHom.comp_apply, ← 𝔇.pull_comp,
       ← 𝔇.pull_comp, hjp, hjq, 𝔇.pull_id, 𝔇.pull_comp, AlgHom.comp_apply, AlgHom.id_apply,
       ← algebraMap_pointEval hA5 x a, AlgHom.commutes, LinearMap.rTensor_tmul,

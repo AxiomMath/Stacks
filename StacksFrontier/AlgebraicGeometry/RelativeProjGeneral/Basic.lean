@@ -201,15 +201,15 @@ public theorem irrelevant_le_map_res_of_le_opens {U V : S.AffineZariskiSite}
   let Q : Ideal Γ(S, U.toOpens) :=
     { carrier := {x | b * 𝒜.str U x ∈ I}
       add_mem' := fun {x y} hx hy => by
-        show b * 𝒜.str U (x + y) ∈ I
+        change b * 𝒜.str U (x + y) ∈ I
         rw [map_add, mul_add]
         exact I.add_mem hx hy
       zero_mem' := by
-        show b * 𝒜.str U 0 ∈ I
+        change b * 𝒜.str U 0 ∈ I
         rw [map_zero, mul_zero]
         exact I.zero_mem
       smul_mem' := fun c x hx => by
-        show b * 𝒜.str U (c • x) ∈ I
+        change b * 𝒜.str U (c • x) ∈ I
         have h2 : b * 𝒜.str U (c • x) = 𝒜.str U c * (b * 𝒜.str U x) := by
           rw [smul_eq_mul, map_mul]; ring
         rw [h2]
@@ -222,7 +222,7 @@ public theorem irrelevant_le_map_res_of_le_opens {U V : S.AffineZariskiSite}
       (W := U.basicOpen (S.presheaf.map (homOfLE h).op f)) (S.basicOpen_le _) f _
       (Subtype.ext (basicOpen_res_of_le h f hfU)) rfl (𝒜.res_str h f).symm hb
     refine ⟨N, ?_⟩
-    show b * 𝒜.str U (S.presheaf.map (homOfLE h).op f ^ N) ∈ I
+    change b * 𝒜.str U (S.presheaf.map (homOfLE h).op f ^ N) ∈ I
     rw [map_pow, heq]
     exact I.mul_mem_left c (Ideal.subset_span
       ⟨a, Set.mem_iUnion.mpr ⟨d, Set.mem_iUnion.mpr ⟨hd, ha⟩⟩, rfl⟩)
@@ -275,7 +275,7 @@ public theorem transition_comp_chart_of_le_opens {U V : S.AffineZariskiSite}
         (h (𝒜.toOpen U y).2)
       have hy : y ∈ (𝒜.resMap U (S.presheaf.map (homOfLE h).op f)).opensRange := by
         rw [opensRange_resMap, basicOpen_res_of_le h f hfU]
-        show 𝒜.toBase U y ∈ S.basicOpen f
+        change 𝒜.toBase U y ∈ S.basicOpen f
         rw [← 𝒜.toOpen_ι U, Scheme.Hom.comp_apply]
         exact hxf
       obtain ⟨z, hz⟩ := hy
@@ -290,7 +290,7 @@ public theorem transition_comp_chart_of_le_opens {U V : S.AffineZariskiSite}
       (irrelevant_le_map_res_of_le_opens 𝒜 h) _ _ _
   have hR : 𝒜.resMap U g ≫ chart 𝒜 U = chart 𝒜 (U.basicOpen g) :=
     transition_comp_chart 𝒜 (homOfLE (U.basicOpen_le g))
-  show 𝒜.resMap U g ≫ 𝒜.transition h hdom ≫ chart 𝒜 V = 𝒜.resMap U g ≫ chart 𝒜 U
+  change 𝒜.resMap U g ≫ 𝒜.transition h hdom ≫ chart 𝒜 V = 𝒜.resMap U g ≫ chart 𝒜 U
   rw [← Category.assoc, htc, hR]
   exact transition_comp_chart 𝒜 (homOfLE hle)
 

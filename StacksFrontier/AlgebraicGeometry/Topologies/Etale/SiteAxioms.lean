@@ -91,7 +91,7 @@ public lemma SmallEtale.isSite (B : AlgebraicGeometry.BigEtaleSite.{u}) (S : Sch
           PreZeroHypercover.presieve₀, PreZeroHypercover.map] using hcov.1)).2 i
     let Q (i : 𝒰.2.I₀) : SmallEtale B S hS :=
       ⟨Over.mk (p₂ i ≫ V.obj.hom), by
-        show Etale (B.inclusion.map (p₂ i ≫ V.obj.hom))
+        change Etale (B.inclusion.map (p₂ i ≫ V.obj.hom))
         rw [Functor.map_comp]
         have := hEtale i
         infer_instance⟩
@@ -179,7 +179,7 @@ public theorem SmallAffineEtale.isSite (B : AlgebraicGeometry.BigEtaleSite.{u})
     IsSite (SmallAffineEtale.IsCovering B S hS) := by
   refine ⟨?_, ?_, ?_⟩
   · intro U V f _
-    show B.IsCovering _ ∧ Finite PUnit
+    change B.IsCovering _ ∧ Finite PUnit
     constructor
     · have : IsAffine (B.inclusion.obj
             ((SmallAffineEtale.inclusion B S hS ⋙
@@ -237,7 +237,7 @@ public theorem SmallAffineEtale.isSite (B : AlgebraicGeometry.BigEtaleSite.{u})
       Over.mk (p₂ i ≫ V.obj.obj.hom)
     have hQ₀ (i : E.2.I₀) : Etale (B.inclusion.map (Q₀ i).hom) := by
       have := hetale i
-      show Etale ((B.inclusion.map (p₂ i)) ≫
+      change Etale ((B.inclusion.map (p₂ i)) ≫
         B.inclusion.map V.obj.obj.hom)
       infer_instance
     let Q₁ (i : E.2.I₀) : SmallEtale B S hS := ⟨Q₀ i, hQ₀ i⟩
@@ -251,7 +251,7 @@ public theorem SmallAffineEtale.isSite (B : AlgebraicGeometry.BigEtaleSite.{u})
     refine ⟨Q, q₁, q₂, fun i ↦ ?_, ?_⟩
     · exact IsPullback.of_map_of_faithful (SmallAffineEtale.inclusion B S hS ⋙
         SmallEtale.inclusion B S hS) (isPullback_over_homMk _ _ (hpb i))
-    · show B.IsCovering _ ∧ Finite _
+    · change B.IsCovering _ ∧ Finite _
       refine ⟨?_, hstdP.2.2.1⟩
       convert hstdP.1 using 1
       congr 1

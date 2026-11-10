@@ -218,10 +218,12 @@ def cyclotomicNormalCoinvariantsAddHom :
           (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y).toMonoidHom.range.subtype)
     AddEquiv.ulift.toAddMonoidHom (fun g z => by
       have h := cyclotomicContinuousModule_ρ_eq_one_of_mem_range B X f kbar y n g.1 g.2
-      change (((cyclotomicContinuousModule B X f kbar y n).obj.obj.obj.ρ g.1).asHom.hom z).down = z.down
+      change (((cyclotomicContinuousModule B X f kbar y n).obj.obj.obj.ρ g.1).asHom.hom z).down =
+        z.down
       rw [h]
       rfl)
 
+omit [Smooth f] in
 /-- `[z] ↦ z`. -/
 lemma cyclotomicNormalCoinvariantsAddHom_mk
     (z : ULift.{u + 1} (Additive (_root_.rootsOfUnity n kbar))) :
@@ -275,6 +277,7 @@ theorem compactSupportCyclotomicTrace_apply (hn : IsUnit ((n : ℕ) : kbar))
                 (rootsOfUnityCardZModAddEquiv kbar n).toAddMonoidHom))) :=
   rfl
 
+omit [Smooth f] in
 /-- `σ` acts on `(ρ_μ)_N = μ_n` as on `μ_n`. -/
 theorem cyclotomicNormalCoinvariantsAddHom_galois (σ : kbar ≃ₐ[k] kbar)
     (c : letI := connectedSpace_of_isCurve B X f
@@ -295,6 +298,7 @@ theorem cyclotomicNormalCoinvariantsAddHom_galois (σ : kbar ≃ₐ[k] kbar)
     (geometricNormalCoinvariantsGaloisRepresentation_mk B X f kbar (ZMod n) y
       (cyclotomicContinuousModule B X f kbar y n) γ _)
 
+omit [Smooth f] in
 /-- The trace is invariant under conjugation of `Ψ(x)` by the Galois action. -/
 theorem cyclicEndScalar_rootsOfUnityHomRepresentation (hn : IsUnit ((n : ℕ) : kbar))
     (σ : kbar ≃ₐ[k] kbar)
@@ -323,7 +327,7 @@ theorem cyclicEndScalar_rootsOfUnityHomRepresentation (hn : IsUnit ((n : ℕ) : 
     apply Additive.toMul.injective
     apply Subtype.ext
     apply Units.ext
-    show σ (σ⁻¹ (((a.toMul : kbarˣ) : kbar))) = (((a.toMul : kbarˣ) : kbar))
+    change σ (σ⁻¹ (((a.toMul : kbarˣ) : kbar))) = (((a.toMul : kbarˣ) : kbar))
     rw [← AlgEquiv.mul_apply, mul_inv_cancel, AlgEquiv.one_apply]
   have key : (cyclotomicNormalCoinvariantsAddHom B X f kbar y n).comp
       ((rootsOfUnityHomRepresentation k kbar (Fintype.card (ZMod n)) (ZMod n)
@@ -333,7 +337,7 @@ theorem cyclicEndScalar_rootsOfUnityHomRepresentation (hn : IsUnit ((n : ℕ) : 
       s.comp (((cyclotomicNormalCoinvariantsAddHom B X f kbar y n).comp
         (g.comp (rootsOfUnityCardZModAddEquiv kbar n).toAddMonoidHom)).comp s') := by
     refine AddMonoidHom.ext fun a => ?_
-    show cyclotomicNormalCoinvariantsAddHom B X f kbar y n
+    change cyclotomicNormalCoinvariantsAddHom B X f kbar y n
         (geometricNormalCoinvariantsGaloisRepresentation B X f kbar (ZMod n) y
           (cyclotomicContinuousModule B X f kbar y n) σ
           (g (Additive.ofMul (galoisRootsOfUnity k kbar (Fintype.card (ZMod n)) σ⁻¹
@@ -524,7 +528,7 @@ theorem etaleModuleGlobalSectionsDirectImageIso_hom_app_ΓRes {X Y : Scheme.{u}}
   let ΓX₁ := Sheaf.ΓNatIsoSheafSections X.smallEtaleTopology (ModuleCat.{u + 1} Λ₀) hT1
   have cR : (etaleModuleGlobalSectionsDirectImageIso.{u, 0} g Λ₀).hom.app M ≫ ΓX₁.hom.app M =
       ΓY₁.hom.app ((etaleModuleDirectImage.{u, 0} Λ₀ g).obj M) := by
-    show (ΓY₁.hom.app ((etaleModuleDirectImage.{u, 0} Λ₀ g).obj M) ≫ ΓX₁.inv.app M) ≫
+    change (ΓY₁.hom.app ((etaleModuleDirectImage.{u, 0} Λ₀ g).obj M) ≫ ΓX₁.inv.app M) ≫
       ΓX₁.hom.app M = _
     exact (Category.assoc _ _ _).trans ((congrArg _ (Iso.inv_hom_id_app ΓX₁ M)).trans
       (Category.comp_id _))
@@ -607,7 +611,7 @@ theorem fieldBaseChangeGlobalSectionsRestrictScalarsIso_hom_naturality
     fieldBaseChangeGlobalSectionsRestrictScalarsIso_hom, ← Functor.map_comp_assoc,
     Category.assoc]
   have h1 :=
-    (inverseImageRestrictScalarsTwoSquare ρ (fieldBaseChangeProj Y kbar)).natTrans.naturality v
+    NatTrans.naturality (inverseImageRestrictScalarsTwoSquare ρ (fieldBaseChangeProj Y kbar)) v
   have h2 := (etaleModuleGlobalSectionsRestrictScalars ρ (fieldBaseChange Y kbar)).inv.naturality
     ((etaleModuleInverseImage.{u, 0} Λ' (fieldBaseChangeProj Y kbar)).map v)
   simp only [Functor.comp_map] at h1 h2
@@ -679,7 +683,7 @@ theorem fieldBaseChangeGlobalSectionsGaloisAction_restrictScalars (σ : kbar ≃
       c ≫ (etaleModuleRestrictScalars ρ (fieldBaseChange Y kbar)).map
         tw' := hT
   have hR'' : D₂ ≫ Gi = Gi₂ ≫ R.map D' := hR'
-  show (Γ.map tw ≫ D) ≫ (Γ.map c ≫ Gi) = (Γ.map c ≫ Gi) ≫ R.map (Γ'.map tw' ≫ D')
+  change (Γ.map tw ≫ D) ≫ (Γ.map c ≫ Gi) = (Γ.map c ≫ Gi) ≫ R.map (Γ'.map tw' ≫ D')
   simp only [Category.assoc, Functor.map_comp]
   rw [reassoc_of% hD'.symm, ← Γ.map_comp_assoc, hT', hR'']
   erw [Functor.map_comp, Category.assoc, reassoc_of% hN']
@@ -821,6 +825,7 @@ lemma galoisCompactSupportForgetIso_hom_eq (K : CochainComplex.Plus (EtaleModule
     Functor.associator_inv_app, Iso.symm_hom, Category.id_comp, Category.comp_id]
 
 set_option maxHeartbeats 1000000 in
+-- long proof chaining naturality of the derived-category comparison isomorphisms
 /-- **The underlying map of `Hᵐ(Γ^Gal(I)) ≅ Hᵐ(RΓ^Gal_c(X_k̄, F))` is
 `Hᵐ(Γ(X̄_k̄, I|)) ≅ Hᵐ_c(X_k̄, F)`** (`Stacks.EtaleCohomology.galoisCompactSupportResolutionIso`),
 read through `U(Hᵐ(-)) ≅ Hᵐ(U -)` and `Stacks.EtaleCohomology.galoisCompactSupportGroupForgetIso`.
@@ -893,7 +898,7 @@ theorem galoisCompactSupportResolutionGaloisIso_underlying (F : EtaleModules Λ 
     have e3 : mi ≫ e ≫ d = Γ.rightDerivedFunctorPlus.map
         (inv (DerivedCategory.Plus.Q.map (res.mapCochainComplexPlus.map ι'))) := by
       rw [← hq, Functor.map_comp, Functor.map_comp]
-    show a ≫ b ≫ c ≫ d = mU ≫ uΓ ≫ _
+    change a ≫ b ≫ c ≫ d = mU ≫ uΓ ≫ _
     calc a ≫ b ≫ c ≫ d = a ≫ (b ≫ c) ≫ d := congrArg (a ≫ ·) (Category.assoc b c d).symm
       _ = a ≫ (c' ≫ e) ≫ d := congrArg (fun t => a ≫ t ≫ d) e1
       _ = (a ≫ c') ≫ e ≫ d :=
@@ -935,7 +940,7 @@ theorem galoisCompactSupportResolutionGaloisIso_underlying (F : EtaleModules Λ 
     (congrArg (· ≫ PHM.map gc) ((congrArg PHM.map (U.mapDerivedCategoryPlus.map_comp uG
       (Γg.rightDerivedFunctorPlus.map φ))).trans (PHM.map_comp _ _))).trans
       ((Category.assoc _ _ _).trans (hH.trans (congrArg (PHM.map mU ≫ ·) (PHM.map_comp uΓ rr))))
-  show U.map (fG.inv ≫ PH.map uG ≫ PH.map (Γg.rightDerivedFunctorPlus.map φ)) ≫
+  change U.map (fG.inv ≫ PH.map uG ≫ PH.map (Γg.rightDerivedFunctorPlus.map φ)) ≫
       dHI.inv.app (DerivedCategory.Plus.ι.obj M) ≫ PHM.map gc =
     (U.map fG.inv ≫ dHI.inv.app (DerivedCategory.Q.obj (Γg.mapCochainComplexPlus.obj C).obj) ≫
       PHM.map mU ≫ fU.hom) ≫ (fU.inv ≫ PHM.map uΓ) ≫ PHM.map rr
@@ -1095,7 +1100,7 @@ def galoisHomOpCyclotomicUnderlyingIso :
         ((galoisGlobalSections (ZMod n) (Over.mk j.toBase) kbar).mapCochainComplexPlus.obj
           K₀.cocomplexPlus) ((2 : ℕ) : ℤ))
 
-omit [CompactSpace (kbar ≃ₐ[k] kbar)] in
+omit [CompactSpace (kbar ≃ₐ[k] kbar)] [Smooth f] in
 /-- The comparison `U(H²(RΓ^Gal_c(X_k̄, ℱ_μ))) ≅ H²_c(X_k̄, ℱ_μ)` with `ℱ_μ` written
 `representationSheaf.{u, 0}` (as in `AlgebraicGeometry.compactSupportCyclotomicTraceGaloisHom`) is
 the same map as with `ℱ_μ` written without the universe annotation (as in the injective resolution

@@ -165,7 +165,7 @@ private lemma smul_pushforward_toSpecΓ (X : Scheme.{u}) (F : X.Modules) (r : Γ
     show (⊤ : (Spec Γ(X, ⊤)).Opens).leTop.op = 𝟙 (Opposite.op (⊤ : (Spec Γ(X, ⊤)).Opens)) from
       Subsingleton.elim _ _,
     CategoryTheory.Functor.map_id]
-  show @HSMul.hSMul ↑Γ(X, ⊤) ↑Γ(F, ⊤) ↑Γ(F, ⊤) instHSMul
+  change @HSMul.hSMul ↑Γ(X, ⊤) ↑Γ(F, ⊤) ↑Γ(F, ⊤) instHSMul
       (X.toSpecΓ.appTop ((Scheme.ΓSpecIso Γ(X, ⊤)).inv r)) m = _
   rw [Scheme.toSpecΓ_appTop]
   simp
@@ -273,7 +273,7 @@ private noncomputable def reindexSection {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g :
 private lemma reindexSection_pullbackSection {X Y Z : Scheme.{u}} (f : X ⟶ Y)
     (g : Y ⟶ Z) (M : Z.Modules) (m : Γ(M, ⊤)) :
     reindexSection f g M (pullbackSection g M m) = pullbackSection (f ≫ g) M m := by
-  show (appΓ ((Scheme.Modules.pullbackComp f g).hom.app M))
+  change (appΓ ((Scheme.Modules.pullbackComp f g).hom.app M))
     (pullbackSection f _ (pullbackSection g M m)) = _
   rw [← pullbackSection_comp]
   exact congr((appΓ $( (Scheme.Modules.pullbackComp f g).inv_hom_id_app M
@@ -298,7 +298,7 @@ private lemma sectionRetraction_pullbackSection {X Y : Scheme.{u}}
   have hc' : (appΓ ((Scheme.Modules.pullbackComp f g).hom.app F))
       (pullbackSection f _ (pullbackSection g F m)) = pullbackSection (f ≫ g) F m :=
     reindexSection_pullbackSection f g F m
-  show (appΓ ((Scheme.Modules.pullbackId X).hom.app F))
+  change (appΓ ((Scheme.Modules.pullbackId X).hom.app F))
     ((appΓ ((Scheme.Modules.pullbackCongr h).hom.app F))
       ((appΓ ((Scheme.Modules.pullbackComp f g).hom.app F))
         (pullbackSection f _ (pullbackSection g F m)))) = m
@@ -428,7 +428,7 @@ private lemma pullbackCoefficients_smul_section {X Y : Scheme.{u}}
   classical
   let := f.appTop.hom.toAlgebra
   rw [← affinePullbackΓEquiv_tmul f M r m]
-  show TensorProduct.equivFinsuppOfBasisLeft b
+  change TensorProduct.equivFinsuppOfBasisLeft b
     ((affinePullbackΓEquiv f M).symm
       (affinePullbackΓEquiv f M (r ⊗ₜ[Γ(Y, ⊤)] m))) i = _
   rw [LinearEquiv.symm_apply_apply]
@@ -502,7 +502,7 @@ private lemma pullbackCoefficients_smul_mem_span {X Y : Scheme.{u}}
   let c := pullbackCoefficients f F b x
   have hx : x = c.sum (fun j n ↦ b j • pullbackSection f F n) :=
     (pullbackCoefficients_expansion f F b x).symm
-  show pullbackCoefficients f F b (r • x) i ∈ Submodule.span Γ(Y, ⊤) (Set.range c)
+  change pullbackCoefficients f F b (r • x) i ∈ Submodule.span Γ(Y, ⊤) (Set.range c)
   rw [hx]
   simp only [Finsupp.sum, Finset.smul_sum, smul_smul, map_sum,
     Finsupp.finsetSum_apply, pullbackCoefficients_smul_section]
@@ -662,7 +662,7 @@ private lemma affineSubmoduleι_range {X : Scheme.{u}} [IsAffine X] (M : X.Modul
   rintro ⟨x, rfl⟩
   obtain ⟨p, rfl⟩ :=
     (affineTildeUnitIso X (ModuleCat.of Γ(X, ⊤) P)).toLinearEquiv.surjective x
-  show (appΓ (affineSubmoduleι M P))
+  change (appΓ (affineSubmoduleι M P))
     ((affineTildeUnitIso X (ModuleCat.of Γ(X, ⊤) P)).hom p) ∈ P
   rw [affineSubmoduleι_unit]
   exact p.property
@@ -729,14 +729,13 @@ private lemma exists_descent_restriction {S : Scheme.{u}}
     intro x
     let := G.target.left.appTop.hom.toAlgebra
     obtain ⟨z, rfl⟩ := (affinePullbackΓEquiv G.target.left F).surjective x
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero, zero_mem]
+    induction z using TensorProduct.inductionOn with
     | tmul r n =>
-      show a (affinePullbackΓEquiv G.target.left F
+      change a (affinePullbackΓEquiv G.target.left F
         (r ⊗ₜ[Γ(G.objects.left, ⊤)] n)) ∈ j.range
       rw [affinePullbackΓEquiv_tmul G.target.left F r n, a.map_smul]
       apply Submodule.smul_mem
-      show (appΓ M.alpha)
+      change (appΓ M.alpha)
         ((appΓ ((Scheme.Modules.pullback G.target.left).map k))
           (pullbackSection G.target.left F n)) ∈ _
       rw [pullbackSection_naturality]
@@ -787,7 +786,7 @@ private lemma reindexHom_pullbackSection {X Y Z : Scheme.{u}} (f : X ⟶ Y)
     (m : Γ(M, ⊤)) :
     (appΓ (reindexHom f α)) (pullbackSection (f ≫ g) M m) =
       reindexSection f h M ((appΓ α) (pullbackSection g M m)) := by
-  show (appΓ ((Scheme.Modules.pullbackComp f h).hom.app M))
+  change (appΓ ((Scheme.Modules.pullbackComp f h).hom.app M))
     ((appΓ ((Scheme.Modules.pullback f).map α))
       ((appΓ ((Scheme.Modules.pullbackComp f g).inv.app M))
         (pullbackSection (f ≫ g) M m))) = _
@@ -844,7 +843,7 @@ private lemma descent_cocycle_expansion {S : Scheme.{u}} (G : GroupoidScheme S)
       (appΓ E.hom)
           (pullbackSection (G.comp.left ≫ G.source.left) M.module n) =
         pullbackSection q _ (pullbackSection G.source.left M.module n) := by
-    show (appΓ ((Scheme.Modules.pullbackComp q G.source.left).inv.app M.module))
+    change (appΓ ((Scheme.Modules.pullbackComp q G.source.left).inv.app M.module))
       ((appΓ ((Scheme.Modules.pullbackCongr hs).hom.app M.module))
         (pullbackSection (G.comp.left ≫ G.source.left) M.module n)) = _
     rw [pullbackSection_congr hs, pullbackSection_comp]
@@ -852,7 +851,7 @@ private lemma descent_cocycle_expansion {S : Scheme.{u}} (G : GroupoidScheme S)
       (appΓ E.hom)
         ((appΓ ((Scheme.Modules.pullbackCongr hs.symm).hom.app M.module))
           (reindexSection q G.source.left M.module x)) = pullbackSection q _ x := by
-    show (appΓ ((Scheme.Modules.pullbackComp q G.source.left).inv.app M.module))
+    change (appΓ ((Scheme.Modules.pullbackComp q G.source.left).inv.app M.module))
       ((appΓ ((Scheme.Modules.pullbackCongr hs).hom.app M.module))
         ((appΓ ((Scheme.Modules.pullbackCongr hs.symm).hom.app M.module))
           (reindexSection q G.source.left M.module x))) = _
@@ -979,7 +978,7 @@ private lemma descent_coefficients_coassoc_mem_span {S : Scheme.{u}}
     rw [h']
     simp only [Finsupp.sum, map_sum, Finsupp.finsetSum_apply]
     exact Finset.sum_congr rfl fun i _ ↦ pullbackCoefficients_smul_section q _ b' _ _ j
-  show d (ρ (c j)) k ∈ Submodule.span Γ(G.objects.left, ⊤) (Set.range c)
+  change d (ρ (c j)) k ∈ Submodule.span Γ(G.objects.left, ⊤) (Set.range c)
   rw [hright]
   simp only [Finsupp.sum, map_sum, Finsupp.finsetSum_apply, d,
     pullbackCoefficients_smul_section]
@@ -1115,7 +1114,7 @@ private lemma descentCoefficients_smul_mem_span {S : Scheme.{u}}
     (a : Γ(G.objects.left, ⊤)) (m : Γ(M.module, ⊤)) (i : ι) :
     descentCoefficients G M b (a • m) i ∈
       Submodule.span Γ(G.objects.left, ⊤) (Set.range (descentCoefficients G M b m)) := by
-  show pullbackCoefficients G.source.left M.module b
+  change pullbackCoefficients G.source.left M.module b
     ((appΓ M.alpha) (pullbackSection G.target.left M.module (a • m))) i ∈ _
   rw [(pullbackSection G.target.left M.module).map_smulₛₗ, map_smul]
   exact pullbackCoefficients_smul_mem_span G.source.left M.module b _ _ i
@@ -1135,7 +1134,7 @@ private lemma exists_fg_descent_stable_submodule {S : Scheme.{u}}
   obtain ⟨c, hc, hn⟩ := exists_descent_coefficients_mem_span G M b n
   have he := congrArg (pullbackCoefficients G.source.left M.module b) hc
   rw [pullbackCoefficients_sum] at he
-  show n ∈ Submodule.span Γ(G.objects.left, ⊤) (Set.range
+  change n ∈ Submodule.span Γ(G.objects.left, ⊤) (Set.range
     (pullbackCoefficients G.source.left M.module b
       ((appΓ M.alpha) (pullbackSection G.target.left M.module n))))
   rw [he]
@@ -1352,14 +1351,14 @@ theorem exists_filtered_diagram_of_isFiniteType
     map_id P := QuasicoherentModule.Hom.ext (L.map_id (ModuleCat.of Γ(G.objects.left, ⊤) P.val))
     map_comp {P Q T} f g := by
       apply QuasicoherentModule.Hom.ext
-      show L.map _ = L.map _ ≫ L.map _
+      change L.map _ = L.map _ ≫ L.map _
       rw [← L.map_comp]
       congr 1 }
   let φ : D ⟶ (Functor.const I).obj M := {
     app P := stableSubmoduleι G M b P.val P.property.2
     naturality {P Q} f := by
       apply QuasicoherentModule.Hom.ext
-      show L.map (ModuleCat.ofHom (Submodule.inclusion (leOfHom f))) ≫
+      change L.map (ModuleCat.ofHom (Submodule.inclusion (leOfHom f))) ≫
         affineSubmoduleι M.module Q.val = affineSubmoduleι M.module P.val ≫ 𝟙 _
       rw [Category.comp_id]
       exact affineSubmoduleι_naturality M.module P.val Q.val (leOfHom f) }
@@ -1379,7 +1378,7 @@ theorem exists_filtered_diagram_of_isFiniteType
         (QuasicoherentModule.forget G).mapCocone (Cocone.mk M φ) :=
       Cocone.ext (affineTildeCounitIso G.objects.left M.module)
         (fun i ↦ by
-          show L.map (ModuleCat.ofHom i.val.subtype) ≫
+          change L.map (ModuleCat.ofHom i.val.subtype) ≫
             (affineTildeAdjunction G.objects.left).counit.app M.module =
               affineSubmoduleι M.module i.val
           exact ((affineTildeAdjunction G.objects.left).homEquiv_counit _ _ _).symm)

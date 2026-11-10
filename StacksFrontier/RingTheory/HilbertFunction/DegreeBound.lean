@@ -5,7 +5,7 @@ import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Data.Rat.Star
+import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.Order.Interval.Finset.Box
 import Mathlib.Analysis.SpecialFunctions.RegularizedHypergeometric
 import Mathlib.Analysis.Polynomial.Basic
@@ -88,25 +88,25 @@ theorem image_homogeneous {R M : Type*} [CommRing R] [AddCommGroup M] [Module R 
             Π₀ n, ↥(p n))
           (m + 1)
       have hpush := map_dfinsuppSum (AddSubmonoidClass.subtype (p (m + 1))) f h₀
-      show (AddSubmonoidClass.subtype (p (m + 1))) (f.sum h₀) = T (f m : M)
+      change (AddSubmonoidClass.subtype (p (m + 1))) (f.sum h₀) = T (f m : M)
       rw [hpush]
       rw [show
           (f.sum fun j (fj : p j) => (AddSubmonoidClass.subtype (p (m + 1))) (h₀ j fj)) =
             ∑ j ∈ f.support, (AddSubmonoidClass.subtype (p (m + 1))) (h₀ j (f j))
           from rfl]
       rw [Finset.sum_eq_single m]
-      · show ((h₀ m (f m) : p (m + 1)) : M) = T (f m : M)
+      · change ((h₀ m (f m) : p (m + 1)) : M) = T (f m : M)
         simp only [h₀]
         rw [DFinsupp.single_apply, dite_eq_left rfl]
       · intro j _ hjm
-        show ((h₀ j (f j) : p (m + 1)) : M) = 0
+        change ((h₀ j (f j) : p (m + 1)) : M) = 0
         simp only [h₀]
         rw [DFinsupp.single_apply, dite_eq_right (by omega)]
         simp
       · intro hni
         rw [DFinsupp.mem_support_toFun] at hni
         have hfm0 : f m = 0 := by simpa using hni
-        show ((h₀ m (f m) : p (m + 1)) : M) = 0
+        change ((h₀ m (f m) : p (m + 1)) : M) = 0
         simp only [h₀]
         rw [DFinsupp.single_apply, dite_eq_left rfl]
         rw [hfm0]
@@ -259,7 +259,7 @@ theorem exists_cokernel_admissible {d : ℕ} (A : AdmissibleGradedModule k (d + 
     Module.compHom (M := A.M ⧸ XM) ren.toRingHom
   have tower₀ : IsScalarTower k (MvPolynomial (Fin d) k) (A.M ⧸ XM) := by
     refine ⟨fun c r x => ?_⟩
-    show (ren (c • r)) • x = c • ((ren r) • x)
+    change (ren (c • r)) • x = c • ((ren r) • x)
     rw [map_smul, smul_assoc]
   -- the k-linear quotient map
   set π : A.M →ₗ[k] (A.M ⧸ XM) := (XM.mkQ).restrictScalars k with hπ
@@ -329,7 +329,7 @@ theorem exists_cokernel_admissible {d : ℕ} (A : AdmissibleGradedModule k (d + 
       ∀ (s : MvPolynomial (Fin (d + 1)) k) (c : (A.M ⧸ XM)),
         ((qmap k d s) • c : (A.M ⧸ XM)) = s • c := by
       intro s c
-      show (ren (qmap k d s)) • c = s • c
+      change (ren (qmap k d s)) • c = s • c
       have hmem := sub_rename_qmap_mem_span_X_last k d s
       rw [Ideal.mem_span_singleton] at hmem
       obtain ⟨h, hh⟩ := hmem
@@ -535,7 +535,7 @@ theorem exists_admissible_of_ideal (I : Ideal (MvPolynomial (Fin d) k))
     exact Module.Finite.of_surjective (Submodule.mkQ I) (Submodule.mkQ_surjective I)
   · -- hilb identity
     intro n
-    show (Module.finrank k ((gradedPieceS k d n).map π) : ℤ) = (hilbertFunction I n : ℤ)
+    change (Module.finrank k ((gradedPieceS k d n).map π) : ℤ) = (hilbertFunction I n : ℤ)
     have : Module.Finite k (gradedPieceS k d n) := hSnfin n
     have hkereq : (LinearMap.ker π).comap (gradedPieceS k d n).subtype =
         (gradedPieceI I n).comap (gradedPieceS k d n).subtype := by

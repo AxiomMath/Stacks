@@ -118,24 +118,28 @@ def lift (h : 𝔇.IsCohomologicalChernCharacter ch) (X : (SmoothProjectiveSchem
     map_add' := fun α β => 𝔇.twistRule_injective X (by
       rw [hlift, h.2.1, twistRule_add, hlift, hlift]) }
 
+omit [CharZero F] in
 /-- The `n`-th coefficient of the rule in coordinates is the coordinate of `ch X α n` in
 `H^{2n}(X)`. -/
 theorem coeff_lift (h : 𝔇.IsCohomologicalChernCharacter ch) (X) (α) (n : ℕ) :
     ((PowerSeries.coeff n (h.lift X α) : 𝔇.A X) : 𝔇.H X) = 𝔇.κ X n (ch X α n) := by
   simp [lift]
 
+omit [CharZero F] in
 /-- The coordinates of the rule give back the rule. -/
 theorem twistRule_lift (h : 𝔇.IsCohomologicalChernCharacter ch) (X) (α) :
     𝔇.twistRule (h.lift X α) = ch X α := funext fun n => by
   apply (𝔇.κ X n).injective
   rw [κ_twistRule, coeff_lift]
 
+omit [CharZero F] in
 /-- The `n`-th coefficient of the rule in coordinates lies in `A^n(X) = H^{2n}(X)`. -/
 theorem coeff_lift_mem (h : 𝔇.IsCohomologicalChernCharacter ch) (X) (α) (n : ℕ) :
     PowerSeries.coeff n (h.lift X α) ∈ evenGrade (𝔇.grade X) n := by
   rw [mem_evenGrade, coeff_lift]
   exact (𝔇.mem_range_tateTwistMap_iff _ _ _).mp (h.1 X α n)
 
+omit [CharZero F] in
 /-- The rule in coordinates is compatible with pullbacks. -/
 theorem map_lift (h : 𝔇.IsCohomologicalChernCharacter ch) {X Y} (f : X ⟶ Y) (α) :
     PowerSeries.map (𝔇.pullA f).toRingHom (h.lift Y α) =

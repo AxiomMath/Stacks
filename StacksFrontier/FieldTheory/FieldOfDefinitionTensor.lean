@@ -67,8 +67,7 @@ theorem basis_smul (c : K) (i : Module.Basis.ofVectorSpaceIndex k K₀) :
 /-- `φ ⊗ 1` acts on coordinates along the bases `(1 ⊗ eᵢ)` by `φ`. -/
 theorem basis_repr_rTensor (φ : K →ₗ[k] L) (x : K ⊗[k] K₀) (i) :
     (basis k K₀ L).repr (φ.rTensor K₀ x) i = φ ((basis k K₀ K).repr x i) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul c m =>
     simp only [basis, LinearMap.rTensor_tmul, Algebra.TensorProduct.basis_repr_tmul,
       Finsupp.smul_apply, Finsupp.mapRange_apply, smul_eq_mul]
@@ -201,7 +200,7 @@ theorem exists_isMinimal (f : FractionRing (K ⊗[k] K₀)) : ∃ v, IsMinimal f
   have hex : ∃ n, ∃ w ∈ solutions f, w ≠ 0 ∧ (B.repr w).support.card = n := by
     obtain ⟨⟨p, q⟩, hpq⟩ := IsLocalization.mk'_surjective (nonZeroDivisors (K ⊗[k] K₀)) f
     refine ⟨_, (p, q), ?_, fun h ↦ nonZeroDivisors.coe_ne_zero q (congrArg Prod.snd h), rfl⟩
-    show algebraMap _ _ p = f * algebraMap _ _ (q : K ⊗[k] K₀)
+    change algebraMap _ _ p = f * algebraMap _ _ (q : K ⊗[k] K₀)
     rw [← hpq]
     exact (IsLocalization.mk'_spec _ p q).symm
   obtain ⟨w, hw, hw0, hwn⟩ := Nat.find_spec hex
@@ -258,20 +257,19 @@ theorem repr_mem_of_isMinimal {f : FractionRing (K ⊗[k] K₀)} {v} (hv : IsMin
   have hπx : ∀ c : K', π (c : K) = c := fun c ↦ LinearMap.congr_fun hπ c
   let π' : K →ₗ[k] K := K'.val.toLinearMap ∘ₗ π.restrictScalars k
   have hπ'1 : π' 1 = 1 := by
-    show (π ((1 : K') : K) : K) = 1
+    change (π ((1 : K') : K) : K) = 1
     rw [hπx]
     rfl
   have hπ'mul : ∀ c ∈ K', ∀ x, π' (c * x) = c * π' x := by
     intro c hc x
-    show (π (c * x) : K) = c * π x
+    change (π (c * x) : K) = c * π x
     have : c * x = (⟨c, hc⟩ : K') • x := rfl
     rw [this, map_smul]
     rfl
   let P := π'.rTensor K₀
   have hPtmul : ∀ c ∈ K', ∀ (e : K₀) x, P ((c ⊗ₜ e) * x) = (c ⊗ₜ e) * P x := by
     intro c hc e x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul d m =>
       simp only [P, Algebra.TensorProduct.tmul_mul_tmul, LinearMap.rTensor_tmul, hπ'mul c hc]
     | add x y hx hy => rw [mul_add, map_add, hx, hy, map_add, mul_add]
@@ -289,7 +287,7 @@ theorem repr_mem_of_isMinimal {f : FractionRing (K ⊗[k] K₀)} {v} (hv : IsMin
   · rw [← key]
     exact (π _).2
   · rintro ⟨p, q⟩ (hpq : algebraMap _ _ p = f * algebraMap _ _ q)
-    show algebraMap _ _ (P p) = f * algebraMap _ _ (P q)
+    change algebraMap _ _ (P p) = f * algebraMap _ _ (P q)
     have hinj := IsFractionRing.injective (K ⊗[k] K₀) (FractionRing (K ⊗[k] K₀))
     have h1 : q₀ * p = p₀ * q := hinj (by rw [map_mul, map_mul, hpq, hpq₀]; ring)
     have hq₀F : algebraMap _ (FractionRing (K ⊗[k] K₀)) q₀ ≠ 0 := (map_ne_zero_iff _ hinj).mpr hq₀
@@ -437,7 +435,7 @@ theorem fieldOfDefinition_map [IsDomain (L ⊗[k] K₀)] (a : K →ₐ[k] L)
     obtain ⟨u₂, hu₂⟩ := mem_range_rTensor a (pair_repr_mem hmem).2
     have hΦu : Φ (u₁, u₂) = minimalSolution g := Prod.ext hu₁ hu₂
     have hu' : (u₁, u₂) ∈ solutions f := by
-      show algebraMap _ _ u₁ = f * algebraMap _ _ u₂
+      change algebraMap _ _ u₁ = f * algebraMap _ _ u₂
       apply (fractionRingMap K₀ a).injective
       rw [map_mul, fractionRingMap_algebraMap, fractionRingMap_algebraMap, hu₁, hu₂]
       exact huV

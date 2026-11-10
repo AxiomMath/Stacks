@@ -70,7 +70,7 @@ theorem degreeLocus_subset_range_abelMorphismFull (hd : genus f ≤ d) :
   have := isIso_globalSections_bc_spec f g
   obtain ⟨t⟩ : Nonempty (Spec (.of Ω)) := inferInstanceAs (Nonempty (PrimeSpectrum Ω))
   have hbt : b₀ t = y := by
-    show (Spec.map _ ≫ P.X.left.fromSpecResidueField y).base t = y
+    change (Spec.map _ ≫ P.X.left.fromSpecResidueField y).base t = y
     rw [Scheme.Hom.comp_base, TopCat.comp_app, Scheme.fromSpecResidueField_apply]
   have hdim₀ : topologicalKrullDim (bc f (Over.mk g)) ≤ 1 :=
     topologicalKrullDim_bc_spec_le f hdimX g
@@ -83,7 +83,7 @@ theorem degreeLocus_subset_range_abelMorphismFull (hd : genus f ≤ d) :
     exact (range_subset_degreeLocus_iff f hdim σ hσ P e b d).1 (by
       rintro _ ⟨t', rfl⟩
       obtain rfl : t' = t := Subsingleton.elim _ _
-      show b₀ t' ∈ _
+      change b₀ t' ∈ _
       rwa [hbt]) t
   have hdeg : (genus (bcProj f (Over.mk g)) : ℤ) ≤
       invertibleCurveDegreeHom Ω (bcProj f (Over.mk g)) hdim₀ c := by
@@ -96,7 +96,7 @@ theorem degreeLocus_subset_range_abelMorphismFull (hd : genus f ≤ d) :
   have hm : m ≫ abelMorphismFull f σ hσ hH P e = b := by
     apply homElt_injective f σ hσ P e
     refine ext_functor f σ hσ ?_
-    show classOfElt f σ hσ ((e.hom.app (op _)).hom (m ≫ abelMorphismFull f σ hσ hH P e)) = c
+    change classOfElt f σ hσ ((e.hom.app (op _)).hom (m ≫ abelMorphismFull f σ hσ hH P e)) = c
     rw [abelMorphismFull_spec, classOfElt, smallEquiv_abelElementFull, abelNormalized,
       show hH.family m = Z from hH.family.apply_symm_apply Z]
     have h0 : ∀ (q : bc f (Over.mk g) ⟶ X),

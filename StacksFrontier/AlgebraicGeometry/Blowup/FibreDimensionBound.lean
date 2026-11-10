@@ -42,7 +42,7 @@ theorem specAffineBlowupι_comp_toSpec {a : R} (ha : a ∈ I) :
       Spec.map (CommRingCat.ofHom (algebraMap R (affineBlowup I a))) := by
   have h1 := Proj.awayι_toSpecZero (reesGrading I) (reesDegOne I ha)
     (reesDegOne_mem_reesGrading I ha) Nat.one_pos
-  show (Spec.map (reesAwayEquivAffineBlowup I a ha).toCommRingCatIso.hom ≫
+  change (Spec.map (reesAwayEquivAffineBlowup I a ha).toCommRingCatIso.hom ≫
       Proj.awayι (reesGrading I) (reesDegOne I ha) (reesDegOne_mem_reesGrading I ha)
         Nat.one_pos) ≫ (Proj.toSpecZero (reesGrading I) ≫
       Spec.map (CommRingCat.ofHom (reesGradingZeroEquiv I).toRingHom)) = _

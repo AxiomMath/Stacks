@@ -166,7 +166,7 @@ theorem exists_affine_pullback_presentation
       let _ : IsAffine
           ((BigFppfOver.toScheme B S hS).obj (D₀.obj i)) :=
         BigAffineFppf.isAffine_toScheme_obj B S hS (D.obj i)
-      show IsAffine ((BigFppfOver.toScheme B S hS).obj
+      change IsAffine ((BigFppfOver.toScheme B S hS).obj
         (hf.rep.pullback (gi i)))
       exact isAffine_of_isAffineHom
         (f := (BigFppfOver.toScheme B S hS).map (hf.rep.snd (gi i)))⟩
@@ -199,7 +199,7 @@ theorem exists_affine_pullback_presentation
       dsimp only [Eobj]
       simp only [InducedCategory.homMk_hom, ObjectProperty.FullSubcategory.comp_hom]
       apply hf.rep.hom_ext (g := gi k)
-      · show F.map (t i k (g ≫ h)) ≫ hf.rep.fst (gi k) =
+      · change F.map (t i k (g ≫ h)) ≫ hf.rep.fst (gi k) =
           F.map (t i j g ≫ t j k h) ≫ hf.rep.fst (gi k)
         rw [Functor.map_comp, Category.assoc, ht_fst, ht_fst, ht_fst]
       · calc
@@ -225,7 +225,7 @@ theorem exists_affine_pullback_presentation
     ι := {
       app i := hf.rep.fst (gi i)
       naturality i j g := by
-        show F.map (t i j g) ≫ hf.rep.fst (gi j) = hf.rep.fst (gi i) ≫ 𝟙 X
+        change F.map (t i j g) ≫ hf.rep.fst (gi j) = hf.rep.fst (gi i) ≫ 𝟙 X
         rw [Category.comp_id]
         exact ht_fst i j g } }
   let cY : Cocone G := {
@@ -243,13 +243,13 @@ theorem exists_affine_pullback_presentation
   have hpapp (i : I) : (K ⋙ F).map (p.app i) = F.map (hf.rep.snd (gi i)) := rfl
   have hcomm : α ≫ cY.ι = cX.ι ≫ (Functor.const I).map f := by
     refine NatTrans.ext <| funext fun i => ?_
-    show α.app i ≫ gi i = hf.rep.fst (gi i) ≫ f
+    change α.app i ≫ gi i = hf.rep.fst (gi i) ≫ f
     rw [Functor.whiskerRight_app, hpapp]
     exact (hf.rep.w (gi i)).symm
   have hα : NatTrans.Equifibered α := by
     intro i j g
     have hsq : (E ⋙ K ⋙ F).map g ≫ α.app j = α.app i ≫ G.map g := by
-      show F.map (t i j g) ≫ F.map (hf.rep.snd (gi j)) =
+      change F.map (t i j g) ≫ F.map (hf.rep.snd (gi j)) =
         F.map (hf.rep.snd (gi i)) ≫ F.map (D₀.map g)
       rw [← Functor.map_comp, ← Functor.map_comp, ht_snd i j g]
     exact isPullback_of_comp_eq (hf.rep.isPullback (gi i)) (hf.rep.isPullback (gi j))
@@ -341,7 +341,7 @@ theorem isThickening_of_cartesian_presentation
     simpa [uE, uD, FE, FD, L, K, F] using hcart k
   have hsq : FE.map g ≫ L.map (p.app j) =
       L.map (p.app i) ≫ FD.map g := by
-    show L.map (E.map g) ≫ L.map (p.app j) =
+    change L.map (E.map g) ≫ L.map (p.app j) =
       L.map (p.app i) ≫ L.map (D.map g)
     rw [← Functor.map_comp, ← Functor.map_comp, p.naturality g]
   have hstageSheaf : IsPullback (FE.map g) (L.map (p.app i))

@@ -85,7 +85,7 @@ theorem mk_cycleGroupEquivScheme_firstChernCapPowCycleMap
     exact mk_cycleGroupEquivScheme_cycleGroupCast D sQ s₀ hδ _ γ
   | succ s ih =>
     rw [Stacks.Chow.capPow_succ_apply']
-    show (QuotientAddGroup.mk (cycleGroupEquivScheme sQ s₀ hδ m
+    change (QuotientAddGroup.mk (cycleGroupEquivScheme sQ s₀ hδ m
         (firstChernCapCycleMap D sQ hQ m (canonicalFirstChernRule D sQ hQ M hM m)
           (firstChernCapPowCycleMap D sQ hQ M hM s (m + 1)
             (cycleGroupCast D sQ (by push_cast; ring) γ)))) : Stacks.Chow.chowGroup C s₀ m) = _
@@ -178,7 +178,7 @@ theorem properCyclePushforward_firstChernCapPowCycleMap_flatPullbackMap_of_repre
       (QuotientAddGroup.mk (cycleGroupEquivScheme sT s₀ hδT k α))
     refine Eq.trans ?_ htop
     rw [cycleGroupEquivScheme_properCyclePushforward hP hT hδP hδT f hfB hf rfl k]
-    show _ = Stacks.Chow.properChowPushforward C (f₀ ≫ s₀) s₀ f₀ rfl k
+    change _ = Stacks.Chow.properChowPushforward C (f₀ ≫ s₀) s₀ f₀ rfl k
       (Stacks.Chow.properPushforwardFactorsThroughRationalEquivalence_of_isProper C (f₀ ≫ s₀) s₀
         f₀ rfl k)
       (Stacks.Chow.capPow C (f₀ ≫ s₀) (Stacks.Chow.invCap C (f₀ ≫ s₀)

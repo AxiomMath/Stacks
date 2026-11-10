@@ -6,8 +6,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.SheafOfDifferentialsScheme
 /-!
 # The naturality square of Stacks 04CS on sections, carried in the space-side spelling
 
-`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeComparisonMapSections.lean` carries
-the Zariski side of the sections identity of Stacks 04CS in the `Γ` of
+`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeComparisonMapSections.lean`
+carries the Zariski side of the sections identity of Stacks 04CS in the `Γ` of
 `AlgebraicGeometry.Space.representedRelativeDifferentialsZariski` over the preimage open
 `ψ^{-1}O`, and its implementation notes record that the chain does not reach its last two links
 there.  This module carries the same identity in the *other* spelling the chain needs — the

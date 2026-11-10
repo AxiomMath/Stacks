@@ -81,7 +81,7 @@ variable {X S : Scheme.{u}} [IsAffine X] [IsAffine S]
 the prime read off the canonical isomorphism `X ≅ Spec Γ(X, ⊤)`. -/
 public theorem primeIdealOf_top (x : X) :
     (isAffineOpen_top X).primeIdealOf ⟨x, by simp⟩ = X.isoSpec.hom x := by
-  show (⊤ : X.Opens).toSpecΓ ⟨x, by simp⟩ = X.isoSpec.hom x
+  change (⊤ : X.Opens).toSpecΓ ⟨x, by simp⟩ = X.isoSpec.hom x
   rw [Scheme.Opens.toSpecΓ_top, Scheme.isoSpec_hom]
   rfl
 
@@ -92,7 +92,7 @@ public theorem comap_algebraMap_isoSpec_hom (f : X ⟶ S) [Algebra Γ(S, ⊤) Γ
     PrimeSpectrum.comap (algebraMap Γ(S, (⊤ : S.Opens)) Γ(X, (⊤ : X.Opens)))
         (X.isoSpec.hom x) = S.isoSpec.hom (f x) := by
   rw [halg]
-  show Spec.map f.appTop (X.isoSpec.hom x) = _
+  change Spec.map f.appTop (X.isoSpec.hom x) = _
   rw [← Scheme.Hom.comp_apply, Scheme.isoSpec_hom_naturality f, Scheme.Hom.comp_apply]
 
 /-! ### The fibre of a morphism of affine schemes as a set of primes -/
@@ -130,17 +130,17 @@ public theorem Scheme.Hom.range_fiberToSpecΓ (f : X ⟶ S) [Algebra Γ(S, ⊤) 
   constructor
   · rintro ⟨w, rfl⟩
     have hfw := (hrange _).1 (Set.mem_range_self w)
-    show PrimeSpectrum.comap _ (X.isoSpec.hom (f.fiberι s w)) = _
+    change PrimeSpectrum.comap _ (X.isoSpec.hom (f.fiberι s w)) = _
     rw [comap_algebraMap_isoSpec_hom f halg, hfw, hs]
   · intro hp
     have hy : f (X.isoSpec.inv p) = s := by
       refine (Scheme.homeoOfIso S.isoSpec).injective ?_
-      show S.isoSpec.hom _ = S.isoSpec.hom s
+      change S.isoSpec.hom _ = S.isoSpec.hom s
       rw [← comap_algebraMap_isoSpec_hom f halg, hinv, hs]
       exact hp
     obtain ⟨w, hw⟩ := (hrange _).2 hy
     refine ⟨w, ?_⟩
-    show X.isoSpec.hom (f.fiberι s w) = p
+    change X.isoSpec.hom (f.fiberι s w) = p
     rw [hw, hinv]
 
 /-- **The dimension of a fibre of a morphism of affine schemes is the dimension of the
@@ -230,7 +230,7 @@ public theorem topologicalKrullDimAt_supp_fiber [Algebra Γ(S, ⊤) Γ(X, ⊤)]
   refine (topologicalKrullDimAt_eq_of_homeomorph
     (suppFiberHomeomorph f F halg (f x) r hr) ⟨f.asFiber x, hx⟩).trans ?_
   refine congrArg _ (Subtype.ext ?_)
-  show X.isoSpec.hom (f.fiberι (f x) (f.asFiber x)) =
+  change X.isoSpec.hom (f.fiberι (f x) (f.asFiber x)) =
     (⟨p, ‹_›⟩ : PrimeSpectrum Γ(X, (⊤ : X.Opens)))
   rw [Scheme.Hom.fiberι_asFiber]
   exact PrimeSpectrum.ext hp

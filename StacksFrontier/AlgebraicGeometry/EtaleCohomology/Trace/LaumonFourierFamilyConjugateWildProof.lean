@@ -60,10 +60,10 @@ public theorem contragredient_characterTwist {G : Type*} [Group G] {n : Type*} [
   ext g : 2
   have hinv : (((characterTwist ρ χ g)⁻¹ : GL n O) : Matrix n n O) =
       ((χ g)⁻¹ : Oˣ).val • (((ρ g)⁻¹ : GL n O) : Matrix n n O) := by
-    show (((ρ g * Units.map (Matrix.scalar n : O →+* Matrix n n O).toMonoidHom (χ g))⁻¹ :
+    change (((ρ g * Units.map (Matrix.scalar n : O →+* Matrix n n O).toMonoidHom (χ g))⁻¹ :
       GL n O) : Matrix n n O) = _
     rw [_root_.mul_inv_rev, Units.val_mul, ← map_inv, Units.coe_map, RingHom.toMonoidHom_eq_coe,
-      MonoidHom.coe_coe, Matrix.scalar_apply, Matrix.smul_eq_diagonal_mul]
+      MonoidHom.coe_ofClass, Matrix.scalar_apply, Matrix.smul_eq_diagonal_mul]
   rw [contragredient_val, characterTwist_val, contragredient_val, hinv, Matrix.transpose_smul,
     MonoidHom.inv_apply]
 

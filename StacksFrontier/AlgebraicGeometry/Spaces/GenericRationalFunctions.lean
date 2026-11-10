@@ -1477,7 +1477,7 @@ theorem rationalFunctionsHenselianRingEquiv_eq_trans (hX : IsAlgebraicSpace B S 
       (rationalFunctionsRingEquiv B S hS hX hInt).trans
         (residueFieldHenselianRingEquiv B S hS hX hInt) := by
   refine RingEquiv.ext fun x ↦ ?_
-  show _ = rationalFunctionsHenselianRingEquiv B S hS hX hInt
+  change _ = rationalFunctionsHenselianRingEquiv B S hS hX hInt
     ((rationalFunctionsRingEquiv B S hS hX hInt).symm
       (rationalFunctionsRingEquiv B S hS hX hInt x))
   rw [RingEquiv.symm_apply_apply]

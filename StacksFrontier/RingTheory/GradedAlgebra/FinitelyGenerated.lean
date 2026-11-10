@@ -179,7 +179,7 @@ theorem fg_gradePieceSubmodule [Algebra.FiniteType (𝒜 0) S] (k : ℕ) :
       map_add' := by simp
       map_smul' := by
         intro c x
-        show (GradedRing.proj 𝒜 k) ((c : S) * x) = (c : S) * (GradedRing.proj 𝒜 k) x
+        change (GradedRing.proj 𝒜 k) ((c : S) * x) = (c : S) * (GradedRing.proj 𝒜 k) x
         rw [GradedRing.proj_apply, GradedRing.proj_apply,
           DirectSum.coe_decompose_mul_of_left_mem 𝒜 k (SetLike.coe_mem c)]
         simp }
@@ -211,7 +211,7 @@ theorem decompose_smul_mem (ℳ : ℤ → Submodule (𝒜 0) M) [DirectSum.Decom
     by_cases hkn : (k : ℤ) + e = n
     · rw [DirectSum.decompose_of_mem_same ℳ (hkn ▸ hmem), ite_eq_left (show 0 ≤ n - e by omega)]
       apply Submodule.mem_map_of_mem
-      show (s : S) ∈ 𝒜 (n - e).toNat
+      change (s : S) ∈ 𝒜 (n - e).toNat
       rw [show (n - e).toNat = k by omega]
       exact s.2
     · rw [DirectSum.decompose_of_mem_ne ℳ hmem hkn]
@@ -399,7 +399,7 @@ variable (𝒜 : ℕ → σ) [GradedRing 𝒜]
 @[ega "II 2.1.1" "S_n ⊆ S_+ for n > 0"]
 theorem mem_irrelevant_of_mem_of_pos {x : A} {n : ℕ} (hx : x ∈ 𝒜 n) (hn : 0 < n) :
     x ∈ (HomogeneousIdeal.irrelevant 𝒜).toIdeal := by
-  show x ∈ HomogeneousIdeal.irrelevant 𝒜
+  change x ∈ HomogeneousIdeal.irrelevant 𝒜
   rw [HomogeneousIdeal.mem_irrelevant_iff]
   exact proj_eq_zero_of_mem_ne 𝒜 hx (by omega)
 

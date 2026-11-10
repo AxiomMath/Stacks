@@ -139,7 +139,7 @@ lemma single_smul_asModuleNC
     (MonoidAlgebra.single g a : k[G]) • x = a • ρ g x := by
   let hcomm : ∀ r g, Commute (Module.toAddMonoidEnd k V r) (actionAddEnd ρ g) :=
     fun r g => by ext v; exact ((ρ g).map_smul r v).symm
-  show (MonoidAlgebra.liftNCRingHom (Module.toAddMonoidEnd k V) (actionAddEnd ρ) hcomm
+  change (MonoidAlgebra.liftNCRingHom (Module.toAddMonoidEnd k V) (actionAddEnd ρ) hcomm
     (MonoidAlgebra.single g a)) x = _
   rw [MonoidAlgebra.liftNCRingHom_single]
   rfl
@@ -186,7 +186,7 @@ lemma map_smul_asModuleNC
   | smul a r hr =>
       rw [smul_eq_single_one_mul, mul_smul, mul_smul, single_one_smul_asModuleNC,
         single_one_smul_asModuleNC]
-      show f (a • (r • x)) = a • (r • f x)
+      change f (a • (r • x)) = a • (r • f x)
       rw [map_smul, hr]
 
 /-- The diagonal `G`-action on `M ⊗[A] P`. -/
@@ -473,8 +473,7 @@ lemma diagonalAction_module_finite
             exact hbalance ▸ hr (a • y)
   have hspan : S = ⊤ := by
     refine Submodule.eq_top_iff'.2 fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => exact S.zero_mem
+    induction z using TensorProduct.inductionOn with
     | tmul x y => exact hgen_p x (by rw [hp]; trivial) y
     | add x y hx hy => exact S.add_mem hx hy
   exact Module.Finite.of_fg_top (hspan ▸ Submodule.fg_span (Set.finite_range t))
@@ -605,7 +604,7 @@ private theorem homMap_commutes
     (g : G) (φ : M →ₗ[Λ] coefficientModule A Λ G N) :
     homMap f (homRep σ g φ) = homRep σ g (homMap f φ) := by
   ext m
-  show f ((MonoidAlgebra.of Λ G g : Λ[G]) • φ (σ g⁻¹ m)) =
+  change f ((MonoidAlgebra.of Λ G g : Λ[G]) • φ (σ g⁻¹ m)) =
     (MonoidAlgebra.of Λ G g : Λ[G]) • f (φ (σ g⁻¹ m))
   exact f.map_smul _ _
 
@@ -810,11 +809,7 @@ private lemma tensorUncurryLinear_commutes
     (g : G) (z : Representation.asModuleNC (Representation.tprodAlgebraReversed ρ σ)) :
     tensorUncurryLinear ρ σ u (Representation.tprodAlgebraReversed ρ σ g z) =
       coeffRep A Λ G N g (tensorUncurryLinear ρ σ u z) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      show (tensorUncurryLinear ρ σ u) 0 =
-        (coeffRep A Λ G N g) ((tensorUncurryLinear ρ σ u) 0)
-      simp
+  induction z using TensorProduct.inductionOn with
   | tmul m p =>
       have hu := groupLinearMap_commutes ρ (homRep (A := A) (N := N) σ) u g p
       have heval := congrArg (fun φ : Representation.asModuleNC
@@ -823,7 +818,7 @@ private lemma tensorUncurryLinear_commutes
       change (show M →ₗ[Λ] coefficientModule A Λ G N from u (ρ g p)) (σ g m) =
         (MonoidAlgebra.of Λ G g : Λ[G]) •
           (show M →ₗ[Λ] coefficientModule A Λ G N from u p) (σ g⁻¹ (σ g m)) at heval
-      show (show M →ₗ[Λ] coefficientModule A Λ G N from u (ρ g p)) (σ g m) =
+      change (show M →ₗ[Λ] coefficientModule A Λ G N from u (ρ g p)) (σ g m) =
         (MonoidAlgebra.of Λ G g : Λ[G]) •
           (show M →ₗ[Λ] coefficientModule A Λ G N from u p) m
       rwa [Representation.inv_self_apply] at heval
@@ -908,10 +903,7 @@ private theorem tensorUncurry_curry
       (show Representation.asModuleNC (Representation.tprodAlgebraReversed ρ σ) →ₗ[Λ[G]]
         coefficientModule A Λ G N from h) := by
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      exact (tensorUncurryGroup ρ σ (tensorCurryGroup ρ σ h)).map_zero.trans
-        (h.map_zero).symm
+  induction z using TensorProduct.inductionOn with
   | tmul m p => rfl
   | add x y hx hy =>
       calc
@@ -944,11 +936,7 @@ private theorem tensorUncurry_natural
     (coeffMapGroup (A := A) f).comp (tensorUncurryGroup ρ σ u) =
       tensorUncurryGroup ρ σ ((homMapGroup σ f).comp u) := by
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      exact (LinearMap.comp (coeffMapGroup (A := A) f)
-        (tensorUncurryGroup ρ σ u)).map_zero.trans
-        (tensorUncurryGroup ρ σ ((homMapGroup σ f).comp u)).map_zero.symm
+  induction z using TensorProduct.inductionOn with
   | tmul m p => rfl
   | add x y hx hy =>
       calc

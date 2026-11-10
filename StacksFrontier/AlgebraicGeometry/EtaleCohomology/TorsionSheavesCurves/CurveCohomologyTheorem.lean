@@ -95,7 +95,7 @@ is `p`-power torsion then `H^q(X, F) = 0` for `q > 1`. -/
 theorem isPrimePowerTorsionVanishing
     [HasExt.{w} (Sheaf S.X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})]
     (p : ℕ) [CharP S.k p] :
-    IsPrimePowerTorsionVanishing.{u, v, w} S.structureMorphism p S.F :=
+    IsPrimePowerTorsionVanishing.{u, v, w} S.k p S.F :=
   S.curveStatements_zmod.primePowerVanishing p
 
 /-- **Stacks Project, Tag 0A56**, statement (4) of Situation 0A52: if `F` is constructible and

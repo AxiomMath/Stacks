@@ -71,14 +71,14 @@ private theorem eulerDegree_mul (f g : MvPowerSeries ℕ+ ℚ) :
     eulerDegree (f * g) = eulerDegree f * g + f * eulerDegree g := by
   classical
   ext d
-  show (gradedWeight d : ℚ) * MvPowerSeries.coeff d (f * g) =
+  change (gradedWeight d : ℚ) * MvPowerSeries.coeff d (f * g) =
     MvPowerSeries.coeff d (eulerDegree f * g) +
       MvPowerSeries.coeff d (f * eulerDegree g)
   rw [MvPowerSeries.coeff_mul (n := d) f g,
     MvPowerSeries.coeff_mul (n := d) (eulerDegree f) g,
     MvPowerSeries.coeff_mul (n := d) f (eulerDegree g)]
   simp_rw [coeff_eulerDegree]
-  show (gradedWeight d : ℚ) *
+  change (gradedWeight d : ℚ) *
       (∑ x ∈ Finset.antidiagonal d,
         MvPowerSeries.coeff x.1 f * MvPowerSeries.coeff x.2 g) =
     (∑ x ∈ Finset.antidiagonal d,
@@ -94,7 +94,7 @@ private theorem eulerDegree_mul (f g : MvPowerSeries ℕ+ ℚ) :
 /-- The Euler operator annihilates the unit, which has only a weight-zero monomial. -/
 private theorem eulerDegree_one : eulerDegree (1 : MvPowerSeries ℕ+ ℚ) = 0 := by
   ext d
-  show (gradedWeight d : ℚ) * MvPowerSeries.coeff d (1 : MvPowerSeries ℕ+ ℚ) = 0
+  change (gradedWeight d : ℚ) * MvPowerSeries.coeff d (1 : MvPowerSeries ℕ+ ℚ) = 0
   by_cases hd : d = 0
   · subst d
     simp [gradedWeight]
@@ -140,7 +140,7 @@ private theorem exponentMass_add (d e : ℕ+ →₀ ℕ) :
 /-- The universal total Chern class has zero constant term. -/
 private theorem constantCoeff_universalChernClassSum :
     MvPowerSeries.constantCoeff universalChernClassSum = 0 := by
-  show universalChernClassSum (0 : ℕ+ →₀ ℕ) = 0
+  change universalChernClassSum (0 : ℕ+ →₀ ℕ) = 0
   simp [universalChernClassSum]
 
 /-- Substitution of the universal total Chern class into power series is well defined. -/
@@ -151,7 +151,7 @@ private theorem hasSubst_universalChernClassSum :
 /-- The coefficient of the universal total Chern class at a single variable is `1`. -/
 private theorem coeff_universalChernClassSum_single (i : ℕ+) :
     MvPowerSeries.coeff (Finsupp.single i 1) universalChernClassSum = 1 := by
-  show (if exponentMass (Finsupp.single i 1) = 1 then 1 else 0) = 1
+  change (if exponentMass (Finsupp.single i 1) = 1 then 1 else 0) = 1
   simp [exponentMass]
 
 /-- A power of the universal total Chern class whose exponent exceeds the total exponent of a
@@ -206,7 +206,7 @@ private theorem coeff_subst_mul_eulerDegree (f : PowerSeries ℚ) (d : ℕ+ →�
   let N := exponentMass d
   have hfst {p : (ℕ+ →₀ ℕ) × (ℕ+ →₀ ℕ)} (hp : p ∈ Finset.antidiagonal d) :
       exponentMass p.1 ≤ N := by
-    show exponentMass p.1 ≤ exponentMass d
+    change exponentMass p.1 ≤ exponentMass d
     rw [← Finset.mem_antidiagonal.mp hp, exponentMass_add]
     omega
   have hright : MvPowerSeries.coeff d
@@ -296,7 +296,7 @@ private theorem trunc_universalChernClassSum (d : ℕ+ →₀ ℕ) :
     have hsum : (∑ i ∈ d.support, if Finsupp.single i 1 = e then (1 : ℚ) else 0) = 0 :=
       Finset.sum_eq_zero fun i _ => by simp [hneq i]
     have hc : MvPowerSeries.coeff e universalChernClassSum = 0 := by
-      show (if exponentMass e = 1 then (1 : ℚ) else 0) = 0
+      change (if exponentMass e = 1 then (1 : ℚ) else 0) = 0
       simp [hm]
     rw [hc, ite_self, hsum]
 
@@ -404,7 +404,7 @@ private theorem coeff_eulerDegree_powerSumSeries (d : ℕ+ →₀ ℕ) :
         intro p hp
         have hpval : (p : ℕ) ≠ gradedWeight d := fun heq => hp (Subtype.ext heq)
         have hz := coeff_powerSumPolynomialQ_eq_zero (p := (p : ℕ)) d (Ne.symm hpval)
-        show (((-1 : ℚ) ^ ((p : ℕ) - 1) / (p : ℚ)) *
+        change (((-1 : ℚ) ^ ((p : ℕ) - 1) / (p : ℚ)) *
           (powerSumPolynomialQ (p : ℕ)).coeff d) = 0
         rw [hz]
         simp)]
@@ -412,11 +412,11 @@ private theorem coeff_eulerDegree_powerSumSeries (d : ℕ+ →₀ ℕ) :
         ((-1 : ℚ) ^ (gradedWeight d - 1) / (gradedWeight d : ℚ)) *
           (powerSumPolynomialQ (gradedWeight d)).coeff d := by
       unfold powerSumSeries
-      show (∑ᶠ p : ℕ+, MvPowerSeries.coeff d
+      change (∑ᶠ p : ℕ+, MvPowerSeries.coeff d
         (((-1 : ℚ) ^ ((p : ℕ) - 1) / (p : ℚ)) •
           (powerSumPolynomialQ (p : ℕ)).toMvPowerSeries)) = _
       rw [hsingle]
-      show (((-1 : ℚ) ^ (gradedWeight d - 1) / (gradedWeight d : ℚ)) *
+      change (((-1 : ℚ) ^ (gradedWeight d - 1) / (gradedWeight d : ℚ)) *
         (powerSumPolynomialQ (gradedWeight d)).coeff d) = _
       rfl
     rw [coeff_eulerDegree, hcoeffPS]
@@ -454,8 +454,8 @@ private theorem coeff_powerSumPolynomialQ_gradedWeight (d : ℕ+ →₀ ℕ)
           MvPolynomial.X (Nat.succPNat (gradedWeight d - 1)) := by
     simpa [Nat.sub_add_cancel (Nat.one_le_of_lt hmpos)] using
       powerSumPolynomialQ_succ (gradedWeight d - 1)
-  simpa only [mul_assoc, AddMonoidAlgebra.coeff_add, Finsupp.add_apply, Pi.add_apply, MvPolynomial.coeff_sum,
-    MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X_mul'] using
+  simpa only [mul_assoc, AddMonoidAlgebra.coeff_add, Finsupp.add_apply, Pi.add_apply,
+    MvPolynomial.coeff_sum, MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X_mul'] using
     congrArg (fun q => q.coeff d) hrec
 
 /-- The shifted coefficients of the Euler operator of the signed power-sum series, summed over
@@ -517,7 +517,7 @@ private theorem coeff_X_succPNat_gradedWeight_pred (d : ℕ+ →₀ ℕ) :
     have hipos : 0 < (i : ℕ) := i.2
     have hidx : Nat.succPNat (gradedWeight (Finsupp.single i 1) - 1) = i := by
       apply Subtype.ext
-      show gradedWeight (Finsupp.single i 1) - 1 + 1 = (i : ℕ)
+      change gradedWeight (Finsupp.single i 1) - 1 + 1 = (i : ℕ)
       omega
     rw [coeff_universalChernClassSum_single, MvPolynomial.coeff_X]
     simp [hidx]
@@ -527,7 +527,7 @@ private theorem coeff_X_succPNat_gradedWeight_pred (d : ℕ+ →₀ ℕ) :
       rw [← heq]
       simp [exponentMass]
     rw [MvPolynomial.coeff_X, ite_eq_right hx]
-    show 0 = (if exponentMass d = 1 then 1 else 0)
+    change 0 = (if exponentMass d = 1 then 1 else 0)
     simp [hu]
 
 /-- Newton's recurrence, read as the series identity `(∂ ∑ₚ (-1)^(p-1) Pₚ/p)(1 + c) = ∂c`
@@ -563,7 +563,7 @@ private theorem coeff_powerSumSeries_zero :
   unfold powerSumSeries
   apply finsum_eq_zero_of_forall_eq_zero
   intro p
-  show (((-1 : ℚ) ^ ((p : ℕ) - 1) / (p : ℚ)) : ℚ) *
+  change (((-1 : ℚ) ^ ((p : ℕ) - 1) / (p : ℚ)) : ℚ) *
       (powerSumPolynomialQ (p : ℕ)).coeff 0 = 0
   have hp : gradedWeight (0 : ℕ+ →₀ ℕ) ≠ (p : ℕ) := by
     simp only [gradedWeight, Finsupp.sum_zero_index]

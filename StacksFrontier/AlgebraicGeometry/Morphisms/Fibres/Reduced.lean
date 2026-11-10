@@ -142,7 +142,7 @@ private lemma exists_nonzero_scalar_annihilating_power {R B K : Type*}
     simpa only [Algebra.TensorProduct.includeRight_apply] using hnil
   obtain ⟨n, hn⟩ := hnil'
   have heq : g (b ^ n) = g 0 := by
-    show Algebra.TensorProduct.includeRight (R := R) (A := K) (B := B) (b ^ n) = _
+    change Algebra.TensorProduct.includeRight (R := R) (A := K) (B := B) (b ^ n) = _
     rw [map_pow, hn, map_zero]
   obtain ⟨c, hc⟩ := (IsLocalizedModule.eq_iff_exists (nonZeroDivisors R) g).mp heq
   exact ⟨c.1, nonZeroDivisors.ne_zero c.2, n,
@@ -234,10 +234,10 @@ private theorem mulLiftOfAnnihilator_apply {R B : Type*} [CommRing R] [CommRing 
   let f : B →ₗ[B] B := LinearMap.mulLeft B h
   have hI : I ≤ f.ker := by
     intro x hx
-    show h * x = 0
+    change h * x = 0
     rw [mul_comm]
     exact (Submodule.mem_annihilator_span_singleton h x).mp hx
-  show (I.liftQ f hI) (Submodule.Quotient.mk x) = h * x
+  change (I.liftQ f hI) (Submodule.Quotient.mk x) = h * x
   rw [Submodule.liftQ_apply]
   simp [f, LinearMap.mulLeft]
 
@@ -274,7 +274,7 @@ private lemma mulLiftOfAnnihilator_shortExact {R B : Type*} [CommRing R] [CommRi
     · rintro x ⟨c, rfl⟩
       obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective c
       rw [mulLiftOfAnnihilator_apply]
-      show h * b ∈ J.mkQ.ker
+      change h * b ∈ J.mkQ.ker
       rw [J.ker_mkQ]
       exact (Ideal.mem_span_singleton).2 (dvd_mul_of_dvd_left (dvd_refl h) b)
   · exact J.mkQ_surjective
@@ -331,16 +331,16 @@ private lemma not_isReduced_fiber_of_freeAway
   let q : Bf →ₗ[Rf] Df := (q₀.baseChange Sf).restrictScalars Rf
   have hseq := mulLiftOfAnnihilator_shortExact (R := B) h
   have hi : Function.Injective i := by
-    show Function.Injective (i₀.baseChange Sf)
-    rw [LinearMap.baseChange_eq_ltensor]
+    change Function.Injective (i₀.baseChange Sf)
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap i₀ hseq.1
   have hExact : Function.Exact i q := by
-    show Function.Exact (i₀.baseChange Sf) (q₀.baseChange Sf)
-    rw [LinearMap.baseChange_eq_ltensor, LinearMap.baseChange_eq_ltensor]
+    change Function.Exact (i₀.baseChange Sf) (q₀.baseChange Sf)
+    rw [LinearMap.baseChange_eq_lTensor, LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_exact Sf hseq.2.1
   have hsurj : Function.Surjective q := by
-    show Function.Surjective (q₀.baseChange Sf)
-    rw [LinearMap.baseChange_eq_ltensor]
+    change Function.Surjective (q₀.baseChange Sf)
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective Sf hseq.2.2
   have : Module.Free Rf Cf := hC.2.2.2
   have : Module.Free Rf Df := hD.2.2.2
@@ -435,7 +435,7 @@ private lemma spec_away_square_isPullback {R B : Type u} [CommRing R] [CommRing 
     Scheme.Spec.mapIso eBA.toRingEquiv.symm.toCommRingCatIso.op ≪≫ (pullbackSpecIso R B Rf).symm
   have hbase (x : R) : algebraMap B Bf (algebraMap R B x) =
       algebraMap Rf Bf (algebraMap R Rf x) := by
-    show Algebra.TensorProduct.includeRight (algebraMap R B x) = _
+    change Algebra.TensorProduct.includeRight (algebraMap R B x) = _
     rw [Algebra.TensorProduct.includeRight_apply, Algebra.TensorProduct.algebraMap_apply]
     calc
       (1 : Sf) ⊗ₜ[B] algebraMap R B x =
@@ -453,14 +453,14 @@ private lemma spec_away_square_isPullback {R B : Type u} [CommRing R] [CommRing 
   have hsq : CommSq jX F' F jY := ⟨by
     rw [← Spec.map_comp, ← Spec.map_comp]
     exact congrArg Spec.map (CommRingCat.hom_ext (RingHom.ext hbase))⟩
-  show IsPullback jX F' F jY
+  change IsPullback jX F' F jY
   refine IsPullback.of_iso_pullback hsq e ?_ ?_
   all_goals
     simp only [e, Iso.trans_hom, Iso.symm_hom]
     rw [Category.assoc]
     first | rw [pullbackSpecIso_inv_fst] | rw [pullbackSpecIso_inv_snd]
     simp only [Functor.mapIso_hom, Iso.op_hom]
-    show Scheme.Spec.map _ ≫ Scheme.Spec.map _ = Scheme.Spec.map _
+    change Scheme.Spec.map _ ≫ Scheme.Spec.map _ = Scheme.Spec.map _
     rw [← Scheme.Spec.map_comp]
     apply congrArg Scheme.Spec.map
     apply Quiver.Hom.unop_inj
@@ -469,7 +469,7 @@ private lemma spec_away_square_isPullback {R B : Type u} [CommRing R] [CommRing 
     exact eBA.symm.commutes b
   · apply IsLocalization.ringHom_ext (Submonoid.powers f)
     ext x
-    show eBA.toRingEquiv.symm (algebraMap Rf T (algebraMap R Rf x)) =
+    change eBA.toRingEquiv.symm (algebraMap Rf T (algebraMap R Rf x)) =
       algebraMap Rf Bf (algebraMap R Rf x)
     rw [← IsScalarTower.algebraMap_apply R Rf T, IsScalarTower.algebraMap_apply R B T]
     exact (eBA.symm.commutes (algebraMap R B x)).trans (hbase x)
@@ -565,14 +565,14 @@ private lemma exists_open_forall_not_isReduced_fiber_spec_target
     (HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)).mp inferInstance
   have hφnr : ¬ IsReduced ((Spec.map (CommRingCat.ofHom (algebraMap R S))).fiber
       (genericPoint (Spec R))) := by
-    show ¬ IsReduced ((Spec.map φ).fiber (genericPoint (Spec R)))
+    change ¬ IsReduced ((Spec.map φ).fiber (genericPoint (Spec R)))
     exact hφ ▸ hi
   obtain ⟨V, hVo, hVne, hV⟩ :=
     exists_open_forall_not_isReduced_fiber_affine (R := R) (B := S) hφnr
   refine ⟨V, hVo, hVne, ?_⟩
   intro y hy hred
   apply hV y hy
-  show IsReduced ((Spec.map φ).fiber y)
+  change IsReduced ((Spec.map φ).fiber y)
   rw [hφ]
   exact isReduced_fiber_comp (X.affineCover.f i) f y
 
@@ -644,7 +644,7 @@ theorem geometricallyReduced_fiber_set_eq_preimage_of_isPullback
     {y' : Y' | GeometricallyReduced (f'.fiberToSpecResidueField y')} =
       g ⁻¹' {y : Y | GeometricallyReduced (f.fiberToSpecResidueField y)} := by
   ext y'
-  show GeometricallyReduced (f'.fiberToSpecResidueField y') ↔
+  change GeometricallyReduced (f'.fiberToSpecResidueField y') ↔
     GeometricallyReduced (f.fiberToSpecResidueField (g y'))
   let : Algebra (Y.residueField (g y')) (Y'.residueField y') :=
     (g.residueFieldMap y').hom.toAlgebra

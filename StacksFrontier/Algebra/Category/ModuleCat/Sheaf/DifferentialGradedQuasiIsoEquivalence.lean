@@ -68,8 +68,8 @@ precisely in the implementation notes below, together with what they need.
 
 ## Implementation notes
 
-**Tag 0FTZ itself is in
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedQuasiIsoDerivedEquivalence.lean`**,
+**Tag 0FTZ itself is in the module
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.DifferentialGradedQuasiIsoDerivedEquivalence`**,
 as `SheafOfModules.DifferentialGradedModule.isEquivalence_derivedExtension`, which constructs the
 derived extension of scalars, its adjunction with restriction and the invertibility of its unit,
 and then applies `isEquivalence_of_isIso_unit_derivedRestriction` of this file. The statement
@@ -80,7 +80,8 @@ and then applies `isEquivalence_of_isIso_unit_derivedRestriction` of this file. 
 today, and the list below has been checked against the merged base by compiling each claim.
 
 * `tensorData` — **available**. `SheafOfModules.RelativeTensor.tensorFunctorDataDgTensorRight`
-  of `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedBimoduleTensorUniversal.lean`
+  of
+  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedBimoduleTensorUniversal.lean`
   applied to `φ.toBimodule hφ` is a term of the required type. It constrains the universes: the
   algebra component universe and the module universe must both be the universe of the ringed
   site.

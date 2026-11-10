@@ -214,10 +214,10 @@ private lemma completionSpecPullbackIso_inv_snd (S : AlgebraizationSituation.{u}
     ext x
     have hx : (algebraMap S.A (AdicCompletion S.I S.A) x) ⊗ₜ[S.A] (1 : S.A ⧸ S.I) =
         (1 : AdicCompletion S.I S.A) ⊗ₜ[S.A] (Ideal.Quotient.mk S.I x) := by
-      show _ = (1 : AdicCompletion S.I S.A) ⊗ₜ[S.A] (algebraMap S.A (S.A ⧸ S.I) x)
+      change _ = (1 : AdicCompletion S.I S.A) ⊗ₜ[S.A] (algebraMap S.A (S.A ⧸ S.I) x)
       rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one,
         TensorProduct.smul_tmul]
-    show completionTensorResidueEquiv S
+    change completionTensorResidueEquiv S
         ((1 : AdicCompletion S.I S.A) ⊗ₜ[S.A] (Ideal.Quotient.mk S.I x)) =
       (completionResidueEquiv S).symm (Ideal.Quotient.mk S.I x)
     rw [completionResidueEquiv_symm_mk, ← hx, completionTensorResidueEquiv_tmul_one]
@@ -286,8 +286,8 @@ private lemma isIso_pullback_snd_baseChange
     pullback.lift (p ≫ i') (q ≫ pullback.snd i j) (by
       simp only [Category.assoc, ← h.w, p, q]
       rw [pullback.condition_assoc, pullback.condition])
-  have ht₁ : t ≫ pullback.fst f j = p ≫ i' := by simp [t, pullback.lift_fst]
-  have ht₂ : t ≫ pullback.snd f j = q ≫ pullback.snd i j := by simp [t, pullback.lift_snd]
+  have ht₁ : t ≫ pullback.fst f j = p ≫ i' := by simp [t]
+  have ht₂ : t ≫ pullback.snd f j = q ≫ pullback.snd i j := by simp [t]
   have h₁ : IsPullback p t i' (pullback.fst f j) := by
     apply IsPullback.of_bot (t := IsPullback.of_hasPullback f j)
       (h₁₁ := p) (v₁₁ := t)
@@ -321,7 +321,7 @@ private lemma coherentAdicPullback_restrict_isEquivalence
 public theorem completedSituation_U_eq_preimage (S : AlgebraizationSituation.{u}) :
     (completedSituation S).U = completionMap S ⁻¹ᵁ S.U := by
   ext x
-  show ¬(S.a.map (algebraMap S.A (AdicCompletion S.I S.A)) ≤
+  change ¬(S.a.map (algebraMap S.A (AdicCompletion S.I S.A)) ≤
       (x : PrimeSpectrum (AdicCompletion S.I S.A)).asIdeal) ↔
     ¬(S.a ≤ (x : PrimeSpectrum (AdicCompletion S.I S.A)).asIdeal.comap
       (algebraMap S.A (AdicCompletion S.I S.A)))
@@ -431,7 +431,7 @@ public theorem extendsToX_iff_pullback_isCompletion (S : AlgebraizationSituation
       Scheme.IdealSheafData.comap_comp]
   rw [← completedSituation_extension_iff_completion S _ (completionMap_comap_ker S) _
     (completedSituation_U_eq_preimage S).symm _ hK]
-  show ExtendsToX S F ↔
+  change ExtendsToX S F ↔
     ∃ H : Stacks.Coherent.CoherentAdicSystems (S.Yι.ker.comap (completionMap S)),
       Nonempty (H.obj ⋙ Scheme.Modules.pullback (completionMap S ⁻¹ᵁ S.U).ι ≅
         F.obj ⋙ Scheme.Modules.pullback (completionMap S ∣_ S.U))

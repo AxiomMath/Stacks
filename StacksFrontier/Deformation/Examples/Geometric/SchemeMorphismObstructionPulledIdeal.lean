@@ -336,7 +336,7 @@ theorem homEquiv_squareZeroConormalIso_hom :
     (modulePullbackPushforwardAdjunction (residueSpecMap
         ((squareZeroExtensionArtinian.{u, u, u} Λ k).obj M)).toLRSHom.toShHom).homEquiv _ _
         (squareZeroConormalIso (Λ := Λ) M).hom = (squareZeroIdealSheafIso (Λ := Λ) M).hom := by
-  show (modulePullbackPushforwardAdjunction _).homEquiv _ _
+  change (modulePullbackPushforwardAdjunction _).homEquiv _ _
     ((modulePullback _).map (squareZeroIdealSheafIso (Λ := Λ) M).hom ≫
       (modulePullbackPushforwardAdjunction _).counit.app _) = _
   rw [Adjunction.homEquiv_naturality_left, Adjunction.homEquiv_unit,

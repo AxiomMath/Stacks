@@ -392,8 +392,8 @@ def tensorRestrictTargetFunctor :
 constructed. Every object of `D(O)` is the class of a K-flat complex (Stacks 06YS), so every
 pair of objects is presented by one of these. -/
 abbrev tensorRestrictModels :=
-  {A : CochainComplex (Modules X.O) ℤ // Stacks.SheafOfModules.KFlat.KFlat X.O A} ×
-    {B : CochainComplex (Modules X.O) ℤ // Stacks.SheafOfModules.KFlat.KFlat X.O B}
+  {A : CochainComplex (Modules X.O) ℤ // Stacks.SheafOfModules.KFlat X.O A} ×
+    {B : CochainComplex (Modules X.O) ℤ // Stacks.SheafOfModules.KFlat X.O B}
 
 /-- The pair of objects of `D(O)` that a pair of K-flat complexes presents. -/
 abbrev tensorRestrictModelObject (m : tensorRestrictModels X) :

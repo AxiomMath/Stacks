@@ -24,7 +24,8 @@ the third isomorphism theorem: for `k : X ⟶ Y` and a monomorphism `n : Y ⟶ A
 `Y/X ⟶ A/X` is a monomorphism and a kernel of `A/X ⟶ A/Y`, so `Y/X ≅ Ker(A/X → A/Y)`
 (`Abelian.cokernelIsoKernelCokernelMap`); that `A/X ⟶ A/Y` is a cokernel of `Y/X ⟶ A/X` needs no
 hypothesis. The maps are spelled `cokernel.map` as in Mathlib's `kernelCokernelCompSequence`. This
-is the underlying-object content of Stacks 0129 (`StacksCore.CategoryTheory.Filtration.Subquotient`).
+is the underlying-object content of Stacks 0129
+(`StacksCore.CategoryTheory.Filtration.Subquotient`).
 
 ## Main results
 

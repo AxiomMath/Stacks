@@ -67,7 +67,8 @@ structurally better fix and is not done here". The comparison it does provide,
 `isFiniteType_kernel_over_of_isCoherentOn`, runs in the direction that consumes `IsCoherentOn`,
 so it cannot produce it. The transport in the other direction has to carry the kernel condition of
 Tag 01BV across `AlgebraicGeometry.Scheme.Modules.overEquiv` and across the identification of an
-open of `↥U` with an open of `X` below `U`; `StacksFrontier/AlgebraicGeometry/Modules/QuasicoherentLocal.lean` carries a *presentation*
+open of `↥U` with an open of `X` below `U`;
+`StacksFrontier/AlgebraicGeometry/Modules/QuasicoherentLocal.lean` carries a *presentation*
 across exactly those two and that is its only content, so the coherent analogue is of that size,
 not a corollary.
 

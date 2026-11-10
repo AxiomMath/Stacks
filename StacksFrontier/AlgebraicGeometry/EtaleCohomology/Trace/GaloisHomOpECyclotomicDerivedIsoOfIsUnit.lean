@@ -111,6 +111,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
   [Algebra k kbar] [IsAlgClosed kbar] [Algebra.IsAlgebraic k kbar] [Algebra.IsSeparable k kbar]
   (y : GeometricPoint (fieldBaseChange (Over.mk f) kbar)) (n : ℕ) [NeZero n]
 
+omit [Smooth f] in
 /-- **`ℱ_μ` is locally constant with injective values**, when `n` is invertible in `k̄`: its local
 values are `μ_n(k̄) ≅ ℤ/n` (`AlgebraicGeometry.isLocallyConstantWith_representationSheaf`), and
 `ℤ/n` is self-injective. -/

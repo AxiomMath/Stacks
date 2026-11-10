@@ -107,7 +107,7 @@ theorem bijective_of_gradedMonMul_map_map {M N P : D} [MonObj P] (i₁ : M ⟶ P
   have : κ = e.toLinearMap := by
     refine TensorProduct.ext (linearMap_ext F fun i ↦ LinearMap.ext fun a ↦
       linearMap_ext F fun j ↦ LinearMap.ext fun b ↦ ?_)
-    show κ (lof F ℤ (fun i ↦ G.obj M i) i a ⊗ₜ lof F ℤ (fun j ↦ G.obj N j) j b) =
+    change κ (lof F ℤ (fun i ↦ G.obj M i) i a ⊗ₜ lof F ℤ (fun j ↦ G.obj N j) j b) =
       e (lof F ℤ (fun i ↦ G.obj M i) i a ⊗ₜ lof F ℤ (fun j ↦ G.obj N j) j b)
     rw [hκ, gradedMonMul_map_map]
     simp only [e, LinearEquiv.trans_apply, totalTensorEquiv_tmul, totalEquiv_lof]
@@ -131,11 +131,11 @@ theorem eq_gradedCounit_smul_gradedOne (u : G.obj (𝟙_ D) 0) :
   rw [gradedOne, ← (LaxMonoidal.ε G 0).hom.map_smul]
   congr 1
   apply (tensorUnit₀ (I := ℤ) (C := ModuleCat.{w} F)).toLinearEquiv.injective
-  show (tensorUnit₀ (I := ℤ) (C := ModuleCat.{w} F)).hom ((OplaxMonoidal.η G 0) u) =
+  change (tensorUnit₀ (I := ℤ) (C := ModuleCat.{w} F)).hom ((OplaxMonoidal.η G 0) u) =
     (tensorUnit₀ (I := ℤ) (C := ModuleCat.{w} F)).hom
       (G.gradedCounit u • (tensorUnit₀ (I := ℤ) (C := ModuleCat.{w} F)).inv (1 : F))
   rw [_root_.map_smul, Iso.inv_hom_id_apply]
-  show _ = G.gradedCounit u * 1
+  change _ = G.gradedCounit u * 1
   rw [mul_one]
   rfl
 

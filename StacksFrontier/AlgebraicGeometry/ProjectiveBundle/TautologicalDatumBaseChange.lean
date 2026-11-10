@@ -184,7 +184,7 @@ is the inverse presentation comparison at `E'` followed by the base-change morph
       (bundlePresentationIso E').inv ≫
         Stacks.ProjectiveBundle.baseChangeHom g E (isQuasicoherentPieces_of_isQuasicoherent E)
           E' (isQuasicoherentPieces_of_isQuasicoherent E') hE := by
-  show projectiveBundleBaseChange g E E' hE ≫
+  change projectiveBundleBaseChange g E E' hE ≫
       (Stacks.ProjectiveBundle.presentationIso E
         (isQuasicoherentPieces_of_isQuasicoherent E)).inv =
     (Stacks.ProjectiveBundle.presentationIso E'

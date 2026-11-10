@@ -94,9 +94,9 @@ whatever section universe they are taken.
 same reason.  `AlgebraicGeometry.FibredSite.moduleCoheratorSucc` below is the same construction
 at `u + 1`, where the direct image lives: the special adjoint functor theorem applied to the
 inclusion of **Stacks 06WG**, in the form that exhibits the right adjoint rather than the form
-that merely asserts one exists.  Its colimit inputs are the ones
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/Descent/`
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/Descent/QuasicoherentColimitsLargeModuleUniverse.lean`
+that merely asserts one exists.  Its colimit inputs are the ones the file
+`QuasicoherentColimitsLargeModuleUniverse.lean`, in the directory
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/Descent/`,
 provides — the existence of colimits of `QCoh(𝒪_𝒳)` and their preservation by the inclusion,
 which is **Stacks 06WN** part (1) — and the index universe of the theorem is `u + 1` as well,
 the universe of the morphisms of `QCoh(𝒪_𝒳)` at this section universe.  Local smallness is

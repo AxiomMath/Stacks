@@ -82,7 +82,7 @@ theorem numberGeometricConnectedComponents_class_eq_finrank (hX : IsAlgebraicSpa
   rw [finrank_globalFunctions_eq_card_connectedComponents p.carrier B p.contained _ hF z hz hred,
     numberGeometricConnectedComponents_eq B S hS hX hY f ⟨p, inferInstance⟩,
     geometricFiberComponentCount_eq_overField B S hS hX hY f p]
-  show Cardinal.toENat (Cardinal.mk (ConnectedComponents
+  change Cardinal.toENat (Cardinal.mk (ConnectedComponents
     (points B (Spec (.of p.carrier)) p.contained (fibreOverFieldValuedPoint B S hS f p)))) = _
   rw [← Nat.cast_card, Cardinal.toENat_nat]
 
@@ -135,7 +135,7 @@ theorem isLocallyConstant_of_lowerSemicontinuous_of_etaleCharts
   obtain ⟨V, hVsub, hVo, hxV⟩ := mem_nhds_iff.mp (hle.and hge)
   refine Filter.mem_of_superset ((hφo V hVo).mem_nhds ⟨x, hxV, hx⟩) ?_
   rintro y' ⟨v, hv, rfl⟩
-  show n (φ v) = n y
+  change n (φ v) = n y
   rw [← hx, hnβ v, hnβ x, le_antisymm (hVsub hv).1 (hVsub hv).2]
 
 variable {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}

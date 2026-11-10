@@ -229,11 +229,11 @@ category is the class of the `k`-th shift of that module. For `k = 1` this is
 theorem shiftFunctor_obj_eq (k : ℤ) (M : DifferentialGradedModule.{u, v, w} A) :
     (shiftFunctor (HomotopyCategory.{u, v, w} A) k).obj ((quotient A).obj M) =
       (quotient A).obj (asModule A ((dgShiftFunctor.{u, v, w} A k).obj (asObject A M))) := by
-  show (quotient A).obj (asModule A
+  change (quotient A).obj (asModule A
     ((shiftFunctor (dgCategoryData.{u, v, w} A).category.K k).obj (asObject A M))) = _
   rw [(dgConeSituation A).shift.kShift_functor]
   refine congrArg (quotient A).obj (congrArg (asModule A) ?_)
-  show (((dgConeSituation A).shift.shiftFunctor k).obj (asObject A M)) = _
+  change (((dgConeSituation A).shift.shiftFunctor k).obj (asObject A M)) = _
   rw [dgConeSituation_shift]
   rfl
 

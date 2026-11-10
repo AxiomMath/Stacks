@@ -97,10 +97,10 @@ theorem shortExact_forgetToCochainComplex (S : ShortComplex (DifferentialGradedM
   · rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact]
     exact exact_gradedMap A S hS n
   · rw [ModuleCat.mono_iff_injective]
-    show Function.Injective (S.f.gradedMap n)
+    change Function.Injective (S.f.gradedMap n)
     exact fun x y hxy => Subtype.ext (Hom.injective_of_mono A S.f (congrArg Subtype.val hxy))
   · rw [ModuleCat.epi_iff_surjective]
-    show Function.Surjective (S.g.gradedMap n)
+    change Function.Surjective (S.g.gradedMap n)
     intro y
     obtain ⟨x, hx⟩ := Hom.surjective_of_epi A S.g (y : S.X₃.M)
     have hgraded := DirectSum.coe_decompose_apply_map S.X₂.grading S.X₃.grading S.g.toFun

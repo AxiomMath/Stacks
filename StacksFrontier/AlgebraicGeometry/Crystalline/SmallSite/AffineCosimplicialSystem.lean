@@ -167,10 +167,10 @@ theorem isPAdicLevel_of_pow_mem {A : Type w} [CommRing A] {I : Ideal A} (γ : Di
     rw [hsplit]
     exact I.mul_mem_left _ hm
   refine ⟨?_, ?_⟩
-  · show Ideal.span {(p : A)} ^ e ≤ I
+  · change Ideal.span {(p : A)} ^ e ≤ I
     rw [Ideal.span_singleton_pow, Ideal.span_le, Set.singleton_subset_iff]
     exact hmem
-  · show γ.IsSubDPIdeal (Ideal.span {(p : A)} ^ e)
+  · change γ.IsSubDPIdeal (Ideal.span {(p : A)} ^ e)
     rw [Ideal.span_singleton_pow]
     refine (DividedPowers.span_isSubDPIdeal_iff (by simpa using hmem)).2 ?_
     intro n hn t ht
@@ -254,7 +254,7 @@ crystalline thickening again crystalline. -/
 theorem levelQuotientMap_bijective : Function.Bijective (levelQuotientMap p R k h) := by
   refine ⟨Ideal.quotientMap_injective' ?_,
     Ideal.quotientMap_surjective Ideal.Quotient.mk_surjective⟩
-  show Ideal.comap (Ideal.Quotient.mk (DividedPowers.pAdicIdeal (A := R) p ^ k))
+  change Ideal.comap (Ideal.Quotient.mk (DividedPowers.pAdicIdeal (A := R) p ^ k))
     (R.ideal.map (Ideal.Quotient.mk (DividedPowers.pAdicIdeal (A := R) p ^ k))) ≤ R.ideal
   rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective,
     ← RingHom.ker_eq_comap_bot, Ideal.mk_ker]
@@ -266,9 +266,9 @@ what makes a whole family of level quotients at one and the same level uniformly
 by a single power of `p`. -/
 theorem pow_natCast_eq_zero_levelRing :
     (p : dpQuotientLevelRing p R k h) ^ k = 0 := by
-  show (Ideal.Quotient.mk (DividedPowers.pAdicIdeal (A := R) p ^ k) (p : R)) ^ k = 0
+  change (Ideal.Quotient.mk (DividedPowers.pAdicIdeal (A := R) p ^ k) (p : R)) ^ k = 0
   rw [← map_pow, Ideal.Quotient.eq_zero_iff_mem]
-  show (p : R) ^ k ∈ DividedPowers.pAdicIdeal (A := R) p ^ k
+  change (p : R) ^ k ∈ DividedPowers.pAdicIdeal (A := R) p ^ k
   exact Ideal.pow_mem_pow (Ideal.subset_span (Set.mem_singleton _)) k
 
 /-- The image of `p` is nilpotent in a `p`-adic level quotient. -/
@@ -288,7 +288,7 @@ theorem pAdicIdeal_pow_le_comap (f : R ⟶ R') (hk : k' ≤ k) :
     DividedPowers.pAdicIdeal (A := R) p ^ k ≤
       (DividedPowers.pAdicIdeal (A := R') p ^ k').comap f.toRingHom := by
   rw [← Ideal.map_le_iff_le_comap]
-  show Ideal.map f.toRingHom (Ideal.span {(p : R)} ^ k) ≤ Ideal.span {(p : R')} ^ k'
+  change Ideal.map f.toRingHom (Ideal.span {(p : R)} ^ k) ≤ Ideal.span {(p : R')} ^ k'
   rw [Ideal.span_singleton_pow, Ideal.span_singleton_pow, Ideal.map_span, Set.image_singleton,
     Ideal.span_le, Set.singleton_subset_iff, SetLike.mem_coe, map_pow, map_natCast]
   exact Ideal.mem_span_singleton.2 (pow_dvd_pow _ hk)

@@ -109,7 +109,7 @@ theorem mapHomologicalComplex_homOfDegreewiseSplit_comp
     rfl
   have hc : G.map (S₁.X₂.d n (n + 1)) ≫ ρ₂.f (n + 1) = ρ₂.f n ≫ S₂.X₂.d n (n + 1) :=
     (ρ₂.comm n (n + 1)).symm
-  show (G.map ((CochainComplex.homOfDegreewiseSplit S₁ σ₁).f n) ≫ 𝟙 _) ≫ ρ₁.f (n + 1) =
+  change (G.map ((CochainComplex.homOfDegreewiseSplit S₁ σ₁).f n) ≫ 𝟙 _) ≫ ρ₁.f (n + 1) =
     ρ₃.f n ≫ (CochainComplex.homOfDegreewiseSplit S₂ σ₂).f n
   rw [e₁, e₂, Category.comp_id, G.map_comp, G.map_comp, Category.assoc, Category.assoc, hr,
     reassoc_of% hc, reassoc_of% (hs n)]

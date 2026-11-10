@@ -143,7 +143,7 @@ theorem overRingMap_constantRingedSiteRingMap :
       constantRingMap Λ (J.over U) ≫ (constantRingSheafOverIso_general J Λ U).hom.hom := by
   have h := (Over.forget U).toSheafify_pullbackSheafificationCompatibility RingCat.{u}
     (J.over U) J ((Functor.const Cᵒᵖ).obj (RingCat.of Λ))
-  show Functor.whiskerLeft (Over.forget U).op
+  change Functor.whiskerLeft (Over.forget U).op
         (toSheafify J ((Functor.const Cᵒᵖ).obj (RingCat.of Λ))) ≫
       Functor.whiskerLeft (Over.forget U).op (constantRingSheafIso_general J Λ).inv.hom =
     toSheafify (J.over U) ((Over.forget U).op ⋙ (Functor.const Cᵒᵖ).obj (RingCat.of Λ)) ≫

@@ -265,7 +265,7 @@ theorem perfectDerivedTrace_derivedTwistEndo_twistedBaseChange_eq
   refine perfectDerivedTrace_derivedTwistEndo_iso_map_eq P F₁ P' F₁' F₂ G θ θ' γ ρ hθ _ _ e' τ
     _ hK hK' ?_
   ext n : 2
-  show τ.hom.f n ≫ P.map (g.map (e.hom.hom.f n) ≫ β.hom.app (M.obj.X n)) =
+  change τ.hom.f n ≫ P.map (g.map (e.hom.hom.f n) ≫ β.hom.app (M.obj.X n)) =
     (g.map (e.hom.hom.f n) ≫ β.hom.app (M.obj.X n)) ≫
       G.map (twistedBaseChangeTwist P' g' PZ Sg S tw' aBC c (M.obj.X n) (ε n)) ≫
       ρ.app (g'.obj (M.obj.X n))

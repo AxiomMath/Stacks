@@ -87,6 +87,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 attribute [local instance] pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` in this presheaf category times out at the default
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_ProperFiniteImageNearFibre :
@@ -134,7 +135,7 @@ private theorem isPullback_fst_pullbackMap {X Z T K : (BigFppfOver B S hS)ᵒᵖ
       (pullback.map f k q k hz (𝟙 _) (𝟙 _) (by simp [comm]) (by simp))
       hz (pullback.fst q k) := by
   cases comm
-  refine IsPullback.of_iso_pullback ⟨by simp [pullback.map, pullback.lift_fst]⟩
+  refine IsPullback.of_iso_pullback ⟨by simp [pullback.map]⟩
     (pullbackRightPullbackFstIso q k hz).symm
     (pullbackRightPullbackFstIso_inv_fst q k hz) ?_
   apply pullback.hom_ext
@@ -189,10 +190,10 @@ theorem exists_isClosedSubspace_isFinite_of_isFinite_schemeTheoreticImage
   let uMap : pullback f U.ι ⟶ pullback g U.ι :=
     pullback.map f U.ι g U.ι h (𝟙 _) (𝟙 _) (by simp [comm]) (by simp)
   have huMapFst : pullback.fst f U.ι ≫ h = uMap ≫ fstYU := by
-    simp [uMap, fstYU, pullback.map, pullback.lift_fst]
+    simp [uMap, fstYU, pullback.map]
   have huMapRange : Subfunctor.range uMap ≤ Zc := by
     rintro V _ ⟨x, rfl⟩
-    show fstYU.app V (uMap.app V x) ∈ I.obj V
+    change fstYU.app V (uMap.app V x) ∈ I.obj V
     apply range_le_schemeTheoreticImageSubfunctor B S hS h V
     refine ⟨(pullback.fst f U.ι).app V x, ?_⟩
     simpa only [NatTrans.comp_app, CategoryTheory.comp_apply] using
@@ -239,8 +240,8 @@ theorem finite_univ_points_pullback_schemeTheoreticImage_of_finite_range
     pullback.map f k g k h (𝟙 _) (𝟙 _) (by simp [comm]) (by simp)
   have hxy : xk ≫ zk = xy := by
     apply pullback.hom_ext
-    · simp [xk, zk, xy, pullback.map, pullback.lift_fst, pullback.lift_fst_assoc, hwι]
-    · simp [xk, zk, xy, pullback.map, pullback.lift_snd]
+    · simp [xk, zk, xy, pullback.map, hwι]
+    · simp [xk, zk, xy, pullback.map]
   have hxksurj : IsSurjective B S hS xk :=
     isSurjective_of_isPullback B S hS
       (isPullback_homMk B S hS hX hIk hI (isAlgebraicSpace_pullback B S hS f k hX hK hT)

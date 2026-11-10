@@ -66,7 +66,7 @@ private theorem restrictedCoyonedaProjection_lift_of_lift
   · exact IsHomLift.of_fac (p := (restrictedRepresentable R).p) f hB rfl rfl (by rfl)
   · exact IsHomLift.map
       (p := (BasedCategory.ofFunctor (𝟭 (ArtinianLocalAlgCat.{u, v, w} Λ k))).p) (𝟙 B)
-  · show f = (𝟙 B) ≫ g
+  · change f = (𝟙 B) ≫ g
     rw [← hgf]
     exact (Category.id_comp g).symm
 
@@ -141,9 +141,9 @@ private theorem restrictedCoyonedaProjection_smallLifts
     apply isSmooth_of_lifts_smallExtensions
       (𝓖 := BasedCategory.ofFunctor (𝟭 (ArtinianLocalAlgCat.{u, v, w} Λ k)))
       (φ := restrictedCoyonedaProjection R)
-    · show IsCofiberedInGroupoids
+    · change IsCofiberedInGroupoids
         (Functor.Elements.π (restrictedCoyoneda R))
-      show Functor.IsFiberedInGroupoids
+      change Functor.IsFiberedInGroupoids
         (Functor.Elements.π (restrictedCoyoneda R)).op
       constructor
       · intro V U f x hx
@@ -221,7 +221,7 @@ private theorem formallySmoothNAdic_smallLifts
       (CommRingCat.ofHom f.hom.toRingHom) hsmall).2.2.2
   have hker : J = Ideal.map upB (RingHom.ker f.hom.toRingHom) := by
     ext z
-    show fLift z = 0 ↔ z ∈ Ideal.map upB (RingHom.ker f.hom.toRingHom)
+    change fLift z = 0 ↔ z ∈ Ideal.map upB (RingHom.ker f.hom.toRingHom)
     constructor
     · intro hz
       have hzdown : f.hom.toRingHom z.down = 0 := by
@@ -229,13 +229,13 @@ private theorem formallySmoothNAdic_smallLifts
         dsimp [fLift, RingHom.ulift] at hz'
         change f.hom.toRingHom z.down = 0 at hz'
         exact hz'
-      show upB z.down ∈ Ideal.map upB (RingHom.ker f.hom.toRingHom)
+      change upB z.down ∈ Ideal.map upB (RingHom.ker f.hom.toRingHom)
       exact Ideal.mem_map_of_mem upB hzdown
     · intro hz
       obtain ⟨b, hb, hzb⟩ :=
         (Ideal.mem_map_iff_of_surjective upB upB.surjective).mp hz
       rw [← hzb]
-      show ULift.up (f.hom.toRingHom b) = 0
+      change ULift.up (f.hom.toRingHom b) = 0
       rw [hb]
       rfl
   have hsq : J ^ 2 = ⊥ := by
@@ -284,7 +284,7 @@ private theorem formallySmoothNAdic_smallLifts
       have hxpow : x.hom r ∈ maximalIdeal A ^ (n + 1) :=
         hmap (Ideal.mem_map_of_mem x.hom.toRingHom hr)
       have hzero : x.hom r = 0 := by simpa [hn'] using hxpow
-      show ψ r = 0
+      change ψ r = 0
       simp [ψ, hzero]
   let fbase : Λ →+* E := upB.comp (algebraMap Λ B)
   obtain ⟨g, hgquot, hgbase⟩ := h E J hsq fbase ψ hcomm hpow
@@ -373,7 +373,7 @@ private theorem formallySmooth_flat_specialFibre_tfae
     { toRingEquiv := (Algebra.TensorProduct.comm T R (ResidueField T)).toRingEquiv
       commutes' := by
         intro a
-        show (Algebra.TensorProduct.comm T R (ResidueField T)).toRingEquiv
+        change (Algebra.TensorProduct.comm T R (ResidueField T)).toRingEquiv
             ((1 : R) ⊗ₜ[T] a) = a ⊗ₜ[T] (1 : R)
         exact Algebra.TensorProduct.comm_tmul T (1 : R) a }
   obtain ⟨htriv, hlocal, hnoeth⟩ := specialFibre_isLocalNoetherian R p rfl
@@ -500,7 +500,7 @@ private theorem small_of_finiteLength
     intro m
     have hm : m - s (N.mkQ m) ∈ N := by
       apply (Submodule.Quotient.mk_eq_zero N).mp
-      show N.mkQ (m - s (N.mkQ m)) = 0
+      change N.mkQ (m - s (N.mkQ m)) = 0
       rw [map_sub, hs, sub_self]
     exact ⟨(⟨m - s (N.mkQ m), hm⟩, N.mkQ m), sub_add_cancel _ _⟩
 
@@ -565,7 +565,7 @@ private theorem restrictedCoyoneda_lifts_implies_local_formallySmooth
     let qres : IsLocalRing.ResidueField A →ₐ[Λ] IsLocalRing.ResidueField (A ⧸ J) :=
       IsLocalRing.ResidueField.mapAlgHom qAlg
     have hqres : Function.Bijective qres.toRingHom := by
-      show Function.Bijective (IsLocalRing.ResidueField.map q)
+      change Function.Bijective (IsLocalRing.ResidueField.map q)
       exact residueField_map_bijective_of_surjective q hsurj
     let qresEquiv : IsLocalRing.ResidueField A ≃ₐ[Λ]
         IsLocalRing.ResidueField (A ⧸ J) := AlgEquiv.ofBijective qres hqres
@@ -574,7 +574,7 @@ private theorem restrictedCoyoneda_lifts_implies_local_formallySmooth
     let gresEquiv : IsLocalRing.ResidueField R ≃ₐ[Λ]
         IsLocalRing.ResidueField (A ⧸ J) :=
       AlgEquiv.ofBijective gres (by
-        show Function.Bijective (IsLocalRing.ResidueField.map gbar)
+        change Function.Bijective (IsLocalRing.ResidueField.map gbar)
         exact hbij)
     let eQ : IsLocalRing.ResidueField (A ⧸ J) ≃ₐ[Λ] k :=
       gresEquiv.symm.trans R.residueEquiv
@@ -609,10 +609,10 @@ private theorem restrictedCoyoneda_lifts_implies_local_formallySmooth
         isLocal := IsLocalHom.of_surjective fAlg.toRingHom hfAlg
         residue_comm := by
           intro a
-          show eQ (ResidueField.mapAlgEquiv qE (residue _ (fAlg a))) =
+          change eQ (ResidueField.mapAlgEquiv qE (residue _ (fAlg a))) =
             eA (ResidueField.mapAlgEquiv aE (residue _ a))
           simp only [ResidueField.mapAlgEquiv_residue]
-          show eQ (residue _ (qE (qE.symm (qAlg (aE a))))) = _
+          change eQ (residue _ (qE (qE.symm (qAlg (aE a))))) = _
           rw [AlgEquiv.apply_symm_apply, ← ResidueField.mapAlgHom_residue qAlg]
           rfl }
     let : IsLocalHom qE.symm.toRingHom :=
@@ -622,11 +622,11 @@ private theorem restrictedCoyoneda_lifts_implies_local_formallySmooth
         isLocal := RingHom.isLocalHom_comp qE.symm.toRingHom gbar
         residue_comm := by
           intro r
-          show eQ (ResidueField.mapAlgEquiv qE
+          change eQ (ResidueField.mapAlgEquiv qE
             (residue _ (qE.symm (gbarAlg r)))) = R.residueEquiv (residue R r)
           rw [ResidueField.mapAlgEquiv_residue, AlgEquiv.apply_symm_apply,
             ← ResidueField.mapAlgHom_residue gbarAlg]
-          show R.residueEquiv (gresEquiv.symm (gresEquiv (residue R r))) = _
+          change R.residueEquiv (gresEquiv.symm (gresEquiv (residue R r))) = _
           rw [AlgEquiv.symm_apply_apply] }
     obtain ⟨y', hy⟩ := hlift fcat hfAlg x
     let y := aE.toAlgHom.comp y'.hom
@@ -635,7 +635,7 @@ private theorem restrictedCoyoneda_lifts_implies_local_formallySmooth
       have hh := congrArg (fun h : CompleteLocalAlgCat.Hom _ _ =>
         qE (h.hom r)) hy
       change qE (qE.symm (q (aE (y'.hom r)))) = qE (qE.symm (gbar r)) at hh
-      show q (aE (y'.hom r)) = gbar r
+      change q (aE (y'.hom r)) = gbar r
       simpa only [AlgEquiv.apply_symm_apply] using hh
     have hbase : (y.toRingHom.comp φ).comp (algebraMap Λ T) =
           f.comp (algebraMap Λ T) := by

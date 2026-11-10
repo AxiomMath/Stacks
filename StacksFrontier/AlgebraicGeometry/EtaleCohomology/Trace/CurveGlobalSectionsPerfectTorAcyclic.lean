@@ -75,7 +75,7 @@ abbrev powSheaf (J : Stacks.EtaleCohomology.EtaleModules.{u, r} Λ Y) :
 /-- The projection `(ι → J) ⟶ J` onto a coordinate. -/
 def powSheafProj (J : Stacks.EtaleCohomology.EtaleModules.{u, r} Λ Y) (i : ι) :
     powSheaf Y ι J ⟶ J :=
-  ⟨{ app := fun U => ModuleCat.ofHom (LinearMap.proj i)
+  ⟨{ app := fun _ => ModuleCat.ofHom (LinearMap.proj i)
      naturality := fun _ _ _ => rfl }⟩
 
 /-- The morphism into `(ι → J)` assembled from its coordinates. -/
@@ -121,7 +121,7 @@ def tensorAbIso {N : ModuleCat.{max (u + 1) r} (MulOpposite Λ)} [Fintype ι]
     (b : Module.Basis ι (MulOpposite Λ) N) :
     tensorAb D N ≅ powModule.{u, r} (Λ := Λ) ι ⋙ Stacks.EtaleResolution.forgetAb.{u + 1} Λ :=
   Functor.isoWhiskerRight (tensorBasisRightIso D b) (forget₂ (ModuleCat ℤ) AddCommGrpCat) ≪≫
-    NatIso.ofComponents (fun M => Iso.refl _) (fun f => rfl)
+    Iso.refl _
 
 /-- An isomorphism of coefficient functors induces an isomorphism of the composed sheaves. -/
 def sheafComposeIso {A B : Type*} [Category* A] [Category* B] {F G : A ⥤ B}
@@ -190,7 +190,7 @@ lemma subsingleton_ext_twistComplex_X (R : CochainComplex (FiniteFree.{max (u + 
       (ComplexShape.π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (ComplexShape.up ℤ)) n) S
     (fun _ hj => not_not.1 hj) G
   have hz := StacksDraft.TotalComplexQuasiIso.isZero_cofan_pt _ hc (fun j => by
-    show IsZero (AddCommGrpCat.of (Ext.{w} (Stacks.EtaleSections.zSheaf.{r} Y)
+    change IsZero (AddCommGrpCat.of (Ext.{w} (Stacks.EtaleSections.zSheaf.{r} Y)
       (((twist.{u, r} D Y).obj (R.X j.1.1)).obj (I.X j.1.2)) (q + 1)))
     have := subsingleton_ext_twist.{w} Y D (R.X j.1.1) (I.X j.1.2) q
     exact AddCommGrpCat.isZero_of_subsingleton _)

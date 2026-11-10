@@ -90,7 +90,7 @@ theorem exists_comp_eq_of_surjective_of_isAlgClosed {K : Type u} [Field K] [IsAl
   refine ⟨pointOfClosedPoint p z hzc, pointOfClosedPoint_comp p z hzc, ?_⟩
   refine ext_of_apply_closedPoint_eq q ?_ hy ?_
   · rw [Category.assoc, hg, pointOfClosedPoint_comp]
-  · show g (pointOfClosedPoint p z hzc (IsLocalRing.closedPoint K)) = _
+  · change g (pointOfClosedPoint p z hzc (IsLocalRing.closedPoint K)) = _
     rw [pointOfClosedPoint_apply p z hzc (IsLocalRing.closedPoint K : Spec (.of K))]
     exact hz
 

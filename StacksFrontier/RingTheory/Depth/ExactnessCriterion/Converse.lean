@@ -366,7 +366,7 @@ private lemma exists_top_split (t : ℕ) (n : ℕ → ℕ)
       rw [hu, sub_eq_zero] at h9
       exact h9.symm
     · rintro x ⟨w, rfl⟩
-      show (A t).mulVec ((A (t + 1)).mulVec w) = 0
+      change (A t).mulVec ((A (t + 1)).mulVec w) = 0
       rw [Matrix.mulVec_mulVec, hA t]
       simp
   obtain ⟨n', hn'le, hn'mid, hn'hi⟩ : ∃ n' : ℕ → ℕ, (∀ i ≤ t, n' i = n i) ∧
@@ -499,7 +499,7 @@ private theorem ker_eq_range_of_numericalMat :
       obtain rfl : k = 0 := Nat.le_zero.mp hk
       have hb : LinearMap.range (A 1).mulVecLin = ⊥ :=
         BoundedFreeComplex.range_eq_bot_of_zero_source (htop (1 + 1) (by omega)) (A 1)
-      show LinearMap.ker (A 0).mulVecLin = LinearMap.range (A 1).mulVecLin
+      change LinearMap.ker (A 0).mulVecLin = LinearMap.range (A 1).mulVecLin
       rw [hb, LinearMap.ker_eq_bot]
       obtain ⟨hr, hdep⟩ := hnum 0 le_rfl
       refine (injective_iff_rank_eq_and_contains_nonZeroDivisor (A 0)).mpr ⟨?_, ?_⟩

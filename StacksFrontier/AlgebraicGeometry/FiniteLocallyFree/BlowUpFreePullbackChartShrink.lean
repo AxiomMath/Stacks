@@ -46,7 +46,8 @@ categories as `Stacks.AlgebraicGeometry.ModuleLimits.trivShrink_of_paste` and in
 single `exact`.
 
 The second is the kernel budget recorded in
-`StacksFrontier/AlgebraicGeometry/ModuleLimits/RestrictPullbackShrinkTail.lean`:  an equation between
+`StacksFrontier/AlgebraicGeometry/ModuleLimits/RestrictPullbackShrinkTail.lean`:  an equation
+between
 composites of six morphisms through four-fold nested inverse images does not finish checking.  The
 paste law is accordingly stated as
 `AlgebraicGeometry.modulesPullbackTriangleIso_square_paste`, with all ten morphisms and all four

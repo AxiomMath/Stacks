@@ -114,7 +114,7 @@ theorem exists_etalePresentation_twoFibreProductSquarePt_of_isDM
       (CatFiberedInGroupoids.twoFibreProductSquare.{u, u, u + 1, u + 1} f.hom b.hom).pt := p
   let sw := twoFibreProductSwapMap B S hS b.hom f.hom
   have hswEquiv : Functor.IsEquivalence (CatFiberedInGroupoids.homFunctor sw) := by
-    show Functor.IsEquivalence (TwoFibreProductOver.swap _ _ _ _ _)
+    change Functor.IsEquivalence (TwoFibreProductOver.swap _ _ _ _ _)
     infer_instance
   have hpsu : IsSurjectiveOnObjects B S hS (schemeFibredCategory B S hS W).val.p
       (CatFiberedInGroupoids.twoFibreProductSquare.{u, u, u + 1, u + 1} f.hom b.hom).pt.val.p
@@ -145,7 +145,7 @@ theorem hasSurjectiveEtaleSmoothDiagram_of_isDM
   let aInv : fibredCategory B S hS (yoneda.obj U) ⟶ schemeFibredCategory B S hS U :=
     equivalenceOverInvMap B S hS (yoneda.obj U) eU
   have haInvEquiv : Functor.IsEquivalence (CatFiberedInGroupoids.homFunctor aInv) := by
-    show Functor.IsEquivalence eU.inv.functor
+    change Functor.IsEquivalence eU.inv.functor
     exact eU.toEquivalence.symm.isEquivalence_functor
   let b : algebraicSpaceStack.{u, w} B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U) ⟶
       𝒴 := Bicategory.InducedBicategory.mkHom (aInv ≫ a')

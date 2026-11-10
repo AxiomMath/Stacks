@@ -68,7 +68,7 @@ It is the inverse of the morphism of sheaves `AlgebraicGeometry.Stack.liftedSmal
 which is the identification of Stacks 03LC (1) read backwards, the sheafified Stacks 06WC pullback
 of `𝓕^a ≅ F|_{U_ét}`, and the sheafified comparison, all three invertible. -/
 noncomputable def liftedSmallEtaleIsoOfSheafified {x z : 𝒳} (φ : z ⟶ x)
-    (𝓕 : (p.obj x).left.1.Modules) (h𝓕 : 𝓕.IsQuasicoherent)
+    (𝓕 : (p.obj x).left.1.Modules)
     (hMx : Presheaf.IsSheaf (SmallEtale.topology E (p.obj x).left.1
         (contains_base B E h S hS p x))
       (restrictModuleToSmallEtale B E h S hS p hp x (etaleTopology B)
@@ -92,7 +92,7 @@ noncomputable def liftedSmallEtaleIsoOfSheafified {x z : 𝒳} (φ : z ⟶ x)
 /-- **`AlgebraicGeometry.Stack.liftedSmallEtaleIsoOfSheafified` is inverse to
 `AlgebraicGeometry.Stack.liftedSmallEtaleSheafInv`**, by construction. -/
 theorem liftedSmallEtaleIsoOfSheafified_hom_comp_sheafInv {x z : 𝒳} (φ : z ⟶ x)
-    (𝓕 : (p.obj x).left.1.Modules) (h𝓕 : 𝓕.IsQuasicoherent)
+    (𝓕 : (p.obj x).left.1.Modules)
     (hMx : Presheaf.IsSheaf (SmallEtale.topology E (p.obj x).left.1
         (contains_base B E h S hS p x))
       (restrictModuleToSmallEtale B E h S hS p hp x (etaleTopology B)
@@ -106,12 +106,12 @@ theorem liftedSmallEtaleIsoOfSheafified_hom_comp_sheafInv {x z : 𝒳} (φ : z �
       ⟨restrictModuleToSmallEtale B E h S hS p hp x (etaleTopology B)
         (etaleTopology_le_topology B) F, hMx⟩)
     (hiso : IsIso (sheafifiedRestrictComparison B E h S hS p hp F φ (hlqc.2 _).choose)) :
-    (liftedSmallEtaleIsoOfSheafified B E h S hS p hp F hlqc φ 𝓕 h𝓕 hMx eU hiso).hom ≫
+    (liftedSmallEtaleIsoOfSheafified B E h S hS p hp F hlqc φ 𝓕 hMx eU hiso).hom ≫
         (PresheafOfModules.toPresheaf _).map
           ((SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars (𝟙 _)).map
             (liftedSmallEtaleSheafInv B E h S hS p hp F φ 𝓕 hMx hMz eU.hom)) =
       𝟙 _ :=
-  Eq.trans (by rfl) (liftedSmallEtaleIsoOfSheafified B E h S hS p hp F hlqc φ 𝓕 h𝓕 hMx eU
+  Eq.trans (by rfl) (liftedSmallEtaleIsoOfSheafified B E h S hS p hp F hlqc φ 𝓕 hMx eU
     hiso).hom_inv_id
 
 /-- **The identification of the sections of `F` at `z` with the sections of the presheaf of
@@ -143,7 +143,7 @@ noncomputable def liftedSectionsIsoOfSheafified {x z : 𝒳} (φ : z ⟶ x)
   letI := h𝓕
   refine (restrictModuleToSmallEtaleFinalIso B E h S hS p hp z (etaleTopology B)
       (etaleTopology_le_topology B) F).symm ≪≫
-    (liftedSmallEtaleIsoOfSheafified B E h S hS p hp F hlqc φ 𝓕 h𝓕 hMx eU hiso).app
+    (liftedSmallEtaleIsoOfSheafified B E h S hS p hp F hlqc φ 𝓕 hMx eU hiso).app
       (op (smallEtaleFinal B E h S hS p z)) ≪≫
     (SmallEtale.associatedModulePresheafIso E (p.obj z).left.1 (contains_base B E h S hS p z)
       ((Scheme.Modules.pullback (B.inclusion.map (p.map φ).left)).obj 𝓕)).app
@@ -351,7 +351,7 @@ theorem overPostSectionsMapOfSheafified_naturality (hcoc : LiftedSectionsCocycle
         (overPostSectionsMapOfSheafified B E h S hS p hp F hlqc x V 𝓕 h𝓕 hMx eU hiso M s) := by
   have key := overPostSectionsIsoOfSheafified_naturality B E h S hS p hp F hlqc hcoc x r 𝓕 h𝓕 hMx
       eU hiso hiso'
-  show (s ≫ F.presheaf.map (((overPostEquivalence B S hS p hp x).inverse.map r).left).op) ≫
+  change (s ≫ F.presheaf.map (((overPostEquivalence B S hS p hp x).inverse.map r).left).op) ≫
       (overPostSectionsIsoOfSheafified B E h S hS p hp F hlqc x V' 𝓕 h𝓕 hMx eU hiso').hom =
     (s ≫ (overPostSectionsIsoOfSheafified B E h S hS p hp F hlqc x V 𝓕 h𝓕 hMx eU hiso).hom) ≫
       (overPostSectionsPresheaf B S hS p x 𝓕 h𝓕).map r.op
@@ -389,7 +389,7 @@ noncomputable def liftedSectionsUpperOfSheafified {x z : 𝒳} (φ : z ⟶ x)
           (smallEtaleFinal B E h S hS p z))) :=
   (restrictModuleToSmallEtaleFinalIso B E h S hS p hp z (etaleTopology B)
       (etaleTopology_le_topology B) F).inv ≫
-    (liftedSmallEtaleIsoOfSheafified B E h S hS p hp F hlqc φ 𝓕 h𝓕 hMx eU hiso).hom.app
+    (liftedSmallEtaleIsoOfSheafified B E h S hS p hp F hlqc φ 𝓕 hMx eU hiso).hom.app
       (op (smallEtaleFinal B E h S hS p z)) ≫
     (SmallEtale.associatedModulePresheafIso E (p.obj z).left.1 (contains_base B E h S hS p z)
       ((Scheme.Modules.pullback (B.inclusion.map (p.map φ).left)).obj 𝓕)).hom.app
@@ -461,7 +461,7 @@ def LiftedSectionsFactorFourSquareOfSheafified : Prop :=
         (contains_base B E h S hS p x)).obj 𝓕 ≅
       ⟨restrictModuleToSmallEtale B E h S hS p hp x (etaleTopology B)
         (etaleTopology_le_topology B) F, hMx⟩)
-    {z' z : 𝒳} (ψ : z' ⟶ z) (φ : z ⟶ x) (φ' : z' ⟶ x) (hφ' : φ' = ψ ≫ φ)
+    {z' z : 𝒳} (ψ : z' ⟶ z) (φ : z ⟶ x) (φ' : z' ⟶ x), φ' = ψ ≫ φ → ∀
     (hkg : B.inclusion.map (p.map φ').left =
       B.inclusion.map (p.map ψ).left ≫ B.inclusion.map (p.map φ).left)
     (hiso : IsIso (sheafifiedRestrictComparison B E h S hS p hp F φ (hlqc.2 _).choose))
@@ -470,8 +470,8 @@ def LiftedSectionsFactorFourSquareOfSheafified : Prop :=
         ((SmallEtale.toOver E (p.obj z').left.1 (contains_base B E h S hS p z')).obj
           (smallEtaleFinal B E h S hS p z')) ⟶
       (SmallEtale.toOver E (p.obj z).left.1 (contains_base B E h S hS p z)).obj
-        (smallEtaleFinal B E h S hS p z))
-    (hn : n.left = B.inclusion.map (p.map ψ).left),
+        (smallEtaleFinal B E h S hS p z)),
+    n.left = B.inclusion.map (p.map ψ).left →
     letI := h𝓕
     F.presheaf.map ψ.op ≫ liftedSectionsUpperOfSheafified B E h S hS p hp F hlqc φ' 𝓕 hMx eU hiso' =
       liftedSectionsUpperOfSheafified B E h S hS p hp F hlqc φ 𝓕 hMx eU hiso ≫
@@ -749,10 +749,10 @@ theorem liftedSectionsFactorFourSquareOfSheafified_of_compat
   -- `hA`: factors 2, 3, 4 are inverse to the identification, at `ψ ≫ φ`
   have hA := NatTrans.congr_app (liftedSmallEtaleIsoOfSheafified_hom_comp_sheafInv B E h S hS p hp
       F hlqcF
-    (ψ ≫ φ) 𝓕 h𝓕 hMx hMz' eU hiso') (op (smallEtaleFinal B E h S hS p z'))
+    (ψ ≫ φ) 𝓕 hMx hMz' eU hiso') (op (smallEtaleFinal B E h S hS p z'))
   simp only [NatTrans.id_app] at hA
   have hsi := (Iso.comp_hom_eq_id _).2 ((Iso.hom_comp_eq_id
-    ((liftedSmallEtaleIsoOfSheafified B E h S hS p hp F hlqcF (ψ ≫ φ) 𝓕 h𝓕 hMx eU hiso').app
+    ((liftedSmallEtaleIsoOfSheafified B E h S hS p hp F hlqcF (ψ ≫ φ) 𝓕 hMx eU hiso').app
       (op (smallEtaleFinal B E h S hS p z')))).1 hA)
   -- `hnat`: naturality of the Stacks 070S identification in the module
   have : SheafOfModules.IsQuasicoherent
@@ -769,7 +769,7 @@ theorem liftedSectionsFactorFourSquareOfSheafified_of_compat
     (op (smallEtaleFinal B E h S hS p z'))
   have hl := NatTrans.congr_app (liftedSmallEtaleIsoOfSheafified_hom_comp_sheafInv B E h S hS p hp
       F hlqcF
-    φ 𝓕 h𝓕 hMx hMz eU hiso) (op (smallEtaleFinal B E h S hS p z))
+    φ 𝓕 hMx hMz eU hiso) (op (smallEtaleFinal B E h S hS p z))
   simp only [NatTrans.id_app] at hl
   refine split_prefix
     (restrictModuleToSmallEtaleFinalIso B E h S hS p hp z (etaleTopology B)

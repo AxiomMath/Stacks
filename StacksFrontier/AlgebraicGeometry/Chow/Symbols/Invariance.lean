@@ -50,7 +50,7 @@ private theorem moduleSymbol_mul_left
       moduleSymbol a c ha hc hdim * moduleSymbol b c hb hc hdim := by
   let s (x y : A) (hx : IsSMulRegular M x) (hy : IsSMulRegular M y) :=
     moduleSymbol x y hx hy hdim
-  show s (a * b) c (ha.mul hb) hc = s a c ha hc * s b c hb hc
+  change s (a * b) c (ha.mul hb) hc = s a c ha hc * s b c hb hc
   have h₁' : s (a * b) c (ha.mul hb) hc * s c (a * b) hc (ha.mul hb) = 1 :=
     moduleSymbol_mul_swap (A := A) (M := M) (a := a * b) c (ha.mul hb) hc hdim
   have h₂' : s c a hc ha * s c b hc hb = s c (a * b) hc (ha.mul hb) :=
@@ -94,7 +94,7 @@ private theorem injective_of_ker_supportDim_le_zero
   have hmin : Minimal (· ∈ Module.support A (LinearMap.ker f))
       (IsLocalRing.closedPoint A) := by
     rw [hsupp]
-    show IsLocalRing.closedPoint A ∈
+    change IsLocalRing.closedPoint A ∈
         ({IsLocalRing.closedPoint A} : Set (PrimeSpectrum A)) ∧
       ∀ ⦃q : PrimeSpectrum A⦄, q ∈ {IsLocalRing.closedPoint A} →
         q ≤ IsLocalRing.closedPoint A → IsLocalRing.closedPoint A ≤ q
@@ -166,12 +166,12 @@ private theorem moduleSymbol_eq_of_injective_coker_annihilated
   have hψ' : Function.Exact g' f' := exact_mul_right_left a b ha'
   have hβf : β.comp f = f'.comp β := by
     ext x
-    show (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α (φ x)) =
+    change (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α (φ x)) =
       (LinearMap.range (φ' ∘ₗ ψ')).mkQ (φ' (α x))
     simp [φ, φ', LinearMap.lsmul_apply, map_smul]
   have hβg : β.comp g = g'.comp β := by
     ext x
-    show (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α (ψ x)) =
+    change (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α (ψ x)) =
       (LinearMap.range (φ' ∘ₗ ψ')).mkQ (ψ' (α x))
     simp [ψ, ψ', LinearMap.lsmul_apply, map_smul]
   have lift (c : A) (hC : ∀ x : M' ⧸ LinearMap.range α, c • x = 0) (x : M') :
@@ -193,7 +193,7 @@ private theorem moduleSymbol_eq_of_injective_coker_annihilated
       calc
         α x = a • (b • y) := hxy
         _ = α (b • z) := by rw [map_smul, hz, smul_comm])
-    show (LinearMap.range (φ ∘ₗ ψ)).mkQ (a • x) = 0
+    change (LinearMap.range (φ ∘ₗ ψ)).mkQ (a • x) = 0
     apply (Submodule.Quotient.mk_eq_zero _).mpr
     subst x
     refine ⟨z, ?_⟩
@@ -212,7 +212,7 @@ private theorem moduleSymbol_eq_of_injective_coker_annihilated
       calc
         α x = a • (b • y) := hxy
         _ = α (a • z) := by rw [map_smul, hz, smul_smul])
-    show (LinearMap.range (φ ∘ₗ ψ)).mkQ (b • x) = 0
+    change (LinearMap.range (φ ∘ₗ ψ)).mkQ (b • x) = 0
     apply (Submodule.Quotient.mk_eq_zero _).mpr
     subst x
     refine ⟨z, ?_⟩
@@ -223,10 +223,10 @@ private theorem moduleSymbol_eq_of_injective_coker_annihilated
     obtain ⟨x, rfl⟩ := Submodule.mkQ_surjective (LinearMap.range (φ' ∘ₗ ψ')) q
     obtain ⟨y, hy⟩ := lift a hCa x
     refine ⟨(LinearMap.range (φ ∘ₗ ψ)).mkQ y, ?_⟩
-    show β ((LinearMap.range (φ ∘ₗ ψ)).mkQ y) =
+    change β ((LinearMap.range (φ ∘ₗ ψ)).mkQ y) =
       f' ((LinearMap.range (φ' ∘ₗ ψ')).mkQ x)
-    show (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α y) = _
-    show (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α y) =
+    change (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α y) = _
+    change (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α y) =
       (LinearMap.range (φ' ∘ₗ ψ')).mkQ (φ' x)
     rw [hy]
     rfl
@@ -235,10 +235,10 @@ private theorem moduleSymbol_eq_of_injective_coker_annihilated
     obtain ⟨x, rfl⟩ := Submodule.mkQ_surjective (LinearMap.range (φ' ∘ₗ ψ')) q
     obtain ⟨y, hy⟩ := lift b hCb x
     refine ⟨(LinearMap.range (φ ∘ₗ ψ)).mkQ y, ?_⟩
-    show β ((LinearMap.range (φ ∘ₗ ψ)).mkQ y) =
+    change β ((LinearMap.range (φ ∘ₗ ψ)).mkQ y) =
       g' ((LinearMap.range (φ' ∘ₗ ψ')).mkQ x)
-    show (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α y) = _
-    show (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α y) =
+    change (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α y) = _
+    change (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α y) =
       (LinearMap.range (φ' ∘ₗ ψ')).mkQ (ψ' x)
     rw [hy]
     rfl
@@ -257,12 +257,12 @@ private theorem moduleSymbol_eq_of_injective_coker_annihilated
         _ = α (a • z) := by rw [map_smul, hz])
     have hy' : β ((LinearMap.range (φ ∘ₗ ψ)).mkQ y) =
         f' ((LinearMap.range (φ' ∘ₗ ψ')).mkQ x) := by
-      show (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α y) = _
+      change (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α y) = _
       rw [hy]
       simp [f', periodicQuotientPhi, φ', ψ', LinearMap.lsmul_apply]
     have hz' : β ((LinearMap.range (φ ∘ₗ ψ)).mkQ z) =
         g' ((LinearMap.range (φ' ∘ₗ ψ')).mkQ x) := by
-      show (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α z) = _
+      change (LinearMap.range (φ' ∘ₗ ψ')).mkQ (α z) = _
       rw [hz]
       simp [g', periodicQuotientPsi, φ', ψ', LinearMap.lsmul_apply]
     apply Subtype.ext
@@ -277,7 +277,7 @@ private theorem moduleSymbol_eq_of_injective_coker_annihilated
         ((LinearMap.range (φ' ∘ₗ ψ')).mkQ x))) =
         f ((LinearMap.range (φ ∘ₗ ψ)).mkQ z) := by simpa using he2
     rw [he1', he2']
-    show (LinearMap.range (φ ∘ₗ ψ)).mkQ (b • y) =
+    change (LinearMap.range (φ ∘ₗ ψ)).mkQ (b • y) =
       (LinearMap.range (φ ∘ₗ ψ)).mkQ (a • z)
     exact congrArg _ hzy
   have hdet := periodicDeterminant_eq_of_connecting_eq
@@ -285,7 +285,7 @@ private theorem moduleSymbol_eq_of_injective_coker_annihilated
     (isFiniteLength_quotient_mul a b ha hb hdim)
     (isFiniteLength_quotient_mul a b ha' hb' hdim')
     hφ hψ hφ' hψ' hβf hβg hker_f hker_g hQf hQg hconn
-  show periodicDeterminant f g hφ hψ
+  change periodicDeterminant f g hφ hψ
       (isFiniteLength_quotient_mul a b ha hb hdim) =
     periodicDeterminant f' g' hφ' hψ'
       (isFiniteLength_quotient_mul a b ha' hb' hdim')
@@ -342,7 +342,7 @@ private theorem moduleSymbol_eq_of_injective_finite_coker_equiv
       let U : Submodule A M' := N.comap q₀
       have hαU_mem : ∀ x : M, α x ∈ U := by
         intro x
-        show e ((LinearMap.range α).mkQ (α x)) ∈ N
+        change e ((LinearMap.range α).mkQ (α x)) ∈ N
         have hx : (LinearMap.range α).mkQ (α x) = 0 :=
           (Submodule.Quotient.mk_eq_zero (LinearMap.range α)).2 ⟨x, rfl⟩
         rw [hx]
@@ -359,10 +359,10 @@ private theorem moduleSymbol_eq_of_injective_finite_coker_equiv
         obtain ⟨x, hx⟩ := e.surjective n
         obtain ⟨y, hy⟩ := (LinearMap.range α).mkQ_surjective x
         have hq0y : q₀ y = n.val := by
-          show e ((LinearMap.range α).mkQ y) = n.val
+          change e ((LinearMap.range α).mkQ y) = n.val
           rw [hy, hx]
         refine ⟨⟨y, ?_⟩, ?_⟩
-        · show q₀ y ∈ N
+        · change q₀ y ∈ N
           rw [hq0y]
           exact n.property
         · apply Subtype.ext
@@ -386,7 +386,7 @@ private theorem moduleSymbol_eq_of_injective_finite_coker_equiv
         · rintro ⟨y, rfl⟩
           apply LinearMap.mem_ker.mpr
           apply Subtype.ext
-          show e ((LinearMap.range α).mkQ (α y)) = 0
+          change e ((LinearMap.range α).mkQ (α y)) = 0
           rw [Submodule.mkQ_apply,
             (Submodule.Quotient.mk_eq_zero (LinearMap.range α)).2 ⟨y, rfl⟩]
           simp
@@ -417,10 +417,10 @@ private theorem moduleSymbol_eq_of_injective_finite_coker_equiv
         (e.surjective.comp (LinearMap.range α).mkQ_surjective)
       have hker_δ : LinearMap.ker δ = LinearMap.range β := by
         ext x
-        show δ x = 0 ↔ x ∈ LinearMap.range β
-        show N.mkQ (q₀ x) = 0 ↔ x ∈ LinearMap.range β
+        change δ x = 0 ↔ x ∈ LinearMap.range β
+        change N.mkQ (q₀ x) = 0 ↔ x ∈ LinearMap.range β
         rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
-        show q₀ x ∈ N ↔ ∃ y : U, (β y : M') = x
+        change q₀ x ∈ N ↔ ∃ y : U, (β y : M') = x
         constructor
         · intro hx
           exact ⟨⟨x, hx⟩, rfl⟩

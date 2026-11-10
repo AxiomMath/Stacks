@@ -245,7 +245,7 @@ public theorem rightAdjointUniq_overMapStarAdjunction :
       overMapStarPushforwardIsoOverPullback f R := by
   refine (Stacks.Mates.rightAdjointUniq_eq_of_counit _ _ _ fun M => ?_).symm
   ext W x
-  show (M.val.presheaf.map ((starIteratedSliceForwardIsoPullback f).inv.app
+  change (M.val.presheaf.map ((starIteratedSliceForwardIsoPullback f).inv.app
         ((Over.map f).obj W.unop)).op ≫
       M.val.presheaf.map ((Over.mapPullbackAdj f).unit.app W.unop).op) x =
     (M.val.presheaf.map ((Over.mk f).iteratedSliceEquiv.symm.inverse.map

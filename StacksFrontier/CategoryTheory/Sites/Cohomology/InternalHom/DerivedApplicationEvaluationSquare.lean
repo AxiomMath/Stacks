@@ -40,7 +40,8 @@ is, after the K-flat comparison and the comparison `σ`, the cochain-level evalu
 * In `derivedApplication_curryingSquare` the comparison `σ` is a variable and the Stacks 08JA
   identification is a hypothesis. Writing
   `strictlyPerfectHomComparison X (derivedInternalHomOfBifunctor X) B C` into a statement that
-  also mentions `derivedCurryHomEquiv` exhausts `maxRecDepth` at the declaration's type. This happens
+  also mentions `derivedCurryHomEquiv` exhausts `maxRecDepth` at the declaration's type. This
+  happens
   on the conclusion of `derivedApplication_curryingSquare` with `σ` written out: the error lands
   on the declaration's name, so no restructuring of the proof can help. A consumer instantiates
   `σ` inside a proof, where it is left to unification and costs nothing. The hypothesis is

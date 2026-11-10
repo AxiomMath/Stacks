@@ -75,8 +75,8 @@ cartesian input is a theorem,
 `AlgebraicGeometry.BaseChangeStalk.cartesian_stalk_tensor_flat`: the local ring of the
 upper-left corner is a localization of the tensor product.  For algebraic spaces it is
 `AlgebraicGeometry.Space.cartesian_etaleStalk_tensor_flat`
-(`StacksFrontier/AlgebraicGeometry/Spaces/EtaleLocalRingFibreProduct.lean`): `IsEtaleStalkTensorFlat`
-holds at every geometric point of every cartesian square.
+(`StacksFrontier/AlgebraicGeometry/Spaces/EtaleLocalRingFibreProduct.lean`):
+`IsEtaleStalkTensorFlat` holds at every geometric point of every cartesian square.
 
 The equality of the two images of `x̄'` in `Y` is `IsPullback.w` transported by
 `congrArg`: `AlgebraicGeometry.Space.geometricPointMap` is functorial by `rfl`, and the

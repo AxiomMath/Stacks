@@ -209,7 +209,8 @@ private theorem action_comp_lift_baseChange {W S T : Scheme.{u}} {G : Type v} [G
         (FiniteEtaleGaloisCover.baseChange_action_fst q V hconn g)).trans
           ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) hL₁)))).symm
   · have hV : ((V.baseChange q hconn).action g).asIso.hom.left ≫ pullback.snd V.obj.hom q =
-        pullback.snd V.obj.hom q := MorphismProperty.Over.w ((V.baseChange q hconn).action g).asIso.hom
+        pullback.snd V.obj.hom q :=
+      MorphismProperty.Over.w ((V.baseChange q hconn).action g).asIso.hom
     have hZ : (Z.action g).asIso.hom.left ≫ Z.obj.hom = Z.obj.hom :=
       MorphismProperty.Over.w (Z.action g).asIso.hom
     exact ((Category.assoc _ _ _).trans ((congrArg _ hL₂).trans
@@ -258,7 +259,7 @@ theorem exists_pointed_galoisCover_model (hA : IsLimit cA) (hB : IsLimit cB)
   have hzP : (z ≫ P) ≫ V.obj.hom =
       ptResidueSpecProj B cB s i ≫ fiberSec φ cB s σA hσA i := by
     rw [Category.assoc, hP2.w, ← Category.assoc]
-    show (z ≫ Z.obj.hom) ≫ _ = _
+    change (z ≫ Z.obj.hom) ≫ _ = _
     rw [hz]
     exact limSec_fiberConeMap φ cB s cA p hp σA hσA σ hσ hlim i
   obtain ⟨j, e, w₀, hw₀⟩ := exists_point_at_stage (ptResidueSpecDiagram B cB s)

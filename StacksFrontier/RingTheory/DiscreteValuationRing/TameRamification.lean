@@ -167,7 +167,7 @@ private lemma isSeparable_and_coprime_ramificationIdx_of_isTamelyRamified
   let : Algebra (integralClosure A M) D := (Subalgebra.inclusion hsub).toAlgebra
   let : IsScalarTower (integralClosure A M) D M :=
     IsScalarTower.of_algebraMap_eq fun z => by
-      show z.1 = (algebraMap D M (algebraMap (integralClosure A M) D z))
+      change z.1 = (algebraMap D M (algebraMap (integralClosure A M) D z))
       rfl
   let : IsScalarTower A (integralClosure A M) D :=
     IsScalarTower.of_algebraMap_eq fun _ => rfl
@@ -214,7 +214,7 @@ private lemma isSeparable_and_coprime_ramificationIdx_of_isTamelyRamified
       exact Algebra.algebraMapSubmonoid_map_eq p.primeCompl e.symm.toAlgHom
     have hcomp (z : C) : algebraMap C D z = algebraMap E D (e.symm z) := by
       apply FaithfulSMul.algebraMap_injective D M
-      show z.1 = (e.symm z).1
+      change z.1 = (e.symm z).1
       exact (IsIntegralClosure.algebraMap_equiv B C M E z).symm
     exact IsLocalization.of_ringEquiv_left e.symm.toRingEquiv hmap hcomp
   let n := q.map (algebraMap (integralClosure A M) D)

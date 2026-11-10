@@ -169,7 +169,7 @@ private theorem globalSectionsFunctor_preservesCountableProducts
   let F := SheafOfModules.forget R ⋙ PresheafOfModules.toPresheaf R.obj ⋙ post ⋙
     Functor.sectionsFunctor.{v, max u v w z} Cᵒᵖ
   have hsections : PreservesLimitsOfShape (Discrete ℕ) (SheafOfModules.sectionsFunctor R) := by
-    show PreservesLimitsOfShape (Discrete ℕ) F
+    change PreservesLimitsOfShape (Discrete ℕ) F
     have : PreservesLimitsOfShape (Discrete ℕ) (Functor.sectionsFunctor.{v, max u v w z} Cᵒᵖ) :=
       preservesLimitsOfShape_of_natIso
         (sectionsFunctorNatIsoCoyoneda.{v, u, max u v w z} (C := Cᵒᵖ) PUnit.{max u v w z + 1}).symm

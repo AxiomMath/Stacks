@@ -22,8 +22,8 @@ comparison of the two cohomology modules itself, not merely of their vanishing.
   satisfies `StacksDraft.Perfect.FibreCohomologyVanishes p K i`.
 * `isZero_homology_derivedTensor_single_residueField_of_fibreCohomologyVanishes` (in the same
   namespace): the converse implication.
-* `nonempty_restrictScalars_homology_totalDerivedExtensionScalars_iso_homology_derivedTensor_single_residueField`
-  (in the same namespace): the degree-`i` cohomology of the derived fibre taken in `D(κ(p))`,
+* `nonempty_restrictScalars_homology_fibre_iso_homology_derivedTensor_residueField` (in the
+  same namespace): the degree-`i` cohomology of the derived fibre taken in `D(κ(p))`,
   restricted along `R → κ(p)`, is isomorphic to the degree-`i` cohomology of `K ⊗_R^𝐋 κ(p)[0]`
   taken in `D(R)`.
 * `finrank_homology_totalDerivedExtensionScalars_eq_one_of_nonempty_iso_quotient`,
@@ -209,7 +209,7 @@ derived fibre `K ⊗_R^𝐋 κ(p)` taken in `D(κ(p))`, the derived extension of
 `CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars`, restricted along
 `R → κ(p)` is isomorphic to the degree-`i` cohomology of the derived tensor product
 `K ⊗_R^𝐋 κ(p)[0]` taken in `D(R)`. -/
-public theorem nonempty_restrictScalars_homology_totalDerivedExtensionScalars_iso_homology_derivedTensor_single_residueField
+public theorem nonempty_restrictScalars_homology_fibre_iso_homology_derivedTensor_residueField
     {R : Type u} [CommRing R] (p : Ideal R) [p.IsPrime]
     (K : DerivedCategory (ModuleCat.{u} R))
     (hK : StacksDraft.PseudoCoherence.IsPseudoCoherent K) (i : ℤ) :
@@ -314,8 +314,7 @@ public theorem finrank_homology_totalDerivedExtensionScalars_eq_one_of_nonempty_
           (algebraMap A m.ResidueField)).functor.obj K)) = 1 := by
   obtain ⟨h⟩ := h
   obtain ⟨eFib⟩ :=
-    nonempty_restrictScalars_homology_totalDerivedExtensionScalars_iso_homology_derivedTensor_single_residueField
-      m K hK i
+    nonempty_restrictScalars_homology_fibre_iso_homology_derivedTensor_residueField m K hK i
   have e : (ModuleCat.restrictScalars (algebraMap A m.ResidueField)).obj
         ((DerivedCategory.homologyFunctor (ModuleCat.{u} m.ResidueField) i).obj
           ((CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
@@ -347,8 +346,7 @@ public theorem finrank_homology_totalDerivedExtensionScalars_eq_zero_of_isZero
         ((CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
           (algebraMap A m.ResidueField)).functor.obj K)) = 0 := by
   obtain ⟨eFib⟩ :=
-    nonempty_restrictScalars_homology_totalDerivedExtensionScalars_iso_homology_derivedTensor_single_residueField
-      m K hK i
+    nonempty_restrictScalars_homology_fibre_iso_homology_derivedTensor_residueField m K hK i
   have hz := (h.of_iso (homologyDerivedTensorQuotientIsoResidueField m K i).symm).of_iso eFib
   exact finrank_eq_zero_of_isZero_restrictScalars (algebraMap A m.ResidueField) _ hz
 

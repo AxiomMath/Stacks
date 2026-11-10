@@ -177,7 +177,7 @@ theorem nonempty_derivedPullback_fromSpec_derivedEta_iso (C : AffineChart S) :
   obtain ⟨eB⟩ := Stacks.Divisors.Eta.nonempty_derivedEta_tilde_iso Γ(S.X, C.U)
     (S.D.comap C.U.2.fromSpec) C.f C.ideal_comap_fromSpec_top C.complex.toCochainComplex
     (fun n => by
-      show IsSMulRegular (Fin (C.complex.rank n) → Γ(S.X, C.U)) C.f
+      change IsSMulRegular (Fin (C.complex.rank n) → Γ(S.X, C.U)) C.f
       exact Module.Flat.isSMulRegular_of_isRegular C.regular)
   exact ⟨S.derivedEtaPullbackIso C.U.2.fromSpec K hK ≪≫
     (Stacks.Divisors.Eta.derivedEtaData (S.D.comap C.U.2.fromSpec)).functor.mapIso eA ≪≫ eB⟩

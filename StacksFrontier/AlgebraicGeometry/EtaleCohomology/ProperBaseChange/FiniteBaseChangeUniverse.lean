@@ -10,7 +10,8 @@ import StacksCore.Tactic.EgaSgaAttribute
 /-!
 # Finite base change at every coefficient universe, and Stacks 0A4E
 
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.AbelianCoefficientTransfer` proves
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.AbelianCoefficientTransfer`
+proves
 the base change comparison `g⁻¹ f_* ⟶ f'_* (g')⁻¹` of abelian sheaves invertible for a finite
 morphism `f` ([Stacks, Tag 0959]), with values in `AddCommGrpCat.{u + 1}`, for a cartesian square
 drawn from a big étale site. This file removes both restrictions.
@@ -79,20 +80,20 @@ theorem isIso_etaleAbelianBaseChange_app_of_iso_sheafCompose
     IsIso ((etaleAbelianBaseChange.{u, v} f g g' f' h).app F) := by
   refine (NatTrans.isIso_app_iff_of_iso _ eF).mp ?_
   have e := etaleAbelianBaseChange_sheafCompose Φ f g g' f' h c
-  have h₁ : IsIso ((etaleAbelianInverseImageCoefficientSquare Φ g).natTrans.app
+  have h₁ : IsIso ((etaleAbelianInverseImageCoefficientSquare Φ g).app
       ((etaleAbelianDirectImage.{u, v₀} f).obj c)) := NatIso.isIso_app_of_isIso _ _
-  have h₂ : IsIso ((etaleAbelianInverseImageCoefficientSquare Φ g').natTrans.app c) :=
+  have h₂ : IsIso ((etaleAbelianInverseImageCoefficientSquare Φ g').app c) :=
     NatIso.isIso_app_of_isIso _ _
   have h₄ : IsIso ((sheafCompose Y'.smallEtaleTopology Φ).map
       ((etaleAbelianBaseChange.{u, v₀} f g g' f' h).app c)) := Functor.map_isIso _ _
   have h₃ : IsIso (((etaleAbelianBaseChange.{u, v} f g g' f' h).app
       ((sheafCompose X.smallEtaleTopology Φ).obj c)) ≫
         (etaleAbelianDirectImage.{u, v} f').map
-          ((etaleAbelianInverseImageCoefficientSquare Φ g').natTrans.app c)) := by
+          ((etaleAbelianInverseImageCoefficientSquare Φ g').app c)) := by
     rw [← e]
     exact @IsIso.comp_isIso _ _ _ _ _ _ _ h₁ h₄
   exact IsIso.of_isIso_comp_right _ ((etaleAbelianDirectImage.{u, v} f').map
-    ((etaleAbelianInverseImageCoefficientSquare Φ g').natTrans.app c))
+    ((etaleAbelianInverseImageCoefficientSquare Φ g').app c))
 
 /-- **The direct image along a quasi-compact and quasi-separated morphism commutes with filtered
 colimits** of abelian sheaves on the small étale sites ([Stacks, Tag 09Z1]): the case `p = 0` of

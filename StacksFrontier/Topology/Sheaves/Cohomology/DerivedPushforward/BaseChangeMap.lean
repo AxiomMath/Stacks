@@ -104,9 +104,8 @@ statements carry.
 Do not read that as a diagnosis of a kernel timeout.  `ModuleSheaves` is a `noncomputable
 abbrev` for `SheafOfModules.{u} (structureSheafRing _)` in `RingedSpaceModuleAdjunction`, and
 the two types and their `Category` instances are `rfl`-equal in under a second; a statement
-mixing them is not thereby out of reach.  What does defeat the kernel in this area, notably at the square's degreewise comparison, is
-recorded in the implementation
-notes of
+mixing them is not thereby out of reach.  What does defeat the kernel in this area, notably at
+the square's degreewise comparison, is recorded in the implementation notes of
 `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/`
 `DegreewiseAndDerivedPullbackSquare.lean`.
 

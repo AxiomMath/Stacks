@@ -124,7 +124,7 @@ theorem Scheme.size_lt_of_isLimit_of_isAffine [IsCofiltered J] {κ : Cardinal.{u
     c.pt.size < κ :=
   Scheme.size_lt_of_isLimit_of_isAffine_of_le hκ V hV (hJ.trans_le (Ordinal.cof_ord_le κ))
     (Cardinal.iSup_lt_of_lt_cof_ord hJ hsize)
-    (fun j ↦ le_ciSup (Cardinal.bddAbove_range _) j) hc
+    (fun j ↦ le_ciSup Cardinal.bddAbove_of_small j) hc
 
 /-- **A diagram of schemes bounded below `κ`**: one cardinal below `κ` bounds both the number
 of objects of the index category and the size of every scheme of the diagram. -/
@@ -138,7 +138,7 @@ theorem Scheme.diagramBoundedBelow_of_lt_cof {κ : Cardinal.{u}} (V : J ⥤ Sche
     Scheme.DiagramBoundedBelow κ V :=
   ⟨max #J (⨆ j, (V.obj j).size),
     max_lt (hJ.trans_le (Ordinal.cof_ord_le κ)) (Cardinal.iSup_lt_of_lt_cof_ord hJ hsize),
-    le_max_left _ _, fun j ↦ le_max_of_le_right (le_ciSup (Cardinal.bddAbove_range _) j)⟩
+    le_max_left _ _, fun j ↦ le_max_of_le_right (le_ciSup Cardinal.bddAbove_of_small j)⟩
 
 /-- A bound on the sizes of the schemes of a diagram transports along a natural isomorphism. -/
 theorem Scheme.DiagramBoundedBelow.of_iso {κ : Cardinal.{u}} {V V' : J ⥤ Scheme.{u}}
@@ -700,7 +700,7 @@ theorem hasBoundedBaseChanges_of_lt_cof
     max_lt (hJ.trans_le (Ordinal.cof_ord_le _)) (Cardinal.iSup_lt_of_lt_cof_ord hJ hW),
     le_max_left _ _, fun j W' p' q' h ↦ ?_⟩
   rw [BigFppfOver.size_eq_of_isPullback B S hS h (hpb j)]
-  exact le_max_of_le_right (le_ciSup (Cardinal.bddAbove_range _) j)
+  exact le_max_of_le_right (le_ciSup Cardinal.bddAbove_of_small j)
 
 /-- **Bounded base changes from transitions of bounded growth.** If the stages above `i₀` are
 fewer than the site's cutoff and every transition morphism has base changes to affine objects
@@ -925,7 +925,7 @@ private theorem contains_limit_underlying (V : J ⥤ BigFppfOver B S hS)
         (underlyingDiagram V).map f ≫ (BigFppfOver.toScheme B S hS).map (ρ k) =
           (BigFppfOver.toScheme B S hS).map (ρ j) := by
       intro j k f
-      show (BigFppfOver.toScheme B S hS).map (V.map f) ≫
+      change (BigFppfOver.toScheme B S hS).map (V.map f) ≫
         (BigFppfOver.toScheme B S hS).map (ρ k) = _
       rw [← Functor.map_comp, hρ f]
     have _ := CofilteredLimit.mono_π_app_comp
@@ -988,7 +988,7 @@ theorem BigFppfOver.IsSiteSmallDiagram.limitInSite {V : J ⥤ BigFppfOver B S hS
   intro c hc
   have _hlim : HasLimit (underlyingDiagram V) := hasLimit_underlying V hV
   have h := contains_limit_underlying V hV hJ
-  show c.pt.size < B.cutoff
+  change c.pt.size < B.cutoff
   rwa [show c.pt.size = (limit (underlyingDiagram V)).size from
     Scheme.size_congr (hc.conePointUniqueUpToIso (limit.isLimit (underlyingDiagram V)))]
 

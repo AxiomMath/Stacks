@@ -40,8 +40,7 @@ theorem bijective_liftBaseChange_of_isBaseChange_comp {ix : M →ₗ[A] N} (hx :
   have h := IsBaseChange.of_comp hx hy
   have he : ⇑(r.liftBaseChange Sy) = ⇑h.equiv := by
     funext z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul s n => rw [LinearMap.liftBaseChange_tmul, IsBaseChange.equiv_tmul]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   rw [he]

@@ -57,6 +57,9 @@ variable {A A' B B' : Type*} [Category* A] [Category* A'] [Category* B] [Categor
   [PreservesFiniteLimits G] [PreservesFiniteColimits G]
   [PreservesFiniteLimits G'] [PreservesFiniteColimits G']
 
+omit [HasDerivedCategory A] [HasDerivedCategory A'] [HasDerivedCategory B]
+  [HasDerivedCategory B'] [EnoughInjectives A] [EnoughInjectives A'] [PreservesFiniteLimits G]
+  [PreservesFiniteColimits G] [PreservesFiniteLimits G'] [PreservesFiniteColimits G'] in
 /-- The homotopy-level form of a compatibility `e ≫ α₀ = α ≫ e'` of base change squares, for
 natural transformations `e` and `e'`. -/
 lemma mapHomotopyCategoryPlus_natTrans_square (e : F ⟶ F₀) (e' : F' ⟶ F₀')
@@ -68,7 +71,7 @@ lemma mapHomotopyCategoryPlus_natTrans_square (e : F ⟶ F₀) (e' : F' ⟶ F₀
       hmap G G' α K ≫
         (Functor.mapHomotopyCategoryPlusNatTrans e').app (G'.mapHomotopyCategoryPlus.obj K) := by
   apply (HomotopyCategory.Plus.ι B').map_injective
-  show (NatTrans.mapHomotopyCategory (Functor.whiskerRight e G) (ComplexShape.up ℤ)).app
+  change (NatTrans.mapHomotopyCategory (Functor.whiskerRight e G) (ComplexShape.up ℤ)).app
       K.obj ≫ (NatTrans.mapHomotopyCategory α₀ (ComplexShape.up ℤ)).app K.obj =
     (NatTrans.mapHomotopyCategory α (ComplexShape.up ℤ)).app K.obj ≫
       (NatTrans.mapHomotopyCategory (Functor.whiskerLeft G' e') (ComplexShape.up ℤ)).app
@@ -129,11 +132,8 @@ end NatTrans
 section Restriction
 
 variable {A B C : Type*} [Category* A] [Category* B] [Category* C] [Abelian A] [Abelian B]
-  [Abelian C] [HasDerivedCategory A] [HasDerivedCategory B] [HasDerivedCategory C]
-  [EnoughInjectives A] (P : A ⥤ B) (E S : B ⥤ C) (R : C ⥤ B) (T : A ⥤ C) (U : A ⥤ A)
+  [Abelian C] (P : A ⥤ B) (E S : B ⥤ C) (R : C ⥤ B) (T : A ⥤ C) (U : A ⥤ A)
   [P.Additive] [E.Additive] [S.Additive] [R.Additive] [T.Additive] [U.Additive]
-  [PreservesFiniteLimits R] [PreservesFiniteColimits R] [PreservesFiniteLimits U]
-  [PreservesFiniteColimits U]
 
 /-- **A pasting of natural transformations, read on bounded below complexes.** If
 `ζ⁻¹ P`, `(ε R) P`, `e R` and `α` compose to `P ξ⁻¹`, for `ζ : E ⋙ R ≅ 𝟭`, `ε : E ⟶ S`,
@@ -226,7 +226,7 @@ lemma etaleModuleDirectImage_map_inverseImageAdj_id_unit {X Y : Scheme.{u}} (h :
     refine Sheaf.hom_ext (NatTrans.ext (funext fun U => ?_))
     simp only [A₁, Adjunction.ofNatIsoRight_unit, Adjunction.id_unit, NatTrans.comp_app,
       Functor.whiskerLeft_app, Iso.symm_hom, ObjectProperty.FullSubcategory.comp_hom,
-      NatTrans.id_app, Category.id_comp]
+      Category.id_comp]
     simp only [Functor.id_obj, Functor.comp_obj, Functor.sheafPushforwardContinuous_map_hom_app,
       Functor.sheafPushforwardContinuousId'_inv_app_hom_app, etaleModuleDirectImageComp,
       smallEtalePushforwardComp'_hom_app_hom_app,
@@ -639,8 +639,7 @@ theorem derivedLowerShriekRestrictBaseIso_hom_comp_toDirectImage
         (CompactificationOf.restrictBase jg jX).immersion (CompactificationOf.restrictBaseι jg jX)
         hc]
     simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.leftUnitor_hom_app,
-      Category.comp_id, Category.assoc, ← Functor.map_comp, Iso.hom_inv_id_app,
-      CategoryTheory.Functor.map_id]
+      Category.assoc]
     refine (whisker_eq _ ?_).trans (Category.comp_id _)
     exact (whisker_eq _ (Category.id_comp _)).trans ((Functor.map_comp _ _ _).symm.trans
       ((congrArg _ (Iso.hom_inv_id_app _ _)).trans (CategoryTheory.Functor.map_id _ _)))
@@ -964,7 +963,7 @@ theorem derivedLowerShriekCompIso_hom_comp_toDirectImage (jf : CompactificationO
             ((derivedLowerShriekToDirectImage.{u, 0} Λ f
               (CompactificationOf.restrictBase jg jX)).app K.obj)) := rfl
     rw [e2]
-    simp only [← Functor.map_comp_assoc, Category.assoc]
+    simp only [← Functor.map_comp_assoc]
     rw [core']
   -- the part over `Z`, in the vocabulary of `X̄`
   have hab : f ≫ jg.immersion = ((CompactificationOf.restrictBase jg jX).immersion ≫

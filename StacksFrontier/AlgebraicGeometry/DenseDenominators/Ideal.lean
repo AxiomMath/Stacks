@@ -58,7 +58,7 @@ lemma resHom_resHom {W V U : Y.Opens} (h : V ≤ W) (h' : U ≤ V) (s : Γ(Y, W)
 
 /-- Restriction along the identity inclusion is the identity. -/
 lemma resHom_self {W : Y.Opens} (s : Γ(Y, W)) : resHom (le_refl W) s = s := by
-  show (Y.presheaf.map (homOfLE (le_refl W)).op).hom s = s
+  change (Y.presheaf.map (homOfLE (le_refl W)).op).hom s = s
   rw [show (homOfLE (le_refl W)).op = 𝟙 (op W) from rfl, Y.presheaf.map_id]
   rfl
 
@@ -125,10 +125,10 @@ lemma algebraMap_basicOpen_eq {U : Y.Opens} (r : Γ(Y, U)) :
     (algebraMap Γ(Y, U) Γ(Y, Y.basicOpen r)) = resHom (Y.basicOpen_le r) :=
   RingHom.algebraMap_toAlgebra _
 
-/-- **Clearing denominators.** On a reduced scheme in which `Ω` is dense, a denominator over the
+/-- **Clearing denominators.** On a reduced scheme, a denominator over the
 basic open set of `r` becomes, after multiplication by a power of `r`, the restriction of a
 denominator over the affine open itself. -/
-theorem exists_pow_mul_eq_resHom_of_mem_denom [IsReduced Y] (hΩ : Dense (Ω : Set Y))
+theorem exists_pow_mul_eq_resHom_of_mem_denom [IsReduced Y]
     [Finite ι] (c : ι → Γ(Y, Ω)) {U : Y.Opens} (hU : IsAffineOpen U) (r : Γ(Y, U))
     (ρ : Γ(Y, Y.basicOpen r)) (hρ : ρ ∈ denom c (Y.basicOpen r)) :
     ∃ (m : ℕ) (ρ' : Γ(Y, U)), ρ' ∈ denom c U ∧

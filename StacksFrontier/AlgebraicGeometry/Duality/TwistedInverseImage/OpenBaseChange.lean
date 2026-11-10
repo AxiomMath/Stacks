@@ -61,12 +61,12 @@ variable {C D E F : Type*} [Category* C] [Category* D] [Category* E] [Category* 
 the counit of `L₂ ⊣ R₂` is invertible and `L₂ ⋙ G` inverts the unit of `L₁ ⊣ R₁`: its component
 at `c` is `L₂(G(η c))`, then `L₂(α)`, then the counit. -/
 theorem isIso_mateEquiv_symm_natTrans (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
-    (α : TwoSquare R₁ H G R₂) [IsIso α.natTrans] [IsIso adj₂.counit]
+    (α : TwoSquare R₁ H G R₂) [IsIso α] [IsIso adj₂.counit]
     (h : ∀ c : C, IsIso (L₂.map (G.map (adj₁.unit.app c)))) :
-    IsIso ((mateEquiv adj₁ adj₂).symm α).natTrans := by
-  have (c : C) : IsIso (((mateEquiv adj₁ adj₂).symm α).natTrans.app c) := by
-    have hc : ((mateEquiv adj₁ adj₂).symm α).natTrans.app c =
-        L₂.map (G.map (adj₁.unit.app c)) ≫ L₂.map (α.natTrans.app (L₁.obj c)) ≫
+    IsIso ((mateEquiv adj₁ adj₂).symm α) := by
+  have (c : C) : IsIso (((mateEquiv adj₁ adj₂).symm α).app c) := by
+    have hc : ((mateEquiv adj₁ adj₂).symm α).app c =
+        L₂.map (G.map (adj₁.unit.app c)) ≫ L₂.map (α.app (L₁.obj c)) ≫
           adj₂.counit.app (H.obj (L₁.obj c)) := by
       simp
     rw [hc]
@@ -238,10 +238,10 @@ theorem isIso_twistedInverseImagePushforwardBaseChange_of_isOpenImmersion
   have hξ : twistedInverseImagePushforwardBaseChange j' f' f j hpushj' hpushf hpushf' hpushj sq =
       conjugateEquiv (adjL'.comp (twistedInverseImageAdjunction f' hpushf'))
         ((twistedInverseImageAdjunction f hpushf).comp adjL)
-          ((mateEquiv adjL' adjL).symm α.hom).natTrans := by
+          ((mateEquiv adjL' adjL).symm α.hom) := by
     rw [← iterated_mateEquiv_conjugateEquiv]
     exact (congrArg (fun γ => (mateEquiv (twistedInverseImageAdjunction f' hpushf')
-      (twistedInverseImageAdjunction f hpushf) γ).natTrans)
+      (twistedInverseImageAdjunction f hpushf) γ))
         ((mateEquiv adjL' adjL).apply_symm_apply α.hom)).symm
   rw [hξ]
   infer_instance

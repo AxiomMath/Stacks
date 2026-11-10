@@ -84,8 +84,7 @@ private lemma piRightHom_comm_apply {A : Type*} {Q : A → Type*} [∀ α, AddCo
     [∀ α, Module R (Q α)] (t : (∀ α, Q α) ⊗[R] M) (α : A) :
     TensorProduct.piRightHom R R M Q (TensorProduct.comm R (∀ α, Q α) M t) α
       = TensorProduct.comm R (Q α) M ((LinearMap.proj α).rTensor M t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul p m => simp
   | add t₁ t₂ h₁ h₂ => simp [h₁, h₂, map_add]
 

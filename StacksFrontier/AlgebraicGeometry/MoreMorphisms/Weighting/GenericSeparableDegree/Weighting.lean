@@ -69,7 +69,7 @@ private theorem genericFiberCount_eq_of_residueFieldMap
   let : IsScalarTower A prime.ResidueField K := .of_algebraMap_eq' rfl
   let : IsScalarTower A contracted.ResidueField K :=
     IsScalarTower.to₁₂₄ A contracted.ResidueField prime.ResidueField K
-  show Nat.card ((contracted.ResidueField ⊗[A] B) →ₐ[contracted.ResidueField]
+  change Nat.card ((contracted.ResidueField ⊗[A] B) →ₐ[contracted.ResidueField]
     AlgebraicClosure contracted.ResidueField) = _
   rw [algHom_card_eq_of_isAlgClosed contracted.ResidueField _
     (AlgebraicClosure contracted.ResidueField) K]
@@ -357,7 +357,7 @@ private theorem isLocallyConstant_weightedFiberSum_of_isAffine
   let : IsFinite affineMap := by rw [hmap]; infer_instance
   let : Module.Finite A B := (IsFinite.SpecMap_iff π.appTop).mp inferInstance
   let : IsFinite (Spec.map (CommRingCat.ofHom (algebraMap A B))) := by
-    show IsFinite affineMap
+    change IsFinite affineMap
     infer_instance
   let : IsLocallyNoetherian (Spec A) :=
     isLocallyNoetherian_of_isOpenImmersion V.isoSpec.inv
@@ -423,7 +423,7 @@ private theorem isWeighting_genericSeparableDegree_of_finite
       pullback.fst f baseMap := (pullback.lift_fst inclusion finiteMap comm).symm
   let : Etale inclusion := by rw [hinclusion]; infer_instance
   let : IsLocallyNoetherian V := LocallyOfFiniteType.isLocallyNoetherian baseMap
-  show IsLocallyConstant (separableDegreeWeightedFiberSum finiteMap
+  change IsLocallyConstant (separableDegreeWeightedFiberSum finiteMap
     (fun point => (genericSeparableDegree f hY (inclusion point) : ℤ)))
   rw [genericSeparableDegree_eq_of_etale_square f finiteMap inclusion baseMap comm hY]
   exact hfinite finiteMap (isGeometricallyUnibranch_of_etale baseMap hY)

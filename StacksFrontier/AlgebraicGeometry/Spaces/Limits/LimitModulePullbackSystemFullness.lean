@@ -24,8 +24,8 @@ is formalized elsewhere.
 
 The proof is the fullness clause of the base's Stacks 07V7,
 `AlgebraicGeometry.Space.finitePresentationModule_isColimit`
-(`StacksFrontier/AlgebraicGeometry/Spaces/Limits/FinitePresentationModuleColimitTheorem.lean`), whose
-conclusion is phrased through the restriction
+(`StacksFrontier/AlgebraicGeometry/Spaces/Limits/FinitePresentationModuleColimitTheorem.lean`),
+whose conclusion is phrased through the restriction
 `AlgebraicGeometry.Space.moduleHomRestrict`; here it is read through the
 comparisons `AlgebraicGeometry.Space.modulePullbackTriangle` of the pullback system.
 

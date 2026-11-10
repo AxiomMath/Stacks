@@ -299,8 +299,8 @@ theorem twistTriangle_mor₃_eq :
     (Functor.mapδ_naturality F₁.rightDerivedFunctorPlus _ _ _ _
       (Stacks.Cech.Hypercohomology.plusδ_naturality (S := Sp) (S' := Tp) hS hT ψp))
   -- the comparison carries the connecting morphism of the image to the canonical one
-  haveI := natTransCommShift_unit_of_unith F₁
-  haveI := natTransCommShift_unit_of_unith F₂
+  have := natTransCommShift_unit_of_unith F₁
+  have := natTransCommShift_unit_of_unith F₂
   have hK := Functor.mapδ_naturality DerivedCategory.Plus.ι _ _ _ _
     (plusδ_comp_twistComparison F₁ F₂ Tp hT h₁T h₂T)
   rw [mapδ_ι_plusδ, ← Functor.mapδ_comp] at hK

@@ -358,7 +358,7 @@ public theorem exists_ringEquiv_henselization_of_ringEquiv
   have hJ : J ≤ N.comap ((algebraMap R H).comp e.symm.toRingHom) := by
     rw [← he, Ideal.map_le_iff_le_comap, Ideal.comap_comap]
     intro x hx
-    show algebraMap R H (e.symm (e x)) ∈ N
+    change algebraMap R H (e.symm (e x)) ∈ N
     rw [e.symm_apply_apply]
     exact Ideal.mem_map_of_mem _ hx
   obtain ⟨f, hf, -⟩ := henselization_universalProperty R I K inferInstance M
@@ -368,7 +368,7 @@ public theorem exists_ringEquiv_henselization_of_ringEquiv
   have hgf : g.comp f = RingHom.id H := by
     have heq : (g.comp f).comp (algebraMap R H) = algebraMap R H := by
       ext r
-      show g (f (algebraMap R H r)) = _
+      change g (f (algebraMap R H r)) = _
       rw [show f (algebraMap R H r) = algebraMap S K (e r) from DFunLike.congr_fun hf.1 r,
         show g (algebraMap S K (e r)) = algebraMap R H (e.symm (e r)) from
           DFunLike.congr_fun hg.1 (e r)]
@@ -380,7 +380,7 @@ public theorem exists_ringEquiv_henselization_of_ringEquiv
   have hfg : f.comp g = RingHom.id K := by
     have heq : (f.comp g).comp (algebraMap S K) = algebraMap S K := by
       ext r
-      show f (g (algebraMap S K r)) = _
+      change f (g (algebraMap S K r)) = _
       rw [show g (algebraMap S K r) = algebraMap R H (e.symm r) from DFunLike.congr_fun hg.1 r,
         show f (algebraMap R H (e.symm r)) = algebraMap S K (e (e.symm r)) from
           DFunLike.congr_fun hf.1 (e.symm r)]
@@ -425,7 +425,7 @@ public theorem exists_ringEquiv_henselization_isLocalization_atMaximalIdeal
   obtain ⟨d, hd⟩ := exists_ringEquiv_henselization_of_ringEquiv φ
     (IsLocalRing.maximalIdeal (Localization n.primeCompl)) (IsLocalRing.maximalIdeal A) hmap
   refine ⟨c.trans d, fun r => ?_⟩
-  show d (c (algebraMap R (henselization R n : Type w) r)) = _
+  change d (c (algebraMap R (henselization R n : Type w) r)) = _
   rw [hc r, hd, hφ]
 
 
@@ -481,7 +481,7 @@ public theorem exists_ringEquiv_henselizedLocalizationFiber
     ((IsLocalRing.maximalIdeal (Localization m.primeCompl)).comap Y.hom.map.hom) hM
   refine ⟨(H.henselizationEquiv X).symm.trans
     (c.trans (d.val.trans (K'.henselizationEquiv Y))), fun x => ?_⟩
-  show K'.henselizationEquiv Y (d.val (c ((H.henselizationEquiv X).symm
+  change K'.henselizationEquiv Y (d.val (c ((H.henselizationEquiv X).symm
     (H.henselizationMap X x)))) = K'.henselizationMap Y (L.localizationMap X x)
   have e1 := H.henselizationEquiv_symm_henselizationMap X x
   have e2 : c (algebraMap X.left.fiber (henselization X.left.fiber n : Type w) x) =
@@ -556,7 +556,7 @@ public theorem exists_ringEquiv_henselizedLocalizationFamilyFiber
     obtain ⟨b, hb⟩ := exists_ringEquiv_henselizedLocalizationFiber (m i).asIdeal X
     let Hi := henselizationFunctor (Λ := Λ) (k := k) (m i).asIdeal
     refine ⟨a.symm.trans ((Hi.henselizationEquiv X).trans b), fun x => ?_⟩
-    show b (Hi.henselizationEquiv X (a.symm (algebraMap (Localization (q i).primeCompl)
+    change b (Hi.henselizationEquiv X (a.symm (algebraMap (Localization (q i).primeCompl)
       (henselization (Localization (q i).primeCompl)
         (IsLocalRing.maximalIdeal (Localization (q i).primeCompl)) : Type w)
       (algebraMap X.left.fiber (Localization (q i).primeCompl) x)))) = _
@@ -575,7 +575,7 @@ public theorem exists_ringEquiv_henselizedLocalizationFamilyFiber
   choose E hE using hcomponent
   refine ⟨(H.henselizationEquiv X).symm.trans
     (eJ.val.trans (eQ.trans (RingEquiv.piCongrRight E))), fun x i => ?_⟩
-  show E i (eQ (eJ.val ((H.henselizationEquiv X).symm (H.henselizationMap X x))) i) =
+  change E i (eQ (eJ.val ((H.henselizationEquiv X).symm (H.henselizationMap X x))) i) =
     (K' i).henselizationMap ((L i).functor.obj X) ((L i).localizationMap X x)
   have e1 := H.henselizationEquiv_symm_henselizationMap X x
   have e2 : eJ.val (algebraMap X.left.fiber
@@ -950,7 +950,7 @@ public theorem nonempty_basedIso_henselizationFunctor_congr
         (henselizationFunctor (Λ := Λ) (k := k) J).henselizationMap
           ((ringDeformationTransport eRS heRS).obj X) x := by
     intro X x
-    show (henselizationFunctor (Λ := Λ) (k := k) J).henselizationEquiv
+    change (henselizationFunctor (Λ := Λ) (k := k) J).henselizationEquiv
       ((ringDeformationTransport eRS heRS).obj X)
       ((henselizationEquivOfIdealEq (I.comap X.hom.map.hom)
           (J.comap ((ringDeformationTransport eRS heRS).obj X).hom.map.hom) (hI X)).val
@@ -996,6 +996,7 @@ variable {P : Type w} [CommRing P] [Algebra k P] {ι : Type w} [Finite ι]
     E X (H.henselizationMap X x) i =
       (K' i).henselizationMap ((L i).functor.obj X) ((L i).localizationMap X x))
 
+omit [Finite ι] in
 /-- The decomposition `P^h_J ≅ ∏ P^h_{𝔪 i}` is `k`-linear: both sides are `k`-algebras through
 `P`, and the isomorphism is compatible with the maps out of `P`. -/
 public theorem algebraMap_comm_of_henselizationPiRingEquiv
@@ -1018,6 +1019,7 @@ public theorem algebraMap_comm_of_henselizationPiRingEquiv
     IsScalarTower.algebraMap_apply k (localRingAt (m i)) (henselizedLocalRingAt (m i)),
     IsScalarTower.algebraMap_apply k P (localRingAt (m i))]
 
+omit [Finite ι] in
 include hE in
 /-- **The fibre comparison of the family is linear over the Artinian base, componentwise.** -/
 public theorem henselizedLocalizationFamily_scalar_comm
@@ -1040,6 +1042,7 @@ public theorem henselizedLocalizationFamily_scalar_comm
     ((L i).functor.w_obj X) rfl ((eqToHom hp).hom a)).trans
     (eqToHom_hom_refl rfl ((eqToHom hp).hom a))).symm
 
+omit [Finite ι] in
 include hE in
 /-- **The fibre comparison of the family commutes with the reduction to the special fibre,
 componentwise.** -/
@@ -1084,6 +1087,7 @@ public theorem henselizedLocalizationFamily_specialFiber_comm
       (localRingAt (m i))).le (Ideal.mem_map_of_mem _
         (iInf_le (fun j => (m j).asIdeal) i (Ideal.mem_comap.mp hz))))
 
+omit [Finite ι] in
 include hE in
 /-- **The fibre comparison of the family is natural in morphisms of deformations,
 componentwise.** -/

@@ -76,7 +76,7 @@ private theorem isIso_hom_left {S : Scheme.{u}} {X Y : Over S} (e : X ≅ Y) :
 private theorem toUnit_left_base_eq_bot {k : Type u} [Field k] (T : Over (Spec (.of k)))
     (t : T.left) : (toUnit T).left.base t = (⊥ : PrimeSpectrum k) := by
   have : Subsingleton (↥((𝟙_ (Over (Spec (.of k)))).left)) := by
-    show Subsingleton (PrimeSpectrum k)
+    change Subsingleton (PrimeSpectrum k)
     exact Ring.KrullDimLE.subsingleton_primeSpectrum k
   exact Subsingleton.elim _ _
 
@@ -201,7 +201,7 @@ private theorem lift_rational_point_through_identityComponent
   let i := H.ι.hom.hom.left
   let g := p.left
   have : Subsingleton (↥((Over.mk (𝟙 (Spec (.of k)))).left)) := by
-    show Subsingleton (PrimeSpectrum (CommRingCat.of k))
+    change Subsingleton (PrimeSpectrum (CommRingCat.of k))
     exact Ring.KrullDimLE.subsingleton_primeSpectrum (CommRingCat.of k)
   let _inst : Flat i := identityComponent_flat k G
   have hrange : Set.range g.base ⊆ Set.range i.base := by
@@ -286,7 +286,7 @@ private theorem leftIdentityComponent_saturation_stable_under_rational_left
       _ = (toUnit (T ⊗ G.X) ≫ pG) * (fst T G.X ≫ ψ) :=
         comp_rationalLeftTranslationIso_hom G pG _
   have hαm : α ≫ m = m ≫ lG.hom := by
-    show α ≫ ((fst T G.X ≫ ψ) * (snd T G.X)) = _
+    change α ≫ ((fst T G.X ≫ ψ) * (snd T G.X)) = _
     rw [MonObj.comp_mul, hfa, hαsnd]
     rw [hfirst, hright]
     have hm : m = (fst T G.X ≫ ψ) * (snd T G.X) := by
@@ -295,7 +295,7 @@ private theorem leftIdentityComponent_saturation_stable_under_rational_left
     exact mul_assoc _ _ _
   rcases (by simpa [m, V, H, T, ψ] using hx) with ⟨z, hz, rfl⟩
   refine ⟨α.left.base z, ?_, ?_⟩
-  · show (snd T G.X).left.base (α.left.base z) ∈ U
+  · change (snd T G.X).left.base (α.left.base z) ∈ U
     rw [over_comp_left_base_apply hαsnd]
     exact hz
   · exact over_comp_left_base_apply hαm z
@@ -353,7 +353,7 @@ private theorem leftIdentityComponent_saturation_contains_connectedComponent
       q ≫ (rightTranslationIso G (p₀ ≫ GrpObj.inv)).hom
     have hrmem : r.left.base (⊥ : PrimeSpectrum k) ∈
         connectedComponent (identityPoint k G) := by
-      show rightTranslationHomeo G (p₀ ≫ GrpObj.inv)
+      change rightTranslationHomeo G (p₀ ≫ GrpObj.inv)
         (q.left.base (⊥ : PrimeSpectrum k)) ∈ _
       exact rational_translate_connectedComponent_mem_identityComponent G p₀ q hqcomp
     obtain ⟨rH, hrH⟩ := lift_rational_point_through_identityComponent G r hrmem
@@ -368,7 +368,7 @@ private theorem leftIdentityComponent_saturation_contains_connectedComponent
       have h' := congrArg
         (fun f : Scheme.Hom ((𝟙_ (Over (Spec (CommRingCat.of k)))).left) G.X.left =>
           f.base (⊥ : PrimeSpectrum k)) h
-      show (p₀.left ≫ (rationalLeftTranslationIso G (rH ≫ ψ)).hom.left).base
+      change (p₀.left ≫ (rationalLeftTranslationIso G (rH ≫ ψ)).hom.left).base
           (⊥ : PrimeSpectrum k) = z
       exact h'.trans hq
     have hstable := leftIdentityComponent_saturation_stable_under_rational_left
@@ -492,7 +492,7 @@ private theorem translatedProductHomeo_fst {k A : Type u} [Field k]
     (fun x : (pullback T.hom G.X.hom : Scheme.{u}) =>
       ((pullback.fst T.hom G.X.hom).base x, (pullback.snd T.hom G.X.hom).base x))
     (specProduct_isHomeomorph hA G)
-  show ((hτ.trans (hp.trans (Homeomorph.prodComm _ _))) p).1 = _
+  change ((hτ.trans (hp.trans (Homeomorph.prodComm _ _))) p).1 = _
   rw [Homeomorph.trans_apply, Homeomorph.trans_apply]
   rfl
 
@@ -511,15 +511,15 @@ private theorem translatedProductHomeo_snd {k A : Type u} [Field k]
     (fun x : (pullback T.hom G.X.hom : Scheme.{u}) =>
       ((pullback.fst T.hom G.X.hom).base x, (pullback.snd T.hom G.X.hom).base x))
     (specProduct_isHomeomorph hA G)
-  show ((hτ.trans (hp.trans (Homeomorph.prodComm _ _))) p).2 = _
+  change ((hτ.trans (hp.trans (Homeomorph.prodComm _ _))) p).2 = _
   rw [Homeomorph.trans_apply, Homeomorph.trans_apply]
-  show (hp (hτ p)).1 = _
+  change (hp (hτ p)).1 = _
   rw [IsHomeomorph.homeomorph_apply]
   have hfirstHom : (graphTranslationIso T G.X f).hom ≫ fst T G.X = fst T G.X := by
     apply Over.OverMorphism.ext
     simp [graphTranslationIso]
-  show (fst T G.X).left.base ((graphTranslationIso T G.X f).hom.left.base p) = _
-  show (((graphTranslationIso T G.X f).hom ≫ fst T G.X).left.base p) = _
+  change (fst T G.X).left.base ((graphTranslationIso T G.X f).hom.left.base p) = _
+  change (((graphTranslationIso T G.X f).hom ≫ fst T G.X).left.base p) = _
   rw [hfirstHom]
 
 private theorem exists_common_first_coordinate_of_open_fibres
@@ -654,26 +654,26 @@ private theorem exists_common_translate_fibre_on
       rw [hsnd]
       simp [Hom.one_def]
     have hpV : p ∈ V := by
-      show (snd T G.X).left.base p ∈ U
+      change (snd T G.X).left.base p ∈ U
       have hpunit : (snd T G.X).left.base p = (η[G.X]).left.base (⊥ : PrimeSpectrum k) := by
         have htbase := toUnit_left_base_eq_bot T t.1
-        show (s ≫ snd T G.X).left.base t.1 = _
+        change (s ≫ snd T G.X).left.base t.1 = _
         rw [hsnd]
-        show (η[G.X]).left.base ((toUnit T).left.base t.1) = _
+        change (η[G.X]).left.base ((toUnit T).left.base t.1) = _
         rw [htbase]
       rw [hpunit]
       exact hU
     have hfirst : (translatedProductHomeo hA G f p).1 = f.left.base t.1 := by
       rw [translatedProductHomeo_fst]
-      show (s ≫ (graphTranslationIso T G.X f).hom ≫ snd T G.X).left.base t.1 = _
+      change (s ≫ (graphTranslationIso T G.X f).hom ≫ snd T G.X).left.base t.1 = _
       rw [htranslated]
     have hsecond : (translatedProductHomeo hA G f p).2 = t.1 := by
       rw [translatedProductHomeo_snd]
-      show (s ≫ fst T G.X).left.base t.1 = _
+      change (s ≫ fst T G.X).left.base t.1 = _
       rw [hfst]
       rfl
     refine ⟨⟨f.left.base t.1, hf t.1 t.2⟩, ?_⟩
-    show ((f.left.base t.1, t.1) ∈ O)
+    change ((f.left.base t.1, t.1) ∈ O)
     refine ⟨p, hpV, ?_⟩
     exact Prod.ext hfirst hsecond
   obtain ⟨V₀, hV₀, hVfiber⟩ :=
@@ -769,19 +769,19 @@ private theorem exists_affineOpen_range_subset_of_irreducible
         exact graphTranslationIso_fst T G.X f
       calc
         _ = (fst T G.X).left.base pz := by
-          show (((graphTranslationIso T G.X f).hom ≫ fst T G.X).left.base pz) = _
+          change (((graphTranslationIso T G.X f).hom ≫ fst T G.X).left.base pz) = _
           rw [hfstHom]
         _ = t := hsecondInput
     have hgpoint : c.left.base t = g₀ := by
-      show (toUnit T ≫ p).left.base t = g₀
-      show p.left.base ((toUnit T).left.base t) = g₀
+      change (toUnit T ≫ p).left.base t = g₀
+      change p.left.base ((toUnit T).left.base t) = g₀
       rw [toUnit_left_base_eq_bot T t, hp]
     have hfirstS : (fst T G.X).left.base (s.left.base t) = t := by
-      show (s ≫ fst T G.X).left.base t = t
+      change (s ≫ fst T G.X).left.base t = t
       rw [hfst]
       rfl
     have hsecondS : (snd T G.X).left.base (s.left.base t) = g₀ := by
-      show (s ≫ snd T G.X).left.base t = g₀
+      change (s ≫ snd T G.X).left.base t = g₀
       rw [hsnd]
       exact hgpoint
     have hpair :
@@ -794,13 +794,13 @@ private theorem exists_affineOpen_range_subset_of_irreducible
     have hpz : pz = (graphTranslationIso T G.X f).inv.left.base (s.left.base t) := by
       rw [← heq]
       exact (over_comp_left_base_apply (graphTranslationIso T G.X f).hom_inv_id pz).symm
-    show (snd T G.X).left.base
+    change (snd T G.X).left.base
       ((graphTranslationIso T G.X f).inv.left.base (s.left.base t)) ∈ U
     rw [← hpz]
     simpa [T, pz] using hzU
   have hqInvU : ∀ t : T.left, t ∈ S → qInv.left.base t ∈ UInv := by
     intro t ht
-    show eInv.hom.left.base (qInv.left.base t) ∈ U
+    change eInv.hom.left.base (qInv.left.base t) ∈ U
     have hdouble : qInv ≫ eInv.hom = q := by
       dsimp [qInv, eInv, groupInverseIso]
       simp
@@ -809,7 +809,7 @@ private theorem exists_affineOpen_range_subset_of_irreducible
   refine ⟨g₀, hg₀K, ⟨p, hp, W, hW, ?_, ?_⟩⟩
   · rfl
   · intro t ht
-    show (L.symm.hom.left.base (f.left.base t)) ∈ UInv
+    change (L.symm.hom.left.base (f.left.base t)) ∈ UInv
     have hfpoint : f.left.base t = L.hom.left.base (qInv.left.base t) := by
       have hmap : f = qInv ≫ L.hom := by
         calc
@@ -887,7 +887,7 @@ private theorem exists_affineOpen_subset_saturation_for_component_fibre
   have hf' : ∀ t ∈ S, f'.left.base t ∈
       connectedComponent (identityPoint k G) := by
     intro t ht
-    show τ (f.left.base t) ∈ connectedComponent (identityPoint k G)
+    change τ (f.left.base t) ∈ connectedComponent (identityPoint k G)
     rw [← hτK]
     exact Set.mem_image_of_mem τ (hf t ht)
   have := isIso_hom_left R
@@ -903,7 +903,7 @@ private theorem exists_affineOpen_subset_saturation_for_component_fibre
   let eInv := groupInverseIso G
   let O : G.X.left.Opens := (eInv.hom.left) ⁻¹ᵁ Wcomp
   have heO : (identityPoint k G) ∈ O := by
-    show eInv.hom.left.base (identityPoint k G) ∈ Wcomp
+    change eInv.hom.left.base (identityPoint k G) ∈ Wcomp
     have hInv : eInv.hom.left.base (identityPoint k G) =
         identityPoint k G := by
       have hUnit : (η[G.X] ≫ GrpObj.inv) = η[G.X] := by simp
@@ -945,7 +945,7 @@ private theorem exists_affineOpen_subset_saturation_for_component_fibre
       G U₀ z pH ((rationalLeftTranslationIso G p₀).symm.hom.left.base a) haWcomp
     have hstable' : (rationalLeftTranslationIso G p₀).hom.left.base
         ((rationalLeftTranslationIso G p₀).symm.hom.left.base a) ∈ Wcomp := by
-      show _ ∈ Set.image R.hom.left.base sat
+      change _ ∈ Set.image R.hom.left.base sat
       simpa only [hpH] using hstable
     have hcancel : (rationalLeftTranslationIso G p₀).hom.left.base
         ((rationalLeftTranslationIso G p₀).symm.hom.left.base a) = a :=
@@ -994,7 +994,7 @@ private theorem affineOpen_inf_clopen
   let B : (Spec Γ(X, U)).Opens := PrimeSpectrum.basicOpen r
   have hpre : e.hom ⁻¹ᵁ B = U' := by
     ext x
-    show eTop x ∈ (PrimeSpectrum.basicOpen r : Set (PrimeSpectrum Γ(X, U))) ↔
+    change eTop x ∈ (PrimeSpectrum.basicOpen r : Set (PrimeSpectrum Γ(X, U))) ↔
       x ∈ (U' : Set U.toScheme)
     rw [← hD]
     constructor
@@ -1032,7 +1032,7 @@ private theorem exists_affineOpen_cover_from_component_fibres
     ext q
     simp only [Set.mem_iUnion, Set.mem_univ, iff_true]
     refine ⟨q, ?_⟩
-    show q ∉ Set.image ψ {t | f t ∉ U q}
+    change q ∉ Set.image ψ {t | f t ∉ U q}
     rintro ⟨t, ht, hqt⟩
     exact ht (hfiber q t hqt)
   obtain ⟨n, D, hDref₀, hDcover, hDdisj⟩ :=
@@ -1136,7 +1136,7 @@ private theorem leftIdentityComponent_saturation_isOpen_isCompact
     (AlgebraicGeometry.quasiCompact_iff_compactSpace T.hom).2 inferInstance
   let _inst : QuasiCompact (pullback.snd T.hom G.X.hom) := by infer_instance
   have hVcompact : IsCompact V := by
-    show IsCompact ((pullback.snd T.hom G.X.hom).base ⁻¹' (U : Set G.X.left))
+    change IsCompact ((pullback.snd T.hom G.X.hom).base ⁻¹' (U : Set G.X.left))
     exact QuasiCompact.isCompact_preimage (f := pullback.snd T.hom G.X.hom)
       (U : Set G.X.left) U.2 hU
   have hPcompact : IsCompact P := hVcompact.image m.left.continuous
@@ -1161,7 +1161,7 @@ theorem exists_affineOpen_range_subset
   classical
   let _inst : CompactSpace (Over.mk (Spec.map
       (CommRingCat.ofHom (algebraMap k A)))).left := by
-    show CompactSpace (PrimeSpectrum A)
+    change CompactSpace (PrimeSpectrum A)
     infer_instance
   let e := identityPoint k G
   let K₀ : Set G.X.left := Set.range f.left.base ∪ {e}
@@ -1185,9 +1185,9 @@ theorem exists_affineOpen_range_subset
   have hsnd : s ≫ snd T G.X = 𝟙 G.X := by simp [s]
   have hfst : s ≫ fst T G.X = toUnit G.X ≫ (MonObj.one : 𝟙_ _ ⟶ T) := by simp [s]
   have hsm : s ≫ m = 𝟙 G.X := by
-    show s ≫ ((fst T G.X ≫ ψ) * snd T G.X) = _
+    change s ≫ ((fst T G.X ≫ ψ) * snd T G.X) = _
     rw [MonObj.comp_mul]
-    show ((s ≫ fst T G.X) ≫ ψ) * (s ≫ snd T G.X) = _
+    change ((s ≫ fst T G.X) ≫ ψ) * (s ≫ snd T G.X) = _
     rw [show s ≫ fst T G.X = (1 : G.X ⟶ T) by simpa [Hom.one_def] using hfst,
       hsnd]
     rw [MonObj.one_comp]
@@ -1199,12 +1199,12 @@ theorem exists_affineOpen_range_subset
   have hfSat : ∀ t : PrimeSpectrum A, f.left.base t ∈ sat := by
     intro t
     refine ⟨s.left.base (f.left.base t), ?_, hsmPoint (f.left.base t)⟩
-    show (snd T G.X).left.base (s.left.base (f.left.base t)) ∈ U₀
+    change (snd T G.X).left.base (s.left.base (f.left.base t)) ∈ U₀
     rw [hsndPoint]
     exact hfU₀ t
   have eSat : e ∈ sat := by
     refine ⟨s.left.base e, ?_, hsmPoint e⟩
-    show (snd T G.X).left.base (s.left.base e) ∈ U₀
+    change (snd T G.X).left.base (s.left.base e) ∈ U₀
     rw [hsndPoint]
     exact heU₀
   have hfW : Set.range f.left.base ⊆ (W : Set G.X.left) := by

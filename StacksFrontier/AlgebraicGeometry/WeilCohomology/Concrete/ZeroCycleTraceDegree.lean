@@ -164,7 +164,7 @@ theorem exists_zeroCycleToCodimension_eq {X : (SmoothProjectiveScheme k).FullSub
   · funext e
     by_cases h : (0 : ℤ) = e - d
     · obtain rfl : e = d := by omega
-      simp only [zeroCycleToCodimension, AddMonoidHom.pi_apply, dif_pos h,
+      simp only [zeroCycleToCodimension, AddMonoidHom.pi_apply, dite_eq_left h,
         AddMonoidHom.coe_comp, Function.comp_apply, AddEquiv.coe_toAddMonoidHom]
       rw [chowGroupRestrict_properChowPushforward_opens_self]
       exact eq_of_heq ((chowGroupDegreeEquiv_heq _ _ _ _).trans (chowGroupDegreeEquiv_heq _ _ _ _))
@@ -230,7 +230,7 @@ theorem trace_cycleClass_zeroCycleToCodimension
   have hgen : Set.EqOn φ ψ (separablePointClasses k X.obj.hom) := by
     rintro _ ⟨y, hy, hsep, rfl⟩
     rw [mk_integralComponentAt_eq hy hsep]
-    show W.trace X d hX (W.cycleClass X d (zeroCycleToCodimension X.obj.hom d _)) =
+    change W.trace X d hX (W.cycleClass X d (zeroCycleToCodimension X.obj.hom d _)) =
       ((chowDegree (fieldChowSituation k) (fun _ ↦ rfl) X.obj.hom s _ : ℤ) : F)
     rw [zeroCycleToCodimension_mk_cycleAssociatedToClosedSubscheme X.obj.hom _
         (relativeDimension_closedPointHom hy hsep) d,

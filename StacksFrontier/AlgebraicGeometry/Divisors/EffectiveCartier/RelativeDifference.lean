@@ -166,7 +166,7 @@ theorem flat_quotient_cancel_mul_of_isRegular {A B : Type u} [CommRing A] [CommR
     J.liftQ (K.mkQ.comp (LinearMap.mulLeft B a)) (by
       intro b hb
       apply LinearMap.mem_ker.mpr
-      show K.mkQ (a * b) = 0
+      change K.mkQ (a * b) = 0
       apply (Submodule.Quotient.eq K).2
       simpa [K, P, mul_comm] using Ideal.mul_mem_mul (Ideal.mem_span_singleton_self a) hb)
   let GB : (B ⧸ K) →ₗ[B] (B ⧸ P) := K.factor (show K ≤ P from Ideal.mul_le_left)
@@ -202,7 +202,7 @@ theorem flat_quotient_cancel_mul_of_isRegular {A B : Type u} [CommRing A] [CommR
       simp [P, K, mul_comm]
     · refine LinearMap.range_le_ker_iff.mpr (LinearMap.ext fun x => ?_)
       obtain ⟨b, rfl⟩ := J.mkQ_surjective x
-      show G (F (J.mkQ b)) = 0
+      change G (F (J.mkQ b)) = 0
       rw [hF_apply, hG_apply]
       exact (Submodule.Quotient.eq P).2 (by
         simpa using P.mul_mem_right b (Ideal.mem_span_singleton_self a))

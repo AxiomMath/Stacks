@@ -150,7 +150,7 @@ theorem exists_hom_completionSheaf {V : BigFppfOver B S hS} {I : Type*}
   refine ⟨ObjectProperty.homMk
     ((BigFppfOver.topology B S hS).sheafifyLift ψ₀ Q.property), fun i => ?_⟩
   refine ObjectProperty.hom_ext _ ?_
-  show (BigFppfOver.topology B S hS).sheafifyMap
+  change (BigFppfOver.topology B S hS).sheafifyMap
       (completionSubfunctorRestrict B S hS (yoneda.map (f i)) (Zi i) Z (hZi i)) ≫
     (BigFppfOver.topology B S hS).sheafifyLift ψ₀ Q.property = (φ i).hom
   rw [GrothendieckTopology.sheafifyMap_sheafifyLift, hψ₀ i]

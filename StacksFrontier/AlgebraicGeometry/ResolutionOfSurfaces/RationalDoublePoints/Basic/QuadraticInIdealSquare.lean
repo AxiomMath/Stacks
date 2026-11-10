@@ -421,7 +421,7 @@ theorem eq_smul_sq_affineLinear_of_mem_ideal_sq
             simp only [map_add, map_mul]
             ring_nf
             have htwoP : (2 : MvPolynomial (Fin 2) k) = 0 := by
-              show MvPolynomial.C (2 : k) = 0
+              change MvPolynomial.C (2 : k) = 0
               rw [htwo]
               simp
             rw [htwoP]

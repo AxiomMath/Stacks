@@ -307,7 +307,7 @@ theorem adjunctionCupProduct_comp (G H : C₀) :
   rw [adjunctionCupProduct_post, ← Category.assoc, adjunctionCupProduct_pre adjf B₁ B₀ αf G H
       (αg.app (Rg.obj (Rf.obj G), Rg.obj (Rf.obj H)) ≫
         B₁.map (adjg.counit.app (Rf.obj G) ×ₘ adjg.counit.app (Rf.obj H)))]
-  show (adjg.comp adjf).homEquiv _ _ _ = _
+  change (adjg.comp adjf).homEquiv _ _ _ = _
   rw [hinner, Adjunction.comp_homEquiv]
   rfl
 
@@ -328,7 +328,8 @@ abbrev uncurriedDerivedTensor (W : RingedTopos.{u, u, u})
     [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} W.O).Additive]
     [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} W.O).obj M).Additive]
     [∀ (P Q : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf W.O)) ℤ),
-      HomologicalComplex.HasMapBifunctor P Q (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} W.O)
+      HomologicalComplex.HasMapBifunctor P Q
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} W.O)
         (ComplexShape.up ℤ)] :
     DerivedModules W.O × DerivedModules W.O ⥤ DerivedModules W.O :=
   Functor.uncurry.obj (derivedTensorProductFunctor W.O)
@@ -351,14 +352,17 @@ variable {X Y : RingedTopos.{u, u, u}}
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
   [∀ (P Q : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor P Q (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O)
+    HomologicalComplex.HasMapBifunctor P Q
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O)
       (ComplexShape.up ℤ)]
   [∀ (P Q : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor P Q (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O)
+    HomologicalComplex.HasMapBifunctor P Q
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O)
       (ComplexShape.up ℤ)]
   (f : RingedToposSiteHom X Y)
   [(pullbackOnHomotopy f).HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))]
   (hmos : f.u.IsMorphismOfSites Y.J X.J)
 
 /-- **[Stacks, Tag 0FPL].**  The relative cup product of [Stacks, Tag 0B6C] is associative: for
@@ -489,19 +493,24 @@ variable {X Y Z : RingedTopos.{u, u, u}}
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O).obj M).Additive]
   [∀ (P Q : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor P Q (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O)
+    HomologicalComplex.HasMapBifunctor P Q
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O)
       (ComplexShape.up ℤ)]
   [∀ (P Q : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor P Q (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O)
+    HomologicalComplex.HasMapBifunctor P Q
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O)
       (ComplexShape.up ℤ)]
   [∀ (P Q : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor P Q (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O)
+    HomologicalComplex.HasMapBifunctor P Q
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O)
       (ComplexShape.up ℤ)]
   (f : RingedToposSiteHom X Y) (f' : RingedToposSiteHom Y Z)
   [(pullbackOnHomotopy f).HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))]
   [(pullbackOnHomotopy f').HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)) (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O))
+      (ComplexShape.up ℤ))]
   (hmosf : f.u.IsMorphismOfSites Y.J X.J) (hmosf' : f'.u.IsMorphismOfSites Z.J Y.J)
 
 /-- **[Stacks, Tag 0FPN].**  The relative cup product of [Stacks, Tag 0B6C] is compatible with

@@ -218,6 +218,7 @@ def crisCohomologyZariskiHypercohomologyPushforwardAddEquiv
             ((derivedZariskiDirectImage S).obj (crisPullback S S' fS fX hf F)))) :=
   (crisCohomologyIsoZariskiHypercohomologyPushforward S S' fS fX hf F i).addCommGroupIsoToAddEquiv
 
+omit [HasDerivedCategory.{w} (Sheaf (smallTopology S') AddCommGrpCat.{u + 1})] in
 /-- The additive equivalence `crisCohomologyZariskiHypercohomologyPushforwardAddEquiv` acts as
 the forward map of `crisCohomologyIsoZariskiHypercohomologyPushforward`. -/
 @[simp]

@@ -121,7 +121,7 @@ lemma categoricalPullback_mapEq_obj_iso_hom (R : CategoricalPullback H I) :
     ((CategoricalPullback.map H I L K M F G (eqToIso hKG) (eqToIso hHM)).obj R).iso.hom =
       eqToHom (Functor.congr_obj hHM R.fst).symm ≫ M.map R.iso.hom ≫
         eqToHom (Functor.congr_obj hKG R.snd).symm := by
-  show (eqToIso hHM).inv.app R.fst ≫ M.map R.iso.hom ≫ (eqToIso hKG).inv.app R.snd = _
+  change (eqToIso hHM).inv.app R.fst ≫ M.map R.iso.hom ≫ (eqToIso hKG).inv.app R.snd = _
   simp only [CategoryTheory.eqToIso.inv]
   rw [CategoryTheory.eqToHom_app, CategoryTheory.eqToHom_app]
 
@@ -141,7 +141,7 @@ lemma categoricalPullback_mapEq_hom_w_iff
   rw [categoricalPullback_mapEq_obj_iso_hom, categoricalPullback_mapEq_obj_iso_hom,
     strictSquare_map' H L M F hHM cX, strictSquare_map K I G M hKG cZ,
     Functor.map_comp, Functor.map_comp]
-  simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_trans, eqToHom_refl,
+  simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl,
     Category.id_comp]
   rw [← Category.assoc (M.map (H.map cX)), ← Category.assoc (M.map P.iso.hom)]
   refine ⟨fun hh => (cancel_mono (eqToHom _)).mp ((cancel_epi (eqToHom _)).mp hh), fun hh => ?_⟩
@@ -199,6 +199,7 @@ lemma eqToHom_conj_comp_self {C : Type*} [Category C] {x y x' y' : C}
     (eqToHom p ≫ f ≫ eqToHom q) ≫ eqToHom q.symm ≫ g ≫ eqToHom p.symm = 𝟙 x' := by
   cases p; cases q; simp [h]
 
+omit [IsFiltered J] in
 /-- An identity between the images of two parallel morphisms under a transition persists along
 any further transition. -/
 lemma map_comp_eq_of_map_eq {W : J ⥤ Cat.{t, t}} {j k l : J}
@@ -220,6 +221,7 @@ lemma exists_common_stage_of_two {j k₁ k₂ : J} (u₁ : j ⟶ k₁) (u₂ : j
   rw [← Category.assoc]
   exact IsFiltered.coeq_condition _ _
 
+omit [IsFiltered J] in
 /-- The transition square of a colimit inclusion, read on objects. -/
 lemma colimit_ι_map_obj (W : J ⥤ Cat.{t, t}) [HasColimit W] {j k : J} (s : j ⟶ k)
     (a : W.obj j) :
@@ -282,8 +284,14 @@ lemma categoricalPullback_transport_w {𝒜 ℬ 𝒞 : Type*} [Category 𝒜] [C
         eqToHom (congrArg CategoricalPullback.fst eQ).symm) ≫ Q'.iso.hom =
       P'.iso.hom ≫ G.map (eqToHom (congrArg CategoricalPullback.snd eP) ≫ f.snd ≫
         eqToHom (congrArg CategoricalPullback.snd eQ).symm) := by
-  cases eP; cases eQ; simpa using f.w
+  cases eP; cases eQ; simp
 
+omit [IsFiltered J]
+    [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (Y ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (Z ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (twoFibreProductDiagram α γ)] [HasColimit (twoFibreProductDiagram α γ ⋙
+    CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- The compatibility condition for the stagewise comparison, read back at the stage. -/
 lemma twoFibreProductStage_hom_w_iff (k : J)
     {A B : CategoricalPullback (α.app k).toFunctor (γ.app k).toFunctor}
@@ -303,6 +311,12 @@ lemma twoFibreProductStage_hom_w_iff (k : J)
     (colimMap α).toFunctor (colimMap γ).toFunctor
     (ι_colimMap_toFunctor γ k) (ι_colimMap_toFunctor α k).symm cX cZ
 
+omit [IsFiltered J] [HasColimit X] [HasColimit Y] [HasColimit Z]
+    [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (Y ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (Z ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (twoFibreProductDiagram α γ)] [HasColimit (twoFibreProductDiagram α γ ⋙
+    CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- The compatibility condition for a transition of the stagewise 2-fibre product, read back at
 the earlier stage. -/
 lemma twoFibreProductMap_hom_w_iff {k m : J} (v : k ⟶ m)
@@ -323,6 +337,12 @@ lemma twoFibreProductMap_hom_w_iff {k m : J} (v : k ⟶ m)
     (α.app m).toFunctor (γ.app m).toFunctor
     (naturality_toFunctor γ v) (naturality_toFunctor α v).symm cX cZ
 
+omit [IsFiltered J]
+    [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (Y ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (Z ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (twoFibreProductDiagram α γ)] [HasColimit (twoFibreProductDiagram α γ ⋙
+    CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- The cocone condition on objects: the stagewise comparison of a transported object is the
 stagewise comparison of the object itself. -/
 lemma twoFibreProductStage_obj_map {j k : J} (u : j ⟶ k)
@@ -331,19 +351,22 @@ lemma twoFibreProductStage_obj_map {j k : J} (u : j ⟶ k)
       (twoFibreProductStage α γ j).obj a :=
   Functor.congr_obj (twoFibreProductMap_comp_twoFibreProductStage α γ u) a
 
+omit [HasColimit (Y ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (twoFibreProductDiagram α γ ⋙
+    CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- **A morphism between the stagewise comparison images of two objects of one stage is, at a
 later stage, the stagewise comparison of a morphism of that stage.** -/
 lemma exists_stage_hom_of_twoFibreProductStage (j : J)
     (a b : (twoFibreProductDiagram α γ).obj j)
     (h' : (twoFibreProductStage α γ j).obj a ⟶ (twoFibreProductStage α γ j).obj b) :
-    ∃ (k : J) (A B : (twoFibreProductDiagram α γ).obj k) (φ : A ⟶ B)
-      (eA : (colimit.ι (twoFibreProductDiagram α γ) k).toFunctor.obj A =
-        (colimit.ι (twoFibreProductDiagram α γ) j).toFunctor.obj a)
-      (eB : (colimit.ι (twoFibreProductDiagram α γ) k).toFunctor.obj B =
-        (colimit.ι (twoFibreProductDiagram α γ) j).toFunctor.obj b)
-      (fA : (twoFibreProductStage α γ k).obj A = (twoFibreProductStage α γ j).obj a)
-      (fB : (twoFibreProductStage α γ k).obj B = (twoFibreProductStage α γ j).obj b),
-      (twoFibreProductStage α γ k).map φ = eqToHom fA ≫ h' ≫ eqToHom fB.symm := by
+    ∃ (k : J) (A B : (twoFibreProductDiagram α γ).obj k) (φ : A ⟶ B),
+      (colimit.ι (twoFibreProductDiagram α γ) k).toFunctor.obj A =
+        (colimit.ι (twoFibreProductDiagram α γ) j).toFunctor.obj a ∧
+      (colimit.ι (twoFibreProductDiagram α γ) k).toFunctor.obj B =
+        (colimit.ι (twoFibreProductDiagram α γ) j).toFunctor.obj b ∧
+      ∃ (fA : (twoFibreProductStage α γ k).obj A = (twoFibreProductStage α γ j).obj a)
+        (fB : (twoFibreProductStage α γ k).obj B = (twoFibreProductStage α γ j).obj b),
+        (twoFibreProductStage α γ k).map φ = eqToHom fA ≫ h' ≫ eqToHom fB.symm := by
   obtain ⟨k₁, r₁, gX, hgX⟩ := exists_stage_hom_of_colimit.{u, v, w} X j a.fst b.fst
     (h'.fst : (colimit.ι X j).toFunctor.obj a.fst ⟶ (colimit.ι X j).toFunctor.obj b.fst)
   obtain ⟨k₂, r₂, gZ, hgZ⟩ := exists_stage_hom_of_colimit.{u, v, w} Z k₁
@@ -400,6 +423,7 @@ lemma exists_stage_hom_of_twoFibreProductStage (j : J)
   · exact (colimit_ι_map_map_eq_conj v gZ _ hcZ _ _).trans
       (categoricalPullback_eqToHom_conj_snd fA fB.symm h').symm
 
+omit [IsFiltered J] in
 /-- A composite transition on objects, factored. -/
 lemma map_comp_obj {W : J ⥤ Cat.{t, t}} {j k l : J} (r : j ⟶ k) (s : k ⟶ l) (a : W.obj j) :
     (W.map (r ≫ s)).toFunctor.obj a = (W.map s).toFunctor.obj ((W.map r).toFunctor.obj a) :=
@@ -472,12 +496,17 @@ lemma exists_stage_iso_of_colimit (W : J ⥤ Cat.{max u v w, max u v w}) [HasCol
       hom_inv_id := by rw [← Functor.map_comp, H₁, Functor.map_id]
       inv_hom_id := by rw [← Functor.map_comp, H₂, Functor.map_id] } ≪≫
     eqToIso (E q).symm, ?_⟩
-  show (colimit.ι W k).toFunctor.map (eqToHom (E p) ≫
+  change (colimit.ι W k).toFunctor.map (eqToHom (E p) ≫
     (W.map t).toFunctor.map ((W.map r₂).toFunctor.map g) ≫ eqToHom (E q).symm) = _
   refine (map_eqToHom_conj _ _ _ _).trans ?_
   rw [hE]
   exact eqToHom_conj_assoc _ _ _ _ _ _ _
 
+omit [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (Y ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (Z ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (twoFibreProductDiagram α γ ⋙
+    CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- Two parallel morphisms at a stage of the 2-fibre product diagram whose images under the
 stagewise comparison `twoFibreProductStage` into the 2-fibre product of the colimits agree already
 have the same image in the colimit of the 2-fibre product diagram. -/
@@ -495,6 +524,9 @@ lemma colimit_ι_map_eq_of_twoFibreProductStage_map_eq {j : J}
   rw [colimit_ι_map_map u f', colimit_ι_map_map u g'] at h'
   exact (cancel_mono _).mp ((cancel_epi _).mp h')
 
+omit [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (Y ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+    [HasColimit (Z ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- **The comparison out of the colimit of a stagewise 2-fibre product is faithful.** -/
 theorem faithful_colimitTwoFibreProductComparison :
     (colimitTwoFibreProductComparison α γ).Faithful where
@@ -515,6 +547,7 @@ theorem faithful_colimitTwoFibreProductComparison :
     exact (cancel_mono (eqToHom hy.symm)).mp ((cancel_epi (eqToHom hx)).mp hι)
 
 
+omit [HasColimit (Y ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- **The comparison out of the colimit of a stagewise 2-fibre product is full.** -/
 theorem full_colimitTwoFibreProductComparison :
     (colimitTwoFibreProductComparison α γ).Full where
@@ -566,6 +599,8 @@ lemma exists_common_stage_obj_of_colimit₂ (W W' : J ⥤ Cat.{max u v w, max u 
     (W'.map (IsFiltered.rightToMax j₁ j₂)).toFunctor.obj b,
     (colimit_ι_map_obj W _ a).trans ha, (colimit_ι_map_obj W' _ b).trans hb⟩
 
+omit [HasColimit (twoFibreProductDiagram α γ)] [HasColimit (twoFibreProductDiagram α γ ⋙
+    CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- **Every object of the 2-fibre product of the colimits is already the stagewise comparison of
 an object of a stage.** The two components are represented at a common stage; the structural
 isomorphism of the object is then an isomorphism of the colimit of `𝒴` between the images of two
@@ -609,6 +644,8 @@ lemma exists_stage_obj_of_twoFibreProductStage
   simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_trans]
   rfl
 
+omit [HasColimit (twoFibreProductDiagram α γ ⋙
+    CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- **The comparison out of the colimit of a stagewise 2-fibre product is essentially
 surjective.** -/
 theorem essSurj_colimitTwoFibreProductComparison :

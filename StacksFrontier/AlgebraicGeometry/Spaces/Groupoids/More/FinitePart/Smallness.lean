@@ -74,10 +74,10 @@ private lemma subfunctor_le_of_preimage_le_of_isLocallySurjective
   apply J.superset_covering ?_ (Presheaf.imageSieve_mem J q x)
   rintro V f ⟨y, hy⟩
   have hyA : y ∈ (A.preimage q).obj (op V) := by
-    show q.app (op V) y ∈ A.obj (op V)
+    change q.app (op V) y ∈ A.obj (op V)
     rw [hy]
     exact A.map f.op hx
-  show F.map f.op x ∈ A'.obj (op V)
+  change F.map f.op x ∈ A'.obj (op V)
   rw [← hy]
   exact hpre _ hyA
 
@@ -137,7 +137,7 @@ private lemma preimage_eq_of_openRangeCode_eq (B : BigFppfSite.{u}) (S : Scheme.
   apply Subfunctor.ext
   funext V
   ext x
-  show g.app V x ∈ A.obj V ↔ g.app V x ∈ A'.obj V
+  change g.app V x ∈ A.obj V ↔ g.app V x ∈ A'.obj V
   have factor_iff (W : BigFppfOver B S hS) (A : Subfunctor F)
       (hA : IsOpenImmersion B S hS A.ι) (z : (W ⟶ U)) :
       g.app (op W) z ∈ A.obj (op W) ↔
@@ -151,7 +151,7 @@ private lemma preimage_eq_of_openRangeCode_eq (B : BigFppfSite.{u}) (S : Scheme.
       have hcomm : α ≫ A.ι = yoneda.map z ≫ g := by
         apply yonedaEquiv.injective
         rw [yonedaEquiv_comp]
-        show (yonedaEquiv α).val = g.app (op W) (yonedaEquiv (yoneda.map z))
+        change (yonedaEquiv α).val = g.app (op W) (yonedaEquiv (yoneda.map z))
         have hα : yonedaEquiv α = (⟨g.app (op W) z, hz⟩ : A.toFunctor.obj (op W)) :=
           Equiv.apply_symm_apply yonedaEquiv _
         rw [hα, yonedaEquiv_yoneda_map]
@@ -174,12 +174,12 @@ private lemma preimage_eq_of_openRangeCode_eq (B : BigFppfSite.{u}) (S : Scheme.
       let l₀ := B.inclusion.preimage lScheme
       have hl₀ : B.inclusion.map l₀ = lScheme := B.inclusion.map_preimage _
       have hPover : q.map P ≫ B.inclusion.map U.hom = B.inclusion.map R.hom := by
-        show B.inclusion.map (P.left ≫ U.hom) = B.inclusion.map R.hom
+        change B.inclusion.map (P.left ≫ U.hom) = B.inclusion.map R.hom
         exact congrArg B.inclusion.map (Over.w P)
       let l : W ⟶ R := Over.homMk l₀ (by
         apply B.inclusion.map_injective
         rw [B.inclusion.map_comp, hl₀, ← hPover, reassoc_of% hlScheme]
-        show B.inclusion.map z.left ≫ B.inclusion.map U.hom = B.inclusion.map W.hom
+        change B.inclusion.map z.left ≫ B.inclusion.map U.hom = B.inclusion.map W.hom
         exact congrArg B.inclusion.map (Over.w z))
       have hl : q.map l = lScheme := by simpa [q, l] using hl₀
       have hfac : l ≫ P = z := q.map_injective <| by rwa [Functor.map_comp, hl]

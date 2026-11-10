@@ -62,12 +62,14 @@ Artin–Rees/Mittag-Leffler argument using the connecting maps `H^0 → H^1` of 
 `0 → I^n ℱ → ℱ → ℱ/I^n ℱ → 0`.  Those connecting maps ARE available: Mathlib has `Sheaf.H` and
 `Sheaf.H'` in every degree, the covariant `Ext` long exact sequence supplies the connecting
 homomorphism, and `Stacks.Cohomology.Scheme.δ`
-(`StacksFrontier/AlgebraicGeometry/FormalFunctions/SchemeCohomologySequence.lean`) is that map in the
+(`StacksFrontier/AlgebraicGeometry/FormalFunctions/SchemeCohomologySequence.lean`)
+is that map in the
 groups Tag 071L is stated in.  The chain is blocked further up instead.  Tag 02O5 — coherence of
 the higher direct images of a proper morphism — IS proved here, unconditionally, as
 `AlgebraicGeometry.ProperCoherenceWitness.higherDirectImageIsCoherent` and
 `AlgebraicGeometry.ProperCoherenceWitness.isCoherent_pushforward` in
-`StacksFrontier/AlgebraicGeometry/ProperCoherenceWitness/ChowStalk.lean`, as is Tag 02O6;  what has no
+`StacksFrontier/AlgebraicGeometry/ProperCoherenceWitness/ChowStalk.lean`, as is Tag 02O6;
+what has no
 unconditional form here is the rest of `02O8 → 02OA → 02OB → 02OC`, each step of which takes the
 one below it as a hypothesis, down to Tag 0897 part (1).  So Tag 02OC, and with it Tag 02OD and the
 general case of Tag 0G7X, is out of reach.  Nothing below is conditional on any of that.

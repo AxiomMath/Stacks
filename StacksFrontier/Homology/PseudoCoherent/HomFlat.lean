@@ -161,7 +161,7 @@ private theorem exact_lcomp
     simp
   · rintro ⟨k, rfl⟩
     ext a
-    show k (g (f a)) = 0
+    change k (g (f a)) = 0
     rw [(h (f a)).mpr ⟨a, rfl⟩, map_zero]
 
 /-- The Hom--tensor map is natural in the source. -/
@@ -263,7 +263,7 @@ private theorem canonicalExtTensorComparison_precomp
       (canonicalExtTensorComparison R X Y K c).comp
         ((f.precompOfLinear R Y h).rTensor K) := by
   refine TensorProduct.ext (LinearMap.ext fun e => LinearMap.ext fun k => ?_)
-  show f.comp (canonicalExtTensorComparison R X' Y K b (e ⊗ₜ[R] k)) h =
+  change f.comp (canonicalExtTensorComparison R X' Y K b (e ⊗ₜ[R] k)) h =
     canonicalExtTensorComparison R X Y K c ((f.comp e h) ⊗ₜ[R] k)
   rw [canonicalExtTensorComparison_tmul, canonicalExtTensorComparison_tmul]
   exact (Abelian.Ext.comp_assoc_of_third_deg_zero f e _ h).symm
@@ -614,7 +614,7 @@ private theorem flat_base_change_ext_zeroPoly {R : Type uR} {R' : Type uS}
       rw [Adjunction.homEquiv_apply, Ext.homEquiv₀_symm_apply, ← Ext.mk₀_comp_mk₀]
       rfl
     rw [hrhs]
-    show (Ext.mk₀
+    change (Ext.mk₀
         ((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).unit.app M)).precomp
         ((ModuleCat.restrictScalars f).obj N') (zero_add 0)
         ((ModuleCat.restrictScalars f).mapExtAddHom
@@ -635,7 +635,7 @@ private theorem extFlatBaseChangeComparisonPoly_apply {R : Type uR} {R' : Type u
           (Ext.mapExactFunctor (ModuleCat.restrictScalars.{max uR uS v} f) y)
           (zero_add k) := by
   rw [extFlatBaseChangeComparisonPoly]
-  show ((Ext.mk₀
+  change ((Ext.mk₀
       ((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).unit.app M)).precomp
       ((ModuleCat.restrictScalars f).obj N') (zero_add k))
       ((ModuleCat.restrictScalars f).mapExtAddHom
@@ -790,7 +790,7 @@ original modules. -/
     (f : ModuleCat.of R (ULift.{max uR uM uN w} M) ⟶
       ModuleCat.of R (ULift.{max uR uM uN w} N)) (m : M) :
     uliftExtLinearEquiv₀.{uR, uM, uN, w} R M N (Ext.mk₀ f) m = (f (ULift.up m)).down := by
-  show ((Ext.linearEquiv₀ (R := R) (Ext.mk₀ f)) (ULift.up m)).down = _
+  change ((Ext.linearEquiv₀ (R := R) (Ext.mk₀ f)) (ULift.up m)).down = _
   rw [linearEquiv₀_mk₀]
 
 section Proof
@@ -805,13 +805,13 @@ private theorem precomp_iso_bijective
   have h₁ : Function.LeftInverse ((Ext.mk₀ e.inv).precomp Y (zero_add i))
       ((Ext.mk₀ e.hom).precomp Y (zero_add i)) := by
     intro x
-    show (Ext.mk₀ e.inv).comp ((Ext.mk₀ e.hom).comp x (zero_add i)) (zero_add i) = x
+    change (Ext.mk₀ e.inv).comp ((Ext.mk₀ e.hom).comp x (zero_add i)) (zero_add i) = x
     rw [← Ext.comp_assoc_of_second_deg_zero, Ext.mk₀_comp_mk₀, e.inv_hom_id,
       Ext.mk₀_id_comp]
   have h₂ : Function.RightInverse ((Ext.mk₀ e.inv).precomp Y (zero_add i))
       ((Ext.mk₀ e.hom).precomp Y (zero_add i)) := by
     intro x
-    show (Ext.mk₀ e.hom).comp ((Ext.mk₀ e.inv).comp x (zero_add i)) (zero_add i) = x
+    change (Ext.mk₀ e.hom).comp ((Ext.mk₀ e.inv).comp x (zero_add i)) (zero_add i) = x
     rw [← Ext.comp_assoc_of_second_deg_zero, Ext.mk₀_comp_mk₀, e.hom_inv_id,
       Ext.mk₀_id_comp]
   exact ⟨h₁.injective, h₂.surjective⟩
@@ -824,13 +824,13 @@ private theorem postcomp_iso_bijective
   have h₁ : Function.LeftInverse ((Ext.mk₀ e.inv).postcomp X (add_zero i))
       ((Ext.mk₀ e.hom).postcomp X (add_zero i)) := by
     intro x
-    show (x.comp (Ext.mk₀ e.hom) (add_zero i)).comp (Ext.mk₀ e.inv) (add_zero i) = x
+    change (x.comp (Ext.mk₀ e.hom) (add_zero i)).comp (Ext.mk₀ e.inv) (add_zero i) = x
     rw [Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀, e.hom_inv_id,
       Ext.comp_mk₀_id]
   have h₂ : Function.RightInverse ((Ext.mk₀ e.inv).postcomp X (add_zero i))
       ((Ext.mk₀ e.hom).postcomp X (add_zero i)) := by
     intro x
-    show (x.comp (Ext.mk₀ e.inv) (add_zero i)).comp (Ext.mk₀ e.hom) (add_zero i) = x
+    change (x.comp (Ext.mk₀ e.inv) (add_zero i)).comp (Ext.mk₀ e.hom) (add_zero i) = x
     rw [Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀, e.inv_hom_id,
       Ext.comp_mk₀_id]
   exact ⟨h₁.injective, h₂.surjective⟩
@@ -855,7 +855,7 @@ private theorem baseChangeComparison_bijective
       (extFlatBaseChangeComparisonPoly.{uR, uS, v} f X Z i).comp
         ((Ext.mk₀ e.hom).precomp Z (zero_add i)) := by
     ext x
-    show (Ext.mk₀ η).comp (x.mapExactFunctor (ModuleCat.restrictScalars f)) (zero_add i) =
+    change (Ext.mk₀ η).comp (x.mapExactFunctor (ModuleCat.restrictScalars f)) (zero_add i) =
       (Ext.mk₀ ((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).unit.app X)).comp
         (((Ext.mk₀ e.hom).comp x (zero_add i)).mapExactFunctor
           (ModuleCat.restrictScalars f)) (zero_add i)
@@ -942,7 +942,7 @@ theorem baseChange_ext_bijective_of_pseudoCoherent
     (ModuleCat.extendRestrictScalarsAdj.{max uR uM uN, uR, uS}
       (algebraMap R S)).unit.app RM ≫ G.map e.hom
   have hη (m : M) : η (ULift.up m) = ULift.up ((1 : S) ⊗ₜ[R] m) := by
-    show eM ((show A from (1 : S)) ⊗ₜ[R] (ULift.up m : RM)) = _
+    change eM ((show A from (1 : S)) ⊗ₜ[R] (ULift.up m : RM)) = _
     exact congrArg ULift.up (TensorProduct.AlgebraTensorModule.congr_tmul eA
       (ULift.moduleEquiv : RM ≃ₗ[R] M) (show A from (1 : S)) (ULift.up m))
   let ι : ModuleCat.of R (ULift.{max uR uS uM uN} (S ⊗[R] N)) ≅ E :=
@@ -983,7 +983,7 @@ theorem baseChange_ext_bijective_of_pseudoCoherent
   have ha (x : Ext RM RN i) (s : S) : a (x ⊗ₜ[R] s) =
       x.comp (Ext.mk₀ (tensorElementHom R RN L (ULift.up s) ≫ t))
         (add_zero i) := by
-    show (x.comp (Ext.mk₀ (tensorElementHom R RN L (ULift.up s)))
+    change (x.comp (Ext.mk₀ (tensorElementHom R RN L (ULift.up s)))
       (add_zero i)).comp (Ext.mk₀ t) (add_zero i) = _
     rw [Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀]
   have hb (h : Function.Bijective (canonicalExtTensorComparison R RM RN L i)) :
@@ -1000,19 +1000,18 @@ theorem baseChange_ext_bijective_of_pseudoCoherent
   · intro x s r
     apply hc.injective
     rw [hβ]
-    show a (x ⊗ₜ[R] (r * s)) =
+    change a (x ⊗ₜ[R] (r * s)) =
       (Ext.mk₀ η).comp ((r • β (x ⊗ₜ[R] s)).mapExactFunctor G) (zero_add i)
     rw [Ext.smul_eq_comp_mk₀, Ext.mapExactFunctor_comp, Ext.mapExactFunctor_mk₀,
       ← Ext.comp_assoc_of_third_deg_zero]
-    show a (x ⊗ₜ[R] (r * s)) =
+    change a (x ⊗ₜ[R] (r * s)) =
       (c (β (x ⊗ₜ[R] s))).comp (Ext.mk₀ (G.map (r • 𝟙 SN))) (add_zero i)
     rw [hβ, ha, ha, Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀]
     congr 2
   · intro hi
     subst i
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul z s =>
       obtain ⟨f, rfl⟩ := (Ext.linearEquiv₀ (R := R)).symm.surjective z
@@ -1023,23 +1022,23 @@ theorem baseChange_ext_bijective_of_pseudoCoherent
       have hq : β ((Ext.mk₀ f) ⊗ₜ[R] s) = Ext.mk₀ q := by
         apply hc.injective
         rw [hβ, ha]
-        show (Ext.mk₀ f).comp (Ext.mk₀ _) (add_zero 0) =
+        change (Ext.mk₀ f).comp (Ext.mk₀ _) (add_zero 0) =
           (Ext.mk₀ η).comp ((Ext.mk₀ q).mapExactFunctor G) (zero_add 0)
         rw [Ext.mapExactFunctor_mk₀, Ext.mk₀_comp_mk₀, Ext.mk₀_comp_mk₀]
         congr 1
         ext m
-        show t (f m ⊗ₜ[R] ULift.up s) = q (η m)
+        change t (f m ⊗ₜ[R] ULift.up s) = q (η m)
         rw [ht (f m).down, hη m.down]
-        show ULift.up (s ⊗ₜ[R] (f m).down) = ULift.up (H ((1 : S) ⊗ₜ[R] m.down))
+        change ULift.up (s ⊗ₜ[R] (f m).down) = ULift.up (H ((1 : S) ⊗ₜ[R] m.down))
         simp [H, homBaseChangeComparison_tmul_apply, uliftExtLinearEquiv₀_mk₀_apply]
-      show uliftExtLinearEquiv₀.{uS, max uS uM, max uS uN, uR}
+      change uliftExtLinearEquiv₀.{uS, max uS uM, max uS uN, uR}
         S (S ⊗[R] M) (S ⊗[R] N)
         (β ((Ext.mk₀ f) ⊗ₜ[R] s)) = _
       rw [hq]
       apply LinearMap.ext
       intro y
       rw [uliftExtLinearEquiv₀_mk₀_apply]
-      show H y = _
+      change H y = _
       rfl
   · intro hi hM
     subst i

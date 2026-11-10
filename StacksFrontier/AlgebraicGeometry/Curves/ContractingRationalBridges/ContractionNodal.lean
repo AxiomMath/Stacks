@@ -264,7 +264,7 @@ theorem isNode_pushoutScheme_bridge
         (pushoutInl (bridgePushoutSituation hdim hnodal hC) z) trivial).hom.toAlgebra
   refine isNode_of_isNodalAlgebra_stalk k (pushoutScheme (bridgePushoutSituation hdim hnodal hC))
     (topologicalKrullDim_pushoutScheme_bridge hdim hnodal hC) _ ?_
-  show IsNodalAlgebra k ((pushoutScheme (bridgePushoutSituation hdim hnodal hC)).presheaf.stalk
+  change IsNodalAlgebra k ((pushoutScheme (bridgePushoutSituation hdim hnodal hC)).presheaf.stalk
     (pushoutInl (bridgePushoutSituation hdim hnodal hC) z))
   refine isNodalAlgebra_of_isNodalAlgebra_adicCompletion k _ ⟨?_, hkey.1, hkey.2⟩
   exact isSeparableExtension_of_algEquiv (residueFieldAlgEquiv_adicCompletion k _)
@@ -338,7 +338,7 @@ theorem smoothAt_or_isNode_pushoutScheme_bridge_of_ne
         pushoutScheme (bridgePushoutSituation hdim hnodal hC) => f.base u)
       (morphismRestrict_ι (pushoutInl (bridgePushoutSituation hdim hnodal hC)) W)
     rw [← h]
-    show W.ι.base ((pushoutInl (bridgePushoutSituation hdim hnodal hC) ∣_ W).base u) = w
+    change W.ι.base ((pushoutInl (bridgePushoutSituation hdim hnodal hC) ∣_ W).base u) = w
     rw [show (pushoutInl (bridgePushoutSituation hdim hnodal hC) ∣_ W).base u =
       (⟨w, hwW⟩ : W.toScheme) from hu]
     rfl

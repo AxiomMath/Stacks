@@ -168,7 +168,7 @@ theorem chowClassCanonical_properPushforward_canonicalFirstChernCap_of_component
     hY q hqB hq L hL k α, chowClassCanonical_eq_iff_rationallyEquivalentCanonical]
   have h := (chowClassCanonical_eq_iff_rationallyEquivalentCanonical.{u + 1} D sX hX k _ _).1
     (chowClassCanonical_firstChernCapCycleMap_chernPulledRule D hX hY q L hL k α)
-  show IsRationallyEquivalentToZeroCanonical.{u + 1} D sY hY k (_ - _)
+  change IsRationallyEquivalentToZeroCanonical.{u + 1} D sY hY k (_ - _)
   rw [← map_sub]
   exact hrat _ h
 

@@ -196,7 +196,11 @@ variable (k : ℕ)
         (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E' hqc')).toBase).obj
       ((Stacks.SymGraded.schemeSheafGradedAlgebra E' hqc').piece (k : ℤ)))]
 
-/-- `b^*(π^* Sym^k(E)^∨ ≅ π^*(Sym^k(E)^∨))` against `π'^* Sym^k(E')^∨ ≅ π'^*(Sym^k(E')^∨)`. -/
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    ((Scheme.Modules.pullback
+        (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E' hqc')).toBase).obj
+      ((Stacks.SymGraded.schemeSheafGradedAlgebra E' hqc').piece (k : ℤ)))] in
+/-- `b^*(π^*Sym^k(E)^∨ ≅ π^*(Sym^k(E)^∨))` against `π'^* Sym^k(E')^∨ ≅ π'^*(Sym^k(E')^∨)`. -/
 public theorem pullbackDualSheafIso_inv_baseChange :
     (Scheme.Modules.pullback (bundleBaseChange g E hqc E' hqc' hE)).map
         (Stacks.FundamentalGroup.pullbackDualSheafIso

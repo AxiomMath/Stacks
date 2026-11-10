@@ -281,7 +281,7 @@ theorem mul_logDerivFamily {a : GradedCapFamily G}
   rw [gradedCap_mul_apply, Finset.sum_range_succ, convolveTerm_of_le _ _ _ le_rfl,
     capTo_congr_index a (Nat.sub_self m), capTo_def, ha, gradedCap_one_apply_zero,
     gradedDegreeCast_gradedDegreeCast]
-  show _ + logDerivFamily a k m x = _
+  change _ + logDerivFamily a k m x = _
   rw [logDerivFamily_apply_apply,
     ← Fin.sum_univ_eq_sum_range (fun j => convolveTerm a (logDerivFamily a) k m j x) m]
   have hsum : ∑ j : Fin m, convolveTerm a (logDerivFamily a) k m j x =
@@ -424,8 +424,7 @@ theorem homComponent_mul (a b : GradedCapFamily G) (m : ℕ) :
   have hmul : a * b = gradedSeries fun i => ∑ j ∈ range (i + 1),
       homComponent (i - j) a * homComponent j b := by
     conv_lhs => rw [← gradedSeries_homComponent a, ← gradedSeries_homComponent b]
-    exact mul_gradedSeries (fun i => isHomogeneous_homComponent i a)
-      (fun j => isHomogeneous_homComponent j b)
+    exact mul_gradedSeries (fun j => isHomogeneous_homComponent j b)
   rw [hmul, homComponent_gradedSeries hhom]
 
 /-- A family whose index-`0` component is the identity has index-`0` homogeneous component `1`;
@@ -605,10 +604,8 @@ theorem commute_of_commute_homComponent {a b : GradedCapFamily G}
     (h : ∀ i j, Commute (homComponent i a) (homComponent j b)) : Commute a b := by
   have hmul : a * b = b * a := by
     rw [← gradedSeries_homComponent a, ← gradedSeries_homComponent b,
-      mul_gradedSeries (fun i => isHomogeneous_homComponent i a)
-        (fun j => isHomogeneous_homComponent j b),
-      mul_gradedSeries (fun j => isHomogeneous_homComponent j b)
-        (fun i => isHomogeneous_homComponent i a)]
+      mul_gradedSeries (fun j => isHomogeneous_homComponent j b),
+      mul_gradedSeries (fun i => isHomogeneous_homComponent i a)]
     congr 1
     funext m
     rw [← Finset.sum_range_reflect

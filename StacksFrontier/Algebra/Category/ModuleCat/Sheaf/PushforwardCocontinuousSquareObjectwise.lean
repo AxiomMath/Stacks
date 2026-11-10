@@ -112,10 +112,10 @@ lemma map_ranBaseChange_app_app_comp (F : C₃ ⥤ H) (X₂ : C₂)
   have e2 := ranBaseChange_π w F X₂ j
   have e3 : (w.ranBaseChange.app (F ⋙ G)).app X₂ ≫ ranπ T ((L ⋙ F) ⋙ G) X₂ j =
       ranπ B (F ⋙ G) (R.obj X₂)
-        (StructuredArrow.mk (R.map j.hom ≫ w.natTrans.app j.right)) :=
+        (StructuredArrow.mk (R.map j.hom ≫ w.app j.right)) :=
     ranBaseChange_π w (F ⋙ G) X₂ j
   have e4 := ranCompIsoOfPreserves_hom_ranπ B G F (R.obj X₂)
-    (StructuredArrow.mk (R.map j.hom ≫ w.natTrans.app j.right))
+    (StructuredArrow.mk (R.map j.hom ≫ w.app j.right))
   simp only [Category.assoc, e1, e3, e4, ← G.map_comp, e2]
 
 /-- **The base-change transformation of right Kan extensions is invertible after applying a

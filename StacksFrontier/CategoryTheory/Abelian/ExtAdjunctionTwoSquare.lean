@@ -103,7 +103,7 @@ variable [EnoughInjectives C₂] [EnoughInjectives C₄]
 base change map there are bijections `α` and `β` with `Lg' ∘ α = β ∘ Lg` on the relevant `Ext`
 groups; injectivity, surjectivity and bijectivity therefore transfer in both directions. -/
 theorem exists_bijective_conj_of_isIso_twoSquare
-    [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans]
+    [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef)]
     (a : C₁) (K : C₂) (n : ℕ) :
     ∃ (α : Ext.{w₁} a (Rf.obj K) n → Ext.{w₂} (Lf.obj a) K n)
       (β : Ext.{w₃} (Lg.obj a) (Lg.obj (Rf.obj K)) n →
@@ -112,7 +112,7 @@ theorem exists_bijective_conj_of_isIso_twoSquare
         (Lg'.mapExtAddHom (Lf.obj a) K n) ∘ α = β ∘ (Lg.mapExtAddHom a (Rf.obj K) n) := by
   have hβ : IsIso (Stacks.CategoryTheory.BaseChange.map adjf adjf' eg ef K) :=
     inferInstanceAs
-      (IsIso ((Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans.app K))
+      (IsIso ((Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).app K))
   have hψ : IsIso ((composite eg ef).app a) :=
     inferInstanceAs (IsIso (eg.hom.app a ≫ ef.inv.app a))
   have h3 : Function.Bijective ((Ext.mk₀ ((composite eg ef).app a)).precomp (a := n) (b := n)
@@ -133,7 +133,7 @@ theorem exists_bijective_conj_of_isIso_twoSquare
 
 /-- **Transfer of injectivity on `Ext` across an invertible base change map.** -/
 theorem mapExtAddHom_injective_iff_of_isIso_twoSquare
-    [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans]
+    [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef)]
     (a : C₁) (K : C₂) (n : ℕ) :
     Function.Injective (Lg.mapExtAddHom a (Rf.obj K) n : Ext.{w₁} _ _ n → Ext.{w₃} _ _ n) ↔
       Function.Injective (Lg'.mapExtAddHom (Lf.obj a) K n :
@@ -147,7 +147,7 @@ theorem mapExtAddHom_injective_iff_of_isIso_twoSquare
 
 /-- **Transfer of surjectivity on `Ext` across an invertible base change map.** -/
 theorem mapExtAddHom_surjective_iff_of_isIso_twoSquare
-    [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans]
+    [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef)]
     (a : C₁) (K : C₂) (n : ℕ) :
     Function.Surjective (Lg.mapExtAddHom a (Rf.obj K) n : Ext.{w₁} _ _ n → Ext.{w₃} _ _ n) ↔
       Function.Surjective (Lg'.mapExtAddHom (Lf.obj a) K n :
@@ -161,7 +161,7 @@ theorem mapExtAddHom_surjective_iff_of_isIso_twoSquare
 
 /-- **Transfer of bijectivity on `Ext` across an invertible base change map.** -/
 theorem mapExtAddHom_bijective_iff_of_isIso_twoSquare
-    [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans]
+    [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef)]
     (a : C₁) (K : C₂) (n : ℕ) :
     Function.Bijective (Lg.mapExtAddHom a (Rf.obj K) n : Ext.{w₁} _ _ n → Ext.{w₃} _ _ n) ↔
       Function.Bijective (Lg'.mapExtAddHom (Lf.obj a) K n :
@@ -183,7 +183,7 @@ variable [EnoughInjectives C₁] [EnoughInjectives C₂] [EnoughInjectives C₄]
 by the dévissage of Stacks Project Tag 03SC: `Lg` is bijective on `Ext` from `a` into `Rf K` in
 degree `n` exactly when `Lg'` is bijective on `Ext` from `Lf a` into `K` in degree `n`. -/
 theorem isBijectiveOnExt_iff_of_isIso_twoSquare
-    [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans]
+    [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef)]
     (a : C₁) (K : C₂) (n : ℕ) :
     Stacks.EtaleCohomology.IsBijectiveOnExt Lg a (Rf.obj K) n ↔
       Stacks.EtaleCohomology.IsBijectiveOnExt Lg' (Lf.obj a) K n := by

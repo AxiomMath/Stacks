@@ -162,7 +162,7 @@ private theorem exists_lt_closeds_of_nonempty_open {S : Scheme.{u}}
         exact ⟨x.1, rfl⟩
       exact (hj.injective.mem_set_image.mp (hDCeq.ge hxC)) x.property
   · refine TopologicalSpace.Opens.ext ?_
-    show (Scheme.IdealSheafData.vanishingIdeal C).subschemeι.base ⁻¹'
+    change (Scheme.IdealSheafData.vanishingIdeal C).subschemeι.base ⁻¹'
         ((Scheme.IdealSheafData.vanishingIdeal C).subschemeι.base ''
           (U : Set (Scheme.IdealSheafData.vanishingIdeal C).subscheme)ᶜ)ᶜ =
       (U : Set (Scheme.IdealSheafData.vanishingIdeal C).subscheme)
@@ -197,10 +197,10 @@ theorem exists_stratification_of_isNoetherian {S : Scheme.{u}} [IsNoetherian S]
   refine ⟨t, fun i ↦ Scheme.IdealSheafData.vanishingIdeal (C i), ?_,
     fun i ↦ Scheme.IdealSheafData.isFiniteType_vanishingIdeal _,
     fun i ↦ Scheme.IdealSheafData.vanishingIdeal_antimono (hC i).1.le, ?_, ?_⟩
-  · show Stacks.Thickenings.IsThickening
+  · change Stacks.Thickenings.IsThickening
       (Scheme.IdealSheafData.vanishingIdeal (C 0)).subschemeι
     rw [Scheme.IdealSheafData.isThickening_subschemeι_iff, support_vanishingIdeal, hC0]
-  · show Scheme.IdealSheafData.vanishingIdeal (C (Fin.last t)) = ⊤
+  · change Scheme.IdealSheafData.vanishingIdeal (C (Fin.last t)) = ⊤
     rw [hCt, Scheme.IdealSheafData.vanishingIdeal_bot]
   · intro i
     dsimp only
@@ -223,11 +223,11 @@ theorem HasStratification.comap {S T : Scheme.{u}}
   refine ⟨t, fun i ↦ (I i).comap g, ?_,
     fun i ↦ (hfin i).comap g,
     fun i ↦ Scheme.IdealSheafData.comap_mono g (hmono i), ?_, ?_⟩
-  · show Stacks.Thickenings.IsThickening ((I 0).comap g).subschemeι
+  · change Stacks.Thickenings.IsThickening ((I 0).comap g).subschemeι
     rw [Scheme.IdealSheafData.isThickening_subschemeι_iff,
       Scheme.IdealSheafData.support_comap, hthick]
     exact TopologicalSpace.Closeds.ext (by simp)
-  · show (I (Fin.last t)).comap g = ⊤
+  · change (I (Fin.last t)).comap g = ⊤
     rw [hlast, Scheme.IdealSheafData.comap_top]
   · intro i
     dsimp only
@@ -240,12 +240,12 @@ theorem HasStratification.comap {S T : Scheme.{u}}
         ((I i.castSucc).subschemeι ⁻¹ᵁ (I i.succ).support.compl) =
         ((I i.castSucc).comap g).subschemeι ⁻¹ᵁ ((I i.succ).comap g).support.compl := by
       refine TopologicalSpace.Opens.ext (Set.ext fun x ↦ ?_)
-      show ((((I i.castSucc).comapIso g).hom ≫ pullback.snd g (I i.castSucc).subschemeι) ≫
+      change ((((I i.castSucc).comapIso g).hom ≫ pullback.snd g (I i.castSucc).subschemeι) ≫
           (I i.castSucc).subschemeι).base x ∉ ((I i.succ).support : Set S) ↔
         ((I i.castSucc).comap g).subschemeι.base x ∉
           (((I i.succ).comap g).support : Set T)
       rw [Scheme.IdealSheafData.support_comap, ← hq]
-      show (((I i.castSucc).comap g).subschemeι ≫ g).base x ∉ _ ↔
+      change (((I i.castSucc).comap g).subschemeι ≫ g).base x ∉ _ ↔
         ((I i.castSucc).comap g).subschemeι.base x ∉
           (g.base ⁻¹' ((I i.succ).support : Set S))
       rfl

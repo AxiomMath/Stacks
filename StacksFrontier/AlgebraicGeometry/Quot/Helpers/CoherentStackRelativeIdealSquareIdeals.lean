@@ -60,9 +60,6 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {D : Coheren
   (g : T'₂ ⟶ T'₁) (hg : h₂ ≫ g = h₁)
   (hh₁ : Stacks.Thickenings.IsFirstOrderThickening ((BigFppfOver.toScheme B S hS).map h₁.left))
   (hh₂ : Stacks.Thickenings.IsFirstOrderThickening ((BigFppfOver.toScheme B S hS).map h₂.left))
-  [IsAffine ((BigFppfOver.toScheme B S hS).obj ξ.T.left)]
-  [IsAffine ((BigFppfOver.toScheme B S hS).obj T'₁.left)]
-  [IsAffine ((BigFppfOver.toScheme B S hS).obj T'₂.left)]
 
 /-- **The map `f'₁^*𝒥₁ ⟶ j_*f'₂^*𝒥₂` of `κ_g` is `j^♯` on the ideals**: followed by `j_*` of the
 induced map of ideals of the relative square of `h₂` and the inclusion of its ideal, it is the

@@ -161,7 +161,7 @@ public theorem moduleAwayMap_mem (a : A) {z : LocalizedModule.Away (R := A) a M}
   | zero => simpa only [map_zero] using Submodule.zero_mem _
   | add z₁ z₂ _ _ h₁ h₂ => simpa only [map_add] using Submodule.add_mem _ h₁ h₂
   | smul r z₁ _ h₁ =>
-      show moduleAwayMap ψ f a (r.val • z₁) ∈ _
+      change moduleAwayMap ψ f a (r.val • z₁) ∈ _
       rw [moduleAwayMap_smul_val]
       exact Submodule.smul_mem _ (HomogeneousLocalization.Away.map ψ a r) h₁
 

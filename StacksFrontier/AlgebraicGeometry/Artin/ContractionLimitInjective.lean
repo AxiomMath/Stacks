@@ -62,7 +62,7 @@ theorem completionSheaf_hom_ext_of_isAffine {V : BigFppfOver B S hS}
   apply Sheaf.hom_ext
   apply (BigFppfOver.topology B S hS).sheafify_hom_ext _ _ G.property
   ext U ⟨⟨x⟩, hx⟩
-  show φ.hom.app U (FormalSpace.presheafSection B S hS x hx) =
+  change φ.hom.app U (FormalSpace.presheafSection B S hS x hx) =
     ψ.hom.app U (FormalSpace.presheafSection B S hS x hx)
   have : (BigAffineFppf.inclusion B S hS).IsCoverDense (BigFppfOver.topology B S hS) :=
     Functor.IsDenseSubsite.isCoverDense (BigAffineFppf.topology B S hS)
@@ -123,7 +123,7 @@ theorem mapTriple_xhat_app_presheafSection (c : ContractionSituation B S hS)
     (mapTriple c f s).xhat.hom.app (op U) (FormalSpace.presheafSection B S hS t ht) =
       s.xhat.hom.app (op U) (FormalSpace.presheafSection B S hS (t ≫ f)
         ((FormalSpace.hasImageIn_preimage_pointsMap_iff B S hS (yoneda.map f) s.Z U t).mp ht)) := by
-  show s.xhat.hom.app (op U) ((Space.completionSheafMap B S hS (yoneda.map f) s.Z).hom.app (op U)
+  change s.xhat.hom.app (op U) ((Space.completionSheafMap B S hS (yoneda.map f) s.Z).hom.app (op U)
     (FormalSpace.presheafSection B S hS t ht)) = _
   rw [FormalSpace.completionSheafMap_presheafSection B S hS (yoneda.map f) s.Z t ht]
   rfl
@@ -221,7 +221,7 @@ theorem completionSheafMap_comp_eq_of_appTop_eq_zero (g : V' ⟶ V)
   refine completionSheaf_hom_ext_of_isAffine fun T hT t ht => ?_
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj T) := hT
   have ht' := (FormalSpace.hasImageIn_preimage_pointsMap_iff B S hS (yoneda.map g) Z T t).mp ht
-  show x₁.hom.app _ ((Space.completionSheafMap B S hS _ Z).hom.app _ _) =
+  change x₁.hom.app _ ((Space.completionSheafMap B S hS _ Z).hom.app _ _) =
     x₂.hom.app _ ((Space.completionSheafMap B S hS _ Z).hom.app _ _)
   rw [FormalSpace.completionSheafMap_presheafSection (F := yoneda.obj V') (G := yoneda.obj V)
     B S hS _ Z t ht ht']
@@ -335,7 +335,7 @@ theorem exists_stage_completionSheafMap_comp_eq (i : I)
   obtain ⟨m⟩ := hν (Finset.mem_image_of_mem _ (Finset.mem_univ (⟨a, ha⟩ : sF)))
   have e : ν.hom = m.left ≫ gg ⟨a, ha⟩ := (Over.w m).symm
   rw [e, D.map_comp]
-  show ((BigFppfOver.toScheme B S hS).map ((D.map m.left).hom ≫ (D.map (gg ⟨a, ha⟩)).hom)).appTop
+  change ((BigFppfOver.toScheme B S hS).map ((D.map m.left).hom ≫ (D.map (gg ⟨a, ha⟩)).hom)).appTop
     a = 0
   rw [Functor.map_comp, Scheme.Hom.comp_appTop, CommRingCat.comp_apply, hgg, map_zero]
 

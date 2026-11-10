@@ -150,7 +150,7 @@ lemma koszulDifferential_comp
   simpa [koszulDifferential_tmul, map_sum, map_zsmul,
     AlternatingMap.alternatizeUncurryFin_apply, LinearMap.comp_apply,
     AlternatingMap.alternatizeUncurryFinLM_apply, LinearMap.sum_apply,
-    LinearMap.smul_apply, Finset.smul_sum, AlternatingMap.zero_apply,
+    LinearMap.smul_apply, Finset.smul_sum, zero_apply,
     LinearMap.zero_apply, koszulBialternating, LinearMap.compAlternatingMap_apply,
     LinearMap.compl₂_apply, TensorProduct.mk_apply] using he
 
@@ -515,6 +515,7 @@ lemma finiteFreeKoszulTermEquiv_zsmul (B : Type*) [CommRing B] (n p : ℕ) (m : 
   map_zsmul (finiteFreeKoszulTermEquiv B n p) m x
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- `map_sum` searches for instances on `⋀[B]^p (Fin n → B) ⊗[B] SymmetricAlgebra B (Fin n → B)`
 /-- `finiteFreeKoszulTermEquiv` commutes with finite sums. -/
 lemma finiteFreeKoszulTermEquiv_sum {ι : Type*} (B : Type*) [CommRing B] (n p : ℕ)
     (s : Finset ι) (x : ι → (⋀[B]^p (Fin n → B)) ⊗[B] SymmetricAlgebra B (Fin n → B)) :

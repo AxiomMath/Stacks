@@ -96,12 +96,12 @@ def generatorSections_of_isIso_unitHom'
     (L.over U).unitHomEquiv.symm_apply_apply f
   refine ⟨sU, ?_⟩
   intro V g
-  letI : CommRing ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V) : Type w) :=
+  let : CommRing ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V) : Type w) :=
     inferInstanceAs (CommRing (X.O.obj.obj (op V)))
   have hbij : Function.Bijective
       (fun r : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V) =>
         r • L.val.restrictₛₗ g.op sU) := by
-    letI : IsIso f := hf
+    let : IsIso f := hf
     have hpres : IsIso ((SheafOfModules.forget
         ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)).map f) := Functor.map_isIso
       (SheafOfModules.forget ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)) f
@@ -267,7 +267,7 @@ def generatorSections_of_locally_generator'
     have htval : t.val = sec.eval (op V) := by
       change L.val.map g.left.op s = L.val.map V.hom.op s
       rw [hV]
-    letI : Module (R.obj.obj (op V) : Type w) (M.val.obj (op V) : Type w) :=
+    let : Module (R.obj.obj (op V) : Type w) (M.val.obj (op V) : Type w) :=
       (L.val.obj (op V.left)).isModule
     have hgenSec : Function.Bijective
         (fun r : (R.obj.obj (op V) : Type w) => r • sec.eval (op V)) := by
@@ -291,12 +291,12 @@ def generatorSections_of_locally_generator'
   intro V g
   let qV : Over U := Over.mk g
   have hqV : Function.Bijective (φ.app (op qV)) := hbij qV
-  letI : Module (R.obj.obj (op qV) : Type w) ((L.over U).val.obj (op qV) : Type w) :=
+  let : Module (R.obj.obj (op qV) : Type w) ((L.over U).val.obj (op qV) : Type w) :=
     ((L.over U).val.obj (op qV)).isModule
-  letI : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V) : Type w)
+  let : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V) : Type w)
       (L.val.obj (op V) : Type w) :=
     (L.val.obj (op V)).isModule
-  letI : Module (R.obj.obj (op qV) : Type w) (L.val.obj (op V) : Type w) :=
+  let : Module (R.obj.obj (op qV) : Type w) (L.val.obj (op V) : Type w) :=
     (L.val.obj (op V)).isModule
   change Function.Bijective
     (fun r : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V) : Type w) =>
@@ -393,7 +393,7 @@ def generatorSections_smul_unit'
     inferInstanceAs (CommRing (X.O.obj.obj (op U)))
   refine ⟨@SMul.smul _ _ _ a.val s.val, ?_⟩
   intro V g
-  letI : CommRing ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V) : Type w) :=
+  let : CommRing ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V) : Type w) :=
     inferInstanceAs (CommRing (X.O.obj.obj (op V)))
   let aV : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V) : Type w)ˣ :=
     Units.map ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map g.op).hom.toMonoidHom a
@@ -478,7 +478,7 @@ def generatorTorsor' (X : RingedSite.{u, v, w})
     one_act := by
       intro U s
       change GeneratorSections' X L U.unop at s
-      letI : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U : Type w)
+      let : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U : Type w)
           (L.val.obj U : Type w) :=
         (L.val.obj U).isModule
       apply Subtype.ext
@@ -488,7 +488,7 @@ def generatorTorsor' (X : RingedSite.{u, v, w})
       intro U a b s
       change Multiplicative (Additive ((X.O.obj.obj U : Type w)ˣ)) at a b
       change GeneratorSections' X L U.unop at s
-      letI : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U : Type w)
+      let : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U : Type w)
           (L.val.obj U : Type w) :=
         (L.val.obj U).isModule
       apply Subtype.ext
@@ -505,10 +505,10 @@ def generatorTorsor' (X : RingedSite.{u, v, w})
       intro U V f a s
       change Multiplicative (Additive ((X.O.obj.obj U : Type w)ˣ)) at a
       change GeneratorSections' X L U.unop at s
-      letI : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U : Type w)
+      let : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U : Type w)
           (L.val.obj U : Type w) :=
         (L.val.obj U).isModule
-      letI : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj V : Type w)
+      let : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj V : Type w)
           (L.val.obj V : Type w) :=
         (L.val.obj V).isModule
       let ua : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U : Type w)ˣ :=
@@ -524,7 +524,7 @@ def generatorTorsor' (X : RingedSite.{u, v, w})
     simplyTransitive := by
       intro U _ s t
       change GeneratorSections' X L U.unop at s t
-      letI : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U : Type w)
+      let : Module ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U : Type w)
           (L.val.obj U : Type w) :=
         (L.val.obj U).isModule
       obtain ⟨a, ha, huniq⟩ := existsUnique_unit_smul_generatorSections' X L U.unop s t
@@ -652,7 +652,7 @@ theorem torsorHom_isIso'
     {D : Type u} [Category.{v} D] {J : GrothendieckTopology D}
     {G : SheafOfGroups.{w} J} {F F' : PseudoTorsor G}
     (hF : F.IsTorsor) (e : F.Hom F') : e.IsIso := by
-  show IsIso e.hom
+  change IsIso e.hom
   rw [NatTrans.isIso_iff_isIso_app]
   intro U
   apply (ConcreteCategory.isIso_iff_bijective _).2

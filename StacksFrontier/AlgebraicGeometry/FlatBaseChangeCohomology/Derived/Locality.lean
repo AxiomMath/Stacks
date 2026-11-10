@@ -117,10 +117,10 @@ theorem baseChangeNatTrans_pasteBase_app (w₁ : g' ≫ f = f' ≫ g) (w₂ : h'
       (Scheme.Modules.pushforward f'').map ((Scheme.Modules.pullbackComp h' g').inv.app M) =
     (Scheme.Modules.pullback h).map ((AffinePushforward.baseChangeNatTrans w₁).app M) ≫
       (AffinePushforward.baseChangeNatTrans w₂).app ((Scheme.Modules.pullback g').obj M) := by
-  have hM := congrArg (fun w => w.natTrans.app M)
+  have hM := congrArg (fun w => NatTrans.app w M)
     (Stacks.AlgebraicGeometry.FlatBaseChangeCohomology.baseChangeSquare_pasteBase w₁ w₂)
   simp only [Stacks.AlgebraicGeometry.FlatBaseChangeCohomology.natTrans_baseChangeSquare,
-    TwoSquare.natTrans, TwoSquare.whiskerRight_app, TwoSquare.whiskerLeft_app] at hM
+    TwoSquare.whiskerRight_app, TwoSquare.whiskerLeft_app] at hM
   rw [hM]
   simp [TwoSquare.vComp]
 

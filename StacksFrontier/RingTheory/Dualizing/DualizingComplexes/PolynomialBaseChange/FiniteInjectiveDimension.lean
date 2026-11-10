@@ -235,12 +235,7 @@ private noncomputable def polynomialExtensionModuleEquiv
           fun h => congrArg (fun w : (ModuleCat.extendScalars f).obj M => e' w) h
         have hpost : ∀ {x y : TensorProduct R (Polynomial R) M}, x = y → s • x = s • y :=
           fun h => congrArg (fun w : TensorProduct R (Polynomial R) M => s • w) h
-        induction z using TensorProduct.induction_on with
-        | zero =>
-            calc
-              e' (s • 0) = e' 0 := hmap (smul_zero s)
-              _ = 0 := e'.map_zero
-              _ = s • e' 0 := by rw [e'.map_zero, smul_zero]
+        induction z using TensorProduct.inductionOn with
         | tmul t m =>
             have he : e (s • t) = s • e t := rfl
             calc

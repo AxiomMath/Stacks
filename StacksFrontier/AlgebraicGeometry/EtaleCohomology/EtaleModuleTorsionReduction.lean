@@ -74,12 +74,13 @@ section PowExact
 
 variable {p : ℕ} [Fact p.Prime] {m : ℕ} {X : Scheme.{u}}
 
+omit [Fact p.Prime] in
 /-- Every sheaf of `ℤ/pᵐℤ`-modules is killed by `p^m`. -/
 theorem etaleModules_pow_nsmul_id (F : EtaleModules.{u, 0} (ZMod (p ^ m)) X) :
     (p ^ m) • 𝟙 F = 0 := by
   apply Sheaf.hom_ext
   ext V x
-  show (p ^ m) • x = 0
+  change (p ^ m) • x = 0
   exact pow_nsmul_eq_zero x
 
 /-- **An injective sheaf of `ℤ/pᵐℤ`-modules is flat**: `I --p^(m-a)--> I --p^a--> I` is exact,
@@ -197,6 +198,7 @@ instance etaleModuleRestrictScalars_faithful {Λ Λ' : Type} [CommRing Λ] [Comm
     ext U x
     exact congrArg (fun k => k.hom.app U x) h
 
+omit [Fact p.Prime] in
 /-- **Coextension of scalars to `ℤ/p^aℤ` is exact on a short exact sequence with flat first
 term**, for `a ≤ m`. -/
 theorem shortExact_map_coextendScalars {a : ℕ} (ha : a ≤ m) (hNa : N = p ^ a)
@@ -219,6 +221,7 @@ theorem shortExact_map_coextendScalars {a : ℕ} (ha : a ≤ m) (hNa : N = p ^ a
     exact isTorsionKernel_etaleModuleTorsionι _
   exact PowExact.torsion_shortExact hS h₁ (etaleModules_pow_nsmul_id _) ha ε (h _) (h _) (h _)
 
+omit [Fact p.Prime] in
 /-- **Coextension of scalars to `ℤ/p^aℤ` carries a quasi-isomorphism between bounded below
 complexes of flat sheaves to a quasi-isomorphism.** -/
 theorem quasiIso_map_coextendScalars {a : ℕ} (ha : a ≤ m) (hNa : N = p ^ a)
@@ -260,7 +263,7 @@ lemma IsTorsionKernel.moduleCat {R : Type*} [Ring R] {n : ℕ} {A M : ModuleCat.
       LinearMap.range e.hom = LinearMap.ker (n • LinearMap.id : M →ₗ[R] M) := by
   refine ⟨(ModuleCat.mono_iff_injective e).1 h.mono, le_antisymm ?_ ?_⟩
   · rintro _ ⟨x, rfl⟩
-    show n • e x = 0
+    change n • e x = 0
     exact congrArg (fun k => k.hom x) h.comp_eq_zero
   · intro y hy
     let K := LinearMap.ker (n • LinearMap.id : M →ₗ[R] M)
@@ -458,7 +461,7 @@ def fieldBaseChangeRestrictionSingleIso (F : EtaleModules.{u, 0} Λ Y.left) :
 
 variable (p : ℕ) [Fact p.Prime] (m : ℕ) [NeZero m]
 
-omit [NeZero m] in
+omit [Fact p.Prime] [NeZero m] in
 /-- The flat sheaf `F₀` on `Y`, restricted to `Y_k̄`, is flat. -/
 lemma powExact_fieldBaseChange {F₀ : EtaleModules.{u, 0} (ZMod (p ^ m)) Y.left}
     (hF : PowExact p m F₀) :

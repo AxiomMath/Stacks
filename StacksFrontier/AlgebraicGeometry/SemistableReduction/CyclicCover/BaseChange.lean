@@ -125,7 +125,7 @@ def powerSeriesToLaurent : PowerSeries k →ₐ[k] LaurentSeries k :=
   { algebraMap (PowerSeries k) (LaurentSeries k) with
     commutes' := fun r => by
       simp only [RingHom.toMonoidHom_eq_coe, OneHom.toFun_eq_coe, MonoidHom.toOneHom_coe,
-        MonoidHom.coe_coe]
+        MonoidHom.coe_ofClass]
       simp only [PowerSeries.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply]
       rfl }
 

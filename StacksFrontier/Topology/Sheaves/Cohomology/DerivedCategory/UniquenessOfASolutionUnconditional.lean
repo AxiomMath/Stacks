@@ -10,8 +10,8 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedCategory.Glueing
 
 Let `(X, 𝒪_X)` be a ringed space and `S` a system of locally given derived objects on it
 (Situation 0D67).  The uniqueness clause of [Stacks, Tag 0D68] was reduced, in
-`StacksFrontier.Topology.Sheaves.Cohomology.DerivedCategory.UniquenessOfASolutionFromTheSite`, to the
-coherence of the two restrictions of morphisms, and that coherence was reduced further, in
+`StacksFrontier.Topology.Sheaves.Cohomology.DerivedCategory.UniquenessOfASolutionFromTheSite`, to
+the coherence of the two restrictions of morphisms, and that coherence was reduced further, in
 `StacksFrontier.Topology.Sheaves.Cohomology.DerivedCategory.UniquenessOfASolutionClosed`, to the
 single equation
 

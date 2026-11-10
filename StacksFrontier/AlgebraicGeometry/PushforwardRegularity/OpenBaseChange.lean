@@ -150,7 +150,7 @@ lemma baseChangeNatTrans_eq_openMate (w : g' ≫ f = f' ≫ g) :
 
 /-- The three factors of `openMate`. -/
 lemma openMate_app (w : g' ≫ f = f' ≫ g) (M : X.Modules) :
-    (openMate w).natTrans.app M =
+    (openMate w).app M =
       (Scheme.Modules.restrictFunctor g).map ((Scheme.Modules.pushforward f).map
           ((Scheme.Modules.restrictAdjunction g').unit.app M)) ≫
         (Scheme.Modules.restrictFunctor g).map
@@ -201,7 +201,7 @@ theorem isIso_unit_restrict (κ : RestrictPushforwardIso g' f' f g) (M : X.Modul
 /-- `openMate` is invertible at every module. -/
 theorem isIso_openMate_app (κ : RestrictPushforwardIso g' f' f g)
     (w : g' ≫ f = f' ≫ g) (M : X.Modules) :
-    IsIso ((openMate w).natTrans.app M) := by
+    IsIso ((openMate w).app M) := by
   rw [openMate_app]
   have : IsIso ((Scheme.Modules.restrictFunctor g).map ((Scheme.Modules.pushforward f).map
       ((Scheme.Modules.restrictAdjunction g').unit.app M))) := isIso_unit_restrict κ M
@@ -213,7 +213,7 @@ lemma baseChangeNatTrans_app (w : g' ≫ f = f' ≫ g) (M : X.Modules) :
       (Adjunction.leftAdjointUniq (Scheme.Modules.pullbackPushforwardAdjunction g)
           (Scheme.Modules.restrictAdjunction g)).hom.app
           ((Scheme.Modules.pushforward f).obj M) ≫
-        (openMate w).natTrans.app M ≫
+        (openMate w).app M ≫
         (Scheme.Modules.pushforward f').map
           ((Adjunction.leftAdjointUniq (Scheme.Modules.restrictAdjunction g')
             (Scheme.Modules.pullbackPushforwardAdjunction g')).hom.app M) := by

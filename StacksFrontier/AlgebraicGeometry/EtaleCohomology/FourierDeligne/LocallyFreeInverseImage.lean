@@ -62,7 +62,7 @@ theorem isLocallyFreeEtaleModule_inverseImage {X Y : Scheme.{u}} (a : X ⟶ Y)
   · obtain ⟨E, hE, ⟨e⟩⟩ := htriv i
     refine ⟨E, hE, ⟨overPullbackIsoConstantOfEtaleModuleInverseImage Λ (W i) _ E ?_⟩⟩
     have hsq : (W i).hom ≫ a = pullback.snd (V.hom ≫ a) (Vs i).hom ≫ (Vs i).hom := by
-      show (pullback.fst (V.hom ≫ a) (Vs i).hom ≫ V.hom) ≫ a = _
+      change (pullback.fst (V.hom ≫ a) (Vs i).hom ≫ V.hom) ≫ a = _
       rw [Category.assoc]
       exact pullback.condition
     exact (etaleModuleInverseImageCompIso.{u, 0} Λ (W i).hom a).symm.app N ≪≫

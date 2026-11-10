@@ -142,14 +142,14 @@ theorem ElementaryEtaleNeighborhood.exists_affine_factors_through_openSubspace
     rw [Homeomorph.symm_apply_eq, schemePointsHomeomorph_apply,
       pointsToScheme_presheafPoint]
   have hptO : U₀.point ∈ O := by
-    show pointsMap B S hS _ U₀.toSpace (e.symm U₀.point) ∈ R
+    change pointsMap B S hS _ U₀.toSpace (e.symm U₀.point) ∈ R
     rwa [hpt, U₀.map_point]
   obtain ⟨-, ⟨W, hW, rfl⟩, hpW, hWO⟩ :=
     U₀.scheme.left.1.isBasis_affineOpens.exists_subset_of_mem_open hptO hOopen
   let E := openRestrictionNeighborhood B S hS X hX x U₀ W hpW
   have hrange : Set.range (pointsMap B S hS (yoneda.obj E.scheme) E.toSpace) ⊆ R := by
     rintro _ ⟨y, rfl⟩
-    show pointsMap B S hS _
+    change pointsMap B S hS _
       (yoneda.map (openRestrictionMap B S hS X hX x U₀ W) ≫ U₀.toSpace) y ∈ R
     rw [pointsMap_comp_apply]
     set z := pointsMap B S hS _ (yoneda.map (openRestrictionMap B S hS X hX x U₀ W)) y
@@ -209,15 +209,13 @@ theorem PrimeDivisor.exists_isUnit_rationalFunctionsToGenericTotalFractionRing_e
   have := Z.isLocallyNoetherian_chart B S hS hX hN E
   have : IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec) :=
     henselianLocalRing_isLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec
-  have hCof := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-    (Z.genericPoint B S hS X) ⟨E⟩
   refine ⟨Z.neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec E
       (affineLineCoordinate B S hS (Opposite.op E.scheme) (yonedaEquiv (j ≫ g.hom))),
     ?_, ?_⟩
   · rw [yonedaEquiv_comp]
     exact (hg (Opposite.op E.scheme) (yonedaEquiv j)).map
       (Z.neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec E)
-  · rw [← Z.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hX hdec hInt hN E hCof,
+  · rw [← Z.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hX hdec hInt hN E,
       rationalFunctionsToTotalFractionRing_toRationalMap_of_factors B S hS hX E.scheme E.toSpace
         E.etale_toSpace g j hj,
       PrimeDivisor.neighborhoodTotalFractionRingToGeneric, IsLocalization.map_eq]
@@ -310,7 +308,7 @@ theorem locallyFinite_primeDivisor_not_isDefinedAt_and_ordRationalFunction_ne_ze
     ordRationalFunction_mem_weilDivisor B S hS hX hInt hN f
   refine (h.comp_injective Subtype.val_injective).subset fun Z ↦ ?_
   simp only [Function.comp_apply]
-  rw [if_neg Z.2]
+  rw [ite_eq_right Z.2]
 
 end AlgebraicGeometry.Space
 

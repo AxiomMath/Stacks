@@ -3,7 +3,7 @@ module
 public import Mathlib.Algebra.BigOperators.Finprod
 public import Mathlib.Algebra.Order.BigOperators.Group.LocallyFinite
 public import Mathlib.Data.Int.Interval
-public import Mathlib.Data.Int.SuccPred
+public import Mathlib.Order.SuccPred.Int
 public import StacksFrontier.Algebra.Module.Projective.Determinant.CharSeries
 public import StacksFrontier.CategoryTheory.FilteredDerived.Category.Projective
 
@@ -198,7 +198,7 @@ public theorem charSeries_eq_prod_grP
     | succ c hac ih =>
         rw [← Finset.prod_Ico_mul_eq_prod_Ico_add_one hac G, ih, hrec c]
         ring
-  show ProjectiveDeterminant.charSeries fN d = ∏ᶠ p : ℤ, G p
+  change ProjectiveDeterminant.charSeries fN d = ∏ᶠ p : ℤ, G p
   rw [hchar]
   by_cases hab : a ≤ b
   · have hsupport : Function.mulSupport G ⊆ (Finset.Ico a b : Set ℤ) := fun p hp =>

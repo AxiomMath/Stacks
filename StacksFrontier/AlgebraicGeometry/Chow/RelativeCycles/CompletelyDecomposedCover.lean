@@ -142,13 +142,13 @@ theorem exists_isIso_residueFieldMap_of_isIso_morphismRestrict
     ∃ x : X, f x = s ∧ IsIso (f.residueFieldMap x) := by
   let x := inv (f ∣_ U) (⟨s, hs⟩ : U)
   have hxy : (f ∣_ U) x = (⟨s, hs⟩ : U) := by
-    show (inv (f ∣_ U) ≫ f ∣_ U) _ = _
+    change (inv (f ∣_ U) ≫ f ∣_ U) _ = _
     rw [IsIso.inv_hom_id]
     rfl
   refine ⟨(f ⁻¹ᵁ U).ι x, ?_, ?_⟩
-  · show ((f ⁻¹ᵁ U).ι ≫ f) x = s
+  · change ((f ⁻¹ᵁ U).ι ≫ f) x = s
     rw [← morphismRestrict_ι]
-    show U.ι ((f ∣_ U) x) = s
+    change U.ι ((f ∣_ U) x) = s
     rw [hxy]
     rfl
   · exact isIso_residueFieldMap_preimage_ι f U x
@@ -177,12 +177,12 @@ theorem exists_isIso_residueFieldMap_coprod_desc (s : S)
       IsIso ((coprod.desc f g).residueFieldMap z) := by
   rcases h with ⟨x, hx, hi⟩ | ⟨y, hy, hi⟩
   · refine ⟨(coprod.inl : X ⟶ X ⨿ Y) x, ?_, ?_⟩
-    · show (coprod.inl ≫ coprod.desc f g) x = s
+    · change (coprod.inl ≫ coprod.desc f g) x = s
       simpa only [coprod.inl_desc] using hx
     · exact isIso_residueFieldMap_cancel_isOpenImmersion coprod.inl (coprod.desc f g) x
         (isIso_residueFieldMap_congr (coprod.inl_desc f g) x hi)
   · refine ⟨(coprod.inr : Y ⟶ X ⨿ Y) y, ?_, ?_⟩
-    · show (coprod.inr ≫ coprod.desc f g) y = s
+    · change (coprod.inr ≫ coprod.desc f g) y = s
       simpa only [coprod.inr_desc] using hy
     · exact isIso_residueFieldMap_cancel_isOpenImmersion coprod.inr (coprod.desc f g) y
         (isIso_residueFieldMap_congr (coprod.inr_desc f g) y hi)
@@ -277,7 +277,7 @@ private theorem closeds_induction_on_irreducible {T : Type u} [TopologicalSpace 
       lt_of_le_not_ge Set.inter_subset_left fun h => hnB fun x hx => (h hx).2
     have he : D ⊔ E = C := by
       refine SetLike.coe_injective ?_
-      show (C : Set T) ∩ A ∪ (C : Set T) ∩ B = C
+      change (C : Set T) ∩ A ∪ (C : Set T) ∩ B = C
       rw [← Set.inter_union_distrib_left, Set.inter_eq_left.mpr hcov]
     exact he ▸ union D E (ih D hD) (ih E hE)
 
@@ -343,7 +343,7 @@ theorem exists_isProper_isCompletelyDecomposed_of_integral_case {S : Scheme.{u}}
       let D : Closeds S := ⟨I.subschemeι '' (U : Set I.subscheme)ᶜ,
         I.subschemeι.isClosedEmbedding.isClosedMap _ U.isOpen.isClosed_compl⟩
       have hmem : ∀ t : I.subscheme, I.subschemeι t ∈ C := fun t => by
-        show I.subschemeι t ∈ (C : Set S)
+        change I.subschemeι t ∈ (C : Set S)
         rw [← hrange]
         exact ⟨t, rfl⟩
       have hDC : D < C := by

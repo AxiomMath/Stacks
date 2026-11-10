@@ -193,7 +193,7 @@ public theorem schemeMap_eq_of_isHomLift
     schemeMap (p ⋙ Over.post B.inclusion) hy hz φ =
       eqToHom eY ≫ (BigFppfOver.toScheme B S hS).map ν ≫ eqToHom eZ := by
   subst hy hz
-  show ((Over.post B.inclusion).map (p.map φ)).left = _
+  change ((Over.post B.inclusion).map (p.map φ)).left = _
   rw [IsHomLift.fac' p ν φ]
   simp only [Functor.map_comp, eqToHom_map, Over.comp_left, Over.eqToHom_left]
   rfl
@@ -221,7 +221,7 @@ public theorem algebraOver_post_eq :
     (Over.post B.inclusion).obj
         (algebraOver k B S hS (Spec.map (CommRingCat.ofHom (algebraMap A k)) ≫ toS) hAk) =
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap R (fieldArtinianObj R k))) ≫ iR) := by
-  show Over.mk (Spec.map (CommRingCat.ofHom (algebraMap A k)) ≫ toS) = _
+  change Over.mk (Spec.map (CommRingCat.ofHom (algebraMap A k)) ≫ toS) = _
   rw [← hiR]
   rfl
 
@@ -235,7 +235,7 @@ public theorem squareZeroOver_post_eq (M : SiteModule k B) [Module.Finite k M.ob
         (squareZeroOver k B S hS (Spec.map (CommRingCat.ofHom (algebraMap A k)) ≫ toS) M) =
       Over.mk (Spec.map (CommRingCat.ofHom
         (algebraMap R (squareZeroArtinianObj R k M.obj))) ≫ iR) := by
-  show Over.mk (Spec.map (CommRingCat.ofHom (TrivSqZeroExt.inlHom k M.obj)) ≫
+  change Over.mk (Spec.map (CommRingCat.ofHom (TrivSqZeroExt.inlHom k M.obj)) ≫
       Spec.map (CommRingCat.ofHom (algebraMap A k)) ≫ toS) = _
   rw [← hiR]
   show Over.mk (Spec.map (CommRingCat.ofHom (TrivSqZeroExt.inlHom k M.obj)) ≫
@@ -344,7 +344,7 @@ public theorem exists_extends_of_liftsAtResiduePoint
           (algebraOverMapOfRingHom (algebraMap A k) B S hS toS
             (Spec.map (CommRingCat.ofHom (algebraMap A k)) ≫ toS) hA hAk rfl) ⟨x, hx⟩)
         hy hxS rfl rfl)).trans ?_
-    show Spec.map (𝟙 (CommRingCat.of k)) ≫ 𝟙 _ ≫
+    change Spec.map (𝟙 (CommRingCat.of k)) ≫ 𝟙 _ ≫
         Spec.map (CommRingCat.ofHom (algebraMap A k)) ≫ 𝟙 _ =
       Spec.map (CommRingCat.ofHom (algebraMap A k))
     simp

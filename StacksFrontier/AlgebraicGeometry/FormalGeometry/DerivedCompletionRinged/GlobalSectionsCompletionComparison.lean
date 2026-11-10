@@ -115,7 +115,7 @@ theorem IsDerivedCompleteAt.eq_zero_of_isIso_smul {N M : C} {b : R} [IsIso (b �
     refine Pi.hom_ext _ _ fun n ↦ ?_
     rw [Category.assoc, oneSubSmulShift_π, Preadditive.comp_sub, Linear.comp_smul,
       Pi.lift_comp_π, Pi.lift_comp_π, zero_comp]
-    show p n ≫ g - b • ((v ≫ p n) ≫ g) = 0
+    change p n ≫ g - b • ((v ≫ p n) ≫ g) = 0
     rw [Category.assoc, ← Linear.smul_comp, hv, Category.id_comp, sub_self]
   rw [isDerivedCompleteAt_iff_isIso] at hM
   have h0 : Φ = 0 := by
@@ -214,7 +214,7 @@ theorem moduleGlobalSectionsOver_map_baseSmulCenter (c : A)
   have hfam : awayFamily X (globalSectionOfSectionsSubring X (ρ c)) = ⟨(ρ c).1, (ρ c).2⟩ := by
     ext U
     exact globalSectionVal_globalSectionOfSectionsSubring X (ρ c) U
-  show x ≫ ((baseSmulCenter X A ρ c).app P ≫ 𝟙 P) =
+  change x ≫ ((baseSmulCenter X A ρ c).app P ≫ 𝟙 P) =
     CatCenter.app (Stacks.SheafOfModules.globalSectionToEnd
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⟨(ρ c).1, (ρ c).2⟩) _ ≫ x
   rw [Category.comp_id, baseSmulCenter, hfam]
@@ -368,7 +368,7 @@ private theorem singleFunctor_zero_map_smul_id
       (CochainComplex.singleFunctor
         (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0)).mp
       inferInstance M c
-  show DerivedCategory.Q.map ((CochainComplex.singleFunctor
+  change DerivedCategory.Q.map ((CochainComplex.singleFunctor
     (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).map (c • 𝟙 M)) = _
   rw [h1, DerivedCategory.Q.map_smul, DerivedCategory.Q.map_id]
   rfl
@@ -397,7 +397,7 @@ theorem isCompletionAcyclicHom_singleFunctor_zero_awayModule (S : Finset (Fin r)
       (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).obj M)) := by
     rw [← singleFunctor_zero_map_smul_id c M]
     have : IsIso (c • 𝟙 M) := by
-      show IsIso (c.app M ≫ 𝟙 M)
+      change IsIso (c.app M ≫ 𝟙 M)
       infer_instance
     infer_instance
   have h2 : IsIso (c • 𝟙 (((derivedSheafHomBifunctor X).flip.obj K).obj
@@ -407,7 +407,7 @@ theorem isCompletionAcyclicHom_singleFunctor_zero_awayModule (S : Finset (Fin r)
       (awayFamily X (globalSectionOfSectionsSubring X (ρ (a j))))
       ((DerivedCategory.singleFunctor
         (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).obj M) K
-    show IsIso (c • 𝟙 (((derivedSheafHomBifunctor X).obj (op ((DerivedCategory.singleFunctor
+    change IsIso (c • 𝟙 (((derivedSheafHomBifunctor X).obj (op ((DerivedCategory.singleFunctor
         (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).obj M))).obj K))
     rw [hc, ← e]
     infer_instance
@@ -493,7 +493,7 @@ private theorem bijective_precomp_of_comp_eq {C : Type*} [Category C] {P Q P' Q'
     simpa using hv.1 hgg''
   · obtain ⟨g, hg⟩ := hv.2 (inv e₂ ≫ k)
     refine ⟨e₁ ≫ g, ?_⟩
-    show u ≫ e₁ ≫ g = k
+    change u ≫ e₁ ≫ g = k
     change v ≫ g = inv e₂ ≫ k at hg
     rw [← Category.assoc, h, Category.assoc, hg, IsIso.hom_inv_id_assoc]
 
@@ -617,6 +617,7 @@ variable {X : RingedSite.{u, u, u}} [HasWeakSheafify X.J CommRingCat.{u}]
     (Stacks.SheafOfModules.Tensor.ringSheaf X.O))),
     G.map (baseSmulCenter X A ρ c • 𝟙 L) = c • 𝟙 (G.obj L))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 include hI h𝓘 hG in
 /-- **`G` carries objects derived complete along `I𝒪` to objects derived complete along `I`.** -/
 theorem isDerivedComplete_map_of_isDerivedComplete [G.Additive]
@@ -745,6 +746,7 @@ variable {X A ρ} {I : Ideal A} (hI : I.FG)
     (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
   (h𝓘 : IsIdealSheafGeneratedBy A I X ρ 𝓘)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 include hI h𝓘 in
 /-- **`RΓ(𝒞, -)` carries objects derived complete along `I𝒪` to objects derived complete along
 `I`** ([Stacks, Tag 099J] at the morphism to the point). -/
@@ -774,6 +776,7 @@ def derivedGlobalSectionsCompletionComparison
         (isDerivedComplete_derivedCompletion_obj X 𝓘 K)⟩).symm
       ((derivedGlobalSectionsOverUnbounded X A ρ).map ((derivedCompletionUnit X 𝓘).app K)))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The comparison map composed with the unit of derived completion on `D(A)` is
 `RΓ(𝒞, K ⟶ K^∧)`. -/
 @[reassoc]
@@ -788,6 +791,7 @@ theorem adicCompletionUnit_comp_derivedGlobalSectionsCompletionComparison
   exact ((Stacks.Algebraization.adicCompletionAdjunction A I hI).homEquiv_unit _ _ _).symm.trans
     (((Stacks.Algebraization.adicCompletionAdjunction A I hI).homEquiv _ _).apply_symm_apply _)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The comparison map is natural in `K`. -/
 @[reassoc]
 theorem derivedGlobalSectionsCompletionComparison_naturality
@@ -802,7 +806,7 @@ theorem derivedGlobalSectionsCompletionComparison_naturality
   refine (Stacks.Algebraization.completionUnit_comp_bijective I hI _ _
     (isDerivedComplete_derivedGlobalSectionsOverUnbounded_of_isDerivedComplete hI h𝓘
       (isDerivedComplete_derivedCompletion_obj X 𝓘 K'))).1 ?_
-  show (Stacks.Algebraization.adicCompletionUnit A I hI).app _ ≫ _ ≫ _ =
+  change (Stacks.Algebraization.adicCompletionUnit A I hI).app _ ≫ _ ≫ _ =
     (Stacks.Algebraization.adicCompletionUnit A I hI).app _ ≫ _ ≫ _
   rw [← Category.assoc, ← (Stacks.Algebraization.adicCompletionUnit A I hI).naturality,
     Category.assoc, adicCompletionUnit_comp_derivedGlobalSectionsCompletionComparison,

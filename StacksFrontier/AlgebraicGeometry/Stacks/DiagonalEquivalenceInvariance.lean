@@ -85,7 +85,7 @@ theorem isRepresentableFromSchemes_of_equivalence
   intro U y
   have : Functor.IsEquivalence
       (BasedFunctor.id (schemeFibredCategory B S hS U).val).toFunctor := by
-    show Functor.IsEquivalence (𝟭 _)
+    change Functor.IsEquivalence (𝟭 _)
     infer_instance
   have : Functor.IsEquivalence e.inverse.toFunctor := e.symm.equiv.isEquivalence_functor
   exact (isRepresentableByAlgebraicSpaces_iff_of_equivalences B S hS y

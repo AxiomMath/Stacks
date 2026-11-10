@@ -72,7 +72,7 @@ theorem IsPreconnected.subsingleton_of_subset_finite {S T : Set Y} (hS : S.Finit
   by_contra hab
   have hB : IsClosed (S \ {a}) := by
     rw [← biUnion_of_singleton (S \ {a})]
-    exact hS.diff.isClosed_biUnion fun y hy ↦ hcl y hy.1
+    exact hS.sdiff.isClosed_biUnion fun y hy ↦ hcl y hy.1
   exact (hT.mem_of_subset_singleton_union (hcl a (hTS ha)) hB
     (fun z hz ↦ (em (z = a)).imp id fun h ↦ ⟨hTS hz, h⟩) ha hb fun h ↦ hab h.symm).2 rfl
 

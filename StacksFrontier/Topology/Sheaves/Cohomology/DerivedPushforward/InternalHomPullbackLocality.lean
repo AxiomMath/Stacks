@@ -401,10 +401,10 @@ def jShriekDerivedPullbackAdjunction :
 fully faithful. -/
 instance isIso_jShriekDerivedPullbackAdjunction_unit :
     IsIso (jShriekDerivedPullbackAdjunction X U).unit := by
-  letI := Stacks.DerivedGlueing.fullyFaithful_jShriek_mapDerivedCategory (structureSheafRing X) U
-  haveI := (Stacks.DerivedGlueing.fullyFaithful_jShriek_mapDerivedCategory
+  let := Stacks.DerivedGlueing.fullyFaithful_jShriek_mapDerivedCategory (structureSheafRing X) U
+  have := (Stacks.DerivedGlueing.fullyFaithful_jShriek_mapDerivedCategory
     (structureSheafRing X) U).full
-  haveI := (Stacks.DerivedGlueing.fullyFaithful_jShriek_mapDerivedCategory
+  have := (Stacks.DerivedGlueing.fullyFaithful_jShriek_mapDerivedCategory
     (structureSheafRing X) U).faithful
   exact Adjunction.unit_isIso_of_L_fully_faithful _
 

@@ -127,6 +127,7 @@ private lemma app_app_comp_uncurry_map_assoc {C : Type*} [Category C] [MonoidalC
       (a ⊗ₘ b) ≫ (τ.app A').app B' ≫ t := by
   rw [← Category.assoc, app_app_comp_uncurry_map, Category.assoc]
 
+omit [PreservesFiniteLimits h.pullbackTopos] in
 /-- The comparison of Stacks 07A4 at a pair of models: its inverse followed by the first half of
 the five-step chain is the second half. -/
 theorem derivedPullbackTensorIso_inv_app_comp_modelLeft
@@ -145,6 +146,12 @@ theorem derivedPullbackTensorIso_inv_app_comp_modelLeft
     derivedPullbackTensorModelIso, Iso.trans_hom, Iso.symm_hom, Category.assoc,
     Iso.inv_hom_id, Category.comp_id]
 
+omit [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+      (ComplexShape.up ℤ)] [PreservesFiniteLimits h.pullbackTopos]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)),
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive] in
 /-- (r2) The first half of the five-step chain of Stacks 07A4 through the monoidal tensor
 product. -/
 theorem map_monoidalTensorCanonicalIso_inv_comp_pullbackComparisonQ
@@ -177,6 +184,7 @@ theorem map_monoidalTensorCanonicalIso_inv_comp_pullbackComparisonQ
   rw [← Functor.map_comp_assoc, e']
   rfl
 
+omit [PreservesFiniteLimits h.pullbackTopos] in
 /-- (r3) Through the monoidal tensor product, the second half of the five-step chain of
 Stacks 07A4. -/
 theorem monoidalTensorCanonicalIso_hom_comp_modelRight
@@ -202,6 +210,10 @@ theorem monoidalTensorCanonicalIso_hom_comp_modelRight
   let := Stacks.SheafOfModules.DerivedMonoidal.derivedMonoidal X.O
   exact app_app_comp_uncurry_map_assoc _ _ _ _
 
+omit [(pullbackOnHomotopy h).HasLeftDerivedFunctor
+    (HomotopyCategory.quasiIso
+      (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) (ComplexShape.up ℤ))]
+  [PreservesFiniteLimits h.pullbackTopos] in
 /-- (r4) The X-side reading: the canonical K-flat comparison is the monoidal comparison, and the
 total comparison of Stacks 07A4 is the inverse tensorator of `f^*` applied termwise. -/
 theorem monoidalTensorCanonicalIso_hom_comp_comparison_pullback
@@ -246,6 +258,7 @@ private lemma r1_assemble {C D : Type*} [Category C] [Category D] (P : C ⥤ D)
     cX ≫ I ≫ P.map cY = mX ≫ Dinv ≫ P.map mY := by
   rw [hI, ← hX, ← hY, Functor.map_comp]; simp only [Category.assoc]
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- `RingedSite.tensorComparison_comp_derivedTensorObjIso` at the ringed site of a ringed topos,
 with the monoidal tensor product spelled at the structure sheaf of the topos. -/
 private theorem tensorComparison_comp_derivedTensorObjIso_toRingedSite
@@ -255,6 +268,7 @@ private theorem tensorComparison_comp_derivedTensorObjIso_toRingedSite
     ((Stacks.SheafOfModules.DerivedMonoidal.monoidalTensorCanonicalIso X.O).hom.app A).app B :=
   RingedSite.tensorComparison_comp_derivedTensorObjIso (RingedTopos.toRingedSite X) A B
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- `RingedSite.derivedTensorObjIso_inv_comp_tensorComparison_inv` at the ringed site of a ringed
 topos, with the monoidal tensor product spelled at the structure sheaf of the topos. -/
 private theorem derivedTensorObjIso_inv_comp_tensorComparison_inv_toRingedSite
@@ -264,6 +278,7 @@ private theorem derivedTensorObjIso_inv_comp_tensorComparison_inv_toRingedSite
     ((Stacks.SheafOfModules.DerivedMonoidal.monoidalTensorCanonicalIso Y.O).inv.app A).app B :=
   RingedSite.derivedTensorObjIso_inv_comp_tensorComparison_inv (RingedTopos.toRingedSite Y) A B
 
+omit [PreservesFiniteLimits h.pullbackTopos] in
 /-- `derivedPullbackTensorIsoInternal_inv_app` with the inverse of Stacks 07A4 applied at the
 pair. -/
 private theorem derivedPullbackTensorIsoInternal_inv_app_eq
@@ -276,6 +291,7 @@ private theorem derivedPullbackTensorIsoInternal_inv_app_eq
             (RingedSite.derivedTensorObjIso (RingedTopos.toRingedSite Y) A B).inv := by
   rw [derivedPullbackTensorIsoInternal_inv_app, Iso.app_inv]
 
+omit [PreservesFiniteLimits h.pullbackTopos] in
 /-- (r1) The comparison of Stacks 07A4 read at the derived tensor products of Stacks 08J8,
 conjugated by the tensor comparisons of Stacks 0FPT, is the comparison of Stacks 07A4 conjugated
 by the comparisons of the monoidal tensor product with the canonical derived tensor product. -/
@@ -304,9 +320,7 @@ of `Lf^*(QK ⊗ QL)` with `Q(f^*(K ⊗ L))`. -/
 theorem transportedμ_comp_model
     (K L : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
     (hK : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) K)
-    (hL : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) L)
-    (hflatK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
-    (hflatL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i)) :
+    (hL : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) L) :
     letI := Stacks.SheafOfModules.DerivedMonoidal.derivedMonoidal Y.O
     letI := Stacks.SheafOfModules.DerivedMonoidal.derivedMonoidal X.O
     letI := pullbackToposMapDerivedMonoidal h hmos hF
@@ -386,13 +400,14 @@ theorem transportedμ_eq_derivedPullbackTensorIsoInternal_inv_app_model
           (Stacks.SheafOfModules.DerivedMonoidal.exists_kFlat_resolution Y.O) hK hL).hom ≫
         pullbackComparisonQ h (K ⊗ L))]
   exact crux_assemble _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-    (transportedμ_comp_model h hmos hF K L hK hL hflatK hflatL)
+    (transportedμ_comp_model h hmos hF K L hK hL)
     (tensorComparison_derivedPullbackTensorIsoInternal_inv_app h hmos _ _)
     (map_monoidalTensorCanonicalIso_inv_comp_pullbackComparisonQ h hmos K L hK hL hflatK hflatL)
     (derivedPullbackTensorIso_inv_app_comp_modelLeft h hmos K L hK hL hflatK hflatL)
     (monoidalTensorCanonicalIso_hom_comp_modelRight h hmos K L hK hL hflatK hflatL)
     (monoidalTensorCanonicalIso_hom_comp_comparison_pullback h hmos hF K L hK hL hflatK hflatL)
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Natural transformations on pairs of objects of `D(O')` are determined on pairs of K-flat
 complexes with flat terms**: every object of `D(O')` is isomorphic to the image of such a
 complex. -/

@@ -35,7 +35,7 @@ lemma mapExtendIso_hom_f (n : ι) (n' : ι') (h : e.f n = n') :
       F.map ((K.extendXIso e h).hom) ≫
         (((F.mapHomologicalComplex c).obj K).extendXIso e h).inv := by
   have hr := e.r_eq_some h
-  show (MapExtend.isoX F K (e.r n')).hom =
+  change (MapExtend.isoX F K (e.r n')).hom =
     F.map (extend.XIso K hr).hom ≫
       (extend.XIso ((F.mapHomologicalComplex c).obj K) hr).inv
   generalize e.r n' = r at hr ⊢

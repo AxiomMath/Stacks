@@ -72,7 +72,7 @@ theorem levelTwist_comp_levelUntwist (n : ℕ) :
     (levelTwist f hf hsq Λ β hβ hβ0 hR n).comp (levelUntwist f hf hsq Λ β hβ hβ0 hR n) =
       snd _ _ := by
   refine RingMap.ext (RingHom.ext fun z => ?_)
-  show z.1.1 + (z.1.2 - z.1.1) = z.1.2
+  change z.1.1 + (z.1.2 - z.1.1) = z.1.2
   ring
 
 /-- The first component of `R̃ ×_A A[∏ Mₙ] → Rₙ ×_A A[Mₙ]` is the projection `R̃ → Rₙ`. -/
@@ -93,7 +93,7 @@ theorem levelTwist_comp_twistedProj (n : ℕ) :
     (levelTwist f hf hsq Λ β hβ hβ0 hR n).comp (twistedProj f hf hsq Λ β hβ hβ0 hR n) =
       (projMap f Λ β hβ hβ0 hR n).comp (sameBaseTwist f hf hsq Λ β hβ hβ0 hR) := by
   refine RingMap.ext (RingHom.ext fun z => ?_)
-  show z.1.1.1 n + kerVal _ _ _ ((squareZeroProj f hf hsq Λ hR n).hom z.1.2).2 =
+  change z.1.1.1 n + kerVal _ _ _ ((squareZeroProj f hf hsq Λ hR n).hom z.1.2).2 =
     z.1.1.1 n + (component f hf hsq z.1.2.2 n : R n)
   rw [kerVal_squareZeroProj_hom_snd]
 

@@ -38,8 +38,8 @@ file takes the other route — the one the source itself takes — and applies
 
 ## The two isomorphisms, and why they are the whole remaining distance
 
-`hsec` does not appear here, nor does any hypothesis on the residue field. What is carried instead is two
-isomorphisms, each a true statement of the source:
+`hsec` does not appear here, nor does any hypothesis on the residue field. What is carried instead
+is two isomorphisms, each a true statement of the source:
 
 * `ecan`, that `ω_E = H¹(a(ω_X))` — the module clause (1) of [Stacks, Tag 0B64] identifies with
   `(ω_X|_E)(-1)`, `AlgebraicGeometry.BlowUpDualizing.exceptionalDualizingModule` — **is** the

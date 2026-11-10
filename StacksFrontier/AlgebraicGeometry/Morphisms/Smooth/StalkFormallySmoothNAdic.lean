@@ -157,7 +157,7 @@ theorem exists_isLocalization_stalk_comp_stalkClosedPointTo {S : Scheme.{u}} {Λ
     exact (IsLocalization.isLocalization_iff_of_ringEquiv t.asIdeal.primeCompl
       e.symm.commRingCatIsoToRingEquiv).mp hloc
   · have key : c₀ ≫ Scheme.stalkClosedPointTo (Spec.map ψ) = ψ := by
-      show (Scheme.ΓSpecIso (.of Λ)).inv ≫ (Spec (.of Λ)).presheaf.germ ⊤
+      change (Scheme.ΓSpecIso (.of Λ)).inv ≫ (Spec (.of Λ)).presheaf.germ ⊤
         (Spec.map ψ (closedPoint (CommRingCat.of A))) trivial ≫
           Scheme.stalkClosedPointTo (Spec.map ψ) = ψ
       rw [Scheme.germ_stalkClosedPointTo_Spec, Iso.inv_hom_id_assoc]

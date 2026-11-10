@@ -208,7 +208,7 @@ public theorem projective_etaleModuleStalk_moduleShriekConstant
     Projective ((etaleModuleStalkFunctor B X Λ s).obj
       (moduleShriekConstant.{u, r, w} B X Λ U)) := by
   have := hasProducts_moduleCat.{u, w, r} Λ
-  show Projective (((geometricSitePoint B X s).sheafFiber
+  change Projective (((geometricSitePoint B X s).sheafFiber
     (A := ModuleCat.{max (u + 1) r w} Λ)).obj (moduleShriekConstant.{u, r, w} B X Λ U))
   have adj := (geometricSitePoint B X s).skyscraperSheafAdjunction
     (A := ModuleCat.{max (u + 1) r w} Λ)

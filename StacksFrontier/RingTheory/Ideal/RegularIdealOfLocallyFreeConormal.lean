@@ -117,12 +117,12 @@ private lemma le_span_sup_sq_of_span_toCotangent_eq_top
   apply Submodule.mem_sup.mpr
   refine ⟨y, ?_, x - y, ?_, by simp⟩
   · have : (y : R) ∈ K.map I.subtype := ⟨y, hy, rfl⟩
-    show (y : R) ∈ Submodule.span R (Set.range fun i => (v i : R))
+    change (y : R) ∈ Submodule.span R (Set.range fun i => (v i : R))
     convert this using 1
     simp only [K, Submodule.map_span, ← Set.range_comp, Function.comp_def,
       Submodule.subtype_apply]
   · rw [← Ideal.toCotangent_eq_zero I ⟨x - y, I.sub_mem hx y.2⟩]
-    show I.toCotangent (⟨x, hx⟩ - y) = 0
+    change I.toCotangent (⟨x, hx⟩ - y) = 0
     rw [map_sub, hxy, sub_self]
 
 private lemma eq_span_of_span_toCotangent_eq_top
@@ -303,7 +303,7 @@ private lemma regular_sequence_localize_away_of_atPrime_mul
     intro m
     obtain ⟨r, ⟨k, rfl⟩, hr⟩ := hsub m
     refine ⟨g ^ k, ⟨k, rfl⟩, ?_⟩
-    show g ^ k • m = 0
+    change g ^ k • m = 0
     rw [show g = g₀ * a by simp [g, mul_comm], mul_pow, mul_smul,
       smul_comm (g₀ ^ k) (a ^ k) m, hr, smul_zero]
   have htop :

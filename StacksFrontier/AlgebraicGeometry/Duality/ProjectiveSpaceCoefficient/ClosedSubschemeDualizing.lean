@@ -70,7 +70,7 @@ def pushforwardFactorIso :
   NatIso.ofComponents
     (fun K => ObjectProperty.isoMk _
       ((Stacks.Duality.derivedPushforwardCompIso i (projToSpecCoeff A n)).app K.obj))
-    (fun {K L} e => ObjectProperty.hom_ext _
+    (fun e => ObjectProperty.hom_ext _
       ((Stacks.Duality.derivedPushforwardCompIso i (projToSpecCoeff A n)).hom.naturality e.hom))
 
 /-- **`a ≅ p^× ⋙ i^×`** for any right adjoint `a` of `R(i ≫ p)_*`. -/

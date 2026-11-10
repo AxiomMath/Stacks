@@ -181,7 +181,7 @@ noncomputable def localizedCocontinuousFSharpCocontinuousMorphism
     (cocontinuousToposHomCocontinuousMorphism.{u} (X := X.over V) (Y := Y.over (v.obj V))
       (Over.post (X := V) v) (isCocontinuous_overPost_over_cocontinuousMorphism v V)).pushforward
     (Over.forget V) (Over.forget (v.obj V))
-    (Functor.overPostSheafBaseChangeCocontinuousBaseChange v V (J := X.J) (K := Y.J)).natTrans
+    (Functor.overPostSheafBaseChangeCocontinuousBaseChange v V (J := X.J) (K := Y.J))
       X.O Y.O fsharp
 
 /-- **The localized morphism of ringed topoi** `(Sh(X/V), O_X|_V) ⟶ (Sh(Y/v(V)), O_Y|_{v(V)})`
@@ -204,7 +204,7 @@ theorem forgetFSharp_localizedCocontinuousRingedToposHom_cocontinuousMorphism
       (Y.J.overPullback (Type u) (v.obj V)).map
           ((sheafCompose Y.J (forget CommRingCat.{u})).map fsharp) ≫
         (Functor.overPostSheafBaseChangeCocontinuousBaseChange v V (J := X.J)
-            (K := Y.J)).natTrans.app
+            (K := Y.J)).app
           ((sheafCompose X.J (forget CommRingCat.{u})).obj X.O) :=
   forget_map_baseChangeCommRingMap_cocontinuousMorphism (JC' := X.J.over V)
     (JD' := Y.J.over (v.obj V)) _ _ _ _ _

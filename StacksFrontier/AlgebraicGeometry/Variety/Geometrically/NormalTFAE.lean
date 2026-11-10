@@ -124,10 +124,10 @@ private noncomputable def affineBaseChangeIso (k : Type u) [Field k] {X : Scheme
       hU.isoSpec.inv (𝟙 _) (𝟙 _) hU.isoSpec_inv_ι.symm (by simp)
     have hm : m ≫ n = 𝟙 _ := by
       apply pullback.hom_ext <;> dsimp [m, n, pullback.map] <;>
-        simp [pullback.lift_fst_assoc, pullback.lift_fst, pullback.lift_snd]
+        simp
     have hn : n ≫ m = 𝟙 _ := by
       apply pullback.hom_ext <;> dsimp [m, n, pullback.map] <;>
-        simp [pullback.lift_fst_assoc, pullback.lift_fst, pullback.lift_snd]
+        simp
     exact ⟨m, n, hm, hn⟩
   exact eU |>.trans
     (pullbackRightPullbackFstIso f g hU.fromSpec) |>.trans

@@ -98,7 +98,8 @@ attribute [instance] IsSeparableExtension.isSeparablyGenerated
 end Algebra
 
 /- `Algebra.IsSeparableExtension` is equivalent to its single field:
-`Algebra.isSeparableExtension_iff` (Mathlib's `@[mk_iff]` gives `Algebra.isSeparablyGenerated_iff`). -/
+`Algebra.isSeparableExtension_iff` (Mathlib's `@[mk_iff]` gives
+`Algebra.isSeparablyGenerated_iff`). -/
 mk_iff_of_inductive_prop Algebra.IsSeparableExtension Algebra.isSeparableExtension_iff
 
 end

@@ -121,14 +121,14 @@ private lemma isCompactObject_extensionByZeroUnit (U : X.C)
   have he : (e (∐ E)).toAddMonoidHom.comp φ = ψ.comp a.toAddMonoidHom := by
     apply DirectSum.addHom_ext
     intro i f
-    show e (∐ E) (φ (DirectSum.of (fun i => H ⟶ E i) i f)) =
+    change e (∐ E) (φ (DirectSum.of (fun i => H ⟶ E i) i f)) =
       ψ (a (DirectSum.of (fun i => H ⟶ E i) i f))
     rw [show φ (DirectSum.of (fun i => H ⟶ E i) i f) = f ≫ Sigma.ι E i from
       DirectSum.toAddMonoid_of (fun i => Preadditive.rightComp H (Sigma.ι E i)) i f]
-    show extensionByZeroHomEquiv.{v, u, w, m} X.J (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
+    change extensionByZeroHomEquiv.{v, u, w, m} X.J (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
       (∐ E) (f ≫ Sigma.ι E i) = _
     rw [extensionByZeroHomEquiv_naturality]
-    show _ = ψ (DirectSum.map (fun i => (e (E i)).toAddMonoidHom)
+    change _ = ψ (DirectSum.map (fun i => (e (E i)).toAddMonoidHom)
       (DirectSum.of (fun i => H ⟶ E i) i f))
     rw [DirectSum.map_of]
     exact (DirectSum.toAddMonoid_of (fun i => (c.inj i).hom) i (e (E i) f)).symm
@@ -181,7 +181,7 @@ private lemma exists_epi_sigma_extensionByZeroUnit
   obtain ⟨i, c, rfl⟩ := (Sieve.mem_ofArrows_iff _ _ _).1 hk
   let j : I := ⟨⟨V i, hqcU i⟩, (M.val.map (g i).op) x⟩
   have hleg : fs j ≫ a = fs j ≫ b := by
-    have hf : Sigma.ι E j ≫ f = fs j := Sigma.ι_desc _ _
+    have hf : Sigma.ι E j ≫ f = fs j := Sigma.ι_comp_desc _ _
     simpa only [← Category.assoc, hf] using congrArg (fun q => Sigma.ι E j ≫ q) hab
   have hlocal : (a.val.app (op (V i))) ((M.val.map (g i).op) x) =
       (b.val.app (op (V i))) ((M.val.map (g i).op) x) := by
@@ -194,7 +194,7 @@ private lemma exists_epi_sigma_extensionByZeroUnit
   rw [PresheafOfModules.naturality_apply a.val (g i).op x,
     PresheafOfModules.naturality_apply b.val (g i).op x] at hlocal
   rw [op_comp, Functor.map_comp]
-  show (N.val.presheaf.map c.op).hom ((N.val.presheaf.map (g i).op).hom _) = _
+  change (N.val.presheaf.map c.op).hom ((N.val.presheaf.map (g i).op).hom _) = _
   exact congrArg (N.val.presheaf.map c.op).hom hlocal
 
 -- Keep the accepted statement's abelian instance despite the additional cohomology imports.

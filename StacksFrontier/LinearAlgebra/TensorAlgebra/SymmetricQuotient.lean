@@ -222,7 +222,7 @@ theorem mem_symSub_iff (x : TensorAlgebra R M) :
       | ι m =>
           have h1 : SymmetricAlgebra.algHom R M (ι R m) = SymmetricAlgebra.ι R M m := rfl
           rw [h1]
-          show SymmetricAlgebra.lift (π.toLinearMap ∘ₗ (ι R : M →ₗ[R] TensorAlgebra R M))
+          change SymmetricAlgebra.lift (π.toLinearMap ∘ₗ (ι R : M →ₗ[R] TensorAlgebra R M))
               (SymmetricAlgebra.ι R M m) = π (ι R m)
           rw [SymmetricAlgebra.lift_ι_apply, LinearMap.comp_apply, AlgHom.toLinearMap_apply]
       | mul a b ha hb => rw [map_mul, map_mul, ha, hb, ← map_mul]
@@ -310,12 +310,11 @@ theorem coe_mulTwo (x y : gradedPiece R 1 M) :
 
 /-- An induction principle for the degree-two piece: every element is a sum of products of two
 degree-one elements. -/
-theorem two_ext {p : gradedPiece R 2 M → Prop} (hzero : p 0)
+theorem two_ext {p : gradedPiece R 2 M → Prop}
     (hadd : ∀ a b, p a → p b → p (a + b))
     (hmul : ∀ x y : gradedPiece R 1 M, p (mulTwo (x ⊗ₜ[R] y))) (w : gradedPiece R 2 M) : p w := by
   obtain ⟨s, rfl⟩ := (mulTwo (R := R) (M := M)).surjective w
-  induction s using TensorProduct.induction_on with
-  | zero => simpa only [map_zero] using hzero
+  induction s using TensorProduct.inductionOn with
   | tmul x y => exact hmul x y
   | add a b ha hb => rw [map_add]; exact hadd _ _ ha hb
 
@@ -381,18 +380,16 @@ theorem coe_mulInner (j : ℕ) (w : gradedPiece R 2 M) (v : gradedPiece R j M) :
 
 /-- An induction principle for the degree-`k` piece along a splitting `k = i + 2 + j`: every
 element is a sum of products of a degree-`i`, a degree-two and a degree-`j` element. -/
-theorem outer_ext {i j k : ℕ} (h : i + 2 + j = k) {p : gradedPiece R k M → Prop} (hzero : p 0)
+theorem outer_ext {i j k : ℕ} (h : i + 2 + j = k) {p : gradedPiece R k M → Prop}
     (hadd : ∀ a b, p a → p b → p (a + b))
     (hmul : ∀ (u : gradedPiece R i M) (w : gradedPiece R 2 M) (v : gradedPiece R j M),
       p (mulOuter h (u ⊗ₜ[R] mulInner j (w ⊗ₜ[R] v))))
     (t : gradedPiece R k M) : p t := by
   obtain ⟨s, rfl⟩ := (mulOuter (R := R) (M := M) h).surjective t
-  induction s using TensorProduct.induction_on with
-  | zero => simpa only [map_zero] using hzero
+  induction s using TensorProduct.inductionOn with
   | tmul u z =>
       obtain ⟨s', rfl⟩ := (mulInner (R := R) (M := M) j).surjective z
-      induction s' using TensorProduct.induction_on with
-      | zero => simpa only [map_zero, TensorProduct.tmul_zero] using hzero
+      induction s' using TensorProduct.inductionOn with
       | tmul w v => exact hmul u w v
       | add a b ha hb =>
           rw [map_add, TensorProduct.tmul_add, map_add]; exact hadd _ _ ha hb
@@ -553,8 +550,7 @@ def slotRelMap (k : ℕ) (p : Fin (k - 1)) :
 theorem algHom_altTwo (w : gradedPiece R 2 M) :
     SymmetricAlgebra.algHom R M (altTwo w : TensorAlgebra R M) = 0 := by
   refine two_ext (p := fun w ↦ SymmetricAlgebra.algHom R M (altTwo w : TensorAlgebra R M) = 0)
-    ?_ ?_ ?_ w
-  · rw [map_zero, ZeroMemClass.coe_zero, map_zero]
+    ?_ ?_ w
   · intro a b ha hb
     simp only [map_add, Submodule.coe_add, ha, hb, add_zero]
   · intro x y
@@ -563,8 +559,7 @@ theorem algHom_altTwo (w : gradedPiece R 2 M) :
 /-- **The relator maps land in the kernel of `Tᵏ(M) ⟶ Symᵏ(M)`.** -/
 theorem symQuot_relMap {i j k : ℕ} (h : i + 2 + j = k) (t : gradedPiece R k M) :
     symQuot k (relMap h t) = 0 := by
-  refine outer_ext h (p := fun t ↦ symQuot k (relMap h t) = 0) ?_ ?_ ?_ t
-  · rw [map_zero, map_zero]
+  refine outer_ext h (p := fun t ↦ symQuot k (relMap h t) = 0) ?_ ?_ t
   · intro a b ha hb
     rw [map_add, map_add, ha, hb, add_zero]
   · intro u w v
@@ -651,8 +646,7 @@ theorem coe_altTwo_powMapₛₗ (φ : R →+* S) (u : M →ₛₗ[φ] N) (w : gr
     (altTwo (powMapₛₗ 2 φ u w) : TensorAlgebra S N) =
       mapₛₗ φ u (altTwo w : TensorAlgebra R M) := by
   refine two_ext (p := fun w ↦ (altTwo (powMapₛₗ 2 φ u w) : TensorAlgebra S N) =
-    mapₛₗ φ u (altTwo w : TensorAlgebra R M)) ?_ ?_ ?_ w
-  · simp only [map_zero, ZeroMemClass.coe_zero]
+    mapₛₗ φ u (altTwo w : TensorAlgebra R M)) ?_ ?_ w
   · intro a b ha hb
     simp only [map_add, Submodule.coe_add, ha, hb]
   · intro x y
@@ -675,8 +669,7 @@ theorem coe_relMap_powMapₛₗ {i j k : ℕ} (h : i + 2 + j = k) (φ : R →+* 
     (relMap h (powMapₛₗ k φ u t) : TensorAlgebra S N) =
       mapₛₗ φ u (relMap h t : TensorAlgebra R M) := by
   refine outer_ext h (p := fun t ↦ (relMap h (powMapₛₗ k φ u t) : TensorAlgebra S N) =
-    mapₛₗ φ u (relMap h t : TensorAlgebra R M)) ?_ ?_ ?_ t
-  · simp only [map_zero, ZeroMemClass.coe_zero]
+    mapₛₗ φ u (relMap h t : TensorAlgebra R M)) ?_ ?_ t
   · intro a b ha hb
     simp only [map_add, Submodule.coe_add, ha, hb]
   · intro a w v

@@ -125,7 +125,7 @@ private theorem localizedModuleFunctor_linear
     apply ModuleCat.hom_ext
     let L := IsLocalizedModule.mapExtendScalars S (M.localizedModuleMkLinearMap S)
       (N.localizedModuleMkLinearMap S) (Localization S)
-    show L (r • f.hom) = algebraMap R (Localization S) r • L f.hom
+    change L (r • f.hom) = algebraMap R (Localization S) r • L f.hom
     rw [IsScalarTower.algebraMap_smul]
     exact L.map_smul r f.hom
 
@@ -185,14 +185,14 @@ private theorem localizedModuleFunctor_hom_isLocalizedModule
   constructor
   · intro s
     rw [Module.End.isUnit_iff]
-    show Function.Bijective
+    change Function.Bijective
       (fun f : F.obj M ⟶ F.obj N => algebraMap R (Localization S) (s : R) • f)
     exact (IsLocalization.map_units (Localization S) s).smul_bijective
   · intro x
     obtain ⟨⟨y, s⟩, hy⟩ := IsLocalizedModule.surj S L x.hom
     refine ⟨⟨ModuleCat.ofHom y, s⟩, ?_⟩
     ext z
-    show algebraMap R (Localization S) (s : R) • x z = (L y) z
+    change algebraMap R (Localization S) (s : R) • x z = (L y) z
     exact (IsScalarTower.algebraMap_smul (Localization S) (s : R)
       (show N.localizedModule S from x z)).trans (LinearMap.congr_fun hy z)
   · intro x y h
@@ -245,10 +245,10 @@ private theorem exists_away_solution_of_localized_hom_equations
   have hnum : G.map ((eqs k).numerator (s : R) n) = 0 := by
     apply IsLocalizedModule.smul_injective (f := G.mapLinearMap R)
       (⟨(a : R), Submonoid.mem_powers _⟩ : Submonoid.powers (a : R))
-    show (a : R) • G.map ((eqs k).numerator (s : R) n) = (a : R) • 0
+    change (a : R) • G.map ((eqs k).numerator (s : R) n) = (a : R) • 0
     rw [← Functor.map_smul, smul_zero]
     have hzero : (a : R) • (eqs k).numerator (s : R) n = 0 := by
-      show ((s : R) * (t : R)) • _ = 0
+      change ((s : R) * (t : R)) • _ = 0
       rw [mul_smul, show (t : R) • (eqs k).numerator (s : R) n = 0 from ht k, smul_zero]
     rw [hzero, Functor.map_zero]
   have hinj : Function.Injective (fun z : G.obj (M (es k)) ⟶ G.obj (M (et k)) =>
@@ -258,7 +258,7 @@ private theorem exists_away_solution_of_localized_hom_equations
     intro z z' h
     exact hi (by rwa [← map_pow])
   apply hinj
-  show (s : R) ^ (eqs k).degree • (eqs k).eval G y = _
+  change (s : R) ^ (eqs k).degree • (eqs k).eval G y = _
   rw [← (eqs k).map_numerator G (s : R) n y (fun k => (hy k).symm), hnum]
   exact (smul_zero _).symm
 
@@ -375,7 +375,7 @@ set_option backward.isDefEq.respectTransparency false in
 /-- A homotopy equivalence, over the localization of `R` at a submonoid `S`, between a complex
 with prescribed terms and the localization of a complex over `R`, descends to a homotopy
 equivalence after inverting a single element of `S`. -/
-private theorem exists_away_homotopy_model
+theorem exists_away_homotopy_model
     {R : Type u} [CommRing R] [Small.{v} R] (S : Submonoid R)
     (L : CochainComplex (ModuleCat.{v} R) ℤ)
     (X : ℤ → ModuleCat.{v} R)

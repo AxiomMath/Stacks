@@ -67,7 +67,7 @@ lemma exists_notMem_mul_mem_radical {A₀ : Type u} [CommRing A₀] [IsNoetheria
   · rw [Ideal.IsPrime.prod_mem_iff]
     rintro ⟨q, hq, hmem⟩
     exact hgqp q hq hmem
-  · show x * ∏ q ∈ T, gq q ∈ J.radical
+  · change x * ∏ q ∈ T, gq q ∈ J.radical
     rw [← Ideal.sInf_minimalPrimes, Submodule.mem_sInf]
     intro q hq
     by_cases hqp : q = p
@@ -144,7 +144,7 @@ lemma baseChangeFlat_quotient_step
           (Ideal.quotEquivOfEq hmap.symm))
     refine BaseChangeFlat.of_comp_ringEquiv e ((ih _ hlt).of_eq ?_)
     ext a
-    show _ = (Ideal.quotEquivOfEq hmap.symm) (DoubleQuot.quotQuotEquivQuotSup _ _
+    change _ = (Ideal.quotEquivOfEq hmap.symm) (DoubleQuot.quotQuotEquivQuotSup _ _
       (DoubleQuot.quotQuotMk J' (Ideal.span {ι₀ c}) a))
     rw [DoubleQuot.quotQuotEquivQuotSup_quotQuotMk]
     simp [ι₀]
@@ -152,18 +152,18 @@ lemma baseChangeFlat_quotient_step
   let χ : A₀ ⧸ p →+* R'' :=
     Ideal.Quotient.lift p (algebraMap A₀ R'') fun x hx => algebraMap_quotient_map_eq_zero hx
   have hχc : IsUnit (χ (Ideal.Quotient.mk p c)) := by
-    show IsUnit (algebraMap A₀ R'' c)
+    change IsUnit (algebraMap A₀ R'' c)
     rw [IsScalarTower.algebraMap_apply A₀ R R'']
     exact hcR.map _
   let ψ : E →+* R'' := IsLocalization.Away.lift (Ideal.Quotient.mk p c) hχc
   let : Algebra E R'' := ψ.toAlgebra
   have : IsScalarTower A₀ E R'' := IsScalarTower.of_algebraMap_eq fun x => by
-    show algebraMap A₀ R'' x = ψ (algebraMap A₀ E x)
+    change algebraMap A₀ R'' x = ψ (algebraMap A₀ E x)
     rw [IsScalarTower.algebraMap_apply A₀ (A₀ ⧸ p) E, IsLocalization.Away.lift_eq]
     rfl
   have hflatE : ∀ j, Module.Flat E (E ⊗[A₀] D j) := fun j => hhflat j _ (by
     rw [← hh' j]
-    show _ ∣ Ideal.Quotient.mk p (g * ∏ j, h' j)
+    change _ ∣ Ideal.Quotient.mk p (g * ∏ j, h' j)
     rw [map_mul, map_prod]
     exact Dvd.dvd.mul_left (Finset.dvd_prod_of_mem _ (Finset.mem_univ j)) _)
   have hflat : ∀ j, Module.Flat R'' (R'' ⊗[A₀] D j) := fun j =>

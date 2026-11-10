@@ -45,8 +45,8 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
-add_to_stacks 07V6 "first sentence: a quasi-compact and quasi-separated algebraic space is affine iff \
-the higher cohomology of its quasi-coherent modules vanishes"
+add_to_stacks 07V6 "first sentence: a quasi-compact and quasi-separated algebraic space is \
+affine iff the higher cohomology of its quasi-coherent modules vanishes"
   AlgebraicGeometry.Space.isAffineSpace_iff_forall_isZero_rightDerived
 
 add_to_stacks 0D2V

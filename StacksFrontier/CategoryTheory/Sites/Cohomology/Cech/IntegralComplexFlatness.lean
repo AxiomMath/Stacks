@@ -154,8 +154,7 @@ public def extendScalarsPresheafRestrict (F : Dᵒᵖ ⥤ AddCommGrpCat.{max r z
     (F.map f).hom.toIntLinearMap
   map_add' := map_add _
   map_smul' r x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [smul_add, map_add, hx, hy]
     | tmul a x => simp [TensorProduct.smul_tmul', smul_eq_mul]
 
@@ -277,7 +276,7 @@ public lemma extendScalarsPresheafUnit_comp_lift {F : Dᵒᵖ ⥤ AddCommGrpCat.
     extendScalarsPresheafUnit R F ≫ (PresheafOfModules.toPresheaf R).map
       (extendScalarsPresheafLift R f) = f := by
   ext X x
-  show (extendScalarsPresheafLift R f).app X (1 ⊗ₜ[ℤ] x) = f.app X x
+  change (extendScalarsPresheafLift R f).app X (1 ⊗ₜ[ℤ] x) = f.app X x
   rw [extendScalarsPresheafLift_app_tmul, one_smul]
 
 /-- Extension of scalars corepresents the underlying abelian presheaf: `R`-linear
@@ -343,7 +342,7 @@ private noncomputable def sigmaPUnitIso :
       apply Sigma.hom_ext
       intro a
       simp only [sigmaConst, Sigma.map', Iso.trans_hom, Category.assoc,
-        Sigma.ι_desc_assoc, Category.id_comp]
+        Sigma.ι_comp_desc_assoc, Category.id_comp]
       simp only [← Category.assoc, Types.coproductIso_ι_comp_hom]
       rfl)
 
@@ -496,7 +495,7 @@ private lemma exactAt_map_of_projective (K : ChainComplex A ℕ)
   apply IsZero.of_iso _ (e.toHomologyIso n)
   apply (exactAt_iff_isZero_homology _ _).mp
   apply HomologicalComplex.ExactAt.of_isZero
-  show IsZero (F.obj (((ChainComplex.single₀ A).obj (K.opcycles 0)).X n))
+  change IsZero (F.obj (((ChainComplex.single₀ A).obj (K.opcycles 0)).X n))
   exact F.map_isZero (HomologicalComplex.isZero_single_obj_X _ _ _ _ (Nat.ne_of_gt hn))
 
 end
@@ -612,11 +611,11 @@ public lemma zModuleIso_naturality (A B : AddCommGrpCat.{v}) (g : A ⟶ B) :
   apply (Equivalence.fullyFaithfulFunctor eF).map_injective
   have hA : F.map (zModuleIso A).hom = eIsoA.hom := eF.fullyFaithfulFunctor.map_preimage _
   have hB : F.map (zModuleIso B).hom = eIsoB.hom := eF.fullyFaithfulFunctor.map_preimage _
-  show F.map (eF.inverse.map g) ≫ F.map (zModuleIso B).hom =
+  change F.map (eF.inverse.map g) ≫ F.map (zModuleIso B).hom =
     F.map (zModuleIso A).hom ≫ F.map (ModuleCat.ofHom (g.hom.toIntLinearMap))
   rw [hB, hA]
   simp only [eIsoA, eIsoB]
-  show (eF.inverse ⋙ F).map g ≫ eF.counitIso.hom.app B =
+  change (eF.inverse ⋙ F).map g ≫ eF.counitIso.hom.app B =
     eF.counitIso.hom.app A ≫ g
   exact eF.counitIso.hom.naturality g
 
@@ -656,7 +655,7 @@ private lemma zLiftIso_naturality (A B : AddCommGrpCat.{v}) (g : A ⟶ B) :
         ((AddCommGrpCat.uliftFunctor.map g).hom.toIntLinearMap) := by
     apply ModuleCat.hom_ext
     ext x
-    show (uliftModuleIso B).hom.hom (ULift.up (g x.down)) =
+    change (uliftModuleIso B).hom.hom (ULift.up (g x.down)) =
       ULift.up (g ((uliftModuleIso A).hom.hom x).down)
     rw [uliftModuleIso_hom_apply, uliftModuleIso_hom_apply]
   simp only [zLiftIso, Iso.trans_hom, Functor.mapIso_hom, Category.assoc]
@@ -708,9 +707,9 @@ public lemma tensorTermIso_hom_tmul (A : AddCommGrpCat.{v})
     (S : Type z) [CommRing S] (s : S) (m : AddCommGrpCat.uliftFunctor.{z, v}.obj A) :
     (tensorTermIso A S).hom (s ⊗ₜ[ℤ] m) =
       s ⊗ₜ[ℤ, Int.castRingHom S] ((zLiftIso A).inv m) := by
-  show (ModuleCat.extendScalars (Int.castRingHom S)).map (zLiftIso A).inv
+  change (ModuleCat.extendScalars (Int.castRingHom S)).map (zLiftIso A).inv
     ((zTensorIso A S).hom (s ⊗ₜ[ℤ] m)) = _
-  show (ModuleCat.extendScalars (Int.castRingHom S)).map (zLiftIso A).inv
+  change (ModuleCat.extendScalars (Int.castRingHom S)).map (zLiftIso A).inv
     (s ⊗ₜ[ℤ, Int.castRingHom S] m) = _
   exact ModuleCat.ExtendScalars.map_tmul _ _ _ _
 
@@ -722,7 +721,7 @@ public lemma tensorTermIso_inv_tmul (A : AddCommGrpCat.{v})
       ((forget₂ (ModuleCat ℤ) AddCommGrpCat).asEquivalence.inverse.obj A)) :
     (tensorTermIso A S).inv (s ⊗ₜ[ℤ, Int.castRingHom S] m) =
       s ⊗ₜ[ℤ] ((zLiftIso A).hom m) := by
-  show (zTensorIso A S).inv
+  change (zTensorIso A S).inv
     ((ModuleCat.extendScalars (Int.castRingHom S)).map (zLiftIso A).hom
       (s ⊗ₜ[ℤ, Int.castRingHom S] m)) = _
   rw [ModuleCat.ExtendScalars.map_tmul]

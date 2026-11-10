@@ -46,7 +46,8 @@ graded derived categories and has to be conjugated into the ordinary ones, and c
 for a triangulated equivalence. That exactness is
 `DifferentialGradedModule.degreeZeroDerivedEquivalence_functor_exact`. The implementation notes
 of `StacksFrontier/Algebra/DifferentialGraded/Module/DegreeZeroRickard.lean` and
-`StacksFrontier/Algebra/DifferentialGraded/Module/DegreeZeroRickardBimodule.lean`, which record it as the one thing missing, predate it.
+`StacksFrontier/Algebra/DifferentialGraded/Module/DegreeZeroRickardBimodule.lean`, which record it
+as the one thing missing, predate it.
 
 *Why the commutation with the shift is existentially bound.* The exactness of the degree-zero
 comparison holds for the commutation with the shift that the localization of the homotopy category
@@ -130,11 +131,11 @@ private theorem exists_derivedEquivalence_of_degreeZero
   let hcomp : (EA.symm.trans (F.asEquivalence.trans EB)).functor.CommShift ℤ :=
     inferInstanceAs ((EA.inverse ⋙ F ⋙ EB.functor).CommShift ℤ)
   refine ⟨EA.symm.trans (F.asEquivalence.trans EB), ?_, ?_, hcomp, ?_⟩
-  · show (EA.inverse ⋙ F ⋙ EB.functor).Additive
+  · change (EA.inverse ⋙ F ⋙ EB.functor).Additive
     infer_instance
-  · show (EA.inverse ⋙ F ⋙ EB.functor).Linear R
+  · change (EA.inverse ⋙ F ⋙ EB.functor).Linear R
     infer_instance
-  · show (EA.inverse ⋙ F ⋙ EB.functor).IsTriangulated
+  · change (EA.inverse ⋙ F ⋙ EB.functor).IsTriangulated
     infer_instance
 
 /-- **Stacks 09SC, the implication (2) ⇒ (1).** Let `R` be a commutative ring and let `A` and `B`

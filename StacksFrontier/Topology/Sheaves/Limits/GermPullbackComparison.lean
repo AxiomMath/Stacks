@@ -265,7 +265,7 @@ theorem pullbackToGerm_isIso {Y Z : TopCat.{u}} (g : Z ⟶ Y)
     have h₀ : Function.Bijective (stalkPullbackSheafIso g F z).hom :=
       (stalkPullbackSheafIso g F z).toEquiv.bijective
     apply (Function.Bijective.of_comp_iff' h _).mp
-    show Function.Bijective
+    change Function.Bijective
       (fun a : ((TopCat.Sheaf.pullback (Type u) g).obj F).presheaf.stalk z =>
         germPullback_stalkEval (ConcreteCategory.hom g) F.presheaf z
           ((TopCat.Presheaf.stalkFunctor (Type u) z).map (pullbackToGerm g F).hom a))

@@ -79,7 +79,7 @@ theorem etaleStalkTransportEquiv_ι (s : GeometricPoint S) (U : SmallEtale B S h
     (x : (geometricPointFiber B S hS s).obj U)
     (z : (forgetSheafTransport B S hS K).obj.obj (op U)) :
     etaleStalkTransportEquiv B S hS K s
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
           (forgetSheafTransport B S hS K).obj) (op ⟨x⟩) z) =
       (Scheme.pointSmallEtale s.hom).toPresheafFiber ((SmallEtale.toEtaleSite B S hS).obj U)
         ((toEtaleSiteFiberIso B S hS s).inv.app U x) K.obj z := by
@@ -147,7 +147,7 @@ theorem etaleStalkTransportEquiv_specializationMapOnStalks (s : GeometricPoint S
       (smallEtaleSpecializationStalkAb B S hS s t).app K
         (etaleStalkTransportEquiv B S hS K s a) := by
   obtain ⟨@⟨U, x⟩, z, rfl⟩ := Types.jointly_surjective'
-    (F := (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    (F := (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (forgetSheafTransport B S hS K).obj) a
   refine (congrArg (etaleStalkTransportEquiv B S hS K (t.map (strictHenselizationToBase B S hS s)))
     (specializationMapOnStalks_ι (GeometricSpecialization.ofPoint B S hS s t)
@@ -165,7 +165,7 @@ theorem etaleStalkTransportEquiv_specializationMapOnStalks (s : GeometricPoint S
       specializationEtaleNeighborhoodLift B S hS s t ((SmallEtale.toEtaleSite B S hS).obj U)
         ((toEtaleSiteFiberIso B S hS s).inv.app U x) := by
     apply Over.OverMorphism.ext
-    show t.hom ≫ strictHenselizationEtaleFactor B S hS s U x = t.hom ≫ _
+    change t.hom ≫ strictHenselizationEtaleFactor B S hS s U x = t.hom ≫ _
     rw [strictHenselizationEtaleFactor_eq_neighborhoodLift]
   exact congrArg (fun v => ConcreteCategory.hom ((Scheme.pointSmallEtale
     (t.hom ≫ strictHenselizationToBase B S hS s)).toPresheafFiber
@@ -200,7 +200,7 @@ theorem geometricSpecialization_eq_ofPoint {s : GeometricPoint S}
     (σ : GeometricSpecialization B S hS s) :
     σ = GeometricSpecialization.ofPoint B S hS s σ.point := by
   obtain ⟨⟨R, h⟩, lift, hl⟩ := σ
-  show _ = (⟨⟨R, lift ≫ strictHenselizationToBase B S hS s⟩, lift, rfl⟩ :
+  change _ = (⟨⟨R, lift ≫ strictHenselizationToBase B S hS s⟩, lift, rfl⟩ :
     GeometricSpecialization B S hS s)
   congr
   all_goals first | exact hl.symm | exact proof_irrel_heq _ _

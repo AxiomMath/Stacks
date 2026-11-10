@@ -88,7 +88,7 @@ theorem chartData_of_generator (O : (E.chartRealizedScheme W).Opens) (hO : IsAff
     refine ⟨eq (t.val.app V x), ?_⟩
     refine (congrArg (fun z => E.ι V (s.val.app V z)) (eq.symm_apply_apply _)).trans ?_
     exact (congrArg (E.ι V) (hT x)).trans hx
-  · show eq (E.π.hom.app V (E.ι V _)) = 0
+  · change eq (E.π.hom.app V (E.ι V _)) = 0
     rw [E.mem_kernel]
     exact map_zero _
   · exact E.square_zero V _ _
@@ -118,7 +118,7 @@ theorem flat_and_isPullback_of_generator {k : Type u} [Field k] {S₀ S' : Schem
     (E.isFirstOrderThickening_chartInclusion W).1
   refine flat_and_isPullback_of_dualNumbers_chart (E.chartInclusion W) j f₀ α comm e he
     fun O hO hOV => E.chartData_of_generator W s t hst hts O hO _ ?_
-  show (E.chartRealizedScheme W).presheaf.map (homOfLE hOV).op ((α.appTop).hom
+  change (E.chartRealizedScheme W).presheaf.map (homOfLE hOV).op ((α.appTop).hom
     (e (TrivSqZeroExt.inr 1))) = _
   rw [hεtop]
   exact (congrArg ((E.chartRealizedScheme W).presheaf.map (homOfLE hOV).op).hom

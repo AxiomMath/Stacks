@@ -95,11 +95,11 @@ theorem tensorCollapse_tmul (r : R) (b : B) :
     tensorCollapse h (algebraMap R R' r ⊗ₜ b) = r • b := by
   have hr : (AlgEquiv.ofBijective (Algebra.ofId R R') h).symm (algebraMap R R' r) = r :=
     (AlgEquiv.ofBijective (Algebra.ofId R R') h).symm_apply_apply r
-  show Algebra.TensorProduct.lid R B (Algebra.TensorProduct.congr
+  change Algebra.TensorProduct.lid R B (Algebra.TensorProduct.congr
     (AlgEquiv.ofBijective (Algebra.ofId R R') h).symm AlgEquiv.refl
       (algebraMap R R' r ⊗ₜ b)) = r • b
   rw [Algebra.TensorProduct.congr_apply, Algebra.TensorProduct.map_tmul]
-  show Algebra.TensorProduct.lid R B
+  change Algebra.TensorProduct.lid R B
     ((AlgEquiv.ofBijective (Algebra.ofId R R') h).symm (algebraMap R R' r) ⊗ₜ b) = r • b
   rw [hr]
   exact Algebra.TensorProduct.lid_tmul r b
@@ -191,7 +191,7 @@ theorem restrictSectionRingEquiv_apply (x : (schemeSheafGradedAlgebra G hqcG).se
           (Stacks.SymSectionsBaseChangeDischarge.sectionsBaseChangeEquiv V.ι E G
             (restrictPullbackIso E G eG) hV (isAffineOpen_top_of_isAffineOpen hV)
             V.ι_preimage_self.ge) x) := by
-  simp only [restrictSectionRingEquiv, RingEquiv.trans_apply, AlgEquiv.coe_ringEquiv]
+  simp only [restrictSectionRingEquiv, RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv]
 
 omit [E.IsQuasicoherent] in
 /-- The inverse of `Stacks.SymGraded.AffinePieces.symSectionAlgEquiv` is that of
@@ -445,7 +445,7 @@ theorem opensRange_restrictBundleMap :
     (restrictBundleMap E hqc hV G hqcG eG).opensRange =
       (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase ⁻¹ᵁ V := by
   have := isAffine_of_isAffineOpen hV
-  show ((Stacks.FiniteMorphismProjective.projTopIso (schemeSheafGradedAlgebra G hqcG)
+  change ((Stacks.FiniteMorphismProjective.projTopIso (schemeSheafGradedAlgebra G hqcG)
       (relativeProj (schemeSheafGradedAlgebra G hqcG))).inv ≫
     inv (restrictProjMap E hqc hV G hqcG eG) ≫
     (relativeProj (schemeSheafGradedAlgebra E hqc)).chart V hV).opensRange = _

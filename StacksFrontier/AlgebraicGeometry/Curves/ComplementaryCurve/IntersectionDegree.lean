@@ -264,7 +264,7 @@ theorem finrank_cohomologyOverField_comp_SpecMap (k k' : Type u) [Field k] [Fiel
   rw [hom_ΓSpecIso_inv_comp_appTop_comp_SpecMap]
   let N := (ModuleCat.restrictScalars ((Scheme.ΓSpecIso (.of k')).inv ≫ f'.appTop).hom).obj
     (((Stacks.Cohomology.AffineBase.moduleGlobalSections Y).rightDerived n).obj F)
-  show Module.finrank k ((ModuleCat.restrictScalars (algebraMap k k')).obj N) = _
+  change Module.finrank k ((ModuleCat.restrictScalars (algebraMap k k')).obj N) = _
   have : IsScalarTower k k' ((ModuleCat.restrictScalars (algebraMap k k')).obj N) :=
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   exact (Module.finrank_mul_finrank k k' ((ModuleCat.restrictScalars (algebraMap k k')).obj N)).symm
@@ -329,7 +329,7 @@ theorem finrank_globalSections_eq_finrank_of_factor (k' : Type u) [Field k'] [Al
     AlgEquiv.ofBijective
       { toRingHom := ((Scheme.ΓSpecIso (.of k')).inv ≫ f'.appTop).hom
         commutes' := fun r => by
-          show _ = ((Scheme.ΓSpecIso (.of k)).inv ≫ g.appTop).hom r
+          change _ = ((Scheme.ΓSpecIso (.of k)).inv ≫ g.appTop).hom r
           rw [← hf, hom_ΓSpecIso_inv_comp_appTop_comp_SpecMap]
           rfl }
       (ConcreteCategory.bijective_of_isIso ((Scheme.ΓSpecIso (.of k')).inv ≫ f'.appTop))
@@ -435,10 +435,10 @@ private theorem mem_support_intersectionWithComplementaryCurveIdeal {Y : Scheme.
     [IsNoetherian Y] (C : Y.IdealSheafData) (x : Y) :
     x ∈ (intersectionWithComplementaryCurveIdeal C).support ↔
       x ∈ C.support ∧ x ∈ closure ((C.support : Set Y)ᶜ) := by
-  show x ∈ (C ⊔ complementaryCurveIdeal C).support ↔ _
+  change x ∈ (C ⊔ complementaryCurveIdeal C).support ↔ _
   rw [Scheme.IdealSheafData.support_sup]
   refine and_congr_right fun _ => ?_
-  show x ∈ ((Scheme.Opens.ι C.support.compl).ker.support : Set Y) ↔ _
+  change x ∈ ((Scheme.Opens.ι C.support.compl).ker.support : Set Y) ↔ _
   rw [Scheme.Hom.support_ker, Scheme.Opens.range_ι]
   exact Iff.rfl
 

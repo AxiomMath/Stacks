@@ -127,6 +127,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on presheaves over the big fppf site is expensive
 /-- Pullbacks of presheaves on the big fppf site of `S` (instance search times out without
 this shortcut). -/
 instance hasPullbacks_presheaf_SeparatedQuasiFiniteDescent :

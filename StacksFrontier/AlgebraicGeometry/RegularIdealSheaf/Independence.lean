@@ -881,7 +881,7 @@ theorem notMem_idealQuotientSupport_definingIdealOfHom_of_notMem_closure (i : Z 
     exact absurd (subset_closure (Set.mem_range_self z)) hz
   have hsub : Subsingleton Γ(Z, i ⁻¹ᵁ W) := by rw [hpre]; infer_instance
   refine notMem_idealQuotientSupport_of_one_mem (definingIdealOfHom i) y W hy ?_
-  show (i.app W).hom (1 : Γ(X, W)) = 0
+  change (i.app W).hom (1 : Γ(X, W)) = 0
   exact Subsingleton.elim _ _
 
 /-- The image of a morphism that factors as a morphism into an open subscheme lies in that
@@ -986,7 +986,7 @@ theorem restrictSubmodule_definingIdealOfHom (i : Z ⟶ X) (V : X.Opens) (j : Z 
     exact Category.id_comp _
   have hinj : Function.Injective (ConcreteCategory.hom (Z.presheaf.map (eqToHom e2).op)) :=
     ConcreteCategory.injective_of_mono_of_preservesPullback _
-  show ((j ≫ V.ι).app (V.ι ''ᵁ W)).hom s = 0 ↔ (j.app W).hom s = 0
+  change ((j ≫ V.ι).app (V.ι ''ᵁ W)).hom s = 0 ↔ (j.app W).hom s = 0
   have val : ((j ≫ V.ι).app (V.ι ''ᵁ W)).hom s
       = (Z.presheaf.map (eqToHom e2).op).hom ((j.app W).hom s) := by rw [key]; rfl
   exact (iff_of_eq (congrArg (· = 0) val)).trans (map_eq_zero_iff _ hinj)
@@ -1066,7 +1066,7 @@ theorem restrictSubmodule_definingIdealOfHom_resLE (i : Z ⟶ X) (V : X.Opens) :
     restrictSubmodule V (definingIdealOfHom i)
       = definingIdealOfHom (i.resLE V (i ⁻¹ᵁ V) le_rfl) := by
   refine eq_definingIdealOfHom_of_mem_iff (i.resLE V (i ⁻¹ᵁ V) le_rfl) _ fun W s => ?_
-  show ((i.app (V.ι ''ᵁ W)).hom s = 0) ↔
+  change ((i.app (V.ι ''ᵁ W)).hom s = 0) ↔
     (((i.resLE V (i ⁻¹ᵁ V) le_rfl).app W).hom s = 0)
   have happ : (i.resLE V (i ⁻¹ᵁ V) le_rfl).app W
       = i.app (V.ι ''ᵁ W) ≫ Z.presheaf.map (eqToHom (image_preimage_resLE i V W)).op := by
@@ -1104,7 +1104,7 @@ theorem mem_coborderRange_resLE_iff (i : Z ⟶ X) [IsImmersion i] (V : X.Opens)
     rw [hr]
     exact ((V.2.isOpenEmbedding_subtypeVal.isOpenMap).preimage_closure_eq_closure_preimage
       continuous_subtype_val _).symm
-  show y ∈ coborder (Set.range (i.resLE V (i ⁻¹ᵁ V) le_rfl).base) ↔
+  change y ∈ coborder (Set.range (i.resLE V (i ⁻¹ᵁ V) le_rfl).base) ↔
     y.1 ∈ coborder (Set.range i.base)
   rw [mem_coborder_iff_imp, mem_coborder_iff_imp, hclos, hr]
   rfl

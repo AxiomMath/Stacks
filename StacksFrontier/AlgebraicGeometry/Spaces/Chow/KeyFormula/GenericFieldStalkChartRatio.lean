@@ -82,7 +82,7 @@ theorem modules_trans_eqToIso_trans_symm_hom_apply {M₁ M₂ M₃ M₄ : Module
       (γ.hom.val.app (op U)).hom y) :
     ((α ≪≫ eqToIso h ≪≫ γ.symm).hom.val.app (op U)).hom x = y := by
   subst h
-  show (γ.inv.val.app (op U)).hom ((α.hom.val.app (op U)).hom x) = y
+  change (γ.inv.val.app (op U)).hom ((α.hom.val.app (op U)).hom x) = y
   rw [show (α.hom.val.app (op U)).hom x = (γ.hom.val.app (op U)).hom y from hxy]
   exact modules_inv_hom_apply B S hS U γ y
 

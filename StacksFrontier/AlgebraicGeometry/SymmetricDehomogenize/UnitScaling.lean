@@ -229,7 +229,7 @@ public theorem eq_unitMulBy
 @[simp]
 public theorem globalOfUnitEnd_unitMulBy (w : Γ(X, ⊤)) :
     globalOfUnitEnd (unitMulBy w) = w := by
-  show ofUnit X.ringCatSheaf (toUnit X.ringCatSheaf 1) *
+  change ofUnit X.ringCatSheaf (toUnit X.ringCatSheaf 1) *
       (X.ringCatSheaf.obj.map (isTerminalTop.from (⊤ : X.Opens)).op).hom w = w
   rw [map_isTerminalTop_from_top]
   exact one_mul w
@@ -296,7 +296,7 @@ public theorem gradedHom_comp_pushforwardUnitMulBy (w : Γ(X, ⊤)ˣ) :
       (pairwiseCommutes_pushforwardUnit g F _) ?_).symm
   have h₁ : (pushforwardUnitScale g w).app 1 = pushforwardUnitMulBy g (w : Γ(X, ⊤)) :=
     congrArg (fun v : Γ(X, ⊤)ˣ => pushforwardUnitMulBy g (v : Γ(X, ⊤))) (zpow_one w)
-  show symmetricAlgebraGen T F ≫ (gradedHom g F κ).app 1 ≫ (pushforwardUnitScale g w).app 1 =
+  change symmetricAlgebraGen T F ≫ (gradedHom g F κ).app 1 ≫ (pushforwardUnitScale g w).app 1 =
     κ ≫ pushforwardUnitMulBy g (w : Γ(X, ⊤))
   exact ((Category.assoc _ _ _).symm.trans
     (congrArg (· ≫ (pushforwardUnitScale g w).app 1) (gradedHom_degree_one g F κ))).trans

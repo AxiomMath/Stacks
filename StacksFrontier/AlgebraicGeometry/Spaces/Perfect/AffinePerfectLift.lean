@@ -204,9 +204,9 @@ theorem exists_isPerfect_restrict_iso_biprod_shift_of_isAffineSpace {V Y : Algeb
     apply ObjectProperty.hom_ext
     have hw := hpb.w
     simp only [Category.comp_id] at hw
-    show hi₀.rep.fst (𝟙 (yoneda.obj T₀)) ≫ i.hom = yoneda.map j ≫ r.hom.hom
+    change hi₀.rep.fst (𝟙 (yoneda.obj T₀)) ≫ i.hom = yoneda.map j ≫ r.hom.hom
     rw [← hw]
-    show hi₀.rep.fst (𝟙 (yoneda.obj T₀)) ≫ i.hom =
+    change hi₀.rep.fst (𝟙 (yoneda.obj T₀)) ≫ i.hom =
       hi₀.rep.fst (𝟙 (yoneda.obj T₀)) ≫ (i.hom ≫ r.inv.hom) ≫ r.hom.hom
     rw [Category.assoc, ← ObjectProperty.FullSubcategory.comp_hom, r.inv_hom_id]
     rfl

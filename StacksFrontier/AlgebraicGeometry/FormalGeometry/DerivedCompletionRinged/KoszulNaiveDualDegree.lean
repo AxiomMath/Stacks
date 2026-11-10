@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.InternalHomOfProductOfUnits
+ StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.InternalHomOfProductOfUnits
 public import
   StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulDerivedDualNaive
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.StrictlyPerfect.NaiveDualDifferential

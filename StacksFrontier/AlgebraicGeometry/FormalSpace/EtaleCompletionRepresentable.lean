@@ -115,7 +115,7 @@ private theorem exists_isPullback_etale_of_factorsThroughStage
     ((IsPullback.of_hasPullback (T.map (g.stageMap I K hIK)) t).map F).paste_horiz hsq, ?_⟩
   have hs : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)) (T.map (g.stageMap I K hIK)) := by
-    show Etale (Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 g.toRingHom hIK)))
+    change Etale (Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 g.toRingHom hIK)))
     rw [HasRingHomProperty.Spec_iff (P := @Etale)]
     exact etale_quotientMap_of_eq_closure hf I hg hK hIK
   exact MorphismProperty.pullback_snd _ _ hs
@@ -175,7 +175,7 @@ theorem isEtaleULift_pullback_fst_formalSpectrumMap_of_etale
     infer_instance
   intro U' φ hφ
   obtain ⟨h, hh⟩ := Y.map_surjective (φ ≫ pullback.fst ξ a)
-  show (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u}) Sch).relative
+  change (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u}) Sch).relative
     Y (φ ≫ pullback.fst ξ a)
   rw [← hh, Space.relative_etale_uliftYoneda_map_iff]
   have : IsZariskiLocalAtTarget (@Etale.{u}) :=
@@ -193,7 +193,7 @@ theorem isEtaleULift_pullback_fst_formalSpectrumMap_of_etale
   let ai : Ti ⟶ T := Over.homMk e (by simp [Ti])
   have hai : Sch.map ai = (Sch.obj T).affineCover.f i := B.inclusion.map_preimage _
   have hcpt : CompactSpace (Sch.obj Ti) := by
-    show CompactSpace ((Sch.obj T).affineCover.X i)
+    change CompactSpace ((Sch.obj T).affineCover.X i)
     infer_instance
   -- the base change of `g` over `Tᵢ`
   obtain ⟨V, p, c, hpb, hp⟩ := exists_isPullback_etale_of_compactSpace B S hS hA D hf Q g hg
@@ -236,7 +236,7 @@ theorem isEtaleULift_pullback_fst_formalSpectrumMap_of_etale
     infer_instance
   -- back to the fibre product of schemes
   let hsq := (IsPullback.of_hasPullback h ai).map Sch
-  show Etale (pullback.snd (Sch.map h) ((Sch.obj T).affineCover.f i))
+  change Etale (pullback.snd (Sch.map h) ((Sch.obj T).affineCover.f i))
   rw [← hai]
   rw [← hsq.isoPullback_hom_snd] at hsnd
   exact (MorphismProperty.cancel_left_of_respectsIso (P := @Etale.{u}) _ _).mp hsnd

@@ -133,7 +133,7 @@ theorem topologicalKrullDim_le_zero_of_isClosed_of_ne_univ {X : Type*} [Topologi
   have hne' (W : IrreducibleCloseds Z) : g W ≠ ⊤ := by
     intro he
     have hsub : (g W : Set X) ⊆ Z := by
-      show closure (Subtype.val '' (W : Set Z)) ⊆ Z
+      change closure (Subtype.val '' (W : Set Z)) ⊆ Z
       exact closure_minimal (by rintro _ ⟨y, hy, rfl⟩; exact y.property) hZ
     rw [he] at hsub
     exact hne (Set.eq_univ_of_univ_subset hsub)

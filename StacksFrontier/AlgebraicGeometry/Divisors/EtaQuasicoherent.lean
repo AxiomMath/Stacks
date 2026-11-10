@@ -254,7 +254,7 @@ theorem isQuasicoherent_etaObj (D : X.IdealSheafData)
   have hpow : ∀ i j : ℤ,
       (idealPowerTerm X.toRingedSpace (idealSheaf D) i (F.X j)).IsQuasicoherent :=
     fun i j => isQuasicoherent_idealPowerTerm (idealSheaf D) hI (F.X j) (hqc j) i
-  show (etaTerm X.toRingedSpace (idealSheaf D) (idealSheafι D) F n).IsQuasicoherent
+  change (etaTerm X.toRingedSpace (idealSheaf D) (idealSheafι D) F n).IsQuasicoherent
   exact isQuasicoherent_pullback _ _ (hpow n n) (hpow (n + 1) (n + 1)) (hpow n (n + 1))
 
 end Stacks.Divisors.Eta

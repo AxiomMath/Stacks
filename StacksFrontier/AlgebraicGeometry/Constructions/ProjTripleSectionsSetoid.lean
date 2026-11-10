@@ -39,7 +39,8 @@ transitive, and bundles it as a `Setoid` on the type of weight-`d` graded maps o
 
 The monoidal structure on `Y.Modules` is available only through the local instances of
 `Stacks.SheafInternalHom`, so the `attribute [local instance]` block of
-`StacksFrontier/AlgebraicGeometry/Constructions/ProjTripleClassifyingMorphism.lean` is repeated here.
+`StacksFrontier/AlgebraicGeometry/Constructions/ProjTripleClassifyingMorphism.lean` is repeated
+here.
 
 `SectionsEquiv` relates graded maps into *different* modules, so the module is packaged with the
 graded map as a `Sigma` type.  The invertibility and generation conditions of a triple play no
@@ -77,7 +78,7 @@ theorem natTensorPowCongr_refl {A : C} : ∀ n : ℕ,
     natTensorPowCongr (Iso.refl A) n = Iso.refl (natTensorPow A n)
   | 0 => rfl
   | n + 1 => by
-      show natTensorPowCongr (Iso.refl A) n ⊗ᵢ Iso.refl A = Iso.refl (natTensorPow A n ⊗ A)
+      change natTensorPowCongr (Iso.refl A) n ⊗ᵢ Iso.refl A = Iso.refl (natTensorPow A n ⊗ A)
       rw [natTensorPowCongr_refl n]
       exact Iso.ext (MonoidalCategory.id_tensorHom_id _ _)
 
@@ -86,7 +87,7 @@ theorem natTensorPowCongr_symm {A B : C} (e : A ≅ B) : ∀ n : ℕ,
     natTensorPowCongr e.symm n = (natTensorPowCongr e n).symm
   | 0 => rfl
   | n + 1 => by
-      show natTensorPowCongr e.symm n ⊗ᵢ e.symm = (natTensorPowCongr e n ⊗ᵢ e).symm
+      change natTensorPowCongr e.symm n ⊗ᵢ e.symm = (natTensorPowCongr e n ⊗ᵢ e).symm
       rw [natTensorPowCongr_symm e n]
       rfl
 
@@ -95,7 +96,7 @@ theorem natTensorPowCongr_trans {A B D : C} (e : A ≅ B) (g : B ≅ D) : ∀ n 
     natTensorPowCongr (e ≪≫ g) n = natTensorPowCongr e n ≪≫ natTensorPowCongr g n
   | 0 => Iso.ext (Category.comp_id (𝟙 (𝟙_ C))).symm
   | n + 1 => by
-      show natTensorPowCongr (e ≪≫ g) n ⊗ᵢ (e ≪≫ g) =
+      change natTensorPowCongr (e ≪≫ g) n ⊗ᵢ (e ≪≫ g) =
         (natTensorPowCongr e n ⊗ᵢ e) ≪≫ (natTensorPowCongr g n ⊗ᵢ g)
       rw [natTensorPowCongr_trans e g n]
       exact Iso.ext (MonoidalCategory.tensorHom_comp_tensorHom _ _ _ _).symm

@@ -196,7 +196,7 @@ theorem restrictionArrowsSpaceIso_hom_comp_mapArrows
         (GroupoidInAlgebraicSpaces.restrictionArrowsToArrows (G.realization C hS hU hR hP)
           (realizationMap G C hS hU hR hP hX p)).hom := by
     refine Rs.mapArrows_eq.trans ?_
-    show (eqToHom Rs.arrows_eq).hom ≫
+    change (eqToHom Rs.arrows_eq).hom ≫
       (GroupoidInAlgebraicSpaces.restrictionArrowsToArrows (G.realization C hS hU hR hP)
         (realizationMap G C hS hU hR hP hX p)).hom = _
     rw [hom_eqToHom]
@@ -220,7 +220,7 @@ theorem restrictionArrowsSpaceIso_hom_comp_source
           eqToHom (restrictionObjectsObj_eq G C hS hU hR hP hX p Rs).symm) := by
     refine (congrArg (fun f : Rs.groupoid.arrows ⟶ Rs.groupoid.objects => f.hom)
       Rs.source_eq).trans ?_
-    show (eqToHom Rs.arrows_eq).hom ≫
+    change (eqToHom Rs.arrows_eq).hom ≫
       (GroupoidInAlgebraicSpaces.restrictionSource (G.realization C hS hU hR hP)
         (realizationMap G C hS hU hR hP hX p)).hom ≫
         (eqToHom Rs.objects_eq.symm).hom = _
@@ -246,7 +246,7 @@ theorem restrictionArrowsSpaceIso_hom_comp_target
           eqToHom (restrictionObjectsObj_eq G C hS hU hR hP hX p Rs).symm) := by
     refine (congrArg (fun f : Rs.groupoid.arrows ⟶ Rs.groupoid.objects => f.hom)
       Rs.target_eq).trans ?_
-    show (eqToHom Rs.arrows_eq).hom ≫
+    change (eqToHom Rs.arrows_eq).hom ≫
       (GroupoidInAlgebraicSpaces.restrictionTarget (G.realization C hS hU hR hP)
         (realizationMap G C hS hU hR hP hX p)).hom ≫
         (eqToHom Rs.objects_eq.symm).hom = _
@@ -272,7 +272,7 @@ theorem restrictionObjectsObj_eq_symm_comp_mapObjects
       eqToHom (restrictionObjectsObj_eq G C hS hU hR hP hX p Rs) ≫
         yoneda.map (schemeSiteMap C hS hX hU p) := by
     refine Rs.mapObjects_eq.trans ?_
-    show (eqToHom Rs.objects_eq).hom ≫ yoneda.map (schemeSiteMap C hS hX hU p) = _
+    change (eqToHom Rs.objects_eq).hom ≫ yoneda.map (schemeSiteMap C hS hX hU p) = _
     rw [hom_eqToHom]
   rw [hobj]
   refine (Category.assoc _ _ _).symm.trans ?_
@@ -395,7 +395,7 @@ theorem splittingIdentityHom_comp_mapArrows :
         (AlgebraicGeometry.restrictionArrowsToArrows G p)) =
       yoneda.map (schemeSiteMap C hS hX hR (p ≫ G.identity)) := by
     rw [← yoneda.map_comp, ← schemeSiteMap_comp, restrictionIdentity_comp_arrowsToArrows]
-  show (yoneda.map (schemeSiteMap C hS hX hRA (restrictionIdentity G p)) ≫
+  change (yoneda.map (schemeSiteMap C hS hX hRA (restrictionIdentity G p)) ≫
       (restrictionArrowsSpaceIso G C hS hU hR hP hX p hA hB hRA Rs).hom) ≫
       Rs.hom.toGroupoidHom.mapArrows = _
   refine (Category.assoc _ _ _).trans ?_

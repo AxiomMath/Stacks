@@ -70,7 +70,7 @@ theorem comap_vanishingIdeal_closedPoint_scalarExtensionFst (x : closedPoints X)
   refine Scheme.IdealSheafData.eq_vanishingIdeal_of_isReduced_subscheme _ _ ?_
   ext y
   rw [Scheme.IdealSheafData.support_comap]
-  show y ∈ (scalarExtensionFst k k' g).base ⁻¹' (D.support : Set X) ↔ _
+  change y ∈ (scalarExtensionFst k k' g).base ⁻¹' (D.support : Set X) ↔ _
   rw [Scheme.IdealSheafData.coe_support_vanishingIdeal, Closeds.coe_closure,
     (x.2 : IsClosed ({x.1} : Set X)).closure_eq, preimage_closedPoint_scalarExtensionFst,
     Closeds.coe_closure,

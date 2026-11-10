@@ -188,10 +188,10 @@ lemma Compat.unique {V W : X.Opens} (h : V ≤ W) (DV : Ext U E V) (DW : Ext U E
     apply finiteEtaleOver_hom_ext (part U V).ι
     rw [finiteEtaleBaseChangeProj_naturality, finiteEtaleBaseChangeProj_naturality]
     apply finiteEtaleBaseChangeProj_hom_ext (X.homOfLE h) DW.F
-    · show pullback.fst _ _ ≫ pullback.lift m DV.F.hom hm ≫ pullback.fst _ _ =
+    · change pullback.fst _ _ ≫ pullback.lift m DV.F.hom hm ≫ pullback.fst _ _ =
         pullback.fst _ _ ≫ pullback.lift m' DV.F.hom hm' ≫ pullback.fst _ _
       rw [pullback.lift_fst, pullback.lift_fst, hfst]
-    · show pullback.fst _ _ ≫ pullback.lift m DV.F.hom hm ≫ pullback.snd _ _ =
+    · change pullback.fst _ _ ≫ pullback.lift m DV.F.hom hm ≫ pullback.snd _ _ =
         pullback.fst _ _ ≫ pullback.lift m' DV.F.hom hm' ≫ pullback.snd _ _
       rw [pullback.lift_snd, pullback.lift_snd]
   have hl := congrArg (fun a ↦ a.left ≫ pullback.fst DW.F.hom (X.homOfLE h)) heq
@@ -350,7 +350,7 @@ theorem exists_extension (hloc : ∀ x : X, ∃ W : X.Opens, x ∈ W ∧ Nonempt
       DU.isPullback.w]
     rw [← part_self_ι, ← pullback.condition, IsIso.inv_hom_id_assoc]
   refine ⟨Fg, ⟨MorphismProperty.Over.isoMk (i₁ ≪≫ i₂) ?_⟩⟩
-  show (i₁.hom ≫ i₂.hom) ≫ E.hom = pullback.snd f U.ι
+  change (i₁.hom ≫ i₂.hom) ≫ E.hom = pullback.snd f U.ι
   rw [Category.assoc, hi₂, hi₁]
 
 end AlgebraicGeometry.FiniteEtaleGluing

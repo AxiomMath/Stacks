@@ -61,7 +61,7 @@ public theorem isGeometricallyRegularAt_of_flatAt {k : Type u} [Field k]
       change (f.stalkMap x).hom.Flat at hf
       simpa only [RingHom.algebraMap_toAlgebra] using hf)
   have : IsLocalHom (algebraMap (Y.presheaf.stalk (f x)) (X.presheaf.stalk x)) := by
-    show IsLocalHom (f.stalkMap x).hom; infer_instance
+    change IsLocalHom (f.stalkMap x).hom; infer_instance
   have : Module.FaithfullyFlat (Y.presheaf.stalk (f x)) (X.presheaf.stalk x) :=
     Module.FaithfullyFlat.of_flat_of_isLocalHom
   have hX' : Algebra.IsGeometricallyRegular k (X.presheaf.stalk x) :=

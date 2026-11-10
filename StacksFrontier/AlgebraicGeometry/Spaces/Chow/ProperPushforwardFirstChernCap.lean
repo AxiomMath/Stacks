@@ -251,7 +251,7 @@ private theorem zsmul_cycle_apply (D : BaseSpaceDimensionSituation.{u})
     {X : (BigFppfOver D.site D.base D.base_mem)ᵒᵖ ⥤ Type u} (s : X ⟶ D.space) (k : ℤ)
     (c : CycleGroup D s k) (d : ℤ)
     (T : IntegralClosedSubspace D.site D.base D.base_mem X) : (d • c).1 T = d * c.1 T := by
-  show d • c.1 T = d * c.1 T
+  change d • c.1 T = d * c.1 T
   rw [zsmul_eq_mul, Int.cast_id]
 
 /-! ### The component morphism of Stacks 0EEG -/

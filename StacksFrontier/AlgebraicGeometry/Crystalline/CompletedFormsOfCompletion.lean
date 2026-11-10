@@ -81,7 +81,7 @@ theorem mk_ιMulti_eq_of_sub_mem {n : ℕ} (x y : Fin i → X)
   have hxy : x = (x - y) + y := by simp
   have hsum := (exteriorPower.ιMulti R i).toMultilinearMap.map_add_univ (x - y) y
   rw [← hxy] at hsum
-  show (Submodule.mkQ _) (exteriorPower.ιMulti R i x) =
+  change (Submodule.mkQ _) (exteriorPower.ιMulti R i x) =
     (Submodule.mkQ _) (exteriorPower.ιMulti R i y)
   rw [show (exteriorPower.ιMulti R i x) = (exteriorPower.ιMulti R i).toMultilinearMap x from rfl,
     hsum, map_sum, Finset.sum_eq_single (∅ : Finset (Fin i))]
@@ -131,7 +131,7 @@ theorem completedIotaMultiFun_val (v : Fin i → AdicCompletion Ip X) (n : ℕ) 
     (hx : ∀ j, (v j).val n = Submodule.Quotient.mk (x j)) :
     (completedIotaMultiFun p R X i v).val n =
       Submodule.Quotient.mk (exteriorPower.ιMulti R i x) := by
-  show levelIotaMulti p R X i n (fun j ↦ (v j).val n) = _
+  change levelIotaMulti p R X i n (fun j ↦ (v j).val n) = _
   rw [show (fun j ↦ (v j).val n) = fun j ↦ Submodule.Quotient.mk (x j) from funext hx,
     levelIotaMulti_mk]
 
@@ -379,7 +379,7 @@ theorem completedOneFormsEquiv_completedFormsDifferential (x : Bh) :
         (AddMonoidHom.mk' (dividedPowerDifferential (A := A) hJ)
           (dividedPowerDifferential_add hJ))) fun b ↦ by
       simp only [AddMonoidHom.coe_comp, Function.comp_apply, PAdicCompletion.mapAddHom_of]
-      show AdicCompletion.map Ip _ (AdicCompletion.of _ _ _) = _
+      change AdicCompletion.map Ip _ (AdicCompletion.of _ _ _) = _
       rw [AdicCompletion.map_of, dividedPowerOneForm_apply]
       simp
 
@@ -432,7 +432,7 @@ theorem completedFormsInv_of (i : ℕ)
       completedFormsInvAux p A hJ hp i y := by
   let := isAdicComplete_adicCompletion_completion p (B := B)
     (dividedPowerDifferentialForms (A := A) hJ i)
-  show (AdicCompletion.ofLinearEquiv Iph (completedDividedPowerForms p A hJ i)).symm
+  change (AdicCompletion.ofLinearEquiv Iph (completedDividedPowerForms p A hJ i)).symm
     (AdicCompletion.map Iph (completedFormsInvAux p A hJ hp i) (AdicCompletion.of Iph _ y)) = _
   rw [AdicCompletion.map_of, AdicCompletion.ofLinearEquiv_symm_of]
 
@@ -498,7 +498,7 @@ abbrev completedOneFormsMap :
 /-- `(algebraMap B B̂) b = of b`. -/
 theorem completionAlgHom_apply (b : B) :
     (completionAlgHom p A) b = AdicCompletion.of Ip B b := by
-  show algebraMap B Bh b = _
+  change algebraMap B Bh b = _
   rw [AdicCompletion.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply]
 
 /-- The completed degree-one comparison is linear over `B̂`. -/
@@ -594,7 +594,7 @@ theorem completedMapDifferentialForms_completedIotaMulti (i : ℕ)
       (delta := hJ) (completionDividedPowers p hJ hp) (completionAlgHom p A)
       (isDPMorphism_completionAlgHom p A hJ hp) (x j))]
   intro j
-  show adicQuotientMap _ _ n ((v j).val n) = _
+  change adicQuotientMap _ _ n ((v j).val n) = _
   rw [← hx j]
   rfl
 
@@ -656,7 +656,8 @@ theorem completedFormsOfCompletionMap_completedFormsInv (i : ℕ)
 def completedFormsOfCompletionEquiv (i : ℕ) :
     completedDividedPowerForms p A hJ i ≃ₗ[Bh]
       completedDividedPowerForms p A (completionDividedPowers p hJ hp) i :=
-  LinearEquiv.ofLinear (completedFormsOfCompletionMap p A hJ hp i) (completedFormsInv p A hJ hp i)
+  LinearEquiv.ofLinearMap (completedFormsOfCompletionMap p A hJ hp i)
+    (completedFormsInv p A hJ hp i)
     (LinearMap.ext fun z ↦ completedFormsOfCompletionMap_completedFormsInv p A hJ hp i z)
     (LinearMap.ext fun x ↦ completedFormsInv_completedFormsOfCompletionMap p A hJ hp i x)
 
@@ -681,7 +682,7 @@ theorem completedFormsOfCompletionEquiv_completedFormsDifferential (x : Bh) :
     fun b ↦ by
       simp only [AddMonoidHom.coe_comp, Function.comp_apply, LinearMap.toAddMonoidHom_coe,
         LinearEquiv.coe_coe]
-      show completedFormsOfCompletionEquiv p A hJ hp 1
+      change completedFormsOfCompletionEquiv p A hJ hp 1
           (completedFormsDifferential p A hJ (AdicCompletion.of Ip B b)) = _
       rw [completedFormsOfCompletionEquiv_apply,
         completedMapDifferentialForms_completedFormsDifferential_of, completedFormsDifferential_of,

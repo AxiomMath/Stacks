@@ -295,7 +295,7 @@ public theorem specMap_eq_algebraOverMap :
       P.obj.alg.mem Q.obj.alg.mem (specMap_toScheme_comp h f halg) := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show B.inclusion.map h.alg.specMap.left = Spec.map (CommRingCat.ofHom f)
+  change B.inclusion.map h.alg.specMap.left = Spec.map (CommRingCat.ofHom f)
   rw [h.alg.specMap_spec, halg]
 
 include halg in
@@ -426,7 +426,7 @@ public theorem isoFiberCongrBase_surjective :
   refine ⟨⟨CostructuredArrow.mk (u.obj.hom ≫ e.inv),
     show IsIso (u.obj.hom ≫ e.inv) from inferInstance⟩, ?_⟩
   refine IsoFiber.ext rfl (heq_of_eq ?_)
-  show (u.obj.hom ≫ e.inv) ≫ e.hom = u.obj.hom
+  change (u.obj.hom ≫ e.inv) ≫ e.hom = u.obj.hom
   rw [Category.assoc, e.inv_hom_id, Category.comp_id]
 
 /-- Changing the base point of an iso-fibre along an isomorphism is a bijection on isomorphism
@@ -461,7 +461,7 @@ private theorem fiberInclusion_hom_comp_isoFiberArrow {U' V' : C} (f' : U' ⟶ V
     (y : p.Fiber U') (u : IsoFiber (c.pullbackFunctor f') y) :
     Fiber.fiberInclusion.map u.obj.hom ≫ isoFiberArrow p c f' y u = c.map f' u.obj.left := by
   have hu : IsIso u.obj.hom := u.property
-  show Fiber.fiberInclusion.map u.obj.hom ≫
+  change Fiber.fiberInclusion.map u.obj.hom ≫
     Fiber.fiberInclusion.map (inv u.obj.hom) ≫ c.map f' u.obj.left = _
   rw [← Category.assoc, ← Fiber.fiberInclusion.map_comp, IsIso.hom_inv_id,
     Fiber.fiberInclusion.map_id, Category.id_comp]
@@ -481,7 +481,7 @@ private theorem fiberInclusion_eqToIso_fac {m n : U ⟶ Z} (hmn : m = n) (y : p.
     Fiber.fiberInclusion.map ((eqToIso (congrArg c.pullbackFunctor hmn)).hom.app y) ≫
       c.map n y = c.map m y := by
   subst hmn
-  show 𝟙 _ ≫ c.map m y = c.map m y
+  change 𝟙 _ ≫ c.map m y = c.map m y
   exact Category.id_comp _
 
 /-- The comparison isomorphism of a commutative square identifies the two iterated chosen

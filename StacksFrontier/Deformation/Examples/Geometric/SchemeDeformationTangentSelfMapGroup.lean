@@ -157,7 +157,7 @@ theorem localizedTangentEquivSelfMaps_add
   let := naturalLocalizedTangentAddCommGroup P hrs
   let := naturalLocalizedTangentModule P hrs
   intro a b
-  show (fiberAutEquivSelfMaps (firstOrderPushforward P)
+  change (fiberAutEquivSelfMaps (firstOrderPushforward P)
       (localizedTangentEquivFiberAut hp P (a + b))).1 = _
   rw [localizedTangentEquivFiberAut_add hp hrs P a b]
   exact fiberAutEquivSelfMaps_mul (firstOrderPushforward P) _ _
@@ -175,7 +175,7 @@ theorem localizedTangentEquivSelfMaps_zero
     (localizedTangentEquivSelfMaps hp P 0).1 = 𝟙 (firstOrderPushforward P).scheme := by
   let := naturalLocalizedTangentAddCommGroup P hrs
   let := naturalLocalizedTangentModule P hrs
-  show (fiberAutEquivSelfMaps (firstOrderPushforward P)
+  change (fiberAutEquivSelfMaps (firstOrderPushforward P)
       (localizedTangentEquivFiberAut hp P 0)).1 = _
   rw [localizedTangentEquivFiberAut_zero hp hrs P]
   rfl

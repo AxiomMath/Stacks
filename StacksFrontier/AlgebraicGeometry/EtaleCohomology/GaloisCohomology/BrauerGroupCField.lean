@@ -152,7 +152,7 @@ private theorem galois_fixed_det {K : Type u} {D : Type v} {Ω : Type (max u v)}
       uP.det * (matrixPoly b fD).det * vP.det =
           (uP.det * vP.det) * (matrixPoly b fD).det := by ring
       _ = (matrixPoly b fD).det := by rw [hdetuv, one_mul]
-  show MvPolynomial.map σ.toRingEquiv.toRingHom (Matrix.det (matrixPoly b fD)) =
+  change MvPolynomial.map σ.toRingEquiv.toRingHom (Matrix.det (matrixPoly b fD)) =
     Matrix.det (matrixPoly b fD)
   rw [RingHom.map_det, show (RingHom.mapMatrix (MvPolynomial.map σ.toRingEquiv.toRingHom)
       (matrixPoly b fD)) = matrixPoly b gD by
@@ -169,7 +169,7 @@ private theorem descendMvPolynomial {F E ι : Type*} [Field F] [Field E] [Algebr
       p.coeff m ∈ Set.range (algebraMap F E) :=
     (IsGalois.mem_range_algebraMap_iff_fixed (F := F) (E := E) _).2
       (fun g => by
-        show g.toRingEquiv.toRingHom (p.coeff m) = _
+        change g.toRingEquiv.toRingHom (p.coeff m) = _
         simpa only [MvPolynomial.coeff_map] using
           congrArg (fun r => r.coeff m) (hp g))
   let c : (ι →₀ ℕ) → F := fun m => Classical.choose (hfixed m)

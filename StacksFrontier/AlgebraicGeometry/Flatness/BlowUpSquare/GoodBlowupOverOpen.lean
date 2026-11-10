@@ -148,7 +148,7 @@ theorem isGoodBlowupOver_chartBlowupToBase (C : AffineChart S) :
     obtain ⟨k, hk, huniq⟩ := C.existsUnique_lift_chartBlowup
       (IsOpenImmersion.lift (C.U : S.X.Opens).ι t (range_subset_range_ι ht)) hgood'
     refine ⟨k, ?_, fun l hl => huniq l ?_⟩
-    · show k ≫ AlgebraicGeometry.blowUpToBase C.blowupCentreIdealSheaf ≫
+    · change k ≫ AlgebraicGeometry.blowUpToBase C.blowupCentreIdealSheaf ≫
         (C.U : S.X.Opens).ι = t
       rw [← Category.assoc, hk, hfac]
     · refine (cancel_mono (C.U : S.X.Opens).ι).mp ?_
@@ -185,13 +185,13 @@ theorem restrict (hp : S.IsGoodBlowupOver W p) (hVW : V ≤ W) :
     have hkr : Set.range k.base ⊆ Set.range ((p ⁻¹ᵁ V).ι).base :=
       range_subset_range_ι (by
         rintro y ⟨z, rfl⟩
-        show p.base (k.base z) ∈ V
+        change p.base (k.base z) ∈ V
         rw [← Scheme.Hom.comp_apply, hk]
         exact Set.range_subset_iff.mp ht z)
     have hfac : IsOpenImmersion.lift ((p ⁻¹ᵁ V).ι) k hkr ≫ (p ⁻¹ᵁ V).ι = k :=
       IsOpenImmersion.lift_fac _ _ _
     refine ⟨IsOpenImmersion.lift ((p ⁻¹ᵁ V).ι) k hkr, ?_, fun l hl => ?_⟩
-    · show IsOpenImmersion.lift ((p ⁻¹ᵁ V).ι) k hkr ≫ (p ⁻¹ᵁ V).ι ≫ p = t
+    · change IsOpenImmersion.lift ((p ⁻¹ᵁ V).ι) k hkr ≫ (p ⁻¹ᵁ V).ι ≫ p = t
       rw [← Category.assoc, hfac, hk]
     · refine (cancel_mono ((p ⁻¹ᵁ V).ι)).mp ?_
       rw [hfac]

@@ -238,7 +238,7 @@ theorem quasicoherentPullbackComparisonData_projectionFormulaMap_hom (f : X ⟶ 
       smallEtaleProjectionFormulaMapSnd f K.obj E.obj := by
   refine (ι_map_quasicoherentDerivedModuleAdjunction_homEquiv B S hS f hfqc hfqs _ _ _).trans ?_
   have h2 := ι_map_quasicoherentDerivedModuleAdjunction_counit_app B S hS f hfqc hfqs E
-  show (smallEtaleDerivedModuleAdjunction B S hS f).homEquiv _ _
+  change (smallEtaleDerivedModuleAdjunction B S hS f).homEquiv _ _
       ((smallEtaleDerivedPullbackTensorIso f).hom.app (K.obj, _) ≫
         ((smallEtaleDerivedTensor B S hS X).map (𝟙 _)).app _ ≫
           ((smallEtaleDerivedTensor B S hS X).obj _).map

@@ -128,26 +128,22 @@ nonzerodivisors. -/
 theorem PrimeDivisor.nonZeroDivisors_le_comap_neighborhoodSectionsToGenericHenselianLocalRing
     [IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
     (U : ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X))
-    [IsAffine U.scheme.left.1]
-    (hCofiltered :
-      IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X))) :
+    [IsAffine U.scheme.left.1] :
     (Γ(U.scheme.left.1, ⊤))⁰ ≤
       ((↥(Z.genericHenselianLocalRing B S hS hX hdec))⁰).comap
         (Z.neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec U) :=
-  fun _ ha => stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS hX hdec Z hCofiltered U
+  fun _ ha => stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS hX hdec Z U
     (U.scheme.left.1.nonZeroDivisors_le_comap_germ_top U.point ha)
 
 /-- The composite map from the global sections of the chart into the henselian local ring at
 the generic point of a prime divisor carries nonzerodivisors to nonzerodivisors. -/
 theorem PrimeDivisor.nonZeroDivisors_le_comap_chartSectionsToGenericHenselianLocalRing
-    [IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
-    (hCofiltered :
-      IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X))) :
+    [IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)] :
     (Γ((Z.genericChart B S hS hX hdec).scheme.left.1, ⊤))⁰ ≤
       ((↥(Z.genericHenselianLocalRing B S hS hX hdec))⁰).comap
         (Z.chartSectionsToGenericHenselianLocalRing B S hS hX hdec) :=
   Z.nonZeroDivisors_le_comap_neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec
-    (Z.genericChart B S hS hX hdec) hCofiltered
+    (Z.genericChart B S hS hX hdec)
 
 /-- The map on total rings of fractions induced by the composite from the global sections of an
 elementary étale neighbourhood into the henselian local ring at the generic point of a prime
@@ -155,25 +151,19 @@ divisor. -/
 def PrimeDivisor.neighborhoodTotalFractionRingToGeneric
     [IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
     (U : ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X))
-    [IsAffine U.scheme.left.1]
-    (hCofiltered :
-      IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X))) :
+    [IsAffine U.scheme.left.1] :
     FractionRing Γ(U.scheme.left.1, ⊤) →+* Z.genericTotalFractionRing B S hS hX hdec :=
   IsLocalization.map (T := (↥(Z.genericHenselianLocalRing B S hS hX hdec))⁰) _
     (Z.neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec U)
-    (Z.nonZeroDivisors_le_comap_neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec U
-      hCofiltered)
+    (Z.nonZeroDivisors_le_comap_neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec U)
 
 /-- The map on total rings of fractions induced by the composite from the global sections of
 the chart into the henselian local ring at the generic point of a prime divisor. -/
 def PrimeDivisor.chartTotalFractionRingToGeneric
-    [IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
-    (hCofiltered :
-      IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X))) :
+    [IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)] :
     FractionRing Γ((Z.genericChart B S hS hX hdec).scheme.left.1, ⊤) →+*
       Z.genericTotalFractionRing B S hS hX hdec :=
   Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec (Z.genericChart B S hS hX hdec)
-    hCofiltered
 
 /-! ### The canonical map of Stacks 0ENK -/
 
@@ -186,13 +176,11 @@ generic point, and then pushed along `A → 𝒪_{U, u} → 𝒪^h_{X, ξ}`. -/
   ring of fractions of the henselian local ring at the generic point of a prime divisor"]
 def PrimeDivisor.rationalFunctionsToGenericTotalFractionRing :
     rationalFunctions B S hS hX →+* Z.genericTotalFractionRing B S hS hX hdec := by
-  have hCof := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-    (Z.genericPoint B S hS X) ⟨Z.genericChart B S hS hX hdec⟩
   have _ : IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec) :=
     henselianLocalRing_isLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec
   have _ := Z.isLocallyNoetherian_genericChart B S hS hX hdec hN
   have _ := Z.isReduced_genericChart B S hS hX hdec hInt
-  exact (Z.chartTotalFractionRingToGeneric B S hS hX hdec hCof).comp
+  exact (Z.chartTotalFractionRingToGeneric B S hS hX hdec).comp
     (rationalFunctionsToTotalFractionRing B S hS hX (Z.genericChart B S hS hX hdec).scheme
       (Z.genericChart B S hS hX hdec).toSpace (Z.genericChart B S hS hX hdec).etale_toSpace)
 

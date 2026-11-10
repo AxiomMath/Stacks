@@ -328,12 +328,12 @@ private theorem kernelSource_punctured_isPullback (hdegree : Module.finrank k K 
     (e₄ := Iso.refl _) (fst' := top') (snd' := bottom)
     (f' := pullback.snd (coverMap k K) (coverMap k K)) (g' := (puncturedCover K).ι)
     (by
-      show coprod.desc (pullback.fst (𝟙 (cover K)) (puncturedCover K).ι ≫ coprod.inl)
+      change coprod.desc (pullback.fst (𝟙 (cover K)) (puncturedCover K).ι ≫ coprod.inl)
           (pullback.fst (galoisAction k K σ) (puncturedCover K).ι ≫ coprod.inr) ≫ e.inv = _
       rw [coprod.desc_comp]
       rfl)
     (by
-      show coprod.desc (pullback.snd (𝟙 (cover K)) (puncturedCover K).ι)
+      change coprod.desc (pullback.snd (𝟙 (cover K)) (puncturedCover K).ι)
         (pullback.snd (galoisAction k K σ) (puncturedCover K).ι) = _
       rfl)
     (by simpa using heq) rfl
@@ -410,11 +410,11 @@ theorem coverMap_fppf :
     Module.FaithfullyFlat.of_linearEquiv _ _ (polynomialCoefficientEquiv k K).toLinearEquiv
   have hf : Flat (coverMap k K) ∧ Surjective (coverMap k K) := by
     rw [coverMap, flat_and_surjective_SpecMap_iff]
-    show (algebraMap (Polynomial k) (Polynomial K)).FaithfullyFlat
+    change (algebraMap (Polynomial k) (Polynomial K)).FaithfullyFlat
     exact RingHom.faithfullyFlat_algebraMap_iff.mpr inferInstance
   refine ⟨hf.1, ?_, hf.2⟩
   rw [coverMap, HasRingHomProperty.Spec_iff (P := @LocallyOfFinitePresentation)]
-  show (algebraMap (Polynomial k) (Polynomial K)).FinitePresentation
+  change (algebraMap (Polynomial k) (Polynomial K)).FinitePresentation
   exact RingHom.finitePresentation_algebraMap.mpr
     (Algebra.FinitePresentation.equiv (polynomialCoefficientEquiv k K).symm)
 

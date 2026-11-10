@@ -232,7 +232,7 @@ theorem finrank_sections_eq_of_genericFibre_iso [CompactSpace X] [QuasiSeparated
   have : FaithfulSMul Γ(Spec (CommRingCat.of A), ⊤) Γ(Spec ((Spec (CommRingCat.of A)).residueField
       (genericPoint (Spec (CommRingCat.of A)))), ⊤) := by
     rw [faithfulSMul_iff_algebraMap_injective]
-    show Function.Injective (Scheme.Hom.appLE _ ⊤ ⊤ _)
+    change Function.Injective (Scheme.Hom.appLE _ ⊤ ⊤ _)
     rw [Stacks.AffineAlgebraEquivalence.appLE_top_top]
     exact injective_appTop_fromSpecResidueField_genericPoint A
   have : NoZeroDivisors Γ(Spec ((Spec (CommRingCat.of A)).residueField

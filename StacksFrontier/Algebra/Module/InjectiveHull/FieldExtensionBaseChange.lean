@@ -98,8 +98,7 @@ private noncomputable def extendScalarsObjEquiv {R S : Type u} [CommRing R] [Com
       ((ModuleCat.restrictScalars (algebraMap R S)).obj (ModuleCat.of S S) : Type u)
       (N : Type u)), t (s • w) = s • t w := by
     intro s w
-    induction w using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul b n => rfl
     | add w w' hw hw' => rw [smul_add, map_add, map_add, smul_add, hw, hw']
   exact { t.toAddEquiv with map_smul' := key }
@@ -157,8 +156,7 @@ private noncomputable def tensorRestrictEquiv {R S A : Type u} [CommRing R] [Com
   refine { AddEquiv.refl (TensorProduct R S A) with map_smul' := ?_ }
   intro s b
   change (s • b : TensorProduct R S A) = algebraMap S (TensorProduct R S A) s * b
-  induction b using TensorProduct.induction_on with
-  | zero => simp
+  induction b using TensorProduct.inductionOn with
   | tmul s' a => simp [Algebra.TensorProduct.algebraMap_apply, TensorProduct.smul_tmul']
   | add x y hx hy => rw [smul_add, mul_add, hx, hy]
 

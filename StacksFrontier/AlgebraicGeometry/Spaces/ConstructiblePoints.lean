@@ -84,7 +84,7 @@ private theorem preimage_toScheme_map_preimage_symm {U V : BigFppfOver B S hS} (
       (schemePointsHomeomorph B S hS U).symm ⁻¹'
         (pointsMap B S hS (yoneda.obj U) (yoneda.map g ≫ f) ⁻¹' E) := by
   ext x
-  show pointsMap B S hS (yoneda.obj V) f ((schemePointsHomeomorph B S hS V).symm
+  change pointsMap B S hS (yoneda.obj V) f ((schemePointsHomeomorph B S hS V).symm
       ((BigFppfOver.toScheme B S hS).map g x)) ∈ E ↔ _
   rw [← schemePointsHomeomorph_symm_naturality, ← pointsMap_comp_apply]
   rfl
@@ -188,7 +188,7 @@ theorem forall_etale_iff_exists_surjective_etale (hX : IsAlgebraicSpace B S hS X
         ((isEtale_iff_presheaf_of_yoneda B S hS (yoneda.map q₁)).1 hq₁rel)
     -- The two charts agree over the algebraic space, so the two preimages agree on `T`.
     have hsqhom : p₀.hom ≫ f₀ = p₁.hom ≫ f := by
-      show (p₀ ≫ f₀sp).hom = (p₁ ≫ fsp).hom
+      change (p₀ ≫ f₀sp).hom = (p₁ ≫ fsp).hom
       rw [sq.w]
     have hcomm : yoneda.map q₀ ≫ f₀ = yoneda.map q₁ ≫ f := by
       rw [hq₀map, hq₁map, Category.assoc, Category.assoc, hsqhom]

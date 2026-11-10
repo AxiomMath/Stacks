@@ -114,10 +114,10 @@ lemma square_tmul (n : ℤ) (b : (Rc A B hX).obj (op V)) (d : Cochain P I n) (p 
     have h1 := cochainMap_v (𝟙 P) (kappa V hV I ι) n p q hpq (thetaCochain (ρc A B hX V) P I b d)
     rw [thetaCochain_v, HomologicalComplex.id_f, Category.id_comp] at h1
     refine (congrArg (fun f => f.hom m) h1).trans ?_
-    show ((kappa V hV I ι).f q).hom ((mulApp (ρc A B hX V) b (I.X q)).hom
+    change ((kappa V hV I ι).f q).hom ((mulApp (ρc A B hX V) b (I.X q)).hom
       (((unitRE (ρc A B hX V)).app (I.X q)).hom ((d.v p q hpq).hom m))) = _
     rw [ModuleCat.extendRestrictScalarsAdj_unit_app_apply]
-    show ((ι.f q).val.app (op V)).hom ((cartMap A B hX (I.X q) V).hom
+    change ((ι.f q).val.app (op V)).hom ((cartMap A B hX (I.X q) V).hom
       (b • (show (ModuleCat.extendScalars (ρc A B hX V)).obj (I.X q) from
         (1 : (Rc A B hX).obj (op V)) ⊗ₜ[A, ρc A B hX V] (d.v p q hpq).hom m))) = _
     rw [map_smul, cartMap_one_tmul]
@@ -128,15 +128,15 @@ lemma square_tmul (n : ℤ) (b : (Rc A B hX).obj (op V)) (d : Cochain P I n) (p 
       (ULift.up (b ⊗ₜ[A, ρc A B hX V] d))) =
       (show ((Tc P J).X n).val.obj (op V) from
         b' • ((Tc P J).X n).val.map (toTop A B hX V).op (topSection ι d)) := by
-    show (phiN ι n).val.app (op V) (ULift.up ((cartMap A B hX ((Dc P I).X n) V).hom
+    change (phiN ι n).val.app (op V) (ULift.up ((cartMap A B hX ((Dc P I).X n) V).hom
       (b ⊗ₜ[A, ρc A B hX V] d))) = _
     refine (congrArg (fun x => (phiN ι n).val.app (op V) (ULift.up x))
       (cartMap_tmul V ((Dc P I).X n) b d)).trans ?_
-    show (phiN ι n).val.app (op V) (b' •
+    change (phiN ι n).val.app (op V) (b' •
       ULift.up (unitSectionAt A B hX ((Dc P I).X n) V d)) = _
     refine (map_smul ((phiN ι n).val.app (op V)).hom b' _).trans ?_
     refine congrArg (b' • ·) ?_
-    show (phiN ι n).val.app (op V) ((((Up A B hX).obj ((epsT A B hX).obj ((Dc P I).X n))).val.map
+    change (phiN ι n).val.app (op V) ((((Up A B hX).obj ((epsT A B hX).obj ((Dc P I).X n))).val.map
       (toTop A B hX V).op (ULift.up (unitSection A B hX ((Dc P I).X n) d)))) = _
     refine (PresheafOfModules.naturality_apply (phiN ι n).val (toTop A B hX V).op _).trans ?_
     exact congrArg (((Tc P J).X n).val.map (toTop A B hX V).op) (phiN_app_top ι n d)
@@ -163,7 +163,7 @@ lemma square_tmul (n : ℤ) (b : (Rc A B hX).obj (op V)) (d : Cochain P I n) (p 
     have h5 := congrArg (fun z => (z.val.app (op (Over.mk (𝟙 V ≫ toTop A B hX V)))) y)
       (topCochain_v ι d p q hpq)
     refine h5.trans ?_
-    show (ι.f q).val.app (op V) (((epsT A B hX).map (d.v p q hpq)).val.app (op V) y) = _
+    change (ι.f q).val.app (op V) (((epsT A B hX).map (d.v p q hpq)).val.app (op V) y) = _
     exact congrArg ((ι.f q).val.app (op V)) (unitSectionAt_naturality A B hX (d.v p q hpq) V m)
   have hb : (Stacks.SheafOfModules.Tensor.ringSheaf (Xs A B hX).O).obj.map (𝟙 V).op b' = b' := by
     rw [op_id, CategoryTheory.Functor.map_id]
@@ -178,8 +178,7 @@ lemma compMapSections_square :
         (theta (ρc A B hX V) P I ≫ homComplexMap (𝟙 P) (kappa V hV I ι)) := by
   ext n : 1
   refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun ⟨x⟩ => ?_)
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact (map_add _ (ULift.up x) (ULift.up y)).trans
       ((congrArg₂ (· + ·) hx hy).trans (map_add _ (ULift.up x) (ULift.up y)).symm)

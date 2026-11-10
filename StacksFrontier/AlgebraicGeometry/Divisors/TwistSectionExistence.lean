@@ -53,7 +53,7 @@ theorem exists_notMem_range_sectionsMap_of_forall_app_ne {T : TopCat.{u}}
   refine ⟨sectionsOfTopOfRingSheaf N σ, ?_⟩
   rintro ⟨u, hu⟩
   refine h (u.eval (op ⊤)) ?_
-  show (_root_.SheafOfModules.sectionsMap f u).eval (op ⊤) = σ
+  change (_root_.SheafOfModules.sectionsMap f u).eval (op ⊤) = σ
   rw [hu, sectionsOfTopOfRingSheaf_eval_top]
 
 end Stacks.SheafOfModules

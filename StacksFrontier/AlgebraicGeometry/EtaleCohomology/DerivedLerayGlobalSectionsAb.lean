@@ -36,7 +36,8 @@ All in the namespace `Stacks.EtaleCohomology`.
 **Abelian coefficients make the hard input free.** The library's form of the global-sections clause
 of Stacks 0D6H for ringed sites and module coefficients,
 `Stacks.Cohomology.LerayUnbounded.derivedGlobalSectionsPushforwardIsoGeneral`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/LerayForUnboundedGlobalSectionsGeneral.lean`), has to discharge
+(in `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/`
+`LerayForUnboundedGlobalSectionsGeneral.lean`), has to discharge
 `Stacks.Cohomology.LerayUnbounded.ComputesSecond f_* (Γ(D, -))` by hand — corepresenting global
 sections by the structure sheaf and running the derived pullback adjunction of Stacks 07A6 —
 because the stronger statement Stacks 093Y, that degreewise `f_*` preserves K-injectivity, is a

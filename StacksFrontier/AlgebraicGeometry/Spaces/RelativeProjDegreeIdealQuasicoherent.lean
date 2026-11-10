@@ -92,8 +92,7 @@ theorem degreeProductsPresheafHom_app_mem
   have key : ∀ t, t ∈ ((presheafDegreeProducts s d e ℱ).obj X).toAddSubmonoid.comap
       (ConcreteCategory.hom ((s.degreeProductsPresheafHom ℱ e).app X)).toAddMonoidHom := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact AddSubmonoid.zero_mem _
+    induction t using TensorProduct.inductionOn with
     | tmul x y => exact Submodule.subset_span ⟨_, s.ι_app_mem ℱ X x, y, rfl⟩
     | add t t' ht ht' => exact AddSubmonoid.add_mem _ ht ht'
   exact key t
@@ -201,7 +200,7 @@ theorem isQuasicoherentOnSite_closedSubspaceDegreeProducts
 theorem isQuasicoherentOnSite_degreeIdeal_piece (hℱ : ℱ.toSheafOfModules.IsQuasicoherentOnSite)
     (n : ℤ) : ((s.degreeIdeal ℱ).piece n).toSheafOfModules.IsQuasicoherentOnSite := by
   obtain ⟨e, rfl⟩ : ∃ e, n = d + e := ⟨n - d, by omega⟩
-  show (s.generatedByDegree ℱ (d + e)).toSheafOfModules.IsQuasicoherentOnSite
+  change (s.generatedByDegree ℱ (d + e)).toSheafOfModules.IsQuasicoherentOnSite
   rw [s.generatedByDegree_add_eq_closedSubspaceDegreeProducts]
   exact s.isQuasicoherentOnSite_closedSubspaceDegreeProducts ℱ e hℱ
 

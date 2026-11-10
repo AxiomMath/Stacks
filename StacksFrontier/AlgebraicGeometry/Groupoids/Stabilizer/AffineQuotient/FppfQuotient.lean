@@ -76,7 +76,7 @@ private lemma objectsToInvariantSpectrum_isFiniteLocallyFree_of_basis
   let q := Spec.map (CommRingCat.ofHom (invariantRing G).subtype)
   have hq : IsFiniteLocallyFree q :=
     specMap_isFiniteLocallyFree_of_moduleBasis _ _ _ b
-  show IsFiniteLocallyFree (G.objects.left.isoSpec.hom ≫ q)
+  change IsFiniteLocallyFree (G.objects.left.isoSpec.hom ≫ q)
   exact (MorphismProperty.cancel_left_of_respectsIso @IsFiniteLocallyFree _ _).mpr hq
 
 private lemma isPullback_objectsToInvariantSpectrum_of_tensorEquiv
@@ -97,11 +97,11 @@ private lemma isPullback_objectsToInvariantSpectrum_of_tensorEquiv
     · rfl
     · apply CommRingCat.hom_ext
       ext a
-      show e (a ⊗ₜ[C] 1) = sourceMap G a
+      change e (a ⊗ₜ[C] 1) = sourceMap G a
       rw [he, map_one, mul_one]
     · apply CommRingCat.hom_ext
       ext a
-      show e (1 ⊗ₜ[C] a) = targetMap G a
+      change e (1 ⊗ₜ[C] a) = targetMap G a
       rw [he, map_one, one_mul]
   have hpb := isPullback_SpecMap_of_isPushout _ _ _ _ hpush
   apply IsPullback.flip
@@ -170,7 +170,7 @@ private lemma objectsToInvariantSpectrum_comp_invariantSpectrumMap
       H.groupoid.objects.hom := by
   unfold objectsToInvariantSpectrum
   rw [Category.assoc, ← Spec.map_comp]
-  show H.groupoid.objects.left.toSpecΓ ≫
+  change H.groupoid.objects.left.toSpecΓ ≫
     Spec.map ((Scheme.ΓSpecIso (.of C')).inv ≫ H.groupoid.objects.hom.appTop) = _
   rw [Spec.map_comp, ← Scheme.toSpecΓ_naturality_assoc]
   simp
@@ -203,7 +203,7 @@ private lemma baseChange_finiteLocallyFree_and_isPullback
   obtain ⟨hf, hp⟩ := finiteLocallyFree_and_isPullback_of_local_invariants H.groupoid
   let k := Spec.map (CommRingCat.ofHom H.canonicalMapToInvariantFunctions)
   let hk : IsIso k := by
-    show IsIso (Spec.map e.toCommRingCatIso.hom)
+    change IsIso (Spec.map e.toCommRingCatIso.hom)
     infer_instance
   have hcomp : objectsToInvariantSpectrum H.groupoid ≫ k = H.groupoid.objects.hom :=
     objectsToInvariantSpectrum_comp_invariantSpectrumMap H
@@ -350,12 +350,10 @@ private lemma baseChange_tensorMap_injective
     congrArg (fun f : CommRingCat.of (A ⊗[C] C') ⟶ _ ↦ f a) (hp.inr_desc l r hw)
   have he (z : (A ⊗[C] A) ⊗[C] C') :
       ψ ((Algebra.TensorProduct.map φ (AlgHom.id C C')) z) = z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul d c =>
-      induction d using TensorProduct.induction_on with
-      | zero => simp
+      induction d using TensorProduct.inductionOn with
       | add x y hx hy => simp only [TensorProduct.add_tmul, map_add, hx, hy]
       | tmul a b =>
         have hab : (Algebra.TensorProduct.map φ (AlgHom.id C C'))
@@ -390,7 +388,7 @@ private lemma tmul_one_eq_zero_of_tensorLift_eq_zero
     x ⊗ₜ[invariantRing G] (1 : C') = 0 := by
   let := invariantRingAlgebraArrow G
   apply baseChange_tensorMap_injective H
-  show (Algebra.TensorProduct.map
+  change (Algebra.TensorProduct.map
       (Algebra.TensorProduct.lift (sourceAlgHom G) (targetAlgHom G)
         (fun _ _ ↦ Commute.all _ _)) (AlgHom.id (invariantRing G) C'))
       (x ⊗ₜ[invariantRing G] 1) = _
@@ -476,7 +474,7 @@ private lemma objectsToInvariantSpectrum_flat
   let := quotient_module_flat G
   let q := Spec.map (CommRingCat.ofHom (invariantRing G).subtype)
   let : Flat q := Flat.SpecMap_iff.mpr (RingHom.flat_algebraMap_iff.mpr (quotient_module_flat G))
-  show Flat (G.objects.left.isoSpec.hom ≫ q)
+  change Flat (G.objects.left.isoSpec.hom ≫ q)
   infer_instance
 
 private lemma objectsToInvariantSpectrum_finite
@@ -494,7 +492,7 @@ private lemma objectsToInvariantSpectrum_finite
   let φA : (A ⊗[C] A) →ₐ[A] B :=
     { toRingHom := φ.toRingHom
       commutes' := fun a ↦ by
-        show φ (a ⊗ₜ[C] 1) = sourceMap G a
+        change φ (a ⊗ₜ[C] 1) = sourceMap G a
         exact (Algebra.TensorProduct.lift_tmul (sourceAlgHom G) (targetAlgHom G)
           (fun _ _ ↦ Commute.all _ _) a 1).trans (by rw [map_one, mul_one]; rfl) }
   let e := AlgEquiv.ofBijective φA ⟨tensorMap_injective G, tensorMap_surjective G⟩
@@ -514,7 +512,7 @@ private lemma objectsToInvariantSpectrum_finite
         ⟨inferInstance, inferInstance⟩)
   let : Module.Finite C A := Module.Finite.of_finite_tensorProduct_of_faithfullyFlat A
   let : IsFinite q := (IsFinite.SpecMap_iff _).mpr (inferInstanceAs (Module.Finite C A))
-  show IsFinite (G.objects.left.isoSpec.hom ≫ q)
+  change IsFinite (G.objects.left.isoSpec.hom ≫ q)
   infer_instance
 
 private theorem relation_factors_quotient {S : Scheme.{u}} (G : GroupoidScheme S)
@@ -696,7 +694,7 @@ public theorem quotientSheaf_isRepresented {S : Scheme.{u}} (G : GroupoidScheme 
     rw [← he]
     infer_instance
   let : IsIso k.left := by
-    show IsIso ((Over.forget S).map k)
+    change IsIso ((Over.forget S).map k)
     infer_instance
   let : Flat k.left := by infer_instance
   let : LocallyOfFinitePresentation k.left := by infer_instance

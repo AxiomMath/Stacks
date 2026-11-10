@@ -115,7 +115,7 @@ theorem modulePullbackCompIso_globalSectionsPullbackMap_chartDiagram (h : T' ⟶
   have hℓ₂ : ℓ ≫ V.2.rep.snd t.hom = pre ≫ h := V.2.rep.lift'_snd _ _ hi
   have ha : e.U.1.hom ≫ (representedMap B S hS h).hom =
       yoneda.map ℓ ≫ (representedChartPullback B S hS t.hom V).1.hom := by
-    show e.U.obj.hom ≫ yoneda.map h = yoneda.map ℓ ≫ yoneda.map (V.2.rep.snd t.hom)
+    change e.U.obj.hom ≫ yoneda.map h = yoneda.map ℓ ≫ yoneda.map (V.2.rep.snd t.hom)
     rw [← Functor.map_comp, hℓ₂, Functor.map_comp, hpre]
   have hk : e.U.1.hom ≫ (representedMap B S hS h ≫ t).hom =
       yoneda.map (ℓ ≫ V.2.rep.fst' t.hom) ≫ V.1.hom := by

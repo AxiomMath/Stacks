@@ -139,6 +139,7 @@ variable (K₁ : Type u) [Field K₁] [Algebra K K₁] [Algebra R K₁] [IsScala
   [Module.Finite K K₁] [Module.Finite R ↥(integralClosure R K₁)]
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the algebra structures on stalks, integral closures and the compositum
 /-- **The solution property, read over the unlocalized base.**  At a bad point `x` of `Y` for
 which `K₁` is a solution, every maximal ideal `q` of the integral closure of `𝒪_{Y, x}` in the
 reduced compositum has `(integralClosure R K₁)_{q ∩ -} → T_q` formally smooth for the

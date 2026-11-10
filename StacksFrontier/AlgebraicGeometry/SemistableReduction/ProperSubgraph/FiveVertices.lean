@@ -77,17 +77,17 @@ public theorem not_exists_fourfold_of_five_lt_componentCount
       if a = v 3 then 1 else if a = v 4 then 1 else 0
   have hAsymm : A.IsSymm := by
     ext a b
-    show (T.intersection b a : ℚ) = (T.intersection a b : ℚ)
+    change (T.intersection b a : ℚ) = (T.intersection a b : ℚ)
     exact_mod_cast (T.intersection_symm a b).symm
   have hAoff : ∀ a b, a ≠ b → 0 ≤ A a b := fun a b hab => by
-    show 0 ≤ (T.intersection a b : ℚ)
+    change 0 ≤ (T.intersection a b : ℚ)
     exact_mod_cast T.intersection_nonneg a b hab
   have hmpos : ∀ a, 0 < m a := fun a => by
-    show 0 < (T.multiplicity a : ℚ)
+    change 0 < (T.multiplicity a : ℚ)
     exact_mod_cast T.multiplicity_pos a
   have hAm : A *ᵥ m = 0 := by
     ext a
-    show (∑ b, (T.intersection a b : ℚ) * (T.multiplicity b : ℚ)) = 0
+    change (∑ b, (T.intersection a b : ℚ) * (T.multiplicity b : ℚ)) = 0
     exact_mod_cast T.intersection_mul_multiplicity a
   have hx0 : x ⬝ᵥ (A *ᵥ x) = 0 := by
     calc

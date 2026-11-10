@@ -53,7 +53,7 @@ theorem coordRingEquiv_coordY (m : Γ(𝒞, V)) :
     coordRingEquiv 𝒞 hV (coordY 𝒞 hV m) = SymmetricAlgebra.ι Γ(X, V) Γ(𝒞, V) m := by
   rw [← (chartAwayEquiv 𝒞 hV).apply_symm_apply (SymmetricAlgebra.ι Γ(X, V) Γ(𝒞, V) m),
     chartAwayEquiv_symm_ι]
-  show chartAwayEquiv 𝒞 hV ((AlgebraicGeometry.Proj.basicOpenIsoAway _ _ (chartT 𝒞 V).2
+  change chartAwayEquiv 𝒞 hV ((AlgebraicGeometry.Proj.basicOpenIsoAway _ _ (chartT 𝒞 V).2
     one_pos).inv (((chart 𝒞 V hV).appIso (chartD 𝒞 (V := V))).hom
       (((chart 𝒞 V hV).appIso (chartD 𝒞 (V := V))).inv (chartY 𝒞 m)))) = _
   rw [Iso.inv_hom_id_apply]
@@ -81,7 +81,7 @@ theorem isWeaklyRegular_coordY {r : ℕ} (b : Module.Basis (Fin r) Γ(X, V) Γ(�
   convert Stacks.AlgebraicGeometry.isWeaklyRegular_ofFn_map_of_flat e.symm.toRingHom
     (RingHom.Flat.of_bijective e.symm.bijective) _ hX using 2
   funext j
-  show coordY 𝒞 hV (b j) = e.symm (MvPolynomial.X j)
+  change coordY 𝒞 hV (b j) = e.symm (MvPolynomial.X j)
   rw [RingEquiv.eq_symm_apply, he, RingEquiv.trans_apply, coordRingEquiv_coordY]
   exact SymmetricAlgebra.equivMvPolynomial_ι_apply b j
 

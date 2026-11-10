@@ -60,7 +60,7 @@ theorem LAdicSheaf.padicTower_annihilated (F : LAdicSheaf B X ℓ) (n : ℕ) :
     rw [← R.map_id, ← R.map_nsmul,
       zmodSheaf_nsmul_id X.1.smallEtaleTopology (ℓ ^ (n + 1)) (LAdicSheaf.etaleLevel B X ℓ F n),
       R.map_zero]
-  show ℓ ^ (n + 1) • 𝟙 ((sheafCompose (SmallEtale.topology B X.1 X.property)
+  change ℓ ^ (n + 1) • 𝟙 ((sheafCompose (SmallEtale.topology B X.1 X.property)
     (ModuleCat.restrictScalars.{u + 1} (PadicInt.toZModPow (p := ℓ) (n + 1))) ⋙
       (SmallEtale.sheafEquiv B X.1 X.property (ModuleCat.{u + 1} ℤ_[ℓ])).functor).obj
         (F.level n)) = 0

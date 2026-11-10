@@ -235,7 +235,7 @@ theorem exists_preimage_preHomTwoFibreProductSquare_obj
   have hza : (associatedMap B S hS (b ≫ a)).1.hom.obj z =
       (associatedMap B S hS a).1.hom.obj x.x := by
     rw [associatedMap_comp]
-    show (associatedMap B S hS a).1.hom.obj ((associatedMap B S hS b).1.hom.obj z) = _
+    change (associatedMap B S hS a).1.hom.obj ((associatedMap B S hS b).1.hom.obj z) = _
     rw [hz]
   refine ⟨⟨x.base, z, x.y, rfl, x.hy, eqToIso hza ≪≫ x.iso, ?_⟩,
     TwoFibreProductOver.obj_ext_of_faithful rfl hz rfl⟩
@@ -395,7 +395,7 @@ theorem isUniformCategoricalModuliSpace_of_affineFlatBaseChange
     refine ObjectProperty.hom_ext _ (Space.hom_ext_of_etale_atlas B S hS Y'.property.isSheaf
       W.property.isSheaf b hsurj hb (Space.hom_ext_of_cover B S hS W.property.isSheaf U V π hcover
         fun i => ?_))
-    show yoneda.map (π i) ≫ b ≫ l'.hom = yoneda.map (π i) ≫ b ≫ l
+    change yoneda.map (π i) ≫ b ≫ l'.hom = yoneda.map (π i) ≫ b ≫ l
     rw [hl (V i) (hV i) (π i) (hbi i), ← Category.assoc]
     exact chart_eq_of_factorization B S hS f a hP₀ g (V i) _ (k (V i) (hV i) _ (hbi i))
       (hk (V i) (hV i) _ (hbi i)) (hc (V i) (hV i) _ (hbi i)) l'.hom hl'

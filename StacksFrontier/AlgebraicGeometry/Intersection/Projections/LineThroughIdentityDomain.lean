@@ -135,6 +135,7 @@ public theorem subset_endDomain_of_forall_linearFunctionalPoint
   exact hX f hf hfmem.1 ((notMem_endDomain_linearFunctionalPoint_iff k V f hf g).mp
     ((notMem_endDomain_iff k V g _).mpr hfmem.2))
 
+omit [IsAlgClosed k] in
 /-- `𝐏(V)` is irreducible, so two closed subsets neither of which is everything do not cover
 it. -/
 private theorem union_ne_univ {A B : Set (projectiveSpaceOfModule k V)} (hA : IsClosed A)
@@ -153,6 +154,7 @@ private theorem union_ne_univ {A B : Set (projectiveSpaceOfModule k V)} (hA : Is
   · exact hxA h
   · exact hxB h
 
+omit [IsAlgClosed k] in
 /-- A nonzero vector is not killed by every linear functional. -/
 private theorem exists_dual_apply_ne_zero {w : V} (hw : w ≠ 0) :
     ∃ f : Module.Dual k V, f w ≠ 0 := by
@@ -214,11 +216,12 @@ private theorem exists_linearIndependent_forall_notMem
       simpa using congrFun hzero i
     refine ⟨Fin.cons f s, ?_, ?_, ?_⟩
     · exact Fin.cases hf0 hs
-    · exact (linearIndependent_fin_cons).mpr ⟨hind, hfspan⟩
+    · exact (linearIndependent_finCons).mpr ⟨hind, hfspan⟩
     · refine Fin.cases ?_ ?_
       · exact hfX
       · exact hnot
 
+omit [FiniteDimensional k V] [Nontrivial V] in
 /-- The point cut out by a functional is unchanged by a nonzero scalar multiple. -/
 private theorem linearFunctionalPoint_smul {α : k} (hα : α ≠ 0) (f : Module.Dual k V)
     (hf : f ≠ 0) (hαf : α • f ≠ 0) :
@@ -249,8 +252,7 @@ public theorem exists_basis_dual_forall_linearFunctionalPoint_notMem
 infinite, so an embedding of `ℕ` serves. -/
 private theorem exists_injective_fin (m : ℕ) :
     ∃ l : Fin m → k, Function.Injective l :=
-  ⟨fun i => Infinite.natEmbedding k i.val,
-    fun i j hij => Fin.ext ((Infinite.natEmbedding k).injective hij)⟩
+  ⟨Infinite.natEmbedding k ∘ Fin.val, (Infinite.natEmbedding k).injective.comp Fin.val_injective⟩
 
 /-- **Clause (1) of Tag 0B1S holds along some line through `[id_V]`.** For a closed subset
 `X ⊊ 𝐏(V)` there is an endomorphism `h` of `V`, not a scalar multiple of the identity once `V`

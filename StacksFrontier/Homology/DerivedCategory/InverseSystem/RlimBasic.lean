@@ -99,7 +99,7 @@ public theorem delta_comp_π (A : InvSystemAb.{u}) (n : ℕ) :
         Pi.π (fun n : ℕ ↦ A.obj (Opposite.op n)) (n + 1) ≫
           A.map (homOfLE (Nat.le_succ n)).op := by
   dsimp only [delta, shift, product]
-  show (𝟙 (∏ᶜ fun n : ℕ ↦ A.obj (Opposite.op n)) -
+  change (𝟙 (∏ᶜ fun n : ℕ ↦ A.obj (Opposite.op n)) -
       Pi.lift fun n ↦ Pi.π (fun n : ℕ ↦ A.obj (Opposite.op n)) (n + 1) ≫
         A.map (homOfLE (Nat.le_succ n)).op) ≫
       Pi.π (fun n : ℕ ↦ A.obj (Opposite.op n)) n = _

@@ -179,9 +179,9 @@ theorem exists_powerSeries_quotient_ringEquiv_adicCompletion
   obtain ⟨n, I, e, he⟩ := exists_powerSeries_presentation t ht
   refine ⟨n, I, e, ?_⟩
   intro a
-  show residue A (e (Ideal.Quotient.mk I (MvPowerSeries.C a))) = ρ a
+  change residue A (e (Ideal.Quotient.mk I (MvPowerSeries.C a))) = ρ a
   refine (congrArg (residue A) (he a)).trans ?_
-  show residue A (s (ρ a)) = ρ a
+  change residue A (s (ρ a)) = ρ a
   simpa only [RingHom.comp_apply, RingHom.id_apply] using
     congrArg (fun g => g (ρ a)) hs
 
@@ -235,7 +235,7 @@ theorem exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparable
     { ρe with
       commutes' := by
         intro a
-        show ρ (residue R (kToStalk a)) =
+        change ρ (residue R (kToStalk a)) =
           residue A (algebraMap R A (kToStalk a))
         exact ResidueField.map_residue (algebraMap R A) (kToStalk a) }
   have : Algebra.IsSeparable k (ResidueField A) := AlgEquiv.Algebra.isSeparable ρa
@@ -251,20 +251,20 @@ theorem exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparable
     intro b
     obtain ⟨a, rfl⟩ := ρe.surjective b
     refine ⟨a, ?_⟩
-    show residue A (s (ρ a)) = ρ a
+    change residue A (s (ρ a)) = ρ a
     exact congrArg (fun g : ResidueField A →ₐ[k] ResidueField A => g (ρ a)) hs
   obtain ⟨n, I, e, he⟩ := exists_powerSeries_presentation t ht
   refine ⟨n, I, e, ?_, ?_⟩
   · intro a
-    show residue A (e (Ideal.Quotient.mk I (MvPowerSeries.C a))) = ρ a
+    change residue A (e (Ideal.Quotient.mk I (MvPowerSeries.C a))) = ρ a
     refine (congrArg (residue A) (he a)).trans ?_
-    show residue A (s (ρ a)) = ρ a
+    change residue A (s (ρ a)) = ρ a
     exact congrArg (fun g : ResidueField A →ₐ[k] ResidueField A => g (ρ a)) hs
   · intro a
-    show e (Ideal.Quotient.mk I (MvPowerSeries.C (kToResidue a))) =
+    change e (Ideal.Quotient.mk I (MvPowerSeries.C (kToResidue a))) =
       algebraMap R A (kToStalk a)
     rw [he]
-    show s (ρe (kToResidue a)) = algebraMap R A (kToStalk a)
+    change s (ρe (kToResidue a)) = algebraMap R A (kToStalk a)
     rw [show ρe (kToResidue a) = algebraMap k (ResidueField A) a from ρa.commutes a]
     exact s.commutes a
 

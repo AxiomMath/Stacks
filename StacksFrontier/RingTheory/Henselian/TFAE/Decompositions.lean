@@ -19,8 +19,8 @@ import all StacksFrontier.RingTheory.Henselian.TFAE.Conditions
 # Characterisations of henselian local rings: root lifting and decompositions
 
 This file continues the proof of Lemma 04GG begun in
-`StacksFrontier.RingTheory.Henselian.TFAE.Conditions` (the statement and the plan of the proof are in
-the module docstring of `StacksFrontier.RingTheory.Henselian.TFAE.Factorization`). It proves
+`StacksFrontier.RingTheory.Henselian.TFAE.Conditions` (the statement and the plan of the proof are
+in the module docstring of `StacksFrontier.RingTheory.Henselian.TFAE.Factorization`). It proves
 
 * 1 ⇒ 2, root lifting for non-monic polynomials, by an elementary change of variables;
 * 1 ⇒ 10 and 9 ⇒ 1, closing the cycle `1 → 10 → 9 → 1` through decompositions of finite algebras
@@ -560,7 +560,7 @@ private theorem item13_imp_item1 : Item13 R → Item1 R := by
       rw [Ideal.map_le_iff_le_comap]
       intro r hr
       simp only [Ideal.mem_comap, RingHom.mem_ker]
-      show ψ ((0 : A), algebraMap R B r) = 0
+      change ψ ((0 : A), algebraMap R B r) = 0
       have hfac2 : ((0 : A), algebraMap R B r) = ((0 : A), (1 : B)) * algebraMap R (A × B) r := by
         ext <;> simp
       rw [hfac2, map_mul, h1, one_mul, ψ.commutes, IsLocalRing.ResidueField.algebraMap_eq]

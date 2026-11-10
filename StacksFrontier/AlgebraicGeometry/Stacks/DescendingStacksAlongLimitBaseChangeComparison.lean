@@ -182,7 +182,7 @@ theorem nonempty_equivalenceOver_invariantBaseChangeGroupoid (M : AlgebraicStack
     { inv := Finv, inv_over := hF, unitIso := η, counitIso := ε
       unit_vertical := fun X => by
         have hx : (quotientStack G').p.obj ((K ⋙ Finv).obj X) = (quotientStack G').p.obj X := by
-          show ((K ⋙ Finv) ⋙ (quotientStack G').p).obj X = _
+          change ((K ⋙ Finv) ⋙ (quotientStack G').p).obj X = _
           rw [Functor.assoc, hF, hK]
         rw [hx]
         exact hη X

@@ -108,7 +108,7 @@ public lemma RestrictionLifting.of_bijective_map {F : ℕᵒᵖ ⥤ 𝒟} {R : �
       h.lift n (e.hom.app (F.obj (op n)) ≫ S'.map g ≫ e.inv.app P)
     obtain ⟨f₀, rfl⟩ := (hS _).2 f
     refine ⟨m, hm, f₀, (hS' _).1 ?_⟩
-    show S'.map (R.map f₀) = S'.map (R.map (tr F hm) ≫ g)
+    change S'.map (R.map f₀) = S'.map (R.map (tr F hm) ≫ g)
     have hf' : R'.map (S.map f₀) = R'.map (S.map (tr F hm)) ≫
         e.hom.app (F.obj (op n)) ≫ S'.map g ≫ e.inv.app P := hf
     rw [key, hf', S'.map_comp, key]
@@ -121,7 +121,7 @@ public lemma RestrictionLifting.of_bijective_map {F : ℕᵒᵖ ⥤ 𝒟} {R : �
       simpa only [Category.assoc, cancel_epi, cancel_mono] using hf.symm.trans hg
     obtain ⟨m, hm, he⟩ := h.eq n (S.map f) (S.map g) h'
     refine ⟨m, hm, (hS _).1 ?_⟩
-    show S.map (tr F hm ≫ f) = S.map (tr F hm ≫ g)
+    change S.map (tr F hm ≫ f) = S.map (tr F hm ≫ g)
     rw [S.map_comp, S.map_comp]
     exact he
 
@@ -189,7 +189,7 @@ public lemma bijective_map_of_iso_target (L : 𝒟 ⥤ 𝒞) {P P' : 𝒟} (e : 
   · intro y
     obtain ⟨f, hf⟩ := (h E).2 (y ≫ L.map e.inv)
     refine ⟨f ≫ e.hom, ?_⟩
-    show L.map (f ≫ e.hom) = y
+    change L.map (f ≫ e.hom) = y
     have hf' : L.map f = y ≫ L.map e.inv := hf
     rw [L.map_comp, hf', Category.assoc, ← L.map_comp, e.inv_hom_id, L.map_id, Category.comp_id]
 
@@ -227,7 +227,7 @@ public lemma bijective_map_of_natIso_comp {𝒞₂ : Type u₃} [Category.{v} �
   · intro f g hfg
     have hfg' : S₂.map f = S₂.map g := hfg
     apply (h A).1
-    show S₁.map f = S₁.map g
+    change S₁.map f = S₁.map g
     rw [key f, key g, hfg']
   · intro y
     obtain ⟨f, hf⟩ := (h A).2 (α.hom.app A ≫ E.map y ≫ α.inv.app P)

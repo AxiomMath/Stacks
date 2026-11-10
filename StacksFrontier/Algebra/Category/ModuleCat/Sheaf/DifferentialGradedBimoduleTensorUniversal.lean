@@ -692,7 +692,7 @@ theorem actPre_comp_descZ (α : LocalBalancedBilinear M N L n U) (i j p : ℤ)
     (Limits.Sigma.hom_ext _ _ fun q => ?_)
   refine PresheafOfModules.tensorObj_hom_ext fun X x y => ?_
   refine hApp_ext fun W f b => ?_
-  show PresheafOfModules.Hom.app (descZ α (i + p) (j + p) (by omega)) W
+  change PresheafOfModules.Hom.app (descZ α (i + p) (j + p) (by omega)) W
       (hApp (PresheafOfModules.Hom.app (actPre (gP M) N.toGradedBimodule i p (i + p) rfl) X
         (tmulPre (gP M) N.toGradedBimodule i q X x y)) f b) =
     (sliceFamilyBil (L.mul j p) U).app W (PresheafOfModules.Hom.app (descZ α i j hj) W
@@ -735,7 +735,7 @@ theorem descSlice_smul (α : LocalBalancedBilinear M N L n U) (i j p : ℤ) (hj 
       (descSlice α (i + p) (j + p) (by omega)))
     ((bilOver (L.mul j p) U).compLeft (descSlice α i j hj)) ?_ (Opposite.op V) s b
   intro W z b'
-  show PresheafOfModules.Hom.app (descSlice α (i + p) (j + p) (by omega))
+  change PresheafOfModules.Hom.app (descSlice α (i + p) (j + p) (by omega))
       (Opposite.op W.unop)
       ((gradedTensorRight (gP M) N.toGradedBimodule).smul i p (Opposite.op W.unop.left)
         (PresheafOfModules.Hom.app
@@ -976,7 +976,7 @@ theorem descZ_compTmul (f : LocalHom (dgTensorRight M N) L n U) (i j : ℤ) (hij
   refine (cancel_epi (gradedTensorπ (gP M) N.toGradedBimodule.toLeftGradedModule i)).mp
     (Limits.Sigma.hom_ext _ _ fun q => ?_)
   refine PresheafOfModules.tensorObj_hom_ext fun X x y => ?_
-  show PresheafOfModules.Hom.app (descZ (compTmul f) i j hij) X
+  change PresheafOfModules.Hom.app (descZ (compTmul f) i j hij) X
       (tmulPre (gP M) N.toGradedBimodule i q X x y) =
     psiZApp f i j hij X (tmulPre (gP M) N.toGradedBimodule i q X x y)
   refine zApp_ext fun Y k g => ?_
@@ -1081,7 +1081,7 @@ theorem actPre_comp_mapPreRight (hh : gP M ⟶ gP M') (m i : ℤ) :
     (Limits.Sigma.hom_ext _ _ fun q => ?_)
   refine PresheafOfModules.tensorObj_hom_ext fun X x y => ?_
   refine hApp_ext fun V f b => ?_
-  show PresheafOfModules.Hom.app
+  change PresheafOfModules.Hom.app
       (gradedTensorMapPreRight hh N.toGradedBimodule.toLeftGradedModule (m + i)) V
       (hApp (PresheafOfModules.Hom.app
         (actPre.{t, v, u, max u v} (gP M) N.toGradedBimodule m i (m + i) rfl) X
@@ -1131,7 +1131,7 @@ theorem gradedTensorMapRight_smul (hh : gP M ⟶ gP M') (m i : ℤ) (X : Cᵒᵖ
     (((gradedTensorRight (gP M') N.toGradedBimodule).smulBil m i).compLeft
       (gradedTensorMapRight hh N.toGradedBimodule.toLeftGradedModule m).val) ?_ X s b
   intro W z b'
-  show PresheafOfModules.Hom.app
+  change PresheafOfModules.Hom.app
       (gradedTensorMapRight hh N.toGradedBimodule.toLeftGradedModule (m + i)).val W
       ((gradedTensorRight (gP M) N.toGradedBimodule).smul m i W
         (PresheafOfModules.Hom.app

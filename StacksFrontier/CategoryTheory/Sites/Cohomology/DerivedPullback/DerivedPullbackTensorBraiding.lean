@@ -98,6 +98,7 @@ theorem pullbackTensorμ_braiding
     ((Stacks.SheafOfModules.pullbackTensorIso f.toModulesHom).app (a, b))
     ((Stacks.SheafOfModules.pullbackTensorIso f.toModulesHom).app (b, a))).1 h
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- **The comparison of total tensor complexes commutes with the Koszul braidings**: the
 tensorator `f^*K ⊗ f^*L ≅ f^*(K ⊗ L)` of Stacks 07A4 carries the Koszul symmetry of the total
 tensor products of complexes to each other. -/
@@ -113,6 +114,7 @@ theorem pullbackTensorComplexμ_braiding
     (fun K L ↦ (pullbackTensorComplexμ f K L).hom)
     (fun K L p q n h ↦ ι_pullbackTensorComplexμ_hom f K L p q n h) K L
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- **The comparison of total tensor complexes of Stacks 07A4 commutes with the Koszul
 braidings**, in the spelling of `pullbackTensorTotalComplexIso`. -/
 theorem pullbackTensorTotalComplexIso_braiding

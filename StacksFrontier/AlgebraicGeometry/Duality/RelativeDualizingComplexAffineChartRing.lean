@@ -55,10 +55,10 @@ theorem isPushout_chartProjRing :
     isPushout_appTop_of_isPullback (IsPullback.of_hasPullback fV fV)
   refine IsPushout.of_iso hpo₀ V.topIso U.topIso U.topIso (Iso.refl _)
     (arrowResLEAppIso f V U hUV).hom.w.symm (arrowResLEAppIso f V U hUV).hom.w.symm ?_ ?_
-  · show (pullback.fst fV fV).appTop =
+  · change (pullback.fst fV fV).appTop =
       U.topIso.hom ≫ U.topIso.inv ≫ (pullback.fst fV fV).appTop
     exact (Iso.hom_inv_id_assoc U.topIso _).symm
-  · show (pullback.snd fV fV).appTop =
+  · change (pullback.snd fV fV).appTop =
       U.topIso.hom ≫ U.topIso.inv ≫ (pullback.snd fV fV).appTop
     exact (Iso.hom_inv_id_assoc U.topIso _).symm
 
@@ -122,7 +122,7 @@ theorem chartSquareRingEquiv_symm_comp_chartProjRing :
       Algebra.TensorProduct.includeLeftRingHom := by
   let : Algebra Γ(S, V) Γ(X, U) := (f.appLE V U hUV).hom.toAlgebra
   ext x
-  show (chartSquareRingEquiv hU hV hUV).symm ((chartProjRing hUV).hom x) = _
+  change (chartSquareRingEquiv hU hV hUV).symm ((chartProjRing hUV).hom x) = _
   rw [← chartSquareRingEquiv_includeLeft hU hV hUV x, RingEquiv.symm_apply_apply]
 
 /-- A section `p` of the diagonal gives a retraction on global sections. -/
@@ -269,7 +269,7 @@ theorem isBoundedBelow_chartExtension [Flat f] [LocallyOfFinitePresentation f]
   refine ⟨a, fun n hn => ?_⟩
   have hz := (DerivedCategory.isZero_of_isGE (E.functor.mapDerivedCategory.obj N) a n hn).of_iso
     ((StacksDraft.DerivedCategoryHomology.mapDerivedCategoryHomologyIso E.functor n).app N).symm
-  rwa [ModuleCat.isZero_iff_subsingleton] at hz ⊢
+  rw [ModuleCat.isZero_iff_subsingleton] at hz ⊢; assumption
 
 end AlgebraicGeometry.Scheme.Hom.DiagonalOpen
 

@@ -44,7 +44,8 @@ implementation notes say why.
   exact at `𝒞_{Z/X}`.**  The fibre product `Y ×_{Y'} Z'` presents the copy of `Z` as a closed
   subspace inside the inverse image of a closed subspace downstairs, which is the presentation
   `AlgebraicGeometry.Space.exact_conormalShortComplex_preimage` of
-  `StacksFrontier/AlgebraicGeometry/Spaces/ConormalSequencePreimageExact.lean` states that clause at.
+  `StacksFrontier/AlgebraicGeometry/Spaces/ConormalSequencePreimageExact.lean`
+  states that clause at.
   Together with the previous item it is the middle-exactness assertion of clause (2) of
   Stacks 06BF.
 * `AlgebraicGeometry.Space.shortExact_iff_mono_pullback_universalThickeningCompConormalLowerMap`:

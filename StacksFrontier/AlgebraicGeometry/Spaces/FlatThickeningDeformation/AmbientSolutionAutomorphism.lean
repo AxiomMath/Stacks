@@ -287,7 +287,7 @@ theorem exists_ambientSolutionIso_eq {D E : Deformation f}
       Functor.map_isIso _ (transportHom hZ σ).fSharp
     have : IsIso ((smallEtaleRingedTopos B S hS E.X').forgetRing.map
         (smallEtaleRingedToposHom B S hS k).fSharp) := by
-      show IsIso (RingedToposHom.forgetFSharp (smallEtaleRingedToposHom B S hS k))
+      change IsIso (RingedToposHom.forgetFSharp (smallEtaleRingedToposHom B S hS k))
       rw [hc]
       infer_instance
     exact isIso_of_reflects_iso _ (smallEtaleRingedTopos B S hS E.X').forgetRing
@@ -295,6 +295,7 @@ theorem exists_ambientSolutionIso_eq {D E : Deformation f}
   exact ⟨_, ambientSolutionIso_eq_of_twoIso hZ { hom := asIso k, hom_f' := hf, compat := hi } σ t⟩
 
 set_option maxHeartbeats 800000 in
+-- elaborating the `MulEquiv.ofBijective` term over `Aut D` and its solution groupoid is heavy
 /-- **The automorphism group of a flat deformation is the automorphism group of its solution**:
 an automorphism `φ : X' ⟶ X'` over `Y'` reducing to the identity on `X' ×_{Y'} Y` (an element
 of `Aut D`) is sent to `(φ^♯)⁻¹`. -/
@@ -304,7 +305,8 @@ def autMulEquivAmbientSolution (D : Deformation f) :
     (MonoidHom.mk' (M := Aut D) (G := Aut (D.ambientSolution hZ)) (fun a : Aut D =>
         Aut.of ((Groupoid.isoEquivHom (D.ambientSolution hZ) (D.ambientSolution hZ)).symm
           (ambientSolutionIso hZ a.asIso.hom)))
-      fun a b => Aut.ext (CategoryTheory.Iso.ext (ambientSolutionIso_comp hZ b.asIso.hom a.asIso.hom)))
+      fun a b => Aut.ext (CategoryTheory.Iso.ext
+        (ambientSolutionIso_comp hZ b.asIso.hom a.asIso.hom)))
     ⟨fun a b h => Aut.ext (CategoryTheory.Iso.ext (ambientSolutionIso_injective hZ
         (congrArg (fun x : Aut (D.ambientSolution hZ) => x.asIso.hom) h))),
       fun x : Aut (D.ambientSolution hZ) => by

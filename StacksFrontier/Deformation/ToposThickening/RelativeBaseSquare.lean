@@ -162,7 +162,6 @@ theorem relBase_comm
       ((congrArg (· ≫ _) key).trans (Category.assoc _ _ _)))
 
 variable [HasSheafify X'.J AddCommGrpCat.{w}] [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
-  [HasWeakSheafify X'.J AddCommGrpCat.{w}]
 
 /-- **The thickening `t̃ = (id, f'⁻¹t^♯)` is a first order thickening** (Stacks 08M7): its
 underlying morphism of topoi is the identity, the reduction `f'⁻¹O_{ℬ'} ⟶ f'⁻¹t_*O_ℬ` is locally

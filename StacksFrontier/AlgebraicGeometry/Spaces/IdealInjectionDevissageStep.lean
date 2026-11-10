@@ -132,7 +132,7 @@ theorem forall_property_idealPushforward_of_step (hZtop : B.Contains (⊤_ Schem
     | _ T IH =>
       intro Z' hZ' hint' I' hsub
       refine hstep Z' hZ' hint' I' fun N hN hNlt => ?_
-      exact property_of_moduleSupportSet_subset B S hS hZtop X hX
+      exact property_of_moduleSupportSet_subset B S hS X
         (hasIdealDevissage_of_isCoherent B S hS hZtop X hX) P hzero hext
         (moduleSupportSet B S hS X N)
         (IH ⟨moduleSupportSet B S hS X N, isClosed_moduleSupportSet B S hS X N hN⟩

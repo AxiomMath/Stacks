@@ -139,7 +139,7 @@ theorem isRepresentable_of_isAbsolutelyQuasiSeparated_of_dimension_eq_zero
   have hLE : openSubspacesOrderIso B S hS X hX ⟨schematicLocus B S hS X, hLopen⟩ =
       openSubspacesOrderIso B S hS X hX ⟨⊤, isOpenSubspace_top hX⟩ := by
     apply TopologicalSpace.Opens.ext
-    show Set.range (pointsMap B S hS (schematicLocus B S hS X).toFunctor
+    change Set.range (pointsMap B S hS (schematicLocus B S hS X).toFunctor
         (schematicLocus B S hS X).ι) =
       Set.range (pointsMap B S hS (⊤ : Subfunctor X).toFunctor
         (Subfunctor.ι (⊤ : Subfunctor X)))

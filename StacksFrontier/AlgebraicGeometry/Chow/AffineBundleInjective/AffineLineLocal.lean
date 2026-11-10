@@ -77,10 +77,10 @@ theorem exists_specPolynomial_square_affineLine (T : Scheme.{u}) (x : T) :
       rfl
     obtain ⟨z', rfl⟩ := hzV
     refine ⟨(inv mA3) z', ?_⟩
-    show ((inv mA3 ≫ mA3) ≫ AffineSpace.map (ULift.{u} (Fin 1)) V.ι) z' = _
+    change ((inv mA3 ≫ mA3) ≫ AffineSpace.map (ULift.{u} (Fin 1)) V.ι) z' = _
     rw [IsIso.inv_hom_id, Category.id_comp]
   · refine ⟨φ.hom ⟨x, hxV⟩, ?_⟩
-    show (φ.hom ≫ φ.inv ≫ V.ι) ⟨x, hxV⟩ = x
+    change (φ.hom ≫ φ.inv ≫ V.ι) ⟨x, hxV⟩ = x
     rw [Iso.hom_inv_id_assoc]
     rfl
 

@@ -241,7 +241,7 @@ theorem eval_boundary (hU : ∀ i, IsSubterminal (U i)) (V : C) (p : ℕ)
   refine free_abelian_apply_eq ((chainEval P U V p s).comp (boundary U V p))
     (chainEval P U V (p + 1) (Alternating.cechDiff P U p s)) (fun t => ?_) a
   rw [AddMonoidHom.comp_apply, boundary, FreeAbelianGroup.lift_apply_of, map_sum, chainEval_of]
-  show (∑ j : Fin (p + 2), chainEval P U V p s ((-1 : ℤ) ^ (j : ℕ) •
+  change (∑ j : Fin (p + 2), chainEval P U V p s ((-1 : ℤ) ^ (j : ℕ) •
       FreeAbelianGroup.of (faceTuple U t j))) =
     restr P t.2 (∑ j : Fin (p + 2), (-1 : ℤ) ^ (j : ℕ) •
       tres P U (Fin.succAbove j) t.1 (s (t.1 ∘ Fin.succAbove j)))

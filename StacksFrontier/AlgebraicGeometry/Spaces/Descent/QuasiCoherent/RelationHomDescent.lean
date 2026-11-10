@@ -14,7 +14,8 @@ Let `φ : U ⟶ X` be a relatively representable surjective étale morphism of a
 `(t, s)`, is the inverse image of a unique morphism `M ⟶ N`.
 
 Descent along `φ` asks for the compatibility at every pair of morphisms into `U` with equal
-composites to `X` (`AlgebraicGeometry.Space.QuasiCoherentDescent.exists_modulePullback_map_eq_of_dominated`);
+composites to `X`
+(`AlgebraicGeometry.Space.QuasiCoherentDescent.exists_modulePullback_map_eq_of_dominated`);
 every such pair factors through `R`, and the canonical comparison along a factored pair is the
 reindexing of the comparison at `(t, s)`
 (`AlgebraicGeometry.Space.QuasiCoherentDescent.canonicalComparison_hom_eq_modulePullbackReindex`),

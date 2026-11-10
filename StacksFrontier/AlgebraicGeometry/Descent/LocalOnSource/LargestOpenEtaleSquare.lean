@@ -98,7 +98,7 @@ private lemma mem_largestOpen_iff_of_etale_square
     a.base z ∈ largestOpen P f ↔ z ∈ largestOpen P h := by
   let : P.IsLocalAtSource Scheme.etalePrecoverage :=
     IsEtaleLocalOnSourceAndTarget.isLocalAtSource_etalePrecoverage P hP
-  show z ∈ a ⁻¹ᵁ largestOpen P f ↔ _
+  change z ∈ a ⁻¹ᵁ largestOpen P f ↔ _
   rw [preimage_largestOpen_etale P a f, hcomm, largestOpen_postcomp_etale hP h b hb]
 
 /-- **Stacks Project, Tag 0CEZ.** Étale morphisms on both sides of a commutative square preserve
@@ -123,7 +123,7 @@ public theorem mem_largestOpen_iff_of_etaleAt
   have hAV : A ≤ f' ⁻¹ᵁ V := inf_le_right
   let h : A.toScheme ⟶ V.toScheme := f'.resLE V A hAV
   have ha : Etale a := by
-    show Etale (A.ι ≫ g')
+    change Etale (A.ι ≫ g')
     rw [← Scheme.homOfLE_ι X' (inf_le_left : A ≤ U), Category.assoc]
     let : Etale (U.ι ≫ g') := hU
     infer_instance
@@ -135,7 +135,7 @@ public theorem mem_largestOpen_iff_of_etaleAt
       _ = h ≫ b := by simp [h, b]
   let z : A.toScheme := ⟨x', hxA⟩
   have hrestr : i ≫ f' = h ≫ V.ι := (Scheme.Hom.resLE_comp_ι f' hAV).symm
-  show a.base z ∈ largestOpen P f ↔ i.base z ∈ largestOpen P f'
+  change a.base z ∈ largestOpen P f ↔ i.base z ∈ largestOpen P f'
   exact (mem_largestOpen_iff_of_etale_square hP f h a b ha hb hSquare z).trans
     (mem_largestOpen_iff_of_etale_square hP f' h i V.ι inferInstance inferInstance
       hrestr z).symm

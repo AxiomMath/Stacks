@@ -52,7 +52,7 @@ theorem isScalarTower_of_comp_eq :
   let := φ'.hom.toAlgebra
   let := ρ.hom.toAlgebra
   refine IsScalarTower.of_algebraMap_eq fun r => ?_
-  show φ' r = ρ (φ r)
+  change φ' r = ρ (φ r)
   rw [← hρ]
   rfl
 
@@ -102,7 +102,7 @@ theorem formsMap_ιMulti_d (p : ℕ) (a : Fin p → B) :
   let := φ'.hom.toAlgebra
   let := ρ.hom.toAlgebra
   have := isScalarTower_of_comp_eq φ φ' ρ hρ
-  show KaehlerDifferential.mapExteriorPower R B B' p
+  change KaehlerDifferential.mapExteriorPower R B B' p
       (exteriorPower.ιMulti B p fun i ↦ KaehlerDifferential.D R B (a i)) =
     exteriorPower.ιMulti B' p fun i ↦ KaehlerDifferential.D R B' (algebraMap B B' (a i))
   rw [KaehlerDifferential.mapExteriorPower_ιMulti]

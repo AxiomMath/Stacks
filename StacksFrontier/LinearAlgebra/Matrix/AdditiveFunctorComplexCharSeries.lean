@@ -150,11 +150,11 @@ theorem alternatingCharSeries_functor_mul_prod_odd (g : Q ⟶ Q) (S : Finset ℤ
         (1 - (X : PowerSeries Λ) • (blockMap (functorRep Φ eO b) (Fin (degRank eO Q hQ i))
           (degMatrix eO Q hQ g i)).map (C (R := Λ))).det = 1 := by
     intro i hi
-    rw [if_neg (Finset.mem_filter.1 hi).2, ← coe_charUnitAt_functor Φ eO b Q hQ g i]
+    rw [ite_eq_right (Finset.mem_filter.1 hi).2, ← coe_charUnitAt_functor Φ eO b Q hQ g i]
     exact Units.inv_mul _
   rw [Finset.prod_congr rfl hodd, Finset.prod_const_one, mul_one]
   refine Finset.prod_congr rfl fun i hi => ?_
-  rw [if_pos (Finset.mem_filter.1 hi).2]
+  rw [ite_eq_left (Finset.mem_filter.1 hi).2]
   exact coe_charUnitAt_functor Φ eO b Q hQ g i
 
 /-- **The traces of the powers of `g` on `Q` in terms of the matrices `Aᵢ`.** For `m > 0` and
@@ -175,7 +175,7 @@ theorem alternatingTrace_eq_sum_trq (g h : Q ⟶ Q) {m : ℕ} (hm : 0 < m)
     intro i
     let : Module.Projective R (Q.X i) := (hQ.2 i).1
     let : Module.Finite R (Q.X i) := (hQ.2 i).2
-    show Stacks.Trace.projectiveModuleTrace R (Q.X i) (h.f i).hom = _
+    change Stacks.Trace.projectiveModuleTrace R (Q.X i) (h.f i).hom = _
     rw [hgh i]
     exact projectiveModuleTrace_pow_eq_trq eO _ (degProj eO Q hQ i) (degIncl eO Q hQ i)
       (degIncl_comp_degProj eO Q hQ i) (g.f i) hm

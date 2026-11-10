@@ -96,7 +96,7 @@ universe w v u u'
 
 namespace CategoryTheory.Pretriangulated
 
-open Category Limits Preadditive ObjectProperty Opposite ZeroObject
+open Category Limits Preadditive ObjectProperty CategoryTheory.Pretriangulated.Opposite ZeroObject
 
 /-! ### A morphism from a compact object to a derived colimit factors through a term -/
 
@@ -119,7 +119,7 @@ lemma exists_fac_of_isHomotopyColimit {F : ℕ ⥤ D} [HasCoproduct F.obj] {X : 
   have hσ : IsColimit (Cofan.mk (∐ F.obj) (Sigma.ι F.obj)) := coproductIsCoproduct F.obj
   have ha : ∀ n, Sigma.ι F.obj n ≫ t =
       Sigma.ι F.obj n - F.map (homOfLE (Nat.le_succ n)) ≫ Sigma.ι F.obj (n + 1) := fun n =>
-    Sigma.ι_desc _ _
+    Sigma.ι_comp_desc _ _
   have h0 : q ≫ t⟦(1 : ℤ)⟧' = 0 := comp_distTriang_mor_zero₃₁ _ hT
   have hζq : ζ ≫ q = 0 := by
     refine eq_zero_of_comp_shift_map_eq_zero (b := t) (fun g hg ↦

@@ -75,7 +75,7 @@ theorem bijective_sections_eval_of_isTerminal {C : Type*} [Category* C] (F : C�
   refine ⟨⟨fun U ↦ F.map (hV.from U.unop).op x, fun {U U'} f ↦ ?_⟩, ?_⟩
   · rw [← Functor.map_comp_apply]
     exact congrArg (fun k ↦ F.map k x) (Quiver.Hom.unop_inj (hV.hom_ext _ _))
-  · show F.map (hV.from V).op x = x
+  · change F.map (hV.from V).op x = x
     rw [show hV.from V = 𝟙 V from hV.hom_ext _ _, op_id, Functor.map_id_apply]
 
 end CategoryTheory.Functor
@@ -192,7 +192,7 @@ theorem sectionsEvalAddEquiv_symm_smul (r : chartRing B S hS Y.1 Y.2 d.V)
         (sectionsEvalAddEquiv N hV).symm x := by
   refine (sectionsEvalAddEquiv N hV).injective ?_
   rw [AddEquiv.apply_symm_apply]
-  show r • x =
+  change r • x =
     (sectionsSubringEvalEquiv (ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O).obj hV)
         ((sectionsSubringEvalEquiv (ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O).obj
           hV).symm r) •
@@ -215,7 +215,7 @@ theorem globalSectionsRingHomSite_sectionsSubringEvalEquiv_symm
     ((sectionsSubringEvalEquiv (ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O).obj hV).symm r)
     d
   refine h.trans ?_
-  show chartDiagramRestrict B S hS g d
+  change chartDiagramRestrict B S hS g d
     ((sectionsSubringEvalEquiv (ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O).obj hV)
       ((sectionsSubringEvalEquiv (ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O).obj
         hV).symm r)) = chartDiagramRestrict B S hS g d r

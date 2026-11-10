@@ -102,8 +102,8 @@ integral morphism `f : X ⟶ Y` of a big étale site, the functor sending a shea
 small étale site of `Y` to its canonical descent datum for `{X ⟶ Y}` is an equivalence of
 categories.
 
-This is the content of [Stacks, Tag 0GEZ], also stated in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/PullbackStalk/SheafDescentIntegralSurjective.lean`.
+This is the content of [Stacks, Tag 0GEZ], also stated in the module
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.PullbackStalk.SheafDescentIntegralSurjective`.
 -/
 @[sga "4 VIII 9.4"]
 theorem smallEtaleSheafDescentFunctor_isEquivalence_of_isIntegralHom_of_surjective

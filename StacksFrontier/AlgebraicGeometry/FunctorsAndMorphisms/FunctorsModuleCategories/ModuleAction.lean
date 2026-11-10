@@ -153,7 +153,7 @@ public lemma finitePresentation_closedUnderFiniteCoproducts (A : Type u) [Ring A
           ⟨s.pt, Discrete.natTrans (fun j ↦ s.inj j.as)⟩ ⟨j⟩).symm
     let : Module.FinitePresentation Aᵐᵒᵖ
         (modulePiCofan (fun j : J ↦ p.diag.obj ⟨j⟩)).pt := by
-      show Module.FinitePresentation Aᵐᵒᵖ (∀ j : J, p.diag.obj ⟨j⟩)
+      change Module.FinitePresentation Aᵐᵒᵖ (∀ j : J, p.diag.obj ⟨j⟩)
       infer_instance
     exact finitelyPresentedModule_of_isColimit
       (modulePiCofanIsColimit (fun j : J ↦ p.diag.obj ⟨j⟩)) hc
@@ -209,19 +209,19 @@ public def regularAction (A : Type u) [Ring A] : A →+* End (regularModule A) w
     apply InducedCategory.hom_ext
     apply ModuleCat.hom_ext
     ext
-    simp [regularEnd, End.one_asHom, End.mul_asHom]
+    simp [regularEnd, End.one_asHom]
   map_mul' a b := by
     apply End.ext
     apply InducedCategory.hom_ext
     apply ModuleCat.hom_ext
     ext
-    simp [regularEnd, End.one_asHom, End.mul_asHom]
+    simp [regularEnd, End.mul_asHom]
   map_zero' := by
     apply End.ext
     apply InducedCategory.hom_ext
     apply ModuleCat.hom_ext
     ext
-    simp [regularEnd, End.one_asHom, End.mul_asHom]
+    simp [regularEnd]
   map_add' a b := by
     apply End.ext
     apply InducedCategory.hom_ext

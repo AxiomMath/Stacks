@@ -144,7 +144,7 @@ theorem descent : ∀ (i : ℕ) (A : DoubleCx R) (_ : A.RowResolution)
         interval_cases m
         simp only [Nat.sub_zero] at hb
         subst hb
-        show A.d 0 0 (transp A 1 1 (0 + 1 - 1) 0 rfl (by omega)
+        change A.d 0 0 (transp A 1 1 (0 + 1 - 1) 0 rfl (by omega)
               (transp A 1 (0 + 1) 0 (0 + 1 - (0 + 1)) (by omega) (by omega) (chooseLift (A.d 0 0)
                   hbase)))
           = A.δ 0 0 (transp A 0 0 (0 + 1 - 0) (0 + 1) rfl (by omega) c0)
@@ -166,7 +166,7 @@ theorem descent : ∀ (i : ℕ) (A : DoubleCx R) (_ : A.RowResolution)
       have hcyc' : CycG A.shiftR i' g' := by
         intro m hm b hb
         have hraw := hcyc (m + 1) (by omega) b (by omega)
-        show A.d (m + 1) b
+        change A.d (m + 1) b
             (transp A.shiftR (m + 1) (m + 1) (i' - (m + 1)) b rfl (by omega) (g' ⟨m + 1, by omega⟩))
           = - A.δ (m + 1) b
             (transp A.shiftR m m (i' - m) (b + 1) rfl (by omega) (g' ⟨m, by omega⟩))
@@ -190,7 +190,7 @@ theorem descent : ∀ (i : ℕ) (A : DoubleCx R) (_ : A.RowResolution)
           simp only [transp_rfl]
         rw [show LinearMap.range (A.shiftR.d 0 i') = LinearMap.range (A.d 1 i') from rfl,
           ← hrow 0 i', LinearMap.mem_ker]
-        show A.d 0 i' (A.δ 1 i' c1 - (show A.A 1 i' from g' ⟨0, by omega⟩)) = 0
+        change A.d 0 i' (A.δ 1 i' c1 - (show A.A 1 i' from g' ⟨0, by omega⟩)) = 0
         rw [map_sub, step, stepg, sub_self]
       obtain ⟨c', hc'0, hc'rel⟩ := ih A.shiftR (A.shiftR_RowResolution hrow) g' c1 hbase' hcyc'
       refine ⟨Fin.cases (motive := fun k : Fin (i' + 3) => A.A (k : ℕ) (i' + 1 + 1 - (k : ℕ))) c0
@@ -203,7 +203,7 @@ theorem descent : ∀ (i : ℕ) (A : DoubleCx R) (_ : A.RowResolution)
         | zero =>
             simp only [Nat.sub_zero] at hb
             subst hb
-            show A.d 0 (i' + 1)
+            change A.d 0 (i' + 1)
                 (transp A 1 1 (i' + 1 + 1 - 1) (i' + 1) rfl (by omega)
                   (transp A 1 1 (i' + 1 - 0) (i' + 1 + 1 - (0 + 1)) rfl (by omega)
                   (c' ⟨0, by omega⟩)))
@@ -249,7 +249,7 @@ theorem cycG_of_dtot (A : DoubleCx R) (j : ℕ)
   have hcm := congrFun hcyc ⟨m, by omega⟩
   rw [Dtot_apply] at hcm
   simp only [Pi.zero_apply] at hcm
-  show A.d m (j - m)
+  change A.d m (j - m)
       (transp A (m + 1) (m + 1) (j + 1 - (m + 1)) (j - m) rfl (by omega)
         (tsign R (((⟨m + 1, by omega⟩ : Fin (j + 2)) : ℕ)) • a ⟨m + 1, by omega⟩))
     = - A.δ m (j - m)
@@ -288,7 +288,7 @@ theorem dtot_b_eq (A : DoubleCx R) (j : ℕ)
   rw [Dtot_apply]
   simp only [map_smul]
   have hr := hrel (m : ℕ) (by omega) (j + 1 - (m : ℕ)) rfl
-  show bEps R (m.succ : ℕ) •
+  change bEps R (m.succ : ℕ) •
         A.d (m : ℕ) (j + 1 - (m : ℕ))
           (transp A ((m : ℕ) + 1) ((m : ℕ) + 1) (j + 1 + 1 - ((m : ℕ) + 1)) (j + 1 - (m : ℕ))
             rfl (by omega) (c ⟨(m : ℕ) + 1, by omega⟩))
@@ -301,7 +301,7 @@ theorem dtot_b_eq (A : DoubleCx R) (j : ℕ)
   rw [show ∀ (P Q S : A.A (m : ℕ) (j + 1 - (m : ℕ))), P - Q + S = (P + S) - Q from
     fun P Q S => by abel]
   rw [bEps_succ_smul_add_castSucc_smul, zero_sub]
-  show - (bEps R (m.succ : ℕ) •
+  change - (bEps R (m.succ : ℕ) •
       transp A (m : ℕ) (m : ℕ) (j + 1 - (m : ℕ)) (j + 1 - (m : ℕ)) rfl (by omega)
         (tsign R (m : ℕ) • a ⟨(m : ℕ), by omega⟩)) = a m
   rw [transp_rfl, smul_smul, Fin.val_succ, bEps_succ, mul_assoc, mul_comm (bEps R _),
@@ -321,7 +321,7 @@ theorem mem_range_Dtot_succ_of_cycle (A : DoubleCx R) (hrow : A.RowResolution) (
     fun k => tsign R (k : ℕ) • a k with hgdef
   have hcyc' : CycG A (j + 1) g := cycG_of_dtot A j a hcyc
   have hg0 : g ⟨0, by omega⟩ = a (0 : Fin (j + 2)) := by
-    show tsign R ((⟨0, by omega⟩ : Fin (j + 2)) : ℕ) • a ⟨0, by omega⟩ = a (0 : Fin (j + 2))
+    change tsign R ((⟨0, by omega⟩ : Fin (j + 2)) : ℕ) • a ⟨0, by omega⟩ = a (0 : Fin (j + 2))
     have : tsign R ((⟨0, by omega⟩ : Fin (j + 2)) : ℕ) = 1 := tsign_zero
     rw [this, one_smul]
     rfl
@@ -367,7 +367,7 @@ theorem edgeBoundary_zero (A : DoubleCx R)
         a (0 : Fin 1) = A.δ 0 0 y + A.d 0 0 w := by
   have hx' : Submodule.Quotient.mk ((A.d 0 0).range.mkQ (a 0)) = (0 : A.RHom 0) := by
     rw [← hx]
-    show _ = homologyMap (cmpRChainHom A) 0 (Submodule.Quotient.mk a)
+    change _ = homologyMap (cmpRChainHom A) 0 (Submodule.Quotient.mk a)
     simp only [homologyMap]
     rfl
   rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero] at hx'
@@ -403,7 +403,7 @@ theorem edgeBoundary_succ (A : DoubleCx R) (j : ℕ)
             (Fin.val_castSucc _) (by rw [Fin.val_castSucc]; omega)
             (a ((0 : Fin (j + 1)).castSucc)))
         = A.δ 0 j (a (0 : Fin (j + 2))) by
-          show (-1 : R) ^ (0 : ℕ) • A.δ 0 j (a (0 : Fin (j + 2))) = _
+          change (-1 : R) ^ (0 : ℕ) • A.δ 0 j (a (0 : Fin (j + 2))) = _
           rw [pow_zero, one_smul]] at h0
     refine ⟨- (transp A (((0 : Fin (j + 1)).succ : ℕ)) (((0 : Fin (j + 1)) : ℕ) + 1)
         (j + 1 - (((0 : Fin (j + 1)).succ : ℕ))) (j - ((0 : Fin (j + 1)) : ℕ))
@@ -415,12 +415,12 @@ theorem edgeBoundary_succ (A : DoubleCx R) (j : ℕ)
       (⟨(A.d 0 (j + 1)).range.mkQ (a (0 : Fin (j + 2))), hmem⟩ :
         LinearMap.ker (A.RDiff j)) = (0 : A.RHom (j + 1)) := by
     rw [← hx]
-    show _ = homologyMap (cmpRChainHom A) (j + 1) (Submodule.Quotient.mk ⟨a, _⟩)
+    change _ = homologyMap (cmpRChainHom A) (j + 1) (Submodule.Quotient.mk ⟨a, _⟩)
     simp only [homologyMap]
     apply congrArg
     apply Subtype.ext
-    show _ = ((cmpRChainHom A).f (j + 1)) a
-    show _ = (A.d 0 (j + 1)).range.mkQ (a (0 : Fin (j + 2)))
+    change _ = ((cmpRChainHom A).f (j + 1)) a
+    change _ = (A.d 0 (j + 1)).range.mkQ (a (0 : Fin (j + 2)))
     rfl
   rw [Submodule.Quotient.mk_eq_zero, Submodule.mem_comap, Submodule.subtype_apply] at hx'
   obtain ⟨ybar, hybar⟩ := hx'
@@ -474,7 +474,7 @@ noncomputable def stairCycleTuple (A : DoubleCx R) (hrow : A.RowResolution)
 theorem stairCycleTuple_zero (A : DoubleCx R) (hrow : A.RowResolution)
     (n : ℕ) (a : A.A 0 (n + 1)) (h : A.StairCycle (n + 1) a) :
     stairCycleTuple A hrow n a h (0 : Fin (n + 2)) = a := by
-  show (bEps R ((0 : Fin (n + 2)) : ℕ)) • A.stairTuple hrow (n + 1) a h 0 = a
+  change (bEps R ((0 : Fin (n + 2)) : ℕ)) • A.stairTuple hrow (n + 1) a h 0 = a
   have hs : (bEps R ((0 : Fin (n + 2)) : ℕ)) = 1 := by
     rw [Fin.val_zero]; exact bEps_zero
   rw [hs, one_smul, stairTuple_zero]
@@ -484,9 +484,9 @@ theorem stairTuple_cycle (A : DoubleCx R) (hrow : A.RowResolution)
     (n : ℕ) (a : A.A 0 (n + 1)) (h : A.StairCycle (n + 1) a) :
     Dtot A n (stairCycleTuple A hrow n a h) = 0 := by
   funext m
-  show Dtot A n (stairCycleTuple A hrow n a h) m = (0 : ∀ k : Fin (n + 1), A.A k (n - (k : ℕ))) m
+  change Dtot A n (stairCycleTuple A hrow n a h) m = (0 : ∀ k : Fin (n + 1), A.A k (n - (k : ℕ))) m
   rw [Pi.zero_apply, Dtot_apply]
-  show A.d (m : ℕ) (n - (m : ℕ))
+  change A.d (m : ℕ) (n - (m : ℕ))
         (transp A (m.succ : ℕ) ((m : ℕ) + 1) (n + 1 - (m.succ : ℕ)) (n - (m : ℕ)) _ _
           (bEps R ((m.succ : Fin (n + 2)) : ℕ) • A.stairTuple hrow (n + 1) a h m.succ))
       + ((-1 : R) ^ (m : ℕ)) •
@@ -513,7 +513,7 @@ theorem cmpRfwd_surjective (A : DoubleCx R) (hrow : A.RowResolution) (i : ℕ) :
       refine ⟨Submodule.Quotient.mk
         (Fin.cases (motive := fun k : Fin 1 => A.A (k : ℕ) (0 - (k : ℕ))) a₀
           (fun j => j.elim0) : TotChain A 0), ?_⟩
-      show homologyMap (cmpRChainHom A) 0 (Submodule.Quotient.mk _) = _
+      change homologyMap (cmpRChainHom A) 0 (Submodule.Quotient.mk _) = _
       simp only [homologyMap]
       rfl
   | succ j =>
@@ -525,12 +525,12 @@ theorem cmpRfwd_surjective (A : DoubleCx R) (hrow : A.RowResolution) (i : ℕ) :
       have hcyc : A.StairCycle (j + 1) a₀ := hz
       refine ⟨Submodule.Quotient.mk ⟨stairCycleTuple A hrow j a₀ hcyc, ?_⟩, ?_⟩
       · rw [LinearMap.mem_ker]; exact stairTuple_cycle A hrow j a₀ hcyc
-      · show homologyMap (cmpRChainHom A) (j + 1) (Submodule.Quotient.mk _) = _
+      · change homologyMap (cmpRChainHom A) (j + 1) (Submodule.Quotient.mk _) = _
         erw [homologyMap, Submodule.mapQ_apply]
         congr 1
         apply Subtype.ext
-        show ((cmpRChainHom A).f (j + 1)) (stairCycleTuple A hrow j a₀ hcyc) = _
-        show (A.d 0 (j + 1)).range.mkQ (stairCycleTuple A hrow j a₀ hcyc (0 : Fin (j + 2))) = _
+        change ((cmpRChainHom A).f (j + 1)) (stairCycleTuple A hrow j a₀ hcyc) = _
+        change (A.d 0 (j + 1)).range.mkQ (stairCycleTuple A hrow j a₀ hcyc (0 : Fin (j + 2))) = _
         rw [stairCycleTuple_zero]
         rfl
 

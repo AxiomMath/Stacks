@@ -128,8 +128,7 @@ public theorem subsingleton_extendScalars {R S : Type u} [CommRing R] [CommRing 
     Subsingleton ((ModuleCat.extendScalars g).obj M : Type u) := by
   have h : ∀ z : ((ModuleCat.extendScalars g).obj M : Type u), z = 0 := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | tmul a m =>
         rw [Subsingleton.elim m 0, TensorProduct.tmul_zero]
         rfl
@@ -241,7 +240,7 @@ public theorem two_app_base_injective :
 /-- Over `cover` the ring is `ℤ/2`, on which doubling is zero. -/
 public theorem two_app_cover_eq_zero : two.app (op Obj.cover) = 0 := by
   ext
-  show (1 : ZMod 2) + 1 = 0
+  change (1 : ZMod 2) + 1 = 0
   decide
 
 /-! ### The kernel of multiplication by two -/

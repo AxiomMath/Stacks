@@ -123,7 +123,7 @@ theorem exists_isPrincipalDivisorCycle_restrict (k : ℤ)
         (closureSubspace D sX hX j V).isClosedSubspace.1 V.isClosedSubspace.1 hWd hmopen) f).symm
   refine ⟨hVgood, V.isIntegralSpace, fV, ?_⟩
   funext A
-  show c'.1 _ = _
+  change c'.1 _ = _
   rw [heq]
   exact principalDivisorCycleCoefficients_closureImage_of_ord_eq D
     ((closureSubspace D sX hX j V).subspace.ι ≫ sX) hWg (V.subspace.ι ≫ sU) hVgood hWd
@@ -144,7 +144,7 @@ theorem cycleGroupRestrict_integralClosedSubspacePushforward_of_disjoint (k : �
       0 := by
   refine Subtype.ext (funext fun A => ?_)
   rw [cycleGroupRestrict_apply]
-  show _ = (0 : IntegralClosedSubspace D.site D.base D.base_mem U → ℤ) A
+  change _ = (0 : IntegralClosedSubspace D.site D.base D.base_mem U → ℤ) A
   by_contra hne
   have hsub := subspacePointSet_subset_of_pushforward_ne_zero D sX hX W k c _ hne
   have := A.isIntegralSpace.2.2
@@ -196,7 +196,7 @@ theorem isRationallyEquivalentToZero_cycleGroupRestrict (k : ℤ) {α : CycleGro
     intro n
     rw [← hjc, ← IntegralClosedSubspace.deltaDimension_closureImage D sX hX.2.2 hX.1 hU.1
       (D.isDecentSpace_of_isGood sX hX) himm (A n)]
-    show deltaDimension D sX (closureSubspace D sX hX j (A n)) = k + 1
+    change deltaDimension D sX (closureSubspace D sX hX j (A n)) = k + 1
     rw [hA n]
     exact hdim n.1
   refine ⟨{n // P n}, A, hAfin, cA, hdimA, hcA, ?_⟩
@@ -274,7 +274,7 @@ theorem isIso_of_comp_ι_eq_of_subspacePointSet
       (fun T : Scheme.{u} => IsReduced T) := W'.isIntegralSpace.1
   obtain ⟨g, hg⟩ := (exists_lift_closedSubspace_iff_pointsMap_range_subset D.site D.base
     D.base_mem hX.1 W'.isClosedSubspace.1 Y hY hred W'.subspace.ι).2 (by
-      show subspacePointSet D.site D.base D.base_mem X W'.subspace ⊆ _
+      change subspacePointSet D.site D.base D.base_mem X W'.subspace ⊆ _
       rw [hpts]
       exact Set.image_subset_range _ _)
   obtain ⟨n, hn⟩ := (exists_lift_closedSubspace_iff_pointsMap_range_subset D.site D.base
@@ -349,7 +349,7 @@ theorem IntegralClosedSubspace.pushforward_closureImage_eq_pushforward_pushforwa
     rw [← pointsMap_comp, ← pointsMap_comp, hm]
   refine injective_integralClosedSubspaceSupport D.site D.base D.base_mem hX.1
     (IrreducibleCloseds.ext ?_)
-  show subspacePointSet D.site D.base D.base_mem X _ =
+  change subspacePointSet D.site D.base D.base_mem X _ =
     subspacePointSet D.site D.base D.base_mem X _
   have hcl := isClosed_range_pointsMap_integralClosedSubspace D.site D.base D.base_mem hX.1
     (IntegralClosedSubspace.pushforward D.site D.base D.base_mem hX.1 hY.1
@@ -408,7 +408,7 @@ theorem cycleGroupClosedPushforward_integralClosedSubspacePushforward (k : ℤ)
       IsIso.inv_hom_id, pointsMap_id]
     rfl
   refine Subtype.ext (funext fun T => ?_)
-  show cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
+  change cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
       (cycleClosedPushforward D hY.1 W.isClosedSubspace.1
         (D.isDecentSpace_of_isGood _ hYgood) W.isClosedSubspace.2 c.1) T =
     cycleClosedPushforward D hX.1 (closureSubspace D sX hX Y.ι W).isClosedSubspace.1
@@ -476,14 +476,14 @@ theorem isRationallyEquivalentToZero_cycleGroupClosedPushforward (k : ℤ)
     (cycleGroupClosedPushforward_integralClosedSubspacePushforward D sX hX Y hY k (W n) (hm n)
       (c n) (c' n) (hcc n))
   rw [← finsum_congr hterm]
-  show cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
+  change cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
       (cycleFamilySum D (Y.ι ≫ sX) hYgood W hWfin k c).1 T = _
   by_cases hT : ∃ T0, IntegralClosedSubspace.pushforward D.site D.base D.base_mem hX.1 hY.1
       (D.isDecentSpace_of_isGood sX hX) hY.2 T0 = T
   · obtain ⟨T0, rfl⟩ := hT
     rw [cycleClosedPushforward_apply_pushforward, cycleFamilySum_apply]
     refine finsum_congr fun n => ?_
-    show _ = cycleClosedPushforward D hX.1 hY.1 _ hY.2 _ _
+    change _ = cycleClosedPushforward D hX.1 hY.1 _ hY.2 _ _
     rw [cycleClosedPushforward_apply_pushforward]
   · rw [cycleClosedPushforward_apply_eq_zero_of_not_exists_pushforward D sX hX Y hY _ T hT]
     exact (finsum_eq_zero_of_forall_eq_zero fun n =>
@@ -574,10 +574,10 @@ theorem chowGroup_localization
           (cycleGroupRestrict D sX hX (U.ι ≫ sX) hUgood hU.2 rfl k α) :=
         (QuotientAddGroup.eq_zero_iff _).1 hy
       obtain ⟨γ, hγ⟩ := hcyc α 0 (by
-        show IsRationallyEquivalentToZero.{v} D _ hUgood k (_ - _)
+        change IsRationallyEquivalentToZero.{v} D _ hUgood k (_ - _)
         rwa [map_zero, sub_zero])
       refine ⟨(γ : chowGroup.{v} D (Y.ι ≫ sX) hYgood k), ?_⟩
-      show ((cycleGroupClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
+      change ((cycleGroupClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
         sX hX.2.2 (Y.ι ≫ sX) rfl k γ : CycleGroup D sX k) : chowGroup.{v} D sX hX k) = α
       rw [QuotientAddGroup.eq_iff_sub_mem, ← neg_sub]
       rw [zero_add] at hγ
@@ -585,7 +585,7 @@ theorem chowGroup_localization
   · rintro ⟨z, rfl⟩
     induction z using QuotientAddGroup.induction_on with
     | H γ =>
-      show ((cycleGroupRestrict D sX hX (U.ι ≫ sX) hUgood hU.2 rfl k
+      change ((cycleGroupRestrict D sX hX (U.ι ≫ sX) hUgood hU.2 rfl k
         (cycleGroupClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
           sX hX.2.2 (Y.ι ≫ sX) rfl k γ) : CycleGroup D (U.ι ≫ sX) k) :
         chowGroup.{v} D (U.ι ≫ sX) hUgood k) = 0

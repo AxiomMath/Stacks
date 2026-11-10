@@ -88,8 +88,8 @@ def extPrecompLinearMap {K L : DerivedCategory X.Modules} (g : K ⟶ L) (i : ℤ
     DerivedCategory.Ext L (ωX).obj i →ₗ[k] DerivedCategory.Ext K (ωX).obj i :=
   let := Scheme.linearOver f
   { toFun α := g ≫ α
-    map_add' α₁ α₂ := Preadditive.comp_add _ _ _ _ _ _
-    map_smul' c α := Linear.comp_smul _ _ _ _ _ _ }
+    map_add' := Preadditive.comp_add _ _ _ g
+    map_smul' := Linear.comp_smul _ _ _ g }
 
 /-- `extPrecompLinearMap f g i` sends `α` to the composite `g ≫ α`. -/
 @[simp]
@@ -147,7 +147,7 @@ theorem coherentTracePairing_isPerfPair_and_dualMap (i : ℤ) :
     obtain ⟨-, hExt, hH, hP⟩ := finiteDimensional_and_isPerfPair_of_coherent f _ hb
     exact ⟨hExt i, hH (-i), hP i, fun α β =>
       dualityEquiv_apply_eq_traceOverField f (quasiCoherentOfCoherent _ hb.2) i α β⟩
-  · show (dualityPairing f _ i ((single₀).map φ ≫ α)).hom β = (dualityPairing f _ i α).hom _
+  · change (dualityPairing f _ i ((single₀).map φ ≫ α)).hom β = (dualityPairing f _ i α).hom _
     rw [dualityPairing_comp]
     rfl
   · ext α β

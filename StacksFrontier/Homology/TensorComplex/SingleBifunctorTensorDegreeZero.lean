@@ -70,7 +70,7 @@ lemma ι_mapBifunctorSingleIso_hom :
     ((F.mapIso (singleObjXSelf (ComplexShape.up ℤ) 0 M)).app
           (((CochainComplex.singleFunctor C₂ 0).obj N).X 0) ≪≫
         (F.obj M).mapIso (singleObjXSelf (ComplexShape.up ℤ) 0 N))).mp ?_) (Category.comp_id _)
-  show ((F.obj M).map (singleObjXSelf (ComplexShape.up ℤ) 0 N).inv ≫
+  change ((F.obj M).map (singleObjXSelf (ComplexShape.up ℤ) 0 N).inv ≫
         (F.map (singleObjXSelf (ComplexShape.up ℤ) 0 M).inv).app
           (((CochainComplex.singleFunctor C₂ 0).obj N).X 0)) ≫
       (ιMapBifunctor ((CochainComplex.singleFunctor C₁ 0).obj M)

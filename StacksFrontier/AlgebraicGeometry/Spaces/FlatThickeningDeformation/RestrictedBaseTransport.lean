@@ -97,7 +97,7 @@ theorem lift_naturality {U U' : Cᵒᵖ} (p : U ⟶ U') (m : I₁.val.obj U) :
   have nA : φA.hom.app U' (A₁.obj.map p (show A₁.obj.obj U from ι₁.val.app U m)) =
       A₀.obj.map p (φA.hom.app U (show A₁.obj.obj U from ι₁.val.app U m)) :=
     ConcreteCategory.congr_hom (φA.hom.naturality p) _
-  show (show A₀.obj.obj U' from ι₀.val.app U' (e U' (I₁.val.map p m))) =
+  change (show A₀.obj.obj U' from ι₀.val.app U' (e U' (I₁.val.map p m))) =
     (show A₀.obj.obj U' from ι₀.val.app U' (I₀.val.map p (e U m)))
   rw [he U' (I₁.val.map p m), n1, nA, n0, he U m]
 
@@ -114,7 +114,7 @@ theorem lift_map_smul (U : Cᵒᵖ) (a : A₁.obj.obj U) (m : I₁.val.obj U) :
       (show A₀.obj.obj U from φA.hom.app U a) *
         (show A₀.obj.obj U from ι₀.val.app U (e U m)) :=
     (ι₀.val.app U).hom.map_smul (φA.hom.app U a) (e U m)
-  show (show A₀.obj.obj U from ι₀.val.app U (e U (π₁.hom.app U a • m))) =
+  change (show A₀.obj.obj U from ι₀.val.app U (e U (π₁.hom.app U a • m))) =
     (show A₀.obj.obj U from ι₀.val.app U
       ((show R₀.obj.obj U from φR.hom.app U (π₁.hom.app U a)) • e U m))
   rw [hc, he U (π₁.hom.app U a • m), s0, s1, _root_.map_mul, he U m]
@@ -132,7 +132,7 @@ theorem lift_bijective [IsIso φA] [IsIso φR]
   refine ⟨fun m m' h => ?_, fun n => ?_⟩
   · apply hinj₁ U
     apply (SheafOfModules.bijective_hom_app_of_isIso φA U).1
-    show φA.hom.app U (show A₁.obj.obj U from ι₁.val.app U m) =
+    change φA.hom.app U (show A₁.obj.obj U from ι₁.val.app U m) =
       φA.hom.app U (show A₁.obj.obj U from ι₁.val.app U m')
     rw [← he U m, ← he U m', h]
   · obtain ⟨a, ha⟩ := (SheafOfModules.bijective_hom_app_of_isIso φA U).2
@@ -140,13 +140,13 @@ theorem lift_bijective [IsIso φA] [IsIso φR]
     have hc := sheaf_comp_apply_eq comm U a
     have h0 : π₁.hom.app U a = 0 := by
       apply (SheafOfModules.bijective_hom_app_of_isIso φR U).1
-      show (show R₀.obj.obj U from φR.hom.app U (π₁.hom.app U a)) =
+      change (show R₀.obj.obj U from φR.hom.app U (π₁.hom.app U a)) =
         (show R₀.obj.obj U from φR.hom.app U 0)
       rw [hc, _root_.map_zero, ha]
       exact hzero _ n
     obtain ⟨m, hm⟩ := huniv U a h0
     refine ⟨m, hinj _ ?_⟩
-    show (show A₀.obj.obj U from ι₀.val.app U (e U m)) =
+    change (show A₀.obj.obj U from ι₀.val.app U (e U m)) =
       (show A₀.obj.obj U from ι₀.val.app U n)
     rw [he U m, hm, ha]
 
@@ -216,7 +216,7 @@ theorem bijective_comp_map_of_val_app_eq (σ : R₁ ⟶ R₀) [IsIso σ] (a : R�
     funext k
     simp only [Function.comp_apply, Functor.map_comp]
     rfl
-  show Function.Bijective (fun k : G ⟶ M => ((e.hom ≫ (restrictScalars.{u} σ).map c) ≫
+  change Function.Bijective (fun k : G ⟶ M => ((e.hom ≫ (restrictScalars.{u} σ).map c) ≫
       (restrictScalars.{u} (σ ≫ a)).map k : I₁ ⟶
         (restrictScalars.{u} σ).obj ((restrictScalars.{u} a).obj M)))
   rw [he]
@@ -399,7 +399,7 @@ theorem restrictedTheta_comp :
       (inverseImageCommRingFunctor (restrictedProblem hZ ρ t).f.toToposHom).map
           (restrictedProblem hZ ρ t).baseReduction ≫
         (restrictedProblem hZ ρ t).f.fSharpInverseImage := by
-  show (restrictedRingIso ρ t (baseExtension hZ).extension).inv ≫
+  change (restrictedRingIso ρ t (baseExtension hZ).extension).inv ≫
       (smallEtaleInverseImageRing B S hS (t ≫ ρ.hom)).map (baseExtension hZ).reduction ≫
         (smallEtaleRingedToposHom B S hS (t ≫ ρ.hom)).fSharpInverseImage = _
   rw [fSharp_comp_eq, ← Category.assoc ((smallEtaleInverseImageRing B S hS _).map _),
@@ -419,7 +419,7 @@ theorem restrictedIdeal_reduction (U : (SmallEtale B S hS X.1)ᵒᵖ)
   have hc := sheaf_comp_apply_eq (restrictedRingIso_comm hZ ρ t) U
     ((problem (t ≫ ρ.hom) hZ).idealInclusion.val.app U x)
   refine hc.symm.trans ?_
-  show (restrictedReducedIso ρ t).hom.hom.app U
+  change (restrictedReducedIso ρ t).hom.hom.app U
     (((smallEtaleInverseImageRing B S hS (t ≫ ρ.hom)).map (baseExtension hZ).reduction).hom.app U
       ((problem (t ≫ ρ.hom) hZ).idealInclusion.val.app U x)) = 0
   rw [show ((smallEtaleInverseImageRing B S hS (t ≫ ρ.hom)).map
@@ -578,7 +578,7 @@ theorem restrictedIdealMap_val_app (U : (SmallEtale B S hS X.1)ᵒᵖ)
   have hc := (restrictedProblem hZ ρ t).isCompatible_toAlgebraExtension (Iso.refl _)
     (Category.id_comp _) P U (restrictedIdealApp hZ ρ t U x)
   refine Eq.trans ?_ hc
-  show (restrictedQ hZ ρ t P).algebraMap.hom.app U
+  change (restrictedQ hZ ρ t P).algebraMap.hom.app U
       ((restrictedRingIso ρ t (baseExtension hZ).extension).hom.hom.app U
         ((problem (t ≫ ρ.hom) hZ).idealInclusion.val.app U x)) =
     (restrictedQ hZ ρ t P).algebraMap.hom.app U
@@ -722,7 +722,7 @@ theorem restrictedBase_coherence (j : Y₀ ⟶ Y') (hj : ρ.hom ≫ subspaceIncl
   have ha := smallEtaleRingedToposHom_compInverseImageRingIso_inv_assoc B S hS t ρ.hom
     (subspaceInclusion B S hS Y' Z) (smallEtaleRingedTopos B S hS Y').O
   simp only [eqToHom_refl, Category.id_comp]
-  show _ ≫ (smallEtaleInverseImageRing B S hS t).map
+  change _ ≫ (smallEtaleInverseImageRing B S hS t).map
       ((smallEtaleRingedToposHom_compInverseImageRingIso B S hS ρ.hom
         (subspaceInclusion B S hS Y' Z)).inv.app _ ≫ (restrictionRingIso ρ _).hom) =
     _ ≫ (smallEtaleRingedToposHom_compInverseImageRingIso B S hS t ρ.hom).inv.app _ ≫

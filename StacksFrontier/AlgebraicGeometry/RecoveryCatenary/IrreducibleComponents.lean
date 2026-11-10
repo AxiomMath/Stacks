@@ -56,7 +56,7 @@ private lemma exists_irreducibleComponent_ideal_eq_minimalPrime
   have hset : f ⁻¹' Z = closure ({x} : Set (PrimeSpectrum Γ(S, U))) :=
     (Set.Subset.antisymm hsub (hxcomp.2 hprecomp.1 hsub)).symm
   refine ⟨⟨Z, hZ⟩, ?_⟩
-  show PrimeSpectrum.vanishingIdeal (f ⁻¹' Z) = p
+  change PrimeSpectrum.vanishingIdeal (f ⁻¹' Z) = p
   rw [hset, PrimeSpectrum.vanishingIdeal_closure, PrimeSpectrum.vanishingIdeal_singleton]
 
 /-- The two formulations of catenarity of a ring agree: chains of primes with bounded length

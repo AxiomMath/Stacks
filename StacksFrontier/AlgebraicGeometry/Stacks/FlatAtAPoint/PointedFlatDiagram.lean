@@ -121,6 +121,7 @@ universe u w
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_PointedFlatDiagram :
@@ -194,7 +195,7 @@ private theorem isFlatAt_of_comp {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   let _ : Algebra A M := α.toAlgebra
   let _ : Algebra C M := γ.toAlgebra
   let _ : IsScalarTower C A M := IsScalarTower.of_algebraMap_smul fun c n => by
-    show α (β c) • n = γ c • n
+    change α (β c) • n = γ c • n
     rw [RingHom.congr_fun hαγ c]
     rfl
   have : IsLocalRing A := Space.isLocalRing_etaleLocalRing B S hS Y hY ybar
@@ -217,7 +218,7 @@ private theorem schemeIsFlatAt_comp_of_isIso {P Q A : Scheme.{u}} (e : P ⟶ Q) 
     rw [CommRingCat.hom_comp]
     exact (RingHom.Flat.comp_iff_of_bijective_left hbij).mpr hflat
   have heq := congrArg CommRingCat.Hom.hom (Scheme.Hom.stalkMap_comp e q t)
-  show ((e ≫ q).stalkMap t).hom.Flat
+  change ((e ≫ q).stalkMap t).hom.Flat
   exact heq ▸ hcomp
 
 /-- **Base change of flatness at a point, for morphisms of schemes.** In a cartesian square the
@@ -365,7 +366,7 @@ private theorem isFlatAt_of_isPullback
         rw [h₁, hz', h₂, e.hom_inv_id, Space.pointsMap_id, id_eq] }
   have hsource : chartF.sourcePoint B S hS =
       (BigFppfOver.toScheme B S hS).map pU (chartF'.sourcePoint B S hS) := by
-    show ((BigFppfOver.toScheme B S hS).map (r.value ≫ pU))
+    change ((BigFppfOver.toScheme B S hS).map (r.value ≫ pU))
         (IsLocalRing.closedPoint r.carrier) =
       (BigFppfOver.toScheme B S hS).map pU
         (((BigFppfOver.toScheme B S hS).map r.value) (IsLocalRing.closedPoint r.carrier))
@@ -745,7 +746,7 @@ private theorem nonempty_pointedFlatDiagram
       isoFst := eh
       isoSnd := Iso.refl a₀
       compat := by
-        show η.hom ≫ Bicategory.whiskerRight (𝟙 a₀) f.hom ≫
+        change η.hom ≫ Bicategory.whiskerRight (𝟙 a₀) f.hom ≫
             (Bicategory.associator i R.snd f.hom).hom =
           Bicategory.whiskerRight eh.hom b ≫ (Bicategory.associator i R.fst b).hom ≫
             Bicategory.whiskerLeft i R.iso.hom

@@ -140,7 +140,7 @@ private theorem coe_supportedBasis_apply {α : Type*} (s : Set α) (j : s) :
       ⟨Finsupp.single j.1 1, Finsupp.single_mem_supported R 1 j.2⟩
       = Finsupp.basisSingleOne (R := R) (ι := s) j := by
     ext k
-    show (Finsupp.single j.1 (1 : R)) k.1 = _
+    change (Finsupp.single j.1 (1 : R)) k.1 = _
     rw [Finsupp.coe_basisSingleOne, Finsupp.single_apply, Finsupp.single_apply]
     exact if_congr (by simp [Subtype.ext_iff]) rfl rfl
   rw [← h, LinearEquiv.symm_apply_apply]
@@ -239,7 +239,7 @@ theorem topDualEquiv_toLinearMap (R : Type u) [CommRing R] (n : ℕ) (d : ℤ) :
   refine (negativeTwistPartBasis R n d).ext fun e => ?_
   refine LinearMap.ext fun f => ?_
   rw [residueDual_apply, coe_negativeTwistPartBasis_apply, residuePairing_single, one_mul]
-  show ((twistChartBasis R n (-d - ((n : ℤ) + 1))
+  change ((twistChartBasis R n (-d - ((n : ℤ) + 1))
       (∅ : Set (Fin (n + 1)))).dualBasis.repr.symm
     (Finsupp.domLCongr (negativeLaurentMonomialsEquiv n d)
       ((negativeTwistPartBasis R n d).repr ((negativeTwistPartBasis R n d) e)))) f = _

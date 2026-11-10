@@ -54,7 +54,7 @@ theorem mapHomotopyCategoryAdjunction_ofNatIsoRight {E : B ⥤ A} {R P : A ⥤ B
   apply Adjunction.ext
   apply Quotient.natTrans_ext
   ext K
-  show ((mapHomotopyCategoryAdjunction adj c).ofNatIsoRight
+  change ((mapHomotopyCategoryAdjunction adj c).ofNatIsoRight
       (Stacks.Cohomology.DerivedPullbackAlongIso.mapHomotopyCategoryIso ι c).symm).unit.app
         ((HomotopyCategory.quotient B c).obj K) =
     (mapHomotopyCategoryAdjunction (adj.ofNatIsoRight ι.symm) c).unit.app
@@ -67,7 +67,7 @@ theorem mapHomotopyCategoryAdjunction_ofNatIsoRight {E : B ⥤ A} {R P : A ⥤ B
       (HomotopyCategory.quotient B c).map
         ((NatTrans.mapHomologicalComplex ι.inv c).app ((E.mapHomologicalComplex c).obj K)) := rfl
   rw [h]
-  show (HomotopyCategory.quotient B c).map
+  change (HomotopyCategory.quotient B c).map
       ((mapHomologicalComplexAdjunction adj c).unit.app K ≫
         (NatTrans.mapHomologicalComplex ι.inv c).app ((E.mapHomologicalComplex c).obj K)) = _
   refine congrArg (HomotopyCategory.quotient B c).map ?_
@@ -115,16 +115,16 @@ theorem mateEquiv_symm_mapHomotopyCategoryCompIso_app_quotient {ι : Type*} (c :
     (c₁ : P ⋙ Pt' ≅ Pa) (c₂ : Pt ⋙ P' ≅ Pa) (K : HomologicalComplex CU c) :
     ((mateEquiv (mapHomotopyCategoryAdjunction adj c) (mapHomotopyCategoryAdjunction adj' c)).symm
         (TwoSquare.mk _ _ _ _ ((Functor.mapHomotopyCategoryCompIso c₁ c).hom ≫
-          (Functor.mapHomotopyCategoryCompIso c₂ c).inv))).natTrans.app
+          (Functor.mapHomotopyCategoryCompIso c₂ c).inv))).app
         ((HomotopyCategory.quotient CU c).obj K) =
       (HomotopyCategory.quotient CT c).map ((NatTrans.mapHomologicalComplex
         ((mateEquiv adj adj').symm
-          (TwoSquare.mk _ _ _ _ (c₁.hom ≫ c₂.inv))).natTrans c).app K) := by
-  simp only [mateEquiv, Equiv.coe_fn_symm_mk, TwoSquare.natTrans, NatTrans.comp_app,
+          (TwoSquare.mk _ _ _ _ (c₁.hom ≫ c₂.inv))) c).app K) := by
+  simp only [mateEquiv, Equiv.coe_fn_symm_mk, NatTrans.comp_app,
     Functor.leftUnitor_inv_app, Functor.whiskerRight_app, Functor.associator_inv_app,
     Functor.associator_hom_app, Functor.whiskerLeft_app, Functor.rightUnitor_hom_app,
     Functor.comp_obj, Functor.comp_map, Functor.map_id, Category.id_comp]
-  show (HomotopyCategory.quotient CT c).map
+  change (HomotopyCategory.quotient CT c).map
       ((E'.mapHomologicalComplex c).map ((Pt'.mapHomologicalComplex c).map
           ((mapHomologicalComplexAdjunction adj c).unit.app K)) ≫
         (E'.mapHomologicalComplex c).map
@@ -159,7 +159,7 @@ theorem isIso_mateEquiv_symm_mapHomotopyCategory_app {CZ : Type u₁} {CU : Type
     (eh : Pa.mapHomotopyCategory c = Pb.mapHomotopyCategory c)
     (eh' : Pb.mapHomotopyCategory c = Pb.mapHomotopyCategory c)
     (hβ : IsIso ((mateEquiv (adj.ofNatIsoRight ιu.symm) (adj'.ofNatIsoRight ιu'.symm)).symm
-      (TwoSquare.mk _ _ _ _ ((c₁ ≪≫ τ₁).hom ≫ eqToHom e ≫ (c₂ ≪≫ τ₂).inv))).natTrans)
+      (TwoSquare.mk _ _ _ _ ((c₁ ≪≫ τ₁).hom ≫ eqToHom e ≫ (c₂ ≪≫ τ₂).inv))))
     (X : HomotopyCategory CU c) :
     IsIso (((mateEquiv ((mapHomotopyCategoryAdjunction adj c).ofNatIsoRight
           (Stacks.Cohomology.DerivedPullbackAlongIso.mapHomotopyCategoryIso ιu c).symm)
@@ -168,7 +168,7 @@ theorem isIso_mateEquiv_symm_mapHomotopyCategory_app {CZ : Type u₁} {CU : Type
       (TwoSquare.mk _ _ _ _ ((Functor.mapHomotopyCategoryCompIso c₁ c ≪≫
           Stacks.Homology.mapHomotopyCategoryIso τ₁ c ≪≫ eqToIso eh).hom ≫
         (Functor.mapHomotopyCategoryCompIso c₂ c ≪≫
-          Stacks.Homology.mapHomotopyCategoryIso τ₂ c ≪≫ eqToIso eh').inv))).natTrans.app X) := by
+          Stacks.Homology.mapHomotopyCategoryIso τ₂ c ≪≫ eqToIso eh').inv))).app X) := by
   subst e
   simp only [eqToHom_refl, Category.id_comp] at hβ
   rw [eqToIso_refl, Iso.trans_refl, Iso.trans_refl,
@@ -180,13 +180,13 @@ theorem isIso_mateEquiv_symm_mapHomotopyCategory_app {CZ : Type u₁} {CU : Type
     mateEquiv_symm_mapHomotopyCategoryCompIso_app_quotient]
   have : IsIso ((NatTrans.mapHomologicalComplex
       ((mateEquiv (adj.ofNatIsoRight ιu.symm) (adj'.ofNatIsoRight ιu'.symm)).symm
-        (TwoSquare.mk _ _ _ _ ((c₁ ≪≫ τ₁).hom ≫ (c₂ ≪≫ τ₂).inv))).natTrans c).app K) :=
+        (TwoSquare.mk _ _ _ _ ((c₁ ≪≫ τ₁).hom ≫ (c₂ ≪≫ τ₂).inv))) c).app K) :=
     have : ∀ n, IsIso (((NatTrans.mapHomologicalComplex
         ((mateEquiv (adj.ofNatIsoRight ιu.symm) (adj'.ofNatIsoRight ιu'.symm)).symm
-          (TwoSquare.mk _ _ _ _ ((c₁ ≪≫ τ₁).hom ≫ (c₂ ≪≫ τ₂).inv))).natTrans c).app K).f n) :=
+          (TwoSquare.mk _ _ _ _ ((c₁ ≪≫ τ₁).hom ≫ (c₂ ≪≫ τ₂).inv))) c).app K).f n) :=
       fun n ↦ NatIso.isIso_app_of_isIso
         ((mateEquiv (adj.ofNatIsoRight ιu.symm) (adj'.ofNatIsoRight ιu'.symm)).symm
-          (TwoSquare.mk _ _ _ _ ((c₁ ≪≫ τ₁).hom ≫ (c₂ ≪≫ τ₂).inv))).natTrans (K.X n)
+          (TwoSquare.mk _ _ _ _ ((c₁ ≪≫ τ₁).hom ≫ (c₂ ≪≫ τ₂).inv))) (K.X n)
     HomologicalComplex.Hom.isIso_of_components _
   exact Functor.map_isIso _ _
 
@@ -218,10 +218,10 @@ theorem isIso_mateEquiv_symm_app_of_eq_mapHomotopyCategory {CZ : Type u₁} {CU 
     (hF₂ : F₂ = Functor.mapHomotopyCategoryCompIso c₂ c ≪≫
       Stacks.Homology.mapHomotopyCategoryIso τ₂ c ≪≫ eqToIso eh')
     (hβ : IsIso ((mateEquiv (adj.ofNatIsoRight ιu.symm) (adj'.ofNatIsoRight ιu'.symm)).symm
-      (TwoSquare.mk _ _ _ _ ((c₁ ≪≫ τ₁).hom ≫ eqToHom e ≫ (c₂ ≪≫ τ₂).inv))).natTrans)
+      (TwoSquare.mk _ _ _ _ ((c₁ ≪≫ τ₁).hom ≫ eqToHom e ≫ (c₂ ≪≫ τ₂).inv))))
     (X : HomotopyCategory CU c) :
     IsIso (((mateEquiv hadj hadj').symm
-      (TwoSquare.mk _ _ _ _ (F₁.hom ≫ F₂.inv))).natTrans.app X) := by
+      (TwoSquare.mk _ _ _ _ (F₁.hom ≫ F₂.inv))).app X) := by
   subst hhadj hhadj' hF₁ hF₂
   exact isIso_mateEquiv_symm_mapHomotopyCategory_app adj adj' ιu ιu' c₁ τ₁ e c₂ τ₂ c eh eh' hβ X
 

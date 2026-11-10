@@ -52,13 +52,14 @@ noncomputable def homotopyEdgeIso (r : F₀ ⋙ q₁ ≅ y₁ ⋙ F₁) :
       ((Functor.mapHomologicalComplexCompIso r (ComplexShape.up ℤ) ≪≫
         (Functor.mapHomologicalComplexCompIso (Iso.refl (y₁ ⋙ F₁))
           (ComplexShape.up ℤ)).symm).app K))
-    (fun {K L} φ => ((HomotopyCategory.quotient _ _).map_comp _ _).symm.trans
+    (fun φ => ((HomotopyCategory.quotient _ _).map_comp _ _).symm.trans
       ((congrArg (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
         ((Functor.mapHomologicalComplexCompIso r (ComplexShape.up ℤ) ≪≫
           (Functor.mapHomologicalComplexCompIso (Iso.refl (y₁ ⋙ F₁))
             (ComplexShape.up ℤ)).symm).hom.naturality φ)).trans
         ((HomotopyCategory.quotient _ _).map_comp _ _)))
 
+omit [(y₁ ⋙ F₁).Additive] in
 theorem homotopyEdgeIso_hom_app (r : F₀ ⋙ q₁ ≅ y₁ ⋙ F₁) (K : CochainComplex MR ℤ) :
     (homotopyEdgeIso r).hom.app K = (HomotopyCategory.quotient _ _).map
       ((Functor.mapHomologicalComplexCompIso r (ComplexShape.up ℤ) ≪≫
@@ -76,6 +77,7 @@ theorem mapHomotopyCategoryCompIso_inv_app_quotient_obj {H : V₀ ⥤ V₂} [H.A
         ((Functor.mapHomologicalComplexCompIso e (ComplexShape.up ℤ)).inv.app K) :=
   rfl
 
+omit [(y₁ ⋙ F₁).Additive] [(y₂ ⋙ F₂).Additive] [(y₁' ⋙ F₁').Additive] [(y₂' ⋙ F₂).Additive] in
 /-- **Two paths of degreewise isomorphisms, on complexes.** -/
 theorem chain_paths_eq {H : V₀ ⥤ V₂} [H.Additive] (e : q₁ ⋙ q₂ ≅ H) (e' : q₁' ⋙ q₂' ≅ H)
     (r₁ : F₀ ⋙ q₁ ≅ y₁ ⋙ F₁) (r₂ : F₁ ⋙ q₂ ≅ y₂ ⋙ F₂) (r₁' : F₀ ⋙ q₁' ≅ y₁' ⋙ F₁')
@@ -112,6 +114,7 @@ theorem chain_paths_eq {H : V₀ ⥤ V₂} [H.Additive] (e : q₁ ⋙ q₂ ≅ H
   ext n
   simpa [Functor.mapHomologicalComplexCompIso] using hmod (K.X n)
 
+omit [(y₁ ⋙ F₁).Additive] [(y₂ ⋙ F₂).Additive] [(y₁' ⋙ F₁').Additive] [(y₂' ⋙ F₂).Additive] in
 /-- **Two paths of degreewise isomorphisms, on homotopy categories.**  If the identity holds
 between the functors themselves, degree by degree, it holds on homotopy categories. -/
 theorem quotient_paths_eq {h h' : T} (w : h = h') (e : q₁ ⋙ q₂ ≅ Ψ h') (e' : q₁' ⋙ q₂' ≅ Ψ h)
@@ -185,6 +188,7 @@ theorem quotient_paths_eq {h h' : T} (w : h = h') (e : q₁ ⋙ q₂ ≅ Ψ h') 
   simp only [Category.assoc, Functor.map_comp] at hc ⊢
   exact hc
 
+omit [(y₁ ⋙ F₁).Additive] [(y₂ ⋙ F₂).Additive] [(y₁' ⋙ F₁').Additive] [(y₂' ⋙ F₂).Additive] in
 /-- `Stacks.Homology.quotient_paths_eq` with the edges given as `homotopyEdgeIso` and the
 compositors of degreewise pullbacks given by equations, in the form consumed by
 `Stacks.CategoryTheory.BaseChange.paths_comp_eq_trans`. -/
@@ -246,6 +250,7 @@ theorem quotient_paths_eq_of_eq {h h' : T} (w : h = h') (e : q₁ ⋙ q₂ ≅ �
     (homotopyEdgeIso_hom_app r₁) (homotopyEdgeIso_hom_app r₂) (homotopyEdgeIso_hom_app r₁')
     (homotopyEdgeIso_hom_app r₂') hτ hmod K
 
+omit [(y₁ ⋙ F₁).Additive] [(y₂ ⋙ F₂).Additive] [(y₁' ⋙ F₁').Additive] [(y₂' ⋙ F₂).Additive] in
 /-- `Stacks.CategoryTheory.BaseChange.paths_comp_eq_congr` for degreewise functors on homotopy
 categories: two paths of derived base change isomorphisms differ by `Φ₂` of `t` as soon as the
 corresponding identity `hmod` holds between the degreewise functors themselves. -/

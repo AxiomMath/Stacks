@@ -187,7 +187,7 @@ theorem exists_morToModificationCompletion_eq_of_flat_cover
       intro b
       cases b
       · exact hκflat
-      · show AlgebraicGeometry.Flat ((BigFppfOver.toScheme B S hS).map ι)
+      · change AlgebraicGeometry.Flat ((BigFppfOver.toScheme B S hS).map ι)
         rw [hι]
         exact (inferInstance : AlgebraicGeometry.Flat O.ι)
     let 𝒰 : Scheme.Cover (Scheme.precoverage @AlgebraicGeometry.Flat)
@@ -196,7 +196,7 @@ theorem exists_morToModificationCompletion_eq_of_flat_cover
         (fun b => (BigFppfOver.toScheme B S hS).map (π b)) (fun x => by
           by_cases hx : x ∈ (O : Set ((BigFppfOver.toScheme B S hS).obj V))
           · refine ⟨true, ⟨x, hx⟩, ?_⟩
-            show (BigFppfOver.toScheme B S hS).map ι ⟨x, hx⟩ = x
+            change (BigFppfOver.toScheme B S hS).map ι ⟨x, hx⟩ = x
             rw [hι]
             rfl
           · have hx' : x ∈ pointsToScheme B S hS V '' T := by
@@ -209,7 +209,7 @@ theorem exists_morToModificationCompletion_eq_of_flat_cover
       intro b
       cases b
       · exact hκqc
-      · show AlgebraicGeometry.QuasiCompact ((BigFppfOver.toScheme B S hS).map ι)
+      · change AlgebraicGeometry.QuasiCompact ((BigFppfOver.toScheme B S hS).map ι)
         rw [hι]
         exact (inferInstance : AlgebraicGeometry.QuasiCompact O.ι)
     have : QuasiCompactCover 𝒰.toPreZeroHypercover :=
@@ -266,7 +266,7 @@ theorem exists_morToModificationCompletion_eq_of_flat_cover
   have hwκ : yoneda.map κ ≫ w = h := hwb false
   refine ⟨w, Prod.ext ?_ ?_⟩
   · -- the restriction to `X'`
-    show f ≫ w = w'
+    change f ≫ w = w'
     refine hom_ext_yoneda fun Zo p => ?_
     have hzV : p ≫ f = yoneda.map (yonedaEquiv (p ≫ f)) := by
       rw [← yonedaEquiv_symm_eq_yoneda_map, Equiv.symm_apply_apply]
@@ -296,12 +296,12 @@ theorem exists_morToModificationCompletion_eq_of_flat_cover
             rw [← Category.assoc (yoneda.map g) p w', hp]
             simp only [Category.assoc]
   · -- the induced morphism on the completion
-    show (completionSubfunctor B S hS (yoneda.obj V) T).ι ≫
+    change (completionSubfunctor B S hS (yoneda.obj V) T).ι ≫
       Functor.whiskerRight w uliftFunctor.{u + 1} = ŵ
     ext Zo ⟨⟨zV⟩, hz⟩
     induction Zo using Opposite.rec with | op Zo => ?_
     apply ULift.ext
-    show w.app (op Zo) zV = (ŵ.app (op Zo) ⟨ULift.up zV, hz⟩).down
+    change w.app (op Zo) zV = (ŵ.app (op Zo) ⟨ULift.up zV, hz⟩).down
     refine hsep Zo zV _ _ fun Y g b e hge => ?_
     have hgz : HasImageIn B S hS (yoneda.obj V) T Y (g ≫ zV) :=
       (completionSubfunctor B S hS (yoneda.obj V) T).map g.op hz
@@ -331,7 +331,7 @@ theorem exists_morToModificationCompletion_eq_of_flat_cover
           rw [hfx']
           exact hgz
         rw [hasImageIn_iff_range_subset, ← yonedaEquiv_symm_naturality_right] at h2
-        show pointsMap B S hS X' f _ ∈ T
+        change pointsMap B S hS X' f _ ∈ T
         rw [← pointsMap_comp_apply]
         exact h2 ⟨y, rfl⟩
       have hfx'T : HasImageIn B S hS (yoneda.obj V) T Y (f.app (op Y) x') := by
@@ -420,7 +420,7 @@ theorem yoneda_map_comp_eq_of_comp_eq_of_flat_spectrum
   have hp₁ : (BigFppfOver.toScheme B S hS).map p₁ = j₁ ≫ e.inv := rfl
   have hp₂ : (BigFppfOver.toScheme B S hS).map p₂ = j₂ ≫ e.inv := rfl
   have hp₁κ : p₁ ≫ κ = p₂ ≫ κ := BigFppfOver.map_toScheme_injective B S hS (by
-    show (BigFppfOver.toScheme B S hS).map (p₁ ≫ κ) = (BigFppfOver.toScheme B S hS).map (p₂ ≫ κ)
+    change (BigFppfOver.toScheme B S hS).map (p₁ ≫ κ) = (BigFppfOver.toScheme B S hS).map (p₂ ≫ κ)
     rw [Functor.map_comp, Functor.map_comp, hp₁, hp₂, Category.assoc, Category.assoc]
     exact hjκ)
   have hpκs : (BigFppfOver.toScheme B S hS).map (p₁ ≫ κ) =
@@ -439,7 +439,7 @@ theorem yoneda_map_comp_eq_of_comp_eq_of_flat_spectrum
     rw [Set.mem_preimage] at h1
     rw [Scheme.Hom.comp_apply, Scheme.Hom.comp_apply, h1]
     rw [hj₁]
-    show (I : Set A) ⊆ Ideal.comap (algebraMap A R) (Ideal.comap (algebraMap R D) x.asIdeal) ↔ _
+    change (I : Set A) ⊆ Ideal.comap (algebraMap A R) (Ideal.comap (algebraMap R D) x.asIdeal) ↔ _
     rw [SetLike.coe_subset_coe, ← Ideal.map_le_iff_le_comap, ← Ideal.map_le_iff_le_comap]
   -- a site object over `Spec D` whose image misses `V(J)` maps into `U`
   have hlift : ∀ {Zo' : BigFppfOver B S hS} (z : Zo' ⟶ Do),
@@ -475,10 +475,10 @@ theorem yoneda_map_comp_eq_of_comp_eq_of_flat_spectrum
         rw [hTI, pointsToScheme_pointsMap_yoneda, Category.assoc, Functor.map_comp, hpκs,
           Scheme.Hom.comp_apply, hKP, ht, Scheme.Hom.comp_apply]
         refine Ideal.IsPrime.le_of_pow_le (hP := PrimeSpectrum.isPrime _) (n := n) ?_
-        show ((I.map (algebraMap A R)).map (algebraMap R D)) ^ n ≤ _
+        change ((I.map (algebraMap A R)).map (algebraMap R D)) ^ n ≤ _
         rw [← Ideal.map_pow]
         intro a ha
-        show Ideal.Quotient.mk _ a ∈ (t (pointsToScheme B S hS Zo' y)).asIdeal
+        change Ideal.Quotient.mk _ a ∈ (t (pointsToScheme B S hS Zo' y)).asIdeal
         rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha]
         exact Ideal.zero_mem _
       have hzT' : HasImageIn B S hS (yoneda.obj V) T Zo' ((z ≫ p₂) ≫ κ) := by
@@ -539,14 +539,14 @@ theorem yoneda_map_comp_eq_of_comp_eq_of_flat_spectrum
     simp only [ls, j₂, Category.assoc, Iso.hom_inv_id_assoc, pullback.lift_snd]
   let l : Zo ⟶ Do := Over.homMk (ObjectProperty.homMk ls) (by
     apply ObjectProperty.hom_ext
-    show ls ≫ j₁ ≫ e.inv ≫ B.inclusion.map Vh.hom = B.inclusion.map Zo.hom
+    change ls ≫ j₁ ≫ e.inv ≫ B.inclusion.map Vh.hom = B.inclusion.map Zo.hom
     rw [reassoc_of% hls₁, e.hom_inv_id_assoc, ← Over.w z₁, Functor.map_comp]
     rfl)
   have hl₁ : l ≫ p₁ = z₁ := BigFppfOver.map_toScheme_injective B S hS (by
-    show ls ≫ j₁ ≫ e.inv = (BigFppfOver.toScheme B S hS).map z₁
+    change ls ≫ j₁ ≫ e.inv = (BigFppfOver.toScheme B S hS).map z₁
     rw [← Category.assoc, hls₁, Category.assoc, e.hom_inv_id, Category.comp_id])
   have hl₂ : l ≫ p₂ = z₂ := BigFppfOver.map_toScheme_injective B S hS (by
-    show ls ≫ j₂ ≫ e.inv = (BigFppfOver.toScheme B S hS).map z₂
+    change ls ≫ j₂ ≫ e.inv = (BigFppfOver.toScheme B S hS).map z₂
     rw [← Category.assoc, hls₂, Category.assoc, e.hom_inv_id, Category.comp_id])
   rw [← hl₁, ← hl₂, Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc, hcd]
 
@@ -575,7 +575,7 @@ theorem zeroLocus_subset_range_specAdicCompletion (X : Scheme.{u}) [IsAffine X]
       X.isoSpec.hom x := by
     rw [← hq]
     apply PrimeSpectrum.ext
-    show Ideal.comap (algebraMap Γ(X, ⊤) (AdicCompletion I Γ(X, ⊤)))
+    change Ideal.comap (algebraMap Γ(X, ⊤) (AdicCompletion I Γ(X, ⊤)))
       (Ideal.comap (AdicCompletion.evalₐ I 1).toRingHom q.asIdeal) =
         Ideal.comap (Ideal.Quotient.mk (I ^ 1)) q.asIdeal
     rw [Ideal.comap_comap]

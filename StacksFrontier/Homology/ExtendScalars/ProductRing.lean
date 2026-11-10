@@ -165,8 +165,7 @@ lemma scalarSection_tmul (s : R →ₗ[D] D) (r : R) (m : M) :
 `D`-linear map with the map itself. -/
 lemma scalarSection_baseChange (s : R →ₗ[D] D) (g : M →ₗ[D] N) (x : R ⊗[D] M) :
     scalarSection s N (LinearMap.baseChange R g x) = g (scalarSection s M x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul r m => rw [LinearMap.baseChange_tmul, scalarSection_tmul, scalarSection_tmul, map_smul]
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -253,8 +252,7 @@ private theorem subsingleton_tensorProduct_of_smul {R S : Type u} [CommRing R] [
     (hS : ∀ s : S, r • s = s) (hN : ∀ n : N, r • n = 0) :
     Subsingleton (S ⊗[R] N) := by
   refine subsingleton_of_forall_eq 0 fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => rfl
+  induction x using TensorProduct.inductionOn with
   | tmul s n => rw [← hS s, TensorProduct.smul_tmul, hN n, TensorProduct.tmul_zero]
   | add u v hu hv => rw [hu, hv, add_zero]
 

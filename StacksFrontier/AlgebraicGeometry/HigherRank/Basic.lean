@@ -112,7 +112,7 @@ theorem isZero_stalk_pushforward_of_notMem_range {Z : Scheme.{u}} (i : Z ⟶ X)
     [IsClosedImmersion i] (H : Z.Modules) (x : X) (hx : x ∉ Set.range i.base) :
     IsZero (TopCat.Presheaf.stalk (C := Ab.{u})
       ((Scheme.Modules.pushforward i).obj H).val.presheaf x) := by
-  show IsZero (TopCat.Presheaf.stalk
+  change IsZero (TopCat.Presheaf.stalk
     ((closedInclusionPushforward (TopCat.of Z) (TopCat.of X) i.base).obj
       ((SheafOfModules.toSheaf Z.ringCatSheaf).obj H)).1 x)
   exact closedInclusion_pushforward_stalk_isZero_of_not_mem_range

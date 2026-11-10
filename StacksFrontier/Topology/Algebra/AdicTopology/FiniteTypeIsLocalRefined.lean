@@ -129,8 +129,7 @@ public theorem isTopologicallyOfFiniteType_isomorphismInvariant
         [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
         (f : B →+* A) ↦ IsTopologicallyOfFiniteType f)
       C := by
-  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  intro eB eA _ _ heA heAs f _ _ _ _ _
+  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ eB eA _ _ heA heAs f _ _ _ _ _
   constructor
   · exact isTopologicallyOfFiniteType_transport eB eA heA f
   · intro h

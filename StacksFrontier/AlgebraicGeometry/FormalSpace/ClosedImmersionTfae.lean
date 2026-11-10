@@ -334,7 +334,7 @@ private theorem schemePointULift_eq_of_dominates {U : BigFppfOver B S hS}
       (q.siteObject B S hS ((uliftYoneda.{u + 1}).obj U))) :=
     inferInstanceAs (Subsingleton (Spec (CommRingCat.of q.carrier)))
   have hval : p.value.down = f ≫ q.value.down := congrArg ULift.down hf.symm
-  show (BigFppfOver.toScheme B S hS).map p.value.down (IsLocalRing.closedPoint p.carrier) =
+  change (BigFppfOver.toScheme B S hS).map p.value.down (IsLocalRing.closedPoint p.carrier) =
     (BigFppfOver.toScheme B S hS).map q.value.down (IsLocalRing.closedPoint q.carrier)
   calc (BigFppfOver.toScheme B S hS).map p.value.down (IsLocalRing.closedPoint p.carrier)
       = (BigFppfOver.toScheme B S hS).map q.value.down
@@ -368,7 +368,7 @@ private theorem relative_etale_id (U : BigFppfOver B S hS) :
   intro A C g fst snd hpb
   have : IsIso ((uliftYoneda.{u + 1}).map snd) := hpb.isIso_snd_of_isIso
   have : IsIso snd := (ULiftYoneda.fullyFaithful _).isIso_of_isIso_map snd
-  show Etale ((BigFppfOver.toScheme B S hS).map snd)
+  change Etale ((BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 /-- Every point of the scheme underlying an object `U` of the site is the scheme point of a
@@ -383,7 +383,7 @@ private theorem exists_schemePointULift_eq (U : BigFppfOver B S hS)
   have hmρ : (BigFppfOver.toScheme B S hS).map m = ρ :=
     B.inclusion.map_preimage (X := B.obj hK) (Y := U.left) ρ
   refine ⟨⟨K, hK, B.inclusion.map (r ≫ U.hom), ULift.up m⟩, ?_⟩
-  show (BigFppfOver.toScheme B S hS).map m (IsLocalRing.closedPoint K) = x
+  change (BigFppfOver.toScheme B S hS).map m (IsLocalRing.closedPoint K) = x
   rw [hmρ]
   exact hρ _
 
@@ -435,7 +435,7 @@ private theorem mem_range_of_isSurjectiveULift {U W : BigFppfOver B S hS}
   refine ⟨(BigFppfOver.toScheme B S hS).map b t, ?_⟩
   show (BigFppfOver.toScheme B S hS).map k ((BigFppfOver.toScheme B S hS).map b t) = x
   rw [← Scheme.Hom.comp_apply, ← Functor.map_comp, hbk, Functor.map_comp]
-  show (BigFppfOver.toScheme B S hS).map c ((BigFppfOver.toScheme B S hS).map n t) = x
+  change (BigFppfOver.toScheme B S hS).map c ((BigFppfOver.toScheme B S hS).map n t) = x
   rw [ht]
   exact hcx
 
@@ -454,7 +454,7 @@ theorem isLocallySurjective_of_isSurjective_of_flat
           a.hom) g.hom hrep) :
     Sheaf.IsLocallySurjective g := by
   classical
-  show Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS) g.hom
+  change Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS) g.hom
   refine ⟨?_⟩
   intro U y
   set ξ : (uliftYoneda.{u + 1}).obj U ⟶ G.1 := uliftYonedaEquiv.{u + 1}.symm y with hξ

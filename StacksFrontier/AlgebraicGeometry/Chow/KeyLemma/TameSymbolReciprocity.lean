@@ -111,7 +111,7 @@ theorem ordInt_eq_zero_of_isUnit (R : Type*) [CommRing R] [IsDomain R] [IsNoethe
       ((h.isUnit.map (Ring.ordFrac R)).ne_zero) = 1 := by
     rw [← WithZero.coe_inj, WithZero.coe_unzero, Ring.ordFrac_of_isUnit hr]
     rfl
-  show Multiplicative.toAdd (WithZero.unzero (x := Ring.ordFrac R (algebraMap R K r))
+  change Multiplicative.toAdd (WithZero.unzero (x := Ring.ordFrac R (algebraMap R K r))
     ((h.isUnit.map (Ring.ordFrac R)).ne_zero)) = 0
   rw [h2]
   rfl
@@ -148,7 +148,7 @@ theorem heightOneOrd_eq_zero_of_isUnit (hdim : ringKrullDim A = 2) (p : HeightOn
     rw [hw, residue_algebraMap_eq]
   have hne : algebraMap (A ⧸ p.1.asIdeal) (ResidueField (Localization.AtPrime p.1.asIdeal))
       (Ideal.Quotient.mk _ x) ≠ 0 := hval ▸ w.ne_zero
-  show ordInt (A ⧸ p.1.asIdeal)
+  change ordInt (A ⧸ p.1.asIdeal)
     (w : ResidueField (Localization.AtPrime p.1.asIdeal)) w.ne_zero = 0
   rw [ordInt_val_congr (A ⧸ p.1.asIdeal) hval w.ne_zero hne]
   exact ordInt_eq_zero_of_isUnit (A ⧸ p.1.asIdeal)
@@ -232,11 +232,11 @@ theorem tameSymbolOrderAt_eq_zero_of_global_factorization (hdim : ringKrullDim A
   tameSymbolOrderAt_eq_zero_of_factorization_isUnit hdim p symb a b
     (toLocalizationNonZeroDivisor p.1.asIdeal π) u v e f
     (by
-      show algebraMap A (Localization.AtPrime p.1.asIdeal) (a : A) = _
+      change algebraMap A (Localization.AtPrime p.1.asIdeal) (a : A) = _
       rw [ha]
       simp [toLocalizationNonZeroDivisor])
     (by
-      show algebraMap A (Localization.AtPrime p.1.asIdeal) (b : A) = _
+      change algebraMap A (Localization.AtPrime p.1.asIdeal) (b : A) = _
       rw [hb]
       simp [toLocalizationNonZeroDivisor])
 

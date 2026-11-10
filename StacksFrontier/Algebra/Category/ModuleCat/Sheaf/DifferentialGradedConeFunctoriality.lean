@@ -141,7 +141,7 @@ theorem mapComplex_f_xIso (S : ShiftPackage K) (S' : ShiftPackage K') (φ : K �
     (n : ℤ) :
     (mapComplex S S' φ).f n ≫ (S'.xIso n).hom =
       (S.xIso n).hom ≫ φ.toHomologicalComplex.f (n + 1) := by
-  show ((S.xIso n).hom ≫ φ.toHomologicalComplex.f (n + 1) ≫ (S'.xIso n).inv) ≫
+  change ((S.xIso n).hom ≫ φ.toHomologicalComplex.f (n + 1) ≫ (S'.xIso n).inv) ≫
     (S'.xIso n).hom = _
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
 
@@ -255,7 +255,7 @@ theorem mapComplex_f (P₁ : ConePackage f₁) (P₂ : ConePackage f₂) (α : K
       (P₁.componentIso n).hom ≫
         biprod.map (α.toHomologicalComplex.f (n + 1)) (β.toHomologicalComplex.f n) ≫
         (P₂.componentIso n).inv := by
-  show (eqToHom P₁.cone_complex ≫
+  change (eqToHom P₁.cone_complex ≫
       CochainComplex.mappingCone.map f₁.toHomologicalComplex f₂.toHomologicalComplex
         α.toHomologicalComplex β.toHomologicalComplex (congrArg Hom.toHomologicalComplex comm) ≫
       eqToHom P₂.cone_complex.symm).f n = _
@@ -328,7 +328,7 @@ theorem inclusion_map (P₁ : ConePackage f₁) (P₂ : ConePackage f₂) (α : 
     (comm : f₁ ≫ β = α ≫ f₂) :
     P₁.inclusion ≫ P₁.map P₂ α β comm = β ≫ P₂.inclusion :=
   Hom.ext fun n => by
-    show P₁.inclusion.toHomologicalComplex.f n ≫ (P₁.map P₂ α β comm).toHomologicalComplex.f n =
+    change P₁.inclusion.toHomologicalComplex.f n ≫ (P₁.map P₂ α β comm).toHomologicalComplex.f n =
       β.toHomologicalComplex.f n ≫ P₂.inclusion.toHomologicalComplex.f n
     rw [P₁.inclusion_f n, P₂.inclusion_f n, map_f, Category.assoc, Iso.inv_hom_id_assoc,
       ← Category.assoc, biprod.inr_map, Category.assoc]
@@ -339,7 +339,7 @@ theorem map_projection (P₁ : ConePackage f₁) (P₂ : ConePackage f₂) (α :
     (comm : f₁ ≫ β = α ≫ f₂) :
     P₁.map P₂ α β comm ≫ P₂.projection = P₁.projection ≫ coneShiftHom α :=
   Hom.ext fun n => by
-    show (P₁.map P₂ α β comm).toHomologicalComplex.f n ≫ P₂.projection.toHomologicalComplex.f n =
+    change (P₁.map P₂ α β comm).toHomologicalComplex.f n ≫ P₂.projection.toHomologicalComplex.f n =
       P₁.projection.toHomologicalComplex.f n ≫ (coneShiftHom α).toHomologicalComplex.f n
     rw [← cancel_mono (((shiftPackage K₂).xIso n).hom), Category.assoc, Category.assoc,
       P₂.projection_f n, ShiftPackage.map_f_xIso, map_f,
@@ -380,7 +380,7 @@ theorem shortComplexConeHom_coneDescHom
     {S₁ S₂ : ShortComplex (DifferentialGradedModule.{t, a, m} A)} (φ : S₁ ⟶ S₂) :
     shortComplexConeHom φ ≫ coneDescHom S₂ = coneDescHom S₁ ≫ φ.τ₃ :=
   Hom.ext fun n => by
-    show (shortComplexConeHom φ).toHomologicalComplex.f n ≫
+    change (shortComplexConeHom φ).toHomologicalComplex.f n ≫
         (coneDescHom S₂).toHomologicalComplex.f n =
       (coneDescHom S₁).toHomologicalComplex.f n ≫ φ.τ₃.toHomologicalComplex.f n
     have hcomm : S₁.g.toHomologicalComplex.f n ≫ φ.τ₃.toHomologicalComplex.f n =
@@ -429,7 +429,7 @@ theorem shortExactδ_naturality {S₁ S₂ : ShortComplex (DifferentialGradedMod
         inv ((moduleToDerivedCategory A).map (coneDescHom S₂)) := by
     rw [IsIso.inv_comp_eq, ← Category.assoc, IsIso.eq_comp_inv, ← Functor.map_comp,
       ← Functor.map_comp, shortComplexConeHom_coneDescHom]
-  show (inv ((moduleToDerivedCategory A).map (coneDescHom S₁)) ≫
+  change (inv ((moduleToDerivedCategory A).map (coneDescHom S₁)) ≫
       (moduleToDerivedCategory A).map (-(conePackage S₁.f).projection)) ≫
         (moduleToDerivedCategory A).map (coneShiftHom φ.τ₁) =
     (moduleToDerivedCategory A).map φ.τ₃ ≫

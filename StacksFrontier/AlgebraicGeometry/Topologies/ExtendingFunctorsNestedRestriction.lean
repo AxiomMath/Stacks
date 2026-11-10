@@ -121,7 +121,7 @@ theorem existsUnique_hom_whiskerLeft_ιOfLE_eq (h : P₂ ≤ P₁)
       simp only [Functor.whiskerLeft_app, NatTrans.comp_app] at h₁ h₂
       have hm : (extensionMap θ).app (op Y) ≫ (restrictionHom G hP1₁ haG).app Z =
           (extensionMap θ').app (op Y) ≫ (restrictionHom G hP1₁ haG).app Z := by
-        show (extensionMap θ).app (P₁.ι.op.obj Z) ≫ (restrictionHom G hP1₁ haG).app Z =
+        change (extensionMap θ).app (P₁.ι.op.obj Z) ≫ (restrictionHom G hP1₁ haG).app Z =
           (extensionMap θ').app (P₁.ι.op.obj Z) ≫ (restrictionHom G hP1₁ haG).app Z
         rw [h₁, h₂, h₃]
       exact (cancel_mono _).1 hm
@@ -134,7 +134,7 @@ theorem existsUnique_hom_whiskerLeft_ιOfLE_eq (h : P₂ ≤ P₁)
     refine NatTrans.ext (funext fun Z => ?_)
     have hZ := congrArg (fun γ => γ.app Z) hθ'
     simp only [Functor.whiskerLeft_app, NatTrans.comp_app] at hZ ⊢
-    show αF.inv.app (ι₂.op.obj Z) ≫ θ'.app (P₂.ι.op.obj Z) ≫ αG.hom.app (ι₂.op.obj Z) =
+    change αF.inv.app (ι₂.op.obj Z) ≫ θ'.app (P₂.ι.op.obj Z) ≫ αG.hom.app (ι₂.op.obj Z) =
       σ.app Z
     rw [hZ]
     simp only [Iso.inv_hom_id_app_assoc, Iso.inv_hom_id_app, Category.assoc]

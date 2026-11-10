@@ -323,7 +323,7 @@ instance isEquivalenceRelation_p (j : J) :
 /-- The structure morphisms to `S` are compatible with the morphisms of the big fppf site. -/
 lemma toScheme_map_comp_inclusion_map_hom {X Y : BigFppfOver B S hS} (f : X ⟶ Y) :
     (BigFppfOver.toScheme B S hS).map f ≫ B.inclusion.map Y.hom = B.inclusion.map X.hom := by
-  show B.inclusion.map f.left ≫ B.inclusion.map Y.hom = B.inclusion.map X.hom
+  change B.inclusion.map f.left ≫ B.inclusion.map Y.hom = B.inclusion.map X.hom
   rw [← CategoryTheory.Functor.map_comp, Over.w]
 
 attribute [instance] isOpenImmersion_ι
@@ -368,10 +368,10 @@ theorem contains_pushout (j : J) : B.Contains (pushout (G.ιs j) (G.δs j)) := b
   · exact (Cardinal.lt_aleph0_of_finite _).trans B.aleph0_lt_cutoff
   · refine (ciSup_le' fun i => ?_).trans_lt (max_lt (G.V.obj j).left.2 (G.P.obj j).left.2)
     rcases i with ⟨_ | _⟩
-    · show Scheme.size ((pushout.inr f d).opensRange : Scheme.{u}) ≤ _
+    · change Scheme.size ((pushout.inr f d).opensRange : Scheme.{u}) ≤ _
       rw [← Scheme.size_congr (pushout.inr f d).isoOpensRange]
       exact le_max_right _ _
-    · show Scheme.size ((pushout.inl f d).opensRange : Scheme.{u}) ≤ _
+    · change Scheme.size ((pushout.inl f d).opensRange : Scheme.{u}) ≤ _
       rw [← Scheme.size_congr (pushout.inl f d).isoOpensRange]
       exact le_max_left _ _
 

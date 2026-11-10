@@ -65,7 +65,7 @@ theorem etaleFundamentalGroupMulEquiv_fiberFunctorIsoOfSourceIso_sourceAutElemen
   refine Aut.ext (Iso.ext (NatTrans.ext (funext fun V => ?_)))
   ext q
   refine Subtype.ext ?_
-  show γ.hom ≫ α₂.hom ≫ γ.inv ≫ q.1 = α₁.hom ≫ q.1
+  change γ.hom ≫ α₂.hom ≫ γ.inv ≫ q.1 = α₁.hom ≫ q.1
   rw [← Category.assoc, ← hc, Category.assoc, Iso.hom_inv_id_assoc]
 
 /-- Powers of an automorphism fixing a morphism `f` also fix `f`. -/
@@ -75,7 +75,7 @@ private theorem aut_pow_hom_comp_eq {A B : Scheme.{u}} (α : Aut A) (f : A ⟶ B
   | zero => exact Category.id_comp _
   | succ n ih =>
       rw [pow_succ, Aut.mul_asIso]
-      show (α.asIso.hom ≫ (α ^ n).asIso.hom) ≫ f = f
+      change (α.asIso.hom ≫ (α ^ n).asIso.hom) ≫ f = f
       rw [Category.assoc, ih, hα]
 
 /-- **The elements of the powers of an automorphism of the source are the powers.** -/
@@ -121,12 +121,12 @@ theorem specRingEquivIso_pow_hom {Ω : Type u} [Field Ω] (σ : Ω ≃+* Ω) (n 
       Spec.map (CommRingCat.ofHom ((σ : RingAut Ω) ^ n).toRingHom) := by
   induction n with
   | zero =>
-      show 𝟙 _ = _
+      change 𝟙 _ = _
       rw [pow_zero]
       exact (Spec.map_id _).symm
   | succ n ih =>
       rw [pow_succ, Aut.mul_asIso]
-      show Spec.map _ ≫ (specRingEquivIso σ ^ n).asIso.hom = _
+      change Spec.map _ ≫ (specRingEquivIso σ ^ n).asIso.hom = _
       rw [ih, ← Spec.map_comp, ← CommRingCat.ofHom_comp, pow_succ']
       rfl
 
@@ -144,7 +144,7 @@ omit [ConnectedSpace X] in
 theorem specRingEquivIso_residueGeometricFrobenius_symm_comp :
     (specRingEquivIso (residueGeometricFrobenius X y.1).symm.toRingEquiv).asIso.hom ≫
       (geometricPointAt X y.1).hom = (geometricPointAt X y.1).hom := by
-  show Spec.map _ ≫ Spec.map _ ≫ _ = Spec.map _ ≫ _
+  change Spec.map _ ≫ Spec.map _ ≫ _ = Spec.map _ ≫ _
   rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
   congr 3
   exact RingHom.ext fun a => (residueGeometricFrobenius X y.1).symm.commutes a
@@ -230,15 +230,15 @@ theorem exists_etaleFundamentalGroupMap_element_eq_conj_pow
   have hring : CommRingCat.ofHom (algebraMap κ Ω) = g.residueFieldMap y'.1 ≫
       CommRingCat.ofHom (algebraMap κ' Ω') ≫ CommRingCat.ofHom τ.toRingHom := by
     refine CommRingCat.hom_ext (RingHom.ext fun a => ?_)
-    show algebraMap κ Ω a = τ (algebraMap κ' Ω' (algebraMap κ κ' a))
+    change algebraMap κ Ω a = τ (algebraMap κ' Ω' (algebraMap κ κ' a))
     rw [← IsScalarTower.algebraMap_apply, AlgEquiv.commutes]
   have hγ : γ.hom ≫ z₂.hom = z₁.hom := by
     have h1 : z₂.hom = Spec.map (CommRingCat.ofHom (algebraMap κ' Ω')) ≫
         Spec.map (g.residueFieldMap y'.1) ≫ X.fromSpecResidueField (g.base y'.1) := by
-      show (Spec.map _ ≫ X'.fromSpecResidueField y'.1) ≫ g = _
+      change (Spec.map _ ≫ X'.fromSpecResidueField y'.1) ≫ g = _
       rw [Category.assoc, Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField]
     rw [h1]
-    show Spec.map (CommRingCat.ofHom τ.toRingHom) ≫ _ =
+    change Spec.map (CommRingCat.ofHom τ.toRingHom) ≫ _ =
       Spec.map (CommRingCat.ofHom (algebraMap κ Ω)) ≫ X.fromSpecResidueField (g.base y'.1)
     refine Eq.trans ?_ (congrArg (fun φ => Spec.map φ ≫ X.fromSpecResidueField (g.base y'.1))
       hring.symm)
@@ -257,21 +257,21 @@ theorem exists_etaleFundamentalGroupMap_element_eq_conj_pow
   have hc : ((specRingEquivIso σ₁) ^ e).asIso.hom ≫ γ.hom =
       γ.hom ≫ (specRingEquivIso σ').asIso.hom := by
     rw [specRingEquivIso_pow_hom]
-    show Spec.map (CommRingCat.ofHom ((σ₁ : RingAut Ω) ^ e).toRingHom) ≫
+    change Spec.map (CommRingCat.ofHom ((σ₁ : RingAut Ω) ^ e).toRingHom) ≫
         Spec.map (CommRingCat.ofHom τ.toRingHom) =
       Spec.map (CommRingCat.ofHom τ.toRingHom) ≫ Spec.map (CommRingCat.ofHom σ'.toRingHom)
     rw [← Spec.map_comp, ← Spec.map_comp, ← CommRingCat.ofHom_comp, ← CommRingCat.ofHom_comp]
     congr 2
     refine RingHom.ext fun a => ?_
-    show ((σ₁ : RingAut Ω) ^ e) (τ a) = τ (σ' a)
+    change ((σ₁ : RingAut Ω) ^ e) (τ a) = τ (σ' a)
     rw [ringAut_pow_apply_eq_pow σ₁ hσ₁, ← hcard]
-    show _ = τ ((residueGeometricFrobenius X' y'.1).symm a)
+    change _ = τ ((residueGeometricFrobenius X' y'.1).symm a)
     rw [residueGeometricFrobenius_symm_apply, map_pow]
   have h₁ := specRingEquivIso_residueGeometricFrobenius_symm_comp (X := X) ⟨g.base y'.1, hy⟩
   have h₁e := aut_pow_hom_comp_eq (specRingEquivIso σ₁) z₁.hom h₁ e
   have h' := specRingEquivIso_residueGeometricFrobenius_symm_comp (X := X') y'
   have h₂ : (specRingEquivIso σ').asIso.hom ≫ z₂.hom = z₂.hom := by
-    show _ ≫ (geometricPointAt X' y'.1).hom ≫ g = (geometricPointAt X' y'.1).hom ≫ g
+    change _ ≫ (geometricPointAt X' y'.1).hom ≫ g = (geometricPointAt X' y'.1).hom ≫ g
     rw [← Category.assoc, h']
   let s := GeometricPoint.fiberFunctorIsoOfSourceIso z₁ z₂ γ hγ
   let T := fiberFunctorTransportIso g t'
@@ -295,12 +295,12 @@ theorem exists_etaleFundamentalGroupMap_element_eq_conj_pow
     exact etaleFundamentalGroupMap_sourceAutElement g _ _ _
   let hh : EtaleFundamentalGroup X (x'.map g) := Aut.of (t.symm ≪≫ s.symm ≪≫ T)
   have hpath : s.symm ≪≫ T = t ≪≫ hh.asIso := by
-    show _ = t ≪≫ t.symm ≪≫ s.symm ≪≫ T
+    change _ = t ≪≫ t.symm ≪≫ s.symm ≪≫ T
     rw [Iso.self_symm_id_assoc]
   refine ⟨hh, ?_⟩
   have hel := FrobeniusData.element_path_trans
     (Stacks.EtaleCohomology.frobeniusDataOfPath (x'.map g) ⟨g.base y'.1, hy⟩ t) hh
-  show etaleFundamentalGroupMap g x' (etaleFundamentalGroupMulEquiv t' _) = _
+  change etaleFundamentalGroupMap g x' (etaleFundamentalGroupMulEquiv t' _) = _
   calc etaleFundamentalGroupMap g x' (etaleFundamentalGroupMulEquiv t'
         (Stacks.EtaleCohomology.frobeniusDataOfPath x' y' t').localElement)
       = etaleFundamentalGroupMulEquiv T (etaleFundamentalGroupMap g (geometricPointAt X' y'.1)

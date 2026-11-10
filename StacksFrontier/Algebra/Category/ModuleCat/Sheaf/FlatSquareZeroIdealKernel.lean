@@ -93,7 +93,7 @@ lemma comp_restrictScalars_eq_zero_of_tmul
       (show (Stacks.SheafOfModules.Tensor.ringSheaf O').obj.obj U from
         i.val.app U a) x).trans ?_)
   let : Module (O.obj.obj U) (N.val.obj U) := (N.val.obj U).isModule
-  show @SMul.smul (O.obj.obj U) (N.val.obj U) inferInstance
+  change @SMul.smul (O.obj.obj U) (N.val.obj U) inferInstance
     (f.hom.app U (show O'.obj.obj U from i.val.app U a)) (g.val.app U x) = 0
   exact (congrArg (fun scalar : O.obj.obj U =>
     scalar • (show N.val.obj U from g.val.app U x)) (hi_zero U a)).trans (zero_smul _ _)
@@ -218,7 +218,7 @@ lemma idealTensorKernelι_tmul (U : Cᵒᵖ) (a : I.val.obj U) (x : G.val.obj U)
       (show (Stacks.SheafOfModules.Tensor.ringSheaf O').obj.obj U from
         i.val.app U a) • x := by
   rw [← reductionTensorMap_tmul f I G F q U a x]
-  show (reductionTensorMap f I G F q ≫
+  change (reductionTensorMap f I G F q ≫
     idealTensorKernelι f hf I G F i hi_zero hi_univ q hq).val.app U _ = _
   rw [reductionTensorMap_comp_idealTensorKernelι]
   exact multiplicationMap_tmul f I G i U a x

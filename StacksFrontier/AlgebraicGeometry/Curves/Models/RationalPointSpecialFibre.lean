@@ -298,10 +298,10 @@ theorem smoothAt_specialFiberSection (a : Spec (.of S.R) ⟶ S.X) (ha : a ≫ S.
   let φ := (S.X_to_R.stalkMap (S.specialFiberι z)).hom
   let ψ := a.stalkMapAt (S.X_to_R (S.specialFiberι z)) (S.specialFiberι z) has
   have : IsLocalHom ψ := by
-    show IsLocalHom (eqToHom _ ≫ a.stalkMap _).hom
+    change IsLocalHom (eqToHom _ ≫ a.stalkMap _).hom
     infer_instance
   have hψφ : ψ.comp φ = RingHom.id _ := by
-    show ψ.comp (S.X_to_R.stalkMapAt (S.specialFiberι z) _ rfl) = _
+    change ψ.comp (S.X_to_R.stalkMapAt (S.specialFiberι z) _ rfl) = _
     rw [Scheme.Hom.stalkMapAt_comp]
     have hid : (𝟙 (Spec (.of S.R)) : Spec (.of S.R) ⟶ _) (S.X_to_R (S.specialFiberι z)) =
         S.X_to_R (S.specialFiberι z) := rfl
@@ -385,7 +385,7 @@ theorem isField_stalk_specialFiberComponentGenericPoint (Z : irreducibleComponen
       (Ideal.primeCompl_le_nonZeroDivisors _)
   -- `ξ` is a generic point of an irreducible component of `X_k`
   have hclosure : closure ({ξ} : Set S.specialFiber) = Z.1 := by
-    show closure {(S.specialFiberComponentι Z) (genericPoint _)} = _
+    change closure {(S.specialFiberComponentι Z) (genericPoint _)} = _
     rw [← Set.image_singleton,
       (S.specialFiberComponentι Z).isClosedEmbedding.closure_image_eq, genericPoint_closure,
       Set.image_univ, range_specialFiberComponentι]
@@ -542,9 +542,7 @@ theorem injective_inclusion_prod_appTop (Z₀ : irreducibleComponents S.specialF
         (h : J ≤ ∏ V, S.specialFiberComponentIdeal V ^ a V),
         Function.Injective (Scheme.IdealSheafData.inclusion h).appTop.hom := by
       rintro J rfl h
-      exact injective_inclusion_appTop_of_forall_eq_zero _ _ hDa
-        (hprod ▸ Stacks.Divisors.isEffectiveCartierDivisor_prod Finset.univ _ a' hC)
-        (S.isEffectiveCartierDivisor_specialFiberComponent W) hvanish h
+      exact injective_inclusion_appTop_of_forall_eq_zero _ _ hDa hvanish h
     rw [← Scheme.IdealSheafData.inclusion_comp (prod_pow_le_prod_pow_of_le Finset.univ _ ha'le) hle,
       Scheme.Hom.comp_appTop, CommRingCat.hom_comp]
     exact (hstepinj _ hprod hle).comp (ih a' ha'le ha'0 (by omega))
@@ -584,7 +582,7 @@ theorem injective_specialFiberComponentι_appTop (Z₀ : irreducibleComponents S
         (asIso S.specialFiberι.toImage).inv := rfl
   rw [hι, Scheme.Hom.comp_appTop, CommRingCat.hom_comp]
   have : IsIso (asIso S.specialFiberι.toImage).inv.appTop := by
-    show IsIso ((asIso S.specialFiberι.toImage).inv.app ⊤)
+    change IsIso ((asIso S.specialFiberι.toImage).inv.app ⊤)
     infer_instance
   exact h1.comp (ConcreteCategory.bijective_of_isIso
     (asIso S.specialFiberι.toImage).inv.appTop).1
@@ -606,7 +604,7 @@ theorem isIso_globalSections_specialFiber_of_injective (Z : irreducibleComponent
   rw [hcomp] at hbij
   rw [ConcreteCategory.isIso_iff_bijective]
   refine ⟨fun x y hxy => hbij.1 ?_, fun c => ?_⟩
-  · show (S.specialFiberComponentι Z).appTop.hom _ = (S.specialFiberComponentι Z).appTop.hom _
+  · change (S.specialFiberComponentι Z).appTop.hom _ = (S.specialFiberComponentι Z).appTop.hom _
     exact congrArg _ hxy
   · obtain ⟨a, ha⟩ := hbij.2 ((S.specialFiberComponentι Z).appTop.hom c)
     refine ⟨a, hinj ?_⟩

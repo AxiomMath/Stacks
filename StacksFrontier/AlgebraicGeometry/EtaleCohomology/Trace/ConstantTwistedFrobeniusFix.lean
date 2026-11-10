@@ -67,6 +67,7 @@ lemma etaleModuleDirectImage_map_hom_app {X X' : Scheme.{u}} (f : X' ⟶ X)
       t.hom.app (op ((smallEtaleBaseChange f).obj U)) :=
   rfl
 
+omit [Fintype k] in
 /-- **The restriction of `ε` followed by the base change map fixes the pulled back constant
 section up to restriction.** -/
 lemma exists_pulledBackConstantSection_comp_automorphismBaseChange :
@@ -150,7 +151,7 @@ lemma comp_map_comp_hom_app_eq_map {X : Scheme.{u}} (a b ab : X ⟶ X) (hab : ab
             ((congrArg (x ≫ ·) (Category.assoc _ _ _)).symm.trans (Category.assoc _ _ _).symm)
     _ = ((x ≫ t.hom.app (op T)) ≫ G.obj.map ((smallEtaleBaseChange a).map ρ).op) ≫
         G.obj.map (op ((smallEtaleBaseChangeComp' a b ab hab).hom.app T)) := by
-          rw [t.hom.naturality ρ.op]; simp only [Category.assoc]; rfl
+          rw [t.hom.naturality ρ.op]; simp only; rfl
     _ = x ≫ G.obj.map ((smallEtaleBaseChangeComp' a b ab hab).hom.app T ≫
         (smallEtaleBaseChange a).map ρ ≫ ρ₂).op := by
           rw [h₂]; simp only [Category.assoc, op_comp, Functor.map_comp]; rfl

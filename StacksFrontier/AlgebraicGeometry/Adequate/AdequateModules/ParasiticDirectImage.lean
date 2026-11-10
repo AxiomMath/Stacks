@@ -135,7 +135,7 @@ public theorem isZero_evaluation_rightDerived_sectionsAlong_baseChangeFamily
       | zero =>
         refine IsZero.of_iso ?_ (E.mapIso ((Functor.rightDerivedZeroIsoSelf _).app F))
         refine (ModuleCat.isZero_iff_subsingleton).2 (hpar _ ?_)
-        show Flat ((openFamilyOpen C (baseChangeFamily B C Φ A a) (baseChangeBase B C Φ A a hA)
+        change Flat ((openFamilyOpen C (baseChangeFamily B C Φ A a) (baseChangeBase B C Φ A a hA)
           (baseChangeFamilyπ B C Φ A a hA) U (baseAlgebraOp B A hA)).ι ≫
             (C.toOver.obj ((baseChangeFamily B C Φ A a).obj (baseAlgebraOp B A hA))).hom)
         exact MorphismProperty.comp_mem @Flat _ _ inferInstance hT

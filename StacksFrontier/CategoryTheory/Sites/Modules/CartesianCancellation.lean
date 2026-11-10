@@ -87,14 +87,10 @@ theorem lTensor_eq_of_cancellation
     (x : Cc ⊗[B] (B ⊗[A] P)) :
     g (θ.lTensor Cc x) =
       h (TensorProduct.AlgebraTensorModule.cancelBaseChange A B B Cc P x) := by
-  have hg0 : g 0 = 0 := by simpa using (hgadd 0 0).symm
-  have hh0 : h 0 = 0 := by simpa using (hhadd 0 0).symm
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, hg0, hh0]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hgadd, hhadd, hx, hy]
   | tmul c z =>
-    induction z using TensorProduct.induction_on with
-    | zero => rw [TensorProduct.tmul_zero, map_zero, map_zero, hg0, hh0]
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => rw [TensorProduct.tmul_add, map_add, map_add, hgadd, hhadd, hz, hw]
     | tmul b p => exact hgh c b p
 
@@ -161,8 +157,7 @@ theorem lTensor_pi_bijective {R : Type*} [CommSemiring R] {ι : Type*} [Finite �
   have hsq : ∀ (x : (∀ i, Cs i) ⊗[R] M) (i : ι),
       e₂ (f.lTensor (∀ i, Cs i) x) i = f.lTensor (Cs i) (e₁ x i) := by
     intro x i
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, Pi.add_apply, hx, hy]
     | tmul c z => simp [e₁, e₂]
   have he : (fun x => e₂ (f.lTensor (∀ i, Cs i) x)) =
@@ -233,7 +228,7 @@ theorem isIso_restrictionBaseChange_of_faithfullyFlat_family
     fun i => (R.map (q i ≫ f).op).hom.toAlgebra
   let towC : ∀ i, IsScalarTower (R.obj (.op V)) (R.obj (.op U)) (R.obj (.op (T i))) := by
     refine fun i => IsScalarTower.of_algebraMap_eq (fun x => ?_)
-    show (R.map (q i ≫ f).op).hom x = ((R.map f.op) ≫ (R.map (q i).op)).hom x
+    change (R.map (q i ≫ f).op).hom x = ((R.map f.op) ≫ (R.map (q i).op)).hom x
     rw [← R.map_comp, ← op_comp]
   let : Module.FaithfullyFlat (R.obj (.op U)) (∀ i, R.obj (.op (T i))) := hff
   let instIso : ∀ i, IsIso (restrictionBaseChange M (q i).op) := hq
@@ -247,7 +242,7 @@ theorem isIso_restrictionBaseChange_of_faithfullyFlat_family
     (fun i => (restrictionBaseChange M (q i ≫ f).op).hom) (fun i => map_add _)
     (fun i => ConcreteCategory.bijective_of_isIso (restrictionBaseChange M (q i ≫ f).op))
     (fun i c b p => ?_)
-  show (restrictionBaseChange M (q i).op)
+  change (restrictionBaseChange M (q i).op)
       (c ⊗ₜ[R.obj (.op U), (R.map (q i).op).hom] ((restrictionBaseChange M f.op)
         (b ⊗ₜ[R.obj (.op V), (R.map f.op).hom] p))) =
     (restrictionBaseChange M (q i ≫ f).op)

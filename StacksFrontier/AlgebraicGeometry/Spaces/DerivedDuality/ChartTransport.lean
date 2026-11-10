@@ -169,6 +169,20 @@ instance isIso_psiOfIso : IsIso (Stacks.SheafOfModules.InternalHom.psiOfIso eqv 
       (Stacks.SheafOfModules.InternalHom.psiOfIso eqv φ)) := this
   exact isIso_of_fully_faithful (sheafToPresheaf X.J RingCat.{u}) _
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj A).Additive]
+  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)) (ComplexShape.up ℤ)),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+      (ComplexShape.up ℤ)]
+  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} Y.O)) (ComplexShape.up ℤ)),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor Y.O)
+      (ComplexShape.up ℤ)] in
 /-- **Finite presentation is invariant under an equivalence of ringed sites** (Stacks 03DM for
 the clause 03DL (7)). -/
 theorem isFinitePresentation_pushforward_iff
@@ -314,6 +328,18 @@ def DualityChart.transport {K : StdDerived X} {P : ChartClass.{u}} (c : DualityC
     exact ⟨((stdSheafHom Y).mapIso (e.app Z).symm.op).app (E.functor.obj K) ≪≫
       (stdSiteEquivDerivedSheafHomIso eqv φ _ _).symm ≪≫ E.functor.mapIso d ≪≫ (e.app _).symm⟩
 
+omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj A).Additive]
+  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)) (ComplexShape.up ℤ)),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+      (ComplexShape.up ℤ)]
+  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} Y.O)) (ComplexShape.up ℤ)),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor Y.O)
+      (ComplexShape.up ℤ)] in
 /-- **An object modelled by a chart is carried to an object modelled by the transported chart.** -/
 theorem DualityChart.models_transport {K : StdDerived X} {P : ChartClass.{u}}
     (c : DualityChart X K P) {M' : StdDerived X} (h : c.Models M') {M : StdDerived Y}

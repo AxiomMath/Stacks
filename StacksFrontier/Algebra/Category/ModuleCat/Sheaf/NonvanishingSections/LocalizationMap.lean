@@ -448,7 +448,7 @@ private theorem sectionModule_of_smul (n m : ℕ)
     DirectSum.of _ ((n + m : ℕ) : ℤ)
       (moduleMulAt X L F (⊤_ (Opens X.toRingedSpace.toPresheafedSpace)) n m a b) := by
   rw [(chosenModuleStructure (sectionSiteRing X) (sectionSiteSheaf X) L F).smul_eq]
-  show _ = (DirectSum.of _ _
+  change _ = (DirectSum.of _ _
     (((Invertible.tensorProductIso (sectionSiteRing X) (sectionSiteSheaf X) (Iso.refl F)
       (TensorPower.tensorPowerReindex (sectionSiteRing X) (sectionSiteSheaf X) L
         (Int.natCast_add n m).symm)).hom.val.app _).hom
@@ -662,7 +662,7 @@ private theorem powerBasisAt_one (s : L.sections) (n : ℕ) :
   induction n with
   | zero =>
       rw [sectionPower_zero]
-      show (1 : (sectionSiteRing X).obj (op U)) =
+      change (1 : (sectionSiteRing X).obj (op U)) =
         ((sectionSiteRing X).map (terminal.from U).op).hom 1
       exact (map_one _).symm
   | succ n ih =>
@@ -883,7 +883,7 @@ private theorem ringFractionNumerator_of (s : L.sections) (n : ℕ)
     powerBasisAt X L s n (ringFractionNumerator X L s n (DirectSum.of _ n a)) =
       (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)).val.map
         (terminal.from (nonvanishingOpen L s)).op a := by
-  show (powerBasisAt X L s n) ((powerBasisAt X L s n).symm
+  change (powerBasisAt X L s n) ((powerBasisAt X L s n).symm
     ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)).val.map
       (terminal.from (nonvanishingOpen L s)).op
         ((DirectSum.of _ n a : sectionRing
@@ -895,7 +895,7 @@ private theorem ringFractionNumerator_of (s : L.sections) (n : ℕ)
 
 private theorem ringFractionNumerator_power (s : L.sections) (n : ℕ) :
     ringFractionNumerator X L s n (homogeneousSection X L s ^ n) = 1 := by
-  show (powerBasisAt X L s n).symm _ = 1
+  change (powerBasisAt X L s n).symm _ = 1
   exact (congrArg (powerBasisAt X L s n).symm (powerBasisAt_one X L s n).symm).trans
     ((powerBasisAt X L s n).symm_apply_apply 1)
 
@@ -912,7 +912,7 @@ private theorem moduleFractionNumerator_of (s : L.sections) (n : ℕ)
       ((sectionSiteSheaf X))⟩).obj (F)).obj ((TensorPower.tensorPower (sectionSiteRing X)
       (sectionSiteSheaf X) L (n : ℤ))))).val.map
       (terminal.from (nonvanishingOpen L s)).op m := by
-  show (tensorBasisAt X L F s n) ((tensorBasisAt X L F s n).symm
+  change (tensorBasisAt X L F s n) ((tensorBasisAt X L F s n).symm
     (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
       Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
       ((sectionSiteSheaf X))⟩).obj (F)).obj ((TensorPower.tensorPower (sectionSiteRing X)
@@ -1043,7 +1043,7 @@ private theorem divideSectionByPower_add (s : L.sections) (n : ℕ)
   let e₁ := tensorRestrictionIsoOnScheme X F
     (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)) U
   let e₂ := divisionIsoOver X L F s n
-  show (e₂.hom.val.app (op uObj)).hom
+  change (e₂.hom.val.app (op uObj)).hom
       ((e₁.hom.val.app (op uObj)).hom (mres.hom (m₁ + m₂))) = _
   exact (congrArg (fun y => (e₂.hom.val.app (op uObj)).hom
       ((e₁.hom.val.app (op uObj)).hom y)) (mres.hom.map_add m₁ m₂)).trans
@@ -1063,7 +1063,7 @@ private theorem divideSectionByPower_zero (s : L.sections) (n : ℕ) :
   let e₁ := tensorRestrictionIsoOnScheme X F
     (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)) U
   let e₂ := divisionIsoOver X L F s n
-  show (e₂.hom.val.app (op uObj)).hom
+  change (e₂.hom.val.app (op uObj)).hom
       ((e₁.hom.val.app (op uObj)).hom (mres.hom 0)) = 0
   exact (congrArg (fun y => (e₂.hom.val.app (op uObj)).hom
       ((e₁.hom.val.app (op uObj)).hom y)) mres.hom.map_zero).trans
@@ -1115,7 +1115,7 @@ public theorem sectionLocalizationMap_fraction (s : L.sections) (n : ℕ)
         ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
           (n : ℤ)).val.map (terminal.from _).op (sectionPower X L s n))) :
     sectionLocalizationMap X L F s z = t := by
-  show fractionValue
+  change fractionValue
     (sectionRingGrading (sectionSiteRing X) (sectionSiteSheaf X) L)
     (sectionModuleGrading (sectionSiteRing X) (sectionSiteSheaf X) L F)
     (homogeneousSection_mem X L s) (moduleFractionNumerator X L F s) z = t

@@ -77,7 +77,7 @@ theorem sectionPowOverGenerator_val {m : ℕ} (U : Opens X.carrier)
   induction k with
   | zero => rfl
   | succ k ih =>
-      show sectionMulOver L (m * k) m (op U) (sectionPowOverGenerator L U g k).val g.val = _
+      change sectionMulOver L (m * k) m (op U) (sectionPowOverGenerator L U g k).val g.val = _
       rw [ih, sectionPowOver_succ]
 
 /-- Multiplication by the section of a local generator is bijective on its open. -/

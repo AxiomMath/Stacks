@@ -139,7 +139,7 @@ theorem obstruction_ofDouble_Q_map_comp {X₀ X₁ G' : C} (d : X₀ ⟶ X₁) {
     (s : DerivedCategory.Q.obj ((HomologicalComplex.single C (ComplexShape.up ℤ) i₀).obj G') ⟶
       ((DerivedCategory.singleFunctor C i₁).obj G)⟦(1 : ℤ)⟧) :
     (ofDouble d hi₀₁).obstruction G (DerivedCategory.Q.map m ≫ s) = 0 := by
-  show CochainComplex.doubleInclQ d hi₀₁ ≫ DerivedCategory.Q.map m ≫ s = 0
+  change CochainComplex.doubleInclQ d hi₀₁ ≫ DerivedCategory.Q.map m ≫ s = 0
   rw [← Category.assoc, CochainComplex.doubleInclQ_comp_Q_map, Limits.zero_comp]
 
 end AlgebraicGeometry.RingedSpaceThickening.NaiveCotangentTwoTerm

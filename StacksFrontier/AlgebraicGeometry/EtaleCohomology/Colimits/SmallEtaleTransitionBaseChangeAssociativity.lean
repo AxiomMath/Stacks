@@ -76,7 +76,7 @@ universe v u
 
 namespace Stacks.EtaleCohomology.AffineLimitCohomology
 
-open AlgebraicGeometry CategoryTheory.Sites.InverseSystem
+open _root_.Stacks.AlgebraicGeometry CategoryTheory.Sites.InverseSystem
 open Stacks.EtaleCohomology.QcSeparatedColimit (levelIndex transitionScheme
   transitionBaseChangeEtaleObj transitionBaseChangeProj transitionBaseChangeEtaleObj_isPullback
   OneHypercoverDatum)

@@ -219,8 +219,7 @@ public theorem baseChangeValuesCollapse_baseChangeValues (hM : IsPAdicallyComple
       LinearMap.rTensor Omega (baseChangeCollapse p D M hM)
           (baseChangeTensor p D D M Omega Omega LinearMap.id y) = y := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => rw [_root_.map_zero, _root_.map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul m omega =>
       rw [baseChangeTensor, TensorProduct.map_tmul, LinearMap.rTensor_tmul,
         baseChangeCollapse_inclusion]
@@ -237,8 +236,7 @@ public theorem baseChangeValues_baseChangeValuesCollapse (hM : IsPAdicallyComple
       baseChangeTensor p D D M Omega Omega LinearMap.id
           (LinearMap.rTensor Omega (baseChangeCollapse p D M hM) y) = y := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => rw [_root_.map_zero, _root_.map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul x omega =>
       rw [LinearMap.rTensor_tmul, baseChangeTensor, TensorProduct.map_tmul,
         inclusion_baseChangeCollapse]
@@ -272,8 +270,7 @@ public def carrierTensorMap : (D' ⊗[D] M) →ₛₗ[algebraMap D' D''] (D'' �
     (LinearMap.id (R := D) (M := M))
   map_add' x y := _root_.map_add _ x y
   map_smul' c x := by
-    induction x using TensorProduct.induction_on with
-    | zero => rw [smul_zero, _root_.map_zero, smul_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul b' m =>
       rw [TensorProduct.smul_tmul']
       change TensorProduct.map ((Algebra.linearMap D' D'').restrictScalars D)
@@ -438,8 +435,7 @@ public theorem baseChangeValues_comp (psiComp : Omega →ₛₗ[algebraMap D D''
         LinearMap.rTensor Omega'' (baseChangeComposite p D D' D'' M)
           (compositeTensorMap p D D' D'' M Omega Omega' Omega'' psi psi' y) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [_root_.map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul m omega =>
       change baseChangeTensor p D D'' M Omega Omega'' psiComp (m ⊗ₜ[D] omega) =
         LinearMap.rTensor Omega'' (baseChangeComposite p D D' D'' M)

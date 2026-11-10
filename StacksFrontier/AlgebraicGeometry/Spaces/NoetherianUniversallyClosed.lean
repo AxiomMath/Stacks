@@ -245,7 +245,7 @@ theorem exists_mem_pointsMap_eq_of_discreteValuationSpecialization
   have hk : k ≫ d.genericToValuation = fracHom := by
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show B.inclusion.map (𝟙 (B.obj d.generic.contained)) ≫
+    change B.inclusion.map (𝟙 (B.obj d.generic.contained)) ≫
         B.inclusion.map d.genericToValuation.left = _
     rw [B.inclusion.map_id, Category.id_comp]
     exact d.genericToValuation_spec
@@ -255,7 +255,7 @@ theorem exists_mem_pointsMap_eq_of_discreteValuationSpecialization
       generic := yoneda.map k ≫ yonedaEquiv.symm d.generic.value ≫ i
       special := d.toTarget
       comm := by
-        show (yoneda.map k ≫ yonedaEquiv.symm d.generic.value ≫ i) ≫ f =
+        change (yoneda.map k ≫ yonedaEquiv.symm d.generic.value ≫ i) ≫ f =
           yoneda.map fracHom ≫ d.toTarget
         simp only [← hk, Functor.map_comp, Category.assoc, d.commutes] }
   have hgeneric : v.generic = yoneda.map k ≫ yonedaEquiv.symm p.value :=

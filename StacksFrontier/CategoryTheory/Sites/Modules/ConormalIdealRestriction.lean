@@ -265,7 +265,7 @@ theorem conormalDesc_sub (ρ₁ ρ₂ ρ₃ : IdealRestriction φ G) :
         conormalDesc φ G (IdealRestriction.sub ρ₂ ρ₃) =
       conormalDesc φ G (IdealRestriction.sub ρ₁ ρ₃) := by
   refine conormal_hom_ext φ G (fun X x ↦ ?_)
-  show ((conormalDesc φ G (IdealRestriction.sub ρ₁ ρ₂)).val.app X) _ +
+  change ((conormalDesc φ G (IdealRestriction.sub ρ₁ ρ₂)).val.app X) _ +
       ((conormalDesc φ G (IdealRestriction.sub ρ₂ ρ₃)).val.app X) _ = _
   rw [conormalDesc_toAssociatedModule, conormalDesc_toAssociatedModule,
     conormalDesc_toAssociatedModule, IdealRestriction.sub_app, IdealRestriction.sub_app,

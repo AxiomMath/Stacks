@@ -106,7 +106,7 @@ private theorem finiteType_of_isPullback_of_isPushout
   let toD' : base.fibreProduct →+* RingHom.pullback DtoC.hom C'toC.hom :=
     RingHom.codRestrict ((BtoD.hom.comp toB).prod (A'toC'.hom.comp toA'))
       (RingHom.pullback DtoC.hom C'toC.hom) (fun x ↦ by
-        show DtoC.hom (BtoD.hom (toB x)) = C'toC.hom (A'toC'.hom (toA' x))
+        change DtoC.hom (BtoD.hom (toB x)) = C'toC.hom (A'toC'.hom (toA' x))
         calc
           _ = AtoC.hom (toBase.hom (toB x)) :=
             DFunLike.congr_fun (MilnorPatching.ringPushout_comm hDr) (toB x)
@@ -225,7 +225,7 @@ private theorem finiteType_appLE_of_isPushout
   have hYbase := preimage_le_of_comp_eq hcompY hUV
   have hUzφ : j' ⁻¹ᵁ (b' ⁻¹ᵁ U) ≤ φ ⁻¹ᵁ (j ⁻¹ᵁ (b ⁻¹ᵁ V)) := by
     intro z hz
-    show (φ ≫ j) z ∈ b ⁻¹ᵁ V
+    change (φ ≫ j) z ∈ b ⁻¹ᵁ V
     rw [← hY.w]
     exact hYbase hz
   have hUzX : j' ⁻¹ᵁ (b' ⁻¹ᵁ U) =
@@ -241,7 +241,7 @@ private theorem finiteType_appLE_of_isPushout
   have hsurj : Function.Surjective
       (i.appLE (a ⁻¹ᵁ V) (j ⁻¹ᵁ (b ⁻¹ᵁ V)) hVzle).hom := by
     rw [← app_comp_eqToHom_eq_appLE i heV hVzle]
-    show Function.Surjective
+    change Function.Surjective
       ((eqToHom (congrArg (fun W ↦ Γ(Z, W)) heV)).hom ∘ (i.app (a ⁻¹ᵁ V)).hom)
     exact Function.Surjective.comp
       (ConcreteCategory.bijective_of_isIso

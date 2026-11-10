@@ -211,14 +211,14 @@ theorem isIso_moduleSheafFiber_map_complementPoint {F G : EtaleModules.{u, r} Λ
   | inl z =>
     refine (NatIso.isIso_map_iff
       (etaleModuleInverseImageSheafFiberIso.{u, r} Λ i (residueGeometricPoint Z z)) γ).mp ?_
-    show IsIso (((pointSmallEtale
+    change IsIso (((pointSmallEtale
       (residueGeometricPoint Z z)).ulift.{max (u + 1) r}).sheafFiber.map
         ((etaleModuleInverseImage.{u, r} Λ i).map γ))
     infer_instance
   | inr w =>
     refine (NatIso.isIso_map_iff
       (etaleModuleInverseImageSheafFiberIso.{u, r} Λ j (residueGeometricPoint U w)) γ).mp ?_
-    show IsIso (((pointSmallEtale
+    change IsIso (((pointSmallEtale
       (residueGeometricPoint U w)).ulift.{max (u + 1) r}).sheafFiber.map
         ((etaleModuleInverseImage.{u, r} Λ j).map γ))
     infer_instance

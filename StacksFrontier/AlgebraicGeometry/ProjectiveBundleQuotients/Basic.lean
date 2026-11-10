@@ -48,7 +48,8 @@ with `AlgebraicGeometry.Scheme.Modules.pullback` instead -- the spelling Mathlib
 `Scheme.Modules.pullbackComp` and `Scheme.Modules.pullbackId` are stated in. Instance
 search does **not** cross between the two, so `Stacks.SheafOfModules.IsInvertible X.presheaf
 X.ringCatSheaf.2 ((Scheme.Modules.pullback g).obj L)` fails to synthesize outright. `pullbackIso`
-closes the gap, and `isInvertible_pullback_obj` is Tag 0B8L at the spelling the tagged statements use.
+closes the gap, and `isInvertible_pullback_obj` is Tag 0B8L at the spelling the tagged statements
+use.
 
 The bridge is the uniqueness of a left adjoint: both functors are left adjoint to the *same*
 pushforward functor, so `CategoryTheory.Adjunction.leftAdjointUniq` applies with nothing to

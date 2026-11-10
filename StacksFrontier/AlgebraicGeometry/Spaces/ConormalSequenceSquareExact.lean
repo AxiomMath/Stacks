@@ -65,10 +65,10 @@ rather than fought.
   `CategoryTheory.Limits.comp_eq_zero_congr_hasZeroMorphisms` move statements between the zero
   morphisms of that section and those found elsewhere.
 * Unfolding `AlgebraicGeometry.Space.modulePullback` does not terminate in practice, so, as in
-  `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleComposition.lean`, it is locally irreducible
-  in the sections that compare conormal maps.  The abbreviation for `π` carries its type: inferred,
-  its type spells the source differently from the other abbreviations and the comparison of the two
-  spellings exhausts the budget.
+  `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleComposition.lean`, it is locally
+  irreducible in the sections that compare conormal maps.  The abbreviation for `π` carries its
+  type: inferred, its type spells the source differently from the other abbreviations and the
+  comparison of the two spellings exhausts the budget.
 
 ## References
 
@@ -226,7 +226,7 @@ theorem le_preimageSubspace_of_square : Z.1 ≤ (preimageSubspace B S hS h Y).1 
   intro U x hx
   have e := congrArg (fun t => t.hom.app U ⟨x, hx⟩) hsq
   change h.hom.app U x = Y.1.ι.app U (f.hom.app U ⟨x, hx⟩) at e
-  show h.hom.app U x ∈ Y.1.obj U
+  change h.hom.app U x ∈ Y.1.obj U
   rw [e]
   exact (f.hom.app U ⟨x, hx⟩).2
 
@@ -310,7 +310,7 @@ theorem mem_definingIdealSheaf_of_squareStructureComp (U : (SmallEtale B S hS M.
     (hs : (squareStructureComp B S hS h Y Z).val.app U s = 0) :
     s ∈ (definingIdealSheaf B S hS M Z).obj U := by
   rw [← kernelIdealSheaf_squareSub_comp B S hS h Y Z f hsq]
-  show ((structureSharp B S hS
+  change ((structureSharp B S hS
     (subspaceInclusion B S hS (squareFibre B S hS h Y) (squareSub B S hS h Y Z) ≫
       squareFibreInclusion B S hS h Y)).hom.app U).hom s = 0
   let z : (SheafOfModules.unit (structureRingSheaf B S hS M)).val.obj U := 0
@@ -472,7 +472,7 @@ theorem exact_and_epi_squareIdealTranspose :
     exact SheafOfModules.Submodule.factorThru_ι _ _ _
   · refine ⟨(definingIdealSheaf B S hS M (preimageSubspace B S hS h Y)).factorThru x
       fun U t => by
-        show ((structureSharp B S hS (squareFibreInclusion B S hS h Y)).hom.app U).hom
+        change ((structureSharp B S hS (squareFibreInclusion B S hS h Y)).hom.app U).hom
           (x.val.app U t) = 0
         exact (congrArg (fun m => m.val.app U t) hx).trans rfl, ?_⟩
     exact SheafOfModules.Submodule.factorThru_ι _ _ _

@@ -102,11 +102,11 @@ theorem isPullback_grpHomGraph_left :
     (v₁₂ := pullback.snd G.hom H.hom) (h₂₂ := H.hom) (v₁₃ := G.hom) ?_ ?_
     (IsPullback.of_hasPullback G.hom H.hom))
   · have h : (grpHomGraph f).left ≫ pullback.fst G.hom H.hom = pullback.fst G.hom G.hom := by
-      show (grpHomGraph f ≫ fst G H).left = _
+      change (grpHomGraph f ≫ fst G H).left = _
       simp
     rw [h, Over.w f]
     exact IsPullback.of_hasPullback G.hom G.hom
-  · show (grpHomGraph f ≫ snd G H).left = (snd G G ≫ f).left
+  · change (grpHomGraph f ≫ snd G H).left = (snd G G ≫ f).left
     simp
 
 /-- **A homomorphism of group schemes which is unramified along the unit section is
@@ -123,7 +123,7 @@ theorem unramifiedAt_of_forall_unramifiedAt_unit [LocallyOfFiniteType f.left]
     MorphismProperty.IsStableUnderBaseChange.of_isPullback sq ‹LocallyOfFiniteType f.left›
   let z := (lift (𝟙 G) (toUnit G ≫ η[G])).left x
   have hz : (snd G G).left z = (η[G]).left (G.hom x) := by
-    show (lift (𝟙 G) (toUnit G ≫ η[G]) ≫ snd G G).left x = _
+    change (lift (𝟙 G) (toUnit G ≫ η[G]) ≫ snd G G).left x = _
     rw [lift_snd, Over.comp_left, Over.toUnit_left]
     rfl
   have h1 : UnramifiedAt (grpHomGraph f).left z :=
@@ -144,7 +144,7 @@ theorem unramifiedAt_of_forall_unramifiedAt_unit [LocallyOfFiniteType f.left]
     · simp
     · simp [MonObj.comp_mul, ← CategoryTheory.Hom.one_def]
   have hx : (snd G G).left ((grpShear (G := G)).left z) = x := by
-    show (lift (𝟙 G) (toUnit G ≫ η[G]) ≫ grpShear ≫ snd G G).left x = x
+    change (lift (𝟙 G) (toUnit G ≫ η[G]) ≫ grpShear ≫ snd G G).left x = x
     rw [← Category.assoc, hσ, lift_snd]
     rfl
   have h3 := (unramifiedAt_iff_of_isPullback sq _).2 h2

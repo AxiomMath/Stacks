@@ -143,7 +143,7 @@ theorem specialMap_c_rebase_toBase_appTop (m : M) :
 theorem sourceIdealGenerator_mem (m : M) :
     sourceIdealGenerator f pY yε m ∈
       kernelIdeal (Scheme.liftSourceReduction yε.1.specialMap f).hom (op ⊤) := by
-  show ((Scheme.liftSourceReduction yε.1.specialMap f).hom.app (op ⊤)).hom
+  change ((Scheme.liftSourceReduction yε.1.specialMap f).hom.app (op ⊤)).hom
     (sourceIdealGenerator f pY yε m) = 0
   refine (Scheme.liftSourceReduction_ambientSection yε.1.specialMap f
     (W := ⊤) (V := ⊤) _ _).trans ?_

@@ -82,7 +82,7 @@ theorem relocalizeRestrict_obj_comp {U₀ U₁ U₂ : C} (g₁ : U₂ ⟶ U₁) 
     (relocalizeRestrict g₁).obj ((relocalizeRestrict g₂).obj F) =
       (relocalizeRestrict g).obj F := by
   subst h
-  show (Over.map g₁).op ⋙ (Over.map g₂).op ⋙ F = (Over.map (g₁ ≫ g₂)).op ⋙ F
+  change (Over.map g₁).op ⋙ (Over.map g₂).op ⋙ F = (Over.map (g₁ ≫ g₂)).op ⋙ F
   rw [Over.mapComp_eq]
   rfl
 
@@ -130,7 +130,7 @@ image of a morphism. -/
 theorem yoneda_map_comp_app_id {D : Type u} [Category.{v} D] {G : Dᵒᵖ ⥤ Type v} {T W : D}
     (m : T ⟶ W) (β : yoneda.obj W ⟶ G) :
     (yoneda.map m ≫ β).app (op T) (𝟙 T) = β.app (op T) m := by
-  show β.app (op T) (𝟙 T ≫ m) = _
+  change β.app (op T) (𝟙 T ≫ m) = _
   rw [Category.id_comp]
 
 /-! ### Membership in the image of a relocalized subfunctor -/
@@ -172,7 +172,7 @@ private theorem mem_range_relocalize_congr {S T U : C} (g : U ⟶ S) (p : U ⟶ 
   simp only [eqToHom_refl, Subfunctor.preimage_id] at hV
   subst hV
   rw [mem_range_relocalizePresheafFunctor_map_ι, mem_range_relocalizePresheafFunctor_map_ι]
-  show x.val.snd ∈ A.obj (op (Over.mk (x.val.fst ≫ p))) ↔
+  change x.val.snd ∈ A.obj (op (Over.mk (x.val.fst ≫ p))) ↔
     y.val.snd ∈ A.obj (op (Over.mk (y.val.fst ≫ p)))
   exact mem_heq A (congrArg (fun q ↦ op (Over.mk q)) hbase) hsection
 
@@ -227,7 +227,7 @@ read on underlying schemes. -/
 private theorem toScheme_map_comp_hom (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {W W' : BigFppfOver B S hS} (m : W ⟶ W') :
     (BigFppfOver.toScheme B S hS).map m ≫ B.inclusion.map W'.hom = B.inclusion.map W.hom := by
-  show B.inclusion.map m.left ≫ _ = _
+  change B.inclusion.map m.left ≫ _ = _
   rw [← B.inclusion.map_comp]
   exact congrArg B.inclusion.map (Over.w m)
 
@@ -501,7 +501,7 @@ private theorem exists_isIso_relocalizeRestrictYoneda (B : BigFppfSite.{u}) (S S
   have _ : IsIso ((Over.forget (B.obj hS)).map n) := hleft
   have _ : IsIso n := isIso_of_reflects_iso n (Over.forget (B.obj hS))
   refine ⟨yoneda.mapIso (asIso n) ≪≫ OverShriek.restrictYonedaIso g U, fun T t ↦ ?_⟩
-  show ((OverShriek.restrictYonedaIso g U).hom.app (op T) (t ≫ n)).left = _
+  change ((OverShriek.restrictYonedaIso g U).hom.app (op T) (t ≫ n)).left = _
   rw [OverShriek.restrictYonedaIso_hom_app_left, Over.comp_left, Category.assoc, hfst]
 
 /-! ### The descent criterion -/
@@ -573,7 +573,7 @@ private theorem subfunctor_eq_relocalizeRestrictSubfunctor (B : BigFppfSite.{u})
       congrArg (fun Φ : Over (B.obj hK) ⥤ Over (B.obj hk) ↦ Φ.obj UWK) hTfun
     have hstep : fVK ≫ Vbase.ι = jIso.hom ≫ (OverShriek.relocalizeRestrict gEK).map
         (yoneda.map iW ≫ isoE.hom ≫ (OverShriek.relocalizeRestrict gE).map q0) := by
-      show (jIso.hom ≫ (OverShriek.relocalizeRestrict gEK).map factorVE) ≫
+      change (jIso.hom ≫ (OverShriek.relocalizeRestrict gEK).map factorVE) ≫
         (OverShriek.relocalizeRestrict gEK).map VE.ι = _
       rw [Category.assoc, ← Functor.map_comp, hfactorVE]
     have hkey : (jIso.hom ≫ (OverShriek.relocalizeRestrict gEK).map
@@ -816,7 +816,7 @@ theorem exists_open_subgroup_fixing_isQuasiCompact_open [IsGalois k K]
     (fieldExtensionMap B E K hE hK)
     (relocalizeRestrict_fieldExtensionMap_comp B k E K hk hE hK X) V' V hdesc
   refine Subfunctor.ext (funext fun W ↦ ?_)
-  show ((galoisActionOnBaseChange B k K hk hK X).ρ (MulOpposite.op σ)).asHom.app W ⁻¹'
+  change ((galoisActionOnBaseChange B k K hk hK X).ρ (MulOpposite.op σ)).asHom.app W ⁻¹'
       (Subfunctor.range ((OverShriek.relocalizePresheafFunctor
         (fieldExtensionMap B k K hk hK)).map V.ι)).obj W =
     (Subfunctor.range ((OverShriek.relocalizePresheafFunctor

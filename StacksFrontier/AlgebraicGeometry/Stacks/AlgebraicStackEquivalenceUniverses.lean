@@ -68,7 +68,7 @@ theorem isRepresentableFromSchemes_of_equivalenceOver
   intro U y
   have hid : Functor.IsEquivalence
       (BasedFunctor.id (schemeFibredCategory B S hS U).val).toFunctor := by
-    show Functor.IsEquivalence (𝟭 _)
+    change Functor.IsEquivalence (𝟭 _)
     infer_instance
   have hinv : Functor.IsEquivalence e.inverse.toFunctor := e.symm.equiv.isEquivalence_functor
   exact (isRepresentableByAlgebraicSpaces_iff_of_equivalences B S hS y
@@ -95,7 +95,7 @@ theorem isAlgebraicStack_of_equivalenceOver
   have hequiv : Functor.IsEquivalence E.functor.toFunctor := E.equiv.isEquivalence_functor
   have hid : Functor.IsEquivalence
       (BasedFunctor.id (schemeFibredCategory B S hS U).val).toFunctor := by
-    show Functor.IsEquivalence (𝟭 _)
+    change Functor.IsEquivalence (𝟭 _)
     infer_instance
   have hinvE : Functor.IsEquivalence E.inverse.toFunctor := E.symm.equiv.isEquivalence_functor
   have h₃ : IsRepresentableFromSchemes B S hS (CatFiberedInGroupoids.mk 𝒳 h𝒳fib) :=
@@ -142,7 +142,7 @@ theorem isDeligneMumfordStackUniv_of_equivalenceOver
   let E : BasedCategory.Equivalence 𝒳 𝒴 := e.toBasedEquivalence
   have hid : Functor.IsEquivalence
       (BasedFunctor.id (schemeFibredCategory B S hS U).val).toFunctor := by
-    show Functor.IsEquivalence (𝟭 _)
+    change Functor.IsEquivalence (𝟭 _)
     infer_instance
   have hinvE : Functor.IsEquivalence E.inverse.toFunctor := E.symm.equiv.isEquivalence_functor
   have h₃ : IsRepresentableFromSchemes B S hS (CatFiberedInGroupoids.mk 𝒳 hfib) :=

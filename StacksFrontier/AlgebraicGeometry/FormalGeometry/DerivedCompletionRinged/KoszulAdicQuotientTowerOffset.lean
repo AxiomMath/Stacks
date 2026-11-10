@@ -257,6 +257,7 @@ def koszulTopHomologyToAdicQuotientAtOn (p : ℤ) (hp : koszulTopDeg r = p) :
       Stacks.Sites.adicQuotientTowerOn (X := X) (generatedIdealSheaf f) M :=
   hp ▸ koszulTopHomologyToAdicQuotientOn X f M
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The cone of the transported pigeonhole comparison. -/
 theorem koszulToTopHomologyAt_comp_koszulTopHomologyToAdicQuotientAtOn
     (p : ℤ) (hp : koszulTopDeg r = p) (n : ℕ) :
@@ -266,6 +267,7 @@ theorem koszulToTopHomologyAt_comp_koszulTopHomologyToAdicQuotientAtOn
   subst hp
   exact koszulToTopHomologyOn_comp_koszulTopHomologyToAdicQuotientAppOn X f M n
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The transported pigeonhole comparison has eventual inverses. -/
 theorem hasEventualInverses_koszulTopHomologyToAdicQuotientAtOn
     (p : ℤ) (hp : koszulTopDeg r = p) :
@@ -291,6 +293,7 @@ def koszulTopHomologyToAdicQuotientSignedOn (p : ℤ) (hp : koszulTopDeg r = p) 
       Stacks.Sites.adicQuotientTowerOn (X := X) (generatedIdealSheaf f) M :=
   (-1 : ℤ) ^ r • koszulTopHomologyToAdicQuotientAtOn X f M p hp
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The components of the twisted pigeonhole comparison. -/
 theorem koszulTopHomologyToAdicQuotientSignedOn_app (p : ℤ) (hp : koszulTopDeg r = p) (n : ℕ) :
     (koszulTopHomologyToAdicQuotientSignedOn X f M p hp).app (op n) =

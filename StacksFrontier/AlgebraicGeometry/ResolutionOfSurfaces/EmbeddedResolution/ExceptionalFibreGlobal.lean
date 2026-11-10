@@ -134,7 +134,7 @@ public theorem isRegular_exceptionalDivisor_vanishingIdeal_singleton {Y : Scheme
   have : IsPreimmersion h :=
     MorphismProperty.of_isPullback (P := @IsPreimmersion) hpb inferInstance
   have hExc : exceptionalIdeal (M.comap (Y.fromSpecStalk w)) = (exceptionalIdeal M).comap h := by
-    show (M.comap (Y.fromSpecStalk w)).comap
+    change (M.comap (Y.fromSpecStalk w)).comap
         (blowUpToBase (M.comap (Y.fromSpecStalk w))) =
       (M.comap (blowUpToBase M)).comap h
     rw [← Scheme.IdealSheafData.comap_comp, ← Scheme.IdealSheafData.comap_comp, hpb.w]

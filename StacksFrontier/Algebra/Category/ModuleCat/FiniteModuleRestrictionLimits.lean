@@ -127,7 +127,7 @@ private lemma map_rangeRestrict_eq_zero {X Y : ModuleCat.{v} A} (f : X ⟶ Y)
   have hg : g' ≫ ModuleCat.ofHom Q.1.subtype = ModuleCat.ofHom P.1.subtype ≫ f := rfl
   apply map_subtype_injective E Y Q
   rw [map_zero]
-  show (E.map g' ≫ E.map (ModuleCat.ofHom Q.1.subtype)) z = 0
+  change (E.map g' ≫ E.map (ModuleCat.ofHom Q.1.subtype)) z = 0
   rw [← E.map_comp, hg, E.map_comp]
   exact hz
 
@@ -215,9 +215,9 @@ private lemma exists_map_ker_subtype_eq_of_map_eq_zero {X Y : ModuleCat.{v} A} (
   have hk : k ≫ ModuleCat.ofHom f.hom.ker.subtype =
       ModuleCat.ofHom g'.hom.ker.subtype ≫ ModuleCat.ofHom P.1.subtype := rfl
   refine ⟨E.map k t, ?_⟩
-  show (E.map k ≫ E.map (ModuleCat.ofHom f.hom.ker.subtype)) t = _
+  change (E.map k ≫ E.map (ModuleCat.ofHom f.hom.ker.subtype)) t = _
   rw [← E.map_comp, hk, E.map_comp]
-  show E.map (ModuleCat.ofHom P.1.subtype)
+  change E.map (ModuleCat.ofHom P.1.subtype)
     (E.map (ModuleCat.ofHom g'.hom.ker.subtype) t) = _
   rw [ht]
 

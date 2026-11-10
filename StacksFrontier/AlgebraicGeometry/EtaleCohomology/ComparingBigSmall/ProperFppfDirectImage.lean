@@ -66,7 +66,7 @@ changes its mate by `ψ` at the bottom. -/
 public theorem mateEquiv_symm_whiskerLeft (w : TwoSquare R₁ H G R₂) (ψ : H ⟶ H') :
     (mateEquiv adj₁ adj₂).symm (w.whiskerLeft ψ) =
       ((mateEquiv adj₁ adj₂).symm w).whiskerBottom ψ := by
-  refine TwoSquare.ext _ _ fun c => ?_
+  refine NatTrans.ext <| funext fun c => ?_
   simp [mateEquiv_symm_apply, TwoSquare.whiskerLeft, TwoSquare.whiskerBottom]
 
 end Mates

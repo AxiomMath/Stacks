@@ -161,10 +161,10 @@ theorem exists_mem_basicOpen_forall_notMem_basicOpen_X {I K : Type*} [CommRing K
     (MvPolynomial.aeval fun i : I => if i ∈ g.vars then MvPolynomial.X i else 0).toRingHom
   refine ⟨_root_.PrimeSpectrum.comap φ t, ?_, fun i hi => ?_⟩
   · rw [_root_.PrimeSpectrum.mem_basicOpen]
-    show φ g ∉ t.asIdeal
+    change φ g ∉ t.asIdeal
     rwa [show φ g = g from MvPolynomial.aeval_ite_mem_eq_self g subset_rfl]
   · rw [_root_.PrimeSpectrum.mem_basicOpen, not_not]
-    show φ (MvPolynomial.X i) ∈ t.asIdeal
+    change φ (MvPolynomial.X i) ∈ t.asIdeal
     simp [φ, hi]
 
 /-- **A universally closed morphism of algebraic spaces over a one-point base has

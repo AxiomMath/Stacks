@@ -134,7 +134,7 @@ theorem exists_iso_bundle_pullbackSnd_blowUpToBase_twist (i : Z ⟶ X) [IsClosed
       rw [← cancel_epi κ.hom, Iso.hom_inv_id_assoc, ← Category.assoc, h'.isoPullback_hom_snd,
         Category.assoc, IsIso.inv_hom_id, Category.comp_id]
     rw [← cancel_mono i.toImage]
-    show (κ.inv ≫ δ.hom ≫ ε.inv ≫ inv β) ≫ Stacks.Chow.bundleProj M' ≫ i.toImage = _
+    change (κ.inv ≫ δ.hom ≫ ε.inv ≫ inv β) ≫ Stacks.Chow.bundleProj M' ≫ i.toImage = _
     refine (congrArg _ hb).trans ?_
     refine (Category.assoc _ _ _).trans (congrArg (κ.inv ≫ ·) ?_) |>.trans hκ
     refine (Category.assoc _ _ _).trans (congrArg (δ.hom ≫ ·) ?_) |>.trans
@@ -197,7 +197,7 @@ theorem picardClassOf_pullback_divisorSheaf_eq_neg {P X : Scheme.{u}} (g : P ⟶
   have hc : Stacks.SheafOfModules.pullbackPicardClass g (Stacks.Divisors.negativeTwist' D) hN =
       picardClassOf P L hL :=
     (Stacks.SheafOfModules.picardClass_eq_iff _ _ _ _ _ _).2 ⟨e⟩
-  show Stacks.SheafOfModules.pullbackPicardClass g (Stacks.Divisors.invertibleSheaf' D) hO = _
+  change Stacks.SheafOfModules.pullbackPicardClass g (Stacks.Divisors.invertibleSheaf' D) hO = _
   rw [← hc, key, neg_neg]
 
 end Stacks.WeilCohomology
@@ -273,7 +273,7 @@ theorem exists_iso_bundle_exceptionalObj_c₁_of_twistIso
     SmoothProjectiveScheme.hom_ext' φ.hom_inv_id, SmoothProjectiveScheme.hom_ext' φ.inv_hom_id,
     SmoothProjectiveScheme.hom_ext' hφ, 0, ?_⟩
   · exact hφ'
-  · show φ.inv ≫ pullback.snd _ _ ≫ Z.obj.hom = Stacks.Chow.bundleProj _ ≫ Z.obj.hom
+  · change φ.inv ≫ pullback.snd _ _ ≫ Z.obj.hom = Stacks.Chow.bundleProj _ ≫ Z.obj.hom
     exact (congrArg (φ.inv ≫ ·) hφ').symm.trans (Iso.inv_hom_id_assoc φ _)
   · have : Stacks.Divisors.IsEffectiveCartierDivisor (exceptionalDivisor i) :=
       isEffectiveCartierDivisor_exceptionalIdeal i

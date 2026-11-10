@@ -49,7 +49,7 @@ public theorem mem_primeCompl_of_map_eq (h : IsAwayDegreewise φ g)
     (hIJ : I = J.comap φ.toRingHom) {s : A} {m : ℕ} {t : B} (ht : t ∈ J.primeCompl)
     (hs : φ s = φ g ^ m * t) : s ∈ I.primeCompl := by
   subst hIJ
-  show φ s ∉ J
+  change φ s ∉ J
   rw [hs]
   exact J.primeCompl.mul_mem (J.primeCompl.pow_mem (h.map_mem_primeCompl J) m) ht
 

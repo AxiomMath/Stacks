@@ -269,7 +269,7 @@ theorem exists_linearMap_of_iso (L : Y.Modules)
         (Scheme.Modules.Hom.app e.hom ⊤ (1 : Γ(T, ⊤)))) = (1 : Γ(T, V)) := by
     have hnat := PresheafOfModules.naturality_apply e.hom.val (homOfLE (le_top : V ≤ ⊤)).op
       (1 : Γ(T, ⊤))
-    show Scheme.Modules.Hom.app e.inv V
+    change Scheme.Modules.Hom.app e.inv V
       (((Scheme.Modules.pushforward π).obj L).presheaf.map (homOfLE (le_top : V ≤ ⊤)).op
         (Scheme.Modules.Hom.app e.hom ⊤ (1 : Γ(T, ⊤)))) = (1 : Γ(T, V))
     have h1 : ((Scheme.Modules.pushforward π).obj L).presheaf.map (homOfLE (le_top : V ≤ ⊤)).op
@@ -324,7 +324,7 @@ theorem comap_eq_comap_zeroScheme [IsProper π] [Flat π] (L : Y.Modules)
     refine (pullbackClass_classOf ι.toLRSHom.toShHom MZ hMZ).symm.trans (Eq.trans ?_
       (pullbackClass_classOf ι.toLRSHom.toShHom L hL))
     refine Eq.trans ?_ hcl
-    show schemePullbackClass ι _ = schemePullbackClass ι _
+    change schemePullbackClass ι _ = schemePullbackClass ι _
     rw [classOf_picardRepresentative]
   obtain ⟨φ⟩ := (Stacks.SheafOfModules.picardClass_eq_iff _ _ _ _ hιM hιL).1 hcl'
   set F := (Scheme.Modules.pullback ι).obj L
@@ -365,7 +365,7 @@ theorem comap_eq_comap_zeroScheme [IsProper π] [Flat π] (L : Y.Modules)
     apply hτt
     refine (Stacks.AlgebraicGeometry.ProperFlatGlobalSections.pullbackSectionsBaseₗ_top_apply
       _ fV _ _ F _ τ).symm.trans (h1.trans ?_)
-    show ((residueOfMem t ht).hom (ℓ τ) • (Stacks.Cech.pullbackSectionsBaseₗ
+    change ((residueOfMem t ht).hom (ℓ τ) • (Stacks.Cech.pullbackSectionsBaseₗ
       (fiberιOfMem π t ht) F (residueOfMem t ht).hom fV (π.fiberToSpecResidueField t)
       (fun W => Stacks.Cech.baseRingHom_comp_app _ fV _ _ hsq W) ⊤)
         (pullbackGlobalSections ι L s) : Γ((Scheme.Modules.pullback (fiberιOfMem π t ht)).obj F,
@@ -460,11 +460,11 @@ theorem eq_of_abelClass_eq (T : Over (Spec (.of k)))
   have : Stacks.Divisors.IsEffectiveCartierDivisor I := Z.isRelativeEffectiveCartierDivisor.1
   have : Stacks.Divisors.IsEffectiveCartierDivisor I' := Z'.isRelativeEffectiveCartierDivisor.1
   have h1 := eq_zeroScheme_of_picardClass_eq π _ hL e hne I (hfib Z) (-n) (by
-    show abelClass f Z = _
+    change abelClass f Z = _
     rw [hclL, add_assoc, ← schemePullbackClass_add, add_neg_cancel]
     exact (add_zero _).symm.trans (congrArg _ (map_zero (schemePullbackClassHom π)).symm))
   have h2 := eq_zeroScheme_of_picardClass_eq π _ hL e hne I' (hfib Z') (n' - n) (by
-    show abelClass f Z' = _
+    change abelClass f Z' = _
     rw [hn', hclL, add_assoc, ← schemePullbackClass_add, add_sub_cancel])
   exact Stacks.Hilbert.HilbertFamily.ext (h1.trans h2.symm)
 

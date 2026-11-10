@@ -252,9 +252,9 @@ theorem derivation_module_finite
       | smul c z hz ih =>
           have hzm : z ∈ maximalIdeal S := by rw [← hx]; exact hz
           have hres : algebraMap S k z = 0 := by
-            show e (residue S z) = 0
+            change e (residue S z) = 0
             simp [(residue_eq_zero_iff z).2 hzm]
-          show D (c * z) = 0
+          change D (c * z) = 0
           simp [Derivation.leibniz, ih, Algebra.smul_def, hres]
     have hmax : ∀ z : S, z ∈ maximalIdeal S → D z = 0 := by
       intro z hz; exact hspanKill z (by rw [hx]; exact hz)
@@ -273,9 +273,9 @@ theorem derivation_module_finite
       | smul c z hz ih =>
           obtain ⟨p, hp, hD⟩ := ih
           refine ⟨algebraMap Λ S c * p, ?_, ?_⟩
-          · show e (residue S (algebraMap Λ S c * p)) = c • z
+          · change e (residue S (algebraMap Λ S c * p)) = c • z
             have hbase : e (residue S (algebraMap Λ S c)) = algebraMap Λ k c := by
-              show (e.toAlgHom.comp (IsScalarTower.toAlgHom Λ S (ResidueField S)))
+              change (e.toAlgHom.comp (IsScalarTower.toAlgHom Λ S (ResidueField S)))
                 (algebraMap Λ S c) = algebraMap Λ k c
               exact (e.toAlgHom.comp (IsScalarTower.toAlgHom Λ S (ResidueField S))).commutes c
             calc
@@ -439,7 +439,7 @@ private lemma surjective_of_cotangent {R S : CompleteLocalAlgCat.{u, v, w} Λ k}
   let s : Set mS := Set.range (fun x : mR =>
     (⟨f.hom x, by
       let _ : IsLocalHom f.hom.toRingHom := f.isLocal
-      show (x : R) ∈ (maximalIdeal S).comap f.hom.toRingHom
+      change (x : R) ∈ (maximalIdeal S).comap f.hom.toRingHom
       simpa only [maximalIdeal_comap] using x.2⟩ : mS))
   have hspan : Submodule.span S s = ⊤ := by
     apply CotangentSpace.span_image_eq_top_iff.mp
@@ -448,7 +448,7 @@ private lemma surjective_of_cotangent {R S : CompleteLocalAlgCat.{u, v, w} Λ k}
     obtain ⟨x, rfl⟩ := h y
     obtain ⟨z, rfl⟩ := mR.toCotangent_surjective x
     exact Submodule.subset_span ⟨_, ⟨z, rfl⟩, by
-      show (maximalIdeal S).toCotangent ⟨f.hom z, _⟩ =
+      change (maximalIdeal S).toCotangent ⟨f.hom z, _⟩ =
         (Ideal.mapCotangent (maximalIdeal R) (maximalIdeal S) f.hom _)
           ((maximalIdeal R).toCotangent z)
       convert (Ideal.mapCotangent_toCotangent
@@ -548,7 +548,7 @@ theorem surjective_iff_surjective_relativeCotangentSpaceMap
       obtain ⟨r, hr⟩ := hf x
       have hmr : r ∈ maximalIdeal R := preimage_mem_maximalIdeal f (hr ▸ x.2)
       exact ⟨Submodule.Quotient.mk (⟨r, hmr⟩ : maximalIdeal R), by
-        show (Submodule.Quotient.mk (maximalIdealMap f ⟨r, hmr⟩) :
+        change (Submodule.Quotient.mk (maximalIdealMap f ⟨r, hmr⟩) :
           relativeCotangentSpaceOverBase S) = Submodule.Quotient.mk x
         congr 1
         exact Subtype.ext hr⟩
@@ -670,7 +670,7 @@ public theorem surjective_of_residueDerivation_comap_injective
     intro y
     obtain ⟨s, hs⟩ := residueAlgHom_surjective S y
     refine ⟨q s, ?_⟩
-    show (rho.comp q) s = y
+    change (rho.comp q) s = y
     rw [hrho_comp]
     exact hs
   let I : Ideal T := RingHom.ker rho.toRingHom
@@ -678,7 +678,7 @@ public theorem surjective_of_residueDerivation_comap_injective
     rw [← Ideal.map_comap_of_surjective q.toRingHom Ideal.Quotient.mk_surjective I]
     congr 1
     ext s
-    show rho (q s) = 0 ↔ s ∈ maximalIdeal S
+    change rho (q s) = 0 ↔ s ∈ maximalIdeal S
     rw [show rho (q s) = residueAlgHom S s from congrArg (fun g : S →ₐ[Λ] k => g s) hrho_comp]
     rw [← residueAlgHom_ker]
     rfl
@@ -691,9 +691,9 @@ public theorem surjective_of_residueDerivation_comap_injective
   have hgker : RingHom.ker (residueAlgHom R).toRingHom ≤ RingHom.ker g.toRingHom := by
     rw [residueAlgHom_ker]
     intro x hx
-    show q (f.hom x) = 0
+    change q (f.hom x) = 0
     apply Ideal.Quotient.eq_zero_iff_mem.mpr
-    show f.hom x ∈ J
+    change f.hom x ∈ J
     exact (le_sup_left : Ideal.map f.hom.toRingHom (maximalIdeal R) ≤ J)
       (Ideal.mem_map_of_mem f.hom.toRingHom hx)
   let sigma : k →ₐ[Λ] T :=
@@ -704,12 +704,12 @@ public theorem surjective_of_residueDerivation_comap_injective
     ext c
     obtain ⟨r, hr⟩ := residueAlgHom_surjective R c
     rw [← hr]
-    show rho (sigma (residueAlgHom R r)) = residueAlgHom R r
+    change rho (sigma (residueAlgHom R r)) = residueAlgHom R r
     rw [show sigma (residueAlgHom R r) = q (f.hom r) by
-      show (sigma.comp (residueAlgHom R)) r = _
+      change (sigma.comp (residueAlgHom R)) r = _
       rw [hsigma_comp]
       rfl]
-    show (rho.comp q) (f.hom r) = _
+    change (rho.comp q) (f.hom r) = _
     rw [hrho_comp]
     simp [residueAlgHom_apply, f.residue_comm r]
   let : Algebra k T := sigma.toRingHom.toAlgebra
@@ -744,7 +744,7 @@ public theorem surjective_of_residueDerivation_comap_injective
     { toRingEquiv := e.toRingEquiv
       commutes' := by
         intro c
-        show e ((Ideal.Quotient.mk I) (sigma c)) = c
+        change e ((Ideal.Quotient.mk I) (sigma c)) = c
         rw [he_apply]
         exact DFunLike.congr_fun hrhosigma c }
   let sigmaK : k →ₐ[k] T := Algebra.ofId k T
@@ -757,9 +757,9 @@ public theorem surjective_of_residueDerivation_comap_injective
       simpa using this
     calc
       e (Ideal.Quotient.mk I (sigmaI c)) = rho (sigma (eK c)) := by
-        show e (Ideal.Quotient.mk I (sigmaK (eK c))) = _
+        change e (Ideal.Quotient.mk I (sigmaK (eK c))) = _
         rw [he_apply]
-        show rho (sigma (eK c)) = _
+        change rho (sigma (eK c)) = _
         rfl
       _ = eK c := hval
       _ = e c := rfl
@@ -780,7 +780,7 @@ public theorem surjective_of_residueDerivation_comap_injective
     map_add' := fun x y => map_add eK x y
     map_smul' := by
       intro t x
-      show eK ((Ideal.Quotient.mk I t) * x) = rho t * eK x
+      change eK ((Ideal.Quotient.mk I t) * x) = rho t * eK x
       have ht : eK (Ideal.Quotient.mk I t) = rho t := he_apply t
       rw [map_mul, ht] }
   let ellT : I.Cotangent →ₗ[T] k := eT.comp (ellK.restrictScalars T)
@@ -819,11 +819,11 @@ public theorem surjective_of_residueDerivation_comap_injective
     (inferInstance : IsScalarTower Λ S T) hSTk D
   have hcomap : ResidueDerivation.comap f d = 0 := by
     ext r
-    show ellT (Dsection (Ideal.Quotient.mk J (f.hom r))) = 0
+    change ellT (Dsection (Ideal.Quotient.mk J (f.hom r))) = 0
     rw [show Ideal.Quotient.mk J (f.hom r) = sigma (residueAlgHom R r) by
-      show (q.comp f.hom) r = (sigma.comp (residueAlgHom R)) r
+      change (q.comp f.hom) r = (sigma.comp (residueAlgHom R)) r
       rw [hsigma_comp]]
-    show ellT (Dsection (algebraMap k T (residueAlgHom R r))) = 0
+    change ellT (Dsection (algebraMap k T (residueAlgHom R r))) = 0
     simp [Dsection, Derivation.map_algebraMap]
   have hzD : Dsection (z : T) = I.toCotangent z := by
     rw [hDsection_apply]
@@ -832,9 +832,9 @@ public theorem surjective_of_residueDerivation_comap_injective
     simp [Ideal.Quotient.eq_zero_iff_mem.mpr z.property]
   obtain ⟨s, hs⟩ := Ideal.Quotient.mk_surjective (z : T)
   have hdval : d s = ellT (I.toCotangent z) := by
-    show D (q s) = _
+    change D (q s) = _
     rw [show q s = Ideal.Quotient.mk J s by rfl, hs]
-    show ellT (Dsection (z : T)) = _
+    change ellT (Dsection (z : T)) = _
     rw [hzD]
   have hdne : d ≠ 0 := by
     intro hz

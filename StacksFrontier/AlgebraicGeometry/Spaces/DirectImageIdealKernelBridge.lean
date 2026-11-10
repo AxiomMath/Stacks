@@ -102,6 +102,7 @@ noncomputable abbrev subspaceToposHom :
   (smallEtaleRingedToposHom B S hS (subspaceInclusion B S hS X Z)).toToposHom
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `PreservesFiniteProducts` of this inverse image is expensive
 /-- The inverse image of `subspaceToposHom` preserves finite products (a local copy: instance
 search for it times out at the default budget). -/
 noncomputable local instance (priority := high)

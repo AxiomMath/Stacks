@@ -164,7 +164,7 @@ public theorem polynomialBaseChange_isDualizingComplex {A : Type u} [CommRing A]
     exists_hasInjectiveDimensionLE_of_preservesInjectiveObjects R
   have hfiniteInjectiveDimension :
       StacksDraft.InjectiveDimension.HasFiniteInjectiveDimension (polynomialBaseChange K) := by
-    show StacksDraft.InjectiveDimension.HasFiniteInjectiveDimension
+    change StacksDraft.InjectiveDimension.HasFiniteInjectiveDimension
       (R.mapDerivedCategory.obj K₃)
     exact finiteInjectiveDimension_mapDerivedCategory R hRinj K₃ hK₃
   have hUfin : ∀ M : ModuleCat.{v} A, Module.Finite A M →
@@ -218,7 +218,7 @@ public theorem polynomialBaseChange_isDualizingComplex {A : Type u} [CommRing A]
             (R.mapDerivedCategory.obj K₃)) :=
       finiteCohomology_mapDerivedCategory R hRfin K₃ hK₃fin
     intro i
-    show Module.Finite (Polynomial A)
+    change Module.Finite (Polynomial A)
       ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} (Polynomial A)) i).obj
         (R.mapDerivedCategory.obj K₃))
     exact hK₄fin i
@@ -268,7 +268,7 @@ public theorem polynomialBaseChange_isDualizingComplex {A : Type u} [CommRing A]
     have hK'canon : IsIso
         (((StacksDraft.DerivedHom.DerivedInternalHom.Model.adjunction B').homZeroEquiv
           K' K').symm (𝟙 K')) := by
-      show IsIso
+      change IsIso
         (((StacksDraft.DerivedHom.DerivedInternalHom.Model.adjunction B').homZeroEquiv
           ((Stacks.DerivedHom.ScalarTransportedInternalHom.scalarEquivalence.{max u v, max u v}
             B).functor.obj K₃)

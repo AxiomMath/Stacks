@@ -368,7 +368,7 @@ public theorem exists_iso_over_after_baseChange_of_small (hc : IsLimit c) (i : I
     eA ≪≫ α.symm ≪≫ α₂.symm ≪≫ (Over.pullback (c.π.app (.op m))).mapIso γA,
     eB ≪≫ β.symm ≪≫ β₂.symm ≪≫ (Over.pullback (c.π.app (.op m))).mapIso γB, ?_, ?_, ?_⟩
   · simp only [Iso.trans_hom, Iso.symm_hom, asIso_hom, Functor.mapIso_hom, Functor.map_comp,
-      Category.assoc, Iso.map_hom_inv_id_assoc]
+      Category.assoc, Iso.hom_inv_id_map_assoc]
     rw [reassoc_of% hnat', hbcg]
     simp
   · exact overPullback_presentation_fst D c hij hjm XA eA α hα

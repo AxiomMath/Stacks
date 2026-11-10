@@ -542,7 +542,7 @@ private lemma hasSmallFiniteExtension_of_mul_maximalIdeal_le (R : Type u) [CommR
     obtain ⟨m₁, hm₁, hme⟩ :=
       (hmemN _).1 (mem_mulStabilizer_iff.1 w.2 _ ((hmemN _).2 ⟨m, hm, rfl⟩))
     refine ⟨m₁, Subtype.ext ?_⟩
-    show ι m₁ = ((m • w : R') : S)
+    change ι m₁ = ((m • w : R') : S)
     rw [hme, SetLike.val_smul, Algebra.smul_def, hι]
     ring
 

@@ -141,7 +141,7 @@ theorem existsUnique_glue (hX : IsAlgebraicSpace B S hS X)
     (Stacks.Smooth.isFirstOrderThickening_specMap (CommRingCat.ofHom g₂.toRingHom) hsurj
       hsq).isThickening
   have : _root_.AlgebraicGeometry.IsAffineHom ((BigFppfOver.toScheme B S hS).map f) := by
-    show _root_.AlgebraicGeometry.IsAffineHom (Spec.map _)
+    change _root_.AlgebraicGeometry.IsAffineHom (Spec.map _)
     infer_instance
   have hpo : IsPushout ((BigFppfOver.toScheme B S hS).map i)
       ((BigFppfOver.toScheme B S hS).map f) ((BigFppfOver.toScheme B S hS).map a)
@@ -156,7 +156,7 @@ theorem existsUnique_glue (hX : IsAlgebraicSpace B S hS X)
         (specOverHom B S hS s₀ hA' hR₂.out (Algebra.ofId A' R₂)) =
         (yoneda.obj (specOver B S hS s₀ A' hA')).map f.op
           (specOverHom B S hS s₀ hA' hR₁.out (Algebra.ofId A' R₁)) := by
-      show i ≫ _ = f ≫ _
+      change i ≫ _ = f ≫ _
       rw [specOverHom_comp_ofId, specOverHom_comp_ofId]
     exact (existsUnique_section_of_isThickening_of_isAffineHom B S hS i f a b hi hpo _ hY
       _ _ hc).unique ⟨map_app_eq_ofId h₂ s s₂ hs₂, map_app_eq_ofId h₁ s s₁ hs₁⟩
@@ -195,12 +195,12 @@ theorem existsUnique_descend (hX : IsAlgebraicSpace B S hS X) [Algebra R R']
     ∃! s : RelSec p R, map (IsScalarTower.toAlgHom A' R R') s = s' := by
   have hsurj : Surjective ((BigFppfOver.toScheme B S hS).map
       (specOverHom B S hS s₀ hR.out hR'.out (IsScalarTower.toAlgHom A' R R'))) := by
-    show Surjective (Spec.map (CommRingCat.ofHom (algebraMap R R')))
+    change Surjective (Spec.map (CommRingCat.ofHom (algebraMap R R')))
     rw [surjective_iff]
     exact PrimeSpectrum.comap_surjective_of_faithfullyFlat
   have het : Etale ((BigFppfOver.toScheme B S hS).map
       (specOverHom B S hS s₀ hR.out hR'.out (IsScalarTower.toAlgHom A' R R'))) := by
-    show Etale (Spec.map (CommRingCat.ofHom (algebraMap R R')))
+    change Etale (Spec.map (CommRingCat.ofHom (algebraMap R R')))
     rw [HasRingHomProperty.Spec_iff (P := @Etale), CommRingCat.hom_ofHom, RingHom.etale_algebraMap]
     infer_instance
   have hbij := BigFppfOver.bijective_mapToEqualizer_of_isSheaf_of_etale B S hS X hX.isSheaf _ _ _
@@ -215,12 +215,12 @@ theorem existsUnique_descend (hX : IsAlgebraicSpace B S hS X) [Algebra R R']
     have hbijY := BigFppfOver.bijective_mapToEqualizer_of_isSheaf_of_etale B S hS _ hY.isSheaf
       _ _ _ (isPullback_specOverHom_tensor (R := R) (R' := R')) hsurj het
     refine hbijY.1 (Subtype.ext ?_)
-    show (yoneda.obj _).map _ (p.app _ s) = (yoneda.obj _).map _ _
+    change (yoneda.obj _).map _ (p.app _ s) = (yoneda.obj _).map _ _
     rw [map_app_eq_ofId _ s s' hs']
     exact (specOverHom_comp_ofId _).symm
   refine ⟨⟨s, hlies⟩, ext hs', fun t ht => ext ?_⟩
   refine hbij.1 (Subtype.ext ?_)
-  show X.map _ t.1 = X.map _ s
+  change X.map _ t.1 = X.map _ s
   rw [hs']
   exact congrArg Subtype.val ht
 

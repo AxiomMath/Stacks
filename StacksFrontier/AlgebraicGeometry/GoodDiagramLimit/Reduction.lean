@@ -10,8 +10,8 @@ public import StacksFrontier.AlgebraicGeometry.Limits.DescendingMorphisms.BaseCh
 Fix a good diagram for `X ⟶ S` over the stage `S_i`, as in
 `StacksFrontier/AlgebraicGeometry/LimitMorphismAt/Situation.lean`, and let `X_{i'}` be the
 inverse system of scheme-theoretic images of `X` in the base changes `S_{i'} ×_{S_i} W` of the
-model, as in `StacksFrontier/AlgebraicGeometry/LimitMorphismAt/ImageSystem.lean`. Stacks 0CNQ asserts that the canonical cone from `X` to that
-system is a limit cone.
+model, as in `StacksFrontier/AlgebraicGeometry/LimitMorphismAt/ImageSystem.lean`. Stacks 0CNQ
+asserts that the canonical cone from `X` to that system is a limit cone.
 
 This file proves that assertion *equivalent* to a single statement with no limits, no cones and
 no functors in it: that the quasi-coherent ideal of `X` inside `S ×_{S_i} W` is detected by the
@@ -32,8 +32,8 @@ images at the stages.
 * `AlgebraicGeometry.LimitNoetherianSituation.GoodDiagram.stageConeIsLimit`: the base changes
   `S_{i'} ×_{S_i} W` of the model are an inverse system with limit `S ×_{S_i} W`.
 * `AlgebraicGeometry.LimitNoetherianSituation.GoodDiagram.induced_comp_stageProj`: the stage map
-  of `StacksFrontier/AlgebraicGeometry/LimitMorphismAt/ImageSystem.lean` is the closed immersion `X ⟶ S ×_{S_i} W` followed by a projection of
-  that limit.
+  of `StacksFrontier/AlgebraicGeometry/LimitMorphismAt/ImageSystem.lean` is the closed
+  immersion `X ⟶ S ×_{S_i} W` followed by a projection of that limit.
 
 ## Implementation notes
 

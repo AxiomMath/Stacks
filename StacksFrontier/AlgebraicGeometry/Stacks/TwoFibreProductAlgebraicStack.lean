@@ -363,7 +363,7 @@ private lemma isEffective_of_descentCocone (hp : p.IsFiberedInGroupoids)
   · intro i
     exact Functor.fibreHom_of_isHomLift_id (d.hx i) (d.hx i) (IsHomLift.id (d.hx i))
   · intro i
-    show IsIso (𝟙 (d.x i))
+    change IsIso (𝟙 (d.x i))
     infer_instance
   · intro i j
     have := (d.xrij i j).isHomLift_hom
@@ -373,10 +373,10 @@ private lemma isEffective_of_descentCocone (hp : p.IsFiberedInGroupoids)
     let s := restrictionOfHomLift hp (d.xrij i j).hpt hx _ hal
     refine ⟨s, 𝟙 _, d.φ i j, ?_, d.φ_fibreHom i j, inferInstance, d.φ_iso i j, ?_, ?_, ?_⟩
     · exact Functor.fibreHom_of_isHomLift_id _ _ (IsHomLift.id (d.xrij i j).hpt)
-    · show _ ≫ _ = _ ≫ 𝟙 _
+    · change _ ≫ _ = _ ≫ 𝟙 _
       simpa only [Category.id_comp, Category.comp_id] using
         (compTo_id (pr₁ i j) (by simp) (d.xrij i j)).trans hs₁.symm
-    · show _ ≫ _ = _ ≫ 𝟙 _
+    · change _ ≫ _ = _ ≫ 𝟙 _
       simpa only [Category.comp_id] using
         (congrArg (fun k => d.φ i j ≫ k)
           (compTo_id (pr₂ i j) (by simp) (d.xrji i j))).trans hs₂.symm
@@ -476,7 +476,7 @@ private lemma productDescent_isEffective
         have hh := (d.φ i j ≫ (d.xrji i j).hom).w.symm
         change (d.xrij i j).pt.iso.hom ≫ G.map ((d.φ i j).b ≫ (d.xrji i j).hom.b) =
           F.map ((d.φ i j).a ≫ (d.xrji i j).hom.a) ≫ (d.x j).iso.hom at hh
-        show (d.xrij i j).pt.iso.hom ≫ G.map (d.φ i j).b ≫ G.map (d.xrji i j).hom.b =
+        change (d.xrij i j).pt.iso.hom ≫ G.map (d.φ i j).b ≫ G.map (d.xrji i j).hom.b =
           (F.map (d.φ i j).a ≫ F.map (d.xrji i j).hom.a) ≫ (d.x j).iso.hom
         simpa only [Functor.map_comp, Category.assoc] using hh)
   have ht : IsIso θ := hθ.2.1
@@ -497,13 +497,13 @@ private lemma productDescent_isEffective
   · intro i
     have := ha i
     apply IsHomLift.of_fac' pP (f i) (c i) (d.hx i) rfl
-    show eqToHom (d.x i).hx.symm ≫ pX.map (a i) ≫ eqToHom hx = _
+    change eqToHom (d.x i).hx.symm ≫ pX.map (a i) ≫ eqToHom hx = _
     rw [IsHomLift.fac' pX (f i) (a i)]
     -- `pP.obj z` and `U` are definitionally equal but not syntactically, so the last
     -- `eqToHom` is collapsed at default transparency rather than by `simp`.
     simp only [Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id,
       eqToHom_trans_assoc]
-    show eqToHom _ ≫ f i = eqToHom _ ≫ f i ≫ 𝟙 _
+    change eqToHom _ ≫ f i = eqToHom _ ≫ f i ≫ 𝟙 _
     simp
   · intro i j
     exact TwoFibreProductOver.Hom.ext' (hac i j) (hbc i j)
@@ -627,7 +627,7 @@ private lemma productIsom_isSheafFor {U : C} (x y : TwoFibreProductOver pX pY pZ
         have hb := congrArg TwoFibreProductOver.Hom.b hγ₁
         have hw := (Functor.Restriction.compTo (pP) (pr₁ i j) (f i) rfl (xr i) (xrij i j)).w
         change γ.b ≫ _ = _ ≫ (φ i).b at hb
-        show _ = F.map _ ≫ ((xr i).pt.iso.hom ≫ G.map (φ i).b)
+        change _ = F.map _ ≫ ((xr i).pt.iso.hom ≫ G.map (φ i).b)
         rw [← Category.assoc (F.map _), hw]
         simp only [Category.assoc, ← G.map_comp, hb]
       · unfold Functor.IsRestrictionOf at hγ₂ ⊢
@@ -636,7 +636,7 @@ private lemma productIsom_isSheafFor {U : C} (x y : TwoFibreProductOver pX pY pZ
         have hw := (Functor.Restriction.compTo (pP) (pr₂ i j) (f j) (hVij i j).w (xr j)
           (xrij i j)).w
         change γ.b ≫ _ = _ ≫ (φ j).b at hb
-        show _ = F.map _ ≫ ((xr j).pt.iso.hom ≫ G.map (φ j).b)
+        change _ = F.map _ ≫ ((xr j).pt.iso.hom ≫ G.map (φ j).b)
         rw [← Category.assoc (F.map _), hw]
         simp only [Category.assoc, ← G.map_comp, hb])
   have hgXiso' : IsIso gX := hgXiso
@@ -656,7 +656,7 @@ private lemma productIsom_isSheafFor {U : C} (x y : TwoFibreProductOver pX pY pZ
       have h₁ := congrArg F.map (hgX i)
       have h₂ := (yr i).hom.w
       have h₃ := (φ i).w
-      show F.map (xr i).hom.a ≫ F.map gX ≫ y.iso.hom =
+      change F.map (xr i).hom.a ≫ F.map gX ≫ y.iso.hom =
         ((xr i).pt.iso.hom ≫ G.map (φ i).b) ≫ G.map (yr i).hom.b
       change F.map ((xr i).hom.a ≫ gX) = F.map ((φ i).a ≫ (yr i).hom.a) at h₁
       rw [← Category.assoc, ← F.map_comp, h₁, F.map_comp, Category.assoc, h₂, ← Category.assoc,
@@ -664,7 +664,7 @@ private lemma productIsom_isSheafFor {U : C} (x y : TwoFibreProductOver pX pY pZ
     · intro i
       have h₁ := congrArg G.map (hgY i)
       have h₂ := (xr i).hom.w
-      show F.map (xr i).hom.a ≫ x.iso.hom ≫ G.map gY =
+      change F.map (xr i).hom.a ≫ x.iso.hom ≫ G.map gY =
         ((xr i).pt.iso.hom ≫ G.map (φ i).b) ≫ G.map (yr i).hom.b
       change G.map ((xr i).hom.b ≫ gY) = G.map ((φ i).b ≫ (yr i).hom.b) at h₁
       rw [← Category.assoc, h₂, Category.assoc, ← G.map_comp, h₁, G.map_comp, Category.assoc]
@@ -678,12 +678,12 @@ private lemma productIsom_isSheafFor {U : C} (x y : TwoFibreProductOver pX pY pZ
   let g : x ⟶ y := TwoFibreProductOver.Hom.mk' gX gY hbase hcomm
   refine ⟨g, ⟨?_, ?_, fun i => TwoFibreProductOver.Hom.ext' (hgX i) (hgY i)⟩, ?_⟩
   · refine Functor.fibreHom_of_isHomLift_id hx hy (IsHomLift.of_fac' (pP) _ g hx hy ?_)
-    show eqToHom x.hx.symm ≫ pX.map gX ≫ eqToHom y.hx = _
+    change eqToHom x.hx.symm ≫ pX.map gX ≫ eqToHom y.hx = _
     rw [IsHomLift.fac' pX (𝟙 U) gX]
     simp only [Category.id_comp, eqToHom_trans]
     rfl
   · have : IsIso g.hbase := by
-      show IsIso (eqToHom x.hx.symm ≫ pX.map gX ≫ eqToHom y.hx)
+      change IsIso (eqToHom x.hx.symm ≫ pX.map gX ≫ eqToHom y.hx)
       infer_instance
     have : IsIso g.a := hgXiso'
     have : IsIso g.b := hgYiso'

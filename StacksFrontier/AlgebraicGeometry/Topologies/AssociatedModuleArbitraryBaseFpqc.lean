@@ -62,8 +62,11 @@ receiving a morphism from every object. -/
 presented by a precoverage K and a functor toOver : C -> Over S. The two registrations that stood \
 before this one are at particular sites and neither covers this presentation: \
 Stacks.Descent.fullyFaithfulAssociatedModuleQcoh' is the small site at a topology tau \
-(StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleLocalBijectivity.lean:717) and Stacks.Descent.fullyFaithfulBaseAssociatedModuleQcoh is \
-the big site (Sch/S)_tau (StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/BaseFullyFaithful.lean:211); the abstract presentation has neither the \
+(StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleLocalBijectivity.lean:717) \
+and Stacks.Descent.fullyFaithfulBaseAssociatedModuleQcoh is \
+the big site (Sch/S)_tau \
+(StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/BaseFullyFaithful.lean:211); \
+the abstract presentation has neither the \
 objScheme/objRestrict apparatus of the second nor a functor out of S.Opens as the first uses, so \
 neither transfers. WHAT IS REMOVED relative to the affine-base case \
 Stacks.Sites.bijective_associatedModuleMap is exactly IsAffine S, and nothing else: both sheaf \

@@ -132,7 +132,7 @@ theorem preservesKernel_extendScalars_of_flat
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro y
-    show (ModuleCat.Hom.hom (F.map ι)) (e.symm y) = y.val
+    change (ModuleCat.Hom.hom (F.map ι)) (e.symm y) = y.val
     exact congrArg Subtype.val (e.apply_symm_apply y)
   have w0 : ι ≫ g = ι ≫ 0 := by rwa [Limits.comp_zero]
   have key2 : Limits.IsLimit (F.mapCone (Limits.Fork.ofι ι w0)) := by
@@ -170,7 +170,7 @@ theorem preservesCokernel_extendScalars
   have hcomp0 : g ≫ π = 0 := Limits.CokernelCofork.condition (ModuleCat.cokernelCocone g)
   have hex : Function.Exact ⇑(ModuleCat.Hom.hom g) ⇑(ModuleCat.Hom.hom π) := by
     apply LinearMap.exact_iff.mpr
-    show ((ModuleCat.Hom.hom g).range).mkQ.ker =
+    change ((ModuleCat.Hom.hom g).range).mkQ.ker =
       (ModuleCat.Hom.hom g).range
     exact Submodule.ker_mkQ _
   have hsurj : Function.Surjective ⇑(ModuleCat.Hom.hom π) :=
@@ -363,7 +363,7 @@ private theorem boundedFiniteFree_extendScalars
   refine ⟨⟨a, inferInstance⟩, ⟨b, inferInstance⟩, fun i => ?_⟩
   have := (hfin i).1
   have := (hfin i).2
-  show Module.Finite S (TensorProduct R S (E.X i)) ∧
+  change Module.Finite S (TensorProduct R S (E.X i)) ∧
     Module.Free S (TensorProduct R S (E.X i))
   exact ⟨inferInstance, inferInstance⟩
 

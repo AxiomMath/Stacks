@@ -94,7 +94,7 @@ theorem isIso_app₁_of_isIso_app₂₃ {D E : Type*} [Category* D] [Category* E
       comm₁ := α.naturality T.mor₁
       comm₂ := α.naturality T.mor₂
       comm₃ := by
-        show (F.map T.mor₃ ≫ (F.commShiftIso (1 : ℤ)).hom.app T.obj₁) ≫
+        change (F.map T.mor₃ ≫ (F.commShiftIso (1 : ℤ)).hom.app T.obj₁) ≫
           (α.app T.obj₁)⟦(1 : ℤ)⟧' = α.app T.obj₃ ≫
             (G.map T.mor₃ ≫ (G.commShiftIso (1 : ℤ)).hom.app T.obj₁)
         simpa only [Functor.comp_obj, Functor.comp_map] using

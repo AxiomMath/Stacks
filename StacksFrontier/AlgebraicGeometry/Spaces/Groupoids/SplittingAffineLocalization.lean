@@ -349,7 +349,7 @@ theorem isSplitAt_restrictInvariantOpen {u : H.objects.left} (P : Splitting H u)
     (fun k : (restrictInvariantOpen P.subgroupoid V hV).arrows ⟶ H.arrows => k.left.base q)
     (invariantOpenMapArrows_arrow P.toOpenFiniteSubgroupoid V hV R)
   simp only [Over.comp_left, Scheme.Hom.comp_apply] at hcomp
-  show R.hom.mapArrows.left.base
+  change R.hom.mapArrows.left.base
     ((invariantOpenMapArrows P.toOpenFiniteSubgroupoid V hV R).left.base q) = _
   rw [hcomp, invariantOpenToArrows]
   simp only [Over.comp_left, Scheme.Hom.comp_apply]
@@ -519,11 +519,11 @@ theorem isSplitAt_of_contains_stabilizer (x : Gr.groupoid.objects.left)
     exact ⟨q, hq.trans hΘabase⟩
   refine ⟨⟨(eqToHom Gr.arrows_eq).left.base
     ((AlgebraicGeometry.stabilizerArrow Gr.groupoid).base g), hmem⟩, ?_⟩
-  show (splittingIncl G C hS hU hR hP hX p hA hB hRA Rs Q Gr).left.base
+  change (splittingIncl G C hS hU hR hP hX p hA hB hRA Rs Q Gr).left.base
     ⟨(eqToHom Gr.arrows_eq).left.base
       ((AlgebraicGeometry.stabilizerArrow Gr.groupoid).base g), hmem⟩ = _
   refine Eq.trans ?_ (eqToHom_arrows_apply_symm G p Gr _)
-  show (openOverι (AlgebraicGeometry.restrictionArrows G p)
+  change (openOverι (AlgebraicGeometry.restrictionArrows G p)
       (splittingOpens G C hS hU hR hP hX p hA hB hRA Rs Q) ≫
     eqToHom Gr.arrows_eq.symm).left.base ⟨(eqToHom Gr.arrows_eq).left.base
       ((AlgebraicGeometry.stabilizerArrow Gr.groupoid).base g), hmem⟩ = _

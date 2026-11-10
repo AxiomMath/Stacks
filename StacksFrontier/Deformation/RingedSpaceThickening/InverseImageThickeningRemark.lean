@@ -391,7 +391,7 @@ theorem inverseImageBase_comp_eq_iff (h : inverseImageRing (Y := Y) (g := g) P �
     refine (congrArg (fun t => t ≫ (TopCat.Sheaf.pushforward CommRingCat.{u}
       (g ≫ f).hom.base).map h) (homEquiv_inverseImageBase P)).trans ?_
     refine (Category.assoc _ _ _).trans (congrArg (_ ≫ ·) ?_)
-    show (TopCat.Sheaf.pushforward CommRingCat.{u} f.hom.base).map
+    change (TopCat.Sheaf.pushforward CommRingCat.{u} f.hom.base).map
         ((adjP g.hom.base).unit.app P.sheaf) ≫ (TopCat.Sheaf.pushforward CommRingCat.{u}
           f.hom.base).map ((TopCat.Sheaf.pushforward CommRingCat.{u} g.hom.base).map h) = _
     refine ((TopCat.Sheaf.pushforward CommRingCat.{u} f.hom.base).map_comp _ _).symm.trans ?_
@@ -437,7 +437,7 @@ theorem unitSec_mem_kernelIdeal (U : Opens X.carrier) (a : kernelIdeal P.reducti
     unitSec g P.sheaf U a.1 ∈
       kernelIdeal (inverseImageReduction (Y := Y) (g := g) P).hom
         (op ((Opens.map g.hom.base).obj U)) := by
-  show ((inverseImageReduction (Y := Y) (g := g) P).hom.app _).hom (unitSec g P.sheaf U a.1) = 0
+  change ((inverseImageReduction (Y := Y) (g := g) P).hom.app _).hom (unitSec g P.sheaf U a.1) = 0
   rw [← unitSec_naturality g P.reduction U a.1, show (P.reduction.hom.app (op U)).hom a.1 = 0
     from a.2, map_zero]
 

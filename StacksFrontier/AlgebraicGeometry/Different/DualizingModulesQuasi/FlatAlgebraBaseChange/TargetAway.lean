@@ -93,7 +93,7 @@ private theorem specMap_isOpenImmersion_of_openEmbedding_awayMap
     rw [← AlgebraicGeometry.Spec.map_comp, ← AlgebraicGeometry.Spec.map_comp]
     congr 1
     ext x
-    show algebraMap D Dg (f x) =
+    change algebraMap D Dg (f x) =
       Localization.awayMap f g (algebraMap C Cg x)
     rw [Localization.awayMap, IsLocalization.Away.map, IsLocalization.map_eq]
   have hawayIso : IsIso (CommRingCat.ofHom (Localization.awayMap f g)) := by
@@ -104,7 +104,7 @@ private theorem specMap_isOpenImmersion_of_openEmbedding_awayMap
     rw [hsq]
     infer_instance
   have hq : q ∈ (AlgebraicGeometry.Spec.map (CommRingCat.ofHom iD)).opensRange := by
-    show q ∈ Set.range (PrimeSpectrum.comap iD)
+    change q ∈ Set.range (PrimeSpectrum.comap iD)
     rw [PrimeSpectrum.localization_away_comap_range Dg (f g)]
     exact hfg
   exact ⟨Scheme.Spec.obj (op (CommRingCat.of Dg)),
@@ -131,7 +131,7 @@ private theorem specMap_isOpenImmersion_of_openEmbedding_awayMap_universes
     rfl
   have hcomp : HC ∘ PrimeSpectrum.comap f' = PrimeSpectrum.comap f ∘ HD := by
     funext q
-    show PrimeSpectrum.comap (f'.comp eC.symm.toRingHom) q =
+    change PrimeSpectrum.comap (f'.comp eC.symm.toRingHom) q =
       PrimeSpectrum.comap (eD.symm.toRingHom.comp f) q
     rw [hring]
   have hopen' : IsOpenEmbedding (PrimeSpectrum.comap f') := by
@@ -151,14 +151,14 @@ private theorem specMap_isOpenImmersion_of_openEmbedding_awayMap_universes
         Set.range (PrimeSpectrum.comap f) := by
       intro q hq
       have hq' : HC.symm q ∈ (PrimeSpectrum.basicOpen g : Set (PrimeSpectrum C')) := by
-        show g ∉ Ideal.comap eC.toRingHom q.asIdeal
+        change g ∉ Ideal.comap eC.toRingHom q.asIdeal
         change c ∉ q.asIdeal at hq
         simpa [c, Ideal.mem_comap] using hq
       obtain ⟨r, hr⟩ := hg hq'
       refine ⟨HD r, ?_⟩
       exact (congrFun hcomp r).symm.trans (congrArg HC hr)
     have hCpow : (Submonoid.powers g).map eC.toMonoidHom = Submonoid.powers c := by
-      simpa [c] using Submonoid.map_powers eC.toMonoidHom g
+      simp [c]
     have hDpow : (Submonoid.powers (f' g)).map eD.toMonoidHom =
         Submonoid.powers (f c) := by
       rw [Submonoid.map_powers]
@@ -171,8 +171,8 @@ private theorem specMap_isOpenImmersion_of_openEmbedding_awayMap_universes
         (Localization.awayMap f c).comp eCLoc.toRingHom := by
       apply IsLocalization.ringHom_ext (Submonoid.powers g)
       ext x
-      simp [eCLoc, eDLoc, IsLocalization.ringEquivOfRingEquiv_eq,
-        Localization.awayMap, IsLocalization.Away.map, RingHom.ulift_apply,
+      simp [eCLoc, eDLoc,
+        Localization.awayMap, IsLocalization.Away.map,
         eC, eD, f']
       rfl
     have hb := haway c hc
@@ -223,7 +223,7 @@ private theorem awayMap_bijective_of_isOpenImmersion
     (f := CommRingCat.ofHom (Localization.awayMap f g))).mp
   apply isIso_of_isOpenImmersion_of_opensRange_eq_top k
   apply TopologicalSpace.Opens.ext
-  show Set.range (PrimeSpectrum.comap (Localization.awayMap f g)) = Set.univ
+  change Set.range (PrimeSpectrum.comap (Localization.awayMap f g)) = Set.univ
   apply Set.eq_univ_of_forall
   intro p
   have hp : PrimeSpectrum.comap (algebraMap R (Localization.Away g)) p ∈
@@ -232,14 +232,14 @@ private theorem awayMap_bijective_of_isOpenImmersion
     exact Set.mem_range_self p
   obtain ⟨q, hq⟩ := hg hp
   have hqg : q ∈ (PrimeSpectrum.basicOpen (f g) : Set (PrimeSpectrum S)) := by
-    show g ∉ (PrimeSpectrum.comap f q).asIdeal
+    change g ∉ (PrimeSpectrum.comap f q).asIdeal
     rw [hq]
     exact hp
   rw [← PrimeSpectrum.localization_away_comap_range (Localization.Away (f g)) (f g)] at hqg
   obtain ⟨Q, rfl⟩ := hqg
   refine ⟨Q, ?_⟩
   apply (show Function.Injective j from j.isOpenEmbedding.injective)
-  show (k ≫ j) Q = j p
+  change (k ≫ j) Q = j p
   rw [← hi]
   exact hq
 
@@ -342,9 +342,9 @@ noncomputable def targetAwayFactorization
     have hunit : IsUnit (algebraMap S Sg e) :=
       (@PrimeSpectrum.basicOpen_le_basicOpen_iff_algebraMap_isUnit S Sg
         inferInstance inferInstance (f g) e inferInstance inferInstance).1 hincl
-    letI : Algebra Sg Dg :=
+    let : Algebra Sg Dg :=
       Algebra.compHom Dg (Localization.awayMap (algebraMap S D) (f g))
-    letI : IsScalarTower S Sg Dg := IsScalarTower.of_algebraMap_eq' (by
+    let : IsScalarTower S Sg Dg := IsScalarTower.of_algebraMap_eq' (by
       ext r
       calc
         algebraMap S Dg r = algebraMap D Dg (algebraMap S D r) :=
@@ -353,9 +353,9 @@ noncomputable def targetAwayFactorization
             (algebraMap S (Localization.Away (f g)) r) := by
           rw [Localization.awayMap, IsLocalization.Away.map, IsLocalization.map_eq]
           rfl)
-    haveI : IsLocalization.Away e D := inferInstance
-    haveI : IsLocalization.Away (algebraMap S D (f g)) Dg := inferInstance
-    letI : IsLocalization.Away (algebraMap S Sg e) Dg := by
+    have : IsLocalization.Away e D := inferInstance
+    have : IsLocalization.Away (algebraMap S D (f g)) Dg := inferInstance
+    let : IsLocalization.Away (algebraMap S Sg e) Dg := by
       have hcomm := IsLocalization.Away.commutes Sg D Dg (f g) e
       simpa [Sg, Dg] using hcomm
     let eS : Sg ≃ₐ[Sg] Dg :=
@@ -479,7 +479,7 @@ theorem targetAwayDualizingEquiv_tmul
     rfl)
   let : Algebra D D := Algebra.id D
   let hCD : IsScalarTower C D D := IsScalarTower.of_algebraMap_eq (fun c => by
-    show algebraMap C D c = algebraMap D D (algebraMap C D c)
+    change algebraMap C D c = algebraMap D D (algebraMap C D c)
     rfl)
   let : IsScalarTower C D D := hCD
   let : IsScalarTower S D D := IsScalarTower.of_algebraMap_eq' (by
@@ -494,7 +494,7 @@ theorem targetAwayDualizingEquiv_tmul
     dualizingModule.instAddCommGroup H
   let : Module D (dualizingModule H) := dualizingModule.instModule H
   let : Module S (M ⊗[C] S) := by
-    show Module S (dualizingModule F)
+    change Module S (dualizingModule F)
     exact dualizingModule.instModule F
   let eDual : dualizingModule F ≃ₗ[S] M ⊗[C] S := by
     let : Module S (S ⊗[C] M) := TensorProduct.leftModule
@@ -509,13 +509,13 @@ theorem targetAwayDualizingEquiv_tmul
   let eSwapRaw : (M ⊗[C] S) ≃ₗ[S] S ⊗[C] M :=
     es.toAddEquiv.toLinearEquiv (by
       intro s z
-      show es.toAddEquiv (es.toAddEquiv.symm (s • es.toAddEquiv z)) = _
+      change es.toAddEquiv (es.toAddEquiv.symm (s • es.toAddEquiv z)) = _
       exact es.toAddEquiv.apply_symm_apply _)
   let eSwap := eDual.trans eSwapRaw
   let eBase := eSwap.baseChange S D
   let : Module D (D ⊗[C] M) := TensorProduct.leftModule
   let : Module D (M ⊗[C] D) := by
-    show Module D (dualizingModule H)
+    change Module D (dualizingModule H)
     exact dualizingModule.instModule H
   let eCancel := @TensorProduct.AlgebraTensorModule.cancelBaseChange
     C S D D M inferInstance inferInstance inferInstance inferInstance inferInstance
@@ -525,10 +525,10 @@ theorem targetAwayDualizingEquiv_tmul
   let eComm' : D ⊗[C] M ≃ₗ[D] dualizingModule H :=
     eComm.toAddEquiv.toLinearEquiv (by
       intro d z
-      show eComm (d • z) = eComm (d • eComm.symm (eComm z))
+      change eComm (d • z) = eComm (d • eComm.symm (eComm z))
       rw [eComm.symm_apply_apply])
   have hSwap : eSwap (dualizingModule.tmul F φ b) = b ⊗ₜ[C] φ := by
-    show eSwapRaw (φ ⊗ₜ[C] b) = b ⊗ₜ[C] φ
+    change eSwapRaw (φ ⊗ₜ[C] b) = b ⊗ₜ[C] φ
     rfl
   have hBase : eBase (1 ⊗ₜ[S] dualizingModule.tmul F φ b) =
       1 ⊗ₜ[S] (b ⊗ₜ[C] φ) := by
@@ -541,7 +541,7 @@ theorem targetAwayDualizingEquiv_tmul
         inferInstance inferInstance inferInstance inferInstance inferInstance hCD
         inferInstance inferInstance inferInstance inferInstance inferInstance
         (1 : D) φ b)
-  show eComm' (eCancel (eBase
+  change eComm' (eCancel (eBase
     (1 ⊗ₜ[S] dualizingModule.tmul F φ b))) = _
   rw [hBase, hCancel]
   rfl
@@ -563,7 +563,7 @@ private theorem baseChangeLinearMap_targetAway_tmul
   let B₁ := A₁ ⊗[A] B
   let F₁ := FiniteOpenFactorization.baseChange F A₁
   let : Algebra B (A₁ ⊗[A] B) := Algebra.TensorProduct.rightAlgebra
-  show targetAwayDualizingEquiv F₁ e
+  change targetAwayDualizingEquiv F₁ e
       (1 ⊗ₜ[B₁] baseChangeLinearMap F A₁
         (1 ⊗ₜ[B] dualizingModule.tmul F φ b)) = _
   rw [baseChangeLinearMap_one_tmul, dualizingModule.baseChange_tmul]
@@ -651,7 +651,7 @@ private lemma finite_openImmersion_is_idempotent_localization
       (CommRingCat.ofHom (algebraMap R S)) hsurj).mp h
   refine ⟨e, he, ?_⟩
   apply IsLocalization.away_of_isIdempotentElem he.one_sub
-  · convert hker using 1 <;> congr 1 <;> ring_nf
+  · convert hker using 1; congr 1; ring_nf
   · exact hsurj
 
 lemma finite_factorization_middle_finitePresentation
@@ -672,10 +672,10 @@ lemma finite_factorization_middle_finitePresentation
   have hpRange : p.range = fR.ker := by
     apply le_antisymm
     · rintro x ⟨y, rfl⟩
-      show fR (p y) = 0
+      change fR (p y) = 0
       have hy := LinearMap.congr_fun hg (fR y)
       change fR (g (fR y)) = fR y at hy
-      show fR (y - g (fR y)) = 0
+      change fR (y - g (fR y)) = 0
       rw [map_sub, hy]
       simp
     · intro x hx
@@ -687,7 +687,7 @@ lemma finite_factorization_middle_finitePresentation
     infer_instance
   have hfg : f.ker.FG := by
     have hkerFin' : Module.Finite R f.ker := by
-      show Module.Finite R fR.ker
+      change Module.Finite R fR.ker
       exact hkerFin
     have : Module.Finite F.middle f.ker :=
       Module.Finite.of_restrictScalars_finite R F.middle f.ker

@@ -142,8 +142,7 @@ theorem throughLevel_spec (j : (sys D c B hD hX hc).I) :
       coneProj E k ≫ stageProj E d k = coneProj E m ≫ stageProj E d m := by
     intro m k a
     rw [coneProj_eq E a, stageProj_eq E d a, Category.assoc]
-  obtain ⟨m, ⟨a⟩, ⟨b⟩⟩ := system_I_cofiltered
-    (hequivL := isEquivalence_limitMathlibRestrict D c B hX) E
+  obtain ⟨m, ⟨a⟩, ⟨b⟩⟩ := system_I_cofiltered E
     (E.indexEquiv.inverse.obj (Opposite.op (Classical.arbitrary I))) j
   exact (key a).trans (key b).symm
 
@@ -300,7 +299,7 @@ theorem nonempty_isColimit_stageExtCocone (i₀ : (sys D c B hD hX hc).I)
         ext x
         have key :=
           levelExtCompare_extLeg D c B hD hX hc d p hp (constZ.{v, u} d.pt) 𝓜 i₀ A.unop n x
-        show (limitExtCompareIso D c B hD hX hc d p hp (constZ.{v, u} d.pt) 𝓜 n).inv
+        change (limitExtCompareIso D c B hD hX hc d p hp (constZ.{v, u} d.pt) 𝓜 n).inv
           (stageExtLeg D c B hD hX hc d p hp (constZ.{v, u} d.pt) 𝓜 A.unop.left n
             (levelExtCompare D c B hD hX hc d (constZ.{v, u} d.pt) 𝓜 A.unop.left n x)) = _
         rw [← key]

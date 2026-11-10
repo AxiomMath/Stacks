@@ -97,11 +97,11 @@ theorem isFpqcCovering_pullback_fst
   let aj : Z ⟶ Yi i := ObjectProperty.homMk a
   have hcomm : k ≫ f = aj ≫ g i := by
     apply ObjectProperty.hom_ext
-    show (yoneda.map ((BigAffineFppf.inclusion B S hS).map (U.f j)) ≫ h) ≫
+    change (yoneda.map ((BigAffineFppf.inclusion B S hS).map (U.f j)) ≫ h) ≫
       f.hom = a ≫ (g i).hom
     simpa only [Category.assoc] using ha.symm
   refine ⟨i, (pullback.lift k aj hcomm).hom, ?_⟩
-  show ((pullback.lift k aj hcomm) ≫ pullback.fst f (g i)).hom = _
+  change ((pullback.lift k aj hcomm) ≫ pullback.fst f (g i)).hom = _
   rw [pullback.lift_fst]
   rfl
 

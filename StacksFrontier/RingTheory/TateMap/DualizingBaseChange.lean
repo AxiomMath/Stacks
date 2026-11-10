@@ -79,7 +79,7 @@ theorem algebraMap_omegaFactorization (D : ChartBaseChange A B A' B')
     algebraMap (omegaFactorization D F).middle B' (omegaTmul D F a c) =
       algebraMap A' B' a * algebraMap B B' (algebraMap F.middle B c) := by
   let := D.algebra
-  show algebraMap (A' ⊗[A] B) B' (a ⊗ₜ[A] algebraMap F.middle B c) = _
+  change algebraMap (A' ⊗[A] B) B' (a ⊗ₜ[A] algebraMap F.middle B c) = _
   rw [← D.base_left, ← D.base_right, ← map_mul, Algebra.TensorProduct.tmul_mul_tmul, mul_one,
     one_mul]
 
@@ -104,15 +104,13 @@ theorem linearMap_ext_one_tmul_tmul {M : Type*} [AddCommGroup M] [Module B' M]
       f (1 ⊗ₜ dualizingModule.tmul F φ b) = g (1 ⊗ₜ dualizingModule.tmul F φ b)) :
     f = g := by
   refine LinearMap.ext fun z ↦ ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul a m => ?_
   rw [show a ⊗ₜ[B] m = a • ((1 : B') ⊗ₜ[B] m) by
     rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one], map_smul, map_smul]
   congr 1
   induction m using dualizingModule.induction_on F with
-  | zero => simp
   | tmul φ b => exact h φ b
   | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
 
@@ -322,16 +320,15 @@ theorem omegaBaseChange_congr (D D' : ChartBaseChange A B A' B')
     (F : FiniteOpenFactorization.{u, u, u} A B) (G : FiniteOpenFactorization.{u, u, u} A' B') :
     omegaBaseChange D F G = omegaBaseChange D' F G := by
   refine LinearEquiv.toLinearMap_injective (linearMap_ext_one_tmul_tmul F fun φ b ↦ ?_)
-  show omegaBaseChange D F G _ = omegaBaseChange D' F G _
+  change omegaBaseChange D F G _ = omegaBaseChange D' F G _
   rw [omegaBaseChange_one_tmul_tmul, omegaBaseChange_one_tmul_tmul]
   refine dualizingModuleEquiv_tmul_of_algebraMap_eq (omegaFactorization D F)
     (omegaFactorization D' F) AlgEquiv.refl (fun c ↦ ?_) G _ _
-  show algebraMap (omegaFactorization D F).middle B' c =
+  change algebraMap (omegaFactorization D F).middle B' c =
     algebraMap (omegaFactorization D' F).middle B' c
-  induction c using TensorProduct.induction_on with
-  | zero => exact (RingHom.map_zero _).trans (RingHom.map_zero _).symm
+  induction c using TensorProduct.inductionOn with
   | tmul a c =>
-      show algebraMap (omegaFactorization D F).middle B' (omegaTmul D F a c) =
+      change algebraMap (omegaFactorization D F).middle B' (omegaTmul D F a c) =
         algebraMap (omegaFactorization D' F).middle B' (omegaTmul D' F a c)
       rw [algebraMap_omegaFactorization, algebraMap_omegaFactorization]
   | add x y hx hy =>
@@ -350,17 +347,17 @@ theorem omegaBaseChange_refl {A B : Type u} [CommRing A] [CommRing B] [Algebra A
     omegaBaseChange D F G =
       TensorProduct.lid B (dualizingModule F) ≪≫ₗ dualizingModuleEquiv F G := by
   refine LinearEquiv.toLinearMap_injective (linearMap_ext_one_tmul_tmul F fun φ b ↦ ?_)
-  show omegaBaseChange D F G _ = dualizingModuleEquiv F G (TensorProduct.lid B _ _)
+  change omegaBaseChange D F G _ = dualizingModuleEquiv F G (TensorProduct.lid B _ _)
   rw [omegaBaseChange_one_tmul_tmul, TensorProduct.lid_tmul, one_smul, Algebra.algebraMap_self,
     RingHom.id_apply]
   refine (dualizingModuleEquiv_tmul_of_algebraMap_eq (omegaFactorization D F) F
     (Algebra.TensorProduct.lid A F.middle).symm (fun c ↦ ?_) G _ _).trans ?_
-  · show algebraMap (omegaFactorization D F).middle B (omegaTmul D F 1 c) = _
+  · change algebraMap (omegaFactorization D F).middle B (omegaTmul D F 1 c) = _
     rw [algebraMap_omegaFactorization, map_one, one_mul, Algebra.algebraMap_self,
       RingHom.id_apply]
   · congr 2
     ext c
-    show (φ.baseChange A) ((1 : A) ⊗ₜ[A] c) = φ c
+    change (φ.baseChange A) ((1 : A) ⊗ₜ[A] c) = φ c
     rw [Module.Dual.baseChange_apply_tmul, smul_eq_mul, mul_one]
 
 /-- **Composition.** Base change along a composite of chart base changes is the composite of
@@ -386,7 +383,7 @@ theorem omegaBaseChange_comp {A B A' B' A'' B'' : Type u} [CommRing A] [CommRing
     simp only [LinearEquiv.trans_apply,
       TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul, LinearEquiv.baseChange_tmul]
   refine Eq.trans ?_ h₁.symm
-  show omegaBaseChange D₃ F H (1 ⊗ₜ dualizingModule.tmul F φ b) = _
+  change omegaBaseChange D₃ F H (1 ⊗ₜ dualizingModule.tmul F φ b) = _
   rw [omegaBaseChange_one_tmul_tmul D₁, omegaBaseChange_one_tmul_natural_left,
     omegaBaseChange_one_tmul_tmul D₂ (omegaFactorization D₁ F), omegaBaseChange_one_tmul_tmul,
     ← IsScalarTower.algebraMap_apply B B' B'']
@@ -395,32 +392,28 @@ theorem omegaBaseChange_comp {A B A' B' A'' B'' : Type u} [CommRing A] [CommRing
     (Algebra.TensorProduct.cancelBaseChange A A' A'' A'' F.middle).symm (fun c ↦ ?_) H _ _).symm
   · congr 2
     refine LinearMap.ext fun z ↦ ?_
-    show omegaDual D₃ F φ z = omegaDual D₂ (omegaFactorization D₁ F) (omegaDual D₁ F φ)
+    change omegaDual D₃ F φ z = omegaDual D₂ (omegaFactorization D₁ F) (omegaDual D₁ F φ)
       ((Algebra.TensorProduct.cancelBaseChange A A' A'' A'' F.middle).symm z)
-    induction z using TensorProduct.induction_on with
-    | zero =>
-        exact (LinearMap.map_zero _).trans ((LinearMap.map_zero _).symm.trans
-          (congrArg _ (map_zero _).symm))
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
         exact (LinearMap.map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans
           ((LinearMap.map_add _ _ _).symm.trans (congrArg _ (map_add _ x y).symm)))
     | tmul a c => ?_
     rw [Algebra.TensorProduct.cancelBaseChange_symm_tmul]
-    show omegaDual D₃ F φ (omegaTmul D₃ F a c) =
+    change omegaDual D₃ F φ (omegaTmul D₃ F a c) =
       omegaDual D₂ (omegaFactorization D₁ F) (omegaDual D₁ F φ)
         (omegaTmul D₂ (omegaFactorization D₁ F) a (omegaTmul D₁ F 1 c))
     rw [omegaDual_tmul, omegaDual_tmul, omegaDual_tmul, smul_one_smul]
-  · show algebraMap (omegaFactorization D₂ (omegaFactorization D₁ F)).middle B''
+  · change algebraMap (omegaFactorization D₂ (omegaFactorization D₁ F)).middle B''
       ((Algebra.TensorProduct.cancelBaseChange A A' A'' A'' F.middle).symm c) =
       algebraMap (omegaFactorization D₃ F).middle B'' c
-    induction c using TensorProduct.induction_on with
-    | zero => exact (RingHom.map_zero _).trans (RingHom.map_zero _).symm
+    induction c using TensorProduct.inductionOn with
     | add x y hx hy =>
         exact (congrArg _ (map_add _ x y)).trans ((RingHom.map_add _ _ _).trans
           ((congrArg₂ (· + ·) hx hy).trans (RingHom.map_add _ x y).symm))
     | tmul a c =>
         rw [Algebra.TensorProduct.cancelBaseChange_symm_tmul]
-        show algebraMap (omegaFactorization D₂ (omegaFactorization D₁ F)).middle B''
+        change algebraMap (omegaFactorization D₂ (omegaFactorization D₁ F)).middle B''
           (omegaTmul D₂ (omegaFactorization D₁ F) a (omegaTmul D₁ F 1 c)) =
           algebraMap (omegaFactorization D₃ F).middle B'' (omegaTmul D₃ F a c)
         rw [algebraMap_omegaFactorization, algebraMap_omegaFactorization,

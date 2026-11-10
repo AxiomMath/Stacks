@@ -132,12 +132,10 @@ theorem relativelyRepresentable_diag_quotientSheaf_of_isAffineHom
     ⟨⟨hm, hloft⟩, hstable (@_root_.AlgebraicGeometry.IsAffineHom.{u})
       _root_.AlgebraicGeometry.isAffineHom_isStableUnderBaseChange haff⟩
 
-variable [IsAffine ((BigFppfOver.toScheme B S hS).obj U)]
-
 /-- **Stacks 0265, the algebraic-space property, for an affine étale equivalence relation, with
 no hypothesis.** The quotient sheaf of an étale equivalence relation on an object of the big fppf
-site of `S` with affine underlying scheme is an algebraic space over `S` whenever the relation is
-an affine morphism into the self-product of the chart.
+site of `S` is an algebraic space over `S` whenever the relation is an affine morphism into the
+self-product of the chart; no affineness of the object is used.
 
 It does **not** carry `@[stacks 0265]`: affineness of the relation is an extra hypothesis, and
 the general statement still rests on Stacks 0247. -/

@@ -80,6 +80,7 @@ namespace ModuleMapSituation
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf_moduleMapZeroLocusLimitPreserving :
@@ -361,7 +362,7 @@ theorem zeroDiagram_obj_eq_zeroTest (D : ModuleMapSituation.{u, u} B S hS)
       (ObjectProperty.homMk (yonedaEquiv.symm (D.Y.1.map V.hom.op y)) :
         schemeSpace V.left ⟶ D.Y) := by
     apply ObjectProperty.hom_ext
-    show yoneda.map V.hom ≫ yonedaEquiv.symm y = yonedaEquiv.symm (D.Y.1.map V.hom.op y)
+    change yoneda.map V.hom ≫ yonedaEquiv.symm y = yonedaEquiv.symm (D.Y.1.map V.hom.op y)
     apply yonedaEquiv.injective
     simpa using (yonedaEquiv_naturality (yonedaEquiv.symm y) V.hom).symm
   exact congrArg (fun h => (CostructuredArrow.mk h : D.SchemesOver)) key

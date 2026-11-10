@@ -91,12 +91,10 @@ theorem bijective_congrMap : Function.Bijective (congrMap α β hM hsq (M := M))
   refine Function.bijective_iff_has_inverse.2
     ⟨congrMap α.symm β.symm (smul_eq_symm_smul α hM) (algebraMap_symm α β hsq),
       fun z => ?_, fun z => ?_⟩
-  · induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+  · induction z using TensorProduct.inductionOn with
     | tmul a m => rw [congrMap_tmul, congrMap_tmul, β.symm_apply_apply]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
-  · induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+  · induction z using TensorProduct.inductionOn with
     | tmul a m => rw [congrMap_tmul, congrMap_tmul, β.apply_symm_apply]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -120,8 +118,7 @@ include hN hf in
 extension of `f₁`. -/
 theorem liftBaseChange_congrMap (z : A₁ ⊗[R₁] M) :
     f₂.liftBaseChange A₂ (congrMap α β hM hsq z) = f₁.liftBaseChange A₁ z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul a m =>
     rw [congrMap_tmul, LinearMap.liftBaseChange_tmul, LinearMap.liftBaseChange_tmul, hf,
       hN a (f₂ m)]

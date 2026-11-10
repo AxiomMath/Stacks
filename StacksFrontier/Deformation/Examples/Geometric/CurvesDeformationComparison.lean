@@ -417,9 +417,9 @@ theorem toCurveDeformationMorphism_id (P : SchemeDeformationCategory (Λ := Λ) 
       (@CategoryStruct.id (curvesPredeformation B hZ X hk hdim iΛ).carrier _
         (P.toCurveDeformation B hZ hk hdim iΛ)) := by
   refine DeformationMorphism.ext_of_components _ _ _ _ rfl (CurveFamily.Hom.ext ?_ ?_)
-  · show integerSiteMap B hZ _ _ (baseSpecMap (𝟙 P.base)) = 𝟙 _
+  · change integerSiteMap B hZ _ _ (baseSpecMap (𝟙 P.base)) = 𝟙 _
     rw [baseSpecMap_id, integerSiteMap_id]
-  · show schemeSpaceMap (integerSiteMap B hZ _ _ (𝟙 P.scheme)) = 𝟙 _
+  · change schemeSpaceMap (integerSiteMap B hZ _ _ (𝟙 P.scheme)) = 𝟙 _
     rw [integerSiteMap_id]
     exact (schemeSpaceFunctor B integerBase hZ).map_id _
 
@@ -431,10 +431,10 @@ theorem toCurveDeformationMorphism_comp {P Q R : SchemeDeformationCategory (Λ :
         (SchemeDeformationCategory.toCurveDeformationMorphism B hZ hk hdim iΛ f)
         (SchemeDeformationCategory.toCurveDeformationMorphism B hZ hk hdim iΛ g) := by
   refine DeformationMorphism.ext_of_components _ _ _ _ rfl (CurveFamily.Hom.ext ?_ ?_)
-  · show integerSiteMap B hZ _ _ (baseSpecMap (f.base ≫ g.base)) =
+  · change integerSiteMap B hZ _ _ (baseSpecMap (f.base ≫ g.base)) =
       integerSiteMap B hZ _ _ (baseSpecMap g.base) ≫ integerSiteMap B hZ _ _ (baseSpecMap f.base)
     rw [baseSpecMap_comp, integerSiteMap_comp]
-  · show schemeSpaceMap (integerSiteMap B hZ _ _ (g.map ≫ f.map)) =
+  · change schemeSpaceMap (integerSiteMap B hZ _ _ (g.map ≫ f.map)) =
       schemeSpaceMap (integerSiteMap B hZ _ _ g.map) ≫
         schemeSpaceMap (integerSiteMap B hZ _ _ f.map)
     rw [← schemeSpaceMap_comp, integerSiteMap_comp]
@@ -592,7 +592,7 @@ theorem exists_iso_schemeDeformationToCurves_obj_of_iso_schemeSpace
         { baseMap := 𝟙 _
           totalMap := e.hom
           cartesian := by
-            show IsPullback e.hom toBase (schemeSpaceMap (integerSiteMap B hZ hT hA g))
+            change IsPullback e.hom toBase (schemeSpaceMap (integerSiteMap B hZ hT hA g))
                 (schemeSpaceMap (𝟙 (integerSiteObject B hZ hA)))
             have h : IsPullback e.hom toBase (e.inv ≫ toBase) (𝟙 _) :=
               IsPullback.of_iso (IsPullback.id_horiz toBase) (Iso.refl _) e (Iso.refl _)
@@ -602,7 +602,7 @@ theorem exists_iso_schemeDeformationToCurves_obj_of_iso_schemeSpace
                 ((congrArg (fun b => IsPullback e.hom toBase (e.inv ≫ toBase) b) hid').mpr h) }
       triangle := CurveFamily.Hom.ext ((Category.comp_id _).trans hb) hsp.symm
       arrow_base := by
-        show 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _ = baseSpecMap (𝟙 A)
+        change 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _ = baseSpecMap (𝟙 A)
         rw [baseSpecMap_id]
         simp }
   let inv : DeformationMorphism iΛ (curvesToSchemesOver B hZ) (curveFamilyOfScheme X B hZ hk hdim)
@@ -615,7 +615,7 @@ theorem exists_iso_schemeDeformationToCurves_obj_of_iso_schemeSpace
         { baseMap := 𝟙 _
           totalMap := e.inv
           cartesian := by
-            show IsPullback e.inv (schemeSpaceMap (integerSiteMap B hZ hT hA g)) toBase
+            change IsPullback e.inv (schemeSpaceMap (integerSiteMap B hZ hT hA g)) toBase
                 (schemeSpaceMap (𝟙 (integerSiteObject B hZ hA)))
             have h : IsPullback e.inv (e.inv ≫ toBase) toBase (𝟙 _) :=
               IsPullback.of_iso (IsPullback.id_horiz (e.inv ≫ toBase)) (Iso.refl _) e.symm
@@ -627,7 +627,7 @@ theorem exists_iso_schemeDeformationToCurves_obj_of_iso_schemeSpace
         ((congrArg (fun φ => φ ≫ e.inv) hsp).trans ((Category.assoc _ _ _).trans
           ((congrArg (arrow.totalMap ≫ ·) e.hom_inv_id).trans (Category.comp_id _))))
       arrow_base := by
-        show 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _ = baseSpecMap (𝟙 A)
+        change 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _ = baseSpecMap (𝟙 A)
         rw [baseSpecMap_id]
         simp }
   refine ⟨P, ⟨hom, inv, ?_, ?_⟩, ?_⟩

@@ -84,7 +84,7 @@ theorem exists_piece_fundamentalClass (hlci : IsLocalCompleteIntersectionMorphis
   have hOc : O ≤ ι.coborderRange := inf_le_right
   have hmem : ∀ x, x ∈ ι ⁻¹ᵁ O ↔ mf x = m ∧ df (ι x) = d := by
     intro x
-    show (ι x ∈ T ∧ ι x ∈ dimensionOpen g d) ∧ ι x ∈ ι.coborderRange ↔ _
+    change (ι x ∈ T ∧ ι x ∈ dimensionOpen g d) ∧ ι x ∈ ι.coborderRange ↔ _
     have h3 := mem_relativeDimensionOpen g (isCohenMacaulay_fiber_of_smooth g) d (ι x)
     exact ⟨fun h => ⟨(hT x).1 h.1.1, h3.1 h.1.2⟩,
       fun h => ⟨⟨(hT x).2 h.1, h3.2 h.2⟩, subset_coborder ⟨x, rfl⟩⟩⟩

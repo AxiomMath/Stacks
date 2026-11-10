@@ -41,8 +41,7 @@ private theorem liftBaseChange_baseChange_apply_of_comm {A A' : Type*} [CommRing
     (τ : Q →ₗ[A] Q') (ψ' : M' →ₗ[A'] Q') (hcomm : ∀ m, ψ' (rM m) = τ (ψ m))
     (t : A' ⊗[A] M) :
     τ.liftBaseChange A' (ψ.baseChange A' t) = ψ' (rM.liftBaseChange A' t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a m => simp [hcomm]
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -66,8 +65,7 @@ theorem LinearMap.ker_le_span_image_ker_of_flat {A A' : Type*} [CommRing A] [Com
   rw [Module.Flat.ker_lTensor_eq] at hker
   obtain ⟨s, rfl⟩ := hker
   clear hg' h0
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | tmul a k =>
     simp only [TensorProduct.AlgebraTensorModule.lTensor_tmul, Submodule.subtype_apply,
       LinearMap.liftBaseChange_tmul]
@@ -99,8 +97,7 @@ theorem LinearMap.injective_liftBaseChange_of_quotient {A A' : Type*} [CommRing 
   obtain ⟨s₀, ⟨s₁, rfl⟩, he⟩ := hspan (hN hs)
   rw [← hβ.1 he]
   clear he hs hx
-  induction s₁ using TensorProduct.induction_on with
-  | zero => simp
+  induction s₁ using TensorProduct.inductionOn with
   | tmul a k => simp [(Submodule.Quotient.mk_eq_zero N).2 k.2]
   | add x y hx hy => rw [map_add, map_add, hx, hy, add_zero]
 
@@ -132,8 +129,7 @@ theorem Submodule.mem_span_image_of_isPushout (A A' C C' : Type*)
       c' • y ∈ Submodule.span A' (rP '' N) := by
     intro c' y hy
     obtain ⟨t, rfl⟩ := (Algebra.IsPushout.equiv A A' C C').surjective c'
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, zero_smul]; exact zero_mem _
+    induction t using TensorProduct.inductionOn with
     | tmul a c =>
       rw [Algebra.IsPushout.equiv_tmul, mul_smul, algebraMap_smul, algebraMap_smul]
       exact Submodule.smul_mem _ _ (hC c hy)

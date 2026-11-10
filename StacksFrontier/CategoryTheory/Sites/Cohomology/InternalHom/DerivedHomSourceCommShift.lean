@@ -247,7 +247,7 @@ lemma cochainConj_cochainSourceShift_cochainSourceShift (U : X.C)
     cochainSourceShift_v' X U b₁₂ n n₁₂ (by omega) c p q (p + b₂ + b₁) hpq (by omega),
     ← sourceShiftSign_negOnePow n b₁ b₂ n₁ n₁₂ b₁₂ h₁ h₂ hb]
   rw [CochainComplex.shiftFunctorAdd'_hom_app_f', over_XIsoOfEq_hom]
-  simp only [HomologicalComplex.id_f, CategoryTheory.Functor.map_id, Category.comp_id,
+  simp only [HomologicalComplex.id_f, CategoryTheory.Functor.map_id,
     Linear.units_smul_comp, Linear.comp_units_smul, mul_smul]
   rw [smul_comm]
   simp

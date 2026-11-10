@@ -289,14 +289,14 @@ theorem exists_isRightDerivedValueAt_homotopy :
     simpa only [Functor.comp_map] using β.naturality ((ht.from s).right)
   have := hR s
   have he : e.hom = β.app t₀.right ≫ eR.inv := by
-    show (eβ ≪≫ eR.symm).hom = β.app t₀.right ≫ eR.inv
+    change (eβ ≪≫ eR.symm).hom = β.app t₀.right ≫ eR.inv
     simp [eβ]
   have hright : R.map (Qs.map ((ht.from s).right)) = inv (R.map (Qs.map s.hom)) ≫ eR.hom := by
     rw [IsIso.eq_inv_comp, ← Functor.map_comp, ← Functor.map_comp, hcomp]
     rfl
   dsimp [coc, Limits.coconeOfDiagramTerminal]
   rw [he]
-  show Qt.map (Fh.map (ht.from s).right) ≫ (β.app t₀.right ≫ eR.inv) ≫
+  change Qt.map (Fh.map (ht.from s).right) ≫ (β.app t₀.right ≫ eR.inv) ≫
       R.map (Qs.map s.hom) = β.app s.right
   rw [Category.assoc, reassoc_of% hnat, hright]
   simp

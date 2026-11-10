@@ -207,7 +207,7 @@ theorem exists_isTorsionVanishingBound_puncturedSpectrum_etaleLocalRing
           rw [show (2 : WithBot ℕ∞) = ((2 : ℕ∞) : WithBot ℕ∞) from rfl, ← WithBot.coe_mul,
             ENat.mul_top (by norm_num)]
         rw [this] at h2
-        exact (not_le.2 (by exact_mod_cast ENat.coe_lt_top m)) h2
+        exact (not_le.2 (by exact_mod_cast ENat.natCast_lt_top m)) h2
       | coe d => exact ⟨d, rfl⟩
   rw [hd] at h2
   have h2' : 2 * d ≤ m := by exact_mod_cast h2

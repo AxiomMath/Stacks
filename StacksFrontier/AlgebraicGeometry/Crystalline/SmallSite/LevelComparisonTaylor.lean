@@ -13,8 +13,10 @@ producer was `...SmallSite.levelComparison07JGWholeSpaceOfRemaining` of
 `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelSectionsPAdicComplete.lean`, which
 consumes five of its six fields, `isPAdicallyComplete` being the one already discharged.  This
 module discharges three more, so that two of the six remain; the producers added since — in this
-file, in `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelComparisonInterchange.lean` and
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelReductionAssembly.lean` — each consume the remainder in some form.
+file, in `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelComparisonInterchange.lean`
+and
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelReductionAssembly.lean` — each consume
+the remainder in some form.
 
 The three are `hasCoordinateOperators`, `isIntegrable` and `isTopologicallyQuasiNilpotent` —
 item (07JD), item (07JE) and the non-vacuity of the two.  They are *not* discharged outright:
@@ -184,8 +186,8 @@ theorem isHausdorff_sections (p : ℕ) (F : QuasiCoherentCrystal S) (N : ℕ)
 `Crystalline.TaylorCrystal`.**
 
 `Crystalline.TaylorCrystal` is the record of the hypotheses from which
-`StacksFrontier/AlgebraicGeometry/Crystalline/TaylorCrystal07JG.lean` proves items (07JB), (07JD) and
-(07JE) of the tag.  Four of its twelve data fields are supplied here from the site and are not
+`StacksFrontier/AlgebraicGeometry/Crystalline/TaylorCrystal07JG.lean` proves items (07JB), (07JD)
+and (07JE) of the tag.  Four of its twelve data fields are supplied here from the site and are not
 hypotheses: `carrier` is the module `...SmallSite.LevelScalars07JG.sections` with its `D`-action,
 the tower `levels` is `...LevelScalars07JG.levelSections`, the transition maps are
 `...LevelScalars07JG.levelRestrict`, and the identification `levelEquiv` of the module with the

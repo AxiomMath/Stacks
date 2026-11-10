@@ -156,7 +156,7 @@ theorem isLimitPreserving_stack :
     IsLimitPreserving.{u, u, u, u + 1, u} B S hS (stack B S hS) := by
   intro I _ _ D c hc
   have hZ : B.Contains (Spec (CommRingCat.of (ULift.{u} ℤ))) := by
-    show (Spec (CommRingCat.of (ULift.{u} ℤ))).size < B.cutoff
+    change (Spec (CommRingCat.of (ULift.{u} ℤ))).size < B.cutoff
     rw [Scheme.size_Spec]
     simpa using B.aleph0_lt_cutoff
   let hT := isTerminal_obj_specULiftZ B hZ

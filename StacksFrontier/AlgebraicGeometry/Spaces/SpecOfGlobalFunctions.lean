@@ -111,7 +111,7 @@ theorem exists_specMap_of_globalHom (X : AlgebraicSpaces B S hS) (A : Type u) [C
     dsimp only [k]
     rw [yonedaEquiv_symm_naturality_left]
     refine congrArg yonedaEquiv.symm ?_
-    show (BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS X.1).map g) ≫
+    change (BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS X.1).map g) ≫
         specMapOfGlobalHom A ((globalFunctionsChartRestriction B S hS X W).comp φ) =
       specMapOfGlobalHom A ((globalFunctionsChartRestriction B S hS X V).comp φ)
     rw [comp_specMapOfGlobalHom]

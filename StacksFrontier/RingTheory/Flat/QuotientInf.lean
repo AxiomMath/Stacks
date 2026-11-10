@@ -43,8 +43,7 @@ lemma Module.Flat.rTensor_restrictScalars_injective {R : Type*} [CommRing R] {M 
         (LinearMap.rTensor M (g.restrictScalars R)))
       = (G ∘ Φ) := by
     funext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add a b ha hb =>
         simp only [Function.comp_apply, map_add] at *
         rw [ha, hb]
@@ -55,9 +54,9 @@ lemma Module.Flat.rTensor_restrictScalars_injective {R : Type*} [CommRing R] {M 
         show _ = G (Φ (n ⊗ₜ[R] m))
         simp only [Φ, LinearEquiv.trans_apply,
           TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul, LinearEquiv.lTensor_tmul]
-        show _ = G (n ⊗ₜ[R ⧸ I] (e ((1 : R ⧸ I) ⊗ₜ[R] m)))
+        change _ = G (n ⊗ₜ[R ⧸ I] (e ((1 : R ⧸ I) ⊗ₜ[R] m)))
         have he1 : e ((1 : R ⧸ I) ⊗ₜ[R] m) = Submodule.Quotient.mk m := by
-          show (TensorProduct.quotTensorEquivQuotSMul M I) ((1 : R ⧸ I) ⊗ₜ[R] m) = _
+          change (TensorProduct.quotTensorEquivQuotSMul M I) ((1 : R ⧸ I) ⊗ₜ[R] m) = _
           rw [← map_one (Ideal.Quotient.mk I), TensorProduct.quotTensorEquivQuotSMul_mk_tmul,
             one_smul]
         rw [he1]
@@ -101,7 +100,7 @@ lemma Module.Flat.rTensor_subtype_injective_of_inf_eq_bot {R : Type*} [CommRing 
   have hann2 : Module.IsTorsionBySet R ↥P (I₂ : Set R) := by
     intro x a
     ext
-    show (a : R) • ((x : ↥J) : R) = 0
+    change (a : R) • ((x : ↥J) : R) = 0
     have : (a : R) • ((x : ↥J) : R) ∈ I₁ ⊓ I₂ :=
       ⟨Ideal.mul_mem_left _ _ x.2, Ideal.mul_mem_right _ _ a.2⟩
     simpa [hcap] using this
@@ -115,15 +114,15 @@ lemma Module.Flat.rTensor_subtype_injective_of_inf_eq_bot {R : Type*} [CommRing 
   let ψ : ↥J →ₗ[R] (R ⧸ I₁) := (Algebra.linearMap R (R ⧸ I₁)).comp J.subtype
   have hker : P = LinearMap.ker ψ := by
     ext x
-    show ((x : R)) ∈ I₁ ↔ Ideal.Quotient.mk I₁ (x : R) = 0
+    change ((x : R)) ∈ I₁ ↔ Ideal.Quotient.mk I₁ (x : R) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.symm
   let νmap : (↥J ⧸ P) →ₗ[R] (R ⧸ I₁) := P.liftQ ψ hker.le
   have hann1 : Module.IsTorsionBySet R (↥J ⧸ P) (I₁ : Set R) := by
     intro x a
     obtain ⟨y, rfl⟩ := P.mkQ_surjective x
-    show (a : R) • (P.mkQ y) = 0
+    change (a : R) • (P.mkQ y) = 0
     rw [← map_smul, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
-    show ((a : R) • (y : R)) ∈ I₁
+    change ((a : R) • (y : R)) ∈ I₁
     exact Ideal.mul_mem_right _ _ a.2
   refine (injective_iff_map_eq_zero _).2 fun ξ hξ => ?_
   have hstepa : LinearMap.rTensor M P.mkQ ξ = 0 := by

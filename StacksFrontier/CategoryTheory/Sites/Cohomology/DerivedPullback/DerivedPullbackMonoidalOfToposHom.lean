@@ -67,14 +67,14 @@ attribute [local instance]
 private lemma uncurry_map_id_snd {A B : Type*} [Category A] [Category B] (T : A ⥤ A ⥤ B)
     {Z Z' : A} (v : Z ⟶ Z') (W : A) :
     (Functor.uncurry.obj T).map (v ×ₘ 𝟙 W) = (T.map v).app W := by
-  show (T.map v).app W ≫ (T.obj Z').map (𝟙 W) = _
+  change (T.map v).app W ≫ (T.obj Z').map (𝟙 W) = _
   rw [CategoryTheory.Functor.map_id, Category.comp_id]
 
 /-- The uncurried bifunctor on a morphism which is the identity in the first factor. -/
 private lemma uncurry_map_id_fst {A B : Type*} [Category A] [Category B] (T : A ⥤ A ⥤ B)
     (Z : A) {W W' : A} (v : W ⟶ W') :
     (Functor.uncurry.obj T).map (𝟙 Z ×ₘ v) = (T.obj Z).map v := by
-  show (T.map (𝟙 Z)).app W ≫ (T.obj Z).map v = _
+  change (T.map (𝟙 Z)).app W ≫ (T.obj Z).map v = _
   rw [CategoryTheory.Functor.map_id, NatTrans.id_app, Category.id_comp]
 
 variable {X Y : RingedTopos.{u, u, u}}

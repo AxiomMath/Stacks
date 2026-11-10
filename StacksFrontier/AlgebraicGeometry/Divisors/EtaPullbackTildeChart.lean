@@ -52,8 +52,7 @@ theorem bijective_extendScalars_homEquiv_symm_of_bijective {A A' : Type u} [Comm
     Function.Bijective (((ModuleCat.extendRestrictScalarsAdj φ).homEquiv M P).symm v) := by
   have hunit : Function.Surjective (Stacks.ModuleCat.extendScalarsUnit φ (M := M)) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+    induction x using TensorProduct.inductionOn with
     | tmul b m =>
       obtain ⟨a, rfl⟩ := hφ b
       exact ⟨a • m, (Stacks.ModuleCat.extendScalarsUnit_smul φ a m).trans

@@ -71,7 +71,7 @@ public theorem IsStandardCovering.exists_reindex (τ : CoveringTopology)
   refine Set.iUnion_eq_univ_iff.mpr fun x => ?_
   obtain ⟨i, hi⟩ := Set.mem_iUnion.mp (h.jointly_surjective ▸ Set.mem_univ x)
   refine ⟨ULift.up (e i), ?_⟩
-  show x ∈ Set.range (W.f (ix (ULift.up (e i))))
+  change x ∈ Set.range (W.f (ix (ULift.up (e i))))
   rwa [show ix (ULift.up (e i)) = i from e.symm_apply_apply i]
 
 /-- The members of a family whose presieve is a covering family jointly surject onto the target. -/

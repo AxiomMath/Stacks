@@ -161,7 +161,7 @@ theorem isInvertedBy_cohomologyComp (i : ℤ) [(cohomologyComp L Q i).IsHomologi
   rw [quotientW_eq_trW]
   refine (MorphismProperty.IsInvertedBy.iff_of_iso _ fac).mp (fun X Y f hf => ?_)
   have : IsIso ((quotientSubcategory L P).trW.Q.map f) := Localization.inverts _ _ f hf
-  show IsIso (H.map ((quotientSubcategory L P).trW.Q.map f))
+  change IsIso (H.map ((quotientSubcategory L P).trW.Q.map f))
   infer_instance
 
 /-- **The descended functor `H^i : D_L(𝒜) / D_{P ∩ L}(𝒜) ⟶ 𝒞`.** -/

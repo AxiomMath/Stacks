@@ -158,6 +158,7 @@ noncomputable abbrev baseFieldSpace {k : Type u} [Field k] (C : BigFppfSite.{u})
 attribute [local instance] ModObj.trivialAction
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `HasPullbacks` instance for presheaves on the big fppf site needs a deep instance search
 /-- Pullbacks of presheaves on the big fppf site over a scheme (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_GroupoidArrowsUnibranch {T : Scheme.{u}}

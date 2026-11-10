@@ -145,7 +145,7 @@ theorem isClosed_genusLocus_of_forall_isOpen (X : CurveFamily B hZ)
     (h : ∀ g, IsOpen (X.genusLocus g)) (g : ℕ) : IsClosed (X.genusLocus g) := by
   have hcompl : (X.genusLocus g)ᶜ = ⋃ g' ∈ {g' | g' ≠ g}, X.genusLocus g' := by
     ext x
-    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
     constructor
     · intro hx
       obtain ⟨g', hg'⟩ := exists_mem_genusLocus X x

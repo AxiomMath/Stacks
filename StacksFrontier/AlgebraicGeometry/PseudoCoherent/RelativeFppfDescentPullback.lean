@@ -78,20 +78,18 @@ public theorem relativePseudoCoherencePullbackAlongPseudoCoherent_of_baseChange
 an integer. If `E` is `m`-pseudo-coherent relative to `S`, then so is `L(g i)^*E` for every member
 `g i` of the covering.
 
-The hypothesis `hbc`, the conclusion of Stacks 0E23, is not needed: Stacks 09US,
+No hypothesis of Stacks 0E23 is needed: Stacks 09US,
 `AlgebraicGeometry.Scheme.Hom.isPseudoCoherentFrom_comp_derivedPullback`, holds without it.
 Neither joint surjectivity of the covering nor any hypothesis on the cohomology sheaves of `E` is
 needed. -/
 public theorem isPseudoCoherentFrom_derivedPullback_of_mem_fppfPrecoverage'
     {X S : Scheme.{u}} {ι : Type v} (Y : ι → Scheme.{u}) (g : ∀ i, Y i ⟶ X) (f : X ⟶ S)
     [LocallyOfFiniteType f] (hg : Presieve.ofArrows Y g ∈ Scheme.fppfPrecoverage X)
-    (hbc : DerivedBaseChangeIsoOfTorIndependent.{u})
     (E : DerivedCategory X.Modules) (m : ℤ) (hE : f.IsPseudoCoherentFrom E m) (i : ι) :
     letI : LocallyOfFinitePresentation (g i) :=
       locallyOfFinitePresentation_of_mem_fppfPrecoverage Y g hg i
     (g i ≫ f).IsPseudoCoherentFrom ((derivedPullback (g i).toLRSHom.toShHom).obj E) m :=
-  isPseudoCoherentFrom_derivedPullback_of_mem_fppfPrecoverage Y g f hg
-    (relativePseudoCoherencePullbackAlongPseudoCoherent_of_baseChange hbc) E m hE i
+  isPseudoCoherentFrom_derivedPullback_of_mem_fppfPrecoverage Y g f hg E m hE i
 
 end Scheme.Hom
 

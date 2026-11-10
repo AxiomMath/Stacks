@@ -97,7 +97,7 @@ theorem schemeSpaceMap_id_comp_elementSchemesOver_hom (A : SchemesOver Y) :
     (schemeSpaceFunctor B S hS).map (𝟙 A.left) ≫
         (elementSchemesOver Y A.left (schemesOverElement Y A)).hom = A.hom := by
   apply ObjectProperty.hom_ext
-  show yoneda.map (𝟙 A.left) ≫
+  change yoneda.map (𝟙 A.left) ≫
       yonedaEquiv.symm (yonedaEquiv (A.hom.hom : yoneda.obj A.left ⟶ Y.obj)) =
     (A.hom.hom : yoneda.obj A.left ⟶ Y.obj)
   rw [CategoryTheory.Functor.map_id, Category.id_comp]

@@ -77,7 +77,6 @@ universe v₁ u₁ u
 namespace Stacks.Sites
 
 variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
-    [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
     [HasWeakSheafify J CommRingCat.{u}] [J.WEqualsLocallyBijective CommRingCat.{u}]
     {O : Sheaf J CommRingCat.{u}}
 
@@ -119,7 +118,7 @@ theorem toQuotientRingSheaf_app_eq_zero_iff (I : IdealSubsheaf O) (X : Cᵒᵖ)
   refine ⟨mem_of_toQuotientRingSheaf_app_eq_zero I X a, fun ha => ?_⟩
   have h0 : ((toQuotientPresheaf I).app X).hom a = 0 :=
     Ideal.Quotient.eq_zero_iff_mem.2 ha
-  show ((toSheafify J (quotientPresheaf I)).app X).hom
+  change ((toSheafify J (quotientPresheaf I)).app X).hom
     (((toQuotientPresheaf I).app X).hom a) = 0
   rw [h0, map_zero]
 

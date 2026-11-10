@@ -170,7 +170,8 @@ theorem quotientPullback_mem_hilbertQuotients {T' T : Space.SchemesOver D.Y} (h 
 /-- **`Quot^P_{F/X/B}` as a subfunctor of the Quot presheaf** of Stacks 09TR on the schemes of
 the site: a section `(T ⟶ B, F_T ⟶ Q)` lies in it when `Q` has Hilbert polynomial `P`. -/
 def hilbertSubfunctor : Subfunctor D.quotSitePresheaf where
-  obj T := {x | x.subobject ∈ hilbertQuotients E P (CostructuredArrow.mk x.toBase)}
+  obj T := {x : D.quotSitePresheaf.obj T |
+    x.subobject ∈ hilbertQuotients E P (CostructuredArrow.mk x.toBase)}
   map g x hx := quotientPullback_mem_hilbertQuotients E P
     (Space.QuotFamilyOver.restrict g.unop x.toBase) x.subobject hx
 

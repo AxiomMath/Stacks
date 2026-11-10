@@ -150,7 +150,7 @@ theorem exists_flat_quotient_adicCompletion
   have hE : ∀ q : AdicCompletion 𝔭 P', E (Ideal.Quotient.mk _ q) = q ⊗ₜ[P'] (1 : B) := by
     intro q
     simp only [E, AlgEquiv.trans_apply, Algebra.TensorProduct.quotIdealMapEquivTensorQuot_mk,
-      Algebra.TensorProduct.congr_apply, Algebra.TensorProduct.map_tmul, AlgEquiv.coe_algHom,
+      Algebra.TensorProduct.congr_apply, Algebra.TensorProduct.map_tmul, AlgEquiv.coe_toAlgHom,
       AlgEquiv.coe_refl, id_eq, map_one]
   let Φ := ofTensorProductAlgEquiv 𝔭 B
   let gh : AdicCompletion 𝔭 P' →+* AdicCompletion c₀ B :=

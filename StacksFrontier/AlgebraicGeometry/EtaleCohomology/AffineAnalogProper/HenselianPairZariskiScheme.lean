@@ -279,7 +279,7 @@ public theorem bijective_zariskiGlobalSectionsMapAt_quotient_of_henselianPair
 theorem range_specMap_ofHom_quotientMk_base {A : Type u} [CommRing A] (I : Ideal A) :
     Set.range (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))).base =
       PrimeSpectrum.zeroLocus (I : Set A) := by
-  show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
+  change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
   rw [_root_.range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective, Ideal.mk_ker]
 
 /-- A morphism from an affine scheme `Y` to `Spec R` is `Y ≅ Spec Γ(Y, ⊤)` followed by the
@@ -351,7 +351,7 @@ public theorem bijective_zariskiGlobalSectionsMapAt_pullback_of_henselianPair
       ((pullback.fst f i).base ≫ Y.isoSpec.hom.base) ≫ Y.isoSpec.inv.base := by
     rw [Category.assoc, ← Scheme.Hom.comp_base, Iso.hom_inv_id, Scheme.Hom.id_base,
       Category.comp_id]
-  show Function.Bijective (topGlobalSectionsMap (pullback.fst f i).base F)
+  change Function.Bijective (topGlobalSectionsMap (pullback.fst f i).base F)
   rw [hfac]
   refine bijective_topGlobalSectionsMap_comp _ _ F (bijective_topGlobalSectionsMap_of_isIso _ F)
     (bijective_topGlobalSectionsMap_of_isEmbedding _ ?_ _ ?_)

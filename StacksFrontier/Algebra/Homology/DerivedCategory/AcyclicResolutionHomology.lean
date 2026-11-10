@@ -63,7 +63,7 @@ lemma homologyIsoRightDerivedFunctorPlusOfRightAcyclic_hom_naturality
   have h₂ := congrArg (DerivedCategory.Plus.homologyFunctor B m).map
     ((F.mapCochainComplexPlusDerivedUnit).naturality g)
   simp only [Functor.map_comp, Functor.comp_map] at h₂
-  show HomologicalComplex.homologyMap ((F.mapHomologicalComplex _).map g.hom) m ≫
+  change HomologicalComplex.homologyMap ((F.mapHomologicalComplex _).map g.hom) m ≫
       (DerivedCategory.homologyFunctorFactors B m).inv.app ((F.mapHomologicalComplex _).obj L.obj) ≫
         (DerivedCategory.Plus.homologyFunctor B m).map
           ((F.mapCochainComplexPlusDerivedUnit).app L) =

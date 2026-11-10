@@ -286,7 +286,7 @@ theorem exists_opens_lift_openSubspaceOfPoints
         (Space.pointsMap B S hS (yoneda.obj P) pr ⁻¹' Tc) :=
     ⟨⟨_, himgopen⟩, rfl⟩
   have hxVP : Space.pointsToScheme B S hS P p ∈ VP := by
-    show Space.pointsToScheme B S hS P p ∈ (VP : Set _)
+    change Space.pointsToScheme B S hS P p ∈ (VP : Set _)
     rw [hVP]
     exact ⟨p, hp, rfl⟩
   -- that open subscheme as an object of the site, with its open immersion into `P`
@@ -426,7 +426,7 @@ theorem etaleAt_of_isEtale_openComplementRestriction
     exact Space.isEtale_comp B S hS haway (Space.isEtale_ι_of_isOpenSubspace
       (Space.isOpenSubspace_openSubspaceOfPoints_compl_of_isClosed B S hS hU T hT))
   refine etaleAt_of_isEtale_restriction B S hS hR f hTcopen hAf pr hpr ψ hψe α hcomm p ?_
-  show Space.pointsMap B S hS R f (Space.pointsMap B S hS (yoneda.obj P) pr p) ∈ Tᶜ
+  change Space.pointsMap B S hS R f (Space.pointsMap B S hS (yoneda.obj P) pr p) ∈ Tᶜ
   rw [← Function.comp_apply (f := Space.pointsMap B S hS R f), ← Space.pointsMap_comp]
   exact hp
 

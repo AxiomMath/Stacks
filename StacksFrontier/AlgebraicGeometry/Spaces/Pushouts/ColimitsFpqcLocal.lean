@@ -208,11 +208,11 @@ theorem isColimit_of_fpqc_local
       ObjectProperty.homMk (pullback.fst (f a).left.hom ((c.ι.app i).left).hom)
     let k := (hbase a i).lift q r (by
       apply ObjectProperty.hom_ext
-      show (pullback.snd (f a).left.hom ((c.ι.app i).left).hom ≫ ((c.ι.app i).left).hom) =
+      change (pullback.snd (f a).left.hom ((c.ι.app i).left).hom ≫ ((c.ι.app i).left).hom) =
         (pullback.fst (f a).left.hom ((c.ι.app i).left).hom ≫ (f a).left.hom)
       exact pullback.condition.symm)
     have hk₁ : k ≫ ((p a).app i).left = q := (hbase a i).lift_fst _ _ _
-    show q ≫ (c.ι.app i).left ≫ descLeft s = q ≫ (s.ι.app i).left
+    change q ≫ (c.ι.app i).left ≫ descLeft s = q ≫ (s.ι.app i).left
     calc
         q ≫ (c.ι.app i).left ≫ descLeft s =
             k ≫ ((p a).app i).left ≫ (c.ι.app i).left ≫ descLeft s := by

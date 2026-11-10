@@ -41,7 +41,7 @@ theorem faceDifference_resolution (sq : ResolutionSquareMap.{u, v, w} J f f' a b
     (x : (resolutionTerm.{u, v, w} J f (op ⦋1⦌)).obj.obj U) :
     ((sq.resolution (op ⦋0⦌)).hom.app U (faceDifference J f U x) : _) =
       faceDifference J f' U ((sq.resolution (op ⦋1⦌)).hom.app U x) := by
-  show (sq.resolution (op ⦋0⦌)).hom.app U (faceSections J f 0 U x - faceSections J f 1 U x) =
+  change (sq.resolution (op ⦋0⦌)).hom.app U (faceSections J f 0 U x - faceSections J f 1 U x) =
     faceSections J f' 0 U _ - faceSections J f' 1 U _
   rw [map_sub]
   exact congrArg₂ (· - ·) (sq.resolution_naturality_app (SimplexCategory.δ 0).op U x)
@@ -63,7 +63,7 @@ theorem squareCotangentTermMap_comp_naiveComparisonNegOne
   refine hom_ext_of_derivationEquiv J f (op ⦋1⦌) fun U x => ?_
   refine (derivationEquiv_val_app J f _ _ _ U x).trans
     (Eq.trans ?_ (derivationEquiv_val_app J f _ _ _ U x).symm)
-  show (naiveComparisonNegOne J f').val.app U ((squareCotangentTermMap sq (op ⦋1⦌)).val.app U
+  change (naiveComparisonNegOne J f').val.app U ((squareCotangentTermMap sq (op ⦋1⦌)).val.app U
       (((cotangentSimplicialModule J f).universalDerivation (op ⦋1⦌)).d x)) =
     (Stacks.Sites.Conormal.conormalSheafMapOfSquare.{v, u, max u v w, u} J
       (resolutionTerm.{u, v, w} J f (op ⦋0⦌)) (resolutionTerm.{u, v, w} J f' (op ⦋0⦌)) B B'

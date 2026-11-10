@@ -370,9 +370,9 @@ theorem eq_zero_of_forall_mem_comp_eq_zero_of_sup_eq_top {R : Type u} [CommRing 
       rw [← hc, map_smul, h0, smul_zero]
     have hzy : z y = 0 := by
       refine Submodule.smul_induction_on hz (fun a ha ξ _ => ?_) (fun ξ₁ ξ₂ h₁ h₂ => ?_)
-      · show (a • ξ) y = 0
+      · change (a • ξ) y = 0
         rw [LinearMap.smul_apply, ← map_smul, hym a ha, map_zero]
-      · show (ξ₁ + ξ₂) y = 0
+      · change (ξ₁ + ξ₂) y = 0
         rw [LinearMap.add_apply, h₁, h₂, add_zero]
     rw [← hwz, LinearMap.add_apply, hwy, hzy, add_zero]
   -- but the detection step produces one that does not
@@ -381,7 +381,7 @@ theorem eq_zero_of_forall_mem_comp_eq_zero_of_sup_eq_top {R : Type u} [CommRing 
     eq_zero_of_forall_comp_eq_zero_of_smul_eq_zero e he hme
       (LinearMap.toSpanSingleton R H' y)
       (fun ψ => LinearMap.ext fun r => by
-        show ψ (r • y) = 0
+        change ψ (r • y) = 0
         rw [map_smul, hall ψ, smul_zero])
   exact (LinearMap.toSpanSingleton_apply_one R H' y).symm.trans
     (LinearMap.congr_fun hzero 1)

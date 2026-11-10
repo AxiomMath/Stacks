@@ -119,7 +119,7 @@ private theorem overPullback_map_homMk_eq_iff (f : X ⟶ Z) (g : Y ⟶ Z) (p : W
   · intro h
     refine Over.OverMorphism.ext (pullback.hom_ext ?_ ?_)
     · simpa [pullback.lift_fst] using h
-    · simp [pullback.lift_snd]
+    · simp
 
 /-- The two symmetry isomorphisms of a pair of fibre products compose to the identity. -/
 private theorem pullbackSymmetry_hom_comp_hom (a : X ⟶ Z) (b : Y ⟶ Z) :
@@ -220,7 +220,7 @@ private theorem comp_overPullbackHom_eq {P Vi Vj : (BigFppfOver B S hS)ᵒᵖ �
       ((Over.pullback pj).map G).left ≫ β.hom.left ≫ pullback.fst g pi := by
     rw [hβ, ← Category.assoc, ← Category.assoc]
     congr 1
-    simp [pullback.lift_fst]
+    simp
   have hcommleft : ((Over.pullback pj).map G).left ≫ β.hom.left ≫ pullback.fst g pi =
       α.hom.left ≫ (overPullbackHom f g pi u hu).left ≫ pullback.fst g pi := by
     rw [← Category.assoc, ← Category.assoc, ← Over.comp_left, ← Over.comp_left, hcomm]
@@ -254,7 +254,7 @@ theorem properFlatMorphismEqualityDescendsAlongAffineLimit :
     ProperFlatMorphismEqualityDescendsAlongAffineLimit.{u, u, u} B S hS := by
   intro I _ _ D c hc i X Y hX hY f g hfp _ _ hgp _ _ a a' ha ha' hvertex
   obtain ⟨k, s, hks⟩ := Space.eventually_eq_of_baseChange_eq_affineBase B S hS
-    B.contains_terminal D c hc i (Over.mk f) (Over.mk g) hX hY hfp hgp
+    D c hc i (Over.mk f) (Over.mk g) hX hY hfp hgp
     (Over.homMk a ha) (Over.homMk a' ha')
     ((overPullback_map_homMk_eq_iff f g _ ha ha').mpr hvertex)
   exact ⟨k, s, (overPullback_map_homMk_eq_iff f g _ ha ha').mp hks⟩

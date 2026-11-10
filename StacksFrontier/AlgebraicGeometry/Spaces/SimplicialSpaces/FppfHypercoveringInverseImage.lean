@@ -351,6 +351,7 @@ theorem effectiveFppfDescent : EffectiveFppfDescent B S hS :=
       f hsurj hflat hfp
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the limits of the sheaf categories exceeds the default budget
 /-- Stacks 03G1 for sheaves of sets, registered directly: instance search for the limits it
 needs no longer terminates within the default budget. -/
 local instance comparisonFunctor_sheafEquivalence_type_fppfHypercoveringInverseImage
@@ -360,6 +361,7 @@ local instance comparisonFunctor_sheafEquivalence_type_fppfHypercoveringInverseI
   comparisonFunctor_sheafEquivalence B S hS X (Type (u + 1))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the limits of the sheaf categories exceeds the default budget
 /-- Stacks 03G1 for abelian sheaves, registered directly: instance search for the limits it
 needs no longer terminates within the default budget. -/
 local instance comparisonFunctor_sheafEquivalence_ab_fppfHypercoveringInverseImage

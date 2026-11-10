@@ -74,6 +74,9 @@ namespace IsDiscreteValuationRing
 variable (A : Type u) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
   (K : Type u) [Field K] [Algebra A K] [IsFractionRing A K]
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- Synthesizing `Algebra.IsSeparable p.ResidueField m.ResidueField` (transported from the
+-- residue fields `A ⧸ p` and `B ⧸ m`) exceeds the default instance-search budget.
 /-- **The integral closure of a discrete valuation ring in an unramified extension is finite
 étale.** Let `A` be a discrete valuation ring with fraction field `K` and `L / K` a finite
 separable extension, unramified with respect to `A`. The integral closure `B` of `A` in `L` is
@@ -115,7 +118,6 @@ theorem etale_integralClosure_of_isUnramifiedWithRespectTo
     obtain ⟨he, hs⟩ := h m hm hmp
     have := hs
     apply (Algebra.isUnramifiedAt_iff_map_eq A p m).mpr
-    set_option synthInstance.maxHeartbeats 400000 in
     refine ⟨inferInstance, ?_⟩
     apply (Ideal.IsDedekindDomain.ramificationIdx'_eq_one_iff ?_ ?_).mp he
     · intro hm0
@@ -229,7 +231,7 @@ theorem exists_finiteEtale_extension_of_forall_fieldFactor
     rw [Spec.map_preimage]
     infer_instance
   let eV : V ≅ finiteEtaleOverSpec K C := MorphismProperty.Over.isoMk V.left.isoSpec (by
-    show V.left.isoSpec.hom ≫ Spec.map φ = V.hom
+    change V.left.isoSpec.hom ≫ Spec.map φ = V.hom
     rw [Spec.map_preimage]
     simp)
   let : Algebra R C := ((algebraMap K C).comp (algebraMap R K)).toAlgebra
@@ -337,7 +339,7 @@ theorem exists_iso_preimage_fromSpecStalk_of_isLocalizationAway
   have hrange : Set.range a.base = Set.range W.ι.base := by
     rw [Scheme.Opens.range_ι]
     ext p
-    show p ∈ Set.range (PrimeSpectrum.comap (algebraMap (X.presheaf.stalk x) K)) ↔ p ∈ W
+    change p ∈ Set.range (PrimeSpectrum.comap (algebraMap (X.presheaf.stalk x) K)) ↔ p ∈ W
     rw [PrimeSpectrum.localization_away_comap_range K ϖ, hW]
     rfl
   exact ⟨IsOpenImmersion.isoOfRangeEq a W.ι hrange,
@@ -383,10 +385,10 @@ private lemma exists_finiteEtale_extension_stalk_of_isLocalization
       intro L _ _ _ _ _ _ v hv hvV
       have : IsPreimmersion v := hv
       have : IsPreimmersion b := by
-        show IsPreimmersion (φ.hom ≫ g ∣_ U)
+        change IsPreimmersion (φ.hom ≫ g ∣_ U)
         infer_instance
       have : IsPreimmersion (finiteEtaleBaseChangeProj b E) := by
-        show IsPreimmersion (pullback.fst E.hom b)
+        change IsPreimmersion (pullback.fst E.hom b)
         infer_instance
       let v' : Spec (.of L) ⟶ Y := v ≫ finiteEtaleBaseChangeProj b E
       have : IsPreimmersion v' := IsPreimmersion.comp v (finiteEtaleBaseChangeProj b E)

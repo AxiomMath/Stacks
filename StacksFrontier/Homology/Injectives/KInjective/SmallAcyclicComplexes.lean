@@ -101,7 +101,7 @@ private lemma cardFn_mono : Monotone (cardFn (C := C)) := by
       Sigma.ι (fun (_ : κ.out) ↦ separator C) h.choose else 0), ?_⟩⟩
     apply Sigma.hom_ext
     intro i
-    simp only [g, Sigma.ι_desc_assoc, Sigma.ι_desc, Category.comp_id]
+    simp only [g, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Category.comp_id]
     have hi : ∃ a, f a = f i := ⟨i, rfl⟩
     rw [dite_eq_left hi]
     congr 1
@@ -164,7 +164,7 @@ private theorem exists_small_epi {M N : C} (π : M ⟶ N) [Epi π] :
           (𝟙 (∐ fun (_ : I) ↦ U))
       obtain ⟨k, hk⟩ := hs
       refine ⟨Sigma.ι (fun (_ : I) ↦ U) ((equivShrink.{w} _) S) ≫ k, ?_⟩
-      rw [Category.assoc, hk, ← Category.assoc, Sigma.ι_desc]
+      rw [Category.assoc, hk, ← Category.assoc, Sigma.ι_comp_desc]
     have : IsIso (imageSubobject (q ≫ π)).arrow :=
       (Subobject.isIso_arrow_iff_eq_top _).2 htop
     rw [← imageSubobject_arrow_comp (q ≫ π)]
@@ -206,7 +206,7 @@ private lemma exists_small_extension (T : ShortComplex C) (hT : T.Exact)
     have h : kernel.lift d δ hδ = S.arrow ≫ e := by
       apply (cancel_mono (kernel.ι d)).1
       simp [δ]
-    show Epi (kernel.lift d δ hδ)
+    change Epi (kernel.lift d δ hδ)
     rw [h]
     exact hS
   · exact hsize.trans (cardFn_mono (size_mono (kernel.ι d)))
@@ -301,11 +301,11 @@ private lemma smallChain_acyclic {K : ChainComplex C ℕ} (hK : K.Acyclic)
   | zero =>
     apply ((smallChain hK S).exactAt_iff' 1 0 0 (by simp) (by simp)).2
     apply (ShortComplex.exact_iff_epi _ (by simp [HomologicalComplex.sc'])).2
-    show Epi ((smallChain hK S).d (0 + 1) 0)
+    change Epi ((smallChain hK S).d (0 + 1) 0)
     simpa only [smallChain_d] using (inferInstanceAs (Epi S.d))
   | succ n =>
     apply ((smallChain hK S).exactAt_iff' (n + 2) (n + 1) n (by simp) (by simp)).2
-    show (ShortComplex.mk ((smallChain hK S).d ((n + 1) + 1) (n + 1))
+    change (ShortComplex.mk ((smallChain hK S).d ((n + 1) + 1) (n + 1))
       ((smallChain hK S).d (n + 1) n) _).Exact
     simp only [smallChain_d]
     exact (extendStage hK (stages hK S n)).exact
@@ -325,7 +325,7 @@ private noncomputable def initialStage (K : ChainComplex C ℕ)
 
 private lemma initialStage_epi (K : ChainComplex C ℕ) (ψ : separator C ⟶ K.X 1) :
     Epi (initialStage K ψ).d := by
-  show Epi (image.map (Arrow.homMk' (f := ψ) (g := ψ ≫ K.d 1 0)
+  change Epi (image.map (Arrow.homMk' (f := ψ) (g := ψ ≫ K.d 1 0)
     (𝟙 _) (K.d 1 0) (by simp)))
   let sq := Arrow.homMk' (f := ψ) (g := ψ ≫ K.d 1 0) (𝟙 _) (K.d 1 0) (by simp)
   have h : factorThruImage ψ ≫ image.map sq = factorThruImage (ψ ≫ K.d 1 0) := by
@@ -367,7 +367,7 @@ private lemma exists_small_chain (K : ChainComplex C ℕ) (hK : K.Acyclic)
 omit [IsGrothendieckAbelian.{w} C] in
 private lemma isIso_ιTruncLE_f (M : CochainComplex C ℤ) (n : ℤ) :
     IsIso ((M.ιTruncLE (n + 1)).f n) := by
-  show IsIso ((((HomologicalComplex.op M).πTruncGE
+  change IsIso ((((HomologicalComplex.op M).πTruncGE
     (ComplexShape.embeddingUpIntLE (n + 1)).op).f n).unop)
   have hj : (ComplexShape.embeddingUpIntLE (n + 1)).op.f 1 = n := by simp
   have : IsIso (((HomologicalComplex.op M).πTruncGE
@@ -397,7 +397,7 @@ private lemma exists_small_factorization (M : CochainComplex C ℤ) (hM : M.Acyc
   have : Mono t := by dsimp [t]; infer_instance
   have : IsIso (t.f n) := by
     have : IsIso ((HomologicalComplex.ιTruncLE M e).f n) := isIso_ιTruncLE_f M n
-    show IsIso ((M.truncLEIso e).inv.f n ≫ (HomologicalComplex.ιTruncLE M e).f n)
+    change IsIso ((M.truncLEIso e).inv.f n ≫ (HomologicalComplex.ιTruncLE M e).f n)
     infer_instance
   let r : K.X 1 ⟶ M.X n := (K.extendXIso e hn).inv ≫ t.f n
   have : IsIso r := by dsimp [r]; infer_instance
@@ -418,7 +418,7 @@ private lemma exists_small_factorization (M : CochainComplex C ℤ) (hM : M.Acyc
     · obtain ⟨j, hj⟩ := hi
       exact (L.extend_exactAt_iff e hj).2 (hL j)
     · exact L.extend_exactAt e i (by simpa using hi)
-  · show (g ≫ (L.extendXIso e hn).inv) ≫
+  · change (g ≫ (L.extendXIso e hn).inv) ≫
       ((HomologicalComplex.extendMap f e).f n ≫ t.f n) = ψ
     rw [HomologicalComplex.extendMap_f f e hn]
     calc
@@ -500,8 +500,8 @@ theorem exists_epi_coproduct_small_boundedAbove_acyclic
   have hi : ψ i = φ := by simp [ψ, i]
   have hfac : (g i ≫ (Sigma.ι N i).f n) ≫ F.f n = φ := by
     rw [Category.assoc, ← HomologicalComplex.comp_f]
-    show g i ≫ (Sigma.ι N i ≫ Sigma.desc f).f n = φ
-    rw [Sigma.ι_desc]
+    change g i ≫ (Sigma.ι N i ≫ Sigma.desc f).f n = φ
+    rw [Sigma.ι_comp_desc]
     exact (hg i).trans hi
   rw [← hfac, Category.assoc, hab, Category.assoc]
   simp only [Category.assoc]

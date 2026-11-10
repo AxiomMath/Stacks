@@ -89,7 +89,7 @@ theorem homComplexTargetShiftIso_naturality {M M' : Model.Complex R} (f : M' ⟶
         f := by
   ext n z
   change Cochain M K (n + a) at z
-  show (((Cochain.ofHom f).comp z (zero_add (n + a))).rightShift a n rfl) =
+  change (((Cochain.ofHom f).comp z (zero_add (n + a))).rightShift a n rfl) =
     (Cochain.ofHom f).comp (z.rightShift a n rfl) (zero_add n)
   ext p q hpq
   rw [Cochain.rightShift_v _ a n rfl p q hpq (p + (n + a)) rfl,

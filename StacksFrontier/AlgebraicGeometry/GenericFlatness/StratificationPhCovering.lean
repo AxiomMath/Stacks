@@ -137,7 +137,7 @@ theorem HasFlatStratification.exists_isPHCovering_flat_stratum {X S : Scheme.{u}
   obtain ⟨i, hi, hi'⟩ := Scheme.IdealSheafData.exists_mem_stratum_of_isThickening I h0 hlast s
   obtain ⟨x, hx⟩ := (Scheme.IdealSheafData.range_subschemeι (I i.castSucc)).ge hi
   have hxmem : x ∈ (I i.castSucc).subschemeι ⁻¹ᵁ (I i.succ).support.compl := by
-    show (I i.castSucc).subschemeι x ∈ (I i.succ).support.compl
+    change (I i.castSucc).subschemeι x ∈ (I i.succ).support.compl
     rw [hx]
     exact hi'
   exact ⟨i, x, hxmem, hx⟩

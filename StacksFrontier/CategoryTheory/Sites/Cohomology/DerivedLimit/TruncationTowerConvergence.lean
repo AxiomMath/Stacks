@@ -772,10 +772,10 @@ private lemma exists_successive_truncation_triangle
     ((t.truncGEδLT (a + 1)).app K)
   have hT : T ∈ distTriang _ := t.triangleLTGE_distinguished (a + 1) K
   have : T.obj₁.IsGE a := by
-    show t.IsGE ((t.truncLTGE a (a + 1)).obj E) a
+    change t.IsGE ((t.truncLTGE a (a + 1)).obj E) a
     exact t.isGE_of_iso ((t.truncGELTIsoLTGE a (a + 1)).app E) a
   have : T.obj₁.IsLE a := by
-    show t.IsLE ((t.truncLT (a + 1)).obj K) a
+    change t.IsLE ((t.truncLT (a + 1)).obj K) a
     exact t.isLE_truncLT_obj K (a + 1) a (by omega)
   obtain ⟨M, ⟨eM⟩⟩ := DerivedCategory.exists_iso_singleFunctor_obj_of_isGE_of_isLE T.obj₁ a
   let H := DerivedCategory.homologyFunctor A a
@@ -795,7 +795,7 @@ private lemma exists_successive_truncation_triangle
     have : t.IsGE ((t.truncGE (a + 1)).obj E) a :=
       t.isGE_of_ge _ a (a + 1) (by omega)
     apply t.from_truncGE_obj_ext
-    show (t.truncGEπ a).app E ≫ (t.truncGEπ (a + 1)).app K ≫
+    change (t.truncGEπ a).app E ≫ (t.truncGEπ (a + 1)).app K ≫
       inv ((t.truncGE (a + 1)).map ((t.truncGEπ a).app E)) = _
     rw [← Category.assoc, ← t.truncGEπ_naturality, Category.assoc,
       IsIso.hom_inv_id, Category.comp_id, t.π_natTransTruncGEOfLE_app]
@@ -1142,7 +1142,7 @@ private lemma exists_homotopy_derivedLimit_triangle
   have h := congrArg (fun f => f ≫ Pi.π (fun n : ℕ => K.obj ⟨n⟩) n) ha
   change (F.map p ≫ eP.hom) ≫ Pi.π _ n = (a ≫ q) ≫ Pi.π _ n at h
   rw [Category.assoc, heP, ← Category.assoc, ← F.map_comp] at h
-  show DerivedCategory.Qh.map (p ≫ Pi.π _ n) ≫ e.hom.app ⟨n⟩ = a ≫ q ≫ Pi.π _ n
+  change DerivedCategory.Qh.map (p ≫ Pi.π _ n) ≫ e.hom.app ⟨n⟩ = a ≫ q ≫ Pi.π _ n
   simpa only [F, Category.assoc] using h
 
 /-- The truncation `τ_{≥ a} E`, regarded as an object of the bounded-below derived category. -/
@@ -1443,7 +1443,7 @@ theorem isIso_to_isDerivedLimit_truncationGETower
         let G := (moduleEvaluation O U).rightDerivedFunctorPlus ⋙
           DerivedCategory.Plus.homologyFunctor _ r
         have hk : IsIso ((Kplus ⋙ G).map (homOfLE (Nat.le_succ n)).op) := by
-          show IsIso (G.map ((Functor.ofOpSequence _).map _))
+          change IsIso (G.map ((Functor.ofOpSequence _).map _))
           rw [Functor.ofOpSequence_map_homOfLE_succ]
           exact hstep 𝒰 h𝒰 i n hn r hr₀ hr₁
         have hi : IsIso (G.map (DerivedCategory.Plus.Qh.map

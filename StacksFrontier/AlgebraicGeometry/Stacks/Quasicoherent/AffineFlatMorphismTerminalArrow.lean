@@ -112,7 +112,7 @@ private theorem flat_map_hom_mapIso_toCostructuredArrow
     have := z.vertical
     infer_instance
   rw [IsHomLift.fac' 𝒴.val.val.p (𝟙 z.base) z.iso.inv, IsHomLift.fac' 𝒴.val.val.p (𝟙 U) ξ.hom]
-  show Flat ((BigFppfOver.toScheme B S hS).map ((_ ≫ 𝟙 _ ≫ _) ≫
+  change Flat ((BigFppfOver.toScheme B S hS).map ((_ ≫ 𝟙 _ ≫ _) ≫
     (y' ⋙ 𝒴.val.val.p).map (TwoFibreProductOver.TerminalArrow.toTop z.x) ≫ _ ≫ 𝟙 _ ≫ _))
   rw [Functor.congr_hom hy' (TwoFibreProductOver.TerminalArrow.toTop z.x)]
   have : MorphismProperty.RespectsIso (@Flat.{u}) := Flat.isStableUnderBaseChange.respectsIso

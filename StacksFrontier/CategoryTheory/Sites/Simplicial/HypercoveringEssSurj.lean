@@ -409,7 +409,7 @@ theorem isLocalValue_of_cover (hlf : (totalForget K).IsLocallyFull J)
     exact hg
   have hkey := hvalspec (totalRestrict K M g) (totalVert K M g ≫ a) hva
     (𝟙 (totalRestrict K M g)) (totalVert K M g ≫ b) ?_
-  · show F.obj.map (totalVert K M g).op (F.obj.map a.op t) =
+  · change F.obj.map (totalVert K M g).op (F.obj.map a.op t) =
         F.obj.map (totalVert K M g).op (F.obj.map b.op σ)
     refine Eq.trans (map_comp_apply J K F (totalVert K M g) a t).symm ?_
     refine Eq.trans (hamal (totalVert K M g ≫ a) hva) ?_

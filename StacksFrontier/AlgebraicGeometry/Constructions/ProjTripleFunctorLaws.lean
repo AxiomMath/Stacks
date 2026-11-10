@@ -245,7 +245,7 @@ private theorem pullbackUnitComparison_comp_conj :
             (LocallyRingedSpace.Hom.toShHom (Scheme.Hom.toLRSHom f)) ≫ (unitComparison W).inv)
       = Stacks.PullbackTensorCoherence.pullbackUnitComparison
           (LocallyRingedSpace.Hom.toShHom (Scheme.Hom.toLRSHom f)) ≫ (unitComparison W).inv :=
-    Iso.map_inv_hom_id_assoc (unitComparison W') (Scheme.Modules.pullback f) _
+    Iso.inv_hom_id_map_assoc (unitComparison W') (Scheme.Modules.pullback f) _
   rw [hsplit, reassoc_of% hnat, hcomp']
   simp only [Category.assoc]
   exact congrArg (fun z => (Scheme.Modules.pullback f).map

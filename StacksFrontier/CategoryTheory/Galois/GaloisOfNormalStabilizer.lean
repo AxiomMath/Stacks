@@ -40,13 +40,13 @@ theorem isGalois_of_stabilizer_conj_mem (Z : C) [IsConnected Z] (z : F.obj Z)
   let φ : Aut F → (F.obj Z → F.obj Z) := fun h y => (s y * h) • z
   have hφeq : ∀ (h g : Aut F) (y : F.obj Z), φ h (g • y) = g • φ h y := by
     intro h g y
-    show (s (g • y) * h) • z = g • ((s y * h) • z)
+    change (s (g • y) * h) • z = g • ((s y * h) • z)
     rw [← mul_smul, ← mul_assoc]
     refine hstab _ _ ?_ h
     rw [hs, mul_smul, hs]
   have hφz : ∀ h : Aut F, φ h z = h • z := by
     intro h
-    show (s z * h) • z = h • z
+    change (s z * h) • z = h • z
     simpa only [one_mul] using hstab (s z) 1 (by rw [hs, one_smul]) h
   have hφinj : ∀ h : Aut F, Function.Injective (φ h) := by
     intro h y y' hyy
@@ -71,9 +71,10 @@ theorem isGalois_of_stabilizer_conj_mem (Z : C) [IsConnected Z] (z : F.obj Z)
   refine ⟨fun a b => ?_⟩
   set τ : Aut Z := σ ((s a)⁻¹ * s b)
   refine ⟨τ, ?_⟩
-  show F.map τ.asIso.hom a = b
+  change F.map τ.asIso.hom a = b
   calc F.map τ.asIso.hom a = F.map τ.asIso.hom (s a • z) := by rw [hs]
-    _ = s a • F.map τ.asIso.hom z := (congrArg (fun t => t z) ((s a).asIso.hom.naturality τ.asIso.hom)).symm
+    _ = s a • F.map τ.asIso.hom z :=
+      (congrArg (fun t => t z) ((s a).asIso.hom.naturality τ.asIso.hom)).symm
     _ = b := by rw [hσ, hφz, ← mul_smul, mul_inv_cancel_left, hs]
 
 end CategoryTheory.PreGaloisCategory

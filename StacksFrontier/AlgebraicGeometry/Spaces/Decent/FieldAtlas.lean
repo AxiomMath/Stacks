@@ -106,7 +106,7 @@ theorem exists_iso_yoneda_spec_of_isDecentSpace_of_etale_fieldSpec
   obtain ⟨χ, hχval, -⟩ :=
     FieldValuedPoint.existsUnique_factor_of_class_eq_of_mono B S hS F hF p q hp
   have hχ : yoneda.map χ ≫ fieldMorphism B S hS F p = f := by
-    show yoneda.map χ ≫ yonedaEquiv.symm p.value = f
+    change yoneda.map χ ≫ yonedaEquiv.symm p.value = f
     rw [yonedaEquiv_symm_naturality_left χ F p.value, hχval]
     exact hfq
   -- A monomorphism cancels, so the factorization square is cartesian and `χ` is étale.
@@ -114,7 +114,7 @@ theorem exists_iso_yoneda_spec_of_isDecentSpace_of_etale_fieldSpec
   have hχetale : AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map χ) :=
     hetale.property _ (𝟙 _) χ (IsPullback.of_horiz_isIso_mono ⟨Category.id_comp _⟩)
   have hχsurj : AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map χ) := by
-    show AlgebraicGeometry.Surjective
+    change AlgebraicGeometry.Surjective
       (show Spec (.of k) ⟶ Spec (.of p.carrier) from (BigFppfOver.toScheme B S hS).map χ)
     exact ⟨fun z ↦ ⟨Classical.arbitrary (Spec (CommRingCat.of k)), Subsingleton.elim _ z⟩⟩
   -- Hence `k` is a finite separable extension of the field of the representative.
@@ -142,7 +142,7 @@ theorem exists_iso_yoneda_spec_of_isDecentSpace_of_etale_fieldSpec
     exact congrArg (·.hom) (Over.w χ)
   refine ⟨p.carrier, p.field, inferInstance, inferInstance, inferInstance, p.contained, p.toBase,
     hbase, (asIso (fieldMorphism B S hS F p)).symm, ?_⟩
-  show f ≫ inv (fieldMorphism B S hS F p) = _
+  change f ≫ inv (fieldMorphism B S hS F p) = _
   rw [← hχ, Category.assoc, IsIso.hom_inv_id, Category.comp_id]
   congr 1
   apply Over.OverMorphism.ext

@@ -301,6 +301,8 @@ def conormalPushforwardTensorMap :
         (tensorPresheaf (canonicalPresentation J A B a).hom
           (freeAlgebraSheafCoefficientMap J A (underlyingPresheaf J B)).hom) (F.op.map f) _)
 
+omit [J₀.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- On the class of a local section `f` of the kernel, the degree `-1` map is the class of the
 image of `f` in `A[B]`. -/
 theorem pushforwardConormalMap_conormalClass (X : C₀ᵒᵖ)
@@ -319,6 +321,8 @@ theorem pushforwardConormalMap_conormalClass (X : C₀ᵒᵖ)
             x.2⟩ := by
   apply sheafifyLiftDesc_toAssociatedModule.{v₀, u₀, w, max u v z}
 
+omit [J₀.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- On `1 ⊗ d f`, the degree `0` map is `1 ⊗ d f'` for the image `f'` of `f` in `A[B]`. -/
 theorem conormalPushforwardTensorMap_tensorDifferential (X : C₀ᵒᵖ)
     (x : (freeAlgebraSheaf J₀ ((F.sheafPushforwardContinuous CommRingCat.{w} J₀ J).obj A)
@@ -344,6 +348,8 @@ theorem conormalPushforwardTensorMap_tensorDifferential (X : C₀ᵒᵖ)
     (map_one (quotientMapOfSquare _ _ _ _ (pushforwardPresentationSquare J₀ J F A B a) X).hom)
     (differentialsMapOfSquare_d _ _ _ _ (pushforwardCoefficientSquare J₀ J F A B) X x)
 
+omit [J₀.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The maps on the two terms commute with the differentials** `I₀/I₀² ⟶ F_*B ⊗ Ω` and
 `F_*(I/I² ⟶ B ⊗ Ω)`. -/
 theorem pushforwardConormalMap_comm :

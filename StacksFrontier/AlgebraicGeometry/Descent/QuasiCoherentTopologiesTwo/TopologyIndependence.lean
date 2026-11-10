@@ -169,7 +169,7 @@ component of the sheafification comparison.
   **Part (1) is now closed at the source's own scope, in a downstream module.**  What is proved
   *here* is the comparison for a diagram in `QCoh(𝒪_S)`; carrying it to an arbitrary diagram in
   `QCoh((Sch/S)_fppf, 𝒪)` is the reduction above, and that is done in
-  `StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherentTopologiesTwo/BigSiteColimitAgreement.lean`:
+`StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherentTopologiesTwo/BigSiteColimitAgreement.lean`:
   `AlgebraicGeometry.BigFppfOver.hasColimitsOfSize_quasicoherentOnSite_fppf` is the existence half,
   `…preservesColimitsOfSize_quasicoherentOnSite_ι_fppf` the agreement with `Mod((Sch/S)_fppf, 𝒪)`,
   and `…preservesColimitsOfSize_quasicoherentOnSite_ι_comp_restrictTopology` the agreement with
@@ -180,9 +180,10 @@ component of the sheafification comparison.
   proves the essential surjectivity.
 
   **What the proof of that statement rests on.**  The effectivity of fpqc descent is
-  available: Stacks 023T is proved, unconditionally and tagged, in both its halves — `AlgebraicGeometry.QuasicoherentDescentData.isEffective_fpqcPrecoverage`
-  (`StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherent/FpqcEffectiveUnconditional.lean:63`),
-  at an arbitrary index universe, and
+  available: Stacks 023T is proved, unconditionally and tagged, in both its halves —
+  `AlgebraicGeometry.QuasicoherentDescentData.isEffective_fpqcPrecoverage`
+  (`StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherent/FpqcEffectiveUnconditional.lean:63`), at
+  an arbitrary index universe, and
   `AlgebraicGeometry.nonempty_fullyFaithful_canonicalDescentFunctor'`
   (`StacksFrontier/AlgebraicGeometry/Descent/FpqcHomSheafRefinement.lean:418`) — and it is already
   *consumed*: `AlgebraicGeometry.BigFppfOver.isEffective_fpqcPrecoverage_siteIndex`
@@ -369,8 +370,8 @@ applies to a functor whose `Full` and `Faithful` instances are not in scope. -/
 theorem isIso_unit_app_of_iso_rightObj {C : Type u} {D : Type v} [Category.{w} C]
     [Category.{m} D] {L : C ⥤ D} {R : D ⥤ C} (adj : L ⊣ R) (hff : R.FullyFaithful)
     {X : C} {Y : D} (e : X ≅ R.obj Y) : IsIso (adj.unit.app X) := by
-  haveI := hff.full
-  haveI := hff.faithful
+  have := hff.full
+  have := hff.faithful
   exact adj.isIso_unit_app_of_iso e
 
 end CategoryTheory.Adjunction
@@ -425,8 +426,10 @@ noncomputable def tensorLeftFactorization :
     ((Stacks.SheafOfModules.Tensor.sheafTensor (J := J) (R)).obj F).obj G ≅
       (comparisonPullback.{u, v, w, m} h ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj
         (((Stacks.SheafOfModules.Tensor.sheafTensor (J := K) ((commRingOfLe h R))).obj
-            ((comparisonPushforward.{u, v, w, m} h ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj F)).obj
-          ((comparisonPushforward.{u, v, w, m} h ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj G)) :=
+            ((comparisonPushforward.{u, v, w, m} h
+              ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj F)).obj
+          ((comparisonPushforward.{u, v, w, m} h
+            ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj G)) :=
   (sheafificationFactorization h ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).app _
 
 /-- **Towards Stacks 0GNE (2), the agreement.**  The tensor product computed for the finer
@@ -451,14 +454,19 @@ noncomputable def tensorLeftAgreement
     (hunit : IsIso ((comparisonAdjunction.{u, v, w, m} h
         ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).unit.app
       (((Stacks.SheafOfModules.Tensor.sheafTensor (J := K) ((commRingOfLe h R))).obj
-          ((comparisonPushforward.{u, v, w, m} h ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj F)).obj
-        ((comparisonPushforward.{u, v, w, m} h ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj G)))) :
+          ((comparisonPushforward.{u, v, w, m} h
+            ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj F)).obj
+        ((comparisonPushforward.{u, v, w, m} h
+          ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj G)))) :
     (comparisonPushforward.{u, v, w, m} h ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj
         (((Stacks.SheafOfModules.Tensor.sheafTensor (J := J) (R)).obj F).obj G) ≅
       ((Stacks.SheafOfModules.Tensor.sheafTensor (J := K) ((commRingOfLe h R))).obj
-          ((comparisonPushforward.{u, v, w, m} h ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj F)).obj
-        ((comparisonPushforward.{u, v, w, m} h ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj G) :=
-  (comparisonPushforward.{u, v, w, m} h ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).mapIso
+          ((comparisonPushforward.{u, v, w, m} h
+            ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj F)).obj
+        ((comparisonPushforward.{u, v, w, m} h
+          ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).obj G) :=
+  (comparisonPushforward.{u, v, w, m} h
+    ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) R)).mapIso
       (tensorLeftFactorization h R F G) ≪≫
     (@asIso _ _ _ _ _ hunit).symm
 
@@ -481,7 +489,8 @@ def ofLE (X : RingedSite.{u, v, w}) {J' : GrothendieckTopology X.C} (h : J' ≤ 
 /-- Reading a sheaf of modules on a ringed site as a sheaf of modules for a coarser topology. -/
 noncomputable abbrev coarsenModules (X : RingedSite.{u, v, w})
     {J' : GrothendieckTopology X.C} (h : J' ≤ X.J) :
-    SheafOfModules.{m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⥤ SheafOfModules.{m} (Stacks.SheafOfModules.Tensor.ringSheaf (X.ofLE h).O) :=
+    SheafOfModules.{m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⥤
+      SheafOfModules.{m} (Stacks.SheafOfModules.Tensor.ringSheaf (X.ofLE h).O) :=
   Stacks.SheafOfModules.comparisonPushforward h (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
 
 /-- **Stacks 0GNE (3), the agreement clause.**  The internal hom of two sheaves of modules
@@ -668,7 +677,7 @@ isomorphism of functors. -/
 theorem isIso_restrictTopologyAssociatedModuleNatTrans_app (τ : SiteKind) (F : S.Modules)
     [F.IsQuasicoherent] :
     IsIso ((restrictTopologyAssociatedModuleNatTrans B S hS τ).app F) := by
-  haveI := isIso_comparisonUnit_baseAssociatedModule B S hS τ F
+  have := isIso_comparisonUnit_baseAssociatedModule B S hS τ F
   have happ : (restrictTopologyAssociatedModuleNatTrans B S hS τ).app F =
       (asIso ((Stacks.SheafOfModules.comparisonAdjunction
             (baseOverTopology_le_fppf B S hS τ) (structureSheaf B S hS)).unit.app
@@ -702,7 +711,7 @@ noncomputable def restrictTopologyAssociatedModuleQcohIso (τ : SiteKind) :
   haveI : ∀ M : (SheafOfModules.isQuasicoherent S.ringCatSheaf).FullSubcategory,
       IsIso ((Functor.whiskerLeft (SheafOfModules.isQuasicoherent S.ringCatSheaf).ι
         (restrictTopologyAssociatedModuleNatTrans B S hS τ)).app M) := fun M => by
-    haveI : M.obj.IsQuasicoherent := M.property
+    have : M.obj.IsQuasicoherent := M.property
     exact isIso_restrictTopologyAssociatedModuleNatTrans_app B S hS τ M.obj
   haveI := NatIso.isIso_of_isIso_app (Functor.whiskerLeft
     (SheafOfModules.isQuasicoherent S.ringCatSheaf).ι
@@ -754,8 +763,9 @@ colimits computed in the five module categories agree.
 The source states the clause for a diagram in `QCoh((Sch/S)_fppf, 𝒪)`, and reduces it to a
 diagram in `QCoh(𝒪_S)` by the essential surjectivity of `𝓕 ↦ 𝓕^a`; the diagram here is the
 reduced one.  That reduction is now available, and the clause for an arbitrary diagram is
-`AlgebraicGeometry.BigFppfOver.preservesColimitsOfSize_quasicoherentOnSite_ι_comp_restrictTopology`
-(`StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherentTopologiesTwo/BigSiteColimitAgreement.lean`).
+`preservesColimitsOfSize_quasicoherentOnSite_ι_comp_restrictTopology`, in the namespace
+`AlgebraicGeometry.BigFppfOver` (file `BigSiteColimitAgreement.lean` in
+`StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherentTopologiesTwo/`).
 -/
 @[stacks 0GNE "part (1), the colimit of a diagram of associated modules computed in \
 Mod((Sch/S)_τ, O), for every one of the five topologies"]
@@ -786,7 +796,8 @@ diagram in `QCoh(𝒪_S)` by the essential surjectivity of `𝓕 ↦ 𝓕^a`; th
 reduced one.  That reduction is now available, and the cocone statement for an arbitrary
 diagram is
 `AlgebraicGeometry.BigFppfOver.isColimitMapCoconeRestrictTopologyQuasicoherentOnSite`
-(`StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherentTopologiesTwo/BigSiteColimitAgreement.lean`),
+(file `BigSiteColimitAgreement.lean` in
+`StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherentTopologiesTwo/`),
 whose diagram and colimit cocone are taken in `QCoh((Sch/S)_fppf, 𝒪)` rather than in
 `QCoh(𝒪_S)`; it is proved from the same two inputs as this declaration —
 `AlgebraicGeometry.BigFppfOver.preservesColimitsOfShape_baseAssociatedModuleQcoh` and

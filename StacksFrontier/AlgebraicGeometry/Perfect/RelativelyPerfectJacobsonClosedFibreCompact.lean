@@ -30,8 +30,8 @@ Quasi-compactness of `X₀` is read off the structure morphism `f₀ = closedFib
 than off the projection `X₀ ⟶ X`: `f₀` is the base change of `f` along `S₀ ⟶ S`, properness is
 stable under base change, a proper morphism is quasi-compact, and `Spec (R/I)` is quasi-compact.
 `AlgebraicGeometry.QuasiCompact.compactSpace_of_compactSpace` then applies. This is the same route
-the sibling module `StacksFrontier.AlgebraicGeometry.Perfect.RelativelyPerfectJacobsonChart` takes for
-`X` itself, there off universal closedness of `f`.
+the sibling module `StacksFrontier.AlgebraicGeometry.Perfect.RelativelyPerfectJacobsonChart`
+takes for `X` itself, there off universal closedness of `f`.
 
 Flatness and local finite presentation of `f₀` are not hypotheses: both are stable under base
 change and instance search supplies them from `[Flat f]` and `[LocallyOfFinitePresentation f]`, as

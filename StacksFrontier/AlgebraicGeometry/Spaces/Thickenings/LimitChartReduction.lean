@@ -53,7 +53,7 @@ theorem app_eq_zero_of_mem_of_hasEtaleLocalProperty_isReduced {V : BigFppfOver B
   have : (MorphismProperty.inverseImage (@_root_.AlgebraicGeometry.Etale.{u} :
       MorphismProperty Scheme.{u}) (BigFppfOver.toScheme B S hS)).ContainsIdentities :=
     ⟨fun Y => by
-      show _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 Y))
+      change _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 Y))
       rw [CategoryTheory.Functor.map_id]
       infer_instance⟩
   have : (MorphismProperty.inverseImage (@_root_.AlgebraicGeometry.Etale.{u} :
@@ -74,7 +74,7 @@ theorem app_eq_zero_of_mem_of_hasEtaleLocalProperty_isReduced {V : BigFppfOver B
     refine ⟨y, ?_⟩
     have h3 : (yoneda.map c ≫ 𝟙 _).app (op T) y = y ≫ c := rfl
     rw [← h3, ← h1]
-    show (P.ι.app (op T)) (i.app (op T) y) = v
+    change (P.ι.app (op T)) (i.app (op T) y) = v
     rw [h2]
     rfl
   subst hl
@@ -82,9 +82,9 @@ theorem app_eq_zero_of_mem_of_hasEtaleLocalProperty_isReduced {V : BigFppfOver B
     (ht.map (((BigFppfOver.toScheme B S hS).map c).app U).hom).eq_zero
   have hcomp := congrArg (fun φ => φ.hom t) (Scheme.Hom.comp_app
     ((BigFppfOver.toScheme B S hS).map l) ((BigFppfOver.toScheme B S hS).map c) U)
-  show ((BigFppfOver.toScheme B S hS).map l ≫ (BigFppfOver.toScheme B S hS).map c).app U t = 0
+  change ((BigFppfOver.toScheme B S hS).map l ≫ (BigFppfOver.toScheme B S hS).map c).app U t = 0
   rw [hcomp]
-  show ((BigFppfOver.toScheme B S hS).map l).app _
+  change ((BigFppfOver.toScheme B S hS).map l).app _
     (((BigFppfOver.toScheme B S hS).map c).app U t) = 0
   rw [key, map_zero]
 
@@ -158,14 +158,14 @@ theorem le_of_isThickening_of_isLimit {X : AlgebraicSpaces B S hS} {G : Subfunct
       rw [Functor.map_comp, Functor.map_preimage]
       have hcw : C.hom = c.left ≫ cV.pt.hom := (Over.w c).symm
       rw [hcw, Functor.map_comp, ← Category.assoc]
-      show (l ≫ (BigFppfOver.toScheme B S hS).map c) ≫ B.inclusion.map cV.pt.hom = _
+      change (l ≫ (BigFppfOver.toScheme B S hS).map c) ≫ B.inclusion.map cV.pt.hom = _
       rw [hl]
-      show B.inclusion.map (v.left ≫ cV.pt.hom) = _
+      change B.inclusion.map (v.left ≫ cV.pt.hom) = _
       rw [Over.w v])
     have hl' : l' ≫ c = v := by
       apply (BigFppfOver.toScheme B S hS).map_injective
       rw [Functor.map_comp]
-      show B.inclusion.map (B.inclusion.preimage l) ≫ _ = _
+      change B.inclusion.map (B.inclusion.preimage l) ≫ _ = _
       rw [Functor.map_preimage, hl]
     have h : f.app (op T) (l' ≫ c) = G.ι.app (op T) (i.app (op T) l') :=
       (congrFun (congrArg (fun φ => φ.app (op T)) hij.w) l').symm
@@ -187,7 +187,7 @@ theorem le_of_isThickening_of_isLimit {X : AlgebraicSpaces B S hS} {G : Subfunct
     refine ⟨fun {U} w => J'.superset_covering ?_ (hfLocal.imageSieve_mem (W.ι.app (op U) w))⟩
     rintro T a ⟨v, hv⟩
     refine ⟨⟨v, ?_⟩, ?_⟩
-    · show f.app _ v ∈ W.obj _
+    · change f.app _ v ∈ W.obj _
       rw [hv]
       exact (W.toFunctor.map a.op w).2
     · exact Subtype.ext hv

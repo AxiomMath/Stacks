@@ -416,7 +416,7 @@ theorem exists_graph_dominating_associatedTopology (τ : GrothendieckTopology B.
   · have hproj : 𝒳.val.val.p.obj (equalizerObj B S hS 𝒳 a b (F.obj (Over.mk (𝟙 U₀)))) = U₀ :=
       (obj_equalizerObj B S hS 𝒳 a b (F.obj (Over.mk (𝟙 U₀)))).trans
         (Functor.congr_obj hw (Over.mk (𝟙 U₀)))
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj
       (𝒳.val.val.p.obj (equalizerObj B S hS 𝒳 a b (F.obj (Over.mk (𝟙 U₀))))))
     rw [hproj]
     exact hU₀

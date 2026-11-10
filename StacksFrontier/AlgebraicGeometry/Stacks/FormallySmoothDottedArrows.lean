@@ -269,7 +269,7 @@ private theorem nonempty_dottedArrow_aux
     γ'.symm ≪≫ hxF.symm
   let βH := pointHom₂ B S hS T' 𝒴.val βEvalIso.hom
   refine ⟨⟨(objectMorphism B S hS 𝒳.val x'), αH, βH, ?_⟩⟩
-  show γd = Bicategory.whiskerLeft (schemeFibredCategoryMap B S hS i) βH ≫
+  change γd = Bicategory.whiskerLeft (schemeFibredCategoryMap B S hS i) βH ≫
     (Bicategory.associator (schemeFibredCategoryMap B S hS i)
       (objectMorphism B S hS 𝒳.val x') f.hom).inv ≫
       Bicategory.whiskerRight αH f.hom
@@ -335,7 +335,7 @@ private theorem nonempty_dottedArrow_aux
               ((Functor.twoYonedaEvaluation 𝒳.val.val.p T').obj
                 (objectMorphism B S hS 𝒳.val x').hom).2 i) ≫
           Functor.Fiber.fiberInclusion.map hxF.hom := by
-      show (CatFiberedInGroupoids.homFunctor f.hom).map
+      change (CatFiberedInGroupoids.homFunctor f.hom).map
           (Functor.Fiber.fiberInclusion.map
             (Functor.pullbackFiberHom (p := 𝒳.val.val.p) hx'.hom i)) ≫
           (CatFiberedInGroupoids.homFunctor f.hom).map
@@ -351,7 +351,7 @@ private theorem nonempty_dottedArrow_aux
         (CatFiberedInGroupoids.homFunctor f.hom).map
           ((objectMorphism B S hS 𝒳.val x').hom.map
             (Functor.TwoYoneda.sliceToTerminal i)) := by
-      show (CatFiberedInGroupoids.homFunctor f.hom).map
+      change (CatFiberedInGroupoids.homFunctor f.hom).map
           (Functor.Fiber.fiberInclusion.map hcx.inv) ≫ _ = _
       rw [← Functor.map_comp]
       exact congrArg _ (Functor.fiberIsoOfCartesian_inv_fac i _ _ _ _)
@@ -434,7 +434,7 @@ private theorem nonempty_dottedArrow_of_isFormallySmoothOnObjects
     (d : InfinitesimalLiftingDiagram B S hS 𝒳 𝒴 f) :
     Nonempty (DottedArrow d.x d.j f.hom d.y d.γ) := by
   obtain ⟨T, T', hT, hT', i, hth, j, hj, x, y, γd⟩ := d
-  show Nonempty (DottedArrow x j f.hom y γd)
+  change Nonempty (DottedArrow x j f.hom y γd)
   obtain rfl : j = schemeFibredCategoryMap B S hS i :=
     (CatFiberedInGroupoids.homEquivBasedFunctor _ _).injective
       (BasedCategory.BasedFunctor.ext' hj)
@@ -453,7 +453,7 @@ private theorem isFormallySmoothOnObjects_of_nonempty_dottedArrow
     IsFormallySmoothOnObjects B S hS 𝒳.1 𝒴.1 f.hom := by
   have : 𝒳.val.val.p.IsFibered := 𝒳.val.isFiberedInGroupoids.isFibered
   have : 𝒴.val.val.p.IsFibered := 𝒴.val.isFiberedInGroupoids.isFibered
-  show ∀ (U U' : BigFppfOver B S hS) (i : U ⟶ U'),
+  change ∀ (U U' : BigFppfOver B S hS) (i : U ⟶ U'),
     IsAffine ((BigFppfOver.toScheme B S hS).obj U) →
     IsAffine ((BigFppfOver.toScheme B S hS).obj U') →
     Stacks.Thickenings.IsFirstOrderThickening ((BigFppfOver.toScheme B S hS).map i) →

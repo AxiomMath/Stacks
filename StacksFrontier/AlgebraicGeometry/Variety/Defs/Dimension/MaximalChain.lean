@@ -96,7 +96,7 @@ private lemma exists_maximalRelSeries_extending {α : Type*} [PartialOrder α]
     have hqr : Set.range q ⊆ Set.range r := by
       rintro x ⟨i, rfl⟩
       refine ⟨Fin.cast (congrArg Nat.succ hrlen.symm) i.succ, ?_⟩
-      show (q.cons a haq) (Fin.cast (congrArg Nat.succ hrlen.symm) i.succ) = q i
+      change (q.cons a haq) (Fin.cast (congrArg Nat.succ hrlen.symm) i.succ) = q i
       simpa using RelSeries.cons_cast_succ q a haq i
     have hr := hlong r hqr
     omega
@@ -109,7 +109,7 @@ private lemma exists_maximalRelSeries_extending {α : Type*} [PartialOrder α]
     have hqr : Set.range q ⊆ Set.range r := by
       rintro x ⟨i, rfl⟩
       refine ⟨Fin.castSucc i, ?_⟩
-      show (q.snoc a hqa) (Fin.castSucc i) = q i
+      change (q.snoc a hqa) (Fin.castSucc i) = q i
       exact RelSeries.snoc_castSucc q a hqa i
     have hr := hlong r hqr
     omega
@@ -143,7 +143,7 @@ lemma exists_maximalChain_extending
       topologicalKrullDim (U' : Set X) = topologicalKrullDim (Spec Γ(X, U')) :=
         IsHomeomorph.topologicalKrullDim_eq _ U'.2.isoSpec.hom.homeomorph.isHomeomorph
       _ = ringKrullDim Γ(X, U') := by
-        show topologicalKrullDim (PrimeSpectrum Γ(X, U')) = ringKrullDim Γ(X, U')
+        change topologicalKrullDim (PrimeSpectrum Γ(X, U')) = ringKrullDim Γ(X, U')
         exact PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim Γ(X, U')
   have hdimXne : topologicalKrullDim X ≠ ⊤ := by
     rw [topologicalKrullDim_eq_of_isOpen k X f (U' : Set X) U'.1.2 hU'nonempty, hdimU]
@@ -152,7 +152,7 @@ lemma exists_maximalChain_extending
   have : FiniteDimensionalOrder α := by
     rw [Order.finiteDimensionalOrder_iff_krullDim_ne_bot_and_top]
     refine ⟨Order.krullDim_ne_bot_iff.mpr hαnonempty, ?_⟩
-    show topologicalKrullDim X ≠ ⊤
+    change topologicalKrullDim X ≠ ⊤
     exact hdimXne
   exact exists_maximalRelSeries_extending p
 
@@ -241,10 +241,10 @@ private lemma maximalChain_length_eq_ringKrullDim_of_irreducible
   let t : RelSeries {p : PrimeSpectrum (R ⧸ I) × PrimeSpectrum (R ⧸ I) | p.1 ⋖ p.2} :=
     s.map ⟨e.symm, fun h ↦ (apply_covBy_apply_iff e.symm).mpr h⟩
   have htmin : IsMin t.head := by
-    show IsMin (e.symm s.head)
+    change IsMin (e.symm s.head)
     exact e.symm.isMin_apply.mpr hmin
   have htmax : IsMax t.last := by
-    show IsMax (e.symm s.last)
+    change IsMax (e.symm s.last)
     exact e.symm.isMax_apply.mpr hmax
   exact ((Algebra.FiniteType.ringKrullDim_eq_height_of_isMaximal_and_length_eq_ringKrullDim
     k (R ⧸ I)).2 t htmin htmax).trans (Order.krullDim_eq_of_orderIso e)
@@ -281,7 +281,7 @@ theorem maximalChain_length_eq_topologicalKrullDim
   have : Nonempty (U : Set X) := ⟨⟨x, hxU⟩⟩
   have : IrreducibleSpace (U : Set X) := U.isOpen.isOpenEmbedding_subtypeVal.irreducibleSpace
   have hUirr : IrreducibleSpace U := by
-    show IrreducibleSpace (U : Set X)
+    change IrreducibleSpace (U : Set X)
     exact inferInstance
   have : IrreducibleSpace (PrimeSpectrum Γ(X, U)) :=
     hU.isoSpec.hom.homeomorph.irreducibleSpace_iff.mp hUirr
@@ -300,15 +300,15 @@ theorem maximalChain_length_eq_topologicalKrullDim
     exact isMax_restrictToOpen U U.isOpen s.last
       (CatenaryTopologicalSpace.meets_open_of_ge U s.head hmeet s.last hle) hmax
   have htmin : IsMin t.head := by
-    show IsMin (OrderDual.ofDual (e q.last))
+    change IsMin (OrderDual.ofDual (e q.last))
     exact e.isMax_apply.mpr hqmax
   have htmax : IsMax t.last := by
-    show IsMax (OrderDual.ofDual td.reverse.last)
+    change IsMax (OrderDual.ofDual td.reverse.last)
     rw [RelSeries.last_reverse, RelSeries.head_map]
     exact e.isMin_apply.mpr hqmin
   calc
     (s.length : WithBot ℕ∞) = (t.length : WithBot ℕ∞) := by
-      show (s.length : WithBot ℕ∞) = (q.length : WithBot ℕ∞)
+      change (s.length : WithBot ℕ∞) = (q.length : WithBot ℕ∞)
       rw [hq_len]
       rfl
     _ = ringKrullDim Γ(X, U) :=

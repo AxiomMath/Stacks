@@ -81,7 +81,7 @@ variable (S : GlobalCrystallineSituation.{u}) (A : Type u) [CommRing A]
   (Dr : DividedPowerRing.{u}) (g : A →+* Dr) (Om : ℕ → Type u) [∀ i, AddCommGroup (Om i)]
   [∀ i, Module (Dr : Type u) (Om i)] [Module (Dr : Type u)ᵐᵒᵖ (Om 1)]
   [IsCentralScalar (Dr : Type u) (Om 1)] (der : DividedPowerDerivation A Dr g (Om 1))
-  {ι : Type uI} [Fintype ι] (dx : ι → Om 1)
+  {ι : Type uI} [Finite ι] (dx : ι → Om 1)
   (wedge : ∀ i, Om i →ₗ[(Dr : Type u)] Om 1 →ₗ[(Dr : Type u)] Om (i + 1))
   (deRham : ∀ i, Om i →+ Om (i + 1))
   (hleib : CompletedDeRham.IsGradedLeibniz Dr Om wedge deRham
@@ -261,8 +261,9 @@ public def DegreeZeroIdentification07LG.ofModuleIdentification
         (Dr : Type u) →+* (wholeSpaceDPAlgebra hp).completedRing S.p 0)]
         (wholeSpaceCosimplicialModule hp (toQuasiCoherentCrystal S h07IT F hF)).carrier 0)
     (moduleInv : ∀ (F : SheafOfModules.{u} (structureSheaf S)) (hF : F.IsQuasicoherentOnSite),
-      (wholeSpaceCosimplicialModule hp (toQuasiCoherentCrystal S h07IT F hF)).carrier 0 →ₛₗ[
-        (I.ringEquiv.symm : (wholeSpaceDPAlgebra hp).completedRing S.p 0 →+* (Dr : Type u))]
+      (wholeSpaceCosimplicialModule hp
+        (toQuasiCoherentCrystal S h07IT F hF)).carrier 0 →ₛₗ[(I.ringEquiv.symm :
+          (wholeSpaceDPAlgebra hp).completedRing S.p 0 →+* (Dr : Type u))]
         ((functor07JG R).obj (toQuasiCoherentCrystal S h07IT F hF)).carrier)
     (hleft : ∀ (F : SheafOfModules.{u} (structureSheaf S)) (hF : F.IsQuasicoherentOnSite)
       (m : ((functor07JG R).obj (toQuasiCoherentCrystal S h07IT F hF)).carrier),

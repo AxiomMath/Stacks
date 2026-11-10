@@ -77,7 +77,7 @@ pulling it back again returns it. -/
 theorem comap_map_of_ker_le (hfs : Function.Surjective f) {I : HomogeneousIdeal 𝒜}
     (hI : RingHom.ker f ≤ I.toIdeal) : (I.map f).comap f = I := by
   refine HomogeneousIdeal.toIdeal_injective ?_
-  show (I.toIdeal.map f).comap f = I.toIdeal
+  change (I.toIdeal.map f).comap f = I.toIdeal
   rw [Ideal.comap_map_of_surjective _ hfs, ← RingHom.ker_eq_comap_bot]
   exact sup_eq_left.mpr hI
 

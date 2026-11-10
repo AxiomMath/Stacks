@@ -114,7 +114,7 @@ theorem isSheaf_extend (hF : Presheaf.IsSheaf J F)
   · intro V f hf
     have hgT : ((S.pullback (srcIso hsupp s₀).hom).functorPullback j).arrows
         (srcHom hsupp f.op s₀) := by
-      show S.arrows (j.map (srcHom hsupp f.op s₀) ≫ (srcIso hsupp s₀).hom)
+      change S.arrows (j.map (srcHom hsupp f.op s₀) ≫ (srcIso hsupp s₀).hom)
       rw [map_srcHom]
       simpa using S.downward_closed hf (srcIso hsupp (F.map f.op s₀)).hom
     refine extend_ext hsupp ?_
@@ -131,7 +131,7 @@ theorem isSheaf_extend (hF : Presheaf.IsSheaf J F)
           (F.map ((srcIso hsupp (F.map f.op s₀)).hom).op (x f hf).1)).hom := by
       apply j.map_injective
       rw [map_srcHom, map_srcIsoSelf_hom]
-      show (srcIso hsupp (F.map ((srcIso hsupp (F.map f.op s₀)).hom).op (x f hf).1)).hom ≫
+      change (srcIso hsupp (F.map ((srcIso hsupp (F.map f.op s₀)).hom).op (x f hf).1)).hom ≫
           (srcIso hsupp (F.map f.op s₀)).hom ≫ (srcIso hsupp (F.map f.op s₀)).inv =
         (srcIso hsupp (F.map ((srcIso hsupp (F.map f.op s₀)).hom).op (x f hf).1)).hom
       simp
@@ -146,7 +146,7 @@ theorem isSheaf_extend (hF : Presheaf.IsSheaf J F)
         srcHom hsupp (j.map g ≫ (srcIso hsupp s₀).hom).op q.1 = g := by
       apply j.map_injective
       rw [j.map_comp, map_srcHom, map_srcIsoSelf_inv]
-      show (srcIso hsupp (F.map (j.map g ≫ (srcIso hsupp s₀).hom).op q.1)).inv ≫
+      change (srcIso hsupp (F.map (j.map g ≫ (srcIso hsupp s₀).hom).op q.1)).inv ≫
           (srcIso hsupp (F.map (j.map g ≫ (srcIso hsupp s₀).hom).op q.1)).hom ≫
             (j.map g ≫ (srcIso hsupp s₀).hom) ≫ (srcIso hsupp s₀).inv = j.map g
       simp

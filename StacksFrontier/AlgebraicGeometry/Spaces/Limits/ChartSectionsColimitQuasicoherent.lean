@@ -118,8 +118,7 @@ theorem chartPullbackSectionMap_baseChange {X Y Z : AlgebraicSpaces B S hS} (g :
       modulePullbackChartBaseChange B S hS fX M ⟨d.U, W, c, hc⟩ (ρL.rTensor _ t) := by
   let := chartDiagramAlgebra B S hS fY ⟨d.V, W, b, hb⟩
   let := chartDiagramAlgebra B S hS fX ⟨d.U, W, c, hc⟩
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]; exact chartPullbackSectionMap_zero g _ _ ψ d
+  induction t using TensorProduct.inductionOn with
   | tmul a m =>
     rw [modulePullbackChartBaseChange_tmul, LinearMap.rTensor_tmul,
       modulePullbackChartBaseChange_tmul, chartPullbackSectionMap_smul, hcoc, hρ]

@@ -139,7 +139,7 @@ private theorem exists_mem_regular_localized_of_not_associated
   let S := Localization.AtPrime q.asIdeal
   let N := LocalizedModule q.asIdeal.primeCompl Q
   have hpos : 1 ≤ Module.depth S (maximalIdeal S) N :=
-    ENat.one_le_iff_ne_zero.mpr fun h => hq ((depth_localized_eq_zero_iff q).mp h)
+    Order.one_le_iff_ne_zero.mpr fun h => hq ((depth_localized_eq_zero_iff q).mp h)
   obtain ⟨z, hzmem, hzreg⟩ :=
     (one_le_depth_iff_exists_isSMulRegular (maximalIdeal S)).mp hpos
   obtain ⟨a, s, rfl⟩ := IsLocalization.exists_mk'_eq q.asIdeal.primeCompl z

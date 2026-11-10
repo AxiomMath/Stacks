@@ -152,11 +152,7 @@ theorem conormalSymmetricAlgebraSheafHom_ungradedIncl (i : Z ⟶ X) [IsImmersion
   SheafOfModules.GradedAlgebra.ungradedIncl_ungradedSheafMap (conormalSymmetricHom i) n x
 
 variable (D : X.IdealSheafData) [Stacks.Divisors.IsEffectiveCartierDivisor D]
-  [Stacks.RelativeSpec.AlgebraSheaf.IsQuasicoherent (normalBundleAlgebra D.subschemeι)]
-  [(conormalAlgebraSheaf D.subschemeι).IsQuasicoherent]
 
-omit [Stacks.RelativeSpec.AlgebraSheaf.IsQuasicoherent (normalBundleAlgebra D.subschemeι)]
-  [(conormalAlgebraSheaf D.subschemeι).IsQuasicoherent] in
 /-- **The augmentation `Sym(𝒞_{D/X}) ⟶ 𝒪_D` of the algebra of the normal bundle kills every
 homogeneous local section of nonzero degree.** -/
 theorem normalBundleAlgebraRetraction_ungradedIncl {n : ℤ} (hn : n ≠ 0) (U : D.subscheme.Opens)
@@ -222,8 +218,6 @@ private abbrev pieceZeroIso :
       SheafOfModules.unit D.subscheme.ringCatSheaf :=
   Scheme.Modules.symmetricAlgebraPieceZeroIso D.subscheme (conormalSheafDegreeOne D.subschemeι)
 
-omit [Stacks.RelativeSpec.AlgebraSheaf.IsQuasicoherent (normalBundleAlgebra D.subschemeι)]
-  [(conormalAlgebraSheaf D.subschemeι).IsQuasicoherent] in
 /-- **For an effective Cartier divisor `D`, every degree-zero homogeneous local section of
 `𝒞_{D/X,*}` is the image of a function under the structure morphism of the algebra sheaf.** -/
 theorem exists_hom_app_eq_ungradedIncl_zero (U : D.subscheme.Opens)
@@ -247,7 +241,7 @@ theorem exists_hom_app_eq_ungradedIncl_zero (U : D.subscheme.Opens)
       ((conormalSymmetricAlgebra D.subschemeι).one.eval (op U)),
       Scheme.Modules.symmetricAlgebraPieceZeroIso_hom_one D.subscheme
         (conormalSheafDegreeOne D.subschemeι) (op U), hr]
-    show r • (1 : D.subscheme.ringCatSheaf.obj.obj (op U)) = r
+    change r • (1 : D.subscheme.ringCatSheaf.obj.obj (op U)) = r
     exact (smul_eq_mul _ _).trans (mul_one r)
   have hone : r • (conormalSymmetricAlgebra D.subschemeι).one.eval (op U) = y :=
     ((hroundtrip _).symm.trans
@@ -267,8 +261,6 @@ theorem exists_hom_app_eq_ungradedIncl_zero (U : D.subscheme.Opens)
 
 end DegreeZero
 
-omit [Stacks.RelativeSpec.AlgebraSheaf.IsQuasicoherent (normalBundleAlgebra D.subschemeι)]
-  [(conormalAlgebraSheaf D.subschemeι).IsQuasicoherent] in
 /-- **Two morphisms of algebra sheaves out of the conormal algebra `𝒞_{D/X,*}` of an effective
 Cartier divisor agree as soon as they agree on the homogeneous local sections of nonzero
 degree.** -/

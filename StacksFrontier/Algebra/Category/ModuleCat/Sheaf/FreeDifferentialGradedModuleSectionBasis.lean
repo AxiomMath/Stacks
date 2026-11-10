@@ -198,7 +198,7 @@ theorem freeSectionCoeff_comp_basisMap :
       AddMonoidHom.id _ := by
   refine DirectSum.addHom_ext' fun p => ?_
   refine DirectSum.addHom_ext (β := D.toGradedAlgebra.sectionsPiece U) fun j a => ?_
-  show freeSectionCoeff S D U (DifferentialGradedModule.basisMap
+  change freeSectionCoeff S D U (DifferentialGradedModule.basisMap
       ((freeDGModule S D).sectionModule U) (freeSectionGenerator S D U)
         (DirectSum.of (fun _ : S.Index U => (D.sectionAlgebra U).A) p
           (DirectSum.of (D.toGradedAlgebra.sectionsPiece U) j a))) =

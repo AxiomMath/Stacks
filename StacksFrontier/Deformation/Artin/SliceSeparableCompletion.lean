@@ -92,7 +92,7 @@ theorem exists_sliceEquivalence_of_isSeparable [IsNoetherianRing Λ] [Module.Fin
       (pointValueAlgHom c).isMaximal_ker_of_finite.isPrime
     ∃ A : CompleteLocalAlgCat.{u, u, u} Λ k,
       Nonempty (StacksRepresentableCFG.EquivalenceOver
-        (CategoryOfElements.π (restrictedCoyoneda A)) (sliceDeformations iΛ v₀ hv₀).projection) ∧
+        (Functor.Elements.π (restrictedCoyoneda A)) (sliceDeformations iΛ v₀ hv₀).projection) ∧
       ringKrullDim A = ringKrullDim (Localization.AtPrime (RingHom.ker (pointValue c).hom)) := by
   let φ := pointValueAlgHom c
   let P := RingHom.ker φ.toRingHom
@@ -115,7 +115,7 @@ theorem exists_sliceEquivalence_of_isSeparable [IsNoetherianRing Λ] [Module.Fin
   let ι : l →+* K := e.symm.toRingHom.comp ((algebraMap l k).codRestrict _ hrange)
   have hι : ψ.toRingHom.comp ι = (algebraMap l k).comp (RingHom.id l) := by
     ext x
-    show ψ (e.symm ⟨algebraMap l k x, hrange x⟩) = algebraMap l k x
+    change ψ (e.symm ⟨algebraMap l k x, hrange x⟩) = algebraMap l k x
     exact congrArg Subtype.val (e.apply_symm_apply ⟨algebraMap l k x, hrange x⟩)
   have : Algebra.IsSeparable K k :=
     Algebra.isSeparable_of_comp_eq_comp_of_bijective (RingHom.id l) Function.bijective_id ι
@@ -147,7 +147,7 @@ theorem ringKrullDim_stalk_eq_localization [Module.Finite Λ k] :
       hinj (h1.trans h2)
     rw [h3]
     ext r
-    show r ∈ Ideal.comap (pointValue c).hom (IsLocalRing.maximalIdeal k) ↔ _
+    change r ∈ Ideal.comap (pointValue c).hom (IsLocalRing.maximalIdeal k) ↔ _
     rw [IsLocalRing.maximalIdeal_eq_bot, ← RingHom.ker_eq_comap_bot]
   let := TopCat.Presheaf.algebra_section_stalk (B.inclusion.obj V.left).presheaf x
   have := c.isAffineOpen.isLocalization_stalk x
@@ -162,6 +162,7 @@ section ChartComp
 
 variable {Y Z : Scheme.{u}} {s : Y ⟶ S} {s' : Z ⟶ S}
 
+omit [IsOpenImmersion iΛ] in
 /-- **An affine chart of the source of a morphism inside the preimage of a chart of the
 target.** For `f : Z ⟶ Y` over `S` and a field-valued point `pt` of `Z`, an affine chart `c` of `Y`
 at the image of `pt` has inside its preimage an affine chart `c'` of `Z` at `pt`, and the ring map
@@ -178,7 +179,7 @@ theorem exists_affineChart_comp (f : Z ⟶ Y) (hf : f ≫ s = s') {K : Type u} [
     (Scheme.isBasis_affineOpens Z)) hO
   let c' : AffineChart iΛ s' (pt.base (closedPt (.of K))) :=
     ⟨U', hU', hy, fun z hz => by
-      show s'.base z ∈ Set.range iΛ.base
+      change s'.base z ∈ Set.range iΛ.base
       rw [← hf]
       exact c.le (hle hz)⟩
   have hpt' : Set.range pt.base ⊆ c'.U := by

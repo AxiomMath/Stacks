@@ -221,7 +221,7 @@ section Presentation
 
 variable (C : ChowSituation.{u}) [Subsingleton C.S] [IsIntegral C.S] [JacobsonSpace C.S]
   (hδ : ∀ s : C.S, IsClosed ({s} : Set C.S) → C.dimensionFunction s = 0) (G : GysinSystem C)
-  {X : Scheme.{u}} (sX : X ⟶ C.S) [LocallyOfFiniteType sX] (hfp : FlatPullbackDescends C)
+  {X : Scheme.{u}} (sX : X ⟶ C.S) [LocallyOfFiniteType sX]
   (n : ℤ)
 
 /-- **Stacks 0FBW in its exterior-product form**, as a predicate on a class
@@ -239,7 +239,6 @@ def IsExteriorProductBivariantClass (α : chowGroup C sX n) (c : bivariantToBase
       chowGroupDegreeEquiv C (pullback.fst sX sT ≫ sX) (by ring : n + k = k - -n)
         (chowExteriorProduct C hδ sX sT n k (TensorProduct.tmul ℤ α γ))
 
-include hfp in
 /-- At most one bivariant class towards the base caps as the exterior product with `α`. -/
 theorem IsExteriorProductBivariantClass.unique {α : chowGroup C sX n}
     {c d : bivariantToBase C G sX (-n)}

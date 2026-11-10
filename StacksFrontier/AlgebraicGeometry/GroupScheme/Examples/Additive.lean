@@ -364,7 +364,7 @@ theorem globalSectionsIsRepresentedBy :
         (((Scheme.ΓSpecIso (CommRingCat.of R)).inv ≫ ψ).hom Polynomial.X)) hApp
     have hcoord := congrArg (fun ψ : CommRingCat.Hom _ _ => ψ.hom Polynomial.X) hφ
     exact hApp'.symm.trans hcoord
-  show Function.Bijective (fun f : T ⟶ Spec (.of R) => additiveGroupPointSection f)
+  change Function.Bijective (fun f : T ⟶ Spec (.of R) => additiveGroupPointSection f)
   rw [he]
   exact (eAdj.trans (polynomialULiftIntRingHomEquiv A)).bijective
 
@@ -385,7 +385,7 @@ theorem globalSections_representableBy_additiveGroup :
 theorem additiveGroupPointSection_comp {T U : Scheme.{u}}
     (f : T ⟶ U) (g : U ⟶ additiveGroup) :
     additiveGroupPointSection (f ≫ g) = f.appTop.hom (additiveGroupPointSection g) := by
-  show (f ≫ g).appTop.hom _ = _
+  change (f ≫ g).appTop.hom _ = _
   rw [Scheme.Hom.comp_appTop]
   rfl
 
@@ -393,7 +393,7 @@ private lemma additiveGroupPointSection_specMap {R : CommRingCat.{u}}
     (φ : CommRingCat.of (Polynomial (ULift.{u} ℤ)) ⟶ R) :
     additiveGroupPointSection (Spec.map φ) =
       (Scheme.ΓSpecIso R).inv.hom (φ.hom Polynomial.X) := by
-  show ((Scheme.ΓSpecIso _).inv ≫ (Spec.map φ).appTop).hom Polynomial.X = _
+  change ((Scheme.ΓSpecIso _).inv ≫ (Spec.map φ).appTop).hom Polynomial.X = _
   rw [← Scheme.ΓSpecIso_inv_naturality]
   rfl
 
@@ -507,7 +507,7 @@ lemma additiveGroupBaseChangeRepresentableBy_apply (S : Scheme.{u}) {T : Over S}
       additiveGroupPointSection
         (f.left ≫ pullback.fst
           (additiveGroup ↘ Spec (.of (ULift.{u} ℤ))) (specULiftZIsTerminal.from S)) := by
-  show globalSectionsRepresentableBy.homEquiv
+  change globalSectionsRepresentableBy.homEquiv
       (f.left ≫ pullback.fst
         (additiveGroup ↘ Spec (.of (ULift.{u} ℤ))) (specULiftZIsTerminal.from S)) = _
   rw [globalSectionsRepresentableBy, Functor.IsRepresentedBy.representableBy_homEquiv_apply]
@@ -557,7 +557,7 @@ theorem additiveGroupBaseChangePointsIsoGlobalSections_hom_app
           (additiveGroup ↘ Spec (.of (ULift.{u} ℤ)))
           (specULiftZIsTerminal.from S)) := by
   unfold additiveGroupBaseChangePointsIsoGlobalSections
-  show (additiveGroupBaseChangeRepresentableBy S).homEquiv f = _
+  change (additiveGroupBaseChangeRepresentableBy S).homEquiv f = _
   exact additiveGroupBaseChangeRepresentableBy_apply S f
 
 end AlgebraicGeometry

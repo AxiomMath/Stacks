@@ -155,7 +155,7 @@ public theorem exists_refinement_isSheafFor
   classical
   have hpush := Functor.mem_restrictedTopology_iff.mp hSv
   have haff : (affineSpecOver B A (𝟙 (Spec A))).obj X ∈ B.affineObjects := by
-    show IsAffine (Spec (CommRingCat.of (X.unop.obj : Type u)))
+    change IsAffine (Spec (CommRingCat.of (X.unop.obj : Type u)))
     infer_instance
   obtain ⟨E, hE, hle⟩ := B.affineCovCofinal _ haff _ hpush
   obtain ⟨-, hfin, hXaff, hprop, hsurjE⟩ := hE

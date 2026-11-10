@@ -115,7 +115,7 @@ theorem isProper_projInclusionToOpen (U : s.base.Opens) (hU : IsAffineOpen U)
     IsProper (projInclusionToOpen s U hU) := by
   have : IsFinite (Spec.map (sectionRingZeroMap s U)) := (IsFinite.SpecMap_iff _).mpr hzero
   have : Algebra.FiniteType (s.sectionRingGrading U 0) (s.sectionRing U) := hdeg
-  show IsProper (Proj.toSpecZero (s.sectionRingGrading U) ≫
+  change IsProper (Proj.toSpecZero (s.sectionRingGrading U) ≫
     Spec.map (sectionRingZeroMap s U) ≫ hU.isoSpec.inv)
   infer_instance
 

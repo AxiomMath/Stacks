@@ -69,8 +69,8 @@ conversion runs once, in term mode at default transparency. This is the same cur
 
 *The `IsRightDerivedFunctor` instance is re-registered because the class is indexed by the unit
 term.* `derivedSectionsImageTopUnitOf` is the existing unit and nothing else, but it is a different
-term, so the existing instance does not apply to it; `inferInstanceAs` crosses them in one line. This
-is the pattern `EdgeCompatPreimageRestrict.lean` records for
+term, so the existing instance does not apply to it; `inferInstanceAs` crosses them in one line.
+This is the pattern `EdgeCompatPreimageRestrict.lean` records for
 `…EdgeCompat.preimageSectionsCompUnitComp`.
 
 *Why the brick is solved for its last factor and not for its first two.* A chase of conclusion (c)

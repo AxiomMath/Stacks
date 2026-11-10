@@ -243,7 +243,7 @@ theorem coe_support_closedUnionIdeal (i : Z ⟶ X) [IsClosedImmersion i] [Noethe
   have h2 : ((vanishingIdeal (complementaryClosed i)).support : Set (X : Type u))
       = complementaryComponents (X : Type u) (Set.range i.base) :=
     coe_support_vanishingIdeal _
-  show ((Scheme.Hom.ker i).support : Set (X : Type u)) ∪ _ = univ
+  change ((Scheme.Hom.ker i).support : Set (X : Type u)) ∪ _ = univ
   rw [h1, h2]
   exact union_complementaryComponents _ _
 

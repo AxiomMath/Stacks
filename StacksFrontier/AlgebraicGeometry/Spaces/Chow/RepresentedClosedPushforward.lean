@@ -232,7 +232,7 @@ theorem cycleClosedPushforward_yoneda_map_apply {R U : BigFppfOver D.site D.base
     rw [h, cycleClosedPushforward_apply_pushforward, hβ,
       Stacks.Chow.algebraicCycle_map_relativeDimension_apply_image C (j₀ ≫ s₀) s₀ j₀ rfl]
   · rw [cycleClosedPushforward_apply_of_forall_ne]
-    · show (0 : ℤ) = ∑ᶠ z ∈ j₀.base ⁻¹' {x}, _
+    · change (0 : ℤ) = ∑ᶠ z ∈ j₀.base ⁻¹' {x}, _
       rw [Set.preimage_singleton_eq_empty.2 hx, finsum_mem_empty]
     · intro Z hZ
       apply hx
@@ -308,7 +308,7 @@ theorem cycleClosedPushforward_principalDivisorCycleCoefficients_yoneda_map
     (Stacks.Chow.principalCycle _ (representedFunctionFieldMap _ _ _ R f)) _ (fun y => by
       rw [principalDivisorCycleCoefficients_eq_principalCycle D sR hR f,
         IntegralClosedSubspace.schemeGenericPoint_equivSchemePoints_symm])]
-  show _ = AlgebraicCycle.map V.subschemeι _ _ _ x
+  change _ = AlgebraicCycle.map V.subschemeι _ _ _ x
   rw [hfg, Stacks.Chow.map_principalCycle_eq_map_subschemeι_of_iso C s₀ _ V ε hε]
 
 end Pushforward
@@ -399,7 +399,7 @@ theorem IntegralClosedSubspace.exists_principalDivisorPushforward_eq
     (isClosedImmersion_of_isIso D.site D.base D.base_mem e.symm.hom) hj' W.isClosedSubspace.2, htr]
   exact cycleClosedPushforward_principalDivisorCycleCoefficients_yoneda_map j hj' _ hR s₀ V ε hε
     hf'.unit _ (by
-      show (Stacks.Chow.rationalFunctionsEquivFunctionField V.subscheme).1
+      change (Stacks.Chow.rationalFunctionsEquivFunctionField V.subscheme).1
         (Ψ (rationalFunctionsMapIso hR.1 e.symm f)) = _
       simp only [Ψ, RingEquiv.trans_apply, RingEquiv.apply_symm_apply]
       rfl) x
@@ -452,7 +452,7 @@ theorem IntegralClosedSubspace.exists_cycleClosedPushforward_eq
     (isClosedImmersion_of_isIso D.site D.base D.base_mem e.hom) W.isClosedSubspace.2 hj']
   exact cycleClosedPushforward_principalDivisorCycleCoefficients_yoneda_map j hj' _ hR s₀ V ε hε
     f' g (by
-      show _ = Stacks.Chow.functionFieldRingEquivOfIso ε
+      change _ = Stacks.Chow.functionFieldRingEquivOfIso ε
         (representedFunctionFieldEquiv D.site D.base D.base_mem R (Ψ.symm g))
       simp only [Ψ, RingEquiv.symm_trans_apply, RingEquiv.apply_symm_apply, RingEquiv.symm_symm]) x
 

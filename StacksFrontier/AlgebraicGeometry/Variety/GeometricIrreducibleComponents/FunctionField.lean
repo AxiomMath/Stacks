@@ -73,7 +73,7 @@ private theorem genericPoint_eq_nilradical (A : Type u) [CommRing A]
     genericPoint (Spec (.of A)) = ⟨nilradical A,
       PrimeSpectrum.irreducibleSpace_iff_isPrime_nilradical.mp hA⟩ := by
   apply (genericPoint_spec (Spec (.of A))).eq
-  show closure ({⟨nilradical A,
+  change closure ({⟨nilradical A,
     PrimeSpectrum.irreducibleSpace_iff_isPrime_nilradical.mp ‹_›⟩} :
       Set (PrimeSpectrum A)) = Set.univ
   rw [← PrimeSpectrum.zeroLocus_vanishingIdeal_eq_closure,
@@ -118,7 +118,7 @@ private theorem affineSections_stalk_scalarTower
     (X.presheaf.germ U ξ hξU).hom.toAlgebra
   apply IsScalarTower.of_algebraMap_eq'
   refine RingHom.ext fun a => ?_
-  show X.presheaf.germ ⊤ ξ (by simp)
+  change X.presheaf.germ ⊤ ξ (by simp)
       ((f.appTop).hom ((Scheme.ΓSpecIso (.of k)).inv.hom a)) =
     X.presheaf.germ U ξ hξU
       (X.presheaf.map (homOfLE (show U ≤ ⊤ from le_top)).op
@@ -169,14 +169,14 @@ private theorem irreducibleSpace_tensor_quotient_iff_residueField
       (R := A ⧸ I) (S := (A ⧸ I) ⊗[k] F) (A := I.ResidueField ⊗[k] F) (by
         apply Ideal.Quotient.ringHom_ext
         ext x
-        show (algebraMap A I.ResidueField) x ⊗ₜ[k] 1 =
+        change (algebraMap A I.ResidueField) x ⊗ₜ[k] 1 =
           ψ₁ ((Ideal.Quotient.mk I x) ⊗ₜ[k] (1 : F))
         simp [ψ₁, Ideal.algebraMap_quotient_residueField_mk])
   have hcomm :
       (algebraMap ((A ⧸ I) ⊗[k] F) (I.ResidueField ⊗[k] F)).comp
         Algebra.TensorProduct.includeRight.toRingHom =
       Algebra.TensorProduct.includeRight.toRingHom := by
-    show ψ₁.toRingHom.comp Algebra.TensorProduct.includeRight.toRingHom =
+    change ψ₁.toRingHom.comp Algebra.TensorProduct.includeRight.toRingHom =
       Algebra.TensorProduct.includeRight.toRingHom
     ext x
     simp [ψ₁]
@@ -184,7 +184,7 @@ private theorem irreducibleSpace_tensor_quotient_iff_residueField
     IsLocalization.tensorProduct_tensorProduct k F (nonZeroDivisors (A ⧸ I))
       I.ResidueField hcomm
   have hemb : Topology.IsEmbedding (PrimeSpectrum.comap ψ₁.toRingHom) := by
-    show Topology.IsEmbedding (PrimeSpectrum.comap
+    change Topology.IsEmbedding (PrimeSpectrum.comap
       (algebraMap ((A ⧸ I) ⊗[k] F) (I.ResidueField ⊗[k] F)))
     exact PrimeSpectrum.localization_comap_isEmbedding _ M
   have hker₁ : RingHom.ker ψ₁.toRingHom ≤ nilradical ((A ⧸ I) ⊗[k] F) :=
@@ -246,7 +246,7 @@ private theorem affineSections_iff_geometricallyIrreducible_residueField
   let I : Ideal A := p.asIdeal
   have : I.IsPrime := p.2
   have hI : I = nilradical A := by
-    show p.asIdeal = nilradical A
+    change p.asIdeal = nilradical A
     rw [hp, genericPoint_eq_nilradical A]
   let : Algebra k A :=
     ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U.1 (by simp)).hom.toAlgebra
@@ -298,7 +298,7 @@ public theorem geometricallyIrreducible_tfae_functionField
     exact (affineSections_iff_geometricallyIrreducible_residueField k f U hU).mp
       ((hlocal.mp hf).2 U hU)
   tfae_have 2 ↔ 3 := by
-    show Algebra.IsGeometricallyIrreducible k (X.residueField (genericPoint X)) ↔
+    change Algebra.IsGeometricallyIrreducible k (X.residueField (genericPoint X)) ↔
       separableClosure k (X.residueField (genericPoint X)) = ⊥
     exact (separableClosure.eq_bot_iff_geometricallyIrreducible k
       (X.residueField (genericPoint X))).symm

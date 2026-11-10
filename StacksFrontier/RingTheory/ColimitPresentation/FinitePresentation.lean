@@ -182,8 +182,7 @@ private lemma exists_map_rTensor_subtype_eq_zero {a : K}
     (u : (LinearMap.ker (ap a)) ⊗[R] M) :
     ∃ (b : K) (f : a ⟶ b), LinearMap.rTensor M (tr a b f)
       (LinearMap.rTensor M (LinearMap.ker (ap a)).subtype u) = 0 := by
-  induction u using TensorProduct.induction_on with
-  | zero => exact ⟨a, 𝟙 a, by simp⟩
+  induction u using TensorProduct.inductionOn with
   | tmul y m =>
       obtain ⟨b, f, hf⟩ := hz a y.1 (LinearMap.mem_ker.mp y.2)
       exact ⟨b, f, by simp [hf]⟩
@@ -198,10 +197,7 @@ private lemma exists_map_rTensor_subtype_eq_zero {a : K}
 include hap hsurj in
 private lemma exists_rTensor_eq (z : N ⊗[R] M) :
     ∃ (a : K) (w : P a ⊗[R] M), LinearMap.rTensor M (ap a) w = z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      obtain ⟨a⟩ : Nonempty K := IsFiltered.nonempty
-      exact ⟨a, 0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul x m =>
       obtain ⟨a, y, hy⟩ := hsurj x
       exact ⟨a, y ⊗ₜ m, by simp [hy]⟩
@@ -281,8 +277,7 @@ variable {R : Type u} [CommRing R] {Bp : Type u} [CommRing Bp] [Algebra R Bp]
 private lemma map_id_apply {A A' : Type u} [CommRing A] [Algebra R A] [CommRing A'] [Algebra R A']
     (φ : A →ₐ[R] A') (z : A ⊗[R] Bp) :
     Algebra.TensorProduct.map φ (AlgHom.id R Bp) z = LinearMap.rTensor Bp φ.toLinearMap z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x y => simp
   | add z₁ z₂ h₁ h₂ => rw [map_add, map_add, h₁, h₂]
 
@@ -312,8 +307,7 @@ private lemma map_id_comp {A₁ A₂ A₃ : Type u} [CommRing A₁] [Algebra R A
     Algebra.TensorProduct.map (ψ.comp φ) (AlgHom.id R Bp) z =
       Algebra.TensorProduct.map ψ (AlgHom.id R Bp)
         (Algebra.TensorProduct.map φ (AlgHom.id R Bp) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x y => simp
   | add z₁ z₂ h₁ h₂ => simp only [map_add, h₁, h₂]
 
@@ -422,7 +416,7 @@ private theorem exists_algHom_map_comp_eq {A : Type u} [CommRing A] [Algebra R A
   refine ⟨a₂, { __ := σR, commutes' := hcomm }, ?_⟩
   · ext x
     obtain ⟨p, rfl⟩ := hπ x
-    show Algebra.TensorProduct.map (ap a₂) (AlgHom.id R Bp) (σR (π p)) = ρ (π p)
+    change Algebra.TensorProduct.map (ap a₂) (AlgHom.id R Bp) (σR (π p)) = ρ (π p)
     rw [hσRπ, hσ₁, AlgHom.comp_apply, map_ap_map_tr tr ap hap, hσ₀]
 
 end AlgebraDescent
@@ -492,7 +486,7 @@ private lemma exists_under_ι_app_eq (j : J) (x : c.pt) :
   obtain ⟨k, y, hy⟩ := exists_ι_app_eq hc x
   refine ⟨Under.mk (IsFiltered.leftToMax j k),
     (F.map (IsFiltered.rightToMax j k)).hom y, ?_⟩
-  show (c.ι.app (IsFiltered.max j k)).hom ((F.map (IsFiltered.rightToMax j k)).hom y) = x
+  change (c.ι.app (IsFiltered.max j k)).hom ((F.map (IsFiltered.rightToMax j k)).hom y) = x
   rw [hom_comp_apply, c.w]
   exact hy
 
@@ -504,7 +498,7 @@ private lemma exists_under_map_eq_zero (j : J) (a : Under j) (y : F.obj a.right)
     ∃ (b : Under j) (f : a ⟶ b), (F.map f.right).hom y = 0 := by
   obtain ⟨k, u, hu⟩ := exists_map_eq hc y 0 (by rw [hy, map_zero])
   refine ⟨Under.mk (a.hom ≫ u), Under.homMk u rfl, ?_⟩
-  show (F.map u).hom y = 0
+  change (F.map u).hom y = 0
   have h0 : (F.map u).hom y = (F.map u).hom 0 := hu
   rw [h0, map_zero]
 

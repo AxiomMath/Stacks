@@ -159,7 +159,7 @@ theorem isIso_frobeniusRestrictionCohomologyFunctor_map_of_quasiIso
     etaleModuleInverseImage_preservesFiniteColimits _ _
   have h₁ : QuasiIso (((etaleModuleInverseImage.{u, 0} Λ
       (fieldBaseChangeProj Y kbar)).mapCochainComplexPlus.map φ).hom) := by
-    show QuasiIso (((etaleModuleInverseImage.{u, 0} Λ
+    change QuasiIso (((etaleModuleInverseImage.{u, 0} Λ
       (fieldBaseChangeProj Y kbar)).mapHomologicalComplex _).map φ.hom)
     infer_instance
   have := isIso_plusQ_map_of_quasiIso_of_abelian _ h₁

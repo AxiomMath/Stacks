@@ -145,7 +145,7 @@ theorem eval₂Hom_comp_integralGradedHom (κ : k →+* Γ(Y, ⊤)) (r : Fin (n 
   · rw [RingHom.comp_apply, GradedRingHom.coe_toRingHom, integralGradedHom_apply,
       MvPolynomial.map_C, MvPolynomial.eval₂Hom_C,
       Stacks.SectionsToProjectiveSpace.sectionsHom, MvPolynomial.eval₂Hom_C]
-    show κ ((m.down : k)) = ((m.down : ℤ) : Γ(Y, ⊤))
+    change κ ((m.down : k)) = ((m.down : ℤ) : Γ(Y, ⊤))
     rw [map_intCast]
   · rw [RingHom.comp_apply, GradedRingHom.coe_toRingHom, integralGradedHom_apply,
       MvPolynomial.map_X, MvPolynomial.eval₂Hom_X',

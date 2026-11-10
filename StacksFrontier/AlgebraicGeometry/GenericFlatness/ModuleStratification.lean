@@ -175,13 +175,13 @@ private lemma flatStratum_to_directFlatStratum
   let e : T ≅ W := α.symm ≪≫ β
   have he : e.hom ≫ qW = qT := by
     apply (cancel_mono U.ι).1
-    show α.inv ≫ β.hom ≫ (p.resLE U W le_rfl) ≫ U.ι = qT ≫ U.ι
+    change α.inv ≫ β.hom ≫ (p.resLE U W le_rfl) ≫ U.ι = qT ≫ U.ι
     rw [Scheme.Hom.resLE_comp_ι, pullbackRestrictIsoRestrict_hom_ι_assoc]
     exact pullbackLeftPullbackSndIso_inv_fst_snd f j U.ι
   let p₁ := pullback.fst f j
   let r₁ := pullback.fst f (U.ι ≫ j)
   have heX : e.hom ≫ W.ι ≫ p₁ = r₁ := by
-    show α.inv ≫ β.hom ≫ W.ι ≫ p₁ = r₁
+    change α.inv ≫ β.hom ≫ W.ι ≫ p₁ = r₁
     rw [pullbackRestrictIsoRestrict_hom_ι_assoc]
     exact pullbackLeftPullbackSndIso_inv_fst f j U.ι
   let M := (Scheme.Modules.pullback p₁).obj F
@@ -240,7 +240,7 @@ private theorem exists_noetherian_flat_strata
       · exact (Scheme.IdealSheafData.vanishingIdeal_antimono hDC.le).trans hI0.ge
       · simpa [I'] using hIle j
     · refine Fin.cases ?_ (fun j => ?_) k
-      · show flatStratum f F (Scheme.IdealSheafData.vanishingIdeal C) (I 0)
+      · change flatStratum f F (Scheme.IdealSheafData.vanishingIdeal C) (I 0)
         rw [hI0]
         exact hflat
       · simpa [I'] using hIflat j

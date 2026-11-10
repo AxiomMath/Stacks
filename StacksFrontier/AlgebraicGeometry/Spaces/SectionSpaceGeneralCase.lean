@@ -165,7 +165,7 @@ theorem isEtale_of_isEtale_terminal_from {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ T
   exact etale_of_etale_over ((BigFppfOver.toScheme B S hS).map m)
     (p := B.inclusion.map A.hom) (q := B.inclusion.map C.hom)
     (by
-      show B.inclusion.map m.left ≫ B.inclusion.map C.hom = B.inclusion.map A.hom
+      change B.inclusion.map m.left ≫ B.inclusion.map C.hom = B.inclusion.map A.hom
       rw [← B.inclusion.map_comp]
       exact congrArg B.inclusion.map (Over.w m))
 
@@ -232,6 +232,7 @@ end Relocalize
 /-! ### The kernel pair of a comparison of spaces of sections -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site over `U` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_SectionSpaceGeneralCase {B : BigFppfSite.{u}}
@@ -376,7 +377,7 @@ theorem isPullback_sectionSpaceMap_self (hp : p ≫ w = w₁) :
   · refine NatTrans.ext (funext fun T₀ => ConcreteCategory.hom_ext _ _ fun s => ?_)
     obtain ⟨T⟩ := T₀
     apply (sectionSpaceEquiv B U hU Z T W w).injective
-    show sectionSpaceEquiv B U hU Z T W w ((sectionSpaceMap hp).app (op T)
+    change sectionSpaceEquiv B U hU Z T W w ((sectionSpaceMap hp).app (op T)
         ((sectionSpaceMap (pullback_fst_comp_eq_snd_comp hp)).app (op T) s)) =
       sectionSpaceEquiv B U hU Z T W w ((sectionSpaceMap hp).app (op T)
         ((sectionSpaceMap (rfl : pullback.snd p p ≫ w₁ = pullback.snd p p ≫ w₁)).app (op T) s))
@@ -399,7 +400,7 @@ theorem isPullback_sectionSpaceMap_self (hp : p ≫ w = w₁) :
     · refine NatTrans.ext (funext fun T₀ => ConcreteCategory.hom_ext _ _ fun ξ => ?_)
       obtain ⟨T⟩ := T₀
       apply (sectionSpaceEquiv B U hU Z T W₁ w₁).injective
-      show sectionSpaceEquiv B U hU Z T W₁ w₁
+      change sectionSpaceEquiv B U hU Z T W₁ w₁
           ((sectionSpaceMap (pullback_fst_comp_eq_snd_comp hp)).app (op T)
             ((sectionSpacePairLift hp a b key).app (op T) ξ)) = _
       rw [sectionSpaceEquiv_sectionSpaceMap, sectionSpaceEquiv_sectionSpacePairLift]
@@ -408,7 +409,7 @@ theorem isPullback_sectionSpaceMap_self (hp : p ≫ w = w₁) :
     · refine NatTrans.ext (funext fun T₀ => ConcreteCategory.hom_ext _ _ fun ξ => ?_)
       obtain ⟨T⟩ := T₀
       apply (sectionSpaceEquiv B U hU Z T W₁ w₁).injective
-      show sectionSpaceEquiv B U hU Z T W₁ w₁
+      change sectionSpaceEquiv B U hU Z T W₁ w₁
           ((sectionSpaceMap (rfl : pullback.snd p p ≫ w₁ = pullback.snd p p ≫ w₁)).app (op T)
             ((sectionSpacePairLift hp a b key).app (op T) ξ)) = _
       rw [sectionSpaceEquiv_sectionSpaceMap, sectionSpaceEquiv_sectionSpacePairLift]
@@ -534,7 +535,7 @@ theorem sectionSpaceMap_diagonal_comp_snd (hp : p ≫ w = v) :
   refine NatTrans.ext (funext fun T₀ => ConcreteCategory.hom_ext _ _ fun s => ?_)
   obtain ⟨T⟩ := T₀
   apply (sectionSpaceEquiv B U hU Z T (yoneda.obj V) v).injective
-  show sectionSpaceEquiv B U hU Z T (yoneda.obj V) v
+  change sectionSpaceEquiv B U hU Z T (yoneda.obj V) v
       ((sectionSpaceMap (rfl : pullback.snd p p ≫ v = pullback.snd p p ≫ v)).app (op T)
         ((sectionSpaceMap (diagonal_comp_snd_comp hp)).app (op T) s)) =
       sectionSpaceEquiv B U hU Z T (yoneda.obj V) v s
@@ -551,7 +552,7 @@ theorem sectionSpaceMap_diagonal_comp_fst (hp : p ≫ w = v) :
   refine NatTrans.ext (funext fun T₀ => ConcreteCategory.hom_ext _ _ fun s => ?_)
   obtain ⟨T⟩ := T₀
   apply (sectionSpaceEquiv B U hU Z T (yoneda.obj V) v).injective
-  show sectionSpaceEquiv B U hU Z T (yoneda.obj V) v
+  change sectionSpaceEquiv B U hU Z T (yoneda.obj V) v
       ((sectionSpaceMap (pullback_fst_comp_eq_snd_comp hp)).app (op T)
         ((sectionSpaceMap (diagonal_comp_snd_comp hp)).app (op T) s)) =
       sectionSpaceEquiv B U hU Z T (yoneda.obj V) v s

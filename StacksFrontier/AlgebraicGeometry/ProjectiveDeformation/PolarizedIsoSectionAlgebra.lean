@@ -807,8 +807,8 @@ theorem isIso_algebraTwistFamily_one : IsIso (algebraTwistFamily φ d₀ hd₀ �
 include e in
 /-- **The round trip.** If the polarization of a morphism of deformations `φ` satisfies the
 equation of `canonicalTwistMap_comp_polarization` for an algebra map `γ`, then `γ` agrees with
-`algebraPullbackSheafHom φ` on the pullbacks of homogeneous sections of degree `d ≥ d₀` over an
-affine open: by [Stacks, Tag 01O9] the two families agree in all degrees
+`algebraPullbackSheafHom φ` on the pullbacks of homogeneous sections of degree `d ≥ d₀` over any
+open: by [Stacks, Tag 01O9] the two families agree in all degrees
 (`TwistDegreeOne.eq_of_unitMul_of_app_one`), and the comparison `𝒜'_d ⟶ (f'_1)_*(ℒ'_1)^{⊗ d}` is
 injective. -/
 theorem algebraPullbackSheafHom_app_unitApp_eq
@@ -830,7 +830,7 @@ theorem algebraPullbackSheafHom_app_unitApp_eq
         (Scheme.Modules.pullback (D₁.canonicalProjHom d₀ hd₀)).map
           ((baseChangeTwistHom γ hγ).app 1) ≫
         D₁.canonicalTwistMap d₀ hd₀)
-    (V : D₂.S'.Opens) (hV : IsAffineOpen V) (d : ℕ) (hd : d₀ ≤ d)
+    (V : D₂.S'.Opens) (d : ℕ) (hd : d₀ ≤ d)
     (a : Γ((D₂.truncatedSectionAlgebra d₀ hd₀).piece (d : ℤ), V)) :
     ((algebraPullbackSheafHom φ d₀ hd₀).app (d : ℤ)).app (φ.base ⁻¹ᵁ V)
         (unitApp φ.base ((D₂.truncatedSectionAlgebra d₀ hd₀).piece (d : ℤ)) V a) =
@@ -913,11 +913,13 @@ variable {S X Y : Scheme.{u}} {f : X ⟶ S} {g : Y ⟶ S} {L : X.Modules} {M : Y
     (hM : Stacks.RelativeAmple.IsRelativelyAmple g M)
     (d₀ : ℕ) (hd₀ : 0 < d₀) (φ : PolarizedIsoOver f g L M)
 
+omit [QuasiCompact f] [QuasiSeparated f] in
 /-- `r'` of the deformation along `φ` is `r'` of the target family. -/
 theorem canonicalProjHom_deformationOfIsoOver :
     ((PolarizedFamily.ofMorphism f L hf hL).deformationOfIsoOver hg φ).canonicalProjHom d₀ hd₀ =
       canonicalProjHomOfMorphism g M hg hM d₀ hd₀ := rfl
 
+omit [QuasiCompact f] [QuasiSeparated f] in
 /-- `θ'` of the deformation along `φ` is `θ'` of the target family. -/
 theorem heq_canonicalTwistMap_deformationOfIsoOver :
     HEq (((PolarizedFamily.ofMorphism f L hf hL).deformationOfIsoOver hg φ).canonicalTwistMap d₀
@@ -1023,11 +1025,13 @@ instance isIso_algebraHomOfSectionsIso_app (n : ℤ) :
     (SheafGradedAlgebraHom.globalDatumIsoEquiv.symm I).1.app n)
   infer_instance
 
+omit [IsProper f] [Flat f] [IsProper g] [Flat g] in
 /-- `algebraHomOfSectionsIso` is an isomorphism in all large degrees. -/
 theorem eventually_isIso_algebraHomOfSectionsIso :
     ∀ᶠ d : ℕ in Filter.atTop, IsIso ((algebraHomOfSectionsIso d₀ hd₀ I).app (d : ℤ)) :=
   Filter.Eventually.of_forall fun _ => inferInstance
 
+omit [IsProper f] [Flat f] [IsProper g] [Flat g] in
 /-- `algebraHomOfSectionsIso` acts on global sections by the given isomorphism of data. -/
 theorem algebraHomOfSectionsIso_app_pullbackSectionTop (n : ℕ)
     (a : Γ((tailAlgebra g M d₀ hd₀).piece (n : ℤ), ⊤)) :
@@ -1047,6 +1051,7 @@ abbrev projHomOfSectionsIso :
     Stacks.AlgebraicGeometry.RelativeProjBaseChangeTwist.baseChangeHom (tailAlgebra g M d₀ hd₀)
       (𝟙 S)
 
+omit [IsProper f] [Flat f] [IsProper g] [Flat g] in
 /-- The square of `projHomOfSectionsIso` over `𝟙 S` is cartesian. -/
 theorem isPullback_projHomOfSectionsIso :
     IsPullback (projHomOfSectionsIso d₀ hd₀ I) (relativeProj (tailAlgebra f L d₀ hd₀)).toBase
@@ -1115,6 +1120,7 @@ abbrev ofSectionsIso : PolarizedIsoOver f g L M where
   comm := totalIsoOfSectionsIso_hom_comp hf hg hL hM d₀ hd₀ I
   pol := polarizationOfSectionsIso hf hg hL hM d₀ hd₀ I
 
+omit [QuasiCompact f] [QuasiSeparated f] [QuasiCompact g] [QuasiSeparated g] in
 /-- The polarization of `homOfIsoOver φ` is the comparison of polarizations of `φ`. -/
 theorem heq_polarization_homOfIsoOver (φ : PolarizedIsoOver f g L M) :
     HEq φ.pol ((PolarizedFamily.ofMorphism f L hf hL).homOfIsoOver hg φ).polarization := HEq.rfl
@@ -1241,7 +1247,7 @@ theorem sectionsHom_ofSectionsIso_app (n : ℕ) (hn : d₀ ≤ n)
   have hγ' := eventually_isIso_algebraHomOfSectionsIso d₀ hd₀ I
   have core := algebraPullbackSheafHom_app_unitApp_eq
     ((PolarizedFamily.ofMorphism f L hf hL).homOfIsoOver hg (ofSectionsIso hf hg hL hM d₀ hd₀ I))
-    d₀ hd₀ (algebraHomOfSectionsIso d₀ hd₀ I) hγ' ?_ ?_ ?_ ⊤ (isAffineOpen_top S) n hn a
+    d₀ hd₀ (algebraHomOfSectionsIso d₀ hd₀ I) hγ' ?_ ?_ ?_ ⊤ n hn a
   · have hu : pullbackSectionTop (tailAlgebra g M d₀ hd₀) (n : ℤ) a =
         unitApp ((PolarizedFamily.ofMorphism f L hf hL).homOfIsoOver hg
           (ofSectionsIso hf hg hL hM d₀ hd₀ I)).base

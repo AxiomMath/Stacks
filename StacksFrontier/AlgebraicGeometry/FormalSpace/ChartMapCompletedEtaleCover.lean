@@ -287,7 +287,7 @@ theorem isCompletedEtaleFiniteCoverOfChartMap_of_presentation
     rw [formalSpectrumMap_comp_eq hccwa hprodwa chSymm chOf]
     refine formalSpectrumMap_id hprodwa _ ?_
     refine RingHom.ext fun x ↦ ?_
-    show ew (ew.symm x) = x
+    change ew (ew.symm x) = x
     exact ew.apply_symm_apply x
   have hρ : formalSpectrumMap hccwa chSymm ≫ formalSpectrumMap hRwa gc =
       formalSpectrumMap hRwa gprod := by
@@ -343,7 +343,7 @@ theorem isCompletedEtaleFiniteCoverOfChartMap_of_presentation
     Dz Ew εw εz μ hmeq bz hbzE (fun i ↦ RingEquiv.refl _) (fun _ ↦ continuous_id)
     (fun _ ↦ continuous_id) c hcE hcff ew hewc hewsc ?_
   refine RingHom.ext fun x ↦ funext fun i ↦ ?_
-  show ew (TopologicalRing.CompletionOver.canonicalMap c (g.toRingHom x)) i = _
+  change ew (TopologicalRing.CompletionOver.canonicalMap c (g.toRingHom x)) i = _
   rw [hcanon]
   have := RingHom.congr_fun (hkey i) x
   simp only [RingHom.coe_comp, Function.comp_apply] at this ⊢

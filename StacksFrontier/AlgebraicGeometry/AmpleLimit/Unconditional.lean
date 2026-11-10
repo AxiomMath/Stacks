@@ -49,8 +49,8 @@ finitely presented.
 ## Implementation notes
 
 Tag 01ZR (2) is `Stacks.AlgebraicGeometry.ModuleLimits.exists_map_of_pullback_of_isLimit`
-(`StacksFrontier/AlgebraicGeometry/ModuleLimits/LocalDescentRefine.lean`), and it is applied with the structure sheaf of the
-stage as the source module: that is finitely presented by
+(`StacksFrontier/AlgebraicGeometry/ModuleLimits/LocalDescentRefine.lean`), and it is applied with
+the structure sheaf of the stage as the source module: that is finitely presented by
 `...ModuleLimits.isFinitePresentation_unit`, and `M^{⊗ n}` is finitely presented because it is
 invertible (`Stacks.SheafOfModules.Invertible.tensorPower_isInvertible` followed by
 `AlgebraicGeometry.SheafOfModules.isFinitePresentation_of_isInvertible`).
@@ -205,7 +205,7 @@ theorem pullbackUnitIso_inv_canHom {W Z X : Scheme.{u}} (q : W ⟶ Z) (g : Z ⟶
     pullbackSection_top_eq pi (SheafOfModules.unit X.ringCatSheaf) (1 : Γ(X, ⊤))] at hc
   have hn := pullbackUnitSections_naturality_module q (pullbackUnitIso g).inv ⊤ (1 : Γ(Z, ⊤))
   simp only [AlgebraicGeometry.Scheme.unitModule] at hn
-  show Scheme.Modules.Hom.app (canHom q g pi hpi (SheafOfModules.unit X.ringCatSheaf)) ⊤
+  change Scheme.Modules.Hom.app (canHom q g pi hpi (SheafOfModules.unit X.ringCatSheaf)) ⊤
       (Scheme.Modules.Hom.app ((Scheme.Modules.pullback q).map (pullbackUnitIso g).inv)
         (q ⁻¹ᵁ ⊤) (Scheme.Modules.Hom.app (pullbackUnitIso q).inv ⊤ (1 : Γ(W, ⊤)))) = _
   rw [pullbackUnitIso_inv_app_top_one q, hn, pullbackUnitIso_inv_app_top_one g]

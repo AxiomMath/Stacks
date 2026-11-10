@@ -324,7 +324,7 @@ theorem ofArrows_mem_topology_openChartGlueData
       (((openChartGlueData hf).gluedIso (BigFppfOver.toScheme B S hS)).hom x)
     refine ⟨i, y, ((openChartGlueData hf).gluedIso
       (BigFppfOver.toScheme B S hS)).hom.isOpenEmbedding.injective ?_⟩
-    show ((BigFppfOver.toScheme B S hS).map ((openChartGlueData hf).ι i) ≫
+    change ((BigFppfOver.toScheme B S hS).map ((openChartGlueData hf).ι i) ≫
       ((openChartGlueData hf).gluedIso (BigFppfOver.toScheme B S hS)).hom) y = _
     rw [hcomp i]
     exact hy
@@ -353,7 +353,7 @@ theorem isRepresentable_of_openCharts (H : Sheaf (BigFppfOver.topology B S hS) (
     intro i j
     refine (yonedaEquiv_naturality (p i) (D.f i j)).trans
       ((congrArg yonedaEquiv ?_).trans (yonedaEquiv_naturality (p j) (D.t i j ≫ D.f j i)).symm)
-    show yoneda.map ((hp i).rep.fst' (p j)) ≫ p i =
+    change yoneda.map ((hp i).rep.fst' (p j)) ≫ p i =
       yoneda.map ((hp i).rep.symmetry (hp j).rep ≫ (hp j).rep.fst' (p i)) ≫ p j
     rw [Functor.relativelyRepresentable.symmetry_fst]
     exact ((hp i).rep.isPullback' (p j)).w
@@ -364,13 +364,13 @@ theorem isRepresentable_of_openCharts (H : Sheaf (BigFppfOver.topology B S hS) (
   have hηfac : ∀ i, yoneda.map (D.ι i) ≫ η = p i := fun i => by
     refine yonedaEquiv.injective ?_
     rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
-    show H.obj.map (D.ι i).op
+    change H.obj.map (D.ι i).op
       (Multifork.IsLimit.sectionsEquiv (E.isLimitMultifork H) sec) = yonedaEquiv (p i)
     exact Multifork.IsLimit.sectionsEquiv_apply_val (E.isLimitMultifork H) sec i
   have hls : Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS) η := by
     let hmap : ∀ i, yoneda.obj (X i) ⟶ yoneda.obj D.glued := fun i => yoneda.map (D.ι i)
     have hfac : Sigma.desc hmap ≫ η = Sigma.desc p :=
-      Sigma.hom_ext _ _ fun i ↦ by rw [Sigma.ι_desc_assoc, Sigma.ι_desc]; exact hηfac i
+      Sigma.hom_ext _ _ fun i ↦ by rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]; exact hηfac i
     exact Presheaf.isLocallySurjective_of_isLocallySurjective_fac _ hfac
   have hcompToGlued : ∀ {V : BigFppfOver B S hS} {i j : I} (a : V ⟶ X i) (b : V ⟶ X j),
       yoneda.map a ≫ p i = yoneda.map b ≫ p j → a ≫ D.ι i = b ≫ D.ι j := by
@@ -395,7 +395,7 @@ theorem isRepresentable_of_openCharts (H : Sheaf (BigFppfOver.topology B S hS) (
         ((BigFppfOver.topology B S hS).pullback_stable α hcov)
         ((BigFppfOver.topology B S hS).pullback_stable β hcov))
     rintro W γ ⟨⟨W₁, a, -, ⟨i⟩, fac₁⟩, ⟨W₂, b, -, ⟨j⟩, fac₂⟩⟩
-    show γ ≫ α = γ ≫ β
+    change γ ≫ α = γ ≫ β
     have h' : yoneda.map a ≫ p i = yoneda.map b ≫ p j := by
       have hh : yoneda.map (γ ≫ α) ≫ η = yoneda.map (γ ≫ β) ≫ η := by
         simpa only [Functor.map_comp, Category.assoc] using

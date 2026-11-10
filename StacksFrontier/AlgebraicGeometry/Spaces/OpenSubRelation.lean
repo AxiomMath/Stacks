@@ -145,7 +145,7 @@ theorem mem_range_identitySection_iff {T : Over (B.inclusion.obj (B.obj hS))}
     set l := IsOpenImmersion.lift r.left (N.ι ≫ g.left) hrange with hl
     have hfac : l ≫ r.left = N.ι ≫ g.left := IsOpenImmersion.lift_fac _ _ _
     refine ⟨N, hp, ?_⟩
-    show N.ι ≫ g.left ≫ ((Over.post B.inclusion).map t).left =
+    change N.ι ≫ g.left ≫ ((Over.post B.inclusion).map t).left =
       N.ι ≫ g.left ≫ ((Over.post B.inclusion).map s).left
     rw [← Category.assoc, ← Category.assoc, ← hfac, Category.assoc, Category.assoc,
       identitySection_left_comp r t hrt, identitySection_left_comp r s hrs]
@@ -236,7 +236,7 @@ theorem rel_iff (G : ((BigFppfOver.toScheme B S hS).obj U).Opens)
     have hfac : l ≫ (opens s t r hrs G).ι = g.left := IsOpenImmersion.lift_fac _ _ _
     let g' : T ⟶ (Over.post B.inclusion).obj (subObject s t r hrs G) :=
       Over.homMk l (by
-        show l ≫ (opens s t r hrs G).ι ≫ B.inclusion.map R.hom = T.hom
+        change l ≫ (opens s t r hrs G).ι ≫ B.inclusion.map R.hom = T.hom
         rw [← Category.assoc, hfac]
         exact Over.w g)
     have hg' : g' ≫ (Over.post B.inclusion).map (subι s t r hrs G) = g := by
@@ -300,12 +300,12 @@ theorem isEtaleEquivalenceRelation (G : ((BigFppfOver.toScheme B S hS).obj U).Op
   have hs' : Etale (Space.relation B S hS (subι s t r hrs G ≫ s)
       (subι s t r hrs G ≫ t)).source.left := by
     rw [TwistedAffineLine.relation_source_eq]
-    show Etale ((opens s t r hrs G).ι ≫ ((Over.post B.inclusion).map s).left)
+    change Etale ((opens s t r hrs G).ι ≫ ((Over.post B.inclusion).map s).left)
     exact MorphismProperty.comp_mem @Etale _ _ inferInstance hetS
   have ht' : Etale (Space.relation B S hS (subι s t r hrs G ≫ s)
       (subι s t r hrs G ≫ t)).target.left := by
     rw [TwistedAffineLine.relation_target_eq]
-    show Etale ((opens s t r hrs G).ι ≫ ((Over.post B.inclusion).map t).left)
+    change Etale ((opens s t r hrs G).ι ≫ ((Over.post B.inclusion).map t).left)
     exact MorphismProperty.comp_mem @Etale _ _ inferInstance hetT
   exact @IsEtaleEquivalenceRelation.mk _ _ _ _ hequiv hs' ht'
 
@@ -338,7 +338,7 @@ theorem exists_isOpen_forall_eq (G : ((BigFppfOver.toScheme B S hS).obj U).Opens
     r.left.isOpenEmbedding.isOpen_range.preimage (opens s t r hrs G).ι.continuous, hrange,
     fun ε' hε' ↦ ?_⟩
   obtain ⟨v, hv⟩ := hε'
-  show ((Over.post B.inclusion).map s).left ((opens s t r hrs G).ι ε') =
+  change ((Over.post B.inclusion).map s).left ((opens s t r hrs G).ι ε') =
     ((Over.post B.inclusion).map t).left ((opens s t r hrs G).ι ε')
   have hv' : r.left v = (opens s t r hrs G).ι ε' := hv
   rw [← hv', ← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply,

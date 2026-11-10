@@ -88,7 +88,7 @@ theorem PoincareDualityPushforwardSetup.pushforward_mul_pullback
     (S.integration Y).toLinearMap i).IsPerfPair := S.perfect Y i
   refine (LinearMap.IsPerfPair.bijective_right ((S.H Y).tracePairing (S.dimension Y)
     (S.integration Y).toLinearMap i)).injective (LinearMap.ext fun c ↦ ?_)
-  show (S.H Y).tracePairing (S.dimension Y) (S.integration Y).toLinearMap i c _ =
+  change (S.H Y).tracePairing (S.dimension Y) (S.integration Y).toLinearMap i c _ =
     (S.H Y).tracePairing (S.dimension Y) (S.integration Y).toLinearMap i c _
   rw [← S.integration_pullback_mul f i c]
   have hX := congrArg (S.integration X)
@@ -106,7 +106,7 @@ theorem PoincareDualityPushforwardSetup.pushforward_mul_pullback
       (ExternallyGraded.degreeCast (R := F) (by omega)
         ((S.H Y).mul (i + j) (2 * (S.dimension Y : ℤ) - (i + j))
           ((S.H Y).mul i j c b) (S.pushforward f (i + j) a))) at hAdj
-  show S.integration X
+  change S.integration X
       (ExternallyGraded.degreeCast (R := F) (by omega)
         ((S.H X).mul i (2 * (S.dimension X : ℤ) - i) (S.pullback f i c)
           (ExternallyGraded.degreeCast (R := F) (by omega)

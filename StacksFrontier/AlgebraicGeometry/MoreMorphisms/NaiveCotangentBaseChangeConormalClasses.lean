@@ -122,7 +122,7 @@ theorem map_conormalClassX_of_restrictScalars {K : CochainComplex (_root_.SheafO
     (m.val.app U (conormalClassX a φ eK U s) : (L.X (-1)).val.obj U) =
       conormalClassX a' φ' eL U t := by
   subst hm
-  show ((_root_.SheafOfModules.restrictScalars.{u} (underlyingRingHomOfSite (J :=
+  change ((_root_.SheafOfModules.restrictScalars.{u} (underlyingRingHomOfSite (J :=
       Opens.grothendieckTopology T) β)).map
     (eqToHom eL.symm)).val.app U (c.val.app U ((eqToHom eK).val.app U _)) = _
   rw [eqToHom_val_app_conormalClassX, hc, restrictScalars_map_eqToHom_val_app]
@@ -1213,6 +1213,7 @@ section PresentationToNaiveCotangent
 
 variable {X P Y : Scheme.{u}} (i : X ⟶ P) (h : P ⟶ Y) [IsImmersion i]
 
+omit [IsImmersion i] in
 /-- The evaluation of a polynomial relation `s`, read over `(i ≫ h)⁻¹𝒪_Y`, lies in the kernel
 ideal of the canonical presentation of `𝒪_X` over `(i ≫ h)⁻¹𝒪_Y`. -/
 theorem evaluation_comp_inv_mem_kernelIdeal (U : (Opens X.carrier)ᵒᵖ)

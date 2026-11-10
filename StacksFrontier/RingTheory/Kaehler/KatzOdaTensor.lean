@@ -76,8 +76,7 @@ theorem exteriorAlgebraBaseChange_tensorBaseChange (k : ℕ) (z : B ⊗[A] ⋀[A
     ProjectiveDeterminant.exteriorAlgebraBaseChange A B M
         (tensorBaseChange A B M k z : ExteriorAlgebra B (B ⊗[A] M)) =
       (⋀[A]^k M).subtype.lTensor B z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, Submodule.coe_add, hx, hy]
   | tmul b x =>
     induction x using induction_ιMulti with

@@ -311,7 +311,7 @@ theorem lineTransition_X : lineTransition k RatFunc.X = (RatFunc.X : RatFunc k)�
   have hprod : chartFunctionFieldEquiv k (lineChartY k) (lineCoordinateX k) * RatFunc.X
       = (1 : RatFunc k) := by
     rw [← hY, ← map_mul, lineCoordinateX_mul_lineCoordinateY, map_one]
-  show chartFunctionFieldEquiv k (lineChartY k) (lineCoordinateX k) = _
+  change chartFunctionFieldEquiv k (lineChartY k) (lineCoordinateX k) = _
   exact eq_inv_of_mul_eq_one_left hprod
 
 /-- A chart of `ℙ¹_k` carries the constant rational function of a scalar to the corresponding
@@ -350,7 +350,7 @@ theorem lineTransition_algebraMap (x : k) :
       = (lineOver k).germToFunctionField ⊤ ((lineOver k ↘ lineBase k).appTop
         ((Scheme.ΓSpecIso (CommRingCat.of k)).inv x)) := by
     rw [← hX, RingEquiv.symm_apply_apply]
-  show chartFunctionFieldEquiv k (lineChartY k)
+  change chartFunctionFieldEquiv k (lineChartY k)
     ((chartFunctionFieldEquiv k (lineChartX k)).symm (algebraMap k (RatFunc k) x)) = _
   rw [key]
   exact hY
@@ -431,7 +431,7 @@ theorem principalDivisorDegree_lineOver_eq_zero (h : (lineOver k).functionField)
   have htrans : chartFunctionFieldEquiv k (lineChartY k) h
       = lineTransition k (chartFunctionFieldEquiv k (lineChartX k) h) := by
     rw [lineTransition]
-    show _ = chartFunctionFieldEquiv k (lineChartY k)
+    change _ = chartFunctionFieldEquiv k (lineChartY k)
       ((chartFunctionFieldEquiv k (lineChartX k)).symm
         (chartFunctionFieldEquiv k (lineChartX k) h))
     rw [RingEquiv.symm_apply_apply]

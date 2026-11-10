@@ -79,8 +79,8 @@ from step 1 being split without any compatibility of the comparison with the pro
 
 The conclusion holds for a sheaf crystal, with no further hypothesis: the crystal condition is
 the only one, and it is the source's own.  Local quasi-coherence, which [Stacks, Tag 0FZE] asks
-for, is **not needed**: since `q₀` is the identity on underlying topological spaces, the projection-formula
-map at `q₀` is invertible for every sheaf of modules, by
+for, is **not needed**: since `q₀` is the identity on underlying topological spaces, the
+projection-formula map at `q₀` is invertible for every sheaf of modules, by
 `Crystalline.isIso_secondOrderThickeningProjectionFormulaMap`.  The same applies to
 the degree-one identification.
 
@@ -244,7 +244,7 @@ theorem isSplitMono_secondOrderTensorComparison_of_isIso
   have := isIso_secondOrderTensorToAmbient M A hc
   have := isSplitMono_secondOrderThickeningTensorTopInr A.thickening.target S.S.scheme
     A.toBase.hom (Thickening.ambientSchemeModule M A)
-  show IsSplitMono (secondOrderThickeningTensorTopInr A.thickening.target S.S.scheme A.toBase.hom
+  change IsSplitMono (secondOrderThickeningTensorTopInr A.thickening.target S.S.scheme A.toBase.hom
     (Thickening.ambientSchemeModule M A) ≫ secondOrderTensorToAmbient M A)
   infer_instance
 

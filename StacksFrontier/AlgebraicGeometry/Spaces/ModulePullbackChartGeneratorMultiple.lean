@@ -95,7 +95,7 @@ theorem bijective_smul_of_isUnit_smul {R : Type*} [CommRing R] {N : Type*} [AddC
     refine ⟨fun a b hab ↦ ?_, fun z ↦ ⟨z * ((w⁻¹ : Rˣ) : R), ?_⟩⟩
     · have := congrArg (fun z : R ↦ z * ((w⁻¹ : Rˣ) : R)) hab
       simpa only [mul_assoc, Units.mul_inv, mul_one] using this
-    · show z * ((w⁻¹ : Rˣ) : R) * (w : R) = z
+    · change z * ((w⁻¹ : Rˣ) : R) * (w : R) = z
       rw [mul_assoc, Units.inv_mul, mul_one]
   have hcomp : (fun r : R ↦ r • x) = (fun z : R ↦ z • y) ∘ fun r : R ↦ r * (w : R) := by
     funext r

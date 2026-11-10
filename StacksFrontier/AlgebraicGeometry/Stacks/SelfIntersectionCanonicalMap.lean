@@ -922,7 +922,7 @@ theorem descent_compatible (hsetU : 𝒰.val.p.IsFiberedInSetoids)
         hb := (representingObjIsoOfSection eU r.y (relation_obj_y rfl)).hom.2
         w := hw }
       (TwoFibreProductOver.structureFunctor_isHomLift _ (𝟙 r.base) ha)
-  show (representingComparisonIso eU r.y (relation_obj_y rfl)).inv ≫
+  change (representingComparisonIso eU r.y (relation_obj_y rfl)).inv ≫
       toStackOfPointwiseGroupoidMap eU eR hsetU (descentArrow eU eR hsetU r rfl) ≫
       (representingComparisonIso eU r.x (relation_obj_x rfl)).hom = r.iso.inv
   rw [toStackOfPointwiseGroupoidMap_eq eU eR hsetU (descentArrow eU eR hsetU r rfl)

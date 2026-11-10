@@ -192,7 +192,7 @@ private theorem stalk_tensorMap_surjective_of_stalk_surjective
     Stacks.SheafOfModules.TensorStalkRingedSpace.stalkModule X.toRingedSpace
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj B).obj G).val x
-  show Function.Surjective (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X.toRingedSpace
+  change Function.Surjective (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X.toRingedSpace
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj A).obj G).val
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
@@ -467,8 +467,7 @@ theorem denominatorBadLocus_isClosed
     (L : SheafOfModules.{u} X.ringCatSheaf)
     (s : MeromorphicSection X.sheaf L)
     [IsLocallyNoetherian X]
-    (hL : AlgebraicGeometry.SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L)
-    (hs : IsRegularMeromorphicSection X.sheaf L s) :
+    (hL : AlgebraicGeometry.SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L) :
     IsClosed (denominatorBadLocus X L s) := by
   let : Stacks.SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L :=
     (Stacks.SheafOfModules.isInvertible_iff_algebraicGeometry _ _ L).mpr hL
@@ -483,10 +482,10 @@ theorem denominatorBadLocus_isClosed
     intro M N _ f
     have : (cokernel f).IsFiniteType :=
       Stacks.SheafOfModules.isFiniteType_of_epi.{u, u, u} (cokernel.π f) inferInstance
-    show IsClosed ((AlgebraicGeometry.SheafOfModules.moduleSheafOfModules (cokernel f)).supp)
+    change IsClosed ((AlgebraicGeometry.SheafOfModules.moduleSheafOfModules (cokernel f)).supp)
     rw [SheafOfModules.supp_eq_moduleSheaf_supp]
     exact SheafOfModules.isClosed_supp _
-  show IsClosed
+  change IsClosed
     ((AlgebraicGeometry.SheafOfModules.moduleSheafOfModules
         (cokernel (denominatorIdealι X L s))).supp ∪
       (AlgebraicGeometry.SheafOfModules.moduleSheafOfModules
@@ -531,7 +530,7 @@ private theorem stalk_mono {A B : _root_.SheafOfModules.{u} X.ringCatSheaf} (f :
   have : Mono f.val := (SheafOfModules.forget X.ringCatSheaf).map_mono f
   have : Mono ((PresheafOfModules.toPresheaf X.ringCatSheaf.obj).map f.val) :=
     (PresheafOfModules.toPresheaf X.ringCatSheaf.obj).map_mono f.val
-  show Function.Injective (ConcreteCategory.hom
+  change Function.Injective (ConcreteCategory.hom
     ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
       ((PresheafOfModules.toPresheaf X.ringCatSheaf.obj).map f.val)))
   apply TopCat.Presheaf.stalkFunctor_map_injective_of_app_injective
@@ -595,7 +594,7 @@ private theorem stalk_tensorRight_map_eq_zero
     A G B G f (𝟙 G)
   rw [hf', TensorProduct.map_zero_left, LinearMap.zero_comp] at hnat
   ext z
-  show Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X.toRingedSpace
+  change Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X.toRingedSpace
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj A).obj G).val
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
@@ -639,7 +638,7 @@ private theorem stalk_tensorRight_map_mono
       ((AlgebraicGeometry.SheafOfModules.stalkFunctor X.ringCatSheaf x).map_id G)
   rw [hid] at hnat
   apply (ModuleCat.mono_iff_injective _).2
-  show Function.Injective (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X.toRingedSpace
+  change Function.Injective (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X.toRingedSpace
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj A).obj G).val
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
@@ -783,7 +782,7 @@ private theorem associated_not_mem_denominatorBadLocus
       e.continuous e.isOpenMap (fun y => Set.Subsingleton.isPreirreducible
         (fun a ha b hb => e.injective (ha.trans hb.symm))) e.surjective hZ
   exact genericPoint_not_mem_closed_nowhereDense X hZ' hxZ
-    (denominatorBadLocus_isClosed X L s hL hs) (denominatorBadLocus_isNowhereDense X L s hL hs)
+    (denominatorBadLocus_isClosed X L s hL) (denominatorBadLocus_isNowhereDense X L s hL hs)
 
 
 private theorem stalk_isIso_of_not_mem_cokernel_support

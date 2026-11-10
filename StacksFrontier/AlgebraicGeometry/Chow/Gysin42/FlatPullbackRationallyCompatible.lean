@@ -131,7 +131,7 @@ public theorem isRationallyEquivalentToZeroWithin_add (C : ChowSituation.{u}) {X
       funext fun t ↦ by cases t <;> rfl
     rw [hsets]
     exact locallyFinite_sum_elim _ _ hLocalW hLocalV
-  · show α.1 x + β.1 x = _
+  · change α.1 x + β.1 x = _
     rw [hg x, hh x]
     exact (principalDivisorFamilyCoefficient_sum C p W V hW hV g h hLocalW hLocalV x).symm
 
@@ -143,7 +143,7 @@ public theorem isRationallyEquivalentToZeroWithin_neg (C : ChowSituation.{u}) {X
     IsRationallyEquivalentToZeroWithin C p k (-α) T := by
   obtain ⟨J, W, hW, hDim, hLocal, hsub, g, hg⟩ := hα
   refine ⟨J, W, hW, hDim, hLocal, hsub, fun j ↦ (g j)⁻¹, fun x ↦ ?_⟩
-  show -α.1 x = principalDivisorFamilyCoefficient C p W hW (fun j ↦ (g j)⁻¹) x
+  change -α.1 x = principalDivisorFamilyCoefficient C p W hW (fun j ↦ (g j)⁻¹) x
   rw [hg x]
   unfold principalDivisorFamilyCoefficient
   rw [← finsum_neg_distrib]
@@ -328,7 +328,7 @@ private theorem extendCycleGroup_flatPullback_gysin_apply
     refine hx' ?_
     have hγ0 : γ.1 x' = 0 := by
       rw [hγ, flatPullback_apply, hzero (f.base x') hne, zero_mul]
-    show γ.1 x' * (gysinComponentCycleAt C (f ≫ p) (k + (r : ℤ))
+    change γ.1 x' * (gysinComponentCycleAt C (f ≫ p) (k + (r : ℤ))
       ((Scheme.Modules.pullback f).obj L)
       (AlgebraicGeometry.pullbackGlobalSections f L s) chern' x').1 y' = 0
     rw [hγ0, zero_mul]
@@ -470,7 +470,7 @@ theorem flatPullback_gysinRule_rationallyEquivalent
       replace hcon : α.1 x = 0 := by
         simpa only [Function.mem_support, not_not] using hcon
       refine hx ?_
-      show (∑ᶠ x' ∈ f.base ⁻¹' {x}, G x') -
+      change (∑ᶠ x' ∈ f.base ⁻¹' {x}, G x') -
         α.1 x * (flatPullback C ((pullbackZeroScheme f L s).subschemeι ≫ (f ≫ p))
           ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ p) g hbase r hg k
           (gysinComponentCycleAt C p k L s chern x)).1 y' = 0
@@ -1086,7 +1086,7 @@ private theorem gysinComponentDifference_rationallyEquivalentToZeroWithin_of_le
           V.2.1.genericPoint)).subschemeι ≫ (f ≫ p)) (f ≫ p)
         (integralComponentAt (((integralComponentAt x).comap f).subschemeι.base
           V.2.1.genericPoint)).subschemeι rfl (k + (r : ℤ)) _ hz
-    show flatPullbackWeight C (f ≫ p) f (k + 1 + (r : ℤ))
+    change flatPullbackWeight C (f ≫ p) f (k + 1 + (r : ℤ))
         (((integralComponentAt x).comap f).subschemeι.base V.2.1.genericPoint) *
       (firstChernComponentCycleAt C (f ≫ p) (k + (r : ℤ)) R
         (((integralComponentAt x).comap f).subschemeι.base V.2.1.genericPoint)).1 z = 0

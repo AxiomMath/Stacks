@@ -131,7 +131,7 @@ private theorem componentClosure_denseFlat {X Y : Scheme.{u}} (f : X ⟶ Y)
 theorem fiber_isNoetherian {X Y : Scheme.{u}} (f : X ⟶ Y) [LocallyOfFiniteType f]
     [QuasiCompact f] (y : Y) : IsNoetherian (f.fiber y) := by
   have : LocallyOfFiniteType (f.fiberToSpecResidueField y) := by
-    show LocallyOfFiniteType (pullback.snd f (Y.fromSpecResidueField y))
+    change LocallyOfFiniteType (pullback.snd f (Y.fromSpecResidueField y))
     infer_instance
   have : IsLocallyNoetherian (f.fiber y) :=
     LocallyOfFiniteType.isLocallyNoetherian (f.fiberToSpecResidueField y)
@@ -167,7 +167,7 @@ theorem componentClosure_exists_open_image {X Y : Scheme.{u}} (f : X ⟶ Y)
   have hηI' : ∃ x : I.subscheme, g x = η' := by
     obtain ⟨x, hx⟩ := hηI
     have hred : eRed (g x) = η := by
-      show r (g x) = η
+      change r (g x) = η
       rw [← Scheme.Hom.comp_apply, componentClosureMap_fac]
       exact hx
     exact ⟨x, eRed.injective (by simpa [η'] using hred)⟩
@@ -180,7 +180,7 @@ theorem componentClosure_exists_open_image {X Y : Scheme.{u}} (f : X ⟶ Y)
   have hη'q : η' ∈ Set.range q := by
     obtain ⟨x, hx⟩ := hηI'
     have hxU : x ∈ g ⁻¹ᵁ U := by
-      show g x ∈ U
+      change g x ∈ U
       rw [hx]
       exact hη'U
     exact ⟨⟨x, hxU⟩, (q_apply ⟨x, hxU⟩).trans hx⟩
@@ -231,7 +231,7 @@ private theorem range_fiberMapComp_componentClosureSubscheme {X Y : Scheme.{u}} 
       exact ⟨(I.subschemeι ≫ f).fiberι η z, rfl⟩
     have hpre : Scheme.Hom.fiberMapComp I.subschemeι f η z ∈
         (f.fiberι η) ⁻¹' (I.support : Set X) := by
-      show f.fiberι η _ ∈ (I.support : Set X)
+      change f.fiberι η _ ∈ (I.support : Set X)
       rw [fiberι_fiberMapComp_apply]
       exact hz
     rwa [hsupport] at hpre
@@ -341,7 +341,7 @@ theorem exists_open_ncard_irreducibleComponents_fiber_ge {X Y : Scheme.{u}} (f :
             fun j _ => hCclosed j).preimage continuous_subtype_val) hBηproper)
     have hgeneric : (g.fiberι η) ⁻¹' Z = eI ⁻¹' Bη := by
       ext z
-      show ((I i).subschemeι (g.fiberι η z) ∈ D) ↔ ((eI z : f.fiber η) ∈ Dη)
+      change ((I i).subschemeι (g.fiberι η z) ∈ D) ↔ ((eI z : f.fiber η) ∈ Dη)
       have heval : (eI z : f.fiber η) = Scheme.Hom.fiberMapComp (I i).subschemeι f η z := rfl
       refine ⟨fun hz => ?_, fun hz => ?_⟩
       · obtain ⟨j, hj, hzj⟩ := Set.mem_iUnion₂.mp hz
@@ -391,10 +391,10 @@ theorem exists_open_ncard_irreducibleComponents_fiber_ge {X Y : Scheme.{u}} (f :
     obtain ⟨z', hz'⟩ := Set.nonempty_compl.mpr hbadproper
     have hfac := fiberι_fiberMapComp_apply (I i).subschemeι f y z'
     refine ⟨Scheme.Hom.fiberMapComp (I i).subschemeι f y z', ?_, fun j hji hxj => hz' ?_⟩
-    · show f.fiberι y _ ∈ ((I i).support : Set X)
+    · change f.fiberι y _ ∈ ((I i).support : Set X)
       rw [hfac, ← (I i).range_subschemeι]
       exact ⟨g.fiberι y z', rfl⟩
-    · show (I i).subschemeι (g.fiberι y z') ∈ ⋃ j ∈ Finset.univ.erase i, (I j).support
+    · change (I i).subschemeι (g.fiberι y z') ∈ ⋃ j ∈ Finset.univ.erase i, (I j).support
       rw [← hfac]
       exact Set.mem_iUnion₂.mpr ⟨j, Finset.mem_erase.mpr ⟨hji, Finset.mem_univ _⟩, hxj⟩
   have : IsNoetherian (f.fiber y) := fiber_isNoetherian f y

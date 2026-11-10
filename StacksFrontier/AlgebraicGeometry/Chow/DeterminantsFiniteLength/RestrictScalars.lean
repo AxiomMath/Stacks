@@ -727,7 +727,7 @@ public theorem determinantRestrictScalarsEquiv_exact
         rw [hidx]
         simp [f₀, Fin.append_right]
   have hconcat : eLrestrict = eL₀ := Subtype.ext <| funext fun j => by
-    show Fin.append (fun k => i (eK.1 k)) f
+    change Fin.append (fun k => i (eK.1 k)) f
         (Fin.cast hlenR (Fin.cast hLlen.symm j)) =
       Fin.append (fun k => i (eK₀.1 k)) f₀ (Fin.cast hlenR₀ j)
     rw [htotal j, happend]
@@ -747,7 +747,7 @@ public theorem determinantRestrictScalarsEquiv_exact
         ((ρ.symm c • symbol eK₀) ⊗ₜ[IsLocalRing.ResidueField R₀] symbol eM₀) =
         ρ.symm c • symbol eL₀ := by
     rw [← TensorProduct.smul_tmul', map_smul, hvalueR₀']
-  show (ρ.symm c * ρ.symm d) • symbol eLrestrict =
+  change (ρ.symm c * ρ.symm d) • symbol eLrestrict =
     ρ.symm d •
       determinantExactSequenceMap (i.restrictScalars R₀) (p.restrictScalars R₀)
         hi hp hip hK₀ hL₀ hM₀

@@ -59,7 +59,7 @@ public theorem functorPullback_generate_mem_toGrothendieck_of_zariskiRefinement
   obtain ⟨Q, hQ, hQle⟩ := hZariski T R hR
   refine K.toGrothendieck.superset_covering ?_ (Precoverage.generate_mem_toGrothendieck hQ)
   rintro Z f ⟨W, l, q, hq, rfl⟩
-  show (Sieve.generate R).arrows ((toOver ⋙ Over.forget S).map (l ≫ q))
+  change (Sieve.generate R).arrows ((toOver ⋙ Over.forget S).map (l ≫ q))
   rw [Functor.map_comp]
   exact (Sieve.generate R).downward_closed
     (hQle _ _ (Presieve.map_map (F := toOver ⋙ Over.forget S) hq)) _

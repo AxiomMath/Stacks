@@ -111,21 +111,28 @@ variable (D : MorphismOfThickenings.{u})
 theorem isIso_tensorSheafMap_id_right {Y : RingedSpace.{u, u}}
     {A B : SheafOfModules.{u} (structureSheafRing Y)} (f : A ⟶ B) (hf : IsIso f)
     (C : SheafOfModules.{u} (structureSheafRing Y)) :
-    IsIso (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf, ((Y)).IsSheaf⟩)).map ((f, (𝟙 C)) : (_, _) ⟶ (_, _)))) :=
-  (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf, ((Y)).IsSheaf⟩))).mapIso
+    IsIso (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨((Y)).presheaf, ((Y)).IsSheaf⟩)).map ((f, (𝟙 C)) : (_, _) ⟶ (_, _)))) :=
+  (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨((Y)).presheaf, ((Y)).IsSheaf⟩))).mapIso
     (Iso.prod (@asIso _ _ _ _ f hf) (Iso.refl C))).isIso_hom
 
 /-- **The right unitor `𝒜 ⊗_{𝒪_Y} 𝒪_Y ≅ 𝒜` is natural**: both sides send the local section
 `a ⊗ r` to `r • g(a)`. -/
 theorem tensorSheafMap_comp_tensorSheafUnitRightIso {Y : RingedSpace.{u, u}}
     {A B : SheafOfModules.{u} (structureSheafRing Y)} (g : A ⟶ B) :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Y).presheaf, (Y).IsSheaf⟩)).map ((g, (𝟙 (SheafOfModules.unit (structureSheafRing Y)))) : (_, _) ⟶ (_, _))) ≫
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨(Y).presheaf, (Y).IsSheaf⟩)).map
+        ((g, (𝟙 (SheafOfModules.unit (structureSheafRing Y)))) : (_, _) ⟶ (_, _))) ≫
         (AlgebraicGeometry.SheafOfModules.tensorSheafUnitRightIso Y B).hom =
       (AlgebraicGeometry.SheafOfModules.tensorSheafUnitRightIso Y A).hom ≫ g := by
   refine tensorSheaf_hom_ext fun V a r₀ => ?_
   let r : (structureSheafRing Y).obj.obj (op V) := r₀
   calc ((AlgebraicGeometry.SheafOfModules.tensorSheafUnitRightIso Y B).hom.val.app (op V)).hom
-          (((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Y).presheaf, (Y).IsSheaf⟩)).map ((g, (𝟙 (SheafOfModules.unit (structureSheafRing Y)))) : (_, _) ⟶ (_, _)))).val.app
+          (((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+              ⟨(Y).presheaf, (Y).IsSheaf⟩)).map
+                ((g, (𝟙 (SheafOfModules.unit (structureSheafRing Y)))) :
+                  (_, _) ⟶ (_, _)))).val.app
             (op V)).hom (toTensorSheafSection Y A _ (op V) (a ⊗ₜ[Y.presheaf.obj (op V)] r₀)))
       = ((AlgebraicGeometry.SheafOfModules.tensorSheafUnitRightIso Y B).hom.val.app (op V)).hom
           (toTensorSheafSection Y B _ (op V)
@@ -134,12 +141,14 @@ theorem tensorSheafMap_comp_tensorSheafUnitRightIso {Y : RingedSpace.{u, u}}
     _ = r • (g.val.app (op V)).hom a :=
         AlgebraicGeometry.SheafOfModules.tensorSheafUnitRightIso_hom_toTensorSheafSection Y B
           (op V) _ r
-    _ = (g.val.app (op V)).hom (r • (show A.val.obj (op V) from a)) := ((g.val.app (op V)).hom.map_smul r a).symm
+    _ = (g.val.app (op V)).hom (r • (show A.val.obj (op V) from a)) :=
+        ((g.val.app (op V)).hom.map_smul r a).symm
     _ = (g.val.app (op V)).hom
           (((AlgebraicGeometry.SheafOfModules.tensorSheafUnitRightIso Y A).hom.val.app
             (op V)).hom (toTensorSheafSection Y A _ (op V) (a ⊗ₜ[Y.presheaf.obj (op V)] r₀))) :=
-        congrArg _ (AlgebraicGeometry.SheafOfModules.tensorSheafUnitRightIso_hom_toTensorSheafSection
-          Y A (op V) a r).symm
+        congrArg _
+          (AlgebraicGeometry.SheafOfModules.tensorSheafUnitRightIso_hom_toTensorSheafSection
+            Y A (op V) a r).symm
 
 /-- In a commutative square with three isomorphic sides, the fourth side is an isomorphism. -/
 private theorem isIso_of_comm_sq_of_isIso {𝒞 : Type*} [Category 𝒞] {A B C D : 𝒞}
@@ -151,7 +160,9 @@ private theorem isIso_of_comm_sq_of_isIso {𝒞 : Type*} [Category 𝒞] {A B C 
 the right unitors. -/
 theorem isIso_of_isIso_tensorSheafMap_unit {Y : RingedSpace.{u, u}}
     {A B : SheafOfModules.{u} (structureSheafRing Y)} (g : A ⟶ B)
-    (hg : IsIso (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Y).presheaf, (Y).IsSheaf⟩)).map ((g, (𝟙 (SheafOfModules.unit (structureSheafRing Y)))) : (_, _) ⟶ (_, _))))) :
+    (hg : IsIso (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨(Y).presheaf, (Y).IsSheaf⟩)).map
+        ((g, (𝟙 (SheafOfModules.unit (structureSheafRing Y)))) : (_, _) ⟶ (_, _))))) :
     IsIso g :=
   isIso_of_comm_sq_of_isIso (tensorSheafMap_comp_tensorSheafUnitRightIso g) hg
     (AlgebraicGeometry.SheafOfModules.tensorSheafUnitRightIso Y A).isIso_hom
@@ -160,7 +171,9 @@ theorem isIso_of_isIso_tensorSheafMap_unit {Y : RingedSpace.{u, u}}
 /-- **Tensoring with a module isomorphic to the structure sheaf reflects isomorphisms.** -/
 theorem isIso_of_isIso_tensorSheafMap_id_right {Y : RingedSpace.{u, u}}
     {A B G : SheafOfModules.{u} (structureSheafRing Y)} (g : A ⟶ B)
-    (e : G ≅ SheafOfModules.unit (structureSheafRing Y)) (hg : IsIso (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Y).presheaf, (Y).IsSheaf⟩)).map ((g, (𝟙 G)) : (_, _) ⟶ (_, _))))) :
+    (e : G ≅ SheafOfModules.unit (structureSheafRing Y))
+    (hg : IsIso (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨(Y).presheaf, (Y).IsSheaf⟩)).map ((g, (𝟙 G)) : (_, _) ⟶ (_, _))))) :
     IsIso g :=
   isIso_of_isIso_tensorSheafMap_unit g
     (isIso_of_comm_sq_of_isIso (tensorSheafMap_id_comm g e.hom) hg
@@ -324,7 +337,8 @@ noncomputable def liftCoefficientIso {F : SheafOfModules.{u} (structureSheafRing
 
 /-- The acting group of Tag 08VR clause (3), `Hom_{𝒪_X}(ℱ, f^* 𝒥 ⊗_{𝒪_X} ℱ)`, identified with
 the acting group of **Stacks 08LJ** for a flat lift. -/
-noncomputable def liftHomEquiv {F : SheafOfModules.{u} (structureSheafRing D.X)} (A : FlatLift D F) :
+noncomputable def liftHomEquiv {F : SheafOfModules.{u} (structureSheafRing D.X)}
+    (A : FlatLift D F) :
     ((modulePullback D.i).obj A.module' ⟶ restrictionTensorBaseIdeal D A.module') ≃
       (F ⟶ baseIdealTensor D F) :=
   Iso.homCongr A.identification (liftCoefficientIso D A)
@@ -416,7 +430,8 @@ theorem existsUnique_eq_one_add_liftInfinitesimalEndo (hi : IsFirstOrderThickeni
 `Hom_{𝒪_X}(ℱ, f^* 𝒥 ⊗_{𝒪_X} ℱ)`**, by `δ ↦ 1 + ε_δ`. -/
 noncomputable def identityLiftAutEquiv (hi : IsFirstOrderThickening D.i) (hs : D.IsStrict)
     {F : SheafOfModules.{u} (structureSheafRing D.X)} (A : FlatLift D F) :
-    { φ : A.module' ≅ A.module' // (modulePullback D.i).map φ.hom = 𝟙 ((modulePullback D.i).obj A.module') } ≃
+    { φ : A.module' ≅ A.module' //
+        (modulePullback D.i).map φ.hom = 𝟙 ((modulePullback D.i).obj A.module') } ≃
       (F ⟶ baseIdealTensor D F) where
   toFun φ := (existsUnique_eq_one_add_liftInfinitesimalEndo D hi hs A φ.1.hom φ.2).exists.choose
   invFun δ := ⟨identityLiftAut D hi hs A δ, modulePullback_map_identityLiftAut_hom D hi hs A δ⟩
@@ -431,7 +446,8 @@ noncomputable def identityLiftAutEquiv (hi : IsFirstOrderThickening D.i) (hs : D
 /-- The automorphism attached to `identityLiftAutEquiv φ` is `φ`. -/
 theorem identityLiftAutEquiv_spec (hi : IsFirstOrderThickening D.i) (hs : D.IsStrict)
     {F : SheafOfModules.{u} (structureSheafRing D.X)} (A : FlatLift D F)
-    (φ : { φ : A.module' ≅ A.module' // (modulePullback D.i).map φ.hom = 𝟙 ((modulePullback D.i).obj A.module') }) :
+    (φ : { φ : A.module' ≅ A.module' //
+      (modulePullback D.i).map φ.hom = 𝟙 ((modulePullback D.i).obj A.module') }) :
     φ.1.hom = 𝟙 A.module' + liftInfinitesimalEndo D hi hs A (identityLiftAutEquiv D hi hs A φ) :=
   (existsUnique_eq_one_add_liftInfinitesimalEndo D hi hs A φ.1.hom φ.2).exists.choose_spec
 
@@ -445,7 +461,8 @@ theorem exists_identityLiftAut_equiv_ext_zero [CategoryTheory.HasExt.{w}
       (SheafOfModules.{u} (structureSheafRing D.X))]
     (hi : IsFirstOrderThickening D.i) (hs : D.IsStrict)
     {F : SheafOfModules.{u} (structureSheafRing D.X)} (A : FlatLift D F) :
-    ∃ e : { φ : A.module' ≅ A.module' // (modulePullback D.i).map φ.hom = 𝟙 ((modulePullback D.i).obj A.module') } ≃
+    ∃ e : { φ : A.module' ≅ A.module' //
+          (modulePullback D.i).map φ.hom = 𝟙 ((modulePullback D.i).obj A.module') } ≃
         CategoryTheory.Abelian.Ext.{w} F (baseIdealTensor D F) 0,
       ∀ φ, φ.1.hom = 𝟙 A.module' +
         liftInfinitesimalEndo D hi hs A (CategoryTheory.Abelian.Ext.homEquiv₀ (e φ)) :=

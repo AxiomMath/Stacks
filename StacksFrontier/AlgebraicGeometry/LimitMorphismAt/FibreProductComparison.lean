@@ -240,13 +240,13 @@ theorem isClosedImmersion_fibreComparisonApp_of_iso
   have : IsIso (E₂.maps.app j) := ⟨_, hc₂, hc₂'⟩
   have : IsIso (E₃.maps.app j) := ⟨_, hc₃, hc₃'⟩
   have : IsIso (E₄.maps.app j) := ⟨_, hc₄, hc₄'⟩
-  show IsClosedImmersion (pullback.lift (Q.maps.app j) (P.maps.app j) hj.symm)
+  change IsClosedImmersion (pullback.lift (Q.maps.app j) (P.maps.app j) hj.symm)
   refine isClosedImmersion_pullback_lift_of_isIso (E₂.maps.app j) (E₃.maps.app j)
     (E₄.maps.app j) ?_ ?_ rfl rfl hj.symm hj'.symm hci
-  · show B.maps.app j ≫ E₄.maps.app j =
+  · change B.maps.app j ≫ E₄.maps.app j =
       E₂.maps.app j ≫ (E₂'.maps.app j ≫ B.maps.app j) ≫ E₄.maps.app j
     rw [← Category.assoc, ← Category.assoc, hc₂, Category.id_comp]
-  · show A.maps.app j ≫ E₄.maps.app j =
+  · change A.maps.app j ≫ E₄.maps.app j =
       E₃.maps.app j ≫ (E₃'.maps.app j ≫ A.maps.app j) ≫ E₄.maps.app j
     rw [← Category.assoc, ← Category.assoc, hc₃, Category.id_comp]
 

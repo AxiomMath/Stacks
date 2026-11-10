@@ -124,7 +124,7 @@ theorem opensRange_pieceComparison :
   have hsurj : Function.Surjective hsq.isoPullback.hom.base := fun y ↦
     ⟨hsq.isoPullback.inv.base y, by rw [← Scheme.Hom.comp_apply, Iso.inv_hom_id]; rfl⟩
   refine Opens.ext ?_
-  show Set.range (opensPullbackComparison f (UX i) (UY (a i)) (pieceMap f UX UY a ha i)
+  change Set.range (opensPullbackComparison f (UX i) (UY (a i)) (pieceMap f UX UY a ha i)
     (pieceMap_comp_ι f UX UY a ha i) g).base = _
   rw [← he, Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp,
     Set.range_eq_univ.mpr hsurj, Set.image_univ,

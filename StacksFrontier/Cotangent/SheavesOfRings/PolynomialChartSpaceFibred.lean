@@ -80,7 +80,7 @@ private theorem restrict_isStronglyCartesian (P : PolynomialChart Λ B hS X hX)
     (openFunctor (Λ := Λ) (B := B) (hS := hS) (X := X) (hX := hX)).IsStronglyCartesian f
       (restrictHom P R f) := by
   refine { toIsHomLift := ?_, universal_property' := ?_ }
-  · show openFunctor.IsHomLift (openFunctor.map (restrictHom P R f)) (restrictHom P R f)
+  · change openFunctor.IsHomLift (openFunctor.map (restrictHom P R f)) (restrictHom P R f)
     infer_instance
   intro T g φ hφ
   let gChart : T.openPart ⟶ R := g
@@ -91,12 +91,12 @@ private theorem restrict_isStronglyCartesian (P : PolynomialChart Λ B hS X hX)
     { openMap := gChart
       affine := φ.affine
       map_comm := by
-        show T.toAffine ≫ φ.affine = (smallEtaleToScheme Λ B hS X).map gChart ≫
+        change T.toAffine ≫ φ.affine = (smallEtaleToScheme Λ B hS X).map gChart ≫
           ((smallEtaleToScheme Λ B hS X).map f ≫ P.toAffine)
         rw [φ.map_comm, hopen, Functor.map_comp, Category.assoc]
       base_comm := φ.base_comm }
   refine ⟨ψ, ⟨?_, ?_⟩, ?_⟩
-  · show openFunctor.IsHomLift (openFunctor.map ψ) ψ
+  · change openFunctor.IsHomLift (openFunctor.map ψ) ψ
     infer_instance
   · exact Hom.ext hopen.symm (Category.comp_id φ.affine)
   · intro χ hχ

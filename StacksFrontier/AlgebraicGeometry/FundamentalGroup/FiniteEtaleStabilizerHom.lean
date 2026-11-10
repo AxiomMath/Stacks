@@ -55,7 +55,7 @@ theorem exists_hom_finiteEtaleOver_of_stabilizer_le (V W : FiniteEtaleOver X)
     have h1 : ((τ * c z)⁻¹ * c (τ • z)) • v = v := by
       rw [mul_smul, hc, mul_inv_rev, mul_smul, inv_smul_smul]
       exact inv_smul_eq_iff.2 (hc z).symm
-    show c (τ • z) • w = τ • c z • w
+    change c (τ • z) • w = τ • c z • w
     calc c (τ • z) • w = (τ * c z) • (((τ * c z)⁻¹ * c (τ • z)) • w) := by
           rw [smul_smul, mul_inv_cancel_left]
       _ = τ • c z • w := by rw [h _ h1, mul_smul]
@@ -64,7 +64,7 @@ theorem exists_hom_finiteEtaleOver_of_stabilizer_le (V W : FiniteEtaleOver X)
     { hom := FintypeCat.homMk t
       comm := fun τ ↦ by
         ext z
-        show t (ConcreteCategory.hom ((E.functor.obj V).obj.ρ τ).asHom z) =
+        change t (ConcreteCategory.hom ((E.functor.obj V).obj.ρ τ).asHom z) =
           ConcreteCategory.hom ((E.functor.obj W).obj.ρ τ).asHom (t z)
         exact (congrArg t (finiteEtaleEquivalenceOfIsGaloisCategory_rho_apply x _ τ z)).trans
           ((ht τ z).trans (finiteEtaleEquivalenceOfIsGaloisCategory_rho_apply x W τ (t z)).symm) }

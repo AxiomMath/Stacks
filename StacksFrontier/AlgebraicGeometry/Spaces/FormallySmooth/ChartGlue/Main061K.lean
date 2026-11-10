@@ -145,10 +145,10 @@ theorem exists_isLift_of_chart (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebrai
   have : IsScalarTower (ringOf B S hS T') (ringE B S hS (E := T)) (ringE B S hS (E := Wa)) :=
     IsScalarTower.of_algebraMap_eq fun r ↦ (hW.commutes r).symm
   have : Algebra.Etale (ringE B S hS (E := T)) (ringE B S hS (E := Wa)) := by
-    show RingHom.Etale ((BigFppfOver.toScheme B S hS).map wa).appTop.hom
+    change RingHom.Etale ((BigFppfOver.toScheme B S hS).map wa).appTop.hom
     exact (HasRingHomProperty.iff_of_isAffine (P := @Etale)).mp hwaEt
   have : Module.FaithfullyFlat (ringE B S hS (E := T)) (ringE B S hS (E := Wa)) := by
-    show RingHom.FaithfullyFlat ((BigFppfOver.toScheme B S hS).map wa).appTop.hom
+    change RingHom.FaithfullyFlat ((BigFppfOver.toScheme B S hS).map wa).appTop.hom
     have := hwaEt
     exact (AlgebraicGeometry.Flat.flat_and_surjective_iff_faithfullyFlat_of_isAffine _).mp
       ⟨inferInstance, ⟨hwaSurj⟩⟩
@@ -210,7 +210,7 @@ theorem exists_isLift_of_chart (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebrai
       (Stacks.ChartGlue.Concrete.Bb (ringOf B S hS T') (ringE B S hS (E := T)) C)) =
       (algFunctor B S hS T' P hPs f y).map K.ι' x₀ := by
     apply Subtype.ext
-    show X.map (specMap B S hS T' (contains_specRingE B S hS) hBb fr).op
+    change X.map (specMap B S hS T' (contains_specRingE B S hS) hBb fr).op
         (X.map (specIso B S hS T' (eZ ≫ UZsnd B S hS T' f y a _)).hom.op
           (aPt (a := a) (eZ ≫ UZfst B S hS T' f y a _))) =
       X.map (specMap B S hS T' (contains_specRingE B S hS) hBb ι'').op

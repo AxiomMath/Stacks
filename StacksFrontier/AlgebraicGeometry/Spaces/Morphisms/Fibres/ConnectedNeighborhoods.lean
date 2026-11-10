@@ -84,11 +84,11 @@ noncomputable def pullback_compIso_of_iso {C : Type u} [Category.{u} C] [HasPull
       simpa [Category.assoc, e.inv_hom_id] using h)
   refine ⟨a, b, ?_, ?_⟩
   · apply pullback.hom_ext
-    · simp [a, b, pullback.lift_fst]
-    · simp [a, b, pullback.lift_snd]
+    · simp [a, b]
+    · simp [a, b]
   · apply pullback.hom_ext
-    · simp [a, b, pullback.lift_fst]
-    · simp [a, b, pullback.lift_snd]
+    · simp [a, b]
+    · simp [a, b]
 
 end CategoryTheory.Limits
 
@@ -172,20 +172,20 @@ theorem dominates_schemeResidueFieldPoint (U : BigFppfOver B S hS)
   let e₀ : B.obj p.contained ⟶ B.obj hx := B.inclusion.preimage (Spec.map ep.2)
   have he₀ : e₀ ≫ R.hom = (FieldValuedPoint.siteObject B S hS (yoneda.obj U) p).hom := by
     apply B.inclusion.map_injective
-    show B.inclusion.map e₀ ≫ B.inclusion.map R.hom =
+    change B.inclusion.map e₀ ≫ B.inclusion.map R.hom =
       B.inclusion.map (FieldValuedPoint.siteObject B S hS (yoneda.obj U) p).hom
     rw [B.inclusion.map_preimage]
-    show Spec.map ep.2 ≫ X.fromSpecResidueField ep.1 ≫ U.hom.1 = p.toBase
+    change Spec.map ep.2 ≫ X.fromSpecResidueField ep.1 ≫ U.hom.1 = p.toBase
     rw [← Category.assoc, hsp, hpbase]
   let e : FieldValuedPoint.siteObject B S hS (yoneda.obj U) p ⟶ R := Over.homMk e₀ he₀
   refine ⟨e, ?_⟩
-  show e ≫ rmap = p.value
+  change e ≫ rmap = p.value
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show B.inclusion.map e₀ ≫ B.inclusion.map (Over.Hom.left rmap) =
+  change B.inclusion.map e₀ ≫ B.inclusion.map (Over.Hom.left rmap) =
     B.inclusion.map (Over.Hom.left pm)
   rw [B.inclusion.map_preimage]
-  show Spec.map ep.2 ≫ X.fromSpecResidueField x = sp
+  change Spec.map ep.2 ≫ X.fromSpecResidueField x = sp
   exact hsp
 
 /-- A field-valued point of a represented presheaf has the same class as the residue field point
@@ -282,10 +282,10 @@ theorem mono_schemeResidueFieldPoint (U : BigFppfOver B S hS)
       (((BigFppfOver.toScheme B S hS).obj U).fromSpecResidueField x) U.left.property
   let rmap := residueFieldMap B S hS U x hx
   have : Mono ((BigFppfOver.toScheme B S hS).map rmap) := by
-    show Mono (((BigFppfOver.toScheme B S hS).obj U).fromSpecResidueField x)
+    change Mono (((BigFppfOver.toScheme B S hS).obj U).fromSpecResidueField x)
     infer_instance
   have : Mono rmap := (BigFppfOver.toScheme B S hS).mono_of_mono_map inferInstance
-  show Mono (yoneda.map rmap)
+  change Mono (yoneda.map rmap)
   infer_instance
 
 /-- The morphism represented by a residue field point of a represented presheaf is
@@ -298,7 +298,7 @@ theorem quasiCompact_schemeResidueFieldPoint (U : BigFppfOver B S hS)
     Scheme.size_lt_of_mono_quasiCompact (X.fromSpecResidueField x) U.left.property
   let rmap := residueFieldMap B S hS U x hx
   have hqc : QuasiCompact ((BigFppfOver.toScheme B S hS).map rmap) := by
-    show QuasiCompact (X.fromSpecResidueField x)
+    change QuasiCompact (X.fromSpecResidueField x)
     rw [quasiCompact_iff_forall_isAffineOpen]
     intro W hW
     exact (Set.toFinite (X.fromSpecResidueField x ⁻¹' (W : Set X))).isCompact
@@ -412,7 +412,7 @@ theorem representedResidueFieldPointInNeighborhood_qc_mono
     rfl
   let p := representedResidueFieldPointInNeighborhood B S hS U V e
   have hmap : yonedaEquiv.symm p.value = yoneda.map rmap ≫ e.inv := by
-    show yonedaEquiv.symm (e.inv.app (op q.siteObject) q.value) = _
+    change yonedaEquiv.symm (e.inv.app (op q.siteObject) q.value) = _
     exact Eq.trans (yonedaEquiv_symm_naturality_right q.siteObject e.inv q.value).symm
       (congrArg (fun k => k ≫ e.inv) hqmap)
   have hqcR : IsQuasiCompact B S hS (yoneda.map rmap) := by
@@ -455,7 +455,7 @@ theorem etale_yoneda {W V : BigFppfOver B S hS} (m : W ⟶ V)
     intro A D E a b ha hb
     change Etale ((BigFppfOver.toScheme B S hS).map a) at ha
     change Etale ((BigFppfOver.toScheme B S hS).map b) at hb
-    show Etale ((BigFppfOver.toScheme B S hS).map (a ≫ b))
+    change Etale ((BigFppfOver.toScheme B S hS).map (a ≫ b))
     rw [Functor.map_comp]
     exact Etale.etale_comp _ _
   have hp : P.presheaf (yoneda.map m) :=
@@ -538,7 +538,7 @@ theorem exists_siteEtaleNeighborhood_residueField_extension_lift (V : BigFppfOve
     exact congrArg B.inclusion.map (Over.w (geometricPointRepresentableMap B S hS V p))
   have hqover : qleft ≫ W.hom = p.val.siteObject.hom := by
     apply B.inclusion.map_injective
-    show B.inclusion.map qleft ≫ (B.inclusion.map mleft ≫ B.inclusion.map V.hom) =
+    change B.inclusion.map qleft ≫ (B.inclusion.map mleft ≫ B.inclusion.map V.hom) =
       B.inclusion.map p.val.siteObject.hom
     rw [B.inclusion.map_preimage, B.inclusion.map_preimage]
     calc
@@ -552,16 +552,16 @@ theorem exists_siteEtaleNeighborhood_residueField_extension_lift (V : BigFppfOve
       toBase := yoneda.map m
       etale_toBase := by
         apply etale_yoneda B S hS m
-        show Etale (B.inclusion.map mleft)
+        change Etale (B.inclusion.map mleft)
         rw [B.inclusion.map_preimage]
         exact U₀.etale_toBase
       point := qval
       point_comp := by
-        show yonedaEquiv (yoneda.map (q ≫ m)) = p.val.value
+        change yonedaEquiv (yoneda.map (q ≫ m)) = p.val.value
         rw [show q ≫ m = geometricPointRepresentableMap B S hS V p by
           apply Over.OverMorphism.ext
           apply B.inclusion.map_injective
-          show B.inclusion.map qleft ≫ B.inclusion.map mleft =
+          change B.inclusion.map qleft ≫ B.inclusion.map mleft =
             B.inclusion.map (Over.Hom.left (geometricPointRepresentableMap B S hS V p))
           rw [B.inclusion.map_preimage, B.inclusion.map_preimage]
           simpa [pSpec] using hl]
@@ -619,7 +619,7 @@ theorem connectedPullback_finite_residueExtension
   let qW : y.val.siteObject ⟶ W :=
     Over.homMk (⟨l⟩ : B.obj y.val.contained ⟶ B.obj hsize) (by
       apply B.inclusion.map_injective
-      show l ≫ (U₀.toBase ≫ V.hom.hom) = y.val.toBase
+      change l ≫ (U₀.toBase ≫ V.hom.hom) = y.val.toBase
       rw [← Category.assoc, hl]
       exact congrArg B.inclusion.map q.w)
   have hqm : qW ≫ m = q := Over.OverMorphism.ext (B.inclusion.map_injective hl)
@@ -630,11 +630,11 @@ theorem connectedPullback_finite_residueExtension
       etale_toBase := isEtale_comp B S hS (etale_yoneda B S hS m U₀.etale_toBase) ha
       point := qW
       point_comp := by
-        show a.app _ (qW ≫ m) = y.val.value
+        change a.app _ (qW ≫ m) = y.val.value
         rw [hqm]
         exact hq }
   have hpoint : schemePoint B S hS W (liftedPoint U) = U₀.point := by
-    show l (IsLocalRing.closedPoint y.val.carrier) = U₀.point
+    change l (IsLocalRing.closedPoint y.val.carrier) = U₀.point
     exact (congrArg l (Subsingleton.elim _ _)).trans hlpt
   have hc := hres U W (Iso.refl _)
   change ConnectedPullback B S hS f
@@ -668,19 +668,19 @@ theorem connectedPullback_finite_residueExtension
     apply B.inclusion.map_injective
     simp only [Functor.map_comp]
     have hi_map : B.inclusion.map i.hom = Spec.map (CommRingCat.ofHom e₀.toRingHom) := by
-      show B.inclusion.map (B.inclusion.preimage _) = _
+      change B.inclusion.map (B.inclusion.preimage _) = _
       rw [B.inclusion.map_preimage]
-      show (Scheme.Spec.mapIso e₀.toRingEquiv.toCommRingCatIso.op).hom = _
+      change (Scheme.Spec.mapIso e₀.toRingEquiv.toCommRingCatIso.op).hom = _
       rw [Functor.mapIso_hom, Scheme.Spec_map]
       rfl
     rw [hi_map]
-    show Spec.map (CommRingCat.ofHom e₀.toRingHom) ≫
+    change Spec.map (CommRingCat.ofHom e₀.toRingHom) ≫
       U₀.scheme.fromSpecResidueField U₀.point ≫ U₀.toBase =
       B.inclusion.map h ≫ Vsch.fromSpecResidueField v
     rw [B.inclusion.map_preimage]
     exact hfac
   let e : RK ≅ rW.siteObject := Over.isoMk i (by
-    show i.hom ≫ (rW.value.left ≫ (m.left ≫ V.hom)) = h ≫ (r.value.left ≫ V.hom)
+    change i.hom ≫ (rW.value.left ≫ (m.left ≫ V.hom)) = h ≫ (r.value.left ≫ V.hom)
     simpa only [Category.assoc] using congrArg (fun z => z ≫ V.hom) hi)
   have he : yoneda.map e.hom ≫ (yoneda.map rW.value ≫ (yoneda.map m ≫ a)) =
       yoneda.map toR ≫ yoneda.map r.value ≫ a := by

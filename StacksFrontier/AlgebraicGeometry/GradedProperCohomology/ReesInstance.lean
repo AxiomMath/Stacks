@@ -337,7 +337,7 @@ theorem isCohomologyReesFinite_of_properBaseChange [IsNoetherianRing A]
     isCohomologyReesFiniteOfGradedModule_of_properBaseChange I X (reesFiltrationModule I X F) p hX
       (isQuasicoherent_piece_reesFiltrationModule I X F)
       (isFiniteTypeOnAffine_reesGradedModule (baseIdealSheaf A I X.hom) F) f' hf' F' hF' cmp
-  show Module.Finite (⨁ n, ↥(reesGrading I n)) (⨁ n, cohomologyIdealPower I X F p n)
+  change Module.Finite (⨁ n, ↥(reesGrading I n)) (⨁ n, cohomologyIdealPower I X F p n)
   exact Module.Finite.of_surjective (transferLinear I X F p) (transferLinear_surjective I X F p)
 
 end Filtration

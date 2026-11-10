@@ -143,7 +143,7 @@ private theorem exists_isStrictHenselization_of_univ (R : Type u) [CommRing R] [
     residueFieldEquiv := residueEquiv.trans quotientEquivSh.toRingEquiv
     residueFieldEquiv_comp := ?_ }⟩⟩
   ext y
-  show quotientEquivSh (residueEquiv (algebraMap (ResidueField R) κ (residue R y))) = _
+  change quotientEquivSh (residueEquiv (algebraMap (ResidueField R) κ (residue R y))) = _
   rw [hresidueEquiv]
   exact (Ideal.ResidueField.map_algebraMap _ _ _ _ y).symm
 

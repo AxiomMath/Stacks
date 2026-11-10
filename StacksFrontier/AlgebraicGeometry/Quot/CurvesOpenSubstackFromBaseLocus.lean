@@ -208,7 +208,7 @@ private theorem curveFamilyBaseIso_naturality_ofBaseLocus
       eqToHom hx.symm ≫ 𝒟.p.map (E.functor.map (E.inverse.map φ)) := by
     rw [hm']
     simp [Category.assoc]
-  show (E.inverse.map φ).baseMap ≫ eqToHom hz.symm ≫
+  change (E.inverse.map φ).baseMap ≫ eqToHom hz.symm ≫
       𝒟.p.map (E.counitIso.app z).hom =
     eqToHom hx.symm ≫ 𝒟.p.map (E.counitIso.app x).hom ≫ 𝒟.p.map φ
   rw [← Category.assoc, hbase, Category.assoc, ← Functor.map_comp, hp, Functor.map_comp]
@@ -246,7 +246,7 @@ private theorem curveFamilyBaseMap_toTerminal_ofBaseLocus
       (Over.homMk T.hom : (Over.map U.hom).obj T ⟶ U) := by
     cases U
     rfl
-  show (E.inverse.map (y.map t)).baseMap ≫
+  change (E.inverse.map (y.map t)).baseMap ≫
       (curveFamilyBaseIso_ofBaseLocus B hZ 𝒟 E hE (y.obj T₀)).hom ≫ eqToHom h₁ ≫ eqToHom h₂ =
     (curveFamilyBaseIso_ofBaseLocus B hZ 𝒟 E hE (y.obj T)).hom ≫
       eqToHom hT ≫ (Over.homMk T.hom : (Over.map U.hom).obj T ⟶ U)
@@ -334,7 +334,7 @@ private theorem exists_prop_open_over
   let j' : V ⟶ U := j ≫ β.hom
   let V' : BigFppfOver B U.left.1 U.left.2 := Over.mk j'.left
   have hj' : IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map j') := by
-    show IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map (j ≫ β.hom))
+    change IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map (j ≫ β.hom))
     rw [Functor.map_comp]
     let : IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map j) := hj
     infer_instance

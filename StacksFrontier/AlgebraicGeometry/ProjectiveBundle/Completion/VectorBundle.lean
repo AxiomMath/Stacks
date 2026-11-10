@@ -159,7 +159,7 @@ theorem chartToCompletion_comp_projectiveCompletionProj (U : X.affineOpens) :
         (chartRingEquiv U.2).symm.toRingHom =
       (Scheme.Modules.symmetricAlgebraSheaf X E).hom.hom.app (op U.1) := by
     ext r
-    show (chartRingEquiv U.2).symm (HomogeneousLocalization.fromZeroRingHom _ _ _) = _
+    change (chartRingEquiv U.2).symm (HomogeneousLocalization.fromZeroRingHom _ _ _) = _
     have hz := Stacks.SymmetricAway.away_mk_zero ((completionAlgebra E).grading U.1)
       (infinitySection_mem E U.1) ((completionAlgebra E).strHom U.1 r)
       (by simpa using (completionAlgebra E).strHom_mem U.1 r)
@@ -315,7 +315,7 @@ instance isOpenImmersion_toCompletion : IsOpenImmersion (toCompletion E) := by
       ((relativeProj (completionAlgebra E)).chart U.1 U.2).opensRange)
     (Stacks.AlgebraicGeometry.ProjBundleSurjection.iSup_opensRange_chart_eq_top
       (relativeProj (completionAlgebra E))) fun U => ?_
-  haveI := isOpenImmersion_completionChart E U.1 U.2
+  have := isOpenImmersion_completionChart E U.1 U.2
   have h₂ := isPullback_toCompletion E ⟨U.1, U.2⟩
   have h₁ : IsPullback (pullback.fst (toCompletion E)
         ((relativeProj (completionAlgebra E)).chart U.1 U.2))

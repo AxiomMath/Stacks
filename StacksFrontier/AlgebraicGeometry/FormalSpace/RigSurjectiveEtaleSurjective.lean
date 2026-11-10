@@ -153,7 +153,7 @@ theorem exists_isAdicComplete_isDiscreteValuationRing_of_etale
   refine ⟨W, hWring, hWdom, hWdvr, hRW, hWext, hWcomplete,
     g.toRingHom.comp (algebraMap A (Localization.AtPrime m)), ?_, hWcard⟩
   ext r
-  show g (algebraMap A (Localization.AtPrime m) (algebraMap R A r)) = algebraMap R W r
+  change g (algebraMap A (Localization.AtPrime m) (algebraMap R A r)) = algebraMap R W r
   rw [← IsScalarTower.algebraMap_apply R A (Localization.AtPrime m)]
   exact g.commutes r
 
@@ -232,7 +232,7 @@ theorem exists_continuous_ringHom_completionOver [TopologicalSpace W] [IsTopolog
     obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (projection f (powIndex hRadic n) x)
     rw [← ha]
     rw [Ideal.quotientMap_mk, Ideal.Quotient.factor_mk]
-    show Ideal.Quotient.mk _ (g a) = _
+    change Ideal.Quotient.mk _ (g a) = _
     rw [Ideal.Quotient.factor_mk, Ideal.quotientMap_mk]
   set G := IsAdicComplete.liftRingHom (IsLocalRing.maximalIdeal W)
     (stageHom hRadic f g hgle) hcompat with hGdef
@@ -376,7 +376,7 @@ private theorem nontrivial_of_section_formalSpectrum
     rw [Sheaf.isLocallySurjective_iff_epi]
     refine ⟨fun {Q} f₁ f₂ h => Limits.colimit.hom_ext fun K => ?_⟩
     have hK : c (ULift.up K) ≫ f₁ = c (ULift.up K) ≫ f₂ := by
-      rw [← Limits.Sigma.ι_desc c (ULift.up K), Category.assoc, Category.assoc, h]
+      rw [← Limits.Sigma.ι_comp_desc c (ULift.up K), Category.assoc, Category.assoc, h]
     exact hK
   obtain ⟨Sv, hSv, hcov⟩ := (Sheaf.isLocallySurjective_sigmaDesc_iff c).1 hls s
   obtain ⟨W, g, hg, ⟨w⟩⟩ := exists_nonempty_mem_of_mem_topology B S hS t hSv

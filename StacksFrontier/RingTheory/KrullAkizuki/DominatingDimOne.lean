@@ -265,7 +265,7 @@ lemma exists_subring_finiteType_height_one_prime
     rintro _ ⟨g, hg, rfl⟩
     rw [SetLike.mem_coe, Ideal.mem_span_singleton']
     refine ⟨⟨algebraMap R K g / xK, Algebra.subset_adjoin ⟨g, hg, rfl⟩⟩, Subtype.ext ?_⟩
-    show algebraMap R K g / xK * xK = algebraMap R K g
+    change algebraMap R K g / xK * xK = algebraMap R K g
     field_simp
   obtain ⟨q, hq, hht, hcomap⟩ :=
     exists_height_one_prime_comap_eq_maximalIdeal R K S hRS V hleV hSV x hxm hx0 hmx
@@ -303,7 +303,7 @@ lemma range_le_ofPrime_of_comap_eq_maximalIdeal
       = IsLocalRing.maximalIdeal R := by
     have h := Ideal.under_under (A := R) (B := S) (C := Sq) (IsLocalRing.maximalIdeal Sq)
     rw [IsLocalization.AtPrime.under_maximalIdeal Sq q] at h
-    show Ideal.under R (IsLocalRing.maximalIdeal Sq) = _
+    change Ideal.under R (IsLocalRing.maximalIdeal Sq) = _
     rwa [← h]
   -- Hence `R → S_q` is a local ring homomorphism.
   have hlocalg : IsLocalHom (algebraMap R Sq) :=

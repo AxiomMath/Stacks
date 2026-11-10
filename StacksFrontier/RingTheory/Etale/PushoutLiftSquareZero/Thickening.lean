@@ -58,8 +58,7 @@ theorem range_tensorMul :
     (LinearMap.range (tensorMul J T) : Set T) = J.map (algebraMap A T) := by
   apply Set.Subset.antisymm
   · rintro _ ⟨x, rfl⟩
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul j t =>
       rw [tensorMul_tmul, mul_comm]
       exact Ideal.mul_mem_left _ _ (Ideal.mem_map_of_mem _ j.2)
@@ -79,8 +78,7 @@ theorem range_tensorMul :
       have key : ∀ b : J ⊗[A] T,
           tensorMul J T (((LinearMap.mulLeft A s).lTensor J) b) = s • tensorMul J T b := by
         intro b
-        induction b using TensorProduct.induction_on with
-        | zero => simp
+        induction b using TensorProduct.inductionOn with
         | tmul j t =>
           simp only [LinearMap.lTensor_tmul, LinearMap.mulLeft_apply, tensorMul_tmul, smul_eq_mul]
           ring
@@ -115,8 +113,7 @@ theorem bijective_rTensor_of_ker_eq (hJ : J ^ 2 = ⊥) (π : T →ₐ[A] T₀) (
   obtain ⟨v, rfl⟩ := (hex w).mp hw
   rw [Submodule.mem_bot]
   clear hw
-  induction v using TensorProduct.induction_on with
-  | zero => simp
+  induction v using TensorProduct.inductionOn with
   | tmul k j =>
     have hk : (k : T) ∈ J.map (algebraMap A T) := by
       rw [← hker]; exact k.2
@@ -198,8 +195,7 @@ theorem pushOf_naturality {T' T'₀ : Type v} [CommRing T'] [CommRing T'₀] [Al
     (hker' : RingHom.ker (π' : T' →+* T'₀) = J.map (algebraMap A T'))
     (φ : T →ₐ[A] T') (φ₀ : T₀ →ₐ[A] T'₀) (hφ : ∀ t, π' (φ t) = φ₀ (π t)) (x : T₀ ⊗[A] J) :
     pushOf J hJ π' hπ' hker' (φ₀.toLinearMap.rTensor J x) = φ (pushOf J hJ π hπ hker x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul t₀ j =>
     obtain ⟨t, rfl⟩ := hπ t₀
     rw [LinearMap.rTensor_tmul, AlgHom.toLinearMap_apply, ← hφ, pushOf_tmul, pushOf_tmul,

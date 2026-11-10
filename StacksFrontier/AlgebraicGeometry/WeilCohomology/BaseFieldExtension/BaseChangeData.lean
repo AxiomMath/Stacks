@@ -89,7 +89,7 @@ theorem baseChangeData_twistPow (X : (SmoothProjectiveScheme k).FullSubcategory)
   induction n with
   | zero => rfl
   | succ n ih =>
-    show tateCup _ _ _ _ _ _ ((𝔇'.baseChangeData k).twistPow X x n) x =
+    change tateCup _ _ _ _ _ _ ((𝔇'.baseChangeData k).twistPow X x n) x =
       tateCup _ _ _ _ _ _ (𝔇'.twistPow _ x n) x
     rw [ih]
 
@@ -98,7 +98,7 @@ theorem baseChangeData_expTw (X : (SmoothProjectiveScheme k).FullSubcategory)
     (x : tateTwist F' 𝔇'.tate (𝔇'.H ((baseChange k k').obj X)) 1) :
     (𝔇'.baseChangeData k).expTw X x = 𝔇'.expTw ((baseChange k k').obj X) x := by
   funext n
-  show ((n.factorial : F')⁻¹) • (𝔇'.baseChangeData k).twistPow X x n = _
+  change ((n.factorial : F')⁻¹) • (𝔇'.baseChangeData k).twistPow X x n = _
   rw [baseChangeData_twistPow]
   rfl
 
@@ -113,7 +113,7 @@ theorem pullbackAxiom_baseChangeData (h : 𝔇'.PullbackAxiom) :
     (𝔇'.baseChangeData k).PullbackAxiom := by
   intro X Y f L hL
   rw [baseChangeData_c₁_picardClassOf, baseChangeData_c₁_picardClassOf]
-  show 𝔇'.pullTw ((baseChange k k').map f) 1 _ = _
+  change 𝔇'.pullTw ((baseChange k k').map f) 1 _ = _
   rw [h]
   exact congrArg (𝔇'.c₁ _) (picardClassOf_eq_of_iso _ _ _ _ _
     (FieldExtensionComparison.pullbackBaseChangeIso (k' := k') f L))
@@ -149,7 +149,7 @@ theorem projectiveBundleAxiom_baseChangeData (hA2 : 𝔇'.PullbackAxiom)
     rw [FirstChernClassData.bundleFormulaU_apply, map_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [map_mul, map_pow, hξ]
-    show _ * 𝔇'.pull e.hom (𝔇'.pull ((baseChange k k').map (bundleProj X E r)) (a i)) = _
+    change _ * 𝔇'.pull e.hom (𝔇'.pull ((baseChange k k').map (bundleProj X E r)) (a i)) = _
     rw [← AlgHom.comp_apply, ← 𝔇'.pull_comp, bundleBaseChangeIso_hom_bundleProj]
   have hb : Bijective (fun a : Fin (r + 1) → 𝔇'.H X' =>
       𝔇'.pull e.hom ((𝔇'.baseChangeData k).bundleFormulaU X E r a)) := by

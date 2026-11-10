@@ -55,13 +55,14 @@ powers is used. The hazard of an explicit parameter is that it can be instantiat
 that is *not* the tensor powers, in which case `IsAmpleForPowers` says something else; this is
 the price of not duplicating Tag 01CU, and `isAmpleForPowers_congr` is the mitigation.
 
-**2. Global sections are `Γ(M, ⊤)`, not the categorical `M.sections`.** The direct transcription uses
-`SheafOfModules.sections`, a compatible family of sections over every open, and evaluates it at
+**2. Global sections are `Γ(M, ⊤)`, not the categorical `M.sections`.** The direct transcription
+uses `SheafOfModules.sections`, a compatible family of sections over every open, and evaluates it at
 `⊤`. For a *sheaf* the two are equivalent, and `Γ(M, ⊤)` is literally the `Γ(X, L)` of the source.
 A consumer holding `s : M.sections` passes `s.eval (Opposite.op ⊤)`.
 
 **3. The affine open is produced existentially instead of by `Opens`-packaging a sorried
-openness theorem.** The direct transcription writes `x ∈ nonvanishingOpen X L s ∧ IsAffineOpen (nonvanishingOpen
+openness theorem.** The direct transcription writes
+`x ∈ nonvanishingOpen X L s ∧ IsAffineOpen (nonvanishingOpen
 X L s)`, where `nonvanishingOpen` is `X_s` bundled with the openness theorem of Tag 01CY. That
 theorem is not available in the library: it needs an invertible module to be locally free
 of rank one, which is clause 2 of Tag 0B8M, and the library's form of that clause
@@ -81,8 +82,8 @@ invertible module, and a consumer that wants to record invertibility states it a
 
 ## Implementation notes
 
-`nonvanishingLocus` is stated with `TopCat.Presheaf.Γgerm`, as in the direct transcription. The module structure
-on the stalk, and the submodule `𝔪_x M_x`, come from
+`nonvanishingLocus` is stated with `TopCat.Presheaf.Γgerm`, as in the direct transcription. The
+module structure on the stalk, and the submodule `𝔪_x M_x`, come from
 `StacksFrontier/AlgebraicGeometry/AmplePowers/ModuleStalk.lean`, whose `scoped instance` must be in
 scope to *unfold* the definition — hence the `open Stacks.ModuleStalk` below. Statements that
 only mention `nonvanishingLocus` as a black box, as every result in the ampleness section does,

@@ -51,8 +51,8 @@ crosses **two different fields**: condition (4)'s module is a `κ(x)`-vector spa
 `κ(x) = Scheme.residueField X x`, and Tag 00TT's is a `κ(𝔮)`-vector space for
 `κ(𝔮) = Ideal.ResidueField 𝔮`.  The pieces are
 
-1. `Stacks.FiberCotangentAssembly.fiberDifferentialsTensorIdentification`, the formalized part (4) of
-   Tag 01V9, which identifies `relativeCotangentSpace f x` with
+1. `Stacks.FiberCotangentAssembly.fiberDifferentialsTensorIdentification`, the formalized part (4)
+   of Tag 01V9, which identifies `relativeCotangentSpace f x` with
    `Stacks.SmoothAtJacobian.fiberRelativeCotangentSpace f x`, i.e. with the same construction
    performed on `g` — so the base change from `f` to its fibre is already done.  Its fibre point
    is `f.asFiberHom x (IsLocalRing.closedPoint _)`, which is `f.asFiber x` by
@@ -99,7 +99,7 @@ universe u v
 
 namespace Stacks.Tag01V9Closure
 
-open Module Submodule in
+open _root_.Module Submodule in
 /-- **A bound on the number of generators of a vector space is a bound on its rank.**  If a
 module over a division ring has a finite spanning set of at most `d` elements then its
 `Module.finrank` is at most `d`.  No finiteness hypothesis is needed: the spanning set supplies

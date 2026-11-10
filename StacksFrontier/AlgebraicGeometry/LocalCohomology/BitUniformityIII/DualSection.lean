@@ -563,8 +563,7 @@ theorem exists_tmul_powQuotGen
       (ModuleCat.of (A ⧸ (Ideal.span {x} : Ideal A) ^ n)
         (Module.Dual (A ⧸ (Ideal.span {x} : Ideal A) ^ n) M))) :
     ∃ lam, t = powQuotGen x n q ⊗ₜ[A] lam := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, (TensorProduct.tmul_zero _ _).symm⟩
+  induction t using TensorProduct.inductionOn with
   | tmul y lam =>
     obtain ⟨a, rfl⟩ := exists_smul_powQuotGen x n q y
     exact ⟨a • lam, TensorProduct.smul_tmul _ _ _⟩

@@ -128,7 +128,7 @@ theorem hasSemistableReduction_adicCompletion_of_isStableCurveFamily (B : BigFpp
           rw [← integerSiteMap_comp (hT' := hΛ), Category.assoc]
   have hbot' : schemeSpaceMap (integerSiteMap B hZ hK' hK (gK)) ≫ schemeSpaceMap φ.baseMap =
       schemeSpaceMap (integerSiteMap B hZ hK' hΛ (gΛK)) ≫ schemeSpaceMap w := by
-    show (schemeSpaceFunctor B integerBase hZ).map _ ≫ (schemeSpaceFunctor B integerBase hZ).map _
+    change (schemeSpaceFunctor B integerBase hZ).map _ ≫ (schemeSpaceFunctor B integerBase hZ).map _
       = (schemeSpaceFunctor B integerBase hZ).map _ ≫ (schemeSpaceFunctor B integerBase hZ).map _
     have := congrArg (fun f => (schemeSpaceFunctor B integerBase hZ).map f) hbot
     simp only [Functor.map_comp] at this
@@ -151,7 +151,7 @@ theorem hasSemistableReduction_adicCompletion_of_isStableCurveFamily (B : BigFpp
       change schemeSpaceMap (lsite ≫ qQ) = schemeSpaceMap (_ ≫ _)
       rw [schemeSpaceMap_comp, schemeSpaceMap_comp, hlsite]
       exact hl.w
-    · show IsPullback (schemeSpaceMap lsite) _ _ _
+    · change IsPullback (schemeSpaceMap lsite) _ _ _
       rw [hlsite]
       exact hl
   have hsch : IsPullback ((BigFppfOver.toScheme B integerBase hZ).map lsite)

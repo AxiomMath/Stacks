@@ -146,7 +146,7 @@ theorem inverseImageGradedAlgebra_one_eval
         (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) B).one.eval V =
       (f.toToposHom.inverseImage.map (oneSheafHom B)).hom.app V t := by
   let : PreservesFiniteLimits f.toToposHom.inverseImage := f.toToposHom.preservesFiniteLimits
-  show (transportSections X.J f.toToposHom.inverseImage V).map (oneSheafHom B) default = _
+  change (transportSections X.J f.toToposHom.inverseImage V).map (oneSheafHom B) default = _
   exact congrArg ((transportSections X.J f.toToposHom.inverseImage V).map (oneSheafHom B))
     (Subsingleton.elim _ _)
 
@@ -257,6 +257,7 @@ theorem symmetricPullbackInv_eq :
         (gradedAdj f).counit.app S' :=
   (gradedAdj f).homEquiv_counit (g := (symmetricPushforwardHom f ι hA ι' hSc).toHom)
 
+omit [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The inverse comparison preserves the unit. -/
 theorem symmetricPullbackInv_map_one (U : X.Cᵒᵖ) :
     ((symmetricPullbackInv f ι hA ι' hSc).app 0).val.app U (((gradedPull f).obj A).one.eval U) =
@@ -283,13 +284,14 @@ theorem symmetricPullbackInv_app (n : ℤ) :
   exact (f.pullbackAdjPushforwardModulesViaComparison.homEquiv_counit
     (g := (symmetricPushforwardHom f ι hA ι' hSc).app n)).symm
 
+omit [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The comparison followed by its inverse is the identity of `Sym(f^*M)`. -/
 theorem symmetricPullbackHom_comp_inv :
     (symmetricPullbackHom f ι hAc ι' hS).comp (symmetricPullbackInvUnital f ι hA ι' hSc) =
       UnitalHom.id S' := by
   refine hS.isUniversal.eq_id ?_
   rw [UnitalHom.comp_app, ← Category.assoc, gen_comp_symmetricPullbackHom_app_one]
-  show f.toRingedToposModulesHom.pullbackModules.map ι ≫
+  change f.toRingedToposModulesHom.pullbackModules.map ι ≫
     (symmetricPullbackInv f ι hA ι' hSc).app 1 = ι'
   rw [symmetricPullbackInv_app]
   refine ((f.pullbackAdjPushforwardModulesViaComparison.homEquiv_naturality_left_symm ι
@@ -325,7 +327,7 @@ theorem symmetricPushforwardHom_comp :
       (fun V x y => toposPullbackGradedAlgebra_mul_one_one_comm f.toRingedToposModulesHom A hAc
         V x y) U _ _) ?_ rfl
   rw [UnitalHom.comp_app, ← Category.assoc, gen_comp_symmetricPushforwardHom_app_one]
-  show (f.pullbackAdjPushforwardModulesViaComparison.unit.app M ≫ f.pushforwardModules.map ι') ≫
+  change (f.pullbackAdjPushforwardModulesViaComparison.unit.app M ≫ f.pushforwardModules.map ι') ≫
       f.pushforwardModules.map ((symmetricPullbackHom f ι hAc ι' hS).app 1) =
     ι ≫ f.pullbackAdjPushforwardModulesViaComparison.unit.app (A.piece 1)
   rw [Category.assoc, ← Functor.map_comp, gen_comp_symmetricPullbackHom_app_one]
@@ -340,6 +342,7 @@ theorem symmetricPullbackInv_comp_hom :
     Adjunction.homEquiv_id]
   exact congrArg UnitalHom.toHom (symmetricPushforwardHom_comp f ι hA hAc ι' hS hSc)
 
+omit [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 include hA hSc in
 /-- **The comparison `Sym(f^*M) ⟶ f^*Sym(M)` is an isomorphism in every degree.** -/
 theorem isIso_symmetricPullbackHom_app (n : ℤ) :

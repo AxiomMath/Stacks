@@ -109,7 +109,7 @@ theorem cechCupProduct_natural_of_pairing_hom (D : ComplexPairing R K L M)
   refine ιTensorSource_hom_ext W R K L fun r s a b hn => ?_
   simp only [HomologicalComplex.comp_f]
   rw [reassoc_of% ιTensorSource_mapBifunctorMap W R f g r s a b n hn]
-  show _ ≫ ιTensorSource W R K' L' r s a b n hn ≫ cechCupProductDegree W R D' n =
+  change _ ≫ ιTensorSource W R K' L' r s a b n hn ≫ cechCupProductDegree W R D' n =
     (ιTensorSource W R K L r s a b n hn ≫ cechCupProductDegree W R D n) ≫ _
   rw [ιTensorSource_cechCupProductDegree, ιTensorSource_cechCupProductDegree,
     cechCupProductSummand_eq, cechCupProductSummand_eq, Preadditive.comp_zsmul,

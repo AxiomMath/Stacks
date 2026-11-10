@@ -88,6 +88,7 @@ variable (k : Type u) [Field k] [Fintype k] (κ : Type u) [Field κ] [Fintype κ
 public def traceRoot : Ring κ g :=
   ∑ i ∈ Finset.range (Module.finrank k κ), AdjoinRoot.root (poly κ g) ^ (Fintype.card k ^ i)
 
+omit [Algebra κ A] [IsScalarTower k κ A] in
 /-- **The trace of the root is a root of `T^q - T - g`**: with `q = #k`,
 `(S + S^q + ⋯ + S^{q^{r-1}})^q = S + S^q + ⋯ + S^{q^{r-1}} + g`, since `S^{q^r} = S + g`. -/
 public theorem traceRoot_pow_card :
@@ -106,7 +107,7 @@ public theorem traceRoot_pow_card :
     exact root_pow_card κ g
   have h0 : S ^ (Fintype.card k ^ 0) = S := by rw [pow_zero, pow_one]
   rw [h1]
-  show _ = ∑ i ∈ Finset.range r, S ^ (Fintype.card k ^ i) + _
+  change _ = ∑ i ∈ Finset.range r, S ^ (Fintype.card k ^ i) + _
   linear_combination h3 - h2 + hr - h0
 
 /-- **`T ↦ S + S^q + ⋯ + S^{q^{r-1}}`, from the `k`-Artin–Schreier algebra of `g` to the
@@ -118,6 +119,7 @@ public def traceRingMap : Ring k g →ₐ[A] Ring κ g :=
     change _ - (_ + algebraMap A (Ring κ g) g) = 0
     ring)
 
+omit [Algebra κ A] [IsScalarTower k κ A] in
 /-- `Stacks.ArtinSchreier.traceRingMap` sends the root `T` of the `k`-Artin–Schreier algebra to
 `Stacks.ArtinSchreier.traceRoot`. -/
 @[simp]
@@ -155,7 +157,7 @@ public theorem coverTranslate_comp_coverTraceHom (a : κ) :
     coverTranslate κ A g a ≫ coverTraceHom k κ g =
       coverTraceHom k κ g ≫ coverTranslate k A g (Algebra.trace k κ a) := by
   ext : 1
-  show Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
   rw [← Spec.map_comp, ← Spec.map_comp]
   congr 1
   refine CommRingCat.hom_ext (RingHom.ext fun b => ?_)

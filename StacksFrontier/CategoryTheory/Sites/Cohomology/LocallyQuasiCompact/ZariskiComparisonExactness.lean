@@ -109,7 +109,7 @@ private theorem almostLift
   let f' := eC.inverse ⋙ f ⋙ eD.functor
   let _ : eC.functor.IsDenseSubsite J J' := inferInstance
   let _ : eD.functor.IsDenseSubsite K K' := inferInstance
-  show IsAlmostCocontinuous f' J' K'
+  change IsAlmostCocontinuous f' J' K'
   intro U S hS
   obtain ⟨T, hT, hTmem⟩ := ha (eC.inverse.obj U)
     (((eD.toAdjunction.isCocontinuous_iff_coverPreserving K K').1
@@ -333,7 +333,7 @@ theorem opensToSlice_isAlmostCocontinuous
   let W (i : ι) : Opens X.obj := ⟨Set.range (m i), (hm i).isOpen_range⟩
   have hWU (i : ι) : W i ≤ U := by
     rintro x ⟨z, rfl⟩
-    show (m i) z ∈ U.1; rw [← hVrange]
+    change (m i) z ∈ U.1; rw [← hVrange]
     exact ⟨(F.map (g i)) z, by simp [m, Functor.map_comp]⟩
   have hcover : ∀ x ∈ U, ∃ i, x ∈ W i := fun x hx => by
     change x ∈ U.1 at hx; rw [← hVrange] at hx

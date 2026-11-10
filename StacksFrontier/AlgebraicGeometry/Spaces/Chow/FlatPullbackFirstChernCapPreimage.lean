@@ -306,7 +306,7 @@ theorem flatPullbackMult_preimageComponentImage_eq_geometricLength
   (closedSubspaceCycle_apply_closedSubspaceComponentImage D sX hX _
     (isClosedSubspace_preimage_integralClosedSubspace D sX hX sY hY f W) _
     (deltaDimensionSubspace_preimage_integralClosedSubspace_le D sX hX sY hY f hbase r hflat hr W)
-    V).trans (if_pos hV)
+    V).trans (ite_eq_left hV)
 
 include hbase hflat hr in
 /-- **An integral closed subspace of `f^{-1}(W)` of the maximal δ-dimension is an irreducible

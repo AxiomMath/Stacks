@@ -26,8 +26,8 @@ presentation.
 The source deduces Stacks 06PK from Stacks 06PJ applied to the action groupoid of Stacks 0444;
 the translation between the two criteria is
 `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_action_iff` of
-`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.GerbeGroupDescent`, whose statement takes
-the biconditional of Stacks 06PJ as an argument. That biconditional is
+`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.GerbeGroupDescent`, whose statement
+takes the biconditional of Stacks 06PJ as an argument. That biconditional is
 `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_iff_restrictionAlong`, whose implication
 towards algebraicity goes through Stacks 06FI
 (`AlgebraicGeometry.Stack.forall_isAlgebraicStack_quotientStack_of_flat`). Supplying it gives the

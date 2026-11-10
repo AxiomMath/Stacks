@@ -145,7 +145,7 @@ public theorem base_ne_of_mem_genericPoints_of_isEffectiveCartierDivisor_comap
   refine notMem_support_of_mem_genericPoints_of_isEffectiveCartierDivisor _ hcart hx ?_
   simp only [Scheme.IdealSheafData.mem_supportSet_iff_mem_support,
     Scheme.IdealSheafData.support_comap]
-  show f.base x ∈ I.supportSet
+  change f.base x ∈ I.supportSet
   rw [hsupp]
   exact hxy
 

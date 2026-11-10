@@ -108,6 +108,7 @@ universe u
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_EtaleSheafSpaceCoverCriterion
@@ -123,6 +124,7 @@ local instance (priority := high) hasPullback_presheaf_EtaleSheafSpaceCoverCrite
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is slow
 /-- Pullbacks in the slice over a presheaf on the big fppf site over `S` (instance search
 times out without this shortcut). -/
 local instance hasPullbacks_over_presheaf_EtaleSheafSpaceCoverCriterion

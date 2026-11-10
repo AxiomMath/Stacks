@@ -7,7 +7,8 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.Cosimpl
 # The complex of a fibrewise point resolution computes the homology of the fibres
 
 In the situation of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.FibredCategory.PointResolution.Basic`, for an abelian
+`StacksFrontier.CategoryTheory.Sites.Cohomology.FibredCategory.PointResolution.Basic`, for an
+abelian
 presheaf `G` on the total category and an object `V` of the base, the homology of `G(A_{•,V})` is
 the homology `H_n(C_V, G|_{C_V})` of the fibre category `C_V` with coefficients in the restriction
 of `G` (Stacks 08PF), by Stacks 08Q9 applied to the point resolution `A_{•,V}` of `C_V`.

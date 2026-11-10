@@ -55,7 +55,8 @@ transport read backwards:
 
 * `scalarLift` is an equivalence of module categories, hence of cochain complexes, hence of
   derived categories — all three instances are in
-  `StacksFrontier.Homology.TorAmplitude.DerivedComparison` — so `unliftedCanonicalTensor` is obtained
+  `StacksFrontier.Homology.TorAmplitude.DerivedComparison` — so `unliftedCanonicalTensor` is
+  obtained
   by precomposing both variables of the canonical bifunctor with `scalarLift.mapDerivedCategory`
   and postcomposing with its inverse.
 * the universal property survives both operations.  Precomposition with the equivalence is
@@ -332,7 +333,7 @@ public theorem moduleHasFiniteTorDimension_mixedCertified_of_flat (R : Type u) [
   refine (hasTorAmplitudeIn_canonical_iff (ULift.{v} R) _ 0 0).2 ?_
   refine ((hasTorDimensionLECanonical_iff_hasFlatRepresentative (ULift.{v} R)
     ((scalarLift.{u, v} (R := R)).obj M) 0).2).2 ?_
-  show Module.Flat (ULift.{v} R) (M : Type (max u v))
+  change Module.Flat (ULift.{v} R) (M : Type (max u v))
   rw [Module.Flat.ulift_left_iff]
   exact hM
 

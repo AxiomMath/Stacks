@@ -83,6 +83,7 @@ attribute [local instance 10000] HasDerivedCategory.standard
 open DerivedChow
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on a big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_DerivedChowNoetherian (B : BigFppfSite.{u})
@@ -320,7 +321,7 @@ theorem exists_derivedChowDatum_of_chart [IsNoetherianRing A]
       have hy' : y ∈ (Subfunctor.range Γ').obj c := hR ▸ hy
       obtain ⟨y₀, rfl⟩ := hy'
       exact ⟨y₀, rfl⟩
-  haveI : HasPullback (toBase B (Spec (.of A)) hA X).hom
+  have : HasPullback (toBase B (Spec (.of A)) hA X).hom
       (yoneda.map (projectiveSpaceSiteObjToBase B (Spec (.of A)) hA m hP)) :=
     HasLimitsOfShape.has_limit _
   have hsqA : IsPullback (k ≫ Zs.fromPreimage _) Γ' Zs.ι (pullback.fst _ (yoneda.map aP)) :=

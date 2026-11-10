@@ -281,7 +281,7 @@ theorem isOpen_sup_topologicalClosure_zpowers_pow {H : Subgroup Γ} [H.Normal]
     refine Set.mem_iUnion.2 ⟨⟨r', by exact_mod_cast hrn⟩, ?_⟩
     have hj : j = r' + n * t := by
       rw [hr', mul_comm]; exact (Int.emod_add_ediv_mul j n).symm
-    show (φ ^ r')⁻¹ * (h * (fun x => φ ^ x) j) ∈ S
+    change (φ ^ r')⁻¹ * (h * (fun x => φ ^ x) j) ∈ S
     simp only
     rw [hj, zpow_add, zpow_natCast, ← mul_assoc, ← mul_assoc]
     refine S.mul_mem ?_ (Subgroup.mem_sup_right (Subgroup.le_topologicalClosure _ ?_))

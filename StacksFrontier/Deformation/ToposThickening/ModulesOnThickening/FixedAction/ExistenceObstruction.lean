@@ -63,7 +63,7 @@ private lemma idealTensorHom_id (hi : FirstOrderThickening i)
     apply ModuleCat.MonoidalCategory.tensor_ext
     intro a x
     rfl
-  show (PresheafOfModules.sheafification (R := R) (𝟙 R.obj)).map
+  change (PresheafOfModules.sheafification (R := R) (𝟙 R.obj)).map
     (PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val)
       ((SheafOfModules.forget R).map (𝟙 F))) = 𝟙 _
   rw [h]
@@ -146,7 +146,7 @@ private lemma ideal_annihilates_restrictScalars (hi : FirstOrderThickening i)
     (show (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U
       from hi.incl.val.app U a) • x = 0 := by
   have ha := (hi.kernel U (hi.incl.val.app U a)).2 ⟨a, rfl⟩
-  show (i.fSharp.hom.app U (hi.incl.val.app U a)) • (show M.val.obj U from x) = 0
+  change (i.fSharp.hom.app U (hi.incl.val.app U a)) • (show M.val.obj U from x) = 0
   rw [ha, zero_smul]
 
 /-- Multiplication by the square-zero ideal on a module `H` over the thickened structure sheaf:
@@ -197,7 +197,7 @@ private lemma idealMultiplication_eq_tensor_inclusion (hi : FirstOrderThickening
         (tensorSheafUnitIso Y.O H).hom := by
   apply tensorSheaf_hom_ext Y.O
   intro U a x
-  show (idealMultiplication hi H).1.val.app U _ =
+  change (idealMultiplication hi H).1.val.app U _ =
     (tensorSheafUnitIso Y.O H).hom.val.app U
       ((((Stacks.SheafOfModules.Tensor.sheafTensor Y.O).flip.obj H).map hi.incl).val.app U _)
   rw [(idealMultiplication hi H).2, tensorSheaf_map_unit_tmul]
@@ -231,7 +231,7 @@ private lemma idealMultiplication_comp_eq_zero (hi : FirstOrderThickening i)
     (idealMultiplication hi H).1 ≫ p = 0 := by
   apply tensorSheaf_hom_ext Y.O
   intro U a x
-  show p.val.app U ((idealMultiplication hi H).1.val.app U _) = 0
+  change p.val.app U ((idealMultiplication hi H).1.val.app U _) = 0
   rw [(idealMultiplication hi H).2 U a x]
   exact ((p.val.app U).hom.map_smul _ x).trans
     (ideal_annihilates_restrictScalars hi F U a (p.val.app U x))
@@ -261,7 +261,7 @@ private lemma ideal_annihilates_of_epi (hi : FirstOrderThickening i)
           (hi.I.val.map t.op a ⊗ₜ[Y.O.obj.obj _] y))) hq
   change q.val.app _ ((idealMultiplication hi H).1.val.app _ _) = 0 at h
   rw [(idealMultiplication hi H).2] at h
-  show Y.O.obj.map t.op (hi.incl.val.app U a) • q.val.app (Opposite.op V) y = 0
+  change Y.O.obj.map t.op (hi.incl.val.app U a) • q.val.app (Opposite.op V) y = 0
   rw [← ha]
   exact ((q.val.app (Opposite.op V)).hom.map_smul
     (hi.incl.val.app (Opposite.op V) (hi.I.val.map t.op a)) y).symm.trans h
@@ -303,7 +303,7 @@ private lemma idealMultiplication_naturality (hi : FirstOrderThickening i)
       (idealMultiplication hi N).1 ≫ j := by
   apply tensorSheaf_hom_ext Y.O
   intro U a x
-  show (idealMultiplication hi H).1.val.app U
+  change (idealMultiplication hi H).1.val.app U
       ((tensorSheafMapRight Y.O _ j).val.app U _) =
     j.val.app U ((idealMultiplication hi N).1.val.app U _)
   rw [tensorSheafMapRight_unit_tmul, (idealMultiplication hi H).2,
@@ -352,7 +352,7 @@ private lemma extensionActionMap_mono_of_flat_presentation (hi : FirstOrderThick
   have hb : t ≫ b.1 = 0 := by
     apply tensorSheaf_hom_ext Y.O
     intro U a x
-    show b.1.val.app U (t.val.app U _) = 0
+    change b.1.val.app U (t.val.app U _) = 0
     rw [tensorSheafMapRight_unit_tmul, b.2]
     have hw := congrArg (fun f => f.val.app U x) w
     change p.val.app U (j.val.app U x) = 0 at hw
@@ -378,7 +378,7 @@ private lemma extensionActionMap_mono_of_flat_presentation (hi : FirstOrderThick
     change E.g.val.app U (u.val.app U x) = p.val.app U x at hp'
     change j.val.app U (l.val.app U _) = (idealMultiplication hi H).1.val.app U _ at hl'
     change u.val.app U (j.val.app U _) = E.f.val.app U (q.val.app U _) at hu'
-    show E.f.val.app U ((extensionActionMap hi E).1.val.app U (b.1.val.app U _)) =
+    change E.f.val.app U ((extensionActionMap hi E).1.val.app U (b.1.val.app U _)) =
       E.f.val.app U (q.val.app U (l.val.app U _))
     rw [b.2]
     have he := (extensionActionMap hi E).2 U a (u.val.app U x)

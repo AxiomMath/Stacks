@@ -111,7 +111,7 @@ theorem mem_span_nodalGen_zero_of_mul {h : R} {c : nodalChartRing R h}
         (Ideal.map Polynomial.C (Ideal.span {h})) ≤ J := by
       rw [Ideal.map_map, Ideal.map_span, Ideal.span_le, Set.image_singleton,
         Set.singleton_subset_iff]
-      show σ (Polynomial.C h) ∈ J
+      change σ (Polynomial.C h) ∈ J
       rw [Polynomial.aeval_C, ← nodalGen_zero_mul_nodalGen_one]
       exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self _)
     exact hle (Ideal.mem_map_of_mem _ h5)

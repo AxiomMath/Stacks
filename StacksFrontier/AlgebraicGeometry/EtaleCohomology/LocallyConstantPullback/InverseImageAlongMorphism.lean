@@ -60,7 +60,7 @@ theorem lccModules_etaleModuleInverseImage (N : ℕ) {U U' : Scheme.{u}} (u' : U
       rw [hsurj]; trivial
     obtain ⟨i, y, hy⟩ := Set.mem_iUnion.1 hx
     refine Set.mem_iUnion.2 ⟨i, ?_⟩
-    show x ∈ Set.range (pullback.snd (V i).hom (W'.hom ≫ u')).base
+    change x ∈ Set.range (pullback.snd (V i).hom (W'.hom ≫ u')).base
     rw [Scheme.Pullback.range_snd]
     exact ⟨y, by rwa [hw]⟩
   · obtain ⟨E, hE, ⟨c⟩⟩ := htriv i
@@ -74,7 +74,7 @@ theorem lccModules_etaleModuleInverseImage (N : ℕ) {U U' : Scheme.{u}} (u' : U
         (etaleOverSheafEquivalence (V i) _).functor.mapIso c.symm ≪≫
         (etaleOverSheafEquivalenceConstantIso (V i) _).app E
     have hsq : (P i).hom ≫ u' = pullback.fst (V i).hom (W'.hom ≫ u') ≫ (V i).hom := by
-      show (pullback.snd (V i).hom (W'.hom ≫ u') ≫ W'.hom) ≫ u' = _
+      change (pullback.snd (V i).hom (W'.hom ≫ u') ≫ W'.hom) ≫ u' = _
       rw [Category.assoc, ← pullback.condition]
     exact (etaleOverSheafEquivalenceConstantIso (P i) _).app E ≪≫
       ((etaleModuleInverseImageConstantIso (ZMod N)

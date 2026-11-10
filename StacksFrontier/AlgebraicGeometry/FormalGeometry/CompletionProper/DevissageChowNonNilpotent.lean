@@ -8,8 +8,8 @@ public import
 # The ideal sheaf of the Chow step has no vanishing power
 
 The last two results of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/DevissageContraction.lean` carry an
-explicit hypothesis
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/DevissageContraction.lean` carry
+an explicit hypothesis
 
   `∀ e, ℒ ᵉ⁺¹ ≠ ⊥`
 

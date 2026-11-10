@@ -86,7 +86,7 @@ theorem isGeneratedByGlobalSections_tensorPower_of_two_le_genus [IsProper f] [Is
   let S : CohenMacaulayCurveSituation.{u} := ⟨k, X, f, hdim⟩
   refine CohenMacaulayCurveSituation.isGeneratedByGlobalSections_of_two_mul_genus_le (S := S)
     (tensorPower X.presheaf X.ringCatSheaf.2 N m) ?_
-  show 2 * (genus f : ℤ) ≤ invertibleCurveDegree k f hdim.le _
+  change 2 * (genus f : ℤ) ≤ invertibleCurveDegree k f hdim.le _
   rw [invertibleCurveDegree_tensorPower k f hdim.le N m, hN]
   have hg : (2 : ℤ) ≤ genus f := by exact_mod_cast hgenus
   have hm' : (2 : ℤ) ≤ m := by exact_mod_cast hm

@@ -72,8 +72,9 @@ is why `Stacks.Cohomology.DerivedSectionsLeray.pushforwardPreimageSectionsIso` i
 records the right-derived-functor instance at the second spelling and the unit is written here
 through the same `show`.
 
-*Left exactness of the direct image is a local instance*, for the reason `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/HomologyEdge.lean`
-records: the statement of an edge morphism needs it to elaborate, not only to prove.
+*Left exactness of the direct image is a local instance*, for the reason
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/HomologyEdge.lean` records: the
+statement of an edge morphism needs it to elaborate, not only to prove.
 
 *Enough injectives is a local instance too.* The invertibility criterion
 `Stacks.BoundedBelowEdge.isIso_derivedHomologyComparison_app_of_isGE` asks for it in the source

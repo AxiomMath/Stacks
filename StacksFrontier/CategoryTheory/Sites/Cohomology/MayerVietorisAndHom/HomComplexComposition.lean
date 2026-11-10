@@ -494,7 +494,7 @@ private lemma compositionFun_tmul
         (β ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)] γ)) =
       h ▸ composeLocalHomSections X K L M U p q β γ := by
   subst n
-  show ((HomologicalComplex.ιMapBifunctor
+  change ((HomologicalComplex.ιMapBifunctor
       (underlyingPresheafComplex X (sheafHomComplex X L M).obj)
       (underlyingPresheafComplex X (sheafHomComplex X K L).obj)
       (curriedTensor (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj))
@@ -591,7 +591,7 @@ theorem exists_composition : Nonempty (CompositionConstruction X) :=
        intro K L M U p q r s hrs hsp β γ x
        unfold tensorTotalSection
        rw [sheafifyLift_unit_apply]
-       show applyHomSection X _ U (p + q) r (r + q + p) _
+       change applyHomSection X _ U (p + q) r (r + q + p) _
          ((compositionFun X K L M (p + q)).app (op U) _) x = _
        rw [compositionFun_tmul]
        exact apply_composeLocalHomSections X K L M U p q r s (r + q + p) hrs hsp β γ x }⟩

@@ -71,7 +71,7 @@ theorem ker_Γ_map_eq_of_range_iso {W P : BigFppfOver B S hS} (j : W ⟶ V) [Mon
       (Subfunctor.range (yoneda.map j)).ι := by
     rw [IsIso.inv_comp_eq, Subfunctor.toRange_ι]
   have he : yoneda.map s = e ≫ yoneda.map j := by
-    show _ = (t ≫ inv (Subfunctor.toRange (yoneda.map j))) ≫ yoneda.map j
+    change _ = (t ≫ inv (Subfunctor.toRange (yoneda.map j))) ≫ yoneda.map j
     rw [Category.assoc, hr, h]
   have hsnd : s = yoneda.preimage e ≫ j := yoneda.map_injective (he.trans (by simp))
   have : IsIso e := by dsimp only [e]; infer_instance
@@ -205,7 +205,7 @@ theorem mem_idealKernel_iff_of_isAffine (U : SmallEtale B S hS X.1)
   · let x' : (idealKernel φ J).toSheafOfModules.val.obj (op U) := ⟨x, hx⟩
     have hx' : x = (idealMultipleι φ (structureSheafModule B S hS X) J).val.app (op U)
         ((kernelToIdealMultiple φ J).val.app (op U) x') := by
-      show x = ((kernelToIdealMultiple φ J) ≫
+      change x = ((kernelToIdealMultiple φ J) ≫
         idealMultipleι φ (structureSheafModule B S hS X) J).val.app (op U) x'
       rw [kernelToIdealMultiple_ι]
       rfl
@@ -270,7 +270,7 @@ theorem globalSectionsRingHomSite_comp_pullbackRingHom {X Y : AlgebraicSpaces B 
       (chart_preimage_etale B S hS X U.unop.1.hom U.unop.2 (hrep.snd k) hsnd_et)
   let d : ChartDiagram B S hS X.1 Y.1 g.hom :=
     ⟨PC, ⟨CostructuredArrow.mk q, hqet⟩, hrep.fst' k, by
-      show (yoneda.map (hrep.snd k) ≫ U.unop.1.hom) ≫ g.hom = yoneda.map (hrep.fst' k) ≫ q
+      change (yoneda.map (hrep.snd k) ≫ U.unop.1.hom) ≫ g.hom = yoneda.map (hrep.fst' k) ≫ q
       rw [Category.assoc]
       exact hpb.w.symm⟩
   let ι : PC ⟶ U.unop := ObjectProperty.homMk (CostructuredArrow.homMk (hrep.snd k) rfl)
@@ -278,7 +278,7 @@ theorem globalSectionsRingHomSite_comp_pullbackRingHom {X Y : AlgebraicSpaces B 
       (pullbackRingHom B V (g ≫ f) a).1 (op PC) := by
     rw [RingHom.comp_apply,
       globalSectionsRingHomSite_val_chartDiagram B S hS g (pullbackRingHom B V f a) d]
-    show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (hrep.fst' k)).op).hom
+    change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (hrep.fst' k)).op).hom
         ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
           (yoneda.preimage (q ≫ f.hom))).op).hom a) =
       (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map

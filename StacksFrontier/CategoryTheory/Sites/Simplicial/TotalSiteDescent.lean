@@ -407,13 +407,13 @@ theorem map_vertex_eq_of_loop_totalSiteDescent (hG : (situation J K).IsCartesian
   have jψ : (totalForget K).map ψ = g' ≫ g := totalForget_map_chartHom_totalSiteCharts _ _ _
   have e₁ : ιf ≫ s = ρ 1 ≫ ψ := by
     refine total_hom_ext K _ _ ?_ ?_
-    · show 𝟙 _ ≫ s.base = (SimplexCategory.δ 1).op ≫ 𝟙 _
+    · change 𝟙 _ ≫ s.base = (SimplexCategory.δ 1).op ≫ 𝟙 _
       rw [hs, Category.id_comp, Category.comp_id]
     · rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp, hιf, jρ, jψ]
       exact (Category.id_comp _).symm
   have e₀ : ιf ≫ s' = ρ 0 ≫ ψ := by
     refine total_hom_ext K _ _ ?_ ?_
-    · show 𝟙 _ ≫ s'.base = (SimplexCategory.δ 0).op ≫ 𝟙 _
+    · change 𝟙 _ ≫ s'.base = (SimplexCategory.δ 0).op ≫ 𝟙 _
       rw [hs', Category.id_comp, Category.comp_id]
     · rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp, hιf, jρ, jψ, ← hj]
       exact (Category.id_comp _).symm
@@ -422,7 +422,7 @@ theorem map_vertex_eq_of_loop_totalSiteDescent (hG : (situation J K).IsCartesian
         SimplexCategory.δ l ≫ SimplexCategory.δ j → D i ≫ ρ k = D j ≫ ρ l := by
     intro i j k l h
     refine total_hom_ext K _ _ ?_ ?_
-    · show (SimplexCategory.δ i).op ≫ (SimplexCategory.δ k).op =
+    · change (SimplexCategory.δ i).op ≫ (SimplexCategory.δ k).op =
         (SimplexCategory.δ j).op ≫ (SimplexCategory.δ l).op
       rw [← op_comp, ← op_comp, h]
     · rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp, jD, jD, jρ, jρ]
@@ -433,7 +433,7 @@ theorem map_vertex_eq_of_loop_totalSiteDescent (hG : (situation J K).IsCartesian
     bijective_map_chartHom_id_totalSiteCharts J G hG (SimplexCategory.δ i) σ c' (hD i)
   have bijρ : ∀ i : Fin 2, Function.Bijective (G.obj.map (ρ i).op) := fun i =>
     bijective_map_chartHom_id_totalSiteCharts J G hG (SimplexCategory.δ i) c' _ (hρ i)
-  show G.obj.map ιf.op (G.obj.map s.op z) = G.obj.map ιf.op (G.obj.map s'.op z)
+  change G.obj.map ιf.op (G.obj.map s.op z) = G.obj.map ιf.op (G.obj.map s'.op z)
   rw [← map_comp_op_apply_totalSiteDescent, ← map_comp_op_apply_totalSiteDescent, e₁, e₀,
     map_comp_op_apply_totalSiteDescent, map_comp_op_apply_totalSiteDescent]
   set y := G.obj.map ψ.op z
@@ -552,7 +552,7 @@ theorem isDescent_of_local_totalSiteDescent {V : C} {b : (FormalCoproduct.incl C
     (totalForget_map_ι_eq_componentOverForget_map_totalSiteCharts fq).trans jfq
   have hsq : ιf ≫ t = t'' ≫ ιfq := by
     refine total_hom_ext K _ _ ?_ ?_
-    · show 𝟙 _ ≫ t.base = t.base ≫ 𝟙 _
+    · change 𝟙 _ ≫ t.base = t.base ≫ 𝟙 _
       rw [Category.id_comp, Category.comp_id]
     · rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp, hιf, jt'', jιfq]
       exact (Category.id_comp _).symm
@@ -637,7 +637,7 @@ theorem transport_core_totalSiteDescent (hG : (situation J K).IsCartesianSheaf G
     totalForget_map_chartHom_totalSiteCharts _ _ _
   have heq : D ≫ s = D' ≫ crossHomTotalSiteCharts (SimplexCategory.δ p).op e := by
     refine total_hom_ext K _ _ ?_ ?_
-    · show (SimplexCategory.δ i).op ≫ s.base =
+    · change (SimplexCategory.δ i).op ≫ s.base =
         (SimplexCategory.δ k).op ≫ (SimplexCategory.δ p).op
       rw [hs, ← op_comp, ← op_comp, hδ]
     · rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp, jD, jD', jcf, hjs]
@@ -927,7 +927,7 @@ theorem _root_.CategoryTheory.Functor.IsCoverDense.isIso_of_isIso_whiskerLeft_to
     rintro W g ⟨⟨x, lift, m, fac⟩⟩
     have hm : F.obj.map m.op s = F.obj.map m.op s' := (hb x).1 (by
       rw [NatTrans.naturality_apply, NatTrans.naturality_apply, hs])
-    show F.obj.map g.op s = F.obj.map g.op s'
+    change F.obj.map g.op s = F.obj.map g.op s'
     rw [← fac, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, hm]
   · constructor
     intro U t
@@ -1020,7 +1020,7 @@ theorem isDescent_sections_totalSiteDescent (s : (arrowDiagramTotalSiteDescent G
       (op_comp.symm.trans (congrArg Quiver.Hom.op h)))
   let g' : vertexArrowTotalSiteDescent x (idArrowTotalSiteDescent x) ⟶ B :=
     StructuredArrow.homMk t'.op (by
-    show 𝟙 _ ≫ ((totalForget K).map t').op = ((totalForget K).map t').op
+    change 𝟙 _ ≫ ((totalForget K).map t').op = ((totalForget K).map t').op
     exact Category.id_comp _)
   exact (s.2 g).trans (s.2 g').symm
 
@@ -1055,7 +1055,7 @@ theorem exists_sections_totalSiteDescent (hG : (situation J K).IsCartesianSheaf 
   refine ⟨⟨fun A => G.obj.map (vertexHomTotalSiteDescent A.right.unop).op (hd A).choose, ?_⟩, ?_⟩
   · intro A A' g
     have hw := StructuredArrow.w g
-    show G.obj.map g.right (G.obj.map (vertexHomTotalSiteDescent A.right.unop).op (hd A).choose) =
+    change G.obj.map g.right (G.obj.map (vertexHomTotalSiteDescent A.right.unop).op (hd A).choose) =
       G.obj.map (vertexHomTotalSiteDescent A'.right.unop).op (hd A').choose
     refine (map_comp_op_apply_totalSiteDescent G (g.right.unop)
       (vertexHomTotalSiteDescent A.right.unop) _).symm.trans ?_
@@ -1067,7 +1067,7 @@ theorem exists_sections_totalSiteDescent (hG : (situation J K).IsCartesianSheaf 
       ((congrArg (· ≫ A'.hom.unop)
         (totalForget_map_vertexHom_totalSiteDescent A'.right.unop)).trans
         (Category.id_comp _)).symm
-  · show G.obj.map (vertexHomTotalSiteDescent x).op (hd (idArrowTotalSiteDescent x)).choose = z
+  · change G.obj.map (vertexHomTotalSiteDescent x).op (hd (idArrowTotalSiteDescent x)).choose = z
     exact (congrArg (fun w => G.obj.map (vertexHomTotalSiteDescent x).op w)
       (IsSectionDescent.unique hG hE
         (isDescent_self_totalSiteDescent G (vertexChartTotalSiteDescent x) hG hT z₀)

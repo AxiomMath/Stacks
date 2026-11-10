@@ -134,7 +134,7 @@ public theorem finite_degreeZeroLocalization [Algebra.FiniteType (𝒜 0) A] [Mo
     simpa [ε] using (HomogeneousLocalization.Away.val_toSubmodulesEquiv 𝒜 h0 f (ε r)).symm
   have hsmul : ∀ (r : SLoc 𝒜' f) (z : MLocAll f (M := M)), r • z = (ε r) • z := by
     intro r z
-    show r.val • z = (ε r).val • z
+    change r.val • z = (ε r).val • z
     rw [hval]
   exact Module.Finite.of_addEquiv ε.toRingHom
     { toFun := fun x => ⟨x.1, (hmem x.1).mp x.2⟩

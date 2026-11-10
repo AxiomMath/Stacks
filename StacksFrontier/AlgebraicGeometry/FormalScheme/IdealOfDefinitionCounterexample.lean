@@ -173,7 +173,7 @@ theorem eq_zero_of_germ_eq_zero_of_isAffine (X : Scheme.{u}) [IsAffine X]
   have halg : ∀ a : Γ(X, ⊤), X.presheaf.map (homOfLE hle).op (algebraMap Γ(X, ⊤)
       Γ(X, X.basicOpen g) a) = algebraMap Γ(X, ⊤) Γ(X, X.basicOpen (g * hh)) a := by
     intro a
-    show X.presheaf.map (homOfLE hle).op (X.presheaf.map (homOfLE (X.basicOpen_le g)).op a) =
+    change X.presheaf.map (homOfLE hle).op (X.presheaf.map (homOfLE (X.basicOpen_le g)).op a) =
       X.presheaf.map (homOfLE (X.basicOpen_le (g * hh))).op a
     rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
     rfl
@@ -191,7 +191,7 @@ theorem eq_zero_of_germ_eq_zero_of_isAffine (X : Scheme.{u}) [IsAffine X]
       exact hinj (by rw [ha, map_zero])
     rw [ha0, IsLocalization.mk'_zero] at hm
     exact hm.symm
-  show X.presheaf.germ V y hy s = X.presheaf.germ V y hy 0
+  change X.presheaf.germ V y hy s = X.presheaf.germ V y hy 0
   rw [map_zero, ← TopCat.Presheaf.germ_res_apply X.presheaf (homOfLE hgV) y hyg s,
     ht0, map_zero]
 
@@ -391,7 +391,7 @@ theorem isIdealOfDefinition_germsVanishingOff_span (X : Scheme.{u}) {ε : Γ(X, 
     have hs' := (mem_germsVanishingOffIdeal X _ c W s).mp hs
     have ht' := (mem_germsVanishingOffIdeal X _ c W t).mp ht
     refine TopCat.Presheaf.section_ext X.sheaf W (s * t) 0 fun y hy => ?_
-    show X.presheaf.germ W y hy (s * t) = X.presheaf.germ W y hy 0
+    change X.presheaf.germ W y hy (s * t) = X.presheaf.germ W y hy 0
     obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.mp (hs' y hy).1
     obtain ⟨b, hb⟩ := Ideal.mem_span_singleton'.mp (ht' y hy).1
     have hεy : (X.presheaf.Γgerm y ε) ^ 2 = 0 := by rw [← map_pow, hε, map_zero]
@@ -568,7 +568,7 @@ theorem exists_prime_not_mem_factorial_mem {e : TruncRing} (he : ¬ IsNilpotent 
     have hdvd : p ∣ (reduction e).natAbs := Int.natCast_dvd.mp hmem
     have := Nat.le_of_dvd (Int.natAbs_pos.mpr hne) hdvd
     omega
-  · show ((reduction (p.factorial : TruncRing) : ℤ) : ZMod p) = 0
+  · change ((reduction (p.factorial : TruncRing) : ℤ) : ZMod p) = 0
     rw [map_natCast, Int.cast_natCast, ZMod.natCast_eq_zero_iff]
     exact Nat.dvd_factorial hp.pos le_rfl
 
@@ -578,7 +578,7 @@ theorem mk_X_pow_self_ne_zero (m : ℕ) : (Ideal.Quotient.mk truncationIdeal (X 
   rw [← map_pow, Ne, Ideal.Quotient.eq_zero_iff_mem, mem_truncationIdeal_iff, X_pow_eq_monomial]
   intro h
   obtain ⟨k, hk⟩ := h (Finsupp.single m m) (by
-    rw [support_monomial, if_neg one_ne_zero]; exact Finset.mem_singleton_self _)
+    rw [support_monomial, ite_eq_right one_ne_zero]; exact Finset.mem_singleton_self _)
   have hkk := hk k
   rw [Finsupp.single_eq_same] at hkk
   by_cases hkm : k = m

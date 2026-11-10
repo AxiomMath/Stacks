@@ -343,7 +343,7 @@ theorem chowClassCanonical_closedSubspaceCyclePushforward_gysinCycleMap_sectionG
   have hfin : LocallyFinite fun W : {W : IntegralClosedSubspace D.site D.base D.base_mem X //
       α.1 W ≠ 0} => subspacePointSet D.site D.base D.base_mem X W.1.subspace :=
     (α.2.1.comp_injective Subtype.val_injective).subset fun W => by
-      simp only [Function.comp_apply, if_neg W.2, subset_refl]
+      simp only [Function.comp_apply, ite_eq_right W.2, subset_refl]
   have hC := firstChernCapCycleMap_eq_cycleFamilySum D p hp k
     (fun W hW => restrictedDivisorCycle D p hp L k hL W hW -
       canonicalFirstChernRule D p hp L hLm k W hW) α

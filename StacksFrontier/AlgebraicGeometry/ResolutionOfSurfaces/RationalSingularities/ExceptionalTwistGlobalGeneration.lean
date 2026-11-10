@@ -252,7 +252,8 @@ theorem isZero_firstCohomology_curveTwist_of_dualityVanishing
     (cohenMacaulayCurveSituationExceptionalDivisor S) ωE hdual
     (curveTwistSheaf S.A ((n + 1 : ℕ) : ℤ)) (generatingSectionsCurveTwistSheaf S (n + 1))
     (not_isTrivial_curveTwistSheaf S (n + 1) (by omega))
-  rwa [ModuleCat.isZero_iff_subsingleton] at h ⊢
+  rw [ModuleCat.isZero_iff_subsingleton] at h ⊢
+  assumption
 
 /-- **`H¹(X, ω_X(n)) = 0` for every `n ≥ 0`**, with the [Stacks, Tag 0B62] vanishing on the
 exceptional curve replaced by duality for `ω_E`.

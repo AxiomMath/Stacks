@@ -131,7 +131,7 @@ instance epi_fromFreeCoverSplit : Epi (fromFreeCoverSplit M) :=
 /-- Each module of sections of the free cover `freeCoverSplit M` is flat. -/
 lemma flat_freeCoverSplit_obj (X : Cᵒᵖ) :
     Module.Flat ((ringPresheaf O).obj X) ((freeCoverSplit M).obj X) := by
-  show Module.Flat ((ringPresheaf O).obj X)
+  change Module.Flat ((ringPresheaf O).obj X)
     ((M.presheaf ⋙ forget _).obj X →₀ (ringPresheaf O).obj X)
   infer_instance
 

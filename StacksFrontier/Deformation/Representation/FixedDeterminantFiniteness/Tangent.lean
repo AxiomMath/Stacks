@@ -51,7 +51,7 @@ variable {ℓ n : ℕ} [Fact ℓ.Prime] {π : Type u} [Group π] [TopologicalSpa
 section SquareZero
 
 variable (h : IsUniversalFixedDeterminantDeformation ℓ n π ρ₀ δ R reduce ρuniv)
-  (I : Ideal R) [IsLocalRing (R ⧸ I)] [Algebra (ZMod ℓ) (R ⧸ I)]
+  (I : Ideal R) [IsLocalRing (R ⧸ I)]
 
 include h in
 /-- If `𝔪² ⊆ I`, the maximal ideal of `R ⧸ I` has square zero. -/
@@ -71,6 +71,8 @@ theorem matrix_mul_eq_zero_of_mem (hI : maximalIdeal R ^ 2 ≤ I)
   ext i j
   simp only [Matrix.mul_apply, Matrix.zero_apply]
   exact Finset.sum_eq_zero fun k _ => h.mul_eq_zero_of_mem_maximalIdeal I hI (hX i k) (hY k j)
+
+variable [Algebra (ZMod ℓ) (R ⧸ I)]
 
 /-- The constant deformation `ρ₀` over `R ⧸ I`. -/
 abbrev constRep (g : π) : Matrix (Fin n) (Fin n) (R ⧸ I) :=
@@ -147,9 +149,9 @@ theorem deviationFunctional_sub (μ μ' : (R ⧸ I) →ₗ[ZMod ℓ] ZMod ℓ) (
 
 end SquareZero
 
+omit [IsLocalRing R] [TopologicalSpace R] in
 /-- A local quotient of `R` in which `ℓ` vanishes has characteristic `ℓ`. -/
-theorem charP_quotient (h : IsUniversalFixedDeterminantDeformation ℓ n π ρ₀ δ R reduce ρuniv)
-    (J : Ideal R) [IsLocalRing (R ⧸ J)] (hℓ : algebraMap ℤ_[ℓ] R ℓ ∈ J) :
+theorem charP_quotient (J : Ideal R) [IsLocalRing (R ⧸ J)] (hℓ : algebraMap ℤ_[ℓ] R ℓ ∈ J) :
     CharP (R ⧸ J) ℓ := by
   refine (CharP.charP_iff_prime_eq_zero (Fact.out : ℓ.Prime)).2 ?_
   rw [← map_natCast (algebraMap ℤ_[ℓ] (R ⧸ J)), ← Ideal.Quotient.mk_algebraMap,
@@ -162,18 +164,17 @@ theorem algebraMap_mem_maximalIdeal
     algebraMap ℤ_[ℓ] R ℓ ∈ maximalIdeal R := by
   rw [← h.ker_reduce, RingHom.mem_ker, h.reduce_algebraMap, map_natCast, ZMod.natCast_self]
 
+omit [TopologicalSpace R] in
 /-- A quotient of `R` by an ideal contained in the maximal ideal is local. -/
-theorem isLocalRing_quotient_of_le
-    (h : IsUniversalFixedDeterminantDeformation ℓ n π ρ₀ δ R reduce ρuniv) (J : Ideal R)
-    (hJ : J ≤ maximalIdeal R) : IsLocalRing (R ⧸ J) :=
+theorem isLocalRing_quotient_of_le (J : Ideal R) (hJ : J ≤ maximalIdeal R) : IsLocalRing (R ⧸ J) :=
   have : Nontrivial (R ⧸ J) := Ideal.Quotient.nontrivial_iff.2
     (ne_top_of_le_ne_top (maximalIdeal.isMaximal R).ne_top hJ)
   IsLocalRing.of_surjective' _ Ideal.Quotient.mk_surjective
 
+omit [TopologicalSpace R] in
 /-- If `𝔪² ⊆ I`, the quotient `R ⧸ I` is complete for its maximal ideal. -/
-theorem isAdicComplete_quotient_of_sq_le
-    (h : IsUniversalFixedDeterminantDeformation ℓ n π ρ₀ δ R reduce ρuniv) (J : Ideal R)
-    [IsLocalRing (R ⧸ J)] (hJ : maximalIdeal R ^ 2 ≤ J) :
+theorem isAdicComplete_quotient_of_sq_le (J : Ideal R) [IsLocalRing (R ⧸ J)]
+    (hJ : maximalIdeal R ^ 2 ≤ J) :
     IsAdicComplete (maximalIdeal (R ⧸ J)) (R ⧸ J) := by
   refine isAdicComplete_of_pow_eq_bot _ (k := 2) ?_
   rw [← IsLocalRing.map_maximalIdeal_of_surjective _ Ideal.Quotient.mk_surjective, ← Ideal.map_pow,
@@ -199,8 +200,8 @@ theorem finite_quotient_sq_sup_span [IsTopologicalGroup π]
   have hI₀m : I₀ ≤ maximalIdeal R :=
     sup_le (Ideal.pow_le_self two_ne_zero)
       ((Ideal.span_singleton_le_iff_mem _).2 h.algebraMap_mem_maximalIdeal)
-  have : IsLocalRing T := h.isLocalRing_quotient_of_le I₀ hI₀m
-  have : CharP T ℓ := h.charP_quotient I₀ hℓI₀
+  have : IsLocalRing T := isLocalRing_quotient_of_le I₀ hI₀m
+  have : CharP T ℓ := charP_quotient I₀ hℓI₀
   let : Algebra (ZMod ℓ) T := ZMod.algebra T ℓ
   set alg := algebraMap (ZMod ℓ) T
   set mk : R →+* T := Ideal.Quotient.mk I₀
@@ -217,8 +218,8 @@ theorem finite_quotient_sq_sup_span [IsTopologicalGroup π]
     rw [Ideal.mem_comap, Ideal.Quotient.eq_zero_iff_mem.2 ha]; exact U.zero_mem
   have hI₁m : I₁ ≤ maximalIdeal R := fun a ha =>
     (h.mk_mem_maximalIdeal_quotient_iff I₀ a).1 (hUm ha)
-  have : IsLocalRing (R ⧸ I₁) := h.isLocalRing_quotient_of_le I₁ hI₁m
-  have : CharP (R ⧸ I₁) ℓ := h.charP_quotient I₁ (hI₀₁ hℓI₀)
+  have : IsLocalRing (R ⧸ I₁) := isLocalRing_quotient_of_le I₁ hI₁m
+  have : CharP (R ⧸ I₁) ℓ := charP_quotient I₁ (hI₀₁ hℓI₀)
   let : Algebra (ZMod ℓ) (R ⧸ I₁) := ZMod.algebra (R ⧸ I₁) ℓ
   have hfactorU : ∀ x ∈ U, Ideal.Quotient.factor hI₀₁ x = 0 := fun x hx => by
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
@@ -245,7 +246,7 @@ theorem finite_quotient_sq_sup_span [IsTopologicalGroup π]
     hn₁ (h.normalizedPushforward I₁) (h.normalizedPushforward_sub_mem I₁)
     (h.det_normalizedPushforward I₁) hN
   have hmI₁ : maximalIdeal R ≤ I₁ := h.maximalIdeal_le_of_conj_eq I₁
-    (h.isAdicComplete_quotient_of_sq_le I₁ (hsqI₀.trans hI₀₁)) 1
+    (isAdicComplete_quotient_of_sq_le I₁ (hsqI₀.trans hI₀₁)) 1
     fun g => by rw [inv_one, one_mul, mul_one]; exact hrig g
   have hmU : maximalIdeal T ≤ U := fun x hx => by
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x

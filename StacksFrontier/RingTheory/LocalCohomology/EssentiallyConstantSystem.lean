@@ -230,7 +230,7 @@ private theorem exists_conePoint_with_projection_of_stable
     ⟨fun n => (a n.unop).1, by
       intro n m f
       let h : m.unop ≤ n.unop := leOfHom f.unop
-      show S.φ h ((a n.unop).1) = (a m.unop).1
+      change S.φ h ((a n.unop).1) = (a m.unop).1
       exact congrArg Subtype.val (ha h)⟩
   let L := isLimitOfPreserves (forget (ModuleCat.{v} A)) hc
   refine ⟨(Types.isLimitEquivSections L).symm sec, ?_⟩
@@ -301,7 +301,7 @@ private theorem eventually_injective_cone_projection
     { toFun := fun n => OrderDual.toDual (LinearMap.ker (p n))
       monotone' := by
         intro a b hab
-        show LinearMap.ker (p b) ≤ LinearMap.ker (p a)
+        change LinearMap.ker (p b) ≤ LinearMap.ker (p a)
         intro z hz
         rw [LinearMap.mem_ker] at hz ⊢
         have hcp := cone_projection_compat c hab z
@@ -328,7 +328,7 @@ private theorem eventually_injective_cone_projection
       apply Subtype.ext
       funext m
       simp only [Types.isLimitEquivSections_apply]
-      show (p m.unop) z = (p m.unop) 0
+      change (p m.unop) z = (p m.unop) 0
       rw [hp m.unop, map_zero]
     exact (Types.isLimitEquivSections hlim).injective hsections
   refine ⟨n, fun m hnm => ?_⟩
@@ -453,7 +453,7 @@ public theorem isEssentiallyConstantWith_of_isMittagLeffler_of_eventually_inject
     refine ⟨op k, op (homOfLE hik), op (homOfLE hjk), ?_⟩
     apply ModuleCat.hom_ext
     ext x
-    show t hjk x = p jn (sₗ (t hik x))
+    change t hjk x = p jn (sₗ (t hik x))
     by_cases hjn : jn ≤ n
     · calc
         t hjk x = t hjn (t hnk x) := (tcomp hjn hnk x).symm

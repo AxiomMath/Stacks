@@ -83,7 +83,7 @@ theorem isEtaleChart_relocalizeChart_iff (hX : IsAlgebraicSpace B T hT X)
     (A : CostructuredArrow yoneda X) :
     IsEtaleChart B S hS ((OverShriek.relocalizePresheafFunctor g).obj X)
         ((OverShriek.relocalizeChart g X).obj A) ↔ IsEtaleChart B T hT X A := by
-  show MorphismProperty.presheaf (MorphismProperty.inverseImage
+  change MorphismProperty.presheaf (MorphismProperty.inverseImage
       (@Etale.{u} : MorphismProperty Scheme.{u}) (BigFppfOver.toScheme B S hS))
       (yonedaEquiv.symm (OverShriek.relocalizeChartSection g X A)) ↔ _
   rw [OverShriek.relocalizeChart_hom, ← OverShriek.relocalizeYonedaFactorIso_hom]
@@ -256,7 +256,7 @@ underlying schemes, so the structure sheaf sends it to the identity. -/
 theorem structurePresheaf_map_relocalize_unitInv (U : SmallEtale B T hT X) :
     (structurePresheaf B T hT X).map ((SmallEtale.relocalize B hT hS g X hX).unitInv.app U).op =
       𝟙 _ := by
-  show Scheme.Γ.map (𝟙 _).op = 𝟙 _
+  change Scheme.Γ.map (𝟙 _).op = 𝟙 _
   rw [op_id, Scheme.Γ.map_id]
 
 /-- The functor of the symmetric equivalence of small étale sites is continuous. -/
@@ -288,7 +288,7 @@ theorem reindexBackSharp_relocalize_symm :
         (J' := SmallEtale.topology B S hS _) (SmallEtale.relocalize B hT hS g X hX).symm
         (relocalizeBaseRingSheaf B hT X hX) = 𝟙 (relocalizeBaseRingSheaf B hT X hX) := by
   refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_))
-  show (forget₂ CommRingCat RingCat).map ((structurePresheaf B T hT X).map
+  change (forget₂ CommRingCat RingCat).map ((structurePresheaf B T hT X).map
     ((SmallEtale.relocalize B hT hS g X hX).unitInv.app U.unop).op) = 𝟙 _
   rw [structurePresheaf_map_relocalize_unitInv]
   exact (forget₂ CommRingCat RingCat).map_id _
@@ -306,7 +306,7 @@ noncomputable def relocalizeModulesEquivalenceSymm :
 theorem relocalizeModulesEquivalenceSymm_inverse :
     (relocalizeModulesEquivalenceSymm B hT hS g X hX).inverse =
       (relocalizeModulesEquivalence B hT hS g X hX).inverse := by
-  show SheafOfModules.pushforward _ = SheafOfModules.pushforward _
+  change SheafOfModules.pushforward _ = SheafOfModules.pushforward _
   rw [reindexBackSharp_relocalize_symm]
   rfl
 

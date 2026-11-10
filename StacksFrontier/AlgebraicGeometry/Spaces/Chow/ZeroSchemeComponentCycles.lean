@@ -657,7 +657,8 @@ theorem IntegralClosedSubspace.length_quotient_definingIdealAt_zeroScheme_baseCh
       Ideal.span
         {((chartScheme (V.baseChangeChart B S hS hY W)).presheaf.germ ⊤ y trivial).hom
           (((BigFppfOver.toScheme B S hS).map
-            (V.baseChangeChartGeneratorDiagram hY W (𝟙 (V.baseChangeChart B S hS hY W))).g).appTop.hom
+            (V.baseChangeChartGeneratorDiagram hY W
+              (𝟙 (V.baseChangeChart B S hS hY W))).g).appTop.hom
               (l₀ (s.eval (op W))))} := by
     rw [hdef]
     exact (Ideal.map_span _ _).trans (congrArg _ Set.image_singleton)
@@ -1109,7 +1110,7 @@ are partitioned by the components of δ-dimension `k + 1` they lie over, `I_V` i
 ideal of the block of `V`, and `n_V` is the length of `A` localized at any prime of that block;
 the grouped form of Stacks 02QG,
 `AlgebraicGeometry.natCast_length_quotient_span_eq_finsum_length_quotient_sup`, is the identity. -/
-theorem cycleCoeffOfClosedSubspace_vanishingLocus_eq_componentZeroCycleSumCoeff_of_isRegularSection_of_liesOver
+theorem cycleCoeff_vanishingLocus_eq_componentZeroCycleSumCoeff_of_isRegularSection_of_liesOver
     (hL : IsInvertibleSheaf D sX hX L)
     (hs : AlgebraicGeometry.IsRegularSection (structureCommRings D.site D.base D.base_mem ⟨X, hX.1⟩)
       (structureRingSheaf D.site D.base D.base_mem ⟨X, hX.1⟩).property s)
@@ -1229,7 +1230,7 @@ theorem cycleCoeffOfClosedSubspace_vanishingLocus_eq_componentZeroCycleSumCoeff_
       componentZeroCycleSumCoeff D sX hX L s k
         (canonicalGeometricPoint D.site D.base D.base_mem X)
         (fun _ => canonicalGeometricPoint D.site D.base D.base_mem _) :=
-  cycleCoeffOfClosedSubspace_vanishingLocus_eq_componentZeroCycleSumCoeff_of_isRegularSection_of_liesOver
+  cycleCoeff_vanishingLocus_eq_componentZeroCycleSumCoeff_of_isRegularSection_of_liesOver
     D sX hX L s k hL hs hdim _ (canonicalGeometricPoint_image D.site D.base D.base_mem X) _
     (fun _ => canonicalGeometricPoint_image D.site D.base D.base_mem _) _
     (canonicalGeometricPoint_image D.site D.base D.base_mem _)

@@ -77,7 +77,7 @@ private theorem embed_mem_dividedPowerPolynomialIdeal (B : DividedPowerRing.{u})
     (m : T →₀ B) :
     DividedPowerAlgebra.embed B (T →₀ B) m ∈ dividedPowerPolynomialIdeal B.ideal T := by
   apply Ideal.mem_sup_right
-  show (dividedPowerPolynomialAugmentation B T).toRingHom
+  change (dividedPowerPolynomialAugmentation B T).toRingHom
     (DividedPowerAlgebra.embed B (T →₀ B) m) = 0
   simp [dividedPowerPolynomialAugmentation, DividedPowerAlgebra.lift_embed_apply]
 
@@ -236,7 +236,7 @@ private theorem envReindex_envDiff_one {n : SimplexCategory} (φ : ⦋1⦌ ⟶ n
     envReindex s f φ (envDiff s f 1 (i, 0)) =
       (tensorPowerEnvelope s f n.len).algebraMap.toRingHom
         (MvPolynomial.X (φ.toOrderHom 0, i) - MvPolynomial.X (φ.toOrderHom 1, i)) := by
-  show (envelopeReindex s f φ).1 ((tensorPowerEnvelope s f (⦋1⦌ : SimplexCategory).len
+  change (envelopeReindex s f φ).1 ((tensorPowerEnvelope s f (⦋1⦌ : SimplexCategory).len
     ).algebraMap.toRingHom (coprojectionDifference s 1 (i, 0))) = _
   rw [envelopeReindex_polynomial]
   congr 1
@@ -287,7 +287,7 @@ private theorem tensorEnvelopeDPEquiv_zero_symm_algebraMap
         (algebraMap (polynomialDividedPowerEnvelope s f).object
           (setIndexedDividedPowerPolynomialAlgebra (polynomialDividedPowerEnvelope s f).object
             (ι × Fin 0)) (envelopeBaseEquiv s f y)) = y := by
-  show (tensorEnvelopeDPEquiv s f 0).symm
+  change (tensorEnvelopeDPEquiv s f 0).symm
     ((RingEquiv.ofBijective _ (bijective_algebraMap_fin_zero s f))
       ((RingEquiv.ofBijective _ (bijective_algebraMap_fin_zero s f)).symm
         (tensorEnvelopeDPEquiv s f 0 y))) = y
@@ -318,7 +318,7 @@ private theorem tensorEnvelopeDPEquiv_envReindex_base {m : SimplexCategory} (φ 
     (setIndexedDividedPowerPolynomialCoefficientDPMorphism E (ι × Fin m.len)) ?_ ?_
   · exact congrArg (fun θ : DividedPowers.DPMorphism E.dividedPowers R.dividedPowers ↦ θ e) h
   · ext a
-    show tensorEnvelopeDPEquiv s f m.len (envReindex s f φ ((tensorEnvelopeDPEquiv s f 0).symm
+    change tensorEnvelopeDPEquiv s f m.len (envReindex s f φ ((tensorEnvelopeDPEquiv s f 0).symm
       (algebraMap E (setIndexedDividedPowerPolynomialAlgebra E (ι × Fin 0))
         ((polynomialDividedPowerEnvelope s f).structureMap.toRingHom a)))) =
       algebraMap E (setIndexedDividedPowerPolynomialAlgebra E (ι × Fin m.len))
@@ -328,7 +328,7 @@ private theorem tensorEnvelopeDPEquiv_envReindex_base {m : SimplexCategory} (φ 
     congr 1
     exact congrArg (fun q : DividedPowers.DPMorphism _ _ ↦ q.toRingHom a) (envelopeReindex s f φ).2
   · refine RingHom.ext fun x ↦ ?_
-    show tensorEnvelopeDPEquiv s f m.len (envReindex s f φ ((tensorEnvelopeDPEquiv s f 0).symm
+    change tensorEnvelopeDPEquiv s f m.len (envReindex s f φ ((tensorEnvelopeDPEquiv s f 0).symm
       (algebraMap E (setIndexedDividedPowerPolynomialAlgebra E (ι × Fin 0))
         ((polynomialDividedPowerEnvelope s f).algebraMap.toRingHom x)))) =
       algebraMap E (setIndexedDividedPowerPolynomialAlgebra E (ι × Fin m.len))
@@ -336,7 +336,7 @@ private theorem tensorEnvelopeDPEquiv_envReindex_base {m : SimplexCategory} (φ 
     rw [← tensorEnvelopeDPEquiv_coprojection s f 0 x, RingEquiv.symm_apply_apply,
       ← tensorEnvelopeDPEquiv_coprojection s f m.len x]
     congr 1
-    show (envelopeReindex s f φ).1 ((tensorPowerEnvelope s f (⦋0⦌ : SimplexCategory).len
+    change (envelopeReindex s f φ).1 ((tensorPowerEnvelope s f (⦋0⦌ : SimplexCategory).len
       ).algebraMap.toRingHom _) = _
     rw [envelopeReindex_polynomial]
     congr 1
@@ -372,9 +372,9 @@ private theorem bijective_taylorSum_of_ringEquiv {S R₀ R B X : Type*} [CommRin
     simp only [e, AddEquiv.coe_toAddMonoidHom, AddEquiv.trans_apply,
       Finsupp.mapRange.addEquiv_apply, Finsupp.mapRange_single, LinearEquiv.coe_toAddEquiv,
       RingEquiv.toAddEquiv_eq_coe, RingEquiv.coe_toAddEquiv, RingEquiv.apply_symm_apply,
-      RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe]
+      RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass]
     rw [smul_eq_mul, map_mul, ha, hxi]
-    show _ = b.repr.symm (Finsupp.single K (θ m))
+    change _ = b.repr.symm (Finsupp.single K (θ m))
     rw [Module.Basis.repr_symm_single, Algebra.smul_def, mul_comm]
   exact h ▸ e.bijective
 
@@ -406,7 +406,7 @@ private theorem shiftEnd_mul_self : shiftEnd (R := R) (ι := ι) * shiftEnd = 0 
 /-- The change of variables `e_{(i, 1)} ↦ e_{(i, 1)} - e_{(i, 0)}`, `e_{(i, 0)} ↦ e_{(i, 0)}`,
 an automorphism of `R^{(ι × {0, 1})}` with inverse `e_{(i, 1)} ↦ e_{(i, 1)} + e_{(i, 0)}`. -/
 private noncomputable def shiftEquiv : (ι × Fin 2 →₀ R) ≃ₗ[R] (ι × Fin 2 →₀ R) :=
-  LinearEquiv.ofLinear (1 - shiftEnd) (1 + shiftEnd)
+  LinearEquiv.ofLinearMap (1 - shiftEnd) (1 + shiftEnd)
     (by
       change (1 - shiftEnd) * (1 + shiftEnd) = (1 : Module.End R (ι × Fin 2 →₀ R))
       rw [mul_add, mul_one, sub_mul, one_mul, shiftEnd_mul_self, sub_zero, sub_add_cancel])
@@ -418,7 +418,7 @@ private noncomputable def shiftEquiv : (ι × Fin 2 →₀ R) ≃ₗ[R] (ι × F
 private theorem shiftEquiv_single (q : ι × Fin 2) :
     shiftEquiv (R := R) (Finsupp.single q 1) =
       Finsupp.single q 1 - if q.2 = 1 then Finsupp.single (q.1, 0) 1 else 0 := by
-  rw [shiftEquiv, LinearEquiv.ofLinear_apply, LinearMap.sub_apply, Module.End.one_apply,
+  rw [shiftEquiv, LinearEquiv.coe_ofLinearMap, LinearMap.sub_apply, Module.End.one_apply,
     shiftEnd_single]
 
 /-- `ι ⊕ ι ≃ ι × {0, 1}`, the left summand going to `1` and the right one to `0`. -/
@@ -469,7 +469,7 @@ theorem bijective_envelopeTaylorMonomial₂ :
   · exact tensorEnvelopeDPEquiv_envReindex_base' s f (SimplexCategory.const ⦋0⦌ ⦋2⦌ 0) rfl y
   · rw [envelopeTaylorMonomial₂, RingEquiv.apply_symm_apply, Module.Basis.reindex_apply,
       Module.Basis.map_apply, dividedPowerPolynomialMonomialBasis_apply]
-    show _ = τ (dividedPowerPolynomialMonomial E
+    change _ = τ (dividedPowerPolynomialMonomial E
       (Finsupp.equivMapDomain sumFinTwoEquiv (Finsupp.sumElim KL.1 KL.2)))
     rw [dividedPowerPolynomialMonomial, map_finsuppProd, Finsupp.prod_equivMapDomain,
       Finsupp.prod_sumElim]
@@ -518,7 +518,7 @@ theorem envReindex_delta_zero_envelopeTaylorMonomial (K : ι →₀ ℕ) :
   congr 1
   simp only [envDiff, coprojectionDifference, ← map_sub]
   congr 1
-  show MvPolynomial.X ((1 : Fin 3), i) - MvPolynomial.X ((2 : Fin 3), i) = _
+  change MvPolynomial.X ((1 : Fin 3), i) - MvPolynomial.X ((2 : Fin 3), i) = _
   simp only [Fin.succ_zero_eq_one, Fin.succ_one_eq_two]
   ring
 
@@ -572,14 +572,14 @@ private theorem envReindex_delta_zero_X (i : ι) :
       envReindex s f (SimplexCategory.δ (n := 0) 1)
           ((tensorPowerEnvelope s f 0).algebraMap.toRingHom (MvPolynomial.X ((0 : Fin 1), i))) -
         envDiff s f 1 (i, 0) := by
-  show (envelopeReindex s f _).1 ((tensorPowerEnvelope s f (⦋0⦌ : SimplexCategory).len
+  change (envelopeReindex s f _).1 ((tensorPowerEnvelope s f (⦋0⦌ : SimplexCategory).len
       ).algebraMap.toRingHom _) =
     (envelopeReindex s f _).1 ((tensorPowerEnvelope s f (⦋0⦌ : SimplexCategory).len
       ).algebraMap.toRingHom _) - _
   rw [envelopeReindex_polynomial, envelopeReindex_polynomial, envDiff, ← map_sub]
   congr 1
   simp only [MvPolynomial.rename_X, simplexVariableMap, coprojectionDifference]
-  show MvPolynomial.X ((1 : Fin 2), i) = MvPolynomial.X ((0 : Fin 2), i) -
+  change MvPolynomial.X ((1 : Fin 2), i) = MvPolynomial.X ((0 : Fin 2), i) -
     (MvPolynomial.X ((0 : Fin 2), i) - MvPolynomial.X ((1 : Fin 2), i))
   ring
 
@@ -700,7 +700,7 @@ private theorem firstOrderPsi_p₀ (y : (tensorPowerEnvelope s f 0).object) :
   have h := congrArg (fun q : DividedPowers.DPMorphism _ _ ↦ q (envelopeBaseEquiv s f y))
     (firstOrderPolyMap_spec s f).1
   refine h.trans ?_
-  show TrivSqZeroExt.inl ((tensorEnvelopeDPEquiv s f 0).symm
+  change TrivSqZeroExt.inl ((tensorEnvelopeDPEquiv s f 0).symm
     (algebraMap (polynomialDividedPowerEnvelope s f).object _ (envelopeBaseEquiv s f y))) = _
   rw [tensorEnvelopeDPEquiv_zero_symm_algebraMap]
 
@@ -726,7 +726,7 @@ private theorem firstOrderPsi_p₁ (y : (tensorPowerEnvelope s f 0).object) :
   have hbase : ∀ a : s.A, θ₁ ((tensorPowerEnvelope s f 0).structureMap.toRingHom a) =
       θ₂ ((tensorPowerEnvelope s f 0).structureMap.toRingHom a) := by
     intro a
-    show firstOrderPsi s f (envReindex s f _ _) = firstOrderP₁ _ _ _ _ _ _
+    change firstOrderPsi s f (envReindex s f _ _) = firstOrderP₁ _ _ _ _ _ _
     rw [envReindex_delta_structureMap, firstOrderPsi_p₀]
     refine TrivSqZeroExt.ext (by simp) ?_
     rw [TrivSqZeroExt.snd_inl, firstOrderP₁_snd]
@@ -742,7 +742,7 @@ private theorem firstOrderPsi_p₁ (y : (tensorPowerEnvelope s f 0).object) :
         exact hbase a
       · obtain ⟨j, i⟩ := q
         obtain rfl : j = 0 := @Subsingleton.elim _ (inferInstanceAs (Subsingleton (Fin 1))) _ _
-        show firstOrderPsi s f (envReindex s f _ _) = firstOrderP₁ _ _ _ _ _ _
+        change firstOrderPsi s f (envReindex s f _ _) = firstOrderP₁ _ _ _ _ _ _
         have hsub : firstOrderPsi s f (envReindex s f (SimplexCategory.δ (n := 0) 1)
               ((tensorPowerEnvelope s f 0).algebraMap.toRingHom
                 (MvPolynomial.X ((0 : Fin 1), i))) - envDiff s f 1 (i, 0)) =
@@ -760,7 +760,7 @@ private theorem firstOrderPsi_envelopeTaylorMonomial (K : ι →₀ ℕ) :
       (firstOrderRing s f).dividedPowers.dpow m (TrivSqZeroExt.inr (-envD s f
         ((tensorPowerEnvelope s f 0).algebraMap.toRingHom (MvPolynomial.X ((0 : Fin 1), i))))) := by
   rw [envelopeTaylorMonomial_eq_prod]
-  show (firstOrderPsi s f).toRingHom _ = _
+  change (firstOrderPsi s f).toRingHom _ = _
   rw [map_finsuppProd]
   refine Finsupp.prod_congr fun i _ ↦ ?_
   rw [← firstOrderPsi_envDiff]
@@ -775,7 +775,7 @@ private theorem firstOrderPsi_envelopeTaylorMonomial_eq_zero {K : ι →₀ ℕ}
     ((tensorPowerEnvelope s f 0).algebraMap.toRingHom (MvPolynomial.X ((0 : Fin 1), i)))
   set g : ι → firstOrderRing s f :=
     fun j ↦ (firstOrderRing s f).dividedPowers.dpow (K j) (TrivSqZeroExt.inr (ω j))
-  show ∏ j ∈ K.support, g j = 0
+  change ∏ j ∈ K.support, g j = 0
   have hg : ∀ j ∈ K.support, g j = 0 ∨ g j = TrivSqZeroExt.inr (ω j) := by
     intro j hj
     by_cases h : K j = 1
@@ -840,7 +840,7 @@ private theorem dividedPowerDifferential_eq_neg_sum_aux
       ∑ K ∈ c.support, c K • σ K := by
     rw [← DividedPowers.DPMorphism.toRingHom_apply, map_sum, TrivSqZeroExt.snd_sum]
     refine Finset.sum_congr rfl fun K _ ↦ ?_
-    simp only [RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe]
+    simp only [RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass]
     rw [smul_eq_mul, map_mul, DividedPowers.DPMorphism.toRingHom_apply,
       DividedPowers.DPMorphism.toRingHom_apply, firstOrderPsi_p₀, TrivSqZeroExt.snd_mul,
       TrivSqZeroExt.snd_inl, TrivSqZeroExt.fst_inl, smul_zero, zero_add, op_smul_eq_smul]

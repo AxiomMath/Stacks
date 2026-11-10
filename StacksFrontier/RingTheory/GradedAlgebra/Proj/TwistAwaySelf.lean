@@ -44,7 +44,7 @@ public theorem twistAway_self_eq_span (𝒜 : ℕ → Submodule R A) [GradedAlge
     refine ⟨Away.mk 𝒜 hf (k + 1) x ?_, ?_⟩
     · simpa [show e = (k + 1) * d by
         simpa [Nat.add_mul] using (show e = k * d + d by exact_mod_cast he)] using hx
-    · show Localization.mk x ⟨f ^ (k + 1),
+    · change Localization.mk x ⟨f ^ (k + 1),
           Submonoid.pow_mem _ (Submonoid.mem_powers f) (k + 1)⟩ *
           Localization.mk f ⟨1, Submonoid.one_mem _⟩ =
         Localization.mk x ⟨f ^ k, Submonoid.pow_mem _ (Submonoid.mem_powers f) k⟩

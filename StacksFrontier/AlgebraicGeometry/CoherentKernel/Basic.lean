@@ -137,7 +137,8 @@ No option is set and no transparency attribute is used anywhere in this file.
 ## What is not done
 
 The tag carries four *distinct* comments, one per declaration, so each is its own
-covering set; all four are proved here and all four attributes are attached below. The tagged statement
+covering set; all four are proved here and all four attributes are attached below. The tagged
+statement
 additionally marks its three consequences as instances. They are plain theorems here: making
 `isCoherent_of_isQuasicoherent_isFiniteType` an instance would send every coherence search
 recursing through quasi-coherence and finite type, and the three consequences are left to match

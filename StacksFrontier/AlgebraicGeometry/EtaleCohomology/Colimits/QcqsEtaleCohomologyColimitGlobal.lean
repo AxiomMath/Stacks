@@ -68,7 +68,7 @@ def toAmbient (Z : AlgebraicGeometry.SmallAffineEtale B S hS)
     objOfAffineOpenOver B S hS (contains_toScheme_obj B hS Z.obj)
       (structMap B S hS Z) O hO ⟶ Z :=
   ObjectProperty.homMk (mkHom B hS O.ι (by
-    show O.ι ≫ structMap B S hS Z =
+    change O.ι ≫ structMap B S hS Z =
       structMap B S hS (objOfAffineOpenOver B S hS (contains_toScheme_obj B hS Z.obj)
         (structMap B S hS Z) O hO)
     rw [structMap_objOfAffineOpenOver]))
@@ -84,7 +84,7 @@ def toAffineOpenOfLE (Z : AlgebraicGeometry.SmallAffineEtale B S hS)
     objOfAffineOpenOver B S hS (contains_toScheme_obj B hS Z.obj) (structMap B S hS Z) O hO ⟶
       objOfAffineOpen B S hS U hU :=
   ObjectProperty.homMk (mkHom B hS ((structMap B S hS Z).resLE U O e) (by
-    show (structMap B S hS Z).resLE U O e ≫ structMap B S hS (objOfAffineOpen B S hS U hU) =
+    change (structMap B S hS Z).resLE U O e ≫ structMap B S hS (objOfAffineOpen B S hS U hU) =
       structMap B S hS (objOfAffineOpenOver B S hS (contains_toScheme_obj B hS Z.obj)
         (structMap B S hS Z) O hO)
     rw [structMap_objOfAffineOpen, structMap_objOfAffineOpenOver, Scheme.Hom.resLE_comp_ι]))
@@ -164,7 +164,7 @@ theorem exists_presieve_subordinate {ι : Type u} (V : ι → S.Opens)
     refine (Scheme.presieve₀_mem_precoverage_iff _).mpr ⟨fun x => ?_, fun i => ?_⟩
     · obtain ⟨y, hy, hxy⟩ := Set.mem_iUnion₂.1 (ht (Set.mem_univ x))
       exact ⟨ULift.up ⟨y, hy⟩, ⟨x, hxy⟩, rfl⟩
-    · show AlgebraicGeometry.Etale (OO i.down.1).ι
+    · change AlgebraicGeometry.Etale (OO i.down.1).ι
       infer_instance
   · rintro Y q ⟨i⟩
     exact ⟨mm i.down.1, ⟨toAffineOpenOfLE B S hS Z (OO i.down.1) (hOOaff i.down.1)
@@ -224,7 +224,7 @@ def leOfAffineOpen (V U : S.Opens) (hV : AlgebraicGeometry.IsAffineOpen V)
     (hU : AlgebraicGeometry.IsAffineOpen U) (e : V ≤ U) :
     objOfAffineOpen B S hS V hV ⟶ objOfAffineOpen B S hS U hU :=
   ObjectProperty.homMk (mkHom B hS (S.homOfLE e) (by
-    show S.homOfLE e ≫ structMap B S hS (objOfAffineOpen B S hS U hU) =
+    change S.homOfLE e ≫ structMap B S hS (objOfAffineOpen B S hS U hU) =
       structMap B S hS (objOfAffineOpen B S hS V hV)
     rw [structMap_objOfAffineOpen, structMap_objOfAffineOpen, Scheme.homOfLE_ι]))
 
@@ -253,16 +253,16 @@ def isoOfSchemeIso {W W' : AlgebraicGeometry.SmallAffineEtale B S hS}
       (AlgebraicGeometry.SmallAffineEtale.toScheme B S hS).obj W')
     (hφ : φ.hom ≫ structMap B S hS W' = structMap B S hS W) : W ≅ W' where
   hom := ObjectProperty.homMk (mkHom B hS φ.hom (by
-    show φ.hom ≫ structMap B S hS W' = structMap B S hS W
+    change φ.hom ≫ structMap B S hS W' = structMap B S hS W
     exact hφ))
   inv := ObjectProperty.homMk (mkHom B hS φ.inv (by
-    show φ.inv ≫ structMap B S hS W = structMap B S hS W'
+    change φ.inv ≫ structMap B S hS W = structMap B S hS W'
     rw [← hφ, ← Category.assoc, φ.inv_hom_id, Category.id_comp]))
   hom_inv_id := (AlgebraicGeometry.SmallAffineEtale.toScheme B S hS).map_injective (by
-    simp only [Functor.map_comp, Functor.map_id]
+    simp only [Functor.map_comp]
     exact φ.hom_inv_id)
   inv_hom_id := (AlgebraicGeometry.SmallAffineEtale.toScheme B S hS).map_injective (by
-    simp only [Functor.map_comp, Functor.map_id]
+    simp only [Functor.map_comp]
     exact φ.inv_hom_id)
 
 /-- The underlying isomorphism of schemes of `isoOfSchemeIso` is the given one. -/
@@ -578,7 +578,8 @@ Both halves of that matter, and three statements of this fact have to be told ap
 `AlgebraicGeometry.isAffineHom_π_app`, in `Mathlib/AlgebraicGeometry/AffineTransitionLimit.lean`,
 puts the index type, the index morphisms and the schemes all in ONE universe. This repository's
 `AlgebraicGeometry.isAffineHom_π_app'`, in `StacksFrontier/AlgebraicGeometry/Limits/
-StacksFrontier/AlgebraicGeometry/Limits/IndexHomUniverse.lean`, frees the index morphism universe but leaves the index type at the scheme
+StacksFrontier/AlgebraicGeometry/Limits/IndexHomUniverse.lean`, frees the index morphism universe
+but leaves the index type at the scheme
 universe. Neither fits here. The one used is also THIS REPOSITORY'S, not Mathlib's:
 `AlgebraicGeometry.isAffineHom_π_app_of_initiallySmall`, in `StacksFrontier/AlgebraicGeometry/
 LimitUniverse/AffineTransitionLimit.lean`, which has all three universes independent and already
@@ -594,6 +595,7 @@ theorem isAffineHom_limitProjection (i : Iᵒᵖ) : IsAffineHom (c.π.app i) := 
   have : InitiallySmall.{max u v} Iᵒᵖ := initiallySmall_of_essentiallySmall Iᵒᵖ
   exact AlgebraicGeometry.isAffineHom_π_app_of_initiallySmall D c hc i
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- **The raised site receives at most one morphism to the raised object of an affine open.**
 `AsSmall.down` is faithful, being half of an equivalence, so this is `hom_ext_objOfAffineOpen`
 with nothing added. The retired raised-site development proved this from the strictness of the
@@ -654,7 +656,7 @@ noncomputable def toLimitImage_isoObjOfPreimage (i₀ : (sys D c B hD hX hc).I)
   isoObjOfPreimage B c.pt hX _ U hU _ _
     (isPullback_toLimitImage_structMap D c B hD hX hc i₀ Y U hU e)
 
-include hc in
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- **A one-hypercover of the raised site of the limit, from a datum of affine opens of `X`.**
 The site half of `hC`. The colimit site of this development is raised through
 `CategoryTheory.AsSmall` -- `limitSite`, and that raising is not optional, Stacks 09YP wanting a
@@ -706,6 +708,7 @@ theorem hom_ext_of_iso_inverse_objOfAffineOpen (n : (sys D c B hD hX hc).I)
     {Z : (sys D c B hD hX hc).C n} (f g : Z ⟶ A) : f = g :=
   (cancel_mono φ.hom).1 (hom_ext_inverse_objOfAffineOpen D c B hD hX hc n U hU _ _)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- The same uniqueness on the raised site of the limit, for anything isomorphic to the raised
 object of an affine open. -/
 theorem hom_ext_of_iso_up_objOfAffineOpen {A : limitSite D c B hX} (U : c.pt.Opens)
@@ -813,7 +816,7 @@ theorem exists_hlev_and_hC (i₀ : (sys D c B hD hX hc).I)
     obtain ⟨hUa, hVa, hUtopa, hVlea, hVsupa⟩ := preimage_oneHypercover_data
       (c.π.app ((affineEtaleSiteColimit D c B hD hX hc).indexEquiv.functor.obj i₀))
       U V hUaff hVaff hUtop hVsup
-    refine (isTopOneHypercover_limitSite D c B hX hc _ _ hUa hVa hVlea hUtopa hVsupa).of_iso
+    refine (isTopOneHypercover_limitSite D c B hX _ _ hUa hVa hVlea hUtopa hVsupa).of_iso
       (fun k => (AsSmall.up.mapIso (toLimitImage_isoObjOfPreimage D c B hD hX hc i₀ _ (U k)
         (hUaff k)
         (((affineEtaleSiteColimit D c B hD hX hc).levelEquiv i₀).counitIso.app _))).symm)

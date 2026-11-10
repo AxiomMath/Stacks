@@ -111,6 +111,7 @@ abbrev restrictionHom (M : X.Modules) :
     M ⟶ (Scheme.Modules.pushforward i).obj ((Scheme.Modules.pullback i).obj M) :=
   (Scheme.Modules.pullbackPushforwardAdjunction i).unit.app M
 
+omit [Fintype I] in
 /-- **The equations act as zero on the restriction to the closed subscheme**: `i_*i^*ℱ` is
 annihilated by the ideal of `Z`, by [Stacks, Tag 08KS], and the equations lie in that ideal. -/
 theorem smulHom_restriction_eq_zero (hf : ∀ j, (i.app ⊤).hom (f j) = 0) (M : X.Modules) (j : I) :
@@ -122,7 +123,7 @@ theorem smulHom_restriction_eq_zero (hf : ∀ j, (i.app ⊤).hom (f j) = 0) (M :
 /-- The `j`-th summand of `ℱ^{⊕c}` maps to multiplication by the `j`-th equation. -/
 private theorem ι_comp_equationsMap {c : ℕ} (g : Fin c → Γ(X, ⊤)) (M : X.Modules) (j : Fin c) :
     Sigma.ι (fun _ : Fin c => M) j ≫ equationsMap g M = smulHom (g j) M :=
-  Limits.Sigma.ι_desc _ j
+  Limits.Sigma.ι_comp_desc _ j
 
 /-- A morphism out of `ℱ` killing every `f_j ω` kills the image of `equationsMap`. -/
 private theorem equationsMap_comp_eq_zero {c : ℕ} (g : Fin c → Γ(X, ⊤)) (M : X.Modules)
@@ -166,6 +167,7 @@ theorem smul_cokernel_eq_zero_of_eq_sum {c : ℕ} (g : Fin c → Γ(X, ⊤)) (M 
   rw [hr, Finset.sum_smul]
   exact Finset.sum_eq_zero fun j _ => by rw [mul_smul, hzero j, smul_zero]
 
+omit [IsClosedImmersion i] in
 /-- **The quotient by the equations is annihilated by the ideal of the closed subscheme.** -/
 theorem annihilated_cokernel_equationsMap {c : ℕ} {g : Fin c → Γ(X, ⊤)}
     (hcut : IsCutOutByEquations i g) (M : X.Modules) (U : X.Opens) (a : Γ(X, U))

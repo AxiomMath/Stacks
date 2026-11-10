@@ -148,6 +148,8 @@ abbrev homComplex (K I : CochainComplex (StructureSheafModules Rc) ℤ) :
 
 /-! ### Two descents -/
 
+omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}]
+    [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Two-section, two-morphism version of `Stacks.eq_of_forall_lift`.** Two sections of a
 separated presheaf of modules agree as soon as they agree after restriction along every
 *simultaneous* local lift of two given sections along two locally surjective morphisms.
@@ -255,6 +257,8 @@ def ofHomSections : ((homComplex Rc K I).X 0).sections :=
 def ofHomMor : _root_.SheafOfModules.unit (structureSheaf Rc) ⟶ (homComplex Rc K I).X 0 :=
   ((homComplex Rc K I).X 0).unitHomEquiv.symm (ofHomSections Rc K I κ)
 
+omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}]
+    [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- On every object `U` of the site, `ofHomMor` sends the section `1` of the structure sheaf to
 the section of `κ` over `U`. -/
 theorem ofHomMor_val_app_one (U : (Opens ↥X)ᵒᵖ) :
@@ -263,6 +267,8 @@ theorem ofHomMor_val_app_one (U : (Opens ↥X)ᵒᵖ) :
   congrFun (congrArg Subtype.val
     (((homComplex Rc K I).X 0).unitHomEquiv.apply_symm_apply (ofHomSections Rc K I κ))) U
 
+omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}]
+    [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The morphism named by `κ` is killed by the differential: the section of `κ` is a cocycle. -/
 theorem ofHomMor_comp_d : ofHomMor Rc K I κ ≫ (homComplex Rc K I).d 0 1 = 0 := by
   refine ((homComplex Rc K I).X 1).unitHomEquiv.injective ?_
@@ -311,6 +317,8 @@ abbrev sourceComparison : homComplex Rc I I ⟶ homComplex Rc K I :=
 abbrev targetComparison : homComplex Rc K K ⟶ homComplex Rc K I :=
   RingedSite.homMap (ringedSite Rc) (𝟙 K) κ
 
+omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}]
+    [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Precomposition with `κ` absorbs a composite on the right**, on homogeneous local sections.
 This is `AlgebraicGeometry.RingedSite.compositionSection_homMap` at `k = κ` and both other
 morphisms the identity, which is the section-level form of
@@ -326,6 +334,8 @@ theorem compositionSection_sourceComparison (U : Opens ↥X) (p q : ℤ)
   rw [RingedSite.homMap_id] at h
   simpa using h
 
+omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}]
+    [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Postcomposition with `κ` absorbs a composite on the left**, on homogeneous local sections.
 This is `AlgebraicGeometry.RingedSite.compositionSection_homMap` at `m = κ` and both other
 morphisms the identity, which is the section-level form of
@@ -565,8 +575,8 @@ theorem isIso_homologyMap_comparison [QuasiIso κ] [I.IsKInjective]
     (hterm : ∀ i, RingedSite.IsFiniteFreeSummand (ringedSite Rc) (K.X i)) (n : ℤ) :
     IsIso (HomologicalComplex.homologyMap (sourceComparison Rc K I κ) n) ∧
       IsIso (HomologicalComplex.homologyMap (targetComparison Rc K I κ) n) := by
-  haveI := quasiIso_sourceComparison Rc K I κ
-  haveI := quasiIso_targetComparison Rc K I κ hbdd hterm
+  have := quasiIso_sourceComparison Rc K I κ
+  have := quasiIso_targetComparison Rc K I κ hbdd hterm
   exact ⟨inferInstance, inferInstance⟩
 
 end Comparison

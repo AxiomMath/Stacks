@@ -60,7 +60,8 @@ registered in `StacksFrontier.AlgebraicGeometry.Chow.BabyLocalizedChern.Localize
 
 The two closed subschemes are given as ideal sheaf data `I` and `J` on `X`, so that their
 scheme-theoretic intersection is cut out by `I ⊔ J`; this is the form in which Stacks 0F94 is
-available here (`StacksFrontier.AlgebraicGeometry.Chow.RationalEquivalence.ClosedCoverExactSequence`),
+available here
+(`StacksFrontier.AlgebraicGeometry.Chow.RationalEquivalence.ClosedCoverExactSequence`),
 and the set-theoretic covering hypothesis reads `I.support ⊔ J.support = ⊤`.
 
 All four pushforwards are along the inclusion of a closed subscheme, so they are the

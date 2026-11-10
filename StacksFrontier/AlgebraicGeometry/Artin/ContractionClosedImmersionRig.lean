@@ -98,7 +98,7 @@ theorem mem_U'_of_mem_compl
       (Opposite.op V)) :
     x ∈ c.U'.obj (Opposite.op V) := by
   have hs := s.2
-  show Set.range (Space.pointsMap B S hS (yoneda.obj V) (yonedaEquiv.symm x)) ⊆ c.T'ᶜ
+  change Set.range (Space.pointsMap B S hS (yoneda.obj V) (yonedaEquiv.symm x)) ⊆ c.T'ᶜ
   have hxs : yonedaEquiv.symm x ≫ terminal.from c.X' =
       yonedaEquiv.symm (s.1 : (⊤_ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)).obj (Opposite.op V)) :=
     terminal.hom_ext _ _

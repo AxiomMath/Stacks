@@ -604,8 +604,9 @@ attribute [local instance] compactSpace_gamma totallyDisconnectedSpace_gamma
 extension `1 → Ẑ^{(q)} → Γ → Ẑ → 1` with `F x F⁻¹ = q⁻¹ x` (so `u = q⁻¹` and `qu = a = 1`) has an
 abstract trace formula with integer `q`; its sets `S_d` are the orbits of exact size `d` of
 multiplication by `q` on `ℤ/(q^d - 1)`, and `#S_1 = q - 1`, `#S_2 = ((q² - 1) - (q - 1))/2`. -/
-@[stacks 03VQ "the special case a = 1 does occur: Γ = Ẑ^(q) ⋊ Ẑ with F x F⁻¹ = q⁻¹ x has an abstract \
-trace formula with integer q, with #S₁ = q - 1 and #S₂ = ((q² - 1) - (q - 1))/2"]
+@[stacks 03VQ "the special case a = 1 does occur: Γ = Ẑ^(q) ⋊ Ẑ with F x F⁻¹ = q⁻¹ x has an \
+abstract trace formula with integer q, with #S₁ = q - 1 and \
+#S₂ = ((q² - 1) - (q - 1))/2"]
 public theorem commutativeExample_hasAbstractTraceFormula_inverse :
     ∃ T : AbstractTraceFormula (Gamma (inverseCharacter q)) (degree _) (continuous_degree _)
         (degree_surjective _),

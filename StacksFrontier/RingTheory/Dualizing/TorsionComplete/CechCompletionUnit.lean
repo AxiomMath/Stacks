@@ -67,12 +67,12 @@ theorem bijective_comp_of_isIso_adicCompletionFunctor_map (I : Ideal A) (hI : I.
     completionUnit_comp_bijective I hI X E hE
   have hγ : Function.Bijective (fun k : Λ.obj Y ⟶ E ↦ Λ.map w ≫ k) := by
     refine ⟨fun k l hkl ↦ (cancel_epi (Λ.map w)).1 hkl, fun k ↦ ⟨inv (Λ.map w) ≫ k, ?_⟩⟩
-    show Λ.map w ≫ inv (Λ.map w) ≫ k = k
+    change Λ.map w ≫ inv (Λ.map w) ≫ k = k
     rw [← Category.assoc, IsIso.hom_inv_id, Category.id_comp]
   have hnat : (fun h : Y ⟶ E ↦ w ≫ h) ∘ (fun k : Λ.obj Y ⟶ E ↦ η.app Y ≫ k) =
       (fun k : Λ.obj X ⟶ E ↦ η.app X ≫ k) ∘ (fun k : Λ.obj Y ⟶ E ↦ Λ.map w ≫ k) := by
     funext k
-    show w ≫ η.app Y ≫ k = η.app X ≫ Λ.map w ≫ k
+    change w ≫ η.app Y ≫ k = η.app X ≫ Λ.map w ≫ k
     rw [← Category.assoc, ← Category.assoc]
     exact congrArg (fun t : X ⟶ Λ.obj Y ↦ t ≫ k) (η.naturality w)
   refine (Function.Bijective.of_comp_iff _ hα).1 ?_

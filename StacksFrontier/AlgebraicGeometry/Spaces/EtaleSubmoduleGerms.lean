@@ -78,7 +78,7 @@ theorem mem_of_forall_germ_mem {X : AlgebraicSpaces B S hS} {M : Modules.{u, u} 
   obtain ⟨V', ψ, p', hp', hmem⟩ := h y p
   refine ⟨V', ψ, hmem, (BigFppfOver.toScheme B S hS).map p'.1 z', ?_⟩
   rw [← hz', ← hp']
-  show _ = (BigFppfOver.toScheme B S hS).map (p'.1 ≫ (SmallEtale.toOver B S hS X.1).map ψ) z'
+  change _ = (BigFppfOver.toScheme B S hS).map (p'.1 ≫ (SmallEtale.toOver B S hS X.1).map ψ) z'
   rw [Functor.map_comp]
   rfl
 
@@ -188,7 +188,7 @@ theorem mem_of_forall_germ_mem_etaleGermSet
   rw [← ha, ← hb] at heq
   obtain ⟨V₁, c, w₁, hc, hcs⟩ := (Φ.toPresheafFiber_eq_iff' E₀.obj E₀.val _ _).1 heq
   refine ⟨V₁, c ≫ a.hom, w₁, ?_, ?_⟩
-  · show Φ.fiber.map (c ≫ a.hom) w₁ = w
+  · change Φ.fiber.map (c ≫ a.hom) w₁ = w
     rw [Functor.map_comp, types_comp_apply, hc, a.map_val]
   · have e : ((etaleModulePullback.{u, u} B S hS g hg).obj M).val.map (c ≫ a.hom).op s =
         ((etaleModulePullback.{u, u} B S hS g hg).obj M).val.map (c ≫ b.hom).op n := by
@@ -228,7 +228,7 @@ theorem etaleGermSet_along {Y' : AlgebraicSpaces B S hS} (k : Y' ⟶ Y)
   refine Set.eq_of_subset_of_subset ?_ ?_
   · rintro e ⟨V', w', n, hn, rfl⟩
     refine ⟨(smallEtalePostcomp B S hS k hk).obj V', ⟨w'.1, ?_⟩, n, hn, rfl⟩
-    show k.hom.app _ (V'.obj.hom.app _ w'.1) = t.1
+    change k.hom.app _ (V'.obj.hom.app _ w'.1) = t.1
     have := w'.2
     change V'.obj.hom.app _ w'.1 = t'.1 at this
     rw [this]

@@ -135,7 +135,7 @@ theorem exists_restrict_eq_zero_of_forall_germ_eq_zero (O : Cᵒᵖ ⥤ CommRing
   obtain ⟨Y, f, y, hy, hz⟩ :=
     exists_restrict_eq_of_forall_germ_eq Φ O l X x z (fun _ => (0 : ↥(O.obj (op X))))
       (fun i => by
-        show (Φ.toPresheafFiber X x O).hom (z i) = (Φ.toPresheafFiber X x O).hom 0
+        change (Φ.toPresheafFiber X x O).hom (z i) = (Φ.toPresheafFiber X x O).hom 0
         rw [h i, map_zero])
   refine ⟨Y, f, y, hy, fun i => ?_⟩
   have hi : (O.map f.op).hom (z i) = (O.map f.op).hom 0 := hz i
@@ -274,7 +274,7 @@ theorem stalkSolutionFamily_compat ⦃U U' : SmallEtale B S hS⦄ (k : U ⟶ U')
     pres.sheaf.obj.map k.op ≫ pres.stalkSolutionFamily p U x =
       pres.stalkSolutionFamily p U' (p.fiber.map k x) := by
   refine TypeCat.homEquiv.injective (funext fun f => Subtype.ext (funext fun i => ?_))
-  show smallEtaleGermHom B S hS p U x ((pres.equiv U (k ≫ f)).1 i) =
+  change smallEtaleGermHom B S hS p U x ((pres.equiv U (k ≫ f)).1 i) =
     smallEtaleGermHom B S hS p U' (p.fiber.map k x) ((pres.equiv U' f).1 i)
   rw [pres.equiv_naturality k f i]
   exact smallEtaleGermHom_restrict_apply B S hS p k x _
@@ -369,7 +369,7 @@ theorem surjective_stalkSolution : Function.Surjective (pres.stalkSolution p) :=
   refine ⟨p.toPresheafFiber W y pres.sheaf.obj ((pres.equiv W).symm ⟨_, hsol⟩), ?_⟩
   refine Subtype.ext (funext fun i => ?_)
   rw [pres.stalkSolution_toPresheafFiber_coe p W y _ i, (pres.equiv W).apply_symm_apply]
-  show smallEtaleGermHom B S hS p W y (smallEtaleRestrict B S hS k (z i)) = α i
+  change smallEtaleGermHom B S hS p W y (smallEtaleRestrict B S hS k (z i)) = α i
   rw [smallEtaleGermHom_restrict_apply, hy]
   exact hzg i
 

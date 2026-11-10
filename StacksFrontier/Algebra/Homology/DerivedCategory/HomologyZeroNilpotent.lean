@@ -80,7 +80,7 @@ theorem eq_zero_of_homologyFunctor_map_eq_zero {X Y : DerivedCategory C} (n : �
   have h2 : (DerivedCategory.singleFunctorCompHomologyFunctorIso C n).hom.app M ≫
       (DerivedCategory.singleFunctor C n).preimage (eX.inv ≫ f ≫ eY.hom) = 0 := by
     rw [← hnatε]
-    show (DerivedCategory.homologyFunctor C n).map
+    change (DerivedCategory.homologyFunctor C n).map
         ((DerivedCategory.singleFunctor C n).map
           ((DerivedCategory.singleFunctor C n).preimage (eX.inv ≫ f ≫ eY.hom))) ≫
       (DerivedCategory.singleFunctorCompHomologyFunctorIso C n).hom.app N = 0
@@ -200,7 +200,7 @@ theorem chainComp_succ_left (X : ℕ → DerivedCategory C) (f : ∀ i : ℕ, X 
   induction ℓ with
   | zero => simp [chainComp]
   | succ ℓ ih =>
-    show chainComp X f (ℓ + 1) ≫ f (ℓ + 1) = _
+    change chainComp X f (ℓ + 1) ≫ f (ℓ + 1) = _
     rw [ih, Category.assoc]
     rfl
 
@@ -249,7 +249,7 @@ theorem chainComp_eq_zero (a b : ℤ) :
       induction k with
       | zero => simp [chainComp]
       | succ k ihk =>
-        show (chainComp X f k ≫ f k) ≫
+        change (chainComp X f k ≫ f k) ≫
             (DerivedCategory.TStructure.t.truncGTπ a).app (X (k + 1)) =
           (DerivedCategory.TStructure.t.truncGTπ a).app (X 0) ≫
             (chainComp (fun i => (DerivedCategory.TStructure.t.truncGT a).obj (X i))
@@ -265,7 +265,7 @@ theorem chainComp_eq_zero (a b : ℤ) :
     have hc' : chainComp X f ℓ =
         (show X 0 ⟶ (DerivedCategory.TStructure.t.truncLE a).obj (X ℓ) from c) ≫
           (DerivedCategory.TStructure.t.truncLEι a).app (X ℓ) := hc
-    show chainComp X f ℓ ≫ f ℓ = 0
+    change chainComp X f ℓ ≫ f ℓ = 0
     rw [hc', Category.assoc,
       truncLEι_comp_eq_zero a (hGE ℓ) (hGE (ℓ + 1)) (f ℓ) (hf ℓ a), comp_zero]
 

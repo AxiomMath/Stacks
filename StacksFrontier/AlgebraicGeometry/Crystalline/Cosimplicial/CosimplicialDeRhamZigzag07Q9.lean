@@ -476,10 +476,9 @@ theorem tensorApp_tensorMap {m n : SimplexCategory} (φ : m ⟶ n) (a : ℕ)
     (TensorProduct.map (F.app m.len) (g.formsMap p m.len a))
     (TensorProduct.map (W'.map φ) (E'.formsMapCompleted p φ a)) l
     (map_pAdicIdeal_le p _) (map_pAdicIdeal_le p _) (map_pAdicIdeal_le p _) (fun y => by
-      induction y using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction y using TensorProduct.inductionOn with
       | tmul y ω =>
-        show F.app n.len (W.map φ y) ⊗ₜ[E'.completedRing p n.len]
+        change F.app n.len (W.map φ y) ⊗ₜ[E'.completedRing p n.len]
             g.formsMap p n.len a (E.formsMap p φ a ω) =
           W'.map φ (F.app m.len y) ⊗ₜ[E'.completedRing p n.len]
             E'.formsMap p φ a (g.formsMap p m.len a ω)

@@ -68,7 +68,7 @@ theorem chartProjection_app_eq_ranChartCone_π (f : X ⟶ Y) (V : SmallEtale B S
         (SmallEtale.topology B S hS X.1) (SpacesEtale.topology B S hS X)).counit.app F).hom =
       (comparisonFunctor B S hS X).op.ranCounit.app F.obj := by
     rw [Functor.sheafAdjunctionCocontinuous_counit_app_hom, Functor.ranAdjunction_counit]
-  show (((comparisonFunctor B S hS X).sheafAdjunctionCocontinuous (Type u)
+  change (((comparisonFunctor B S hS X).sheafAdjunctionCocontinuous (Type u)
         (SmallEtale.topology B S hS X.1) (SpacesEtale.topology B S hS X)).counit.app F).hom.app
       j.right
       (((comparisonFunctor B S hS X).op.ran.obj F.obj).map j.hom a) = _

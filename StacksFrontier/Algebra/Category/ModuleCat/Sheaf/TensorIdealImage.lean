@@ -218,10 +218,7 @@ theorem tensorIdealUnitMap_unit_mem (Y : Cᵒᵖ)
       (RestrictedRingModule φ).val).obj Y) :
     (tensorIdealUnitMap φ I).val.app Y ((tensorIdealSheafifyUnit φ I).app Y u) ∈
       (extendedIdeal φ I).obj Y := by
-  induction u using TensorProduct.induction_on with
-  | zero =>
-    exact mem_extendedIdeal_of_eq φ I
-      ((congrArg _ (map_zero _)).trans (map_zero _)) (zero_mem _)
+  induction u using TensorProduct.inductionOn with
   | add a b ha hb =>
     exact mem_extendedIdeal_of_eq φ I
       ((congrArg _ (map_add _ a b)).trans (map_add _ _ _)) (add_mem ha hb)

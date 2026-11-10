@@ -114,7 +114,7 @@ of sheaf differential graded modules, which this development indeed does not hav
 3. `PullbackTensorExactnessData`. Its `acyclic_pullbackTensor` is Tag 0FSI, the source's Lemma
    24.23.8, applied to the pullback-and-tensor of a good acyclic module.
    `SheafOfModules.DifferentialGradedModule.acyclic_pullbackTensor_of_isGood_of_acyclic` of
-   `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GoodAcyclicDifferentialGradedPullbackTensor.lean`
+   `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.GoodAcyclicDifferentialGradedPullbackTensor`
    is that statement. The value `f^*𝒬 ⊗_𝒜 𝒩` of the functor at `𝒬` is a tensor product of `f^*𝒬`
    with `𝒩`, so clause (1) of Tag 0FSI reads off at it as soon as the pullback `f^*𝒬` is K-flat
    and acyclic, and those two are the two halves of clause (2) of the same tag: K-flatness of

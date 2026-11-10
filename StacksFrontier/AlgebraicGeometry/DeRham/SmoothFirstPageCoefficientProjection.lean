@@ -57,7 +57,7 @@ variable [QuasiCompact f] [QuasiSeparated f] [Smooth f]
 omit [QuasiCompact f] [QuasiSeparated f] in
 /-- The relative de Rham complex of a smooth morphism is K-flat over `f^{-1}𝒪_Y`. -/
 theorem kFlat_deRhamCochainComplex :
-    Stacks.SheafOfModules.KFlat.KFlat (inverseImageBase f).sheaf (deRhamCochainComplex f) :=
+    Stacks.SheafOfModules.KFlat (inverseImageBase f).sheaf (deRhamCochainComplex f) :=
   Stacks.Cohomology.LocallyBoundedKFlat.kFlat_of_isLocallyBounded_of_flat
     (inverseImageBase f) (deRhamCochainComplex f) (isLocallyBounded_deRhamCochainComplex f)
     (isFlat_deRhamCochainComplex_X f)

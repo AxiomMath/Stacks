@@ -46,7 +46,7 @@ theorem stupidTrunc_X_eq_of_eq {C : Type*} [Category C] [HasZeroObject C] [HasZe
     (e : c.Embedding c') [e.IsRelIff] {i : ι} {i' : ι'} (hi : e.f i = i') :
     (K.stupidTrunc e).X i' = K.X i' := by
   subst hi
-  show HomologicalComplex.extend.X _ (e.r (e.f i)) = _
+  change HomologicalComplex.extend.X _ (e.r (e.f i)) = _
   rw [e.r_f]
   rfl
 
@@ -56,7 +56,7 @@ variable {X S : Scheme.{u}} (a : X ⟶ S)
 theorem deRhamDiffOpCochainComplex_X_eq (n : ℕ) :
     (Scheme.Hom.deRhamDiffOpCochainComplex a).X (n : ℤ) =
       (Scheme.Hom.deRhamDiffOpComplex a).X n := by
-  show HomologicalComplex.extend.X _ (ComplexShape.embeddingUpNat.r (n : ℤ)) = _
+  change HomologicalComplex.extend.X _ (ComplexShape.embeddingUpNat.r (n : ℤ)) = _
   rw [ComplexShape.embeddingUpNat.r_eq_some
     (by simp : ComplexShape.embeddingUpNat.f n = (n : ℤ))]
   rfl

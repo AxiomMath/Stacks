@@ -127,7 +127,7 @@ private theorem ladderHom_comp_ladderHom {A B : ℕᵒᵖ ⥤ C} (p : ℕ → �
     ladderHom p f cf ≫ ladderHom q g cg = 𝟙 _ := by
   refine colimit.hom_ext fun j => ?_
   obtain ⟨k, h₁, h₂, hk⟩ := gf j.unop.unop
-  show colimit.ι (B.op ⋙ yoneda) (op (op j.unop.unop)) ≫ _ = _ ≫ 𝟙 _
+  change colimit.ι (B.op ⋙ yoneda) (op (op j.unop.unop)) ≫ _ = _ ≫ 𝟙 _
   rw [← Category.assoc, ι_ladderHom, Category.assoc, ι_ladderHom, Category.comp_id,
     ← yoneda_map_invTransition_ι B h₁, ← yoneda_map_invTransition_ι B h₂, ← Category.assoc,
     ← yoneda.map_comp, ← Category.assoc, ← yoneda.map_comp, ← op_comp, ← op_comp, ← hk]

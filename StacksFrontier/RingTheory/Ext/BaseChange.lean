@@ -123,7 +123,7 @@ theorem flat_base_change_ext_zero {R R' : Type} [CommRing R] [CommRing R']
             (Ext.mk₀ ((ModuleCat.restrictScalars f).map g)) := by
       rw [Adjunction.homEquiv_apply, Ext.homEquiv₀_symm_apply, ← Ext.mk₀_comp_mk₀]; rfl
     rw [hrhs]
-    show (Ext.mk₀ ((ModuleCat.extendRestrictScalarsAdj f).unit.app M)).precomp
+    change (Ext.mk₀ ((ModuleCat.extendRestrictScalarsAdj f).unit.app M)).precomp
         ((ModuleCat.restrictScalars f).obj N') (zero_add 0)
         ((ModuleCat.restrictScalars f).mapExtAddHom
           ((ModuleCat.extendScalars f).obj M) N' 0 (Ext.homEquiv₀.symm g)) = _
@@ -141,7 +141,7 @@ private theorem comparison_apply_eq_comp {R R' : Type} [CommRing R] [CommRing R'
       = (Ext.mk₀ ((ModuleCat.extendRestrictScalarsAdj f).unit.app M)).comp
           (Ext.mapExactFunctor (ModuleCat.restrictScalars f) y) (zero_add k) := by
   rw [extFlatBaseChangeComparison]
-  show ((Ext.mk₀ ((ModuleCat.extendRestrictScalarsAdj f).unit.app M)).precomp
+  change ((Ext.mk₀ ((ModuleCat.extendRestrictScalarsAdj f).unit.app M)).precomp
       ((ModuleCat.restrictScalars f).obj N') (zero_add k))
       ((ModuleCat.restrictScalars f).mapExtAddHom
         ((ModuleCat.extendScalars f).obj M) N' k y) = _

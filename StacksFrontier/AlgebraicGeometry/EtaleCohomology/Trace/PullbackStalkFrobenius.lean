@@ -175,7 +175,7 @@ theorem galoisStalkAction_comp_rationalPointStalkPullbackIso_hom (σ : K ≃ₐ[
   let a₀ := rationalGeometricPointMapHom g K x' x hx
   let c : GeometricPoint.Hom (rationalGeometricPoint K x) ((rationalGeometricPoint K x').map g) :=
     ⟨Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom), by
-      show _ ≫ (_ ≫ x') ≫ g = _ ≫ x
+      change _ ≫ (_ ≫ x') ≫ g = _ ≫ x
       rw [Category.assoc, hx, ← Category.assoc, ← Spec.map_comp]
       congr 2
       ext y

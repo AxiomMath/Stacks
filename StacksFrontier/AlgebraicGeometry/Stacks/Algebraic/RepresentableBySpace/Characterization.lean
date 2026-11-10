@@ -73,7 +73,7 @@ theorem elementsProjection_isFiberedInSetoids
     infer_instance
   have hgrp : ∀ U, IsGroupoid (p.Fiber U) := by
     intro U
-    show IsGroupoid ((presheafOfGroupoids (F ⋙ typeToGrpd)).p.Fiber U)
+    change IsGroupoid ((presheafOfGroupoids (F ⋙ typeToGrpd)).p.Fiber U)
     exact isGroupoid_fiber_presheafOfGroupoids (F ⋙ typeToGrpd) U
   have hthin : ∀ U, Quiver.IsThin (p.Fiber U) := by
     intro U
@@ -84,7 +84,7 @@ theorem elementsProjection_isFiberedInSetoids
     intro x y
     refine ⟨fun a b => ?_⟩
     have hdis : Subsingleton (e.symm.functor.obj x ⟶ e.symm.functor.obj y) := by
-      show Subsingleton (Discrete.mk _ ⟶ Discrete.mk _)
+      change Subsingleton (Discrete.mk _ ⟶ Discrete.mk _)
       infer_instance
     exact (Functor.map_injective e.symm.functor) (hdis.allEq _ _)
   exact ⟨(Functor.IsFiberedInGroupoids.iff_isFibered_and_fiber_isGroupoid).2
@@ -127,7 +127,7 @@ theorem exists_hom_of_isoClass_compatibility
   obtain ⟨i⟩ := Functor.exists_iso_of_isoClassMk_eq hclass
   let ψ : b.1 ⟶ y'.1 := Functor.Fiber.fiberInclusion.map i.hom
   have hψ : p.IsHomLift (𝟙 V) ψ := by
-    show p.IsHomLift (𝟙 V) i.hom.1
+    change p.IsHomLift (𝟙 V) i.hom.1
     exact i.hom.2
   refine ⟨ψ ≫ φ, ?_⟩
   simpa using IsHomLift.comp (p := p) (f := 𝟙 V) (g := f) ψ φ
@@ -246,7 +246,7 @@ theorem elementsForwardFunctor_fullyFaithful
     have h1 : q.IsHomLift H.1 (L.map g) := Functor.isHomLift_map_of_comp_eq hL H.1 g
     have h2 : q.IsHomLift H.1 φ := by
       have hbase : H.1 = q.map φ := by
-        show (PresheafOfCategories.homEquiv (F ⋙ typeToCat) (L.obj x) (L.obj y) φ).1 = _
+        change (PresheafOfCategories.homEquiv (F ⋙ typeToCat) (L.obj x) (L.obj y) φ).1 = _
         rfl
       rw [hbase]
       exact IsHomLift.map (p := q) φ
@@ -299,7 +299,7 @@ theorem elementsForwardFunctor_existsVerticalIso
   have hbase : q.map α = f := rfl
   have hα : (presheafOfCategories (F ⋙ typeToCat)).p.IsHomLift (𝟙 Y.base) α := by
     apply IsHomLift.of_fac' q (𝟙 Y.base) α r.2 rfl
-    show q.map α = eqToHom r.2 ≫ 𝟙 Y.base ≫ eqToHom (rfl : Y.base = Y.base)
+    change q.map α = eqToHom r.2 ≫ 𝟙 Y.base ≫ eqToHom (rfl : Y.base = Y.base)
     simpa [f] using hbase
   let hq : q.IsFiberedInSetoids := elementsProjection_isFiberedInSetoids F
   let := hq
@@ -574,7 +574,7 @@ private theorem isoClassEquivOfEquivalenceOver_naturality
       q.isoClassPresheaf.map f.op (isoClassEquivOfEquivalenceOver e U c) := by
   induction c using Quotient.ind with
   | _ x =>
-    show isoClassMapOnFibers e.hom.functor e.hom.w V
+    change isoClassMapOnFibers e.hom.functor e.hom.w V
         (p.isoClassPresheaf.map f.op (Functor.isoClassMk p x)) =
       q.isoClassPresheaf.map f.op
         (isoClassMapOnFibers e.hom.functor e.hom.w U (Functor.isoClassMk p x))
@@ -613,7 +613,7 @@ public theorem isRepresentableByAlgebraicSpace_iff
       (isoClassEquivOfEquivalenceOver e U.unop).trans (elementsIsoClassEquiv F U.unop)
     refine ⟨hp, F, hF, eclass, ?_⟩
     intro U V f c
-    show elementsIsoClassEquiv F V.unop
+    change elementsIsoClassEquiv F V.unop
         (isoClassEquivOfEquivalenceOver e V.unop
           (𝒳.val.p.isoClassPresheaf.map f c)) =
       F.map f (elementsIsoClassEquiv F U.unop

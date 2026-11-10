@@ -507,7 +507,7 @@ private theorem bijective_algebraMap_pi_of_isArtinianRing {B : Type*} [CommRing 
       (Equiv.ofBijective 𝔪 hbij)).symm.trans (Equiv.piCongrRight fun i => (E i).symm.toEquiv)
   have key : F ∘ MaximalSpectrum.toPiLocalizationEquiv B = algebraMap B (∀ i, Bq i) := by
     refine funext fun x => funext fun i => ?_
-    show (E i).symm ((Equiv.piCongrLeft _ (Equiv.ofBijective 𝔪 hbij)).symm
+    change (E i).symm ((Equiv.piCongrLeft _ (Equiv.ofBijective 𝔪 hbij)).symm
       (MaximalSpectrum.toPiLocalizationEquiv B x) i) = _
     rw [Equiv.piCongrLeft_symm_apply, MaximalSpectrum.toPiLocalizationEquiv_apply_apply]
     exact (E i).symm.commutes x

@@ -137,7 +137,7 @@ private theorem ideal_map_topIso_inv {Z : Scheme.{u}} (K : Z.IdealSheafData) {P 
     (K.ideal ⟨P, hP⟩).map P.topIso.inv.hom = (K.comap P.ι).ideal ⟨⊤, hT⟩ := by
   rw [K.ideal_comap_of_isOpenImmersion]
   simp only [Scheme.Opens.ι_appIso, Iso.refl_inv]
-  show (K.ideal ⟨P, hP⟩).map (Z.presheaf.map (eqToHom P.ι_image_top).op).hom =
+  change (K.ideal ⟨P, hP⟩).map (Z.presheaf.map (eqToHom P.ι_image_top).op).hom =
     (K.ideal ⟨P.ι ''ᵁ ⊤, hT.image_of_isOpenImmersion P.ι⟩).comap (RingHom.id _)
   rw [Ideal.comap_id]
   exact ideal_map_eqToHom K hP _ P.ι_image_top.symm
@@ -354,7 +354,7 @@ theorem mem_pow_smul_of_chart (M : X.Modules) (I : Ideal ↥Γ(Y, V)) (k : ℕ)
     exact e.hom.hom.map_smul ((f.app V).hom a) z
   have hres : φ ((Scheme.Modules.presheaf M).map
       (homOfLE (f ⁻¹ᵁ V).ι_image_top.le).op s) = s := by
-    show e.hom.hom (((Scheme.Modules.presheaf M).map
+    change e.hom.hom (((Scheme.Modules.presheaf M).map
       (homOfLE (f ⁻¹ᵁ V).ι_image_top.le).op) s) = s
     rw [presheaf_map_ι_image_top M (f ⁻¹ᵁ V) s]
     exact ConcreteCategory.congr_hom e.inv_hom_id s
@@ -408,7 +408,7 @@ theorem exists_bound_sections :
   have hs0 : (cokernel.π (C := X.Modules)
       (idealPowerMultiple (J.comap f) (m + 1) F.obj).ι).app (f ⁻¹ᵁ V) s = 0 := by
     rw [← completionProjection_comp_eqToHom (J.comap f) F m]
-    show (Scheme.Modules.Hom.app (eqToHom (completionFunctor_obj X (J.comap f) F m))
+    change (Scheme.Modules.Hom.app (eqToHom (completionFunctor_obj X (J.comap f) F m))
       (f ⁻¹ᵁ V)) (Scheme.Modules.Hom.app (completionProjection X (J.comap f) F m)
         (f ⁻¹ᵁ V) s) = 0
     rw [hs1]

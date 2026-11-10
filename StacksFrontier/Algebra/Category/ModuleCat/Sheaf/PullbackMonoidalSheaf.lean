@@ -8,7 +8,8 @@ public import StacksCore.Tactic.StacksAttribute
 # The pullback of sheaves of modules along a morphism of ringed spaces is monoidal
 
 Let `f : X ⟶ Y` be a morphism of ringed spaces.
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackMonoidal` proves that the **presheaf**-level
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackMonoidal` proves that the
+**presheaf**-level
 module pullback is a strong monoidal functor, with full coherence, and that its tensorator is the
 presheaf-level comparison of Tag 01CD. This file lifts that statement to **sheaves** of modules:
 `Stacks.PullbackMonoidalSheaf.pullbackMonoidal` equips
@@ -96,7 +97,8 @@ written in the other, so instance search finds nothing: with
 instance once, at the `structureRingSheaf` spelling, and letting the defeq check of `:=` cross the
 boundary, is what makes the chain elaborate. This is the "three instances are restated here to
 short-circuit instance search" discipline of
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackAlgebraIso` and the "ascribe the type, do not
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackAlgebraIso` and the
+"ascribe the type, do not
 rewrite" discipline of `...PullbackMonoidal`; no limit is raised anywhere.
 
 For the same reason `sheafifyFunctor`, `sheafifiedPresheafPullback` and `liftingIso` carry an

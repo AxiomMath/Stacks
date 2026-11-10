@@ -93,7 +93,7 @@ noncomputable def piMap (F : SystemOverNat A) [HasCoproduct F.obj] [HasColimit F
 @[simp]
 theorem ι_piMap (F : SystemOverNat A) [HasCoproduct F.obj] [HasColimit F] (n : ℕ) :
     Sigma.ι F.obj n ≫ piMap F = colimit.ι F n :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- **`π` is an epimorphism.** The cocone maps `ιₙ` are jointly epic and each of them factors as
 `σₙ ≫ π` through `π`. -/
@@ -118,7 +118,7 @@ noncomputable def oneSubShift (F : SystemOverNat A) [HasCoproduct F.obj] :
 theorem ι_oneSubShift (F : SystemOverNat A) [HasCoproduct F.obj] (n : ℕ) :
     Sigma.ι F.obj n ≫ oneSubShift F
       = Sigma.ι F.obj n - F.map (homOfLE (Nat.le_succ n)) ≫ Sigma.ι F.obj (n + 1) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The composite `(1 - f) ≫ π` vanishes: on the `n`-th coprojection it is `ιₙ - fₙ ≫ ιₙ₊₁`, which
 is zero because the cocone maps of a colimit satisfy `fₙ ≫ ιₙ₊₁ = ιₙ`. -/
@@ -238,7 +238,7 @@ private noncomputable def psStep (F : SystemOverNat A) (n : ℕ) : psObj F n ⟶
 private lemma ι_psStep (F : SystemOverNat A) {n : ℕ} (i : Fin n) :
     Sigma.ι (fun i : Fin n => F.obj i.1) i ≫ psStep F n
       = Sigma.ι (fun j : Fin (n + 1) => F.obj j.1) ⟨i.1, by omega⟩ :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The system of partial sums `P : ℕ ⥤ A`, with objects `psObj` and transition maps `psStep`;
 built by `Functor.ofSequence`, so functoriality is automatic. -/
@@ -285,7 +285,7 @@ private noncomputable def psLeg (F : SystemOverNat A) [HasColimitsOfShape (Discr
 @[simp]
 private lemma ι_psLeg (F : SystemOverNat A) [HasColimitsOfShape (Discrete ℕ) A] {n : ℕ}
     (i : Fin n) : Sigma.ι (fun i : Fin n => F.obj i.1) i ≫ psLeg F n = Sigma.ι F.obj i.1 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The cocone on a system over `ℕ` with legs `f n`, given compatibility of consecutive legs. -/
 private noncomputable def sequenceCocone {F : SystemOverNat A} {Z : A} (f : ∀ n, F.obj n ⟶ Z)
@@ -317,12 +317,12 @@ private noncomputable def psColimIso (F : SystemOverNat A)
     refine colimit.hom_ext fun n => ?_
     rw [← Category.assoc, colimit.ι_desc, psCocone_ι_app, Category.comp_id]
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [← Category.assoc, ι_psLeg, Sigma.ι_desc]
+    rw [← Category.assoc, ι_psLeg, Sigma.ι_comp_desc]
     exact (ι_comp_ι_psSystem F i.1 n i.2).symm
   inv_hom_id := by
     refine Sigma.hom_ext _ _ fun n => ?_
-    rw [← Category.assoc, Sigma.ι_desc, Category.assoc, colimit.ι_desc, psCocone_ι_app, ι_psLeg,
-      Category.comp_id]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Category.assoc, colimit.ι_desc, psCocone_ι_app,
+      ι_psLeg, Category.comp_id]
 
 @[simp]
 private lemma ι_comp_psColimIso_hom (F : SystemOverNat A)
@@ -336,7 +336,7 @@ private lemma ι_comp_psColimIso_inv (F : SystemOverNat A)
     Sigma.ι F.obj n ≫ (psColimIso F).inv
       = Sigma.ι (fun j : Fin (n + 1) => F.obj j.1) ⟨n, Nat.lt_succ_self n⟩
           ≫ colimit.ι (psSystem F) (n + 1) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The ladder map `Pₙ ⟶ Pₙ₊₁`, `σᵢ ↦ σᵢ - fᵢ ≫ σᵢ₊₁`. There is no boundary case: the index
 `i + 1` of the released term is a legitimate summand of `Pₙ₊₁`. -/
@@ -352,7 +352,7 @@ private lemma ι_psLadder (F : SystemOverNat A) {n : ℕ} (i : Fin n) :
       = Sigma.ι (fun j : Fin (n + 1) => F.obj j.1) ⟨i.1, by omega⟩
         - F.map (homOfLE (Nat.le_succ i.1))
             ≫ Sigma.ι (fun j : Fin (n + 1) => F.obj j.1) ⟨i.1 + 1, by omega⟩ :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The retraction `Pₙ₊₁ ⟶ Pₙ` of the ladder map: the summand `j` maps by the sum, over the
 indices `k < n` with `j ≤ k`, of the transition composite `A_j ⟶ A_k` followed by `σ_k`. -/
@@ -367,7 +367,7 @@ private lemma ι_psRetraction (F : SystemOverNat A) {n : ℕ} (j : Fin (n + 1)) 
     Sigma.ι (fun j : Fin (n + 1) => F.obj j.1) j ≫ psRetraction F n
       = ∑ k : Fin n, if h : j.1 ≤ k.1 then
           F.map (homOfLE h) ≫ Sigma.ι (fun i : Fin n => F.obj i.1) k else 0 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The telescoping identity that makes `psRetraction` a retraction of `psLadder`:
 `ρᵢ - fᵢ ≫ ρᵢ₊₁ = σᵢ`, all the terms of the two sums cancelling in pairs except the `k = i` term
@@ -443,14 +443,14 @@ private lemma mono_tMap [HasColimitsOfShape ℕ A]
     NatTrans.ofSequence (F := psSystem F) (G := succF ⋙ psSystem F) (fun n => psLadder F n)
       fun n => by
         have hG : (succF ⋙ psSystem F).map (homOfLE (Nat.le_succ n)) = psStep F (n + 1) := by
-          show (psSystem F).map (succF.map (homOfLE (Nat.le_succ n))) = psStep F (n + 1)
+          change (psSystem F).map (succF.map (homOfLE (Nat.le_succ n))) = psStep F (n + 1)
           rw [show succF.map (homOfLE (Nat.le_succ n)) = homOfLE (Nat.le_succ (n + 1)) from
             Subsingleton.elim _ _, psSystem_map_succ]
           rfl
         rw [psSystem_map_succ, hG, psStep_comp_psLadder]
   have : ∀ n, Mono (a.app n) := fun n => by
     have := isSplitMono_psLadder F n
-    show Mono (psLadder F n)
+    change Mono (psLadder F n)
     infer_instance
   have : Mono a := NatTrans.mono_of_mono_app a
   have : PreservesLimitsOfShape WalkingCospan (colim : (ℕ ⥤ A) ⥤ A) :=

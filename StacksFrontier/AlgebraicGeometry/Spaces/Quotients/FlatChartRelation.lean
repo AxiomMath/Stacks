@@ -158,8 +158,11 @@ private theorem flat_and_locallyOfFinitePresentation_of_yoneda_map_eq
 
 variable {Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {R U : Over Z}
 
-set_option maxHeartbeats 1600000 in
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance searches for pullbacks in `Over Z` exceed the default limit
+set_option maxHeartbeats 1600000 in
+-- long proof building an iterated fibre product of presheaves over the big fppf site,
+-- with instance searches for pullbacks in `Over Z`
 /-- The restriction of an equivalence relation of algebraic spaces with flat, locally finitely
 presented target and source along a chart `a : h_{U₀} ⟶ U` from a representable presheaf is
 represented by an object of the site, with flat and locally finitely presented target and
@@ -243,17 +246,17 @@ theorem exists_flatSiteRelation_of_chart (j : PreRelation R U)
   let AO : Over Z := Over.mk (π ≫ a ≫ U.hom)
   let a₁ : AO ⟶ chartInSlice U a := Over.homMk π rfl
   let a₂ : AO ⟶ R := Over.homMk p (by
-    show p ≫ R.hom = π ≫ a ≫ U.hom
+    change p ≫ R.hom = π ≫ a ≫ U.hom
     rw [← hRt, ← reassoc_of% hP.w])
   let DO : Over Z := Over.mk (κ ≫ a ≫ U.hom)
   let d₂ : DO ⟶ chartInSlice U a := Over.homMk κ rfl
   let d₁ : DO ⟶ R := Over.homMk q (by
-    show q ≫ R.hom = κ ≫ a ≫ U.hom
+    change q ≫ R.hom = κ ≫ a ≫ U.hom
     rw [← hRs, reassoc_of% hQ.w])
   let PO : Over Z := Over.mk (σ ≫ π ≫ a ≫ U.hom)
   let p₁ : PO ⟶ AO := Over.homMk σ rfl
   let p₂ : PO ⟶ DO := Over.homMk ρ (by
-    show ρ ≫ κ ≫ a ≫ U.hom = σ ≫ π ≫ a ≫ U.hom
+    change ρ ≫ κ ≫ a ≫ U.hom = σ ≫ π ≫ a ≫ U.hom
     rw [← reassoc_of% hQ.w, reassoc_of% hP.w, hRs, hRt, reassoc_of% hR3.w])
   have ha' : IsPullback a₁ a₂ g j.target := IsPullback.of_map_of_faithful (Over.forget Z) hP
   have hd' : IsPullback d₁ d₂ j.source g := IsPullback.of_map_of_faithful (Over.forget Z) hQ

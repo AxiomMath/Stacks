@@ -69,13 +69,14 @@ theorem IsBaseChange.of_instances_eq {R S M N : Type*} [CommRing R] [CommRing S]
 /-- An additive map between internally graded modules sending each piece into the corresponding
 piece commutes with taking homogeneous components. -/
 theorem DirectSum.decompose_map_of_mapsTo {ι A B σ τ : Type*} [DecidableEq ι]
-    [AddCommMonoid A] [AddCommMonoid B] [SetLike σ A] [AddSubmonoidClass σ A] [SetLike τ B] [AddSubmonoidClass τ B]
+    [AddCommMonoid A] [AddCommMonoid B] [SetLike σ A] [AddSubmonoidClass σ A]
+    [SetLike τ B] [AddSubmonoidClass τ B]
     {𝒜 : ι → σ} {ℬ : ι → τ} [DirectSum.Decomposition 𝒜] [DirectSum.Decomposition ℬ]
     (f : A →+ B) (hf : ∀ i a, a ∈ 𝒜 i → f a ∈ ℬ i) (a : A) (i : ι) :
     (DirectSum.decompose ℬ (f a) i : B) = f (DirectSum.decompose 𝒜 a i) := by
   classical
   conv_lhs => rw [← DirectSum.sum_support_decompose 𝒜 a, map_sum]
-  rw [DirectSum.decompose_sum, DFinsupp.finset_sum_apply, AddSubmonoidClass.coe_finset_sum]
+  rw [DirectSum.decompose_sum, DFinsupp.finsetSum_apply, AddSubmonoidClass.coe_finsetSum]
   rw [Finset.sum_eq_single i]
   · exact DirectSum.decompose_of_mem_same ℬ (hf i _ (SetLike.coe_mem _))
   · intro j _ hj
@@ -118,7 +119,8 @@ namespace AlgebraicGeometry.PolarizedDeformation
 open PolarizedFamily Deformation Deformation.Artin
 open Stacks.AlgebraicGeometry.ProjectiveDeformation.PolarizedFamily
 
-variable (B : BigFppfSite.{u}) {S : Scheme.{u}} (hS : B.Contains S) (hT : Limits.IsTerminal (B.obj hS))
+variable (B : BigFppfSite.{u}) {S : Scheme.{u}} (hS : B.Contains S)
+  (hT : Limits.IsTerminal (B.obj hS))
   {k : Type u} [Field k] (toS : Spec (.of k) ⟶ S) (hk : B.Contains (Spec (.of k)))
   (x₀ : PolarizedFamily B)
   (hx : (polarizedSliceProjection B hS hT).obj x₀ = algebraOver k B S hS toS hk)
@@ -136,7 +138,8 @@ abbrev trivialLift (V : FGModuleCat.{u} k) : LiftFiber B hS hT toS hk x₀ hx V 
 
 /-- The identity of `x₀`, as an endomorphism of the trivial admissible deformation. -/
 def deformationIdHom :
-    AdmissibleDeformation.Hom (deformation₀ B hS hT toS hk x₀ hx) (deformation₀ B hS hT toS hk x₀ hx) :=
+    AdmissibleDeformation.Hom (deformation₀ B hS hT toS hk x₀ hx)
+      (deformation₀ B hS hT toS hk x₀ hx) :=
   liftHom (compactSpace₀ B hS hT toS hk x₀ hx) (isThickening_id_baseMap B x₀)
     (isThickening_id_baseMap B x₀) (𝟙 x₀) (Category.id_comp _)
 
@@ -326,7 +329,8 @@ theorem tensorRetract_tmul (V : FGModuleCat.{u} k) (r : TrivSqZeroExt k V)
 
 /-- The structure map `k ⟶ k[V]` of `𝒞_k` induces the standard `k`-algebra structure of `k[V]`. -/
 theorem residueToSquareZero_toAlgebra (V : FGModuleCat.{u} k) :
-    (residueToSquareZero V).hom.toRingHom.toAlgebra = (inferInstance : Algebra k (TrivSqZeroExt k V)) :=
+    (residueToSquareZero V).hom.toRingHom.toAlgebra =
+      (inferInstance : Algebra k (TrivSqZeroExt k V)) :=
   Algebra.algebra_ext _ _ fun _ => rfl
 
 /-- The two `k`-module structures of `Q(x'_V)` agree. -/
@@ -365,8 +369,7 @@ theorem bijective_tensorRetract (V : FGModuleCat.{u} k) :
   have h2 := isBaseChange_retractAlgHom B hS hT toS hk x₀ hx V
   have he : ∀ z, tensorRetract B hS hT toS hk x₀ hx V z = h2.equiv z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul r x =>
       rw [IsBaseChange.equiv_tmul, tensorRetract_tmul, Algebra.smul_def]
       rfl
@@ -432,20 +435,21 @@ private theorem tensorRetract_infTensorAlgHom_aux
 
 variable (V) in
 /-- The reduction `Q(x'_V) → P` to the special fibre, as a ring map. -/
-def reductionHom : trivialLiftRing B hS hT toS hk x₀ hx V →+* specialFiberRing B hS hT toS hk x₀ hx :=
+def reductionHom :
+    trivialLiftRing B hS hT toS hk x₀ hx V →+* specialFiberRing B hS hT toS hk x₀ hx :=
   (toSpecialFiber B hS hT toS hk x₀ hx V (trivialLift B hS hT toS hk x₀ hx V)).map
 
 variable (V) in
 /-- The first coordinate of `k[V] ⊗_k P` is the reduction of `Q(x'_V)` to the special fibre. -/
 theorem trivSqZeroExtTensorFst_eq :
     letI := specialFiberRingAlgebra B hS hT toS hk x₀ hx
-    ∀ z : TrivSqZeroExt k V ⊗[k] specialFiberRing B hS hT toS hk x₀ hx, GradedAlgebra.trivSqZeroExtTensorFst k (specialFiberRing B hS hT toS hk x₀ hx) V z =
-      reductionHom B hS hT toS hk x₀ hx V (tensorRetract B hS hT toS hk x₀ hx V z) := by
+    ∀ z : TrivSqZeroExt k V ⊗[k] specialFiberRing B hS hT toS hk x₀ hx,
+      GradedAlgebra.trivSqZeroExtTensorFst k (specialFiberRing B hS hT toS hk x₀ hx) V z =
+        reductionHom B hS hT toS hk x₀ hx V (tensorRetract B hS hT toS hk x₀ hx V z) := by
   let := specialFiberRingAlgebra B hS hT toS hk x₀ hx
   let := trivialLiftRingAlgebra B hS hT toS hk x₀ hx V
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, map_add, ha, hb]
   | tmul r y =>
     rw [GradedAlgebra.trivSqZeroExtTensorFst_tmul, tensorRetract_tmul, map_mul]
@@ -544,8 +548,7 @@ theorem infTensorAlgHom_mem
     fun _ => rfl
   have hcomm : ∀ w, e (TensorProduct.map LinearMap.id ((gP d).subtype.comp g) w) = πQ (e w) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction w using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add, map_add, ha, hb, map_add, map_add]
     | tmul r y =>
       rw [TensorProduct.map_tmul, LinearMap.id_apply]
@@ -696,14 +699,14 @@ theorem tensorRetract_naturality (f : V ⟶ W) :
     letI := specialFiberRingAlgebra B hS hT toS hk x₀ hx
     ∀ q : TrivSqZeroExt k V ⊗[k] specialFiberRing B hS hT toS hk x₀ hx,
       tensorRetract B hS hT toS hk x₀ hx W
-          (GradedAlgebra.trivSqZeroExtTensorMap (specialFiberRing B hS hT toS hk x₀ hx) f.hom.hom q) =
+          (GradedAlgebra.trivSqZeroExtTensorMap (specialFiberRing B hS hT toS hk x₀ hx)
+            f.hom.hom q) =
         transRingHom B hS hT toS hk x₀ hx f (tensorRetract B hS hT toS hk x₀ hx V q) := by
   let := specialFiberRingAlgebra B hS hT toS hk x₀ hx
   let := trivialLiftRingAlgebra B hS hT toS hk x₀ hx V
   let := trivialLiftRingAlgebra B hS hT toS hk x₀ hx W
   intro q
-  induction q using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction q using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul r y =>
     rw [GradedAlgebra.trivSqZeroExtTensorMap_tmul, tensorRetract_tmul, tensorRetract_tmul, map_mul]
@@ -728,7 +731,8 @@ theorem transAlgebraHom_infAlgHom (f : V ⟶ W)
     transRingHom B hS hT toS hk x₀ hx f (infAlgHom B hS hT toS hk x₀ hx θ q) =
       infAlgHom B hS hT toS hk x₀ hx
         (fiberEndRestrict (Under.post (polarizedSliceProjection B hS hT))
-          (underPost_isFiberedInGroupoids _ (isFiberedInGroupoids_polarizedSliceProjection B hS hT) x₀)
+          (underPost_isFiberedInGroupoids _
+            (isFiberedInGroupoids_polarizedSliceProjection B hS hT) x₀)
           (trivialTransitionUnder k B S hS toS hk (polarizedSliceProjection B hS hT) x₀ hx
             (isFiberedInGroupoids_polarizedSliceProjection B hS hT) ((fgSiteModule B hk).map f))
           (trivialTransitionUnder_isHomLift k B S hS toS hk (polarizedSliceProjection B hS hT) x₀ hx
@@ -782,11 +786,13 @@ theorem infDerivation_naturality (f : V ⟶ W)
     (θ : trivialLift B hS hT toS hk x₀ hx V ⟶ trivialLift B hS hT toS hk x₀ hx V) :
     infDerivation B hS hT toS hk x₀ hx
         (fiberEndRestrict (Under.post (polarizedSliceProjection B hS hT))
-          (underPost_isFiberedInGroupoids _ (isFiberedInGroupoids_polarizedSliceProjection B hS hT) x₀)
+          (underPost_isFiberedInGroupoids _
+            (isFiberedInGroupoids_polarizedSliceProjection B hS hT) x₀)
           (trivialTransitionUnder k B S hS toS hk (polarizedSliceProjection B hS hT) x₀ hx
             (isFiberedInGroupoids_polarizedSliceProjection B hS hT) ((fgSiteModule B hk).map f))
           (trivialTransitionUnder_isHomLift k B S hS toS hk (polarizedSliceProjection B hS hT) x₀ hx
-            (isFiberedInGroupoids_polarizedSliceProjection B hS hT) ((fgSiteModule B hk).map f)) θ) =
+            (isFiberedInGroupoids_polarizedSliceProjection B hS hT) ((fgSiteModule B hk).map f))
+          θ) =
       ((infTarget B hS hT toS hk x₀ hx).map f) (infDerivation B hS hT toS hk x₀ hx θ) := by
   let := specialFiberRingAlgebra B hS hT toS hk x₀ hx
   let := trivialLiftRingAlgebra B hS hT toS hk x₀ hx V

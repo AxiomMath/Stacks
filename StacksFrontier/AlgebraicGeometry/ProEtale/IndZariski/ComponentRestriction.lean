@@ -227,12 +227,12 @@ theorem exists_surjective_indZariski_range_comap_eq_preimage_components
     ((↑) : PrimeSpectrum A → ConnectedComponents (PrimeSpectrum A)) ⁻¹' T
   let B := restrictionRing A Z
   refine ⟨B, inferInstance, inferInstance, ?_, ?_, ?_, ?_⟩
-  · show ObjectProperty.ind.{u} (fun C : CommAlgCat.{u} A => Algebra.IsLocalIso A C)
+  · change ObjectProperty.ind.{u} (fun C : CommAlgCat.{u} A => Algebra.IsLocalIso A C)
       (CommAlgCat.of A (ULift.{u} B))
     exact ⟨_, inferInstance, inferInstance,
       (ColimitPresentation.colimit (restrictionDiag A Z)).ofIso
         (CommAlgCat.isoMk ULift.algEquiv.symm), fun W => by
-      show Algebra.IsLocalIso A (RestrictClopen A W.unop.val)
+      change Algebra.IsLocalIso A (RestrictClopen A W.unop.val)
       infer_instance⟩
   · exact restrictionRing_surjective A Z
   · exact PrimeSpectrum.isClosedEmbedding_comap_of_surjective B (algebraMap A B)

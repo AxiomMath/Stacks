@@ -217,7 +217,7 @@ theorem WedgeRel.of_local {V : X.Opens} {hV : V ≤ W'}
   refine ⟨V' ⊓ V₁, inf_le_left, ⟨hy, hy₁⟩, ?_⟩
   have key := hrel (V' ⊓ V₁) inf_le_right (idealRes inf_le_left b)
   rw [forms_map_map] at key
-  show (relativeDifferentialForms f ((p + q : ℕ) : ℤ)).presheaf.map
+  change (relativeDifferentialForms f ((p + q : ℕ) : ℤ)).presheaf.map
       (homOfLE (inf_le_left : V' ⊓ V₁ ≤ V')).op
       (idealFn b • (relativeDifferentialForms f ((p + q : ℕ) : ℤ)).presheaf.map
         (homOfLE hV').op ζ) =

@@ -127,7 +127,7 @@ theorem chartPoint_iff_pointOfEtaleChart_eq (U : SmallEtale B S hS X)
       refine (Equiv.symm_apply_eq _).mpr ?_
       rw [← hpu]
       exact (pointsToScheme_class B S hS U.obj.left p).symm
-    show pointsMap B S hS (yoneda.obj U.obj.left) U.obj.hom
+    change pointsMap B S hS (yoneda.obj U.obj.left) U.obj.hom
       ((pointsEquivScheme B S hS U.obj.left).symm u) = x
     rw [hsymm]
     exact hpx

@@ -244,7 +244,7 @@ theorem siteEquivSourceComparison_natural
       (siteEquivSourceComparison eqv φ A' B').hom =
     (siteEquivSourceComparison eqv φ A B).hom ≫
       DerivedCategory.Q.map ((pushComplex eqv φ).map (homMap X f g)) := by
-  show (SheafOfModules.pushforward.{u} φ).mapDerivedCategory.map
+  change (SheafOfModules.pushforward.{u} φ).mapDerivedCategory.map
       (((derivedSheafHomBifunctor X).map (DerivedCategory.Q.map f).op).app
           (DerivedCategory.Q.obj B) ≫
         ((derivedSheafHomBifunctor X).obj (op (DerivedCategory.Q.obj A'))).map

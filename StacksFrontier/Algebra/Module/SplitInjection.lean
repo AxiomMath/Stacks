@@ -277,14 +277,13 @@ theorem baseChange_eq_zero_iff_algebraMap_apply_eq_zero {a b : ℕ} (B : Type*) 
       rw [hv]
       simp [Finset.sum_apply, h]
     refine LinearMap.ext fun y => ?_
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul c v =>
       rw [LinearMap.baseChange_tmul, LinearMap.zero_apply]
       apply (TensorProduct.piScalarRight A B B (Fin b)).injective
       rw [map_zero]
       ext p
-      show (TensorProduct.piScalarRightHom A B B (Fin b)) (c ⊗ₜ[A] (G v)) p = 0
+      change (TensorProduct.piScalarRightHom A B B (Fin b)) (c ⊗ₜ[A] (G v)) p = 0
       simp [TensorProduct.piScalarRightHom, TensorProduct.piScalarRightHomBil,
         Algebra.smul_def, hcoord v p]
     | add x y hx hy => simp [hx, hy]

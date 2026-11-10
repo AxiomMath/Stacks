@@ -78,15 +78,15 @@ attribute [instance] SectionsData.commRing SectionsData.algebra SectionsData.fin
 variable {Y : Scheme.{u}} {Ω : Y.Opens}
 
 /-- **Quasi-coherence of every algebra of denominators over `Ω`.** This is the hypothesis the
-construction rests on; it holds whenever `Y` is reduced and `Ω` is dense. -/
+construction rests on; it holds whenever `Y` is reduced. -/
 def IsQcohAll (Y : Scheme.{u}) (Ω : Y.Opens) : Prop :=
   ∀ (S : Type u) [CommRing S] [Algebra Γ(Y, Ω) S] [Module.Flat Γ(Y, Ω) S]
     (P : Presentation Γ(Y, Ω) S), IsQcoh P
 
-/-- **Every algebra of denominators over a dense affine open of a reduced scheme is
+/-- **Every algebra of denominators over an open subset of a reduced scheme is
 quasi-coherent.** This is `Stacks.DenseDenominators.isLocalization_away_sub`, packaged. -/
-theorem isQcohAll [IsReduced Y] (hd : Dense (Ω : Set Y)) : IsQcohAll Y Ω :=
-  fun _ _ _ _ P _U hU r => isLocalization_away_sub hd P hU r
+theorem isQcohAll [IsReduced Y] : IsQcohAll Y Ω :=
+  fun _ _ _ _ P _ hU r => isLocalization_away_sub P hU r
 
 /-- **Local sections from the algebraic input.** The algebra of denominators of a presentation
 of the algebra of sections has a relative spectrum which is integral and surjective over `Y`,
@@ -107,7 +107,7 @@ theorem exists_integralHom_surjective_section_of_sectionsData [IsReduced Y]
     rw [hcrd, Pi.single_eq_same]
   obtain ⟨A, a, haint, hasurj, hsec⟩ :=
     exists_integralHom_surjective_specSection P hd ((LinearMap.proj 0).comp crd) hφ
-      (isQcohAll hd D.S P) hΩ
+      (isQcohAll D.S P) hΩ
   refine ⟨A, a, haint, hasurj, fun α hα => ?_⟩
   obtain ⟨V, hVaff, hαV, v, hv⟩ := hsec α (hα ▸ hy)
   refine ⟨V, hVaff, hαV, v ≫ D.σ, ?_⟩

@@ -294,7 +294,7 @@ theorem eulerCharacteristicTensorSheafSub_pushforward_eq_finsum_of_eq_one
     refine finsum_eq_single _ ξ₀ fun ξ hξ => ?_
     refine toNat_stalkLength_pushforward_mul_eq_zero i I (fun hmem => hξ (Subtype.ext ?_)) _
     exact (genericPoint_eq_of_mem_range i ξ.1 (mem_genericPointsOne_iff.mp ξ.2).1 hmem).symm
-  rw [hsingle, hweight, ENat.toNat_coe,
+  rw [hsingle, hweight, ENat.toNat_natCast,
     ← curveDegree_pullback_eq_componentDegree k f hX E rank i hZ]
   obtain ⟨hT, hv⟩ :=
     exists_eulerCharacteristic_tensorSheaf_eq_fiberRank_mul_curveDegree_add_of_isCurve
@@ -438,7 +438,7 @@ theorem sum_toNat_of_sum_eq_coe {ι : Type*} [Fintype ι] (a : ι → ℕ∞) (m
     simp at hle
   have hcast : (m : ℕ∞) = ((∑ j, (a j).toNat : ℕ) : ℕ∞) := by
     rw [h, Nat.cast_sum]
-    exact Finset.sum_congr rfl fun j _ => (ENat.coe_toNat (hne j)).symm
+    exact Finset.sum_congr rfl fun j _ => (ENat.natCast_toNat (hne j)).symm
   have hm : m = ∑ j, (a j).toNat := by exact_mod_cast hcast
   rw [hm, Nat.cast_sum]
 

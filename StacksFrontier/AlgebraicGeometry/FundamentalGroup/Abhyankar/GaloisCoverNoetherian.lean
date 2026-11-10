@@ -21,9 +21,8 @@ of `X` with group `G`.
 
 ## Implementation notes
 
-Both results take two further results as hypotheses:
-* `h0BMA`, purity for regular local rings ([Stacks, Tag 0BMA] (1));
-* `h0EYD`, the tame half of [Stacks, Tag 0EYD].
+Both results take one further result as a hypothesis: `h0EYD`, the tame half of
+[Stacks, Tag 0EYD].
 
 ## References
 
@@ -44,7 +43,6 @@ namespace AlgebraicGeometry
 `exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian` under the further
 assumption that `f` is quasi-compact. -/
 theorem exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian_of_quasiCompact
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -65,7 +63,7 @@ theorem exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian_of_
   exact Abhyankar.exists_of_galoisExtendsOver_top f Z
     (Abhyankar.galoisExtendsOver_top f Z
       (Abhyankar.exists_galoisExtendsOver f σ hσ G hG Z z hz)
-      (Abhyankar.exists_galoisExtendsOver_gt h0BMA h0EYD f σ hσ G hG Z z hz))
+      (Abhyankar.exists_galoisExtendsOver_gt h0EYD f σ hσ G hG Z z hz))
 
 /-- **Stacks Project, Tag 0EYJ.** Let `S` be an integral normal Noetherian scheme with generic
 point `η`, `f : X ⟶ S` smooth with geometrically connected fibres and a section `σ`, and
@@ -73,10 +71,8 @@ point `η`, `f : X ⟶ S` smooth with geometrically connected fibres and a secti
 `κ(η)`-point over `σ(η)`. Then `Z` is the restriction of a finite étale Galois cover of `X` with
 group `G`, equivariantly.
 
-The named arguments are `h0BMA` ([Stacks, Tag 0BMA] (1)) and `h0EYD` (the tame half of
-[Stacks, Tag 0EYD]). -/
+The named argument is `h0EYD` (the tame half of [Stacks, Tag 0EYD]). -/
 theorem exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -95,6 +91,6 @@ theorem exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian
           (Y.action g).asIso.hom ≫ e.hom = e.hom ≫ (Z.action g).asIso.hom :=
   Abhyankar.exists_finiteEtaleGaloisCover_extending_genericFiber_of_quasiCompact_case
     (exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian_of_quasiCompact
-      h0BMA h0EYD)
+      h0EYD)
 
 end AlgebraicGeometry

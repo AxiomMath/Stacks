@@ -63,7 +63,7 @@ theorem ofArrows_mem_fpqcPrecoverage {Y : Scheme.{0}} {ι : Type*} {X : ι → S
     (f : ∀ i, X i ⟶ Y) (hflat : ∀ i, Flat (f i)) (i₀ : ι) [Surjective (f i₀)]
     [QuasiCompact (f i₀)] : Presieve.ofArrows X f ∈ Scheme.fpqcPrecoverage Y := by
   refine ⟨?_, (Scheme.ofArrows_mem_precoverage_iff _).2 ⟨fun y => ⟨i₀, (f i₀).surjective y⟩, hflat⟩⟩
-  show (PreZeroHypercover.mk ι X f).presieve₀ ∈ Scheme.qcPrecoverage Y
+  change (PreZeroHypercover.mk ι X f).presieve₀ ∈ Scheme.qcPrecoverage Y
   rw [Scheme.presieve₀_mem_qcPrecoverage_iff]
   exact QuasiCompactCover.of_hom (𝒱 := PreZeroHypercover.singleton.{0} (f i₀))
     ⟨fun _ => i₀, fun _ => 𝟙 _, fun _ => Category.id_comp _⟩
@@ -108,7 +108,7 @@ theorem subsingleton_hom_spec_real (A : CommRingCat.{0}) (j : A ⟶ CommRingCat.
   congr 1
   ext x
   apply hj
-  show (Spec.preimage f ≫ j) x = (Spec.preimage g ≫ j) x
+  change (Spec.preimage f ≫ j) x = (Spec.preimage g ≫ j) x
   rw [show Spec.preimage f ≫ j = Spec.preimage g ≫ j from
     CommRingCat.hom_ext (Subsingleton.elim _ _)]
 

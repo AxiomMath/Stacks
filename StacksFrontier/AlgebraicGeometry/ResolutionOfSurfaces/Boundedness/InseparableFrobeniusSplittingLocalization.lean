@@ -71,7 +71,7 @@ theorem exists_frobeniusSplitting_fractionRing (hp : 1 ≤ p) (θ : A →+ A)
     have heq : (rep x).1 * s = z * (rep x).2 :=
       hinj (by rw [map_mul, map_mul]; exact h1.symm)
     have hk := key _ _ _ _ hs' hs heq
-    show algebraMap A K (θ ((rep x).1 * (rep x).2 ^ (p - 1))) / algebraMap A K (rep x).2 = _
+    change algebraMap A K (θ ((rep x).1 * (rep x).2 ^ (p - 1))) / algebraMap A K (rep x).2 = _
     rw [div_eq_div_iff (hs0 _ hs') (hs0 _ hs), ← map_mul, ← map_mul]
     congr 1
     rw [mul_comm, hk, mul_comm]
@@ -92,7 +92,7 @@ theorem exists_frobeniusSplitting_fractionRing (hp : 1 ≤ p) (θ : A →+ A)
       add_mul, map_add]
   have hzero : F 0 = 0 := by simpa using hF 0 1 one_ne_zero
   refine ⟨⟨⟨F, hzero⟩, hadd⟩, fun a x => ?_, hF⟩
-  show F (a ^ p * x) = a * F x
+  change F (a ^ p * x) = a * F x
   obtain ⟨z, s, hs, rfl⟩ := IsFractionRing.div_surjective (A := A) a
   have hs1 := nonZeroDivisors.ne_zero hs
   rw [hrepx x]

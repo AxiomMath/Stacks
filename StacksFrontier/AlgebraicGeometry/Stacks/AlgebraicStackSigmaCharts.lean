@@ -107,7 +107,7 @@ def sigmaOver {ι : Type u} (W : ι → BigFppfOver B S hS)
 def sigmaOverι {ι : Type u} (W : ι → BigFppfOver B S hS)
     (hW : B.Contains (∐ fun i => (W i).left.1)) (i : ι) : W i ⟶ sigmaOver B S hS W hW :=
   Over.homMk (ObjectProperty.homMk (Sigma.ι (fun j => (W j).left.1) i))
-    (ObjectProperty.hom_ext _ (Sigma.ι_desc _ _))
+    (ObjectProperty.hom_ext _ (Sigma.ι_comp_desc _ _))
 
 /-- The underlying morphism of schemes of `AlgebraicGeometry.Stack.sigmaOverι B S hS W hW i` is
 the coprojection `Sigma.ι` of the coproduct of the schemes `(W j).left.1`. -/
@@ -161,7 +161,7 @@ theorem bot_mem_topology_of_sigmaOverι {ι : Type u} (W : ι → BigFppfOver B 
   let T := BigFppfOver.toScheme B S hS
   have hh : T.map a ≫ Sigma.ι (fun j => (W j).left.1) i =
       T.map b ≫ Sigma.ι (fun j => (W j).left.1) k := by
-    show T.map a ≫ T.map (sigmaOverι B S hS W hW i) = T.map b ≫ T.map (sigmaOverι B S hS W hW k)
+    change T.map a ≫ T.map (sigmaOverι B S hS W hW i) = T.map b ≫ T.map (sigmaOverι B S hS W hW k)
     rw [← T.map_comp, ← T.map_comp, hab]
   exact bot_mem_topology_of_isEmpty B S hS (isEmpty_of_commSq_sigmaι_of_ne ⟨hh⟩ hik)
 

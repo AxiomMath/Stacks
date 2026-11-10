@@ -103,9 +103,9 @@ private lemma overProdFunctorObjObj_left_eqToIso {S : Scheme.{u}} (A B : Over S)
 private lemma pullbackLeftPullbackSndIso_natural {X T : Scheme.{u}}
     (g : T ⟶ X) {U : Scheme.{u}} (p : U ⟶ X) {A B : Over T} (f : A ⟶ B) :
     let m₁ := pullback.map p (A.hom ≫ g) p (B.hom ≫ g) (𝟙 U) f.left (𝟙 X)
-        (by simp) (by simpa [Category.assoc] using f.w_assoc g)
+        (by simp) (by simp)
     let m₂ := pullback.map (pullback.snd p g) A.hom (pullback.snd p g) B.hom
-        (𝟙 (pullback p g)) f.left (𝟙 T) (by simp) (by simpa using f.w)
+        (𝟙 (pullback p g)) f.left (𝟙 T) (by simp) (by simp)
     m₁ ≫ (pullbackLeftPullbackSndIso p g B.hom).inv =
     (pullbackLeftPullbackSndIso p g A.hom).inv ≫ m₂ := by
   dsimp only
@@ -113,7 +113,7 @@ private lemma pullbackLeftPullbackSndIso_natural {X T : Scheme.{u}}
     (by simp) (by simp)
   let m₂ := pullback.map (pullback.snd p g) A.hom (pullback.snd p g) B.hom
     (𝟙 (pullback p g)) f.left (𝟙 T) (by simp) (by simp)
-  show m₁ ≫ (pullbackLeftPullbackSndIso p g B.hom).inv =
+  change m₁ ≫ (pullbackLeftPullbackSndIso p g B.hom).inv =
     (pullbackLeftPullbackSndIso p g A.hom).inv ≫ m₂
   have hA := pullbackLeftPullbackSndIso_inv_fst_snd p g A.hom
   have hB := pullbackLeftPullbackSndIso_inv_fst_snd p g B.hom
@@ -459,7 +459,7 @@ private noncomputable def splitPullbackOverIso {S : Scheme.{u}} {n : ℕ}
       (splitPullbackIso A).hom ≫
       pullback.snd (Sigma.desc (fun _ : Fin n => 𝟙 S)) A.hom ≫ A.hom =
       Sigma.ι (fun _ : Fin n => A.left) i ≫ Sigma.desc (fun _ : Fin n => A.hom) := by
-    simpa only [Category.assoc, Sigma.ι_desc, Category.id_comp] using
+    simpa only [Category.assoc, Sigma.ι_comp_desc, Category.id_comp] using
       congrArg (fun f => f ≫ A.hom) (splitPullbackIso_snd A i)
   change Sigma.ι (fun _ : Fin n => A.left) i ≫ e.hom ≫
       (Over.mk (Sigma.desc (fun _ : Fin n => 𝟙 S)) ⨯ A).hom =
@@ -678,7 +678,7 @@ private noncomputable def overSigmaHomYonedaIso {S : Scheme.{u}} {n : ℕ}
           _ = Sigma.ι (fun _ : Fin n => A.unop.left) i ≫
               Sigma.desc (fun _ : Fin n => A.unop.hom) := by
             symm
-            exact Sigma.ι_desc (fun _ : Fin n => A.unop.hom) i)
+            exact Sigma.ι_comp_desc (fun _ : Fin n => A.unop.hom) i)
     left_inv := by
       intro f
       apply Over.OverMorphism.ext
@@ -688,7 +688,7 @@ private noncomputable def overSigmaHomYonedaIso {S : Scheme.{u}} {n : ℕ}
           Sigma.desc (fun j => (Pi.lift (fun k => overSigmaι A.unop k ≫ f)).left ≫
             (Pi.π (fun _ : Fin n => V) j).left) =
         Sigma.ι (fun _ : Fin n => A.unop.left) i ≫ f.left
-      rw [Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc]
       calc
         (Pi.lift (fun k => overSigmaι A.unop k ≫ f)).left ≫
             (Pi.π (fun _ : Fin n => V) i).left =
@@ -839,7 +839,7 @@ private theorem relativeHom_isRepresentable {S Z X : Scheme.{u}} (f : Z ⟶ S) (
   let : IsAffine W := hW
   let V := g ⁻¹ᵁ W
   let q : t → V := fun x ↦ ⟨x.1, by
-    show g.base x.1 ∈ W
+    change g.base x.1 ∈ W
     rw [hbase x.1 x.2]
     exact hsW⟩
   let : Fintype t := ht.fintype
@@ -870,7 +870,7 @@ private theorem exists_etaleBaseChange_sigmaIso {X : Scheme.{u}} (U : Over X)
     rw [← he, Iso.inv_hom_id_assoc]
   refine ⟨{ scheme := T, point := t, toBase := g, map_point := ht },
     Fintype.card ι, ⟨Over.isoMk (r ≪≫ e.symm) ?_⟩⟩
-  show (r.hom ≫ e.inv) ≫ pullback.snd U.hom g =
+  change (r.hom ≫ e.inv) ≫ pullback.snd U.hom g =
     Sigma.desc (fun _ : Fin (Fintype.card ι) => 𝟙 T)
   rw [Category.assoc, hsnd]
   apply Sigma.hom_ext
@@ -881,7 +881,7 @@ private theorem exists_etaleBaseChange_sigmaIso {X : Scheme.{u}} (U : Over X)
 over every member of an fppf covering of `X` by étale neighbourhoods of its points. -/
 private theorem exists_fppfCover_etaleNeighborhoods {X : Scheme.{u}} (U : Over X)
     [IsFinite U.hom] [Etale U.hom] :
-    ∃ (N : ∀ x : X, EtaleNeighborhood X x) (n : ∀ x : X, ℕ),
+    ∃ (N : ∀ x : X, EtaleNeighborhood X x) (n : X → ℕ),
       (∀ x, Nonempty
         (Over.mk (Sigma.desc (fun _ : Fin (n x) => 𝟙 (N x).scheme)) ≅
           (Over.pullback (N x).toBase).obj U)) ∧
@@ -937,18 +937,18 @@ public theorem exists_finiteEtale_internalHom (X : Scheme.{u}) (U V : Over X)
       adjunctionYonedaIso (Over.mapPullbackAdj g) F.reprX ≪≫
         Functor.isoWhiskerLeft (Over.map g).op F.reprW
     have hbridge : (Over.map g).op ⋙ F ≅ yoneda.obj P := by
-      show (Over.map g).op ⋙
+      change (Over.map g).op ⋙
           ((Limits.prod.functor.obj U).op ⋙ yoneda.obj V) ≅ yoneda.obj P
       exact splitInternalHomIso g U V eU.symm
     let eObj := yoneda.preimageIso (hrepr ≪≫ hbridge)
     have : IsIso eObj.hom.left := by
-      show IsIso ((Over.forget (N x).scheme).map eObj.hom)
+      change IsIso ((Over.forget (N x).scheme).map eObj.hom)
       infer_instance
     let : IsFinite VT.hom := by
-      show IsFinite (pullback.snd V.hom g)
+      change IsFinite (pullback.snd V.hom g)
       infer_instance
     let : Etale VT.hom := by
-      show Etale (pullback.snd V.hom g)
+      change Etale (pullback.snd V.hom g)
       infer_instance
     exact ⟨hom_of_iso_over (P := @IsFinite) eObj (pi_over_hom (P := @IsFinite) inferInstance n),
       hom_of_iso_over (P := @Etale) eObj (pi_over_hom (P := @Etale) inferInstance n)⟩

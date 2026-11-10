@@ -206,7 +206,7 @@ public theorem sectionsEquiv_restrict {T T' : Finset (Fin c)} (h : T ⊆ T')
         (LocalizedModule.mkLinearMap (Cech.cechSub (eqn f V) T') Γ(F, V))) ?_
     refine LinearMap.ext fun m => ?_
     have hL : (resCechLE f V F h) (resCech f V F T m) = resCech f V F T' m := by
-      show F.presheaf.map _ (F.presheaf.map _ m) = F.presheaf.map _ m
+      change F.presheaf.map _ (F.presheaf.map _ m) = F.presheaf.map _ m
       rw [← CategoryTheory.comp_apply, ← Functor.map_comp, ← op_comp]
       exact congrArg (fun g => F.presheaf.map (Opposite.op g) m) (Subsingleton.elim _ _)
     simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, hL,
@@ -281,7 +281,7 @@ public theorem exists_ordIdx_eq (p : ℕ) (T : {t : Finset (Fin c) // t.card = p
     ∃ σ, ordIdx p σ = T :=
   ⟨⟨T.1.orderEmbOfFin T.2, (T.1.orderEmbOfFin T.2).strictMono⟩, Subtype.ext (by
     refine Finset.coe_injective ?_
-    show ((Finset.image (fun k => T.1.orderEmbOfFin T.2 k) Finset.univ : Finset (Fin c)) :
+    change ((Finset.image (fun k => T.1.orderEmbOfFin T.2 k) Finset.univ : Finset (Fin c)) :
       Set (Fin c)) = (T.1 : Set (Fin c))
     rw [Finset.coe_image, Finset.coe_univ, Set.image_univ]
     exact Finset.range_orderEmbOfFin T.1 T.2)⟩

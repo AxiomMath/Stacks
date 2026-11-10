@@ -87,7 +87,7 @@ theorem associatedSheafULift_map_unit_comp_complementAssociatedSheafULiftIso_hom
     ((SmallEtale.associatedSheaf B X).obj 𝓕)
   simp only [Functor.whiskerLeft_app] at h
   refine Eq.trans ?_ h
-  show (uliftSheafFunctor.{u + 1, u} (SmallEtale.topology B X.obj X.property)).map
+  change (uliftSheafFunctor.{u + 1, u} (SmallEtale.topology B X.obj X.property)).map
       ((SmallEtale.associatedSheaf B X).map
         ((Scheme.Modules.pullbackPushforwardAdjunction (closedComplementSchemeHom B i)).unit.app
           𝓕)) ≫

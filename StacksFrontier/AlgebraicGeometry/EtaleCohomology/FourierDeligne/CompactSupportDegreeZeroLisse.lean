@@ -72,7 +72,7 @@ theorem extensionByZero_section_eq_zero_of_isLocallyConstantWith
   let pt : Spec (.of (AlgebraicClosure (Y.residueField z))) := default
   let y : W.left := yW.left pt
   have hWz : W.hom y = z := by
-    show (yW.left ≫ W.hom) pt = z
+    change (yW.left ≫ W.hom) pt = z
     rw [show yW.left ≫ W.hom = zbar from Over.w yW]
     exact Scheme.fromSpecResidueField_apply z _
   have hP : IsZero (P.obj (op W)) := by

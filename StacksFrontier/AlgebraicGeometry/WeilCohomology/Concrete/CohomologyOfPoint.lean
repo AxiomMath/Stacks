@@ -82,9 +82,9 @@ theorem diag_fst_point : diag (point k) ≫ fst (point k) (point k) = 𝟙 _ :=
 /-- The first projection of `Spec k ×_k Spec k` is inverse to the diagonal. -/
 theorem fst_diag_point : fst (point k) (point k) ≫ diag (point k) = 𝟙 _ := by
   refine hom_ext_left (pullback.hom_ext ?_ ?_)
-  · show (pullback.fst _ _ ≫ pullback.diagonal _) ≫ pullback.fst _ _ = 𝟙 _ ≫ pullback.fst _ _
+  · change (pullback.fst _ _ ≫ pullback.diagonal _) ≫ pullback.fst _ _ = 𝟙 _ ≫ pullback.fst _ _
     rw [Category.assoc, pullback.diagonal_fst, Category.comp_id, Category.id_comp]
-  · show (pullback.fst _ _ ≫ pullback.diagonal _) ≫ pullback.snd _ _ = 𝟙 _ ≫ pullback.snd _ _
+  · change (pullback.fst _ _ ≫ pullback.diagonal _) ≫ pullback.snd _ _ = 𝟙 _ ≫ pullback.snd _ _
     rw [Category.assoc, pullback.diagonal_snd, Category.comp_id, Category.id_comp]
     exact congrArg (fun f ↦ f.hom.left) (fst_point_eq_snd_point (k := k))
 
@@ -127,8 +127,7 @@ theorem nontrivial_point (hCd : W.CycleClassPoint) : Nontrivial (W.H (point k)) 
     ⟨fun a b ↦ Subtype.ext (Subsingleton.elim (a : W.H (point k)) b)⟩
   have : Subsingleton (W.Tw (point k) (2 * ((0 : ℕ) : ℤ)) ((0 : ℕ) : ℤ)) := by
     refine subsingleton_of_forall_eq 0 fun x ↦ ?_
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul a b => rw [Subsingleton.elim a 0, TensorProduct.zero_tmul]
     | add x y hx hy => rw [hx, hy, add_zero]
   exact cycleClass_fundamentalClass_point_ne_zero hCd (Subsingleton.elim _ _)
@@ -192,7 +191,7 @@ def pointH0AlgEquiv (hBa : W.KunnethIsomorphism) (hCd : W.CycleClassPoint) :
 @[stacks 0FHE "the unique F-algebra isomorphism F = H^0(Spec k)"]
 theorem pointH0AlgEquiv_unique (hBa : W.KunnethIsomorphism) (hCd : W.CycleClassPoint)
     (e : F ≃ₐ[F] W.H0 (point k)) : e = pointH0AlgEquiv hBa hCd :=
-  AlgEquiv.coe_algHom_injective (Subsingleton.elim _ _)
+  AlgEquiv.coe_toAlgHom_injective (Subsingleton.elim _ _)
 
 /-- **Stacks Project, Tag 0FHE**, third clause: `γ([Spec k]) = 1` in `H^0(Spec k)`. -/
 @[stacks 0FHE "γ([Spec k]) = 1, from (B)(a), (C)(c), (C)(d) and the unit law [Spec k]·[Spec k] = \

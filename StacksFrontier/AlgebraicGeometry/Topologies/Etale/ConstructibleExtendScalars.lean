@@ -232,7 +232,7 @@ private lemma isCocontinuous_equivalenceOfIsTerminal {C : Type c} [Category.{v} 
             (Over.equivalenceOfIsTerminal hT).inverse.obj U) =
       (Over.equivalenceOfIsTerminal hT).inverse.map g :=
     Over.OverMorphism.ext (Category.id_comp g)
-  show S.arrows ((Over.equivalenceOfIsTerminal hT).inverse.map g)
+  change S.arrows ((Over.equivalenceOfIsTerminal hT).inverse.map g)
   rw [← heq]
   exact S.downward_closed h _
 
@@ -247,7 +247,7 @@ public lemma hasWeakSheafify_of_overTerminal
   let K := J.over T
   have : e.functor.IsCocontinuous J K := isCocontinuous_equivalenceOfIsTerminal J hT
   have : e.inverse.IsCocontinuous K J := by
-    show (Over.forget T).IsCocontinuous (J.over T) J
+    change (Over.forget T).IsCocontinuous (J.over T) J
     infer_instance
   have : e.inverse.IsDenseSubsite K J :=
     Equivalence.isDenseSubsite_inverse_of_isCocontinuous J K e
@@ -256,7 +256,7 @@ public lemma hasWeakSheafify_of_overTerminal
       e.op.congrLeft.inverse ≅ sheafToPresheaf J A := by
     refine NatIso.ofComponents
       (fun F ↦ (e.op.congrLeft.unitIso.app F.obj).symm) (fun {F G} f ↦ ?_)
-    show ((e.op.congrLeft.functor ⋙ e.op.congrLeft.inverse).map f.hom) ≫
+    change ((e.op.congrLeft.functor ⋙ e.op.congrLeft.inverse).map f.hom) ≫
       (e.op.congrLeft.unitIso.app G.obj).symm.hom =
       (e.op.congrLeft.unitIso.app F.obj).symm.hom ≫ f.hom
     exact e.op.congrLeft.unitIso.inv.naturality f.hom

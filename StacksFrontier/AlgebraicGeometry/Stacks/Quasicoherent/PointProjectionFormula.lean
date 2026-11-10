@@ -81,7 +81,7 @@ theorem pointPullbackProjectionAddEquiv_smul (M : quasicoherentModules B S hS �
     pointPullbackProjectionAddEquiv hg e ht M (r • z) =
       terminalArrowRingHom B S hS g t (pointRingHom B S hS 𝒳 y e r) •
         pointPullbackProjectionAddEquiv hg e ht M z := by
-  show pointPullbackQuasicoherentDirectImageAddEquiv B S hS g hg e ht
+  change pointPullbackQuasicoherentDirectImageAddEquiv B S hS g hg e ht
       ((quasicoherentPullback B S hS g).obj M)
       (((pointPullback B S hS 𝒳 y e).map ((projectionFormulaIso hg).hom.app M)).hom (r • z)) = _
   rw [LinearMap.map_smul]

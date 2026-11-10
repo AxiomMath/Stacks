@@ -464,7 +464,7 @@ theorem tmul_zsmul_left (P : GradedModule.{t, m, m} A.toGradedAlgebra)
     (N : LeftGradedModule.{t, m, m} A.toGradedAlgebra) (n : ℤ) (q : TensorIndex n) (X : Cᵒᵖ)
     (c : ℤ) (x : (P.piece q.1.1).val.obj X) (y : (N.piece q.1.2).val.obj X) :
     tmul P N n q X (c • x) y = c • tmul P N n q X x y := by
-  show PresheafOfModules.Hom.app (gradedTensorUnit P N n) X
+  change PresheafOfModules.Hom.app (gradedTensorUnit P N n) X
       (PresheafOfModules.Hom.app (gradedTensorπ P N n) X
         (PresheafOfModules.Hom.app (tensorSumι P N q) X ((c • x) ⊗ₜ y))) = _
   rw [PresheafOfModules.app_tmul_zsmul_left]

@@ -69,7 +69,7 @@ theorem exists_isIntegral_compactSpace_open_of_etale {Y : Scheme.{u}} (f : Y ⟶
   have : IsAffine W.toScheme := hW
   have : AlgebraicGeometry.IsIntegral W.toScheme := isIntegral_of_isOpenImmersion W.ι
   refine ⟨W.toScheme, W.ι ≫ g, inferInstance, inferInstance, inferInstance, ⟨z, hzW⟩, ?_⟩
-  show g.base (W.ι.base ⟨z, hzW⟩) = y
+  change g.base (W.ι.base ⟨z, hzW⟩) = y
   rw [show W.ι.base ⟨z, hzW⟩ = z from rfl]
   exact hz
 

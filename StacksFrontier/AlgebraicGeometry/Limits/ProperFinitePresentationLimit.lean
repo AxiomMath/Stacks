@@ -208,10 +208,10 @@ theorem exists_isLimit_isProper_finitePresentation_isClosedImmersion
     (Cone.whisker FI (Cone.mk X p)).π,
     (Functor.Initial.isLimitWhiskerEquiv FI (Cone.mk X p)).symm hc, ?_, ?_, ?_, ?_⟩
   · ext x
-    show p.app (FI.obj x) ≫ t.app (FI.obj x) ≫ a = f
+    change p.app (FI.obj x) ≫ t.app (FI.obj x) ≫ a = f
     rw [← Category.assoc, hfac, hιa]
   · intro x
-    show IsProper (t.app (FI.obj x) ≫ a) ∧ FinitePresentation (t.app (FI.obj x) ≫ a)
+    change IsProper (t.app (FI.obj x) ≫ a) ∧ FinitePresentation (t.app (FI.obj x) ≫ a)
     have hxk : k ≤ x.unop.1 := x.unop.2
     have : IsClosedImmersion (t'.app (FI.obj x)) := hk x.unop.1 hxk
     have hfactor : pullback.fst (t.app (FI.obj x)) π ≫ (t.app (FI.obj x) ≫ a) =

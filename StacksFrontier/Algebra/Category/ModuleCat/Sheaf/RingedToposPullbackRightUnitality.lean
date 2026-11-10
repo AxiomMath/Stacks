@@ -267,6 +267,7 @@ theorem step1_rightUnitor (F : _root_.SheafOfModules.{w'} (Tensor.ringSheaf Y.O)
   ((pullbackAdjPushforwardModules f).homEquiv_unit _ _ _).trans
     ((pullbackAdjPushforwardModules f).unit.naturality (rightUnitorHom F)).symm
 
+omit [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 open Stacks.SheafOfModules in
 /-- The pairing of the right unitor followed by a morphism is `(a, r) ↦ r · a` followed by it. -/
 theorem step2_rightUnitor (F : _root_.SheafOfModules.{w'} (Tensor.ringSheaf Y.O))
@@ -440,6 +441,8 @@ variable {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', u', w'}}
   [HasWeakSheafify Y.J AddCommGrpCat.{w'}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}]
   (f : Stacks.Sheaves.RingedToposModules.RingedToposHom X Y)
 
+omit [X.J.HasSheafCompose (forget RingCat.{w})]
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
 /-- Left whiskering of the monoidal structure of Tag 01CA on a local pure tensor: it acts in the
 **second** factor. This is the mirror of
 `Stacks.SheafOfModules.RingedToposPullback.whiskerRight_val_app_toSheafify`, which is what the

@@ -150,7 +150,7 @@ theorem colon_germ_eq (F : X.Modules) [F.IsQuasicoherent]
 as its prime ideal. -/
 theorem primeIdealOf_isoSpec_inv {U : X.Opens} (hU : IsAffineOpen U) (z : Spec Γ(X, U)) :
     hU.primeIdealOf (hU.isoSpec.inv z) = z := by
-  show hU.isoSpec.hom (hU.isoSpec.inv z) = z
+  change hU.isoSpec.hom (hU.isoSpec.inv z) = z
   rw [← Scheme.Hom.comp_apply, hU.isoSpec.inv_hom_id]
   rfl
 
@@ -208,7 +208,7 @@ theorem injective_app_of_isAffineOpen [IsLocallyNoetherian X]
   intro a b hab
   refine sub_eq_zero.mp ?_
   have htk : a - b ∈ LinearMap.ker φ := by
-    show f.app U (a - b) = 0
+    change f.app U (a - b) = 0
     rw [map_sub, hab, sub_self]
   rwa [hker, Submodule.mem_bot] at htk
 

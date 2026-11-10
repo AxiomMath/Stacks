@@ -77,8 +77,8 @@ generic point lies in such a subset.  That lemma generalises the corresponding s
 Cartier divisors in
 `AlgebraicGeometry.effectiveCartierMultiplicity_support_finite`, which could be derived from it.
 
-A Weil divisor is the library's `AlgebraicGeometry.WeilDivisor`, a locally finite coefficient family;
-`AlgebraicGeometry.weilDivisorEquivFinsupp` identifies it with the finite formal linear
+A Weil divisor is the library's `AlgebraicGeometry.WeilDivisor`, a locally finite coefficient
+family; `AlgebraicGeometry.weilDivisorEquivFinsupp` identifies it with the finite formal linear
 combinations, and `weilDivisorEquivFinsupp_cartierWeilDivisor` reads the construction below in
 that form.
 
@@ -313,7 +313,7 @@ theorem totalQuotientUnitOrder_kills_units [IsIntegral X] [IsLocallyNoetherian X
           (X.toTotalQuotientSheaf.hom.app (op U) c)) =
       algebraMap (X.presheaf.stalk x) X.functionField (X.presheaf.germ U x hx c) := fun c =>
     totalQuotientStalkToFunctionField_germ_apply x U hx c
-  show X.ord ((totalQuotientStalkToFunctionField x)
+  change X.ord ((totalQuotientStalkToFunctionField x)
       (TopCat.Presheaf.germ X.totalQuotientSheaf.obj U x hx
         (X.toTotalQuotientSheaf.hom.app (op U) (Additive.toMul v).val))) x = 0
   rw [hge]
@@ -389,7 +389,7 @@ theorem cartierMultiplicity_eq_zero_of_germ_eq_zero [IsIntegral X] [IsLocallyNoe
     (τ : X.CartierDivisor) (x : X)
     (hτ : (unitGroupQuotientSheaf X.toTotalQuotientSheaf).presheaf.Γgerm x τ = 0) :
     cartierMultiplicity τ x = 0 := by
-  show ((cartierStalkOrder x)
+  change ((cartierStalkOrder x)
     ((unitGroupQuotientSheaf X.toTotalQuotientSheaf).presheaf.Γgerm x τ)).down = 0
   rw [hτ]
   simp
@@ -416,10 +416,10 @@ theorem cartierMultiplicity_local [IsIntegral X] [IsLocallyNoetherian X] (τ : X
   have h3' : (unitGroupStalkMap X.totalQuotientSheaf x)
         (TopCat.Presheaf.germ (unitGroupPresheaf X.totalQuotientSheaf) U x hx v) =
       (unitsAddCommGrpFunctor.map (X.totalQuotientSheaf.presheaf.germ U x hx)) v := h3
-  show ((cartierStalkOrder x)
+  change ((cartierStalkOrder x)
     ((unitGroupQuotientSheaf X.toTotalQuotientSheaf).presheaf.Γgerm x τ)).down = _
   rw [← h1, hτ, h2']
-  show ((AddCommGrpCat.ofHom ((AddEquiv.ulift : ULift.{u} ℤ ≃+ ℤ).symm.toAddMonoidHom.comp
+  change ((AddCommGrpCat.ofHom ((AddEquiv.ulift : ULift.{u} ℤ ≃+ ℤ).symm.toAddMonoidHom.comp
         (functionFieldUnitOrder x)))
       ((unitsAddCommGrpFunctor.map (totalQuotientStalkToFunctionField x))
         ((unitGroupStalkMap X.totalQuotientSheaf x)
@@ -440,7 +440,7 @@ theorem ord_algebraMap_stalk [IsIntegral X] [IsLocallyNoetherian X] (x : X)
   have : Ring.KrullDimLE 1 (X.presheaf.stalk x) := krullDimLE_of_coheight_le hx.le
   have ha' := mem_nonZeroDivisors_iff_ne_zero.mpr ha
   rw [X.ord_eq_iff hx ((map_ne_zero_iff _ (IsFractionRing.injective _ _)).mpr ha)]
-  show Ring.ordFrac (X.presheaf.stalk x) (algebraMap _ _ a) = _
+  change Ring.ordFrac (X.presheaf.stalk x) (algebraMap _ _ a) = _
   rw [Ring.ordFrac_eq_ord (X.presheaf.stalk x) ha]
   exact Ring.ordMonoidWithZeroHom_eq_coe (X.presheaf.stalk x) ha'
     (ENat.natCast_toNat (Ring.ord_ne_top ha')).symm
@@ -615,7 +615,7 @@ theorem exists_affineOpen_local_representation [IsIntegral X] [IsLocallyNoetheri
     rwa [map_mul, hrU] at hm
   · have hv' : (cokernel.π (unitGroupMap X.toTotalQuotientSheaf)).app (op V') v = c := hv
     refine (rawUnitGroupQuotientMap_app_map_eq (hUW.trans hWV') τ ?_).symm
-    show (toSheafify (Opens.grothendieckTopology X)
+    change (toSheafify (Opens.grothendieckTopology X)
         (cokernel (unitGroupMap X.toTotalQuotientSheaf))).app (op V')
       ((cokernel.π (unitGroupMap X.toTotalQuotientSheaf)).app (op V') v) = _
     rw [hv']
@@ -706,10 +706,10 @@ theorem finite_cartierMultiplicity_support [IsNoetherian X] [IsIntegral X]
   intro Z hZ
   obtain ⟨y, hyt, hyZ⟩ := Set.mem_iUnion₂.mp (ht (Set.mem_univ Z.genericPoint))
   refine Set.mem_iUnion₂.mpr ⟨y, hyt, ?_⟩
-  show Z.genericPoint ∈ (((X.basicOpen (a y) ⊓ X.basicOpen (b y) : X.Opens) : Set X)ᶜ)
+  change Z.genericPoint ∈ (((X.basicOpen (a y) ⊓ X.basicOpen (b y) : X.Opens) : Set X)ᶜ)
   intro hmem
   apply hZ
-  show cartierMultiplicity τ Z.genericPoint = 0
+  change cartierMultiplicity τ Z.genericPoint = 0
   rw [cartierMultiplicity_eq_sub_of_local τ Z.genericPoint
       Z.coheight_genericPoint_eq_one (U y) hyZ (a y) (b y) (hb y) (v y) (hab y) (hτ y),
     length_quotient_span_germ_eq_zero_of_mem_basicOpen (a y) hyZ hmem.1,

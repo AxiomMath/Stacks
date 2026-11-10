@@ -167,7 +167,7 @@ public lemma ideal_smul_top_eq_bot_iff {R : Type*} [CommRing R] {M : Type*} [Add
     [Module R M] (J : Ideal R) :
     J • (⊤ : Submodule R M) = ⊥ ↔ ∀ r ∈ J, ∀ x : M, r • x = 0 := by
   rw [← Submodule.le_annihilator_iff, Submodule.annihilator_top]
-  simp [SetLike.le_def, Module.mem_annihilator]
+  simp [IsConcreteLE.le_iff, Module.mem_annihilator]
 
 /-- The sections of the zero subsheaf of a module on a scheme vanish over every open.
 

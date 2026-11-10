@@ -92,7 +92,7 @@ theorem fg_ideal_idealSheafDataOfChart_centreIdeal {X : AlgebraicSpaces B S hS}
     ((idealSheafDataOfChart B S hS X (centreIdeal K) (isCartesianOnAffineCharts_centreIdeal K)
       A).ideal V).FG := by
   have hker := (ker_rep_snd_eq_idealSheafDataOfChart B S hS X K A).symm
-  show ((idealSheafDataOfChart B S hS X (definingIdealSheaf B S hS X K)
+  change ((idealSheafDataOfChart B S hS X (definingIdealSheaf B S hS X K)
     (definingIdealSheaf_isCartesianOnAffineCharts B S hS X K) A).ideal V).FG
   rw [hker]
   have hclosed : _root_.AlgebraicGeometry.IsClosedImmersion

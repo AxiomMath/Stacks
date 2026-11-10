@@ -109,7 +109,7 @@ private theorem derivedCategoryPlus_Qh_linear
   apply (Functor.linear_iff (R := R) _).2
   intro Z a
   apply DerivedCategory.Plus.ι.map_injective
-  show DerivedCategory.Qh.map (a • 𝟙 ((HomotopyCategory.Plus.ι C).obj Z)) =
+  change DerivedCategory.Qh.map (a • 𝟙 ((HomotopyCategory.Plus.ι C).obj Z)) =
     a • 𝟙 (DerivedCategory.Qh.obj ((HomotopyCategory.Plus.ι C).obj Z))
   exact (Functor.linear_iff (R := R) DerivedCategory.Qh).mp inferInstance _ a
 
@@ -130,7 +130,7 @@ private theorem rightDerivedFunctorPlus_linear_of_linear
     apply (Functor.linear_iff (R := R) F.mapHomotopyCategoryPlus).2
     intro Z a
     apply (HomotopyCategory.Plus.ι D).map_injective
-    show (F.mapHomotopyCategory (ComplexShape.up ℤ)).map
+    change (F.mapHomotopyCategory (ComplexShape.up ℤ)).map
         (a • 𝟙 ((HomotopyCategory.Plus.ι C).obj Z)) =
       a • 𝟙 ((F.mapHomotopyCategory (.up ℤ)).obj ((HomotopyCategory.Plus.ι C).obj Z))
     exact (Functor.linear_iff (R := R) (F.mapHomotopyCategory (.up ℤ))).mp inferInstance _ a
@@ -186,7 +186,7 @@ private theorem rightDerivedPlus_linear_of_linear
     intro Z Y φ a
     apply DerivedCategory.Plus.ι.map_injective
     exact (DerivedCategory.Plus.singleFunctor C 0 ⋙ DerivedCategory.Plus.ι).map_smul a φ
-  show Functor.Linear R
+  change Functor.Linear R
     (DerivedCategory.Plus.singleFunctor C 0 ⋙ F.rightDerivedFunctorPlus ⋙
       DerivedCategory.Plus.homologyFunctor D i)
   infer_instance
@@ -205,7 +205,7 @@ private theorem rightDerivedPlus_additive
   let : F.rightDerivedFunctorPlus.IsTriangulated :=
     Functor.isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus F _
       F.rightDerivedFunctorPlusUnith
-  show (DerivedCategory.Plus.singleFunctor C 0 ⋙ F.rightDerivedFunctorPlus ⋙
+  change (DerivedCategory.Plus.singleFunctor C 0 ⋙ F.rightDerivedFunctorPlus ⋙
     DerivedCategory.Plus.homologyFunctor D p).Additive
   infer_instance
 
@@ -265,7 +265,7 @@ private theorem smul_moduleCat_hom (a : A) {M N : ModuleCat.{u} Γ(X, ⊤)} (g :
     letI := baseModuleCatLinear A f
     (a • g).hom z = baseRingHom A f a • g.hom z := by
   let := baseModuleCatLinear A f
-  show g.hom (baseRingHom A f a • z) = _
+  change g.hom (baseRingHom A f a • z) = _
   exact g.hom.map_smul _ z
 
 /-- **`H^p(X, -)` carries the base scalar endomorphism to multiplication by its image.** For
@@ -489,7 +489,7 @@ private theorem ker_map_limitProjection_le (I : Ideal A)
   obtain ⟨_hz, hex⟩ := rightDerivedPlus_exact_middle (moduleGlobalSections S.X) hse p
   intro x hx
   rw [hex.moduleCat_range_eq_ker]
-  show x ∈ LinearMap.ker (((moduleGlobalSections S.X).rightDerivedPlus p).map
+  change x ∈ LinearMap.ker (((moduleGlobalSections S.X).rightDerivedPlus p).map
     (cokernel.π _ ≫ e.hom)).hom
   rw [he]
   exact hx

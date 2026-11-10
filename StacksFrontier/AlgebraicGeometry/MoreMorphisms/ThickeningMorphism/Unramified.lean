@@ -74,7 +74,7 @@ theorem IsThickening.unramified_of_isPullback (hj : IsThickening j)
   have hcomm : Y.fromSpecResidueField y ≫ j =
       Spec.map (j.residueFieldMap y) ≫ Y'.fromSpecResidueField (j y) := by simp
   have hfib : Unramified (f.fiberToSpecResidueField y) := by
-    show Unramified (pullback.snd f (Y.fromSpecResidueField y))
+    change Unramified (pullback.snd f (Y.fromSpecResidueField y))
     exact unramified_isStableUnderBaseChange.of_isPullback
       (IsPullback.of_hasPullback f (Y.fromSpecResidueField y)) inferInstance
   have hfiberMap : IsIso (pullback.map f (Y.fromSpecResidueField y) f'

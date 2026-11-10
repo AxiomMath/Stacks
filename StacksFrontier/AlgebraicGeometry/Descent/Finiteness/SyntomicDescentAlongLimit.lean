@@ -268,7 +268,7 @@ theorem exists_syntomic_baseChange_of_syntomic_limitBaseChange {I : Type u} [Cat
   let a (j : C.I₀) : UX j ⟶ X₀ := Over.homMk (C.f j)
   let b₀ (j : C.I₀) : VY j ⟶ Y₀ := Over.homMk (b j)
   let p₀ (j : C.I₀) : UX j ⟶ VY j := Over.homMk (p j) (by
-    show p j ≫ (b j ≫ Y₀.hom) = C.f j ≫ X₀.hom
+    change p j ≫ (b j ≫ Y₀.hom) = C.f j ≫ X₀.hom
     rw [← Category.assoc, hp, Category.assoc, Over.w])
   have (j : C.I₀) : IsAffine (UX j).left := hCaffine j
   have (j : C.I₀) : IsAffine (VY j).left := hVaffine j

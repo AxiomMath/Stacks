@@ -123,9 +123,9 @@ theorem proj_isNoetherian_and_forall_isCoherent :
             Module.Finite A (TwistedGlobalSectionsModule.truncation 𝒜 F
               (twistedGlobalSectionsModule 𝒜 F) k)) := by
   obtain ⟨m, y, hy, hygen⟩ := exists_two_le_generators 𝒜 x hx hgen
-  refine ⟨isNoetherian_proj 𝒜 y hy hygen, fun F hF => ⟨?_, ?_, ?_, ?_⟩⟩
+  refine ⟨isNoetherian_proj 𝒜 y hygen, fun F hF => ⟨?_, ?_, ?_, ?_⟩⟩
   · exact exists_epi_coproduct_twistingSheaf 𝒜 y hy hygen F hF
-  · exact moduleFinite_cohomology_of_isCoherent 𝒜 y hy hygen F hF
+  · exact moduleFinite_cohomology_of_isCoherent 𝒜 y hygen F hF
   · exact fun p hp => exists_isZero_Hgroup_twist_of_isCoherent 𝒜 y hy hygen p hp F hF
   · exact moduleFinite_truncation 𝒜 F y hy hygen hF (twistedGlobalSectionsModule 𝒜 F)
 

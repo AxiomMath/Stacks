@@ -146,16 +146,20 @@ theorem PrimeDivisor.ringKrullDim_genericChartStalk_eq_one :
 
 section Generic
 
-variable (R : Type u) [CommRing R] [IsLocalRing R]
+variable (R : Type u) [CommRing R]
   [Algebra ((Z.genericChart B S hS hX hdec).scheme.left.1.presheaf.stalk
     (Z.genericChart B S hS hX hdec).point) R]
+  (hR : B.Contains (Spec (.of R)))
+
+section Henselization
+
+variable [IsLocalRing R]
   [IsLocalRing.IsHenselization
     ((Z.genericChart B S hS hX hdec).scheme.left.1.presheaf.stalk
       (Z.genericChart B S hS hX hdec).point)
     (IsLocalRing.ResidueField
       ((Z.genericChart B S hS hX hdec).scheme.left.1.presheaf.stalk
         (Z.genericChart B S hS hX hdec).point)) R]
-  (hR : B.Contains (Spec (.of R)))
 
 include hX hdec hInt hN Z in
 /-- **The abstract henselization `𝒪^h_{X, ξ}` the germ API carries is reduced, of Krull
@@ -197,9 +201,11 @@ theorem PrimeDivisor.isNoetherianRing_genericHenselization : IsNoetherianRing R 
   (Z.isReduced_and_ringKrullDim_eq_one_and_isNoetherianRing_genericHenselization
     B S hS hX hdec hInt hN R).2.2
 
+end Henselization
+
 /-! ### Hypotheses (a), (b) and (c) of Stacks 0ENA for `Spec(𝒪^h_{X, ξ})` -/
 
-include hX hdec hInt Z in
+include hX hdec Z in
 /-- `Spec(𝒪^h_{X, ξ})` is a reduced algebraic space: it is represented by the spectrum of the
 reduced ring `𝒪^h_{X, ξ}`. -/
 theorem PrimeDivisor.hasEtaleLocalProperty_isReduced_genericHenselianSpace
@@ -211,7 +217,7 @@ theorem PrimeDivisor.hasEtaleLocalProperty_isReduced_genericHenselianSpace
     ((Z.genericChart B S hS hX hdec).henselianObj R hR) (Iso.refl _)
     (inferInstanceAs (IsReduced (Spec (.of R))))
 
-include hX hdec hInt Z in
+include hX hdec Z in
 /-- **Hypothesis (a) of Stacks 0ENA for `Spec(𝒪^h_{X, ξ})`.**  Every weakly associated point of
 `Spec(𝒪^h_{X, ξ})` has codimension `0`, the ring `𝒪^h_{X, ξ}` being reduced. -/
 theorem PrimeDivisor.forall_localRingDimension_genericHenselianSpace_eq_zero
@@ -220,7 +226,7 @@ theorem PrimeDivisor.forall_localRingDimension_genericHenselianSpace_eq_zero
       localRingDimension B S hS z = 0 :=
   forall_localRingDimension_eq_zero_of_isReduced B S hS
     (Z.genericHenselianSpace B S hS hX hdec R hR)
-    (Z.hasEtaleLocalProperty_isReduced_genericHenselianSpace B S hS hX hdec hInt R hR hred)
+    (Z.hasEtaleLocalProperty_isReduced_genericHenselianSpace B S hS hX hdec R hR hred)
 
 include hX hdec Z in
 /-- `Spec(𝒪^h_{X, ξ})` is a locally Noetherian algebraic space: it is represented by the

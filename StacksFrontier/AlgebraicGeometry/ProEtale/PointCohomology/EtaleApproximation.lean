@@ -116,7 +116,7 @@ lemma affineCover_mem_topology (W : (base K).ProEt) :
     Sieve.generate (Presieve.ofArrows (affineCoverObj W) (affineCoverInc W)) ∈
       Scheme.ProEt.topology (base K) W := by
   apply Precoverage.generate_mem_toGrothendieck
-  show Presieve.map (Scheme.ProEt.forget (base K) ⋙ Over.forget (base K))
+  change Presieve.map (Scheme.ProEt.forget (base K) ⋙ Over.forget (base K))
     (Presieve.ofArrows (affineCoverObj W) (affineCoverInc W)) ∈ Scheme.proetalePrecoverage W.left
   rw [Presieve.map_ofArrows]
   have hle : Scheme.zariskiPrecoverage ≤ Scheme.proetalePrecoverage :=
@@ -185,7 +185,7 @@ the identification of `R` with the global sections of `Spec R`. -/
 lemma structureMap_specProObj (R : Type u) [CommRing R] [Algebra K R] [Algebra.Etale K R] :
     structureMap (specProObj (K := K) R) =
       CommRingCat.ofHom (algebraMap K R) ≫ (Scheme.ΓSpecIso (CommRingCat.of R)).inv := by
-  show (Scheme.ΓSpecIso (CommRingCat.of K)).inv ≫
+  change (Scheme.ΓSpecIso (CommRingCat.of K)).inv ≫
     (Spec.map (CommRingCat.ofHom (algebraMap K R))).appTop = _
   rw [Scheme.ΓSpecIso_inv_naturality]
 
@@ -240,10 +240,10 @@ variable {V}
 lemma ptAlgHom_map_toSpecSub (B : Subalgebra K Γ(V.left, ⊤)) [Algebra.Etale K B]
     (φ : GeomPt K V) : ptAlgHom (map (toSpecSub V B) φ) = (evalAlgHom φ).comp B.val := by
   refine AlgHom.ext fun b ↦ ?_
-  show eval _ (map (toSpecSub V B) φ) = eval (b : Γ(V.left, ⊤)) φ
+  change eval _ (map (toSpecSub V B) φ) = eval (b : Γ(V.left, ⊤)) φ
   rw [eval_map]
   congr 1
-  show ((Spec.map (CommRingCat.ofHom B.val.toRingHom)).appTop ≫
+  change ((Spec.map (CommRingCat.ofHom B.val.toRingHom)).appTop ≫
     V.left.isoSpec.hom.appTop) ((Scheme.ΓSpecIso (CommRingCat.of B)).inv b) = _
   rw [show V.left.isoSpec.hom.appTop = (Scheme.ΓSpecIso Γ(V.left, ⊤)).hom from
     Scheme.toSpecΓ_appTop _, ← CommRingCat.comp_apply, ← Category.assoc,
@@ -287,7 +287,7 @@ lemma exists_finset_of_isLocallyConstant {Z : Type*} (f : GeomPt K V → Z)
       rw [nhds_induced, nhds_discrete, Filter.mem_comap] at hWi
       obtain ⟨t, ht, hts⟩ := hWi
       apply hts
-      show eval _ φ' ∈ t
+      change eval _ φ' ∈ t
       rw [hφ' i.1 (hI.mem_toFinset.2 i.2)]
       exact Filter.mem_pure.1 ht
     rwa [← hUW] at this
@@ -355,7 +355,7 @@ lemma exists_factor_toSpecSub (V : (base K).ProEt) [IsAffine V.left] (U : (base 
   have hiso : U'.left.isoSpec.inv ≫ strHom U' = Spec.map (structureMap U') := by
     rw [← isoSpec_hom_comp_spec_structureMap U', Iso.inv_hom_id_assoc]
   have hw : ml ≫ U.hom = Spec.map (CommRingCat.ofHom (algebraMap K φ.range)) := by
-    show (Spec.map (CommRingCat.ofHom φ.rangeRestrict.toRingHom) ≫ U'.left.isoSpec.inv) ≫
+    change (Spec.map (CommRingCat.ofHom φ.rangeRestrict.toRingHom) ≫ U'.left.isoSpec.inv) ≫
       strHom U' = _
     rw [Category.assoc, hiso, ← Spec.map_comp]
     congr 1
@@ -363,7 +363,7 @@ lemma exists_factor_toSpecSub (V : (base K).ProEt) [IsAffine V.left] (U : (base 
     exact congrArg Subtype.val (φ.rangeRestrict.commutes x)
   refine ⟨MorphismProperty.Over.homMk ml hw, ?_⟩
   apply MorphismProperty.Over.Hom.ext
-  show (V.left.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (φ.range.val.toRingHom))) ≫
+  change (V.left.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (φ.range.val.toRingHom))) ≫
     (Spec.map (CommRingCat.ofHom φ.rangeRestrict.toRingHom) ≫ U'.left.isoSpec.inv) = k.left
   rw [Category.assoc, ← Category.assoc (Spec.map _), ← Spec.map_comp]
   have : CommRingCat.ofHom φ.rangeRestrict.toRingHom ≫ CommRingCat.ofHom φ.range.val.toRingHom =

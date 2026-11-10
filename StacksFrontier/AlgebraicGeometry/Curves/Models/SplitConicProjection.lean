@@ -146,7 +146,7 @@ abbrev conicConst : MvPolynomial (Fin 3) R ⧸ conicIdeal π := Ideal.Quotient.m
 theorem conic_relation :
     conicCoord π 1 * conicCoord π 2 = conicConst π * conicCoord π 0 ^ 2 := by
   rw [← sub_eq_zero]
-  show Ideal.Quotient.mk (conicIdeal π) (X 1) * Ideal.Quotient.mk (conicIdeal π) (X 2) -
+  change Ideal.Quotient.mk (conicIdeal π) (X 1) * Ideal.Quotient.mk (conicIdeal π) (X 2) -
     Ideal.Quotient.mk (conicIdeal π) (C π) * Ideal.Quotient.mk (conicIdeal π) (X 0) ^ 2 = 0
   rw [← map_mul, ← map_pow, ← map_mul, ← map_sub, Ideal.Quotient.eq_zero_iff_mem]
   exact Ideal.subset_span rfl
@@ -192,7 +192,7 @@ theorem val_awayMap_constEl {i : Fin 3} {g : MvPolynomial (Fin 3) R ⧸ conicIde
     (awayMap (conicGrading π) hg hx (constEl π i)).val =
       algebraMap _ (Localization.Away x) (conicConst π) := by
   rw [constEl, awayMap_fromZeroRingHom]
-  show (HomogeneousLocalization.mk ⟨0, PlaneCurveModel.toGradingZero _ _ π, 1,
+  change (HomogeneousLocalization.mk ⟨0, PlaneCurveModel.toGradingZero _ _ π, 1,
     one_mem _⟩).val = _
   rw [HomogeneousLocalization.val_mk]
   exact Localization.mk_one_eq_algebraMap _

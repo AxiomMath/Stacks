@@ -57,6 +57,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {V : BigFppfOver B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` for presheaves on the big fppf site is a deep instance search
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_RelativeAmpleFibreStage :
@@ -68,6 +69,7 @@ local instance (priority := high) hasPullback_presheaf_RelativeAmpleFibreStage
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` for inverse systems of presheaves on the big fppf site is a deep instance search
 /-- Pullbacks of inverse systems of presheaves on the big fppf site. -/
 local instance hasPullbacks_system_RelativeAmpleFibreStage :
     HasPullbacks (Iᵒᵖ ⥤ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)) := inferInstance

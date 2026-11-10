@@ -134,7 +134,7 @@ private lemma finiteTypeBaseCone_π_comp {R : Type u} [CommRing R] (R₀ : Subri
     (Scheme.Spec.mapCone (finiteTypeBaseCocone R₀).op).π.app (op i) ≫
         Spec.map (CommRingCat.ofHom (algebraMap R₀ (Algebra.FiniteTypeSystem.Base R₀ i))) =
       Spec.map (CommRingCat.ofHom R₀.subtype) := by
-  show Scheme.Spec.map _ ≫ Scheme.Spec.map _ = Scheme.Spec.map _
+  change Scheme.Spec.map _ ≫ Scheme.Spec.map _ = Scheme.Spec.map _
   rw [← Scheme.Spec.map_comp]
   congr 1
 
@@ -145,7 +145,7 @@ private lemma finiteTypeBaseDiagram_map_comp {R : Type u} [CommRing R] (R₀ : S
     Spec.map (CommRingCat.ofHom (algebraMap R₀ (Algebra.FiniteTypeSystem.Base R₀ j))) =
       ((finiteTypeBaseDiagram R₀).op ⋙ Scheme.Spec).map (homOfLE h).op ≫
         Spec.map (CommRingCat.ofHom (algebraMap R₀ (Algebra.FiniteTypeSystem.Base R₀ i))) := by
-  show Scheme.Spec.map (CommRingCat.ofHom
+  change Scheme.Spec.map (CommRingCat.ofHom
       (algebraMap R₀ (Algebra.FiniteTypeSystem.Base R₀ j))).op =
     Scheme.Spec.map (CommRingCat.ofHom (Algebra.FiniteTypeSystem.baseMap R₀ h).toRingHom).op ≫
       Scheme.Spec.map (CommRingCat.ofHom
@@ -182,7 +182,7 @@ private lemma exists_range_subset_of_isLocallyConstructible {R : Type u} [CommRi
       (finiteTypeBaseCone_π_comp R₀ iBase)
     change g iBase ((D.limitCone.π.app (op iBase)) x) =
       (Spec.map (CommRingCat.ofHom R₀.subtype)) x at h
-    show g iBase ((D.limitCone.π.app (op iBase)) x) ∈ E
+    change g iBase ((D.limitCone.π.app (op iBase)) x) ∈ E
     rw [h]
     exact hR ⟨x, rfl⟩
   obtain ⟨i, hBase, hRange⟩ :=
@@ -195,7 +195,7 @@ private lemma exists_range_subset_of_isLocallyConstructible {R : Type u} [CommRi
   have hpoint : g i z = g iBase (D.system.map (homOfLE hBase).op z) := by
     rw [hgi]
     exact Scheme.Hom.comp_apply _ _ z
-  show g i z ∈ E
+  change g i z ∈ E
   rw [hpoint]
   exact hRange ⟨z, rfl⟩
 
@@ -303,9 +303,9 @@ private theorem exists_finiteTypeAffineModel_forall_fiberDimension {X S : Scheme
       have hcancel : S.isoSpec.hom (S.isoSpec.inv x) = x :=
         (Scheme.homeoOfIso S.isoSpec).apply_symm_apply x
       have hx : Spec.map (CommRingCat.ofHom A₀.subtype) x = toBase₀ (S.isoSpec.inv x) := by
-        show _ = (S.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom A₀.subtype)) (S.isoSpec.inv x)
+        change _ = (S.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom A₀.subtype)) (S.isoSpec.inv x)
         rw [Scheme.Hom.comp_apply, hcancel]
-      show P (f₀.fiberDimension (Spec.map (CommRingCat.ofHom A₀.subtype) x))
+      change P (f₀.fiberDimension (Spec.map (CommRingCat.ofHom A₀.subtype) x))
       rw [hx, ← hdim₀]
       exact hd _)
   have : Algebra.IsPushout A₀ A B₀ B := hpush

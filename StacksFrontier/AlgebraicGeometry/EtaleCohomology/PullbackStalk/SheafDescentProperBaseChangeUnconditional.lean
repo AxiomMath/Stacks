@@ -119,10 +119,10 @@ public theorem mateEquiv_commSqTwoSquare_smallEtaleSheafPullbackSystem {X X' Y Y
     (mateEquiv (smallEtaleSheafPseudofunctorAdjunctionGeneral B f)
         (smallEtaleSheafPseudofunctorAdjunctionGeneral B f')
         (Pseudofunctor.commSqTwoSquare (smallEtaleSheafPullbackSystemGeneral B).pseudofunctor
-          w)).natTrans =
+          w)) =
       smallEtaleBaseChangeNatTransUniv.{u, 0} B i f' f g w := by
   rw [smallEtaleBaseChangeNatTransUniv]
-  refine congrArg TwoSquare.natTrans ((Equiv.eq_symm_apply _).2 ?_)
+  refine (Equiv.eq_symm_apply _).2 ?_
   refine (iterated_mateEquiv_conjugateEquiv
     (smallEtaleSheafPseudofunctorAdjunctionGeneral B f)
     (smallEtaleSheafPseudofunctorAdjunctionGeneral B f')
@@ -135,7 +135,7 @@ public theorem mateEquiv_commSqTwoSquare_smallEtaleSheafPullbackSystem {X X' Y Y
         (B.smallPullbackAdjunction f' (Type (u + 1))))
       (smallEtaleMorphism_comp_inverseImageIso B X' Y' Y f' g).hom =
       (smallEtaleMorphism_comp_pushforwardIso B X' Y' Y f' g).inv := by
-    show conjugateEquiv _ _ ((conjugateEquiv _ _).symm _) = _
+    change conjugateEquiv _ _ ((conjugateEquiv _ _).symm _) = _
     exact Equiv.apply_symm_apply _ _
   have h₂ : conjugateEquiv ((B.smallPullbackAdjunction f (Type (u + 1))).comp
       (B.smallPullbackAdjunction i (Type (u + 1))))

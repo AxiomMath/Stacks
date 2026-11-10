@@ -38,7 +38,7 @@ theorem homCompletionEquiv_apply_val (I : Ideal A) (s : AdicCompletion I (M →�
     ((homCompletionEquiv I s) m).val n = Submodule.Quotient.mk (f m) := by
   have hd : s - of I (M →ₗ[A] N) f ∈ I ^ n • (⊤ : Submodule A (AdicCompletion I (M →ₗ[A] N))) := by
     rw [pow_smul_top_eq_ker_eval I.fg_of_isNoetherianRing, LinearMap.mem_ker, map_sub, eval_of]
-    show s.val n - _ = 0
+    change s.val n - _ = 0
     rw [hf, Submodule.mkQ_apply, sub_self]
   have hd' : (homCompletionEquiv I (s - of I (M →ₗ[A] N) f)) m ∈
       I ^ n • (⊤ : Submodule A (AdicCompletion I N)) := by
@@ -96,7 +96,7 @@ theorem towerQuotEquiv_symm_τ (k : ℕ) (y : Q (k + 1)) :
   obtain ⟨x, rfl⟩ := (towerQuotEquiv I π hπ hker (k + 1)).surjective y
   obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ x
   rw [LinearEquiv.symm_apply_apply, LinearEquiv.symm_apply_eq, towerQuotEquiv_mk]
-  show _ = π k x
+  change _ = π k x
   rw [← hτ k]
   rfl
 
@@ -153,7 +153,7 @@ theorem homTowerMap_compat (s : ∀ k, (M →ₗ[A] N) ⧸ (I ^ (k + 1) • (⊤
   rw [← hs k]
   obtain ⟨f, hf⟩ := Submodule.Quotient.mk_surjective _ (s (k + 1))
   rw [← hf]
-  show τ k ∘ₗ (π (k + 1) ∘ₗ f) = π k ∘ₗ f
+  change τ k ∘ₗ (π (k + 1) ∘ₗ f) = π k ∘ₗ f
   rw [← LinearMap.comp_assoc, hτ]
 
 /-- The map from compatible families of truncated homomorphisms to compatible families of maps
@@ -226,10 +226,10 @@ theorem surjective_homTowerFamilyMap :
   refine ⟨⟨fun k => sh.val (k + 1), fun k => transitionMap_comp_eval_apply I _ _ sh⟩, ?_⟩
   refine Subtype.ext (funext fun k => ?_)
   obtain ⟨f, hf⟩ := Submodule.Quotient.mk_surjective _ (sh.val (k + 1))
-  show homTowerMap I π hker k (sh.val (k + 1)) = t.1 k
+  change homTowerMap I π hker k (sh.val (k + 1)) = t.1 k
   rw [← hf]
   ext x
-  show π k (f x) = t.1 k x
+  change π k (f x) = t.1 k x
   have h1 : ((homCompletionEquiv I sh) x).val (k + 1) = Submodule.Quotient.mk (f x) :=
     homCompletionEquiv_apply_val I sh (k + 1) f hf.symm x
   rw [LinearEquiv.apply_symm_apply] at h1

@@ -89,8 +89,7 @@ theorem tensor_sections_ext {W : X.Opens}
     have he : (φ V hVW).comp (u.app (op V)).hom.toAddMonoidHom =
         (ψ V hVW).comp (u.app (op V)).hom.toAddMonoidHom := by
       refine AddMonoidHom.ext fun q ↦ ?_
-      induction q using TensorProduct.induction_on with
-      | zero => exact (map_zero _).trans (map_zero _).symm
+      induction q using TensorProduct.inductionOn with
       | tmul a b => exact htmul V hVW a b
       | add p q hp hq =>
         exact (map_add _ p q).trans ((congrArg₂ (· + ·) hp hq).trans (map_add _ p q).symm)
@@ -165,7 +164,7 @@ theorem firstOrderAmbientProjMap₀_idealScalar_smul (W : (Opens ↑A.obj.thicke
     (show FirstOrderRing A W.unop from
           firstOrderIdealScalar A.obj.thickening.target S.S.scheme A.obj.toBase.hom W ω) y
   refine h.trans ?_
-  show (0 : ↑(A.obj.thickening.target.scheme.ringCatSheaf.obj.obj
+  change (0 : ↑(A.obj.thickening.target.scheme.ringCatSheaf.obj.obj
       (op ((firstOrderThickeningCrysι S A).hom.targetHom.hom ⁻¹ᵁ
         ((firstOrderThickeningCrysP₀ S A).hom.targetHom.hom ⁻¹ᵁ W.unop))))) •
     (show (crysAmbientSchemeModules M A).val.obj

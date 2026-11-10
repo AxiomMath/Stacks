@@ -135,7 +135,7 @@ theorem infinitesimal_difference_mem
     simpa using ht
   have hh' : f₂.hom.toRingHom (h.hom (pr₁.hom t)) = f₁.hom.toRingHom (pr₁.hom t) :=
     comp_eq_apply hh _
-  show f₂.hom.toRingHom (pr₂.hom t - h.hom (pr₁.hom t)) = 0
+  change f₂.hom.toRingHom (pr₂.hom t - h.hom (pr₁.hom t)) = 0
   rw [map_sub, hpb, hh']
   exact sub_self _
 
@@ -197,7 +197,7 @@ theorem smallExtension_kernel_scalar
   let hT : Module.IsTorsionBySet A₂ I (maximalIdeal A₂) := fun j x =>
     Subtype.ext (smallExtension_kernel_annihilated f₂ hsmall x.1 x.2 j)
   let _ : Module (ResidueField A₂) I := hT.module
-  show a • i = A₂.residueEquiv.symm (A₂.residueEquiv (residue A₂ a)) • i
+  change a • i = A₂.residueEquiv.symm (A₂.residueEquiv (residue A₂ a)) • i
   rw [A₂.residueEquiv.symm_apply_apply]
   have hm := hT.mk_smul a i
   change residue A₂ a • i = a • i at hm
@@ -376,7 +376,7 @@ theorem trivSqZeroExtDualNumberEquiv_fst
     [Module kᵐᵒᵖ I] [IsCentralScalar k I] [Module.Finite k I]
     (hfin : Module.finrank k I = 1) (t : TrivSqZeroExt k I) :
     TrivSqZeroExt.fst (trivSqZeroExtDualNumberEquiv hfin t) = TrivSqZeroExt.fst t := by
-  show TrivSqZeroExt.fst
+  change TrivSqZeroExt.fst
     (TrivSqZeroExt.map
       (LinearEquiv.ofFinrankEq I k (by simp [hfin])).toLinearMap t) = _
   exact TrivSqZeroExt.fst_map _ _
@@ -411,11 +411,11 @@ public theorem smallExtensionSquareZeroDualNumberEquiv_residue
     map_add' := by intros; rfl }
   let _ : IsCentralScalar k I := ⟨fun _ _ => rfl⟩
   refine fun (t : (smallExtensionSquareZeroTarget f₂ hsmall).target.carrier) => ?_
-  show TrivSqZeroExt.fst
+  change TrivSqZeroExt.fst
       (trivSqZeroExtDualNumberEquiv (smallExtension_kernel_finrank_eq_one f₂ hsmall)
         ((smallExtensionSquareZeroTarget f₂ hsmall).coordinateRingEquiv t)) = _
   rw [trivSqZeroExtDualNumberEquiv_fst]
-  show ((smallExtensionSquareZeroTarget f₂ hsmall).coordinate t).1 = _
+  change ((smallExtensionSquareZeroTarget f₂ hsmall).coordinate t).1 = _
   exact (smallExtensionSquareZeroTarget f₂ hsmall).residue_eq t
 
 /-- In a pullback along a surjection, a compatible pair comes from an element of the
@@ -459,14 +459,14 @@ private theorem eq_of_isPullback_of_surjective
     change (ArtinianLocalAlgCat.pullbackFst_of_surjective f₂ f₁ (Or.inl hs)).hom
       (iPY.hom.hom x) = pr₂.hom x at hh
     rw [ArtinianLocalAlgCat.pullbackFst_of_surjective_hom] at hh
-    show ((AlgHom.pullback f₂.hom f₁.hom).val (iPY.hom.hom x)).1 = _
+    change ((AlgHom.pullback f₂.hom f₁.hom).val (iPY.hom.hom x)).1 = _
     exact hh
   have hsnd (x : Y) : (iPY.hom.hom x).val.2 = pr₁.hom x := by
     have hh := congrArg (fun q => q.hom x) (hPB.isoIsPullback_hom_snd A₂ A₁ hP)
     change (ArtinianLocalAlgCat.pullbackSnd_of_surjective f₂ f₁ (Or.inl hs)).hom
       (iPY.hom.hom x) = pr₁.hom x at hh
     rw [ArtinianLocalAlgCat.pullbackSnd_of_surjective_hom] at hh
-    show ((AlgHom.pullback f₂.hom f₁.hom).val (iPY.hom.hom x)).2 = _
+    change ((AlgHom.pullback f₂.hom f₁.hom).val (iPY.hom.hom x)).2 = _
     exact hh
   have hiPY : iPY.hom.hom t = iPY.hom.hom s :=
     Subtype.ext (Prod.ext ((hfst t).trans (h₂.trans (hfst s).symm))
@@ -983,7 +983,7 @@ theorem infinitesimalMap_residue_pullback
     obtain ⟨a, ha⟩ := IsLocalRing.residue_surjective (R := S.target) r
     refine ⟨a, ?_⟩
     apply (ULift.algEquiv (R := Λ) (A := k)).injective
-    show S.target.residueEquiv (IsLocalRing.residue S.target a) = ULift.down x
+    change S.target.residueEquiv (IsLocalRing.residue S.target a) = ULift.down x
     simpa [r] using congrArg S.target.residueEquiv ha
   let newP := ArtinianLocalAlgCat.pullbackObj_of_surjective
     resS res₁ (Or.inl hsurjRes)
@@ -1088,7 +1088,7 @@ theorem exists_lift_of_pushforward_map
       (AlgEquiv.cast (R := Λ) x₀.2).trans (ULift.algEquiv (R := Λ) (A := k))
     refine ⟨i₀, iε, ?_⟩
     ext t
-    show i₀ ((p.map e).hom t) = TrivSqZeroExt.fst (iε t)
+    change i₀ ((p.map e).hom t) = TrivSqZeroExt.fst (iε t)
     have hmaps := hom_residueFieldObject_ext
       ((p.map e) ≫ eqToHom x₀.2) (residueMorphism (p.obj z))
     have heval := congrArg (fun f : p.obj z ⟶

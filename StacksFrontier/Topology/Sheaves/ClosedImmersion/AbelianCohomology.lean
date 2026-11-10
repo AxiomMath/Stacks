@@ -200,7 +200,7 @@ private lemma sheafification_isZero [HasSheafify J AddCommGrpCat.{w}]
   have hz (s : G.obj.obj (op U)) : s = 0 := by
     apply (hG.isSeparated _ (Presheaf.imageSieve_mem J (toSheafify J P) s)).ext
     rintro V g ⟨t, ht⟩
-    show G.obj.map g.op s = G.obj.map g.op 0
+    change G.obj.map g.op s = G.obj.map g.op 0
     have : Subsingleton (P.obj (op V)) := AddCommGrpCat.subsingleton_of_isZero (hP V g)
     rw [← ht, Subsingleton.elim t 0, map_zero, map_zero]
   exact AddCommGrpCat.isZero_iff_subsingleton.mpr ⟨fun a b => (hz a).trans (hz b).symm⟩
@@ -213,7 +213,7 @@ private lemma isLocallySurjective_map_abelianSheafPushforward
   constructor
   intro U s
   change G.obj.obj (op ((Opens.map i).obj U)) at s
-  show Presheaf.imageSieve (Functor.whiskerLeft (Opens.map i).op f.hom) s ∈ _
+  change Presheaf.imageSieve (Functor.whiskerLeft (Opens.map i).op f.hom) s ∈ _
   rw [Opens.mem_grothendieckTopology]
   intro x hx
   by_cases hxi : x ∈ Set.range i
@@ -223,11 +223,11 @@ private lemma isLocallySurjective_map_abelianSheafPushforward
     obtain ⟨V, g, ⟨t, ht⟩, hz⟩ := hs z hx
     let W := hi.isInducing.functor.obj V ⊓ U
     have hWV : (Opens.map i).obj W = V := by
-      show (Opens.map i).obj (hi.isInducing.functorObj V) ⊓ (Opens.map i).obj U = V
+      change (Opens.map i).obj (hi.isInducing.functorObj V) ⊓ (Opens.map i).obj U = V
       rw [hi.isInducing.map_functorObj, inf_eq_left.mpr g.le]
     refine ⟨W, homOfLE inf_le_right, ?_, ⟨?_, hx⟩⟩
     · refine ⟨F.obj.map (eqToHom hWV).op t, ?_⟩
-      show f.hom.app _ (F.obj.map (eqToHom hWV).op t) =
+      change f.hom.app _ (F.obj.map (eqToHom hWV).op t) =
         G.obj.map ((Opens.map i).map (homOfLE inf_le_right)).op s
       rw [← ConcreteCategory.comp_apply, f.hom.naturality, ConcreteCategory.comp_apply, ht,
         ← ConcreteCategory.comp_apply, ← G.obj.map_comp]
@@ -373,7 +373,7 @@ private lemma killPreservesLimits : PreservesLimitsOfSize.{0,0} (killFunctor.{u,
   · let e : killFunctor U ⋙ (evaluation _ _).obj V ≅ (evaluation _ _).obj V :=
       NatIso.ofComponents (fun F => eqToIso (killObj_out U F V hV)) (by
         intro F G f
-        show (killMapNat U f).app V ≫ eqToHom (killObj_out U G V hV) =
+        change (killMapNat U f).app V ≫ eqToHom (killObj_out U G V hV) =
           eqToHom (killObj_out U F V hV) ≫ f.app V
         simp [killMapNat, hV])
     have : PreservesLimitsOfSize.{0,0}
@@ -457,13 +457,13 @@ private lemma realize_isSheaf (K : Sheaf (Opens.grothendieckTopology X) AddCommG
     obtain ⟨t, ht, huniq⟩ := hF.isSheafUniqueGluing_types s hc
     refine ⟨K.obj.map (eqToHom he).op t, ?_, ?_⟩
     · intro a
-      show K.obj.map (R.map (Opens.leSupr U a)).op (K.obj.map (eqToHom he).op t) = s a
+      change K.obj.map (R.map (Opens.leSupr U a)).op (K.obj.map (eqToHom he).op t) = s a
       rw [← ConcreteCategory.comp_apply, ← K.obj.map_comp]
       exact ht a
     · intro t' ht'
       have ht'' : TopCat.Presheaf.IsGluing F W s (K.obj.map (eqToHom he.symm).op t') := by
         intro a
-        show K.obj.map (Opens.leSupr W a).op (K.obj.map (eqToHom he.symm).op t') = s a
+        change K.obj.map (Opens.leSupr W a).op (K.obj.map (eqToHom he.symm).op t') = s a
         rw [← ConcreteCategory.comp_apply, ← K.obj.map_comp]
         exact ht' a
       have hh := congrArg (K.obj.map (eqToHom he).op) (huniq _ ht'')
@@ -615,7 +615,7 @@ private lemma comparison_derived_adjunct_isIso
     rw [Equiv.apply_symm_apply]
     simp only [Iso.homCongr, Iso.refl_inv, Category.id_comp, fullyFaithful_homEquiv_apply,
       SC.map_comp, Equiv.coe_fn_mk, Category.assoc]
-    show SC.map c ≫ (G.mapDerivedCategorySingleFunctor 0).inv.app A ≫
+    change SC.map c ≫ (G.mapDerivedCategorySingleFunctor 0).inv.app A ≫
       G.mapDerivedCategory.map (SD.map f) =
       SC.map c ≫ SC.map (G.map f) ≫ (G.mapDerivedCategorySingleFunctor 0).inv.app Y
     exact congrArg (SC.map c ≫ ·) ((G.mapDerivedCategorySingleFunctor 0).inv.naturality f).symm
@@ -648,12 +648,12 @@ private lemma extComparison_bijective
     apply Abelian.Ext.homEquiv.injective
     dsimp [e, Iso.homCongr]
     rw [Equiv.apply_symm_apply]
-    simp only [Equiv.coe_fn_mk, Category.comp_id]
+    simp only [Category.comp_id]
     rw [da.homEquiv_naturality_right]
     simp only [d, Equiv.apply_symm_apply]
-    show 𝟙 _ ≫ ((SC.map c ≫ (G.mapDerivedCategorySingleFunctor 0).inv.app A) ≫
+    change 𝟙 _ ≫ ((SC.map c ≫ (G.mapDerivedCategorySingleFunctor 0).inv.app A) ≫
       G.mapDerivedCategory.map x.hom) ≫ t.hom = _
-    show _ = ((Abelian.Ext.mk₀ c).comp (x.mapExactFunctor G) (zero_add p)).hom
+    change _ = ((Abelian.Ext.mk₀ c).comp (x.mapExactFunctor G) (zero_add p)).hom
     rw [Abelian.Ext.comp_hom, Abelian.Ext.mk₀_hom, ShiftedHom.mk₀_comp,
       Abelian.Ext.mapExactFunctor_hom]
     simp [t, SC, SD, ShiftedHom.map, Category.assoc]
@@ -813,7 +813,7 @@ private lemma closedAdjunction_unit
     (F : Sheaf (Opens.grothendieckTopology X) AddCommGrpCat.{w}) :
     (closedAdjunction i hi).unit.app F = (closedReflectorUnit i hi).app F ≫
       (reflectedObjectIso i hi F).inv := by
-  show reflectedHomEquiv i hi F _ (𝟙 _) = _
+  change reflectedHomEquiv i hi F _ (𝟙 _) = _
   rw [reflectedHomEquiv_apply, CategoryTheory.Functor.map_id, Category.comp_id]
 
 private def closedPullbackPushforwardIso :

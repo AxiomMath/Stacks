@@ -51,8 +51,8 @@ Stacks 04UP *conjectures* that, up to a replacement as in Stacks 03ZZ, `p` is a 
 over `(Sch/S)_fppf`, and reduces that conjecture to the effectivity of a descent datum of
 principal homogeneous spaces along an fppf covering. The source proves neither, and calls the
 reduced statement a problem with a suggested approach; nothing here asserts it. That `p` is fibred
-in groupoids, the first of the three conditions of Stacks 02ZI, is proved in
-`StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/GroupSpaces/PrincipalHomogeneousSpacesFibred.lean`.
+in groupoids, the first of the three conditions of Stacks 02ZI, is proved in the module
+`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.GroupSpaces.PrincipalHomogeneousSpacesFibred`.
 
 ## References
 

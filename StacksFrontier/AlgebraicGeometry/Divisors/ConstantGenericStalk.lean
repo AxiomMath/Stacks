@@ -229,8 +229,7 @@ theorem exists_tmul_one_constantSheafOnSpace
   let e := constantSheafOnSpaceSectionRingEquiv X A U hU
   have hM : ∀ p : TensorProduct A (S.obj (op U)) V, ∃ v : V, p = (1 : S.obj (op U)) ⊗ₜ[A] v := by
     intro p
-    induction p using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction p using TensorProduct.inductionOn with
     | add p q hp hq =>
       obtain ⟨v, rfl⟩ := hp
       obtain ⟨w, rfl⟩ := hq
@@ -240,7 +239,7 @@ theorem exists_tmul_one_constantSheafOnSpace
       rw [← TensorProduct.smul_tmul]
       congr 1
       rw [Algebra.smul_def, mul_one]
-      show r = e (e.symm r)
+      change r = e (e.symm r)
       exact (e.apply_symm_apply r).symm
   exact hM
 
@@ -393,7 +392,7 @@ theorem exists_germ_eq_constantGenericStalkModuleSection
       ((ConcreteCategory.hom ey.inv) ty) =
       (ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor Ab x).map η0))
         (TopCat.Presheaf.germ N.presheaf U x hUx p) := hh.symm
-  show ty = _
+  change ty = _
   rw [h1, h2, hmap', hm]
   rfl
 
@@ -434,10 +433,10 @@ private theorem eq_of_germ_constantGenericStalkModuleSection_eq
   let : Module X.functionField (S.obj.obj (op W)) :=
     (α.app (op W)).hom.toAlgebra.toModule
   let pV : N.presheaf.obj (op V) := by
-    show TensorProduct X.functionField (S.obj.obj (op V)) (F.presheaf.stalk η)
+    change TensorProduct X.functionField (S.obj.obj (op V)) (F.presheaf.stalk η)
     exact (1 : S.obj.obj (op V)) ⊗ₜ[X.functionField] m
   let pW : N.presheaf.obj (op W) := by
-    show TensorProduct X.functionField (S.obj.obj (op W)) (F.presheaf.stalk η)
+    change TensorProduct X.functionField (S.obj.obj (op W)) (F.presheaf.stalk η)
     exact (1 : S.obj.obj (op W)) ⊗ₜ[X.functionField] n
   have hsrc : TopCat.Presheaf.germ N.presheaf V η hV pV =
       TopCat.Presheaf.germ N.presheaf W η hW pW :=

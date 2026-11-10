@@ -227,7 +227,7 @@ theorem cycleAssociatedToClosedSubscheme_inf (I J : X.IdealSheafData) (k : ℤ)
   apply Subtype.ext
   apply Function.locallyFinsuppWithin.ext
   intro x
-  show (cycleAssociatedToClosedSubscheme C f (I ⊓ J).subschemeι k).1 x =
+  change (cycleAssociatedToClosedSubscheme C f (I ⊓ J).subschemeι k).1 x =
     (cycleAssociatedToClosedSubscheme C f I.subschemeι k).1 x +
       (cycleAssociatedToClosedSubscheme C f J.subschemeι k).1 x
   by_cases hdim : relativeDimension C.dimensionFunction f x = k

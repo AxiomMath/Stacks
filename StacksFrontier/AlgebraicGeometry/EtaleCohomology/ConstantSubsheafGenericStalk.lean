@@ -166,7 +166,7 @@ public theorem constantSetSubsheaf_eq_of_genericStalk
     (j : G ⟶ (constantSheaf (SmallEtale.topology B X hX) (Type (u + 1))).obj T) [Mono j]
     (hij : i ≫ j = (constantSheaf (SmallEtale.topology B X hX) (Type (u + 1))).map m)
     (hstalk : IsIso (colimMap (Functor.whiskerLeft
-      (CategoryOfElements.π (geometricPointFiber B X hX s)).op i.hom))) :
+      (Functor.Elements.π (geometricPointFiber B X hX s)).op i.hom))) :
     IsIso i := by
   have : Mono (show G ⟶ (presheafToSheaf (SmallEtale.topology B X hX) (Type (u + 1))).obj
       ((Functor.const (SmallEtale B X hX)ᵒᵖ).obj T) from j) := ‹Mono j›
@@ -185,7 +185,7 @@ public theorem constantAbelianSubsheaf_eq_of_genericStalk
     (j : G ⟶ (constantSheaf (SmallEtale.topology B X hX) AddCommGrpCat.{u + 1}).obj A) [Mono j]
     (hij : i ≫ j = (constantSheaf (SmallEtale.topology B X hX) AddCommGrpCat.{u + 1}).map m)
     (hstalk : IsIso (colimMap (Functor.whiskerLeft
-      (CategoryOfElements.π (geometricPointFiber B X hX s)).op i.hom))) :
+      (Functor.Elements.π (geometricPointFiber B X hX s)).op i.hom))) :
     IsIso i := by
   have : Mono (show G ⟶ (presheafToSheaf (SmallEtale.topology B X hX) AddCommGrpCat.{u + 1}).obj
       ((Functor.const (SmallEtale B X hX)ᵒᵖ).obj A) from j) := ‹Mono j›
@@ -203,7 +203,7 @@ public theorem constantModuleSubsheaf_eq_of_genericStalk (Λ : Type (u + 1)) [Ri
     (j : G ⟶ (constantSheaf (SmallEtale.topology B X hX) (ModuleCat.{u + 1} Λ)).obj M) [Mono j]
     (hij : i ≫ j = (constantSheaf (SmallEtale.topology B X hX) (ModuleCat.{u + 1} Λ)).map m)
     (hstalk : IsIso (colimMap (Functor.whiskerLeft
-      (CategoryOfElements.π (geometricPointFiber B X hX s)).op i.hom))) :
+      (Functor.Elements.π (geometricPointFiber B X hX s)).op i.hom))) :
     IsIso i := by
   have : Mono (show G ⟶ (presheafToSheaf (SmallEtale.topology B X hX) (ModuleCat.{u + 1} Λ)).obj
       ((Functor.const (SmallEtale B X hX)ᵒᵖ).obj M) from j) := ‹Mono j›

@@ -212,7 +212,7 @@ theorem closedSubspaceComponentImageHom_comp_closedSubspaceHom
         (closedSubspaceComponentImage D sX hX Y.1 Y.2 V).subspace
         (closedSubspaceComponentImage D sX hX Y.1 Y.2 V).isClosedSubspace := by
   refine ObjectProperty.hom_ext _ ?_
-  show ((IntegralClosedSubspace.isoPushforward hX.1 Y.2.1 (D.isDecentSpace_of_isGood sX hX)
+  change ((IntegralClosedSubspace.isoPushforward hX.1 Y.2.1 (D.isDecentSpace_of_isGood sX hX)
     Y.2.2 V).inv ≫ V.subspace.ι) ≫ Y.1.ι = _
   rw [Category.assoc, ← IntegralClosedSubspace.isoPushforward_hom_comp_ι hX.1 Y.2.1
     (D.isDecentSpace_of_isGood sX hX) Y.2.2 V, Iso.inv_hom_id_assoc]
@@ -318,7 +318,7 @@ theorem closedSubspaceComponentImageSection_ne_zero
       (closedSubspaceComponentImage D sX hX Y.1 Y.2 V).isClosedSubspace.1 hYg.1
       (closedSubspaceComponentImageHom D sX hX Y V).hom (Y.1.ι ≫ sX) hglqf hYg.2.2 t
     rw [← Category.assoc, hgW] at hcomp
-    show D.deltaValue ((closedSubspaceComponentImage D sX hX Y.1 Y.2 V).subspace.ι ≫ sX) t ≤ k
+    change D.deltaValue ((closedSubspaceComponentImage D sX hX Y.1 Y.2 V).subspace.ι ≫ sX) t ≤ k
     rw [hcomp]
     refine (deltaDimensionClosed_le_coe_iff D _ _ _ _ k).1 hZdim _ ⟨pointsMap D.site D.base
       D.base_mem _ h.hom t, ?_⟩
@@ -494,7 +494,7 @@ theorem isIrreducibleComponent_of_deltaDimension_eq {k : ℤ}
   refine ⟨V.isClosedSubspace, V.isIntegralSpace, ?_⟩
   have hgen := V.isGenericPoint_ambientGenericPoint D.site D.base D.base_mem
     (isGood_closedSubspace D sX hX Y).1
-  show subspacePointSet D.site D.base D.base_mem _ V.subspace ∈ _
+  change subspacePointSet D.site D.base D.base_mem _ V.subspace ∈ _
   rw [← hgen.def]
   exact closure_singleton_mem_irreducibleComponents_of_deltaValue_eq D (Y.1.ι ≫ sX)
     (isGood_closedSubspace D sX hX Y) (deltaDimensionClosed_univ_closedSubspace_le D sX hX Y _ hdim)
@@ -568,7 +568,7 @@ theorem chowClassCanonical_firstChernCapCycleMap_closedSubspaceCycle_eq_vanishin
       subspacePointSet D.site D.base D.base_mem X (Zf i).subspace :=
     (α.2.1.comp_injective hZinj).subset fun i => by
       simp only [Function.comp_apply]
-      rw [if_neg (show α.1 (Zf i) ≠ 0 from i.down.2)]
+      rw [ite_eq_right (show α.1 (Zf i) ≠ 0 from i.down.2)]
   have hdimZ : ∀ i : I, deltaDimension D sX (Zf i) = k + 1 := fun i => α.2.2 _ i.down.2
   have hcover : ∀ W : IntegralClosedSubspace D.site D.base D.base_mem X,
       α.1 W ≠ 0 → ∃ i, Zf i = W := by
@@ -609,8 +609,8 @@ theorem chowClassCanonical_firstChernCapCycleMap_closedSubspaceCycle_eq_vanishin
     rw [finsum_subtype_eq_finsum_cond]
     refine finsum_congr fun V => ?_
     by_cases hV : p V
-    · rw [finsum_eq_if, if_pos hV]
-    · rw [finsum_eq_if, if_neg hV]
+    · rw [finsum_eq_if, ite_eq_left hV]
+    · rw [finsum_eq_if, ite_eq_right hV]
       by_contra hne
       exact hV (h V (Ne.symm hne))
   -- `[Z(s)]_k = ∑ n_i [Z(s_i)]_k`, by Stacks 0EQL on `Y`
@@ -641,7 +641,7 @@ theorem chowClassCanonical_firstChernCapCycleMap_closedSubspaceCycle_eq_vanishin
       exact congrArg (fun x => α.1 (Zf i) * x) (congrFun hD T)
     rw [finsum_congr hterm]
     refine Eq.trans ?_ (finsum_comp_equiv (Equiv.ulift : I ≃ I₀) (f := fun i : I₀ => f i.1)).symm
-    show cycleClosedPushforward D hX.1 Y.2.1 hXdec Y.2.2
+    change cycleClosedPushforward D hX.1 Y.2.1 hXdec Y.2.2
       (cycleCoeffOfClosedSubspace D (Y.1.ι ≫ sX) hYg
         (vanishingLocus D (Y.1.ι ≫ sX) hYg (closedSubspaceModuleRestrict D sX hX L Y) s).1
         (vanishingLocus D (Y.1.ι ≫ sX) hYg (closedSubspaceModuleRestrict D sX hX L Y) s).2 k

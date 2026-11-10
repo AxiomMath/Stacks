@@ -40,6 +40,7 @@ attribute [local instance] etaleModuleInverseImage_preservesFiniteLimits
 
 variable (Λ : Type) [CommRing Λ] [Finite Λ]
 
+omit [Finite Λ] in
 /-- Local constancy of finite type passes to an open contained in the image of an open
 immersion along which it holds. -/
 theorem isFiniteTypeLocallyConstant_inverseImage_opensι_of_subset {T W : Scheme.{u}}

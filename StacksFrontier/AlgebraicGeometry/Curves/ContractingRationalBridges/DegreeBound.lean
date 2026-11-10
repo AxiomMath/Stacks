@@ -91,7 +91,7 @@ theorem isRationalBridge_of_finrank_globalSections_intersection_eq_two
   have hI : iC ≫ C.subschemeι = I.subschemeι := Scheme.IdealSheafData.inclusion_subschemeι _
   have : IsScalarTower k Γ(C.subscheme, ⊤) Γ(I.subscheme, ⊤) := by
     refine IsScalarTower.of_algebraMap_eq fun r => ?_
-    show ((Scheme.ΓSpecIso (.of k)).inv ≫ (I.subschemeι ≫ (X ↘ Spec (.of k))).appTop).hom r =
+    change ((Scheme.ΓSpecIso (.of k)).inv ≫ (I.subschemeι ≫ (X ↘ Spec (.of k))).appTop).hom r =
       iC.appTop.hom (((Scheme.ΓSpecIso (.of k)).inv ≫
         (C.subschemeι ≫ (X ↘ Spec (.of k))).appTop).hom r)
     rw [← hI]
@@ -107,7 +107,7 @@ theorem isRationalBridge_of_finrank_globalSections_intersection_eq_two
     exact Module.Finite.equiv (cohomologyOverFieldZeroIsoSections k fC
       (SheafOfModules.unit C.subscheme.ringCatSheaf)).toLinearEquiv
   have hpos : 0 < Module.finrank k Γ(C.subscheme, ⊤) := Module.finrank_pos
-  show Module.finrank Γ(C.subscheme, ⊤) Γ(I.subscheme, ⊤) = 2
+  change Module.finrank Γ(C.subscheme, ⊤) Γ(I.subscheme, ⊤) = 2
   have h2' : Module.finrank k Γ(C.subscheme, ⊤) * Module.finrank Γ(C.subscheme, ⊤)
       Γ(I.subscheme, ⊤) = Module.finrank k Γ(C.subscheme, ⊤) * 2 := by
     rw [← htower, hmul, h2, hΓ]
@@ -214,7 +214,7 @@ theorem invertibleCurveDegree_pos_of_not_isRationalTail_of_not_isRationalBridge
   obtain ⟨hg, h1 | h2⟩ := genus_eq_zero_and_finrank_le_two_of_invertibleCurveDegree_nonpos C
     hCdim.le k' f' hf hS e₁ e₃ hX hne hcon
   · exact htail (isRationalTail_of_finrank_globalSections_intersection_eq_one hX C hCdim hcompl
-      k' f' hf h1 hg)
+      k' f' h1 hg)
   · exact hbridge (isRationalBridge_of_finrank_globalSections_intersection_eq_two hX C hCdim
       hcompl k' f' hf h2 hg)
 
@@ -290,7 +290,7 @@ theorem invertibleCurveDegree_pos_of_not_isRationalTail_of_not_isRationalBridge_
     infer_instance
   have hf : C.subscheme.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (algebraMap k Γ(C.subscheme, ⊤))) =
       fC := by
-    show C.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ fC.appTop) = fC
+    change C.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ fC.appTop) = fC
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality]
     simp
   exact invertibleCurveDegree_pos_of_not_isRationalTail_of_not_isRationalBridge hX C hCdim hcompl

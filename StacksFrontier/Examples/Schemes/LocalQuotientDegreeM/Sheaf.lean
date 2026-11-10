@@ -115,11 +115,11 @@ public lemma Fgrp_eq_zero {W : Opens (PrimeSpectrum.Top Poly)} (hW : ptL ∉ W) 
 zero otherwise. -/
 public def Fres {W W' : Opens (PrimeSpectrum.Top Poly)} (hle : W' ≤ W) : Fgrp W →+ Fgrp W' where
   toFun h := ⟨if ptL ∈ W' then (h : Frac) else 0, by
-    refine ⟨fun q hq hqL => ?_, fun h0 => if_neg h0⟩
+    refine ⟨fun q hq hqL => ?_, fun h0 => ite_eq_right h0⟩
     by_cases hL : ptL ∈ W'
-    · rw [if_pos hL]
+    · rw [ite_eq_left hL]
       exact h.2.1 q (hle hq) hqL
-    · rw [if_neg hL]
+    · rw [ite_eq_right hL]
       exact cond_zero q⟩
   map_zero' := by
     refine Subtype.ext ?_
@@ -131,12 +131,12 @@ public def Fres {W W' : Opens (PrimeSpectrum.Top Poly)} (hle : W' ≤ W) : Fgrp 
 /-- Restriction to an open meeting the line is the identity on rational functions. -/
 @[simp] public lemma Fres_coe {W W' : Opens (PrimeSpectrum.Top Poly)} (hle : W' ≤ W)
     (hW' : ptL ∈ W') (h : Fgrp W) : ((Fres hle h : Fgrp W') : Frac) = (h : Frac) :=
-  if_pos hW'
+  ite_eq_left hW'
 
 /-- Restriction to an open missing the line is zero. -/
 public lemma Fres_coe_of_notMem {W W' : Opens (PrimeSpectrum.Top Poly)} (hle : W' ≤ W)
     (hW' : ptL ∉ W') (h : Fgrp W) : ((Fres hle h : Fgrp W') : Frac) = 0 :=
-  if_neg hW'
+  ite_eq_right hW'
 
 /-- The sections of `F` as a presheaf of abelian groups on `X`. -/
 public def Fpre : (Opens (PrimeSpectrum.Top Poly))ᵒᵖ ⥤ Ab where

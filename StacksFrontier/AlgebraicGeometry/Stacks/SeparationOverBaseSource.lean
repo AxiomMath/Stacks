@@ -57,7 +57,8 @@ and (7) need no ascription at all.
 Part (3) itself is `AlgebraicGeometry.Stack.isSeparatedOver_of_isSeparated`, in
 `StacksFrontier.AlgebraicGeometry.Stacks.SeparationAbsoluteSource`, and part (8) is
 `AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyQuasiSeparated_of_isQuasiSeparated`, in
-`StacksFrontier.AlgebraicGeometry.Stacks.SeparationAbsoluteQuasiSeparated`; both are stated where the
+`StacksFrontier.AlgebraicGeometry.Stacks.SeparationAbsoluteQuasiSeparated`; both are stated where
+the
 change-of-base input each needs is available, so all eight assertions of Stacks 050L are proved.
 The transfer of separatedness along Construction A runs through the condition of Stacks 04XB at
 properness rather than through an every-étale-chart condition, which is why it is

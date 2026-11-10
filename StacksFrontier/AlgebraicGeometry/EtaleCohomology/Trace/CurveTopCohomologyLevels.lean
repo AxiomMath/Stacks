@@ -70,6 +70,7 @@ def LAdicSheaf.geometricCohomologyLevelIso (F : LAdicSheaf B X ℓ) (i : ℤ) (n
     (compactSupportFrobeniusCohomologyGroupRestrictScalarsIso (PadicInt.toZModPow (n + 1)) f j kbar
       (LAdicSheaf.levelComplex B X ℓ F n) i).symm
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The level comparison carries `π_X^*` to `π_X^*`. -/
 theorem LAdicSheaf.geometricCohomologyLevelIso_frobenius (F : LAdicSheaf B X ℓ) (i : ℤ) (n : ℕ) :
     (LAdicSheaf.geometricCompactlySupportedCohomologySystemPullback B X ℓ f j kbar F i
@@ -112,6 +113,7 @@ theorem integralCoinvariantsLevelMap_apply (n : ℕ) (x : integralCoinvariantsMo
       integralCoinvariantsReduction H ρ (n + 1) x.down :=
   rfl
 
+omit [H.Normal] in
 open Pointwise in
 /-- The kernel of `integralCoinvariantsLevelMap` is `ℓ^{n+1} (ℤ_ℓ^r)_H`. -/
 theorem ker_integralCoinvariantsLevelMap (n : ℕ) :
@@ -141,6 +143,7 @@ def integralCoinvariantsQuotientEquiv (n : ℕ) :
   (Submodule.quotEquivOfEq _ _ (ker_integralCoinvariantsLevelMap ℓ H ρ n).symm).trans
     (LinearMap.quotKerEquivOfSurjective _ (surjective_integralCoinvariantsLevelMap ℓ H ρ n))
 
+omit [H.Normal] in
 /-- `integralCoinvariantsQuotientEquiv` sends the class of `x` to the reduction of `x`. -/
 theorem integralCoinvariantsQuotientEquiv_mk (n : ℕ) (x : integralCoinvariantsModule.{u + 1} H ρ) :
     (integralCoinvariantsQuotientEquiv ℓ H ρ n (Submodule.Quotient.mk x)).down =
@@ -159,7 +162,7 @@ theorem integralCoinvariantsQuotientEquiv_end (n : ℕ)
       (c : ZMod (ℓ ^ (n + 1))) • levelCoinvariantsFrobenius H ρ φ (n + 1)
         (integralCoinvariantsQuotientEquiv ℓ H ρ n x).down := by
   obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-  show integralCoinvariantsReduction H ρ (n + 1)
+  change integralCoinvariantsReduction H ρ (n + 1)
       ((c : ℤ_[ℓ]) • coinvariantsFrobenius H ρ φ y.down) = _
   rw [LinearMap.map_smulₛₗ, integralCoinvariantsReduction_coinvariantsFrobenius, map_natCast]
   rfl
@@ -175,6 +178,7 @@ variable [ConnectedSpace X.1] (x : GeometricPoint X.1) {r : ℕ}
   [CompactSpace (EtaleFundamentalGroup X.1 x)]
   (H : Subgroup (EtaleFundamentalGroup X.1 x)) [H.Normal] (φ : EtaleFundamentalGroup X.1 x)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **A level isomorphism with the level coinvariants is one with the quotient of
 `(ℤ_ℓ^r)_H`**: an isomorphism `H²_c(X_k̄, ℱ_{ρ,n+1}) ≅ ((ℤ/ℓ^{n+1})^r)_H` carrying `π_X^*` to
 `q · ρ(φ)` gives an element of the set `levelIsoSet` of level isomorphisms. -/
@@ -270,6 +274,7 @@ theorem ker_map_eq_of_levelIsoSet (M : ModuleCat.{u + 1} ℤ_[ℓ]) [Module.Fini
   intro s hs
   exact (Submodule.Quotient.mk_eq_zero _).1 (hinj (by rwa [map_zero]))
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include hτ in
 /-- **`H²_c(X_k̄, ℱ_τ ⊗ ℚ_ℓ) ≅ (ℚ_ℓ^r)_H`, carrying `π_X^*` to `q · τ(φ)`, from the finite
 levels**: given, at every level, an isomorphism `H²_c(X_k̄, ℱ_{ρ,n+1}) ≅ ((ℤ/ℓ^{n+1})^r)_H`

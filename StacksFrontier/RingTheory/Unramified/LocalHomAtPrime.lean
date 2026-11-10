@@ -34,8 +34,9 @@ of finite type is the same condition (`Algebra.exists_unramified_of_isUnramified
 
 *The map `A_p → B_q` is pinned.* The algebra structure of `Localization.AtPrime q` over
 `Localization.AtPrime p` is a hypothesis together with
-`Localization.AtPrime.IsLiesOverAlgebra p q`, which says that its algebra map is the localization
-`Localization.localRingHom p q (algebraMap A B)` of the given map, as in Mathlib's
+`IsScalarTower A (Localization.AtPrime p) (Localization.AtPrime q)`, which says that its algebra
+map is the localization `Localization.localRingHom p q (algebraMap A B)` of the given map
+(`Localization.AtPrime.algebraMap_eq`), as in Mathlib's
 `Algebra.isUnramifiedAt_iff_map_eq`. These two hypotheses also provide, through a Mathlib
 instance, that this algebra map is a local homomorphism, which Definition 024M requires; it is
 not an extra hypothesis.
@@ -67,7 +68,7 @@ all local rings. See the module docstring."]
 theorem exists_unramified_away_iff_isUnramifiedLocalHom_algebraMap {A B : Type*} [CommRing A]
     [CommRing B] [Algebra A B] [Algebra.FiniteType A B] (p : Ideal A) [p.IsPrime] (q : Ideal B)
     [q.IsPrime] [q.LiesOver p] [Algebra (Localization.AtPrime p) (Localization.AtPrime q)]
-    [Localization.AtPrime.IsLiesOverAlgebra p q] :
+    [IsScalarTower A (Localization.AtPrime p) (Localization.AtPrime q)] :
     (∃ g ∉ q, Algebra.Unramified A (Localization.Away g)) ↔
       (algebraMap (Localization.AtPrime p) (Localization.AtPrime q)).IsUnramifiedLocalHom := by
   have : EssFiniteType (Localization.AtPrime p) (Localization.AtPrime q) := .of_comp A _ _

@@ -65,9 +65,9 @@ placed there, verbatim and with the same variable block, the two that mention a 
 exhaust the heartbeat budget while elaborating `T.comparison A' B' hA' hB'`, and they elaborate
 at once here. The local instance and the `implicit_reducible`
 declarations of that module are not the cause, since varying them one at a time changes
-nothing; what is left is the import boundary itself. This module therefore carries the `implicit_reducible`
-declaration of `tensorComplex` and nothing else from there, together with one of
-`tensorRestrictSourceFunctor` and `tensorRestrictTargetFunctor` in the last section: without it
+nothing; what is left is the import boundary itself. This module therefore carries the
+`implicit_reducible` declaration of `tensorComplex` and nothing else from there, together with one
+of `tensorRestrictSourceFunctor` and `tensorRestrictTargetFunctor` in the last section: without it
 `Category.assoc` cannot be applied across the junction between a value of either functor and
 the composite `derivedTensorRestrictModelIso` is built from, the two being equal only after
 those `def`s are unfolded.
@@ -152,8 +152,8 @@ a `≪≫` of four, so this is `rfl`; it is hoisted into a lemma because `simp` 
 last `≪≫` in place — the rewrite changes the type of a subterm and the motive is not type
 correct at the transparency `simp` works at. -/
 lemma derivedTensorRestrictIsoOfKFlat_hom (A B : CochainComplex (Modules X.O) ℤ)
-    (hA : Stacks.SheafOfModules.KFlat.KFlat X.O A)
-    (hB : Stacks.SheafOfModules.KFlat.KFlat X.O B) :
+    (hA : Stacks.SheafOfModules.KFlat X.O A)
+    (hB : Stacks.SheafOfModules.KFlat X.O B) :
     (derivedTensorRestrictIsoOfKFlat X U T TU A B hA hB).hom =
       (restriction X U).mapDerivedCategory.map (T.comparison A B hA hB).hom ≫
         ((restriction X U).mapDerivedCategoryFactors.app
@@ -164,10 +164,10 @@ lemma derivedTensorRestrictIsoOfKFlat_hom (A B : CochainComplex (Modules X.O) �
   rfl
 
 variable {A A' B B' : CochainComplex (Modules X.O) ℤ} (a : A ⟶ A') (b : B ⟶ B')
-  (hA : Stacks.SheafOfModules.KFlat.KFlat X.O A)
-  (hA' : Stacks.SheafOfModules.KFlat.KFlat X.O A')
-  (hB : Stacks.SheafOfModules.KFlat.KFlat X.O B)
-  (hB' : Stacks.SheafOfModules.KFlat.KFlat X.O B')
+  (hA : Stacks.SheafOfModules.KFlat X.O A)
+  (hA' : Stacks.SheafOfModules.KFlat X.O A')
+  (hB : Stacks.SheafOfModules.KFlat X.O B)
+  (hB' : Stacks.SheafOfModules.KFlat X.O B')
 
 /-- **The map induced on total tensor complexes by a pair of morphisms of complexes**, with its
 type written at the spelling `Stacks.SheafOfModules.Tensor.tensorComplex`.
@@ -415,9 +415,9 @@ lemma derivedTensorRestrictModelIso_natural
         tensorRestrictModelObject X (⟨⟨AF, hAF⟩, ⟨BF, hBF⟩⟩ : tensorRestrictModels X) ⟶
           tensorRestrictModelObject X m') := by
     ext
-    · show DerivedCategory.Q.map (qa ≫ sa) ≫ f.1 = DerivedCategory.Q.map (qa ≫ ga)
+    · change DerivedCategory.Q.map (qa ≫ sa) ≫ f.1 = DerivedCategory.Q.map (qa ≫ ga)
       simp only [ha, CategoryTheory.Functor.map_comp, Category.assoc, IsIso.hom_inv_id_assoc]
-    · show DerivedCategory.Q.map (qb ≫ sb) ≫ f.2 = DerivedCategory.Q.map (qb ≫ gb)
+    · change DerivedCategory.Q.map (qb ≫ sb) ≫ f.2 = DerivedCategory.Q.map (qb ≫ gb)
       simp only [hb, CategoryTheory.Functor.map_comp, Category.assoc, IsIso.hom_inv_id_assoc]
   apply (cancel_epi ((tensorRestrictSourceFunctor X U T).map
     ((DerivedCategory.Q.map (qa ≫ sa), DerivedCategory.Q.map (qb ≫ sb)) :

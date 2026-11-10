@@ -136,12 +136,12 @@ theorem exists_canonicalPrincipalDivisorCycleAt_eq_sub
     have hord := orderOfVanishingSection_eq_add_ord_of_ratio_eq D.site D.base D.base_mem hX.1
       hdec E (Z.toPrimeDivisor D.site D.base D.base_mem hX.1 hcod) O O σ τ _ _ f
       (hratio (Z.toPrimeDivisor D.site D.base D.base_mem hX.1 hcod))
-    simp only [divisorCoefficients, principalDivisorCycleCoefficients, dif_pos hcod]
+    simp only [divisorCoefficients, principalDivisorCycleCoefficients, dite_eq_left hcod]
     rw [hord]
     exact (add_sub_cancel_left _ _).symm
   · rw [divisorCycleCoefficients_of_codimension_ne_one D sX hX _ O σ _ hcod,
       divisorCycleCoefficients_of_codimension_ne_one D sX hX _ O τ _ hcod]
-    simp only [principalDivisorCycleCoefficients, dif_neg hcod, sub_self]
+    simp only [principalDivisorCycleCoefficients, dite_eq_right hcod, sub_self]
 
 /-- **`c₁(ℒ) ∩ div(f) = 0` in `CH_{n-2}(X)`**, for `X/B` good and integral with
 `dim_δ(X) = n`, `ℒ` an invertible `𝒪_X`-module and `f ∈ R(X)^*`: the cap product of Stacks 0EQJ

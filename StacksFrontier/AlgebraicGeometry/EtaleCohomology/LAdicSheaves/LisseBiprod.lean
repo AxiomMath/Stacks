@@ -179,7 +179,7 @@ theorem conj_eq_prodMap_of_splitting (f : Module.End K V) (f₁ : Module.End K V
     (h₁₂ : p₁ ∘ₗ i₂ = 0) (h₂₁ : p₂ ∘ₗ i₁ = 0) (hsum : i₁ ∘ₗ p₁ + i₂ ∘ₗ p₂ = LinearMap.id)
     (hf₁ : f ∘ₗ i₁ = i₁ ∘ₗ f₁) (hf₂ : f ∘ₗ i₂ = i₂ ∘ₗ f₂) :
     ∃ e : V ≃ₗ[K] V₁ × V₂, e.conj f = f₁.prodMap f₂ := by
-  refine ⟨LinearEquiv.ofLinear (p₁.prod p₂) (i₁.coprod i₂) ?_ ?_, ?_⟩
+  refine ⟨LinearEquiv.ofLinearMap (p₁.prod p₂) (i₁.coprod i₂) ?_ ?_, ?_⟩
   · apply LinearMap.ext
     rintro ⟨a, b⟩
     have ha := LinearMap.congr_fun h₁₁ a
@@ -204,7 +204,7 @@ theorem conj_eq_prodMap_of_splitting (f : Module.End K V) (f₁ : Module.End K V
     have h21 := LinearMap.congr_fun h₂₁ (f₁ a)
     simp only [LinearMap.comp_apply, LinearMap.id_apply, LinearMap.zero_apply]
       at ha hb h11 h22 h12 h21
-    show (p₁.prod p₂) (f ((i₁.coprod i₂) (a, b))) = (f₁ a, f₂ b)
+    change (p₁.prod p₂) (f ((i₁.coprod i₂) (a, b))) = (f₁ a, f₂ b)
     simp only [LinearMap.coprod_apply, map_add, ha, hb, LinearMap.prod_apply]
     ext <;> simp [Function.prod, h11, h22, h12, h21]
 

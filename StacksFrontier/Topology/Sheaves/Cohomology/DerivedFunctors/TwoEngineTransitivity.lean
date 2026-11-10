@@ -224,7 +224,7 @@ theorem rightDerivedCompIso_comp_compRightDerivedNatIso_app
       ((Category.assoc _ _ _).trans (congrArg _ h6))
   rw [h1, h2, h3, h4]
   simp only [Category.assoc, hmid]
-  erw [Iso.inv_hom_id_assoc, Iso.inv_hom_id_assoc, Iso.map_inv_hom_id_assoc, ← h7,
+  erw [Iso.inv_hom_id_assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id_map_assoc, ← h7,
     Category.assoc]
   rfl
 

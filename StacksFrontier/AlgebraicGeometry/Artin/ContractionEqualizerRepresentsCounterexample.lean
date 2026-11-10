@@ -248,7 +248,7 @@ noncomputable abbrev doubleBaseFold :
 theorem locallyOfFiniteType_toScheme_map_doubleBaseFold :
     LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map
       (doubleBaseFold (B := B) (S := S) (hS := hS))) := by
-  show LocallyOfFiniteType (B.inclusion.map (B.inclusion.preimage
+  change LocallyOfFiniteType (B.inclusion.map (B.inclusion.preimage
     (X := B.obj (B.contains_coprod_base hS)) (Y := B.obj hS)
     (coprod.desc (𝟙 (B.inclusion.obj (B.obj hS))) (𝟙 (B.inclusion.obj (B.obj hS))))))
   rw [B.inclusion.map_preimage]

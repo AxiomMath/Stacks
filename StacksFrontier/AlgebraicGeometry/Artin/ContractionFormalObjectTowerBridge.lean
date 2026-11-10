@@ -64,7 +64,7 @@ theorem completionSheaf_hom_ext_of_forall_isAffine {F : (BigFppfOver B S hS)ᵒ�
   apply Sheaf.hom_ext
   apply (BigFppfOver.topology B S hS).sheafify_hom_ext _ _ G.property
   ext U ⟨⟨x⟩, hx⟩
-  show φ.hom.app U (FormalSpace.presheafSection B S hS x hx) =
+  change φ.hom.app U (FormalSpace.presheafSection B S hS x hx) =
     ψ.hom.app U (FormalSpace.presheafSection B S hS x hx)
   have : (BigAffineFppf.inclusion B S hS).IsCoverDense (BigFppfOver.topology B S hS) :=
     Functor.IsDenseSubsite.isCoverDense (BigAffineFppf.topology B S hS)
@@ -158,14 +158,14 @@ theorem hasCompletionAlgebraization_of_hasProperTowerAlgebraizationOverSpec
     intro n
     ext U s
     refine Subtype.ext (ULift.ext ?_)
-    show (pullback.fst p _).app U ((Space.properThickeningTransition I p n).app U s.down) =
+    change (pullback.fst p _).app U ((Space.properThickeningTransition I p n).app U s.down) =
       (pullback.fst p _).app U s.down
     rw [← NatTrans.comp_app_apply, Space.properThickeningTransition, pullback.lift_fst]
   have hcompat : ∀ n, Space.properThickeningTransition I p n ≫ g (n + 1) = g n := by
     intro n
     apply ((Functor.whiskeringRight (BigFppfOver B S hS)ᵒᵖ (Type u)
       (Type (u + 1))).obj uliftFunctor.{u + 1}).map_injective
-    show Functor.whiskerRight _ _ = Functor.whiskerRight _ _
+    change Functor.whiskerRight _ _ = Functor.whiskerRight _ _
     rw [Functor.whiskerRight_comp, hg, hg]
     simp only [g', ← Category.assoc, hκ]
   obtain ⟨y, hy⟩ := h A.R (A.contains_spec_of_contains_truncation hA)
@@ -191,7 +191,7 @@ theorem hasCompletionAlgebraization_of_hasProperTowerAlgebraizationOverSpec
         exact (Equiv.symm_apply_eq _).2 (yonedaEquiv_yoneda_map _).symm)
     let s : (pullback p (yoneda.map (ιn N))).obj (op U) := yonedaEquiv σ
     have hs : (pullback.fst p (yoneda.map (ιn N))).app _ s = t := by
-      show yonedaEquiv (σ ≫ pullback.fst _ _) = t
+      change yonedaEquiv (σ ≫ pullback.fst _ _) = t
       rw [pullback.lift_fst, Equiv.apply_symm_apply]
     have hys : y.app _ t = (g N).app _ s := by
       rw [← hs, ← hy N]
@@ -202,7 +202,7 @@ theorem hasCompletionAlgebraization_of_hasProperTowerAlgebraizationOverSpec
     have hps : ((BigFppfOver.topology B S hS).toSheafify
         (Space.completionSubfunctor B S hS Y F).toFunctor).app (op U) ((κ N).app _ (ULift.up s)) =
         FormalSpace.presheafSection B S hS t ht := by
-      show ((BigFppfOver.topology B S hS).toSheafify
+      change ((BigFppfOver.topology B S hS).toSheafify
         (Space.completionSubfunctor B S hS Y F).toFunctor).app (op U)
         ⟨ULift.up ((pullback.fst p (yoneda.map (ιn N))).app _ s), _⟩ = _
       exact FormalSpace.presheafSection_congr B S hS hs _ ht
@@ -213,7 +213,7 @@ theorem hasCompletionAlgebraization_of_hasProperTowerAlgebraizationOverSpec
       rw [hys, ← hg's, ← hps]
       rfl
     rw [← h1]
-    show _ = (((BigFppfOver.topology B S hS).isoSheafify hX'u).inv ≫
+    change _ = (((BigFppfOver.topology B S hS).isoSheafify hX'u).inv ≫
       ((BigFppfOver.topology B S hS).isoSheafify hX'u).hom).app (op U) _
     rw [Iso.inv_hom_id]
     rfl

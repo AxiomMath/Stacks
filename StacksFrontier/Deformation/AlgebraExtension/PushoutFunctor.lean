@@ -104,7 +104,7 @@ theorem pushoutAlong_hom_ext {P : AlgebraExtension a M} {Q : AlgebraExtension a 
     {g₁ g₂ : pushoutAlong φ P ⟶ Q}
     (h : (pushoutAlongι φ P).hom ≫ g₁.hom = (pushoutAlongι φ P).hom ≫ g₂.hom) : g₁ = g₂ :=
   MapAlong.ext_of_comp ((fibreFst P P).comp (pushoutAlongι φ P)) (by
-    show (fibreFst P P).comp ((pushoutAlongι φ P).comp g₁ (Category.comp_id φ)) =
+    change (fibreFst P P).comp ((pushoutAlongι φ P).comp g₁ (Category.comp_id φ)) =
       (fibreFst P P).comp ((pushoutAlongι φ P).comp g₂ (Category.comp_id φ))
     exact congrArg (fibreFst P P).comp (MapAlong.ext h))
 

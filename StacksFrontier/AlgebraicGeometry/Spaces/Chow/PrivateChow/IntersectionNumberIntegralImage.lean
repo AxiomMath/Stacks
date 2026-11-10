@@ -195,7 +195,7 @@ theorem intersectionNumber_integralClosedSubspacePushforward
     have h := supportOfSheaf_modulePushforward_eq_image_of_isClosedImmersion B (Spec (.of k)) hk i
       hi _ hcl
     refine h.le.trans ?_
-    show pointsMap B (Spec (.of k)) hk Y.1 i.hom '' moduleSupportSet B (Spec (.of k)) hk Y _ ⊆ T
+    change pointsMap B (Spec (.of k)) hk Y.1 i.hom '' moduleSupportSet B (Spec (.of k)) hk Y _ ⊆ T
     rw [hsY, hTdef, hPdef, IntegralClosedSubspace.subspacePointSet_pushforward]
     rfl
   rw [twistedEulerMixedDifference_eq_finsum_components_of_le.{u, w} k B hk X f hf L _ _ hTcl hTd x

@@ -102,10 +102,10 @@ private theorem exists_valuationSubring_lift_of_specializes
     CommRingCat.ofHom (β.hom.codRestrict A.toSubring hA)
   let ℓ : Spec (.of A) ⟶ V := Spec.map c ≫ V.fromSpecStalk z
   have hfactor : Spec.map (CommRingCat.ofHom (algebraMap A L)) ≫ ℓ = g := by
-    show Spec.map (CommRingCat.ofHom (algebraMap A L)) ≫
+    change Spec.map (CommRingCat.ofHom (algebraMap A L)) ≫
       (Spec.map c ≫ V.fromSpecStalk z) = g
     rw [← Spec.map_comp_assoc]
-    show Spec.map β ≫ V.fromSpecStalk z = g
+    change Spec.map β ≫ V.fromSpecStalk z = g
     dsimp only [β]
     rw [Spec.map_comp, Category.assoc,
       Scheme.SpecMap_stalkSpecializes_fromSpecStalk hgz]
@@ -116,15 +116,15 @@ private theorem exists_valuationSubring_lift_of_specializes
         IsLocalRing.closedPoint (V.presheaf.stalk z) :=
       @IsLocalRing.comap_closedPoint _ _ _ _ _ _
         (β.hom.codRestrict A.toSubring hA) hlocal
-    show V.fromSpecStalk z (Spec.map c (IsLocalRing.closedPoint A)) = z
+    change V.fromSpecStalk z (Spec.map c (IsLocalRing.closedPoint A)) = z
     rw [hc, V.fromSpecStalk_closedPoint]
   let ρ : R →+* A := (Spec.preimage (ℓ ≫ t)).hom
   have hρ : Spec.map (CommRingCat.ofHom ρ) = ℓ ≫ t := Spec.map_preimage _
   refine ⟨A, ρ, ℓ, ?_, hfactor, hρ.symm⟩
   rw [IsLocalRing.isLocalHom_iff_comap_closedPoint]
-  show Spec.map (CommRingCat.ofHom ρ) (IsLocalRing.closedPoint A) = _
+  change Spec.map (CommRingCat.ofHom ρ) (IsLocalRing.closedPoint A) = _
   rw [hρ]
-  show t (ℓ (IsLocalRing.closedPoint A)) = _
+  change t (ℓ (IsLocalRing.closedPoint A)) = _
   rw [hcentre, htz]
 
 /-- Decency passes to every base change of a morphism along a scheme-valued point of its
@@ -181,7 +181,7 @@ private theorem valuativeCriterion_existence_of_universallyClosed
       value := yonedaEquiv (yoneda.map qFrac) }
   let ASpec : Scheme.{u} := Spec (.of q.R)
   have hEta : schemePoint B S hS T_A pEta = genericPoint ASpec := by
-    show (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)))
+    change (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)))
       (IsLocalRing.closedPoint q.K) = _
     exact spec_algebraMap_closedPoint_eq_genericPoint
   have hEtaSpec : ∀ x : ASpec, genericPoint ASpec ⤳ x := fun x ↦
@@ -208,7 +208,7 @@ private theorem valuativeCriterion_existence_of_universallyClosed
       toBase := cMap ≫ q.base
       value := yonedaEquiv (yoneda.map cArrow) }
   have hClosedPoint : schemePoint B S hS T_A pClosed = cpoint := by
-    show cMap (IsLocalRing.closedPoint κ) = cpoint
+    change cMap (IsLocalRing.closedPoint κ) = cpoint
     exact ASpec.fromSpecResidueField_apply cpoint _
   -- Universal closedness makes the image of the closure of the generic point closed.
   let W := pointsMap B S hS P (pullback.fst q.special f) '' closure ({xGen} : Set _)
@@ -244,7 +244,7 @@ private theorem valuativeCriterion_existence_of_universallyClosed
   let g : Spec (.of r.carrier) ⟶ V := B.inclusion.map v.left
   let z : V := schemePoint B S hS U p
   have hgp' : g (IsLocalRing.closedPoint r.carrier) = schemePoint B S hS U p' := by
-    show (B.inclusion.map p'.value.left)
+    change (B.inclusion.map p'.value.left)
       ((B.inclusion.map a.left) (IsLocalRing.closedPoint r.carrier)) = _
     rw [show (B.inclusion.map a.left) (IsLocalRing.closedPoint r.carrier) =
       IsLocalRing.closedPoint p'.carrier from
@@ -269,7 +269,7 @@ private theorem valuativeCriterion_existence_of_universallyClosed
   have hv : yoneda.map v ≫ φ = yoneda.map b ≫ pGenNat := by
     apply yonedaEquiv.injective
     simp only [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
-    show φ.app _ (a ≫ p'.value) = pGenNat.app _ b
+    change φ.app _ (a ≫ p'.value) = pGenNat.app _ b
     have ha' : φ.app _ (a ≫ p'.value) = r.value :=
       (congrArg (fun k ↦ k p'.value) (φ.naturality a.op)).trans ha
     have hb' := congrArg (fun k ↦ k (𝟙 T_K)) (pGenNat.naturality b.op)
@@ -281,7 +281,7 @@ private theorem valuativeCriterion_existence_of_universallyClosed
     have hh : v ≫ t = b ≫ qFrac := by
       apply yoneda.map_injective
       rw [Functor.map_comp, ht, ← Category.assoc, hv, Category.assoc]
-      show yoneda.map b ≫ (pGenNat ≫ pullback.fst q.special f) = _
+      change yoneda.map b ≫ (pGenNat ≫ pullback.fst q.special f) = _
       rw [hcomp]
       exact (yoneda.map_comp b qFrac).symm
     exact congrArg (fun k ↦ B.inclusion.map (Over.Hom.left k)) hh
@@ -310,7 +310,7 @@ private theorem valuativeCriterion_existence_of_universallyClosed
   have hfrac : frac ≫ ℓOver = idK ≫ v := by
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show Spec.map (CommRingCat.ofHom (algebraMap A r.carrier)) ≫ ℓ = 𝟙 _ ≫ g
+    change Spec.map (CommRingCat.ofHom (algebraMap A r.carrier)) ≫ ℓ = 𝟙 _ ≫ g
     simpa using hℓ
   let genericOver : KObj ⟶ T_K := idK ≫ b
   let specialOver : AObj ⟶ T_A := ℓOver ≫ t
@@ -354,14 +354,14 @@ private theorem valuativeCriterion_existence_of_universallyClosed
       generic := yoneda.map genericOver ≫ q.generic
       special := yoneda.map specialOver ≫ q.special
       comm := by
-        show (yoneda.map genericOver ≫ q.generic) ≫ f =
+        change (yoneda.map genericOver ≫ q.generic) ≫ f =
           yoneda.map frac ≫ (yoneda.map specialOver ≫ q.special)
         rw [← hgeneric, Category.assoc, hspecial] }
   exact ⟨{ square := square, ringMap := ρ, fieldMap := fieldMap
            isLocalHom := hρlocal, fraction_comm := hcompat, base_comm := hbaseA
            genericOver := genericOver
            genericOver_left := by
-             show 𝟙 _ ≫ B.inclusion.map b.left = Spec.map (CommRingCat.ofHom fieldMap)
+             change 𝟙 _ ≫ B.inclusion.map b.left = Spec.map (CommRingCat.ofHom fieldMap)
              rw [Category.id_comp, hfield]
            specialOver := specialOver, specialOver_left := hring
            generic_comm := rfl, special_comm := rfl },
@@ -426,7 +426,7 @@ theorem universallyClosed_iff_valuativeCriterion_existence_of_isDecent
       specialOver := e.specialOver, specialOver_left := e.specialOver_left
       generic_comm := rfl, special_comm := rfl }
   refine ⟨e', ⟨{ map := l.map ≫ pullback.snd g f, generic_comm := ?_, special_comm := ?_ }⟩⟩
-  · show yoneda.map e.square.fracHom ≫ l.map ≫ pullback.snd g f =
+  · change yoneda.map e.square.fracHom ≫ l.map ≫ pullback.snd g f =
       yoneda.map e.genericOver ≫ q.generic
     rw [← Category.assoc, l.generic_comm, e.generic_comm, Category.assoc, pullback.lift_snd]
   · calc
@@ -434,7 +434,7 @@ theorem universallyClosed_iff_valuativeCriterion_existence_of_isDecent
       _ = e.square.special ≫ g := by rw [← Category.assoc, l.special_comm]
       _ = yoneda.map e.specialOver ≫ q.special := by
         rw [e.special_comm]
-        show (yoneda.map e.specialOver ≫ 𝟙 (yoneda.obj T)) ≫ q.special = _
+        change (yoneda.map e.specialOver ≫ 𝟙 (yoneda.obj T)) ≫ q.special = _
         rw [Category.comp_id]
 
 end AlgebraicGeometry.Space

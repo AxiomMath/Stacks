@@ -78,14 +78,14 @@ open CategoryTheory CategoryTheory.Limits
 open Stacks.Sheaves.ToposPullback Stacks.Sheaves.ToposPushforward
 open Stacks.Sheaves.LocalRingedness
 
-attribute [-instance] CategoryTheory.Limits.instHasBinaryProductObjOfPreservesLimitDiscreteWalkingPairPair
+attribute [-instance]
+  CategoryTheory.Limits.instHasBinaryProductObjOfPreservesLimitDiscreteWalkingPairPair
 
 namespace AlgebraicGeometry.RingedTopos
 
 universe w v u
 
 variable (X : RingedTopos.{v, u, w}) [X.J.HasSheafCompose (forget RingCat.{w})]
-  [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 
 /-- Binary products of sheaves of sets, created by the inclusion into presheaves. Stated
 directly: instance search for them otherwise wanders into limits of presheaves of rings and
@@ -110,7 +110,6 @@ noncomputable def unitsInv : units X ⟶ units X :=
   Sheaf.unaryOpHom (A := units X) (E := units X)
     (fun Z x ↦ (((x : (X.O.obj.obj Z)ˣ)⁻¹ : (X.O.obj.obj Z)ˣ))) (fun _ _ ↦ rfl)
 
-omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- A section of the units subsheaf and its inverse multiply to one. -/
 theorem unitsIncl_mul_unitsInv (Z : X.Cᵒᵖ)
     (s : (Sheaf.sectionsFunctor X.J Z).obj (units X)) :
@@ -150,12 +149,10 @@ noncomputable def unitsPair :
     units X ⟶ Sheaf.ringSheaf (ringStructureSheaf X) ⨯ Sheaf.ringSheaf (ringStructureSheaf X) :=
   prod.lift (unitsIncl X) (unitsInv X ≫ unitsIncl X)
 
-omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The first component of the pair is the inclusion. -/
 theorem unitsPair_comp_fst : unitsPair X ≫ prod.fst = unitsIncl X := by
   rw [unitsPair, prod.lift_fst]
 
-omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The square of the units subsheaf over multiplication and the unit section commutes. -/
 theorem unitsPair_comp_ringMulHom :
     unitsPair X ≫ Sheaf.ringMulHom (ringStructureSheaf X) =

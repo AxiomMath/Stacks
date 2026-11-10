@@ -72,7 +72,7 @@ theorem structureRingHom_eq_strZeroSheaf :
     AffineTripleSections.structureRingHom B
       = ProjBundleSurjection.strZeroSheaf B (⊤ : S.Opens) := by
   refine congrArg CommRingCat.ofHom (RingHom.ext fun r => Subtype.ext ?_)
-  show (B.strHom (⊤ : S.Opens) r : B.sectionRing (⊤ : S.Opens))
+  change (B.strHom (⊤ : S.Opens) r : B.sectionRing (⊤ : S.Opens))
     = (GradedRing.projZeroRingHom' (B.grading (⊤ : S.Opens)) (B.strHom ⊤ r) :
         B.sectionRing (⊤ : S.Opens))
   rw [GradedRing.coe_projZeroRingHom'_apply, GradedRing.projZeroRingHom_apply,

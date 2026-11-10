@@ -64,7 +64,7 @@ private lemma localExteriorMap_mul
     localExteriorMap (R := R) (M := M) (A := A) e (x * y) =
       localExteriorMap (R := R) (M := M) (A := A) e x *
         localExteriorMap (R := R) (M := M) (A := A) e y := by
-  show e.symm (1 ⊗ₜ[R] (x * y)) = e.symm (1 ⊗ₜ[R] x) * e.symm (1 ⊗ₜ[R] y)
+  change e.symm (1 ⊗ₜ[R] (x * y)) = e.symm (1 ⊗ₜ[R] x) * e.symm (1 ⊗ₜ[R] y)
   rw [← map_mul, Algebra.TensorProduct.tmul_mul_tmul, one_mul]
 
 private lemma localExteriorMap_ιMulti
@@ -89,8 +89,7 @@ private lemma pureTensor_span_eq_top :
   apply top_unique
   intro x hx
   clear hx
-  induction x using TensorProduct.induction_on with
-  | zero => exact zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul a m =>
       rw [TensorProduct.tmul_eq_smul_one_tmul]
       exact Submodule.smul_mem _ a (Submodule.subset_span ⟨m, rfl⟩)
@@ -225,7 +224,7 @@ private lemma localized_map_smul_id_eq_bot
   · apply Submodule.span_le.mpr
     rintro x ⟨y, hy, rfl⟩
     obtain ⟨z, hz, rfl⟩ := Submodule.mem_map.mp hy
-    show F ((r • LinearMap.id) z) = 0
+    change F ((r • LinearMap.id) z) = 0
     simp only [LinearMap.smul_apply, LinearMap.id_apply]
     rw [map_smul, ← algebraMap_smul A, hr, zero_smul]
   · exact bot_le
@@ -249,7 +248,7 @@ private lemma localExteriorMap_component_atPrime
       else ⊥ := by
   let A := Localization.AtPrime P
   let F := localExteriorMap (R := R) (M := M) (A := A) e
-  show Submodule.localized' A P.primeCompl F
+  change Submodule.localized' A P.primeCompl F
     ((⋀[R]^k M).map ((ProjectiveDeterminant.rankIdempotent (R := R) (M := M) k) •
       (LinearMap.id : ExteriorAlgebra R M →ₗ[R] ExteriorAlgebra R M))) = _
   by_cases h : Module.rankAtStalk M (⟨P, inferInstance⟩ : PrimeSpectrum R) = k
@@ -280,7 +279,7 @@ private lemma localExteriorMap_determinant_atPrime
   let n := Module.rankAtStalk M (⟨P, inferInstance⟩ : PrimeSpectrum R)
   let A := Localization.AtPrime P
   let F := localExteriorMap (R := R) (M := M) (A := A) e
-  show Submodule.localized' A P.primeCompl F
+  change Submodule.localized' A P.primeCompl F
       (⨆ k, ProjectiveDeterminant.component (R := R) (M := M) k) = _
   rw [Submodule.localized'_iSup]
   apply le_antisymm
@@ -316,7 +315,7 @@ private lemma localExteriorMap_map
       simp only [localExteriorMap, LinearMap.coe_comp, Function.comp_apply,
         LinearEquiv.coe_coe, AlgHom.commutes, TensorProduct.mk_apply]
       rw [ht]
-      show e.symm (algebraMap A (A ⊗[R] ExteriorAlgebra R M) ((algebraMap R A) r)) =
+      change e.symm (algebraMap A (A ⊗[R] ExteriorAlgebra R M) ((algebraMap R A) r)) =
         ExteriorAlgebra.map (f.baseChange A)
           (e.symm (algebraMap A (A ⊗[R] ExteriorAlgebra R M) ((algebraMap R A) r)))
       rw [e.symm.commutes, (ExteriorAlgebra.map (f.baseChange A)).commutes]
@@ -352,7 +351,7 @@ public theorem det_baseChange_atPrime
   apply LinearMap.ext
   intro x
   apply Subtype.ext
-  show ExteriorAlgebra.map (f.baseChange A) x.val =
+  change ExteriorAlgebra.map (f.baseChange A) x.val =
     (algebraMap R A) (det f) • x.val
   have hx : x.val ∈ Submodule.span A (F '' submodule (R := R) (M := M)) := by
     rw [← Submodule.localized'_eq_span A P.primeCompl F, hsub]
@@ -392,7 +391,7 @@ public theorem det_localization
       LocalizedModule.map P.primeCompl f ∘ₗ e.symm.toLinearMap := by
     apply LinearMap.restrictScalars_injective R
     ext a m
-    show f.baseChange A (a ⊗ₜ[R] m) =
+    change f.baseChange A (a ⊗ₜ[R] m) =
       e (LocalizedModule.map P.primeCompl f (e.symm (a ⊗ₜ[R] m)))
     rw [TensorProduct.tmul_eq_smul_one_tmul]
     simp only [map_smul, LinearMap.baseChange_tmul]
@@ -522,7 +521,7 @@ private theorem exteriorPower_eq_common_kernel_of_finBasis {R : Type u} [CommRin
     apply (Submodule.mem_iInf _).2
     intro i
     apply LinearMap.mem_ker.mpr
-    show ExteriorAlgebra.ι R (b i) * x = 0
+    change ExteriorAlgebra.ι R (b i) * x = 0
     have hmul : ExteriorAlgebra.ι R (b i) * x ∈ ⋀[R]^(n + 1) M := by
       rw [show (⋀[R]^(n + 1) M) =
         (LinearMap.range (ExteriorAlgebra.ι R : M →ₗ[R] ExteriorAlgebra R M)) *

@@ -272,7 +272,7 @@ private lemma finite_awayMap_of_isIntegral_smul {R S : Type*} [CommRing R] [Comm
   have : IsScalarTower R S Sg := IsScalarTower.of_algebraMap_eq' rfl
   let _ : Algebra Rg Sg := (IsLocalization.Away.map Rg Sg (algebraMap R S) g).toAlgebra
   have : IsScalarTower R Rg Sg := IsScalarTower.of_algebraMap_eq' (by
-    show (algebraMap S Sg).comp (algebraMap R S) =
+    change (algebraMap S Sg).comp (algebraMap R S) =
       (IsLocalization.Away.map Rg Sg (algebraMap R S) g).comp (algebraMap R Rg)
     exact (IsLocalization.map_comp _).symm)
   have hint : ∀ z ∈ algebraMap S Sg '' t, IsIntegral Rg z := by

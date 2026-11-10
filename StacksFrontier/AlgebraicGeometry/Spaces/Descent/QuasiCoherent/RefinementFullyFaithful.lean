@@ -341,7 +341,7 @@ theorem exists_isEtaleCovering_familyPairMap (Φ : 𝒰.HomOver 𝒱 (𝟙 X))
   have h₂ : Set.range (pointsMap B S hS Z₂.1 a₂.hom) = Set.univ := by
     simpa only [Set.iUnion_const] using cov₂.jointly_surjective
   rw [Set.iUnion_const]
-  show Set.range (pointsMap B S hS Z₂.1 (a₂.hom ≫ a₁.hom)) = Set.univ
+  change Set.range (pointsMap B S hS Z₂.1 (a₂.hom ≫ a₁.hom)) = Set.univ
   rw [pointsMap_comp, Set.range_comp, h₂, Set.image_univ, h₁]
 
 /-- **The dictionary between the pairwise condition over `X` and the canonical comparison over a

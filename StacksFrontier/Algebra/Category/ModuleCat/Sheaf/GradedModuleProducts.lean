@@ -132,7 +132,7 @@ private theorem productSectionIso_π
   let e := preservesLimitIso G F
   let t : LimitCone (F ⋙ G) := modulePiLimitCone (F ⋙ G)
   let e₂ := limit.isoLimitCone t
-  show (e₂.hom (e.hom x)) i = _
+  change (e₂.hom (e.hom x)) i = _
   have h₁ : (e₂.hom (e.hom x)) i = (limit.π (F ⋙ G) ⟨i⟩).hom (e.hom x) :=
     congrArg (fun f => f.hom (e.hom x)) (limit.isoLimitCone_hom_π t ⟨i⟩)
   have h₂ : (limit.π (F ⋙ G) ⟨i⟩).hom (e.hom x) = (G.map (limit.π F ⟨i⟩)).hom x :=

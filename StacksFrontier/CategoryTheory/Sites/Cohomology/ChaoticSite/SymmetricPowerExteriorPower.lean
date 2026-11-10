@@ -141,7 +141,7 @@ public lemma relKoszulZeroIso_naturality (B : Type u) [CommRing B] {A A' M M' : 
   refine TensorProduct.ext' fun x y => ?_
   have h := LinearMap.congr_fun (exteriorPower.zeroEquiv_naturality a) x
   simp only [LinearMap.comp_apply, LinearEquiv.coe_coe] at h
-  show SymPow.relKoszulZeroIso B A' M' q
+  change SymPow.relKoszulZeroIso B A' M' q
       (TensorProduct.map (exteriorPower.map 0 a) (SymPow.symMap q m) (x ⊗ₜ[B] y)) =
     SymPow.symMap q m (SymPow.relKoszulZeroIso B A M q (x ⊗ₜ[B] y))
   rw [TensorProduct.map_tmul, SymPow.relKoszulZeroIso_tmul, SymPow.relKoszulZeroIso_tmul, h,
@@ -166,7 +166,7 @@ public lemma extPowRidEquiv_naturality (B : Type u) [CommRing B] {A A' M M' : Ty
   refine TensorProduct.ext' fun x y => ?_
   have h := LinearMap.congr_fun (symPowZeroMap_comp_symMap B m) y
   simp only [LinearMap.comp_apply] at h
-  show symPowZeroMap B M' (SymPow.symMap 0 m y) • exteriorPower.map k a x =
+  change symPowZeroMap B M' (SymPow.symMap 0 m y) • exteriorPower.map k a x =
     exteriorPower.map k a (symPowZeroMap B M y • x)
   rw [h, LinearMap.map_smul]
 
@@ -184,7 +184,7 @@ public lemma symPowZeroExtPowZeroEquiv_naturality (B : Type u) [CommRing B] {M N
   refine LinearMap.ext fun x => ?_
   have h := LinearMap.congr_fun (symPowZeroMap_comp_symMap B f) x
   simp only [LinearMap.comp_apply] at h
-  show (exteriorPower.zeroEquiv B N).symm (symPowZeroMap B N (SymPow.symMap 0 f x)) =
+  change (exteriorPower.zeroEquiv B N).symm (symPowZeroMap B N (SymPow.symMap 0 f x)) =
     exteriorPower.map 0 f ((exteriorPower.zeroEquiv B M).symm (symPowZeroMap B M x))
   rw [h]
   refine (exteriorPower.zeroEquiv B N).injective ?_
@@ -204,7 +204,7 @@ public lemma relKoszulDifferential_comp {B A M : Type u} [CommRing B] [AddCommGr
   apply koszulDifferential_comp
   intro x y z
   apply Subtype.ext
-  show SymmetricAlgebra.ι B M (f y) * (SymmetricAlgebra.ι B M (f x) * z) =
+  change SymmetricAlgebra.ι B M (f y) * (SymmetricAlgebra.ι B M (f x) * z) =
     SymmetricAlgebra.ι B M (f x) * (SymmetricAlgebra.ι B M (f y) * z)
   exact mul_left_comm _ _ _
 
@@ -221,7 +221,7 @@ public lemma relKoszulDifferential_naturality {B A A' M M' : Type u} [CommRing B
   apply koszulDifferential_naturality
   intro x z
   apply Subtype.ext
-  show SymPow.symAlgMap m (SymmetricAlgebra.ι B M (f x) * z) =
+  change SymPow.symAlgMap m (SymmetricAlgebra.ι B M (f x) * z) =
     SymmetricAlgebra.ι B M' (f' (a x)) * SymPow.symAlgMap m z
   rw [map_mul, SymPow.symAlgMap_ι, hcomm]
 
@@ -438,7 +438,6 @@ public lemma koszulAug_exact_app (B : Type u) [CommRing B]
     (hW : ∀ n : SimplexCategoryᵒᵖ, Module.Flat B (W.obj n))
     (hD : ∀ n : SimplexCategoryᵒᵖ, Module.Flat B (D.obj n))
     (hYf : ∀ n : SimplexCategoryᵒᵖ, Module.Flat B (Y.obj n))
-    (hmono : ∀ n : SimplexCategoryᵒᵖ, Function.Injective (ι.app n).hom)
     (hexact : ∀ n : SimplexCategoryᵒᵖ, Function.Exact (ι.app n).hom (π.app n).hom)
     (hepi : ∀ n : SimplexCategoryᵒᵖ, Function.Surjective (π.app n).hom)
     (q : ℕ) (n : SimplexCategoryᵒᵖ) :
@@ -447,7 +446,7 @@ public lemma koszulAug_exact_app (B : Type u) [CommRing B]
   have := hW n
   have := hD n
   have := hYf n
-  exact SymPow.relativeKoszul_exact_zero ((ι.app n).hom) ((π.app n).hom) (hmono n) (hexact n)
+  exact SymPow.relativeKoszul_exact_zero ((ι.app n).hom) ((π.app n).hom) (hexact n)
     (hepi n) q
 
 /-- **The augmentation of the simplicial relative Koszul complex is degreewise surjective.** It
@@ -460,7 +459,7 @@ public lemma koszulAug_surjective_app (B : Type u) [CommRing B]
   intro y
   obtain ⟨z, hz⟩ := SymPow.symMap_surjective k ((π.app n).hom) (hepi n) y
   refine ⟨(SymPow.relKoszulZeroIso B (W.obj n) (D.obj n) k).symm z, ?_⟩
-  show SymPow.symMap k ((π.app n).hom)
+  change SymPow.symMap k ((π.app n).hom)
       (SymPow.relKoszulZeroIso B (W.obj n) (D.obj n) k
         ((SymPow.relKoszulZeroIso B (W.obj n) (D.obj n) k).symm z)) = y
   rwa [LinearEquiv.apply_symm_apply]
@@ -559,7 +558,7 @@ public def homologyIsoSymPowOfCovering (B : Type u) [CommRing B]
   (homologyIsoSymPowKoszul B ι π
       (koszulTermd_exact_app B ι π hW hD hYf hmono hpair hepi)
       (koszulTermd_injective_app B ι π hW hD hYf hmono hpair hepi)
-      (koszulAug_exact_app B ι π hW hD hYf hmono hpair hepi)
+      (koszulAug_exact_app B ι π hW hD hYf hpair hepi)
       (koszulAug_surjective_app B W π hepi)
       (fun p q n => isZero_homology_koszulTerm B W hDnull p q n) k).trans
     ((HomologicalComplex.homologyFunctor (ModuleCat.{u} B) _ 0).mapIso

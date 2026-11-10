@@ -295,7 +295,7 @@ theorem sigma_app_rhoApp (U : S.Opens) (m : Γ(M, U)) :
       (adj.unit.app M).app U m := by
   have hle : f ⁻¹ᵁ (U ⊓ W) ≤ f ⁻¹ᵁ U := f.preimage_mono inf_le_left
   refine res_injective hle (preimage_le_preimage_inf f hW U) (Φ.obj M) ?_
-  show (Φ.obj M).presheaf.map (homOfLE hle).op
+  change (Φ.obj M).presheaf.map (homOfLE hle).op
       ((show Γ(X, f ⁻¹ᵁ U) from rhoApp M e f hW U m) • genTopAt M e f hW adj (f ⁻¹ᵁ U)) = _
   rw [Scheme.Modules.map_smul, genTopAt_res, rhoApp_res_inf, ← unit_genAt M e f hW adj
     (inf_le_right : U ⊓ W ≤ W), ← unit_smul, coeff_smul]
@@ -466,7 +466,7 @@ theorem tensorFactorIso_inv_app (F : P.Modules) (U : Y.Opens) (s : Γ(F, j ''ᵁ
       (Stacks.AlgebraicGeometry.RestrictionSections.restrictTensorIso j F
         ((Scheme.Modules.pullback π).obj M)) (op U) _)
   have e4 := genTopAt_restrictPullbackAdj M e π j hV U
-  show (Stacks.AlgebraicGeometry.RestrictionSections.restrictTensorIso j F
+  change (Stacks.AlgebraicGeometry.RestrictionSections.restrictTensorIso j F
       ((Scheme.Modules.pullback π).obj M)).inv.val.app (op U)
       ((whiskerLeftIso (ofScheme ((Scheme.Modules.restrictFunctor j).obj F))
         (restrictPullbackIsoUnit M e π j hV)).inv.val.app (op U)

@@ -227,13 +227,13 @@ private theorem groupoid_stabilizer_isIso_of_mono {S : Scheme.{u}}
       congrArg Over.Hom.left ((cancel_mono (groupoidPreRelation G)).mp hrel)
   have hesnd : e.left ≫ (pullback.snd (sourceTarget G)
       (diagonal G)).left = 𝟙 G.objects.left := by
-    show (pullback.lift G.identity (𝟙 G.objects) hdiag ≫
+    change (pullback.lift G.identity (𝟙 G.objects) hdiag ≫
       pullback.snd (sourceTarget G) (diagonal G)).left = _
     rw [pullback.lift_snd]
     simp
   have hefst : e.left ≫ (pullback.fst (sourceTarget G)
       (diagonal G)).left = G.identity.left := by
-    show (pullback.lift G.identity (𝟙 G.objects) hdiag ≫
+    change (pullback.lift G.identity (𝟙 G.objects) hdiag ≫
       pullback.fst (sourceTarget G) (diagonal G)).left = _
     rw [pullback.lift_fst]
   let α : Q ⟶ pullback (sourceTarget G) (diagonal G) :=
@@ -242,7 +242,7 @@ private theorem groupoid_stabilizer_isIso_of_mono {S : Scheme.{u}}
   have hαe : α = q ≫ e := by
     apply pullback.hom_ext
     · apply Over.OverMorphism.ext
-      show (𝟙 p.left ≫ (pullback.fst (sourceTarget G)
+      change (𝟙 p.left ≫ (pullback.fst (sourceTarget G)
           (diagonal G)).left) =
         (p.hom ≫ e.left) ≫ (pullback.fst (sourceTarget G)
           (diagonal G)).left
@@ -255,7 +255,7 @@ private theorem groupoid_stabilizer_isIso_of_mono {S : Scheme.{u}}
               (diagonal G)).left := by
           rw [← hefst, Category.assoc]
     · apply Over.OverMorphism.ext
-      show 𝟙 p.left ≫ (pullback.snd (sourceTarget G)
+      change 𝟙 p.left ≫ (pullback.snd (sourceTarget G)
           (diagonal G)).left =
         (p.hom ≫ e.left) ≫ (pullback.snd (sourceTarget G)
           (diagonal G)).left
@@ -419,14 +419,14 @@ private theorem reach_property_of_coproduct {S : Scheme.{u}}
   apply IsZariskiLocalAtSource.of_openCover
     (c.pullback₂ (pullback.fst (Sigma.desc fun i => (g i).left) G.target.left))
   rintro ⟨i⟩
-  show P (pullback.snd _ _ ≫ pullback.snd _ _ ≫ G.source.left)
+  change P (pullback.snd _ _ ≫ pullback.snd _ _ ≫ G.source.left)
   have sq := (IsPullback.of_hasPullback (Sigma.ι (fun i => (V i).left) i)
     (pullback.fst (Sigma.desc fun i => (g i).left) G.target.left)).paste_vert
     (IsPullback.of_hasPullback (Sigma.desc fun i => (g i).left) G.target.left)
-  simp only [Sigma.ι_desc] at sq
+  simp only [Sigma.ι_comp_desc] at sq
   have hsnd := sq.isoPullback_hom_snd
   rw [← Category.assoc]
-  show P ((pullback.snd (Sigma.ι (fun i => (V i).left) i)
+  change P ((pullback.snd (Sigma.ι (fun i => (V i).left) i)
     (pullback.fst (Sigma.desc fun i => (g i).left) G.target.left) ≫
     pullback.snd (Sigma.desc fun i => (g i).left) G.target.left) ≫ G.source.left)
   rw [← hsnd, Category.assoc, P.cancel_left_of_respectsIso]
@@ -462,7 +462,7 @@ private theorem exists_site_object (B : AlgebraicGeometry.BigFppfSite.{u})
   let Y : AlgebraicGeometry.BigFppfOver B S hS :=
     Over.mk (B.inclusion.preimage (X := B.obj hX) (Y := B.obj hS) X.hom)
   refine ⟨Y, ⟨Over.isoMk (Iso.refl X.left) ?_⟩⟩
-  show 𝟙 X.left ≫ X.hom =
+  change 𝟙 X.left ≫ X.hom =
     B.inclusion.map (B.inclusion.preimage (X := B.obj hX) (Y := B.obj hS) X.hom)
   simp only [Category.id_comp]
   exact (B.inclusion.map_preimage (X := B.obj hX) (Y := B.obj hS) X.hom).symm
@@ -481,7 +481,7 @@ private theorem singleton_mem_fppf_topology (B : AlgebraicGeometry.BigFppfSite.{
     ‹Surjective ((Over.post B.inclusion).map f).left›
   let E : Covering B.Schemes := ⟨Y.left, PreZeroHypercover.singleton f.left⟩
   have hE : IsFppfCovering E := by
-    show (PreZeroHypercover.singleton f.left).presieve₀.map B.inclusion ∈
+    change (PreZeroHypercover.singleton f.left).presieve₀.map B.inclusion ∈
       Scheme.fppfPrecoverage (B.inclusion.obj Y.left)
     rw [PreZeroHypercover.presieve₀_singleton, Presieve.map_singleton]
     exact (Scheme.singleton_mem_precoverage_iff _ _).2
@@ -515,7 +515,7 @@ private theorem restriction_quotient_isIso (B : AlgebraicGeometry.BigFppfSite.{u
     IsIso (GroupoidScheme.restrictionQuotientMap
       (AlgebraicGeometry.BigFppfOver.topology B S hS) (Over.post B.inclusion) G g H) := by
   have hP : B.Contains (pullback g G.target).left := by
-    show (pullback g G.target).left.size < B.cutoff
+    change (pullback g G.target).left.size < B.cutoff
     rw [Scheme.size_congr (overPullbackLeftIsoAux g G.target)]
     exact (Scheme.size_pullback_le g.left G.target.left).trans_lt (max_lt hV hR)
   obtain ⟨X, ⟨eX⟩⟩ := exists_site_object B hS (pullback g G.target) hP
@@ -539,7 +539,7 @@ private theorem restriction_quotient_isIso (B : AlgebraicGeometry.BigFppfSite.{u
   exact AlgebraicGeometry.GroupoidScheme.isIso_restrictionQuotientMap_of_reach_cover
     _ _ inferInstance
     G g H X Y eX eY a (by
-      show F.map a ≫ eY.hom = _
+      change F.map a ≫ eY.hom = _
       rw [ha]
       simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id])
     (singleton_mem_fppf_topology B hS a)
@@ -553,7 +553,7 @@ private theorem restriction_arrows_size_le {S : Scheme.{u}}
     congrArg Scheme.size
       (congrArg (fun X : Over S => X.left) H.arrows_eq)
   rw [hsize]
-  show (pullback (pullback.snd g G.target)
+  change (pullback (pullback.snd g G.target)
     (pullback.fst G.source g)).left.size ≤ _
   have hOuter := Scheme.size_congr
     (overPullbackLeftIsoAux (pullback.snd g G.target)
@@ -680,9 +680,9 @@ private theorem cohenMacaulay_reach_properties {S : Scheme.{u}}
       ((IsPullback.of_hasPullback g G.target).map (Over.forget S))
       (show IsOpenImmersion g.left from inferInstanceAs (IsOpenImmersion W.ι))
   refine ⟨?_, ?_, ?_⟩
-  · show Flat ((pullback.snd g G.target).left ≫ G.source.left)
+  · change Flat ((pullback.snd g G.target).left ≫ G.source.left)
     infer_instance
-  · show LocallyOfFinitePresentation ((pullback.snd g G.target).left ≫ G.source.left)
+  · change LocallyOfFinitePresentation ((pullback.snd g G.target).left ≫ G.source.left)
     infer_instance
   · -- `W ×_{g, U, t} R` and `t⁻¹(W)` are pullbacks of the same cospan, hence agree over `R`.
     have h₁ : IsPullback (pullback.fst g G.target).left (pullback.snd g G.target).left
@@ -692,7 +692,7 @@ private theorem cohenMacaulay_reach_properties {S : Scheme.{u}}
       isPullback_morphismRestrict G.target.left W
     have he : (h₁.isoIsPullback _ _ h₂).hom ≫ (G.target.left ⁻¹ᵁ W).ι =
         (pullback.snd g G.target).left := h₁.isoIsPullback_hom_snd _ _ h₂
-    show Surjective ((pullback.snd g G.target).left ≫ G.source.left)
+    change Surjective ((pullback.snd g G.target).left ≫ G.source.left)
     rw [← he, Category.assoc]
     have := AlgebraicGeometry.source_from_target_surjective G
     infer_instance
@@ -783,14 +783,14 @@ public theorem exists_slice_locallyQuasiFinite
   let X : Scheme := ∐ fun i : I => (Ui i).left
   let pS : X ⟶ S := Sigma.desc fun i => (Ui i).hom
   have hGsize : G.objects.left.size < B.cutoff := by
-    show ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj U).size < B.cutoff
+    change ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj U).size < B.cutoff
     exact U.left.property
   have hU0size : B.Contains U0.left :=
     (Scheme.size_coe_opens_le G.objects.left W).trans_lt hGsize
   have hXbase : B.Contains H.groupoid.objects.left := by
     have hsize : H.groupoid.objects.left.size = U0.left.size :=
       Scheme.size_congr ((Over.forget S).mapIso (eqToIso H.objects_eq))
-    show H.groupoid.objects.left.size < B.cutoff
+    change H.groupoid.objects.left.size < B.cutoff
     rw [hsize]
     exact hU0size
   have hXsize : B.Contains X :=
@@ -803,11 +803,11 @@ public theorem exists_slice_locallyQuasiFinite
   let F : AlgebraicGeometry.BigFppfOver B S hS ⥤ Over S := Over.post B.inclusion
   let Uall : Over S := F.obj Usite
   have hUallMap : Uall.hom = pS := by
-    show (B.inclusion.preimage pS').hom = pS
+    change (B.inclusion.preimage pS').hom = pS
     simpa [pS'] using (B.inclusion.map_preimage pS')
   let gall : Uall ⟶ H.groupoid.objects := Over.homMk
     (Sigma.desc fun i => (gi i).left) (by
-      show (Sigma.desc fun i => (gi i).left) ≫ H.groupoid.objects.hom = Uall.hom
+      change (Sigma.desc fun i => (gi i).left) ≫ H.groupoid.objects.hom = Uall.hom
       rw [hUallMap]
       apply Sigma.hom_ext
       intro i
@@ -825,7 +825,7 @@ public theorem exists_slice_locallyQuasiFinite
   let RsiteMap : RsiteBase ⟶ B.obj hS := B.inclusion.preimage pR'
   let Rsite : AlgebraicGeometry.BigFppfOver B S hS := Over.mk RsiteMap
   have hRsiteMap : ((F.obj Rsite).hom) = H'.groupoid.arrows.hom := by
-    show (B.inclusion.preimage pR').hom = pR
+    change (B.inclusion.preimage pR').hom = pR
     simpa [pR'] using (B.inclusion.map_preimage pR')
   let eR : F.obj Rsite ≅ H'.groupoid.arrows :=
     Over.isoMk (Iso.refl _) hRsiteMap.symm
@@ -886,8 +886,8 @@ public theorem exists_slice_locallyQuasiFinite
       intro x hx
       let i : I := ⟨x, hx⟩
       refine ⟨(Sigma.ι (fun i => (Ui i).left) i) (ui i), ?_⟩
-      show (Sigma.ι (fun i => (Ui i).left) i ≫ Sigma.desc (fun i => (gi i).left)) (ui i) = x
-      rw [Sigma.ι_desc]
+      change (Sigma.ι (fun i => (Ui i).left) i ≫ Sigma.desc (fun i => (gi i).left)) (ui i) = x
+      rw [Sigma.ι_comp_desc]
       exact hui i)
   have hKsource (P : MorphismProperty Scheme.{u}) [P.IsStableUnderBaseChange]
       (hp : P (GroupoidScheme.restrictionReachMap H.groupoid gall).left) :
@@ -931,7 +931,7 @@ public theorem exists_slice_locallyQuasiFinite
       (by simpa [groupoidPreRelation, Stacks.Groupoids.PreRelation.target] using ht0)) := by
     simpa only [qE, qK, qH, jK, GroupoidScheme.restrictionQuotientMap,
       quotientSheafMap_comp] using hIso
-  show IsIso (Stacks.Groupoids.quotientSheafMap J F j' j (F.map r) (F.map g) hs ht)
+  change IsIso (Stacks.Groupoids.quotientSheafMap J F j' j (F.map r) (F.map g) hs ht)
   have hTotal' := quotientSheafMap_isIso_congr_target J F j'
     (groupoidPreRelation G) j (relationGroupoid_relation j) _ _ _ _
     hs0 ht0 hTotal

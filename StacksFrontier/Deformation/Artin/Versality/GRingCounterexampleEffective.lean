@@ -75,11 +75,11 @@ public theorem factors_baseOver :
     Factors m C φ B hS (Deformation.Artin.baseOver B (Spec (.of Λ)) hS
       (completionBase m) hR) := by
   refine ⟨Spec.map (CommRingCat.ofHom ψ) ≫ auxInr m C, ?_⟩
-  show (Spec.map (CommRingCat.ofHom ψ) ≫ auxInr m C) ≫ auxMap m C φ =
+  change (Spec.map (CommRingCat.ofHom ψ) ≫ auxInr m C) ≫ auxMap m C φ =
     Spec.map (CommRingCat.ofHom (algebraMap Λ (completion m)))
   rw [Category.assoc, auxInr_auxMap, ← Spec.map_comp]
   refine congrArg Spec.map (CommRingCat.hom_ext ?_)
-  show ψ.comp φ = algebraMap Λ (completion m)
+  change ψ.comp φ = algebraMap Λ (completion m)
   exact hψ
 
 /-- **`Spec R` as an object of `𝒳 = 𝒮_F`.** -/

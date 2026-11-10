@@ -72,16 +72,14 @@ public def baseChangeMulSemiringAction :
   smul g x := baseChangeAlgHom g x
   one_smul x := by
     change baseChangeAlgHom (1 : G) x = x
-    induction x using TensorProduct.induction_on with
-    | zero => exact map_zero _
+    induction x using TensorProduct.inductionOn with
     | tmul a r =>
       change a ⊗ₜ[FixedPoints.subring R G] ((1 : G) • r) = a ⊗ₜ r
       rw [one_smul]
     | add x y hx hy => rw [map_add, hx, hy]
   mul_smul g h x := by
     change baseChangeAlgHom (g * h) x = baseChangeAlgHom g (baseChangeAlgHom h x)
-    induction x using TensorProduct.induction_on with
-    | zero => exact map_zero _
+    induction x using TensorProduct.inductionOn with
     | tmul a r =>
       change a ⊗ₜ[FixedPoints.subring R G] ((g * h) • r) =
         a ⊗ₜ[FixedPoints.subring R G] (g • h • r)
@@ -109,12 +107,11 @@ public theorem inertia_eq_inertia_baseChange
     let := baseChangeMulSemiringAction (G := G) (R := R) (A := A)
     q.inertia G = q'.inertia G := by
   let := baseChangeMulSemiringAction (G := G) (R := R) (A := A)
-  show q.inertia G = q'.inertia G
+  change q.inertia G = q'.inertia G
   ext g
   simp only [Ideal.mem_inertia]
   refine ⟨fun hg x => ?_, fun hg r => ?_⟩
-  · induction x using TensorProduct.induction_on with
-    | zero => simp
+  · induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
       rw [smul_add, add_sub_add_comm]
       exact add_mem hx hy

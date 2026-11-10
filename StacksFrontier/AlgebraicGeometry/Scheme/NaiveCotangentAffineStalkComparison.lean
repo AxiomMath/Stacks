@@ -123,18 +123,7 @@ theorem uLeg_map (M N : ModuleCat.{u} Γ(X, V)) (φ : M ⟶ N)
       ((associatedSheafFunctor.{u, u} V.toScheme.toRingedSpace (alpha (V := V))).map φ).val)
   obtain ⟨w, rfl⟩ :=
     (associatedSheafStalkAddEquiv V.toScheme.toRingedSpace (alpha (V := V)) M x).symm.surjective ζ
-  induction w using TensorProduct.induction_on with
-  | zero =>
-      refine Eq.trans (congrArg (uLeg V x N)
-        (Eq.trans (congrArg Psi.hom (map_zero
-          (associatedSheafStalkAddEquiv V.toScheme.toRingedSpace (alpha (V := V)) M x).symm))
-          (map_zero Psi.hom))) ?_
-      refine Eq.trans (map_zero (uLeg V x N)) ?_
-      refine Eq.symm (Eq.trans (congrArg
-        (LinearMap.baseChange (ToType (X.presheaf.stalk x.1)) φ.hom)
-        (Eq.trans (congrArg (uLeg V x M) (map_zero
-          (associatedSheafStalkAddEquiv V.toScheme.toRingedSpace (alpha (V := V)) M x).symm))
-          (map_zero (uLeg V x M)))) (map_zero _))
+  induction w using TensorProduct.inductionOn with
   | add w₁ w₂ h₁ h₂ =>
       refine Eq.trans (congrArg (uLeg V x N)
         (Eq.trans (congrArg Psi.hom (map_add

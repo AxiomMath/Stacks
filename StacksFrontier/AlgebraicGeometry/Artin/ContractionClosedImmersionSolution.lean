@@ -150,7 +150,7 @@ theorem solution_of_isClosedSubspace (c : ContractionSituation B S hS)
   let T : Set (Space.points B S hS X.toFunctor) := Space.pointsMap B S hS X.toFunctor X.ι ⁻¹' Z
   have hTclosed : IsClosed T := hZ.preimage (Space.continuous_pointsMap B S hS X.ι)
   have hpre : Space.pointsMap B S hS c.X' f ⁻¹' T = c.T' := by
-    show Space.pointsMap B S hS c.X' f ⁻¹' (Space.pointsMap B S hS X.toFunctor X.ι ⁻¹' Z) = _
+    change Space.pointsMap B S hS c.X' f ⁻¹' (Space.pointsMap B S hS X.toFunctor X.ι ⁻¹' Z) = _
     rw [← Set.preimage_comp, ← Space.pointsMap_comp, hfι, hT']
   let U := Space.openSubspaceOfPoints B S hS X.toFunctor Tᶜ
   let ρ : c.U'.toFunctor ⟶ U.toFunctor :=
